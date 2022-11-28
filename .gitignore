@@ -1,0 +1,8 @@
+node_modules
+.DS_Store
+apps/.DS_Store
+packages/.DS_Store
+.pnpm-store/
+# Local Netlify folder
+.netlify
+apps/lunchbox-demo

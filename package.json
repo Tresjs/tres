@@ -1,0 +1,62 @@
+{
+  "name": "tres",
+  "description": "Declarative ThreeJS using Vue Components",
+  "version": "1.0.0",
+  "author": "Alvaro Saburido <hola@alvarosaburido.dev> (https://github.com/alvarosabu/)",
+  "workspaces": [
+    "apps/**",
+    "packages/*"
+  ],
+  "scripts": {
+    "preinstall": "npx only-allow pnpm",
+    "update-deps": "pnpm update -i -r --latest",
+    "build:ci": "pnpm run build:tres && pnpm run build:cientos",
+    "build:tres": "pnpm --filter @tresjs/core build",
+    "build:cientos": "pnpm --filter @tresjs/cientos build",
+    "build:all": "pnpm run build",
+    "test": "pnpm run test:tres",
+    "test:tres": "pnpm --filter @tresjs/core test:ci",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:serve": "vitepress serve docs",
+    "ci:version": "pnpm changelog && pnpm changeset version && pnpm install --no-frozen-lockfile --shamefully-hoist && git add .",
+    "ci:publish": "pnpm build:ci && git status && pnpm publish:pkgs && pnpm changeset tag",
+    "changeset": "changeset",
+    "publish:pkgs": "pnpm run publish:tres && pnpm publish:cientos",
+    "publish:tres": "pnpm publish --filter @tresjs/core",
+    "publish:cientos": "pnpm publish --filter @tresjs/cientos",
+    "changeset-publish": "changeset publish",
+    "changeset-tag": "changeset tag",
+    "changelog": "pnpm run changelog:tres && pnpm run changelog:three-vue",
+    "changelog:tres": "echo 'generate @tresjs/core changelog' && conventional-changelog -p angular -i ./packages/tres/CHANGELOG.md -s  --commit-path ./packages/tres && git add ./packages/tres/CHANGELOG.md",
+    "changelog:cientos": "echo 'generate @tresjs/cientos changelog' && conventional-changelog -p angular -i ./packages/cientos/CHANGELOG.md -s  --commit-path ./packages/cientos && git add ./packages/cientos/CHANGELOG.md",
+    "changelog:three-vue": "echo 'generate three-vue changelog' && conventional-changelog -p angular -i ./apps/three-vue/CHANGELOG.md -s  --commit-path ./apps/three-vue && git add ./apps/three-vue/CHANGELOG.md",
+    "lint": "pnpm run lint:tres && pnpm run lint:cientos",
+    "lint:tres": "pnpm --filter @tresjs/core lint",
+    "lint:cientos": "pnpm --filter @tresjs/cientos lint"
+  },
+  "keywords": [
+    "vue",
+    "threejs",
+    "declarative",
+    "composables"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "@alvarosabu/prettier-config": "^1.2.0",
+    "@changesets/changelog-github": "^0.4.7",
+    "@changesets/cli": "^2.25.2",
+    "@tresjs/cientos": "workspace:^1.0.0",
+    "@tresjs/core": "workspace:^1.0.0",
+    "@typescript-eslint/eslint-plugin": "^5.42.0",
+    "@typescript-eslint/parser": "^5.42.0",
+    "conventional-changelog-cli": "^2.2.2",
+    "eslint": "^8.26.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-vue": "^9.7.0",
+    "prettier": "^2.7.1",
+    "vitepress": "1.0.0-alpha.26",
+    "vue": "^3.2.41",
+    "vue-eslint-parser": "^9.1.0"
+  }
+}
