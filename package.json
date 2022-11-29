@@ -27,10 +27,9 @@
     "publish:cientos": "pnpm publish --filter @tresjs/cientos",
     "changeset-publish": "changeset publish",
     "changeset-tag": "changeset tag",
-    "changelog": "pnpm run changelog:tres && pnpm run changelog:three-vue",
+    "changelog": "pnpm run changelog:tres",
     "changelog:tres": "echo 'generate @tresjs/core changelog' && conventional-changelog -p angular -i ./packages/tres/CHANGELOG.md -s  --commit-path ./packages/tres && git add ./packages/tres/CHANGELOG.md",
     "changelog:cientos": "echo 'generate @tresjs/cientos changelog' && conventional-changelog -p angular -i ./packages/cientos/CHANGELOG.md -s  --commit-path ./packages/cientos && git add ./packages/cientos/CHANGELOG.md",
-    "changelog:three-vue": "echo 'generate three-vue changelog' && conventional-changelog -p angular -i ./apps/three-vue/CHANGELOG.md -s  --commit-path ./apps/three-vue && git add ./apps/three-vue/CHANGELOG.md",
     "lint": "pnpm run lint:tres && pnpm run lint:cientos",
     "lint:tres": "pnpm --filter @tresjs/core lint",
     "lint:cientos": "pnpm --filter @tresjs/cientos lint"
