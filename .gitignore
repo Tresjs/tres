@@ -5,4 +5,4 @@ packages/.DS_Store
 .pnpm-store/
 # Local Netlify folder
 .netlify
-apps/lunchbox-demo
+docs/.vitepress/dist

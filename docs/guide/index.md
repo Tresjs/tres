@@ -24,7 +24,9 @@ React ecosystem has an impresive **custom render** solution called [React-three-
 
 In my search for something similar in the VueJS ecosystem, I found this amazing library called [Lunchbox](https://github.com/breakfast-studio/lunchboxjs) which works with the same concept that R3F, it provides a [custom Vue3 Renderer](https://vuejs.org/api/custom-renderer.html). I'm also contrubuiting to improve this library so it gets as mature and feature-rich as R3F.
 
-The only problem is, Mixing renderers in Vue 3 is something the Vue community is still working on - see [here](https://github.com/vuejs/vue-loader/pull/1645) for more information. Until there is a solution similar to [React Reconciliation](https://reactjs.org/docs/reconciliation.html) you will need to create 2 separate `Apps` which might be not ideal.
+The only problem is, mixing different renderers in Vue 3 is something the Vue community is still working on - see [here](https://github.com/vuejs/vue-loader/pull/1645) for more information.
+
+Until there is a solution similar to [React Reconciliation](https://reactjs.org/docs/reconciliation.html) you will need to create 2 separate `Apps` which might be not ideal.
 
 ```ts
 // Example Vite setup

@@ -21,7 +21,7 @@ It's important that all components related to the scene live between the `<TresC
 The `TresCanvas` component is going to do some setup work behind the scene:
 
 - It creates a [**WebGLRenderer**](https://threejs.org/docs/index.html?q=webglrend#api/en/renderers/WebGLRenderer) that automatically updates every frame.
-- It sets the rende rloop to be called on every frame based on the browser refresh rate.
+- It sets the render loop to be called on every frame based on the browser refresh rate.
 
 ## Creating a scene
 

@@ -16,16 +16,16 @@ hero:
       text: Get Started
       link: /guide/
     - theme: alt
-      text: Why Vite?
-      link: /guide/why
+      text: Why Tres?
+      link: /guide/#motivation
     - theme: alt
       text: View on GitHub
-      link: https://github.com/alvarosabu/res
+      link: https://github.com/tresjs/tres
 
 features:
   - icon: 💡
     title: Declarative
-    details: Build 3D scene as they were Vue components
+    details: Build 3D scene as they were Vue components.
   - icon: ⚡️
     title: Powered by Vite
     details: Hot Module Replacement (HMR) that stays fast regardless of app size.
