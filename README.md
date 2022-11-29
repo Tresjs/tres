@@ -20,11 +20,11 @@ Tres (Spanish word for "three", pronounced `/tres/` ) is a way of creating Three
 
 ## Docs
 
-To check the docs
+Checkout the [docs](https://tresjs-docs.netlify.app)
 
-```
-pnpm run docs:dev
-```
+## Demos
+
+- [Stackblizt Collection](https://stackblitz.com/@alvarosabu/collections/tresjs)
 
 ## Contribution
 
