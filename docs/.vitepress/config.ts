@@ -1,4 +1,5 @@
 import { defineConfig } from 'vitepress'
+import { version } from '../../package.json'
 
 export default defineConfig({
   title: 'TresJS',
@@ -26,6 +27,20 @@ export default defineConfig({
         text: 'Advanced',
 
         items: [{ text: 'Extending', link: '/advanced/extending' }],
+      },
+    ],
+    nav: [
+      { text: 'Guide', link: '/guide/' },
+      { text: 'API', link: '/api/' },
+      { text: 'Config', link: '/config/' },
+      {
+        text: `v${version}`,
+        items: [
+          {
+            text: 'Release Notes ',
+            link: 'https://github.com/Tresjs/tres/releases',
+          },
+        ],
       },
     ],
     socialLinks: [
