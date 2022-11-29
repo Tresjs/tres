@@ -16,6 +16,17 @@ export default defineConfig({
           { text: 'Your first Scene', link: '/guide/your-first-scene' },
         ],
       },
+      /*    {
+        text: 'API',
+      },
+      {
+        text: 'Examples',
+      }, */
+      {
+        text: 'Advanced',
+
+        items: [{ text: 'Extending', link: '/advanced/extending' }],
+      },
     ],
     socialLinks: [
       { icon: 'github', link: 'https://github.com/alvarosabu/tres' },

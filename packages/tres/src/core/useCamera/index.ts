@@ -1,3 +1,4 @@
+import { useTres } from '/@/core/'
 import { PerspectiveCamera, OrthographicCamera } from 'three'
 
 import { useWindowSize } from '@vueuse/core'
@@ -45,6 +46,7 @@ let camera: Camera
 
 export function useCamera(): UseCameraReturn {
   const { width, height } = useWindowSize()
+  const { setState } = useTres()
 
   function createCamera(
     cameraType = CameraType.Perspective,
@@ -90,6 +92,7 @@ export function useCamera(): UseCameraReturn {
     const currentCamera = inject<Ref<Camera>>('camera')
     if (camera && currentCamera) {
       currentCamera.value = camera
+      setState('camera', currentCamera.value)
     }
     state.cameras.push(camera)
     if (camera instanceof PerspectiveCamera) {

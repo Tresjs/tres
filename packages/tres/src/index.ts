@@ -7,6 +7,7 @@ export * from './keys'
 
 export interface TresOptions {
   prefix?: string
+  extends?: Record<string, unknown>
 }
 export interface TresPlugin {
   [key: string]: any
@@ -20,7 +21,7 @@ const plugin: TresPlugin = {
     app.component(`${prefix}Scene`, Scene)
     const { catalogue } = useCatalogue()
     const { createComponentInstances } = useInstanceCreator(prefix)
-    const components = createComponentInstances(catalogue)
+    const components = createComponentInstances(options?.extends ? { ...catalogue, ...options.extends } : catalogue)
     components.forEach(([key, cmp]) => {
       app.component(key as string, cmp as Component)
     })

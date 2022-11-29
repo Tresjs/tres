@@ -59,7 +59,9 @@ export function useInstanceCreator(prefix: string) {
               if (name.includes('Camera')) {
                 pushCamera(instance as unknown as PerspectiveCamera)
               }
-              scene?.value.add(instance)
+              if (instance.isObject3D) {
+                scene?.value.add(instance)
+              }
 
               logMessage('Instance added', scene)
 

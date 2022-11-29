@@ -17,7 +17,7 @@ import {
   PCFShadowMap,
 } from 'three'
 import type { TextureEncoding, ToneMapping } from 'three'
-import { useRenderLoop } from '/@/core/'
+import { useRenderLoop, useTres } from '/@/core/'
 import { normalizeColor } from '/@/utils/normalize'
 
 export interface UseRendererOptions extends WebGLRendererParameters {
@@ -178,6 +178,9 @@ export function useRenderer(canvas: MaybeElementRef, container: MaybeElementRef,
       preserveDrawingBuffer,
       premultipliedAlpha,
     })
+
+    const { setState } = useTres()
+    setState('renderer', renderer.value)
 
     updateRendererOptions()
     updateRendererSize()
