@@ -58,9 +58,9 @@ export function useInstanceCreator(prefix: string) {
               processProps(attrs, instance)
               if (name.includes('Camera')) {
                 pushCamera(instance as unknown as PerspectiveCamera)
-              } else {
-                scene?.value.add(instance)
               }
+              scene?.value.add(instance)
+
               logMessage('Instance added', scene)
 
               ctx.expose(instance)
