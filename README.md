@@ -4,7 +4,7 @@
 
 > Declarative ThreeJS using Vue Components
 
-- 💡 Build 3D scene as they were Vue components
+- 💡 Build a 3D scene working only with Vue components.
 - ⚡️ Powered by Vite
 - 🥰 It brings all the updated features of ThreeJS right awayregardless the version
 - 🦾 Fully Typed
