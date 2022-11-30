@@ -1,25 +1,59 @@
 <script setup lang="ts">
-import { OrbitControls } from '@tresjs/cientos'
+import { ref, onMounted } from 'vue'
+import { Color, sRGBEncoding, ACESFilmicToneMapping } from 'three'
+import { OrbitControls, useTweakPane } from '@tresjs/cientos'
 
-const styles = {
-  width: '100%',
-  height: '500px',
-  border: '1px solid #e2e2e2',
-  borderRadius: '8px',
-  overflow: 'hidden',
-}
+import Cone from './Cone.vue'
+import Cube from './Cube.vue'
+import Sphere from './Sphere.vue'
+import Ground from './Ground.vue'
+
+const LightRef = ref()
+
+useTweakPane()
+
+onMounted(() => {
+  LightRef.value.shadow.mapSize.set(1024, 1024)
+  LightRef.value.shadow.camera.near = 0.5
+  LightRef.value.shadow.camera.far = 2000
+  LightRef.value.shadow.camera.left = -10
+  LightRef.value.shadow.camera.right = 10
+  LightRef.value.shadow.camera.top = 10
+  LightRef.value.shadow.camera.bottom = -10
+})
 </script>
+
 <template>
-  <ClientOnly>
-    <TresCanvas shadows clear-color="#fff" :style="styles">
-      <TresPerspectiveCamera :position="[0, 2, 4]" />
-      <OrbitControls />
-      <TresScene>
-        <TresMesh :rotation="[-Math.PI / 4, -Math.PI / 4, Math.PI / 4]">
-          <TresTorusGeometry :args="[1, 0.5, 16, 32]" />
-          <TresMeshBasicMaterial color="#FBB03B" />
-        </TresMesh>
-      </TresScene>
-    </TresCanvas>
-  </ClientOnly>
+  <TresCanvas
+    clear-color="#82DBC5"
+    shadows
+    alpha
+    physically-correct-lights
+    :output-encoding="sRGBEncoding"
+    :tone-mapping="ACESFilmicToneMapping"
+  >
+    <OrbitControls />
+    <TresPerspectiveCamera :position="[11, 11, 11]" :fov="45" :aspect="1" :near="0.1" :far="1000" />
+    <TresScene>
+      <TresMesh :position="[-2, 6, 0]" :rotation="[0, Math.PI, 0]" cast-shadow>
+        <TresConeGeometry :args="[1, 1.5, 3]" />
+        <TresMeshToonMaterial color="#82DBC5" />
+      </TresMesh>
+      <TresMesh :position="[0, 4, 0]" cast-shadow>
+        <TresBoxGeometry :args="[1.5, 1.5, 1.5]" />
+        <TresMeshToonMaterial color="#4F4F4F" />
+      </TresMesh>
+      <TresMesh :position="[2, 2, 0]" cast-shadow>
+        <TresSphereGeometry />
+        <TresMeshToonMaterial color="#FBB03B" />
+      </TresMesh>
+      <TresDirectionalLight :position="[0, 8, 4]" :intensity="0.7" cast-shadow />
+      <TresMesh :rotation="[-Math.PI / 2, 0, 0]" receive-shadow>
+        <TresPlaneGeometry :args="[10, 10, 10, 10]" />
+        <TresMeshToonMaterial color="greenyellow" />
+      </TresMesh>
+      <TresAmbientLight :intensity="0.75" />
+      <TresDirectionalLight ref="LightRef" :position="[-4, 8, 4]" :intensity="0.5" cast-shadow />
+    </TresScene>
+  </TresCanvas>
 </template>
