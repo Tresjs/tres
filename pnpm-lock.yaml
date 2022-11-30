@@ -7,6 +7,7 @@ importers:
       '@alvarosabu/prettier-config': ^1.2.0
       '@changesets/changelog-github': ^0.4.7
       '@changesets/cli': ^2.25.2
+      '@stackblitz/sdk': ^1.8.1
       '@tresjs/cientos': workspace:^1.0.0
       '@tresjs/core': workspace:^1.0.0
       '@typescript-eslint/eslint-plugin': ^5.42.0
@@ -23,6 +24,7 @@ importers:
       '@alvarosabu/prettier-config': 1.2.0_prettier@2.8.0
       '@changesets/changelog-github': 0.4.7
       '@changesets/cli': 2.25.2
+      '@stackblitz/sdk': 1.8.1
       '@tresjs/cientos': link:packages/cientos
       '@tresjs/core': link:packages/tres
       '@typescript-eslint/eslint-plugin': 5.44.0_vfrilbydaxalswvos6uuh4sxs4
@@ -1003,6 +1005,10 @@ packages:
       argparse: 1.0.10
       colors: 1.2.5
       string-argv: 0.3.1
+    dev: true
+
+  /@stackblitz/sdk/1.8.1:
+    resolution: {integrity: sha512-hjYfjOLQBNDzqPD5AkGJOD7j+uvFwGocDTmwNqmLCWR5EY7BDtcOtDY2M+91v/twYWWNvI7N8UNIgojCPNgzMA==}
     dev: true
 
   /@tootallnate/once/2.0.0:
