@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { PerspectiveCamera } from 'three'
 import { defineComponent } from 'vue'
-import { isArray, isDefined } from '@alvarosabu/utils'
+import { isArray, isDefined, isFunction } from '@alvarosabu/utils'
 import { normalizeVectorFlexibleParam } from '/@/utils/normalize'
 import { useCamera, useScene } from '/@/core/'
 import { useLogger } from '/@/composables'
@@ -71,6 +71,7 @@ export function useInstanceCreator(prefix: string) {
             function processProps(attrs: any, instance: TresInstance) {
               Object.entries(attrs).forEach(([key, value]) => {
                 const camel = key.replace(/(-\w)/g, m => m[1].toUpperCase())
+
                 if (camel === 'args' || value === undefined) {
                   return
                 }
@@ -88,6 +89,10 @@ export function useInstanceCreator(prefix: string) {
                   } else {
                     if (value === '') {
                       value = true
+                    }
+                    if (isFunction(instance[camel])) {
+                      instance[camel](...(value as Array<any>))
+                      return
                     }
                     instance[camel] = value
                   }
