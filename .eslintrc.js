@@ -32,6 +32,6 @@ module.exports = {
     'vue/multi-word-component-names': 0,
     'vue/no-multiple-template-root': 'off',
     'vue/first-attribute-linebreak': 'off',
-    'vue/setup-compiler-macros': true,
+    'vue/setup-compiler-macros': 0,
   },
 }
