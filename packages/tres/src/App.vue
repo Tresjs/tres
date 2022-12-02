@@ -1,7 +1,10 @@
 <script setup lang="ts">
-import { Color } from 'three'
-import { useTweakPane, OrbitControls } from '../../cientos/src'
+import { Color, Object3D } from 'three'
+import { ref } from 'vue'
+import { useTweakPane, TransformControls } from '../../cientos/src'
 import TestSphere from '/@/components/TestSphere.vue'
+
+const sphereRef = ref<Object3D>()
 
 const colorTeal = new Color('teal')
 useTweakPane()
@@ -11,10 +14,11 @@ const meshPosition = [0, 1, 0]
 <template>
   <Suspense>
     <TresCanvas shadows alpha power-preference="high-performance" preserve-drawing-buffer physically-correct-lights>
-      <TresPerspectiveCamera :position="[5, 5, 5]" :fov="45" :near="0.1" :far="1000" :look-at="[-8, 3, -3]" />
+      <TresPerspectiveCamera :position="[5, 5, 5]" :fov="75" :near="0.1" :far="1000" :look-at="[0, 0, 0]" />
       <TresScene>
-        <OrbitControls />
-        <TresMesh :position="meshPosition" :scale="1">
+        <!-- <OrbitControls /> -->
+        <TransformControls :object="sphereRef" />
+        <TresMesh ref="sphereRef" :position="meshPosition" :scale="1">
           <TresSphereGeometry />
           <TresMeshToonMaterial :color="colorTeal" />
         </TresMesh>
