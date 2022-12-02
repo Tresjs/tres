@@ -7,12 +7,7 @@ module.exports = {
   },
   parser: 'vue-eslint-parser',
   plugins: ['vue', '@typescript-eslint'],
-  extends: [
-    'eslint:recommended',
-    'plugin:@typescript-eslint/recommended',
-    'plugin:vue/vue3-recommended',
-    'prettier',
-  ],
+  extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended', 'plugin:vue/vue3-recommended', 'prettier'],
   parserOptions: {
     tsconfigRootDir: __dirname,
     parser: '@typescript-eslint/parser',
@@ -37,5 +32,6 @@ module.exports = {
     'vue/multi-word-component-names': 0,
     'vue/no-multiple-template-root': 'off',
     'vue/first-attribute-linebreak': 'off',
+    'vue/setup-compiler-macros': true,
   },
 }

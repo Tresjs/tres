@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Color, Object3D } from 'three'
 import { ref } from 'vue'
-import { useTweakPane, TransformControls } from '../../cientos/src'
+import { useTweakPane, TransformControls } from '@tresjs/cientos'
 import TestSphere from '/@/components/TestSphere.vue'
 
 const sphereRef = ref<Object3D>()
