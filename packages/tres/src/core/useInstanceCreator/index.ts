@@ -1,17 +1,15 @@
-import { OrthographicCamera } from 'three'
 /* eslint-disable new-cap */
 /* eslint-disable @typescript-eslint/no-empty-function */
-import { Object3D, PerspectiveCamera } from 'three'
+import { OrthographicCamera, PerspectiveCamera } from 'three'
 import { defineComponent } from 'vue'
 import { isArray, isDefined, isFunction } from '@alvarosabu/utils'
 import { normalizeVectorFlexibleParam } from '/@/utils/normalize'
 import { useCamera, useScene } from '/@/core/'
 import { useLogger } from '/@/composables'
-import { TresCatalogue, TresInstance, TresVNode, TresVNodeType } from '../../types'
+import { TresAttributes, TresCatalogue, TresInstance, TresVNode, TresVNodeType } from '/@/types'
 
 const VECTOR3_PROPS = ['rotation', 'scale', 'position']
 
-type TresAttributes = Record<string, any> & { args?: number[] }
 export function useInstanceCreator(prefix: string) {
   const { logMessage, logError } = useLogger()
 

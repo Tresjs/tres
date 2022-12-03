@@ -10,3 +10,4 @@ export type TresVNodeType = VNodeTypes & {
   setup?: (props: Readonly<any>) => void
 }
 export type TresVNode = VNode & { children?: Array<VNode>; type: TresVNodeType }
+export type TresAttributes = Record<string, any> & { args?: number[] }
