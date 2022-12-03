@@ -1,12 +1,16 @@
 <script setup lang="ts">
+import { useCatalogue } from '/@/core'
 import { Color } from 'three'
 import { useTweakPane, OrbitControls } from '../../cientos/src'
 import TestSphere from '/@/components/TestSphere.vue'
+import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry'
 
 const colorTeal = new Color('teal')
 useTweakPane()
 
-const meshPosition = [0, 1, 0]
+const { extend } = useCatalogue()
+
+extend({ TextGeometry: TextGeometry })
 </script>
 <template>
   <Suspense>
@@ -14,8 +18,8 @@ const meshPosition = [0, 1, 0]
       <TresPerspectiveCamera :position="[5, 5, 5]" :fov="45" :near="0.1" :far="1000" :look-at="[-8, 3, -3]" />
       <TresScene>
         <OrbitControls />
-        <TresMesh :position="meshPosition" :scale="1">
-          <TresSphereGeometry />
+        <TresMesh>
+          <TresTextGeometry :args="['Awiwi']" :position="[-8, 3, -3]" :scale="0.5" />
           <TresMeshToonMaterial :color="colorTeal" />
         </TresMesh>
         <TestSphere />
