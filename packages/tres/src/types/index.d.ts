@@ -3,6 +3,7 @@ import { VNode, VNodeTypes } from 'vue'
 
 export type TresInstance = Object3D<Event> & { [key: string]: any }
 
+export type TresCatalogue = Record<string, any>
 export type TresVNodeType = VNodeTypes & {
   name?: string | Array<string>
   __name?: string
