@@ -1,16 +1,8 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { Color, sRGBEncoding, ACESFilmicToneMapping } from 'three'
-import { OrbitControls, useTweakPane } from '@tresjs/cientos'
-
-import Cone from './Cone.vue'
-import Cube from './Cube.vue'
-import Sphere from './Sphere.vue'
-import Ground from './Ground.vue'
-
+import { OrbitControls } from '@tresjs/cientos'
 const LightRef = ref()
-
-useTweakPane()
 
 onMounted(() => {
   LightRef.value.shadow.mapSize.set(1024, 1024)
