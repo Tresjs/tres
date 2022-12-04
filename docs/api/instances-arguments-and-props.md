@@ -70,3 +70,51 @@ This is the same as doing this:
 ```ts
 const camera = new PerspectiveCamera(45, 1, 0.1, 1000)
 ```
+
+## rops
+
+You can also pass props to the component, for example, the `TresAmbientLight` has a `intensity` property, so you can pass it to the component like this:
+
+```html
+<TresAmbientLight :intensity="0.5" />
+```
+
+### Set
+
+All properties whose underlying object has a `.set()` method have a shortcut to recieve the value as an array. For example, the `TresPerspectiveCamera` has a `position` property, which is a `Vector3` object, so you can pass it to the component like this:
+
+```html
+<TresPerspectiveCamera :position="[1, 2, 3]" />
+```
+
+### Scalar
+
+Another shortcut you can use is pass a scalar value to a property that expects a `Vector3` object, using the same value for the rest of the Vector:
+
+```html
+<TresPerspectiveCamera :position="5" /> ✅
+```
+
+```html
+<TresPerspectiveCamera :position="[5, 5, 5]" /> ✅
+```
+
+### Colors
+
+You can pass colors to the components using the `color` prop, which accepts a string with the color name or a hex value:
+
+```html
+<TresAmbientLight color="teal" /> ✅
+```
+
+```html
+<TresAmbientLight color="#008080" /> ✅
+```
+
+### Methods
+
+Some underlying properties are actually methods, the `TresPerspectiveCamera` has a `lookAt` method inherit from [Object3d](https://threejs.org/docs/#api/en/core/Object3D.lookAt), so you can pass it the coords to the component like this:
+
+```html
+<TresPerspectiveCamera :look-at="[1, 2, 3]" />
+```
