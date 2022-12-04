@@ -27,9 +27,10 @@ export default defineConfig({
           },
         ],
       },
-      /*{
+      {
         text: 'Examples',
-      }, */
+        items: [{ text: 'Orbit Controls', link: '/examples/orbit-controls' }],
+      },
       {
         text: 'Advanced',
 
