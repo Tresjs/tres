@@ -1,29 +1,37 @@
 <script setup lang="ts">
-import { useCatalogue } from '/@/core'
-import { Color } from 'three'
+/* import { Color } from 'three' */
 import { useTweakPane, OrbitControls } from '../../cientos/src'
-import TestSphere from '/@/components/TestSphere.vue'
-import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry'
+/* import TestSphere from '/@/components/TestSphere.vue' */
+import Text3D from '/@/components/Text3D.vue'
+/* import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
+import { useTres, useCatalogue } from '/@/core' */
 
-const colorTeal = new Color('teal')
+/* const { extend } = useCatalogue() */
+
+/* extend({ OrbitControls }) */
+
 useTweakPane()
 
-const { extend } = useCatalogue()
-
-extend({ TextGeometry: TextGeometry })
+/* const { state } = useTres() */
 </script>
 <template>
   <Suspense>
-    <TresCanvas shadows alpha power-preference="high-performance" preserve-drawing-buffer physically-correct-lights>
+    <TresCanvas
+      shadows
+      alpha
+      clear-color="teal"
+      power-preference="high-performance"
+      preserve-drawing-buffer
+      physically-correct-lights
+    >
       <TresPerspectiveCamera :position="[5, 5, 5]" :fov="45" :near="0.1" :far="1000" :look-at="[-8, 3, -3]" />
+      <OrbitControls />
       <TresScene>
-        <OrbitControls />
-        <TresMesh>
-          <TresTextGeometry :args="['Awiwi']" :position="[-8, 3, -3]" :scale="0.5" />
-          <TresMeshToonMaterial :color="colorTeal" />
-        </TresMesh>
-        <TestSphere />
-        <TresAxesHelper :args="[1]" />
+        <TresAmbientLight :intensity="0.5" />
+        <!--  <TresOrbitControls v-if="state.renderer" :args="[state.camera, state.renderer?.domElement]" /> -->
+        <Text3D />
+        <!--   <TestSphere /> -->
+        <TresAxesHelper :args="[1]" :visible="false" />
         <TresDirectionalLight :position="[0, 2, 4]" :intensity="2" cast-shadow />
       </TresScene>
     </TresCanvas>
