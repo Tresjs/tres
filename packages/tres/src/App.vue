@@ -1,25 +1,25 @@
 <script setup lang="ts">
-import { unref } from 'vue'
+import { useCatalogue } from '/@/core'
 import { Color } from 'three'
-import { useTweakPane } from '@tresjs/cientos'
-import { useTres } from './core'
+import { useTweakPane, OrbitControls } from '../../cientos/src'
 import TestSphere from '/@/components/TestSphere.vue'
+import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry'
 
 const colorTeal = new Color('teal')
 useTweakPane()
 
-const { state } = useTres()
+const { extend } = useCatalogue()
 
-const meshPosition = [0, 1, 0]
+extend({ TextGeometry: TextGeometry })
 </script>
 <template>
   <Suspense>
     <TresCanvas shadows alpha power-preference="high-performance" preserve-drawing-buffer physically-correct-lights>
-      <TresPerspectiveCamera :position="[0, 5, 5]" :fov="45" :near="0.1" :far="1000" />
+      <TresPerspectiveCamera :position="[5, 5, 5]" :fov="45" :near="0.1" :far="1000" :look-at="[-8, 3, -3]" />
       <TresScene>
-        <TresOrbitControls v-if="state.renderer" :args="[unref(state), state.renderer?.domElement]" />
-        <TresMesh :position="meshPosition" :scale="1">
-          <TresSphereGeometry />
+        <OrbitControls />
+        <TresMesh>
+          <TresTextGeometry :args="['Awiwi']" :position="[-8, 3, -3]" :scale="0.5" />
           <TresMeshToonMaterial :color="colorTeal" />
         </TresMesh>
         <TestSphere />

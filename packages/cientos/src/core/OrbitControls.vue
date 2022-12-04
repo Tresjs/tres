@@ -12,6 +12,7 @@ watch(
   [camera, renderer],
   () => {
     if (camera?.value && renderer?.value) {
+      if (controls) controls.reset()
       controls = new OrbitControlsImp(camera.value, unref(renderer).domElement)
       controls.enableDamping = true
 

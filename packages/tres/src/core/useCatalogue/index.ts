@@ -1,14 +1,27 @@
+import { useInstanceCreator } from '/@/core'
+import { App, ref, Component, Ref } from 'vue'
 import * as THREE from 'three'
+import { TresCatalogue } from '/@/types'
 
-let catalogue: {
-  [key: string]: any
-} = { ...THREE }
+const catalogue: Ref<TresCatalogue> = ref({ ...THREE })
 
-delete catalogue.Scene
+delete catalogue.value.Scene
 
-export function useCatalogue() {
+let localApp: App
+
+export function useCatalogue(app?: App, prefix = 'Tres') {
+  if (!localApp && app) {
+    localApp = app
+  }
+  const { createComponentInstances } = useInstanceCreator(prefix)
+
   const extend = (objects: any) => {
-    catalogue = Object.assign(catalogue, objects)
+    catalogue.value = Object.assign(catalogue.value, objects)
+    const components = createComponentInstances(ref(objects))
+
+    components.forEach(([key, cmp]) => {
+      localApp.component(key as string, cmp as Component)
+    })
   }
 
   return {
