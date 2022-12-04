@@ -75,3 +75,18 @@ const { state } = useThree()
   </TresCanvas>
 </template>
 ```
+
+## OrbitControls from `cientos`
+
+Here is where the fancy part begins. The `cientos` package provides a component called `<OrbitControls />` that is a wrapper of the `OrbitControls` from the `three-stdlib` module.
+
+The nicest part? You don't need to extend the catalogue or pass any arguments. It just works.
+
+```vue
+<template>
+  <TresCanvas shadows alpha>
+    <OrbitControls />
+    <TresScene> ... </TresScene>
+  </TresCanvas>
+</template>
+```
