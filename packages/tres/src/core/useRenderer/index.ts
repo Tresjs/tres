@@ -140,7 +140,7 @@ export function useRenderer(canvas: MaybeElementRef, container: MaybeElementRef,
     }
 
     renderer.value.setSize(width.value, height.value)
-    renderer.value.setPixelRatio(pixelRatio.value)
+    renderer.value.setPixelRatio(Math.min(pixelRatio.value, 2))
   }
 
   const updateRendererOptions = () => {
