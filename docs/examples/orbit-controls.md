@@ -1,6 +1,6 @@
 # OrbitControls
 
-<**StackBlitzEmbed** projectId="tresjs-basic" />
+<StackBlitzEmbed projectId="tresjs-basic" />
 
 [OrbitControls](https://threejs.org/docs/index.html?q=orbit#examples/en/controls/OrbitControls) is a camera controller that allows you to orbit around a target. It's a great way to explore your scene.
 
