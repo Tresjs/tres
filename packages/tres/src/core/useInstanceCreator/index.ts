@@ -1,7 +1,7 @@
 /* eslint-disable new-cap */
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { OrthographicCamera, PerspectiveCamera } from 'three'
-import { defineComponent } from 'vue'
+import { defineComponent, Ref } from 'vue'
 import { isArray, isDefined, isFunction } from '@alvarosabu/utils'
 import { normalizeVectorFlexibleParam } from '/@/utils/normalize'
 import { useCamera, useScene } from '/@/core/'
@@ -59,17 +59,17 @@ export function useInstanceCreator(prefix: string) {
     })
   }
 
-  function createInstanceFromVNode(vnode: TresVNode, catalogue: TresCatalogue): TresInstance {
+  function createInstanceFromVNode(vnode: TresVNode, catalogue: Ref<TresCatalogue>): TresInstance {
     const vNodeType = ((vnode.type as TresVNodeType).name as string).replace(prefix, '')
 
     // check if args prop is defined on the vnode
     let internalInstance
     if (vnode?.props?.args) {
       // if args prop is defined, create new instance of catalogue[vNodeType] with the provided arguments
-      internalInstance = new catalogue[vNodeType](...vnode.props.args)
+      internalInstance = new catalogue.value[vNodeType](...vnode.props.args)
     } else {
       // if args prop is not defined, create a new instance of catalogue[vNodeType] without arguments
-      internalInstance = new catalogue[vNodeType]()
+      internalInstance = new catalogue.value[vNodeType]()
     }
 
     // check if props is defined on the vnode
@@ -82,7 +82,7 @@ export function useInstanceCreator(prefix: string) {
   }
 
   function createInstance(
-    catalogue: Record<string, any>,
+    catalogue: Ref<TresCatalogue>,
     threeObj: any,
     attrs: TresAttributes,
     slots: Record<string, any>,
@@ -107,20 +107,14 @@ export function useInstanceCreator(prefix: string) {
     }
   }
 
-  function createComponentInstances(catalogue: Record<string, any>) {
-    return Object.entries(catalogue)
+  function createComponentInstances(catalogue: Ref<TresCatalogue>) {
+    return Object.entries(catalogue.value)
       .filter(([_key, value]) => (value as { prototype: any })?.prototype?.constructor?.toString().includes('class'))
       .map(([key, threeObj]) => {
         const name = `${prefix}${key}`
         const cmp = defineComponent({
           name,
           setup(props, { slots, attrs, ...ctx }) {
-            logMessage(name, {
-              props,
-              slots,
-              attrs,
-              ctx,
-            })
             const { scene } = useScene()
             const { pushCamera } = useCamera()
 
@@ -137,7 +131,13 @@ export function useInstanceCreator(prefix: string) {
             }
 
             ctx.expose(instance)
-
+            logMessage(name, {
+              props,
+              slots,
+              attrs,
+              ctx,
+              scene,
+            })
             return () => {}
           },
         })
