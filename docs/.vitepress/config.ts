@@ -1,5 +1,5 @@
 import { defineConfig } from 'vitepress'
-import { version } from '../../package.json'
+import { version } from '../../packages/tres/package.json'
 
 export default defineConfig({
   title: 'TresJS',
