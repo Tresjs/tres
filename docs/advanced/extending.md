@@ -28,3 +28,34 @@ This will automatically add a `<TresOrbitControls>` to the catalogue, so you can
   </TresCanvas>
 </template>
 ```
+
+## Extending an element dynamically <Badge type="tip" text="^1.1.0" />
+
+Or you can also add it dynamically in your components:
+
+```vue{2,3,5,8,17,19}
+<script setup lang="ts">
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
+import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry'
+
+const { extend } = useCatalogue()
+
+// Add the element to the catalogue
+extend({ TextGeometry, OrbitControls })
+
+/* Rest of the code */
+</script>
+
+<template>
+  <TresCanvas shadows alpha>
+    <TresPerspectiveCamera :position="[5, 5, 5]" />
+    <TresScene>
+      <TresOrbitControls v-if="state.renderer" :args="[state.camera, state.renderer?.domElement]" />
+      <TresMesh>
+        <TresTextGeometry :args="['TresJS', { font, ...fontOptions }]" center />
+        <TresMeshMatcapMaterial :matcap="matcapTexture" />
+      </TresMesh>
+    </TresScene>
+  </TresCanvas>
+</template>
+```

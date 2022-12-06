@@ -32,4 +32,7 @@ features:
   - icon: 🥰
     title: Keeps up to date
     details: It brings all the updated features of ThreeJS right away.
+  - icon: 🌳
+    title: Ecosystem
+    details: Extend the core functionality with packages like `cientos` and `postprocessing`. Or add your own.
 ---

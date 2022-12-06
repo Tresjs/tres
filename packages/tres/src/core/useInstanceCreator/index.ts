@@ -1,113 +1,143 @@
 /* eslint-disable new-cap */
 /* eslint-disable @typescript-eslint/no-empty-function */
-import { PerspectiveCamera } from 'three'
-import { defineComponent } from 'vue'
+import { OrthographicCamera, PerspectiveCamera } from 'three'
+import { defineComponent, Ref } from 'vue'
 import { isArray, isDefined, isFunction } from '@alvarosabu/utils'
 import { normalizeVectorFlexibleParam } from '/@/utils/normalize'
 import { useCamera, useScene } from '/@/core/'
 import { useLogger } from '/@/composables'
-import { TresInstance, TresVNodeType } from '../../types'
+import { TresAttributes, TresCatalogue, TresInstance, TresVNode, TresVNodeType } from '/@/types'
 
 const VECTOR3_PROPS = ['rotation', 'scale', 'position']
 
 export function useInstanceCreator(prefix: string) {
   const { logMessage, logError } = useLogger()
 
-  function createComponentInstances(newObjects: Record<string, any>) {
-    return Object.entries(newObjects)
+  function processProps(props: Record<string, any>, instance: TresInstance) {
+    if (!isDefined(props)) return
+    if (!isDefined(instance)) return
+
+    Object.entries(props).forEach(([key, value]) => {
+      const camelKey = key.replace(/(-\w)/g, m => m[1].toUpperCase())
+
+      // Ignore property args which is use for initial instance construction
+      if (camelKey === 'args' || value === undefined) return
+
+      // Normalize vector3 props
+      if (VECTOR3_PROPS.includes(camelKey) && value) {
+        value = normalizeVectorFlexibleParam(value)
+      }
+
+      if (props.ref) {
+        props.ref = instance
+      }
+
+      try {
+        // Check if the property has a "set" method
+        if (instance[camelKey] && isDefined(instance[camelKey].set)) {
+          // Call the "set" method with the value, spread if it's an array
+          instance[camelKey].set(...(isArray(value) ? value : [value]))
+        } else {
+          // Convert empty strings to `true`
+          if (value === '') {
+            value = true
+          }
+
+          // Check if the property is a function
+          if (isFunction(instance[camelKey])) {
+            // Call the function with the value, spread if it's an array
+            instance[camelKey](...(isArray(value) ? value : [value]))
+            return
+          }
+
+          // Set the property to the value
+          instance[camelKey] = value
+        }
+      } catch (error: unknown) {
+        logError(`There was an error setting ${camelKey} property`, error as Error)
+      }
+    })
+  }
+
+  function createInstanceFromVNode(vnode: TresVNode, catalogue: Ref<TresCatalogue>): TresInstance {
+    const vNodeType = ((vnode.type as TresVNodeType).name as string).replace(prefix, '')
+
+    // check if args prop is defined on the vnode
+    let internalInstance
+    if (vnode?.props?.args) {
+      // if args prop is defined, create new instance of catalogue[vNodeType] with the provided arguments
+      internalInstance = new catalogue.value[vNodeType](...vnode.props.args)
+    } else {
+      // if args prop is not defined, create a new instance of catalogue[vNodeType] without arguments
+      internalInstance = new catalogue.value[vNodeType]()
+    }
+
+    // check if props is defined on the vnode
+    if (vnode?.props) {
+      // if props is defined, process the props and pass the internalInstance to update its properties
+      processProps(vnode.props, internalInstance)
+    }
+
+    return internalInstance
+  }
+
+  function createInstance(
+    catalogue: Ref<TresCatalogue>,
+    threeObj: any,
+    attrs: TresAttributes,
+    slots: Record<string, any>,
+  ): TresInstance {
+    /*
+     * Checks if the component has slots,
+     * if it does, it will create a new Object3D instance passing the slots instances as properties
+     * Example:
+     * <TresMesh>
+     *  <TresBoxGeometry />
+     *  <TresMeshBasicMaterial />
+     * </TresMesh>
+     * will create a new Mesh instance with a BoxGeometry and a MeshBasicMaterial
+     * const mesh = new Mesh(new BoxGeometry(), new MeshBasicMaterial())
+     */
+    if (slots.default && slots?.default()) {
+      const internal = slots.default().map((vnode: TresVNode) => createInstanceFromVNode(vnode, catalogue))
+      return new threeObj(...internal)
+    } else {
+      // Creates a new THREE instance, if args is present, spread it on the constructor
+      return attrs.args ? new threeObj(...attrs.args) : new threeObj()
+    }
+  }
+
+  function createComponentInstances(catalogue: Ref<TresCatalogue>) {
+    return Object.entries(catalogue.value)
       .filter(([_key, value]) => (value as { prototype: any })?.prototype?.constructor?.toString().includes('class'))
-      .map(([key, value]) => {
+      .map(([key, threeObj]) => {
         const name = `${prefix}${key}`
         const cmp = defineComponent({
           name,
           setup(props, { slots, attrs, ...ctx }) {
+            const { scene } = useScene()
+            const { pushCamera } = useCamera()
+
+            const instance = createInstance(catalogue, threeObj, attrs, slots)
+            processProps(attrs, instance)
+            // If the instance is a camera, push it to the camera stack
+            if (instance instanceof PerspectiveCamera || instance instanceof OrthographicCamera) {
+              pushCamera(instance)
+            }
+
+            // If the instance is a valid Object3D, add it to the scene
+            if (instance.isObject3D) {
+              scene?.value.add(instance)
+            }
+
+            ctx.expose(instance)
             logMessage(name, {
               props,
               slots,
               attrs,
               ctx,
+              scene,
             })
-            let instance: TresInstance
-            const { scene } = useScene()
-            const { pushCamera } = useCamera()
-
-            function createInstance() {
-              if (slots?.default && slots?.default()) {
-                const internal = slots.default().map(vnode => {
-                  let internalInstance
-                  const vNodeType = ((vnode.type as TresVNodeType).name as string).replace(prefix, '')
-                  if (vnode?.props?.args) {
-                    internalInstance = new newObjects[vNodeType](...vnode.props.args)
-                  } else {
-                    internalInstance = new newObjects[vNodeType]()
-                  }
-                  if (vnode?.props) {
-                    processProps(vnode.props, internalInstance)
-                  }
-
-                  return internalInstance
-                })
-
-                instance = new value(...internal)
-              } else if ((attrs as { args: [] }).args) {
-                instance = new value(...(attrs as { args: [] }).args)
-              } else {
-                instance = new value()
-              }
-
-              processProps(attrs, instance)
-              if (name.includes('Camera')) {
-                pushCamera(instance as unknown as PerspectiveCamera)
-              }
-              if (instance.isObject3D) {
-                scene?.value.add(instance)
-              }
-
-              logMessage('Instance added', scene)
-
-              ctx.expose(instance)
-            }
-
-            function processProps(attrs: any, instance: TresInstance) {
-              Object.entries(attrs).forEach(([key, value]) => {
-                const camel = key.replace(/(-\w)/g, m => m[1].toUpperCase())
-
-                if (camel === 'args' || value === undefined) {
-                  return
-                }
-                // Check if property is a Vector3
-                if (VECTOR3_PROPS.includes(key) && value) {
-                  value = normalizeVectorFlexibleParam(value)
-                }
-                try {
-                  if (instance[camel] && isDefined(instance[camel].set)) {
-                    if (isArray(value)) {
-                      instance[camel].set(...(value as Array<number>))
-                    } else {
-                      instance[camel].set(value)
-                    }
-                  } else {
-                    if (value === '') {
-                      value = true
-                    }
-                    if (isFunction(instance[camel])) {
-                      instance[camel](...(value as Array<any>))
-                      return
-                    }
-                    instance[camel] = value
-                  }
-                } catch (error: unknown) {
-                  logError(`There was an error setting ${camel} property`, error as Error)
-                }
-              })
-
-              if (attrs.ref) {
-                attrs.ref = instance
-              }
-            }
-
-            createInstance()
-
             return () => {}
           },
         })
@@ -118,5 +148,7 @@ export function useInstanceCreator(prefix: string) {
 
   return {
     createComponentInstances,
+    processProps,
+    createInstanceFromVNode,
   }
 }

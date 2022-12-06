@@ -8,8 +8,11 @@ import StackBlitzEmbed from './components/StackBlitzEmbed.vue'
 export default {
   ...DefaultTheme,
   enhanceApp(ctx) {
+    DefaultTheme.enhanceApp(ctx)
     ctx.app.component('FirstScene', FirstScene)
     ctx.app.component('StackBlitzEmbed', StackBlitzEmbed)
     ctx.app.use(Tres)
+
+    console.log(ctx)
   },
 }

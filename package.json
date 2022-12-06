@@ -47,7 +47,7 @@
     "@changesets/cli": "^2.25.2",
     "@stackblitz/sdk": "^1.8.1",
     "@tresjs/cientos": "workspace:^1.0.0",
-    "@tresjs/core": "workspace:^1.0.0",
+    "@tresjs/core": "workspace:^1.1.0",
     "@typescript-eslint/eslint-plugin": "^5.42.0",
     "@typescript-eslint/parser": "^5.42.0",
     "conventional-changelog-cli": "^2.2.2",
@@ -55,7 +55,7 @@
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-vue": "^9.7.0",
     "prettier": "^2.7.1",
-    "vitepress": "1.0.0-alpha.26",
+    "vitepress": "1.0.0-alpha.29",
     "vue": "^3.2.41",
     "vue-eslint-parser": "^9.1.0"
   }
