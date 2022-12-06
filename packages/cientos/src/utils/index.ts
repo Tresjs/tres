@@ -1,11 +1,10 @@
-export function pick<T extends object, K extends keyof T>(obj: T, keys: K[]): Pick<T, K> {
-  const result: Partial<T> = {}
-
-  for (const key of keys) {
-    if (key in obj) {
-      result[key] = obj[key]
+// Update the function signature to explicitly specify the type of the props parameter
+export function pick<T extends object, K extends keyof T>(obj: T, props: K[]): Pick<T, K> {
+  const pickedProperties = {} as Pick<T, K>
+  for (const prop of props) {
+    if (Object.prototype.hasOwnProperty.call(obj, prop)) {
+      pickedProperties[prop] = obj[prop]
     }
   }
-
-  return result as Pick<T, K>
+  return pickedProperties
 }
