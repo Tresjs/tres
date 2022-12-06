@@ -1,7 +1,9 @@
 import { useCatalogue } from '@tresjs/core'
+import { getCurrentInstance } from 'vue'
 
 export function useCientos() {
-  const { catalogue, extend } = useCatalogue(window.__TRES__.app)
+  const { appContext } = getCurrentInstance()
+  const { catalogue, extend } = useCatalogue(appContext.app)
 
   return {
     catalogue,
