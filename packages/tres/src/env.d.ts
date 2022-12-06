@@ -8,3 +8,14 @@ declare module '*.vue' {
 }
 
 declare module '*.glsl' {}
+
+declare global {
+  // Define the window interface, with type annotations for the properties and methods of the window object
+  interface Window {
+    // Define the location property, with a type of Location
+    __TRES__: {
+      app: App
+      version: string
+    }
+  }
+}

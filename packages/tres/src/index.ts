@@ -1,10 +1,10 @@
-import { App, Component, watchEffect } from 'vue'
+import { App, Component } from 'vue'
 import { TresCanvas } from '/@/core/useRenderer/component'
 import { Scene } from '/@/core/useScene/component'
 import { useCatalogue, useInstanceCreator } from '/@/core'
 export * from '/@/core'
 export * from './keys'
-
+import { version } from '../package.json'
 export interface TresOptions {
   prefix?: string
   extends?: Record<string, unknown>
@@ -29,9 +29,10 @@ const plugin: TresPlugin = {
       app.component(key as string, cmp as Component)
     })
 
-    watchEffect(() => {
-      console.log({ catalogue })
-    })
+    window.__TRES__ = {
+      app,
+      version,
+    }
   },
 }
 
