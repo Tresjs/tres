@@ -1,6 +1,6 @@
 <script setup lang="ts">
 /* import { Color } from 'three' */
-import { useTweakPane, OrbitControls } from '../../cientos/src'
+import { useTweakPane, OrbitControls, TransformControls } from '../../cientos/src'
 /* import TestSphere from '/@/components/TestSphere.vue' */
 import Text3D from '/@/components/Text3D.vue'
 /* import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
