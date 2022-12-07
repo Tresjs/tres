@@ -1,5 +1,5 @@
 import { defineConfig } from 'vitepress'
-import { version } from '../../package.json'
+import { version } from '../../packages/tres/package.json'
 
 export default defineConfig({
   title: 'TresJS',
@@ -17,10 +17,17 @@ export default defineConfig({
           { text: 'Your first Scene', link: '/guide/your-first-scene' },
         ],
       },
-      /*    {
-        text: 'API',
-      },
       {
+        text: 'API',
+        items: [
+          { text: 'Renderer', link: '/api/renderer' },
+          {
+            text: 'Instances, arguments and props',
+            link: '/api/instances-arguments-and-props',
+          },
+        ],
+      },
+      /*{
         text: 'Examples',
       }, */
       {
