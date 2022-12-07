@@ -1,7 +1,7 @@
 /* eslint-disable new-cap */
 /* eslint-disable @typescript-eslint/no-empty-function */
-import { OrthographicCamera, PerspectiveCamera } from 'three'
-import { defineComponent, Ref } from 'vue'
+import { OrthographicCamera, PerspectiveCamera, Scene } from 'three'
+import { defineComponent, inject, Ref } from 'vue'
 import { isArray, isDefined, isFunction } from '@alvarosabu/utils'
 import { normalizeVectorFlexibleParam } from '/@/utils/normalize'
 import { useCamera, useScene } from '/@/core/'
@@ -115,7 +115,7 @@ export function useInstanceCreator(prefix: string) {
         const cmp = defineComponent({
           name,
           setup(props, { slots, attrs, ...ctx }) {
-            const { scene } = useScene()
+            const scene = inject<Ref<Scene>>('local-scene')
             const { pushCamera } = useCamera()
 
             const instance = createInstance(catalogue, threeObj, attrs, slots)
@@ -132,6 +132,7 @@ export function useInstanceCreator(prefix: string) {
 
             ctx.expose(instance)
             logMessage(name, {
+              sceneuuid: scene?.value.uuid,
               props,
               slots,
               attrs,
