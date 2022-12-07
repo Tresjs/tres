@@ -32,6 +32,7 @@ export default defineConfig({
         items: [
           { text: 'Orbit Controls', link: '/examples/orbit-controls' },
           { text: 'Basic Animation', link: '/examples/basic-animations' },
+          { text: 'Load Textures', link: '/examples/load-textures' },
         ],
       },
       {
