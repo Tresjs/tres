@@ -1,12 +1,12 @@
-import { useCatalogue } from '@tresjs/core'
-import { getCurrentInstance } from 'vue'
+import { inject } from 'vue'
 
 export function useCientos() {
-  const appContext = getCurrentInstance()?.appContext
-  const { catalogue, extend } = useCatalogue(appContext?.app)
-
+  const extend =
+    inject<(objects: any) => void>('extend') ||
+    (() => {
+      console.warn('No extend function provided')
+    })
   return {
-    catalogue,
     extend,
   }
 }

@@ -19,7 +19,9 @@ const plugin: TresPlugin = {
     const prefix = options?.prefix || 'Tres'
     app.component(`${prefix}Canvas`, TresCanvas)
     app.component(`${prefix}Scene`, Scene)
-    const { catalogue } = useCatalogue(app, prefix)
+    const { catalogue, extend } = useCatalogue(app, prefix)
+    app.provide('catalogue', catalogue)
+    app.provide('extend', extend)
     const { createComponentInstances } = useInstanceCreator(prefix)
     const components = createComponentInstances(catalogue)
     /*  const components = createComponentInstances(
