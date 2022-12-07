@@ -28,7 +28,8 @@ useTweakPane()
         <OrbitControls />
         <TresAmbientLight :intensity="0.5" />
         <!--  <TresOrbitControls v-if="state.renderer" :args="[state.camera, state.renderer?.domElement]" /> -->
-        <Text3D text="Awiwi" font="https://raw.githubusercontent.com/Tresjs/assets/main/fonts/FiraCodeRegular.json">
+        <Text3D font="https://raw.githubusercontent.com/Tresjs/assets/main/fonts/FiraCodeRegular.json">
+          Yeah buddy
           <TresMeshNormalMaterial />
         </Text3D>
         <!--   <TestSphere /> -->
