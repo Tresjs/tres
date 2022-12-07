@@ -38,7 +38,6 @@ Now you can use the `TresOrbitControls` component in your scene.
   <TresCanvas shadows alpha>
     <TresScene>
       <TresOrbitControls v-if="state.renderer" :args="[state.camera, state.renderer?.domElement]" />
-      ...
     </TresScene>
   </TresCanvas>
 </template>
@@ -82,7 +81,7 @@ Here is where the fancy part begins. ✨
 The `cientos` package provides a component called `<OrbitControls />` that is a wrapper of the `OrbitControls` from the [`three-stdlib`](https://github.com/pmndrs/three-stdlib) module.
 
 The nicest part? You don't need to extend the catalog or pass any arguments.  
-It just works. 💯 
+It just works. 💯
 
 ```vue
 <template>
