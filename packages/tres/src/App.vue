@@ -25,8 +25,8 @@ useTweakPane()
       physically-correct-lights
     >
       <TresPerspectiveCamera :position="[5, 5, 5]" :fov="45" :near="0.1" :far="1000" :look-at="[-8, 3, -3]" />
-      <OrbitControls />
       <TresScene>
+        <OrbitControls />
         <TresAmbientLight :intensity="0.5" />
         <!--  <TresOrbitControls v-if="state.renderer" :args="[state.camera, state.renderer?.domElement]" /> -->
         <Text3D />
