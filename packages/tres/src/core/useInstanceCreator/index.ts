@@ -59,34 +59,41 @@ export function useInstanceCreator(prefix: string) {
     })
   }
 
-  function createInstanceFromVNode(vnode: TresVNode, catalogue: Ref<TresCatalogue>): TresInstance {
-    const vNodeType = ((vnode.type as TresVNodeType).name as string).replace(prefix, '')
-
-    // check if args prop is defined on the vnode
-    let internalInstance
-    if (vnode?.props?.args) {
-      // if args prop is defined, create new instance of catalogue[vNodeType] with the provided arguments
-      internalInstance = new catalogue.value[vNodeType](...vnode.props.args)
+  function createInstanceFromVNode(vnode: TresVNode): TresInstance | TresInstance[] {
+    const regex = /^Symbol\(Fragment\)$/g
+    // Check if the vnode is a Fragment
+    if (regex.test(vnode.type.toString())) {
+      return vnode.children.map(child => createInstanceFromVNode(child as TresVNode)) as TresInstance[]
     } else {
-      // if args prop is not defined, create a new instance of catalogue[vNodeType] without arguments
-      internalInstance = new catalogue.value[vNodeType]()
-    }
+      const vNodeType = ((vnode.type as TresVNodeType).name as string).replace(prefix, '')
+      const catalogue = inject<Ref<TresCatalogue>>('catalogue')
+      // check if args prop is defined on the vnode
+      let internalInstance
+      if (catalogue) {
+        if (vnode?.props?.args) {
+          // if args prop is defined, create new instance of catalogue[vNodeType] with the provided arguments
+          if (catalogue?.value[vNodeType]) {
+            internalInstance = new catalogue.value[vNodeType](...vnode.props.args)
+          } else {
+            logError(`There is no ${vNodeType} in the catalogue`, catalogue?.value.uuid)
+          }
+        } else {
+          // if args prop is not defined, create a new instance of catalogue[vNodeType] without arguments
+          internalInstance = new catalogue.value[vNodeType]()
+        }
+      }
 
-    // check if props is defined on the vnode
-    if (vnode?.props) {
-      // if props is defined, process the props and pass the internalInstance to update its properties
-      processProps(vnode.props, internalInstance)
-    }
+      // check if props is defined on the vnode
+      if (vnode?.props) {
+        // if props is defined, process the props and pass the internalInstance to update its properties
+        processProps(vnode.props, internalInstance)
+      }
 
-    return internalInstance
+      return internalInstance
+    }
   }
 
-  function createInstance(
-    catalogue: Ref<TresCatalogue>,
-    threeObj: any,
-    attrs: TresAttributes,
-    slots: Record<string, any>,
-  ): TresInstance {
+  function createInstance(threeObj: any, attrs: TresAttributes, slots: Record<string, any>): TresInstance {
     /*
      * Checks if the component has slots,
      * if it does, it will create a new Object3D instance passing the slots instances as properties
@@ -99,8 +106,8 @@ export function useInstanceCreator(prefix: string) {
      * const mesh = new Mesh(new BoxGeometry(), new MeshBasicMaterial())
      */
     if (slots.default && slots?.default()) {
-      const internal = slots.default().map((vnode: TresVNode) => createInstanceFromVNode(vnode, catalogue))
-      return new threeObj(...internal)
+      const internal = slots.default().map((vnode: TresVNode) => createInstanceFromVNode(vnode))
+      return new threeObj(...internal.flat())
     } else {
       // Creates a new THREE instance, if args is present, spread it on the constructor
       return attrs.args ? new threeObj(...attrs.args) : new threeObj()
@@ -115,10 +122,12 @@ export function useInstanceCreator(prefix: string) {
         const cmp = defineComponent({
           name,
           setup(props, { slots, attrs, ...ctx }) {
-            const scene = inject<Ref<Scene>>('local-scene')
+            const { scene: fallback } = useScene()
+            const scene = inject<Ref<Scene>>('local-scene') || fallback
+            const catalogue = inject<Ref<TresCatalogue>>('catalogue')
             const { pushCamera } = useCamera()
 
-            const instance = createInstance(catalogue, threeObj, attrs, slots)
+            const instance = createInstance(threeObj, attrs, slots)
             processProps(attrs, instance)
             // If the instance is a camera, push it to the camera stack
             if (instance instanceof PerspectiveCamera || instance instanceof OrthographicCamera) {
@@ -133,6 +142,7 @@ export function useInstanceCreator(prefix: string) {
             ctx.expose(instance)
             logMessage(name, {
               sceneuuid: scene?.value.uuid,
+              catalogue: catalogue?.value.uuid,
               props,
               slots,
               attrs,
