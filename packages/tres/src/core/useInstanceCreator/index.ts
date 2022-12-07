@@ -1,10 +1,10 @@
 /* eslint-disable new-cap */
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { OrthographicCamera, PerspectiveCamera, Scene } from 'three'
-import { defineComponent, inject, Ref } from 'vue'
+import { defineComponent, inject, ref, Ref } from 'vue'
 import { isArray, isDefined, isFunction } from '@alvarosabu/utils'
 import { normalizeVectorFlexibleParam } from '/@/utils/normalize'
-import { useCamera, useScene } from '/@/core/'
+import { useCamera, useCatalogue, useScene } from '/@/core/'
 import { useLogger } from '/@/composables'
 import { TresAttributes, TresCatalogue, TresInstance, TresVNode, TresVNodeType } from '/@/types'
 
@@ -66,7 +66,8 @@ export function useInstanceCreator(prefix: string) {
       return vnode.children.map(child => createInstanceFromVNode(child as TresVNode)) as TresInstance[]
     } else {
       const vNodeType = ((vnode.type as TresVNodeType).name as string).replace(prefix, '')
-      const catalogue = inject<Ref<TresCatalogue>>('catalogue')
+      const { catalogue: fallback } = useCatalogue()
+      const catalogue = inject<Ref<TresCatalogue>>('catalogue') || fallback
       // check if args prop is defined on the vnode
       let internalInstance
       if (catalogue) {
@@ -127,7 +128,7 @@ export function useInstanceCreator(prefix: string) {
             const catalogue = inject<Ref<TresCatalogue>>('catalogue')
             const { pushCamera } = useCamera()
 
-            const instance = createInstance(threeObj, attrs, slots)
+            let instance = createInstance(threeObj, attrs, slots)
             processProps(attrs, instance)
             // If the instance is a camera, push it to the camera stack
             if (instance instanceof PerspectiveCamera || instance instanceof OrthographicCamera) {
@@ -139,12 +140,38 @@ export function useInstanceCreator(prefix: string) {
               scene?.value.add(instance)
             }
 
+            if (import.meta.hot) {
+              import.meta.hot.on('vite:beforeUpdate', () => {
+                scene.value.remove(instance)
+              })
+
+              import.meta.hot.on('vite:afterUpdate', () => {
+                instance = createInstance(threeObj, attrs, slots)
+                processProps(attrs, instance)
+
+                if (instance.isObject3D) {
+                  scene?.value.add(instance)
+                }
+
+                logMessage(name, {
+                  instance,
+                  sceneuuid: scene?.value.uuid,
+                  catalogue: catalogue?.value.uuid,
+                  props,
+                  slots: slots.default ? slots.default() : undefined,
+                  attrs,
+                  ctx,
+                  scene,
+                })
+              })
+            }
+
             ctx.expose(instance)
             logMessage(name, {
               sceneuuid: scene?.value.uuid,
               catalogue: catalogue?.value.uuid,
               props,
-              slots,
+              slots: slots.default ? slots.default() : undefined,
               attrs,
               ctx,
               scene,
