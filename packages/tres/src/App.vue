@@ -29,8 +29,11 @@ useTweakPane()
         <OrbitControls />
         <TresAmbientLight :intensity="0.5" />
         <!--  <TresOrbitControls v-if="state.renderer" :args="[state.camera, state.renderer?.domElement]" /> -->
+        <TresMesh :position="[0, 0, 0]">
+          <TresBoxGeometry />
+          <TresMeshBasicMaterial color="orange" />
+        </TresMesh>
         <Text3D />
-        <!--   <TestSphere /> -->
         <TresAxesHelper :args="[1]" :visible="false" />
         <TresDirectionalLight :position="[0, 2, 4]" :intensity="2" cast-shadow />
       </TresScene>
