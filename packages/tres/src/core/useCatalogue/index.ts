@@ -10,7 +10,7 @@ delete catalogue.value.Scene
 
 let localApp: App
 export function useCatalogue(app?: App, prefix = 'Tres') {
-  const { logError } = useLogger()
+  const { logMessage, logError } = useLogger()
   if (!localApp && app) {
     localApp = app
   }
@@ -23,7 +23,7 @@ export function useCatalogue(app?: App, prefix = 'Tres') {
       logError('No objects provided to extend catalogue')
       return
     }
-
+    logMessage('Adding objects to catalogue', objects)
     catalogue.value = Object.assign(catalogue.value, objects)
     const components = createComponentInstances(ref(objects))
 
