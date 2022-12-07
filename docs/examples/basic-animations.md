@@ -17,13 +17,13 @@ const { onLoop, resume } = useRenderLoop()
 
 resume()
 onLoop(({ _delta, elapsed }) => {
-  // I will run at every frame ~ 60FPS (depending on the browser)
+  // I will run at every frame ~ 60FPS (depending of your monitor)
 })
 ```
 
 ## Getting the reference to the cube
 
-To animate the cube, we need to get a reference to it. We can do it by passsing a [Template Ref](https://vuejs.org/guide/essentials/template-refs.html) using `ref` prop to the `TresMesh` component. This will return the THREE instance.
+To animate the cube, we need to get a reference to it. We can do it by passing a [Template Ref](https://vuejs.org/guide/essentials/template-refs.html) using `ref` prop to the `TresMesh` component. This will return the THREE instance.
 
 ```vue
 <script setup lang="ts">
@@ -40,7 +40,7 @@ const boxRef: Ref<TresInstance | null> = ref(null)
 
 ## Animating the cube
 
-Now that we have a reference to the cube, we can animate it. We will use the `onLoop` callback to update the cube rotation.
+Now that we have a reference to the cube, we can animate it. We will use the `onLoop` callback to update the cube's rotation.
 
 ```ts
 onLoop(({ _delta, elapsed }) => {

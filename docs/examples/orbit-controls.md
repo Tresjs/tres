@@ -4,17 +4,17 @@
 
 [OrbitControls](https://threejs.org/docs/index.html?q=orbit#examples/en/controls/OrbitControls) is a camera controller that allows you to orbit around a target. It's a great way to explore your scene.
 
-However is not part of the core of ThreeJS. So to use it you would need to import it from the `three/examples/jsm/controls/OrbitControls` module.
+However, it is not part of the core of ThreeJS. So to use it you would need to import it from the `three/examples/jsm/controls/OrbitControls` module.
 
-So this creates a problem because **TresJS** automatically creates a catalogue of the core of three so you can use them as components.
+This creates a problem because **TresJS** automatically creates a catalog of the core of Three so you can use them as components.
 
-Afortunatelly, **TresJS** provides a way to extend the catalogue of components. You can do it by using the `extend` method the [useCatalogue](/composables/use-catalog) composable.
+Fortunately, **TresJS** provides a way to extend the catalog of components. You can do it by using the `extend` method using the [useCatalogue](/composables/use-catalog) composable.
 
-For more information about extending you TresJS catalog, refer to [extending](/advanced/extending.md) section.
+For more information about extending your TresJS catalog, refer to the [extending](/advanced/extending.md) section.
 
 ## Using OrbitControls
 
-To use OrbitControls you need to import it from the `three/examples/jsm/controls/OrbitControls` module.
+To use `OrbitControls` you need to import it from the `three/examples/jsm/controls/OrbitControls` module.
 
 ```js
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
@@ -31,7 +31,7 @@ const { extend } = useCatalogue()
 extend({ OrbitControls })
 ```
 
-Now you can use the `OrbitControls` component in your scene.
+Now you can use the `TresOrbitControls` component in your scene.
 
 ```vue
 <template>
@@ -78,9 +78,11 @@ const { state } = useThree()
 
 ## OrbitControls from `cientos`
 
-Here is where the fancy part begins. The `cientos` package provides a component called `<OrbitControls />` that is a wrapper of the `OrbitControls` from the `three-stdlib` module.
+Here is where the fancy part begins. ✨  
+The `cientos` package provides a component called `<OrbitControls />` that is a wrapper of the `OrbitControls` from the [`three-stdlib`](https://github.com/pmndrs/three-stdlib) module.
 
-The nicest part? You don't need to extend the catalogue or pass any arguments. It just works.
+The nicest part? You don't need to extend the catalog or pass any arguments.  
+It just works. 💯 
 
 ```vue
 <template>
