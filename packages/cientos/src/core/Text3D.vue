@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { TextGeometry, TextGeometryParameters, FontLoader } from 'three-stdlib'
-import { useLoader } from '@tresjs/core'
+import { WebGLRenderer } from 'three'
+import { TextGeometry, FontLoader } from 'three-stdlib'
 
-import { computed, inject, onMounted, Ref } from 'vue'
-import { Scene } from 'three'
+import { computed, inject, Ref } from 'vue'
+import { useCientos } from './useCientos'
 
 type Glyph = {
   _cachedOutline: string[]
@@ -48,8 +48,11 @@ const props = withDefaults(
     bevelSegments: 5,
   },
 )
+const renderer = inject<Ref<WebGLRenderer>>('renderer')
 
-const scene = inject<Ref<Scene>>('local-scene')
+const { extend } = useCientos()
+
+extend({ TextGeometry })
 
 const loader = new FontLoader()
 
@@ -82,10 +85,8 @@ const textOptions = computed(() => {
 })
 </script>
 <template>
-  <div>
-    <TresMesh v-if="font">
-      <TresTextGeometry :args="[text, textOptions]" />
-      <slot />
-    </TresMesh>
-  </div>
+  <TresMesh v-if="renderer && font">
+    <TresTextGeometry :args="[text, textOptions]" />
+    <TresMeshStandardMaterial />
+  </TresMesh>
 </template>
