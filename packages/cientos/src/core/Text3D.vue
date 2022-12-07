@@ -38,17 +38,16 @@ const props = withDefaults(
     bevelSegments?: number
   }>(),
   {
-    size: 80,
-    height: 5,
-    curveSegments: 12,
+    size: 0.5,
+    height: 0.2,
+    curveSegments: 5,
     bevelEnabled: true,
-    bevelThickness: 10,
-    bevelSize: 8,
+    bevelThickness: 0.05,
+    bevelSize: 0.02,
     bevelOffset: 0,
-    bevelSegments: 5,
+    bevelSegments: 4,
   },
 )
-const renderer = inject<Ref<WebGLRenderer>>('renderer')
 
 const { extend } = useCientos()
 
@@ -85,8 +84,8 @@ const textOptions = computed(() => {
 })
 </script>
 <template>
-  <TresMesh v-if="renderer && font">
+  <TresMesh v-if="font">
     <TresTextGeometry :args="[text, textOptions]" />
-    <TresMeshStandardMaterial />
+    <slot />
   </TresMesh>
 </template>
