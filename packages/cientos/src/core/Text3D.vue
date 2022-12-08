@@ -1,8 +1,7 @@
-<script setup lang="ts">
-import { WebGLRenderer } from 'three'
+<script async setup lang="ts">
 import { TextGeometry, FontLoader } from 'three-stdlib'
 
-import { computed, inject, Ref, useSlots } from 'vue'
+import { computed, useSlots } from 'vue'
 import { useCientos } from './useCientos'
 
 type Glyph = {
@@ -58,7 +57,9 @@ const loader = new FontLoader()
 const slots = useSlots()
 
 const localText = computed(() => {
-  return props.text || slots.default()?.[0]?.children.trim() || 'TresJS'
+  if (props.text) return props.text
+  else if (slots.default) return (slots.default()[0].children as string)?.trim()
+  return 'TresJS'
 })
 
 const font = await new Promise((resolve, reject) => {
