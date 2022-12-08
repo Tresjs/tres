@@ -1,6 +1,7 @@
 <script setup lang="ts">
 /* import { Color } from 'three' */
-import { useTweakPane, OrbitControls } from '../../cientos/src'
+/* import { useTweakPane, OrbitControls } from '../../cientos/src' */
+import { useTweakPane, OrbitControls } from '@tresjs/cientos'
 /* import TestSphere from '/@/components/TestSphere.vue' */
 /* import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import { useTres, useCatalogue } from '/@/core' */
@@ -30,7 +31,7 @@ useTweakPane()
         <!--  <TresOrbitControls v-if="state.renderer" :args="[state.camera, state.renderer?.domElement]" /> -->
         <TresMesh :position="[0, 0, 0]">
           <TresBoxGeometry />
-          <TresMeshBasicMaterial color="orange" />
+          <TresMeshNormalMaterial />
         </TresMesh>
         <TresAxesHelper :args="[1]" :visible="false" />
         <TresDirectionalLight :position="[0, 2, 4]" :intensity="2" cast-shadow />
