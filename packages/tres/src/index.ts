@@ -1,10 +1,10 @@
-import { App, Component, watchEffect } from 'vue'
+import { App, Component } from 'vue'
 import { TresCanvas } from '/@/core/useRenderer/component'
 import { Scene } from '/@/core/useScene/component'
 import { useCatalogue, useInstanceCreator } from '/@/core'
 export * from '/@/core'
 export * from './keys'
-
+import { version } from '../package.json'
 export interface TresOptions {
   prefix?: string
   extends?: Record<string, unknown>
@@ -19,7 +19,9 @@ const plugin: TresPlugin = {
     const prefix = options?.prefix || 'Tres'
     app.component(`${prefix}Canvas`, TresCanvas)
     app.component(`${prefix}Scene`, Scene)
-    const { catalogue } = useCatalogue(app, prefix)
+    const { catalogue, extend } = useCatalogue(app, prefix)
+    app.provide('catalogue', catalogue)
+    app.provide('extend', extend)
     const { createComponentInstances } = useInstanceCreator(prefix)
     const components = createComponentInstances(catalogue)
     /*  const components = createComponentInstances(
@@ -29,9 +31,10 @@ const plugin: TresPlugin = {
       app.component(key as string, cmp as Component)
     })
 
-    watchEffect(() => {
-      console.log({ catalogue })
-    })
+    window.__TRES__ = {
+      app,
+      version,
+    }
   },
 }
 
