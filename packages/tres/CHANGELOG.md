@@ -17,6 +17,8 @@
 
 ### Features
 
+- **cientos:** text3d base ([0e13051](https://github.com/Tresjs/tres/commit/0e130514b0975d6eadd41a8a999998128b92a189))
+- **cientos:** Text3D now accepts sweet text via slots ([8f3a2f4](https://github.com/Tresjs/tres/commit/8f3a2f4787c3e2dff8d71e0588c60794abdd75a7))
 - **core:** usage of window global variable for extendability on other pkgs ([815b839](https://github.com/Tresjs/tres/commit/815b839e24f672df3a586e9c39232327716e244a))
 - **core:** add camera to scene ([631c119](https://github.com/Tresjs/tres/commit/631c119bb808f6e2eb6a37c3d9c91adb01eb991b))
 - **core:** extend example with TextGeometry ([33be4da](https://github.com/Tresjs/tres/commit/33be4da77aac6c6323ce247b057e03788e82c71e))
@@ -24,6 +26,7 @@
 - **core:** extend reactive catalog ([a6bc3f9](https://github.com/Tresjs/tres/commit/a6bc3f9e6edc1c4d7a3d562e146dd887038e7b2e))
 - **core:** extension now works with slots passed by ([e1bfea1](https://github.com/Tresjs/tres/commit/e1bfea1a0901eb61a88b23fb0423f207877045f1))
 - **core:** refactored instance creator and expose methods to be used on cientos ([f943807](https://github.com/Tresjs/tres/commit/f9438070b446d5bf318a1d734c4f3cbb4933f43e))
+- text3d on cientos ([ff80fdb](https://github.com/Tresjs/tres/commit/ff80fdb6cb0655d87ae9b24cc8904b96792baa00))
 
 # 1.1.0 (2022-12-05)
 
