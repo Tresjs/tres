@@ -53,7 +53,8 @@ export default defineConfig({
     rollupOptions: {
       plugins: [
         analyze(),
-        /* visualizer({
+        /*  visualizer({
+          open: true,
           gzipSize: true,
           brotliSize: true,
         }), */
