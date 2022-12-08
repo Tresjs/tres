@@ -8,3 +8,4 @@ declare module '*.vue' {
 }
 
 declare module '*.glsl' {}
+declare module '*.json' {}
