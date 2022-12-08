@@ -1,8 +1,7 @@
 <script setup lang="ts">
 /* import { Color } from 'three' */
-import { useTweakPane, OrbitControls, TransformControls } from '../../cientos/src'
+import { useTweakPane, OrbitControls } from '../../cientos/src'
 /* import TestSphere from '/@/components/TestSphere.vue' */
-import Text3D from '/@/components/Text3D.vue'
 /* import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import { useTres, useCatalogue } from '/@/core' */
 
@@ -33,7 +32,6 @@ useTweakPane()
           <TresBoxGeometry />
           <TresMeshBasicMaterial color="orange" />
         </TresMesh>
-        <Text3D />
         <TresAxesHelper :args="[1]" :visible="false" />
         <TresDirectionalLight :position="[0, 2, 4]" :intensity="2" cast-shadow />
       </TresScene>

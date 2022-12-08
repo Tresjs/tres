@@ -36,6 +36,6 @@ const matcapTexture = await useTexture(['https://raw.githubusercontent.com/Tresj
 <template>
   <TresMesh>
     <TresTextGeometry :args="['TresJS', { font, ...fontOptions }]" center />
-    <TresMeshMatcapMaterial :matcap="matcapTexture" />
+    <TresMeshNormalMaterial :matcap="matcapTexture" />
   </TresMesh>
 </template>
