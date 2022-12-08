@@ -23,5 +23,5 @@
   },
   "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue", "histoire.setup.ts", "histoire.setup.ts"],
   "exclude": ["dist", "node_modules", "src/**/*.cy.ts", "src/**/*.test.ts"],
-  "references": [{ "path": "./tsconfig.node.json" }, { "path": "../tres/tsconfig.json" }]
+  "references": [{ "path": "./tsconfig.node.json" }]
 }
