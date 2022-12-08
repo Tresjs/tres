@@ -1,7 +1,7 @@
 /* eslint-disable new-cap */
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { OrthographicCamera, PerspectiveCamera, Scene } from 'three'
-import { defineComponent, inject, ref, Ref } from 'vue'
+import { defineComponent, inject, Ref } from 'vue'
 import { isArray, isDefined, isFunction } from '@alvarosabu/utils'
 import { normalizeVectorFlexibleParam } from '/@/utils/normalize'
 import { useCamera, useCatalogue, useScene } from '/@/core/'
