@@ -59,11 +59,14 @@ export function useInstanceCreator(prefix: string) {
     })
   }
 
-  function createInstanceFromVNode(vnode: TresVNode): TresInstance | TresInstance[] {
-    const regex = /^Symbol\(Fragment\)$/g
+  function createInstanceFromVNode(vnode: TresVNode): TresInstance | TresInstance[] | undefined {
+    const fragmentRegex = /^Symbol\(Fragment\)$/g
+    const textRegex = /^Symbol\(Text\)$/g
     // Check if the vnode is a Fragment
-    if (regex.test(vnode.type.toString())) {
+    if (fragmentRegex.test(vnode.type.toString())) {
       return vnode.children.map(child => createInstanceFromVNode(child as TresVNode)) as TresInstance[]
+    } else if (textRegex.test(vnode.type.toString())) {
+      return
     } else {
       const vNodeType = ((vnode.type as TresVNodeType).name as string).replace(prefix, '')
       const catalogue = inject<Ref<TresCatalogue>>('catalogue')
@@ -107,7 +110,7 @@ export function useInstanceCreator(prefix: string) {
      */
     if (slots.default && slots?.default()) {
       const internal = slots.default().map((vnode: TresVNode) => createInstanceFromVNode(vnode))
-      return new threeObj(...internal.flat())
+      return new threeObj(...internal.flat().filter(Boolean))
     } else {
       // Creates a new THREE instance, if args is present, spread it on the constructor
       return attrs.args ? new threeObj(...attrs.args) : new threeObj()
