@@ -9,6 +9,7 @@
   ],
   "scripts": {
     "preinstall": "npx only-allow pnpm",
+    "postinstall": "pnpm run build:ci",
     "update-deps": "pnpm update -i -r --latest",
     "build:ci": "pnpm run build:tres && pnpm run build:cientos",
     "build:tres": "pnpm --filter @tresjs/core build",
