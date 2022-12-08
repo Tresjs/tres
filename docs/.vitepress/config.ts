@@ -38,8 +38,22 @@ export default defineConfig({
       },
       {
         text: 'Advanced',
-
         items: [{ text: 'Extending', link: '/advanced/extending' }],
+      },
+      {
+        text: 'Cientos',
+        collapsible: true,
+        items: [
+          { text: 'Introduction', link: '/cientos/' },
+          {
+            text: 'Composables',
+            link: '/cientos/composables',
+          },
+          {
+            text: 'Abstractions',
+            items: [{ text: 'Text3D', link: '/cientos/abstractions/text-3d' }],
+          },
+        ],
       },
     ],
     nav: [

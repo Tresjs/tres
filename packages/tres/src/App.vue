@@ -1,39 +1,30 @@
 <script setup lang="ts">
-/* import { Color } from 'three' */
-/* import { useTweakPane, OrbitControls } from '../../cientos/src' */
-import { useTweakPane, OrbitControls } from '@tresjs/cientos'
-/* import TestSphere from '/@/components/TestSphere.vue' */
-/* import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
-import { useTres, useCatalogue } from '/@/core' */
+/* import { useTexture } from '@tresjs/core' */
+import { OrbitControls, Text3D } from '@tresjs/cientos'
 
-/* const { extend } = useCatalogue() */
-
-/* extend({ OrbitControls }) */
-
-useTweakPane()
-
-/* const { state } = useTres() */
+/* const matcapTexture = await useTexture(['https://raw.githubusercontent.com/Tresjs/assets/main/textures/matcaps/7.png'])
+ */
 </script>
+
 <template>
   <Suspense>
     <TresCanvas
+      clear-color="#82DBC5"
       shadows
       alpha
-      clear-color="teal"
+      window-size
       power-preference="high-performance"
       preserve-drawing-buffer
       physically-correct-lights
     >
-      <TresPerspectiveCamera :position="[5, 5, 5]" :fov="45" :near="0.1" :far="1000" :look-at="[-8, 3, -3]" />
+      <OrbitControls />
+      <TresPerspectiveCamera :position="[5, 5, 5]" :fov="45" :aspect="1" :near="0.1" :far="1000" />
       <TresScene>
-        <OrbitControls />
-        <TresAmbientLight :intensity="0.5" />
-        <!--  <TresOrbitControls v-if="state.renderer" :args="[state.camera, state.renderer?.domElement]" /> -->
-        <TresMesh :position="[0, 0, 0]">
-          <TresBoxGeometry />
+        <Text3D font="https://raw.githubusercontent.com/Tresjs/assets/main/fonts/FiraCodeRegular.json">
+          TresJS
           <TresMeshNormalMaterial />
-        </TresMesh>
-        <TresAxesHelper :args="[1]" :visible="false" />
+        </Text3D>
+        <TresAxesHelper :args="[1]" />
         <TresDirectionalLight :position="[0, 2, 4]" :intensity="2" cast-shadow />
       </TresScene>
     </TresCanvas>

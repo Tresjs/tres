@@ -73,7 +73,7 @@ This is the same as doing this:
 const camera = new PerspectiveCamera(45, 1, 0.1, 1000)
 ```
 
-## rops
+## Props
 
 You can also pass props to the component, for example, the `TresAmbientLight` has a `intensity` property, so you can pass it to the component like this:
 

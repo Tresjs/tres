@@ -13,10 +13,10 @@ Tres (Spanish word for "three", pronounced `/tres/` ) is a way of creating Three
 
 ## Packages
 
-| Package                     | Version (click for changelogs)                                                                               |
-| --------------------------- | :----------------------------------------------------------------------------------------------------------- |
-| [Tres](packages/tres)       | [![tres version](https://img.shields.io/npm/v/@tresjs/core.svg?label=%20)](packages/tres/CHANGELOG.md)       |
-| [Cientos](packages/cientos) | [![tres version](https://img.shields.io/npm/v/@tresjs/cientos.svg?label=%20)](packages/cientos/CHANGELOG.md) |
+| Package                     | Version (click for changelogs)                                                                                  |
+| --------------------------- | :-------------------------------------------------------------------------------------------------------------- |
+| [Tres](packages/tres)       | [![tres version](https://img.shields.io/npm/v/@tresjs/core.svg?label=%20)](packages/tres/CHANGELOG.md)          |
+| [Cientos](packages/cientos) | [![cientos version](https://img.shields.io/npm/v/@tresjs/cientos.svg?label=%20)](packages/cientos/CHANGELOG.md) |
 
 ## Docs
 
