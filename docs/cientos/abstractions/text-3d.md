@@ -1,4 +1,4 @@
-# Text3D
+# Text3D <Badge type="warning" text="^1.1.0" />
 
 `<Text3D />` is a component that renders a 3D text. It is a wrapper around the [TextGeometry](https://threejs.org/docs/#api/en/geometries/TextGeometry) class.
 
