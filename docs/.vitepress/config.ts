@@ -39,7 +39,17 @@ export default defineConfig({
       {
         text: 'Advanced',
 
-        items: [{ text: 'Extending', link: '/advanced/extending' }],
+        items: [
+          { text: 'Extending', link: '/advanced/extending' },
+          {
+            text: 'Performance',
+            link: '/advanced/performance',
+          },
+          {
+            text: 'Caveats',
+            link: '/advanced/caveats',
+          },
+        ],
       },
     ],
     nav: [
