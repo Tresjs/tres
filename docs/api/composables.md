@@ -169,3 +169,33 @@ Then you can use the new component in your template. Notice that the new compone
   </TresCanvas>
 </template>
 ```
+
+# useThree <Badge type="warning" text="experimental" />
+
+This composable aims to provide access to the state model which contains the default renderer, camera, scene, and other useful properties. It is still experimental and it is not recommended to use it in production because is highly like subject to change.
+
+```ts
+const { state } = useThree()
+
+console.log(state.camera) // THREE.PerspectiveCamera
+console.log(state.renderer) // THREE.WebGLRenderer
+```
+
+Until this composable is stable, it is recommended to use the `provide/inject` API to acces the elements you need. These are the available keys:
+
+- `camera`: it returns the current active camera
+- `renderer`: it returns the current active renderer
+- `local-scene`: it returns the current active scene
+- `catalogue`: it returns the current catalogue of components
+- `extend` : it returns the `extend` function from the `useCatalogue` composable. Specially needed if you are a plugin author.
+- `aspect-ratio`: it returns the current aspect ratio of the canvas
+
+```ts
+import { provide, inject } from 'vue'
+
+const camera = inject<Ref<Camera>>('camera')
+const renderer = inject<Ref<WebGLRenderer>>('renderer')
+
+console.log(camera.value) // THREE.PerspectiveCamera
+console.log(renderer.value) // THREE.WebGLRenderer
+```
