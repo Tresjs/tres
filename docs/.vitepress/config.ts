@@ -1,5 +1,6 @@
 import { defineConfig } from 'vitepress'
 import { version } from '../../packages/tres/package.json'
+import { version as cientosVersion } from '../../packages/cientos/package.json'
 
 export default defineConfig({
   title: 'TresJS',
@@ -53,11 +54,26 @@ export default defineConfig({
       { text: 'API', link: '/api/' },
       { text: 'Config', link: '/config/' },
       {
-        text: `v${version}`,
+        text: 'Ecosystem',
+        activeMatch: `^/ecosystem/`,
         items: [
           {
-            text: 'Release Notes ',
-            link: 'https://github.com/Tresjs/tres/releases',
+            text: `Core v${version}`,
+            items: [
+              {
+                text: 'Release Notes ',
+                link: `https://github.com/Tresjs/tres/releases/tag/%40tresjs%2Fcore%40${version}`,
+              },
+            ],
+          },
+          {
+            text: `Cientos v${cientosVersion}`,
+            items: [
+              {
+                text: 'Release Notes ',
+                link: `https://github.com/Tresjs/tres/releases/tag/%40tresjs%2Fcientos%40${cientosVersion}`,
+              },
+            ],
           },
         ],
       },

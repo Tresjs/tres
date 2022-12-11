@@ -18,6 +18,12 @@ pnpm users
 pnpm add three @tresjs/core -D
 ```
 
+## Try it online
+
+You can fork this template example on [StackBlitz](https://stackblitz.com/edit/tresjs-basic?file=src/App.vue) and play with it 😋 without installing anything locally.
+
+<StackBlitzEmbed projectId="tresjs-basic" />
+
 ## Motivation
 
 [ThreeJS](https://threejs.org/) is a wonderfull library to create awesome **WebGL** 3D websites. Is also a constantly updated library that makes hard for wrapper mantainers like [TroisJS](https://troisjs.github.io/) to keep up with all the enhancements.
