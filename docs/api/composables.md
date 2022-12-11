@@ -93,7 +93,7 @@ Since the `useLoader` composable returns a promise, you can use it with `async/a
 </template>
 ```
 
-## useTexture
+## useTexture
 
 The `useTexture` composable allows you to load textures using the [THREE.js texture loader](https://threejs.org/docs/#api/en/loaders/TextureLoader). It returns a promise with the loaded texture(s).
 

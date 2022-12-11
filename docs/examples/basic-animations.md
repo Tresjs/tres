@@ -10,7 +10,7 @@ We will build a simple scene with a cube. We will then animate the cube to rotat
 
 The `useRenderLoop` composable is the core of TresJS animations. It allows you to register a callback that will be called every time the renderer updates the scene with the browser's refresh rate.
 
-To see a detailed explanation of how it works, please refer to the [useRenderLoop](/composables/use-render-loop) documentation.
+To see a detailed explanation of how it works, please refer to the [useRenderLoop](/api/composables#userenderloop) documentation.
 
 ```ts
 const { onLoop, resume } = useRenderLoop()
