@@ -92,3 +92,53 @@ Since the `useLoader` composable returns a promise, you can use it with `async/a
   </Suspense>
 </template>
 ```
+
+## useTexture
+
+The `useTexture` composable allows you to load textures using the [THREE.js texture loader](https://threejs.org/docs/#api/en/loaders/TextureLoader). It returns a promise with the loaded texture(s).
+
+```ts
+const texture = await useTexture(['path/to/texture.png'])
+```
+
+**useTexture** also accepts an object with the following properties:
+
+- `map`: a basic texture that is applied to the surface of an object
+- `displacementMap`: a texture that is used to add bumps or indentations to the object's surface
+- `normalMap`: a texture that is used to add surface detail to and variations in shading to the object
+- `roughnessMap`: a texture that is used to add roughness or a matte finish to the object's surface
+- `metalnessMap`: a texture that is used to add a metallic effect to the object's surface
+- `aoMap`: a texture that is used to add ambient occlusion (shading in areas where light is blocked by other objects) to the object.
+
+In that case it will return an object with the loaded textures.
+
+```ts
+const { map, displacementMap, normalMap, roughnessMap, metalnessMap, aoMap } = await useTexture({
+  map: 'path/to/albedo.png',
+  displacementMap: 'path/to/height.png',
+  normalMap: 'path/to/normal.png',
+  roughnessMap: 'path/to/roughness.png',
+  metalnessMap: 'path/to/metalness.png',
+  aoMap: 'path/to/ambien-occlusion.png',
+})
+```
+
+Then you can bind the textures to the material.
+
+```vue
+<template>
+  <TresMesh>
+    <TresMeshSphereGeometry />
+    <TresMeshStandardMaterial
+      :map="map"
+      :displacementMap="displacementMap"
+      :normalMap="normalMap"
+      :roughnessMap="roughnessMap"
+      :metalnessMap="metalnessMap"
+      :aoMap="aoMap"
+    />
+  </TresMesh>
+</template>
+```
+
+Similar to above composable, the `useTexture` composable returns a promise, you can use it with `async/await` or `then/catch`. If you are using it on a component make sure you wrap it with a `Suspense` component.
