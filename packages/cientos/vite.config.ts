@@ -39,6 +39,7 @@ export default defineConfig({
       name: 'trescientos',
       fileName: 'trescientos',
     },
+    copyPublicDir: false,
     watch: {
       include: [resolve(__dirname, 'src')],
     },
