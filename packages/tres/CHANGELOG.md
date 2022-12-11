@@ -1,3 +1,9 @@
+# 1.2.1 (2022-12-11)
+
+### Bug Fixes
+
+- added copyPublicDir: false to remove static assets on package ([7e8de9c](https://github.com/Tresjs/tres/commit/7e8de9c4b4e63107b79a81a8686ad97256a29017))
+
 # 1.2.0 (2022-12-08)
 
 ### Bug Fixes
