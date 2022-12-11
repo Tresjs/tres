@@ -39,6 +39,10 @@
   --vp-button-sponsor-active-bg: transparent;
 }
 
+.VPSidebar .link.active span {
+  font-weight: bold;
+}
+
 .vp-doc a {
   text-decoration: dashed;
   font-weight: bold;

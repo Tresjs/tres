@@ -170,12 +170,12 @@ Then you can use the new component in your template. Notice that the new compone
 </template>
 ```
 
-# useThree <Badge type="warning" text="experimental" />
+# useTres <Badge type="warning" text="experimental" />
 
 This composable aims to provide access to the state model which contains the default renderer, camera, scene, and other useful properties. It is still experimental and it is not recommended to use it in production because is highly like subject to change.
 
 ```ts
-const { state } = useThree()
+const { state } = useTres()
 
 console.log(state.camera) // THREE.PerspectiveCamera
 console.log(state.renderer) // THREE.WebGLRenderer
