@@ -1,0 +1,94 @@
+# Composables
+
+Vue 3 [Composition API](https://vuejs.org/guide/extras/composition-api-faq.html#what-is-composition-api) allows you to create reusable logic that can be shared across components. It also allows you to create custom hooks that can be used in your components.
+
+TresJS takes huge advantage of this API to create a set of composable functions that can be used to create animations, interact with the scene, and more. It also allows you to create more complex scenes that might not be possible using just the Vue Components (Textures, Loaders, etc.).
+
+The core of TresJS uses these composables internally, so you would be using the same API that the core uses. For instance, components that need to updated on the internal render loop use the `useRenderLoop` composable to register a callback that will be called every time the renderer updates the scene.
+
+## useRenderLoop
+
+The `useRenderLoop` composable is the core of TresJS animations. It allows you to register a callback that will be called on native refresh rate. This is the most important composable in TresJS.
+
+```ts
+const { onLoop, resume } = useRenderLoop()
+
+onLoop(({ delta, elapsed }) => {
+  // I will run at every frame ~ 60FPS (depending of your monitor)
+})
+```
+
+::: warning
+Be mindfull of the performance implications of using this composable. It will run at every frame, so if you have a lot of logic in your callback, it might impact the performance of your app. Specially if you are updating reactive states or references.
+:::
+
+The `onLoop` callback receives an object with the following properties based on the [THREE clock](https://threejs.org/docs/?q=clock#api/en/core/Clock):
+
+- `delta`: The delta time between the current and the last frame. This is the time in seconds since the last frame.
+- `elapsed`: The elapsed time since the start of the render loop.
+
+This composable is based on `useRafFn` from [vueuse](https://vueuse.org/core/useRafFn/). Thanks to [@wheatjs](https://github.com/orgs/Tresjs/people/wheatjs) for the amazing contribution.
+
+### Before and after render
+
+You can also register a callback that will be called before and after the renderer updates the scene. This is useful if you add a profiler to measure the FPS for example.
+
+```ts
+const { onBeforeLoop, onAfterLoop } = useRenderLoop()
+
+onBeforeLoop(({ delta, elapsed }) => {
+  // I will run before the renderer updates the scene
+  fps.begin()
+})
+
+onAfterLoop(({ delta, elapsed }) => {
+  // I will run after the renderer updates the scene
+  fps.end()
+})
+```
+
+### Pause and resume
+
+You can pause and resume the render loop using the exposed `pause` and `resume` methods.
+
+```ts
+const { pause, resume } = useRenderLoop()
+
+// Pause the render loop
+pause()
+
+// Resume the render loop
+resume()
+```
+
+Also you can get the active state of the render loop using the `isActive` property.
+
+```ts
+const { resume, isActive } = useRenderLoop()
+
+console.log(isActive) // false
+
+resume()
+
+console.log(isActive) // true
+```
+
+## useLoader
+
+The `useLoader` composable allows you to load assets using the [THREE.js loaders](https://threejs.org/docs/#manual/en/introduction/Loading-3D-models). It returns a promise with loaded asset.
+
+```ts
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
+
+const { scene } = await useLoader(THREE.GLTFLoader, 'path/to/asset.gltf')
+```
+
+Since the `useLoader` composable returns a promise, you can use it with `async/await` or `then/catch`. If you are using it on a component make sure you wrap it with a `Suspense` component. See [Suspense](https://vuejs.org/guide/built-ins/suspense.html#suspense) for more information.
+
+```vue
+<template>
+  <Suspense>
+    <TheComponentUsingLoader />
+  </Suspense>
+</template>
+```

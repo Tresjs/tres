@@ -26,6 +26,10 @@ export default defineConfig({
             text: 'Instances, arguments and props',
             link: '/api/instances-arguments-and-props',
           },
+          {
+            text: 'Composables',
+            link: '/api/composables',
+          },
         ],
       },
       {
