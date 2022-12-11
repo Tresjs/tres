@@ -25,9 +25,11 @@ onLoop(({ _delta, elapsed }) => {
 
 To animate the cube, we need to get a reference to it. We can do it by passing a [Template Ref](https://vuejs.org/guide/essentials/template-refs.html) using `ref` prop to the `TresMesh` component. This will return the THREE instance.
 
+To improve the performance, we will use a [Shallow Ref](https://v3.vuejs.org/guide/reactivity-fundamentals.html#shallow-reactivity) to store the reference instead of a regular Ref. See why [here](../advanced/caveats.md#reactivity)
+
 ```vue
 <script setup lang="ts">
-const boxRef: Ref<TresInstance | null> = ref(null)
+const boxRef: ShallowRef<TresInstance | null> = shallowRef(null)
 </script>
 
 <template>

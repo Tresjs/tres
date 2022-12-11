@@ -57,7 +57,11 @@ Here is a benchmark of the difference between using a Proxy object and a plain o
 
 Source: [Proxy vs Plain Object](https://www.measurethat.net/Benchmarks/Show/12503/0/object-vs-proxy-vs-proxy-setter)
 
-### Example
+If you are forced to use reactivity, use [shallowRef](https://vuejs.org/api/reactivity-advanced.html#shallowref)
+
+Unlike `ref()`, the inner value of a shallow ref is stored and exposed as-is, and will not be made deeply reactive. Only the .value access is reactive. Source [VueJS Docs](https://vuejs.org/api/reactivity-advanced.html#shallowref)
+
+### Example
 
 ❌ Incorrect
 
@@ -82,7 +86,7 @@ onLoop(({ _delta, elapsed }) => {
 ```vue
 <script setup lang="ts">
 const position = { x: 0, y: 0, z: 0 }
-const boxRef: Ref<TresInstance | null> = ref(null)
+const boxRef: ShallowRef<TresInstance | null> = shallowRef(null)
 
 onLoop(({ _delta, elapsed }) => {
   boxRef.value.position.x = Math.sin(elapsed * 0.1) * 3

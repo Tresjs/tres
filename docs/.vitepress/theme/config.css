@@ -39,6 +39,7 @@
   --vp-button-sponsor-active-bg: transparent;
 }
 
-a {
+.vp-doc a {
   text-decoration: dashed;
+  font-weight: bold;
 }
