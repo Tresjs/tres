@@ -14,7 +14,7 @@ There are several ways to load models on TresJS:
 
 The `useLoader` composable allows you to pass any type of Three.js loader and a URL to load the resource from. It returns a `Promise` with the loaded resource.
 
-For a detailed explanation of how to use `useLoader`, check out the **useLoader** documentation.
+For a detailed explanation of how to use `useLoader`, check out the [useLoader](/api/composables#useloader) documentation.
 
 ```ts
 import { useLoader } from '@tresjs/core'
@@ -40,8 +40,6 @@ Notice in the example above that we are using the `Suspense` component to wrap t
 ## Using `useGLTF`
 
 A more convenient way of loading models is using the `useGLTF` composable available from [@tresjs/cientos](https://github.com/Tresjs/tres/tree/main/packages/cientos) package.
-
-To learn more about `useGLTF`, check out the **useGLTF** documentation.
 
 ```ts
 import { useGLTF } from '@tresjs/cientos'

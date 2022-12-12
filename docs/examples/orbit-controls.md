@@ -8,7 +8,7 @@ However, it is not part of the core of ThreeJS. So to use it you would need to i
 
 This creates a problem because **TresJS** automatically creates a catalog of the core of Three so you can use them as components.
 
-Fortunately, **TresJS** provides a way to extend the catalog of components. You can do it by using the `extend` method using the **useCatalogue** composable.
+Fortunately, **TresJS** provides a way to extend the catalog of components. You can do it by using the `extend` method using the [useCatalogue](/api/composables#usecatalog) composable.
 
 For more information about extending your TresJS catalog, refer to the [extending](/advanced/extending.md) section.
 
@@ -20,7 +20,7 @@ To use `OrbitControls` you need to import it from the `three/examples/jsm/contro
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 ```
 
-Then you need to extend the catalogue of components using the `extend` method of the **useCatalogue** composable.
+Then you need to extend the catalogue of components using the `extend` method of the [useCatalogue](/api/composables#usecatalog) composable.
 
 ```js
 import { useCatalogue } from '@tresjs/core'
@@ -45,7 +45,7 @@ Now you can use the `TresOrbitControls` component in your scene.
 
 Since [OrbitControls](https://threejs.org/docs/index.html?q=orbit#examples/en/controls/OrbitControls) needs a reference to the camera and the renderer, you need to pass them as arguments.
 
-You can use the **useThree** composable to get the camera and the renderer.
+You can use the [useThree](/api/composables#usethree) composable to get the camera and the renderer.
 
 ```ts
 import { useThree } from '@tresjs/core'

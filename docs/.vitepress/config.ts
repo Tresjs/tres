@@ -26,13 +26,17 @@ export default defineConfig({
             text: 'Instances, arguments and props',
             link: '/api/instances-arguments-and-props',
           },
+          {
+            text: 'Composables',
+            link: '/api/composables',
+          },
         ],
       },
       {
         text: 'Examples',
         items: [
           { text: 'Orbit Controls', link: '/examples/orbit-controls' },
-          { text: 'Basic Animation', link: '/examples/basic-animations' },
+          { text: 'Basic Animations', link: '/examples/basic-animations' },
           { text: 'Load Textures', link: '/examples/load-textures' },
           { text: 'Load Models', link: '/examples/load-models' },
         ],
