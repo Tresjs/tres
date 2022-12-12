@@ -1,7 +1,8 @@
 # Introduction
 
-<FirstScene style="aspect-ratio: 16/9; height: auto; margin: 2rem 0; border-radius: 8px; overflow:hidden;"/>
-
+<ClientOnly>
+    <FirstScene style="aspect-ratio: 16/9; height: auto; margin: 2rem 0; border-radius: 8px; overflow:hidden;"/>
+</ClientOnly>
 ```
 npm install three @tresjs/core -D
 ```
@@ -17,6 +18,12 @@ pnpm users
 ```
 pnpm add three @tresjs/core -D
 ```
+
+## Try it online
+
+You can fork this template example on [StackBlitz](https://stackblitz.com/edit/tresjs-basic?file=src/App.vue) and play with it 😋 without installing anything locally.
+
+<StackBlitzEmbed projectId="tresjs-basic" />
 
 ## Motivation
 

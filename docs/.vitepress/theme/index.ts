@@ -11,8 +11,12 @@ export default {
     DefaultTheme.enhanceApp(ctx)
     ctx.app.component('FirstScene', FirstScene)
     ctx.app.component('StackBlitzEmbed', StackBlitzEmbed)
-    ctx.app.use(Tres)
-
+    /*  ctx.app.use(Tres)
+     */
+    if (import.meta.env.SSR) {
+      // ... server only logic
+      ctx.app.use(Tres)
+    }
     console.log(ctx)
   },
 }

@@ -9,6 +9,7 @@ import { OrbitControls, GLTFModel } from '@tresjs/cientos'
           <TresPerspectiveCamera :position="[11, 11, 11]" />
           <OrbitControls />
           <TresScene>
+            <TresAmbientLight :intensity="0.5" />
             <GLTFModel path="/models/AkuAku.gltf" />
             <TresDirectionalLight :position="[-4, 8, 4]" :intensity="1.5" cast-shadow />
           </TresScene>
