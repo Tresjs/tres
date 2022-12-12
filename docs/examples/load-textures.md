@@ -12,7 +12,7 @@ There are two ways of loading 3D textures in TresJS:
 
 The `useLoader` composable allows you to pass any type of Three.js loader and a URL to load the resource from. It returns a `Promise` with the loaded resource.
 
-For a detailed explanation of how to use `useLoader`, check out the [useLoader](/composables/use-loader) documentation.
+For a detailed explanation of how to use `useLoader`, check out the **useLoader** documentation.
 
 ```ts
 import { useLoader } from '@tresjs/core'
@@ -42,7 +42,7 @@ Notice in the example above that we are using the `Suspense` component to wrap t
 
 A more convenient way of loading textures is using the `useTexture` composable. It accepts both an array of URLs or a single object with the texture paths mapped.
 
-To learn more about `useTexture`, check out the [useTexture](/composables/use-texture) documentation.
+To learn more about `useTexture`, check out the **useTexture** documentation.
 
 ```ts
 import { useTexture } from '@tresjs/core'
