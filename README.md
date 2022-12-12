@@ -20,7 +20,7 @@ Tres (Spanish word for "three", pronounced `/tres/` ) is a way of creating Three
 
 ## Docs
 
-Checkout the [docs](https://tresjs-docs.netlify.app)
+Checkout the [docs](https://tresjs.org)
 
 ## Demos
 
@@ -28,7 +28,7 @@ Checkout the [docs](https://tresjs-docs.netlify.app)
 
 ## Contribution
 
-Soon
+We are open to contributions, please read the [contributing guide](/CONTRIBUTING.md) to get started.
 
 ## License
 
