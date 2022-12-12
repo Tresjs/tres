@@ -41,7 +41,12 @@ Notice in the example above that we are using the `Suspense` component to wrap t
 
 A more convenient way of loading models is using the `useGLTF` composable available from [@tresjs/cientos](https://github.com/Tresjs/tres/tree/main/packages/cientos) package.
 
+<<<<<<< HEAD
 To learn more about `useGLTF`, check out the [useGLTF](/cientos/api/composables#use-gltf) documentation.
+=======
+To learn more about `useGLTF`, check out the **useGLTF** documentation.
+
+> > > > > > > main
 
 ```ts
 import { useGLTF } from '@tresjs/cientos'
