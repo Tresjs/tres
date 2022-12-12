@@ -3,6 +3,10 @@
   "description": "Declarative ThreeJS using Vue Components",
   "version": "1.0.0",
   "author": "Alvaro Saburido <hola@alvarosaburido.dev> (https://github.com/alvarosabu/)",
+  "engines": {
+    "npm": ">=8.0.0 <9.0.0",
+    "node": ">=16.0.0 <17.0.0"
+  },
   "workspaces": [
     "apps/**",
     "packages/*"
