@@ -13,7 +13,7 @@ export default {
     ctx.app.component('StackBlitzEmbed', StackBlitzEmbed)
     /*  ctx.app.use(Tres)
      */
-    if (import.meta.env.SSR) {
+    if (!import.meta.env.SSR) {
       // ... server only logic
       ctx.app.use(Tres)
     }
