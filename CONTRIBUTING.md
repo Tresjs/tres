@@ -4,7 +4,7 @@
 
 Hi there!! If you are reading this guide, you are probably interested in contributing to Tres. You're awesome 🤩.
 
-No contribution is too small, whenever is about a typo in the docs, a bug report or refactoring a piece of code, every contribution is welcome, just make sure to follow the guidelines below ✌️.
+No contribution is too small, whether it is a typo in the docs, a bug report or refactoring a piece of code, every contribution is welcome, just make sure to follow the guidelines below ✌️.
 
 Thanks from the heart 💚 for taking the time to help out. This guide will help you to get started with the project.
 

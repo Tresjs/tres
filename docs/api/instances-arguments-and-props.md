@@ -21,7 +21,7 @@ With **Tres** you don't need to import anything, that's because **Tres** automat
 </template>
 ```
 
-This mean that you can the same [documentation](https://threejs.org/docs/) as you where using plain ThreeJS, but with the power of Vue.
+This means that you can use the same [documentation](https://threejs.org/docs/) as you would when using plain ThreeJS, but with the power of Vue.
 
 ## Declaring objects
 

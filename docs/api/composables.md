@@ -2,13 +2,13 @@
 
 Vue 3 [Composition API](https://vuejs.org/guide/extras/composition-api-faq.html#what-is-composition-api) allows you to create reusable logic that can be shared across components. It also allows you to create custom hooks that can be used in your components.
 
-TresJS takes huge advantage of this API to create a set of composable functions that can be used to create animations, interact with the scene, and more. It also allows you to create more complex scenes that might not be possible using just the Vue Components (Textures, Loaders, etc.).
+**TresJS** takes huge advantage of this API to create a set of composable functions that can be used to create animations, interact with the scene and more. It also allows you to create more complex scenes that might not be possible using just the Vue Components (Textures, Loaders, etc.).
 
-The core of TresJS uses these composables internally, so you would be using the same API that the core uses. For instance, components that need to updated on the internal render loop use the `useRenderLoop` composable to register a callback that will be called every time the renderer updates the scene.
+The core of **TresJS** uses these composables internally, so you would be using the same API that the core uses. For instance, components that need to updated on the internal render loop use the `useRenderLoop` composable to register a callback that will be called every time the renderer updates the scene.
 
 ## useRenderLoop
 
-The `useRenderLoop` composable is the core of TresJS animations. It allows you to register a callback that will be called on native refresh rate. This is the most important composable in TresJS.
+The `useRenderLoop` composable is the core of **TresJS** animations. It allows you to register a callback that will be called on native refresh rate. This is the most important composable in **TresJS**.
 
 ```ts
 const { onLoop, resume } = useRenderLoop()
@@ -27,7 +27,7 @@ The `onLoop` callback receives an object with the following properties based on 
 - `delta`: The delta time between the current and the last frame. This is the time in seconds since the last frame.
 - `elapsed`: The elapsed time since the start of the render loop.
 
-This composable is based on `useRafFn` from [vueuse](https://vueuse.org/core/useRafFn/). Thanks to [@wheatjs](https://github.com/orgs/Tresjs/people/wheatjs) for the amazing contribution.
+This composable is based on `useRafFn` from [vueuse](https://vueuse.org/core/useRafFn/). Thanks to [@wheatjs](https://github.com/orgs/**Tresjs**/people/wheatjs) for the amazing contribution.
 
 ### Before and after render
 
@@ -150,7 +150,7 @@ The `useCatalogue` composable allows you to extend the internal catalogue of com
 This is specially useful if you want to use objects that are not part of ThreeJS core like[OrbitControls](https://threejs.org/docs/#examples/en/controls/OrbitControls) or third party functionality, like physics.
 
 ```ts
-import { useCatalogue } from '@tresjs/core'
+import { useCatalogue } from '@**tresjs**/core'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 
 const { extend } = useCatalogue()
