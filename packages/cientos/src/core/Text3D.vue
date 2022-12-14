@@ -34,7 +34,8 @@ const props = withDefaults(
     bevelThickness?: number
     bevelSize?: number
     bevelOffset?: number
-    bevelSegments?: number
+    bevelSegments?: number,
+    center?: boolean
   }>(),
   {
     size: 0.5,
@@ -45,8 +46,9 @@ const props = withDefaults(
     bevelSize: 0.02,
     bevelOffset: 0,
     bevelSegments: 4,
+    center:false
   },
-)
+  )
 
 const { extend } = useCientos()
 
@@ -92,7 +94,7 @@ const textOptions = computed(() => {
 </script>
 <template>
   <TresMesh v-if="font">
-    <TresTextGeometry v-if="localText" :args="[localText, textOptions]" />
+    <TresTextGeometry v-if="localText" :args="[localText, textOptions]" :center="center" />
     <slot />
   </TresMesh>
 </template>
