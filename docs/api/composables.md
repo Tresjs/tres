@@ -27,7 +27,7 @@ The `onLoop` callback receives an object with the following properties based on 
 - `delta`: The delta time between the current and the last frame. This is the time in seconds since the last frame.
 - `elapsed`: The elapsed time since the start of the render loop.
 
-This composable is based on `useRafFn` from [vueuse](https://vueuse.org/core/useRafFn/). Thanks to [@wheatjs](https://github.com/orgs/**Tresjs**/people/wheatjs) for the amazing contribution.
+This composable is based on `useRafFn` from [vueuse](https://vueuse.org/core/useRafFn/). Thanks to [@wheatjs](https://github.com/orgs/Tresjs/people/wheatjs) for the amazing contribution.
 
 ### Before and after render
 
@@ -150,7 +150,7 @@ The `useCatalogue` composable allows you to extend the internal catalogue of com
 This is specially useful if you want to use objects that are not part of ThreeJS core like[OrbitControls](https://threejs.org/docs/#examples/en/controls/OrbitControls) or third party functionality, like physics.
 
 ```ts
-import { useCatalogue } from '@**tresjs**/core'
+import { useCatalogue } from '@tresjs/core'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 
 const { extend } = useCatalogue()
