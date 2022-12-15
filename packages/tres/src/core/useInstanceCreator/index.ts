@@ -45,6 +45,7 @@ export function useInstanceCreator(prefix: string) {
 
           // Check if the property is a function
           if (isFunction(instance[camelKey])) {
+            if(key === 'center' && !value) return
             // Call the function with the value, spread if it's an array
             instance[camelKey](...(isArray(value) ? value : [value]))
             return
