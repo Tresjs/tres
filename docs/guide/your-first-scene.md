@@ -4,7 +4,7 @@ This guide will help you to create your first Tres scene. 🍩
 
 ## Setting up the experience Canvas
 
-Before we can create an Scene, we need somewhere to display it. Using plain [ThreeJS](https://threejs.org/docs/index.html#manual/en/introduction/Creating-a-scene) we would need yo create a `canvas` html element to mount the `WebglRenderer` and initialize the `scene`
+Before we can create an Scene, we need somewhere to display it. Using plain [ThreeJS](https://threejs.org/docs/index.html#manual/en/introduction/Creating-a-scene) we would need to create a `canvas` html element to mount the `WebglRenderer` and initialize the `scene`
 
 With **TresJS** you only need to add the default component `<TresCanvas />` to the template of your Vue component.
 
@@ -91,4 +91,4 @@ Notice that we don't need to import anything, thats because **TresJS** automatic
 
 <FirstScene />
 
-From that on you can start adding more objects to your scene, and start playing with the properties of the components to see how they affect the scene.
+From here onwards you can start adding more objects to your scene and start playing with the properties of the components to see how they affect the scene.

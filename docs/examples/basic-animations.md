@@ -10,7 +10,7 @@ We will build a simple scene with a cube. We will then animate the cube to rotat
 
 The `useRenderLoop` composable is the core of TresJS animations. It allows you to register a callback that will be called every time the renderer updates the scene with the browser's refresh rate.
 
-To see a detailed explanation of how it works, please refer to the [useRenderLoop](/composables/use-render-loop) documentation.
+To see a detailed explanation of how it works, please refer to the [useRenderLoop](/api/composables#userenderloop) documentation.
 
 ```ts
 const { onLoop, resume } = useRenderLoop()
@@ -25,9 +25,11 @@ onLoop(({ _delta, elapsed }) => {
 
 To animate the cube, we need to get a reference to it. We can do it by passing a [Template Ref](https://vuejs.org/guide/essentials/template-refs.html) using `ref` prop to the `TresMesh` component. This will return the THREE instance.
 
+To improve the performance, we will use a [Shallow Ref](https://v3.vuejs.org/guide/reactivity-fundamentals.html#shallow-reactivity) to store the reference instead of a regular Ref. See why [here](../advanced/caveats.md#reactivity)
+
 ```vue
 <script setup lang="ts">
-const boxRef: Ref<TresInstance | null> = ref(null)
+const boxRef: ShallowRef<TresInstance | null> = shallowRef(null)
 </script>
 
 <template>
