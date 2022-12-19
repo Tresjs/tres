@@ -38,7 +38,7 @@ TresJS is an ecosystem of packages, each one of them has its own purpose. The ma
 
 You can go to the `packages/tres` folder and run `pnpm dev` to start the dev server. This will start a vite server that will watch for changes in the code and rebuild the package.
 
-This is only a playground to test the core package, please keep the `App.vue` file as clean as possible.
+This is only a playground to test the core package, to keep the `App.vue` clean create a new component with your scene and import it in the `App.vue` file.
 
 ### Cientos
 
