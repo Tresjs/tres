@@ -31,7 +31,7 @@ Checkout the [docs](https://tresjs.org)
 
 ## Demos
 
-- [Stackblizt Collection](https://stackblitz.com/@alvarosabu/collections/tresjs)
+- [Stackblitz Collection](https://stackblitz.com/@alvarosabu/collections/tresjs)
 
 ## Contribution
 
