@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { OrbitControls } from '@tresjs/cientos'
+import { OrbitControls, GLTFModel } from '../../../cientos/src/'
+/* import { OrbitControls, GLTFModel } from '@tresjs/cientos' */
 </script>
 <template>
   <TresCanvas
@@ -14,12 +15,8 @@ import { OrbitControls } from '@tresjs/cientos'
     <TresScene>
       <OrbitControls />
       <TresAmbientLight :intensity="0.5" />
-      <!--  <TresOrbitControls v-if="state.renderer" :args="[state.camera, state.renderer?.domElement]" /> -->
-      <TresMesh :position="[0, 0, 0]">
-        <TresBoxGeometry />
-        <TresMeshNormalMaterial />
-      </TresMesh>
-      <TresAxesHelper :args="[1]" :visible="false" />
+      <TresFog :color="'#444'" />
+      <GLTFModel draco path="https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/portal/portal.gltf" />
       <TresDirectionalLight :position="[0, 2, 4]" :intensity="2" cast-shadow />
     </TresScene>
   </TresCanvas>

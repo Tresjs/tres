@@ -47,7 +47,7 @@ export async function useLoader<T extends LoaderProto<T>, U extends string | str
   }
 
   if (extensions) {
-    extensions(Loader)
+    extensions(proto)
   }
 
   const paths = (Array.isArray(url) ? url : [url]) as string[]
