@@ -40,7 +40,8 @@
     "story:dev": "histoire dev",
     "story:build": "histoire build",
     "story:preview": "histoire preview",
-    "lint": "eslint . --ext .js,.jsx,.ts,.tsx,.vue"
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx,.vue",
+    "release": "release-it"
   },
   "dependencies": {
     "three": "^0.147.0",
@@ -63,6 +64,7 @@
     "histoire": "0.11.9",
     "kolorist": "^1.6.0",
     "pathe": "^1.0.0",
+    "release-it": "^15.5.1",
     "rollup-plugin-analyzer": "^4.0.0",
     "rollup-plugin-visualizer": "^5.8.3",
     "unplugin-vue-components": "^0.22.12",
