@@ -1,5 +1,6 @@
 import { GLTFLoader, DRACOLoader } from 'three-stdlib'
-import { useLoader } from '@tresjs/core'
+import { useLoader } from '../../../../tres/src/core'
+/* import { useLoader } from '@tresjs/core' */
 import { Object3D } from 'three'
 
 export interface GLTFLoaderOptions {
@@ -24,10 +25,13 @@ function setExtensions(options: GLTFLoaderOptions, extendLoader?: (loader: GLTFL
     if (extendLoader) {
       extendLoader(loader as GLTFLoader)
     }
-    if (!dracoLoader) {
-      dracoLoader = new DRACOLoader()
+    if (options.draco) {
+      if (!dracoLoader) {
+        dracoLoader = new DRACOLoader()
+      }
+      dracoLoader.setDecoderPath(options.decoderPath || 'https://www.gstatic.com/draco/versioned/decoders/1.4.3/')
+      loader.setDRACOLoader(dracoLoader)
     }
-    dracoLoader.setDecoderPath(options.decoderPath || 'https://www.gstatic.com/draco/versioned/decoders/1.4.3/')
   }
 }
 export async function useGLTF(
