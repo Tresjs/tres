@@ -32,7 +32,7 @@
     "publish:cientos": "pnpm publish --filter @tresjs/cientos",
     "changeset-publish": "changeset publish",
     "changeset-tag": "changeset tag",
-    "changelog": "pnpm run changelog:tres",
+    "changelog": "pnpm run changelog:tres && pnpm run changelog:cientos",
     "changelog:tres": "echo 'generate @tresjs/core changelog' && conventional-changelog -p angular -i ./packages/tres/CHANGELOG.md -s  --commit-path ./packages/tres && git add ./packages/tres/CHANGELOG.md",
     "changelog:cientos": "echo 'generate @tresjs/cientos changelog' && conventional-changelog -p angular -i ./packages/cientos/CHANGELOG.md -s  --commit-path ./packages/cientos && git add ./packages/cientos/CHANGELOG.md",
     "lint": "pnpm run lint:tres && pnpm run lint:cientos",
