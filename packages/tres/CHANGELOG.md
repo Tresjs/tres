@@ -1,3 +1,9 @@
+# 1.3.2 (2022-12-19)
+
+### Bug Fixes
+
+- forcing a release with correct bundle versions ([a211e75](https://github.com/Tresjs/tres/commit/a211e758e16bab34d9afaad8496585e1c5b7de3e))
+
 ## 1.3.1 (2022-12-19)
 
 ### Bug Fixes
