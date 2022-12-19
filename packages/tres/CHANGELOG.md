@@ -1,3 +1,9 @@
+## 1.3.1 (2022-12-19)
+
+### Bug Fixes
+
+- **cientos:** draco encoding and decoderPath ([c9bd7ad](https://github.com/Tresjs/tres/commit/c9bd7ad6ef3ba86855c887886a9032fe0a324dd2))
+
 # 1.3.0 (2022-12-19)
 
 ### Bug Fixes
