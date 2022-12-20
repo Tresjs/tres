@@ -8,15 +8,17 @@ let pane: TweakPane
 let fpsGraph: any
 
 export const useTweakPane = (selector = 'tres-container') => {
-  pane = new Pane({
-    container: (document.querySelector(selector) as HTMLElement) || undefined,
-  }) as TweakPane
-  pane.registerPlugin(EssentialsPlugin)
+  if (!pane) {
+    pane = new Pane({
+      container: (document.querySelector(selector) as HTMLElement) || undefined,
+    }) as TweakPane
+    pane.registerPlugin(EssentialsPlugin)
 
-  fpsGraph = pane.addBlade({
-    view: 'fpsgraph',
-    label: 'fpsgraph',
-  })
+    fpsGraph = pane.addBlade({
+      view: 'fpsgraph',
+      label: 'fpsgraph',
+    })
+  }
 
   function disposeTweakPane() {
     if (pane) {
