@@ -156,8 +156,7 @@ export function useRenderer(canvas: MaybeElementRef, container: MaybeElementRef,
 
     renderer.value.shadowMap.enabled = resolveUnref(shadows) as boolean
     renderer.value.shadowMap.type = resolveUnref(shadowMapType) as ShadowMapType
-    renderer.value.toneMapping = 3
-    /*  renderer.value.toneMapping = (resolveUnref(toneMapping) as ToneMapping) || NoToneMapping */
+    renderer.value.toneMapping = (resolveUnref(toneMapping) as ToneMapping) || NoToneMapping
     renderer.value.toneMappingExposure = resolveUnref(toneMappingExposure) as number
     renderer.value.outputEncoding = (resolveUnref(outputEncoding) as TextureEncoding) || LinearEncoding
     if (clearColor?.value) renderer.value.setClearColor(normalizeColor(resolveUnref(clearColor) as TresColor))
