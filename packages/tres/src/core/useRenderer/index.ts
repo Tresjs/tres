@@ -1,4 +1,5 @@
-import { watch, ref, shallowRef, computed } from 'vue'
+/* eslint-disable max-len */
+import { watch, ref, shallowRef, computed, toRefs } from 'vue'
 import {
   MaybeComputedRef,
   MaybeElementRef,
@@ -19,6 +20,7 @@ import {
 import type { TextureEncoding, ToneMapping } from 'three'
 import { useRenderLoop, useTres } from '/@/core/'
 import { normalizeColor } from '/@/utils/normalize'
+import { TresColor } from '/@/types'
 
 export interface UseRendererOptions extends WebGLRendererParameters {
   /**
@@ -30,6 +32,8 @@ export interface UseRendererOptions extends WebGLRendererParameters {
 
   /**
    * Set the shadow map type
+   * Can be PCFShadowMap, PCFSoftShadowMap, BasicShadowMap, VSMShadowMap
+   * [see](https://threejs.org/docs/?q=we#api/en/constants/Renderer)
    *
    * @default PCFSoftShadowMap
    */
@@ -45,6 +49,7 @@ export interface UseRendererOptions extends WebGLRendererParameters {
 
   /**
    * Defines the output encoding of the renderer.
+   * Can be LinearEncoding, sRGBEncoding
    *
    * @default LinearEncoding
    */
@@ -52,6 +57,7 @@ export interface UseRendererOptions extends WebGLRendererParameters {
 
   /**
    * Defines the tone mapping used by the renderer.
+   * Can be NoToneMapping, LinearToneMapping, ReinhardToneMapping, Uncharted2ToneMapping, CineonToneMapping, ACESFilmicToneMapping, CustomToneMapping
    *
    * @default NoToneMapping
    */
@@ -91,7 +97,7 @@ export interface UseRendererOptions extends WebGLRendererParameters {
    *
    * @default 0x000000
    */
-  clearColor?: MaybeComputedRef<string | number>
+  clearColor?: MaybeComputedRef<TresColor>
   windowSize?: MaybeComputedRef<boolean>
 }
 
@@ -107,8 +113,8 @@ const isReady = ref(false)
 export function useRenderer(canvas: MaybeElementRef, container: MaybeElementRef, options: UseRendererOptions) {
   // Defaults
   const {
-    alpha = false,
-    antialias,
+    alpha = true,
+    antialias = true,
     depth,
     logarithmicDepthBuffer,
     failIfMajorPerformanceCaveat,
@@ -124,11 +130,11 @@ export function useRenderer(canvas: MaybeElementRef, container: MaybeElementRef,
     context = undefined,
     powerPreference = 'default',
     preserveDrawingBuffer = false,
-    clearColor = normalizeColor('#000000'),
+    clearColor,
     windowSize = false,
-  } = options
+  } = toRefs(options)
 
-  const { width, height } = windowSize ? useWindowSize() : useElementSize(container)
+  const { width, height } = resolveUnref(windowSize) ? useWindowSize() : useElementSize(container)
 
   const { pixelRatio } = useDevicePixelRatio()
   const { pause, resume } = useRenderLoop()
@@ -148,13 +154,15 @@ export function useRenderer(canvas: MaybeElementRef, container: MaybeElementRef,
       return
     }
 
-    renderer.value.shadowMap.enabled = resolveUnref(shadows)
-    renderer.value.outputEncoding = resolveUnref(outputEncoding)
-    renderer.value.shadowMap.type = resolveUnref(shadowMapType)
-    renderer.value.physicallyCorrectLights = resolveUnref(physicallyCorrectLights)
-    renderer.value.toneMapping = resolveUnref(toneMapping)
-    renderer.value.toneMappingExposure = resolveUnref(toneMappingExposure)
-    renderer.value.setClearColor(normalizeColor(resolveUnref(clearColor)))
+    renderer.value.shadowMap.enabled = resolveUnref(shadows) as boolean
+    renderer.value.shadowMap.type = resolveUnref(shadowMapType) as ShadowMapType
+    renderer.value.toneMapping = 3
+    /*  renderer.value.toneMapping = (resolveUnref(toneMapping) as ToneMapping) || NoToneMapping */
+    renderer.value.toneMappingExposure = resolveUnref(toneMappingExposure) as number
+    renderer.value.outputEncoding = (resolveUnref(outputEncoding) as TextureEncoding) || LinearEncoding
+    if (clearColor?.value) renderer.value.setClearColor(normalizeColor(resolveUnref(clearColor) as TresColor))
+
+    renderer.value.physicallyCorrectLights = resolveUnref(physicallyCorrectLights) as boolean
   }
 
   const init = () => {
@@ -166,17 +174,17 @@ export function useRenderer(canvas: MaybeElementRef, container: MaybeElementRef,
 
     renderer.value = new WebGLRenderer({
       canvas: _canvas,
-      alpha,
-      antialias,
-      context,
-      depth,
-      failIfMajorPerformanceCaveat,
-      logarithmicDepthBuffer,
-      powerPreference,
-      precision,
-      stencil,
-      preserveDrawingBuffer,
-      premultipliedAlpha,
+      alpha: resolveUnref(alpha),
+      antialias: resolveUnref(antialias),
+      context: resolveUnref(context),
+      depth: resolveUnref(depth),
+      failIfMajorPerformanceCaveat: resolveUnref(failIfMajorPerformanceCaveat),
+      logarithmicDepthBuffer: resolveUnref(logarithmicDepthBuffer),
+      powerPreference: resolveUnref(powerPreference),
+      precision: resolveUnref(precision),
+      stencil: resolveUnref(stencil),
+      preserveDrawingBuffer: resolveUnref(preserveDrawingBuffer),
+      premultipliedAlpha: resolveUnref(premultipliedAlpha),
     })
 
     const { setState } = useTres()
@@ -203,15 +211,7 @@ export function useRenderer(canvas: MaybeElementRef, container: MaybeElementRef,
 
   watch([width, height, pixelRatio], updateRendererSize)
   watch(
-    () => [
-      shadows,
-      shadowMapType,
-      outputEncoding,
-      physicallyCorrectLights,
-      toneMapping,
-      toneMappingExposure,
-      clearColor,
-    ],
+    [shadows, shadowMapType, outputEncoding, physicallyCorrectLights, toneMapping, toneMappingExposure, clearColor],
     updateRendererOptions,
   )
 
