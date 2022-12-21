@@ -1,6 +1,6 @@
 /* eslint-disable new-cap */
 /* eslint-disable @typescript-eslint/no-empty-function */
-import { OrthographicCamera, PerspectiveCamera, Scene } from 'three'
+import { FogBase, OrthographicCamera, PerspectiveCamera, Scene } from 'three'
 import { defineComponent, inject, Ref } from 'vue'
 import { isArray, isDefined, isFunction } from '@alvarosabu/utils'
 import { normalizeVectorFlexibleParam } from '/@/utils/normalize'
@@ -45,7 +45,7 @@ export function useInstanceCreator(prefix: string) {
 
           // Check if the property is a function
           if (isFunction(instance[camelKey])) {
-            if(key === 'center' && !value) return
+            if (key === 'center' && !value) return
             // Call the function with the value, spread if it's an array
             instance[camelKey](...(isArray(value) ? value : [value]))
             return
@@ -142,6 +142,10 @@ export function useInstanceCreator(prefix: string) {
             // If the instance is a valid Object3D, add it to the scene
             if (instance.isObject3D) {
               scene?.value.add(instance)
+            }
+
+            if (scene?.value && instance.isFog) {
+              scene.value.fog = instance as unknown as FogBase
             }
 
             if (import.meta.hot) {
