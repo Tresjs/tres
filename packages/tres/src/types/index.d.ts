@@ -12,6 +12,7 @@ export type TresVNodeType = VNodeTypes & {
 export type TresVNode = VNode & { children?: Array<VNode>; type: TresVNodeType }
 export type TresAttributes = Record<string, any> & { args?: number[] }
 
+export type TresColor = string | number | Color | number[]
 declare global {
   // Define the window interface, with type annotations for the properties and methods of the window object
   interface Window {
