@@ -1,3 +1,13 @@
+## 1.3.3 (2022-12-21)
+
+### Bug Fixes
+
+- **core:** added check for fog ([0a0f7d3](https://github.com/Tresjs/tres/commit/0a0f7d39ace4e3705ec3d8f47ff51bda511ca3e3))
+
+### Features
+
+- **core:** reactive props TresCanvas ([35c8b56](https://github.com/Tresjs/tres/commit/35c8b561c1759cdf584e0e11952f0743e04e5caf))
+
 # 1.3.2 (2022-12-19)
 
 ### Bug Fixes
