@@ -3,6 +3,7 @@
 <ClientOnly>
     <FirstScene style="aspect-ratio: 16/9; height: auto; margin: 2rem 0; border-radius: 8px; overflow:hidden;"/>
 </ClientOnly>
+
 ```
 npm install three @tresjs/core -D
 ```

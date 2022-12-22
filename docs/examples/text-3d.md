@@ -1,8 +1,8 @@
 # Text3D
 
-<!-- <StackBlitzEmbed projectId="tresjs-orbit-controls" /> -->
-
 [TextGeometry](https://threejs.org/docs/index.html?q=text#examples/en/geometries/TextGeometry) is one of the ways we can add 3D text in our scene.
+
+<StackBlitzEmbed projectId="tresjs-text3d-cientos" />
 
 However, it is not part of the core of ThreeJS. So to use it you would need to import it from the `three/examples/jsm/controls/TextGeometry` module.
 
@@ -156,25 +156,25 @@ It just works. 💯 (if not text is provided, the text will be TresJS)
 
 We can pass the options as props
 
-```js
-      <Text3D :font="fontPath" :text="my 3d text" :size="0.8" />
+```html
+<Text3D :font="fontPath" :text="my 3d text" :size="0.8" />
 ```
 
 in case the options are not provided the default values are:
 
 ```js
-    size: 0.5,
-    height: 0.2,
-    curveSegments: 5,
-    bevelEnabled: true,
-    bevelThickness: 0.05,
-    bevelSize: 0.02,
-    bevelOffset: 0,
-    bevelSegments: 4,
+size: 0.5,
+height: 0.2,
+curveSegments: 5,
+bevelEnabled: true,
+bevelThickness: 0.05,
+bevelSize: 0.02,
+bevelOffset: 0,
+bevelSegments: 4,
 ```
 
 By default text in ThreeJS starts at the mesh initial position, so it's [0,0,0] the text will start there but we can center it by just passing the flag "center"
 
 ```js
-      <Text3D :font="fontPath" :text="my 3d text" center  />
+<Text3D :font="fontPath" :text="my 3d text" center  />
 ```

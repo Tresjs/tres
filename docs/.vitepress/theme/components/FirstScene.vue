@@ -16,14 +16,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <TresCanvas
-    clear-color="#82DBC5"
-    shadows
-    alpha
-    physically-correct-lights
-    :output-encoding="sRGBEncoding"
-    :tone-mapping="ACESFilmicToneMapping"
-  >
+  <TresCanvas clear-color="#82DBC5" shadows alpha physically-correct-lights :output-encoding="sRGBEncoding">
     <OrbitControls />
     <TresPerspectiveCamera :position="[11, 11, 11]" :fov="45" :aspect="1" :near="0.1" :far="1000" />
     <TresScene>
