@@ -1,7 +1,7 @@
 {
   "name": "@tresjs/core",
   "description": "Declarative ThreeJS using Vue Components",
-  "version": "1.2.1",
+  "version": "1.4.0",
   "type": "module",
   "author": "Alvaro Saburido <hola@alvarosaburido.dev> (https://github.com/alvarosabu/)",
   "files": [
@@ -40,10 +40,11 @@
     "story:dev": "histoire dev",
     "story:build": "histoire build",
     "story:preview": "histoire preview",
-    "lint": "eslint . --ext .js,.jsx,.ts,.tsx,.vue"
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx,.vue",
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s"
   },
   "dependencies": {
-    "three": "^0.146.0",
+    "three": "^0.148.0",
     "vue": "^3.2.45"
   },
   "peerDependencies": {
@@ -52,26 +53,27 @@
   "devDependencies": {
     "@alvarosabu/utils": "^2.2.0",
     "@histoire/plugin-vue": "0.11.7",
-    "@tresjs/cientos": "workspace:^1.1.0",
+    "@tresjs/cientos": "workspace:^1.2.2",
     "@types/three": "^0.146.0",
-    "@vitejs/plugin-vue": "^3.2.0",
-    "@vitest/coverage-c8": "^0.25.1",
-    "@vitest/ui": "^0.25.1",
-    "@vueuse/core": "^9.5.0",
+    "@vitejs/plugin-vue": "^4.0.0",
+    "@vitest/coverage-c8": "^0.25.8",
+    "@vitest/ui": "^0.25.8",
+    "@vueuse/core": "^9.7.0",
     "gl": "6.0.1",
-    "happy-dom": "^7.7.0",
-    "histoire": "0.11.7",
+    "happy-dom": "^8.1.0",
+    "histoire": "0.11.9",
     "kolorist": "^1.6.0",
-    "pathe": "^0.3.9",
+    "pathe": "^1.0.0",
+    "release-it": "^15.5.1",
     "rollup-plugin-analyzer": "^4.0.0",
     "rollup-plugin-visualizer": "^5.8.3",
-    "unplugin-vue-components": "^0.22.9",
-    "vite": "^3.2.3",
-    "vite-plugin-banner": "^0.6.1",
-    "vite-plugin-dts": "^1.7.0",
-    "vite-plugin-glsl": "^0.5.3",
+    "unplugin-vue-components": "^0.22.12",
+    "vite": "^4.0.3",
+    "vite-plugin-banner": "^0.7.0",
+    "vite-plugin-dts": "^1.7.1",
+    "vite-plugin-glsl": "^1.0.1",
     "vite-plugin-require-transform": "^1.0.4",
-    "vitest": "^0.25.1",
+    "vitest": "^0.25.8",
     "vue-demi": "^0.13.11"
   }
 }

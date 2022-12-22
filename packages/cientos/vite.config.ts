@@ -4,7 +4,7 @@ import { defineConfig } from 'vite'
 import banner from 'vite-plugin-banner'
 import dts from 'vite-plugin-dts'
 import analyze from 'rollup-plugin-analyzer'
-import { visualizer } from 'rollup-plugin-visualizer'
+/* import { visualizer } from 'rollup-plugin-visualizer' */
 
 import { resolve } from 'pathe'
 
@@ -46,11 +46,11 @@ export default defineConfig({
     rollupOptions: {
       plugins: [
         analyze(),
-        visualizer({
+        /* visualizer({
           gzipSize: true,
           brotliSize: true,
           open: false,
-        }),
+        }), */
       ],
       external: ['three', 'vue', '@tresjs/core'],
       output: {

@@ -1,7 +1,7 @@
 {
   "name": "@tresjs/cientos",
   "description": "Collection of useful helpers and fully functional, ready-made abstractions for Tres",
-  "version": "1.1.0",
+  "version": "1.2.2",
   "type": "module",
   "author": "Alvaro Saburido <hola@alvarosaburido.dev> (https://github.com/alvarosabu/)",
   "files": [
@@ -36,25 +36,25 @@
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx,.vue"
   },
   "peerDependencies": {
-    "@tresjs/core": "workspace:^1.2.1",
+    "@tresjs/core": "workspace:^1.4.0",
     "three": "latest",
     "vue": "^3.2.45"
   },
   "devDependencies": {
     "@tweakpane/plugin-essentials": "^0.1.5",
-    "@vitejs/plugin-vue": "^3.2.0",
+    "@vitejs/plugin-vue": "^4.0.0",
     "kolorist": "^1.6.0",
-    "pathe": "^0.3.9",
+    "pathe": "^1.0.0",
     "rollup-plugin-analyzer": "^4.0.0",
     "rollup-plugin-visualizer": "^5.8.3",
-    "tweakpane": "^3.1.0",
-    "typescript": "^4.8.4",
-    "vite": "^3.2.3",
-    "vite-plugin-banner": "^0.6.1",
-    "vite-plugin-dts": "^1.7.0"
+    "tweakpane": "^3.1.1",
+    "typescript": "^4.9.4",
+    "vite": "^4.0.3",
+    "vite-plugin-banner": "^0.7.0",
+    "vite-plugin-dts": "^1.7.1"
   },
   "dependencies": {
-    "@tresjs/core": "workspace:^1.2.1",
-    "three-stdlib": "^2.17.3"
+    "@tresjs/core": "workspace:^1.4.0",
+    "three-stdlib": "^2.21.1"
   }
 }

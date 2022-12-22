@@ -1,3 +1,44 @@
+# 1.4.0 (2022-12-22)
+
+### Features
+
+- **core:** added camel keys to set attributes (Support for BufferGeometry) ([fd60380](https://github.com/Tresjs/tres/commit/fd603802a017ee57274542621eb5a21142be9d4a))
+
+## 1.3.3 (2022-12-21)
+
+### Bug Fixes
+
+- **core:** added check for fog ([0a0f7d3](https://github.com/Tresjs/tres/commit/0a0f7d39ace4e3705ec3d8f47ff51bda511ca3e3))
+
+### Features
+
+- **core:** reactive props TresCanvas ([35c8b56](https://github.com/Tresjs/tres/commit/35c8b561c1759cdf584e0e11952f0743e04e5caf))
+
+# 1.3.2 (2022-12-19)
+
+### Bug Fixes
+
+- forcing a release with correct bundle versions ([a211e75](https://github.com/Tresjs/tres/commit/a211e758e16bab34d9afaad8496585e1c5b7de3e))
+
+## 1.3.1 (2022-12-19)
+
+### Bug Fixes
+
+- **cientos:** draco encoding and decoderPath ([c9bd7ad](https://github.com/Tresjs/tres/commit/c9bd7ad6ef3ba86855c887886a9032fe0a324dd2))
+
+# 1.3.0 (2022-12-19)
+
+### Bug Fixes
+
+- added copyPublicDir: false to remove static assets on package ([7e8de9c](https://github.com/Tresjs/tres/commit/7e8de9c4b4e63107b79a81a8686ad97256a29017))
+- center props in text3D ([a4e66d3](https://github.com/Tresjs/tres/commit/a4e66d30a015a62ad346e1186f30ea239f7a7bdd))
+  fcfbce9a03d5ec85ab160b4cc0e99c254b715c1a))
+
+### Features
+
+- docs: updated contributing docs ([d469c90](https://github.com/Tresjs/tres/commit/d469c9004ea7e6702635832e9d5addeba6b6f42d))
+- updated deps and clean up app.vue ([88de6eb](https://github.com/Tresjs/tres/commit/88de6eb756967e7f9981bece6bb7105dd9d893d5))
+
 # 1.2.1 (2022-12-11)
 
 ### Bug Fixes

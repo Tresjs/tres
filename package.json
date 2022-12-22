@@ -32,7 +32,7 @@
     "publish:cientos": "pnpm publish --filter @tresjs/cientos",
     "changeset-publish": "changeset publish",
     "changeset-tag": "changeset tag",
-    "changelog": "pnpm run changelog:tres",
+    "changelog": "pnpm run changelog:tres && pnpm run changelog:cientos",
     "changelog:tres": "echo 'generate @tresjs/core changelog' && conventional-changelog -p angular -i ./packages/tres/CHANGELOG.md -s  --commit-path ./packages/tres && git add ./packages/tres/CHANGELOG.md",
     "changelog:cientos": "echo 'generate @tresjs/cientos changelog' && conventional-changelog -p angular -i ./packages/cientos/CHANGELOG.md -s  --commit-path ./packages/cientos && git add ./packages/cientos/CHANGELOG.md",
     "lint": "pnpm run lint:tres && pnpm run lint:cientos",
@@ -51,8 +51,8 @@
     "@changesets/changelog-github": "^0.4.7",
     "@changesets/cli": "^2.25.2",
     "@stackblitz/sdk": "^1.8.1",
-    "@tresjs/cientos": "workspace:^1.1.0",
-    "@tresjs/core": "workspace:^1.2.1",
+    "@tresjs/cientos": "workspace:^1.2.2",
+    "@tresjs/core": "workspace:^1.4.0",
     "@typescript-eslint/eslint-plugin": "^5.42.0",
     "@typescript-eslint/parser": "^5.42.0",
     "conventional-changelog-cli": "^2.2.2",
@@ -61,7 +61,7 @@
     "eslint-plugin-vue": "^9.7.0",
     "prettier": "^2.7.1",
     "vitepress": "1.0.0-alpha.29",
-    "vue": "^3.2.41",
+    "vue": "^3.2.45",
     "vue-eslint-parser": "^9.1.0"
   }
 }
