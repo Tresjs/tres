@@ -60,7 +60,7 @@
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-vue": "^9.7.0",
     "prettier": "^2.7.1",
-    "vitepress": "1.0.0-alpha.29",
+    "vitepress": "1.0.0-alpha.33",
     "vue": "^3.2.45",
     "vue-eslint-parser": "^9.1.0"
   }

@@ -2,9 +2,21 @@
 
 Learn how to install TresJS
 
+::: code-group
+
+```bash [pnpm]
+pnpm add three @tresjs/core -D
 ```
-pnpm i @tresjs/core three
+
+```bash [npm]
+npm install three @tresjs/core -D
 ```
+
+```bash [yarn]
+yarn add three @tresjs/core -D
+```
+
+:::
 
 > Better use with Vue 3.x and composition API
 
