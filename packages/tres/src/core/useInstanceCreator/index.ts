@@ -1,6 +1,6 @@
 /* eslint-disable new-cap */
 /* eslint-disable @typescript-eslint/no-empty-function */
-import { FogBase, OrthographicCamera, PerspectiveCamera, Scene } from 'three'
+import { BufferAttribute, FogBase, OrthographicCamera, PerspectiveCamera, Scene } from 'three'
 import { defineComponent, inject, Ref } from 'vue'
 import { isArray, isDefined, isFunction } from '@alvarosabu/utils'
 import { normalizeVectorFlexibleParam } from '/@/utils/normalize'
@@ -12,6 +12,16 @@ const VECTOR3_PROPS = ['rotation', 'scale', 'position']
 
 export function useInstanceCreator(prefix: string) {
   const { logMessage, logError } = useLogger()
+
+  function processSetAttributes(props: Record<string, any>, instance: TresInstance) {
+    if (!isDefined(props)) return
+    if (!isDefined(instance)) return
+
+    Object.entries(props).forEach(([key, value]) => {
+      const camelKey = key.replace(/(-\w)/g, m => m[1].toUpperCase())
+      instance.setAttribute(camelKey, new BufferAttribute(...value))
+    })
+  }
 
   function processProps(props: Record<string, any>, instance: TresInstance) {
     if (!isDefined(props)) return
@@ -91,7 +101,11 @@ export function useInstanceCreator(prefix: string) {
       // check if props is defined on the vnode
       if (vnode?.props) {
         // if props is defined, process the props and pass the internalInstance to update its properties
-        processProps(vnode.props, internalInstance)
+        if (vNodeType === 'BufferGeometry') {
+          processSetAttributes(vnode.props, internalInstance)
+        } else {
+          processProps(vnode.props, internalInstance)
+        }
       }
 
       return internalInstance
