@@ -39,6 +39,7 @@ export default defineConfig({
           { text: 'Basic Animations', link: '/examples/basic-animations' },
           { text: 'Load Textures', link: '/examples/load-textures' },
           { text: 'Load Models', link: '/examples/load-models' },
+          { text: 'Load Text', link: '/examples/text-3d' },
         ],
       },
       {
