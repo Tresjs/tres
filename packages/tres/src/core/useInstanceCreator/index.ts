@@ -1,6 +1,6 @@
 /* eslint-disable new-cap */
 /* eslint-disable @typescript-eslint/no-empty-function */
-import { FogBase, OrthographicCamera, PerspectiveCamera, Scene } from 'three'
+import { BufferAttribute, FogBase, OrthographicCamera, PerspectiveCamera, Scene } from 'three'
 import { defineComponent, inject, Ref } from 'vue'
 import { isArray, isDefined, isFunction } from '@alvarosabu/utils'
 import { normalizeVectorFlexibleParam } from '/@/utils/normalize'
@@ -12,6 +12,16 @@ const VECTOR3_PROPS = ['rotation', 'scale', 'position']
 
 export function useInstanceCreator(prefix: string) {
   const { logMessage, logError } = useLogger()
+
+  function processSetAttributes(props: Record<string, any>, instance: TresInstance) {
+    if (!isDefined(props)) return
+    if (!isDefined(instance)) return
+
+    Object.entries(props).forEach(([key, value]) => {
+      const camelKey = key.replace(/(-\w)/g, m => m[1].toUpperCase())
+      instance.setAttribute(camelKey, new BufferAttribute(...(value as ConstructorParameters<typeof BufferAttribute>)))
+    })
+  }
 
   function processProps(props: Record<string, any>, instance: TresInstance) {
     if (!isDefined(props)) return
@@ -91,7 +101,11 @@ export function useInstanceCreator(prefix: string) {
       // check if props is defined on the vnode
       if (vnode?.props) {
         // if props is defined, process the props and pass the internalInstance to update its properties
-        processProps(vnode.props, internalInstance)
+        if (vNodeType === 'BufferGeometry') {
+          processSetAttributes(vnode.props, internalInstance)
+        } else {
+          processProps(vnode.props, internalInstance)
+        }
       }
 
       return internalInstance
@@ -120,76 +134,79 @@ export function useInstanceCreator(prefix: string) {
   }
 
   function createComponentInstances(catalogue: Ref<TresCatalogue>) {
-    return Object.entries(catalogue.value)
-      .filter(([_key, value]) => (value as { prototype: any })?.prototype?.constructor?.toString().includes('class'))
-      .map(([key, threeObj]) => {
-        const name = `${prefix}${key}`
-        const cmp = defineComponent({
-          name,
-          setup(props, { slots, attrs, ...ctx }) {
-            const { scene: fallback } = useScene()
-            const scene = inject<Ref<Scene>>('local-scene') || fallback
-            const catalogue = inject<Ref<TresCatalogue>>('catalogue')
-            const { pushCamera } = useCamera()
+    return (
+      Object.entries(catalogue.value)
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        .filter(([_key, value]) => (value as { prototype: any })?.prototype?.constructor?.toString().includes('class'))
+        .map(([key, threeObj]) => {
+          const name = `${prefix}${key}`
+          const cmp = defineComponent({
+            name,
+            setup(props, { slots, attrs, ...ctx }) {
+              const { scene: fallback } = useScene()
+              const scene = inject<Ref<Scene>>('local-scene') || fallback
+              const catalogue = inject<Ref<TresCatalogue>>('catalogue')
+              const { pushCamera } = useCamera()
 
-            let instance = createInstance(threeObj, attrs, slots)
-            processProps(attrs, instance)
-            // If the instance is a camera, push it to the camera stack
-            if (instance instanceof PerspectiveCamera || instance instanceof OrthographicCamera) {
-              pushCamera(instance)
-            }
+              let instance = createInstance(threeObj, attrs, slots)
+              processProps(attrs, instance)
+              // If the instance is a camera, push it to the camera stack
+              if (instance instanceof PerspectiveCamera || instance instanceof OrthographicCamera) {
+                pushCamera(instance)
+              }
 
-            // If the instance is a valid Object3D, add it to the scene
-            if (instance.isObject3D) {
-              scene?.value.add(instance)
-            }
+              // If the instance is a valid Object3D, add it to the scene
+              if (instance.isObject3D) {
+                scene?.value.add(instance)
+              }
 
-            if (scene?.value && instance.isFog) {
-              scene.value.fog = instance as unknown as FogBase
-            }
+              if (scene?.value && instance.isFog) {
+                scene.value.fog = instance as unknown as FogBase
+              }
 
-            if (import.meta.hot) {
-              import.meta.hot.on('vite:beforeUpdate', () => {
-                scene.value.remove(instance)
-              })
-
-              import.meta.hot.on('vite:afterUpdate', () => {
-                instance = createInstance(threeObj, attrs, slots)
-                processProps(attrs, instance)
-
-                if (instance.isObject3D) {
-                  scene?.value.add(instance)
-                }
-
-                logMessage(name, {
-                  instance,
-                  sceneuuid: scene?.value.uuid,
-                  catalogue: catalogue?.value.uuid,
-                  props,
-                  slots: slots.default ? slots.default() : undefined,
-                  attrs,
-                  ctx,
-                  scene,
+              if (import.meta.hot) {
+                import.meta.hot.on('vite:beforeUpdate', () => {
+                  scene.value.remove(instance)
                 })
+
+                import.meta.hot.on('vite:afterUpdate', () => {
+                  instance = createInstance(threeObj, attrs, slots)
+                  processProps(attrs, instance)
+
+                  if (instance.isObject3D) {
+                    scene?.value.add(instance)
+                  }
+
+                  logMessage(name, {
+                    instance,
+                    sceneuuid: scene?.value.uuid,
+                    catalogue: catalogue?.value.uuid,
+                    props,
+                    slots: slots.default ? slots.default() : undefined,
+                    attrs,
+                    ctx,
+                    scene,
+                  })
+                })
+              }
+
+              ctx.expose(instance)
+              logMessage(name, {
+                sceneuuid: scene?.value.uuid,
+                catalogue: catalogue?.value.uuid,
+                props,
+                slots: slots.default ? slots.default() : undefined,
+                attrs,
+                ctx,
+                scene,
               })
-            }
+              return () => {}
+            },
+          })
 
-            ctx.expose(instance)
-            logMessage(name, {
-              sceneuuid: scene?.value.uuid,
-              catalogue: catalogue?.value.uuid,
-              props,
-              slots: slots.default ? slots.default() : undefined,
-              attrs,
-              ctx,
-              scene,
-            })
-            return () => {}
-          },
+          return [name, cmp]
         })
-
-        return [name, cmp]
-      })
+    )
   }
 
   return {
