@@ -1,3 +1,9 @@
+# 1.4.0 (2022-12-22)
+
+### Features
+
+- **core:** added camel keys to set attributes (Support for BufferGeometry) ([fd60380](https://github.com/Tresjs/tres/commit/fd603802a017ee57274542621eb5a21142be9d4a))
+
 ## 1.3.3 (2022-12-21)
 
 ### Bug Fixes
