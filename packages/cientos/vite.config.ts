@@ -39,13 +39,14 @@ export default defineConfig({
       name: 'trescientos',
       fileName: 'trescientos',
     },
+    copyPublicDir: false,
     watch: {
       include: [resolve(__dirname, 'src')],
     },
     rollupOptions: {
       plugins: [
         analyze(),
-        /*     visualizer({
+        /* visualizer({
           gzipSize: true,
           brotliSize: true,
           open: false,
@@ -57,7 +58,7 @@ export default defineConfig({
         // Provide global variables to use in the UMD build
         // for externalized deps
         globals: {
-          /*        '@tresjs/core': 'TresjsCore', */
+          '@tresjs/core': 'TresjsCore',
           three: 'Three',
           vue: 'Vue',
         },
