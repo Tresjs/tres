@@ -44,12 +44,6 @@ export const TresCanvas = defineComponent({
       logError('Scene must contain a Camera component.')
     }
 
-    if (import.meta.hot) {
-      import.meta.hot.on('vite:beforeUpdate', () => {
-        dispose()
-      })
-    }
-
     onBeforeUnmount(() => dispose())
 
     return () => {

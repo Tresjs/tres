@@ -50,14 +50,17 @@ export default defineConfig({
     watch: {
       include: [resolve(__dirname, 'src')],
     },
+    copyPublicDir: false,
     rollupOptions: {
       plugins: [
         analyze(),
-        /* visualizer({
+        /*    visualizer({
+          open: true,
           gzipSize: true,
           brotliSize: true,
         }), */
       ],
+
       external: ['vue', '@vueuse/core', 'three'],
       output: {
         exports: 'named',

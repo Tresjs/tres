@@ -1,5 +1,12 @@
 ![repository-banner.png](/public/github-banner.png)
 
+<p align="center">
+  <a href="https://www.npmjs.com/package/@tresjs/core"><img src="https://img.shields.io/npm/v/@tresjs/core?color=%2382DBCA" alt="npm package"></a>
+  <a href="https://nodejs.org/en/about/releases/"><img src="https://img.shields.io/node/v/@tresjs/core.svg" alt="node compatibility"></a>
+  <a href="https://discord.gg/tfY9aSNT"><img src="https://img.shields.io/badge/chat-discord-purple?style=flat&logo=discord" alt="discord chat"></a>
+</p>
+<br/>
+
 # Tres
 
 > Declarative ThreeJS using Vue Components
@@ -13,22 +20,22 @@ Tres (Spanish word for "three", pronounced `/tres/` ) is a way of creating Three
 
 ## Packages
 
-| Package                     | Version (click for changelogs)                                                                               |
-| --------------------------- | :----------------------------------------------------------------------------------------------------------- |
-| [Tres](packages/tres)       | [![tres version](https://img.shields.io/npm/v/@tresjs/core.svg?label=%20)](packages/tres/CHANGELOG.md)       |
-| [Cientos](packages/cientos) | [![tres version](https://img.shields.io/npm/v/@tresjs/cientos.svg?label=%20)](packages/cientos/CHANGELOG.md) |
+| Package                     | Version (click for changelogs)                                                                                               |
+| --------------------------- | :--------------------------------------------------------------------------------------------------------------------------- |
+| [Tres](packages/tres)       | [![tres version](https://img.shields.io/npm/v/@tresjs/core.svg?label=%20&color=%2382DBCA)](packages/tres/CHANGELOG.md)       |
+| [Cientos](packages/cientos) | [![tres version](https://img.shields.io/npm/v/@tresjs/cientos.svg?label=%20&color=%23f19b00)](packages/cientos/CHANGELOG.md) |
 
 ## Docs
 
-Checkout the [docs](https://tresjs-docs.netlify.app)
+Checkout the [docs](https://tresjs.org)
 
 ## Demos
 
-- [Stackblizt Collection](https://stackblitz.com/@alvarosabu/collections/tresjs)
+- [Stackblitz Collection](https://stackblitz.com/@alvarosabu/collections/tresjs)
 
 ## Contribution
 
-Soon
+We are open to contributions, please read the [contributing guide](/CONTRIBUTING.md) to get started.
 
 ## License
 
