@@ -63,6 +63,10 @@ export default defineConfig({
             items: [{ text: 'Text3D', link: '/cientos/abstractions/text-3d' }],
           },
           {
+            text: 'Controls',
+            items: [{ text: 'OrbitControls', link: '/cientos/controls/orbit-controls' }],
+          },
+          {
             text: 'Loaders',
             items: [
               { text: 'useGLTF', link: '/cientos/loaders/use-gltf' },
