@@ -6,7 +6,7 @@ import { inject, ref, watch, type Ref } from 'vue'
 
 import { useCientos } from './useCientos'
 
-withDefaults(
+const props = withDefaults(
   defineProps<{
     makeDefault?: boolean
     camera?: Camera

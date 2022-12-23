@@ -69,9 +69,9 @@ function addEventListeners(controls: TransformControlsImp) {
 }
 
 watch(
-  [camera, renderer],
+  () => props.object,
   () => {
-    if (camera?.value && renderer?.value && scene?.value) {
+    if (camera?.value && renderer?.value && scene?.value && props.object) {
       controls.value = new TransformControlsImp(camera.value, unref(renderer).domElement)
 
       controls.value.attach(unref(props.object))
