@@ -21,7 +21,7 @@ const experiment = reactive({
   shadow: true,
 })
 
-pane.addInput(state, 'clearColor', {
+pane.addInput(experiment, 'clearColor', {
   label: 'Clear Color',
   colorMode: 'hex',
 })

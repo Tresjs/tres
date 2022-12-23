@@ -54,7 +54,7 @@ export default defineConfig({
         ],
       },
       {
-        text: 'Cientos',
+        text: 'Cientos ⚡️',
         collapsible: true,
         items: [
           { text: 'Introduction', link: '/cientos/' },
