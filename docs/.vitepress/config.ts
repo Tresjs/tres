@@ -69,6 +69,10 @@ export default defineConfig({
               { text: 'GLTFModel', link: '/cientos/loaders/gltf-model' },
             ],
           },
+          {
+            text: 'Misc',
+            items: [{ text: 'useTweakpane', link: '/cientos/misc/use-tweakpane' }],
+          },
         ],
       },
     ],
