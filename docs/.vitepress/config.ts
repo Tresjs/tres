@@ -59,12 +59,15 @@ export default defineConfig({
         items: [
           { text: 'Introduction', link: '/cientos/' },
           {
-            text: 'Composables',
-            link: '/cientos/composables',
-          },
-          {
             text: 'Abstractions',
             items: [{ text: 'Text3D', link: '/cientos/abstractions/text-3d' }],
+          },
+          {
+            text: 'Loaders',
+            items: [
+              { text: 'useGLTF', link: '/cientos/loaders/use-gltf' },
+              { text: 'GLTFModel', link: '/cientos/loaders/gltf-model' },
+            ],
           },
         ],
       },
