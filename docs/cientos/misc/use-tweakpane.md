@@ -4,6 +4,10 @@
 
 **TresJS** provides a composables called `useTweakPane` that creates a Tweakpane panel to your container so you can add tweaks to it. By default, the panel is created on the top right corner of the canvas and includes a FPS graph monitor to keep and eye on the performance of your scene.
 
+::: info
+You can change the container of the panel by passing the `selector` option to the `useTweakPane` function.
+:::
+
 ## Basic usage
 
 ```ts
@@ -28,3 +32,9 @@ pane.addInput(experiment, 'alpha')
 The result will be something like this:
 
 ![](/use-tweakpane.png)
+
+## Options
+
+| Name         | Type     | Default     | Description                                                    |
+| :----------- | -------- | ----------- | -------------------------------------------------------------- |
+| **selector** | `string` | `undefined` | The selector of the container where the panel will be created. |

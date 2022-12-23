@@ -32,8 +32,7 @@ const { scene } = await useGLTF('/models/AkuAku.gltf', { draco: true })
 
 ## Options
 
-| Name          | Type      | Default     | Description                          |
-| :------------ | --------- | ----------- | ------------------------------------ |
-| `path`        | `string`  | `undefined` | The path to the glTF model.          |
-| `draco`       | `boolean` | `false`     | Whether to enable Draco compression. |
-| `decoderPath` | `string`  | `undefined` | Local path to the Draco decoder.     |
+| Name            | Type      | Default     | Description                          |
+| :-------------- | --------- | ----------- | ------------------------------------ |
+| **draco**       | `boolean` | `false`     | Whether to enable Draco compression. |
+| **decoderPath** | `string`  | `undefined` | Local path to the Draco decoder.     |
