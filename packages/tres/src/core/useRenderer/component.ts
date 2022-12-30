@@ -21,7 +21,7 @@ export const TresCanvas = defineComponent({
     powerPreference: Object as PropType<'high-performance' | 'low-power' | 'default'>,
     preserveDrawingBuffer: Boolean,
     clearColor: String,
-    windowSize: Boolean,
+    windowSize: { type: Boolean, default: false },
   },
   setup(props, { slots, attrs }) {
     const { logError } = useLogger()
@@ -31,11 +31,12 @@ export const TresCanvas = defineComponent({
 
     const { renderer, dispose, aspectRatio } = useRenderer(canvas, container, props)
 
+    provide('aspect-ratio', aspectRatio)
+    provide('renderer', renderer)
+
     const activeCamera = shallowRef()
 
     provide('camera', activeCamera)
-    provide('renderer', renderer)
-    provide('aspect-ratio', aspectRatio)
 
     if (slots.default && !slots.default().some(node => (node.type as TresVNodeType).name === 'Scene')) {
       logError('TresCanvas must contain a Scene component.')
@@ -62,7 +63,13 @@ export const TresCanvas = defineComponent({
           [
             h('canvas', {
               ref: canvas,
-              style: { width: '100%', height: '100%', position: 'absolute', top: 0, left: 0 },
+              style: {
+                width: '100%',
+                height: '100%',
+                position: props.windowSize ? 'fixed' : 'absolute',
+                top: 0,
+                left: 0,
+              },
             }),
             slots.default(),
           ],

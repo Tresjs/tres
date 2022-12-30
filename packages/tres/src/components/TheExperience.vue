@@ -28,7 +28,6 @@ const state = reactive({
   toneMapping: NoToneMapping,
 })
 
-const boxRef = ref()
 const sphereRef = ref()
 
 const { pane } = useTweakPane()
