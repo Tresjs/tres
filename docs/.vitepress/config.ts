@@ -64,7 +64,10 @@ export default defineConfig({
           },
           {
             text: 'Controls',
-            items: [{ text: 'OrbitControls', link: '/cientos/controls/orbit-controls' }],
+            items: [
+              { text: 'OrbitControls', link: '/cientos/controls/orbit-controls' },
+              { text: 'TransformControls', link: '/cientos/controls/transform-controls' },
+            ],
           },
           {
             text: 'Loaders',
