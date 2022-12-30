@@ -99,18 +99,18 @@ pane
     <OrbitControls make-default />
     <TresScene>
       <TresAmbientLight :intensity="0.5" />
-      <TresMesh :position="[-2, 6, 0]" :rotation="[0, Math.PI, 0]" cast-shadow>
+      <!--  <TresMesh :position="[-2, 6, 0]" :rotation="[0, Math.PI, 0]" cast-shadow>
         <TresConeGeometry :args="[1, 1.5, 3]" />
         <TresMeshToonMaterial color="#82DBC5" />
-      </TresMesh>
-      <TransformControls :object="boxRef" />
+      </TresMesh> -->
+      <!-- <TransformControls :object="boxRef" mode="rotate" />
       <TresMesh ref="boxRef" :position="[0, 4, 0]" cast-shadow>
         <TresBoxGeometry :args="[1.5, 1.5, 1.5]" />
         <TresMeshToonMaterial color="#4F4F4F" />
-      </TresMesh>
-      <TransformControls :object="sphereRef" />
+      </TresMesh> -->
+      <TransformControls mode="scale" :object="sphereRef" />
 
-      <TresMesh ref="sphereRef" :position="[2, 2, 0]" cast-shadow>
+      <TresMesh ref="sphereRef" :position="[0, 4, 0]" cast-shadow>
         <TresSphereGeometry />
         <TresMeshToonMaterial color="#FBB03B" />
       </TresMesh>
