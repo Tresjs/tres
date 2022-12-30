@@ -1,3 +1,14 @@
+# 1.3.0 (2022-12-30)
+
+### Bug Fixes
+
+- **cientos:** moved window tres types to index.d.ts ([a5b87a5](https://github.com/Tresjs/tres/commit/a5b87a5e15fe704d5472c6840637b4a3966cc497))
+
+### Features
+
+- **cientos:** add events and controls default support on dragging ([f03f8e8](https://github.com/Tresjs/tres/commit/f03f8e8159ff1c610ee5a8fda94edd1d208e3285))
+- **cientos:** basic transform controls ([ada3b4c](https://github.com/Tresjs/tres/commit/ada3b4cea6cdb1a37fe6b6dc513cb587ed5c5cd8))
+
 # 1.2.2 (2022-12-19)
 
 ### Bug Fixes
