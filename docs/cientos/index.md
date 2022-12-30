@@ -6,9 +6,9 @@
 
 ![Cientos banner](/cientos-banner.png)
 
-> Cientos (Spanish word for "hundreds", pronounced `/θjentos/` ) is is a collection of useful ready-to-go helpers and components that are not part of the [core](/docs/guide/index.md) package. The name uses the word uses in spanish to multiply by 100, to refer to the potential reach of the package to hold a amazing abstractions.
+> Cientos (Spanish word for "hundreds", pronounced `/θjentos/` ) is is a collection of useful ready-to-go helpers and components that are not part of the [core](/guide/index.md) package. The name uses the word uses in spanish to multiply by 100, to refer to the potential reach of the package to hold a amazing abstractions.
 
-The `cientos` package uses [`three-stdlib`](https://github.com/pmndrs/three-stdlib) module under the hood instead of the `three/examples/jsm` module. This means that you don't need to extend the catalogue of components using the `extend` method of the [useCatalogue](/composables/use-catalog) composable, `cientos` does it for you.
+The `cientos` package uses [`three-stdlib`](https://github.com/pmndrs/three-stdlib) module under the hood instead of the `three/examples/jsm` module. This means that you don't need to extend the catalogue of components using the `extend` method of the [useCatalogue](/api/composables#useCatalogue) composable, `cientos` does it for you.
 
 It just works. 💯
 
