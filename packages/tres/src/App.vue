@@ -4,6 +4,7 @@ import TheExperience from '/@/components/TheExperience.vue'
 
 useTweakPane()
 </script>
+
 <template>
   <Suspense>
     <TheExperience />

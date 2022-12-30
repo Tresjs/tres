@@ -16,7 +16,7 @@ The `Renderer` component is the main component of Tres. It's the one that create
 ## Props
 
 | Prop                        | Description                                                                                                                                                     | Default            |
-| --------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ |
+| :-------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ |
 | **shadows**                 | Enable shadows in the Renderer                                                                                                                                  | `false`            |
 | **shadowMapType**           | Set the shadow map type                                                                                                                                         | `PCFSoftShadowMap` |
 | **physicallyCorrectLights** | Whether to use physically correct lighting mode. See the [lights / physical example](https://threejs.org/examples/#webgl_lights_physical).                      | `false`            |
