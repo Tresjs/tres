@@ -1,7 +1,6 @@
 import { useTres } from '/@/core/'
 import { PerspectiveCamera, OrthographicCamera } from 'three'
 
-import { useWindowSize } from '@vueuse/core'
 import { computed, ComputedRef, watch, inject, Ref } from 'vue'
 
 export enum CameraType {
@@ -45,7 +44,8 @@ const VERTICAL_FIELD_OF_VIEW = 45
 let camera: Camera
 
 export function useCamera(): UseCameraReturn {
-  const { width, height } = useWindowSize()
+  const aspectRatio = inject<ComputedRef<number>>('aspect-ratio')
+
   const { setState } = useTres()
 
   function createCamera(
@@ -58,7 +58,7 @@ export function useCamera(): UseCameraReturn {
         far: 1000,
         fov: VERTICAL_FIELD_OF_VIEW,
       }
-      camera = new PerspectiveCamera(fov, aspectRatio.value, near, far)
+      camera = new PerspectiveCamera(fov, aspectRatio?.value || 1, near, far)
       state.cameras.push(camera as PerspectiveCamera)
     } else {
       const { left, right, top, bottom, near, far } = (options as OrthographicCameraOptions) || {
@@ -77,12 +77,10 @@ export function useCamera(): UseCameraReturn {
     return camera
   }
 
-  const aspectRatio = computed(() => width.value / height.value)
-
   const activeCamera = computed(() => state.cameras[0])
 
   function updateCamera() {
-    if (activeCamera.value instanceof PerspectiveCamera) {
+    if (activeCamera.value instanceof PerspectiveCamera && aspectRatio) {
       activeCamera.value.aspect = aspectRatio.value
     }
     activeCamera.value.updateProjectionMatrix()
@@ -95,14 +93,15 @@ export function useCamera(): UseCameraReturn {
       setState('camera', currentCamera.value)
     }
     state.cameras.push(camera)
-    if (camera instanceof PerspectiveCamera) {
+    if (camera instanceof PerspectiveCamera && aspectRatio) {
       camera.aspect = aspectRatio.value
     }
     camera.updateProjectionMatrix()
   }
 
-  watch(aspectRatio, updateCamera)
-
+  if (aspectRatio) {
+    watch(aspectRatio, updateCamera)
+  }
   return {
     activeCamera,
     createCamera,
