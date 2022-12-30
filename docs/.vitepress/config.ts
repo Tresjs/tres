@@ -39,6 +39,7 @@ export default defineConfig({
           { text: 'Basic Animations', link: '/examples/basic-animations' },
           { text: 'Load Textures', link: '/examples/load-textures' },
           { text: 'Load Models', link: '/examples/load-models' },
+          { text: 'Load Text', link: '/examples/text-3d' },
         ],
       },
       {
@@ -49,6 +50,32 @@ export default defineConfig({
           {
             text: 'Caveats',
             link: '/advanced/caveats',
+          },
+        ],
+      },
+      {
+        text: 'Cientos ⚡️',
+        collapsible: true,
+        items: [
+          { text: 'Introduction', link: '/cientos/' },
+          {
+            text: 'Abstractions',
+            items: [{ text: 'Text3D', link: '/cientos/abstractions/text-3d' }],
+          },
+          {
+            text: 'Controls',
+            items: [{ text: 'OrbitControls', link: '/cientos/controls/orbit-controls' }],
+          },
+          {
+            text: 'Loaders',
+            items: [
+              { text: 'useGLTF', link: '/cientos/loaders/use-gltf' },
+              { text: 'GLTFModel', link: '/cientos/loaders/gltf-model' },
+            ],
+          },
+          {
+            text: 'Misc',
+            items: [{ text: 'useTweakpane', link: '/cientos/misc/use-tweakpane' }],
           },
         ],
       },
