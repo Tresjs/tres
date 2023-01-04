@@ -1,3 +1,5 @@
+import Unocss from 'unocss/vite'
+import svgLoader from 'vite-svg-loader'
 import { defineConfig } from 'vitepress'
 import { version } from '../../packages/tres/package.json'
 import { version as cientosVersion } from '../../packages/cientos/package.json'
@@ -116,5 +118,8 @@ export default defineConfig({
       { icon: 'github', link: 'https://github.com/tresjs/tres' },
       { icon: 'twitter', link: 'https://twitter.com/alvarosabu' },
     ],
+  },
+  vite: {
+    plugins: [svgLoader(), Unocss()],
   },
 })
