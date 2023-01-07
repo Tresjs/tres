@@ -3,7 +3,7 @@ import { useTres } from '@tresjs/core'
 import { Camera, Object3D, Scene, WebGLRenderer, type Event } from 'three'
 import { TransformControls as TransformControlsImp } from 'three-stdlib'
 import { inject, computed, type Ref, unref, watch, shallowRef, ShallowRef, onUnmounted } from 'vue'
-import { pick } from '../utils'
+import { pick, hasSetter } from '../utils'
 
 const props = withDefaults(
   defineProps<{
@@ -91,10 +91,13 @@ watch(
   ([value, controlsValue]: [any, any]) => {
     if (value && controlsValue) {
       for (const key in value) {
-        const methodName = `set${key[0].toUpperCase()}${key.slice(1)}`
-
-        if (typeof controlsValue[methodName] === 'function' && value[key] !== undefined) {
-          ;(controlsValue[methodName] as (param: any) => void)(value[key])
+        if (!hasSetter(controlsValue, key)) {
+          controlsValue[key] = value[key]
+        } else {
+          const methodName = `set${key[0].toUpperCase()}${key.slice(1)}`
+          if (typeof controlsValue[methodName] === 'function' && value[key] !== undefined) {
+            ;(controlsValue[methodName] as (param: any) => void)(value[key])
+          }
         }
       }
     }

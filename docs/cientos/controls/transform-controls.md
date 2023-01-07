@@ -81,6 +81,16 @@ The scale mode allows you to scale the object around the scene.
 | **showY**           | If `true`, the Y-axis helper will be shown.                                                   | `true`      |
 | **showZ**           | If `true`, the Z-axis helper will be shown.                                                   | `true`      |
 
+## Events
+
+| Event            | Description                                                    |
+| :--------------- | :------------------------------------------------------------- |
+| **dragging**     | Fired when the user starts or stops dragging the controls.     |
+| **change**       | Fired when the user changes the controls.                      |
+| **mouseDown**    | Fired when the user clicks on the controls.                    |
+| **mouseUp**      | Fired when the user releases the mouse button on the controls. |
+| **objectChange** | Fired when the user changes the object.                        |
+
 <style scoped>
 img {
     aspect-ratio: 16/9;
