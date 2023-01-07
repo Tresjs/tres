@@ -8,3 +8,8 @@ export function pick<T extends object, K extends keyof T>(obj: T, props: K[]): P
   }
   return pickedProperties
 }
+
+export function hasSetter(obj: any, prop: string): boolean {
+  const setterName = `set${prop[0].toUpperCase()}${prop.slice(1)}`
+  return obj[setterName] !== undefined
+}
