@@ -1,5 +1,5 @@
-import { Scene } from 'three'
-import { defineComponent, inject, reactive, ref, Ref, shallowRef, toRaw, unref } from 'vue'
+import { Object3D, Scene } from 'three'
+import { defineComponent, inject, Ref } from 'vue'
 import { useFBX } from '.'
 
 export const FBXModel = defineComponent({
@@ -12,7 +12,7 @@ export const FBXModel = defineComponent({
   },
   async setup(props, { expose }) {
     const scene = inject<Ref<Scene>>('local-scene')
-    let model = null
+    let model: Object3D | null = null
 
     function getModel() {
       return model
