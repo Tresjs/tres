@@ -82,10 +82,17 @@ export function useInstanceCreator(prefix: string) {
       const vNodeType = ((vnode.type as TresVNodeType).name as string).replace(prefix, '')
       const { catalogue: fallback } = useCatalogue()
       const catalogue = inject<Ref<TresCatalogue>>('catalogue') || fallback
+
       // check if args prop is defined on the vnode
       let internalInstance
       if (catalogue) {
-        if (vnode?.props?.args) {
+        if (vnode.children?.default) {
+          const internal = vnode.children
+            .default()
+            .map(child => createInstanceFromVNode(child as TresVNode)) as TresInstance[]
+
+          internalInstance = new catalogue.value[vNodeType](...internal.flat().filter(Boolean))
+        } else if (vnode?.props?.args) {
           // if args prop is defined, create new instance of catalogue[vNodeType] with the provided arguments
           if (catalogue?.value[vNodeType]) {
             internalInstance = new catalogue.value[vNodeType](...vnode.props.args)
@@ -107,7 +114,7 @@ export function useInstanceCreator(prefix: string) {
           processProps(vnode.props, internalInstance)
         }
       }
-
+      logMessage(`Created ${vNodeType} instance`, internalInstance)
       return internalInstance
     }
   }
@@ -126,7 +133,15 @@ export function useInstanceCreator(prefix: string) {
      */
     if (slots.default && slots?.default()) {
       const internal = slots.default().map((vnode: TresVNode) => createInstanceFromVNode(vnode))
-      return new threeObj(...internal.flat().filter(Boolean))
+      if (threeObj.name === 'Group') {
+        const group = new threeObj()
+        internal.forEach((child: TresInstance) => {
+          group.add(child)
+        })
+        return group
+      } else {
+        return new threeObj(...internal.flat().filter(Boolean))
+      }
     } else {
       // Creates a new THREE instance, if args is present, spread it on the constructor
       return attrs.args ? new threeObj(...attrs.args) : new threeObj()
