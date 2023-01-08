@@ -1,16 +1,12 @@
 import { GLTFLoader, DRACOLoader } from 'three-stdlib'
 import { useLoader } from '@tresjs/core'
-import { Object3D } from 'three'
+import { TresObject } from '/@/types'
 
 export interface GLTFLoaderOptions {
   draco?: boolean
   decoderPath?: string
 }
 
-export interface TresObject extends Object3D {
-  geometry: THREE.BufferGeometry
-  material: THREE.Material
-}
 export interface GLTFResult {
   nodes: Array<TresObject>
   materials: Array<THREE.Material>
