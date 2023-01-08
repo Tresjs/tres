@@ -1,4 +1,4 @@
-import { Scene } from 'three'
+import { Object3D, Scene } from 'three'
 import { defineComponent, inject, Ref } from 'vue'
 import { useGLTF } from '.'
 
@@ -10,13 +10,22 @@ export const GLTFModel = defineComponent({
     decoderPath: String,
   },
 
-  async setup(props) {
+  async setup(props, { expose }) {
     const scene = inject<Ref<Scene>>('local-scene')
+    let model: Object3D | null = null
 
-    const { scene: model } = await useGLTF(props.path as string, { draco: props.draco, decoderPath: props.decoderPath })
+    function getModel() {
+      return model
+    }
+    expose({ getModel })
+
+    const { scene: data } = await useGLTF(props.path as string, { draco: props.draco, decoderPath: props.decoderPath })
+    model = data
     if (scene?.value) {
       scene.value.add(model)
     }
-    return () => null
+    return () => {
+      model
+    }
   },
 })
