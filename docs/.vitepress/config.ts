@@ -90,8 +90,8 @@ export default defineConfig({
     ],
     nav: [
       { text: 'Guide', link: '/guide/' },
-      { text: 'API', link: '/api/' },
-      { text: 'Config', link: '/config/' },
+      /*       { text: 'API', link: '/api/' },
+      { text: 'Config', link: '/config/' }, */
       {
         text: 'Ecosystem',
         activeMatch: `^/ecosystem/`,
