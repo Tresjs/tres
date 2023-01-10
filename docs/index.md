@@ -7,7 +7,7 @@ titleTemplate: The solution for 3D on VueJS
 hero:
   name: TresJS
   text: Bring ThreeJS to VueJS ecosystem
-  tagline: Think of it as a R3F or Lunchboxjs but without the need of a custom render.
+  tagline: Create awesome 3D experience with the framework you love.
   image:
     src: /hero.png
     alt: Tresjs
@@ -18,9 +18,6 @@ hero:
     - theme: alt
       text: Why Tres?
       link: /guide/#motivation
-    - theme: alt
-      text: View on GitHub
-      link: https://github.com/tresjs/tres
 
 features:
   - icon: 💡

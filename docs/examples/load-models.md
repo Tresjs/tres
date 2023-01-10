@@ -78,3 +78,47 @@ import { OrbitControls, GLTFModel } from '@tresjs/cientos'
 ```
 
 This particular approach is more straightforward but gives you less control over the model.
+
+## useFBX
+
+The `useFBX` composable is available from [@tresjs/cientos](https://github.com/Tresjs/tres/tree/main/packages/cientos) package.
+
+```ts
+import { useFBX } from '@tresjs/cientos'
+
+const model = await useFBX('/models/AkuAku.fbx')
+```
+
+Then is as straightforward as adding the scene to your scene:
+
+```html{4}
+<Suspense>
+  <TresCanvas shadows alpha>
+    <TresScene>
+      <TresMesh v-bind="scene" />
+    </TresScene>
+  </TresCanvas>
+</Suspense>
+```
+
+## FBXModel
+
+The `FBXModel` component is a wrapper around `useFBX` that's available from [@tresjs/cientos](https://github.com/Tresjs/tres/tree/main/packages/cientos) package. It's similar usage to `GLTFModel`:
+
+```vue{2,10}
+<script setup lang="ts">
+import { OrbitControls, FBXModel } from '@tresjs/cientos'
+</script>
+<template>
+  <Suspense>
+    <TresCanvas clear-color="#82DBC5" shadows alpha>
+      <TresPerspectiveCamera :position="[11, 11, 11]" />
+      <OrbitControls />
+      <TresScene>
+        <FBXModel path="/models/AkuAku.fbx" />
+        <TresDirectionalLight :position="[-4, 8, 4]" :intensity="1.5" cast-shadow />
+      </TresScene>
+    </TresCanvas>
+  </Suspense>
+</template>
+```

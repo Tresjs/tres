@@ -77,6 +77,8 @@ export default defineConfig({
             items: [
               { text: 'useGLTF', link: '/cientos/loaders/use-gltf' },
               { text: 'GLTFModel', link: '/cientos/loaders/gltf-model' },
+              { text: 'useFBX', link: '/cientos/loaders/use-fbx' },
+              { text: 'FBXModel', link: '/cientos/loaders/fbx-model' },
             ],
           },
           {
@@ -88,8 +90,8 @@ export default defineConfig({
     ],
     nav: [
       { text: 'Guide', link: '/guide/' },
-      { text: 'API', link: '/api/' },
-      { text: 'Config', link: '/config/' },
+      /*       { text: 'API', link: '/api/' },
+      { text: 'Config', link: '/config/' }, */
       {
         text: 'Ecosystem',
         activeMatch: `^/ecosystem/`,
