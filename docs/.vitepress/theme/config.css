@@ -47,3 +47,7 @@
   text-decoration: dashed;
   font-weight: bold;
 }
+
+.VPButton.medium.brand {
+  color: var(--vp-button-alt-text);
+}
