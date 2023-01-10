@@ -6,4 +6,5 @@ packages/.DS_Store
 # Local Netlify folder
 .netlify
 docs/.vitepress/dist
+docs/.vitepress/cache/
 apps/love-vue-threejs/
