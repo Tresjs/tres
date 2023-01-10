@@ -1,3 +1,9 @@
+# 1.4.0 (2023-01-10)
+
+### Features
+
+- **cientos:** useFBX and FBXModel ([cdb0665](https://github.com/Tresjs/tres/commit/cdb0665eecbad4b09dfbb60f3c33666bc422af86))
+
 # 1.3.0 (2022-12-30)
 
 ### Bug Fixes

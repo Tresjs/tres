@@ -1,3 +1,9 @@
+# 1.5.0 (2023-01-10)
+
+### Features
+
+- **core:** support for groups ([b0963b9](https://github.com/Tresjs/tres/commit/b0963b9e47ec399fc67340c06e97a0b6f3e6c600))
+
 # 1.4.0 (2022-12-22)
 
 ### Features
