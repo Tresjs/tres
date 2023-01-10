@@ -89,7 +89,7 @@ export function useInstanceCreator(prefix: string) {
         if (vnode.children?.default) {
           const internal = vnode.children
             .default()
-            .map(child => createInstanceFromVNode(child as TresVNode)) as TresInstance[]
+            .map((child: TresVNode) => createInstanceFromVNode(child)) as TresInstance[]
 
           internalInstance = new catalogue.value[vNodeType](...internal.flat().filter(Boolean))
         } else if (vnode?.props?.args) {
