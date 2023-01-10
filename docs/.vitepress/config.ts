@@ -77,6 +77,8 @@ export default defineConfig({
             items: [
               { text: 'useGLTF', link: '/cientos/loaders/use-gltf' },
               { text: 'GLTFModel', link: '/cientos/loaders/gltf-model' },
+              { text: 'useFBX', link: '/cientos/loaders/use-fbx' },
+              { text: 'FBXModel', link: '/cientos/loaders/fbx-model' },
             ],
           },
           {
