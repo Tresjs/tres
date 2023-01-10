@@ -90,9 +90,10 @@ export default defineConfig({
     ],
     nav: [
       { text: 'Guide', link: '/guide/' },
+      { text: 'API', link: '/api/renderer' },
       /*       { text: 'API', link: '/api/' },
       { text: 'Config', link: '/config/' }, */
-      {
+      /*  {
         text: 'Ecosystem',
         activeMatch: `^/ecosystem/`,
         items: [
@@ -115,10 +116,10 @@ export default defineConfig({
             ],
           },
         ],
-      },
+      }, */
     ],
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/tresjs/tres' },
+      /*  { icon: 'github', link: 'https://github.com/tresjs/tres' }, */
       { icon: 'twitter', link: 'https://twitter.com/alvarosabu' },
     ],
   },
