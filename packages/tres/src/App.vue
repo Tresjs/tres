@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { useTweakPane } from '@tresjs/cientos'
-import TheExperience from '/@/components/TheExperience.vue'
+import TheGroups from '/@/components/TheGroups.vue'
 
 useTweakPane()
 </script>
 
 <template>
   <Suspense>
-    <TheExperience />
+    <TheGroups />
   </Suspense>
 </template>

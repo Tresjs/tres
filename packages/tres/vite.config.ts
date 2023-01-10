@@ -18,6 +18,9 @@ import pkg from './package.json'
 console.log(`${lightGreen('▲')} ${gray('■')} ${yellow('●')} ${bold('Tres')} v${pkg.version}`)
 // https://vitejs.dev/config/
 export default defineConfig({
+  server: {
+    port: 5174,
+  },
   resolve: {
     alias: {
       '/@': resolve(__dirname, './src'),
