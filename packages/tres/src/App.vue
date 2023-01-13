@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { useTweakPane } from '@tresjs/cientos'
-import FBXModels from '/@/components/FBXModels.vue'
+import Shapes from '/@/components/Shapes.vue'
 
 useTweakPane()
 </script>
 
 <template>
   <Suspense>
-    <FBXModels />
+    <Shapes />
   </Suspense>
 </template>

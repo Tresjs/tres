@@ -82,6 +82,10 @@ export default defineConfig({
             ],
           },
           {
+            text: 'Shapes',
+            items: [{ text: 'Plane', link: '/cientos/shapes/plane' }],
+          },
+          {
             text: 'Misc',
             items: [{ text: 'useTweakpane', link: '/cientos/misc/use-tweakpane' }],
           },
