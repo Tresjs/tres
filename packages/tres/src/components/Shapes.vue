@@ -25,7 +25,7 @@ watch(planeRef, plane => {
     <OrbitControls />
     <TresScene>
       <TresAmbientLight :color="0xffffff" :intensity="0.5" />
-      <Plane ref="planeRef" :args="[8, 8]" :position="[0, 4, 0]" :scale="[1.5, 2, 0.2]">
+      <Plane ref="planeRef" :args="[8, 8]" :position="[0, 4, 0]">
         <TresMeshToonMaterial color="teal" />
       </Plane>
     </TresScene>
