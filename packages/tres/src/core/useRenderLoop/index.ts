@@ -5,6 +5,7 @@ import { Ref } from 'vue'
 export interface RenderLoop {
   delta: number
   elapsed: number
+  clock: Clock
 }
 
 export interface UseRenderLoopReturn {
@@ -20,6 +21,7 @@ const onBeforeLoop = createEventHook<RenderLoop>()
 const onLoop = createEventHook<RenderLoop>()
 const onAfterLoop = createEventHook<RenderLoop>()
 
+console.count('clock')
 const clock = new Clock()
 
 const { pause, resume, isActive } = useRafFn(
@@ -27,9 +29,9 @@ const { pause, resume, isActive } = useRafFn(
     const elapsed = clock.getElapsedTime()
     const delta = clock.getDelta()
 
-    onBeforeLoop.trigger({ delta, elapsed })
-    onLoop.trigger({ delta, elapsed })
-    onAfterLoop.trigger({ delta, elapsed })
+    onBeforeLoop.trigger({ delta, elapsed, clock })
+    onLoop.trigger({ delta, elapsed, clock })
+    onAfterLoop.trigger({ delta, elapsed, clock })
   },
   { immediate: false },
 )
