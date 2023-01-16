@@ -52,7 +52,7 @@
   },
   "devDependencies": {
     "@alvarosabu/utils": "^2.2.0",
-    "@histoire/plugin-vue": "0.11.7",
+    "@histoire/plugin-vue": "0.12.4",
     "@tresjs/cientos": "workspace:^1.4.0",
     "@types/three": "^0.148.0",
     "@vitejs/plugin-vue": "^4.0.0",
@@ -61,7 +61,7 @@
     "@vueuse/core": "^9.7.0",
     "gl": "6.0.1",
     "happy-dom": "^8.1.0",
-    "histoire": "0.11.9",
+    "histoire": "0.12.4",
     "kolorist": "^1.6.0",
     "pathe": "^1.0.0",
     "release-it": "^15.5.1",

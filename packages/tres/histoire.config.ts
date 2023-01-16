@@ -11,10 +11,12 @@ export default defineConfig({
     },
   },
   setupFile: './histoire.setup.ts',
+  storyMatch: ['src/playground/**/*.story.vue'],
+  collectMaxThreads: 1,
   plugins: [HstVue()],
   defaultStoryProps: {
     iconColor: '#00c5a5',
-    responsiveDisabled: true,
+    /*   responsiveDisabled: true, */
     autoPropsDisabled: true,
   },
 })

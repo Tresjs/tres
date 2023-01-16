@@ -1,17 +1,19 @@
 <script setup lang="ts">
 import { Color } from 'three'
 import { useTres } from '/@/core'
+import { OrbitControls } from '@tresjs/cientos'
 
 const floorTeal = new Color('gray')
-const { state } = useTres()
+/* const { state } = useTres() */
 </script>
 <template>
   <Story title="Basic">
     <Variant title="playground">
-      <TresCanvas clear-color="#82DBC5" shadows alpha preserve-drawing-buffer>
-        <TresPerspectiveCamera :position="[11, 11, 11]" />
+      <TresCanvas clear-color="#82DBC5" shadows alpha window-size>
+        <TresPerspectiveCamera :position="[3, 3, 3]" />
         <TresScene>
-          <TresOrbitControls v-if="state.renderer" :args="[state.camera, state.renderer?.domElement]" />
+          <OrbitControls />
+          <!--   <TresOrbitControls v-if="state.renderer" :args="[state.camera, state.renderer?.domElement]" /> -->
           <TresMesh :position="[-2, 6, 0]" :rotation="[0, Math.PI, 0]" cast-shadow>
             <TresConeGeometry :args="[1, 1.5, 3]" />
             <TresMeshToonMaterial color="#82DBC5" />
