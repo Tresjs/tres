@@ -1,4 +1,4 @@
-import { createEventHook, EventHookOn, Fn, useRafFn, UseRafFnCallbackArguments } from '@vueuse/core'
+import { createEventHook, EventHookOn, Fn, useRafFn } from '@vueuse/core'
 import { Clock } from 'three'
 import { Ref } from 'vue'
 
