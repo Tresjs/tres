@@ -18,7 +18,7 @@ const state = reactive({
 <template>
   <TresCanvas v-bind="state">
     <OrbitControls />
-    <TresPerspectiveCamera :position="[5, 5, 5]" :fov="45" :aspect="1" :near="0.1" :far="1000" />
+    <TresPerspectiveCamera :position="[11, 11, 11]" :fov="45" :aspect="1" :near="0.1" :far="1000" />
     <TresScene>
       <TresMesh :position="[-2, 2, 0]" :rotation="[0, Math.PI, 0]" cast-shadow>
         <TresConeGeometry :args="[1, 1.5, 3]" />
