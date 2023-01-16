@@ -6,6 +6,7 @@ export interface RenderLoop {
   delta: number
   elapsed: number
   clock: Clock
+  dt: number
 }
 
 export interface UseRenderLoopReturn {
@@ -24,14 +25,17 @@ const onAfterLoop = createEventHook<RenderLoop>()
 console.count('clock')
 const clock = new Clock()
 
-const { pause, resume, isActive } = useRafFn(
-  () => {
-    const elapsed = clock.getElapsedTime()
-    const delta = clock.getDelta()
+let delta = 0
 
-    onBeforeLoop.trigger({ delta, elapsed, clock })
-    onLoop.trigger({ delta, elapsed, clock })
-    onAfterLoop.trigger({ delta, elapsed, clock })
+const { pause, resume, isActive } = useRafFn(
+  ({ delta: dt }) => {
+    const elapsed = clock.getElapsedTime()
+
+    onBeforeLoop.trigger({ delta, elapsed, clock, dt })
+    onLoop.trigger({ delta, elapsed, clock, dt })
+    onAfterLoop.trigger({ delta, elapsed, clock, dt })
+
+    delta = clock.getDelta()
   },
   { immediate: false },
 )
