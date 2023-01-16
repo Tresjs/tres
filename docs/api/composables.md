@@ -13,7 +13,7 @@ The `useRenderLoop` composable is the core of **TresJS** animations. It allows y
 ```ts
 const { onLoop, resume } = useRenderLoop()
 
-onLoop(({ delta, elapsed }) => {
+onLoop(({ delta, elapsed, clock, dt }) => {
   // I will run at every frame ~ 60FPS (depending of your monitor)
 })
 ```
