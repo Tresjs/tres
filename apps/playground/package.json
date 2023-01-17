@@ -1,0 +1,32 @@
+{
+  "name": "@tresjs/playground",
+  "description": "Playground for TresJS and R3F",
+  "author": "Alvaro Saburido <hola@alvarosaburido.dev> (https://github.com/alvarosabu/)",
+  "type": "module",
+  "version": "1.0.0",
+  "license": "MIT",
+  "keywords": [
+    "vue",
+    "3d",
+    "threejs",
+    "three",
+    "threejs-vue"
+  ],
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/vue": "^1.2.2",
+    "astro": "^1.9.2",
+    "vue": "^3.2.45"
+  },
+  "devDependencies": {
+    "@tresjs/cientos": "workspace:^1.4.0",
+    "@tresjs/core": "workspace:^1.5.0",
+    "three": "^0.148.0"
+  }
+}
