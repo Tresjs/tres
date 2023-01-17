@@ -17,7 +17,7 @@ export const Scene = defineComponent({
 
     provide('local-scene', scene)
 
-    onLoop(() => {
+    onLoop(({ clock }) => {
       if (renderer?.value && activeCamera?.value && scene?.value) {
         renderer.value.render(scene?.value, activeCamera.value)
       }

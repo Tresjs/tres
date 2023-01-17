@@ -63,7 +63,10 @@ export default defineConfig({
           { text: 'Introduction', link: '/cientos/' },
           {
             text: 'Abstractions',
-            items: [{ text: 'Text3D', link: '/cientos/abstractions/text-3d' }],
+            items: [
+              { text: 'Text3D', link: '/cientos/abstractions/text-3d' },
+              { text: 'useAnimations', link: '/cientos/abstractions/use-animations' },
+            ],
           },
           {
             text: 'Controls',

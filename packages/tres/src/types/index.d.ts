@@ -9,7 +9,7 @@ export type TresVNodeType = VNodeTypes & {
   __name?: string
   setup?: (props: Readonly<any>) => void
 }
-export type TresVNode = VNode & { children?: Array<VNode>; type: TresVNodeType }
+export type TresVNode = VNode & { children?: Array<VNode | { default: any }>; type: TresVNodeType }
 export type TresAttributes = Record<string, any> & { args?: number[] }
 
 export type TresColor = string | number | Color | number[]

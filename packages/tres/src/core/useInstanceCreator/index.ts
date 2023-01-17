@@ -86,8 +86,8 @@ export function useInstanceCreator(prefix: string) {
       // check if args prop is defined on the vnode
       let internalInstance
       if (catalogue) {
-        if (vnode.children?.default) {
-          const internal = vnode.children
+        if ((vnode.children as unknown as { default: any })?.default) {
+          const internal = (vnode.children as unknown as { default: any })
             .default()
             .map((child: TresVNode) => createInstanceFromVNode(child)) as TresInstance[]
 

@@ -1,10 +1,11 @@
 import { createEventHook, EventHookOn, Fn, useRafFn } from '@vueuse/core'
-import { Clock } from 'three'
 import { Ref } from 'vue'
+import { Clock } from 'three'
 
 export interface RenderLoop {
   delta: number
   elapsed: number
+  clock: Clock
 }
 
 export interface UseRenderLoopReturn {
@@ -21,18 +22,22 @@ const onLoop = createEventHook<RenderLoop>()
 const onAfterLoop = createEventHook<RenderLoop>()
 
 const clock = new Clock()
+let delta = 0
+let elapsed = 0
 
 const { pause, resume, isActive } = useRafFn(
   () => {
-    const elapsed = clock.getElapsedTime()
-    const delta = clock.getDelta()
-
-    onBeforeLoop.trigger({ delta, elapsed })
-    onLoop.trigger({ delta, elapsed })
-    onAfterLoop.trigger({ delta, elapsed })
+    onBeforeLoop.trigger({ delta, elapsed, clock })
+    onLoop.trigger({ delta, elapsed, clock })
+    onAfterLoop.trigger({ delta, elapsed, clock })
   },
   { immediate: false },
 )
+
+onAfterLoop.on(() => {
+  delta = clock.getDelta()
+  elapsed = clock.getElapsedTime()
+})
 
 export function useRenderLoop(): UseRenderLoopReturn {
   return {
