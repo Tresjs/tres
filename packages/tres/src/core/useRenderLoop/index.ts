@@ -1,12 +1,11 @@
-import { TresState } from './../useTres/index'
-import { useTres } from '/@/core/'
 import { createEventHook, EventHookOn, Fn, useRafFn } from '@vueuse/core'
 import { Ref } from 'vue'
+import { Clock } from 'three'
 
 export interface RenderLoop {
   delta: number
   elapsed: number
-  state: TresState
+  clock: Clock
 }
 
 export interface UseRenderLoopReturn {
@@ -22,22 +21,22 @@ const onBeforeLoop = createEventHook<RenderLoop>()
 const onLoop = createEventHook<RenderLoop>()
 const onAfterLoop = createEventHook<RenderLoop>()
 
+const clock = new Clock()
 let delta = 0
 let elapsed = 0
+
 const { pause, resume, isActive } = useRafFn(
   () => {
-    const { state } = useTres()
-    onBeforeLoop.trigger({ delta, elapsed, state })
-    onLoop.trigger({ delta, elapsed, state })
-    onAfterLoop.trigger({ delta, elapsed, state })
+    onBeforeLoop.trigger({ delta, elapsed, clock })
+    onLoop.trigger({ delta, elapsed, clock })
+    onAfterLoop.trigger({ delta, elapsed, clock })
   },
   { immediate: false },
 )
 
 onAfterLoop.on(() => {
-  const { state } = useTres()
-  delta = state.clock.getDelta()
-  elapsed = state.clock.getElapsedTime()
+  delta = clock.getDelta()
+  elapsed = clock.getElapsedTime()
 })
 
 export function useRenderLoop(): UseRenderLoopReturn {

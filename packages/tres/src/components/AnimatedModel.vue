@@ -1,46 +1,42 @@
 <script setup lang="ts">
-import { AnimationMixer, Clock, Color, sRGBEncoding } from 'three'
+import { Color, sRGBEncoding } from 'three'
 
 /* import { OrbitControls, useTweakPane, useGLTF, useAnimations } from '../../../cientos/src/' */
 import { OrbitControls, useTweakPane, useGLTF, useAnimations } from '@tresjs/cientos'
-import { useRenderLoop } from '../core'
 
 const bgColor = new Color('#F78B3D')
-useTweakPane()
 
-/* const jeepRef = ref() */
+const { pane } = useTweakPane()
 
 const { scene: model, animations } = await useGLTF('/models/ugly-naked-bunny/ugly-naked-bunny-animated.gltf')
 
 const { actions, mixer } = useAnimations(animations, model)
 
+let currentAction = actions.Greeting
+
+currentAction.play()
+
+pane
+  .addBlade({
+    view: 'list',
+    label: 'scene',
+    options: Object.keys(actions).map(name => ({
+      text: name,
+      value: name,
+    })),
+    value: 'Greeting',
+  })
+  .on('change', ({ value }) => {
+    if (currentAction) {
+      currentAction.stop()
+    }
+
+    currentAction = actions[value]
+
+    currentAction.play()
+  })
+
 console.log({ animations, actions, mixer })
-
-actions.Greeting.play()
-
-/* const mixer = new AnimationMixer(model)
-
-const actions = {}
-
-animations.forEach(animation => {
-  const action = mixer.clipAction(animation)
-  actions[animation.name] = action
-})
-
-actions.Greeting.play()
-
-const { onLoop } = useRenderLoop()
-const clock = new Clock()
-onLoop(({ elapsed }) => {
-  const delta = clock.getDelta()
-  mixer.update(delta)
-}) */
-
-/* watch(jeepRef, ({ getModel }) => {
-  const model = getModel()
-  model.scale.set(0.01, 0.01, 0.01)
-  model.rotation.y = -Math.PI / 2
-}) */
 </script>
 
 <template>
