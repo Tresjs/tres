@@ -8,6 +8,7 @@ export interface GLTFLoaderOptions {
 }
 
 export interface GLTFResult {
+  animations: Array<THREE.AnimationClip>
   nodes: Array<TresObject>
   materials: Array<THREE.Material>
   scene: THREE.Scene
