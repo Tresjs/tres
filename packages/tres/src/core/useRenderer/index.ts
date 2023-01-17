@@ -16,6 +16,7 @@ import {
   WebGLRenderer,
   ShadowMapType,
   PCFShadowMap,
+  Clock,
 } from 'three'
 import type { TextureEncoding, ToneMapping } from 'three'
 import { useRenderLoop, useTres } from '/@/core/'
@@ -188,7 +189,7 @@ export function useRenderer(canvas: MaybeElementRef, container: MaybeElementRef,
 
     const { setState } = useTres()
     setState('renderer', renderer.value)
-
+    setState('clock', new Clock())
     updateRendererOptions()
     updateRendererSize()
     resume()

@@ -15,7 +15,7 @@ import {
 } from 'three'
 import { reactive, ref } from 'vue'
 
-import { OrbitControls, useTweakPane, TransformControls } from '@tresjs/cientos'
+import { OrbitControls, TransformControls } from '@tresjs/cientos'
 import { useRenderLoop } from '..'
 /* import { OrbitControls, GLTFModel } from '@tresjs/cientos' */
 
@@ -33,71 +33,9 @@ const sphereRef = ref()
 
 const { onLoop } = useRenderLoop()
 
-onLoop(({ delta, clock }) => {
-  sphereRef.value.position.y += delta * 5
+onLoop(({ delta, elapsed, state }) => {
+  sphereRef.value.position.y += Math.sin(elapsed * 0.01) * 0.1
 })
-
-const { pane } = useTweakPane()
-
-pane.addInput(state, 'clearColor', {
-  label: 'Background Color',
-  colorMode: 'hex',
-})
-pane.addInput(state, 'shadows', {
-  label: 'Shadows',
-})
-pane.addInput(state, 'physicallyCorrectLights', {
-  label: 'physicallyCorrectLights',
-})
-
-pane
-  .addBlade({
-    view: 'list',
-    label: 'outputEncoding',
-    options: [
-      { text: 'sRGBEncoding', value: sRGBEncoding },
-      { text: 'LinearEncoding', value: LinearEncoding },
-    ],
-    value: sRGBEncoding,
-  })
-  .on('change', ev => {
-    state.outputEncoding = ev.value
-  })
-
-pane
-  .addBlade({
-    view: 'list',
-    label: 'ShadowMap Type',
-    options: [
-      { text: 'BasicShadowMap', value: BasicShadowMap },
-      { text: 'PCFShadowMap', value: PCFShadowMap },
-      { text: 'PCFSoftShadowMap', value: PCFSoftShadowMap },
-      { text: 'VSMShadowMap', value: VSMShadowMap },
-    ],
-    value: BasicShadowMap,
-  })
-  .on('change', ev => {
-    state.shadowMapType = ev.value
-  })
-
-pane
-  .addBlade({
-    view: 'list',
-    label: 'toneMapping',
-    options: [
-      { text: 'NoToneMapping', value: NoToneMapping },
-      { text: 'LinearToneMapping', value: LinearToneMapping },
-      { text: 'ReinhardToneMapping', value: ReinhardToneMapping },
-      { text: 'CineonToneMapping', value: CineonToneMapping },
-      { text: 'ACESFilmicToneMapping', value: ACESFilmicToneMapping },
-      { text: 'CustomToneMapping', value: CustomToneMapping },
-    ],
-    value: NoToneMapping,
-  })
-  .on('change', ev => {
-    console.log(ev.value)
-    state.toneMapping = ev.value
-  })
 </script>
 <template>
   <TresCanvas v-bind="state">
