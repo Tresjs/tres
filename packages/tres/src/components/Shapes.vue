@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { BasicShadowMap, NoToneMapping, sRGBEncoding } from 'three'
 import { reactive, shallowRef, watch } from 'vue'
-import { Plane, Box, Sphere, OrbitControls } from '../../../cientos/src/'
+import { Plane, Box, Sphere, Torus, OrbitControls } from '../../../cientos/src/'
 
 const state = reactive({
   clearColor: '#82DBC5',
@@ -14,9 +14,17 @@ const state = reactive({
 })
 
 const planeRef = shallowRef()
+const boxRef = shallowRef()
+const torusRef = shallowRef()
 
 watch(planeRef, plane => {
   console.log('plane', plane.value.position)
+})
+watch(boxRef, box => {
+  console.log('box', box.value.position)
+})
+watch(torusRef, torus => {
+  console.log('torus', torus.value.position)
 })
 </script>
 <template>
@@ -35,6 +43,9 @@ watch(planeRef, plane => {
       <Sphere ref="sphereRef" :args="[1, 32, 16]" :position="[2, 6, 0]" cast-shadow>
         <TresMeshToonMaterial color="pink" />
       </Sphere>
+      <Torus ref="torusRef" :args="[0.75, 0.4, 16, 80]" :position="[-2, 6, 0]" cast-shadow>
+        <TresMeshToonMaterial color="cyan" />
+      </Torus>
     </TresScene>
   </TresCanvas>
 </template>
