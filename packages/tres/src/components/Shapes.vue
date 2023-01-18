@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { BasicShadowMap, NoToneMapping, sRGBEncoding } from 'three'
+import { BasicShadowMap, DoubleSide, NoToneMapping, sRGBEncoding } from 'three'
 import { reactive, shallowRef, watch } from 'vue'
-import { Plane, Box, Sphere, Torus, TorusKnot, OrbitControls } from '../../../cientos/src/'
+import { Plane, Box, Sphere, Torus, TorusKnot, Circle, OrbitControls } from '../../../cientos/src/'
 
 const state = reactive({
   clearColor: '#82DBC5',
@@ -17,6 +17,7 @@ const planeRef = shallowRef()
 const boxRef = shallowRef()
 const torusRef = shallowRef()
 const torusKnotRef = shallowRef()
+const circleRef = shallowRef()
 
 watch(planeRef, plane => {
   console.log('plane', plane.value.position)
@@ -29,6 +30,9 @@ watch(torusRef, torus => {
 })
 watch(torusKnotRef, torusKnot => {
   console.log('torusKnot', torusKnot.value.position)
+})
+watch(circleRef, circle => {
+  console.log('circle', circle.value.position)
 })
 </script>
 <template>
@@ -53,6 +57,9 @@ watch(torusKnotRef, torusKnot => {
       <TorusKnot ref="torusKnotRef" :args="[0.6, 0.2, 64, 8]" :position="[-2, 6, 2]" cast-shadow>
         <TresMeshToonMaterial color="lime" />
       </TorusKnot>
+      <Circle ref="circleRef" :args="[0.9, 32]" :position="[0, 6, 2]" :rotation="[Math.PI, 0, 0]" cast-shadow>
+        <TresMeshToonMaterial color="lightsalmon" :side="DoubleSide" />
+      </Circle>
     </TresScene>
   </TresCanvas>
 </template>
