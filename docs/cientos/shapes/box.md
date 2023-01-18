@@ -9,7 +9,7 @@ The `cientos` package provides a `<Box />` component that serves as a short-cut 
 ```html
 <Box :args="[1, 1, 1]" color="orange" />
 
-// Plane with a custom material transformations
+// Box with a custom material transformations
 <Box ref="planeRef" :args="[1, 1, 1]" :position="[0, 4, 0]">
   <TresMeshToonMaterial color="orange" />
 </Box>
