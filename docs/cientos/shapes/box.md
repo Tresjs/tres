@@ -10,7 +10,7 @@ The `cientos` package provides a `<Box />` component that serves as a short-cut 
 <Box :args="[1, 1, 1]" color="orange" />
 
 // Box with a custom material transformations
-<Box ref="planeRef" :args="[1, 1, 1]" :position="[0, 4, 0]">
+<Box ref="boxRef" :args="[1, 1, 1]" :position="[0, 4, 0]">
   <TresMeshToonMaterial color="orange" />
 </Box>
 ```

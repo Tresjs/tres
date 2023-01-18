@@ -88,6 +88,7 @@ export default defineConfig({
             text: 'Shapes',
             items: [
               { text: 'Box', link: '/cientos/shapes/box' },
+              { text: 'Circle', link: '/cientos/shapes/circle' },
               { text: 'Plane', link: '/cientos/shapes/plane' },
               { text: 'Sphere', link: '/cientos/shapes/sphere' },
               { text: 'Torus', link: '/cientos/shapes/torus' },
