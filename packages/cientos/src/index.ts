@@ -9,6 +9,7 @@ import Plane from './core/Plane.vue'
 import Box from './core/Box.vue'
 import Sphere from './core/Sphere.vue'
 import Torus from './core/Torus.vue'
+import TorusKnot from './core/TorusKnot.vue'
 
 export * from './core/useGLTF'
 export * from './core/useFBX'
@@ -24,5 +25,6 @@ export {
   Box,
   Sphere,
   Torus,
+  TorusKnot,
   useAnimations,
 }
