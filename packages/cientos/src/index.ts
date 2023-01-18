@@ -7,8 +7,20 @@ import { FBXModel } from './core/useFBX/component'
 import Text3D from './core/Text3D.vue'
 import Plane from './core/Plane.vue'
 import Box from './core/Box.vue'
+import Sphere from './core/Sphere.vue'
 
 export * from './core/useGLTF'
 export * from './core/useFBX'
 export * from './types'
-export { OrbitControls, TransformControls, useTweakPane, GLTFModel, FBXModel, Text3D, Plane, Box, useAnimations }
+export {
+  OrbitControls,
+  TransformControls,
+  useTweakPane,
+  GLTFModel,
+  FBXModel,
+  Text3D,
+  Plane,
+  Box,
+  Sphere,
+  useAnimations,
+}
