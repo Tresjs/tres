@@ -1,3 +1,21 @@
+---
+layout: /@/layouts/ExperimentLayout.astro
+thumbnail: /tres-donut.png
+title: Tres Donut 🍩
+author: Alvarosabu
+description: Plain donut with TresJS
+tags: ['basic']
+---
+
+import TresDonut from '/@/components/TresDonut.vue'
+import TheInfo from '/@/components/TheInfo.astro'
+
+<TresDonut client:only />
+
+<TheInfo >
+# { frontmatter.title }
+
+```vue
 <script setup lang="ts">
 import { reactive } from 'vue'
 
@@ -18,3 +36,6 @@ const state = reactive({
     </TresScene>
   </TresCanvas>
 </template>
+```
+
+</TheInfo>

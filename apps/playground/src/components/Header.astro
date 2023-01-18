@@ -1,0 +1,18 @@
+---
+import Logo from '/logo.svg';
+
+export interface Props {
+    title: string;
+	visible: boolean;
+}
+
+const { visible = false, title } = Astro.props;
+
+---
+
+<header class={`fixed top-0 z-10 w-full bg-gray-50 py-4 text-gray-600 ${visible ? 'visible' : 'hidden'}`}>
+    <div class="px-4 sm:px-0 container mx-auto flex">
+        <img src={Logo} class="mr-8" />
+        <a class="font-bold" href="/" title="Home">{title}</a>
+    </div>
+</header>
