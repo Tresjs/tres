@@ -9,7 +9,7 @@ const experiments = [...vueExperiments].map((experiment) => ({
 ---
 
 <Layout title="Playground">
-	<main class="container px-4 mt-20 sm:px-0 mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 sm:gap-16 md:gap-32">
+	<main class="container px-4 py-20 sm:px-0 mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 sm:gap-16 md:gap-32">
 		{experiments.map((experiment) => (
 			<a href={experiment.url} class="card bg-base-100 text-gray-700 shadow-xl rounded-lg overflow-hidden relative"
 			>
