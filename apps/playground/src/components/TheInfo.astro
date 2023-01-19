@@ -1,11 +1,21 @@
+---
+/* const { path } = Astro.params
+
+console.log(Astro) */
+---
+
 <div class="fixed bottom-0 right-0">
-  <div class="dropdown dropdown-top dropdown-end  p-4 w-full flex justify-end z-60">
-    <label tabindex={0} class="btn btn-circle important:(bg-white border-white text-gray-600 hover:bg-gray-100) cursor-pointer "
-        ><i class="i-carbon-information"></i
-      ></label>
-    <div tabindex={0} class="mb-8 dropdown-content px-4 shadow bg-base-100 rounded-box pb-8 mr-4 z-20 overflow-scroll max-h-screen-md">
+  <div class="dropdown dropdown-top dropdown-end p-4 w-full flex justify-end z-60">
+    <label
+      tabindex={0}
+      class="btn btn-circle important:(bg-white border-white text-gray-600 dark:text-light-200 hover:bg-gray-100) cursor-pointer"
+      ><i class="i-carbon-information"></i></label
+    >
+    <div
+      tabindex={0}
+      class="mb-8 dropdown-content px-4 shadow bg-base-100 rounded-box pb-8 mr-4 z-20 overflow-scroll max-h-screen-md"
+    >
       <div class="prose"><slot /></div>
     </div>
   </div>
 </div>
-

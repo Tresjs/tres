@@ -19,5 +19,8 @@
   "testing.automaticallyOpenPeekView": "never",
   "files.associations": {
     "*.mdx": "markdown"
+  },
+  "[astro]": {
+    "editor.defaultFormatter": "astro-build.astro-vscode"
   }
 }

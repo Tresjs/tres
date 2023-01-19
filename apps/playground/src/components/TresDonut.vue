@@ -4,6 +4,7 @@ import { reactive } from 'vue'
 const state = reactive({
   shadows: true,
   alpha: false,
+  clearColor: '#4f4f4f',
 })
 </script>
 

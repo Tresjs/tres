@@ -58,6 +58,7 @@ importers:
       three: ^0.148.0
       unocss: ^0.48.0
       unocss-preset-daisy: ^1.2.0
+      vite-plugin-glsl: ^1.0.1
       vue: ^3.2.45
     dependencies:
       '@astrojs/mdx': 0.14.0
@@ -73,6 +74,7 @@ importers:
       three: 0.148.0
       unocss: 0.48.0
       unocss-preset-daisy: 1.2.0_77u2kep7hemix4zf3mpsyjlcju
+      vite-plugin-glsl: 1.0.1
 
   packages/cientos:
     specifiers:
@@ -10043,6 +10045,17 @@ packages:
     transitivePeerDependencies:
       - rollup
       - supports-color
+    dev: true
+
+  /vite-plugin-glsl/1.0.1:
+    resolution: {integrity: sha512-mEwarIBeQCqgakn1r4B2Gja8QbrC2pjd/CezIudTMNXn5BR44gphQElMjzxoJgsBX7z/T5ROT8YvQifdpwXY3g==}
+    engines: {node: '>= 16.15.1', npm: '>= 8.11.0'}
+    peerDependencies:
+      vite: ^3.0.0 || ^4.0.0
+    dependencies:
+      '@rollup/pluginutils': 5.0.2
+    transitivePeerDependencies:
+      - rollup
     dev: true
 
   /vite-plugin-glsl/1.0.1_vite@4.0.3:

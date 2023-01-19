@@ -33,6 +33,7 @@
     "@tresjs/core": "workspace:^1.5.0",
     "three": "^0.148.0",
     "unocss": "^0.48.0",
-    "unocss-preset-daisy": "^1.2.0"
+    "unocss-preset-daisy": "^1.2.0",
+    "vite-plugin-glsl": "^1.0.1"
   }
 }
