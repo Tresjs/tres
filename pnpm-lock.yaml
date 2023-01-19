@@ -55,6 +55,7 @@ importers:
       '@tresjs/cientos': workspace:^1.4.0
       '@tresjs/core': workspace:^1.5.0
       astro: ^1.9.2
+      astro-seo: ^0.7.0
       three: ^0.148.0
       unocss: ^0.48.0
       unocss-preset-daisy: ^1.2.0
@@ -64,6 +65,7 @@ importers:
       '@astrojs/mdx': 0.14.0
       '@astrojs/vue': 1.2.2_vue@3.2.45
       astro: 1.9.2
+      astro-seo: 0.7.0
       vue: 3.2.45
     devDependencies:
       '@iconify-json/carbon': 1.1.13
@@ -2933,6 +2935,10 @@ packages:
   /astring/1.8.4:
     resolution: {integrity: sha512-97a+l2LBU3Op3bBQEff79i/E4jMD2ZLFD8rHx9B6mXyB2uQwhJQYfiDqUwtfjF4QA1F2qs//N6Cw8LetMbQjcw==}
     hasBin: true
+    dev: false
+
+  /astro-seo/0.7.0:
+    resolution: {integrity: sha512-G7zJUr4lfKLeqfWx2g5rfuBsOsIOfqxIOqErQfrMsMchDFfLFxNKAuW8yAo8hynJJwBvtGyS/vOXgGdMVVCFrA==}
     dev: false
 
   /astro/1.9.2:

@@ -1,42 +1,87 @@
 ---
-import Header from '../components/Header.astro';
+import { SEO } from 'astro-seo'
+
+import Header from '../components/Header.astro'
 
 export interface Props {
-	title: string;
+  title: string
 }
 
-const { title } = Astro.props;
+const { title } = Astro.props
 
+const meta = {
+  description: 'Playground for TresJS experiments for Vue',
+  thumbnail: 'https://pbs.twimg.com/media/FjtkgAlXwAIF7a_?format=png&name=4096x4096',
+  url: 'https://playground.tresjs.org/',
+}
 ---
 
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<title>{title}</title>
-	</head>
-	<body>
-		<Header title={title} visible={Astro.url.pathname === '/'} />
-		<slot />
-	</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <SEO
+      title={title}
+      description={meta.description}
+      openGraph={{
+        basic: {
+          title: title,
+          type: 'website',
+          image: meta.thumbnail,
+        },
+        image: {
+          alt: 'TresJS',
+        },
+      }}
+      twitter={{
+        creator: '@alvarosabu',
+      }}
+      extend={{
+        // extending the default link tags
+        link: [{ rel: 'icon', href: '/favicon.ico' }],
+        // extending the default meta tags
+        meta: [
+          {
+            name: 'twitter:image',
+            content: meta.thumbnail,
+          },
+          { name: 'twitter:title', content: title },
+          { name: 'twitter:description', content: meta.description },
+          { name: 'twitter:card', content: 'summary_large_image' },
+          { name: 'twitter:site', content: '@alvarosabu' },
+          { name: 'twitter:creator', content: '@alvarosabu' },
+          { name: 'og:title', content: title },
+          { name: 'og:description', content: meta.description },
+          { name: 'og:image', content: meta.thumbnail },
+          { name: 'og:url', content: meta.url },
+          { name: 'og:site_name', content: 'TresJS' },
+        ],
+      }}
+    />
+  </head>
+  <body>
+    <Header title={title} visible={Astro.url.pathname === '/'} />
+    <slot />
+    <style is:global>
+      :root {
+        --accent: 124, 58, 237;
+        --accent-gradient: linear-gradient(45deg, rgb(var(--accent)), #da62c4 30%, white 60%);
+      }
+      html {
+        font-family: system-ui, sans-serif;
+        background-color: #f6f6f6;
+      }
+      body {
+        margin: 0;
+      }
+      code {
+        font-family: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono,
+          Courier New, monospace;
+      }
+    </style>
+  </body>
 </html>
-<style is:global>
-	:root {
-		--accent: 124, 58, 237;
-		--accent-gradient: linear-gradient(45deg, rgb(var(--accent)), #da62c4 30%, white 60%);
-	}
-	html {
-		font-family: system-ui, sans-serif;
-		background-color: #F6F6F6;
-	}
-	body {
-		margin: 0;
-	}
-	code {
-		font-family: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono,
-			Bitstream Vera Sans Mono, Courier New, monospace;
-	}
-</style>

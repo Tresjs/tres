@@ -1,4 +1,5 @@
 ---
+import { SEO } from 'astro-seo'
 import '@kidonng/daisyui/index.css'
 
 const { frontmatter } = Astro.props
@@ -11,26 +12,64 @@ const { frontmatter } = Astro.props
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
+    <SEO
+      title={frontmatter.title}
+      description={frontmatter.description}
+      openGraph={{
+        basic: {
+          title: frontmatter.title,
+          type: 'website',
+          image: frontmatter.thumbnail,
+        },
+        image: {
+          alt: 'TresJS',
+        },
+      }}
+      twitter={{
+        creator: '@alvarosabu',
+      }}
+      extend={{
+        // extending the default link tags
+        link: [{ rel: 'icon', href: '/favicon.ico' }],
+        // extending the default meta tags
+        meta: [
+          {
+            name: 'twitter:image',
+            content: frontmatter.thumbnail,
+          },
+          { name: 'twitter:title', content: frontmatter.title },
+          { name: 'twitter:description', content: frontmatter.description },
+          { name: 'twitter:card', content: 'summary_large_image' },
+          { name: 'twitter:site', content: '@alvarosabu' },
+          { name: 'twitter:creator', content: '@alvarosabu' },
+          { name: 'og:title', content: frontmatter.title },
+          { name: 'og:description', content: frontmatter.description },
+          { name: 'og:image', content: frontmatter.thumbnail },
+          { name: 'og:url', content: frontmatter.url },
+          { name: 'og:site_name', content: 'TresJS' },
+        ],
+      }}
+    />
     <title>{frontmatter.title}</title>
   </head>
   <body>
     <slot />
+    <style is:global>
+      :root {
+        --accent: 124, 58, 237;
+        --accent-gradient: linear-gradient(45deg, rgb(var(--accent)), #da62c4 30%, white 60%);
+      }
+      html {
+        font-family: system-ui, sans-serif;
+        background-color: #f6f6f6;
+      }
+      body {
+        margin: 0;
+      }
+      code {
+        font-family: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono,
+          Courier New, monospace;
+      }
+    </style>
   </body>
 </html>
-<style is:global>
-  :root {
-    --accent: 124, 58, 237;
-    --accent-gradient: linear-gradient(45deg, rgb(var(--accent)), #da62c4 30%, white 60%);
-  }
-  html {
-    font-family: system-ui, sans-serif;
-    background-color: #f6f6f6;
-  }
-  body {
-    margin: 0;
-  }
-  code {
-    font-family: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New,
-      monospace;
-  }
-</style>

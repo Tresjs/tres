@@ -23,6 +23,7 @@
     "@astrojs/mdx": "^0.14.0",
     "@astrojs/vue": "^1.2.2",
     "astro": "^1.9.2",
+    "astro-seo": "^0.7.0",
     "vue": "^3.2.45"
   },
   "devDependencies": {
