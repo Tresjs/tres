@@ -1,3 +1,10 @@
+# 1.5.1 (2023-01-19)
+
+### Bug Fixes
+
+- **core:** corret use of clock.getDelta() ([728b43e](https://github.com/Tresjs/tres/commit/728b43ee5e95549c02c98941de4091af5681fa66))
+- **core:** remove histoire ([14ab727](https://github.com/Tresjs/tres/commit/14ab727685bcab4fa78addd620f1652700ca5613))
+
 # 1.5.0 (2023-01-10)
 
 ### Features
