@@ -11,6 +11,7 @@ import Sphere from './core/Sphere.vue'
 import Torus from './core/Torus.vue'
 import TorusKnot from './core/TorusKnot.vue'
 import Circle from './core/Circle.vue'
+import Cone from './core/Cone.vue'
 
 export * from './core/useGLTF'
 export * from './core/useFBX'
@@ -28,5 +29,6 @@ export {
   Torus,
   TorusKnot,
   Circle,
+  Cone,
   useAnimations,
 }
