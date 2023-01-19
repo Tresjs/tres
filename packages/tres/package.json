@@ -1,7 +1,7 @@
 {
   "name": "@tresjs/core",
   "description": "Declarative ThreeJS using Vue Components",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "type": "module",
   "author": "Alvaro Saburido <hola@alvarosaburido.dev> (https://github.com/alvarosabu/)",
   "files": [
@@ -49,12 +49,12 @@
   },
   "devDependencies": {
     "@alvarosabu/utils": "^2.2.0",
-    "@tresjs/cientos": "workspace:^1.4.0",
+    "@tresjs/cientos": "workspace:^1.5.0",
     "@types/three": "^0.148.0",
     "@vitejs/plugin-vue": "^4.0.0",
     "@vitest/coverage-c8": "^0.25.8",
     "@vitest/ui": "^0.25.8",
-    "@vueuse/core": "^9.7.0",
+    "@vueuse/core": "^9.11.0",
     "gl": "6.0.1",
     "happy-dom": "^8.1.0",
     "kolorist": "^1.6.0",
@@ -63,10 +63,10 @@
     "rollup-plugin-analyzer": "^4.0.0",
     "rollup-plugin-visualizer": "^5.8.3",
     "unplugin-vue-components": "^0.22.12",
-    "vite": "^4.0.3",
+    "vite": "^4.0.4",
     "vite-plugin-banner": "^0.7.0",
     "vite-plugin-dts": "^1.7.1",
-    "vite-plugin-glsl": "^1.0.1",
+    "vite-plugin-glsl": "^1.1.0",
     "vite-plugin-require-transform": "^1.0.4",
     "vitest": "^0.25.8",
     "vue-demi": "^0.13.11"

@@ -1,4 +1,4 @@
-# Plane
+# Plane <Badge type="warning" text="^1.5.0" />
 
 ![](/cientos/plane.png)
 
