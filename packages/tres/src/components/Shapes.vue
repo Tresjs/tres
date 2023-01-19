@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { BasicShadowMap, DoubleSide, NoToneMapping, sRGBEncoding } from 'three'
 import { reactive, shallowRef, watch } from 'vue'
-import { Plane, Box, Sphere, Torus, TorusKnot, Circle, OrbitControls } from '../../../cientos/src/'
+import { Plane, Box, Sphere, Torus, TorusKnot, Circle, Cone, OrbitControls } from '../../../cientos/src/'
 
 const state = reactive({
   clearColor: '#82DBC5',
@@ -60,6 +60,9 @@ watch(circleRef, circle => {
       <Circle ref="circleRef" :args="[0.9, 32]" :position="[0, 6, 2]" :rotation="[Math.PI, 0, 0]" cast-shadow>
         <TresMeshToonMaterial color="lightsalmon" :side="DoubleSide" />
       </Circle>
+      <Cone ref="coneRef" :args="[1, 1, 6]" :position="[2, 6, 2]" :rotation="[Math.PI, 0, 0]" cast-shadow>
+        <TresMeshToonMaterial color="slateblue" :side="DoubleSide" />
+      </Cone>
     </TresScene>
   </TresCanvas>
 </template>
