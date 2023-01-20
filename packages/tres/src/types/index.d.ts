@@ -13,6 +13,16 @@ export type TresVNode = VNode & { children?: Array<VNode | { default: any }>; ty
 export type TresAttributes = Record<string, any> & { args?: number[] }
 
 export type TresColor = string | number | Color | number[]
+
+export interface TresEvent extends Intersection<Object3D<Event>> {
+  object: Object3D
+  distance: number
+  face?: Face3
+  faceIndex?: number | undefined
+  point: Vector3
+  uv?: Vector2
+}
+
 declare global {
   // Define the window interface, with type annotations for the properties and methods of the window object
   interface Window {
