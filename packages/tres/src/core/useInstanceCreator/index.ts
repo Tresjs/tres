@@ -1,17 +1,19 @@
 /* eslint-disable new-cap */
 /* eslint-disable @typescript-eslint/no-empty-function */
-import { BufferAttribute, FogBase, OrthographicCamera, PerspectiveCamera, Scene } from 'three'
-import { defineComponent, inject, Ref } from 'vue'
+import { BufferAttribute, FogBase, OrthographicCamera, PerspectiveCamera, Raycaster, Scene } from 'three'
+import { defineComponent, inject, onUnmounted, Ref } from 'vue'
+import { useEventListener } from '@vueuse/core'
+
 import { isArray, isDefined, isFunction } from '@alvarosabu/utils'
 import { normalizeVectorFlexibleParam } from '/@/utils/normalize'
-import { useCamera, useCatalogue, useScene } from '/@/core/'
+import { useCamera, useCatalogue, useRenderLoop, useScene } from '/@/core/'
 import { useLogger } from '/@/composables'
-import { TresAttributes, TresCatalogue, TresInstance, TresVNode, TresVNodeType } from '/@/types'
+import { TresAttributes, TresCatalogue, TresInstance, TresVNode, TresVNodeType, TresEvent } from '/@/types'
 
 const VECTOR3_PROPS = ['rotation', 'scale', 'position']
 
 export function useInstanceCreator(prefix: string) {
-  const { logMessage, logError } = useLogger()
+  const { /* logMessage, */ logError } = useLogger()
 
   function processSetAttributes(props: Record<string, any>, instance: TresInstance) {
     if (!isDefined(props)) return
@@ -114,7 +116,6 @@ export function useInstanceCreator(prefix: string) {
           processProps(vnode.props, internalInstance)
         }
       }
-      logMessage(`Created ${vNodeType} instance`, internalInstance)
       return internalInstance
     }
   }
@@ -157,10 +158,13 @@ export function useInstanceCreator(prefix: string) {
           const name = `${prefix}${key}`
           const cmp = defineComponent({
             name,
-            setup(props, { slots, attrs, ...ctx }) {
+            setup(_props, { slots, attrs, ...ctx }) {
               const { scene: fallback } = useScene()
+              const { onLoop } = useRenderLoop()
               const scene = inject<Ref<Scene>>('local-scene') || fallback
-              const catalogue = inject<Ref<TresCatalogue>>('catalogue')
+              /* const { raycaster } = useRaycaster() */
+              const raycaster = inject<Ref<Raycaster>>('raycaster') /* 
+              const currentInstance = inject<Ref>('currentInstance') */
               const { pushCamera } = useCamera()
 
               let instance = createInstance(threeObj, attrs, slots)
@@ -173,6 +177,41 @@ export function useInstanceCreator(prefix: string) {
               // If the instance is a valid Object3D, add it to the scene
               if (instance.isObject3D) {
                 scene?.value.add(instance)
+              }
+
+              let prevInstance: TresEvent | null = null
+              let currentInstance: TresEvent | null = null
+              if (instance.isMesh) {
+                onLoop(() => {
+                  if (instance && raycaster?.value) {
+                    const intersects = raycaster?.value.intersectObjects(scene.value.children)
+
+                    if (intersects.length > 0) {
+                      currentInstance = intersects[0]
+
+                      if (prevInstance === null || prevInstance.object.uuid !== currentInstance?.object.uuid) {
+                        ctx.emit('pointer-enter', currentInstance)
+                      }
+
+                      ctx.emit('pointer-move', currentInstance)
+                    } else {
+                      currentInstance = null
+                      if (prevInstance !== null) {
+                        ctx.emit('pointer-leave', prevInstance)
+                      }
+                    }
+
+                    prevInstance = currentInstance
+                  }
+                })
+
+                const clickEventListener = useEventListener(window, 'click', () => {
+                  ctx.emit('click', prevInstance)
+                })
+
+                onUnmounted(() => {
+                  clickEventListener()
+                })
               }
 
               if (scene?.value && instance.isFog) {
@@ -191,30 +230,11 @@ export function useInstanceCreator(prefix: string) {
                   if (instance.isObject3D) {
                     scene?.value.add(instance)
                   }
-
-                  logMessage(name, {
-                    instance,
-                    sceneuuid: scene?.value.uuid,
-                    catalogue: catalogue?.value.uuid,
-                    props,
-                    slots: slots.default ? slots.default() : undefined,
-                    attrs,
-                    ctx,
-                    scene,
-                  })
                 })
               }
 
               ctx.expose(instance)
-              logMessage(name, {
-                sceneuuid: scene?.value.uuid,
-                catalogue: catalogue?.value.uuid,
-                props,
-                slots: slots.default ? slots.default() : undefined,
-                attrs,
-                ctx,
-                scene,
-              })
+
               return () => {}
             },
           })

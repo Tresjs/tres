@@ -1,7 +1,7 @@
 import { App, Component } from 'vue'
 import { TresCanvas } from '/@/core/useRenderer/component'
 import { Scene } from '/@/core/useScene/component'
-import { useCatalogue, useInstanceCreator } from '/@/core'
+import { useCatalogue, useInstanceCreator, useTres } from '/@/core'
 export * from '/@/core'
 export * from './keys'
 import { version } from '../package.json'
@@ -22,6 +22,7 @@ const plugin: TresPlugin = {
     const { catalogue, extend } = useCatalogue(app, prefix)
     app.provide('catalogue', catalogue)
     app.provide('extend', extend)
+    app.provide('useTres', useTres())
     const { createComponentInstances } = useInstanceCreator(prefix)
     const components = createComponentInstances(catalogue)
     /*  const components = createComponentInstances(

@@ -32,6 +32,10 @@ export default defineConfig({
             text: 'Composables',
             link: '/api/composables',
           },
+          {
+            text: 'Events',
+            link: '/api/events',
+          },
         ],
       },
       {

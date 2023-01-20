@@ -91,6 +91,21 @@ pane
     console.log(ev.value)
     state.toneMapping = ev.value
   })
+
+function onPointerEnter(ev) {
+  console.log('onPointerEnter', ev)
+}
+
+function onPointerMove(ev) {
+  console.log('onPointerMove', ev)
+}
+
+function onPointerLeave(ev) {
+  console.log('onPointerLeave', ev)
+}
+function onClick(ev) {
+  console.log('click', ev)
+}
 </script>
 <template>
   <TresCanvas v-bind="state">
@@ -98,18 +113,17 @@ pane
     <OrbitControls make-default />
     <TresScene>
       <TresAmbientLight :intensity="0.5" />
-      <!--  <TresMesh :position="[-2, 6, 0]" :rotation="[0, Math.PI, 0]" cast-shadow>
-        <TresConeGeometry :args="[1, 1.5, 3]" />
-        <TresMeshToonMaterial color="#82DBC5" />
-      </TresMesh> -->
-      <!-- <TransformControls :object="boxRef" mode="rotate" />
-      <TresMesh ref="boxRef" :position="[0, 4, 0]" cast-shadow>
-        <TresBoxGeometry :args="[1.5, 1.5, 1.5]" />
-        <TresMeshToonMaterial color="#4F4F4F" />
-      </TresMesh> -->
       <TransformControls mode="scale" :object="sphereRef" />
 
-      <TresMesh ref="sphereRef" :position="[0, 4, 0]" cast-shadow>
+      <TresMesh
+        ref="sphereRef"
+        :position="[0, 4, 0]"
+        cast-shadow
+        @pointer-enter="onPointerEnter"
+        @pointer-move="onPointerMove"
+        @pointer-leave="onPointerLeave"
+        @click="onClick"
+      >
         <TresSphereGeometry />
         <TresMeshToonMaterial color="#FBB03B" />
       </TresMesh>

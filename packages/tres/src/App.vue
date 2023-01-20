@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { useTweakPane } from '@tresjs/cientos'
-import AnimatedModel from '/@/components/AnimatedModel.vue'
+import TheEvents from '/@/components/TheEvents.vue'
 
 useTweakPane()
 </script>
 
 <template>
   <Suspense>
-    <AnimatedModel />
+    <TheEvents />
   </Suspense>
 </template>
