@@ -10,13 +10,19 @@ export const GLTFModel = defineComponent({
     decoderPath: String,
   },
 
-  async setup(props) {
+  async setup(props, { expose }) {
     const scene = inject<Ref<Scene>>('local-scene')
 
+    function getModel() {
+      return model
+    }
+    expose({ getModel })
     const { scene: model } = await useGLTF(props.path as string, { draco: props.draco, decoderPath: props.decoderPath })
     if (scene?.value) {
       scene.value.add(model)
     }
-    return () => null
+    return () => {
+      model
+    }
   },
 })
