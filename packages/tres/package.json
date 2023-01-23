@@ -53,12 +53,12 @@
     "@types/three": "^0.148.0",
     "@vitejs/plugin-vue": "^4.0.0",
     "@vitest/coverage-c8": "^0.25.8",
-    "@vitest/ui": "^0.25.8",
+    "@vitest/ui": "^0.28.1",
     "@vueuse/core": "^9.11.0",
     "gl": "6.0.1",
-    "happy-dom": "^8.1.0",
+    "happy-dom": "^8.1.5",
     "kolorist": "^1.6.0",
-    "pathe": "^1.0.0",
+    "pathe": "^1.1.0",
     "release-it": "^15.5.1",
     "rollup-plugin-analyzer": "^4.0.0",
     "rollup-plugin-visualizer": "^5.8.3",
@@ -68,7 +68,7 @@
     "vite-plugin-dts": "^1.7.1",
     "vite-plugin-glsl": "^1.1.0",
     "vite-plugin-require-transform": "^1.0.4",
-    "vitest": "^0.25.8",
+    "vitest": "^0.28.1",
     "vue-demi": "^0.13.11"
   }
 }
