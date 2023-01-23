@@ -6,7 +6,9 @@ export function withSetup(composable) {
     setup() {
       result = composable()
       // suppress missing template warning
-      return () => {}
+      return () => {
+        return null
+      }
     },
   })
   app.mount(document.createElement('div'))
