@@ -32,8 +32,9 @@ export interface OrthographicCameraOptions {
 interface UseCameraReturn {
   activeCamera: ComputedRef<Camera>
   createCamera: (cameraType?: CameraType, options?: PerspectiveCameraOptions | OrthographicCameraOptions) => Camera
-  updateCamera: () => void
+  updateCurrentCamera: () => void
   pushCamera: (camera: Camera) => void
+  clearCameras: () => void
 }
 
 const state: CameraState = {
@@ -72,14 +73,12 @@ export function useCamera(): UseCameraReturn {
       camera = new OrthographicCamera(left, right, top, bottom, near, far)
       state.cameras.push(camera as OrthographicCamera)
     }
-
-    state.cameras.push(camera)
     return camera
   }
 
   const activeCamera = computed(() => state.cameras[0])
 
-  function updateCamera() {
+  function updateCurrentCamera() {
     if (activeCamera.value instanceof PerspectiveCamera && aspectRatio) {
       activeCamera.value.aspect = aspectRatio.value
     }
@@ -99,13 +98,18 @@ export function useCamera(): UseCameraReturn {
     camera.updateProjectionMatrix()
   }
 
+  function clearCameras() {
+    state.cameras = []
+  }
+
   if (aspectRatio) {
-    watch(aspectRatio, updateCamera)
+    watch(aspectRatio, updateCurrentCamera)
   }
   return {
     activeCamera,
     createCamera,
-    updateCamera,
+    updateCurrentCamera,
     pushCamera,
+    clearCameras,
   }
 }

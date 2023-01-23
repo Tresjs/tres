@@ -43,6 +43,9 @@ export default defineConfig({
     environment: 'happy-dom',
     globals: true,
     threads: false,
+    alias: {
+      '/@': resolve(__dirname, './src'),
+    },
   },
   build: {
     lib: {
