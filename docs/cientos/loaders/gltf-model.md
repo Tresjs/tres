@@ -20,6 +20,29 @@ import { OrbitControls, GLTFModel } from '@tresjs/cientos'
 </template>
 ```
 
+## Model reference
+
+You can access the model reference by pasing a `ref` to the `model` prop and then using the method `getModel()` to get the object.
+
+```vue{3,6}
+<script setup lang="ts">
+import { OrbitControls, GLTFModel } from '@tresjs/cientos'
+
+const modelRef = shallowRef<THREE.Object3D>()
+
+watch(modelRef, ({getModel}) => {
+  const model = getModel()
+
+  model.traverse((child) => {
+    if (child.isMesh) {
+      child.castShadow = true
+      child.receiveShadow = true
+    }
+  })
+})
+</script>
+```
+
 ## Props
 
 | Prop          | Description                                                                                                           | Default     |

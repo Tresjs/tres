@@ -10,7 +10,7 @@ delete catalogue.value.Scene
 
 let localApp: App
 export function useCatalogue(app?: App, prefix = 'Tres') {
-  const { logMessage, logError } = useLogger()
+  const { logError } = useLogger()
   if (!localApp && app) {
     localApp = app
   }
@@ -23,7 +23,6 @@ export function useCatalogue(app?: App, prefix = 'Tres') {
     }
     catalogue.value = Object.assign(catalogue.value, objects)
     const components = createComponentInstances(ref(objects))
-    logMessage('Adding objects to catalogue', { objects, catalogue: catalogue.value.uuid })
 
     if (localApp) {
       components.forEach(([key, cmp]) => {
