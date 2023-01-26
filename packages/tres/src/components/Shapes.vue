@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { BasicShadowMap, DoubleSide, NoToneMapping, sRGBEncoding } from 'three'
-import { reactive, shallowRef, watch } from 'vue'
-import { Plane, Box, Sphere, Torus, TorusKnot, Circle, Cone, OrbitControls } from '../../../cientos/src/'
+import { BasicShadowMap, CubicBezierCurve3, DoubleSide, NoToneMapping, sRGBEncoding, Vector3 } from 'three'
+import { reactive, ref, shallowRef, watch } from 'vue'
+import { Plane, Tube, Box, Sphere, Torus, TorusKnot, Circle, Cone, OrbitControls } from '../../../cientos/src/'
 
 const state = reactive({
   clearColor: '#82DBC5',
@@ -18,6 +18,7 @@ const boxRef = shallowRef()
 const torusRef = shallowRef()
 const torusKnotRef = shallowRef()
 const circleRef = shallowRef()
+const tubeRef = shallowRef()
 
 watch(planeRef, plane => {
   console.log('plane', plane.value.position)
@@ -34,7 +35,17 @@ watch(torusKnotRef, torusKnot => {
 watch(circleRef, circle => {
   console.log('circle', circle.value.position)
 })
+watch(tubeRef, tube => {
+  console.log('tube', tube.value.position)
+})
+const tubePath = new CubicBezierCurve3(
+  new Vector3(-1, 0, 0),
+  new Vector3(-0.5, -1, 0),
+  new Vector3(0.5, 1, 0),
+  new Vector3(1, 0, 0),
+)
 </script>
+
 <template>
   <TresCanvas v-bind="state">
     <TresPerspectiveCamera :position="[5, 5, 5]" :fov="75" :aspect="1" :near="0.1" :far="1000" />
@@ -63,6 +74,9 @@ watch(circleRef, circle => {
       <Cone ref="coneRef" :args="[1, 1, 6]" :position="[2, 6, 2]" :rotation="[Math.PI, 0, 0]" cast-shadow>
         <TresMeshToonMaterial color="slateblue" :side="DoubleSide" />
       </Cone>
+      <Tube ref="tubeRef" :args="[tubePath, 20, 0.2, 8, false]" :position="[2, 6, -2]" cast-shadow>
+        <TresMeshToonMaterial color="slateblue" :side="DoubleSide" />
+      </Tube>
     </TresScene>
   </TresCanvas>
 </template>
