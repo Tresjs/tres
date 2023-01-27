@@ -72,10 +72,10 @@ const tubePath = new CubicBezierCurve3(
         <TresMeshToonMaterial color="lightsalmon" :side="DoubleSide" />
       </Circle>
       <Cone ref="coneRef" :args="[1, 1, 6]" :position="[2, 6, 2]" :rotation="[Math.PI, 0, 0]" cast-shadow>
-        <TresMeshToonMaterial color="slateblue" :side="DoubleSide" />
+        <TresMeshToonMaterial color="slateblue" />
       </Cone>
       <Tube ref="tubeRef" :args="[tubePath, 20, 0.2, 8, false]" :position="[2, 6, -2]" cast-shadow>
-        <TresMeshToonMaterial color="lightblue" :side="DoubleSide" />
+        <TresMeshToonMaterial color="lightblue" />
       </Tube>
     </TresScene>
   </TresCanvas>
