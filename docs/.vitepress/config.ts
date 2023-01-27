@@ -32,6 +32,10 @@ export default defineConfig({
             text: 'Composables',
             link: '/api/composables',
           },
+          {
+            text: 'Events',
+            link: '/api/events',
+          },
         ],
       },
       {
@@ -57,7 +61,7 @@ export default defineConfig({
         ],
       },
       {
-        text: 'Cientos ⚡️',
+        text: 'Cientos 💛',
         collapsible: true,
         items: [
           { text: 'Introduction', link: '/cientos/' },

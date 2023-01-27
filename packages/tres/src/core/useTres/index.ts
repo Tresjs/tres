@@ -1,5 +1,5 @@
 import { WebGLRenderer } from 'three'
-import { reactive, toRefs } from 'vue'
+import { shallowReactive, toRefs } from 'vue'
 import { Camera } from '/@/core'
 
 export interface TresState {
@@ -8,7 +8,7 @@ export interface TresState {
   [key: string]: any
 }
 
-const state: TresState = reactive({})
+const state: TresState = shallowReactive({})
 
 export function useTres() {
   function getState(key: string) {
