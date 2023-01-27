@@ -75,7 +75,7 @@ const tubePath = new CubicBezierCurve3(
         <TresMeshToonMaterial color="slateblue" :side="DoubleSide" />
       </Cone>
       <Tube ref="tubeRef" :args="[tubePath, 20, 0.2, 8, false]" :position="[2, 6, -2]" cast-shadow>
-        <TresMeshToonMaterial color="slateblue" :side="DoubleSide" />
+        <TresMeshToonMaterial color="lightblue" :side="DoubleSide" />
       </Tube>
     </TresScene>
   </TresCanvas>
