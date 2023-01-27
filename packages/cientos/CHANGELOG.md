@@ -1,3 +1,11 @@
+# 1.5.0 (2023-01-19)
+
+### Features
+
+- **cientos:** plane abstraction ([3f27400](https://github.com/Tresjs/tres/commit/3f274007d3177bb35bcd74a705ab7c74ca3ce1cf))
+- **cientos:** updated onLoop delta usage for useAnimations ([9e7fdbd](https://github.com/Tresjs/tres/commit/9e7fdbd9d1184b8405fdc252c2ba19e53b1bf91b))
+- **cientos:** useAnimations ([2704288](https://github.com/Tresjs/tres/commit/2704288fd8d814ef9091001f3630fbdb97f13884))
+
 # 1.4.0 (2023-01-10)
 
 ### Features
