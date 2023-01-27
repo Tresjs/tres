@@ -13,6 +13,7 @@ import TorusKnot from './core/TorusKnot.vue'
 import Circle from './core/Circle.vue'
 import Cone from './core/Cone.vue'
 import Tube from './core/Tube.vue'
+import Ring from './core/Ring.vue'
 
 export * from './core/useGLTF'
 export * from './core/useFBX'
@@ -32,5 +33,6 @@ export {
   Circle,
   Cone,
   Tube,
+  Ring,
   useAnimations,
 }
