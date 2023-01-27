@@ -15,6 +15,7 @@ import Cone from './core/Cone.vue'
 import Tube from './core/Tube.vue'
 import Ring from './core/Ring.vue'
 import Tetrahedron from './core/Tetrahedron.vue'
+import Icosahedron from './core/Icosahedron.vue'
 
 export * from './core/useGLTF'
 export * from './core/useFBX'
@@ -36,5 +37,6 @@ export {
   Tube,
   Ring,
   Tetrahedron,
+  Icosahedron,
   useAnimations,
 }

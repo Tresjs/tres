@@ -10,6 +10,7 @@ import {
   Ring,
   TorusKnot,
   Tetrahedron,
+  Icosahedron,
   Circle,
   Cone,
   OrbitControls,
@@ -33,6 +34,7 @@ const circleRef = shallowRef()
 const tubeRef = shallowRef()
 const ringRef = shallowRef()
 const tetrahedronRef = shallowRef()
+const icosahedronRef = shallowRef()
 
 watch(planeRef, plane => {
   console.log('plane', plane.value.position)
@@ -57,6 +59,9 @@ watch(ringRef, ring => {
 })
 watch(tetrahedronRef, tetrahedron => {
   console.log('tetrahedron', tetrahedron.value.position)
+})
+watch(icosahedronRef, icosahedron => {
+  console.log('icosahedron', icosahedron.value.position)
 })
 
 const tubePath = new CubicBezierCurve3(
@@ -104,6 +109,9 @@ const tubePath = new CubicBezierCurve3(
       <Tetrahedron ref="tetrahedronRef" :args="[1, 0]" :position="[-2, 6, -2]" cast-shadow>
         <TresMeshToonMaterial color="yellow" />
       </Tetrahedron>
+      <Icosahedron ref="icosahedronRef" :args="[1, 0]" :position="[-4, 6, -2]" cast-shadow>
+        <TresMeshToonMaterial color="red" />
+      </Icosahedron>
     </TresScene>
   </TresCanvas>
 </template>
