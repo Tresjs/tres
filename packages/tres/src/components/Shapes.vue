@@ -11,6 +11,7 @@ import {
   TorusKnot,
   Tetrahedron,
   Icosahedron,
+  Octahedron,
   Circle,
   Cone,
   OrbitControls,
@@ -35,6 +36,7 @@ const tubeRef = shallowRef()
 const ringRef = shallowRef()
 const tetrahedronRef = shallowRef()
 const icosahedronRef = shallowRef()
+const octahedronRef = shallowRef()
 
 watch(planeRef, plane => {
   console.log('plane', plane.value.position)
@@ -63,6 +65,9 @@ watch(tetrahedronRef, tetrahedron => {
 watch(icosahedronRef, icosahedron => {
   console.log('icosahedron', icosahedron.value.position)
 })
+watch(octahedronRef, octahedron => {
+  console.log('octahedron', octahedron.value.position)
+})
 
 const tubePath = new CubicBezierCurve3(
   new Vector3(-1, 0, 0),
@@ -79,7 +84,7 @@ const tubePath = new CubicBezierCurve3(
     <TresScene>
       <TresAmbientLight :color="0xffffff" :intensity="1" />
       <TresDirectionalLight :position="[0, 8, 4]" :intensity="0.7" cast-shadow />
-      <Plane ref="planeRef" :args="[8, 8]" :position="[0, 4, 0]" receive-shadow>
+      <Plane ref="planeRef" :args="[12, 8]" :position="[-2, 4, 0]" receive-shadow>
         <TresMeshToonMaterial color="teal" />
       </Plane>
       <Box ref="boxRef" :arg0s="[1, 1, 1]" :position="[0, 6, 0]" cast-shadow>
@@ -112,6 +117,9 @@ const tubePath = new CubicBezierCurve3(
       <Icosahedron ref="icosahedronRef" :args="[1, 0]" :position="[-4, 6, -2]" cast-shadow>
         <TresMeshToonMaterial color="red" />
       </Icosahedron>
+      <Octahedron ref="octahedronRef" :args="[1, 0]" :position="[-4, 6, 0]" cast-shadow>
+        <TresMeshToonMaterial color="greenyellow" />
+      </Octahedron>
     </TresScene>
   </TresCanvas>
 </template>
