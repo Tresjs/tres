@@ -90,6 +90,7 @@ export default defineConfig({
               { text: 'Box', link: '/cientos/shapes/box' },
               { text: 'Circle', link: '/cientos/shapes/circle' },
               { text: 'Cone', link: '/cientos/shapes/cone' },
+              { text: 'Dodecahedron', link: '/cientos/shapes/dodecahedron' },
               { text: 'Icosahedron', link: '/cientos/shapes/icosahedron' },
               { text: 'Octahedron', link: '/cientos/shapes/octahedron' },
               { text: 'Plane', link: '/cientos/shapes/plane' },
