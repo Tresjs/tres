@@ -12,6 +12,7 @@ import {
   Tetrahedron,
   Icosahedron,
   Octahedron,
+  Dodecahedron,
   Circle,
   Cone,
   OrbitControls,
@@ -37,6 +38,7 @@ const ringRef = shallowRef()
 const tetrahedronRef = shallowRef()
 const icosahedronRef = shallowRef()
 const octahedronRef = shallowRef()
+const dodecahedronRef = shallowRef()
 
 watch(planeRef, plane => {
   console.log('plane', plane.value.position)
@@ -67,6 +69,9 @@ watch(icosahedronRef, icosahedron => {
 })
 watch(octahedronRef, octahedron => {
   console.log('octahedron', octahedron.value.position)
+})
+watch(dodecahedronRef, dodecahedron => {
+  console.log('dodecahedron', dodecahedron.value.position)
 })
 
 const tubePath = new CubicBezierCurve3(
@@ -120,6 +125,9 @@ const tubePath = new CubicBezierCurve3(
       <Octahedron ref="octahedronRef" :args="[1, 0]" :position="[-4, 6, 0]" cast-shadow>
         <TresMeshToonMaterial color="greenyellow" />
       </Octahedron>
+      <Dodecahedron ref="dodecahedronRef" :args="[1, 0]" :position="[-4, 6, 2]" cast-shadow>
+        <TresMeshToonMaterial color="deeppink" />
+      </Dodecahedron>
     </TresScene>
   </TresCanvas>
 </template>
