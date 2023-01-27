@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { BasicShadowMap, CubicBezierCurve3, DoubleSide, NoToneMapping, sRGBEncoding, Vector3 } from 'three'
 import { reactive, ref, shallowRef, watch } from 'vue'
-import { Plane, Tube, Box, Sphere, Torus, TorusKnot, Circle, Cone, OrbitControls } from '../../../cientos/src/'
+import { Plane, Tube, Box, Sphere, Torus, Ring, TorusKnot, Circle, Cone, OrbitControls } from '../../../cientos/src/'
 
 const state = reactive({
   clearColor: '#82DBC5',
@@ -19,6 +19,7 @@ const torusRef = shallowRef()
 const torusKnotRef = shallowRef()
 const circleRef = shallowRef()
 const tubeRef = shallowRef()
+const ringRef = shallowRef()
 
 watch(planeRef, plane => {
   console.log('plane', plane.value.position)
@@ -38,6 +39,10 @@ watch(circleRef, circle => {
 watch(tubeRef, tube => {
   console.log('tube', tube.value.position)
 })
+watch(ringRef, ring => {
+  console.log('ring', ring.value.position)
+})
+
 const tubePath = new CubicBezierCurve3(
   new Vector3(-1, 0, 0),
   new Vector3(-0.5, -1, 0),
@@ -77,6 +82,9 @@ const tubePath = new CubicBezierCurve3(
       <Tube ref="tubeRef" :args="[tubePath, 20, 0.2, 8, false]" :position="[2, 6, -2]" cast-shadow>
         <TresMeshToonMaterial color="lightblue" />
       </Tube>
+      <Ring ref="ringRef" :args="[0.5, 1, 32]" :position="[0, 6, -2]" :rotation="[Math.PI, 0, 0]" cast-shadow>
+        <TresMeshToonMaterial color="purple" :side="DoubleSide" />
+      </Ring>
     </TresScene>
   </TresCanvas>
 </template>
