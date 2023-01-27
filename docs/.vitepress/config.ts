@@ -94,6 +94,7 @@ export default defineConfig({
               { text: 'Sphere', link: '/cientos/shapes/sphere' },
               { text: 'Torus', link: '/cientos/shapes/torus' },
               { text: 'TorusKnot', link: '/cientos/shapes/torus-knot' },
+              { text: 'Tube', link: '/cientos/shapes/tube' },
             ],
           },
           {
