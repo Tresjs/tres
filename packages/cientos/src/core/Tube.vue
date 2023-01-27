@@ -1,11 +1,15 @@
 <script setup lang="ts">
 import { TresColor } from '@tresjs/core/dist/types'
-import { QuadraticBezierCurve3, Vector3 } from 'three'
+import { CatmullRomCurve3, CubicBezierCurve3, LineCurve3, QuadraticBezierCurve3, Vector3 } from 'three'
 import { shallowRef } from 'vue'
+
+type CurveType = QuadraticBezierCurve3 | CubicBezierCurve3 | CatmullRomCurve3 | LineCurve3
+
+type TubeGeometryParams = [CurveType, number, number, number, boolean]
 
 withDefaults(
   defineProps<{
-    args?: any[]
+    args?: TubeGeometryParams
     color?: TresColor
   }>(),
   {
