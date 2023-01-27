@@ -91,6 +91,7 @@ export default defineConfig({
               { text: 'Circle', link: '/cientos/shapes/circle' },
               { text: 'Cone', link: '/cientos/shapes/cone' },
               { text: 'Icosahedron', link: '/cientos/shapes/icosahedron' },
+              { text: 'Octahedron', link: '/cientos/shapes/octahedron' },
               { text: 'Plane', link: '/cientos/shapes/plane' },
               { text: 'Ring', link: '/cientos/shapes/ring' },
               { text: 'Sphere', link: '/cientos/shapes/sphere' },
