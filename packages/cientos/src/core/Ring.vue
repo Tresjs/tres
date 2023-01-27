@@ -20,7 +20,7 @@ defineExpose({
 })
 </script>
 <template>
-  <TresMesh ref="ringRef" :rotation="[-Math.PI / 2, 0, 0]" v-bind="$attrs">
+  <TresMesh ref="ringRef" v-bind="$attrs">
     <TresRingGeometry :args="args" />
     <slot>
       <TresMeshBasicMaterial :color="color" />
