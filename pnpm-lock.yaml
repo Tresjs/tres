@@ -117,6 +117,7 @@ importers:
       '@vitejs/plugin-vue': ^4.0.0
       '@vitest/coverage-c8': ^0.25.8
       '@vitest/ui': ^0.28.1
+      '@vue/test-utils': ^2.2.7
       '@vueuse/core': ^9.11.0
       gl: 6.0.1
       happy-dom: ^8.1.5
@@ -145,6 +146,7 @@ importers:
       '@vitejs/plugin-vue': 4.0.0_vite@4.0.4+vue@3.2.45
       '@vitest/coverage-c8': 0.25.8_hw4rclr23c5p3un46doxxwedya
       '@vitest/ui': 0.28.1
+      '@vue/test-utils': 2.2.7_vue@3.2.45
       '@vueuse/core': 9.11.0_vue@3.2.45
       gl: 6.0.1
       happy-dom: 8.1.5
@@ -2509,6 +2511,14 @@ packages:
 
   /@vue/shared/3.2.45:
     resolution: {integrity: sha512-Ewzq5Yhimg7pSztDV+RH1UDKBzmtqieXQlpTVm2AwraoRL/Rks96mvd8Vgi7Lj+h+TH8dv7mXD3FRZR3TUvbSg==}
+
+  /@vue/test-utils/2.2.7_vue@3.2.45:
+    resolution: {integrity: sha512-BMuoruUFTEqhLoOgsMcgNVMiByYbfHCKGr2C4CPdGtz/affUtDVX5zr1RnPuq0tYSiaqq+Enw5voUpG6JY8Q7g==}
+    peerDependencies:
+      vue: ^3.0.1
+    dependencies:
+      vue: 3.2.45
+    dev: true
 
   /@vueuse/core/9.11.0_vue@3.2.45:
     resolution: {integrity: sha512-7yZJ8LNOssA8ZmeSjd4F+wbFBA4csiP4TiaXgruqg1H4PAtzSkv93PPwFLvQkSnfo3Bar+e+6QoRvWjhz7l2Xg==}

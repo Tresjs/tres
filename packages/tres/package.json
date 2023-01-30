@@ -54,6 +54,7 @@
     "@vitejs/plugin-vue": "^4.0.0",
     "@vitest/coverage-c8": "^0.25.8",
     "@vitest/ui": "^0.28.1",
+    "@vue/test-utils": "^2.2.7",
     "@vueuse/core": "^9.11.0",
     "gl": "6.0.1",
     "happy-dom": "^8.1.5",
