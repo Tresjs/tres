@@ -4,6 +4,12 @@
 
 The `cientos` package provides a `<Dodecahedron />` component that serves as a short-cut for a `DodecahedronGeometry` and a `MeshBasicMaterial` with a `Mesh` object.
 
+```typescript
+args: [radius: number, detail: number]
+```
+reference: [DodecahedronGeometry](https://threejs.org/docs/?q=dode#api/en/geometries/DodecahedronGeometry)
+
+
 ## Usage
 
 ```html
