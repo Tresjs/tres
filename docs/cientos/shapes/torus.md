@@ -4,6 +4,18 @@
 
 The `cientos` package provides a `<Torus />` component that serves as a short-cut for a `TorusGeometry` and a `MeshBasicMaterial` with a `Mesh` object.
 
+```typescript
+args: [
+         radius: number,
+         tube: number,
+         radialSegments: number,
+         tubularSegments: number,
+         arc: number
+      ]
+```
+reference: [TorusGeometry](https://threejs.org/docs/?q=torus#api/en/geometries/TorusGeometry)
+
+
 ## Usage
 
 ```html
