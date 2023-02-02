@@ -4,6 +4,12 @@
 
 The `cientos` package provides a `<Tetrahedron />` component that serves as a short-cut for a `TetrahedronGeometry` and a `MeshBasicMaterial` with a `Mesh` object.
 
+```typescript
+args: [radius: number, detail: number]
+```
+reference: [TetrahedronGeometry](https://threejs.org/docs/?q=tetr#api/en/geometries/TetrahedronGeometry)
+
+
 ## Usage
 
 ```html
