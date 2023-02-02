@@ -4,6 +4,12 @@
 
 The `cientos` package provides a `<Circle />` component that serves as a short-cut for a `CircleGeometry` and a `MeshBasicMaterial` with a `Mesh` object.
 
+```typescript
+args: [radius: number, segments: number, thetaStart: number, thetaLength: number]
+```
+reference: [CircleGeometry](https://threejs.org/docs/?q=circle#api/en/geometries/CircleGeometry)
+
+
 ## Usage
 
 ```html
