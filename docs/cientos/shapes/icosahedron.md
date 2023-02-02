@@ -4,6 +4,11 @@
 
 The `cientos` package provides a `<Icosahedron />` component that serves as a short-cut for a `IcosahedronGeometry` and a `MeshBasicMaterial` with a `Mesh` object.
 
+```typescript
+args: [radius: number, detail: number]
+```
+reference: [IcosahedronGeometry](https://threejs.org/docs/?q=ico#api/en/geometries/IcosahedronGeometry)
+
 ## Usage
 
 ```html
