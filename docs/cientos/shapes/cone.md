@@ -6,17 +6,17 @@ The `cientos` package provides a `<Cone />` component that serves as a short-cut
 
 ```typescript
 args: [
-         radius: number,
-         height: number,
-         radialSegments: number,
-         heightSegments: number,
-         openEnded: boolean,
-         thetaStart: number,
-         thetaLength: number
-       ]
+  radius: number,
+  height: number,
+  radialSegments: number,
+  heightSegments: number,
+  openEnded: boolean,
+  thetaStart: number,
+  thetaLength: number
+]
 ```
-reference: [ConeGeometry](https://threejs.org/docs/?q=cone#api/en/geometries/ConeGeometry)
 
+Reference: [ConeGeometry](https://threejs.org/docs/?q=cone#api/en/geometries/ConeGeometry)
 
 ## Usage
 

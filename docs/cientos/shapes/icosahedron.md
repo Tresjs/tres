@@ -7,7 +7,8 @@ The `cientos` package provides a `<Icosahedron />` component that serves as a sh
 ```typescript
 args: [radius: number, detail: number]
 ```
-reference: [IcosahedronGeometry](https://threejs.org/docs/?q=ico#api/en/geometries/IcosahedronGeometry)
+
+Reference: [IcosahedronGeometry](https://threejs.org/docs/?q=ico#api/en/geometries/IcosahedronGeometry)
 
 ## Usage
 

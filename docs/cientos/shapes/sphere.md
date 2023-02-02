@@ -6,17 +6,17 @@ The `cientos` package provides a `<Sphere />` component that serves as a short-c
 
 ```typescript
 args: [
-         radius: number,
-         widthSegments: number,
-         heightSegments: number,
-         phiStart: number,
-         phiLength: number,
-         thetaStart: number,
-         thetaLength: number
-      ]
+  radius: number,
+  widthSegments: number,
+  heightSegments: number,
+  phiStart: number,
+  phiLength: number,
+  thetaStart: number,
+  thetaLength: number
+]
 ```
-reference: [SphereGeometry](https://threejs.org/docs/?q=sphere#api/en/geometries/SphereGeometry)
 
+Reference: [SphereGeometry](https://threejs.org/docs/?q=sphere#api/en/geometries/SphereGeometry)
 
 ## Usage
 
@@ -28,5 +28,3 @@ reference: [SphereGeometry](https://threejs.org/docs/?q=sphere#api/en/geometries
   <TresMeshToonMaterial color="pink" />
 </Sphere>
 ```
-
-

@@ -7,7 +7,8 @@ The `cientos` package provides a `<Plane />` component that serves as a short-cu
 ```typescript
 args: [width: number, height: number, widthSegments: number, heightSegments: number]
 ```
-reference: [PlaneGeometry](https://threejs.org/docs/?q=plane#api/en/geometries/PlaneGeometry)
+
+Reference: [PlaneGeometry](https://threejs.org/docs/?q=plane#api/en/geometries/PlaneGeometry)
 
 ::: info
 A convenient default rotation is applied to the _x-axis_ of the plane (`-Math.PI / 2`), so that it is facing up (along the Y axis).

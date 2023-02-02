@@ -7,8 +7,8 @@ The `cientos` package provides a `<Circle />` component that serves as a short-c
 ```typescript
 args: [radius: number, segments: number, thetaStart: number, thetaLength: number]
 ```
-reference: [CircleGeometry](https://threejs.org/docs/?q=circle#api/en/geometries/CircleGeometry)
 
+Reference: [CircleGeometry](https://threejs.org/docs/?q=circle#api/en/geometries/CircleGeometry)
 
 ## Usage
 
@@ -20,5 +20,3 @@ reference: [CircleGeometry](https://threejs.org/docs/?q=circle#api/en/geometries
   <TresMeshToonMaterial color="lightsalmon" />
 </Circle>
 ```
-
-

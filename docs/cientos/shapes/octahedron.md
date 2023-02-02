@@ -7,8 +7,8 @@ The `cientos` package provides a `<Octahedron />` component that serves as a sho
 ```typescript
 args: [radius: number, detail: number]
 ```
-reference: [OctahedronGeometry](https://threejs.org/docs/?q=octa#api/en/geometries/OctahedronGeometry)
 
+Reference: [OctahedronGeometry](https://threejs.org/docs/?q=octa#api/en/geometries/OctahedronGeometry)
 
 ## Usage
 

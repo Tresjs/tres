@@ -7,8 +7,8 @@ The `cientos` package provides a `<Dodecahedron />` component that serves as a s
 ```typescript
 args: [radius: number, detail: number]
 ```
-reference: [DodecahedronGeometry](https://threejs.org/docs/?q=dode#api/en/geometries/DodecahedronGeometry)
 
+Reference: [DodecahedronGeometry](https://threejs.org/docs/?q=dode#api/en/geometries/DodecahedronGeometry)
 
 ## Usage
 
@@ -20,4 +20,3 @@ reference: [DodecahedronGeometry](https://threejs.org/docs/?q=dode#api/en/geomet
   <TresMeshToonMaterial color="deeppink" />
 </Dodecahedron>
 ```
-

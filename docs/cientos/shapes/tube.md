@@ -27,16 +27,15 @@ export default {
 type CurveType = QuadraticBezierCurve3 | CubicBezierCurve3 | CatmullRomCurve3 | LineCurve3
 
 args: [
-         path: CurveType,
-         tubularSegments: number,
-         radius: number,
-         radialSegments: number,
-         closed: boolean
-      ]
+  path: CurveType,
+  tubularSegments: number,
+  radius: number,
+  radialSegments: number,
+  closed: boolean
+]
 ```
 
-reference: [TubeGeometry](https://threejs.org/docs/?q=tube#api/en/geometries/TubeGeometry)
-
+Reference: [TubeGeometry](https://threejs.org/docs/?q=tube#api/en/geometries/TubeGeometry)
 
 ## Usage
 
@@ -49,4 +48,3 @@ reference: [TubeGeometry](https://threejs.org/docs/?q=tube#api/en/geometries/Tub
   <TresMeshToonMaterial color="lightblue" />
 </Tube>
 ```
-

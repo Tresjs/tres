@@ -6,16 +6,16 @@ The `cientos` package provides a `<TorusKnot />` component that serves as a shor
 
 ```typescript
 args: [
-         radius: number,
-         tube: number,
-         tubularSegments: number,
-         radialSegments: number,
-         p: number,
-         q: number
-      ]
+  radius: number,
+  tube: number,
+  tubularSegments: number,
+  radialSegments: number,
+  p: number,
+  q: number
+]
 ```
-reference: [TorusKnotGeometry](https://threejs.org/docs/?q=torus#api/en/geometries/TorusKnotGeometry)
 
+Reference: [TorusKnotGeometry](https://threejs.org/docs/?q=torus#api/en/geometries/TorusKnotGeometry)
 
 ## Usage
 
@@ -24,8 +24,6 @@ reference: [TorusKnotGeometry](https://threejs.org/docs/?q=torus#api/en/geometri
 
 // TorusKnot with a custom material transformations
 <TorusKnot ref="torusKnotRef" :args="[0.6, 0.2, 64, 8]" :position="[-2, 6, 2]">
-<TresMeshToonMaterial color="lime" />
+  <TresMeshToonMaterial color="lime" />
 </TorusKnot>
 ```
-
-

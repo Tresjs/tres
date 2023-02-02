@@ -6,15 +6,15 @@ The `cientos` package provides a `<Torus />` component that serves as a short-cu
 
 ```typescript
 args: [
-         radius: number,
-         tube: number,
-         radialSegments: number,
-         tubularSegments: number,
-         arc: number
-      ]
+  radius: number,
+  tube: number,
+  radialSegments: number,
+  tubularSegments: number,
+  arc: number
+]
 ```
-reference: [TorusGeometry](https://threejs.org/docs/?q=torus#api/en/geometries/TorusGeometry)
 
+Reference: [TorusGeometry](https://threejs.org/docs/?q=torus#api/en/geometries/TorusGeometry)
 
 ## Usage
 
@@ -24,8 +24,5 @@ reference: [TorusGeometry](https://threejs.org/docs/?q=torus#api/en/geometries/T
 // Torus with a custom material transformations
 <Torus ref="torusRef" :args="[0.75, 0.4, 16, 80]" :position="[-2, 6, 0]">
   <TresMeshToonMaterial color="cyan" />
- </Torus>
-
+</Torus>
 ```
-
-

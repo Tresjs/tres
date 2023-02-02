@@ -6,16 +6,16 @@ The `cientos` package provides a `<Box />` component that serves as a short-cut 
 
 ```typescript
 args: [
-        width: number,
-        height: number,
-        depth: number,
-        widthSegments: number,
-        heightSegments: number,
-        depthSegments: number
-      ]
+  width: number,
+  height: number,
+  depth: number,
+  widthSegments: number,
+  heightSegments: number,
+  depthSegments: number
+]
 ```
-reference: [BoxGeometry](https://threejs.org/docs/?q=box#api/en/geometries/BoxGeometry)
 
+Reference: [BoxGeometry](https://threejs.org/docs/?q=box#api/en/geometries/BoxGeometry)
 
 ## Usage
 
@@ -27,4 +27,3 @@ reference: [BoxGeometry](https://threejs.org/docs/?q=box#api/en/geometries/BoxGe
   <TresMeshToonMaterial color="orange" />
 </Box>
 ```
-

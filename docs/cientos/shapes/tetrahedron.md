@@ -7,8 +7,8 @@ The `cientos` package provides a `<Tetrahedron />` component that serves as a sh
 ```typescript
 args: [radius: number, detail: number]
 ```
-reference: [TetrahedronGeometry](https://threejs.org/docs/?q=tetr#api/en/geometries/TetrahedronGeometry)
 
+Reference: [TetrahedronGeometry](https://threejs.org/docs/?q=tetr#api/en/geometries/TetrahedronGeometry)
 
 ## Usage
 
@@ -20,5 +20,3 @@ reference: [TetrahedronGeometry](https://threejs.org/docs/?q=tetr#api/en/geometr
   <TresMeshToonMaterial color="yellow" />
 </Tetrahedron>
 ```
-
-

@@ -6,16 +6,16 @@ The `cientos` package provides a `<Ring />` component that serves as a short-cut
 
 ```typescript
 args: [
-         innerRadius: number,
-         outerRadius: number,
-         thetaSegments: number,
-         phiSegments: number,
-         thetaStart: number,
-         thetaLength: number
-      ]
+  innerRadius: number,
+  outerRadius: number,
+  thetaSegments: number,
+  phiSegments: number,
+  thetaStart: number,
+  thetaLength: number
+]
 ```
-reference: [RingGeometry](https://threejs.org/docs/?q=ring#api/en/geometries/RingGeometry)
 
+Reference: [RingGeometry](https://threejs.org/docs/?q=ring#api/en/geometries/RingGeometry)
 
 ## Usage
 
@@ -27,5 +27,3 @@ reference: [RingGeometry](https://threejs.org/docs/?q=ring#api/en/geometries/Rin
   <TresMeshToonMaterial color="purple" />
 </Ring>
 ```
-
-
