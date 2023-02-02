@@ -90,7 +90,21 @@ export default defineConfig({
           },
           {
             text: 'Shapes',
-            items: [{ text: 'Plane', link: '/cientos/shapes/plane' }],
+            items: [
+              { text: 'Box', link: '/cientos/shapes/box' },
+              { text: 'Circle', link: '/cientos/shapes/circle' },
+              { text: 'Cone', link: '/cientos/shapes/cone' },
+              { text: 'Dodecahedron', link: '/cientos/shapes/dodecahedron' },
+              { text: 'Icosahedron', link: '/cientos/shapes/icosahedron' },
+              { text: 'Octahedron', link: '/cientos/shapes/octahedron' },
+              { text: 'Plane', link: '/cientos/shapes/plane' },
+              { text: 'Ring', link: '/cientos/shapes/ring' },
+              { text: 'Sphere', link: '/cientos/shapes/sphere' },
+              { text: 'Tetrahedron', link: '/cientos/shapes/tetrahedron' },
+              { text: 'Torus', link: '/cientos/shapes/torus' },
+              { text: 'TorusKnot', link: '/cientos/shapes/torus-knot' },
+              { text: 'Tube', link: '/cientos/shapes/tube' },
+            ],
           },
           {
             text: 'Misc',

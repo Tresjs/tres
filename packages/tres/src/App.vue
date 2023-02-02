@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { useTweakPane } from '@tresjs/cientos'
-import TheEvents from '/@/components/TheEvents.vue'
+import Shapes from '/@/components/Shapes.vue'
 
 useTweakPane()
 </script>
 
 <template>
   <Suspense>
-    <TheEvents />
+    <Shapes />
   </Suspense>
 </template>
