@@ -4,6 +4,20 @@
 
 The `cientos` package provides a `<Sphere />` component that serves as a short-cut for a `SphereGeometry` and a `MeshBasicMaterial` with a `Mesh` object.
 
+```typescript
+args: [
+         radius: number,
+         widthSegments: number,
+         heightSegments: number,
+         phiStart: number,
+         phiLength: number,
+         thetaStart: number,
+         thetaLength: number
+      ]
+```
+reference: [SphereGeometry](https://threejs.org/docs/?q=sphere#api/en/geometries/SphereGeometry)
+
+
 ## Usage
 
 ```html
