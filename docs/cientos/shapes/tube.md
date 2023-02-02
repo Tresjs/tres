@@ -4,6 +4,40 @@
 
 The `cientos` package provides a `<Tube />` component that serves as a short-cut for a `TubeGeometry` and a `MeshBasicMaterial` with a `Mesh` object.
 
+```typescript
+<script>
+export default {
+  setup() {
+    const tubePath = ref(new CubicBezierCurve3(
+          new Vector3(-1, 0, 0),
+          new Vector3(-0.5, -1, 0),
+          new Vector3(0.5, 1, 0),
+          new Vector3(1, 0, 0),
+          ));
+
+    return {
+      tubePath
+    }
+  },
+}
+</script>
+```
+
+```typescript
+type CurveType = QuadraticBezierCurve3 | CubicBezierCurve3 | CatmullRomCurve3 | LineCurve3
+
+args: [
+         path: CurveType,
+         tubularSegments: number,
+         radius: number,
+         radialSegments: number,
+         closed: boolean
+      ]
+```
+
+reference: [TubeGeometry](https://threejs.org/docs/?q=tube#api/en/geometries/TubeGeometry)
+
+
 ## Usage
 
 ```html
