@@ -1,4 +1,4 @@
-# Octahedron
+# Octahedron <Badge type="warning" text="^1.6.0" />
 
 ![](/cientos/octahedron.png)
 

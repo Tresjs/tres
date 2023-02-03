@@ -1,4 +1,4 @@
-# TorusKnot
+# TorusKnot <Badge type="warning" text="^1.6.0" />
 
 ![](/cientos/torus-knot.png)
 

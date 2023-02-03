@@ -1,4 +1,4 @@
-# Box
+# Box <Badge type="warning" text="^1.6.0" />
 
 ![](/cientos/box.png)
 

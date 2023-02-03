@@ -1,4 +1,4 @@
-# Torus
+# Torus <Badge type="warning" text="^1.6.0" />
 
 ![](/cientos/torus.png)
 
