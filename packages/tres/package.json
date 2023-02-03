@@ -1,7 +1,7 @@
 {
   "name": "@tresjs/core",
   "description": "Declarative ThreeJS using Vue Components",
-  "version": "1.5.1",
+  "version": "1.6.0",
   "type": "module",
   "author": "Alvaro Saburido <hola@alvarosaburido.dev> (https://github.com/alvarosabu/)",
   "files": [
@@ -49,7 +49,7 @@
   },
   "devDependencies": {
     "@alvarosabu/utils": "^2.2.0",
-    "@tresjs/cientos": "workspace:^1.5.0",
+    "@tresjs/cientos": "workspace:^1.6.0",
     "@types/three": "^0.148.0",
     "@vitejs/plugin-vue": "^4.0.0",
     "@vitest/coverage-c8": "^0.25.8",

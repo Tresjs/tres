@@ -2,6 +2,10 @@
 
 **TresJS** Mesh objects emit pointer events when they are interacted with using `raycaster` and `pointer` objects under the hood.
 
+<StackBlitzEmbed project-id="tresjs-events" />
+
+## Pointer Events
+
 ```html
 <TresMesh
   @click="(ev) => console.log('click', ev)"

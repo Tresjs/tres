@@ -1,3 +1,9 @@
+# 1.6.0 (2023-02-03)
+
+### Features
+
+- **core:** events support with Raytracing ([0b7767a](https://github.com/Tresjs/tres/commit/0b7767a80a8969585633cd0b570791faff36cbd4))
+
 # 1.5.1 (2023-01-19)
 
 ### Bug Fixes
