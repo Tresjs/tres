@@ -30,7 +30,7 @@
     "@iconify-json/carbon": "^1.1.13",
     "@iconify-json/logos": "^1.1.22",
     "@kidonng/daisyui": "^2.31.0",
-    "@tresjs/cientos": "workspace:^1.4.0",
+    "@tresjs/cientos": "workspace:^1.6.0",
     "@tresjs/core": "workspace:^1.5.0",
     "three": "^0.148.0",
     "unocss": "^0.48.0",

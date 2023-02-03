@@ -4,8 +4,7 @@
   "version": "1.0.0",
   "author": "Alvaro Saburido <hola@alvarosaburido.dev> (https://github.com/alvarosabu/)",
   "engines": {
-    "npm": ">=8.0.0 <9.0.0",
-    "node": ">=16.0.0 <17.0.0"
+    "node": ">=16.0.0"
   },
   "workspaces": [
     "apps/**",
@@ -51,7 +50,7 @@
     "@changesets/changelog-github": "^0.4.7",
     "@changesets/cli": "^2.25.2",
     "@stackblitz/sdk": "^1.8.1",
-    "@tresjs/cientos": "workspace:^1.5.0",
+    "@tresjs/cientos": "workspace:^1.6.0",
     "@tresjs/core": "workspace:^1.5.1",
     "@typescript-eslint/eslint-plugin": "^5.42.0",
     "@typescript-eslint/parser": "^5.42.0",
