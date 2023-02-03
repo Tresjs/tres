@@ -8,7 +8,7 @@ importers:
       '@changesets/changelog-github': ^0.4.7
       '@changesets/cli': ^2.25.2
       '@stackblitz/sdk': ^1.8.1
-      '@tresjs/cientos': workspace:^1.5.0
+      '@tresjs/cientos': workspace:^1.6.0
       '@tresjs/core': workspace:^1.5.1
       '@typescript-eslint/eslint-plugin': ^5.42.0
       '@typescript-eslint/parser': ^5.42.0
@@ -52,7 +52,7 @@ importers:
       '@iconify-json/carbon': ^1.1.13
       '@iconify-json/logos': ^1.1.22
       '@kidonng/daisyui': ^2.31.0
-      '@tresjs/cientos': workspace:^1.4.0
+      '@tresjs/cientos': workspace:^1.6.0
       '@tresjs/core': workspace:^1.5.0
       astro: ^1.9.2
       astro-seo: ^0.7.0
@@ -112,7 +112,7 @@ importers:
   packages/tres:
     specifiers:
       '@alvarosabu/utils': ^2.2.0
-      '@tresjs/cientos': workspace:^1.5.0
+      '@tresjs/cientos': workspace:^1.6.0
       '@types/three': ^0.148.0
       '@vitejs/plugin-vue': ^4.0.0
       '@vitest/coverage-c8': ^0.25.8
