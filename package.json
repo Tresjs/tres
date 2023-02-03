@@ -51,7 +51,7 @@
     "@changesets/cli": "^2.25.2",
     "@stackblitz/sdk": "^1.8.1",
     "@tresjs/cientos": "workspace:^1.6.0",
-    "@tresjs/core": "workspace:^1.5.1",
+    "@tresjs/core": "workspace:^1.6.0",
     "@typescript-eslint/eslint-plugin": "^5.42.0",
     "@typescript-eslint/parser": "^5.42.0",
     "conventional-changelog-cli": "^2.2.2",
