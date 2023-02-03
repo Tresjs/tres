@@ -1,3 +1,14 @@
+# 1.6.0 (2023-02-03)
+
+### Features
+
+- **cientos:** box abstraction ([dc9c638](https://github.com/Tresjs/tres/commit/dc9c638804f877dcc1567b38285ce0d8b4c4a087))
+- **cientos:** circle abstraction ([978eb2d](https://github.com/Tresjs/tres/commit/978eb2da600b0f2055a12a460fd2f5406ceaa028))
+- **cientos:** cone abstraction ([9d04c54](https://github.com/Tresjs/tres/commit/9d04c5456e498542b0373499bbc496bfb9f56c54))
+- **cientos:** sphere abstraction ([e2a6fff](https://github.com/Tresjs/tres/commit/e2a6fff86407a397a0c73c7d0a03c63762bfd833))
+- **cientos:** torus abstraction ([d85eb40](https://github.com/Tresjs/tres/commit/d85eb4091e2ae9c7f9a14406bab8191ea2824375))
+- **cientos:** torus knot abstraction ([8c4fd46](https://github.com/Tresjs/tres/commit/8c4fd4692d06eccced94c35d39fa7280f6fba3c9))
+
 # 1.5.0 (2023-01-19)
 
 ### Features
