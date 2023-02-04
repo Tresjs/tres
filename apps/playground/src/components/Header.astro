@@ -9,7 +9,7 @@ export interface Props {
 const { visible = false, title } = Astro.props
 ---
 
-<header class={`fixed top-0 z-10 w-full bg-white bg-opacity-60 py-4 ${visible ? 'visible' : 'hidden'}`}>
+<header class={`fixed top-0 z-10 w-full bg-base-100 bg-opacity-60 py-4 ${visible ? 'visible' : 'hidden'}`}>
   <div class="px-4 sm:px-0 container mx-auto flex justify-between">
     <div class="flex">
       <img src={Logo} class="mr-8" />
