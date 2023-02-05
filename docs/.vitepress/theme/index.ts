@@ -5,7 +5,6 @@ import DefaultTheme from 'vitepress/theme'
 import './config.css'
 import FirstScene from './components/FirstScene.vue'
 import StackBlitzEmbed from './components/StackBlitzEmbed.vue'
-import LoveVueThreejs from './components/LoveVueThreejs.vue'
 import TresLayout from './TresLayout.vue'
 
 export default {

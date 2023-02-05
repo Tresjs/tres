@@ -16,6 +16,7 @@ import vue from '@astrojs/vue'
 
 // https://astro.build/config
 import mdx from '@astrojs/mdx'
+import svgLoader from 'vite-svg-loader'
 
 // https://astro.build/config
 export default defineConfig({
@@ -23,7 +24,7 @@ export default defineConfig({
     ssr: {
       noExternal: ['@kidonng/daisyui'],
     },
-    plugins: [glsl()],
+    plugins: [glsl(), svgLoader()],
   },
   integrations: [
     vue({

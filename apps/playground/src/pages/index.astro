@@ -15,7 +15,7 @@ const experiments = [...vueExperiments].map(experiment => ({
     {
       experiments.map(experiment => (
         <a href={experiment.url} class="card bg-base-100  shadow-xl rounded-lg overflow-hidden relative">
-          <figure>
+          <figure class="aspect-video object-contain">
             <img src={experiment.frontmatter.thumbnail} alt={experiment.frontmatter.title} />
           </figure>
           <div class="card-body p-4">
