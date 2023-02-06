@@ -45,7 +45,8 @@
     "vue": "^3.2.47"
   },
   "peerDependencies": {
-    "three": "latest"
+    "three": "latest",
+    "@vueuse/core": "^9.12.0"
   },
   "devDependencies": {
     "@alvarosabu/utils": "^2.2.0",
