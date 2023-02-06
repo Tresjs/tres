@@ -1,3 +1,9 @@
+# 1.6.1 (2023-02-06)
+
+### Bugfix
+
+- **core:** added vueuse as peer dependency ([890f97e](https://github.com/Tresjs/tres/commit/890f97e14cf5d743cf23c95967bea01229a56ea6))
+
 # 1.6.0 (2023-02-03)
 
 ### Features

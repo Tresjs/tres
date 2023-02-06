@@ -37,7 +37,7 @@
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s"
   },
   "peerDependencies": {
-    "@tresjs/core": "workspace:^1.6.0",
+    "@tresjs/core": "workspace:^1.6.1",
     "three": "latest",
     "vue": "^3.2.47"
   },
