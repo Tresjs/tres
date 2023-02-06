@@ -31,7 +31,7 @@
     "@iconify-json/logos": "^1.1.22",
     "@kidonng/daisyui": "^2.31.0",
     "@tresjs/cientos": "workspace:^1.6.0",
-    "@tresjs/core": "workspace:^1.6.0",
+    "@tresjs/core": "workspace:^1.6.1",
     "three": "^0.149.0",
     "unocss": "^0.49.4",
     "unocss-preset-daisy": "^1.2.0",
