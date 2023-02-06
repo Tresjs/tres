@@ -1,3 +1,9 @@
+## 1.6.2 (2023-02-06)
+
+### Bug Fixes
+
+- **core:** clean dependencies repeated both peer and dev ([0fb7b4c](https://github.com/Tresjs/tres/commit/0fb7b4c76aeab609a02a1d250962809e088a7c68))
+
 # 1.6.1 (2023-02-06)
 
 ### Bugfix
