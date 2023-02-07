@@ -17,17 +17,21 @@ export interface TresPlugin {
 const plugin: TresPlugin = {
   install(app: App, options) {
     const prefix = options?.prefix || 'Tres'
+
+    // Register core components
     app.component(`${prefix}Canvas`, TresCanvas)
     app.component(`${prefix}Scene`, Scene)
+
+    // Initialize catalogue
     const { catalogue, extend } = useCatalogue(app, prefix)
     app.provide('catalogue', catalogue)
     app.provide('extend', extend)
     app.provide('useTres', useTres())
+
+    // Create components from catalogue
     const { createComponentInstances } = useInstanceCreator(prefix)
     const components = createComponentInstances(catalogue)
-    /*  const components = createComponentInstances(
-      options?.extends ? { ...catalogue, ...options.extends } : catalogue,
-    ) */
+
     components.forEach(([key, cmp]) => {
       app.component(key as string, cmp as Component)
     })
