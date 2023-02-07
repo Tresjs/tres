@@ -1,3 +1,21 @@
+## 1.6.2 (2023-02-06)
+
+### Bug Fixes
+
+- **core:** clean dependencies repeated both peer and dev ([0fb7b4c](https://github.com/Tresjs/tres/commit/0fb7b4c76aeab609a02a1d250962809e088a7c68))
+
+# 1.6.1 (2023-02-06)
+
+### Bugfix
+
+- **core:** added vueuse as peer dependency ([890f97e](https://github.com/Tresjs/tres/commit/890f97e14cf5d743cf23c95967bea01229a56ea6))
+
+# 1.6.0 (2023-02-03)
+
+### Features
+
+- **core:** events support with Raytracing ([0b7767a](https://github.com/Tresjs/tres/commit/0b7767a80a8969585633cd0b570791faff36cbd4))
+
 # 1.5.1 (2023-01-19)
 
 ### Bug Fixes

@@ -20,21 +20,21 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/mdx": "^0.14.0",
-    "@astrojs/vue": "^1.2.2",
-    "astro": "^1.9.2",
+    "@astrojs/mdx": "^0.16.0",
+    "@astrojs/vue": "^2.0.1",
+    "astro": "^2.0.6",
     "astro-seo": "^0.7.0",
-    "vue": "^3.2.45"
+    "vue": "^3.2.47"
   },
   "devDependencies": {
-    "@iconify-json/carbon": "^1.1.13",
+    "@iconify-json/carbon": "^1.1.14",
     "@iconify-json/logos": "^1.1.22",
     "@kidonng/daisyui": "^2.31.0",
-    "@tresjs/cientos": "workspace:^1.4.0",
-    "@tresjs/core": "workspace:^1.5.0",
-    "three": "^0.148.0",
-    "unocss": "^0.48.0",
+    "@tresjs/cientos": "workspace:^1.6.0",
+    "@tresjs/core": "workspace:^1.6.2",
+    "three": "^0.149.0",
+    "unocss": "^0.49.4",
     "unocss-preset-daisy": "^1.2.0",
-    "vite-plugin-glsl": "^1.0.1"
+    "vite-plugin-glsl": "^1.1.2"
   }
 }

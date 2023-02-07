@@ -14,14 +14,14 @@ const state = reactive({
 
 function onClick(ev) {
   if (ev) {
-    ev.object.material.color.set('#00ffff')
+    ev.object.material.color.set('#008080')
   }
 }
 
 function onPointerEnter(ev) {
   console.log(ev)
   if (ev) {
-    ev.object.material.color.set('#ff0000')
+    ev.object.material.color.set('#DFFF45')
   }
 }
 
