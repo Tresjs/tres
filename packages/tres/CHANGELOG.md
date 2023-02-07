@@ -1,3 +1,9 @@
+## 1.6.3 (2023-02-07)
+
+### Bug Fixes
+
+- **core:** add vueuse as normal dependency ([9ee971a](https://github.com/Tresjs/tres/commit/9ee971afdeb68fc5b4c98e277b03ff1fc7f6f3f4))
+
 ## 1.6.2 (2023-02-06)
 
 ### Bug Fixes
