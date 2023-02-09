@@ -5,6 +5,18 @@ import { version } from '../../packages/tres/package.json'
 import { version as cientosVersion } from '../../packages/cientos/package.json'
 
 export default defineConfig({
+  locales: {
+    root: {
+      label: 'English',
+      lang: 'en',
+    },
+    es: {
+      label: 'Spanish',
+      lang: 'es',
+      link: '/es/guide',
+    },
+  },
+
   title: 'TresJS',
   description: 'Declarative ThreeJS using Vue Components',
   head: [['link', { rel: 'icon', type: 'image/svg', href: '/favicon.svg' }]],
