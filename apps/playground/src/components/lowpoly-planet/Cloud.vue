@@ -19,7 +19,7 @@ function random(min: number, max: number): number {
   return Math.random() < 0.5 ? -randomNumber : randomNumber
 }
 
-cloud.position.set(random(0.5, 1), random(0.5, 1), random(0.5, 1))
+cloud.position.set(random(0.5, 8), random(0.5, 1), random(0.5, 8))
 
 const size = random(0.5, 1)
 cloud.scale.set(size, size, size)
@@ -33,6 +33,24 @@ watch(
     cloud.updateMatrixWorld()
   },
 )
+
+const { onLoop } = useRenderLoop()
+
+let angle = random(0.5, 1) * Math.PI
+let speed = Math.random() / 10
+onLoop(({ delta }) => {
+  if (!cloud) return
+
+  const radius = Math.abs(props.planet.geometry.boundingSphere.radius) + 0.5
+  angle += delta * speed
+  let x = radius * Math.cos(angle)
+  let z = radius * Math.sin(angle)
+  cloud.position.x = x
+  cloud.position.z = z
+  cloud.rotation.y = -angle
+  cloud.lookAt(props.planet.position)
+  cloud.updateMatrixWorld()
+})
 </script>
 <template>
   <TresMesh ref="cloudRef" v-bind="scene" cast-shadow />
