@@ -36,7 +36,8 @@
     "changelog:cientos": "echo 'generate @tresjs/cientos changelog' && conventional-changelog -p angular -i ./packages/cientos/CHANGELOG.md -s  --commit-path ./packages/cientos && git add ./packages/cientos/CHANGELOG.md",
     "lint": "pnpm run lint:tres && pnpm run lint:cientos",
     "lint:tres": "pnpm --filter @tresjs/core lint",
-    "lint:cientos": "pnpm --filter @tresjs/cientos lint"
+    "lint:cientos": "pnpm --filter @tresjs/cientos lint",
+    "clean": "pnpm -r exec rm -rf node_modules"
   },
   "keywords": [
     "vue",

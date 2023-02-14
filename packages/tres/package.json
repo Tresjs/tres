@@ -46,7 +46,8 @@
   },
   "dependencies": {
     "@vueuse/core": "^9.12.0",
-    "@alvarosabu/utils": "^2.2.0"
+    "@alvarosabu/utils": "^2.2.0",
+    "three": "latest"
   },
   "devDependencies": {
     "@tresjs/cientos": "workspace:^1.6.0",
