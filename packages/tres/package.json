@@ -46,10 +46,10 @@
   },
   "dependencies": {
     "@vueuse/core": "^9.12.0",
-    "@alvarosabu/utils": "^2.2.0",
-    "three": "latest"
+    "@alvarosabu/utils": "^2.2.0"
   },
   "devDependencies": {
+    "three": "latest",
     "@tresjs/cientos": "workspace:^1.6.0",
     "@types/three": "latest",
     "@vitejs/plugin-vue": "^4.0.0",
