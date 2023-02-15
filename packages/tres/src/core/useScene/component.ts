@@ -1,9 +1,6 @@
-import { useCamera } from '/@/core/'
-import type { Renderer } from 'three'
 import { defineComponent, inject, provide, Ref } from 'vue'
-import { useRenderLoop } from '../useRenderLoop'
-import { useScene } from './'
-import { useRaycaster } from '../useRaycaster'
+import type { Renderer } from 'three'
+import { useCamera, useTres, useRenderLoop, useScene, useRaycaster } from '/@/core/'
 
 /**
  * Vue component for rendering a Tres component.
@@ -11,6 +8,7 @@ import { useRaycaster } from '../useRaycaster'
 export const Scene = defineComponent({
   name: 'Scene',
   setup(_props, { slots }) {
+    const { setState } = useTres()
     const { scene } = useScene()
     const renderer = inject<Ref<Renderer>>('renderer')
     const { activeCamera } = useCamera()
@@ -18,6 +16,7 @@ export const Scene = defineComponent({
     const { onLoop } = useRenderLoop()
 
     provide('local-scene', scene)
+    setState('scene', scene.value)
 
     onLoop(() => {
       raycaster.value.setFromCamera(pointer.value, activeCamera.value)

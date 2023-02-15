@@ -161,12 +161,9 @@ export function useInstanceCreator(prefix: string) {
             name,
             setup(_props, { slots, attrs, ...ctx }) {
               const { state } = useTres()
-              const { scene: fallback } = useScene()
               const { onLoop } = useRenderLoop()
-              const scene = inject('local-scene', fallback)
-              const { raycaster: raycasterFallback } = useRaycaster()
-              const raycaster = state.raycaster || raycasterFallback /* 
-              const currentInstance = inject<Ref>('currentInstance') */
+              const scene = state.scene
+              const raycaster = state.raycaster
               const { pushCamera } = useCamera()
 
               let instance = createInstance(threeObj, attrs, slots)
@@ -178,15 +175,15 @@ export function useInstanceCreator(prefix: string) {
 
               // If the instance is a valid Object3D, add it to the scene
               if (instance.isObject3D) {
-                scene?.value.add(instance)
+                scene?.add(instance)
               }
 
               let prevInstance: TresEvent | null = null
               let currentInstance: TresEvent | null = null
               if (instance.isMesh) {
                 onLoop(() => {
-                  if (instance && raycaster?.value) {
-                    const intersects = raycaster?.value.intersectObjects(scene.value.children)
+                  if (instance && raycaster && scene?.children) {
+                    const intersects = raycaster.intersectObjects(scene?.children)
 
                     if (intersects.length > 0) {
                       currentInstance = intersects[0]
@@ -216,13 +213,13 @@ export function useInstanceCreator(prefix: string) {
                 })
               }
 
-              if (scene?.value && instance.isFog) {
-                scene.value.fog = instance as unknown as FogBase
+              if (scene && instance.isFog) {
+                scene.fog = instance as unknown as FogBase
               }
 
               if (import.meta.hot) {
                 import.meta.hot.on('vite:beforeUpdate', () => {
-                  scene.value.remove(instance)
+                  scene?.remove(instance)
                 })
 
                 import.meta.hot.on('vite:afterUpdate', () => {
@@ -230,7 +227,7 @@ export function useInstanceCreator(prefix: string) {
                   processProps(attrs, instance)
 
                   if (instance.isObject3D) {
-                    scene?.value.add(instance)
+                    scene?.add(instance)
                   }
                 })
               }

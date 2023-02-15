@@ -8,7 +8,7 @@ const currentInstance = ref(null)
 
 export function useRaycaster() {
   const { setState } = useTres()
-  setState('raycaster', raycaster)
+  setState('raycaster', raycaster.value)
   setState('pointer', pointer)
   setState('currentInstance', currentInstance)
 
