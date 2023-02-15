@@ -31,11 +31,8 @@ export const TresCanvas = defineComponent({
 
     const { renderer, dispose, aspectRatio } = useRenderer(canvas, container, props)
 
-    const activeCamera = shallowRef()
-
     provide('aspect-ratio', aspectRatio)
     provide('renderer', renderer)
-    provide('camera', activeCamera)
 
     if (slots.default && !slots.default().some(node => (node.type as TresVNodeType).name === 'Scene')) {
       logError('TresCanvas must contain a Scene component.')

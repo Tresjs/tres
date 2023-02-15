@@ -190,6 +190,7 @@ export function useRenderer(canvas: MaybeElementRef, container: MaybeElementRef,
     const { setState } = useTres()
     setState('renderer', renderer.value)
     setState('clock', new Clock())
+    setState('aspectRatio', aspectRatio)
     updateRendererOptions()
     updateRendererSize()
     resume()
