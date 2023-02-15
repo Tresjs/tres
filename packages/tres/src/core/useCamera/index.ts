@@ -44,7 +44,7 @@ const VERTICAL_FIELD_OF_VIEW = 45
 let camera: Camera
 
 export function useCamera(): UseCameraReturn {
-  const aspectRatio = inject<ComputedRef<number>>('aspect-ratio')
+  const aspectRatio = inject('aspect-ratio', () => 1)
 
   const { setState } = useTres()
 
