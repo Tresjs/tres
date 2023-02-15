@@ -4,6 +4,7 @@ import { Camera, Object3D, Scene, WebGLRenderer, type Event } from 'three'
 import { TransformControls as TransformControlsImp } from 'three-stdlib'
 import { inject, computed, type Ref, unref, watch, shallowRef, ShallowRef, onUnmounted } from 'vue'
 import { pick, hasSetter } from '../utils'
+import { useCientos } from './useCientos'
 
 const props = withDefaults(
   defineProps<{
@@ -29,9 +30,7 @@ const emit = defineEmits(['dragging', 'change', 'mouseDown', 'mouseUp', 'objectC
 
 let controls: ShallowRef<TransformControlsImp | undefined> = shallowRef()
 
-const camera = inject<Ref<Camera>>('camera')
-const renderer = inject<Ref<WebGLRenderer>>('renderer')
-const scene = inject<Ref<Scene>>('local-scene')
+const { state } = useCientos()
 
 const transformProps = computed(() =>
   pick(props, [
@@ -48,8 +47,6 @@ const transformProps = computed(() =>
     'showZ',
   ]),
 )
-const { state } = useTres()
-
 const onChange = () => emit('change', controls.value)
 const onMouseDown = () => emit('mouseDown', controls.value)
 const onMouseUp = () => emit('mouseUp', controls.value)
@@ -71,11 +68,11 @@ function addEventListeners(controls: TransformControlsImp) {
 watch(
   () => props.object,
   () => {
-    if (camera?.value && renderer?.value && scene?.value && props.object) {
-      controls.value = new TransformControlsImp(camera.value, unref(renderer).domElement)
+    if (state.camera?.value && state.renderer && state.scene && props.object) {
+      controls.value = new TransformControlsImp(state.camera.value, unref(state.renderer).domElement)
 
       controls.value.attach(unref(props.object))
-      scene.value.add(unref(controls) as TransformControlsImp)
+      state.scene.add(unref(controls) as TransformControlsImp)
 
       addEventListeners(unref(controls) as TransformControlsImp)
     }
