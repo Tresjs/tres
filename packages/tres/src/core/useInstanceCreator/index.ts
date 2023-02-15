@@ -6,7 +6,7 @@ import { useEventListener } from '@vueuse/core'
 
 import { isArray, isDefined, isFunction } from '@alvarosabu/utils'
 import { normalizeVectorFlexibleParam } from '/@/utils/normalize'
-import { useCamera, useCatalogue, useRenderLoop, useScene } from '/@/core/'
+import { useCamera, useCatalogue, useRenderLoop, useScene, useTres } from '/@/core/'
 import { useLogger } from '/@/composables'
 import { TresAttributes, TresCatalogue, TresInstance, TresVNode, TresVNodeType, TresEvent } from '/@/types'
 import { useRaycaster } from '../useRaycaster'
@@ -160,11 +160,12 @@ export function useInstanceCreator(prefix: string) {
           const cmp = defineComponent({
             name,
             setup(_props, { slots, attrs, ...ctx }) {
+              const { state } = useTres()
               const { scene: fallback } = useScene()
               const { onLoop } = useRenderLoop()
               const scene = inject('local-scene', fallback)
               const { raycaster: raycasterFallback } = useRaycaster()
-              const raycaster = inject('raycaster', raycasterFallback) /* 
+              const raycaster = state.raycaster || raycasterFallback /* 
               const currentInstance = inject<Ref>('currentInstance') */
               const { pushCamera } = useCamera()
 
