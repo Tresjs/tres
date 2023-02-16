@@ -1,8 +1,7 @@
 <script lang="ts" setup>
-import { useTres } from '@tresjs/core'
-import { Camera, Vector3, WebGLRenderer } from 'three'
+import { Camera, Vector3 } from 'three'
 import { OrbitControls } from 'three-stdlib'
-import { inject, ref, watch, type Ref } from 'vue'
+import { ref, watch, watchEffect, unref, type Ref } from 'vue'
 
 import { useCientos } from './useCientos'
 
@@ -19,13 +18,10 @@ const props = withDefaults(
   },
 )
 
-const { setState } = useTres()
+const { state, setState, extend } = useCientos()
 
 const controls = ref(null)
-const camera = inject<Ref<Camera>>('camera')
-const renderer = inject<Ref<WebGLRenderer>>('renderer')
 
-const { extend } = useCientos()
 extend({ OrbitControls })
 
 watch(controls, value => {
@@ -39,9 +35,9 @@ watch(controls, value => {
 
 <template>
   <TresOrbitControls
-    v-if="camera && renderer"
+    v-if="state.camera && state.renderer"
     ref="controls"
-    :args="[camera, renderer?.domElement]"
+    :args="[unref(state.camera), state.renderer?.domElement]"
     :enabling-dampling="enableDamping"
   />
 </template>

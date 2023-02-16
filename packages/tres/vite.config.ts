@@ -7,7 +7,6 @@ import banner from 'vite-plugin-banner'
 import dts from 'vite-plugin-dts'
 import analyze from 'rollup-plugin-analyzer'
 /* import { visualizer } from 'rollup-plugin-visualizer' */
-import glsl from 'vite-plugin-glsl'
 import { resolve } from 'pathe'
 
 import { lightGreen, yellow, gray, bold } from 'kolorist'
@@ -32,7 +31,6 @@ export default defineConfig({
     dts({
       insertTypesEntry: true,
     }),
-    glsl(),
     banner({
       content: `/**\n * name: ${pkg.name}\n * version: v${
         pkg.version

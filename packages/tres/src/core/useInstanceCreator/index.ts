@@ -6,9 +6,10 @@ import { useEventListener } from '@vueuse/core'
 
 import { isArray, isDefined, isFunction } from '@alvarosabu/utils'
 import { normalizeVectorFlexibleParam } from '/@/utils/normalize'
-import { useCamera, useCatalogue, useRenderLoop, useScene } from '/@/core/'
+import { useCamera, useCatalogue, useRenderLoop, useScene, useTres } from '/@/core/'
 import { useLogger } from '/@/composables'
 import { TresAttributes, TresCatalogue, TresInstance, TresVNode, TresVNodeType, TresEvent } from '/@/types'
+import { useRaycaster } from '../useRaycaster'
 
 const VECTOR3_PROPS = ['rotation', 'scale', 'position']
 
@@ -159,12 +160,10 @@ export function useInstanceCreator(prefix: string) {
           const cmp = defineComponent({
             name,
             setup(_props, { slots, attrs, ...ctx }) {
-              const { scene: fallback } = useScene()
+              const { state } = useTres()
               const { onLoop } = useRenderLoop()
-              const scene = inject<Ref<Scene>>('local-scene') || fallback
-              /* const { raycaster } = useRaycaster() */
-              const raycaster = inject<Ref<Raycaster>>('raycaster') /* 
-              const currentInstance = inject<Ref>('currentInstance') */
+              const scene = state.scene
+              const raycaster = state.raycaster
               const { pushCamera } = useCamera()
 
               let instance = createInstance(threeObj, attrs, slots)
@@ -176,15 +175,15 @@ export function useInstanceCreator(prefix: string) {
 
               // If the instance is a valid Object3D, add it to the scene
               if (instance.isObject3D) {
-                scene?.value.add(instance)
+                scene?.add(instance)
               }
 
               let prevInstance: TresEvent | null = null
               let currentInstance: TresEvent | null = null
               if (instance.isMesh) {
                 onLoop(() => {
-                  if (instance && raycaster?.value) {
-                    const intersects = raycaster?.value.intersectObjects(scene.value.children)
+                  if (instance && raycaster && scene?.children) {
+                    const intersects = raycaster.intersectObjects(scene?.children)
 
                     if (intersects.length > 0) {
                       currentInstance = intersects[0]
@@ -214,13 +213,13 @@ export function useInstanceCreator(prefix: string) {
                 })
               }
 
-              if (scene?.value && instance.isFog) {
-                scene.value.fog = instance as unknown as FogBase
+              if (scene && instance.isFog) {
+                scene.fog = instance as unknown as FogBase
               }
 
               if (import.meta.hot) {
                 import.meta.hot.on('vite:beforeUpdate', () => {
-                  scene.value.remove(instance)
+                  scene?.remove(instance)
                 })
 
                 import.meta.hot.on('vite:afterUpdate', () => {
@@ -228,7 +227,7 @@ export function useInstanceCreator(prefix: string) {
                   processProps(attrs, instance)
 
                   if (instance.isObject3D) {
-                    scene?.value.add(instance)
+                    scene?.add(instance)
                   }
                 })
               }

@@ -1,10 +1,17 @@
-import { WebGLRenderer } from 'three'
-import { shallowReactive, toRefs } from 'vue'
+import { Clock, EventDispatcher, Raycaster, Scene, Vector2, WebGLRenderer } from 'three'
+import { ComputedRef, shallowReactive, ShallowRef, toRefs } from 'vue'
 import { Camera } from '/@/core'
 
 export interface TresState {
-  camera?: Camera
+  camera?: ComputedRef<Camera>
+  aspectRatio?: ComputedRef<number>
   renderer?: WebGLRenderer
+  scene?: Scene
+  raycaster?: Raycaster
+  clock?: Clock
+  pointer?: Vector2
+  currentInstance?: any
+  controls?: EventDispatcher | null
   [key: string]: any
 }
 

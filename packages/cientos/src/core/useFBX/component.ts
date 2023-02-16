@@ -1,6 +1,7 @@
 import { Object3D, Scene } from 'three'
 import { defineComponent, inject, Ref } from 'vue'
 import { useFBX } from '.'
+import { useCientos } from '../useCientos'
 
 export const FBXModel = defineComponent({
   name: 'FBXModel',
@@ -11,7 +12,7 @@ export const FBXModel = defineComponent({
     },
   },
   async setup(props, { expose }) {
-    const scene = inject<Ref<Scene>>('local-scene')
+    const { state } = useCientos()
     let model: Object3D | null = null
 
     function getModel() {
@@ -21,8 +22,8 @@ export const FBXModel = defineComponent({
 
     model = await useFBX(props.path as string)
 
-    if (scene?.value && model.isObject3D) {
-      scene.value.add(model)
+    if (state.scene && model.isObject3D) {
+      state.scene.add(model)
     }
     return () => {
       model

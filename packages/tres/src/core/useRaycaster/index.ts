@@ -1,11 +1,17 @@
 import { Raycaster, Vector2 } from 'three'
 import { onUnmounted, provide, ref, shallowRef } from 'vue'
+import { useTres } from '/@/core'
 
 const raycaster = shallowRef(new Raycaster())
 const pointer = ref(new Vector2())
 const currentInstance = ref(null)
 
 export function useRaycaster() {
+  const { setState } = useTres()
+  setState('raycaster', raycaster.value)
+  setState('pointer', pointer)
+  setState('currentInstance', currentInstance)
+
   provide('raycaster', raycaster)
   provide('pointer', pointer)
   provide('currentInstance', currentInstance)
