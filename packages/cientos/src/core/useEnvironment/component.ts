@@ -2,7 +2,6 @@ import { EnvironmentOptions, EnvironmentPresetsType } from './const'
 import { CubeTexture, Texture, TextureEncoding } from 'three'
 import { defineComponent, PropType } from 'vue'
 
-import { useCientos } from '../useCientos'
 import { useEnvironment } from '.'
 
 export const Environment = defineComponent({
@@ -21,10 +20,7 @@ export const Environment = defineComponent({
       required: true,
     },
     encoding: Object as PropType<TextureEncoding>,
-    path: {
-      type: String,
-      default: '/',
-    },
+    path: String,
     preset: Object as PropType<EnvironmentPresetsType>,
   },
   async setup(props, { expose }) {
