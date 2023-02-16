@@ -31,14 +31,16 @@ const sphereRef = ref()
 
 const { pane } = useTweakPane()
 
-const environmentFiles = [
+/* const environmentFiles = [
   'https://raw.githubusercontent.com/Tresjs/assets/main/textures/environmentMap/px.jpg',
   'https://raw.githubusercontent.com/Tresjs/assets/main/textures/environmentMap/nx.jpg',
   'https://raw.githubusercontent.com/Tresjs/assets/main/textures/environmentMap/py.jpg',
   'https://raw.githubusercontent.com/Tresjs/assets/main/textures/environmentMap/ny.jpg',
   'https://raw.githubusercontent.com/Tresjs/assets/main/textures/environmentMap/pz.jpg',
   'https://raw.githubusercontent.com/Tresjs/assets/main/textures/environmentMap/nz.jpg',
-]
+] */
+
+const environmentFiles = ['/px.jpg', '/nx.jpg', '/py.jpg', '/ny.jpg', '/pz.jpg', '/nz.jpg']
 
 let envMap = null
 
@@ -109,7 +111,13 @@ pane
     <TresPerspectiveCamera :position="[8, 8, 8]" :fov="45" :near="0.1" :far="1000" :look-at="[-8, 3, -3]" />
     <OrbitControls make-default />
     <TresScene>
-      <Environment ref="environmentTexture" background :files="environmentFiles" />
+      <!-- <Environment
+        ref="environmentTexture"
+        background
+        :files="environmentFiles"
+        :path="'https://raw.githubusercontent.com/Tresjs/assets/main/textures/environmentMap'"
+      /> -->
+      <Environment ref="environmentTexture" background preset="sunset" />
       <TresAmbientLight :intensity="0.5" />
 
       <TresMesh ref="sphereRef" :position="[0, 4, 0]" cast-shadow>
