@@ -18,9 +18,11 @@ import Tetrahedron from './core/Tetrahedron.vue'
 import Icosahedron from './core/Icosahedron.vue'
 import Octahedron from './core/Octahedron.vue'
 import Dodecahedron from './core/Dodecahedron.vue'
+import { Environment } from './core/useEnvironment/component'
 
 export * from './core/useGLTF'
 export * from './core/useFBX'
+export * from './core/useEnvironment'
 export * from './types'
 export {
   OrbitControls,
@@ -43,4 +45,5 @@ export {
   Octahedron,
   Dodecahedron,
   useAnimations,
+  Environment,
 }
