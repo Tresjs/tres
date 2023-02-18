@@ -26,6 +26,12 @@ export const Scene = defineComponent({
       }
     })
 
+    if (import.meta.hot) {
+      import.meta.hot.on('vite:afterUpdate', () => {
+        scene.value.children = []
+      })
+    }
+
     return () => {
       if (slots.default) {
         return slots.default()

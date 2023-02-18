@@ -98,13 +98,13 @@ importers:
       vite-plugin-banner: ^0.7.0
       vite-plugin-dts: ^1.7.2
       vite-plugin-glsl: ^1.1.2
+      vite-plugin-inspect: ^0.7.15
       vite-plugin-require-transform: ^1.0.9
       vitest: ^0.28.4
       vue-demi: ^0.13.11
     dependencies:
       '@alvarosabu/utils': 2.3.0
       '@vueuse/core': 9.12.0
-      three: 0.149.0
     devDependencies:
       '@tresjs/cientos': link:../cientos
       '@types/three': 0.149.0
@@ -118,11 +118,13 @@ importers:
       release-it: 15.6.0
       rollup-plugin-analyzer: 4.0.0
       rollup-plugin-visualizer: 5.9.0
+      three: 0.149.0
       unplugin-vue-components: 0.23.0
       vite: 4.1.1
       vite-plugin-banner: 0.7.0
       vite-plugin-dts: 1.7.3_vite@4.1.1
       vite-plugin-glsl: 1.1.2_vite@4.1.1
+      vite-plugin-inspect: 0.7.15_vite@4.1.1
       vite-plugin-require-transform: 1.0.9
       vitest: 0.28.5_mbkmnifaqmtsef2wnoeptjqqgq
       vue-demi: 0.13.11
@@ -3841,6 +3843,15 @@ packages:
       universalify: 2.0.0
     dev: true
 
+  /fs-extra/11.1.0:
+    resolution: {integrity: sha512-0rcTq621PD5jM/e0a3EJoGC/1TC5ZBCERW82LQuwfGnCa1V8w7dpYH1yNu+SLb6E5dkeCBzKEyLGlFrnr+dUyw==}
+    engines: {node: '>=14.14'}
+    dependencies:
+      graceful-fs: 4.2.10
+      jsonfile: 6.1.0
+      universalify: 2.0.0
+    dev: true
+
   /fs-extra/7.0.1:
     resolution: {integrity: sha512-YJDaCJZEnBmcbw13fvdAM9AwNOJwOzrE4pqMqBq5nFiEqXUqHwlK4B+3pUw6JNvfSPtX05xFHtYy/1ni01eGCw==}
     engines: {node: '>=6 <7 || >=8'}
@@ -7035,7 +7046,7 @@ packages:
 
   /three/0.149.0:
     resolution: {integrity: sha512-tohpUxPDht0qExRLDTM8sjRLc5d9STURNrdnK3w9A+V4pxaTBfKWWT/IqtiLfg23Vfc3Z+ImNfvRw1/0CtxrkQ==}
-    dev: false
+    dev: true
 
   /through/2.3.8:
     resolution: {integrity: sha512-w89qg7PI8wAdvX60bMDP+bFoD5Dvhm9oLheFp5O4a2QF0cSBGsBX4qZmadPMvVqlLJBBci+WqGGOAPvcDeNSVg==}
@@ -7566,6 +7577,25 @@ packages:
       vite: 4.1.1
     transitivePeerDependencies:
       - rollup
+    dev: true
+
+  /vite-plugin-inspect/0.7.15_vite@4.1.1:
+    resolution: {integrity: sha512-oxeZCljacA/slhGFbDNlBqdhDU9fgdHL84i7Nz7DnaAIE7DhTiW2djanw3d/BKuZtduKUY82vRUQ4iaG917t2A==}
+    engines: {node: '>=14'}
+    peerDependencies:
+      vite: ^3.1.0 || ^4.0.0
+    dependencies:
+      '@antfu/utils': 0.7.2
+      '@rollup/pluginutils': 5.0.2
+      debug: 4.3.4
+      fs-extra: 11.1.0
+      kolorist: 1.7.0
+      sirv: 2.0.2
+      ufo: 1.0.1
+      vite: 4.1.1
+    transitivePeerDependencies:
+      - rollup
+      - supports-color
     dev: true
 
   /vite-plugin-require-transform/1.0.9:

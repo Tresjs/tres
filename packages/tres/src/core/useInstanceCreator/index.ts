@@ -1,15 +1,14 @@
 /* eslint-disable new-cap */
 /* eslint-disable @typescript-eslint/no-empty-function */
-import { BufferAttribute, FogBase, OrthographicCamera, PerspectiveCamera, Raycaster, Scene } from 'three'
+import { BufferAttribute, FogBase, OrthographicCamera, PerspectiveCamera } from 'three'
 import { defineComponent, inject, onUnmounted, Ref } from 'vue'
 import { useEventListener } from '@vueuse/core'
 
 import { isArray, isDefined, isFunction } from '@alvarosabu/utils'
 import { normalizeVectorFlexibleParam } from '/@/utils/normalize'
-import { useCamera, useCatalogue, useRenderLoop, useScene, useTres } from '/@/core/'
+import { useCamera, useCatalogue, useRenderLoop, useTres } from '/@/core/'
 import { useLogger } from '/@/composables'
 import { TresAttributes, TresCatalogue, TresInstance, TresVNode, TresVNodeType, TresEvent } from '/@/types'
-import { useRaycaster } from '../useRaycaster'
 
 const VECTOR3_PROPS = ['rotation', 'scale', 'position']
 
@@ -218,10 +217,6 @@ export function useInstanceCreator(prefix: string) {
               }
 
               if (import.meta.hot) {
-                import.meta.hot.on('vite:beforeUpdate', () => {
-                  scene?.remove(instance)
-                })
-
                 import.meta.hot.on('vite:afterUpdate', () => {
                   instance = createInstance(threeObj, attrs, slots)
                   processProps(attrs, instance)
