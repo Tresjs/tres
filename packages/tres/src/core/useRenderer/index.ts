@@ -22,6 +22,8 @@ import type { TextureEncoding, ToneMapping } from 'three'
 import { useRenderLoop, useTres } from '/@/core/'
 import { normalizeColor } from '/@/utils/normalize'
 import { TresColor } from '/@/types'
+import { rendererPresets, RendererPresetsType } from './const'
+import { merge } from '/@/utils'
 
 export interface UseRendererOptions extends WebGLRendererParameters {
   /**
@@ -100,6 +102,7 @@ export interface UseRendererOptions extends WebGLRendererParameters {
    */
   clearColor?: MaybeComputedRef<TresColor>
   windowSize?: MaybeComputedRef<boolean>
+  preset?: RendererPresetsType
 }
 
 const renderer = shallowRef<WebGLRenderer>()
@@ -133,6 +136,7 @@ export function useRenderer(canvas: MaybeElementRef, container: MaybeElementRef,
     preserveDrawingBuffer = false,
     clearColor,
     windowSize = false,
+    preset = undefined,
   } = toRefs(options)
 
   const { width, height } = resolveUnref(windowSize) ? useWindowSize() : useElementSize(container)
@@ -152,6 +156,16 @@ export function useRenderer(canvas: MaybeElementRef, container: MaybeElementRef,
 
   const updateRendererOptions = () => {
     if (!renderer.value) {
+      return
+    }
+
+    const rendererPreset = resolveUnref(preset)
+
+    if (rendererPreset) {
+      if (!(rendererPreset in rendererPresets))
+        throw new Error('Preset must be one of: ' + Object.keys(rendererPresets).join(', '))
+      merge(renderer.value, rendererPresets[rendererPreset])
+
       return
     }
 
