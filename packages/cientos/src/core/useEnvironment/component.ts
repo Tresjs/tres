@@ -17,7 +17,6 @@ export const Environment = defineComponent({
     },
     files: {
       type: [String, Array],
-      required: true,
     },
     encoding: Object as PropType<TextureEncoding>,
     path: String,

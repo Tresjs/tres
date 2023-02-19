@@ -14,7 +14,7 @@ import {
   CustomToneMapping,
 } from 'three'
 import { reactive, ref, shallowRef, watch } from 'vue'
-import { OrbitControls, useTweakPane, TransformControls, Environment } from '../../../cientos/src'
+import { OrbitControls, useTweakPane, Environment } from '../../../cientos/src'
 import { TresCanvas } from '../core/useRenderer/component'
 /* import { OrbitControls, GLTFModel } from '@tresjs/cientos' */
 
@@ -111,13 +111,13 @@ pane
     <TresPerspectiveCamera :position="[8, 8, 8]" :fov="45" :near="0.1" :far="1000" :look-at="[-8, 3, -3]" />
     <OrbitControls make-default />
     <TresScene>
-      <!-- <Environment
+      <Environment
         ref="environmentTexture"
         background
         :files="environmentFiles"
         :path="'https://raw.githubusercontent.com/Tresjs/assets/main/textures/environmentMap'"
-      /> -->
-      <Environment ref="environmentTexture" background preset="sunset" />
+      />
+      <!--  <Environment ref="environmentTexture" background preset="sunset" /> -->
       <TresAmbientLight :intensity="0.5" />
 
       <TresMesh ref="sphereRef" :position="[0, 4, 0]" cast-shadow>
