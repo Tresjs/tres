@@ -33,10 +33,15 @@ export async function useEnvironment({
 
   const loader = isCubeMap ? CubeTextureLoader : RGBELoader
 
-  const result = await useLoader(loader, isCubeMap ? [files] : files, (loader: any) => {
-    if (path) loader.setPath(path)
-    if (encoding) loader.encoding = encoding
-  })
+  const result = await useLoader(
+    // @ts-expect-error There is a bug in the types for useLoader
+    loader,
+    isCubeMap ? [files] : files,
+    (loader: any) => {
+      if (path) loader.setPath(path)
+      if (encoding) loader.encoding = encoding
+    },
+  )
 
   const texture: Texture | CubeTexture = isCubeMap ? result[0] : result
 

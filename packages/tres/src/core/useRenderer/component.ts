@@ -1,5 +1,5 @@
 import { ShadowMapType, TextureEncoding, ToneMapping } from 'three'
-import { h, defineComponent, ref, provide, onBeforeUnmount, shallowRef, PropType } from 'vue'
+import { h, defineComponent, ref, provide, onBeforeUnmount, PropType } from 'vue'
 import { useRenderer } from '.'
 import { useLogger } from '/@/composables'
 import { TresVNodeType } from '/@/types'
