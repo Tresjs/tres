@@ -7,7 +7,7 @@ const sphereRef: Ref<TresInstance | null> = ref(null)
 
 const { onLoop, resume } = useRenderLoop()
 resume()
-onLoop(({ _delta, elapsed }) => {
+onLoop(({ elapsed }) => {
   if (sphereRef.value) {
     sphereRef.value.position.y = Math.sin(elapsed * 0.2) * 2.0
   }

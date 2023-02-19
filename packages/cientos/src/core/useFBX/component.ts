@@ -1,5 +1,5 @@
-import { Object3D, Scene } from 'three'
-import { defineComponent, inject, Ref } from 'vue'
+import { Object3D } from 'three'
+import { defineComponent } from 'vue'
 import { useFBX } from '.'
 import { useCientos } from '../useCientos'
 

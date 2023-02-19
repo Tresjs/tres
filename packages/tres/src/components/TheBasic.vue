@@ -1,18 +1,5 @@
 <script setup lang="ts">
-import {
-  sRGBEncoding,
-  LinearEncoding,
-  BasicShadowMap,
-  PCFShadowMap,
-  PCFSoftShadowMap,
-  VSMShadowMap,
-  NoToneMapping,
-  LinearToneMapping,
-  ReinhardToneMapping,
-  CineonToneMapping,
-  ACESFilmicToneMapping,
-  CustomToneMapping,
-} from 'three'
+import { sRGBEncoding, BasicShadowMap, NoToneMapping } from 'three'
 import { reactive, ref } from 'vue'
 
 import { OrbitControls, TransformControls } from '@tresjs/cientos'
@@ -33,7 +20,7 @@ const sphereRef = ref()
 
 const { onLoop } = useRenderLoop()
 
-onLoop(({ delta, elapsed, state }) => {
+onLoop(({ elapsed }) => {
   sphereRef.value.position.y += Math.sin(elapsed * 0.01) * 0.1
 })
 </script>

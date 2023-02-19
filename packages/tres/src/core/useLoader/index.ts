@@ -9,6 +9,7 @@ export interface TresLoader<T> extends THREE.Loader {
     onProgress?: (event: ProgressEvent) => void,
     onError?: (event: ErrorEvent) => void,
   ): unknown
+  loadAsync(url: string, onProgress?: (event: ProgressEvent) => void): Promise<T>
 }
 
 export type LoaderProto<T> = new (...args: any) => TresLoader<T extends unknown ? any : T>

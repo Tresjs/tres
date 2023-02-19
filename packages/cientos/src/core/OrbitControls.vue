@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { Camera, Vector3 } from 'three'
 import { OrbitControls } from 'three-stdlib'
-import { ref, watch, watchEffect, unref, type Ref } from 'vue'
+import { ref, watch, unref, type Ref } from 'vue'
 
 import { useCientos } from './useCientos'
 

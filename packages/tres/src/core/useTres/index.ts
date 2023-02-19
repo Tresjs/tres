@@ -1,5 +1,5 @@
 import { Clock, EventDispatcher, Raycaster, Scene, Vector2, WebGLRenderer } from 'three'
-import { ComputedRef, shallowReactive, ShallowRef, toRefs } from 'vue'
+import { ComputedRef, shallowReactive, toRefs } from 'vue'
 import { Camera } from '/@/core'
 
 export interface TresState {
@@ -11,7 +11,7 @@ export interface TresState {
   clock?: Clock
   pointer?: Vector2
   currentInstance?: any
-  controls?: EventDispatcher | null
+  controls?: (EventDispatcher & { enabled: boolean }) | null
   [key: string]: any
 }
 
