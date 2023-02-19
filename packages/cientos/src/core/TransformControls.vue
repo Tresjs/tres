@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import { useTres } from '@tresjs/core'
-import { Camera, Object3D, Scene, WebGLRenderer, type Event } from 'three'
+import { Object3D, type Event } from 'three'
 import { TransformControls as TransformControlsImp } from 'three-stdlib'
-import { inject, computed, type Ref, unref, watch, shallowRef, ShallowRef, onUnmounted } from 'vue'
+import { computed, unref, watch, shallowRef, ShallowRef, onUnmounted } from 'vue'
 import { pick, hasSetter } from '../utils'
 import { useCientos } from './useCientos'
 
