@@ -10,7 +10,7 @@
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "lib": ["esnext", "dom"],
-    "types": ["vite/client", "node", "@tresjs/core"],
+    "types": ["vite/client", "node"],
     "incremental": false,
     "skipLibCheck": true,
     "noUnusedLocals": false,

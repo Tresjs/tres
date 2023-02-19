@@ -23,7 +23,6 @@ import { Environment } from './core/useEnvironment/component'
 export * from './core/useGLTF'
 export * from './core/useFBX'
 export * from './core/useEnvironment'
-export * from './types'
 export {
   OrbitControls,
   TransformControls,

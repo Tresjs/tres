@@ -1,6 +1,6 @@
 import { GLTFLoader, DRACOLoader } from 'three-stdlib'
 import { useLoader } from '@tresjs/core'
-import { TresObject } from '/@/types'
+import { Object3D } from 'three'
 
 export interface GLTFLoaderOptions {
   draco?: boolean
@@ -9,7 +9,7 @@ export interface GLTFLoaderOptions {
 
 export interface GLTFResult {
   animations: Array<THREE.AnimationClip>
-  nodes: Array<TresObject>
+  nodes: Array<Object3D>
   materials: Array<THREE.Material>
   scene: THREE.Scene
 }
