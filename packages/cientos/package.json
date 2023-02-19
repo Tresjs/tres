@@ -55,7 +55,7 @@
     "vite-plugin-dts": "2.0.0-beta.1"
   },
   "dependencies": {
-    "@tresjs/core": "workspace:^1.6.0",
+    "@tresjs/core": "workspace:^1.6.3",
     "three-stdlib": "^2.21.8"
   }
 }

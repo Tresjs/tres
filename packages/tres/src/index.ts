@@ -4,7 +4,8 @@ import { Scene } from '/@/core/useScene/component'
 import { useCatalogue, useInstanceCreator, useTres } from '/@/core'
 export * from '/@/core'
 export * from './keys'
-import { version } from '../package.json'
+export * from './types'
+
 export interface TresOptions {
   prefix?: string
   extends?: Record<string, unknown>
@@ -35,11 +36,6 @@ const plugin: TresPlugin = {
     components.forEach(([key, cmp]) => {
       app.component(key as string, cmp as Component)
     })
-
-    window.__TRES__ = {
-      app,
-      version,
-    }
   },
 }
 

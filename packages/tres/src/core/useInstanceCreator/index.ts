@@ -1,6 +1,6 @@
 /* eslint-disable new-cap */
 /* eslint-disable @typescript-eslint/no-empty-function */
-import { BufferAttribute, FogBase, OrthographicCamera, PerspectiveCamera } from 'three'
+import { BufferAttribute, Fog, FogBase, Mesh, OrthographicCamera, PerspectiveCamera } from 'three'
 import { defineComponent, inject, onUnmounted, Ref } from 'vue'
 import { useEventListener } from '@vueuse/core'
 
@@ -179,7 +179,7 @@ export function useInstanceCreator(prefix: string) {
 
               let prevInstance: TresEvent | null = null
               let currentInstance: TresEvent | null = null
-              if (instance.isMesh) {
+              if (instance instanceof Mesh) {
                 onLoop(() => {
                   if (instance && raycaster && scene?.children) {
                     const intersects = raycaster.intersectObjects(scene?.children)
@@ -212,7 +212,7 @@ export function useInstanceCreator(prefix: string) {
                 })
               }
 
-              if (scene && instance.isFog) {
+              if (scene && instance instanceof Fog) {
                 scene.fog = instance as unknown as FogBase
               }
 
