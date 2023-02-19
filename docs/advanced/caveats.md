@@ -2,7 +2,13 @@
 
 Our aim is to provide a simple way of using ThreeJS in VueJS with the best developer experience possible. However, there are some caveats that you should be aware of.
 
-## HMR and ThreeJS
+## ~~HMR and ThreeJS~~
+
+:::info
+
+This has been fixed in **TresJS** v1.7.0 🎉. You can now use HMR without reloading the page 🥹.
+
+:::
 
 Hot module replacement (HMR) is a feature that allows you to update your code without reloading the page. This is a great feature that makes development much faster. **TresJS** uses [Vite](https://vitejs.dev/). However, is really tricky to make it work correctly with ThreeJS.
 

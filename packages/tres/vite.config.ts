@@ -4,6 +4,8 @@ import { defineConfig } from 'vite'
 
 import vue from '@vitejs/plugin-vue'
 import banner from 'vite-plugin-banner'
+import Inspect from 'vite-plugin-inspect'
+
 import dts from 'vite-plugin-dts'
 import analyze from 'rollup-plugin-analyzer'
 /* import { visualizer } from 'rollup-plugin-visualizer' */
@@ -27,7 +29,9 @@ export default defineConfig({
     dedupe: ['@tresjs/cientos'],
   },
   plugins: [
-    vue({}),
+    vue({
+      isProduction: false,
+    }),
     dts({
       insertTypesEntry: true,
     }),
@@ -36,6 +40,7 @@ export default defineConfig({
         pkg.version
       }\n * (c) ${new Date().getFullYear()}\n * description: ${pkg.description}\n * author: ${pkg.author}\n */`,
     }),
+    Inspect(),
   ],
   test: {
     environment: 'happy-dom',

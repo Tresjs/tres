@@ -3,15 +3,26 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "Attach by Process ID",
+      "processId": "${command:PickProcess}",
+      "request": "attach",
+      "skipFiles": ["<node_internals>/**"],
+      "type": "node"
+    },
+    {
+      "name": "Attach to vite",
+      "port": 5174,
+      "request": "attach",
+      "skipFiles": ["<node_internals>/**"],
+      "type": "node"
+    },
+    {
+      "name": "fe-server",
       "type": "node",
       "request": "launch",
-      "name": "Debug Current Test File",
-      "autoAttachChildProcesses": true,
-      "skipFiles": ["<node_internals>/**", "**/node_modules/**"],
-      "program": "${workspaceRoot}/node_modules/vitest/vitest.mjs",
-      "args": ["run", "${relativeFile}"],
-      "smartStep": true,
-      "console": "integratedTerminal"
+      "cwd": "${workspaceRoot}/packages/tres",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev", "--preserve-symlinks"]
     }
   ]
 }
