@@ -24,6 +24,7 @@ import { normalizeColor } from '/@/utils/normalize'
 import { TresColor } from '/@/types'
 import { rendererPresets, RendererPresetsType } from './const'
 import { merge } from '/@/utils'
+import { useLogger } from '/@/composables'
 
 export interface UseRendererOptions extends WebGLRendererParameters {
   /**
@@ -140,7 +141,7 @@ export function useRenderer(canvas: MaybeElementRef, container: MaybeElementRef,
   } = toRefs(options)
 
   const { width, height } = resolveUnref(windowSize) ? useWindowSize() : useElementSize(container)
-
+  const { logError } = useLogger()
   const { pixelRatio } = useDevicePixelRatio()
   const { pause, resume } = useRenderLoop()
   const aspectRatio = computed(() => width.value / height.value)
@@ -163,7 +164,7 @@ export function useRenderer(canvas: MaybeElementRef, container: MaybeElementRef,
 
     if (rendererPreset) {
       if (!(rendererPreset in rendererPresets))
-        throw new Error('Preset must be one of: ' + Object.keys(rendererPresets).join(', '))
+        logError('Renderer Preset must be one of these: ' + Object.keys(rendererPresets).join(', '))
       merge(renderer.value, rendererPresets[rendererPreset])
 
       return
