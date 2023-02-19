@@ -10,7 +10,7 @@ export type EnvironmentOptions = {
 }
 
 export const environmentPresets = {
-  sunset: 'venice/venice_sunset_1k.hdr',
+  sunset: 'venice/venice_sunset_4k.hdr',
 }
 
 export type EnvironmentPresetsType = keyof typeof environmentPresets
