@@ -42,18 +42,14 @@ export function useInstanceCreator(prefix: string) {
         value = normalizeVectorFlexibleParam(value)
       } else {
         VECTOR3_PROPS.forEach(vecProps => {
-          // Check if the props contain one of the transform props
-          // and ensure it begin with it and then is followed only with the axis
-          if (
-            camelKey.includes(vecProps) &&
-            camelKey.indexOf(vecProps) === 0 &&
-            camelKey.length === vecProps.length + 1
-          ) {
+          // Check if the props starts with one of the transform props
+          // and is followed only with the axis
+          if (camelKey.startsWith(vecProps) && camelKey.length === vecProps.length + 1) {
             transformProps = vecProps
             transformAxis = camelKey.substring(vecProps.length)
             if (!VECTOR3_AXIS.includes(transformAxis)) {
               logError(
-                `There was an error setting ${camelKey} property, ${transformAxis} is not a valid axis for ${transformProps}`,
+                `There was an error setting ${key} property, ${transformAxis} is not a valid axis for ${transformProps}`,
               )
             }
           }
