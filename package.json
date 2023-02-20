@@ -2,7 +2,6 @@
   "name": "@tresjs/playground",
   "description": "Playground for TresJS and R3F",
   "author": "Alvaro Saburido <hola@alvarosaburido.dev> (https://github.com/alvarosabu/)",
-  "type": "module",
   "version": "1.0.0",
   "license": "MIT",
   "keywords": [
@@ -20,23 +19,25 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/mdx": "^0.16.0",
+    "@astrojs/mdx": "^0.17.0",
     "@astrojs/vue": "^2.0.1",
-    "astro": "^2.0.11",
-    "astro-seo": "^0.7.0",
+    "astro": "^2.0.14",
+    "astro-seo": "^0.7.1",
     "vue": "^3.2.47"
   },
   "devDependencies": {
+    "@alvarosabu/prettier-config": "^1.3.0",
     "@iconify-json/carbon": "^1.1.15",
     "@iconify-json/logos": "^1.1.23",
     "@kidonng/daisyui": "^2.50.0",
-    "@tresjs/cientos": "^1.6.0",
-    "@tresjs/core": "^1.6.3",
-    "@unocss/astro": "^0.49.4",
-    "@unocss/reset": "^0.49.4",
+    "@tresjs/cientos": "^1.7.0",
+    "@tresjs/core": "^1.7.0",
+    "@unocss/astro": "^0.49.7",
+    "@unocss/reset": "^0.49.7",
     "gsap": "^3.11.4",
+    "prettier": "^2.8.4",
     "three": "^0.149.0",
-    "unocss": "^0.49.4",
+    "unocss": "^0.49.7",
     "unocss-preset-daisy": "^1.2.0",
     "vite-plugin-glsl": "^1.1.2",
     "vite-svg-loader": "^4.0.0"
