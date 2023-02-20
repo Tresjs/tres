@@ -11,6 +11,7 @@ import { useLogger } from '/@/composables'
 import { TresAttributes, TresCatalogue, TresInstance, TresVNode, TresVNodeType, TresEvent } from '/@/types'
 
 const VECTOR3_PROPS = ['rotation', 'scale', 'position']
+const VECTOR3_AXIS = ['X', 'Y', 'Z']
 
 export function useInstanceCreator(prefix: string) {
   const { /* logMessage, */ logError } = useLogger()
@@ -31,13 +32,32 @@ export function useInstanceCreator(prefix: string) {
 
     Object.entries(props).forEach(([key, value]) => {
       const camelKey = key.replace(/(-\w)/g, m => m[1].toUpperCase())
-
+      let transformProps
+      let transformAxis
       // Ignore property args which is use for initial instance construction
       if (camelKey === 'args' || value === undefined) return
 
       // Normalize vector3 props
       if (VECTOR3_PROPS.includes(camelKey) && value) {
         value = normalizeVectorFlexibleParam(value)
+      } else {
+        VECTOR3_PROPS.forEach(vecProps => {
+          // Check if the props contain one of the transform props
+          // and ensure it begin with it and then is followed only with the axis
+          if (
+            camelKey.includes(vecProps) &&
+            camelKey.indexOf(vecProps) === 0 &&
+            camelKey.length === vecProps.length + 1
+          ) {
+            transformProps = vecProps
+            transformAxis = camelKey.substring(vecProps.length)
+            if (!VECTOR3_AXIS.includes(transformAxis)) {
+              logError(
+                `There was an error setting ${camelKey} property, ${transformAxis} is not a valid axis for ${transformProps}`,
+              )
+            }
+          }
+        })
       }
 
       if (props.ref) {
@@ -49,6 +69,18 @@ export function useInstanceCreator(prefix: string) {
         if (instance[camelKey] && isDefined(instance[camelKey].set)) {
           // Call the "set" method with the value, spread if it's an array
           instance[camelKey].set(...(isArray(value) ? value : [value]))
+        } else if (
+          // Check if the property has a "setAxis" method
+          transformProps &&
+          instance[transformProps]
+        ) {
+          // Check if setAxis function exist
+          // if it doesn't check if props is rotation
+          if (isDefined(instance[transformProps][`set${transformAxis}`])) {
+            instance[transformProps][`set${transformAxis}`](value)
+          } else if (transformProps === 'rotation') {
+            instance[`rotate${transformAxis}`](value)
+          }
         } else {
           // Convert empty strings to `true`
           if (value === '') {
