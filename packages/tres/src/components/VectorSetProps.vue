@@ -58,11 +58,6 @@ const state = reactive({
         <TresBoxGeometry />
         <TresMeshToonMaterial color="#FBB03B" />
       </TresMesh>
-      <!-- position-w is invalid, it will be logged -->
-      <TresMesh :position-y="1" :position-z="2" :position-w="2" cast-shadow>
-        <TresSphereGeometry />
-        <TresMeshToonMaterial color="#FB0000" />
-      </TresMesh>
       <TresDirectionalLight :position-y="8" :position-z="4" :intensity="0.7" cast-shadow />
       <TresMesh :rotation="[-Math.PI / 2, 0, 0]" receive-shadow>
         <TresPlaneGeometry :args="[10, 10, 10, 10]" />
