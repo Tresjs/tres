@@ -49,7 +49,8 @@ export function useInstanceCreator(prefix: string) {
             transformAxis = camelKey.substring(vecProps.length)
             if (!VECTOR3_AXIS.includes(transformAxis)) {
               logError(
-                `There was an error setting ${key} property, ${transformAxis} is not a valid axis for ${transformProps}`,
+                `There was an error setting ${key} property`,
+                `${transformAxis} is not a valid axis for ${transformProps}`,
               )
             }
           }
@@ -74,7 +75,7 @@ export function useInstanceCreator(prefix: string) {
           // if it doesn't check if props is rotation
           if (isDefined(instance[transformProps][`set${transformAxis}`])) {
             instance[transformProps][`set${transformAxis}`](value)
-          } else if (transformProps === 'rotation') {
+          } else if (isDefined(instance[`rotate${transformAxis}`])) {
             instance[`rotate${transformAxis}`](value)
           }
         } else {
