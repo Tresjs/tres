@@ -1,5 +1,6 @@
+import { RendererPresetsType } from './const'
 import { ShadowMapType, TextureEncoding, ToneMapping } from 'three'
-import { h, defineComponent, ref, provide, onBeforeUnmount, shallowRef, PropType } from 'vue'
+import { h, defineComponent, ref, provide, onBeforeUnmount, PropType } from 'vue'
 import { useRenderer } from '.'
 import { useLogger } from '/@/composables'
 import { TresVNodeType } from '/@/types'
@@ -12,16 +13,17 @@ export const TresCanvas = defineComponent({
   name: 'TresCanvas',
   props: {
     shadows: Boolean,
-    shadowMapType: Object as PropType<ShadowMapType>,
+    shadowMapType: Number as PropType<ShadowMapType>,
     physicallyCorrectLights: Boolean,
-    outputEncoding: Object as PropType<TextureEncoding>,
-    toneMapping: Object as PropType<ToneMapping>,
+    outputEncoding: Number as PropType<TextureEncoding>,
+    toneMapping: Number as PropType<ToneMapping>,
     toneMappingExposure: Number,
     context: Object as PropType<WebGLRenderingContext>,
-    powerPreference: Object as PropType<'high-performance' | 'low-power' | 'default'>,
+    powerPreference: String as PropType<'high-performance' | 'low-power' | 'default'>,
     preserveDrawingBuffer: Boolean,
     clearColor: String,
     windowSize: { type: Boolean, default: false },
+    preset: String as PropType<RendererPresetsType>,
   },
   setup(props, { slots, attrs }) {
     const { logError } = useLogger()
@@ -33,10 +35,6 @@ export const TresCanvas = defineComponent({
 
     provide('aspect-ratio', aspectRatio)
     provide('renderer', renderer)
-
-    const activeCamera = shallowRef()
-
-    provide('camera', activeCamera)
 
     if (slots.default && !slots.default().some(node => (node.type as TresVNodeType).name === 'Scene')) {
       logError('TresCanvas must contain a Scene component.')
