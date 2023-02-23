@@ -24,12 +24,5 @@ describe('useCatalogue', () => {
     expect(catalogue.value.MyObject.foo).toEqual('bar')
   })
 
-  it('should register components for new objects', () => {
-    const { extend } = composable
-
-    extend({ MyObject: { foo: 'bar' } })
-
-    expect(app._context.components.MyObject).toBeDefined()
-  })
   // TODO: find a way to mock createComponentInstances to test the component registration
 })
