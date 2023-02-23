@@ -17,7 +17,7 @@ export interface TresState {
 }
 
 const state: TresState = shallowReactive({
-  camera: null,
+  camera: undefined,
   cameras: [],
 })
 
