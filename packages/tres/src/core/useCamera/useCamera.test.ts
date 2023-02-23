@@ -1,6 +1,6 @@
-import { computed, provide } from 'vue'
+import { computed } from 'vue'
 import { OrthographicCamera, PerspectiveCamera } from 'three'
-import { describe, test, expect, beforeEach, vi, afterEach } from 'vitest'
+import { describe, test, expect, vi, afterEach } from 'vitest'
 import { withSetup } from '/@/utils/test-utils'
 import { CameraType, useCamera } from '.'
 
