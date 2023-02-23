@@ -9,9 +9,6 @@ const aspectRatio = computed(() => 1)
 app.provide('aspect-ratio', aspectRatio)
 
 describe('useCamera', () => {
-  beforeEach(() => {
-    const { clearCameras } = composable
-  })
   afterEach(() => {
     composable.clearCameras()
     app.unmount()
@@ -80,24 +77,24 @@ describe('useCamera', () => {
     })
   })
   describe('activeCamera', () => {
-    test('should return the first camera', () => {
+    test('should return the latest camera', () => {
       const { createCamera, activeCamera } = composable
       createCamera(CameraType.Perspective)
       expect(activeCamera.value.type).toBe('PerspectiveCamera')
     })
-    test('should return the first camera if used more than once', () => {
-      const { createCamera, activeCamera, state } = composable
-      createCamera(CameraType.Orthographic)
+    test('should return the latest camera if used more than once', () => {
+      const { createCamera, activeCamera } = composable
       createCamera(CameraType.Perspective)
+      createCamera(CameraType.Orthographic)
       expect(activeCamera.value.type).toBe('OrthographicCamera')
     })
   })
-  describe('updateCurrentCamera', () => {
+  describe('updateCamera', () => {
     test('should update the current camera with aspect ratio change', () => {
-      const { activeCamera, createCamera, updateCurrentCamera } = composable
+      const { activeCamera, createCamera, updateCamera } = composable
       createCamera(CameraType.Perspective)
       const updateProjectionMatrix = vi.spyOn(activeCamera.value, 'updateProjectionMatrix')
-      updateCurrentCamera()
+      updateCamera()
       expect(updateProjectionMatrix).toHaveBeenCalled()
     })
   })

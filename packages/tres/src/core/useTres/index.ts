@@ -3,7 +3,8 @@ import { ComputedRef, shallowReactive, toRefs } from 'vue'
 import { Camera } from '/@/core'
 
 export interface TresState {
-  camera?: ComputedRef<Camera>
+  camera?: Camera
+  cameras?: Camera[]
   aspectRatio?: ComputedRef<number>
   renderer?: WebGLRenderer
   scene?: Scene
@@ -15,7 +16,10 @@ export interface TresState {
   [key: string]: any
 }
 
-const state: TresState = shallowReactive({})
+const state: TresState = shallowReactive({
+  camera: null,
+  cameras: [],
+})
 
 export function useTres() {
   function getState(key: string) {

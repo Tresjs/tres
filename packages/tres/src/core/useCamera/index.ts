@@ -1,7 +1,7 @@
 import { useTres } from '/@/core/'
 import { PerspectiveCamera, OrthographicCamera } from 'three'
 
-import { computed, ComputedRef, watch } from 'vue'
+import { toRef, watch, Ref } from 'vue'
 
 export enum CameraType {
   Perspective = 'Perspective',
@@ -9,10 +9,6 @@ export enum CameraType {
 }
 
 export type Camera = PerspectiveCamera | OrthographicCamera
-
-export type CameraState = {
-  cameras: Array<Camera>
-}
 
 export interface PerspectiveCameraOptions {
   fov?: number
@@ -30,15 +26,11 @@ export interface OrthographicCameraOptions {
 }
 
 interface UseCameraReturn {
-  activeCamera: ComputedRef<Camera>
+  activeCamera: Ref<Camera>
   createCamera: (cameraType?: CameraType, options?: PerspectiveCameraOptions | OrthographicCameraOptions) => Camera
   updateCamera: () => void
   pushCamera: (camera: Camera) => void
   clearCameras: () => void
-}
-
-const cameraState: CameraState = {
-  cameras: [],
 }
 
 const VERTICAL_FIELD_OF_VIEW = 45
@@ -58,7 +50,7 @@ export function useCamera(): UseCameraReturn {
         fov: VERTICAL_FIELD_OF_VIEW,
       }
       camera = new PerspectiveCamera(fov, state.aspectRatio?.value || 1, near, far)
-      cameraState.cameras.push(camera as PerspectiveCamera)
+      state.cameras.push(camera as PerspectiveCamera)
     } else {
       const { left, right, top, bottom, near, far } = (options as OrthographicCameraOptions) || {
         left: -100,
@@ -69,21 +61,19 @@ export function useCamera(): UseCameraReturn {
         far: 1000,
       }
       camera = new OrthographicCamera(left, right, top, bottom, near, far)
-      cameraState.cameras.push(camera as OrthographicCamera)
+      state.cameras.push(camera as OrthographicCamera)
     }
-
-    cameraState.cameras.push(camera)
+    state.camera = camera
     return camera
   }
 
-  const activeCamera = computed(() => cameraState.cameras[0])
-  setState('camera', activeCamera)
+  setState('camera', state.camera)
 
   function updateCamera() {
-    if (activeCamera.value instanceof PerspectiveCamera && state.aspectRatio) {
-      activeCamera.value.aspect = state.aspectRatio.value
+    if (state.camera instanceof PerspectiveCamera && state.aspectRatio) {
+      state.camera.aspect = state.aspectRatio.value
     }
-    activeCamera.value.updateProjectionMatrix()
+    state.camera.updateProjectionMatrix()
   }
 
   function pushCamera(camera: Camera): void {
@@ -91,7 +81,7 @@ export function useCamera(): UseCameraReturn {
       currentCamera.value = camera
       setState('camera', currentCamera)
     } */
-    cameraState.cameras.push(camera)
+    state.cameras.push(camera)
     if (camera instanceof PerspectiveCamera && state.aspectRatio) {
       camera.aspect = state.aspectRatio.value
     }
@@ -106,7 +96,7 @@ export function useCamera(): UseCameraReturn {
     watch(state.aspectRatio, updateCamera)
   }
   return {
-    activeCamera,
+    activeCamera: toRef(state, 'camera'),
     createCamera,
     updateCamera,
     pushCamera,
