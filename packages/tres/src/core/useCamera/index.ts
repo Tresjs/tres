@@ -11,17 +11,71 @@ export enum CameraType {
 export type Camera = PerspectiveCamera | OrthographicCamera
 
 export interface PerspectiveCameraOptions {
+  /**
+   * Camera frustum vertical field of view, from bottom to top of view, in degrees.
+   *
+   * @type {number}
+   * @memberof PerspectiveCameraOptions
+   */
   fov?: number
+  /**
+   * Camera frustum near plane.
+   *
+   * @type {number}
+   * @memberof PerspectiveCameraOptions
+   */
   near?: number
+  /**
+   * Camera frustum far plane.
+   *
+   * @type {number}
+   * @memberof PerspectiveCameraOptions
+   */
   far?: number
 }
 
 export interface OrthographicCameraOptions {
+  /**
+   * Camera frustum left plane.
+   *
+   * @type {number}
+   * @memberof OrthographicCameraOptions
+   */
   left?: number
+  /**
+   * Camera frustum right plane.
+   *
+   * @type {number}
+   * @memberof OrthographicCameraOptions
+   */
   right?: number
+  /**
+   * Camera frustum top plane.
+   *
+   * @type {number}
+   * @memberof OrthographicCameraOptions
+   */
   top?: number
+  /**
+   * Camera frustum bottom plane.
+   *
+   * @type {number}
+   * @memberof OrthographicCameraOptions
+   */
   bottom?: number
+  /**
+   * Camera frustum near plane.
+   *
+   * @type {number}
+   * @memberof OrthographicCameraOptions
+   */
   near?: number
+  /**
+   * Camera frustum far plane.
+   *
+   * @type {number}
+   * @memberof OrthographicCameraOptions
+   */
   far?: number
 }
 
