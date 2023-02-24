@@ -144,10 +144,10 @@ export function useCamera(): UseCameraReturn {
       state.cameras?.push(camera as OrthographicCamera)
     }
     state.camera = camera
+
+    setState('camera', state.camera)
     return camera
   }
-
-  setState('camera', state.camera)
 
   /**
    * Update camera aspect ratio and projection matrix
@@ -171,6 +171,7 @@ export function useCamera(): UseCameraReturn {
       camera.aspect = state.aspectRatio.value
     }
     camera.updateProjectionMatrix()
+    setState('camera', camera)
   }
 
   /**
