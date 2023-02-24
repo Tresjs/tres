@@ -1,19 +1,6 @@
 <script setup lang="ts">
-import {
-  sRGBEncoding,
-  LinearEncoding,
-  BasicShadowMap,
-  PCFShadowMap,
-  PCFSoftShadowMap,
-  VSMShadowMap,
-  NoToneMapping,
-  LinearToneMapping,
-  ReinhardToneMapping,
-  CineonToneMapping,
-  ACESFilmicToneMapping,
-  CustomToneMapping,
-} from 'three'
-import { reactive, ref } from 'vue'
+import { sRGBEncoding, BasicShadowMap, NoToneMapping } from 'three'
+import { reactive } from 'vue'
 
 import { OrbitControls } from '@tresjs/cientos'
 // import { useRenderLoop } from '..'
