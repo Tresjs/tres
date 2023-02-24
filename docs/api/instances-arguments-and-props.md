@@ -89,10 +89,13 @@ All properties whose underlying object has a `.set()` method have a shortcut to 
 <TresPerspectiveCamera :position="[1, 2, 3]" />
 ```
 
-To specify transformation properties such as position, rotation, and scale, a shorthand is available that allows you to directly indicate the axis you wish to set within the props.
+To specify transformation properties such as position, rotation, and scale, a shorthand is available that allows you to directly indicate the axis you wish to set within the props. A similar shorthand is also available for color property.
 
-```vue
-<TresMesh :position-x="1" :scale-y="2" :rotation-x="Math.PI * 2" />
+<!-- I changed color syntax from vue to html, because vue seems broken and does not color nested components -->
+```html
+<TresMesh :position-x="1" :scale-y="2" :rotation-x="Math.PI * 2">
+  <TresMeshBasicMaterial :color-r="0.7" :color-b="0.3" />
+</TresMesh>
 ```
 
 ::: warning
