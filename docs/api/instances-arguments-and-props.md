@@ -89,6 +89,28 @@ All properties whose underlying object has a `.set()` method have a shortcut to 
 <TresPerspectiveCamera :position="[1, 2, 3]" />
 ```
 
+To specify transformation properties such as position, rotation, and scale, a shorthand is available that allows you to directly indicate the axis you wish to set within the props. A similar shorthand is also available for color property.
+
+<!-- I changed color syntax from vue to html, because vue seems broken and does not color nested components -->
+```html
+<TresMesh :position-x="1" :scale-y="2" :rotation-x="Math.PI * 2">
+  <TresMeshBasicMaterial :color-r="0.7" :color-b="0.3" />
+</TresMesh>
+```
+
+::: warning
+When you set the rotation property in [three.js](https://threejs.org/docs/index.html#api/en/math/Euler), it will use the 'XYZ' order by default.
+It is important to note that when setting the rotation property with the shorthand, the order in which you set the angles matters. For more information on this topic, please refer to  [Euler angles](https://en.wikipedia.org/wiki/Euler_angles)
+:::
+
+```vue
+<TresMesh :rotation-x="1" :rotation-y="2" :rotation-z="Math.PI * 2" />
+
+<TresMesh :rotation-z="Math.PI * 2" :rotation-x="1" :rotation-y="2" />
+
+<!-- Note that the order of the rotation properties matters, and swapping the order can result in different outcomes. -->
+```
+
 ### Scalar
 
 Another shortcut you can use is pass a scalar value to a property that expects a `Vector3` object, using the same value for the rest of the Vector:

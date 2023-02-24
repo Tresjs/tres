@@ -8,8 +8,8 @@ importers:
       '@changesets/changelog-github': ^0.4.7
       '@changesets/cli': ^2.25.2
       '@stackblitz/sdk': ^1.8.1
-      '@tresjs/cientos': workspace:^1.6.0
-      '@tresjs/core': workspace:^1.6.3
+      '@tresjs/cientos': workspace:^1.7.0
+      '@tresjs/core': workspace:^1.7.0
       '@typescript-eslint/eslint-plugin': ^5.42.0
       '@typescript-eslint/parser': ^5.42.0
       conventional-changelog-cli: ^2.2.2
@@ -47,7 +47,7 @@ importers:
 
   packages/cientos:
     specifiers:
-      '@tresjs/core': workspace:^1.6.3
+      '@tresjs/core': workspace:^1.7.0
       '@tweakpane/plugin-essentials': ^0.1.8
       '@vitejs/plugin-vue': ^4.0.0
       kolorist: ^1.7.0
@@ -79,7 +79,7 @@ importers:
   packages/tres:
     specifiers:
       '@alvarosabu/utils': ^2.3.0
-      '@tresjs/cientos': workspace:^1.6.0
+      '@tresjs/cientos': workspace:^1.7.0
       '@types/three': latest
       '@vitejs/plugin-vue': ^4.0.0
       '@vitest/coverage-c8': ^0.28.4
