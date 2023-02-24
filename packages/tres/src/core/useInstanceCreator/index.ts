@@ -12,6 +12,8 @@ import { TresAttributes, TresCatalogue, TresInstance, TresVNode, TresVNodeType, 
 
 const VECTOR3_PROPS = ['rotation', 'scale', 'position']
 const VECTOR3_AXIS = ['X', 'Y', 'Z']
+const COLOR_PROPS = ['color']
+const COLOR_KEYS = ['r', 'g', 'b']
 
 export function useInstanceCreator(prefix: string) {
   const { /* logMessage, */ logError } = useLogger()
@@ -34,6 +36,8 @@ export function useInstanceCreator(prefix: string) {
       const camelKey = key.replace(/(-\w)/g, m => m[1].toUpperCase())
       let transformProps
       let transformAxis
+      let colorProps
+      let colorKey
       // Ignore property args which is use for initial instance construction
       if (camelKey === 'args' || value === undefined) return
 
@@ -43,7 +47,7 @@ export function useInstanceCreator(prefix: string) {
       } else {
         VECTOR3_PROPS.forEach(vecProps => {
           // Check if the props starts with one of the transform props
-          // and is followed only with the axis
+          // and is followed only with one of the axis
           if (camelKey.startsWith(vecProps) && camelKey.length === vecProps.length + 1) {
             transformProps = vecProps
             transformAxis = camelKey.substring(vecProps.length)
@@ -56,6 +60,17 @@ export function useInstanceCreator(prefix: string) {
           }
         })
       }
+      COLOR_PROPS.forEach(props => {
+        // Check if the props starts with one of the color props
+        // and is followed only with one of the key
+        if (camelKey.startsWith(props) && camelKey.length === props.length + 1) {
+          colorProps = props
+          colorKey = camelKey.substring(props.length).toLowerCase()
+          if (!COLOR_KEYS.includes(colorKey)) {
+            logError(`There was an error setting ${key} property`, `${colorKey} is not a valid axis for ${colorProps}`)
+          }
+        }
+      })
 
       if (props.ref) {
         props.ref = instance
@@ -78,6 +93,14 @@ export function useInstanceCreator(prefix: string) {
           } else if (isDefined(instance[`rotate${transformAxis}`])) {
             instance[`rotate${transformAxis}`](value)
           }
+        } else if (
+          // Check if the instance has a "color" property
+          colorProps &&
+          colorKey &&
+          instance[colorProps] &&
+          instance[colorProps][colorKey]
+        ) {
+          instance[colorProps][colorKey] = value
         } else {
           // Convert empty strings to `true`
           if (value === '') {
