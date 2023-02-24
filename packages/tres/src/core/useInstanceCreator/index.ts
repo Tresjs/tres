@@ -12,9 +12,24 @@ import { TresAttributes, TresCatalogue, TresInstance, TresVNode, TresVNodeType, 
 
 const VECTOR3_PROPS = ['rotation', 'scale', 'position']
 
+/**
+ * Composable responsible for creating instances out of Three.js objects.
+ *
+ * @export
+ * @param {string} prefix
+ * @return {*}
+ */
 export function useInstanceCreator(prefix: string) {
   const { /* logMessage, */ logError } = useLogger()
 
+  /**
+   * Process props to `.setAttribute` on instance.
+   *
+   * @example `position` prop will be converted to `setPosition` method call.
+   *
+   * @param {Record<string, any>} props
+   * @param {TresInstance} instance
+   */
   function processSetAttributes(props: Record<string, any>, instance: TresInstance) {
     if (!isDefined(props)) return
     if (!isDefined(instance)) return
@@ -25,6 +40,17 @@ export function useInstanceCreator(prefix: string) {
     })
   }
 
+  /**
+   *  Process props to set properties on instance.
+   *
+   * It will also normalize vector3 props and check if the instances property has a `set` method.
+   * If it does, it will call the `set` method with the value, spread if it's an array.
+   *
+   * @example `position=[0,0,0]` prop will be converted to `instance.position.set(0,0,0)` property.
+   *
+   * @param {Record<string, any>} props
+   * @param {TresInstance} instance
+   */
   function processProps(props: Record<string, any>, instance: TresInstance) {
     if (!isDefined(props)) return
     if (!isDefined(instance)) return
@@ -72,6 +98,12 @@ export function useInstanceCreator(prefix: string) {
     })
   }
 
+  /**
+   * Proccess slots to add children to instance.
+   *
+   * @param {TresVNode} vnode
+   * @return {*}  {(TresInstance | TresInstance[] | undefined)}
+   */
   function createInstanceFromVNode(vnode: TresVNode): TresInstance | TresInstance[] | undefined {
     const fragmentRegex = /^Symbol\(Fragment\)$/g
     const textRegex = /^Symbol\(Text\)$/g
@@ -120,18 +152,29 @@ export function useInstanceCreator(prefix: string) {
     }
   }
 
+  /**
+   * Create a new instance of a ThreeJS object based on the component attrs and slots.
+   *
+   * Checks if the component has slots,
+   * if it does, it will create a new Object3D instance passing the slots instances as properties
+   * Example:
+   *
+   * ```vue
+   * <TresMesh>
+   *  <TresBoxGeometry />
+   *  <TresMeshBasicMaterial />
+   * </TresMesh>
+   * ```
+   *
+   * will create a new Mesh instance with a BoxGeometry and a MeshBasicMaterial
+   * const mesh = new Mesh(new BoxGeometry(), new MeshBasicMaterial())
+   *
+   * @param {*} threeObj
+   * @param {TresAttributes} attrs
+   * @param {Record<string, any>} slots
+   * @return {*}  {TresInstance}
+   */
   function createInstance(threeObj: any, attrs: TresAttributes, slots: Record<string, any>): TresInstance {
-    /*
-     * Checks if the component has slots,
-     * if it does, it will create a new Object3D instance passing the slots instances as properties
-     * Example:
-     * <TresMesh>
-     *  <TresBoxGeometry />
-     *  <TresMeshBasicMaterial />
-     * </TresMesh>
-     * will create a new Mesh instance with a BoxGeometry and a MeshBasicMaterial
-     * const mesh = new Mesh(new BoxGeometry(), new MeshBasicMaterial())
-     */
     if (slots.default && slots?.default()) {
       const internal = slots.default().map((vnode: TresVNode) => createInstanceFromVNode(vnode))
       if (threeObj.name === 'Group') {
@@ -149,6 +192,12 @@ export function useInstanceCreator(prefix: string) {
     }
   }
 
+  /**
+   * Creates a new component instance for each object in the catalogue
+   *
+   * @param {Ref<TresCatalogue>} catalogue
+   * @return {*}
+   */
   function createComponentInstances(catalogue: Ref<TresCatalogue>) {
     return (
       Object.entries(catalogue.value)
