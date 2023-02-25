@@ -72,6 +72,7 @@ export default defineConfig({
               { text: 'useAnimations', link: '/cientos/abstractions/use-animations' },
               { text: 'Environment', link: '/cientos/abstractions/environment' },
               { text: 'useEnvironment', link: '/cientos/abstractions/use-environment' },
+              { text: 'usePamMouse', link: '/cientos/abstractions/use-pam-mouse' },
             ],
           },
           {

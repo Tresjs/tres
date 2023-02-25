@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useTweakPane } from '@tresjs/cientos'
-// import TheEnvironment from '/@/components/TheEnvironment.vue'
+import TheEnvironment from '/@/components/TheEnvironment.vue'
 // import TheEvents from '/@/components/TheEvents.vue'
 import VectorSetProps from '/@/components/VectorSetProps.vue'
 
@@ -9,7 +9,7 @@ useTweakPane()
 
 <template>
   <Suspense>
-    <!-- <TheEnvironment /> -->
-    <VectorSetProps />
+    <TheEnvironment />
+    <!-- <VectorSetProps /> -->
   </Suspense>
 </template>
