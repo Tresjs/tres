@@ -11,6 +11,9 @@ import { useLogger } from '/@/composables'
 import { TresAttributes, TresCatalogue, TresInstance, TresVNode, TresVNodeType, TresEvent } from '/@/types'
 
 const VECTOR3_PROPS = ['rotation', 'scale', 'position']
+const VECTOR3_AXIS = ['X', 'Y', 'Z']
+const COLOR_PROPS = ['color']
+const COLOR_KEYS = ['r', 'g', 'b']
 
 /**
  * Composable responsible for creating instances out of Three.js objects.
@@ -57,14 +60,43 @@ export function useInstanceCreator(prefix: string) {
 
     Object.entries(props).forEach(([key, value]) => {
       const camelKey = key.replace(/(-\w)/g, m => m[1].toUpperCase())
-
+      let transformProps
+      let transformAxis
+      let colorProps
+      let colorKey
       // Ignore property args which is use for initial instance construction
       if (camelKey === 'args' || value === undefined) return
 
       // Normalize vector3 props
       if (VECTOR3_PROPS.includes(camelKey) && value) {
         value = normalizeVectorFlexibleParam(value)
+      } else {
+        VECTOR3_PROPS.forEach(vecProps => {
+          // Check if the props starts with one of the transform props
+          // and is followed only with one of the axis
+          if (camelKey.startsWith(vecProps) && camelKey.length === vecProps.length + 1) {
+            transformProps = vecProps
+            transformAxis = camelKey.substring(vecProps.length)
+            if (!VECTOR3_AXIS.includes(transformAxis)) {
+              logError(
+                `There was an error setting ${key} property`,
+                `${transformAxis} is not a valid axis for ${transformProps}`,
+              )
+            }
+          }
+        })
       }
+      COLOR_PROPS.forEach(props => {
+        // Check if the props starts with one of the color props
+        // and is followed only with one of the key
+        if (camelKey.startsWith(props) && camelKey.length === props.length + 1) {
+          colorProps = props
+          colorKey = camelKey.substring(props.length).toLowerCase()
+          if (!COLOR_KEYS.includes(colorKey)) {
+            logError(`There was an error setting ${key} property`, `${colorKey} is not a valid axis for ${colorProps}`)
+          }
+        }
+      })
 
       if (props.ref) {
         props.ref = instance
@@ -75,6 +107,26 @@ export function useInstanceCreator(prefix: string) {
         if (instance[camelKey] && isDefined(instance[camelKey].set)) {
           // Call the "set" method with the value, spread if it's an array
           instance[camelKey].set(...(isArray(value) ? value : [value]))
+        } else if (
+          // Check if the property has a "setAxis" method
+          transformProps &&
+          instance[transformProps]
+        ) {
+          // Check if setAxis function exist
+          // if it doesn't check if props is rotation
+          if (isDefined(instance[transformProps][`set${transformAxis}`])) {
+            instance[transformProps][`set${transformAxis}`](value)
+          } else if (isDefined(instance[`rotate${transformAxis}`])) {
+            instance[`rotate${transformAxis}`](value)
+          }
+        } else if (
+          // Check if the instance has a "color" property
+          colorProps &&
+          colorKey &&
+          instance[colorProps] &&
+          instance[colorProps][colorKey]
+        ) {
+          instance[colorProps][colorKey] = value
         } else {
           // Convert empty strings to `true`
           if (value === '') {

@@ -5,5 +5,6 @@ import TheEnvironment from '/@/components/TheEnvironment.vue'
 <template>
   <Suspense>
     <TheEnvironment />
+    <!-- <VectorSetProps /> -->
   </Suspense>
 </template>
