@@ -1,5 +1,6 @@
 import OrbitControls from './core/OrbitControls.vue'
 import TransformControls from './core/TransformControls.vue'
+import { usePamMouse } from './core/usePamMouse'
 import { useTweakPane } from './core/useTweakPane'
 import { useAnimations } from './core/useAnimations'
 import { GLTFModel } from './core/useGLTF/component'
@@ -45,4 +46,5 @@ export {
   Dodecahedron,
   useAnimations,
   Environment,
+  usePamMouse,
 }
