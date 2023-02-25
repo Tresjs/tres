@@ -5,8 +5,20 @@ import { useCientos } from '../useCientos'
 export const GLTFModel = defineComponent({
   name: 'GLTFModel',
   props: {
+    /**
+     * The path to the GLTF file.
+     *
+     */
     path: String,
+    /**
+     * Whether to use Draco compression.
+     *
+     */
     draco: Boolean,
+    /**
+     * The path to the Draco decoder.
+     *
+     */
     decoderPath: String,
   },
 
