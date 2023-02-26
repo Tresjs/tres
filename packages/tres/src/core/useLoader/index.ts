@@ -17,6 +17,13 @@ export type LoaderReturnType<T, L extends LoaderProto<T>> = T extends unknown
   ? Awaited<ReturnType<InstanceType<L>['loadAsync']>>
   : T
 
+/**
+ * Traverse an object and return all the nodes and materials
+ *
+ * @export
+ * @param {Object3D} object
+ * @return { [key: string]: any }
+ */
 export function trasverseObjects(object: Object3D) {
   const data: { [key: string]: any } = { nodes: {}, materials: {} }
   if (object) {
@@ -34,6 +41,29 @@ export function trasverseObjects(object: Object3D) {
 
 export type Extensions<T extends { prototype: LoaderProto<any> }> = (loader: T['prototype']) => void
 
+/**
+ * Load resources using THREE loaders and return the result as a promise
+ *
+ * @see https://tresjs.org/api/composables.html#useloader
+ * @see https://threejs.org/docs/index.html?q=loader#api/en/loaders/Loader
+ *
+ * ```ts
+ * import { useLoader } from '@tresjs/core'
+ * import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
+ *
+ * const { scene } = await useLoader(THREE.GLTFLoader, 'path/to/asset.gltf')
+ * ```
+ *
+ * @export
+ * @template T
+ * @template U
+ * @param {T} Loader
+ * @param {U} url
+ * @param {Extensions<T>} [extensions]
+ * @param {(event: ProgressEvent<EventTarget>) => void} [onProgress]
+ * @param {(proto: TresLoader<T>) => void} [cb]
+ * @return {*}
+ */
 export async function useLoader<T extends LoaderProto<T>, U extends string | string[]>(
   Loader: T,
   url: U,

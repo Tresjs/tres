@@ -2,6 +2,15 @@ import { AnimationAction, AnimationClip, AnimationMixer, Object3D, Scene } from 
 import { useRenderLoop } from '@tresjs/core'
 import { ref, Ref, shallowReactive } from 'vue'
 
+/**
+ * Creates an AnimationMixer and returns it.
+ *
+ * @export
+ * @template T
+ * @param {T[]} animations
+ * @param {(Scene | Ref<Object3D | undefined | null>)} [modelRef]
+ * @return {*}
+ */
 export function useAnimations<T extends AnimationClip>(
   animations: T[],
   modelRef?: Scene | Ref<Object3D | undefined | null>,

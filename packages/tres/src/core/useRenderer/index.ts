@@ -113,7 +113,8 @@ const isReady = ref(false)
  * Reactive Three.js WebGLRenderer instance
  *
  * @param canvas
- * @param options
+ * @param container
+ * @param {UseRendererOptions} [options]
  */
 export function useRenderer(canvas: MaybeElementRef, container: MaybeElementRef, options: UseRendererOptions) {
   // Defaults
