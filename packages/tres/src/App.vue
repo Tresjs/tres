@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import TheEnvironment from '/@/components/TheEnvironment.vue'
+import TheBasic from '/@/components/TheBasic.vue'
 </script>
 
 <template>
   <Suspense>
-    <TheEnvironment />
+    <TheBasic />
     <!-- <VectorSetProps /> -->
   </Suspense>
 </template>

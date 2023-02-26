@@ -2,7 +2,6 @@ import { ACESFilmicToneMapping, PCFSoftShadowMap, sRGBEncoding } from 'three'
 
 export const rendererPresets = {
   realistic: {
-    physicallyCorrectLights: true,
     outputEncoding: sRGBEncoding,
     toneMapping: ACESFilmicToneMapping,
     toneMappingExposure: 3,

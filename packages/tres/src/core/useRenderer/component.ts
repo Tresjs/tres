@@ -9,12 +9,24 @@ import { TresVNodeType } from '/@/types'
  * Vue component for rendering a Tres component.
  */
 
+const { logError, logWarning } = useLogger()
+
 export const TresCanvas = defineComponent({
   name: 'TresCanvas',
   props: {
     shadows: Boolean,
     shadowMapType: Number as PropType<ShadowMapType>,
-    physicallyCorrectLights: Boolean,
+    physicallyCorrectLights: {
+      type: Boolean,
+      default: false,
+      validator: (value: boolean) => {
+        if (value) {
+          logWarning('physicallyCorrectLights is deprecated. Use useLegacyLights instead.')
+        }
+        return true
+      },
+    },
+    useLegacyLights: Boolean,
     outputEncoding: Number as PropType<TextureEncoding>,
     toneMapping: Number as PropType<ToneMapping>,
     toneMappingExposure: Number,
@@ -26,8 +38,6 @@ export const TresCanvas = defineComponent({
     preset: String as PropType<RendererPresetsType>,
   },
   setup(props, { slots, attrs }) {
-    const { logError } = useLogger()
-
     const canvas = ref<HTMLCanvasElement>()
     const container = ref<HTMLElement>()
 
