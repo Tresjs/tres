@@ -159,10 +159,11 @@ export function useInstanceCreator(prefix: string) {
   function createInstanceFromVNode(vnode: TresVNode): TresInstance | TresInstance[] | undefined {
     const fragmentRegex = /^Symbol\(Fragment\)$/g
     const textRegex = /^Symbol\(Text\)$/g
+    const commentRegex = /^Symbol\(Comment\)$/g
     // Check if the vnode is a Fragment
     if (fragmentRegex.test(vnode.type.toString())) {
       return vnode.children.map(child => createInstanceFromVNode(child as TresVNode)) as TresInstance[]
-    } else if (textRegex.test(vnode.type.toString())) {
+    } else if (textRegex.test(vnode.type.toString()) || commentRegex.test(vnode.type.toString())) {
       return
     } else {
       const vNodeType = ((vnode.type as TresVNodeType).name as string).replace(prefix, '')
