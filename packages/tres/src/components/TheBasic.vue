@@ -10,7 +10,7 @@ const state = reactive({
   clearColor: '#201919',
   shadows: true,
   alpha: false,
-  physicallyCorrectLights: true,
+
   shadowMapType: BasicShadowMap,
   outputEncoding: sRGBEncoding,
   toneMapping: NoToneMapping,
