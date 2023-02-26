@@ -12,6 +12,20 @@ import { RGBELoader } from 'three-stdlib'
 import { useCientos } from '../useCientos'
 import { EnvironmentOptions, environmentPresets } from './const'
 
+/**
+ * Component that loads an environment map and sets it as the scene's background and environment.
+ *
+ * @export
+ * @param {Partial<EnvironmentOptions>} {
+ *   files = ['/px.png', '/nx.png', '/py.png', '/ny.png', '/pz.png', '/nz.png'],
+ *   blur = 0,
+ *   background = false,
+ *   path = undefined,
+ *   preset = undefined,
+ *   encoding = undefined,
+ * }
+ * @return {*}  {(Promise<Texture | CubeTexture>)}
+ */
 export async function useEnvironment({
   files = ['/px.png', '/nx.png', '/py.png', '/ny.png', '/pz.png', '/nz.png'],
   blur = 0,
