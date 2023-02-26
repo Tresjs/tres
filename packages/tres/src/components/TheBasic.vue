@@ -18,14 +18,14 @@ const state = reactive({
 
 const sphereRef = ref()
 
-/* const { onLoop } = useRenderLoop()
+const { onLoop } = useRenderLoop()
 
 onLoop(({ elapsed }) => {
   sphereRef.value.position.y += Math.sin(elapsed * 0.01) * 0.1
-}) */
+})
 </script>
 <template>
-  <TresCanvas v-bind="state" physically-correct-lights>
+  <TresCanvas v-bind="state">
     <TresPerspectiveCamera :position="[5, 5, 5]" :fov="45" :near="0.1" :far="1000" :look-at="[-8, 3, -3]" />
     <OrbitControls make-default />
     <TresScene>
