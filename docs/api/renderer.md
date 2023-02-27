@@ -13,6 +13,35 @@ The `Renderer` component is the main component of Tres. It's the one that create
 </template>
 ```
 
+## Canvas size
+
+The `Renderer` component will use the parent element size as the canvas size. If you want to use the window size as the canvas size, you can set the `window-size` prop to `true`.
+
+```vue
+<template>
+  <TresCanvas window-size>
+    <!-- Your scene goes here -->
+  </TresCanvas>
+</template>
+```
+
+Or you can use CSS to set your app size.
+
+```css
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+}
+#app {
+  height: 100%;
+  width: 100%;
+  background-color: #000;
+}
+```
+
 ## Presets <Badge warning text="v1.7.0+" />
 
 Tres comes with a few presets for the `Renderer` component. You can use them by setting the `preset` prop.
