@@ -64,22 +64,37 @@ export const TresCanvas = defineComponent({
             style: {
               position: 'relative',
               width: '100%',
-              height: '100vh',
+              height: '100%',
+              overflow: 'hidden',
+              pointerEvents: 'auto',
+              touchAction: 'none',
               ...(attrs.style as Record<string, unknown>),
             },
           },
           [
-            h('canvas', {
-              ref: canvas,
-              style: {
-                width: '100%',
-                height: '100%',
-                position: props.windowSize ? 'fixed' : 'absolute',
-                top: 0,
-                left: 0,
+            h(
+              'div',
+              {
+                style: {
+                  width: '100%',
+                  height: '100%',
+                },
               },
-            }),
-            slots.default(),
+              [
+                h('canvas', {
+                  ref: canvas,
+                  style: {
+                    display: 'block',
+                    width: '100%',
+                    height: '100%',
+                    position: props.windowSize ? 'fixed' : 'absolute',
+                    top: 0,
+                    left: 0,
+                  },
+                }),
+                slots.default(),
+              ],
+            ),
           ],
         )
       }
