@@ -79,8 +79,8 @@ export function useInstanceCreator(prefix: string) {
             transformAxis = camelKey.substring(vecProps.length)
             if (!VECTOR3_AXIS.includes(transformAxis)) {
               logError(
-                `There was an error setting ${key} property`,
-                `${transformAxis} is not a valid axis for ${transformProps}`,
+                // eslint-disable-next-line max-len
+                `There was an error setting ${key} property, ${transformAxis} is not a valid axis for ${transformProps}`,
               )
             }
           }
@@ -93,7 +93,7 @@ export function useInstanceCreator(prefix: string) {
           colorProps = props
           colorKey = camelKey.substring(props.length).toLowerCase()
           if (!COLOR_KEYS.includes(colorKey)) {
-            logError(`There was an error setting ${key} property`, `${colorKey} is not a valid axis for ${colorProps}`)
+            logError(`There was an error setting ${key} property , ${colorKey} is not a valid axis for ${colorProps}`)
           }
         }
       })
