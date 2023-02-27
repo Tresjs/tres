@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, shallowRef, watch } from 'vue'
-import { Environment, Box, usePamMouse } from '../../../cientos/src'
+import { Environment, Box, PamCameraMouse } from '../../../cientos/src'
 import { TresCanvas } from '../core/useRenderer/component'
 /* import { OrbitControls, GLTFModel } from '@tresjs/cientos' */
 
@@ -24,12 +24,13 @@ const environmentTexture = shallowRef()
 watch(environmentTexture, ({ getTexture }) => {
   envMap = getTexture()
 })
+
 </script>
 <template>
   <!--   <TresCanvas v-bind="state"> -->
   <TresCanvas preset="realistic">
     <TresPerspectiveCamera :position="[10, 10, 18]" :fov="45" :near="0.1" :far="1000" :look-at="[-8, 3, -3]" />
-    <usePamMouse :factor="2" />
+     <PamCameraMouse :factor="2" />
     <TresScene>
       <Environment
         ref="environmentTexture"
