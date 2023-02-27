@@ -129,7 +129,7 @@ export function useCamera(): UseCameraReturn {
         far: 1000,
         fov: VERTICAL_FIELD_OF_VIEW,
       }
-      camera = new PerspectiveCamera(fov, state.aspectRatio?.value || 1, near, far)
+      camera = new PerspectiveCamera(fov, state.aspectRatio?.value || window.innerWidth / window.innerHeight, near, far)
       state.cameras?.push(camera as PerspectiveCamera)
     } else {
       const { left, right, top, bottom, near, far } = (options as OrthographicCameraOptions) || {
@@ -146,6 +146,7 @@ export function useCamera(): UseCameraReturn {
     state.camera = camera
 
     setState('camera', state.camera)
+
     return camera
   }
 
