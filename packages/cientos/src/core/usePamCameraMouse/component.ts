@@ -18,7 +18,7 @@ export const PamCameraMouse = defineComponent({
   },
   setup(props: any) {
     const { state } = useCientos()
-    const camera = state?.camera?.value
+    const camera = state?.camera
 
     const PamCameraMouse = usePamCameraMouse(props.disabled as boolean, props.factor as number, camera)
 

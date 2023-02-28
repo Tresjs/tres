@@ -13,7 +13,7 @@ import { lightGreen, yellow, gray, bold } from 'kolorist'
 import pkg from './package.json'
 
 // eslint-disable-next-line no-console
-console.log(`${lightGreen('▲')} ${gray('■')} ${yellow('⚡️')} ${bold('Tres/cientos')} v${pkg.version}`)
+console.log(`${lightGreen('▲')} ${gray('■')} ${yellow('♥')} ${bold('Tres/cientos')} v${pkg.version}`)
 // https://vitejs.dev/config/
 export default defineConfig({
   resolve: {
