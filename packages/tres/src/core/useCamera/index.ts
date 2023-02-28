@@ -1,7 +1,7 @@
 import { useTres } from '/@/core/'
 import { PerspectiveCamera, OrthographicCamera } from 'three'
 
-import { toRef, watch, Ref } from 'vue'
+import { toRef, watch, Ref, inject } from 'vue'
 
 export enum CameraType {
   Perspective = 'Perspective',
@@ -105,7 +105,7 @@ let camera: Camera
  */
 export function useCamera(): UseCameraReturn {
   const { state, setState } = useTres()
-
+  const aspectRatio = inject('aspect-ratio')
   /**
    * Create camera and push to Tres `state.cameras` array
    *
@@ -182,10 +182,10 @@ export function useCamera(): UseCameraReturn {
   function clearCameras() {
     state.cameras = []
   }
-
-  if (state.aspectRatio) {
-    watch(state.aspectRatio, updateCamera)
+  if (aspectRatio) {
+    watch(aspectRatio, updateCamera)
   }
+
   return {
     activeCamera: toRef(state, 'camera'),
     createCamera,

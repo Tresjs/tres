@@ -167,8 +167,8 @@ export function useInstanceCreator(prefix: string) {
       return
     } else {
       const vNodeType = ((vnode.type as TresVNodeType).name as string).replace(prefix, '')
-      const { catalogue: fallback } = useCatalogue()
-      const catalogue = inject<Ref<TresCatalogue>>('catalogue') || fallback
+
+      const catalogue = inject<Ref<TresCatalogue>>('catalogue')
 
       // check if args prop is defined on the vnode
       let internalInstance
@@ -265,12 +265,12 @@ export function useInstanceCreator(prefix: string) {
               const { onLoop } = useRenderLoop()
               const scene = state.scene
               const raycaster = state.raycaster
-              const { pushCamera } = useCamera()
 
               let instance = createInstance(threeObj, attrs, slots)
               processProps(attrs, instance)
               // If the instance is a camera, push it to the camera stack
               if (instance instanceof PerspectiveCamera || instance instanceof OrthographicCamera) {
+                const { pushCamera } = useCamera()
                 pushCamera(instance)
               }
 
