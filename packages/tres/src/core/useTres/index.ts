@@ -1,5 +1,5 @@
 import { Clock, EventDispatcher, Raycaster, Scene, Vector2, WebGLRenderer } from 'three'
-import { ComputedRef, shallowReactive, toRefs } from 'vue'
+import { computed, ComputedRef, shallowReactive, toRefs } from 'vue'
 import { Camera } from '/@/core'
 
 export interface TresState {
@@ -93,6 +93,7 @@ export interface TresState {
 const state: TresState = shallowReactive({
   camera: undefined,
   cameras: [],
+  aspectRatio: computed(() => window.innerWidth / window.innerHeight),
 })
 
 /**

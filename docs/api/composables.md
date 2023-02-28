@@ -143,7 +143,7 @@ Then you can bind the textures to the material.
 
 Similar to above composable, the `useTexture` composable returns a promise, you can use it with `async/await` or `then/catch`. If you are using it on a component make sure you wrap it with a `Suspense` component.
 
-# useCatalogue
+## useCatalogue
 
 The `useCatalogue` composable allows you to extend the internal catalogue of components. It returns a function that you can use to register new components.
 
@@ -170,7 +170,7 @@ Then you can use the new component in your template. Notice that the new compone
 </template>
 ```
 
-# useTres <Badge type="warning" text="^1.7.0" />
+## useTres <Badge type="warning" text="^1.7.0" />
 
 This composable aims to provide access to the state model which contains the default renderer, camera, scene, and other useful properties.
 
