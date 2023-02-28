@@ -238,7 +238,7 @@ export function useRenderer(canvas: MaybeElementRef, container: MaybeElementRef,
   watch([aspectRatio, pixelRatio], updateRendererSize)
 
   watch(
-    [shadows, shadowMapType, outputEncoding, physicallyCorrectLights, toneMapping, toneMappingExposure, clearColor],
+    [shadows, shadowMapType, outputEncoding, useLegacyLights, toneMapping, toneMappingExposure, clearColor],
     updateRendererOptions,
   )
 
