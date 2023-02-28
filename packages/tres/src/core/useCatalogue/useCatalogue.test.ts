@@ -1,19 +1,28 @@
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
-import { describe, test, expect } from 'vitest'
+import { createApp } from 'vue'
+import { withSetup } from '/@/utils/test-utils'
 import { useCatalogue } from './'
+const [composable, app] = withSetup(() => useCatalogue())
 
-describe('useCatalogue()', () => {
-  test('should init catalog', () => {
-    const { catalogue } = useCatalogue()
-    expect(catalogue).toHaveProperty('Mesh')
+describe('useCatalogue', () => {
+  it('should fill the catalogue with THREE objects', () => {
+    const { catalogue } = composable
+
+    expect(catalogue.value).toHaveProperty('Mesh')
+    expect(catalogue.value).toHaveProperty('MeshBasicMaterial')
   })
-  test('should be able to extend catalogue', () => {
-    const { catalogue, extend } = useCatalogue()
-    extend({ OrbitControls })
-    expect(catalogue).toHaveProperty('OrbitControls')
+  it('should skip Scene object', () => {
+    const { catalogue } = composable
+
+    expect(catalogue.value).not.toHaveProperty('Scene')
   })
-  test('catalog objects should be instanciable', () => {
-    const { catalogue } = useCatalogue()
-    expect(new catalogue.PerspectiveCamera()).toHaveProperty('type', 'PerspectiveCamera')
+  it('should extend the catalogue with objects', () => {
+    const app = createApp({})
+    const { extend, catalogue } = useCatalogue(app)
+
+    extend({ MyObject: { foo: 'bar' } })
+
+    expect(catalogue.value.MyObject.foo).toEqual('bar')
   })
+
+  // TODO: find a way to mock createComponentInstances to test the component registration
 })

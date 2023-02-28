@@ -48,9 +48,16 @@ export interface UseRendererOptions extends WebGLRendererParameters {
    * See the [lights / physical example](https://threejs.org/examples/#webgl_lights_physical).
    *
    * @default false
+   * @deprecated Use {@link WebGLRenderer.useLegacyLights useLegacyLights} instead.
    */
   physicallyCorrectLights?: MaybeComputedRef<boolean>
-
+  /**
+   * Whether to use legacy lighting mode.
+   *
+   * @type {MaybeComputedRef<boolean>}
+   * @memberof UseRendererOptions
+   */
+  useLegacyLights?: MaybeComputedRef<boolean>
   /**
    * Defines the output encoding of the renderer.
    * Can be LinearEncoding, sRGBEncoding
@@ -113,7 +120,8 @@ const isReady = ref(false)
  * Reactive Three.js WebGLRenderer instance
  *
  * @param canvas
- * @param options
+ * @param container
+ * @param {UseRendererOptions} [options]
  */
 export function useRenderer(canvas: MaybeElementRef, container: MaybeElementRef, options: UseRendererOptions) {
   // Defaults
@@ -129,6 +137,7 @@ export function useRenderer(canvas: MaybeElementRef, container: MaybeElementRef,
     shadows = false,
     shadowMapType = PCFShadowMap,
     physicallyCorrectLights = false,
+    useLegacyLights = false,
     outputEncoding = LinearEncoding,
     toneMapping = NoToneMapping,
     toneMappingExposure = 1,
@@ -177,7 +186,8 @@ export function useRenderer(canvas: MaybeElementRef, container: MaybeElementRef,
     renderer.value.outputEncoding = (resolveUnref(outputEncoding) as TextureEncoding) || LinearEncoding
     if (clearColor?.value) renderer.value.setClearColor(normalizeColor(resolveUnref(clearColor) as TresColor))
 
-    renderer.value.physicallyCorrectLights = resolveUnref(physicallyCorrectLights) as boolean
+    /*    renderer.value.physicallyCorrectLights = resolveUnref(physicallyCorrectLights) as boolean */
+    renderer.value.useLegacyLights = resolveUnref(useLegacyLights) as boolean
   }
 
   const init = () => {

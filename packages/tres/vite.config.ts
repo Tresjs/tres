@@ -43,9 +43,12 @@ export default defineConfig({
     Inspect(),
   ],
   test: {
-    environment: 'happy-dom',
+    environment: 'jsdom',
     globals: true,
     threads: false,
+    alias: {
+      '/@': resolve(__dirname, './src'),
+    },
   },
   build: {
     lib: {

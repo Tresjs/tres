@@ -9,6 +9,21 @@ const catalogue: Ref<TresCatalogue> = ref({ ...THREE, uuid: THREE.MathUtils.gene
 delete catalogue.value.Scene
 
 let localApp: App
+
+/**
+ * State for the catalogue of THREE objects
+ *
+ * ```ts
+ * const { catalogue } = useCatalogue()
+ *
+ * console.log(catalogue.value.Mesh) // Mesh
+ * ```
+ *
+ * @export
+ * @param {App} [app]
+ * @param {string} [prefix='Tres']
+ * @return {*}
+ */
 export function useCatalogue(app?: App, prefix = 'Tres') {
   const { logError } = useLogger()
   if (!localApp && app) {
@@ -16,6 +31,19 @@ export function useCatalogue(app?: App, prefix = 'Tres') {
   }
   const { createComponentInstances } = useInstanceCreator(prefix)
 
+  /**
+   * Extend the catalogue with new THREE objects
+   *
+   * ```ts
+   * const { catalog, extend } = useCatalogue()
+   *
+   * extend({ MyObject: { foo: 'bar' } })
+   *
+   * console.log(catalog.value.MyObject.foo) // bar
+   * ```
+   *
+   * @param {*} objects
+   */
   const extend = (objects: any) => {
     if (!objects) {
       logError('No objects provided to extend catalogue')

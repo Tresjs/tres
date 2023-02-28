@@ -19,9 +19,10 @@ export const Scene = defineComponent({
     setState('scene', scene.value)
 
     onLoop(() => {
+      if (!activeCamera.value) return
       raycaster.value.setFromCamera(pointer.value, activeCamera.value)
 
-      if (renderer?.value && activeCamera?.value && scene?.value) {
+      if (renderer?.value && activeCamera && scene?.value) {
         renderer.value.render(scene?.value, activeCamera.value)
       }
     })
