@@ -15,6 +15,11 @@ export default defineConfig({
       lang: 'es',
       link: '/es/guide',
     },
+    zh: {
+      label: '简体中文',
+      lang: 'zh-CN',
+      link: '/zh/guide'
+    }
   },
 
   title: 'TresJS',
