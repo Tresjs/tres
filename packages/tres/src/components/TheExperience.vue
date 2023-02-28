@@ -27,7 +27,7 @@ const state = reactive({
   clearColor: '#201919',
   shadows: true,
   alpha: false,
-  physicallyCorrectLights: true,
+  useLegacyLights: true,
   shadowMapType: BasicShadowMap,
   outputEncoding: sRGBEncoding,
   toneMapping: NoToneMapping,
@@ -44,8 +44,8 @@ pane.addInput(state, 'clearColor', {
 pane.addInput(state, 'shadows', {
   label: 'Shadows',
 })
-pane.addInput(state, 'physicallyCorrectLights', {
-  label: 'physicallyCorrectLights',
+pane.addInput(state, 'useLegacyLights', {
+  label: 'useLegacyLights',
 })
 
 pane
