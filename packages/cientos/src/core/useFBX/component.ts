@@ -6,6 +6,9 @@ import { useCientos } from '../useCientos'
 export const FBXModel = defineComponent({
   name: 'FBXModel',
   props: {
+    /*
+     * The path to the FBX file.
+     */
     path: {
       type: String,
       required: true,
