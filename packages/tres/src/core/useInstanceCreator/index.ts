@@ -24,7 +24,7 @@ const COLOR_KEYS = ['r', 'g', 'b']
  */
 export function useInstanceCreator(prefix: string) {
   const { /* logMessage, */ logError } = useLogger()
-  const { pushCamera } = useCamera()
+
   /**
    * Process props to `.setAttribute` on instance.
    *
@@ -270,6 +270,7 @@ export function useInstanceCreator(prefix: string) {
               processProps(attrs, instance)
               // If the instance is a camera, push it to the camera stack
               if (instance instanceof PerspectiveCamera || instance instanceof OrthographicCamera) {
+                const { pushCamera } = useCamera()
                 pushCamera(instance)
               }
 
