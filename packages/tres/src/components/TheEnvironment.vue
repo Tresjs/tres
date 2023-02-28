@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, shallowRef, watch } from 'vue'
-import { OrbitControls, Environment, Box } from '../../../cientos/src'
+import { Environment, Box, PamCameraMouse } from '../../../cientos/src'
 import { TresCanvas } from '../core/useRenderer/component'
 /* import { OrbitControls, GLTFModel } from '@tresjs/cientos' */
 
@@ -28,8 +28,8 @@ watch(environmentTexture, ({ getTexture }) => {
 <template>
   <!--   <TresCanvas v-bind="state"> -->
   <TresCanvas preset="realistic">
-    <TresPerspectiveCamera :position="[8, 8, 8]" :fov="45" :near="0.1" :far="1000" :look-at="[-8, 3, -3]" />
-    <OrbitControls make-default />
+    <TresPerspectiveCamera :position="[10, 10, 18]" :fov="45" :near="0.1" :far="1000" :look-at="[-8, 3, -3]" />
+    <PamCameraMouse :factor="2" />
     <TresScene>
       <Environment
         ref="environmentTexture"

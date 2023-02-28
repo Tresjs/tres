@@ -1,11 +1,14 @@
 <script setup lang="ts">
-import Responsiveness from '/@/components/Responsiveness.vue'
+import { useTweakPane } from '@tresjs/cientos'
+import TheEnvironment from '/@/components/TheEnvironment.vue'
+// import TheEvents from '/@/components/TheEvents.vue'
+
+useTweakPane()
 </script>
 
 <template>
   <Suspense>
-    <Responsiveness />
-    <!--     <VectorSetProps /> -->
+    <TheEnvironment />
   </Suspense>
 </template>
 
