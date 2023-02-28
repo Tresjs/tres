@@ -8,8 +8,8 @@ importers:
       '@changesets/changelog-github': ^0.4.7
       '@changesets/cli': ^2.25.2
       '@stackblitz/sdk': ^1.8.1
-      '@tresjs/cientos': workspace:^1.7.0
-      '@tresjs/core': workspace:^1.7.0
+      '@tresjs/cientos': workspace:^1.8.0
+      '@tresjs/core': workspace:^1.8.0
       '@typescript-eslint/eslint-plugin': ^5.42.0
       '@typescript-eslint/parser': ^5.42.0
       conventional-changelog-cli: ^2.2.2
@@ -47,7 +47,7 @@ importers:
 
   packages/cientos:
     specifiers:
-      '@tresjs/core': workspace:^1.7.0
+      '@tresjs/core': workspace:^1.8.0
       '@tweakpane/plugin-essentials': ^0.1.8
       '@vitejs/plugin-vue': ^4.0.0
       kolorist: ^1.7.0
@@ -79,7 +79,7 @@ importers:
   packages/tres:
     specifiers:
       '@alvarosabu/utils': ^2.3.0
-      '@tresjs/cientos': workspace:^1.7.0
+      '@tresjs/cientos': workspace:^1.8.0
       '@types/three': latest
       '@vitejs/plugin-vue': ^4.0.0
       '@vitest/coverage-c8': ^0.28.5
@@ -117,7 +117,7 @@ importers:
       pathe: 1.1.0
       rollup-plugin-analyzer: 4.0.0
       rollup-plugin-visualizer: 5.9.0
-      three: 0.150.0
+      three: 0.150.1
       vite: 4.1.4
       vite-plugin-banner: 0.7.0
       vite-plugin-dts: 2.0.0-beta.1_vite@4.1.4
@@ -5276,8 +5276,8 @@ packages:
       zstddec: 0.0.2
     dev: false
 
-  /three/0.150.0:
-    resolution: {integrity: sha512-12oqqBZom9fb5HtX3rD8qPVnamojuiN5Os7r0x8s3HQ+WHRwnEyzl2XU3aEKocsDkG++rkE9+HWzx77O59NXtw==}
+  /three/0.150.1:
+    resolution: {integrity: sha512-5C1MqKUWaHYo13BX0Q64qcdwImgnnjSOFgBscOzAo8MYCzEtqfQqorEKMcajnA3FHy1yVlIe9AmaMQ0OQracNA==}
     dev: true
 
   /through/2.3.8:
