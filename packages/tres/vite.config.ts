@@ -4,10 +4,11 @@ import { defineConfig } from 'vite'
 
 import vue from '@vitejs/plugin-vue'
 import banner from 'vite-plugin-banner'
+import Inspect from 'vite-plugin-inspect'
+
 import dts from 'vite-plugin-dts'
 import analyze from 'rollup-plugin-analyzer'
 /* import { visualizer } from 'rollup-plugin-visualizer' */
-import glsl from 'vite-plugin-glsl'
 import { resolve } from 'pathe'
 
 import { lightGreen, yellow, gray, bold } from 'kolorist'
@@ -28,21 +29,26 @@ export default defineConfig({
     dedupe: ['@tresjs/cientos'],
   },
   plugins: [
-    vue({}),
+    vue({
+      isProduction: false,
+    }),
     dts({
       insertTypesEntry: true,
     }),
-    glsl(),
     banner({
       content: `/**\n * name: ${pkg.name}\n * version: v${
         pkg.version
       }\n * (c) ${new Date().getFullYear()}\n * description: ${pkg.description}\n * author: ${pkg.author}\n */`,
     }),
+    Inspect(),
   ],
   test: {
-    environment: 'happy-dom',
+    environment: 'jsdom',
     globals: true,
     threads: false,
+    alias: {
+      '/@': resolve(__dirname, './src'),
+    },
   },
   build: {
     lib: {

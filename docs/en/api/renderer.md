@@ -13,6 +13,34 @@ The `Renderer` component is the main component of Tres. It's the one that create
 </template>
 ```
 
+## Presets <Badge warning text="v1.7.0+" />
+
+Tres comes with a few presets for the `Renderer` component. You can use them by setting the `preset` prop.
+
+### Realistic
+
+The `realistic` preset makes easy to setup the renderer for more realistic 3D scenes.
+
+```vue
+<template>
+  <TresCanvas preset="realistic">
+    <!-- Your scene goes here -->
+  </TresCanvas>
+</template>
+```
+
+It's equivalent to:
+
+```ts
+renderer.shadows: true,
+renderer.physicallyCorrectLights: true,
+renderer.outputEncoding: sRGBEncoding,
+renderer.toneMapping: ACESFilmicToneMapping,
+renderer.toneMappingExposure: 3,
+renderer.shadowMap.enabled: true,
+renderer.shadowMap.type: PCFSoftShadowMap
+```
+
 ## Props
 
 | Prop                        | Description                                                                                                                                                     | Default            |

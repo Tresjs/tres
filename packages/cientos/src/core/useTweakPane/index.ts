@@ -7,7 +7,13 @@ type TweakPane = Pane & { addBlade(blade: any): void }
 let pane: TweakPane
 let fpsGraph: any
 
-export const useTweakPane = (selector = 'tres-container') => {
+export /**
+ * Creates a TweakPane instance and returns it.
+ *
+ * @param {string} [selector='tres-container']
+ * @return {*}
+ */
+const useTweakPane = (selector = 'tres-container') => {
   if (!pane) {
     pane = new Pane({
       container: (document.querySelector(selector) as HTMLElement) || undefined,
@@ -20,6 +26,10 @@ export const useTweakPane = (selector = 'tres-container') => {
     })
   }
 
+  /**
+   * Disposes the TweakPane instance.
+   *
+   */
   function disposeTweakPane() {
     if (pane) {
       pane.dispose()

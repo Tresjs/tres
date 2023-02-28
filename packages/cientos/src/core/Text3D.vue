@@ -1,4 +1,4 @@
-<script async setup lang="ts">
+<script setup lang="ts">
 import { TextGeometry, FontLoader } from 'three-stdlib'
 
 import { computed, useSlots } from 'vue'
@@ -34,7 +34,7 @@ const props = withDefaults(
     bevelThickness?: number
     bevelSize?: number
     bevelOffset?: number
-    bevelSegments?: number,
+    bevelSegments?: number
     center?: boolean
   }>(),
   {
@@ -46,9 +46,9 @@ const props = withDefaults(
     bevelSize: 0.02,
     bevelOffset: 0,
     bevelSegments: 4,
-    center:false
+    center: false,
   },
-  )
+)
 
 const { extend } = useCientos()
 

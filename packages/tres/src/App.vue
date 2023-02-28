@@ -1,12 +1,25 @@
 <script setup lang="ts">
-import { useTweakPane } from '@tresjs/cientos'
-import TheEvents from '/@/components/TheEvents.vue'
-
-useTweakPane()
+import Responsiveness from '/@/components/Responsiveness.vue'
 </script>
 
 <template>
   <Suspense>
-    <TheEvents />
+    <Responsiveness />
+    <!--     <VectorSetProps /> -->
   </Suspense>
 </template>
+
+<style>
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+}
+#app {
+  height: 100%;
+  width: 100%;
+  background-color: #000;
+}
+</style>

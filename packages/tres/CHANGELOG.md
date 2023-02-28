@@ -1,3 +1,38 @@
+# 1.7.0 (2023-02-19)
+
+### Bug Fixes
+
+- **core:** add vueuse as normal dependency ([9ee971a](https://github.com/Tresjs/tres/commit/9ee971afdeb68fc5b4c98e277b03ff1fc7f6f3f4))
+- **core:** added check for fog ([0a0f7d3](https://github.com/Tresjs/tres/commit/0a0f7d39ace4e3705ec3d8f47ff51bda511ca3e3))
+- **core:** added correct error handling to renderer preset ([5a752a3](https://github.com/Tresjs/tres/commit/5a752a3c42765d4b429198cf9fff496318ada7d3))
+- **core:** added error handling to extend ([fcfbce9](https://github.com/Tresjs/tres/commit/fcfbce9a03d5ec85ab160b4cc0e99c254b715c1a))
+- **core:** added raw values to state rather than RefImp ([ba9a0a6](https://github.com/Tresjs/tres/commit/ba9a0a6334d8c5c578ac0187fb24dc5239695498))
+- **core:** added vueuse as peer dependency ([890f97e](https://github.com/Tresjs/tres/commit/890f97e14cf5d743cf23c95967bea01229a56ea6))
+- **core:** clean dependencies repeated both peer and dev ([0fb7b4c](https://github.com/Tresjs/tres/commit/0fb7b4c76aeab609a02a1d250962809e088a7c68))
+- **core:** remove annoying warnings from renderer props ([bdbe58e](https://github.com/Tresjs/tres/commit/bdbe58ed53bbbb5ead2722dca6243c1a2c87de62))
+- **core:** remove glsl plugin from core vite config ([6e70676](https://github.com/Tresjs/tres/commit/6e70676480a7cf1c53049a436154b5c847bab5fe))
+- **core:** remove histoire ([14ab727](https://github.com/Tresjs/tres/commit/14ab727685bcab4fa78addd620f1652700ca5613))
+- **core:** remove unused import ([9e4392d](https://github.com/Tresjs/tres/commit/9e4392dddd9d205c973f47d29ea6682db8c41bc4))
+- **core:** removed unused imports ([1387834](https://github.com/Tresjs/tres/commit/1387834ed30d5a98e32e8d6a7f166df2b4b2482f))
+- **core:** solved annoying warning messages about inject [Vue warn]: injection "local-scene" not found. [#107](https://github.com/Tresjs/tres/issues/107) ([f31ae49](https://github.com/Tresjs/tres/commit/f31ae49d282fe950f6d58e6dc05488faf3e5b073))
+
+- hmr nstance creator ([750c614](https://github.com/Tresjs/tres/commit/750c614cfb828e3033929ef173aa5cbc7158a9d4))
+- issue after removing playground in tres ([ccfce38](https://github.com/Tresjs/tres/commit/ccfce38c36ae2f51546d663e8d8eeef5bac5ed03))
+- make it work with new instance creator logic ([5c07f84](https://github.com/Tresjs/tres/commit/5c07f84e34b44a4d625b9c4e98acfe4274453a6d))
+- minor clean up ([50f6856](https://github.com/Tresjs/tres/commit/50f685600f63fa57deb5f5ba32a507821630cbfd))
+- recent problems with adding the controls to refs ([f0d53c9](https://github.com/Tresjs/tres/commit/f0d53c9d8b25685b738fe45a71a3bd8b9b217d9c))
+- remove disposal of the renderer ([9a9ee41](https://github.com/Tresjs/tres/commit/9a9ee41d2c6d716be994baa63e59cbfd6d1bf61a))
+- remove initial Orbitcontrol extend from plugin ([171ede4](https://github.com/Tresjs/tres/commit/171ede4ff61bbc6b9edd5f0e83859e956ab0e30b))
+- removing unused code ([1a9ead7](https://github.com/Tresjs/tres/commit/1a9ead7b4aa527f303a5a88046fabf238173f951))
+- **tres:** use three as dev dep on ([a3b7d31](https://github.com/Tresjs/tres/commit/a3b7d31334feffb8fc52a9aefee7d74788fc789e))
+
+- typing issues with useLoader and environment ([d6aca6f](https://github.com/Tresjs/tres/commit/d6aca6fc907ba4f57fa7ccd669a92da23ba34cd9))
+- use local-scene inject instead of composable to avoid different scene created from cientos ([33353f8](https://github.com/Tresjs/tres/commit/33353f875162a7540d8eb0cb6a7d14ca02ca614b))
+
+### Features
+
+- sorted out hmr disposal of objects ([42fa6e7](https://github.com/Tresjs/tres/commit/42fa6e767e7790c8f0ebd411804a79efbee4ff67))
+
 ## 1.6.3 (2023-02-07)
 
 ### Bug Fixes

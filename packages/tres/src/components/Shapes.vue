@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { BasicShadowMap, CubicBezierCurve3, DoubleSide, NoToneMapping, sRGBEncoding, Vector3 } from 'three'
-import { reactive, ref, shallowRef, watch } from 'vue'
+import { reactive, shallowRef, watch } from 'vue'
 import {
   Plane,
   Tube,

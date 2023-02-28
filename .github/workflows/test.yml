@@ -1,4 +1,4 @@
-name: Run linters
+name: Run unit tests
 on: [push]
 
 env:
@@ -7,7 +7,7 @@ env:
 
 jobs:
   lint:
-    name: Lint all projects
+    name: Run Unit Tests
     runs-on: ubuntu-20.04
     steps:
       - name: Checkout
@@ -37,5 +37,5 @@ jobs:
 
       - run: pnpm install --no-frozen-lockfile --shamefully-hoist
 
-      - name: Run Lint
-        run: pnpm run lint
+      - name: Run Tests
+        run: pnpm run test

@@ -22,6 +22,9 @@ import type { TextureEncoding, ToneMapping } from 'three'
 import { useRenderLoop, useTres } from '/@/core/'
 import { normalizeColor } from '/@/utils/normalize'
 import { TresColor } from '/@/types'
+import { rendererPresets, RendererPresetsType } from './const'
+import { merge } from '/@/utils'
+import { useLogger } from '/@/composables'
 
 export interface UseRendererOptions extends WebGLRendererParameters {
   /**
@@ -45,9 +48,16 @@ export interface UseRendererOptions extends WebGLRendererParameters {
    * See the [lights / physical example](https://threejs.org/examples/#webgl_lights_physical).
    *
    * @default false
+   * @deprecated Use {@link WebGLRenderer.useLegacyLights useLegacyLights} instead.
    */
   physicallyCorrectLights?: MaybeComputedRef<boolean>
-
+  /**
+   * Whether to use legacy lighting mode.
+   *
+   * @type {MaybeComputedRef<boolean>}
+   * @memberof UseRendererOptions
+   */
+  useLegacyLights?: MaybeComputedRef<boolean>
   /**
    * Defines the output encoding of the renderer.
    * Can be LinearEncoding, sRGBEncoding
@@ -100,6 +110,7 @@ export interface UseRendererOptions extends WebGLRendererParameters {
    */
   clearColor?: MaybeComputedRef<TresColor>
   windowSize?: MaybeComputedRef<boolean>
+  preset?: RendererPresetsType
 }
 
 const renderer = shallowRef<WebGLRenderer>()
@@ -109,7 +120,8 @@ const isReady = ref(false)
  * Reactive Three.js WebGLRenderer instance
  *
  * @param canvas
- * @param options
+ * @param container
+ * @param {UseRendererOptions} [options]
  */
 export function useRenderer(canvas: MaybeElementRef, container: MaybeElementRef, options: UseRendererOptions) {
   // Defaults
@@ -125,6 +137,7 @@ export function useRenderer(canvas: MaybeElementRef, container: MaybeElementRef,
     shadows = false,
     shadowMapType = PCFShadowMap,
     physicallyCorrectLights = false,
+    useLegacyLights = false,
     outputEncoding = LinearEncoding,
     toneMapping = NoToneMapping,
     toneMappingExposure = 1,
@@ -133,10 +146,11 @@ export function useRenderer(canvas: MaybeElementRef, container: MaybeElementRef,
     preserveDrawingBuffer = false,
     clearColor,
     windowSize = false,
+    preset = undefined,
   } = toRefs(options)
 
   const { width, height } = resolveUnref(windowSize) ? useWindowSize() : useElementSize(container)
-
+  const { logError } = useLogger()
   const { pixelRatio } = useDevicePixelRatio()
   const { pause, resume } = useRenderLoop()
   const aspectRatio = computed(() => width.value / height.value)
@@ -155,6 +169,16 @@ export function useRenderer(canvas: MaybeElementRef, container: MaybeElementRef,
       return
     }
 
+    const rendererPreset = resolveUnref(preset)
+
+    if (rendererPreset) {
+      if (!(rendererPreset in rendererPresets))
+        logError('Renderer Preset must be one of these: ' + Object.keys(rendererPresets).join(', '))
+      merge(renderer.value, rendererPresets[rendererPreset])
+
+      return
+    }
+
     renderer.value.shadowMap.enabled = resolveUnref(shadows) as boolean
     renderer.value.shadowMap.type = resolveUnref(shadowMapType) as ShadowMapType
     renderer.value.toneMapping = (resolveUnref(toneMapping) as ToneMapping) || NoToneMapping
@@ -162,7 +186,8 @@ export function useRenderer(canvas: MaybeElementRef, container: MaybeElementRef,
     renderer.value.outputEncoding = (resolveUnref(outputEncoding) as TextureEncoding) || LinearEncoding
     if (clearColor?.value) renderer.value.setClearColor(normalizeColor(resolveUnref(clearColor) as TresColor))
 
-    renderer.value.physicallyCorrectLights = resolveUnref(physicallyCorrectLights) as boolean
+    /*    renderer.value.physicallyCorrectLights = resolveUnref(physicallyCorrectLights) as boolean */
+    renderer.value.useLegacyLights = resolveUnref(useLegacyLights) as boolean
   }
 
   const init = () => {
@@ -190,6 +215,7 @@ export function useRenderer(canvas: MaybeElementRef, container: MaybeElementRef,
     const { setState } = useTres()
     setState('renderer', renderer.value)
     setState('clock', new Clock())
+    setState('aspectRatio', aspectRatio)
     updateRendererOptions()
     updateRendererSize()
     resume()

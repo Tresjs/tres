@@ -2,7 +2,19 @@ import { isArray } from '@alvarosabu/utils'
 import { LoadingManager, Texture, TextureLoader } from 'three'
 
 export interface PBRMaterialOptions {
+  /**
+   * List of texture maps to load.
+   *
+   * @type {string[]}
+   * @memberof PBRMaterialOptions
+   */
   maps: string[]
+  /**
+   * Path to the texture maps.
+   *
+   * @type {('png' | 'jpg')}
+   * @memberof PBRMaterialOptions
+   */
   ext: 'png' | 'jpg'
 }
 
@@ -10,12 +22,44 @@ export interface PBRTextureMaps {
   [key: string]: Texture | null
 }
 // eslint-disable-next-line require-await
+/**
+ * Composable for loading textures.
+ *
+ * @see https://tresjs.org/examples/load-textures.html
+ *
+ * ```ts
+ * import { useTexture } from 'tres'
+ *
+ * const pbrTexture = await useTexture({
+ *  map: 'path/to/texture.png',
+ *  displacementMap: 'path/to/displacement-map.png',
+ *  roughnessMap: 'path/to/roughness-map.png',
+ *  normalMap: 'path/to/normal-map.png',
+ *  ambientOcclusionMap: 'path/to/ambient-occlusion-map.png',
+ * })
+ * ```
+ * Then you can use the texture in your material.
+ *
+ * ```vue
+ * <TresMeshStandardMaterial v-bind="pbrTexture" />
+ * ```
+ *
+ * @export
+ * @param {(Array<string> | { [key: string]: string })} paths
+ * @return {*}  {(Promise<Texture | Array<Texture> | PBRTextureMaps>)}
+ */
 export async function useTexture(
   paths: Array<string> | { [key: string]: string },
 ): Promise<Texture | Array<Texture> | PBRTextureMaps> {
   const loadingManager = new LoadingManager()
   const textureLoader = new TextureLoader(loadingManager)
 
+  /**
+   * Load a texture.
+   *
+   * @param {string} url
+   * @return {*}  {Promise<Texture>}
+   */
   const loadTexture = (url: string): Promise<Texture> => {
     return new Promise((resolve, reject) => {
       textureLoader.load(
@@ -47,26 +91,4 @@ export async function useTexture(
       aoMap: aoMap ? await loadTexture(aoMap) : null,
     }
   }
-
-  /*   const getPbrTextures = async (path: string, options: PBRMaterialOptions = { maps: ['albedo'], ext: 'png' }) => {
-    const [albedoMap, normalMap, roughnessMap, metalnessMap] = await Promise.all(
-      options.maps.map(map => loadTexture(`${path}${map}.${options.ext}`)),
-    )
-
-    return {
-      map: albedoMap,
-      normalMap,
-      roughnessMap,
-      metalnessMap,
-    }
-  } */
-
-  /*  return new MeshStandardMaterial({
-      map: albedoMap,
-      normalMap,
-      roughnessMap,
-      metalnessMap,
-    })
-  } */
-  /*   return { textureLoader, loadTexture, getPbrMaterial } */
 }

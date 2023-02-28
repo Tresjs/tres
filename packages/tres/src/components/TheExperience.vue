@@ -15,8 +15,13 @@ import {
 } from 'three'
 import { reactive, ref } from 'vue'
 import { OrbitControls, useTweakPane, TransformControls } from '../../../cientos/src/'
+import { useCamera } from '../core'
 import { TresCanvas } from '../core/useRenderer/component'
 /* import { OrbitControls, GLTFModel } from '@tresjs/cientos' */
+
+const { updateCamera } = useCamera()
+
+updateCamera
 
 const state = reactive({
   clearColor: '#201919',

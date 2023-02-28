@@ -1,20 +1,38 @@
 /* eslint-disable new-cap */
 /* eslint-disable @typescript-eslint/no-empty-function */
-import { BufferAttribute, FogBase, OrthographicCamera, PerspectiveCamera, Raycaster, Scene } from 'three'
+import { BufferAttribute, Fog, FogBase, Mesh, OrthographicCamera, PerspectiveCamera } from 'three'
 import { defineComponent, inject, onUnmounted, Ref } from 'vue'
 import { useEventListener } from '@vueuse/core'
 
 import { isArray, isDefined, isFunction } from '@alvarosabu/utils'
 import { normalizeVectorFlexibleParam } from '/@/utils/normalize'
-import { useCamera, useCatalogue, useRenderLoop, useScene } from '/@/core/'
+import { useCamera, useCatalogue, useRenderLoop, useTres } from '/@/core/'
 import { useLogger } from '/@/composables'
 import { TresAttributes, TresCatalogue, TresInstance, TresVNode, TresVNodeType, TresEvent } from '/@/types'
 
 const VECTOR3_PROPS = ['rotation', 'scale', 'position']
+const VECTOR3_AXIS = ['X', 'Y', 'Z']
+const COLOR_PROPS = ['color']
+const COLOR_KEYS = ['r', 'g', 'b']
 
+/**
+ * Composable responsible for creating instances out of Three.js objects.
+ *
+ * @export
+ * @param {string} prefix
+ * @return {*}
+ */
 export function useInstanceCreator(prefix: string) {
   const { /* logMessage, */ logError } = useLogger()
 
+  /**
+   * Process props to `.setAttribute` on instance.
+   *
+   * @example `position` prop will be converted to `setPosition` method call.
+   *
+   * @param {Record<string, any>} props
+   * @param {TresInstance} instance
+   */
   function processSetAttributes(props: Record<string, any>, instance: TresInstance) {
     if (!isDefined(props)) return
     if (!isDefined(instance)) return
@@ -25,20 +43,60 @@ export function useInstanceCreator(prefix: string) {
     })
   }
 
+  /**
+   *  Process props to set properties on instance.
+   *
+   * It will also normalize vector3 props and check if the instances property has a `set` method.
+   * If it does, it will call the `set` method with the value, spread if it's an array.
+   *
+   * @example `position=[0,0,0]` prop will be converted to `instance.position.set(0,0,0)` property.
+   *
+   * @param {Record<string, any>} props
+   * @param {TresInstance} instance
+   */
   function processProps(props: Record<string, any>, instance: TresInstance) {
     if (!isDefined(props)) return
     if (!isDefined(instance)) return
 
     Object.entries(props).forEach(([key, value]) => {
       const camelKey = key.replace(/(-\w)/g, m => m[1].toUpperCase())
-
+      let transformProps
+      let transformAxis
+      let colorProps
+      let colorKey
       // Ignore property args which is use for initial instance construction
       if (camelKey === 'args' || value === undefined) return
 
       // Normalize vector3 props
       if (VECTOR3_PROPS.includes(camelKey) && value) {
         value = normalizeVectorFlexibleParam(value)
+      } else {
+        VECTOR3_PROPS.forEach(vecProps => {
+          // Check if the props starts with one of the transform props
+          // and is followed only with one of the axis
+          if (camelKey.startsWith(vecProps) && camelKey.length === vecProps.length + 1) {
+            transformProps = vecProps
+            transformAxis = camelKey.substring(vecProps.length)
+            if (!VECTOR3_AXIS.includes(transformAxis)) {
+              logError(
+                // eslint-disable-next-line max-len
+                `There was an error setting ${key} property, ${transformAxis} is not a valid axis for ${transformProps}`,
+              )
+            }
+          }
+        })
       }
+      COLOR_PROPS.forEach(props => {
+        // Check if the props starts with one of the color props
+        // and is followed only with one of the key
+        if (camelKey.startsWith(props) && camelKey.length === props.length + 1) {
+          colorProps = props
+          colorKey = camelKey.substring(props.length).toLowerCase()
+          if (!COLOR_KEYS.includes(colorKey)) {
+            logError(`There was an error setting ${key} property , ${colorKey} is not a valid axis for ${colorProps}`)
+          }
+        }
+      })
 
       if (props.ref) {
         props.ref = instance
@@ -49,6 +107,26 @@ export function useInstanceCreator(prefix: string) {
         if (instance[camelKey] && isDefined(instance[camelKey].set)) {
           // Call the "set" method with the value, spread if it's an array
           instance[camelKey].set(...(isArray(value) ? value : [value]))
+        } else if (
+          // Check if the property has a "setAxis" method
+          transformProps &&
+          instance[transformProps]
+        ) {
+          // Check if setAxis function exist
+          // if it doesn't check if props is rotation
+          if (isDefined(instance[transformProps][`set${transformAxis}`])) {
+            instance[transformProps][`set${transformAxis}`](value)
+          } else if (isDefined(instance[`rotate${transformAxis}`])) {
+            instance[`rotate${transformAxis}`](value)
+          }
+        } else if (
+          // Check if the instance has a "color" property
+          colorProps &&
+          colorKey &&
+          instance[colorProps] &&
+          instance[colorProps][colorKey]
+        ) {
+          instance[colorProps][colorKey] = value
         } else {
           // Convert empty strings to `true`
           if (value === '') {
@@ -72,13 +150,20 @@ export function useInstanceCreator(prefix: string) {
     })
   }
 
+  /**
+   * Proccess slots to add children to instance.
+   *
+   * @param {TresVNode} vnode
+   * @return {*}  {(TresInstance | TresInstance[] | undefined)}
+   */
   function createInstanceFromVNode(vnode: TresVNode): TresInstance | TresInstance[] | undefined {
     const fragmentRegex = /^Symbol\(Fragment\)$/g
     const textRegex = /^Symbol\(Text\)$/g
+    const commentRegex = /^Symbol\(Comment\)$/g
     // Check if the vnode is a Fragment
     if (fragmentRegex.test(vnode.type.toString())) {
       return vnode.children.map(child => createInstanceFromVNode(child as TresVNode)) as TresInstance[]
-    } else if (textRegex.test(vnode.type.toString())) {
+    } else if (textRegex.test(vnode.type.toString()) || commentRegex.test(vnode.type.toString())) {
       return
     } else {
       const vNodeType = ((vnode.type as TresVNodeType).name as string).replace(prefix, '')
@@ -120,18 +205,29 @@ export function useInstanceCreator(prefix: string) {
     }
   }
 
+  /**
+   * Create a new instance of a ThreeJS object based on the component attrs and slots.
+   *
+   * Checks if the component has slots,
+   * if it does, it will create a new Object3D instance passing the slots instances as properties
+   * Example:
+   *
+   * ```vue
+   * <TresMesh>
+   *  <TresBoxGeometry />
+   *  <TresMeshBasicMaterial />
+   * </TresMesh>
+   * ```
+   *
+   * will create a new Mesh instance with a BoxGeometry and a MeshBasicMaterial
+   * const mesh = new Mesh(new BoxGeometry(), new MeshBasicMaterial())
+   *
+   * @param {*} threeObj
+   * @param {TresAttributes} attrs
+   * @param {Record<string, any>} slots
+   * @return {*}  {TresInstance}
+   */
   function createInstance(threeObj: any, attrs: TresAttributes, slots: Record<string, any>): TresInstance {
-    /*
-     * Checks if the component has slots,
-     * if it does, it will create a new Object3D instance passing the slots instances as properties
-     * Example:
-     * <TresMesh>
-     *  <TresBoxGeometry />
-     *  <TresMeshBasicMaterial />
-     * </TresMesh>
-     * will create a new Mesh instance with a BoxGeometry and a MeshBasicMaterial
-     * const mesh = new Mesh(new BoxGeometry(), new MeshBasicMaterial())
-     */
     if (slots.default && slots?.default()) {
       const internal = slots.default().map((vnode: TresVNode) => createInstanceFromVNode(vnode))
       if (threeObj.name === 'Group') {
@@ -149,6 +245,12 @@ export function useInstanceCreator(prefix: string) {
     }
   }
 
+  /**
+   * Creates a new component instance for each object in the catalogue
+   *
+   * @param {Ref<TresCatalogue>} catalogue
+   * @return {*}
+   */
   function createComponentInstances(catalogue: Ref<TresCatalogue>) {
     return (
       Object.entries(catalogue.value)
@@ -159,12 +261,10 @@ export function useInstanceCreator(prefix: string) {
           const cmp = defineComponent({
             name,
             setup(_props, { slots, attrs, ...ctx }) {
-              const { scene: fallback } = useScene()
+              const { state } = useTres()
               const { onLoop } = useRenderLoop()
-              const scene = inject<Ref<Scene>>('local-scene') || fallback
-              /* const { raycaster } = useRaycaster() */
-              const raycaster = inject<Ref<Raycaster>>('raycaster') /* 
-              const currentInstance = inject<Ref>('currentInstance') */
+              const scene = state.scene
+              const raycaster = state.raycaster
               const { pushCamera } = useCamera()
 
               let instance = createInstance(threeObj, attrs, slots)
@@ -176,15 +276,15 @@ export function useInstanceCreator(prefix: string) {
 
               // If the instance is a valid Object3D, add it to the scene
               if (instance.isObject3D) {
-                scene?.value.add(instance)
+                scene?.add(instance)
               }
 
               let prevInstance: TresEvent | null = null
               let currentInstance: TresEvent | null = null
-              if (instance.isMesh) {
+              if (instance instanceof Mesh) {
                 onLoop(() => {
-                  if (instance && raycaster?.value) {
-                    const intersects = raycaster?.value.intersectObjects(scene.value.children)
+                  if (instance && raycaster && scene?.children) {
+                    const intersects = raycaster.intersectObjects(scene?.children)
 
                     if (intersects.length > 0) {
                       currentInstance = intersects[0]
@@ -214,21 +314,17 @@ export function useInstanceCreator(prefix: string) {
                 })
               }
 
-              if (scene?.value && instance.isFog) {
-                scene.value.fog = instance as unknown as FogBase
+              if (scene && instance instanceof Fog) {
+                scene.fog = instance as unknown as FogBase
               }
 
               if (import.meta.hot) {
-                import.meta.hot.on('vite:beforeUpdate', () => {
-                  scene.value.remove(instance)
-                })
-
                 import.meta.hot.on('vite:afterUpdate', () => {
                   instance = createInstance(threeObj, attrs, slots)
                   processProps(attrs, instance)
 
                   if (instance.isObject3D) {
-                    scene?.value.add(instance)
+                    scene?.add(instance)
                   }
                 })
               }
