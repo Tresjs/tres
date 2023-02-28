@@ -149,6 +149,8 @@ export function useRenderer(canvas: MaybeElementRef, container: MaybeElementRef,
     preset = undefined,
   } = toRefs(options)
 
+  const { setState } = useTres()
+
   const { width, height } = resolveUnref(windowSize) ? useWindowSize() : useElementSize(container)
   const { logError } = useLogger()
   const { pixelRatio } = useDevicePixelRatio()
@@ -212,7 +214,6 @@ export function useRenderer(canvas: MaybeElementRef, container: MaybeElementRef,
       premultipliedAlpha: resolveUnref(premultipliedAlpha),
     })
 
-    const { setState } = useTres()
     setState('renderer', renderer.value)
     setState('clock', new Clock())
     setState('aspectRatio', aspectRatio)
