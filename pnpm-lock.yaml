@@ -9,7 +9,7 @@ importers:
       '@changesets/cli': ^2.25.2
       '@stackblitz/sdk': ^1.8.1
       '@tresjs/cientos': workspace:^1.8.0
-      '@tresjs/core': workspace:^1.8.0
+      '@tresjs/core': workspace:^1.8.1
       '@typescript-eslint/eslint-plugin': ^5.42.0
       '@typescript-eslint/parser': ^5.42.0
       conventional-changelog-cli: ^2.2.2
@@ -47,7 +47,7 @@ importers:
 
   packages/cientos:
     specifiers:
-      '@tresjs/core': workspace:^1.8.0
+      '@tresjs/core': workspace:^1.8.1
       '@tweakpane/plugin-essentials': ^0.1.8
       '@vitejs/plugin-vue': ^4.0.0
       kolorist: ^1.7.0
