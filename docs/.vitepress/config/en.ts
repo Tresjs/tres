@@ -1,32 +1,7 @@
-import Unocss from 'unocss/vite'
-import svgLoader from 'vite-svg-loader'
-import { defineConfig } from 'vitepress'
-import { version } from '../../packages/tres/package.json'
-import { version as cientosVersion } from '../../packages/cientos/package.json'
+import type { DefaultTheme, LocaleSpecificConfig } from 'vitepress'
 
-export default defineConfig({
-  locales: {
-    root: {
-      label: 'English',
-      lang: 'en',
-    },
-    es: {
-      label: 'Spanish',
-      lang: 'es',
-      link: '/es/guide',
-    },
-    zh: {
-      label: '简体中文',
-      lang: 'zh-CN',
-      link: '/zh/guide'
-    }
-  },
-
-  title: 'TresJS',
-  description: 'Declarative ThreeJS using Vue Components',
-  head: [['link', { rel: 'icon', type: 'image/svg', href: '/favicon.svg' }]],
+export const enConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
   themeConfig: {
-    logo: '/logo.svg',
     sidebar: [
       {
         text: 'Guide',
@@ -162,12 +137,5 @@ export default defineConfig({
         ],
       }, */
     ],
-    socialLinks: [
-      /*  { icon: 'github', link: 'https://github.com/tresjs/tres' }, */
-      { icon: 'twitter', link: 'https://twitter.com/alvarosabu' },
-    ],
   },
-  vite: {
-    plugins: [svgLoader(), Unocss()],
-  },
-})
+}
