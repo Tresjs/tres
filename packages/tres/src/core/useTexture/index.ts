@@ -25,8 +25,6 @@ export interface PBRTextureMaps {
 /**
  * Composable for loading textures.
  *
- * @see https://tresjs.org/examples/load-textures.html
- *
  * ```ts
  * import { useTexture } from 'tres'
  *
@@ -43,7 +41,7 @@ export interface PBRTextureMaps {
  * ```vue
  * <TresMeshStandardMaterial v-bind="pbrTexture" />
  * ```
- *
+ * @see https://tresjs.org/examples/load-textures.html
  * @export
  * @param {(Array<string> | { [key: string]: string })} paths
  * @return {*}  {(Promise<Texture | Array<Texture> | PBRTextureMaps>)}
