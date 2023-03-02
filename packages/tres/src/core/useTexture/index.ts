@@ -25,7 +25,6 @@ export interface PBRTextureMaps {
 /**
  * Composable for loading textures.
  *
- *
  * ```ts
  * import { useTexture } from 'tres'
  *
