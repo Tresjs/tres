@@ -83,6 +83,69 @@ declare module 'astro:content' {
   collection: "experiments",
   data: any
 },
+"environment-tweaks.mdx": {
+  id: "environment-tweaks.mdx",
+  slug: "environment-tweaks",
+  body: string,
+  collection: "experiments",
+  data: any
+},
+"events.mdx": {
+  id: "events.mdx",
+  slug: "events",
+  body: string,
+  collection: "experiments",
+  data: any
+},
+"gltf-model.mdx": {
+  id: "gltf-model.mdx",
+  slug: "gltf-model",
+  body: string,
+  collection: "experiments",
+  data: any
+},
+"lights.mdx": {
+  id: "lights.mdx",
+  slug: "lights",
+  body: string,
+  collection: "experiments",
+  data: any
+},
+"lowpoly-planet.mdx": {
+  id: "lowpoly-planet.mdx",
+  slug: "lowpoly-planet",
+  body: string,
+  collection: "experiments",
+  data: any
+},
+"materials.mdx": {
+  id: "materials.mdx",
+  slug: "materials",
+  body: string,
+  collection: "experiments",
+  data: any
+},
+"portal-journey.mdx": {
+  id: "portal-journey.mdx",
+  slug: "portal-journey",
+  body: string,
+  collection: "experiments",
+  data: any
+},
+"realistic.mdx": {
+  id: "realistic.mdx",
+  slug: "realistic",
+  body: string,
+  collection: "experiments",
+  data: any
+},
+"transform-controls.mdx": {
+  id: "transform-controls.mdx",
+  slug: "transform-controls",
+  body: string,
+  collection: "experiments",
+  data: any
+},
 },
 
 	};

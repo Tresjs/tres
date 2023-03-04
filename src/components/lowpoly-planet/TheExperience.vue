@@ -11,6 +11,7 @@ const state = {
   shadows: true,
   alpha: false,
   outputEncoding: sRGBEncoding,
+  useLegacyLights: true,
   shadowMapType: PCFSoftShadowMap,
 }
 const directionalLightRef = shallowRef<TresInstance>()
