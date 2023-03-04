@@ -59,7 +59,7 @@ export default defineConfig({
             mono: 'DM Mono',
           },
         }),
-        presetDaisy(),
+        /* presetDaisy(), */
       ],
       transformers: [transformerDirectives(), transformerVariantGroup()],
       safelist: 'prose prose-sm m-auto text-left'.split(' '),
