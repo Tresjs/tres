@@ -1,11 +1,19 @@
 ---
-import Layout from '../layouts/Layout.astro'
+import Layout from '/@/layouts/Layout.astro'
 
-const vueExperiments = await Astro.glob('./vue/**/*.mdx')
-const experiments = [...vueExperiments].map(experiment => ({
-  framework: 'vue',
-  ...experiment,
-}))
+import { getCollection, getEntryBySlug } from 'astro:content'
+const experiments = await getCollection('experiments')
+const formattedExperiments = await Promise.all(
+  experiments.map(async experiment => {
+    return {
+      ...experiment,
+      data: {
+        ...experiment.data,
+        author: await getEntryBySlug('authors', experiment.data.author),
+      },
+    }
+  }),
+)
 ---
 
 <Layout title="Playground">
@@ -13,22 +21,33 @@ const experiments = [...vueExperiments].map(experiment => ({
     class="container px-4 py-20 sm:px-0 mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 sm:gap-12 md:gap-16"
   >
     {
-      experiments.map(experiment => (
-        <a href={experiment.url} class="card bg-base-100  shadow-xl rounded-lg overflow-hidden relative">
-          <figure class="aspect-video object-contain">
-            <img src={experiment.frontmatter.thumbnail} alt={experiment.frontmatter.title} />
+      formattedExperiments.map(experiment => (
+        <a
+          href={`/experiments/${experiment.slug}`}
+          class="card bg-base-100  shadow-xl rounded-lg overflow-hidden relative"
+        >
+          <figure class="aspect-video object-contain relative overflow-hidden">
+            <img src={experiment.data.thumbnail} alt={experiment.data.title} />
+            <span class="absolute top-4 right-4 bg-white bg-opacity-50 rounded-full w-8 h-8 p-0.5 flex justify-center items-center shadow-lg">
+              <i class={`i-logos-${experiment.data.type}`} />
+            </span>
           </figure>
           <div class="card-body p-4">
-            <h2 class="card-title font-bold mb-8 text-lg">{experiment.frontmatter.title}</h2>
-            <p class="mb-4">{experiment.frontmatter.description}</p>
-            <footer class="card-actions justify-end">
-              <ul class="flex flex-wrap">
-                {experiment.frontmatter.tags.map(tag => (
-                  <li>
-                    <span class="text-xs text-gray-700 font-semibold bg-lime-200 py-1 px-2 rounded mr-2">{tag}</span>
-                  </li>
-                ))}
-              </ul>
+            <h2 class="card-title font-bold mb-8 text-lg">{experiment.data.title} </h2>
+            <p class="mb-8 min-h-48px">{experiment.data.description}</p>
+            <ul class="flex flex-wrap mb-2">
+              {experiment.data.tags.map(tag => (
+                <li>
+                  <span class="text-xs text-gray-700 font-semibold bg-lime-200 py-1 px-2 rounded mr-2">{tag}</span>
+                </li>
+              ))}
+            </ul>
+            <footer class="card-actions flex items-center py-4 text-sm">
+              <div class="w-10 rounded-full border-4 border-gray-300 mr-4">
+                <img src={experiment.data.author.data.avatar} />
+              </div>
+              Author:
+              <span class="ml-1 font-bold">{experiment.data.author.data.name}</span>
             </footer>
           </div>
         </a>

@@ -27,15 +27,7 @@ onLoop(({ delta }) => {
 </script>
 
 <template>
-  <TresCanvas
-    clear-color="#82DBC5"
-    shadows
-    alpha
-    window-size
-    power-preference="high-performance"
-    preserve-drawing-buffer
-    physically-correct-lights
-  >
+  <TresCanvas clear-color="#82DBC5" shadows alpha window-size power-preference="high-performance">
     <OrbitControls />
     <TresPerspectiveCamera :position="[1, 2, 5]" :fov="45" :aspect="1" :near="0.1" :far="1000" />
     <TresScene>
@@ -43,7 +35,8 @@ onLoop(({ delta }) => {
         <TresSphereGeometry :args="[1, 100, 100]" />
         <TresMeshStandardMaterial v-bind="pbrTexture" displacement-scale="0.2" />
       </TresMesh>
-      <TresDirectionalLight :position="[0, 2, 4]" :intensity="2" cast-shadow />
+      <TresAmbientLight :color="0xffffff" :intensity="0.75" />
+      <TresDirectionalLight :position="[0, 2, 4]" :intensity="8" cast-shadow />
     </TresScene>
   </TresCanvas>
 </template>

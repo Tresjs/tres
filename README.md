@@ -39,11 +39,12 @@ pnpm build
 layout: /@/layouts/ExperimentLayout.astro
 thumbnail: /animations.png
 title: Animations
-author: Alvarosabu
+author: alvaro-saburido
 description: A basic example of how to animate a geometry using useRendererLoop composable
 tags: ['basic', 'animations', 'useRendererLoop']
 ---
 ```
+
 3. Create a new vue file in `src/components` with the name of your page in PascalCase. If the complexity of the component is too high, you can create a folder with the name of your page in PascalCase and add all the components inside.
 4. Add the component to the page, is important to use the `client:only` directive to avoid hydration errors.
 
@@ -52,6 +53,7 @@ import BasicAnimations from '/@/components/MyExperiment.vue'
 
 <BasicAnimations client:only />
 ```
+
 5. If you want to add info to the page, you can use the `Info` component.
 
 ```md
@@ -61,7 +63,6 @@ import TheInfo from '/@/components/TheInfo.astro'
 # { frontmatter.title }
 
 Tutorial [here](https://tresjs.org/examples/basic-animations.html)
-
 
 Code example in markdown
 

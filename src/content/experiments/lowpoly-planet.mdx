@@ -1,16 +1,18 @@
 ---
 layout: /@/layouts/ExperimentLayout.astro
-thumbnail: /gltf-model.png
-title: GLTF Model
-author: Alvarosabu
-description: How to add a Gltf Model to using GLTFModel component on TresJS
-tags: ['basic', 'cientos', 'gltf-model']
+thumbnail: /lowpoly-planet.png
+title: Low Poly Planet
+slug: lowpoly-planet
+author: alvaro-saburido
+type: vue
+description: Low Poly Planet exported from Blender
+tags: ['basic', 'cientos', 'useGLTF', 'blender']
 ---
 
-import GLTFModel from '/@/components/GLTFModel.vue'
+import LowpolyPlanet from '/@/components/lowpoly-planet/TheExperience.vue'
 import TheInfo from '/@/components/TheInfo.astro'
 
-<GLTFModel client:only />
+<LowpolyPlanet client:only />
 
 <TheInfo >
 # { frontmatter.title }

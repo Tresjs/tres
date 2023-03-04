@@ -37,7 +37,7 @@ function onPointerLeave(ev) {
     <TresPerspectiveCamera :position="[11, 11, 11]" :fov="45" :near="0.1" :far="1000" :look-at="[-8, 3, -3]" />
     <OrbitControls />
     <TresScene>
-      <TresDirectionalLight :position="[0, 8, 4]" :intensity="0.2" cast-shadow />
+      <TresDirectionalLight :position="[0, 8, 4]" :intensity="1" cast-shadow />
       <template v-for="x in [-2.5, 0, 2.5]">
         <template v-for="y in [-2.5, 0, 2.5]">
           <TresMesh
@@ -53,7 +53,7 @@ function onPointerLeave(ev) {
           </TresMesh>
         </template>
       </template>
-      <TresAmbientLight :intensity="0.5" />
+      <TresAmbientLight :intensity="1" />
     </TresScene>
   </TresCanvas>
 </template>

@@ -1,0 +1,44 @@
+---
+import Layout from '../layouts/Layout.astro'
+
+const vueExperiments = await Astro.glob('./vue/**/*.mdx')
+const experiments = [...vueExperiments].map(experiment => ({
+  framework: 'vue',
+  ...experiment,
+  author: getEntryBySlug('authors', experiment.frontmatter.author),
+}))
+
+import { getCollection, getEntryBySlug } from 'astro:content'
+// Get all entries from a collection. Requires the name of the collection as an argument.
+const allAuthors = await getCollection('authors')
+---
+
+<Layout title="Playground">
+  <main
+    class="container px-4 py-20 sm:px-0 mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 sm:gap-12 md:gap-16"
+  >
+    {
+      experiments.map(experiment => (
+        <a href={experiment.url} class="card bg-base-100  shadow-xl rounded-lg overflow-hidden relative">
+          <figure class="aspect-video object-contain">
+            <img src={experiment.frontmatter.thumbnail} alt={experiment.frontmatter.title} />
+          </figure>
+          <div class="card-body p-4">
+            <h2 class="card-title font-bold mb-8 text-lg">{experiment.frontmatter.title}</h2>
+            <p class="mb-4">{experiment.frontmatter.description}</p>
+            <footer class="card-actions justify-end">
+              {experiment.author}
+              <ul class="flex flex-wrap">
+                {experiment.frontmatter.tags.map(tag => (
+                  <li>
+                    <span class="text-xs text-gray-700 font-semibold bg-lime-200 py-1 px-2 rounded mr-2">{tag}</span>
+                  </li>
+                ))}
+              </ul>
+            </footer>
+          </div>
+        </a>
+      ))
+    }
+  </main>
+</Layout>

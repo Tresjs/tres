@@ -10,7 +10,7 @@ import {
   transformerDirectives,
   transformerVariantGroup,
 } from 'unocss'
-import presetDaisy from 'unocss-preset-daisy'
+import { presetDaisy } from 'unocss-preset-daisy'
 // https://astro.build/config
 import vue from '@astrojs/vue'
 
@@ -62,7 +62,7 @@ export default defineConfig({
         presetDaisy(),
       ],
       transformers: [transformerDirectives(), transformerVariantGroup()],
-      safelist: 'prose prose-sm m-auto text-left'.split(' '),
+      safelist: 'i-logos-vue prose prose-sm m-auto text-left'.split(' '),
     }),
     mdx(),
   ],
