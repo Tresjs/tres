@@ -6,11 +6,11 @@ export interface ConeProps extends TresObject {
   /**
    * The radius, height, radialSegments, heightSegments, openEnded, thetaStart, thetaLength of the cone.
    * @default [1, 1, 12, false, 0, Math.PI * 2]
-   * @type {number[]}
+   * @type {any[]}
    * @memberof ConeProps
    * @see https://threejs.org/docs/#api/en/geometries/ConeGeometry
    */
-  args?: [number, number, number, boolean, number, number]
+  args?: [number, number, number, boolean?, number?, number?]
   /**
    * The color of the cone.
    * @default 0xffffff
