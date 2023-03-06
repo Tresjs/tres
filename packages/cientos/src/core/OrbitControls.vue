@@ -73,7 +73,7 @@ watch(controls, value => {
   <TresOrbitControls
     v-if="state.camera && state.renderer"
     ref="controls"
-    :args="[unref(state.camera), state.renderer?.domElement]"
+    :args="[unref(state.camera) || camera, state.renderer?.domElement || domElement]"
     :enabling-dampling="enableDamping"
   />
 </template>
