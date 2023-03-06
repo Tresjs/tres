@@ -30,7 +30,7 @@ export async function useEnvironment({
   files = ['/px.png', '/nx.png', '/py.png', '/ny.png', '/pz.png', '/nz.png'],
   blur = 0,
   background = false,
-  path = undefined,
+  path = '/',
   preset = undefined,
   encoding = undefined,
 }: Partial<EnvironmentOptions>): Promise<Texture | CubeTexture> {
@@ -64,10 +64,11 @@ export async function useEnvironment({
     texture.encoding = encoding ?? isCubeMap ? sRGBEncoding : LinearEncoding
   }
 
-  if (background && state.scene) {
+  if (state.scene) {
     state.scene.environment = texture
-    state.scene.background = texture
-
+    if (background !== undefined) {
+      state.scene.background = texture
+    }
     if (blur) {
       state.scene.backgroundBlurriness = blur | 0
     }
