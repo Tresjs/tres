@@ -6,14 +6,13 @@ import { useRenderLoop, useTres } from '@tresjs/core'
 import {
   BloomEffect,
   DotScreenEffect,
-  Effect,
   EffectComposer,
   EffectPass,
   GlitchEffect,
   RenderPass,
   ShaderPass,
   ChromaticAberrationEffect,
-} from 'postprocessing'
+} from 'postprocessing/module'
 import { useWindowSize } from '@vueuse/core'
 
 const gl = reactive({
