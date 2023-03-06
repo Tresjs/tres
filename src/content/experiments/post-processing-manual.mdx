@@ -1,0 +1,76 @@
+---
+layout: /@/layouts/ExperimentLayout.astro
+thumbnail: /post-processing-manual.png
+title: Manual Post Processing
+slug: post-processing-manual
+author: alvaro-saburido
+type: vue
+description: A basic example of how to use the post processing effect manually
+tags: ['post-processing']
+---
+
+import PostProcessingManual from '/@/components/post-processing/TheExperience.vue'
+import TheInfo from '/@/components/TheInfo.astro'
+
+<PostProcessingManual client:only />
+
+<TheInfo >
+# { frontmatter.title }
+
+Post processing is a technique used to enhance the image quality of a rendered scene. It is a way to add effects to the final image, like bloom, depth of field, color correction, etc. In this example we will see how to use the post processing effect manually On TresJS.
+
+For this example we will use the [postprocessing](https://github.com/pmndrs/postprocessing) library.
+
+## Setup
+
+First of all, we need to install the library:
+
+```bash
+npm install postprocessing
+```
+
+Then
+
+```ts
+import {
+  BloomEffect,
+  DotScreenEffect,
+  Effect,
+  EffectComposer,
+  EffectPass,
+  GlitchEffect,
+  RenderPass,
+  ShaderPass,
+  ChromaticAberrationEffect,
+} from 'postprocessing'
+
+const { state } = useTres()
+
+const { onLoop } = useRenderLoop()
+
+const { width, height } = useWindowSize()
+
+let effectComposer
+
+watchEffect(() => {
+  if (state.scene && state.camera && state.renderer) {
+    // Set the size of the renderer again to avoid the canvas being stretched
+    state.renderer.setSize(width.value, height.value)
+    state.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+
+    // Create the effect composer and add the render pass
+    effectComposer = new EffectComposer(state.renderer)
+    effectComposer.addPass(new RenderPass(state.scene, state.camera))
+
+    // Create the effects
+    const glitchPass = new EffectPass(state.camera, new GlitchEffect())
+    effectComposer.addPass(glitchPass)
+
+    onLoop(() => {
+      effectComposer.render()
+    })
+  }
+})
+```
+
+</TheInfo>
