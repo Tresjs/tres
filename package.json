@@ -21,8 +21,10 @@
   "dependencies": {
     "@astrojs/mdx": "^0.17.2",
     "@astrojs/vue": "^2.0.1",
+    "@vueuse/core": "^9.13.0",
     "astro": "^2.0.17",
     "astro-seo": "^0.7.1",
+    "postprocessing": "^6.30.1",
     "vue": "^3.2.47"
   },
   "devDependencies": {

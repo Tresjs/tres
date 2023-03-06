@@ -132,6 +132,13 @@ declare module 'astro:content' {
   collection: "experiments",
   data: any
 },
+"post-processing-manual.mdx": {
+  id: "post-processing-manual.mdx",
+  slug: "post-processing-manual",
+  body: string,
+  collection: "experiments",
+  data: any
+},
 "realistic.mdx": {
   id: "realistic.mdx",
   slug: "realistic",
