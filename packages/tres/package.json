@@ -66,6 +66,7 @@
     "rollup-plugin-analyzer": "^4.0.0",
     "rollup-plugin-visualizer": "^5.9.0",
     "three": "latest",
+    "unplugin-vue-components": "^0.24.1",
     "vite": "^4.1.4",
     "vite-plugin-banner": "^0.7.0",
     "vite-plugin-dts": "2.0.0-beta.1",
