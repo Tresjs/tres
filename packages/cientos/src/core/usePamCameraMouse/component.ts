@@ -1,29 +1,41 @@
-import { defineComponent } from 'vue'
+import { defineComponent, watchEffect } from 'vue'
 import { usePamCameraMouse } from '.'
 import { useCientos } from '../useCientos'
 
-export const PamCameraMouse = defineComponent({
+export interface PamCameraMouseProps {
+  /**
+   * Whether to disable the mouse controls.
+   * @type {boolean}
+   * @default false
+   * @memberof PamCameraMouseProps
+   *
+   */
+  disabled?: boolean
+  /**
+   * The factor to multiply the mouse movement by.
+   * @type {number}
+   * @default 5
+   * @memberof PamCameraMouseProps
+   *
+   **/
+  factor?: number
+}
+
+export const PamCameraMouse = defineComponent<PamCameraMouseProps>({
   name: 'PamCameraMouse',
-  props: {
-    disabled: {
-      type: Boolean,
-      required: false,
-      default: false,
-    },
-    factor: {
-      type: Number,
-      required: false,
-      default: 5,
-    },
-  },
-  setup(props: any) {
+  props: ['disabled', 'factor'] as unknown as undefined,
+  setup(props) {
     const { state } = useCientos()
-    const camera = state?.camera
 
-    const PamCameraMouse = usePamCameraMouse(props.disabled as boolean, props.factor as number, camera)
+    watchEffect(() => {
+      if (state?.camera) {
+        const camera = state?.camera
 
+        usePamCameraMouse(props.disabled as boolean, props.factor as number, camera)
+      }
+    })
     return () => {
-      PamCameraMouse
+      null
     }
   },
 })

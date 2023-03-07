@@ -1,6 +1,25 @@
 <script setup lang="ts">
-import { TresColor } from '@tresjs/core/dist/types'
+import { TresColor, TresObject } from '@tresjs/core'
 import { shallowRef } from 'vue'
+
+export interface PlaneProps extends TresObject {
+  /**
+   * The width and height, widthSegments, heightSegments of the plane.
+   * @default [1, 1, 1, 1]
+   * @type {number[]}
+   * @memberof PlaneProps
+   * @see https://threejs.org/docs/#api/en/geometries/PlaneGeometry
+   */
+  args?: number[]
+  /**
+   * The color of the plane.
+   * @default 0xffffff
+   * @type {TresColor}
+   * @memberof PlaneProps
+   * @see https://threejs.org/docs/#api/en/materials/MeshBasicMaterial
+   */
+  color?: TresColor
+}
 
 withDefaults(
   defineProps<{
