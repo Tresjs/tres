@@ -5,7 +5,6 @@ import { useCatalogue, useInstanceCreator, useTres } from '/@/core'
 export * from '/@/core'
 export * from './keys'
 export * from './types'
-export { TresCanvas, Scene }
 
 export interface TresOptions {
   prefix?: string

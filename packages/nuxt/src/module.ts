@@ -9,11 +9,12 @@ import {
   addImportsDir,
 } from '@nuxt/kit'
 import * as THREE from 'three'
-
+import glsl from 'vite-plugin-glsl'
 // Module options TypeScript inteface definition
 export interface ModuleOptions {
   prefix?: string
   modules?: string[]
+  shaders?: boolean
 }
 
 export default defineNuxtModule<ModuleOptions>({
@@ -29,6 +30,7 @@ export default defineNuxtModule<ModuleOptions>({
   defaults: {
     prefix: 'Tres',
     modules: [],
+    shaders: false,
   },
   setup(options, nuxt) {
     const resolver = createResolver(import.meta.url)
@@ -36,18 +38,37 @@ export default defineNuxtModule<ModuleOptions>({
     // Do not add the extension since the `.ts` will be transpiled to `.mjs` after `npm run prepack`
     addPlugin(resolver.resolve('./runtime/plugin'))
 
+    for (const comp in THREE) {
+      if (comp === 'Scene') continue
+      addTemplate({
+        filename: `tres/three/${comp}.ts`,
+        getContents: () => `
+        import { ref } from 'vue'
+        import createComponentInstances from '../instance-creator'
+        import { ${comp} } from 'three'
+        const component = /* #__PURE__ */ createComponentInstances(ref({ ${comp} }))
+        export default component[0][1]
+        `,
+      })
+      addComponent({
+        name: `${options.prefix}${comp}`,
+        filePath: `#build/tres/three/${comp}.ts`,
+        /* mode: 'client', */
+      })
+    }
+
     // Register core components
     addComponent({
       name: `${options.prefix}Canvas`,
       filePath: '@tresjs/core',
       export: 'TresCanvas',
-      mode: 'client',
+      /* mode: 'client', */
     })
     addComponent({
       name: `${options.prefix}Scene`,
       filePath: '@tresjs/core',
       export: 'TresScene',
-      mode: 'client',
+      /* mode: 'client', */
     })
 
     addTemplate({
@@ -59,34 +80,19 @@ export default defineNuxtModule<ModuleOptions>({
       `,
     })
 
-    for (const comp in THREE) {
-      if (comp === 'SCENE') continue
-      addTemplate({
-        filename: `tres/three/${comp}.ts`,
-        getContents: () => `
-        import { ref } from 'vue'
-        import createComponentInstances from '../instance-creator'
-        import { ${comp} } from 'three'
-        const component = /* #__PURE__ */ createComponentInstances(ref({ ${comp} }))
-        console.log({component})
-        export default component[0][1]
-        `,
-      })
-      addComponent({
-        name: `${options.prefix}${comp}`,
-        filePath: `#build/tres/three/${comp}.ts`,
-        mode: 'client',
-      })
-    }
-
-    for (const module of options.modules || []) {
+    // Add other modules
+    /* for (const module of options.modules || []) {
       nuxt.options.build.transpile.push(`@tresjs/${module}`)
       addComponentsDir({
-        path: `@tresjs/${module}/components`,
+        path: `@tresjs/${module}/src/components`,
       })
-      addImportsDir(`@tresjs/${module}/composables`)
+      console.log({
+        module,
+      })
+      addImportsDir(`@tresjs/${module}/src/composables`)
+    } */
+    if (options.shaders) {
+      addVitePlugin(glsl())
     }
-
-    // addVitePlugin()
   },
 })

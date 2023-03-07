@@ -88,6 +88,7 @@ importers:
       eslint: ^8.35.0
       nuxt: ^3.2.3
       three: ^0.150.1
+      vite-plugin-glsl: ^1.1.2
       vitest: ^0.29.1
     dependencies:
       '@nuxt/kit': 3.2.3
@@ -101,6 +102,7 @@ importers:
       changelogen: 0.4.1
       eslint: 8.35.0
       nuxt: 3.2.3_eslint@8.35.0
+      vite-plugin-glsl: 1.1.2
       vitest: 0.29.2
 
   packages/nuxt/playground:
@@ -9641,6 +9643,17 @@ packages:
       - '@types/node'
       - rollup
       - supports-color
+    dev: true
+
+  /vite-plugin-glsl/1.1.2:
+    resolution: {integrity: sha512-zmXsfc1vn2MlYve9t3FAoWuhLyoCkNS1TuQL+TkXZL7tGmBjRErp10eNYxcse5tK9oUC5MyJpNc4ElpQnx8DoA==}
+    engines: {node: '>= 16.15.1', npm: '>= 8.11.0'}
+    peerDependencies:
+      vite: ^3.0.0 || ^4.0.0
+    dependencies:
+      '@rollup/pluginutils': 5.0.2
+    transitivePeerDependencies:
+      - rollup
     dev: true
 
   /vite-plugin-glsl/1.1.2_vite@4.1.4:

@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { OrbitControls } from '@tresjs/cientos'
+import { useTexture } from '@tresjs/core'
+import { Text3D } from '@tresjs/cientos'
 import { BasicShadowMap, sRGBEncoding, NoToneMapping } from 'three'
 const state = reactive({
   clearColor: '#82DBC5',
@@ -9,11 +10,13 @@ const state = reactive({
   outputEncoding: sRGBEncoding,
   toneMapping: NoToneMapping,
 })
+
+const matcapTexture = await useTexture(['https://raw.githubusercontent.com/Tresjs/assets/main/textures/matcaps/7.png'])
 </script>
 <template>
   <TresCanvas v-bind="state">
-    <!-- <OrbitControls make-default /> -->
-    <TresPerspectiveCamera :position="[5, 5, 5]" :fov="45" :near="0.1" :far="1000" :look-at="[-8, 3, -3]" />
+    <!--     <OrbitControls make-default /> -->
+    <TresPerspectiveCamera :position="[5, 5, 5]" :fov="45" :near="0.1" :far="1000" :look-at="[0, 0, 0]" />
 
     <TresScene>
       <TresAmbientLight :intensity="1" />
@@ -22,6 +25,13 @@ const state = reactive({
         <TresSphereGeometry />
         <TresMeshToonMaterial color="#FBB03B" />
       </TresMesh>
+      <Text3D
+        :position="[-1, 0, 0]"
+        font="https://raw.githubusercontent.com/Tresjs/assets/main/fonts/FiraCodeRegular.json"
+      >
+        TresJS
+        <TresMeshMatcapMaterial :matcap="matcapTexture" />
+      </Text3D>
     </TresScene>
   </TresCanvas>
 </template>

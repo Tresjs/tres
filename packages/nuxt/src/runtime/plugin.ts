@@ -1,9 +1,10 @@
-import Tres from '@tresjs/core'
 import { defineNuxtPlugin } from '#app'
+import { useCatalogue } from '@tresjs/core'
 
 export default defineNuxtPlugin(nuxtApp => {
-  nuxtApp.vueApp.provide('catalogue', ref({}))
-  nuxtApp.vueApp.provide('extends', () => {})
+  const { catalogue, extend } = useCatalogue(nuxtApp.vueApp, 'Tres')
+  nuxtApp.vueApp.provide('catalogue', catalogue)
+  nuxtApp.vueApp.provide('extend', extend)
   // nuxtApp.vueApp.use(Tres)
   // const prefix = options?.prefix || 'Tres'
   // // Register core components
