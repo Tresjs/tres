@@ -12,7 +12,7 @@ const state = reactive({
 </script>
 <template>
   <TresCanvas v-bind="state">
-    <OrbitControls make-default />
+    <!-- <OrbitControls make-default /> -->
     <TresPerspectiveCamera :position="[5, 5, 5]" :fov="45" :near="0.1" :far="1000" :look-at="[-8, 3, -3]" />
 
     <TresScene>

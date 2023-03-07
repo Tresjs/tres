@@ -29,12 +29,12 @@ watch(environmentTexture, ({ getTexture }) => {
   <!--   <TresCanvas v-bind="state"> -->
   <TresCanvas preset="realistic">
     <TresPerspectiveCamera :position="[10, 10, 18]" :fov="45" :near="0.1" :far="1000" :look-at="[-8, 3, -3]" />
-    <PamCameraMouse :factor="2" />
+
     <TresScene>
       <Environment
         ref="environmentTexture"
-        background
         :files="environmentFiles"
+        background
         :path="'https://raw.githubusercontent.com/Tresjs/assets/main/textures/environmentMap'"
       />
       <!--  <Environment ref="environmentTexture" background preset="sunset" /> -->

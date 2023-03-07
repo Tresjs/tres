@@ -16,7 +16,7 @@ import {
   Circle,
   Cone,
   OrbitControls,
-} from '../../../cientos/src/'
+} from '@tresjs/cientos'
 
 const state = reactive({
   clearColor: '#82DBC5',
@@ -92,7 +92,7 @@ const tubePath = new CubicBezierCurve3(
       <Plane ref="planeRef" :args="[12, 8]" :position="[-2, 4, 0]" receive-shadow>
         <TresMeshToonMaterial color="teal" />
       </Plane>
-      <Box ref="boxRef" :arg0s="[1, 1, 1]" :position="[0, 6, 0]" cast-shadow>
+      <Box ref="boxRef" :args="[1, 1, 1]" :position="[0, 6, 0]" cast-shadow>
         <TresMeshToonMaterial color="orange" />
       </Box>
       <Sphere ref="sphereRef" :args="[1, 32, 16]" :position="[2, 6, 0]" cast-shadow>
