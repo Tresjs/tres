@@ -1,17 +1,31 @@
 <script setup lang="ts">
-import { TresColor } from '@tresjs/core/dist/types'
+import { TresColor, TresObject } from '@tresjs/core'
+
 import { shallowRef } from 'vue'
 
-withDefaults(
-  defineProps<{
-    args?: number[]
-    color?: TresColor
-  }>(),
-  {
-    args: () => [1, 1, 1],
-    color: '0xffffff',
-  },
-)
+export interface BoxProps extends TresObject {
+  /**
+   * The width, height and depth of the box.
+   * @default [1, 1, 1]
+   * @type {number[]}
+   * @memberof BoxProps
+   * @see https://threejs.org/docs/#api/en/geometries/BoxGeometry
+   *
+   */
+  args?: number[]
+  /**
+   * The color of the box.
+   * @default 0xffffff
+   * @type {TresColor}
+   * @memberof BoxProps
+   * @see https://threejs.org/docs/#api/en/materials/MeshBasicMaterial
+   */
+  color?: TresColor
+}
+withDefaults(defineProps<BoxProps>(), {
+  args: () => [1, 1, 1],
+  color: '0xffffff',
+})
 
 const boxRef = shallowRef()
 

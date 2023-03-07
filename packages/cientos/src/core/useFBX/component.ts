@@ -3,17 +3,19 @@ import { defineComponent } from 'vue'
 import { useFBX } from '.'
 import { useCientos } from '../useCientos'
 
-export const FBXModel = defineComponent({
+export interface FBXModelProps {
+  /**
+   * Path to the FBX file.
+   *
+   * @type {string}
+   * @memberof FBXModelProps
+   * @required
+   */
+  path: string
+}
+export const FBXModel = defineComponent<FBXModelProps>({
   name: 'FBXModel',
-  props: {
-    /*
-     * The path to the FBX file.
-     */
-    path: {
-      type: String,
-      required: true,
-    },
-  },
+  props: ['path'] as unknown as undefined,
   async setup(props, { expose }) {
     const { state } = useCientos()
     let model: Object3D | null = null

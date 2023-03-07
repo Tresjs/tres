@@ -5,12 +5,14 @@ export type EnvironmentOptions = {
    * If true, the environment will be set as the scene's background.
    *
    * @type {boolean}
+   * @default false
    */
   background?: boolean
   /**
    * The blur radius of the environment.
    *
    * @type {number}
+   * @default 0
    */
   blur?: number
   /**
@@ -24,6 +26,7 @@ export type EnvironmentOptions = {
    * The path to the files.
    *
    * @type {string}
+   * @default '/'
    */
   path?: string
   /**

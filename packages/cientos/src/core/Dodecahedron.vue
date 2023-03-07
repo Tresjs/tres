@@ -1,17 +1,30 @@
 <script setup lang="ts">
-import { TresColor } from '@tresjs/core/dist/types'
+import { TresColor, TresObject } from '@tresjs/core'
 import { shallowRef } from 'vue'
 
-withDefaults(
-  defineProps<{
-    args?: number[]
-    color?: TresColor
-  }>(),
-  {
-    args: () => [1, 0],
-    color: '0xffffff',
-  },
-)
+export interface DodecahedronProps extends TresObject {
+  /**
+   * The radius and detail of the dodecahedron.
+   * @default [1, 0]
+   * @type {number[]}
+   * @memberof DodecahedronProps
+   * @see https://threejs.org/docs/#api/en/geometries/DodecahedronGeometry
+   */
+  args?: number[]
+  /**
+   * The color of the dodecahedron.
+   * @default 0xffffff
+   * @type {TresColor}
+   * @memberof DodecahedronProps
+   * @see https://threejs.org/docs/#api/en/materials/MeshBasicMaterial
+   */
+  color?: TresColor
+}
+
+withDefaults(defineProps<DodecahedronProps>(), {
+  args: () => [1, 0],
+  color: '0xffffff',
+})
 
 const dodecahedronRef = shallowRef()
 
