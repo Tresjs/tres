@@ -1,5 +1,26 @@
 import { createUnplugin } from 'unplugin'
 import * as THREE from 'three'
+
+export type SizeFlexibleParams =
+  | number[]
+  | {
+      width: number
+      height: number
+    }
+
+export interface Vector2PropInterface {
+  x?: number
+  y?: number
+  width?: number
+  height?: number
+}
+
+export interface Vector3PropInterface extends Vector2PropInterface {
+  z?: number
+}
+
+export type VectorFlexibleParams = THREE.Vector3 | number[] | Vector3PropInterface | number
+
 import fs from 'fs'
 import { join } from 'pathe'
 
@@ -24,13 +45,91 @@ export const unplugin = createUnplugin(() => {
 
           const template = `
       import { defineComponent } from 'vue';
-      import { ${key} } from 'three';
+      import { ${key}, Color, Vector3 } from 'three';
 
-      export const Tres${key} = /* #__PURE__ */ defineComponent({
+      let ${key}Instance: ${key};
+      let instanceProps: string[] = [];
+
+      export function normalizeVectorFlexibleParam(value: VectorFlexibleParams): Array<number> {
+        if (typeof value === 'number') {
+          return [value, value, value]
+        }
+        if (value instanceof Vector3) {
+          return [value.x, value.y, value.z]
+        }
+        return value as Array<number>
+      }
+      
+      export function normalizeColor(value: Color | Array<number> | string | number) {
+        if (value instanceof Color) {
+          return value
+        }
+        if (Array.isArray(value)) {
+          return new Color(...value)
+        }
+        return new Color(value)
+      }
+      
+
+      /**
+       * Tres${key}Props
+       * @type {Partial<${key}> & {parentInstance?: ${key}}}
+       * @memberof Tres${key}
+       * @description This is a partial of the ${key} class, with the parentInstance property added.
+       * 
+       **/
+      export type Tres${key}Props = Partial<${key}> & {
+        parentInstance?: ${key},
+        /** 
+         * 
+         * Array of arguments to pass to the ${key} constructor
+         *  
+         * @type {Array<any>}
+         * @memberof Tres${key}Props
+         * @description This is a partial of the ${key} class, with the parentInstance property added.
+         *  
+         **/
+        args?: Array<any>,
+        /**
+         *
+         * Object's local position
+         * 
+         * @type {VectorFlexibleParams}
+         * @memberof Tres${key}Props
+        **/
+        position?: VectorFlexibleParams
+      }
+
+      try {
+        ${key}Instance = new ${key}();
+        instanceProps = [...Object.keys(${key}Instance)]
+      } catch (e) {
+      }
+
+      export const Tres${key} = /* #__PURE__ */ defineComponent<Tres${key}Props>({
         name: 'Tres${key}',
-        props: ['parentInstance'],
+        props: ['parentInstance', 'args', ...instanceProps] as unknown as undefined,
         setup(props, { slots, expose, ...rest }) {
-          const ${key}Instance = new ${key}();
+         
+        /*   const cleanedProps = Object.keys(props).reduce((acc, key) => {
+            if (props[key] !== undefined && key !== 'parentInstance') {
+              if( ${key}Instance[key] instanceof Color) {
+                acc[key] = normalizeColor(props[key])
+              } else if ( ${key}Instance[key] instanceof Vector3) {
+                acc[key] = normalizeVectorFlexibleParam(props[key])
+              } else {
+                acc[key] = props[key]
+              }
+            }
+            return acc
+          }, {}) */
+
+          if(props.args) {
+            ${key}Instance = new ${key}(...props.args);
+          } else {
+            ${key}Instance = new ${key}();
+          }
+
           console.log('instance', {${key}Instance, props, slots: slots.default ? slots.default() : null, rest, type: ${key}.name})
           expose({${key}Instance})
 

@@ -1,14 +1,15 @@
 <script setup lang="ts">
 import TheCanvas from './components/TheCanvas.vue'
 import TheScene from './components/TheScene.vue'
-import { TresMesh, TresBoxGeometry, TresMeshToonMaterial } from '../.tres/components/'
+import { TresMesh, TresBoxGeometry, TresMeshToonMaterial, TresFog } from '../.tres/components/'
 </script>
 
 <template>
   <TheCanvas>
     <TheScene>
+      <TresFog :color="0x008080" :near="0" :far="100" />
       <TresMesh>
-        <TresBoxGeometry />
+        <TresBoxGeometry :args="[4, 4]" />
         <TresMeshToonMaterial />
       </TresMesh>
     </TheScene>
