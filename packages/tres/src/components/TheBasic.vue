@@ -3,7 +3,8 @@ import { sRGBEncoding, BasicShadowMap, NoToneMapping } from 'three'
 import { reactive, ref } from 'vue'
 
 import { OrbitControls, TransformControls } from '@tresjs/cientos'
-import { useRenderLoop } from '..'
+import { TresCanvas, TresPerspectiveCamera, TresScene, TresAmbienLight, useRenderLoop } from '@tresjs/core'
+
 /* import { OrbitControls, GLTFModel } from '@tresjs/cientos' */
 
 const state = reactive({
