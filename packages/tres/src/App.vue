@@ -1,11 +1,20 @@
 <script setup lang="ts">
 import { TresMesh, TresSphereGeometry, TresMeshBasicMaterial, TresPerspectiveCamera } from '../.tres/components/'
 import { TresCanvas } from '/@/components/TresCanvas'
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
+import { useInstanceCreator } from '/@/composables/useCreatorInstance'
+import { useTres } from './composables'
+
+const { extend } = useInstanceCreator()
+extend(OrbitControls)
+
+const { state } = useTres()
 </script>
 
 <template>
   <Suspense>
     <TresCanvas clear-color="teal">
+      <TresOrbitControls v-if="state.renderer" :args="[state.camera, state.renderer?.domElement]" />
       <TresPerspectiveCamera :position="[0, 3, 3]" />
       <TresMesh>
         <TresSphereGeometry :args="[1, 1, 32, 32]" />

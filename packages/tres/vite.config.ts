@@ -11,7 +11,7 @@ import Components from 'unplugin-vue-components/vite'
 
 import { ViteTresPlugin } from './plugins/vite-plugin-tres'
 import analyze from 'rollup-plugin-analyzer'
-/* import { visualizer } from 'rollup-plugin-visualizer' */
+import { visualizer } from 'rollup-plugin-visualizer'
 import { resolve } from 'pathe'
 
 import { lightGreen, yellow, gray, bold } from 'kolorist'
@@ -69,11 +69,11 @@ export default defineConfig({
     rollupOptions: {
       plugins: [
         /* analyze(), */
-        /*    visualizer({
+        visualizer({
           open: true,
           gzipSize: true,
           brotliSize: true,
-        }), */
+        }),
       ],
 
       external: ['vue', '@vueuse/core', 'three'],

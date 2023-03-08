@@ -28,7 +28,8 @@ export const unplugin = createUnplugin(() => {
           key.includes('Vector') || // Vector2, Vector3, Vector4
           key.includes('BufferGeometry') || // Deprecated geometries
           key.includes('Utils') || // Utils
-          key.includes('Curve') // Curves
+          key.includes('Curve') || // Curves
+          key.includes('Audio') // Curves
         )
           continue
         if (typeof value === 'function' && /^\s*class\s+/.test(value.toString())) {
@@ -37,7 +38,7 @@ export const unplugin = createUnplugin(() => {
           const template = `
       import { defineComponent, inject, ShallowRef } from 'vue';
       import { ${key}, Scene, Color, Vector3, Object3D } from 'three';
-      /* import { useCamera } from '/@/core/' */
+      import { useCamera } from '/@/composables/'
       import { VectorFlexibleParams, normalizeVectorFlexibleParam, normalizeColor } from '/@/utils/normalize';
 
       let ${key}Instance: ${key};
@@ -119,13 +120,12 @@ export const unplugin = createUnplugin(() => {
 
           processProps()
 
-
-          /* if (${key}Instance.hasOwnProperty('isCamera')) {
+          if (${key}Instance.hasOwnProperty('isCamera')) {
             ${key}Instance.position.set(0, 0, 5)
             ${key}Instance.lookAt(0, 0, 0)
             const { pushCamera } = useCamera()
             pushCamera(${key}Instance)
-          } */
+          }
       
          
           if(props.parentInstance) {
@@ -152,7 +152,7 @@ export const unplugin = createUnplugin(() => {
 
       export default Tres${key};
     `
-          indexTemplate += `export { default as Tres${key} } from './${key}'\n`
+          indexTemplate += `export * from './${key}'\n`
           fs.writeFileSync(outputFilePath, template)
           modules.push(key)
         }

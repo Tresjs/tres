@@ -1,7 +1,6 @@
 import { Scene, ShadowMapType, TextureEncoding, ToneMapping } from 'three'
 import { h, defineComponent, ref, provide, onBeforeUnmount, PropType, shallowRef } from 'vue'
-import { useCamera } from '../core/useCamera'
-import { RendererPresetsType, useRenderer, useRenderLoop, useTres } from '/@/composables'
+import { RendererPresetsType, useRenderer, useRenderLoop, useTres, useCamera } from '/@/composables'
 import { useLogger } from '/@/composables/useLogger'
 import { TresVNodeType } from '/@/types'
 
@@ -48,7 +47,7 @@ export const TresCanvas = defineComponent({
 
     const { setState } = useTres()
     const scene = shallowRef(new Scene())
-    console.log('TresCanvas', scene)
+
     const { activeCamera } = useCamera()
     /*   const { raycaster, pointer } = useRaycaster() */
     const { onLoop } = useRenderLoop()
@@ -117,3 +116,5 @@ export const TresCanvas = defineComponent({
     }
   },
 })
+
+export default TresCanvas
