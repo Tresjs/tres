@@ -28,6 +28,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '/@': resolve(__dirname, './src'),
+      '#tres': resolve(__dirname, '.tres'),
     },
     dedupe: ['@tresjs/cientos'],
   },
@@ -38,6 +39,7 @@ export default defineConfig({
     ViteTresPlugin(),
     dts({
       insertTypesEntry: true,
+      include: ['.tres/components/**/*.ts'],
     }),
     banner({
       content: `/**\n * name: ${pkg.name}\n * version: v${

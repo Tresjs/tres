@@ -1,7 +1,7 @@
-import { RendererPresetsType } from './const'
-import { ShadowMapType, TextureEncoding, ToneMapping } from 'three'
-import { h, defineComponent, ref, provide, onBeforeUnmount, PropType } from 'vue'
-import { useRenderer } from '.'
+import { Scene, ShadowMapType, TextureEncoding, ToneMapping } from 'three'
+import { h, defineComponent, ref, provide, onBeforeUnmount, PropType, shallowRef } from 'vue'
+import { useCamera } from '../core/useCamera'
+import { RendererPresetsType, useRenderer, useRenderLoop, useTres } from '/@/composables'
 import { useLogger } from '/@/composables/useLogger'
 import { TresVNodeType } from '/@/types'
 
@@ -46,9 +46,25 @@ export const TresCanvas = defineComponent({
     provide('aspect-ratio', aspectRatio)
     provide('renderer', renderer)
 
-    if (slots.default && !slots.default().some(node => (node.type as TresVNodeType).name === 'Scene')) {
-      logError('TresCanvas must contain a Scene component.')
-    }
+    const { setState } = useTres()
+    const scene = shallowRef(new Scene())
+    console.log('TresCanvas', scene)
+    const { activeCamera } = useCamera()
+    /*   const { raycaster, pointer } = useRaycaster() */
+    const { onLoop } = useRenderLoop()
+
+    provide('scene', scene)
+    setState('scene', scene)
+
+    onLoop(() => {
+      if (!activeCamera.value) return
+      /*   raycaster.value.setFromCamera(pointer.value, activeCamera.value) */
+
+      if (renderer?.value && activeCamera && scene?.value) {
+        renderer.value.render(scene?.value, activeCamera.value)
+      }
+    })
+
     if (slots.default && !slots.default().some(node => (node.type as TresVNodeType).name?.includes('Camera'))) {
       logError('Scene must contain a Camera component.')
     }

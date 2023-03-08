@@ -9,6 +9,7 @@
     "sourceMap": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
+    "noImplicitAny": false,
     "lib": ["esnext", "dom"],
     "types": ["vite/client", "node", "vitest/globals"],
     "incremental": false,
@@ -18,7 +19,8 @@
     "forceConsistentCasingInFileNames": true,
     "declaration": true,
     "paths": {
-      "/@/*": ["src/*"]
+      "/@/*": ["src/*"],
+      "#tres/*": [".tres/"]
     }
   },
   "include": [

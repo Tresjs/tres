@@ -1,14 +1,17 @@
 <script setup lang="ts">
-import { useTweakPane } from '@tresjs/cientos'
-import TheEnvironment from '/@/components/TheEnvironment.vue'
-// import TheEvents from '/@/components/TheEvents.vue'
-
-useTweakPane()
+import { TresMesh, TresSphereGeometry, TresMeshBasicMaterial, TresPerspectiveCamera } from '../.tres/components/'
+import { TresCanvas } from '/@/components/TresCanvas'
 </script>
 
 <template>
   <Suspense>
-    <TheEnvironment />
+    <TresCanvas clear-color="teal">
+      <TresPerspectiveCamera :position="[0, 3, 3]" />
+      <TresMesh>
+        <TresSphereGeometry :args="[1, 1, 32, 32]" />
+        <TresMeshBasicMaterial color="gold" />
+      </TresMesh>
+    </TresCanvas>
   </Suspense>
 </template>
 

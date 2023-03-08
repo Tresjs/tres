@@ -1,7 +1,7 @@
 import { App, ref, Component, Ref } from 'vue'
 import * as THREE from 'three'
 import { useInstanceCreator } from '/@/core'
-import { useLogger } from '/@/composables'
+import { useLogger } from '/@/composables/useLogger'
 import { TresCatalogue } from '/@/types'
 
 const catalogue: Ref<TresCatalogue> = ref({ ...THREE, uuid: THREE.MathUtils.generateUUID() })

@@ -19,12 +19,28 @@ import {
   Clock,
 } from 'three'
 import type { TextureEncoding, ToneMapping } from 'three'
-import { useRenderLoop, useTres } from '/@/core/'
+
 import { normalizeColor } from '/@/utils/normalize'
 import { TresColor } from '/@/types'
-import { rendererPresets, RendererPresetsType } from './const'
 import { merge } from '/@/utils'
+import { useRenderLoop, useTres } from '/@/composables'
 import { useLogger } from '/@/composables/useLogger'
+
+import { ACESFilmicToneMapping, PCFSoftShadowMap, sRGBEncoding } from 'three'
+
+export const rendererPresets = {
+  realistic: {
+    outputEncoding: sRGBEncoding,
+    toneMapping: ACESFilmicToneMapping,
+    toneMappingExposure: 3,
+    shadowMap: {
+      enabled: true,
+      type: PCFSoftShadowMap,
+    },
+  },
+}
+
+export type RendererPresetsType = keyof typeof rendererPresets
 
 export interface UseRendererOptions extends WebGLRendererParameters {
   /**

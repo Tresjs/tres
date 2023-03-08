@@ -6,7 +6,8 @@
     "moduleResolution": "Node",
     "allowSyntheticDefaultImports": true,
     "paths": {
-      "/@/*": ["src/*"]
+      "/@/*": ["src/*"],
+      "#tres/*": [".tres/"]
     },
     "types": ["vitest/globals"]
   },
