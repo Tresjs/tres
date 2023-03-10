@@ -1,7 +1,7 @@
 import { watchEffect, computed } from 'vue'
 import { Camera } from 'three'
 import { useWindowSize, useMouse } from '@vueuse/core'
-import { useLogger } from '/@/composables/useLogger'
+import { useLogger } from '@tresjs/core/src/iternal/useLogger'
 
 export function usePamCameraMouse(disabled = false, factor = 5, camera: Camera | undefined) {
   const { x, y } = useMouse()
