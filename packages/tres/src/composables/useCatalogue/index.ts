@@ -1,6 +1,6 @@
 import { App, ref, Component, Ref } from 'vue'
 import * as THREE from 'three'
-import { useInstanceCreator } from '/@/core'
+import { useInstanceCreator } from '/@/composables'
 import { useLogger } from '../../iternal'
 import { TresCatalogue } from '/@/types'
 

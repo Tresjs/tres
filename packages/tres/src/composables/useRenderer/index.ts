@@ -19,7 +19,7 @@ import {
   Clock,
 } from 'three'
 import type { TextureEncoding, ToneMapping } from 'three'
-import { useRenderLoop, useTres } from '/@/core/'
+import { useRenderLoop, useTres } from '/@/composables/'
 import { normalizeColor } from '/@/utils/normalize'
 import { TresColor } from '/@/types'
 import { rendererPresets, RendererPresetsType } from './const'

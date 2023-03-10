@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry'
 import { FontLoader } from 'three/examples/jsm/loaders/FontLoader'
-import { useCatalogue, useTexture } from '/@/core'
+import { useCatalogue, useTexture } from '/@/composables'
 const { extend } = useCatalogue()
 
 extend({ TextGeometry: TextGeometry })

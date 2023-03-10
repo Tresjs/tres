@@ -1,6 +1,9 @@
-import { useCamera } from '@tresjs/core'
+import { useCamera } from '/@/composables'
 import { RendererOptions } from 'vue'
+import { useLogger } from '../iternal'
 import { catalogue } from './catalogue'
+
+const { logWarning } = useLogger()
 
 export const nodeOps: RendererOptions<Node, Element> = {
   createElement(type, _isSVG, _isCustomizedBuiltIn, props) {
@@ -18,6 +21,11 @@ export const nodeOps: RendererOptions<Node, Element> = {
     }
 
     if (instance.isCamera) {
+      // Let users know that camera is in the center of the scene
+      logWarning(
+        // eslint-disable-next-line max-len
+        'Camera is positioned at the center of the scene, if this is not intentional try setting a position if your scene seems empty 🤗',
+      )
       const { pushCamera } = useCamera()
       pushCamera(instance)
     }
@@ -76,10 +84,10 @@ export const nodeOps: RendererOptions<Node, Element> = {
     }
 
     let value = nextValue
-    try {
+    /*   try {
       const num = parseFloat(value)
-      value = isNaN(num) ? JSON.parse(value) : num
-    } catch (_) {}
+      value = isNaN(num) ? value : num
+    } catch (_) {} */
 
     // Set prop, prefer atomic methods if applicable
     if (!target?.set) root[key] = value

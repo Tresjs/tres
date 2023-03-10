@@ -1,8 +1,8 @@
 import { App, Component } from 'vue'
-import { TresCanvas } from '/@/core/useRenderer/component'
-import { Scene } from '/@/core/useScene/component'
-import { useCatalogue, useInstanceCreator, useTres } from '/@/core'
-export * from '/@/core'
+import { TresCanvas } from '/@/composables/useRenderer/component'
+import { Scene } from '/@/composables/useScene/component'
+import { useCatalogue, useInstanceCreator, useTres } from '/@/composables'
+export * from '/@/composables'
 export * from './keys'
 export * from './types'
 

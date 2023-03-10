@@ -6,7 +6,7 @@ import { useEventListener } from '@vueuse/core'
 
 import { isArray, isDefined, isFunction } from '@alvarosabu/utils'
 import { normalizeVectorFlexibleParam } from '/@/utils/normalize'
-import { useCamera, useCatalogue, useRenderLoop, useTres } from '/@/core/'
+import { useCamera, useCatalogue, useRenderLoop, useTres } from '/@/composables/'
 import { useLogger } from '../../iternal'
 import { TresAttributes, TresCatalogue, TresInstance, TresVNode, TresVNodeType, TresEvent } from '/@/types'
 

@@ -8,8 +8,8 @@ useTweakPane()
 
 <template>
   <Suspense>
-    <TresCanvas>
-      <TresPerspectiveCamera :args="[45, 1, 0.1, 1000]" />
+    <TresCanvas window-size>
+      <TresPerspectiveCamera :args="[45, 1, 0.1, 1000]" :position="[0, 2, 8]" />
       <TresAmbientLight />
       <TresDirectionalLight :intensity="1" color="yellow" :position="[-2, 0, 3]" />
       <TresGridHelper :args="[4, 4]"></TresGridHelper>

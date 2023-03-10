@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useRenderLoop } from '/@/core/useRenderLoop'
+import { useRenderLoop } from '/@/composables/useRenderLoop'
 import { ref } from 'vue'
 import { OrbitControls } from '../../../cientos/src/'
 

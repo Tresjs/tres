@@ -1,6 +1,6 @@
 import { Raycaster, Vector2 } from 'three'
 import { onUnmounted, provide, Ref, ref, ShallowRef, shallowRef } from 'vue'
-import { useTres } from '/@/core'
+import { useTres } from '/@/composables'
 
 const raycaster = shallowRef(new Raycaster())
 const pointer = ref(new Vector2())
