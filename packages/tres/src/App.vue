@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useTweakPane } from '@tresjs/cientos'
-import Shapes from '/@/components/Shapes.vue'
+import TresCanvas from './components/TresCanvas'
 // import TheEvents from '/@/components/TheEvents.vue'
 
 useTweakPane()
@@ -8,7 +8,16 @@ useTweakPane()
 
 <template>
   <Suspense>
-    <Shapes />
+    <TresCanvas>
+      <TresPerspectiveCamera :args="[45, 1, 0.1, 1000]" />
+      <TresAmbientLight />
+      <TresDirectionalLight :intensity="1" color="yellow" :position="[-2, 0, 3]" />
+      <TresGridHelper :args="[4, 4]"></TresGridHelper>
+      <TresMesh>
+        <TresSphereGeometry :args="[2, 32, 16]" />
+        <TresMeshToonMaterial color="teal" />
+      </TresMesh>
+    </TresCanvas>
   </Suspense>
 </template>
 

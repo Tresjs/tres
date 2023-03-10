@@ -2,7 +2,7 @@ import { RendererPresetsType } from './const'
 import { ShadowMapType, TextureEncoding, ToneMapping } from 'three'
 import { h, defineComponent, ref, provide, onBeforeUnmount, PropType } from 'vue'
 import { useRenderer } from '.'
-import { useLogger } from '/@/composables'
+import { useLogger } from '../../iternal'
 import { TresVNodeType } from '/@/types'
 
 /**

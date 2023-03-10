@@ -1,6 +1,6 @@
 import { defineComponent, inject, provide, Ref } from 'vue'
 import type { Renderer } from 'three'
-import { useCamera, useTres, useRenderLoop, useScene, useRaycaster } from '/@/core/'
+import { useCamera, useTres, useRenderLoop, useScene, useRaycaster } from '..'
 
 /**
  * Vue component for rendering a Tres component.
