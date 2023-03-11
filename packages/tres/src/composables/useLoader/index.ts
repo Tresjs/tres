@@ -1,6 +1,6 @@
 import { isArray } from '@alvarosabu/utils'
 import { Object3D } from 'three'
-import { useLogger } from '../../iternal'
+import { useLogger } from '/@/composables'
 
 export interface TresLoader<T> extends THREE.Loader {
   load(

@@ -1,3 +1,4 @@
+<!-- eslint-disable max-len -->
 <script setup lang="ts">
 import { Ref, ref } from 'vue'
 import { useRenderLoop, useTexture } from '/@/composables/'
@@ -13,13 +14,14 @@ onLoop(({ elapsed }) => {
   }
 })
 
-/* const texture = await useTexture(['/textures/stylized-leaves-material/Stylized_Leaves_002_basecolor.jpg']) */
 const pbrTexture = await useTexture({
-  map: '/textures/stylized-leaves-material/Stylized_Leaves_002_basecolor.jpg',
-  displacementMap: '/textures/stylized-leaves-material/Stylized_Leaves_002_height.png',
-  roughnessMap: '/textures/stylized-leaves-material/Stylized_Leaves_002_roughness.jpg',
-  normalMap: '/textures/stylized-leaves-material/Stylized_Leaves_002_normal.jpg',
-  ambientOcclusion: '/textures/stylized-leaves-material/Stylized_Leaves_002_ambientOcclusion.jpg',
+  map: 'https://raw.githubusercontent.com/Tresjs/assets/main/textures/black-rock/Rock035_2K_Displacement.jpg',
+  displacementMap:
+    'https://raw.githubusercontent.com/Tresjs/assets/main/textures/black-rock/Rock035_2K_Displacement.jpg',
+  roughnessMap: 'https://raw.githubusercontent.com/Tresjs/assets/main/textures/black-rock/Rock035_2K_Roughness.jpg',
+  normalMap: 'https://raw.githubusercontent.com/Tresjs/assets/main/textures/black-rock/Rock035_2K_NormalGL.jpg',
+  ambientOcclusion:
+    'https://raw.githubusercontent.com/Tresjs/assets/main/textures/black-rock/Rock035_2K_AmbientOcclusion.jpg',
 })
 </script>
 <template>

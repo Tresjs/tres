@@ -1,6 +1,6 @@
 import { useCamera, useRaycaster, useRenderLoop } from '/@/composables'
 import { RendererOptions } from 'vue'
-import { useLogger } from '../iternal'
+import { useLogger } from '/@/composables'
 import { catalogue } from './catalogue'
 import { Mesh } from 'three'
 import { useEventListener } from '@vueuse/core'
@@ -24,6 +24,7 @@ function noop(fn: string): any {
 export const nodeOps: RendererOptions<TresObject, TresObject> = {
   createElement(type, _isSVG, _isCustomizedBuiltIn, props) {
     if (type === 'template') return null
+    if (type === 'div') return null
     let instance
 
     if (props === null) {
@@ -110,6 +111,7 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
     }
   },
   remove(node) {
+    if (!node) return
     const parent = node.parent
     if (parent) {
       if (parent.isObject3D && node.isObject3D) {
@@ -132,13 +134,13 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
     let target = root[key]
 
     // Traverse pierced props (e.g. foo-bar=value => foo.bar = value)
-    if (key.includes('-')) {
+    /* if (key.includes('-')) {
       const chain = key.split('-')
       target = chain.reduce((acc, key) => acc[key], root)
       key = chain.pop() as string
 
       if (!target?.set) root = chain.reduce((acc, key) => acc[key], root)
-    }
+    } */
 
     const value = nextValue
     /*   try {
@@ -148,7 +150,7 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
 
     // Set prop, prefer atomic methods if applicable
     if (!target?.set) root[key] = value
-    else if (target.constructor === value.constructor) target.copy(value)
+    else if (target.constructor === value.constructor && target?.copy) target?.copy(value)
     else if (Array.isArray(value)) target.set(...value)
     else if (!target.isColor && target.setScalar) target.setScalar(value)
     else target.set(value)

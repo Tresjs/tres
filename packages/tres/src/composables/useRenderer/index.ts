@@ -24,7 +24,7 @@ import { normalizeColor } from '/@/utils/normalize'
 import { TresColor } from '/@/types'
 import { rendererPresets, RendererPresetsType } from './const'
 import { merge } from '/@/utils'
-import { useLogger } from '../../iternal'
+import { useLogger } from '/@/composables'
 
 export interface UseRendererOptions extends WebGLRendererParameters {
   /**
