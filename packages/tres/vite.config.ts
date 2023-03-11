@@ -31,6 +31,11 @@ export default defineConfig({
   plugins: [
     vue({
       isProduction: false,
+      template: {
+        compilerOptions: {
+          isCustomElement: tag => tag.startsWith('Tres') && tag !== 'TresCanvas',
+        },
+      },
     }),
     dts({
       insertTypesEntry: true,

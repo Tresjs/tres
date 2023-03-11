@@ -1,9 +1,20 @@
-import { useCamera } from '/@/composables'
+import { useCamera, useRaycaster, useRenderLoop } from '/@/composables'
 import { RendererOptions } from 'vue'
 import { useLogger } from '../iternal'
 import { catalogue } from './catalogue'
+import { Mesh } from 'three'
+import { useEventListener } from '@vueuse/core'
 
 const { logWarning } = useLogger()
+
+function hasEvents(obj) {
+  for (var prop in obj) {
+    if (prop.indexOf('on') === 0) {
+      return true
+    }
+  }
+  return false
+}
 
 export const nodeOps: RendererOptions<Node, Element> = {
   createElement(type, _isSVG, _isCustomizedBuiltIn, props) {
@@ -52,6 +63,43 @@ export const nodeOps: RendererOptions<Node, Element> = {
     } else if (typeof child?.attach === 'string') {
       child.__previousAttach = child[parent.attach]
       parent[child.attach] = child
+    }
+
+    const { onLoop } = useRenderLoop()
+
+    // RayCasting
+    let prevInstance: TresEvent | null = null
+    let currentInstance: TresEvent | null = null
+
+    const { raycaster } = useRaycaster()
+    if (child && child instanceof Mesh && hasEvents(child)) {
+      onLoop(() => {
+        if (parent.children && child && raycaster) {
+          const intersects = raycaster.value.intersectObjects(parent.children)
+
+          if (intersects.length > 0 && intersects[0].object.uuid === child.uuid) {
+            currentInstance = intersects[0]
+
+            if (prevInstance === null || prevInstance.object.uuid !== currentInstance?.object.uuid) {
+              child.onPointerEnter?.(currentInstance)
+            }
+
+            child.onPointerMove?.(currentInstance)
+          } else {
+            currentInstance = null
+            if (prevInstance !== null) {
+              child.onPointerLeave?.(prevInstance)
+            }
+          }
+
+          prevInstance = currentInstance
+        }
+      })
+
+      useEventListener(window, 'click', () => {
+        if (currentInstance === null) return
+        child.onClick?.(currentInstance)
+      })
     }
   },
   remove(node) {

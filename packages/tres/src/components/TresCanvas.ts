@@ -1,11 +1,10 @@
-import { useRenderLoop } from '@tresjs/core'
 import { defineComponent, h, onUnmounted, PropType, provide, ref, watch, watchEffect } from 'vue'
 /* eslint-disable vue/one-component-per-file */
 import * as THREE from 'three'
 import { ShadowMapType, TextureEncoding, ToneMapping } from 'three'
 /* import { OrbitControls } from '@tresjs/cientos' */
 import { createTres } from '/@/core/renderer'
-import { useCamera, useRenderer, useTres } from '/@/composables'
+import { useCamera, useRenderer, useTres, useRenderLoop } from '/@/composables'
 
 export const TresCanvas = defineComponent({
   name: 'TresCanvas',
@@ -32,62 +31,65 @@ export const TresCanvas = defineComponent({
     clearColor: String,
     windowSize: { type: Boolean, default: false },
   },
-  setup(props, { slots, attrs, expose }) {
+  setup(props, { slots, expose }) {
     const container = ref<HTMLElement>()
     const canvas = ref<HTMLCanvasElement>()
-    const { state, setState } = useTres()
+    /*   const { state, setState } = useTres() */
 
-    const { renderer, aspectRatio } = useRenderer(canvas, container, props)
-    const { activeCamera } = useCamera()
+    /* const { renderer, aspectRatio } = useRenderer(canvas, container, props) */
+    /*    const { activeCamera } = useCamera()
 
     provide('aspect-ratio', aspectRatio)
-    provide('renderer', renderer)
-    /*  const renderer = new THREE.WebGLRenderer({
-        canvas: canvas.value,
-        antialias: true,
-        alpha: true,
-        powerPreference: 'high-performance',
+    provide('renderer', renderer) */
+    watch(canvas, () => {
+      const { renderer, aspectRatio } = useRenderer(canvas, container, props)
+      const { activeCamera } = useCamera()
+
+      provide('aspect-ratio', aspectRatio)
+      provide('renderer', renderer)
+
+      /* const controls = new OrbitControls(camera, renderer.domElement)
+        controls.enableDamping = true */
+
+      const scene = new THREE.Scene()
+
+      /*    window.addEventListener('resize', () => {
+        renderer.setSize(window.innerWidth, window.innerHeight)
+        camera.aspect = window.innerWidth / window.innerHeight
+        camera.updateProjectionMatrix()
       })
-      renderer.outputEncoding = THREE.sRGBEncoding
-      renderer.toneMapping = THREE.ACESFilmicToneMapping
-      renderer.setSize(window.innerWidth, window.innerHeight) */
 
-    /* const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight)
-      camera.position.set(0, 2, 7) */
+      renderer.setAnimationLoop(() => {
+        renderer.render(scene, camera)
+      }) */
 
-    /* const controls = new OrbitControls(camera, renderer.domElement)
-      controls.enableDamping = true */
+      const { onLoop } = useRenderLoop()
 
-    const scene = new THREE.Scene()
+      onLoop(() => {
+        if (!activeCamera.value) return
 
-    const { onLoop } = useRenderLoop()
+        /* raycaster.value.setFromCamera(pointer.value, activeCamera.value) */
+        renderer.value?.render(scene, activeCamera.value)
+      })
 
-    onLoop(() => {
-      if (!activeCamera.value) return
-      renderer.value?.render(scene, activeCamera.value)
-    })
+      const internal = slots?.default() || []
 
-    const internal = slots?.default() || []
+      const internalComponent = defineComponent({
+        name: 'Wrapper',
+        setup() {
+          return () => internal
+        },
+      })
 
-    const internalComponent = defineComponent({
-      name: 'Wrapper',
-      setup() {
-        return () => internal
-      },
-    })
+      const app = createTres(internalComponent)
+      app.mount(scene)
 
-    const app = createTres(internalComponent)
-    app.mount(scene)
+      console.log(scene)
 
-    console.log(scene)
-
-    expose({
-      scene,
-      app,
-    })
-
-    onUnmounted(() => {
-      app.unmount()
+      expose({
+        scene,
+        app,
+      })
     })
 
     return () => {
@@ -103,7 +105,6 @@ export const TresCanvas = defineComponent({
 
               pointerEvents: 'auto',
               touchAction: 'none',
-              ...(attrs.style as Record<string, unknown>),
             },
           },
           [
