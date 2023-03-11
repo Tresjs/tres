@@ -1,13 +1,10 @@
-import { App, Component } from 'vue'
-import { TresCanvas } from '/@/composables/useRenderer/component'
-import { Scene } from '/@/composables/useScene/component'
-import { useCatalogue, useInstanceCreator, useTres } from '/@/composables'
+import { App } from 'vue'
+import { TresCanvas } from '/@/components/TresCanvas'
 export * from '/@/composables'
 export * from './keys'
 export * from './types'
 
 export interface TresOptions {
-  prefix?: string
   extends?: Record<string, unknown>
 }
 export interface TresPlugin {
@@ -17,25 +14,8 @@ export interface TresPlugin {
 
 const plugin: TresPlugin = {
   install(app: App, options) {
-    const prefix = options?.prefix || 'Tres'
-
     // Register core components
-    app.component(`${prefix}Canvas`, TresCanvas)
-    app.component(`${prefix}Scene`, Scene)
-
-    // Initialize catalogue
-    const { catalogue, extend } = useCatalogue(app, prefix)
-    app.provide('catalogue', catalogue)
-    app.provide('extend', extend)
-    app.provide('useTres', useTres())
-
-    // Create components from catalogue
-    const { createComponentInstances } = useInstanceCreator(prefix)
-    const components = createComponentInstances(catalogue)
-
-    components.forEach(([key, cmp]) => {
-      app.component(key as string, cmp as Component)
-    })
+    app.component(`TresCanvas`, TresCanvas)
   },
 }
 

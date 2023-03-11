@@ -10,6 +10,10 @@ export type TresObject = Object3D<Event> & {
   color?: TresColor
   opacity?: number
   visible?: boolean
+  attach?: string
+  parent: TresObject | null
+  dispose?: () => void
+  __previousAttach?: string
   [key: string]: any
 }
 

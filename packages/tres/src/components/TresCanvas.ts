@@ -1,10 +1,10 @@
-import { defineComponent, h, PropType, provide, ref, watch } from 'vue'
+import { defineComponent, h, PropType, ref, watch } from 'vue'
 /* eslint-disable vue/one-component-per-file */
 import * as THREE from 'three'
 import { ShadowMapType, TextureEncoding, ToneMapping } from 'three'
-/* import { OrbitControls } from '@tresjs/cientos' */
 import { createTres } from '/@/core/renderer'
-import { useCamera, useRenderer, useTres, useRenderLoop, useRaycaster } from '/@/composables'
+import { useCamera, useRenderer, useRenderLoop, useRaycaster } from '/@/composables'
+import { TresObject } from '/@/types'
 
 export const TresCanvas = defineComponent({
   name: 'TresCanvas',
@@ -34,34 +34,12 @@ export const TresCanvas = defineComponent({
   setup(props, { slots, expose }) {
     const container = ref<HTMLElement>()
     const canvas = ref<HTMLCanvasElement>()
-    /*   const { state, setState } = useTres() */
 
-    /* const { renderer, aspectRatio } = useRenderer(canvas, container, props) */
-    /*    const { activeCamera } = useCamera()
-
-    provide('aspect-ratio', aspectRatio)
-    provide('renderer', renderer) */
     watch(canvas, () => {
-      const { renderer, aspectRatio } = useRenderer(canvas, container, props)
+      const { renderer } = useRenderer(canvas, container, props)
       const { activeCamera } = useCamera()
 
-      /*  provide('aspect-ratio', aspectRatio)
-      provide('renderer', renderer) */
-
-      /* const controls = new OrbitControls(camera, renderer.domElement)
-        controls.enableDamping = true */
-
       const scene = new THREE.Scene()
-
-      /*    window.addEventListener('resize', () => {
-        renderer.setSize(window.innerWidth, window.innerHeight)
-        camera.aspect = window.innerWidth / window.innerHeight
-        camera.updateProjectionMatrix()
-      })
-
-      renderer.setAnimationLoop(() => {
-        renderer.render(scene, camera)
-      }) */
 
       const { onLoop } = useRenderLoop()
 
@@ -74,20 +52,18 @@ export const TresCanvas = defineComponent({
         renderer.value?.render(scene, activeCamera.value)
       })
 
-      const internal = slots?.default() || []
+      const internal = slots.default ? slots?.default() : [] || []
 
       const internalComponent = defineComponent({
-        name: 'Wrapper',
+        __name: 'tres-wrapper',
+        __scopeId: 'data-v-tres-supreme',
         setup() {
           return () => internal
         },
       })
 
       const app = createTres(internalComponent)
-      app.mount(scene)
-
-      console.log(scene)
-
+      app.mount(scene as unknown as TresObject)
       expose({
         scene,
         app,

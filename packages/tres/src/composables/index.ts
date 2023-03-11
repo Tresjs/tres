@@ -1,6 +1,4 @@
 export * from './useCamera'
-export * from './useCatalogue'
-export * from './useInstanceCreator'
 export * from './useRenderLoop/'
 export * from './useRenderer/'
 export * from './useScene/'

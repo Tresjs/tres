@@ -4,11 +4,12 @@ import { useLogger } from '../iternal'
 import { catalogue } from './catalogue'
 import { Mesh } from 'three'
 import { useEventListener } from '@vueuse/core'
+import { TresEvent, TresObject } from '../types'
 
 const { logWarning } = useLogger()
 
-function hasEvents(obj) {
-  for (var prop in obj) {
+function hasEvents(obj: any) {
+  for (const prop in obj) {
     if (prop.indexOf('on') === 0) {
       return true
     }
@@ -16,7 +17,11 @@ function hasEvents(obj) {
   return false
 }
 
-export const nodeOps: RendererOptions<Node, Element> = {
+function noop(fn: string): any {
+  throw Error(`no-op: ${fn}`)
+}
+
+export const nodeOps: RendererOptions<TresObject, TresObject> = {
   createElement(type, _isSVG, _isCustomizedBuiltIn, props) {
     if (type === 'template') return null
     let instance
@@ -25,7 +30,7 @@ export const nodeOps: RendererOptions<Node, Element> = {
       props = {}
     }
 
-    if (props.arg) {
+    if (props?.arg) {
       instance = new catalogue[type.replace('Tres', '')](...props.args)
     } else {
       instance = new catalogue[type.replace('Tres', '')]()
@@ -33,7 +38,7 @@ export const nodeOps: RendererOptions<Node, Element> = {
 
     if (instance.isCamera) {
       // Let users know that camera is in the center of the scene
-      if (!props.position || props.position.every(v => v == 0)) {
+      if (!props?.position || props?.position.every((v: number) => v == 0)) {
         logWarning(
           // eslint-disable-next-line max-len
           'Camera is positioned at the center of the scene [0,0,0], if this is not intentional try setting a position if your scene seems empty 🤗',
@@ -43,7 +48,7 @@ export const nodeOps: RendererOptions<Node, Element> = {
       pushCamera(instance)
     }
 
-    if (props.attach === undefined) {
+    if (props?.attach === undefined) {
       if (instance.isMaterial) instance.attach = 'material'
       else if (instance.isBufferGeometry) instance.attach = 'geometry'
     }
@@ -109,15 +114,17 @@ export const nodeOps: RendererOptions<Node, Element> = {
     if (parent) {
       if (parent.isObject3D && node.isObject3D) {
         parent.remove(node)
-      } else if (typeof child.attach === 'string') {
-        parent[child.attach] = child.__previousAttach
-        delete child.__previousAttach
+      } else if (typeof node.attach === 'string') {
+        parent[node.attach] = node.__previousAttach
+        delete node.__previousAttach
         node.parent = null
       }
     }
 
     node.dispose?.()
-    node.traverse?.(node => node.dispose?.())
+    node.traverse?.(node => {
+      ;(node as TresObject).dispose?.()
+    })
   },
   patchProp(node, prop, prevValue, nextValue) {
     let root = node
@@ -128,12 +135,12 @@ export const nodeOps: RendererOptions<Node, Element> = {
     if (key.includes('-')) {
       const chain = key.split('-')
       target = chain.reduce((acc, key) => acc[key], root)
-      key = chain.pop()
+      key = chain.pop() as string
 
       if (!target?.set) root = chain.reduce((acc, key) => acc[key], root)
     }
 
-    let value = nextValue
+    const value = nextValue
     /*   try {
       const num = parseFloat(value)
       value = isNaN(num) ? value : num
@@ -146,18 +153,25 @@ export const nodeOps: RendererOptions<Node, Element> = {
     else if (!target.isColor && target.setScalar) target.setScalar(value)
     else target.set(value)
   },
-  createText(text) {},
-  createComment(text) {},
-  setText(node, text) {},
-  setElementText(node, text) {},
+
   parentNode(node) {
     return node?.parent || null
   },
-  nextSibling(node) {
+  createText: () => noop('createText'),
+  createComment: () => noop('createComment'),
+  setText: () => noop('setText'),
+  setElementText: () => noop('setElementText'),
+  nextSibling: () => noop('nextSibling'),
+  querySelector: () => noop('querySelector'),
+  setScopeId: () => noop('setScopeId'),
+  cloneNode: () => noop('cloneNode'),
+  insertStaticContent: () => noop('insertStaticContent'),
+
+  /* nextSibling(node) {
     if (node?.parent?.children) {
       const index = node.parent.children.indexOf(node)
       if (index !== -1) return node.parent.children[index + 1]
     }
     return null
-  },
+  }, */
 }

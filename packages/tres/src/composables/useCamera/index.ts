@@ -1,7 +1,7 @@
 import { useTres } from '/@/composables/'
 import { PerspectiveCamera, OrthographicCamera } from 'three'
 
-import { toRef, watch, Ref, inject, watchEffect } from 'vue'
+import { toRef, Ref, watchEffect } from 'vue'
 
 export enum CameraType {
   Perspective = 'Perspective',
