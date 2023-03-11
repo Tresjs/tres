@@ -18,7 +18,7 @@ function hasEvents(obj: any) {
 }
 
 function noop(fn: string): any {
-  throw Error(`no-op: ${fn}`)
+  fn
 }
 
 export const nodeOps: RendererOptions<TresObject, TresObject> = {
