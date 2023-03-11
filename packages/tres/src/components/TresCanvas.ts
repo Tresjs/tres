@@ -1,10 +1,10 @@
-import { defineComponent, h, onUnmounted, PropType, provide, ref, watch, watchEffect } from 'vue'
+import { defineComponent, h, PropType, provide, ref, watch } from 'vue'
 /* eslint-disable vue/one-component-per-file */
 import * as THREE from 'three'
 import { ShadowMapType, TextureEncoding, ToneMapping } from 'three'
 /* import { OrbitControls } from '@tresjs/cientos' */
 import { createTres } from '/@/core/renderer'
-import { useCamera, useRenderer, useTres, useRenderLoop } from '/@/composables'
+import { useCamera, useRenderer, useTres, useRenderLoop, useRaycaster } from '/@/composables'
 
 export const TresCanvas = defineComponent({
   name: 'TresCanvas',
@@ -45,8 +45,8 @@ export const TresCanvas = defineComponent({
       const { renderer, aspectRatio } = useRenderer(canvas, container, props)
       const { activeCamera } = useCamera()
 
-      provide('aspect-ratio', aspectRatio)
-      provide('renderer', renderer)
+      /*  provide('aspect-ratio', aspectRatio)
+      provide('renderer', renderer) */
 
       /* const controls = new OrbitControls(camera, renderer.domElement)
         controls.enableDamping = true */
@@ -65,10 +65,12 @@ export const TresCanvas = defineComponent({
 
       const { onLoop } = useRenderLoop()
 
+      const { raycaster, pointer } = useRaycaster()
+
       onLoop(() => {
         if (!activeCamera.value) return
 
-        /* raycaster.value.setFromCamera(pointer.value, activeCamera.value) */
+        raycaster.value.setFromCamera(pointer.value, activeCamera.value)
         renderer.value?.render(scene, activeCamera.value)
       })
 

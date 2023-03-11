@@ -33,10 +33,12 @@ export const nodeOps: RendererOptions<Node, Element> = {
 
     if (instance.isCamera) {
       // Let users know that camera is in the center of the scene
-      logWarning(
-        // eslint-disable-next-line max-len
-        'Camera is positioned at the center of the scene, if this is not intentional try setting a position if your scene seems empty 🤗',
-      )
+      if (!props.position || props.position.every(v => v == 0)) {
+        logWarning(
+          // eslint-disable-next-line max-len
+          'Camera is positioned at the center of the scene [0,0,0], if this is not intentional try setting a position if your scene seems empty 🤗',
+        )
+      }
       const { pushCamera } = useCamera()
       pushCamera(instance)
     }

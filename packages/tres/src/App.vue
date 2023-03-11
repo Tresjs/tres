@@ -9,17 +9,20 @@ const gl = {
 function click(e) {
   console.log('click', e)
 }
+function enter(e) {
+  console.log('enter', e)
+}
 </script>
 
 <template>
   <Suspense>
     <TresCanvas v-bind="gl">
       <TresPerspectiveCamera :args="[75, 1, 0.1, 1000]" :position="[0, 2, 7]"></TresPerspectiveCamera>
-      <TresGridHelper :args="[4, 4]"></TresGridHelper>
-      <TresMesh @click="click">
+      <TresMesh :position="[0, 4, 0]" @click="click" @pointer-enter="enter">
         <TresBoxGeometry :args="[1, 1, 1]"></TresBoxGeometry>
         <TresMeshBasicMaterial color="teal"></TresMeshBasicMaterial>
       </TresMesh>
+      <TresGridHelper :args="[4, 4]"></TresGridHelper>
     </TresCanvas>
   </Suspense>
 </template>
