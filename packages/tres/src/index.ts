@@ -13,7 +13,7 @@ export interface TresPlugin {
 }
 
 const plugin: TresPlugin = {
-  install(app: App, options) {
+  install(app: App) {
     // Register core components
     app.component(`TresCanvas`, TresCanvas)
   },
