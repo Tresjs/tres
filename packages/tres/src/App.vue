@@ -45,6 +45,8 @@ function enter(e) {
 </script>
 
 <template>
+  <button @click="click">{{ gridVisible }}</button>
+  <p v-if="gridVisible">Soc invisible</p>
   <TresCanvas v-bind="gl">
     <TresPerspectiveCamera :args="[75, 1, 0.1, 1000]" :position="[0, 2, 7]"></TresPerspectiveCamera>
     <TresAmbientLight :color="0xffffff" :intensity="0.75" />
@@ -53,7 +55,7 @@ function enter(e) {
       <TresSphereGeometry :args="[1, 32, 16]"></TresSphereGeometry>
       <TresMeshToonMaterial color="teal"></TresMeshToonMaterial>
     </TresMesh>
-    <TresGridHelper :args="[4, 4]"></TresGridHelper>
+    <TresGridHelper v-if="gridVisible" :args="[4, 4]"></TresGridHelper>
   </TresCanvas>
 </template>
 

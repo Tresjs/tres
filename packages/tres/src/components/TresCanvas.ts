@@ -1,10 +1,10 @@
-import { defineComponent, h, PropType, ref, watch } from 'vue'
+import { defineComponent, h, PropType, ref, watch, watchEffect, compile } from 'vue'
 /* eslint-disable vue/one-component-per-file */
 import * as THREE from 'three'
 import { ShadowMapType, TextureEncoding, ToneMapping, Scene } from 'three'
 import { createTres } from '/@/core/renderer'
 import { useCamera, useRenderer, useRenderLoop, useRaycaster } from '/@/composables'
-import { TresObject } from '/@/types'
+import TestRenderer from './TestRenderer.vue'
 
 export const TresCanvas = defineComponent({
   name: 'TresCanvas',
@@ -52,21 +52,23 @@ export const TresCanvas = defineComponent({
         renderer.value?.render(scene, activeCamera.value)
       })
 
-      const internal = slots.default ? slots?.default() : [] || []
+      const app = createTres(slots)
+      app.mount(scene)
 
-      const internalComponent = defineComponent({
-        __name: 'tres-wrapper',
-        __scopeId: 'data-v-tres-supreme',
-        setup() {
-          return () => internal
-        },
+      watchEffect(() => {
+        if (slots) {
+          console.log('slots', slots)
+        }
       })
 
-      const app = createTres(internalComponent)
-      app.mount(scene as unknown as TresObject)
+      console.log({
+        app,
+        scene,
+        TestRenderer,
+      })
       expose({
         scene,
-        app,
+        /*  app, */
       })
     })
 
@@ -76,6 +78,8 @@ export const TresCanvas = defineComponent({
           'div',
           {
             ref: container,
+            'data-v-app': true,
+            id: 'container',
             style: {
               position: 'relative',
               width: '100%',
@@ -106,6 +110,7 @@ export const TresCanvas = defineComponent({
                     left: 0,
                   },
                 }),
+                /* ...(slots.default ? slots?.default() : [] || []), */
               ],
             ),
           ],

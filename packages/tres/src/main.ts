@@ -6,3 +6,5 @@ import './style.css'
 export const app = createApp(App)
 
 app.mount('#app')
+
+console.log(app)
