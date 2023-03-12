@@ -1,7 +1,7 @@
 import { defineComponent, h, PropType, ref, watch } from 'vue'
 /* eslint-disable vue/one-component-per-file */
 import * as THREE from 'three'
-import { ShadowMapType, TextureEncoding, ToneMapping } from 'three'
+import { ShadowMapType, TextureEncoding, ToneMapping, Scene } from 'three'
 import { createTres } from '/@/core/renderer'
 import { useCamera, useRenderer, useRenderLoop, useRaycaster } from '/@/composables'
 import { TresObject } from '/@/types'

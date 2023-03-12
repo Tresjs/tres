@@ -48,15 +48,12 @@ function enter(e) {
   <TresCanvas v-bind="gl">
     <TresPerspectiveCamera :args="[75, 1, 0.1, 1000]" :position="[0, 2, 7]"></TresPerspectiveCamera>
     <TresAmbientLight :color="0xffffff" :intensity="0.75" />
-    <TresDirectionalLight :color="0xffffff" :intensity="0.75" :position="[-2, 2, 0]" />
-    <TresMesh :position="[0, 4, 0]" @click="click" @pointer-enter="enter">
-      <TresBoxGeometry :args="[1, 1, 1]"></TresBoxGeometry>
-      <TresMeshBasicMaterial color="teal"></TresMeshBasicMaterial>
+    <TresDirectionalLight :color="0xffffff" :intensity="2" :position="[-2, 2, 0]" />
+    <TresMesh :position="[0, 1, 0]" @click="click" @pointer-enter="enter">
+      <TresSphereGeometry :args="[1, 32, 16]"></TresSphereGeometry>
+      <TresMeshToonMaterial color="teal"></TresMeshToonMaterial>
     </TresMesh>
-    <TresGridHelper v-if="gridVisible" :args="[4, 4]"></TresGridHelper>
-    <Suspense>
-      <AkuAku />
-    </Suspense>
+    <TresGridHelper :args="[4, 4]"></TresGridHelper>
   </TresCanvas>
 </template>
 
