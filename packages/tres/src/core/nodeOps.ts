@@ -32,9 +32,9 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
     if (props === null) props = {}
 
     if (props?.args) {
-      instance = new catalogue[tag.replace('Tres', '')](...props.args)
+      instance = new catalogue.value[tag.replace('Tres', '')](...props.args)
     } else {
-      instance = new catalogue[tag.replace('Tres', '')]()
+      instance = new catalogue.value[tag.replace('Tres', '')]()
     }
 
     if (instance.isCamera) {

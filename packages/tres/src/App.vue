@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { ref, watchEffect } from 'vue'
-import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
+import { provide, ref, watchEffect } from 'vue'
+import { OrbitControls } from '../../cientos/src/'
 import TresCanvas from './components/TresCanvas'
 import { useRenderLoop, useTres } from '/@/composables'
-import { extend } from './core/catalogue'
+import AkuAku from './demos/AkuAku.vue'
 // import TheEvents from '/@/components/TheEvents.vue'
 const gl = {
   antialias: true,
@@ -13,8 +13,6 @@ const gl = {
 }
 
 const { state } = useTres()
-
-extend({ OrbitControls })
 
 const { onLoop } = useRenderLoop()
 
@@ -48,8 +46,9 @@ function enter(e) {
 
 <template>
   <TresCanvas v-bind="gl">
+    <OrbitControls />
     <TresPerspectiveCamera :args="[75, 1, 0.1, 1000]" :position="[0, 2, 7]"></TresPerspectiveCamera>
-    <TresOrbitControls v-if="state.camera" :args="[state.camera, state.renderer.domElement]" />
+    <!--  <TresOrbitControls v-if="state.camera" :args="[state.camera, state.renderer.domElement]" /> -->
     <TresAmbientLight :color="0xffffff" :intensity="0.75" />
     <TresDirectionalLight :color="0xffffff" :intensity="2" :position="[-2, 2, 0]" cast-shadow />
     <TresMesh :position="[0, 3, 0]" @click="click" @pointer-enter="enter" cast-shadow>
@@ -60,6 +59,9 @@ function enter(e) {
       <TresPlaneGeometry :args="[12, 12, 100, 100]"></TresPlaneGeometry>
       <TresMeshToonMaterial color="gray"></TresMeshToonMaterial>
     </TresMesh>
+    <Suspense>
+      <AkuAku />
+    </Suspense>
     <TresGridHelper :args="[4, 4]"></TresGridHelper>
   </TresCanvas>
 </template>

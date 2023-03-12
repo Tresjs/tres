@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useTweakPane, useGLTF } from '@tresjs/cientos'
-import { ref, watch } from 'vue'
+import { inject, ref, watch, watchEffect } from 'vue'
 
 useTweakPane()
 
@@ -18,10 +18,11 @@ const akuAkuRef = ref(null)
 watch(akuAkuRef, value => {
   console.log('akuAkuRef', value)
 })
+
+const awiwi = inject('awiwi')
+console.log('awiwi', awiwi)
 </script>
 
 <template>
-  <Suspense>
-    <TresMesh ref="akuAkuRef" v-bind="model" />
-  </Suspense>
+  <TresMesh ref="akuAkuRef" v-bind="model" />
 </template>

@@ -1,6 +1,7 @@
-import { App } from 'vue'
+import { App, ref } from 'vue'
 import { TresCanvas } from '/@/components/TresCanvas'
 export * from '/@/composables'
+export * from '/@/core/catalogue'
 export * from './keys'
 export * from './types'
 

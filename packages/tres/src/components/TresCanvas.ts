@@ -2,8 +2,9 @@ import { defineComponent, h, PropType, ref, watch } from 'vue'
 import * as THREE from 'three'
 import { ShadowMapType, TextureEncoding, ToneMapping } from 'three'
 import { createTres } from '/@/core/renderer'
-import { useCamera, useRenderer, useRenderLoop, useRaycaster } from '/@/composables'
+import { useCamera, useRenderer, useRenderLoop, useRaycaster, useTres } from '/@/composables'
 import { TresObject } from '../types'
+import { extend } from '../core/catalogue'
 
 export const TresCanvas = defineComponent({
   name: 'TresCanvas',
@@ -33,12 +34,11 @@ export const TresCanvas = defineComponent({
   setup(props, { slots, expose }) {
     const container = ref<HTMLElement>()
     const canvas = ref<HTMLCanvasElement>()
+    const scene = new THREE.Scene()
 
     watch(canvas, () => {
       const { renderer } = useRenderer(canvas, container, props)
       const { activeCamera } = useCamera()
-
-      const scene = new THREE.Scene()
 
       const { onLoop } = useRenderLoop()
 
@@ -50,14 +50,15 @@ export const TresCanvas = defineComponent({
         raycaster.value.setFromCamera(pointer.value, activeCamera.value)
         renderer.value?.render(scene, activeCamera.value)
       })
+    })
 
-      const app = createTres(slots)
-      app.mount(scene as unknown as TresObject)
-
-      console.log({ scene, renderer })
-      expose({
-        scene,
-      })
+    const app = createTres(slots)
+    app.provide('awiwi', 'uwu')
+    app.provide('useTres', useTres())
+    app.provide('extend', extend)
+    app.mount(scene as unknown as TresObject)
+    expose({
+      scene,
     })
 
     return () => {

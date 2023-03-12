@@ -25,7 +25,6 @@ export default defineConfig({
   resolve: {
     alias: {
       '/@': resolve(__dirname, './src'),
-      vue: 'vue/dist/vue.esm-bundler.js',
     },
     dedupe: ['@tresjs/cientos'],
   },
