@@ -74,6 +74,5 @@ watch(controls, value => {
     v-if="state.camera && state.renderer"
     ref="controls"
     :args="[unref(state.camera) || camera, state.renderer?.domElement || domElement]"
-    :enabling-dampling="enableDamping"
   />
 </template>
