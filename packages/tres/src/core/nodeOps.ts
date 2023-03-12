@@ -1,32 +1,10 @@
-import { useCamera, useRaycaster, useRenderLoop } from '/@/composables'
-import { RendererOptions } from 'vue'
-import { useLogger } from '/@/composables'
-import { catalogue } from './catalogue'
 import { Mesh } from 'three'
+import { useCamera, useRaycaster, useRenderLoop, useLogger } from '/@/composables'
+import { RendererOptions } from 'vue'
+import { catalogue } from './catalogue'
 import { useEventListener } from '@vueuse/core'
 import { TresEvent, TresObject } from '../types'
-
-const HTML_TAGS =
-  'html,body,base,head,link,meta,style,title,address,article,aside,footer,' +
-  'header,hgroup,h1,h2,h3,h4,h5,h6,nav,section,div,dd,dl,dt,figcaption,' +
-  'figure,picture,hr,img,li,main,ol,p,pre,ul,a,b,abbr,bdi,bdo,br,cite,code,' +
-  'data,dfn,em,i,kbd,mark,q,rp,rt,ruby,s,samp,small,span,strong,sub,sup,' +
-  'time,u,var,wbr,area,audio,map,track,video,embed,object,param,source,' +
-  'canvas,script,noscript,del,ins,caption,col,colgroup,table,thead,tbody,td,' +
-  'th,tr,button,datalist,fieldset,form,input,label,legend,meter,optgroup,' +
-  'option,output,progress,select,textarea,details,dialog,menu,' +
-  'summary,template,blockquote,iframe,tfoot'
-
-export const isHTMLTag = /*#__PURE__*/ makeMap(HTML_TAGS)
-
-export function makeMap(str: string, expectsLowerCase?: boolean): (key: string) => boolean {
-  const map: Record<string, boolean> = Object.create(null)
-  const list: Array<string> = str.split(',')
-  for (let i = 0; i < list.length; i++) {
-    map[list[i]] = true
-  }
-  return expectsLowerCase ? val => !!map[val.toLowerCase()] : val => !!map[val]
-}
+import { isHTMLTag, kebabToCamel } from '../utils'
 
 const { logWarning } = useLogger()
 
@@ -43,33 +21,17 @@ function noop(fn: string): any {
   fn
 }
 
-const doc = (typeof document !== 'undefined' ? document : null) as Document
-export const svgNS = 'http://www.w3.org/2000/svg'
+let scene: TresObject | null = null
 
-const templateContainer = doc && /*#__PURE__*/ doc.createElement('template')
-
-let scene = null
-
-export const nodeOps: RendererOptions<any, any> = {
-  createElement(tag, isSVG, anchor, props) {
-    // Vue core
-    /* const el = isSVG ? doc.createElementNS(svgNS, tag) : doc.createElement(tag, anchor ? { anchor } : undefined)
-
-    if (tag === 'select' && props && props.multiple != null) {
-      ;(el as HTMLSelectElement).setAttribute('multiple', props.multiple)
-    }
-
-    return el */
-    // Tres
+export const nodeOps: RendererOptions<TresObject, TresObject> = {
+  createElement(tag, _isSVG, _anchor, props) {
     if (tag === 'template') return null
     if (isHTMLTag(tag)) return null
     let instance
 
-    if (props === null) {
-      props = {}
-    }
+    if (props === null) props = {}
 
-    if (props?.arg) {
+    if (props?.args) {
       instance = new catalogue[tag.replace('Tres', '')](...props.args)
     } else {
       instance = new catalogue[tag.replace('Tres', '')]()
@@ -103,7 +65,7 @@ export const nodeOps: RendererOptions<any, any> = {
   },
   insert(child, parent, anchor) {
     if (scene === null && parent.isScene) scene = parent
-    if (parent === null) parent = scene
+    if (parent === null) parent = scene as TresObject
     //vue core
     /*  parent.insertBefore(child, anchor || null) */
     if (parent?.isObject3D && child?.isObject3D) {
@@ -157,48 +119,30 @@ export const nodeOps: RendererOptions<any, any> = {
     }
   },
   remove(node) {
-    // Vue Core
+    if (!node) return
     const parent = node.parentNode
     if (parent) {
       parent.removeChild(node)
     }
-    /* if (!node) return
-    const parent = node.parent
-    if (parent) {
-      if (parent.isObject3D && node.isObject3D) {
-        parent.remove(node)
-      } else if (typeof node.attach === 'string') {
-        parent[node.attach] = node.__previousAttach
-        delete node.__previousAttach
-        node.parent = null
-      }
-    }
-
-    node.dispose?.()
-    node.traverse?.(node => {
-      ;(node as TresObject).dispose?.()
-    }) */
   },
-  patchProp(node, prop, prevValue, nextValue) {
+  patchProp(node, prop, _prevValue, nextValue) {
     if (node) {
       let root = node
       let key = prop
-      let target = root?.[key]
+      let target = root?.[kebabToCamel(key)]
+
       // Traverse pierced props (e.g. foo-bar=value => foo.bar = value)
-      /* if (key.includes('-')) {
+      if (key.includes('-') && !Object.keys(root).includes(kebabToCamel(key))) {
         const chain = key.split('-')
         target = chain.reduce((acc, key) => acc[key], root)
         key = chain.pop() as string
-  
+
         if (!target?.set) root = chain.reduce((acc, key) => acc[key], root)
-      } */
-      const value = nextValue
-      /*   try {
-        const num = parseFloat(value)
-        value = isNaN(num) ? value : num
-      } catch (_) {} */
+      }
+      let value = nextValue
+      if (value === '') value = true
       // Set prop, prefer atomic methods if applicable
-      if (!target?.set) root[key] = value
+      if (!target?.set) root[kebabToCamel(key)] = value
       else if (target.constructor === value.constructor && target?.copy) target?.copy(value)
       else if (Array.isArray(value)) target.set(...value)
       else if (!target.isColor && target.setScalar) target.setScalar(value)
@@ -207,36 +151,20 @@ export const nodeOps: RendererOptions<any, any> = {
   },
 
   parentNode(node) {
-    // Vue core
-    return node.parentNode as Element | null
-    /*  return node?.parent || null */
+    return node?.parent || null
   },
-  createText: text => doc.createTextNode(text),
+  createText: () => noop('createText'),
 
-  createComment: text => doc.createComment(text),
+  createComment: () => noop('createComment'),
 
-  setText: (node, text) => {
-    node.nodeValue = text
-  },
+  setText: () => noop('setText'),
 
-  setElementText: (el, text) => {
-    el.textContent = text
-  },
-  nextSibling: node => node.nextSibling,
+  setElementText: () => noop('setElementText'),
+  nextSibling: () => noop('nextSibling'),
 
-  querySelector: selector => doc.querySelector(selector),
+  querySelector: () => noop('querySelector'),
 
-  setScopeId(el, id) {
-    /* el.setAttribute(id, '') */
-  },
+  setScopeId: () => noop('setScopeId'),
   cloneNode: () => noop('cloneNode'),
   insertStaticContent: () => noop('insertStaticContent'),
-
-  /* nextSibling(node) {
-    if (node?.parent?.children) {
-      const index = node.parent.children.indexOf(node)
-      if (index !== -1) return node.parent.children[index + 1]
-    }
-    return null
-  }, */
 }
