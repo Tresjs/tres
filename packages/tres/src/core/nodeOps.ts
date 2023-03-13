@@ -2,7 +2,7 @@ import { Mesh } from 'three'
 import { useCamera, useRaycaster, useRenderLoop, useLogger } from '/@/composables'
 import { RendererOptions } from 'vue'
 import { catalogue } from './catalogue'
-import { useEventListener } from '@vueuse/core'
+import { isFunction, useEventListener } from '@vueuse/core'
 import { TresEvent, TresObject } from '../types'
 import { isHTMLTag, kebabToCamel } from '../utils'
 
@@ -45,6 +45,7 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
           'Camera is positioned at the center of the scene [0,0,0], if this is not intentional try setting a position if your scene seems empty 🤗',
         )
       }
+      instance.lookAt(69, 69, 69)
       const { pushCamera } = useCamera()
       pushCamera(instance)
     }
@@ -58,7 +59,7 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
       tag,
 
       instance,
-      threeObj: catalogue[tag.replace('Tres', '')],
+      threeObj: catalogue.value[tag.replace('Tres', '')],
     })
 
     return instance
@@ -69,7 +70,6 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
     //vue core
     /*  parent.insertBefore(child, anchor || null) */
     if (parent?.isObject3D && child?.isObject3D) {
-      console.log('insert', { child, parent, anchor })
       const index = anchor ? parent.children.indexOf(anchor) : 0
       child.parent = parent
       parent.children.splice(index, 0, child)
@@ -127,22 +127,35 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
   },
   patchProp(node, prop, _prevValue, nextValue) {
     if (node) {
+      /*       if (node.isCamera && prop === 'look-at') {
+        debugger
+      } */
       let root = node
       let key = prop
-      let target = root?.[kebabToCamel(key)]
+      const camelKey = kebabToCamel(key)
+      let target = root?.[camelKey]
+
+      if (!node.parent) {
+        node.parent = scene as TresObject
+      }
 
       // Traverse pierced props (e.g. foo-bar=value => foo.bar = value)
-      if (key.includes('-') && !Object.keys(root).includes(kebabToCamel(key))) {
+      if (key.includes('-') && target === undefined) {
         const chain = key.split('-')
-        target = chain.reduce((acc, key) => acc[key], root)
+        target = chain.reduce((acc, key) => acc[kebabToCamel(key)], root)
         key = chain.pop() as string
 
-        if (!target?.set) root = chain.reduce((acc, key) => acc[key], root)
+        if (!target?.set) root = chain.reduce((acc, key) => acc[kebabToCamel(key)], root)
       }
       let value = nextValue
       if (value === '') value = true
       // Set prop, prefer atomic methods if applicable
-      if (!target?.set) root[kebabToCamel(key)] = value
+      if (isFunction(target)) {
+        /* if (Array.isArray(value)) target(...value)
+        else target(value) */
+        return
+      }
+      if (!target?.set && !isFunction(target)) root[camelKey] = value
       else if (target.constructor === value.constructor && target?.copy) target?.copy(value)
       else if (Array.isArray(value)) target.set(...value)
       else if (!target.isColor && target.setScalar) target.setScalar(value)
