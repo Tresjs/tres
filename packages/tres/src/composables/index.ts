@@ -1,7 +1,6 @@
 export * from './useCamera'
 export * from './useRenderLoop/'
 export * from './useRenderer/'
-export * from './useScene/'
 export * from './useLoader'
 export * from './useTexture'
 export * from './useTres'

@@ -53,7 +53,6 @@ export const TresCanvas = defineComponent({
     })
 
     const app = createTres(slots)
-    app.provide('awiwi', 'uwu')
     app.provide('useTres', useTres())
     app.provide('extend', extend)
     app.mount(scene as unknown as TresObject)
