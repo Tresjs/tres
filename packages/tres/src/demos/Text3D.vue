@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry'
 import { FontLoader } from 'three/examples/jsm/loaders/FontLoader'
-import { useCatalogue, useTexture } from '/@/core'
-const { extend } = useCatalogue()
+import { extend } from '../core/catalogue'
+import { useTexture } from '/@/composables'
 
-extend({ TextGeometry: TextGeometry })
+extend({ TextGeometry })
 
 const fontPath = 'https://raw.githubusercontent.com/Tresjs/assets/main/fonts/FiraCodeRegular.json'
 

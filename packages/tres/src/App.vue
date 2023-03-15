@@ -1,15 +1,10 @@
 <script setup lang="ts">
-import { useTweakPane } from '@tresjs/cientos'
-import Shapes from '/@/components/Shapes.vue'
+import Shapes from './demos/Shapes.vue'
 // import TheEvents from '/@/components/TheEvents.vue'
-
-useTweakPane()
 </script>
 
 <template>
-  <Suspense>
-    <Shapes />
-  </Suspense>
+  <Shapes />
 </template>
 
 <style>
@@ -23,6 +18,5 @@ body {
 #app {
   height: 100%;
   width: 100%;
-  background-color: #000;
 }
 </style>

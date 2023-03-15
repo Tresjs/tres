@@ -1,6 +1,6 @@
 import { Raycaster, Vector2 } from 'three'
-import { onUnmounted, provide, Ref, ref, ShallowRef, shallowRef } from 'vue'
-import { useTres } from '/@/core'
+import { Ref, ref, ShallowRef, shallowRef } from 'vue'
+import { useTres } from '/@/composables'
 
 const raycaster = shallowRef(new Raycaster())
 const pointer = ref(new Vector2())
@@ -42,10 +42,6 @@ export function useRaycaster(): UseRaycasterReturn {
   setState('pointer', pointer)
   setState('currentInstance', currentInstance)
 
-  provide('raycaster', raycaster)
-  provide('pointer', pointer)
-  provide('currentInstance', currentInstance)
-
   function onPointerMove(event: MouseEvent) {
     pointer.value.x = (event.clientX / window.innerWidth) * 2 - 1
     pointer.value.y = -(event.clientY / window.innerHeight) * 2 + 1
@@ -53,9 +49,9 @@ export function useRaycaster(): UseRaycasterReturn {
 
   window.addEventListener('pointermove', onPointerMove)
 
-  onUnmounted(() => {
+  /*  onUnmounted(() => {
     window.removeEventListener('pointermove', onPointerMove)
-  })
+  }) */
   return {
     raycaster,
     pointer,
