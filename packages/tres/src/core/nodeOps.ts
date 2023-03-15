@@ -45,7 +45,6 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
           'Camera is positioned at the center of the scene [0,0,0], if this is not intentional try setting a position if your scene seems empty 🤗',
         )
       }
-      instance.lookAt(69, 69, 69)
       const { pushCamera } = useCamera()
       pushCamera(instance)
     }
@@ -54,13 +53,6 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
       if (instance.isMaterial) instance.attach = 'material'
       else if (instance.isBufferGeometry) instance.attach = 'geometry'
     }
-
-    console.log({
-      tag,
-
-      instance,
-      threeObj: catalogue.value[tag.replace('Tres', '')],
-    })
 
     return instance
   },
