@@ -56,9 +56,9 @@
     "@tresjs/cientos": "workspace:^1.8.0",
     "@types/three": "latest",
     "@vitejs/plugin-vue": "^4.0.0",
-    "@vitest/coverage-c8": "^0.28.5",
-    "@vitest/ui": "^0.28.5",
-    "@vue/test-utils": "^2.3.0",
+    "@vitest/coverage-c8": "^0.29.2",
+    "@vitest/ui": "^0.29.2",
+    "@vue/test-utils": "^2.3.1",
     "happy-dom": "^8.7.1",
     "jsdom": "^21.1.0",
     "kolorist": "^1.7.0",
@@ -68,11 +68,11 @@
     "three": "latest",
     "vite": "^4.1.4",
     "vite-plugin-banner": "^0.7.0",
-    "vite-plugin-dts": "2.0.0-beta.1",
+    "vite-plugin-dts": "2.1.0",
     "vite-plugin-glsl": "^1.1.2",
-    "vite-plugin-inspect": "^0.7.15",
+    "vite-plugin-inspect": "^0.7.16",
     "vite-plugin-require-transform": "^1.0.9",
-    "vitest": "^0.28.5",
+    "vitest": "^0.29.2",
     "vue-demi": "^0.13.11"
   }
 }
