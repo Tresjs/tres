@@ -2,36 +2,54 @@ import { defineComponent, h, PropType, ref, watch } from 'vue'
 import * as THREE from 'three'
 import { ShadowMapType, TextureEncoding, ToneMapping } from 'three'
 import { createTres } from '/@/core/renderer'
+import { useLogger } from '/@/composables'
 import { useCamera, useRenderer, useRenderLoop, useRaycaster, useTres } from '/@/composables'
 import { TresObject } from '../types'
 import { extend } from '../core/catalogue'
+import { RendererPresetsType } from '../composables/useRenderer/const'
 
-export const TresCanvas = defineComponent({
+export interface TresCanvasProps {
+  shadows?: boolean
+  shadowMapType?: ShadowMapType
+  physicallyCorrectLights?: boolean
+  useLegacyLights?: boolean
+  outputEncoding?: TextureEncoding
+  toneMapping?: ToneMapping
+  toneMappingExposure?: number
+  context?: WebGLRenderingContext
+  powerPreference?: 'high-performance' | 'low-power' | 'default'
+  preserveDrawingBuffer?: boolean
+  clearColor?: string
+  windowSize?: boolean
+  preset?: RendererPresetsType
+}
+/**
+ * Vue component for rendering a Tres component.
+ */
+
+const { logWarning } = useLogger()
+
+export const TresCanvas = defineComponent<TresCanvasProps>({
   name: 'TresCanvas',
-  props: {
-    shadows: Boolean,
-    shadowMapType: Number as PropType<ShadowMapType>,
-    physicallyCorrectLights: {
-      type: Boolean,
-      default: false,
-      validator: (value: boolean) => {
-        if (value) {
-          console.warn('physicallyCorrectLights is deprecated. Use useLegacyLights instead.')
-        }
-        return true
-      },
-    },
-    useLegacyLights: Boolean,
-    outputEncoding: Number as PropType<TextureEncoding>,
-    toneMapping: Number as PropType<ToneMapping>,
-    toneMappingExposure: Number,
-    context: Object as PropType<WebGLRenderingContext>,
-    powerPreference: String as PropType<'high-performance' | 'low-power' | 'default'>,
-    preserveDrawingBuffer: Boolean,
-    clearColor: String,
-    windowSize: { type: Boolean, default: false },
-  },
+  props: [
+    'shadows',
+    'shadowMapType',
+    'physicallyCorrectLights',
+    'useLegacyLights',
+    'outputEncoding',
+    'toneMapping',
+    'toneMappingExposure',
+    'context',
+    'powerPreference',
+    'preserveDrawingBuffer',
+    'clearColor',
+    'windowSize',
+    'preset',
+  ] as unknown as undefined,
   setup(props, { slots, expose }) {
+    if (props.physicallyCorrectLights === true) {
+      logWarning('physicallyCorrectLights is deprecated, useLegacyLights is now false by default')
+    }
     const container = ref<HTMLElement>()
     const canvas = ref<HTMLCanvasElement>()
     const scene = new THREE.Scene()
