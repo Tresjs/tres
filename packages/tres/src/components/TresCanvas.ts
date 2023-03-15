@@ -1,4 +1,4 @@
-import { defineComponent, h, PropType, ref, watch } from 'vue'
+import { defineComponent, h, ref, watch } from 'vue'
 import * as THREE from 'three'
 import { ShadowMapType, TextureEncoding, ToneMapping } from 'three'
 import { createTres } from '/@/core/renderer'
