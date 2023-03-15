@@ -1,4 +1,4 @@
-import { useTres, extend } from '@tresjs/core'
+import { useTres } from '@tresjs/core'
 import { inject, watch } from 'vue'
 
 /**
