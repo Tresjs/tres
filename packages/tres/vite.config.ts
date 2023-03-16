@@ -7,6 +7,8 @@ import banner from 'vite-plugin-banner'
 import Inspect from 'vite-plugin-inspect'
 
 import dts from 'vite-plugin-dts'
+import { ViteTresPlugin } from './plugins/vite-tres-types-plugin'
+
 import analyze from 'rollup-plugin-analyzer'
 /* import { visualizer } from 'rollup-plugin-visualizer' */
 import { resolve } from 'pathe'
@@ -37,6 +39,7 @@ export default defineConfig({
         },
       },
     }),
+    ViteTresPlugin(),
     dts({
       insertTypesEntry: true,
     }),
@@ -67,7 +70,7 @@ export default defineConfig({
     copyPublicDir: false,
     rollupOptions: {
       plugins: [
-        analyze(),
+        /*   analyze(), */
         /*    visualizer({
           open: true,
           gzipSize: true,

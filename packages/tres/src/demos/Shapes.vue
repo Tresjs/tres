@@ -86,6 +86,7 @@ const tubePath = new CubicBezierCurve3(
 <template>
   <TresCanvas v-bind="state">
     <TresPerspectiveCamera :position="[5, 5, 5]" :fov="75" :aspect="1" :near="0.1" :far="1000" />
+
     <OrbitControls />
 
     <TresAmbientLight :color="0xffffff" :intensity="1" />
