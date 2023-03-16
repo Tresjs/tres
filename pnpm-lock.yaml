@@ -8,8 +8,8 @@ importers:
       '@changesets/changelog-github': ^0.4.7
       '@changesets/cli': ^2.25.2
       '@stackblitz/sdk': ^1.8.1
-      '@tresjs/cientos': workspace:^1.8.0
-      '@tresjs/core': workspace:^2.0.0
+      '@tresjs/cientos': workspace:^2.0.0-alpha.1
+      '@tresjs/core': workspace:^2.0.0-alpha.1
       '@typescript-eslint/eslint-plugin': ^5.42.0
       '@typescript-eslint/parser': ^5.42.0
       conventional-changelog-cli: ^2.2.2
@@ -47,8 +47,8 @@ importers:
 
   apps/playground:
     specifiers:
-      '@tresjs/cientos': workspace:^1.8.0
-      '@tresjs/core': workspace:^2.0.0
+      '@tresjs/cientos': workspace:^2.0.0-alpha.1
+      '@tresjs/core': workspace:^2.0.0-alpha.1
       '@vitejs/plugin-vue': ^4.0.0
       three: ^0.150.1
       typescript: ^4.9.3
@@ -68,7 +68,7 @@ importers:
 
   packages/cientos:
     specifiers:
-      '@tresjs/core': workspace:^2.0.0
+      '@tresjs/core': workspace:^2.0.0-alpha.1
       '@tweakpane/plugin-essentials': ^0.1.8
       '@vitejs/plugin-vue': ^4.0.0
       kolorist: ^1.7.0
@@ -100,7 +100,6 @@ importers:
   packages/tres:
     specifiers:
       '@alvarosabu/utils': ^2.3.0
-      '@tresjs/cientos': workspace:^1.8.0
       '@types/three': latest
       '@vitejs/plugin-vue': ^4.0.0
       '@vitest/coverage-c8': ^0.29.2
@@ -128,7 +127,6 @@ importers:
       '@alvarosabu/utils': 2.3.0
       '@vueuse/core': 9.13.0
     devDependencies:
-      '@tresjs/cientos': link:../cientos
       '@types/three': 0.149.0
       '@vitejs/plugin-vue': 4.0.0_vite@4.1.4
       '@vitest/coverage-c8': 0.29.2_vitest@0.29.2

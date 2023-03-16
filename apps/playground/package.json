@@ -9,8 +9,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@tresjs/cientos": "workspace:^1.8.0",
-    "@tresjs/core": "workspace:^2.0.0",
+    "@tresjs/cientos": "workspace:^2.0.0-alpha.1",
+    "@tresjs/core": "workspace:^2.0.0-alpha.1",
     "three": "^0.150.1",
     "vue": "^3.2.45"
   },
