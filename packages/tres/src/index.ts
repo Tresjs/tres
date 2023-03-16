@@ -2,8 +2,8 @@ import { App } from 'vue'
 import { TresCanvas } from '/@/components/TresCanvas'
 export * from '/@/composables'
 export * from '/@/core/catalogue'
-export * from './keys'
-export * from './types'
+export * from '/@/components'
+export * from '/@/types'
 
 export interface TresOptions {
   extends?: Record<string, unknown>

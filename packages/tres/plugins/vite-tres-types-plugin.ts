@@ -10,20 +10,26 @@ export const unplugin = createUnplugin(() => {
     apply: 'build',
     configResolved(config) {
       // Check if the output directory exists, if not create it
-      const outputDir = join(config.root, '.tres')
+      const outputDir = join(config.root, 'src/types')
       if (!fs.existsSync(outputDir)) {
         fs.mkdirSync(outputDir)
       }
 
       const typeDefs = `
       import type { DefineComponent } from 'vue'
-      import { TresObject, TresColor, TresVectorProp } from '/@/types'
+      import type { Vector2, Vector3, Color } from 'three'
+      export type TresVectorProp = Vector2 | Vector3 | number[] | number
+      export type TresColor = string | number | Color | number[]
       import type {
         Mesh,
         ${Object.keys(THREE)
           .filter(
             key =>
-              key.endsWith('Geometry') || key.endsWith('Material') || key.endsWith('Helper') || key.endsWith('Light'),
+              key.endsWith('Geometry') ||
+              key.endsWith('Material') ||
+              key.endsWith('Helper') ||
+              key.endsWith('Light') ||
+              key.endsWith('Camera'),
           )
           .join(',\n')}
       } from 'three';
@@ -54,7 +60,19 @@ export const unplugin = createUnplugin(() => {
          *
          * @type {TresColor}
          */
-        color: TresColor
+        color: TresColor,
+        /**
+         * Arguments of the THREE instance, by default set to empty array.
+         *
+         * @type {any[]}
+         * 
+         * @example
+         * 
+         * \`\`\`html
+         * <TresBoxGeometry args="[1, 3, 4]" /> // BoxGeometry(1, 3, 4)
+         * \`\`\`
+         */
+        args?: any[],
       }
       
       declare module 'vue' {
@@ -68,7 +86,14 @@ export const unplugin = createUnplugin(() => {
         )
         .join('\n')}
         ${Object.keys(THREE)
-          .filter(key => key.endsWith('Material') || key.endsWith('Helper') || key.endsWith('Light'))
+          .filter(
+            key =>
+              key.endsWith('Geometry') ||
+              key.endsWith('Material') ||
+              key.endsWith('Helper') ||
+              key.endsWith('Light') ||
+              key.endsWith('Camera'),
+          )
           .map(key => `Tres${key}: DefineComponent<Partial<Omit<${key}, OverwrittenProps > & TresModifiedObject>>`)
           .join('\n')}
         }

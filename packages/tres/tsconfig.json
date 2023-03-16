@@ -21,15 +21,7 @@
       "/@/*": ["src/*"]
     }
   },
-  "include": [
-    "src/**/*.ts",
-    "src/**/*.d.ts",
-    "src/**/*.tsx",
-    "src/**/*.vue",
-    "histoire.setup.ts",
-    "histoire.setup.ts",
-    ".tres/tres-components.d.ts"
-  ],
-  "exclude": ["dist", "node_modules", "src/**/*.cy.ts", "src/**/*.test.ts"],
+  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
+  "exclude": ["node_modules", "src/**/*.cy.ts", "src/**/*.test.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

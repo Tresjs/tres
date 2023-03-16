@@ -1,6 +1,5 @@
-import { useTres } from '@tresjs/core'
+import { useTres, useLogger } from '@tresjs/core'
 import { inject } from 'vue'
-import { useLogger } from '/@/composables'
 /**
  * Allows to use and extend the state of the core package.
  *
