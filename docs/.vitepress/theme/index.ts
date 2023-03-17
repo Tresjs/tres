@@ -1,9 +1,9 @@
-import Tres from '@tresjs/core'
 import 'uno.css'
 // .vitepress/theme/index.ts
 import DefaultTheme from 'vitepress/theme'
 import './config.css'
 import FirstScene from './components/FirstScene.vue'
+
 import StackBlitzEmbed from './components/StackBlitzEmbed.vue'
 import TresLayout from './TresLayout.vue'
 
@@ -14,12 +14,6 @@ export default {
     DefaultTheme.enhanceApp(ctx)
     ctx.app.component('FirstScene', FirstScene)
     ctx.app.component('StackBlitzEmbed', StackBlitzEmbed)
-    /*  ctx.app.use(Tres)
-     */
-    if (!import.meta.env.SSR) {
-      // ... server only logic
-      ctx.app.use(Tres)
-    }
   },
   Layout: TresLayout,
   /* Layout() {

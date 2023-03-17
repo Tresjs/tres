@@ -18,6 +18,7 @@ export default defineConfig({
           { text: 'Introduction', link: '/guide/' },
           { text: 'Getting Started', link: '/guide/getting-started' },
           { text: 'Your first Scene', link: '/guide/your-first-scene' },
+          { text: 'Migrate from v1', link: '/guide/migration-guide' },
         ],
       },
       {
