@@ -1,11 +1,11 @@
 ---
 layout: home
 
-title: TresJS
+title: TresJS v1
 titleTemplate: The solution for 3D on VueJS
 
 hero:
-  name: TresJS
+  name: TresJS v1
   text: Bring Three to the Vue ecosystem
   tagline: Create awesome 3D experiences with the framework you love.
   image:

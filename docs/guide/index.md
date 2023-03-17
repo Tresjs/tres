@@ -7,15 +7,15 @@
 ::: code-group
 
 ```bash [npm]
-npm install three @tresjs/core -D
+npm install three @tresjs/core@1.8.1 -D
 ```
 
 ```bash [yarn]
-yarn add three @tresjs/core -D
+yarn add three @tresjs/core@1.8.1 -D
 ```
 
 ```bash [pnpm]
-pnpm add three @tresjs/core -D
+pnpm add three @tresjs/core@1.8.1 -D
 ```
 
 :::
