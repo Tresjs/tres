@@ -1,3 +1,7 @@
+::: warning
+You’re browsing the documentation for TresJS v1. If you’re looking for the documentation for **v2**, please visit [https://tresjs.org](https://tresjs.org)
+:::
+
 # Introduction
 
 <ClientOnly>
