@@ -5,15 +5,15 @@ Learn how to install TresJS
 ::: code-group
 
 ```bash [pnpm]
-pnpm add three @tresjs/core -D
+pnpm add three @tresjs/core
 ```
 
 ```bash [npm]
-npm install three @tresjs/core -D
+npm install three @tresjs/core
 ```
 
 ```bash [yarn]
-yarn add three @tresjs/core -D
+yarn add three @tresjs/core
 ```
 
 :::

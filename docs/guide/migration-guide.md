@@ -2,6 +2,22 @@
 
 This guide is intended to help you migrate from v1 to brand new shiny v2 🤩✨ of TresJS.
 
+::: code-group
+
+```bash [pnpm]
+pnpm update @tresjs/core
+```
+
+```bash [npm]
+npm update @tresjs/core
+```
+
+```bash [yarn]
+yarn upgrade @tresjs/core
+```
+
+:::
+
 ## What's new?
 
 ### Vue Custom Renderer
