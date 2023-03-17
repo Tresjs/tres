@@ -34,9 +34,7 @@ React ecosystem has an impresive **custom render** solution called [React-three-
 
 In my search for something similar in the VueJS ecosystem, I found this amazing library called [Lunchbox](https://github.com/breakfast-studio/lunchboxjs) which works with the same concept that R3F, it provides a [custom Vue3 Renderer](https://vuejs.org/api/custom-renderer.html). I'm also contributing to improve this library so it gets as mature and feature-rich as R3F.
 
-The only problem is, mixing different renderers in Vue 3 is something the Vue community is still working on - see [here](https://github.com/vuejs/vue-loader/pull/1645) for more information.
-
-Until there is a solution similar to [React Reconciliation](https://reactjs.org/docs/reconciliation.html) you will need to create 2 separate `Apps` which might be not ideal.
+The only problem is, mixing compilers renderers in Vue 3 is something the Vue community is still working on - see [here](https://github.com/vuejs/vue-loader/pull/1645) for more information.
 
 ```ts
 // Example Vite setup
@@ -55,4 +53,8 @@ const lunchboxApp = createLunchboxApp(LunchboxApp)
 lunchboxApp.mount('#lunchbox')
 ```
 
-So I was inspired by both libraries to create something that wouldn't require creating a **custom renderer** but intelligent enough to generate Vue components based on the ThreeJS constructors with 0-to-none manteinance required `three:latest`. That's **TresjS**.
+So I was inspired by both libraries to create ~~something that wouldn't require creating a **custom renderer** but intelligent enough to generate Vue components based on the ThreeJS constructors with 0-to-none manteinance required `three:latest`. That's **TresjS v1**~~.
+
+Although v1 was a decent solution 😄, it has some limitations that would only be solved by creating a proper **custom renderer**. After several POCs, I decided to create a new version of TresJS that would be based on a Vue custom renderer but saving the user to do any weird stuff. That's **TresJS v2**.
+
+To learn more how to migrate from v1, check the [migration guide](/guide/migration-guide.html).
