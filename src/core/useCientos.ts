@@ -1,6 +1,6 @@
 import { useTres } from '@tresjs/core'
 import { inject } from 'vue'
-import { useLogger } from '/@/composables'
+/* import { useLogger } from '@tresjs/core' */
 /**
  * Allows to use and extend the state of the core package.
  *
@@ -8,12 +8,12 @@ import { useLogger } from '/@/composables'
  * @return {*}
  */
 export function useCientos() {
-  const { logWarning } = useLogger()
+  /* const { logWarning } = useLogger() */
   const { state, setState } = inject('useTres', useTres())
   const extend =
     inject<(objects: any) => void>('extend') ||
     (() => {
-      logWarning('No extend function provided')
+      /* logWarning('No extend function provided') */
     })
 
   return {
