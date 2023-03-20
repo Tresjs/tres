@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import Shapes from './demos/Shapes.vue'
+/* import Shapes from './demos/Shapes.vue'
+ */ import TheBasic from './demos/TheBasic.vue'
 // import TheEvents from '/@/components/TheEvents.vue'
 </script>
 
 <template>
-  <Shapes />
+  <TheBasic />
 </template>
 
 <style>
