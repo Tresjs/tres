@@ -1,4 +1,4 @@
-# Text3D <Badge type="warning" text="^1.1.0" />
+# Text3D
 
 `<Text3D />` is a component that renders a 3D text. It is a wrapper around the [TextGeometry](https://threejs.org/docs/#api/en/geometries/TextGeometry) class.
 
@@ -11,11 +11,9 @@ To use the `<Text3D />` component you need to pass the `font` prop with the URL 
 ```vue
 <template>
   <TresCanvas>
-    <TresScene>
-      <Text3D text="TresJS" font="/fonts/FiraCodeRegular.json">
-        <TresMeshNormalMaterial />
-      </Text3D>
-    </TresScene>
+    <Text3D text="TresJS" font="/fonts/FiraCodeRegular.json">
+      <TresMeshNormalMaterial />
+    </Text3D>
   </TresCanvas>
 </template>
 ```
@@ -25,12 +23,10 @@ Notice that you need to pass the `<TresMeshNormalMaterial />` component as a chi
 ```vue
 <template>
   <TresCanvas>
-    <TresScene>
-      <Text3D font="/fonts/FiraCodeRegular.json">
-        TresJS
-        <TresMeshNormalMaterial />
-      </Text3D>
-    </TresScene>
+    <Text3D font="/fonts/FiraCodeRegular.json">
+      TresJS
+      <TresMeshNormalMaterial />
+    </Text3D>
   </TresCanvas>
 </template>
 ```

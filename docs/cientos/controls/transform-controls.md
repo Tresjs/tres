@@ -15,13 +15,11 @@ const boxRef = shallowRef()
 <template>
   <TresCanvas>
     <OrbitControls make-default />
-    <TresScene>
-        <TransformControls :object="boxRef" />
-        <TresMesh ref="boxRef" :position="[0, 4, 0]" cast-shadow>
-            <TresBoxGeometry :args="[1.5, 1.5, 1.5]" />
-            <TresMeshToonMaterial color="#4F4F4F" />
-        </TresMesh>
-    </TresScene>
+      <TransformControls :object="boxRef" />
+      <TresMesh ref="boxRef" :position="[0, 4, 0]" cast-shadow>
+          <TresBoxGeometry :args="[1.5, 1.5, 1.5]" />
+          <TresMeshToonMaterial color="#4F4F4F" />
+      </TresMesh>
   </TresCanvas>
 </template>
 ```

@@ -34,7 +34,6 @@ Now you can use the `OrbitControls` component in your scene.
 <template>
   <TresCanvas shadows alpha>
     <OrbitControls />
-    <TresScene> ... </TresScene>
   </TresCanvas>
 </template>
 ```
