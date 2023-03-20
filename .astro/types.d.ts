@@ -153,6 +153,13 @@ declare module 'astro:content' {
   collection: "experiments",
   data: any
 },
+"tres-donut.mdx": {
+  id: "tres-donut.mdx",
+  slug: "tres-donut",
+  body: string,
+  collection: "experiments",
+  data: any
+},
 },
 
 	};
