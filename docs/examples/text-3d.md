@@ -54,11 +54,9 @@ Now you can use the `TresTextGeometry` component inside a TresMesh in your scene
 ```vue
 <template>
   <TresCanvas shadows alpha>
-    <TresScene>
-      <TresMesh>
-        <TresTextGeometry :args="['TresJS', { font, ...fontOptions }]" center />
-      </TresMesh>
-    </TresScene>
+    <TresMesh>
+      <TresTextGeometry :args="['TresJS', { font, ...fontOptions }]" center />
+    </TresMesh>
   </TresCanvas>
 </template>
 ```
@@ -128,10 +126,12 @@ const font = await new Promise((resolve, reject) => {
 const matcapTexture = await useTexture(['https://raw.githubusercontent.com/Tresjs/assets/main/textures/matcaps/7.png'])
 </script>
 <template>
-  <TresMesh>
-    <TresTextGeometry :args="['TresJS', { font, ...fontOptions }]" center />
-    <TresMeshNormalMaterial :matcap="matcapTexture" />
-  </TresMesh>
+  <TresCanvas shadows alpha>
+    <TresMesh>
+      <TresTextGeometry :args="['TresJS', { font, ...fontOptions }]" center />
+      <TresMeshNormalMaterial :matcap="matcapTexture" />
+    </TresMesh>
+  </TresCanvas>
 </template>
 ```
 
@@ -147,9 +147,7 @@ It just works. 💯 (if not text is provided, the text will be TresJS)
 ```vue
 <template>
   <TresCanvas shadows alpha>
-    <TresScene>
-      <Text3D :font="fontPath" />
-    </TresScene>
+    <Text3D :font="fontPath" />
   </TresCanvas>
 </template>
 ```
@@ -175,6 +173,6 @@ bevelSegments: 4,
 
 By default text in ThreeJS starts at the mesh initial position, so it's [0,0,0] the text will start there but we can center it by just passing the flag "center"
 
-```js
-<Text3D :font="fontPath" :text="my 3d text" center  />
+```vue
+<Text3D :font="fontPath" :text="my 3d text" center />
 ```

@@ -2,9 +2,11 @@ import 'uno.css'
 // .vitepress/theme/index.ts
 import DefaultTheme from 'vitepress/theme'
 import './config.css'
-import EmbedExperiment from './components/EmbedExperiment.vue'
+import FirstScene from './components/FirstScene.vue'
 
 import StackBlitzEmbed from './components/StackBlitzEmbed.vue'
+import EmbedExperiment from './components/EmbedExperiment.vue'
+
 import TresLayout from './TresLayout.vue'
 
 export default {
@@ -12,6 +14,7 @@ export default {
 
   enhanceApp(ctx) {
     DefaultTheme.enhanceApp(ctx)
+    ctx.app.component('FirstScene', FirstScene)
     ctx.app.component('StackBlitzEmbed', StackBlitzEmbed)
     ctx.app.component('EmbedExperiment', EmbedExperiment)
   },
