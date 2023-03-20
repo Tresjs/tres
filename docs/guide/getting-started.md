@@ -1,4 +1,4 @@
-# Instalation
+# Installation
 
 Learn how to install TresJS
 
@@ -36,6 +36,25 @@ app.use(Tres)
 app.mount('#app')
 ```
 
+Or you can use it directly in your component
+
+```vue
+<script setup lang="ts">
+import { TresCanvas } from '@tresjs/core'
+</script>
+<template>
+  <TresCanvas>
+    <!-- Your scene here -->
+  </TresCanvas>
+</template>
+```
+
+::: tip
+This is recommended for performance and bundle size reasons, Three-shaking will work better and you will only import the components that you use.
+:::
+
 ### Nuxt
 
-Soon.
+Nuxt official module `@tresjs/nuxt` is comming soon, planned for the Q2 of 2023 ;)
+
+![Roadmap](/nuxt-roadmap.png)
