@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Color, sRGBEncoding } from 'three'
 
-/* import { OrbitControls, useTweakPane, useGLTF, useAnimations } from '../../../cientos/src/' */
+/* import { OrbitControls, useTweakPane, useGLTF, useAnimations } from '@tresjs/cientos/' */
 import { OrbitControls, useTweakPane, useGLTF, useAnimations } from '@tresjs/cientos'
 
 const bgColor = new Color('#F78B3D')

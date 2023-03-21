@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useTweakPane, useGLTF } from '@tresjs/cientos'
-import { inject, ref, watch, watchEffect } from 'vue'
+import { inject, ref, watch } from 'vue'
 
 useTweakPane()
 

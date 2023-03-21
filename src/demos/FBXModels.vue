@@ -2,7 +2,7 @@
 import { ref, watch } from 'vue'
 import { Color, sRGBEncoding } from 'three'
 import { TresCanvas } from '../components/TresCanvas'
-import { OrbitControls, useTweakPane, FBXModel, useFBX } from '../../../cientos/src/'
+import { OrbitControls, useTweakPane, FBXModel, useFBX } from '@tresjs/cientos/'
 
 const bgColor = new Color('#F78B3D')
 useTweakPane()

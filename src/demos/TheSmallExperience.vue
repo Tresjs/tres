@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { OrbitControls } from '../../../cientos/src/'
+import { OrbitControls } from '@tresjs/cientos/'
 </script>
 <template>
   <div class="container">

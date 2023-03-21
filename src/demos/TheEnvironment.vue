@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, shallowRef, watch } from 'vue'
-import { Environment, Box, PamCameraMouse } from '../../../cientos/src'
+import { Environment, Box, PamCameraMouse } from '@tresjs/cientos'
 import { TresCanvas } from '../core/useRenderer/component'
 /* import { OrbitControls, GLTFModel } from '@tresjs/cientos' */
 

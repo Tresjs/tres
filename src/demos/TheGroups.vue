@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useRenderLoop } from '/@/composables/useRenderLoop'
 import { ref } from 'vue'
-import { OrbitControls } from '../../../cientos/src/'
+import { OrbitControls } from '@tresjs/cientos/'
 
 const { onLoop } = useRenderLoop()
 

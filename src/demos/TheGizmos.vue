@@ -2,7 +2,7 @@
 import { shallowRef, shallowReactive } from 'vue'
 import { BasicShadowMap, sRGBEncoding, NoToneMapping } from 'three'
 import { TresCanvas } from '../components/TresCanvas'
-import { OrbitControls, useTweakPane, TransformControls } from '../../../cientos/src'
+import { OrbitControls, useTweakPane } from '@tresjs/cientos'
 
 const state = shallowReactive({
   clearColor: '#201919',
