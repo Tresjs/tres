@@ -1,7 +1,7 @@
 {
   "name": "@tresjs/cientos",
   "description": "Collection of useful helpers and fully functional, ready-made abstractions for Tres",
-  "version": "1.8.0",
+  "version": "2.0.0-alpha.1",
   "type": "module",
   "author": "Alvaro Saburido <hola@alvarosaburido.dev> (https://github.com/alvarosabu/)",
   "files": [
@@ -37,7 +37,7 @@
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s"
   },
   "peerDependencies": {
-    "@tresjs/core": "workspace:^2.0.0",
+    "@tresjs/core": "workspace:^2.0.0-alpha.1",
     "three": "latest",
     "vue": "^3.2.47"
   },
@@ -55,7 +55,7 @@
     "vite-plugin-dts": "2.0.0-beta.1"
   },
   "dependencies": {
-    "@tresjs/core": "workspace:^2.0.0",
+    "@tresjs/core": "workspace:^2.0.0-alpha.1",
     "three-stdlib": "^2.21.8"
   }
 }
