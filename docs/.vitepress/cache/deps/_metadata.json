@@ -1,0 +1,56 @@
+{
+  "hash": "47e3e192",
+  "browserHash": "5bed46ca",
+  "optimized": {
+    "vue": {
+      "src": "../../../../node_modules/.pnpm/vue@3.2.47/node_modules/vue/dist/vue.runtime.esm-bundler.js",
+      "file": "vue.js",
+      "fileHash": "6627cfbb",
+      "needsInterop": false
+    },
+    "@tresjs/core": {
+      "src": "../../../../node_modules/.pnpm/@tresjs+core@1.8.1_three@0.150.1/node_modules/@tresjs/core/dist/tres.js",
+      "file": "@tresjs_core.js",
+      "fileHash": "06eabe90",
+      "needsInterop": false
+    },
+    "@stackblitz/sdk": {
+      "src": "../../../../node_modules/.pnpm/@stackblitz+sdk@1.8.2/node_modules/@stackblitz/sdk/bundles/sdk.m.js",
+      "file": "@stackblitz_sdk.js",
+      "fileHash": "93a4f065",
+      "needsInterop": false
+    },
+    "three": {
+      "src": "../../../../node_modules/.pnpm/three@0.150.1/node_modules/three/build/three.module.js",
+      "file": "three.js",
+      "fileHash": "3c6d7785",
+      "needsInterop": false
+    },
+    "@tresjs/cientos": {
+      "src": "../../../../node_modules/.pnpm/@tresjs+cientos@1.8.0_three@0.150.1/node_modules/@tresjs/cientos/dist/trescientos.js",
+      "file": "@tresjs_cientos.js",
+      "fileHash": "724b42ef",
+      "needsInterop": false
+    },
+    "gsap": {
+      "src": "../../../../node_modules/.pnpm/gsap@3.11.5/node_modules/gsap/index.js",
+      "file": "gsap.js",
+      "fileHash": "20a20b53",
+      "needsInterop": false
+    }
+  },
+  "chunks": {
+    "chunk-W6CIMB7R": {
+      "file": "chunk-W6CIMB7R.js"
+    },
+    "chunk-LZPJ5JBW": {
+      "file": "chunk-LZPJ5JBW.js"
+    },
+    "chunk-4QXXOI63": {
+      "file": "chunk-4QXXOI63.js"
+    },
+    "chunk-JC4IRQUL": {
+      "file": "chunk-JC4IRQUL.js"
+    }
+  }
+}

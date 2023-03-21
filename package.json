@@ -1,72 +1,97 @@
 {
-  "name": "tres",
+  "name": "@tresjs/core",
   "description": "Declarative ThreeJS using Vue Components",
-  "version": "1.0.0",
+  "version": "2.0.0-alpha.1",
+  "type": "module",
   "author": "Alvaro Saburido <hola@alvarosaburido.dev> (https://github.com/alvarosabu/)",
-  "engines": {
-    "node": ">=16.0.0"
-  },
-  "workspaces": [
-    "apps/**",
-    "packages/*"
+  "files": [
+    "dist"
   ],
-  "scripts": {
-    "preinstall": "npx only-allow pnpm",
-    "postinstall": "pnpm run build:ci",
-    "update-deps": "pnpm update -i -r --latest",
-    "build:ci": "pnpm run build:tres && pnpm run build:cientos",
-    "build:tres": "pnpm --filter @tresjs/core build",
-    "build:cientos": "pnpm --filter @tresjs/cientos build",
-    "build:all": "pnpm run build",
-    "test": "pnpm run test:tres",
-    "test:tres": "pnpm --filter @tresjs/core test:ci",
-    "docs:dev": "vitepress dev docs",
-    "docs:build": "vitepress build docs",
-    "docs:serve": "vitepress serve docs",
-    "ci:version": "pnpm changelog && pnpm changeset version && pnpm install --no-frozen-lockfile --shamefully-hoist && git add .",
-    "ci:publish": "pnpm build:ci && git status && pnpm publish:pkgs && pnpm changeset tag",
-    "changeset": "changeset",
-    "publish:pkgs": "pnpm run publish:tres && pnpm publish:cientos",
-    "publish:tres": "pnpm publish --filter @tresjs/core",
-    "publish:cientos": "pnpm publish --filter @tresjs/cientos",
-    "changeset-publish": "changeset publish",
-    "changeset-tag": "changeset tag",
-    "changelog": "pnpm run changelog:tres && pnpm run changelog:cientos",
-    "changelog:tres": "echo 'generate @tresjs/core changelog' && conventional-changelog -p angular -i ./packages/tres/CHANGELOG.md -s  --commit-path ./packages/tres && git add ./packages/tres/CHANGELOG.md",
-    "changelog:cientos": "echo 'generate @tresjs/cientos changelog' && conventional-changelog -p angular -i ./packages/cientos/CHANGELOG.md -s  --commit-path ./packages/cientos && git add ./packages/cientos/CHANGELOG.md",
-    "lint": "pnpm run lint:tres && pnpm run lint:cientos",
-    "lint:tres": "pnpm --filter @tresjs/core lint",
-    "lint:cientos": "pnpm --filter @tresjs/cientos lint",
-    "clean": "pnpm -r exec rm -rf node_modules"
+  "license": "MIT",
+  "main": "./dist/tres.umd.cjs",
+  "module": "./dist/tres.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/tres.js",
+      "require": "./dist/tres.umd.cjs"
+    },
+    "./types": {
+      "require": "./dist/index.d.ts",
+      "import": "./dist/index.d.ts"
+    },
+    "./components": {
+      "types": "./dist/types/tres-components.d.ts"
+    },
+    "./styles": "./dist/style.css",
+    "./*": "./dist/tres.js"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "keywords": [
     "vue",
+    "3d",
     "threejs",
-    "declarative",
-    "composables"
+    "three",
+    "threejs-vue"
   ],
-  "license": "MIT",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "vitest",
+    "test:ci": "vitest run",
+    "test:ui": "vitest --ui",
+    "coverage": "vitest run --coverage",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx,.vue",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:serve": "vitepress serve docs"
+  },
+  "peerDependencies": {
+    "three": "latest",
+    "vue": "^3.2.47"
+  },
+  "dependencies": {
+    "@alvarosabu/utils": "^2.3.0",
+    "@vueuse/core": "^9.13.0"
+  },
   "devDependencies": {
     "@alvarosabu/prettier-config": "^1.2.0",
-    "@changesets/changelog-github": "^0.4.7",
-    "@changesets/cli": "^2.25.2",
     "@stackblitz/sdk": "^1.8.1",
-    "@tresjs/cientos": "workspace:^2.0.0-alpha.1",
-    "@tresjs/core": "workspace:2.0.0-alpha.1",
+    "@tresjs/cientos": "^1.8.0",
+    "@types/three": "latest",
     "@typescript-eslint/eslint-plugin": "^5.42.0",
     "@typescript-eslint/parser": "^5.42.0",
-    "conventional-changelog-cli": "^2.2.2",
+    "@vitejs/plugin-vue": "^4.0.0",
+    "@vitest/coverage-c8": "^0.29.2",
+    "@vitest/ui": "^0.29.2",
+    "@vue/test-utils": "^2.3.1",
     "eslint": "^8.26.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-vue": "^9.7.0",
-    "prettier": "^2.7.1",
+    "gsap": "^3.11.4",
+    "happy-dom": "^8.7.1",
+    "jsdom": "^21.1.0",
+    "kolorist": "^1.7.0",
+    "pathe": "^1.1.0",
+    "prettier": "^2.8.6",
+    "rollup-plugin-analyzer": "^4.0.0",
+    "rollup-plugin-copy": "^3.4.0",
+    "rollup-plugin-visualizer": "^5.9.0",
+    "three": "latest",
     "unocss": "^0.48.0",
+    "unplugin": "^1.3.1",
+    "vite": "^4.1.4",
+    "vite-plugin-banner": "^0.7.0",
+    "vite-plugin-dts": "2.1.0",
+    "vite-plugin-glsl": "^1.1.2",
+    "vite-plugin-inspect": "^0.7.16",
+    "vite-plugin-require-transform": "^1.0.9",
     "vite-svg-loader": "^4.0.0",
     "vitepress": "1.0.0-alpha.38",
-    "vue": "^3.2.45",
-    "vue-eslint-parser": "^9.1.0"
-  },
-  "dependencies": {
-    "gsap": "^3.11.4"
+    "vitest": "^0.29.2",
+    "vue-demi": "^0.13.11"
   }
 }
