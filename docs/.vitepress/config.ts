@@ -1,8 +1,7 @@
 import Unocss from 'unocss/vite'
 import svgLoader from 'vite-svg-loader'
 import { defineConfig } from 'vitepress'
-import { version } from '../../packages/tres/package.json'
-import { version as cientosVersion } from '../../packages/cientos/package.json'
+import { resolve } from 'pathe'
 
 export default defineConfig({
   title: 'TresJS',
@@ -154,5 +153,10 @@ export default defineConfig({
   },
   vite: {
     plugins: [svgLoader(), Unocss()],
+    resolve: {
+      alias: {
+        '/@': resolve(__dirname, '../../src'),
+      }
+    }
   },
 })
