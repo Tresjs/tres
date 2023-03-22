@@ -127,17 +127,19 @@ Then you can bind the textures to the material.
 
 ```vue
 <template>
-  <TresMesh>
-    <TresMeshSphereGeometry />
-    <TresMeshStandardMaterial
-      :map="map"
-      :displacementMap="displacementMap"
-      :normalMap="normalMap"
-      :roughnessMap="roughnessMap"
-      :metalnessMap="metalnessMap"
-      :aoMap="aoMap"
-    />
-  </TresMesh>
+  <TresCanvas>
+    <TresMesh>
+      <TresMeshSphereGeometry />
+      <TresMeshStandardMaterial
+        :map="map"
+        :displacementMap="displacementMap"
+        :normalMap="normalMap"
+        :roughnessMap="roughnessMap"
+        :metalnessMap="metalnessMap"
+        :aoMap="aoMap"
+      />
+    </TresMesh>
+  </TresCanvas>
 </template>
 ```
 
@@ -163,14 +165,12 @@ Then you can use the new component in your template. Notice that the new compone
 ```vue
 <template>
   <TresCanvas shadows alpha>
-    <TresScene>
-      <TresOrbitControls v-if="state.renderer" :args="[state.camera, state.renderer?.domElement]" />
-    </TresScene>
+    <TresOrbitControls v-if="state.renderer" :args="[state.camera, state.renderer?.domElement]" />
   </TresCanvas>
 </template>
 ```
 
-## useTres <Badge type="warning" text="^1.7.0" />
+## useTres
 
 This composable aims to provide access to the state model which contains the default renderer, camera, scene, and other useful properties.
 

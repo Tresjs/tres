@@ -2,21 +2,19 @@
 
 The `GLTFModel` component is a wrapper around [`useGLTF`](./use-gltf.md) composable and accepts the same options as props.
 
-```vue{2,10}
+```vue{2,9}
 <script setup lang="ts">
 import { OrbitControls, GLTFModel } from '@tresjs/cientos'
 </script>
 <template>
-  <Suspense>
     <TresCanvas clear-color="#82DBC5" shadows alpha>
       <TresPerspectiveCamera :position="[11, 11, 11]" />
       <OrbitControls />
-      <TresScene>
+      <Suspense>
         <GLTFModel path="/models/AkuAku.gltf" draco />
-        <TresDirectionalLight :position="[-4, 8, 4]" :intensity="1.5" cast-shadow />
-      </TresScene>
+      </Suspense>
+      <TresDirectionalLight :position="[-4, 8, 4]" :intensity="1.5" cast-shadow />
     </TresCanvas>
-  </Suspense>
 </template>
 ```
 

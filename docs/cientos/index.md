@@ -1,8 +1,4 @@
-<script setup>
-    import cientos from '../../packages/cientos/package.json'
-</script>
-
-# Cientos <Badge :text="`v${cientos.version}`" type="warning" vertical="middle" />
+# Cientos 
 
 ![Cientos banner](/cientos-banner.png)
 
@@ -34,7 +30,6 @@ Now you can use the `OrbitControls` component in your scene.
 <template>
   <TresCanvas shadows alpha>
     <OrbitControls />
-    <TresScene> ... </TresScene>
   </TresCanvas>
 </template>
 ```

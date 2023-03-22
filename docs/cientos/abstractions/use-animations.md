@@ -1,4 +1,4 @@
-# useAnimations <Badge type="warning" text="^1.5.0" />
+# useAnimations
 
 `useAnimation` is a composable that returns a `shallowReactive` with all the models actions based on the animations provided. It is a wrapper around the [AnimationMixer](https://threejs.org/docs/#api/en/animation/AnimationMixer) class.
 
