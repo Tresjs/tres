@@ -54,8 +54,9 @@ export const TresCanvas = defineComponent<TresCanvasProps>({
     const canvas = ref<HTMLCanvasElement>()
     const scene = new THREE.Scene()
 
-    watch(canvas, () => {
+    function initRenderer() {
       const { renderer } = useRenderer(canvas, container, props)
+
       const { activeCamera } = useCamera()
 
       const { onLoop } = useRenderLoop()
@@ -68,16 +69,31 @@ export const TresCanvas = defineComponent<TresCanvasProps>({
         raycaster.value.setFromCamera(pointer.value, activeCamera.value)
         renderer.value?.render(scene, activeCamera.value)
       })
-    })
+    }
 
-    const app = createTres(slots)
-    app.provide('useTres', useTres())
-    app.provide('extend', extend)
-    app.mount(scene as unknown as TresObject)
+    watch(canvas, initRenderer)
+
+    let app
+
+    function mountApp() {
+      app = createTres(slots)
+      app.provide('useTres', useTres())
+      app.provide('extend', extend)
+      app.mount(scene as unknown as TresObject)
+    }
+
+    mountApp()
     expose({
       scene,
     })
 
+    if (import.meta.hot) {
+      import.meta.hot.on('vite:afterUpdate', () => {
+        scene.children = []
+        app.unmount()
+        mountApp()
+      })
+    }
     return () => {
       return h(
         h(

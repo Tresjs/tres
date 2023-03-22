@@ -195,7 +195,7 @@ export function useRenderer(canvas: MaybeElementRef, container: MaybeElementRef,
   const init = () => {
     const _canvas = unrefElement(canvas)
 
-    if (renderer.value || !_canvas) {
+    if (!_canvas) {
       return
     }
 
