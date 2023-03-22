@@ -43,6 +43,7 @@
     "test": "vitest",
     "test:ci": "vitest run",
     "test:ui": "vitest --ui",
+    "release": "release-it",
     "coverage": "vitest run --coverage",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx,.vue",
     "docs:dev": "vitepress dev docs",
@@ -59,6 +60,7 @@
   },
   "devDependencies": {
     "@alvarosabu/prettier-config": "^1.2.0",
+    "@release-it/conventional-changelog": "^5.1.1",
     "@stackblitz/sdk": "^1.8.1",
     "@tresjs/cientos": "^1.8.0",
     "@types/three": "latest",
@@ -77,6 +79,7 @@
     "kolorist": "^1.7.0",
     "pathe": "^1.1.0",
     "prettier": "^2.8.6",
+    "release-it": "^15.9.1",
     "rollup-plugin-analyzer": "^4.0.0",
     "rollup-plugin-copy": "^3.4.0",
     "rollup-plugin-visualizer": "^5.9.0",
