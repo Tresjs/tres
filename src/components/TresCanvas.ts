@@ -54,6 +54,10 @@ export const TresCanvas = defineComponent<TresCanvasProps>({
     const canvas = ref<HTMLCanvasElement>()
     const scene = new THREE.Scene()
 
+    const { setState } = useTres()
+
+    setState('scene', scene)
+
     function initRenderer() {
       const { renderer } = useRenderer(canvas, container, props)
 
