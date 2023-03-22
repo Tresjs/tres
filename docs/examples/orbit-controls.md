@@ -36,9 +36,7 @@ Now you can use the `TresOrbitControls` component in your scene.
 ```vue
 <template>
   <TresCanvas shadows alpha>
-    <TresScene>
-      <TresOrbitControls v-if="state.renderer" :args="[state.camera, state.renderer?.domElement]" />
-    </TresScene>
+    <TresOrbitControls v-if="state.renderer" :args="[state.camera, state.renderer?.domElement]" />
   </TresCanvas>
 </template>
 ```
@@ -67,10 +65,7 @@ const { state } = useThree()
 </script>
 <template>
   <TresCanvas shadows alpha>
-    <TresScene>
-      <TresOrbitControls v-if="state.renderer" :args="[state.camera, state.renderer?.domElement]" />
-      ...
-    </TresScene>
+    <TresOrbitControls v-if="state.renderer" :args="[state.camera, state.renderer?.domElement]" />
   </TresCanvas>
 </template>
 ```
@@ -87,7 +82,6 @@ It just works. 💯
 <template>
   <TresCanvas shadows alpha>
     <OrbitControls />
-    <TresScene> ... </TresScene>
   </TresCanvas>
 </template>
 ```

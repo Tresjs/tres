@@ -2,13 +2,11 @@
 
 The `Renderer` component is the main component of Tres. It's the one that creates the ThreeJS `WebGLRenderer` and define your Tres Scene.
 
-```vue{2,7}
+```vue{2,5}
 <template>
   <TresCanvas shadows :output-encoding="sRGBEncoding">
     <TresPerspectiveCamera />
-    <TresScene>
       <!-- Your scene goes here -->
-    </TresScene>
   </TresCanvas>
 </template>
 ```
@@ -42,7 +40,7 @@ body {
 }
 ```
 
-## Presets <Badge warning text="v1.7.0+" />
+## Presets
 
 Tres comes with a few presets for the `Renderer` component. You can use them by setting the `preset` prop.
 

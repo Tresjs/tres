@@ -12,11 +12,9 @@ You only need import it and use it `<PamCameraMouse />` additionally you can pas
 <template>
   <TresCanvas>
     <PamCameraMouse />
-    <TresScene>
-      <Text3D text="TresJS" font="/fonts/FiraCodeRegular.json">
-        <TresMeshNormalMaterial />
-      </Text3D>
-    </TresScene>
+    <Text3D text="TresJS" font="/fonts/FiraCodeRegular.json">
+      <TresMeshNormalMaterial />
+    </Text3D>
   </TresCanvas>
 </template>
 ```

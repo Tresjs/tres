@@ -29,14 +29,17 @@ To improve the performance, we will use a [Shallow Ref](https://v3.vuejs.org/gui
 
 ```vue
 <script setup lang="ts">
+import { TresCanvas } from '@tresjs/core'
 const boxRef: ShallowRef<TresInstance | null> = shallowRef(null)
 </script>
 
 <template>
-  <TresMesh ref="boxRef" :scale="1" cast-shadow>
-    <TresBoxGeometry :args="[1, 1, 1]" />
-    <TresMeshStandardMaterial v-bind="pbrTexture" />
-  </TresMesh>
+  <TresCanvas>
+    <TresMesh ref="boxRef" :scale="1" cast-shadow>
+      <TresBoxGeometry :args="[1, 1, 1]" />
+      <TresMeshStandardMaterial v-bind="pbrTexture" />
+    </TresMesh>
+  </TresCanvas>
 </template>
 ```
 
@@ -54,3 +57,30 @@ onLoop(({ _delta, elapsed }) => {
 ```
 
 You can also use the `delta` from the internal [THREE clock](https://threejs.org/docs/?q=clock#api/en/core/Clock) or the `elapsed` to animate the cube.
+
+## But why not using reactivity?
+
+You might be wondering why we are not using reactivity to animate the cube. The answer is simple, performance.
+
+```vue
+// This is a bad idea ❌
+<script setup lang="ts">
+import { TresCanvas } from '@tresjs/core'
+
+const boxRotation = reactive([0, 0, 0])
+
+onLoop(({ _delta, elapsed }) => {
+  boxRotation[1] += 0.01
+  boxRotation[2] = elapsed * 0.2
+})
+</script>
+```
+
+We can be tempted to use reactivity to animate the cube. But it would be a bad idea.
+The reason is that [Vue's reactivity is based on Proxies](https://vuejs.org/guide/extras/reactivity-in-depth.html#how-reactivity-works-in-vue) and it's not designed to be used in a render loop that updates 60 or more times per second.
+
+The embedded page below shows the [benchmark of a proxy vs a regular object](https://measurethat.net/Benchmarks/Show/12503/0/object-vs-proxy-vs-proxy-setter). As you can see, the proxy is 5 times slower than the regular object.
+
+<EmbedExperiment src="https://measurethat.net/Embed?id=399142" />
+
+You can read more about this in the [Caveats](../advanced/caveats.md#reactivity) section.

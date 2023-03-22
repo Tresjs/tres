@@ -1,4 +1,4 @@
-# Environment <Badge type="warning" text="^1.7.0" />
+# Environment
 
 ![Environment](/cientos/environment.png)
 

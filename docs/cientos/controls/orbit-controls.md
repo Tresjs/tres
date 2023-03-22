@@ -14,7 +14,7 @@ It just works. 💯
 <template>
   <TresCanvas shadows alpha>
     <OrbitControls />
-    <TresScene> ... </TresScene>
+
   </TresCanvas>
 </template>
 ```
