@@ -1,5 +1,5 @@
 import { TresObject } from '@tresjs/core';
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
 import { useGLTF } from '.'
 import { useCientos } from '../useCientos'
 
@@ -43,19 +43,19 @@ export const GLTFModel = defineComponent<GLTFModelProps>({
   async setup(props, { expose }) {
     const { state } = useCientos()
     
-    let model:TresObject
+    const model = ref<TresObject>()
 
-    function getModel() {
-      return model
-    }
-    expose({ getModel })
+    expose({model})
+ 
     const { scene } = await useGLTF(props.path as string, { draco: props.draco, decoderPath: props.decoderPath })
-    model = scene as unknown as TresObject
+
+    model.value = scene as unknown as TresObject
+
     if (state.scene) {
       state.scene.add(scene)
     }
     return () => {
-      model
+      scene
     }
   },
 })

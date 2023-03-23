@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { sRGBEncoding, BasicShadowMap, NoToneMapping } from 'three'
+import { sRGBEncoding, BasicShadowMap, NoToneMapping, Object3D } from 'three'
 import { reactive, ref, watchEffect } from 'vue'
-import { TresCanvas } from '@tresjs/core'
+import { TresCanvas, TresObject } from '@tresjs/core'
 import { GLTFModel, OrbitControls } from '@cientos'
 
 /* import { OrbitControls, GLTFModel } from '@tresjs/cientos' */
@@ -20,9 +20,9 @@ const venomSnake = ref(null)
 
 watchEffect(() => {
   if (venomSnake.value) {
-    const model = venomSnake.value.getModel()
+    const { model } : { model: Object3D} = venomSnake.value
     model.scale.set(0.02, 0.02, 0.02)
-    model.position.set(0, 4, 0)
+    model.position.set(0, 2, 0)
     model.traverse(child => {
       if (child.isMesh) {
         child.castShadow = true
