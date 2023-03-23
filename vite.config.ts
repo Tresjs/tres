@@ -23,7 +23,13 @@ export default defineConfig({
     dedupe: ['@tresjs/core'],
   },
   plugins: [
-    vue({}),
+    vue({
+      template: {
+        compilerOptions: {
+          isCustomElement: tag => tag.startsWith('Tres') && tag !== 'TresCanvas',
+        },
+      },
+    }),
     dts({
       insertTypesEntry: true,
     }),
