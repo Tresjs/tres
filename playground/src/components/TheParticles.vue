@@ -1,16 +1,15 @@
 <script setup lang="ts">
 import { reactive } from 'vue'
-import { OrbitControls } from '@tresjs/cientos/src'
-import { TresCanvas } from '../core/useRenderer/component'
+import { OrbitControls } from '@tresjs/cientos'
+import { TresCanvas, useRenderLoop } from '/@/'
 import { AdditiveBlending } from 'three'
-import { useRenderLoop } from '../core/useRenderLoop'
+
 /* import { OrbitControls, GLTFModel } from '@tresjs/cientos' */
 
-const state = reactive({
-  clearColor: 'teal',
+const gl = reactive({
+  clearColor: 'black',
   shadows: true,
   alpha: false,
-  physicallyCorrectLights: true,
 })
 
 const shader = {
@@ -52,7 +51,7 @@ const shader = {
   },
 }
 
-const firefliesCount = 30
+const firefliesCount = 3000
 const positionArray = new Float32Array(firefliesCount * 3)
 const scaleArray = new Float32Array(firefliesCount)
 
@@ -70,9 +69,8 @@ onLoop(({ elapsed }) => {
 })
 </script>
 <template>
-  <TresCanvas v-bind="state">
+  <TresCanvas v-bind="gl">
     <TresPerspectiveCamera :position="[5, 5, 5]" :fov="45" :near="0.1" :far="1000" :look-at="[-8, 3, -3]" />
-    <TresScene>
       <OrbitControls />
       <TresAmbientLight :intensity="0.5" />
       <TresPoints>
@@ -80,6 +78,5 @@ onLoop(({ elapsed }) => {
         <TresShaderMaterial v-bind="shader" />
       </TresPoints>
       <TresDirectionalLight :position="[0, 2, 4]" :intensity="1" cast-shadow />
-    </TresScene>
   </TresCanvas>
 </template>
