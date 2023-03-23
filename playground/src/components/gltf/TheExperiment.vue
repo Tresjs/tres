@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { sRGBEncoding, BasicShadowMap, NoToneMapping } from 'three'
-import { reactive } from 'vue'
-import { TresCanvas } from '@core'
+import { reactive, ref, watchEffect } from 'vue'
+import { TresCanvas } from '/@/'
 import { GLTFModel, OrbitControls } from '@tresjs/cientos'
 
 
@@ -15,7 +15,14 @@ const state = reactive({
   toneMapping: NoToneMapping,
 })
 
+const akuAkuRef = ref(null)
 
+watchEffect(() => {
+  if(akuAkuRef.value) {
+    const model = akuAkuRef.value.getModel().children[0]
+    console.log('akuAkuRef', model)
+  }
+})
 
 </script>
 <template>
@@ -25,7 +32,7 @@ const state = reactive({
     <TresAmbientLight :intensity="0.5" />
 
     <Suspense>
-        <GLTFModel path="https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/aku-aku/AkuAku.gltf" draco />
+        <GLTFModel ref="akuAkuRef" path="https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/aku-aku/AkuAku.gltf" draco />
       <!--   <AkuAku /> -->
     </Suspense>
     <TresAxesHelper />
