@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Object3D, type Event } from 'three'
 import { TransformControls as TransformControlsImp } from 'three-stdlib'
-import { computed, unref, watch, shallowRef, ShallowRef, onUnmounted } from 'vue'
+import { computed, unref, watch, shallowRef, ShallowRef, onUnmounted, watchEffect } from 'vue'
 import { pick, hasSetter } from '../utils'
 import { useCientos } from './useCientos'
 
@@ -46,6 +46,8 @@ const transformProps = computed(() =>
     'showZ',
   ]),
 )
+
+
 const onChange = () => emit('change', controls.value)
 const onMouseDown = () => emit('mouseDown', controls.value)
 const onMouseUp = () => emit('mouseUp', controls.value)
@@ -64,22 +66,14 @@ function addEventListeners(controls: TransformControlsImp) {
   controls.addEventListener('objectChange', onObjectChange)
 }
 
-watch(
-  () => props.object,
-  () => {
-    if (state.camera && state.renderer && state.scene && props.object) {
-      controls.value = new TransformControlsImp(state.camera, unref(state.renderer).domElement)
-
-      controls.value.attach(unref(props.object))
-      state.scene.add(unref(controls) as TransformControlsImp)
-
-      addEventListeners(unref(controls) as TransformControlsImp)
-    }
-  },
-  {
-    deep: true,
-  },
-)
+watchEffect(() => {
+  if (state.camera && state.renderer && state.scene && props.object) {
+    controls.value = new TransformControlsImp(state.camera, state.renderer.domElement)
+    controls.value.attach(props.object)
+    state.scene.add(controls.value)
+    addEventListeners(controls.value)
+  }
+})
 
 watch(
   [transformProps, controls],
@@ -102,6 +96,7 @@ watch(
     immediate: true,
   },
 )
+
 
 onUnmounted(() => {
   if (controls.value) {
