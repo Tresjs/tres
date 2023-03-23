@@ -1,4 +1,4 @@
-import { Mesh } from 'three'
+import { BufferAttribute, Mesh } from 'three'
 import { useCamera, useRaycaster, useRenderLoop, useLogger } from '/@/composables'
 import { RendererOptions } from 'vue'
 import { catalogue } from './catalogue'
@@ -129,6 +129,15 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
 
       if (!node.parent) {
         node.parent = scene as TresObject
+      }
+
+      if(root.type === 'BufferGeometry') {
+        const chain = key.split('-')
+        key = chain.pop() as string
+        root.setAttribute(
+          kebabToCamel(key), 
+          new BufferAttribute(...(nextValue as ConstructorParameters<typeof BufferAttribute>))
+        )
       }
 
       // Traverse pierced props (e.g. foo-bar=value => foo.bar = value)

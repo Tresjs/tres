@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import TheExperiment from './components/gltf/TheExperiment.vue'
+import TheParticles from './components/TheParticles.vue'
 </script>
 
 <template>
-  <TheExperiment />
+  <TheParticles />
 </template>
 
