@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import TheExperiment from '/@/components/gltf/TheExperiment.vue'
+import TheExperiment from '/@/components/TheGizmos.vue'
 </script>
 
 <template>
