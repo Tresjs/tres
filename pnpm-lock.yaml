@@ -8,7 +8,7 @@ importers:
       '@alvarosabu/utils': ^2.3.0
       '@release-it/conventional-changelog': ^5.1.1
       '@stackblitz/sdk': ^1.8.1
-      '@tresjs/cientos': ^1.8.0
+      '@tresjs/cientos': 2.0.0-alpha.1
       '@types/three': latest
       '@typescript-eslint/eslint-plugin': ^5.42.0
       '@typescript-eslint/parser': ^5.42.0
@@ -50,7 +50,7 @@ importers:
       '@alvarosabu/prettier-config': 1.3.0_prettier@2.8.6
       '@release-it/conventional-changelog': 5.1.1_release-it@15.9.1
       '@stackblitz/sdk': 1.8.2
-      '@tresjs/cientos': 1.8.0_three@0.150.1
+      '@tresjs/cientos': 2.0.0-alpha.1_three@0.150.1
       '@types/three': 0.149.0
       '@typescript-eslint/eslint-plugin': 5.56.0_cnkxirszkzb4o6ts7gbclno24e
       '@typescript-eslint/parser': 5.56.0_eslint@8.36.0
@@ -1126,28 +1126,30 @@ packages:
     engines: {node: '>= 10'}
     dev: true
 
-  /@tresjs/cientos/1.8.0_three@0.150.1:
-    resolution: {integrity: sha512-1LivG7N+aJK3iiFHiwuYCfjOPF9FVrQUQusgX1D2H9aJ2Cs73J/dDLw+5tsWo/Vr3lE9wCZROQFnbApI1YAmzQ==}
+  /@tresjs/cientos/2.0.0-alpha.1_three@0.150.1:
+    resolution: {integrity: sha512-X/zKOiQG4mUWvh2kb1+6THuGmc+cb6slvRi9WXMG+msEI0+7k2rolWV+cGOWvh0ip+hp4bU+X+/J4dI9MODIIA==}
     peerDependencies:
       three: latest
-      vue: ^3.2.47
     dependencies:
-      '@tresjs/core': 1.8.1_three@0.150.1
+      '@tresjs/core': 2.0.0-alpha.1_three@0.150.1+vue@3.2.47
+      '@vueuse/core': 9.13.0_vue@3.2.47
       three: 0.150.1
       three-stdlib: 2.21.8_three@0.150.1
+      vue: 3.2.47
     transitivePeerDependencies:
       - '@vue/composition-api'
     dev: true
 
-  /@tresjs/core/1.8.1_three@0.150.1:
-    resolution: {integrity: sha512-97ZQ+JWObRT7Mag5b0sPDLDqCgKLjfD+o/bqZ83ro/FCuL8yriebvGDcYcaCJZ0Y0fauL1pIOH1n3jDLPXL7iA==}
+  /@tresjs/core/2.0.0-alpha.1_three@0.150.1+vue@3.2.47:
+    resolution: {integrity: sha512-yxsVnhKmpzsvDzr35wLymHj42sK3DIN32RJHc4o2Ds1R8K6dOL/Qh7hs5QSG+Ebydi2oDSlmLp3Qv3lK+4qxHA==}
     peerDependencies:
       three: latest
       vue: ^3.2.47
     dependencies:
       '@alvarosabu/utils': 2.3.0
-      '@vueuse/core': 9.13.0
+      '@vueuse/core': 9.13.0_vue@3.2.47
       three: 0.150.1
+      vue: 3.2.47
     transitivePeerDependencies:
       - '@vue/composition-api'
     dev: true
@@ -1717,6 +1719,7 @@ packages:
     transitivePeerDependencies:
       - '@vue/composition-api'
       - vue
+    dev: false
 
   /@vueuse/core/9.13.0_vue@3.2.47:
     resolution: {integrity: sha512-pujnclbeHWxxPRqXWmdkKV5OX4Wk4YeK7wusHqRwU0Q7EFusHoqNA/aPhB6KCh9hEqJkLAJo7bb0Lh9b+OIVzw==}
@@ -1740,6 +1743,7 @@ packages:
     transitivePeerDependencies:
       - '@vue/composition-api'
       - vue
+    dev: false
 
   /@vueuse/shared/9.13.0_vue@3.2.47:
     resolution: {integrity: sha512-UrnhU+Cnufu4S6JLCPZnkWh0WwZGUp72ktOF2DFptMlOs3TOdVv8xJN53zhHGARmVOsz5KqOls09+J1NR6sBKw==}
