@@ -14,8 +14,7 @@ model.position.set(0, 4, 0)
 model.scale.set(0.01, 0.01, 0.01)
 model.updateMatrixWorld()
 
-watch(jeepRef, ({ getModel }) => {
-  const model = getModel()
+watch(jeepRef, ({ model }) => {
   model.scale.set(0.01, 0.01, 0.01)
   model.rotation.y = -Math.PI / 2
 })

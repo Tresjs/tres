@@ -1,4 +1,4 @@
-# Cientos 
+# Cientos <Badge text="alpha" type="warning" />
 
 ![Cientos banner](/cientos-banner.png)
 
@@ -15,7 +15,7 @@ This package is not required to use the core library, but they can make your DX 
 ## Installation
 
 ```bash
-npm install @tresjs/cientos -D
+npm install @tresjs/cientos@alpha -D
 ```
 
 ## Basic Usage

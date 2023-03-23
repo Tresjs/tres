@@ -28,9 +28,7 @@ import { OrbitControls, GLTFModel } from '@tresjs/cientos'
 
 const modelRef = shallowRef<THREE.Object3D>()
 
-watch(modelRef, ({getModel}) => {
-  const model = getModel()
-
+watch(modelRef, ({model}) => {
   model.traverse((child) => {
     if (child.isMesh) {
       child.castShadow = true

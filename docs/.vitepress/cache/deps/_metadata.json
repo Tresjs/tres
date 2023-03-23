@@ -1,56 +1,53 @@
 {
-  "hash": "e2635cb9",
-  "browserHash": "9b8b738b",
+  "hash": "ce72b907",
+  "browserHash": "3745f89c",
   "optimized": {
     "vue": {
       "src": "../../../../node_modules/.pnpm/vue@3.2.47/node_modules/vue/dist/vue.runtime.esm-bundler.js",
       "file": "vue.js",
-      "fileHash": "e840ff33",
+      "fileHash": "0a41b7ad",
       "needsInterop": false
     },
     "three": {
       "src": "../../../../node_modules/.pnpm/three@0.150.1/node_modules/three/build/three.module.js",
       "file": "three.js",
-      "fileHash": "d97d8e9e",
+      "fileHash": "51953890",
       "needsInterop": false
     },
     "@tresjs/cientos": {
-      "src": "../../../../node_modules/.pnpm/@tresjs+cientos@1.8.0_three@0.150.1/node_modules/@tresjs/cientos/dist/trescientos.js",
+      "src": "../../../../node_modules/.pnpm/@tresjs+cientos@2.0.0-alpha.1_three@0.150.1/node_modules/@tresjs/cientos/dist/trescientos.js",
       "file": "@tresjs_cientos.js",
-      "fileHash": "a8927eab",
+      "fileHash": "82b83a88",
       "needsInterop": false
     },
     "@stackblitz/sdk": {
       "src": "../../../../node_modules/.pnpm/@stackblitz+sdk@1.8.2/node_modules/@stackblitz/sdk/bundles/sdk.m.js",
       "file": "@stackblitz_sdk.js",
-      "fileHash": "cbec924c",
+      "fileHash": "aa68338f",
       "needsInterop": false
     },
     "gsap": {
       "src": "../../../../node_modules/.pnpm/gsap@3.11.5/node_modules/gsap/index.js",
       "file": "gsap.js",
-      "fileHash": "3004c5bf",
+      "fileHash": "e05a3b19",
       "needsInterop": false
     },
     "@alvarosabu/utils": {
       "src": "../../../../node_modules/.pnpm/@alvarosabu+utils@2.3.0/node_modules/@alvarosabu/utils/dist/as-utils.js",
       "file": "@alvarosabu_utils.js",
-      "fileHash": "5410d529",
+      "fileHash": "8b7c8609",
       "needsInterop": false
     },
     "@vueuse/core": {
       "src": "../../../../node_modules/.pnpm/@vueuse+core@9.13.0/node_modules/@vueuse/core/index.mjs",
       "file": "@vueuse_core.js",
-      "fileHash": "e9740465",
+      "fileHash": "cf062886",
       "needsInterop": false
     }
   },
   "chunks": {
     "chunk-4QXXOI63": {
       "file": "chunk-4QXXOI63.js"
-    },
-    "chunk-FNDP46OK": {
-      "file": "chunk-FNDP46OK.js"
     },
     "chunk-LZPJ5JBW": {
       "file": "chunk-LZPJ5JBW.js"
