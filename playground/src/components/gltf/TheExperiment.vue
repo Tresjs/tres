@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { sRGBEncoding, BasicShadowMap, NoToneMapping } from 'three'
-import { reactive } from 'vue'
+import { reactive, ref, watchEffect } from 'vue'
 import { TresCanvas } from '@tresjs/core'
 import { GLTFModel, OrbitControls } from '@cientos'
 
@@ -16,7 +16,21 @@ const state = reactive({
   toneMapping: NoToneMapping,
 })
 
+const venomSnake = ref(null)
 
+watchEffect(() => {
+  if (venomSnake.value) {
+    const model = venomSnake.value.getModel()
+    model.scale.set(0.02, 0.02, 0.02)
+    model.position.set(0, 4, 0)
+    model.traverse(child => {
+      if (child.isMesh) {
+        child.castShadow = true
+        child.receiveShadow = true
+      }
+    })
+  }
+})
 
 </script>
 <template>
@@ -26,8 +40,12 @@ const state = reactive({
     <TresAmbientLight :intensity="0.5" />
 
     <Suspense>
-        <GLTFModel path="https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/aku-aku/AkuAku.gltf" draco />
-      <!--   <AkuAku /> -->
+      <GLTFModel
+        ref="venomSnake"
+        path="https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/venom-snake-sculpt/scene.gltf"
+        draco
+      />
+
     </Suspense>
     <TresAxesHelper />
     <TresDirectionalLight :position="[0, 2, 4]" :intensity="1" cast-shadow />
