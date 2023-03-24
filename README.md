@@ -22,6 +22,36 @@ The cientos package uses three-stdlib module under the hood instead of the three
 
 It just works. 💯
 
+## Installation
+
+```bash
+pnpm i @tresjs/cientos
+```
+
+## Contributing
+
+We are open to contributions, please read the [contributing guide](/CONTRIBUTING.md) to get started.
+
+### Build
+
+To build the package run:
+
+```bash
+pnpm run build
+```
+
+### Playground
+
+To run the playground run, its a great way to test the components and helpers:
+
+```bash
+pnpm run playground
+```
+
+### Test
+
+TODO...
+
 
 ## Docs
 
@@ -30,10 +60,6 @@ Checkout the [docs](https://tresjs.org/cientos/)
 ## Demos
 
 - [Stackblitz Collection](https://stackblitz.com/@alvarosabu/collections/tresjs)
-
-## Contribution
-
-We are open to contributions, please read the [contributing guide](/CONTRIBUTING.md) to get started.
 
 ## License
 

@@ -36,7 +36,6 @@
     "preview": "vite preview",
     "release": "release-it",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx,.vue",
-    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s"
   },
   "peerDependencies": {
     "@tresjs/core": "2.0.0-alpha.1",
