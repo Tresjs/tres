@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { sRGBEncoding, BasicShadowMap, NoToneMapping } from 'three'
-import { reactive } from 'vue'
 
 import { OrbitControls } from '@tresjs/cientos'
 // import { useRenderLoop } from '..'

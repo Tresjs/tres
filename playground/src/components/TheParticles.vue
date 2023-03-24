@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { reactive } from 'vue'
 import { OrbitControls } from '@tresjs/cientos'
 import { TresCanvas, useRenderLoop } from '/@/'
 import { AdditiveBlending } from 'three'

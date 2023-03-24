@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue'
 import { Color, sRGBEncoding } from 'three'
-import { TresCanvas } from '../components/TresCanvas'
+import { TresCanvas } from '/@/'
 import { OrbitControls, useTweakPane, FBXModel, useFBX } from '@tresjs/cientos/'
 
 const bgColor = new Color('#F78B3D')

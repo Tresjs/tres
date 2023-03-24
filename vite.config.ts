@@ -1,21 +1,22 @@
-import fs from 'fs'
 /// <reference types="vitest" />
+import fs from 'fs'
 
 import { defineConfig } from 'vite'
 
 import vue from '@vitejs/plugin-vue'
 import banner from 'vite-plugin-banner'
 import Inspect from 'vite-plugin-inspect'
-
 import dts from 'vite-plugin-dts'
-import { ViteTresPlugin } from './plugins/vite-tres-types-plugin'
+
+
 import copy from 'rollup-plugin-copy'
 
-import analyze from 'rollup-plugin-analyzer'
-/* import { visualizer } from 'rollup-plugin-visualizer' */
+/* import analyze from 'rollup-plugin-analyzer'
+ *//* import { visualizer } from 'rollup-plugin-visualizer' */
 import { resolve, join } from 'pathe'
 
 import { lightGreen, yellow, gray, bold } from 'kolorist'
+import { ViteTresPlugin } from './plugins/vite-tres-types-plugin'
 
 import pkg from './package.json'
 
@@ -44,7 +45,7 @@ export default defineConfig({
     dts({
       insertTypesEntry: true,
       afterBuild() {
-        console.log('DTS generated')
+        console.log('🪄 ✨ Magically generating types for TresJS')
         const outputDir = join(__dirname, 'dist/types')
         const outputFile = join(outputDir, 'index.d.ts')
         if (fs.existsSync(outputFile)) {

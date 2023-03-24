@@ -1,7 +1,6 @@
 <!-- eslint-disable max-len -->
 <script setup lang="ts">
-import { Ref, ref } from 'vue'
-import { useRenderLoop, useTexture } from '/@/composables/'
+import { useRenderLoop, useTexture } from '/@/'
 import { TresInstance } from '../types'
 
 const sphereRef: Ref<TresInstance | null> = ref(null)

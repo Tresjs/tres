@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { shallowRef, shallowReactive } from 'vue'
 import { BasicShadowMap, sRGBEncoding, NoToneMapping } from 'three'
-import { TresCanvas } from '../components/TresCanvas'
+import { TresCanvas } from '/@/'
 import { OrbitControls, useTweakPane } from '@tresjs/cientos'
 
 const state = shallowReactive({

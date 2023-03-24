@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { BasicShadowMap, CubicBezierCurve3, DoubleSide, NoToneMapping, sRGBEncoding, Vector3 } from 'three'
-import { reactive, shallowRef, watch } from 'vue'
-import { TresCanvas } from '/@/components/TresCanvas'
+import { TresCanvas } from '/@/'
 import {
   Plane,
   Tube,
