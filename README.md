@@ -42,7 +42,7 @@ pnpm run build
 
 ### Playground
 
-To run the playground run, its a great way to test the components and helpers:
+To run the playground run, its a great way to test the components and helpers locally:
 
 ```bash
 pnpm run playground
