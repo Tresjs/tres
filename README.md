@@ -42,7 +42,16 @@ pnpm run build
 
 ### Playground
 
+
 To run the playground run, its a great way to test the components and helpers locally:
+
+First install dependencies
+
+```
+pnpm i
+```
+
+And then to run the development server on http://localhost:5173
 
 ```bash
 pnpm run playground

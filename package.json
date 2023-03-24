@@ -35,7 +35,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "release": "release-it",
-    "lint": "eslint . --ext .js,.jsx,.ts,.tsx,.vue",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx,.vue"
   },
   "peerDependencies": {
     "@tresjs/core": "2.0.0-alpha.1",
