@@ -13,42 +13,42 @@ export default defineConfig({
         text: 'Guide',
         items: [
           // This shows `/guide/index.md` page.
-          { text: 'Introduction', link: '/guide/' },
-          { text: 'Getting Started', link: '/guide/getting-started' },
-          { text: 'Your first Scene', link: '/guide/your-first-scene' },
+          { text: 'Introduction', link: 'es/guide/' },
+          { text: 'Getting Started', link: 'es/guide/getting-started' },
+          { text: 'Your first Scene', link: 'es/guide/your-first-scene' },
         ],
       },
       {
         text: 'API',
         items: [
-          { text: 'Renderer', link: '/api/renderer' },
+          { text: 'Renderer', link: 'es/api/renderer' },
           {
             text: 'Instances, arguments and props',
-            link: '/api/instances-arguments-and-props',
+            link: 'es/api/instances-arguments-and-props',
           },
           {
             text: 'Composables',
-            link: '/api/composables',
+            link: 'es/api/composables',
           },
         ],
       },
       {
         text: 'Examples',
         items: [
-          { text: 'Orbit Controls', link: '/examples/orbit-controls' },
-          { text: 'Basic Animations', link: '/examples/basic-animations' },
-          { text: 'Load Textures', link: '/examples/load-textures' },
-          { text: 'Load Models', link: '/examples/load-models' },
+          { text: 'Orbit Controls', link: 'es/examples/orbit-controls' },
+          { text: 'Basic Animations', link: 'es/examples/basic-animations' },
+          { text: 'Load Textures', link: 'es/examples/load-textures' },
+          { text: 'Load Models', link: 'es/examples/load-models' },
         ],
       },
       {
         text: 'Advanced',
 
         items: [
-          { text: 'Extending', link: '/advanced/extending' },
+          { text: 'Extending', link: 'es/advanced/extending' },
           {
             text: 'Caveats',
-            link: '/advanced/caveats',
+            link: 'es/advanced/caveats',
           },
         ],
       },
@@ -56,22 +56,22 @@ export default defineConfig({
         text: 'Cientos',
         collapsible: true,
         items: [
-          { text: 'Introduction', link: '/cientos/' },
+          { text: 'Introduction', link: 'es/cientos/' },
           {
             text: 'Composables',
-            link: '/cientos/composables',
+            link: 'es/cientos/composables',
           },
           {
             text: 'Abstractions',
-            items: [{ text: 'Text3D', link: '/cientos/abstractions/text-3d' }],
+            items: [{ text: 'Text3D', link: 'es/cientos/abstractions/text-3d' }],
           },
         ],
       },
     ],
     nav: [
-      { text: 'Guide', link: '/guide/' },
-      { text: 'API', link: '/api/' },
-      { text: 'Config', link: '/config/' },
+      { text: 'Guide', link: 'es/guide/' },
+      { text: 'API', link: 'es/api/' },
+      { text: 'Config', link: 'es/config/' },
       {
         text: 'Ecosystem',
         activeMatch: `^/ecosystem/`,
