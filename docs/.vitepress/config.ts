@@ -35,10 +35,11 @@ export default defineConfig({
       {
         text: 'Examples',
         items: [
-          { text: 'Orbit Controls', link: 'es/examples/orbit-controls' },
-          { text: 'Basic Animations', link: 'es/examples/basic-animations' },
-          { text: 'Load Textures', link: 'es/examples/load-textures' },
-          { text: 'Load Models', link: 'es/examples/load-models' },
+          { text: 'Orbit Controls', link: '/examples/orbit-controls' },
+          { text: 'Basic Animations', link: '/examples/basic-animations' },
+          { text: 'Load Textures', link: '/examples/load-textures' },
+          { text: 'Load Models', link: '/examples/load-models' },
+          { text: 'Load Text', link: '/examples/text-3d' },
         ],
       },
       {
@@ -53,17 +54,28 @@ export default defineConfig({
         ],
       },
       {
-        text: 'Cientos',
+        text: 'Cientos ⚡️',
         collapsible: true,
         items: [
           { text: 'Introduction', link: 'es/cientos/' },
           {
-            text: 'Composables',
-            link: 'es/cientos/composables',
-          },
-          {
             text: 'Abstractions',
             items: [{ text: 'Text3D', link: 'es/cientos/abstractions/text-3d' }],
+          },
+          {
+            text: 'Controls',
+            items: [{ text: 'OrbitControls', link: '/cientos/controls/orbit-controls' }],
+          },
+          {
+            text: 'Loaders',
+            items: [
+              { text: 'useGLTF', link: '/cientos/loaders/use-gltf' },
+              { text: 'GLTFModel', link: '/cientos/loaders/gltf-model' },
+            ],
+          },
+          {
+            text: 'Misc',
+            items: [{ text: 'useTweakpane', link: '/cientos/misc/use-tweakpane' }],
           },
         ],
       },

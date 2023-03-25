@@ -144,8 +144,8 @@ import {
   withKeys,
   withMemo,
   withModifiers,
-  withScopeId
-} from "./chunk-LZPJ5JBW.js";
+  withScopeId,
+} from './chunk-LZPJ5JBW.js'
 export {
   BaseTransition,
   Comment,
@@ -292,6 +292,6 @@ export {
   withKeys,
   withMemo,
   withModifiers,
-  withScopeId
-};
+  withScopeId,
+}
 //# sourceMappingURL=vue.js.map

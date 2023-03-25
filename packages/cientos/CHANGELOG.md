@@ -1,3 +1,26 @@
+# 1.2.2 (2022-12-19)
+
+### Bug Fixes
+
+- forcing a release with correct bundle versions ([a211e75](https://github.com/Tresjs/tres/commit/a211e758e16bab34d9afaad8496585e1c5b7de3e))
+
+# 1.2.1 (2022-12-19)
+
+### Bug Fixes
+
+- **cientos:** draco encoding and decoderPath ([c9bd7ad](https://github.com/Tresjs/tres/commit/c9bd7ad6ef3ba86855c887886a9032fe0a324dd2))
+
+# 1.2.0 (2022-12-19)
+
+### Bug Fixes
+
+- added copyPublicDir: false to remove static assets on package ([7e8de9c](https://github.com/Tresjs/tres/commit/7e8de9c4b4e63107b79a81a8686ad97256a29017))
+- center props in text3D ([a4e66d3](https://github.com/Tresjs/tres/commit/a4e66d30a015a62ad346e1186f30ea239f7a7bdd))
+
+### Features
+
+- updated deps and clean up app.vue ([88de6eb](https://github.com/Tresjs/tres/commit/88de6eb756967e7f9981bece6bb7105dd9d893d5))
+
 # 1.1.0 (2022-12-08)
 
 ### Bug Fixes

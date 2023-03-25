@@ -3,21 +3,22 @@
 <ClientOnly>
     <FirstScene style="aspect-ratio: 16/9; height: auto; margin: 2rem 0; border-radius: 8px; overflow:hidden;"/>
 </ClientOnly>
-```
+
+::: code-group
+
+```bash [npm]
 npm install three @tresjs/core -D
 ```
 
-or if you use yarn
-
-```
+```bash [yarn]
 yarn add three @tresjs/core -D
 ```
 
-pnpm users
-
-```
+```bash [pnpm]
 pnpm add three @tresjs/core -D
 ```
+
+:::
 
 ## Try it online
 
