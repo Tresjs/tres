@@ -63,7 +63,7 @@
     "@alvarosabu/prettier-config": "^1.2.0",
     "@release-it/conventional-changelog": "^5.1.1",
     "@stackblitz/sdk": "^1.8.1",
-    "@tresjs/cientos": "2.0.0-alpha.1",
+    "@tresjs/cientos": "2.0.0-alpha.5",
     "@types/three": "latest",
     "@typescript-eslint/eslint-plugin": "^5.42.0",
     "@typescript-eslint/parser": "^5.42.0",

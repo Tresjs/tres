@@ -8,7 +8,7 @@ importers:
       '@alvarosabu/utils': ^2.3.0
       '@release-it/conventional-changelog': ^5.1.1
       '@stackblitz/sdk': ^1.8.1
-      '@tresjs/cientos': 2.0.0-alpha.1
+      '@tresjs/cientos': 2.0.0-alpha.5
       '@types/three': latest
       '@typescript-eslint/eslint-plugin': ^5.42.0
       '@typescript-eslint/parser': ^5.42.0
@@ -50,7 +50,7 @@ importers:
       '@alvarosabu/prettier-config': 1.3.0_prettier@2.8.6
       '@release-it/conventional-changelog': 5.1.1_release-it@15.9.1
       '@stackblitz/sdk': 1.8.2
-      '@tresjs/cientos': 2.0.0-alpha.1_three@0.150.1
+      '@tresjs/cientos': 2.0.0-alpha.5_three@0.150.1
       '@types/three': 0.149.0
       '@typescript-eslint/eslint-plugin': 5.56.0_cnkxirszkzb4o6ts7gbclno24e
       '@typescript-eslint/parser': 5.56.0_eslint@8.36.0
@@ -1126,8 +1126,8 @@ packages:
     engines: {node: '>= 10'}
     dev: true
 
-  /@tresjs/cientos/2.0.0-alpha.1_three@0.150.1:
-    resolution: {integrity: sha512-X/zKOiQG4mUWvh2kb1+6THuGmc+cb6slvRi9WXMG+msEI0+7k2rolWV+cGOWvh0ip+hp4bU+X+/J4dI9MODIIA==}
+  /@tresjs/cientos/2.0.0-alpha.5_three@0.150.1:
+    resolution: {integrity: sha512-8SCxT8rIZ/5bPWLsp/T/YwqbmkoQ8OdRJfAKU2WrOVZpr01tpn6w+T6jFQDb8uFDiHatYR0PdHT7LejUi2tORw==}
     peerDependencies:
       three: latest
     dependencies:
