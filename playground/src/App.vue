@@ -2,6 +2,6 @@
 </script>
 
 <template>
-  <TheParticles />
+  <router-view />
 </template>
 
