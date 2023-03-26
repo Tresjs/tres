@@ -10,7 +10,8 @@
   },
   "dependencies": {
     "@tresjs/core": "2.0.0-alpha.1",
-    "vue": "^3.2.47"
+    "vue": "^3.2.47",
+    "vue-router": "^4.1.6"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.1.0",
