@@ -1,4 +1,4 @@
-import { defineComponent, h, ref, watch } from 'vue'
+import { defineComponent, h, onUnmounted, ref, watch } from 'vue'
 import * as THREE from 'three'
 import { ShadowMapType, TextureEncoding, ToneMapping } from 'three'
 import { createTres } from '/@/core/renderer'
@@ -53,11 +53,14 @@ export const TresCanvas = defineComponent<TresCanvasProps>({
     const container = ref<HTMLElement>()
     const canvas = ref<HTMLCanvasElement>()
     const scene = new THREE.Scene()
-
-    const { setState } = useTres()
+    const { setState, resetState } = useTres()
 
     setState('scene', scene)
 
+    onUnmounted(() => {
+      resetState()
+    })
+    
     function initRenderer() {
       const { renderer } = useRenderer(canvas, container, props)
 
@@ -73,6 +76,8 @@ export const TresCanvas = defineComponent<TresCanvasProps>({
         raycaster.value.setFromCamera(pointer.value, activeCamera.value)
         renderer.value?.render(scene, activeCamera.value)
       })
+
+     
     }
 
     watch(canvas, initRenderer)
@@ -98,12 +103,15 @@ export const TresCanvas = defineComponent<TresCanvasProps>({
         mountApp()
       })
     }
+
     return () => {
       return h(
         h(
           'div',
           {
             ref: container,
+            'data-scene': scene.uuid,
+            key:  scene.uuid,
             style: {
               position: 'relative',
               width: '100%',
@@ -124,6 +132,7 @@ export const TresCanvas = defineComponent<TresCanvasProps>({
               [
                 h('canvas', {
                   ref: canvas,
+                  'data-scene': scene.uuid,
                   style: {
                     display: 'block',
                     width: '100%',

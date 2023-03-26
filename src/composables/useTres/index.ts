@@ -1,5 +1,5 @@
 import { Clock, EventDispatcher, Raycaster, Scene, Vector2, WebGLRenderer } from 'three'
-import { computed, ComputedRef, shallowReactive, toRefs } from 'vue'
+import { computed, ComputedRef, onUnmounted, shallowReactive, toRefs } from 'vue'
 import { Camera } from '/@/composables'
 
 export interface TresState {
@@ -90,11 +90,14 @@ export interface TresState {
   [key: string]: any
 }
 
-const state: TresState = shallowReactive({
+const INIT_STATE = {
   camera: undefined,
   cameras: [],
+  scene: undefined,
+  renderer: undefined,
   aspectRatio: computed(() => window.innerWidth / window.innerHeight),
-})
+}
+const state: TresState = shallowReactive(INIT_STATE)
 
 /**
  * The Tres state.
@@ -126,10 +129,22 @@ export function useTres() {
     state[key] = value
   }
 
+  /**
+   * Reset a state
+   *
+   */
+  function resetState() {
+    setState('scene', null)
+    setState('renderer', null)
+    setState('camera', null)
+    setState('cameras', [])
+  }
+
   return {
     state,
     ...toRefs(state),
     getState,
     setState,
+    resetState
   }
 }
