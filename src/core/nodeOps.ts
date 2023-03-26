@@ -119,9 +119,7 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
   },
   patchProp(node, prop, _prevValue, nextValue) {
     if (node) {
-      /*       if (node.isCamera && prop === 'look-at') {
-        debugger
-      } */
+      
       let root = node
       let key = prop
       const camelKey = kebabToCamel(key)
@@ -152,8 +150,8 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
       if (value === '') value = true
       // Set prop, prefer atomic methods if applicable
       if (isFunction(target)) {
-        /* if (Array.isArray(value)) target(...value)
-        else target(value) */
+        if (Array.isArray(value)) node[camelKey](...value)
+        else node[camelKey](value)
         return
       }
       if (!target?.set && !isFunction(target)) root[camelKey] = value
