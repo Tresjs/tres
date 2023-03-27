@@ -129,22 +129,10 @@ export function useTres() {
     state[key] = value
   }
 
-  /**
-   * Reset a state
-   *
-   */
-  function resetState() {
-    setState('scene', null)
-    setState('renderer', null)
-    setState('camera', null)
-    setState('cameras', [])
-  }
-
   return {
     state,
     ...toRefs(state),
     getState,
     setState,
-    resetState
   }
 }

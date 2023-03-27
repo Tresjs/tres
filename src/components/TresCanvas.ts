@@ -1,12 +1,12 @@
-import { defineComponent, h, onUnmounted, ref, watch } from 'vue'
+import { App, defineComponent, h, onUnmounted, ref, watch } from 'vue'
 import * as THREE from 'three'
 import { ShadowMapType, TextureEncoding, ToneMapping } from 'three'
 import { createTres } from '/@/core/renderer'
 import { useLogger } from '/@/composables'
 import { useCamera, useRenderer, useRenderLoop, useRaycaster, useTres } from '/@/composables'
+import { extend } from '/@/core/catalogue'
+import { RendererPresetsType } from '/@/composables/useRenderer/const'
 import { TresObject } from '../types'
-import { extend } from '../core/catalogue'
-import { RendererPresetsType } from '../composables/useRenderer/const'
 
 export interface TresCanvasProps {
   shadows?: boolean
@@ -53,12 +53,12 @@ export const TresCanvas = defineComponent<TresCanvasProps>({
     const container = ref<HTMLElement>()
     const canvas = ref<HTMLCanvasElement>()
     const scene = new THREE.Scene()
-    const { setState, resetState } = useTres()
+    const { setState } = useTres()
 
     setState('scene', scene)
 
     onUnmounted(() => {
-      resetState()
+      setState('renderer', null)
     })
     
     function initRenderer() {
@@ -82,7 +82,7 @@ export const TresCanvas = defineComponent<TresCanvasProps>({
 
     watch(canvas, initRenderer)
 
-    let app
+    let app: App
 
     function mountApp() {
       app = createTres(slots)
@@ -96,12 +96,14 @@ export const TresCanvas = defineComponent<TresCanvasProps>({
       scene,
     })
 
+    function dispose() {
+      scene.children = []
+      app.unmount()
+      mountApp()
+    }
+
     if (import.meta.hot) {
-      import.meta.hot.on('vite:afterUpdate', () => {
-        scene.children = []
-        app.unmount()
-        mountApp()
-      })
+      import.meta.hot.on('vite:afterUpdate',dispose)
     }
 
     return () => {
