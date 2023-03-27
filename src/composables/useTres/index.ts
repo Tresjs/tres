@@ -1,5 +1,5 @@
 import { Clock, EventDispatcher, Raycaster, Scene, Vector2, WebGLRenderer } from 'three'
-import { computed, ComputedRef, onUnmounted, shallowReactive, toRefs } from 'vue'
+import { computed, ComputedRef, shallowReactive, toRefs } from 'vue'
 import { Camera } from '/@/composables'
 
 export interface TresState {
