@@ -1,5 +1,5 @@
 import { presetUno, presetIcons, presetTypography, presetWebFonts } from 'unocss'
-
+import glsl from 'vite-plugin-glsl'
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   app: {
@@ -62,5 +62,8 @@ export default defineNuxtConfig({
     // core options
     shortcuts: [],
     rules: [],
+  },
+  vite: {
+    plugins: [glsl()],
   },
 })

@@ -1,5 +1,5 @@
 {
-  "private": true,
+  "name": "@tresjs/playground",
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
@@ -16,11 +16,12 @@
     "@types/three": "^0.149.0",
     "@unocss/nuxt": "^0.50.6",
     "nuxt": "^3.3.2",
-    "nuxt-svgo": "^1.1.0"
+    "nuxt-svgo": "^1.1.0",
+    "vite-plugin-glsl": "^1.1.2"
   },
   "dependencies": {
-    "@tresjs/core": "2.0.0-alpha.4",
     "@tresjs/cientos": "2.0.0-alpha.5",
+    "@tresjs/core": "2.0.0-alpha.4",
     "three": "^0.150.1"
   }
 }

@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
-import { OrbitControls, Plane, useTweakPane } from '@tresjs/cientos'
+import { OrbitControls, Plane } from '@tresjs/cientos'
 import { BasicShadowMap, NoToneMapping, sRGBEncoding } from 'three'
-import { shallowReactive, shallowRef } from 'vue'
+import { shallowReactive } from 'vue'
 
 const gl = shallowReactive({
   clearColor: '#4f4f4f',
