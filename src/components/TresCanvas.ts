@@ -1,12 +1,12 @@
-import { defineComponent, h, ref, watch } from 'vue'
+import { App, defineComponent, h, onUnmounted, ref, watch } from 'vue'
 import * as THREE from 'three'
 import { ShadowMapType, TextureEncoding, ToneMapping } from 'three'
 import { createTres } from '/@/core/renderer'
 import { useLogger } from '/@/composables'
 import { useCamera, useRenderer, useRenderLoop, useRaycaster, useTres } from '/@/composables'
+import { extend } from '/@/core/catalogue'
+import { RendererPresetsType } from '/@/composables/useRenderer/const'
 import { TresObject } from '../types'
-import { extend } from '../core/catalogue'
-import { RendererPresetsType } from '../composables/useRenderer/const'
 
 export interface TresCanvasProps {
   shadows?: boolean
@@ -53,11 +53,14 @@ export const TresCanvas = defineComponent<TresCanvasProps>({
     const container = ref<HTMLElement>()
     const canvas = ref<HTMLCanvasElement>()
     const scene = new THREE.Scene()
-
     const { setState } = useTres()
 
     setState('scene', scene)
 
+    onUnmounted(() => {
+      setState('renderer', null)
+    })
+    
     function initRenderer() {
       const { renderer } = useRenderer(canvas, container, props)
 
@@ -73,11 +76,13 @@ export const TresCanvas = defineComponent<TresCanvasProps>({
         raycaster.value.setFromCamera(pointer.value, activeCamera.value)
         renderer.value?.render(scene, activeCamera.value)
       })
+
+     
     }
 
     watch(canvas, initRenderer)
 
-    let app
+    let app: App
 
     function mountApp() {
       app = createTres(slots)
@@ -91,19 +96,24 @@ export const TresCanvas = defineComponent<TresCanvasProps>({
       scene,
     })
 
-    if (import.meta.hot) {
-      import.meta.hot.on('vite:afterUpdate', () => {
-        scene.children = []
-        app.unmount()
-        mountApp()
-      })
+    function dispose() {
+      scene.children = []
+      app.unmount()
+      mountApp()
     }
+
+    if (import.meta.hot) {
+      import.meta.hot.on('vite:afterUpdate',dispose)
+    }
+
     return () => {
       return h(
         h(
           'div',
           {
             ref: container,
+            'data-scene': scene.uuid,
+            key:  scene.uuid,
             style: {
               position: 'relative',
               width: '100%',
@@ -124,6 +134,7 @@ export const TresCanvas = defineComponent<TresCanvasProps>({
               [
                 h('canvas', {
                   ref: canvas,
+                  'data-scene': scene.uuid,
                   style: {
                     display: 'block',
                     width: '100%',

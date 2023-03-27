@@ -90,11 +90,14 @@ export interface TresState {
   [key: string]: any
 }
 
-const state: TresState = shallowReactive({
+const INIT_STATE = {
   camera: undefined,
   cameras: [],
+  scene: undefined,
+  renderer: undefined,
   aspectRatio: computed(() => window.innerWidth / window.innerHeight),
-})
+}
+const state: TresState = shallowReactive(INIT_STATE)
 
 /**
  * The Tres state.
