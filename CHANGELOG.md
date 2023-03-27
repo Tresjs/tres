@@ -1,5 +1,14 @@
 
 
+## [2.0.0-alpha.4](https://github.com/Tresjs/tres/compare/2.0.0-alpha.3...2.0.0-alpha.4) (2023-03-27)
+
+
+### Bug Fixes
+
+* remove unused import ([2fb99e5](https://github.com/Tresjs/tres/commit/2fb99e5a08fb9545b8eef660ec0f9ce5493aceb8))
+* removing resetState and going for more granular approach of disposal ([6f1e38b](https://github.com/Tresjs/tres/commit/6f1e38b3361a08d047b7c094285cfd67145502ad))
+* reset state on unmounted ([dbbaee7](https://github.com/Tresjs/tres/commit/dbbaee748a51166cb1b03fecdc1a086772b4a437))
+
 ## [2.0.0-alpha.3](https://github.com/Tresjs/tres/compare/2.0.0-alpha.2...2.0.0-alpha.3) (2023-03-26)
 
 
