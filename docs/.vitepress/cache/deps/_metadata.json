@@ -1,47 +1,47 @@
 {
-  "hash": "ce72b907",
-  "browserHash": "3745f89c",
+  "hash": "8885e0d8",
+  "browserHash": "f5506ae5",
   "optimized": {
     "vue": {
       "src": "../../../../node_modules/.pnpm/vue@3.2.47/node_modules/vue/dist/vue.runtime.esm-bundler.js",
       "file": "vue.js",
-      "fileHash": "0a41b7ad",
+      "fileHash": "0e9f3d71",
       "needsInterop": false
     },
     "three": {
       "src": "../../../../node_modules/.pnpm/three@0.150.1/node_modules/three/build/three.module.js",
       "file": "three.js",
-      "fileHash": "51953890",
+      "fileHash": "83b7f56c",
       "needsInterop": false
     },
     "@tresjs/cientos": {
-      "src": "../../../../node_modules/.pnpm/@tresjs+cientos@2.0.0-alpha.1_three@0.150.1/node_modules/@tresjs/cientos/dist/trescientos.js",
+      "src": "../../../../node_modules/.pnpm/@tresjs+cientos@2.0.0-alpha.5_three@0.150.1/node_modules/@tresjs/cientos/dist/trescientos.js",
       "file": "@tresjs_cientos.js",
-      "fileHash": "82b83a88",
+      "fileHash": "8aa5eace",
       "needsInterop": false
     },
     "@stackblitz/sdk": {
       "src": "../../../../node_modules/.pnpm/@stackblitz+sdk@1.8.2/node_modules/@stackblitz/sdk/bundles/sdk.m.js",
       "file": "@stackblitz_sdk.js",
-      "fileHash": "aa68338f",
+      "fileHash": "a975a8b1",
       "needsInterop": false
     },
     "gsap": {
       "src": "../../../../node_modules/.pnpm/gsap@3.11.5/node_modules/gsap/index.js",
       "file": "gsap.js",
-      "fileHash": "e05a3b19",
-      "needsInterop": false
-    },
-    "@alvarosabu/utils": {
-      "src": "../../../../node_modules/.pnpm/@alvarosabu+utils@2.3.0/node_modules/@alvarosabu/utils/dist/as-utils.js",
-      "file": "@alvarosabu_utils.js",
-      "fileHash": "8b7c8609",
+      "fileHash": "4e5151fd",
       "needsInterop": false
     },
     "@vueuse/core": {
       "src": "../../../../node_modules/.pnpm/@vueuse+core@9.13.0/node_modules/@vueuse/core/index.mjs",
       "file": "@vueuse_core.js",
-      "fileHash": "cf062886",
+      "fileHash": "62e3edb1",
+      "needsInterop": false
+    },
+    "@alvarosabu/utils": {
+      "src": "../../../../node_modules/.pnpm/@alvarosabu+utils@2.3.0/node_modules/@alvarosabu/utils/dist/as-utils.js",
+      "file": "@alvarosabu_utils.js",
+      "fileHash": "07b617fe",
       "needsInterop": false
     }
   },
