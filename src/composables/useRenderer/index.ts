@@ -152,10 +152,15 @@ export function useRenderer(canvas: MaybeElementRef, container: MaybeElementRef,
   const { setState } = useTres()
 
   const { width, height } = resolveUnref(windowSize) ? useWindowSize() : useElementSize(container)
-  const { logError } = useLogger()
+  const { logError, logWarning } = useLogger()
   const { pixelRatio } = useDevicePixelRatio()
   const { pause, resume } = useRenderLoop()
   const aspectRatio = computed(() => width.value / height.value)
+
+  if (!resolveUnref(windowSize) && container?.value?.offsetHeight === 0) {
+    logWarning(`Oops... Seems like your canvas height is currently 0px, by default it takes the height of it's parent, so make sure it has some height with CSS.
+You could set windowSize=true to force the canvas to be the size of the window.`)
+  }
 
   const updateRendererSize = () => {
     if (!renderer.value) {
