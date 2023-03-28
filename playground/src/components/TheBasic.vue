@@ -16,19 +16,13 @@ const state = reactive({
   toneMapping: NoToneMapping,
 })
 
-const { alphaMap } = await useTexture({
-  alphaMap: 'https://assets.codepen.io/4698468/2k_earth_clouds.jpg',
-})
-
 const sphereRef = ref()
-const cloudRef = ref()
 
 const { onLoop } = useRenderLoop()
 
 onLoop(({ elapsed }) => {
   if (!sphereRef.value) return
   sphereRef.value.position.y += Math.sin(elapsed) * 0.01
-  cloudRef.value.position.y += Math.sin(elapsed) * 0.01
 })
 </script>
 <template>
@@ -43,10 +37,6 @@ onLoop(({ elapsed }) => {
       <TresMeshToonMaterial color="cyan" />
       <!-- <TresMeshToonMaterial color="#FBB03B" /> -->
     </TresMesh>
-      <TresMesh ref="cloudRef" :position="[0, 4, 0]" cast-shadow>
-        <TresSphereGeometry :args="[2.01,32,32]"/>
-        <TresMeshStandardMaterial :transparent="true" :alpha-map="alphaMap" />
-      </TresMesh>
 
     <TresDirectionalLight :position="[0, 8, 4]" :intensity="0.7" cast-shadow />
     <TresMesh :rotation="[-Math.PI / 2, 0, 0]" receive-shadow>
