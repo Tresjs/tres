@@ -1,6 +1,6 @@
 # build output
-dist/
-.output/
+dist
+.output
 
 # dependencies
 node_modules/
@@ -18,3 +18,4 @@ pnpm-debug.log*
 
 # macOS-specific files
 .DS_Store
+.nuxt
