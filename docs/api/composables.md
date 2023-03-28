@@ -170,6 +170,35 @@ Then you can use the new component in your template. Notice that the new compone
 </template>
 ```
 
+## useSeek
+
+The `useSeek` composable provides utilities to easily traverse and navigate through complex ThreeJS scenes and object children graphs. It exports two functions, `seek` and `seekByName`, which allow you to find child objects based on specific properties.
+
+```ts
+const { seek, seekbyName } = useSeek()
+```
+
+The seek function accepts three parameters:
+
+- `parent`: A ThreeJS scene or Object3D.
+- `property`: The property to be used in the search condition.
+- `value`: The value of the property to match.
+
+Both function traverses the object and returns the child object with the specified property and value. If no child with the given property and value is found, it returns null and logs a warning.
+
+```ts
+const carRef = ref(null)
+
+watch(carRef, ({ model }) => {
+  if (model) {
+    const car = model.children[0]
+
+    const body = seek(car, 'name', 'Octane_Octane_Body_0')
+    body.color.set(new Color('blue'))
+  }
+)
+```
+
 ## useTres
 
 This composable aims to provide access to the state model which contains the default renderer, camera, scene, and other useful properties.
