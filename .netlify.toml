@@ -1,0 +1,8 @@
+[build]
+  publish = "dist"
+  command = "pnpm run generate"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
