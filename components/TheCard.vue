@@ -14,7 +14,7 @@ defineProps<{
 <template>
   <NuxtLink :to="path">
     <div class="shadow-lg rounded-lg overflow-hidden">
-      <NuxtImg class="aspect-video object-cover" :src="media" />
+      <img class="aspect-video object-cover" :src="media" />
       <div class="p-4">
         <h2 class="font-bold text-lg mb-2">{{ title }}</h2>
         <p class="text-sm text-gray-400 mb-2 min-h-75px">{{ description }}</p>
