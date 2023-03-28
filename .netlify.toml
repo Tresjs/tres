@@ -1,9 +1,3 @@
 [build]
   publish = "dist"
   command = "pnpm run generate"
-
-[[redirects]]
-  from = "/*"
-  to = "/:splat"
-  status = 301
-  force = true
