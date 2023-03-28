@@ -60,61 +60,6 @@ export default defineConfig({
           },
         ],
       },
-      {
-        text: 'Cientos 💛',
-        collapsible: true,
-        items: [
-          { text: 'Introduction', link: '/cientos/' },
-          {
-            text: 'Abstractions',
-            items: [
-              { text: 'Text3D', link: '/cientos/abstractions/text-3d' },
-              { text: 'useAnimations', link: '/cientos/abstractions/use-animations' },
-              { text: 'Environment', link: '/cientos/abstractions/environment' },
-              { text: 'useEnvironment', link: '/cientos/abstractions/use-environment' },
-              { text: 'usePamMouse', link: '/cientos/abstractions/pam-camera-mouse' },
-            ],
-          },
-          {
-            text: 'Controls',
-            items: [
-              { text: 'OrbitControls', link: '/cientos/controls/orbit-controls' },
-              { text: 'TransformControls', link: '/cientos/controls/transform-controls' },
-            ],
-          },
-          {
-            text: 'Loaders',
-            items: [
-              { text: 'useGLTF', link: '/cientos/loaders/use-gltf' },
-              { text: 'GLTFModel', link: '/cientos/loaders/gltf-model' },
-              { text: 'useFBX', link: '/cientos/loaders/use-fbx' },
-              { text: 'FBXModel', link: '/cientos/loaders/fbx-model' },
-            ],
-          },
-          {
-            text: 'Shapes',
-            items: [
-              { text: 'Box', link: '/cientos/shapes/box' },
-              { text: 'Circle', link: '/cientos/shapes/circle' },
-              { text: 'Cone', link: '/cientos/shapes/cone' },
-              { text: 'Dodecahedron', link: '/cientos/shapes/dodecahedron' },
-              { text: 'Icosahedron', link: '/cientos/shapes/icosahedron' },
-              { text: 'Octahedron', link: '/cientos/shapes/octahedron' },
-              { text: 'Plane', link: '/cientos/shapes/plane' },
-              { text: 'Ring', link: '/cientos/shapes/ring' },
-              { text: 'Sphere', link: '/cientos/shapes/sphere' },
-              { text: 'Tetrahedron', link: '/cientos/shapes/tetrahedron' },
-              { text: 'Torus', link: '/cientos/shapes/torus' },
-              { text: 'TorusKnot', link: '/cientos/shapes/torus-knot' },
-              { text: 'Tube', link: '/cientos/shapes/tube' },
-            ],
-          },
-          {
-            text: 'Misc',
-            items: [{ text: 'useTweakpane', link: '/cientos/misc/use-tweakpane' }],
-          },
-        ],
-      },
     ],
     nav: [
       { text: 'Guide', link: '/guide/' },
@@ -149,6 +94,7 @@ export default defineConfig({
     socialLinks: [
       /*  { icon: 'github', link: 'https://github.com/tresjs/tres' }, */
       { icon: 'twitter', link: 'https://twitter.com/alvarosabu' },
+      { icon: 'discord', link: 'https://discord.gg/wXx63MwW'}
     ],
   },
   vite: {
