@@ -1,4 +1,4 @@
-import { App, defineComponent, h, onUnmounted, ref, watch } from 'vue'
+import { App, defineComponent, h, onUnmounted, ref, watch, watchEffect } from 'vue'
 import * as THREE from 'three'
 import { ShadowMapType, TextureEncoding, ToneMapping } from 'three'
 import { createTres } from '/@/core/renderer'
@@ -50,17 +50,19 @@ export const TresCanvas = defineComponent<TresCanvasProps>({
     if (props.physicallyCorrectLights === true) {
       logWarning('physicallyCorrectLights is deprecated, useLegacyLights is now false by default')
     }
+
     const container = ref<HTMLElement>()
     const canvas = ref<HTMLCanvasElement>()
     const scene = new THREE.Scene()
     const { setState } = useTres()
 
     setState('scene', scene)
+    setState('canvas', canvas)
 
     onUnmounted(() => {
       setState('renderer', null)
     })
-    
+
     function initRenderer() {
       const { renderer } = useRenderer(canvas, container, props)
 
@@ -70,14 +72,13 @@ export const TresCanvas = defineComponent<TresCanvasProps>({
 
       const { raycaster, pointer } = useRaycaster()
 
-      onLoop(() => {
-        if (!activeCamera.value) return
-
-        raycaster.value.setFromCamera(pointer.value, activeCamera.value)
-        renderer.value?.render(scene, activeCamera.value)
+      watchEffect(() => {
+        if (activeCamera.value) raycaster.value.setFromCamera(pointer.value, activeCamera.value)
       })
 
-     
+      onLoop(() => {
+        if (activeCamera.value) renderer.value?.render(scene, activeCamera.value)
+      })
     }
 
     watch(canvas, initRenderer)
@@ -103,7 +104,7 @@ export const TresCanvas = defineComponent<TresCanvasProps>({
     }
 
     if (import.meta.hot) {
-      import.meta.hot.on('vite:afterUpdate',dispose)
+      import.meta.hot.on('vite:afterUpdate', dispose)
     }
 
     return () => {
@@ -113,7 +114,7 @@ export const TresCanvas = defineComponent<TresCanvasProps>({
           {
             ref: container,
             'data-scene': scene.uuid,
-            key:  scene.uuid,
+            key: scene.uuid,
             style: {
               position: 'relative',
               width: '100%',

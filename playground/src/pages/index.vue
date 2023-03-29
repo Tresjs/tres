@@ -1,7 +1,5 @@
-<script setup lang="ts">
-
-</script>
+<script setup lang="ts"></script>
 <template>
-    <router-link to="/shapes">Shapes</router-link>
-<TheBasic />
+  <!-- <router-link to="/shapes">Shapes</router-link> -->
+  <TheEvents />
 </template>

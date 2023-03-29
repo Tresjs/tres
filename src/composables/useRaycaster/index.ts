@@ -1,6 +1,7 @@
-import { Raycaster, Vector2 } from 'three'
-import { Ref, ref, ShallowRef, shallowRef } from 'vue'
 import { useTres } from '/@/composables'
+import { MaybeElementRef, unrefElement } from '@vueuse/core'
+import { Raycaster, Vector2 } from 'three'
+import { onUnmounted, Ref, ref, ShallowRef, shallowRef, watchEffect } from 'vue'
 
 const raycaster = shallowRef(new Raycaster())
 const pointer = ref(new Vector2())
@@ -47,9 +48,9 @@ export function useRaycaster(): UseRaycasterReturn {
     pointer.value.y = -(event.clientY / window.innerHeight) * 2 + 1
   }
 
-  window.addEventListener('pointermove', onPointerMove)
+  window.addEventListener('pointermove', onPointerMove) //TODO listener should be on canvas
 
-  /*  onUnmounted(() => {
+  /*  onUnmounted(() => { TODO
     window.removeEventListener('pointermove', onPointerMove)
   }) */
   return {

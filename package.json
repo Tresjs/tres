@@ -40,7 +40,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "playground": "cd playground && nr dev",
+    "playground": "cd playground && npm run dev",
     "test": "vitest",
     "test:ci": "vitest run",
     "test:ui": "vitest --ui",
