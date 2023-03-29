@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import { sRGBEncoding, BasicShadowMap, NoToneMapping, Vector3  } from 'three'
+import { sRGBEncoding, BasicShadowMap, NoToneMapping  } from 'three'
 import { reactive, ref } from 'vue'
 import { TresCanvas } from '/@/components/TresCanvas'
 import { OrbitControls, TransformControls  } from '@tresjs/cientos'
-import { useRenderLoop, useTexture } from '/@/'
-/* import { OrbitControls, GLTFModel } from '@tresjs/cientos' */
+import { useRenderLoop } from '/@/'
 
 const state = reactive({
   clearColor: '#201919',
@@ -35,7 +34,6 @@ onLoop(({ elapsed }) => {
     <TresMesh ref="sphereRef" :position="[0, 4, 0]" cast-shadow>
       <TresSphereGeometry :args="[2,32,32]"/>
       <TresMeshToonMaterial color="cyan" />
-      <!-- <TresMeshToonMaterial color="#FBB03B" /> -->
     </TresMesh>
 
     <TresDirectionalLight :position="[0, 8, 4]" :intensity="0.7" cast-shadow />
