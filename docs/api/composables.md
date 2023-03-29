@@ -110,11 +110,12 @@ const texture = await useTexture(['path/to/texture.png'])
 - `metalnessMap`: a texture that is used to add a metallic effect to the object's surface
 - `aoMap`: a texture that is used to add ambient occlusion (shading in areas where light is blocked by other objects) to the object.
 - `alphaMap`: a texture that is used to add alpha (the black part render as transparent) to the object. It's necessary to set :trasparent="true" on the material to use this map
+- `matcap`: this textures encodes the material color and shading.
 
 In that case it will return an object with the loaded textures.
 
 ```ts
-const { map, displacementMap, normalMap, roughnessMap, metalnessMap, aoMap, alphaMap } = await useTexture({
+const { map, displacementMap, normalMap, roughnessMap, metalnessMap, aoMap, alphaMap, matcap } = await useTexture({
   map: 'path/to/albedo.png',
   displacementMap: 'path/to/height.png',
   normalMap: 'path/to/normal.png',
@@ -122,6 +123,7 @@ const { map, displacementMap, normalMap, roughnessMap, metalnessMap, aoMap, alph
   metalnessMap: 'path/to/metalness.png',
   aoMap: 'path/to/ambien-occlusion.png',
   alphaMap: 'path/to/alpha.png',
+  matcap: 'path/to/matcap.png',
 })
 ```
 
