@@ -1,9 +1,7 @@
-<script setup lang="ts">
-
-</script>
+<script setup lang="ts"></script>
 <template>
-    <router-link to="/shapes">Shapes</router-link>
-    <Suspense>
-        <TheBasic />
-    </Suspense>
+  <router-link to="/shapes">Shapes</router-link>
+  <Suspense>
+    <PortalJourney />
+  </Suspense>
 </template>
