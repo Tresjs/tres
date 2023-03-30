@@ -3,5 +3,7 @@
 </script>
 <template>
     <router-link to="/shapes">Shapes</router-link>
-<TheBasic />
+    <Suspense>
+        <TheBasic />
+    </Suspense>
 </template>
