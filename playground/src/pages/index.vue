@@ -2,6 +2,6 @@
 <template>
   <router-link to="/shapes">Shapes</router-link>
   <Suspense>
-    <ShadersExperiment />
+    <PortalJourney />
   </Suspense>
 </template>
