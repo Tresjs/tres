@@ -79,7 +79,7 @@ export async function useTexture(
       return textures[0]
     }
   } else {
-    const { map, displacementMap, normalMap, roughnessMap, metalnessMap, aoMap, alphaMap
+    const { map, displacementMap, normalMap, roughnessMap, metalnessMap, aoMap, alphaMap, matcap
      } = paths as { [key: string]: string }
     return {
       map: map ? await loadTexture(map) : null,
@@ -89,6 +89,7 @@ export async function useTexture(
       metalnessMap: metalnessMap ? await loadTexture(metalnessMap) : null,
       aoMap: aoMap ? await loadTexture(aoMap) : null,
       alphaMap: alphaMap ? await loadTexture(alphaMap) : null,
+      matcap: matcap ? await loadTexture(matcap) : null,
     }
   }
 }
