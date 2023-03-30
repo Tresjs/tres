@@ -1,7 +1,6 @@
 import { useTres } from '/@/composables'
-import { MaybeElementRef, unrefElement } from '@vueuse/core'
 import { Raycaster, Vector2 } from 'three'
-import { onUnmounted, Ref, ref, ShallowRef, shallowRef, watchEffect } from 'vue'
+import { Ref, ref, ShallowRef, shallowRef } from 'vue'
 
 const raycaster = shallowRef(new Raycaster())
 const pointer = ref(new Vector2())

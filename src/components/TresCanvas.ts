@@ -57,7 +57,6 @@ export const TresCanvas = defineComponent<TresCanvasProps>({
     const { setState } = useTres()
 
     setState('scene', scene)
-    setState('canvas', canvas)
 
     onUnmounted(() => {
       setState('renderer', null)
