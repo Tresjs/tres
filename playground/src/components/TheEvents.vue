@@ -2,6 +2,7 @@
 import { BasicShadowMap, NoToneMapping, sRGBEncoding } from 'three'
 import { reactive } from 'vue'
 import { OrbitControls } from '@tresjs/cientos'
+import { TresCanvas } from '/@/'
 
 const state = reactive({
   clearColor: '#201919',
@@ -19,7 +20,6 @@ function onClick(ev) {
 }
 
 function onPointerEnter(ev) {
-  console.log(ev)
   if (ev) {
     ev.object.material.color.set('#DFFF45')
   }
