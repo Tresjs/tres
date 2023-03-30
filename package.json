@@ -90,7 +90,6 @@
     "vite": "^4.1.4",
     "vite-plugin-banner": "^0.7.0",
     "vite-plugin-dts": "2.1.0",
-    "vite-plugin-glsl": "^1.1.2",
     "vite-plugin-inspect": "^0.7.16",
     "vite-plugin-require-transform": "^1.0.9",
     "vite-svg-loader": "^4.0.0",

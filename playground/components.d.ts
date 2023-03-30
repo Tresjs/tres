@@ -15,6 +15,8 @@ declare module '@vue/runtime-core' {
     Responsiveness: typeof import('./src/components/Responsiveness.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    ShadersExperiment: typeof import('./src/components/ShadersExperiment/index.vue')['default']
+    'ShadersExperiment.vue': typeof import('./src/components/shadersExperiment.vue/index.vue')['default']
     Shapes: typeof import('./src/components/Shapes.vue')['default']
     TestSphere: typeof import('./src/components/TestSphere.vue')['default']
     Text3D: typeof import('./src/components/Text3D.vue')['default']
