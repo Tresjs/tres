@@ -109,17 +109,21 @@ const texture = await useTexture(['path/to/texture.png'])
 - `roughnessMap`: a texture that is used to add roughness or a matte finish to the object's surface
 - `metalnessMap`: a texture that is used to add a metallic effect to the object's surface
 - `aoMap`: a texture that is used to add ambient occlusion (shading in areas where light is blocked by other objects) to the object.
+- `alphaMap`: a texture that is used to add alpha (the black part render as transparent) to the object. It's necessary to set :trasparent="true" on the material to use this map
+- `matcap`: this textures encodes the material color and shading.
 
 In that case it will return an object with the loaded textures.
 
 ```ts
-const { map, displacementMap, normalMap, roughnessMap, metalnessMap, aoMap } = await useTexture({
+const { map, displacementMap, normalMap, roughnessMap, metalnessMap, aoMap, alphaMap, matcap } = await useTexture({
   map: 'path/to/albedo.png',
   displacementMap: 'path/to/height.png',
   normalMap: 'path/to/normal.png',
   roughnessMap: 'path/to/roughness.png',
   metalnessMap: 'path/to/metalness.png',
   aoMap: 'path/to/ambien-occlusion.png',
+  alphaMap: 'path/to/alpha.png',
+  matcap: 'path/to/matcap.png',
 })
 ```
 
@@ -137,6 +141,7 @@ Then you can bind the textures to the material.
         :roughnessMap="roughnessMap"
         :metalnessMap="metalnessMap"
         :aoMap="aoMap"
+        :alphaMap="alphaMap"
       />
     </TresMesh>
   </TresCanvas>

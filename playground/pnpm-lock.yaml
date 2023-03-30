@@ -4,10 +4,11 @@ specifiers:
   '@tresjs/cientos': 2.0.0-alpha.5
   '@vitejs/plugin-vue': ^4.1.0
   three: ^0.150.1
-  typescript: ^4.9.3
+  typescript: ^5.0.2
   unplugin-auto-import: ^0.15.2
   unplugin-vue-components: ^0.24.1
-  vite: ^4.2.0
+  vite: ^4.2.1
+  vite-plugin-glsl: ^1.1.2
   vue: ^3.2.47
   vue-router: ^4.1.6
   vue-tsc: ^1.2.0
@@ -20,11 +21,12 @@ dependencies:
 devDependencies:
   '@tresjs/cientos': 2.0.0-alpha.5_three@0.150.1+vue@3.2.47
   '@vitejs/plugin-vue': 4.1.0_vite@4.2.1+vue@3.2.47
-  typescript: 4.9.5
+  typescript: 5.0.2
   unplugin-auto-import: 0.15.2
   unplugin-vue-components: 0.24.1_vue@3.2.47
   vite: 4.2.1
-  vue-tsc: 1.2.0_typescript@4.9.5
+  vite-plugin-glsl: 1.1.2_vite@4.2.1
+  vue-tsc: 1.2.0_typescript@5.0.2
 
 packages:
 
@@ -982,9 +984,9 @@ packages:
       is-number: 7.0.0
     dev: true
 
-  /typescript/4.9.5:
-    resolution: {integrity: sha512-1FXk9E2Hm+QzZQ7z+McJiHL4NW1F2EzMu9Nq9i3zAaGqibafqYwCVU6WyWAuyQRRzOlxou8xZSyXLEN8oKj24g==}
-    engines: {node: '>=4.2.0'}
+  /typescript/5.0.2:
+    resolution: {integrity: sha512-wVORMBGO/FAs/++blGNeAVdbNKtIh1rbBL2EyQ1+J9lClJ93KiiKe8PmFIVdXhHcyv44SL9oglmfeSsndo0jRw==}
+    engines: {node: '>=12.20'}
     hasBin: true
     dev: true
 
@@ -1071,6 +1073,18 @@ packages:
       webpack-virtual-modules: 0.5.0
     dev: true
 
+  /vite-plugin-glsl/1.1.2_vite@4.2.1:
+    resolution: {integrity: sha512-zmXsfc1vn2MlYve9t3FAoWuhLyoCkNS1TuQL+TkXZL7tGmBjRErp10eNYxcse5tK9oUC5MyJpNc4ElpQnx8DoA==}
+    engines: {node: '>= 16.15.1', npm: '>= 8.11.0'}
+    peerDependencies:
+      vite: ^3.0.0 || ^4.0.0
+    dependencies:
+      '@rollup/pluginutils': 5.0.2
+      vite: 4.2.1
+    transitivePeerDependencies:
+      - rollup
+    dev: true
+
   /vite/4.2.1:
     resolution: {integrity: sha512-7MKhqdy0ISo4wnvwtqZkjke6XN4taqQ2TBaTccLIpOKv7Vp2h4Y+NpmWCnGDeSvvn45KxvWgGyb0MkHvY1vgbg==}
     engines: {node: ^14.18.0 || >=16.0.0}
@@ -1135,7 +1149,7 @@ packages:
       he: 1.2.0
     dev: true
 
-  /vue-tsc/1.2.0_typescript@4.9.5:
+  /vue-tsc/1.2.0_typescript@5.0.2:
     resolution: {integrity: sha512-rIlzqdrhyPYyLG9zxsVRa+JEseeS9s8F2BbVVVWRRsTZvJO2BbhLEb2HW3MY+DFma0378tnIqs+vfTzbcQtRFw==}
     hasBin: true
     peerDependencies:
@@ -1143,7 +1157,7 @@ packages:
     dependencies:
       '@volar/vue-language-core': 1.2.0
       '@volar/vue-typescript': 1.2.0
-      typescript: 4.9.5
+      typescript: 5.0.2
     dev: true
 
   /vue/3.2.47:

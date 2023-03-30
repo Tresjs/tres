@@ -1,7 +1,7 @@
 {
   "name": "@tresjs/core",
   "description": "Declarative ThreeJS using Vue Components",
-  "version": "2.0.0-alpha.5",
+  "version": "2.0.0-alpha.6",
   "type": "module",
   "author": "Alvaro Saburido <hola@alvarosaburido.dev> (https://github.com/alvarosabu/)",
   "files": [
@@ -90,7 +90,6 @@
     "vite": "^4.1.4",
     "vite-plugin-banner": "^0.7.0",
     "vite-plugin-dts": "2.1.0",
-    "vite-plugin-glsl": "^1.1.2",
     "vite-plugin-inspect": "^0.7.16",
     "vite-plugin-require-transform": "^1.0.9",
     "vite-svg-loader": "^4.0.0",

@@ -9,32 +9,59 @@
 
 Tres (Spanish word for "three", pronounced `/tres/` ) is a way of creating ThreeJS scenes with Vue components in a declarative fashion. Think of it as a [React-three-fiber](https://docs.pmnd.rs/react-three-fiber) or [Lunchbox](https://github.com/breakfast-studio/lunchboxjs) but without the need of a [custom Vue3 Renderer](https://vuejs.org/api/custom-renderer.html).
 
-## Setup
+## Docs
+
+Checkout the [docs](https://tresjs.org)
+
+## Demos
+
+- [Stackblitz Collection](https://stackblitz.com/@alvarosabu/collections/tresjs)
+
+## Contribution
+
+We are open to contributions, please read the [contributing guide](/CONTRIBUTING.md) to get started.
+
+
+### Setup
 
 ```
 pnpm install --shamefully-hoist
 ```
 
-## Dev
+### Playground
 
-To run the small playground without Histoire use
-
-```
-pnpm run dev
-```
-
-## Histoire
-
-All local demos will be inside [Histoire](https://histoire.dev/) stories.
+To run the small playground
 
 ```
-pnpm run story:dev
+pnpm run playground
 ```
 
-## Build lib
+### Build lib
 
 To build the core as library mode just use
 
 ```
 pnpm run build
 ```
+
+### Docs
+
+To run de docs in dev mode
+
+```bash
+pnpm run docs:dev
+```
+
+To build them
+
+```bash
+pnpm run docs:build
+```
+
+## License
+
+[MIT](/LICENSE)
+
+## Sponsors
+
+Be the first to support this project [here](https://github.com/sponsors/alvarosabu) ☺️

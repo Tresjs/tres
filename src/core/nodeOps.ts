@@ -119,7 +119,6 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
   },
   patchProp(node, prop, _prevValue, nextValue) {
     if (node) {
-      
       let root = node
       let key = prop
       const camelKey = kebabToCamel(key)
@@ -129,13 +128,12 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
         node.parent = scene as TresObject
       }
 
-      if(root.type === 'BufferGeometry') {
-        const chain = key.split('-')
-        key = chain.pop() as string
+      if (root.type === 'BufferGeometry') {
         root.setAttribute(
-          kebabToCamel(key), 
-          new BufferAttribute(...(nextValue as ConstructorParameters<typeof BufferAttribute>))
+          kebabToCamel(key),
+          new BufferAttribute(...(nextValue as ConstructorParameters<typeof BufferAttribute>)),
         )
+        return
       }
 
       // Traverse pierced props (e.g. foo-bar=value => foo.bar = value)
