@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { Camera, Vector3 } from 'three'
 import { OrbitControls } from 'three-stdlib'
-import { ref, watch, unref, type Ref } from 'vue'
+import { ref, watch, type Ref } from 'vue'
 
 import { useCientos } from './useCientos'
 
@@ -67,12 +67,13 @@ watch(controls, value => {
     setState('controls', null)
   }
 })
+
 </script>
 
 <template>
   <TresOrbitControls
     v-if="state.camera && state.renderer"
     ref="controls"
-    :args="[unref(state.camera) || camera, state.renderer?.domElement || domElement]"
+    :args="[state.camera || camera, state.renderer?.domElement || domElement]"
   />
 </template>

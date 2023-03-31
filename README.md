@@ -28,6 +28,14 @@ It just works. 💯
 pnpm i @tresjs/cientos
 ```
 
+## Docs
+
+Checkout the [docs](https://cientos.tresjs.org/)
+
+## Demos
+
+- [Stackblitz Collection](https://stackblitz.com/@alvarosabu/collections/tresjs)
+
 ## Contributing
 
 We are open to contributions, please read the [contributing guide](/CONTRIBUTING.md) to get started.
@@ -61,14 +69,20 @@ pnpm run playground
 
 TODO...
 
+### Docs
 
-## Docs
+To run de docs in dev mode
 
-Checkout the [docs](https://tresjs.org/cientos/)
+```bash
+pnpm run docs:dev
+```
 
-## Demos
+To build them
 
-- [Stackblitz Collection](https://stackblitz.com/@alvarosabu/collections/tresjs)
+```bash
+pnpm run docs:build
+```
+
 
 ## License
 
