@@ -60,41 +60,35 @@ export default defineConfig({
           },
         ],
       },
+      {
+        text: 'Ecosystem',
+        items: [
+          {
+            text: `Cientos 💛`,
+            link: 'https://cientos.tresjs.org/',
+          },
+        ],
+      },
     ],
     nav: [
       { text: 'Guide', link: '/guide/' },
       { text: 'API', link: '/api/renderer' },
       /*       { text: 'API', link: '/api/' },
       { text: 'Config', link: '/config/' }, */
-      /*  {
+      {
         text: 'Ecosystem',
-        activeMatch: `^/ecosystem/`,
         items: [
           {
-            text: `Core v${version}`,
-            items: [
-              {
-                text: 'Release Notes ',
-                link: `https://github.com/Tresjs/tres/releases/tag/%40tresjs%2Fcore%40${version}`,
-              },
-            ],
-          },
-          {
-            text: `Cientos v${cientosVersion}`,
-            items: [
-              {
-                text: 'Release Notes ',
-                link: `https://github.com/Tresjs/tres/releases/tag/%40tresjs%2Fcientos%40${cientosVersion}`,
-              },
-            ],
+            text: `Cientos 💛`,
+            link: 'https://cientos.tresjs.org/',
           },
         ],
-      }, */
+      },
     ],
     socialLinks: [
       /*  { icon: 'github', link: 'https://github.com/tresjs/tres' }, */
       { icon: 'twitter', link: 'https://twitter.com/alvarosabu' },
-      { icon: 'discord', link: 'https://discord.gg/wXx63MwW'}
+      { icon: 'discord', link: 'https://discord.gg/wXx63MwW' },
     ],
   },
   vite: {
@@ -102,7 +96,7 @@ export default defineConfig({
     resolve: {
       alias: {
         '/@': resolve(__dirname, '../../src'),
-      }
-    }
+      },
+    },
   },
 })

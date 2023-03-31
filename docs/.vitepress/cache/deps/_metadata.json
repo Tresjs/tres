@@ -1,47 +1,47 @@
 {
-  "hash": "8885e0d8",
-  "browserHash": "f5506ae5",
+  "hash": "57ed5bdd",
+  "browserHash": "5a85ba9f",
   "optimized": {
     "vue": {
       "src": "../../../../node_modules/.pnpm/vue@3.2.47/node_modules/vue/dist/vue.runtime.esm-bundler.js",
       "file": "vue.js",
-      "fileHash": "0e9f3d71",
+      "fileHash": "b356fbe8",
       "needsInterop": false
     },
     "three": {
       "src": "../../../../node_modules/.pnpm/three@0.150.1/node_modules/three/build/three.module.js",
       "file": "three.js",
-      "fileHash": "83b7f56c",
+      "fileHash": "ef0dcbe3",
       "needsInterop": false
     },
     "@tresjs/cientos": {
       "src": "../../../../node_modules/.pnpm/@tresjs+cientos@2.0.0-alpha.5_three@0.150.1/node_modules/@tresjs/cientos/dist/trescientos.js",
       "file": "@tresjs_cientos.js",
-      "fileHash": "8aa5eace",
+      "fileHash": "ff897d95",
       "needsInterop": false
     },
     "@stackblitz/sdk": {
       "src": "../../../../node_modules/.pnpm/@stackblitz+sdk@1.8.2/node_modules/@stackblitz/sdk/bundles/sdk.m.js",
       "file": "@stackblitz_sdk.js",
-      "fileHash": "a975a8b1",
+      "fileHash": "e331485d",
       "needsInterop": false
     },
     "gsap": {
       "src": "../../../../node_modules/.pnpm/gsap@3.11.5/node_modules/gsap/index.js",
       "file": "gsap.js",
-      "fileHash": "4e5151fd",
+      "fileHash": "02cf948d",
       "needsInterop": false
     },
     "@vueuse/core": {
       "src": "../../../../node_modules/.pnpm/@vueuse+core@9.13.0/node_modules/@vueuse/core/index.mjs",
       "file": "@vueuse_core.js",
-      "fileHash": "62e3edb1",
+      "fileHash": "22db28b3",
       "needsInterop": false
     },
     "@alvarosabu/utils": {
       "src": "../../../../node_modules/.pnpm/@alvarosabu+utils@2.3.0/node_modules/@alvarosabu/utils/dist/as-utils.js",
       "file": "@alvarosabu_utils.js",
-      "fileHash": "07b617fe",
+      "fileHash": "f3ee0595",
       "needsInterop": false
     }
   },
