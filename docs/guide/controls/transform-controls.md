@@ -25,7 +25,7 @@ const boxRef = shallowRef()
 ```
 
 ::: warning
-If you are using other controls ([OrbitControls](/cientos/controls/orbit-controls)) they will interfere with each other when dragging. To avoid this, you can set the `makeDefault` prop to `true` on the **OrbitControls**.
+If you are using other controls ([OrbitControls](/guide/controls/orbit-controls)) they will interfere with each other when dragging. To avoid this, you can set the `makeDefault` prop to `true` on the **OrbitControls**.
 :::
 
 ## Modes
