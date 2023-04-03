@@ -17,6 +17,7 @@
     "@tresjs/cientos": "2.0.0-alpha.5",
     "@vitejs/plugin-vue": "^4.1.0",
     "typescript": "^5.0.2",
+    "unocss": "^0.50.6",
     "unplugin-auto-import": "^0.15.2",
     "unplugin-vue-components": "^0.24.1",
     "vite": "^4.2.1",
