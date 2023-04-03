@@ -2,7 +2,6 @@
 import { watch, ref, shallowRef, computed, toRefs } from 'vue'
 import {
   MaybeComputedRef,
-  MaybeElementRef,
   resolveUnref,
   unrefElement,
   useDevicePixelRatio,

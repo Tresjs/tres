@@ -91,6 +91,13 @@ export interface TresState {
   [key: string]: any
 }
 
+export type UseTresReturn = {
+  state: TresState
+  getState: (key: string) => void
+  setState: (key: string, value: any) => void
+  aspectRatio: ComputedRef<number>
+}
+
 const TRES_CONTEXT_KEY = Symbol()
 const { logError } = useLogger()
 /**
@@ -146,9 +153,7 @@ export function useTresProvider() {
 export const useTres = () => {
   const context = inject(TRES_CONTEXT_KEY)
 
-  if (!context) return
-
   if (!context) logError('UseTres together with useTresProvider')
 
-  return context
+  return context as UseTresReturn
 }

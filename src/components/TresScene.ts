@@ -1,4 +1,4 @@
-import { App, defineComponent, h, onMounted, onUnmounted, onUpdated, provide, ref, watch, watchEffect } from 'vue'
+import { App, defineComponent, h, onMounted, onUnmounted, ref, watchEffect } from 'vue'
 import * as THREE from 'three'
 import { PerspectiveCamera, ShadowMapType, TextureEncoding, ToneMapping } from 'three'
 import { createTres } from '/@/core/renderer'
@@ -54,7 +54,7 @@ export const TresScene = defineComponent<TresSceneProps>({
     const container = ref<HTMLElement>()
     const canvas = ref<HTMLElement>()
     const scene = new THREE.Scene()
-    const { state, setState } = useTres()
+    const { setState } = useTres()
 
     setState('scene', scene)
     setState('canvas', canvas)
