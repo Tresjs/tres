@@ -6,7 +6,10 @@ import { resolve } from 'pathe'
 export default defineConfig({
   title: 'TresJS',
   description: 'Declarative ThreeJS using Vue Components',
-  head: [['link', { rel: 'icon', type: 'image/svg', href: '/favicon.svg' }]],
+  head: [
+    ['link', { rel: 'icon', type: 'image/svg', href: '/favicon.svg' }],
+    ['script', { defer: 'true', 'data-domain': 'tresjs.org', src: 'https://plausible.io/js/script.js' }],
+  ],
   themeConfig: {
     logo: '/logo.svg',
     sidebar: [

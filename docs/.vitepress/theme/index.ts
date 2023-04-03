@@ -10,7 +10,7 @@ import EmbedExperiment from './components/EmbedExperiment.vue'
 
 import TresLayout from './TresLayout.vue'
 
-const plausible = createPlausible({
+/* const plausible = createPlausible({
   init: {
     trackLocalhost: false,
   },
@@ -19,7 +19,7 @@ const plausible = createPlausible({
     enableAutoPageviews: true,
   },
   partytown: false,
-})
+}) */
 
 export default {
   ...DefaultTheme,
@@ -30,7 +30,7 @@ export default {
     ctx.app.component('StackBlitzEmbed', StackBlitzEmbed)
     ctx.app.component('EmbedExperiment', EmbedExperiment)
 
-    ctx.app.use(plausible)
+    /* ctx.app.use(plausible) */
   },
   Layout: TresLayout,
   /* Layout() {

@@ -101,7 +101,7 @@ import {
   WebGLRenderer,
   sRGBEncoding,
   three_module_exports
-} from "./chunk-4QXXOI63.js";
+} from "./chunk-XEKPWTXV.js";
 import {
   computed,
   createBaseVNode,
@@ -481,7 +481,7 @@ function useWindowSize(options = {}) {
   return { width, height };
 }
 
-// node_modules/.pnpm/@tresjs+core@2.0.0-alpha.1_three@0.150.1+vue@3.2.47/node_modules/@tresjs/core/dist/tres.js
+// node_modules/.pnpm/@tresjs+core@2.0.0-alpha.1_three@0.151.2+vue@3.2.47/node_modules/@tresjs/core/dist/tres.js
 var G = ref({ uuid: MathUtils.generateUUID() });
 var se = (e) => void Object.assign(G.value, e);
 var Ne = ((e) => (e.Perspective = "Perspective", e.Orthographic = "Orthographic", e))(Ne || {});
@@ -895,7 +895,7 @@ var lt = defineComponent({
   }
 });
 
-// node_modules/.pnpm/@tresjs+cientos@2.0.0-alpha.5_three@0.150.1/node_modules/@tresjs/cientos/dist/trescientos.js
+// node_modules/.pnpm/@tresjs+cientos@2.0.0-alpha.5_three@0.151.2/node_modules/@tresjs/cientos/dist/trescientos.js
 function Np(b2, i) {
   for (var r = 0; r < i.length; r++) {
     const s = i[r];

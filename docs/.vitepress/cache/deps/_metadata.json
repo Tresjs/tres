@@ -1,53 +1,59 @@
 {
-  "hash": "57ed5bdd",
-  "browserHash": "5a85ba9f",
+  "hash": "c17ae1f0",
+  "browserHash": "5bb77dae",
   "optimized": {
     "vue": {
       "src": "../../../../node_modules/.pnpm/vue@3.2.47/node_modules/vue/dist/vue.runtime.esm-bundler.js",
       "file": "vue.js",
-      "fileHash": "b356fbe8",
+      "fileHash": "d044c9b0",
+      "needsInterop": false
+    },
+    "@huntersofbook/plausible-vue": {
+      "src": "../../../../node_modules/.pnpm/@huntersofbook+plausible-vue@1.0.0/node_modules/@huntersofbook/plausible-vue/dist/index.mjs",
+      "file": "@huntersofbook_plausible-vue.js",
+      "fileHash": "848179d8",
       "needsInterop": false
     },
     "three": {
-      "src": "../../../../node_modules/.pnpm/three@0.150.1/node_modules/three/build/three.module.js",
+      "src": "../../../../node_modules/.pnpm/three@0.151.2/node_modules/three/build/three.module.js",
       "file": "three.js",
-      "fileHash": "ef0dcbe3",
+      "fileHash": "7beb728f",
       "needsInterop": false
     },
     "@tresjs/cientos": {
-      "src": "../../../../node_modules/.pnpm/@tresjs+cientos@2.0.0-alpha.5_three@0.150.1/node_modules/@tresjs/cientos/dist/trescientos.js",
+      "src": "../../../../node_modules/.pnpm/@tresjs+cientos@2.0.0-alpha.5_three@0.151.2/node_modules/@tresjs/cientos/dist/trescientos.js",
       "file": "@tresjs_cientos.js",
-      "fileHash": "ff897d95",
+      "fileHash": "8825b321",
       "needsInterop": false
     },
     "@stackblitz/sdk": {
       "src": "../../../../node_modules/.pnpm/@stackblitz+sdk@1.8.2/node_modules/@stackblitz/sdk/bundles/sdk.m.js",
       "file": "@stackblitz_sdk.js",
-      "fileHash": "e331485d",
+      "fileHash": "9c76117e",
       "needsInterop": false
     },
     "gsap": {
       "src": "../../../../node_modules/.pnpm/gsap@3.11.5/node_modules/gsap/index.js",
       "file": "gsap.js",
-      "fileHash": "02cf948d",
+      "fileHash": "a4e1e619",
       "needsInterop": false
     },
     "@vueuse/core": {
       "src": "../../../../node_modules/.pnpm/@vueuse+core@9.13.0/node_modules/@vueuse/core/index.mjs",
       "file": "@vueuse_core.js",
-      "fileHash": "22db28b3",
+      "fileHash": "78c5386e",
       "needsInterop": false
     },
     "@alvarosabu/utils": {
       "src": "../../../../node_modules/.pnpm/@alvarosabu+utils@2.3.0/node_modules/@alvarosabu/utils/dist/as-utils.js",
       "file": "@alvarosabu_utils.js",
-      "fileHash": "f3ee0595",
+      "fileHash": "da5ce369",
       "needsInterop": false
     }
   },
   "chunks": {
-    "chunk-4QXXOI63": {
-      "file": "chunk-4QXXOI63.js"
+    "chunk-XEKPWTXV": {
+      "file": "chunk-XEKPWTXV.js"
     },
     "chunk-LZPJ5JBW": {
       "file": "chunk-LZPJ5JBW.js"
