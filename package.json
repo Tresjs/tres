@@ -20,6 +20,7 @@
     "vite-plugin-glsl": "^1.1.2"
   },
   "dependencies": {
+    "@iconify-json/ic": "^1.1.13",
     "@tresjs/cientos": "2.0.0-alpha.5",
     "@tresjs/core": "2.0.0-alpha.4",
     "postprocessing": "^6.30.2",
