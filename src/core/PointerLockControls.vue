@@ -11,24 +11,16 @@ export interface PointerLockControlsProps {
    * @default false
    * @type {boolean}
    * @memberof PointerLockControlsProps
-   * @see https://threejs.org/docs/#examples/en/controls/OrbitControls
+   * @see https://threejs.org/docs/index.html?q=pointe#examples/en/controls/PointerLockControls
    */
   makeDefault?: boolean
   /**
-   * Whether to disable controls.
+   * The camera to control.
    *
    * @default false
    * @type {boolean}
    * @memberof PointerLockControlsProps
-   * @see https://threejs.org/docs/#examples/en/controls/OrbitControls
-   */
-  disable?: boolean
-  /**
-   * The camera to control.
-   *
-   * @type {Camera}
-   * @memberof PointerLockControlsProps
-   * @see https://threejs.org/docs/#examples/en/controls/OrbitControls
+   * @see https://threejs.org/docs/index.html?q=pointe#examples/en/controls/PointerLockControls
    */
   camera?: Camera
   /**
@@ -36,7 +28,7 @@ export interface PointerLockControlsProps {
    *
    * @type {HTMLElement}
    * @memberof PointerLockControlsProps
-   * @see https://threejs.org/docs/#examples/en/controls/OrbitControls
+   * @see https://threejs.org/docs/index.html?q=pointe#examples/en/controls/PointerLockControls
    */
   domElement?: HTMLElement
   /**
@@ -44,9 +36,9 @@ export interface PointerLockControlsProps {
    *
    * @type {string}
    * @memberof PointerLockControlsProps
-   * @see https://threejs.org/docs/#examples/en/controls/OrbitControls
+   * @see https://threejs.org/docs/index.html?q=pointe#examples/en/controls/PointerLockControls
    */
-  trigger?: string
+   triggerId?: string
 }
 
 const props = withDefaults(defineProps<PointerLockControlsProps>(), {
@@ -76,7 +68,7 @@ const addDefaultButton = () => {
   return buttonNode;
 }
 
-const isTriggerNode = document.getElementById(props.trigger || '')
+const isTriggerNode = document.getElementById(props.triggerId || '')
 const triggerNode = isTriggerNode ? isTriggerNode : addDefaultButton()
 const isVisible = triggerNode.offsetWidth > 0 || triggerNode.offsetHeight > 0;
 
