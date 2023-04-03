@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { TextGeometry, FontLoader } from 'three-stdlib'
 
-import { computed, useSlots } from 'vue'
+import { computed, useSlots, shallowRef } from 'vue'
 import { useCientos } from './useCientos'
 
 export type Glyph = {
@@ -168,9 +168,16 @@ const textOptions = computed(() => {
     bevelSegments: props.bevelSegments,
   }
 })
+
+const textRef = shallowRef()
+
+defineExpose({
+  value: textRef,
+})
+
 </script>
 <template>
-  <TresMesh v-if="font">
+  <TresMesh v-if="font" ref="textRef" v-bind="$attrs">
     <TresTextGeometry v-if="localText" :args="[localText, textOptions]" :center="center" />
     <slot />
   </TresMesh>
