@@ -79,8 +79,8 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
     let prevInstance: TresEvent | null = null
     let currentInstance: TresEvent | null = null
 
-    const { raycaster } = useRaycaster()
     if (child && child instanceof Mesh && hasEvents(child)) {
+      const { raycaster } = useRaycaster()
       onLoop(() => {
         if (parent?.children && child && raycaster) {
           const intersects = raycaster.value.intersectObjects(parent.children)
