@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useRenderLoop, useTres, TresCanvas } from '@tresjs/core'
 import { reactive, watchEffect } from 'vue'
-import { BasicShadowMap, sRGBEncoding, NoToneMapping } from 'three'
+import { BasicShadowMap, sRGBEncoding, NoToneMapping, LoadingManager, DefaultLoadingManager } from 'three'
 import { OrbitControls, GLTFModel, useTweakPane } from '@tresjs/cientos'
 import {
   BloomEffect,
@@ -25,6 +25,7 @@ const gl = reactive({
 })
 let effectComposer
 let activePass
+
 const { pane } = useTweakPane()
 
 pane
@@ -64,30 +65,50 @@ watchEffect(() => {
     effectComposer = new EffectComposer(state.renderer)
     effectComposer.addPass(new RenderPass(state.scene, state.camera))
 
-    /* const dotScreenPass = new EffectPass(state.camera, new DotScreenEffect())
-    const bloomPass = new EffectPass(state.camera, new BloomEffect())
-    const glitchPass = new EffectPass(state.camera, new GlitchEffect())
-
-    effectComposer.addPass(glitchPass) */
-    /*  const chromatic = new EffectPass(
-      state.camera,
-      new ChromaticAberrationEffect({
-        offset: new Vector2(0.001, 0.009),
-      }),
-    )
-    effectComposer.addPass(chromatic) */
-
     onLoop(() => {
       effectComposer.render()
     })
   }
 })
+
+//TODO: replace this when UseProgress is implemented https://github.com/Tresjs/cientos/issues/22
+
+const hasFinishLoading = ref(false)
+const progress = ref(0)
+
+let saveLastTotalLoaded = 0
+
+DefaultLoadingManager.onProgress = (item, loaded, total) => {
+  if (loaded === total) {
+    saveLastTotalLoaded = total
+    hasFinishLoading.value = true
+  }
+  progress.value = Math.round(((loaded - saveLastTotalLoaded) / (total - saveLastTotalLoaded)) * 100 || 100, 2)
+}
 </script>
 
 <template>
+  <Transition
+    name="fade-overlay"
+    enter-active-class="opacity-1 transition-opacity duration-200"
+    leave-active-class="opacity-0 transition-opacity duration-200"
+  >
+    <div
+      v-show="!hasFinishLoading"
+      class="absolute bg-grey-600 t-0 l-0 w-full h-full z-20 flex justify-center items-center text-black font-mono"
+    >
+      <div class="w-200px">
+        Loading... {{ progress }} %
+        <span
+          class="mt-4 block bg-black h-1 w-1 z-10 transition-1"
+          :style="{ transform: `scaleX(${progress / 2})`, transformOrigin: '0 100%' }"
+        ></span>
+      </div>
+    </div>
+  </Transition>
   <TresCanvas v-bind="gl">
     <OrbitControls />
-    <TresPerspectiveCamera :position="[11, 11, 11]" />
+    <TresPerspectiveCamera :position="[5, 5, 5]" />
     <TresDirectionalLight :position="[10, 10, 10]" />
     <Suspense>
       <GLTFModel
