@@ -3,9 +3,6 @@ import { useTres } from '.'
 import { withSetup } from '/@/utils/test-utils'
 
 describe.skip('useTres', () => {
-  beforeAll(() => {
-    useTresProvider()
-  })
   it('should set the state', () => {
     const { state, setState } = useTres()
     setState('foo', 'bar')
