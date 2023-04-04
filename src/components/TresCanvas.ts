@@ -43,9 +43,7 @@ export const TresCanvas = defineComponent<TresCanvasProps>({
   setup(props, { slots }) {
     useTresProvider()
 
-    return () => {
-      return h(TresScene, props, slots)
-    }
+    return () => h(TresScene, props, slots)
   },
 })
 

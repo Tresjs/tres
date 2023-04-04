@@ -30,7 +30,7 @@ export function normalizeVectorFlexibleParam(value: VectorFlexibleParams): Array
   return value as Array<number>
 }
 
-export function normalizeColor(value: Color | Array<number> | string | number) {
+export function normalizeColor(value: Color | Array<number> | string | number | ColorRepresentation) {
   if (value instanceof Color) {
     return value
   }
