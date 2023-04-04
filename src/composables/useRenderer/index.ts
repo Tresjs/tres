@@ -116,7 +116,6 @@ export interface UseRendererOptions extends WebGLRendererParameters {
  * Reactive Three.js WebGLRenderer instance
  *
  * @param canvas
- * @param state.container
  * @param {UseRendererOptions} [options]
  */
 export function useRenderer(options: UseRendererOptions) {
