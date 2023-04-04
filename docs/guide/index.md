@@ -29,6 +29,7 @@ Now you can use the `OrbitControls` component in your scene.
 ```html
 <template>
   <TresCanvas shadows alpha>
+    <TresPerspectiveCamera :args="[45," 1, 0.1, 1000] />
     <OrbitControls />
   </TresCanvas>
 </template>
