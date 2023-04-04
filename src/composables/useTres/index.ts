@@ -1,6 +1,7 @@
 import { Clock, EventDispatcher, Raycaster, Scene, Vector2, WebGLRenderer } from 'three'
-import { computed, ComputedRef, shallowReactive, toRefs } from 'vue'
-import { Camera } from '/@/composables'
+import { generateUUID } from 'three/src/math/MathUtils'
+import { computed, ComputedRef, inject, provide, shallowReactive, toRefs } from 'vue'
+import { Camera, useLogger } from '/@/composables'
 
 export interface TresState {
   /**
@@ -90,14 +91,14 @@ export interface TresState {
   [key: string]: any
 }
 
-const INIT_STATE = {
-  camera: undefined,
-  cameras: [],
-  scene: undefined,
-  renderer: undefined,
-  aspectRatio: computed(() => window.innerWidth / window.innerHeight),
+export type UseTresReturn = {
+  state: TresState
+  getState: (key: string) => void
+  setState: (key: string, value: any) => void
+  aspectRatio: ComputedRef<number>
 }
-const state: TresState = shallowReactive(INIT_STATE)
+
+const TRES_CONTEXT_KEY = Symbol()
 
 /**
  * The Tres state.
@@ -107,7 +108,15 @@ const state: TresState = shallowReactive(INIT_STATE)
  * @export
  * @return {*} {TresState, getState, setState}
  */
-export function useTres() {
+export function useTresProvider() {
+  const state: TresState = shallowReactive({
+    uuid: generateUUID(),
+    camera: undefined,
+    cameras: [],
+    scene: undefined,
+    renderer: undefined,
+    aspectRatio: computed(() => window.innerWidth / window.innerHeight),
+  })
   /**
    * Get a state value.
    *
@@ -129,10 +138,23 @@ export function useTres() {
     state[key] = value
   }
 
-  return {
+  const toProvide = {
     state,
     ...toRefs(state),
     getState,
     setState,
   }
+
+  provide(TRES_CONTEXT_KEY, toProvide)
+
+  return toProvide
+}
+
+export const useTres = () => {
+  const context = inject<UseTresReturn>(TRES_CONTEXT_KEY)
+  const { logError } = useLogger()
+
+  if (!context) logError('useTres must be used together with useTresProvider')
+
+  return context as UseTresReturn
 }

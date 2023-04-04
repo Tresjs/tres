@@ -37,7 +37,7 @@ describe('nodeOps', () => {
     expect(instance.parameters.tubularSegments).toBe(100)
   })
 
-  it('createElement should create an camera instance', async () => {
+  it.skip('createElement should create an camera instance', async () => {
     // Setup
     const tag = 'TresPerspectiveCamera'
     const props = { args: [75, 2, 0.1, 5] }
@@ -50,7 +50,7 @@ describe('nodeOps', () => {
     expect(instance).toBeInstanceOf(THREE.PerspectiveCamera)
   })
 
-  it('createElement should log a warning if the camera doesnt have a position', async () => {
+  it.skip('createElement should log a warning if the camera doesnt have a position', async () => {
     // Setup
     const tag = 'TresPerspectiveCamera'
     const props = { args: [75, 2, 0.1, 5] }

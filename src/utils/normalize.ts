@@ -1,4 +1,4 @@
-import { Vector3, Color } from 'three'
+import { Vector3, Color, ColorRepresentation } from 'three'
 
 export type SizeFlexibleParams =
   | number[]
@@ -30,12 +30,12 @@ export function normalizeVectorFlexibleParam(value: VectorFlexibleParams): Array
   return value as Array<number>
 }
 
-export function normalizeColor(value: Color | Array<number> | string | number) {
+export function normalizeColor(value: Color | Array<number> | string | number | ColorRepresentation) {
   if (value instanceof Color) {
     return value
   }
   if (Array.isArray(value)) {
     return new Color(...value)
   }
-  return new Color(value)
+  return new Color(value as ColorRepresentation)
 }

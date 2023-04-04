@@ -2,7 +2,6 @@
 import { watch, ref, shallowRef, computed, toRefs } from 'vue'
 import {
   MaybeComputedRef,
-  MaybeElementRef,
   resolveUnref,
   unrefElement,
   useDevicePixelRatio,
@@ -113,17 +112,15 @@ export interface UseRendererOptions extends WebGLRendererParameters {
   preset?: RendererPresetsType
 }
 
-const renderer = shallowRef<WebGLRenderer>()
-const isReady = ref(false)
-
 /**
  * Reactive Three.js WebGLRenderer instance
  *
  * @param canvas
- * @param container
  * @param {UseRendererOptions} [options]
  */
-export function useRenderer(canvas: MaybeElementRef, container: MaybeElementRef, options: UseRendererOptions) {
+export function useRenderer(options: UseRendererOptions) {
+  const renderer = shallowRef<WebGLRenderer>()
+  const isReady = ref(false)
   // Defaults
   const {
     alpha = true,
@@ -149,15 +146,15 @@ export function useRenderer(canvas: MaybeElementRef, container: MaybeElementRef,
     preset = undefined,
   } = toRefs(options)
 
-  const { setState } = useTres()
+  const { state, setState } = useTres()
 
-  const { width, height } = resolveUnref(windowSize) ? useWindowSize() : useElementSize(container)
+  const { width, height } = resolveUnref(windowSize) ? useWindowSize() : useElementSize(state.container)
   const { logError, logWarning } = useLogger()
   const { pixelRatio } = useDevicePixelRatio()
   const { pause, resume } = useRenderLoop()
   const aspectRatio = computed(() => width.value / height.value)
 
-  if (!resolveUnref(windowSize) && container?.value?.offsetHeight === 0) {
+  if (!resolveUnref(windowSize) && state.container?.value?.offsetHeight === 0) {
     logWarning(`Oops... Seems like your canvas height is currently 0px, by default it takes the height of it's parent, so make sure it has some height with CSS.
 You could set windowSize=true to force the canvas to be the size of the window.`)
   }
@@ -198,7 +195,7 @@ You could set windowSize=true to force the canvas to be the size of the window.`
   }
 
   const init = () => {
-    const _canvas = unrefElement(canvas)
+    const _canvas = unrefElement(state.canvas)
 
     if (!_canvas) {
       return
@@ -249,9 +246,9 @@ You could set windowSize=true to force the canvas to be the size of the window.`
   )
 
   watch(
-    () => [canvas, container],
+    () => [state.canvas, state.container],
     () => {
-      if (unrefElement(canvas) && unrefElement(container)) {
+      if (unrefElement(state.canvas) && unrefElement(state.container)) {
         init()
       }
     },
