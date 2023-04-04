@@ -1,13 +1,12 @@
 <script setup lang="ts">
 import { BasicShadowMap, sRGBEncoding, NoToneMapping } from 'three'
 import { TresCanvas } from '/@/'
-import { OrbitControls, useTweakPane } from '@tresjs/cientos'
+import { OrbitControls, TransformControls, useTweakPane } from '@tresjs/cientos'
 
 const state = shallowReactive({
   clearColor: '#201919',
   shadows: true,
   alpha: false,
-  physicallyCorrectLights: true,
   shadowMapType: BasicShadowMap,
   outputEncoding: sRGBEncoding,
   toneMapping: NoToneMapping,
@@ -71,13 +70,15 @@ axisFolder.addInput(transformState, 'showZ')
 
 <template>
   <TresCanvas v-bind="state">
-    <OrbitControls make-default />
     <TresPerspectiveCamera :position="[11, 11, 11]" :fov="45" :near="0.1" :far="1000" :look-at="[-8, 3, -3]" />
 
+    <OrbitControls make-default />
     <TresMesh ref="boxRef" :position="[0, 4, 0]" cast-shadow>
       <TresBoxGeometry :args="[1.5, 1.5, 1.5]" />
       <TresMeshToonMaterial color="#FBB03B" />
     </TresMesh>
+    <TransformControls :object="boxRef" v-bind="transformState" />
+
     <TresMesh :rotation="[-Math.PI / 2, 0, 0]" receive-shadow>
       <TresPlaneGeometry :args="[10, 10, 10, 10]" />
       <TresMeshToonMaterial />

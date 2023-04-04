@@ -13,8 +13,8 @@ const gl = {
 
 <template>
   <TresCanvas v-bind="gl">
-    <OrbitControls />
     <TresPerspectiveCamera :position="[5, 5, 5]" :fov="45" :aspect="1" :near="0.1" :far="1000" />
+    <OrbitControls />
     <TresFog :args="[gl.clearColor, 0.1, 75]" />
     <Suspense>
       <ThePortal />

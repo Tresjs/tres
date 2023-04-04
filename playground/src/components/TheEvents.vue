@@ -35,25 +35,24 @@ function onPointerLeave(ev) {
 <template>
   <TresCanvas v-bind="state">
     <TresPerspectiveCamera :position="[11, 11, 11]" :fov="45" :near="0.1" :far="1000" :look-at="[-8, 3, -3]" />
+
+    <TresDirectionalLight :position="[0, 8, 4]" :intensity="0.2" cast-shadow />
     <OrbitControls />
-    <TresScene>
-      <TresDirectionalLight :position="[0, 8, 4]" :intensity="0.2" cast-shadow />
-      <template v-for="x in [-2.5, 0, 2.5]">
-        <template v-for="y in [-2.5, 0, 2.5]">
-          <TresMesh
-            v-for="z in [-2.5, 0, 2.5]"
-            :key="[x, y, z]"
-            :position="[x, y, z]"
-            @click="onClick"
-            @pointer-enter="onPointerEnter"
-            @pointer-leave="onPointerLeave"
-          >
-            <TresBoxGeometry :args="[1, 1, 1]" />
-            <TresMeshToonMaterial color="#efefef" />
-          </TresMesh>
-        </template>
+    <template v-for="x in [-2.5, 0, 2.5]">
+      <template v-for="y in [-2.5, 0, 2.5]">
+        <TresMesh
+          v-for="z in [-2.5, 0, 2.5]"
+          :key="[x, y, z]"
+          :position="[x, y, z]"
+          @click="onClick"
+          @pointer-enter="onPointerEnter"
+          @pointer-leave="onPointerLeave"
+        >
+          <TresBoxGeometry :args="[1, 1, 1]" />
+          <TresMeshToonMaterial color="#efefef" />
+        </TresMesh>
       </template>
-      <TresAmbientLight :intensity="0.5" />
-    </TresScene>
+    </template>
+    <TresAmbientLight :intensity="0.5" />
   </TresCanvas>
 </template>
