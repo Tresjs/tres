@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { BasicShadowMap, sRGBEncoding, NoToneMapping, Vector2 } from 'three'
-import { TresCanvas, TresInstance, useRenderLoop } from '@tresjs/core'
+import { TresCanvas, TresInstance, useRenderLoop } from '/@/'
 import { OrbitControls } from '@tresjs/cientos'
 import vertexShader from './shaders/vertex.glsl'
 import fragmentShader from './shaders/fragment.glsl'
@@ -33,8 +33,8 @@ onLoop(({ elapsed }) => {
 
 <template>
   <TresCanvas v-bind="gl">
-    <OrbitControls />
     <TresPerspectiveCamera :position="[11, 11, 11]" />
+    <OrbitControls />
     <TresMesh ref="blobRef" :position="[0, 4, 0]">
       <TresSphereGeometry :args="[2, 32, 32]" />
       <TresShaderMaterial :vertex-shader="vertexShader" :fragment-shader="fragmentShader" :uniforms="uniforms" />
