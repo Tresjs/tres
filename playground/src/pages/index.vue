@@ -27,7 +27,7 @@ const text = ref('hola mundo')
     <TresGridHelper :args="[10, 10]" />
     <TresAmbientLight :intensity="1" />
     <Suspense>
-      <Text3D :text="text" :font="fontPath" :position="[-2, 0, 0]" />
+      <Text3D :text="text" :font="fontPath" :position="[-2, 0, 0]" needUpdates />
     </Suspense>
 
   </TresCanvas>

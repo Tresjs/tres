@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { TextGeometry, FontLoader } from 'three-stdlib'
 
-import { computed, useSlots, shallowRef, watch } from 'vue'
+import { computed, useSlots, shallowRef, watchEffect } from 'vue'
 import { useCientos } from './useCientos'
 
 export type Glyph = {
@@ -179,14 +179,12 @@ const textOptions = computed(() => {
 
 const text3DRef = shallowRef()
 
-  if(props.needUpdates){
-    watch(localText, () => {
-      if (text3DRef.value) {
+watchEffect(() => {
+   if(text3DRef.value && props.needUpdates) {
         text3DRef.value.geometry.dispose()
         text3DRef.value.geometry = new TextGeometry(localText.value, textOptions.value)
-      }
-    })
-  }
+   }
+})
 
 defineExpose({ text3DRef })
 
