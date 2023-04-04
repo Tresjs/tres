@@ -154,7 +154,7 @@ export const useTres = () => {
   const context = inject<UseTresReturn>(TRES_CONTEXT_KEY)
   const { logError } = useLogger()
 
-  if (!context) logError('UseTres together with useTresProvider')
+  if (!context) logError('useTres must be used together with useTresProvider')
 
   return context as UseTresReturn
 }
