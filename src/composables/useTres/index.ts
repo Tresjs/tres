@@ -99,7 +99,7 @@ export type UseTresReturn = {
 }
 
 const TRES_CONTEXT_KEY = Symbol()
-const { logError } = useLogger()
+
 /**
  * The Tres state.
  *
@@ -152,6 +152,7 @@ export function useTresProvider() {
 
 export const useTres = () => {
   const context = inject(TRES_CONTEXT_KEY)
+  const { logError } = useLogger()
 
   if (!context) logError('UseTres together with useTresProvider')
 
