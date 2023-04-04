@@ -2,7 +2,7 @@ import {
   __export
 } from "./chunk-JC4IRQUL.js";
 
-// node_modules/.pnpm/three@0.151.2/node_modules/three/build/three.module.js
+// node_modules/.pnpm/three@0.151.3/node_modules/three/build/three.module.js
 var three_module_exports = {};
 __export(three_module_exports, {
   ACESFilmicToneMapping: () => ACESFilmicToneMapping,
@@ -30489,4 +30489,4 @@ three/build/three.module.js:
    * SPDX-License-Identifier: MIT
    *)
 */
-//# sourceMappingURL=chunk-XEKPWTXV.js.map
+//# sourceMappingURL=chunk-UMTEG5DH.js.map

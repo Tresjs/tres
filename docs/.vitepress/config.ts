@@ -2,6 +2,7 @@ import Unocss from 'unocss/vite'
 import svgLoader from 'vite-svg-loader'
 import { defineConfig } from 'vitepress'
 import { resolve } from 'pathe'
+import Components from 'unplugin-vue-components/vite'
 
 export default defineConfig({
   title: 'TresJS',
@@ -95,7 +96,13 @@ export default defineConfig({
     ],
   },
   vite: {
-    plugins: [svgLoader(), Unocss()],
+    plugins: [
+      svgLoader(),
+      Unocss(),
+      Components({
+        dirs: ['./theme/components'],
+      }),
+    ],
     resolve: {
       alias: {
         '/@': resolve(__dirname, '../../src'),

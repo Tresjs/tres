@@ -4,6 +4,7 @@ importers:
 
   .:
     specifiers:
+      '-': ^0.0.1
       '@alvarosabu/prettier-config': ^1.2.0
       '@alvarosabu/utils': ^2.3.0
       '@huntersofbook/plausible-vue': ^1.0.0
@@ -34,6 +35,7 @@ importers:
       three: latest
       unocss: ^0.48.0
       unplugin: ^1.3.1
+      unplugin-vue-components: ^0.24.1
       vite: ^4.1.4
       vite-plugin-banner: ^0.7.0
       vite-plugin-dts: 2.1.0
@@ -44,6 +46,7 @@ importers:
       vitest: ^0.29.2
       vue-demi: ^0.13.11
     dependencies:
+      '-': 0.0.1
       '@alvarosabu/utils': 2.3.0
       '@vueuse/core': 9.13.0
     devDependencies:
@@ -51,7 +54,7 @@ importers:
       '@huntersofbook/plausible-vue': 1.0.0
       '@release-it/conventional-changelog': 5.1.1_release-it@15.9.1
       '@stackblitz/sdk': 1.8.2
-      '@tresjs/cientos': 2.0.0-alpha.5_three@0.151.2
+      '@tresjs/cientos': 2.0.0-alpha.5_three@0.151.3
       '@types/three': 0.150.1
       '@typescript-eslint/eslint-plugin': 5.56.0_cnkxirszkzb4o6ts7gbclno24e
       '@typescript-eslint/parser': 5.56.0_eslint@8.36.0
@@ -72,9 +75,10 @@ importers:
       rollup-plugin-analyzer: 4.0.0
       rollup-plugin-copy: 3.4.0
       rollup-plugin-visualizer: 5.9.0
-      three: 0.151.2
+      three: 0.151.3
       unocss: 0.48.5_vite@4.1.4
       unplugin: 1.3.1
+      unplugin-vue-components: 0.24.1
       vite: 4.1.4
       vite-plugin-banner: 0.7.0
       vite-plugin-dts: 2.1.0_vite@4.1.4
@@ -191,6 +195,10 @@ importers:
       vue-demi: 0.13.11
 
 packages:
+
+  /-/0.0.1:
+    resolution: {integrity: sha512-3HfneK3DGAm05fpyj20sT3apkNcvPpCuccOThOPdzz8sY7GgQGe0l93XH9bt+YzibcTIgUAIMoyVJI740RtgyQ==}
+    dev: false
 
   /@algolia/autocomplete-core/1.7.4:
     resolution: {integrity: sha512-daoLpQ3ps/VTMRZDEBfU8ixXd+amZcNJ4QSP3IERGyzqnL5Ch8uSRFt/4G8pUvW9c3o6GA4vtVv4I4lmnkdXyg==}
@@ -1135,21 +1143,21 @@ packages:
     engines: {node: '>= 10'}
     dev: true
 
-  /@tresjs/cientos/2.0.0-alpha.5_three@0.151.2:
+  /@tresjs/cientos/2.0.0-alpha.5_three@0.151.3:
     resolution: {integrity: sha512-8SCxT8rIZ/5bPWLsp/T/YwqbmkoQ8OdRJfAKU2WrOVZpr01tpn6w+T6jFQDb8uFDiHatYR0PdHT7LejUi2tORw==}
     peerDependencies:
       three: latest
     dependencies:
-      '@tresjs/core': 2.0.0-alpha.1_three@0.151.2+vue@3.2.47
+      '@tresjs/core': 2.0.0-alpha.1_three@0.151.3+vue@3.2.47
       '@vueuse/core': 9.13.0_vue@3.2.47
-      three: 0.151.2
-      three-stdlib: 2.21.8_three@0.151.2
+      three: 0.151.3
+      three-stdlib: 2.21.8_three@0.151.3
       vue: 3.2.47
     transitivePeerDependencies:
       - '@vue/composition-api'
     dev: true
 
-  /@tresjs/core/2.0.0-alpha.1_three@0.151.2+vue@3.2.47:
+  /@tresjs/core/2.0.0-alpha.1_three@0.151.3+vue@3.2.47:
     resolution: {integrity: sha512-yxsVnhKmpzsvDzr35wLymHj42sK3DIN32RJHc4o2Ds1R8K6dOL/Qh7hs5QSG+Ebydi2oDSlmLp3Qv3lK+4qxHA==}
     peerDependencies:
       three: latest
@@ -1157,7 +1165,7 @@ packages:
     dependencies:
       '@alvarosabu/utils': 2.3.0
       '@vueuse/core': 9.13.0_vue@3.2.47
-      three: 0.151.2
+      three: 0.151.3
       vue: 3.2.47
     transitivePeerDependencies:
       - '@vue/composition-api'
@@ -4654,6 +4662,13 @@ packages:
       '@jridgewell/sourcemap-codec': 1.4.14
     dev: true
 
+  /magic-string/0.30.0:
+    resolution: {integrity: sha512-LA+31JYDJLs82r2ScLrlz1GjSgu66ZV518eyWT+S8VhyQn/JL0u9MeBOvQMGYiPk1DBiSN9DDMOcXvigJZaViQ==}
+    engines: {node: '>=12'}
+    dependencies:
+      '@jridgewell/sourcemap-codec': 1.4.14
+    dev: true
+
   /make-dir/3.1.0:
     resolution: {integrity: sha512-g3FeP20LNwhALb/6Cz6Dd4F2ngze0jz7tbzrD2wAV+o9FeNHe4rL+yK2md0J/fiSf1sa1ADhXqi5+oVwOM/eGw==}
     engines: {node: '>=8'}
@@ -4758,6 +4773,13 @@ packages:
 
   /minimatch/5.1.6:
     resolution: {integrity: sha512-lKwV/1brpG6mBUFHtb7NUmtABCb2WZZmm2wNiOA5hAb8VdCS4B3dtMWyvcoViccwAW/COERjXLt0zP1zXUN26g==}
+    engines: {node: '>=10'}
+    dependencies:
+      brace-expansion: 2.0.1
+    dev: true
+
+  /minimatch/7.4.5:
+    resolution: {integrity: sha512-OzOamaOmNBJZUv2qqY1OSWa+++4YPpOkLgkc0w30Oov5ufKlWWXnFUl0l4dgmSv5Shq/zRVkEOXAe2NaqO4l5Q==}
     engines: {node: '>=10'}
     dependencies:
       brace-expansion: 2.0.1
@@ -6178,7 +6200,7 @@ packages:
     resolution: {integrity: sha512-N+8UisAXDGk8PFXP4HAzVR9nbfmVJ3zYLAWiTIoqC5v5isinhr+r5uaO8+7r3BMfuNIufIsA7RdpVgacC2cSpw==}
     dev: true
 
-  /three-stdlib/2.21.8_three@0.151.2:
+  /three-stdlib/2.21.8_three@0.151.3:
     resolution: {integrity: sha512-kqisiKvO4mSy59v5vWqBQSH8famLxp7Z51LxpMJI9GwDxqODaW02rhIwmjYDEzZWNFpjZpoDHVGbdpeHf8h3SA==}
     peerDependencies:
       three: '>=0.122.0'
@@ -6193,15 +6215,15 @@ packages:
       mmd-parser: 1.0.4
       opentype.js: 1.3.4
       potpack: 1.0.2
-      three: 0.151.2
+      three: 0.151.3
       zstddec: 0.0.2
     dev: true
 
   /three/0.150.1:
     resolution: {integrity: sha512-5C1MqKUWaHYo13BX0Q64qcdwImgnnjSOFgBscOzAo8MYCzEtqfQqorEKMcajnA3FHy1yVlIe9AmaMQ0OQracNA==}
 
-  /three/0.151.2:
-    resolution: {integrity: sha512-tGaLRP2H6++tj2JumHD25slhFAx0C619rl6G6Utjq7JTrDGJwDxpu+J2XpnYIUMfEmhNvIFDQJfp79JtKmNBWw==}
+  /three/0.151.3:
+    resolution: {integrity: sha512-+vbuqxFy8kzLeO5MgpBHUvP/EAiecaDwDuOPPDe6SbrZr96kccF0ktLngXc7xA7bzyd3N0t2f6mw3Z9y6JCojQ==}
     dev: true
 
   /through/2.3.8:
@@ -6501,6 +6523,34 @@ packages:
   /unpipe/1.0.0:
     resolution: {integrity: sha512-pjy2bYhSsufwWlKwPc+l3cN7+wuJlK6uz0YdJEOlQDbl6jo/YlPi4mb8agUkVC8BF7V8NuzeyPNqRksA3hztKQ==}
     engines: {node: '>= 0.8'}
+    dev: true
+
+  /unplugin-vue-components/0.24.1:
+    resolution: {integrity: sha512-T3A8HkZoIE1Cja95xNqolwza0yD5IVlgZZ1PVAGvVCx8xthmjsv38xWRCtHtwl+rvZyL9uif42SRkDGw9aCfMA==}
+    engines: {node: '>=14'}
+    peerDependencies:
+      '@babel/parser': ^7.15.8
+      '@nuxt/kit': ^3.2.2
+      vue: 2 || 3
+    peerDependenciesMeta:
+      '@babel/parser':
+        optional: true
+      '@nuxt/kit':
+        optional: true
+    dependencies:
+      '@antfu/utils': 0.7.2
+      '@rollup/pluginutils': 5.0.2
+      chokidar: 3.5.3
+      debug: 4.3.4
+      fast-glob: 3.2.12
+      local-pkg: 0.4.3
+      magic-string: 0.30.0
+      minimatch: 7.4.5
+      resolve: 1.22.1
+      unplugin: 1.3.1
+    transitivePeerDependencies:
+      - rollup
+      - supports-color
     dev: true
 
   /unplugin/1.3.1:

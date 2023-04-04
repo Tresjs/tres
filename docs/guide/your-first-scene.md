@@ -85,6 +85,8 @@ Now let's see how we can easily achieve the same with **TresJS**. To do that we 
 Notice that we don't need to import anything, that's because **TresJS** automatically generate a **Vue Component based on the Three Object you want to use in CamelCase with a Tres prefix**. For example, if you want to use an `AmbientLight` you would use `<TresAmbientLight />` component.
 :::
 
-<EmbedExperiment src="https://playground.tresjs.org/experiments/tres-donut/" />
+<ClientOnly>
+    <DonutExample style="aspect-ratio: 16/9; height: auto; margin: 2rem 0; border-radius: 8px; overflow:hidden;"/>
+</ClientOnly>
 
 From here onwards you can start adding more objects to your scene and start playing with the properties of the components to see how they affect the scene.
