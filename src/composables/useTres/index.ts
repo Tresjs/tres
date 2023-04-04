@@ -1,7 +1,7 @@
 import { Clock, EventDispatcher, Raycaster, Scene, Vector2, WebGLRenderer } from 'three'
 import { generateUUID } from 'three/src/math/MathUtils'
 import { computed, ComputedRef, inject, provide, shallowReactive, toRefs } from 'vue'
-import { Camera, useLogger } from '/@/composables'
+import { Camera } from '/@/composables'
 
 export interface TresState {
   /**
@@ -151,10 +151,14 @@ export function useTresProvider() {
 }
 
 export const useTres = () => {
-  const context = inject<UseTresReturn>(TRES_CONTEXT_KEY)
-  const { logError } = useLogger()
-
-  if (!context) logError('useTres must be used together with useTresProvider')
+  const context = inject<Partial<UseTresReturn>>(TRES_CONTEXT_KEY, {
+    state: shallowReactive({
+      camera: undefined,
+      cameras: [],
+      scene: undefined,
+      renderer: undefined,
+    }),
+  })
 
   return context as UseTresReturn
 }

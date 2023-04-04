@@ -40,8 +40,10 @@ export const TresCanvas = defineComponent<TresCanvasProps>({
     'windowSize',
     'preset',
   ] as unknown as undefined,
-  setup(props, { slots }) {
-    useTresProvider()
+  setup(props, { slots, expose }) {
+    const tres = useTresProvider()
+
+    expose(tres)
 
     return () => h(TresScene, props, slots)
   },
