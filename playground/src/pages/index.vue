@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
-import { PointerLockControls } from '@cientos'
+import { OrbitControls } from '@cientos'
 import { BasicShadowMap, sRGBEncoding, NoToneMapping } from 'three'
 
 const gl = {
@@ -16,8 +16,8 @@ const gl = {
 <template>
   <TresCanvas v-bind="gl">
     <TresPerspectiveCamera :position="[3, 3, 3]" />
-    <PointerLockControls />
     <TresGridHelper :args="[10, 10]" />
     <TresAmbientLight :intensity="1" />
+    <OrbitControls />
   </TresCanvas>
 </template>

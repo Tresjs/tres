@@ -15,7 +15,7 @@ This package is not required to use the core library, but they can make your DX 
 ## Installation
 
 ```bash
-npm install @tresjs/cientos@alpha -D
+npm install @tresjs/cientos@beta -D
 ```
 
 ## Basic Usage
