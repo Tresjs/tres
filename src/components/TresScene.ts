@@ -6,7 +6,7 @@ import { useLogger } from '/@/composables'
 import { useCamera, useRenderer, useRenderLoop, useRaycaster, useTres } from '/@/composables'
 import { extend } from '/@/core/catalogue'
 import { RendererPresetsType } from '/@/composables/useRenderer/const'
-import { TresObject } from '../types'
+import { TresEvent, TresObject } from '../types'
 import { useEventListener } from '@vueuse/core'
 
 export interface TresSceneProps {
@@ -101,7 +101,7 @@ export const TresScene = defineComponent<TresSceneProps>({
             }
           } else {
             if (prevInstance !== null) {
-              currentInstance.object.events.onPointerLeave?.(prevInstance)
+              currentInstance?.object.events.onPointerLeave?.(prevInstance)
               currentInstance = null
             }
           }
@@ -110,7 +110,7 @@ export const TresScene = defineComponent<TresSceneProps>({
         }
       })
 
-      useEventListener(window, 'click', () => {
+      useEventListener(canvas.value, 'click', () => {
         if (currentInstance === null) return
         currentInstance.object.events.onClick?.(currentInstance)
       })
