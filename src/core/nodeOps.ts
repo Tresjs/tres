@@ -1,5 +1,5 @@
 import { BufferAttribute, Mesh } from 'three'
-import { useCamera, useRaycaster, useRenderLoop, useLogger } from '/@/composables'
+import { useCamera, useRaycaster, useRenderLoop, useLogger, useTres } from '/@/composables'
 import { RendererOptions } from 'vue'
 import { catalogue } from './catalogue'
 import { isFunction, useEventListener } from '@vueuse/core'
@@ -8,13 +8,34 @@ import { isHTMLTag, kebabToCamel } from '../utils'
 
 const { logWarning } = useLogger()
 
-function hasEvents(obj: any) {
-  for (const prop in obj) {
-    if (prop.indexOf('on') === 0) {
-      return true
+const onRE = /^on[^a-z]/
+export const isOn = (key: string) => onRE.test(key)
+
+export function patchEvent(
+  el: Element & { _vei?: Record<string, Invoker | undefined> },
+  rawName: string,
+  prevValue: EventValue | null,
+  nextValue: EventValue | null,
+  instance: ComponentInternalInstance | null = null,
+) {
+  // vei = vue event invokers
+  const invokers = el._vei || (el._vei = {})
+  const existingInvoker = invokers[rawName]
+  if (nextValue && existingInvoker) {
+    // patch
+    existingInvoker.value = nextValue
+  } else {
+    const [name, options] = parseName(rawName)
+    if (nextValue) {
+      // add
+      const invoker = (invokers[rawName] = createInvoker(nextValue, instance))
+      addEventListener(el, name, invoker, options)
+    } else if (existingInvoker) {
+      // remove
+      removeEventListener(el, name, existingInvoker, options)
+      invokers[rawName] = undefined
     }
   }
-  return false
 }
 
 function noop(fn: string): any {
@@ -54,6 +75,8 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
       else if (instance.isBufferGeometry) instance.attach = 'geometry'
     }
 
+    instance.events = {}
+
     return instance
   },
   insert(child, parent, anchor) {
@@ -72,43 +95,6 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
         parent[child.attach] = child
       }
     }
-
-    const { onLoop } = useRenderLoop()
-
-    // RayCasting
-    let prevInstance: TresEvent | null = null
-    let currentInstance: TresEvent | null = null
-
-    if (child && child instanceof Mesh && hasEvents(child)) {
-      const { raycaster } = useRaycaster()
-      onLoop(() => {
-        if (parent?.children && child && raycaster) {
-          const intersects = raycaster.value.intersectObjects(parent.children)
-
-          if (intersects.length > 0 && intersects[0].object.uuid === child.uuid) {
-            currentInstance = intersects[0]
-
-            if (prevInstance === null || prevInstance.object.uuid !== currentInstance?.object.uuid) {
-              child.onPointerEnter?.(currentInstance)
-            }
-
-            child.onPointerMove?.(currentInstance)
-          } else {
-            currentInstance = null
-            if (prevInstance !== null) {
-              child.onPointerLeave?.(prevInstance)
-            }
-          }
-
-          prevInstance = currentInstance
-        }
-      })
-
-      useEventListener(window, 'click', () => {
-        if (currentInstance === null) return
-        child.onClick?.(currentInstance)
-      })
-    }
   },
   remove(node) {
     if (!node) return
@@ -117,7 +103,7 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
       parent.removeChild(node)
     }
   },
-  patchProp(node, prop, _prevValue, nextValue) {
+  patchProp(node, prop, _prevValue, nextValue, _isSVG = false, prevChildren, parentComponent) {
     if (node) {
       let root = node
       let key = prop
@@ -143,6 +129,9 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
         key = chain.pop() as string
 
         if (!target?.set) root = chain.reduce((acc, key) => acc[kebabToCamel(key)], root)
+      }
+      if (isOn(key)) {
+        node.events[key] = nextValue
       }
       let value = nextValue
       if (value === '') value = true

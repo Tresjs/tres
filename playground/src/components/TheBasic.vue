@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { sRGBEncoding, BasicShadowMap, NoToneMapping  } from 'three'
+import { sRGBEncoding, BasicShadowMap, NoToneMapping } from 'three'
 import { reactive, ref } from 'vue'
 import { TresCanvas } from '/@/components/TresCanvas'
-import { OrbitControls, TransformControls  } from '@tresjs/cientos'
+import { OrbitControls, TransformControls } from '@tresjs/cientos'
 import { useRenderLoop } from '/@/'
 
 const state = reactive({
@@ -23,16 +23,21 @@ onLoop(({ elapsed }) => {
   if (!sphereRef.value) return
   sphereRef.value.position.y += Math.sin(elapsed) * 0.01
 })
+
+function onPointerEnter(ev) {
+  if (ev) {
+    ev.object.material.color.set('#DFFF45')
+  }
+}
 </script>
 <template>
   <TresCanvas v-bind="state">
-    <TresPerspectiveCamera :position="[5, 5, 5]" :fov="45" :near="0.1" :far="1000"
-    :look-at="[0,0,0]" />
+    <TresPerspectiveCamera :position="[5, 5, 5]" :fov="45" :near="0.1" :far="1000" :look-at="[0, 0, 0]" />
     <OrbitControls />
     <TresAmbientLight :intensity="0.5" />
 
-    <TresMesh ref="sphereRef" :position="[0, 4, 0]" cast-shadow>
-      <TresSphereGeometry :args="[2,32,32]"/>
+    <TresMesh ref="sphereRef" :position="[0, 4, 0]" cast-shadow @pointer-enter="onPointerEnter">
+      <TresSphereGeometry :args="[2, 32, 32]" />
       <TresMeshToonMaterial color="cyan" />
     </TresMesh>
 

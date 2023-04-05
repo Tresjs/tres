@@ -2,10 +2,6 @@ import { useTres } from '/@/composables'
 import { Raycaster, Vector2 } from 'three'
 import { Ref, ref, ShallowRef, shallowRef } from 'vue'
 
-const raycaster = shallowRef(new Raycaster())
-const pointer = ref(new Vector2())
-const currentInstance = ref(null)
-
 /**
  * Raycaster composable return type
  *
@@ -37,10 +33,14 @@ export interface UseRaycasterReturn {
  * @return {*} {UseRaycasterReturn}
  */
 export function useRaycaster(): UseRaycasterReturn {
-  const { setState } = useTres()
-  setState('raycaster', raycaster.value)
-  setState('pointer', pointer)
-  setState('currentInstance', currentInstance)
+  const raycaster = shallowRef(new Raycaster())
+  const pointer = ref(new Vector2())
+  const currentInstance = ref(null)
+  const tres = useTres()
+  console.log({ tres })
+  tres.setState('raycaster', raycaster.value)
+  tres.setState('pointer', pointer)
+  tres.setState('currentInstance', currentInstance)
 
   function onPointerMove(event: MouseEvent) {
     pointer.value.x = (event.clientX / window.innerWidth) * 2 - 1
