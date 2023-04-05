@@ -36,11 +36,11 @@ export function useRaycaster(): UseRaycasterReturn {
   const raycaster = shallowRef(new Raycaster())
   const pointer = ref(new Vector2())
   const currentInstance = ref(null)
-  const tres = useTres()
-  console.log({ tres })
-  tres.setState('raycaster', raycaster.value)
-  tres.setState('pointer', pointer)
-  tres.setState('currentInstance', currentInstance)
+  const { setState } = useTres()
+
+  setState('raycaster', raycaster.value)
+  setState('pointer', pointer)
+  setState('currentInstance', currentInstance)
 
   function onPointerMove(event: MouseEvent) {
     pointer.value.x = (event.clientX / window.innerWidth) * 2 - 1

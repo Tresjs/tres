@@ -15,15 +15,15 @@ TresJS v2 is still in alpha stage, so expect breaking changes until the first st
 ::: code-group
 
 ```bash [npm]
-npm install three @tresjs/core@alpha
+npm install three @tresjs/core@beta
 ```
 
 ```bash [yarn]
-yarn add three @tresjs/core@alpha
+yarn add three @tresjs/core@beta
 ```
 
 ```bash [pnpm]
-pnpm add three @tresjs/core@alpha
+pnpm add three @tresjs/core@beta
 ```
 
 :::
