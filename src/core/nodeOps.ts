@@ -1,42 +1,15 @@
-import { BufferAttribute, Mesh } from 'three'
-import { useCamera, useRaycaster, useRenderLoop, useLogger, useTres } from '/@/composables'
+import { BufferAttribute } from 'three'
+import { useCamera, useLogger } from '/@/composables'
 import { RendererOptions } from 'vue'
 import { catalogue } from './catalogue'
-import { isFunction, useEventListener } from '@vueuse/core'
-import { TresEvent, TresObject } from '../types'
+import { isFunction } from '@vueuse/core'
+import { TresObject } from '../types'
 import { isHTMLTag, kebabToCamel } from '../utils'
 
 const { logWarning } = useLogger()
 
 const onRE = /^on[^a-z]/
 export const isOn = (key: string) => onRE.test(key)
-
-export function patchEvent(
-  el: Element & { _vei?: Record<string, Invoker | undefined> },
-  rawName: string,
-  prevValue: EventValue | null,
-  nextValue: EventValue | null,
-  instance: ComponentInternalInstance | null = null,
-) {
-  // vei = vue event invokers
-  const invokers = el._vei || (el._vei = {})
-  const existingInvoker = invokers[rawName]
-  if (nextValue && existingInvoker) {
-    // patch
-    existingInvoker.value = nextValue
-  } else {
-    const [name, options] = parseName(rawName)
-    if (nextValue) {
-      // add
-      const invoker = (invokers[rawName] = createInvoker(nextValue, instance))
-      addEventListener(el, name, invoker, options)
-    } else if (existingInvoker) {
-      // remove
-      removeEventListener(el, name, existingInvoker, options)
-      invokers[rawName] = undefined
-    }
-  }
-}
 
 function noop(fn: string): any {
   fn
