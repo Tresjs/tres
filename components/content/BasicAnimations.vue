@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { TresCanvas, TresInstance, useRenderLoop, useTres } from '@tresjs/core'
+import { TresCanvas, TresInstance, useRenderLoop } from '@tresjs/core'
 import { BasicShadowMap, sRGBEncoding, NoToneMapping } from 'three'
 
-import { TransformControls } from '@tresjs/cientos'
+import { OrbitControls } from '@tresjs/cientos'
 import { ShallowRef } from 'vue'
 
 const gl = {
@@ -46,8 +46,8 @@ const transformState = shallowReactive({
 <template>
   <TresCanvas v-bind="gl">
     <!--  <OrbitControls /> -->
-    <TestOrbitControls make-default />
     <TresPerspectiveCamera ref="camera" :position="[3, 3, 3]" />
+    <OrbitControls make-default />
     <TresMesh ref="boxRef" :scale="1">
       <TresBoxGeometry :args="[1, 1, 1]" />
       <TresMeshNormalMaterial />

@@ -21,8 +21,8 @@
   },
   "dependencies": {
     "@iconify-json/ic": "^1.1.13",
-    "@tresjs/cientos": "2.0.0-alpha.5",
-    "@tresjs/core": "2.0.0-alpha.4",
+    "@tresjs/cientos": "2.0.0-beta.0",
+    "@tresjs/core": "2.0.0-beta.2",
     "postprocessing": "^6.30.2",
     "three": "^0.150.1"
   }

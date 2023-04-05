@@ -30,8 +30,8 @@ watch(
 
 <template>
   <TresCanvas v-bind="state">
-    <OrbitControls />
     <TresPerspectiveCamera :position="[0, 1, 3]" :fov="75" :near="0.1" :far="1000" />
+    <OrbitControls />
 
     <TresFog color="#11101B" :near="0.1" :far="1000" />
     <TresAmbientLight :color="0x484068" :intensity="1" />

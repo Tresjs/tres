@@ -37,8 +37,8 @@ DefaultLoadingManager.onProgress = (item, loaded, total) => {
     </div>
   </Transition>
   <TresCanvas preset="realistic">
-    <OrbitControls />
     <TresPerspectiveCamera :position="[11, 11, 11]" />
+    <OrbitControls />
     <Suspense>
       <Environment
         background

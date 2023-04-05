@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useRenderLoop, useTres, TresCanvas } from '@tresjs/core'
+import { useRenderLoop, TresCanvas, useTresProvider } from '@tresjs/core'
 import { reactive, watchEffect } from 'vue'
 import { BasicShadowMap, sRGBEncoding, NoToneMapping, LoadingManager, DefaultLoadingManager } from 'three'
 import { OrbitControls, GLTFModel, useTweakPane } from '@tresjs/cientos'
@@ -23,6 +23,7 @@ const gl = reactive({
   outputEncoding: sRGBEncoding,
   toneMapping: NoToneMapping,
 })
+
 let effectComposer
 let activePass
 
@@ -43,27 +44,27 @@ pane
     value: null,
   })
   .on('change', ev => {
-    effectComposer.removePass(activePass)
+    effectComposer?.removePass(activePass)
     if (ev.value.fragmentShader) {
       activePass = new ShaderPass(ev.value)
     } else {
-      activePass = new EffectPass(state.camera, new ev.value())
+      activePass = new EffectPass(context.value.camera, new ev.value())
     }
-    effectComposer.addPass(activePass)
+    effectComposer?.addPass(activePass)
   })
 
-const { state } = useTres()
+const context = ref(null)
 
 const { onLoop } = useRenderLoop()
 
 const { width, height } = useWindowSize()
 
 watchEffect(() => {
-  if (state.scene && state.camera && state.renderer) {
-    state.renderer.setSize(width.value, height.value)
-    state.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
-    effectComposer = new EffectComposer(state.renderer)
-    effectComposer.addPass(new RenderPass(state.scene, state.camera))
+  if (context.value) {
+    context.value.renderer.setSize(width.value, height.value)
+    context.value.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+    effectComposer = new EffectComposer(context.value.renderer)
+    effectComposer.addPass(new RenderPass(context.value.scene, context.value.camera))
 
     onLoop(() => {
       effectComposer.render()
@@ -106,9 +107,9 @@ DefaultLoadingManager.onProgress = (item, loaded, total) => {
       </div>
     </div>
   </Transition>
-  <TresCanvas v-bind="gl">
-    <OrbitControls />
+  <TresCanvas v-bind="gl" ref="context">
     <TresPerspectiveCamera :position="[5, 5, 5]" />
+    <OrbitControls />
     <TresDirectionalLight :position="[10, 10, 10]" />
     <Suspense>
       <GLTFModel

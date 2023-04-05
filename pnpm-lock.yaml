@@ -7,8 +7,8 @@ specifiers:
   '@iconify-json/logos': ^1.1.23
   '@nuxt/content': ^2.5.2
   '@nuxt/image-edge': 1.0.0-27991759.1a5eea1
-  '@tresjs/cientos': 2.0.0-alpha.5
-  '@tresjs/core': 2.0.0-alpha.4
+  '@tresjs/cientos': 2.0.0-beta.0
+  '@tresjs/core': 2.0.0-beta.2
   '@types/three': ^0.149.0
   '@unocss/nuxt': ^0.50.6
   nuxt: ^3.3.2
@@ -19,8 +19,8 @@ specifiers:
 
 dependencies:
   '@iconify-json/ic': 1.1.13
-  '@tresjs/cientos': 2.0.0-alpha.5_sewjm5ncjjosulz2bahsir5yjm
-  '@tresjs/core': 2.0.0-alpha.4_three@0.150.1
+  '@tresjs/cientos': 2.0.0-beta.0_tmfoxhtycm6gvt37fuuvp77ciy
+  '@tresjs/core': 2.0.0-beta.2_three@0.150.1
   postprocessing: 6.30.2_three@0.150.1
   three: 0.150.1
 
@@ -37,6 +37,10 @@ devDependencies:
   vite-plugin-glsl: 1.1.2
 
 packages:
+
+  /-/0.0.1:
+    resolution: {integrity: sha512-3HfneK3DGAm05fpyj20sT3apkNcvPpCuccOThOPdzz8sY7GgQGe0l93XH9bt+YzibcTIgUAIMoyVJI740RtgyQ==}
+    dev: false
 
   /@alvarosabu/prettier-config/1.3.0:
     resolution: {integrity: sha512-/akJC6/pWkJwXFUjndbpG14SgpxcW5wzaKjK9Rls4g1bNnDvu/qWwIAlzJo4bc0KQTPLUGfK5Iuu9+hlrYnIZA==}
@@ -807,11 +811,11 @@ packages:
       - supports-color
     dev: true
 
-  /@nuxt/kit-edge/3.3.4-28007422.8e9d7157:
-    resolution: {integrity: sha512-3IhF+yMQ/xuCUCFnBS5z5Wqo0sjOQ8zbfTw1PXeoYe7ApzpmAqLdFXt+GeshI+EftNcEA/Dq2V9VEweOyFFlRA==}
+  /@nuxt/kit-edge/3.4.0-28010773.1ae30ba4:
+    resolution: {integrity: sha512-o9n8a72SnpAWchCg6INNqMbBV5qyYmcyjxjJWyO0M7/wsiXagWjv/Ac0zAgjpaIds2uxtrzIy+8trOZFmij7Cg==}
     engines: {node: ^14.18.0 || ^16.10.0 || ^17.0.0 || ^18.0.0 || ^19.0.0}
     dependencies:
-      '@nuxt/schema': /@nuxt/schema-edge/3.3.4-28007422.8e9d7157
+      '@nuxt/schema': /@nuxt/schema-edge/3.4.0-28010773.1ae30ba4
       c12: 1.2.0
       consola: 2.15.3
       defu: 6.1.2
@@ -827,7 +831,7 @@ packages:
       scule: 1.0.0
       semver: 7.3.8
       unctx: 2.1.2
-      unimport: 3.0.4
+      unimport: 3.0.5
       untyped: 1.3.2
     transitivePeerDependencies:
       - rollup
@@ -915,8 +919,8 @@ packages:
       - supports-color
     dev: true
 
-  /@nuxt/schema-edge/3.3.4-28007422.8e9d7157:
-    resolution: {integrity: sha512-NieMt1lPwO3FMI8rKYMUZBjDXJzVmkx4+ow8pIDDxHCGDDAumsLRrbimAkhjkmzXmGJG5RiAyRCPWclxvGbtyg==}
+  /@nuxt/schema-edge/3.4.0-28010773.1ae30ba4:
+    resolution: {integrity: sha512-rTQ5d6obqJZwn3Zm8DNkKwaNrpTViU2BUgn4xdzR2oBW4WTPmESe3EHCXj6qnIaggktWL7NC78bHN6dGaWeGOQ==}
     engines: {node: ^14.18.0 || ^16.10.0 || ^17.0.0 || ^18.0.0 || ^19.0.0}
     dependencies:
       c12: 1.2.0
@@ -930,7 +934,7 @@ packages:
       scule: 1.0.0
       std-env: 3.3.2
       ufo: 1.1.1
-      unimport: 3.0.4
+      unimport: 3.0.5
       untyped: 1.3.2
     transitivePeerDependencies:
       - rollup
@@ -1260,13 +1264,13 @@ packages:
     resolution: {integrity: sha512-+9jVqKhRSpsc591z5vX+X5Yyw+he/HCB4iQ/RYxw35CEPaY1gnsNE43nf9n9AaYjAQrTiI/mOwKUKdUs9vf7Xg==}
     dev: true
 
-  /@tresjs/cientos/2.0.0-alpha.5_sewjm5ncjjosulz2bahsir5yjm:
-    resolution: {integrity: sha512-8SCxT8rIZ/5bPWLsp/T/YwqbmkoQ8OdRJfAKU2WrOVZpr01tpn6w+T6jFQDb8uFDiHatYR0PdHT7LejUi2tORw==}
+  /@tresjs/cientos/2.0.0-beta.0_tmfoxhtycm6gvt37fuuvp77ciy:
+    resolution: {integrity: sha512-Vr1naG7LOUxZvREta/7RtBqecYzcf507QI7H8ChT8mYkv1atsPcx13IpX4+hC3rMNXDGkrjBkhU1MLBd8/5BQQ==}
     peerDependencies:
-      '@tresjs/core': 2.0.0-alpha.1
+      '@tresjs/core': 2.0.0-beta.0
       three: latest
     dependencies:
-      '@tresjs/core': 2.0.0-alpha.4_three@0.150.1
+      '@tresjs/core': 2.0.0-beta.2_three@0.150.1
       '@vueuse/core': 9.13.0_vue@3.2.47
       three: 0.150.1
       three-stdlib: 2.21.8_three@0.150.1
@@ -1275,12 +1279,13 @@ packages:
       - '@vue/composition-api'
     dev: false
 
-  /@tresjs/core/2.0.0-alpha.4_three@0.150.1:
-    resolution: {integrity: sha512-WnKM38vs73XafENiBm7OjX9vZOEJSrQsbcsggzXeAvjqyBPVcQvQTn2VcVGi3WUVCstOkDtjoQY6wnM1eWT1oA==}
+  /@tresjs/core/2.0.0-beta.2_three@0.150.1:
+    resolution: {integrity: sha512-Ie+ktgsT+XDBUcKtn3T1dQ6bk8jCyNs9OpxJP03huKN525wVysozfKOpCEPOY2w5Qrm9gQQ0RiI6gm9tJqElKw==}
     peerDependencies:
       three: latest
       vue: ^3.2.47
     dependencies:
+      '-': 0.0.1
       '@alvarosabu/utils': 2.3.0
       '@vueuse/core': 9.13.0
       three: 0.150.1
@@ -4891,7 +4896,7 @@ packages:
   /nuxt-svgo/1.1.0:
     resolution: {integrity: sha512-rluyaY2S2ey8MrUNyA5fJHcNQsgPtBn5fKyYgDb4Wr5foP2ICwJcoN/Jp8czwfuHSEnPek0t4XXmjOSvChk+WA==}
     dependencies:
-      '@nuxt/kit': /@nuxt/kit-edge/3.3.4-28007422.8e9d7157
+      '@nuxt/kit': /@nuxt/kit-edge/3.4.0-28010773.1ae30ba4
       svgo-loader: 3.0.3
       vite-svg-loader: 3.6.0
       vue-loader: 17.0.1
@@ -6620,6 +6625,24 @@ packages:
     resolution: {integrity: sha512-eoof/HLiNJcIkVpnqc7sJbzKSLx39J6xTaP7E4ElgVQKeq2t9fPTkvJKcA55IJTaRPkEkDq8kcc/IZPmrypnFg==}
     dependencies:
       '@rollup/pluginutils': 5.0.2_rollup@3.20.2
+      escape-string-regexp: 5.0.0
+      fast-glob: 3.2.12
+      local-pkg: 0.4.3
+      magic-string: 0.30.0
+      mlly: 1.2.0
+      pathe: 1.1.0
+      pkg-types: 1.0.2
+      scule: 1.0.0
+      strip-literal: 1.0.1
+      unplugin: 1.3.1
+    transitivePeerDependencies:
+      - rollup
+    dev: true
+
+  /unimport/3.0.5:
+    resolution: {integrity: sha512-enRW0sVcTBxUZY6R2iumWMUsPbGC5GW9jM89VtF0pFUz9vDPrvEmOAklbSE/a4fqhjW/7dMWBvfLw/IDlBaPdQ==}
+    dependencies:
+      '@rollup/pluginutils': 5.0.2
       escape-string-regexp: 5.0.0
       fast-glob: 3.2.12
       local-pkg: 0.4.3

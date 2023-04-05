@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { TresCanvas, useRenderLoop, useTexture, useTres } from '@tresjs/core'
+import { TresCanvas, useRenderLoop, useTexture } from '@tresjs/core'
 import { BasicShadowMap, sRGBEncoding, NoToneMapping } from 'three'
+import { useWindowSize } from '@vueuse/core'
+import { ChromaticAberrationEffect, EffectComposer, EffectPass, RenderPass } from 'postprocessing/module'
 
-import { /* OrbitControls, */ Text3D, Torus, useTweakPane } from '@tresjs/cientos'
-import { TransformControls } from 'three-stdlib'
+import { OrbitControls, Text3D, Torus, useTweakPane } from '@tresjs/cientos'
 
-const pane = useTweakPane()
+/* const pane = useTweakPane() */
 
 const gl = {
   clearColor: '#82DBC5',
@@ -17,12 +18,13 @@ const gl = {
 }
 
 const matcapTexture = await useTexture(['https://raw.githubusercontent.com/Tresjs/assets/main/textures/matcaps/7.png'])
+const donutTexture = await useTexture(['https://raw.githubusercontent.com/Tresjs/assets/main/textures/matcaps/8.png'])
 
-const donuts = Array.from({ length: 100 }, () => {
+const donuts = Array.from({ length: 200 }, () => {
   return {
-    position: [(Math.random() - 0.5) * 20, (Math.random() - 0.5) * 20, (Math.random() - 0.5) * 20],
+    position: [(Math.random() - 0.5) * 30, (Math.random() - 0.5) * 30, (Math.random() - 0.5) * 30],
     rotation: [(Math.random() - 0.5) * 10, (Math.random() - 0.5) * 10, (Math.random() - 0.5) * 10],
-    scale: [Math.random() * 0.2 + 0.2, Math.random() * 0.2 + 0.2, Math.random() * 0.2 + 0.2],
+    scale: [0.4, 0.4, 0.4],
   }
 })
 
@@ -47,19 +49,40 @@ watchEffect(() => {
     camera.value.lookAt(0, 0, 0)
   }
 })
+
+const context = ref(null)
+
+const { width, height } = useWindowSize()
+
+let effectComposer
+let activePass
+
+watchEffect(() => {
+  if (context.value) {
+    context.value.renderer.setSize(width.value, height.value)
+    context.value.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+    effectComposer = new EffectComposer(context.value.renderer)
+    effectComposer.addPass(new RenderPass(context.value.scene, context.value.camera))
+    /* effectComposer.addPass(new EffectPass(context.value.camera, new ChromaticAberrationEffect())) */
+
+    onLoop(() => {
+      effectComposer.render()
+    })
+  }
+})
 </script>
 
 <template>
-  <TresCanvas v-bind="gl">
-    <TestOrbitControls make-default />
+  <TresCanvas v-bind="gl" ref="context">
+    <TresPerspectiveCamera ref="camera" :position="[6, 5, 5]" :focus="100" />
+    <OrbitControls make-default />
 
     <!-- <OrbitControls /> -->
-    <TresPerspectiveCamera ref="camera" :position="[10, 5, 5]" />
     <Suspense>
       <Text3D
         font="https://raw.githubusercontent.com/Tresjs/assets/main/fonts/FiraCodeRegular.json"
         center
-        :text="'TresJS'"
+        :text="'2.0.0-beta'"
         :size="1"
         :height="0.2"
         :curveSegments="12"
@@ -74,7 +97,7 @@ watchEffect(() => {
     </Suspense>
     <TresGroup ref="donutsRef">
       <Torus :args="[1, 0.6, 16, 32]" v-for="donut in donuts" v-bind="donut">
-        <TresMeshMatcapMaterial :matcap="matcapTexture" />
+        <TresMeshMatcapMaterial :matcap="donutTexture" />
       </Torus>
     </TresGroup>
     <TresAmbientLight :intensity="1" />

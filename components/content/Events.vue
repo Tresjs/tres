@@ -20,7 +20,6 @@ function onClick(ev: TresEvent) {
 }
 
 function onPointerEnter(ev: TresEvent) {
-  console.log(ev)
   if (ev) {
     ev.object.material.color.set('#CCFF03')
   }
@@ -35,8 +34,8 @@ function onPointerLeave(ev: TresEvent) {
 
 <template>
   <TresCanvas v-bind="gl">
-    <OrbitControls />
     <TresPerspectiveCamera :position="[11, 11, 11]" :fov="45" :near="0.1" :far="1000" :look-at="[0, 0, 0]" />
+    <OrbitControls />
 
     <template v-for="x in [-2.5, 0, 2.5]">
       <template v-for="y in [-2.5, 0, 2.5]">

@@ -154,8 +154,8 @@ directionalLightState.position.forEach((_, index) => {
 
 <template>
   <TresCanvas v-bind="gl">
-    <OrbitControls />
     <TresPerspectiveCamera :position="[11, 11, 11]" :fov="45" :aspect="1" :near="0.1" :far="1000" />
+    <OrbitControls />
     <TresGridHelper />
     <Suspense>
       <GLTFModel
