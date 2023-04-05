@@ -1,6 +1,6 @@
 <script setup lang="ts"></script>
 <template>
   <Suspense>
-    <MultipleCanvas />
+    <TheEvents />
   </Suspense>
 </template>

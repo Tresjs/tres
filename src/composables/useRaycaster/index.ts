@@ -1,10 +1,6 @@
 import { useTres } from '/@/composables'
 import { Raycaster, Vector2 } from 'three'
-import { Ref, ref, ShallowRef, shallowRef } from 'vue'
-
-const raycaster = shallowRef(new Raycaster())
-const pointer = ref(new Vector2())
-const currentInstance = ref(null)
+import { onUnmounted, Ref, ref, ShallowRef, shallowRef } from 'vue'
 
 /**
  * Raycaster composable return type
@@ -37,7 +33,11 @@ export interface UseRaycasterReturn {
  * @return {*} {UseRaycasterReturn}
  */
 export function useRaycaster(): UseRaycasterReturn {
-  const { setState } = useTres()
+  const raycaster = shallowRef(new Raycaster())
+  const pointer = ref(new Vector2())
+  const currentInstance = ref(null)
+  const { setState, state } = useTres()
+
   setState('raycaster', raycaster.value)
   setState('pointer', pointer)
   setState('currentInstance', currentInstance)
@@ -47,11 +47,11 @@ export function useRaycaster(): UseRaycasterReturn {
     pointer.value.y = -(event.clientY / window.innerHeight) * 2 + 1
   }
 
-  window.addEventListener('pointermove', onPointerMove) //TODO listener should be on canvas
+  state?.renderer?.domElement.addEventListener('pointermove', onPointerMove)
 
-  /*  onUnmounted(() => { TODO
-    window.removeEventListener('pointermove', onPointerMove)
-  }) */
+  onUnmounted(() => {
+    state?.renderer?.domElement.removeEventListener('pointermove', onPointerMove)
+  })
   return {
     raycaster,
     pointer,

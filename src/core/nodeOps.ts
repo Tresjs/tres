@@ -1,21 +1,15 @@
-import { BufferAttribute, Mesh } from 'three'
-import { useCamera, useRaycaster, useRenderLoop, useLogger } from '/@/composables'
+import { BufferAttribute } from 'three'
+import { useCamera, useLogger } from '/@/composables'
 import { RendererOptions } from 'vue'
 import { catalogue } from './catalogue'
-import { isFunction, useEventListener } from '@vueuse/core'
-import { TresEvent, TresObject } from '../types'
+import { isFunction } from '@vueuse/core'
+import { TresObject } from '../types'
 import { isHTMLTag, kebabToCamel } from '../utils'
 
 const { logWarning } = useLogger()
 
-function hasEvents(obj: any) {
-  for (const prop in obj) {
-    if (prop.indexOf('on') === 0) {
-      return true
-    }
-  }
-  return false
-}
+const onRE = /^on[^a-z]/
+export const isOn = (key: string) => onRE.test(key)
 
 function noop(fn: string): any {
   fn
@@ -54,6 +48,8 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
       else if (instance.isBufferGeometry) instance.attach = 'geometry'
     }
 
+    instance.events = {}
+
     return instance
   },
   insert(child, parent, anchor) {
@@ -71,43 +67,6 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
       if (parent) {
         parent[child.attach] = child
       }
-    }
-
-    const { onLoop } = useRenderLoop()
-
-    // RayCasting
-    let prevInstance: TresEvent | null = null
-    let currentInstance: TresEvent | null = null
-
-    if (child && child instanceof Mesh && hasEvents(child)) {
-      const { raycaster } = useRaycaster()
-      onLoop(() => {
-        if (parent?.children && child && raycaster) {
-          const intersects = raycaster.value.intersectObjects(parent.children)
-
-          if (intersects.length > 0 && intersects[0].object.uuid === child.uuid) {
-            currentInstance = intersects[0]
-
-            if (prevInstance === null || prevInstance.object.uuid !== currentInstance?.object.uuid) {
-              child.onPointerEnter?.(currentInstance)
-            }
-
-            child.onPointerMove?.(currentInstance)
-          } else {
-            currentInstance = null
-            if (prevInstance !== null) {
-              child.onPointerLeave?.(prevInstance)
-            }
-          }
-
-          prevInstance = currentInstance
-        }
-      })
-
-      useEventListener(window, 'click', () => {
-        if (currentInstance === null) return
-        child.onClick?.(currentInstance)
-      })
     }
   },
   remove(node) {
@@ -143,6 +102,9 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
         key = chain.pop() as string
 
         if (!target?.set) root = chain.reduce((acc, key) => acc[kebabToCamel(key)], root)
+      }
+      if (isOn(key)) {
+        node.events[key] = nextValue
       }
       let value = nextValue
       if (value === '') value = true
