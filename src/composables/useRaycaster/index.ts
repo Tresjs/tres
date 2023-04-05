@@ -47,7 +47,7 @@ export function useRaycaster(): UseRaycasterReturn {
     pointer.value.y = -(event.clientY / window.innerHeight) * 2 + 1
   }
 
-  state?.renderer?.domElement.addEventListener('pointermove', onPointerMove) //TODO listener should be on canvas
+  state?.renderer?.domElement.addEventListener('pointermove', onPointerMove)
 
   onUnmounted(() => {
     state?.renderer?.domElement.removeEventListener('pointermove', onPointerMove)
