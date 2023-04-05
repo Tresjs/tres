@@ -970,9 +970,9 @@ var formatDate = (date, formatStr, options = {}) => {
 };
 var normalizeDate = (date) => {
   if (date === null)
-    return new Date(NaN);
+    return /* @__PURE__ */ new Date(NaN);
   if (date === void 0)
-    return new Date();
+    return /* @__PURE__ */ new Date();
   if (date instanceof Date)
     return new Date(date);
   if (typeof date === "string" && !/Z$/i.test(date)) {
@@ -5546,8 +5546,8 @@ function useNow(options = {}) {
     controls: exposeControls = false,
     interval = "requestAnimationFrame"
   } = options;
-  const now2 = ref(new Date());
-  const update = () => now2.value = new Date();
+  const now2 = ref(/* @__PURE__ */ new Date());
+  const update = () => now2.value = /* @__PURE__ */ new Date();
   const controls = interval === "requestAnimationFrame" ? useRafFn(update, { immediate: true }) : useIntervalFn(update, interval, { immediate: true });
   if (exposeControls) {
     return __spreadValues$72({

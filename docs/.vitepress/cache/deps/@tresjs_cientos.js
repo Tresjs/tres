@@ -12394,7 +12394,7 @@ var Ph = {
         });
       }
       play() {
-        this.stop(), this.updateMarker_(0), this.markerElem_.classList.add(Ct("m", "a")), this.startTime_ = new Date().getTime() + _n, this.stopped_ = false, requestAnimationFrame(this.onTimer_);
+        this.stop(), this.updateMarker_(0), this.markerElem_.classList.add(Ct("m", "a")), this.startTime_ = (/* @__PURE__ */ new Date()).getTime() + _n, this.stopped_ = false, requestAnimationFrame(this.onTimer_);
       }
       stop() {
         this.stopped_ = true, this.markerElem_.classList.remove(Ct("m", "a"));
@@ -12417,7 +12417,7 @@ var Ph = {
       onTimer_() {
         if (this.startTime_ === null)
           return;
-        const o = new Date().getTime() - this.startTime_, p = o / Si;
+        const o = (/* @__PURE__ */ new Date()).getTime() - this.startTime_, p = o / Si;
         this.updateMarker_(p), o > Si + _n && this.stop(), this.stopped_ || requestAnimationFrame(this.onTimer_);
       }
       onValueChange_() {
@@ -12708,10 +12708,10 @@ var Ph = {
         });
       }
       begin() {
-        this.stopwatch_.begin(new Date());
+        this.stopwatch_.begin(/* @__PURE__ */ new Date());
       }
       end() {
-        this.stopwatch_.end(new Date());
+        this.stopwatch_.end(/* @__PURE__ */ new Date());
       }
       onTick_() {
         const o = this.stopwatch_.fps;

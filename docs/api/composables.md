@@ -150,31 +150,6 @@ Then you can bind the textures to the material.
 
 Similar to above composable, the `useTexture` composable returns a promise, you can use it with `async/await` or `then/catch`. If you are using it on a component make sure you wrap it with a `Suspense` component.
 
-## useCatalogue
-
-The `useCatalogue` composable allows you to extend the internal catalogue of components. It returns a function that you can use to register new components.
-
-This is specially useful if you want to use objects that are not part of ThreeJS core like[OrbitControls](https://threejs.org/docs/#examples/en/controls/OrbitControls) or third party functionality, like physics.
-
-```ts
-import { useCatalogue } from '@tresjs/core'
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
-
-const { extend } = useCatalogue()
-
-extend({ OrbitControls })
-```
-
-Then you can use the new component in your template. Notice that the new component is prefixed with `Tres` to avoid name collisions with native HTML elements, similar to the rest of the core components.
-
-```vue
-<template>
-  <TresCanvas shadows alpha>
-    <TresOrbitControls v-if="state.renderer" :args="[state.camera, state.renderer?.domElement]" />
-  </TresCanvas>
-</template>
-```
-
 ## useSeek
 
 The `useSeek` composable provides utilities to easily traverse and navigate through complex ThreeJS scenes and object children graphs. It exports two functions, `seek` and `seekByName`, which allow you to find child objects based on specific properties.
@@ -213,4 +188,24 @@ const { state } = useTres()
 
 console.log(state.camera) // THREE.PerspectiveCamera
 console.log(state.renderer) // THREE.WebGLRenderer
+```
+
+::: warning
+useTres composable can be only be used between the context of `TresCanvas` (inside sub-components) since Canvas component is the provider.
+:::
+
+```vue
+<TresCanvas>
+  <MyModel />
+</TresCanvas>
+```
+
+```vue
+// MyModel.vue
+
+<script lang="ts" setup>
+import { useTres } from '@tresjs/core'
+
+const { state } = useTres()
+</script>
 ```
