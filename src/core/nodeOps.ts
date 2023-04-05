@@ -76,7 +76,7 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
       parent.removeChild(node)
     }
   },
-  patchProp(node, prop, _prevValue, nextValue, _isSVG = false, prevChildren, parentComponent) {
+  patchProp(node, prop, _prevValue, nextValue) {
     if (node) {
       let root = node
       let key = prop
