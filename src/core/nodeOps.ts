@@ -112,10 +112,22 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
   },
   remove(node) {
     if (!node) return
-    const parent = node.parentNode
+
+    const parent = node.parentNode // TODO is there ever a case when this is true? which entity has a fn called removeChild?
+
     if (parent) {
       parent.removeChild(node)
     }
+
+    node.removeFromParent?.()
+
+    // TODO how to handle groups?
+    node.material?.dispose() // TODO probably disposes material also when passed via prop
+    node.geometry?.dispose()
+
+    //TODO traverse children and dispose them too
+
+    node.dispose?.()
   },
   patchProp(node, prop, _prevValue, nextValue) {
     if (node) {

@@ -255,6 +255,8 @@ You could set windowSize=true to force the canvas to be the size of the window.`
     { immediate: true, deep: true },
   )
 
+  setInterval(() => console.log(renderer.value?.info.memory), 3000) // TODO remove
+
   return {
     renderer,
     isReady,
