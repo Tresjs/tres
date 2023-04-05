@@ -38,7 +38,7 @@ export interface PointerLockControlsProps {
    * @memberof PointerLockControlsProps
    * @see https://threejs.org/docs/index.html?q=pointe#examples/en/controls/PointerLockControls
    */
-   triggerId?: string
+   selector?: string
 }
 
 const props = withDefaults(defineProps<PointerLockControlsProps>(), {
@@ -48,6 +48,7 @@ const props = withDefaults(defineProps<PointerLockControlsProps>(), {
 const { state, setState, extend } = useCientos()
 
 const controls = ref<null | PointerLockControls>(null)
+let triggerSelector: HTMLElement | undefined
 
 extend({ PointerLockControls })
 
@@ -57,59 +58,22 @@ watch(controls, value => {
   } else {
     setState('controls', null)
   }
-  addTrigger(value)
+  const selector = document.getElementById(props.selector || '')
+  triggerSelector = selector ? selector : state.renderer?.domElement
+  triggerSelector?.addEventListener('click', () => {
+    controls.value?.lock()
+  })
 })
 
-const addDefaultButton = () => {
-  let buttonNode = document.createElement("button");
-  let textNode = document.createTextNode("lock");
-  buttonNode.appendChild(textNode);
-  buttonNode.classList.add("default-button")
-  return buttonNode;
-}
-
-const isTriggerNode = document.getElementById(props.triggerId || '')
-const triggerNode = isTriggerNode ? isTriggerNode : addDefaultButton()
-const isVisible = triggerNode.offsetWidth > 0 || triggerNode.offsetHeight > 0;
-
-if(isVisible){
-  triggerNode.classList.add("default-button")
-}
-
-const addTrigger = (controls: PointerLockControls) => {
-  const selector = controls?.domElement?.ownerDocument?.querySelector(
-    'canvas'
-  ) as HTMLElement
-
-    selector.parentNode?.appendChild(triggerNode as Node);
-
-   controls.addEventListener( 'lock', () => {
-    triggerNode.style.display = 'none';
-   });
-   controls.addEventListener( 'unlock', () => {
-    triggerNode.style.display = 'block';
-   });
-   triggerNode.addEventListener('click', () => {
-      controls.lock();
-    })
-  }
-
-  onUnmounted(() => {
-    controls.value?.removeEventListener( 'lock', () => {
-    triggerNode.style.display = 'none';
-   });
-   controls.value?.removeEventListener( 'unlock', () => {
-    triggerNode.style.display = 'block';
-   });
-   triggerNode.removeEventListener('click', () => {
-      controls.value?.lock();
-    })
+onUnmounted(() => {
+  triggerSelector?.removeEventListener('click', () => {
+    controls.value?.lock()
   })
+})
 
 defineExpose({
   value: controls,
 })
-
 
 </script>
 
@@ -120,11 +84,3 @@ defineExpose({
   :args="[state.camera || camera, state.renderer?.domElement || domElement]"
   />
 </template>
-<style>
-.default-button{
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 99999;
-}
-</style>
