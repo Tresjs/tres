@@ -1,12 +1,10 @@
 import { BufferAttribute } from 'three'
-import { useCamera, useLogger } from '/@/composables'
+import { useCamera } from '/@/composables'
 import { RendererOptions } from 'vue'
 import { catalogue } from './catalogue'
 import { isFunction } from '@vueuse/core'
 import { TresObject } from '../types'
 import { isHTMLTag, kebabToCamel } from '../utils'
-
-const { logWarning } = useLogger()
 
 const onRE = /^on[^a-z]/
 export const isOn = (key: string) => onRE.test(key)
@@ -32,12 +30,11 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
     }
 
     if (instance.isCamera) {
-      // Let users know that camera is in the center of the scene
-      if (!props?.position || props?.position.every((v: number) => v == 0)) {
-        logWarning(
-          // eslint-disable-next-line max-len
-          'Camera is positioned at the center of the scene [0,0,0], if this is not intentional try setting a position if your scene seems empty 🤗',
-        )
+      if (!props?.position) {
+        instance.position.set(3, 3, 3)
+      }
+      if (!props?.lookAt) {
+        instance.lookAt(0, 0, 0)
       }
       const { pushCamera } = useCamera()
       pushCamera(instance)

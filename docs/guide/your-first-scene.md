@@ -92,7 +92,9 @@ Then you can add a [**PerspectiveCamera**](https://threejs.org/docs/index.html?q
 
 ```vue
 <template>
-  <TresCanvas window-size> <TresPerspectiveCamera :position="[3, 3, 3]" :look-at="[0, 0, 0]" /> </TresCanvas>
+  <TresCanvas window-size>
+    <TresPerspectiveCamera />
+  </TresCanvas>
 </template>
 ```
 
@@ -118,7 +120,7 @@ Now let's see how we can easily achieve the same with **TresJS**. To do that we 
 ```vue
 <template>
   <TresCanvas window-size>
-    <TresPerspectiveCamera :position="[3, 3, 3]" :look-at="[0,0,0]"" />
+    <TresPerspectiveCamera />
     <TresMesh>
       <TresTorusGeometry :args="[1, 0.5, 16, 32]" />
       <TresMeshBasicMaterial color="orange" />
@@ -142,7 +144,7 @@ import { TresCanvas } from '@tresjs/core'
 
 <template>
   <TresCanvas clear-color="#82DBC5" window-size>
-    <TresPerspectiveCamera :position="[3, 3, 3]" :look-at="[0,0,0]"" />
+    <TresPerspectiveCamera :position="[3, 3, 3]" :look-at="[0, 0, 0]" />
     <TresMesh>
       <TresTorusGeometry :args="[1, 0.5, 16, 32]" />
       <TresMeshBasicMaterial color="orange" />
