@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { sRGBEncoding } from 'three'
-import { TresCanvas } from '/@/'
+import { TresCanvas } from '@tresjs/core'
 import { OrbitControls } from '@tresjs/cientos'
 const LightRef = ref()
 
