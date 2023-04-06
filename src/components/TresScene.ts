@@ -97,11 +97,11 @@ export const TresScene = defineComponent<TresSceneProps>({
           if (intersects.length > 0) {
             currentInstance = intersects[0]
             if (prevInstance === null) {
-              currentInstance.object.events.onPointerEnter?.(currentInstance)
+              currentInstance.object?.events?.onPointerEnter?.(currentInstance)
             }
           } else {
             if (prevInstance !== null) {
-              currentInstance?.object.events.onPointerLeave?.(prevInstance)
+              currentInstance?.object?.events?.onPointerLeave?.(prevInstance)
               currentInstance = null
             }
           }
@@ -112,7 +112,7 @@ export const TresScene = defineComponent<TresSceneProps>({
 
       useEventListener(canvas.value, 'click', () => {
         if (currentInstance === null) return
-        currentInstance.object.events.onClick?.(currentInstance)
+        currentInstance.object?.events?.onClick?.(currentInstance)
       })
     }
 
