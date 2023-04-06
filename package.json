@@ -1,7 +1,7 @@
 {
   "name": "@tresjs/cientos",
   "description": "Collection of useful helpers and fully functional, ready-made abstractions for Tres",
-  "version": "2.0.0-alpha.5",
+  "version": "2.0.0-beta.0",
   "type": "module",
   "author": "Alvaro Saburido <hola@alvarosaburido.dev> (https://github.com/alvarosabu/)",
   "files": [
@@ -41,14 +41,14 @@
     "docs:preview": "vitepress preview docs"
   },
   "peerDependencies": {
-    "@tresjs/core": "2.0.0-alpha.1",
+    "@tresjs/core": "2.0.0-beta.0",
     "three": "latest",
     "vue": "^3.2.47"
   },
   "devDependencies": {
     "@alvarosabu/prettier-config": "^1.3.0",
     "@release-it/conventional-changelog": "^5.1.1",
-    "@tresjs/core": "2.0.0-alpha.3",
+    "@tresjs/core": "2.0.0-beta.2",
     "@tweakpane/plugin-essentials": "^0.1.8",
     "@types/three": "^0.149.0",
     "@vitejs/plugin-vue": "^4.1.0",

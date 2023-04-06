@@ -13,11 +13,16 @@ It just works. 💯
 ```vue{3}
 <template>
   <TresCanvas shadows alpha>
+    <TresPerspectiveCamera :args="[45," 1, 0.1, 1000] />
     <OrbitControls />
 
   </TresCanvas>
 </template>
 ```
+
+::: warning
+Is really important that the Perspective camera is set first in the canvas. Otherwise might break.
+:::
 
 ## Props
 

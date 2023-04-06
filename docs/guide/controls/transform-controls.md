@@ -14,6 +14,7 @@ const boxRef = shallowRef()
 </script>
 <template>
   <TresCanvas>
+    <TresPerspectiveCamera :args="[45," 1, 0.1, 1000] />
     <OrbitControls make-default />
       <TransformControls :object="boxRef" />
       <TresMesh ref="boxRef" :position="[0, 4, 0]" cast-shadow>

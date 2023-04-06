@@ -1,4 +1,4 @@
-# Cientos <Badge text="alpha" type="warning" />
+# Cientos <Badge text="beta" type="warning" />
 
 ![Cientos banner](/cientos-banner.png)
 
@@ -15,7 +15,7 @@ This package is not required to use the core library, but they can make your DX 
 ## Installation
 
 ```bash
-npm install @tresjs/cientos@alpha -D
+npm install @tresjs/cientos@beta -D
 ```
 
 ## Basic Usage
@@ -29,6 +29,7 @@ Now you can use the `OrbitControls` component in your scene.
 ```html
 <template>
   <TresCanvas shadows alpha>
+    <TresPerspectiveCamera :args="[45," 1, 0.1, 1000] />
     <OrbitControls />
   </TresCanvas>
 </template>
