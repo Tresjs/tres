@@ -2,6 +2,10 @@
 
 This guide will help you to create your first Tres scene. 🍩
 
+<ClientOnly>
+    <DonutExample style="aspect-ratio: 16/9; height: auto; margin: 2rem 0; border-radius: 8px; overflow:hidden;"/>
+</ClientOnly>
+
 ## Setting up the experience Canvas
 
 Before we can create a Scene, we need somewhere to display it. Using plain [ThreeJS](https://threejs.org/docs/index.html#manual/en/introduction/Creating-a-scene) we would need to create a `canvas` HTML element to mount the `WebglRenderer` and initialize the `scene`
@@ -133,9 +137,7 @@ Now let's see how we can easily achieve the same with **TresJS**. To do that we 
 Notice that we don't need to import anything, that's because **TresJS** automatically generate a **Vue Component based on the Three Object you want to use in CamelCase with a Tres prefix**. For example, if you want to use an `AmbientLight` you would use `<TresAmbientLight />` component.
 :::
 
-<ClientOnly>
-    <DonutExample style="aspect-ratio: 16/9; height: auto; margin: 2rem 0; border-radius: 8px; overflow:hidden;"/>
-</ClientOnly>
+<StackBlitzEmbed projectId="tresjs-first-scene" />
 
 ```vue
 <script setup lang="ts">
