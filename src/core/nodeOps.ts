@@ -1,4 +1,4 @@
-import { BufferAttribute, Mesh } from 'three'
+import { BufferAttribute, Mesh, Object3D } from 'three'
 import { useCamera, useRaycaster, useRenderLoop, useLogger } from '/@/composables'
 import { RendererOptions } from 'vue'
 import { catalogue } from './catalogue'
@@ -22,6 +22,11 @@ function noop(fn: string): any {
 }
 
 let scene: TresObject | null = null
+
+const OBJECT_3D_USER_DATA_KEYS = {
+  GEOMETRY_VIA_PROP: 'tres__geometryViaProp',
+  MATERIAL_VIA_PROP: 'tres__materialViaProp',
+}
 
 export const nodeOps: RendererOptions<TresObject, TresObject> = {
   createElement(tag, _isSVG, _anchor, props) {
@@ -53,6 +58,13 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
       if (instance.isMaterial) instance.attach = 'material'
       else if (instance.isBufferGeometry) instance.attach = 'geometry'
     }
+
+    // determine whether the material was passed via prop to
+    // prevent it's disposal when node is removed later in it's lifecycle
+    const { GEOMETRY_VIA_PROP, MATERIAL_VIA_PROP } = OBJECT_3D_USER_DATA_KEYS
+
+    if (props?.material?.isMaterial) (instance as Object3D).userData[MATERIAL_VIA_PROP] = true
+    if (props?.geometry?.isBufferGeometry) (instance as Object3D).userData[GEOMETRY_VIA_PROP] = true
 
     return instance
   },
@@ -122,8 +134,10 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
     node.removeFromParent?.()
 
     // TODO how to handle groups?
-    node.material?.dispose() // TODO probably disposes material also when passed via prop
-    node.geometry?.dispose()
+    const { GEOMETRY_VIA_PROP, MATERIAL_VIA_PROP } = OBJECT_3D_USER_DATA_KEYS
+
+    if (!node.userData[MATERIAL_VIA_PROP]) node.material?.dispose()
+    if (!node.userData[GEOMETRY_VIA_PROP]) node.geometry?.dispose()
 
     //TODO traverse children and dispose them too
 
@@ -156,6 +170,7 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
 
         if (!target?.set) root = chain.reduce((acc, key) => acc[kebabToCamel(key)], root)
       }
+
       let value = nextValue
       if (value === '') value = true
       // Set prop, prefer atomic methods if applicable
