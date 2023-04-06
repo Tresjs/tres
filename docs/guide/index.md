@@ -1,4 +1,4 @@
-# Cientos <Badge text="alpha" type="warning" />
+# Cientos <Badge text="beta" type="warning" />
 
 ![Cientos banner](/cientos-banner.png)
 
