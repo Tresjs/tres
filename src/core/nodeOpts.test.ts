@@ -108,15 +108,16 @@ describe('nodeOps', () => {
 
   it('remove: removes child from parent', async () => {
     // Setup
-    const parent: TresObject = new Scene()
-    const child: TresObject = new Mesh()
-    parent.children.push(child)
+    const scene = new Scene() as unknown as TresObject
+    const mesh = new Mesh() as unknown as TresObject
+
+    nodeOps.insert(mesh, scene)
 
     // Test
-    nodeOps.remove(child)
+    nodeOps.remove(mesh)
 
     // Assert
-    expect(!parent.children.includes(child))
+    expect(!scene.children.length)
   })
 
   it('patchProp should patch property of node', async () => {

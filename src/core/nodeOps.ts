@@ -127,12 +127,6 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
   remove(node) {
     if (!node) return
 
-    const parent = node.parentNode // TODO is there ever a case when this is true? which entity has a fn called removeChild?
-
-    if (parent) {
-      parent.removeChild(node)
-    }
-
     // remove is only called on the node being removed and not on child nodes.
 
     if (node.isObject3D) {
@@ -152,6 +146,7 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
     }
 
     node.removeFromParent?.()
+
     node.dispose?.() // TODO is dispose ever set?
   },
   patchProp(node, prop, _prevValue, nextValue) {
