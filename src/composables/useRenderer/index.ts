@@ -108,7 +108,7 @@ export interface UseRendererOptions extends WebGLRendererParameters {
    * @default 0x000000
    */
   clearColor?: MaybeComputedRef<TresColor>
-  windowSize?: MaybeComputedRef<boolean>
+  windowSize?: MaybeComputedRef<boolean | string>
   preset?: RendererPresetsType
 }
 
@@ -148,7 +148,10 @@ export function useRenderer(options: UseRendererOptions) {
 
   const { state, setState } = useTres()
 
-  const { width, height } = resolveUnref(windowSize) ? useWindowSize() : useElementSize(state.container)
+  const { width, height } =
+    resolveUnref(windowSize) == true || resolveUnref(windowSize) === '' || resolveUnref(windowSize) === 'true'
+      ? useWindowSize()
+      : useElementSize(state.container)
   const { logError, logWarning } = useLogger()
   const { pixelRatio } = useDevicePixelRatio()
   const { pause, resume } = useRenderLoop()

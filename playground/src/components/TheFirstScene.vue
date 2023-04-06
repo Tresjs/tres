@@ -9,7 +9,7 @@ watchEffect(() => {
 </script>
 
 <template>
-  <TresCanvas ref="context" clear-color="#82DBC5" window-size="true">
+  <TresCanvas ref="context" clear-color="#82DBC5" window-size>
     <TresPerspectiveCamera />
     <TresMesh>
       <TresTorusGeometry :args="[1, 0.5, 16, 32]" />

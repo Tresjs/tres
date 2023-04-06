@@ -1,5 +1,5 @@
 import { BufferAttribute } from 'three'
-import { useCamera, useLogger } from '/@/composables'
+import { useCamera } from '/@/composables'
 import { RendererOptions } from 'vue'
 import { catalogue } from './catalogue'
 import { isFunction } from '@vueuse/core'
