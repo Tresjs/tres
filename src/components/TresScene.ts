@@ -114,6 +114,10 @@ export const TresScene = defineComponent<TresSceneProps>({
         if (currentInstance === null) return
         currentInstance.object?.events?.onClick?.(currentInstance)
       })
+      useEventListener(canvas.value, 'mousemove', () => {
+        if (currentInstance === null) return
+        currentInstance.object?.events?.onPointerMove?.(currentInstance)
+      })
     }
 
     let app: App
