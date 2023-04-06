@@ -99,13 +99,13 @@ export const TresScene = defineComponent<TresSceneProps>({
             if (prevInstance === null) {
               currentInstance.object?.events?.onPointerEnter?.(currentInstance)
             }
+            currentInstance.object?.events?.onPointerMove?.(currentInstance)
           } else {
             if (prevInstance !== null) {
               currentInstance?.object?.events?.onPointerLeave?.(prevInstance)
               currentInstance = null
             }
           }
-
           prevInstance = currentInstance
         }
       })
@@ -113,10 +113,6 @@ export const TresScene = defineComponent<TresSceneProps>({
       useEventListener(canvas.value, 'click', () => {
         if (currentInstance === null) return
         currentInstance.object?.events?.onClick?.(currentInstance)
-      })
-      useEventListener(canvas.value, 'mousemove', () => {
-        if (currentInstance === null) return
-        currentInstance.object?.events?.onPointerMove?.(currentInstance)
       })
     }
 
