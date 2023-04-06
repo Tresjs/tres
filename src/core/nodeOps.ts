@@ -1,4 +1,4 @@
-import { BufferAttribute, Mesh, Object3D } from 'three'
+import { BufferAttribute, BufferGeometry, Material, Mesh, Object3D } from 'three'
 import { useCamera, useRaycaster, useRenderLoop, useLogger } from '/@/composables'
 import { RendererOptions } from 'vue'
 import { catalogue } from './catalogue'
@@ -63,8 +63,10 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
     // prevent it's disposal when node is removed later in it's lifecycle
     const { GEOMETRY_VIA_PROP, MATERIAL_VIA_PROP } = OBJECT_3D_USER_DATA_KEYS
 
-    if (props?.material?.isMaterial) (instance as Object3D).userData[MATERIAL_VIA_PROP] = true
-    if (props?.geometry?.isBufferGeometry) (instance as Object3D).userData[GEOMETRY_VIA_PROP] = true
+    if (instance.isObject3D) {
+      if (props?.material?.isMaterial) (instance as Object3D).userData[MATERIAL_VIA_PROP] = true
+      if (props?.geometry?.isBufferGeometry) (instance as Object3D).userData[GEOMETRY_VIA_PROP] = true
+    }
 
     return instance
   },
@@ -131,17 +133,26 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
       parent.removeChild(node)
     }
 
+    // remove is only called on the node being removed and not on child nodes.
+
+    if (node.isObject3D) {
+      const object3D = node as unknown as Object3D
+
+      const disposeMaterialsAndGeometries = (object3D: Object3D) => {
+        const { GEOMETRY_VIA_PROP, MATERIAL_VIA_PROP } = OBJECT_3D_USER_DATA_KEYS
+
+        if (!object3D.userData[MATERIAL_VIA_PROP]) (object3D as Object3D & { material: Material }).material?.dispose()
+        if (!object3D.userData[GEOMETRY_VIA_PROP])
+          (object3D as Object3D & { geometry: BufferGeometry }).geometry?.dispose()
+      }
+
+      object3D.traverse(child => disposeMaterialsAndGeometries(child))
+
+      disposeMaterialsAndGeometries(object3D)
+    }
+
     node.removeFromParent?.()
-
-    // TODO how to handle groups?
-    const { GEOMETRY_VIA_PROP, MATERIAL_VIA_PROP } = OBJECT_3D_USER_DATA_KEYS
-
-    if (!node.userData[MATERIAL_VIA_PROP]) node.material?.dispose()
-    if (!node.userData[GEOMETRY_VIA_PROP]) node.geometry?.dispose()
-
-    //TODO traverse children and dispose them too
-
-    node.dispose?.()
+    node.dispose?.() // TODO is dispose ever set?
   },
   patchProp(node, prop, _prevValue, nextValue) {
     if (node) {

@@ -68,7 +68,7 @@ describe('nodeOps', () => {
     expect(consoleWarnSpy).toHaveBeenCalled()
   })
 
-  it('createElement should add attach material propety if instance is a material', () => {
+  it('createElement should add attach material property if instance is a material', () => {
     // Setup
     const tag = 'TresMeshStandardMaterial'
     const props = { args: [] }
@@ -81,7 +81,7 @@ describe('nodeOps', () => {
     expect(instance.attach).toBe('material')
   })
 
-  it('createElement should add attach geometry propety if instance is a geometry', () => {
+  it('createElement should add attach geometry property if instance is a geometry', () => {
     // Setup
     const tag = 'TresTorusGeometry'
     const props = { args: [] }
