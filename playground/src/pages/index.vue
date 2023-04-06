@@ -1,6 +1,6 @@
 <script setup lang="ts"></script>
 <template>
   <Suspense>
-    <TheConditional />
+    <TheFirstScene />
   </Suspense>
 </template>

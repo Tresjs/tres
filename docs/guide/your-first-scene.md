@@ -2,15 +2,22 @@
 
 This guide will help you to create your first Tres scene. 🍩
 
+<ClientOnly>
+    <DonutExample style="aspect-ratio: 16/9; height: auto; margin: 2rem 0; border-radius: 8px; overflow:hidden;"/>
+</ClientOnly>
+
 ## Setting up the experience Canvas
 
 Before we can create a Scene, we need somewhere to display it. Using plain [ThreeJS](https://threejs.org/docs/index.html#manual/en/introduction/Creating-a-scene) we would need to create a `canvas` HTML element to mount the `WebglRenderer` and initialize the `scene`
 
-With **TresJS** you only need to add the default component `<TresCanvas />` to the template of your Vue component.
+With **TresJS** you only need to import the default component `<TresCanvas />` and add it to the template of your Vue component.
 
 ```vue
+<script lang="ts" setup>
+import { TresCanvas } from '@tresjs/core'
+</script>
 <template>
-  <TresCanvas>
+  <TresCanvas window-size>
     <!-- Your scene goes here -->
   </TresCanvas>
 </template>
@@ -25,6 +32,47 @@ The `TresCanvas` component is going to do some setup work behind the scene:
 - It creates a [**WebGLRenderer**](https://threejs.org/docs/index.html?q=webglrend#api/en/renderers/WebGLRenderer) that automatically updates every frame.
 - It sets the render loop to be called on every frame based on the browser refresh rate.
 
+## Canvas size
+
+By default, `TresCanvas` component will take the **parent's width and height**, if you are experiencing a blank page make sure the parent element have a proper size.
+
+```vue
+<script lang="ts" setup>
+import { TresCanvas } from '@tresjs/core'
+</script>
+<template>
+  <TresCanvas>
+    <!-- Your scene goes here -->
+  </TresCanvas>
+</template>
+<style>
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+}
+#app {
+  height: 100%;
+  width: 100%;
+}
+</style>
+```
+
+If your scene is not gonna be part of a UI, you can also force the canvas to take the width and height of the full window by using the `window-size` prop like this:
+
+```vue
+<script lang="ts" setup>
+import { TresCanvas } from '@tresjs/core'
+</script>
+<template>
+  <TresCanvas window-size>
+    <!-- Your scene goes here -->
+  </TresCanvas>
+</template>
+```
+
 ## Creating a scene
 
 We need 4 core elements to create a 3D experience:
@@ -38,7 +86,7 @@ With **TresJS** you only need to add the `<TresCanvas />` component to the templ
 
 ```vue
 <template>
-  <TresCanvas>
+  <TresCanvas window-size>
     <!-- Your scene goes here -->
   </TresCanvas>
 </template>
@@ -48,11 +96,15 @@ Then you can add a [**PerspectiveCamera**](https://threejs.org/docs/index.html?q
 
 ```vue
 <template>
-  <TresCanvas>
+  <TresCanvas window-size>
     <TresPerspectiveCamera />
   </TresCanvas>
 </template>
 ```
+
+::: warning
+A common issue is that the camera default position is the origin of the scene (0,0,0), if you still can see your scene try adding a position to the camera `<TresPerspectiveCamera :position="[3, 3, 3]" />`
+:::
 
 ## Adding a 🍩
 
@@ -71,10 +123,10 @@ Now let's see how we can easily achieve the same with **TresJS**. To do that we 
 
 ```vue
 <template>
-  <TresCanvas>
+  <TresCanvas window-size>
     <TresPerspectiveCamera />
     <TresMesh>
-      <TresTorusGeometry />
+      <TresTorusGeometry :args="[1, 0.5, 16, 32]" />
       <TresMeshBasicMaterial color="orange" />
     </TresMesh>
   </TresCanvas>
@@ -85,8 +137,23 @@ Now let's see how we can easily achieve the same with **TresJS**. To do that we 
 Notice that we don't need to import anything, that's because **TresJS** automatically generate a **Vue Component based on the Three Object you want to use in CamelCase with a Tres prefix**. For example, if you want to use an `AmbientLight` you would use `<TresAmbientLight />` component.
 :::
 
-<ClientOnly>
-    <DonutExample style="aspect-ratio: 16/9; height: auto; margin: 2rem 0; border-radius: 8px; overflow:hidden;"/>
-</ClientOnly>
+<StackBlitzEmbed projectId="tresjs-first-scene" />
+
+```vue
+<script setup lang="ts">
+import { TresCanvas } from '@tresjs/core'
+</script>
+
+<template>
+  <TresCanvas clear-color="#82DBC5" window-size>
+    <TresPerspectiveCamera :position="[3, 3, 3]" :look-at="[0, 0, 0]" />
+    <TresMesh>
+      <TresTorusGeometry :args="[1, 0.5, 16, 32]" />
+      <TresMeshBasicMaterial color="orange" />
+    </TresMesh>
+    <TresAmbientLight :intensity="1" />
+  </TresCanvas>
+</template>
+```
 
 From here onwards you can start adding more objects to your scene and start playing with the properties of the components to see how they affect the scene.

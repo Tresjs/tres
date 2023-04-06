@@ -29,6 +29,7 @@ declare module '@vue/runtime-core' {
     TheExperience: typeof import('./src/components/TheExperience.vue')['default']
     TheExperiment: typeof import('./src/components/gltf/TheExperiment.vue')['default']
     TheFireFlies: typeof import('./src/components/portal-journey/TheFireFlies.vue')['default']
+    TheFirstScene: typeof import('./src/components/TheFirstScene.vue')['default']
     TheGizmos: typeof import('./src/components/TheGizmos.vue')['default']
     TheGroups: typeof import('./src/components/TheGroups.vue')['default']
     TheParticles: typeof import('./src/components/TheParticles.vue')['default']

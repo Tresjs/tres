@@ -1,238 +1,523 @@
 import "./chunk-JC4IRQUL.js";
 
-// node_modules/.pnpm/@stackblitz+sdk@1.8.2/node_modules/@stackblitz/sdk/bundles/sdk.m.js
-var e = ["angular-cli", "create-react-app", "html", "javascript", "node", "polymer", "typescript", "vue"];
-var t = { clickToLoad: function(e2) {
-  return r("ctl", e2);
-}, devToolsHeight: function(e2) {
-  return i("devtoolsheight", e2);
-}, forceEmbedLayout: function(e2) {
-  return r("embed", e2);
-}, hideDevTools: function(e2) {
-  return r("hidedevtools", e2);
-}, hideExplorer: function(e2) {
-  return r("hideExplorer", e2);
-}, hideNavigation: function(e2) {
-  return r("hideNavigation", e2);
-}, showSidebar: function(e2) {
-  return function(e3, t2) {
-    return "boolean" == typeof t2 ? "showSidebar=" + (t2 ? "1" : "0") : "";
-  }(0, e2);
-}, openFile: function(e2) {
-  return function(e3, t2) {
-    return (Array.isArray(t2) ? t2 : [t2]).filter(function(e4) {
-      return "string" == typeof e4 && "" !== e4.trim();
-    }).map(function(e4) {
-      return "file=" + encodeURIComponent(e4.trim());
-    });
-  }(0, e2).join("&");
-}, terminalHeight: function(e2) {
-  return i("terminalHeight", e2);
-}, theme: function(e2) {
-  return o("theme", ["light", "dark"], e2);
-}, view: function(e2) {
-  return o("view", ["preview", "editor"], e2);
-} };
-function n(e2) {
-  void 0 === e2 && (e2 = {});
-  var n2 = Object.entries(e2).map(function(e3) {
-    var n3 = e3[0], r2 = e3[1];
-    return null != r2 && t.hasOwnProperty(n3) ? t[n3](r2) : "";
+// node_modules/.pnpm/@stackblitz+sdk@1.9.0/node_modules/@stackblitz/sdk/bundles/sdk.m.js
+var CONNECT_INTERVAL = 500;
+var CONNECT_MAX_ATTEMPTS = 20;
+var DEFAULT_FRAME_HEIGHT = 300;
+var DEFAULT_ORIGIN = "https://stackblitz.com";
+var PROJECT_TEMPLATES = [
+  "angular-cli",
+  "create-react-app",
+  "html",
+  "javascript",
+  "node",
+  "polymer",
+  "typescript",
+  "vue"
+];
+var UI_SIDEBAR_VIEWS = ["project", "search", "ports", "settings"];
+var UI_THEMES = ["light", "dark"];
+var UI_VIEWS = ["editor", "preview"];
+var generators = {
+  clickToLoad: (value) => trueParam("ctl", value),
+  devToolsHeight: (value) => percentParam("devtoolsheight", value),
+  forceEmbedLayout: (value) => trueParam("embed", value),
+  hideDevTools: (value) => trueParam("hidedevtools", value),
+  hideExplorer: (value) => trueParam("hideExplorer", value),
+  hideNavigation: (value) => trueParam("hideNavigation", value),
+  openFile: (value) => stringParams("file", value),
+  showSidebar: (value) => booleanParam("showSidebar", value),
+  sidebarView: (value) => enumParam("sidebarView", value, UI_SIDEBAR_VIEWS),
+  startScript: (value) => stringParams("startScript", value),
+  terminalHeight: (value) => percentParam("terminalHeight", value),
+  theme: (value) => enumParam("theme", value, UI_THEMES),
+  view: (value) => enumParam("view", value, UI_VIEWS),
+  zenMode: (value) => trueParam("zenMode", value)
+};
+function buildParams(options = {}) {
+  const params = Object.entries(options).map(([key, value]) => {
+    if (value != null && generators.hasOwnProperty(key)) {
+      return generators[key](value);
+    }
+    return "";
   }).filter(Boolean);
-  return n2.length ? "?" + n2.join("&") : "";
+  return params.length ? `?${params.join("&")}` : "";
 }
-function r(e2, t2) {
-  return true === t2 ? e2 + "=1" : "";
+function trueParam(name, value) {
+  if (value === true) {
+    return `${name}=1`;
+  }
+  return "";
 }
-function i(e2, t2) {
-  return "number" == typeof t2 && t2 >= 0 && t2 <= 100 ? e2 + "=" + Math.round(t2) : "";
+function booleanParam(name, value) {
+  if (typeof value === "boolean") {
+    return `${name}=${value ? "1" : "0"}`;
+  }
+  return "";
 }
-function o(e2, t2, n2) {
-  return "string" == typeof n2 && t2.includes(n2) ? e2 + "=" + n2 : "";
+function percentParam(name, value) {
+  if (typeof value === "number" && !Number.isNaN(value)) {
+    const clamped = Math.min(100, Math.max(0, value));
+    return `${name}=${encodeURIComponent(Math.round(clamped))}`;
+  }
+  return "";
 }
-function a() {
+function enumParam(name, value = "", allowList = []) {
+  if (allowList.includes(value)) {
+    return `${name}=${encodeURIComponent(value)}`;
+  }
+  return "";
+}
+function stringParams(name, value) {
+  const values = Array.isArray(value) ? value : [value];
+  return values.filter((val) => typeof val === "string" && val.trim() !== "").map((val) => `${name}=${encodeURIComponent(val)}`).join("&");
+}
+function genID() {
   return Math.random().toString(36).slice(2, 6) + Math.random().toString(36).slice(2, 6);
 }
-function d(e2, t2) {
-  return "" + u(t2) + e2 + n(t2);
+function openUrl(route, options) {
+  return `${getOrigin(options)}${route}${buildParams(options)}`;
 }
-function c(e2, t2) {
-  var r2 = { forceEmbedLayout: true };
-  return t2 && "object" == typeof t2 && Object.assign(r2, t2), "" + u(r2) + e2 + n(r2);
+function embedUrl(route, options) {
+  const config = {
+    forceEmbedLayout: true
+  };
+  if (options && typeof options === "object") {
+    Object.assign(config, options);
+  }
+  return `${getOrigin(config)}${route}${buildParams(config)}`;
 }
-function u(e2) {
-  return void 0 === e2 && (e2 = {}), "string" == typeof e2.origin ? e2.origin : "https://stackblitz.com";
+function getOrigin(options = {}) {
+  const origin = typeof options.origin === "string" ? options.origin : DEFAULT_ORIGIN;
+  return origin.replace(/\/$/, "");
 }
-function s(e2, t2, n2) {
-  if (!t2 || !e2 || !e2.parentNode)
+function replaceAndEmbed(target, frame, options) {
+  if (!frame || !target || !target.parentNode) {
     throw new Error("Invalid Element");
-  e2.id && (t2.id = e2.id), e2.className && (t2.className = e2.className), function(e3, t3) {
-    t3 && "object" == typeof t3 && (Object.hasOwnProperty.call(t3, "height") && (e3.height = "" + t3.height), Object.hasOwnProperty.call(t3, "width") && (e3.width = "" + t3.width)), e3.height || (e3.height = "300"), e3.width || e3.setAttribute("style", "width:100%;");
-  }(t2, n2), e2.parentNode.replaceChild(t2, e2);
-}
-function l(e2) {
-  if ("string" == typeof e2) {
-    var t2 = document.getElementById(e2);
-    if (!t2)
-      throw new Error("Could not find element with id '" + e2 + "'");
-    return t2;
   }
-  if (e2 instanceof HTMLElement)
-    return e2;
-  throw new Error("Invalid element: " + e2);
-}
-function p(e2) {
-  return e2 && false === e2.newWindow ? "_self" : "_blank";
-}
-function f() {
-  return f = Object.assign || function(e2) {
-    for (var t2 = 1; t2 < arguments.length; t2++) {
-      var n2 = arguments[t2];
-      for (var r2 in n2)
-        Object.prototype.hasOwnProperty.call(n2, r2) && (e2[r2] = n2[r2]);
-    }
-    return e2;
-  }, f.apply(this, arguments);
-}
-var h = function() {
-  function e2(e3) {
-    this.port = void 0, this.pending = {}, this.port = e3, this.port.onmessage = this.messageListener.bind(this);
+  if (target.id) {
+    frame.id = target.id;
   }
-  var t2 = e2.prototype;
-  return t2.request = function(e3) {
-    var t3 = this, n2 = e3.type, r2 = e3.payload, i2 = a();
-    return new Promise(function(e4, o2) {
-      t3.pending[i2] = { resolve: e4, reject: o2 }, t3.port.postMessage({ type: n2, payload: f({}, r2, { __reqid: i2 }) });
-    });
-  }, t2.messageListener = function(e3) {
-    var t3;
-    if ("string" == typeof (null == (t3 = e3.data.payload) ? void 0 : t3.__reqid)) {
-      var n2 = e3.data, r2 = n2.type, i2 = n2.payload, o2 = i2.__reqid, a2 = i2.__error;
-      this.pending[o2] && (i2.__success ? this.pending[o2].resolve(function(e4) {
-        var t4 = f({}, e4);
-        return delete t4.__reqid, delete t4.__success, delete t4.__error, Object.keys(t4).length ? t4 : null;
-      }(i2)) : this.pending[o2].reject(a2 ? r2 + ": " + a2 : r2), delete this.pending[o2]);
+  if (target.className) {
+    frame.className = target.className;
+  }
+  setFrameDimensions(frame, options);
+  target.replaceWith(frame);
+}
+function findElement(elementOrId) {
+  if (typeof elementOrId === "string") {
+    const element = document.getElementById(elementOrId);
+    if (!element) {
+      throw new Error(`Could not find element with id '${elementOrId}'`);
     }
-  }, e2;
-}();
-var m = function() {
-  function e2(e3, t3) {
-    var n2 = this;
-    this._rdc = void 0, this.editor = { openFile: function(e4) {
-      return n2._rdc.request({ type: "SDK_OPEN_FILE", payload: { path: e4 } });
-    }, setCurrentFile: function(e4) {
-      return n2._rdc.request({ type: "SDK_SET_CURRENT_FILE", payload: { path: e4 } });
-    }, setTheme: function(e4) {
-      return n2._rdc.request({ type: "SDK_SET_UI_THEME", payload: { theme: e4 } });
-    }, setView: function(e4) {
-      return n2._rdc.request({ type: "SDK_SET_UI_VIEW", payload: { view: e4 } });
-    }, showSidebar: function(e4) {
-      return void 0 === e4 && (e4 = true), n2._rdc.request({ type: "SDK_TOGGLE_SIDEBAR", payload: { visible: e4 } });
-    } }, this.preview = { origin: "", getUrl: function() {
-      return n2._rdc.request({ type: "SDK_GET_PREVIEW_URL", payload: {} }).then(function(e4) {
-        var t4;
-        return null != (t4 = null == e4 ? void 0 : e4.url) ? t4 : null;
+    return element;
+  } else if (elementOrId instanceof HTMLElement) {
+    return elementOrId;
+  }
+  throw new Error(`Invalid element: ${elementOrId}`);
+}
+function openTarget(options) {
+  return options && options.newWindow === false ? "_self" : "_blank";
+}
+function setFrameDimensions(frame, options = {}) {
+  const height = Object.hasOwnProperty.call(options, "height") ? `${options.height}` : `${DEFAULT_FRAME_HEIGHT}`;
+  const width = Object.hasOwnProperty.call(options, "width") ? `${options.width}` : void 0;
+  frame.setAttribute("height", height);
+  if (width) {
+    frame.setAttribute("width", width);
+  } else {
+    frame.setAttribute("style", "width:100%;");
+  }
+}
+var RDC = class {
+  constructor(port) {
+    this.pending = {};
+    this.port = port;
+    this.port.onmessage = this.messageListener.bind(this);
+  }
+  request({ type, payload }) {
+    return new Promise((resolve, reject) => {
+      const id = genID();
+      this.pending[id] = { resolve, reject };
+      this.port.postMessage({
+        type,
+        payload: {
+          ...payload,
+          // Ensure the payload object includes the request ID
+          __reqid: id
+        }
       });
-    }, setUrl: function(e4) {
-      if (void 0 === e4 && (e4 = "/"), "string" != typeof e4 || !e4.startsWith("/"))
-        throw new Error("Invalid argument: expected a path starting with '/', got '" + e4 + "'");
-      return n2._rdc.request({ type: "SDK_SET_PREVIEW_URL", payload: { path: e4 } });
-    } }, this._rdc = new h(e3), Object.defineProperty(this.preview, "origin", { value: "string" == typeof t3.previewOrigin ? t3.previewOrigin : null, writable: false });
+    });
   }
-  var t2 = e2.prototype;
-  return t2.applyFsDiff = function(e3) {
-    var t3 = function(e4) {
-      return null !== e4 && "object" == typeof e4;
-    };
-    if (!t3(e3) || !t3(e3.create))
-      throw new Error("Invalid diff object: expected diff.create to be an object.");
-    if (!Array.isArray(e3.destroy))
-      throw new Error("Invalid diff object: expected diff.create to be an array.");
-    return this._rdc.request({ type: "SDK_APPLY_FS_DIFF", payload: e3 });
-  }, t2.getDependencies = function() {
-    return this._rdc.request({ type: "SDK_GET_DEPS_SNAPSHOT", payload: {} });
-  }, t2.getFsSnapshot = function() {
-    return this._rdc.request({ type: "SDK_GET_FS_SNAPSHOT", payload: {} });
-  }, e2;
-}();
-var v = [];
-var y = function(e2) {
-  var t2 = this;
-  this.element = void 0, this.id = void 0, this.pending = void 0, this.vm = void 0, this.id = a(), this.element = e2, this.pending = new Promise(function(e3, n2) {
-    var r2 = function(n3) {
-      var r3 = n3.data;
-      "SDK_INIT_SUCCESS" === (null == r3 ? void 0 : r3.action) && r3.id === t2.id && (t2.vm = new m(n3.ports[0], r3.payload), e3(t2.vm), o2());
-    }, i2 = function() {
-      var e4;
-      null == (e4 = t2.element.contentWindow) || e4.postMessage({ action: "SDK_INIT", id: t2.id }, "*");
-    };
-    function o2() {
-      window.clearInterval(d2), window.removeEventListener("message", r2);
+  messageListener(event) {
+    var _a;
+    if (typeof ((_a = event.data.payload) == null ? void 0 : _a.__reqid) !== "string") {
+      return;
     }
-    window.addEventListener("message", r2), i2();
-    var a2 = 0, d2 = window.setInterval(function() {
-      if (t2.vm)
-        o2();
-      else {
-        if (a2 >= 20)
-          return o2(), n2("Timeout: Unable to establish a connection with the StackBlitz VM"), void v.forEach(function(e4, n3) {
-            e4.id === t2.id && v.splice(n3, 1);
-          });
-        a2++, i2();
+    const { type, payload } = event.data;
+    const { __reqid: id, __success: success, __error: error } = payload;
+    if (this.pending[id]) {
+      if (success) {
+        this.pending[id].resolve(this.cleanResult(payload));
+      } else {
+        this.pending[id].reject(error ? `${type}: ${error}` : type);
       }
-    }, 500);
-  }), v.push(this);
-};
-function g(e2, t2) {
-  var n2 = document.createElement("input");
-  return n2.type = "hidden", n2.name = e2, n2.value = t2, n2;
-}
-function w(t2) {
-  if (!e.includes(t2.template)) {
-    var n2 = e.map(function(e2) {
-      return "'" + e2 + "'";
-    }).join(", ");
-    console.warn("Unsupported project.template: must be one of " + n2);
+      delete this.pending[id];
+    }
   }
-  var r2 = "node" === t2.template, i2 = document.createElement("form");
-  return i2.method = "POST", i2.setAttribute("style", "display:none!important;"), i2.appendChild(g("project[title]", t2.title)), i2.appendChild(g("project[description]", t2.description)), i2.appendChild(g("project[template]", t2.template)), t2.dependencies && (r2 ? console.warn("Invalid project.dependencies: dependencies must be provided as a 'package.json' file when using the 'node' template.") : i2.appendChild(g("project[dependencies]", JSON.stringify(t2.dependencies)))), t2.settings && i2.appendChild(g("project[settings]", JSON.stringify(t2.settings))), Object.keys(t2.files).forEach(function(e2) {
-    var n3 = "project[files]" + function(e3) {
-      return "[" + e3.replace(/\[/g, "%5B").replace(/\]/g, "%5D") + "]";
-    }(e2), r3 = t2.files[e2];
-    "string" == typeof r3 && i2.appendChild(g(n3, r3));
-  }), i2;
+  cleanResult(payload) {
+    const result = { ...payload };
+    delete result.__reqid;
+    delete result.__success;
+    delete result.__error;
+    return Object.keys(result).length ? result : null;
+  }
+};
+var VM = class {
+  constructor(port, config) {
+    this.editor = {
+      /**
+       * Open one of several files in tabs and/or split panes.
+       *
+       * @since 1.7.0 Added support for opening multiple files
+       */
+      openFile: (path) => {
+        return this._rdc.request({
+          type: "SDK_OPEN_FILE",
+          payload: { path }
+        });
+      },
+      /**
+       * Set a project file as the currently selected file.
+       *
+       * - This may update the highlighted file in the file explorer,
+       *   and the currently open and/or focused editor tab.
+       * - It will _not_ open a new editor tab if the provided path does not
+       *   match a currently open tab. See `vm.editor.openFile` to open files.
+       *
+       * @since 1.7.0
+       * @experimental
+       */
+      setCurrentFile: (path) => {
+        return this._rdc.request({
+          type: "SDK_SET_CURRENT_FILE",
+          payload: { path }
+        });
+      },
+      /**
+       * Change the color theme
+       *
+       * @since 1.7.0
+       */
+      setTheme: (theme) => {
+        return this._rdc.request({
+          type: "SDK_SET_UI_THEME",
+          payload: { theme }
+        });
+      },
+      /**
+       * Change the display mode of the project:
+       *
+       * - `default`: show the editor and preview pane
+       * - `editor`: show the editor pane only
+       * - `preview`: show the preview pane only
+       *
+       * @since 1.7.0
+       */
+      setView: (view) => {
+        return this._rdc.request({
+          type: "SDK_SET_UI_VIEW",
+          payload: { view }
+        });
+      },
+      /**
+       * Change the display mode of the sidebar:
+       *
+       * - `true`: show the sidebar
+       * - `false`: hide the sidebar
+       *
+       * @since 1.7.0
+       */
+      showSidebar: (visible = true) => {
+        return this._rdc.request({
+          type: "SDK_TOGGLE_SIDEBAR",
+          payload: { visible }
+        });
+      }
+    };
+    this.preview = {
+      /**
+       * The origin (protocol and domain) of the preview iframe.
+       *
+       * In WebContainers-based projects, the origin will always be `null`;
+       * try using `vm.preview.getUrl` instead.
+       *
+       * @see https://developer.stackblitz.com/guides/user-guide/available-environments
+       */
+      origin: "",
+      /**
+       * Get the current preview URL.
+       *
+       * In both and EngineBlock and WebContainers-based projects, the preview URL
+       * may not reflect the exact path of the current page, after user navigation.
+       *
+       * In WebContainers-based projects, the preview URL will be `null` initially,
+       * and until the project starts a web server.
+       *
+       * @since 1.7.0
+       * @experimental
+       */
+      getUrl: () => {
+        return this._rdc.request({
+          type: "SDK_GET_PREVIEW_URL",
+          payload: {}
+        }).then((data) => (data == null ? void 0 : data.url) ?? null);
+      },
+      /**
+       * Change the path of the preview URL.
+       *
+       * In WebContainers-based projects, this will be ignored if there is no
+       * currently running web server.
+       *
+       * @since 1.7.0
+       * @experimental
+       */
+      setUrl: (path = "/") => {
+        if (typeof path !== "string" || !path.startsWith("/")) {
+          throw new Error(`Invalid argument: expected a path starting with '/', got '${path}'`);
+        }
+        return this._rdc.request({
+          type: "SDK_SET_PREVIEW_URL",
+          payload: { path }
+        });
+      }
+    };
+    this._rdc = new RDC(port);
+    Object.defineProperty(this.preview, "origin", {
+      value: typeof config.previewOrigin === "string" ? config.previewOrigin : null,
+      writable: false
+    });
+  }
+  /**
+   * Apply batch updates to the project files in one call.
+   */
+  applyFsDiff(diff) {
+    const isObject = (val) => val !== null && typeof val === "object";
+    if (!isObject(diff) || !isObject(diff.create)) {
+      throw new Error("Invalid diff object: expected diff.create to be an object.");
+    } else if (!Array.isArray(diff.destroy)) {
+      throw new Error("Invalid diff object: expected diff.destroy to be an array.");
+    }
+    return this._rdc.request({
+      type: "SDK_APPLY_FS_DIFF",
+      payload: diff
+    });
+  }
+  /**
+   * Get the project’s defined dependencies.
+   *
+   * In EngineBlock projects, version numbers represent the resolved dependency versions.
+   * In WebContainers-based projects, returns data from the project’s `package.json` without resolving installed version numbers.
+   */
+  getDependencies() {
+    return this._rdc.request({
+      type: "SDK_GET_DEPS_SNAPSHOT",
+      payload: {}
+    });
+  }
+  /**
+   * Get a snapshot of the project files and their content.
+   */
+  getFsSnapshot() {
+    return this._rdc.request({
+      type: "SDK_GET_FS_SNAPSHOT",
+      payload: {}
+    });
+  }
+};
+var connections = [];
+var Connection = class {
+  constructor(element) {
+    this.id = genID();
+    this.element = element;
+    this.pending = new Promise((resolve, reject) => {
+      const listenForSuccess = ({ data, ports }) => {
+        if ((data == null ? void 0 : data.action) === "SDK_INIT_SUCCESS" && data.id === this.id) {
+          this.vm = new VM(ports[0], data.payload);
+          resolve(this.vm);
+          cleanup();
+        }
+      };
+      const pingFrame = () => {
+        var _a;
+        (_a = this.element.contentWindow) == null ? void 0 : _a.postMessage(
+          {
+            action: "SDK_INIT",
+            id: this.id
+          },
+          "*"
+        );
+      };
+      function cleanup() {
+        window.clearInterval(interval);
+        window.removeEventListener("message", listenForSuccess);
+      }
+      window.addEventListener("message", listenForSuccess);
+      pingFrame();
+      let attempts = 0;
+      const interval = window.setInterval(() => {
+        if (this.vm) {
+          cleanup();
+          return;
+        }
+        if (attempts >= CONNECT_MAX_ATTEMPTS) {
+          cleanup();
+          reject("Timeout: Unable to establish a connection with the StackBlitz VM");
+          connections.forEach((connection, index) => {
+            if (connection.id === this.id) {
+              connections.splice(index, 1);
+            }
+          });
+          return;
+        }
+        attempts++;
+        pingFrame();
+      }, CONNECT_INTERVAL);
+    });
+    connections.push(this);
+  }
+};
+var getConnection = (identifier) => {
+  const key = identifier instanceof Element ? "element" : "id";
+  return connections.find((c) => c[key] === identifier) ?? null;
+};
+function createHiddenInput(name, value) {
+  const input = document.createElement("input");
+  input.type = "hidden";
+  input.name = name;
+  input.value = value;
+  return input;
 }
-function _(e2) {
-  var t2, n2, r2, i2;
-  return null != e2 && e2.contentWindow ? (null != (i2 = (n2 = e2) instanceof Element ? "element" : "id", t2 = null != (r2 = v.find(function(e3) {
-    return e3[i2] === n2;
-  })) ? r2 : null) ? t2 : new y(e2)).pending : Promise.reject("Provided element is not an iframe.");
+function encodeFilePath(path) {
+  return path.replace(/\[/g, "%5B").replace(/\]/g, "%5D");
 }
-var b = { connect: _, embedGithubProject: function(e2, t2, n2) {
-  var r2 = l(e2), i2 = document.createElement("iframe");
-  return i2.src = c("/github/" + t2, n2), s(r2, i2, n2), _(i2);
-}, embedProject: function(e2, t2, n2) {
-  var r2, i2 = l(e2), o2 = function(e3, t3) {
-    var n3 = w(e3);
-    return n3.action = c("/run", t3), n3.id = "sb", "<html><head><title></title></head><body>" + n3.outerHTML + "<script>document.getElementById('" + n3.id + "').submit();<\/script></body></html>";
-  }(t2, n2), a2 = document.createElement("iframe");
-  return s(i2, a2, n2), null == (r2 = a2.contentDocument) || r2.write(o2), _(a2);
-}, embedProjectId: function(e2, t2, n2) {
-  var r2 = l(e2), i2 = document.createElement("iframe");
-  return i2.src = c("/edit/" + t2, n2), s(r2, i2, n2), _(i2);
-}, openGithubProject: function(e2, t2) {
-  var n2 = d("/github/" + e2, t2), r2 = p(t2);
-  window.open(n2, r2);
-}, openProject: function(e2, t2) {
-  !function(e3, t3) {
-    var n2 = w(e3);
-    n2.action = d("/run", t3), n2.target = p(t3), document.body.appendChild(n2), n2.submit(), document.body.removeChild(n2);
-  }(e2, t2);
-}, openProjectId: function(e2, t2) {
-  var n2 = d("/edit/" + e2, t2), r2 = p(t2);
-  window.open(n2, r2);
-} };
+function createProjectForm({
+  template,
+  title,
+  description,
+  dependencies,
+  files,
+  settings
+}) {
+  if (!PROJECT_TEMPLATES.includes(template)) {
+    const names = PROJECT_TEMPLATES.map((t) => `'${t}'`).join(", ");
+    console.warn(`Unsupported project.template: must be one of ${names}`);
+  }
+  const inputs = [];
+  const addInput = (name, value, defaultValue = "") => {
+    inputs.push(createHiddenInput(name, typeof value === "string" ? value : defaultValue));
+  };
+  addInput("project[title]", title);
+  if (typeof description === "string" && description.length > 0) {
+    addInput("project[description]", description);
+  }
+  addInput("project[template]", template, "javascript");
+  if (dependencies) {
+    if (template === "node") {
+      console.warn(
+        `Invalid project.dependencies: dependencies must be provided as a 'package.json' file when using the 'node' template.`
+      );
+    } else {
+      addInput("project[dependencies]", JSON.stringify(dependencies));
+    }
+  }
+  if (settings) {
+    addInput("project[settings]", JSON.stringify(settings));
+  }
+  Object.entries(files).forEach(([path, contents]) => {
+    addInput(`project[files][${encodeFilePath(path)}]`, contents);
+  });
+  const form = document.createElement("form");
+  form.method = "POST";
+  form.setAttribute("style", "display:none!important;");
+  form.append(...inputs);
+  return form;
+}
+function createProjectFrameHTML(project, options) {
+  const form = createProjectForm(project);
+  form.action = embedUrl("/run", options);
+  form.id = "sb_run";
+  const html = `<!doctype html>
+<html>
+<head><title></title></head>
+<body>
+  ${form.outerHTML}
+  <script>document.getElementById('${form.id}').submit();<\/script>
+</body>
+</html>`;
+  return html;
+}
+function openNewProject(project, options) {
+  const form = createProjectForm(project);
+  form.action = openUrl("/run", options);
+  form.target = openTarget(options);
+  document.body.appendChild(form);
+  form.submit();
+  document.body.removeChild(form);
+}
+function connect(frameEl) {
+  if (!(frameEl == null ? void 0 : frameEl.contentWindow)) {
+    return Promise.reject("Provided element is not an iframe.");
+  }
+  const connection = getConnection(frameEl) ?? new Connection(frameEl);
+  return connection.pending;
+}
+function openProject(project, options) {
+  openNewProject(project, options);
+}
+function openProjectId(projectId, options) {
+  const url = openUrl(`/edit/${projectId}`, options);
+  const target = openTarget(options);
+  window.open(url, target);
+}
+function openGithubProject(repoSlug, options) {
+  const url = openUrl(`/github/${repoSlug}`, options);
+  const target = openTarget(options);
+  window.open(url, target);
+}
+function embedProject(elementOrId, project, options) {
+  var _a;
+  const element = findElement(elementOrId);
+  const html = createProjectFrameHTML(project, options);
+  const frame = document.createElement("iframe");
+  replaceAndEmbed(element, frame, options);
+  (_a = frame.contentDocument) == null ? void 0 : _a.write(html);
+  return connect(frame);
+}
+function embedProjectId(elementOrId, projectId, options) {
+  const element = findElement(elementOrId);
+  const frame = document.createElement("iframe");
+  frame.src = embedUrl(`/edit/${projectId}`, options);
+  replaceAndEmbed(element, frame, options);
+  return connect(frame);
+}
+function embedGithubProject(elementOrId, repoSlug, options) {
+  const element = findElement(elementOrId);
+  const frame = document.createElement("iframe");
+  frame.src = embedUrl(`/github/${repoSlug}`, options);
+  replaceAndEmbed(element, frame, options);
+  return connect(frame);
+}
+var StackBlitzSDK = {
+  connect,
+  embedGithubProject,
+  embedProject,
+  embedProjectId,
+  openGithubProject,
+  openProject,
+  openProjectId
+};
 export {
-  b as default
+  StackBlitzSDK as default
 };
 //# sourceMappingURL=@stackblitz_sdk.js.map

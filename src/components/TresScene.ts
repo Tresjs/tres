@@ -6,7 +6,8 @@ import { useLogger } from '/@/composables'
 import { useCamera, useRenderer, useRenderLoop, useRaycaster, useTres } from '/@/composables'
 import { extend } from '/@/core/catalogue'
 import { RendererPresetsType } from '/@/composables/useRenderer/const'
-import { TresObject } from '../types'
+import { TresEvent, TresObject } from '../types'
+import { useEventListener } from '@vueuse/core'
 
 export interface TresSceneProps {
   shadows?: boolean
@@ -80,12 +81,38 @@ export const TresScene = defineComponent<TresSceneProps>({
 
       const { raycaster, pointer } = useRaycaster()
 
+      let prevInstance: TresEvent | null = null
+      let currentInstance: TresEvent | null = null
+
       watchEffect(() => {
         if (activeCamera.value) raycaster.value.setFromCamera(pointer.value, activeCamera.value)
       })
 
       onLoop(() => {
         if (activeCamera.value) renderer.value?.render(scene, activeCamera.value)
+
+        if (raycaster.value) {
+          const intersects = raycaster.value.intersectObjects(scene.children)
+
+          if (intersects.length > 0) {
+            currentInstance = intersects[0]
+            if (prevInstance === null) {
+              currentInstance.object?.events?.onPointerEnter?.(currentInstance)
+            }
+          } else {
+            if (prevInstance !== null) {
+              currentInstance?.object?.events?.onPointerLeave?.(prevInstance)
+              currentInstance = null
+            }
+          }
+
+          prevInstance = currentInstance
+        }
+      })
+
+      useEventListener(canvas.value, 'click', () => {
+        if (currentInstance === null) return
+        currentInstance.object?.events?.onClick?.(currentInstance)
       })
     }
 

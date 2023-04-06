@@ -9,7 +9,6 @@ import {
   AlwaysStencilFunc,
   AmbientLight,
   AmbientLightProbe,
-  AnimationAction,
   AnimationClip,
   AnimationLoader,
   AnimationMixer,
@@ -408,7 +407,7 @@ import {
   ZeroStencilOp,
   _SRGBAFormat,
   sRGBEncoding
-} from "./chunk-UMTEG5DH.js";
+} from "./chunk-4QXXOI63.js";
 import "./chunk-JC4IRQUL.js";
 export {
   ACESFilmicToneMapping,
@@ -421,7 +420,6 @@ export {
   AlwaysStencilFunc,
   AmbientLight,
   AmbientLightProbe,
-  AnimationAction,
   AnimationClip,
   AnimationLoader,
   AnimationMixer,
