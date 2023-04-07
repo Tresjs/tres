@@ -99,13 +99,13 @@ export const TresScene = defineComponent<TresSceneProps>({
             if (prevInstance === null) {
               currentInstance.object?.events?.onPointerEnter?.(currentInstance)
             }
+            currentInstance.object?.events?.onPointerMove?.(currentInstance)
           } else {
             if (prevInstance !== null) {
               currentInstance?.object?.events?.onPointerLeave?.(prevInstance)
               currentInstance = null
             }
           }
-
           prevInstance = currentInstance
         }
       })

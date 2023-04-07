@@ -15,18 +15,27 @@ const state = reactive({
 
 function onClick(ev) {
   if (ev) {
+    console.log('click', ev)
     ev.object.material.color.set('#008080')
   }
 }
 
 function onPointerEnter(ev) {
   if (ev) {
+    console.log('enter', ev)
     ev.object.material.color.set('#DFFF45')
+  }
+}
+
+function onPointerMove(ev) {
+  if (ev) {
+    console.log('move', ev)
   }
 }
 
 function onPointerLeave(ev) {
   if (ev) {
+    console.log('leave', ev)
     /*  ev.object.material.color.set('#efefef') */
   }
 }
@@ -46,6 +55,7 @@ function onPointerLeave(ev) {
           @click="onClick"
           @pointer-enter="onPointerEnter"
           @pointer-leave="onPointerLeave"
+          @pointer-move="onPointerMove"
         >
           <TresBoxGeometry :args="[1, 1, 1]" />
           <TresMeshToonMaterial color="#efefef" />

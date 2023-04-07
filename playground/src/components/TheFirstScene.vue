@@ -1,11 +1,5 @@
 <script setup lang="ts">
 import { TresCanvas } from '/@/'
-
-const context = ref()
-
-watchEffect(() => {
-  console.log(context)
-})
 </script>
 
 <template>
