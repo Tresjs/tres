@@ -1,4 +1,4 @@
-# Instalation
+# Installation
 
 Learn how to install TresJS
 
@@ -22,7 +22,7 @@ yarn add three @tresjs/core -D
 
 ## Getting started
 
-You can install TresJS as any other Vue plugin
+You can install TresJS like any other Vue plugin
 
 ```ts
 import { createApp } from 'vue'
@@ -38,4 +38,4 @@ app.mount('#app')
 
 ### Nuxt
 
-Soon.
+Coming soon!
