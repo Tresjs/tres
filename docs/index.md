@@ -22,14 +22,14 @@ hero:
 features:
   - icon: 💡
     title: Declarative
-    details: Build 3D scene as they were Vue components.
+    details: Build 3D scenes with Vue components.
   - icon: ⚡️
     title: Powered by Vite
-    details: Hot Module Replacement (HMR) that stays fast regardless of app size.
+    details: Hot Module Replacement (HMR) stays fast regardless of app size.
   - icon: 🥰
     title: Keeps up to date
-    details: It brings all the updated features of ThreeJS right away.
+    details: All the latest features of ThreeJS right away thanks to a Vue custom renderer.
   - icon: 🌳
     title: Ecosystem
-    details: Extend the core functionality with packages like `cientos` and `postprocessing`. Or add your own.
+    details: Extend core functionality with packages like `cientos` and `postprocessing`. Or add your own!
 ---
