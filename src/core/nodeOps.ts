@@ -105,7 +105,7 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
 
     node.removeFromParent?.()
 
-    node.dispose?.() // TODO is dispose ever set?
+    node.dispose?.()
   },
   patchProp(node, prop, _prevValue, nextValue) {
     if (node) {
