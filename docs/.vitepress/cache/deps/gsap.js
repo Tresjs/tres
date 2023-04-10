@@ -1,3 +1,5 @@
+import "./chunk-4EOJPDL2.js";
+
 // node_modules/.pnpm/gsap@3.11.5/node_modules/gsap/gsap-core.js
 function _assertThisInitialized(self) {
   if (self === void 0) {
