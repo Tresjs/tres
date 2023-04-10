@@ -3,6 +3,7 @@ declare module 'vue' {
   export interface GlobalComponents {
     'BasicAnimations': typeof import("../components/content/BasicAnimations.vue")['default']
     'Events': typeof import("../components/content/Events.vue")['default']
+    'GlassExample': typeof import("../components/content/GlassExample.vue")['default']
     'Text3dExperiment': typeof import("../components/content/Text3dExperiment.vue")['default']
     'TheLights': typeof import("../components/content/TheLights.vue")['default']
     'TresBasic': typeof import("../components/content/TresBasic.vue")['default']
@@ -82,6 +83,7 @@ declare module 'vue' {
     'Body': typeof import("../node_modules/.pnpm/nuxt@3.3.2/node_modules/nuxt/dist/head/runtime/components")['Body']
     'LazyBasicAnimations': typeof import("../components/content/BasicAnimations.vue")['default']
     'LazyEvents': typeof import("../components/content/Events.vue")['default']
+    'LazyGlassExample': typeof import("../components/content/GlassExample.vue")['default']
     'LazyText3dExperiment': typeof import("../components/content/Text3dExperiment.vue")['default']
     'LazyTheLights': typeof import("../components/content/TheLights.vue")['default']
     'LazyTresBasic': typeof import("../components/content/TresBasic.vue")['default']
@@ -164,6 +166,7 @@ declare module 'vue' {
 
 export const BasicAnimations: typeof import("../components/content/BasicAnimations.vue")['default']
 export const Events: typeof import("../components/content/Events.vue")['default']
+export const GlassExample: typeof import("../components/content/GlassExample.vue")['default']
 export const Text3dExperiment: typeof import("../components/content/Text3dExperiment.vue")['default']
 export const TheLights: typeof import("../components/content/TheLights.vue")['default']
 export const TresBasic: typeof import("../components/content/TresBasic.vue")['default']
@@ -243,6 +246,7 @@ export const Html: typeof import("../node_modules/.pnpm/nuxt@3.3.2/node_modules/
 export const Body: typeof import("../node_modules/.pnpm/nuxt@3.3.2/node_modules/nuxt/dist/head/runtime/components")['Body']
 export const LazyBasicAnimations: typeof import("../components/content/BasicAnimations.vue")['default']
 export const LazyEvents: typeof import("../components/content/Events.vue")['default']
+export const LazyGlassExample: typeof import("../components/content/GlassExample.vue")['default']
 export const LazyText3dExperiment: typeof import("../components/content/Text3dExperiment.vue")['default']
 export const LazyTheLights: typeof import("../components/content/TheLights.vue")['default']
 export const LazyTresBasic: typeof import("../components/content/TresBasic.vue")['default']
