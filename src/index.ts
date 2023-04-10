@@ -21,6 +21,7 @@ import Octahedron from './core/Octahedron.vue'
 import Dodecahedron from './core/Dodecahedron.vue'
 import { Environment } from './core/useEnvironment/component'
 import Levioso from './core/Levioso.vue'
+import MeshWobbleMaterial from './core/meshWobbleMaterial/index.vue'
 export * from './core/useGLTF'
 export * from './core/useFBX'
 export * from './core/useEnvironment'
@@ -49,4 +50,5 @@ export {
   Environment,
   PamCameraMouse,
   Levioso,
+  MeshWobbleMaterial,
 }
