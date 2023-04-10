@@ -3,6 +3,7 @@ import { ref, defineExpose, watch, onUnmounted } from 'vue'
 import { PointerLockControls } from 'three-stdlib'
 import { Camera } from 'three'
 import { useCientos } from './useCientos'
+import { useEventListener } from '@vueuse/core'
 
 export interface PointerLockControlsProps {
   /**
@@ -60,13 +61,7 @@ watch(controls, value => {
   }
   const selector = document.getElementById(props.selector || '')
   triggerSelector = selector ? selector : state.renderer?.domElement
-  triggerSelector?.addEventListener('click', () => {
-    controls.value?.lock()
-  })
-})
-
-onUnmounted(() => {
-  triggerSelector?.removeEventListener('click', () => {
+  useEventListener(triggerSelector, 'click', () => {
     controls.value?.lock()
   })
 })
