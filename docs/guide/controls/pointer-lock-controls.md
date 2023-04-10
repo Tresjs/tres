@@ -7,7 +7,7 @@ However, as it is not part of the core of ThreeJS, to use it you would need to i
 Here is where the fancy part begins. ✨
 The `cientos` package provides a component called `<PointerLockControls />`, which is a wrapper of the `PointerLockControls` from the [`three-stdlib`](https://github.com/pmndrs/three-stdlib) module.
 
-The nicest part? You don't need to extend the catalog or pass any arguments.  
+The nicest part? You don't need to extend the catalog or pass any arguments.
 It just works. 💯
 
 ::: warning
@@ -18,7 +18,22 @@ In addition, you need to wait 1 second between canceling and re-starting the eve
 ```vue{3}
 <template>
   <TresCanvas shadows alpha>
+    <TresPerspectiveCamera :position="[0, 0, 3]" />
     <PointerLockControls />
+    <TresGridHelper :args="[10, 10]" />
+
+  </TresCanvas>
+</template>
+```
+Or using your own HTML element to trigger the event
+
+```vue{3}
+<template>
+<button id="lock">Lock</button>
+  <TresCanvas shadows alpha>
+    <TresPerspectiveCamera :position="[0, 0, 3]" />
+    <PointerLockControls selector="lock" />
+    <TresGridHelper :args="[10, 10]" />
 
   </TresCanvas>
 </template>
@@ -31,4 +46,4 @@ In addition, you need to wait 1 second between canceling and re-starting the eve
 | **makeDefault**   | If `true`, the controls will be set as the default controls for the scene.                                       | `false`     |
 | **camera**        | The camera to control.                                                                                           | `undefined` |
 | **domElement**    | The dom element to listen to.                                                                                    | `undefined` |
-| **triggerId** | Accept an id element as string, if it is set, the new element will be used as the trigger | `undefined`     |
+| **selector** | Accept an id element as string, if it is set, the new element will be used as the trigger | `undefined`     |
