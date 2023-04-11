@@ -7,7 +7,13 @@ import { TresObject } from '../types'
 import { isHTMLTag, kebabToCamel } from '../utils'
 
 const onRE = /^on[^a-z]/
+
+const vectorProps = /(position|rotation|scale)-(x|y|z)/
+const colorProps = /color-(r|g|b)/
+
 export const isOn = (key: string) => onRE.test(key)
+export const isVectorProps = (key: string) => vectorProps.test(key)
+export const isColorProps = (key: string) => colorProps.test(key)
 
 function noop(fn: string): any {
   fn
@@ -92,6 +98,13 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
         return
       }
 
+      // First handle the Vector props, like: postion、rotation、scale、color.
+      if (isVectorProps(key) || isColorProps(key)) {
+        const chain = key.split('-')
+        root[chain[0]][chain[1]] = nextValue
+        return
+      }
+
       // Traverse pierced props (e.g. foo-bar=value => foo.bar = value)
       if (key.includes('-') && target === undefined) {
         const chain = key.split('-')
@@ -104,6 +117,7 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
         node.events[key] = nextValue
       }
       let value = nextValue
+
       if (value === '') value = true
       // Set prop, prefer atomic methods if applicable
       if (isFunction(target)) {
