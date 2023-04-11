@@ -1,5 +1,7 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import WobbleMaterial from '../components/WobbleMaterial.vue'
+</script>
 
 <template>
-  <PointerLockControlsDemo />
+  <WobbleMaterial />
 </template>

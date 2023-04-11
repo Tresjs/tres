@@ -5,24 +5,21 @@ import { resolve } from 'pathe'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  title: "Cientos",
-  description: "Collection of useful helpers and fully functional, ready-made abstractions for TresJS",
+  title: 'Cientos',
+  description: 'Collection of useful helpers and fully functional, ready-made abstractions for TresJS',
   head: [['link', { rel: 'icon', type: 'image/svg', href: '/favicon.svg' }]],
   themeConfig: {
     logo: '/logo.svg',
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: 'Guide', link: '/guide/' },
-      { text: 'Examples', link: '/examples' }
+      { text: 'Examples', link: '/examples' },
     ],
 
     sidebar: [
       {
         text: 'Guide',
-        items: [
-          { text: 'Introduction', link: '/guide/' },
-          
-        ]
+        items: [{ text: 'Introduction', link: '/guide/' }],
       },
       {
         text: 'Abstractions',
@@ -52,7 +49,13 @@ export default defineConfig({
         ],
       },
       {
+        text: 'Materials',
+        collapsed: true,
+        items: [{ text: 'WobbleMaterial', link: '/guide/materials/wobble-material' }],
+      },
+      {
         text: 'Shapes',
+        collapsed: true,
         items: [
           { text: 'Box', link: '/guide/shapes/box' },
           { text: 'Circle', link: '/guide/shapes/circle' },
@@ -77,15 +80,15 @@ export default defineConfig({
 
     socialLinks: [
       { icon: 'twitter', link: 'https://twitter.com/alvarosabu' },
-      { icon: 'discord', link: 'https://discord.gg/wXx63MwW'}
-    ]
-  }, 
+      { icon: 'discord', link: 'https://discord.gg/wXx63MwW' },
+    ],
+  },
   vite: {
     plugins: [svgLoader(), Unocss()],
     resolve: {
       alias: {
         '/@': resolve(__dirname, '../../src'),
-      }
-    }
+      },
+    },
   },
 })
