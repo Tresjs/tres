@@ -5,6 +5,7 @@ import { useTweakPane } from './core/useTweakPane'
 import { useAnimations } from './core/useAnimations'
 import { GLTFModel } from './core/useGLTF/component'
 import { FBXModel } from './core/useFBX/component'
+import Stars from './core/Stars.vue'
 import Text3D from './core/Text3D.vue'
 import Plane from './core/Plane.vue'
 import Box from './core/Box.vue'
@@ -31,6 +32,7 @@ export {
   useTweakPane,
   GLTFModel,
   FBXModel,
+  Stars,
   Text3D,
   Plane,
   Box,
