@@ -1,25 +1,36 @@
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
-import { OrbitControls } from '@cientos'
+import { OrbitControls, MeshWobbleMaterial } from '@cientos'
 import { BasicShadowMap, sRGBEncoding, NoToneMapping } from 'three'
-import theStars from "../components/Stars.vue"
+import { ref } from 'vue'
+import { watchEffect } from 'vue'
 
 const gl = {
-  clearColor: '#333',
+  clearColor: '#82DBC5',
   shadows: true,
   alpha: false,
   shadowMapType: BasicShadowMap,
   outputEncoding: sRGBEncoding,
   toneMapping: NoToneMapping,
 }
+
+const context = ref()
+
+watchEffect(() => {
+  console.log(context.value)
+})
 </script>
 
 <template>
-  <TresCanvas v-bind="gl">
+  <TresCanvas v-bind="gl" ref="context">
     <TresPerspectiveCamera :position="[3, 3, 3]" />
+    <TresMesh>
+      <TresTorusGeometry />
+      <MeshWobbleMaterial color="orange" speed="10" factor="5" />
+    </TresMesh>
     <TresGridHelper :args="[10, 10]" />
     <TresAmbientLight :intensity="1" />
-    <theStars />
+    <TresDirectionalLight :intensity="1" :position="[2, 2, 2]" />
     <OrbitControls />
   </TresCanvas>
 </template>

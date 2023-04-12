@@ -1,11 +1,10 @@
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
-import { OrbitControls } from '@cientos'
+import { OrbitControls, MeshWobbleMaterial } from '/@'
 import { BasicShadowMap, sRGBEncoding, NoToneMapping } from 'three'
-import theStars from "../components/Stars.vue"
 
 const gl = {
-  clearColor: '#333',
+  clearColor: '#82DBC5',
   shadows: true,
   alpha: false,
   shadowMapType: BasicShadowMap,
@@ -15,11 +14,14 @@ const gl = {
 </script>
 
 <template>
-  <TresCanvas v-bind="gl">
+  <TresCanvas v-bind="gl" ref="context">
     <TresPerspectiveCamera :position="[3, 3, 3]" />
-    <TresGridHelper :args="[10, 10]" />
+    <TresMesh>
+      <TresTorusGeometry />
+      <MeshWobbleMaterial color="orange" speed="1" factor="2" />
+    </TresMesh>
     <TresAmbientLight :intensity="1" />
-    <theStars />
+    <TresDirectionalLight :intensity="1" :position="[2, 2, 2]" />
     <OrbitControls />
   </TresCanvas>
 </template>
