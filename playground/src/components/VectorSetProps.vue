@@ -14,9 +14,17 @@ const state = reactive({
   outputEncoding: sRGBEncoding,
   toneMapping: NoToneMapping,
 })
+
+const context = ref(null)
+
+watchEffect(() => {
+  if (context.value) {
+    console.log(context.value?.state?.scene)
+  }
+})
 </script>
 <template>
-  <TresCanvas v-bind="state">
+  <TresCanvas v-bind="state" ref="context">
     <TresPerspectiveCamera
       :position-x="5"
       :position-y="5"
@@ -36,7 +44,7 @@ const state = reactive({
       :rotation-x="Math.PI * 1.5"
       :rotation-y="Math.PI * 0.6"
       :rotation-z="Math.PI * 0.2"
-      :position-y="1"
+      :position-y="5"
       :position-z="-2"
       cast-shadow
     >
