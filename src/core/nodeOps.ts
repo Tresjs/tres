@@ -77,8 +77,8 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
     if (node) {
       let root = node
       let key = prop
-      const camelKey = kebabToCamel(key)
-      let target = root?.[camelKey]
+      let finalKey = kebabToCamel(key)
+      let target = root?.[finalKey]
 
       if (!node.parent) {
         node.parent = scene as TresObject
@@ -97,7 +97,7 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
         const chain = key.split('-')
         target = chain.reduce((acc, key) => acc[kebabToCamel(key)], root)
         key = chain.pop() as string
-
+        finalKey = key.toLowerCase()
         if (!target?.set) root = chain.reduce((acc, key) => acc[kebabToCamel(key)], root)
       }
       if (isOn(key)) {
@@ -107,11 +107,11 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
       if (value === '') value = true
       // Set prop, prefer atomic methods if applicable
       if (isFunction(target)) {
-        if (Array.isArray(value)) node[camelKey](...value)
-        else node[camelKey](value)
+        if (Array.isArray(value)) node[finalKey](...value)
+        else node[finalKey](value)
         return
       }
-      if (!target?.set && !isFunction(target)) root[camelKey] = value
+      if (!target?.set && !isFunction(target)) root[finalKey] = value
       else if (target.constructor === value.constructor && target?.copy) target?.copy(value)
       else if (Array.isArray(value)) target.set(...value)
       else if (!target.isColor && target.setScalar) target.setScalar(value)
