@@ -1,54 +1,54 @@
 {
-  "hash": "2c0f75f7",
-  "browserHash": "8dade7a1",
+  "hash": "4fbdd600",
+  "browserHash": "c599f965",
   "optimized": {
     "vue": {
       "src": "../../../../node_modules/.pnpm/vue@3.2.47/node_modules/vue/dist/vue.runtime.esm-bundler.js",
       "file": "vue.js",
-      "fileHash": "b9fcc14c",
-      "needsInterop": false
-    },
-    "gsap": {
-      "src": "../../../../node_modules/.pnpm/gsap@3.11.5/node_modules/gsap/index.js",
-      "file": "gsap.js",
-      "fileHash": "7b7a472c",
+      "fileHash": "5b20de9e",
       "needsInterop": false
     },
     "@tresjs/core": {
       "src": "../../../../node_modules/.pnpm/@tresjs+core@2.0.0-beta.2_three@0.150.1+vue@3.2.47/node_modules/@tresjs/core/dist/tres.js",
       "file": "@tresjs_core.js",
-      "fileHash": "6adaa474",
+      "fileHash": "dada2ef0",
       "needsInterop": false
     },
     "three": {
       "src": "../../../../node_modules/.pnpm/three@0.150.1/node_modules/three/build/three.module.js",
       "file": "three.js",
-      "fileHash": "b6765cd9",
+      "fileHash": "da51132e",
+      "needsInterop": false
+    },
+    "gsap": {
+      "src": "../../../../node_modules/.pnpm/gsap@3.11.5/node_modules/gsap/index.js",
+      "file": "gsap.js",
+      "fileHash": "d7f608be",
       "needsInterop": false
     },
     "three-stdlib": {
       "src": "../../../../node_modules/.pnpm/three-stdlib@2.21.8_three@0.150.1/node_modules/three-stdlib/index.js",
       "file": "three-stdlib.js",
-      "fileHash": "a8d55709",
+      "fileHash": "dd7ea304",
       "needsInterop": false
     },
     "tweakpane": {
       "src": "../../../../node_modules/.pnpm/tweakpane@3.1.7/node_modules/tweakpane/dist/tweakpane.js",
       "file": "tweakpane.js",
-      "fileHash": "0d9c4da3",
-      "needsInterop": true
-    },
-    "@tweakpane/plugin-essentials": {
-      "src": "../../../../node_modules/.pnpm/@tweakpane+plugin-essentials@0.1.8_tweakpane@3.1.7/node_modules/@tweakpane/plugin-essentials/dist/tweakpane-plugin-essentials.js",
-      "file": "@tweakpane_plugin-essentials.js",
-      "fileHash": "884897d0",
+      "fileHash": "d532ed18",
       "needsInterop": true
     },
     "@vueuse/core": {
       "src": "../../../../node_modules/.pnpm/@vueuse+core@9.13.0_vue@3.2.47/node_modules/@vueuse/core/index.mjs",
       "file": "@vueuse_core.js",
-      "fileHash": "f294b83f",
+      "fileHash": "89fccd18",
       "needsInterop": false
+    },
+    "@tweakpane/plugin-essentials": {
+      "src": "../../../../node_modules/.pnpm/@tweakpane+plugin-essentials@0.1.8_tweakpane@3.1.7/node_modules/@tweakpane/plugin-essentials/dist/tweakpane-plugin-essentials.js",
+      "file": "@tweakpane_plugin-essentials.js",
+      "fileHash": "716df44a",
+      "needsInterop": true
     }
   },
   "chunks": {
