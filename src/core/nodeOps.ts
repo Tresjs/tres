@@ -6,6 +6,8 @@ import { isFunction } from '@vueuse/core'
 import { TresObject } from '../types'
 import { isHTMLTag, kebabToCamel } from '../utils'
 
+import type { Object3D, Material, BufferGeometry } from 'three'
+
 const onRE = /^on[^a-z]/
 export const isOn = (key: string) => onRE.test(key)
 
@@ -14,6 +16,11 @@ function noop(fn: string): any {
 }
 
 let scene: TresObject | null = null
+
+const OBJECT_3D_USER_DATA_KEYS = {
+  GEOMETRY_VIA_PROP: 'tres__geometryViaProp',
+  MATERIAL_VIA_PROP: 'tres__materialViaProp',
+}
 
 export const nodeOps: RendererOptions<TresObject, TresObject> = {
   createElement(tag, _isSVG, _anchor, props) {
@@ -45,6 +52,15 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
       else if (instance.isBufferGeometry) instance.attach = 'geometry'
     }
 
+    // determine whether the material was passed via prop to
+    // prevent it's disposal when node is removed later in it's lifecycle
+    const { GEOMETRY_VIA_PROP, MATERIAL_VIA_PROP } = OBJECT_3D_USER_DATA_KEYS
+
+    if (instance.isObject3D) {
+      if (props?.material?.isMaterial) (instance as Object3D).userData[MATERIAL_VIA_PROP] = true
+      if (props?.geometry?.isBufferGeometry) (instance as Object3D).userData[GEOMETRY_VIA_PROP] = true
+    }
+
     instance.events = {}
 
     return instance
@@ -68,10 +84,28 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
   },
   remove(node) {
     if (!node) return
-    const parent = node.parentNode
-    if (parent) {
-      parent.removeChild(node)
+
+    // remove is only called on the node being removed and not on child nodes.
+
+    if (node.isObject3D) {
+      const object3D = node as unknown as Object3D
+
+      const disposeMaterialsAndGeometries = (object3D: Object3D) => {
+        const { GEOMETRY_VIA_PROP, MATERIAL_VIA_PROP } = OBJECT_3D_USER_DATA_KEYS
+
+        if (!object3D.userData[MATERIAL_VIA_PROP]) (object3D as Object3D & { material: Material }).material?.dispose()
+        if (!object3D.userData[GEOMETRY_VIA_PROP])
+          (object3D as Object3D & { geometry: BufferGeometry }).geometry?.dispose()
+      }
+
+      object3D.traverse(child => disposeMaterialsAndGeometries(child))
+
+      disposeMaterialsAndGeometries(object3D)
     }
+
+    node.removeFromParent?.()
+
+    node.dispose?.()
   },
   patchProp(node, prop, _prevValue, nextValue) {
     if (node) {

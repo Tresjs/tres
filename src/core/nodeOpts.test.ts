@@ -68,7 +68,7 @@ describe('nodeOps', () => {
     expect(consoleWarnSpy).toHaveBeenCalled()
   })
 
-  it('createElement should add attach material propety if instance is a material', () => {
+  it('createElement should add attach material property if instance is a material', () => {
     // Setup
     const tag = 'TresMeshStandardMaterial'
     const props = { args: [] }
@@ -81,7 +81,7 @@ describe('nodeOps', () => {
     expect(instance.attach).toBe('material')
   })
 
-  it('createElement should add attach geometry propety if instance is a geometry', () => {
+  it('createElement should add attach geometry property if instance is a geometry', () => {
     // Setup
     const tag = 'TresTorusGeometry'
     const props = { args: [] }
@@ -108,15 +108,16 @@ describe('nodeOps', () => {
 
   it('remove: removes child from parent', async () => {
     // Setup
-    const parent: TresObject = new Scene()
-    const child: TresObject = new Mesh()
-    parent.children.push(child)
+    const parent = new Scene() as unknown as TresObject
+    const child = new Mesh() as unknown as TresObject
+
+    nodeOps.insert(child, parent)
 
     // Test
     nodeOps.remove(child)
 
     // Assert
-    expect(!parent.children.includes(child))
+    expect(!parent.children.includes(child)).toBeTruthy()
   })
 
   it('patchProp should patch property of node', async () => {

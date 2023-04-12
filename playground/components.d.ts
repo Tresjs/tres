@@ -23,6 +23,7 @@ declare module '@vue/runtime-core' {
     TestSphere: typeof import('./src/components/TestSphere.vue')['default']
     Text3D: typeof import('./src/components/Text3D.vue')['default']
     TheBasic: typeof import('./src/components/TheBasic.vue')['default']
+    TheConditional: typeof import('./src/components/TheConditional.vue')['default']
     TheEnvironment: typeof import('./src/components/TheEnvironment.vue')['default']
     TheEvents: typeof import('./src/components/TheEvents.vue')['default']
     TheExperience: typeof import('./src/components/TheExperience.vue')['default']
