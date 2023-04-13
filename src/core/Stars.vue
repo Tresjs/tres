@@ -92,8 +92,8 @@ const props = withDefaults(defineProps<StarsProps>(), {
 let circle = props.radius + props.depth
 const increment = props.depth / props.count
 
-const positionArray:any = []
-const scaleArray:any = Array.from({ length: props.count }, () => (0.5 + 0.5 * Math.random()) * props.factor)
+const positionArray: number[] = []
+const scaleArray: number[] = Array.from({ length: props.count }, () => (0.5 + 0.5 * Math.random()) * props.factor)
 
 
 const genStar = (circle: number) => {
