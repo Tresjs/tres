@@ -5,6 +5,7 @@ import './style.css'
 
 import TresLayout from './TresLayout.vue'
 import WobbleMaterial from './components/WobbleMaterial.vue'
+import LeviosoDemo from './components/LeviosoDemo.vue'
 
 export default {
   ...Theme,
@@ -12,5 +13,6 @@ export default {
   enhanceApp({ app, router, siteData }) {
     // ...
     app.component('WobbleMaterial', WobbleMaterial)
+    app.component('LeviosoDemo', LeviosoDemo)
   },
 }
