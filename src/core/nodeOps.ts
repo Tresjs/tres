@@ -15,6 +15,11 @@ function noop(fn: string): any {
 
 let fallback: TresObject | null = null
 
+const OBJECT_3D_USER_DATA_KEYS = {
+  GEOMETRY_VIA_PROP: 'tres__geometryViaProp',
+  MATERIAL_VIA_PROP: 'tres__materialViaProp',
+}
+
 const { logError } = useLogger()
 
 export const nodeOps: RendererOptions<TresObject, TresObject> = {
