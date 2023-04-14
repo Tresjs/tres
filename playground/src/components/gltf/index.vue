@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { sRGBEncoding, BasicShadowMap, NoToneMapping } from 'three'
 import { TresCanvas } from '/@/'
-import { GLTFModel, OrbitControls } from '@tresjs/cientos'
+import { OrbitControls } from '@tresjs/cientos'
 
 const state = reactive({
   clearColor: '#82DBC5',
@@ -29,12 +29,14 @@ watchEffect(() => {
     <TresAmbientLight :intensity="0.5" />
 
     <Suspense>
-      <GLTFModel
+      <!--  <GLTFModel
         ref="akuAkuRef"
         path="https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/aku-aku/AkuAku.gltf"
         draco
-      />
-      <!--   <AkuAku /> -->
+      /> -->
+      <TresGroup :position="[0, 4, 0]">
+        <TheModel />
+      </TresGroup>
     </Suspense>
     <TresAxesHelper />
     <TresDirectionalLight :position="[0, 2, 4]" :intensity="1" cast-shadow />

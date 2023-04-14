@@ -99,6 +99,11 @@ describe('nodeOps', () => {
     const parent: TresObject = new Scene()
     const child: TresObject = new Mesh()
 
+    // Fake vnodes
+    child.__vnode = {
+      type: 'TresMesh',
+    }
+
     // Test
     nodeOps.insert(child, parent, null)
 
@@ -111,6 +116,10 @@ describe('nodeOps', () => {
     const parent = new Scene() as unknown as TresObject
     const child = new Mesh() as unknown as TresObject
 
+    // Fake vnodes
+    child.__vnode = {
+      type: 'TresMesh',
+    }
     nodeOps.insert(child, parent)
 
     // Test

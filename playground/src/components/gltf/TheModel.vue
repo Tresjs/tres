@@ -9,8 +9,6 @@ const { scene: model } = await useGLTF(
     draco: true,
   },
 )
-model.position.set(0, 4, 0)
-model.updateMatrixWorld()
 
 const akuAkuRef = ref(null)
 
@@ -20,5 +18,5 @@ watch(akuAkuRef, value => {
 </script>
 
 <template>
-  <TresMesh ref="akuAkuRef" v-bind="model" />
+  <primitive ref="akuAkuRef" :object="model" />
 </template>

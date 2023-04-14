@@ -1,12 +1,10 @@
-import { BufferAttribute } from 'three'
-import { useCamera } from '/@/composables'
+import { BufferAttribute, BufferGeometry, Material, Object3D } from 'three'
+import { useCamera, useLogger } from '/@/composables'
 import { RendererOptions } from 'vue'
 import { catalogue } from './catalogue'
 import { isFunction } from '@vueuse/core'
-import { TresObject } from '../types'
+import { TresInstance, TresObject } from '../types'
 import { isHTMLTag, kebabToCamel } from '../utils'
-
-import type { Object3D, Material, BufferGeometry } from 'three'
 
 const onRE = /^on[^a-z]/
 export const isOn = (key: string) => onRE.test(key)
@@ -15,25 +13,38 @@ function noop(fn: string): any {
   fn
 }
 
-let scene: TresObject | null = null
+let fallback: TresObject | null = null
 
 const OBJECT_3D_USER_DATA_KEYS = {
   GEOMETRY_VIA_PROP: 'tres__geometryViaProp',
   MATERIAL_VIA_PROP: 'tres__materialViaProp',
 }
 
+const { logError } = useLogger()
+
 export const nodeOps: RendererOptions<TresObject, TresObject> = {
   createElement(tag, _isSVG, _anchor, props) {
+    if (!props) props = {}
+
+    if (!props.args) {
+      props.args = []
+    }
     if (tag === 'template') return null
     if (isHTMLTag(tag)) return null
+    let name = tag.replace('Tres', '')
     let instance
 
-    if (props === null) props = {}
-
-    if (props?.args) {
-      instance = new catalogue.value[tag.replace('Tres', '')](...props.args)
+    if (tag === 'primitive') {
+      if (props?.object === undefined) logError(`Tres primitives need a prop 'object'`)
+      const object = props.object as TresInstance
+      name = object.type
+      instance = Object.assign(object, { type: name, attach: props.attach, primitive: true })
     } else {
-      instance = new catalogue.value[tag.replace('Tres', '')]()
+      const target = catalogue.value[name]
+      if (!target) {
+        logError(`${name} is not defined on the THREE namespace. Use extend to add it to the catalog.`)
+      }
+      instance = Object.assign(new target(...props.args), { type: name, attach: props.attach })
     }
 
     if (instance.isCamera) {
@@ -65,15 +76,22 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
 
     return instance
   },
-  insert(child, parent, anchor) {
-    if (scene === null && parent.isScene) scene = parent
-    if (parent === null) parent = scene as TresObject
+  insert(child, parent) {
+    if (
+      (child?.__vnode.type === 'TresGroup' || child?.__vnode.type === 'TresObject3D') &&
+      parent === null &&
+      !child?.__vnode?.ctx?.asyncResolved
+    ) {
+      fallback = child
+      return
+    }
+
+    if (!parent) parent = fallback as TresObject
+
     //vue core
     /*  parent.insertBefore(child, anchor || null) */
-    if (parent?.isObject3D && child?.isObject3D) {
-      const index = anchor ? parent.children.indexOf(anchor) : 0
-      child.parent = parent
-      parent.children.splice(index, 0, child)
+    if (child?.isObject3D && parent?.isObject3D) {
+      parent.add(child)
       child.dispatchEvent({ type: 'added' })
     } else if (typeof child?.attach === 'string') {
       child.__previousAttach = child[parent?.attach]
@@ -84,7 +102,6 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
   },
   remove(node) {
     if (!node) return
-
     // remove is only called on the node being removed and not on child nodes.
 
     if (node.isObject3D) {
@@ -113,10 +130,6 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
       let key = prop
       let finalKey = kebabToCamel(key)
       let target = root?.[finalKey]
-
-      if (!node.parent) {
-        node.parent = scene as TresObject
-      }
 
       if (root.type === 'BufferGeometry') {
         root.setAttribute(
@@ -157,7 +170,6 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
     return node?.parent || null
   },
   createText: () => noop('createText'),
-
   createComment: () => noop('createComment'),
 
   setText: () => noop('setText'),
@@ -169,5 +181,6 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
 
   setScopeId: () => noop('setScopeId'),
   cloneNode: () => noop('cloneNode'),
+
   insertStaticContent: () => noop('insertStaticContent'),
 }
