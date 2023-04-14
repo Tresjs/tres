@@ -26,7 +26,7 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
   createElement(tag, _isSVG, _anchor, props) {
     if (!props) props = {}
 
-    if (props.args === undefined) {
+    if (!props.args) {
       props.args = []
     }
     if (tag === 'template') return null
@@ -42,7 +42,7 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
     } else {
       const target = catalogue.value[name]
       if (!target) {
-        logError(`${name} is not defined on the THREE namespace. Use extend to add it the catalog`)
+        logError(`${name} is not defined on the THREE namespace. Use extend to add it to the catalog.`)
       }
       instance = Object.assign(new target(...props.args), { type: name, attach: props.attach, primitive: true })
     }
