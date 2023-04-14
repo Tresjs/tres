@@ -23,15 +23,17 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 const { scene } = await useLoader(GLTFLoader, '/models/AkuAku.gltf')
 ```
 
-Then you can pass the model scene to a `TresMesh` component:
+Then you can pass the model scene to a TresJS `primitive`:
 
 ```html{3}
-<Suspense>
-  <TresCanvas>
-      <TresMesh v-bind="scene" />
-  </TresCanvas>
-</Suspense>
+<TresCanvas>
+  <Suspense>
+    <primitive :object="scene" />
+  </Suspense>
+</TresCanvas>
 ```
+
+> The `<primitive />` component is not a standalone component in the Tres source code. Instead, it's a part of the Tres core functionality. When you use `<primitive>`, it is translated to a `createElement` call, which creates the appropriate Three.js object based on the provided "object" prop.
 
 Notice in the example above that we are using the `Suspense` component to wrap the `TresCanvas` component. This is because `useLoader` returns a `Promise` and we need to wait for it to resolve before rendering the scene.
 
@@ -42,7 +44,7 @@ A more convenient way of loading models is using the `useGLTF` composable availa
 ```ts
 import { useGLTF } from '@tresjs/cientos'
 
-const { scene } = await useGLTF('/models/AkuAku.gltf')
+const { scene, nodes, animations, materials } = await useGLTF('/models/AkuAku.gltf')
 ```
 
 An advantage of using `useGLTF`is that you can pass a `draco` prop to enable [Draco compression](https://threejs.org/docs/index.html?q=drac#examples/en/loaders/DRACOLoader) for the model. This will reduce the size of the model and improve performance.
@@ -50,7 +52,26 @@ An advantage of using `useGLTF`is that you can pass a `draco` prop to enable [Dr
 ```ts
 import { useGLTF } from '@tresjs/cientos'
 
-const { scene } = await useGLTF('/models/AkuAku.gltf', { draco: true })
+const { scene, nodes, animations, materials } = await useGLTF('/models/AkuAku.gltf', { draco: true })
+```
+
+Alternatively you can easily select Objects inside the model using `nodes` property
+
+```vue
+<script setup lang="ts">
+import { useGLTF } from '@tresjs/cientos'
+
+const { scene, nodes, animations, materials } = await useGLTF('/models/AkuAku.gltf', { draco: true })
+</script>
+<template>
+  <TresCanvas clear-color="#82DBC5" shadows alpha>
+    <TresPerspectiveCamera :position="[11, 11, 11]" />
+    <OrbitControls />
+    <Suspense>
+      <primitive :object="nodes.MyModel" />
+    </Suspense>
+  </TresCanvas>
+</template>
 ```
 
 ## Using `GLTFModel`
@@ -67,8 +88,8 @@ import { OrbitControls, GLTFModel } from '@tresjs/cientos'
     <OrbitControls />
     <Suspense>
       <GLTFModel path="/models/AkuAku.gltf" draco />
-      <TresDirectionalLight :position="[-4, 8, 4]" :intensity="1.5" cast-shadow />
     </Suspense>
+    <TresDirectionalLight :position="[-4, 8, 4]" :intensity="1.5" cast-shadow />
   </TresCanvas>
 </template>
 ```
@@ -88,14 +109,14 @@ const model = await useFBX('/models/AkuAku.fbx')
 Then is as straightforward as adding the scene to your scene:
 
 ```html{3}
-<Suspense>
-  <TresCanvas shadows alpha>
-      <TresMesh v-bind="scene" />
-  </TresCanvas>
-</Suspense>
+<TresCanvas shadows alpha>
+  <Suspense>
+    <primitive :object="scene" />
+  </Suspense>
+</TresCanvas>
 ```
 
-## FBXModel
+## FBXModel
 
 The `FBXModel` component is a wrapper around `useFBX` that's available from [@tresjs/cientos](https://github.com/Tresjs/tres/tree/main/packages/cientos) package. It's similar usage to `GLTFModel`:
 
@@ -104,13 +125,13 @@ The `FBXModel` component is a wrapper around `useFBX` that's available from [@tr
 import { OrbitControls, FBXModel } from '@tresjs/cientos'
 </script>
 <template>
-    <TresCanvas clear-color="#82DBC5" shadows alpha>
-      <TresPerspectiveCamera :position="[11, 11, 11]" />
-      <OrbitControls />
-        <Suspense>
-          <FBXModel path="/models/AkuAku.fbx" />
-        </Suspense>
-        <TresDirectionalLight :position="[-4, 8, 4]" :intensity="1.5" cast-shadow />
-    </TresCanvas>
+  <TresCanvas clear-color="#82DBC5" shadows alpha>
+    <TresPerspectiveCamera :position="[11, 11, 11]" />
+    <OrbitControls />
+      <Suspense>
+        <FBXModel path="/models/AkuAku.fbx" />
+      </Suspense>
+      <TresDirectionalLight :position="[-4, 8, 4]" :intensity="1.5" cast-shadow />
+  </TresCanvas>
 </template>
 ```
