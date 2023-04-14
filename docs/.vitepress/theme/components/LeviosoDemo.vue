@@ -16,7 +16,7 @@ const gl = {
 
 <template>
   <TresCanvas v-bind="gl" ref="context">
-    <TresPerspectiveCamera :position="[3, 3, 3]" />
+    <TresPerspectiveCamera :position="[1, 2, 1]" />
     <Suspense>
       <Feather />
     </Suspense>
