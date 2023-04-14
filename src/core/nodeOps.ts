@@ -63,6 +63,15 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
       else if (instance.isBufferGeometry) instance.attach = 'geometry'
     }
 
+    // determine whether the material was passed via prop to
+    // prevent it's disposal when node is removed later in it's lifecycle
+    const { GEOMETRY_VIA_PROP, MATERIAL_VIA_PROP } = OBJECT_3D_USER_DATA_KEYS
+
+    if (instance.isObject3D) {
+      if (props?.material?.isMaterial) (instance as Object3D).userData[MATERIAL_VIA_PROP] = true
+      if (props?.geometry?.isBufferGeometry) (instance as Object3D).userData[GEOMETRY_VIA_PROP] = true
+    }
+
     instance.events = {}
 
     return instance
