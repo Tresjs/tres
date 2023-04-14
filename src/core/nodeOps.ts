@@ -1,4 +1,4 @@
-import { BufferAttribute } from 'three'
+import { BufferAttribute, BufferGeometry, Material, Object3D } from 'three'
 import { useCamera, useLogger } from '/@/composables'
 import { RendererOptions } from 'vue'
 import { catalogue } from './catalogue'
