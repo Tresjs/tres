@@ -1,5 +1,23 @@
 
 
+## [2.0.0-beta.5](https://github.com/Tresjs/tres/compare/2.0.0-beta.4...2.0.0-beta.5) (2023-04-14)
+
+
+### Features
+
+* **core:** fixed nodeOps remove test ([2706f48](https://github.com/Tresjs/tres/commit/2706f487aa4c2c2e447f45d7ed030f2a766ad593))
+* **core:** fixed nodeOps remove test (this time correctly 😉) ([f5fca28](https://github.com/Tresjs/tres/commit/f5fca28a1cd8f625c210cf6536e39651caa9451a))
+* **core:** made custom renderer determine whether materials and geometries should be disposed ([36c8cf5](https://github.com/Tresjs/tres/commit/36c8cf5ed01c525106a722a5cf963e189e16ce34))
+* **core:** made custom renderer traverse the scene tree to dispose obsolete materials and geometries ([cae21b1](https://github.com/Tresjs/tres/commit/cae21b1aa31fefb85c2cce6cb43f999d42d433d2))
+* first try concerning conditional rendering of components ([31bdd96](https://github.com/Tresjs/tres/commit/31bdd96443e980930e36a7410c8a96db589cf29a))
+* primitive ([ab63e14](https://github.com/Tresjs/tres/commit/ab63e14018d44997906255256b7633abce02a8c1))
+
+
+### Bug Fixes
+
+* [@pointer-move](https://github.com/pointer-move) events ([b451862](https://github.com/Tresjs/tres/commit/b451862ebed7a404ebdb702e4706de61b940065a))
+* correct casing of key names when pierced props ([b6a808f](https://github.com/Tresjs/tres/commit/b6a808f71685a1d29ccc8de9d6c36d19a8474742))
+
 ## [2.0.0-beta.4](https://github.com/Tresjs/tres/compare/2.0.0-beta.3...2.0.0-beta.4) (2023-04-06)
 
 
