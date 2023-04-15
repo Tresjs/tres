@@ -15,15 +15,15 @@ const state = reactive({
 
 const akuAkuRef = ref(null)
 
+const context = ref()
 watchEffect(() => {
-  if (akuAkuRef.value) {
-    const model = akuAkuRef.value.getModel().children[0]
-    console.log('akuAkuRef', model)
+  if (context.value) {
+    console.log({ context: context.value.state.scene })
   }
 })
 </script>
 <template>
-  <TresCanvas v-bind="state">
+  <TresCanvas v-bind="state" ref="context">
     <TresPerspectiveCamera :position="[5, 5, 5]" :fov="45" :near="0.1" :far="1000" :look-at="[-8, 3, -3]" />
     <OrbitControls make-default />
     <TresAmbientLight :intensity="0.5" />

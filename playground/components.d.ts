@@ -13,6 +13,7 @@ declare module '@vue/runtime-core' {
     AnimatedModel: typeof import('./src/components/AnimatedModel.vue')['default']
     FBXModels: typeof import('./src/components/FBXModels.vue')['default']
     Gltf: typeof import('./src/components/gltf/index.vue')['default']
+    MeshWobbleMaterial: typeof import('./src/components/meshWobbleMaterial/index.vue')['default']
     MultipleCanvas: typeof import('./src/components/MultipleCanvas.vue')['default']
     PortalJourney: typeof import('./src/components/portal-journey/index.vue')['default']
     Responsiveness: typeof import('./src/components/Responsiveness.vue')['default']
