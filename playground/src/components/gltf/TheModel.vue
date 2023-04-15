@@ -3,8 +3,8 @@ import { useTweakPane, useGLTF } from '@tresjs/cientos'
 
 useTweakPane()
 
-/* const { scene: model } = await useGLTF(
-  'https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/aku-aku/AkuAku.gltf',
+const { nodes, materials } = await useGLTF(
+  'https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/threejs-journey/threejs-journey-level-vue.glb',
   {
     draco: true,
   },
@@ -14,15 +14,11 @@ const akuAkuRef = ref(null)
 
 watch(akuAkuRef, value => {
   console.log('akuAkuRef', value)
-}) */
+})
 </script>
 
 <template>
-  <!-- <primitive ref="akuAkuRef" :object="model.children[0]">
-    <MeshWobbleMaterial color="orange" :speed="10" :factor="5" />
-  </primitive> -->
-  <TresMesh>
-    <TresBoxGeometry :args="[2, 2, 2]" />
-    <MeshWobbleMaterial color="orange" :speed="10" :factor="5" />
-  </TresMesh>
+  <primitive ref="akuAkuRef" :object="nodes.Cactus">
+    <MeshWobbleMaterial :speed="10" :factor="0.4" :map="materials.Cactus.map" />
+  </primitive>
 </template>
