@@ -44,7 +44,7 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
       if (!target) {
         logError(`${name} is not defined on the THREE namespace. Use extend to add it to the catalog.`)
       }
-      instance = Object.assign(new target(...props.args), { type: name, attach: props.attach })
+      instance = new target(...props.args)
     }
 
     if (instance.isCamera) {

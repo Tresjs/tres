@@ -34,7 +34,7 @@ watchEffect(() => {
         path="https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/aku-aku/AkuAku.gltf"
         draco
       /> -->
-      <TresGroup :position="[0, 4, 0]">
+      <TresGroup :scale="[1, 2, 1]">
         <TheModel />
       </TresGroup>
     </Suspense>
@@ -42,3 +42,4 @@ watchEffect(() => {
     <TresDirectionalLight :position="[0, 2, 4]" :intensity="1" cast-shadow />
   </TresCanvas>
 </template>
+0.5
