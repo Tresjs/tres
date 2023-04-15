@@ -1,5 +1,12 @@
 
 
+## [2.0.0-beta.7](https://github.com/Tresjs/tres/compare/2.0.0-beta.6...2.0.0-beta.7) (2023-04-15)
+
+
+### Bug Fixes
+
+* remove object assign for non primitive ([f9e0d4b](https://github.com/Tresjs/tres/commit/f9e0d4b8933235e133cf81a788861b8ee84e8e0e))
+
 ## [2.0.0-beta.6](https://github.com/Tresjs/tres/compare/2.0.0-beta.5...2.0.0-beta.6) (2023-04-15)
 
 ## [2.0.0-beta.5](https://github.com/Tresjs/tres/compare/2.0.0-beta.4...2.0.0-beta.5) (2023-04-14)
