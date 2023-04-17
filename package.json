@@ -1,7 +1,7 @@
 {
   "name": "@tresjs/core",
   "description": "Declarative ThreeJS using Vue Components",
-  "version": "2.0.0-beta.7",
+  "version": "2.0.0-beta.8",
   "type": "module",
   "author": "Alvaro Saburido <hola@alvarosaburido.dev> (https://github.com/alvarosabu/)",
   "files": [

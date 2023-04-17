@@ -1,5 +1,12 @@
 
 
+## [2.0.0-beta.8](https://github.com/Tresjs/tres/compare/2.0.0-beta.7...2.0.0-beta.8) (2023-04-17)
+
+
+### Features
+
+* add disable render prop for postprocessing ([b2fd557](https://github.com/Tresjs/tres/commit/b2fd557c33733e390e15d546a2b61ce504486902))
+
 ## [2.0.0-beta.7](https://github.com/Tresjs/tres/compare/2.0.0-beta.6...2.0.0-beta.7) (2023-04-15)
 
 
