@@ -18,7 +18,7 @@ For a detailed explanation of how to use `useLoader`, check out the [useLoader](
 
 ```ts
 import { useLoader } from '@tresjs/core'
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader'
 
 const { scene } = await useLoader(GLTFLoader, '/models/AkuAku.gltf')
 ```

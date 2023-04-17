@@ -78,7 +78,7 @@ console.log(isActive) // true
 The `useLoader` composable allows you to load assets using the [THREE.js loaders](https://threejs.org/docs/#manual/en/introduction/Loading-3D-models). It returns a promise with loaded asset.
 
 ```ts
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader'
 
 const { scene } = await useLoader(THREE.GLTFLoader, 'path/to/asset.gltf')
 ```
