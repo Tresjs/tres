@@ -23,6 +23,7 @@ export interface TresSceneProps {
   clearColor?: string
   windowSize?: boolean
   preset?: RendererPresetsType
+  disableRender?: boolean
 }
 /**
  * Vue component for rendering a Tres component.
@@ -46,6 +47,7 @@ export const TresScene = defineComponent<TresSceneProps>({
     'clearColor',
     'windowSize',
     'preset',
+    'disableRender',
   ] as unknown as undefined,
   setup(props, { slots, expose }) {
     if (props.physicallyCorrectLights === true) {
@@ -89,7 +91,7 @@ export const TresScene = defineComponent<TresSceneProps>({
       })
 
       onLoop(() => {
-        if (activeCamera.value) renderer.value?.render(scene, activeCamera.value)
+        if (activeCamera.value && props.disableRender === true) renderer.value?.render(scene, activeCamera.value)
 
         if (raycaster.value) {
           const intersects = raycaster.value.intersectObjects(scene.children)
