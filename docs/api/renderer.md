@@ -82,6 +82,7 @@ renderer.shadowMap.type: PCFSoftShadowMap
 | **preserveDrawingBuffer**   | Whether to preserve the buffers until manually cleared or overwritten..                                                                                         | `false`            |
 | **clearColor**              | The color the renderer will use to clear the canvas.                                                                                                            | `#000000`          |
 | **windowSize**              | Whether to use the window size as the canvas size or the parent element.                                                                                        | `false`            |
+| **disableRender**           | Disable render on requestAnimationFrame, usefull for PostProcessing                                                                                             | `false`            |
 
 ## Defaults
 

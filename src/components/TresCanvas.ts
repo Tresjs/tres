@@ -18,6 +18,7 @@ export interface TresCanvasProps {
   clearColor?: string
   windowSize?: boolean
   preset?: RendererPresetsType
+  disableRender?: boolean
 }
 /**
  * Vue component for rendering a Tres component.
@@ -39,6 +40,7 @@ export const TresCanvas = defineComponent<TresCanvasProps>({
     'clearColor',
     'windowSize',
     'preset',
+    'disableRender',
   ] as unknown as undefined,
   setup(props, { slots, expose }) {
     const tres = useTresProvider()
