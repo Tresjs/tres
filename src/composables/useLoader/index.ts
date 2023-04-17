@@ -49,7 +49,7 @@ export type Extensions<T extends { prototype: LoaderProto<any> }> = (loader: T['
  *
  * ```ts
  * import { useLoader } from '@tresjs/core'
- * import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
+ * import { GLTFLoader } from 'three/addons/loaders/GLTFLoader'
  *
  * const { scene } = await useLoader(THREE.GLTFLoader, 'path/to/asset.gltf')
  * ```

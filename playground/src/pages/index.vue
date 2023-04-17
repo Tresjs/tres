@@ -1,6 +1,6 @@
 <script setup lang="ts"></script>
 <template>
   <Suspense>
-    <Gltf />
+    <Text3D />
   </Suspense>
 </template>

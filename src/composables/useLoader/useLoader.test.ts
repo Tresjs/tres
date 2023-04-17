@@ -1,5 +1,5 @@
 import { useLoader } from './'
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader'
 
 describe('useLoader', () => {
   test('is defined', () => {

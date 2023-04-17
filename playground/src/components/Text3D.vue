@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry'
-import { FontLoader } from 'three/examples/jsm/loaders/FontLoader'
-import { extend } from '../core/catalogue'
+import { TextGeometry } from 'three/addons/geometries/TextGeometry'
+import { FontLoader } from 'three/addons/loaders/FontLoader'
 import { useTexture } from '/@/composables'
+import { extend } from '/@/'
 
 extend({ TextGeometry })
 
@@ -35,7 +35,10 @@ const matcapTexture = await useTexture(['https://raw.githubusercontent.com/Tresj
 </script>
 <template>
   <TresMesh>
-    <TresTextGeometry :args="['TresJS', { font, ...fontOptions }]" center />
-    <TresMeshNormalMaterial :matcap="matcapTexture" />
+    <Suspense>
+      <TresTextGeometry :args="['TresJS', { font, ...fontOptions }]" center>
+        <TresMeshMatcapMaterial :args="[matcapTexture]" />
+      </TresTextGeometry>
+    </Suspense>
   </TresMesh>
 </template>
