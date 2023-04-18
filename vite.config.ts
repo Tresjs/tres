@@ -20,6 +20,8 @@ import { ViteTresPlugin } from './plugins/vite-tres-types-plugin'
 
 import pkg from './package.json'
 
+function noop() {}
+
 // eslint-disable-next-line no-console
 console.log(`${lightGreen('▲')} ${gray('■')} ${yellow('●')} ${bold('Tres')} v${pkg.version}`)
 // https://vitejs.dev/config/
@@ -63,12 +65,34 @@ export default defineConfig({
     Inspect(),
   ],
   test: {
-    environment: 'jsdom',
+    environment: process.env.BROWSER_TEST ? 'node' : 'jsdom',
     globals: true,
     threads: false,
     alias: {
       '/@': resolve(__dirname, './src'),
     },
+    isolate: !process.env.BROWSER_TEST,
+    browser: {
+      enabled: !!process.env.BROWSER_TEST,
+
+      // @ts-expect-error ignore, we don't have the type here in vitest
+      enableUI: true,
+      name: 'chrome',
+      headless: !!process.env.HEADLESS,
+      provider: 'webdriverio',
+    },
+    reporters: process.env.BROWSER_TEST ? ['json', {
+      onInit: noop,
+      onPathsCollected: noop,
+      onCollected: noop,
+      onFinished: noop,
+      onTaskUpdate: noop,
+      onTestRemoved: noop,
+      onWatcherStart: noop,
+      onWatcherRerun: noop,
+      onServerRestart: noop,
+      onUserConsoleLog: noop,
+    }, 'default'] : undefined,
   },
   build: {
     lib: {
