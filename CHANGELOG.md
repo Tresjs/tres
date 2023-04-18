@@ -1,5 +1,12 @@
 
 
+## [2.0.0-beta.9](https://github.com/Tresjs/tres/compare/2.0.0-beta.8...2.0.0-beta.9) (2023-04-18)
+
+
+### Bug Fixes
+
+* incorrect implementation of disable render on canvas ([2442935](https://github.com/Tresjs/tres/commit/244293551663623fde0817e0a64676df12964257))
+
 ## [2.0.0-beta.8](https://github.com/Tresjs/tres/compare/2.0.0-beta.7...2.0.0-beta.8) (2023-04-17)
 
 
