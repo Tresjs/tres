@@ -1,0 +1,32 @@
+<script setup lang="ts">
+import { TresCanvas } from '@tresjs/core'
+import { EffectComposer, Glitch } from '/@post/tres-postprocessing'
+import { BasicShadowMap, sRGBEncoding, NoToneMapping } from 'three'
+
+const gl = {
+  clearColor: '#82DBC5',
+  shadows: true,
+  alpha: false,
+  shadowMapType: BasicShadowMap,
+  outputEncoding: sRGBEncoding,
+  toneMapping: NoToneMapping,
+}
+</script>
+
+<template>
+  <TresCanvas v-bind="gl" :disable-render="true">
+    <TresPerspectiveCamera :position="[5, 5, 5]" :look-at="[0, 0, 0]" />
+
+    <TresMesh>
+      <TresSphereGeometry :args="[2, 32, 32]" />
+      <TresMeshNormalMaterial />
+    </TresMesh>
+    <TresGridHelper />
+    <TresAmbientLight :intensity="1" />
+    <Suspense>
+      <EffectComposer>
+        <Glitch />
+      </EffectComposer>
+    </Suspense>
+  </TresCanvas>
+</template>
