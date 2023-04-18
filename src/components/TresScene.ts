@@ -1,6 +1,6 @@
 import { App, defineComponent, h, onMounted, onUnmounted, ref, watchEffect } from 'vue'
 import * as THREE from 'three'
-import { PerspectiveCamera, ShadowMapType, TextureEncoding, ToneMapping } from 'three'
+import { ShadowMapType, TextureEncoding, ToneMapping } from 'three'
 import { createTres } from '/@/core/renderer'
 import { useLogger } from '/@/composables'
 import { useCamera, useRenderer, useRenderLoop, useRaycaster, useTres } from '/@/composables'
@@ -75,19 +75,6 @@ export const TresScene = defineComponent<TresSceneProps>({
       }
     }
 
-    /* watchEffect(() => {
-      if (!slots) return
-      const slots = Object.keys(slots.default()).filter(slot => slot.startsWith('camera'))
-      isCameraAvailable.value = slots.length > 0
-
-      if (!isCameraAvailable.value) {
-        logWarning('No camera found in the scene, please add one!')
-      }
-    }) */
-
-    /*  const { pushCamera } = useCamera()
-    pushCamera(new PerspectiveCamera()) */
-
     onMounted(() => {
       initRenderer()
     })
@@ -113,7 +100,8 @@ export const TresScene = defineComponent<TresSceneProps>({
       })
 
       onLoop(() => {
-        if (activeCamera.value && props.disableRender === true) renderer.value?.render(scene, activeCamera.value)
+        if (activeCamera.value && props.disableRender !== true && props.disableRender !== '')
+          renderer.value?.render(scene, activeCamera.value)
 
         if (raycaster.value) {
           const intersects = raycaster.value.intersectObjects(scene.children)
