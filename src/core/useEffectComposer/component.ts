@@ -1,6 +1,5 @@
 import { useWindowSize } from '@vueuse/core'
 import { useRenderLoop, Camera } from '@tresjs/core'
-å
 import { defineComponent, provide, shallowRef, ShallowRef, toRefs, watch, watchEffect } from 'vue'
 import { DepthDownsamplingPass, EffectComposer as EffectComposerImpl, NormalPass, RenderPass } from 'postprocessing'
 import { isWebGL2Available } from 'three-stdlib'

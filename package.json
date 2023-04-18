@@ -24,7 +24,7 @@
   },
   "scripts": {
     "dev": "vite",
-    "playground": "cd playground && nr dev",
+    "playground": "cd playground && npm run dev",
     "build": "vite build",
     "preview": "vite preview",
     "release": "release-it",
