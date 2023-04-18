@@ -4,29 +4,27 @@
 
 [OrbitControls](https://threejs.org/docs/index.html?q=orbit#examples/en/controls/OrbitControls) is a camera controller that allows you to orbit around a target. It's a great way to explore your scene.
 
-However, it is not part of the core of ThreeJS. So to use it you would need to import it from the `three/examples/jsm/controls/OrbitControls` module.
+However, it is not part of the core of ThreeJS. So to use it you would need to import it from the `three/addons/controls/OrbitControls` module.
 
 This creates a problem because **TresJS** automatically creates a catalog of the core of Three so you can use them as components.
 
-Fortunately, **TresJS** provides a way to extend the catalog of components. You can do it by using the `extend` method using the [useCatalogue](/api/composables#usecatalog) composable.
+Fortunately, **TresJS** provides a way to extend the catalog of components. You can do it by using the `extend` method from the core library.
 
 For more information about extending your TresJS catalog, refer to the [extending](/advanced/extending.md) section.
 
 ## Using OrbitControls
 
-To use `OrbitControls` you need to import it from the `three/examples/jsm/controls/OrbitControls` module.
+To use `OrbitControls` you need to import it from the `three/addons/controls/OrbitControls` module.
 
 ```js
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
+import { OrbitControls } from 'three/addons/controls/OrbitControls'
 ```
 
-Then you need to extend the catalogue of components using the `extend` method of the [useCatalogue](/api/composables#usecatalog) composable.
+Then you need to extend the catalogue of components using the `extend` method.
 
 ```js
-import { useCatalogue } from '@tresjs/core'
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
-
-const { extend } = useCatalogue()
+import { extend } from '@tresjs/core'
+import { OrbitControls } from 'three/addons/controls/OrbitControls'
 
 extend({ OrbitControls })
 ```
@@ -56,10 +54,9 @@ So the final code would be something like this:
 
 ```vue
 <script setup lang="ts">
-import { useCatalogue } from '@tresjs/core'
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
+import { extend } from '@tresjs/core'
+import { OrbitControls } from 'three/addons/controls/OrbitControls'
 
-const { extend } = useCatalogue()
 extend({ OrbitControls })
 
 const { state } = useThree()

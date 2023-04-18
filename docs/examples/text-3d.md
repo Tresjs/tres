@@ -4,29 +4,27 @@
 
 <StackBlitzEmbed projectId="tresjs-text3d-cientos" />
 
-However, it is not part of the core of ThreeJS. So to use it you would need to import it from the `three/examples/jsm/controls/TextGeometry` module.
+However, it is not part of the core of ThreeJS. So to use it you would need to import it from the `three/addons/controls/TextGeometry` module.
 
 This creates a problem because **TresJS** automatically creates a catalog of the core of Three so you can use them as components.
 
-Fortunately, **TresJS** provides a way to extend the catalog of components. You can do it by using the `extend` method using the [useCatalogue](/api/composables#usecatalog) composable.
+Fortunately, **TresJS** provides a way to extend the catalog of components. You can do it by using the `extend` method from the core library.
 
 For more information about extending your TresJS catalog, refer to the [extending](/advanced/extending.md) section.
 
 ## Using TextGeometry
 
-To use `TextGeometry` you need to import it from the `three/examples/jsm/geometries/TextGeometry` module.
+To use `TextGeometry` you need to import it from the `three/addons/geometries/TextGeometry` module.
 
 ```js
-import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry'
+import { TextGeometry } from 'three/addons/geometries/TextGeometry'
 ```
 
-Then you need to extend the catalogue of components using the `extend` method of the [useCatalogue](/api/composables#usecatalog) composable.
+Then you need to extend the catalogue of components using the `extend` method.
 
 ```js
-import { useCatalogue } from '@tresjs/core'
-import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry'
-
-const { extend } = useCatalogue()
+import { extend } from '@tresjs/core'
+import { TextGeometry } from 'three/addons/geometries/TextGeometry'
 
 extend({ TextGeometry: TextGeometry })
 ```
@@ -91,10 +89,10 @@ So the final code would be something like this:
 
 ```vue
 <script setup lang="ts">
-import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry'
-import { FontLoader } from 'three/examples/jsm/loaders/FontLoader'
-import { useCatalogue, useTexture } from '/@/composables'
-const { extend } = useCatalogue()
+import { extend } from '@tresjs/core'
+import { TextGeometry } from 'three/addons/geometries/TextGeometry'
+import { FontLoader } from 'three/addons/loaders/FontLoader'
+import { useTexture } from '/@/composables'
 
 extend({ TextGeometry: TextGeometry })
 

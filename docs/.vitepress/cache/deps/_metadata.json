@@ -1,47 +1,47 @@
 {
-  "hash": "c0aa5abf",
-  "browserHash": "786d5af0",
+  "hash": "73411b7d",
+  "browserHash": "0bbf8bc7",
   "optimized": {
     "vue": {
       "src": "../../../../node_modules/.pnpm/vue@3.2.47/node_modules/vue/dist/vue.runtime.esm-bundler.js",
       "file": "vue.js",
-      "fileHash": "fca2bc15",
-      "needsInterop": false
-    },
-    "@tresjs/core": {
-      "src": "../../../../node_modules/.pnpm/@tresjs+core@2.0.0-beta.2_three@0.150.1/node_modules/@tresjs/core/dist/tres.js",
-      "file": "@tresjs_core.js",
-      "fileHash": "f99c16ea",
+      "fileHash": "1ab1f91c",
       "needsInterop": false
     },
     "three": {
       "src": "../../../../node_modules/.pnpm/three@0.150.1/node_modules/three/build/three.module.js",
       "file": "three.js",
-      "fileHash": "674337d4",
+      "fileHash": "c93e162c",
+      "needsInterop": false
+    },
+    "@tresjs/core": {
+      "src": "../../../../node_modules/.pnpm/@tresjs+core@2.0.0-beta.5_three@0.150.1_vue@3.2.47/node_modules/@tresjs/core/dist/tres.js",
+      "file": "@tresjs_core.js",
+      "fileHash": "dc076c3b",
       "needsInterop": false
     },
     "@tresjs/cientos": {
-      "src": "../../../../node_modules/.pnpm/@tresjs+cientos@2.0.0-beta.0_tmfoxhtycm6gvt37fuuvp77ciy/node_modules/@tresjs/cientos/dist/trescientos.js",
+      "src": "../../../../node_modules/.pnpm/@tresjs+cientos@2.0.0-beta.1_@tresjs+core@2.0.0-beta.5_three@0.150.1_vue@3.2.47/node_modules/@tresjs/cientos/dist/trescientos.js",
       "file": "@tresjs_cientos.js",
-      "fileHash": "8c54a5ea",
+      "fileHash": "c0bcd255",
       "needsInterop": false
     },
     "@stackblitz/sdk": {
       "src": "../../../../node_modules/.pnpm/@stackblitz+sdk@1.9.0/node_modules/@stackblitz/sdk/bundles/sdk.m.js",
       "file": "@stackblitz_sdk.js",
-      "fileHash": "8df2d73d",
+      "fileHash": "68a20abf",
       "needsInterop": false
     },
     "gsap": {
       "src": "../../../../node_modules/.pnpm/gsap@3.11.5/node_modules/gsap/index.js",
       "file": "gsap.js",
-      "fileHash": "194308d9",
+      "fileHash": "a4e0a5be",
       "needsInterop": false
     }
   },
   "chunks": {
-    "chunk-ZAYNNKM4": {
-      "file": "chunk-ZAYNNKM4.js"
+    "chunk-DESKY23Y": {
+      "file": "chunk-DESKY23Y.js"
     },
     "chunk-LZPJ5JBW": {
       "file": "chunk-LZPJ5JBW.js"

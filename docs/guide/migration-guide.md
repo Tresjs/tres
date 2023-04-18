@@ -83,3 +83,108 @@ You can now create a scene like this:
 ```
 
 To migrate your code, you can just remove the `<TresScene />` component and move the children to the `<TresCanvas />` component.
+
+### `useCatalog` is now deprecated
+
+The `useCatalog` function is now deprecated. You can now import the catalog directly from `@tresjs/core`
+
+You can read more about it here: [Extending](/advanced/extending.md)
+
+Change this:
+
+```ts {2,5,7}
+// Wrong ❌
+import { useCatalog } from '@tresjs/core'
+import { TextGeometry } from 'three/addons/geometries/TextGeometry'
+
+const { extend } = useCatalog()
+
+extend({ TextGeometry })
+```
+
+To this:
+
+```ts {2,6}
+// Correct ✅
+import { extend } from '@tresjs/core'
+import { TextGeometry } from 'three/addons/geometries/TextGeometry'
+
+// Add the element to the catalogue
+extend({ TextGeometry })
+```
+
+### Model's ref value `getModel` is now deprecated
+
+The `getModel` function is now deprecated. You can now use the `model` property directly.
+
+Change this:
+
+```vue {7,9-12}
+// Wrong ❌
+<script setup lang="ts">
+import { useGLTF } from '@tresjs/cientos'
+
+const { scene, nodes, animations, materials } = await useGLTF('/models/AkuAku.gltf', { draco: true })
+
+const modelRef = ref()
+
+watch(modelRef, ({ getModel }) => {
+  const model = getModel()
+  model.position.set(0, 0, 0)
+})
+</script>
+<template>
+  <primitive :object="nodes.MyModel" />
+</template>
+```
+
+To this:
+
+```vue {7,9-12}
+// Correct ✅
+<script setup lang="ts">
+import { useGLTF } from '@tresjs/cientos'
+
+const { scene, nodes, animations, materials } = await useGLTF('/models/AkuAku.gltf', { draco: true })
+
+const modelRef = ref()
+
+watch(modelRef, model => {
+  // Do something with the model
+  model.position.set(0, 0, 0)
+})
+</script>
+<template>
+  <primitive :object="nodes.MyModel" />
+</template>
+```
+
+### Cameras need to be before any control 🎥
+
+The `TresOrbitControls` component needs to be after the camera in the tree. This is because the controls need to know the camera to work.
+
+Read more about it here: [Troubleshooting](/guide/troubleshooting.md)
+
+Change this:
+
+```vue {3,5}
+// Wrong ❌
+<template>
+  <TresCanvas>
+    <TresOrbitControls />
+    <TresPerspectiveCamera />
+  </TresCanvas>
+</template>
+```
+
+To this:
+
+```vue {3,5}
+// Correct ✅
+<template>
+  <TresCanvas>
+    <TresPerspectiveCamera />
+    <TresOrbitControls />
+  </TresCanvas>
+</template>
+```
