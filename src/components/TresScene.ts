@@ -1,8 +1,8 @@
-import { App, defineComponent, h, onMounted, onUnmounted, ref, watchEffect } from 'vue'
+import { App, defineComponent, h, onMounted, onUnmounted, provide, ref, watchEffect } from 'vue'
 import * as THREE from 'three'
 import { ShadowMapType, TextureEncoding, ToneMapping } from 'three'
 import { createTres } from '/@/core/renderer'
-import { useLogger } from '/@/composables'
+import { TRES_CONTEXT_KEY, useLogger } from '/@/composables'
 import { useCamera, useRenderer, useRenderLoop, useRaycaster, useTres } from '/@/composables'
 import { extend } from '/@/core/catalogue'
 import { RendererPresetsType } from '/@/composables/useRenderer/const'
@@ -133,10 +133,10 @@ export const TresScene = defineComponent<TresSceneProps>({
     function mountApp() {
       app = createTres(slots)
       app.provide('useTres', useTres())
+      app.provide(TRES_CONTEXT_KEY, useTres())
       app.provide('extend', extend)
       app.mount(scene as unknown as TresObject)
     }
-
     mountApp()
 
     expose({
