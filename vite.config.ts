@@ -8,11 +8,10 @@ import banner from 'vite-plugin-banner'
 import Inspect from 'vite-plugin-inspect'
 import dts from 'vite-plugin-dts'
 
-
 import copy from 'rollup-plugin-copy'
 
 /* import analyze from 'rollup-plugin-analyzer'
- *//* import { visualizer } from 'rollup-plugin-visualizer' */
+ */ /* import { visualizer } from 'rollup-plugin-visualizer' */
 import { resolve, join } from 'pathe'
 
 import { lightGreen, yellow, gray, bold } from 'kolorist'
@@ -33,7 +32,7 @@ export default defineConfig({
     alias: {
       '/@': resolve(__dirname, './src'),
     },
-    dedupe: ['@tresjs/cientos'],
+    dedupe: ['@tresjs/cientos', 'vue'],
   },
   plugins: [
     vue({
@@ -81,18 +80,24 @@ export default defineConfig({
       headless: !!process.env.HEADLESS,
       provider: 'webdriverio',
     },
-    reporters: process.env.BROWSER_TEST ? ['json', {
-      onInit: noop,
-      onPathsCollected: noop,
-      onCollected: noop,
-      onFinished: noop,
-      onTaskUpdate: noop,
-      onTestRemoved: noop,
-      onWatcherStart: noop,
-      onWatcherRerun: noop,
-      onServerRestart: noop,
-      onUserConsoleLog: noop,
-    }, 'default'] : undefined,
+    reporters: process.env.BROWSER_TEST
+      ? [
+          'json',
+          {
+            onInit: noop,
+            onPathsCollected: noop,
+            onCollected: noop,
+            onFinished: noop,
+            onTaskUpdate: noop,
+            onTestRemoved: noop,
+            onWatcherStart: noop,
+            onWatcherRerun: noop,
+            onServerRestart: noop,
+            onUserConsoleLog: noop,
+          },
+          'default',
+        ]
+      : undefined,
   },
   build: {
     lib: {
