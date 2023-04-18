@@ -1,32 +1,15 @@
 import { mount } from '@vue/test-utils'
 import TresCanvas from './TresCanvas'
 import { BasicShadowMap, sRGBEncoding, NoToneMapping } from 'three'
-
-const TresScene = {
-  template: `<TresCanvas window-size="true">
-  <TresPerspectiveCamera :position="[5, 5, 5]" :look-at="[0, 0, 0]" />
-
-  <TresMesh>
-    <TresSphereGeometry :args="[2, 32, 32]" />
-    <TresMeshNormalMaterial />
-  </TresMesh>
-  <TresGridHelper />
-  <TresAmbientLight :intensity="1" />
-  <Suspense>
-    <EffectComposer>
-      <Glitch />
-    </EffectComposer>
-  </Suspense>
-</TresCanvas>`,
-  components: {
-    TresCanvas,
-  },
-}
+import TheExperience from './TheExperience.vue'
 
 describe('TresCanvas', () => {
   it('should work', () => {
-    const wrapper = mount(TresScene, {
+    const wrapper = mount(TheExperience, {
       attachTo: document.body,
+      components: {
+        TresCanvas,
+      },
     })
     const canvas = wrapper.find('canvas')
     expect(canvas).toBeDefined()
