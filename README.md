@@ -26,7 +26,7 @@ It just works. 💯
 ## Installation
 
 ```bash
-pnpm i @tresjs/cientos
+pnpm i @tresjs/post-processing
 ```
 
 ## Docs
