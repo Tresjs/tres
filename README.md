@@ -7,7 +7,7 @@
 </p>
 <br/>
 
-# Cientos 
+# Cientos
 
 > Collection of useful helpers and fully functional, ready-made abstractions for Tres
 
@@ -18,7 +18,7 @@
 
 Cientos (Spanish word for "hundreds", pronounced /θjentos/ ) is is a collection of useful ready-to-go helpers and components that are not part of the core package. The name uses the word uses in spanish to multiply by 100, to refer to the potential reach of the package to hold a amazing abstractions.
 
-The cientos package uses three-stdlib module under the hood instead of the three/examples/jsm module. This means that you don't need to extend the catalogue of components using the extend method of the useCatalogue composable, cientos does it for you.
+The cientos package uses three-stdlib module under the hood instead of the three/examples/jsm module. This means that you don't need to extend the catalogue of components using the extend method from the `core`, cientos does it for you.
 
 It just works. 💯
 
@@ -49,7 +49,6 @@ pnpm run build
 ```
 
 ### Playground
-
 
 To run the playground run, its a great way to test the components and helpers locally:
 
@@ -82,7 +81,6 @@ To build them
 ```bash
 pnpm run docs:build
 ```
-
 
 ## License
 

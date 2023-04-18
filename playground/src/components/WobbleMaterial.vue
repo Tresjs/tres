@@ -17,7 +17,9 @@ const gl = {
 const context = ref()
 
 watchEffect(() => {
-  console.log(context.value)
+  if (context.value) {
+    console.log(context.value.state.scene)
+  }
 })
 </script>
 
@@ -26,7 +28,7 @@ watchEffect(() => {
     <TresPerspectiveCamera :position="[3, 3, 3]" />
     <TresMesh>
       <TresTorusGeometry />
-      <MeshWobbleMaterial color="orange" speed="10" factor="5" />
+      <MeshWobbleMaterial color="orange" :speed="10" :factor="5" />
     </TresMesh>
     <TresGridHelper :args="[10, 10]" />
     <TresAmbientLight :intensity="1" />

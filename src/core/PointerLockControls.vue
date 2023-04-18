@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ref, defineExpose, watch, onUnmounted } from 'vue'
+import { ref, watch } from 'vue'
 import { PointerLockControls } from 'three-stdlib'
 import { Camera } from 'three'
 import { useCientos } from './useCientos'
@@ -39,7 +39,7 @@ export interface PointerLockControlsProps {
    * @memberof PointerLockControlsProps
    * @see https://threejs.org/docs/index.html?q=pointe#examples/en/controls/PointerLockControls
    */
-   selector?: string
+  selector?: string
 }
 
 const props = withDefaults(defineProps<PointerLockControlsProps>(), {
@@ -69,13 +69,12 @@ watch(controls, value => {
 defineExpose({
   value: controls,
 })
-
 </script>
 
 <template>
   <TresPointerLockControls
-  v-if="state.camera && state.renderer"
-  ref="controls"
-  :args="[state.camera || camera, state.renderer?.domElement || domElement]"
+    v-if="state.camera && state.renderer"
+    ref="controls"
+    :args="[state.camera || camera, state.renderer?.domElement || domElement]"
   />
 </template>

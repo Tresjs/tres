@@ -14,5 +14,6 @@ declare module '@vue/runtime-core' {
     RouterView: typeof import('vue-router')['RouterView']
     TheExperiment: typeof import('./src/components/gltf/TheExperiment.vue')['default']
     TheGizmos: typeof import('./src/components/TheGizmos.vue')['default']
+    WobbleMaterial: typeof import('./src/components/WobbleMaterial.vue')['default']
   }
 }

@@ -17,6 +17,7 @@ export class WobbleMaterialImpl extends MeshStandardMaterial {
   }
 
   onBeforeCompile(shader: Shader) {
+    if (!shader.uniforms) shader.uniforms = {}
     shader.uniforms.time = this._time
     shader.uniforms.factor = this._factor
 
