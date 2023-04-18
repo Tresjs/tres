@@ -8,7 +8,6 @@ const gl = {
   shadows: true,
   alpha: false,
   shadowMapType: BasicShadowMap,
-  outputEncoding: sRGBEncoding,
   toneMapping: NoToneMapping,
 }
 </script>
