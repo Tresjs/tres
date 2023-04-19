@@ -46,8 +46,8 @@ devDependencies:
     specifier: ^0.30.1
     version: 0.30.1(vitest@0.30.1)
   '@vitest/ui':
-    specifier: ^0.29.2
-    version: 0.29.2
+    specifier: ^0.30.0
+    version: 0.30.0
   '@vue/test-utils':
     specifier: ^2.3.2
     version: 2.3.2(vue@3.2.47)
@@ -125,7 +125,7 @@ devDependencies:
     version: 1.0.0-alpha.65(@algolia/client-search@4.15.0)
   vitest:
     specifier: ^0.30.1
-    version: 0.30.1(@vitest/ui@0.29.2)(happy-dom@9.8.0)(jsdom@21.1.1)
+    version: 0.30.1(@vitest/ui@0.30.0)(happy-dom@9.8.0)(jsdom@21.1.1)
   vue-demi:
     specifier: ^0.14.0
     version: 0.14.0(vue@3.2.47)
@@ -1525,7 +1525,7 @@ packages:
       c8: 7.13.0
       picocolors: 1.0.0
       std-env: 3.3.2
-      vitest: 0.30.1(@vitest/ui@0.29.2)(happy-dom@9.8.0)(jsdom@21.1.1)
+      vitest: 0.30.1(@vitest/ui@0.30.0)(happy-dom@9.8.0)(jsdom@21.1.1)
     dev: true
 
   /@vitest/expect@0.30.1:
@@ -1559,14 +1559,24 @@ packages:
       tinyspy: 2.1.0
     dev: true
 
-  /@vitest/ui@0.29.2:
-    resolution: {integrity: sha512-GpCExCMptrS1z3Xf6kz35Xdvjc2eTBy9OIIwW3HjePVxw9Q++ZoEaIBVimRTTGzSe40XiAI/ZyR0H0Ya9brqLA==}
+  /@vitest/ui@0.30.0:
+    resolution: {integrity: sha512-kzapVRHVXsXcIbi3GR5DVQ+1y0BPcwUmyTqodCckr6l0eyhCL3ecGigR9PH255yFx27vFcwrtl07zfrUWzPOpg==}
     dependencies:
+      '@vitest/utils': 0.30.0
       fast-glob: 3.2.12
+      fflate: 0.7.4
       flatted: 3.2.7
       pathe: 1.1.0
       picocolors: 1.0.0
       sirv: 2.0.2
+    dev: true
+
+  /@vitest/utils@0.30.0:
+    resolution: {integrity: sha512-qFZgoOKQ+rJV9xG4BBxgOSilnLQ2gkfG4I+z1wBuuQ3AD33zQrnB88kMFfzsot1E1AbF3dNK1e4CU7q3ojahRA==}
+    dependencies:
+      concordance: 5.0.4
+      loupe: 2.3.6
+      pretty-format: 27.5.1
     dev: true
 
   /@vitest/utils@0.30.1:
@@ -3223,6 +3233,10 @@ packages:
 
   /fflate@0.6.10:
     resolution: {integrity: sha512-IQrh3lEPM93wVCEczc9SaAOvkmcoQn/G8Bo1e8ZPlY3X3bnAxWaBdvTdvM1hP62iZp0BXWDy4vTAy4fF0+Dlpg==}
+    dev: true
+
+  /fflate@0.7.4:
+    resolution: {integrity: sha512-5u2V/CDW15QM1XbbgS+0DfPxVB+jUKhWEKuuFuHncbk3tEEqzmoXL+2KyOFuKGqOnmdIy0/davWF1CkuwtibCw==}
     dev: true
 
   /figures@5.0.0:
@@ -6647,7 +6661,7 @@ packages:
       - terser
     dev: true
 
-  /vitest@0.30.1(@vitest/ui@0.29.2)(happy-dom@9.8.0)(jsdom@21.1.1):
+  /vitest@0.30.1(@vitest/ui@0.30.0)(happy-dom@9.8.0)(jsdom@21.1.1):
     resolution: {integrity: sha512-y35WTrSTlTxfMLttgQk4rHcaDkbHQwDP++SNwPb+7H8yb13Q3cu2EixrtHzF27iZ8v0XCciSsLg00RkPAzB/aA==}
     engines: {node: '>=v14.18.0'}
     hasBin: true
@@ -6685,7 +6699,7 @@ packages:
       '@vitest/runner': 0.30.1
       '@vitest/snapshot': 0.30.1
       '@vitest/spy': 0.30.1
-      '@vitest/ui': 0.29.2
+      '@vitest/ui': 0.30.0
       '@vitest/utils': 0.30.1
       acorn: 8.8.2
       acorn-walk: 8.2.0
