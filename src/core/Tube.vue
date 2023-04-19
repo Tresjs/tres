@@ -1,3 +1,4 @@
+<!-- eslint-disable max-len -->
 <script setup lang="ts">
 import { TresColor, TresObject } from '@tresjs/core'
 import { CatmullRomCurve3, CubicBezierCurve3, LineCurve3, QuadraticBezierCurve3, Vector3 } from 'three'

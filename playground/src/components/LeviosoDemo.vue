@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
-import { OrbitControls, useTweakPane, Levioso, TorusKnot } from '@cientos'
+import { OrbitControls, useTweakPane, Levioso } from '@cientos'
 import { BasicShadowMap, sRGBEncoding, NoToneMapping } from 'three'
 import { shallowRef } from 'vue'
 import { watchEffect } from 'vue'
