@@ -1,7 +1,5 @@
-<script setup lang="ts">
-import WobbleMaterial from '../components/WobbleMaterial.vue'
-</script>
+<script setup lang="ts"></script>
 
 <template>
-  <WobbleMaterial />
+  <LeviosoDemo />
 </template>
