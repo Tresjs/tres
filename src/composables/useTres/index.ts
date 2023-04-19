@@ -98,7 +98,7 @@ export type UseTresReturn = {
   aspectRatio: ComputedRef<number>
 }
 
-const TRES_CONTEXT_KEY = Symbol()
+export const TRES_CONTEXT_KEY = Symbol()
 
 /**
  * The Tres state.
