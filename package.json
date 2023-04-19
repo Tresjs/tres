@@ -1,7 +1,7 @@
 {
   "name": "@tresjs/cientos",
   "description": "Collection of useful helpers and fully functional, ready-made abstractions for Tres",
-  "version": "2.0.0-beta.0",
+  "version": "2.0.0-beta.1",
   "type": "module",
   "author": "Alvaro Saburido <hola@alvarosaburido.dev> (https://github.com/alvarosabu/)",
   "files": [
@@ -48,15 +48,15 @@
   "devDependencies": {
     "@alvarosabu/prettier-config": "^1.3.0",
     "@release-it/conventional-changelog": "^5.1.1",
-    "@tresjs/core": "2.0.0-beta.2",
+    "@tresjs/core": "2.0.0-beta.4",
     "@tweakpane/plugin-essentials": "^0.1.8",
-    "@types/three": "^0.149.0",
+    "@types/three": "^0.150.1",
     "@vitejs/plugin-vue": "^4.1.0",
     "gsap": "^3.11.5",
     "kolorist": "^1.7.0",
     "pathe": "^1.1.0",
     "prettier": "^2.8.4",
-    "release-it": "^15.9.1",
+    "release-it": "^15.10.1",
     "rollup-plugin-analyzer": "^4.0.0",
     "rollup-plugin-visualizer": "^5.9.0",
     "tweakpane": "^3.1.7",

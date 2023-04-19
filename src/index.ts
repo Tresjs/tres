@@ -1,4 +1,5 @@
 import OrbitControls from './core/OrbitControls.vue'
+import PointerLockControls from './core/PointerLockControls.vue'
 import TransformControls from './core/TransformControls.vue'
 import { PamCameraMouse } from './core/usePamCameraMouse/component'
 import { useTweakPane } from './core/useTweakPane'
@@ -28,6 +29,7 @@ export * from './core/useEnvironment'
 export * from './core/usePamCameraMouse'
 export {
   OrbitControls,
+  PointerLockControls,
   TransformControls,
   useTweakPane,
   GLTFModel,
