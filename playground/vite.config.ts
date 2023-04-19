@@ -8,28 +8,29 @@ import UnoCSS from 'unocss/vite'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [   
+  plugins: [
     glsl(),
     vue({
-    template: {
-      compilerOptions: {
-        isCustomElement: tag => tag.startsWith('Tres') && tag !== 'TresCanvas',
+      template: {
+        compilerOptions: {
+          isCustomElement: tag => tag.startsWith('Tres') && tag !== 'TresCanvas',
+        },
       },
-    },
-  }),
-  AutoImport({
-    dts: true,
-    eslintrc: {
-      enabled: true, // <-- this
-    },
-    imports: ['vue'],
-  }),
-  Components({
-    /* options */
-  }),
-  UnoCSS({
-    /* options */
-  }),],
+    }),
+    AutoImport({
+      dts: true,
+      eslintrc: {
+        enabled: true, // <-- this
+      },
+      imports: ['vue'],
+    }),
+    Components({
+      /* options */
+    }),
+    UnoCSS({
+      /* options */
+    }),
+  ],
   resolve: {
     alias: {
       '/@': resolve(__dirname, './src'),

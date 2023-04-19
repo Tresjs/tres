@@ -9,13 +9,14 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
-    Clouds: typeof import('./src/components/Clouds.vue')['default']
+    AkuAku: typeof import('./src/components/AkuAku.vue')['default']
+    Gltf: typeof import('./src/components/gltf/index.vue')['default']
+    LeviosoDemo: typeof import('./src/components/LeviosoDemo.vue')['default']
     PointerLockControlsDemo: typeof import('./src/components/PointerLockControlsDemo.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    TheClouds: typeof import('./src/components/TheClouds.vue')['default']
-    TheExperiment: typeof import('./src/components/gltf/TheExperiment.vue')['default']
     TheGizmos: typeof import('./src/components/TheGizmos.vue')['default']
+    TheStars: typeof import('./src/components/TheStars.vue')['default']
     WobbleMaterial: typeof import('./src/components/WobbleMaterial.vue')['default']
   }
 }
