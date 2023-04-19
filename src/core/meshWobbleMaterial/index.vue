@@ -4,7 +4,6 @@ import { useRenderLoop } from '@tresjs/core'
 import { useCientos } from '../useCientos'
 import { WobbleMaterialImpl as MeshWobbleMaterial } from './material'
 import { shallowRef } from 'vue'
-import { watchEffect } from 'vue'
 
 const props = withDefaults(
   defineProps<{
@@ -23,10 +22,6 @@ const { extend } = useCientos()
 extend({ MeshWobbleMaterial })
 
 const { onLoop } = useRenderLoop()
-
-watchEffect(() => {
-  console.log(materialRef.value)
-})
 
 onLoop(({ elapsed }) => {
   if (materialRef.value) {

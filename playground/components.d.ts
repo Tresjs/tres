@@ -10,6 +10,7 @@ export {}
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     LeviosoDemo: typeof import('./src/components/LeviosoDemo.vue')['default']
+    PointerLockControlsDemo: typeof import('./src/components/PointerLockControlsDemo.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     TheExperiment: typeof import('./src/components/gltf/TheExperiment.vue')['default']
