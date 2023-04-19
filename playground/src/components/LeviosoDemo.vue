@@ -18,7 +18,7 @@ const gl = {
 const { pane } = useTweakPane()
 
 const leviosoState = shallowReactive({
-  speed: 100,
+  speed: 5,
   rotationFactor: 1,
   floatFactor: 1,
   range: [-0.1, 0.1],
@@ -50,14 +50,17 @@ watchEffect(() => {
 
 <template>
   <TresCanvas v-bind="gl">
-    <TresPerspectiveCamera :position="[5, 5, 5]" />
+    <TresPerspectiveCamera :position="[11, 11, 11]" />
+    <OrbitControls />
     <Levioso ref="groupRef" v-bind="leviosoState">
-      <TorusKnot :position="[0, 4, 0]">
+      <!--  <TorusKnot :position="[0, 4, 0]">
         <TresMeshNormalMaterial />
-      </TorusKnot>
+      </TorusKnot> -->
+      <Suspense>
+        <AkuAku />
+      </Suspense>
     </Levioso>
     <TresGridHelper :args="[10, 10]" />
     <TresAmbientLight :intensity="1" />
-    <OrbitControls />
   </TresCanvas>
 </template>
