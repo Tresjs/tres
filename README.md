@@ -1,8 +1,7 @@
-![repository-banner.png](https://tresjs.org/cientos-banner.png)
+![repository-banner.png](/public/repo-banner.png)
 
 <p align="center">
-  <a href="https://www.npmjs.com/package/@tresjs/core"><img src="https://img.shields.io/npm/v/@tresjs/core?color=%2382DBCA" alt="npm package"></a>
-  <a href="https://nodejs.org/en/about/releases/"><img src="https://img.shields.io/node/v/@tresjs/core.svg" alt="node compatibility"></a>
+  <a href="https://www.npmjs.com/package/@tresjs/cientos"><img src="https://img.shields.io/npm/v/@tresjs/cientos/beta?color=%2382DBCA" alt="npm package"></a>
   <a href="https://discord.gg/tfY9aSNT"><img src="https://img.shields.io/badge/chat-discord-purple?style=flat&logo=discord" alt="discord chat"></a>
 </p>
 <br/>
