@@ -30,6 +30,7 @@ export default defineConfig({
           { text: 'useEnvironment', link: '/guide/abstractions/use-environment' },
           { text: 'usePamMouse', link: '/guide/abstractions/pam-camera-mouse' },
           { text: 'Stars', link: '/guide/abstractions/stars' },
+          { text: 'Levioso (Float)', link: '/guide/abstractions/levioso' },
         ],
       },
       {
