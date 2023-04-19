@@ -7,7 +7,7 @@ import { Object3D } from 'three'
 // chage values here
 export interface CloudsProps extends TresObject {
   /**
-   * The color of the opacity.
+   * The color of the clouds.
    * @default 0xffffff
    * @type {TresColor}
    * @memberof CloudsProps
@@ -15,7 +15,7 @@ export interface CloudsProps extends TresObject {
    */
   color?: TresColor
   /**
-   * The color of the opacity.
+   * The strength of the opacity.
    * @default 0.5
    * @type {number}
    * @memberof CloudsProps
@@ -23,7 +23,7 @@ export interface CloudsProps extends TresObject {
    */
   opacity?: number
   /**
-   * The color of the opacity.
+   * The rotation speed of the clouds.
    * @default 0.4
    * @type {number}
    * @memberof CloudsProps
@@ -31,7 +31,7 @@ export interface CloudsProps extends TresObject {
    */
   speed?: number
   /**
-   * The color of the opacity.
+   * The base width.
    * @default 4
    * @type {number}
    * @memberof CloudsProps
@@ -39,7 +39,7 @@ export interface CloudsProps extends TresObject {
    */
   width?: number
   /**
-   * The color of the opacity.
+   * The base depth.
    * @default 10
    * @type {number}
    * @memberof CloudsProps
@@ -47,7 +47,7 @@ export interface CloudsProps extends TresObject {
    */
   depth?: number
   /**
-   * The color of the opacity.
+   * The number of clouds to render.
    * @default 10
    * @type {number}
    * @memberof CloudsProps
@@ -55,7 +55,7 @@ export interface CloudsProps extends TresObject {
    */
   segments?: number
   /**
-   * The color of the opacity.
+   * The texture of the clouds.
    * @default 10
    * @type {number}
    * @memberof CloudsProps
@@ -63,7 +63,7 @@ export interface CloudsProps extends TresObject {
    */
   texture?: number
   /**
-   * The color of the opacity.
+   * The depthTest.
    * @default 10
    * @type {boolean}
    * @memberof CloudsProps
@@ -92,7 +92,7 @@ const clouds = [...new Array(props.segments)].map((_, index) => ({
 }))
 const opacity = (scale: number, density: number): number => (scale / 6) * density * props.opacity
 
-const { map: cloudTexture } = await useTexture({ map: props.texture })
+const { map } = await useTexture({ map: props.texture })
 
 const { state } = useCientos()
 const encoding = computed(() => state.renderer?.outputEncoding)
@@ -121,7 +121,7 @@ defineExpose({
       <TresMesh v-for="({ scale, x, y, density }, index) in clouds" :key="index" :position="[x, y, -index * depth]">
         <TresPlaneGeometry :scale="[scale, scale, scale]" :rotation="[0, 0, 0]" />
         <TresMeshStandardMaterial
-        :map="cloudTexture"
+        :map="map"
         :map-encoding="encoding"
         :depthTest="depthTest"
         :color="color"
