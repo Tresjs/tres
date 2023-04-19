@@ -1,13 +1,30 @@
-# @tresjs/core ▲ ■ ●
+![repo-banner](/public/repo-banner.png)
+
+<p align="center">
+  <a href="https://www.npmjs.com/package/@tresjs/core"><img src="https://img.shields.io/npm/v/@tresjs/core/beta?color=%2382DBCA" alt="npm package"></a>
+  <a href="https://discord.gg/tfY9aSNT"><img src="https://img.shields.io/badge/chat-discord-purple?style=flat&logo=discord" alt="discord chat"></a>
+</p>
+
+# TresJS `@tresjs/core`
 
 > Declarative ThreeJS using Vue Components
 
 - 💡 Build 3D scene as they were Vue components
 - ⚡️ Powered by Vite
-- 🥰 It brings all the updated features of ThreeJS right awayregardless the version
+- 🥰 It brings all the updated features of ThreeJS right away regardless the version
 - 🦾 Fully Typed
 
-Tres (Spanish word for "three", pronounced `/tres/` ) is a way of creating ThreeJS scenes with Vue components in a declarative fashion. Think of it as a [React-three-fiber](https://docs.pmnd.rs/react-three-fiber) or [Lunchbox](https://github.com/breakfast-studio/lunchboxjs) but without the need of a [custom Vue3 Renderer](https://vuejs.org/api/custom-renderer.html).
+Tres (Spanish word for "three", pronounced `/tres/` ) is a way of creating ThreeJS scenes with Vue components in a declarative fashion.
+
+It's build on-top of a [Vue Custom Renderer](https://vuejs.org/api/custom-renderer.html#createrenderer) and it's powered by Vite.
+
+The goal is to provide the Vue's community an easy way of building 3D scenes with Vue, always up to date with the latest ThreeJS features and with 0-to-none mantainance.
+
+## Installation
+
+```bash
+pnpm install @tresjs/core@beta three
+```
 
 ## Docs
 
