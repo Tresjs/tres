@@ -1,5 +1,12 @@
 
 
+## [2.0.0-beta.10](https://github.com/Tresjs/tres/compare/2.0.0-beta.9...2.0.0-beta.10) (2023-04-19)
+
+
+### Bug Fixes
+
+* **core:** fixed [#209](https://github.com/Tresjs/tres/issues/209) ([9648935](https://github.com/Tresjs/tres/commit/9648935d23e68363071cb543a7876b9a23c512fe))
+
 ## [2.0.0-beta.9](https://github.com/Tresjs/tres/compare/2.0.0-beta.8...2.0.0-beta.9) (2023-04-18)
 
 
