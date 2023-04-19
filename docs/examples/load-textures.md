@@ -16,7 +16,7 @@ For a detailed explanation of how to use `useLoader`, check out the [useLoader](
 
 ```ts
 import { useLoader } from '@tresjs/core'
-import { TextureLoader } from 'three/examples/jsm/loaders/TextureLoader'
+import { TextureLoader } from 'three/addons/loaders/TextureLoader'
 
 const texture = useLoader(TextureLoader, '/Rock035_2K_Color.jpg')
 ```
@@ -26,12 +26,10 @@ Then you can pass the texture to a material:
 ```html
 <Suspense>
   <TresCanvas>
-    <TresScene>
-      <TresMesh>
-        <TresSphereGeometry :args="[1,32,32]" />
-        <TresMeshStandardMaterial :map="texture" />
-      </TresMesh>
-    </TresScene>
+    <TresMesh>
+      <TresSphereGeometry :args="[1,32,32]" />
+      <TresMeshStandardMaterial :map="texture" />
+    </TresMesh>
   </TresCanvas>
 </Suspense>
 ```
@@ -61,18 +59,16 @@ Similar to the previous example, we can pass all the textures to a material via 
 ```html
 <Suspense>
   <TresCanvas>
-    <TresScene>
-      <TresMesh>
-        <TresSphereGeometry :args="[1,32,32]" />
-        <TresMeshStandardMaterial
-          :map="pbrTexture.map"
-          :displacementMap="pbrTexture.displacementMap"
-          :roughnessMap="pbrTexture.roughnessMap"
-          :normalMap="pbrTexture.normalMap"
-          :ambientOcclusionMap="pbrTexture.ambientOcclusionMap"
-        />
-      </TresMesh>
-    </TresScene>
+    <TresMesh>
+      <TresSphereGeometry :args="[1,32,32]" />
+      <TresMeshStandardMaterial
+        :map="pbrTexture.map"
+        :displacementMap="pbrTexture.displacementMap"
+        :roughnessMap="pbrTexture.roughnessMap"
+        :normalMap="pbrTexture.normalMap"
+        :ambientOcclusionMap="pbrTexture.ambientOcclusionMap"
+      />
+    </TresMesh>
   </TresCanvas>
 </Suspense>
 ```

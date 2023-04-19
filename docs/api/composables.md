@@ -78,7 +78,7 @@ console.log(isActive) // true
 The `useLoader` composable allows you to load assets using the [THREE.js loaders](https://threejs.org/docs/#manual/en/introduction/Loading-3D-models). It returns a promise with loaded asset.
 
 ```ts
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader'
 
 const { scene } = await useLoader(THREE.GLTFLoader, 'path/to/asset.gltf')
 ```
@@ -109,17 +109,21 @@ const texture = await useTexture(['path/to/texture.png'])
 - `roughnessMap`: a texture that is used to add roughness or a matte finish to the object's surface
 - `metalnessMap`: a texture that is used to add a metallic effect to the object's surface
 - `aoMap`: a texture that is used to add ambient occlusion (shading in areas where light is blocked by other objects) to the object.
+- `alphaMap`: a texture that is used to add alpha (the black part render as transparent) to the object. It's necessary to set :trasparent="true" on the material to use this map
+- `matcap`: this textures encodes the material color and shading.
 
 In that case it will return an object with the loaded textures.
 
 ```ts
-const { map, displacementMap, normalMap, roughnessMap, metalnessMap, aoMap } = await useTexture({
+const { map, displacementMap, normalMap, roughnessMap, metalnessMap, aoMap, alphaMap, matcap } = await useTexture({
   map: 'path/to/albedo.png',
   displacementMap: 'path/to/height.png',
   normalMap: 'path/to/normal.png',
   roughnessMap: 'path/to/roughness.png',
   metalnessMap: 'path/to/metalness.png',
   aoMap: 'path/to/ambien-occlusion.png',
+  alphaMap: 'path/to/alpha.png',
+  matcap: 'path/to/matcap.png',
 })
 ```
 
@@ -127,50 +131,55 @@ Then you can bind the textures to the material.
 
 ```vue
 <template>
-  <TresMesh>
-    <TresMeshSphereGeometry />
-    <TresMeshStandardMaterial
-      :map="map"
-      :displacementMap="displacementMap"
-      :normalMap="normalMap"
-      :roughnessMap="roughnessMap"
-      :metalnessMap="metalnessMap"
-      :aoMap="aoMap"
-    />
-  </TresMesh>
+  <TresCanvas>
+    <TresMesh>
+      <TresMeshSphereGeometry />
+      <TresMeshStandardMaterial
+        :map="map"
+        :displacementMap="displacementMap"
+        :normalMap="normalMap"
+        :roughnessMap="roughnessMap"
+        :metalnessMap="metalnessMap"
+        :aoMap="aoMap"
+        :alphaMap="alphaMap"
+      />
+    </TresMesh>
+  </TresCanvas>
 </template>
 ```
 
 Similar to above composable, the `useTexture` composable returns a promise, you can use it with `async/await` or `then/catch`. If you are using it on a component make sure you wrap it with a `Suspense` component.
 
-## useCatalogue
+## useSeek
 
-The `useCatalogue` composable allows you to extend the internal catalogue of components. It returns a function that you can use to register new components.
-
-This is specially useful if you want to use objects that are not part of ThreeJS core like[OrbitControls](https://threejs.org/docs/#examples/en/controls/OrbitControls) or third party functionality, like physics.
+The `useSeek` composable provides utilities to easily traverse and navigate through complex ThreeJS scenes and object children graphs. It exports two functions, `seek` and `seekByName`, which allow you to find child objects based on specific properties.
 
 ```ts
-import { useCatalogue } from '@tresjs/core'
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
-
-const { extend } = useCatalogue()
-
-extend({ OrbitControls })
+const { seek, seekbyName } = useSeek()
 ```
 
-Then you can use the new component in your template. Notice that the new component is prefixed with `Tres` to avoid name collisions with native HTML elements, similar to the rest of the core components.
+The seek function accepts three parameters:
 
-```vue
-<template>
-  <TresCanvas shadows alpha>
-    <TresScene>
-      <TresOrbitControls v-if="state.renderer" :args="[state.camera, state.renderer?.domElement]" />
-    </TresScene>
-  </TresCanvas>
-</template>
+- `parent`: A ThreeJS scene or Object3D.
+- `property`: The property to be used in the search condition.
+- `value`: The value of the property to match.
+
+Both function traverses the object and returns the child object with the specified property and value. If no child with the given property and value is found, it returns null and logs a warning.
+
+```ts
+const carRef = ref(null)
+
+watch(carRef, ({ model }) => {
+  if (model) {
+    const car = model.children[0]
+
+    const body = seek(car, 'name', 'Octane_Octane_Body_0')
+    body.color.set(new Color('blue'))
+  }
+)
 ```
 
-## useTres <Badge type="warning" text="^1.7.0" />
+## useTres
 
 This composable aims to provide access to the state model which contains the default renderer, camera, scene, and other useful properties.
 
@@ -179,4 +188,24 @@ const { state } = useTres()
 
 console.log(state.camera) // THREE.PerspectiveCamera
 console.log(state.renderer) // THREE.WebGLRenderer
+```
+
+::: warning
+useTres composable can be only be used between the context of `TresCanvas` (inside sub-components) since Canvas component is the provider.
+:::
+
+```vue
+<TresCanvas>
+  <MyModel />
+</TresCanvas>
+```
+
+```vue
+// MyModel.vue
+
+<script lang="ts" setup>
+import { useTres } from '@tresjs/core'
+
+const { state } = useTres()
+</script>
 ```

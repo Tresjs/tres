@@ -1,13 +1,15 @@
 import Unocss from 'unocss/vite'
 import svgLoader from 'vite-svg-loader'
 import { defineConfig } from 'vitepress'
-import { version } from '../../packages/tres/package.json'
-import { version as cientosVersion } from '../../packages/cientos/package.json'
+import { resolve } from 'pathe'
 
 export default defineConfig({
   title: 'TresJS',
   description: 'Declarative ThreeJS using Vue Components',
-  head: [['link', { rel: 'icon', type: 'image/svg', href: '/favicon.svg' }]],
+  head: [
+    ['link', { rel: 'icon', type: 'image/svg', href: '/favicon.svg' }],
+    ['script', { defer: 'true', 'data-domain': 'tresjs.org', src: 'https://plausible.io/js/script.js' }],
+  ],
   themeConfig: {
     logo: '/logo.svg',
     sidebar: [
@@ -18,6 +20,8 @@ export default defineConfig({
           { text: 'Introduction', link: '/guide/' },
           { text: 'Getting Started', link: '/guide/getting-started' },
           { text: 'Your first Scene', link: '/guide/your-first-scene' },
+          { text: 'Troubleshooting', link: '/guide/troubleshooting' },
+          { text: 'Migrate from v1', link: '/guide/migration-guide' },
         ],
       },
       {
@@ -61,57 +65,11 @@ export default defineConfig({
         ],
       },
       {
-        text: 'Cientos 💛',
-        collapsible: true,
+        text: 'Ecosystem',
         items: [
-          { text: 'Introduction', link: '/cientos/' },
           {
-            text: 'Abstractions',
-            items: [
-              { text: 'Text3D', link: '/cientos/abstractions/text-3d' },
-              { text: 'useAnimations', link: '/cientos/abstractions/use-animations' },
-              { text: 'Environment', link: '/cientos/abstractions/environment' },
-              { text: 'useEnvironment', link: '/cientos/abstractions/use-environment' },
-              { text: 'usePamMouse', link: '/cientos/abstractions/pam-camera-mouse' },
-            ],
-          },
-          {
-            text: 'Controls',
-            items: [
-              { text: 'OrbitControls', link: '/cientos/controls/orbit-controls' },
-              { text: 'TransformControls', link: '/cientos/controls/transform-controls' },
-            ],
-          },
-          {
-            text: 'Loaders',
-            items: [
-              { text: 'useGLTF', link: '/cientos/loaders/use-gltf' },
-              { text: 'GLTFModel', link: '/cientos/loaders/gltf-model' },
-              { text: 'useFBX', link: '/cientos/loaders/use-fbx' },
-              { text: 'FBXModel', link: '/cientos/loaders/fbx-model' },
-            ],
-          },
-          {
-            text: 'Shapes',
-            items: [
-              { text: 'Box', link: '/cientos/shapes/box' },
-              { text: 'Circle', link: '/cientos/shapes/circle' },
-              { text: 'Cone', link: '/cientos/shapes/cone' },
-              { text: 'Dodecahedron', link: '/cientos/shapes/dodecahedron' },
-              { text: 'Icosahedron', link: '/cientos/shapes/icosahedron' },
-              { text: 'Octahedron', link: '/cientos/shapes/octahedron' },
-              { text: 'Plane', link: '/cientos/shapes/plane' },
-              { text: 'Ring', link: '/cientos/shapes/ring' },
-              { text: 'Sphere', link: '/cientos/shapes/sphere' },
-              { text: 'Tetrahedron', link: '/cientos/shapes/tetrahedron' },
-              { text: 'Torus', link: '/cientos/shapes/torus' },
-              { text: 'TorusKnot', link: '/cientos/shapes/torus-knot' },
-              { text: 'Tube', link: '/cientos/shapes/tube' },
-            ],
-          },
-          {
-            text: 'Misc',
-            items: [{ text: 'useTweakpane', link: '/cientos/misc/use-tweakpane' }],
+            text: `Cientos 💛`,
+            link: 'https://cientos.tresjs.org/',
           },
         ],
       },
@@ -121,37 +79,28 @@ export default defineConfig({
       { text: 'API', link: '/api/renderer' },
       /*       { text: 'API', link: '/api/' },
       { text: 'Config', link: '/config/' }, */
-      /*  {
+      {
         text: 'Ecosystem',
-        activeMatch: `^/ecosystem/`,
         items: [
           {
-            text: `Core v${version}`,
-            items: [
-              {
-                text: 'Release Notes ',
-                link: `https://github.com/Tresjs/tres/releases/tag/%40tresjs%2Fcore%40${version}`,
-              },
-            ],
-          },
-          {
-            text: `Cientos v${cientosVersion}`,
-            items: [
-              {
-                text: 'Release Notes ',
-                link: `https://github.com/Tresjs/tres/releases/tag/%40tresjs%2Fcientos%40${cientosVersion}`,
-              },
-            ],
+            text: `Cientos 💛`,
+            link: 'https://cientos.tresjs.org/',
           },
         ],
-      }, */
+      },
     ],
     socialLinks: [
       /*  { icon: 'github', link: 'https://github.com/tresjs/tres' }, */
       { icon: 'twitter', link: 'https://twitter.com/alvarosabu' },
+      { icon: 'discord', link: 'https://discord.gg/wXx63MwW' },
     ],
   },
   vite: {
     plugins: [svgLoader(), Unocss()],
+    resolve: {
+      alias: {
+        '/@': resolve(__dirname, '../../src'),
+      },
+    },
   },
 })

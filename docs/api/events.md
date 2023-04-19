@@ -1,4 +1,4 @@
-# Events <Badge type="warning" text="^1.6.0" />
+# Events
 
 **TresJS** Mesh objects emit pointer events when they are interacted with using `raycaster` and `pointer` objects under the hood.
 

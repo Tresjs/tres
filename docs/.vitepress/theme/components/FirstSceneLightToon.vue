@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { TresCanvas } from '@tresjs/core'
 import { OrbitControls } from '@tresjs/cientos'
 
 const styles = {
@@ -14,13 +15,11 @@ const styles = {
     <TresCanvas shadows clear-color="#fff" :style="styles">
       <TresPerspectiveCamera :position="[0, 2, 4]" />
       <OrbitControls />
-      <TresScene>
-        <TresDirectionalLight :position="[0, 2, 4]" :intensity="2" cast-shadow />
-        <TresMesh :rotation="[-Math.PI / 4, -Math.PI / 4, Math.PI / 4]">
-          <TresTorusGeometry :args="[1, 0.5, 16, 32]" />
-          <TresMeshToonMaterial color="#FBB03B" />
-        </TresMesh>
-      </TresScene>
+      <TresDirectionalLight :position="[0, 2, 4]" :intensity="2" cast-shadow />
+      <TresMesh :rotation="[-Math.PI / 4, -Math.PI / 4, Math.PI / 4]">
+        <TresTorusGeometry :args="[1, 0.5, 16, 32]" />
+        <TresMeshToonMaterial color="#FBB03B" />
+      </TresMesh>
     </TresCanvas>
   </ClientOnly>
 </template>
