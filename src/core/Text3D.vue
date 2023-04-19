@@ -141,6 +141,12 @@ const localText = computed(() => {
   return 'TresJS'
 })
 
+const textRef = shallowRef()
+
+defineExpose({
+  value: textRef,
+})
+
 const font = await new Promise((resolve, reject) => {
   try {
     if (typeof props.font === 'string') {
@@ -167,12 +173,6 @@ const textOptions = computed(() => {
     bevelOffset: props.bevelOffset,
     bevelSegments: props.bevelSegments,
   }
-})
-
-const textRef = shallowRef()
-
-defineExpose({
-  value: textRef,
 })
 
 </script>

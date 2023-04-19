@@ -97,7 +97,8 @@ const scaleArray: number[] = Array.from({ length: props.count }, () => (0.5 + 0.
 
 
 const genStar = (circle: number) => {
-  return new Vector3().setFromSpherical(new Spherical(circle, Math.acos(1 - Math.random() * 2), Math.random() * 2 * Math.PI))
+  return new Vector3()
+  .setFromSpherical(new Spherical(circle, Math.acos(1 - Math.random() * 2), Math.random() * 2 * Math.PI))
 }
 
 for (let i = 0; i < props.count; i++) {
