@@ -1,6 +1,6 @@
 import { useCore } from '../useCore'
 import { BlendFunction, EffectPass, OutlineEffect } from 'postprocessing'
-import { defineComponent, inject, onUnmounted, shallowRef, watch, watchEffect } from 'vue'
+import { defineComponent, inject, onUnmounted, shallowRef, toRaw, watch, watchEffect } from 'vue'
 
 import type { Object3D } from 'three'
 
@@ -10,7 +10,7 @@ export interface OutlineProps {
 
 export const Outline = defineComponent<OutlineProps>({
   name: 'Outline',
-  props: ['outlinedObjects'] as unknown as undefined,
+  props: ['outlinedObjects'] as unknown as undefined, // TODO add props
   setup(props) {
     const { state } = useCore()
     const composer = inject<any>('effectComposer') // TODO inject type
@@ -37,7 +37,7 @@ export const Outline = defineComponent<OutlineProps>({
     })
 
     watch(
-      () => [props.outlinedObjects, effect.value], // whatchEffect is intentionally not used here as it would result in an endless loop
+      [() => props.outlinedObjects, effect], // whatchEffect is intentionally not used here as it would result in an endless loop
       () => {
         effect.value?.selection.set(props.outlinedObjects || [])
       },

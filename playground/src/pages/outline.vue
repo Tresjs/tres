@@ -1,29 +1,37 @@
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
-import { EffectComposer, Outline, Glitch } from '/@post'
-import { BasicShadowMap, sRGBEncoding, NoToneMapping, Object3D } from 'three'
-import { computed, ref } from 'vue'
+import { EffectComposer, Outline } from '/@post'
+import { BasicShadowMap, NoToneMapping, Object3D, Intersection } from 'three'
+import { ref } from 'vue'
 
 const gl = {
-  clearColor: '#82DBC5',
+  clearColor: '#4ADE80',
   shadows: true,
   alpha: false,
   shadowMapType: BasicShadowMap,
   toneMapping: NoToneMapping,
 }
 
-const outlinedObject = ref<Object3D | null>(null)
-const outlinedObjects = computed<Object3D[]>(() => (outlinedObject.value ? [outlinedObject.value] : []))
+const outlinedObjects = ref<Object3D[]>([])
+
+const toggleMeshSelectionState = ({ object }: Intersection) => {
+  if (outlinedObjects.value.some(({ uuid }) => uuid === object.uuid))
+    outlinedObjects.value = outlinedObjects.value.filter(({ uuid }) => uuid !== object.uuid)
+  else outlinedObjects.value = [...outlinedObjects.value, object]
+}
 </script>
 
 <template>
   <TresCanvas v-bind="gl" :disable-render="true">
-    <TresPerspectiveCamera :position="[5, 5, 5]" :look-at="[0, 0, 0]" />
+    <TresPerspectiveCamera :position="[5, 5, 5]" :look-at="[2, 2, 2]" />
 
-    <TresMesh ref="outlinedObject">
-      <TresSphereGeometry :args="[2, 32, 32]" />
-      <TresMeshNormalMaterial />
-    </TresMesh>
+    <template v-for="i in 5" :key="i">
+      <TresMesh @click="toggleMeshSelectionState" :position="[i * 1.1 - 2.8, 1, 0]">
+        <TresBoxGeometry :width="4" :height="4" :depth="4" />
+        <TresMeshNormalMaterial />
+      </TresMesh>
+    </template>
+
     <TresGridHelper />
     <!-- <TresAmbientLight :intensity="1" /> -->
     <Suspense>
