@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Object3D, type Event } from 'three'
 import { TransformControls as TransformControlsImp } from 'three-stdlib'
-import { computed, unref, watch, shallowRef, ShallowRef, onUnmounted, watchEffect } from 'vue'
+import { computed, watch, shallowRef, ShallowRef, onUnmounted, watchEffect } from 'vue'
 import { pick, hasSetter } from '../utils'
 import { useCientos } from './useCientos'
 
@@ -46,7 +46,6 @@ const transformProps = computed(() =>
     'showZ',
   ]),
 )
-
 
 const onChange = () => emit('change', controls.value)
 const onMouseDown = () => emit('mouseDown', controls.value)
@@ -96,7 +95,6 @@ watch(
     immediate: true,
   },
 )
-
 
 onUnmounted(() => {
   if (controls.value) {

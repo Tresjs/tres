@@ -2,6 +2,7 @@
 import { useRenderLoop } from '@tresjs/core'
 import { MathUtils } from 'three'
 import { ref, shallowRef } from 'vue'
+
 const props = withDefaults(
   defineProps<{
     speed: number
@@ -13,7 +14,7 @@ const props = withDefaults(
     speed: 1,
     rotationFactor: 1,
     floatFactor: 1,
-    range: [-0.1, 0.1],
+    range: () => [-0.1, 0.1],
   },
 )
 
