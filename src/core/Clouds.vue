@@ -4,7 +4,6 @@ import { TresColor, TresObject, useTexture, useRenderLoop } from '@tresjs/core'
 import { useCientos } from './useCientos'
 import { Object3D } from 'three'
 
-// chage values here
 export interface CloudsProps extends TresObject {
   /**
    * The color of the clouds.
@@ -56,12 +55,12 @@ export interface CloudsProps extends TresObject {
   segments?: number
   /**
    * The texture of the clouds.
-   * @default 10
-   * @type {number}
+   * @default 'https://raw.githubusercontent.com/Tresjs/assets/main/textures/clouds/defaultCloud.png'
+   * @type {string}
    * @memberof CloudsProps
    * @see https://threejs.org/docs/#api/en/materials/MeshStandardMaterial
    */
-  texture?: number
+  texture?: string
   /**
    * The depthTest.
    * @default 10
@@ -72,15 +71,23 @@ export interface CloudsProps extends TresObject {
   depthTest?: boolean
 }
 
+
 const props = withDefaults(defineProps<CloudsProps>(), {
   opacity: 0.5,
   speed: 0.4,
   width: 10,
   depth: 1.5,
   segments: 20,
-  texture: 'https://assets.codepen.io/4698468/pngwing.png',
+  texture: 'https://raw.githubusercontent.com/Tresjs/assets/main/textures/clouds/defaultCloud.png',
   color: '#ffffff',
   depthTest: true,
+})
+
+const cloudsRef = shallowRef()
+const groupRef = shallowRef()
+
+defineExpose({
+  value: cloudsRef,
 })
 
 const clouds = [...new Array(props.segments)].map((_, index) => ({
@@ -99,20 +106,13 @@ const encoding = computed(() => state.renderer?.outputEncoding)
 
 const { onLoop } = useRenderLoop()
 
-onLoop(({ elapsed}) => {
+onLoop(() => {
   if (cloudsRef.value && state.camera && groupRef.value) {
     groupRef.value?.children.forEach((cloud: Object3D, index: number) => {
       cloud.rotation.z += clouds[index].rotation
     })
     cloudsRef.value.lookAt(state.camera?.position)
   }
-})
-
-const cloudsRef = shallowRef()
-const groupRef = shallowRef()
-
-defineExpose({
-  value: cloudsRef,
 })
 </script>
 <template>
@@ -123,9 +123,9 @@ defineExpose({
         <TresMeshStandardMaterial
         :map="map"
         :map-encoding="encoding"
-        :depthTest="depthTest"
+        :depth-test="depthTest"
         :color="color"
-        :depthWrite="false"
+        :depth-write="false"
         transparent
         :opacity="opacity(scale, density)"
         />
