@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
-import { EffectComposer, Outline } from '/@post'
+import { EffectComposer, Outline, Glitch } from '/@post'
 import { BasicShadowMap, NoToneMapping, Object3D, Intersection } from 'three'
 import { ref } from 'vue'
 
@@ -22,8 +22,8 @@ const toggleMeshSelectionState = ({ object }: Intersection) => {
 </script>
 
 <template>
-  <TresCanvas v-bind="gl" :disable-render="true">
-    <TresPerspectiveCamera :position="[5, 5, 5]" :look-at="[2, 2, 2]" />
+  <TresCanvas v-bind="gl" disable-render>
+    <TresPerspectiveCamera :position="[4, 4, 4]" :look-at="[2, 2, 2]" />
 
     <template v-for="i in 5" :key="i">
       <TresMesh @click="toggleMeshSelectionState" :position="[i * 1.1 - 2.8, 1, 0]">
@@ -33,10 +33,10 @@ const toggleMeshSelectionState = ({ object }: Intersection) => {
     </template>
 
     <TresGridHelper />
-    <!-- <TresAmbientLight :intensity="1" /> -->
+    <TresAmbientLight :intensity="1" />
     <Suspense>
       <EffectComposer>
-        <!-- <Glitch /> -->
+        <Glitch />
         <Outline :outlined-objects="outlinedObjects" />
       </EffectComposer>
     </Suspense>

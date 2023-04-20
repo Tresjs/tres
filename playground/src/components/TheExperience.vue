@@ -13,7 +13,7 @@ const gl = {
 </script>
 
 <template>
-  <TresCanvas v-bind="gl" :disable-render="true">
+  <TresCanvas v-bind="gl" disable-render>
     <TresPerspectiveCamera :position="[5, 5, 5]" :look-at="[0, 0, 0]" />
 
     <TresMesh>

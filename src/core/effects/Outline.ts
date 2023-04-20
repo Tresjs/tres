@@ -1,6 +1,6 @@
 import { useCore } from '../useCore'
 import { BlendFunction, EffectPass, OutlineEffect } from 'postprocessing'
-import { defineComponent, inject, onUnmounted, shallowRef, toRaw, watch, watchEffect } from 'vue'
+import { defineComponent, inject, nextTick, onUnmounted, shallowRef, toRaw, watch, watchEffect } from 'vue'
 
 import type { Object3D } from 'three'
 
@@ -41,10 +41,16 @@ export const Outline = defineComponent<OutlineProps>({
       () => {
         effect.value?.selection.set(props.outlinedObjects || [])
       },
+      {
+        immediate: true,
+      },
     )
 
     onUnmounted(() => {
-      pass.value?.dispose() // TODO check if this redundant (maybe it is done by tres?)
+      effect.value?.selection.clear()
+      composer.value?.removePass(pass.value)
+      effect.value?.dispose()
+      pass.value?.dispose()
     })
 
     return () => {
