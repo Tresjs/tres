@@ -149,6 +149,12 @@ const localText = computed(() => {
   return 'TresJS'
 })
 
+const text3DRef = shallowRef()
+
+defineExpose({
+  value: text3DRef,
+})
+
 const font = await new Promise((resolve, reject) => {
   try {
     if (typeof props.font === 'string') {
@@ -177,8 +183,6 @@ const textOptions = computed(() => {
   }
 })
 
-const text3DRef = shallowRef()
-
 watchEffect(() => {
    if(text3DRef.value && props.needUpdates) {
         text3DRef.value.geometry.dispose()
@@ -186,11 +190,9 @@ watchEffect(() => {
    }
 })
 
-defineExpose({ text3DRef })
-
 </script>
 <template>
-  <TresMesh ref="text3DRef" v-if="font">
+  <TresMesh v-if="font" ref="text3DRef" >
     <TresTextGeometry v-if="localText" :args="[localText, textOptions]" :center="center" />
     <slot />
   </TresMesh>

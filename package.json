@@ -1,7 +1,7 @@
 {
   "name": "@tresjs/cientos",
   "description": "Collection of useful helpers and fully functional, ready-made abstractions for Tres",
-  "version": "2.0.0-alpha.5",
+  "version": "2.0.0-beta.3",
   "type": "module",
   "author": "Alvaro Saburido <hola@alvarosaburido.dev> (https://github.com/alvarosabu/)",
   "files": [
@@ -35,34 +35,46 @@
     "build": "vite build",
     "preview": "vite preview",
     "release": "release-it",
-    "lint": "eslint . --ext .js,.jsx,.ts,.tsx,.vue"
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx,.vue",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs"
   },
   "peerDependencies": {
-    "@tresjs/core": "2.0.0-alpha.1",
+    "@tresjs/core": "2.0.0-beta.10",
     "three": "latest",
     "vue": "^3.2.47"
   },
   "devDependencies": {
     "@alvarosabu/prettier-config": "^1.3.0",
     "@release-it/conventional-changelog": "^5.1.1",
+    "@tresjs/core": "2.0.0-beta.9",
     "@tweakpane/plugin-essentials": "^0.1.8",
-    "@types/three": "^0.149.0",
+    "@types/three": "^0.150.1",
     "@vitejs/plugin-vue": "^4.1.0",
+    "gsap": "^3.11.5",
     "kolorist": "^1.7.0",
     "pathe": "^1.1.0",
-    "prettier": "^2.8.4",
-    "release-it": "^15.9.1",
+    "prettier": "^2.8.7",
+    "release-it": "^15.10.1",
     "rollup-plugin-analyzer": "^4.0.0",
     "rollup-plugin-visualizer": "^5.9.0",
     "tweakpane": "^3.1.7",
-    "typescript": "^5.0.2",
-    "vite": "^4.2.0",
+    "typescript": "^5.0.4",
+    "unocss": "^0.51.4",
+    "vite": "^4.2.1",
     "vite-plugin-banner": "^0.7.0",
-    "vite-plugin-dts": "2.1.0"
+    "vite-plugin-dts": "2.2.0",
+    "vite-svg-loader": "^4.0.0",
+    "vitepress": "1.0.0-alpha.65",
+    "@typescript-eslint/eslint-plugin": "^5.58.0",
+    "@typescript-eslint/parser": "^5.58.0",
+    "eslint": "^8.38.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-vue": "^9.11.0"
   },
   "dependencies": {
-    "@tresjs/core": "2.0.0-alpha.1",
-    "@vueuse/core": "^9.13.0",
+    "@vueuse/core": "^10.0.2",
     "three": "^0.150.1",
     "three-stdlib": "^2.21.8",
     "vue": "^3.2.47"
