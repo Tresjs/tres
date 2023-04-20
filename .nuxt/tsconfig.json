@@ -17,18 +17,6 @@
     ],
     "baseUrl": "..",
     "paths": {
-      "~~": [
-        "."
-      ],
-      "~~/*": [
-        "./*"
-      ],
-      "@@": [
-        "."
-      ],
-      "@@/*": [
-        "./*"
-      ],
       "~": [
         "."
       ],
@@ -39,6 +27,18 @@
         "."
       ],
       "@/*": [
+        "./*"
+      ],
+      "~~": [
+        "."
+      ],
+      "~~/*": [
+        "./*"
+      ],
+      "@@": [
+        "."
+      ],
+      "@@/*": [
         "./*"
       ],
       "assets": [
@@ -54,22 +54,19 @@
         "public/*"
       ],
       "#app": [
-        "node_modules/.pnpm/nuxt@3.3.2/node_modules/nuxt/dist/app"
+        "node_modules/.pnpm/nuxt@3.4.1_@types+node@18.15.11/node_modules/nuxt/dist/app"
       ],
       "#app/*": [
-        "node_modules/.pnpm/nuxt@3.3.2/node_modules/nuxt/dist/app/*"
+        "node_modules/.pnpm/nuxt@3.4.1_@types+node@18.15.11/node_modules/nuxt/dist/app/*"
       ],
       "vue-demi": [
-        "node_modules/.pnpm/nuxt@3.3.2/node_modules/nuxt/dist/app/compat/vue-demi"
+        "node_modules/.pnpm/nuxt@3.4.1_@types+node@18.15.11/node_modules/nuxt/dist/app/compat/vue-demi"
       ],
       "#image": [
-        "node_modules/.pnpm/@nuxt+image-edge@1.0.0-27991759.1a5eea1/node_modules/@nuxt/image-edge/dist/runtime"
+        "node_modules/.pnpm/@nuxt+image-edge@1.0.0-28020728.5df24eb/node_modules/@nuxt/image-edge/dist/runtime"
       ],
       "#image/*": [
-        "node_modules/.pnpm/@nuxt+image-edge@1.0.0-27991759.1a5eea1/node_modules/@nuxt/image-edge/dist/runtime/*"
-      ],
-      "@vueuse/head": [
-        "node_modules/.pnpm/@unhead+vue@1.1.25_vue@3.2.47/node_modules/@unhead/vue/dist/index"
+        "node_modules/.pnpm/@nuxt+image-edge@1.0.0-28020728.5df24eb/node_modules/@nuxt/image-edge/dist/runtime/*"
       ],
       "#imports": [
         ".nuxt/imports"

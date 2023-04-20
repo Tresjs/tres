@@ -1,5 +1,5 @@
 export interface NuxtCustomSchema {
- [key: string]: any
+
 }
 export type CustomAppConfig = Exclude<NuxtCustomSchema['appConfig'], undefined>
 type _CustomAppConfig = CustomAppConfig

@@ -29,7 +29,7 @@ useHead({
     {
       hid: 'og:title',
       property: 'og:title',
-      content: `${data?.value?.title} - Tres`,
+      content: `${data?.value?.title} TresJS by @${data?.value?.author}`,
     },
     {
       hid: 'og:type',
