@@ -75,7 +75,7 @@
   },
   "dependencies": {
     "@vueuse/core": "^10.0.2",
-    "three": "^0.150.1",
+    "three": "^0.151.0",
     "three-stdlib": "^2.21.8",
     "vue": "^3.2.47"
   }

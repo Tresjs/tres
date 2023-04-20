@@ -5,11 +5,11 @@ dependencies:
     specifier: ^10.0.2
     version: 10.0.2(vue@3.2.47)
   three:
-    specifier: ^0.150.1
-    version: 0.150.1
+    specifier: ^0.151.0
+    version: 0.151.0
   three-stdlib:
     specifier: ^2.21.8
-    version: 2.21.8(three@0.150.1)
+    version: 2.21.8(three@0.151.0)
   vue:
     specifier: ^3.2.47
     version: 3.2.47
@@ -23,7 +23,7 @@ devDependencies:
     version: 5.1.1(release-it@15.10.1)
   '@tresjs/core':
     specifier: 2.0.0-beta.10
-    version: 2.0.0-beta.10(three@0.150.1)(vue@3.2.47)
+    version: 2.0.0-beta.10(three@0.151.0)(vue@3.2.47)
   '@tweakpane/plugin-essentials':
     specifier: ^0.1.8
     version: 0.1.8(tweakpane@3.1.7)
@@ -946,7 +946,7 @@ packages:
     engines: {node: '>= 6'}
     dev: true
 
-  /@tresjs/core@2.0.0-beta.10(three@0.150.1)(vue@3.2.47):
+  /@tresjs/core@2.0.0-beta.10(three@0.151.0)(vue@3.2.47):
     resolution: {integrity: sha512-SGkHnskrjbLwavnqLvaI3RfNh1XXjR58jTlnpjoOYDjU5LyQFcQAEbCgnbYnLmg5vufe01pywBnnjv9+try8qg==}
     peerDependencies:
       three: latest
@@ -954,7 +954,7 @@ packages:
     dependencies:
       '@alvarosabu/utils': 2.3.0
       '@vueuse/core': 9.13.0(vue@3.2.47)
-      three: 0.150.1
+      three: 0.151.0
       vue: 3.2.47
     transitivePeerDependencies:
       - '@vue/composition-api'
@@ -5336,7 +5336,7 @@ packages:
     resolution: {integrity: sha512-N+8UisAXDGk8PFXP4HAzVR9nbfmVJ3zYLAWiTIoqC5v5isinhr+r5uaO8+7r3BMfuNIufIsA7RdpVgacC2cSpw==}
     dev: true
 
-  /three-stdlib@2.21.8(three@0.150.1):
+  /three-stdlib@2.21.8(three@0.151.0):
     resolution: {integrity: sha512-kqisiKvO4mSy59v5vWqBQSH8famLxp7Z51LxpMJI9GwDxqODaW02rhIwmjYDEzZWNFpjZpoDHVGbdpeHf8h3SA==}
     peerDependencies:
       three: '>=0.122.0'
@@ -5351,12 +5351,12 @@ packages:
       mmd-parser: 1.0.4
       opentype.js: 1.3.4
       potpack: 1.0.2
-      three: 0.150.1
+      three: 0.151.0
       zstddec: 0.0.2
     dev: false
 
-  /three@0.150.1:
-    resolution: {integrity: sha512-5C1MqKUWaHYo13BX0Q64qcdwImgnnjSOFgBscOzAo8MYCzEtqfQqorEKMcajnA3FHy1yVlIe9AmaMQ0OQracNA==}
+  /three@0.151.0:
+    resolution: {integrity: sha512-ZvjJbNhZ/t0L8I36tc1I1ZP9j1q42ANE9WTlR+P3lZfOzlSfNa5VfR1rZRHNyjn/ZPP4kU7xGI1v8QSJOpxE4w==}
 
   /through2@2.0.5:
     resolution: {integrity: sha512-/mrRod8xqpA+IHSLyGCQ2s8SPHiCDEeQJSep1jqLYeEUClOFG2Qsh+4FU6G9VeqpZnGW/Su8LQGc4YKni5rYSQ==}
