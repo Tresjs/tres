@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
-import { EffectComposer, Glitch } from '/@post'
-import { BasicShadowMap, sRGBEncoding, NoToneMapping } from 'three'
+import { EffectComposer, Glitch } from '@post'
+import { BasicShadowMap, NoToneMapping } from 'three'
 
 const gl = {
   clearColor: '#82DBC5',

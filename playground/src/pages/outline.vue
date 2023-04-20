@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { TresCanvas } from '@tresjs/core'
-import { EffectComposer, Outline, Glitch } from '/@post'
-import { BasicShadowMap, NoToneMapping, Object3D, Intersection } from 'three'
 import { ref } from 'vue'
+import { TresCanvas } from '@tresjs/core'
+import { EffectComposer, Outline, Glitch } from '@post'
+import { BasicShadowMap, NoToneMapping, Object3D, Intersection } from 'three'
 
 const gl = {
   clearColor: '#4ADE80',
