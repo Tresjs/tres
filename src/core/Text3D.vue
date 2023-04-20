@@ -133,6 +133,7 @@ const props = withDefaults(defineProps<Text3DProps>(), {
   bevelOffset: 0,
   bevelSegments: 4,
   center: false,
+  needUpdates: false,
 })
 
 const { extend } = useCientos()
@@ -144,9 +145,9 @@ const loader = new FontLoader()
 const slots = useSlots()
 
 const localText = computed(() => {
-  if (props.text) return props.text
+  if (props.text ) return props.text
   else if (slots.default) return (slots.default()[0].children as string)?.trim()
-  return 'TresJS'
+  return props.needUpdates ? '' : 'TresJS'
 })
 
 const text3DRef = shallowRef()
@@ -187,6 +188,9 @@ watchEffect(() => {
    if(text3DRef.value && props.needUpdates) {
         text3DRef.value.geometry.dispose()
         text3DRef.value.geometry = new TextGeometry(localText.value, textOptions.value)
+        if(props.center){
+          text3DRef.value.geometry.center()
+        }
    }
 })
 
