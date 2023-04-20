@@ -1,5 +1,7 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import TheSmoke from '../components/TheSmoke.vue'
 
+</script>
 <template>
-  <LeviosoDemo />
+    <TheSmoke />
 </template>

@@ -23,11 +23,9 @@ Notice that you can pass a texture as an alphaMap to personalize the star shape
 ```vue
 <template>
   <TresCanvas>
-   <TresCanvas>
   ...
     <Stars :radius="50" :depth="20" :count="3000" :alphaMap="alphaMap"  />
     ...
-  </TresCanvas>
   </TresCanvas>
 </template>
 ```
