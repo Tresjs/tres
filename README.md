@@ -1,13 +1,12 @@
-![repository-banner.png](https://tresjs.org/cientos-banner.png)
+![repository-banner.png](/public/repo-banner.png)
 
 <p align="center">
-  <a href="https://www.npmjs.com/package/@tresjs/core"><img src="https://img.shields.io/npm/v/@tresjs/core?color=%2382DBCA" alt="npm package"></a>
-  <a href="https://nodejs.org/en/about/releases/"><img src="https://img.shields.io/node/v/@tresjs/core.svg" alt="node compatibility"></a>
+  <a href="https://www.npmjs.com/package/@tresjs/cientos"><img src="https://img.shields.io/npm/v/@tresjs/cientos/beta?color=%2382DBCA" alt="npm package"></a>
   <a href="https://discord.gg/tfY9aSNT"><img src="https://img.shields.io/badge/chat-discord-purple?style=flat&logo=discord" alt="discord chat"></a>
 </p>
 <br/>
 
-# Cientos 
+# Cientos
 
 > Collection of useful helpers and fully functional, ready-made abstractions for Tres
 
@@ -18,22 +17,69 @@
 
 Cientos (Spanish word for "hundreds", pronounced /θjentos/ ) is is a collection of useful ready-to-go helpers and components that are not part of the core package. The name uses the word uses in spanish to multiply by 100, to refer to the potential reach of the package to hold a amazing abstractions.
 
-The cientos package uses three-stdlib module under the hood instead of the three/examples/jsm module. This means that you don't need to extend the catalogue of components using the extend method of the useCatalogue composable, cientos does it for you.
+The cientos package uses three-stdlib module under the hood instead of the three/examples/jsm module. This means that you don't need to extend the catalogue of components using the extend method from the `core`, cientos does it for you.
 
 It just works. 💯
 
+## Installation
+
+```bash
+pnpm i @tresjs/cientos
+```
 
 ## Docs
 
-Checkout the [docs](https://tresjs.org/cientos/)
+Checkout the [docs](https://cientos.tresjs.org/)
 
 ## Demos
 
 - [Stackblitz Collection](https://stackblitz.com/@alvarosabu/collections/tresjs)
 
-## Contribution
+## Contributing
 
 We are open to contributions, please read the [contributing guide](/CONTRIBUTING.md) to get started.
+
+### Build
+
+To build the package run:
+
+```bash
+pnpm run build
+```
+
+### Playground
+
+To run the playground run, its a great way to test the components and helpers locally:
+
+First install dependencies
+
+```
+pnpm i
+```
+
+And then to run the development server on http://localhost:5173
+
+```bash
+pnpm run playground
+```
+
+### Test
+
+TODO...
+
+### Docs
+
+To run de docs in dev mode
+
+```bash
+pnpm run docs:dev
+```
+
+To build them
+
+```bash
+pnpm run docs:build
+```
 
 ## License
 

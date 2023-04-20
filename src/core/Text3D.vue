@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { TextGeometry, FontLoader } from 'three-stdlib'
 
-import { computed, useSlots } from 'vue'
+import { computed, useSlots, shallowRef } from 'vue'
 import { useCientos } from './useCientos'
 
 export type Glyph = {
@@ -141,6 +141,12 @@ const localText = computed(() => {
   return 'TresJS'
 })
 
+const textRef = shallowRef()
+
+defineExpose({
+  value: textRef,
+})
+
 const font = await new Promise((resolve, reject) => {
   try {
     if (typeof props.font === 'string') {
@@ -168,9 +174,10 @@ const textOptions = computed(() => {
     bevelSegments: props.bevelSegments,
   }
 })
+
 </script>
 <template>
-  <TresMesh v-if="font">
+  <TresMesh v-if="font" ref="textRef" v-bind="$attrs">
     <TresTextGeometry v-if="localText" :args="[localText, textOptions]" :center="center" />
     <slot />
   </TresMesh>
