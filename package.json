@@ -64,7 +64,7 @@
     "unocss": "^0.51.4",
     "vite": "^4.2.1",
     "vite-plugin-banner": "^0.7.0",
-    "vite-plugin-dts": "2.2.0",
+    "vite-plugin-dts": "2.3.0",
     "vite-svg-loader": "^4.0.0",
     "vitepress": "1.0.0-alpha.72",
     "@typescript-eslint/eslint-plugin": "^5.58.0",
