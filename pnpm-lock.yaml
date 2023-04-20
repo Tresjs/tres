@@ -22,8 +22,8 @@ devDependencies:
     specifier: ^5.1.1
     version: 5.1.1(release-it@15.10.1)
   '@tresjs/core':
-    specifier: 2.0.0-beta.9
-    version: 2.0.0-beta.9(three@0.150.1)(vue@3.2.47)
+    specifier: 2.0.0-beta.10
+    version: 2.0.0-beta.10(three@0.150.1)(vue@3.2.47)
   '@tweakpane/plugin-essentials':
     specifier: ^0.1.8
     version: 0.1.8(tweakpane@3.1.7)
@@ -946,8 +946,8 @@ packages:
     engines: {node: '>= 6'}
     dev: true
 
-  /@tresjs/core@2.0.0-beta.9(three@0.150.1)(vue@3.2.47):
-    resolution: {integrity: sha512-UNhtDjB4Y2KohEY0EIqvS6jKewMvFk2uZH0eVgYi1Jcw27lv0xu1OETxSMBj7wLBJCBHZdupFYpcfWLw59fbSA==}
+  /@tresjs/core@2.0.0-beta.10(three@0.150.1)(vue@3.2.47):
+    resolution: {integrity: sha512-SGkHnskrjbLwavnqLvaI3RfNh1XXjR58jTlnpjoOYDjU5LyQFcQAEbCgnbYnLmg5vufe01pywBnnjv9+try8qg==}
     peerDependencies:
       three: latest
       vue: ^3.2.47
