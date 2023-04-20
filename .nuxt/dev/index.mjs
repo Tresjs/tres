@@ -1,54 +1,54 @@
-globalThis._importMeta_={url:import.meta.url,env:process.env};import 'file:///Users/alvarosabu/Projects/tres/playground/node_modules/.pnpm/node-fetch-native@1.0.2/node_modules/node-fetch-native/dist/polyfill.mjs';
+globalThis._importMeta_={url:import.meta.url,env:process.env};import 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/node-fetch-native@1.0.2/node_modules/node-fetch-native/dist/polyfill.mjs';
 import { Server } from 'node:http';
 import { tmpdir } from 'node:os';
 import { join as join$1 } from 'node:path';
 import { mkdirSync } from 'node:fs';
 import { parentPort, threadId } from 'node:worker_threads';
-import { provider, isWindows } from 'file:///Users/alvarosabu/Projects/tres/playground/node_modules/.pnpm/std-env@3.3.2/node_modules/std-env/dist/index.mjs';
-import { defineEventHandler, handleCacheHeaders, createEvent, eventHandler, setHeaders, sendRedirect, proxyRequest, setResponseStatus, getRequestHeader, setResponseHeader, getRequestHeaders, getQuery, getCookie, createError, createApp, createRouter as createRouter$1, toNodeListener, fetchWithEvent, lazyEventHandler } from 'file:///Users/alvarosabu/Projects/tres/playground/node_modules/.pnpm/h3@1.6.2/node_modules/h3/dist/index.mjs';
-import { createRenderer } from 'file:///Users/alvarosabu/Projects/tres/playground/node_modules/.pnpm/vue-bundle-renderer@1.0.3/node_modules/vue-bundle-renderer/dist/runtime.mjs';
-import devalue from 'file:///Users/alvarosabu/Projects/tres/playground/node_modules/.pnpm/@nuxt+devalue@2.0.0/node_modules/@nuxt/devalue/dist/devalue.mjs';
-import { renderToString } from 'file:///Users/alvarosabu/Projects/tres/playground/node_modules/.pnpm/vue@3.2.47/node_modules/vue/server-renderer/index.mjs';
-import { createFetch as createFetch$1, Headers } from 'file:///Users/alvarosabu/Projects/tres/playground/node_modules/.pnpm/ofetch@1.0.1/node_modules/ofetch/dist/node.mjs';
-import destr from 'file:///Users/alvarosabu/Projects/tres/playground/node_modules/.pnpm/destr@1.2.2/node_modules/destr/dist/index.mjs';
-import { createCall, createFetch } from 'file:///Users/alvarosabu/Projects/tres/playground/node_modules/.pnpm/unenv@1.2.2/node_modules/unenv/runtime/fetch/index.mjs';
-import { createHooks } from 'file:///Users/alvarosabu/Projects/tres/playground/node_modules/.pnpm/hookable@5.5.2/node_modules/hookable/dist/index.mjs';
-import { snakeCase, kebabCase, pascalCase, camelCase } from 'file:///Users/alvarosabu/Projects/tres/playground/node_modules/.pnpm/scule@1.0.0/node_modules/scule/dist/index.mjs';
-import defu, { defuFn } from 'file:///Users/alvarosabu/Projects/tres/playground/node_modules/.pnpm/defu@6.1.2/node_modules/defu/dist/defu.mjs';
-import { hash } from 'file:///Users/alvarosabu/Projects/tres/playground/node_modules/.pnpm/ohash@1.0.0/node_modules/ohash/dist/index.mjs';
-import { parseURL, withoutBase, joinURL, withQuery, withLeadingSlash, withoutTrailingSlash, isRelative } from 'file:///Users/alvarosabu/Projects/tres/playground/node_modules/.pnpm/ufo@1.1.1/node_modules/ufo/dist/index.mjs';
-import { createStorage, prefixStorage } from 'file:///Users/alvarosabu/Projects/tres/playground/node_modules/.pnpm/unstorage@1.4.1/node_modules/unstorage/dist/index.mjs';
-import unstorage_47drivers_47fs from 'file:///Users/alvarosabu/Projects/tres/playground/node_modules/.pnpm/unstorage@1.4.1/node_modules/unstorage/drivers/fs.mjs';
-import { toRouteMatcher, createRouter } from 'file:///Users/alvarosabu/Projects/tres/playground/node_modules/.pnpm/radix3@1.0.1/node_modules/radix3/dist/index.mjs';
-import { extname, join } from 'file:///Users/alvarosabu/Projects/tres/playground/node_modules/.pnpm/pathe@1.1.0/node_modules/pathe/dist/index.mjs';
-import { unified } from 'file:///Users/alvarosabu/Projects/tres/playground/node_modules/.pnpm/unified@10.1.2/node_modules/unified/index.js';
-import { toString } from 'file:///Users/alvarosabu/Projects/tres/playground/node_modules/.pnpm/mdast-util-to-string@3.1.1/node_modules/mdast-util-to-string/index.js';
-import { preprocess } from 'file:///Users/alvarosabu/Projects/tres/playground/node_modules/.pnpm/micromark@3.1.0/node_modules/micromark/dev/lib/preprocess.js';
-import { postprocess } from 'file:///Users/alvarosabu/Projects/tres/playground/node_modules/.pnpm/micromark@3.1.0/node_modules/micromark/dev/lib/postprocess.js';
-import { stringifyPosition } from 'file:///Users/alvarosabu/Projects/tres/playground/node_modules/.pnpm/unist-util-stringify-position@3.0.3/node_modules/unist-util-stringify-position/index.js';
-import { markdownLineEnding, markdownSpace } from 'file:///Users/alvarosabu/Projects/tres/playground/node_modules/.pnpm/micromark-util-character@1.1.0/node_modules/micromark-util-character/dev/index.js';
-import { push, splice } from 'file:///Users/alvarosabu/Projects/tres/playground/node_modules/.pnpm/micromark-util-chunked@1.0.0/node_modules/micromark-util-chunked/dev/index.js';
-import { resolveAll } from 'file:///Users/alvarosabu/Projects/tres/playground/node_modules/.pnpm/micromark-util-resolve-all@1.0.0/node_modules/micromark-util-resolve-all/index.js';
-import remarkEmoji from 'file:///Users/alvarosabu/Projects/tres/playground/node_modules/.pnpm/remark-emoji@3.1.1/node_modules/remark-emoji/index.js';
-import rehypeSlug from 'file:///Users/alvarosabu/Projects/tres/playground/node_modules/.pnpm/rehype-slug@5.1.0/node_modules/rehype-slug/index.js';
-import remarkSqueezeParagraphs from 'file:///Users/alvarosabu/Projects/tres/playground/node_modules/.pnpm/remark-squeeze-paragraphs@5.0.1/node_modules/remark-squeeze-paragraphs/index.js';
-import rehypeExternalLinks from 'file:///Users/alvarosabu/Projects/tres/playground/node_modules/.pnpm/rehype-external-links@2.0.1/node_modules/rehype-external-links/index.js';
-import remarkGfm from 'file:///Users/alvarosabu/Projects/tres/playground/node_modules/.pnpm/remark-gfm@3.0.1/node_modules/remark-gfm/index.js';
-import rehypeSortAttributeValues from 'file:///Users/alvarosabu/Projects/tres/playground/node_modules/.pnpm/rehype-sort-attribute-values@4.0.0/node_modules/rehype-sort-attribute-values/index.js';
-import rehypeSortAttributes from 'file:///Users/alvarosabu/Projects/tres/playground/node_modules/.pnpm/rehype-sort-attributes@4.0.0/node_modules/rehype-sort-attributes/index.js';
-import rehypeRaw from 'file:///Users/alvarosabu/Projects/tres/playground/node_modules/.pnpm/rehype-raw@6.1.1/node_modules/rehype-raw/index.js';
-import remarkMDC, { parseFrontMatter } from 'file:///Users/alvarosabu/Projects/tres/playground/node_modules/.pnpm/remark-mdc@1.1.3/node_modules/remark-mdc/dist/index.mjs';
-import remarkParse from 'file:///Users/alvarosabu/Projects/tres/playground/node_modules/.pnpm/remark-parse@10.0.1/node_modules/remark-parse/index.js';
-import remark2rehype from 'file:///Users/alvarosabu/Projects/tres/playground/node_modules/.pnpm/remark-rehype@10.1.0/node_modules/remark-rehype/index.js';
-import { all } from 'file:///Users/alvarosabu/Projects/tres/playground/node_modules/.pnpm/mdast-util-to-hast@12.3.0/node_modules/mdast-util-to-hast/index.js';
-import { detab } from 'file:///Users/alvarosabu/Projects/tres/playground/node_modules/.pnpm/detab@3.0.2/node_modules/detab/index.js';
-import { u } from 'file:///Users/alvarosabu/Projects/tres/playground/node_modules/.pnpm/unist-builder@3.0.1/node_modules/unist-builder/index.js';
-import { encode } from 'file:///Users/alvarosabu/Projects/tres/playground/node_modules/.pnpm/mdurl@1.0.1/node_modules/mdurl/index.js';
-import slugify from 'file:///Users/alvarosabu/Projects/tres/playground/node_modules/.pnpm/slugify@1.6.6/node_modules/slugify/slugify.js';
-import { position } from 'file:///Users/alvarosabu/Projects/tres/playground/node_modules/.pnpm/unist-util-position@4.0.4/node_modules/unist-util-position/index.js';
-import { visit } from 'file:///Users/alvarosabu/Projects/tres/playground/node_modules/.pnpm/unist-util-visit@4.1.2/node_modules/unist-util-visit/index.js';
-import { BUNDLED_LANGUAGES, BUNDLED_THEMES, getHighlighter } from 'file:///Users/alvarosabu/Projects/tres/playground/node_modules/.pnpm/shiki-es@0.2.0/node_modules/shiki-es/dist/shiki.node.mjs';
-import consola from 'file:///Users/alvarosabu/Projects/tres/playground/node_modules/.pnpm/unenv@1.2.2/node_modules/unenv/runtime/npm/consola.mjs';
+import { provider, isWindows } from 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/std-env@3.3.2/node_modules/std-env/dist/index.mjs';
+import { defineEventHandler, handleCacheHeaders, createEvent, eventHandler, setHeaders, sendRedirect, proxyRequest, setResponseStatus, getRequestHeader, setResponseHeader, getRequestHeaders, getQuery, getCookie, createError, createApp, createRouter as createRouter$1, toNodeListener, fetchWithEvent, lazyEventHandler } from 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/h3@1.6.2/node_modules/h3/dist/index.mjs';
+import { createRenderer } from 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/vue-bundle-renderer@1.0.3/node_modules/vue-bundle-renderer/dist/runtime.mjs';
+import devalue from 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/@nuxt+devalue@2.0.0/node_modules/@nuxt/devalue/dist/devalue.mjs';
+import { renderToString } from 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/vue@3.2.47/node_modules/vue/server-renderer/index.mjs';
+import { createFetch as createFetch$1, Headers } from 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/ofetch@1.0.1/node_modules/ofetch/dist/node.mjs';
+import destr from 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/destr@1.2.2/node_modules/destr/dist/index.mjs';
+import { createCall, createFetch } from 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/unenv@1.2.2/node_modules/unenv/runtime/fetch/index.mjs';
+import { createHooks } from 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/hookable@5.5.2/node_modules/hookable/dist/index.mjs';
+import { snakeCase, kebabCase, pascalCase, camelCase } from 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/scule@1.0.0/node_modules/scule/dist/index.mjs';
+import defu, { defuFn } from 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/defu@6.1.2/node_modules/defu/dist/defu.mjs';
+import { hash } from 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/ohash@1.0.0/node_modules/ohash/dist/index.mjs';
+import { parseURL, withoutBase, joinURL, withQuery, withLeadingSlash, withoutTrailingSlash, isRelative } from 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/ufo@1.1.1/node_modules/ufo/dist/index.mjs';
+import { createStorage, prefixStorage } from 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/unstorage@1.4.1/node_modules/unstorage/dist/index.mjs';
+import unstorage_47drivers_47fs from 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/unstorage@1.4.1/node_modules/unstorage/drivers/fs.mjs';
+import { toRouteMatcher, createRouter } from 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/radix3@1.0.1/node_modules/radix3/dist/index.mjs';
+import { extname, join } from 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/pathe@1.1.0/node_modules/pathe/dist/index.mjs';
+import { unified } from 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/unified@10.1.2/node_modules/unified/index.js';
+import { toString } from 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/mdast-util-to-string@3.1.1/node_modules/mdast-util-to-string/index.js';
+import { preprocess } from 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/micromark@3.1.0/node_modules/micromark/dev/lib/preprocess.js';
+import { postprocess } from 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/micromark@3.1.0/node_modules/micromark/dev/lib/postprocess.js';
+import { stringifyPosition } from 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/unist-util-stringify-position@3.0.3/node_modules/unist-util-stringify-position/index.js';
+import { markdownLineEnding, markdownSpace } from 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/micromark-util-character@1.1.0/node_modules/micromark-util-character/dev/index.js';
+import { push, splice } from 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/micromark-util-chunked@1.0.0/node_modules/micromark-util-chunked/dev/index.js';
+import { resolveAll } from 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/micromark-util-resolve-all@1.0.0/node_modules/micromark-util-resolve-all/index.js';
+import remarkEmoji from 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/remark-emoji@3.1.1/node_modules/remark-emoji/index.js';
+import rehypeSlug from 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/rehype-slug@5.1.0/node_modules/rehype-slug/index.js';
+import remarkSqueezeParagraphs from 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/remark-squeeze-paragraphs@5.0.1/node_modules/remark-squeeze-paragraphs/index.js';
+import rehypeExternalLinks from 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/rehype-external-links@2.0.1/node_modules/rehype-external-links/index.js';
+import remarkGfm from 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/remark-gfm@3.0.1/node_modules/remark-gfm/index.js';
+import rehypeSortAttributeValues from 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/rehype-sort-attribute-values@4.0.0/node_modules/rehype-sort-attribute-values/index.js';
+import rehypeSortAttributes from 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/rehype-sort-attributes@4.0.0/node_modules/rehype-sort-attributes/index.js';
+import rehypeRaw from 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/rehype-raw@6.1.1/node_modules/rehype-raw/index.js';
+import remarkMDC, { parseFrontMatter } from 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/remark-mdc@1.1.3/node_modules/remark-mdc/dist/index.mjs';
+import remarkParse from 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/remark-parse@10.0.1/node_modules/remark-parse/index.js';
+import remark2rehype from 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/remark-rehype@10.1.0/node_modules/remark-rehype/index.js';
+import { all } from 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/mdast-util-to-hast@12.3.0/node_modules/mdast-util-to-hast/index.js';
+import { detab } from 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/detab@3.0.2/node_modules/detab/index.js';
+import { u } from 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/unist-builder@3.0.1/node_modules/unist-builder/index.js';
+import { encode } from 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/mdurl@1.0.1/node_modules/mdurl/index.js';
+import slugify from 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/slugify@1.6.6/node_modules/slugify/slugify.js';
+import { position } from 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/unist-util-position@4.0.4/node_modules/unist-util-position/index.js';
+import { visit } from 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/unist-util-visit@4.1.2/node_modules/unist-util-visit/index.js';
+import { BUNDLED_LANGUAGES, BUNDLED_THEMES, getHighlighter } from 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/shiki-es@0.2.0/node_modules/shiki-es/dist/shiki.node.mjs';
+import consola from 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/unenv@1.2.2/node_modules/unenv/runtime/npm/consola.mjs';
 
 const inlineAppConfig = {};
 
@@ -97,7 +97,7 @@ function deepFreeze(object) {
   return Object.freeze(object);
 }
 
-const serverAssets = [{"baseName":"server","dir":"/Users/alvarosabu/Projects/tres/playground/server/assets"}];
+const serverAssets = [{"baseName":"server","dir":"C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/server/assets"}];
 
 const assets = createStorage();
 
@@ -109,12 +109,12 @@ const storage = createStorage({});
 
 storage.mount('/assets', assets);
 
-storage.mount('content:source:content', unstorage_47drivers_47fs({"name":"content:source:content","driver":"fs","base":"/Users/alvarosabu/Projects/tres/playground/content","ignore":["**/node_modules/**","**/.git/**"]}));
-storage.mount('cache:content', unstorage_47drivers_47fs({"driver":"fs","base":"/Users/alvarosabu/Projects/tres/playground/.nuxt/content-cache","ignore":["**/node_modules/**","**/.git/**"]}));
-storage.mount('root', unstorage_47drivers_47fs({"driver":"fs","readOnly":true,"base":"/Users/alvarosabu/Projects/tres/playground","ignore":["**/node_modules/**","**/.git/**"]}));
-storage.mount('src', unstorage_47drivers_47fs({"driver":"fs","readOnly":true,"base":"/Users/alvarosabu/Projects/tres/playground/server","ignore":["**/node_modules/**","**/.git/**"]}));
-storage.mount('build', unstorage_47drivers_47fs({"driver":"fs","readOnly":false,"base":"/Users/alvarosabu/Projects/tres/playground/.nuxt","ignore":["**/node_modules/**","**/.git/**"]}));
-storage.mount('cache', unstorage_47drivers_47fs({"driver":"fs","readOnly":false,"base":"/Users/alvarosabu/Projects/tres/playground/.nuxt/cache","ignore":["**/node_modules/**","**/.git/**"]}));
+storage.mount('content:source:content', unstorage_47drivers_47fs({"name":"content:source:content","driver":"fs","base":"C:\\Users\\Jaime\\Desktop\\packages-libraries\\tres-group\\playground\\content","ignore":["**/node_modules/**","**/.git/**"]}));
+storage.mount('cache:content', unstorage_47drivers_47fs({"driver":"fs","base":"C:\\Users\\Jaime\\Desktop\\packages-libraries\\tres-group\\playground\\.nuxt\\content-cache","ignore":["**/node_modules/**","**/.git/**"]}));
+storage.mount('root', unstorage_47drivers_47fs({"driver":"fs","readOnly":true,"base":"C:\\Users\\Jaime\\Desktop\\packages-libraries\\tres-group\\playground","ignore":["**/node_modules/**","**/.git/**"]}));
+storage.mount('src', unstorage_47drivers_47fs({"driver":"fs","readOnly":true,"base":"C:\\Users\\Jaime\\Desktop\\packages-libraries\\tres-group\\playground\\server","ignore":["**/node_modules/**","**/.git/**"]}));
+storage.mount('build', unstorage_47drivers_47fs({"driver":"fs","readOnly":false,"base":"C:\\Users\\Jaime\\Desktop\\packages-libraries\\tres-group\\playground\\.nuxt","ignore":["**/node_modules/**","**/.git/**"]}));
+storage.mount('cache', unstorage_47drivers_47fs({"driver":"fs","readOnly":false,"base":"C:\\Users\\Jaime\\Desktop\\packages-libraries\\tres-group\\playground\\.nuxt\\cache","ignore":["**/node_modules/**","**/.git/**"]}));
 
 function useStorage(base = "") {
   return base ? prefixStorage(storage, base) : storage;
@@ -3139,7 +3139,7 @@ const json = defineTransformer({
     let parsed;
     if (typeof content === "string") {
       if (_id.endsWith("json5")) {
-        parsed = (await import('file:///Users/alvarosabu/Projects/tres/playground/node_modules/.pnpm/json5@2.2.3/node_modules/json5/lib/index.js').then((m) => m.default || m)).parse(content);
+        parsed = (await import('file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/json5@2.2.3/node_modules/json5/lib/index.js').then((m) => m.default || m)).parse(content);
       } else if (_id.endsWith("json")) {
         parsed = destr(content);
       }
@@ -3478,7 +3478,7 @@ const getContentQuery = (event) => {
   return query;
 };
 
-const _rDGGzR = defineEventHandler(async (event) => {
+const _KIy1bj = defineEventHandler(async (event) => {
   const query = getContentQuery(event);
   if (query.first) {
     const content = await serverQueryContent(event, query).findOne();
@@ -3509,7 +3509,7 @@ const _rDGGzR = defineEventHandler(async (event) => {
   return contents;
 });
 
-const _Mb5F9c = defineEventHandler(async (event) => {
+const _XeRrEz = defineEventHandler(async (event) => {
   const { content } = useRuntimeConfig();
   const now = Date.now();
   const contents = await serverQueryContent(event).find();
@@ -3611,7 +3611,7 @@ function isObject(obj) {
   return Object.prototype.toString.call(obj) === "[object Object]";
 }
 
-const _r79G32 = defineEventHandler(async (event) => {
+const _JySHFj = defineEventHandler(async (event) => {
   const query = getContentQuery(event);
   if (!isPreview(event) && Object.keys(query).length === 0) {
     const cache = await cacheStorage.getItem("content-navigation.json");
@@ -3648,18 +3648,18 @@ const _r79G32 = defineEventHandler(async (event) => {
   return createNav(contents, configs);
 });
 
-const _lazy_VNOrTh = () => Promise.resolve().then(function () { return renderer$1; });
+const _lazy_pXtl1L = () => Promise.resolve().then(function () { return renderer$1; });
 
 const handlers = [
-  { route: '/__nuxt_error', handler: _lazy_VNOrTh, lazy: true, middleware: false, method: undefined },
-  { route: '/api/_content/query/:qid/**:params', handler: _rDGGzR, lazy: false, middleware: false, method: "get" },
-  { route: '/api/_content/query/:qid', handler: _rDGGzR, lazy: false, middleware: false, method: "get" },
-  { route: '/api/_content/query', handler: _rDGGzR, lazy: false, middleware: false, method: "get" },
-  { route: '/api/_content/cache.json', handler: _Mb5F9c, lazy: false, middleware: false, method: "get" },
-  { route: '/api/_content/navigation/:qid/**:params', handler: _r79G32, lazy: false, middleware: false, method: "get" },
-  { route: '/api/_content/navigation/:qid', handler: _r79G32, lazy: false, middleware: false, method: "get" },
-  { route: '/api/_content/navigation', handler: _r79G32, lazy: false, middleware: false, method: "get" },
-  { route: '/**', handler: _lazy_VNOrTh, lazy: true, middleware: false, method: undefined }
+  { route: '/__nuxt_error', handler: _lazy_pXtl1L, lazy: true, middleware: false, method: undefined },
+  { route: '/api/_content/query/:qid/**:params', handler: _KIy1bj, lazy: false, middleware: false, method: "get" },
+  { route: '/api/_content/query/:qid', handler: _KIy1bj, lazy: false, middleware: false, method: "get" },
+  { route: '/api/_content/query', handler: _KIy1bj, lazy: false, middleware: false, method: "get" },
+  { route: '/api/_content/cache.json', handler: _XeRrEz, lazy: false, middleware: false, method: "get" },
+  { route: '/api/_content/navigation/:qid/**:params', handler: _JySHFj, lazy: false, middleware: false, method: "get" },
+  { route: '/api/_content/navigation/:qid', handler: _JySHFj, lazy: false, middleware: false, method: "get" },
+  { route: '/api/_content/navigation', handler: _JySHFj, lazy: false, middleware: false, method: "get" },
+  { route: '/**', handler: _lazy_pXtl1L, lazy: true, middleware: false, method: undefined }
 ];
 
 function createNitroApp() {
@@ -3791,9 +3791,9 @@ const appRootTag = "div";
 
 globalThis.__buildAssetsURL = buildAssetsURL;
 globalThis.__publicAssetsURL = publicAssetsURL;
-const getClientManifest = () => import('/Users/alvarosabu/Projects/tres/playground/.nuxt/dist/server/client.manifest.mjs').then((r) => r.default || r).then((r) => typeof r === "function" ? r() : r);
+const getClientManifest = () => import('file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/.nuxt/dist/server/client.manifest.mjs').then((r) => r.default || r).then((r) => typeof r === "function" ? r() : r);
 const getStaticRenderedHead = () => Promise.resolve().then(function () { return _virtual__headStatic$1; }).then((r) => r.default || r);
-const getServerEntry = () => import('/Users/alvarosabu/Projects/tres/playground/.nuxt/dist/server/server.mjs').then((r) => r.default || r);
+const getServerEntry = () => import('file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/.nuxt/dist/server/server.mjs').then((r) => r.default || r);
 const getSSRRenderer = lazyCachedFunction(async () => {
   const manifest = await getClientManifest();
   if (!manifest) {

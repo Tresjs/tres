@@ -25,6 +25,11 @@ const shader = {
     uTime: { value: 0 },
   },
 }
+const { onLoop } = useRenderLoop()
+
+onLoop(() => {
+  shader.uniforms.uTime.value += 0.01
+})
 </script>
 
 <template>
