@@ -1,5 +1,17 @@
 
 
+## [2.0.0-beta.11](https://github.com/Tresjs/tres/compare/2.0.0-beta.10...2.0.0-beta.11) (2023-04-20)
+
+
+### Bug Fixes
+
+* optional chaining on insert vnodes ([c2dcf52](https://github.com/Tresjs/tres/commit/c2dcf52c5e30a22953755a96d8bddbd955c5a1d8))
+
+
+### Reverts
+
+* Revert "edit getting-started.md" ([fcc6900](https://github.com/Tresjs/tres/commit/fcc690003654ff4ed9af836e8657de25cecda2be))
+
 ## [2.0.0-beta.10](https://github.com/Tresjs/tres/compare/2.0.0-beta.9...2.0.0-beta.10) (2023-04-19)
 
 
