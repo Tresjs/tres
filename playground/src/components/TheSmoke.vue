@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
-import { OrbitControls, Clouds } from '@cientos'
+import { OrbitControls, Smoke } from '@cientos'
 import { sRGBEncoding, NoToneMapping } from 'three'
 
 const gl = {
@@ -15,19 +15,19 @@ const gl = {
     <TresCanvas v-bind="gl" ref="canvas">
         <TresPerspectiveCamera :position="[0, 2, 5]" />
         <Suspense>
-            <Clouds :position="[-4, -2, 0]" :segments="8" />
+            <Smoke :position="[-4, -2, 0]" :segments="8" />
         </Suspense>
         <Suspense>
-            <Clouds :position="[-4, 2, 0]" :segments="8" />
+            <Smoke :position="[-4, 2, 0]" :segments="8" />
         </Suspense>
         <Suspense>
-            <Clouds :segments="8" />
+            <Smoke :segments="8" />
         </Suspense>
         <Suspense>
-            <Clouds :position="[4, -2, 0]" :segments="8" />
+            <Smoke :position="[4, -2, 0]" :segments="8" />
         </Suspense>
         <Suspense>
-            <Clouds :position="[4, 2, 0]" :segments="8" />
+            <Smoke :position="[4, 2, 0]" :segments="8" />
         </Suspense>
         <TresMesh ref="boxRef">
             <TresBoxGeometry :args="[1, 1, 1]" />

@@ -22,7 +22,7 @@ import Icosahedron from './core/Icosahedron.vue'
 import Octahedron from './core/Octahedron.vue'
 import Dodecahedron from './core/Dodecahedron.vue'
 import { Environment } from './core/useEnvironment/component'
-import Clouds from './core/Clouds.vue'
+import Smoke from './core/Smoke.vue'
 import Levioso from './core/Levioso.vue'
 import MeshWobbleMaterial from './core/meshWobbleMaterial/index.vue'
 export * from './core/useGLTF'
@@ -38,7 +38,7 @@ export {
   FBXModel,
   Stars,
   Text3D,
-  Clouds,
+  Smoke,
   Plane,
   Box,
   Sphere,

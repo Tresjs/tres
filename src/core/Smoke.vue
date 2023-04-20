@@ -4,12 +4,12 @@ import { TresColor, TresObject, useTexture, useRenderLoop } from '@tresjs/core'
 import { useCientos } from './useCientos'
 import { Object3D } from 'three'
 
-export interface CloudsProps extends TresObject {
+export interface SmokeProps extends TresObject {
   /**
-   * The color of the clouds.
+   * The color of the smoke.
    * @default 0xffffff
    * @type {TresColor}
-   * @memberof CloudsProps
+   * @memberof SmokeProps
    * @see https://threejs.org/docs/#api/en/materials/MeshStandardMaterial
    */
   color?: TresColor
@@ -17,15 +17,15 @@ export interface CloudsProps extends TresObject {
    * The strength of the opacity.
    * @default 0.5
    * @type {number}
-   * @memberof CloudsProps
+   * @memberof SmokeProps
    * @see https://threejs.org/docs/#api/en/materials/MeshStandardMaterial
    */
   opacity?: number
   /**
-   * The rotation speed of the clouds.
+   * The rotation speed of the smoke.
    * @default 0.4
    * @type {number}
-   * @memberof CloudsProps
+   * @memberof SmokeProps
    * @see https://threejs.org/docs/#api/en/materials/MeshStandardMaterial
    */
   speed?: number
@@ -33,7 +33,7 @@ export interface CloudsProps extends TresObject {
    * The base width.
    * @default 4
    * @type {number}
-   * @memberof CloudsProps
+   * @memberof SmokeProps
    * @see https://threejs.org/docs/#api/en/materials/MeshBasicMaterial
    */
   width?: number
@@ -41,23 +41,23 @@ export interface CloudsProps extends TresObject {
    * The base depth.
    * @default 10
    * @type {number}
-   * @memberof CloudsProps
+   * @memberof SmokeProps
    * @see https://threejs.org/docs/#api/en/geometries/PlaneGeometry
    */
   depth?: number
   /**
-   * The number of clouds to render.
+   * The number of smoke to render.
    * @default 10
    * @type {number}
-   * @memberof CloudsProps
+   * @memberof SmokeProps
    * @see https://threejs.org/docs/#api/en/materials/MeshStandardMaterial
    */
   segments?: number
   /**
-   * The texture of the clouds.
+   * The texture of the smoke.
    * @default 'https://raw.githubusercontent.com/Tresjs/assets/main/textures/clouds/defaultCloud.png'
    * @type {string}
-   * @memberof CloudsProps
+   * @memberof SmokeProps
    * @see https://threejs.org/docs/#api/en/materials/MeshStandardMaterial
    */
   texture?: string
@@ -65,14 +65,14 @@ export interface CloudsProps extends TresObject {
    * The depthTest.
    * @default 10
    * @type {boolean}
-   * @memberof CloudsProps
+   * @memberof SmokeProps
    * @see https://threejs.org/docs/#api/en/materials/MeshStandardMaterial
    */
   depthTest?: boolean
 }
 
 
-const props = withDefaults(defineProps<CloudsProps>(), {
+const props = withDefaults(defineProps<SmokeProps>(), {
   opacity: 0.5,
   speed: 0.4,
   width: 10,
@@ -83,14 +83,14 @@ const props = withDefaults(defineProps<CloudsProps>(), {
   depthTest: true,
 })
 
-const cloudsRef = shallowRef()
+const smokeRef = shallowRef()
 const groupRef = shallowRef()
 
 defineExpose({
-  value: cloudsRef,
+  value: smokeRef,
 })
 
-const clouds = [...new Array(props.segments)].map((_, index) => ({
+const smoke = [...new Array(props.segments)].map((_, index) => ({
   x: props.width / 2 - Math.random() * props.width,
   y: props.width / 2 - Math.random() * props.width,
   scale: 0.4 + Math.sin(((index + 1) / props.segments) * Math.PI) * ((0.2 + Math.random()) * 10),
@@ -107,18 +107,18 @@ const encoding = computed(() => state.renderer?.outputEncoding)
 const { onLoop } = useRenderLoop()
 
 onLoop(() => {
-  if (cloudsRef.value && state.camera && groupRef.value) {
-    groupRef.value?.children.forEach((cloud: Object3D, index: number) => {
-      cloud.rotation.z += clouds[index].rotation
+  if (smokeRef.value && state.camera && groupRef.value) {
+    groupRef.value?.children.forEach((child: Object3D, index: number) => {
+      child.rotation.z += smoke[index].rotation
     })
-    cloudsRef.value.lookAt(state.camera?.position)
+    smokeRef.value.lookAt(state.camera?.position)
   }
 })
 </script>
 <template>
-  <TresGroup ref="cloudsRef" v-bind="$attrs" >
+  <TresGroup ref="smokeRef" v-bind="$attrs" >
     <TresGroup ref="groupRef" :position="[0, 0, (segments / 2) * depth]">
-      <TresMesh v-for="({ scale, x, y, density }, index) in clouds" :key="index" :position="[x, y, -index * depth]">
+      <TresMesh v-for="({ scale, x, y, density }, index) in smoke" :key="index" :position="[x, y, -index * depth]">
         <TresPlaneGeometry :scale="[scale, scale, scale]" :rotation="[0, 0, 0]" />
         <TresMeshStandardMaterial
         :map="map"

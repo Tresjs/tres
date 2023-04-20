@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import TheClouds from '../components/TheClouds.vue'
+import TheSmoke from '../components/TheSmoke.vue'
 
 </script>
 <template>
-    <TheClouds />
+    <TheSmoke />
 </template>
