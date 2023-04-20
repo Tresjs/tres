@@ -78,7 +78,7 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
   },
   insert(child, parent) {
     if (
-      (child?.__vnode.type === 'TresGroup' || child?.__vnode.type === 'TresObject3D') &&
+      (child?.__vnode?.type === 'TresGroup' || child?.__vnode?.type === 'TresObject3D') &&
       parent === null &&
       !child?.__vnode?.ctx?.asyncResolved
     ) {
