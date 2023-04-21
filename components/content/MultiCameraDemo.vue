@@ -71,6 +71,7 @@ const animationList = pane.addBlade({
     { text: 'SwordAndShieldIdle', value: 'SwordAndShieldIdle' },
     { text: 'SwordAndShieldKick', value: 'SwordAndShieldKick' },
     { text: 'SwordAndShieldRun(back)', value: 'SwordAndShieldRun(back)' },
+    { text: 'SwordAndShieldRun', value: 'SwordAndShieldRun' },
     { text: 'SwordAndShieldSlash_2', value: 'SwordAndShieldSlash_2' },
     { text: 'SwordAndShieldSlash', value: 'SwordAndShieldSlash' },
     { text: 'T-Pose', value: 'T-Pose' },
