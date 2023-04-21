@@ -84,26 +84,57 @@ export const Outline = defineComponent({
     const pass = shallowRef<EffectPass | null>(null)
     const effect = shallowRef<OutlineEffect | null>(null)
 
-    type OutlineEffectParameters = ConstructorParameters<typeof OutlineEffect>[2]
+    type OutlineEffectParameters = NonNullable<
+      Exclude<
+        ConstructorParameters<typeof OutlineEffect>[2],
+        'width' | 'height' // excluded, because those are deprecated in postprocessing's OutlineEffec
+      >
+    >
+
+    const normalizeColor = (value: Color | Array<number> | string | number | ColorRepresentation) => {
+      //TODO import from core (after exporting it from there first 😊)
+      if (value instanceof Color) return value
+      if (Array.isArray(value)) return new Color(...value)
+
+      return new Color(value as ColorRepresentation)
+    }
+
+    const colorToNumber = (color: TresColor | undefined) =>
+      color !== undefined ? normalizeColor(color).getHex() : undefined
 
     const outlineEffectParameters = computed<OutlineEffectParameters>(() => {
-      const { outlinedObjects: _, visibleEdgeColor, hiddenEdgeColor, ...rest } = props
-
-      const normalizeColor = (value: Color | Array<number> | string | number | ColorRepresentation) => {
-        //TODO import from core (after exporting it from there first 😊)
-        if (value instanceof Color) return value
-        if (Array.isArray(value)) return new Color(...value)
-
-        return new Color(value as ColorRepresentation)
-      }
-
-      const colorToNumber = (color: TresColor | undefined) =>
-        color !== undefined ? normalizeColor(color).getHex() : undefined
+      const {
+        blur,
+        xRay,
+        kernelSize,
+        pulseSpeed,
+        resolutionX,
+        resolutionY,
+        patternScale,
+        edgeStrength,
+        blendFunction,
+        multisampling,
+        patternTexture,
+        resolutionScale,
+        hiddenEdgeColor,
+        visibleEdgeColor,
+      } = props // thre rest operator (const {outlinedObjects: _, ...rest} = props) was intentionally not used here to prevent triggering this computed when outlinedObjects changes
 
       return {
-        visibleEdgeColor: colorToNumber(props.visibleEdgeColor),
-        hiddenEdgeColor: colorToNumber(props.hiddenEdgeColor),
-        ...rest,
+        blur,
+        xRay,
+        kernelSize,
+        pulseSpeed,
+        resolutionX,
+        resolutionY,
+        patternScale,
+        edgeStrength,
+        blendFunction,
+        multisampling,
+        patternTexture,
+        resolutionScale,
+        hiddenEdgeColor: colorToNumber(hiddenEdgeColor),
+        visibleEdgeColor: colorToNumber(visibleEdgeColor),
       }
     })
 
@@ -117,8 +148,6 @@ export const Outline = defineComponent({
       }
     })
 
-    //TODO update OutlineEffect's properties
-
     watch(
       [() => props.outlinedObjects, effect], // whatchEffect is intentionally not used here as it would result in an endless loop
       () => {
@@ -128,6 +157,47 @@ export const Outline = defineComponent({
         immediate: true,
       },
     )
+
+    watchEffect(() => {
+      if (!effect.value) return
+
+      const plainEffectPass = new OutlineEffect()
+
+      /* some properties are not updated because of different reasons:
+        resolutionX - has no setter in OutlineEffect
+        resolutionY - has no setter in OutlineEffect
+        blendFunction - has no setter in OutlineEffect
+        patternTexture - different type in constructor and in setter
+        resolutionScale - has no setter in OutlineEffect
+      */
+
+      const {
+        blur,
+        xRay,
+        kernelSize,
+        pulseSpeed,
+        patternScale,
+        edgeStrength,
+        multisampling,
+        hiddenEdgeColor,
+        visibleEdgeColor,
+      } = outlineEffectParameters.value
+
+      effect.value.blur = blur !== undefined ? blur : plainEffectPass.blur
+      effect.value.xRay = xRay !== undefined ? xRay : plainEffectPass.xRay
+      effect.value.pulseSpeed = pulseSpeed !== undefined ? pulseSpeed : plainEffectPass.pulseSpeed
+      effect.value.kernelSize = kernelSize !== undefined ? kernelSize : plainEffectPass.kernelSize
+      effect.value.edgeStrength = edgeStrength !== undefined ? edgeStrength : plainEffectPass.edgeStrength
+      effect.value.patternScale = patternScale !== undefined ? patternScale : plainEffectPass.patternScale
+      effect.value.multisampling = multisampling !== undefined ? multisampling : plainEffectPass.multisampling
+
+      effect.value.hiddenEdgeColor =
+        hiddenEdgeColor !== undefined ? normalizeColor(hiddenEdgeColor) : plainEffectPass.hiddenEdgeColor
+      effect.value.visibleEdgeColor =
+        visibleEdgeColor !== undefined ? normalizeColor(visibleEdgeColor) : plainEffectPass.visibleEdgeColor
+
+      plainEffectPass.dispose()
+    })
 
     onUnmounted(() => {
       effect.value?.selection.clear()

@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { ref } from 'vue'
 import { TresCanvas } from '@tresjs/core'
+import { useTweakPane } from '@tresjs/cientos'
+import { reactive, ref } from 'vue'
 import { EffectComposer, Outline, Glitch } from '@post'
 import { BasicShadowMap, NoToneMapping, Object3D, Intersection } from 'three'
 
@@ -19,11 +20,23 @@ const toggleMeshSelectionState = ({ object }: Intersection) => {
     outlinedObjects.value = outlinedObjects.value.filter(({ uuid }) => uuid !== object.uuid)
   else outlinedObjects.value = [...outlinedObjects.value, object]
 }
+
+const outlineParameters = reactive({
+  pulseSpeed: 0,
+  edgeStrength: 2.5,
+  visibleEdgeColor: '#ff0000',
+})
+
+const { pane } = useTweakPane()
+
+pane.addInput(outlineParameters, 'edgeStrength', { min: 0, max: 10 })
+pane.addInput(outlineParameters, 'pulseSpeed', { min: 0, max: 2 })
+pane.addInput(outlineParameters, 'visibleEdgeColor')
 </script>
 
 <template>
   <TresCanvas v-bind="gl" disable-render>
-    <TresPerspectiveCamera :position="[4, 4, 4]" :look-at="[2, 2, 2]" />
+    <TresPerspectiveCamera :position="[3, 3, 3]" :look-at="[2, 2, 2]" />
 
     <template v-for="i in 5" :key="i">
       <TresMesh @click="toggleMeshSelectionState" :position="[i * 1.1 - 2.8, 1, 0]">
@@ -37,7 +50,7 @@ const toggleMeshSelectionState = ({ object }: Intersection) => {
     <Suspense>
       <EffectComposer>
         <Glitch />
-        <Outline :outlined-objects="outlinedObjects" />
+        <Outline :outlined-objects="outlinedObjects" v-bind="outlineParameters" />
       </EffectComposer>
     </Suspense>
   </TresCanvas>
