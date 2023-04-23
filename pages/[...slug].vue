@@ -7,6 +7,8 @@ const { data } = await useAsyncData(`content-${path}`, () => {
   return queryContent().where({ _path: path }).findOne()
 })
 
+console.log({ data })
+
 useHead({
   title: `${data?.value?.title} - Tres`,
   meta: [
