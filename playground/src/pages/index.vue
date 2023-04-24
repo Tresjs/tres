@@ -1,7 +1,9 @@
 <script setup lang="ts">
-import TheSmoke from '../components/TheSmoke.vue'
+import AkuAku from '../components/AkuAku.vue'
 
 </script>
 <template>
-    <TheSmoke />
+    <Suspense>
+        <AkuAku />
+    </Suspense>
 </template>

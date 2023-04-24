@@ -15,7 +15,6 @@ declare module '@vue/runtime-core' {
     PointerLockControlsDemo: typeof import('./src/components/PointerLockControlsDemo.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    TheClouds: typeof import('./src/components/TheClouds.vue')['default']
     TheGizmos: typeof import('./src/components/TheGizmos.vue')['default']
     TheSmoke: typeof import('./src/components/TheSmoke.vue')['default']
     TheStars: typeof import('./src/components/TheStars.vue')['default']
