@@ -26,10 +26,10 @@ devDependencies:
     version: 1.9.0
   '@tresjs/cientos':
     specifier: 2.0.0-beta.3
-    version: 2.0.0-beta.3(@tresjs/core@)(three@0.150.1)(vue@3.2.47)
+    version: 2.0.0-beta.3(@tresjs/core@2.0.0-beta.11)(three@0.150.1)(vue@3.2.47)
   '@tresjs/core':
-    specifier: 2.0.0-beta.10
-    version: 'link:'
+    specifier: 2.0.0-beta.11
+    version: 2.0.0-beta.11(three@0.150.1)(vue@3.2.47)
   '@types/three':
     specifier: latest
     version: 0.150.2
@@ -253,7 +253,6 @@ packages:
 
   /@alvarosabu/utils@2.3.0:
     resolution: {integrity: sha512-Uf+loPdTfNDPIOMCQlBVC9Db+UnmXVn/MTyVZNjPHmp2noOyux/U/vfjhJROGUvnHZxdYIMEpWVeTI/i/VCUJQ==}
-    dev: false
 
   /@ampproject/remapping@2.2.1:
     resolution: {integrity: sha512-lFMjJTrFL3j7L9yBxwYfCq2k6qqwHyzuUl/XBnif78PWTJYyL/dfowQHWE3sp6U6ZzqWiiIZnpTMO96zhkjwtg==}
@@ -1070,17 +1069,31 @@ packages:
     engines: {node: '>= 10'}
     dev: true
 
-  /@tresjs/cientos@2.0.0-beta.3(@tresjs/core@)(three@0.150.1)(vue@3.2.47):
+  /@tresjs/cientos@2.0.0-beta.3(@tresjs/core@2.0.0-beta.11)(three@0.150.1)(vue@3.2.47):
     resolution: {integrity: sha512-imBObbMCZZMtXMTQ18rCKADiFlcwNVRMsVBh8ffDY393GJMkWPgtx4hNcBWfVxGgLZPB/o1tewGgcZ58o4hCrw==}
     peerDependencies:
       '@tresjs/core': 2.0.0-beta.9
       three: latest
       vue: ^3.2.47
     dependencies:
-      '@tresjs/core': 'link:'
+      '@tresjs/core': 2.0.0-beta.11(three@0.150.1)(vue@3.2.47)
       '@vueuse/core': 10.0.2(vue@3.2.47)
       three: 0.150.1
       three-stdlib: 2.21.8(three@0.150.1)
+      vue: 3.2.47
+    transitivePeerDependencies:
+      - '@vue/composition-api'
+    dev: true
+
+  /@tresjs/core@2.0.0-beta.11(three@0.150.1)(vue@3.2.47):
+    resolution: {integrity: sha512-EkgZSWEAftcG6CpF1YgiGahrQGAAItyidL+Mr2wQPD4hNRNT+K9YYzyAHl7jaVbLpFLYAfhxL2i+sK+YuH9/kA==}
+    peerDependencies:
+      three: latest
+      vue: ^3.2.47
+    dependencies:
+      '@alvarosabu/utils': 2.3.0
+      '@vueuse/core': 9.13.0(vue@3.2.47)
+      three: 0.150.1
       vue: 3.2.47
     transitivePeerDependencies:
       - '@vue/composition-api'

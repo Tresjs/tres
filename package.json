@@ -61,12 +61,12 @@
     "@vueuse/core": "^9.13.0"
   },
   "devDependencies": {
-    "@tresjs/core": "2.0.0-beta.10",
     "@alvarosabu/prettier-config": "^1.3.0",
     "@huntersofbook/plausible-vue": "^1.0.0",
     "@release-it/conventional-changelog": "^5.1.1",
     "@stackblitz/sdk": "^1.9.0",
     "@tresjs/cientos": "2.0.0-beta.3",
+    "@tresjs/core": "2.0.0-beta.11",
     "@types/three": "latest",
     "@typescript-eslint/eslint-plugin": "^5.58.0",
     "@typescript-eslint/parser": "^5.58.0",
