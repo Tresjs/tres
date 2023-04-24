@@ -13,8 +13,8 @@ dependencies:
 
 devDependencies:
   '@tresjs/core':
-    specifier: 2.0.0-beta.10
-    version: 2.0.0-beta.10(three@0.151.3)(vue@3.2.47)
+    specifier: 2.0.0-beta.11
+    version: 2.0.0-beta.11(three@0.151.3)(vue@3.2.47)
   '@vitejs/plugin-vue':
     specifier: ^4.1.0
     version: 4.1.0(vite@4.2.1)(vue@3.2.47)
@@ -380,8 +380,8 @@ packages:
       picomatch: 2.3.1
     dev: true
 
-  /@tresjs/core@2.0.0-beta.10(three@0.151.3)(vue@3.2.47):
-    resolution: {integrity: sha512-SGkHnskrjbLwavnqLvaI3RfNh1XXjR58jTlnpjoOYDjU5LyQFcQAEbCgnbYnLmg5vufe01pywBnnjv9+try8qg==}
+  /@tresjs/core@2.0.0-beta.11(three@0.151.3)(vue@3.2.47):
+    resolution: {integrity: sha512-EkgZSWEAftcG6CpF1YgiGahrQGAAItyidL+Mr2wQPD4hNRNT+K9YYzyAHl7jaVbLpFLYAfhxL2i+sK+YuH9/kA==}
     peerDependencies:
       three: latest
       vue: ^3.2.47
