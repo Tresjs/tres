@@ -1,54 +1,54 @@
-globalThis._importMeta_={url:import.meta.url,env:process.env};import 'file:///Users/alvarosabu/Projects/tres/playground/node_modules/.pnpm/node-fetch-native@1.1.0/node_modules/node-fetch-native/dist/polyfill.mjs';
+globalThis._importMeta_={url:import.meta.url,env:process.env};import 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/node-fetch-native@1.1.0/node_modules/node-fetch-native/dist/polyfill.mjs';
 import { Server } from 'node:http';
 import { tmpdir } from 'node:os';
 import { join as join$1 } from 'node:path';
 import { mkdirSync } from 'node:fs';
 import { parentPort, threadId } from 'node:worker_threads';
-import { provider, isWindows } from 'file:///Users/alvarosabu/Projects/tres/playground/node_modules/.pnpm/std-env@3.3.2/node_modules/std-env/dist/index.mjs';
-import { defineEventHandler, handleCacheHeaders, createEvent, eventHandler, setHeaders, sendRedirect, proxyRequest, setResponseStatus, getRequestHeader, setResponseHeader, getRequestHeaders, getQuery, getCookie, createError, createApp, createRouter as createRouter$1, toNodeListener, fetchWithEvent, lazyEventHandler } from 'file:///Users/alvarosabu/Projects/tres/playground/node_modules/.pnpm/h3@1.6.4/node_modules/h3/dist/index.mjs';
-import { createRenderer } from 'file:///Users/alvarosabu/Projects/tres/playground/node_modules/.pnpm/vue-bundle-renderer@1.0.3/node_modules/vue-bundle-renderer/dist/runtime.mjs';
-import devalue from 'file:///Users/alvarosabu/Projects/tres/playground/node_modules/.pnpm/@nuxt+devalue@2.0.0/node_modules/@nuxt/devalue/dist/devalue.mjs';
-import { renderToString } from 'file:///Users/alvarosabu/Projects/tres/playground/node_modules/.pnpm/vue@3.2.47/node_modules/vue/server-renderer/index.mjs';
-import { createFetch as createFetch$1, Headers } from 'file:///Users/alvarosabu/Projects/tres/playground/node_modules/.pnpm/ofetch@1.0.1/node_modules/ofetch/dist/node.mjs';
-import destr from 'file:///Users/alvarosabu/Projects/tres/playground/node_modules/.pnpm/destr@1.2.2/node_modules/destr/dist/index.mjs';
-import { createCall, createFetch } from 'file:///Users/alvarosabu/Projects/tres/playground/node_modules/.pnpm/unenv@1.3.1/node_modules/unenv/runtime/fetch/index.mjs';
-import { createHooks } from 'file:///Users/alvarosabu/Projects/tres/playground/node_modules/.pnpm/hookable@5.5.3/node_modules/hookable/dist/index.mjs';
-import { snakeCase, kebabCase, pascalCase, camelCase } from 'file:///Users/alvarosabu/Projects/tres/playground/node_modules/.pnpm/scule@1.0.0/node_modules/scule/dist/index.mjs';
-import defu, { defuFn } from 'file:///Users/alvarosabu/Projects/tres/playground/node_modules/.pnpm/defu@6.1.2/node_modules/defu/dist/defu.mjs';
-import { hash } from 'file:///Users/alvarosabu/Projects/tres/playground/node_modules/.pnpm/ohash@1.0.0/node_modules/ohash/dist/index.mjs';
-import { parseURL, withoutBase, joinURL, withQuery, withLeadingSlash, withoutTrailingSlash, isRelative } from 'file:///Users/alvarosabu/Projects/tres/playground/node_modules/.pnpm/ufo@1.1.1/node_modules/ufo/dist/index.mjs';
-import { createStorage, prefixStorage } from 'file:///Users/alvarosabu/Projects/tres/playground/node_modules/.pnpm/unstorage@1.4.1/node_modules/unstorage/dist/index.mjs';
-import unstorage_47drivers_47fs from 'file:///Users/alvarosabu/Projects/tres/playground/node_modules/.pnpm/unstorage@1.4.1/node_modules/unstorage/drivers/fs.mjs';
-import { toRouteMatcher, createRouter } from 'file:///Users/alvarosabu/Projects/tres/playground/node_modules/.pnpm/radix3@1.0.1/node_modules/radix3/dist/index.mjs';
-import { extname, join } from 'file:///Users/alvarosabu/Projects/tres/playground/node_modules/.pnpm/pathe@1.1.0/node_modules/pathe/dist/index.mjs';
-import { unified } from 'file:///Users/alvarosabu/Projects/tres/playground/node_modules/.pnpm/unified@10.1.2/node_modules/unified/index.js';
-import { toString } from 'file:///Users/alvarosabu/Projects/tres/playground/node_modules/.pnpm/mdast-util-to-string@3.1.1/node_modules/mdast-util-to-string/index.js';
-import { preprocess } from 'file:///Users/alvarosabu/Projects/tres/playground/node_modules/.pnpm/micromark@3.1.0/node_modules/micromark/dev/lib/preprocess.js';
-import { postprocess } from 'file:///Users/alvarosabu/Projects/tres/playground/node_modules/.pnpm/micromark@3.1.0/node_modules/micromark/dev/lib/postprocess.js';
-import { stringifyPosition } from 'file:///Users/alvarosabu/Projects/tres/playground/node_modules/.pnpm/unist-util-stringify-position@3.0.3/node_modules/unist-util-stringify-position/index.js';
-import { markdownLineEnding, markdownSpace } from 'file:///Users/alvarosabu/Projects/tres/playground/node_modules/.pnpm/micromark-util-character@1.1.0/node_modules/micromark-util-character/dev/index.js';
-import { push, splice } from 'file:///Users/alvarosabu/Projects/tres/playground/node_modules/.pnpm/micromark-util-chunked@1.0.0/node_modules/micromark-util-chunked/dev/index.js';
-import { resolveAll } from 'file:///Users/alvarosabu/Projects/tres/playground/node_modules/.pnpm/micromark-util-resolve-all@1.0.0/node_modules/micromark-util-resolve-all/index.js';
-import remarkEmoji from 'file:///Users/alvarosabu/Projects/tres/playground/node_modules/.pnpm/remark-emoji@3.1.1/node_modules/remark-emoji/index.js';
-import rehypeSlug from 'file:///Users/alvarosabu/Projects/tres/playground/node_modules/.pnpm/rehype-slug@5.1.0/node_modules/rehype-slug/index.js';
-import remarkSqueezeParagraphs from 'file:///Users/alvarosabu/Projects/tres/playground/node_modules/.pnpm/remark-squeeze-paragraphs@5.0.1/node_modules/remark-squeeze-paragraphs/index.js';
-import rehypeExternalLinks from 'file:///Users/alvarosabu/Projects/tres/playground/node_modules/.pnpm/rehype-external-links@2.0.1/node_modules/rehype-external-links/index.js';
-import remarkGfm from 'file:///Users/alvarosabu/Projects/tres/playground/node_modules/.pnpm/remark-gfm@3.0.1/node_modules/remark-gfm/index.js';
-import rehypeSortAttributeValues from 'file:///Users/alvarosabu/Projects/tres/playground/node_modules/.pnpm/rehype-sort-attribute-values@4.0.0/node_modules/rehype-sort-attribute-values/index.js';
-import rehypeSortAttributes from 'file:///Users/alvarosabu/Projects/tres/playground/node_modules/.pnpm/rehype-sort-attributes@4.0.0/node_modules/rehype-sort-attributes/index.js';
-import rehypeRaw from 'file:///Users/alvarosabu/Projects/tres/playground/node_modules/.pnpm/rehype-raw@6.1.1/node_modules/rehype-raw/index.js';
-import remarkMDC, { parseFrontMatter } from 'file:///Users/alvarosabu/Projects/tres/playground/node_modules/.pnpm/remark-mdc@1.1.3/node_modules/remark-mdc/dist/index.mjs';
-import remarkParse from 'file:///Users/alvarosabu/Projects/tres/playground/node_modules/.pnpm/remark-parse@10.0.1/node_modules/remark-parse/index.js';
-import remark2rehype from 'file:///Users/alvarosabu/Projects/tres/playground/node_modules/.pnpm/remark-rehype@10.1.0/node_modules/remark-rehype/index.js';
-import { all } from 'file:///Users/alvarosabu/Projects/tres/playground/node_modules/.pnpm/mdast-util-to-hast@12.3.0/node_modules/mdast-util-to-hast/index.js';
-import { detab } from 'file:///Users/alvarosabu/Projects/tres/playground/node_modules/.pnpm/detab@3.0.2/node_modules/detab/index.js';
-import { u } from 'file:///Users/alvarosabu/Projects/tres/playground/node_modules/.pnpm/unist-builder@3.0.1/node_modules/unist-builder/index.js';
-import { encode } from 'file:///Users/alvarosabu/Projects/tres/playground/node_modules/.pnpm/mdurl@1.0.1/node_modules/mdurl/index.js';
-import slugify from 'file:///Users/alvarosabu/Projects/tres/playground/node_modules/.pnpm/slugify@1.6.6/node_modules/slugify/slugify.js';
-import { position } from 'file:///Users/alvarosabu/Projects/tres/playground/node_modules/.pnpm/unist-util-position@4.0.4/node_modules/unist-util-position/index.js';
-import { visit } from 'file:///Users/alvarosabu/Projects/tres/playground/node_modules/.pnpm/unist-util-visit@4.1.2/node_modules/unist-util-visit/index.js';
-import { BUNDLED_LANGUAGES, BUNDLED_THEMES, getHighlighter } from 'file:///Users/alvarosabu/Projects/tres/playground/node_modules/.pnpm/shiki-es@0.2.0/node_modules/shiki-es/dist/shiki.node.mjs';
-import consola from 'file:///Users/alvarosabu/Projects/tres/playground/node_modules/.pnpm/unenv@1.3.1/node_modules/unenv/runtime/npm/consola.mjs';
+import { provider, isWindows } from 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/std-env@3.3.2/node_modules/std-env/dist/index.mjs';
+import { defineEventHandler, handleCacheHeaders, createEvent, eventHandler, setHeaders, sendRedirect, proxyRequest, setResponseStatus, getRequestHeader, setResponseHeader, getRequestHeaders, getQuery, getCookie, createError, createApp, createRouter as createRouter$1, toNodeListener, fetchWithEvent, lazyEventHandler } from 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/h3@1.6.4/node_modules/h3/dist/index.mjs';
+import { createRenderer } from 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/vue-bundle-renderer@1.0.3/node_modules/vue-bundle-renderer/dist/runtime.mjs';
+import devalue from 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/@nuxt+devalue@2.0.0/node_modules/@nuxt/devalue/dist/devalue.mjs';
+import { renderToString } from 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/vue@3.2.47/node_modules/vue/server-renderer/index.mjs';
+import { createFetch as createFetch$1, Headers } from 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/ofetch@1.0.1/node_modules/ofetch/dist/node.mjs';
+import destr from 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/destr@1.2.2/node_modules/destr/dist/index.mjs';
+import { createCall, createFetch } from 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/unenv@1.4.1/node_modules/unenv/runtime/fetch/index.mjs';
+import { createHooks } from 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/hookable@5.5.3/node_modules/hookable/dist/index.mjs';
+import { snakeCase, kebabCase, pascalCase, camelCase } from 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/scule@1.0.0/node_modules/scule/dist/index.mjs';
+import defu, { defuFn } from 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/defu@6.1.2/node_modules/defu/dist/defu.mjs';
+import { hash } from 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/ohash@1.1.2/node_modules/ohash/dist/index.mjs';
+import { parseURL, withoutBase, joinURL, withQuery, withLeadingSlash, withoutTrailingSlash, isRelative } from 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/ufo@1.1.1/node_modules/ufo/dist/index.mjs';
+import { createStorage, prefixStorage } from 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/unstorage@1.5.0/node_modules/unstorage/dist/index.mjs';
+import unstorage_47drivers_47fs from 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/unstorage@1.5.0/node_modules/unstorage/drivers/fs.mjs';
+import { toRouteMatcher, createRouter } from 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/radix3@1.0.1/node_modules/radix3/dist/index.mjs';
+import { extname, join } from 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/pathe@1.1.0/node_modules/pathe/dist/index.mjs';
+import { unified } from 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/unified@10.1.2/node_modules/unified/index.js';
+import { toString } from 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/mdast-util-to-string@3.2.0/node_modules/mdast-util-to-string/index.js';
+import { preprocess } from 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/micromark@3.1.0/node_modules/micromark/dev/lib/preprocess.js';
+import { postprocess } from 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/micromark@3.1.0/node_modules/micromark/dev/lib/postprocess.js';
+import { stringifyPosition } from 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/unist-util-stringify-position@3.0.3/node_modules/unist-util-stringify-position/index.js';
+import { markdownLineEnding, markdownSpace } from 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/micromark-util-character@1.1.0/node_modules/micromark-util-character/dev/index.js';
+import { push, splice } from 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/micromark-util-chunked@1.0.0/node_modules/micromark-util-chunked/dev/index.js';
+import { resolveAll } from 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/micromark-util-resolve-all@1.0.0/node_modules/micromark-util-resolve-all/index.js';
+import remarkEmoji from 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/remark-emoji@3.1.1/node_modules/remark-emoji/index.js';
+import rehypeSlug from 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/rehype-slug@5.1.0/node_modules/rehype-slug/index.js';
+import remarkSqueezeParagraphs from 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/remark-squeeze-paragraphs@5.0.1/node_modules/remark-squeeze-paragraphs/index.js';
+import rehypeExternalLinks from 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/rehype-external-links@2.0.1/node_modules/rehype-external-links/index.js';
+import remarkGfm from 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/remark-gfm@3.0.1/node_modules/remark-gfm/index.js';
+import rehypeSortAttributeValues from 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/rehype-sort-attribute-values@4.0.0/node_modules/rehype-sort-attribute-values/index.js';
+import rehypeSortAttributes from 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/rehype-sort-attributes@4.0.0/node_modules/rehype-sort-attributes/index.js';
+import rehypeRaw from 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/rehype-raw@6.1.1/node_modules/rehype-raw/index.js';
+import remarkMDC, { parseFrontMatter } from 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/remark-mdc@1.1.3/node_modules/remark-mdc/dist/index.mjs';
+import remarkParse from 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/remark-parse@10.0.1/node_modules/remark-parse/index.js';
+import remark2rehype from 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/remark-rehype@10.1.0/node_modules/remark-rehype/index.js';
+import { all } from 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/mdast-util-to-hast@12.3.0/node_modules/mdast-util-to-hast/index.js';
+import { detab } from 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/detab@3.0.2/node_modules/detab/index.js';
+import { u } from 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/unist-builder@3.0.1/node_modules/unist-builder/index.js';
+import { encode } from 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/mdurl@1.0.1/node_modules/mdurl/index.js';
+import slugify from 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/slugify@1.6.6/node_modules/slugify/slugify.js';
+import { position } from 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/unist-util-position@4.0.4/node_modules/unist-util-position/index.js';
+import { visit } from 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/unist-util-visit@4.1.2/node_modules/unist-util-visit/index.js';
+import { BUNDLED_LANGUAGES, BUNDLED_THEMES, getHighlighter } from 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/shiki-es@0.2.0/node_modules/shiki-es/dist/shiki.node.mjs';
+import { consola } from 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/unenv@1.4.1/node_modules/unenv/runtime/npm/consola.mjs';
 
 const inlineAppConfig = {};
 
@@ -56,7 +56,7 @@ const inlineAppConfig = {};
 
 const appConfig = defuFn(inlineAppConfig);
 
-const _runtimeConfig = {"app":{"baseURL":"/","buildAssetsDir":"/_nuxt/","cdnURL":""},"nitro":{"envPrefix":"NUXT_","routeRules":{"/__nuxt_error":{"cache":false}}},"public":{"content":{"locales":[],"defaultLocale":"","integrity":"","experimental":{"stripQueryParameters":false,"clientDB":false},"api":{"baseURL":"/api/_content"},"navigation":{"fields":[]},"tags":{"p":"prose-p","a":"prose-a","blockquote":"prose-blockquote","code-inline":"prose-code-inline","code":"prose-code","em":"prose-em","h1":"prose-h1","h2":"prose-h2","h3":"prose-h3","h4":"prose-h4","h5":"prose-h5","h6":"prose-h6","hr":"prose-hr","img":"prose-img","ul":"prose-ul","ol":"prose-ol","li":"prose-li","strong":"prose-strong","table":"prose-table","thead":"prose-thead","tbody":"prose-tbody","td":"prose-td","th":"prose-th","tr":"prose-tr"},"highlight":false,"wsUrl":"ws://localhost:4000/","documentDriven":false,"host":"","trailingSlash":false,"anchorLinks":{"depth":4,"exclude":[1]}}},"content":{"cacheVersion":2,"cacheIntegrity":"kc4UzpZUjI","transformers":[],"base":"","api":{"baseURL":"/api/_content"},"watch":{"ws":{"port":{"port":4000,"portRange":[4000,4040]},"hostname":"localhost","showURL":false}},"sources":{},"ignores":["\\.","-"],"locales":[],"defaultLocale":"","highlight":false,"markdown":{"tags":{"p":"prose-p","a":"prose-a","blockquote":"prose-blockquote","code-inline":"prose-code-inline","code":"prose-code","em":"prose-em","h1":"prose-h1","h2":"prose-h2","h3":"prose-h3","h4":"prose-h4","h5":"prose-h5","h6":"prose-h6","hr":"prose-hr","img":"prose-img","ul":"prose-ul","ol":"prose-ol","li":"prose-li","strong":"prose-strong","table":"prose-table","thead":"prose-thead","tbody":"prose-tbody","td":"prose-td","th":"prose-th","tr":"prose-tr"},"anchorLinks":{"depth":4,"exclude":[1]},"remarkPlugins":{},"rehypePlugins":{}},"yaml":{},"csv":{"delimeter":",","json":true},"navigation":{"fields":[]},"documentDriven":false,"experimental":{"clientDB":false,"stripQueryParameters":false}}};
+const _runtimeConfig = {"app":{"baseURL":"/","buildAssetsDir":"/_nuxt/","cdnURL":""},"nitro":{"envPrefix":"NUXT_","routeRules":{"/__nuxt_error":{"cache":false}}},"public":{"content":{"locales":[],"defaultLocale":"","integrity":"","experimental":{"stripQueryParameters":false,"clientDB":false,"advancedIgnoresPattern":false},"api":{"baseURL":"/api/_content"},"navigation":{"fields":[]},"tags":{"p":"prose-p","a":"prose-a","blockquote":"prose-blockquote","code-inline":"prose-code-inline","code":"prose-code","em":"prose-em","h1":"prose-h1","h2":"prose-h2","h3":"prose-h3","h4":"prose-h4","h5":"prose-h5","h6":"prose-h6","hr":"prose-hr","img":"prose-img","ul":"prose-ul","ol":"prose-ol","li":"prose-li","strong":"prose-strong","table":"prose-table","thead":"prose-thead","tbody":"prose-tbody","td":"prose-td","th":"prose-th","tr":"prose-tr"},"highlight":false,"wsUrl":"ws://localhost:4000/","documentDriven":false,"host":"","trailingSlash":false,"anchorLinks":{"depth":4,"exclude":[1]}}},"content":{"cacheVersion":2,"cacheIntegrity":"kc4UzpZUjI","transformers":[],"base":"","api":{"baseURL":"/api/_content"},"watch":{"ws":{"port":{"port":4000,"portRange":[4000,4040]},"hostname":"localhost","showURL":false}},"sources":{},"ignores":[],"locales":[],"defaultLocale":"","highlight":false,"markdown":{"tags":{"p":"prose-p","a":"prose-a","blockquote":"prose-blockquote","code-inline":"prose-code-inline","code":"prose-code","em":"prose-em","h1":"prose-h1","h2":"prose-h2","h3":"prose-h3","h4":"prose-h4","h5":"prose-h5","h6":"prose-h6","hr":"prose-hr","img":"prose-img","ul":"prose-ul","ol":"prose-ol","li":"prose-li","strong":"prose-strong","table":"prose-table","thead":"prose-thead","tbody":"prose-tbody","td":"prose-td","th":"prose-th","tr":"prose-tr"},"anchorLinks":{"depth":4,"exclude":[1]},"remarkPlugins":{},"rehypePlugins":{}},"yaml":{},"csv":{"delimeter":",","json":true},"navigation":{"fields":[]},"documentDriven":false,"experimental":{"clientDB":false,"stripQueryParameters":false,"advancedIgnoresPattern":false}}};
 const ENV_PREFIX = "NITRO_";
 const ENV_PREFIX_ALT = _runtimeConfig.nitro.envPrefix ?? process.env.NITRO_ENV_PREFIX ?? "_";
 overrideConfig(_runtimeConfig);
@@ -97,7 +97,7 @@ function deepFreeze(object) {
   return Object.freeze(object);
 }
 
-const serverAssets = [{"baseName":"server","dir":"/Users/alvarosabu/Projects/tres/playground/server/assets"}];
+const serverAssets = [{"baseName":"server","dir":"C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/server/assets"}];
 
 const assets = createStorage();
 
@@ -109,12 +109,12 @@ const storage = createStorage({});
 
 storage.mount('/assets', assets);
 
-storage.mount('content:source:content', unstorage_47drivers_47fs({"name":"content:source:content","driver":"fs","base":"/Users/alvarosabu/Projects/tres/playground/content","ignore":["**/node_modules/**","**/.git/**"]}));
-storage.mount('cache:content', unstorage_47drivers_47fs({"driver":"fs","base":"/Users/alvarosabu/Projects/tres/playground/.nuxt/content-cache","ignore":["**/node_modules/**","**/.git/**"]}));
-storage.mount('root', unstorage_47drivers_47fs({"driver":"fs","readOnly":true,"base":"/Users/alvarosabu/Projects/tres/playground","ignore":["**/node_modules/**","**/.git/**"]}));
-storage.mount('src', unstorage_47drivers_47fs({"driver":"fs","readOnly":true,"base":"/Users/alvarosabu/Projects/tres/playground/server","ignore":["**/node_modules/**","**/.git/**"]}));
-storage.mount('build', unstorage_47drivers_47fs({"driver":"fs","readOnly":false,"base":"/Users/alvarosabu/Projects/tres/playground/.nuxt","ignore":["**/node_modules/**","**/.git/**"]}));
-storage.mount('cache', unstorage_47drivers_47fs({"driver":"fs","readOnly":false,"base":"/Users/alvarosabu/Projects/tres/playground/.nuxt/cache","ignore":["**/node_modules/**","**/.git/**"]}));
+storage.mount('content:source:content', unstorage_47drivers_47fs({"name":"content:source:content","driver":"fs","base":"C:\\Users\\Jaime\\Desktop\\packages-libraries\\tres-group\\playground\\content","ignore":["**/node_modules/**","**/.git/**"]}));
+storage.mount('cache:content', unstorage_47drivers_47fs({"driver":"fs","base":"C:\\Users\\Jaime\\Desktop\\packages-libraries\\tres-group\\playground\\.nuxt\\content-cache","ignore":["**/node_modules/**","**/.git/**"]}));
+storage.mount('root', unstorage_47drivers_47fs({"driver":"fs","readOnly":true,"base":"C:\\Users\\Jaime\\Desktop\\packages-libraries\\tres-group\\playground","ignore":["**/node_modules/**","**/.git/**"]}));
+storage.mount('src', unstorage_47drivers_47fs({"driver":"fs","readOnly":true,"base":"C:\\Users\\Jaime\\Desktop\\packages-libraries\\tres-group\\playground\\server","ignore":["**/node_modules/**","**/.git/**"]}));
+storage.mount('build', unstorage_47drivers_47fs({"driver":"fs","readOnly":false,"base":"C:\\Users\\Jaime\\Desktop\\packages-libraries\\tres-group\\playground\\.nuxt","ignore":["**/node_modules/**","**/.git/**"]}));
+storage.mount('cache', unstorage_47drivers_47fs({"driver":"fs","readOnly":false,"base":"C:\\Users\\Jaime\\Desktop\\packages-libraries\\tres-group\\playground\\.nuxt\\cache","ignore":["**/node_modules/**","**/.git/**"]}));
 
 function useStorage(base = "") {
   return base ? prefixStorage(storage, base) : storage;
@@ -597,7 +597,11 @@ const createQuery = (fetcher, intitialParams) => {
     };
   };
   const query = {
-    params: () => queryParams,
+    params: () => ({
+      ...queryParams,
+      ...queryParams.where ? { where: [...ensureArray(queryParams.where)] } : {},
+      ...queryParams.sort ? { sort: [...ensureArray(queryParams.sort)] } : {}
+    }),
     only: $set("only", ensureArray),
     without: $set("without", ensureArray),
     where: $set("where", (q) => [...ensureArray(queryParams.where), ...ensureArray(q)]),
@@ -1999,7 +2003,7 @@ function compiler(_options) {
       return node.map(parseAsJSON).filter(Boolean);
     }
     if (node.tagName?.startsWith("h") && node.properties.id) {
-      node.properties.id = node.properties.id.replace(/-+/g, "-").replace(/-$/, "").replace(/^-/, "");
+      node.properties.id = node.properties.id.replace(/-+/g, "-").replace(/-$/, "").replace(/^-/, "").replace(/^(\d)/, "_$1");
     }
     if (node.type === "element") {
       if (node.tagName === "li") {
@@ -2862,7 +2866,7 @@ const grammar = {
 };
 const mdcTMLanguage = grammar;
 
-const logger = consola.withScope("@nuxt/content");
+const logger = consola.withTag("@nuxt/content");
 const resolveLang = (lang) => BUNDLED_LANGUAGES.find((l) => l.id === lang || l.aliases?.includes(lang));
 const resolveTheme = (theme) => {
   if (!theme) {
@@ -2915,13 +2919,17 @@ const useShikiHighlighter = createSingleton((opts) => {
     }
     return promise;
   };
+  const splitCodeToLines = (code) => {
+    const lines = code.split(/\r\n|\r|\n/);
+    return [...lines.map((line) => [{ content: line }])];
+  };
   const getHighlightedTokens = async (code, lang, theme2) => {
     const highlighter = await getShikiHighlighter();
     code = code.replace(/\n+$/, "");
     lang = resolveLang(lang || "")?.id || lang;
     theme2 = resolveTheme(theme2 || "") || { default: highlighter.getTheme() };
     if (!lang) {
-      return [[{ content: code }]];
+      return splitCodeToLines(code);
     }
     if (!highlighter.getLoadedLanguages().includes(lang)) {
       const languageRegistration = resolveLang(lang);
@@ -2929,7 +2937,7 @@ const useShikiHighlighter = createSingleton((opts) => {
         await highlighter.loadLanguage(languageRegistration);
       } else {
         logger.warn(`Language '${lang}' is not supported by shiki. Skipping highlight.`);
-        return [[{ content: code }]];
+        return splitCodeToLines(code);
       }
     }
     const newThemes = Object.values(theme2).filter((t) => !highlighter.getLoadedThemes().includes(t));
@@ -2961,12 +2969,23 @@ const useShikiHighlighter = createSingleton((opts) => {
   const getHighlightedAST = async (code, lang, theme2, opts2) => {
     const lines = await getHighlightedTokens(code, lang, theme2);
     const { highlights = [], colorMap = {} } = opts2 || {};
-    return lines.map((line, lineIndex) => ({
-      type: "element",
-      tag: "div",
-      props: { class: ["line", highlights.includes(lineIndex + 1) ? "highlight" : ""].join(" ").trim() },
-      children: line.map(tokenSpan)
-    }));
+    return lines.map((line, lineIndex) => {
+      if (lineIndex !== lines.length - 1) {
+        if (line.length === 0) {
+          line.push({ content: "" });
+        }
+        line[line.length - 1].content += "\n";
+      }
+      return {
+        type: "element",
+        tag: "span",
+        props: {
+          class: ["line", highlights.includes(lineIndex + 1) ? "highlight" : ""].join(" ").trim(),
+          line: lineIndex + 1
+        },
+        children: line.map(tokenSpan)
+      };
+    });
     function getColorProps(token) {
       if (!token.color) {
         return {};
@@ -3139,7 +3158,7 @@ const json = defineTransformer({
     let parsed;
     if (typeof content === "string") {
       if (_id.endsWith("json5")) {
-        parsed = (await import('file:///Users/alvarosabu/Projects/tres/playground/node_modules/.pnpm/json5@2.2.3/node_modules/json5/lib/index.js').then((m) => m.default || m)).parse(content);
+        parsed = (await import('file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/json5@2.2.3/node_modules/json5/lib/index.js').then((m) => m.default || m)).parse(content);
       } else if (_id.endsWith("json")) {
         parsed = destr(content);
       }
@@ -3204,6 +3223,21 @@ async function transformContent(id, content, options = {}) {
   return result;
 }
 
+function makeIgnored(ignores, experimental = false) {
+  ignores = ignores.map((e) => e);
+  if (experimental) {
+    const rxAll2 = ["/\\.", "/-", ...ignores].map((p) => new RegExp(p));
+    return function isIgnored(key) {
+      const path = "/" + key.replaceAll(":", "/");
+      return rxAll2.some((rx) => rx.test(path));
+    };
+  }
+  const rxAll = ["\\.", "-", ...ignores].map((p) => new RegExp(`^${p}|:${p}`));
+  return function isIgnored(key) {
+    return rxAll.some((rx) => rx.test(key));
+  };
+}
+
 const isPreview = (event) => {
   const previewToken = getQuery(event).previewToken || getCookie(event, "previewToken");
   return !!previewToken;
@@ -3257,12 +3291,10 @@ const sourceStorage = prefixStorage(useStorage(), "content:source");
 const cacheStorage = prefixStorage(useStorage(), "cache:content");
 const cacheParsedStorage = prefixStorage(useStorage(), "cache:content:parsed");
 const contentConfig = useRuntimeConfig().content;
-const contentIgnores = contentConfig.ignores.map(
-  (p) => typeof p === "string" ? new RegExp(`^${p}|:${p}`) : p
-);
+const isIgnored = makeIgnored(contentConfig.ignores, contentConfig.experimental.advancedIgnoresPattern);
 const invalidKeyCharacters = `'"?#/`.split("");
 const contentIgnorePredicate = (key) => {
-  if (key.startsWith("preview:") || contentIgnores.some((prefix) => prefix.test(key))) {
+  if (key.startsWith("preview:") || isIgnored(key)) {
     return false;
   }
   if (invalidKeyCharacters.some((ik) => key.includes(ik))) {
@@ -3478,7 +3510,7 @@ const getContentQuery = (event) => {
   return query;
 };
 
-const _rDGGzR = defineEventHandler(async (event) => {
+const _m84TEX = defineEventHandler(async (event) => {
   const query = getContentQuery(event);
   if (query.first) {
     const content = await serverQueryContent(event, query).findOne();
@@ -3509,7 +3541,7 @@ const _rDGGzR = defineEventHandler(async (event) => {
   return contents;
 });
 
-const _Mb5F9c = defineEventHandler(async (event) => {
+const _MZYv1z = defineEventHandler(async (event) => {
   const { content } = useRuntimeConfig();
   const now = Date.now();
   const contents = await serverQueryContent(event).find();
@@ -3525,7 +3557,7 @@ const _Mb5F9c = defineEventHandler(async (event) => {
 });
 
 function createNav(contents, configs) {
-  const { navigation } = useRuntimeConfig().content;
+  const { navigation } = useRuntimeConfig().public.content;
   const pickNavigationFields = (content) => ({
     ...pick(["title", ...navigation.fields])(content),
     ...isObject(content?.navigation) ? content.navigation : {}
@@ -3611,7 +3643,7 @@ function isObject(obj) {
   return Object.prototype.toString.call(obj) === "[object Object]";
 }
 
-const _r79G32 = defineEventHandler(async (event) => {
+const _SqUkRm = defineEventHandler(async (event) => {
   const query = getContentQuery(event);
   if (!isPreview(event) && Object.keys(query).length === 0) {
     const cache = await cacheStorage.getItem("content-navigation.json");
@@ -3648,18 +3680,18 @@ const _r79G32 = defineEventHandler(async (event) => {
   return createNav(contents, configs);
 });
 
-const _lazy_nbRGEy = () => Promise.resolve().then(function () { return renderer$1; });
+const _lazy_vgbIeR = () => Promise.resolve().then(function () { return renderer$1; });
 
 const handlers = [
-  { route: '/__nuxt_error', handler: _lazy_nbRGEy, lazy: true, middleware: false, method: undefined },
-  { route: '/api/_content/query/:qid/**:params', handler: _rDGGzR, lazy: false, middleware: false, method: "get" },
-  { route: '/api/_content/query/:qid', handler: _rDGGzR, lazy: false, middleware: false, method: "get" },
-  { route: '/api/_content/query', handler: _rDGGzR, lazy: false, middleware: false, method: "get" },
-  { route: '/api/_content/cache.json', handler: _Mb5F9c, lazy: false, middleware: false, method: "get" },
-  { route: '/api/_content/navigation/:qid/**:params', handler: _r79G32, lazy: false, middleware: false, method: "get" },
-  { route: '/api/_content/navigation/:qid', handler: _r79G32, lazy: false, middleware: false, method: "get" },
-  { route: '/api/_content/navigation', handler: _r79G32, lazy: false, middleware: false, method: "get" },
-  { route: '/**', handler: _lazy_nbRGEy, lazy: true, middleware: false, method: undefined }
+  { route: '/__nuxt_error', handler: _lazy_vgbIeR, lazy: true, middleware: false, method: undefined },
+  { route: '/api/_content/query/:qid/**:params', handler: _m84TEX, lazy: false, middleware: false, method: "get" },
+  { route: '/api/_content/query/:qid', handler: _m84TEX, lazy: false, middleware: false, method: "get" },
+  { route: '/api/_content/query', handler: _m84TEX, lazy: false, middleware: false, method: "get" },
+  { route: '/api/_content/cache.json', handler: _MZYv1z, lazy: false, middleware: false, method: "get" },
+  { route: '/api/_content/navigation/:qid/**:params', handler: _SqUkRm, lazy: false, middleware: false, method: "get" },
+  { route: '/api/_content/navigation/:qid', handler: _SqUkRm, lazy: false, middleware: false, method: "get" },
+  { route: '/api/_content/navigation', handler: _SqUkRm, lazy: false, middleware: false, method: "get" },
+  { route: '/**', handler: _lazy_vgbIeR, lazy: true, middleware: false, method: undefined }
 ];
 
 function createNitroApp() {
@@ -3791,9 +3823,9 @@ const appRootTag = "div";
 
 globalThis.__buildAssetsURL = buildAssetsURL;
 globalThis.__publicAssetsURL = publicAssetsURL;
-const getClientManifest = () => import('/Users/alvarosabu/Projects/tres/playground/.nuxt/dist/server/client.manifest.mjs').then((r) => r.default || r).then((r) => typeof r === "function" ? r() : r);
+const getClientManifest = () => import('file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/.nuxt/dist/server/client.manifest.mjs').then((r) => r.default || r).then((r) => typeof r === "function" ? r() : r);
 const getStaticRenderedHead = () => Promise.resolve().then(function () { return _virtual__headStatic$1; }).then((r) => r.default || r);
-const getServerEntry = () => import('/Users/alvarosabu/Projects/tres/playground/.nuxt/dist/server/server.mjs').then((r) => r.default || r);
+const getServerEntry = () => import('file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/.nuxt/dist/server/server.mjs').then((r) => r.default || r);
 const getSSRRenderer = lazyCachedFunction(async () => {
   const manifest = await getClientManifest();
   if (!manifest) {
