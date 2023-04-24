@@ -46,8 +46,33 @@ export default defineNuxtConfig({
         cssExtend: {
           blockquote: {
             padding: '1rem',
-            'border-left': `8px solid #888 !important`,
-            background: '#e8e8e8',
+            'border-radius': '0.5rem',
+            background: '#efefef',
+          },
+          pre: {
+            background: '#333e50 !important',
+          },
+          img: {
+            margin: '2rem auto',
+            'border-radius': '0.5rem',
+          },
+          code: {
+            'font-family': 'DM Mono',
+            'font-size': '0.875rem',
+          },
+          /*  code: {
+            'font-family': 'Fira Code',
+            'font-size': '0.875rem',
+          }, */
+          ':not(pre)>code': {
+            background: '#e8e8e8 !important',
+            padding: '0.25rem 0.5rem !important',
+          },
+          'code::after': {
+            content: 'none',
+          },
+          'code::before': {
+            content: 'none',
           },
         },
       }),
@@ -62,6 +87,17 @@ export default defineNuxtConfig({
     // core options
     shortcuts: [],
     rules: [],
+  },
+  content: {
+    highlight: {
+      theme: {
+        // Default theme (same as single string)
+        default: 'github-dark',
+        // Theme used if `html.sepia`
+        sepia: 'monokai',
+      },
+      preload: ['bash', 'css', 'javascript', 'json', 'markdown', 'scss', 'vue', 'glsl'],
+    },
   },
   vite: {
     plugins: [glsl()],

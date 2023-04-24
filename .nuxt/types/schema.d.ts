@@ -51,7 +51,15 @@ declare module 'nuxt/schema' {
 
       defaultLocale: any,
 
-      highlight: boolean,
+      highlight: {
+         theme: {
+            default: string,
+
+            sepia: string,
+         },
+
+         preload: Array<string>,
+      },
 
       markdown: {
          tags: {
@@ -212,7 +220,15 @@ declare module 'nuxt/schema' {
          tr: string,
       },
 
-      highlight: boolean,
+      highlight: {
+         theme: {
+            default: string,
+
+            sepia: string,
+         },
+
+         preload: Array<string>,
+      },
 
       wsUrl: string,
 
