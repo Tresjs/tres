@@ -93,7 +93,7 @@
     "unplugin-vue-components": "^0.24.1",
     "vite": "^4.2.1",
     "vite-plugin-banner": "^0.7.0",
-    "vite-plugin-dts": "2.2.0",
+    "vite-plugin-dts": "2.3.0",
     "vite-plugin-inspect": "^0.7.22",
     "vite-plugin-require-transform": "^1.0.12",
     "vite-svg-loader": "^4.0.0",
