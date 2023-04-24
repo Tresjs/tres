@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import AkuAku from '../components/AkuAku.vue'
+import ModelsDemo from '../components/ModelsDemo.vue'
 
 </script>
 <template>
     <Suspense>
-        <AkuAku />
+        <ModelsDemo />
     </Suspense>
 </template>

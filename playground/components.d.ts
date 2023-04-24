@@ -9,9 +9,9 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
-    AkuAku: typeof import('./src/components/AkuAku.vue')['default']
     Gltf: typeof import('./src/components/gltf/index.vue')['default']
     LeviosoDemo: typeof import('./src/components/LeviosoDemo.vue')['default']
+    ModelsDemo: typeof import('./src/components/ModelsDemo.vue')['default']
     PointerLockControlsDemo: typeof import('./src/components/PointerLockControlsDemo.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
