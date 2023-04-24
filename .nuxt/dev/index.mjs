@@ -15,7 +15,7 @@ import { createCall, createFetch } from 'file://C:/Users/Jaime/Desktop/packages-
 import { createHooks } from 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/hookable@5.5.3/node_modules/hookable/dist/index.mjs';
 import { snakeCase, kebabCase, pascalCase, camelCase } from 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/scule@1.0.0/node_modules/scule/dist/index.mjs';
 import defu, { defuFn } from 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/defu@6.1.2/node_modules/defu/dist/defu.mjs';
-import { hash } from 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/ohash@1.1.1/node_modules/ohash/dist/index.mjs';
+import { hash } from 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/ohash@1.1.2/node_modules/ohash/dist/index.mjs';
 import { parseURL, withoutBase, joinURL, withQuery, withLeadingSlash, withoutTrailingSlash, isRelative } from 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/ufo@1.1.1/node_modules/ufo/dist/index.mjs';
 import { createStorage, prefixStorage } from 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/unstorage@1.5.0/node_modules/unstorage/dist/index.mjs';
 import unstorage_47drivers_47fs from 'file://C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/unstorage@1.5.0/node_modules/unstorage/drivers/fs.mjs';
@@ -56,7 +56,7 @@ const inlineAppConfig = {};
 
 const appConfig = defuFn(inlineAppConfig);
 
-const _runtimeConfig = {"app":{"baseURL":"/","buildAssetsDir":"/_nuxt/","cdnURL":""},"nitro":{"envPrefix":"NUXT_","routeRules":{"/__nuxt_error":{"cache":false}}},"public":{"content":{"locales":[],"defaultLocale":"","integrity":"","experimental":{"stripQueryParameters":false,"clientDB":false,"advancedIgnoresPattern":false},"api":{"baseURL":"/api/_content"},"navigation":{"fields":[]},"tags":{"p":"prose-p","a":"prose-a","blockquote":"prose-blockquote","code-inline":"prose-code-inline","code":"prose-code","em":"prose-em","h1":"prose-h1","h2":"prose-h2","h3":"prose-h3","h4":"prose-h4","h5":"prose-h5","h6":"prose-h6","hr":"prose-hr","img":"prose-img","ul":"prose-ul","ol":"prose-ol","li":"prose-li","strong":"prose-strong","table":"prose-table","thead":"prose-thead","tbody":"prose-tbody","td":"prose-td","th":"prose-th","tr":"prose-tr"},"highlight":false,"wsUrl":"ws://localhost:4000/","documentDriven":false,"host":"","trailingSlash":false,"anchorLinks":{"depth":4,"exclude":[1]}}},"content":{"cacheVersion":2,"cacheIntegrity":"DEUS1EsQEX","transformers":[],"base":"","api":{"baseURL":"/api/_content"},"watch":{"ws":{"port":{"port":4000,"portRange":[4000,4040]},"hostname":"localhost","showURL":false}},"sources":{},"ignores":[],"locales":[],"defaultLocale":"","highlight":false,"markdown":{"tags":{"p":"prose-p","a":"prose-a","blockquote":"prose-blockquote","code-inline":"prose-code-inline","code":"prose-code","em":"prose-em","h1":"prose-h1","h2":"prose-h2","h3":"prose-h3","h4":"prose-h4","h5":"prose-h5","h6":"prose-h6","hr":"prose-hr","img":"prose-img","ul":"prose-ul","ol":"prose-ol","li":"prose-li","strong":"prose-strong","table":"prose-table","thead":"prose-thead","tbody":"prose-tbody","td":"prose-td","th":"prose-th","tr":"prose-tr"},"anchorLinks":{"depth":4,"exclude":[1]},"remarkPlugins":{},"rehypePlugins":{}},"yaml":{},"csv":{"delimeter":",","json":true},"navigation":{"fields":[]},"documentDriven":false,"experimental":{"clientDB":false,"stripQueryParameters":false,"advancedIgnoresPattern":false}}};
+const _runtimeConfig = {"app":{"baseURL":"/","buildAssetsDir":"/_nuxt/","cdnURL":""},"nitro":{"envPrefix":"NUXT_","routeRules":{"/__nuxt_error":{"cache":false}}},"public":{"content":{"locales":[],"defaultLocale":"","integrity":"","experimental":{"stripQueryParameters":false,"clientDB":false,"advancedIgnoresPattern":false},"api":{"baseURL":"/api/_content"},"navigation":{"fields":[]},"tags":{"p":"prose-p","a":"prose-a","blockquote":"prose-blockquote","code-inline":"prose-code-inline","code":"prose-code","em":"prose-em","h1":"prose-h1","h2":"prose-h2","h3":"prose-h3","h4":"prose-h4","h5":"prose-h5","h6":"prose-h6","hr":"prose-hr","img":"prose-img","ul":"prose-ul","ol":"prose-ol","li":"prose-li","strong":"prose-strong","table":"prose-table","thead":"prose-thead","tbody":"prose-tbody","td":"prose-td","th":"prose-th","tr":"prose-tr"},"highlight":{"theme":{"default":"github-dark","sepia":"monokai"},"preload":["bash","css","javascript","json","markdown","scss","vue","glsl"]},"wsUrl":"ws://localhost:4000/","documentDriven":false,"host":"","trailingSlash":false,"anchorLinks":{"depth":4,"exclude":[1]}}},"content":{"cacheVersion":2,"cacheIntegrity":"bL94p2Y2Fa","transformers":[],"base":"","api":{"baseURL":"/api/_content"},"watch":{"ws":{"port":{"port":4000,"portRange":[4000,4040]},"hostname":"localhost","showURL":false}},"sources":{},"ignores":[],"locales":[],"defaultLocale":"","highlight":{"theme":{"default":"github-dark","sepia":"monokai"},"preload":["bash","css","javascript","json","markdown","scss","vue","glsl"]},"markdown":{"tags":{"p":"prose-p","a":"prose-a","blockquote":"prose-blockquote","code-inline":"prose-code-inline","code":"prose-code","em":"prose-em","h1":"prose-h1","h2":"prose-h2","h3":"prose-h3","h4":"prose-h4","h5":"prose-h5","h6":"prose-h6","hr":"prose-hr","img":"prose-img","ul":"prose-ul","ol":"prose-ol","li":"prose-li","strong":"prose-strong","table":"prose-table","thead":"prose-thead","tbody":"prose-tbody","td":"prose-td","th":"prose-th","tr":"prose-tr"},"anchorLinks":{"depth":4,"exclude":[1]},"remarkPlugins":{},"rehypePlugins":{}},"yaml":{},"csv":{"delimeter":",","json":true},"navigation":{"fields":[]},"documentDriven":false,"experimental":{"clientDB":false,"stripQueryParameters":false,"advancedIgnoresPattern":false}}};
 const ENV_PREFIX = "NITRO_";
 const ENV_PREFIX_ALT = _runtimeConfig.nitro.envPrefix ?? process.env.NITRO_ENV_PREFIX ?? "_";
 overrideConfig(_runtimeConfig);
@@ -3680,10 +3680,10 @@ const _SqUkRm = defineEventHandler(async (event) => {
   return createNav(contents, configs);
 });
 
-const _lazy_8VqlXp = () => Promise.resolve().then(function () { return renderer$1; });
+const _lazy_vgbIeR = () => Promise.resolve().then(function () { return renderer$1; });
 
 const handlers = [
-  { route: '/__nuxt_error', handler: _lazy_8VqlXp, lazy: true, middleware: false, method: undefined },
+  { route: '/__nuxt_error', handler: _lazy_vgbIeR, lazy: true, middleware: false, method: undefined },
   { route: '/api/_content/query/:qid/**:params', handler: _m84TEX, lazy: false, middleware: false, method: "get" },
   { route: '/api/_content/query/:qid', handler: _m84TEX, lazy: false, middleware: false, method: "get" },
   { route: '/api/_content/query', handler: _m84TEX, lazy: false, middleware: false, method: "get" },
@@ -3691,7 +3691,7 @@ const handlers = [
   { route: '/api/_content/navigation/:qid/**:params', handler: _SqUkRm, lazy: false, middleware: false, method: "get" },
   { route: '/api/_content/navigation/:qid', handler: _SqUkRm, lazy: false, middleware: false, method: "get" },
   { route: '/api/_content/navigation', handler: _SqUkRm, lazy: false, middleware: false, method: "get" },
-  { route: '/**', handler: _lazy_8VqlXp, lazy: true, middleware: false, method: undefined }
+  { route: '/**', handler: _lazy_vgbIeR, lazy: true, middleware: false, method: undefined }
 ];
 
 function createNitroApp() {

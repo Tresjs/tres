@@ -10,4 +10,4 @@ export { useContentPreview } from '../node_modules/.pnpm/@nuxt+content@2.6.0/nod
 export { withContentBase, useUnwrap, useContentDisabled as useContentState, useContentDisabled as useContent } from '../node_modules/.pnpm/@nuxt+content@2.6.0/node_modules/@nuxt/content/dist/runtime/composables/utils';
 export { fetchContentNavigation } from '../node_modules/.pnpm/@nuxt+content@2.6.0/node_modules/@nuxt/content/dist/runtime/composables/navigation';
 export { useImage } from '../node_modules/.pnpm/@nuxt+image-edge@1.0.0-27991759.1a5eea1/node_modules/@nuxt/image-edge/dist/runtime/composables';
-export { definePageMeta } from '../node_modules/.pnpm/nuxt@3.4.2_@types+node@18.15.12/node_modules/nuxt/dist/pages/runtime/composables';
+export { definePageMeta } from '../node_modules/.pnpm/nuxt@3.4.2_@types+node@18.15.13/node_modules/nuxt/dist/pages/runtime/composables';

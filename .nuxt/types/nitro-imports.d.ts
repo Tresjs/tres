@@ -1,6 +1,6 @@
 declare global {
-  const __buildAssetsURL: typeof import('C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/nuxt@3.4.2_@types+node@18.15.12/node_modules/nuxt/dist/core/runtime/nitro/paths')['buildAssetsURL']
-  const __publicAssetsURL: typeof import('C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/nuxt@3.4.2_@types+node@18.15.12/node_modules/nuxt/dist/core/runtime/nitro/paths')['publicAssetsURL']
+  const __buildAssetsURL: typeof import('C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/nuxt@3.4.2_@types+node@18.15.13/node_modules/nuxt/dist/core/runtime/nitro/paths')['buildAssetsURL']
+  const __publicAssetsURL: typeof import('C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/nuxt@3.4.2_@types+node@18.15.13/node_modules/nuxt/dist/core/runtime/nitro/paths')['publicAssetsURL']
   const appendCorsHeaders: typeof import('h3')['appendCorsHeaders']
   const appendCorsPreflightHeaders: typeof import('h3')['appendCorsPreflightHeaders']
   const appendHeader: typeof import('h3')['appendHeader']
@@ -18,7 +18,7 @@ declare global {
   const createEvent: typeof import('h3')['createEvent']
   const createRouter: typeof import('h3')['createRouter']
   const defaultContentType: typeof import('h3')['defaultContentType']
-  const defineAppConfig: typeof import('C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/nuxt@3.4.2_@types+node@18.15.12/node_modules/nuxt/dist/core/runtime/nitro/config')['defineAppConfig']
+  const defineAppConfig: typeof import('C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/nuxt@3.4.2_@types+node@18.15.13/node_modules/nuxt/dist/core/runtime/nitro/config')['defineAppConfig']
   const defineCachedEventHandler: typeof import('C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/nitropack@2.3.3/node_modules/nitropack/dist/runtime')['defineCachedEventHandler']
   const defineCachedFunction: typeof import('C:/Users/Jaime/Desktop/packages-libraries/tres-group/playground/node_modules/.pnpm/nitropack@2.3.3/node_modules/nitropack/dist/runtime')['defineCachedFunction']
   const defineEventHandler: typeof import('h3')['defineEventHandler']

@@ -8,3 +8,8 @@ tags: ['basic']
 ---
 
 <TresBasic />
+
+::the-info
+A basic scene with TresJS. It includes a sphere, a plane and a camera with orbit controls.
+
+::
