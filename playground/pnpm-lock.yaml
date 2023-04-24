@@ -13,8 +13,8 @@ dependencies:
 
 devDependencies:
   '@tresjs/cientos':
-    specifier: 2.0.0-beta.3
-    version: 2.0.0-beta.3(@tresjs/core@2.0.0-beta.9)(three@0.151.0)(vue@3.2.47)
+    specifier: 2.0.0-beta.4
+    version: 2.0.0-beta.4(@tresjs/core@2.0.0-beta.10)(three@0.151.0)(vue@3.2.47)
   '@vitejs/plugin-vue':
     specifier: ^4.1.0
     version: 4.1.0(vite@4.2.1)(vue@3.2.47)
@@ -406,14 +406,14 @@ packages:
       picomatch: 2.3.1
     dev: true
 
-  /@tresjs/cientos@2.0.0-beta.3(@tresjs/core@2.0.0-beta.9)(three@0.151.0)(vue@3.2.47):
-    resolution: {integrity: sha512-imBObbMCZZMtXMTQ18rCKADiFlcwNVRMsVBh8ffDY393GJMkWPgtx4hNcBWfVxGgLZPB/o1tewGgcZ58o4hCrw==}
+  /@tresjs/cientos@2.0.0-beta.4(@tresjs/core@2.0.0-beta.10)(three@0.151.0)(vue@3.2.47):
+    resolution: {integrity: sha512-axtFklWXJX3HoFE6ftsy2hCwrzL+rbrPj45pFk5o+wx5ZUEiSEnJ61ibOu+YEHyJcE1nZeefXSib/TOjZ+iqVA==}
     peerDependencies:
-      '@tresjs/core': 2.0.0-beta.9
+      '@tresjs/core': 2.0.0-beta.10
       three: latest
       vue: ^3.2.47
     dependencies:
-      '@tresjs/core': 2.0.0-beta.9(three@0.151.0)(vue@3.2.47)
+      '@tresjs/core': 2.0.0-beta.10(three@0.151.0)(vue@3.2.47)
       '@vueuse/core': 10.0.2(vue@3.2.47)
       three: 0.151.0
       three-stdlib: 2.21.8(three@0.151.0)
@@ -422,8 +422,8 @@ packages:
       - '@vue/composition-api'
     dev: true
 
-  /@tresjs/core@2.0.0-beta.9(three@0.151.0)(vue@3.2.47):
-    resolution: {integrity: sha512-UNhtDjB4Y2KohEY0EIqvS6jKewMvFk2uZH0eVgYi1Jcw27lv0xu1OETxSMBj7wLBJCBHZdupFYpcfWLw59fbSA==}
+  /@tresjs/core@2.0.0-beta.10(three@0.151.0)(vue@3.2.47):
+    resolution: {integrity: sha512-SGkHnskrjbLwavnqLvaI3RfNh1XXjR58jTlnpjoOYDjU5LyQFcQAEbCgnbYnLmg5vufe01pywBnnjv9+try8qg==}
     peerDependencies:
       three: latest
       vue: ^3.2.47
