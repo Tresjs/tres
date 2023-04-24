@@ -9,7 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "three": "0.150.1",
+    "three": "0.151.3",
     "vue": "^3.2.47",
     "vue-router": "^4.1.6"
   },
