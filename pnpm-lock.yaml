@@ -7,7 +7,7 @@ specifiers:
   '@iconify-json/logos': ^1.1.25
   '@nuxt/content': ^2.6.0
   '@nuxt/image-edge': 1.0.0-27991759.1a5eea1
-  '@tresjs/cientos': 2.0.0-beta.4
+  '@tresjs/cientos': 2.0.0-beta.6
   '@tresjs/core': 2.0.0-beta.11
   '@types/three': ^0.149.0
   '@unocss/nuxt': ^0.50.8
@@ -19,7 +19,7 @@ specifiers:
 
 dependencies:
   '@iconify-json/ic': 1.1.13
-  '@tresjs/cientos': 2.0.0-beta.4_qct326xfdjdpjuyftgmdfhfmha
+  '@tresjs/cientos': 2.0.0-beta.6_qct326xfdjdpjuyftgmdfhfmha
   '@tresjs/core': 2.0.0-beta.11_three@0.150.1+vue@3.2.47
   postprocessing: 6.30.2_three@0.150.1
   three: 0.150.1
@@ -805,11 +805,11 @@ packages:
       - supports-color
     dev: true
 
-  /@nuxt/kit-edge/3.4.3-28033806.f1ded44e:
-    resolution: {integrity: sha512-eQqp9oDLD4kGYBAOZo4dzARwO4o+dT6FZVjwko1xf4MfCLPQ7Q9o5u71tJIUfMcP+ouXBl7qUoumitP/XFL06A==}
+  /@nuxt/kit-edge/3.4.3-28039476.ea1c5b25:
+    resolution: {integrity: sha512-Zg7LetLOzWNlmbGCPSuwMHoe383S3zCSSJ370x3UpAvhPaF8qDo06kWQXlucVbhycGj5852YsX3fsbYEYG4f2w==}
     engines: {node: ^14.18.0 || ^16.10.0 || ^17.0.0 || ^18.0.0 || ^19.0.0}
     dependencies:
-      '@nuxt/schema': /@nuxt/schema-edge/3.4.3-28033806.f1ded44e
+      '@nuxt/schema': /@nuxt/schema-edge/3.4.3-28039476.ea1c5b25
       c12: 1.4.1
       consola: 3.1.0
       defu: 6.1.2
@@ -886,8 +886,8 @@ packages:
       - supports-color
     dev: true
 
-  /@nuxt/schema-edge/3.4.3-28033806.f1ded44e:
-    resolution: {integrity: sha512-jD23RQ1Vjm9XakTcvU+cwXJJgXasqysBV9AYKM4Pk+67nABRrDLExXI2s5Wohx75EZ0MyfDiHrYm5UL4HgNkgQ==}
+  /@nuxt/schema-edge/3.4.3-28039476.ea1c5b25:
+    resolution: {integrity: sha512-qJsvUOaF+NoQNUxxLs3XnR9GBWg9/O0yuiEZB6HeTEx6HAa4bJTz8S1nfzyxCvRQy+3n1xkAvFOVGqvvcn8HMA==}
     engines: {node: ^14.18.0 || ^16.10.0 || ^17.0.0 || ^18.0.0 || ^19.0.0}
     dependencies:
       defu: 6.1.2
@@ -1213,10 +1213,10 @@ packages:
     resolution: {integrity: sha512-+9jVqKhRSpsc591z5vX+X5Yyw+he/HCB4iQ/RYxw35CEPaY1gnsNE43nf9n9AaYjAQrTiI/mOwKUKdUs9vf7Xg==}
     dev: true
 
-  /@tresjs/cientos/2.0.0-beta.4_qct326xfdjdpjuyftgmdfhfmha:
-    resolution: {integrity: sha512-axtFklWXJX3HoFE6ftsy2hCwrzL+rbrPj45pFk5o+wx5ZUEiSEnJ61ibOu+YEHyJcE1nZeefXSib/TOjZ+iqVA==}
+  /@tresjs/cientos/2.0.0-beta.6_qct326xfdjdpjuyftgmdfhfmha:
+    resolution: {integrity: sha512-FPX3Y6ZJDTKxn2XRMbjKz8zflkpqncp5VZDAWwr9886cauagRwOfaZZf2KAcbXH82zAMBWLvKuSrCmRfiEHZAQ==}
     peerDependencies:
-      '@tresjs/core': 2.0.0-beta.10
+      '@tresjs/core': 2.0.0-beta.11
       three: latest
       vue: ^3.2.47
     dependencies:
@@ -5186,7 +5186,7 @@ packages:
       vue-loader: ^17.0.0
       vue-svg-loader: 0.17.0-beta.2
     dependencies:
-      '@nuxt/kit': /@nuxt/kit-edge/3.4.3-28033806.f1ded44e
+      '@nuxt/kit': /@nuxt/kit-edge/3.4.3-28039476.ea1c5b25
       svgo-loader: 4.0.0
       vite-svg-loader: 4.0.0
       vue-loader: 17.0.1_vue@3.2.47+webpack@5.80.0
