@@ -1,5 +1,13 @@
 
 
+## [2.0.0-beta.12](https://github.com/Tresjs/tres/compare/2.0.0-beta.11...2.0.0-beta.12) (2023-04-25)
+
+
+### Bug Fixes
+
+* avoid assigning args as BufferAttribute to BufferGeometry ([1cc67b0](https://github.com/Tresjs/tres/commit/1cc67b08c1f1d2a2f3a4623a15dd69ecf3e3663a))
+* **deps:** update dependency three to ^0.151.0 ([6f0e80c](https://github.com/Tresjs/tres/commit/6f0e80cf3ada806ff551f629b1fbee67532d55ce))
+
 ## [2.0.0-beta.11](https://github.com/Tresjs/tres/compare/2.0.0-beta.10...2.0.0-beta.11) (2023-04-20)
 
 
