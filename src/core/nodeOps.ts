@@ -132,6 +132,7 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
       let target = root?.[finalKey]
 
       if (root.type === 'BufferGeometry') {
+        if (key === 'args') return
         root.setAttribute(
           kebabToCamel(key),
           new BufferAttribute(...(nextValue as ConstructorParameters<typeof BufferAttribute>)),
