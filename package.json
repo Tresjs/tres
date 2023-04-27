@@ -13,6 +13,7 @@
     "@iconify-json/logos": "^1.1.25",
     "@nuxt/content": "^2.6.0",
     "@nuxt/image-edge": "1.0.0-27991759.1a5eea1",
+    "@tresjs/core": "2.0.0-beta.12",
     "@types/three": "^0.149.0",
     "@unocss/nuxt": "^0.50.8",
     "nuxt": "^3.4.2",
