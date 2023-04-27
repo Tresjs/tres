@@ -1,8 +1,8 @@
-import { App, defineComponent, h, onMounted, onUnmounted, provide, ref, watchEffect } from 'vue'
+import { App, defineComponent, h, onMounted, onUnmounted, ref, watch, watchEffect } from 'vue'
 import * as THREE from 'three'
 import { ShadowMapType, TextureEncoding, ToneMapping } from 'three'
 import { createTres } from '/@/core/renderer'
-import { TRES_CONTEXT_KEY, useLogger } from '/@/composables'
+import { CameraType, TRES_CONTEXT_KEY, useLogger } from '/@/composables'
 import { useCamera, useRenderer, useRenderLoop, useRaycaster, useTres } from '/@/composables'
 import { extend } from '/@/core/catalogue'
 import { RendererPresetsType } from '/@/composables/useRenderer/const'
@@ -25,6 +25,7 @@ export interface TresSceneProps {
   windowSize?: boolean
   preset?: RendererPresetsType
   disableRender?: boolean
+  camera?: CameraType
 }
 /**
  * Vue component for rendering a Tres component.
@@ -49,6 +50,7 @@ export const TresScene = defineComponent<TresSceneProps>({
     'windowSize',
     'preset',
     'disableRender',
+    'camera',
   ] as unknown as undefined,
   setup(props, { slots, expose }) {
     if (props.physicallyCorrectLights === true) {
@@ -69,7 +71,8 @@ export const TresScene = defineComponent<TresSceneProps>({
     const internal = slots && slots.default && slots.default()
 
     if (internal?.length > 0) {
-      isCameraAvailable.value = internal.some((node: TresObject) => isString(node.type) && node.type.includes('Camera'))
+      isCameraAvailable.value =
+        internal.some((node: TresObject) => isString(node.type) && node.type.includes('Camera')) || props.camera
       if (!isCameraAvailable.value) {
         logWarning('No camera found in the scene, please add one!')
       }
@@ -83,10 +86,14 @@ export const TresScene = defineComponent<TresSceneProps>({
       setState('renderer', null)
     })
 
+    const { activeCamera, pushCamera, clearCameras } = useCamera()
+
     function initRenderer() {
       const { renderer } = useRenderer(props)
 
-      const { activeCamera } = useCamera()
+      if (props.camera) {
+        pushCamera(props.camera as any)
+      }
 
       const { onLoop } = useRenderLoop()
 
@@ -152,6 +159,16 @@ export const TresScene = defineComponent<TresSceneProps>({
     if (import.meta.hot) {
       import.meta.hot.on('vite:afterUpdate', dispose)
     }
+
+    watch(
+      () => props.camera,
+      camera => {
+        if (camera) {
+          clearCameras()
+          pushCamera(camera as any)
+        }
+      },
+    )
 
     return () => {
       return h(
