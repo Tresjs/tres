@@ -1,5 +1,12 @@
 
 
+## [2.0.0-beta.13](https://github.com/Tresjs/tres/compare/2.0.0-beta.12...2.0.0-beta.13) (2023-04-27)
+
+
+### Features
+
+* add manual camera prop to canvas ([588a3fc](https://github.com/Tresjs/tres/commit/588a3fcddd1557390003bfd0cd5d63db2536fdd7))
+
 ## [2.0.0-beta.12](https://github.com/Tresjs/tres/compare/2.0.0-beta.11...2.0.0-beta.12) (2023-04-25)
 
 
