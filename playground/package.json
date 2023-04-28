@@ -9,10 +9,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "three": "^0.152.0",
     "vue": "^3.2.47",
     "vue-router": "^4.1.6"
   },
   "devDependencies": {
+    "@tresjs/cientos": "2.0.0-beta.6",
+    "@tresjs/core": "2.0.0-beta.13",
     "@vitejs/plugin-vue": "^4.1.0",
     "pathe": "^1.1.0",
     "typescript": "^5.0.2",

@@ -1,3 +1,5 @@
+/// <reference types="histoire" />
+
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 
@@ -6,7 +8,8 @@ import dts from 'vite-plugin-dts'
 import analyze from 'rollup-plugin-analyzer'
 import { visualizer } from 'rollup-plugin-visualizer'
 import { resolve } from 'pathe'
-
+import UnoCSS from 'unocss/vite'
+import { presetUno, presetIcons, presetWebFonts } from 'unocss'
 import { lightGreen, magenta, gray, bold } from 'kolorist'
 
 import pkg from './package.json'
@@ -30,6 +33,30 @@ export default defineConfig({
       content: `/**\n * name: ${pkg.name}\n * version: v${
         pkg.version
       }\n * (c) ${new Date().getFullYear()}\n * description: ${pkg.description}\n * author: ${pkg.author}\n */`,
+    }),
+    UnoCSS({
+      /* options */
+      presets: [
+        presetUno(),
+        presetIcons({
+          scale: 1.2,
+          warn: true,
+          extraProperties: {
+            display: 'inline-block',
+            'vertical-align': 'middle',
+            // ...
+          },
+        }),
+
+        presetWebFonts({
+          fonts: {
+            sans: 'DM Sans',
+            serif: 'DM Serif Display',
+            mono: 'DM Mono',
+            title: 'Sacramento',
+          },
+        }),
+      ],
     }),
   ],
   build: {
