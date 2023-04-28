@@ -13,8 +13,6 @@ const DEFAULT_WIDTH = 280
 const handle = ref<HTMLElement | null>(null)
 
 const state = useControlsProvider()
-
-const controls = computed(() => Object.entries(state.controls))
 </script>
 <template>
   <UseDraggable
@@ -33,8 +31,8 @@ const controls = computed(() => Object.entries(state.controls))
         <div></div>
       </header>
       <div class="p-4">
-        <template v-for="[key, control] in controls" :key="key">
-          <ControlInput :label="key" :control="control" />
+        <template v-for="control in state.controls" :key="control.label">
+          <ControlInput :control="control" />
         </template>
       </div>
       <pre>{{ state }}</pre>

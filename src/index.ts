@@ -1,5 +1,5 @@
 import './style.css'
 import 'uno.css'
-import Leches from './components/Leches.vue'
+import TresLeches from './components/TresLeches.vue'
 import { useControls } from './composables/useControls'
-export { Leches, useControls }
+export { TresLeches, useControls }

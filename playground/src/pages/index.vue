@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
 import { OrbitControls, Box } from '@tresjs/cientos'
-import { Leches, useControls } from '@leches/'
+import { TresLeches, useControls } from '@leches/'
 import { reactive, ref, watch, watchEffect } from 'vue'
 
 const gl = reactive({
@@ -12,27 +12,32 @@ watchEffect(() => {
   console.log(gl)
 })
 
-const awiwi = ref(false)
+const wireframe = ref(true)
+const boxPositionX = ref(1)
 
-useControls(gl)
+useControls({
+  wireframe,
+  boxPositionX,
+})
 
-const boxRef = ref()
+/* const boxRef = ref()
 
 watch(boxRef, value => {
   if (value) {
+    boxRef.value.position.x = 1
     useControls({
-      position: value.position.x,
+      position: boxRef.value.position.x,
     })
   }
-})
+}) */
 </script>
 <template>
-  <Leches />
+  <TresLeches />
   <TresCanvas v-bind="gl">
     <TresPerspectiveCamera />
-    <TresMesh ref="boxRef" :position="[0, 1, 0]" :scale="[2, 2, 2]">
+    <TresMesh ref="boxRef" :position-x="boxPositionX" :scale="[2, 2, 2]">
       <TresBoxGeometry />
-      <TresMeshNormalMaterial :color="'teal'" />
+      <TresMeshNormalMaterial :color="'teal'" :wireframe="wireframe" />
     </TresMesh>
     <TresGridHelper />
     <TresAmbientLight :intensity="1" />

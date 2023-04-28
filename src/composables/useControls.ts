@@ -6,7 +6,7 @@ export type Schema = Record<string, any>
 export type SchemaOrFn<S extends Schema = Schema> = S | (() => S)
 
 const state = reactive({
-  controls: {},
+  controls: [],
 })
 
 export function useControlsProvider() {
@@ -19,9 +19,9 @@ export function useControlsProvider() {
   return state
 }
 
-function parseObjectToControls(obj, state) {
-  return Object.entries(obj).forEach(([key, value]) => {
-    state.controls[key] = { value, type: isRef(value) ? typeof value.value : typeof value }
+function parseObjectToControls(obj) {
+  return Object.entries(obj).map(([key, value]) => {
+    return { label: key, value, type: isRef(value) ? typeof value.value : typeof value }
   })
 }
 
@@ -30,14 +30,16 @@ export function useControls<S extends Schema, F extends SchemaOrFn<S> | string>(
   /* settingsOrDepsOrControl: G, */
 ) {
   const ctx = inject(CONTROLS_CONTEXT_KEY, {})
-
+  let controls
   if (typeof controlOrFolderName === 'string') {
   } else if (isReactive(controlOrFolderName)) {
-    const controls = toRefs(controlOrFolderName)
-    parseObjectToControls(controls, state)
+    const iternal = toRefs(controlOrFolderName)
+    controls = parseObjectToControls(iternal)
   } else {
-    parseObjectToControls(controlOrFolderName, state)
+    controls = parseObjectToControls(controlOrFolderName)
   }
+
+  state.controls = [...state.controls, ...controls]
 
   return ctx
 }
