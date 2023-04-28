@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
-import { EffectComposer, Glitch } from '/@post'
-import { BasicShadowMap, sRGBEncoding, NoToneMapping } from 'three'
+import { EffectComposer, Glitch } from '@post'
+import { BasicShadowMap, NoToneMapping } from 'three'
 
 const gl = {
   clearColor: '#82DBC5',
@@ -13,7 +13,7 @@ const gl = {
 </script>
 
 <template>
-  <TresCanvas v-bind="gl" :disable-render="true">
+  <TresCanvas v-bind="gl" disable-render>
     <TresPerspectiveCamera :position="[5, 5, 5]" :look-at="[0, 0, 0]" />
 
     <TresMesh>

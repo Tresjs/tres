@@ -48,7 +48,7 @@
   "devDependencies": {
     "@alvarosabu/prettier-config": "^1.3.0",
     "@release-it/conventional-changelog": "^5.1.1",
-    "@tresjs/core": "2.0.0-beta.9",
+    "@tresjs/core": "2.0.0-beta.10",
     "@types/three": "^0.150.1",
     "@vitejs/plugin-vue": "^4.1.0",
     "kolorist": "^1.7.0",

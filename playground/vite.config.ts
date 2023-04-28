@@ -32,7 +32,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '/@': resolve(__dirname, './src'),
-      '/@post': resolve(__dirname, '../src/'),
+      '@post': resolve(__dirname, '../src/'),
     },
     /*   dedupe: ['@tresjs/core'], */
   },

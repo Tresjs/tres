@@ -6,6 +6,11 @@ const routes = [
     name: 'Home',
     component: () => import('./pages/index.vue'),
   },
+  {
+    path: '/outline',
+    name: 'Outline',
+    component: () => import('./pages/outline.vue'),
+  },
 ]
 
 export const router = createRouter({

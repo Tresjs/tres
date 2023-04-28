@@ -115,7 +115,7 @@ export const Glitch = defineComponent<GlitchProps>({
     watchEffect(() => {
       if (state.camera && composer && composer.value) {
         pass.value = new EffectPass(unref(state.camera), new GlitchEffect(props))
-        composer?.value?.addPass(toRaw(pass.value))
+        composer.value?.addPass(toRaw(pass.value))
       }
     })
 
