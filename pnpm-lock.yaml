@@ -5,8 +5,8 @@ dependencies:
     specifier: ^1.1.13
     version: 1.1.13
   '@tresjs/cientos':
-    specifier: 2.0.0-beta.3
-    version: 2.0.0-beta.3(@tresjs/core@2.0.0-beta.13)(three@0.150.1)(vue@3.2.47)
+    specifier: 2.0.0-beta.6
+    version: 2.0.0-beta.6(@tresjs/core@2.0.0-beta.13)(three@0.150.1)(vue@3.2.47)
   postprocessing:
     specifier: ^6.30.2
     version: 6.30.2(three@0.150.1)
@@ -824,11 +824,11 @@ packages:
       - supports-color
     dev: true
 
-  /@nuxt/kit-edge@3.4.4-28045161.1464294d:
-    resolution: {integrity: sha512-DSvcWdFMWXRjLxt90CP8ajODXg0jDTA/LtDeyKoOTsUt3SXQZx5uP2q/3iGf1VeO/qP0JDFaOLI1uvYt95/wcw==}
+  /@nuxt/kit-edge@3.5.0-28046831.4e7206bf:
+    resolution: {integrity: sha512-a9AcdGdwCDMVQnsnhA+m5e2XEwGyMuIZapGgBwizIw9uhS6MyscZv4LQI7PVEHSiobryb2z9Oshjix7qyKWh/Q==}
     engines: {node: ^14.18.0 || >=16.10.0}
     dependencies:
-      '@nuxt/schema': /@nuxt/schema-edge@3.4.4-28045161.1464294d
+      '@nuxt/schema': /@nuxt/schema-edge@3.5.0-28046831.4e7206bf
       c12: 1.4.1
       consola: 3.1.0
       defu: 6.1.2
@@ -905,8 +905,8 @@ packages:
       - supports-color
     dev: true
 
-  /@nuxt/schema-edge@3.4.4-28045161.1464294d:
-    resolution: {integrity: sha512-6Sh5DwtXHsT7atQr9iRU0gbV/YUwFf66kpkicfImCf7hUqOhcDcjaRzpzbbXk31ux2LIhwUf79Gk9epvUj+XBQ==}
+  /@nuxt/schema-edge@3.5.0-28046831.4e7206bf:
+    resolution: {integrity: sha512-fLrdJiDITKK6wdAAyW86fs9Gfm7vsM+nAuaf6CSXIV1n5CT2uOBXkYUiLBZf9FN1ZLXjKucPpa1jnlwAQJvURg==}
     engines: {node: ^14.18.0 || >=16.10.0}
     dependencies:
       defu: 6.1.2
@@ -1210,10 +1210,10 @@ packages:
     resolution: {integrity: sha512-+9jVqKhRSpsc591z5vX+X5Yyw+he/HCB4iQ/RYxw35CEPaY1gnsNE43nf9n9AaYjAQrTiI/mOwKUKdUs9vf7Xg==}
     dev: true
 
-  /@tresjs/cientos@2.0.0-beta.3(@tresjs/core@2.0.0-beta.13)(three@0.150.1)(vue@3.2.47):
-    resolution: {integrity: sha512-imBObbMCZZMtXMTQ18rCKADiFlcwNVRMsVBh8ffDY393GJMkWPgtx4hNcBWfVxGgLZPB/o1tewGgcZ58o4hCrw==}
+  /@tresjs/cientos@2.0.0-beta.6(@tresjs/core@2.0.0-beta.13)(three@0.150.1)(vue@3.2.47):
+    resolution: {integrity: sha512-FPX3Y6ZJDTKxn2XRMbjKz8zflkpqncp5VZDAWwr9886cauagRwOfaZZf2KAcbXH82zAMBWLvKuSrCmRfiEHZAQ==}
     peerDependencies:
-      '@tresjs/core': 2.0.0-beta.9
+      '@tresjs/core': 2.0.0-beta.11
       three: latest
       vue: ^3.2.47
     dependencies:
@@ -5134,7 +5134,7 @@ packages:
   /nuxt-svgo@1.1.0(vue@3.2.47)(webpack@5.79.0):
     resolution: {integrity: sha512-rluyaY2S2ey8MrUNyA5fJHcNQsgPtBn5fKyYgDb4Wr5foP2ICwJcoN/Jp8czwfuHSEnPek0t4XXmjOSvChk+WA==}
     dependencies:
-      '@nuxt/kit': /@nuxt/kit-edge@3.4.4-28045161.1464294d
+      '@nuxt/kit': /@nuxt/kit-edge@3.5.0-28046831.4e7206bf
       svgo-loader: 3.0.3
       vite-svg-loader: 3.6.0
       vue-loader: 17.0.1(vue@3.2.47)(webpack@5.79.0)
