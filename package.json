@@ -97,7 +97,7 @@
     "vite-plugin-inspect": "^0.7.22",
     "vite-plugin-require-transform": "^1.0.12",
     "vite-svg-loader": "^4.0.0",
-    "vitepress": "1.0.0-alpha.65",
+    "vitepress": "1.0.0-alpha.75",
     "vitest": "^0.30.1",
     "vue-demi": "^0.14.0"
   }
