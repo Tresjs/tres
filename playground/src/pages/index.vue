@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
-import { OrbitControls, Box } from '@tresjs/cientos'
+import { OrbitControls } from '@tresjs/cientos'
 import { TresLeches, useControls } from '@leches/'
-import { reactive, ref, watch, watchEffect } from 'vue'
+import { reactive, ref, watchEffect } from 'vue'
 
 const gl = reactive({
   clearColor: '#82DBC5',
@@ -13,11 +13,19 @@ watchEffect(() => {
 })
 
 const wireframe = ref(true)
-const boxPositionX = ref(1)
+const boxPositionX = ref(2)
+
+useControls(gl)
 
 useControls({
   wireframe,
-  boxPositionX,
+  boxPositionX: {
+    value: boxPositionX,
+    min: -10,
+    max: 10,
+    step: 0.1,
+    label: 'Box Position X',
+  },
 })
 
 /* const boxRef = ref()

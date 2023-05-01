@@ -20,9 +20,21 @@ export function useControlsProvider() {
 }
 
 function parseObjectToControls(obj) {
-  return Object.entries(obj).map(([key, value]) => {
-    return { label: key, value, type: isRef(value) ? typeof value.value : typeof value }
+  return Object.entries(obj).map(([key, schema]) => {
+    if (!isRef(schema) && schema.value) {
+      return { label: schema.label || key, value: schema.value, type: typeof schema.value.value, visible: true }
+    }
+    return {
+      label: schema.label || key,
+      value: schema,
+      type: isRef(schema) ? typeof schema.value : typeof schema,
+      visible: true,
+    }
   })
+}
+
+function dispose() {
+  state.controls = []
 }
 
 export function useControls<S extends Schema, F extends SchemaOrFn<S> | string>(
@@ -42,4 +54,8 @@ export function useControls<S extends Schema, F extends SchemaOrFn<S> | string>(
   state.controls = [...state.controls, ...controls]
 
   return ctx
+}
+
+if (import.meta.hot) {
+  import.meta.hot.on('vite:beforeUpdate', dispose)
 }

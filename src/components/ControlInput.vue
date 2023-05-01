@@ -9,7 +9,9 @@ defineProps<{
 }>()
 </script>
 <template>
-  <TextControl v-if="control.type === 'string'" :label="control.label" :control="control" />
-  <NumberControl v-else-if="control.type === 'number'" :label="control.label" :control="control" />
-  <BooleanControl v-else-if="control.type === 'boolean'" :label="control.label" :control="control" />
+  <template v-if="control.visible">
+    <TextControl v-if="control.type === 'string'" :label="control.label" :control="control" />
+    <NumberControl v-else-if="control.type === 'number'" :label="control.label" :control="control" />
+    <BooleanControl v-else-if="control.type === 'boolean'" :label="control.label" :control="control" />
+  </template>
 </template>
