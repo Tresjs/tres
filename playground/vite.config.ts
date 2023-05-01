@@ -4,7 +4,7 @@ import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import { resolve } from 'pathe'
 import UnoCSS from 'unocss/vite'
-import { presetUno, presetIcons, presetWebFonts, presetTypography } from 'unocss'
+import { presetUno, presetIcons, presetWebFonts, presetTypography, transformerDirectives } from 'unocss'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -79,6 +79,7 @@ export default defineConfig({
           },
         }),
       ],
+      transformers: [transformerDirectives()],
     }),
   ],
 })

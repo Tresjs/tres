@@ -21,10 +21,19 @@ export function useControlsProvider() {
 
 function parseObjectToControls(obj) {
   return Object.entries(obj).map(([key, schema]) => {
+    console.log('schema', schema)
     if (!isRef(schema) && schema.value) {
-      return { label: schema.label || key, value: schema.value, type: typeof schema.value.value, visible: true }
+      return {
+        ...schema,
+        /*         ...schema.value, */
+        label: schema.label || key,
+        value: schema.value,
+        type: typeof schema.value.value,
+        visible: true,
+      }
     }
     return {
+      /* ...schema, */
       label: schema.label || key,
       value: schema,
       type: isRef(schema) ? typeof schema.value : typeof schema,

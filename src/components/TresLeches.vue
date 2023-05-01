@@ -35,7 +35,6 @@ const state = useControlsProvider()
           <ControlInput :control="control" />
         </template>
       </div>
-      <pre>{{ state }}</pre>
     </div>
   </UseDraggable>
 </template>
