@@ -5,7 +5,7 @@ defineProps<{
 }>()
 </script>
 <template>
-  <div class="flex justify-start gap-2 items-start mb-2">
+  <div class="flex justify-start gap-2 items-center mb-2 min-h-32px">
     <label class="text-gray-500 w-1/3">{{ label }}</label>
     <input :id="control.label" v-model="control.value" class="hidden" type="checkbox" />
     <label :for="control.label" class="inline-flex items-center cursor-pointer">

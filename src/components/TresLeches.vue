@@ -2,7 +2,7 @@
 import { useWindowSize } from '@vueuse/core'
 import { UseDraggable } from '@vueuse/components'
 
-import { computed, ref } from 'vue'
+import { ref } from 'vue'
 import { useControlsProvider } from '../composables/useControls'
 import ControlInput from './ControlInput.vue'
 
@@ -22,7 +22,7 @@ const state = useControlsProvider()
   >
     <div class="bg-white shadow-xl rounded border-4 border-solid border-black">
       <header ref="handle" class="relative cursor-grabbing p-4 flex justify-between text-gray-200 relative">
-        <i class="h-4 w-4 p-1 rounded-full bg-gray-100 text-xs">🍰</i>
+        <i class="h-4 w-4 p-1.5 flex items-center line-height-0 rounded-full bg-gray-100 text-xs">🍰</i>
         <div>
           <i class="i-ic-baseline-drag-indicator" /><i class="i-ic-baseline-drag-indicator" /><i
             class="i-ic-baseline-drag-indicator"

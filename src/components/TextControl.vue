@@ -5,7 +5,7 @@ defineProps<{
 }>()
 </script>
 <template>
-  <div class="flex justify-between gap-4 items-center mb-2">
+  <div class="flex justify-between gap-4 items-center mb-2 min-h-32px">
     <label class="text-gray-500 w-1/3">{{ label }}</label>
     <input
       v-model="control.value"
