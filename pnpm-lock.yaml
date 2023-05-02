@@ -26,13 +26,13 @@ devDependencies:
     version: 1.9.0
   '@tresjs/cientos':
     specifier: 2.0.0-beta.4
-    version: 2.0.0-beta.4(@tresjs/core@)(three@0.151.0)(vue@3.2.47)
+    version: 2.0.0-beta.4(@tresjs/core@2.0.0-beta.11)(three@0.151.0)(vue@3.2.47)
   '@tresjs/core':
     specifier: 2.0.0-beta.11
-    version: 'link:'
+    version: 2.0.0-beta.11(three@0.151.0)(vue@3.2.47)
   '@types/three':
     specifier: latest
-    version: 0.150.2
+    version: 0.151.0
   '@typescript-eslint/eslint-plugin':
     specifier: ^5.58.0
     version: 5.58.0(@typescript-eslint/parser@5.58.0)(eslint@8.38.0)(typescript@4.8.4)
@@ -67,8 +67,8 @@ devDependencies:
     specifier: ^9.6.1
     version: 9.8.0
   jsdom:
-    specifier: ^21.1.1
-    version: 21.1.1
+    specifier: ^22.0.0
+    version: 22.0.0
   kolorist:
     specifier: ^1.7.0
     version: 1.7.0
@@ -125,7 +125,7 @@ devDependencies:
     version: 1.0.0-alpha.65(@algolia/client-search@4.15.0)
   vitest:
     specifier: ^0.30.1
-    version: 0.30.1(@vitest/ui@0.30.0)(happy-dom@9.8.0)(jsdom@21.1.1)
+    version: 0.30.1(@vitest/ui@0.30.0)(happy-dom@9.8.0)(jsdom@22.0.0)
   vue-demi:
     specifier: ^0.14.0
     version: 0.14.0(vue@3.2.47)
@@ -253,7 +253,6 @@ packages:
 
   /@alvarosabu/utils@2.3.0:
     resolution: {integrity: sha512-Uf+loPdTfNDPIOMCQlBVC9Db+UnmXVn/MTyVZNjPHmp2noOyux/U/vfjhJROGUvnHZxdYIMEpWVeTI/i/VCUJQ==}
-    dev: false
 
   /@ampproject/remapping@2.2.1:
     resolution: {integrity: sha512-lFMjJTrFL3j7L9yBxwYfCq2k6qqwHyzuUl/XBnif78PWTJYyL/dfowQHWE3sp6U6ZzqWiiIZnpTMO96zhkjwtg==}
@@ -1078,17 +1077,31 @@ packages:
     engines: {node: '>= 10'}
     dev: true
 
-  /@tresjs/cientos@2.0.0-beta.4(@tresjs/core@)(three@0.151.0)(vue@3.2.47):
+  /@tresjs/cientos@2.0.0-beta.4(@tresjs/core@2.0.0-beta.11)(three@0.151.0)(vue@3.2.47):
     resolution: {integrity: sha512-axtFklWXJX3HoFE6ftsy2hCwrzL+rbrPj45pFk5o+wx5ZUEiSEnJ61ibOu+YEHyJcE1nZeefXSib/TOjZ+iqVA==}
     peerDependencies:
       '@tresjs/core': 2.0.0-beta.10
       three: latest
       vue: ^3.2.47
     dependencies:
-      '@tresjs/core': 'link:'
+      '@tresjs/core': 2.0.0-beta.11(three@0.151.0)(vue@3.2.47)
       '@vueuse/core': 10.0.2(vue@3.2.47)
       three: 0.151.0
       three-stdlib: 2.21.8(three@0.151.0)
+      vue: 3.2.47
+    transitivePeerDependencies:
+      - '@vue/composition-api'
+    dev: true
+
+  /@tresjs/core@2.0.0-beta.11(three@0.151.0)(vue@3.2.47):
+    resolution: {integrity: sha512-EkgZSWEAftcG6CpF1YgiGahrQGAAItyidL+Mr2wQPD4hNRNT+K9YYzyAHl7jaVbLpFLYAfhxL2i+sK+YuH9/kA==}
+    peerDependencies:
+      three: latest
+      vue: ^3.2.47
+    dependencies:
+      '@alvarosabu/utils': 2.3.0
+      '@vueuse/core': 9.13.0(vue@3.2.47)
+      three: 0.151.0
       vue: 3.2.47
     transitivePeerDependencies:
       - '@vue/composition-api'
@@ -1179,8 +1192,8 @@ packages:
     resolution: {integrity: sha512-9w+a7bR8PeB0dCT/HBULU2fMqf6BAzvKbxFboYhmDtDkKPiyXYbjoe2auwsXlEFI7CFNMF1dCv3dFH5Poy9R1w==}
     dev: true
 
-  /@types/three@0.150.2:
-    resolution: {integrity: sha512-cvcz/81Mmj4oiAA+uxzwaRK3t8lYw8WxejXKqIBfu6PqvwSAEEiCi3VfCiVY18UflBqL0LDX/za85+sfqjMoIw==}
+  /@types/three@0.151.0:
+    resolution: {integrity: sha512-hwOyN4szaikHsNzqbYLBfGvXi+TA/1TIKvK3ujJi+cQXzYzE5ZymzlDnOA6/cTSozY1juPFE3u5agToVQKb9TQ==}
     dependencies:
       '@types/stats.js': 0.17.0
       '@types/webxr': 0.5.1
@@ -1533,7 +1546,7 @@ packages:
       c8: 7.13.0
       picocolors: 1.0.0
       std-env: 3.3.2
-      vitest: 0.30.1(@vitest/ui@0.30.0)(happy-dom@9.8.0)(jsdom@21.1.1)
+      vitest: 0.30.1(@vitest/ui@0.30.0)(happy-dom@9.8.0)(jsdom@22.0.0)
     dev: true
 
   /@vitest/expect@0.30.1:
@@ -1750,13 +1763,6 @@ packages:
 
   /abbrev@1.1.1:
     resolution: {integrity: sha512-nne9/IiQ/hzIhY6pdDnbBtz7DjPTKrY00P/zvPSm5pOFkl6xuGrGnXn/VtTNNfNtAfZ9/1RtehkszU9qcTii0Q==}
-    dev: true
-
-  /acorn-globals@7.0.1:
-    resolution: {integrity: sha512-umOSDSDrfHbTNPuNpC2NSnnA3LUrqpevPb4T9jRx4MagXNS0rs+gwiTcAvqCRmsD6utzsrzNt+ebm00SNWiC3Q==}
-    dependencies:
-      acorn: 8.8.2
-      acorn-walk: 8.2.0
     dev: true
 
   /acorn-jsx@5.3.2(acorn@8.8.2):
@@ -3021,19 +3027,6 @@ packages:
     dependencies:
       esprima: 4.0.1
       estraverse: 4.3.0
-      esutils: 2.0.3
-      optionator: 0.8.3
-    optionalDependencies:
-      source-map: 0.6.1
-    dev: true
-
-  /escodegen@2.0.0:
-    resolution: {integrity: sha512-mmHKys/C8BFUGI+MAWNcSYoORYLMdPzjrknd2Vc+bUsjN5bXcr8EhrNB+UTqfL1y3I9c4fw2ihgtMPQLBRiQxw==}
-    engines: {node: '>=6.0'}
-    hasBin: true
-    dependencies:
-      esprima: 4.0.1
-      estraverse: 5.3.0
       esutils: 2.0.3
       optionator: 0.8.3
     optionalDependencies:
@@ -4330,9 +4323,9 @@ packages:
       argparse: 2.0.1
     dev: true
 
-  /jsdom@21.1.1:
-    resolution: {integrity: sha512-Jjgdmw48RKcdAIQyUD1UdBh2ecH7VqwaXPN3ehoZN6MqgVbMn+lRm1aAT1AsdJRAJpwfa4IpwgzySn61h2qu3w==}
-    engines: {node: '>=14'}
+  /jsdom@22.0.0:
+    resolution: {integrity: sha512-p5ZTEb5h+O+iU02t0GfEjAnkdYPrQSkfuTSMkMYyIoMvUNEHsbG0bHHbfXIcfTqD2UfvjQX7mmgiFsyRwGscVw==}
+    engines: {node: '>=16'}
     peerDependencies:
       canvas: ^2.5.0
     peerDependenciesMeta:
@@ -4340,19 +4333,16 @@ packages:
         optional: true
     dependencies:
       abab: 2.0.6
-      acorn: 8.8.2
-      acorn-globals: 7.0.1
       cssstyle: 3.0.0
       data-urls: 4.0.0
       decimal.js: 10.4.3
       domexception: 4.0.0
-      escodegen: 2.0.0
       form-data: 4.0.0
       html-encoding-sniffer: 3.0.0
       http-proxy-agent: 5.0.0
       https-proxy-agent: 5.0.1
       is-potential-custom-element-name: 1.0.1
-      nwsapi: 2.2.2
+      nwsapi: 2.2.4
       parse5: 7.1.2
       rrweb-cssom: 0.6.0
       saxes: 6.0.0
@@ -4904,8 +4894,8 @@ packages:
       boolbase: 1.0.0
     dev: true
 
-  /nwsapi@2.2.2:
-    resolution: {integrity: sha512-90yv+6538zuvUMnN+zCr8LuV6bPFdq50304114vJYJ8RDyK8D5O9Phpbd6SZWgI7PwzmmfN1upeOJlvybDSgCw==}
+  /nwsapi@2.2.4:
+    resolution: {integrity: sha512-NHj4rzRo0tQdijE9ZqAx6kYDcoRwYwSYzCA8MY3JzfxlrvEU0jhnhJT9BhqhJs7I/dKcrDm6TyulaRqZPIhN5g==}
     dev: true
 
   /object-inspect@1.12.3:
@@ -6694,7 +6684,7 @@ packages:
       - terser
     dev: true
 
-  /vitest@0.30.1(@vitest/ui@0.30.0)(happy-dom@9.8.0)(jsdom@21.1.1):
+  /vitest@0.30.1(@vitest/ui@0.30.0)(happy-dom@9.8.0)(jsdom@22.0.0):
     resolution: {integrity: sha512-y35WTrSTlTxfMLttgQk4rHcaDkbHQwDP++SNwPb+7H8yb13Q3cu2EixrtHzF27iZ8v0XCciSsLg00RkPAzB/aA==}
     engines: {node: '>=v14.18.0'}
     hasBin: true
@@ -6741,7 +6731,7 @@ packages:
       concordance: 5.0.4
       debug: 4.3.4
       happy-dom: 9.8.0
-      jsdom: 21.1.1
+      jsdom: 22.0.0
       local-pkg: 0.4.3
       magic-string: 0.30.0
       pathe: 1.1.0
