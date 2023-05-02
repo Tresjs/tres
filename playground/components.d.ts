@@ -9,8 +9,10 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    copy: typeof import('./src/components/TheExperience copy.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     TheExperience: typeof import('./src/components/TheExperience.vue')['default']
+    UnrealBloom: typeof import('./src/components/UnrealBloom.vue')['default']
   }
 }

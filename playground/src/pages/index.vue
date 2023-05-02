@@ -1,5 +1,5 @@
 <script setup lang="ts"></script>
 
 <template>
-  <TheExperience />
+  <UnrealBloom />
 </template>
