@@ -15,10 +15,10 @@ declare module '@vue/runtime-core' {
     PointerLockControlsDemo: typeof import('./src/components/PointerLockControlsDemo.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    TheClouds: typeof import('./src/components/TheClouds.vue')['default']
     TheGizmos: typeof import('./src/components/TheGizmos.vue')['default']
     TheSmoke: typeof import('./src/components/TheSmoke.vue')['default']
     TheStars: typeof import('./src/components/TheStars.vue')['default']
+    TheText3D: typeof import('./src/components/TheText3D.vue')['default']
     WobbleMaterial: typeof import('./src/components/WobbleMaterial.vue')['default']
   }
 }
