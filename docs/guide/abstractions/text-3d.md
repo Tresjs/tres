@@ -31,7 +31,18 @@ Notice that you need to pass the `<TresMeshNormalMaterial />` component as a chi
 </template>
 ```
 
-## Props [[1]](#1)
+In addition, you can use the power of Vue to add reactivity, but you need to apply the needUpdates prop, for example you can create a reactive value, apply a v-model and make the bound, the Text3D component will update
+
+```vue
+<template>
+  <input v-model="myReactiveText">
+  <TresCanvas>
+    <Text3D :text="myReactiveText" font="/fonts/FiraCodeRegular.json" center need-updates>
+  </TresCanvas>
+</template>
+```
+
+## Props
 
 | Prop               | Description                                                            | Default |
 | :----------------- | :--------------------------------------------------------------------- | ------- |
@@ -45,6 +56,8 @@ Notice that you need to pass the `<TresMeshNormalMaterial />` component as a chi
 | **bevelSize**      | The size of the beveled edge on the text.                              | 0.02    |
 | **bevelOffset**    | The offset of the beveled edge on the text.                            | 0       |
 | **bevelSegments**  | The number of bevel segments to use when generating the text geometry. | 4       |
+| **center**         | To center the text                                                     | false   |
+| **needUpdates**    | This props add reactivity                                              | false   |
 
 ## References
 

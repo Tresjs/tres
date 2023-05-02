@@ -18,6 +18,7 @@ declare module '@vue/runtime-core' {
     TheGizmos: typeof import('./src/components/TheGizmos.vue')['default']
     TheSmoke: typeof import('./src/components/TheSmoke.vue')['default']
     TheStars: typeof import('./src/components/TheStars.vue')['default']
+    TheText3D: typeof import('./src/components/TheText3D.vue')['default']
     WobbleMaterial: typeof import('./src/components/WobbleMaterial.vue')['default']
   }
 }

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { TextGeometry, FontLoader } from 'three-stdlib'
 
-import { computed, useSlots, shallowRef } from 'vue'
+import { computed, useSlots, shallowRef, watchEffect } from 'vue'
 import { useCientos } from './useCientos'
 
 export type Glyph = {
@@ -113,6 +113,14 @@ export interface Text3DProps {
    * @default false
    */
   center?: boolean
+  /**
+   * Whether to update the text.
+   *
+   * @type {boolean}
+   * @memberof Text3DProps
+   * @default false
+   */
+  needUpdates?: boolean
 }
 
 const props = withDefaults(defineProps<Text3DProps>(), {
@@ -125,6 +133,7 @@ const props = withDefaults(defineProps<Text3DProps>(), {
   bevelOffset: 0,
   bevelSegments: 4,
   center: false,
+  needUpdates: false,
 })
 
 const { extend } = useCientos()
@@ -136,15 +145,15 @@ const loader = new FontLoader()
 const slots = useSlots()
 
 const localText = computed(() => {
-  if (props.text) return props.text
+  if (props.text ) return props.text
   else if (slots.default) return (slots.default()[0].children as string)?.trim()
-  return 'TresJS'
+  return props.needUpdates ? '' : 'TresJS'
 })
 
-const textRef = shallowRef()
+const text3DRef = shallowRef()
 
 defineExpose({
-  value: textRef,
+  value: text3DRef,
 })
 
 const font = await new Promise((resolve, reject) => {
@@ -175,9 +184,19 @@ const textOptions = computed(() => {
   }
 })
 
+watchEffect(() => {
+   if(text3DRef.value && props.needUpdates) {
+        text3DRef.value.geometry.dispose()
+        text3DRef.value.geometry = new TextGeometry(localText.value, textOptions.value)
+        if(props.center){
+          text3DRef.value.geometry.center()
+        }
+   }
+})
+
 </script>
 <template>
-  <TresMesh v-if="font" ref="textRef" v-bind="$attrs">
+  <TresMesh v-if="font" ref="text3DRef" >
     <TresTextGeometry v-if="localText" :args="[localText, textOptions]" :center="center" />
     <slot />
   </TresMesh>

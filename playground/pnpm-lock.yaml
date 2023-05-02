@@ -15,20 +15,44 @@ specifiers:
   vue-tsc: ^1.2.0
 
 dependencies:
-  three: 0.150.1
-  vue: 3.2.47
-  vue-router: 4.1.6_vue@3.2.47
+  three:
+    specifier: 0.151.3
+    version: 0.151.3
+  vue:
+    specifier: ^3.2.47
+    version: 3.2.47
+  vue-router:
+    specifier: ^4.1.6
+    version: 4.1.6(vue@3.2.47)
 
 devDependencies:
-  '@tresjs/core': 2.0.0-beta.11_three@0.150.1+vue@3.2.47
-  '@vitejs/plugin-vue': 4.1.0_vite@4.2.1+vue@3.2.47
-  typescript: 5.0.4
-  unocss: 0.51.8_vite@4.2.1
-  unplugin-auto-import: 0.15.3
-  unplugin-vue-components: 0.24.1_vue@3.2.47
-  vite: 4.2.1
-  vite-plugin-glsl: 1.1.2_vite@4.2.1
-  vue-tsc: 1.2.0_typescript@5.0.4
+  '@tresjs/core':
+    specifier: 2.0.0-beta.11
+    version: 2.0.0-beta.11(three@0.151.3)(vue@3.2.47)
+  '@vitejs/plugin-vue':
+    specifier: ^4.1.0
+    version: 4.1.0(vite@4.2.1)(vue@3.2.47)
+  typescript:
+    specifier: ^5.0.4
+    version: 5.0.4
+  unocss:
+    specifier: ^0.51.4
+    version: 0.51.4(postcss@8.4.21)(vite@4.2.1)
+  unplugin-auto-import:
+    specifier: ^0.15.3
+    version: 0.15.3
+  unplugin-vue-components:
+    specifier: ^0.24.1
+    version: 0.24.1(vue@3.2.47)
+  vite:
+    specifier: ^4.2.1
+    version: 4.2.1
+  vite-plugin-glsl:
+    specifier: ^1.1.2
+    version: 1.1.2(vite@4.2.1)
+  vue-tsc:
+    specifier: ^1.2.0
+    version: 1.2.0(typescript@5.0.4)
 
 packages:
 
@@ -370,15 +394,15 @@ packages:
       picomatch: 2.3.1
     dev: true
 
-  /@tresjs/core/2.0.0-beta.11_three@0.150.1+vue@3.2.47:
+  /@tresjs/core@2.0.0-beta.11(three@0.151.3)(vue@3.2.47):
     resolution: {integrity: sha512-EkgZSWEAftcG6CpF1YgiGahrQGAAItyidL+Mr2wQPD4hNRNT+K9YYzyAHl7jaVbLpFLYAfhxL2i+sK+YuH9/kA==}
     peerDependencies:
       three: latest
       vue: ^3.2.47
     dependencies:
       '@alvarosabu/utils': 2.3.0
-      '@vueuse/core': 9.13.0_vue@3.2.47
-      three: 0.150.1
+      '@vueuse/core': 9.13.0(vue@3.2.47)
+      three: 0.151.3
       vue: 3.2.47
     transitivePeerDependencies:
       - '@vue/composition-api'
@@ -1313,8 +1337,8 @@ packages:
     engines: {node: '>= 0.4'}
     dev: true
 
-  /three/0.150.1:
-    resolution: {integrity: sha512-5C1MqKUWaHYo13BX0Q64qcdwImgnnjSOFgBscOzAo8MYCzEtqfQqorEKMcajnA3FHy1yVlIe9AmaMQ0OQracNA==}
+  /three@0.151.3:
+    resolution: {integrity: sha512-+vbuqxFy8kzLeO5MgpBHUvP/EAiecaDwDuOPPDe6SbrZr96kccF0ktLngXc7xA7bzyd3N0t2f6mw3Z9y6JCojQ==}
 
   /to-fast-properties/2.0.0:
     resolution: {integrity: sha512-/OaKK0xYrs3DmxRYqL/yDc+FxFUVYhDlXMhRmv3z915w2HF1tnN1omB354j8VUGO/hbRzyD6Y3sA7v7GS/ceog==}
