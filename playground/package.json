@@ -9,12 +9,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "three": "0.150.1",
+    "three": "0.151.3",
     "vue": "^3.2.47",
     "vue-router": "^4.1.6"
   },
   "devDependencies": {
-    "@tresjs/core": "2.0.0-beta.10",
+    "@tresjs/core": "2.0.0-beta.11",
     "@vitejs/plugin-vue": "^4.1.0",
     "typescript": "^5.0.4",
     "unocss": "^0.51.4",

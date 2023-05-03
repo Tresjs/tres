@@ -1,8 +1,9 @@
 {
   "name": "@tresjs/cientos",
   "description": "Collection of useful helpers and fully functional, ready-made abstractions for Tres",
-  "version": "2.0.0-beta.3",
+  "version": "2.0.0-beta.6",
   "type": "module",
+  "packageManager": "pnpm@8.3.1",
   "author": "Alvaro Saburido <hola@alvarosaburido.dev> (https://github.com/alvarosabu/)",
   "files": [
     "dist"
@@ -41,14 +42,14 @@
     "docs:preview": "vitepress preview docs"
   },
   "peerDependencies": {
-    "@tresjs/core": "2.0.0-beta.10",
+    "@tresjs/core": "2.0.0-beta.11",
     "three": "latest",
     "vue": "^3.2.47"
   },
   "devDependencies": {
     "@alvarosabu/prettier-config": "^1.3.0",
     "@release-it/conventional-changelog": "^5.1.1",
-    "@tresjs/core": "2.0.0-beta.9",
+    "@tresjs/core": "2.0.0-beta.11",
     "@tweakpane/plugin-essentials": "^0.1.8",
     "@types/three": "^0.150.1",
     "@vitejs/plugin-vue": "^4.1.0",
@@ -64,9 +65,9 @@
     "unocss": "^0.51.4",
     "vite": "^4.2.1",
     "vite-plugin-banner": "^0.7.0",
-    "vite-plugin-dts": "2.2.0",
+    "vite-plugin-dts": "2.3.0",
     "vite-svg-loader": "^4.0.0",
-    "vitepress": "1.0.0-alpha.65",
+    "vitepress": "1.0.0-alpha.72",
     "@typescript-eslint/eslint-plugin": "^5.58.0",
     "@typescript-eslint/parser": "^5.58.0",
     "eslint": "^8.38.0",
@@ -75,7 +76,7 @@
   },
   "dependencies": {
     "@vueuse/core": "^10.0.2",
-    "three": "^0.150.1",
+    "three": "^0.151.0",
     "three-stdlib": "^2.21.8",
     "vue": "^3.2.47"
   }
