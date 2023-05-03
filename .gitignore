@@ -24,4 +24,4 @@ coverage
 *.sln
 *.sw?
 .vitepress/dist
-.vitepress/cache
+.vitepress/cache/
