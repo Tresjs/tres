@@ -4,39 +4,7 @@ import {
   D,
   Rt,
   S
-} from "./chunk-3X6OZMG6.js";
-import {
-  Fragment,
-  computed,
-  createBaseVNode,
-  createCommentVNode,
-  createElementBlock,
-  customRef,
-  defineComponent,
-  getCurrentInstance,
-  getCurrentScope,
-  guardReactiveProps,
-  inject,
-  mergeProps,
-  nextTick,
-  normalizeProps,
-  onMounted,
-  onScopeDispose,
-  onUnmounted,
-  openBlock,
-  readonly,
-  ref,
-  renderList,
-  renderSlot,
-  shallowReactive,
-  shallowRef,
-  toRef,
-  unref,
-  useSlots,
-  watch,
-  watchEffect,
-  withAsyncContext
-} from "./chunk-LZPJ5JBW.js";
+} from "./chunk-KVUXOTEI.js";
 import {
   AmbientLight,
   AnimationClip,
@@ -131,8 +99,41 @@ import {
   Vector3,
   Vector4,
   VectorKeyframeTrack,
-  SRGBColorSpace
+  sRGBEncoding
 } from "./chunk-PDZK3SQX.js";
+import "./chunk-RWZP6UPE.js";
+import {
+  Fragment,
+  computed,
+  createBaseVNode,
+  createCommentVNode,
+  createElementBlock,
+  customRef,
+  defineComponent,
+  getCurrentInstance,
+  getCurrentScope,
+  guardReactiveProps,
+  inject,
+  mergeProps,
+  nextTick,
+  normalizeProps,
+  onMounted,
+  onScopeDispose,
+  onUnmounted,
+  openBlock,
+  readonly,
+  ref,
+  renderList,
+  renderSlot,
+  shallowReactive,
+  shallowRef,
+  toRef,
+  unref,
+  useSlots,
+  watch,
+  watchEffect,
+  withAsyncContext
+} from "./chunk-LZPJ5JBW.js";
 import "./chunk-JC4IRQUL.js";
 
 // node_modules/.pnpm/@tresjs+cientos@2.0.0-beta.6_@tresjs+core@2.0.0-beta.11_three@0.152.2_vue@3.2.47/node_modules/@tresjs/cientos/dist/trescientos.js
@@ -1493,7 +1494,7 @@ var wp = class {
         const p = c.baseColorFactor;
         n.color.fromArray(p), n.opacity = p[3];
       }
-      c.baseColorTexture !== void 0 && o.push(r.assignTexture(n, "map", c.baseColorTexture, SRGBColorSpace));
+      c.baseColorTexture !== void 0 && o.push(r.assignTexture(n, "map", c.baseColorTexture, sRGBEncoding));
     }
     return Promise.all(o);
   }
@@ -1561,7 +1562,7 @@ var Cp = class {
     const c = [];
     s.sheenColor = new Color(0, 0, 0), s.sheenRoughness = 0, s.sheen = 1;
     const p = o.extensions[this.name];
-    return p.sheenColorFactor !== void 0 && s.sheenColor.fromArray(p.sheenColorFactor), p.sheenRoughnessFactor !== void 0 && (s.sheenRoughness = p.sheenRoughnessFactor), p.sheenColorTexture !== void 0 && c.push(r.assignTexture(s, "sheenColorMap", p.sheenColorTexture, SRGBColorSpace)), p.sheenRoughnessTexture !== void 0 && c.push(r.assignTexture(s, "sheenRoughnessMap", p.sheenRoughnessTexture)), Promise.all(c);
+    return p.sheenColorFactor !== void 0 && s.sheenColor.fromArray(p.sheenColorFactor), p.sheenRoughnessFactor !== void 0 && (s.sheenRoughness = p.sheenRoughnessFactor), p.sheenColorTexture !== void 0 && c.push(r.assignTexture(s, "sheenColorMap", p.sheenColorTexture, sRGBEncoding)), p.sheenRoughnessTexture !== void 0 && c.push(r.assignTexture(s, "sheenRoughnessMap", p.sheenRoughnessTexture)), Promise.all(c);
   }
 };
 var Pp = class {
@@ -1629,7 +1630,7 @@ var Mp = class {
     const c = [], p = o.extensions[this.name];
     s.specularIntensity = p.specularFactor !== void 0 ? p.specularFactor : 1, p.specularTexture !== void 0 && c.push(r.assignTexture(s, "specularIntensityMap", p.specularTexture));
     const h = p.specularColorFactor || [1, 1, 1];
-    return s.specularColor = new Color(h[0], h[1], h[2]), p.specularColorTexture !== void 0 && c.push(r.assignTexture(s, "specularColorMap", p.specularColorTexture, SRGBColorSpace)), Promise.all(c);
+    return s.specularColor = new Color(h[0], h[1], h[2]), p.specularColorTexture !== void 0 && c.push(r.assignTexture(s, "specularColorMap", p.specularColorTexture, sRGBEncoding)), Promise.all(c);
   }
 };
 var Sp = class {
@@ -1863,9 +1864,9 @@ var Dp = class {
       const p = o.diffuseFactor;
       n.color.fromArray(p), n.opacity = p[3];
     }
-    if (o.diffuseTexture !== void 0 && c.push(r.assignTexture(n, "map", o.diffuseTexture, SRGBColorSpace)), n.emissive = new Color(0, 0, 0), n.glossiness = o.glossinessFactor !== void 0 ? o.glossinessFactor : 1, n.specular = new Color(1, 1, 1), Array.isArray(o.specularFactor) && n.specular.fromArray(o.specularFactor), o.specularGlossinessTexture !== void 0) {
+    if (o.diffuseTexture !== void 0 && c.push(r.assignTexture(n, "map", o.diffuseTexture, sRGBEncoding)), n.emissive = new Color(0, 0, 0), n.glossiness = o.glossinessFactor !== void 0 ? o.glossinessFactor : 1, n.specular = new Color(1, 1, 1), Array.isArray(o.specularFactor) && n.specular.fromArray(o.specularFactor), o.specularGlossinessTexture !== void 0) {
       const p = o.specularGlossinessTexture;
-      c.push(r.assignTexture(n, "glossinessMap", p)), c.push(r.assignTexture(n, "specularMap", p, SRGBColorSpace));
+      c.push(r.assignTexture(n, "glossinessMap", p)), c.push(r.assignTexture(n, "specularMap", p, sRGBEncoding));
     }
     return Promise.all(c);
   }
@@ -2451,7 +2452,7 @@ var Kp = class {
         const y = _.baseColorFactor;
         h.color.fromArray(y), h.opacity = y[3];
       }
-      _.baseColorTexture !== void 0 && g.push(s.assignTexture(h, "map", _.baseColorTexture, SRGBColorSpace)), h.metalness = _.metallicFactor !== void 0 ? _.metallicFactor : 1, h.roughness = _.roughnessFactor !== void 0 ? _.roughnessFactor : 1, _.metallicRoughnessTexture !== void 0 && (g.push(s.assignTexture(h, "metalnessMap", _.metallicRoughnessTexture)), g.push(s.assignTexture(h, "roughnessMap", _.metallicRoughnessTexture))), p = this._invokeOne(function(y) {
+      _.baseColorTexture !== void 0 && g.push(s.assignTexture(h, "map", _.baseColorTexture, sRGBEncoding)), h.metalness = _.metallicFactor !== void 0 ? _.metallicFactor : 1, h.roughness = _.roughnessFactor !== void 0 ? _.roughnessFactor : 1, _.metallicRoughnessTexture !== void 0 && (g.push(s.assignTexture(h, "metalnessMap", _.metallicRoughnessTexture)), g.push(s.assignTexture(h, "roughnessMap", _.metallicRoughnessTexture))), p = this._invokeOne(function(y) {
         return y.getMaterialType && y.getMaterialType(n);
       }), g.push(Promise.all(this._invokeAll(function(y) {
         return y.extendMaterialParams && y.extendMaterialParams(n, h);
@@ -2463,7 +2464,7 @@ var Kp = class {
       const _ = c.normalTexture.scale;
       h.normalScale.set(_, _);
     }
-    return c.occlusionTexture !== void 0 && p !== MeshBasicMaterial && (g.push(s.assignTexture(h, "aoMap", c.occlusionTexture)), c.occlusionTexture.strength !== void 0 && (h.aoMapIntensity = c.occlusionTexture.strength)), c.emissiveFactor !== void 0 && p !== MeshBasicMaterial && (h.emissive = new Color().fromArray(c.emissiveFactor)), c.emissiveTexture !== void 0 && p !== MeshBasicMaterial && g.push(s.assignTexture(h, "emissiveMap", c.emissiveTexture, SRGBColorSpace)), Promise.all(g).then(function() {
+    return c.occlusionTexture !== void 0 && p !== MeshBasicMaterial && (g.push(s.assignTexture(h, "aoMap", c.occlusionTexture)), c.occlusionTexture.strength !== void 0 && (h.aoMapIntensity = c.occlusionTexture.strength)), c.emissiveFactor !== void 0 && p !== MeshBasicMaterial && (h.emissive = new Color().fromArray(c.emissiveFactor)), c.emissiveTexture !== void 0 && p !== MeshBasicMaterial && g.push(s.assignTexture(h, "emissiveMap", c.emissiveTexture, sRGBEncoding)), Promise.all(g).then(function() {
       let _;
       return p === go ? _ = o[re.KHR_MATERIALS_PBR_SPECULAR_GLOSSINESS].createMaterial(h) : _ = new p(h), c.name && (_.name = c.name), Dn(_, c), s.associations.set(_, {
         materials: n
@@ -3221,23 +3222,23 @@ var nh = class {
           break;
         case "DiffuseColor":
         case "Maya|TEX_color_map":
-          o.map = c.getTexture(s, p.ID), o.map !== void 0 && (o.map.encoding = SRGBColorSpace);
+          o.map = c.getTexture(s, p.ID), o.map !== void 0 && (o.map.encoding = sRGBEncoding);
           break;
         case "DisplacementColor":
           o.displacementMap = c.getTexture(s, p.ID);
           break;
         case "EmissiveColor":
-          o.emissiveMap = c.getTexture(s, p.ID), o.emissiveMap !== void 0 && (o.emissiveMap.encoding = SRGBColorSpace);
+          o.emissiveMap = c.getTexture(s, p.ID), o.emissiveMap !== void 0 && (o.emissiveMap.encoding = sRGBEncoding);
           break;
         case "NormalMap":
         case "Maya|TEX_normal_map":
           o.normalMap = c.getTexture(s, p.ID);
           break;
         case "ReflectionColor":
-          o.envMap = c.getTexture(s, p.ID), o.envMap !== void 0 && (o.envMap.mapping = EquirectangularReflectionMapping, o.envMap.encoding = SRGBColorSpace);
+          o.envMap = c.getTexture(s, p.ID), o.envMap !== void 0 && (o.envMap.mapping = EquirectangularReflectionMapping, o.envMap.encoding = sRGBEncoding);
           break;
         case "SpecularColor":
-          o.specularMap = c.getTexture(s, p.ID), o.specularMap !== void 0 && (o.specularMap.encoding = SRGBColorSpace);
+          o.specularMap = c.getTexture(s, p.ID), o.specularMap !== void 0 && (o.specularMap.encoding = sRGBEncoding);
           break;
         case "TransparentColor":
         case "TransparencyFactor":
@@ -13772,7 +13773,7 @@ async function bd({
       r && _.setPath(r), c && (_.encoding = c);
     }
   ), w = h ? g[0] : g;
-  return w && (w.mapping = h ? CubeReflectionMapping : EquirectangularReflectionMapping, w.encoding = c ?? h ? SRGBColorSpace : LinearEncoding), p.scene && (p.scene.environment = w, s !== void 0 && (p.scene.background = w), n && (p.scene.backgroundBlurriness = n | 0)), w;
+  return w && (w.mapping = h ? CubeReflectionMapping : EquirectangularReflectionMapping, w.encoding = c ?? h ? sRGBEncoding : LinearEncoding), p.scene && (p.scene.environment = w, s !== void 0 && (p.scene.background = w), n && (p.scene.backgroundBlurriness = n | 0)), w;
 }
 var Zd = defineComponent({
   name: "Environment",
@@ -13813,7 +13814,7 @@ var Wd = defineComponent({
       rotation: Math.max(2e-3, 5e-3 * Math.random()) * o.speed
     })), d = (P, R) => P / 6 * R * o.opacity, { map: g } = ([s, r] = withAsyncContext(() => Rt({ map: o.texture })), s = await s, r(), s), { state: w } = St(), _ = computed(() => {
       var P;
-      return (P = w.renderer) == null ? void 0 : P.outputColorSpace;
+      return (P = w.renderer) == null ? void 0 : P.outputEncoding;
     }), { onLoop: y } = Ce();
     return y(() => {
       var P, R;

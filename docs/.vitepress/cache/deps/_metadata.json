@@ -1,53 +1,74 @@
 {
   "hash": "1f233eff",
-  "browserHash": "9e48ec24",
+  "browserHash": "9134390d",
   "optimized": {
     "vue": {
       "src": "../../../../node_modules/.pnpm/vue@3.2.47/node_modules/vue/dist/vue.runtime.esm-bundler.js",
       "file": "vue.js",
-      "fileHash": "6f0a25c7",
+      "fileHash": "845bdffc",
       "needsInterop": false
     },
     "three": {
       "src": "../../../../node_modules/.pnpm/three@0.152.2/node_modules/three/build/three.module.js",
       "file": "three.js",
-      "fileHash": "24ee6482",
+      "fileHash": "22a918df",
       "needsInterop": false
     },
     "@tresjs/core": {
       "src": "../../../../node_modules/.pnpm/@tresjs+core@2.0.0-beta.11_three@0.152.2_vue@3.2.47/node_modules/@tresjs/core/dist/tres.js",
       "file": "@tresjs_core.js",
-      "fileHash": "ce6941d7",
+      "fileHash": "18d8c232",
       "needsInterop": false
     },
     "@tresjs/cientos": {
       "src": "../../../../node_modules/.pnpm/@tresjs+cientos@2.0.0-beta.6_@tresjs+core@2.0.0-beta.11_three@0.152.2_vue@3.2.47/node_modules/@tresjs/cientos/dist/trescientos.js",
       "file": "@tresjs_cientos.js",
-      "fileHash": "f6322029",
+      "fileHash": "70a7e51c",
       "needsInterop": false
     },
     "@stackblitz/sdk": {
       "src": "../../../../node_modules/.pnpm/@stackblitz+sdk@1.9.0/node_modules/@stackblitz/sdk/bundles/sdk.m.js",
       "file": "@stackblitz_sdk.js",
-      "fileHash": "0c9755b9",
+      "fileHash": "1e9b97eb",
       "needsInterop": false
     },
     "gsap": {
       "src": "../../../../node_modules/.pnpm/gsap@3.11.5/node_modules/gsap/index.js",
       "file": "gsap.js",
-      "fileHash": "989a19f2",
+      "fileHash": "dfdd75e9",
+      "needsInterop": false
+    },
+    "@alvarosabu/utils": {
+      "src": "../../../../node_modules/.pnpm/@alvarosabu+utils@2.3.0/node_modules/@alvarosabu/utils/dist/as-utils.js",
+      "file": "@alvarosabu_utils.js",
+      "fileHash": "22142e53",
+      "needsInterop": false
+    },
+    "three/src/math/MathUtils": {
+      "src": "../../../../node_modules/.pnpm/three@0.152.2/node_modules/three/src/math/MathUtils.js",
+      "file": "three_src_math_MathUtils.js",
+      "fileHash": "6d70a21c",
+      "needsInterop": false
+    },
+    "@vueuse/core": {
+      "src": "../../../../node_modules/.pnpm/@vueuse+core@10.1.2_vue@3.2.47/node_modules/@vueuse/core/index.mjs",
+      "file": "@vueuse_core.js",
+      "fileHash": "c560774e",
       "needsInterop": false
     }
   },
   "chunks": {
-    "chunk-3X6OZMG6": {
-      "file": "chunk-3X6OZMG6.js"
-    },
-    "chunk-LZPJ5JBW": {
-      "file": "chunk-LZPJ5JBW.js"
+    "chunk-KVUXOTEI": {
+      "file": "chunk-KVUXOTEI.js"
     },
     "chunk-PDZK3SQX": {
       "file": "chunk-PDZK3SQX.js"
+    },
+    "chunk-RWZP6UPE": {
+      "file": "chunk-RWZP6UPE.js"
+    },
+    "chunk-LZPJ5JBW": {
+      "file": "chunk-LZPJ5JBW.js"
     },
     "chunk-JC4IRQUL": {
       "file": "chunk-JC4IRQUL.js"

@@ -413,7 +413,7 @@ __export(three_module_exports, {
   ZeroSlopeEnding: () => ZeroSlopeEnding,
   ZeroStencilOp: () => ZeroStencilOp,
   _SRGBAFormat: () => _SRGBAFormat,
-  SRGBColorSpace: () => SRGBColorSpace
+  sRGBEncoding: () => sRGBEncoding
 });
 var REVISION = "152";
 var MOUSE = { LEFT: 0, MIDDLE: 1, RIGHT: 2, ROTATE: 0, DOLLY: 1, PAN: 2 };
@@ -555,7 +555,7 @@ var TrianglesDrawMode = 0;
 var TriangleStripDrawMode = 1;
 var TriangleFanDrawMode = 2;
 var LinearEncoding = 3e3;
-var SRGBColorSpace = 3001;
+var sRGBEncoding = 3001;
 var BasicDepthPacking = 3200;
 var RGBADepthPacking = 3201;
 var TangentSpaceNormalMap = 0;
@@ -1623,7 +1623,7 @@ var Texture = class extends EventDispatcher {
       this.colorSpace = colorSpace;
     } else {
       warnOnce("THREE.Texture: Property .encoding has been replaced by .colorSpace.");
-      this.colorSpace = colorSpace === SRGBColorSpace ? SRGBColorSpace : NoColorSpace;
+      this.colorSpace = colorSpace === sRGBEncoding ? SRGBColorSpace : NoColorSpace;
     }
     this.userData = {};
     this.version = 0;
@@ -1766,11 +1766,11 @@ var Texture = class extends EventDispatcher {
   }
   get encoding() {
     warnOnce("THREE.Texture: Property .encoding has been replaced by .colorSpace.");
-    return this.colorSpace === SRGBColorSpace ? SRGBColorSpace : LinearEncoding;
+    return this.colorSpace === SRGBColorSpace ? sRGBEncoding : LinearEncoding;
   }
   set encoding(encoding) {
     warnOnce("THREE.Texture: Property .encoding has been replaced by .colorSpace.");
-    this.colorSpace = encoding === SRGBColorSpace ? SRGBColorSpace : NoColorSpace;
+    this.colorSpace = encoding === sRGBEncoding ? SRGBColorSpace : NoColorSpace;
   }
 };
 Texture.DEFAULT_IMAGE = null;
@@ -2166,7 +2166,7 @@ var WebGLRenderTarget = class extends EventDispatcher {
     const image = { width, height, depth: 1 };
     if (options.encoding !== void 0) {
       warnOnce("THREE.WebGLRenderTarget: option.encoding has been replaced by option.colorSpace.");
-      options.colorSpace = options.encoding === SRGBColorSpace ? SRGBColorSpace : NoColorSpace;
+      options.colorSpace = options.encoding === sRGBEncoding ? SRGBColorSpace : NoColorSpace;
     }
     this.texture = new Texture(image, options.mapping, options.wrapS, options.wrapT, options.magFilter, options.minFilter, options.format, options.type, options.anisotropy, options.colorSpace);
     this.texture.isRenderTargetTexture = true;
@@ -8152,7 +8152,7 @@ var WebGLCubeRenderTarget = class extends WebGLRenderTarget {
     const images = [image, image, image, image, image, image];
     if (options.encoding !== void 0) {
       warnOnce("THREE.WebGLCubeRenderTarget: option.encoding has been replaced by option.colorSpace.");
-      options.colorSpace = options.encoding === SRGBColorSpace ? SRGBColorSpace : NoColorSpace;
+      options.colorSpace = options.encoding === sRGBEncoding ? SRGBColorSpace : NoColorSpace;
     }
     this.texture = new CubeTexture(images, options.mapping, options.wrapS, options.wrapT, options.magFilter, options.minFilter, options.format, options.type, options.anisotropy, options.colorSpace);
     this.texture.isRenderTargetTexture = true;
@@ -18247,13 +18247,13 @@ var WebGLRenderer = class {
     console.warn("THREE.WebGLRenderer: the property .physicallyCorrectLights has been removed. Set renderer.useLegacyLights instead.");
     this.useLegacyLights = !value;
   }
-  get outputColorSpace() {
-    console.warn("THREE.WebGLRenderer: Property .outputColorSpace has been removed. Use .outputColorSpace instead.");
-    return this.outputColorSpace === SRGBColorSpace ? SRGBColorSpace : LinearEncoding;
+  get outputEncoding() {
+    console.warn("THREE.WebGLRenderer: Property .outputEncoding has been removed. Use .outputColorSpace instead.");
+    return this.outputColorSpace === SRGBColorSpace ? sRGBEncoding : LinearEncoding;
   }
-  set outputColorSpace(encoding) {
-    console.warn("THREE.WebGLRenderer: Property .outputColorSpace has been removed. Use .outputColorSpace instead.");
-    this.outputColorSpace = encoding === SRGBColorSpace ? SRGBColorSpace : LinearSRGBColorSpace;
+  set outputEncoding(encoding) {
+    console.warn("THREE.WebGLRenderer: Property .outputEncoding has been removed. Use .outputColorSpace instead.");
+    this.outputColorSpace = encoding === sRGBEncoding ? SRGBColorSpace : LinearSRGBColorSpace;
   }
 };
 var WebGL1Renderer = class extends WebGLRenderer {
@@ -30338,7 +30338,7 @@ export {
   TriangleStripDrawMode,
   TriangleFanDrawMode,
   LinearEncoding,
-  SRGBColorSpace,
+  sRGBEncoding,
   BasicDepthPacking,
   RGBADepthPacking,
   TangentSpaceNormalMap,

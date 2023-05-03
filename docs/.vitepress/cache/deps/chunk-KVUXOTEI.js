@@ -1,4 +1,25 @@
 import {
+  ACESFilmicToneMapping,
+  BufferAttribute,
+  Clock,
+  Color,
+  LinearEncoding,
+  LoadingManager,
+  MathUtils,
+  NoToneMapping,
+  OrthographicCamera,
+  PCFShadowMap,
+  PCFSoftShadowMap,
+  PerspectiveCamera,
+  Raycaster,
+  Scene,
+  TextureLoader,
+  Vector2,
+  WebGLRenderer,
+  sRGBEncoding,
+  three_module_exports
+} from "./chunk-PDZK3SQX.js";
+import {
   computed,
   createRenderer,
   defineComponent,
@@ -21,27 +42,6 @@ import {
   watch,
   watchEffect
 } from "./chunk-LZPJ5JBW.js";
-import {
-  ACESFilmicToneMapping,
-  BufferAttribute,
-  Clock,
-  Color,
-  LinearEncoding,
-  LoadingManager,
-  MathUtils,
-  NoToneMapping,
-  OrthographicCamera,
-  PCFShadowMap,
-  PCFSoftShadowMap,
-  PerspectiveCamera,
-  Raycaster,
-  Scene,
-  TextureLoader,
-  Vector2,
-  WebGLRenderer,
-  SRGBColorSpace,
-  three_module_exports
-} from "./chunk-PDZK3SQX.js";
 
 // node_modules/.pnpm/@vueuse+shared@9.13.0_vue@3.2.47/node_modules/@vueuse/shared/index.mjs
 var _a;
@@ -471,7 +471,7 @@ function rt(e) {
 }
 var N = {
   realistic: {
-    outputColorSpace: SRGBColorSpace,
+    outputEncoding: sRGBEncoding,
     toneMapping: ACESFilmicToneMapping,
     toneMappingExposure: 3,
     shadowMap: {
@@ -511,7 +511,7 @@ function ct(e) {
     shadowMapType: d = PCFShadowMap,
     physicallyCorrectLights: w = false,
     useLegacyLights: M = false,
-    outputColorSpace: x = LinearEncoding,
+    outputEncoding: x = LinearEncoding,
     toneMapping: L = NoToneMapping,
     toneMappingExposure: b = 1,
     context: v = void 0,
@@ -533,7 +533,7 @@ You could set windowSize=true to force the canvas to be the size of the window.`
       A in N || B("Renderer Preset must be one of these: " + Object.keys(N).join(", ")), Re(t.value, N[A]);
       return;
     }
-    t.value.shadowMap.enabled = resolveUnref(p), t.value.shadowMap.type = resolveUnref(d), t.value.toneMapping = resolveUnref(L) || NoToneMapping, t.value.toneMappingExposure = resolveUnref(b), t.value.outputColorSpace = resolveUnref(x) || LinearEncoding, g != null && g.value && t.value.setClearColor(rt(resolveUnref(g))), t.value.useLegacyLights = resolveUnref(M);
+    t.value.shadowMap.enabled = resolveUnref(p), t.value.shadowMap.type = resolveUnref(d), t.value.toneMapping = resolveUnref(L) || NoToneMapping, t.value.toneMappingExposure = resolveUnref(b), t.value.outputEncoding = resolveUnref(x) || LinearEncoding, g != null && g.value && t.value.setClearColor(rt(resolveUnref(g))), t.value.useLegacyLights = resolveUnref(M);
   }, Ae = () => {
     const A = unrefElement(h2.canvas);
     A && (t.value = new WebGLRenderer({
@@ -822,7 +822,7 @@ var bt = defineComponent({
     "shadowMapType",
     "physicallyCorrectLights",
     "useLegacyLights",
-    "outputColorSpace",
+    "outputEncoding",
     "toneMapping",
     "toneMappingExposure",
     "context",
@@ -916,7 +916,7 @@ var yt = defineComponent({
     "shadowMapType",
     "physicallyCorrectLights",
     "useLegacyLights",
-    "outputColorSpace",
+    "outputEncoding",
     "toneMapping",
     "toneMappingExposure",
     "context",
@@ -958,4 +958,4 @@ export {
   yt,
   Tt
 };
-//# sourceMappingURL=chunk-3X6OZMG6.js.map
+//# sourceMappingURL=chunk-KVUXOTEI.js.map

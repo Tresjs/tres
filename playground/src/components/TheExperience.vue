@@ -39,6 +39,10 @@ watchEffect(() => {
       <TresBoxGeometry :args="[1.5, 1.5, 1.5]" />
       <TresMeshToonMaterial color="#4F4F4F" :wireframe="wireframe" />
     </TresMesh>
+    <TresMesh :rotation="[-Math.PI / 2, 0, 0]" receive-shadow>
+      <TresPlaneGeometry :args="[10, 10, 10, 10]" />
+      <TresMeshToonMaterial color="#D3FC8A" />
+    </TresMesh>
     <TheSphere />
     <TresAxesHelper :args="[1]" />
     <TresDirectionalLight :position="[0, 2, 4]" :intensity="2" cast-shadow />

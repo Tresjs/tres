@@ -407,7 +407,7 @@ import {
   ZeroSlopeEnding,
   ZeroStencilOp,
   _SRGBAFormat,
-  SRGBColorSpace
+  sRGBEncoding
 } from "./chunk-PDZK3SQX.js";
 import "./chunk-JC4IRQUL.js";
 export {
@@ -819,6 +819,6 @@ export {
   ZeroSlopeEnding,
   ZeroStencilOp,
   _SRGBAFormat,
-  SRGBColorSpace
+  sRGBEncoding
 };
 //# sourceMappingURL=three.js.map
