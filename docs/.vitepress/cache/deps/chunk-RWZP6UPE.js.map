@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["../../../../node_modules/.pnpm/vue-demi@0.14.0_vue@3.2.47/node_modules/vue-demi/lib/index.mjs"],
-  "sourcesContent": ["import * as Vue from 'vue'\n\nvar isVue2 = false\nvar isVue3 = true\nvar Vue2 = undefined\n\nfunction install() {}\n\nexport function set(target, key, val) {\n  if (Array.isArray(target)) {\n    target.length = Math.max(target.length, key)\n    target.splice(key, 1, val)\n    return val\n  }\n  target[key] = val\n  return val\n}\n\nexport function del(target, key) {\n  if (Array.isArray(target)) {\n    target.splice(key, 1)\n    return\n  }\n  delete target[key]\n}\n\nexport * from 'vue'\nexport {\n  Vue,\n  Vue2,\n  isVue2,\n  isVue3,\n  install,\n}\n"],
-  "mappings": ";AAEA,IAAI,SAAS;AACb,IAAI,SAAS;AAKN,SAAS,IAAI,QAAQ,KAAK,KAAK;AACpC,MAAI,MAAM,QAAQ,MAAM,GAAG;AACzB,WAAO,SAAS,KAAK,IAAI,OAAO,QAAQ,GAAG;AAC3C,WAAO,OAAO,KAAK,GAAG,GAAG;AACzB,WAAO;AAAA,EACT;AACA,SAAO,GAAG,IAAI;AACd,SAAO;AACT;AAEO,SAAS,IAAI,QAAQ,KAAK;AAC/B,MAAI,MAAM,QAAQ,MAAM,GAAG;AACzB,WAAO,OAAO,KAAK,CAAC;AACpB;AAAA,EACF;AACA,SAAO,OAAO,GAAG;AACnB;",
-  "names": []
-}

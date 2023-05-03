@@ -1,45 +1,44 @@
 import {
   Ce,
-  Ct,
   D,
-  J,
-  Lt,
+  Ee,
+  Et,
   Me,
   Pt,
+  Q,
+  Qe,
   Rt,
-  S,
-  Tt,
-  Ze,
-  be,
-  ct,
+  St,
+  _,
+  bt,
   dt,
-  ft,
-  pt,
-  ye,
-  yt
-} from "./chunk-KVUXOTEI.js";
-import "./chunk-PDZK3SQX.js";
-import "./chunk-RWZP6UPE.js";
+  lt,
+  st,
+  ut,
+  xt,
+  ye
+} from "./chunk-4R2RUFTZ.js";
 import "./chunk-LZPJ5JBW.js";
+import "./chunk-PDZK3SQX.js";
 import "./chunk-JC4IRQUL.js";
 export {
-  Ze as CameraType,
-  J as TRES_CONTEXT_KEY,
-  yt as TresCanvas,
-  be as catalogue,
-  Tt as default,
-  ye as extend,
-  Pt as isProd,
-  ft as trasverseObjects,
-  Me as useCamera,
-  Ct as useLoader,
+  Qe as CameraType,
+  Q as TRES_CONTEXT_KEY,
+  bt as TresCanvas,
+  ye as catalogue,
+  St as default,
+  Me as extend,
+  Et as isProd,
+  ut as trasverseObjects,
+  Ce as useCamera,
+  xt as useLoader,
   D as useLogger,
-  pt as useRaycaster,
-  Ce as useRenderLoop,
-  ct as useRenderer,
-  Lt as useSeek,
+  dt as useRaycaster,
+  Ee as useRenderLoop,
+  st as useRenderer,
+  Pt as useSeek,
   Rt as useTexture,
-  S as useTres,
-  dt as useTresProvider
+  _ as useTres,
+  lt as useTresProvider
 };
 //# sourceMappingURL=@tresjs_core.js.map
