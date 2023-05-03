@@ -1,5 +1,7 @@
 
 
+## [2.0.0-rc.1](https://github.com/Tresjs/tres/compare/2.0.0-rc.0...2.0.0-rc.1) (2023-05-03)
+
 ## [2.0.0-rc.0](https://github.com/Tresjs/tres/compare/2.0.0-beta.13...2.0.0-rc.0) (2023-05-03)
 
 ## [2.0.0-beta.13](https://github.com/Tresjs/tres/compare/2.0.0-beta.12...2.0.0-beta.13) (2023-04-27)
