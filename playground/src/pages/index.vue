@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Vector3 } from 'three'
 import { TresCanvas } from '@tresjs/core'
 import { OrbitControls } from '@tresjs/cientos'
 import { TresLeches, useControls } from '@leches/'
@@ -27,6 +28,8 @@ useControls({
     label: 'Box Position X',
   },
   numberValue: 1,
+  position: [2, 4, 0],
+  rotation: new Vector3(0, Math.PI, 0),
 })
 
 /* const boxRef = ref()

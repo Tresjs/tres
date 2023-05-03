@@ -16,6 +16,7 @@
   "devDependencies": {
     "@tresjs/cientos": "2.0.0-beta.6",
     "@tresjs/core": "2.0.0-beta.13",
+    "@types/three": "^0.151.0",
     "@vitejs/plugin-vue": "^4.1.0",
     "pathe": "^1.1.0",
     "typescript": "^5.0.2",
