@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { sRGBEncoding } from 'three'
+import { sRGBEncoding, BasicShadowMap,
+NoToneMapping } from 'three'
 import { TresCanvas } from '@tresjs/core'
 import { OrbitControls } from '@tresjs/cientos'
 const LightRef = ref()
@@ -14,10 +15,19 @@ onMounted(() => {
   LightRef.value.shadow.camera.top = 10
   LightRef.value.shadow.camera.bottom = -10
 })
+
+const gl = {
+  clearColor: '#82DBC5',
+  shadows: true,
+  alpha: false,
+  outputEncoding: sRGBEncoding,
+  shadowMapType: BasicShadowMap,
+  toneMapping: NoToneMapping,
+}
 </script>
 
 <template>
-  <TresCanvas clear-color="#82DBC5" shadows alpha physically-correct-lights :output-encoding="sRGBEncoding">
+  <TresCanvas v-bind="gl">
     <TresPerspectiveCamera :position="[11, 11, 11]" :fov="45" :aspect="1" :near="0.1" :far="1000" />
 
     <OrbitControls />

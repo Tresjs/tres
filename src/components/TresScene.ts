@@ -15,7 +15,7 @@ export interface TresSceneProps {
   shadowMapType?: ShadowMapType
   physicallyCorrectLights?: boolean
   useLegacyLights?: boolean
-  outputEncoding?: TextureEncoding
+  outputColorSpace?: TextureEncoding
   toneMapping?: ToneMapping
   toneMappingExposure?: number
   context?: WebGLRenderingContext
@@ -40,7 +40,7 @@ export const TresScene = defineComponent<TresSceneProps>({
     'shadowMapType',
     'physicallyCorrectLights',
     'useLegacyLights',
-    'outputEncoding',
+    'outputColorSpace',
     'toneMapping',
     'toneMappingExposure',
     'context',

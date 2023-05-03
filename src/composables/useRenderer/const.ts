@@ -1,8 +1,8 @@
-import { ACESFilmicToneMapping, PCFSoftShadowMap, sRGBEncoding } from 'three'
+import { ACESFilmicToneMapping, PCFSoftShadowMap, SRGBColorSpace } from 'three'
 
 export const rendererPresets = {
   realistic: {
-    outputEncoding: sRGBEncoding,
+    outputColorSpace: SRGBColorSpace,
     toneMapping: ACESFilmicToneMapping,
     toneMappingExposure: 3,
     shadowMap: {

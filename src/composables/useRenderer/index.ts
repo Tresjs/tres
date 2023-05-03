@@ -11,7 +11,7 @@ import {
 import {
   WebGLRendererParameters,
   NoToneMapping,
-  LinearEncoding,
+  LinearSRGBColorSpace,
   WebGLRenderer,
   ShadowMapType,
   PCFShadowMap,
@@ -59,11 +59,11 @@ export interface UseRendererOptions extends WebGLRendererParameters {
   useLegacyLights?: MaybeRefOrGetter<boolean>
   /**
    * Defines the output encoding of the renderer.
-   * Can be LinearEncoding, sRGBEncoding
+   * Can be LinearSRGBColorSpace, SRGBColorSpace
    *
-   * @default LinearEncoding
+   * @default LinearSRGBColorSpace
    */
-  outputEncoding?: MaybeRefOrGetter<TextureEncoding>
+  outputColorSpace?: MaybeRefOrGetter<TextureEncoding>
 
   /**
    * Defines the tone mapping used by the renderer.
@@ -134,7 +134,7 @@ export function useRenderer(options: UseRendererOptions) {
     shadows = false,
     shadowMapType = PCFShadowMap,
     useLegacyLights = false,
-    outputEncoding = LinearEncoding,
+    outputColorSpace = LinearSRGBColorSpace,
     toneMapping = NoToneMapping,
     toneMappingExposure = 1,
     context = undefined,
@@ -189,7 +189,8 @@ You could set windowSize=true to force the canvas to be the size of the window.`
     renderer.value.shadowMap.type = toValue(shadowMapType) as ShadowMapType
     renderer.value.toneMapping = (toValue(toneMapping) as ToneMapping) || NoToneMapping
     renderer.value.toneMappingExposure = toValue(toneMappingExposure) as number
-    renderer.value.outputEncoding = (toValue(outputEncoding) as TextureEncoding) || LinearEncoding
+    // Wating for https://github.com/DefinitelyTyped/DefinitelyTyped/pull/65356/files to be merged
+    renderer.value.outputColorSpace = (toValue(outputColorSpace) as TextureEncoding) || LinearSRGBColorSpace
     if (clearColor?.value) renderer.value.setClearColor(normalizeColor(toValue(clearColor) as TresColor))
 
     /*    renderer.value.physicallyCorrectLights = toValue(physicallyCorrectLights) as boolean */
@@ -243,7 +244,7 @@ You could set windowSize=true to force the canvas to be the size of the window.`
   watch([aspectRatio, pixelRatio], updateRendererSize)
 
   watch(
-    [shadows, shadowMapType, outputEncoding, useLegacyLights, toneMapping, toneMappingExposure, clearColor],
+    [shadows, shadowMapType, outputColorSpace, useLegacyLights, toneMapping, toneMappingExposure, clearColor],
     updateRendererOptions,
   )
 
