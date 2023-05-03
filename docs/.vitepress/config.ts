@@ -82,8 +82,8 @@ export default defineConfig({
     ],
 
     socialLinks: [
-      { icon: 'twitter', link: 'https://twitter.com/alvarosabu' },
-      { icon: 'discord', link: 'https://discord.gg/wXx63MwW' },
+      { icon: 'twitter', link: 'https://twitter.com/tresjs_dev' },
+      { icon: 'discord', link: 'https://discord.gg/UCr96AQmWn' },
     ],
   },
   vite: {

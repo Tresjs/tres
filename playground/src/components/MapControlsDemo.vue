@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
 import { MapControls, Sphere } from '@cientos'
-import { sRGBEncoding, NoToneMapping } from 'three'
+import { SRGBColorSpace, NoToneMapping } from 'three'
 
 const gl = {
   clearColor: '#82DBC5',
   alpha: false,
-  outputEncoding: sRGBEncoding,
+  outputColorSpace: SRGBColorSpace,
   toneMapping: NoToneMapping,
 }
 </script>

@@ -19,7 +19,7 @@ const texture = await useEnvironment({
     '/textures/environmentMaps/0/nz.jpg',
   ],
   path: '',
-  encoding: sRGBEncoding,
+  encoding: SRGBColorSpace,
 })
 ```
 
@@ -34,11 +34,11 @@ Then you can use the `texture` in your scene:
 
 ## Options
 
-| Name           | Type       | Default                                                                        | Description                                                       |
-| :------------- | ---------- | ------------------------------------------------------------------------------ | ----------------------------------------------------------------- |
-| **files**      | `Array`    | `undefined`                                                                    | Array of 6 urls to images, one for each side of the CubeTexture.  |
-| **path**       | `boolean`  | `false`                                                                        | Path to the environment map files.                                |
-| **encoding**   | `Encoding` | `sRGBEncoding` for an array of files and `LinearEncoding` for a single texture | Encoding of the environment map.                                  |
-| **background** | `boolean`  | `false`                                                                        | If `true` the texture will be used as the scene background.       |
-| **blur**       | `number`   | `0`                                                                            | Blur factor between 0 and 1. (only works with three 0.146 and up) |
-| **preset**     | `string`   | `undefined`                                                                    | Preset environment map.                                           |
+| Name           | Type       | Default                                                                          | Description                                                       |
+| :------------- | ---------- | -------------------------------------------------------------------------------- | ----------------------------------------------------------------- |
+| **files**      | `Array`    | `undefined`                                                                      | Array of 6 urls to images, one for each side of the CubeTexture.  |
+| **path**       | `boolean`  | `false`                                                                          | Path to the environment map files.                                |
+| **encoding**   | `Encoding` | `SRGBColorSpace` for an array of files and `LinearEncoding` for a single texture | Encoding of the environment map.                                  |
+| **background** | `boolean`  | `false`                                                                          | If `true` the texture will be used as the scene background.       |
+| **blur**       | `number`   | `0`                                                                              | Blur factor between 0 and 1. (only works with three 0.146 and up) |
+| **preset**     | `string`   | `undefined`                                                                      | Preset environment map.                                           |

@@ -71,7 +71,6 @@ export interface SmokeProps extends TresObject {
   depthTest?: boolean
 }
 
-
 const props = withDefaults(defineProps<SmokeProps>(), {
   opacity: 0.5,
   speed: 0.4,
@@ -102,7 +101,7 @@ const opacity = (scale: number, density: number): number => (scale / 6) * densit
 const { map } = await useTexture({ map: props.texture })
 
 const { state } = useCientos()
-const encoding = computed(() => state.renderer?.outputEncoding)
+const encoding = computed(() => state.renderer?.outputColorSpace)
 
 const { onLoop } = useRenderLoop()
 
@@ -116,18 +115,18 @@ onLoop(() => {
 })
 </script>
 <template>
-  <TresGroup ref="smokeRef" v-bind="$attrs" >
+  <TresGroup ref="smokeRef" v-bind="$attrs">
     <TresGroup ref="groupRef" :position="[0, 0, (segments / 2) * depth]">
       <TresMesh v-for="({ scale, x, y, density }, index) in smoke" :key="index" :position="[x, y, -index * depth]">
         <TresPlaneGeometry :scale="[scale, scale, scale]" :rotation="[0, 0, 0]" />
         <TresMeshStandardMaterial
-        :map="map"
-        :map-encoding="encoding"
-        :depth-test="depthTest"
-        :color="color"
-        :depth-write="false"
-        transparent
-        :opacity="opacity(scale, density)"
+          :map="map"
+          :map-encoding="encoding"
+          :depth-test="depthTest"
+          :color="color"
+          :depth-write="false"
+          transparent
+          :opacity="opacity(scale, density)"
         />
       </TresMesh>
     </TresGroup>
