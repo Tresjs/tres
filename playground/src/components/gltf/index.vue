@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { sRGBEncoding, BasicShadowMap, NoToneMapping, Object3D } from 'three'
+import { SRGBColorSpace, BasicShadowMap, NoToneMapping, Object3D } from 'three'
 import { reactive, ref, watchEffect } from 'vue'
 import { TresCanvas } from '@tresjs/core'
 import { GLTFModel, OrbitControls } from '@cientos'
@@ -12,7 +12,7 @@ const state = reactive({
   alpha: false,
 
   shadowMapType: BasicShadowMap,
-  outputEncoding: sRGBEncoding,
+  outputColorSpace: SRGBColorSpace,
   toneMapping: NoToneMapping,
 })
 

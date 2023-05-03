@@ -5,7 +5,7 @@ import {
   CubeTextureLoader,
   EquirectangularReflectionMapping,
   LinearEncoding,
-  sRGBEncoding,
+  SRGBColorSpace,
   Texture,
 } from 'three'
 import { RGBELoader } from 'three-stdlib'
@@ -22,7 +22,7 @@ import { EnvironmentOptions, environmentPresets } from './const'
  *   background = false,
  *   path = undefined,
  *   preset = undefined,
- *   encoding = undefined,
+ *   colorSpace = undefined,
  * }
  * @return {*}  {(Promise<Texture | CubeTexture>)}
  */
@@ -32,7 +32,7 @@ export async function useEnvironment({
   background = false,
   path = '/',
   preset = undefined,
-  encoding = undefined,
+  colorSpace = undefined,
 }: Partial<EnvironmentOptions>): Promise<Texture | CubeTexture> {
   const { state } = useCientos()
 
@@ -53,7 +53,7 @@ export async function useEnvironment({
     isCubeMap ? [files] : files,
     (loader: any) => {
       if (path) loader.setPath(path)
-      if (encoding) loader.encoding = encoding
+      if (colorSpace) loader.colorSpace = colorSpace
     },
   )
 
@@ -61,7 +61,7 @@ export async function useEnvironment({
 
   if (texture) {
     texture.mapping = isCubeMap ? CubeReflectionMapping : EquirectangularReflectionMapping
-    texture.encoding = encoding ?? isCubeMap ? sRGBEncoding : LinearEncoding
+    texture.colorSpace = colorSpace ?? isCubeMap ? SRGBColorSpace : LinearEncoding
   }
 
   if (state.scene) {

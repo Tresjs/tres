@@ -57,11 +57,11 @@ watch(environmentTexture, ({ getTexture }) => {
 
 ## Props
 
-| Prop         | Description                                                          | Default                                                                        |
-| :----------- | :------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
-| `files`      | Array of 6 urls to images, one for each side of the CubeTexture.     | `undefined`                                                                    |
-| `path`       | Path to the environment map files.                                   | `undefined`                                                                    |
-| `encoding`   | Encoding of the environment map.                                     | `sRGBEncoding` for an array of files and `LinearEncoding` for a single texture |
-| `background` | If `true`, the environment map will be used as the scene background. | `false`                                                                        |
-| `blur`       | Blur factor between 0 and 1. (only works with three 0.146 and up)    | 0                                                                              |
-| `preset`     | Preset environment map.                                              | `undefined`                                                                    |
+| Prop         | Description                                                          | Default                                                                          |
+| :----------- | :------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| `files`      | Array of 6 urls to images, one for each side of the CubeTexture.     | `undefined`                                                                      |
+| `path`       | Path to the environment map files.                                   | `undefined`                                                                      |
+| `encoding`   | Encoding of the environment map.                                     | `SRGBColorSpace` for an array of files and `LinearEncoding` for a single texture |
+| `background` | If `true`, the environment map will be used as the scene background. | `false`                                                                          |
+| `blur`       | Blur factor between 0 and 1. (only works with three 0.146 and up)    | 0                                                                                |
+| `preset`     | Preset environment map.                                              | `undefined`                                                                      |
