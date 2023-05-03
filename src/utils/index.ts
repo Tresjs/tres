@@ -26,8 +26,6 @@ const HTML_TAGS =
 
 export const isHTMLTag = /*#__PURE__*/ makeMap(HTML_TAGS)
 
-export const isFunction = (val: unknown): val is Function => typeof val === 'function'
-
 export function kebabToCamel(str: string) {
   return str.replace(/-([a-z])/g, (_, c) => c.toUpperCase())
 }

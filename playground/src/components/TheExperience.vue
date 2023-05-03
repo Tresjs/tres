@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { reactive, ref, watchEffect, provide } from 'vue'
+import { ref, watchEffect } from 'vue'
 import { BasicShadowMap, sRGBEncoding, NoToneMapping } from 'three'
 import { TresCanvas } from '/@/'
 import TheSphere from './TheSphere.vue'

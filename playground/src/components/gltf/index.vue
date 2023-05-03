@@ -13,7 +13,7 @@ const state = reactive({
   toneMapping: NoToneMapping,
 })
 
-const akuAkuRef = ref(null)
+/* const akuAkuRef = ref(null) */
 
 const context = ref()
 watchEffect(() => {
