@@ -1,7 +1,7 @@
 import { TresObject } from '@tresjs/core';
 import { defineComponent, ref } from 'vue'
 import { useGLTF } from '.'
-import { useCientos } from '../useCientos'
+import { useCientos } from '../../useCientos'
 
 export interface GLTFModelProps {
   /**

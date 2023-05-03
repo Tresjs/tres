@@ -1,7 +1,7 @@
 import { Object3D } from 'three'
 import { defineComponent } from 'vue'
 import { useFBX } from '.'
-import { useCientos } from '../useCientos'
+import { useCientos } from '../../useCientos'
 
 export interface FBXModelProps {
   /**
