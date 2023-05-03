@@ -1,4 +1,4 @@
-# Cientos <Badge text="beta" type="warning" />
+# Cientos <Badge text="next" type="warning" />
 
 ![Cientos banner](/cientos-banner.png)
 
@@ -14,9 +14,22 @@ This package is not required to use the core library, but they can make your DX 
 
 ## Installation
 
-```bash
-npm install @tresjs/cientos@beta -D
+::: code-group
+
+```bash [pnpm]
+pnpm add @tresjs/cientos@next
 ```
+
+```bash [npm]
+npm install @tresjs/cientos@next
+
+```
+
+```bash [yarn]
+yarn add @tresjs/cientos@next
+```
+
+:::
 
 ## Basic Usage
 
