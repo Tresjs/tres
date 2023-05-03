@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { sRGBEncoding, BasicShadowMap,
+import { SRGBColorSpace, BasicShadowMap,
 NoToneMapping } from 'three'
 import { TresCanvas } from '@tresjs/core'
 import { OrbitControls } from '@tresjs/cientos'
@@ -20,7 +20,7 @@ const gl = {
   clearColor: '#82DBC5',
   shadows: true,
   alpha: false,
-  outputEncoding: sRGBEncoding,
+  outputColorSpace: SRGBColorSpace,
   shadowMapType: BasicShadowMap,
   toneMapping: NoToneMapping,
 }

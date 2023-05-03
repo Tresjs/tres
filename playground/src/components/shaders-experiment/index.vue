@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { BasicShadowMap, sRGBEncoding, NoToneMapping, Vector2 } from 'three'
+import { BasicShadowMap, SRGBColorSpace, NoToneMapping, Vector2 } from 'three'
 import { TresCanvas, TresInstance, useRenderLoop } from '/@/'
 import { OrbitControls } from '@tresjs/cientos'
 import vertexShader from './shaders/vertex.glsl'
@@ -11,7 +11,7 @@ const gl = {
   shadows: true,
   alpha: false,
   shadowMapType: BasicShadowMap,
-  outputEncoding: sRGBEncoding,
+  outputColorSpace: SRGBColorSpace,
   toneMapping: NoToneMapping,
 }
 

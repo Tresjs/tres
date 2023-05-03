@@ -1,53 +1,53 @@
 {
-  "hash": "73411b7d",
-  "browserHash": "0bbf8bc7",
+  "hash": "1f233eff",
+  "browserHash": "9e48ec24",
   "optimized": {
     "vue": {
       "src": "../../../../node_modules/.pnpm/vue@3.2.47/node_modules/vue/dist/vue.runtime.esm-bundler.js",
       "file": "vue.js",
-      "fileHash": "1ab1f91c",
+      "fileHash": "6f0a25c7",
       "needsInterop": false
     },
     "three": {
-      "src": "../../../../node_modules/.pnpm/three@0.150.1/node_modules/three/build/three.module.js",
+      "src": "../../../../node_modules/.pnpm/three@0.152.2/node_modules/three/build/three.module.js",
       "file": "three.js",
-      "fileHash": "c93e162c",
+      "fileHash": "24ee6482",
       "needsInterop": false
     },
     "@tresjs/core": {
-      "src": "../../../../node_modules/.pnpm/@tresjs+core@2.0.0-beta.5_three@0.150.1_vue@3.2.47/node_modules/@tresjs/core/dist/tres.js",
+      "src": "../../../../node_modules/.pnpm/@tresjs+core@2.0.0-beta.11_three@0.152.2_vue@3.2.47/node_modules/@tresjs/core/dist/tres.js",
       "file": "@tresjs_core.js",
-      "fileHash": "dc076c3b",
+      "fileHash": "ce6941d7",
       "needsInterop": false
     },
     "@tresjs/cientos": {
-      "src": "../../../../node_modules/.pnpm/@tresjs+cientos@2.0.0-beta.1_@tresjs+core@2.0.0-beta.5_three@0.150.1_vue@3.2.47/node_modules/@tresjs/cientos/dist/trescientos.js",
+      "src": "../../../../node_modules/.pnpm/@tresjs+cientos@2.0.0-beta.6_@tresjs+core@2.0.0-beta.11_three@0.152.2_vue@3.2.47/node_modules/@tresjs/cientos/dist/trescientos.js",
       "file": "@tresjs_cientos.js",
-      "fileHash": "c0bcd255",
+      "fileHash": "f6322029",
       "needsInterop": false
     },
     "@stackblitz/sdk": {
       "src": "../../../../node_modules/.pnpm/@stackblitz+sdk@1.9.0/node_modules/@stackblitz/sdk/bundles/sdk.m.js",
       "file": "@stackblitz_sdk.js",
-      "fileHash": "68a20abf",
+      "fileHash": "0c9755b9",
       "needsInterop": false
     },
     "gsap": {
       "src": "../../../../node_modules/.pnpm/gsap@3.11.5/node_modules/gsap/index.js",
       "file": "gsap.js",
-      "fileHash": "a4e0a5be",
+      "fileHash": "989a19f2",
       "needsInterop": false
     }
   },
   "chunks": {
-    "chunk-DESKY23Y": {
-      "file": "chunk-DESKY23Y.js"
+    "chunk-3X6OZMG6": {
+      "file": "chunk-3X6OZMG6.js"
     },
     "chunk-LZPJ5JBW": {
       "file": "chunk-LZPJ5JBW.js"
     },
-    "chunk-4QXXOI63": {
-      "file": "chunk-4QXXOI63.js"
+    "chunk-PDZK3SQX": {
+      "file": "chunk-PDZK3SQX.js"
     },
     "chunk-JC4IRQUL": {
       "file": "chunk-JC4IRQUL.js"

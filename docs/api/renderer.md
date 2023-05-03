@@ -4,7 +4,7 @@ The `Renderer` component is the main component of Tres. It's the one that create
 
 ```vue{2,5}
 <template>
-  <TresCanvas shadows :output-encoding="sRGBEncoding">
+  <TresCanvas shadows :output-encoding="SRGBColorSpace">
     <TresPerspectiveCamera />
       <!-- Your scene goes here -->
   </TresCanvas>
@@ -61,7 +61,7 @@ It's equivalent to:
 ```ts
 renderer.shadows: true,
 renderer.physicallyCorrectLights: true,
-renderer.outputEncoding: sRGBEncoding,
+renderer.outputColorSpace: SRGBColorSpace,
 renderer.toneMapping: ACESFilmicToneMapping,
 renderer.toneMappingExposure: 3,
 renderer.shadowMap.enabled: true,
@@ -75,7 +75,7 @@ renderer.shadowMap.type: PCFSoftShadowMap
 | **shadows**                 | Enable shadows in the Renderer                                                                                                                                  | `false`            |
 | **shadowMapType**           | Set the shadow map type                                                                                                                                         | `PCFSoftShadowMap` |
 | **physicallyCorrectLights** | Whether to use physically correct lighting mode. See the [lights / physical example](https://threejs.org/examples/#webgl_lights_physical).                      | `false`            |
-| **outputEncoding**          | Defines the output encoding                                                                                                                                     | `LinearEncoding`   |
+| **outputColorSpace**          | Defines the output encoding                                                                                                                                     | `LinearEncoding`   |
 | **toneMapping**             | Defines the tone mapping exposure used by the renderer.                                                                                                         | `NoToneMapping`    |
 | **context**                 | This can be used to attach the renderer to an existing [RenderingContext](https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext)               |                    |
 | **powerPreference**         | Provides a hint to the user agent indicating what configuration of GPU is suitable for this WebGL context. Can be "high-performance", "low-power" or "default". | `default`          |
