@@ -73,7 +73,7 @@ export async function useTexture(
 
   if (isArray(paths)) {
     const textures = await Promise.all((paths as Array<string>).map(path => loadTexture(path)))
-    if ((paths as Array<String>).length > 1) {
+    if ((paths as Array<string>).length > 1) {
       return textures
     } else {
       return textures[0]
