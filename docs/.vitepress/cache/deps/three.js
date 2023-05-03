@@ -9,6 +9,7 @@ import {
   AlwaysStencilFunc,
   AmbientLight,
   AmbientLightProbe,
+  AnimationAction,
   AnimationClip,
   AnimationLoader,
   AnimationMixer,
@@ -406,8 +407,8 @@ import {
   ZeroSlopeEnding,
   ZeroStencilOp,
   _SRGBAFormat,
-  sRGBEncoding
-} from "./chunk-4QXXOI63.js";
+  SRGBColorSpace
+} from "./chunk-PDZK3SQX.js";
 import "./chunk-JC4IRQUL.js";
 export {
   ACESFilmicToneMapping,
@@ -420,6 +421,7 @@ export {
   AlwaysStencilFunc,
   AmbientLight,
   AmbientLightProbe,
+  AnimationAction,
   AnimationClip,
   AnimationLoader,
   AnimationMixer,
@@ -817,6 +819,6 @@ export {
   ZeroSlopeEnding,
   ZeroStencilOp,
   _SRGBAFormat,
-  sRGBEncoding
+  SRGBColorSpace
 };
 //# sourceMappingURL=three.js.map

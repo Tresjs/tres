@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Color, sRGBEncoding } from 'three'
+import { Color, SRGBColorSpace } from 'three'
 import { TresCanvas } from '/@/'
 import { OrbitControls, useTweakPane, FBXModel, useFBX } from '@tresjs/cientos'
 
@@ -28,7 +28,7 @@ watch(jeepRef, ({ model }) => {
     alpha
     window-size
     power-preference="high-performance"
-    :output-encoding="sRGBEncoding"
+    :output-encoding="SRGBColorSpace"
   >
     <TresPerspectiveCamera :position="8" :fov="45" :near="0.1" :far="10000" />
     <OrbitControls />

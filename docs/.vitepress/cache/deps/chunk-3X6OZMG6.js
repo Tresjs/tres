@@ -39,9 +39,9 @@ import {
   TextureLoader,
   Vector2,
   WebGLRenderer,
-  sRGBEncoding,
+  SRGBColorSpace,
   three_module_exports
-} from "./chunk-4QXXOI63.js";
+} from "./chunk-PDZK3SQX.js";
 
 // node_modules/.pnpm/@vueuse+shared@9.13.0_vue@3.2.47/node_modules/@vueuse/shared/index.mjs
 var _a;
@@ -390,25 +390,25 @@ function useWindowSize(options = {}) {
   return { width, height };
 }
 
-// node_modules/.pnpm/@tresjs+core@2.0.0-beta.5_three@0.150.1_vue@3.2.47/node_modules/@tresjs/core/dist/tres.js
-var he = ref({ uuid: MathUtils.generateUUID() });
-var we = (e) => void Object.assign(he.value, e);
-var Qe = ((e) => (e.Perspective = "Perspective", e.Orthographic = "Orthographic", e))(Qe || {});
-var Ze = 45;
+// node_modules/.pnpm/@tresjs+core@2.0.0-beta.11_three@0.152.2_vue@3.2.47/node_modules/@tresjs/core/dist/tres.js
+var be = ref({ uuid: MathUtils.generateUUID() });
+var ye = (e) => void Object.assign(be.value, e);
+var Ze = ((e) => (e.Perspective = "Perspective", e.Orthographic = "Orthographic", e))(Ze || {});
+var et = 45;
 var _;
-function N() {
-  const { state: e, setState: t, aspectRatio: o } = D();
-  function a(i = "Perspective", c) {
-    var u, f, m;
+function Me() {
+  const { state: e, setState: t, aspectRatio: o } = S();
+  function a(i = "Perspective", s) {
+    var l, u, p;
     if (i === "Perspective") {
-      const { near: d, far: P, fov: g } = c || {
+      const { near: d, far: w, fov: M } = s || {
         near: 0.1,
         far: 1e3,
-        fov: Ze
+        fov: et
       };
-      _ = new PerspectiveCamera(g, ((u = e.aspectRatio) == null ? void 0 : u.value) || window.innerWidth / window.innerHeight, d, P), (f = e.cameras) == null || f.push(_);
+      _ = new PerspectiveCamera(M, ((l = e.aspectRatio) == null ? void 0 : l.value) || window.innerWidth / window.innerHeight, d, w), (u = e.cameras) == null || u.push(_);
     } else {
-      const { left: d, right: P, top: g, bottom: R, near: w, far: p } = c || {
+      const { left: d, right: w, top: M, bottom: x, near: L, far: b } = s || {
         left: -100,
         right: 100,
         top: 100,
@@ -416,7 +416,7 @@ function N() {
         near: 0.1,
         far: 1e3
       };
-      _ = new OrthographicCamera(d, P, g, R, w, p), (m = e.cameras) == null || m.push(_);
+      _ = new OrthographicCamera(d, w, M, x, L, b), (p = e.cameras) == null || p.push(_);
     }
     return e.camera = _, t("camera", e.camera), _;
   }
@@ -425,10 +425,10 @@ function N() {
     e.camera instanceof PerspectiveCamera && e.aspectRatio && (e.camera.aspect = e.aspectRatio.value), (i = e.camera) == null || i.updateProjectionMatrix();
   }
   function r(i) {
-    var c;
-    (c = e.cameras) == null || c.push(i), i instanceof PerspectiveCamera && e.aspectRatio && (i.aspect = e.aspectRatio.value), i.updateProjectionMatrix(), t("camera", i);
+    var s;
+    (s = e.cameras) == null || s.push(i), i instanceof PerspectiveCamera && e.aspectRatio && (i.aspect = e.aspectRatio.value), i.updateProjectionMatrix(), t("camera", i);
   }
-  function s() {
+  function c() {
     e.cameras = [];
   }
   return watchEffect(() => {
@@ -438,40 +438,40 @@ function N() {
     createCamera: a,
     updateCamera: n,
     pushCamera: r,
-    clearCameras: s
+    clearCameras: c
   };
 }
-var be = createEventHook();
-var ye = createEventHook();
+var xe = createEventHook();
+var Ee = createEventHook();
 var K = createEventHook();
 var j = new Clock();
 var G = 0;
 var V = 0;
-var { pause: et, resume: tt, isActive: at } = useRafFn(
+var { pause: tt, resume: at, isActive: nt } = useRafFn(
   () => {
-    be.trigger({ delta: G, elapsed: V, clock: j }), ye.trigger({ delta: G, elapsed: V, clock: j }), K.trigger({ delta: G, elapsed: V, clock: j });
+    xe.trigger({ delta: G, elapsed: V, clock: j }), Ee.trigger({ delta: G, elapsed: V, clock: j }), K.trigger({ delta: G, elapsed: V, clock: j });
   },
   { immediate: false }
 );
 K.on(() => {
   G = j.getDelta(), V = j.getElapsedTime();
 });
-function Me() {
+function Ce() {
   return {
-    onBeforeLoop: be.on,
-    onLoop: ye.on,
+    onBeforeLoop: xe.on,
+    onLoop: Ee.on,
     onAfterLoop: K.on,
-    pause: et,
-    resume: tt,
-    isActive: at
+    pause: tt,
+    resume: at,
+    isActive: nt
   };
 }
-function nt(e) {
+function rt(e) {
   return e instanceof Color ? e : Array.isArray(e) ? new Color(...e) : new Color(e);
 }
-var $ = {
+var N = {
   realistic: {
-    outputEncoding: sRGBEncoding,
+    outputColorSpace: SRGBColorSpace,
     toneMapping: ACESFilmicToneMapping,
     toneMappingExposure: 3,
     shadowMap: {
@@ -480,165 +480,166 @@ var $ = {
     }
   }
 };
-var xe = (e, t) => {
+var Re = (e, t) => {
   for (const o of Object.keys(t))
-    t[o] instanceof Object && Object.assign(t[o], xe(e[o], t[o]));
+    t[o] instanceof Object && Object.assign(t[o], Re(e[o], t[o]));
   return Object.assign(e || {}, t), e;
 };
-var rt = "html,body,base,head,link,meta,style,title,address,article,aside,footer,header,hgroup,h1,h2,h3,h4,h5,h6,nav,section,div,dd,dl,dt,figcaption,figure,picture,hr,img,li,main,ol,p,pre,ul,a,b,abbr,bdi,bdo,br,cite,code,data,dfn,em,i,kbd,mark,q,rp,rt,ruby,s,samp,small,span,strong,sub,sup,time,u,var,wbr,area,audio,map,track,video,embed,object,param,source,canvas,script,noscript,del,ins,caption,col,colgroup,table,thead,tbody,td,th,tr,button,datalist,fieldset,form,input,label,legend,meter,optgroup,option,output,progress,select,textarea,details,dialog,menu,summary,template,blockquote,iframe,tfoot";
-var ot = it(rt);
-function z(e) {
+var ot = "html,body,base,head,link,meta,style,title,address,article,aside,footer,header,hgroup,h1,h2,h3,h4,h5,h6,nav,section,div,dd,dl,dt,figcaption,figure,picture,hr,img,li,main,ol,p,pre,ul,a,b,abbr,bdi,bdo,br,cite,code,data,dfn,em,i,kbd,mark,q,rp,rt,ruby,s,samp,small,span,strong,sub,sup,time,u,var,wbr,area,audio,map,track,video,embed,object,param,source,canvas,script,noscript,del,ins,caption,col,colgroup,table,thead,tbody,td,th,tr,button,datalist,fieldset,form,input,label,legend,meter,optgroup,option,output,progress,select,textarea,details,dialog,menu,summary,template,blockquote,iframe,tfoot";
+var it = st(ot);
+function F(e) {
   return e.replace(/-([a-z])/g, (t, o) => o.toUpperCase());
 }
-function it(e, t) {
+function st(e, t) {
   const o = /* @__PURE__ */ Object.create(null), a = e.split(",");
   for (let n = 0; n < a.length; n++)
     o[a[n]] = true;
   return t ? (n) => !!o[n.toLowerCase()] : (n) => !!o[n];
 }
-function st(e) {
-  var Z, ee;
+function ct(e) {
+  var ee, te;
   const t = shallowRef(), o = ref(false), {
     alpha: a = true,
     antialias: n = true,
     depth: r,
-    logarithmicDepthBuffer: s,
+    logarithmicDepthBuffer: c,
     failIfMajorPerformanceCaveat: i,
-    precision: c,
-    premultipliedAlpha: u,
-    stencil: f,
-    shadows: m = false,
+    precision: s,
+    premultipliedAlpha: l,
+    stencil: u,
+    shadows: p = false,
     shadowMapType: d = PCFShadowMap,
-    physicallyCorrectLights: P = false,
-    useLegacyLights: g = false,
-    outputEncoding: R = LinearEncoding,
-    toneMapping: w = NoToneMapping,
-    toneMappingExposure: p = 1,
-    context: x = void 0,
-    powerPreference: b = "default",
+    physicallyCorrectLights: w = false,
+    useLegacyLights: M = false,
+    outputColorSpace: x = LinearEncoding,
+    toneMapping: L = NoToneMapping,
+    toneMappingExposure: b = 1,
+    context: v = void 0,
+    powerPreference: E = "default",
     preserveDrawingBuffer: y = false,
-    clearColor: M,
-    windowSize: E = false,
-    preset: L = void 0
-  } = toRefs(e), { state: h2, setState: T } = D(), { width: C, height: O } = resolveUnref(E) == true || resolveUnref(E) === "" || resolveUnref(E) === "true" ? useWindowSize() : useElementSize(h2.container), { logError: B, logWarning: Pe } = I(), { pixelRatio: J } = useDevicePixelRatio(), { pause: Re, resume: Le } = Me(), U = computed(() => C.value / O.value);
-  !resolveUnref(E) && ((ee = (Z = h2.container) == null ? void 0 : Z.value) == null ? void 0 : ee.offsetHeight) === 0 && Pe(`Oops... Seems like your canvas height is currently 0px, by default it takes the height of it's parent, so make sure it has some height with CSS.
+    clearColor: g,
+    windowSize: C = false,
+    preset: I = void 0
+  } = toRefs(e), { state: h2, setState: T } = S(), { width: O, height: R } = resolveUnref(C) == true || resolveUnref(C) === "" || resolveUnref(C) === "true" ? useWindowSize() : useElementSize(h2.container), { logError: B, logWarning: z } = D(), { pixelRatio: X } = useDevicePixelRatio(), { pause: Le, resume: Te } = Ce(), U = computed(() => O.value / R.value);
+  !resolveUnref(C) && ((te = (ee = h2.container) == null ? void 0 : ee.value) == null ? void 0 : te.offsetHeight) === 0 && z(`Oops... Seems like your canvas height is currently 0px, by default it takes the height of it's parent, so make sure it has some height with CSS.
 You could set windowSize=true to force the canvas to be the size of the window.`);
-  const X = () => {
-    t.value && (t.value.setSize(C.value, O.value), t.value.setPixelRatio(Math.min(J.value, 2)));
-  }, Q = () => {
+  const Q = () => {
+    t.value && (t.value.setSize(O.value, R.value), t.value.setPixelRatio(Math.min(X.value, 2)));
+  }, Z = () => {
     if (!t.value)
       return;
-    const A = resolveUnref(L);
+    const A = resolveUnref(I);
     if (A) {
-      A in $ || B("Renderer Preset must be one of these: " + Object.keys($).join(", ")), xe(t.value, $[A]);
+      A in N || B("Renderer Preset must be one of these: " + Object.keys(N).join(", ")), Re(t.value, N[A]);
       return;
     }
-    t.value.shadowMap.enabled = resolveUnref(m), t.value.shadowMap.type = resolveUnref(d), t.value.toneMapping = resolveUnref(w) || NoToneMapping, t.value.toneMappingExposure = resolveUnref(p), t.value.outputEncoding = resolveUnref(R) || LinearEncoding, M != null && M.value && t.value.setClearColor(nt(resolveUnref(M))), t.value.useLegacyLights = resolveUnref(g);
-  }, Te = () => {
+    t.value.shadowMap.enabled = resolveUnref(p), t.value.shadowMap.type = resolveUnref(d), t.value.toneMapping = resolveUnref(L) || NoToneMapping, t.value.toneMappingExposure = resolveUnref(b), t.value.outputColorSpace = resolveUnref(x) || LinearEncoding, g != null && g.value && t.value.setClearColor(rt(resolveUnref(g))), t.value.useLegacyLights = resolveUnref(M);
+  }, Ae = () => {
     const A = unrefElement(h2.canvas);
     A && (t.value = new WebGLRenderer({
       canvas: A,
       alpha: resolveUnref(a),
       antialias: resolveUnref(n),
-      context: resolveUnref(x),
+      context: resolveUnref(v),
       depth: resolveUnref(r),
       failIfMajorPerformanceCaveat: resolveUnref(i),
-      logarithmicDepthBuffer: resolveUnref(s),
-      powerPreference: resolveUnref(b),
-      precision: resolveUnref(c),
-      stencil: resolveUnref(f),
+      logarithmicDepthBuffer: resolveUnref(c),
+      powerPreference: resolveUnref(E),
+      precision: resolveUnref(s),
+      stencil: resolveUnref(u),
       preserveDrawingBuffer: resolveUnref(y),
-      premultipliedAlpha: resolveUnref(u)
-    }), T("renderer", t.value), T("clock", new Clock()), T("aspectRatio", U), Q(), X(), Le(), o.value = true);
-  }, Ae = () => {
-    t.value && (t.value.dispose(), t.value = void 0, o.value = false, Re());
+      premultipliedAlpha: resolveUnref(l)
+    }), T("renderer", t.value), T("clock", new Clock()), T("aspectRatio", U), Z(), Q(), Te(), o.value = true);
+  }, _e = () => {
+    t.value && (t.value.dispose(), t.value = void 0, o.value = false, Le());
   };
-  return watch([U, J], X), watch(
-    [m, d, R, g, w, p, M],
-    Q
+  return watch([U, X], Q), watch(
+    [p, d, x, M, L, b, g],
+    Z
   ), watch(
     () => [h2.canvas, h2.container],
     () => {
-      unrefElement(h2.canvas) && unrefElement(h2.container) && Te();
+      unrefElement(h2.canvas) && unrefElement(h2.container) && Ae();
     },
     { immediate: true, deep: true }
   ), {
     renderer: t,
     isReady: o,
-    dispose: Ae,
+    dispose: _e,
     aspectRatio: U
   };
 }
-var Ee = (e) => !!e && e.constructor === Array;
-function ct(e) {
+var ut = (e) => typeof e == "string";
+var Pe = (e) => !!e && e.constructor === Array;
+function ft(e) {
   const t = { nodes: {}, materials: {} };
   return e && e.traverse((o) => {
     o.name && (t.nodes[o.name] = o), o.material && !t.materials[o.material.name] && (t.materials[o.material.name] = o.material);
   }), t;
 }
-async function Et(e, t, o, a, n) {
-  const { logError: r } = I(), s = new e();
-  n && n(s), o && o(s);
-  const c = (Array.isArray(t) ? t : [t]).map(
-    (u) => new Promise((f, m) => {
-      s.load(
-        u,
+async function Ct(e, t, o, a, n) {
+  const { logError: r } = D(), c = new e();
+  n && n(c), o && o(c);
+  const s = (Array.isArray(t) ? t : [t]).map(
+    (l) => new Promise((u, p) => {
+      c.load(
+        l,
         (d) => {
-          d.scene && Object.assign(d, ct(d.scene)), f(d);
+          d.scene && Object.assign(d, ft(d.scene)), u(d);
         },
         a,
-        (d) => m(r("[useLoader] - Failed to load resource", d))
+        (d) => p(r("[useLoader] - Failed to load resource", d))
       );
     })
   );
-  return Ee(t) ? await Promise.all(c) : await c[0];
+  return Pe(t) ? await Promise.all(s) : await s[0];
 }
-async function Ct(e) {
-  const t = new LoadingManager(), o = new TextureLoader(t), a = (n) => new Promise((r, s) => {
+async function Rt(e) {
+  const t = new LoadingManager(), o = new TextureLoader(t), a = (n) => new Promise((r, c) => {
     o.load(
       n,
       (i) => r(i),
       () => null,
       () => {
-        s(new Error("[useTextures] - Failed to load texture"));
+        c(new Error("[useTextures] - Failed to load texture"));
       }
     );
   });
-  if (Ee(e)) {
+  if (Pe(e)) {
     const n = await Promise.all(e.map((r) => a(r)));
     return e.length > 1 ? n : n[0];
   } else {
     const {
       map: n,
       displacementMap: r,
-      normalMap: s,
+      normalMap: c,
       roughnessMap: i,
-      metalnessMap: c,
-      aoMap: u,
-      alphaMap: f,
-      matcap: m
+      metalnessMap: s,
+      aoMap: l,
+      alphaMap: u,
+      matcap: p
     } = e;
     return {
       map: n ? await a(n) : null,
       displacementMap: r ? await a(r) : null,
-      normalMap: s ? await a(s) : null,
+      normalMap: c ? await a(c) : null,
       roughnessMap: i ? await a(i) : null,
-      metalnessMap: c ? await a(c) : null,
-      aoMap: u ? await a(u) : null,
-      alphaMap: f ? await a(f) : null,
-      matcap: m ? await a(m) : null
+      metalnessMap: s ? await a(s) : null,
+      aoMap: l ? await a(l) : null,
+      alphaMap: u ? await a(u) : null,
+      matcap: p ? await a(p) : null
     };
   }
 }
-var v = ["00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "0a", "0b", "0c", "0d", "0e", "0f", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "1a", "1b", "1c", "1d", "1e", "1f", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "2a", "2b", "2c", "2d", "2e", "2f", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "3a", "3b", "3c", "3d", "3e", "3f", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "4a", "4b", "4c", "4d", "4e", "4f", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59", "5a", "5b", "5c", "5d", "5e", "5f", "60", "61", "62", "63", "64", "65", "66", "67", "68", "69", "6a", "6b", "6c", "6d", "6e", "6f", "70", "71", "72", "73", "74", "75", "76", "77", "78", "79", "7a", "7b", "7c", "7d", "7e", "7f", "80", "81", "82", "83", "84", "85", "86", "87", "88", "89", "8a", "8b", "8c", "8d", "8e", "8f", "90", "91", "92", "93", "94", "95", "96", "97", "98", "99", "9a", "9b", "9c", "9d", "9e", "9f", "a0", "a1", "a2", "a3", "a4", "a5", "a6", "a7", "a8", "a9", "aa", "ab", "ac", "ad", "ae", "af", "b0", "b1", "b2", "b3", "b4", "b5", "b6", "b7", "b8", "b9", "ba", "bb", "bc", "bd", "be", "bf", "c0", "c1", "c2", "c3", "c4", "c5", "c6", "c7", "c8", "c9", "ca", "cb", "cc", "cd", "ce", "cf", "d0", "d1", "d2", "d3", "d4", "d5", "d6", "d7", "d8", "d9", "da", "db", "dc", "dd", "de", "df", "e0", "e1", "e2", "e3", "e4", "e5", "e6", "e7", "e8", "e9", "ea", "eb", "ec", "ed", "ee", "ef", "f0", "f1", "f2", "f3", "f4", "f5", "f6", "f7", "f8", "f9", "fa", "fb", "fc", "fd", "fe", "ff"];
-function ut() {
+var m = ["00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "0a", "0b", "0c", "0d", "0e", "0f", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "1a", "1b", "1c", "1d", "1e", "1f", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "2a", "2b", "2c", "2d", "2e", "2f", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "3a", "3b", "3c", "3d", "3e", "3f", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "4a", "4b", "4c", "4d", "4e", "4f", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59", "5a", "5b", "5c", "5d", "5e", "5f", "60", "61", "62", "63", "64", "65", "66", "67", "68", "69", "6a", "6b", "6c", "6d", "6e", "6f", "70", "71", "72", "73", "74", "75", "76", "77", "78", "79", "7a", "7b", "7c", "7d", "7e", "7f", "80", "81", "82", "83", "84", "85", "86", "87", "88", "89", "8a", "8b", "8c", "8d", "8e", "8f", "90", "91", "92", "93", "94", "95", "96", "97", "98", "99", "9a", "9b", "9c", "9d", "9e", "9f", "a0", "a1", "a2", "a3", "a4", "a5", "a6", "a7", "a8", "a9", "aa", "ab", "ac", "ad", "ae", "af", "b0", "b1", "b2", "b3", "b4", "b5", "b6", "b7", "b8", "b9", "ba", "bb", "bc", "bd", "be", "bf", "c0", "c1", "c2", "c3", "c4", "c5", "c6", "c7", "c8", "c9", "ca", "cb", "cc", "cd", "ce", "cf", "d0", "d1", "d2", "d3", "d4", "d5", "d6", "d7", "d8", "d9", "da", "db", "dc", "dd", "de", "df", "e0", "e1", "e2", "e3", "e4", "e5", "e6", "e7", "e8", "e9", "ea", "eb", "ec", "ed", "ee", "ef", "f0", "f1", "f2", "f3", "f4", "f5", "f6", "f7", "f8", "f9", "fa", "fb", "fc", "fd", "fe", "ff"];
+function lt() {
   const e = Math.random() * 4294967295 | 0, t = Math.random() * 4294967295 | 0, o = Math.random() * 4294967295 | 0, a = Math.random() * 4294967295 | 0;
-  return (v[e & 255] + v[e >> 8 & 255] + v[e >> 16 & 255] + v[e >> 24 & 255] + "-" + v[t & 255] + v[t >> 8 & 255] + "-" + v[t >> 16 & 15 | 64] + v[t >> 24 & 255] + "-" + v[o & 63 | 128] + v[o >> 8 & 255] + "-" + v[o >> 16 & 255] + v[o >> 24 & 255] + v[a & 255] + v[a >> 8 & 255] + v[a >> 16 & 255] + v[a >> 24 & 255]).toLowerCase();
+  return (m[e & 255] + m[e >> 8 & 255] + m[e >> 16 & 255] + m[e >> 24 & 255] + "-" + m[t & 255] + m[t >> 8 & 255] + "-" + m[t >> 16 & 15 | 64] + m[t >> 24 & 255] + "-" + m[o & 63 | 128] + m[o >> 8 & 255] + "-" + m[o >> 16 & 255] + m[o >> 24 & 255] + m[a & 255] + m[a >> 8 & 255] + m[a >> 16 & 255] + m[a >> 24 & 255]).toLowerCase();
 }
-var Ce = Symbol();
-function ft() {
+var J = Symbol();
+function dt() {
   const e = shallowReactive({
-    uuid: ut(),
+    uuid: lt(),
     camera: void 0,
     cameras: [],
     scene: void 0,
@@ -657,9 +658,9 @@ function ft() {
     getState: t,
     setState: o
   };
-  return provide(Ce, a), a;
+  return provide(J, a), a;
 }
-var D = () => inject(Ce, {
+var S = () => inject(J, {
   state: shallowReactive({
     camera: void 0,
     cameras: [],
@@ -667,14 +668,14 @@ var D = () => inject(Ce, {
     renderer: void 0
   })
 });
-function lt() {
-  var s;
-  const e = shallowRef(new Raycaster()), t = ref(new Vector2()), o = ref(null), { setState: a, state: n } = D();
+function pt() {
+  var c;
+  const e = shallowRef(new Raycaster()), t = ref(new Vector2()), o = ref(null), { setState: a, state: n } = S();
   a("raycaster", e.value), a("pointer", t), a("currentInstance", o);
   function r(i) {
     t.value.x = i.clientX / window.innerWidth * 2 - 1, t.value.y = -(i.clientY / window.innerHeight) * 2 + 1;
   }
-  return (s = n == null ? void 0 : n.renderer) == null || s.domElement.addEventListener("pointermove", r), onUnmounted(() => {
+  return (c = n == null ? void 0 : n.renderer) == null || c.domElement.addEventListener("pointermove", r), onUnmounted(() => {
     var i;
     (i = n == null ? void 0 : n.renderer) == null || i.domElement.removeEventListener("pointermove", r);
   }), {
@@ -683,13 +684,13 @@ function lt() {
   };
 }
 var Pt = true;
-var re = "[TresJS ▲ ■ ●] ";
-function I() {
+var oe = "[TresJS ▲ ■ ●] ";
+function D() {
   function e(a, n) {
-    console.error(`${re} ${a}`, n || "");
+    console.error(`${oe} ${a}`, n || "");
   }
   function t(a) {
-    console.warn(`${re} ${a}`);
+    console.warn(`${oe} ${a}`);
   }
   function o(a, n) {
   }
@@ -699,13 +700,13 @@ function I() {
     logMessage: o
   };
 }
-function Rt() {
-  const { logWarning: e } = I();
+function Lt() {
+  const { logWarning: e } = D();
   function t(a, n, r) {
-    let s = null;
+    let c = null;
     return a.traverse((i) => {
-      i[n] === r && (s = i);
-    }), s || e(`Child with ${n} '${r}' not found.`), s;
+      i[n] === r && (c = i);
+    }), c || e(`Child with ${n} '${r}' not found.`), c;
   }
   function o(a, n) {
     return t(a, "name", n);
@@ -715,53 +716,53 @@ function Rt() {
     seekByName: o
   };
 }
-var dt = /^on[^a-z]/;
-var pt = (e) => dt.test(e);
-var oe = null;
-var ie = {
+var mt = /^on[^a-z]/;
+var vt = (e) => mt.test(e);
+var ie = null;
+var se = {
   GEOMETRY_VIA_PROP: "tres__geometryViaProp",
   MATERIAL_VIA_PROP: "tres__materialViaProp"
 };
-var { logError: se } = I();
-var mt = {
+var { logError: ce } = D();
+var gt = {
   createElement(e, t, o, a) {
-    var c, u;
-    if (a || (a = {}), a.args || (a.args = []), e === "template" || ot(e))
+    var s, l;
+    if (a || (a = {}), a.args || (a.args = []), e === "template" || it(e))
       return null;
     let n = e.replace("Tres", ""), r;
     if (e === "primitive") {
-      (a == null ? void 0 : a.object) === void 0 && se("Tres primitives need a prop 'object'");
-      const f = a.object;
-      n = f.type, r = Object.assign(f, { type: n, attach: a.attach, primitive: true });
+      (a == null ? void 0 : a.object) === void 0 && ce("Tres primitives need a prop 'object'");
+      const u = a.object;
+      n = u.type, r = Object.assign(u, { type: n, attach: a.attach, primitive: true });
     } else {
-      const f = he.value[n];
-      f || se(`${n} is not defined on the THREE namespace. Use extend to add it to the catalog.`), r = Object.assign(new f(...a.args), { type: n, attach: a.attach });
+      const u = be.value[n];
+      u || ce(`${n} is not defined on the THREE namespace. Use extend to add it to the catalog.`), r = new u(...a.args);
     }
     if (r.isCamera) {
       a != null && a.position || r.position.set(3, 3, 3), a != null && a.lookAt || r.lookAt(0, 0, 0);
-      const { pushCamera: f } = N();
-      f(r);
+      const { pushCamera: u } = Me();
+      u(r);
     }
     (a == null ? void 0 : a.attach) === void 0 && (r.isMaterial ? r.attach = "material" : r.isBufferGeometry && (r.attach = "geometry"));
-    const { GEOMETRY_VIA_PROP: s, MATERIAL_VIA_PROP: i } = ie;
-    return r.isObject3D && ((c = a == null ? void 0 : a.material) != null && c.isMaterial && (r.userData[i] = true), (u = a == null ? void 0 : a.geometry) != null && u.isBufferGeometry && (r.userData[s] = true)), r.events = {}, r;
+    const { GEOMETRY_VIA_PROP: c, MATERIAL_VIA_PROP: i } = se;
+    return r.isObject3D && ((s = a == null ? void 0 : a.material) != null && s.isMaterial && (r.userData[i] = true), (l = a == null ? void 0 : a.geometry) != null && l.isBufferGeometry && (r.userData[c] = true)), r.events = {}, r;
   },
   insert(e, t) {
-    var o, a;
-    if (((e == null ? void 0 : e.__vnode.type) === "TresGroup" || (e == null ? void 0 : e.__vnode.type) === "TresObject3D") && t === null && !((a = (o = e == null ? void 0 : e.__vnode) == null ? void 0 : o.ctx) != null && a.asyncResolved)) {
-      oe = e;
+    var o, a, n, r;
+    if ((((o = e == null ? void 0 : e.__vnode) == null ? void 0 : o.type) === "TresGroup" || ((a = e == null ? void 0 : e.__vnode) == null ? void 0 : a.type) === "TresObject3D") && t === null && !((r = (n = e == null ? void 0 : e.__vnode) == null ? void 0 : n.ctx) != null && r.asyncResolved)) {
+      ie = e;
       return;
     }
-    t || (t = oe), e != null && e.isObject3D && (t != null && t.isObject3D) ? (t.add(e), e.dispatchEvent({ type: "added" })) : typeof (e == null ? void 0 : e.attach) == "string" && (e.__previousAttach = e[t == null ? void 0 : t.attach], t && (t[e.attach] = e));
+    t || (t = ie), e != null && e.isObject3D && (t != null && t.isObject3D) ? (t.add(e), e.dispatchEvent({ type: "added" })) : typeof (e == null ? void 0 : e.attach) == "string" && (e.__previousAttach = e[t == null ? void 0 : t.attach], t && (t[e.attach] = e));
   },
   remove(e) {
     var t, o;
     if (e) {
       if (e.isObject3D) {
         const a = e, n = (r) => {
-          var c, u;
-          const { GEOMETRY_VIA_PROP: s, MATERIAL_VIA_PROP: i } = ie;
-          r.userData[i] || (c = r.material) == null || c.dispose(), r.userData[s] || (u = r.geometry) == null || u.dispose();
+          var s, l;
+          const { GEOMETRY_VIA_PROP: c, MATERIAL_VIA_PROP: i } = se;
+          r.userData[i] || (s = r.material) == null || s.dispose(), r.userData[c] || (l = r.geometry) == null || l.dispose();
         };
         a.traverse((r) => n(r)), n(a);
       }
@@ -770,25 +771,25 @@ var mt = {
   },
   patchProp(e, t, o, a) {
     if (e) {
-      let n = e, r = t, s = z(r), i = n == null ? void 0 : n[s];
+      let n = e, r = t, c = F(r), i = n == null ? void 0 : n[c];
       if (n.type === "BufferGeometry") {
         n.setAttribute(
-          z(r),
+          F(r),
           new BufferAttribute(...a)
         );
         return;
       }
       if (r.includes("-") && i === void 0) {
-        const u = r.split("-");
-        i = u.reduce((f, m) => f[z(m)], n), r = u.pop(), s = r.toLowerCase(), i != null && i.set || (n = u.reduce((f, m) => f[z(m)], n));
+        const l = r.split("-");
+        i = l.reduce((u, p) => u[F(p)], n), r = l.pop(), c = r.toLowerCase(), i != null && i.set || (n = l.reduce((u, p) => u[F(p)], n));
       }
-      pt(r) && (e.events[r] = a);
-      let c = a;
-      if (c === "" && (c = true), isFunction(i)) {
-        Array.isArray(c) ? e[s](...c) : e[s](c);
+      vt(r) && (e.events[r] = a);
+      let s = a;
+      if (s === "" && (s = true), isFunction(i)) {
+        Array.isArray(s) ? e[c](...s) : e[c](s);
         return;
       }
-      !(i != null && i.set) && !isFunction(i) ? n[s] = c : i.constructor === c.constructor && (i != null && i.copy) ? i == null || i.copy(c) : Array.isArray(c) ? i.set(...c) : !i.isColor && i.setScalar ? i.setScalar(c) : i.set(c);
+      !(i != null && i.set) && !isFunction(i) ? n[c] = s : i.constructor === s.constructor && (i != null && i.copy) ? i == null || i.copy(s) : Array.isArray(s) ? i.set(...s) : !i.isColor && i.setScalar ? i.setScalar(s) : i.set(s);
     }
   },
   parentNode(e) {
@@ -804,24 +805,24 @@ var mt = {
   cloneNode: () => void 0,
   insertStaticContent: () => void 0
 };
-var { createApp: vt } = createRenderer(mt);
-var gt = (e) => {
-  const t = vt(o);
+var { createApp: ht } = createRenderer(gt);
+var wt = (e) => {
+  const t = ht(o);
   function o() {
     return e && e.default ? e.default() : [];
   }
   return t;
 };
-we(three_module_exports);
-var { logWarning: ht } = I();
-var wt = defineComponent({
+ye(three_module_exports);
+var { logWarning: ue } = D();
+var bt = defineComponent({
   name: "TresScene",
   props: [
     "shadows",
     "shadowMapType",
     "physicallyCorrectLights",
     "useLegacyLights",
-    "outputEncoding",
+    "outputColorSpace",
     "toneMapping",
     "toneMappingExposure",
     "context",
@@ -829,39 +830,40 @@ var wt = defineComponent({
     "preserveDrawingBuffer",
     "clearColor",
     "windowSize",
-    "preset"
+    "preset",
+    "disableRender"
   ],
   setup(e, { slots: t, expose: o }) {
-    e.physicallyCorrectLights === true && ht("physicallyCorrectLights is deprecated, useLegacyLights is now false by default");
-    const a = ref(), n = ref(), r = new Scene(), { setState: s } = D();
-    s("scene", r), s("canvas", n), s("container", a);
-    const { pushCamera: i } = N();
-    i(new PerspectiveCamera()), onMounted(() => {
-      c();
+    e.physicallyCorrectLights === true && ue("physicallyCorrectLights is deprecated, useLegacyLights is now false by default");
+    const a = ref(), n = ref(), r = new Scene(), { setState: c } = S();
+    c("scene", r), c("canvas", n), c("container", a);
+    const i = ref(), s = t && t.default && t.default();
+    (s == null ? void 0 : s.length) > 0 && (i.value = s.some((d) => ut(d.type) && d.type.includes("Camera")), i.value || ue("No camera found in the scene, please add one!")), onMounted(() => {
+      l();
     }), onUnmounted(() => {
-      s("renderer", null);
+      c("renderer", null);
     });
-    function c() {
-      const { renderer: m } = st(e), { activeCamera: d } = N(), { onLoop: P } = Me(), { raycaster: g, pointer: R } = lt();
-      let w = null, p = null;
+    function l() {
+      const { renderer: d } = ct(e), { activeCamera: w } = Me(), { onLoop: M } = Ce(), { raycaster: x, pointer: L } = pt();
+      let b = null, v = null;
       watchEffect(() => {
-        d.value && g.value.setFromCamera(R.value, d.value);
-      }), P(() => {
-        var x, b, y, M, E, L, h2, T, C, O;
-        if (d.value && ((x = m.value) == null || x.render(r, d.value)), g.value) {
-          const B = g.value.intersectObjects(r.children);
-          B.length > 0 ? (p = B[0], w === null && ((M = (y = (b = p.object) == null ? void 0 : b.events) == null ? void 0 : y.onPointerEnter) == null || M.call(y, p)), (h2 = (L = (E = p.object) == null ? void 0 : E.events) == null ? void 0 : L.onPointerMove) == null || h2.call(L, p)) : w !== null && ((O = (C = (T = p == null ? void 0 : p.object) == null ? void 0 : T.events) == null ? void 0 : C.onPointerLeave) == null || O.call(C, w), p = null), w = p;
+        w.value && x.value.setFromCamera(L.value, w.value);
+      }), M(() => {
+        var E, y, g, C, I, h2, T, O, R, B;
+        if (w.value && e.disableRender !== true && e.disableRender !== "" && ((E = d.value) == null || E.render(r, w.value)), x.value) {
+          const z = x.value.intersectObjects(r.children);
+          z.length > 0 ? (v = z[0], b === null && ((C = (g = (y = v.object) == null ? void 0 : y.events) == null ? void 0 : g.onPointerEnter) == null || C.call(g, v)), (T = (h2 = (I = v.object) == null ? void 0 : I.events) == null ? void 0 : h2.onPointerMove) == null || T.call(h2, v)) : b !== null && ((B = (R = (O = v == null ? void 0 : v.object) == null ? void 0 : O.events) == null ? void 0 : R.onPointerLeave) == null || B.call(R, b), v = null), b = v;
         }
       }), useEventListener(n.value, "click", () => {
-        var x, b, y;
-        p !== null && ((y = (b = (x = p.object) == null ? void 0 : x.events) == null ? void 0 : b.onClick) == null || y.call(b, p));
+        var E, y, g;
+        v !== null && ((g = (y = (E = v.object) == null ? void 0 : E.events) == null ? void 0 : y.onClick) == null || g.call(y, v));
       });
     }
     let u;
-    function f() {
-      u = gt(t), u.provide("useTres", D()), u.provide("extend", we), u.mount(r);
+    function p() {
+      u = wt(t), u.provide("useTres", S()), u.provide(J, S()), u.provide("extend", ye), u.mount(r);
     }
-    return f(), o({
+    return p(), o({
       scene: r
     }), () => h(
       h(
@@ -907,14 +909,14 @@ var wt = defineComponent({
     );
   }
 });
-var bt = defineComponent({
+var yt = defineComponent({
   name: "TresCanvas",
   props: [
     "shadows",
     "shadowMapType",
     "physicallyCorrectLights",
     "useLegacyLights",
-    "outputEncoding",
+    "outputColorSpace",
     "toneMapping",
     "toneMappingExposure",
     "context",
@@ -922,36 +924,38 @@ var bt = defineComponent({
     "preserveDrawingBuffer",
     "clearColor",
     "windowSize",
-    "preset"
+    "preset",
+    "disableRender"
   ],
   setup(e, { slots: t, expose: o }) {
-    const a = ft();
-    return o(a), () => h(wt, e, t);
+    const a = dt();
+    return o(a), () => h(bt, e, t);
   }
 });
-var Lt = {
+var Tt = {
   install(e) {
-    e.component("TresCanvas", bt);
+    e.component("TresCanvas", yt);
   }
 };
 
 export {
-  he,
-  we,
-  Qe,
-  N,
+  be,
+  ye,
+  Ze,
   Me,
-  st,
+  Ce,
   ct,
-  Et,
-  Ct,
   ft,
-  D,
-  lt,
-  Pt,
-  I,
+  Ct,
   Rt,
-  bt,
-  Lt
+  J,
+  dt,
+  S,
+  pt,
+  Pt,
+  D,
+  Lt,
+  yt,
+  Tt
 };
-//# sourceMappingURL=chunk-DESKY23Y.js.map
+//# sourceMappingURL=chunk-3X6OZMG6.js.map

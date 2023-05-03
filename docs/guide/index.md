@@ -8,7 +8,7 @@ This is the documentation for the `v2.0.0-rc` of TresJS. If you are looking for 
 
 ::: info
 
-TresJS v2 is still in beta stage, you can expect minor changes and bug fixing towards first stable release.
+TresJS v2 is now in release candidate. Stable release to be announced soon.
 
 :::
 

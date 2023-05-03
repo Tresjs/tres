@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { BasicShadowMap, CubicBezierCurve3, DoubleSide, NoToneMapping, sRGBEncoding, Vector3 } from 'three'
+import { BasicShadowMap, CubicBezierCurve3, DoubleSide, NoToneMapping, SRGBColorSpace, Vector3 } from 'three'
 import { TresCanvas } from '/@/'
 import {
   Plane,
@@ -23,7 +23,7 @@ const state = reactive({
   alpha: false,
   physicallyCorrectLights: true,
   shadowMapType: BasicShadowMap,
-  outputEncoding: sRGBEncoding,
+  outputColorSpace: SRGBColorSpace,
   toneMapping: NoToneMapping,
 })
 

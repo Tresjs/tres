@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { BasicShadowMap, sRGBEncoding, NoToneMapping } from 'three'
+import { BasicShadowMap, SRGBColorSpace, NoToneMapping } from 'three'
 import { TresCanvas } from '/@/'
 import { OrbitControls, TransformControls, useTweakPane } from '@tresjs/cientos'
 
@@ -8,7 +8,7 @@ const state = shallowReactive({
   shadows: true,
   alpha: false,
   shadowMapType: BasicShadowMap,
-  outputEncoding: sRGBEncoding,
+  outputColorSpace: SRGBColorSpace,
   toneMapping: NoToneMapping,
 })
 
@@ -29,7 +29,7 @@ const { pane } = useTweakPane()
 pane
   .addBlade({
     view: 'list',
-    label: 'outputEncoding',
+    label: 'outputColorSpace',
     options: [
       { text: 'Translate', value: 'translate' },
       { text: 'Rotate', value: 'rotate' },

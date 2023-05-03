@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Color, sRGBEncoding } from 'three'
+import { Color, SRGBColorSpace } from 'three'
 import { TresCanvas } from '/@/'
 import { OrbitControls, useTweakPane, useGLTF, useAnimations } from '@tresjs/cientos'
 
@@ -48,7 +48,7 @@ console.log({ model, animations, actions, mixer })
       alpha
       window-size
       power-preference="high-performance"
-      :output-encoding="sRGBEncoding"
+      :output-encoding="SRGBColorSpace"
     >
       <TresPerspectiveCamera :position="[8, 8, 8]" :fov="45" :near="0.1" :far="10000" />
       <OrbitControls />

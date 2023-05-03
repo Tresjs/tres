@@ -9,7 +9,7 @@ export interface TresCanvasProps {
   shadowMapType?: ShadowMapType
   physicallyCorrectLights?: boolean
   useLegacyLights?: boolean
-  outputEncoding?: TextureEncoding
+  outputColorSpace?: TextureEncoding
   toneMapping?: ToneMapping
   toneMappingExposure?: number
   context?: WebGLRenderingContext
@@ -32,7 +32,7 @@ export const TresCanvas = defineComponent<TresCanvasProps>({
     'shadowMapType',
     'physicallyCorrectLights',
     'useLegacyLights',
-    'outputEncoding',
+    'outputColorSpace',
     'toneMapping',
     'toneMappingExposure',
     'context',
