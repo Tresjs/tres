@@ -70,7 +70,7 @@ export const TresScene = defineComponent<TresSceneProps>({
 
     const internal = slots && slots.default && slots.default()
 
-    if (internal?.length > 0) {
+    if (internal && internal?.length > 0) {
       isCameraAvailable.value =
         internal.some((node: TresObject) => isString(node.type) && node.type.includes('Camera')) || props.camera
       if (!isCameraAvailable.value) {

@@ -14,6 +14,8 @@ const gl = {
   toneMapping: NoToneMapping,
 }
 
+const wireframe = ref(true)
+
 const context = ref()
 
 watchEffect(() => {
@@ -24,6 +26,8 @@ watchEffect(() => {
 </script>
 
 <template>
+  <div><button @click="wireframe = !wireframe">Click</button></div>
+  <pre>{{ wireframe }}</pre>
   <TresCanvas v-bind="gl" ref="context">
     <TresPerspectiveCamera :position="[7, 7, 7]" :look-at="[0, 4, 0]" />
     <OrbitControls />
@@ -33,7 +37,7 @@ watchEffect(() => {
     </TresMesh>
     <TresMesh :position="[0, 4, 0]" cast-shadow>
       <TresBoxGeometry :args="[1.5, 1.5, 1.5]" />
-      <TresMeshToonMaterial color="#4F4F4F" />
+      <TresMeshToonMaterial color="#4F4F4F" :wireframe="wireframe" />
     </TresMesh>
     <TheSphere />
     <TresAxesHelper :args="[1]" />

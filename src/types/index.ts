@@ -50,9 +50,10 @@ export type TresVectorProp = Vector2 | Vector3 | number[] | number
 export type TresColor = string | number | Color | number[]
 
 export interface TresEvent extends Intersection<Object3D<Event>> {
-  object: Object3D
+  object: Object3D & { events?: Record<string, any>}
   distance: number
   faceIndex?: number | undefined
   point: Vector3
   uv?: Vector2
+  events?: Record<string, any>
 }

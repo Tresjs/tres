@@ -1,8 +1,8 @@
+import { RendererOptions } from 'vue'
 import { BufferAttribute, BufferGeometry, Material, Object3D } from 'three'
 import { useCamera, useLogger } from '/@/composables'
-import { RendererOptions } from 'vue'
+import { isFunction } from '@alvarosabu/utils'
 import { catalogue } from './catalogue'
-import { isFunction } from '@vueuse/core'
 import { TresInstance, TresObject } from '../types'
 import { isHTMLTag, kebabToCamel } from '../utils'
 

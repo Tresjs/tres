@@ -1,8 +1,8 @@
 /* eslint-disable max-len */
 import { watch, ref, shallowRef, computed, toRefs } from 'vue'
 import {
-  MaybeComputedRef,
-  resolveUnref,
+  MaybeRefOrGetter,
+  toValue,
   unrefElement,
   useDevicePixelRatio,
   useElementSize,
@@ -31,7 +31,7 @@ export interface UseRendererOptions extends WebGLRendererParameters {
    *
    * @default false
    */
-  shadows?: MaybeComputedRef<boolean>
+  shadows?: MaybeRefOrGetter<boolean>
 
   /**
    * Set the shadow map type
@@ -40,7 +40,7 @@ export interface UseRendererOptions extends WebGLRendererParameters {
    *
    * @default PCFSoftShadowMap
    */
-  shadowMapType?: MaybeComputedRef<ShadowMapType>
+  shadowMapType?: MaybeRefOrGetter<ShadowMapType>
 
   /**
    * Whether to use physically correct lighting mode.
@@ -49,21 +49,21 @@ export interface UseRendererOptions extends WebGLRendererParameters {
    * @default false
    * @deprecated Use {@link WebGLRenderer.useLegacyLights useLegacyLights} instead.
    */
-  physicallyCorrectLights?: MaybeComputedRef<boolean>
+  physicallyCorrectLights?: MaybeRefOrGetter<boolean>
   /**
    * Whether to use legacy lighting mode.
    *
-   * @type {MaybeComputedRef<boolean>}
+   * @type {MaybeRefOrGetter<boolean>}
    * @memberof UseRendererOptions
    */
-  useLegacyLights?: MaybeComputedRef<boolean>
+  useLegacyLights?: MaybeRefOrGetter<boolean>
   /**
    * Defines the output encoding of the renderer.
    * Can be LinearEncoding, sRGBEncoding
    *
    * @default LinearEncoding
    */
-  outputEncoding?: MaybeComputedRef<TextureEncoding>
+  outputEncoding?: MaybeRefOrGetter<TextureEncoding>
 
   /**
    * Defines the tone mapping used by the renderer.
@@ -71,14 +71,14 @@ export interface UseRendererOptions extends WebGLRendererParameters {
    *
    * @default NoToneMapping
    */
-  toneMapping?: MaybeComputedRef<ToneMapping>
+  toneMapping?: MaybeRefOrGetter<ToneMapping>
 
   /**
    * Defines the tone mapping exposure used by the renderer.
    *
    * @default 1
    */
-  toneMappingExposure?: MaybeComputedRef<number>
+  toneMappingExposure?: MaybeRefOrGetter<number>
 
   /**
    * The context used by the renderer.
@@ -107,8 +107,8 @@ export interface UseRendererOptions extends WebGLRendererParameters {
    *
    * @default 0x000000
    */
-  clearColor?: MaybeComputedRef<TresColor>
-  windowSize?: MaybeComputedRef<boolean | string>
+  clearColor?: MaybeRefOrGetter<TresColor>
+  windowSize?: MaybeRefOrGetter<boolean | string>
   preset?: RendererPresetsType
 }
 
@@ -133,7 +133,6 @@ export function useRenderer(options: UseRendererOptions) {
     stencil,
     shadows = false,
     shadowMapType = PCFShadowMap,
-    physicallyCorrectLights = false,
     useLegacyLights = false,
     outputEncoding = LinearEncoding,
     toneMapping = NoToneMapping,
@@ -149,7 +148,7 @@ export function useRenderer(options: UseRendererOptions) {
   const { state, setState } = useTres()
 
   const { width, height } =
-    resolveUnref(windowSize) == true || resolveUnref(windowSize) === '' || resolveUnref(windowSize) === 'true'
+    toValue(windowSize) == true || toValue(windowSize) === '' || toValue(windowSize) === 'true'
       ? useWindowSize()
       : useElementSize(state.container)
   const { logError, logWarning } = useLogger()
@@ -157,7 +156,7 @@ export function useRenderer(options: UseRendererOptions) {
   const { pause, resume } = useRenderLoop()
   const aspectRatio = computed(() => width.value / height.value)
 
-  if (!resolveUnref(windowSize) && state.container?.value?.offsetHeight === 0) {
+  if (!toValue(windowSize) && state.container?.value?.offsetHeight === 0) {
     logWarning(`Oops... Seems like your canvas height is currently 0px, by default it takes the height of it's parent, so make sure it has some height with CSS.
 You could set windowSize=true to force the canvas to be the size of the window.`)
   }
@@ -176,7 +175,7 @@ You could set windowSize=true to force the canvas to be the size of the window.`
       return
     }
 
-    const rendererPreset = resolveUnref(preset)
+    const rendererPreset = toValue(preset)
 
     if (rendererPreset) {
       if (!(rendererPreset in rendererPresets))
@@ -186,15 +185,15 @@ You could set windowSize=true to force the canvas to be the size of the window.`
       return
     }
 
-    renderer.value.shadowMap.enabled = resolveUnref(shadows) as boolean
-    renderer.value.shadowMap.type = resolveUnref(shadowMapType) as ShadowMapType
-    renderer.value.toneMapping = (resolveUnref(toneMapping) as ToneMapping) || NoToneMapping
-    renderer.value.toneMappingExposure = resolveUnref(toneMappingExposure) as number
-    renderer.value.outputEncoding = (resolveUnref(outputEncoding) as TextureEncoding) || LinearEncoding
-    if (clearColor?.value) renderer.value.setClearColor(normalizeColor(resolveUnref(clearColor) as TresColor))
+    renderer.value.shadowMap.enabled = toValue(shadows) as boolean
+    renderer.value.shadowMap.type = toValue(shadowMapType) as ShadowMapType
+    renderer.value.toneMapping = (toValue(toneMapping) as ToneMapping) || NoToneMapping
+    renderer.value.toneMappingExposure = toValue(toneMappingExposure) as number
+    renderer.value.outputEncoding = (toValue(outputEncoding) as TextureEncoding) || LinearEncoding
+    if (clearColor?.value) renderer.value.setClearColor(normalizeColor(toValue(clearColor) as TresColor))
 
-    /*    renderer.value.physicallyCorrectLights = resolveUnref(physicallyCorrectLights) as boolean */
-    renderer.value.useLegacyLights = resolveUnref(useLegacyLights) as boolean
+    /*    renderer.value.physicallyCorrectLights = toValue(physicallyCorrectLights) as boolean */
+    renderer.value.useLegacyLights = toValue(useLegacyLights) as boolean
   }
 
   const init = () => {
@@ -206,17 +205,17 @@ You could set windowSize=true to force the canvas to be the size of the window.`
 
     renderer.value = new WebGLRenderer({
       canvas: _canvas,
-      alpha: resolveUnref(alpha),
-      antialias: resolveUnref(antialias),
-      context: resolveUnref(context),
-      depth: resolveUnref(depth),
-      failIfMajorPerformanceCaveat: resolveUnref(failIfMajorPerformanceCaveat),
-      logarithmicDepthBuffer: resolveUnref(logarithmicDepthBuffer),
-      powerPreference: resolveUnref(powerPreference),
-      precision: resolveUnref(precision),
-      stencil: resolveUnref(stencil),
-      preserveDrawingBuffer: resolveUnref(preserveDrawingBuffer),
-      premultipliedAlpha: resolveUnref(premultipliedAlpha),
+      alpha: toValue(alpha),
+      antialias: toValue(antialias),
+      context: toValue(context),
+      depth: toValue(depth),
+      failIfMajorPerformanceCaveat: toValue(failIfMajorPerformanceCaveat),
+      logarithmicDepthBuffer: toValue(logarithmicDepthBuffer),
+      powerPreference: toValue(powerPreference),
+      precision: toValue(precision),
+      stencil: toValue(stencil),
+      preserveDrawingBuffer: toValue(preserveDrawingBuffer),
+      premultipliedAlpha: toValue(premultipliedAlpha),
     })
 
     setState('renderer', renderer.value)
