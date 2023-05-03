@@ -1,5 +1,12 @@
 
 
+## [2.0.0-rc.2](https://github.com/Tresjs/tres/compare/2.0.0-rc.1...2.0.0-rc.2) (2023-05-03)
+
+
+### Bug Fixes
+
+* updated breaking changes of three v152 color maangement ([1e47a5f](https://github.com/Tresjs/tres/commit/1e47a5fbdb14e54599f3e3e2e989f57895ab19f9))
+
 ## [2.0.0-rc.1](https://github.com/Tresjs/tres/compare/2.0.0-rc.0...2.0.0-rc.1) (2023-05-03)
 
 ## [2.0.0-rc.0](https://github.com/Tresjs/tres/compare/2.0.0-beta.13...2.0.0-rc.0) (2023-05-03)
