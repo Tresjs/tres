@@ -7,8 +7,8 @@ specifiers:
   '@iconify-json/logos': ^1.1.23
   '@nuxt/content': ^2.5.2
   '@nuxt/image-edge': 1.0.0-27991759.1a5eea1
-  '@tresjs/cientos': 2.0.0-beta.3
-  '@tresjs/core': 2.0.0-beta.12
+  '@tresjs/cientos': 2.0.0-beta.6
+  '@tresjs/core': 2.0.0-beta.13
   '@types/three': ^0.149.0
   '@unocss/nuxt': ^0.50.6
   gsap: ^3.11.5
@@ -20,7 +20,7 @@ specifiers:
 
 dependencies:
   '@iconify-json/ic': 1.1.13
-  '@tresjs/cientos': 2.0.0-beta.3_6uncyfebstfpayrewaoqkcvqqu
+  '@tresjs/cientos': 2.0.0-beta.6_pcam4mhufy5y6iy2jopaze5p4m
   postprocessing: 6.30.2_three@0.150.1
   three: 0.150.1
 
@@ -30,7 +30,7 @@ devDependencies:
   '@iconify-json/logos': 1.1.25
   '@nuxt/content': 2.6.0
   '@nuxt/image-edge': 1.0.0-27991759.1a5eea1
-  '@tresjs/core': 2.0.0-beta.12_three@0.150.1+vue@3.2.47
+  '@tresjs/core': 2.0.0-beta.13_three@0.150.1+vue@3.2.47
   '@types/three': 0.149.0
   '@unocss/nuxt': 0.50.8_febnmb4l2tklkxtjx7f5wmfdwu
   gsap: 3.11.5
@@ -1214,14 +1214,14 @@ packages:
     resolution: {integrity: sha512-+9jVqKhRSpsc591z5vX+X5Yyw+he/HCB4iQ/RYxw35CEPaY1gnsNE43nf9n9AaYjAQrTiI/mOwKUKdUs9vf7Xg==}
     dev: true
 
-  /@tresjs/cientos/2.0.0-beta.3_6uncyfebstfpayrewaoqkcvqqu:
-    resolution: {integrity: sha512-imBObbMCZZMtXMTQ18rCKADiFlcwNVRMsVBh8ffDY393GJMkWPgtx4hNcBWfVxGgLZPB/o1tewGgcZ58o4hCrw==}
+  /@tresjs/cientos/2.0.0-beta.6_pcam4mhufy5y6iy2jopaze5p4m:
+    resolution: {integrity: sha512-FPX3Y6ZJDTKxn2XRMbjKz8zflkpqncp5VZDAWwr9886cauagRwOfaZZf2KAcbXH82zAMBWLvKuSrCmRfiEHZAQ==}
     peerDependencies:
-      '@tresjs/core': 2.0.0-beta.9
+      '@tresjs/core': 2.0.0-beta.11
       three: latest
       vue: ^3.2.47
     dependencies:
-      '@tresjs/core': 2.0.0-beta.12_three@0.150.1+vue@3.2.47
+      '@tresjs/core': 2.0.0-beta.13_three@0.150.1+vue@3.2.47
       '@vueuse/core': 10.1.0_vue@3.2.47
       three: 0.150.1
       three-stdlib: 2.21.8_three@0.150.1
@@ -1230,8 +1230,8 @@ packages:
       - '@vue/composition-api'
     dev: false
 
-  /@tresjs/core/2.0.0-beta.12_three@0.150.1+vue@3.2.47:
-    resolution: {integrity: sha512-EiI5QmwX5HSHSgVwKX5ORPi8KDb62EYJyKcXvX1zzfzmtDfsTME4c5iMaWcSws4hJZB5bxFZ0vJvMMpBIKfrBA==}
+  /@tresjs/core/2.0.0-beta.13_three@0.150.1+vue@3.2.47:
+    resolution: {integrity: sha512-QJ2XSwP/aExXie6LwIm/IbfH/wmRv7sknoJj1K9J03TCjmu7J4w5ug3w79S/LH6YXs7w5Zezsc74QHN/fire4A==}
     peerDependencies:
       three: latest
       vue: ^3.2.47
