@@ -40,6 +40,7 @@ export default defineConfig({
           { text: 'OrbitControls', link: '/guide/controls/orbit-controls' },
           { text: 'TransformControls', link: '/guide/controls/transform-controls' },
           { text: 'PointerLockControls', link: '/guide/controls/pointer-lock-controls' },
+          { text: 'MapControls', link: '/guide/controls/map-controls' },
         ],
       },
       {
