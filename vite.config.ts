@@ -15,7 +15,7 @@ import { lightGreen, magenta, gray, bold } from 'kolorist'
 import pkg from './package.json'
 
 // eslint-disable-next-line no-console
-console.log(`${lightGreen('▲')} ${gray('■')} ${magenta('☕︎')} ${bold('Tres/leches')} v${pkg.version}`)
+console.log(`${lightGreen('▲')} ${gray('■')} ${magenta('🍰')} ${bold('Tres/leches')} v${pkg.version}`)
 
 // https://vitejs.dev/config/
 export default defineConfig({

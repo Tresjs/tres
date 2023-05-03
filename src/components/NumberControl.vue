@@ -7,6 +7,7 @@ const props = defineProps<{
   control: Control
 }>()
 const mouse = useMouse()
+
 const initialMouseX = ref(0)
 const isMouseDown = ref(false)
 
@@ -32,6 +33,15 @@ watch(mouse.x, newValue => {
     } else if (diff < 0) {
       props.control.value -= 1 + speed
     }
+
+    if (props.control.min !== undefined && props.control.value < props.control.min) {
+      props.control.value = props.control.min
+    }
+
+    if (props.control.max !== undefined && props.control.value > props.control.max) {
+      props.control.value = props.control.max
+    }
+
     initialMouseX.value = newValue
   }
 })
@@ -43,9 +53,12 @@ watch(mouse.x, newValue => {
       v-model="control.value"
       class="p-2 w-1/3 rounded text-right text-xs text-gray-400 bg-gray-100 focus:border-gray-200 outline-none border-none font-sans"
       type="number"
+      :class="{ 'cursor-ew-resize': isMouseDown }"
+      :min="control.min"
+      :max="control.max"
+      :step="control.step"
       @mousedown="onInputMouseDown"
       @mouseup="onInputMouseUp"
-      @mouseleave="onInputMouseUp"
     />
   </div>
 </template>

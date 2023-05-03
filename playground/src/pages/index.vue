@@ -26,6 +26,7 @@ useControls({
     step: 0.1,
     label: 'Box Position X',
   },
+  numberValue: 1,
 })
 
 /* const boxRef = ref()

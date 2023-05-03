@@ -39,6 +39,15 @@ watch(mouse.x, newValue => {
     } else if (diff < 0) {
       props.control.value -= 1 + speed
     }
+
+    if (props.control.min !== undefined && props.control.value < props.control.min) {
+      props.control.value = props.control.min
+    }
+
+    if (props.control.max !== undefined && props.control.value > props.control.max) {
+      props.control.value = props.control.max
+    }
+
     initialMouseX.value = newValue
   }
 })
@@ -60,9 +69,11 @@ watch(mouse.x, newValue => {
       class="p-2 w-1/4 rounded text-right text-xs text-gray-400 bg-gray-100 focus:border-gray-200 outline-none border-none font-sans"
       :class="{ 'cursor-ew-resize': isMouseDown }"
       type="number"
+      :min="control.min"
+      :max="control.max"
+      :step="control.step"
       @mousedown="onInputMouseDown"
       @mouseup="onInputMouseUp"
-      @mouseleave="onInputMouseUp"
     />
   </div>
 </template>
