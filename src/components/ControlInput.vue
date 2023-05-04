@@ -28,14 +28,25 @@ const isVector = computed(
     props.control.value instanceof Vector2 ||
     props.control.value instanceof Vector3,
 )
+
+const emit = defineEmits(['change'])
+
+function onChange(value: string) {
+  emit('change', value)
+}
 </script>
 <template>
   <template v-if="control.visible">
-    <TextControl v-if="control.type === 'string' && !isColor" :label="control.label" :control="control" />
-    <ColorControl v-if="isColor" :label="control.label" :control="control" />
-    <VectorControl v-else-if="isVector" :label="control.label" :control="control" />
-    <BooleanControl v-else-if="control.type === 'boolean'" :label="control.label" :control="control" />
-    <NumberControl v-else-if="!isSlider" :label="control.label" :control="control" />
-    <SliderControl v-else-if="isSlider" :label="control.label" :control="control" />
+    <ColorControl v-if="isColor" :label="control.label" :control="control" @change="onChange" />
+    <VectorControl v-else-if="isVector" :label="control.label" :control="control" @change="onChange" />
+    <BooleanControl
+      v-else-if="control.type === 'boolean'"
+      :label="control.label"
+      :control="control"
+      @change="onChange"
+    />
+    <NumberControl v-else-if="!isSlider" :label="control.label" :control="control" @change="onChange" />
+    <SliderControl v-else-if="isSlider" :label="control.label" :control="control" @change="onChange" />
+    <TextControl v-else :label="control.label" :control="control" @change="onChange" />
   </template>
 </template>

@@ -7,6 +7,12 @@ const props = defineProps<{
   control: Control
 }>()
 
+const emit = defineEmits(['change'])
+
+function onChange(ev: Event) {
+  emit('change', ev?.target?.valueAsNumber)
+}
+
 const sliderFilledStyle = computed(() => ({
   backgroundImage: `linear-gradient(to right, #333 0% ${
     (100 * ((props.control.value as number) - props.control.min)) / (props.control.max - props.control.min)
@@ -35,17 +41,17 @@ watch(mouse.x, newValue => {
     const diff = newValue - initialMouseX.value
     const speed = calculateSpeed(diff)
     if (diff > 0) {
-      props.control.value += 1 + speed
+      emit('change', props.control.value + 1 + speed)
     } else if (diff < 0) {
-      props.control.value -= 1 + speed
+      emit('change', props.control.value - 1 + speed)
     }
 
     if (props.control.min !== undefined && props.control.value < props.control.min) {
-      props.control.value = props.control.min
+      emit('change', props.control.min)
     }
 
     if (props.control.max !== undefined && props.control.value > props.control.max) {
-      props.control.value = props.control.max
+      emit('change', props.control.max)
     }
 
     initialMouseX.value = newValue
@@ -56,22 +62,24 @@ watch(mouse.x, newValue => {
   <div class="relative flex justify-between gap-4 items-center mb-2">
     <label class="text-gray-500 w-1/3">{{ label }}</label>
     <input
-      v-model="control.value"
+      :value="control.value"
       class="w-1/2 h-0.75 bg-dark-200 rounded-full appearance-none"
       :style="sliderFilledStyle"
       type="range"
       :min="control.min"
       :max="control.max"
       :step="control.step"
+      @input="onChange"
     />
     <input
-      v-model="control.value"
+      :value="control.value"
       class="p-2 w-1/4 rounded text-right text-xs text-gray-400 bg-gray-100 focus:border-gray-200 outline-none border-none font-sans"
       :class="{ 'cursor-ew-resize': isMouseDown }"
       type="number"
       :min="control.min"
       :max="control.max"
       :step="control.step"
+      @input="onChange"
       @mousedown="onInputMouseDown"
       @mouseup="onInputMouseUp"
     />

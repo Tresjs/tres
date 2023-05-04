@@ -10,17 +10,22 @@ const props = defineProps<{
   control: Control
 }>()
 
+const emit = defineEmits(['change'])
+
 const mouse = useMouse()
 
 const initialMouseX = ref(0)
 const isMouseDown = ref(false)
+const index = ref(0)
 
-const onInputMouseDown = (event: MouseEvent) => {
+const onInputMouseDown = (event: MouseEvent, $index: number) => {
+  index.value = $index
   initialMouseX.value = event.clientX
   isMouseDown.value = true
 }
 
-const onInputMouseUp = () => {
+const onInputMouseUp = (_event: MouseEvent, $index: number) => {
+  index.value = $index
   isMouseDown.value = false
 }
 
@@ -32,23 +37,37 @@ const vector = computed(() => normalizeVectorFlexibleParam(props.control.value))
 const labels = computed(() => Object.keys(props.control.value))
 
 const isVector = computed(() => props.control.value instanceof Vector2 || props.control.value instanceof Vector3)
+
+function onChange(ev: Event, $index: number) {
+  const { value } = props.control
+  index.value = $index
+
+  value[isVector.value ? labels.value[index.value] : index.value] = parseInt(ev?.target?.value, 10)
+  emit('change', value)
+}
+
 watch(mouse.x, newValue => {
   if (isMouseDown.value) {
     const diff = newValue - initialMouseX.value
     const speed = calculateSpeed(diff)
+    const { value } = props.control
+    const label = isVector.value ? labels.value[index.value] : index.value
+
     if (diff > 0) {
-      props.control.value += 1 + speed
+      value[label] += 1 + speed
     } else if (diff < 0) {
-      props.control.value -= 1 + speed
+      value[label] -= 1 + speed
     }
 
-    if (props.control.min !== undefined && props.control.value < props.control.min) {
-      props.control.value = props.control.min
+    if (props.control.min !== undefined && value < props.control.min) {
+      value[label] = props.control.min
     }
 
-    if (props.control.max !== undefined && props.control.value > props.control.max) {
-      props.control.value = props.control.max
+    if (props.control.max !== undefined && value > props.control.max) {
+      value[label] = props.control.max
     }
+
+    emit('change', value)
 
     initialMouseX.value = newValue
   }
@@ -68,8 +87,12 @@ watch(mouse.x, newValue => {
         }}</span>
         <input
           type="text"
-          :value="vector[index].toFixed(2)"
           class="w-full pl-0 p-1 text-right text-0.65rem text-gray-400 bg-transparent focus:border-gray-200 outline-none border-none font-sans"
+          :value="vector[index].toFixed(2)"
+          :class="{ 'cursor-ew-resize': isMouseDown }"
+          @input="onChange($event, index)"
+          @mousedown="onInputMouseDown($event, index)"
+          @mouseup="onInputMouseUp($event, index)"
         />
       </div>
     </div>
