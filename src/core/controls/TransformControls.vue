@@ -2,8 +2,8 @@
 import { Object3D, type Event } from 'three'
 import { TransformControls as TransformControlsImp } from 'three-stdlib'
 import { computed, watch, shallowRef, ShallowRef, onUnmounted, watchEffect } from 'vue'
-import { pick, hasSetter } from '../../utils'
-import { useCientos } from '../useCientos'
+import { pick, hasSetter } from '/@/utils'
+import { useCientos } from '/@/core/useCientos'
 
 const props = withDefaults(
   defineProps<{

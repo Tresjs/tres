@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
-import { OrbitControls, useTweakPane, Levioso } from '@cientos'
+import { OrbitControls, useTweakPane, Levioso, TorusKnot } from '@cientos'
 import { BasicShadowMap, SRGBColorSpace, NoToneMapping } from 'three'
 import { shallowRef } from 'vue'
 import { watchEffect } from 'vue'
@@ -53,12 +53,9 @@ watchEffect(() => {
     <TresPerspectiveCamera :position="[11, 11, 11]" />
     <OrbitControls />
     <Levioso ref="groupRef" v-bind="leviosoState">
-      <!--  <TorusKnot :position="[0, 4, 0]">
+      <TorusKnot :position="[0, 4, 0]">
         <TresMeshNormalMaterial />
-      </TorusKnot> -->
-      <Suspense>
-        <AkuAku />
-      </Suspense>
+      </TorusKnot>
     </Levioso>
     <TresGridHelper :args="[10, 10]" />
     <TresAmbientLight :intensity="1" />

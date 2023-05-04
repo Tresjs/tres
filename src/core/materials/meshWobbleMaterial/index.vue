@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useRenderLoop } from '@tresjs/core'
 
-import { useCientos } from '../../useCientos'
+import { useCientos } from '/@/core/useCientos'
 import { WobbleMaterialImpl as MeshWobbleMaterial } from './material'
 import { shallowRef } from 'vue'
 

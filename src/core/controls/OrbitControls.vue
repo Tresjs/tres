@@ -3,7 +3,7 @@ import { Camera, Vector3 } from 'three'
 import { OrbitControls } from 'three-stdlib'
 import { ref, watch, type Ref } from 'vue'
 
-import { useCientos } from '../useCientos'
+import { useCientos } from '/@/core/useCientos'
 
 export interface OrbitControlsProps {
   /**
@@ -67,7 +67,6 @@ watch(controls, value => {
     setState('controls', null)
   }
 })
-
 </script>
 
 <template>

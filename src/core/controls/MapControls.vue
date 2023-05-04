@@ -3,7 +3,7 @@ import { Camera } from 'three'
 import { MapControls } from 'three-stdlib'
 import { ref, watch } from 'vue'
 
-import { useCientos } from '../useCientos'
+import { useCientos } from '/@/core/useCientos'
 
 export interface MapControlsProps {
   /**
@@ -50,7 +50,6 @@ watch(controls, value => {
     setState('controls', null)
   }
 })
-
 </script>
 
 <template>
