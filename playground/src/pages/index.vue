@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import MapControlsDemo from '../components/MapControlsDemo.vue'
-// import TheSmoke from '../components/TheSmoke.vue'
+import ModelsDemo from '../components/ModelsDemo.vue'
+
 </script>
 <template>
-  <MapControlsDemo />
-  <!-- <TheSmoke /> -->
+    <Suspense>
+        <ModelsDemo />
+    </Suspense>
 </template>

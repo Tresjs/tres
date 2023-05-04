@@ -1,13 +1,27 @@
 <script setup lang="ts">
-import { Stars } from '@cientos'
 import { shallowRef, watch } from 'vue'
+import { TresCanvas } from '@tresjs/core'
+import { OrbitControls, Stars } from '@cientos'
+import { sRGBEncoding, NoToneMapping } from 'three'
+
+const gl = {
+  clearColor: '#333',
+  alpha: true,
+  outputEncoding: sRGBEncoding,
+  toneMapping: NoToneMapping,
+}
 
 const star = shallowRef<Stars>(null)
 
 watch(star, value => {
-    console.log(value)
+  console.log(value)
 })
 </script>
 <template>
+  <TresCanvas v-bind="gl" ref="canvas">
+    <TresPerspectiveCamera :position="[0, 2, 5]" />
     <Stars ref="star" :radius="1" />
+    <TresGridHelper :args="[10, 10]" />
+    <OrbitControls />
+  </TresCanvas>
 </template>
