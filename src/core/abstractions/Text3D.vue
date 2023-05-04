@@ -2,7 +2,7 @@
 import { TextGeometry, FontLoader } from 'three-stdlib'
 
 import { computed, useSlots, shallowRef, watchEffect } from 'vue'
-import { useCientos } from './useCientos'
+import { useCientos } from '/@/core/useCientos'
 
 export type Glyph = {
   _cachedOutline: string[]
@@ -145,7 +145,7 @@ const loader = new FontLoader()
 const slots = useSlots()
 
 const localText = computed(() => {
-  if (props.text ) return props.text
+  if (props.text) return props.text
   else if (slots.default) return (slots.default()[0].children as string)?.trim()
   return props.needUpdates ? '' : 'TresJS'
 })
@@ -185,18 +185,17 @@ const textOptions = computed(() => {
 })
 
 watchEffect(() => {
-   if(text3DRef.value && props.needUpdates) {
-        text3DRef.value.geometry.dispose()
-        text3DRef.value.geometry = new TextGeometry(localText.value, textOptions.value)
-        if(props.center){
-          text3DRef.value.geometry.center()
-        }
-   }
+  if (text3DRef.value && props.needUpdates) {
+    text3DRef.value.geometry.dispose()
+    text3DRef.value.geometry = new TextGeometry(localText.value, textOptions.value)
+    if (props.center) {
+      text3DRef.value.geometry.center()
+    }
+  }
 })
-
 </script>
 <template>
-  <TresMesh v-if="font" ref="text3DRef" >
+  <TresMesh v-if="font" ref="text3DRef">
     <TresTextGeometry v-if="localText" :args="[localText, textOptions]" :center="center" />
     <slot />
   </TresMesh>

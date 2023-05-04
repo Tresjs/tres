@@ -1,6 +1,6 @@
 import { defineComponent, watchEffect } from 'vue'
 import { usePamCameraMouse } from '.'
-import { useCientos } from '../useCientos'
+import { useCientos } from '/@/core/useCientos'
 
 export interface PamCameraMouseProps {
   /**

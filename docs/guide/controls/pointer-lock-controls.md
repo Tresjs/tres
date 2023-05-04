@@ -39,6 +39,10 @@ Or using your own HTML element to trigger the event
 </template>
 ```
 
+::: warning
+Is really important that the Perspective camera is set first in the canvas. Otherwise might break.
+:::
+
 ## Props
 
 | Prop              | Description                                                                                                      | Default     |
