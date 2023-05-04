@@ -1,6 +1,8 @@
 <script setup lang="ts">
-import TheSmoke from '../components/TheSmoke.vue'
+import ModelsDemo from '../components/ModelsDemo.vue'
 </script>
 <template>
-  <TheSmoke />
+  <Suspense>
+    <ModelsDemo />
+  </Suspense>
 </template>
