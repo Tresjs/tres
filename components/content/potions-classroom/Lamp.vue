@@ -1,20 +1,16 @@
 <script setup lang="ts">
-import { useGLTF  } from '@tresjs/cientos';
-import { DoubleSide, MeshBasicMaterial, Texture } from 'three';
+import { useGLTF } from '@tresjs/cientos'
+import { DoubleSide, MeshBasicMaterial, Texture } from 'three'
 
 const props = defineProps<{
-    texture: Texture
+  texture: Texture
 }>()
 
-const { nodes } = await useGLTF(
-  '/models/potions-classroom/wizard-potions-classroom.glb',
-  {
-    draco: true,
-  },
-)
+const { nodes } = await useGLTF('/models/potions-classroom/wizard-potions-classroom.glb', {
+  draco: true,
+})
 
 console.log(nodes)
-
 
 props.texture.flipY = false
 
@@ -24,14 +20,13 @@ const bakedMaterial = new MeshBasicMaterial({
 })
 
 nodes.Lamp.traverse(child => {
-  if(child.isMesh) {
+  if (child.isMesh) {
     child.material = bakedMaterial
   }
-});
-
+})
 </script>
 <template>
-<primitive :object="nodes.Lamp" />
-<primitive :object="nodes.Bulb" />
-<primitive :object="nodes.Bulb001" />
+  <primitive :object="nodes.Lamp" />
+  <primitive :object="nodes.Bulb" />
+  <primitive :object="nodes.Bulb001" />
 </template>
