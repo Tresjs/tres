@@ -1,5 +1,12 @@
 
 
+## [0.2.0](https://github.com/Tresjs/leches/compare/0.1.0...0.2.0) (2023-05-06)
+
+
+### Features
+
+* folder ([85ac635](https://github.com/Tresjs/leches/commit/85ac6356dcc1816fa51d4ade97545105a552ef6b))
+
 ## 0.1.0 (2023-05-06)
 
 
