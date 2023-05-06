@@ -7,6 +7,7 @@ import BooleanControl from './BooleanControl.vue'
 import SliderControl from './SliderControl.vue'
 import ColorControl from './ColorControl.vue'
 import VectorControl from './VectorControl.vue'
+import Folder from './Folder.vue'
 import { Control } from '../types'
 
 const props = defineProps<{
@@ -45,6 +46,7 @@ function onChange(value: string) {
       :control="control"
       @change="onChange"
     />
+    <Folder v-else-if="control.type === 'folder'" :label="control.label" :control="control" />
     <NumberControl v-else-if="!isSlider" :label="control.label" :control="control" @change="onChange" />
     <SliderControl v-else-if="isSlider" :label="control.label" :control="control" @change="onChange" />
     <TextControl v-else :label="control.label" :control="control" @change="onChange" />

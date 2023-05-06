@@ -35,11 +35,9 @@ function onChange(value: string, control: Control) {
         </div>
         <div></div>
       </header>
-      <div class="p-4">
-        <template v-for="control in state.controls" :key="control.label">
-          <ControlInput :control="control" @change="newValue => onChange(newValue, control)" />
-        </template>
-      </div>
+      <template v-for="control in state.controls" :key="control.label">
+        <ControlInput :control="control" @change="newValue => onChange(newValue, control)" />
+      </template>
     </div>
   </UseDraggable>
 </template>

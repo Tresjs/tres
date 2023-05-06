@@ -14,7 +14,7 @@ function onChange(event: Event) {
 }
 </script>
 <template>
-  <div class="flex justify-between gap-4 items-center mb-2">
+  <div class="flex px-4 justify-between gap-4 items-center mb-2">
     <label class="text-gray-500 w-1/3">{{ label }}</label>
     <input :value="control.value" type="color" @input="onChange" />
     <input

@@ -14,7 +14,7 @@ function onChange(event: Event) {
 }
 </script>
 <template>
-  <div class="flex justify-start gap-2 items-center mb-2 min-h-32px">
+  <div class="flex px-4 justify-start gap-2 items-center mb-2 min-h-32px">
     <label class="text-gray-500 w-1/3">{{ label }}</label>
     <input :id="control.label" :checked="control.value" class="hidden" type="checkbox" @input="onChange" />
     <label :for="control.label" class="inline-flex items-center cursor-pointer">

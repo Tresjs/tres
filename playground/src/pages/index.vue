@@ -34,6 +34,10 @@ useControls({
   boxRotation,
 })
 
+useControls('Folder', {
+  wireframe,
+})
+
 /* const boxRef = ref()
 
 watch(boxRef, value => {

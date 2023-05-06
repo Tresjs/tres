@@ -62,7 +62,7 @@ watch(mouse.x, newValue => {
 })
 </script>
 <template>
-  <div class="relative flex justify-between gap-4 items-center mb-2">
+  <div class="px-4 relative flex justify-between gap-4 items-center mb-2">
     <label class="text-gray-500 w-1/3">{{ label }}</label>
     <input
       :value="control.value"

@@ -13,7 +13,7 @@ function onChange(value: string) {
 }
 </script>
 <template>
-  <div class="flex justify-between gap-4 items-center mb-2 min-h-32px">
+  <div class="flex px-4 justify-between gap-4 items-center mb-2 min-h-32px">
     <label class="text-gray-500 w-1/3">{{ label }}</label>
     <input
       :value="control.value"
