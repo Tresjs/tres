@@ -50,6 +50,7 @@ export function useControls<S extends Schema, F extends SchemaOrFn<S> | string>(
   const ctx = inject(CONTROLS_CONTEXT_KEY, {})
   let controls: Control[] = []
   if (typeof controlOrFolderName === 'string') {
+    // TODO: add folder
   } else if (isReactive(controlOrFolderName)) {
     const iternal = toRefs(controlOrFolderName)
     controls = parseObjectToControls(iternal)
