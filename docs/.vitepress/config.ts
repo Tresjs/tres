@@ -23,7 +23,10 @@ export default defineConfig({
       },
       {
         text: 'Effects',
-        items: [{ text: 'Bloom', link: '/guide/effects/bloom' }],
+        items: [
+          { text: 'Bloom', link: '/guide/effects/bloom' },
+          { text: 'Glitch', link: '/guide/effects/glitch' },
+        ],
       },
     ],
 

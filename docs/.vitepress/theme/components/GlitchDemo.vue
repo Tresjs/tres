@@ -1,0 +1,42 @@
+<script setup lang="ts">
+import { Color } from 'three'
+import { TresCanvas } from '@tresjs/core'
+import { Text3D } from '@tresjs/cientos'
+
+import { EffectComposer, Glitch } from '/@'
+
+const gl = {
+  clearColor: '#121212',
+  shadows: true,
+  alpha: false,
+}
+</script>
+
+<template>
+  <TresCanvas v-bind="gl">
+    <TresPerspectiveCamera :position="[0, 1, 5]" :look-at="[0, 0, 0]" />
+    <Suspense>
+      <Text3D
+        :position="[0, 1, 0]"
+        text="Post-processing"
+        font="https://raw.githubusercontent.com/Tresjs/assets/main/fonts/FiraCodeRegular.json"
+      >
+        <TresMeshStandardMaterial
+          ref="materialRef"
+          color="hotpink"
+          :emissive="new Color('hotpink')"
+          :emissive-intensity="1.2"
+        />
+      </Text3D>
+    </Suspense>
+    <TresGridHelper />
+
+    <TresAmbientLight :intensity="2" />
+    <TresDirectionalLight :position="[3, 3, 3]" :intensity="1" />
+    <Suspense>
+      <EffectComposer>
+        <Glitch />
+      </EffectComposer>
+    </Suspense>
+  </TresCanvas>
+</template>

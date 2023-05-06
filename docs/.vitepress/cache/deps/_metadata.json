@@ -1,51 +1,60 @@
 {
-  "hash": "e8955b9d",
-  "browserHash": "e2c3e07a",
+  "hash": "2bdc0fc1",
+  "browserHash": "97eec292",
   "optimized": {
     "vue": {
       "src": "../../../../node_modules/.pnpm/vue@3.2.47/node_modules/vue/dist/vue.runtime.esm-bundler.js",
       "file": "vue.js",
-      "fileHash": "b478ca7f",
-      "needsInterop": false
-    },
-    "@tresjs/core": {
-      "src": "../../../../node_modules/.pnpm/@tresjs+core@2.0.0-beta.10_three@0.151.3_vue@3.2.47/node_modules/@tresjs/core/dist/tres.js",
-      "file": "@tresjs_core.js",
-      "fileHash": "815cfaa0",
+      "fileHash": "d88a94d2",
       "needsInterop": false
     },
     "three": {
       "src": "../../../../node_modules/.pnpm/three@0.151.3/node_modules/three/build/three.module.js",
       "file": "three.js",
-      "fileHash": "b45b75a1",
+      "fileHash": "9d5a5d09",
+      "needsInterop": false
+    },
+    "@tresjs/core": {
+      "src": "../../../../node_modules/.pnpm/@tresjs+core@2.0.0-beta.10_three@0.151.3_vue@3.2.47/node_modules/@tresjs/core/dist/tres.js",
+      "file": "@tresjs_core.js",
+      "fileHash": "9fd75b81",
+      "needsInterop": false
+    },
+    "@tresjs/cientos": {
+      "src": "../../../../node_modules/.pnpm/@tresjs+cientos@2.0.0-rc.1_@tresjs+core@2.0.0-beta.10_three@0.151.3_vue@3.2.47/node_modules/@tresjs/cientos/dist/trescientos.js",
+      "file": "@tresjs_cientos.js",
+      "fileHash": "24180336",
       "needsInterop": false
     },
     "gsap": {
       "src": "../../../../node_modules/.pnpm/gsap@3.11.5/node_modules/gsap/index.js",
       "file": "gsap.js",
-      "fileHash": "ad4f2ea4",
+      "fileHash": "31920046",
       "needsInterop": false
     },
     "@vueuse/core": {
       "src": "../../../../node_modules/.pnpm/@vueuse+core@10.0.2_vue@3.2.47/node_modules/@vueuse/core/index.mjs",
       "file": "@vueuse_core.js",
-      "fileHash": "8c734f4e",
+      "fileHash": "437207b3",
       "needsInterop": false
     },
     "postprocessing": {
       "src": "../../../../node_modules/.pnpm/postprocessing@6.30.2_three@0.151.3/node_modules/postprocessing/build/postprocessing.esm.js",
       "file": "postprocessing.js",
-      "fileHash": "47442681",
+      "fileHash": "db381ce7",
       "needsInterop": false
     },
     "three-stdlib": {
       "src": "../../../../node_modules/.pnpm/three-stdlib@2.21.8_three@0.151.3/node_modules/three-stdlib/index.js",
       "file": "three-stdlib.js",
-      "fileHash": "a0330622",
+      "fileHash": "2c7b0742",
       "needsInterop": false
     }
   },
   "chunks": {
+    "chunk-IGCQYSSS": {
+      "file": "chunk-IGCQYSSS.js"
+    },
     "chunk-RWZP6UPE": {
       "file": "chunk-RWZP6UPE.js"
     },
