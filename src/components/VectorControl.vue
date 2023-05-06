@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { Vector2, Vector3 } from 'three'
-
 import { useMouse } from '@vueuse/core'
 import { computed, ref, watch } from 'vue'
 import { normalizeVectorFlexibleParam } from '../utils/'
+import { Control } from '../types'
 
 const props = defineProps<{
   label: string
@@ -38,11 +38,12 @@ const labels = computed(() => Object.keys(props.control.value))
 
 const isVector = computed(() => props.control.value instanceof Vector2 || props.control.value instanceof Vector3)
 
-function onChange(ev: Event, $index: number) {
+function onChange(event: Event, $index: number) {
   const { value } = props.control
+  const { target } = event
   index.value = $index
 
-  value[isVector.value ? labels.value[index.value] : index.value] = parseInt(ev?.target?.value, 10)
+  value[isVector.value ? labels.value[index.value] : index.value] = parseInt((target as HTMLInputElement).value, 10)
   emit('change', value)
 }
 
@@ -78,36 +79,23 @@ watch(mouse.x, newValue => {
     <label class="text-gray-500 w-1/3">{{ label }}</label>
     <div class="w-2/3 flex justify-between gap-1">
       <div
-        v-for="(_subcontrol, index) in vector"
-        :key="label + index"
+        v-for="(_subcontrol, $index) in vector"
+        :key="label + $index"
         class="flex items-center w-1/3 bg-gray-100 rounded"
       >
-        <span v-if="labels[index] && isVector" class="font-bold px-0.5 py-1 text-0.65rem text-gray-300">{{
-          labels[index]
+        <span v-if="labels[$index] && isVector" class="font-bold px-0.5 py-1 text-0.65rem text-gray-300">{{
+          labels[$index]
         }}</span>
         <input
           type="text"
           class="w-full pl-0 p-1 text-right text-0.65rem text-gray-400 bg-transparent focus:border-gray-200 outline-none border-none font-sans"
-          :value="vector[index].toFixed(2)"
+          :value="vector[$index].toFixed(2)"
           :class="{ 'cursor-ew-resize': isMouseDown }"
-          @input="onChange($event, index)"
-          @mousedown="onInputMouseDown($event, index)"
-          @mouseup="onInputMouseUp($event, index)"
+          @input="onChange($event, $index)"
+          @mousedown="onInputMouseDown($event, $index)"
+          @mouseup="onInputMouseUp($event, $index)"
         />
       </div>
     </div>
-    <!--  <input
-      v-for="(_subcontrol, index) in control.value"
-      :key="label + index"
-      v-model="control.value[index]"
-      class="p-2 w-1/3 rounded text-right text-xs text-gray-400 bg-gray-100 focus:border-gray-200 outline-none border-none font-sans"
-      type="number"
-      :class="{ 'cursor-ew-resize': isMouseDown }"
-      :min="control.min[index]"
-      :max="control.max[index]"
-      :step="control.step[index]"
-      @mousedown="onInputMouseDown"
-      @mouseup="onInputMouseUp"
-    /> -->
   </div>
 </template>

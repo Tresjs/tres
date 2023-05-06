@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { useMouse } from '@vueuse/core'
 import { ref, watch } from 'vue'
+import { useMouse } from '@vueuse/core'
+import { Control } from '../types'
 
 const props = defineProps<{
   label: string
@@ -9,8 +10,9 @@ const props = defineProps<{
 
 const emit = defineEmits(['change'])
 
-function onChange(ev: Event) {
-  emit('change', ev?.target?.valueAsNumber)
+function onChange(event: Event) {
+  const { target } = event
+  emit('change', (target as HTMLInputElement).valueAsNumber)
 }
 
 const mouse = useMouse()

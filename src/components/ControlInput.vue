@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { Vector2, Vector3 } from 'three'
-import { Control } from '../composables/useControls'
 import NumberControl from './NumberControl.vue'
 import TextControl from './TextControl.vue'
 import BooleanControl from './BooleanControl.vue'
 import SliderControl from './SliderControl.vue'
 import ColorControl from './ColorControl.vue'
 import VectorControl from './VectorControl.vue'
+import { Control } from '../types'
 
 const props = defineProps<{
   control: Control

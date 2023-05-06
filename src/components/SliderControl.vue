@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { useMouse } from '@vueuse/core'
 import { computed, ref, watch } from 'vue'
+import { useMouse } from '@vueuse/core'
+import { Control } from '../types'
 
 const props = defineProps<{
   label: string
@@ -9,13 +10,15 @@ const props = defineProps<{
 
 const emit = defineEmits(['change'])
 
-function onChange(ev: Event) {
-  emit('change', ev?.target?.valueAsNumber)
+function onChange(event: Event) {
+  const { target } = event
+  emit('change', (target as HTMLInputElement).valueAsNumber)
 }
 
 const sliderFilledStyle = computed(() => ({
   backgroundImage: `linear-gradient(to right, #333 0% ${
-    (100 * ((props.control.value as number) - props.control.min)) / (props.control.max - props.control.min)
+    (100 * ((props.control.value as number) - (props.control.min || 0))) /
+    ((props.control.max || 100) - (props.control.min || 0))
   }%, #e2e2e2 0%)`,
 }))
 
@@ -89,6 +92,7 @@ watch(mouse.x, newValue => {
 <style scoped>
 input[type='range'] {
   outline: none;
+  appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
 }
@@ -100,15 +104,4 @@ input[type='range']::-webkit-slider-thumb {
 input[type='range']::-moz-range-thumb {
   @apply h-4 w-3 border-2 bg-dark-200 rounded-sm cursor-pointer appearance-none shadow-lg;
 }
-
-/* input[type='range']::-webkit-slider-thumb {
-  @apply h-4 w-4 border-2 bg-red-400 rounded-full cursor-pointer appearance-none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-}
-
-input[type='range']::-moz-range-thumb {
-  @apply h-4 w-4 border-2 bg-red-400 rounded-full cursor-pointer appearance-none;
-  -moz-appearance: none;
-} */
 </style>

@@ -5,6 +5,7 @@ import { UseDraggable } from '@vueuse/components'
 import { ref } from 'vue'
 import { useControlsProvider } from '../composables/useControls'
 import ControlInput from './ControlInput.vue'
+import { Control } from '../types'
 
 const { width } = useWindowSize()
 

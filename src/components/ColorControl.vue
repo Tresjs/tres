@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { Control } from '../types'
+
 defineProps<{
   label: string
   control: Control
@@ -6,8 +8,9 @@ defineProps<{
 
 const emit = defineEmits(['change'])
 
-function onChange(ev: Event) {
-  emit('change', ev?.target?.value)
+function onChange(event: Event) {
+  const { target } = event
+  emit('change', (target as HTMLInputElement).value)
 }
 </script>
 <template>

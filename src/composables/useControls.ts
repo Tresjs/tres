@@ -1,11 +1,11 @@
 import { inject, isReactive, isRef, reactive, toRefs } from 'vue'
+import { Control, Schema, SchemaOrFn } from '../types'
 
 export const CONTROLS_CONTEXT_KEY = Symbol('CONTROLS_CONTEXT_KEY')
 
-export type Schema = Record<string, any>
-export type SchemaOrFn<S extends Schema = Schema> = S | (() => S)
-
-const state = reactive({
+const state = reactive<{
+  controls: Control[]
+}>({
   controls: [],
 })
 
@@ -19,13 +19,11 @@ export function useControlsProvider() {
   return state
 }
 
-function parseObjectToControls(obj) {
+function parseObjectToControls(obj: Schema): Control[] {
   return Object.entries(obj).map(([key, schema]) => {
-    console.log('schema', schema)
     if (!isRef(schema) && schema.value) {
       return {
         ...schema,
-        /*         ...schema.value, */
         label: schema.label || key,
         value: schema.value,
         type: typeof schema.value.value,
@@ -33,7 +31,6 @@ function parseObjectToControls(obj) {
       }
     }
     return {
-      /* ...schema, */
       label: schema.label || key,
       value: schema,
       type: isRef(schema) ? typeof schema.value : typeof schema,
@@ -51,7 +48,7 @@ export function useControls<S extends Schema, F extends SchemaOrFn<S> | string>(
   /* settingsOrDepsOrControl: G, */
 ) {
   const ctx = inject(CONTROLS_CONTEXT_KEY, {})
-  let controls
+  let controls: Control[] = []
   if (typeof controlOrFolderName === 'string') {
   } else if (isReactive(controlOrFolderName)) {
     const iternal = toRefs(controlOrFolderName)
