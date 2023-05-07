@@ -43,10 +43,12 @@ function dispose() {
   state.controls = []
 }
 
-export function useControls<S extends Schema, F extends SchemaOrFn<S> | string, G extends SchemaOrFn<S>>(
-  controlOrFolderName: F,
-  settingsOrDepsOrControl: G,
-) {
+export function useControls<
+  S extends Schema,
+  F extends SchemaOrFn<S> | string,
+  G extends SchemaOrFn<S>,
+  T extends SchemaOrFn<S>,
+>(controlOrFolderName: F, settingsOrDepsOrControl: G, settings?: T) {
   const ctx = inject(CONTROLS_CONTEXT_KEY, {})
   let controls: Control[] = []
   if (typeof controlOrFolderName === 'string') {
@@ -64,6 +66,15 @@ export function useControls<S extends Schema, F extends SchemaOrFn<S> | string, 
         controls: parseObjectToControls(settingsOrDepsOrControl),
       })
     }
+  } else if (typeof controlOrFolderName === 'object' && typeof settingsOrDepsOrControl === 'string') {
+    controls.push({
+      ...settings,
+      label: settingsOrDepsOrControl,
+      visible: true,
+      value: controlOrFolderName[settingsOrDepsOrControl],
+      type: typeof controlOrFolderName[settingsOrDepsOrControl],
+      ref: controlOrFolderName,
+    })
   } else if (isReactive(controlOrFolderName)) {
     const iternal = toRefs(controlOrFolderName)
     controls = parseObjectToControls(iternal)

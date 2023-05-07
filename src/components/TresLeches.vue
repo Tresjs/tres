@@ -6,7 +6,6 @@ import { ref } from 'vue'
 import { useControlsProvider } from '../composables/useControls'
 import ControlInput from './ControlInput.vue'
 import { Control } from '../types'
-import FPSGraph from './FPSGraph.vue'
 
 const { width } = useWindowSize()
 
@@ -17,7 +16,12 @@ const handle = ref<HTMLElement | null>(null)
 const state = useControlsProvider()
 
 function onChange(value: string, control: Control) {
-  control.value = value
+  if (control.ref) {
+    control.ref[control.label] = value
+    control.value = value
+  } else {
+    control.value = value
+  }
 }
 </script>
 <template>

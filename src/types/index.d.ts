@@ -10,4 +10,5 @@ export type Control = {
   max?: number
   step?: number
   controls?: Control[]
+  ref?: Record<string, any>
 }

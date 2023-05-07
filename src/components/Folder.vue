@@ -17,7 +17,7 @@ const toggle = () => {
 }
 </script>
 <template>
-  <div>
+  <div class="mb-4">
     <button
       class="flex items-center justify-between w-full p-4 bg-gray-100 border-none text-gray-400 font-bold text-xs focus:outline-none font-sans cursor-pointer"
       @click="toggle"

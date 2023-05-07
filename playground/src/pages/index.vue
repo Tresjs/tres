@@ -3,7 +3,7 @@ import { Vector3 } from 'three'
 import { TresCanvas } from '@tresjs/core'
 import { OrbitControls } from '@tresjs/cientos'
 import { TresLeches, useControls } from '@leches/'
-import { reactive, ref, watchEffect } from 'vue'
+import { reactive, ref, watch, watchEffect } from 'vue'
 
 const gl = reactive({
   clearColor: '#82DBC5',
@@ -25,16 +25,14 @@ useControls('Box', {
   wireframe,
 })
 
-/* const boxRef = ref()
+const boxRef = ref()
 
 watch(boxRef, value => {
   if (value) {
     boxRef.value.position.x = 1
-    useControls({
-      position: boxRef.value.position.x,
-    })
+    useControls(boxRef.value.position, 'x')
   }
-}) */
+})
 </script>
 <template>
   <TresLeches />
