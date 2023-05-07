@@ -4,10 +4,18 @@ module.exports = {
     node: true,
     browser: true,
     es6: true,
+
+    'vitest-globals/env': true,
   },
   parser: 'vue-eslint-parser',
   plugins: ['vue', '@typescript-eslint'],
-  extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended', 'plugin:vue/vue3-recommended', 'prettier'],
+  extends: [
+    'eslint:recommended',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:vue/vue3-recommended',
+    'prettier',
+    'plugin:vitest-globals/recommended',
+  ],
   parserOptions: {
     tsconfigRootDir: __dirname,
     parser: '@typescript-eslint/parser',

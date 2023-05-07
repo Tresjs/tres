@@ -16,7 +16,10 @@ watchEffect(() => {
 const wireframe = ref(false)
 const boxPosition = reactive(new Vector3(0, 0, 0))
 const boxRotation = reactive(new Vector3(0, Math.PI, 0))
-useControls('fpsgraph')
+
+useControls({ test: { value: 1, min: 0, max: 10, step: 0.1 } })
+useControls(gl)
+/* useControls('fpsgraph')
 useControls(gl)
 
 useControls('Box', {
@@ -24,15 +27,18 @@ useControls('Box', {
   rotation: boxRotation,
   wireframe,
 })
-
+ */
 const boxRef = ref()
 
-watch(boxRef, value => {
+/* watch(boxRef, value => {
   if (value) {
     boxRef.value.position.x = 1
-    useControls(boxRef.value.position, 'x')
+    useControls(boxRef.value.position, 'x', {
+      min: -10,
+      max: 10,
+    })
   }
-})
+}) */
 </script>
 <template>
   <TresLeches />

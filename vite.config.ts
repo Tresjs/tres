@@ -1,4 +1,5 @@
 /// <reference types="histoire" />
+/// <reference types="vitest" />
 
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
@@ -60,6 +61,13 @@ export default defineConfig({
       transformers: [transformerDirectives()],
     }),
   ],
+  test: {
+    environment: process.env.BROWSER_TEST ? 'node' : 'jsdom',
+    globals: true,
+    alias: {
+      '/@': resolve(__dirname, './src'),
+    },
+  },
   build: {
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
