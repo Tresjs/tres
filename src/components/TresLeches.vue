@@ -6,6 +6,7 @@ import { ref } from 'vue'
 import { useControlsProvider } from '../composables/useControls'
 import ControlInput from './ControlInput.vue'
 import { Control } from '../types'
+import FPSGraph from './FPSGraph.vue'
 
 const { width } = useWindowSize()
 

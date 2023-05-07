@@ -14,27 +14,14 @@ watchEffect(() => {
 })
 
 const wireframe = ref(false)
-const boxPosition = reactive([0, 0, 0])
+const boxPosition = reactive(new Vector3(0, 0, 0))
 const boxRotation = reactive(new Vector3(0, Math.PI, 0))
-
+useControls('fpsgraph')
 useControls(gl)
 
-useControls({
-  wireframe,
-  /* wireframe,
-  boxPositionX: {
-    value: boxPositionX,
-    min: -10,
-    max: 10,
-    step: 0.1,
-    label: 'Box Position X',
-  },
-  numberValue: 1, */
-  boxPosition,
-  boxRotation,
-})
-
-useControls('Folder', {
+useControls('Box', {
+  position: boxPosition,
+  rotation: boxRotation,
   wireframe,
 })
 
@@ -50,15 +37,14 @@ watch(boxRef, value => {
 }) */
 </script>
 <template>
-  <pre>{{ boxRotation }}</pre>
   <TresLeches />
   <TresCanvas v-bind="gl">
     <TresPerspectiveCamera />
     <TresMesh
       ref="boxRef"
-      :position-x="boxPosition[0]"
-      :position-y="boxPosition[1]"
-      :position-z="boxPosition[2]"
+      :position-x="boxPosition.x"
+      :position-y="boxPosition.y"
+      :position-z="boxPosition.z"
       :rotation-x="boxRotation.x"
       :rotation-y="boxRotation.y"
       :rotation-z="boxRotation.z"

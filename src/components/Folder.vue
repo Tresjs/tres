@@ -26,12 +26,16 @@ const toggle = () => {
       <i :class="isOpen ? 'i-ic:baseline-keyboard-arrow-up' : 'i-ic:baseline-keyboard-arrow-down'"></i>
     </button>
 
-    <transition name="animate__animated" enter-active-class="animate__fadeIn" leave-active-class="animate__fadeOut">
-      <div class="bg-white rounded-b" v-show="isOpen">
+    <Transition
+      name="slide"
+      enter-active-class=" animate-fade-in animate-duration-200 animate-ease-in-out"
+      leave-active-class=" animate-fade-out animate-duration-200 animate-ease-in-out"
+    >
+      <div class="bg-white rounded-b pt-4" v-show="isOpen">
         <template v-for="subcontrol in control.controls" :key="subcontrol.label">
-          <ControlInput :control="subcontrol" @change="newValue => onChange(newValue, control)" />
+          <ControlInput :control="subcontrol" @change="newValue => onChange(newValue, subcontrol)" />
         </template>
       </div>
-    </transition>
+    </Transition>
   </div>
 </template>

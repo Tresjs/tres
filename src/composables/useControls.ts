@@ -1,4 +1,4 @@
-import { inject, isReactive, isRef, reactive, toRefs } from 'vue'
+import { inject, isReactive, isRef, onUnmounted, reactive, toRefs } from 'vue'
 import { Control, Schema, SchemaOrFn } from '../types'
 
 export const CONTROLS_CONTEXT_KEY = Symbol('CONTROLS_CONTEXT_KEY')
@@ -50,13 +50,20 @@ export function useControls<S extends Schema, F extends SchemaOrFn<S> | string, 
   const ctx = inject(CONTROLS_CONTEXT_KEY, {})
   let controls: Control[] = []
   if (typeof controlOrFolderName === 'string') {
-    // TODO: add folder
-    controls.push({
-      label: controlOrFolderName,
-      visible: true,
-      type: 'folder',
-      controls: parseObjectToControls(settingsOrDepsOrControl),
-    })
+    if (controlOrFolderName === 'fpsgraph') {
+      controls.push({
+        label: 'fpsgraph',
+        visible: true,
+        type: 'fpsgraph',
+      })
+    } else {
+      controls.push({
+        label: controlOrFolderName,
+        visible: true,
+        type: 'folder',
+        controls: parseObjectToControls(settingsOrDepsOrControl),
+      })
+    }
   } else if (isReactive(controlOrFolderName)) {
     const iternal = toRefs(controlOrFolderName)
     controls = parseObjectToControls(iternal)
@@ -66,9 +73,7 @@ export function useControls<S extends Schema, F extends SchemaOrFn<S> | string, 
 
   state.controls = [...state.controls, ...controls]
 
-  return ctx
-}
+  onUnmounted(dispose)
 
-if (import.meta.hot) {
-  import.meta.hot.on('vite:beforeUpdate', dispose)
+  return ctx
 }

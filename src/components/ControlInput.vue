@@ -9,6 +9,7 @@ import ColorControl from './ColorControl.vue'
 import VectorControl from './VectorControl.vue'
 import Folder from './Folder.vue'
 import { Control } from '../types'
+import FPSGraph from './FPSGraph.vue'
 
 const props = defineProps<{
   control: Control
@@ -46,6 +47,7 @@ function onChange(value: string) {
       :control="control"
       @change="onChange"
     />
+    <FPSGraph v-else-if="control.type === 'fpsgraph'" :label="control.label" :control="control" />
     <Folder v-else-if="control.type === 'folder'" :label="control.label" :control="control" />
     <NumberControl v-else-if="!isSlider" :label="control.label" :control="control" @change="onChange" />
     <SliderControl v-else-if="isSlider" :label="control.label" :control="control" @change="onChange" />
