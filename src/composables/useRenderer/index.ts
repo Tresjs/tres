@@ -16,8 +16,9 @@ import {
   ShadowMapType,
   PCFShadowMap,
   Clock,
+  ColorSpace,
 } from 'three'
-import type { TextureEncoding, ToneMapping } from 'three'
+import type { ToneMapping } from 'three'
 import { useRenderLoop, useTres } from '/@/composables/'
 import { normalizeColor } from '/@/utils/normalize'
 import { TresColor } from '/@/types'
@@ -63,7 +64,7 @@ export interface UseRendererOptions extends WebGLRendererParameters {
    *
    * @default LinearSRGBColorSpace
    */
-  outputColorSpace?: MaybeRefOrGetter<TextureEncoding>
+  outputColorSpace?: MaybeRefOrGetter<ColorSpace>
 
   /**
    * Defines the tone mapping used by the renderer.
@@ -190,7 +191,7 @@ You could set windowSize=true to force the canvas to be the size of the window.`
     renderer.value.toneMapping = (toValue(toneMapping) as ToneMapping) || NoToneMapping
     renderer.value.toneMappingExposure = toValue(toneMappingExposure) as number
     // Wating for https://github.com/DefinitelyTyped/DefinitelyTyped/pull/65356/files to be merged
-    renderer.value.outputColorSpace = (toValue(outputColorSpace) as TextureEncoding) || LinearSRGBColorSpace
+    renderer.value.outputColorSpace = toValue(outputColorSpace as ColorSpace) || LinearSRGBColorSpace
     if (clearColor?.value) renderer.value.setClearColor(normalizeColor(toValue(clearColor) as TresColor))
 
     /*    renderer.value.physicallyCorrectLights = toValue(physicallyCorrectLights) as boolean */
