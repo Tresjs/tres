@@ -31,8 +31,6 @@ import Floor from './floor.vue'
 import House from './house.vue'
 import Ghosts from './ghosts.vue'
 
-const moonLightRef = shallowRef()
-
 const { pane } = useTweakPane()
 
 const gl = {
@@ -43,14 +41,6 @@ const gl = {
   outputEncoding: sRGBEncoding,
   toneMapping: NoToneMapping,
 }
-
-watch(moonLightRef, value => {
-  if (!value) return
-
-  value.shadow.mapSize.width = 256
-  value.shadow.mapSize.height = 256
-  value.shadow.camera.far = 15
-})
 
 const moonOptions = reactive({
   intensity: 0.12,
@@ -79,7 +69,13 @@ pane.addInput(moonOptions, 'intensity', {
     </Suspense>
     <Ghosts />
     <TresAmbientLight color="#b9d5ff" :intensity="0.3" />
-    <TresDirectionalLight ref="moonLightRef" v-bind="moonOptions" cast-shadow />
+    <TresDirectionalLight
+      v-bind="moonOptions"
+      :shadow-mapSize-width="256"
+      :shadow-mapSize-height="256"
+      :shadow-camera-far="15"
+      cast-shadow
+    />
   </TresCanvas>
 </template>
 ```
@@ -232,12 +228,6 @@ watch(wallRef, value => {
 watch(doorRef, value => {
   value.geometry.setAttribute('uv2', new Float32BufferAttribute(value.geometry.attributes.uv.array, 2))
 })
-watch(doorLightRef, value => {
-  if (!value) return
-  value.shadow.mapSize.width = 256
-  value.shadow.mapSize.height = 256
-  value.shadow.camera.far = 7
-})
 </script>
 <template>
   <TresGroup ref="houseRef">
@@ -253,7 +243,14 @@ watch(doorLightRef, value => {
       <TresBoxGeometry :args="[4, 2.5, 4]" />
       <TresMeshStandardMaterial v-bind="wallOptions" />
     </TresMesh>
-    <TresPointLight :position="[0, 2.2, 2.7]" ref="doorLightRef" :args="['#ff7d46', 1, 7]" cast-shadow />
+    <TresPointLight
+      :position="[0, 2.2, 2.7]"
+      :args="['#ff7d46', 1, 7]"
+      :shadow-mapSize-width="256"
+      :shadow-mapSize-height="256"
+      :shadow-camera-far="7"
+      cast-shadow
+    />
   </TresGroup>
 </template>
 ```

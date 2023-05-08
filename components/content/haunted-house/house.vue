@@ -5,7 +5,6 @@ import { Float32BufferAttribute } from 'three'
 
 const wallRef = shallowRef()
 const doorRef = shallowRef()
-const doorLightRef = shallowRef()
 
 const brickTextures = await useTexture({
   map: 'https://raw.githubusercontent.com/Tresjs/assets/main/textures/haunted-house/bricks/color.jpg',
@@ -50,12 +49,6 @@ watch(wallRef, value => {
 watch(doorRef, value => {
   value.geometry.setAttribute('uv2', new Float32BufferAttribute(value.geometry.attributes.uv.array, 2))
 })
-watch(doorLightRef, value => {
-  if (!value) return
-  value.shadow.mapSize.width = 256
-  value.shadow.mapSize.height = 256
-  value.shadow.camera.far = 7
-})
 </script>
 <template>
   <TresGroup ref="houseRef">
@@ -71,6 +64,13 @@ watch(doorLightRef, value => {
       <TresBoxGeometry :args="[4, 2.5, 4]" />
       <TresMeshStandardMaterial v-bind="wallOptions" />
     </TresMesh>
-    <TresPointLight :position="[0, 2.2, 2.7]" ref="doorLightRef" :args="['#ff7d46', 1, 7]" cast-shadow />
+    <TresPointLight
+      :position="[0, 2.2, 2.7]"
+      :args="['#ff7d46', 1, 7]"
+      :shadow-mapSize-width="256"
+      :shadow-mapSize-height="256"
+      :shadow-camera-far="7"
+      cast-shadow
+    />
   </TresGroup>
 </template>

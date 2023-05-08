@@ -7,8 +7,6 @@ import Floor from './floor.vue'
 import House from './house.vue'
 import Ghosts from './ghosts.vue'
 
-const moonLightRef = shallowRef()
-
 const { pane } = useTweakPane()
 
 const gl = {
@@ -19,14 +17,6 @@ const gl = {
   outputEncoding: sRGBEncoding,
   toneMapping: NoToneMapping,
 }
-
-watch(moonLightRef, value => {
-  if (!value) return
-
-  value.shadow.mapSize.width = 256
-  value.shadow.mapSize.height = 256
-  value.shadow.camera.far = 15
-})
 
 const moonOptions = reactive({
   intensity: 0.12,
@@ -56,6 +46,12 @@ pane.addInput(moonOptions, 'intensity', {
     </Suspense>
     <Ghosts />
     <TresAmbientLight color="#b9d5ff" :intensity="0.3" />
-    <TresDirectionalLight ref="moonLightRef" v-bind="moonOptions" cast-shadow />
+    <TresDirectionalLight
+      v-bind="moonOptions"
+      :shadow-mapSize-width="256"
+      :shadow-mapSize-height="256"
+      :shadow-camera-far="15"
+      cast-shadow
+    />
   </TresCanvas>
 </template>
