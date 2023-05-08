@@ -93,6 +93,8 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
     if (child?.isObject3D && parent?.isObject3D) {
       parent.add(child)
       child.dispatchEvent({ type: 'added' })
+    } else if (child?.isFog) {
+      parent.fog = child
     } else if (typeof child?.attach === 'string') {
       child.__previousAttach = child[parent?.attach]
       if (parent) {
