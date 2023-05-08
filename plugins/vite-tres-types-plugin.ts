@@ -29,7 +29,8 @@ export const unplugin = createUnplugin(() => {
               key.endsWith('Material') ||
               key.endsWith('Helper') ||
               key.endsWith('Light') ||
-              key.endsWith('Camera'),
+              key.endsWith('Camera') ||
+              key.endsWith('Fog'),
           )
           .join(',\n')}
       } from 'three';
@@ -92,7 +93,8 @@ export const unplugin = createUnplugin(() => {
               key.endsWith('Material') ||
               key.endsWith('Helper') ||
               key.endsWith('Light') ||
-              key.endsWith('Camera'),
+              key.endsWith('Camera') ||
+              key.endsWith('Fog'),
           )
           .map(key => `Tres${key}: DefineComponent<Partial<Omit<${key}, OverwrittenProps > & TresModifiedObject>>`)
           .join('\n')}

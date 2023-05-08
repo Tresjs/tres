@@ -32,6 +32,7 @@ DodecahedronGeometry,
 EdgesGeometry,
 ExtrudeBufferGeometry,
 ExtrudeGeometry,
+Fog,
 GridHelper,
 HemisphereLight,
 HemisphereLightHelper,
@@ -206,6 +207,7 @@ TresDodecahedronGeometry: DefineComponent<Partial<Omit<DodecahedronGeometry, Ove
 TresEdgesGeometry: DefineComponent<Partial<Omit<EdgesGeometry, OverwrittenProps > & TresModifiedObject>>
 TresExtrudeBufferGeometry: DefineComponent<Partial<Omit<ExtrudeBufferGeometry, OverwrittenProps > & TresModifiedObject>>
 TresExtrudeGeometry: DefineComponent<Partial<Omit<ExtrudeGeometry, OverwrittenProps > & TresModifiedObject>>
+TresFog: DefineComponent<Partial<Omit<Fog, OverwrittenProps > & TresModifiedObject>>
 TresGridHelper: DefineComponent<Partial<Omit<GridHelper, OverwrittenProps > & TresModifiedObject>>
 TresHemisphereLight: DefineComponent<Partial<Omit<HemisphereLight, OverwrittenProps > & TresModifiedObject>>
 TresHemisphereLightHelper: DefineComponent<Partial<Omit<HemisphereLightHelper, OverwrittenProps > & TresModifiedObject>>

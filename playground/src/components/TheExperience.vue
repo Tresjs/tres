@@ -31,6 +31,7 @@ watchEffect(() => {
   <TresCanvas v-bind="gl" ref="context">
     <TresPerspectiveCamera :position="[7, 7, 7]" :look-at="[0, 4, 0]" />
     <OrbitControls />
+    <TresFog :color="gl.clearColor" :near="5" :far="15" />
     <TresMesh :position="[-2, 6, 0]" :rotation="[0, Math.PI, 0]" cast-shadow>
       <TresConeGeometry :args="[1, 1.5, 3]" />
       <TresMeshToonMaterial color="#82DBC5" />
