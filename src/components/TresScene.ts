@@ -1,6 +1,6 @@
 import { App, defineComponent, h, onMounted, onUnmounted, ref, watch, watchEffect } from 'vue'
 import * as THREE from 'three'
-import { ShadowMapType, TextureEncoding, ToneMapping } from 'three'
+import { ColorSpace, ShadowMapType, ToneMapping } from 'three'
 import { createTres } from '/@/core/renderer'
 import { CameraType, TRES_CONTEXT_KEY, useLogger } from '/@/composables'
 import { useCamera, useRenderer, useRenderLoop, useRaycaster, useTres } from '/@/composables'
@@ -15,7 +15,7 @@ export interface TresSceneProps {
   shadowMapType?: ShadowMapType
   physicallyCorrectLights?: boolean
   useLegacyLights?: boolean
-  outputColorSpace?: TextureEncoding
+  outputColorSpace?: ColorSpace
   toneMapping?: ToneMapping
   toneMappingExposure?: number
   context?: WebGLRenderingContext
@@ -107,8 +107,7 @@ export const TresScene = defineComponent<TresSceneProps>({
       })
 
       onLoop(() => {
-        if (activeCamera.value && props.disableRender !== true && props.disableRender !== '')
-          renderer.value?.render(scene, activeCamera.value)
+        if (activeCamera.value && props.disableRender !== true) renderer.value?.render(scene, activeCamera.value)
 
         if (raycaster.value) {
           const intersects = raycaster.value.intersectObjects(scene.children)
