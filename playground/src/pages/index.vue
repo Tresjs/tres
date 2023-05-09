@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import ModelsDemo from '../components/ModelsDemo.vue'
+import ContactShadowsDemo from '../components/ContactShadowsDemo.vue'
 </script>
 <template>
   <Suspense>
-    <ModelsDemo />
+    <ContactShadowsDemo />
   </Suspense>
 </template>

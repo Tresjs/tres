@@ -1,9 +1,6 @@
 lockfileVersion: '6.0'
 
 dependencies:
-  '@tresjs/core':
-    specifier: 2.0.0-rc.2
-    version: 2.0.0-rc.2(three@0.152.2)(vue@3.2.47)
   '@vueuse/core':
     specifier: ^10.1.2
     version: 10.1.2(vue@3.2.47)
@@ -24,6 +21,9 @@ devDependencies:
   '@release-it/conventional-changelog':
     specifier: ^5.1.1
     version: 5.1.1(release-it@15.10.3)
+  '@tresjs/core':
+    specifier: 2.0.0-rc.3
+    version: 2.0.0-rc.3(three@0.152.2)(vue@3.2.47)
   '@tweakpane/plugin-essentials':
     specifier: ^0.1.8
     version: 0.1.8(tweakpane@3.1.9)
@@ -217,7 +217,7 @@ packages:
 
   /@alvarosabu/utils@2.3.0:
     resolution: {integrity: sha512-Uf+loPdTfNDPIOMCQlBVC9Db+UnmXVn/MTyVZNjPHmp2noOyux/U/vfjhJROGUvnHZxdYIMEpWVeTI/i/VCUJQ==}
-    dev: false
+    dev: true
 
   /@ampproject/remapping@2.2.1:
     resolution: {integrity: sha512-lFMjJTrFL3j7L9yBxwYfCq2k6qqwHyzuUl/XBnif78PWTJYyL/dfowQHWE3sp6U6ZzqWiiIZnpTMO96zhkjwtg==}
@@ -946,8 +946,8 @@ packages:
     engines: {node: '>= 6'}
     dev: true
 
-  /@tresjs/core@2.0.0-rc.2(three@0.152.2)(vue@3.2.47):
-    resolution: {integrity: sha512-RwNuqv8suN2Fhg75sA9KiJLO10lbU5lC+mFPAK0VWsuIiSsKh9sZe+aImx3jULvcfAAJwqdaxU6ZfU6WinzDxg==}
+  /@tresjs/core@2.0.0-rc.3(three@0.152.2)(vue@3.2.47):
+    resolution: {integrity: sha512-CGYE8o1agT7FLlP/9+P9CY/WT0VYuQfPMqqUerD3sTdnkxPa3l77VSMJ4TRE8rjZQ1T2ePyvINRCUfcbDvWqlg==}
     peerDependencies:
       three: latest
       vue: ^3.2.47
@@ -958,7 +958,7 @@ packages:
       vue: 3.2.47
     transitivePeerDependencies:
       - '@vue/composition-api'
-    dev: false
+    dev: true
 
   /@trysound/sax@0.2.0:
     resolution: {integrity: sha512-L7z9BgrNEcYyUYtF+HaEfiS5ebkh9jXqbszz7pC0hRBPaatV0XjSD3+eHrpqFemQfgwiFF0QPIarnIihIDn7OA==}
@@ -5363,7 +5363,6 @@ packages:
 
   /three@0.152.2:
     resolution: {integrity: sha512-Ff9zIpSfkkqcBcpdiFo2f35vA9ZucO+N8TNacJOqaEE6DrB0eufItVMib8bK8Pcju/ZNT6a7blE1GhTpkdsILw==}
-    dev: false
 
   /through2@2.0.5:
     resolution: {integrity: sha512-/mrRod8xqpA+IHSLyGCQ2s8SPHiCDEeQJSep1jqLYeEUClOFG2Qsh+4FU6G9VeqpZnGW/Su8LQGc4YKni5rYSQ==}
