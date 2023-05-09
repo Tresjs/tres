@@ -50,8 +50,7 @@
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx,.vue",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
-    "docs:serve": "vitepress serve docs",
-    "postinstall": "cd playground && pnpm install"
+    "docs:serve": "vitepress serve docs"
   },
   "peerDependencies": {
     "three": "latest",
