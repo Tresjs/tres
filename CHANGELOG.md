@@ -1,5 +1,14 @@
 
 
+## [2.0.0-rc.3](https://github.com/Tresjs/tres/compare/2.0.0-rc.2...2.0.0-rc.3) (2023-05-09)
+
+
+### Bug Fixes
+
+* akwardly added fog and fixed also typing ([e256768](https://github.com/Tresjs/tres/commit/e2567681c678089463437723d6a505ac630f2849))
+* colorspace types ([27e10e9](https://github.com/Tresjs/tres/commit/27e10e9c15658f4c1f338562b5ad078f4107e5dd))
+* disabling pushing more than one camera on nodeOpts ([57a07bf](https://github.com/Tresjs/tres/commit/57a07bf75a1df54fe5cb2f06cad8159234c384aa))
+
 ## [2.0.0-rc.2](https://github.com/Tresjs/tres/compare/2.0.0-rc.1...2.0.0-rc.2) (2023-05-03)
 
 
