@@ -22,6 +22,7 @@ const OBJECT_3D_USER_DATA_KEYS = {
 
 const { logError } = useLogger()
 
+let firstCamera = true
 export const nodeOps: RendererOptions<TresObject, TresObject> = {
   createElement(tag, _isSVG, _anchor, props) {
     if (!props) props = {}
@@ -54,8 +55,11 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
       if (!props?.lookAt) {
         instance.lookAt(0, 0, 0)
       }
-      const { pushCamera } = useCamera()
-      pushCamera(instance)
+      if (firstCamera) {
+        const { setFirstCamera } = useCamera()
+        setFirstCamera(instance)
+        firstCamera = false
+      }
     }
 
     if (props?.attach === undefined) {
