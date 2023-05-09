@@ -1,5 +1,5 @@
 <script setup>
-import { shallowRef, onMounted } from 'vue'
+import { shallowRef } from 'vue'
 import { useTexture } from '@tresjs/core'
 import { Float32BufferAttribute, RepeatWrapping, BoxGeometry, MeshStandardMaterial, Mesh } from 'three'
 
@@ -52,30 +52,27 @@ const bushes = [
   },
 ]
 
-onMounted(() => {
-  const graveGeometry = new BoxGeometry(0.6, 0.8, 0.1)
-  const graveMaterial = new MeshStandardMaterial({ color: '#727272' })
+const graveGeometry = new BoxGeometry(0.6, 0.8, 0.1)
+const graveMaterial = new MeshStandardMaterial({ color: '#727272' })
+const graves = []
 
-  for (let i = 0; i < 50; i++) {
-    const angle = Math.random() * Math.PI * 2 // Random angle
-    const radius = 3 + Math.random() * 6 // Random radius
-    const x = Math.cos(angle) * radius // Get the x position using cosinus
-    const z = Math.sin(angle) * radius // Get the z position using sinus
+for (let i = 0; i < 50; i++) {
+  const angle = Math.random() * Math.PI * 2 // Random angle
+  const radius = 3 + Math.random() * 6 // Random radius
+  const x = Math.cos(angle) * radius // Get the x position using cosinus
+  const z = Math.sin(angle) * radius // Get the z position using sinus
 
-    // Create the mesh
-    const grave = new Mesh(graveGeometry, graveMaterial)
-    grave.castShadow = true
+  // Create the mesh
+  const grave = new Mesh(graveGeometry, graveMaterial)
+  grave.castShadow = true
+  // Position
+  grave.position.set(x, 0.3, z)
 
-    // Position
-    grave.position.set(x, 0.3, z)
-
-    // Rotation
-    grave.rotation.z = (Math.random() - 0.5) * 0.4
-    grave.rotation.y = (Math.random() - 0.5) * 0.4
-
-    gravesRef.value.add(grave)
-  }
-})
+  // Rotation
+  grave.rotation.z = (Math.random() - 0.5) * 0.4
+  grave.rotation.y = (Math.random() - 0.5) * 0.4
+  graves.push(grave)
+}
 </script>
 <template>
   <TresMesh ref="floorRef" receive-shadow :rotation="[-Math.PI * 0.5, 0, 0]" :position="[0, 0, 0]">
@@ -86,5 +83,16 @@ onMounted(() => {
     <TresSphereGeometry :args="[1, 16, 16]" />
     <TresMeshStandardMaterial color="#89c854" />
   </TresMesh>
-  <TresGroup ref="gravesRef"> </TresGroup>
+  <TresGroup ref="gravesRef">
+    <TresMesh
+      v-for="({ position, scale, rotation }, index) in graves"
+      :key="index"
+      :position="position"
+      :scale="scale"
+      :rotation="rotation"
+      :material="graveMaterial"
+      :geometry="graveGeometry"
+    >
+    </TresMesh>
+  </TresGroup>
 </template>

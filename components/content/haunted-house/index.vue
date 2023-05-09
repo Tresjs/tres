@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import { shallowRef } from 'vue'
 import { TresCanvas } from '@tresjs/core'
 import { OrbitControls, useTweakPane } from '@tresjs/cientos'
-import { PCFSoftShadowMap, sRGBEncoding, NoToneMapping, Vector3 } from 'three'
+import { PCFSoftShadowMap, SRGBColorSpace } from 'three'
 import Floor from './floor.vue'
 import House from './house.vue'
 import Ghosts from './ghosts.vue'
@@ -14,12 +13,11 @@ const gl = {
   shadows: true,
   alpha: false,
   shadowMapType: PCFSoftShadowMap,
-  outputEncoding: sRGBEncoding,
-  toneMapping: NoToneMapping,
+  outputColorSpace: SRGBColorSpace,
 }
 
 const moonOptions = reactive({
-  intensity: 0.12,
+  intensity: 1.12,
   position: [4, 5, -2],
   color: '#b9d5ff',
 })
@@ -27,7 +25,7 @@ const moonOptions = reactive({
 pane.addInput(moonOptions, 'intensity', {
   label: 'intensity',
   min: 0,
-  max: 1,
+  max: 3,
   step: 0.001,
 })
 </script>

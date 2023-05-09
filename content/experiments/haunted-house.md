@@ -4,7 +4,7 @@ title: Haunted house
 slug: haunted-house
 author: jaime-bboyjt
 description: The classical threejs-journey haunted house, done with TresJs
-tags: ['PointLight', 'fog', 'useTexture']
+tags: ['PointLight', 'fog', 'useTexture', 'threejs-journey']
 ---
 
 ::haunted-house
@@ -21,12 +21,10 @@ Author: [@**jaimebboyjt**](https://twitter.com/jaimebboyjt).
 > This is a TresJs implementation of Haunted house demo from Bruno Simon.
 
 ```vue
-// index.vue
 <script setup lang="ts">
-import { shallowRef } from 'vue'
 import { TresCanvas } from '@tresjs/core'
 import { OrbitControls, useTweakPane } from '@tresjs/cientos'
-import { PCFSoftShadowMap, sRGBEncoding, NoToneMapping, Vector3 } from 'three'
+import { PCFSoftShadowMap, SRGBColorSpace } from 'three'
 import Floor from './floor.vue'
 import House from './house.vue'
 import Ghosts from './ghosts.vue'
@@ -38,12 +36,11 @@ const gl = {
   shadows: true,
   alpha: false,
   shadowMapType: PCFSoftShadowMap,
-  outputEncoding: sRGBEncoding,
-  toneMapping: NoToneMapping,
+  outputColorSpace: SRGBColorSpace,
 }
 
 const moonOptions = reactive({
-  intensity: 0.12,
+  intensity: 1.12,
   position: [4, 5, -2],
   color: '#b9d5ff',
 })
@@ -51,10 +48,11 @@ const moonOptions = reactive({
 pane.addInput(moonOptions, 'intensity', {
   label: 'intensity',
   min: 0,
-  max: 1,
+  max: 3,
   step: 0.001,
 })
 </script>
+
 <template>
   <TresCanvas v-bind="gl">
     <TresPerspectiveCamera :position="[4, 2, 5]" />
@@ -83,7 +81,7 @@ pane.addInput(moonOptions, 'intensity', {
 ```vue
 // floor.vue
 <script setup>
-import { shallowRef, onMounted } from 'vue'
+import { shallowRef } from 'vue'
 import { useTexture } from '@tresjs/core'
 import { Float32BufferAttribute, RepeatWrapping, BoxGeometry, MeshStandardMaterial, Mesh } from 'three'
 
@@ -136,30 +134,27 @@ const bushes = [
   },
 ]
 
-onMounted(() => {
-  const graveGeometry = new BoxGeometry(0.6, 0.8, 0.1)
-  const graveMaterial = new MeshStandardMaterial({ color: '#727272' })
+const graveGeometry = new BoxGeometry(0.6, 0.8, 0.1)
+const graveMaterial = new MeshStandardMaterial({ color: '#727272' })
+const graves = []
 
-  for (let i = 0; i < 50; i++) {
-    const angle = Math.random() * Math.PI * 2 // Random angle
-    const radius = 3 + Math.random() * 6 // Random radius
-    const x = Math.cos(angle) * radius // Get the x position using cosinus
-    const z = Math.sin(angle) * radius // Get the z position using sinus
+for (let i = 0; i < 50; i++) {
+  const angle = Math.random() * Math.PI * 2 // Random angle
+  const radius = 3 + Math.random() * 6 // Random radius
+  const x = Math.cos(angle) * radius // Get the x position using cosinus
+  const z = Math.sin(angle) * radius // Get the z position using sinus
 
-    // Create the mesh
-    const grave = new Mesh(graveGeometry, graveMaterial)
-    grave.castShadow = true
+  // Create the mesh
+  const grave = new Mesh(graveGeometry, graveMaterial)
+  grave.castShadow = true
+  // Position
+  grave.position.set(x, 0.3, z)
 
-    // Position
-    grave.position.set(x, 0.3, z)
-
-    // Rotation
-    grave.rotation.z = (Math.random() - 0.5) * 0.4
-    grave.rotation.y = (Math.random() - 0.5) * 0.4
-
-    gravesRef.value.add(grave)
-  }
-})
+  // Rotation
+  grave.rotation.z = (Math.random() - 0.5) * 0.4
+  grave.rotation.y = (Math.random() - 0.5) * 0.4
+  graves.push(grave)
+}
 </script>
 <template>
   <TresMesh ref="floorRef" receive-shadow :rotation="[-Math.PI * 0.5, 0, 0]" :position="[0, 0, 0]">
@@ -170,7 +165,18 @@ onMounted(() => {
     <TresSphereGeometry :args="[1, 16, 16]" />
     <TresMeshStandardMaterial color="#89c854" />
   </TresMesh>
-  <TresGroup ref="gravesRef"> </TresGroup>
+  <TresGroup ref="gravesRef">
+    <TresMesh
+      v-for="({ position, scale, rotation }, index) in graves"
+      :key="index"
+      :position="position"
+      :scale="scale"
+      :rotation="rotation"
+      :material="graveMaterial"
+      :geometry="graveGeometry"
+    >
+    </TresMesh>
+  </TresGroup>
 </template>
 ```
 
