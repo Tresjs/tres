@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { PCFSoftShadowMap, sRGBEncoding } from 'three'
+import { PCFSoftShadowMap, SRGBColorSpace } from 'three'
 import { TresCanvas } from '@tresjs/core'
 import { OrbitControls } from '@tresjs/cientos'
 
@@ -11,7 +11,7 @@ const state = {
   clearColor: '#11101B',
   shadows: true,
   alpha: false,
-  outputEncoding: sRGBEncoding,
+  outputColorSpace: SRGBColorSpace,
   useLegacyLights: true,
   shadowMapType: PCFSoftShadowMap,
 }

@@ -24,7 +24,7 @@ Author: [@**alvarosabu**](https://twitter.com/alvarosabu).
 // App.vue
 <script setup lang="ts">
 import { TresCanvas, useRenderLoop } from '@tresjs/core'
-import { BasicShadowMap, sRGBEncoding, NoToneMapping, Color, AdditiveBlending, BufferAttribute } from 'three'
+import { BasicShadowMap, SRGBColorSpace, NoToneMapping, Color, AdditiveBlending, BufferAttribute } from 'three'
 import gsap from 'gsap'
 
 import { OrbitControls, useTweakPane } from '@tresjs/cientos'
@@ -37,7 +37,7 @@ const gl = {
   shadows: true,
   alpha: false,
   shadowMapType: BasicShadowMap,
-  outputEncoding: sRGBEncoding,
+  outputColorSpace: SRGBColorSpace,
   toneMapping: NoToneMapping,
 }
 

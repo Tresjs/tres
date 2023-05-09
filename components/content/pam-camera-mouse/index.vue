@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { BasicShadowMap, sRGBEncoding, NoToneMapping } from 'three'
+import { BasicShadowMap, SRGBColorSpace, NoToneMapping } from 'three'
 import { TresCanvas, useRenderLoop } from '@tresjs/core'
 
 import { PamCameraMouse } from '@tresjs/cientos'
@@ -12,7 +12,7 @@ const gl = {
   shadows: true,
   alpha: false,
   shadowMapType: BasicShadowMap,
-  outputEncoding: sRGBEncoding,
+  outputColorSpace: SRGBColorSpace,
   toneMapping: NoToneMapping,
 }
 
