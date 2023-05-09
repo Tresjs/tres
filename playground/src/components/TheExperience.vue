@@ -47,5 +47,6 @@ watchEffect(() => {
     <TheSphere />
     <TresAxesHelper :args="[1]" />
     <TresDirectionalLight :position="[0, 2, 4]" :intensity="2" cast-shadow />
+    <TresOrthographicCamera />
   </TresCanvas>
 </template>

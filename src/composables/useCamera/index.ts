@@ -85,6 +85,7 @@ interface UseCameraReturn {
   updateCamera: () => void
   pushCamera: (camera: Camera) => void
   clearCameras: () => void
+  setFirstCamera: (camera: Camera) => void
 }
 
 const VERTICAL_FIELD_OF_VIEW = 45
@@ -175,6 +176,12 @@ export function useCamera(): UseCameraReturn {
     setState('camera', camera)
   }
 
+  function setFirstCamera(camera: Camera): void {
+    if (state.cameras?.length === 0) {
+      pushCamera(camera)
+    }
+  }
+
   /**
    * Clear cameras array
    *
@@ -195,5 +202,6 @@ export function useCamera(): UseCameraReturn {
     updateCamera,
     pushCamera,
     clearCameras,
+    setFirstCamera,
   }
 }
