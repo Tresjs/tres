@@ -157,6 +157,6 @@ onLoop(() => {
     <TresMesh :geometry="planeGeometry" :scale="[1, -1, 1]" :rotation="[-Math.PI / 2, 0, 0]">
       <TresMeshBasicMaterial transparent :map="renderTarget.texture" :opacity="opacity" :depth-write="depthWrite" />
     </TresMesh>
-    <TresOrthographicCamera :args="[-cameraW / 2, cameraW / 2, cameraH / 2, -cameraH / 2, 0, far]" />
+    <TresOrthographicCamera ref="shadowRef" :args="[-cameraW / 2, cameraW / 2, cameraH / 2, -cameraH / 2, 0, far]" />
   </TresGroup>
 </template>

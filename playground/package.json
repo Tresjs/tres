@@ -14,7 +14,7 @@
     "vue-router": "^4.1.6"
   },
   "devDependencies": {
-    "@tresjs/core": "2.0.0-rc.2",
+    "@tresjs/core": "2.0.0-rc.3",
     "@vitejs/plugin-vue": "^4.2.1",
     "typescript": "^5.0.4",
     "unocss": "^0.51.8",
