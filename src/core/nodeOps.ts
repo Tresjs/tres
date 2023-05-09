@@ -48,18 +48,16 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
       instance = new target(...props.args)
     }
 
-    if (instance.isCamera) {
+    if (instance.isCamera && firstCamera) {
       if (!props?.position) {
         instance.position.set(3, 3, 3)
       }
       if (!props?.lookAt) {
         instance.lookAt(0, 0, 0)
       }
-      if (firstCamera) {
-        const { setFirstCamera } = useCamera()
-        setFirstCamera(instance)
-        firstCamera = false
-      }
+      const { setFirstCamera } = useCamera()
+      setFirstCamera(instance)
+      firstCamera = false
     }
 
     if (props?.attach === undefined) {
