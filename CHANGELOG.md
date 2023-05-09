@@ -1,5 +1,12 @@
 
 
+## [2.0.0-rc.4](https://github.com/Tresjs/tres/compare/2.0.0-rc.3...2.0.0-rc.4) (2023-05-09)
+
+
+### Bug Fixes
+
+* only set default camera settings to first camera ([7f1e7cd](https://github.com/Tresjs/tres/commit/7f1e7cdf4652b2212340a1d975bd5b9ca3e31e8a))
+
 ## [2.0.0-rc.3](https://github.com/Tresjs/tres/compare/2.0.0-rc.2...2.0.0-rc.3) (2023-05-09)
 
 
