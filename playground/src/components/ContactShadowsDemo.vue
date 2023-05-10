@@ -1,13 +1,12 @@
 <script setup lang="ts">
-import { TresCanvas } from '@tresjs/core'
-import { OrbitControls, useTweakPane, ContactShadows, TorusKnot } from '@cientos'
+import { TresCanvas, useRenderLoop } from '@tresjs/core'
+import { OrbitControls, useTweakPane, ContactShadows, Box, Plane } from '@cientos'
 import { BasicShadowMap, SRGBColorSpace, NoToneMapping } from 'three'
 import { shallowRef } from 'vue'
 import { watchEffect } from 'vue'
-import { shallowReactive } from 'vue'
 
 const gl = {
-  clearColor: '#82DBC5',
+  clearColor: '#fff',
   shadows: true,
   alpha: false,
   shadowMapType: BasicShadowMap,
@@ -17,34 +16,21 @@ const gl = {
 
 const { pane } = useTweakPane()
 
-const leviosoState = shallowReactive({
-  speed: 5,
-  rotationFactor: 1,
-  floatFactor: 1,
-  range: [-0.1, 0.1],
-})
-
-pane.addInput(leviosoState, 'speed', {
-  step: 1,
-  min: 0,
-  max: 100,
-})
-
-pane.addInput(leviosoState, 'rotationFactor', {
-  step: 1,
-  min: 0,
-  max: 10,
-})
-
-pane.addInput(leviosoState, 'floatFactor', {
-  step: 1,
-  min: 0,
-  max: 10,
-})
 const groupRef = shallowRef()
 
 watchEffect(() => {
   console.log(groupRef)
+})
+
+const boxRef = shallowRef()
+
+const { onLoop } = useRenderLoop()
+
+onLoop(() => {
+  if (boxRef.value) {
+    boxRef.value.value.rotation.y += 0.02
+    boxRef.value.value.rotation.x += 0.01
+  }
 })
 </script>
 
@@ -53,10 +39,13 @@ watchEffect(() => {
     <TresPerspectiveCamera :position="[11, 11, 11]" />
     <OrbitControls />
 
-    <TorusKnot :position="[0, 4, 0]">
+    <Box ref="boxRef" :position="[0, 1, 0]">
       <TresMeshNormalMaterial />
-    </TorusKnot>
-    <ContactShadows />
+    </Box>
+    <ContactShadows :frames="3" />
+    <Plane :args="[10, 10, 10]" :position="[0, -0.02, 0]">
+      <TresMeshBasicMaterial :color="'#ffffff'" />
+    </Plane>
     <TresAmbientLight :intensity="1" />
   </TresCanvas>
 </template>
