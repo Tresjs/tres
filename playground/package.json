@@ -9,19 +9,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "three": "^0.152.2",
-    "vue": "^3.2.47",
+    "@tresjs/core": "workspace:^2.0.0-rc.2",
     "vue-router": "^4.1.6"
   },
   "devDependencies": {
-    "@tresjs/cientos": "2.0.0-rc.1",
-    "@vitejs/plugin-vue": "^4.2.1",
-    "typescript": "^5.0.4",
-    "unocss": "^0.51.8",
+    "@tresjs/core": "workspace:^2.0.0-rc.2",
     "unplugin-auto-import": "^0.15.3",
-    "unplugin-vue-components": "^0.24.1",
-    "vite": "^4.3.4",
-    "vite-plugin-glsl": "^1.1.2",
-    "vue-tsc": "^1.6.3"
+    "vite-plugin-glsl": "^1.1.2"
   }
 }
