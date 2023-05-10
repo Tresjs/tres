@@ -1,4 +1,10 @@
 <script setup lang="ts">
+// The author of the original code is @mrdoob https://twitter.com/mrdoob
+// https://threejs.org/examples/?q=con#webgl_shadow_contact
+
+// As well, basically the same implementation as in pmndrs drei but with Vue Composition API
+// https://github.com/pmndrs/drei/blob/master/src/core/ContactShadows.tsx#L113
+
 import { TresColor, useRenderLoop } from '@tresjs/core'
 import {
   Color,
@@ -12,23 +18,110 @@ import {
   Texture,
   WebGLRenderTarget,
 } from 'three'
-import { computed, shallowRef } from 'vue'
-import { useCientos } from '../useCientos'
+import { computed, shallowRef, watchEffect } from 'vue'
 import { HorizontalBlurShader, VerticalBlurShader } from 'three-stdlib'
-import { watchEffect } from 'vue'
-import { useTweakPane } from '../misc'
+import { useCientos } from '/@/core/useCientos'
 
 export interface ContactShadowsProps {
+  /**
+   *
+   * The opacity of the shadows.
+   *
+   * @default 1
+   * @type {number}
+   * @memberof ContactShadowsProps
+   *
+   */
   opacity?: number
+  /**
+   * The width of the shadows.
+   *
+   * @default 1
+   * @type {number}
+   * @memberof ContactShadowsProps
+   *
+   */
   width?: number
+  /**
+   * The height of the shadows.
+   *
+   * @default 1
+   * @type {number}
+   * @memberof ContactShadowsProps
+   *
+   */
   height?: number
+  /**
+   * The blur of the shadows.
+   *
+   * @default 1
+   * @type {number}
+   * @memberof ContactShadowsProps
+   *
+   */
   blur?: number
+  /**
+   * How far the OrthographicCamera should be to capture the shadows.
+   *
+   * @default 10
+   * @type {number}
+   * @memberof ContactShadowsProps
+   *
+   */
   far?: number
+  /**
+   * Whether the shadows should be smooth or not.
+   *
+   * @default true
+   * @type {boolean}
+   * @memberof ContactShadowsProps
+   *
+   */
   smooth?: boolean
+  /**
+   * The resolution of the shadows.
+   *
+   * @default 512
+   * @type {number}
+   * @memberof ContactShadowsProps
+   *
+   */
   resolution?: number
+  /**
+   * The number of frames to render the shadows.
+   *
+   * @default Infinity
+   * @type {number}
+   * @memberof ContactShadowsProps
+   *
+   */
   frames?: number
+  /**
+   * The scale of the shadows.
+   *
+   * @default 10
+   * @type {(number | [x: number, y: number])}
+   * @memberof ContactShadowsProps
+   *
+   */
   scale?: number | [x: number, y: number]
+  /**
+   * The color of the shadows.
+   *
+   * @default '#000000'
+   * @type {TresColor}
+   * @memberof ContactShadowsProps
+   *
+   */
   color?: TresColor
+  /**
+   * Whether the shadows should write to the depth buffer or not.
+   *
+   * @default false
+   * @type {boolean}
+   * @memberof ContactShadowsProps
+   *
+   */
   depthWrite?: boolean
 }
 
@@ -39,7 +132,7 @@ const props = withDefaults(defineProps<ContactShadowsProps>(), {
   width: 1,
   height: 1,
   blur: 1,
-  far: 0.3,
+  far: 10,
   resolution: 512,
   smooth: true,
   color: '#000000',
@@ -49,58 +142,61 @@ const props = withDefaults(defineProps<ContactShadowsProps>(), {
 const groupRef = shallowRef()
 const shadowCamera = shallowRef<OrthographicCamera>()
 
-defineExpose({
-  value: groupRef,
-})
+defineExpose(groupRef)
+
+let renderTarget: WebGLRenderTarget, renderTargetBlur: WebGLRenderTarget
+let planeGeometry: PlaneGeometry, blurPlane: Mesh
+let depthMaterial: MeshDepthMaterial
 
 const { state } = useCientos()
 
 const cameraW = computed(() => props.width * (Array.isArray(props.scale) ? props.scale[0] : props.scale || 1))
 const cameraH = computed(() => props.height * (Array.isArray(props.scale) ? props.scale[1] : props.scale || 1))
 
-// the render target that will show the shadows in the plane texture and
-// the target that we will use to blur the first render target
-let renderTarget = new WebGLRenderTarget(props.resolution, props.resolution)
-let renderTargetBlur = new WebGLRenderTarget(props.resolution, props.resolution)
-renderTargetBlur.texture.generateMipmaps = renderTarget.texture.generateMipmaps = false
+watchEffect(() => {
+  // the render target that will show the shadows in the plane texture and
+  // the target that we will use to blur the first render target
+  if (renderTarget) renderTarget.dispose()
+  if (renderTargetBlur) renderTargetBlur.dispose()
+  if (planeGeometry) planeGeometry.dispose()
+  if (blurPlane) blurPlane.geometry.dispose()
+  renderTarget = new WebGLRenderTarget(props.resolution, props.resolution)
+  renderTargetBlur = new WebGLRenderTarget(props.resolution, props.resolution)
+  renderTargetBlur.texture.generateMipmaps = renderTarget.texture.generateMipmaps = false
+
+  planeGeometry = new PlaneGeometry(cameraW.value, cameraH.value).rotateX(Math.PI / 2)
+  blurPlane = new Mesh(planeGeometry)
+  blurPlane.visible = false
+})
+
+watchEffect(() => {
+  if (props.color) {
+    if (depthMaterial) depthMaterial.dispose()
+    depthMaterial = new MeshDepthMaterial()
+    depthMaterial.depthTest = depthMaterial.depthWrite = false
+
+    // Overwrite depthMaterial sahders
+    depthMaterial.onBeforeCompile = shader => {
+      shader.uniforms = {
+        ...shader.uniforms,
+        ucolor: { value: props.color ? new Color(props.color as ColorRepresentation) : new Color() },
+      }
+      shader.fragmentShader = shader.fragmentShader.replace(
+        `void main() {`, //
+        `uniform vec3 ucolor;
+             void main() {
+            `,
+      )
+      shader.fragmentShader = shader.fragmentShader.replace(
+        'vec4( vec3( 1.0 - fragCoordZ ), opacity );',
+        // Colorize the shadow, multiply by the falloff so that the center can remain darker
+        'vec4( ucolor * fragCoordZ * 2.0, ( 1.0 - fragCoordZ ) * 1.0 );',
+      )
+    }
+  }
+})
 
 // make a plane and make it face up
-const planeGeometry = new PlaneGeometry(props.width, props.height).rotateX(Math.PI / 2)
-const blurPlane = new Mesh(planeGeometry)
-blurPlane.visible = false
-const depthMaterial = new MeshDepthMaterial()
-depthMaterial.depthTest = depthMaterial.depthWrite = false
-
-// Overwrite depthMaterial sahders
-console.log({ color: new Color(props.color as ColorRepresentation) })
-depthMaterial.onBeforeCompile = shader => {
-  shader.uniforms = {
-    ...shader.uniforms,
-    ucolor: { value: new Color(props.color as ColorRepresentation) },
-  }
-  shader.fragmentShader = shader.fragmentShader.replace(
-    `void main() {`, //
-    `uniform vec3 ucolor;
-           void main() {
-          `,
-  )
-  shader.fragmentShader = shader.fragmentShader.replace(
-    'vec4( vec3( 1.0 - fragCoordZ ), opacity );',
-    // Colorize the shadow, multiply by the falloff so that the center can remain darker
-    'vec4( ucolor * fragCoordZ * 2.0, ( 1.0 - fragCoordZ ) * 1.0 );',
-  )
-}
-/* depthMaterial.userData.darkness = { value: 1 }
-depthMaterial.onBeforeCompile = function (shader) {
-  shader.uniforms.darkness = depthMaterial.userData.darkness
-  shader.fragmentShader = /* glsl `
-    uniform float darkness;
-    ${shader.fragmentShader.replace(
-      'gl_FragColor = vec4( vec3( 1.0 - fragCoordZ ), opacity );',
-      'gl_FragColor = vec4( vec3( 0.0 ), ( 1.0 - fragCoordZ ) * darkness );',
-    )}
-  `
-} */
 
 // Initialize the blur shaders
 const horizontalBlurMaterial = new ShaderMaterial(HorizontalBlurShader)
@@ -151,12 +247,8 @@ onLoop(() => {
     state.scene.background = null
     state.scene.overrideMaterial = depthMaterial
 
-    /*     console.log({ renderer: state.renderer, scene: state.scene, map: renderTarget.texture })
-     */
-    console.log(renderTarget)
     state.renderer.setRenderTarget(renderTarget)
     state.renderer.render(state.scene, shadowCamera.value)
-    console.log('renderer before', state.renderer.getRenderTarget())
 
     // Blur the shadows
     blurShadows(props.blur)
@@ -168,20 +260,21 @@ onLoop(() => {
     // Restore the initial background and override material
     state.renderer.setRenderTarget(null)
 
-    console.log('renderer after', state.renderer.getRenderTarget())
-
     groupRef.value.visible = true
     state.scene.background = initialBackground
     state.scene.overrideMaterial = initialOverrideMaterial
   }
 })
-
-const { pane } = useTweakPane()
 </script>
 <template>
   <TresGroup ref="groupRef" v-bind="$attrs">
-    <TresMesh :render-order="1" :geometry="planeGeometry" :scale="[1, -1, 1]">
-      <TresMeshBasicMaterial transparent :map="renderTarget.texture" :opacity="opacity" :depth-write="depthWrite" />
+    <TresMesh :scale="[1, -1, 1]" :geometry="planeGeometry">
+      <TresMeshBasicMaterial
+        :map="renderTarget.texture"
+        :opacity="opacity"
+        :depth-write="depthWrite"
+        :transparent="true"
+      />
     </TresMesh>
     <primitive :object="blurPlane" />
 
