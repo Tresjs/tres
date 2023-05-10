@@ -4,7 +4,6 @@ import {
   CubeTexture,
   CubeTextureLoader,
   EquirectangularReflectionMapping,
-  LinearEncoding,
   SRGBColorSpace,
   Texture,
 } from 'three'
@@ -32,7 +31,6 @@ export async function useEnvironment({
   background = false,
   path = '/',
   preset = undefined,
-  colorSpace = undefined,
 }: Partial<EnvironmentOptions>): Promise<Texture | CubeTexture> {
   const { state } = useCientos()
 
@@ -53,7 +51,7 @@ export async function useEnvironment({
     isCubeMap ? [files] : files,
     (loader: any) => {
       if (path) loader.setPath(path)
-      if (colorSpace) loader.colorSpace = colorSpace
+      /* if (colorSpace) loader.colorSpace = colorSpace */
     },
   )
 
@@ -61,7 +59,7 @@ export async function useEnvironment({
 
   if (texture) {
     texture.mapping = isCubeMap ? CubeReflectionMapping : EquirectangularReflectionMapping
-    texture.colorSpace = colorSpace ?? isCubeMap ? SRGBColorSpace : LinearEncoding
+    texture.colorSpace = SRGBColorSpace
   }
 
   if (state.scene) {
