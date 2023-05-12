@@ -30,7 +30,7 @@ importers:
         specifier: 2.0.0-rc.1
         version: 2.0.0-rc.1(@tresjs/core@)(three@0.152.2)(vue@3.2.47)
       '@tresjs/core':
-        specifier: 2.0.0-rc.2
+        specifier: 2.0.0
         version: 'link:'
       '@types/three':
         specifier: ^0.152.0
