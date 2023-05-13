@@ -50,7 +50,7 @@ import { TresCanvas } from '@tresjs/core'
 ```
 
 ::: tip
-This is recommended for performance and bundle size reasons, Three-shaking will work better and you will only import the components that you use.
+This is recommended for performance and bundle size reasons, tree-shaking will work better and you will only import the components that you use.
 :::
 
 ## Vite
