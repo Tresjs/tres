@@ -34,7 +34,7 @@ The `TresCanvas` component is going to do some setup work behind the scene:
 
 ## Canvas size
 
-By default, `TresCanvas` component will take the **parent's width and height**, if you are experiencing a blank page make sure the parent element have a proper size.
+By default, `TresCanvas` component will take the **parent's width and height**, if you are experiencing a blank page make sure the parent element has a proper size.
 
 ```vue
 <script lang="ts" setup>
@@ -77,8 +77,8 @@ import { TresCanvas } from '@tresjs/core'
 
 We need 4 core elements to create a 3D experience:
 
-- An [**Scene**](https://threejs.org/docs/index.html?q=scene#api/en/scenes/Scene) to hold the camera and the object(s) together.
-- An [**Renderer**](https://threejs.org/docs/index.html?q=renderer#api/en/renderers/WebGLRenderer) to render the scene into the DOM.
+- A [**Scene**](https://threejs.org/docs/index.html?q=scene#api/en/scenes/Scene) to hold the camera and the object(s) together.
+- A [**Renderer**](https://threejs.org/docs/index.html?q=renderer#api/en/renderers/WebGLRenderer) to render the scene into the DOM.
 - A [**Camera**](https://threejs.org/docs/index.html?q=camera#api/en/cameras/Camera)
 - An [**Object**](https://threejs.org/docs/index.html?q=object#api/en/core/Object3D)
 
@@ -108,7 +108,7 @@ A common issue is that the camera default position is the origin of the scene (0
 
 ## Adding a 🍩
 
-That scene looks a little empty, let's add a basic object. If we where using plain **ThreeJS** we would need to create a [**Mesh**](https://threejs.org/docs/index.html?q=mesh#api/en/objects/Mesh) object and attach to it a [**Material**](https://threejs.org/docs/index.html?q=material#api/en/materials/Material) and a [**Geometry**](https://threejs.org/docs/index.html?q=geometry#api/en/core/BufferGeometry) like this:
+That scene looks a little empty, let's add a basic object. If we were using plain **ThreeJS** we would need to create a [**Mesh**](https://threejs.org/docs/index.html?q=mesh#api/en/objects/Mesh) object and attach to it a [**Material**](https://threejs.org/docs/index.html?q=material#api/en/materials/Material) and a [**Geometry**](https://threejs.org/docs/index.html?q=geometry#api/en/core/BufferGeometry) like this:
 
 ```ts
 const geometry = new THREE.TorusGeometry(1, 0.5, 16, 32)
