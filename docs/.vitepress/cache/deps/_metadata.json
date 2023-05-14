@@ -1,53 +1,53 @@
 {
-  "hash": "e740f549",
-  "browserHash": "6f7a1cca",
+  "hash": "028d4228",
+  "browserHash": "5bbe5833",
   "optimized": {
     "vue": {
       "src": "../../../../node_modules/.pnpm/vue@3.2.47/node_modules/vue/dist/vue.runtime.esm-bundler.js",
       "file": "vue.js",
-      "fileHash": "68f880b6",
-      "needsInterop": false
-    },
-    "@stackblitz/sdk": {
-      "src": "../../../../node_modules/.pnpm/@stackblitz+sdk@1.9.0/node_modules/@stackblitz/sdk/bundles/sdk.m.js",
-      "file": "@stackblitz_sdk.js",
-      "fileHash": "1e4743e8",
+      "fileHash": "dd414ec0",
       "needsInterop": false
     },
     "three": {
       "src": "../../../../node_modules/.pnpm/three@0.152.2/node_modules/three/build/three.module.js",
       "file": "three.js",
-      "fileHash": "39d750e2",
+      "fileHash": "201076c8",
       "needsInterop": false
     },
     "@tresjs/cientos": {
       "src": "../../../../node_modules/.pnpm/@tresjs+cientos@2.0.0_@tresjs+core@_three@0.152.2_vue@3.2.47/node_modules/@tresjs/cientos/dist/trescientos.js",
       "file": "@tresjs_cientos.js",
-      "fileHash": "3ead023b",
+      "fileHash": "43ab126d",
+      "needsInterop": false
+    },
+    "@stackblitz/sdk": {
+      "src": "../../../../node_modules/.pnpm/@stackblitz+sdk@1.9.0/node_modules/@stackblitz/sdk/bundles/sdk.m.js",
+      "file": "@stackblitz_sdk.js",
+      "fileHash": "f3131c6e",
       "needsInterop": false
     },
     "gsap": {
       "src": "../../../../node_modules/.pnpm/gsap@3.11.5/node_modules/gsap/index.js",
       "file": "gsap.js",
-      "fileHash": "42304c85",
+      "fileHash": "5a3975c5",
       "needsInterop": false
     },
     "@vueuse/core": {
       "src": "../../../../node_modules/.pnpm/@vueuse+core@10.1.2_vue@3.2.47/node_modules/@vueuse/core/index.mjs",
       "file": "@vueuse_core.js",
-      "fileHash": "288e8586",
+      "fileHash": "be8aed76",
       "needsInterop": false
     }
   },
   "chunks": {
-    "chunk-PDZK3SQX": {
-      "file": "chunk-PDZK3SQX.js"
-    },
     "chunk-YZCJI2S3": {
       "file": "chunk-YZCJI2S3.js"
     },
     "chunk-LZPJ5JBW": {
       "file": "chunk-LZPJ5JBW.js"
+    },
+    "chunk-PDZK3SQX": {
+      "file": "chunk-PDZK3SQX.js"
     },
     "chunk-JC4IRQUL": {
       "file": "chunk-JC4IRQUL.js"

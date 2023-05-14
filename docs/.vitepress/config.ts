@@ -99,7 +99,7 @@ export default defineConfig({
     plugins: [svgLoader(), Unocss()],
     resolve: {
       alias: {
-        '/@': resolve(__dirname, '../../src'),
+        '/@': resolve(__dirname, '../../dist'),
       },
     },
   },
