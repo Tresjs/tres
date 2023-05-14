@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useGLTF, TorusKnot, Levioso } from '/@'
+import { useGLTF, Levioso } from '/@'
 import { shallowRef } from 'vue'
 import { watchEffect } from 'vue'
 const { scene: feather, nodes } = await useGLTF('/feather.glb')
