@@ -4,26 +4,20 @@
     <FirstScene style="aspect-ratio: 16/9; height: auto; margin: 2rem 0; border-radius: 8px; overflow:hidden;"/>
 </ClientOnly>
 
-This is the documentation for the `v2.0.0-rc` of TresJS. If you are looking for the documentation for the version 1, check [V1 TresJS](https://v1.tresjs.org/).
-
-::: info
-
-TresJS v2 is now in release candidate. Stable release to be announced soon.
-
-:::
+This is the documentation for the `v2.0.0` of TresJS. If you are looking for the documentation for the version 1, check [V1 TresJS](https://v1.tresjs.org/).
 
 ::: code-group
 
 ```bash [npm]
-npm install three @tresjs/core@next
+npm install three @tresjs/core
 ```
 
 ```bash [yarn]
-yarn add three @tresjs/core@next
+yarn add three @tresjs/core
 ```
 
 ```bash [pnpm]
-pnpm add three @tresjs/core@next
+pnpm add three @tresjs/core
 ```
 
 :::
