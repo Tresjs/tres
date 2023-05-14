@@ -13,10 +13,9 @@ The `useRenderLoop` composable is the core of TresJS animations. It allows you t
 To see a detailed explanation of how it works, please refer to the [useRenderLoop](/api/composables#userenderloop) documentation.
 
 ```ts
-const { onLoop, resume } = useRenderLoop()
+const { onLoop } = useRenderLoop()
 
-resume()
-onLoop(({ _delta, elapsed }) => {
+onLoop(({ delta, elapsed }) => {
   // I will run at every frame ~ 60FPS (depending of your monitor)
 })
 ```
@@ -30,14 +29,15 @@ To improve the performance, we will use a [Shallow Ref](https://v3.vuejs.org/gui
 ```vue
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
+
 const boxRef: ShallowRef<TresInstance | null> = shallowRef(null)
 </script>
 
 <template>
   <TresCanvas>
-    <TresMesh ref="boxRef" :scale="1" cast-shadow>
+    <TresMesh ref="boxRef" :scale="1">
       <TresBoxGeometry :args="[1, 1, 1]" />
-      <TresMeshStandardMaterial v-bind="pbrTexture" />
+      <TresMeshNormalMaterial />
     </TresMesh>
   </TresCanvas>
 </template>
@@ -48,9 +48,9 @@ const boxRef: ShallowRef<TresInstance | null> = shallowRef(null)
 Now that we have a reference to the cube, we can animate it. We will use the `onLoop` callback to update the cube's rotation.
 
 ```ts
-onLoop(({ _delta, elapsed }) => {
+onLoop(({ delta, elapsed }) => {
   if (boxRef.value) {
-    boxRef.value.rotation.y += 0.01
+    boxRef.value.rotation.y += delta
     boxRef.value.rotation.z = elapsed * 0.2
   }
 })
@@ -69,8 +69,8 @@ import { TresCanvas } from '@tresjs/core'
 
 const boxRotation = reactive([0, 0, 0])
 
-onLoop(({ _delta, elapsed }) => {
-  boxRotation[1] += 0.01
+onLoop(({ delta, elapsed }) => {
+  boxRotation[1] += delta
   boxRotation[2] = elapsed * 0.2
 })
 </script>
