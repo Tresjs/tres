@@ -1,7 +1,7 @@
 ![repo-banner](/public/repo-banner.png)
 
 <p align="center">
-  <a href="https://www.npmjs.com/package/@tresjs/core"><img src="https://img.shields.io/npm/v/@tresjs/core/next?color=%2382DBCA" alt="npm package"></a>
+  <a href="https://www.npmjs.com/package/@tresjs/core"><img src="https://img.shields.io/npm/v/@tresjs/core/latest?color=%2382DBCA" alt="npm package"></a>
   <a href="https://discord.gg/UCr96AQmWn"><img src="https://img.shields.io/badge/chat-discord-purple?style=flat&logo=discord" alt="discord chat"></a>
 </p>
 
@@ -23,7 +23,7 @@ The goal is to provide the Vue's community an easy way of building 3D scenes wit
 ## Installation
 
 ```bash
-pnpm install @tresjs/core@beta three
+pnpm install @tresjs/core three
 ```
 
 ## Docs
@@ -36,10 +36,10 @@ Checkout the [docs](https://tresjs.org)
 
 ## Ecosystem
 
-| Package                     | Version                                                                                          |
-| --------------------------- | :----------------------------------------------------------------------------------------------- |
-| [Tres](packages/tres)       | ![tres version](https://img.shields.io/npm/v/@tresjs/core/beta.svg?label=%20&color=%2382DBCA)    |
-| [Cientos](packages/cientos) | ![tres version](https://img.shields.io/npm/v/@tresjs/cientos/beta.svg?label=%20&color=%23f19b00) |
+| Package                     | Version                                                                                            |
+| --------------------------- | :------------------------------------------------------------------------------------------------- |
+| [Tres](packages/tres)       | ![tres version](https://img.shields.io/npm/v/@tresjs/core/latest.svg?label=%20&color=%2382DBCA)    |
+| [Cientos](packages/cientos) | ![tres version](https://img.shields.io/npm/v/@tresjs/cientos/latest.svg?label=%20&color=%23f19b00) |
 
 ## Contribution
 
