@@ -5,8 +5,8 @@ importers:
   .:
     dependencies:
       '@tresjs/core':
-        specifier: 2.0.0-rc.4
-        version: 2.0.0-rc.4(three@0.152.2)(vue@3.2.47)
+        specifier: 2.0.0
+        version: 2.0.0(three@0.152.2)(vue@3.2.47)
       '@vueuse/core':
         specifier: ^10.1.2
         version: 10.1.2(vue@3.2.47)
@@ -967,8 +967,8 @@ packages:
     engines: {node: '>= 6'}
     dev: true
 
-  /@tresjs/core@2.0.0-rc.4(three@0.152.2)(vue@3.2.47):
-    resolution: {integrity: sha512-o59U/T1pXqmAWVdVl16hMGQ7ZxiKYucAFZ12vGAkAI6I7MEUhqBc6wSJmWasFozvGOoXB3hjjjRkkWBHC7qHkw==}
+  /@tresjs/core@2.0.0(three@0.152.2)(vue@3.2.47):
+    resolution: {integrity: sha512-2tNvojw4V2PgpBqzZA/UWyhTi8F4fkSLCnvPqMQgdWjXtaLTxomMTqiIBgyiord9+sCsReURLvCSX0m5Zdh//Q==}
     peerDependencies:
       three: latest
       vue: ^3.2.47
