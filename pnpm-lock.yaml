@@ -27,11 +27,8 @@ importers:
         specifier: ^1.9.0
         version: 1.9.0
       '@tresjs/cientos':
-        specifier: 2.0.0-rc.1
-        version: 2.0.0-rc.1(@tresjs/core@)(three@0.152.2)(vue@3.2.47)
-      '@tresjs/core':
-        specifier: 2.0.0-rc.2
-        version: 'link:'
+        specifier: 2.0.0
+        version: 2.0.0(@tresjs/core@)(three@0.152.2)(vue@3.2.47)
       '@types/three':
         specifier: ^0.152.0
         version: 0.152.0
@@ -1092,10 +1089,10 @@ packages:
     engines: {node: '>= 10'}
     dev: true
 
-  /@tresjs/cientos@2.0.0-rc.1(@tresjs/core@)(three@0.152.2)(vue@3.2.47):
-    resolution: {integrity: sha512-6Te/80/4zuthhzYOncjRB2Pa/jzF5DfbS+6MOpbVkyXAWfsfUp3ormoBEl63OLZiNNCmXURh97vvq5t+w0DQ8A==}
+  /@tresjs/cientos@2.0.0(@tresjs/core@)(three@0.152.2)(vue@3.2.47):
+    resolution: {integrity: sha512-uIN5H1q93/RY/ngzLsMQ6Uqzu1gKOzNGx4ljqF2KDC8kJ+ANYQmjZr4H3hXJ0Rrc6wHtnIzk7NjIfTXqj2MgLA==}
     peerDependencies:
-      '@tresjs/core': 2.0.0-rc.2
+      '@tresjs/core': 2.0.0
       three: latest
       vue: ^3.2.47
     dependencies:
