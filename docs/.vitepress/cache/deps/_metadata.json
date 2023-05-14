@@ -1,53 +1,53 @@
 {
-  "hash": "737881f9",
-  "browserHash": "091485f4",
+  "hash": "69d5a49c",
+  "browserHash": "5180b1fc",
   "optimized": {
     "vue": {
       "src": "../../../../node_modules/.pnpm/vue@3.2.47/node_modules/vue/dist/vue.runtime.esm-bundler.js",
       "file": "vue.js",
-      "fileHash": "782a8094",
+      "fileHash": "9d81c881",
       "needsInterop": false
     },
     "three": {
       "src": "../../../../node_modules/.pnpm/three@0.152.2/node_modules/three/build/three.module.js",
       "file": "three.js",
-      "fileHash": "7e7ed95b",
-      "needsInterop": false
-    },
-    "@tresjs/core": {
-      "src": "../../../../node_modules/.pnpm/@tresjs+core@2.0.0-rc.2_three@0.152.2_vue@3.2.47/node_modules/@tresjs/core/dist/tres.js",
-      "file": "@tresjs_core.js",
-      "fileHash": "f8a54f42",
+      "fileHash": "32ca071c",
       "needsInterop": false
     },
     "@tresjs/cientos": {
-      "src": "../../../../node_modules/.pnpm/@tresjs+cientos@2.0.0-beta.6_@tresjs+core@2.0.0-rc.2_three@0.152.2_vue@3.2.47/node_modules/@tresjs/cientos/dist/trescientos.js",
+      "src": "../../../../node_modules/.pnpm/@tresjs+cientos@2.0.0-rc.1_@tresjs+core@_three@0.152.2_vue@3.2.47/node_modules/@tresjs/cientos/dist/trescientos.js",
       "file": "@tresjs_cientos.js",
-      "fileHash": "3dc48be2",
+      "fileHash": "0965bd02",
       "needsInterop": false
     },
     "@stackblitz/sdk": {
       "src": "../../../../node_modules/.pnpm/@stackblitz+sdk@1.9.0/node_modules/@stackblitz/sdk/bundles/sdk.m.js",
       "file": "@stackblitz_sdk.js",
-      "fileHash": "4cc49033",
+      "fileHash": "2ad85ca2",
+      "needsInterop": false
+    },
+    "@vueuse/core": {
+      "src": "../../../../node_modules/.pnpm/@vueuse+core@10.1.2_vue@3.2.47/node_modules/@vueuse/core/index.mjs",
+      "file": "@vueuse_core.js",
+      "fileHash": "f25d8612",
       "needsInterop": false
     },
     "gsap": {
       "src": "../../../../node_modules/.pnpm/gsap@3.11.5/node_modules/gsap/index.js",
       "file": "gsap.js",
-      "fileHash": "07e849a5",
+      "fileHash": "ab573bf0",
       "needsInterop": false
     }
   },
   "chunks": {
-    "chunk-4R2RUFTZ": {
-      "file": "chunk-4R2RUFTZ.js"
+    "chunk-PDZK3SQX": {
+      "file": "chunk-PDZK3SQX.js"
+    },
+    "chunk-YZCJI2S3": {
+      "file": "chunk-YZCJI2S3.js"
     },
     "chunk-LZPJ5JBW": {
       "file": "chunk-LZPJ5JBW.js"
-    },
-    "chunk-PDZK3SQX": {
-      "file": "chunk-PDZK3SQX.js"
     },
     "chunk-JC4IRQUL": {
       "file": "chunk-JC4IRQUL.js"
