@@ -1,41 +1,41 @@
 {
-  "hash": "b14bea6f",
-  "browserHash": "2bf83984",
+  "hash": "e740f549",
+  "browserHash": "6f7a1cca",
   "optimized": {
     "vue": {
       "src": "../../../../node_modules/.pnpm/vue@3.2.47/node_modules/vue/dist/vue.runtime.esm-bundler.js",
       "file": "vue.js",
-      "fileHash": "16342654",
-      "needsInterop": false
-    },
-    "three": {
-      "src": "../../../../node_modules/.pnpm/three@0.152.2/node_modules/three/build/three.module.js",
-      "file": "three.js",
-      "fileHash": "d71415cf",
-      "needsInterop": false
-    },
-    "@tresjs/cientos": {
-      "src": "../../../../node_modules/.pnpm/@tresjs+cientos@2.0.0_@tresjs+core@_three@0.152.2_vue@3.2.47/node_modules/@tresjs/cientos/dist/trescientos.js",
-      "file": "@tresjs_cientos.js",
-      "fileHash": "c3b4ac5e",
+      "fileHash": "68f880b6",
       "needsInterop": false
     },
     "@stackblitz/sdk": {
       "src": "../../../../node_modules/.pnpm/@stackblitz+sdk@1.9.0/node_modules/@stackblitz/sdk/bundles/sdk.m.js",
       "file": "@stackblitz_sdk.js",
-      "fileHash": "4ccc178c",
+      "fileHash": "1e4743e8",
       "needsInterop": false
     },
-    "@vueuse/core": {
-      "src": "../../../../node_modules/.pnpm/@vueuse+core@10.1.2_vue@3.2.47/node_modules/@vueuse/core/index.mjs",
-      "file": "@vueuse_core.js",
-      "fileHash": "ac1ab0f8",
+    "three": {
+      "src": "../../../../node_modules/.pnpm/three@0.152.2/node_modules/three/build/three.module.js",
+      "file": "three.js",
+      "fileHash": "39d750e2",
+      "needsInterop": false
+    },
+    "@tresjs/cientos": {
+      "src": "../../../../node_modules/.pnpm/@tresjs+cientos@2.0.0_@tresjs+core@_three@0.152.2_vue@3.2.47/node_modules/@tresjs/cientos/dist/trescientos.js",
+      "file": "@tresjs_cientos.js",
+      "fileHash": "3ead023b",
       "needsInterop": false
     },
     "gsap": {
       "src": "../../../../node_modules/.pnpm/gsap@3.11.5/node_modules/gsap/index.js",
       "file": "gsap.js",
-      "fileHash": "0b587250",
+      "fileHash": "42304c85",
+      "needsInterop": false
+    },
+    "@vueuse/core": {
+      "src": "../../../../node_modules/.pnpm/@vueuse+core@10.1.2_vue@3.2.47/node_modules/@vueuse/core/index.mjs",
+      "file": "@vueuse_core.js",
+      "fileHash": "288e8586",
       "needsInterop": false
     }
   },
