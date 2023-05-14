@@ -90,7 +90,7 @@ export default defineConfig({
       },
     ],
     socialLinks: [
-      /*  { icon: 'github', link: 'https://github.com/tresjs/tres' }, */
+      { icon: 'github', link: 'https://github.com/tresjs/tres' },
       { icon: 'twitter', link: 'https://twitter.com/tresjs_dev' },
       { icon: 'discord', link: 'https://discord.gg/UCr96AQmWn' },
     ],
@@ -99,7 +99,7 @@ export default defineConfig({
     plugins: [svgLoader(), Unocss()],
     resolve: {
       alias: {
-        '/@': resolve(__dirname, '../../src'),
+        '/@': resolve(__dirname, '../../dist'),
       },
     },
   },

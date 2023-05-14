@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import sdk, { EmbedOptions, Project } from '@stackblitz/sdk'
+import sdk, { EmbedOptions } from '@stackblitz/sdk'
 import { ref, watch } from 'vue'
 
 const props = withDefaults(
