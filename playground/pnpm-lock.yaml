@@ -3,10 +3,10 @@ lockfileVersion: '6.0'
 dependencies:
   '@tresjs/cientos':
     specifier: 2.0.0-beta.6
-    version: 2.0.0-beta.6(@tresjs/core@2.0.0-beta.13)(three@0.151.3)(vue@3.2.47)
+    version: 2.0.0-beta.6(@tresjs/core@2.0.0-beta.13)(three@0.152.2)(vue@3.2.47)
   postprocessing:
     specifier: ^6.30.2
-    version: 6.30.2(three@0.151.3)
+    version: 6.30.2(three@0.152.2)
   vue:
     specifier: ^3.2.47
     version: 3.2.47
@@ -17,10 +17,10 @@ dependencies:
 devDependencies:
   '@tresjs/core':
     specifier: 2.0.0-beta.13
-    version: 2.0.0-beta.13(three@0.151.3)(vue@3.2.47)
+    version: 2.0.0-beta.13(three@0.152.2)(vue@3.2.47)
   '@types/three':
-    specifier: ^0.150.1
-    version: 0.150.1
+    specifier: ^0.152.0
+    version: 0.152.0
   '@vitejs/plugin-vue':
     specifier: ^4.1.0
     version: 4.1.0(vite@4.2.1)(vue@3.2.47)
@@ -28,14 +28,14 @@ devDependencies:
     specifier: ^1.1.0
     version: 1.1.0
   three:
-    specifier: ^0.151.3
-    version: 0.151.3
+    specifier: ^0.152.0
+    version: 0.152.2
   typescript:
     specifier: ^5.0.4
     version: 5.0.4
   unocss:
     specifier: ^0.51.4
-    version: 0.51.4(postcss@8.4.22)(vite@4.2.1)
+    version: 0.51.4(vite@4.2.1)
   unplugin-auto-import:
     specifier: ^0.15.3
     version: 0.15.3
@@ -418,23 +418,23 @@ packages:
       picomatch: 2.3.1
     dev: true
 
-  /@tresjs/cientos@2.0.0-beta.6(@tresjs/core@2.0.0-beta.13)(three@0.151.3)(vue@3.2.47):
+  /@tresjs/cientos@2.0.0-beta.6(@tresjs/core@2.0.0-beta.13)(three@0.152.2)(vue@3.2.47):
     resolution: {integrity: sha512-FPX3Y6ZJDTKxn2XRMbjKz8zflkpqncp5VZDAWwr9886cauagRwOfaZZf2KAcbXH82zAMBWLvKuSrCmRfiEHZAQ==}
     peerDependencies:
       '@tresjs/core': 2.0.0-beta.11
       three: latest
       vue: ^3.2.47
     dependencies:
-      '@tresjs/core': 2.0.0-beta.13(three@0.151.3)(vue@3.2.47)
+      '@tresjs/core': 2.0.0-beta.13(three@0.152.2)(vue@3.2.47)
       '@vueuse/core': 10.0.2(vue@3.2.47)
-      three: 0.151.3
-      three-stdlib: 2.21.8(three@0.151.3)
+      three: 0.152.2
+      three-stdlib: 2.21.8(three@0.152.2)
       vue: 3.2.47
     transitivePeerDependencies:
       - '@vue/composition-api'
     dev: false
 
-  /@tresjs/core@2.0.0-beta.13(three@0.151.3)(vue@3.2.47):
+  /@tresjs/core@2.0.0-beta.13(three@0.152.2)(vue@3.2.47):
     resolution: {integrity: sha512-QJ2XSwP/aExXie6LwIm/IbfH/wmRv7sknoJj1K9J03TCjmu7J4w5ug3w79S/LH6YXs7w5Zezsc74QHN/fire4A==}
     peerDependencies:
       three: latest
@@ -442,10 +442,14 @@ packages:
     dependencies:
       '@alvarosabu/utils': 2.3.0
       '@vueuse/core': 9.13.0(vue@3.2.47)
-      three: 0.151.3
+      three: 0.152.2
       vue: 3.2.47
     transitivePeerDependencies:
       - '@vue/composition-api'
+
+  /@tweenjs/tween.js@18.6.4:
+    resolution: {integrity: sha512-lB9lMjuqjtuJrx7/kOkqQBtllspPIN+96OvTCeJ2j5FEzinoAXTdAMFnDAQT1KVPRlnYfBrqxtqP66vDM40xxQ==}
+    dev: true
 
   /@types/estree@1.0.0:
     resolution: {integrity: sha512-WulqXMDUTYAXCjZnk6JtIHPigp55cVtDgDrO2gHRwhyJto21+1zbVCtOYB2L1F9w4qCQ0rOGWBnBe0FNTiEJIQ==}
@@ -459,9 +463,10 @@ packages:
     resolution: {integrity: sha512-9w+a7bR8PeB0dCT/HBULU2fMqf6BAzvKbxFboYhmDtDkKPiyXYbjoe2auwsXlEFI7CFNMF1dCv3dFH5Poy9R1w==}
     dev: true
 
-  /@types/three@0.150.1:
-    resolution: {integrity: sha512-ZXS1M3brsfAAbTeeUEt0defPi98yWQuEyPBnvjEYY1dCEYfJnFaww0mYgRpJ9JVfmtwRxqISpVcv/g/0lMl1DQ==}
+  /@types/three@0.152.0:
+    resolution: {integrity: sha512-9QdaV5bfZEqeQi0xkXLdnoJt7lgYZbppdBAgJSWRicdtZoCYJ34nS2QkdeuzXt+UXExofk4OWqMzdX71HeDOVg==}
     dependencies:
+      '@tweenjs/tween.js': 18.6.4
       '@types/stats.js': 0.17.0
       '@types/webxr': 0.5.1
       fflate: 0.6.10
@@ -533,11 +538,9 @@ packages:
       sirv: 2.0.2
     dev: true
 
-  /@unocss/postcss@0.51.4(postcss@8.4.22):
+  /@unocss/postcss@0.51.4:
     resolution: {integrity: sha512-Jkf7GD8svev854pHVuFx0AtZoh3LQKbFoU5DDT1Hb0Yr/l2sxUSxzx1Jb5vUun89tSlfzIZ2pKAd0BqwtqWlmw==}
     engines: {node: '>=14'}
-    peerDependencies:
-      postcss: ^8.4.21
     dependencies:
       '@unocss/config': 0.51.4
       '@unocss/core': 0.51.4
@@ -1371,13 +1374,13 @@ packages:
       picocolors: 1.0.0
       source-map-js: 1.0.2
 
-  /postprocessing@6.30.2(three@0.151.3):
+  /postprocessing@6.30.2(three@0.152.2):
     resolution: {integrity: sha512-Vt77s5DkHyUOV4bmk10J46DHJLglBfIo9ARPI0o62UIAx9omANfuPJTKiLVoYlC1ApkV9y3ldBDipF3IldB7YA==}
     engines: {node: '>= 0.13.2'}
     peerDependencies:
       three: '>= 0.138.0 < 0.152.0'
     dependencies:
-      three: 0.151.3
+      three: 0.152.2
     dev: false
 
   /potpack@1.0.2:
@@ -1492,7 +1495,7 @@ packages:
     engines: {node: '>= 0.4'}
     dev: true
 
-  /three-stdlib@2.21.8(three@0.151.3):
+  /three-stdlib@2.21.8(three@0.152.2):
     resolution: {integrity: sha512-kqisiKvO4mSy59v5vWqBQSH8famLxp7Z51LxpMJI9GwDxqODaW02rhIwmjYDEzZWNFpjZpoDHVGbdpeHf8h3SA==}
     peerDependencies:
       three: '>=0.122.0'
@@ -1507,12 +1510,12 @@ packages:
       mmd-parser: 1.0.4
       opentype.js: 1.3.4
       potpack: 1.0.2
-      three: 0.151.3
+      three: 0.152.2
       zstddec: 0.0.2
     dev: false
 
-  /three@0.151.3:
-    resolution: {integrity: sha512-+vbuqxFy8kzLeO5MgpBHUvP/EAiecaDwDuOPPDe6SbrZr96kccF0ktLngXc7xA7bzyd3N0t2f6mw3Z9y6JCojQ==}
+  /three@0.152.2:
+    resolution: {integrity: sha512-Ff9zIpSfkkqcBcpdiFo2f35vA9ZucO+N8TNacJOqaEE6DrB0eufItVMib8bK8Pcju/ZNT6a7blE1GhTpkdsILw==}
 
   /tiny-inflate@1.0.3:
     resolution: {integrity: sha512-pkY1fj1cKHb2seWDy0B16HeWyczlJA9/WW3u3c4z/NiWDsO3DOU5D7nhTLE9CF0yXv/QZFY7sEJmj24dK+Rrqw==}
@@ -1570,7 +1573,7 @@ packages:
       - rollup
     dev: true
 
-  /unocss@0.51.4(postcss@8.4.22)(vite@4.2.1):
+  /unocss@0.51.4(vite@4.2.1):
     resolution: {integrity: sha512-84kRoL29Rk0AKdeS2GGZ+YduW5F0S2on3cSxA2Hh1KlI4MN8Xvxa8+f4RfFS0U5iH4yoHohvcWThRgjDhOWSeg==}
     engines: {node: '>=14'}
     peerDependencies:
@@ -1583,7 +1586,7 @@ packages:
       '@unocss/cli': 0.51.4
       '@unocss/core': 0.51.4
       '@unocss/extractor-arbitrary-variants': 0.51.4
-      '@unocss/postcss': 0.51.4(postcss@8.4.22)
+      '@unocss/postcss': 0.51.4
       '@unocss/preset-attributify': 0.51.4
       '@unocss/preset-icons': 0.51.4
       '@unocss/preset-mini': 0.51.4
@@ -1600,7 +1603,6 @@ packages:
       '@unocss/transformer-variant-group': 0.51.4
       '@unocss/vite': 0.51.4(vite@4.2.1)
     transitivePeerDependencies:
-      - postcss
       - rollup
       - supports-color
       - vite
