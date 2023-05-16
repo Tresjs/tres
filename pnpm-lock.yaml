@@ -139,8 +139,8 @@ importers:
         version: 4.1.6(vue@3.3.2)
     devDependencies:
       unplugin-auto-import:
-        specifier: ^0.15.3
-        version: 0.15.3(@vueuse/core@10.1.2)
+        specifier: ^0.16.0
+        version: 0.16.0(@vueuse/core@10.1.2)
       vite-plugin-glsl:
         specifier: ^1.1.2
         version: 1.1.2(vite@4.3.4)
@@ -6564,8 +6564,8 @@ packages:
     engines: {node: '>= 0.8'}
     dev: true
 
-  /unplugin-auto-import@0.15.3(@vueuse/core@10.1.2):
-    resolution: {integrity: sha512-RLT8SqbPn4bT7yBshZId0uPSofKWnwr66RyDaxWaFb/+f7OTDOWAsVNz+hOQLBWSjvbekr2xZY9ccS8TDHJbCQ==}
+  /unplugin-auto-import@0.16.0(@vueuse/core@10.1.2):
+    resolution: {integrity: sha512-AbeGl3kzoGyqh2uWwwSVYCXy2ouvSbHfBc2u7xmNBpOosWa7SIAz+nQx3f1JpMXunEZ9TTChXkor4WcGrpkc7Q==}
     engines: {node: '>=14'}
     peerDependencies:
       '@nuxt/kit': ^3.2.2
