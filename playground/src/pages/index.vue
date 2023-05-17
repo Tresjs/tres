@@ -2,6 +2,6 @@
 </script>
 <template>
   <Suspense>
-    <RainDemo />
+    <PrecipitationDemo />
   </Suspense>
 </template>

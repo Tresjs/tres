@@ -1,18 +1,18 @@
-# Rain
+# Precipitation
 
-`<Rain />` is a fully flexible component that renders an infinite particle flow, It comes with several props that allow you customize it to create different effects like rain, snow, waterfall, beams, etc.
+`<Precipitation />` is a fully flexible component that renders an infinite particle flow, It comes with several props that allow you customize it to create different effects like precipitation, snow, waterfall, beams, etc.
 
-![Rain](/cientos/rain.gif)
+![Precipitation](/cientos/precipitation.gif)
 
 ## Usage
 
-You can use `<Rain />` component without passing any props.
+You can use `<Precipitation />` component without passing any props.
 
 ```vue
 <template>
   <TresCanvas>
     ...
-    <Rain />
+    <Precipitation />
     ...
   </TresCanvas>
 </template>
@@ -25,7 +25,7 @@ To create uniques effects play around with the different props available
   <TresCanvas>
     ...
     <Suspense>
-      <Rain :speed="1" :count="2500" map="my_texture_path" />
+      <Precipitation :speed="1" :count="2500" map="my_texture_path" />
     </Suspense>
     ...
   </TresCanvas>
@@ -41,7 +41,7 @@ Be careful with the performance this components render infinite particles in mov
 | Prop                | Description                                             | Default      |
 | :------------------ | :------------------------------------------------------ | ------------ |
 | **size**            | The size of the drops.                                  | 0.1          |
-| **area**            | The size of the rain area.                              | [10, 10, 20] |
+| **area**            | The size of the precipitation area.                              | [10, 10, 20] |
 | **color**           | The color of the drops.                                  | 0xffffff     |
 | **map**             | Color texture of the drops.                             | null         |
 | **alphaMap**        | Alpha texture of the Drops.                             | null         |

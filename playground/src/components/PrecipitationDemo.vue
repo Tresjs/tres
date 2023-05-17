@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { shallowRef, watch } from 'vue'
 import { TresCanvas } from '@tresjs/core'
-import { OrbitControls, Rain } from '@cientos'
+import { OrbitControls, Precipitation } from '@cientos'
 import { SRGBColorSpace, NoToneMapping } from 'three'
 
 const gl = {
@@ -10,18 +10,16 @@ const gl = {
   toneMapping: NoToneMapping,
 }
 
-const rain = shallowRef<Rain>(null)
+const precipitationRef = shallowRef<Precipitation>(null)
 
-watch(rain, value => {
+watch(precipitationRef, value => {
   console.log(value)
 })
 </script>
 <template>
   <TresCanvas v-bind="gl" ref="canvas">
     <TresPerspectiveCamera :position="[0, 2, 15]" />
-    <Suspense>
-        <Rain ref="rain" :speed="0" :count="1000" :randomness="0" />
-    </Suspense>
+        <Precipitation ref="precipitationRef" :speed="1" :count="1000" :area="[25, 25, 25]" :randomness="0" />
     <TresGridHelper :args="[10, 10]" />
     <OrbitControls />
   </TresCanvas>

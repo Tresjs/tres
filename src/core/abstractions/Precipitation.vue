@@ -2,20 +2,20 @@
 import { watch, shallowRef } from 'vue'
 import { useRenderLoop, TresColor } from '@tresjs/core'
 
-export interface RainProps {
+export interface PrecipitationProps {
   /**
    * The size of the drops.
    *
    * @type {number}
-   * @memberof RainProps
+   * @memberof PrecipitationProps
    * @default 0.1
    */
   size?: number
   /**
-   * The size of the rain area.
+   * The size of the precipitation area.
    *
    * @type {[number, number, number]}
-   * @memberof RainProps
+   * @memberof PrecipitationProps
    * @default "[10, 10, 20]"
    */
   area?: [number, number, number]
@@ -24,7 +24,7 @@ export interface RainProps {
    *
    * @default '0xffffff'
    * @type {TresColor}
-   * @memberof RainProps
+   * @memberof PrecipitationProps
    *
    */
    color?: TresColor
@@ -112,7 +112,7 @@ export interface RainProps {
    sizeAttenuation?: boolean
 }
 
-const props = withDefaults(defineProps<RainProps>(), {
+const props = withDefaults(defineProps<PrecipitationProps>(), {
   size: 0.1,
   area: () => [10, 10, 20],
   color: 0xffffff,
@@ -128,9 +128,9 @@ const props = withDefaults(defineProps<RainProps>(), {
   sizeAttenuation: true,
 })
 
-const RainGeoRef = shallowRef()
+const PrecipitationGeoRef = shallowRef()
 
-const rainOptions = {
+const precipitationOptions = {
   size: props.size,
   color: props.color,
   alphaMap: props.alphaMap,
@@ -157,15 +157,15 @@ for (let i = 0; i < props.count * 2; i += 2) {
   velocityArray[i + 1] = (Math.random() / 5) * props.speed + 0.01
 }
 
-watch(RainGeoRef, value => {
+watch(PrecipitationGeoRef, value => {
   console.log(value)
 })
 const { onLoop } = useRenderLoop()
 
 onLoop(() => {
-  if (RainGeoRef.value) {
-    const positionArray = RainGeoRef.value.attributes.position.array
-    for (let i = 0; i < RainGeoRef.value.attributes.position.count; i++) {
+  if (PrecipitationGeoRef.value) {
+    const positionArray = PrecipitationGeoRef.value.attributes.position.array
+    for (let i = 0; i < PrecipitationGeoRef.value.attributes.position.count; i++) {
       const velocityX = velocityArray[i * 2]
       const velocityY = velocityArray[i * 2 + 1]
 
@@ -177,14 +177,14 @@ onLoop(() => {
       if (positionArray[i * 3 + 1] <= -(props.area[1]) || positionArray[i * 3 + 1] >= props.area[1])
         positionArray[i * 3 + 1] = positionArray[i * 3 + 1] * -1
     }
-    RainGeoRef.value.attributes.position.needsUpdate = true
+    PrecipitationGeoRef.value.attributes.position.needsUpdate = true
   }
 })
 </script>
 
 <template>
       <TresPoints>
-        <TresPointsMaterial v-bind="rainOptions" />
-        <TresBufferGeometry ref="RainGeoRef" :position="[position, 3]" :velocity="[velocityArray]"  />
+        <TresPointsMaterial v-bind="precipitationOptions" />
+        <TresBufferGeometry ref="PrecipitationGeoRef" :position="[position, 3]" :velocity="[velocityArray]"  />
       </TresPoints>
 </template>
