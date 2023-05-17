@@ -1,4 +1,4 @@
-# Cientos <Badge text="next" type="warning" />
+# Cientos
 
 ![Cientos banner](/cientos-banner.png)
 
@@ -17,16 +17,16 @@ This package is not required to use the core library, but they can make your DX 
 ::: code-group
 
 ```bash [pnpm]
-pnpm add @tresjs/cientos@next
+pnpm add @tresjs/cientos
 ```
 
 ```bash [npm]
-npm install @tresjs/cientos@next
+npm install @tresjs/cientos
 
 ```
 
 ```bash [yarn]
-yarn add @tresjs/cientos@next
+yarn add @tresjs/cientos
 ```
 
 :::
@@ -42,7 +42,7 @@ Now you can use the `OrbitControls` component in your scene.
 ```html
 <template>
   <TresCanvas shadows alpha>
-    <TresPerspectiveCamera :args="[45," 1, 0.1, 1000] />
+    <TresPerspectiveCamera :args="[45, 1, 0.1, 1000] />
     <OrbitControls />
   </TresCanvas>
 </template>
