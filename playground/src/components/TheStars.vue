@@ -2,12 +2,12 @@
 import { shallowRef, watch } from 'vue'
 import { TresCanvas } from '@tresjs/core'
 import { OrbitControls, Stars } from '@cientos'
-import { sRGBEncoding, NoToneMapping } from 'three'
+import { SRGBColorSpace, NoToneMapping } from 'three'
 
 const gl = {
   clearColor: '#333',
   alpha: true,
-  outputEncoding: sRGBEncoding,
+  outputColorSpace: SRGBColorSpace,
   toneMapping: NoToneMapping,
 }
 

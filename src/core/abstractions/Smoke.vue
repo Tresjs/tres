@@ -63,7 +63,7 @@ export interface SmokeProps extends TresObject {
   texture?: string
   /**
    * The depthTest.
-   * @default 10
+   * @default true
    * @type {boolean}
    * @memberof SmokeProps
    * @see https://threejs.org/docs/#api/en/materials/MeshStandardMaterial

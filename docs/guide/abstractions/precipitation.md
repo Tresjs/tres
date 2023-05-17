@@ -24,9 +24,7 @@ To create uniques effects play around with the different props available
 <template>
   <TresCanvas>
     ...
-    <Suspense>
-      <Precipitation :speed="1" :count="2500" map="my_texture_path" />
-    </Suspense>
+      <Precipitation :speed="1" :count="2500" :map="myTexture" />
     ...
   </TresCanvas>
 </template>
