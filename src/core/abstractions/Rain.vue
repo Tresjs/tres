@@ -22,14 +22,14 @@ export interface RainProps {
   /**
    * The color of the shadows.
    *
-   * @default '#000000'
+   * @default '0xffffff'
    * @type {TresColor}
-   * @memberof ContactShadowsProps
+   * @memberof RainProps
    *
    */
    color?: TresColor
   /**
-   * texture of the stars.
+   * Color texture of the drops.
    *
    * @type {string}
    * @memberof StarsProps
@@ -37,7 +37,7 @@ export interface RainProps {
    */
    map?: null
   /**
-   * texture of the alphamap stars.
+   * texture of the alphaMap Drops.
    *
    * @type {string}
    * @memberof StarsProps
@@ -69,7 +69,7 @@ export interface RainProps {
    */
    count?: 5000
      /**
-   * number of drops.
+   * Speed of drops.
    *
    * @type {number}
    * @memberof StarsProps
@@ -77,14 +77,14 @@ export interface RainProps {
    */
    speed?: 0.1
   /**
-   * Add ramdomness to the drops.
+   * Add randomness to the drops.
    *
    * @default 0.5
    * @type {number}
    * @memberof ContactShadowsProps
    *
    */
-   ramdomness?: number
+   randomness?: number
   /**
    * Whether the shadows should write to the depth buffer or not.
    *
@@ -95,7 +95,7 @@ export interface RainProps {
    */
   depthWrite?: boolean
      /**
-   * show transparency on the stars texture.
+   * show transparency on the drops texture.
    *
    * @type {boolean}
    * @memberof StarsProps
@@ -116,14 +116,14 @@ const props = withDefaults(defineProps<RainProps>(), {
   size: 0.1,
   area: () => [10, 10, 20],
   color: 0xffffff,
-  alphaMap: null,
   map: null,
+  alphaMap: null,
   alphaTest: 0.01,
   opacity: 0.8,
   count: 5000,
   speed: 0.1,
+  randomness: 0.5,
   deepWrite: false,
-  ramdomness: 0.5,
   transparent: true,
   sizeAttenuation: true,
 })
@@ -153,7 +153,7 @@ for (let i = 0; i < props.count; i++) {
 
 const velocityArray = new Float32Array(props.count * 2)
 for (let i = 0; i < props.count * 2; i += 2) {
-  velocityArray[i] = ((Math.random() - 0.5) / 5) * props.speed * props.ramdomness
+  velocityArray[i] = ((Math.random() - 0.5) / 5) * props.speed * props.randomness
   velocityArray[i + 1] = (Math.random() / 5) * props.speed + 0.01
 }
 

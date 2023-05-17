@@ -20,7 +20,7 @@ watch(rain, value => {
   <TresCanvas v-bind="gl" ref="canvas">
     <TresPerspectiveCamera :position="[0, 2, 15]" />
     <Suspense>
-        <Rain ref="rain" :count="500" :speed="3" :ramdomness="1" :area="[20,20,20]" />
+        <Rain ref="rain" :speed="0" :count="1000" :randomness="0" />
     </Suspense>
     <TresGridHelper :args="[10, 10]" />
     <OrbitControls />
