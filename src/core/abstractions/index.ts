@@ -5,7 +5,8 @@ import { MouseParallax } from './useParallax/component'
 import Stars from './Stars.vue'
 import Smoke from './Smoke.vue'
 import Levioso from './Levioso.vue'
+import ContactShadows from './ContactShadows.vue'
 
 export * from './useParallax'
 export * from './useEnvironment'
-export { Text3D, useAnimations, Environment, MouseParallax, Stars, Smoke, Levioso }
+export { Text3D, useAnimations, Environment, MouseParallax, Stars, Smoke, Levioso, ContactShadows }
