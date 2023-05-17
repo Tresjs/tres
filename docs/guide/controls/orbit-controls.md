@@ -54,7 +54,7 @@ Is really important that the Perspective camera is set first in the canvas. Othe
 | **enableRotate**    | Whether to enable rotating.                                                                                                                                                      | `true`                                                                           |
 | **rotateSpeed**     | How fast to rotate around the target. Default is 1.                                                                                                                              | `1`                                                                              |
 
-# Events
+## Events
 
 ```html
 <OrbitControls @change="onChange" @start="onStart" @end="onEnd" />
