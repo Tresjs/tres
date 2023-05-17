@@ -32,6 +32,7 @@ export default defineConfig({
           { text: 'Stars', link: '/guide/abstractions/stars' },
           { text: 'Smoke', link: '/guide/abstractions/smoke' },
           { text: 'Levioso (Float)', link: '/guide/abstractions/levioso' },
+          { text: 'Contact Shadows', link: '/guide/abstractions/contact-shadows' },
         ],
       },
       {
