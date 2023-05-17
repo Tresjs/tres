@@ -53,3 +53,15 @@ Is really important that the Perspective camera is set first in the canvas. Othe
 | **zoomSpeed**       | How fast to zoom in and out. Default is 1.                                                                                                                                       | `1`                                                                              |
 | **enableRotate**    | Whether to enable rotating.                                                                                                                                                      | `true`                                                                           |
 | **rotateSpeed**     | How fast to rotate around the target. Default is 1.                                                                                                                              | `1`                                                                              |
+
+# Events
+
+```html
+<OrbitControls @change="onChange" @start="onStart" @end="onEnd" />
+```
+
+| Event      | Description                                   |
+| :--------- | :-------------------------------------------- |
+| **start**  | Dispatched when the control starts to change. |
+| **change** | Dispatched when the control changes.          |
+| **end**    | Dispatched when the control ends to change.   |

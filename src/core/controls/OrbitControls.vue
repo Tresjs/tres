@@ -6,6 +6,9 @@ import { ref, watch, type Ref } from 'vue'
 import { useCientos } from '/@/core/useCientos'
 
 import { useRenderLoop } from '@tresjs/core'
+import { useEventListener } from '@vueuse/core'
+import { onMounted } from 'vue'
+import { onUnmounted } from 'vue'
 
 export interface OrbitControlsProps {
   /**
@@ -259,6 +262,7 @@ const controls = ref(null)
 extend({ OrbitControls })
 
 watch(controls, value => {
+  addEventListeners()
   if (value && props.makeDefault) {
     setState('controls', value)
   } else {
@@ -266,23 +270,13 @@ watch(controls, value => {
   }
 })
 
-/* watch(() => mutableProps.map((propName:string) => props[propName]), value => {
-  console.log('props', value)
-}) */
-/* const mutatedProps = computed(() => {
-  const { _target, _makeDefault, _camera, _domElement, autoRotate, ...rest } = toRefs(props)
-  return {
-    autoRotate,
-  }
-})
+const emit = defineEmits(['change', 'start', 'end'])
 
-watch(
-  mutatedProps,
-  value => {
-    console.log('mutatedProps', value)
-  },
-  { immediate: true },
-) */
+function addEventListeners() {
+  useEventListener(controls.value, 'change', () => emit('change'))
+  useEventListener(controls.value, 'start', () => emit('start'))
+  useEventListener(controls.value, 'end', () => emit('end'))
+}
 
 const { onLoop } = useRenderLoop()
 
@@ -292,26 +286,11 @@ onLoop(() => {
   }
 })
 
-/*
-    :auto-rotate-speed="autoRotateSpeed"
-    :enable-pan="enablePan"
-    :key-pan-speed="keyPanSpeed"
-    :keys="keys"
-    :max-azimuth-angle="maxAzimuthAngle"
-    :min-azimuth-angle="minAzimuthAngle"
-    :max-polar-angle="maxPolarAngle"
-    :min-polar-angle="minPolarAngle"
-    :min-distance="minDistance"
-    :max-distance="maxDistance"
-    :min-zoom="minZoom"
-    :max-zoom="maxZoom"
-    :touches="touches"
-    :enable-zoom="enableZoom"
-    :zoom-speed="zoomSpeed"
-    :enable-rotate="enableRotate"
-    :rotate-speed="rotateSpeed"
-   
-*/
+onUnmounted(() => {
+  if (controls.value) {
+    controls.value.dispose()
+  }
+})
 </script>
 
 <template>

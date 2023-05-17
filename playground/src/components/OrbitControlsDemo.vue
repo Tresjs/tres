@@ -112,12 +112,24 @@ zoomFolder.addInput(controlsState, 'zoomSpeed', {
   min: 0,
   max: 100,
 })
+
+function onChange() {
+  console.log('change')
+}
+
+function onStart() {
+  console.log('start')
+}
+
+function onEnd() {
+  console.log('end')
+}
 </script>
 
 <template>
   <TresCanvas v-bind="gl">
     <TresPerspectiveCamera :position="[3, 3, 3]" />
-    <OrbitControls v-bind="controlsState" />
+    <OrbitControls v-bind="controlsState" @change="onChange" @start="onStart" @end="onEnd" />
     <TresGridHelper />
     <TresAmbientLight :intensity="1" />
   </TresCanvas>
