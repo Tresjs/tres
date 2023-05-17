@@ -99,7 +99,7 @@ importers:
   playground:
     dependencies:
       '@tresjs/cientos':
-        specifier: workspace:^2.0.0-rc.3
+        specifier: workspace:^2.0.0
         version: link:..
       vue-router:
         specifier: ^4.1.6

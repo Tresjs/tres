@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import ModelsDemo from '../components/ModelsDemo.vue'
+import OrbitControlsDemo from '../components/OrbitControlsDemo.vue'
 </script>
 <template>
   <Suspense>
-    <ModelsDemo />
+    <OrbitControlsDemo />
   </Suspense>
 </template>

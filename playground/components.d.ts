@@ -13,6 +13,7 @@ declare module '@vue/runtime-core' {
     LeviosoDemo: typeof import('./src/components/LeviosoDemo.vue')['default']
     MapControlsDemo: typeof import('./src/components/MapControlsDemo.vue')['default']
     ModelsDemo: typeof import('./src/components/ModelsDemo.vue')['default']
+    OrbitControlsDemo: typeof import('./src/components/OrbitControlsDemo.vue')['default']
     PointerLockControlsDemo: typeof import('./src/components/PointerLockControlsDemo.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
