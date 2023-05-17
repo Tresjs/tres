@@ -172,9 +172,9 @@ onLoop(() => {
       positionArray[i * 3] += velocityX
       positionArray[i * 3 + 1] -= velocityY
 
-      if (positionArray[i * 3] <= -(props.area[0]) || positionArray[i * 3] >= props.area[0])
+      if (positionArray[i * 3] <= -(props.area[0]) / 2 || positionArray[i * 3] >= props.area[0] / 2)
         positionArray[i * 3] = positionArray[i * 3] * -1
-      if (positionArray[i * 3 + 1] <= -(props.area[1]) || positionArray[i * 3 + 1] >= props.area[1])
+      if (positionArray[i * 3 + 1] <= -(props.area[1]) / 2 || positionArray[i * 3 + 1] >= props.area[1] / 2)
         positionArray[i * 3 + 1] = positionArray[i * 3 + 1] * -1
     }
     PrecipitationGeoRef.value.attributes.position.needsUpdate = true
