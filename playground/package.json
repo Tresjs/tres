@@ -10,11 +10,11 @@
   },
   "dependencies": {
     "@tresjs/core": "workspace:^2.0.0-rc.2",
-    "vue-router": "^4.1.6"
+    "vue-router": "^4.2.0"
   },
   "devDependencies": {
     "@tresjs/core": "workspace:^2.0.0-rc.2",
-    "unplugin-auto-import": "^0.15.3",
+    "unplugin-auto-import": "^0.16.0",
     "vite-plugin-glsl": "^1.1.2"
   }
 }
