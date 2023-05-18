@@ -1,15 +1,16 @@
 import { TresScene } from './TresScene'
 import { defineComponent, h } from 'vue'
-import { ShadowMapType, TextureEncoding, ToneMapping } from 'three'
+import { ColorSpace, ShadowMapType, ToneMapping } from 'three'
 import { CameraType, useTresProvider } from '/@/composables'
 import { RendererPresetsType } from '/@/composables/useRenderer/const'
+import { Component } from 'vue'
 
 export interface TresCanvasProps {
   shadows?: boolean
   shadowMapType?: ShadowMapType
   physicallyCorrectLights?: boolean
   useLegacyLights?: boolean
-  outputColorSpace?: TextureEncoding
+  outputColorSpace?: ColorSpace
   toneMapping?: ToneMapping
   toneMappingExposure?: number
   context?: WebGLRenderingContext
@@ -49,7 +50,7 @@ export const TresCanvas = defineComponent<TresCanvasProps>({
 
     expose(tres)
 
-    return () => h(TresScene, props, slots)
+    return () => h(TresScene as Component, props, slots)
   },
 })
 
