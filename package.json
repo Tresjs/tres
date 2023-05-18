@@ -5,29 +5,72 @@
   "type": "module",
   "packageManager": "pnpm@8.3.1",
   "author": "Alvaro Saburido <hola@alvarosaburido.dev> (https://github.com/alvarosabu/)",
-  "files": [
-    "dist",
-    "*.d.ts"
-  ],
   "license": "MIT",
-  "main": "./dist/tres.umd.cjs",
-  "module": "./dist/tres.js",
-  "types": "./dist/index.d.ts",
+  "sideEffects": false,
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/tres.js",
-      "require": "./dist/tres.umd.cjs"
+      "require": {
+        "types": "./index.d.cts",
+        "default": "./index.cjs"
+      },
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      }
     },
+    "./*": "./*",
     "./components": {
-      "types": "./dist/types/tres-components.d.ts"
+      "require": {
+        "types": "./components.d.cts",
+        "default": "./components.cjs"
+      },
+      "import": {
+        "types": "./dist/components/index.d.ts",
+        "default": "./dist/components/index.js"
+      }
     },
-    "./*": {
-      "types": "./dist/types/*",
-      "import": "./dist/tres.js",
-      "require": "./dist/tres.umd.cjs"
+    "./composables": {
+      "require": {
+        "types": "./composables.d.cts",
+        "default": "./composables.cjs"
+      },
+      "import": {
+        "types": "./dist/composables/index.d.ts",
+        "default": "./dist/composables/index.js"
+      }
+    },
+    "./types": {
+      "require": {
+        "types": "./types.d.cts"
+      },
+      "import": {
+        "types": "./dist/types/index.d.ts"
+      }
+    },
+    "./utils": {
+      "require": {
+        "types": "./utils.d.cts",
+        "default": "./utils.cjs"
+      },
+      "import": {
+        "types": "./dist/utils/index.d.ts",
+        "default": "./dist/utils/index.js"
+      }
     }
   },
+  "main": "./dist/tres.js",
+  "module": "./dist/tres.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "*.d.ts",
+    "*.d.cts",
+    "components.cjs",
+    "composables.cjs",
+    "index.cjs",
+    "index.d.cts",
+    "utils.cjs"
+  ],
   "publishConfig": {
     "access": "public"
   },
