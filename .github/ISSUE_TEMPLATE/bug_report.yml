@@ -1,4 +1,4 @@
-name: "\U0001F41B Bug report"
+name: "Bug report \U0001F41B"
 description: Report an issue with TresJS ▲ ■ ● or any of it's packages
 labels: [pending triage]
 body:
