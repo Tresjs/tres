@@ -14,18 +14,18 @@
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "import": "./dist/tres.js",
       "require": "./dist/tres.umd.cjs"
-    },
-    "./types": {
-      "require": "./dist/index.d.ts",
-      "import": "./dist/index.d.ts"
     },
     "./components": {
       "types": "./dist/types/tres-components.d.ts"
     },
-    "./styles": "./dist/style.css",
-    "./*": "./dist/tres.js"
+    "./*": {
+      "types": "./dist/types/*",
+      "import": "./dist/tres.js",
+      "require": "./dist/tres.umd.cjs"
+    }
   },
   "publishConfig": {
     "access": "public"
