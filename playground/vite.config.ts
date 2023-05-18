@@ -36,5 +36,6 @@ export default defineConfig({
       '@tresjs/core': resolve(__dirname, '../src/index.ts'),
       '/@': resolve(__dirname, '../src'),
     },
+    dedupe: ['three'],
   },
 })
