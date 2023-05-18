@@ -36,7 +36,7 @@ body:
     attributes:
       label: Validations
       description: Before submitting the issue, please make sure you do the following
-     options:
+      options:
         - label: I agree to follow this project's [Code of Conduct](https://github.com/Tresjs/tres/blob/main/CODE_OF_CONDUCT.md)
           required: true
         - label: Read the [Contributing Guidelines](https://github.com/Tresjs/tres/blob/main/CONTRIBUTING.md).
