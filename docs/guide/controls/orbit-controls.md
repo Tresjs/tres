@@ -13,7 +13,7 @@ It just works. 💯
 ```vue{3}
 <template>
   <TresCanvas shadows alpha>
-    <TresPerspectiveCamera :args="[45," 1, 0.1, 1000] />
+    <TresPerspectiveCamera :args="[45, 1, 0.1, 1000] />
     <OrbitControls />
 
   </TresCanvas>
@@ -33,7 +33,6 @@ Is really important that the Perspective camera is set first in the canvas. Othe
 | **domElement**      | The dom element to listen to.                                                                                                                                                    | `undefined`                                                                      |
 | **target**          | The target to orbit around.                                                                                                                                                      | `undefined`                                                                      |
 | **enableDamping**   | If `true`, the controls will use damping (inertia), which can be used to give a sense of weight to the controls.                                                                 | `false`                                                                          |
-| **enableDamping**   | Whether to enable damping (inertia).                                                                                                                                             | `false`                                                                          |
 | **dampingFactor**   | The damping inertia used if `.enableDamping` is set to true.                                                                                                                     | `0.05`                                                                           |
 | **autoRotate**      | Set to true to automatically rotate around the target.                                                                                                                           | `false`                                                                          |
 | **autoRotateSpeed** | How fast to rotate around the target if `.autoRotate` is true.                                                                                                                   | `2`                                                                              |
@@ -48,7 +47,8 @@ Is really important that the Perspective camera is set first in the canvas. Othe
 | **maxDistance**     | The maximum distance of the camera to the target. Default is Infinity.                                                                                                           | `Infinity`                                                                       |
 | **minZoom**         | The minimum field of view angle, in radians. Default is 0.                                                                                                                       | `0`                                                                              |
 | **maxZoom**         | The maximum field of view angle, in radians. ( OrthographicCamera only ). Default is Infinity.                                                                                   | `Infinity`                                                                       |
-| **touches**         | -                                                                                                                                                                                | -                                                                                |
+| **touches**         | This object contains references to the touch actions used by the controls.                                                                                                       | `{ ONE: TOUCH.ROTATE, TWO: TOUCH.DOLLY_PAN }`                                    |
+| -                   | -                                                                                                                                                                                |
 | **enableZoom**      | Whether to enable zooming.                                                                                                                                                       | `true`                                                                           |
 | **zoomSpeed**       | How fast to zoom in and out. Default is 1.                                                                                                                                       | `1`                                                                              |
 | **enableRotate**    | Whether to enable rotating.                                                                                                                                                      | `true`                                                                           |
