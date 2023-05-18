@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, watchEffect } from 'vue'
 import { BasicShadowMap, SRGBColorSpace, NoToneMapping } from 'three'
-import { TresCanvas } from '/@/'
+import { TresCanvas } from '@tresjs/core'
 import TheSphere from './TheSphere.vue'
 import { OrbitControls } from '@tresjs/cientos'
 

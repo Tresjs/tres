@@ -16,7 +16,7 @@ For a detailed explanation of how to use `useLoader`, check out the [useLoader](
 
 ```ts
 import { useLoader } from '@tresjs/core'
-import { TextureLoader } from 'three/addons/loaders/TextureLoader'
+import { TextureLoader } from 'three'
 
 const texture = useLoader(TextureLoader, '/Rock035_2K_Color.jpg')
 ```

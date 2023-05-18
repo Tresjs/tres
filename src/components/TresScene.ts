@@ -9,6 +9,7 @@ import { RendererPresetsType } from '/@/composables/useRenderer/const'
 import { TresEvent, TresObject } from '../types'
 import { useEventListener } from '@vueuse/core'
 import { isString } from '@alvarosabu/utils'
+import { VNode } from 'vue'
 
 export interface TresSceneProps {
   shadows?: boolean
@@ -72,7 +73,7 @@ export const TresScene = defineComponent<TresSceneProps>({
 
     if (internal && internal?.length > 0) {
       isCameraAvailable.value =
-        internal.some((node: TresObject) => isString(node.type) && node.type.includes('Camera')) || props.camera
+        internal.some((node: VNode) => isString(node.type) && node.type.includes('Camera')) || props.camera
       if (!isCameraAvailable.value) {
         logWarning('No camera found in the scene, please add one!')
       }

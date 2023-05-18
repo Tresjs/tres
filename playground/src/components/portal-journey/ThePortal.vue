@@ -74,7 +74,7 @@ const portalCircle = portalObj.children.find(child => child.name === 'portalCirc
 
 const { onLoop } = useRenderLoop()
 
-onLoop(({ _delta, elapsed }) => {
+onLoop(({ elapsed }) => {
   portalLightMaterial.uniforms.uTime.value = elapsed
 })
 </script>
