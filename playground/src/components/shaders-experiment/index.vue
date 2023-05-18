@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { BasicShadowMap, SRGBColorSpace, NoToneMapping, Vector2 } from 'three'
-import { TresCanvas, TresInstance, useRenderLoop } from '/@/'
+import { TresCanvas, TresInstance, useRenderLoop } from '@tresjs/core'
 import { OrbitControls } from '@tresjs/cientos'
 import vertexShader from './shaders/vertex.glsl'
 import fragmentShader from './shaders/fragment.glsl'

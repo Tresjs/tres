@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useTres } from '/@/'
+import { useTres } from '@tresjs/core'
 
 const styles = {
   width: '100%',

@@ -1,4 +1,4 @@
-import { useTres } from '/@/composables'
+import { useTres } from '../useTres'
 import { Raycaster, Vector2 } from 'three'
 import { onUnmounted, Ref, ref, ShallowRef, shallowRef } from 'vue'
 

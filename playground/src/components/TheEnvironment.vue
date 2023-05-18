@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, shallowRef, watch } from 'vue'
 import { Environment, Box, PamCameraMouse } from '@tresjs/cientos'
-import { TresCanvas } from '../core/useRenderer/component'
+import { TresCanvas } from '@tresjs/core'
 /* import { OrbitControls, GLTFModel } from '@tresjs/cientos' */
 
 const sphereRef = ref()

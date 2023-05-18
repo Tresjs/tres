@@ -5,9 +5,6 @@
     "module": "ESNext",
     "moduleResolution": "Node",
     "allowSyntheticDefaultImports": true,
-    "paths": {
-      "/@/*": ["src/*"]
-    },
     "types": ["vitest/globals"]
   },
   "include": ["../../vite.config.ts", "src/**/*.test.ts"]

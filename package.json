@@ -10,22 +10,19 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
+      "import": "./dist/tres.js"
     },
     "./components": {
-      "types": "./dist/components/index.d.ts",
-      "import": "./dist/components/index.js"
+      "types": "./dist/components/index.d.ts"
     },
     "./composables": {
-      "types": "./dist/composables/index.d.ts",
-      "import": "./dist/composables/index.js"
+      "types": "./dist/composables/index.d.ts"
     },
     "./types": {
       "types": "./dist/types/index.d.ts"
     },
     "./utils": {
-      "types": "./dist/utils/index.d.ts",
-      "import": "./dist/utils/index.js"
+      "types": "./dist/utils/index.d.ts"
     },
     "./*": "./*"
   },

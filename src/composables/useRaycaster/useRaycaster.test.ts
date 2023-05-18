@@ -1,6 +1,6 @@
 import { Raycaster, Vector2 } from 'three'
 /* import { useRaycaster } from '.' */
-import { withSetup } from '/@/utils/test-utils'
+import { withSetup } from '../../utils/test-utils'
 
 /* const [composable, app] = withSetup(() => useRaycaster()) */
 

@@ -1,4 +1,4 @@
-import { useTres } from '/@/composables/'
+import { useTres } from '../useTres'
 import { PerspectiveCamera, OrthographicCamera } from 'three'
 
 import { toRef, Ref, watchEffect } from 'vue'

@@ -8,11 +8,10 @@ import banner from 'vite-plugin-banner'
 import Inspect from 'vite-plugin-inspect'
 import dts from 'vite-plugin-dts'
 
-
 import copy from 'rollup-plugin-copy'
 
 /* import analyze from 'rollup-plugin-analyzer'
- *//* import { visualizer } from 'rollup-plugin-visualizer' */
+ */ /* import { visualizer } from 'rollup-plugin-visualizer' */
 import { resolve, join } from 'pathe'
 
 import { lightGreen, yellow, gray, bold } from 'kolorist'
@@ -28,9 +27,6 @@ export default defineConfig({
     port: 5174,
   },
   resolve: {
-    alias: {
-      '/@': resolve(__dirname, './src'),
-    },
     dedupe: ['@tresjs/cientos'],
   },
   plugins: [
@@ -66,9 +62,6 @@ export default defineConfig({
     environment: 'jsdom',
     globals: true,
     threads: false,
-    alias: {
-      '/@': resolve(__dirname, './src'),
-    },
   },
   build: {
     lib: {

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useTres } from '/@/'
+import { useTres } from '@tresjs/core'
 import { watchEffect } from 'vue'
 
 const { state } = useTres()

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { TresCanvas } from '/@/tres'
+import { TresCanvas } from '@tresjs/core'
 import { BasicShadowMap, SRGBColorSpace, NoToneMapping } from 'three'
 
 import { OrbitControls } from '@tresjs/cientos'

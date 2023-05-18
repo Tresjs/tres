@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { TresCanvas } from '/@/'
-import { useRenderLoop } from '/@/composables/useRenderLoop'
+import { TresCanvas, useRenderLoop } from '@tresjs/core'
 import { ref } from 'vue'
 import { OrbitControls } from '@tresjs/cientos/'
 

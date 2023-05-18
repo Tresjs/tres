@@ -1,11 +1,19 @@
 import { App, defineComponent, h, onMounted, onUnmounted, ref, watch, watchEffect } from 'vue'
 import * as THREE from 'three'
 import { ColorSpace, ShadowMapType, ToneMapping } from 'three'
-import { createTres } from '/@/core/renderer'
-import { CameraType, TRES_CONTEXT_KEY, useLogger } from '/@/composables'
-import { useCamera, useRenderer, useRenderLoop, useRaycaster, useTres } from '/@/composables'
-import { extend } from '/@/core/catalogue'
-import { RendererPresetsType } from '/@/composables/useRenderer/const'
+import { createTres } from '../core/renderer'
+import {
+  CameraType,
+  TRES_CONTEXT_KEY,
+  useLogger,
+  useCamera,
+  useRenderer,
+  useRenderLoop,
+  useRaycaster,
+  useTres,
+} from '../composables'
+import { extend } from '../core/catalogue'
+import { type RendererPresetsType } from '../composables/useRenderer/const'
 import { TresEvent, TresObject } from '../types'
 import { useEventListener } from '@vueuse/core'
 import { isString } from '@alvarosabu/utils'

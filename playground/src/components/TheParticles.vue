@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { OrbitControls } from '@tresjs/cientos'
-import { TresCanvas, useRenderLoop } from '/@/'
+import { TresCanvas, useRenderLoop } from '@tresjs/core'
 import { AdditiveBlending } from 'three'
 
 /* import { OrbitControls, GLTFModel } from '@tresjs/cientos' */
@@ -70,12 +70,12 @@ onLoop(({ elapsed }) => {
 <template>
   <TresCanvas v-bind="gl">
     <TresPerspectiveCamera :position="[5, 5, 5]" :fov="45" :near="0.1" :far="1000" :look-at="[-8, 3, -3]" />
-      <OrbitControls />
-      <TresAmbientLight :intensity="0.5" />
-      <TresPoints>
-        <TresBufferGeometry :position="[positionArray, 3]" :a-scale="[scaleArray, 1]" />
-        <TresShaderMaterial v-bind="shader" />
-      </TresPoints>
-      <TresDirectionalLight :position="[0, 2, 4]" :intensity="1" cast-shadow />
+    <OrbitControls />
+    <TresAmbientLight :intensity="0.5" />
+    <TresPoints>
+      <TresBufferGeometry :position="[positionArray, 3]" :a-scale="[scaleArray, 1]" />
+      <TresShaderMaterial v-bind="shader" />
+    </TresPoints>
+    <TresDirectionalLight :position="[0, 2, 4]" :intensity="1" cast-shadow />
   </TresCanvas>
 </template>
