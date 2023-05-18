@@ -132,7 +132,7 @@ importers:
   playground:
     dependencies:
       '@tresjs/core':
-        specifier: workspace:^2.0.0-rc.2
+        specifier: workspace:*
         version: link:..
       vue-router:
         specifier: ^4.2.0

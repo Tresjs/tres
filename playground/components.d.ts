@@ -9,7 +9,6 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
-    AkuAku: typeof import('./src/components/gltf/AkuAku.vue')['default']
     AnimatedModel: typeof import('./src/components/AnimatedModel.vue')['default']
     Cameras: typeof import('./src/components/Cameras.vue')['default']
     FBXModels: typeof import('./src/components/FBXModels.vue')['default']
@@ -21,8 +20,6 @@ declare module '@vue/runtime-core' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     ShadersExperiment: typeof import('./src/components/shaders-experiment/index.vue')['default']
-    'ShadersExperiment.vue': typeof import('./src/components/shadersExperiment.vue/index.vue')['default']
-    Shapes: typeof import('./src/components/Shapes.vue')['default']
     TestSphere: typeof import('./src/components/TestSphere.vue')['default']
     Text3D: typeof import('./src/components/Text3D.vue')['default']
     TheBasic: typeof import('./src/components/TheBasic.vue')['default']
@@ -30,7 +27,6 @@ declare module '@vue/runtime-core' {
     TheEnvironment: typeof import('./src/components/TheEnvironment.vue')['default']
     TheEvents: typeof import('./src/components/TheEvents.vue')['default']
     TheExperience: typeof import('./src/components/TheExperience.vue')['default']
-    TheExperiment: typeof import('./src/components/gltf/TheExperiment.vue')['default']
     TheFireFlies: typeof import('./src/components/portal-journey/TheFireFlies.vue')['default']
     TheFirstScene: typeof import('./src/components/TheFirstScene.vue')['default']
     TheGizmos: typeof import('./src/components/TheGizmos.vue')['default']
