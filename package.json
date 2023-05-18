@@ -30,6 +30,7 @@
     "./*": "./*"
   },
   "main": "./dist/tres.js",
+  "module": "./dist/tres.js",
   "types": "./dist/index.d.ts",
   "files": [
     "dist",
