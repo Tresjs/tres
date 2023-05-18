@@ -99,6 +99,7 @@ export default defineConfig({
     plugins: [svgLoader(), Unocss()],
     resolve: {
       alias: {
+        '@tresjs/core': resolve(__dirname, '../../dist/tres.js'),
         '/@': resolve(__dirname, '../../dist'),
       },
     },
