@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import ContactShadowsDemo from '../components/ContactShadowsDemo.vue'
+import OrbitControlsDemo from '../components/OrbitControlsDemo.vue'
 </script>
 <template>
   <Suspense>
-    <ContactShadowsDemo />
+    <OrbitControlsDemo />
   </Suspense>
 </template>
