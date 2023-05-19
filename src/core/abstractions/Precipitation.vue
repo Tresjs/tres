@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { watch, shallowRef } from 'vue'
+import { watchEffect, shallowRef } from 'vue'
 import { useRenderLoop, TresColor } from '@tresjs/core'
 
 export interface PrecipitationProps {
@@ -27,7 +27,7 @@ export interface PrecipitationProps {
    * @memberof PrecipitationProps
    *
    */
-   color?: TresColor
+  color?: TresColor
   /**
    * Color texture of the drops.
    *
@@ -35,7 +35,7 @@ export interface PrecipitationProps {
    * @memberof StarsProps
    * @default null
    */
-   map?: null
+  map?: null
   /**
    * texture of the alphaMap Drops.
    *
@@ -43,7 +43,7 @@ export interface PrecipitationProps {
    * @memberof StarsProps
    * @default null
    */
-   alphaMap?: null
+  alphaMap?: null
   /**
    * enables the WebGL to know when not to render the pixel.
    *
@@ -51,31 +51,31 @@ export interface PrecipitationProps {
    * @memberof StarsProps
    * @default 0.01
    */
-   alphaTest?: number
-     /**
+  alphaTest?: number
+  /**
    * Set the opacity of the drops.
    *
    * @type {number}
    * @memberof StarsProps
    * @default 0.8
    */
-   opacity?: 0.8
-     /**
+  opacity?: 0.8
+  /**
    * number of drops.
    *
    * @type {number}
    * @memberof StarsProps
    * @default 5000
    */
-   count?: 5000
-     /**
+  count?: 5000
+  /**
    * Speed of drops.
    *
    * @type {number}
    * @memberof StarsProps
    * @default 5000
    */
-   speed?: 0.1
+  speed?: 0.1
   /**
    * Add randomness to the drops.
    *
@@ -84,7 +84,7 @@ export interface PrecipitationProps {
    * @memberof ContactShadowsProps
    *
    */
-   randomness?: number
+  randomness?: number
   /**
    * Whether the shadows should write to the depth buffer or not.
    *
@@ -94,22 +94,22 @@ export interface PrecipitationProps {
    *
    */
   depthWrite?: boolean
-     /**
+  /**
    * show transparency on the drops texture.
    *
    * @type {boolean}
    * @memberof StarsProps
    * @default true
    */
-   transparent?: boolean
-     /**
+  transparent?: boolean
+  /**
    * keep the same size regardless distance.
    *
    * @type {boolean}
    * @memberof StarsProps
    * @default true
    */
-   sizeAttenuation?: boolean
+  sizeAttenuation?: boolean
 }
 
 const props = withDefaults(defineProps<PrecipitationProps>(), {
@@ -123,43 +123,42 @@ const props = withDefaults(defineProps<PrecipitationProps>(), {
   count: 5000,
   speed: 0.1,
   randomness: 0.5,
-  deepWrite: false,
+  depthWrite: false,
   transparent: true,
   sizeAttenuation: true,
 })
 
 const PrecipitationGeoRef = shallowRef()
 
-const precipitationOptions = {
-  size: props.size,
-  color: props.color,
-  alphaMap: props.alphaMap,
-  opacity: props.opacity,
-  alphaTest: props.alphaTest,
-  vertexColors: false,
-  deepWrite: props.deepWrite,
-  transparent: props.transparent,
-  sizeAttenuation: props.sizeAttenuation
+let position: [] | Float32Array = []
+let velocityArray: [] | Float32Array = []
+const setPosition = () => {
+  position = new Float32Array(props.count * 3)
+  for (let i = 0; i < props.count; i++) {
+    const i3 = i * 3
+    position[i3] = (Math.random() - 0.5) * props.area[0]
+    position[i3 + 1] = (Math.random() - 0.5) * props.area[1]
+    position[i3 + 2] = (Math.random() - 0.5) * props.area[2]
+  }
 }
-
-const position = new Float32Array(props.count * 3)
-
-for (let i = 0; i < props.count; i++) {
-  const i3 = i * 3
-  position[i3] = (Math.random() - 0.5) * props.area[0]
-  position[i3 + 1] = (Math.random() - 0.5) * props.area[1]
-  position[i3 + 2] = (Math.random() - 0.5) * props.area[2]
+const setSpeed = () => {
+  velocityArray = new Float32Array(props.count * 2)
+  for (let i = 0; i < props.count * 2; i += 2) {
+    velocityArray[i] = ((Math.random() - 0.5) / 5) * props.speed * props.randomness
+    velocityArray[i + 1] = (Math.random() / 5) * props.speed + 0.01
+  }
 }
+setSpeed()
+setPosition()
 
-const velocityArray = new Float32Array(props.count * 2)
-for (let i = 0; i < props.count * 2; i += 2) {
-  velocityArray[i] = ((Math.random() - 0.5) / 5) * props.speed * props.randomness
-  velocityArray[i + 1] = (Math.random() / 5) * props.speed + 0.01
-}
-
-watch(PrecipitationGeoRef, value => {
-  console.log(value)
+watchEffect(() => {
+  setSpeed()
+  setPosition()
+  if (PrecipitationGeoRef.value?.attributes.position) {
+    PrecipitationGeoRef.value.attributes.position = position
+  }
 })
+
 const { onLoop } = useRenderLoop()
 
 onLoop(() => {
@@ -172,9 +171,9 @@ onLoop(() => {
       positionArray[i * 3] += velocityX
       positionArray[i * 3 + 1] -= velocityY
 
-      if (positionArray[i * 3] <= -(props.area[0]) / 2 || positionArray[i * 3] >= props.area[0] / 2)
+      if (positionArray[i * 3] <= -props.area[0] / 2 || positionArray[i * 3] >= props.area[0] / 2)
         positionArray[i * 3] = positionArray[i * 3] * -1
-      if (positionArray[i * 3 + 1] <= -(props.area[1]) / 2 || positionArray[i * 3 + 1] >= props.area[1] / 2)
+      if (positionArray[i * 3 + 1] <= -props.area[1] / 2 || positionArray[i * 3 + 1] >= props.area[1] / 2)
         positionArray[i * 3 + 1] = positionArray[i * 3 + 1] * -1
     }
     PrecipitationGeoRef.value.attributes.position.needsUpdate = true
@@ -183,8 +182,17 @@ onLoop(() => {
 </script>
 
 <template>
-      <TresPoints>
-        <TresPointsMaterial v-bind="precipitationOptions" />
-        <TresBufferGeometry ref="PrecipitationGeoRef" :position="[position, 3]" :velocity="[velocityArray]"  />
-      </TresPoints>
+  <TresPoints>
+    <TresPointsMaterial
+      :size="size"
+      :color="color"
+      :alpha-map="alphaMap"
+      :opacity="opacity"
+      :alpha-test="alphaTest"
+      :depth-write="depthWrite"
+      :transparent="transparent"
+      :size-attenuation="sizeAttenuation"
+    />
+    <TresBufferGeometry ref="PrecipitationGeoRef" :position="[position, 3]" :velocity="[velocityArray]" />
+  </TresPoints>
 </template>
