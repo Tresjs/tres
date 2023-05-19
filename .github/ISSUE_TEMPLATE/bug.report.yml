@@ -1,5 +1,5 @@
 name: "Bug report \U0001F41B"
-description: Report an issue with TresJS
+description: Report an issue with Cientos
 labels: [pending triage]
 body:
   - type: markdown

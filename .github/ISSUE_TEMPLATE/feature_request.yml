@@ -1,5 +1,5 @@
 name: "New feature proposal \U0001FA90"
-description: Propose a new feature to be added to TresJS
+description: Propose a new feature to be added to Cientos
 labels: ["enhancement"]
 body:
   - type: markdown
