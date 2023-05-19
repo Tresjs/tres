@@ -1,12 +1,12 @@
-name: "\U0001F41E Bug report"
-description: Report an issue with TresJS ▲ ■ ● or any of it's packages
+name: "Bug report \U0001F41B"
+description: Report an issue with Cientos
 labels: [pending triage]
 body:
   - type: markdown
     attributes:
       value: |
         Thanks for taking the time to fill out this bug report!
-- type: textarea
+  - type: textarea
     id: bug-description
     attributes:
       label: Describe the bug
@@ -14,3 +14,51 @@ body:
       placeholder: I am doing ... What I expect is ... What actually happening is ...
     validations:
       required: true
+  - type: input
+    id: reproduction
+    attributes:
+      label: Reproduction
+      description: Please provide a link via [stackblitz](https://stackblitz.com/edit/tresjs-basic?file=package.json,src%2Fcomponents%2FTheExperience.vue) or a link to a repo that can reproduce the problem you ran into. A [minimal reproduction](https://stackoverflow.com/help/minimal-reproducible-example) is required ([Why?](https://antfu.me/posts/why-reproductions-are-required)). If a report is vague (e.g. just a generic error message) and has no reproduction, it will receive a "need reproduction" label. If no reproduction is provided after 3 days, it will be auto-closed.
+      placeholder: Reproduction URL
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction-steps
+    attributes:
+      label: Steps to reproduce
+      description: Please provide any reproduction steps that may need to be described. E.g. if it happens only when running the dev or build script make sure it's clear which one to use.
+      placeholder: Run `npm install` followed by `npm run dev`
+  - type: textarea
+    id: system-info
+    attributes:
+      label: System Info
+      description: Output of `npx envinfo --system --npmPackages '{vite,@tresjs/*, three, vue}' --binaries --browsers`
+      render: shell
+      placeholder: System, Binaries, Browsers
+  - type: dropdown
+    id: package-manager
+    attributes:
+      label: Used Package Manager
+      description: Select the used package manager
+      options:
+        - npm
+        - yarn
+        - pnpm
+    validations:
+      required: true
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Code of Conduct
+      description: By submitting this issue, please make sure you do the following
+      options:
+        - label: I agree to follow this project's [Code of Conduct](https://github.com/Tresjs/cientos/blob/main/CODE_OF_CONDUCT.md)
+          required: true
+        - label: Read the [Contributing Guidelines](https://github.com/Tresjs/cientos/blob/main/CONTRIBUTING.md).
+          required: true
+        - label: Read the [docs](https://cientos.tresjs.org/guide).
+          required: true
+        - label: Check that there isn't [already an issue](https://github.com/Tresjs/cientos/issues) that reports the same bug to avoid creating a duplicate.
+          required: true
+        - label: The provided reproduction is a [minimal reproducible example](https://stackoverflow.com/help/minimal-reproducible-example) of the bug.
+          required: true
