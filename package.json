@@ -5,29 +5,34 @@
   "type": "module",
   "packageManager": "pnpm@8.3.1",
   "author": "Alvaro Saburido <hola@alvarosaburido.dev> (https://github.com/alvarosabu/)",
+  "license": "MIT",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/tres.js"
+    },
+    "./components": {
+      "types": "./dist/components/index.d.ts"
+    },
+    "./composables": {
+      "types": "./dist/composables/index.d.ts"
+    },
+    "./types": {
+      "types": "./dist/types/index.d.ts"
+    },
+    "./utils": {
+      "types": "./dist/utils/index.d.ts"
+    },
+    "./*": "./*"
+  },
+  "main": "./dist/tres.js",
+  "module": "./dist/tres.js",
+  "types": "./dist/index.d.ts",
   "files": [
     "dist",
     "*.d.ts"
   ],
-  "license": "MIT",
-  "main": "./dist/tres.umd.cjs",
-  "module": "./dist/tres.js",
-  "types": "./dist/index.d.ts",
-  "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/tres.js",
-      "require": "./dist/tres.umd.cjs"
-    },
-    "./components": {
-      "types": "./dist/types/tres-components.d.ts"
-    },
-    "./*": {
-      "types": "./dist/types/*",
-      "import": "./dist/tres.js",
-      "require": "./dist/tres.umd.cjs"
-    }
-  },
   "publishConfig": {
     "access": "public"
   },

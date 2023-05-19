@@ -1,4 +1,4 @@
-import { useLoader } from './'
+import { useLoader } from '.'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 
 describe('useLoader', () => {

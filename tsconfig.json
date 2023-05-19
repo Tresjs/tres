@@ -16,10 +16,7 @@
     "noUnusedLocals": true,
     "strictNullChecks": true,
     "forceConsistentCasingInFileNames": true,
-    "declaration": true,
-    "paths": {
-      "/@/*": ["src/*"]
-    }
+    "declaration": true
   },
   "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
   "exclude": ["node_modules", "src/**/*.cy.ts", "src/**/*.test.ts"],

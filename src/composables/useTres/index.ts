@@ -1,7 +1,7 @@
 import { Clock, EventDispatcher, Raycaster, Scene, Vector2, WebGLRenderer } from 'three'
 import { generateUUID } from 'three/src/math/MathUtils'
 import { computed, ComputedRef, inject, provide, shallowReactive, toRefs } from 'vue'
-import { Camera } from '/@/composables'
+import { Camera } from '../useCamera'
 
 export interface TresState {
   /**

@@ -1,7 +1,6 @@
 <!-- eslint-disable max-len -->
 <script setup lang="ts">
-import { useRenderLoop, useTexture } from '/@/'
-import { TresInstance } from '../types'
+import { type TresInstance, useRenderLoop, useTexture } from '@tresjs/core'
 
 const sphereRef: Ref<TresInstance | null> = ref(null)
 

@@ -2,7 +2,7 @@
 import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
 import { reactive } from 'vue'
 import { OrbitControls } from '@tresjs/cientos'
-import { TresCanvas } from '/@/'
+import { TresCanvas } from '@tresjs/core'
 
 const state = reactive({
   clearColor: '#201919',

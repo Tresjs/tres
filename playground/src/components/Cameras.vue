@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { TresCanvas } from '/@'
+import { TresCanvas } from '@tresjs/core'
 import { BasicShadowMap, SRGBColorSpace, NoToneMapping, PerspectiveCamera, OrthographicCamera } from 'three'
 
 import { Box, useTweakPane } from '@tresjs/cientos'

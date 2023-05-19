@@ -1,5 +1,3 @@
-import Unocss from 'unocss/vite'
-import svgLoader from 'vite-svg-loader'
 import { defineConfig } from 'vitepress'
 import { resolve } from 'pathe'
 
@@ -12,6 +10,9 @@ export default defineConfig({
   ],
   themeConfig: {
     logo: '/logo.svg',
+    search: {
+      provider: 'local',
+    },
     sidebar: [
       {
         text: 'Guide',
@@ -96,10 +97,26 @@ export default defineConfig({
     ],
   },
   vite: {
-    plugins: [svgLoader(), Unocss()],
+    optimizeDeps: {
+      exclude: ['vitepress'],
+      include: ['three'],
+    },
+    server: {
+      hmr: {
+        overlay: false,
+      },
+    },
     resolve: {
       alias: {
-        '/@': resolve(__dirname, '../../dist'),
+        '@tresjs/core': resolve(__dirname, '../../dist/tres.js'),
+      },
+      dedupe: ['@tresjs/cientos', 'three'],
+    },
+  },
+  vue: {
+    template: {
+      compilerOptions: {
+        isCustomElement: tag => tag.startsWith('Tres') && tag !== 'TresCanvas',
       },
     },
   },

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { BasicShadowMap, CubicBezierCurve3, DoubleSide, NoToneMapping, SRGBColorSpace, Vector3 } from 'three'
-import { TresCanvas } from '/@/'
+import { TresCanvas } from '@tresjs/core'
 import {
   Plane,
   Tube,
