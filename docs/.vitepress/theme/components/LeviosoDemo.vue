@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
-import { OrbitControls, Levioso, GLTFModel } from '/@'
+import { OrbitControls, Levioso, GLTFModel } from '@tresjs/cientos'
 import { BasicShadowMap, SRGBColorSpace, NoToneMapping } from 'three'
 import Feather from './Feather.vue'
 
