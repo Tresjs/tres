@@ -2,7 +2,7 @@
 import { TextGeometry, FontLoader } from 'three-stdlib'
 
 import { computed, useSlots, shallowRef, watchEffect } from 'vue'
-import { useCientos } from '/@/core/useCientos'
+import { useCientos } from '../../core/useCientos'
 
 export type Glyph = {
   _cachedOutline: string[]

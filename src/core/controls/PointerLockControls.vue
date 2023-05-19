@@ -2,8 +2,8 @@
 import { ref, watch } from 'vue'
 import { PointerLockControls } from 'three-stdlib'
 import { Camera } from 'three'
-import { useCientos } from '/@/core/useCientos'
 import { useEventListener } from '@vueuse/core'
+import { useCientos } from '../../core/useCientos'
 
 export interface PointerLockControlsProps {
   /**

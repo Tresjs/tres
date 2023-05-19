@@ -1,14 +1,11 @@
 <script lang="ts" setup>
 import { Camera, Vector3 } from 'three'
 import { OrbitControls } from 'three-stdlib'
-import { ref, watch, type Ref } from 'vue'
-
-import { useCientos } from '/@/core/useCientos'
-
+import { ref, watch, type Ref, onUnmounted } from 'vue'
 import { useRenderLoop } from '@tresjs/core'
 import { useEventListener } from '@vueuse/core'
-import { onMounted } from 'vue'
-import { onUnmounted } from 'vue'
+
+import { useCientos } from '../../core/useCientos'
 
 export interface OrbitControlsProps {
   /**
@@ -257,7 +254,7 @@ const props = withDefaults(defineProps<OrbitControlsProps>(), {
 
 const { state, setState, extend } = useCientos()
 
-const controls = ref(null)
+const controls = ref<OrbitControls | null>(null)
 
 extend({ OrbitControls })
 
@@ -273,9 +270,9 @@ watch(controls, value => {
 const emit = defineEmits(['change', 'start', 'end'])
 
 function addEventListeners() {
-  useEventListener(controls.value, 'change', () => emit('change'))
-  useEventListener(controls.value, 'start', () => emit('start'))
-  useEventListener(controls.value, 'end', () => emit('end'))
+  useEventListener(controls.value as any, 'change', () => emit('change'))
+  useEventListener(controls.value as any, 'start', () => emit('start'))
+  useEventListener(controls.value as any, 'end', () => emit('end'))
 }
 
 const { onLoop } = useRenderLoop()

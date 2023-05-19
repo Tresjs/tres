@@ -20,7 +20,7 @@ import {
 } from 'three'
 import { computed, shallowRef, watchEffect } from 'vue'
 import { HorizontalBlurShader, VerticalBlurShader } from 'three-stdlib'
-import { useCientos } from '/@/core/useCientos'
+import { useCientos } from '../../core/useCientos'
 
 export interface ContactShadowsProps {
   /**
