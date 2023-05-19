@@ -2,7 +2,7 @@
 import { TresCanvas } from '@tresjs/core'
 import { BasicShadowMap, SRGBColorSpace, NoToneMapping } from 'three'
 
-import { OrbitControls, useTweakPane } from '@cientos'
+import { OrbitControls, useTweakPane } from '@tresjs/cientos'
 import { reactive } from 'vue'
 
 const gl = {

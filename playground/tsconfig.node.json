@@ -3,7 +3,10 @@
     "composite": true,
     "module": "ESNext",
     "moduleResolution": "Node",
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "paths": {
+      "@tresjs/cientos": ["../src/index.ts"]
+    }
   },
   "include": ["vite.config.ts"]
 }

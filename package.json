@@ -12,7 +12,6 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/trescientos.js"
     },
-    "./styles": "./dist/style.css",
     "./*": "./*"
   },
   "main": "./dist/trescientos.js",
