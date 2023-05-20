@@ -44,9 +44,7 @@
     "threejs-vue"
   ],
   "scripts": {
-    "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview",
     "playground": "cd playground && npm run dev",
     "test": "vitest",
     "test:ci": "vitest run",
