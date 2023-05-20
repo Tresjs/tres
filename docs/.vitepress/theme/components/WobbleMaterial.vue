@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
-import { OrbitControls, MeshWobbleMaterial } from '/@'
+import { OrbitControls, MeshWobbleMaterial } from '@tresjs/cientos'
 import { BasicShadowMap, SRGBColorSpace, NoToneMapping } from 'three'
 
 const gl = {

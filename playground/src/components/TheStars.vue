@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { shallowRef, watch } from 'vue'
 import { TresCanvas } from '@tresjs/core'
-import { OrbitControls, Stars } from '@cientos'
+import { OrbitControls, Stars } from '@tresjs/cientos'
 import { sRGBEncoding, NoToneMapping } from 'three'
 
 const gl = {

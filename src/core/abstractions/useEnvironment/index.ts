@@ -8,7 +8,7 @@ import {
   Texture,
 } from 'three'
 import { RGBELoader } from 'three-stdlib'
-import { useCientos } from '/@/core/useCientos'
+import { useCientos } from '../../../core/useCientos'
 import { EnvironmentOptions, environmentPresets } from './const'
 
 /**

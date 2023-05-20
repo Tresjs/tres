@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
-import { MapControls, Sphere } from '@cientos'
+import { MapControls, Sphere } from '@tresjs/cientos'
 import { SRGBColorSpace, NoToneMapping } from 'three'
 
 const gl = {

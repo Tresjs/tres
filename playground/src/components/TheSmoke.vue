@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
-import { OrbitControls, Smoke } from '@cientos'
+import { OrbitControls, Smoke } from '@tresjs/cientos'
 import { SRGBColorSpace, NoToneMapping } from 'three'
 
 const gl = {
