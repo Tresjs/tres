@@ -1,6 +1,8 @@
-import { App, defineComponent, h, onMounted, onUnmounted, ref, watch, watchEffect } from 'vue'
+import { App, defineComponent, h, onMounted, onUnmounted, ref, watch, watchEffect, VNode } from 'vue'
 import * as THREE from 'three'
 import { ColorSpace, ShadowMapType, ToneMapping } from 'three'
+import { useEventListener } from '@vueuse/core'
+import { isString } from '@alvarosabu/utils'
 import { createTres } from '../core/renderer'
 import {
   CameraType,
@@ -14,10 +16,6 @@ import {
 } from '../composables'
 import { extend } from '../core/catalogue'
 import { type RendererPresetsType } from '../composables/useRenderer/const'
-import { TresEvent, TresObject } from '../types'
-import { useEventListener } from '@vueuse/core'
-import { isString } from '@alvarosabu/utils'
-import { VNode } from 'vue'
 
 export interface TresSceneProps {
   shadows?: boolean
@@ -108,8 +106,9 @@ export const TresScene = defineComponent<TresSceneProps>({
 
       const { raycaster, pointer } = useRaycaster()
 
-      let prevInstance: TresEvent | null = null
-      let currentInstance: TresEvent | null = null
+      // TODO: Type raycasting events correctly
+      let prevInstance: any = null
+      let currentInstance: any = null
 
       watchEffect(() => {
         if (activeCamera.value) raycaster.value.setFromCamera(pointer.value, activeCamera.value)
@@ -150,7 +149,7 @@ export const TresScene = defineComponent<TresSceneProps>({
       app.provide('useTres', useTres())
       app.provide(TRES_CONTEXT_KEY, useTres())
       app.provide('extend', extend)
-      app.mount(scene as unknown as TresObject)
+      app.mount(scene as unknown)
     }
     mountApp()
 
