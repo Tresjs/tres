@@ -12,6 +12,9 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/trescientos.js"
     },
+    "./core": {
+      "types": "./dist/core/index.d.ts"
+    },
     "./*": "./*"
   },
   "main": "./dist/trescientos.js",
@@ -33,10 +36,8 @@
     "composables"
   ],
   "scripts": {
-    "dev": "vite",
     "playground": "cd playground && nr dev",
     "build": "vite build",
-    "preview": "vite preview",
     "release": "release-it",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx,.vue",
     "docs:dev": "vitepress dev docs",

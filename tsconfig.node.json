@@ -4,8 +4,7 @@
     "composite": true,
     "module": "ESNext",
     "moduleResolution": "Node",
-    "allowSyntheticDefaultImports": true,
-    "types": ["vitest/globals"]
+    "allowSyntheticDefaultImports": true
   },
-  "include": ["vite.config.ts"]
+  "include": ["../../vite.config.ts", "src/**/*.test.ts"]
 }
