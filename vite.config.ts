@@ -21,8 +21,8 @@ export default defineConfig({
   },
   plugins: [
     vue({
+      isProduction: false,
       template: {
-        isProduction: false,
         compilerOptions: {
           isCustomElement: tag => tag.startsWith('Tres') && tag !== 'TresCanvas',
         },

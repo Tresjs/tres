@@ -33,7 +33,7 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
-      '@tresjs/cientos': resolve(__dirname, '../src/index.ts'),
+      '@tresjs/cientos': resolve(__dirname, '../src/'),
     },
     dedupe: ['three', '@tresjs/core'],
   },
