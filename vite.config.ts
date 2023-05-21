@@ -1,5 +1,4 @@
 /// <reference types="vitest" />
-import fs from 'fs'
 
 import { defineConfig } from 'vite'
 
@@ -12,10 +11,9 @@ import copy from 'rollup-plugin-copy'
 
 /* import analyze from 'rollup-plugin-analyzer'
  */ /* import { visualizer } from 'rollup-plugin-visualizer' */
-import { resolve, join } from 'pathe'
+import { resolve } from 'pathe'
 
 import { lightGreen, yellow, gray, bold } from 'kolorist'
-import { ViteTresPlugin } from './plugins/vite-tres-types-plugin'
 
 import pkg from './package.json'
 
@@ -40,17 +38,7 @@ export default defineConfig({
     }),
     dts({
       insertTypesEntry: true,
-      afterBuild() {
-        console.log('🪄 ✨ Magically generating types for TresJS')
-        const outputDir = join(__dirname, 'dist/types')
-        const outputFile = join(outputDir, 'index.d.ts')
-        if (fs.existsSync(outputFile)) {
-          const index = fs.readFileSync(outputFile, 'utf-8')
-          fs.writeFileSync(outputFile, `import './tres-components';\n${index}`)
-        }
-      },
     }),
-    ViteTresPlugin(),
     banner({
       content: `/**\n * name: ${pkg.name}\n * version: v${
         pkg.version
