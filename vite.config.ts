@@ -14,8 +14,7 @@ import copy from 'rollup-plugin-copy'
 import { resolve } from 'pathe'
 
 import { lightGreen, yellow, gray, bold } from 'kolorist'
-/* import { ViteTresPlugin } from './plugins/vite-tres-types-plugin'
- */
+
 import pkg from './package.json'
 
 // eslint-disable-next-line no-console
