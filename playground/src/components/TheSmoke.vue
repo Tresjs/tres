@@ -2,21 +2,15 @@
 import { TresCanvas } from '@tresjs/core'
 import { OrbitControls, Smoke, Box } from '@tresjs/cientos'
 import { SRGBColorSpace, NoToneMapping } from 'three'
-import { ref } from 'vue'
 const gl = {
   clearColor: '#333',
   alpha: true,
   outputColorSpace: SRGBColorSpace,
   toneMapping: NoToneMapping,
 }
-
-const speed = ref(1)
-const wireframe = ref(true)
 </script>
 
 <template>
-  <div><button @click="wireframe = !wireframe">Click</button></div>
-
   <TresCanvas v-bind="gl" ref="canvas">
     <TresPerspectiveCamera :position="[0, 2, 5]" />
     <Suspense>

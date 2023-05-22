@@ -3,7 +3,6 @@ import { shallowRef, computed } from 'vue'
 import { TresColor, useTexture, useRenderLoop } from '@tresjs/core'
 import { useCientos } from '../../core/useCientos'
 import { Object3D } from 'three'
-import { watchEffect } from 'vue'
 
 export type SmokeProps = {
   /**
