@@ -4,6 +4,7 @@ import { ColorSpace, ShadowMapType, ToneMapping } from 'three'
 import { useEventListener } from '@vueuse/core'
 import { isString } from '@alvarosabu/utils'
 import { createTres } from '../core/renderer'
+import { TresCamera } from '../types/'
 import {
   CameraType,
   TRES_CONTEXT_KEY,
@@ -85,6 +86,8 @@ export const TresScene = defineComponent<TresSceneProps>({
       }
     }
 
+    const { onLoop, resume } = useRenderLoop()
+
     onMounted(() => {
       initRenderer()
     })
@@ -101,8 +104,6 @@ export const TresScene = defineComponent<TresSceneProps>({
       if (props.camera) {
         pushCamera(props.camera as any)
       }
-
-      const { onLoop } = useRenderLoop()
 
       const { raycaster, pointer } = useRaycaster()
 
@@ -146,8 +147,9 @@ export const TresScene = defineComponent<TresSceneProps>({
 
     function mountApp() {
       app = createTres(slots)
-      app.provide('useTres', useTres())
-      app.provide(TRES_CONTEXT_KEY, useTres())
+      const tres = useTres()
+      app.provide('useTres', tres)
+      app.provide(TRES_CONTEXT_KEY, tres)
       app.provide('extend', extend)
       app.mount(scene as unknown)
     }
@@ -160,7 +162,12 @@ export const TresScene = defineComponent<TresSceneProps>({
     function dispose() {
       scene.children = []
       app.unmount()
-      mountApp()
+      app = createTres(slots)
+      app.provide('extend', extend)
+      app.mount(scene as unknown)
+      const camera = scene.children.find((child: any) => child.isCamera)
+      pushCamera(camera as TresCamera)
+      resume()
     }
 
     if (import.meta.hot) {
