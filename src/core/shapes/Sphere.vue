@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { TresColor, TresObject } from '@tresjs/core'
+import { TresColor } from '@tresjs/core'
+import { SphereGeometry } from 'three'
 import { shallowRef } from 'vue'
 
-export interface SphereProps extends TresObject {
+export type SphereProps = {
   /**
    * The radius, widthSegments, heightSegments, phiStart phiLength,
    * thetaStart and thetaLength of the sphere.
@@ -11,7 +12,7 @@ export interface SphereProps extends TresObject {
    * @memberof SphereProps
    * @see https://threejs.org/docs/#api/en/geometries/SphereGeometry
    */
-  args?: number[]
+  args?: ConstructorParameters<typeof SphereGeometry>
   /**
    * The color of the sphere.
    * @default 0xffffff

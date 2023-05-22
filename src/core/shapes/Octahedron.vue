@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { TresColor, TresObject } from '@tresjs/core'
+import { TresColor } from '@tresjs/core'
+import { OctahedronGeometry } from 'three'
 import { shallowRef } from 'vue'
 
-export interface OctahedronProps extends TresObject {
+export type OctahedronProps = {
   /**
    * The radius and detail of the octahedron.
    * @default [1, 0]
@@ -10,7 +11,7 @@ export interface OctahedronProps extends TresObject {
    * @memberof OctahedronProps
    * @see https://threejs.org/docs/#api/en/geometries/OctahedronGeometry
    */
-  args?: number[]
+  args?: ConstructorParameters<typeof OctahedronGeometry>
   /**
    * The color of the octahedron.
    * @default 0xffffff

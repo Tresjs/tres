@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { shallowRef, computed } from 'vue'
-import { TresColor, TresObject, useTexture, useRenderLoop } from '@tresjs/core'
+import { TresColor, useTexture, useRenderLoop } from '@tresjs/core'
 import { useCientos } from '../../core/useCientos'
 import { Object3D } from 'three'
 
-export interface SmokeProps extends TresObject {
+export type SmokeProps = {
   /**
    * The color of the smoke.
    * @default 0xffffff

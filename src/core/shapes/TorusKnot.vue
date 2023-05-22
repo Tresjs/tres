@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { TresColor, TresObject } from '@tresjs/core'
+import { TresColor } from '@tresjs/core'
+import { TorusKnotGeometry } from 'three'
 import { shallowRef } from 'vue'
 
-export interface TorusKnotProps extends TresObject {
+export type TorusKnotProps = {
   /**
    * The radius, tube, radialSegments, tubularSegments and p, q of the torus knot.
    * @default [1, 0.4, 64, 8, 2, 3]
@@ -10,7 +11,7 @@ export interface TorusKnotProps extends TresObject {
    * @memberof TorusKnotProps
    * @see https://threejs.org/docs/#api/en/geometries/TorusKnotGeometry
    */
-  args?: number[]
+  args?: ConstructorParameters<typeof TorusKnotGeometry>
   /**
    * The color of the torus knot.
    * @default 0xffffff
