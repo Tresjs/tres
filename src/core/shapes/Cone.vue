@@ -21,11 +21,9 @@ export type ConeProps = {
    */
   color?: TresColor
 }
-
-withDefaults(defineProps<ConeProps>(), {
-  args: () => [1, 1, 12, false, 0, Math.PI * 2],
-  color: '0xffffff',
-})
+// TODO: remove disable once eslint is updated to support vue 3.3
+// eslint-disable-next-line vue/no-setup-props-destructure
+const { args = [1, 1, 12, false, 0, Math.PI * 2], color = '0xffffff' } = defineProps<ConeProps>()
 
 const coneRef = shallowRef()
 

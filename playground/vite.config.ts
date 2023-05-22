@@ -11,6 +11,9 @@ export default defineConfig({
   plugins: [
     glsl(),
     vue({
+      script: {
+        propsDestructure: true,
+      },
       template: {
         compilerOptions: {
           isCustomElement: tag => tag.startsWith('Tres') && tag !== 'TresCanvas',

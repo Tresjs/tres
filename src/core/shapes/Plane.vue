@@ -22,10 +22,9 @@ export type PlaneProps = {
   color?: TresColor
 }
 
-withDefaults(defineProps<PlaneProps>(), {
-  args: () => [1, 1],
-  color: '0xffffff',
-})
+// TODO: remove disable once eslint is updated to support vue 3.3
+// eslint-disable-next-line vue/no-setup-props-destructure
+const { args = [1, 1], color = '0xffffff' } = defineProps<PlaneProps>()
 
 const planeRef = shallowRef()
 

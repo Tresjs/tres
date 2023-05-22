@@ -21,10 +21,9 @@ export type CircleProps = {
    */
   color?: TresColor
 }
-withDefaults(defineProps<CircleProps>(), {
-  args: () => [1, 32, 0, Math.PI * 2],
-  color: '0xffffff',
-})
+// TODO: remove disable once eslint is updated to support vue 3.3
+// eslint-disable-next-line vue/no-setup-props-destructure
+const { args = [1, 32, 0, Math.PI * 2], color = '0xffffff' } = defineProps<CircleProps>()
 
 const circleRef = shallowRef()
 

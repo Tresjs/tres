@@ -21,10 +21,10 @@ export type IcosahedronProps = {
    */
   color?: TresColor
 }
-withDefaults(defineProps<IcosahedronProps>(), {
-  args: () => [1, 0],
-  color: '0xffffff',
-})
+
+// TODO: remove disable once eslint is updated to support vue 3.3
+// eslint-disable-next-line vue/no-setup-props-destructure
+const { args = [1, 0], color = '0xffffff' } = defineProps<IcosahedronProps>()
 
 const icosahedronRef = shallowRef()
 

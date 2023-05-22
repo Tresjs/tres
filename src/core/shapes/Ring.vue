@@ -21,10 +21,10 @@ export type RingProps = {
    */
   color?: TresColor
 }
-withDefaults(defineProps<RingProps>(), {
-  args: () => [0.5, 1, 32],
-  color: '0xffffff',
-})
+
+// TODO: remove disable once eslint is updated to support vue 3.3
+// eslint-disable-next-line vue/no-setup-props-destructure
+const { args = [0.5, 1, 32], color = '0xffffff' } = defineProps<RingProps>()
 
 const ringRef = shallowRef()
 

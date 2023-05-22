@@ -22,10 +22,9 @@ export type TorusKnotProps = {
   color?: TresColor
 }
 
-withDefaults(defineProps<TorusKnotProps>(), {
-  args: () => [1, 0.4, 64, 8],
-  color: '0xffffff',
-})
+// TODO: remove disable once eslint is updated to support vue 3.3
+// eslint-disable-next-line vue/no-setup-props-destructure
+const { args = [1, 0.4, 64, 8], color = '0xffffff' } = defineProps<TorusKnotProps>()
 
 const torusKnotRef = shallowRef()
 

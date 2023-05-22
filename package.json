@@ -60,7 +60,7 @@
     "@vitejs/plugin-vue": "^4.2.3",
     "eslint": "^8.41.0",
     "eslint-config-prettier": "^8.8.0",
-    "eslint-plugin-vue": "^9.13.0",
+    "eslint-plugin-vue": "^9.14.0",
     "gsap": "^3.11.5",
     "kolorist": "^1.8.0",
     "pathe": "^1.1.0",
@@ -78,7 +78,7 @@
     "vitepress": "1.0.0-alpha.76"
   },
   "dependencies": {
-    "@tresjs/core": "2.1.0",
+    "@tresjs/core": "2.1.1",
     "@vueuse/core": "^10.1.2",
     "three": "^0.152.2",
     "three-stdlib": "^2.21.12",

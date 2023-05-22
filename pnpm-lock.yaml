@@ -5,8 +5,8 @@ importers:
   .:
     dependencies:
       '@tresjs/core':
-        specifier: 2.1.0
-        version: 2.1.0(three@0.152.2)(vue@3.3.4)
+        specifier: 2.1.1
+        version: 2.1.1(three@0.152.2)(vue@3.3.4)
       '@vueuse/core':
         specifier: ^10.1.2
         version: 10.1.2(vue@3.3.4)
@@ -51,8 +51,8 @@ importers:
         specifier: ^8.8.0
         version: 8.8.0(eslint@8.41.0)
       eslint-plugin-vue:
-        specifier: ^9.13.0
-        version: 9.13.0(eslint@8.41.0)
+        specifier: ^9.14.0
+        version: 9.14.0(eslint@8.41.0)
       gsap:
         specifier: ^3.11.5
         version: 3.11.5
@@ -114,15 +114,15 @@ importers:
   playground:
     dependencies:
       '@tresjs/core':
-        specifier: 2.0.0
-        version: 2.0.0(three@0.152.2)(vue@3.3.4)
+        specifier: 2.1.0
+        version: 2.1.0(three@0.152.2)(vue@3.3.4)
       vue-router:
-        specifier: ^4.1.6
-        version: 4.1.6(vue@3.3.4)
+        specifier: ^4.2.1
+        version: 4.2.1(vue@3.3.4)
     devDependencies:
       unplugin-auto-import:
-        specifier: ^0.16.0
-        version: 0.16.0(@vueuse/core@10.1.2)
+        specifier: ^0.16.1
+        version: 0.16.1(@vueuse/core@10.1.2)
       unplugin-vue-components:
         specifier: ^0.24.1
         version: 0.24.1(vue@3.3.4)
@@ -990,8 +990,8 @@ packages:
     engines: {node: '>= 6'}
     dev: true
 
-  /@tresjs/core@2.0.0(three@0.152.2)(vue@3.3.4):
-    resolution: {integrity: sha512-2tNvojw4V2PgpBqzZA/UWyhTi8F4fkSLCnvPqMQgdWjXtaLTxomMTqiIBgyiord9+sCsReURLvCSX0m5Zdh//Q==}
+  /@tresjs/core@2.1.0(three@0.152.2)(vue@3.3.4):
+    resolution: {integrity: sha512-ByZe9QE6ySBbIMTccg/UI3DiQKh3GNZAWqZ+cDloIn9Fq2oyYd3qQOugkZPVMpO8oypKp+9NaYtWujnZ33Ptog==}
     peerDependencies:
       three: latest
       vue: ^3.2.47
@@ -1004,11 +1004,11 @@ packages:
       - '@vue/composition-api'
     dev: false
 
-  /@tresjs/core@2.1.0(three@0.152.2)(vue@3.3.4):
-    resolution: {integrity: sha512-ByZe9QE6ySBbIMTccg/UI3DiQKh3GNZAWqZ+cDloIn9Fq2oyYd3qQOugkZPVMpO8oypKp+9NaYtWujnZ33Ptog==}
+  /@tresjs/core@2.1.1(three@0.152.2)(vue@3.3.4):
+    resolution: {integrity: sha512-VSQRa0hiHTVDtjaPPmsuVZWkqJLR6Z8AFW8RXv+P3vEkom3fovt1Mq7MPbokZav+EFozw4GJNBylXJkkQJGH5A==}
     peerDependencies:
       three: latest
-      vue: ^3.2.47
+      vue: ^3.3.4
     dependencies:
       '@alvarosabu/utils': 2.3.0
       '@vueuse/core': 10.1.2(vue@3.3.4)
@@ -2960,8 +2960,8 @@ packages:
       eslint: 8.41.0
     dev: true
 
-  /eslint-plugin-vue@9.13.0(eslint@8.41.0):
-    resolution: {integrity: sha512-aBz9A8WB4wmpnVv0pYUt86cmH9EkcwWzgEwecBxMoRNhQjTL5i4sqadnwShv/hOdr8Hbl8XANGV7dtX9UQIAyA==}
+  /eslint-plugin-vue@9.14.0(eslint@8.41.0):
+    resolution: {integrity: sha512-4O7EuiqPGVQA1wYCzLvCzsBTv9JIPHLHhrf0k55DLzbwtmJbSw2TKS0G/l7pOwi9RWMSkjIT7ftChU5gZpgnJw==}
     engines: {node: ^14.17.0 || >=16.0.0}
     peerDependencies:
       eslint: ^6.2.0 || ^7.0.0 || ^8.0.0
@@ -6058,8 +6058,8 @@ packages:
     engines: {node: '>= 0.8'}
     dev: true
 
-  /unplugin-auto-import@0.16.0(@vueuse/core@10.1.2):
-    resolution: {integrity: sha512-AbeGl3kzoGyqh2uWwwSVYCXy2ouvSbHfBc2u7xmNBpOosWa7SIAz+nQx3f1JpMXunEZ9TTChXkor4WcGrpkc7Q==}
+  /unplugin-auto-import@0.16.1(@vueuse/core@10.1.2):
+    resolution: {integrity: sha512-H3Ky56cGEEHTssxUIFuGXTowGVlT/Bp3MBx1yyCzUHzAtdrO+2r9zpid32f2AkTpQxo2lch6yaTK61Im+rEyPQ==}
     engines: {node: '>=14'}
     peerDependencies:
       '@nuxt/kit': ^3.2.2
@@ -6371,8 +6371,8 @@ packages:
       - supports-color
     dev: true
 
-  /vue-router@4.1.6(vue@3.3.4):
-    resolution: {integrity: sha512-DYWYwsG6xNPmLq/FmZn8Ip+qrhFEzA14EI12MsMgVxvHFDYvlr4NXpVF5hrRH1wVcDP8fGi5F4rxuJSl8/r+EQ==}
+  /vue-router@4.2.1(vue@3.3.4):
+    resolution: {integrity: sha512-nW28EeifEp8Abc5AfmAShy5ZKGsGzjcnZ3L1yc2DYUo+MqbBClrRP9yda3dIekM4I50/KnEwo1wkBLf7kHH5Cw==}
     peerDependencies:
       vue: ^3.2.0
     dependencies:

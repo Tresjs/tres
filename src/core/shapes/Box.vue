@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { TresColor } from '@tresjs/core'
 import { BoxGeometry } from 'three'
+import { watchEffect } from 'vue'
 
 import { shallowRef } from 'vue'
 
@@ -22,13 +23,26 @@ export type BoxProps = {
    * @see https://threejs.org/docs/#api/en/materials/MeshBasicMaterial
    */
   color?: TresColor
+  wireframe?: boolean
 }
-withDefaults(defineProps<BoxProps>(), {
-  args: () => [1, 1, 1],
-  color: '0xffffff',
-})
+
+// TODO: remove disable once eslint is updated to support vue 3.3
+// eslint-disable-next-line vue/no-setup-props-destructure
+const {
+  args = [1, 1, 1],
+  color = '0xffffff',
+  wireframe = false,
+} = defineProps<{
+  args?: ConstructorParameters<typeof BoxGeometry>
+  color?: TresColor
+  wireframe?: boolean
+}>()
 
 const boxRef = shallowRef()
+
+watchEffect(() => {
+  console.log('wireframe', wireframe)
+})
 
 defineExpose({
   value: boxRef,

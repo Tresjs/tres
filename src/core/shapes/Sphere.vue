@@ -23,10 +23,9 @@ export type SphereProps = {
   color?: TresColor
 }
 
-withDefaults(defineProps<SphereProps>(), {
-  args: () => [2, 32, 16],
-  color: '0xffffff',
-})
+// TODO: remove disable once eslint is updated to support vue 3.3
+// eslint-disable-next-line vue/no-setup-props-destructure
+const { args = [2, 32, 16], color = '0xffffff' } = defineProps<SphereProps>()
 
 const sphereRef = shallowRef()
 

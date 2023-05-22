@@ -23,16 +23,18 @@ export type TubeProps = {
   color?: TresColor
 }
 
-withDefaults(defineProps<TubeProps>(), {
-  args: () => [
+// TODO: remove disable once eslint is updated to support vue 3.3
+// eslint-disable-next-line vue/no-setup-props-destructure
+const {
+  args = [
     new QuadraticBezierCurve3(new Vector3(-1, 0, 0), new Vector3(0, 1, 0), new Vector3(1, 0, 0)),
     20,
     0.2,
     8,
     false,
   ],
-  color: '0xffffff',
-})
+  color = '0xffffff',
+} = defineProps<TubeProps>()
 
 const tubeRef = shallowRef()
 
