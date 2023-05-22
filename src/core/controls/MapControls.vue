@@ -3,7 +3,7 @@ import { Camera } from 'three'
 import { MapControls } from 'three-stdlib'
 import { ref, watch } from 'vue'
 
-import { useCientos } from '/@/core/useCientos'
+import { useCientos } from '../../core/useCientos'
 
 export interface MapControlsProps {
   /**

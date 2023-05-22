@@ -10,6 +10,9 @@ export default defineConfig({
   head: [['link', { rel: 'icon', type: 'image/svg', href: '/favicon.svg' }]],
   themeConfig: {
     logo: '/logo.svg',
+    search: {
+      provider: 'local',
+    },
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: 'Guide', link: '/guide/' },
@@ -91,10 +94,27 @@ export default defineConfig({
     ],
   },
   vite: {
+    optimizeDeps: {
+      exclude: ['vitepress'],
+      include: ['three'],
+    },
+    server: {
+      hmr: {
+        overlay: false,
+      },
+    },
     plugins: [svgLoader(), Unocss()],
     resolve: {
       alias: {
-        '/@': resolve(__dirname, '../../src'),
+        '@tresjs/cientos': resolve(__dirname, '../../dist/trescientos.js'),
+      },
+      dedupe: ['three'],
+    },
+  },
+  vue: {
+    template: {
+      compilerOptions: {
+        isCustomElement: tag => tag.startsWith('Tres') && tag !== 'TresCanvas',
       },
     },
   },

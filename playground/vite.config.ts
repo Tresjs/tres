@@ -33,10 +33,8 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
-      '/@': resolve(__dirname, '../src'),
-      '@cientos': resolve(__dirname, '../src'),
-      '~@': resolve(__dirname, './src'),
+      '@tresjs/cientos': resolve(__dirname, '../src/'),
     },
-    dedupe: ['@tresjs/core'],
+    dedupe: ['three', '@tresjs/core'],
   },
 })

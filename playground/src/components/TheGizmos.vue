@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
-import { TransformControls, OrbitControls, useTweakPane } from '@cientos'
+import { TransformControls, OrbitControls, useTweakPane } from '@tresjs/cientos'
 import { BasicShadowMap, SRGBColorSpace, NoToneMapping } from 'three'
 import { shallowReactive, shallowRef } from 'vue'
 

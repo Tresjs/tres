@@ -17,13 +17,11 @@ console.log(`${lightGreen('▲')} ${gray('■')} ${yellow('♥')} ${bold('Tres/c
 // https://vitejs.dev/config/
 export default defineConfig({
   resolve: {
-    alias: {
-      '/@': resolve(__dirname, './src'),
-    },
     dedupe: ['@tresjs/core'],
   },
   plugins: [
     vue({
+      isProduction: false,
       template: {
         compilerOptions: {
           isCustomElement: tag => tag.startsWith('Tres') && tag !== 'TresCanvas',

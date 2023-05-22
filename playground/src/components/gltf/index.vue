@@ -2,7 +2,7 @@
 import { SRGBColorSpace, BasicShadowMap, NoToneMapping, Object3D } from 'three'
 import { reactive, ref, watchEffect } from 'vue'
 import { TresCanvas } from '@tresjs/core'
-import { GLTFModel, OrbitControls } from '@cientos'
+import { GLTFModel, OrbitControls } from '@tresjs/cientos'
 
 /* import { OrbitControls, GLTFModel } from '@tresjs/cientos' */
 

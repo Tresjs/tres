@@ -13,13 +13,10 @@
     "types": ["vite/client", "node"],
     "incremental": false,
     "skipLibCheck": true,
-    "noUnusedLocals": false,
+    "noUnusedLocals": true,
     "strictNullChecks": true,
     "forceConsistentCasingInFileNames": true,
-    "declaration": true,
-    "paths": {
-      "/@/*": ["src/*"]
-    }
+    "declaration": true
   },
   "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
   "exclude": ["dist", "node_modules", "src/**/*.cy.ts", "src/**/*.test.ts"],

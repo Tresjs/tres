@@ -1,6 +1,1 @@
-export * from './core/abstractions'
-export * from './core/loaders'
-export * from './core/controls'
-export * from './core/materials'
-export * from './core/shapes'
-export * from './core/misc'
+export * from './core'

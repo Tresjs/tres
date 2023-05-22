@@ -1,6 +1,6 @@
 import { defineComponent, watchEffect } from 'vue'
 import { useMouseParallax } from '.'
-import { useCientos } from '/@/core/useCientos'
+import { useCientos } from '../../../core/useCientos'
 
 export interface MouseParallaxProps {
   /**

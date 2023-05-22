@@ -1,9 +1,9 @@
 <script setup lang="ts">
+import { computed, watch, shallowRef, ShallowRef, onUnmounted, watchEffect } from 'vue'
 import { Object3D, type Event } from 'three'
 import { TransformControls as TransformControlsImp } from 'three-stdlib'
-import { computed, watch, shallowRef, ShallowRef, onUnmounted, watchEffect } from 'vue'
-import { pick, hasSetter } from '/@/utils'
-import { useCientos } from '/@/core/useCientos'
+import { useCientos } from '../useCientos'
+import { pick, hasSetter } from '../../utils'
 
 const props = withDefaults(
   defineProps<{
