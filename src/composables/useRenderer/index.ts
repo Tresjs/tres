@@ -260,6 +260,10 @@ You could set windowSize=true to force the canvas to be the size of the window.`
     { immediate: true, deep: true },
   )
 
+  if (import.meta.hot) {
+    import.meta.hot.on('vite:afterUpdate', resume)
+  }
+
   return {
     renderer,
     isReady,
