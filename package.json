@@ -45,22 +45,22 @@
     "docs:preview": "vitepress preview docs"
   },
   "peerDependencies": {
-    "@tresjs/core": "2.0.0",
+    "@tresjs/core": "2.1.1",
     "three": "latest",
-    "vue": "^3.2.47"
+    "vue": "^3.3.4"
   },
   "devDependencies": {
     "@alvarosabu/prettier-config": "^1.3.0",
     "@release-it/conventional-changelog": "^5.1.1",
     "@tweakpane/plugin-essentials": "^0.1.8",
-    "@types/node": "^20.2.1",
+    "@types/node": "^20.2.3",
     "@types/three": "^0.152.0",
-    "@typescript-eslint/eslint-plugin": "^5.59.6",
-    "@typescript-eslint/parser": "^5.59.6",
+    "@typescript-eslint/eslint-plugin": "^5.59.7",
+    "@typescript-eslint/parser": "^5.59.7",
     "@vitejs/plugin-vue": "^4.2.3",
     "eslint": "^8.41.0",
     "eslint-config-prettier": "^8.8.0",
-    "eslint-plugin-vue": "^9.13.0",
+    "eslint-plugin-vue": "^9.14.0",
     "gsap": "^3.11.5",
     "kolorist": "^1.8.0",
     "pathe": "^1.1.0",
@@ -70,18 +70,18 @@
     "rollup-plugin-visualizer": "^5.9.0",
     "tweakpane": "^3.1.9",
     "typescript": "^5.0.4",
-    "unocss": "^0.51.13",
+    "unocss": "^0.52.1",
     "vite": "^4.3.8",
     "vite-plugin-banner": "^0.7.0",
     "vite-plugin-dts": "2.3.0",
     "vite-svg-loader": "^4.0.0",
-    "vitepress": "1.0.0-alpha.75"
+    "vitepress": "1.0.0-beta.1"
   },
   "dependencies": {
-    "@tresjs/core": "2.0.0",
+    "@tresjs/core": "2.1.1",
     "@vueuse/core": "^10.1.2",
     "three": "^0.152.2",
-    "three-stdlib": "^2.21.10",
-    "vue": "^3.2.47"
+    "three-stdlib": "^2.21.12",
+    "vue": "^3.3.4"
   }
 }

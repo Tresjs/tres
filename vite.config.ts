@@ -21,6 +21,9 @@ export default defineConfig({
   },
   plugins: [
     vue({
+      script: {
+        propsDestructure: true,
+      },
       isProduction: false,
       template: {
         compilerOptions: {

@@ -33,5 +33,6 @@ module.exports = {
     'vue/no-multiple-template-root': 'off',
     'vue/first-attribute-linebreak': 'off',
     'vue/setup-compiler-macros': 0,
+    'vue/no-dupe-keys': 'off', // TODO: remove this when https://github.com/vuejs/eslint-plugin-vue/issues/2121 is fixed
   },
 }

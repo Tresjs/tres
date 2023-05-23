@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
-import { OrbitControls, Smoke } from '@tresjs/cientos'
+import { OrbitControls, Smoke, Box } from '@tresjs/cientos'
 import { SRGBColorSpace, NoToneMapping } from 'three'
-
 const gl = {
   clearColor: '#333',
   alpha: true,
@@ -29,10 +28,9 @@ const gl = {
     <Suspense>
       <Smoke :position="[4, 2, 0]" :segments="8" />
     </Suspense>
-    <TresMesh ref="boxRef">
-      <TresBoxGeometry :args="[1, 1, 1]" />
-      <TresMeshToonMaterial color="teal" />
-    </TresMesh>
+    <Box :args="[2, 2]">
+      <TresMeshToonMaterial color="#82DBC5" />
+    </Box>
     <TresGridHelper :args="[10, 10]" />
     <TresAmbientLight :intensity="1" />
     <TresDirectionalLight :intensity="1" :position="[2, 2, 2]" />

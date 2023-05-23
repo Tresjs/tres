@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { TresColor, TresObject } from '@tresjs/core'
+import { TresColor } from '@tresjs/core'
+import { BoxGeometry } from 'three'
 
 import { shallowRef } from 'vue'
 
-export interface BoxProps extends TresObject {
+export type BoxProps = {
   /**
    * The width, height and depth of the box.
    * @default [1, 1, 1]
@@ -12,7 +13,7 @@ export interface BoxProps extends TresObject {
    * @see https://threejs.org/docs/#api/en/geometries/BoxGeometry
    *
    */
-  args?: number[]
+  args?: ConstructorParameters<typeof BoxGeometry>
   /**
    * The color of the box.
    * @default 0xffffff
@@ -22,10 +23,13 @@ export interface BoxProps extends TresObject {
    */
   color?: TresColor
 }
-withDefaults(defineProps<BoxProps>(), {
-  args: () => [1, 1, 1],
-  color: '0xffffff',
-})
+
+// TODO: remove disable once eslint is updated to support vue 3.3
+// eslint-disable-next-line vue/no-setup-props-destructure
+const { args = [1, 1, 1], color = '0xffffff' } = defineProps<{
+  args?: ConstructorParameters<typeof BoxGeometry>
+  color?: TresColor
+}>()
 
 const boxRef = shallowRef()
 

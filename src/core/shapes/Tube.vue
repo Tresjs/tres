@@ -1,13 +1,10 @@
 <!-- eslint-disable max-len -->
 <script setup lang="ts">
-import { TresColor, TresObject } from '@tresjs/core'
-import { CatmullRomCurve3, CubicBezierCurve3, LineCurve3, QuadraticBezierCurve3, Vector3 } from 'three'
+import { TresColor } from '@tresjs/core'
+import { QuadraticBezierCurve3, TubeGeometry, Vector3 } from 'three'
 import { shallowRef } from 'vue'
 
-export type CurveType = QuadraticBezierCurve3 | CubicBezierCurve3 | CatmullRomCurve3 | LineCurve3
-export type TubeGeometryParams = [CurveType, number, number, number, boolean]
-
-export interface TubeProps extends TresObject {
+export type TubeProps = {
   /**
    * The curve, segments, radius, radialSegments, closed.
    * @default [new QuadraticBezierCurve3(new Vector3(-1, 0, 0), new Vector3(0, 1, 0), new Vector3(1, 0, 0)), 20, 0.2, 8, false]
@@ -15,7 +12,7 @@ export interface TubeProps extends TresObject {
    * @memberof TubeProps
    * @see https://threejs.org/docs/#api/en/geometries/TubeGeometry
    */
-  args?: TubeGeometryParams
+  args?: ConstructorParameters<typeof TubeGeometry>
   /**
    * The color of the tube.
    * @default 0xffffff
@@ -26,16 +23,18 @@ export interface TubeProps extends TresObject {
   color?: TresColor
 }
 
-withDefaults(defineProps<TubeProps>(), {
-  args: () => [
+// TODO: remove disable once eslint is updated to support vue 3.3
+// eslint-disable-next-line vue/no-setup-props-destructure
+const {
+  args = [
     new QuadraticBezierCurve3(new Vector3(-1, 0, 0), new Vector3(0, 1, 0), new Vector3(1, 0, 0)),
     20,
     0.2,
     8,
     false,
   ],
-  color: '0xffffff',
-})
+  color = '0xffffff',
+} = defineProps<TubeProps>()
 
 const tubeRef = shallowRef()
 
