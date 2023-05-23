@@ -79,7 +79,7 @@ We are now using the latest version of [Vue 3.3.4](https://blog.vuejs.org/posts/
 
 ### Cientos v2.1.0
 
-We have updated the `@tresjs/cientos` package to v2.1.0, this version comes with a lot of improvements and new features. Check out the [release notes]()
+We have updated the `@tresjs/cientos` package to v2.1.0, this version comes with a lot of improvements and new features. Check out the [release notes](https://github.com/Tresjs/cientos/releases/tag/2.1.0)
 
 #### Enhanced `OrbitControls`
 
