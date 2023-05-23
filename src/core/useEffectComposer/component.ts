@@ -5,17 +5,9 @@ import { DepthDownsamplingPass, EffectComposer as EffectComposerImpl, NormalPass
 import { isWebGL2Available } from 'three-stdlib'
 
 import { useCore } from '../useCore'
+import { /* HalfFloatType, */ Scene } from 'three'
 
 export interface EffectComposerProps {
-  /**
-   * Whether the effect composer is enabled.
-   * @default true
-   * @type {boolean}
-   * @memberof EffectComposerProps
-   * @name enabled
-   *
-   **/
-  enabled?: boolean
   /**
    * The children of the effect composer.
    * @default []
@@ -127,7 +119,6 @@ export interface EffectComposerProps {
 export const EffectComposer = defineComponent<EffectComposerProps>({
   name: 'EffectComposer',
   props: [
-    'enabled',
     'children',
     'depthBuffer',
     'dissableNormalPass',
@@ -144,11 +135,11 @@ export const EffectComposer = defineComponent<EffectComposerProps>({
   setup(props, { slots }) {
     const { state } = useCore()
     const {
-      enabled = true,
-      renderPriority = 1,
+    // TODO: Add support for these props
+    /*    renderPriority = 1,
       autoClear = true,
       multisampling = 8,
-      frameBufferType = HalfFloatType,
+      frameBufferType = HalfFloatType, */
       resolutionScale,
     } = toRefs(props)
     const effectComposer: ShallowRef<EffectComposerImpl | null> = shallowRef(null)
@@ -191,15 +182,6 @@ export const EffectComposer = defineComponent<EffectComposerProps>({
         }
       }
     })
-
-    watch(
-      () => props.enabled,
-      enabled => {
-        if (effectComposer.value) {
-          effectComposer.value.enabled = enabled
-        }
-      },
-    )
 
     const { onLoop } = useRenderLoop()
 

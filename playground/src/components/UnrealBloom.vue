@@ -2,10 +2,9 @@
 import { Color } from 'three'
 import { TresCanvas } from '@tresjs/core'
 import { OrbitControls, useTweakPane } from '@tresjs/cientos'
-import { EffectComposer, Bloom } from '@post'
+import { EffectComposer, Bloom } from '@tresjs/post-processing'
 import { BasicShadowMap, NoToneMapping } from 'three'
 import { reactive, ref } from 'vue'
-import { watchEffect } from 'vue'
 import { onMounted } from 'vue'
 
 const gl = {
