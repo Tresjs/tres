@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import { Camera, Vector3 } from 'three'
+import { Camera } from 'three'
 import { OrbitControls } from 'three-stdlib'
-import { ref, watch, type Ref, onUnmounted } from 'vue'
+import { ref, watch, onUnmounted } from 'vue'
 import { TresVector3, useRenderLoop } from '@tresjs/core'
 import { useEventListener } from '@vueuse/core'
 
