@@ -2,7 +2,7 @@
 import { TresCanvas } from '@tresjs/core'
 import { useTweakPane } from '@tresjs/cientos'
 import { reactive, ref } from 'vue'
-import { EffectComposer, Outline, Glitch } from '@post'
+import { EffectComposer, Outline, Glitch } from '@tresjs/post-processing'
 import { BasicShadowMap, NoToneMapping, Object3D, Intersection } from 'three'
 
 const gl = {
