@@ -14,7 +14,7 @@
     "skipLibCheck": true,
     "noEmit": true,
     "paths": {
-      "@tresjs/post": ["../dist/"]
+      "@tresjs/post-processing": ["../dist/"]
     }
   },
   "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
