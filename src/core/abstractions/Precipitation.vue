@@ -2,7 +2,7 @@
 import { watchEffect, shallowRef } from 'vue'
 import { useRenderLoop, TresColor } from '@tresjs/core'
 
-export interface PrecipitationProps {
+export type PrecipitationProps = {
   /**
    * The size of the drops.
    *
@@ -112,40 +112,42 @@ export interface PrecipitationProps {
   sizeAttenuation?: boolean
 }
 
-const props = withDefaults(defineProps<PrecipitationProps>(), {
-  size: 0.1,
-  area: () => [10, 10, 20],
-  color: 0xffffff,
-  map: null,
-  alphaMap: null,
-  alphaTest: 0.01,
-  opacity: 0.8,
-  count: 5000,
-  speed: 0.1,
-  randomness: 0.5,
-  depthWrite: false,
-  transparent: true,
-  sizeAttenuation: true,
-})
+// TODO: remove disable once eslint is updated to support vue 3.3
+// eslint-disable-next-line vue/no-setup-props-destructure
+const {
+  size = 0.1,
+  area = [10, 10, 20],
+  color = 0xffffff,
+  map = null,
+  alphaMap = null,
+  alphaTest = 0.01,
+  opacity = 0.8,
+  count = 5000,
+  speed = 0.1,
+  randomness = 0.5,
+  depthWrite = false,
+  transparent = true,
+  sizeAttenuation = true,
+} = defineProps<PrecipitationProps>()
 
 const PrecipitationGeoRef = shallowRef()
 
 let position: [] | Float32Array = []
 let velocityArray: [] | Float32Array = []
 const setPosition = () => {
-  position = new Float32Array(props.count * 3)
-  for (let i = 0; i < props.count; i++) {
+  position = new Float32Array(count * 3)
+  for (let i = 0; i < count; i++) {
     const i3 = i * 3
-    position[i3] = (Math.random() - 0.5) * props.area[0]
-    position[i3 + 1] = (Math.random() - 0.5) * props.area[1]
-    position[i3 + 2] = (Math.random() - 0.5) * props.area[2]
+    position[i3] = (Math.random() - 0.5) * area[0]
+    position[i3 + 1] = (Math.random() - 0.5) * area[1]
+    position[i3 + 2] = (Math.random() - 0.5) * area[2]
   }
 }
 const setSpeed = () => {
-  velocityArray = new Float32Array(props.count * 2)
-  for (let i = 0; i < props.count * 2; i += 2) {
-    velocityArray[i] = ((Math.random() - 0.5) / 5) * props.speed * props.randomness
-    velocityArray[i + 1] = (Math.random() / 5) * props.speed + 0.01
+  velocityArray = new Float32Array(count * 2)
+  for (let i = 0; i < count * 2; i += 2) {
+    velocityArray[i] = ((Math.random() - 0.5) / 5) * speed * randomness
+    velocityArray[i + 1] = (Math.random() / 5) * speed + 0.01
   }
 }
 setSpeed()
@@ -171,9 +173,9 @@ onLoop(() => {
       positionArray[i * 3] += velocityX
       positionArray[i * 3 + 1] -= velocityY
 
-      if (positionArray[i * 3] <= -props.area[0] / 2 || positionArray[i * 3] >= props.area[0] / 2)
+      if (positionArray[i * 3] <= -area[0] / 2 || positionArray[i * 3] >= area[0] / 2)
         positionArray[i * 3] = positionArray[i * 3] * -1
-      if (positionArray[i * 3 + 1] <= -props.area[1] / 2 || positionArray[i * 3 + 1] >= props.area[1] / 2)
+      if (positionArray[i * 3 + 1] <= -area[1] / 2 || positionArray[i * 3 + 1] >= area[1] / 2)
         positionArray[i * 3 + 1] = positionArray[i * 3 + 1] * -1
     }
     PrecipitationGeoRef.value.attributes.position.needsUpdate = true
@@ -187,6 +189,7 @@ onLoop(() => {
       :size="size"
       :color="color"
       :alpha-map="alphaMap"
+      :map="map"
       :opacity="opacity"
       :alpha-test="alphaTest"
       :depth-write="depthWrite"

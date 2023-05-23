@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { shallowRef, reactive } from 'vue'
 import { TresCanvas } from '@tresjs/core'
-import { OrbitControls, Precipitation, useTweakPane } from '@cientos'
+import { OrbitControls, Precipitation, useTweakPane } from '@tresjs/cientos'
 import { SRGBColorSpace, NoToneMapping } from 'three'
 
 const gl = {
