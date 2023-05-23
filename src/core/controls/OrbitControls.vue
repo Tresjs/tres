@@ -2,7 +2,7 @@
 import { Camera, Vector3 } from 'three'
 import { OrbitControls } from 'three-stdlib'
 import { ref, watch, type Ref, onUnmounted } from 'vue'
-import { useRenderLoop } from '@tresjs/core'
+import { TresVector3, useRenderLoop } from '@tresjs/core'
 import { useEventListener } from '@vueuse/core'
 
 import { useCientos } from '../../core/useCientos'
@@ -35,11 +35,11 @@ export interface OrbitControlsProps {
   /**
    * The target to orbit around.
    *
-   * @type {Ref<Vector3>}
+   * @type {TresVector3}
    * @memberof OrbitControlsProps
    * @see https://threejs.org/docs/#examples/en/controls/OrbitControls.target
    */
-  target?: Ref<Vector3>
+  target?: TresVector3
   /**
    * Whether to enable damping (inertia)
    *
@@ -230,27 +230,30 @@ export interface OrbitControlsProps {
   rotateSpeed?: number
 }
 
-const props = withDefaults(defineProps<OrbitControlsProps>(), {
-  makeDefault: false,
-  autoRotate: false,
-  autoRotateSpeed: 2,
-  enableDamping: false,
-  dampingFactor: 0.05,
-  enablePan: true,
-  keyPanSpeed: 7,
-  maxAzimuthAngle: Infinity,
-  minAzimuthAngle: -Infinity,
-  maxPolarAngle: Math.PI,
-  minPolarAngle: 0,
-  minDistance: 0,
-  maxDistance: Infinity,
-  minZoom: 0,
-  maxZoom: Infinity,
-  enableZoom: true,
-  zoomSpeed: 1,
-  enableRotate: true,
-  rotateSpeed: 1,
-})
+// TODO: remove disable once eslint is updated to support vue 3.3
+// eslint-disable-next-line vue/no-setup-props-destructure
+const {
+  makeDefault = false,
+  autoRotate = false,
+  autoRotateSpeed = 2,
+  enableDamping = false,
+  dampingFactor = 0.05,
+  enablePan = true,
+  keyPanSpeed = 7,
+  maxAzimuthAngle = Infinity,
+  minAzimuthAngle = -Infinity,
+  maxPolarAngle = Math.PI,
+  minPolarAngle = 0,
+  minDistance = 0,
+  maxDistance = Infinity,
+  minZoom = 0,
+  maxZoom = Infinity,
+  enableZoom = true,
+  zoomSpeed = 1,
+  enableRotate = true,
+  rotateSpeed = 1,
+  target = [0, 0, 0],
+} = defineProps<OrbitControlsProps>()
 
 const { state, setState, extend } = useCientos()
 
@@ -260,7 +263,7 @@ extend({ OrbitControls })
 
 watch(controls, value => {
   addEventListeners()
-  if (value && props.makeDefault) {
+  if (value && makeDefault) {
     setState('controls', value)
   } else {
     setState('controls', null)
@@ -278,7 +281,7 @@ function addEventListeners() {
 const { onLoop } = useRenderLoop()
 
 onLoop(() => {
-  if (controls.value && (props.enableDamping || props.autoRotate)) {
+  if (controls.value && (enableDamping || autoRotate)) {
     controls.value.update()
   }
 })
@@ -294,6 +297,7 @@ onUnmounted(() => {
   <TresOrbitControls
     v-if="state.camera && state.renderer"
     ref="controls"
+    :target="target"
     :auto-rotate="autoRotate"
     :auto-rotate-speed="autoRotateSpeed"
     :enable-damping="enableDamping"
