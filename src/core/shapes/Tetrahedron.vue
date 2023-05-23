@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { TresColor, TresObject } from '@tresjs/core'
+import { TresColor } from '@tresjs/core'
+import { TetrahedronGeometry } from 'three'
 import { shallowRef } from 'vue'
 
-export interface TetrahedronProps extends TresObject {
+export type TetrahedronProps = {
   /**
    * The radius and detail of the tetrahedron.
    * @default [1, 0]
@@ -10,7 +11,7 @@ export interface TetrahedronProps extends TresObject {
    * @memberof TetrahedronProps
    * @see https://threejs.org/docs/#api/en/geometries/TetrahedronGeometry
    */
-  args?: number[]
+  args?: ConstructorParameters<typeof TetrahedronGeometry>
   /**
    * The color of the tetrahedron.
    * @default 0xffffff
@@ -21,10 +22,9 @@ export interface TetrahedronProps extends TresObject {
   color?: TresColor
 }
 
-withDefaults(defineProps<TetrahedronProps>(), {
-  args: () => [1, 0],
-  color: '0xffffff',
-})
+// TODO: remove disable once eslint is updated to support vue 3.3
+// eslint-disable-next-line vue/no-setup-props-destructure
+const { args = [1, 0], color = '0xffffff' } = defineProps<TetrahedronProps>()
 
 const tetrahedronRef = shallowRef()
 

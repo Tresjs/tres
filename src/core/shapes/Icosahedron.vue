@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { TresColor, TresObject } from '@tresjs/core'
+import { TresColor } from '@tresjs/core'
+import { IcosahedronGeometry } from 'three'
 import { shallowRef } from 'vue'
 
-export interface IcosahedronProps extends TresObject {
+export type IcosahedronProps = {
   /**
    * The radius and detail of the icosahedron.
    * @default [1, 0]
@@ -10,7 +11,7 @@ export interface IcosahedronProps extends TresObject {
    * @memberof IcosahedronProps
    * @see https://threejs.org/docs/#api/en/geometries/IcosahedronGeometry
    */
-  args?: number[]
+  args?: ConstructorParameters<typeof IcosahedronGeometry>
   /**
    * The color of the icosahedron.
    * @default 0xffffff
@@ -20,10 +21,10 @@ export interface IcosahedronProps extends TresObject {
    */
   color?: TresColor
 }
-withDefaults(defineProps<IcosahedronProps>(), {
-  args: () => [1, 0],
-  color: '0xffffff',
-})
+
+// TODO: remove disable once eslint is updated to support vue 3.3
+// eslint-disable-next-line vue/no-setup-props-destructure
+const { args = [1, 0], color = '0xffffff' } = defineProps<IcosahedronProps>()
 
 const icosahedronRef = shallowRef()
 

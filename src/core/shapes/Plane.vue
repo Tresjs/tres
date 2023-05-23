@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { TresColor, TresObject } from '@tresjs/core'
+import { TresColor } from '@tresjs/core'
+import { PlaneGeometry } from 'three'
 import { shallowRef } from 'vue'
 
-export interface PlaneProps extends TresObject {
+export type PlaneProps = {
   /**
    * The width and height, widthSegments, heightSegments of the plane.
    * @default [1, 1, 1, 1]
@@ -10,7 +11,7 @@ export interface PlaneProps extends TresObject {
    * @memberof PlaneProps
    * @see https://threejs.org/docs/#api/en/geometries/PlaneGeometry
    */
-  args?: number[]
+  args?: ConstructorParameters<typeof PlaneGeometry>
   /**
    * The color of the plane.
    * @default 0xffffff
@@ -21,16 +22,9 @@ export interface PlaneProps extends TresObject {
   color?: TresColor
 }
 
-withDefaults(
-  defineProps<{
-    args?: number[]
-    color?: TresColor
-  }>(),
-  {
-    args: () => [1, 1],
-    color: '0xffffff',
-  },
-)
+// TODO: remove disable once eslint is updated to support vue 3.3
+// eslint-disable-next-line vue/no-setup-props-destructure
+const { args = [1, 1], color = '0xffffff' } = defineProps<PlaneProps>()
 
 const planeRef = shallowRef()
 

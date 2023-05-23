@@ -1,8 +1,6 @@
-<script setup lang="ts">
-import OrbitControlsDemo from '../components/OrbitControlsDemo.vue'
-</script>
+<script setup lang="ts"></script>
 <template>
   <Suspense>
-    <OrbitControlsDemo />
+    <TheSmoke />
   </Suspense>
 </template>

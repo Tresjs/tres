@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { shallowRef, computed } from 'vue'
-import { TresColor, TresObject, useTexture, useRenderLoop } from '@tresjs/core'
+import { TresColor, useTexture, useRenderLoop } from '@tresjs/core'
 import { useCientos } from '../../core/useCientos'
 import { Object3D } from 'three'
 
-export interface SmokeProps extends TresObject {
+export type SmokeProps = {
   /**
    * The color of the smoke.
    * @default 0xffffff
@@ -71,16 +71,18 @@ export interface SmokeProps extends TresObject {
   depthTest?: boolean
 }
 
-const props = withDefaults(defineProps<SmokeProps>(), {
-  opacity: 0.5,
-  speed: 0.4,
-  width: 10,
-  depth: 1.5,
-  segments: 20,
-  texture: 'https://raw.githubusercontent.com/Tresjs/assets/main/textures/clouds/defaultCloud.png',
-  color: '#ffffff',
-  depthTest: true,
-})
+// TODO: remove disable once eslint is updated to support vue 3.3
+// eslint-disable-next-line vue/no-setup-props-destructure
+const {
+  opacity = 0.5,
+  speed = 0.4,
+  width = 10,
+  depth = 1.5,
+  segments = 20,
+  texture = 'https://raw.githubusercontent.com/Tresjs/assets/main/textures/clouds/defaultCloud.png',
+  color = '#ffffff',
+  depthTest = true,
+} = defineProps<SmokeProps>()
 
 const smokeRef = shallowRef()
 const groupRef = shallowRef()
@@ -89,19 +91,20 @@ defineExpose({
   value: smokeRef,
 })
 
-const smoke = [...new Array(props.segments)].map((_, index) => ({
-  x: props.width / 2 - Math.random() * props.width,
-  y: props.width / 2 - Math.random() * props.width,
-  scale: 0.4 + Math.sin(((index + 1) / props.segments) * Math.PI) * ((0.2 + Math.random()) * 10),
+const smoke = [...new Array(segments)].map((_, index) => ({
+  x: width / 2 - Math.random() * width,
+  y: width / 2 - Math.random() * width,
+  scale: 0.4 + Math.sin(((index + 1) / segments) * Math.PI) * ((0.2 + Math.random()) * 10),
   density: Math.max(0.2, Math.random()),
-  rotation: Math.max(0.002, 0.005 * Math.random()) * props.speed,
+  rotation: Math.max(0.002, 0.005 * Math.random()) * speed,
 }))
-const opacity = (scale: number, density: number): number => (scale / 6) * density * props.opacity
 
-const { map } = await useTexture({ map: props.texture })
+const calculateOpacity = (scale: number, density: number): number => (scale / 6) * density * opacity
+
+const { map } = await useTexture({ map: texture })
 
 const { state } = useCientos()
-const encoding = computed(() => state.renderer?.outputColorSpace)
+const colorSpace = computed(() => state.renderer?.outputColorSpace)
 
 const { onLoop } = useRenderLoop()
 
@@ -117,16 +120,16 @@ onLoop(() => {
 <template>
   <TresGroup ref="smokeRef" v-bind="$attrs">
     <TresGroup ref="groupRef" :position="[0, 0, (segments / 2) * depth]">
-      <TresMesh v-for="({ scale, x, y, density }, index) in smoke" :key="index" :position="[x, y, -index * depth]">
+      <TresMesh v-for="({ scale, x, y, density }, index) in smoke" :key="`${index}`" :position="[x, y, -index * depth]">
         <TresPlaneGeometry :scale="[scale, scale, scale]" :rotation="[0, 0, 0]" />
         <TresMeshStandardMaterial
           :map="map"
-          :map-encoding="encoding"
           :depth-test="depthTest"
+          :color-space="colorSpace"
           :color="color"
           :depth-write="false"
           transparent
-          :opacity="opacity(scale, density)"
+          :opacity="calculateOpacity(scale, density)"
         />
       </TresMesh>
     </TresGroup>
