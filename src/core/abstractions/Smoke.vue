@@ -104,7 +104,7 @@ const calculateOpacity = (scale: number, density: number): number => (scale / 6)
 const { map } = await useTexture({ map: texture })
 
 const { state } = useCientos()
-const encoding = computed(() => state.renderer?.outputColorSpace)
+const colorSpace = computed(() => state.renderer?.outputColorSpace)
 
 const { onLoop } = useRenderLoop()
 
@@ -124,8 +124,8 @@ onLoop(() => {
         <TresPlaneGeometry :scale="[scale, scale, scale]" :rotation="[0, 0, 0]" />
         <TresMeshStandardMaterial
           :map="map"
-          :map-encoding="encoding"
           :depth-test="depthTest"
+          :color-space="colorSpace"
           :color="color"
           :depth-write="false"
           transparent
