@@ -123,3 +123,35 @@ We have added support for [Contact Shadows](https://threejs.org/examples/?q=cont
 ```
 
 ### Precipitation abstraction
+
+A new abstraction has arrived, the `precipitation` component creates an infinite flow of particles, in combination with different props, this allow you to create, rain/snow/hail and many more effect. Unlock your creativity
+
+![Precipitation](https://cientos.tresjs.org/cientos/precipitation.gif)
+
+```vue
+<template>
+  <TresCanvas>
+    ...
+      <Precipitation :speed="1" :count="2500" :randomness="0.7" />
+    ...
+  </TresCanvas>
+</template>
+```
+You can read all the documentation [here](https://cientos.tresjs.org/guide/abstractions/precipitation.html)
+
+### Update parallax mouse abstraction
+
+We have added improvements to `MouseParallax` (previously called PamCameraMouse)
+
+1. No conflicts with controls
+2. New prop ease factor allows you to add smooth movement
+3. Change to a better name
+
+### Improvements in DX
+
+Also work mention, in cientos we're working hard on improving the developer experiences, as we know the details matter, these are some of them:
+
+- Update Vue 3.3.4 (and start migration to new destructure props)
+- Export types and better intellisense
+- Refactor folder structure
+- Creation of feature/bug forms in github for better issues
