@@ -1,7 +1,7 @@
 # Bloom
 
 <ClientOnly>
-<BloomDemo style="aspect-ratio: 16/9; height: auto; margin: 2rem 0; border-radius: 8px; overflow:hidden;"  />
+<BloomDemo class="demo-scene"  />
 </ClientOnly>
 
 Bloom is an effect that simulates the way that bright objects in the real world can create a "glow" effect around themselves. The effect works by adding a blurred and brightened version of the scene to the final render. This can help to create a more realistic and visually appealing scene.
