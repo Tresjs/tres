@@ -130,7 +130,7 @@ const {
   sizeAttenuation = true,
 } = defineProps<PrecipitationProps>()
 
-const PrecipitationGeoRef = shallowRef()
+const precipitationGeoRef = shallowRef()
 
 let position: [] | Float32Array = []
 let velocityArray: [] | Float32Array = []
@@ -156,17 +156,17 @@ setPosition()
 watchEffect(() => {
   setSpeed()
   setPosition()
-  if (PrecipitationGeoRef.value?.attributes.position) {
-    PrecipitationGeoRef.value.attributes.position = position
+  if (precipitationGeoRef.value?.attributes.position) {
+    precipitationGeoRef.value.attributes.position = position
   }
 })
 
 const { onLoop } = useRenderLoop()
 
 onLoop(() => {
-  if (PrecipitationGeoRef.value) {
-    const positionArray = PrecipitationGeoRef.value.attributes.position.array
-    for (let i = 0; i < PrecipitationGeoRef.value.attributes.position.count; i++) {
+  if (precipitationGeoRef.value) {
+    const positionArray = precipitationGeoRef.value.attributes.position.array
+    for (let i = 0; i < precipitationGeoRef.value.attributes.position.count; i++) {
       const velocityX = velocityArray[i * 2]
       const velocityY = velocityArray[i * 2 + 1]
 
@@ -178,7 +178,7 @@ onLoop(() => {
       if (positionArray[i * 3 + 1] <= -area[1] / 2 || positionArray[i * 3 + 1] >= area[1] / 2)
         positionArray[i * 3 + 1] = positionArray[i * 3 + 1] * -1
     }
-    PrecipitationGeoRef.value.attributes.position.needsUpdate = true
+    precipitationGeoRef.value.attributes.position.needsUpdate = true
   }
 })
 </script>
@@ -196,6 +196,6 @@ onLoop(() => {
       :transparent="transparent"
       :size-attenuation="sizeAttenuation"
     />
-    <TresBufferGeometry ref="PrecipitationGeoRef" :position="[position, 3]" :velocity="[velocityArray]" />
+    <TresBufferGeometry ref="precipitationGeoRef" :position="[position, 3]" :velocity="[velocityArray]" />
   </TresPoints>
 </template>
