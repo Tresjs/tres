@@ -1,5 +1,12 @@
 
 
+### [2.1.1](https://github.com/Tresjs/cientos/compare/2.1.0...2.1.1) (2023-05-24)
+
+
+### Bug Fixes
+
+* contact shadows helper as prop ([f7054d0](https://github.com/Tresjs/cientos/commit/f7054d0d471ad3636841ee625801eaf5950a1225))
+
 ## [2.1.0](https://github.com/Tresjs/cientos/compare/2.0.0...2.1.0) (2023-05-24)
 
 
