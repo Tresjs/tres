@@ -1,16 +1,15 @@
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
-import { BasicShadowMap, sRGBEncoding, NoToneMapping } from 'three'
+import { BasicShadowMap, SRGBColorSpace } from 'three'
 
-import { OrbitControls, PamCameraMouse } from '@tresjs/cientos'
+import { MouseParallax } from '@tresjs/cientos'
 import Headphones from './Headphones.vue'
 
 const gl = {
   shadows: true,
   alpha: false,
   shadowMapType: BasicShadowMap,
-  outputEncoding: sRGBEncoding,
-  toneMapping: NoToneMapping,
+  outputColorSpace: SRGBColorSpace,
 }
 
 const state = reactive({
@@ -30,15 +29,9 @@ const state = reactive({
         <span class="absolute border-1 border-solid border-white w-800px inline-block" />
 
         <p class="w-2/3 my-8 animate-fade-in">
-          Experience unparalleled audio immersion with the innovative SonicWave™️ Harmony Headphones. Our groundbreaking
-          noise-canceling technology and powerful bass features will transport you into a world of pure sound, free from
-          distractions.
+          Experience unparalleled audio immersion with the innovative SonicWave™️ Harmony Headphones.
         </p>
 
-        <p class="w-2/3 mb-8 animate-fade-in">
-          With customizable color options and a sleek, fashionable design, these headphones are the perfect marriage of
-          style and performance.
-        </p>
         <ul class="flex gap-8">
           <li v-for="color in state.colors">
             <button
@@ -54,13 +47,13 @@ const state = reactive({
   <div class="absolute w-1/2 inset-0 h-full flex justify-center items-center">
     <TresCanvas v-bind="gl" class="pointer-events-none">
       <TresPerspectiveCamera :position="[0, 0, 11]" />
-      <PamCameraMouse :factor="0.1" />
+      <MouseParallax :factor="0.1" />
       <Suspense>
         <Headphones :color="state.selectedColor" />
       </Suspense>
       <TresAmbientLight :intensity="2" />
       <TresPointLight :position="[0, 0, 10]" :intensity="1" />
-      <TresDirectionalLight :position="[3, 3, 3]" :intensity="1" />
+      <TresDirectionalLight :position="[3, 3, 3]" :intensity="3" />
     </TresCanvas>
   </div>
 </template>

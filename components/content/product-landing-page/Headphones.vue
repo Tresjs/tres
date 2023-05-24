@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useGLTF, Levioso } from '@tresjs/cientos'
+import { useGLTF, Levioso, ContactShadows } from '@tresjs/cientos'
 
 const props = defineProps({
   color: {
@@ -37,4 +37,5 @@ console.log({ headphones, nodes, materials })
   <Levioso>
     <primitive :object="nodes.Headphones_7" :position="[0, 0.5, 0]" :scale="[0.8, 0.8, 0.8]"></primitive>
   </Levioso>
+  <ContactShadows :opacity="0.2" :blur="3" :position="[0, -2, 0]" />
 </template>

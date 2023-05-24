@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "@iconify-json/ic": "^1.1.13",
-    "@tresjs/cientos": "2.1.0",
+    "@tresjs/cientos": "2.1.1",
     "@tresjs/core": "2.1.1",
     "@tresjs/post-processing": "^0.1.0",
     "postprocessing": "^6.31.0",
