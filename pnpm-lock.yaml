@@ -5,8 +5,8 @@ dependencies:
     specifier: ^1.1.13
     version: 1.1.13
   '@tresjs/cientos':
-    specifier: 2.1.0
-    version: 2.1.0(@tresjs/core@2.1.1)(three@0.152.2)(vue@3.3.4)
+    specifier: 2.1.1
+    version: 2.1.1(@tresjs/core@2.1.1)(three@0.152.2)(vue@3.3.4)
   '@tresjs/core':
     specifier: 2.1.1
     version: 2.1.1(three@0.152.2)(vue@3.3.4)
@@ -1229,8 +1229,8 @@ packages:
     resolution: {integrity: sha512-+9jVqKhRSpsc591z5vX+X5Yyw+he/HCB4iQ/RYxw35CEPaY1gnsNE43nf9n9AaYjAQrTiI/mOwKUKdUs9vf7Xg==}
     dev: true
 
-  /@tresjs/cientos@2.1.0(@tresjs/core@2.1.1)(three@0.152.2)(vue@3.3.4):
-    resolution: {integrity: sha512-pNy3mluNegjn4+J8q0t/0HLzGZNDV1RzX9V0Hk+wOFTN8glZBpbRJR8r/zHFCF9MC7JYNu7CHHAe3ZDIcgfSzA==}
+  /@tresjs/cientos@2.1.1(@tresjs/core@2.1.1)(three@0.152.2)(vue@3.3.4):
+    resolution: {integrity: sha512-d6BN/PPpk1GzaMLwYtKUO4HMyM/HUD9jfd5XivbnBvESYtSVQ+tBF0m+7yS9M0duKtBt1pxwYobYQXZpadryLA==}
     peerDependencies:
       '@tresjs/core': 2.1.1
       three: latest

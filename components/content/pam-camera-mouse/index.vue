@@ -2,7 +2,7 @@
 import { BasicShadowMap, SRGBColorSpace, NoToneMapping } from 'three'
 import { TresCanvas, useRenderLoop } from '@tresjs/core'
 
-import { PamCameraMouse } from '@tresjs/cientos'
+import { MouseParallax } from '@tresjs/cientos'
 
 import Vertex from './shaders/vertex.glsl'
 import Fragment from './shaders/fragment.glsl'
@@ -35,7 +35,7 @@ onLoop(() => {
 <template>
   <TresCanvas v-bind="gl">
     <TresPerspectiveCamera :position="[0, 0, 5]" :fov="75" :near="0.1" :far="1000" />
-    <PamCameraMouse :factor="2" />
+    <MouseParallax :factor="2" />
     <TresMesh :scale="2" :position="[0.5, 0.5, 0]" cast-shadow>
       <TresSphereGeometry :args="[1, 30, 30]" />
       <TresShaderMaterial v-bind="shader" />

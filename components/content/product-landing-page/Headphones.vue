@@ -1,0 +1,41 @@
+<script setup lang="ts">
+import { useGLTF, Levioso, ContactShadows } from '@tresjs/cientos'
+
+const props = defineProps({
+  color: {
+    type: String,
+    required: true,
+  },
+})
+
+const {
+  scene: headphones,
+  nodes,
+  materials,
+} = await useGLTF('/models/headphones/headphones.gltf', {
+  draco: true,
+})
+
+watch(
+  () => props.color,
+  color => {
+    materials.Base.color.set(color)
+
+    if (color === '#000000') {
+      materials.Base.roughness = 1
+      materials.Cush.color.set('#050505')
+    } else {
+      materials.Cush.color.set('#A4BCB7')
+    }
+  },
+  { immediate: true },
+)
+
+console.log({ headphones, nodes, materials })
+</script>
+<template>
+  <Levioso>
+    <primitive :object="nodes.Headphones_7" :position="[0, 0.5, 0]" :scale="[0.8, 0.8, 0.8]"></primitive>
+  </Levioso>
+  <ContactShadows :opacity="0.2" :blur="3" :position="[0, -2, 0]" />
+</template>
