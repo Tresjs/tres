@@ -123,6 +123,15 @@ export interface ContactShadowsProps {
    *
    */
   depthWrite?: boolean
+  /**
+   * Whether the OrthographicCamera helper should be visible or not.
+   *
+   * @default false
+   * @type {boolean}
+   * @memberof ContactShadowsProps
+   *
+   */
+  helper?: boolean
 }
 
 const props = withDefaults(defineProps<ContactShadowsProps>(), {
@@ -137,6 +146,7 @@ const props = withDefaults(defineProps<ContactShadowsProps>(), {
   smooth: true,
   color: '#000000',
   depthWrite: false,
+  helper: false,
 })
 
 const groupRef = shallowRef()
@@ -278,7 +288,7 @@ onLoop(() => {
     </TresMesh>
     <primitive :object="blurPlane" />
 
-    <TresCameraHelper v-if="shadowCamera" :args="[shadowCamera]" />
+    <TresCameraHelper v-if="shadowCamera && helper" :args="[shadowCamera]" />
     <TresOrthographicCamera
       ref="shadowCamera"
       :rotation-x="Math.PI / 2"
