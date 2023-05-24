@@ -132,11 +132,12 @@ A new abstraction has arrived, the `precipitation` component creates an infinite
 <template>
   <TresCanvas>
     ...
-      <Precipitation :speed="1" :count="2500" :randomness="0.7" />
+    <Precipitation :speed="1" :count="2500" :randomness="0.7" />
     ...
   </TresCanvas>
 </template>
 ```
+
 You can read all the documentation [here](https://cientos.tresjs.org/guide/abstractions/precipitation.html)
 
 ### Update parallax mouse abstraction
@@ -149,9 +150,10 @@ We have added improvements to `MouseParallax` (previously called PamCameraMouse)
 
 ### Improvements in DX
 
-Also work mention, in cientos we're working hard on improving the developer experiences, as we know the details matter, these are some of them:
+It's also worth mentioning, in cientos we're working hard on improving the developer experience, as we know the details matter, these are some of them:
 
-- Update Vue 3.3.4 (and start migration to new destructure props)
+- Update Vue 3.3.4
+- start of migration to new destructure props
 - Export types and better intellisense
 - Refactor folder structure
-- Creation of feature/bug forms in github for better issues
+- Creation of feature/bug forms in github for better issues report
