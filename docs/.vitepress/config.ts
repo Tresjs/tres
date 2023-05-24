@@ -103,7 +103,6 @@ export default defineConfig({
         overlay: false,
       },
     },
-    plugins: [svgLoader(), Unocss()],
     resolve: {
       alias: {
         '@tresjs/cientos': resolve(__dirname, '../../dist/trescientos.js'),
