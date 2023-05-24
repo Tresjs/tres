@@ -1,6 +1,7 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+</script>
 <template>
   <Suspense>
-    <TheSmoke />
+    <PrecipitationDemo />
   </Suspense>
 </template>

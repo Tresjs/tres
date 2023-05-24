@@ -2,7 +2,7 @@
 
 `<Smoke />` is a component that renders a smoke in your scene. It is an abstraction that use a combination of textures, transparency and some calculation, to create a beautiful  smoke - cloud - fog effect
 
-<!-- <StackBlitzEmbed projectId="tresjs-text3d-cientos" /> -->
+![Smoke](/cientos/smoke.gif)
 
 ## Usage
 
@@ -41,11 +41,11 @@ Notice that you can pass a texture in combination with props,  to personalize yo
 
 | Prop               | Description                                                            | Default |
 | :----------------- | :--------------------------------------------------------------------- | ------- |
-| **opacity**        | The strength of the opacity.                                           |   0.1   |
-| **speed**          | The rotation speed of the smoke.                                      | true    |
-| **width**          | The base width.                                                        | true    |
-| **depth**          | The base depth.                                                        | 0.01    |
-| **segments**       | The number of smoke to render.                                        | null    |
-| **texture**        | The texture of the smoke.                                             | 5000    |
-| **color**          | The color of the smoke.                                               | 50      |
-| **depthTest**      | The depthTest.                                                         | 100     |
+| **opacity**        | The strength of the opacity.                                           |   0.5   |
+| **speed**          | The rotation speed of the smoke.                                      | 0.4    |
+| **width**          | The base width.                                                        | 4    |
+| **depth**          | The base depth.                                                        | 10    |
+| **segments**       | The number of smoke to render.                                        | 10   |
+| **texture**        | The texture of the smoke.                                             |  null   |
+| **color**          | The color of the smoke.                                               | 0xffffff      |
+| **depthTest**      | The depthTest.                                                         | true     |

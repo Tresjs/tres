@@ -70,7 +70,7 @@ export interface StarsProps {
   /**
    * texture of the stars.
    *
-   * @type {number}
+   * @type {string}
    * @memberof StarsProps
    * @default null
    */

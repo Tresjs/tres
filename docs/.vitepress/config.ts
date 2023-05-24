@@ -36,6 +36,7 @@ export default defineConfig({
           { text: 'Smoke', link: '/guide/abstractions/smoke' },
           { text: 'Levioso (Float)', link: '/guide/abstractions/levioso' },
           { text: 'Contact Shadows', link: '/guide/abstractions/contact-shadows' },
+          { text: 'Precipitation', link: '/guide/abstractions/precipitation' },
         ],
       },
       {

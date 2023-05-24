@@ -9,7 +9,6 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
-    AkuAku: typeof import('./src/components/AkuAku.vue')['default']
     ContactShadowsDemo: typeof import('./src/components/ContactShadowsDemo.vue')['default']
     Gltf: typeof import('./src/components/gltf/index.vue')['default']
     LeviosoDemo: typeof import('./src/components/LeviosoDemo.vue')['default']
@@ -17,6 +16,7 @@ declare module '@vue/runtime-core' {
     ModelsDemo: typeof import('./src/components/ModelsDemo.vue')['default']
     OrbitControlsDemo: typeof import('./src/components/OrbitControlsDemo.vue')['default']
     PointerLockControlsDemo: typeof import('./src/components/PointerLockControlsDemo.vue')['default']
+    PrecipitationDemo: typeof import('./src/components/PrecipitationDemo.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     TheGizmos: typeof import('./src/components/TheGizmos.vue')['default']

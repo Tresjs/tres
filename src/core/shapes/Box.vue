@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { TresColor } from '@tresjs/core'
 import { BoxGeometry } from 'three'
-import { watchEffect } from 'vue'
 
 import { shallowRef } from 'vue'
 
