@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { BasicShadowMap, sRGBEncoding, NoToneMapping } from 'three'
+import { BasicShadowMap, SRGBColorSpace, NoToneMapping } from 'three'
 import { TresCanvas } from '@tresjs/core'
 import { OrbitControls } from '@tresjs/cientos'
 import ThePortal from './ThePortal.vue'
@@ -10,7 +10,7 @@ const gl = {
   shadows: true,
   alpha: false,
   shadowMapType: BasicShadowMap,
-  outputEncoding: sRGBEncoding,
+  outputColorSpace: SRGBColorSpace,
   toneMapping: NoToneMapping,
 }
 </script>

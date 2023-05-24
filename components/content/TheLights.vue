@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { TresCanvas, TresInstance, useTexture } from '@tresjs/core'
-import { BasicShadowMap, sRGBEncoding, NoToneMapping, Color } from 'three'
+import { BasicShadowMap, SRGBColorSpace, NoToneMapping, Color } from 'three'
 
 import { OrbitControls, useTweakPane, GLTFModel, Plane } from '@tresjs/cientos'
 
@@ -9,7 +9,7 @@ const gl = {
   shadows: true,
   alpha: false,
   shadowMapType: BasicShadowMap,
-  outputEncoding: sRGBEncoding,
+  outputColorSpace: SRGBColorSpace,
   toneMapping: NoToneMapping,
 }
 
