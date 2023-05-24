@@ -19,6 +19,7 @@ const state = reactive({
   opacity: 1,
   resolution: 512,
   color: '#0000ff',
+  helper: false,
 })
 
 const { pane } = useTweakPane()
@@ -43,6 +44,8 @@ pane.addInput(state, 'resolution', {
 pane.addInput(state, 'color').on('change', ev => {
   state.color = ev.value
 })
+
+pane.addInput(state, 'helper')
 
 const groupRef = shallowRef()
 
@@ -78,7 +81,13 @@ onLoop(() => {
     <Icosahedron ref="icoRef" :args="[0.3]" :position="[1, 1, 1]">
       <TresMeshNormalMaterial />
     </Icosahedron>
-    <ContactShadows :blur="state.blur" :resolution="state.resolution" :opacity="state.opacity" :color="state.color" />
+    <ContactShadows
+      :blur="state.blur"
+      :resolution="state.resolution"
+      :opacity="state.opacity"
+      :color="state.color"
+      :helper="state.helper"
+    />
     <Plane :args="[10, 10, 10]" :position="[0, -0.02, 0]">
       <TresMeshBasicMaterial :color="'#ffffff'" />
     </Plane>
