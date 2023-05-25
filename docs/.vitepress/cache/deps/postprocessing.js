@@ -56,10 +56,10 @@ import {
   Vector4,
   WebGLRenderTarget,
   sRGBEncoding
-} from "./chunk-AQJLOSUF.js";
+} from "./chunk-BMVNX5DT.js";
 import "./chunk-4EOJPDL2.js";
 
-// node_modules/.pnpm/postprocessing@6.30.2_three@0.151.3/node_modules/postprocessing/build/postprocessing.esm.js
+// node_modules/.pnpm/postprocessing@6.31.0_three@0.152.2/node_modules/postprocessing/build/postprocessing.esm.js
 var Disposable = class {
   /**
    * Frees internal resources.
@@ -77,7 +77,6 @@ var AdaptiveLuminanceMaterial = class extends ShaderMaterial {
     super({
       name: "AdaptiveLuminanceMaterial",
       defines: {
-        THREE_REVISION: REVISION.replace(/\D+/g, ""),
         MIP_LEVEL_1X1: "0.0"
       },
       uniforms: {
@@ -91,12 +90,12 @@ var AdaptiveLuminanceMaterial = class extends ShaderMaterial {
         shaderTextureLOD: true
       },
       blending: NoBlending,
+      toneMapped: false,
       depthWrite: false,
       depthTest: false,
       fragmentShader: adaptive_luminance_default,
       vertexShader: common_default
     });
-    this.toneMapped = false;
   }
   /**
    * The primary luminance buffer that contains the downsampled average luminance.
@@ -251,12 +250,12 @@ var BokehMaterial = class extends ShaderMaterial {
         scale: new Uniform(1)
       },
       blending: NoBlending,
+      toneMapped: false,
       depthWrite: false,
       depthTest: false,
       fragmentShader: convolution_bokeh_default,
       vertexShader: common_default
     });
-    this.toneMapped = false;
     if (foreground) {
       this.defines.FOREGROUND = "1";
     }
@@ -370,25 +369,41 @@ var BokehMaterial = class extends ShaderMaterial {
     this.uniforms.texelSize.value.set(1 / width, 1 / height);
   }
 };
-function getTextureDecoding(texture, isWebGL2) {
-  let decoding = "texel";
-  if (texture !== null) {
-    const revision = Number.parseInt(REVISION);
-    const sRGB8Alpha8 = isWebGL2 && revision >= 133 && revision !== 135 && texture.format === RGBAFormat && texture.type === UnsignedByteType && texture.encoding === sRGBEncoding;
-    if (!sRGB8Alpha8) {
-      switch (texture.encoding) {
-        case sRGBEncoding:
-          decoding = "sRGBToLinear(texel)";
-          break;
-        case LinearEncoding:
-          decoding = "texel";
-          break;
-        default:
-          throw new Error(`Unsupported encoding: ${texture.encoding}`);
-      }
-    }
+var NoColorSpace = "";
+var SRGBColorSpace = "srgb";
+var LinearSRGBColorSpace = "srgb-linear";
+var revision = Number(REVISION.replace(/\D+/g, ""));
+var useColorSpace = revision >= 152;
+var encodingToColorSpace = /* @__PURE__ */ new Map([
+  [LinearEncoding, LinearSRGBColorSpace],
+  [sRGBEncoding, SRGBColorSpace]
+]);
+var colorSpaceToEncoding = /* @__PURE__ */ new Map([
+  [LinearSRGBColorSpace, LinearEncoding],
+  [SRGBColorSpace, sRGBEncoding]
+]);
+function getOutputColorSpace(renderer) {
+  return renderer === null ? null : useColorSpace ? renderer.outputColorSpace : encodingToColorSpace.get(renderer.outputEncoding);
+}
+function setTextureColorSpace(texture, colorSpace) {
+  if (texture === null) {
+    return;
   }
-  return decoding;
+  if (useColorSpace) {
+    texture.colorSpace = colorSpace;
+  } else {
+    texture.encoding = colorSpaceToEncoding.get(colorSpace);
+  }
+}
+function copyTextureColorSpace(src, dest) {
+  if (src === null || dest === null) {
+    return;
+  }
+  if (useColorSpace) {
+    dest.colorSpace = src.colorSpace;
+  } else {
+    dest.encoding = src.encoding;
+  }
 }
 function orthographicDepthToViewZ(depth, near, far) {
   return depth * (near - far) - near;
@@ -422,12 +437,12 @@ var BoxBlurMaterial = class extends ShaderMaterial {
         scale: new Uniform(1)
       },
       blending: NoBlending,
+      toneMapped: false,
       depthWrite: false,
       depthTest: false,
       fragmentShader: convolution_box_default,
       vertexShader: convolution_box_default2
     });
-    this.toneMapped = false;
     this.bilateral = bilateral;
     this.kernelSize = kernelSize;
     this.maxVaryingVectors = 8;
@@ -609,12 +624,12 @@ var CircleOfConfusionMaterial = class extends ShaderMaterial {
         cameraFar: new Uniform(1e3)
       },
       blending: NoBlending,
+      toneMapped: false,
       depthWrite: false,
       depthTest: false,
       fragmentShader: circle_of_confusion_default,
       vertexShader: common_default
     });
-    this.toneMapped = false;
     this.uniforms.focalLength = this.uniforms.focusRange;
     this.copyCameraSettings(camera);
   }
@@ -929,12 +944,12 @@ var KawaseBlurMaterial = class extends ShaderMaterial {
         kernel: new Uniform(0)
       },
       blending: NoBlending,
+      toneMapped: false,
       depthWrite: false,
       depthTest: false,
       fragmentShader: convolution_kawase_default,
       vertexShader: convolution_kawase_default2
     });
-    this.toneMapped = false;
     this.setTexelSize(texelSize.x, texelSize.y);
     this.kernelSize = KernelSize.MEDIUM;
   }
@@ -1055,12 +1070,12 @@ var CopyMaterial = class extends ShaderMaterial {
         opacity: new Uniform(1)
       },
       blending: NoBlending,
+      toneMapped: false,
       depthWrite: false,
       depthTest: false,
       fragmentShader: copy_default,
       vertexShader: common_default
     });
-    this.toneMapped = false;
   }
   /**
    * The input buffer.
@@ -1119,12 +1134,12 @@ var DepthComparisonMaterial = class extends ShaderMaterial {
         cameraFar: new Uniform(1e3)
       },
       blending: NoBlending,
+      toneMapped: false,
       depthWrite: false,
       depthTest: false,
       fragmentShader: depth_comparison_default,
       vertexShader: depth_comparison_default2
     });
-    this.toneMapped = false;
     this.depthBuffer = depthTexture;
     this.depthPacking = RGBADepthPacking;
     this.copyCameraSettings(camera);
@@ -1203,12 +1218,12 @@ var DepthCopyMaterial = class extends ShaderMaterial {
         texelPosition: new Uniform(new Vector2())
       },
       blending: NoBlending,
+      toneMapped: false,
       depthWrite: false,
       depthTest: false,
       fragmentShader: depth_copy_default,
       vertexShader: depth_copy_default2
     });
-    this.toneMapped = false;
     this.depthCopyMode = DepthCopyMode.FULL;
   }
   /**
@@ -1368,12 +1383,12 @@ var DepthDownsamplingMaterial = class extends ShaderMaterial {
         texelSize: new Uniform(new Vector2())
       },
       blending: NoBlending,
+      toneMapped: false,
       depthWrite: false,
       depthTest: false,
       fragmentShader: depth_downsampling_default,
       vertexShader: depth_downsampling_default2
     });
-    this.toneMapped = false;
   }
   /**
    * The depth buffer.
@@ -1467,12 +1482,12 @@ var DepthMaskMaterial = class extends ShaderMaterial {
         cameraNearFar: new Uniform(new Vector2(1, 1))
       },
       blending: NoBlending,
+      toneMapped: false,
       depthWrite: false,
       depthTest: false,
       fragmentShader: depth_mask_default,
       vertexShader: common_default
     });
-    this.toneMapped = false;
     this.depthMode = LessDepth;
   }
   /**
@@ -1703,12 +1718,12 @@ var DownsamplingMaterial = class extends ShaderMaterial {
         texelSize: new Uniform(new Vector2())
       },
       blending: NoBlending,
+      toneMapped: false,
       depthWrite: false,
       depthTest: false,
       fragmentShader: convolution_downsampling_default,
       vertexShader: convolution_downsampling_default2
     });
-    this.toneMapped = false;
   }
   /**
    * The input buffer.
@@ -1759,12 +1774,12 @@ var EdgeDetectionMaterial = class extends ShaderMaterial {
         texelSize: new Uniform(texelSize)
       },
       blending: NoBlending,
+      toneMapped: false,
       depthWrite: false,
       depthTest: false,
       fragmentShader: edge_detection_default,
       vertexShader: edge_detection_default2
     });
-    this.toneMapped = false;
     this.edgeDetectionMode = mode;
   }
   /**
@@ -2083,11 +2098,11 @@ var EffectMaterial = class extends ShaderMaterial {
         time: new Uniform(0)
       },
       blending: NoBlending,
+      toneMapped: false,
       depthWrite: false,
       depthTest: false,
       dithering
     });
-    this.toneMapped = false;
     if (shaderParts) {
       this.setShaderParts(shaderParts);
     }
@@ -2170,9 +2185,8 @@ var EffectMaterial = class extends ShaderMaterial {
    * @return {EffectMaterial} This material.
    */
   setShaderParts(shaderParts) {
-    var _a, _b, _c, _d, _e;
-    this.fragmentShader = effect_default.replace(EffectShaderSection.FRAGMENT_HEAD, (_a = shaderParts.get(EffectShaderSection.FRAGMENT_HEAD)) != null ? _a : "").replace(EffectShaderSection.FRAGMENT_MAIN_UV, (_b = shaderParts.get(EffectShaderSection.FRAGMENT_MAIN_UV)) != null ? _b : "").replace(EffectShaderSection.FRAGMENT_MAIN_IMAGE, (_c = shaderParts.get(EffectShaderSection.FRAGMENT_MAIN_IMAGE)) != null ? _c : "");
-    this.vertexShader = effect_default2.replace(EffectShaderSection.VERTEX_HEAD, (_d = shaderParts.get(EffectShaderSection.VERTEX_HEAD)) != null ? _d : "").replace(EffectShaderSection.VERTEX_MAIN_SUPPORT, (_e = shaderParts.get(EffectShaderSection.VERTEX_MAIN_SUPPORT)) != null ? _e : "");
+    this.fragmentShader = effect_default.replace(EffectShaderSection.FRAGMENT_HEAD, shaderParts.get(EffectShaderSection.FRAGMENT_HEAD) || "").replace(EffectShaderSection.FRAGMENT_MAIN_UV, shaderParts.get(EffectShaderSection.FRAGMENT_MAIN_UV) || "").replace(EffectShaderSection.FRAGMENT_MAIN_IMAGE, shaderParts.get(EffectShaderSection.FRAGMENT_MAIN_IMAGE) || "");
+    this.vertexShader = effect_default2.replace(EffectShaderSection.VERTEX_HEAD, shaderParts.get(EffectShaderSection.VERTEX_HEAD) || "").replace(EffectShaderSection.VERTEX_MAIN_SUPPORT, shaderParts.get(EffectShaderSection.VERTEX_MAIN_SUPPORT) || "");
     this.needsUpdate = true;
     return this;
   }
@@ -2341,12 +2355,12 @@ var GaussianBlurMaterial = class extends ShaderMaterial {
         scale: new Uniform(1)
       },
       blending: NoBlending,
+      toneMapped: false,
       depthWrite: false,
       depthTest: false,
       fragmentShader: convolution_gaussian_default,
       vertexShader: convolution_gaussian_default2
     });
-    this.toneMapped = false;
     this._kernelSize = 0;
     this.kernelSize = kernelSize;
   }
@@ -2442,12 +2456,12 @@ var GodRaysMaterial = class extends ShaderMaterial {
         clampMax: new Uniform(1)
       },
       blending: NoBlending,
+      toneMapped: false,
       depthWrite: false,
       depthTest: false,
       fragmentShader: convolution_god_rays_default,
       vertexShader: common_default
     });
-    this.toneMapped = false;
   }
   /**
    * The input buffer.
@@ -2691,12 +2705,12 @@ var LuminanceMaterial = class extends ShaderMaterial {
         range: new Uniform(null)
       },
       blending: NoBlending,
+      toneMapped: false,
       depthWrite: false,
       depthTest: false,
       fragmentShader: luminance_default,
       vertexShader: common_default
     });
-    this.toneMapped = false;
     this.colorOutput = colorOutput;
     this.luminanceRange = luminanceRange;
   }
@@ -2894,14 +2908,14 @@ var MaskMaterial = class extends ShaderMaterial {
         strength: new Uniform(1)
       },
       blending: NoBlending,
+      toneMapped: false,
       depthWrite: false,
       depthTest: false,
       fragmentShader: mask_default,
       vertexShader: common_default
     });
-    this.toneMapped = false;
-    this.setColorChannel(ColorChannel.RED);
-    this.setMaskFunction(MaskFunction.DISCARD);
+    this.colorChannel = ColorChannel.RED;
+    this.maskFunction = MaskFunction.DISCARD;
   }
   /**
    * The input buffer.
@@ -3063,12 +3077,12 @@ var OutlineMaterial = class extends ShaderMaterial {
         texelSize: new Uniform(new Vector2())
       },
       blending: NoBlending,
+      toneMapped: false,
       depthWrite: false,
       depthTest: false,
       fragmentShader: outline_default,
       vertexShader: outline_default2
     });
-    this.toneMapped = false;
     this.uniforms.texelSize.value.set(texelSize.x, texelSize.y);
     this.uniforms.maskTexture = this.uniforms.inputBuffer;
   }
@@ -3145,12 +3159,12 @@ var SMAAWeightsMaterial = class extends ShaderMaterial {
         texelSize: new Uniform(texelSize)
       },
       blending: NoBlending,
+      toneMapped: false,
       depthWrite: false,
       depthTest: false,
       fragmentShader: smaa_weights_default,
       vertexShader: smaa_weights_default2
     });
-    this.toneMapped = false;
   }
   /**
    * The input buffer.
@@ -3397,12 +3411,12 @@ var SSAOMaterial = class extends ShaderMaterial {
         bias: new Uniform(0)
       },
       blending: NoBlending,
+      toneMapped: false,
       depthWrite: false,
       depthTest: false,
       fragmentShader: ssao_default,
       vertexShader: ssao_default2
     });
-    this.toneMapped = false;
     this.copyCameraSettings(camera);
     this.resolution = new Vector2();
     this.r = 1;
@@ -4061,12 +4075,12 @@ var UpsamplingMaterial = class extends ShaderMaterial {
         radius: new Uniform(0.85)
       },
       blending: NoBlending,
+      toneMapped: false,
       depthWrite: false,
       depthTest: false,
       fragmentShader: convolution_upsampling_default,
       vertexShader: convolution_upsampling_default2
     });
-    this.toneMapped = false;
   }
   /**
    * The input buffer.
@@ -4413,8 +4427,8 @@ var CopyPass = class extends Pass {
       this.renderTarget.texture.type = frameBufferType;
       if (frameBufferType !== UnsignedByteType) {
         this.fullscreenMaterial.defines.FRAMEBUFFER_PRECISION_HIGH = "1";
-      } else if (renderer.outputEncoding === sRGBEncoding) {
-        this.renderTarget.texture.encoding = sRGBEncoding;
+      } else if (getOutputColorSpace(renderer) === SRGBColorSpace) {
+        setTextureColorSpace(this.renderTarget.texture, SRGBColorSpace);
       }
     }
   }
@@ -4610,9 +4624,9 @@ var BoxBlurPass = class extends Pass {
       this.renderTargetB.texture.type = frameBufferType;
       if (frameBufferType !== UnsignedByteType) {
         this.fullscreenMaterial.defines.FRAMEBUFFER_PRECISION_HIGH = "1";
-      } else if (renderer.outputEncoding === sRGBEncoding) {
-        this.renderTargetA.texture.encoding = sRGBEncoding;
-        this.renderTargetB.texture.encoding = sRGBEncoding;
+      } else if (getOutputColorSpace(renderer) === SRGBColorSpace) {
+        setTextureColorSpace(this.renderTargetA.texture, SRGBColorSpace);
+        setTextureColorSpace(this.renderTargetB.texture, SRGBColorSpace);
       }
     }
   }
@@ -5872,7 +5886,6 @@ function prefixSubstrings(prefix, substrings, strings) {
   }
 }
 function integrateEffect(prefix, effect, data) {
-  var _a, _b, _c, _d, _e;
   let fragmentShader = effect.getFragmentShader();
   let vertexShader = effect.getVertexShader();
   const mainImageExists = fragmentShader !== void 0 && /mainImage/.test(fragmentShader);
@@ -5887,11 +5900,11 @@ function integrateEffect(prefix, effect, data) {
   } else {
     const functionRegExp = /\w+\s+(\w+)\([\w\s,]*\)\s*{/g;
     const shaderParts = data.shaderParts;
-    let fragmentHead = (_a = shaderParts.get(EffectShaderSection.FRAGMENT_HEAD)) != null ? _a : "";
-    let fragmentMainUv = (_b = shaderParts.get(EffectShaderSection.FRAGMENT_MAIN_UV)) != null ? _b : "";
-    let fragmentMainImage = (_c = shaderParts.get(EffectShaderSection.FRAGMENT_MAIN_IMAGE)) != null ? _c : "";
-    let vertexHead = (_d = shaderParts.get(EffectShaderSection.VERTEX_HEAD)) != null ? _d : "";
-    let vertexMainSupport = (_e = shaderParts.get(EffectShaderSection.VERTEX_MAIN_SUPPORT)) != null ? _e : "";
+    let fragmentHead = shaderParts.get(EffectShaderSection.FRAGMENT_HEAD) || "";
+    let fragmentMainUv = shaderParts.get(EffectShaderSection.FRAGMENT_MAIN_UV) || "";
+    let fragmentMainImage = shaderParts.get(EffectShaderSection.FRAGMENT_MAIN_IMAGE) || "";
+    let vertexHead = shaderParts.get(EffectShaderSection.VERTEX_HEAD) || "";
+    let vertexMainSupport = shaderParts.get(EffectShaderSection.VERTEX_MAIN_SUPPORT) || "";
     const varyings = /* @__PURE__ */ new Set();
     const names = /* @__PURE__ */ new Set();
     if (mainUvExists) {
@@ -5937,9 +5950,9 @@ function integrateEffect(prefix, effect, data) {
     data.blendModes.set(blendMode.blendFunction, blendMode);
     if (mainImageExists) {
       if (effect.inputColorSpace !== null && effect.inputColorSpace !== data.colorSpace) {
-        fragmentMainImage += effect.inputColorSpace === sRGBEncoding ? "color0 = LinearTosRGB(color0);\n	" : "color0 = sRGBToLinear(color0);\n	";
+        fragmentMainImage += effect.inputColorSpace === SRGBColorSpace ? "color0 = LinearTosRGB(color0);\n	" : "color0 = sRGBToLinear(color0);\n	";
       }
-      if (effect.outputColorSpace !== null) {
+      if (effect.outputColorSpace !== NoColorSpace) {
         data.colorSpace = effect.outputColorSpace;
       } else if (effect.inputColorSpace !== null) {
         data.colorSpace = effect.inputColorSpace;
@@ -6077,7 +6090,7 @@ var EffectPass = class extends Pass {
     } else {
       this.needsDepthTexture = false;
     }
-    if (data.colorSpace === sRGBEncoding) {
+    if (data.colorSpace === SRGBColorSpace) {
       fragmentMainImage += "color0 = sRGBToLinear(color0);\n	";
     }
     if (data.uvTransformation) {
@@ -6089,7 +6102,11 @@ var EffectPass = class extends Pass {
     data.shaderParts.set(EffectShaderSection.FRAGMENT_HEAD, fragmentHead);
     data.shaderParts.set(EffectShaderSection.FRAGMENT_MAIN_IMAGE, fragmentMainImage);
     data.shaderParts.set(EffectShaderSection.FRAGMENT_MAIN_UV, fragmentMainUv);
-    data.shaderParts.forEach((value, key, map) => map.set(key, value == null ? void 0 : value.trim().replace(/^#/, "\n#")));
+    for (const [key, value] of data.shaderParts) {
+      if (value !== null) {
+        data.shaderParts.set(key, value.trim().replace(/^#/, "\n#"));
+      }
+    }
     this.skipRendering = id === 0;
     this.needsSwap = !this.skipRendering;
     this.fullscreenMaterial.setShaderData(data);
@@ -6286,9 +6303,9 @@ var GaussianBlurPass = class extends Pass {
       if (frameBufferType !== UnsignedByteType) {
         this.blurMaterial.defines.FRAMEBUFFER_PRECISION_HIGH = "1";
         this.copyMaterial.defines.FRAMEBUFFER_PRECISION_HIGH = "1";
-      } else if (renderer.outputEncoding === sRGBEncoding) {
-        this.renderTargetA.texture.encoding = sRGBEncoding;
-        this.renderTargetB.texture.encoding = sRGBEncoding;
+      } else if (getOutputColorSpace(renderer) === SRGBColorSpace) {
+        setTextureColorSpace(this.renderTargetA.texture, SRGBColorSpace);
+        setTextureColorSpace(this.renderTargetB.texture, SRGBColorSpace);
       }
     }
   }
@@ -6537,9 +6554,9 @@ var KawaseBlurPass = class extends Pass {
       if (frameBufferType !== UnsignedByteType) {
         this.blurMaterial.defines.FRAMEBUFFER_PRECISION_HIGH = "1";
         this.copyMaterial.defines.FRAMEBUFFER_PRECISION_HIGH = "1";
-      } else if (renderer.outputEncoding === sRGBEncoding) {
-        this.renderTargetA.texture.encoding = sRGBEncoding;
-        this.renderTargetB.texture.encoding = sRGBEncoding;
+      } else if (getOutputColorSpace(renderer) === SRGBColorSpace) {
+        setTextureColorSpace(this.renderTargetA.texture, SRGBColorSpace);
+        setTextureColorSpace(this.renderTargetB.texture, SRGBColorSpace);
       }
     }
   }
@@ -6929,9 +6946,9 @@ var MipmapBlurPass = class extends Pass {
       if (frameBufferType !== UnsignedByteType) {
         this.downsamplingMaterial.defines.FRAMEBUFFER_PRECISION_HIGH = "1";
         this.upsamplingMaterial.defines.FRAMEBUFFER_PRECISION_HIGH = "1";
-      } else if (renderer.outputEncoding === sRGBEncoding) {
+      } else if (getOutputColorSpace(renderer) === SRGBColorSpace) {
         for (const mipmap of mipmaps) {
-          mipmap.texture.encoding = sRGBEncoding;
+          setTextureColorSpace(mipmap.texture, SRGBColorSpace);
         }
       }
     }
@@ -7317,9 +7334,9 @@ var EffectComposer = class {
       const size = renderer.getSize(new Vector2());
       const alpha = renderer.getContext().getContextAttributes().alpha;
       const frameBufferType = this.inputBuffer.texture.type;
-      if (frameBufferType === UnsignedByteType && renderer.outputEncoding === sRGBEncoding) {
-        this.inputBuffer.texture.encoding = sRGBEncoding;
-        this.outputBuffer.texture.encoding = sRGBEncoding;
+      if (frameBufferType === UnsignedByteType && getOutputColorSpace(renderer) === SRGBColorSpace) {
+        setTextureColorSpace(this.inputBuffer.texture, SRGBColorSpace);
+        setTextureColorSpace(this.outputBuffer.texture, SRGBColorSpace);
         this.inputBuffer.dispose();
         this.outputBuffer.dispose();
       }
@@ -7416,8 +7433,8 @@ var EffectComposer = class {
       renderTarget.ignoreDepthForMultisampleCopy = false;
       renderTarget.samples = multisampling;
     }
-    if (type === UnsignedByteType && renderer !== null && renderer.outputEncoding === sRGBEncoding) {
-      renderTarget.texture.encoding = sRGBEncoding;
+    if (type === UnsignedByteType && getOutputColorSpace(renderer) === SRGBColorSpace) {
+      setTextureColorSpace(renderTarget.texture, SRGBColorSpace);
     }
     renderTarget.texture.name = "EffectComposer.Buffer";
     renderTarget.texture.generateMipmaps = false;
@@ -7641,7 +7658,7 @@ var EffectShaderData = class {
     this.varyings = /* @__PURE__ */ new Set();
     this.uvTransformation = false;
     this.readDepth = false;
-    this.colorSpace = LinearEncoding;
+    this.colorSpace = LinearSRGBColorSpace;
   }
 };
 function getCoefficients(n) {
@@ -8121,20 +8138,20 @@ var Effect = class extends EventDispatcher {
     this.extensions = extensions;
     this.blendMode = new BlendMode(blendFunction);
     this.blendMode.addEventListener("change", (event) => this.setChanged());
-    this._inputColorSpace = LinearEncoding;
-    this._outputColorSpace = null;
+    this._inputColorSpace = LinearSRGBColorSpace;
+    this._outputColorSpace = NoColorSpace;
   }
   /**
    * The input color space.
    *
-   * @type {TextureEncoding}
+   * @type {ColorSpace}
    * @experimental
    */
   get inputColorSpace() {
     return this._inputColorSpace;
   }
   /**
-   * @type {TextureEncoding}
+   * @type {ColorSpace}
    * @protected
    * @experimental
    */
@@ -8147,14 +8164,14 @@ var Effect = class extends EventDispatcher {
    *
    * Should only be changed if this effect converts the input colors to a different color space.
    *
-   * @type {TextureEncoding}
+   * @type {ColorSpace}
    * @experimental
    */
   get outputColorSpace() {
     return this._outputColorSpace;
   }
   /**
-   * @type {TextureEncoding}
+   * @type {ColorSpace}
    * @protected
    * @experimental
    */
@@ -8637,8 +8654,8 @@ var BloomEffect = class extends Effect {
     this.mipmapBlurPass.initialize(renderer, alpha, frameBufferType);
     if (frameBufferType !== void 0) {
       this.renderTarget.texture.type = frameBufferType;
-      if (renderer.outputEncoding === sRGBEncoding) {
-        this.renderTarget.texture.encoding = sRGBEncoding;
+      if (getOutputColorSpace(renderer) === SRGBColorSpace) {
+        setTextureColorSpace(this.renderTarget.texture, SRGBColorSpace);
       }
     }
   }
@@ -8692,7 +8709,7 @@ var BrightnessContrastEffect = class extends Effect {
         ["contrast", new Uniform(contrast)]
       ])
     });
-    this.inputColorSpace = sRGBEncoding;
+    this.inputColorSpace = SRGBColorSpace;
   }
   /**
    * The brightness.
@@ -8711,7 +8728,7 @@ var BrightnessContrastEffect = class extends Effect {
    * @deprecated Use brightness instead.
    * @return {Number} The brightness.
    */
-  getBrightness(value) {
+  getBrightness() {
     return this.brightness;
   }
   /**
@@ -8740,7 +8757,7 @@ var BrightnessContrastEffect = class extends Effect {
    * @deprecated Use contrast instead.
    * @return {Number} The contrast.
    */
-  getContrast(value) {
+  getContrast() {
     return this.contrast;
   }
   /**
@@ -9232,16 +9249,18 @@ var DepthOfFieldEffect = class extends Effect {
     this.bokehFarBasePass.initialize(renderer, alpha, frameBufferType);
     this.bokehFarFillPass.initialize(renderer, alpha, frameBufferType);
     this.blurPass.initialize(renderer, alpha, UnsignedByteType);
+    const maskMaterial = this.maskPass.fullscreenMaterial;
+    maskMaterial.maskFunction = alpha ? MaskFunction.MULTIPLY : MaskFunction.MULTIPLY_RGB_SET_ALPHA;
     if (frameBufferType !== void 0) {
       this.renderTarget.texture.type = frameBufferType;
       this.renderTargetNear.texture.type = frameBufferType;
       this.renderTargetFar.texture.type = frameBufferType;
       this.renderTargetMasked.texture.type = frameBufferType;
-      if (renderer.outputEncoding === sRGBEncoding) {
-        this.renderTarget.texture.encoding = sRGBEncoding;
-        this.renderTargetNear.texture.encoding = sRGBEncoding;
-        this.renderTargetFar.texture.encoding = sRGBEncoding;
-        this.renderTargetMasked.texture.encoding = sRGBEncoding;
+      if (getOutputColorSpace(renderer) === SRGBColorSpace) {
+        setTextureColorSpace(this.renderTarget.texture, SRGBColorSpace);
+        setTextureColorSpace(this.renderTargetNear.texture, SRGBColorSpace);
+        setTextureColorSpace(this.renderTargetFar.texture, SRGBColorSpace);
+        setTextureColorSpace(this.renderTargetMasked.texture, SRGBColorSpace);
       }
     }
   }
@@ -10239,10 +10258,10 @@ var GodRaysEffect = class extends Effect {
       this.renderTargetA.texture.type = frameBufferType;
       this.renderTargetB.texture.type = frameBufferType;
       this.renderTargetLight.texture.type = frameBufferType;
-      if (renderer.outputEncoding === sRGBEncoding) {
-        this.renderTargetA.texture.encoding = sRGBEncoding;
-        this.renderTargetB.texture.encoding = sRGBEncoding;
-        this.renderTargetLight.texture.encoding = sRGBEncoding;
+      if (getOutputColorSpace(renderer) === SRGBColorSpace) {
+        setTextureColorSpace(this.renderTargetA.texture, SRGBColorSpace);
+        setTextureColorSpace(this.renderTargetB.texture, SRGBColorSpace);
+        setTextureColorSpace(this.renderTargetLight.texture, SRGBColorSpace);
       }
     }
   }
@@ -10530,7 +10549,6 @@ var LookupTexture = class extends Data3DTexture {
     super(data, size, size, size);
     this.type = FloatType;
     this.format = RGBAFormat;
-    this.encoding = LinearEncoding;
     this.minFilter = LinearFilter;
     this.magFilter = LinearFilter;
     this.wrapS = ClampToEdgeWrapping;
@@ -10538,6 +10556,7 @@ var LookupTexture = class extends Data3DTexture {
     this.wrapR = ClampToEdgeWrapping;
     this.unpackAlignment = 1;
     this.needsUpdate = true;
+    setTextureColorSpace(this, LinearSRGBColorSpace);
     this.domainMin = new Vector3(0, 0, 0);
     this.domainMax = new Vector3(1, 1, 1);
   }
@@ -10571,7 +10590,7 @@ var LookupTexture = class extends Data3DTexture {
         worker.addEventListener("error", (event) => reject(event.error));
         worker.addEventListener("message", (event) => {
           const lut = new LookupTexture(event.data, size);
-          lut.encoding = this.encoding;
+          copyTextureColorSpace(this, lut);
           lut.type = this.type;
           lut.name = this.name;
           URL.revokeObjectURL(workerURL);
@@ -10683,7 +10702,7 @@ var LookupTexture = class extends Data3DTexture {
       for (let i = 0, l = data.length; i < l; i += 4) {
         c.fromArray(data, i).convertLinearToSRGB().toArray(data, i);
       }
-      this.encoding = sRGBEncoding;
+      setTextureColorSpace(this, SRGBColorSpace);
       this.needsUpdate = true;
     } else {
       console.error("Color space conversion requires FloatType data");
@@ -10701,7 +10720,7 @@ var LookupTexture = class extends Data3DTexture {
       for (let i = 0, l = data.length; i < l; i += 4) {
         c.fromArray(data, i).convertSRGBToLinear().toArray(data, i);
       }
-      this.encoding = LinearEncoding;
+      setTextureColorSpace(this, LinearSRGBColorSpace);
       this.needsUpdate = true;
     } else {
       console.error("Color space conversion requires FloatType data");
@@ -10722,13 +10741,13 @@ var LookupTexture = class extends Data3DTexture {
     texture.name = this.name;
     texture.type = this.type;
     texture.format = this.format;
-    texture.encoding = this.encoding;
     texture.minFilter = LinearFilter;
     texture.magFilter = LinearFilter;
     texture.wrapS = this.wrapS;
     texture.wrapT = this.wrapT;
     texture.generateMipmaps = false;
     texture.needsUpdate = true;
+    copyTextureColorSpace(this, texture);
     return texture;
   }
   /**
@@ -10768,9 +10787,9 @@ var LookupTexture = class extends Data3DTexture {
       data = image.data.slice();
     }
     const lut = new LookupTexture(data, size);
-    lut.encoding = texture.encoding;
     lut.type = texture.type;
     lut.name = texture.name;
+    copyTextureColorSpace(texture, lut);
     return lut;
   }
   /**
@@ -11641,12 +11660,14 @@ var LUT3DEffect = class extends Effect {
    * @param {Object} [options] - The options.
    * @param {BlendFunction} [options.blendFunction=BlendFunction.SRC] - The blend function of this effect.
    * @param {Boolean} [options.tetrahedralInterpolation=false] - Enables or disables tetrahedral interpolation.
-   * @param {TextureEncoding} [options.inputEncoding=sRGBEncoding] - LUT input encoding.
+   * @param {TextureEncoding} [options.inputEncoding=sRGBEncoding] - Deprecated.
+   * @param {ColorSpace} [options.inputColorSpace=SRGBColorSpace] - The input color space.
    */
   constructor(lut, {
     blendFunction = BlendFunction.SRC,
     tetrahedralInterpolation = false,
-    inputEncoding = sRGBEncoding
+    inputEncoding = sRGBEncoding,
+    inputColorSpace
   } = {}) {
     super("LUT3DEffect", lut_3d_default, {
       blendFunction,
@@ -11659,7 +11680,7 @@ var LUT3DEffect = class extends Effect {
       ])
     });
     this.tetrahedralInterpolation = tetrahedralInterpolation;
-    this.inputColorSpace = inputEncoding;
+    this.inputColorSpace = inputColorSpace || encodingToColorSpace.get(inputEncoding);
     this.lut = lut;
   }
   /**
@@ -11899,7 +11920,7 @@ var NoiseEffect = class extends Effect {
     this.premultiply = value;
   }
 };
-var outline_default3 = "uniform lowp sampler2D edgeTexture;uniform lowp sampler2D maskTexture;uniform vec3 visibleEdgeColor;uniform vec3 hiddenEdgeColor;uniform float pulse;uniform float edgeStrength;\n#ifdef USE_PATTERN\nuniform lowp sampler2D patternTexture;varying vec2 vUvPattern;\n#endif\nvoid mainImage(const in vec4 inputColor,const in vec2 uv,out vec4 outputColor){vec2 edge=texture2D(edgeTexture,uv).rg;vec2 mask=texture2D(maskTexture,uv).rg;\n#ifndef X_RAY\nedge.y=0.0;\n#endif\nedge*=(edgeStrength*mask.x*pulse);vec3 color=edge.x*visibleEdgeColor+edge.y*hiddenEdgeColor;float visibilityFactor=0.0;\n#ifdef USE_PATTERN\nvec4 patternColor=texelToLinear(texture2D(patternTexture,vUvPattern));\n#ifdef X_RAY\nfloat hiddenFactor=0.5;\n#else\nfloat hiddenFactor=0.0;\n#endif\nvisibilityFactor=(1.0-mask.y>0.0)?1.0:hiddenFactor;visibilityFactor*=(1.0-mask.x)*patternColor.a;color+=visibilityFactor*patternColor.rgb;\n#endif\nfloat alpha=max(max(edge.x,edge.y),visibilityFactor);\n#ifdef ALPHA\noutputColor=vec4(color,alpha);\n#else\noutputColor=vec4(color,max(alpha,inputColor.a));\n#endif\n}";
+var outline_default3 = "uniform lowp sampler2D edgeTexture;uniform lowp sampler2D maskTexture;uniform vec3 visibleEdgeColor;uniform vec3 hiddenEdgeColor;uniform float pulse;uniform float edgeStrength;\n#ifdef USE_PATTERN\nuniform lowp sampler2D patternTexture;varying vec2 vUvPattern;\n#endif\nvoid mainImage(const in vec4 inputColor,const in vec2 uv,out vec4 outputColor){vec2 edge=texture2D(edgeTexture,uv).rg;vec2 mask=texture2D(maskTexture,uv).rg;\n#ifndef X_RAY\nedge.y=0.0;\n#endif\nedge*=(edgeStrength*mask.x*pulse);vec3 color=edge.x*visibleEdgeColor+edge.y*hiddenEdgeColor;float visibilityFactor=0.0;\n#ifdef USE_PATTERN\nvec4 patternColor=texture2D(patternTexture,vUvPattern);\n#ifdef X_RAY\nfloat hiddenFactor=0.5;\n#else\nfloat hiddenFactor=0.0;\n#endif\nvisibilityFactor=(1.0-mask.y>0.0)?1.0:hiddenFactor;visibilityFactor*=(1.0-mask.x)*patternColor.a;color+=visibilityFactor*patternColor.rgb;\n#endif\nfloat alpha=max(max(edge.x,edge.y),visibilityFactor);\n#ifdef ALPHA\noutputColor=vec4(color,alpha);\n#else\noutputColor=vec4(color,max(alpha,inputColor.a));\n#endif\n}";
 var outline_default4 = "uniform float patternScale;varying vec2 vUvPattern;void mainSupport(const in vec2 uv){vUvPattern=uv*vec2(aspect,1.0)*patternScale;}";
 var OutlineEffect = class extends Effect {
   /**
@@ -12243,10 +12264,6 @@ var OutlineEffect = class extends Effect {
       this.defines.delete("USE_PATTERN");
       this.setVertexShader(null);
     }
-    if (this.renderer !== null) {
-      const decoding = getTextureDecoding(value, this.renderer.capabilities.isWebGL2);
-      this.defines.set("texelToLinear(texel)", decoding);
-    }
     this.uniforms.get("patternTexture").value = value;
     this.setChanged();
   }
@@ -12383,9 +12400,6 @@ var OutlineEffect = class extends Effect {
    * @param {Number} frameBufferType - The type of the main frame buffers.
    */
   initialize(renderer, alpha, frameBufferType) {
-    const texture = this.patternTexture;
-    const decoding = getTextureDecoding(texture, renderer.capabilities.isWebGL2);
-    this.defines.set("texelToLinear(texel)", decoding);
     this.blurPass.initialize(renderer, alpha, UnsignedByteType);
     if (frameBufferType !== void 0) {
       this.depthPass.initialize(renderer, alpha, frameBufferType);
@@ -13030,8 +13044,8 @@ var SelectiveBloomEffect = class extends BloomEffect {
     this.depthMaskPass.initialize(renderer, alpha, frameBufferType);
     if (frameBufferType !== void 0) {
       this.renderTargetMasked.texture.type = frameBufferType;
-      if (renderer.outputEncoding === sRGBEncoding) {
-        this.renderTargetMasked.texture.encoding = sRGBEncoding;
+      if (getOutputColorSpace(renderer) === SRGBColorSpace) {
+        setTextureColorSpace(this.renderTargetMasked.texture, SRGBColorSpace);
       }
     }
   }
@@ -13796,7 +13810,7 @@ var SSAOEffect = class extends Effect {
     }
   }
 };
-var texture_default = "#ifdef TEXTURE_PRECISION_HIGH\nuniform mediump sampler2D map;\n#else\nuniform lowp sampler2D map;\n#endif\nvarying vec2 vUv2;void mainImage(const in vec4 inputColor,const in vec2 uv,out vec4 outputColor){\n#ifdef UV_TRANSFORM\nvec4 texel=texelToLinear(texture2D(map,vUv2));\n#else\nvec4 texel=texelToLinear(texture2D(map,uv));\n#endif\noutputColor=TEXEL;}";
+var texture_default = "#ifdef TEXTURE_PRECISION_HIGH\nuniform mediump sampler2D map;\n#else\nuniform lowp sampler2D map;\n#endif\nvarying vec2 vUv2;void mainImage(const in vec4 inputColor,const in vec2 uv,out vec4 outputColor){\n#ifdef UV_TRANSFORM\nvec4 texel=texture2D(map,vUv2);\n#else\nvec4 texel=texture2D(map,uv);\n#endif\noutputColor=TEXEL;}";
 var texture_default2 = "#ifdef ASPECT_CORRECTION\nuniform float scale;\n#else\nuniform mat3 uvTransform;\n#endif\nvarying vec2 vUv2;void mainSupport(const in vec2 uv){\n#ifdef ASPECT_CORRECTION\nvUv2=uv*vec2(aspect,1.0)*scale;\n#else\nvUv2=(uvTransform*vec3(uv,1.0)).xy;\n#endif\n}";
 var TextureEffect = class extends Effect {
   /**
@@ -13838,10 +13852,6 @@ var TextureEffect = class extends Effect {
       uniforms.get("map").value = value;
       uniforms.get("uvTransform").value = value.matrix;
       defines.delete("TEXTURE_PRECISION_HIGH");
-      if (this.renderer !== null) {
-        const decoding = getTextureDecoding(value, this.renderer.capabilities.isWebGL2);
-        defines.set("texelToLinear(texel)", decoding);
-      }
       if (value !== null) {
         if (value.matrixAutoUpdate) {
           defines.set("UV_TRANSFORM", "1");
@@ -13940,18 +13950,6 @@ var TextureEffect = class extends Effect {
     if (this.texture.matrixAutoUpdate) {
       this.texture.updateMatrix();
     }
-  }
-  /**
-   * Performs initialization tasks.
-   *
-   * @param {WebGLRenderer} renderer - The renderer.
-   * @param {Boolean} alpha - Whether the renderer uses the alpha channel or not.
-   * @param {Number} frameBufferType - The type of the main frame buffers.
-   */
-  initialize(renderer, alpha, frameBufferType) {
-    const decoding = getTextureDecoding(this.texture, renderer.capabilities.isWebGL2);
-    this.defines.set("texelToLinear(texel)", decoding);
-    this.renderer = renderer;
   }
 };
 var tilt_shift_default = "#ifdef FRAMEBUFFER_PRECISION_HIGH\nuniform mediump sampler2D map;\n#else\nuniform lowp sampler2D map;\n#endif\nuniform vec2 maskParams;varying vec2 vUv2;float linearGradientMask(const in float x){return step(maskParams.x,x)-step(maskParams.y,x);}void mainImage(const in vec4 inputColor,const in vec2 uv,out vec4 outputColor){float mask=linearGradientMask(vUv2.y);vec4 texel=texture2D(map,uv);outputColor=mix(texel,inputColor,mask);}";
@@ -14118,8 +14116,8 @@ var TiltShiftEffect = class extends Effect {
     this.blurPass.initialize(renderer, alpha, frameBufferType);
     if (frameBufferType !== void 0) {
       this.renderTarget.texture.type = frameBufferType;
-      if (renderer.outputEncoding === sRGBEncoding) {
-        this.renderTarget.texture.encoding = sRGBEncoding;
+      if (getOutputColorSpace(renderer) === SRGBColorSpace) {
+        setTextureColorSpace(this.renderTarget.texture, SRGBColorSpace);
       }
     }
   }
@@ -14893,7 +14891,7 @@ export {
 
 postprocessing/build/postprocessing.esm.js:
   (**
-   * postprocessing v6.30.2 build Fri Mar 31 2023
+   * postprocessing v6.31.0 build Sun May 07 2023
    * https://github.com/pmndrs/postprocessing
    * Copyright 2015-2023 Raoul van Rüschen
    * @license Zlib

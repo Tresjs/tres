@@ -1,68 +1,59 @@
 {
-  "hash": "627d8c59",
-  "browserHash": "4cc63468",
+  "hash": "9d883129",
+  "browserHash": "793f4b50",
   "optimized": {
     "vue": {
-      "src": "../../../../node_modules/.pnpm/vue@3.2.47/node_modules/vue/dist/vue.runtime.esm-bundler.js",
+      "src": "../../../../node_modules/.pnpm/vue@3.3.4/node_modules/vue/dist/vue.runtime.esm-bundler.js",
       "file": "vue.js",
-      "fileHash": "7c7e4804",
-      "needsInterop": false
-    },
-    "three": {
-      "src": "../../../../node_modules/.pnpm/three@0.151.3/node_modules/three/build/three.module.js",
-      "file": "three.js",
-      "fileHash": "b29b03c3",
-      "needsInterop": false
-    },
-    "@tresjs/core": {
-      "src": "../../../../node_modules/.pnpm/@tresjs+core@2.0.0-beta.10_three@0.151.3+vue@3.2.47/node_modules/@tresjs/core/dist/tres.js",
-      "file": "@tresjs_core.js",
-      "fileHash": "4999335d",
-      "needsInterop": false
-    },
-    "@tresjs/cientos": {
-      "src": "../../../../node_modules/.pnpm/@tresjs+cientos@2.0.0-rc.1_xzhykqkfctekeu5zcds5z25cvq/node_modules/@tresjs/cientos/dist/trescientos.js",
-      "file": "@tresjs_cientos.js",
-      "fileHash": "5fe60d37",
+      "fileHash": "da053cb2",
       "needsInterop": false
     },
     "gsap": {
-      "src": "../../../../node_modules/.pnpm/gsap@3.11.5/node_modules/gsap/index.js",
+      "src": "../../../node_modules/.pnpm/gsap@3.11.5/node_modules/gsap/index.js",
       "file": "gsap.js",
-      "fileHash": "f933c57f",
+      "fileHash": "ab69d676",
+      "needsInterop": false
+    },
+    "@tresjs/core": {
+      "src": "../../../../node_modules/.pnpm/@tresjs+core@2.1.1_three@0.152.2_vue@3.3.4/node_modules/@tresjs/core/dist/tres.js",
+      "file": "@tresjs_core.js",
+      "fileHash": "b619aff1",
+      "needsInterop": false
+    },
+    "three": {
+      "src": "../../../../node_modules/.pnpm/three@0.152.2/node_modules/three/build/three.module.js",
+      "file": "three.js",
+      "fileHash": "88e87f7e",
       "needsInterop": false
     },
     "postprocessing": {
-      "src": "../../../../node_modules/.pnpm/postprocessing@6.30.2_three@0.151.3/node_modules/postprocessing/build/postprocessing.esm.js",
+      "src": "../../../../node_modules/.pnpm/postprocessing@6.31.0_three@0.152.2/node_modules/postprocessing/build/postprocessing.esm.js",
       "file": "postprocessing.js",
-      "fileHash": "add84d4e",
+      "fileHash": "6bb816df",
       "needsInterop": false
     },
     "@vueuse/core": {
-      "src": "../../../../node_modules/.pnpm/@vueuse+core@10.0.2_vue@3.2.47/node_modules/@vueuse/core/index.mjs",
+      "src": "../../../../node_modules/.pnpm/@vueuse+core@10.1.2_vue@3.3.4/node_modules/@vueuse/core/index.mjs",
       "file": "@vueuse_core.js",
-      "fileHash": "89ddd534",
+      "fileHash": "654ec551",
       "needsInterop": false
     },
     "three-stdlib": {
-      "src": "../../../../node_modules/.pnpm/three-stdlib@2.21.8_three@0.151.3/node_modules/three-stdlib/index.js",
+      "src": "../../../../node_modules/.pnpm/three-stdlib@2.21.12_three@0.152.2/node_modules/three-stdlib/index.js",
       "file": "three-stdlib.js",
-      "fileHash": "07fdf0cd",
+      "fileHash": "c5a63b54",
       "needsInterop": false
     }
   },
   "chunks": {
-    "chunk-JA7HLESS": {
-      "file": "chunk-JA7HLESS.js"
+    "chunk-COVIEUS2": {
+      "file": "chunk-COVIEUS2.js"
     },
-    "chunk-RWZP6UPE": {
-      "file": "chunk-RWZP6UPE.js"
+    "chunk-BMVNX5DT": {
+      "file": "chunk-BMVNX5DT.js"
     },
-    "chunk-LZPJ5JBW": {
-      "file": "chunk-LZPJ5JBW.js"
-    },
-    "chunk-AQJLOSUF": {
-      "file": "chunk-AQJLOSUF.js"
+    "chunk-JKV2V35Q": {
+      "file": "chunk-JKV2V35Q.js"
     },
     "chunk-4EOJPDL2": {
       "file": "chunk-4EOJPDL2.js"
