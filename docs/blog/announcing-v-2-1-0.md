@@ -157,3 +157,9 @@ It's also worth mentioning, in cientos we're working hard on improving the devel
 - Export types and better intellisense
 - Refactor folder structure
 - Creation of feature/bug forms in github for better issues report
+
+## Share your work 🎨
+
+We want to see what you are creating with TresJS, so please share your work with us in our [Discord server](https://discord.gg/UCr96AQmWn) where we have a `#Showcase` area or in our [Twitter](https://twitter.com/tresjs_dev) 😊.
+
+Happy coding! 🚀
