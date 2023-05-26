@@ -1,111 +1,92 @@
 <script setup lang="ts">
-import { computed, watch, shallowRef, ShallowRef, onUnmounted, watchEffect } from 'vue'
+import { onUnmounted, shallowRef, ShallowRef, watchEffect } from 'vue'
 import { Object3D, type Event } from 'three'
-import { TransformControls as TransformControlsImp } from 'three-stdlib'
+import { TransformControls } from 'three-stdlib'
 import { useCientos } from '../useCientos'
-import { pick, hasSetter } from '../../utils'
+import { useEventListener } from '@vueuse/core'
 
-const props = withDefaults(
-  defineProps<{
-    object: Object3D
-    mode?: string
-    enabled?: boolean
-    axis?: 'X' | 'Y' | 'Z' | 'XY' | 'YZ' | 'XZ' | 'XYZ'
-    translationSnap?: number
-    rotationSnap?: number
-    scaleSnap?: number
-    space?: 'local' | 'world'
-    size?: number
-    showX?: boolean
-    showY?: boolean
-    showZ?: boolean
-  }>(),
-  {
-    enabled: true,
-  },
-)
+export interface TransformControlsProps {
+  object: Object3D
+  mode?: string
+  enabled?: boolean
+  axis?: 'X' | 'Y' | 'Z' | 'XY' | 'YZ' | 'XZ' | 'XYZ'
+  translationSnap?: number
+  rotationSnap?: number
+  scaleSnap?: number
+  space?: 'local' | 'world'
+  size?: number
+  showX?: boolean
+  showY?: boolean
+  showZ?: boolean
+}
+
+// TODO: remove disable once eslint is updated to support vue 3.3
+// eslint-disable-next-line vue/no-setup-props-destructure
+const {
+  object,
+  mode = 'translate',
+  enabled = true,
+  axis = 'XYZ',
+  translationSnap = null,
+  rotationSnap = null,
+  scaleSnap = null,
+  space = 'world',
+  size = 1,
+  showX = true,
+  showY = true,
+  showZ = true,
+} = defineProps<TransformControlsProps>()
 
 const emit = defineEmits(['dragging', 'change', 'mouseDown', 'mouseUp', 'objectChange'])
 
-let controls: ShallowRef<TransformControlsImp | undefined> = shallowRef()
+const controls: ShallowRef<TransformControls | undefined> = shallowRef()
 
-const { state } = useCientos()
+const { state, extend } = useCientos()
 
-const transformProps = computed(() =>
-  pick(props, [
-    'enabled',
-    'axis',
-    'mode',
-    'translationSnap',
-    'rotationSnap',
-    'scaleSnap',
-    'space',
-    'size',
-    'showX',
-    'showY',
-    'showZ',
-  ]),
-)
-
-const onChange = () => emit('change', controls.value)
-const onMouseDown = () => emit('mouseDown', controls.value)
-const onMouseUp = () => emit('mouseUp', controls.value)
-const onObjectChange = () => emit('objectChange', controls.value)
+extend({ TransformControls })
 
 const onDragingChange = (e: Event) => {
   if (state.controls) state.controls.enabled = !e.value
   emit('dragging', e.value)
 }
 
-function addEventListeners(controls: TransformControlsImp) {
-  controls.addEventListener('dragging-changed', onDragingChange)
-  controls.addEventListener('change', onChange)
-  controls.addEventListener('mouseDown', onMouseDown)
-  controls.addEventListener('mouseUp', onMouseUp)
-  controls.addEventListener('objectChange', onObjectChange)
+function addEventListeners() {
+  useEventListener(controls.value as any, 'change', () => emit('change'))
+  useEventListener(controls.value as any, 'dragging-changed', onDragingChange)
+  useEventListener(controls.value as any, 'mouseDown', () => emit('mouseDown'))
+  useEventListener(controls.value as any, 'mouseUp', () => emit('mouseUp'))
+  useEventListener(controls.value as any, 'objectChange', () => emit('objectChange'))
 }
 
 watchEffect(() => {
-  if (state.camera && state.renderer && state.scene && props.object) {
-    controls.value = new TransformControlsImp(state.camera, state.renderer.domElement)
-    controls.value.attach(props.object)
-    state.scene.add(controls.value)
-    addEventListeners(controls.value)
+  if (controls.value) {
+    addEventListeners()
   }
 })
 
-watch(
-  [transformProps, controls],
-  // TODO: properly type this
-  ([value, controlsValue]: [any, any]) => {
-    if (value && controlsValue) {
-      for (const key in value) {
-        if (!hasSetter(controlsValue, key)) {
-          controlsValue[key] = value[key]
-        } else {
-          const methodName = `set${key[0].toUpperCase()}${key.slice(1)}`
-          if (typeof controlsValue[methodName] === 'function' && value[key] !== undefined) {
-            ;(controlsValue[methodName] as (param: any) => void)(value[key])
-          }
-        }
-      }
-    }
-  },
-  {
-    immediate: true,
-  },
-)
-
 onUnmounted(() => {
   if (controls.value) {
-    controls.value.removeEventListener('dragging-changed', onDragingChange)
-    controls.value.removeEventListener('change', onChange)
-    controls.value.removeEventListener('mouseDown', onMouseDown)
-    controls.value.removeEventListener('mouseUp', onMouseUp)
-    controls.value.removeEventListener('objectChange', onObjectChange)
+    controls.value.dispose()
   }
 })
 </script>
 <template>
-  <slot />
+  <TresTransformControls
+    v-if="state.camera && state.renderer"
+    ref="controls"
+    :object="object"
+    :args="[state.camera, state.renderer.domElement]"
+    :mode="mode"
+    :enabled="enabled"
+    :axis="axis"
+    :translation-snap="translationSnap"
+    :rotation-snap="rotationSnap"
+    :scale-snap="scaleSnap"
+    :space="space"
+    :size="size"
+    :show-x="showX"
+    :show-y="showY"
+    :show-z="showZ"
+    :visible="true"
+  />
 </template>
