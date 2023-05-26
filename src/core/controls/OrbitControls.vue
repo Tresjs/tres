@@ -5,7 +5,7 @@ import { ref, watch, onUnmounted } from 'vue'
 import { TresVector3, useRenderLoop } from '@tresjs/core'
 import { useEventListener } from '@vueuse/core'
 
-import { useCientos } from '../../core/useCientos'
+import { useCientos } from '../useCientos'
 
 export interface OrbitControlsProps {
   /**
