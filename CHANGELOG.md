@@ -1,5 +1,13 @@
 
 
+### [2.1.2](https://github.com/Tresjs/cientos/compare/2.1.1...2.1.2) (2023-05-26)
+
+
+### Bug Fixes
+
+* fix lint on the demo ([8873e41](https://github.com/Tresjs/cientos/commit/8873e411cbe742532f1a88157f5d41f59253b220))
+* refactor transform controls with deconstructor ([8e7f673](https://github.com/Tresjs/cientos/commit/8e7f673f20016148749f3b14af0940a303d27b38))
+
 ### [2.1.1](https://github.com/Tresjs/cientos/compare/2.1.0...2.1.1) (2023-05-24)
 
 
