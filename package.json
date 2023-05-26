@@ -45,7 +45,7 @@
     "docs:preview": "vitepress preview docs"
   },
   "peerDependencies": {
-    "@tresjs/core": "2.1.1",
+    "@tresjs/core": "2.1.2",
     "three": "latest",
     "vue": "^3.3.4"
   },
