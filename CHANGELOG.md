@@ -1,5 +1,19 @@
 
 
+## [0.3.0](https://github.com/Tresjs/leches/compare/0.2.0...0.3.0) (2023-05-28)
+
+
+### Features
+
+* export types and workspaces ([721c9fd](https://github.com/Tresjs/leches/commit/721c9fd4bb859da73602bfc7b1bc17903e4efc01))
+* fps graph ([cf92423](https://github.com/Tresjs/leches/commit/cf924237772c3cb9a9a9fc77ee9edd2d7d05ca88))
+* obj reference control ([ffd3f20](https://github.com/Tresjs/leches/commit/ffd3f2048ad58f5dd6c6db8f6e925e32cadbcd13))
+
+
+### Bug Fixes
+
+* fixing that build ([939fa12](https://github.com/Tresjs/leches/commit/939fa12fb28495d31fc6d1271e28ca50fd582356))
+
 ## [0.2.0](https://github.com/Tresjs/leches/compare/0.1.0...0.2.0) (2023-05-06)
 
 
