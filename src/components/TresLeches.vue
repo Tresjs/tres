@@ -40,7 +40,6 @@ function onChange(value: string, control: Control) {
         </div>
         <div></div>
       </header>
-      <pre>{{ state }}</pre>
       <template v-for="control in state.controls" :key="control.label">
         <ControlInput :control="control" @change="newValue => onChange(newValue, control)" />
       </template>

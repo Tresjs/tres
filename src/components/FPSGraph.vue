@@ -24,7 +24,7 @@ useRafFn(({ timestamp }) => {
   if (timestamp - lastUpdateTime >= updateInterval) {
     lastUpdateTime = timestamp
 
-    frameTimes.value.push(fps.value)
+    frameTimes.value.push(fps.value as never)
 
     if (frameTimes.value.length > maxFrames.value) {
       frameTimes.value.shift()
