@@ -9,6 +9,7 @@ export type Control = {
   min?: number
   max?: number
   step?: number
+  icon?: string
   controls?: Control[]
   ref?: Record<string, any>
 }

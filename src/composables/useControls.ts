@@ -1,5 +1,5 @@
 import { Vector3 } from 'three'
-import { inject, isReactive, isRef, onUnmounted, reactive, toRefs } from 'vue'
+import { isReactive, isRef, onUnmounted, reactive, toRefs } from 'vue'
 import { Control, Schema, SchemaOrFn } from '../types'
 
 export const CONTROLS_CONTEXT_KEY = Symbol('CONTROLS_CONTEXT_KEY')

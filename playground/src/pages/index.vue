@@ -2,8 +2,8 @@
 import { Vector3 } from 'three'
 import { TresCanvas } from '@tresjs/core'
 import { OrbitControls } from '@tresjs/cientos'
-import { TresLeches, useControls } from '@leches/'
-import { reactive, ref, watch, watchEffect } from 'vue'
+import { TresLeches, useControls } from '@tresjs/leches'
+import { reactive, ref, watchEffect } from 'vue'
 
 const gl = reactive({
   clearColor: '#82DBC5',
@@ -17,7 +17,8 @@ const wireframe = ref(false)
 const boxPosition = reactive(new Vector3(0, 0, 0))
 const boxRotation = reactive(new Vector3(0, Math.PI, 0))
 
-useControls({ test: { value: 1, min: 0, max: 10, step: 0.1 } })
+useControls('fpsgraph')
+useControls({ test: { value: 1, min: 0, max: 10, step: 0.1, icon: 'ic-baseline-arrow-forward' } })
 useControls(gl)
 /* useControls('fpsgraph')
 useControls(gl)

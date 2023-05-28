@@ -8,14 +8,18 @@ import { presetUno, presetIcons, presetWebFonts, presetTypography, transformerDi
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  resolve: {
-    alias: {
-      '/@': resolve(__dirname, './src'),
-      '@leches': resolve(__dirname, '../src/'),
-    },
-  },
+
   plugins: [
-    vue(),
+    vue({
+      script: {
+        propsDestructure: true,
+      },
+      template: {
+        compilerOptions: {
+          isCustomElement: tag => (tag.startsWith('Tres') && tag !== 'TresCanvas' && tag !== 'TresLeches') || tag === 'primitive',
+        },
+      },
+    }),
     AutoImport({
       dts: true,
       eslintrc: {
@@ -82,4 +86,16 @@ export default defineConfig({
       transformers: [transformerDirectives()],
     }),
   ],
+  server: {
+    fs: {
+      // Allow serving files from one level up to the project root
+      allow: ['..'],
+    },
+  },
+  resolve: {
+    alias: {
+      '@tresjs/leches': resolve(__dirname, '../src/'),
+    },
+    dedupe: ['three'],
+  },
 })

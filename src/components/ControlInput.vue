@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { computed } from 'vue'
-import { Vector2, Vector3 } from 'three'
 import NumberControl from './NumberControl.vue'
 import TextControl from './TextControl.vue'
 import BooleanControl from './BooleanControl.vue'
@@ -11,7 +9,7 @@ import Folder from './Folder.vue'
 import { Control } from '../types'
 import FPSGraph from './FPSGraph.vue'
 
-const props = defineProps<{
+defineProps<{
   control: Control
 }>()
 
