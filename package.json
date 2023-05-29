@@ -61,7 +61,7 @@
     "vue": "^3.3.4"
   },
   "dependencies": {
-    "@alvarosabu/utils": "^2.3.0",
+    "@alvarosabu/utils": "^3.0.0",
     "@vueuse/core": "^10.1.2",
     "vue": "^3.3.4"
   },

@@ -5,8 +5,8 @@ importers:
   .:
     dependencies:
       '@alvarosabu/utils':
-        specifier: ^2.3.0
-        version: 2.3.0
+        specifier: ^3.0.0
+        version: 3.0.0
       '@vueuse/core':
         specifier: ^10.1.2
         version: 10.1.2(vue@3.3.4)
@@ -280,6 +280,10 @@ packages:
 
   /@alvarosabu/utils@2.3.0:
     resolution: {integrity: sha512-Uf+loPdTfNDPIOMCQlBVC9Db+UnmXVn/MTyVZNjPHmp2noOyux/U/vfjhJROGUvnHZxdYIMEpWVeTI/i/VCUJQ==}
+
+  /@alvarosabu/utils@3.0.0:
+    resolution: {integrity: sha512-uSF0BPY82MuZz59ecso77fPUdwPLVIeizwfPCqOBeqUbfwUyWIt4LHBakN5BHXbnxQNZ96+a4lgbCZxSzW4PfQ==}
+    dev: false
 
   /@ampproject/remapping@2.2.1:
     resolution: {integrity: sha512-lFMjJTrFL3j7L9yBxwYfCq2k6qqwHyzuUl/XBnif78PWTJYyL/dfowQHWE3sp6U6ZzqWiiIZnpTMO96zhkjwtg==}
