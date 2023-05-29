@@ -1,0 +1,16 @@
+{
+  "name": "docs",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vitepress dev",
+    "build": "vitepress build",
+    "preview": "vitepress preview"
+  },
+  "devDependencies": {
+    "unocss": "^0.52.1",
+    "vite-svg-loader": "^4.0.0",
+    "vitepress": "1.0.0-beta.1"
+  }
+}

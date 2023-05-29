@@ -1,8 +1,8 @@
 import { TresScene } from './TresScene'
 import { defineComponent, h } from 'vue'
 import { ColorSpace, ShadowMapType, ToneMapping } from 'three'
-import { CameraType, useTresProvider } from '/@/composables'
-import { RendererPresetsType } from '/@/composables/useRenderer/const'
+import { CameraType, useTresProvider } from '../composables'
+import { RendererPresetsType } from '../composables/useRenderer/const'
 import { Component } from 'vue'
 
 export interface TresCanvasProps {

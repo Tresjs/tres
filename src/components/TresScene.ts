@@ -1,15 +1,22 @@
-import { App, defineComponent, h, onMounted, onUnmounted, ref, watch, watchEffect } from 'vue'
+import { App, defineComponent, h, onMounted, onUnmounted, ref, watch, watchEffect, VNode } from 'vue'
 import * as THREE from 'three'
 import { ColorSpace, ShadowMapType, ToneMapping } from 'three'
-import { createTres } from '/@/core/renderer'
-import { CameraType, TRES_CONTEXT_KEY, useLogger } from '/@/composables'
-import { useCamera, useRenderer, useRenderLoop, useRaycaster, useTres } from '/@/composables'
-import { extend } from '/@/core/catalogue'
-import { RendererPresetsType } from '/@/composables/useRenderer/const'
-import { TresEvent, TresObject } from '../types'
 import { useEventListener } from '@vueuse/core'
 import { isString } from '@alvarosabu/utils'
-import { VNode } from 'vue'
+import { createTres } from '../core/renderer'
+import { TresCamera } from '../types/'
+import {
+  CameraType,
+  TRES_CONTEXT_KEY,
+  useLogger,
+  useCamera,
+  useRenderer,
+  useRenderLoop,
+  useRaycaster,
+  useTres,
+} from '../composables'
+import { extend } from '../core/catalogue'
+import { type RendererPresetsType } from '../composables/useRenderer/const'
 
 export interface TresSceneProps {
   shadows?: boolean
@@ -79,6 +86,8 @@ export const TresScene = defineComponent<TresSceneProps>({
       }
     }
 
+    const { onLoop, resume } = useRenderLoop()
+
     onMounted(() => {
       initRenderer()
     })
@@ -96,12 +105,11 @@ export const TresScene = defineComponent<TresSceneProps>({
         pushCamera(props.camera as any)
       }
 
-      const { onLoop } = useRenderLoop()
-
       const { raycaster, pointer } = useRaycaster()
 
-      let prevInstance: TresEvent | null = null
-      let currentInstance: TresEvent | null = null
+      // TODO: Type raycasting events correctly
+      let prevInstance: any = null
+      let currentInstance: any = null
 
       watchEffect(() => {
         if (activeCamera.value) raycaster.value.setFromCamera(pointer.value, activeCamera.value)
@@ -139,10 +147,11 @@ export const TresScene = defineComponent<TresSceneProps>({
 
     function mountApp() {
       app = createTres(slots)
-      app.provide('useTres', useTres())
-      app.provide(TRES_CONTEXT_KEY, useTres())
+      const tres = useTres()
+      app.provide('useTres', tres)
+      app.provide(TRES_CONTEXT_KEY, tres)
       app.provide('extend', extend)
-      app.mount(scene as unknown as TresObject)
+      app.mount(scene as unknown)
     }
     mountApp()
 
@@ -153,7 +162,12 @@ export const TresScene = defineComponent<TresSceneProps>({
     function dispose() {
       scene.children = []
       app.unmount()
-      mountApp()
+      app = createTres(slots)
+      app.provide('extend', extend)
+      app.mount(scene as unknown)
+      const camera = scene.children.find((child: any) => child.isCamera)
+      pushCamera(camera as TresCamera)
+      resume()
     }
 
     if (import.meta.hot) {

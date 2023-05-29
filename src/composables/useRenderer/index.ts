@@ -19,12 +19,13 @@ import {
   ColorSpace,
 } from 'three'
 import type { ToneMapping } from 'three'
-import { useRenderLoop, useTres } from '/@/composables/'
-import { normalizeColor } from '/@/utils/normalize'
-import { TresColor } from '/@/types'
+import { useRenderLoop } from '../useRenderLoop'
+import { useTres } from '../useTres'
+import { normalizeColor } from '../../utils/normalize'
+import { TresColor } from '../../types'
 import { rendererPresets, RendererPresetsType } from './const'
-import { merge } from '/@/utils'
-import { useLogger } from '/@/composables'
+import { merge } from '../../utils'
+import { useLogger } from '../useLogger'
 
 export interface UseRendererOptions extends WebGLRendererParameters {
   /**
@@ -258,6 +259,10 @@ You could set windowSize=true to force the canvas to be the size of the window.`
     },
     { immediate: true, deep: true },
   )
+
+  if (import.meta.hot) {
+    import.meta.hot.on('vite:afterUpdate', resume)
+  }
 
   return {
     renderer,

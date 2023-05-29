@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import { SRGBColorSpace, BasicShadowMap, NoToneMapping } from 'three'
 import { reactive, ref } from 'vue'
-import { TresCanvas } from '/@/components/TresCanvas'
+import { TresCanvas, useRenderLoop } from '@tresjs/core'
 import { OrbitControls, TransformControls } from '@tresjs/cientos'
-import { useRenderLoop } from '/@/'
 
 const state = reactive({
   clearColor: '#201919',

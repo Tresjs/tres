@@ -1,4 +1,4 @@
-import { useLogger } from '/@/composables'
+import { useLogger } from '../useLogger'
 
 /**
  * Seek composable return type

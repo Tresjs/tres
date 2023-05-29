@@ -1,5 +1,30 @@
 
 
+### [2.1.2](https://github.com/Tresjs/tres/compare/2.1.1...2.1.2) (2023-05-26)
+
+
+### Bug Fixes
+
+* added scene fallback as parent for controls ([e986f9c](https://github.com/Tresjs/tres/commit/e986f9ca2e760c34a6d92a089b8c343b4f11fc66))
+
+### [2.1.1](https://github.com/Tresjs/tres/compare/2.1.0...2.1.1) (2023-05-22)
+
+## [2.1.0](https://github.com/Tresjs/tres/compare/2.0.0...2.1.0) (2023-05-22)
+
+
+### Features
+
+* mighty sexy runtime types ([97a5b64](https://github.com/Tresjs/tres/commit/97a5b64f39f5dfa46bb15823a23aa9d5ebe0b339))
+
+
+### Bug Fixes
+
+* docs dev and build ([7106cf9](https://github.com/Tresjs/tres/commit/7106cf93ed1426f897a40aa881d73a2a6efeb4ae))
+* package exports ([7c9e41a](https://github.com/Tresjs/tres/commit/7c9e41af0decd4cfd51accf992a6486de9a856ec))
+* package exports types ([6fa3e09](https://github.com/Tresjs/tres/commit/6fa3e09882064f0fc19874c24141402d6bff5ce2))
+* pnpm workspace structure ([e8300d6](https://github.com/Tresjs/tres/commit/e8300d61b3059a926693e62b60a11b363cf50365))
+* re-mount custom renderer manually on HMR ([029542e](https://github.com/Tresjs/tres/commit/029542e851ea7da9696cd294877813da838bc5fc))
+
 ## [2.0.0](https://github.com/Tresjs/tres/compare/2.0.0-rc.4...2.0.0) (2023-05-12)
 
 ## [2.0.0-rc.4](https://github.com/Tresjs/tres/compare/2.0.0-rc.3...2.0.0-rc.4) (2023-05-09)

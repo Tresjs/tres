@@ -1,6 +1,6 @@
-import { useTresProvider } from '/@/composables'
+import { useTresProvider } from '.'
 import { useTres } from '.'
-import { withSetup } from '/@/utils/test-utils'
+import { withSetup } from '../../utils/test-utils'
 
 describe.skip('useTres', () => {
   it('should set the state', () => {

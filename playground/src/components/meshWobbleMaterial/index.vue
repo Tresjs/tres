@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useRenderLoop, extend } from '/@/'
+import { useRenderLoop, extend } from '@tresjs/core'
 
 import { WobbleMaterialImpl as MeshWobbleMaterial } from './material'
 import { shallowRef, watchEffect } from 'vue'

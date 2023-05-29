@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { TresCanvas } from '/@/tres'
+import { TresCanvas } from '@tresjs/core'
 import { OrbitControls } from '@tresjs/cientos'
 
 const styles = {

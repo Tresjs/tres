@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { BasicShadowMap, SRGBColorSpace, NoToneMapping } from 'three'
-import { TresCanvas } from '/@/'
+import { TresCanvas } from '@tresjs/core'
 import { OrbitControls, TransformControls, useTweakPane } from '@tresjs/cientos'
 
 const state = shallowReactive({

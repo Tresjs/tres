@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Color, SRGBColorSpace } from 'three'
-import { TresCanvas } from '/@/'
+import { TresCanvas } from '@tresjs/core'
 import { OrbitControls, useTweakPane, useGLTF, useAnimations } from '@tresjs/cientos'
 
 const bgColor = new Color('#F78B3D')

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
-import { TresCanvas } from '/@/components/TresCanvas'
+import { TresCanvas } from '@tresjs/core'
 import { GLTFModel, OrbitControls } from '@tresjs/cientos'
 
 const state = reactive({

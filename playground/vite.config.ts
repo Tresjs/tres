@@ -11,6 +11,9 @@ export default defineConfig({
   plugins: [
     glsl(),
     vue({
+      script: {
+        propsDestructure: true,
+      },
       template: {
         compilerOptions: {
           isCustomElement: tag => (tag.startsWith('Tres') && tag !== 'TresCanvas') || tag === 'primitive',
@@ -33,8 +36,8 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
-      '/@': resolve(__dirname, '../src'),
+      '@tresjs/core': resolve(__dirname, '../src/index.ts'),
     },
-    dedupe: ['@tresjs/core', 'three'],
+    dedupe: ['three'],
   },
 })
