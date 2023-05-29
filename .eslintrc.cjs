@@ -18,6 +18,7 @@ module.exports = {
   ignorePatterns: ['**/*.test.ts', 'packages/**/dist', 'package.json'],
   rules: {
     'arrow-parens': ['error', 'as-needed'],
+    'no-console': 'error',
     'comma-dangle': 'off',
     'space-before-function-paren': 'off',
     'max-len': [1, { code: 120 }],

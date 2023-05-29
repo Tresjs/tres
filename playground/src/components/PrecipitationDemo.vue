@@ -18,7 +18,7 @@ const options = reactive({
   speed: 1,
   randomness: 0,
   count: 1000,
-  size: 1,
+  size: 0.1,
   areaX: 25,
   areaY: 25,
   areaZ: 25,
@@ -66,12 +66,13 @@ pane.addInput(options, 'areaZ', {
     <TresPerspectiveCamera :position="[0, 2, 15]" />
     <Precipitation
       ref="precipitationRef"
-      :speed="options.speed"
-      :count="options.count"
       :area="[options.areaX, options.areaY, options.areaZ]"
+      />
+      <!-- :speed="options.speed"
+      :count="options.count"
       :randomness="options.randomness"
-      :size="options.size"
-    />
+      :size="options.size" -->
+      <!--  -->
     <TresGridHelper :args="[10, 10]" />
     <OrbitControls />
   </TresCanvas>

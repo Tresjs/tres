@@ -12,7 +12,6 @@ export function useMouseParallax(disabled = false, factor = 2.5, ease = true, ca
 
   const { onLoop } = useRenderLoop()
   const cameraGroup = new Group()
-  console.log('jaime ~ useParallax ~ ease:', ease)
   const easeFactor = ease ? 2.5 : 30
 
   const cursorX = computed(() => (x.value / width.value - 0.5) * factor)
