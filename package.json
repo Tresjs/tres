@@ -10,21 +10,23 @@
   "devDependencies": {
     "@alvarosabu/prettier-config": "^1.3.0",
     "@iconify-json/carbon": "^1.1.16",
-    "@iconify-json/logos": "^1.1.23",
-    "@nuxt/content": "^2.5.2",
-    "@nuxt/image-edge": "1.0.0-27991759.1a5eea1",
-    "@tresjs/core": "2.0.0-beta.13",
-    "@types/three": "^0.149.0",
-    "@unocss/nuxt": "^0.50.6",
+    "@iconify-json/game-icons": "^1.1.2",
+    "@iconify-json/logos": "^1.1.31",
+    "@nuxt/content": "^2.6.0",
+    "@nuxt/image-edge": "1.0.0-28059208.2abef1b",
+    "@types/three": "^0.152.0",
+    "@unocss/nuxt": "^0.52.3",
     "gsap": "^3.11.5",
-    "nuxt": "^3.3.2",
-    "nuxt-svgo": "^1.1.0",
+    "nuxt": "^3.5.1",
+    "nuxt-svgo": "^3.1.0",
     "vite-plugin-glsl": "^1.1.2"
   },
   "dependencies": {
     "@iconify-json/ic": "^1.1.13",
-    "@tresjs/cientos": "2.0.0-beta.6",
-    "postprocessing": "^6.30.2",
-    "three": "^0.150.1"
+    "@tresjs/cientos": "2.1.1",
+    "@tresjs/core": "2.1.1",
+    "@tresjs/post-processing": "^0.1.0",
+    "postprocessing": "^6.31.0",
+    "three": "^0.152.2"
   }
 }

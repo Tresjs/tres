@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { BasicShadowMap, sRGBEncoding, NoToneMapping } from 'three'
+import { BasicShadowMap, SRGBColorSpace, NoToneMapping } from 'three'
 import { TresCanvas, useRenderLoop } from '@tresjs/core'
 
-import { PamCameraMouse, Stars } from '@tresjs/cientos'
+import { MouseParallax, Stars } from '@tresjs/cientos'
 
 import Vertex from './shaders/vertex.glsl'
 import Fragment from './shaders/fragment.glsl'
@@ -12,7 +12,7 @@ const gl = {
   shadows: true,
   alpha: false,
   shadowMapType: BasicShadowMap,
-  outputEncoding: sRGBEncoding,
+  outputColorSpace: SRGBColorSpace,
   toneMapping: NoToneMapping,
 }
 
@@ -35,12 +35,12 @@ onLoop(() => {
 <template>
   <TresCanvas v-bind="gl">
     <TresPerspectiveCamera :position="[0, 0, 5]" :fov="75" :near="0.1" :far="1000" />
-    <PamCameraMouse :factor="1" />
-    <Stars />
+    <MouseParallax :factor="2" />
     <TresMesh :scale="2" :position="[0.5, 0.5, 0]" cast-shadow>
       <TresSphereGeometry :args="[1, 30, 30]" />
       <TresShaderMaterial v-bind="shader" />
     </TresMesh>
+    <Stars />
     <TresAmbientLight :intensity="1" />
   </TresCanvas>
 </template>

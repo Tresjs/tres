@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
-import { sRGBEncoding } from 'three'
+import { SRGBColorSpace } from 'three'
 
 import { OrbitControls, GLTFModel } from '@tresjs/cientos'
 
@@ -12,7 +12,7 @@ watchEffect(() => {
 </script>
 
 <template>
-  <TresCanvas clear-color="#82DBC5" shadows alpha window-size :output-encoding="sRGBEncoding">
+  <TresCanvas clear-color="#82DBC5" shadows alpha window-size :output-encoding="SRGBColorSpace">
     <TresPerspectiveCamera :position="[5, 5, 5]" :fov="75" :near="0.1" :far="1000" />
     <OrbitControls />
 
