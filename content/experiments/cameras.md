@@ -47,7 +47,7 @@ Orthographic cameras are used in technical drawing and 2D game development. They
 ```vue
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
-import { BasicShadowMap, sRGBEncoding, NoToneMapping, PerspectiveCamera, OrthographicCamera } from 'three'
+import { BasicShadowMap, SRGBColorSpace, NoToneMapping, PerspectiveCamera, OrthographicCamera } from 'three'
 
 import { Box, useTweakPane } from '@tresjs/cientos'
 
@@ -56,7 +56,7 @@ const gl = {
   shadows: true,
   alpha: false,
   shadowMapType: BasicShadowMap,
-  outputEncoding: sRGBEncoding,
+  outputColorSpace: SRGBColorSpace,
   toneMapping: NoToneMapping,
 }
 

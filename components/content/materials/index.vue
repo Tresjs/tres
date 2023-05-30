@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
 import { OrbitControls, Plane } from '@tresjs/cientos'
-import { BasicShadowMap, NoToneMapping, sRGBEncoding } from 'three'
+import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
 import { shallowReactive } from 'vue'
 
 const gl = shallowReactive({
@@ -9,7 +9,7 @@ const gl = shallowReactive({
   shadows: true,
   alpha: false,
   shadowMapType: BasicShadowMap,
-  outputEncoding: sRGBEncoding,
+  outputColorSpace: SRGBColorSpace,
   toneMapping: NoToneMapping,
 })
 </script>
