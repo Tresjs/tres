@@ -43,7 +43,7 @@ export type PrecipitationProps = {
    * @memberof StarsProps
    * @default null
    */
-  alphaMap?: null
+  alphaMap?: string
   /**
    * enables the WebGL to know when not to render the pixel.
    *
@@ -59,7 +59,7 @@ export type PrecipitationProps = {
    * @memberof StarsProps
    * @default 0.8
    */
-  opacity?: 0.8
+  opacity?: number
   /**
    * number of drops.
    *
@@ -67,7 +67,7 @@ export type PrecipitationProps = {
    * @memberof StarsProps
    * @default 5000
    */
-  count?: 5000
+  count?: number
   /**
    * Speed of drops.
    *
@@ -75,7 +75,7 @@ export type PrecipitationProps = {
    * @memberof StarsProps
    * @default 5000
    */
-  speed?: 0.1
+  speed?: number
   /**
    * Add randomness to the drops.
    *

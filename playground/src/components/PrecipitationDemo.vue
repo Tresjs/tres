@@ -66,13 +66,12 @@ pane.addInput(options, 'areaZ', {
     <TresPerspectiveCamera :position="[0, 2, 15]" />
     <Precipitation
       ref="precipitationRef"
+      :speed="options.speed"
       :area="[options.areaX, options.areaY, options.areaZ]"
-      />
-      <!-- :speed="options.speed"
       :count="options.count"
       :randomness="options.randomness"
-      :size="options.size" -->
-      <!--  -->
+      :size="options.size"
+      />
     <TresGridHelper :args="[10, 10]" />
     <OrbitControls />
   </TresCanvas>
