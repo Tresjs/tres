@@ -2,11 +2,8 @@
 import { Color } from 'three'
 import { TresCanvas } from '@tresjs/core'
 import { OrbitControls, useTweakPane } from '@tresjs/cientos'
-import { EffectComposer, Bloom } from '@post'
+import { EffectComposer, Bloom } from '@tresjs/post-processing'
 import { BasicShadowMap, NoToneMapping } from 'three'
-import { reactive, ref } from 'vue'
-import { watchEffect } from 'vue'
-import { onMounted } from 'vue'
 
 const gl = {
   clearColor: '#121212',
@@ -59,12 +56,12 @@ onMounted(() => {
         ref="materialRef"
         color="hotpink"
         :emissive="new Color('hotpink')"
-        :emissive-intensity="0.1"
+        :emissive-intensity="1"
       />
     </TresMesh>
     <TresGridHelper />
     <TresAmbientLight :intensity="0.5" />
-    <TresDirectionalLight :position="[3, 3, 3]" :intensity="1" />
+    <TresDirectionalLight :position="[3, 3, 3]" :intensity="2" />
     <Suspense>
       <EffectComposer>
         <Bloom v-bind="bloomParams"> </Bloom>
