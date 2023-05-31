@@ -9,6 +9,7 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    BloomDemo: typeof import('./.vitepress/theme/components/BloomDemo.vue')['default']
     GlitchDemo: typeof import('./.vitepress/theme/components/GlitchDemo.vue')['default']
     LoveVueThreeJS: typeof import('./.vitepress/theme/components/LoveVueThreeJS.vue')['default']
     OutlineDemo: typeof import('./.vitepress/theme/components/OutlineDemo.vue')['default']
