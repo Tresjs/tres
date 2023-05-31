@@ -1,62 +1,19 @@
 {
-  "hash": "9d883129",
-  "browserHash": "793f4b50",
+  "hash": "216c3971",
+  "browserHash": "4f6163ef",
   "optimized": {
     "vue": {
       "src": "../../../../node_modules/.pnpm/vue@3.3.4/node_modules/vue/dist/vue.runtime.esm-bundler.js",
       "file": "vue.js",
-      "fileHash": "da053cb2",
+      "fileHash": "58a674fe",
       "needsInterop": false
     },
     "gsap": {
-      "src": "../../../node_modules/.pnpm/gsap@3.11.5/node_modules/gsap/index.js",
+      "src": "../../../../node_modules/.pnpm/gsap@3.11.5/node_modules/gsap/index.js",
       "file": "gsap.js",
-      "fileHash": "ab69d676",
-      "needsInterop": false
-    },
-    "@tresjs/core": {
-      "src": "../../../../node_modules/.pnpm/@tresjs+core@2.1.1_three@0.152.2_vue@3.3.4/node_modules/@tresjs/core/dist/tres.js",
-      "file": "@tresjs_core.js",
-      "fileHash": "b619aff1",
-      "needsInterop": false
-    },
-    "three": {
-      "src": "../../../../node_modules/.pnpm/three@0.152.2/node_modules/three/build/three.module.js",
-      "file": "three.js",
-      "fileHash": "88e87f7e",
-      "needsInterop": false
-    },
-    "postprocessing": {
-      "src": "../../../../node_modules/.pnpm/postprocessing@6.31.0_three@0.152.2/node_modules/postprocessing/build/postprocessing.esm.js",
-      "file": "postprocessing.js",
-      "fileHash": "6bb816df",
-      "needsInterop": false
-    },
-    "@vueuse/core": {
-      "src": "../../../../node_modules/.pnpm/@vueuse+core@10.1.2_vue@3.3.4/node_modules/@vueuse/core/index.mjs",
-      "file": "@vueuse_core.js",
-      "fileHash": "654ec551",
-      "needsInterop": false
-    },
-    "three-stdlib": {
-      "src": "../../../../node_modules/.pnpm/three-stdlib@2.21.12_three@0.152.2/node_modules/three-stdlib/index.js",
-      "file": "three-stdlib.js",
-      "fileHash": "c5a63b54",
+      "fileHash": "785d9bcc",
       "needsInterop": false
     }
   },
-  "chunks": {
-    "chunk-COVIEUS2": {
-      "file": "chunk-COVIEUS2.js"
-    },
-    "chunk-BMVNX5DT": {
-      "file": "chunk-BMVNX5DT.js"
-    },
-    "chunk-JKV2V35Q": {
-      "file": "chunk-JKV2V35Q.js"
-    },
-    "chunk-4EOJPDL2": {
-      "file": "chunk-4EOJPDL2.js"
-    }
-  }
+  "chunks": {}
 }

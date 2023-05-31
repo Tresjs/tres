@@ -9,6 +9,9 @@ import UnoCSS from 'unocss/vite'
 export default defineConfig({
   plugins: [
     vue({
+      script: {
+        propsDestructure: true,
+      },
       template: {
         compilerOptions: {
           isCustomElement: tag => tag.startsWith('Tres') && tag !== 'TresCanvas',
@@ -31,9 +34,8 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
-      '/@': resolve(__dirname, './src'),
-      '@post': resolve(__dirname, '../src/'),
+      '@tresjs/post-processing': resolve(__dirname, '../src/'),
     },
-    /*   dedupe: ['@tresjs/core'], */
+    dedupe: ['three', '@tresjs/core'],
   },
 })
