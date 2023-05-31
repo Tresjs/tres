@@ -51,6 +51,7 @@ export default defineConfig({
       {
         text: 'Loaders',
         items: [
+          { text: 'useProgress', link: '/guide/loaders/use-progress' },
           { text: 'useGLTF', link: '/guide/loaders/use-gltf' },
           { text: 'GLTFModel', link: '/guide/loaders/gltf-model' },
           { text: 'useFBX', link: '/guide/loaders/use-fbx' },
