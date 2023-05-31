@@ -1,9 +1,13 @@
-lockfileVersion: '6.0'
+lockfileVersion: '6.1'
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
 
 dependencies:
   '@tresjs/cientos':
-    specifier: 2.1.0
-    version: 2.1.0(@tresjs/core@2.1.2)(three@0.152.2)(vue@3.2.47)
+    specifier: 2.1.2
+    version: 2.1.2(@tresjs/core@2.1.2)(three@0.152.2)(vue@3.2.47)
   postprocessing:
     specifier: ^6.30.2
     version: 6.30.2(three@0.152.2)
@@ -91,13 +95,6 @@ packages:
     hasBin: true
     dependencies:
       '@babel/types': 7.21.4
-
-  /@babel/runtime@7.21.0:
-    resolution: {integrity: sha512-xwII0//EObnq89Ji5AKYQaRYiW/nZ3llSv29d49IuxPhKbtJoLP+9QUUZ4nVragQVtaVGeZrpB+ZtG/Pdy/POw==}
-    engines: {node: '>=6.9.0'}
-    dependencies:
-      regenerator-runtime: 0.13.11
-    dev: false
 
   /@babel/types@7.21.4:
     resolution: {integrity: sha512-rU2oY501qDxE8Pyo7i/Orqma4ziCOrby0/9mvbDUGEfvZjb279Nk9k19e2fiCxHbRRpY2ZyrgW1eq22mvmOIzA==}
@@ -418,8 +415,8 @@ packages:
       picomatch: 2.3.1
     dev: true
 
-  /@tresjs/cientos@2.1.0(@tresjs/core@2.1.2)(three@0.152.2)(vue@3.2.47):
-    resolution: {integrity: sha512-pNy3mluNegjn4+J8q0t/0HLzGZNDV1RzX9V0Hk+wOFTN8glZBpbRJR8r/zHFCF9MC7JYNu7CHHAe3ZDIcgfSzA==}
+  /@tresjs/cientos@2.1.2(@tresjs/core@2.1.2)(three@0.152.2)(vue@3.2.47):
+    resolution: {integrity: sha512-+q2s1bUNuwAVAgm0OQfpwrGsNDf4NyKUoIKtvPFdSiqXDxtHVW9KJv8zb1ttYF9Dsf7zBPpN22fYn/eiqPoZbA==}
     peerDependencies:
       '@tresjs/core': 2.1.1
       three: latest
@@ -428,7 +425,7 @@ packages:
       '@tresjs/core': 2.1.2(three@0.152.2)(vue@3.2.47)
       '@vueuse/core': 10.1.2(vue@3.2.47)
       three: 0.152.2
-      three-stdlib: 2.21.12(three@0.152.2)
+      three-stdlib: 2.23.4(three@0.152.2)
       vue: 3.2.47
     transitivePeerDependencies:
       - '@vue/composition-api'
@@ -450,6 +447,10 @@ packages:
   /@tweenjs/tween.js@18.6.4:
     resolution: {integrity: sha512-lB9lMjuqjtuJrx7/kOkqQBtllspPIN+96OvTCeJ2j5FEzinoAXTdAMFnDAQT1KVPRlnYfBrqxtqP66vDM40xxQ==}
     dev: true
+
+  /@types/draco3d@1.4.2:
+    resolution: {integrity: sha512-goh23EGr6CLV6aKPwN1p8kBD/7tT5V/bLpToSbarKrwVejqNrspVrv8DhliteYkkhZYrlq/fwKZRRUzH4XN88w==}
+    dev: false
 
   /@types/estree@1.0.0:
     resolution: {integrity: sha512-WulqXMDUTYAXCjZnk6JtIHPigp55cVtDgDrO2gHRwhyJto21+1zbVCtOYB2L1F9w4qCQ0rOGWBnBe0FNTiEJIQ==}
@@ -479,6 +480,10 @@ packages:
   /@types/webxr@0.5.1:
     resolution: {integrity: sha512-xlFXPfgJR5vIuDefhaHuUM9uUgvPaXB6GKdXy2gdEh8gBWQZ2ul24AJz3foUd8NNKlSTQuWYJpCb1/pL81m1KQ==}
     dev: true
+
+  /@types/webxr@0.5.2:
+    resolution: {integrity: sha512-szL74BnIcok9m7QwYtVmQ+EdIKwbjPANudfuvDrAF8Cljg9MKUlIoc1w5tjj9PMpeSH3U1Xnx//czQybJ0EfSw==}
+    dev: false
 
   /@unocss/astro@0.51.4(vite@4.2.1):
     resolution: {integrity: sha512-denp8/PHvzfN9azfTF72+ey6xpgUB4L4416FI4DfcfKPzRMo4KjIaHlTD6xuaJwBdC8UJSOIcDRXldRGPT33Ag==}
@@ -817,10 +822,6 @@ packages:
     transitivePeerDependencies:
       - '@vue/composition-api'
       - vue
-
-  /@webgpu/glslang@0.0.15:
-    resolution: {integrity: sha512-niT+Prh3Aff8Uf1MVBVUsaNjFj9rJAKDXuoHIKiQbB+6IUP/3J3JIhBNyZ7lDhytvXxw6ppgnwKZdDJ08UMj4Q==}
-    dev: false
 
   /acorn@8.8.2:
     resolution: {integrity: sha512-xjIYgE8HBrkpd/sJqOGNspf8uHG+NOHGOw6a/Urj8taM2EXfdNAH2oFcPeIFfsv3+kz/mJrS5VuMqbNLjCa2vw==}
@@ -1375,10 +1376,6 @@ packages:
       picomatch: 2.3.1
     dev: true
 
-  /regenerator-runtime@0.13.11:
-    resolution: {integrity: sha512-kY1AZVr2Ra+t+piVaJ4gxaFaReZVH40AKNo7UCX6W+dEwBo/2oZJzqfuN1qLq1oL45o56cPaTXELwrTh8Fpggg==}
-    dev: false
-
   /regexp-to-ast@0.5.0:
     resolution: {integrity: sha512-tlbJqcMHnPKI9zSrystikWKwHkBqu2a/Sgw01h3zFjvYrMxEDYHzzoMZnUrbIfpTFEsoRnnviOXNCzFiSc54Qw==}
     dev: false
@@ -1472,14 +1469,14 @@ packages:
     engines: {node: '>= 0.4'}
     dev: true
 
-  /three-stdlib@2.21.12(three@0.152.2):
-    resolution: {integrity: sha512-1on3iwVZV41Hr3M/R6IlyrRKu4cdO2MnDc/WjdATK32oHfTpp38sVPEWm/3F70HXHsI9WfMXwATC7aTfqqC49A==}
+  /three-stdlib@2.23.4(three@0.152.2):
+    resolution: {integrity: sha512-bNtKL0UsE/TeSQ30tb9qDoGEuO6hqJfLFVqIiWlVpgAs2W/aZcpSISaLP3q+L4E9NSGmpRzI3dGufmDj0AnQ7Q==}
     peerDependencies:
-      three: '>=0.122.0'
+      three: '>=0.128.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@types/draco3d': 1.4.2
       '@types/offscreencanvas': 2019.7.0
-      '@webgpu/glslang': 0.0.15
+      '@types/webxr': 0.5.2
       chevrotain: 10.5.0
       draco3d: 1.5.6
       fflate: 0.6.10
