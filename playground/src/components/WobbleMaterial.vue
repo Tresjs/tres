@@ -3,7 +3,6 @@ import { TresCanvas } from '@tresjs/core'
 import { OrbitControls, MeshWobbleMaterial } from '@tresjs/cientos'
 import { BasicShadowMap, SRGBColorSpace, NoToneMapping } from 'three'
 import { ref } from 'vue'
-import { watchEffect } from 'vue'
 
 const gl = {
   clearColor: '#82DBC5',
@@ -16,11 +15,6 @@ const gl = {
 
 const context = ref()
 
-watchEffect(() => {
-  if (context.value) {
-    console.log(context.value.state.scene)
-  }
-})
 </script>
 
 <template>

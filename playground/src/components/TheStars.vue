@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { shallowRef, watch } from 'vue'
+import { shallowRef } from 'vue'
 import { TresCanvas } from '@tresjs/core'
-import { OrbitControls, Stars } from '@cientos'
+import { OrbitControls, Stars } from '@trejs/cientos'
 import { SRGBColorSpace, NoToneMapping } from 'three'
 
 const gl = {
@@ -13,9 +13,6 @@ const gl = {
 
 const star = shallowRef<Stars>(null)
 
-watch(star, value => {
-  console.log(value)
-})
 </script>
 <template>
   <TresCanvas v-bind="gl" ref="canvas">
