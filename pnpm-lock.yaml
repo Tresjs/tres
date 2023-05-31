@@ -27,16 +27,16 @@ importers:
         specifier: ^5.1.1
         version: 5.1.1(release-it@15.10.3)
       '@tresjs/core':
-        specifier: 2.1.1
-        version: 2.1.1(three@0.152.2)(vue@3.3.4)
+        specifier: 2.1.2
+        version: 2.1.2(three@0.152.2)(vue@3.3.4)
       '@types/three':
         specifier: ^0.152.0
         version: 0.152.0
       '@vitejs/plugin-vue':
-        specifier: ^4.2.3
+        specifier: ^4.1.0
         version: 4.2.3(vite@4.3.8)(vue@3.3.4)
       kolorist:
-        specifier: ^1.8.0
+        specifier: ^1.7.0
         version: 1.8.0
       pathe:
         specifier: ^1.1.0
@@ -941,6 +941,21 @@ packages:
       vue: 3.3.4
     transitivePeerDependencies:
       - '@vue/composition-api'
+    dev: false
+
+  /@tresjs/core@2.1.2(three@0.152.2)(vue@3.3.4):
+    resolution: {integrity: sha512-dK/wR4X2NFg2VFMhw4mAUFel/tkPQtPsKkSiIn+qU5ejmRqTf2rKaVoql80CvbW+y2GVjYLUGl83oYEETH3WUA==}
+    peerDependencies:
+      three: latest
+      vue: ^3.3.4
+    dependencies:
+      '@alvarosabu/utils': 2.3.0
+      '@vueuse/core': 10.1.2(vue@3.3.4)
+      three: 0.152.2
+      vue: 3.3.4
+    transitivePeerDependencies:
+      - '@vue/composition-api'
+    dev: true
 
   /@ts-morph/common@0.19.0:
     resolution: {integrity: sha512-Unz/WHmd4pGax91rdIKWi51wnVUW11QttMEPpBiBgIewnc9UQIX7UDLxr5vRlqeByXCwhkF6VabSsI0raWcyAQ==}
