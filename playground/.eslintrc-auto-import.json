@@ -57,7 +57,6 @@
     "watch": true,
     "watchEffect": true,
     "watchPostEffect": true,
-    "watchSyncEffect": true,
-    "toValue": true
+    "watchSyncEffect": true
   }
 }

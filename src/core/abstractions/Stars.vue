@@ -42,7 +42,7 @@ export interface StarsProps {
    * @memberof StarsProps
    * @default 5000
    */
-   count?: 5000
+   count?: number
   /**
    * depth of star's shape.
    *
@@ -50,7 +50,7 @@ export interface StarsProps {
    * @memberof StarsProps
    * @default 50
    */
-   depth?: 50
+   depth?: number
   /**
    * Radius of star's shape.
    *
@@ -58,7 +58,7 @@ export interface StarsProps {
    * @memberof StarsProps
    * @default 100
    */
-   radius?: 100
+   radius?: number
   /**
    * factor of randomness scale star.
    *
@@ -66,7 +66,7 @@ export interface StarsProps {
    * @memberof StarsProps
    * @default 4
    */
-   factor?: 4
+   factor?: number
   /**
    * texture of the stars.
    *

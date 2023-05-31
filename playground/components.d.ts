@@ -23,7 +23,6 @@ declare module '@vue/runtime-core' {
     TheSmoke: typeof import('./src/components/TheSmoke.vue')['default']
     TheStars: typeof import('./src/components/TheStars.vue')['default']
     TheText3D: typeof import('./src/components/TheText3D.vue')['default']
-    TransformControls: typeof import('./src/components/TransformControls.vue')['default']
     TransformControlsDemo: typeof import('./src/components/TransformControlsDemo.vue')['default']
     WobbleMaterial: typeof import('./src/components/WobbleMaterial.vue')['default']
   }

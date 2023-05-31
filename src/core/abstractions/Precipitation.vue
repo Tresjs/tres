@@ -43,7 +43,7 @@ export type PrecipitationProps = {
    * @memberof StarsProps
    * @default null
    */
-  alphaMap?: null
+  alphaMap?: string
   /**
    * enables the WebGL to know when not to render the pixel.
    *
@@ -59,7 +59,7 @@ export type PrecipitationProps = {
    * @memberof StarsProps
    * @default 0.8
    */
-  opacity?: 0.8
+  opacity?: number
   /**
    * number of drops.
    *
@@ -67,7 +67,7 @@ export type PrecipitationProps = {
    * @memberof StarsProps
    * @default 5000
    */
-  count?: 5000
+  count?: number
   /**
    * Speed of drops.
    *
@@ -75,7 +75,7 @@ export type PrecipitationProps = {
    * @memberof StarsProps
    * @default 5000
    */
-  speed?: 0.1
+  speed?: number
   /**
    * Add randomness to the drops.
    *
@@ -130,18 +130,18 @@ const {
   sizeAttenuation = true,
 } = defineProps<PrecipitationProps>()
 
-const precipitationGeoRef = shallowRef()
-
-let position: [] | Float32Array = []
+const geometryRef = shallowRef()
+let positionArray: [] | Float32Array = []
 let velocityArray: [] | Float32Array = []
 const setPosition = () => {
-  position = new Float32Array(count * 3)
+  positionArray = new Float32Array(count * 3)
   for (let i = 0; i < count; i++) {
     const i3 = i * 3
-    position[i3] = (Math.random() - 0.5) * area[0]
-    position[i3 + 1] = (Math.random() - 0.5) * area[1]
-    position[i3 + 2] = (Math.random() - 0.5) * area[2]
+    positionArray[i3] = (Math.random() - 0.5) * area[0]
+    positionArray[i3 + 1] = (Math.random() - 0.5) * area[1]
+    positionArray[i3 + 2] = (Math.random() - 0.5) * area[2]
   }
+
 }
 const setSpeed = () => {
   velocityArray = new Float32Array(count * 2)
@@ -156,17 +156,15 @@ setPosition()
 watchEffect(() => {
   setSpeed()
   setPosition()
-  if (precipitationGeoRef.value?.attributes.position) {
-    precipitationGeoRef.value.attributes.position = position
-  }
 })
+
 
 const { onLoop } = useRenderLoop()
 
 onLoop(() => {
-  if (precipitationGeoRef.value) {
-    const positionArray = precipitationGeoRef.value.attributes.position.array
-    for (let i = 0; i < precipitationGeoRef.value.attributes.position.count; i++) {
+  if (geometryRef.value?.attributes.position.array && geometryRef.value?.attributes.position.count) {
+    const positionArray = geometryRef.value.attributes.position.array
+    for (let i = 0; i < geometryRef.value.attributes.position.count; i++) {
       const velocityX = velocityArray[i * 2]
       const velocityY = velocityArray[i * 2 + 1]
 
@@ -178,7 +176,7 @@ onLoop(() => {
       if (positionArray[i * 3 + 1] <= -area[1] / 2 || positionArray[i * 3 + 1] >= area[1] / 2)
         positionArray[i * 3 + 1] = positionArray[i * 3 + 1] * -1
     }
-    precipitationGeoRef.value.attributes.position.needsUpdate = true
+    geometryRef.value.attributes.position.needsUpdate = true
   }
 })
 </script>
@@ -196,6 +194,6 @@ onLoop(() => {
       :transparent="transparent"
       :size-attenuation="sizeAttenuation"
     />
-    <TresBufferGeometry ref="precipitationGeoRef" :position="[position, 3]" :velocity="[velocityArray]" />
+    <TresBufferGeometry ref="geometryRef" :position="[positionArray, 3]" :velocity="[velocityArray]" />
   </TresPoints>
 </template>
