@@ -2,9 +2,7 @@
 import { TresCanvas } from '@tresjs/core'
 import { OrbitControls, useTweakPane, Levioso, TorusKnot } from '@tresjs/cientos'
 import { BasicShadowMap, SRGBColorSpace, NoToneMapping } from 'three'
-import { shallowRef } from 'vue'
-import { watchEffect } from 'vue'
-import { shallowReactive } from 'vue'
+import { shallowRef, shallowReactive } from 'vue'
 
 const gl = {
   clearColor: '#82DBC5',
@@ -43,9 +41,6 @@ pane.addInput(leviosoState, 'floatFactor', {
 })
 const groupRef = shallowRef()
 
-watchEffect(() => {
-  console.log(groupRef)
-})
 </script>
 
 <template>

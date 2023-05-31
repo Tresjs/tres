@@ -166,6 +166,7 @@ const font = await new Promise((resolve, reject) => {
       resolve(props.font)
     }
   } catch (error) {
+    // eslint-disable-next-line no-console
     reject(console.error('cientos', error))
   }
 })

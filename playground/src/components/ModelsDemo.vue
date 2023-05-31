@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { ref } from 'vue'
 import { TresCanvas } from '@tresjs/core'
 import { useGLTF, OrbitControls, GLTFModel, useFBX, FBXModel } from '@tresjs/cientos'
 import { NoToneMapping } from 'three'
@@ -22,12 +22,6 @@ const gl = {
   toneMapping: NoToneMapping,
 }
 
-watch(akuAkuRef, value => {
-  console.log('akuAkuRef', value)
-})
-watch(jeepRef, value => {
-  console.log('jeepRef', value)
-})
 </script>
 
 <template>
