@@ -25,7 +25,7 @@ export const usePointerEventHandler = () => {
   const { onClick } = useRaycaster2(objectsToWatch)
 
   onClick(({ intersects }) => {
-    console.log(intersects)
+    objectsWithEventListeners.click.get(intersects[0].object)?.()
   })
 
   return {

@@ -43,12 +43,11 @@ export const useRaycaster2 = (objects: Ref<THREE.Object3D[]>) => {
       y: event?.clientY ?? y.value,
     })
     if (!pointerPosition) return []
-    console.log(pointerPosition)
 
     return getIntersectsByRelativePointerPosition(pointerPosition) || []
   }
 
-  // const intersects = ref<Intersects>([])
+  // const intersects = ref<Intersects>([]) TODO
 
   // watchEffect(() => {
   //   intersects.value = getIntersects()
