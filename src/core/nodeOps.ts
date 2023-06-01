@@ -1,10 +1,11 @@
-import { RendererOptions } from 'vue'
-import { BufferAttribute, BufferGeometry, Material } from 'three'
-import { useCamera, useLogger } from '../composables'
+import { RendererOptions, getCurrentInstance } from 'vue'
+import { BufferAttribute } from 'three'
+import { useCamera, useLogger, useTres } from '../composables'
 import { isFunction } from '@alvarosabu/utils'
 import { catalogue } from './catalogue'
 import { EventHandlers, TresObject } from '../types'
 import { isHTMLTag, kebabToCamel } from '../utils'
+import type { Object3D, Material, BufferGeometry } from 'three'
 
 const onRE = /^on[^a-z]/
 export const isOn = (key: string) => onRE.test(key)
@@ -155,6 +156,21 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
       if (isOn(key)) {
         const eventHandlerKey: keyof EventHandlers = key as keyof EventHandlers // This is fine
         node.events[eventHandlerKey] = nextValue
+
+        if (getCurrentInstance()) {
+          // the following should only happen if a setup context is available
+          const ctx = useTres()
+
+          if (ctx && eventHandlerKey === 'onClick') {
+            console.log(ctx)
+
+            ctx.state.pointerEventHandler?.registerObject(node as Object3D, {
+              [eventHandlerKey]: nextValue,
+            })
+          }
+        }
+
+        // if (!ctx.state.pointerEventHandler) throw 'pointerEventHandler should be available'
       }
       let value = nextValue
       if (value === '') value = true

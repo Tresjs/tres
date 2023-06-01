@@ -49,7 +49,7 @@ function onPointerLeave(ev) {
     <template v-for="x in [-2.5, 0, 2.5]">
       <template v-for="y in [-2.5, 0, 2.5]">
         <TresMesh
-          v-for="z in [-2.5, 0, 2.5]"
+          v-for="z in [-2.5, 0, 1.5]"
           :key="[x, y, z]"
           :position="[x, y, z]"
           @click="onClick"
