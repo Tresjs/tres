@@ -36,6 +36,8 @@ declare module '@vue/runtime-core' {
     ThePortal: typeof import('./src/components/portal-journey/ThePortal.vue')['default']
     TheSmallExperience: typeof import('./src/components/TheSmallExperience.vue')['default']
     TheSphere: typeof import('./src/components/TheSphere.vue')['default']
+    TheUSDZModel: typeof import('./src/components/udsz/TheUSDZModel.vue')['default']
+    Udsz: typeof import('./src/components/udsz/index.vue')['default']
     VectorSetProps: typeof import('./src/components/VectorSetProps.vue')['default']
   }
 }
