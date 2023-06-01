@@ -63,7 +63,7 @@ onMounted(() => {
     <TresAmbientLight :intensity="0.5" />
     <TresDirectionalLight :position="[3, 3, 3]" :intensity="2" />
     <Suspense>
-      <EffectComposer>
+      <EffectComposer :depth-buffer="true">
         <Bloom v-bind="bloomParams"> </Bloom>
       </EffectComposer>
     </Suspense>
