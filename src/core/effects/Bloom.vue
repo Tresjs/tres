@@ -97,7 +97,7 @@ function createPass() {
     luminanceThreshold,
     luminanceSmoothing,
   })
-  pass.value = new EffectPass(unref(state.camera), toRaw(effect.value))
+  pass.value = new EffectPass(unref(state.camera), toRaw(effect.value) as BloomEffect)
 }
 
 function disposePass() {
