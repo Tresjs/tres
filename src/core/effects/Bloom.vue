@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Ref, inject, ref, toRaw, unref } from 'vue'
+import { Ref, inject, onUnmounted, ref, toRaw, unref } from 'vue'
 import { BlurPass, KernelSize, EffectPass, BloomEffect, EffectComposer, BlendFunction } from 'postprocessing'
 import { useCore } from '../useCore'
 import { watch } from 'vue'
@@ -85,23 +85,28 @@ const { state } = useCore()
 
 const composer = inject<Ref<EffectComposer>>('effectComposer')
 const pass = ref<EffectPass | null>(null)
+const effect = ref<BloomEffect | null>(null)
 
-defineExpose({ pass })
+defineExpose({ pass, effect })
 
 function createPass() {
-  pass.value = new EffectPass(
-    unref(state.camera),
-    new BloomEffect({
-      blendFunction,
-      mipmapBlur,
-      intensity,
-      luminanceThreshold,
-      luminanceSmoothing,
-    }),
-  )
+  effect.value = new BloomEffect({
+    blendFunction,
+    mipmapBlur,
+    intensity,
+    luminanceThreshold,
+    luminanceSmoothing,
+  })
+  pass.value = new EffectPass(unref(state.camera), toRaw(effect.value))
 }
 
-watch(
+function disposePass() {
+  effect.value?.dispose()
+  pass.value?.dispose()
+  composer?.value.removePass(toRaw(pass.value) as EffectPass)
+}
+
+const unwatchComposer = watch(
   () => [state.camera, composer?.value],
   () => {
     if (state.camera && composer && composer.value) {
@@ -111,15 +116,21 @@ watch(
   },
 )
 
-watch(
+const unwatchProps = watch(
   () => [blendFunction, mipmapBlur, intensity, luminanceThreshold, luminanceSmoothing],
   () => {
     if (pass.value) {
-      composer?.value.removePass(toRaw(pass.value) as EffectPass)
+      disposePass()
       createPass()
       composer?.value?.addPass(toRaw(pass.value) as EffectPass)
     }
   },
 )
+
+onUnmounted(() => {
+  disposePass()
+  unwatchComposer()
+  unwatchProps()
+})
 </script>
 <template></template>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { GlitchMode, EffectComposer, EffectPass, GlitchEffect, BlendFunction } from 'postprocessing'
-import { Ref, inject, ref, toRaw, unref, watch, watchEffect } from 'vue'
+import { Ref, inject, onUnmounted, ref, toRaw, unref, watch, watchEffect } from 'vue'
 
 import { Vector2, Texture } from 'three'
 
@@ -113,26 +113,31 @@ const { state } = useCore()
 
 const composer = inject<Ref<EffectComposer>>('effectComposer')
 const pass = ref<EffectPass | null>(null)
+const effect = ref<GlitchEffect | null>(null)
 
 defineExpose({ pass })
 
 function createPass() {
-  pass.value = new EffectPass(
-    unref(state.camera),
-    new GlitchEffect({
-      blendFunction,
-      delay,
-      duration,
-      strength,
-      ratio,
-      columns,
-      chromaticAberrationOffset,
-      dtSize,
-    }),
-  )
+  effect.value = new GlitchEffect({
+    blendFunction,
+    delay,
+    duration,
+    strength,
+    ratio,
+    columns,
+    chromaticAberrationOffset,
+    dtSize,
+  })
+  pass.value = new EffectPass(unref(state.camera), toRaw(effect.value) as GlitchEffect)
 }
 
-watch(
+function disposePass() {
+  effect.value?.dispose()
+  pass.value?.dispose()
+  composer?.value.removePass(toRaw(pass.value) as EffectPass)
+}
+
+const unwatchComposer = watch(
   () => [state.camera, composer?.value],
   () => {
     if (state.camera && composer && composer.value) {
@@ -142,10 +147,9 @@ watch(
   },
 )
 
-watch(
+const unwatchProps = watch(
   () => [delay, duration, strength, ratio, columns, chromaticAberrationOffset, peturbationMap, dtSize],
   () => {
-    console.log('props changed', composer?.value.passes)
     if (pass.value) {
       composer?.value.removePass(toRaw(pass.value) as EffectPass)
       createPass()
@@ -160,7 +164,7 @@ watchEffect(() => {
   }
 })
 
-watch(
+const unwatchActive = watch(
   () => active,
   value => {
     if (pass.value) {
@@ -168,5 +172,12 @@ watch(
     }
   },
 )
+
+onUnmounted(() => {
+  disposePass()
+  unwatchComposer()
+  unwatchProps()
+  unwatchActive()
+})
 </script>
 <template></template>
