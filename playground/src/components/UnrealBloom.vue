@@ -4,6 +4,7 @@ import { TresCanvas } from '@tresjs/core'
 import { OrbitControls, useTweakPane } from '@tresjs/cientos'
 import { EffectComposer, Bloom } from '@tresjs/post-processing'
 import { BasicShadowMap, NoToneMapping } from 'three'
+import { onMounted, reactive, ref } from 'vue'
 
 const gl = {
   clearColor: '#121212',
