@@ -2,8 +2,8 @@
 thumbnail: /smoke-demo.png
 title: Smoke demo
 author: jaime-bboyjt
-description: A basic example of how to use the smoke component effect with TresJS and cientos
-tags: ['cientos', 'smoke', 'shape-geometry']
+description: A basic example of how to use the smoke and precipitation component with TresJS and cientos
+tags: ['cientos', 'smoke', 'precipitation']
 ---
 
 ::smoke-demo
@@ -23,8 +23,9 @@ Author: [@**jaimebboyjt**](https://twitter.com/jaimebboyjt).
 // App.vue
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
-import { OrbitControls, Smoke } from '@tresjs/cientos'
+import { OrbitControls, Smoke, useGLTF, Precipitation } from '@tresjs/cientos'
 import { BasicShadowMap, sRGBEncoding, NoToneMapping, Shape } from 'three'
+console.log('jaime ~ Precipitation:', Precipitation)
 
 const gl = {
   clearColor: '#333',
@@ -34,24 +35,13 @@ const gl = {
   outputEncoding: sRGBEncoding,
   toneMapping: NoToneMapping,
 }
-const x = 0,
-  y = 0
 
-const heartShape = new Shape()
-// here we draw the heart shape
-heartShape.moveTo(x + 5, y + 5)
-heartShape.bezierCurveTo(x + 5, y + 5, x + 4, y, x, y)
-heartShape.bezierCurveTo(x - 6, y, x - 6, y + 7, x - 6, y + 7)
-heartShape.bezierCurveTo(x - 6, y + 11, x - 3, y + 15.4, x + 5, y + 19)
-heartShape.bezierCurveTo(x + 12, y + 15.4, x + 16, y + 11, x + 16, y + 7)
-heartShape.bezierCurveTo(x + 16, y + 7, x + 16, y, x + 10, y)
-heartShape.bezierCurveTo(x + 7, y, x + 5, y + 5, x + 5, y + 5)
+const { scene } = await useGLTF('https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/blender-cube.glb')
 </script>
 
 <template>
   <TresCanvas v-bind="gl">
-    <TresPerspectiveCamera :position="[0, 0, 5]" />
-    <!-- here define the positions of smokes -->
+    <TresPerspectiveCamera :position="[0, 0, 12]" />
     <Suspense>
       <Smoke :position="[-4, -2, 0]" :segments="8" />
     </Suspense>
@@ -67,16 +57,9 @@ heartShape.bezierCurveTo(x + 7, y, x + 5, y + 5, x + 5, y + 5)
     <Suspense>
       <Smoke :position="[4, 2, 0]" :segments="8" />
     </Suspense>
-    <TresMesh ref="boxRef" :scale="0.1" :rotation="[0, 0, Math.PI]">
-      <TresShapeGeometry :args="[heartShape]" />
-      <TresMeshBasicMaterial color="#FBB03B" />
-    </TresMesh>
-    <TresMesh :position="[-0.9, -0.75, 0]">
-      <TresBoxGeometry :args="[0.2, 0.2, 0.2]" />
-    </TresMesh>
-    <TresMesh :position="[-0.1, -0.75, 0]">
-      <TresBoxGeometry :args="[0.2, 0.2, 0.2]" />
-    </TresMesh>
+    <primitive :object="scene" />
+    <Precipitation :area="[15, 15, 15]" :size="0.1" :count="500" :speed="2" :randomness="0" />
+    <TresGridHelper :size="10" :divisions="10" :position-y="-1" />
     <TresAmbientLight :intensity="1" />
     <TresDirectionalLight :intensity="1" :position="[2, 2, 2]" />
     <OrbitControls />
