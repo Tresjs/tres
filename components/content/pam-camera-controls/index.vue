@@ -2,13 +2,13 @@
 import { BasicShadowMap, SRGBColorSpace, NoToneMapping } from 'three'
 import { TresCanvas, useRenderLoop } from '@tresjs/core'
 
-import { MouseParallax } from '@tresjs/cientos'
+import { MouseParallax, Stars } from '@tresjs/cientos'
 
 import Vertex from './shaders/vertex.glsl'
 import Fragment from './shaders/fragment.glsl'
 
 const gl = {
-  clearColor: '#202020',
+  clearColor: '#111',
   shadows: true,
   alpha: false,
   shadowMapType: BasicShadowMap,
@@ -40,6 +40,7 @@ onLoop(() => {
       <TresSphereGeometry :args="[1, 30, 30]" />
       <TresShaderMaterial v-bind="shader" />
     </TresMesh>
+    <Stars />
     <TresAmbientLight :intensity="1" />
   </TresCanvas>
 </template>
