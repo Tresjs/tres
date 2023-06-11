@@ -13,7 +13,6 @@
     }
   },
   "hooks": {
-    "before:init": ["pnpm run lint"],
     "after:bump": "pnpm run build",
     "after:git:release": "echo After git push, before github release",
     "after:release": "echo Successfully released ${name} v${version} to ${repo.repository}."
