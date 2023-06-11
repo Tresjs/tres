@@ -4,6 +4,7 @@ import { TresCanvas } from '@tresjs/core'
 import { OrbitControls, useTweakPane } from '@tresjs/cientos'
 import { EffectComposer, Bloom } from '@tresjs/post-processing'
 import { BasicShadowMap, NoToneMapping } from 'three'
+import { onMounted, reactive, ref } from 'vue'
 
 const gl = {
   clearColor: '#121212',
@@ -14,11 +15,10 @@ const gl = {
 }
 
 const bloomParams = reactive({
-  luminanceThreshold: 0.1,
+  luminanceThreshold: 0.2,
   luminanceSmoothing: 0.3,
   mipmapBlur: true,
   intensity: 4.0,
-  radius: 0.85,
 })
 
 const { pane } = useTweakPane()
@@ -27,7 +27,6 @@ pane.addInput(bloomParams, 'luminanceThreshold', { min: 0, max: 1 })
 pane.addInput(bloomParams, 'luminanceSmoothing', { min: 0, max: 1 })
 pane.addInput(bloomParams, 'mipmapBlur')
 pane.addInput(bloomParams, 'intensity', { min: 0, max: 10 })
-pane.addInput(bloomParams, 'radius', { min: 0, max: 1 })
 
 const materialRef = ref(null)
 
@@ -46,7 +45,7 @@ onMounted(() => {
       <TresSphereGeometry :args="[2, 32, 32]" />
       <TresMeshStandardMaterial color="hotpink" :emissive="new Color('hotpink')" :emissive-intensity="9" />
     </TresMesh> -->
-    <TresMesh :position="[2, 2, 2]">
+    <TresMesh :position="[2, 2, -2]">
       <TresSphereGeometry :args="[2, 32, 32]" />
       <TresMeshStandardMaterial color="hotpink" />
     </TresMesh>
@@ -63,8 +62,8 @@ onMounted(() => {
     <TresAmbientLight :intensity="0.5" />
     <TresDirectionalLight :position="[3, 3, 3]" :intensity="2" />
     <Suspense>
-      <EffectComposer>
-        <Bloom v-bind="bloomParams"> </Bloom>
+      <EffectComposer :depth-buffer="true">
+        <Bloom v-bind="bloomParams"></Bloom>
       </EffectComposer>
     </Suspense>
   </TresCanvas>
