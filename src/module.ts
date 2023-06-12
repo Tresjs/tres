@@ -53,7 +53,7 @@ export default defineNuxtModule<ModuleOptions>({
 
     const pkg = await readPackageJSON(nuxt.options.rootDir)
     const coreDeps = Object.keys({ ...pkg.dependencies, ...pkg.devDependencies }).filter(d => d.startsWith('@tresjs/'))
-    for (const mod of [...options.modules, ...coreDeps]) {
+    for (const mod of new Set([...options.modules, ...coreDeps])) {
       const imports = await import(mod)
       for (const name in imports) {
         if (name.match(/^[a-z]/)) {

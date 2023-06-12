@@ -1,10 +1,11 @@
 {
   "name": "@tresjs/nuxt",
+  "type": "module",
+  "packageManager": "pnpm@8.6.2",
   "version": "1.0.0",
   "description": "TresJS integration for Nuxt.",
   "repository": "@tresjs/nuxt",
   "license": "MIT",
-  "type": "module",
   "exports": {
     ".": {
       "types": "./dist/types.d.ts",
