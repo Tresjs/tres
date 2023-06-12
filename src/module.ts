@@ -1,4 +1,4 @@
-import { defineNuxtModule, addImports, addComponent, addTemplate, createResolver } from '@nuxt/kit'
+import { defineNuxtModule, addImports, addComponent, createResolver } from '@nuxt/kit'
 import * as core from '@tresjs/core'
 import { readPackageJSON } from 'pkg-types'
 
@@ -48,7 +48,7 @@ export default defineNuxtModule<ModuleOptions>({
     })
     const isCustomElement = nuxt.options.vue.compilerOptions.isCustomElement
     nuxt.options.vue.compilerOptions.isCustomElement = (tag) => {
-      return (tag.startsWith('Tres') && tag !== 'TresCanvas') || isCustomElement?.(tag)
+      return ((tag.startsWith('Tres') && tag !== 'TresCanvas') || tag === 'primitive') || isCustomElement?.(tag)
     }
 
     const pkg = await readPackageJSON(nuxt.options.rootDir)
