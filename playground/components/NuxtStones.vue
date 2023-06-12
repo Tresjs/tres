@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { useGLTF } from '@tresjs/cientos'
-import { useRenderLoop, useTexture } from '@tresjs/core'
+
 import { MeshBasicMaterial, Texture } from 'three'
+
 const { nodes } = await useGLTF('/nuxt-stones/nuxt-stones.glb')
 const stonesTexture = await useTexture(['/nuxt-stones/RockBaked.png'])
 const littleStonesTexture = await useTexture(['/nuxt-stones/LittleRocksBaked.png'])
