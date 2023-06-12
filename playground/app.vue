@@ -1,25 +1,47 @@
+<script setup lang="ts">
+import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from "three";
+
+const gl = {
+  clearColor: "#18181B",
+  shadows: true,
+  alpha: false,
+  shadowMapType: BasicShadowMap,
+  outputColorSpace: SRGBColorSpace,
+  toneMapping: NoToneMapping,
+};
+
+const bloomParams = reactive({
+  luminanceThreshold: 0.2,
+  luminanceSmoothing: 0.3,
+  mipmapBlur: true,
+  intensity: 0.5,
+});
+
+</script>
 <template>
-  <div style="height: 100vh;">
-    <TresCanvas>
-      <TresPerspectiveCamera />
+  <div style="height: 100vh">
+    <TresCanvas v-bind="gl">
+      <TresPerspectiveCamera
+        :position="[-5.3, 8.3, 10.6]"
+        :look-at="[0, 0, 0]"
+      />
       <OrbitControls />
-      <EffectComposer>
-        <Glitch />
+
+      <EffectComposer :depth-buffer="true">
+        <Bloom v-bind="bloomParams" />
       </EffectComposer>
-      <TresMesh ref="donut">
-        <TresTorusGeometry :args="[1, 0.5, 16, 32]" />
-        <TresMeshBasicMaterial color="orange" />
-      </TresMesh>
+
+      <Suspense>
+        <NuxtStones />
+      </Suspense>
     </TresCanvas>
   </div>
 </template>
 
-<script setup lang="ts">
-const donut = shallowRef<TresObject>()
-const { onLoop } = useRenderLoop()
-onLoop(({ delta, elapsed }) => {
-  if (donut.value) {
-    donut.value.rotation.y += delta
-  }
-})
-</script>
+<style>
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+</style>
