@@ -5,6 +5,10 @@
   "version": "0.1.0",
   "description": "TresJS integration for Nuxt.",
   "repository": "@tresjs/nuxt",
+  "author": "Daniel Roe (https://github.com/danielroe/)",
+  "publishConfig": {
+    "access": "public"
+  },
   "license": "MIT",
   "exports": {
     ".": {
