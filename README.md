@@ -1,11 +1,4 @@
-<!--
-Get your module up and running quickly.
-
-Find and replace all on all files (CMD+SHIFT+F):
-- Name: @tresjs/nuxt
-- Package name: @tresjs/nuxt
-- Description: My new Nuxt module
--->
+![Repo banner](public/nuxt-tres-banner.png)
 
 # @tresjs/nuxt
 
@@ -14,18 +7,17 @@ Find and replace all on all files (CMD+SHIFT+F):
 [![License][license-src]][license-href]
 [![Nuxt][nuxt-src]][nuxt-href]
 
-My new Nuxt module for doing amazing things.
+Official Nuxt module for TresJS. Build 3D scenes as they were Vue components.
 
 - [✨ &nbsp;Release Notes](/CHANGELOG.md)
-<!-- - [🏀 Online playground](https://stackblitz.com/github/@tresjs/nuxt?file=playground%2Fapp.vue) -->
-<!-- - [📖 &nbsp;Documentation](https://example.com) -->
+  <!-- - [🏀 Online playground](https://stackblitz.com/github/@tresjs/nuxt?file=playground%2Fapp.vue) -->
+  <!-- - [📖 &nbsp;Documentation](https://example.com) -->
 
 ## Features
 
-<!-- Highlight some of the features your module provide here -->
-- ⛰ &nbsp;Foo
-- 🚠 &nbsp;Bar
-- 🌲 &nbsp;Baz
+- 🤓 Auto-import components and composables from the [TresJS ecosystem](https://github.com/orgs/Tresjs/repositories)
+- `TresCanvas` client only, you don't need of adding `.client` to the component name or `<ClientOnly />`
+- All the DX Magic that comes with Nuxt ✨
 
 ## Quick Setup
 
@@ -46,13 +38,18 @@ npm install --save-dev @tresjs/nuxt
 
 ```js
 export default defineNuxtConfig({
-  modules: [
-    '@tresjs/nuxt'
-  ]
-})
+  modules: ["@tresjs/nuxt"],
+});
 ```
 
-That's it! You can now use @tresjs/nuxt in your Nuxt app ✨
+That's it! You can now use `@tresjs/nuxt` in your Nuxt app ✨
+
+If you want to use the any package from the TresJS ecosystem, you can install the packages you want to use and they will be auto-imported by the module 🧙🏼‍♂️.
+
+```bash
+# Using pnpm
+pnpm add @tresjs/cientos @tresjs/post-processing
+```
 
 ## Development
 
@@ -81,14 +78,12 @@ npm run release
 ```
 
 <!-- Badges -->
+
 [npm-version-src]: https://img.shields.io/npm/v/@tresjs/nuxt/latest.svg?style=flat&colorA=18181B&colorB=28CF8D
 [npm-version-href]: https://npmjs.com/package/@tresjs/nuxt
-
 [npm-downloads-src]: https://img.shields.io/npm/dm/@tresjs/nuxt.svg?style=flat&colorA=18181B&colorB=28CF8D
 [npm-downloads-href]: https://npmjs.com/package/@tresjs/nuxt
-
 [license-src]: https://img.shields.io/npm/l/@tresjs/nuxt.svg?style=flat&colorA=18181B&colorB=28CF8D
 [license-href]: https://npmjs.com/package/@tresjs/nuxt
-
 [nuxt-src]: https://img.shields.io/badge/Nuxt-18181B?logo=nuxt.js
 [nuxt-href]: https://nuxt.com
