@@ -173,5 +173,5 @@ type TresComponents = {
 }
 
 declare module 'vue' {
-  export type GlobalComponents = TresComponents
+  export interface GlobalComponents extends TresComponents {}
 }
