@@ -1,6 +1,6 @@
 import { useTres } from '../useTres'
 import { Raycaster, Vector2 } from 'three'
-import { Ref, computed, onUnmounted, ref, watchEffect } from 'vue'
+import { Ref, computed, onUnmounted, watchEffect } from 'vue'
 import { createEventHook, useElementBounding, usePointer } from '@vueuse/core'
 
 export type Intersects = THREE.Intersection<THREE.Object3D<THREE.Event>>[]
