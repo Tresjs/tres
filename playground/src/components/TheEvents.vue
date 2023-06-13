@@ -64,6 +64,16 @@ function onPointerLeave(ev) {
         </TresMesh>
       </template>
     </template>
+    <TresMesh
+      :position="[6, 6, 0]"
+      @click="onClick"
+      @pointer-enter="onPointerEnter"
+      @pointer-leave="onPointerLeave"
+      @pointer-move="onPointerMove"
+    >
+      <TresBoxGeometry :args="[1, 1, 1]" />
+      <TresMeshToonMaterial color="#efefef" />
+    </TresMesh>
     <OrbitControls />
     <TresAmbientLight :intensity="0.5" />
   </TresCanvas>

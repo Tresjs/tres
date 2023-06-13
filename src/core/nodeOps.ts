@@ -161,10 +161,9 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
           // the following should only happen if a setup context is available
           const ctx = useTres()
 
-          if (ctx && eventHandlerKey === 'onClick') {
-            console.log(ctx)
-
+          if (ctx && ['onClick', 'onPointerEnter', 'onPointerMove'].includes(eventHandlerKey)) {
             ctx.state.pointerEventHandler?.registerObject(node as Object3D, {
+              //TODO deregister?
               [eventHandlerKey]: nextValue,
             })
           }

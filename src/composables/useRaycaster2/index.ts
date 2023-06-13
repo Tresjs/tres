@@ -1,10 +1,10 @@
 import { useTres } from '../useTres'
 import { Raycaster, Vector2 } from 'three'
 import { Ref, computed, onUnmounted, watchEffect } from 'vue'
-import { createEventHook, useElementBounding, usePointer } from '@vueuse/core'
+import { EventHook, createEventHook, useElementBounding, usePointer } from '@vueuse/core'
 
 export type Intersects = THREE.Intersection<THREE.Object3D<THREE.Event>>[]
-interface ClickEventPayload {
+interface IntersectionEventPayload {
   intersects: Intersects
   event: PointerEvent
 }
@@ -53,25 +53,28 @@ export const useRaycaster2 = (objects: Ref<THREE.Object3D[]>) => {
   //   intersects.value = getIntersects()
   // })
 
-  const eventHookClick = createEventHook<ClickEventPayload>()
+  const eventHookClick = createEventHook<IntersectionEventPayload>()
+  const eventHookPointerMove = createEventHook<IntersectionEventPayload>()
 
-  const triggerEventHookClick = (event: PointerEvent) => {
-    eventHookClick.trigger({ event, intersects: getIntersects(event) })
+  const triggerEventHook = (eventHook: EventHook<IntersectionEventPayload>, event: PointerEvent) => {
+    eventHook.trigger({ event, intersects: getIntersects(event) })
   }
 
-  //distinguishing between clicks and drags (in cas of panning or dollying for example)
+  //distinguishing between clicks and drags (in cas of panning or dollying for example) // TODO discuss with other team members
   let clicked = false
 
   const onPointerDown = () => {
     clicked = true
   }
-  const onPointerMove = () => {
+  const onPointerMove = (event: PointerEvent) => {
     clicked = false
+
+    triggerEventHook(eventHookPointerMove, event)
   }
   const onPointerUp = (event: PointerEvent) => {
     if (!(event instanceof PointerEvent)) return // prevents triggering twice on mobile devices
 
-    if (clicked) triggerEventHookClick(event)
+    if (clicked) triggerEventHook(eventHookClick, event)
   }
 
   const unwatch = watchEffect(() => {
@@ -93,6 +96,7 @@ export const useRaycaster2 = (objects: Ref<THREE.Object3D[]>) => {
 
   return {
     // intersects,
-    onClick: (fn: (value: ClickEventPayload) => void) => eventHookClick.on(fn).off,
+    onClick: (fn: (value: IntersectionEventPayload) => void) => eventHookClick.on(fn).off,
+    onPointerMove: (fn: (value: IntersectionEventPayload) => void) => eventHookPointerMove.on(fn).off,
   }
 }

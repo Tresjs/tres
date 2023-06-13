@@ -38,3 +38,18 @@ export function makeMap(str: string, expectsLowerCase?: boolean): (key: string) 
   }
   return expectsLowerCase ? val => !!map[val.toLowerCase()] : val => !!map[val]
 }
+
+export const uniqueBy = <T, K>(array: T[], iteratee: (value: T) => K): T[] => {
+  const seen = new Set<K>()
+  const result: T[] = []
+
+  for (const item of array) {
+    const identifier = iteratee(item)
+    if (!seen.has(identifier)) {
+      seen.add(identifier)
+      result.push(item)
+    }
+  }
+
+  return result
+}
