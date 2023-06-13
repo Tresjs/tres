@@ -4,7 +4,12 @@ import { Ref, computed, onUnmounted, watchEffect } from 'vue'
 import { EventHook, createEventHook, useElementBounding, usePointer } from '@vueuse/core'
 
 export type Intersects = THREE.Intersection<THREE.Object3D<THREE.Event>>[]
-interface IntersectionEventPayload {
+interface PointerMoveEventPayload {
+  intersects?: Intersects
+  event: PointerEvent
+}
+
+interface PointerClickEventPayload {
   intersects: Intersects
   event: PointerEvent
 }
@@ -53,10 +58,10 @@ export const useRaycaster2 = (objects: Ref<THREE.Object3D[]>) => {
   //   intersects.value = getIntersects()
   // })
 
-  const eventHookClick = createEventHook<IntersectionEventPayload>()
-  const eventHookPointerMove = createEventHook<IntersectionEventPayload>()
+  const eventHookClick = createEventHook<PointerClickEventPayload>()
+  const eventHookPointerMove = createEventHook<PointerMoveEventPayload>()
 
-  const triggerEventHook = (eventHook: EventHook<IntersectionEventPayload>, event: PointerEvent) => {
+  const triggerEventHook = (eventHook: EventHook, event: PointerEvent) => {
     eventHook.trigger({ event, intersects: getIntersects(event) })
   }
 
@@ -71,6 +76,7 @@ export const useRaycaster2 = (objects: Ref<THREE.Object3D[]>) => {
 
     triggerEventHook(eventHookPointerMove, event)
   }
+
   const onPointerUp = (event: PointerEvent) => {
     if (!(event instanceof PointerEvent)) return // prevents triggering twice on mobile devices
 
@@ -96,7 +102,7 @@ export const useRaycaster2 = (objects: Ref<THREE.Object3D[]>) => {
 
   return {
     // intersects,
-    onClick: (fn: (value: IntersectionEventPayload) => void) => eventHookClick.on(fn).off,
-    onPointerMove: (fn: (value: IntersectionEventPayload) => void) => eventHookPointerMove.on(fn).off,
+    onClick: (fn: (value: PointerClickEventPayload) => void) => eventHookClick.on(fn).off,
+    onPointerMove: (fn: (value: PointerMoveEventPayload) => void) => eventHookPointerMove.on(fn).off,
   }
 }
