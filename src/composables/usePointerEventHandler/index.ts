@@ -8,7 +8,7 @@ type CallbackFnPointerLeave = (object: Object3D<Event>, event: PointerEvent) => 
 
 type EventProps = {
   // TODO this should not be here but in the type that is used for mesh props
-  // TODO deep
+  // TODO deep (multiple objects)
   onClick?: CallbackFn
   onPointerEnter?: CallbackFn
   onPointerMove?: CallbackFn
@@ -32,12 +32,9 @@ export const usePointerEventHandler = () => {
 
   const objectsToWatch = computed(() =>
     uniqueBy(
-      [
-        ...Array.from(objectsWithEventListeners.click.keys()),
-        ...Array.from(objectsWithEventListeners.pointerMove.keys()),
-        ...Array.from(objectsWithEventListeners.pointerEnter.keys()),
-        ...Array.from(objectsWithEventListeners.pointerLeave.keys()),
-      ],
+      Object.values(objectsWithEventListeners)
+        .map(map => Array.from(map.keys()))
+        .flat(),
       ({ uuid }) => uuid,
     ),
   )
@@ -53,14 +50,15 @@ export const usePointerEventHandler = () => {
   onPointerMove(({ intersects, event }) => {
     const firstObject = intersects?.[0]?.object
 
+    const { pointerLeave, pointerEnter, pointerMove } = objectsWithEventListeners
+
     if (previouslyIntersectedObject && previouslyIntersectedObject !== firstObject)
-      objectsWithEventListeners.pointerLeave.get(previouslyIntersectedObject)?.(previouslyIntersectedObject, event)
+      pointerLeave.get(previouslyIntersectedObject)?.(previouslyIntersectedObject, event)
 
     if (firstObject) {
-      if (previouslyIntersectedObject !== firstObject)
-        objectsWithEventListeners.pointerEnter.get(firstObject)?.(intersects[0], event)
+      if (previouslyIntersectedObject !== firstObject) pointerEnter.get(firstObject)?.(intersects[0], event)
 
-      objectsWithEventListeners.pointerMove.get(firstObject)?.(intersects[0], event)
+      pointerMove.get(firstObject)?.(intersects[0], event)
     }
 
     previouslyIntersectedObject = firstObject || null
