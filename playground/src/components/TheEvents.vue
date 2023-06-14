@@ -15,7 +15,7 @@ const state = reactive({
 
 function onClick(ev) {
   if (ev) {
-    // console.log('click', ev)
+    console.log('click', ev)
     ev.object.material.color.set('#008080')
   }
 }
@@ -29,13 +29,13 @@ function onPointerEnter(ev) {
 
 function onPointerMove(ev) {
   if (ev) {
-    // console.log('move', ev)
+    console.log('move', ev)
   }
 }
 
 function onPointerLeave(ev) {
   if (ev) {
-    // console.log('leave', ev)
+    console.log('leave', ev)
     /*  ev.object.material.color.set('#efefef') */
   }
 }

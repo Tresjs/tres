@@ -83,12 +83,17 @@ export const useRaycaster2 = (objects: Ref<THREE.Object3D[]>) => {
     if (clicked) triggerEventHook(eventHookClick, event)
   }
 
+  const onPointerLeave = (event: PointerEvent) => {
+    eventHookPointerMove.trigger({ event, intersects: [] })
+  }
+
   const unwatch = watchEffect(() => {
     if (!canvas?.value) return
 
     canvas.value.addEventListener('pointerdown', onPointerDown)
     canvas.value.addEventListener('pointermove', onPointerMove)
     canvas.value.addEventListener('pointerup', onPointerUp)
+    canvas.value.addEventListener('pointerleave', onPointerLeave)
 
     unwatch()
   })
@@ -98,6 +103,7 @@ export const useRaycaster2 = (objects: Ref<THREE.Object3D[]>) => {
     canvas.value.removeEventListener('pointerdown', onPointerDown)
     canvas.value.removeEventListener('pointermove', onPointerMove)
     canvas.value.removeEventListener('pointerup', onPointerUp)
+    canvas.value.removeEventListener('pointerleave', onPointerLeave)
   })
 
   return {
