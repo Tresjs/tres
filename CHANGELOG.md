@@ -1,5 +1,15 @@
 
 
+### [2.1.4](https://github.com/Tresjs/cientos/compare/2.1.2...2.1.4) (2023-06-14)
+
+
+### Bug Fixes
+
+* chg log linter rule to warn ([18eeb72](https://github.com/Tresjs/cientos/commit/18eeb72771339ad0c7e6c5d41ceb47caf392ca28))
+* fix types in precipitation, stars. rmv log rule linter ([1c15ecb](https://github.com/Tresjs/cientos/commit/1c15ecbe12250d5c1f2f3ef0a347eb8947c77413))
+* precipitation-area issue, rmv log mouseparallax, add rule lint ([994efaa](https://github.com/Tresjs/cientos/commit/994efaa3785d3ab02e27f31a2485c37d9f82727f))
+* return control value on event emitters ([d072223](https://github.com/Tresjs/cientos/commit/d072223afd055c5e00fa7f608c0a2f1a850b699f))
+
 ### [2.1.2](https://github.com/Tresjs/cientos/compare/2.1.1...2.1.2) (2023-05-26)
 
 
