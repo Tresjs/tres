@@ -1,5 +1,6 @@
 import { DefaultLoadingManager } from 'three'
 import { Ref, ref } from 'vue'
+import { useLogger } from '../../composables/useLogger'
 
 let saveLastTotalLoaded = 0
 
@@ -11,6 +12,7 @@ export function useProgress(): Promise<{
   const hasFinishLoading = ref(false)
   const progress = ref(0)
   const items: Ref<string[]> = ref([])
+  const { logError } = useLogger()
 
   return new Promise(resolve => {
     DefaultLoadingManager.onStart = () => {
@@ -30,7 +32,8 @@ export function useProgress(): Promise<{
       progress.value = Math.round(((loaded - saveLastTotalLoaded) / (total - saveLastTotalLoaded)) * 100 || 100, 2)
     }
 
-    DefaultLoadingManager.onError = () => {
+    DefaultLoadingManager.onError = error => {
+      logError('Error loading assets', new Error(error))
       hasFinishLoading.value = true
     }
 
