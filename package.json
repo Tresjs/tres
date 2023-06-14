@@ -57,15 +57,15 @@
     "docs:serve": "vitepress serve docs"
   },
   "peerDependencies": {
-    "three": "latest",
-    "vue": "^3.3.4"
+    "three": ">=0.133",
+    "vue": ">=3.3"
   },
   "dependencies": {
     "@alvarosabu/utils": "^3.0.0",
-    "@vueuse/core": "^10.1.2",
-    "vue": "^3.3.4"
+    "@vueuse/core": "^10.1.2"
   },
   "devDependencies": {
+    "vue": "^3.3.4",
     "@alvarosabu/prettier-config": "^1.3.0",
     "@huntersofbook/plausible-vue": "^1.0.0",
     "@release-it/conventional-changelog": "^5.1.1",
