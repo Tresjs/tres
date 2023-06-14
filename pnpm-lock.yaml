@@ -24,8 +24,8 @@ importers:
         specifier: ^1.9.0
         version: 1.9.0
       '@tresjs/cientos':
-        specifier: 2.1.3
-        version: 2.1.3(@tresjs/core@)(three@0.153.0)(vue@3.3.4)
+        specifier: 2.1.4
+        version: 2.1.4(@tresjs/core@)(three@0.153.0)(vue@3.3.4)
       '@types/three':
         specifier: ^0.152.1
         version: 0.152.1
@@ -141,8 +141,8 @@ importers:
   playground:
     dependencies:
       '@tresjs/cientos':
-        specifier: 2.1.3
-        version: 2.1.3(@tresjs/core@)(three@0.153.0)(vue@3.3.4)
+        specifier: 2.1.4
+        version: 2.1.4(@tresjs/core@)(three@0.153.0)(vue@3.3.4)
       vue-router:
         specifier: ^4.2.0
         version: 4.2.0(vue@3.3.4)
@@ -1114,12 +1114,12 @@ packages:
     engines: {node: '>= 10'}
     dev: true
 
-  /@tresjs/cientos@2.1.3(@tresjs/core@)(three@0.153.0)(vue@3.3.4):
-    resolution: {integrity: sha512-cojCR1LA9HuCV4FCdcHgb21tQb2GN96ygqtDHbQIaC+RsSC9Hj8JkEvkCw3jUiMJJ9CaflLBmGoOWePrJm1Gkw==}
+  /@tresjs/cientos@2.1.4(@tresjs/core@)(three@0.153.0)(vue@3.3.4):
+    resolution: {integrity: sha512-K6G9XwIKC6Zg855Rh8YrBs8TZJlJv4AoJZZ9mc0fgG64V1qWDqTQsR3yhIsfPp2NPM8+NI4URPCAR4HybbgppQ==}
     peerDependencies:
-      '@tresjs/core': 2.1.2
-      three: latest
-      vue: ^3.3.4
+      '@tresjs/core': '>=2.1.3'
+      three: '>=0.133'
+      vue: '>=3.3'
     dependencies:
       '@tresjs/core': 'link:'
       '@vueuse/core': 10.1.2(vue@3.3.4)
