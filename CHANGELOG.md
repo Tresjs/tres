@@ -1,5 +1,15 @@
 
 
+### [2.1.3](https://github.com/Tresjs/tres/compare/2.1.2...2.1.3) (2023-06-14)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @alvarosabu/utils to v3 ([97a9950](https://github.com/Tresjs/tres/commit/97a9950833f70fde84541ab106cc714aa3c6ad5f))
+* **deps:** update dependency @tresjs/cientos to v2.1.3 ([cae506d](https://github.com/Tresjs/tres/commit/cae506df15115adbbbd099b6b8cecd422b59ab42))
+* extend `GlobalComponents` rather than replacing ([70b3717](https://github.com/Tresjs/tres/commit/70b3717bec561819c248d99fe51d4cf41198151c))
+* message canvas 0 height false positives ([bdfbdfe](https://github.com/Tresjs/tres/commit/bdfbdfeb744f7d0920cbaa87a4016a8d5e237a97))
+
 ### [2.1.2](https://github.com/Tresjs/tres/compare/2.1.1...2.1.2) (2023-05-26)
 
 
