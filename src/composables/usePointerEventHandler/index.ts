@@ -15,6 +15,8 @@ type EventProps = {
   onPointerLeave?: CallbackFnPointerLeave
 }
 
+//TODO make pointerLeave trigger when canvas is left
+
 export const usePointerEventHandler = () => {
   const objectsWithEventListeners = {
     click: new Map<Object3D, CallbackFn>(),
@@ -28,6 +30,10 @@ export const usePointerEventHandler = () => {
     if (onPointerMove) objectsWithEventListeners.pointerMove.set(object, onPointerMove)
     if (onPointerEnter) objectsWithEventListeners.pointerEnter.set(object, onPointerEnter)
     if (onPointerLeave) objectsWithEventListeners.pointerLeave.set(object, onPointerLeave)
+  }
+
+  const deregisterObject = (object: Object3D) => {
+    Object.values(objectsWithEventListeners).forEach(map => map.delete(object))
   }
 
   const objectsToWatch = computed(() =>
@@ -66,5 +72,6 @@ export const usePointerEventHandler = () => {
 
   return {
     registerObject,
+    deregisterObject,
   }
 }

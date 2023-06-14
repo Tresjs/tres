@@ -19,6 +19,7 @@ let fallback: TresObject | null = null
 const OBJECT_3D_USER_DATA_KEYS = {
   GEOMETRY_VIA_PROP: 'tres__geometryViaProp',
   MATERIAL_VIA_PROP: 'tres__materialViaProp',
+  DEREGISTER_ALL_POINTER_EVENT_HANDLERS: 'tres__deregisterAllPointerEventHandlers',
 }
 
 const { logError } = useLogger()
@@ -120,9 +121,17 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
           (object3D as TresObject & { geometry: BufferGeometry }).geometry?.dispose()
       }
 
-      object3D.traverse((child: TresObject) => disposeMaterialsAndGeometries(child))
+      const deregisterPointerEventHandlers = (object3D: TresObject) => {
+        object3D.userData[OBJECT_3D_USER_DATA_KEYS.DEREGISTER_ALL_POINTER_EVENT_HANDLERS]?.()
+      }
+
+      object3D.traverse((child: TresObject) => {
+        disposeMaterialsAndGeometries(child)
+        deregisterPointerEventHandlers(child)
+      })
 
       disposeMaterialsAndGeometries(object3D)
+      deregisterPointerEventHandlers(object3D)
     }
 
     node.removeFromParent?.()
@@ -153,7 +162,8 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
         finalKey = key.toLowerCase()
         if (!target?.set) root = chain.reduce((acc, key) => acc[kebabToCamel(key)], root)
       }
-      if (isOn(key)) {
+      if (isOn(key) && node.isObject3D) {
+        //TODO only isObject3D
         const eventHandlerKey: keyof EventHandlers = key as keyof EventHandlers // This is fine
         node.events[eventHandlerKey] = nextValue
 
@@ -162,14 +172,20 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
           const ctx = useTres()
 
           if (ctx && ['onClick', 'onPointerEnter', 'onPointerMove', 'onPointerLeave'].includes(eventHandlerKey)) {
-            ctx.state.pointerEventHandler?.registerObject(node as Object3D, {
-              //TODO deregister?
+            if (!ctx.state.pointerEventHandler) throw 'pointerEventHandler should be available'
+
+            ctx.state.pointerEventHandler.registerObject(node as Object3D, {
               [eventHandlerKey]: nextValue,
             })
+
+            // useTres is not available in the remove method,
+            // so a function to deregister must be made available through userData
+            const { DEREGISTER_ALL_POINTER_EVENT_HANDLERS } = OBJECT_3D_USER_DATA_KEYS
+            if (!node.userData[DEREGISTER_ALL_POINTER_EVENT_HANDLERS])
+              node.userData[DEREGISTER_ALL_POINTER_EVENT_HANDLERS] = () =>
+                ctx.state.pointerEventHandler?.deregisterObject(node as Object3D)
           }
         }
-
-        // if (!ctx.state.pointerEventHandler) throw 'pointerEventHandler should be available'
       }
       let value = nextValue
       if (value === '') value = true

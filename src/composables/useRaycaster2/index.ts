@@ -19,7 +19,7 @@ export const useRaycaster2 = (objects: Ref<THREE.Object3D[]>) => {
 
   const canvas = computed(() => state.canvas?.value) // having a seperate computed makes useElementBounding work
 
-  const { x, y } = usePointer({ target: canvas }) // TODO advanced pointer options?
+  const { x, y } = usePointer({ target: canvas })
 
   const { width, height, top, left } = useElementBounding(canvas)
 

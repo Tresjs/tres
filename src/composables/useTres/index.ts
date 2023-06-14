@@ -1,6 +1,6 @@
 import { Clock, EventDispatcher, Raycaster, Scene, Vector2, WebGLRenderer } from 'three'
 import { generateUUID } from 'three/src/math/MathUtils'
-import { computed, ComputedRef, inject, provide, Ref, shallowReactive, toRefs } from 'vue'
+import { ComputedRef, inject, provide, Ref, shallowReactive, toRefs } from 'vue'
 import { Camera } from '../useCamera'
 import type { usePointerEventHandler } from '../usePointerEventHandler'
 
@@ -120,7 +120,7 @@ export function useTresProvider() {
     canvas: undefined,
     scene: undefined,
     renderer: undefined,
-    aspectRatio: computed(() => window.innerWidth / window.innerHeight), //TODO
+    aspectRatio: undefined,
     pointerEventHandler: undefined,
   })
   /**

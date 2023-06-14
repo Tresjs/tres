@@ -14,10 +14,8 @@ const state = reactive({
 })
 
 function onClick(ev) {
-  console.log('yeeeeeaaaah')
-
   if (ev) {
-    console.log('click', ev)
+    // console.log('click', ev)
     ev.object.material.color.set('#008080')
   }
 }
@@ -31,29 +29,56 @@ function onPointerEnter(ev) {
 
 function onPointerMove(ev) {
   if (ev) {
-    console.log('move', ev)
+    // console.log('move', ev)
   }
 }
 
 function onPointerLeave(ev) {
   if (ev) {
-    console.log('leave', ev)
+    // console.log('leave', ev)
     /*  ev.object.material.color.set('#efefef') */
   }
 }
+
+const left = ref(400)
+const eventsActive = ref(true)
+
+const enterFn = computed(() => (eventsActive.value ? onPointerEnter : undefined))
+const exists = ref(true)
 </script>
 
 <template>
-  <TresCanvas v-bind="state">
-    <TresPerspectiveCamera :position="[11, 11, 11]" :fov="45" :near="0.1" :far="1000" :look-at="[-8, 3, -3]" />
+  <div>
+    <input v-model.number="left" type="number" />
+    <button @click="eventsActive = !eventsActive">{{ eventsActive }}</button>
+    <button @click="exists = !exists">{{ exists }}</button>
 
-    <TresDirectionalLight :position="[0, 8, 4]" :intensity="0.2" cast-shadow />
-    <template v-for="x in [-2.5, 0, 2.5]">
-      <template v-for="y in [-2.5, 0, 2.5]">
+    <div
+      style="height: 400px; width: 400px; margin-top: 100px; margin-left: 500px"
+      :style="{ marginLeft: left + 'px' }"
+    >
+      <TresCanvas v-bind="state">
+        <TresPerspectiveCamera :position="[11, 11, 11]" :fov="45" :near="0.1" :far="1000" :look-at="[-8, 3, -3]" />
+        <TresDirectionalLight :position="[0, 8, 4]" :intensity="0.2" cast-shadow />
+        <template v-for="x in [-2.5, 0, 2.5]">
+          <template v-for="y in [-2.5, 0, 2.5]">
+            <TresMesh
+              v-for="z in [-2.5, 0, 2.5]"
+              :key="`${[x, y, z]}`"
+              :position="[x, y, z]"
+              @click="onClick"
+              @pointer-enter="enterFn"
+              @pointer-leave="onPointerLeave"
+              @pointer-move="onPointerMove"
+            >
+              <TresBoxGeometry :args="[1, 1, 1]" />
+              <TresMeshToonMaterial color="#efefef" />
+            </TresMesh>
+          </template>
+        </template>
         <TresMesh
-          v-for="z in [-2.5, 0, 2.5]"
-          :key="`${[x, y, z]}`"
-          :position="[x, y, z]"
+          v-if="exists"
+          :position="[6, 6, 0]"
           @click="onClick"
           @pointer-enter="onPointerEnter"
           @pointer-leave="onPointerLeave"
@@ -62,19 +87,9 @@ function onPointerLeave(ev) {
           <TresBoxGeometry :args="[1, 1, 1]" />
           <TresMeshToonMaterial color="#efefef" />
         </TresMesh>
-      </template>
-    </template>
-    <TresMesh
-      :position="[6, 6, 0]"
-      @click="onClick"
-      @pointer-enter="onPointerEnter"
-      @pointer-leave="onPointerLeave"
-      @pointer-move="onPointerMove"
-    >
-      <TresBoxGeometry :args="[1, 1, 1]" />
-      <TresMeshToonMaterial color="#efefef" />
-    </TresMesh>
-    <OrbitControls />
-    <TresAmbientLight :intensity="0.5" />
-  </TresCanvas>
+        <OrbitControls />
+        <TresAmbientLight :intensity="0.5" />
+      </TresCanvas>
+    </div>
+  </div>
 </template>
