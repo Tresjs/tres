@@ -1,4 +1,4 @@
-![repository-banner.png](/public/github-banner.png)
+![repository-banner.png](/public/repo-banner.png)
 
 # Tres Contributing Guide
 
