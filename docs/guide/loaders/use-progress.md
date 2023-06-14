@@ -9,7 +9,7 @@ This comes handy to show an HTML loading bar or a spinner while the assets are b
 ```ts
 import { useProgress } from '@tresjs/cientos'
 
-const { hasFinishLoading, progress } = await useProgress()
+const { hasFinishLoading, progress, items } = await useProgress()
 ```
 
 Then you can use the `progress` value to show a loading bar or a spinner:
