@@ -38,6 +38,5 @@ export default defineConfig({
     alias: {
       '@tresjs/cientos': resolve(__dirname, '../src/'),
     },
-    dedupe: ['three', '@tresjs/core'],
   },
 })
