@@ -141,8 +141,8 @@ importers:
   playground:
     dependencies:
       '@tresjs/cientos':
-        specifier: 2.0.0
-        version: 2.0.0(@tresjs/core@2.0.0)(three@0.153.0)(vue@3.3.4)
+        specifier: 2.1.3
+        version: 2.1.3(@tresjs/core@)(three@0.153.0)(vue@3.3.4)
       vue-router:
         specifier: ^4.2.0
         version: 4.2.0(vue@3.3.4)
@@ -412,10 +412,6 @@ packages:
       prettier: 2.8.8
     dev: true
 
-  /@alvarosabu/utils@2.3.0:
-    resolution: {integrity: sha512-Uf+loPdTfNDPIOMCQlBVC9Db+UnmXVn/MTyVZNjPHmp2noOyux/U/vfjhJROGUvnHZxdYIMEpWVeTI/i/VCUJQ==}
-    dev: false
-
   /@alvarosabu/utils@3.0.0:
     resolution: {integrity: sha512-uSF0BPY82MuZz59ecso77fPUdwPLVIeizwfPCqOBeqUbfwUyWIt4LHBakN5BHXbnxQNZ96+a4lgbCZxSzW4PfQ==}
     dev: false
@@ -544,13 +540,6 @@ packages:
     dependencies:
       '@babel/types': 7.22.5
     dev: true
-
-  /@babel/runtime@7.21.5:
-    resolution: {integrity: sha512-8jI69toZqqcsnqGGqwGS4Qb1VwLOEp4hz+CXPywcvjs60u3B4Pom/U/7rm4W8tMOYEB+E9wgD0mW1l3r8qlI9Q==}
-    engines: {node: '>=6.9.0'}
-    dependencies:
-      regenerator-runtime: 0.13.11
-    dev: false
 
   /@babel/template@7.22.5:
     resolution: {integrity: sha512-X7yV7eiwAxdj9k94NEylvbVHLiVG1nvzCV2EAowhxLTwODV1jl9UzZ48leOC0sH7OnuHrIkllaBgneUykIcZaw==}
@@ -1320,22 +1309,6 @@ packages:
     engines: {node: '>= 10'}
     dev: true
 
-  /@tresjs/cientos@2.0.0(@tresjs/core@2.0.0)(three@0.153.0)(vue@3.3.4):
-    resolution: {integrity: sha512-uIN5H1q93/RY/ngzLsMQ6Uqzu1gKOzNGx4ljqF2KDC8kJ+ANYQmjZr4H3hXJ0Rrc6wHtnIzk7NjIfTXqj2MgLA==}
-    peerDependencies:
-      '@tresjs/core': 2.0.0
-      three: latest
-      vue: ^3.2.47
-    dependencies:
-      '@tresjs/core': 2.0.0(three@0.153.0)(vue@3.3.4)
-      '@vueuse/core': 10.1.2(vue@3.3.4)
-      three: 0.153.0
-      three-stdlib: 2.21.11(three@0.153.0)
-      vue: 3.3.4
-    transitivePeerDependencies:
-      - '@vue/composition-api'
-    dev: false
-
   /@tresjs/cientos@2.1.3(@tresjs/core@)(three@0.153.0)(vue@3.3.4):
     resolution: {integrity: sha512-cojCR1LA9HuCV4FCdcHgb21tQb2GN96ygqtDHbQIaC+RsSC9Hj8JkEvkCw3jUiMJJ9CaflLBmGoOWePrJm1Gkw==}
     peerDependencies:
@@ -1350,21 +1323,6 @@ packages:
       vue: 3.3.4
     transitivePeerDependencies:
       - '@vue/composition-api'
-    dev: true
-
-  /@tresjs/core@2.0.0(three@0.153.0)(vue@3.3.4):
-    resolution: {integrity: sha512-2tNvojw4V2PgpBqzZA/UWyhTi8F4fkSLCnvPqMQgdWjXtaLTxomMTqiIBgyiord9+sCsReURLvCSX0m5Zdh//Q==}
-    peerDependencies:
-      three: latest
-      vue: ^3.2.47
-    dependencies:
-      '@alvarosabu/utils': 2.3.0
-      '@vueuse/core': 10.1.2(vue@3.3.4)
-      three: 0.153.0
-      vue: 3.3.4
-    transitivePeerDependencies:
-      - '@vue/composition-api'
-    dev: false
 
   /@trysound/sax@0.2.0:
     resolution: {integrity: sha512-L7z9BgrNEcYyUYtF+HaEfiS5ebkh9jXqbszz7pC0hRBPaatV0XjSD3+eHrpqFemQfgwiFF0QPIarnIihIDn7OA==}
@@ -1400,7 +1358,6 @@ packages:
 
   /@types/draco3d@1.4.2:
     resolution: {integrity: sha512-goh23EGr6CLV6aKPwN1p8kBD/7tT5V/bLpToSbarKrwVejqNrspVrv8DhliteYkkhZYrlq/fwKZRRUzH4XN88w==}
-    dev: true
 
   /@types/estree@1.0.1:
     resolution: {integrity: sha512-LG4opVs2ANWZ1TJoKc937iMmNstM/d0ae1vNbnBvBhqCSezgVUOzcLCqbI5elV8Vy6WKwKjaqR+zO9VKirBBCA==}
@@ -1477,7 +1434,6 @@ packages:
 
   /@types/webxr@0.5.2:
     resolution: {integrity: sha512-szL74BnIcok9m7QwYtVmQ+EdIKwbjPANudfuvDrAF8Cljg9MKUlIoc1w5tjj9PMpeSH3U1Xnx//czQybJ0EfSw==}
-    dev: true
 
   /@typescript-eslint/eslint-plugin@5.59.11(@typescript-eslint/parser@5.59.11)(eslint@8.42.0)(typescript@5.1.3):
     resolution: {integrity: sha512-XxuOfTkCUiOSyBWIvHlUraLw/JT/6Io1365RO6ZuI88STKMavJZPNMU0lFcUTeQXEhHiv64CbxYxBNoDVSmghg==}
@@ -2080,10 +2036,6 @@ packages:
     transitivePeerDependencies:
       - '@vue/composition-api'
       - vue
-
-  /@webgpu/glslang@0.0.15:
-    resolution: {integrity: sha512-niT+Prh3Aff8Uf1MVBVUsaNjFj9rJAKDXuoHIKiQbB+6IUP/3J3JIhBNyZ7lDhytvXxw6ppgnwKZdDJ08UMj4Q==}
-    dev: false
 
   /JSONStream@1.3.5:
     resolution: {integrity: sha512-E+iruNOY8VV9s4JEbe1aNEm6MiszPRr/UfcHMz0TQh1BXSxHK+ASV1R6W4HpjBhSeS+54PIsAMCBmwD06LLsqQ==}
@@ -5908,10 +5860,6 @@ packages:
       strip-indent: 3.0.0
     dev: true
 
-  /regenerator-runtime@0.13.11:
-    resolution: {integrity: sha512-kY1AZVr2Ra+t+piVaJ4gxaFaReZVH40AKNo7UCX6W+dEwBo/2oZJzqfuN1qLq1oL45o56cPaTXELwrTh8Fpggg==}
-    dev: false
-
   /regexp-to-ast@0.5.0:
     resolution: {integrity: sha512-tlbJqcMHnPKI9zSrystikWKwHkBqu2a/Sgw01h3zFjvYrMxEDYHzzoMZnUrbIfpTFEsoRnnviOXNCzFiSc54Qw==}
 
@@ -6527,25 +6475,6 @@ packages:
     resolution: {integrity: sha512-N+8UisAXDGk8PFXP4HAzVR9nbfmVJ3zYLAWiTIoqC5v5isinhr+r5uaO8+7r3BMfuNIufIsA7RdpVgacC2cSpw==}
     dev: true
 
-  /three-stdlib@2.21.11(three@0.153.0):
-    resolution: {integrity: sha512-fFeaMOc3lpup4A/FrSKHmp/PNYmyxyV8dzMorJpYyZBdIGAn5BmokGSN9ei8t7Wv9thxCW+VLaxA6csxTl5MYg==}
-    peerDependencies:
-      three: '>=0.122.0'
-    dependencies:
-      '@babel/runtime': 7.21.5
-      '@types/offscreencanvas': 2019.7.0
-      '@webgpu/glslang': 0.0.15
-      chevrotain: 10.5.0
-      draco3d: 1.5.6
-      fflate: 0.6.10
-      ktx-parse: 0.4.5
-      mmd-parser: 1.0.4
-      opentype.js: 1.3.4
-      potpack: 1.0.2
-      three: 0.153.0
-      zstddec: 0.0.2
-    dev: false
-
   /three-stdlib@2.23.9(three@0.153.0):
     resolution: {integrity: sha512-fYBClVGQptD7UZcoRZGNlR3sKcUW37hVPoEW1v68E4XuiwD0Ml/VqDUJ0yEMVE2DlooDvqgqv/rIcHC/B4N5pg==}
     peerDependencies:
@@ -6563,7 +6492,6 @@ packages:
       potpack: 1.0.2
       three: 0.153.0
       zstddec: 0.0.2
-    dev: true
 
   /three@0.153.0:
     resolution: {integrity: sha512-OCP2/uQR6GcDpSLnJt/3a4mdS0kNWcbfUXIwLoEMgLzEUIVIYsSDwskpmOii/AkDM+BBwrl6+CKgrjX9+E2aWg==}
