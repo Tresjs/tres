@@ -15,7 +15,7 @@ function noop(fn: string): any {
 }
 
 let fallback: TresObject | null = null
-
+let scene: Scene | null = null
 const OBJECT_3D_USER_DATA_KEYS = {
   GEOMETRY_VIA_PROP: 'tres__geometryViaProp',
   MATERIAL_VIA_PROP: 'tres__materialViaProp',
@@ -81,6 +81,7 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
     return instance
   },
   insert(child, parent) {
+    if (parent && parent.isScene) scene = parent
     if (
       (child?.__vnode?.type === 'TresGroup' || child?.__vnode?.type === 'TresObject3D') &&
       parent === null &&
@@ -88,12 +89,12 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
     ) {
       fallback = child
       return
+    } else if (child?.__vnode?.type.includes('Controls') && parent === null) {
+      fallback = scene
     }
 
     if (!parent) parent = fallback as TresObject
 
-    //vue core
-    /*  parent.insertBefore(child, anchor || null) */
     if (child?.isObject3D && parent?.isObject3D) {
       parent.add(child)
       child.dispatchEvent({ type: 'added' })

@@ -1,5 +1,12 @@
 
 
+### [2.1.2](https://github.com/Tresjs/tres/compare/2.1.1...2.1.2) (2023-05-26)
+
+
+### Bug Fixes
+
+* added scene fallback as parent for controls ([e986f9c](https://github.com/Tresjs/tres/commit/e986f9ca2e760c34a6d92a089b8c343b4f11fc66))
+
 ### [2.1.1](https://github.com/Tresjs/tres/compare/2.1.0...2.1.1) (2023-05-22)
 
 ## [2.1.0](https://github.com/Tresjs/tres/compare/2.0.0...2.1.0) (2023-05-22)
