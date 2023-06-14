@@ -76,8 +76,6 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
       if (props?.geometry?.isBufferGeometry) (instance as TresObject).userData[GEOMETRY_VIA_PROP] = true
     }
 
-    instance.events = {}
-
     return instance
   },
   insert(child, parent) {
@@ -122,9 +120,8 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
           (object3D as TresObject & { geometry: BufferGeometry }).geometry?.dispose()
       }
 
-      const deregisterPointerEventHandlers = (object3D: TresObject) => {
+      const deregisterPointerEventHandlers = (object3D: TresObject) =>
         object3D.userData[OBJECT_3D_USER_DATA_KEYS.DEREGISTER_ALL_POINTER_EVENT_HANDLERS]?.()
-      }
 
       object3D.traverse((child: TresObject) => {
         disposeMaterialsAndGeometries(child)
@@ -164,9 +161,7 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
         if (!target?.set) root = chain.reduce((acc, key) => acc[kebabToCamel(key)], root)
       }
       if (isOn(key) && node.isObject3D) {
-        //TODO only isObject3D
         const eventHandlerKey: keyof EventHandlers = key as keyof EventHandlers // This is fine
-        node.events[eventHandlerKey] = nextValue
 
         if (getCurrentInstance()) {
           // the following should only happen if a setup context is available

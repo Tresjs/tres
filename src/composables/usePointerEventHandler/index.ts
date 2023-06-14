@@ -1,6 +1,6 @@
 import { computed } from 'vue'
 import { uniqueBy } from '../../utils'
-import { useRaycaster2 } from '../useRaycaster2'
+import { useRaycaster2 } from '../useRaycaster'
 import type { Intersection, Event, Object3D } from 'three'
 
 type CallbackFn = (intersection: Intersection<Object3D<Event>>, event: PointerEvent) => void //TODO document
