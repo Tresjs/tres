@@ -1,5 +1,5 @@
 import { RendererOptions, getCurrentInstance } from 'vue'
-import { BufferAttribute } from 'three'
+import { BufferAttribute, Scene } from 'three'
 import { useCamera, useLogger, useTres } from '../composables'
 import { isFunction } from '@alvarosabu/utils'
 import { catalogue } from './catalogue'
@@ -79,7 +79,7 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
     return instance
   },
   insert(child, parent) {
-    if (parent && parent.isScene) scene = parent
+    if (parent && parent.isScene) scene = parent as unknown as Scene
     if (
       (child?.__vnode?.type === 'TresGroup' || child?.__vnode?.type === 'TresObject3D') &&
       parent === null &&
@@ -88,7 +88,7 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
       fallback = child
       return
     } else if (child?.__vnode?.type.includes('Controls') && parent === null) {
-      fallback = scene
+      fallback = scene as unknown as TresObject
     }
 
     if (!parent) parent = fallback as TresObject

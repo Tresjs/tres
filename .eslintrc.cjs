@@ -25,6 +25,7 @@ module.exports = {
     'no-invalid-this': 0,
     'import/no-absolute-path': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
+    '@typescript-eslint/no-empty-interface': 'off',
     'vue/no-deprecated-slot-attribute': 'off',
     'vue/require-default-prop': 'off',
     'vue/html-self-closing': 'off',
