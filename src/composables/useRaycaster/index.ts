@@ -3,7 +3,6 @@ import { Object3D, Raycaster, Vector2 } from 'three'
 import { Ref, computed, onUnmounted, watchEffect } from 'vue'
 import { EventHook, createEventHook, useElementBounding, usePointer } from '@vueuse/core'
 
-// TODO document
 export type Intersects = THREE.Intersection<THREE.Object3D<THREE.Event>>[]
 interface PointerMoveEventPayload {
   intersects?: Intersects
