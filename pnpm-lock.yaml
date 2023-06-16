@@ -25,6 +25,9 @@ dependencies:
   three:
     specifier: ^0.153.0
     version: 0.153.0
+  typescript:
+    specifier: ^5.1.3
+    version: 5.1.3
 
 devDependencies:
   '@nuxt/eslint-config':
@@ -7583,7 +7586,6 @@ packages:
     resolution: {integrity: sha512-XH627E9vkeqhlZFQuL+UsyAXEnibT0kWR2FWONlr4sTjvxyJYnyefgrkyECLzM5NenmKzRAy2rR/OlYLA1HkZw==}
     engines: {node: '>=14.17'}
     hasBin: true
-    dev: true
 
   /ufo@1.1.2:
     resolution: {integrity: sha512-TrY6DsjTQQgyS3E3dBaOXf0TpPD8u9FVrVYmKVegJuFw51n/YB9XPt+U6ydzFG5ZIN7+DIjPbNmXoBj9esYhgQ==}
