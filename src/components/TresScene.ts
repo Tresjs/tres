@@ -16,6 +16,7 @@ import {
 } from '../composables'
 import { extend } from '../core/catalogue'
 import { type RendererPresetsType } from '../composables/useRenderer/const'
+import { OBJECT_3D_USER_DATA_KEYS } from '../keys'
 
 export interface TresSceneProps {
   shadows?: boolean
@@ -66,9 +67,13 @@ export const TresScene = defineComponent<TresSceneProps>({
 
     const container = ref<HTMLElement>()
     const canvas = ref<HTMLElement>()
+
     const scene = new THREE.Scene()
+
     const pointerEventHandler = usePointerEventHandler()
     const { setState } = useTres()
+
+    scene.userData[OBJECT_3D_USER_DATA_KEYS.REGISTER_AT_POINTER_EVENT_HANDLER] = pointerEventHandler.registerObject
 
     setState('scene', scene)
     setState('canvas', canvas)

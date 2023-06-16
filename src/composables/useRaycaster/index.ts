@@ -3,6 +3,7 @@ import { Raycaster, Vector2 } from 'three'
 import { Ref, computed, onUnmounted, watchEffect } from 'vue'
 import { EventHook, createEventHook, useElementBounding, usePointer } from '@vueuse/core'
 
+// TODO document
 export type Intersects = THREE.Intersection<THREE.Object3D<THREE.Event>>[]
 interface PointerMoveEventPayload {
   intersects?: Intersects
@@ -14,7 +15,7 @@ interface PointerClickEventPayload {
   event: PointerEvent
 }
 
-export const useRaycaster2 = (objects: Ref<THREE.Object3D[]>) => {
+export const useRaycaster = (objects: Ref<THREE.Object3D[]>) => {
   const { state } = useTres()
 
   const canvas = computed(() => state.canvas?.value) // having a seperate computed makes useElementBounding work
@@ -52,11 +53,7 @@ export const useRaycaster2 = (objects: Ref<THREE.Object3D[]>) => {
     return getIntersectsByRelativePointerPosition(pointerPosition) || []
   }
 
-  // const intersects = ref<Intersects>([]) TODO
-
-  // watchEffect(() => {
-  //   intersects.value = getIntersects()
-  // })
+  const intersects = computed<Intersects>(() => getIntersects())
 
   const eventHookClick = createEventHook<PointerClickEventPayload>()
   const eventHookPointerMove = createEventHook<PointerMoveEventPayload>()
@@ -107,7 +104,7 @@ export const useRaycaster2 = (objects: Ref<THREE.Object3D[]>) => {
   })
 
   return {
-    // intersects,
+    intersects,
     onClick: (fn: (value: PointerClickEventPayload) => void) => eventHookClick.on(fn).off,
     onPointerMove: (fn: (value: PointerMoveEventPayload) => void) => eventHookPointerMove.on(fn).off,
   }

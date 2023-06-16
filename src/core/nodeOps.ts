@@ -1,11 +1,12 @@
-import { RendererOptions, getCurrentInstance } from 'vue'
+import { RendererOptions } from 'vue'
 import { BufferAttribute, Scene } from 'three'
-import { useCamera, useLogger, useTres } from '../composables'
+import { useCamera, useLogger } from '../composables'
 import { isFunction } from '@alvarosabu/utils'
 import { catalogue } from './catalogue'
-import { EventHandlers, TresObject } from '../types'
+import { TresObject } from '../types'
 import { isHTMLTag, kebabToCamel } from '../utils'
-import type { Object3D, Material, BufferGeometry } from 'three'
+import type { Material, BufferGeometry } from 'three'
+import { OBJECT_3D_USER_DATA_KEYS } from '../keys'
 
 const onRE = /^on[^a-z]/
 export const isOn = (key: string) => onRE.test(key)
@@ -16,11 +17,6 @@ function noop(fn: string): any {
 
 let fallback: TresObject | null = null
 let scene: Scene | null = null
-const OBJECT_3D_USER_DATA_KEYS = {
-  GEOMETRY_VIA_PROP: 'tres__geometryViaProp',
-  MATERIAL_VIA_PROP: 'tres__materialViaProp',
-  DEREGISTER_ALL_POINTER_EVENT_HANDLERS: 'tres__deregisterAllPointerEventHandlers',
-}
 
 const { logError } = useLogger()
 
@@ -96,6 +92,7 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
     if (child?.isObject3D && parent?.isObject3D) {
       parent.add(child)
       child.dispatchEvent({ type: 'added' })
+      scene?.userData[OBJECT_3D_USER_DATA_KEYS.REGISTER_AT_POINTER_EVENT_HANDLER](child)
     } else if (child?.isFog) {
       parent.fog = child
     } else if (typeof child?.attach === 'string') {
@@ -110,7 +107,7 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
     // remove is only called on the node being removed and not on child nodes.
 
     if (node.isObject3D) {
-      const object3D = node as unknown as TresObject
+      const object3D = node as unknown as TresObject // TODO make Object3D
 
       const disposeMaterialsAndGeometries = (object3D: TresObject) => {
         const { GEOMETRY_VIA_PROP, MATERIAL_VIA_PROP } = OBJECT_3D_USER_DATA_KEYS
@@ -120,16 +117,11 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
           (object3D as TresObject & { geometry: BufferGeometry }).geometry?.dispose()
       }
 
-      const deregisterPointerEventHandlers = (object3D: TresObject) =>
-        object3D.userData[OBJECT_3D_USER_DATA_KEYS.DEREGISTER_ALL_POINTER_EVENT_HANDLERS]?.()
-
       object3D.traverse((child: TresObject) => {
         disposeMaterialsAndGeometries(child)
-        deregisterPointerEventHandlers(child)
       })
 
       disposeMaterialsAndGeometries(object3D)
-      deregisterPointerEventHandlers(object3D)
     }
 
     node.removeFromParent?.()
@@ -159,29 +151,6 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
         key = chain.pop() as string
         finalKey = key.toLowerCase()
         if (!target?.set) root = chain.reduce((acc, key) => acc[kebabToCamel(key)], root)
-      }
-      if (isOn(key) && node.isObject3D) {
-        const eventHandlerKey: keyof EventHandlers = key as keyof EventHandlers // This is fine
-
-        if (getCurrentInstance()) {
-          // the following should only happen if a setup context is available
-          const ctx = useTres()
-
-          if (ctx && ['onClick', 'onPointerEnter', 'onPointerMove', 'onPointerLeave'].includes(eventHandlerKey)) {
-            if (!ctx.state.pointerEventHandler) throw 'pointerEventHandler should be available'
-
-            ctx.state.pointerEventHandler.registerObject(node as Object3D, {
-              [eventHandlerKey]: nextValue,
-            })
-
-            // useTres is not available in the remove method,
-            // so a function to deregister must be made available through userData
-            const { DEREGISTER_ALL_POINTER_EVENT_HANDLERS } = OBJECT_3D_USER_DATA_KEYS
-            if (!node.userData[DEREGISTER_ALL_POINTER_EVENT_HANDLERS])
-              node.userData[DEREGISTER_ALL_POINTER_EVENT_HANDLERS] = () =>
-                ctx.state.pointerEventHandler?.deregisterObject(node as Object3D)
-          }
-        }
       }
       let value = nextValue
       if (value === '') value = true

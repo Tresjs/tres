@@ -41,6 +41,7 @@ function onPointerMove(ev) {
 <template>
   <TresCanvas v-bind="gl">
     <TresPerspectiveCamera :position="[11, 11, 11]" :fov="45" :near="0.1" :far="1000" :look-at="[0, 0, 0]" />
+    <OrbitControls />
     <template v-for="x in [-2.5, 0, 2.5]">
       <template v-for="y in [-2.5, 0, 2.5]">
         <TresMesh
@@ -59,7 +60,5 @@ function onPointerMove(ev) {
     </template>
     <TresDirectionalLight :intensity="1" />
     <TresAmbientLight :intensity="1" />
-    <OrbitControls />
-    <!-- TODO things only work if OrbitControls is down her-->
   </TresCanvas>
 </template>
