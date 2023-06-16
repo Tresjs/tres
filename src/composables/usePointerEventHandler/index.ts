@@ -7,8 +7,6 @@ type CallbackFn = (intersection: Intersection<Object3D<Event>>, event: PointerEv
 type CallbackFnPointerLeave = (object: Object3D<Event>, event: PointerEvent) => void
 
 type EventProps = {
-  // TODO this should not be here but in the type that is used for mesh props
-  // TODO deep (multiple objects)
   onClick?: CallbackFn
   onPointerEnter?: CallbackFn
   onPointerMove?: CallbackFn

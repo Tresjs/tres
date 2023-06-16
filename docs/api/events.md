@@ -1,6 +1,6 @@
 # Events
 
-**TresJS** Mesh objects emit pointer events when they are interacted with using `raycaster` and `pointer` objects under the hood.
+**TresJS** components emit pointer events when they are interacted with. This is the case for the components that represent Three.js classes that derive from [THREE.Object3D](https://threejs.org/docs/index.html?q=object#api/en/core/Object3D) (like meshes, groups,...).
 
 <StackBlitzEmbed project-id="tresjs-events" />
 
@@ -8,24 +8,18 @@
 
 ```html
 <TresMesh
-  @click="(ev) => console.log('click', ev)"
-  @pointer-move="(ev) => console.log('click', ev)"
-  @pointer-enter="(ev) => console.log('click', ev)"
-  @pointer-leave="(ev) => console.log('click', ev)"
+  @click="(intersection, pointerEvent) => console.log('click', intersection, pointerEvent)"
+  @pointer-move="(intersection, pointerEvent) => console.log('pointer-move', intersection, pointerEvent)"
+  @pointer-enter="(intersection, pointerEvent) => console.log('pointer-enter', intersection, pointerEvent)"
+  @pointer-leave="(intersection, pointerEvent) => console.log('pointer-leave', pointerEvent)"
 />
 ```
 
-## Event Data
+| Event         | fires when ...                                                                        | Event Handler Parameter Type(s)                                                                                                                                                                       |
+| ------------- | ------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| click         | ... the events pointerdown and pointerup fired on the same object one after the other | [Intersection](https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/types/three/src/core/Raycaster.d.ts#L16), [PointerEvent](https://developer.mozilla.org/en-US/docs/Web/API/PointerEvent) |
+| pointer-move  | ... the pointer is moving above the object                                            | [Intersection](https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/types/three/src/core/Raycaster.d.ts#L16), [PointerEvent](https://developer.mozilla.org/en-US/docs/Web/API/PointerEvent) |
+| pointer-enter | ... the pointer is entering the object                                                | [Intersection](https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/types/three/src/core/Raycaster.d.ts#L16), [PointerEvent](https://developer.mozilla.org/en-US/docs/Web/API/PointerEvent) |
+| pointer-leave | ... the pointer is leaves the object                                                  | [PointerEvent](https://developer.mozilla.org/en-US/docs/Web/API/PointerEvent)                                                                                                                         |
 
-The event data is a `TresEvent` object that contains the following properties:
-
-```ts
-;({
-  object: Object3D, // The mesh object that emitted the event
-  distance: number, // The distance between the camera and the mesh
-  point: Vector3, // The intersection point between the ray and the mesh
-  uv: Vector2, // The uv coordinates of the intersection point
-  face: Face3, // The face of the mesh that was intersected
-  faceIndex: number, // The index of the face that was intersected
-})
-```
+The returned [Intersection](https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/types/three/src/core/Raycaster.d.ts#L16) include the [Object3D](https://threejs.org/docs/index.html?q=object#api/en/core/Object3D) that triggered the event. You can access it via `intersection.object`.
