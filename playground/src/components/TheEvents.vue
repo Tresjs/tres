@@ -33,7 +33,7 @@ function onPointerLeave(ev) {
 
 function onPointerMove(ev) {
   if (ev) {
-    // console.log(ev)
+    console.log(ev)
   }
 }
 </script>
@@ -42,6 +42,7 @@ function onPointerMove(ev) {
   <TresCanvas v-bind="gl">
     <TresPerspectiveCamera :position="[11, 11, 11]" :fov="45" :near="0.1" :far="1000" :look-at="[0, 0, 0]" />
     <OrbitControls />
+
     <template v-for="x in [-2.5, 0, 2.5]">
       <template v-for="y in [-2.5, 0, 2.5]">
         <TresMesh

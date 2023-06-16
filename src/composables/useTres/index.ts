@@ -91,7 +91,13 @@ export interface TresState {
   controls?: (EventDispatcher & { enabled: boolean }) | null
 
   canvas?: Ref<HTMLElement>
-  pointerEventHandler?: ReturnType<typeof usePointerEventHandler> // TODO comment
+
+  /**
+   * The entity that handles pointer events
+   * @type {ReturnType<typeof usePointerEventHandler>}
+   * @memberof TresState
+   */
+  pointerEventHandler?: ReturnType<typeof usePointerEventHandler>
   [key: string]: any
 }
 
