@@ -1,6 +1,8 @@
-import { defineNuxtModule, addImports, addComponent, createResolver } from '@nuxt/kit'
+import { defineNuxtModule, addImports, addComponent, createResolver, resolvePath } from '@nuxt/kit'
 import * as core from '@tresjs/core'
 import { readPackageJSON } from 'pkg-types'
+import { findExportNames } from 'mlly'
+import { readFile } from 'fs/promises'
 
 export interface ModuleOptions {
   modules: string[]
@@ -20,7 +22,7 @@ export default defineNuxtModule<ModuleOptions>({
       filePath: resolver.resolve('./runtime/components/TresCanvas.vue'),
       name: 'TresCanvas'
     })
-    nuxt.options.build.transpile.push(/@tresjs/, 'postprocessing')
+    nuxt.options.build.transpile.push(/@tresjs/)
 
     for (const name in core) {
       if (name.match(/^use/)) {
@@ -54,8 +56,13 @@ export default defineNuxtModule<ModuleOptions>({
     const pkg = await readPackageJSON(nuxt.options.rootDir)
     const coreDeps = Object.keys({ ...pkg.dependencies, ...pkg.devDependencies }).filter(d => d.startsWith('@tresjs/'))
     for (const mod of new Set([...options.modules, ...coreDeps])) {
-      const imports = await import(mod)
-      for (const name in imports) {
+      if (mod === '@tresjs/core' || mod === '@tresjs/nuxt') continue
+
+      const entry = await resolvePath(mod);
+      if (entry === mod) continue
+
+      const imports = findExportNames(await readFile(entry, 'utf8'))
+      for (const name of imports) {
         if (name.match(/^[a-z]/)) {
           addImports({
             from: mod,
