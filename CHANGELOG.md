@@ -1,5 +1,12 @@
 
 
+## [1.0.0-alpha.1](///compare/1.0.0-alpha.0...1.0.0-alpha.1) (2023-06-16)
+
+
+### Bug Fixes
+
+* use `findExportNames` to add auto-imports from core modules ffd58a6
+
 ## 1.0.0-alpha.0 (2023-06-12)
 
 
