@@ -33,7 +33,7 @@ function onPointerLeave(ev) {
 
 function onPointerMove(ev) {
   if (ev) {
-    console.log(ev)
+    // console.log(ev)
   }
 }
 </script>

@@ -1,5 +1,5 @@
 import { useTres } from '../useTres'
-import { Raycaster, Vector2 } from 'three'
+import { Object3D, Raycaster, Vector2 } from 'three'
 import { Ref, computed, onUnmounted, watchEffect } from 'vue'
 import { EventHook, createEventHook, useElementBounding, usePointer } from '@vueuse/core'
 
@@ -43,7 +43,7 @@ export const useRaycaster = (objects: Ref<THREE.Object3D[]>) => {
     return raycaster.intersectObjects(objects.value, false)
   }
 
-  const getIntersects = (event?: PointerEvent) => {
+  const getIntersects = (event?: PointerEvent | MouseEvent) => {
     const pointerPosition = getRelativePointerPosition({
       x: event?.clientX ?? x.value,
       y: event?.clientY ?? y.value,
@@ -58,38 +58,36 @@ export const useRaycaster = (objects: Ref<THREE.Object3D[]>) => {
   const eventHookClick = createEventHook<PointerClickEventPayload>()
   const eventHookPointerMove = createEventHook<PointerMoveEventPayload>()
 
-  const triggerEventHook = (eventHook: EventHook, event: PointerEvent) => {
+  const triggerEventHook = (eventHook: EventHook, event: PointerEvent | MouseEvent) => {
     eventHook.trigger({ event, intersects: getIntersects(event) })
   }
 
-  //distinguishing between clicks and drags (in cas of panning or dollying for example) // TODO discuss with other team members
-  let clicked = false
-
-  const onPointerDown = () => {
-    clicked = true
-  }
   const onPointerMove = (event: PointerEvent) => {
-    clicked = false
-
     triggerEventHook(eventHookPointerMove, event)
   }
 
-  const onPointerUp = (event: PointerEvent) => {
+  // a click event is fired whenever a pointerdown happened after pointerup on the same object
+
+  let mouseDownObject: Object3D | undefined = undefined
+
+  const onPointerDown = (event: PointerEvent) => {
+    mouseDownObject = getIntersects(event)[0]?.object
+  }
+
+  const onPointerUp = (event: MouseEvent) => {
     if (!(event instanceof PointerEvent)) return // prevents triggering twice on mobile devices
 
-    if (clicked) triggerEventHook(eventHookClick, event)
+    if (mouseDownObject === getIntersects(event)[0]?.object) triggerEventHook(eventHookClick, event)
   }
 
-  const onPointerLeave = (event: PointerEvent) => {
-    eventHookPointerMove.trigger({ event, intersects: [] })
-  }
+  const onPointerLeave = (event: PointerEvent) => eventHookPointerMove.trigger({ event, intersects: [] })
 
   const unwatch = watchEffect(() => {
     if (!canvas?.value) return
 
+    canvas.value.addEventListener('pointerup', onPointerUp)
     canvas.value.addEventListener('pointerdown', onPointerDown)
     canvas.value.addEventListener('pointermove', onPointerMove)
-    canvas.value.addEventListener('pointerup', onPointerUp)
     canvas.value.addEventListener('pointerleave', onPointerLeave)
 
     unwatch()
@@ -97,9 +95,9 @@ export const useRaycaster = (objects: Ref<THREE.Object3D[]>) => {
 
   onUnmounted(() => {
     if (!canvas?.value) return
+    canvas.value.removeEventListener('pointerup', onPointerUp)
     canvas.value.removeEventListener('pointerdown', onPointerDown)
     canvas.value.removeEventListener('pointermove', onPointerMove)
-    canvas.value.removeEventListener('pointerup', onPointerUp)
     canvas.value.removeEventListener('pointerleave', onPointerLeave)
   })
 
