@@ -5,8 +5,8 @@ import { isFunction } from '@alvarosabu/utils'
 import { catalogue } from './catalogue'
 import { TresObject } from '../types'
 import { isHTMLTag, kebabToCamel } from '../utils'
-import type { Material, BufferGeometry } from 'three'
 import { OBJECT_3D_USER_DATA_KEYS } from '../keys'
+import type { Material, BufferGeometry, Object3D } from 'three'
 
 const onRE = /^on[^a-z]/
 export const isOn = (key: string) => onRE.test(key)
@@ -68,8 +68,8 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
     const { GEOMETRY_VIA_PROP, MATERIAL_VIA_PROP } = OBJECT_3D_USER_DATA_KEYS
 
     if (instance.isObject3D) {
-      if (props?.material?.isMaterial) (instance as TresObject).userData[MATERIAL_VIA_PROP] = true
-      if (props?.geometry?.isBufferGeometry) (instance as TresObject).userData[GEOMETRY_VIA_PROP] = true
+      if (props?.material?.isMaterial) (instance as Object3D).userData[MATERIAL_VIA_PROP] = true
+      if (props?.geometry?.isBufferGeometry) (instance as Object3D).userData[GEOMETRY_VIA_PROP] = true
     }
 
     return instance
@@ -107,17 +107,17 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
     // remove is only called on the node being removed and not on child nodes.
 
     if (node.isObject3D) {
-      const object3D = node as unknown as TresObject // TODO make Object3D
+      const object3D = node as unknown as Object3D
 
-      const disposeMaterialsAndGeometries = (object3D: TresObject) => {
+      const disposeMaterialsAndGeometries = (object3D: Object3D) => {
         const { GEOMETRY_VIA_PROP, MATERIAL_VIA_PROP } = OBJECT_3D_USER_DATA_KEYS
 
-        if (!object3D.userData[MATERIAL_VIA_PROP]) (object3D as TresObject & { material: Material }).material?.dispose()
+        if (!object3D.userData[MATERIAL_VIA_PROP]) (object3D as Object3D & { material: Material }).material?.dispose()
         if (!object3D.userData[GEOMETRY_VIA_PROP])
-          (object3D as TresObject & { geometry: BufferGeometry }).geometry?.dispose()
+          (object3D as Object3D & { geometry: BufferGeometry }).geometry?.dispose()
       }
 
-      object3D.traverse((child: TresObject) => {
+      object3D.traverse((child: Object3D) => {
         disposeMaterialsAndGeometries(child)
       })
 
