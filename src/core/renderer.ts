@@ -14,6 +14,7 @@ export const createTres = (slots: Slots) => {
   return app
 }
 
+// Creates the catalogue of components based on THREE namespace
 extend(THREE)
 
 export default { createTres, extend }

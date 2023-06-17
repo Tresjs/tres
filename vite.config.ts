@@ -24,9 +24,6 @@ export default defineConfig({
   server: {
     port: 5174,
   },
-  resolve: {
-    dedupe: ['@tresjs/cientos'],
-  },
   plugins: [
     vue({
       isProduction: false,
