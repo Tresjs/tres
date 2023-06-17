@@ -11,6 +11,6 @@
   "devDependencies": {
     "unocss": "^0.53.0",
     "vite-svg-loader": "^4.0.0",
-    "vitepress": "1.0.0-beta.1"
+    "vitepress": "1.0.0-beta.2"
   }
 }
