@@ -20,6 +20,26 @@ yarn add three @tresjs/core
 
 > Better use with Vue 3.x and composition API
 
+## Typescript
+
+TresJS is written in Typescript and it's fully typed. If you are using Typescript, you will get the full benefit of the typings. Just make sure you install the types for three.
+
+::: code-group
+
+```bash [npm]
+npm install @three/types -D
+```
+
+```bash [yarn]
+yarn add @three/types -D
+```
+
+```bash [pnpm]
+pnpm add @three/types -D
+```
+
+:::
+
 ## Getting started
 
 You can install TresJS as any other Vue plugin
@@ -70,9 +90,3 @@ export default defineConfig({
   }),
 })
 ```
-
-### Nuxt
-
-Nuxt official module `@tresjs/nuxt` is comming soon, planned for the Q2 of 2023 ;)
-
-![Roadmap](/nuxt-roadmap.png)

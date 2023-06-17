@@ -41,6 +41,7 @@ export default defineConfig({
           { text: 'Introduction', link: '/guide/' },
           { text: 'Getting Started', link: '/guide/getting-started' },
           { text: 'Your first Scene', link: '/guide/your-first-scene' },
+          { text: 'Nuxt', link: '/guide/nuxt' },
           { text: 'Troubleshooting', link: '/guide/troubleshooting' },
           { text: 'Migrate from v1', link: '/guide/migration-guide' },
         ],
