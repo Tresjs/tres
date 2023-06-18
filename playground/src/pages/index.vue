@@ -1,6 +1,6 @@
 <script setup lang="ts"></script>
 <template>
   <Suspense>
-    <PrecipitationDemo />
+    <EnvironmentDemo />
   </Suspense>
 </template>
