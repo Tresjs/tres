@@ -12,26 +12,17 @@ You followed the [Getting started guide](/guide/getting-started.md) but you stil
 
 These are the most common reasons why you might not be able to see your scene:
 
-### Make sure you have a camera 🎥
+~~### Make sure you have a camera 🎥~~
 
-The first thing you need to do is to make sure you have a camera in your scene. If you don't have a camera, you won't be able to see anything.
+::: info 
+
+UPDATE: This is not longer an issue since **TresJS v2.2**. The `TresCanvas` component will automatically create a `PerspectiveCamera` for you if not passed. Although, we recommend you to always add a camera to your scene.
+
+:::
+~~The first thing you need to do is to make sure you have a camera in your scene. If you don't have a camera, you won't be able to see anything.~~
 
 ![No camera found](/no-camera-found.png)
 
-```vue
-<!-- Wrong ❌ -->
-<TresCanvas>
-  <TresOrbitControls />
-</TresCanvas>
-```
-
-```vue
-<!-- Correct ✅ -->
-<TresCanvas>
-  <TresPerspectiveCamera />
-  <TresOrbitControls />
-</TresCanvas>
-```
 
 ### Check the height of your canvas 📏
 

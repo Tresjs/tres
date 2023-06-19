@@ -1,7 +1,7 @@
 import { RendererOptions } from 'vue'
 import { BufferAttribute, Scene } from 'three'
-import { useCamera, useLogger } from '../composables'
 import { isFunction } from '@alvarosabu/utils'
+import {  useLogger } from '../composables'
 import { catalogue } from './catalogue'
 import { TresObject } from '../types'
 import { isHTMLTag, kebabToCamel } from '../utils'
@@ -20,7 +20,6 @@ let scene: Scene | null = null
 
 const { logError } = useLogger()
 
-let firstCamera = true
 export const nodeOps: RendererOptions<TresObject, TresObject> = {
   createElement(tag, _isSVG, _anchor, props) {
     if (!props) props = {}
@@ -46,16 +45,13 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
       instance = new target(...props.args)
     }
 
-    if (instance.isCamera && firstCamera) {
+    if (instance.isCamera) {
       if (!props?.position) {
         instance.position.set(3, 3, 3)
       }
       if (!props?.lookAt) {
         instance.lookAt(0, 0, 0)
       }
-      const { setFirstCamera } = useCamera()
-      setFirstCamera(instance)
-      firstCamera = false
     }
 
     if (props?.attach === undefined) {
