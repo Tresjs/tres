@@ -35,7 +35,7 @@
   "dependencies": {
     "@nuxt/kit": "^3.5.2",
     "@tresjs/cientos": "^2.1.4",
-    "@tresjs/core": "^2.1.3",
+    "@tresjs/core": "^2.2.0",
     "@tresjs/post-processing": "^0.2.0",
     "@types/three": "^0.152.1",
     "mlly": "^1.3.0",
@@ -51,10 +51,10 @@
     "@release-it/conventional-changelog": "^5.1.1",
     "@types/node": "^20.3.1",
     "changelogen": "^0.5.3",
-    "eslint": "^8.42.0",
+    "eslint": "^8.43.0",
     "nuxt": "^3.5.1",
     "playwright": "^1.35.1",
     "release-it": "^15.11.0",
-    "vitest": "^0.32.1"
+    "vitest": "^0.32.2"
   }
 }
