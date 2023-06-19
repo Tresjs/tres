@@ -1,7 +1,6 @@
-import { App, defineComponent, h, onMounted, onUnmounted, ref, watch, watchEffect, VNode } from 'vue'
+import { App, defineComponent, h, onMounted, onUnmounted, ref, watch, VNode } from 'vue'
 import * as THREE from 'three'
 import { ColorSpace, ShadowMapType, ToneMapping } from 'three'
-import { useEventListener } from '@vueuse/core'
 import { isString } from '@alvarosabu/utils'
 import { createTres } from '../core/renderer'
 import { TresCamera } from '../types/'
@@ -12,11 +11,12 @@ import {
   useCamera,
   useRenderer,
   useRenderLoop,
-  useRaycaster,
   useTres,
+  usePointerEventHandler,
 } from '../composables'
 import { extend } from '../core/catalogue'
 import { type RendererPresetsType } from '../composables/useRenderer/const'
+import { OBJECT_3D_USER_DATA_KEYS } from '../keys'
 
 export interface TresSceneProps {
   shadows?: boolean
@@ -67,12 +67,18 @@ export const TresScene = defineComponent<TresSceneProps>({
 
     const container = ref<HTMLElement>()
     const canvas = ref<HTMLElement>()
+
     const scene = new THREE.Scene()
+
+    const pointerEventHandler = usePointerEventHandler()
     const { setState } = useTres()
+
+    scene.userData[OBJECT_3D_USER_DATA_KEYS.REGISTER_AT_POINTER_EVENT_HANDLER] = pointerEventHandler.registerObject
 
     setState('scene', scene)
     setState('canvas', canvas)
     setState('container', container)
+    setState('pointerEventHandler', pointerEventHandler)
 
     const isCameraAvailable = ref()
 
@@ -105,41 +111,8 @@ export const TresScene = defineComponent<TresSceneProps>({
         pushCamera(props.camera as any)
       }
 
-      const { raycaster, pointer } = useRaycaster()
-
-      // TODO: Type raycasting events correctly
-      let prevInstance: any = null
-      let currentInstance: any = null
-
-      watchEffect(() => {
-        if (activeCamera.value) raycaster.value.setFromCamera(pointer.value, activeCamera.value)
-      })
-
       onLoop(() => {
         if (activeCamera.value && props.disableRender !== true) renderer.value?.render(scene, activeCamera.value)
-
-        if (raycaster.value) {
-          const intersects = raycaster.value.intersectObjects(scene.children)
-
-          if (intersects.length > 0) {
-            currentInstance = intersects[0]
-            if (prevInstance === null) {
-              currentInstance.object?.events?.onPointerEnter?.(currentInstance)
-            }
-            currentInstance.object?.events?.onPointerMove?.(currentInstance)
-          } else {
-            if (prevInstance !== null) {
-              currentInstance?.object?.events?.onPointerLeave?.(prevInstance)
-              currentInstance = null
-            }
-          }
-          prevInstance = currentInstance
-        }
-      })
-
-      useEventListener(canvas.value, 'click', () => {
-        if (currentInstance === null) return
-        currentInstance.object?.events?.onClick?.(currentInstance)
       })
     }
 
