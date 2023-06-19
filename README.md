@@ -11,12 +11,13 @@ Official Nuxt module for TresJS. Build 3D scenes as they were Vue components.
 
 - [✨ &nbsp;Release Notes](/CHANGELOG.md)
   <!-- - [🏀 Online playground](https://stackblitz.com/github/@tresjs/nuxt?file=playground%2Fapp.vue) -->
-  <!-- - [📖 &nbsp;Documentation](https://example.com) -->
+- [📖 &nbsp;Documentation](https://tresjs.org/guide/nuxt.html)
 
 ## Features
 
 - 🤓 Auto-import components and composables from the [TresJS ecosystem](https://github.com/orgs/Tresjs/repositories)
-- `TresCanvas` client only, you don't need of adding `.client` to the component name or `<ClientOnly />`
+- `TresCanvas` client only, you don't need to add `.client` to the component name or `<ClientOnly />`
+- Automatically configures vue compiler to support TresJS components, see [why](http://localhost:5174/guide/troubleshooting.html#failed-resolve-component-trescomponent-%F0%9F%A4%94)?
 - All the DX Magic that comes with Nuxt ✨
 
 ## Quick Setup
@@ -25,13 +26,13 @@ Official Nuxt module for TresJS. Build 3D scenes as they were Vue components.
 
 ```bash
 # Using pnpm
-pnpm add -D @tresjs/nuxt
+pnpm add @tresjs/nuxt
 
 # Using yarn
-yarn add --dev @tresjs/nuxt
+yarn add @tresjs/nuxt
 
 # Using npm
-npm install --save-dev @tresjs/nuxt
+npm install @tresjs/nuxt
 ```
 
 2. Add `@tresjs/nuxt` to the `modules` section of `nuxt.config.ts`
