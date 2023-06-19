@@ -1,7 +1,6 @@
-import { App, defineComponent, h, onMounted, onUnmounted, ref, watch, VNode } from 'vue'
+import { App, defineComponent, h, onMounted, onUnmounted, ref, watch } from 'vue'
 import * as THREE from 'three'
 import { ColorSpace, ShadowMapType, ToneMapping } from 'three'
-import { isString } from '@alvarosabu/utils'
 import { createTres } from '../core/renderer'
 import { TresCamera } from '../types/'
 import {
