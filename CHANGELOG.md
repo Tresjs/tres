@@ -1,5 +1,12 @@
 
 
+### [0.2.1](https://github.com/Tresjs/post-processing/compare/0.2.0...0.2.1) (2023-06-19)
+
+
+### Bug Fixes
+
+* updated `@tresjs/core` to `v2.2.0` ([#27](https://github.com/Tresjs/post-processing/issues/27)) ([ae6f464](https://github.com/Tresjs/post-processing/commit/ae6f4648949928cb1fffe17f5cbfc1d37c671341))
+
 ## [0.2.0](https://github.com/Tresjs/post-processing/compare/0.1.0...0.2.0) (2023-06-11)
 
 
