@@ -1,7 +1,6 @@
-import { App, defineComponent, h, onMounted, onUnmounted, ref, watch, VNode } from 'vue'
+import { App, defineComponent, h, onMounted, onUnmounted, ref, watch } from 'vue'
 import * as THREE from 'three'
 import { ColorSpace, ShadowMapType, ToneMapping } from 'three'
-import { isString } from '@alvarosabu/utils'
 import { createTres } from '../core/renderer'
 import { TresCamera } from '../types/'
 import {
@@ -80,18 +79,6 @@ export const TresScene = defineComponent<TresSceneProps>({
     setState('container', container)
     setState('pointerEventHandler', pointerEventHandler)
 
-    const isCameraAvailable = ref()
-
-    const internal = slots && slots.default && slots.default()
-
-    if (internal && internal?.length > 0) {
-      isCameraAvailable.value =
-        internal.some((node: VNode) => isString(node.type) && node.type.includes('Camera')) || props.camera
-      if (!isCameraAvailable.value) {
-        logWarning('No camera found in the scene, please add one!')
-      }
-    }
-
     const { onLoop, resume } = useRenderLoop()
 
     onMounted(() => {
@@ -103,6 +90,22 @@ export const TresScene = defineComponent<TresSceneProps>({
     })
 
     const { activeCamera, pushCamera, clearCameras } = useCamera()
+
+    function setCamera() {
+      const camera = scene.getObjectByProperty('isCamera', true)
+
+      if (!camera) {
+        // eslint-disable-next-line max-len
+        logWarning('No camera found. Creating a default perspective camera. To have full control over a camera, please add one to the scene.')
+        const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000)
+        camera.position.set(3,3,3)
+        camera.lookAt(0,0,0)
+        pushCamera(camera)
+      } else {
+
+        pushCamera(camera as TresCamera)
+      }
+    }
 
     function initRenderer() {
       const { renderer } = useRenderer(props)
@@ -125,6 +128,7 @@ export const TresScene = defineComponent<TresSceneProps>({
       app.provide(TRES_CONTEXT_KEY, tres)
       app.provide('extend', extend)
       app.mount(scene as unknown)
+      setCamera()
     }
     mountApp()
 
@@ -138,8 +142,7 @@ export const TresScene = defineComponent<TresSceneProps>({
       app = createTres(slots)
       app.provide('extend', extend)
       app.mount(scene as unknown)
-      const camera = scene.children.find((child: any) => child.isCamera)
-      pushCamera(camera as TresCamera)
+      setCamera()
       resume()
     }
 
