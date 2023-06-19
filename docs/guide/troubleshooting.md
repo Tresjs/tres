@@ -12,18 +12,6 @@ You followed the [Getting started guide](/guide/getting-started.md) but you stil
 
 These are the most common reasons why you might not be able to see your scene:
 
-~~### Make sure you have a camera 🎥~~
-
-::: info 
-
-UPDATE: This is not longer an issue since **TresJS v2.2**. The `TresCanvas` component will automatically create a `PerspectiveCamera` for you if not passed. Although, we recommend you to always add a camera to your scene.
-
-:::
-~~The first thing you need to do is to make sure you have a camera in your scene. If you don't have a camera, you won't be able to see anything.~~
-
-![No camera found](/no-camera-found.png)
-
-
 ### Check the height of your canvas 📏
 
 Another common issue is that the `TresCanvas` component is creating by default a `canvas` element takes the `width` and `height` of the parent element. If the parent element has no height, the canvas will have no height either.
