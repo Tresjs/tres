@@ -9,13 +9,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@tresjs/cientos": "2.0.0",
-    "@tresjs/core": "2.1.1",
-    "vue-router": "^4.2.1"
+    "@tresjs/cientos": "2.1.4",
+    "@tresjs/core": "2.2.0",
+    "vue-router": "^4.2.2"
   },
   "devDependencies": {
-    "@types/three": "^0.152.0",
-    "unplugin-auto-import": "^0.16.2",
-    "unplugin-vue-components": "^0.24.1"
+    "@types/three": "^0.152.1",
+    "unplugin-auto-import": "^0.16.4",
+    "unplugin-vue-components": "^0.25.1"
   }
 }
