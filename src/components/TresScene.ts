@@ -93,7 +93,7 @@ export const TresScene = defineComponent<TresSceneProps>({
     const { activeCamera, pushCamera, clearCameras } = useCamera()
 
     function setCamera() {
-      const camera = scene.children.find((child: any) => child.isCamera)
+      const camera = scene.getObjectByProperty('isCamera', true)
 
       if (!camera) {
         // eslint-disable-next-line max-len
