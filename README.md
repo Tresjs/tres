@@ -39,7 +39,8 @@ Checkout the [docs](https://tresjs.org)
 | Package                     | Version                                                                                            |
 | --------------------------- | :------------------------------------------------------------------------------------------------- |
 | [Tres](packages/tres)       | ![tres version](https://img.shields.io/npm/v/@tresjs/core/latest.svg?label=%20&color=%2382DBCA)    |
-| [Cientos](packages/cientos) | ![tres version](https://img.shields.io/npm/v/@tresjs/cientos/latest.svg?label=%20&color=%23f19b00) |
+| [Cientos](packages/cientos) | ![cientos version](https://img.shields.io/npm/v/@tresjs/cientos/latest.svg?label=%20&color=%23f19b00) |
+| [Post-processing](packages/post-processing) | ![post-processing version](https://img.shields.io/npm/v/@tresjs/post-processing/latest.svg?label=%20&color=%ff7bac00) |
 
 ## Contribution
 

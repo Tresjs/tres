@@ -9,6 +9,7 @@ declare module 'vue' {
   export interface GlobalComponents {
     AnimatedModel: typeof import('./src/components/AnimatedModel.vue')['default']
     Cameras: typeof import('./src/components/Cameras.vue')['default']
+    DanielTest: typeof import('./src/components/DanielTest.vue')['default']
     DeleteMe: typeof import('./src/components/DeleteMe.vue')['default']
     FBXModels: typeof import('./src/components/FBXModels.vue')['default']
     Gltf: typeof import('./src/components/gltf/index.vue')['default']

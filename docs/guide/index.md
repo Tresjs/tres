@@ -22,9 +22,33 @@ pnpm add three @tresjs/core
 
 :::
 
+## Typescript
+
+TresJS is written in Typescript and it's fully typed. If you are using Typescript, you will get the full benefit of the typings. Just make sure you install the types for three.
+
+::: code-group
+
+```bash [npm]
+npm install @three/types -D
+```
+
+```bash [yarn]
+yarn add @three/types -D
+```
+
+```bash [pnpm]
+pnpm add @three/types -D
+```
+
+:::
+
+
+
 ## Try it online
 
-You can fork this template example on [StackBlitz](https://stackblitz.com/edit/tresjs-basic?file=src/App.vue) and play with it 😋 without installing anything locally.
+We have a brand new [StackBlitz](https://stackblitz.com/) starter to try TresJS online. Check it out:
+
+![](/stackblitz-starter.png)
 
 <StackBlitzEmbed projectId="tresjs-basic" />
 
