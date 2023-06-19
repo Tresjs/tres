@@ -103,7 +103,7 @@ Then you can add a [**PerspectiveCamera**](https://threejs.org/docs/index.html?q
 ```
 
 ::: warning
-A common issue is that the camera default position is the origin of the scene (0,0,0), TresJS will automatically set the position of your camera to `[3,3,3]` if position prop is not defined or add one `<TresPerspectiveCamera :position="[3, 3, 3]" />` if you don't pass any camera.
+A common issue is that the camera default position is the origin of the scene (0,0,0), TresJS will automatically set the position of your camera to `[3,3,3]` if the prop `position`. If no camera is defined in you scene, a perspective camera is added automatically.`
 :::
 
 ## Adding a 🍩
