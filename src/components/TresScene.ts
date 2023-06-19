@@ -97,7 +97,7 @@ export const TresScene = defineComponent<TresSceneProps>({
 
       if (!camera) {
         // eslint-disable-next-line max-len
-        logWarning('No camera found, creating a default perspective one, to have full control over a camera, please add one to the scene.')
+        logWarning('No camera found. Creating a default perspective camera. To have full control over a camera, please add one to the scene.')
         const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000)
         camera.position.set(3,3,3)
         camera.lookAt(0,0,0)
