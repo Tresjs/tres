@@ -1,5 +1,12 @@
 
 
+## [1.0.0-beta.0](///compare/1.0.0-alpha.2...1.0.0-beta.0) (2023-06-19)
+
+
+### Bug Fixes
+
+* updated `@tresjs/core` to `v2.2.0` for camera fixes ([#10](null//null/issues/10)) b38d7ee
+
 ## [1.0.0-alpha.2](///compare/1.0.0-alpha.1...1.0.0-alpha.2) (2023-06-16)
 
 ## [1.0.0-alpha.1](///compare/1.0.0-alpha.0...1.0.0-alpha.1) (2023-06-16)
