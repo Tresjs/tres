@@ -49,39 +49,18 @@ watchEffect(() => {
   }
 })
 
-const context = ref(null)
 
-const { width, height } = useWindowSize()
-
-let effectComposer
-let activePass
-
-watchEffect(() => {
-  if (context.value) {
-    context.value.renderer.setSize(width.value, height.value)
-    context.value.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
-    effectComposer = new EffectComposer(context.value.renderer)
-    effectComposer.addPass(new RenderPass(context.value.scene, context.value.camera))
-    /* effectComposer.addPass(new EffectPass(context.value.camera, new ChromaticAberrationEffect())) */
-
-    onLoop(() => {
-      effectComposer.render()
-    })
-  }
-})
 </script>
 
 <template>
   <TresCanvas v-bind="gl" ref="context">
     <TresPerspectiveCamera ref="camera" :position="[6, 5, 5]" :focus="100" />
     <OrbitControls make-default />
-
-    <!-- <OrbitControls /> -->
     <Suspense>
       <Text3D
         font="https://raw.githubusercontent.com/Tresjs/assets/main/fonts/FiraCodeRegular.json"
         center
-        :text="'2.0.0-beta'"
+        :text="'TresJS'"
         :size="1"
         :height="0.2"
         :curveSegments="12"
