@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { ref } from 'vue'
 import { TresCanvas as TC, TresCanvasProps } from '@tresjs/core';
 defineProps<TresCanvasProps>()
 
