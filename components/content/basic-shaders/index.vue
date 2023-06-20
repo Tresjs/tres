@@ -1,12 +1,10 @@
 <script setup lang="ts">
 import { Vector2 } from 'three'
-import { TresCanvas, TresInstance, useRenderLoop } from '@tresjs/core'
-import { OrbitControls, useTweakPane } from '@tresjs/cientos'
 import vertexShader from './shaders/vertex.glsl'
 import fragmentShader from './shaders/fragment.glsl'
 
-const blobRef: Ref<TresInstance | null> = ref(null)
-const materialRef: Ref<TresInstance | null> = ref(null)
+const blobRef: Ref<TresObject | null> = ref(null)
+const materialRef: Ref<TresObject | null> = ref(null)
 const uniforms = {
   uTime: { value: 0 },
   uAmplitude: { value: new Vector2(0.1, 0.1) },

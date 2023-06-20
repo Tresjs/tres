@@ -1,8 +1,6 @@
 <script setup lang="ts">
-import { useRenderLoop, TresCanvas, useTresProvider } from '@tresjs/core'
 import { reactive, watchEffect } from 'vue'
-import { BasicShadowMap, SRGBColorSpace, NoToneMapping, LoadingManager, DefaultLoadingManager } from 'three'
-import { OrbitControls, GLTFModel, useTweakPane } from '@tresjs/cientos'
+import { BasicShadowMap, SRGBColorSpace, NoToneMapping, DefaultLoadingManager } from 'three'
 import {
   BloomEffect,
   DotScreenEffect,

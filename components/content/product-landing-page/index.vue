@@ -1,8 +1,6 @@
 <script setup lang="ts">
-import { TresCanvas } from '@tresjs/core'
 import { BasicShadowMap, SRGBColorSpace } from 'three'
 
-import { MouseParallax } from '@tresjs/cientos'
 import Headphones from './Headphones.vue'
 
 const gl = {

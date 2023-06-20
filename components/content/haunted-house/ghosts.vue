@@ -1,6 +1,5 @@
 <script setup>
 import { shallowRef } from 'vue'
-import { useRenderLoop } from '@tresjs/core'
 
 const ghost1 = shallowRef(null)
 const ghost2 = shallowRef(null)

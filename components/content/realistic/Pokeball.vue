@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { shallowRef, watch } from 'vue'
-import { GLTFModel } from '@tresjs/cientos'
 
 const gameboyRef = shallowRef()
 

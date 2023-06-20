@@ -1,6 +1,5 @@
 <script setup>
 import { shallowRef, watch } from 'vue'
-import { useTexture } from '@tresjs/core'
 import { Float32BufferAttribute } from 'three'
 
 const wallRef = shallowRef()

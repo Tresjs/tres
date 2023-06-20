@@ -1,7 +1,5 @@
 <script setup>
 import { shallowRef, reactive } from 'vue'
-import { OrbitControls, useTweakPane } from '@tresjs/cientos'
-import { useTexture, TresCanvas } from '@tresjs/core'
 import { EquirectangularReflectionMapping } from 'three'
 import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader'
 

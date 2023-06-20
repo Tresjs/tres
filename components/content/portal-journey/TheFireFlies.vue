@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { useRenderLoop } from '@tresjs/core'
 import { AdditiveBlending } from 'three'
 import FirefliesVertex from './shaders/fireflies/vertex.glsl'
 import FirefliesFragment from './shaders/fireflies/fragment.glsl'

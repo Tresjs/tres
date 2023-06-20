@@ -1,8 +1,5 @@
 <script setup lang="ts">
-import { TresCanvas } from '@tresjs/core'
 import { SRGBColorSpace } from 'three'
-
-import { OrbitControls, GLTFModel } from '@tresjs/cientos'
 
 const akuAkuRef = shallowRef(null)
 

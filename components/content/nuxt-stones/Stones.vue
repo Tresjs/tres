@@ -1,15 +1,11 @@
 <script setup lang="ts">
-import { useGLTF } from '@tresjs/cientos'
-import { useRenderLoop, useTexture } from '@tresjs/core'
 import { MeshBasicMaterial, Texture } from 'three'
-import { gsap } from 'gsap'
-const { scene: stones, nodes, materials } = await useGLTF('/models/nuxt-stones/nuxt-stones.glb')
+const { nodes, materials } = await useGLTF('/models/nuxt-stones/nuxt-stones.glb')
 const stonesTexture = await useTexture(['/models/nuxt-stones/RockBaked.png'])
 const littleStonesTexture = await useTexture(['/models/nuxt-stones/LittleRocksBaked.png'])
 
 stonesTexture.flipY = false
 littleStonesTexture.flipY = false
-console.log({ nodes, materials })
 
 const stoneBakedMaterial = new MeshBasicMaterial({
   map: stonesTexture as Texture,

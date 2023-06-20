@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { useGLTF } from '@tresjs/cientos'
-import { useRenderLoop } from '@tresjs/core'
 import { Object3D } from 'three'
 import { shallowRef, watch } from 'vue'
 

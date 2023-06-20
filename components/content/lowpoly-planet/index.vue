@@ -1,11 +1,8 @@
 <script setup lang="ts">
 import { PCFSoftShadowMap, SRGBColorSpace } from 'three'
-import { TresCanvas } from '@tresjs/core'
-import { OrbitControls } from '@tresjs/cientos'
 
 import Planet from './Planet.vue'
 import { shallowRef, watch } from 'vue'
-import { TresInstance } from '@tresjs/core'
 
 const state = {
   clearColor: '#11101B',
@@ -15,7 +12,7 @@ const state = {
   useLegacyLights: true,
   shadowMapType: PCFSoftShadowMap,
 }
-const directionalLightRef = shallowRef<TresInstance>()
+const directionalLightRef = shallowRef<THREE.DirectionalLight>()
 
 watch(
   () => directionalLightRef.value,

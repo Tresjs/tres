@@ -1,8 +1,5 @@
 <script setup lang="ts">
 import { BasicShadowMap, SRGBColorSpace, NoToneMapping } from 'three'
-import { TresCanvas, useRenderLoop } from '@tresjs/core'
-
-import { MouseParallax, Stars } from '@tresjs/cientos'
 
 import Vertex from './shaders/vertex.glsl'
 import Fragment from './shaders/fragment.glsl'

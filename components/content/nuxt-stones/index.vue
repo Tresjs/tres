@@ -6,6 +6,7 @@ import { OrbitControls, useTweakPane } from '@tresjs/cientos'
 import { EffectComposer, Bloom } from '@tresjs/post-processing'
 
 import Stones from './Stones.vue'
+import Floor from './Floor.vue'
 
 const gl = {
   clearColor: '#18181B',
@@ -36,6 +37,5 @@ const bloomParams = reactive({
     <Suspense>
       <Stones />
     </Suspense>
-    <TresAmbientLight :intensity="1" />
   </TresCanvas>
 </template>

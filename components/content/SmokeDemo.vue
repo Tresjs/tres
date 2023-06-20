@@ -1,15 +1,12 @@
 <script setup lang="ts">
-import { TresCanvas } from '@tresjs/core'
-import { OrbitControls, Smoke, useGLTF, Precipitation } from '@tresjs/cientos'
-import { BasicShadowMap, sRGBEncoding, NoToneMapping, Shape } from 'three'
-console.log('jaime ~ Precipitation:', Precipitation)
+import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
 
 const gl = {
   clearColor: '#333',
   shadows: true,
   alpha: false,
   shadowMapType: BasicShadowMap,
-  outputEncoding: sRGBEncoding,
+  outputColorSpace: SRGBColorSpace,
   toneMapping: NoToneMapping,
 }
 

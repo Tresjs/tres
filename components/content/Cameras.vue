@@ -1,8 +1,5 @@
 <script setup lang="ts">
-import { TresCanvas } from '@tresjs/core'
-import { BasicShadowMap, SRGBColorSpace, NoToneMapping, PerspectiveCamera, OrthographicCamera } from 'three'
-
-import { Box, useTweakPane } from '@tresjs/cientos'
+import { BasicShadowMap, NoToneMapping, OrthographicCamera, PerspectiveCamera, SRGBColorSpace } from 'three';
 
 const gl = {
   clearColor: '#2B3846',
