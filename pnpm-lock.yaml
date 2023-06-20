@@ -37,8 +37,8 @@ devDependencies:
     specifier: 2.1.4
     version: 2.1.4(@tresjs/core@2.2.0)(three@0.153.0)(vue@3.3.4)
   '@tresjs/nuxt':
-    specifier: 1.0.0-alpha.2
-    version: 1.0.0-alpha.2(react@18.2.0)(vue@3.3.4)
+    specifier: 1.0.0-beta.2
+    version: 1.0.0-beta.2(react@18.2.0)(vue@3.3.4)
   '@types/three':
     specifier: ^0.152.1
     version: 0.152.1
@@ -834,11 +834,11 @@ packages:
       - supports-color
     dev: true
 
-  /@nuxt/kit-edge@3.6.0-28120279.3fd6c179:
-    resolution: {integrity: sha512-mbAugbtPz7dxxg65e1BZNkJgxDckccAQAkyFL+9eOB9oP5HWl3XSDmX6Ebqa5w+gqluyqcLdyBErTuEGom4gEw==}
+  /@nuxt/kit-edge@3.6.0-28121442.343a46d5:
+    resolution: {integrity: sha512-MaO/wsNaH2WAim97+jI2rjIRtZ/MK99XSDuWWTqNaOvMgtLs7Ut2Y7gL+Jft4/shlJi9m+QjkxCdovblOHgT+Q==}
     engines: {node: ^14.18.0 || >=16.10.0}
     dependencies:
-      '@nuxt/schema': /@nuxt/schema-edge@3.6.0-28120279.3fd6c179
+      '@nuxt/schema': /@nuxt/schema-edge@3.6.0-28121442.343a46d5
       c12: 1.4.1
       consola: 3.1.0
       defu: 6.1.2
@@ -886,8 +886,8 @@ packages:
       - supports-color
     dev: true
 
-  /@nuxt/schema-edge@3.6.0-28120279.3fd6c179:
-    resolution: {integrity: sha512-Jdkz7KB1316xPk7C70WsFeuyS+vswiydfa8Z+WK3Xr3EtJNHbsrbgz3W9paqv349Wl7BqfMogDDluNTjlPlXZw==}
+  /@nuxt/schema-edge@3.6.0-28121442.343a46d5:
+    resolution: {integrity: sha512-HBWlhyZzQFatPBg/eTBJSo1PKeGjtRIVA2Z8r3cSqXjLPUVqlbDAeO11+PfixzVFesommSwhGX43OJ9cQO5zsQ==}
     engines: {node: ^14.18.0 || >=16.10.0}
     dependencies:
       defu: 6.1.2
@@ -1198,8 +1198,8 @@ packages:
       - immer
       - react
 
-  /@tresjs/nuxt@1.0.0-alpha.2(react@18.2.0)(vue@3.3.4):
-    resolution: {integrity: sha512-Y9ROWcNyyiAtqFTSR6Dsh/gTyE0qG8TOuhYkP+acJhcz2Fy+qvwSeNy6MrraHlUWn6/vx2rGMgWAbSlqs9Y0HQ==}
+  /@tresjs/nuxt@1.0.0-beta.2(react@18.2.0)(vue@3.3.4):
+    resolution: {integrity: sha512-R/m3TXmZhwv2w+4Y98KWz1+YtzPMw5I0oSbXwHrEKENamLLP6l0fm6mwGqZexU7aSf9tKxZDA405dUgPiIrjWQ==}
     dependencies:
       '@nuxt/kit': 3.5.3
       '@tresjs/cientos': 2.1.4(@tresjs/core@2.2.0)(three@0.153.0)(vue@3.3.4)
@@ -4812,7 +4812,7 @@ packages:
       vue-svg-loader:
         optional: true
     dependencies:
-      '@nuxt/kit': /@nuxt/kit-edge@3.6.0-28120279.3fd6c179
+      '@nuxt/kit': /@nuxt/kit-edge@3.6.0-28121442.343a46d5
       '@vue/compiler-sfc': 3.3.4
       svgo: 3.0.2
     transitivePeerDependencies:
