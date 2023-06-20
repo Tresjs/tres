@@ -4,7 +4,7 @@ import { withSetup } from '../../utils/test-utils'
 
 const [composable, app] = withSetup(() => useSeek())
 
-describe('useRaycaster', () => {
+describe('useSeek', () => {
   afterEach(() => {
     app.unmount()
   })

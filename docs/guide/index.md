@@ -29,15 +29,15 @@ TresJS is written in Typescript and it's fully typed. If you are using Typescrip
 ::: code-group
 
 ```bash [npm]
-npm install @three/types -D
+npm install @types/three -D
 ```
 
 ```bash [yarn]
-yarn add @three/types -D
+yarn add @types/three -D
 ```
 
 ```bash [pnpm]
-pnpm add @three/types -D
+pnpm add @types/three -D
 ```
 
 :::

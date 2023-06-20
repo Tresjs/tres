@@ -36,11 +36,15 @@ function onPointerMove(ev) {
     console.log(ev)
   }
 }
+
+const visible = ref(true)
 </script>
 
 <template>
-  <TresCanvas v-bind="gl">
-    <TresPerspectiveCamera :position="[11, 11, 11]" :fov="45" :near="0.1" :far="1000" :look-at="[0, 0, 0]" />
+  <button @click="visible = !visible"></button>
+  <div v-if="visible">
+    <TresCanvas window-size v-bind="gl">
+  
     <OrbitControls />
 
     <template v-for="x in [-2.5, 0, 2.5]">
@@ -62,4 +66,5 @@ function onPointerMove(ev) {
     <TresDirectionalLight :intensity="1" />
     <TresAmbientLight :intensity="1" />
   </TresCanvas>
+  </div>
 </template>
