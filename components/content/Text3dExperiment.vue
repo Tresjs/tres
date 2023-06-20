@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { BasicShadowMap, SRGBColorSpace, NoToneMapping } from 'three'
 import { useWindowSize } from '@vueuse/core'
-import { EffectComposer, RenderPass } from 'postprocessing/module'
+import { EffectComposer, RenderPass } from 'postprocessing'
 
 import { OrbitControls, Text3D, Torus } from '@tresjs/cientos'
 

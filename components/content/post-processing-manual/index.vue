@@ -10,7 +10,7 @@ import {
   RenderPass,
   ShaderPass,
   ChromaticAberrationEffect,
-} from 'postprocessing/module'
+} from 'postprocessing'
 import { useWindowSize } from '@vueuse/core'
 
 const gl = reactive({
