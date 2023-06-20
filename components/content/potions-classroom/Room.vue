@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { useGLTF } from '@tresjs/cientos'
-
 import { DoubleSide, MeshBasicMaterial, Texture } from 'three'
 
 const props = defineProps<{

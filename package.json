@@ -9,24 +9,26 @@
   },
   "devDependencies": {
     "@alvarosabu/prettier-config": "^1.3.0",
-    "@iconify-json/carbon": "^1.1.16",
+    "@iconify-json/carbon": "^1.1.18",
     "@iconify-json/game-icons": "^1.1.2",
-    "@iconify-json/logos": "^1.1.31",
-    "@nuxt/content": "^2.6.0",
-    "@nuxt/image-edge": "1.0.0-28059208.2abef1b",
-    "@types/three": "^0.152.0",
-    "@unocss/nuxt": "^0.52.3",
-    "gsap": "^3.11.5",
-    "nuxt": "^3.5.1",
+    "@iconify-json/ic": "^1.1.13",
+    "@iconify-json/logos": "^1.1.33",
+    "@nuxt/content": "^2.7.0",
+    "@nuxt/image-edge": "1.0.0-rc.1-28119537.bfe30ab",
+    "@tresjs/cientos": "2.1.4",
+    "@tresjs/nuxt": "1.0.0-alpha.2",
+    "@types/three": "^0.152.1",
+    "@unocss/nuxt": "^0.53.1",
+    "gsap": "^3.12.1",
+    "nuxt": "^3.5.3",
     "nuxt-svgo": "^3.1.0",
-    "vite-plugin-glsl": "^1.1.2"
+    "postprocessing": "^6.32.1",
+    "vite-plugin-glsl": "^1.1.2",
+    "vite-svg-loader": "^4.0.0"
   },
   "dependencies": {
-    "@iconify-json/ic": "^1.1.13",
-    "@tresjs/cientos": "2.1.1",
-    "@tresjs/core": "2.1.2",
-    "@tresjs/post-processing": "^0.1.0",
-    "postprocessing": "^6.31.0",
-    "three": "^0.152.2"
+    "@tresjs/core": "^2.2.0",
+    "@tresjs/post-processing": "^0.2.1",
+    "three": "^0.153.0"
   }
 }

@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { useGLTF, Levioso, ContactShadows } from '@tresjs/cientos'
-
 const props = defineProps({
   color: {
     type: String,
@@ -30,8 +28,6 @@ watch(
   },
   { immediate: true },
 )
-
-console.log({ headphones, nodes, materials })
 </script>
 <template>
   <Levioso>

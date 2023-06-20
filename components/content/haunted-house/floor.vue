@@ -1,6 +1,5 @@
 <script setup>
 import { shallowRef } from 'vue'
-import { useTexture } from '@tresjs/core'
 import { Float32BufferAttribute, RepeatWrapping, BoxGeometry, MeshStandardMaterial, Mesh } from 'three'
 
 const floorRef = shallowRef()

@@ -1,8 +1,5 @@
 <script setup lang="ts">
-import { TresCanvas } from '@tresjs/core'
 import { BasicShadowMap, SRGBColorSpace, NoToneMapping } from 'three'
-
-import { OrbitControls } from '@tresjs/cientos'
 
 const gl = {
   clearColor: '#82DBC5',

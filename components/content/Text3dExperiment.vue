@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import { TresCanvas, useRenderLoop, useTexture } from '@tresjs/core'
 import { BasicShadowMap, SRGBColorSpace, NoToneMapping } from 'three'
 import { useWindowSize } from '@vueuse/core'
-import { ChromaticAberrationEffect, EffectComposer, EffectPass, RenderPass } from 'postprocessing/module'
+import { EffectComposer, RenderPass } from 'postprocessing'
 
-import { OrbitControls, Text3D, Torus, useTweakPane } from '@tresjs/cientos'
+import { OrbitControls, Text3D, Torus } from '@tresjs/cientos'
 
 /* const pane = useTweakPane() */
 
