@@ -1,5 +1,12 @@
 
 
+## [1.0.0-beta.1](///compare/1.0.0-beta.0...1.0.0-beta.1) (2023-06-20)
+
+
+### Bug Fixes
+
+* expose context state from TresCanvas to client only version ([#11](null//null/issues/11)) 9950cef
+
 ## [1.0.0-beta.0](///compare/1.0.0-alpha.2...1.0.0-beta.0) (2023-06-19)
 
 
