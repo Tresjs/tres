@@ -1,5 +1,12 @@
 
 
+## [1.0.0-beta.2](///compare/1.0.0-beta.1...1.0.0-beta.2) (2023-06-20)
+
+
+### Bug Fixes
+
+* import ref on TresCanvas client wrapper f68d93a
+
 ## [1.0.0-beta.1](///compare/1.0.0-beta.0...1.0.0-beta.1) (2023-06-20)
 
 
