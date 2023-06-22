@@ -3,6 +3,7 @@ import { Vector3 } from 'three'
 import { TresCanvas } from '@tresjs/core'
 import { OrbitControls } from '@tresjs/cientos'
 import { TresLeches, useControls } from '@tresjs/leches'
+import '@tresjs/leches/style.css'
 import { reactive, ref, watchEffect } from 'vue'
 
 const gl = reactive({
@@ -29,6 +30,11 @@ useControls('Box', {
   wireframe,
 })
  */
+ useControls('Box', {
+  position: boxPosition,
+  rotation: boxRotation,
+  wireframe,
+})
 const boxRef = ref()
 
 /* watch(boxRef, value => {
