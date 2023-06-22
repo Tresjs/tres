@@ -45,7 +45,7 @@ function parseObjectToControls(obj: Schema): Control[] {
       type = 'color'
     }
 
-    if (value instanceof Vector3 || value instanceof Vector3 || value instanceof Array<number>) {
+    if (value instanceof Vector3 || value instanceof Vector3 || value instanceof Array) {
       type = 'vector'
     }
 
