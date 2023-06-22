@@ -102,6 +102,27 @@ const { onLoop } = useRenderLoop()
 </template>
 ```
 
+### Client-side only
+
+The `<TresCanvas>` is only loaded in the client-side, so you don't need to worry about **SSR** or **SSG** 😊.
+
+### Vue compiler optimizations ⚙️
+
+Automagically ✨ configure the Vue compiler to recognize the TresJS Components. This is because `<TresCanvas />` component creates a custom renderer for Vue, so we need to tell the outside Vue app to recognize the TresJS components.
+
+Without the module you need to configure the Vue compiler like this:
+
+```ts
+export default defineNuxtConfig({
+  vue: {
+    compilerOptions: {
+      isCustomElement: tag => (tag.startsWith('Tres') && tag !== 'TresCanvas') || tag === 'primitive',
+    },
+  }
+})
+```
+
+See more [here](http://tresjs.org/guide/troubleshooting.html#failed-resolve-component-trescomponent-%F0%9F%A4%94)
 
 ## Share your work 🎨
 
