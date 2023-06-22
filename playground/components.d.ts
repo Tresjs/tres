@@ -9,7 +9,9 @@ declare module 'vue' {
   export interface GlobalComponents {
     AnimatedModel: typeof import('./src/components/AnimatedModel.vue')['default']
     Cameras: typeof import('./src/components/Cameras.vue')['default']
+    copy: typeof import('./src/components/TheBasic copy.vue')['default']
     DanielTest: typeof import('./src/components/DanielTest.vue')['default']
+    DebugUI: typeof import('./src/components/DebugUI.vue')['default']
     DeleteMe: typeof import('./src/components/DeleteMe.vue')['default']
     FBXModels: typeof import('./src/components/FBXModels.vue')['default']
     Gltf: typeof import('./src/components/gltf/index.vue')['default']
@@ -37,6 +39,7 @@ declare module 'vue' {
     TheSmallExperience: typeof import('./src/components/TheSmallExperience.vue')['default']
     TheSphere: typeof import('./src/components/TheSphere.vue')['default']
     TheUSDZModel: typeof import('./src/components/udsz/TheUSDZModel.vue')['default']
+    TresLechesTest: typeof import('./src/components/TresLechesTest.vue')['default']
     Udsz: typeof import('./src/components/udsz/index.vue')['default']
     VectorSetProps: typeof import('./src/components/VectorSetProps.vue')['default']
   }
