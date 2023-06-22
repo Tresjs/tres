@@ -1,5 +1,12 @@
 
 
+## [2.3.0](https://github.com/Tresjs/tres/compare/2.2.0...2.3.0) (2023-06-22)
+
+
+### Features
+
+* export utility functions ([#315](https://github.com/Tresjs/tres/issues/315)) ([7580c77](https://github.com/Tresjs/tres/commit/7580c774820ee99b2ebfbdbf274fe6c164b35097))
+
 ## [2.2.0](https://github.com/Tresjs/tres/compare/2.1.3...2.2.0) (2023-06-19)
 
 
