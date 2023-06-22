@@ -159,7 +159,7 @@ export function useRenderer(options: UseRendererOptions) {
   const aspectRatio = computed(() => width.value / height.value)
 
   setTimeout(() => {
-    if (!toValue(windowSize) && !state.canvas.value.offsetHeight) {
+    if (!toValue(windowSize) && !state.canvas?.value.offsetHeight) {
       logWarning(`Oops... Seems like your canvas height is currently 0px, it's posible that you couldn't watch your scene.
   You could set windowSize=true to force the canvas to be the size of the window.`)
     }

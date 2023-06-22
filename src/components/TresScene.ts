@@ -1,8 +1,6 @@
-import { App, defineComponent, h, onMounted, onUnmounted, ref, watch, watchEffect, VNode } from 'vue'
+import { App, defineComponent, h, onMounted, onUnmounted, ref, watch } from 'vue'
 import * as THREE from 'three'
 import { ColorSpace, ShadowMapType, ToneMapping } from 'three'
-import { useEventListener } from '@vueuse/core'
-import { isString } from '@alvarosabu/utils'
 import { createTres } from '../core/renderer'
 import { TresCamera } from '../types/'
 import {
@@ -12,11 +10,12 @@ import {
   useCamera,
   useRenderer,
   useRenderLoop,
-  useRaycaster,
   useTres,
+  usePointerEventHandler,
 } from '../composables'
 import { extend } from '../core/catalogue'
 import { type RendererPresetsType } from '../composables/useRenderer/const'
+import { OBJECT_3D_USER_DATA_KEYS } from '../keys'
 
 export interface TresSceneProps {
   shadows?: boolean
@@ -67,24 +66,18 @@ export const TresScene = defineComponent<TresSceneProps>({
 
     const container = ref<HTMLElement>()
     const canvas = ref<HTMLElement>()
+
     const scene = new THREE.Scene()
+
+    const pointerEventHandler = usePointerEventHandler()
     const { setState } = useTres()
+
+    scene.userData[OBJECT_3D_USER_DATA_KEYS.REGISTER_AT_POINTER_EVENT_HANDLER] = pointerEventHandler.registerObject
 
     setState('scene', scene)
     setState('canvas', canvas)
     setState('container', container)
-
-    const isCameraAvailable = ref()
-
-    const internal = slots && slots.default && slots.default()
-
-    if (internal && internal?.length > 0) {
-      isCameraAvailable.value =
-        internal.some((node: VNode) => isString(node.type) && node.type.includes('Camera')) || props.camera
-      if (!isCameraAvailable.value) {
-        logWarning('No camera found in the scene, please add one!')
-      }
-    }
+    setState('pointerEventHandler', pointerEventHandler)
 
     const { onLoop, resume } = useRenderLoop()
 
@@ -98,6 +91,22 @@ export const TresScene = defineComponent<TresSceneProps>({
 
     const { activeCamera, pushCamera, clearCameras } = useCamera()
 
+    function setCamera() {
+      const camera = scene.getObjectByProperty('isCamera', true)
+
+      if (!camera) {
+        // eslint-disable-next-line max-len
+        logWarning('No camera found. Creating a default perspective camera. To have full control over a camera, please add one to the scene.')
+        const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000)
+        camera.position.set(3,3,3)
+        camera.lookAt(0,0,0)
+        pushCamera(camera)
+      } else {
+
+        pushCamera(camera as TresCamera)
+      }
+    }
+
     function initRenderer() {
       const { renderer } = useRenderer(props)
 
@@ -105,41 +114,8 @@ export const TresScene = defineComponent<TresSceneProps>({
         pushCamera(props.camera as any)
       }
 
-      const { raycaster, pointer } = useRaycaster()
-
-      // TODO: Type raycasting events correctly
-      let prevInstance: any = null
-      let currentInstance: any = null
-
-      watchEffect(() => {
-        if (activeCamera.value) raycaster.value.setFromCamera(pointer.value, activeCamera.value)
-      })
-
       onLoop(() => {
         if (activeCamera.value && props.disableRender !== true) renderer.value?.render(scene, activeCamera.value)
-
-        if (raycaster.value) {
-          const intersects = raycaster.value.intersectObjects(scene.children)
-
-          if (intersects.length > 0) {
-            currentInstance = intersects[0]
-            if (prevInstance === null) {
-              currentInstance.object?.events?.onPointerEnter?.(currentInstance)
-            }
-            currentInstance.object?.events?.onPointerMove?.(currentInstance)
-          } else {
-            if (prevInstance !== null) {
-              currentInstance?.object?.events?.onPointerLeave?.(prevInstance)
-              currentInstance = null
-            }
-          }
-          prevInstance = currentInstance
-        }
-      })
-
-      useEventListener(canvas.value, 'click', () => {
-        if (currentInstance === null) return
-        currentInstance.object?.events?.onClick?.(currentInstance)
       })
     }
 
@@ -152,6 +128,7 @@ export const TresScene = defineComponent<TresSceneProps>({
       app.provide(TRES_CONTEXT_KEY, tres)
       app.provide('extend', extend)
       app.mount(scene as unknown)
+      setCamera()
     }
     mountApp()
 
@@ -165,8 +142,7 @@ export const TresScene = defineComponent<TresSceneProps>({
       app = createTres(slots)
       app.provide('extend', extend)
       app.mount(scene as unknown)
-      const camera = scene.children.find((child: any) => child.isCamera)
-      pushCamera(camera as TresCamera)
+      setCamera()
       resume()
     }
 

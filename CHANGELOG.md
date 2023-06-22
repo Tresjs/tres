@@ -1,5 +1,19 @@
 
 
+## [2.2.0](https://github.com/Tresjs/tres/compare/2.1.3...2.2.0) (2023-06-19)
+
+
+### Features
+
+* removed `useCamera` logic from nodeOps ([#308](https://github.com/Tresjs/tres/issues/308)) ([e9509ba](https://github.com/Tresjs/tres/commit/e9509bab177a7a23f802ad2716f42d1f36f7654b))
+
+
+### Bug Fixes
+
+* banner image link ([b793c77](https://github.com/Tresjs/tres/commit/b793c77a2b456ddac0fdd4cf18ad4d94f19db439))
+* main button colors ([3aab827](https://github.com/Tresjs/tres/commit/3aab8273dace80ba6e5ee210b0e17f0b8bc61449))
+* raycaster does not work properly when scene is not in full screen ([#304](https://github.com/Tresjs/tres/issues/304)) ([20a5b9e](https://github.com/Tresjs/tres/commit/20a5b9eee94755ca58ff4936aef20a070f920a7e))
+
 ### [2.1.3](https://github.com/Tresjs/tres/compare/2.1.2...2.1.3) (2023-06-14)
 
 

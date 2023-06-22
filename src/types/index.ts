@@ -30,7 +30,6 @@ export interface InstanceProps<T = any, P = any> {
 
 interface TresBaseObject {
   attach?: string
-  events: EventHandlers
   removeFromParent?: () => void
   dispose?: () => void
   [prop: string]: any // for arbitrary properties

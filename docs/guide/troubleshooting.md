@@ -12,27 +12,6 @@ You followed the [Getting started guide](/guide/getting-started.md) but you stil
 
 These are the most common reasons why you might not be able to see your scene:
 
-### Make sure you have a camera 🎥
-
-The first thing you need to do is to make sure you have a camera in your scene. If you don't have a camera, you won't be able to see anything.
-
-![No camera found](/no-camera-found.png)
-
-```vue
-<!-- Wrong ❌ -->
-<TresCanvas>
-  <TresOrbitControls />
-</TresCanvas>
-```
-
-```vue
-<!-- Correct ✅ -->
-<TresCanvas>
-  <TresPerspectiveCamera />
-  <TresOrbitControls />
-</TresCanvas>
-```
-
 ### Check the height of your canvas 📏
 
 Another common issue is that the `TresCanvas` component is creating by default a `canvas` element takes the `width` and `height` of the parent element. If the parent element has no height, the canvas will have no height either.

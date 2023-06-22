@@ -1,10 +1,12 @@
 import { RendererOptions } from 'vue'
-import { BufferAttribute, BufferGeometry, Material, Scene } from 'three'
-import { useCamera, useLogger } from '../composables'
+import { BufferAttribute, Scene } from 'three'
 import { isFunction } from '@alvarosabu/utils'
+import {  useLogger } from '../composables'
 import { catalogue } from './catalogue'
-import { EventHandlers, TresObject } from '../types'
+import { TresObject } from '../types'
 import { isHTMLTag, kebabToCamel } from '../utils'
+import { OBJECT_3D_USER_DATA_KEYS } from '../keys'
+import type { Material, BufferGeometry, Object3D } from 'three'
 
 const onRE = /^on[^a-z]/
 export const isOn = (key: string) => onRE.test(key)
@@ -15,14 +17,9 @@ function noop(fn: string): any {
 
 let fallback: TresObject | null = null
 let scene: Scene | null = null
-const OBJECT_3D_USER_DATA_KEYS = {
-  GEOMETRY_VIA_PROP: 'tres__geometryViaProp',
-  MATERIAL_VIA_PROP: 'tres__materialViaProp',
-}
 
 const { logError } = useLogger()
 
-let firstCamera = true
 export const nodeOps: RendererOptions<TresObject, TresObject> = {
   createElement(tag, _isSVG, _anchor, props) {
     if (!props) props = {}
@@ -48,16 +45,13 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
       instance = new target(...props.args)
     }
 
-    if (instance.isCamera && firstCamera) {
+    if (instance.isCamera) {
       if (!props?.position) {
         instance.position.set(3, 3, 3)
       }
       if (!props?.lookAt) {
         instance.lookAt(0, 0, 0)
       }
-      const { setFirstCamera } = useCamera()
-      setFirstCamera(instance)
-      firstCamera = false
     }
 
     if (props?.attach === undefined) {
@@ -70,11 +64,9 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
     const { GEOMETRY_VIA_PROP, MATERIAL_VIA_PROP } = OBJECT_3D_USER_DATA_KEYS
 
     if (instance.isObject3D) {
-      if (props?.material?.isMaterial) (instance as TresObject).userData[MATERIAL_VIA_PROP] = true
-      if (props?.geometry?.isBufferGeometry) (instance as TresObject).userData[GEOMETRY_VIA_PROP] = true
+      if (props?.material?.isMaterial) (instance as Object3D).userData[MATERIAL_VIA_PROP] = true
+      if (props?.geometry?.isBufferGeometry) (instance as Object3D).userData[GEOMETRY_VIA_PROP] = true
     }
-
-    instance.events = {}
 
     return instance
   },
@@ -96,6 +88,7 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
     if (child?.isObject3D && parent?.isObject3D) {
       parent.add(child)
       child.dispatchEvent({ type: 'added' })
+      scene?.userData?.[OBJECT_3D_USER_DATA_KEYS.REGISTER_AT_POINTER_EVENT_HANDLER]?.(child)
     } else if (child?.isFog) {
       parent.fog = child
     } else if (typeof child?.attach === 'string') {
@@ -110,17 +103,19 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
     // remove is only called on the node being removed and not on child nodes.
 
     if (node.isObject3D) {
-      const object3D = node as unknown as TresObject
+      const object3D = node as unknown as Object3D
 
-      const disposeMaterialsAndGeometries = (object3D: TresObject) => {
+      const disposeMaterialsAndGeometries = (object3D: Object3D) => {
         const { GEOMETRY_VIA_PROP, MATERIAL_VIA_PROP } = OBJECT_3D_USER_DATA_KEYS
 
-        if (!object3D.userData[MATERIAL_VIA_PROP]) (object3D as TresObject & { material: Material }).material?.dispose()
+        if (!object3D.userData[MATERIAL_VIA_PROP]) (object3D as Object3D & { material: Material }).material?.dispose()
         if (!object3D.userData[GEOMETRY_VIA_PROP])
-          (object3D as TresObject & { geometry: BufferGeometry }).geometry?.dispose()
+          (object3D as Object3D & { geometry: BufferGeometry }).geometry?.dispose()
       }
 
-      object3D.traverse((child: TresObject) => disposeMaterialsAndGeometries(child))
+      object3D.traverse((child: Object3D) => {
+        disposeMaterialsAndGeometries(child)
+      })
 
       disposeMaterialsAndGeometries(object3D)
     }
@@ -152,10 +147,6 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
         key = chain.pop() as string
         finalKey = key.toLowerCase()
         if (!target?.set) root = chain.reduce((acc, key) => acc[kebabToCamel(key)], root)
-      }
-      if (isOn(key)) {
-        const eventHandlerKey: keyof EventHandlers = key as keyof EventHandlers // This is fine
-        node.events[eventHandlerKey] = nextValue
       }
       let value = nextValue
       if (value === '') value = true

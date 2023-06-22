@@ -163,8 +163,6 @@ watch(modelRef, model => {
 
 The `TresOrbitControls` component needs to be after the camera in the tree. This is because the controls need to know the camera to work.
 
-Read more about it here: [Troubleshooting](/guide/troubleshooting.md)
-
 Change this:
 
 ```vue {3,5}

@@ -1,7 +1,8 @@
 import { Clock, EventDispatcher, Raycaster, Scene, Vector2, WebGLRenderer } from 'three'
 import { generateUUID } from 'three/src/math/MathUtils'
-import { computed, ComputedRef, inject, provide, shallowReactive, toRefs } from 'vue'
+import { ComputedRef, inject, provide, Ref, shallowReactive, toRefs } from 'vue'
 import { Camera } from '../useCamera'
+import type { usePointerEventHandler } from '../usePointerEventHandler'
 
 export interface TresState {
   /**
@@ -88,6 +89,15 @@ export interface TresState {
    * @memberof TresState
    */
   controls?: (EventDispatcher & { enabled: boolean }) | null
+
+  canvas?: Ref<HTMLElement>
+
+  /**
+   * The entity that handles pointer events
+   * @type {ReturnType<typeof usePointerEventHandler>}
+   * @memberof TresState
+   */
+  pointerEventHandler?: ReturnType<typeof usePointerEventHandler>
   [key: string]: any
 }
 
@@ -113,9 +123,11 @@ export function useTresProvider() {
     uuid: generateUUID(),
     camera: undefined,
     cameras: [],
+    canvas: undefined,
     scene: undefined,
     renderer: undefined,
-    aspectRatio: computed(() => window.innerWidth / window.innerHeight),
+    aspectRatio: undefined,
+    pointerEventHandler: undefined,
   })
   /**
    * Get a state value.
@@ -155,8 +167,10 @@ export const useTres = () => {
     state: shallowReactive({
       camera: undefined,
       cameras: [],
+      canvas: undefined,
       scene: undefined,
       renderer: undefined,
+      pointerEventHandler: undefined,
     }),
   })
 
