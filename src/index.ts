@@ -5,6 +5,8 @@ export * from './core/catalogue'
 export * from './components'
 export * from './types'
 
+import { normalizeColor } from './utils/normalize'
+
 export interface TresOptions {
   extends?: Record<string, unknown>
 }
@@ -21,3 +23,5 @@ const plugin: TresPlugin = {
 }
 
 export default plugin
+
+export { normalizeColor }
