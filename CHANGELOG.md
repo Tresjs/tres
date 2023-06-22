@@ -1,5 +1,12 @@
 
 
+### [0.3.1](https://github.com/Tresjs/leches/compare/0.3.0...0.3.1) (2023-06-22)
+
+
+### Bug Fixes
+
+* multiple instances of threejs and font style issue ([1d9aaf8](https://github.com/Tresjs/leches/commit/1d9aaf88c3060c3642904b79a2538c84d90ad5eb))
+
 ## [0.3.0](https://github.com/Tresjs/leches/compare/0.2.0...0.3.0) (2023-05-28)
 
 
