@@ -5,6 +5,7 @@ import { Ref, inject, onUnmounted, ref, toRaw, unref, watch, watchEffect } from 
 import { Vector2, Texture } from 'three'
 
 import { useCore } from '../useCore'
+import { effectComposerInjectionKey } from '../injectionKeys'
 
 export interface GlitchProps {
   blendFunction?: BlendFunction
@@ -111,7 +112,7 @@ const {
 
 const { state } = useCore()
 
-const composer = inject<Ref<EffectComposer>>('effectComposer')
+const composer = inject(effectComposerInjectionKey)
 const pass = ref<EffectPass | null>(null)
 const effect = ref<GlitchEffect | null>(null)
 
@@ -134,7 +135,7 @@ function createPass() {
 function disposePass() {
   effect.value?.dispose()
   pass.value?.dispose()
-  composer?.value.removePass(toRaw(pass.value) as EffectPass)
+  composer?.value?.removePass(toRaw(pass.value) as EffectPass)
 }
 
 const unwatchComposer = watch(
@@ -151,7 +152,7 @@ const unwatchProps = watch(
   () => [delay, duration, strength, ratio, columns, chromaticAberrationOffset, peturbationMap, dtSize],
   () => {
     if (pass.value) {
-      composer?.value.removePass(toRaw(pass.value) as EffectPass)
+      composer?.value?.removePass(toRaw(pass.value) as EffectPass)
       createPass()
       composer?.value?.addPass(toRaw(pass.value) as EffectPass)
     }

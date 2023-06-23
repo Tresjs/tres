@@ -1,15 +1,13 @@
 <script setup lang="ts">
-import { TresCanvas } from '@tresjs/core'
+import { TresCanvas, TresCanvasProps } from '@tresjs/core'
 import { useTweakPane } from '@tresjs/cientos'
 import { reactive, ref } from 'vue'
 import { EffectComposer, Outline, Glitch } from '@tresjs/post-processing'
 import { BasicShadowMap, NoToneMapping, Object3D, Intersection } from 'three'
+import { BlendFunction, KernelSize } from 'postprocessing'
 
-const gl = {
+const gl: TresCanvasProps = {
   clearColor: '#4ADE80',
-  shadows: true,
-  alpha: false,
-  shadowMapType: BasicShadowMap,
   toneMapping: NoToneMapping,
 }
 
@@ -23,15 +21,20 @@ const toggleMeshSelectionState = ({ object }: Intersection) => {
 
 const outlineParameters = reactive({
   pulseSpeed: 0,
-  edgeStrength: 2.5,
-  visibleEdgeColor: '#ff0000',
+  edgeStrength: 40,
+  visibleEdgeColor: '#ffffff',
+  multisampling: 4,
+  kernelSize: 3,
+  blur: true,
 })
 
 const { pane } = useTweakPane()
 
-pane.addInput(outlineParameters, 'edgeStrength', { min: 0, max: 10 })
+pane.addInput(outlineParameters, 'edgeStrength', { min: 0, max: 100 })
 pane.addInput(outlineParameters, 'pulseSpeed', { min: 0, max: 2 })
 pane.addInput(outlineParameters, 'visibleEdgeColor')
+pane.addInput(outlineParameters, 'blur')
+pane.addInput(outlineParameters, 'kernelSize', { min: KernelSize.VERY_SMALL, max: KernelSize.VERY_LARGE, step: 1 })
 </script>
 
 <template>
@@ -49,7 +52,7 @@ pane.addInput(outlineParameters, 'visibleEdgeColor')
     <TresAmbientLight :intensity="1" />
     <Suspense>
       <EffectComposer>
-        <Glitch />
+        <!-- <Glitch /> -->
         <Outline :outlined-objects="outlinedObjects" v-bind="outlineParameters" />
       </EffectComposer>
     </Suspense>

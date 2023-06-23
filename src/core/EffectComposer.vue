@@ -7,6 +7,7 @@ import { useCore } from './useCore'
 import { ShallowRef, provide, shallowRef, watchEffect } from 'vue'
 import { isWebGL2Available } from 'three-stdlib'
 import { useWindowSize } from '@vueuse/core'
+import { effectComposerInjectionKey } from './injectionKeys'
 
 export type EffectComposerProps = {
   enabled?: boolean
@@ -48,7 +49,7 @@ let downSamplingPass = null
 let normalPass = null
 const webGL2Available = isWebGL2Available()
 
-provide('effectComposer', effectComposer)
+provide(effectComposerInjectionKey, effectComposer)
 
 const { width, height } = useWindowSize()
 

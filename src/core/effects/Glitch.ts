@@ -2,6 +2,7 @@ import { Texture, Vector2 } from 'three'
 import { defineComponent, inject, ref, toRaw, unref, watch, watchEffect } from 'vue'
 import { EffectPass, GlitchEffect, GlitchMode } from 'postprocessing'
 import { useCore } from '../useCore'
+import { effectComposerInjectionKey } from '../injectionKeys'
 
 export interface GlitchProps {
   /**
@@ -107,7 +108,7 @@ export const Glitch = defineComponent<GlitchProps>({
 
   async setup(props, { expose }) {
     const { state } = useCore()
-    const composer = inject<any>('effectComposer')
+    const composer = inject<any>(effectComposerInjectionKey)
     const pass = ref<EffectPass | null>(null)
 
     expose({ getPass: () => pass.value })

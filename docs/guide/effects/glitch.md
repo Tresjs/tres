@@ -40,4 +40,3 @@ import { EffectComposer, Glitch } from '@tresjs/post-processing'
 | `chromaticAberrationOffset` | A chromatic aberration offset. If provided, the glitch effect will influence this offset. | `undefined`           |
 | `peturbationMap`            | A perturbation map. If none is provided, a noise texture will be created.                 | `undefined`           |
 | `dtSize`                    | The size of the generated noise map. Will be ignored if a perturbation map is provided.   | `64`                  |
-| `false`                     |

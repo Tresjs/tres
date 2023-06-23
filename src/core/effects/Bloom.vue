@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { Ref, inject, onUnmounted, ref, toRaw, unref } from 'vue'
-import { BlurPass, KernelSize, EffectPass, BloomEffect, EffectComposer, BlendFunction } from 'postprocessing'
+import { inject, onUnmounted, ref, toRaw, unref } from 'vue'
+import { BlurPass, KernelSize, EffectPass, BloomEffect, BlendFunction } from 'postprocessing'
 import { useCore } from '../useCore'
 import { watch } from 'vue'
+import { effectComposerInjectionKey } from '../injectionKeys'
 
 export type BloomProps = {
   blendFunction?: BlendFunction
@@ -83,7 +84,7 @@ const {
 
 const { state } = useCore()
 
-const composer = inject<Ref<EffectComposer>>('effectComposer')
+const composer = inject(effectComposerInjectionKey)
 const pass = ref<EffectPass | null>(null)
 const effect = ref<BloomEffect | null>(null)
 
@@ -103,7 +104,7 @@ function createPass() {
 function disposePass() {
   effect.value?.dispose()
   pass.value?.dispose()
-  composer?.value.removePass(toRaw(pass.value) as EffectPass)
+  composer?.value?.removePass(toRaw(pass.value) as EffectPass)
 }
 
 const unwatchComposer = watch(

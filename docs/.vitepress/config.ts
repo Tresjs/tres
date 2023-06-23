@@ -29,7 +29,7 @@ export default defineConfig({
         items: [
           { text: 'Bloom', link: '/guide/effects/bloom' },
           { text: 'Glitch', link: '/guide/effects/glitch' },
-          /*  { text: 'Outline', link: '/guide/effects/outline' }, */
+          { text: 'Outline', link: '/guide/effects/outline' },
         ],
       },
     ],

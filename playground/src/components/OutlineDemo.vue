@@ -2,15 +2,16 @@
 import { TresCanvas } from '@tresjs/core'
 import { OrbitControls, useTweakPane } from '@tresjs/cientos'
 import { reactive, ref } from 'vue'
-import { EffectComposer, Outline, Glitch } from '@tresjs/post-processing'
+import { EffectComposer, Outline } from '@tresjs/post-processing'
 import { BasicShadowMap, NoToneMapping, Object3D, Intersection } from 'three'
 
 const gl = {
-  clearColor: '#4ADE80',
-  shadows: true,
   alpha: false,
-  shadowMapType: BasicShadowMap,
+  shadows: true,
+  clearColor: '#4ADE80',
   toneMapping: NoToneMapping,
+  disableRender: true,
+  shadowMapType: BasicShadowMap,
 }
 
 const outlinedObjects = ref<Object3D[]>([])
@@ -35,7 +36,7 @@ pane.addInput(outlineParameters, 'visibleEdgeColor')
 </script>
 
 <template>
-  <TresCanvas v-bind="gl" disable-render>
+  <TresCanvas v-bind="gl">
     <TresPerspectiveCamera :position="[3, 3, 3]" :look-at="[2, 2, 2]" />
     <OrbitControls />
     <template v-for="i in 5" :key="i">

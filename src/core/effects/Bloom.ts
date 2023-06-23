@@ -1,6 +1,7 @@
 import { defineComponent, inject, ref, toRaw, unref, watchEffect } from 'vue'
 import { BlurPass, KernelSize, EffectPass, BloomEffect } from 'postprocessing'
 import { useCore } from '../useCore'
+import { effectComposerInjectionKey } from '../injectionKeys'
 
 export interface BloomProps {
   /**
@@ -83,7 +84,7 @@ export const Bloom = defineComponent<BloomProps>({
 
   async setup(props, { expose }) {
     const { state } = useCore()
-    const composer = inject<any>('effectComposer')
+    const composer = inject<any>(effectComposerInjectionKey)
     const pass = ref<EffectPass | null>(null)
 
     expose({ getPass: () => pass.value })
