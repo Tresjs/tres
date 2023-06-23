@@ -14,6 +14,7 @@
     "vitepress": "1.0.0-beta.1"
   },
   "dependencies": {
+    "@tresjs/cientos": "workspace:^",
     "gsap": "^3.11.5"
   }
 }

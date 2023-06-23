@@ -101,6 +101,9 @@ importers:
 
   docs:
     dependencies:
+      '@tresjs/cientos':
+        specifier: workspace:^
+        version: link:..
       gsap:
         specifier: ^3.11.5
         version: 3.11.5
