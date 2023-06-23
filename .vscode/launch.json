@@ -17,10 +17,10 @@
       "type": "node"
     },
     {
-      "name": "fe-server",
+      "name": "core-playground",
       "type": "node",
       "request": "launch",
-      "cwd": "${workspaceRoot}/packages/tres",
+      "cwd": "${workspaceRoot}/playground",
       "runtimeExecutable": "npm",
       "runtimeArgs": ["run", "dev", "--preserve-symlinks"]
     }

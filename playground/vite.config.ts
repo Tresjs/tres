@@ -5,6 +5,7 @@ import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import glsl from 'vite-plugin-glsl'
 import UnoCSS from 'unocss/vite'
+import Tres from '../plugins/vite-plugin-tres/src/node/index.ts'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -33,6 +34,7 @@ export default defineConfig({
     UnoCSS({
       /* options */
     }),
+    Tres({}),
   ],
   resolve: {
     alias: {
