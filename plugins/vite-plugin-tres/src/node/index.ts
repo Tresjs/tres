@@ -1,15 +1,15 @@
-import { type Connect, type Plugin, type ResolvedConfig, type ViteDevServer } from 'vite'
+import { UserConfig, type Connect, type Plugin, type ResolvedConfig, type ViteDevServer } from 'vite'
 import sirv from 'sirv'
 import { createServer } from 'node:http'
 import type { AddressInfo } from 'node:net'
 import { isAbsolute, join, resolve } from 'node:path'
 import fs from 'fs-extra'
-
+import { Options } from './config'
 import { lightGreen, yellow, gray, bold } from 'kolorist'
 
 import { DIR_CLIENT } from '../dir'
 
-export const plugin = (options: Options = {}) => {
+export const plugin = (useSirv = false, options: Options = {}) => {
   const outputDir = options.outputDir ?? '.tres-inspect'
   /* let config: ResolvedConfig */
 
@@ -34,17 +34,21 @@ export const plugin = (options: Options = {}) => {
     return targetDir
   }
 
-  /*   function configureServer(server: ViteDevServer) {
-      const base = (options.base ?? server.config.base) || '/'
-  
-      server.middlewares.use((req, res, next) => {
-        // custom handle request...
-        server.middlewares.use(`${base}__inspect`, sirv(DIR_CLIENT, {
-          single: true,
-          dev: true,
-        }))
-      })
-    } */
+  function configureServer(server: ViteDevServer) {
+    const base = (options.base ?? server.config.base) || '/'
+
+    server.middlewares.use((req, res, next) => {
+      console.log(req.url)
+      next()
+    })
+
+    if (useSirv) {
+      server.middlewares.use(`${base}__tres`, sirv('.', {
+        single: true,
+        dev: true,
+      }))
+    }
+  }
 
   function createPreviewServer(staticPath: string) {
     const server = createServer()
@@ -75,19 +79,24 @@ export const plugin = (options: Options = {}) => {
   return {
     name: 'vite-plugin-tres',
     enforce: 'pre',
-    /*  apply(_, { command }) {
-       if (command === 'serve' && dev)
-         return true
-       if (command === 'build' && build)
-         return true
-       return false
-     }, */
+    apply: 'serve',
+    config(config) {
+      const thisConfig: UserConfig = {}
+      if (typeof config.server?.open === 'undefined') {
+        thisConfig.server = {
+          open: true,
+        }
+      }
+      console.log(thisConfig)
+      return thisConfig
+    },
+    configureServer,
     /*     configureServer, */
-    async buildStart() {
-      const dir = await generateBuild()
-      console.log(`  ${lightGreen('➜')}  ${bold('Tres Inspect Build Completed')}: ${dir}`)
-      createPreviewServer(dir)
-    }
+    /*  async buildStart() {
+       const dir = await generateBuild()
+       console.log(`  ${lightGreen('➜')}  ${bold('Tres Inspect Build Completed')}: ${dir}`)
+       createPreviewServer(dir)
+     } */
   }
 
 }
