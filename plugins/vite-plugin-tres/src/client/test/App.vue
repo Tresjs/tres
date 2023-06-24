@@ -1,9 +1,6 @@
-<script setup lang="ts">
-</script>
+<script setup lang="ts"></script>
 
-<template>
-    Lo hemos logrado paco
-</template>
+<template>Lo hemos logrado paco</template>
 
 <style scoped>
 .logo {

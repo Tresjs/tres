@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TresCI</title>
+    <style>
+        html {
+            overflow: hidden;
+            padding: 0;
+            margin: 0;
+            display: block;
+            view-transition-name: root;
+            font-family: Readex Pro,sans-serif;
+        }
+        body {
+            padding: 0;
+            margin: 0;
+            display: grid;
+            grid-template-columns: 1fr;
+            grid-row-gap: 0;
+        }
+        main {
+            width: 100vw;
+            height: 100vh;
+            display: grid;
+            grid-template-columns: 3fr 1fr;
+            grid-template-rows: min-content 1fr;
+        }
+        main header {
+            height: 40px;
+            grid-column: 1 / span 2;
+            padding: 0 0.5rem;
+            margin: 0;
+            border-bottom-width: 1px;
+            grid-gap: 0.5rem;
+            gap: 0.5rem;
+            align-items: center;
+            display: flex;
+            height: 40px;
+            background-color: #6b72800d;
+            border-color: #6b72801a;
+        }
+        #tres-target-app, #tres-ci-app {
+            height: calc(100vh - 40px);
+            border: none;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body>
+<main>
+    <header>
+        <h1>TresCLI</h1>
+    </header>
+    <iframe id="tres-target-app" src="__tres__ci__target__.html"></iframe>
+    <iframe id="tres-ci-app" src="__tres__ci__.html"></iframe>
+</main>
+</body>
+</html>
