@@ -13,7 +13,7 @@ const externals = [
 ]
 
 export default defineBuildConfig({
-  entries: [{ input: 'src/node/cli', name: 'cli' }],
+  entries: [{ input: 'src/node/cli', name: 'node/cli' }],
   clean: true,
   declaration: false,
   externals,

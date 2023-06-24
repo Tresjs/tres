@@ -1,5 +1,3 @@
-import { readFileSync } from 'node:fs'
+import pkg from '../../package.json' assert { type: 'json' }
 
-const { version } = JSON.parse(readFileSync(new URL('../../package.json', import.meta.url)).toString())
-
-export const VERSION = version as string
+export const VERSION = pkg.version as string
