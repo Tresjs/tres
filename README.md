@@ -17,7 +17,7 @@ Official Nuxt module for TresJS. Build 3D scenes as they were Vue components.
 
 - 🤓 Auto-import components and composables from the [TresJS ecosystem](https://github.com/orgs/Tresjs/repositories)
 - `TresCanvas` client only, you don't need to add `.client` to the component name or `<ClientOnly />`
-- Automatically configures vue compiler to support TresJS components, see [why](http://localhost:5174/guide/troubleshooting.html#failed-resolve-component-trescomponent-%F0%9F%A4%94)?
+- Automatically configures vue compiler to support TresJS components, see [why](https://tresjs.org/guide/troubleshooting.html#failed-resolve-component-trescomponent-%F0%9F%A4%94)?
 - All the DX Magic that comes with Nuxt ✨
 
 ## Quick Setup
