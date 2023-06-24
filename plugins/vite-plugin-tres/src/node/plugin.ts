@@ -38,7 +38,6 @@ export function TresPlugin(useSirv = false, options: ResolvedTresOptions = {}) {
 
         // intercepting entry point: `${base}` or `${base}${options.entryPoint ?? 'index.html'}`
         if (url === base || url === entryPoint) {
-          console.log(url, await tresHtmlCIPromise)
           res.setHeader('Content-Type', 'text/html')
           res.statusCode = 200
           res.end(await tresHtmlCIPromise)
@@ -47,7 +46,6 @@ export function TresPlugin(useSirv = false, options: ResolvedTresOptions = {}) {
 
         // intercepting CI entry point: `${base}__tres__ci__/`
         if (url === tresCITarget) {
-          console.log(url, await tresHtmlPromise)
           res.setHeader('Content-Type', 'text/html')
           res.statusCode = 200
           res.end(await tresHtmlPromise)
@@ -56,7 +54,6 @@ export function TresPlugin(useSirv = false, options: ResolvedTresOptions = {}) {
 
         // intercepting CI target: `${base}__tres_ci_target__.html`
         if (url === tresCIEntryPoint) {
-          console.log(url, await tresTargetHtmlPromise)
           res.setHeader('Content-Type', 'text/html')
           res.statusCode = 200
           res.end(await tresTargetHtmlPromise)
