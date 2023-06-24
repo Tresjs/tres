@@ -4,7 +4,7 @@ import { TresCamera, TresObject, useRenderLoop } from '@tresjs/core'
 import { DepthDownsamplingPass, EffectComposer as EffectComposerImpl, NormalPass, RenderPass } from 'postprocessing'
 
 import { useCore } from './useCore'
-import { ShallowRef, provide, shallowRef, watchEffect } from 'vue'
+import { ShallowRef, computed, provide, shallowRef, unref, watchEffect } from 'vue'
 import { isWebGL2Available } from 'three-stdlib'
 import { useWindowSize } from '@vueuse/core'
 import { effectComposerInjectionKey } from './injectionKeys'
@@ -42,8 +42,8 @@ const {
 
 const effectComposer: ShallowRef<EffectComposerImpl | null> = shallowRef(null)
 
-const localScene = scene || state.scene
-const localCamera = camera || state.camera
+const localScene = computed(() => scene || state.scene)
+const localCamera = computed(() => camera || state.camera)
 
 let downSamplingPass = null
 let normalPass = null
@@ -55,7 +55,7 @@ const { width, height } = useWindowSize()
 
 function setNormalPass() {
   if (effectComposer.value) {
-    normalPass = new NormalPass(scene as Scene, camera as TresCamera)
+    normalPass = new NormalPass(localScene.value as Scene, localCamera.value as TresCamera)
     normalPass.enabled = false
     effectComposer.value.addPass(normalPass)
     if (resolutionScale !== undefined && webGL2Available) {
@@ -70,7 +70,7 @@ function setNormalPass() {
 }
 
 watchEffect(() => {
-  if (state.renderer) {
+  if (state.renderer && state.scene && state.camera) {
     state.renderer.setSize(width.value, height.value)
     state.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
     effectComposer.value = new EffectComposerImpl(state.renderer, {
@@ -79,7 +79,7 @@ watchEffect(() => {
       multisampling: multisampling > 0 && webGL2Available ? multisampling : 0,
       frameBufferType,
     })
-    effectComposer.value.addPass(new RenderPass(localScene, localCamera))
+    effectComposer.value.addPass(new RenderPass(localScene.value, localCamera.value))
 
     if (!dissableNormalPass) {
       setNormalPass()
