@@ -39,10 +39,7 @@ yarn add @types/three -D
 ```bash [pnpm]
 pnpm add @types/three -D
 ```
-
 :::
-
-
 
 ## Try it online
 
@@ -51,6 +48,12 @@ We have a brand new [StackBlitz](https://stackblitz.com/) starter to try TresJS 
 ![](/stackblitz-starter.png)
 
 <StackBlitzEmbed projectId="tresjs-basic" />
+
+## Playground
+
+We also have a playground where you can try TresJS online. Check it out [here](https://playground.tresjs.org/).
+
+![](/public/playground.png)
 
 ## Motivation
 

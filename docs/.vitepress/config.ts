@@ -110,6 +110,10 @@ export default defineConfig({
           },
         ],
       },
+      {
+        text: 'Playground',
+        link: 'https://playground.tresjs.org/'
+      }
     ],
     socialLinks: [
       { icon: 'github', link: 'https://github.com/tresjs/tres' },
