@@ -70,7 +70,7 @@ export const TresScene = defineComponent<TresSceneProps>({
     const scene = new THREE.Scene()
 
     const pointerEventHandler = usePointerEventHandler()
-    const { setState } = useTres()
+    const { state, setState } = useTres()
 
     scene.userData[OBJECT_3D_USER_DATA_KEYS.REGISTER_AT_POINTER_EVENT_HANDLER] = pointerEventHandler.registerObject
 
@@ -98,8 +98,8 @@ export const TresScene = defineComponent<TresSceneProps>({
         // eslint-disable-next-line max-len
         logWarning('No camera found. Creating a default perspective camera. To have full control over a camera, please add one to the scene.')
         const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000)
-        camera.position.set(3,3,3)
-        camera.lookAt(0,0,0)
+        camera.position.set(3, 3, 3)
+        camera.lookAt(0, 0, 0)
         pushCamera(camera)
       } else {
 
@@ -114,8 +114,17 @@ export const TresScene = defineComponent<TresSceneProps>({
         pushCamera(props.camera as any)
       }
 
+      const bc = new BroadcastChannel("test_channel");
+
+
       onLoop(() => {
-        if (activeCamera.value && props.disableRender !== true) renderer.value?.render(scene, activeCamera.value)
+        if (activeCamera.value && props.disableRender !== true) {
+          renderer.value?.render(scene, activeCamera.value)
+          bc.postMessage({
+            type: 'tres-state',
+            data: JSON.stringify(scene)
+          });
+        }
       })
     }
 

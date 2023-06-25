@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>TresCI</title>
+    <title>Tres Inspector</title>
     <style>
         html {
             overflow: hidden;
@@ -27,6 +27,7 @@
             display: grid;
             grid-template-columns: 3fr 1fr;
             grid-template-rows: min-content 1fr;
+            justify-items: stretch;
         }
         main header {
             height: 40px;
@@ -47,12 +48,17 @@
             border: none;
             z-index: 1;
         }
+        .logo {
+            height: 10px;
+            margin: 0;
+            padding: 0;
+        }
     </style>
 </head>
 <body>
 <main>
     <header>
-        <h1>TresCLI</h1>
+        <img src="/logo.svg" class="logo" alt="">
     </header>
     <iframe id="tres-target-app" src="__tres__ci__target__.html"></iframe>
     <iframe id="tres-ci-app" src="__tres__ci__.html"></iframe>

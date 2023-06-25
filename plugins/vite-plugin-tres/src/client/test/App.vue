@@ -1,18 +1,72 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { SRGBColorSpace, BasicShadowMap, NoToneMapping } from 'three'
+import { reactive, ref } from 'vue'
+import { TresCanvas, useRenderLoop } from '@tresjs/core'
+import { OrbitControls, useTweakPane} from '@tresjs/cientos'
 
-<template>Lo hemos logrado paco</template>
+const state = reactive({
+  clearColor: '#201919',
+  shadows: true,
+  alpha: false,
 
-<style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
+  shadowMapType: BasicShadowMap,
+  outputColorSpace: SRGBColorSpace,
+  toneMapping: NoToneMapping,
+})
+
+const { pane } = useTweakPane()
+
+const sphereRef = ref()
+
+const { onLoop } = useRenderLoop()
+
+onLoop(({ elapsed }) => {
+  if (!sphereRef.value) return
+  sphereRef.value.position.y += Math.sin(elapsed) * 0.01
+})
+
+function onPointerEnter(ev) {
+  if (ev) {
+    ev.object.material.color.set('#DFFF45')
+  }
 }
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
+
+const bc = new BroadcastChannel("test_channel");
+      bc.postMessage('Hola from test app');
+
+window.postMessage('Hola from test app using psotMessage', '*');
+</script>
+<template>
+  <TresCanvas v-bind="state">
+    <TresPerspectiveCamera :position="[5, 5, 5]" :fov="45" :near="0.1" :far="1000" :look-at="[0, 0, 0]" />
+    <OrbitControls />
+    <TresAmbientLight :intensity="0.5" />
+
+    <TresMesh ref="sphereRef" :position="[0, 4, 0]" cast-shadow @pointer-enter="onPointerEnter">
+      <TresSphereGeometry :args="[2, 32, 32]" />
+      <TresMeshToonMaterial color="cyan" />
+    </TresMesh>
+
+    <TresDirectionalLight :position="[0, 8, 4]" :intensity="0.7" cast-shadow />
+    <TresMesh :rotation="[-Math.PI / 2, 0, 0]" receive-shadow>
+      <TresPlaneGeometry :args="[10, 10, 10, 10]" />
+      <TresMeshToonMaterial />
+    </TresMesh>
+    <TresDirectionalLight :position="[0, 2, 4]" :intensity="1" cast-shadow />
+  </TresCanvas>
+</template>
+
+<style>
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
 }
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
+#app {
+  height: 100%;
+  width: 100%;
 }
+
 </style>

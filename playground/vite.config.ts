@@ -5,9 +5,9 @@ import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import glsl from 'vite-plugin-glsl'
 import UnoCSS from 'unocss/vite'
-import Tres from '../plugins/vite-plugin-tres/src/node/index.ts'
+import Tres from '../plugins/vite-plugin-tres/'
 
-// https://vitejs.dev/config/
+// https://vitejs.dev/config/xw
 export default defineConfig({
   plugins: [
     glsl(),

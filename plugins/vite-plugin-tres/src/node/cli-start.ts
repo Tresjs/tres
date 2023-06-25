@@ -6,6 +6,8 @@ import { VERSION } from './constants'
 import type { TresOptions, ResolvedTresOptions } from './config'
 import { loadConfig } from './config'
 import { TresPlugin } from './plugin'
+import { resolve } from 'pathe'
+import { fileURLToPath } from 'node:url'
 
 export async function startCli(args: string[] = process.argv) {
   const cli = cac('tres-ci')
@@ -37,10 +39,26 @@ async function run(_files: string[] = [], userConfig: TresOptions = {}) {
 
   const resolvedConfig: ResolvedTresOptions = {
     vite,
-    entryPoint,
+    entryPoint: 'tres-ci.html',
   }
 
   config.plugins.unshift(TresPlugin(true, resolvedConfig))
+
+  vite.config = vite.config ?? {
+    server: {
+      port: 5174,
+    },
+  }
+
+  /*   vite.config = vite.config ?? {
+      build: {
+        rollupOptions: {
+          input: {
+            main: resolve((import.meta.url), '../tres-ci.html')
+          }
+        }
+      },
+    } */
 
   const server = await createServer(vite)
 
@@ -48,5 +66,5 @@ async function run(_files: string[] = [], userConfig: TresOptions = {}) {
 
   await server.listen()
 
-  consola.ready('Tres CLI is ready: ', config.server?.port ?? 5173)
+  consola.ready('Tres CLI is ready: ', config.server?.port ?? 5174)
 }

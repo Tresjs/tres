@@ -29,6 +29,8 @@ export function TresPlugin(useSirv = false, options: ResolvedTresOptions = {}) {
       const tresHtmlFile = resolve(fileURLToPath(import.meta.url), '../../client/tres.html')
       const tresTargetHtmlFile = resolve(projectRoot, options.entryPoint ?? 'index.html')
 
+      console.log('tresTargetHtmlFile', tresTargetHtmlFile)
+
       const tresHtmlCIPromise = readFile(tresHtmlCIFile, 'utf-8')
       const tresHtmlPromise = readFile(tresHtmlFile, 'utf-8')
       const tresTargetHtmlPromise = readFile(tresTargetHtmlFile, 'utf-8')
@@ -38,6 +40,13 @@ export function TresPlugin(useSirv = false, options: ResolvedTresOptions = {}) {
 
         // intercepting entry point: `${base}` or `${base}${options.entryPoint ?? 'index.html'}`
         if (url === base || url === entryPoint) {
+          res.setHeader('Content-Type', 'text/html')
+          res.statusCode = 200
+          res.end(await tresHtmlCIPromise)
+          return
+        }
+
+        if (url === `${base}__tres`) {
           res.setHeader('Content-Type', 'text/html')
           res.statusCode = 200
           res.end(await tresHtmlCIPromise)
@@ -66,7 +75,7 @@ export function TresPlugin(useSirv = false, options: ResolvedTresOptions = {}) {
       if (useSirv) {
         server.middlewares.use(
           `${base}__tres_ci__`,
-          sirv(resolve(tresHtmlFile, '..'), {
+          sirv(resolve(tresHtmlCIFile, '..'), {
             single: true,
             dev: true,
           }),
