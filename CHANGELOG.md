@@ -1,5 +1,17 @@
 
 
+## [0.3.0](https://github.com/Tresjs/post-processing/compare/0.2.1...0.3.0) (2023-06-26)
+
+
+### Features
+
+* 23 refactor effects to vue files ([#28](https://github.com/Tresjs/post-processing/issues/28)) ([a84149b](https://github.com/Tresjs/post-processing/commit/a84149b1dad55b8421ede86920183ad428c9ee90))
+
+
+### Bug Fixes
+
+* compute localCamera ([#31](https://github.com/Tresjs/post-processing/issues/31)) ([bff26d7](https://github.com/Tresjs/post-processing/commit/bff26d7458b36362dc936cc6303c491f779de4d2))
+
 ### [0.2.1](https://github.com/Tresjs/post-processing/compare/0.2.0...0.2.1) (2023-06-19)
 
 
