@@ -1,6 +1,7 @@
 :root {
   --vp-home-hero-name-color: #82dbc5;
   --vp-c-brand: #82dbc5;
+  --vp-c-dark: #1f1f1e;
 }
 
 /**
@@ -10,12 +11,15 @@
 :root {
   --vp-button-brand-border: var(--vp-c-brand-light);
   --vp-button-brand-text: var(--vp-c-text-dark-1);
+  --vp-button-brand-text: var(--vp-c-dark);
   --vp-button-brand-bg: var(--vp-c-brand);
   --vp-button-brand-hover-border: var(--vp-c-brand-light);
   --vp-button-brand-hover-text: var(--vp-c-text-dark-1);
+  --vp-button-brand-hover-text: var(--vp-c-dark);
   --vp-button-brand-hover-bg: var(--vp-c-brand-light);
   --vp-button-brand-active-border: var(--vp-c-brand-light);
   --vp-button-brand-active-text: var(--vp-c-text-dark-1);
+  --vp-button-brand-active-text: var(--vp-c-dark);
   --vp-button-brand-active-bg: var(--vp-button-brand-bg);
 
   --vp-button-alt-border: var(--vp-c-gray-light-3);
@@ -27,16 +31,18 @@
   --vp-button-alt-active-border: var(--vp-c-gray-light-3);
   --vp-button-alt-active-text: var(--vp-c-text-light-1);
   --vp-button-alt-active-bg: var(--vp-c-gray-light-3);
+  --vp-button-alt-border: var(--vp-c-border);
+  --vp-button-alt-text: var(--vp-c-neutral);
+  --vp-button-alt-bg: var(--vp-c-mute);
+  --vp-button-alt-hover-border: var(--vp-c-border);
+  --vp-button-alt-hover-text: var(--vp-c-neutral);
+  --vp-button-alt-hover-bg: var(--vp-c-mute-dark);
+  --vp-button-alt-active-border: var(--vp-c-border);
+  --vp-button-alt-active-text: var(--vp-c-neutral);
+  --vp-button-alt-active-bg: var(--vp-c-mute-darker);
 
   --vp-button-sponsor-border: var(--vp-c-gray-light-3);
   --vp-button-sponsor-text: var(--vp-c-text-light-2);
-  --vp-button-sponsor-bg: transparent;
-  --vp-button-sponsor-hover-border: var(--vp-c-sponsor);
-  --vp-button-sponsor-hover-text: var(--vp-c-sponsor);
-  --vp-button-sponsor-hover-bg: transparent;
-  --vp-button-sponsor-active-border: var(--vp-c-sponsor);
-  --vp-button-sponsor-active-text: var(--vp-c-sponsor);
-  --vp-button-sponsor-active-bg: transparent;
 }
 
 .VPSidebar .link.active span {
@@ -49,5 +55,10 @@
 }
 
 .VPButton.medium.brand {
+  color: var(--vp-button-brand-text);
+}
+.VPButton.medium.alt {
+  border-color: var(--vp-button-alt-border);
   color: var(--vp-button-alt-text);
+  background-color: var(--vp-button-alt-bg);
 }
