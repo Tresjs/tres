@@ -101,19 +101,25 @@ export default defineConfig({
       { text: 'API', link: '/api/renderer' },
       /*       { text: 'API', link: '/api/' },
       { text: 'Config', link: '/config/' }, */
-      {
-        text: 'Ecosystem',
+      { text: 'Resources',
         items: [
+          { text: 'Team', link: '/team' },
+          { text: 'Releases', link: 'https://github.com/Tresjs/tres/releases' },
           {
-            text: `Cientos 💛`,
-            link: 'https://cientos.tresjs.org/',
+            text: 'Playground',
+            link: 'https://playground.tresjs.org/'
+          },
+          {
+            text: 'Ecosystem',
+            items: [
+              {
+                text: `Cientos 💛`,
+                link: 'https://cientos.tresjs.org/',
+              },
+            ],
           },
         ],
-      },
-      {
-        text: 'Playground',
-        link: 'https://playground.tresjs.org/'
-      }
+      },  
     ],
     socialLinks: [
       { icon: 'github', link: 'https://github.com/tresjs/tres' },
