@@ -2,6 +2,7 @@
 import { BasicShadowMap, SRGBColorSpace, NoToneMapping } from 'three'
 
 import Stones from './Stones.vue'
+import { BlendFunction } from 'postprocessing';
 
 const gl = {
   clearColor: '#18181B',
@@ -12,13 +13,26 @@ const gl = {
   toneMapping: NoToneMapping,
 }
 
+const bloomParams = reactive({
+  luminanceThreshold: 0.2,
+  luminanceSmoothing: 0.3,
+  mipmapBlur: true,
+  intensity: 0.3,
+  blendFunction: BlendFunction.ADD,
+})
+
 </script>
 
 <template>
   <TresCanvas v-bind="gl">
     <TresPerspectiveCamera :position="[-5.3, 8.3, 10.6]" :look-at="[0, 0, 0]" />
     <OrbitControls />
-    <EffectLayer />
+    <Suspense>
+      <EffectComposer>
+        <Bloom v-bind="bloomParams" />
+      </EffectComposer>
+    </Suspense>
+    <!-- <EffectLayer /> -->
     <Suspense>
       <Stones />
     </Suspense>

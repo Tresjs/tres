@@ -18,17 +18,17 @@
     "@tresjs/cientos": "2.1.4",
     "@tresjs/nuxt": "1.0.0",
     "@types/three": "^0.152.1",
-    "@unocss/nuxt": "^0.53.1",
+    "@unocss/nuxt": "^0.53.4",
     "gsap": "^3.12.1",
-    "nuxt": "^3.5.3",
+    "nuxt": "^3.6.0",
     "nuxt-svgo": "^3.1.0",
     "postprocessing": "^6.32.1",
     "vite-plugin-glsl": "^1.1.2",
     "vite-svg-loader": "^4.0.0"
   },
   "dependencies": {
-    "@tresjs/core": "^2.2.0",
-    "@tresjs/post-processing": "^0.2.1",
+    "@tresjs/core": "^2.3.0",
+    "@tresjs/post-processing": "^0.3.0",
     "three": "^0.153.0"
   }
 }
