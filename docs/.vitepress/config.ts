@@ -16,7 +16,7 @@ export default defineConfig({
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: 'Guide', link: '/guide/' },
-      { text: 'Examples', link: '/examples' },
+      { text: 'Examples', link: 'https://playground.tresjs.org/' },
     ],
 
     sidebar: [
