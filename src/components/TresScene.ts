@@ -64,6 +64,7 @@ export const TresScene = defineComponent<TresSceneProps>({
       logWarning('physicallyCorrectLights is deprecated, useLegacyLights is now false by default')
     }
 
+    // TODO: refactor this when this component is refactored to SFC (single file component)
     const isRenderDisabled = computed(() => props.disableRender !== false && props.disableRender !== undefined)
 
     const container = ref<HTMLElement>()
