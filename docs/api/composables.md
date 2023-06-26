@@ -133,7 +133,7 @@ Then you can bind the textures to the material.
 <template>
   <TresCanvas>
     <TresMesh>
-      <TresMeshSphereGeometry />
+      <TresSphereGeometry />
       <TresMeshStandardMaterial
         :map="map"
         :displacementMap="displacementMap"
