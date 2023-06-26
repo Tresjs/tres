@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { TresCanvas, TresCanvasProps } from '@tresjs/core'
-import { useTweakPane } from '@tresjs/cientos'
+import { KernelSize } from 'postprocessing'
 import { reactive, ref } from 'vue'
-import { EffectComposer, Outline, Glitch } from '@tresjs/post-processing'
-import { BasicShadowMap, NoToneMapping, Object3D, Intersection } from 'three'
-import { BlendFunction, KernelSize } from 'postprocessing'
+import { EffectComposer, Outline } from '@tresjs/post-processing'
+import { TresCanvas, TresCanvasProps } from '@tresjs/core'
+import { OrbitControls, useTweakPane } from '@tresjs/cientos'
+import { NoToneMapping, Object3D, Intersection } from 'three'
 
 const gl: TresCanvasProps = {
   clearColor: '#4ADE80',
@@ -39,8 +39,8 @@ pane.addInput(outlineParameters, 'kernelSize', { min: KernelSize.VERY_SMALL, max
 
 <template>
   <TresCanvas v-bind="gl" disable-render>
-    <TresPerspectiveCamera :position="[3, 3, 3]" :look-at="[2, 2, 2]" />
-
+    <TresPerspectiveCamera :position="[1, 3, 3]" :look-at="[2, 2, 2]" />
+    <OrbitControls />
     <template v-for="i in 5" :key="i">
       <TresMesh @click="toggleMeshSelectionState" :position="[i * 1.1 - 2.8, 1, 0]">
         <TresBoxGeometry :width="4" :height="4" :depth="4" />

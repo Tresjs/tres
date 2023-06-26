@@ -11,6 +11,11 @@ const routes = [
     name: 'Outline',
     component: () => import('./pages/outline.vue'),
   },
+  {
+    path: '/glitch',
+    name: 'Glitch',
+    component: () => import('./pages/glitch.vue'),
+  },
 ]
 
 export const router = createRouter({

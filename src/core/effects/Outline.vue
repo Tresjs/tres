@@ -1,13 +1,13 @@
 <script lang="ts" setup>
-import { Color } from 'three'
 import { useCore } from '../useCore'
+import { normalizeColor } from '@tresjs/core'
 import { EffectPass, OutlineEffect } from 'postprocessing'
+import { effectComposerInjectionKey } from '../injectionKeys'
 import { inject, onUnmounted, shallowRef, watch, watchEffect, computed } from 'vue'
 
 import type { TresColor } from '@tresjs/core'
+import type { Object3D, Texture } from 'three'
 import type { BlendFunction, KernelSize } from 'postprocessing'
-import type { Object3D, ColorRepresentation, Texture } from 'three'
-import { effectComposerInjectionKey } from '../injectionKeys'
 
 export type OutlineProps = {
   /**
@@ -54,17 +54,10 @@ export type OutlineProps = {
 const props = defineProps<OutlineProps>()
 
 const { state } = useCore()
-const composer = inject(effectComposerInjectionKey) // TODO inject type
+
+const composer = inject(effectComposerInjectionKey)
 const pass = shallowRef<EffectPass | null>(null)
 const effect = shallowRef<OutlineEffect | null>(null)
-
-const normalizeColor = (value: Color | Array<number> | string | number | ColorRepresentation) => {
-  //TODO import from core (after exporting it from there first 😊)
-  if (value instanceof Color) return value
-  if (Array.isArray(value)) return new Color(...value)
-
-  return new Color(value as ColorRepresentation)
-}
 
 const colorToNumber = (color: TresColor | undefined) =>
   color !== undefined ? normalizeColor(color).getHex() : undefined

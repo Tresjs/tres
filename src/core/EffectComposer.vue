@@ -4,16 +4,16 @@ import { TresCamera, TresObject, useRenderLoop } from '@tresjs/core'
 import { DepthDownsamplingPass, EffectComposer as EffectComposerImpl, NormalPass, RenderPass } from 'postprocessing'
 
 import { useCore } from './useCore'
-import { ShallowRef, computed, provide, shallowRef, unref, watchEffect } from 'vue'
 import { isWebGL2Available } from 'three-stdlib'
-import { useWindowSize } from '@vueuse/core'
+import { useElementBounding } from '@vueuse/core'
 import { effectComposerInjectionKey } from './injectionKeys'
+import { ShallowRef, computed, provide, shallowRef, watchEffect } from 'vue'
 
 export type EffectComposerProps = {
   enabled?: boolean
   children?: TresObject[]
   depthBuffer?: boolean
-  dissableNormalPass?: boolean
+  disableNormalPass?: boolean
   stencilBuffer?: boolean
   resolutionScale?: number
   /*   renderPriority?: number */
@@ -32,7 +32,7 @@ const {
   autoClear = true,
   multisampling = 8,
   frameBufferType = HalfFloatType,
-  dissableNormalPass = false,
+  disableNormalPass = false,
   depthBuffer,
   stencilBuffer,
   scene,
@@ -51,8 +51,6 @@ const webGL2Available = isWebGL2Available()
 
 provide(effectComposerInjectionKey, effectComposer)
 
-const { width, height } = useWindowSize()
-
 function setNormalPass() {
   if (effectComposer.value) {
     normalPass = new NormalPass(localScene.value as Scene, localCamera.value as TresCamera)
@@ -69,10 +67,16 @@ function setNormalPass() {
   }
 }
 
+const canvas = computed(() => state.canvas?.value) // having a seperate computed makes useElementBounding work
+
+const { width, height } = useElementBounding(canvas)
+
 watchEffect(() => {
-  if (state.renderer && state.scene && state.camera) {
-    state.renderer.setSize(width.value, height.value)
-    state.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+  if (effectComposer.value && width.value && height.value) effectComposer.value.setSize(width.value, height.value)
+})
+
+watchEffect(() => {
+  if (state.renderer && localScene.value && localCamera.value) {
     effectComposer.value = new EffectComposerImpl(state.renderer, {
       depthBuffer,
       stencilBuffer,
@@ -81,7 +85,7 @@ watchEffect(() => {
     })
     effectComposer.value.addPass(new RenderPass(localScene.value, localCamera.value))
 
-    if (!dissableNormalPass) {
+    if (!disableNormalPass) {
       setNormalPass()
     }
   }
@@ -89,14 +93,8 @@ watchEffect(() => {
 
 const { onLoop } = useRenderLoop()
 
-onLoop(() => {
-  if (effectComposer.value) {
-    effectComposer.value.render()
-  }
-})
-
 onLoop(({ delta }) => {
-  if (enabled && state.renderer && effectComposer.value) {
+  if (enabled && state.renderer && effectComposer.value && width.value && height.value) {
     const currentAutoClear = state.renderer.autoClear
     state.renderer.autoClear = autoClear
     if (stencilBuffer && !autoClear) state.renderer.clearStencil()
