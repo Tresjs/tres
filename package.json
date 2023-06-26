@@ -54,7 +54,8 @@
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx,.vue",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
-    "docs:serve": "vitepress serve docs"
+    "docs:serve": "vitepress serve docs",
+    "docs:contributors": "esno scripts/update-contributors.ts"
   },
   "peerDependencies": {
     "three": ">=0.133",
@@ -80,9 +81,11 @@
     "eslint": "^8.43.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-vue": "^9.15.1",
+    "esno": "^0.16.3",
     "gsap": "^3.12.1",
     "jsdom": "^22.1.0",
     "kolorist": "^1.8.0",
+    "ohmyfetch": "^0.4.21",
     "pathe": "^1.1.1",
     "prettier": "^2.8.8",
     "release-it": "^15.11.0",
