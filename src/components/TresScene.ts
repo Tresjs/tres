@@ -1,4 +1,4 @@
-import { App, defineComponent, h, onMounted, onUnmounted, ref, watch } from 'vue'
+import { App, computed, defineComponent, h, onMounted, onUnmounted, ref, watch, watchEffect } from 'vue'
 import * as THREE from 'three'
 import { ColorSpace, ShadowMapType, ToneMapping } from 'three'
 import { createTres } from '../core/renderer'
@@ -64,6 +64,8 @@ export const TresScene = defineComponent<TresSceneProps>({
       logWarning('physicallyCorrectLights is deprecated, useLegacyLights is now false by default')
     }
 
+    const isRenderDisabled = computed(() => props.disableRender !== false && props.disableRender !== undefined)
+
     const container = ref<HTMLElement>()
     const canvas = ref<HTMLElement>()
 
@@ -115,7 +117,7 @@ export const TresScene = defineComponent<TresSceneProps>({
       }
 
       onLoop(() => {
-        if (activeCamera.value && props.disableRender !== true) renderer.value?.render(scene, activeCamera.value)
+        if (activeCamera.value && !isRenderDisabled.value) renderer.value?.render(scene, activeCamera.value)
       })
     }
 
