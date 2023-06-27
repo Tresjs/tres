@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { Camera } from 'three'
+import { Camera, TOUCH } from 'three'
 import { OrbitControls } from 'three-stdlib'
 import { ref, watch, onUnmounted } from 'vue'
 import { TresVector3, useRenderLoop } from '@tresjs/core'
@@ -251,6 +251,7 @@ const {
   enableZoom = true,
   zoomSpeed = 1,
   enableRotate = true,
+  touches = { ONE: TOUCH.ROTATE, TWO: TOUCH.DOLLY_PAN },
   rotateSpeed = 1,
   target = [0, 0, 0],
 } = defineProps<OrbitControlsProps>()
