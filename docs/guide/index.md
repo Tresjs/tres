@@ -41,6 +41,25 @@ pnpm add @types/three -D
 ```
 :::
 
+## Vite
+
+If you are using Vite, you will add the following to your `vite.config.ts`:
+
+```ts
+import { templateCompilerOptions } from '@tresjs/core'
+
+export default defineConfig({
+  plugins: [
+    vue({
+      // Other config
+      ...templateCompilerOptions
+    }),
+  ],
+}),
+```
+
+This is required to make the template compiler work with the custom renderer and not throw warnings on the console. For more info check [here](/guide/troubleshooting.html).
+
 ## Try it online
 
 We have a brand new [StackBlitz](https://stackblitz.com/) starter to try TresJS online. Check it out:
