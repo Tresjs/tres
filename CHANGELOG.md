@@ -1,5 +1,17 @@
 
 
+## [2.4.0](https://github.com/Tresjs/tres/compare/2.3.0...2.4.0) (2023-06-28)
+
+
+### Features
+
+* export vue compiler options for Tres custom renderer ([#324](https://github.com/Tresjs/tres/issues/324)) ([66716d5](https://github.com/Tresjs/tres/commit/66716d523f1ee80b22bb5ee8da95eb1d8235714c))
+
+
+### Bug Fixes
+
+* temporaly cast the `disableRender` prop ([#322](https://github.com/Tresjs/tres/issues/322)) ([9cc63d2](https://github.com/Tresjs/tres/commit/9cc63d2af51f83dad7fe2af70ca8fdc4c0decebb))
+
 ## [2.3.0](https://github.com/Tresjs/tres/compare/2.2.0...2.3.0) (2023-06-22)
 
 

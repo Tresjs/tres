@@ -63,15 +63,13 @@ Got to your `vite.config.ts` and add the following configuration to the `@vitejs
 ```ts
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
+import { templateCompilerOptions } from '@tresjs/core'
 
 export default defineConfig({
   plugins: [
     vue({
-      template: {
-        compilerOptions: {
-          isCustomElement: tag => (tag.startsWith('Tres') && tag !== 'TresCanvas') || tag === 'primitive',
-        },
-      },
+      // Other config
+      ...templateCompilerOptions,
     }),
   ],
 })
