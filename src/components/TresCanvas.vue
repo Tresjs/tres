@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import TresScene from './TresScene.vue'
-import { CameraType, useTresProvider } from '../composables'
-import { ColorSpace, ShadowMapType, ToneMapping } from 'three'
-import { RendererPresetsType } from '../composables/useRenderer/const'
+import { useTresProvider } from '../composables'
 
-export type TresCanvasProps = {
+import type { TresCamera } from '../types/'
+import type { RendererPresetsType } from '../composables/useRenderer/const'
+import type { ColorSpace, ShadowMapType, ToneMapping } from 'three'
+
+export interface TresCanvasProps {
     shadows?: boolean
     shadowMapType?: ShadowMapType
     physicallyCorrectLights?: boolean
@@ -19,17 +21,17 @@ export type TresCanvasProps = {
     windowSize?: boolean
     preset?: RendererPresetsType
     disableRender?: boolean
-    camera?: CameraType
+    camera?: TresCamera
 }
 
-defineProps<TresCanvasProps>()
+const props = defineProps<TresCanvasProps>()
 
 const tres = useTresProvider()
 
 defineExpose(tres)
 </script>
 <template>
-<TresScene v-bind="$props">
-    <slot />
-</TresScene>
+    <TresScene v-bind="props">
+        <slot />
+    </TresScene>
 </template>
