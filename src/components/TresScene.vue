@@ -5,7 +5,6 @@ import { ColorSpace, ShadowMapType, ToneMapping } from 'three'
 import { createTres } from '../core/renderer'
 import { TresCamera } from '../types/'
 import {
-  CameraType,
   TRES_CONTEXT_KEY,
   useLogger,
   useCamera,
@@ -19,7 +18,7 @@ import { type RendererPresetsType } from '../composables/useRenderer/const'
 import { OBJECT_3D_USER_DATA_KEYS } from '../keys'
 
 
-export type TresSceneProps = {
+export interface TresSceneProps {
   shadows?: boolean
   shadowMapType?: ShadowMapType
   physicallyCorrectLights?: boolean
