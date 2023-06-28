@@ -28,7 +28,7 @@ useControls('Box', boxPosition.value)
     <TresPerspectiveCamera :position="[3, 3, 3]" />
     <OrbitControls />
     <Box :position-x="boxPosition[0]">
-      <TresMeshNormalMaterial  />
+      <TresMeshNormalMaterial />
     </Box>
     <TresGridHelper />
     <TresAmbientLight :intensity="1" />

@@ -1,11 +1,12 @@
 import { App } from 'vue'
-import { TresCanvas } from './components/TresCanvas'
+import TresCanvas from './components/TresCanvas.vue'
 export * from './composables'
 export * from './core/catalogue'
 export * from './components'
 export * from './types'
 
 import { normalizeColor, normalizeVectorFlexibleParam } from './utils/normalize'
+import templateCompilerOptions from './utils/template-compiler-options'
 
 export interface TresOptions {
   extends?: Record<string, unknown>
@@ -24,4 +25,4 @@ const plugin: TresPlugin = {
 
 export default plugin
 
-export { normalizeColor, normalizeVectorFlexibleParam }
+export { normalizeColor, normalizeVectorFlexibleParam, templateCompilerOptions }
