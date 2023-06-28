@@ -16,12 +16,31 @@ import { extend } from '../core/catalogue'
 import { OBJECT_3D_USER_DATA_KEYS } from '../keys'
 
 import type { TresCamera } from '../types/'
-import type { TresCanvasProps } from './TresCanvas.vue'
+import type { RendererPresetsType } from '../composables/useRenderer/const'
+import type { ColorSpace, ShadowMapType, ToneMapping } from 'three'
+
+export interface TresSceneProps {
+  shadows?: boolean
+  shadowMapType?: ShadowMapType
+  physicallyCorrectLights?: boolean
+  useLegacyLights?: boolean
+  outputColorSpace?: ColorSpace
+  toneMapping?: ToneMapping
+  toneMappingExposure?: number
+  context?: WebGLRenderingContext
+  powerPreference?: 'high-performance' | 'low-power' | 'default'
+  preserveDrawingBuffer?: boolean
+  clearColor?: string
+  windowSize?: boolean
+  preset?: RendererPresetsType
+  disableRender?: boolean
+  camera?: TresCamera
+}
 
 
 const { logWarning } = useLogger()
 
-const props = withDefaults(defineProps<TresCanvasProps>(), {
+const props = withDefaults(defineProps<TresSceneProps>(), {
   physicallyCorrectLights: false,
 })
 
