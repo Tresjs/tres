@@ -1,3 +1,4 @@
+import { TresCamera } from 'src/types'
 import { useTres } from '../useTres'
 import { PerspectiveCamera, OrthographicCamera } from 'three'
 
@@ -80,12 +81,12 @@ export interface OrthographicCameraOptions {
 }
 
 interface UseCameraReturn {
-  activeCamera: Ref<Camera | undefined>
+  activeCamera: Ref<TresCamera | undefined>
   createCamera: (cameraType?: CameraType, options?: PerspectiveCameraOptions | OrthographicCameraOptions) => Camera
   updateCamera: () => void
-  pushCamera: (camera: Camera) => void
+  pushCamera: (camera: TresCamera) => void
   clearCameras: () => void
-  setFirstCamera: (camera: Camera) => void
+  setFirstCamera: (camera: TresCamera) => void
 }
 
 const VERTICAL_FIELD_OF_VIEW = 45

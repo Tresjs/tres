@@ -1,1 +1,3 @@
-export * from './TresCanvas'
+import TresCanvas from './TresCanvas.vue'
+
+export { TresCanvas }

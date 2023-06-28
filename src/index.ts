@@ -1,5 +1,5 @@
 import { App } from 'vue'
-import { TresCanvas } from './components/TresCanvas'
+import TresCanvas from './components/TresCanvas.vue'
 export * from './composables'
 export * from './core/catalogue'
 export * from './components'
