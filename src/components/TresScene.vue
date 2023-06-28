@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import { App, onMounted, onUnmounted, ref, watch } from 'vue'
 import { PerspectiveCamera, Scene } from 'three'
-import { ColorSpace, ShadowMapType, ToneMapping } from 'three'
+
 import { createTres } from '../core/renderer'
-import { TresCamera } from '../types/'
 import {
   TRES_CONTEXT_KEY,
   useLogger,
@@ -14,9 +13,11 @@ import {
   usePointerEventHandler,
 } from '../composables'
 import { extend } from '../core/catalogue'
-import { type RendererPresetsType } from '../composables/useRenderer/const'
 import { OBJECT_3D_USER_DATA_KEYS } from '../keys'
 
+import type { TresCamera } from '../types/'
+import type { RendererPresetsType } from '../composables/useRenderer/const'
+import type { ColorSpace, ShadowMapType, ToneMapping } from 'three'
 
 export interface TresSceneProps {
   shadows?: boolean
