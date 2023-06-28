@@ -24,7 +24,6 @@ export interface TresCanvasProps {
     camera?: TresCamera
 }
 
-
 const props = defineProps<TresCanvasProps>()
 
 const tres = useTresProvider()
