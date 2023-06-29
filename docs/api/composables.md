@@ -176,7 +176,7 @@ watch(carRef, ({ model }) => {
     const body = seek(car, 'name', 'Octane_Octane_Body_0')
     body.color.set(new Color('blue'))
   }
-)
+})
 ```
 
 ## useTres
