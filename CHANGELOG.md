@@ -1,5 +1,22 @@
 
 
+## [2.2.0](https://github.com/Tresjs/cientos/compare/2.1.4...2.2.0) (2023-06-29)
+
+
+### Features
+
+* keyboard controls ([#68](https://github.com/Tresjs/cientos/issues/68)) ([1b7a624](https://github.com/Tresjs/cientos/commit/1b7a624159db5370c89c9f0fd1f99ed3c6cc6d8a))
+* useProgress composable ([b6f3f33](https://github.com/Tresjs/cientos/commit/b6f3f333caa31234a10c89ad0b5edb61410c2a47))
+
+
+### Bug Fixes
+
+* add playground to examples ([#104](https://github.com/Tresjs/cientos/issues/104)) ([ce442a4](https://github.com/Tresjs/cientos/commit/ce442a44e44d69142f6a0d57c16692a84cf8c915))
+* added default for touches prop ([#100](https://github.com/Tresjs/cientos/issues/100)) ([#111](https://github.com/Tresjs/cientos/issues/111)) ([de6ebab](https://github.com/Tresjs/cientos/commit/de6ebab31c833f0ed4676e531a17572c46478177))
+* **deps:** update dependency @tresjs/core to v2.3.0 ([599f36b](https://github.com/Tresjs/cientos/commit/599f36b0df72a315f45aa485a78256cfce75c329))
+* styles in dark theme, same as in the core ([#105](https://github.com/Tresjs/cientos/issues/105)) ([1a8d0a5](https://github.com/Tresjs/cientos/commit/1a8d0a5b4cb083581c9adfd5dc687f79befc6f8b))
+* useProgress correct export from loaders ([af33533](https://github.com/Tresjs/cientos/commit/af335337569eaa5bb33bbc91298dd5482e354423))
+
 ### [2.1.4](https://github.com/Tresjs/cientos/compare/2.1.2...2.1.4) (2023-06-14)
 
 
