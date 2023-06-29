@@ -9,6 +9,7 @@ const gl = {
   clearColor: '#121212',
   shadows: true,
   alpha: false,
+  disableRender: true,
 }
 </script>
 

@@ -25,7 +25,7 @@ watchOnce(meshes, () => {
 </script>
 
 <template>
-  <TresCanvas clear-color="#121212" :alpha="false" shadows disable-render>
+  <TresCanvas clear-color="#121212" :alpha="false" :shadows="true" :disable-render="true">
     <TresPerspectiveCamera :position="[3, 3, 4]" :look-at="[0, 0, 0]" />
     <TresMesh
       ref="meshes"

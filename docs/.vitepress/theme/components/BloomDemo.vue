@@ -18,6 +18,7 @@ const bloomParams = reactive({
   mipmapBlur: true,
   intensity: 8,
   radius: 0.5,
+  disableRender: true,
 })
 </script>
 

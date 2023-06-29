@@ -48,7 +48,7 @@ pane.addInput(glitchParams, 'dtSize', { min: 1, max: 64, step: 1 })
 </script>
 
 <template>
-  <TresCanvas v-bind="gl" disable-render>
+  <TresCanvas v-bind="gl" :disable-render="true">
     <TresPerspectiveCamera :position="[5, 5, 5]" :look-at="[0, 0, 0]" />
     <OrbitControls />
     <TresMesh>

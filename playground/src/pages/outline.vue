@@ -9,6 +9,7 @@ import { NoToneMapping, Object3D, Intersection } from 'three'
 const gl: TresCanvasProps = {
   clearColor: '#4ADE80',
   toneMapping: NoToneMapping,
+  disableRender: true,
 }
 
 const outlinedObjects = ref<Object3D[]>([])
@@ -21,16 +22,16 @@ const toggleMeshSelectionState = ({ object }: Intersection) => {
 
 const outlineParameters = reactive({
   pulseSpeed: 0,
-  edgeStrength: 40,
+  edgeStrength: 2000,
   visibleEdgeColor: '#ffffff',
   multisampling: 4,
   kernelSize: 3,
-  blur: true,
+  blur: false,
 })
 
 const { pane } = useTweakPane()
 
-pane.addInput(outlineParameters, 'edgeStrength', { min: 0, max: 100 })
+pane.addInput(outlineParameters, 'edgeStrength', { min: 0, max: 3000 })
 pane.addInput(outlineParameters, 'pulseSpeed', { min: 0, max: 2 })
 pane.addInput(outlineParameters, 'visibleEdgeColor')
 pane.addInput(outlineParameters, 'blur')
@@ -38,7 +39,7 @@ pane.addInput(outlineParameters, 'kernelSize', { min: KernelSize.VERY_SMALL, max
 </script>
 
 <template>
-  <TresCanvas v-bind="gl" disable-render>
+  <TresCanvas v-bind="gl" :disable-render="true">
     <TresPerspectiveCamera :position="[1, 3, 3]" :look-at="[2, 2, 2]" />
     <OrbitControls />
     <template v-for="i in 5" :key="i">
@@ -52,7 +53,6 @@ pane.addInput(outlineParameters, 'kernelSize', { min: KernelSize.VERY_SMALL, max
     <TresAmbientLight :intensity="1" />
     <Suspense>
       <EffectComposer>
-        <!-- <Glitch /> -->
         <Outline :outlined-objects="outlinedObjects" v-bind="outlineParameters" />
       </EffectComposer>
     </Suspense>
