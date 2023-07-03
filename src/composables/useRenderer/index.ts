@@ -243,7 +243,11 @@ export function useRenderer(canvas: Ref<HTMLCanvasElement>, tres: TresState, opt
     pause()
   }
 
-  watch([sizes.aspectRatio, pixelRatio], updateRendererSize, { immediate: true })
+  watchEffect(() => {
+    if (sizes.aspectRatio?.value || pixelRatio?.value) {
+      updateRendererSize()
+    }
+  })
 
   watch(
     [shadows, shadowMapType, outputColorSpace, useLegacyLights, toneMapping, toneMappingExposure, clearColor],

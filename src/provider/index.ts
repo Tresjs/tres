@@ -5,7 +5,6 @@ import { TresCamera } from '../types';
 import { useCamera, useLogger } from '../composables';
 import { toValue, useElementSize, useWindowSize } from '@vueuse/core';
 
-
 export type TresState = {
   scene: Readonly<ShallowRef<Scene>>;
   cameras: Readonly<ShallowRef<TresCamera[]>>;
