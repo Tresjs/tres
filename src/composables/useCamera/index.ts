@@ -28,7 +28,7 @@ export function useCamera(sizes) {
   }
 
   watchEffect(() => {
-    if (sizes.aspectRatio.value) {
+    if (sizes.aspectRatio?.value) {
       console.log('camera watcher aspectRatio', sizes.aspectRatio.value)
       cameras.value.forEach((camera: TresCamera) => {
         if (camera instanceof PerspectiveCamera) {

@@ -24,22 +24,26 @@ export function useTresContextProvider(scene: Scene, canvas: Ref<HTMLCanvasEleme
   if (!scene) {
     logError('A scene most be provided to the TresProvider');
   }
-  let { width, height } =
-    toValue(props.windowSize) == true || toValue(props.windowSize) === '' || toValue(props.windowSize) === 'true' || canvas.value === undefined
-      ? useWindowSize()
-      : useElementSize(canvas.value?.parentElement)
+  let width = 0
+  let height = 0
+  let aspectRatio = null
 
   watchEffect(() => {
     if (canvas.value) {
-      width = useElementSize(canvas.value?.parentElement).width
-      height = useElementSize(canvas.value?.parentElement).height
+      const newSize = toValue(props.windowSize) == true || toValue(props.windowSize) === '' || toValue(props.windowSize) === 'true' || canvas.value === undefined
+        ? useWindowSize()
+        : useElementSize(canvas.value?.parentElement)
+      console.log('newSize', newSize)
+      width = newSize.width
+      height = newSize.height
+      aspectRatio = computed(() => width.value / height.value)
     }
   })
 
   const sizes = {
     height,
     width,
-    aspectRatio: computed(() => width.value / height.value)
+    aspectRatio
   }
   const localScene = shallowRef<Scene>(scene);
   const { camera, cameras, addCamera, setCameraToActive } = useCamera(sizes);

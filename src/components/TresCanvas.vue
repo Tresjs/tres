@@ -38,19 +38,32 @@ const props = defineProps<TresCanvasProps>()
 const { logWarning } = useLogger()
 
 // Template Refs
-const canvas = ref<HTMLElement>()
+const canvas = ref<HTMLCanvasElement>()
 const scene = shallowRef(new Scene())
-const tres = useTresContextProvider(scene.value, canvas, props)
-defineExpose(tres)
-
-
 
 // Canvas & Camera
 
 const { onLoop } = useRenderLoop()
-const { addCamera, camera: activeCamera, clearCameras } = tres
 
+const slots = defineSlots<{
+  default(): any
+}>()
 function initRenderer() {
+
+  const tres = useTresContextProvider(scene.value, canvas, props)
+  const { addCamera, camera: activeCamera, clearCameras } = tres
+  // Custom Renderer 
+  let app: App
+
+  function mountApp() {
+    app = createTres(slots)
+    app.provide('useTres', tres)
+    app.provide('extend', extend)
+    app.mount(scene.value)
+    setCamera()
+  }
+  mountApp()
+
   const { renderer } = useRenderer(canvas as Ref<HTMLCanvasElement>, tres, props)
 
   if (props.camera) {
@@ -60,32 +73,32 @@ function initRenderer() {
   onLoop(() => {
     if (activeCamera.value && props.disableRender !== true) renderer.value?.render(scene.value, activeCamera.value)
   })
-}
 
-function setCamera() {
-  const camera = scene.value.getObjectByProperty('isCamera', true)
+  function setCamera() {
+    const camera = scene.value.getObjectByProperty('isCamera', true)
 
-  if (!camera) {
-    // eslint-disable-next-line max-len
-    logWarning('No camera found. Creating a default perspective camera. To have full control over a camera, please add one to the scene.')
-    const camera = new PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000)
-    camera.position.set(3, 3, 3)
-    camera.lookAt(0, 0, 0)
-    addCamera(camera)
-  } else {
-    addCamera(camera as TresCamera)
+    if (!camera) {
+      // eslint-disable-next-line max-len
+      logWarning('No camera found. Creating a default perspective camera. To have full control over a camera, please add one to the scene.')
+      const camera = new PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000)
+      camera.position.set(3, 3, 3)
+      camera.lookAt(0, 0, 0)
+      addCamera(camera)
+    } else {
+      addCamera(camera as TresCamera)
+    }
+
+    watch(
+      () => props.camera,
+      camera => {
+        if (camera) {
+          clearCameras()
+          addCamera(camera)
+        }
+      },
+    )
   }
 }
-
-watch(
-  () => props.camera,
-  camera => {
-    if (camera) {
-      clearCameras()
-      addCamera(camera)
-    }
-  },
-)
 
 // Renderer
 
@@ -96,22 +109,6 @@ onMounted(() => {
 onUnmounted(() => {
   /*  setState('renderer', null) */
 })
-
-// Custom Renderer 
-let app: App
-
-const slots = defineSlots<{
-  default(): any
-}>()
-
-function mountApp() {
-  app = createTres(slots)
-  app.provide('useTres', tres)
-  app.provide('extend', extend)
-  app.mount(scene.value)
-  setCamera()
-}
-mountApp()
 
 </script>
 <template>
