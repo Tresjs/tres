@@ -1,5 +1,6 @@
-import { extend } from '/@/core/catalogue'
 import { presetUno, presetIcons, presetTypography, presetWebFonts } from 'unocss'
+import svgLoader from 'vite-svg-loader'
+
 import glsl from 'vite-plugin-glsl'
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
@@ -15,13 +16,8 @@ export default defineNuxtConfig({
       ],
     },
   },
-  modules: ['@unocss/nuxt', 'nuxt-svgo', '@nuxt/content', '@nuxt/image-edge'],
+  modules: ['@tresjs/nuxt', '@unocss/nuxt', 'nuxt-svgo', '@nuxt/content', '@nuxt/image-edge'],
   css: ['@unocss/reset/tailwind-compat.css'],
-  vue: {
-    compilerOptions: {
-      isCustomElement: tag => tag.startsWith('Tres') && tag !== 'TresCanvas',
-    },
-  },
   unocss: {
     // presets
     theme: {
@@ -103,6 +99,9 @@ export default defineNuxtConfig({
     },
   },
   vite: {
-    plugins: [glsl()],
+    plugins: [glsl(), svgLoader()],
   },
+  build: {
+    transpile: ['fsevents', 'postprocessing'],
+  }
 })

@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { useGLTF, Levioso } from '@tresjs/cientos'
-
 const { nodes } = await useGLTF('/models/potions-classroom/wizard-potions-classroom.glb', {
   draco: true,
 })

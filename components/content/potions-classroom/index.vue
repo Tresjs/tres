@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import { TresCanvas } from '@tresjs/core'
 import { BasicShadowMap, DefaultLoadingManager } from 'three'
-import { useTweakPane } from '@tresjs/cientos'
 
 const gl = reactive({
   clearColor: '#242424',

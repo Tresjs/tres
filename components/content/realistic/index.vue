@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { TresCanvas } from '@tresjs/core'
-import { OrbitControls, Environment } from '@tresjs/cientos'
 import { DefaultLoadingManager } from 'three'
 const environmentFiles = ['/px.jpg', '/nx.jpg', '/py.jpg', '/ny.jpg', '/pz.jpg', '/nz.jpg']
 

@@ -1,8 +1,5 @@
 <script setup lang="ts">
-import { TresCanvas, TresInstance, useTexture } from '@tresjs/core'
 import { BasicShadowMap, SRGBColorSpace, NoToneMapping, Color } from 'three'
-
-import { OrbitControls, useTweakPane, GLTFModel, Plane } from '@tresjs/cientos'
 
 const gl = {
   clearColor: '#030303',
@@ -13,10 +10,10 @@ const gl = {
   toneMapping: NoToneMapping,
 }
 
-const venomSnake = shallowRef<TresInstance>()
-const directionalLightRef = shallowRef<TresInstance>()
-const ambientLightRef = shallowRef<TresInstance>()
-const directionalLightHelperRef = shallowRef<TresInstance>()
+const venomSnake = shallowRef<TresObject>()
+const directionalLightRef = shallowRef<TresObject>()
+const ambientLightRef = shallowRef<TresObject>()
+const directionalLightHelperRef = shallowRef<TresObject>()
 
 const ambientLightState = shallowReactive({
   color: '#ffffff',

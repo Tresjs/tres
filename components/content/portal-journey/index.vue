@@ -1,7 +1,5 @@
 <script setup lang="ts">
 import { BasicShadowMap, SRGBColorSpace, NoToneMapping } from 'three'
-import { TresCanvas } from '@tresjs/core'
-import { OrbitControls } from '@tresjs/cientos'
 import ThePortal from './ThePortal.vue'
 import TheFireFlies from './TheFireFlies.vue'
 

@@ -1,7 +1,4 @@
 <script setup lang="ts">
-import { useGLTF, useTweakPane } from '@tresjs/cientos'
-import { useRenderLoop } from '@tresjs/core'
-
 import { DoubleSide, MeshBasicMaterial, Texture } from 'three'
 
 const props = defineProps<{

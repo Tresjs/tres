@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { useTexture } from '@tresjs/core'
-
 const tableTexture = await useTexture(['/models/potions-classroom/table.png'])
 
 const roomTexture = await useTexture(['/models/potions-classroom/room.png'])

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { TresCanvas } from '@tresjs/core'
 const gl = {
   shadows: true,
   alpha: false,

@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { useGLTF, useTweakPane } from '@tresjs/cientos'
-import { useRenderLoop } from '@tresjs/core'
 import { shallowRef, watch } from 'vue'
 import Airplane from './Airplane.vue'
 import Cloud from './Cloud.vue'
