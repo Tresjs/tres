@@ -1,20 +1,20 @@
 ---
-thumbnail: /multi-camera.png
-title: Multi-cameras
-slug: multi-camera
+thumbnail: /array-cameras.png
+title: Array of cameras
+slug: array-cameras
 author: jaime-bboyjt
 description: An advance technique using ArrayCamera with a model animation
-tags: ['array-camera', 'useGltf', 'useRenderLoop']
+tags: ['array-camera', 'useGltf', 'useRenderLoop', 'useProgress']
 ---
 
-::multi-camera-demo
+::array-cameras
 ::
 
 ::the-info
 
-![Multi-camera](/multi-camera.png)
+![array-cameras](/array-cameras.png)
 
-# Multi Camera
+# Array Camera
 
 Author: [@**jaimebboyjt**](https://twitter.com/jaimebboyjt).
 
@@ -24,8 +24,8 @@ Author: [@**jaimebboyjt**](https://twitter.com/jaimebboyjt).
 // App.vue
 <script setup>
 import { computed } from 'vue'
-import { TresCanvas, useRenderLoop } from '@tresjs/core'
-import { useAnimations, useGLTF, useTweakPane } from '@tresjs/cientos'
+import { TresCanvas } from '@tresjs/core'
+import { useProgress } from '@tresjs/cientos'
 import { PerspectiveCamera, Vector4, Vector3 } from 'three'
 import { useWindowSize } from '@vueuse/core'
 
@@ -36,8 +36,6 @@ const ASPECT_RATIO = computed(() => width.value / height.value)
 
 const cameras = []
 
-// This is the tricky part, we define some properties for each cameras like viewPort
-// More info here https://threejs.org/docs/index.html?q=array#api/en/cameras/ArrayCamera
 const cameraOptions = [
   {
     viewPort: new Vector4(Math.floor(0), Math.floor(0), Math.ceil(WIDTH * 2), Math.ceil(HEIGHT * 2)),
@@ -76,10 +74,44 @@ cameraOptions.forEach(data => {
   cameras.push(currentCam)
 })
 
+const { hasFinishLoading, progress, items } = await useProgress()
+</script>
+<template>
+  <Transition
+    name="fade-overlay"
+    enter-active-class="opacity-1 transition-opacity duration-200"
+    leave-active-class="opacity-0 transition-opacity duration-200"
+  >
+    <div
+      v-show="!hasFinishLoading"
+      class="absolute bg-grey-600 t-0 l-0 w-full h-full z-20 flex justify-center items-center text-black font-mono"
+    >
+      <div class="w-200px">Loading... {{ progress }} %</div>
+    </div>
+  </Transition>
+  <TresCanvas window-size clear-color="#82DBC5" class="over-hidden">
+    <TresArrayCamera :args="[cameras]" :position="[0, 2, 5]" />
+    <Suspense>
+      <model />
+    </Suspense>
+    <TresAmbientLight :color="0xffffff" :intensity="1" />
+    <TresSpotLight :color="0xffffff" :intensity="100" :position="[0, 0, 5]" />
+    <TresDirectionalLight :color="0xffffff" :intensity="5" />
+    <TresHemisphereLight />
+  </TresCanvas>
+</template>
+```
+
+```vue
+// model.vue
+<script setup lang="ts">
+import { useRenderLoop } from '@tresjs/core'
+import { useAnimations, useGLTF, useTweakPane } from '@tresjs/cientos'
+
 const { scene: model, animations } = await useGLTF(
   'https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/warcraft-3-alliance-footmanfanmade/source/Footman_RIG.glb',
 )
-// with the useAnimations of we have all the necessary to declare the mixer
+console.log('jaime ~ model:', model)
 const { actions, mixer } = useAnimations(animations, model)
 
 let currentAction = actions.Idle
@@ -88,7 +120,6 @@ currentAction.play()
 
 const { pane } = useTweakPane()
 
-// Here we define the animations available in the model
 const animationList = pane.addBlade({
   view: 'list',
   label: 'Animations',
@@ -122,18 +153,9 @@ onLoop(() => {
 })
 </script>
 <template>
-  <TresCanvas window-size clear-color="#82DBC5" class="over-hidden">
-    <!-- We define the arrayCameras -->
-    <TresArrayCamera :args="[cameras]" :position="[0, 2, 5]" />
-    <Suspense>
-      <!-- You can see here is just one model -->
-      <primitive :object="model" />
-    </Suspense>
-    <TresAmbientLight :color="0xffffff" :intensity="1" />
-    <TresSpotLight :color="0xffffff" :intensity="100" :position="[0, 0, 5]" />
-    <TresDirectionalLight :color="0xffffff" :intensity="5" />
-    <TresHemisphereLight />
-  </TresCanvas>
+  <Suspense>
+    <primitive :object="model" />
+  </Suspense>
 </template>
 ```
 
