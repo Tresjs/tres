@@ -1,20 +1,8 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
 import { BasicShadowMap, SRGBColorSpace, NoToneMapping } from 'three'
 
 import { TresCanvas } from '@tresjs/core'
 import { OrbitControls } from '@tresjs/cientos'
-const LightRef = ref()
-
-onMounted(() => {
-  LightRef.value.shadow.mapSize.set(1024, 1024)
-  LightRef.value.shadow.camera.near = 0.5
-  LightRef.value.shadow.camera.far = 2000
-  LightRef.value.shadow.camera.left = -10
-  LightRef.value.shadow.camera.right = 10
-  LightRef.value.shadow.camera.top = 10
-  LightRef.value.shadow.camera.bottom = -10
-})
 
 const gl = {
   clearColor: '#82DBC5',
