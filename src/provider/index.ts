@@ -24,21 +24,10 @@ export function useTresContextProvider(scene: Scene, canvas: Ref<HTMLCanvasEleme
   if (!scene) {
     logError('A scene most be provided to the TresProvider');
   }
-  let width = 0
-  let height = 0
-  let aspectRatio = null
-
-  watchEffect(() => {
-    if (canvas.value) {
-      const newSize = toValue(props.windowSize) == true || toValue(props.windowSize) === '' || toValue(props.windowSize) === 'true' || canvas.value === undefined
-        ? useWindowSize()
-        : useElementSize(canvas.value?.parentElement)
-      console.log('newSize', newSize)
-      width = newSize.width
-      height = newSize.height
-      aspectRatio = computed(() => width.value / height.value)
-    }
-  })
+  const { width, height } = toValue(props.windowSize) == true || toValue(props.windowSize) === '' || toValue(props.windowSize) === 'true' || canvas.value === undefined
+    ? useWindowSize()
+    : useElementSize(canvas.value?.parentElement)
+  const aspectRatio = computed(() => width.value / height.value)
 
   const sizes = {
     height,
