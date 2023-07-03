@@ -1,4 +1,4 @@
-export * from './useCamera'
+export * from './useCamera/'
 export * from './useRenderLoop/'
 export * from './useRenderer/'
 export * from './useLoader'

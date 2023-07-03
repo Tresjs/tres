@@ -7,9 +7,9 @@ const routes = [
         component: () => import('./pages/index.vue'),
     },
     {
-        path: '/shapes',
-        name: 'Shapes',
-        component: () => import('./pages/shapes.vue'),
+        path: '/multiple',
+        name: 'Multiple',
+        component: () => import('./pages/multiple.vue'),
     },
 ]
 export const router = createRouter({

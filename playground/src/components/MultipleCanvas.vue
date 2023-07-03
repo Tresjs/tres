@@ -27,7 +27,6 @@ const state2 = reactive({
     <div class="w-1/2 aspect-video">
       <TresCanvas v-bind="state">
         <TresPerspectiveCamera :position="[5, 5, 5]" :fov="45" :near="0.1" :far="1000" :look-at="[0, 4, 0]" />
-        <OrbitControls />
 
         <TresAmbientLight :intensity="0.5" />
         <TresMesh :position="[0, 4, 0]">
@@ -50,13 +49,9 @@ const state2 = reactive({
           <TresSphereGeometry :args="[2, 32, 32]" />
           <TresMeshToonMaterial color="yellow" />
         </TresMesh>
-        <OrbitControls />
 
         <Suspense>
-          <GLTFModel
-            path="https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/aku-aku/AkuAku.gltf"
-            draco
-          />
+          <GLTFModel path="https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/aku-aku/AkuAku.gltf" draco />
         </Suspense>
 
         <TresDirectionalLight :position="[0, 2, 4]" :intensity="1" cast-shadow />

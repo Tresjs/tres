@@ -1,7 +1,7 @@
 import { Clock, EventDispatcher, Raycaster, Scene, Vector2, WebGLRenderer } from 'three'
 import { generateUUID } from 'three/src/math/MathUtils'
 import { ComputedRef, inject, provide, Ref, shallowReactive, toRefs } from 'vue'
-import { Camera } from '../useCamera'
+import { Camera } from '../useCamera/old'
 import type { usePointerEventHandler } from '../usePointerEventHandler'
 
 export interface TresState {

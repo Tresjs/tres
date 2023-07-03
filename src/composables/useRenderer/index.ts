@@ -1,12 +1,10 @@
 /* eslint-disable max-len */
-import { watch, ref, shallowRef, computed, toRefs } from 'vue'
+import { watch, ref, shallowRef, computed, toRefs, Ref, watchEffect } from 'vue'
 import {
   MaybeRefOrGetter,
   toValue,
   unrefElement,
   useDevicePixelRatio,
-  useElementSize,
-  useWindowSize,
 } from '@vueuse/core'
 import {
   WebGLRendererParameters,
@@ -20,12 +18,13 @@ import {
 } from 'three'
 import type { ToneMapping } from 'three'
 import { useRenderLoop } from '../useRenderLoop'
-import { useTres } from '../useTres'
+/* import { useTres } from '../useTres' */
 import { normalizeColor } from '../../utils/normalize'
 import { TresColor } from '../../types'
 import { rendererPresets, RendererPresetsType } from './const'
 import { merge } from '../../utils'
 import { useLogger } from '../useLogger'
+import { TresState } from '../../provider'
 
 export interface UseRendererOptions extends WebGLRendererParameters {
   /**
@@ -120,7 +119,7 @@ export interface UseRendererOptions extends WebGLRendererParameters {
  * @param canvas
  * @param {UseRendererOptions} [options]
  */
-export function useRenderer(options: UseRendererOptions) {
+export function useRenderer(canvas: Ref<HTMLCanvasElement>, tres: TresState, options: UseRendererOptions) {
   const renderer = shallowRef<WebGLRenderer>()
   const isReady = ref(false)
   // Defaults
@@ -147,30 +146,29 @@ export function useRenderer(options: UseRendererOptions) {
     preset = undefined,
   } = toRefs(options)
 
-  const { state, setState } = useTres()
+  const { cameras, setRenderer, sizes, } = tres
 
-  const { width, height } =
-    toValue(windowSize) == true || toValue(windowSize) === '' || toValue(windowSize) === 'true'
-      ? useWindowSize()
-      : useElementSize(state.container)
+
+
+  /*   const width = computed(() => canvas.value)
+    const height = computed(() => canvas.value.offsetHeight) */
   const { logError, logWarning } = useLogger()
   const { pixelRatio } = useDevicePixelRatio()
   const { pause, resume } = useRenderLoop()
-  const aspectRatio = computed(() => width.value / height.value)
 
-  setTimeout(() => {
-    if (!toValue(windowSize) && !state.canvas?.value.offsetHeight) {
-      logWarning(`Oops... Seems like your canvas height is currently 0px, it's posible that you couldn't watch your scene.
-  You could set windowSize=true to force the canvas to be the size of the window.`)
-    }
-  }, 1000)
+  /*   setTimeout(() => {
+      if (!toValue(windowSize) && canvas.value.offsetHeight) {
+        logWarning(`Oops... Seems like your canvas height is currently 0px, it's posible that you couldn't watch your scene.
+    You could set windowSize=true to force the canvas to be the size of the window.`)
+      }
+    }, 1000) */
 
   const updateRendererSize = () => {
     if (!renderer.value) {
       return
     }
 
-    renderer.value.setSize(width.value, height.value)
+    renderer.value.setSize(sizes.width.value, sizes.height.value)
     renderer.value.setPixelRatio(Math.min(pixelRatio.value, 2))
   }
 
@@ -202,8 +200,8 @@ export function useRenderer(options: UseRendererOptions) {
   }
 
   const init = () => {
-    const _canvas = unrefElement(state.canvas)
-
+    const _canvas = unrefElement(canvas)
+    console.count('init renderer')
     if (!_canvas) {
       return
     }
@@ -223,9 +221,9 @@ export function useRenderer(options: UseRendererOptions) {
       premultipliedAlpha: toValue(premultipliedAlpha),
     })
 
-    setState('renderer', renderer.value)
-    setState('clock', new Clock())
-    setState('aspectRatio', aspectRatio)
+    setRenderer(renderer.value)
+    /*     setState('clock', new Clock())
+        setState('aspectRatio', aspectRatio) */
     updateRendererOptions()
     updateRendererSize()
     resume()
@@ -245,7 +243,7 @@ export function useRenderer(options: UseRendererOptions) {
     pause()
   }
 
-  watch([aspectRatio, pixelRatio], updateRendererSize)
+  watch([sizes.aspectRatio, pixelRatio], updateRendererSize, { immediate: true })
 
   watch(
     [shadows, shadowMapType, outputColorSpace, useLegacyLights, toneMapping, toneMappingExposure, clearColor],
@@ -253,9 +251,9 @@ export function useRenderer(options: UseRendererOptions) {
   )
 
   watch(
-    () => [state.canvas, state.container],
+    canvas,
     () => {
-      if (unrefElement(state.canvas) && unrefElement(state.container)) {
+      if (unrefElement(canvas)) {
         init()
       }
     },
@@ -270,7 +268,6 @@ export function useRenderer(options: UseRendererOptions) {
     renderer,
     isReady,
     dispose,
-    aspectRatio,
   }
 }
 
