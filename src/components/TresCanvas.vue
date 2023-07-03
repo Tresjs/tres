@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import TresScene from './TresScene.vue'
+import Scene from './TresScene.vue'
 import { useTresProvider } from '../composables'
 
 import type { TresCamera } from '../types/'
@@ -31,7 +31,7 @@ const tres = useTresProvider()
 defineExpose(tres)
 </script>
 <template>
-    <TresScene v-bind="props">
+    <Scene v-bind="props">
         <slot />
-    </TresScene>
+    </Scene>
 </template>
