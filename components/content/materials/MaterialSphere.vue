@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { useTweakPane } from '@tresjs/cientos'
 import {
   Color,
   MeshBasicMaterial,

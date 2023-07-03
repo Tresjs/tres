@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import { TresCanvas, useRenderLoop, useTexture } from '@tresjs/core'
-import { BasicShadowMap, sRGBEncoding, NoToneMapping } from 'three'
+import { BasicShadowMap, SRGBColorSpace, NoToneMapping } from 'three'
 import { useWindowSize } from '@vueuse/core'
-import { ChromaticAberrationEffect, EffectComposer, EffectPass, RenderPass } from 'postprocessing/module'
+import { EffectComposer, RenderPass } from 'postprocessing'
 
-import { OrbitControls, Text3D, Torus, useTweakPane } from '@tresjs/cientos'
+import { OrbitControls, Text3D, Torus } from '@tresjs/cientos'
 
 /* const pane = useTweakPane() */
 
@@ -13,7 +12,7 @@ const gl = {
   shadows: true,
   alpha: false,
   shadowMapType: BasicShadowMap,
-  outputEncoding: sRGBEncoding,
+  outputColorSpace: SRGBColorSpace,
   toneMapping: NoToneMapping,
 }
 
@@ -50,39 +49,18 @@ watchEffect(() => {
   }
 })
 
-const context = ref(null)
 
-const { width, height } = useWindowSize()
-
-let effectComposer
-let activePass
-
-watchEffect(() => {
-  if (context.value) {
-    context.value.renderer.setSize(width.value, height.value)
-    context.value.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
-    effectComposer = new EffectComposer(context.value.renderer)
-    effectComposer.addPass(new RenderPass(context.value.scene, context.value.camera))
-    /* effectComposer.addPass(new EffectPass(context.value.camera, new ChromaticAberrationEffect())) */
-
-    onLoop(() => {
-      effectComposer.render()
-    })
-  }
-})
 </script>
 
 <template>
   <TresCanvas v-bind="gl" ref="context">
     <TresPerspectiveCamera ref="camera" :position="[6, 5, 5]" :focus="100" />
     <OrbitControls make-default />
-
-    <!-- <OrbitControls /> -->
     <Suspense>
       <Text3D
         font="https://raw.githubusercontent.com/Tresjs/assets/main/fonts/FiraCodeRegular.json"
         center
-        :text="'2.0.0-beta'"
+        :text="'TresJS'"
         :size="1"
         :height="0.2"
         :curveSegments="12"

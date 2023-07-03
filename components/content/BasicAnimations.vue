@@ -1,8 +1,6 @@
 <script setup lang="ts">
-import { TresCanvas, TresInstance, useRenderLoop } from '@tresjs/core'
-import { BasicShadowMap, sRGBEncoding, NoToneMapping } from 'three'
+import { BasicShadowMap, SRGBColorSpace, NoToneMapping } from 'three'
 
-import { OrbitControls } from '@tresjs/cientos'
 import { ShallowRef } from 'vue'
 
 const gl = {
@@ -10,11 +8,11 @@ const gl = {
   shadows: true,
   alpha: false,
   shadowMapType: BasicShadowMap,
-  outputEncoding: sRGBEncoding,
+  outputColorSpace: SRGBColorSpace,
   toneMapping: NoToneMapping,
 }
 
-const boxRef: ShallowRef<TresInstance | null> = shallowRef(null)
+const boxRef: ShallowRef<THREE.Mesh | null> = shallowRef(null)
 
 const { onLoop } = useRenderLoop()
 

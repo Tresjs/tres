@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import { sRGBEncoding, DoubleSide, MeshBasicMaterial, ShaderMaterial, Color, Mesh } from 'three'
-import { useRenderLoop, useTexture } from '@tresjs/core'
-import { useGLTF, useTweakPane } from '@tresjs/cientos'
+import { SRGBColorSpace, DoubleSide, MeshBasicMaterial, ShaderMaterial, Color, Mesh } from 'three'
 
 import PortalVertex from './shaders/portal/vertex.glsl'
 import PortalFragment from './shaders/portal/fragment.glsl'
@@ -47,7 +45,7 @@ const bakedTexture = await useTexture([
 ])
 
 bakedTexture.flipY = false
-bakedTexture.encoding = sRGBEncoding
+bakedTexture.encoding = SRGBColorSpace
 
 // Baked material
 const bakedMaterial = new MeshBasicMaterial({

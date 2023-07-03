@@ -1,11 +1,6 @@
 <script setup>
-import { shallowRef, reactive } from 'vue'
-import { OrbitControls, useTweakPane } from '@tresjs/cientos'
-import { useTexture, TresCanvas } from '@tresjs/core'
 import { EquirectangularReflectionMapping } from 'three'
 import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader'
-
-//This effect is base on: https://tympanus.net/codrops/2021/10/27/creating-the-effect-of-transparent-glass-and-plastic-in-three-js/
 
 const { map, normalMap } = await useTexture({
   map: 'https://raw.githubusercontent.com/Tresjs/assets/main/textures/glass-effect/bg-texture.jpg',
@@ -28,13 +23,9 @@ const options = reactive({
   envMap: hdrEquirect,
   clearcoatNormalMap: normalMap,
   envMapIntensity: 1.5,
-  clearcoat: 0.5,
-  clearcoatRoughness: 0.1,
-  clearcoatNormalScale: 0.3,
 })
 
 const { pane } = useTweakPane()
-
 pane.addInput(options, 'transmission', {
   label: 'transmission',
   min: 0,
@@ -55,24 +46,6 @@ pane.addInput(options, 'envMapIntensity', {
 })
 pane.addInput(options, 'roughness', {
   label: 'roughness',
-  min: 0,
-  max: 1,
-  step: 0.01,
-})
-pane.addInput(options, 'clearcoat', {
-  label: 'clearcoat',
-  min: 0,
-  max: 1,
-  step: 0.01,
-})
-pane.addInput(options, 'clearcoatRoughness', {
-  label: 'clearcoatRoughness',
-  min: 0,
-  max: 1,
-  step: 0.01,
-})
-pane.addInput(options, 'clearcoatNormalScale', {
-  label: 'clearcoatNormalScale',
   min: 0,
   max: 1,
   step: 0.01,

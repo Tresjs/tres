@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import { useGLTF, useTweakPane } from '@tresjs/cientos'
-import { useRenderLoop } from '@tresjs/core'
-import { Object3D, Sphere } from 'three'
+import { Object3D } from 'three'
 import { shallowRef, watch } from 'vue'
 
 const props = defineProps<{
