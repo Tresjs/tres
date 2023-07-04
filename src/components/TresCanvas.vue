@@ -10,7 +10,11 @@ import {
   useLogger,
   useRenderLoop,
   useRenderer,
+  usePointerEventHandler,
 } from '../composables'
+
+import { OBJECT_3D_USER_DATA_KEYS } from '../keys'
+
 
 import type { TresCamera } from '../types/'
 import type { RendererPresetsType } from '../composables/useRenderer/const'
@@ -42,16 +46,16 @@ const canvas = ref<HTMLCanvasElement>()
 const scene = shallowRef(new Scene())
 
 // Canvas & Camera
-
-const { onLoop } = useRenderLoop()
+const { onLoop, resume } = useRenderLoop()
 
 const slots = defineSlots<{
   default(): any
 }>()
-function initRenderer() {
 
+function initRenderer() {
   const tres = useTresContextProvider(scene.value, canvas, props)
   const { addCamera, camera: activeCamera, clearCameras } = tres
+
   // Custom Renderer 
   let app: App
 
@@ -69,6 +73,11 @@ function initRenderer() {
   if (props.camera) {
     addCamera(props.camera)
   }
+
+  // Event handler
+  const pointerEventHandler = usePointerEventHandler()
+  scene.value.userData[OBJECT_3D_USER_DATA_KEYS.REGISTER_AT_POINTER_EVENT_HANDLER] = pointerEventHandler.registerObject
+
 
   onLoop(() => {
     if (activeCamera.value && props.disableRender !== true) renderer.value?.render(scene.value, activeCamera.value)
@@ -97,17 +106,27 @@ function initRenderer() {
         }
       },
     )
+
+    function dispose() {
+      scene.value.children = []
+      app.unmount()
+      app = createTres(slots)
+      app.provide('extend', extend)
+      app.mount(scene as unknown)
+      setCamera()
+      resume()
+    }
+
+    if (import.meta.hot) {
+      import.meta.hot.on('vite:afterUpdate', dispose)
+    }
+
   }
 }
 
 // Renderer
-
 onMounted(() => {
   initRenderer()
-})
-
-onUnmounted(() => {
-  /*  setState('renderer', null) */
 })
 
 </script>

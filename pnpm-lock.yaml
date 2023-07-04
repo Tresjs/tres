@@ -29,7 +29,7 @@ importers:
         version: 1.9.0
       '@tresjs/cientos':
         specifier: 2.2.0
-        version: 2.2.0(@tresjs/core@)(three@0.154.0)(vue@3.3.4)
+        version: 2.2.0(@tresjs/core@2.4.0)(three@0.154.0)(vue@3.3.4)
       '@types/three':
         specifier: ^0.152.1
         version: 0.152.1
@@ -150,6 +150,9 @@ importers:
       '@tresjs/cientos':
         specifier: 2.1.4
         version: 2.1.4(@tresjs/core@)(three@0.154.0)(vue@3.3.4)
+      '@tresjs/core':
+        specifier: workspace:2.4.0-next.2
+        version: link:..
       vue-router:
         specifier: ^4.2.2
         version: 4.2.2(vue@3.3.4)
@@ -318,7 +321,6 @@ packages:
 
   /@alvarosabu/utils@3.1.1:
     resolution: {integrity: sha512-DdZNe0i0UsqA2X/+JtaznG4qGorU24FaHqxMAhVspQaC1my+YAVQLpfw8GilHpzMxPxX4sGVzuTnBF8GOdG5oA==}
-    dev: false
 
   /@ampproject/remapping@2.2.1:
     resolution: {integrity: sha512-lFMjJTrFL3j7L9yBxwYfCq2k6qqwHyzuUl/XBnif78PWTJYyL/dfowQHWE3sp6U6ZzqWiiIZnpTMO96zhkjwtg==}
@@ -1376,17 +1378,31 @@ packages:
       - '@vue/composition-api'
     dev: false
 
-  /@tresjs/cientos@2.2.0(@tresjs/core@)(three@0.154.0)(vue@3.3.4):
+  /@tresjs/cientos@2.2.0(@tresjs/core@2.4.0)(three@0.154.0)(vue@3.3.4):
     resolution: {integrity: sha512-P3BXLj4k0hCm3EyCoBR7PgFTGPO1EDnfJYyY7GcBxzOFrTXE7TZllRKdC/QObB32NiY3z9uVpWNkQifNq7FXuw==}
     peerDependencies:
       '@tresjs/core': '>=2.1.3'
       three: '>=0.133'
       vue: '>=3.3'
     dependencies:
-      '@tresjs/core': 'link:'
+      '@tresjs/core': 2.4.0(three@0.154.0)(vue@3.3.4)
       '@vueuse/core': 10.2.1(vue@3.3.4)
       three: 0.154.0
       three-stdlib: 2.23.10(three@0.154.0)
+      vue: 3.3.4
+    transitivePeerDependencies:
+      - '@vue/composition-api'
+    dev: true
+
+  /@tresjs/core@2.4.0(three@0.154.0)(vue@3.3.4):
+    resolution: {integrity: sha512-T9WEW8SNqTquNjeO73BirNmG2ZSeCEtFdO3YcA3mBpwgDr3jPpgttfImpdR5kh3H5819rqpkm0Ur0kJbi4Zk0w==}
+    peerDependencies:
+      three: '>=0.133'
+      vue: '>=3.3'
+    dependencies:
+      '@alvarosabu/utils': 3.1.1
+      '@vueuse/core': 10.2.1(vue@3.3.4)
+      three: 0.154.0
       vue: 3.3.4
     transitivePeerDependencies:
       - '@vue/composition-api'

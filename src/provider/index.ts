@@ -1,15 +1,16 @@
 import { Scene, WebGLRenderer } from 'three';
-import { inject, provide, readonly, shallowRef, computed, ref, watch, watchEffect } from 'vue';
-import type { ComputedRef, Ref, ShallowRef } from 'vue';
+import { inject, provide, readonly, shallowRef, computed } from 'vue';
+import type { ComputedRef, DeepReadonly, Ref, ShallowReactive, ShallowRef } from 'vue';
+import { toValue, useElementSize, useWindowSize } from '@vueuse/core';
 import { TresCamera } from '../types';
 import { useCamera, useLogger } from '../composables';
-import { toValue, useElementSize, useWindowSize } from '@vueuse/core';
+import { TresCanvasProps } from '../components/TresCanvas.vue';
 
 export type TresState = {
-  scene: Readonly<ShallowRef<Scene>>;
-  cameras: Readonly<ShallowRef<TresCamera[]>>;
+  scene: DeepReadonly<ShallowRef<Scene>>;
+  cameras: DeepReadonly<ShallowReactive<TresCamera[]>>;
   camera: ComputedRef<TresCamera | undefined>;
-  renderer?: Readonly<ShallowRef<WebGLRenderer | null>>
+  renderer?: DeepReadonly<ShallowRef<WebGLRenderer | null>>
   addCamera: (camera: TresCamera) => void;
   setCameraToActive: (cameraId: string) => void;
   clearCameras: () => void;
@@ -19,13 +20,19 @@ export type TresState = {
 
 const { logError } = useLogger()
 
-export function useTresContextProvider(scene: Scene, canvas: Ref<HTMLCanvasElement | undefined>, props): TresState {
+export function useTresContextProvider(
+  scene: Scene,
+  canvas: Ref<HTMLCanvasElement | undefined>,
+  props: TresCanvasProps
+): TresState {
   if (!scene) {
     logError('A scene most be provided to the TresProvider');
   }
-  const { width, height } = toValue(props.windowSize) == true || toValue(props.windowSize) === '' || toValue(props.windowSize) === 'true' || canvas.value === undefined
-    ? useWindowSize()
-    : useElementSize(canvas.value?.parentElement)
+  const { width, height }
+    // eslint-disable-next-line max-len
+    = toValue(props.windowSize) == true || canvas.value === undefined
+      ? useWindowSize()
+      : useElementSize(canvas.value?.parentElement)
   const aspectRatio = computed(() => width.value / height.value)
 
   const sizes = {
@@ -34,7 +41,7 @@ export function useTresContextProvider(scene: Scene, canvas: Ref<HTMLCanvasEleme
     aspectRatio
   }
   const localScene = shallowRef<Scene>(scene);
-  const { camera, cameras, addCamera, setCameraToActive } = useCamera(sizes);
+  const { camera, cameras, addCamera, setCameraToActive, clearCameras } = useCamera(sizes);
   const renderer = shallowRef<WebGLRenderer | null>(null);
 
   // Renderer
@@ -50,6 +57,7 @@ export function useTresContextProvider(scene: Scene, canvas: Ref<HTMLCanvasEleme
     camera,
     addCamera,
     setCameraToActive,
+    clearCameras,
     renderer: readonly(renderer),
     setRenderer,
     sizes

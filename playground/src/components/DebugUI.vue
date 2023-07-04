@@ -24,8 +24,8 @@ useControls('Box', boxPosition.value)
 
 <template>
   <TresLeches />
-  <TresCanvas v-bind="gl">
-    <TresPerspectiveCamera :position="[3, 3, 3]" />
+  <TresCanvas v-bind="gl" :window-size="true">
+    <TresPerspectiveCamera :position="[3, 3, 3]" :look-at="[0, 0, 0]" />
     <!-- <OrbitControls /> -->
     <Box :position-x="boxPosition[0]">
       <TresMeshNormalMaterial />
