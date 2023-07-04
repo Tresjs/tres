@@ -1,5 +1,5 @@
 import { Vector3 } from 'three'
-import { isReactive, isRef, onUnmounted, reactive, toRefs } from 'vue'
+import { isReactive, isRef, onUnmounted, provide, reactive, toRefs } from 'vue'
 import { Control, Schema, SchemaOrFn } from '../types'
 
 export const CONTROLS_CONTEXT_KEY = Symbol('CONTROLS_CONTEXT_KEY')
@@ -11,12 +11,7 @@ const state = reactive<{
 })
 
 export function useControlsProvider() {
-  /*   const state = reactive({
-    controls: {},
-  })
-
   provide(CONTROLS_CONTEXT_KEY, state)
- */
   return state
 }
 
@@ -93,6 +88,16 @@ export function useControls<
         controls: parseObjectToControls(settingsOrDepsOrControl),
       })
     }
+  } else if (typeof controlOrFolderName === 'object' && controlOrFolderName.options) {
+    controls.push({
+      ...settings,
+      label: controlOrFolderName.label || 'Dropdown',
+      visible: true,
+      value: controlOrFolderName.value,
+      type: 'select',
+      ref: controlOrFolderName,
+      options: controlOrFolderName.options,
+    })
   } else if (typeof controlOrFolderName === 'object' && typeof settingsOrDepsOrControl === 'string') {
     controls.push({
       ...settings,
