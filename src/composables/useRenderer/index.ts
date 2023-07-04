@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import { watch, ref, shallowRef, computed, toRefs, Ref, watchEffect } from 'vue'
+import { watch, ref, shallowRef, toRefs, Ref, watchEffect } from 'vue'
 import {
   MaybeRefOrGetter,
   toValue,
@@ -13,7 +13,6 @@ import {
   WebGLRenderer,
   ShadowMapType,
   PCFShadowMap,
-  Clock,
   ColorSpace,
 } from 'three'
 import type { ToneMapping } from 'three'
@@ -142,26 +141,14 @@ export function useRenderer(canvas: Ref<HTMLCanvasElement>, tres: TresState, opt
     powerPreference = 'default',
     preserveDrawingBuffer = false,
     clearColor,
-    windowSize = false,
     preset = undefined,
   } = toRefs(options)
 
-  const { cameras, setRenderer, sizes, } = tres
+  const { setRenderer, sizes, } = tres
 
-
-
-  /*   const width = computed(() => canvas.value)
-    const height = computed(() => canvas.value.offsetHeight) */
-  const { logError, logWarning } = useLogger()
+  const { logError } = useLogger()
   const { pixelRatio } = useDevicePixelRatio()
   const { pause, resume } = useRenderLoop()
-
-  /*   setTimeout(() => {
-      if (!toValue(windowSize) && canvas.value.offsetHeight) {
-        logWarning(`Oops... Seems like your canvas height is currently 0px, it's posible that you couldn't watch your scene.
-    You could set windowSize=true to force the canvas to be the size of the window.`)
-      }
-    }, 1000) */
 
   const updateRendererSize = () => {
     if (!renderer.value) {
@@ -222,8 +209,6 @@ export function useRenderer(canvas: Ref<HTMLCanvasElement>, tres: TresState, opt
     })
 
     setRenderer(renderer.value)
-    /*     setState('clock', new Clock())
-        setState('aspectRatio', aspectRatio) */
     updateRendererOptions()
     updateRendererSize()
     resume()

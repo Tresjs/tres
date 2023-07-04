@@ -1,7 +1,8 @@
-import { useTres } from '../useTres'
 import { Object3D, Raycaster, Vector2 } from 'three'
 import { Ref, computed, onUnmounted, watchEffect } from 'vue'
 import { EventHook, createEventHook, useElementBounding, usePointer } from '@vueuse/core'
+import { useTresContext } from '../../provider'
+import { TresCamera } from '../../types'
 
 export type Intersects = THREE.Intersection<THREE.Object3D<THREE.Event>>[]
 interface PointerMoveEventPayload {
@@ -15,13 +16,13 @@ interface PointerClickEventPayload {
 }
 
 export const useRaycaster = (objects: Ref<THREE.Object3D[]>) => {
-  const { state } = useTres()
+  const { camera, renderer } = useTresContext()
 
-  const canvas = computed(() => state.canvas?.value) // having a seperate computed makes useElementBounding work
+  const canvas = computed(() => renderer?.value?.domElement) // having a seperate computed makes useElementBounding work
 
   const { x, y } = usePointer({ target: canvas })
 
-  const { width, height, top, left } = useElementBounding(canvas)
+  const { width, height, top, left } = useElementBounding(canvas as unknown as Ref<HTMLElement>)
 
   const raycaster = new Raycaster()
 
@@ -35,9 +36,9 @@ export const useRaycaster = (objects: Ref<THREE.Object3D[]>) => {
   }
 
   const getIntersectsByRelativePointerPosition = ({ x, y }: { x: number; y: number }) => {
-    if (!state.camera) return
+    if (!camera) return
 
-    raycaster.setFromCamera(new Vector2(x, y), state.camera)
+    raycaster.setFromCamera(new Vector2(x, y), camera as unknown as TresCamera)
 
     return raycaster.intersectObjects(objects.value, false)
   }

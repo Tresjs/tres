@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { App, Ref, onUnmounted, ref, shallowRef, watch } from 'vue'
+import { App, Ref, ref, shallowRef, watch } from 'vue'
 import { PerspectiveCamera, type ColorSpace, type ShadowMapType, type ToneMapping, Scene } from 'three'
 
 import { useTresContextProvider } from '../provider'
