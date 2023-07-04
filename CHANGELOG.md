@@ -1,5 +1,12 @@
 
 
+## [0.4.0](https://github.com/Tresjs/leches/compare/0.3.1...0.4.0) (2023-07-04)
+
+
+### Features
+
+* dropdown control input ([dd8098b](https://github.com/Tresjs/leches/commit/dd8098bd15c1daca7d1aa9932d4edb12f7bea2b7))
+
 ### [0.3.1](https://github.com/Tresjs/leches/compare/0.3.0...0.3.1) (2023-06-22)
 
 
