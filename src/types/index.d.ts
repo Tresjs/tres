@@ -12,4 +12,5 @@ export type Control = {
   icon?: string
   controls?: Control[]
   ref?: Record<string, any>
+  options?: Array<{ text: string; value: string }>
 }

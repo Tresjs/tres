@@ -46,13 +46,17 @@
     "story:build": "histoire build",
     "story:preview": "histoire preview"
   },
+  "peerDependencies": {
+    "vue": ">=3.3",
+    "three": ">=0.133"
+  },
   "dependencies": {
-    "@types/three": "^0.152.1",
-    "@vueuse/components": "^10.2.0",
-    "three": "^0.153.0",
-    "vue": "^3.3.4"
+    "@vueuse/components": "^10.2.0"
   },
   "devDependencies": {
+    "@types/three": "^0.152.1",
+    "three": "^0.153.0",
+    "vue": "^3.3.4",
     "@vueuse/shared": "^10.2.0",
     "kolorist": "^1.8.0",
     "pathe": "^1.1.1",

@@ -30,12 +30,20 @@ useControls('Box', {
   wireframe,
 })
  */
- useControls('Box', {
+useControls('Box', {
   position: boxPosition,
   rotation: boxRotation,
   wireframe,
 })
 const boxRef = ref()
+
+useControls({
+  label: 'test',
+  options: [{ text: 'loading', value: 'LDG' },
+  { text: 'menu', value: 'MNU' },
+  { text: 'field', value: 'FLD' },],
+  value: 'LDG',
+})
 
 /* watch(boxRef, value => {
   if (value) {
@@ -51,16 +59,8 @@ const boxRef = ref()
   <TresLeches />
   <TresCanvas v-bind="gl">
     <TresPerspectiveCamera />
-    <TresMesh
-      ref="boxRef"
-      :position-x="boxPosition.x"
-      :position-y="boxPosition.y"
-      :position-z="boxPosition.z"
-      :rotation-x="boxRotation.x"
-      :rotation-y="boxRotation.y"
-      :rotation-z="boxRotation.z"
-      :scale="[2, 2, 2]"
-    >
+    <TresMesh ref="boxRef" :position-x="boxPosition.x" :position-y="boxPosition.y" :position-z="boxPosition.z"
+      :rotation-x="boxRotation.x" :rotation-y="boxRotation.y" :rotation-z="boxRotation.z" :scale="[2, 2, 2]">
       <TresBoxGeometry />
       <TresMeshNormalMaterial :color="'teal'" :wireframe="wireframe" />
     </TresMesh>

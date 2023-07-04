@@ -1,21 +1,16 @@
 lockfileVersion: '6.0'
 
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
 importers:
 
   .:
     dependencies:
-      '@types/three':
-        specifier: ^0.152.1
-        version: 0.152.1
       '@vueuse/components':
         specifier: ^10.2.0
         version: 10.2.0(vue@3.3.4)
-      three:
-        specifier: ^0.153.0
-        version: 0.153.0
-      vue:
-        specifier: ^3.3.4
-        version: 3.3.4
     devDependencies:
       '@alvarosabu/prettier-config':
         specifier: ^1.3.0
@@ -29,6 +24,9 @@ importers:
       '@release-it/conventional-changelog':
         specifier: ^5.1.1
         version: 5.1.1(release-it@15.11.0)
+      '@types/three':
+        specifier: ^0.152.1
+        version: 0.152.1
       '@typescript-eslint/eslint-plugin':
         specifier: ^5.60.0
         version: 5.60.0(@typescript-eslint/parser@5.60.0)(eslint@8.43.0)(typescript@5.1.3)
@@ -77,6 +75,9 @@ importers:
       rollup-plugin-visualizer:
         specifier: ^5.9.2
         version: 5.9.2
+      three:
+        specifier: ^0.153.0
+        version: 0.153.0
       typescript:
         specifier: ^5.1.3
         version: 5.1.3
@@ -95,15 +96,15 @@ importers:
       vitest:
         specifier: ^0.32.2
         version: 0.32.2(@vitest/ui@0.32.2)
+      vue:
+        specifier: ^3.3.4
+        version: 3.3.4
       vue-tsc:
         specifier: ^1.8.1
         version: 1.8.1(typescript@5.1.3)
 
   playground:
     dependencies:
-      three:
-        specifier: ^0.153.0
-        version: 0.153.0
       vue:
         specifier: ^3.2.47
         version: 3.3.4
@@ -120,6 +121,9 @@ importers:
       '@types/three':
         specifier: ^0.152.1
         version: 0.152.1
+      three:
+        specifier: ^0.153.0
+        version: 0.153.0
       unplugin-auto-import:
         specifier: ^0.16.4
         version: 0.16.4(@vueuse/core@10.2.0)
@@ -1054,6 +1058,7 @@ packages:
 
   /@tweenjs/tween.js@18.6.4:
     resolution: {integrity: sha512-lB9lMjuqjtuJrx7/kOkqQBtllspPIN+96OvTCeJ2j5FEzinoAXTdAMFnDAQT1KVPRlnYfBrqxtqP66vDM40xxQ==}
+    dev: true
 
   /@types/argparse@1.0.38:
     resolution: {integrity: sha512-ebDJ9b0e702Yr7pWgB0jzm+CX4Srzz8RcXtLJDJB+BSccqMa36uyH/zUsSYao5+BD1ytv3k3rPYCq4mAE1hsXA==}
@@ -1132,6 +1137,7 @@ packages:
 
   /@types/stats.js@0.17.0:
     resolution: {integrity: sha512-9w+a7bR8PeB0dCT/HBULU2fMqf6BAzvKbxFboYhmDtDkKPiyXYbjoe2auwsXlEFI7CFNMF1dCv3dFH5Poy9R1w==}
+    dev: true
 
   /@types/three@0.152.1:
     resolution: {integrity: sha512-PMOCQnx9JRmq+2OUGTPoY9h1hTWD2L7/nmuW/SyNq1Vbq3Lwt3MNdl3wYSa4DvLTGv62NmIXD9jYdAOwohwJyw==}
@@ -1141,12 +1147,14 @@ packages:
       '@types/webxr': 0.5.2
       fflate: 0.6.10
       lil-gui: 0.17.0
+    dev: true
 
   /@types/web-bluetooth@0.0.17:
     resolution: {integrity: sha512-4p9vcSmxAayx72yn70joFoL44c9MO/0+iVEBIQXe3v2h2SiAsEIo/G5v6ObFWvNKRFjbrVadNf9LqEEZeQPzdA==}
 
   /@types/webxr@0.5.2:
     resolution: {integrity: sha512-szL74BnIcok9m7QwYtVmQ+EdIKwbjPANudfuvDrAF8Cljg9MKUlIoc1w5tjj9PMpeSH3U1Xnx//czQybJ0EfSw==}
+    dev: true
 
   /@typescript-eslint/eslint-plugin@5.60.0(@typescript-eslint/parser@5.60.0)(eslint@8.43.0)(typescript@5.1.3):
     resolution: {integrity: sha512-78B+anHLF1TI8Jn/cD0Q00TBYdMgjdOn980JfAVa9yw5sop8nyTfVOQAv6LWywkOGLclDBtv5z3oxN4w7jxyNg==}
@@ -3238,6 +3246,7 @@ packages:
 
   /fflate@0.6.10:
     resolution: {integrity: sha512-IQrh3lEPM93wVCEczc9SaAOvkmcoQn/G8Bo1e8ZPlY3X3bnAxWaBdvTdvM1hP62iZp0BXWDy4vTAy4fF0+Dlpg==}
+    dev: true
 
   /fflate@0.7.4:
     resolution: {integrity: sha512-5u2V/CDW15QM1XbbgS+0DfPxVB+jUKhWEKuuFuHncbk3tEEqzmoXL+2KyOFuKGqOnmdIy0/davWF1CkuwtibCw==}
@@ -4457,6 +4466,7 @@ packages:
 
   /lil-gui@0.17.0:
     resolution: {integrity: sha512-MVBHmgY+uEbmJNApAaPbtvNh1RCAeMnKym82SBjtp5rODTYKWtM+MXHCifLe2H2Ti1HuBGBtK/5SyG4ShQ3pUQ==}
+    dev: true
 
   /lines-and-columns@1.2.4:
     resolution: {integrity: sha512-7ylylesZQ/PV29jhEDl3Ufjo6ZX7gCqJr5F7PKrqc93v7fzSymt1BpwEU8nAUXs8qzzvqhbjhK5QZg6Mt/HkBg==}
@@ -6225,6 +6235,7 @@ packages:
 
   /three@0.153.0:
     resolution: {integrity: sha512-OCP2/uQR6GcDpSLnJt/3a4mdS0kNWcbfUXIwLoEMgLzEUIVIYsSDwskpmOii/AkDM+BBwrl6+CKgrjX9+E2aWg==}
+    dev: true
 
   /through2@2.0.5:
     resolution: {integrity: sha512-/mrRod8xqpA+IHSLyGCQ2s8SPHiCDEeQJSep1jqLYeEUClOFG2Qsh+4FU6G9VeqpZnGW/Su8LQGc4YKni5rYSQ==}
