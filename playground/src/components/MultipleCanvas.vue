@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
 import { TresCanvas } from '@tresjs/core'
-import { GLTFModel, OrbitControls } from '@tresjs/cientos'
+// import { GLTFModel, OrbitControls } from '@tresjs/cientos'
 
 const state = reactive({
   clearColor: '#201919',
@@ -21,6 +21,11 @@ const state2 = reactive({
   outputColorSpace: SRGBColorSpace,
   toneMapping: NoToneMapping, */
 })
+
+const log = () => {
+  console.log(3)
+}
+
 </script>
 <template>
   <div class="flex">
@@ -29,7 +34,7 @@ const state2 = reactive({
         <TresPerspectiveCamera :position="[5, 5, 5]" :fov="45" :near="0.1" :far="1000" :look-at="[0, 4, 0]" />
 
         <TresAmbientLight :intensity="0.5" />
-        <TresMesh :position="[0, 4, 0]">
+        <TresMesh :position="[0, 4, 0]" @click="log">
           <TresBoxGeometry :args="[1, 1, 1]" />
           <TresMeshToonMaterial color="cyan" />
         </TresMesh>
@@ -50,9 +55,9 @@ const state2 = reactive({
           <TresMeshToonMaterial color="yellow" />
         </TresMesh>
 
-        <Suspense>
+        <!-- <Suspense>
           <GLTFModel path="https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/aku-aku/AkuAku.gltf" draco />
-        </Suspense>
+        </Suspense> -->
 
         <TresDirectionalLight :position="[0, 2, 4]" :intensity="1" cast-shadow />
       </TresCanvas>

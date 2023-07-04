@@ -2,8 +2,8 @@
 import { TresCanvas } from '@tresjs/core'
 import { BasicShadowMap, SRGBColorSpace, NoToneMapping } from 'three'
 
-import { OrbitControls, Box } from '@tresjs/cientos'
-import { TresLeches, useControls } from '@tresjs/leches'
+// import { OrbitControls, Box } from '@tresjs/cientos'
+// import { TresLeches, useControls } from '@tresjs/leches'
 import '@tresjs/leches/styles'
 
 const gl = {
@@ -17,13 +17,13 @@ const gl = {
 
 const boxPosition = ref([0, 0.5, 0])
 
-useControls(gl)
-useControls('Box', boxPosition.value)
+// useControls(gl)
+// useControls('Box', boxPosition.value)
 
 </script>
 
 <template>
-  <TresLeches />
+  <!-- <TresLeches /> -->
   <TresCanvas v-bind="gl" :window-size="true">
     <TresPerspectiveCamera :position="[3, 3, 3]" :look-at="[0, 0, 0]" />
     <!-- <OrbitControls /> -->

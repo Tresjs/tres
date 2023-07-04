@@ -1,7 +1,9 @@
 import { uniqueBy } from '../../utils'
 import { useRaycaster } from '../useRaycaster'
-import { computed, reactive } from 'vue'
-import type { Intersection, Event, Object3D } from 'three'
+import { computed, onUnmounted, reactive } from 'vue'
+import { TresContext } from 'src/provider'
+import type { Intersection, Event, Object3D, Scene } from 'three'
+import { OBJECT_3D_USER_DATA_KEYS } from '../../keys'
 
 type CallbackFn = (intersection: Intersection<Object3D<Event>>, event: PointerEvent) => void //TODO document
 type CallbackFnPointerLeave = (object: Object3D<Event>, event: PointerEvent) => void
@@ -13,7 +15,10 @@ type EventProps = {
   onPointerLeave?: CallbackFnPointerLeave
 }
 
-export const usePointerEventHandler = () => {
+export const usePointerEventHandler = (
+  scene: Scene,
+  contextParts: Pick<TresContext, 'renderer' | 'camera'>
+) => { // TODO think about passing objects to all the composables -> better maintainability
   const objectsWithEventListeners = reactive({
     click: new Map<Object3D, CallbackFn>(),
     pointerMove: new Map<Object3D, CallbackFn>(),
@@ -42,6 +47,10 @@ export const usePointerEventHandler = () => {
     })
   }
 
+  // to make the registerObject available in the custom renderer (nodeOps), it is attached to the scene
+  scene.userData[OBJECT_3D_USER_DATA_KEYS.REGISTER_AT_POINTER_EVENT_HANDLER] = registerObject
+
+
   const objectsToWatch = computed(() =>
     uniqueBy(
       Object.values(objectsWithEventListeners)
@@ -51,7 +60,7 @@ export const usePointerEventHandler = () => {
     ),
   )
 
-  const { onClick, onPointerMove } = useRaycaster(objectsToWatch)
+  const { onClick, onPointerMove } = useRaycaster(objectsToWatch, contextParts)
 
   onClick(({ intersects, event }) => {
     if (intersects.length) objectsWithEventListeners.click.get(intersects[0].object)?.(intersects[0], event)

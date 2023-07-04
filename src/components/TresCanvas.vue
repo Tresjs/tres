@@ -2,18 +2,16 @@
 import { App, Ref, ref, shallowRef, watch } from 'vue'
 import { PerspectiveCamera, type ColorSpace, type ShadowMapType, type ToneMapping, Scene } from 'three'
 
-import { useTresContextProvider } from '../provider'
+import { type TresContext, useTresContextProvider } from '../provider'
 import { createTres } from '../core/renderer'
 import { extend } from '../core/catalogue'
 
 import {
   useLogger,
   useRenderLoop,
-  useRenderer,
   usePointerEventHandler,
 } from '../composables'
 
-import { OBJECT_3D_USER_DATA_KEYS } from '../keys'
 
 
 import type { TresCamera } from '../types/'
@@ -43,47 +41,53 @@ const { logWarning } = useLogger()
 
 // Template Refs
 const canvas = ref<HTMLCanvasElement>()
-const scene = shallowRef(new Scene())
+const scene = shallowRef(new Scene()) // must be here to make custom renderer work //TODO check
 
 // Canvas & Camera
-const { onLoop, resume } = useRenderLoop()
+const { resume } = useRenderLoop()
 
 const slots = defineSlots<{
   default(): any
 }>()
 
-function initRenderer() {
-  const tres = useTresContextProvider(scene.value, canvas, props)
-  const { addCamera, camera: activeCamera, clearCameras } = tres
 
-  // Custom Renderer 
-  let app: App
+let app: App
 
-  function mountApp() {
-    app = createTres(slots)
-    app.provide('useTres', tres)
-    app.provide('extend', extend)
-    app.mount(scene.value)
-    setCamera()
-  }
-  mountApp()
+// Custom Renderer 
+const mountCustomRenderer = (context: TresContext) => {
+  app = createTres(slots)
+  app.provide('useTres', context) // TODO obsolete?
+  app.provide('extend', extend)
+  app.mount(scene.value)
+}
 
-  const { renderer } = useRenderer(canvas as Ref<HTMLCanvasElement>, tres, props)
+const dispose = () => {
+  scene.value.children = []
+  app.unmount()
+  app = createTres(slots)
+  app.provide('extend', extend)
+  app.mount(scene as unknown)
+  // setCamera() //TODO move
+  resume()
+}
 
-  if (props.camera) {
-    addCamera(props.camera)
-  }
+onMounted(() => {
+  const existingCanvas = canvas as Ref<HTMLCanvasElement>
+
+  const context = useTresContextProvider(scene.value, existingCanvas, props)
 
   // Event handler
-  const pointerEventHandler = usePointerEventHandler()
-  scene.value.userData[OBJECT_3D_USER_DATA_KEYS.REGISTER_AT_POINTER_EVENT_HANDLER] = pointerEventHandler.registerObject
+  usePointerEventHandler(scene.value, context) // TODO move?
 
+  const { addCamera, clearCameras } = context
 
-  onLoop(() => {
-    if (activeCamera.value && props.disableRender !== true) renderer.value?.render(scene.value, activeCamera.value)
-  })
+  mountCustomRenderer(context)
+  setCamera()
 
-  function setCamera() {
+  if (props.camera)
+    addCamera(props.camera) // TODO move to useTresContextProvicer init
+
+  function setCamera() { // TODO move
     const camera = scene.value.getObjectByProperty('isCamera', true)
 
     if (!camera) {
@@ -106,29 +110,11 @@ function initRenderer() {
         }
       },
     )
-
-    function dispose() {
-      scene.value.children = []
-      app.unmount()
-      app = createTres(slots)
-      app.provide('extend', extend)
-      app.mount(scene as unknown)
-      setCamera()
-      resume()
-    }
-
-    if (import.meta.hot) {
+    if (import.meta.hot)
       import.meta.hot.on('vite:afterUpdate', dispose)
-    }
-
   }
-}
 
-// Renderer
-onMounted(() => {
-  initRenderer()
 })
-
 </script>
 <template>
   <canvas ref="canvas" :data-scene="scene.uuid" :style="{

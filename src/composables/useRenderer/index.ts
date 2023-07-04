@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import { watch, ref, shallowRef, toRefs, Ref, watchEffect } from 'vue'
+import { type ShallowRef, watch, ref, shallowRef, toRefs, Ref, watchEffect, onUnmounted } from 'vue'
 import {
   MaybeRefOrGetter,
   toValue,
@@ -15,7 +15,7 @@ import {
   PCFShadowMap,
   ColorSpace,
 } from 'three'
-import type { ToneMapping } from 'three'
+import type { Scene, ToneMapping } from 'three'
 import { useRenderLoop } from '../useRenderLoop'
 /* import { useTres } from '../useTres' */
 import { normalizeColor } from '../../utils/normalize'
@@ -23,7 +23,7 @@ import { TresColor } from '../../types'
 import { rendererPresets, RendererPresetsType } from './const'
 import { merge } from '../../utils'
 import { useLogger } from '../useLogger'
-import { TresState } from '../../provider'
+import { TresContext } from '../../provider'
 
 export interface UseRendererOptions extends WebGLRendererParameters {
   /**
@@ -118,9 +118,12 @@ export interface UseRendererOptions extends WebGLRendererParameters {
  * @param canvas
  * @param {UseRendererOptions} [options]
  */
-export function useRenderer(canvas: Ref<HTMLCanvasElement>, tres: TresState, options: UseRendererOptions) {
-  const renderer = shallowRef<WebGLRenderer>()
-  const isReady = ref(false)
+export function useRenderer(
+  canvas: Ref<HTMLCanvasElement>,
+  options: UseRendererOptions,
+  scene: Scene,
+  { sizes, camera }: Pick<TresContext, 'sizes' | 'camera'>,
+) {
   // Defaults
   const {
     alpha = true,
@@ -142,59 +145,11 @@ export function useRenderer(canvas: Ref<HTMLCanvasElement>, tres: TresState, opt
     preserveDrawingBuffer = false,
     clearColor,
     preset = undefined,
-  } = toRefs(options)
+  } = toRefs(options) //TODO change way of default setting 
 
-  const { setRenderer, sizes, } = tres
-
-  const { logError } = useLogger()
-  const { pixelRatio } = useDevicePixelRatio()
-  const { pause, resume } = useRenderLoop()
-
-  const updateRendererSize = () => {
-    if (!renderer.value) {
-      return
-    }
-
-    renderer.value.setSize(sizes.width.value, sizes.height.value)
-    renderer.value.setPixelRatio(Math.min(pixelRatio.value, 2))
-  }
-
-  const updateRendererOptions = () => {
-    if (!renderer.value) {
-      return
-    }
-
-    const rendererPreset = toValue(preset)
-
-    if (rendererPreset) {
-      if (!(rendererPreset in rendererPresets))
-        logError('Renderer Preset must be one of these: ' + Object.keys(rendererPresets).join(', '))
-      merge(renderer.value, rendererPresets[rendererPreset])
-
-      return
-    }
-
-    renderer.value.shadowMap.enabled = toValue(shadows) as boolean
-    renderer.value.shadowMap.type = toValue(shadowMapType) as ShadowMapType
-    renderer.value.toneMapping = (toValue(toneMapping) as ToneMapping) || NoToneMapping
-    renderer.value.toneMappingExposure = toValue(toneMappingExposure) as number
-    // Wating for https://github.com/DefinitelyTyped/DefinitelyTyped/pull/65356/files to be merged
-    renderer.value.outputColorSpace = toValue(outputColorSpace as ColorSpace) || LinearSRGBColorSpace
-    if (clearColor?.value) renderer.value.setClearColor(normalizeColor(toValue(clearColor) as TresColor))
-
-    /*    renderer.value.physicallyCorrectLights = toValue(physicallyCorrectLights) as boolean */
-    renderer.value.useLegacyLights = toValue(useLegacyLights) as boolean
-  }
-
-  const init = () => {
-    const _canvas = unrefElement(canvas)
-    console.count('init renderer')
-    if (!_canvas) {
-      return
-    }
-
-    renderer.value = new WebGLRenderer({
-      canvas: _canvas,
+  const renderer = shallowRef<WebGLRenderer>(
+    new WebGLRenderer({
+      canvas: unrefElement(canvas),
       alpha: toValue(alpha),
       antialias: toValue(antialias),
       context: toValue(context),
@@ -206,57 +161,105 @@ export function useRenderer(canvas: Ref<HTMLCanvasElement>, tres: TresState, opt
       stencil: toValue(stencil),
       preserveDrawingBuffer: toValue(preserveDrawingBuffer),
       premultipliedAlpha: toValue(premultipliedAlpha),
-    })
+    },
+    ))
 
-    setRenderer(renderer.value)
-    updateRendererOptions()
-    updateRendererSize()
-    resume()
 
-    isReady.value = true
-  }
 
-  const dispose = () => {
-    if (!renderer.value) {
-      return
-    }
-
-    renderer.value.dispose()
-    renderer.value = undefined
-
-    isReady.value = false
-    pause()
-  }
+  const { pixelRatio } = useDevicePixelRatio()
+  const { pause, resume, onLoop } = useRenderLoop() // TODO remove?
 
   watchEffect(() => {
-    if (sizes.aspectRatio?.value || pixelRatio?.value) {
-      updateRendererSize()
-    }
+    renderer.value.setSize(sizes.width.value, sizes.height.value)
   })
 
-  watch(
-    [shadows, shadowMapType, outputColorSpace, useLegacyLights, toneMapping, toneMappingExposure, clearColor],
-    updateRendererOptions,
-  )
+  watchEffect(() => {
+    renderer.value.setPixelRatio(pixelRatio.value)
+  })
 
-  watch(
-    canvas,
-    () => {
-      if (unrefElement(canvas)) {
-        init()
-      }
-    },
-    { immediate: true, deep: true },
-  )
+  onLoop(() => { // TODO move!
+    // TODO handle disableRenderer -> should this composable even be used in this case?
+    if (camera.value)
+      renderer.value.render(scene, camera.value)
+  })
 
-  if (import.meta.hot) {
+  // const { logError } = useLogger()
+
+  // const updateRendererOptions = () => {
+  //   if (!renderer.value) {
+  //     return
+  //   }
+
+  //   const rendererPreset = toValue(preset)
+
+  //   if (rendererPreset) {
+  //     if (!(rendererPreset in rendererPresets))
+  //       logError('Renderer Preset must be one of these: ' + Object.keys(rendererPresets).join(', '))
+  //     merge(renderer.value, rendererPresets[rendererPreset])
+
+  //     return
+  //   }
+
+  //   renderer.value.shadowMap.enabled = toValue(shadows) as boolean
+  //   renderer.value.shadowMap.type = toValue(shadowMapType) as ShadowMapType
+  //   renderer.value.toneMapping = (toValue(toneMapping) as ToneMapping) || NoToneMapping
+  //   renderer.value.toneMappingExposure = toValue(toneMappingExposure) as number
+  //   // Wating for https://github.com/DefinitelyTyped/DefinitelyTyped/pull/65356/files to be merged
+  //   renderer.value.outputColorSpace = toValue(outputColorSpace as ColorSpace) || LinearSRGBColorSpace
+  //   if (clearColor?.value) renderer.value.setClearColor(normalizeColor(toValue(clearColor) as TresColor))
+
+  //   /*    renderer.value.physicallyCorrectLights = toValue(physicallyCorrectLights) as boolean */
+  //   renderer.value.useLegacyLights = toValue(useLegacyLights) as boolean
+  // }
+
+  // const init = () => {
+  //   renderer.value = new WebGLRenderer({
+  //     canvas: unrefElement(canvas),
+  //     alpha: toValue(alpha),
+  //     antialias: toValue(antialias),
+  //     context: toValue(context),
+  //     depth: toValue(depth),
+  //     failIfMajorPerformanceCaveat: toValue(failIfMajorPerformanceCaveat),
+  //     logarithmicDepthBuffer: toValue(logarithmicDepthBuffer),
+  //     powerPreference: toValue(powerPreference),
+  //     precision: toValue(precision),
+  //     stencil: toValue(stencil),
+  //     preserveDrawingBuffer: toValue(preserveDrawingBuffer),
+  //     premultipliedAlpha: toValue(premultipliedAlpha),
+  //   })
+
+  //   updateRendererOptions()
+  //   resume()
+  // }
+
+
+  onUnmounted(() => {
+    pause()
+    renderer.value.dispose()
+    renderer.value.forceContextLoss()
+  })
+
+  // watch(
+  //   [shadows, shadowMapType, outputColorSpace, useLegacyLights, toneMapping, toneMappingExposure, clearColor],
+  //   updateRendererOptions,
+  // )
+
+  // watch(
+  //   canvas,
+  //   () => {
+  //     if (unrefElement(canvas)) {
+  //       init()
+  //     }
+  //   },
+  //   { immediate: true, deep: true },
+  // )
+
+  if (import.meta.hot)
     import.meta.hot.on('vite:afterUpdate', resume)
-  }
+
 
   return {
     renderer,
-    isReady,
-    dispose,
   }
 }
 
