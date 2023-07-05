@@ -1,6 +1,13 @@
 <script setup lang="ts">
 import { App, Ref, computed, ref, shallowRef, watch } from 'vue'
-import { PerspectiveCamera, type ColorSpace, type ShadowMapType, type ToneMapping, Scene, WebGLRendererParameters } from 'three'
+import {
+  Scene,
+  PerspectiveCamera,
+  WebGLRendererParameters,
+  type ColorSpace,
+  type ShadowMapType,
+  type ToneMapping,
+} from 'three'
 
 import { type TresContext, useTresContextProvider } from '../provider'
 import { createTres } from '../core/renderer'
@@ -19,14 +26,16 @@ import type { RendererPresetsType } from '../composables/useRenderer/const'
 import { onMounted } from 'vue'
 
 export interface TresCanvasProps extends Omit<WebGLRendererParameters, 'canvas'> {
-  shadows?: boolean // TODO move these types to userenderer
+  // required by for useRenderer
+  shadows?: boolean
+  clearColor?: string
+  toneMapping?: ToneMapping
   shadowMapType?: ShadowMapType
   useLegacyLights?: boolean
   outputColorSpace?: ColorSpace
-  toneMapping?: ToneMapping
   toneMappingExposure?: number
-  clearColor?: string
 
+  // required by useTresContextProvider
   windowSize?: boolean
   preset?: RendererPresetsType
   disableRender?: boolean
@@ -97,8 +106,10 @@ onMounted(() => {
     const camera = scene.value.getObjectByProperty('isCamera', true)
 
     if (!camera) {
-      // eslint-disable-next-line max-len
-      logWarning('No camera found. Creating a default perspective camera. To have full control over a camera, please add one to the scene.')
+      logWarning(
+        'No camera found. Creating a default perspective camera. ' +
+        'To have full control over a camera, please add one to the scene.'
+      )
       const camera = new PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000)
       camera.position.set(3, 3, 3)
       camera.lookAt(0, 0, 0)

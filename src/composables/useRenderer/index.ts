@@ -2,7 +2,7 @@ import { merge } from '../../utils'
 import { useLogger } from '../useLogger'
 import { TresColor } from '../../types'
 import { TresContext } from '../../provider'
-import { WebGLRenderer } from 'three'
+import { Color, WebGLRenderer } from 'three'
 import { useRenderLoop } from '../useRenderLoop'
 import { normalizeColor } from '../../utils/normalize'
 import { rendererPresets, RendererPresetsType } from './const'
@@ -22,7 +22,11 @@ import type {
 
 import type { Scene, ToneMapping } from 'three'
 
-export interface UseRendererOptions extends WebGLRendererParameters {
+type TransformToMaybeRefOrGetter<T> = {
+  [K in keyof T]: MaybeRefOrGetter<T[K]> | MaybeRefOrGetter<T[K]>;
+};
+
+export interface UseRendererOptions extends TransformToMaybeRefOrGetter<WebGLRendererParameters> {
   /**
    * Enable shadows in the Renderer
    *
@@ -81,28 +85,6 @@ export interface UseRendererOptions extends WebGLRendererParameters {
   toneMappingExposure?: MaybeRefOrGetter<number>
 
   /**
-   * The context used by the renderer.
-   *
-   * @default undefined
-   */
-  context?: WebGLRenderingContext | undefined
-
-  /**
-   * Provides a hint to the user agent indicating what configuration of GPU is suitable for this WebGL context.
-   * Can be "high-performance", "low-power" or "default".
-   *
-   * @default "default"
-   */
-  powerPreference?: 'high-performance' | 'low-power' | 'default'
-
-  /**
-   * Whether to preserve the buffers until manually cleared or overwritten.
-   *
-   * @default false
-   */
-  preserveDrawingBuffer?: boolean
-
-  /**
    * The color value to use when clearing the canvas.
    *
    * @default 0x000000
@@ -134,7 +116,7 @@ export function useRenderer(
       disableRender: MaybeRefOrGetter<boolean>
     }
 ) {
-
+  options.logarithmicDepthBuffer
   const webGLRendererConstructorParameters = computed<WebGLRendererParameters>(() => ({
     canvas: unrefElement(canvas),
     alpha: toValue(options.alpha),
@@ -221,9 +203,11 @@ export function useRenderer(
 
     const clearColor = toValue(options.clearColor)
     if (clearColor)
-      // there is no logic which handles the case where clearColor is undefined,
-      // because the default clear color is not easily/efficiently retrievable from three
-      renderer.value.setClearColor(normalizeColor(clearColor))
+      renderer.value.setClearColor(
+        clearColor ?
+          normalizeColor(clearColor) :
+          new Color(0x000000) // default clear color is not easily/efficiently retrievable from three
+      )
 
   }
 
