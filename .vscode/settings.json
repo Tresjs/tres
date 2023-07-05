@@ -19,5 +19,6 @@
   "testing.automaticallyOpenPeekView": "never",
   "files.associations": {
     "*.mdx": "markdown"
-  }
+  },
+  "vue.features.codeActions.enable": false
 }
