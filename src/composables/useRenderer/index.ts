@@ -1,5 +1,11 @@
-/* eslint-disable max-len */
-import { type ShallowRef, watch, ref, shallowRef, toRefs, Ref, watchEffect, onUnmounted } from 'vue'
+import { merge } from '../../utils'
+import { useLogger } from '../useLogger'
+import { TresColor } from '../../types'
+import { TresContext } from '../../provider'
+import { useRenderLoop } from '../useRenderLoop'
+import { normalizeColor } from '../../utils/normalize'
+import { rendererPresets, RendererPresetsType } from './const'
+import { shallowRef, toRefs, watchEffect, onUnmounted, type MaybeRef } from 'vue'
 import {
   MaybeRefOrGetter,
   toValue,
@@ -15,15 +21,8 @@ import {
   PCFShadowMap,
   ColorSpace,
 } from 'three'
+
 import type { Scene, ToneMapping } from 'three'
-import { useRenderLoop } from '../useRenderLoop'
-/* import { useTres } from '../useTres' */
-import { normalizeColor } from '../../utils/normalize'
-import { TresColor } from '../../types'
-import { rendererPresets, RendererPresetsType } from './const'
-import { merge } from '../../utils'
-import { useLogger } from '../useLogger'
-import { TresContext } from '../../provider'
 
 export interface UseRendererOptions extends WebGLRendererParameters {
   /**
@@ -67,7 +66,10 @@ export interface UseRendererOptions extends WebGLRendererParameters {
 
   /**
    * Defines the tone mapping used by the renderer.
-   * Can be NoToneMapping, LinearToneMapping, ReinhardToneMapping, Uncharted2ToneMapping, CineonToneMapping, ACESFilmicToneMapping, CustomToneMapping
+   * Can be NoToneMapping, LinearToneMapping,
+   * ReinhardToneMapping, Uncharted2ToneMapping,
+   * CineonToneMapping, ACESFilmicToneMapping,
+   * CustomToneMapping
    *
    * @default NoToneMapping
    */
@@ -119,12 +121,23 @@ export interface UseRendererOptions extends WebGLRendererParameters {
  * @param {UseRendererOptions} [options]
  */
 export function useRenderer(
-  canvas: Ref<HTMLCanvasElement>,
-  options: UseRendererOptions,
-  scene: Scene,
-  disableRender: boolean,
-  { sizes, camera }: Pick<TresContext, 'sizes' | 'camera'>,
+  {
+    scene,
+    canvas,
+    options,
+    disableRender,
+    contextParts: { sizes, camera },
+  }:
+    {
+      canvas: MaybeRef<HTMLCanvasElement>
+      scene: Scene
+      options: UseRendererOptions
+      contextParts: Pick<TresContext, 'sizes' | 'camera'>
+      disableRender: MaybeRefOrGetter<boolean>
+    }
 ) {
+
+
   // Defaults
   const {
     alpha = true,
@@ -207,8 +220,7 @@ export function useRenderer(
   )
 
   onLoop(() => {
-    // TODO handle disableRenderer -> should this composable even be used in this case?
-    if (camera.value && !disableRender)
+    if (camera.value && !toValue(disableRender))
       renderer.value.render(scene, camera.value)
   })
 

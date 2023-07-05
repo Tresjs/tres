@@ -1,10 +1,10 @@
 import { Scene, WebGLRenderer } from 'three';
 import { inject, provide, readonly, shallowRef, computed } from 'vue';
-import type { ComputedRef, DeepReadonly, Ref, ShallowReactive, ShallowRef } from 'vue';
 import { toValue, useElementSize, useWindowSize } from '@vueuse/core';
 import { TresCamera } from '../types';
-import { useCamera, useRenderer } from '../composables';
-import { TresCanvasProps } from '../components/TresCanvas.vue';
+import { type UseRendererOptions, useCamera, useRenderer } from '../composables';
+
+import type { ComputedRef, DeepReadonly, MaybeRef, MaybeRefOrGetter, Ref, ShallowReactive, ShallowRef } from 'vue';
 
 export type TresContext = {
   scene: DeepReadonly<ShallowRef<Scene>>;
@@ -19,16 +19,24 @@ export type TresContext = {
 }
 // TODO move file to composables
 
-export function useTresContextProvider(
+export function useTresContextProvider({
+  scene,
+  canvas,
+  windowSize,
+  disableRender,
+  rendererOptions
+}: {
   scene: Scene,
-  canvas: Ref<HTMLCanvasElement>,
-  props: TresCanvasProps // TODO change!
-): TresContext {
+  canvas: MaybeRef<HTMLCanvasElement>
+  windowSize: MaybeRefOrGetter<boolean>
+  disableRender: MaybeRefOrGetter<boolean>
+  rendererOptions: UseRendererOptions
+}): TresContext {
 
   const elementSize = computed(() =>
-    props.windowSize
+    toValue(windowSize)
       ? useWindowSize()
-      : useElementSize(canvas.value?.parentElement)
+      : useElementSize(toValue(canvas).parentElement)
   )
 
   const width = computed(() => elementSize.value.width.value)
@@ -43,20 +51,33 @@ export function useTresContextProvider(
     aspectRatio
   }
   const localScene = shallowRef<Scene>(scene);
-  const { camera, cameras, addCamera, setCameraToActive, clearCameras } = useCamera({ sizes });
+  const {
+    camera,
+    cameras,
+    addCamera,
+    clearCameras,
+    setCameraToActive,
+  } = useCamera({ sizes });
 
-  const { renderer } = useRenderer(canvas, props, scene, props.disableRender || false, { sizes, camera }) //TODO should useRenderer be called if disableRender is used?
+  const { renderer } = useRenderer(
+    {
+      scene,
+      canvas,
+      options: rendererOptions,
+      contextParts: { sizes, camera },
+      disableRender,
+    }) //TODO should useRenderer be called if disableRender is used? idea: handle it like cameras; event listeners
 
 
   const toProvide: TresContext = {
+    sizes,
     scene: readonly(localScene),
-    cameras: readonly(cameras),
     camera,
-    addCamera,
-    setCameraToActive,
-    clearCameras,
+    cameras: readonly(cameras),
     renderer: readonly(renderer),
-    sizes
+    addCamera,
+    clearCameras,
+    setCameraToActive,
   }
 
   provide('useTres', toProvide);

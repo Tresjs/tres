@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { App, Ref, ref, shallowRef, watch } from 'vue'
+import { App, Ref, computed, ref, shallowRef, watch } from 'vue'
 import { PerspectiveCamera, type ColorSpace, type ShadowMapType, type ToneMapping, Scene } from 'three'
 
 import { type TresContext, useTresContextProvider } from '../provider'
@@ -71,10 +71,18 @@ const dispose = () => {
   resume()
 }
 
+const disableRender = computed(() => props.disableRender)
+
 onMounted(() => {
   const existingCanvas = canvas as Ref<HTMLCanvasElement>
 
-  const context = useTresContextProvider(scene.value, existingCanvas, props)
+  const context = useTresContextProvider({
+    scene: scene.value,
+    canvas: existingCanvas,
+    windowSize: props.windowSize,
+    disableRender,
+    rendererOptions: props,
+  })
 
   // Event handler
   usePointerEventHandler(scene.value, context) // TODO move?
