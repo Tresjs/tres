@@ -1,7 +1,7 @@
 import { RendererOptions } from 'vue'
 import { BufferAttribute, Scene } from 'three'
 import { isFunction } from '@alvarosabu/utils'
-import {  useLogger } from '../composables'
+import { useLogger } from '../composables'
 import { catalogue } from './catalogue'
 import { TresObject } from '../types'
 import { isHTMLTag, kebabToCamel } from '../utils'

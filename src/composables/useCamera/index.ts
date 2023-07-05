@@ -1,41 +1,43 @@
-import { PerspectiveCamera } from 'three'
-import { TresCamera } from '../../types'
-import { computed, watchEffect, shallowReactive } from 'vue'
-import type { TresContext } from 'src/provider'
+import { OBJECT_3D_USER_DATA_KEYS } from '../../keys'
+import { computed, watchEffect, ref } from 'vue'
+import { Camera, OrthographicCamera, PerspectiveCamera } from 'three'
+
+import type { TresContext } from '../../provider/index'
 
 export function useCamera({ sizes }: Pick<TresContext, 'sizes'>) {
-  const cameras = shallowReactive<TresCamera[]>([]) // TODO no reactive required
-  const camera = computed(() => cameras.find((camera: TresCamera) => camera.userData.IS_ACTIVE_CAMERA));
+  const { IS_ACTIVE_CAMERA } = OBJECT_3D_USER_DATA_KEYS
 
-  // Camera
-  function addCamera(camera: TresCamera, active = true): void {
+  const cameras = ref<Camera[]>([]) // TODO no reactive required
+  const camera = computed(() => cameras.value.find(({ userData }) => userData[IS_ACTIVE_CAMERA]));
+
+  function addCamera(camera: Camera, active = true): void {
     // Reset all cameras to inactive
-    cameras.push(camera)
+    cameras.value.push(camera)
     if (active) {
       setCameraToActive(camera.uuid)
     }
   }
 
   const setCameraToActive = (cameraId: string) => {
-    const camera = cameras.find((camera: TresCamera) => camera.uuid === cameraId)
+    const camera = cameras.value.find((camera: Camera) => camera.uuid === cameraId)
     if (!camera) return
 
-    cameras.forEach((camera: TresCamera) => camera.userData.IS_ACTIVE_CAMERA = false) // TODO use imported key
-    camera.userData.IS_ACTIVE_CAMERA = true
+    cameras.value.forEach(({ userData }) => userData[IS_ACTIVE_CAMERA] = false)
+    camera.userData[IS_ACTIVE_CAMERA] = true
   }
 
   const clearCameras = () => {
-    cameras.splice(0, cameras.length)
+    cameras.value.splice(0, cameras.value.length)
   }
 
   watchEffect(() => {
-    if (sizes.aspectRatio?.value) {
-      console.log('camera watcher aspectRatio', sizes.aspectRatio.value) // TODO remove
-      cameras.forEach((camera: TresCamera) => {
+    if (sizes.aspectRatio.value) {
+      cameras.value.forEach((camera: Camera) => {
         if (camera instanceof PerspectiveCamera)
           camera.aspect = sizes.aspectRatio.value
 
-        camera.updateProjectionMatrix();
+        if (camera instanceof PerspectiveCamera || camera instanceof OrthographicCamera)
+          camera.updateProjectionMatrix();
       })
     }
   })
