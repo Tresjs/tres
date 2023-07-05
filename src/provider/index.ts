@@ -24,11 +24,17 @@ export function useTresContextProvider(
   canvas: Ref<HTMLCanvasElement>,
   props: TresCanvasProps // TODO change!
 ): TresContext {
-  const { width, height } //TODO make this react to prop changes (windowSize)
-    // eslint-disable-next-line max-len
-    = toValue(props.windowSize) == true || canvas.value === undefined
+
+  const elementSize = computed(() =>
+    props.windowSize
       ? useWindowSize()
       : useElementSize(canvas.value?.parentElement)
+  )
+
+  const width = computed(() => elementSize.value.width.value)
+  const height = computed(() => elementSize.value.height.value)
+
+
   const aspectRatio = computed(() => width.value / height.value)
 
   const sizes = {
