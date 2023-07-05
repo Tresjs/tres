@@ -1,17 +1,17 @@
 ---
-thumbnail: /pam-camera-controls.png
-title: Pam Camera controls
+thumbnail: /mouse-parallax.png
+title: Mouse Parallax
 author: jaime-bboyjt
 description: A star like recreation with shaders, pam camera controls and stars component
-tags: ['stars', 'pam-camera-controls', 'fragment-shader']
+tags: ['stars', 'mouse-parallax', 'fragment-shader']
 ---
 
-::pam-camera-controls
+::mouse-parallax
 ::
 
 ::the-info
 
-![pam-camera-controls](/pam-camera-controls.png)
+![mouse-parallax](/mouse-parallax.png)
 
 # Basic Shaders
 
@@ -25,7 +25,7 @@ Author: [@**jaimebboyjt**](https://twitter.com/jaimebboyjt).
 import { BasicShadowMap, sRGBEncoding, NoToneMapping } from 'three'
 import { TresCanvas, useRenderLoop } from '@tresjs/core'
 
-import { PamCameraMouse, Stars } from '@tresjs/cientos'
+import { MouseParallax, Stars } from '@tresjs/cientos'
 
 import Vertex from './shaders/vertex.glsl'
 import Fragment from './shaders/fragment.glsl'
@@ -58,7 +58,7 @@ onLoop(() => {
   <TresCanvas v-bind="gl">
     <TresPerspectiveCamera :position="[0, 0, 7.5]" :fov="75" :near="0.1" :far="1000" />
     <!-- This create a really good-looking pam effect -->
-    <PamCameraMouse :factor="1" />
+    <MouseParallax :factor="1" />
     <!-- It's really easy add stars in TresJs -->
     <Stars />
     <TresMesh :scale="2" :position="[0.5, 0.5, 0]" cast-shadow>
