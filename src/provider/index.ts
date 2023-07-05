@@ -1,5 +1,5 @@
 import { Scene, WebGLRenderer } from 'three';
-import { inject, provide, readonly, shallowRef, computed, onUnmounted } from 'vue';
+import { inject, provide, readonly, shallowRef, computed } from 'vue';
 import type { ComputedRef, DeepReadonly, Ref, ShallowReactive, ShallowRef } from 'vue';
 import { toValue, useElementSize, useWindowSize } from '@vueuse/core';
 import { TresCamera } from '../types';
@@ -39,7 +39,7 @@ export function useTresContextProvider(
   const localScene = shallowRef<Scene>(scene);
   const { camera, cameras, addCamera, setCameraToActive, clearCameras } = useCamera({ sizes });
 
-  const { renderer } = useRenderer(canvas, props, scene, { sizes, camera })
+  const { renderer } = useRenderer(canvas, props, scene, props.disableRender || false, { sizes, camera }) //TODO should useRenderer be called if disableRender is used?
 
 
   const toProvide: TresContext = {

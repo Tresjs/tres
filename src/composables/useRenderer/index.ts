@@ -122,6 +122,7 @@ export function useRenderer(
   canvas: Ref<HTMLCanvasElement>,
   options: UseRendererOptions,
   scene: Scene,
+  disableRender: boolean,
   { sizes, camera }: Pick<TresContext, 'sizes' | 'camera'>,
 ) {
   // Defaults
@@ -164,10 +165,8 @@ export function useRenderer(
     },
     ))
 
-
-
   const { pixelRatio } = useDevicePixelRatio()
-  const { pause, resume, onLoop } = useRenderLoop() // TODO remove?
+  const { pause, resume, onLoop } = useRenderLoop()
 
   watchEffect(() => {
     renderer.value.setSize(sizes.width.value, sizes.height.value)
@@ -177,82 +176,48 @@ export function useRenderer(
     renderer.value.setPixelRatio(pixelRatio.value)
   })
 
-  onLoop(() => { // TODO move!
+  const { logError } = useLogger()
+
+  const updateRendererOptions = () => {
+    const rendererPreset = toValue(preset)
+
+    if (rendererPreset) {
+      if (!(rendererPreset in rendererPresets))
+        logError('Renderer Preset must be one of these: ' + Object.keys(rendererPresets).join(', '))
+
+      merge(renderer.value, rendererPresets[rendererPreset])
+
+      return
+    }
+
+    renderer.value.shadowMap.enabled = toValue(shadows) as boolean
+    renderer.value.shadowMap.type = toValue(shadowMapType) as ShadowMapType
+    renderer.value.toneMapping = (toValue(toneMapping) as ToneMapping) || NoToneMapping
+    renderer.value.toneMappingExposure = toValue(toneMappingExposure) as number
+    // Wating for https://github.com/DefinitelyTyped/DefinitelyTyped/pull/65356/files to be merged
+    renderer.value.outputColorSpace = toValue(outputColorSpace as ColorSpace) || LinearSRGBColorSpace
+    if (clearColor?.value) renderer.value.setClearColor(normalizeColor(toValue(clearColor) as TresColor))
+
+    /*    renderer.value.physicallyCorrectLights = toValue(physicallyCorrectLights) as boolean */
+    renderer.value.useLegacyLights = toValue(useLegacyLights) as boolean
+  }
+
+  watchEffect(
+    updateRendererOptions,
+  )
+
+  onLoop(() => {
     // TODO handle disableRenderer -> should this composable even be used in this case?
-    if (camera.value)
+    if (camera.value && !disableRender)
       renderer.value.render(scene, camera.value)
   })
 
-  // const { logError } = useLogger()
-
-  // const updateRendererOptions = () => {
-  //   if (!renderer.value) {
-  //     return
-  //   }
-
-  //   const rendererPreset = toValue(preset)
-
-  //   if (rendererPreset) {
-  //     if (!(rendererPreset in rendererPresets))
-  //       logError('Renderer Preset must be one of these: ' + Object.keys(rendererPresets).join(', '))
-  //     merge(renderer.value, rendererPresets[rendererPreset])
-
-  //     return
-  //   }
-
-  //   renderer.value.shadowMap.enabled = toValue(shadows) as boolean
-  //   renderer.value.shadowMap.type = toValue(shadowMapType) as ShadowMapType
-  //   renderer.value.toneMapping = (toValue(toneMapping) as ToneMapping) || NoToneMapping
-  //   renderer.value.toneMappingExposure = toValue(toneMappingExposure) as number
-  //   // Wating for https://github.com/DefinitelyTyped/DefinitelyTyped/pull/65356/files to be merged
-  //   renderer.value.outputColorSpace = toValue(outputColorSpace as ColorSpace) || LinearSRGBColorSpace
-  //   if (clearColor?.value) renderer.value.setClearColor(normalizeColor(toValue(clearColor) as TresColor))
-
-  //   /*    renderer.value.physicallyCorrectLights = toValue(physicallyCorrectLights) as boolean */
-  //   renderer.value.useLegacyLights = toValue(useLegacyLights) as boolean
-  // }
-
-  // const init = () => {
-  //   renderer.value = new WebGLRenderer({
-  //     canvas: unrefElement(canvas),
-  //     alpha: toValue(alpha),
-  //     antialias: toValue(antialias),
-  //     context: toValue(context),
-  //     depth: toValue(depth),
-  //     failIfMajorPerformanceCaveat: toValue(failIfMajorPerformanceCaveat),
-  //     logarithmicDepthBuffer: toValue(logarithmicDepthBuffer),
-  //     powerPreference: toValue(powerPreference),
-  //     precision: toValue(precision),
-  //     stencil: toValue(stencil),
-  //     preserveDrawingBuffer: toValue(preserveDrawingBuffer),
-  //     premultipliedAlpha: toValue(premultipliedAlpha),
-  //   })
-
-  //   updateRendererOptions()
-  //   resume()
-  // }
-
 
   onUnmounted(() => {
-    pause()
+    pause() // TODO should the render loop pause itself if there is no more renderer? 🤔
     renderer.value.dispose()
     renderer.value.forceContextLoss()
   })
-
-  // watch(
-  //   [shadows, shadowMapType, outputColorSpace, useLegacyLights, toneMapping, toneMappingExposure, clearColor],
-  //   updateRendererOptions,
-  // )
-
-  // watch(
-  //   canvas,
-  //   () => {
-  //     if (unrefElement(canvas)) {
-  //       init()
-  //     }
-  //   },
-  //   { immediate: true, deep: true },
-  // )
 
   if (import.meta.hot)
     import.meta.hot.on('vite:afterUpdate', resume)
