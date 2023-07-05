@@ -2,24 +2,22 @@ import { merge } from '../../utils'
 import { useLogger } from '../useLogger'
 import { TresColor } from '../../types'
 import { TresContext } from '../../provider'
+import { WebGLRenderer } from 'three'
 import { useRenderLoop } from '../useRenderLoop'
 import { normalizeColor } from '../../utils/normalize'
 import { rendererPresets, RendererPresetsType } from './const'
-import { shallowRef, toRefs, watchEffect, onUnmounted, type MaybeRef } from 'vue'
+import { shallowRef, watchEffect, onUnmounted, type MaybeRef, computed } from 'vue'
 import {
-  MaybeRefOrGetter,
   toValue,
   unrefElement,
+  type MaybeRefOrGetter,
   useDevicePixelRatio,
 } from '@vueuse/core'
-import {
-  WebGLRendererParameters,
-  NoToneMapping,
-  LinearSRGBColorSpace,
-  WebGLRenderer,
-  ShadowMapType,
-  PCFShadowMap,
+
+import type {
   ColorSpace,
+  ShadowMapType,
+  WebGLRendererParameters,
 } from 'three'
 
 import type { Scene, ToneMapping } from 'three'
@@ -111,7 +109,7 @@ export interface UseRendererOptions extends WebGLRendererParameters {
    */
   clearColor?: MaybeRefOrGetter<TresColor>
   windowSize?: MaybeRefOrGetter<boolean | string>
-  preset?: RendererPresetsType
+  preset?: MaybeRefOrGetter<RendererPresetsType>
 }
 
 /**
@@ -137,46 +135,22 @@ export function useRenderer(
     }
 ) {
 
+  const webGLRendererConstructorParameters = computed<WebGLRendererParameters>(() => ({
+    canvas: unrefElement(canvas),
+    alpha: toValue(options.alpha),
+    depth: toValue(options.depth),
+    context: toValue(options.context),
+    stencil: toValue(options.stencil),
+    antialias: toValue(options.antialias),
+    precision: toValue(options.precision),
+    powerPreference: toValue(options.powerPreference),
+    premultipliedAlpha: toValue(options.premultipliedAlpha),
+    preserveDrawingBuffer: toValue(options.preserveDrawingBuffer),
+    logarithmicDepthBuffer: toValue(options.logarithmicDepthBuffer),
+    failIfMajorPerformanceCaveat: toValue(options.failIfMajorPerformanceCaveat)
+  }))
 
-  // Defaults
-  const {
-    alpha = true,
-    antialias = true,
-    depth,
-    logarithmicDepthBuffer,
-    failIfMajorPerformanceCaveat,
-    precision,
-    premultipliedAlpha,
-    stencil,
-    shadows = false,
-    shadowMapType = PCFShadowMap,
-    useLegacyLights = false,
-    outputColorSpace = LinearSRGBColorSpace,
-    toneMapping = NoToneMapping,
-    toneMappingExposure = 1,
-    context = undefined,
-    powerPreference = 'default',
-    preserveDrawingBuffer = false,
-    clearColor,
-    preset = undefined,
-  } = toRefs(options) //TODO change way of default setting 
-
-  const renderer = shallowRef<WebGLRenderer>(
-    new WebGLRenderer({
-      canvas: unrefElement(canvas),
-      alpha: toValue(alpha),
-      antialias: toValue(antialias),
-      context: toValue(context),
-      depth: toValue(depth),
-      failIfMajorPerformanceCaveat: toValue(failIfMajorPerformanceCaveat),
-      logarithmicDepthBuffer: toValue(logarithmicDepthBuffer),
-      powerPreference: toValue(powerPreference),
-      precision: toValue(precision),
-      stencil: toValue(stencil),
-      preserveDrawingBuffer: toValue(preserveDrawingBuffer),
-      premultipliedAlpha: toValue(premultipliedAlpha),
-    },
-    ))
+  const renderer = shallowRef<WebGLRenderer>(new WebGLRenderer(webGLRendererConstructorParameters.value))
 
   const { pixelRatio } = useDevicePixelRatio()
   const { pause, resume, onLoop } = useRenderLoop()
@@ -191,8 +165,30 @@ export function useRenderer(
 
   const { logError } = useLogger()
 
+  const getThreeRendererDefaults = () => {
+
+    const plainRenderer = new WebGLRenderer()
+
+    const defaults = {
+
+      shadowMap: {
+        enabled: plainRenderer.shadowMap.enabled,
+        type: plainRenderer.shadowMap.type,
+      },
+      toneMapping: plainRenderer.toneMapping,
+      toneMappingExposure: plainRenderer.toneMappingExposure,
+      outputColorSpace: plainRenderer.outputColorSpace,
+      useLegacyLights: plainRenderer.useLegacyLights
+    }
+    plainRenderer.dispose()
+
+    return defaults
+  }
+
+  const threeDefaults = getThreeRendererDefaults()
+
   const updateRendererOptions = () => {
-    const rendererPreset = toValue(preset)
+    const rendererPreset = toValue(options.preset)
 
     if (rendererPreset) {
       if (!(rendererPreset in rendererPresets))
@@ -200,19 +196,35 @@ export function useRenderer(
 
       merge(renderer.value, rendererPresets[rendererPreset])
 
-      return
+      return // TODO should not return here
     }
 
-    renderer.value.shadowMap.enabled = toValue(shadows) as boolean
-    renderer.value.shadowMap.type = toValue(shadowMapType) as ShadowMapType
-    renderer.value.toneMapping = (toValue(toneMapping) as ToneMapping) || NoToneMapping
-    renderer.value.toneMappingExposure = toValue(toneMappingExposure) as number
-    // Wating for https://github.com/DefinitelyTyped/DefinitelyTyped/pull/65356/files to be merged
-    renderer.value.outputColorSpace = toValue(outputColorSpace as ColorSpace) || LinearSRGBColorSpace
-    if (clearColor?.value) renderer.value.setClearColor(normalizeColor(toValue(clearColor) as TresColor))
+    const shadows = toValue(options.shadows)
+    renderer.value.shadowMap.enabled = shadows !== undefined ? shadows : threeDefaults.shadowMap.enabled
 
-    /*    renderer.value.physicallyCorrectLights = toValue(physicallyCorrectLights) as boolean */
-    renderer.value.useLegacyLights = toValue(useLegacyLights) as boolean
+    const shadowMapType = toValue(options.shadowMapType)
+    renderer.value.shadowMap.type = shadowMapType !== undefined ? shadowMapType : threeDefaults.shadowMap.type
+
+    const toneMapping = toValue(options.toneMapping)
+    renderer.value.toneMapping = toneMapping !== undefined ? toneMapping : threeDefaults.toneMapping
+
+    const toneMappingExposure = toValue(options.toneMappingExposure)
+    renderer.value.toneMappingExposure = toneMappingExposure !== undefined ?
+      toneMappingExposure : threeDefaults.toneMappingExposure
+
+    const outputColorSpace = toValue(options.outputColorSpace)
+    renderer.value.outputColorSpace = outputColorSpace !== undefined ? outputColorSpace : threeDefaults.outputColorSpace
+
+    const useLegacyLights = toValue(options.useLegacyLights)
+    renderer.value.useLegacyLights = useLegacyLights !== undefined ? useLegacyLights : threeDefaults.useLegacyLights
+
+
+    const clearColor = toValue(options.clearColor)
+    if (clearColor)
+      // there is no logic which handles the case where clearColor is undefined,
+      // because the default clear color is not easily/efficiently retrievable from three
+      renderer.value.setClearColor(normalizeColor(clearColor))
+
   }
 
   watchEffect(
@@ -226,7 +238,7 @@ export function useRenderer(
 
 
   onUnmounted(() => {
-    pause() // TODO should the render loop pause itself if there is no more renderer? 🤔
+    pause() // TODO should the render loop pause itself if there is no more renderer? 🤔 What if there is another renderer which needs the loop?
     renderer.value.dispose()
     renderer.value.forceContextLoss()
   })

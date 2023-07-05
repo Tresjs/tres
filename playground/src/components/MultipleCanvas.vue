@@ -33,7 +33,7 @@ const log = () => {
     <input id="" v-model="state.clearColor" type="text" name="">
     <input v-model="state.disableRender" type="checkbox" name="">
     <div class="w-1/2 aspect-video">
-      <TresCanvas v-bind="state">
+      <TresCanvas v-bind="state" stencil>
         <TresPerspectiveCamera :position="[5, 5, 5]" :fov="45" :near="0.1" :far="1000" :look-at="[0, 4, 0]" />
 
         <TresAmbientLight :intensity="0.5" />

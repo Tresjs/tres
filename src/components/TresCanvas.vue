@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { App, Ref, computed, ref, shallowRef, watch } from 'vue'
-import { PerspectiveCamera, type ColorSpace, type ShadowMapType, type ToneMapping, Scene } from 'three'
+import { PerspectiveCamera, type ColorSpace, type ShadowMapType, type ToneMapping, Scene, WebGLRendererParameters } from 'three'
 
 import { type TresContext, useTresContextProvider } from '../provider'
 import { createTres } from '../core/renderer'
@@ -18,21 +18,19 @@ import type { TresCamera } from '../types/'
 import type { RendererPresetsType } from '../composables/useRenderer/const'
 import { onMounted } from 'vue'
 
-export interface TresCanvasProps {
-  shadows?: boolean
+export interface TresCanvasProps extends Omit<WebGLRendererParameters, 'canvas'> {
+  shadows?: boolean // TODO move these types to userenderer
   shadowMapType?: ShadowMapType
   useLegacyLights?: boolean
   outputColorSpace?: ColorSpace
   toneMapping?: ToneMapping
   toneMappingExposure?: number
-  context?: WebGLRenderingContext
-  powerPreference?: 'high-performance' | 'low-power' | 'default'
-  preserveDrawingBuffer?: boolean
   clearColor?: string
+
   windowSize?: boolean
   preset?: RendererPresetsType
   disableRender?: boolean
-  camera?: TresCamera
+  camera?: TresCamera,
 }
 
 const props = defineProps<TresCanvasProps>()
