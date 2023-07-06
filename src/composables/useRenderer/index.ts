@@ -6,7 +6,7 @@ import { Color, WebGLRenderer } from 'three'
 import { useRenderLoop } from '../useRenderLoop'
 import { normalizeColor } from '../../utils/normalize'
 import { rendererPresets, RendererPresetsType } from './const'
-import { shallowRef, watchEffect, onUnmounted, type MaybeRef, computed } from 'vue'
+import { shallowRef, watchEffect, onUnmounted, type MaybeRef, computed, watch } from 'vue'
 import {
   toValue,
   unrefElement,
@@ -116,11 +116,11 @@ export function useRenderer(
       disableRender: MaybeRefOrGetter<boolean>
     }
 ) {
-  options.logarithmicDepthBuffer
-  const webGLRendererConstructorParameters = computed<WebGLRendererParameters>(() => ({
-    canvas: unrefElement(canvas),
+
+  const webGLRendererConstructorParameters = computed<WebGLRendererParameters>(() => ({ // TODO recreate renderer when these change
     alpha: toValue(options.alpha),
     depth: toValue(options.depth),
+    canvas: unrefElement(canvas),
     context: toValue(options.context),
     stencil: toValue(options.stencil),
     antialias: toValue(options.antialias),
@@ -134,6 +134,13 @@ export function useRenderer(
 
   const renderer = shallowRef<WebGLRenderer>(new WebGLRenderer(webGLRendererConstructorParameters.value))
 
+  // since the properties set via the constructor can't be updated dynamically,
+  // the renderer is recreated once they change
+  // TODO react on this change in other places;
+  watch(webGLRendererConstructorParameters, () => {
+    renderer.value.dispose()
+    renderer.value = new WebGLRenderer(webGLRendererConstructorParameters.value)
+  })
   const { pixelRatio } = useDevicePixelRatio()
   const { pause, resume, onLoop } = useRenderLoop()
 
@@ -169,7 +176,7 @@ export function useRenderer(
 
   const threeDefaults = getThreeRendererDefaults()
 
-  const updateRendererOptions = () => {
+  watchEffect(() => {
     const rendererPreset = toValue(options.preset)
 
     if (rendererPreset) {
@@ -178,7 +185,7 @@ export function useRenderer(
 
       merge(renderer.value, rendererPresets[rendererPreset])
 
-      return // TODO should not return here
+      return // TODO should not return here -> discuss with team whether presets should be part of cientos
     }
 
     const shadows = toValue(options.shadows)
@@ -209,11 +216,7 @@ export function useRenderer(
           new Color(0x000000) // default clear color is not easily/efficiently retrievable from three
       )
 
-  }
-
-  watchEffect(
-    updateRendererOptions,
-  )
+  })
 
   onLoop(() => {
     if (camera.value && !toValue(disableRender))

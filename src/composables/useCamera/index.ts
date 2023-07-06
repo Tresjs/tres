@@ -7,15 +7,16 @@ import type { TresContext } from '../../provider/index'
 export function useCamera({ sizes }: Pick<TresContext, 'sizes'>) {
   const { IS_ACTIVE_CAMERA } = OBJECT_3D_USER_DATA_KEYS
 
-  const cameras = ref<Camera[]>([]) // TODO no reactive required
-  const camera = computed(() => cameras.value.find(({ userData }) => userData[IS_ACTIVE_CAMERA]));
+  const cameras = ref<Camera[]>([])
+  const camera = computed<Camera | undefined>(
+    () => cameras.value.find(({ userData }) => userData[IS_ACTIVE_CAMERA])
+  )
 
   function addCamera(camera: Camera, active = true): void {
     // Reset all cameras to inactive
     cameras.value.push(camera)
-    if (active) {
+    if (active)
       setCameraToActive(camera.uuid)
-    }
   }
 
   const setCameraToActive = (cameraId: string) => {
