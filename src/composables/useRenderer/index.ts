@@ -135,7 +135,6 @@ export function useRenderer(
 
   // since the properties set via the constructor can't be updated dynamically,
   // the renderer is recreated once they change
-  // TODO react on this change in other places;
   watch(webGLRendererConstructorParameters, () => {
     renderer.value.dispose()
     renderer.value = new WebGLRenderer(webGLRendererConstructorParameters.value)

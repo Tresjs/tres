@@ -40,7 +40,7 @@ export const useRaycaster = (
   }
 
   const getIntersectsByRelativePointerPosition = ({ x, y }: { x: number; y: number }) => {
-    if (!camera.value) return // TODO remove! there should always be a camera (?)
+    if (!camera.value) return
 
     raycaster.setFromCamera(new Vector2(x, y), camera.value)
 
