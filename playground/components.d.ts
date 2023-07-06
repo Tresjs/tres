@@ -8,6 +8,7 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     AnimatedModel: typeof import('./src/components/AnimatedModel.vue')['default']
+    CameraOperator: typeof import('./src/components/CameraOperator.vue')['default']
     Cameras: typeof import('./src/components/Cameras.vue')['default']
     copy: typeof import('./src/components/TheBasic copy.vue')['default']
     DanielTest: typeof import('./src/components/DanielTest.vue')['default']
@@ -25,6 +26,7 @@ declare module 'vue' {
     TestSphere: typeof import('./src/components/TestSphere.vue')['default']
     Text3D: typeof import('./src/components/Text3D.vue')['default']
     TheBasic: typeof import('./src/components/TheBasic.vue')['default']
+    TheCameraOperator: typeof import('./src/components/TheCameraOperator.vue')['default']
     TheConditional: typeof import('./src/components/TheConditional.vue')['default']
     TheEnvironment: typeof import('./src/components/TheEnvironment.vue')['default']
     TheEvents: typeof import('./src/components/TheEvents.vue')['default']

@@ -1,11 +1,12 @@
 import { uniqueBy } from '../../utils'
-import { useRaycaster } from '../useRaycaster'
-import { computed, onUnmounted, reactive } from 'vue'
 import { TresContext } from 'src/provider'
-import type { Intersection, Event, Object3D, Scene } from 'three'
+import { useRaycaster } from '../useRaycaster'
+import { computed, reactive } from 'vue'
 import { OBJECT_3D_USER_DATA_KEYS } from '../../keys'
 
-type CallbackFn = (intersection: Intersection<Object3D<Event>>, event: PointerEvent) => void //TODO document
+import type { Intersection, Event, Object3D, Scene } from 'three'
+
+type CallbackFn = (intersection: Intersection<Object3D<Event>>, event: PointerEvent) => void
 type CallbackFnPointerLeave = (object: Object3D<Event>, event: PointerEvent) => void
 
 type EventProps = {
@@ -38,13 +39,14 @@ export const usePointerEventHandler = (
     if (onPointerEnter) objectsWithEventListeners.pointerEnter.set(object, onPointerEnter)
     if (onPointerLeave) objectsWithEventListeners.pointerLeave.set(object, onPointerLeave)
 
-    object.addEventListener('removed', () => {
-      object.traverse((child: Object3D) => {
-        deregisterObject(child)
-      })
+    if (onClick || onPointerMove || onPointerEnter || onPointerLeave)
+      object.addEventListener('removed', () => {
+        object.traverse((child: Object3D) => {
+          deregisterObject(child)
+        })
 
-      deregisterObject(object)
-    })
+        deregisterObject(object)
+      })
   }
 
   // to make the registerObject available in the custom renderer (nodeOps), it is attached to the scene

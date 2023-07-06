@@ -85,10 +85,24 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
 
     if (!parent) parent = fallback as TresObject
 
+    if (child?.isObject3D) {
+      if (child?.isCamera)
+        scene?.userData?.[OBJECT_3D_USER_DATA_KEYS.REGISTER_CAMERA]?.(child)
+
+
+      if (
+        child?.onClick ||
+        child?.onPointerMove ||
+        child?.onPointerEnter ||
+        child?.onPointerLeave
+      )
+        scene?.userData?.[OBJECT_3D_USER_DATA_KEYS.REGISTER_AT_POINTER_EVENT_HANDLER]?.(child)
+    }
+
+
     if (child?.isObject3D && parent?.isObject3D) {
       parent.add(child)
       child.dispatchEvent({ type: 'added' })
-      scene?.userData?.[OBJECT_3D_USER_DATA_KEYS.REGISTER_AT_POINTER_EVENT_HANDLER]?.(child)
     } else if (child?.isFog) {
       parent.fog = child
     } else if (typeof child?.attach === 'string') {

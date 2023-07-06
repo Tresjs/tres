@@ -1,18 +1,17 @@
-import { Scene, WebGLRenderer } from 'three';
-import { inject, provide, readonly, shallowRef, computed } from 'vue';
+import { Camera, Scene, WebGLRenderer } from 'three';
 import { toValue, useElementSize, useWindowSize } from '@vueuse/core';
-import { TresCamera } from '../types';
+import { inject, provide, readonly, shallowRef, computed } from 'vue';
 import { type UseRendererOptions, useCamera, useRenderer } from '../composables';
 
-import type { ComputedRef, DeepReadonly, MaybeRef, MaybeRefOrGetter, Ref, ShallowReactive, ShallowRef } from 'vue';
+import type { ComputedRef, DeepReadonly, MaybeRef, MaybeRefOrGetter, Ref, ShallowRef } from 'vue';
 
 export type TresContext = {
   scene: DeepReadonly<ShallowRef<Scene>>;
-  cameras: DeepReadonly<ShallowReactive<TresCamera[]>>;
-  camera: ComputedRef<TresCamera | undefined>;
+  camera: ComputedRef<Camera | undefined>;
+  cameras: DeepReadonly<ShallowRef<Camera[]>>;
   renderer: DeepReadonly<ShallowRef<WebGLRenderer>>
-  addCamera: (camera: TresCamera) => void;
-  setCameraToActive: (cameraId: string) => void;
+  addCamera: (camera: Camera) => void;
+  setCameraActive: (cameraId: string) => void;
   clearCameras: () => void;
   // setRenderer: (renderer: WebGLRenderer) => void; // TODO remove -> might not be required at all
   sizes: { height: Ref<number>, width: Ref<number>, aspectRatio: ComputedRef<number> }
@@ -56,8 +55,8 @@ export function useTresContextProvider({
     cameras,
     addCamera,
     clearCameras,
-    setCameraToActive,
-  } = useCamera({ sizes });
+    setCameraActive,
+  } = useCamera({ sizes, scene });
 
   const { renderer } = useRenderer(
     {
@@ -77,7 +76,7 @@ export function useTresContextProvider({
     renderer: readonly(renderer),
     addCamera,
     clearCameras,
-    setCameraToActive,
+    setCameraActive,
   }
 
   provide('useTres', toProvide);
@@ -89,7 +88,7 @@ export function useTresContext(): TresContext {
   const context = inject<Partial<TresContext>>('useTres');
 
   if (!context) {
-    throw new Error('useTresContext must be used within a TresProvider');
+    throw new Error('useTresContext must be used together with useTresContextProvider');
   }
 
   return context as TresContext;
