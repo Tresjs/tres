@@ -21,7 +21,7 @@ export function useCamera({ sizes, scene }: Pick<TresContext, 'sizes'> & { scene
     cameras.value.push(newCamera)
 
     if (active)
-      setCameraActive(newCamera.uuid)
+      setCameraActive(newCamera)
   }
 
   const removeCamera = (camera: Camera) => {
@@ -34,8 +34,11 @@ export function useCamera({ sizes, scene }: Pick<TresContext, 'sizes'> & { scene
     cameras.value = cameras.value.filter(({ uuid }) => uuid !== camera.uuid)
   }
 
-  const setCameraActive = (cameraUuid: string) => { // TODO add setCameraActiveByUuid
-    const camera = cameras.value.find((camera: Camera) => camera.uuid === cameraUuid)
+  const setCameraActive = (cameraOrUuid: string | Camera) => {
+    const camera = cameraOrUuid instanceof Camera ?
+      cameraOrUuid :
+      cameras.value.find((camera: Camera) => camera.uuid === cameraOrUuid)
+
     if (!camera) return
 
     cameras.value.forEach(({ userData }) => userData[IS_ACTIVE_CAMERA] = false)
@@ -70,7 +73,6 @@ export function useCamera({ sizes, scene }: Pick<TresContext, 'sizes'> & { scene
     cameras,
     addCamera,
     removeCamera,
-    clearCameras,
     setCameraActive,
   }
 }

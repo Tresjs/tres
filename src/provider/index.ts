@@ -12,9 +12,8 @@ export type TresContext = {
   renderer: DeepReadonly<ShallowRef<WebGLRenderer>>
 
   addCamera: (camera: Camera) => void;
-  setCameraActive: (cameraId: string) => void;
   removeCamera: (camera: Camera) => void
-  clearCameras: () => void;
+  setCameraActive: (cameraOrUuid: Camera | string) => void;
 
   sizes: { height: Ref<number>, width: Ref<number>, aspectRatio: ComputedRef<number> }
 }
@@ -56,7 +55,6 @@ export function useTresContextProvider({
     camera,
     cameras,
     addCamera,
-    clearCameras,
     removeCamera,
     setCameraActive,
   } = useCamera({ sizes, scene });
@@ -79,7 +77,6 @@ export function useTresContextProvider({
     renderer: readonly(renderer),
     addCamera,
     removeCamera,
-    clearCameras,
     setCameraActive,
   }
 

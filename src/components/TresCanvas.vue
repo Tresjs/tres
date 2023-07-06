@@ -46,11 +46,9 @@ const props = defineProps<TresCanvasProps>()
 
 const { logWarning } = useLogger()
 
-// Template Refs
 const canvas = ref<HTMLCanvasElement>()
-const scene = shallowRef(new Scene()) // must be here to make custom renderer work //TODO check
+const scene = shallowRef(new Scene()) // must be here to make custom renderer work
 
-// Canvas & Camera
 const { resume } = useRenderLoop()
 
 const slots = defineSlots<{
@@ -60,7 +58,6 @@ const slots = defineSlots<{
 
 let app: App
 
-// Custom Renderer 
 const mountCustomRenderer = (context: TresContext) => {
   app = createTres(slots)
   app.provide('useTres', context) // TODO obsolete?
