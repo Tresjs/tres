@@ -1,4 +1,8 @@
 <script setup lang="ts">
+import { extend } from '../core/catalogue'
+import { onMounted } from 'vue'
+import { createTres } from '../core/renderer'
+import { useTresContextProvider, type TresContext } from '../composables'
 import { App, Ref, computed, ref, shallowRef, watch, watchEffect } from 'vue'
 import {
   Scene,
@@ -9,21 +13,15 @@ import {
   type ToneMapping,
 } from 'three'
 
-import { type TresContext, useTresContextProvider } from '../provider'
-import { createTres } from '../core/renderer'
-import { extend } from '../core/catalogue'
-
 import {
   useLogger,
   useRenderLoop,
   usePointerEventHandler,
 } from '../composables'
 
-
-
 import type { TresCamera } from '../types/'
 import type { RendererPresetsType } from '../composables/useRenderer/const'
-import { onMounted } from 'vue'
+
 
 export interface TresCanvasProps extends Omit<WebGLRendererParameters, 'canvas'> {
   // required by for useRenderer

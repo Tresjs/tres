@@ -1,10 +1,9 @@
 import { merge } from '../../utils'
 import { useLogger } from '../useLogger'
 import { TresColor } from '../../types'
-import { TresContext } from '../../provider'
-import { Color, WebGLRenderer } from 'three'
 import { useRenderLoop } from '../useRenderLoop'
 import { normalizeColor } from '../../utils/normalize'
+import { Color, WebGLRenderer } from 'three'
 import { rendererPresets, RendererPresetsType } from './const'
 import { shallowRef, watchEffect, onUnmounted, type MaybeRef, computed, watch } from 'vue'
 import {
@@ -14,13 +13,13 @@ import {
   useDevicePixelRatio,
 } from '@vueuse/core'
 
+import type { Scene, ToneMapping } from 'three'
+import type { TresContext } from '../useTresContextProvider'
 import type {
   ColorSpace,
   ShadowMapType,
   WebGLRendererParameters,
 } from 'three'
-
-import type { Scene, ToneMapping } from 'three'
 
 type TransformToMaybeRefOrGetter<T> = {
   [K in keyof T]: MaybeRefOrGetter<T[K]> | MaybeRefOrGetter<T[K]>;
@@ -117,7 +116,7 @@ export function useRenderer(
     }
 ) {
 
-  const webGLRendererConstructorParameters = computed<WebGLRendererParameters>(() => ({ // TODO recreate renderer when these change
+  const webGLRendererConstructorParameters = computed<WebGLRendererParameters>(() => ({
     alpha: toValue(options.alpha),
     depth: toValue(options.depth),
     canvas: unrefElement(canvas),

@@ -1,9 +1,9 @@
 import { uniqueBy } from '../../utils'
-import { TresContext } from 'src/provider'
 import { useRaycaster } from '../useRaycaster'
 import { computed, reactive } from 'vue'
 import { OBJECT_3D_USER_DATA_KEYS } from '../../keys'
 
+import type { TresContext } from '../useTresContextProvider'
 import type { Intersection, Event, Object3D, Scene } from 'three'
 
 type CallbackFn = (intersection: Intersection<Object3D<Event>>, event: PointerEvent) => void

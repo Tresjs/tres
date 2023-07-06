@@ -2,7 +2,7 @@ import { OBJECT_3D_USER_DATA_KEYS } from '../../keys'
 import { computed, watchEffect, ref, onUnmounted } from 'vue'
 import { Camera, OrthographicCamera, PerspectiveCamera, Scene } from 'three'
 
-import type { TresContext } from '../../provider/index'
+import type { TresContext } from '../useTresContextProvider'
 
 export function useCamera({ sizes, scene }: Pick<TresContext, 'sizes'> & { scene: Scene }) {
   const { IS_ACTIVE_CAMERA, REGISTER_CAMERA, DEREGISTER_CAMERA } = OBJECT_3D_USER_DATA_KEYS

@@ -1,7 +1,8 @@
+import { useCamera } from '../useCamera';
 import { Camera, Scene, WebGLRenderer } from 'three';
+import { UseRendererOptions, useRenderer } from '../useRenderer';
 import { toValue, useElementSize, useWindowSize } from '@vueuse/core';
 import { inject, provide, readonly, shallowRef, computed } from 'vue';
-import { type UseRendererOptions, useCamera, useRenderer } from '../composables';
 
 import type { ComputedRef, DeepReadonly, MaybeRef, MaybeRefOrGetter, Ref, ShallowRef } from 'vue';
 
@@ -17,7 +18,6 @@ export type TresContext = {
 
   sizes: { height: Ref<number>, width: Ref<number>, aspectRatio: ComputedRef<number> }
 }
-// TODO move file to composables
 
 export function useTresContextProvider({
   scene,

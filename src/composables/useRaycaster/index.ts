@@ -2,7 +2,8 @@ import { type Intersection, Object3D, Raycaster, Vector2 } from 'three'
 import { Ref, computed, onUnmounted } from 'vue'
 import { EventHook, createEventHook, useElementBounding, usePointer } from '@vueuse/core'
 
-import type { TresContext } from '../../provider'
+import type { TresContext } from '../useTresContextProvider'
+
 
 export type Intersects = Intersection<THREE.Object3D<THREE.Event>>[]
 interface PointerMoveEventPayload {
