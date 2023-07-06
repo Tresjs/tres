@@ -38,19 +38,12 @@ export const usePointerEventHandler = (
     if (onPointerMove) objectsWithEventListeners.pointerMove.set(object, onPointerMove)
     if (onPointerEnter) objectsWithEventListeners.pointerEnter.set(object, onPointerEnter)
     if (onPointerLeave) objectsWithEventListeners.pointerLeave.set(object, onPointerLeave)
-
-    if (onClick || onPointerMove || onPointerEnter || onPointerLeave)
-      object.addEventListener('removed', () => {
-        object.traverse((child: Object3D) => {
-          deregisterObject(child)
-        })
-
-        deregisterObject(object)
-      })
   }
 
+  const { REGISTER_AT_POINTER_EVENT_HANDLER, DEREGISTER_AT_POINTER_EVENT_HANDLER } = OBJECT_3D_USER_DATA_KEYS
   // to make the registerObject available in the custom renderer (nodeOps), it is attached to the scene
-  scene.userData[OBJECT_3D_USER_DATA_KEYS.REGISTER_AT_POINTER_EVENT_HANDLER] = registerObject
+  scene.userData[REGISTER_AT_POINTER_EVENT_HANDLER] = registerObject
+  scene.userData[DEREGISTER_AT_POINTER_EVENT_HANDLER] = deregisterObject
 
 
   const objectsToWatch = computed(() =>

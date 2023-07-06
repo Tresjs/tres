@@ -8,12 +8,14 @@ import type { ComputedRef, DeepReadonly, MaybeRef, MaybeRefOrGetter, Ref, Shallo
 export type TresContext = {
   scene: DeepReadonly<ShallowRef<Scene>>;
   camera: ComputedRef<Camera | undefined>;
-  cameras: DeepReadonly<ShallowRef<Camera[]>>;
+  cameras: DeepReadonly<Ref<Camera[]>>;
   renderer: DeepReadonly<ShallowRef<WebGLRenderer>>
+
   addCamera: (camera: Camera) => void;
   setCameraActive: (cameraId: string) => void;
+  removeCamera: (camera: Camera) => void
   clearCameras: () => void;
-  // setRenderer: (renderer: WebGLRenderer) => void; // TODO remove -> might not be required at all
+
   sizes: { height: Ref<number>, width: Ref<number>, aspectRatio: ComputedRef<number> }
 }
 // TODO move file to composables
@@ -55,6 +57,7 @@ export function useTresContextProvider({
     cameras,
     addCamera,
     clearCameras,
+    removeCamera,
     setCameraActive,
   } = useCamera({ sizes, scene });
 
@@ -75,6 +78,7 @@ export function useTresContextProvider({
     cameras: readonly(cameras),
     renderer: readonly(renderer),
     addCamera,
+    removeCamera,
     clearCameras,
     setCameraActive,
   }

@@ -16,6 +16,11 @@ const routes = [
         name: 'Multiple Cameras',
         component: () => import('./pages/multiple-cameras.vue'),
     },
+    {
+        path: '/no-camera',
+        name: 'No Camera',
+        component: () => import('./pages/no-camera.vue'),
+    },
 ]
 export const router = createRouter({
     history: createWebHistory(),

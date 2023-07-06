@@ -6,7 +6,7 @@ import { catalogue } from './catalogue'
 import { TresObject } from '../types'
 import { isHTMLTag, kebabToCamel } from '../utils'
 import { OBJECT_3D_USER_DATA_KEYS } from '../keys'
-import type { Material, BufferGeometry, Object3D } from 'three'
+import type { Material, BufferGeometry, Object3D, Camera } from 'three'
 
 const onRE = /^on[^a-z]/
 export const isOn = (key: string) => onRE.test(key)
@@ -119,19 +119,47 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
     if (node.isObject3D) {
       const object3D = node as unknown as Object3D
 
-      const disposeMaterialsAndGeometries = (object3D: Object3D) => {
-        const { GEOMETRY_VIA_PROP, MATERIAL_VIA_PROP } = OBJECT_3D_USER_DATA_KEYS
+      const {
+        DEREGISTER_CAMERA,
+        GEOMETRY_VIA_PROP,
+        MATERIAL_VIA_PROP,
+        DEREGISTER_AT_POINTER_EVENT_HANDLER,
+      } = OBJECT_3D_USER_DATA_KEYS
 
+      const disposeMaterialsAndGeometries = (object3D: Object3D) => {
         if (!object3D.userData[MATERIAL_VIA_PROP]) (object3D as Object3D & { material: Material }).material?.dispose()
         if (!object3D.userData[GEOMETRY_VIA_PROP])
           (object3D as Object3D & { geometry: BufferGeometry }).geometry?.dispose()
       }
 
+      const deregisterAtPointerEventHandler = scene?.userData?.[DEREGISTER_AT_POINTER_EVENT_HANDLER]
+
+      const deregisterAtPointerEventHandlerIfRequired = (object: TresObject) => {
+        if (
+          object?.onClick ||
+          object?.onPointerMove ||
+          object?.onPointerEnter ||
+          object?.onPointerLeave
+        )
+          deregisterAtPointerEventHandler?.(object)
+      }
+
+      const deregisterCamera = scene?.userData?.[DEREGISTER_CAMERA]
+
+      const deregisterCameraIfRequired = (object: Object3D) => {
+        if ((object as Camera).isCamera)
+          deregisterCamera(object)
+      }
+
       object3D.traverse((child: Object3D) => {
         disposeMaterialsAndGeometries(child)
+        deregisterCameraIfRequired(child)
+        deregisterAtPointerEventHandlerIfRequired?.(child as TresObject)
       })
 
       disposeMaterialsAndGeometries(object3D)
+      deregisterCameraIfRequired(object3D)
+      deregisterAtPointerEventHandlerIfRequired?.(object3D as TresObject)
     }
 
     node.removeFromParent?.()

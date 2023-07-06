@@ -1,8 +1,6 @@
 <script setup lang="ts">
-import { BasicShadowMap, Camera, NoToneMapping, SRGBColorSpace } from 'three'
+import { Camera } from 'three'
 import { TresCanvas } from '@tresjs/core'
-import { ShallowRef } from 'vue';
-// import { GLTFModel, OrbitControls } from '@tresjs/cientos'
 
 const state = reactive({
   clearColor: '#4f4f4f',

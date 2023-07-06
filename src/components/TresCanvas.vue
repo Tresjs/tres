@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { App, Ref, computed, ref, shallowRef, watch } from 'vue'
+import { App, Ref, computed, ref, shallowRef, watch, watchEffect } from 'vue'
 import {
   Scene,
   PerspectiveCamera,
@@ -74,7 +74,6 @@ const dispose = () => {
   app = createTres(slots)
   app.provide('extend', extend)
   app.mount(scene as unknown)
-  // setCamera() //TODO move
   resume()
 }
 
@@ -91,46 +90,50 @@ onMounted(() => {
     rendererOptions: props,
   })
 
-  // Event handler
-  usePointerEventHandler(scene.value, context) // TODO move?
+  usePointerEventHandler(scene.value, context)
 
-  const { addCamera, clearCameras } = context
+  const { addCamera, camera, cameras, removeCamera } = context
 
   mountCustomRenderer(context)
-  setCamera()
 
-  if (props.camera)
-    addCamera(props.camera) // TODO move to useTresContextProvicer init
+  const addDefaultCamera = () => {
+    const camera = new PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000)
+    camera.position.set(3, 3, 3)
+    camera.lookAt(0, 0, 0)
+    addCamera(camera)
 
-  function setCamera() { // TODO move
-    const camera = scene.value.getObjectByProperty('isCamera', true)
-
-    if (!camera) {
-      logWarning(
-        'No camera found. Creating a default perspective camera. ' +
-        'To have full control over a camera, please add one to the scene.'
-      )
-      const camera = new PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000)
-      camera.position.set(3, 3, 3)
-      camera.lookAt(0, 0, 0)
-      addCamera(camera)
-    } else {
-      addCamera(camera as TresCamera)
-    }
-
-    watch(
-      () => props.camera,
-      camera => {
-        if (camera) {
-          clearCameras()
-          addCamera(camera)
+    const unwatch = watchEffect(
+      () => {
+        if (cameras.value.length >= 2) {
+          camera.removeFromParent()
+          removeCamera(camera)
+          unwatch?.()
         }
       },
     )
-    if (import.meta.hot)
-      import.meta.hot.on('vite:afterUpdate', dispose)
   }
 
+  watch(() => props.camera, (newCamera, oldCamera) => {
+    if (newCamera)
+      addCamera(newCamera)
+    else if (oldCamera) {
+      oldCamera.removeFromParent()
+      removeCamera(oldCamera)
+    }
+  }, {
+    immediate: true
+  })
+
+  if (!camera.value) {
+    logWarning(
+      'No camera found. Creating a default perspective camera. ' +
+      'To have full control over a camera, please add one to the scene.'
+    )
+    addDefaultCamera()
+  }
+
+  if (import.meta.hot)
+    import.meta.hot.on('vite:afterUpdate', dispose)
 })
 </script>
 <template>
