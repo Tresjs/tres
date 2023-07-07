@@ -31,7 +31,7 @@ const { pause, resume, isActive } = useRafFn(
     onLoop.trigger({ delta, elapsed, clock })
     onAfterLoop.trigger({ delta, elapsed, clock })
   },
-  { immediate: true },
+  { immediate: false },
 )
 
 onAfterLoop.on(() => {
@@ -39,7 +39,7 @@ onAfterLoop.on(() => {
   elapsed = clock.getElapsedTime()
 })
 
-export function useRenderLoop(): UseRenderLoopReturn {
+export const useRenderLoop = (): UseRenderLoopReturn => {
   return {
     onBeforeLoop: onBeforeLoop.on,
     onLoop: onLoop.on,
