@@ -39,7 +39,7 @@ onAfterLoop.on(() => {
   elapsed = clock.getElapsedTime()
 })
 
-export function useRenderLoop(): UseRenderLoopReturn {
+export const useRenderLoop = (): UseRenderLoopReturn => {
   return {
     onBeforeLoop: onBeforeLoop.on,
     onLoop: onLoop.on,

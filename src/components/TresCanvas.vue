@@ -45,7 +45,13 @@ const props = defineProps<TresCanvasProps>()
 const { logWarning } = useLogger()
 
 const canvas = ref<HTMLCanvasElement>()
-const scene = shallowRef(new Scene()) // must be here to make custom renderer work
+
+/*
+ `scene` is defined here and not in `useTresContextProvider` because the custom
+ renderer uses it to mount the app nodes. This happens before `useTresContextProvider` is called.
+ The custom renderer requires `scene` to be editable (not readonly).
+*/
+const scene = shallowRef(new Scene())
 
 const { resume } = useRenderLoop()
 

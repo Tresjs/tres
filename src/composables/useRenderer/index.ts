@@ -1,8 +1,3 @@
-import { merge } from '../../utils'
-import { useLogger } from '../useLogger'
-import { TresColor } from '../../types'
-import { useRenderLoop } from '../useRenderLoop'
-import { normalizeColor } from '../../utils/normalize'
 import { Color, WebGLRenderer } from 'three'
 import { rendererPresets, RendererPresetsType } from './const'
 import { shallowRef, watchEffect, onUnmounted, type MaybeRef, computed, watch } from 'vue'
@@ -12,6 +7,12 @@ import {
   type MaybeRefOrGetter,
   useDevicePixelRatio,
 } from '@vueuse/core'
+
+import { merge } from '../../utils'
+import { useLogger } from '../useLogger'
+import { TresColor } from '../../types'
+import { useRenderLoop } from '../useRenderLoop'
+import { normalizeColor } from '../../utils/normalize'
 
 import type { Scene, ToneMapping } from 'three'
 import type { TresContext } from '../useTresContextProvider'
@@ -139,12 +140,13 @@ export function useRenderer(
     renderer.value.dispose()
     renderer.value = new WebGLRenderer(webGLRendererConstructorParameters.value)
   })
-  const { pixelRatio } = useDevicePixelRatio()
-  const { pause, resume, onLoop } = useRenderLoop()
 
   watchEffect(() => {
     renderer.value.setSize(sizes.width.value, sizes.height.value)
   })
+
+
+  const { pixelRatio } = useDevicePixelRatio()
 
   watchEffect(() => {
     renderer.value.setPixelRatio(pixelRatio.value)
@@ -216,11 +218,14 @@ export function useRenderer(
 
   })
 
+  const { pause, resume, onLoop } = useRenderLoop()
+
   onLoop(() => {
     if (camera.value && !toValue(disableRender))
       renderer.value.render(scene, camera.value)
   })
 
+  resume()
 
   onUnmounted(() => {
     pause() // TODO should the render loop pause itself if there is no more renderer? 🤔 What if there is another renderer which needs the loop?
