@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { Camera } from 'three'
 import { OrbitControls } from 'three-stdlib'
-import { ref, watch, onUnmounted } from 'vue'
+import { ref, unref, onUnmounted } from 'vue'
 import { TresVector3, extend, useRenderLoop, useTresContext } from '@tresjs/core'
 import { useEventListener } from '@vueuse/core'
 
@@ -284,14 +284,19 @@ onUnmounted(() => {
         controls.value.dispose()
     }
 })
+
+watchEffect(() => {
+    console.log('activeCamera', activeCamera.value)
+    console.log('renderer', renderer.value)
+})
 </script>
 
 <template>
-    <TresOrbitControls v-if="camera && renderer" ref="controls" :target="target" :auto-rotate="autoRotate"
+    <TresOrbitControls v-if="activeCamera && renderer" ref="controls" :target="target" :auto-rotate="autoRotate"
         :auto-rotate-speed="autoRotateSpeed" :enable-damping="enableDamping" :damping-factor="dampingFactor"
         :enable-pan="enablePan" :key-pan-speed="keyPanSpeed" :keys="keys" :max-azimuth-angle="maxAzimuthAngle"
         :min-azimuth-angle="minAzimuthAngle" :max-polar-angle="maxPolarAngle" :min-polar-angle="minPolarAngle"
         :min-distance="minDistance" :max-distance="maxDistance" :min-zoom="minZoom" :max-zoom="maxZoom" :touches="touches"
         :enable-zoom="enableZoom" :zoom-speed="zoomSpeed" :enable-rotate="enableRotate" :rotate-speed="rotateSpeed"
-        :args="[activeCamera || camera, renderer?.domElement || domElement]" />
+        :args="[unref(activeCamera) || camera, renderer?.domElement || domElement]" />
 </template>

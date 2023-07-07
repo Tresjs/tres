@@ -1,12 +1,15 @@
 <script setup lang="ts">
 import { Camera } from 'three'
 import { TresCanvas } from '@tresjs/core'
-
+import { TresLeches, useControls } from '@tresjs/leches';
+import '@tresjs/leches/styles'
 const state = reactive({
   clearColor: '#4f4f4f',
   shadows: true,
   alpha: false,
 })
+
+useControls('fpsgraph')
 
 const camera1 = shallowRef<Camera>()
 const camera2 = shallowRef<Camera>()
@@ -38,7 +41,7 @@ watchEffect(() => {
           <TresPerspectiveCamera ref="camera3" :position="[-15, 8, 5]" :fov="25" :near="0.1" :far="1000"
             :look-at="[0, 4, 0]" />
         </TheCameraOperator>
-
+        <LocalOrbitControls />
         <TresAmbientLight :intensity="0.5" />
         <TresMesh :position="[0, 4, 0]">
           <TresBoxGeometry :args="[1, 1, 1]" />
@@ -51,5 +54,6 @@ watchEffect(() => {
         <TresDirectionalLight :position="[0, 2, 4]" :intensity="1" />
       </TresCanvas>
     </div>
+    <TresLeches />
   </div>
 </template>
