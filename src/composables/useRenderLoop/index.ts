@@ -31,7 +31,7 @@ const { pause, resume, isActive } = useRafFn(
     onLoop.trigger({ delta, elapsed, clock })
     onAfterLoop.trigger({ delta, elapsed, clock })
   },
-  { immediate: false },
+  { immediate: true },
 )
 
 onAfterLoop.on(() => {
