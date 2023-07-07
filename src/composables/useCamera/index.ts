@@ -1,6 +1,7 @@
-import { OBJECT_3D_USER_DATA_KEYS } from '../../keys'
 import { computed, watchEffect, ref, onUnmounted } from 'vue'
 import { Camera, OrthographicCamera, PerspectiveCamera, Scene } from 'three'
+
+import { OBJECT_3D_USER_DATA_KEYS } from '../../keys'
 
 import type { TresContext } from '../useTresContextProvider'
 

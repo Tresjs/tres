@@ -1,8 +1,3 @@
-import { merge } from '../../utils'
-import { useLogger } from '../useLogger'
-import { TresColor } from '../../types'
-import { useRenderLoop } from '../useRenderLoop'
-import { normalizeColor } from '../../utils/normalize'
 import { Color, WebGLRenderer } from 'three'
 import { rendererPresets, RendererPresetsType } from './const'
 import { shallowRef, watchEffect, onUnmounted, type MaybeRef, computed, watch } from 'vue'
@@ -12,6 +7,12 @@ import {
   type MaybeRefOrGetter,
   useDevicePixelRatio,
 } from '@vueuse/core'
+
+import { merge } from '../../utils'
+import { useLogger } from '../useLogger'
+import { TresColor } from '../../types'
+import { useRenderLoop } from '../useRenderLoop'
+import { normalizeColor } from '../../utils/normalize'
 
 import type { Scene, ToneMapping } from 'three'
 import type { TresContext } from '../useTresContextProvider'
