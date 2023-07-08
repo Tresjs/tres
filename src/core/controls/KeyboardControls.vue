@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, shallowRef } from 'vue'
+import { ref, shallowRef, watch } from 'vue'
 import { useRenderLoop } from '@tresjs/core'
 import { PointerLockControls } from 'three-stdlib'
 import { onKeyStroke } from '@vueuse/core'
@@ -93,8 +93,8 @@ const {
   is2D = false,
 } = defineProps<KeyboardControlsProps>()
 
+
 const { state } = useCientos()
-const initCameraPos: number = state?.camera?.position.y || 0
 const xMove = ref(0)
 const zMove = ref(0)
 const isHeadBobbing = ref(false)
@@ -105,6 +105,11 @@ const HBAmplitude = 0.3
 const initJumpTime = ref(0)
 const wrapperRef = shallowRef()
 const _forward = is2D ? 'y' : 'z'
+let initCameraPos = 0
+
+watch(() => state.camera, () => {
+  initCameraPos = state.camera?.position?.y || 0
+})
 
 // FORWARD DIRECTION MOVEMENTS
 onKeyStroke(
