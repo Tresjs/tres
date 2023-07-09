@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { watchEffect, shallowRef } from 'vue'
+import { watchEffect, shallowRef, toRefs } from 'vue'
 import { useRenderLoop, TresColor } from '@tresjs/core'
 
 export type PrecipitationProps = {
@@ -112,42 +112,54 @@ export type PrecipitationProps = {
   sizeAttenuation?: boolean
 }
 
-// TODO: remove disable once eslint is updated to support vue 3.3
-// eslint-disable-next-line vue/no-setup-props-destructure
+const props = withDefaults(defineProps<PrecipitationProps>(), {
+  size: 0.1,
+  area: () => [10, 10, 20],
+  color: 0xffffff,
+  alphaTest: 0.01,
+  opacity: 0.8,
+  count: 5000,
+  speed: 0.1,
+  randomness: 0.5,
+  depthWrite: false,
+  transparent: true,
+  sizeAttenuation: true,
+})
+
 const {
-  size = 0.1,
-  area = [10, 10, 20],
-  color = 0xffffff,
-  map = null,
-  alphaMap = null,
-  alphaTest = 0.01,
-  opacity = 0.8,
-  count = 5000,
-  speed = 0.1,
-  randomness = 0.5,
-  depthWrite = false,
-  transparent = true,
-  sizeAttenuation = true,
-} = defineProps<PrecipitationProps>()
+  size,
+  area,
+  color,
+  alphaMap,
+  map,
+  opacity,
+  alphaTest,
+  depthWrite,
+  transparent,
+  sizeAttenuation,
+  count,
+  speed,
+  randomness,
+} = toRefs(props)
 
 const geometryRef = shallowRef()
 let positionArray: [] | Float32Array = []
 let velocityArray: [] | Float32Array = []
-const setPosition = () => {
-  positionArray = new Float32Array(count * 3)
-  for (let i = 0; i < count; i++) {
-    const i3 = i * 3
-    positionArray[i3] = (Math.random() - 0.5) * area[0]
-    positionArray[i3 + 1] = (Math.random() - 0.5) * area[1]
-    positionArray[i3 + 2] = (Math.random() - 0.5) * area[2]
-  }
 
+const setPosition = () => {
+  positionArray = new Float32Array(count.value * 3)
+  for (let i = 0; i < count.value; i++) {
+    const i3 = i * 3
+    positionArray[i3] = (Math.random() - 0.5) * area.value[0]
+    positionArray[i3 + 1] = (Math.random() - 0.5) * area.value[1]
+    positionArray[i3 + 2] = (Math.random() - 0.5) * area.value[2]
+  }
 }
 const setSpeed = () => {
-  velocityArray = new Float32Array(count * 2)
-  for (let i = 0; i < count * 2; i += 2) {
-    velocityArray[i] = ((Math.random() - 0.5) / 5) * speed * randomness
-    velocityArray[i + 1] = (Math.random() / 5) * speed + 0.01
+  velocityArray = new Float32Array(count.value * 2)
+  for (let i = 0; i < count.value * 2; i += 2) {
+    velocityArray[i] = ((Math.random() - 0.5) / 5) * speed.value * randomness.value
+    velocityArray[i + 1] = (Math.random() / 5) * speed.value + 0.01
   }
 }
 setSpeed()
@@ -157,7 +169,6 @@ watchEffect(() => {
   setSpeed()
   setPosition()
 })
-
 
 const { onLoop } = useRenderLoop()
 
@@ -171,9 +182,9 @@ onLoop(() => {
       positionArray[i * 3] += velocityX
       positionArray[i * 3 + 1] -= velocityY
 
-      if (positionArray[i * 3] <= -area[0] / 2 || positionArray[i * 3] >= area[0] / 2)
+      if (positionArray[i * 3] <= -area.value[0] / 2 || positionArray[i * 3] >= area.value[0] / 2)
         positionArray[i * 3] = positionArray[i * 3] * -1
-      if (positionArray[i * 3 + 1] <= -area[1] / 2 || positionArray[i * 3 + 1] >= area[1] / 2)
+      if (positionArray[i * 3 + 1] <= -area.value[1] / 2 || positionArray[i * 3 + 1] >= area.value[1] / 2)
         positionArray[i * 3 + 1] = positionArray[i * 3 + 1] * -1
     }
     geometryRef.value.attributes.position.needsUpdate = true

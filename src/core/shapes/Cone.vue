@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { TresColor } from '@tresjs/core'
 import { ConeGeometry } from 'three'
-import { shallowRef } from 'vue'
+import { shallowRef, toRefs } from 'vue'
 
 export type ConeProps = {
   /**
    * The radius, height, radialSegments, heightSegments, openEnded, thetaStart, thetaLength of the cone.
-   * @default [1, 1, 12, false, 0, Math.PI * 2]
+   * @default [1, 1, 12, 12, false, 0, Math.PI * 2]
    * @type {any[]}
    * @memberof ConeProps
    * @see https://threejs.org/docs/#api/en/geometries/ConeGeometry
@@ -21,9 +21,12 @@ export type ConeProps = {
    */
   color?: TresColor
 }
-// TODO: remove disable once eslint is updated to support vue 3.3
-// eslint-disable-next-line vue/no-setup-props-destructure
-const { args = [1, 1, 12, false, 0, Math.PI * 2], color = '0xffffff' } = defineProps<ConeProps>()
+
+const props = withDefaults(defineProps<ConeProps>(), {
+  args: () => [1, 1, 12, 12, false, 0, Math.PI * 2],
+  color: '#ffffff',
+})
+const { args, color } = toRefs(props)
 
 const coneRef = shallowRef()
 

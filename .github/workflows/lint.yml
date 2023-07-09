@@ -9,33 +9,22 @@ jobs:
   lint:
     name: Lint
     runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        node-version: [16]
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-
-      - name: setup caching
-        uses: actions/cache@v3
+      - name: Setup Pnpm
+        uses: pnpm/action-setup@v2
         with:
-          path: ${{ env.PNPM_CACHE_FOLDER }}
-          key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-
-
-      - name: setup pnpm
-        uses: pnpm/action-setup@v2.2.4
-        with:
-          version: 7
-
-      - name: setup node.js
+          version: 8
+      - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
-          node-version: 16.x
+          node-version: ${{ matrix.node-version }}
           cache: 'pnpm'
-
-      - name: setup pnpm config
-        run: pnpm config set store-dir $PNPM_CACHE_FOLDER
-
-      - run: pnpm install --no-frozen-lockfile --shamefully-hoist
-
+      - name: Install dependencies
+        run: pnpm install
       - name: Run Lint
         run: pnpm run lint

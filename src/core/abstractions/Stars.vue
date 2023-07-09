@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { shallowRef, computed } from 'vue'
+import { shallowRef, computed, toRefs } from 'vue'
 import { Vector3, Spherical } from 'three'
 
 export interface StarsProps {
@@ -18,7 +18,7 @@ export interface StarsProps {
    * @memberof StarsProps
    * @default true
    */
-   sizeAttenuation?: boolean
+  sizeAttenuation?: boolean
   /**
    * show transparency on the stars texture.
    *
@@ -26,7 +26,7 @@ export interface StarsProps {
    * @memberof StarsProps
    * @default true
    */
-   transparent?: boolean
+  transparent?: boolean
   /**
    * enables the WebGL to know when not to render the pixel.
    *
@@ -34,7 +34,7 @@ export interface StarsProps {
    * @memberof StarsProps
    * @default 0.01
    */
-   alphaTest?: number
+  alphaTest?: number
   /**
    * number of stars.
    *
@@ -42,7 +42,7 @@ export interface StarsProps {
    * @memberof StarsProps
    * @default 5000
    */
-   count?: number
+  count?: number
   /**
    * depth of star's shape.
    *
@@ -50,7 +50,7 @@ export interface StarsProps {
    * @memberof StarsProps
    * @default 50
    */
-   depth?: number
+  depth?: number
   /**
    * Radius of star's shape.
    *
@@ -58,7 +58,7 @@ export interface StarsProps {
    * @memberof StarsProps
    * @default 100
    */
-   radius?: number
+  radius?: number
   /**
    * factor of randomness scale star.
    *
@@ -66,7 +66,7 @@ export interface StarsProps {
    * @memberof StarsProps
    * @default 4
    */
-   factor?: number
+  factor?: number
   /**
    * texture of the stars.
    *
@@ -74,7 +74,7 @@ export interface StarsProps {
    * @memberof StarsProps
    * @default null
    */
-   alphaMap?: null
+  alphaMap?: null
 }
 
 const props = withDefaults(defineProps<StarsProps>(), {
@@ -88,35 +88,29 @@ const props = withDefaults(defineProps<StarsProps>(), {
   radius: 100,
   factor: 4,
 })
+//TODO: Make props reactive and use watchEffect to generate starts on change
 
-let circle = props.radius + props.depth
-const increment = props.depth / props.count
+const { radius, depth, count, factor, size, sizeAttenuation, transparent, alphaMap, alphaTest } = toRefs(props)
+
+let circle = radius.value + depth.value
+const increment = computed(() => depth.value / count.value)
 
 const positionArray: number[] = []
-const scaleArray: number[] = Array.from({ length: props.count }, () => (0.5 + 0.5 * Math.random()) * props.factor)
+const scaleArray: number[] = Array.from({ length: count.value }, () => (0.5 + 0.5 * Math.random()) * factor.value)
 
-
-const genStar = (circle: number) => {
-  return new Vector3()
-  .setFromSpherical(new Spherical(circle, Math.acos(1 - Math.random() * 2), Math.random() * 2 * Math.PI))
+const generateStars = (circle: number): Array<number> => {
+  const starArray = new Vector3()
+    .setFromSpherical(new Spherical(circle, Math.acos(1 - Math.random() * 2), Math.random() * 2 * Math.PI))
+    .toArray()
+  return starArray
 }
 
-for (let i = 0; i < props.count; i++) {
-  circle -= increment * Math.random()
-  positionArray.push(...genStar(circle).toArray())
+for (let i = 0; i < count.value; i++) {
+  circle -= increment.value * Math.random()
+  positionArray.push(...generateStars(circle))
 }
 const position = new Float32Array(positionArray)
 const scale = new Float32Array(scaleArray)
-
-const starsOptions = computed(() => {
-  return {
-  size: props.size,
-  sizeAttenuation: props.sizeAttenuation,
-  transparent: props.transparent,
-  alphaTest: props.alphaTest,
-  alphaMap: props.alphaMap,
-  }
-})
 
 const starsRef = shallowRef()
 
@@ -127,6 +121,12 @@ defineExpose({
 <template>
   <TresPoints ref="starsRef">
     <TresBufferGeometry :position="[position, 3]" :a-scale="[scale, 1]" />
-      <TresPointsMaterial v-bind="starsOptions" />
+    <TresPointsMaterial
+      :size="size"
+      :size-attenuation="sizeAttenuation"
+      :transparent="transparent"
+      :alpha-test="alphaTest"
+      :alpha-map="alphaMap"
+    />
   </TresPoints>
 </template>

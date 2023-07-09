@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { TresColor } from '@tresjs/core'
 import { TetrahedronGeometry } from 'three'
-import { shallowRef } from 'vue'
+import { shallowRef, toRefs } from 'vue'
 
 export type TetrahedronProps = {
   /**
@@ -22,10 +22,8 @@ export type TetrahedronProps = {
   color?: TresColor
 }
 
-// TODO: remove disable once eslint is updated to support vue 3.3
-// eslint-disable-next-line vue/no-setup-props-destructure
-const { args = [1, 0], color = '0xffffff' } = defineProps<TetrahedronProps>()
-
+const props = withDefaults(defineProps<TetrahedronProps>(), { args: () => [1, 0], color: '#ffffff' })
+const { args, color } = toRefs(props)
 const tetrahedronRef = shallowRef()
 
 defineExpose({

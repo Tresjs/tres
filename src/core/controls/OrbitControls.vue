@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { Camera, TOUCH } from 'three'
 import { OrbitControls } from 'three-stdlib'
-import { ref, watch, onUnmounted } from 'vue'
+import { ref, watch, onUnmounted, toRefs } from 'vue'
 import { TresVector3, useRenderLoop } from '@tresjs/core'
 import { useEventListener } from '@vueuse/core'
 
@@ -189,8 +189,8 @@ export interface OrbitControlsProps {
    */
   maxZoom?: number
   touches?: {
-    ONE?: number
-    TWO?: number
+    ONE?: number | undefined
+    TWO?: number | undefined
   }
   /**
    * Whether to enable zooming.
@@ -230,31 +230,53 @@ export interface OrbitControlsProps {
   rotateSpeed?: number
 }
 
-// TODO: remove disable once eslint is updated to support vue 3.3
-// eslint-disable-next-line vue/no-setup-props-destructure
+const props = withDefaults(defineProps<OrbitControlsProps>(), {
+  makeDefault: false,
+  autoRotate: false,
+  autoRotateSpeed: 2,
+  enableDamping: false,
+  dampingFactor: 0.05,
+  enablePan: true,
+  keyPanSpeed: 7,
+  maxAzimuthAngle: Infinity,
+  minAzimuthAngle: -Infinity,
+  maxPolarAngle: Math.PI,
+  minPolarAngle: 0,
+  minDistance: 0,
+  maxDistance: Infinity,
+  minZoom: 0,
+  maxZoom: Infinity,
+  enableZoom: true,
+  zoomSpeed: 1,
+  enableRotate: true,
+  touches: () => ({ ONE: TOUCH.ROTATE, TWO: TOUCH.DOLLY_PAN }),
+  rotateSpeed: 1,
+  target: () => [0, 0, 0],
+})
+
 const {
-  makeDefault = false,
-  autoRotate = false,
-  autoRotateSpeed = 2,
-  enableDamping = false,
-  dampingFactor = 0.05,
-  enablePan = true,
-  keyPanSpeed = 7,
-  maxAzimuthAngle = Infinity,
-  minAzimuthAngle = -Infinity,
-  maxPolarAngle = Math.PI,
-  minPolarAngle = 0,
-  minDistance = 0,
-  maxDistance = Infinity,
-  minZoom = 0,
-  maxZoom = Infinity,
-  enableZoom = true,
-  zoomSpeed = 1,
-  enableRotate = true,
-  touches = { ONE: TOUCH.ROTATE, TWO: TOUCH.DOLLY_PAN },
-  rotateSpeed = 1,
-  target = [0, 0, 0],
-} = defineProps<OrbitControlsProps>()
+  makeDefault,
+  autoRotate,
+  autoRotateSpeed,
+  enableDamping,
+  dampingFactor,
+  enablePan,
+  keyPanSpeed,
+  maxAzimuthAngle,
+  minAzimuthAngle,
+  maxPolarAngle,
+  minPolarAngle,
+  minDistance,
+  maxDistance,
+  minZoom,
+  maxZoom,
+  enableZoom,
+  zoomSpeed,
+  enableRotate,
+  touches,
+  rotateSpeed,
+  target,
+} = toRefs(props)
 
 const { state, setState, extend } = useCientos()
 
@@ -264,7 +286,7 @@ extend({ OrbitControls })
 
 watch(controls, value => {
   addEventListeners()
-  if (value && makeDefault) {
+  if (value && makeDefault.value) {
     setState('controls', value)
   } else {
     setState('controls', null)
@@ -282,7 +304,7 @@ function addEventListeners() {
 const { onLoop } = useRenderLoop()
 
 onLoop(() => {
-  if (controls.value && (enableDamping || autoRotate)) {
+  if (controls.value && (enableDamping.value || autoRotate.value)) {
     controls.value.update()
   }
 })

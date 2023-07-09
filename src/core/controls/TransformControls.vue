@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { onUnmounted, shallowRef, ShallowRef, watchEffect } from 'vue'
+import { onUnmounted, shallowRef, ShallowRef, watchEffect, toRefs } from 'vue'
 import { Object3D, type Event } from 'three'
 import { TransformControls } from 'three-stdlib'
-import { useCientos } from '../useCientos'
 import { useEventListener } from '@vueuse/core'
+
+import { useCientos } from '../useCientos'
 
 export interface TransformControlsProps {
   object: Object3D
@@ -20,22 +21,19 @@ export interface TransformControlsProps {
   showZ?: boolean
 }
 
-// TODO: remove disable once eslint is updated to support vue 3.3
-// eslint-disable-next-line vue/no-setup-props-destructure
-const {
-  object,
-  mode = 'translate',
-  enabled = true,
-  axis = 'XYZ',
-  translationSnap = null,
-  rotationSnap = null,
-  scaleSnap = null,
-  space = 'world',
-  size = 1,
-  showX = true,
-  showY = true,
-  showZ = true,
-} = defineProps<TransformControlsProps>()
+const props = withDefaults(defineProps<TransformControlsProps>(), {
+  mode: 'translate',
+  enabled: true,
+  axis: 'XYZ',
+  space: 'world',
+  size: 1,
+  showX: true,
+  showY: true,
+  showZ: true,
+})
+
+const { object, mode, enabled, axis, translationSnap, rotationSnap, scaleSnap, space, size, showX, showY, showZ } =
+  toRefs(props)
 
 const emit = defineEmits(['dragging', 'change', 'mouseDown', 'mouseUp', 'objectChange'])
 

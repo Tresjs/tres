@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { TresColor } from '@tresjs/core'
 import { CircleGeometry } from 'three'
-import { shallowRef } from 'vue'
+import { shallowRef, toRefs } from 'vue'
 
 export type CircleProps = {
   /**
@@ -21,9 +21,9 @@ export type CircleProps = {
    */
   color?: TresColor
 }
-// TODO: remove disable once eslint is updated to support vue 3.3
-// eslint-disable-next-line vue/no-setup-props-destructure
-const { args = [1, 32, 0, Math.PI * 2], color = '0xffffff' } = defineProps<CircleProps>()
+
+const props = withDefaults(defineProps<CircleProps>(), { args: () => [1, 32, 0, Math.PI * 2], color: '#ffffff' })
+const { args, color } = toRefs(props)
 
 const circleRef = shallowRef()
 

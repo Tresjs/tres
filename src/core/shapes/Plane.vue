@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { TresColor } from '@tresjs/core'
 import { PlaneGeometry } from 'three'
-import { shallowRef } from 'vue'
+import { shallowRef, toRefs } from 'vue'
 
 export type PlaneProps = {
   /**
@@ -22,10 +22,9 @@ export type PlaneProps = {
   color?: TresColor
 }
 
-// TODO: remove disable once eslint is updated to support vue 3.3
-// eslint-disable-next-line vue/no-setup-props-destructure
-const { args = [1, 1], color = '0xffffff' } = defineProps<PlaneProps>()
+const props = withDefaults(defineProps<PlaneProps>(), { args: () => [1, 1], color: '#ffffff' })
 
+const { args, color } = toRefs(props)
 const planeRef = shallowRef()
 
 defineExpose({

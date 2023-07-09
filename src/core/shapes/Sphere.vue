@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { TresColor } from '@tresjs/core'
 import { SphereGeometry } from 'three'
-import { shallowRef } from 'vue'
+import { shallowRef, toRefs } from 'vue'
 
 export type SphereProps = {
   /**
@@ -23,9 +23,8 @@ export type SphereProps = {
   color?: TresColor
 }
 
-// TODO: remove disable once eslint is updated to support vue 3.3
-// eslint-disable-next-line vue/no-setup-props-destructure
-const { args = [2, 32, 16], color = '0xffffff' } = defineProps<SphereProps>()
+const props = withDefaults(defineProps<SphereProps>(), { args: () => [2, 32, 16], color: '#ffffff' })
+const { args, color } = toRefs(props)
 
 const sphereRef = shallowRef()
 

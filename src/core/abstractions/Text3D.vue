@@ -1,8 +1,9 @@
 <script setup lang="ts">
+import { computed, useSlots, shallowRef, watchEffect, toRefs } from 'vue'
 import { TextGeometry, FontLoader } from 'three-stdlib'
 
-import { computed, useSlots, shallowRef, watchEffect } from 'vue'
 import { useCientos } from '../../core/useCientos'
+import { toValue } from 'vue'
 
 export type Glyph = {
   _cachedOutline: string[]
@@ -136,6 +137,21 @@ const props = withDefaults(defineProps<Text3DProps>(), {
   needUpdates: false,
 })
 
+const {
+  center,
+  font,
+  text,
+  needUpdates,
+  size,
+  height,
+  curveSegments,
+  bevelEnabled,
+  bevelThickness,
+  bevelSize,
+  bevelOffset,
+  bevelSegments,
+} = toRefs(props)
+
 const { extend } = useCientos()
 
 extend({ TextGeometry })
@@ -145,9 +161,9 @@ const loader = new FontLoader()
 const slots = useSlots()
 
 const localText = computed(() => {
-  if (props.text) return props.text
+  if (text?.value) return text.value
   else if (slots.default) return (slots.default()[0].children as string)?.trim()
-  return props.needUpdates ? '' : 'TresJS'
+  return needUpdates.value ? '' : 'TresJS'
 })
 
 const text3DRef = shallowRef()
@@ -156,14 +172,14 @@ defineExpose({
   value: text3DRef,
 })
 
-const font = await new Promise((resolve, reject) => {
+const localFont = await new Promise((resolve, reject) => {
   try {
-    if (typeof props.font === 'string') {
-      loader.load(props.font, font => {
+    if (typeof font.value === 'string') {
+      loader.load(font.value, font => {
         resolve(font)
       })
     } else {
-      resolve(props.font)
+      resolve(font.value)
     }
   } catch (error) {
     // eslint-disable-next-line no-console
@@ -173,23 +189,23 @@ const font = await new Promise((resolve, reject) => {
 
 const textOptions = computed(() => {
   return {
-    font: font,
-    size: props.size,
-    height: props.height,
-    curveSegments: props.curveSegments,
-    bevelEnabled: props.bevelEnabled,
-    bevelThickness: props.bevelThickness,
-    bevelSize: props.bevelSize,
-    bevelOffset: props.bevelOffset,
-    bevelSegments: props.bevelSegments,
+    font: localFont,
+    size: toValue(size),
+    height: toValue(height),
+    curveSegments: toValue(curveSegments),
+    bevelEnabled: toValue(bevelEnabled),
+    bevelThickness: toValue(bevelThickness),
+    bevelSize: toValue(bevelSize),
+    bevelOffset: toValue(bevelOffset),
+    bevelSegments: toValue(bevelSegments),
   }
 })
 
 watchEffect(() => {
-  if (text3DRef.value && props.needUpdates) {
+  if (text3DRef.value && needUpdates.value) {
     text3DRef.value.geometry.dispose()
     text3DRef.value.geometry = new TextGeometry(localText.value, textOptions.value)
-    if (props.center) {
+    if (center.value) {
       text3DRef.value.geometry.center()
     }
   }

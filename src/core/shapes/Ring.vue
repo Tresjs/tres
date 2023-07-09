@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { TresColor } from '@tresjs/core'
 import { RingGeometry } from 'three'
-import { shallowRef } from 'vue'
+import { shallowRef, toRefs } from 'vue'
 
 export type RingProps = {
   /**
@@ -22,9 +22,9 @@ export type RingProps = {
   color?: TresColor
 }
 
-// TODO: remove disable once eslint is updated to support vue 3.3
-// eslint-disable-next-line vue/no-setup-props-destructure
-const { args = [0.5, 1, 32], color = '0xffffff' } = defineProps<RingProps>()
+const props = withDefaults(defineProps<RingProps>(), { args: () => [0.5, 1, 32], color: '#ffffff' })
+
+const { args, color } = toRefs(props)
 
 const ringRef = shallowRef()
 

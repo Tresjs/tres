@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { shallowRef, computed } from 'vue'
+import { shallowRef, computed, toRefs } from 'vue'
 import { TresColor, useTexture, useRenderLoop } from '@tresjs/core'
-import { useCientos } from '../../core/useCientos'
 import { Object3D } from 'three'
+
+import { useCientos } from '../../core/useCientos'
 
 export type SmokeProps = {
   /**
@@ -71,18 +72,18 @@ export type SmokeProps = {
   depthTest?: boolean
 }
 
-// TODO: remove disable once eslint is updated to support vue 3.3
-// eslint-disable-next-line vue/no-setup-props-destructure
-const {
-  opacity = 0.5,
-  speed = 0.4,
-  width = 10,
-  depth = 1.5,
-  segments = 20,
-  texture = 'https://raw.githubusercontent.com/Tresjs/assets/main/textures/clouds/defaultCloud.png',
-  color = '#ffffff',
-  depthTest = true,
-} = defineProps<SmokeProps>()
+const props = withDefaults(defineProps<SmokeProps>(), {
+  opacity: 0.5,
+  speed: 0.4,
+  width: 10,
+  depth: 1.5,
+  segments: 20,
+  texture: 'https://raw.githubusercontent.com/Tresjs/assets/main/textures/clouds/defaultCloud.png',
+  color: '#ffffff',
+  depthTest: true,
+})
+
+const { width, depth, segments, texture, color, depthTest, opacity, speed } = toRefs(props)
 
 const smokeRef = shallowRef()
 const groupRef = shallowRef()
@@ -92,16 +93,16 @@ defineExpose({
 })
 
 const smoke = [...new Array(segments)].map((_, index) => ({
-  x: width / 2 - Math.random() * width,
-  y: width / 2 - Math.random() * width,
-  scale: 0.4 + Math.sin(((index + 1) / segments) * Math.PI) * ((0.2 + Math.random()) * 10),
+  x: width.value / 2 - Math.random() * width.value,
+  y: width.value / 2 - Math.random() * width.value,
+  scale: 0.4 + Math.sin(((index + 1) / segments.value) * Math.PI) * ((0.2 + Math.random()) * 10),
   density: Math.max(0.2, Math.random()),
-  rotation: Math.max(0.002, 0.005 * Math.random()) * speed,
+  rotation: Math.max(0.002, 0.005 * Math.random()) * speed.value,
 }))
 
-const calculateOpacity = (scale: number, density: number): number => (scale / 6) * density * opacity
+const calculateOpacity = (scale: number, density: number): number => (scale / 6) * density * opacity.value
 
-const { map } = await useTexture({ map: texture })
+const { map } = await useTexture({ map: texture.value })
 
 const { state } = useCientos()
 const colorSpace = computed(() => state.renderer?.outputColorSpace)

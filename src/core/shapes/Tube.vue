@@ -2,7 +2,7 @@
 <script setup lang="ts">
 import { TresColor } from '@tresjs/core'
 import { QuadraticBezierCurve3, TubeGeometry, Vector3 } from 'three'
-import { shallowRef } from 'vue'
+import { shallowRef, toRefs } from 'vue'
 
 export type TubeProps = {
   /**
@@ -23,18 +23,17 @@ export type TubeProps = {
   color?: TresColor
 }
 
-// TODO: remove disable once eslint is updated to support vue 3.3
-// eslint-disable-next-line vue/no-setup-props-destructure
-const {
-  args = [
+const props = withDefaults(defineProps<TubeProps>(), {
+  args: () => [
     new QuadraticBezierCurve3(new Vector3(-1, 0, 0), new Vector3(0, 1, 0), new Vector3(1, 0, 0)),
     20,
     0.2,
     8,
     false,
   ],
-  color = '0xffffff',
-} = defineProps<TubeProps>()
+  color: '#ffffff',
+})
+const { args, color } = toRefs(props)
 
 const tubeRef = shallowRef()
 

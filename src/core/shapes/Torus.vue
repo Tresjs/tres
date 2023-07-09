@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { TresColor } from '@tresjs/core'
 import { TorusGeometry } from 'three'
-import { shallowRef } from 'vue'
+import { shallowRef, toRefs } from 'vue'
 
 export type TorusProps = {
   /**
@@ -22,9 +22,8 @@ export type TorusProps = {
   color?: TresColor
 }
 
-// TODO: remove disable once eslint is updated to support vue 3.3
-// eslint-disable-next-line vue/no-setup-props-destructure
-const { args = [1, 1, 16, 80], color = '0xffffff' } = defineProps<TorusProps>()
+const props = withDefaults(defineProps<TorusProps>(), { args: () => [1, 1, 16, 80], color: '#ffffff' })
+const { args, color } = toRefs(props)
 
 const torusRef = shallowRef()
 
