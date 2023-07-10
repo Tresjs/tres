@@ -46,6 +46,7 @@ export default defineConfig({
           { text: 'TransformControls', link: '/guide/controls/transform-controls' },
           { text: 'PointerLockControls', link: '/guide/controls/pointer-lock-controls' },
           { text: 'KeyboardControls', link: '/guide/controls/keyboard-controls' },
+          { text: 'ScrollControls', link: '/guide/controls/scroll-controls' },
           { text: 'MapControls', link: '/guide/controls/map-controls' },
         ],
       },

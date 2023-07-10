@@ -2,6 +2,6 @@
 </script>
 <template>
   <Suspense>
-    <PointerLockControlsDemo />
+    <ScrollDemo />
   </Suspense>
 </template>
