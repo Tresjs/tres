@@ -1,4 +1,4 @@
-name: Run linters
+name: Run Tests
 on: [push]
 
 env:
@@ -6,8 +6,8 @@ env:
   HUSKY: 0 # Bypass husky commit hook for CI
 
 jobs:
-  lint:
-    name: Lint
+  test:
+    name: Unit Test
     runs-on: ubuntu-20.04
     strategy:
       matrix:
