@@ -1,6 +1,6 @@
-# Installation
+# Instalación
 
-Learn how to install TresJS
+Aprende como instalar TresJS
 
 ::: code-group
 
@@ -18,11 +18,11 @@ yarn add three @tresjs/core
 
 :::
 
-> Better use with Vue 3.x and composition API
+> Recomendado para usar con Vue 3.x y composition API
 
 ## Typescript
 
-TresJS is written in Typescript and it's fully typed. If you are using Typescript, you will get the full benefit of the typings. Just make sure you install the types for three.
+TresJs esta escrito en Typescript. Si estas usando Typescript, tendrás muchos beneficios para los tipados. Asegúrate de instalar los tipados para Threejs
 
 ::: code-group
 
@@ -40,9 +40,9 @@ pnpm add @types/three -D
 
 :::
 
-## Getting started
+## Empezando
 
-You can install TresJS as any other Vue plugin
+Puedes instalar TresJS como cualquier otro Vue plugin
 
 ```ts
 import { createApp } from 'vue'
@@ -56,7 +56,7 @@ app.use(Tres)
 app.mount('#app')
 ```
 
-Or you can use it directly in your component
+O puedes usarlo directamente en el componente
 
 ```vue
 <script setup lang="ts">
@@ -64,13 +64,13 @@ import { TresCanvas } from '@tresjs/core'
 </script>
 <template>
   <TresCanvas>
-    <!-- Your scene here -->
+    <!-- Aquí va tu escena -->
   </TresCanvas>
 </template>
 ```
 
 ::: tip
-This is recommended for performance and bundle size reasons, tree-shaking will work better and you will only import the components that you use.
+Esta es la forma recomendada para obtener mejor rendimiento, tree-shaking será mejor porque solo se importarán los componentes que se usaran
 :::
 
 ## Vite

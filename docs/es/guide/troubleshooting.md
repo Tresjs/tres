@@ -1,4 +1,4 @@
-# The hilarious guide of common issues and how to solve them
+# Una divertida guía de problemas comunes y como resolverlos
 
 ![Troubleshooting](https://media.giphy.com/media/LHZyixOnHwDDy/giphy.gif)
 
@@ -6,23 +6,23 @@ Welcome to **TresJS v2 troubleshooting guide**. Where 3D stands for _"Dazzlingly
 
 This guide is intended to help you solve the most common issues that you might encounter when using TresJS v2.
 
-## I can't see my 3D scene 😭!
+## ¡No puedo ver mi escena 😭!
 
-You followed the [Getting started guide](/guide/getting-started.md) but you still can see your scene renderered.
+¿Has seguido los pasos de la sección [Getting started guide](/guide/getting-started.md) pero aun así no puedes ver tu escena en pantalla?
 
-These are the most common reasons why you might not be able to see your scene:
+Estas son algunas de las razones mas comunes:
 
-### Check the height of your canvas 📏
+### Revisa la altura de tu canvas 📏
 
-Another common issue is that the `TresCanvas` component is creating by default a `canvas` element takes the `width` and `height` of the parent element. If the parent element has no height, the canvas will have no height either.
+Un problema común es que el componente `TresCanvas` crea por defecto un elemento `canvas` que toma el ancho y el alto de su elemento padre. Si tu elemento padre no tiene altura, el canvas tampoco la tendrá
 
 ![No height found](/canvas-height.png)
 
-You will also see this error in the console:
+Ademas verás un error como este en la consola
 
 ![Canvas height warning](/canvas-height-warning.png)
 
-A easy way to fix this is to set the height of the parent element to `100%`:
+Una forma muy fácil de resolver esto es configurar la altura del elemento padre a `100%`:
 
 ```css
 html,
@@ -39,7 +39,7 @@ body {
 }
 ```
 
-Or you can set the `window-size` prop of the `TresCanvas` component:
+O también puedes agrega el prop `window-size` al componente `TresCanvas`:
 
 ```vue
 <TresCanvas window-size>
@@ -48,17 +48,17 @@ Or you can set the `window-size` prop of the `TresCanvas` component:
 </TresCanvas>
 ```
 
-## Failed resolve component: TresComponent... 🤔
+## Errores en consola componente: TresComponent... 🤔
 
 ![](/failed-to-resolve-component.png)
 
-Since **TresJS v2** is using a Vue Custom Renderer inside of the main Vue App instance, the core Vue renderer that acts as parent is not going to recognize the components inside of `TresCanvas` component. Even if it doesn't affect the rendering, it will show a warning in the console.
+Desde la **TresJS v2**, se esta usando una solución llamada Vue Custom renderer dentro de la instancia principal de la aplicación de vue, Vue no reconocerá por defecto los componentes dentro del componente `TresCanvas`. Incluso si estos no afectan al desarrollo de nuestra escena, mostrará warning en la consola
 
 ![](/failed-to-resolve-component.png)
 
-At this moment, there is no native Vue support to define the renderer used on the `<template />` but there is a quick workaround to remove the warnings
+En este momento, no existe una solución definitiva para el renderizado usando el `<template />` pero hemos desarrollado una solución provisoria para eliminar estos warnings
 
-Got to your `vite.config.ts` and add the following configuration to the `@vitejs/plugin-vue`:
+ve a tu `vite.config.ts` y añade la siguiente configuración:
 
 ```ts
 import { defineConfig } from 'vite'
@@ -75,17 +75,15 @@ export default defineConfig({
 })
 ```
 
-This will remove the warning from the console.
+Esto eliminara el mensaje en la consola.
 
-# Help Us Make TresJS Purr-fect! 😼
+# Ayúdanos a hacer TresJS Purr-fect! 😼
 
-We know that even the best cat nappers occasionally make mistakes, and we need you help to make TresJS even better! If you find a bug, please open a ticket at [the
-repo](https://github.com/Tresjs/playground) and **please provide a reproduction link**.
+Sabemos que incluso los mejores ocasionalmente cometemos errores, y ¡necesitamos tu ayuda para hacer TresJs aún mejor! Si encuentras algún bug por favor no dudes en abrir un ticket acá [the
+repo](https://github.com/Tresjs/playground) **Recuerda proporcionar un link a la reproducción del error**
 
 ::: warning
-Tickets without a reproduction link will be closed.
+Los tickets sin un link de reproducción serán cerrados
 :::
 
-Our team of coding cat lovers
-will jump into action to squash those pesky bugs and improve TresJS for everyone. Together, let's make TresJS the cat's
-meow of 3D rendering in Vue!
+Nuestro team, saltará a la acción para resolver estos bugs fastidiosos y mejorar Tresjs para todos. Juntos podemos hacer de esta una librería Increíble.

@@ -1,16 +1,16 @@
-# Your first scene
+# Tu primera scene
 
-This guide will help you to create your first Tres scene. 🍩
+Esta guía te va a ayudar a crear tu primera scene Tres. 🍩
 
 <ClientOnly>
     <DonutExample style="aspect-ratio: 16/9; height: auto; margin: 2rem 0; border-radius: 8px; overflow:hidden;"/>
 </ClientOnly>
 
-## Setting up the experience Canvas
+## Preparando el Canvas
 
-Before we can create a Scene, we need somewhere to display it. Using plain [ThreeJS](https://threejs.org/docs/index.html#manual/en/introduction/Creating-a-scene) we would need to create a `canvas` HTML element to mount the `WebglRenderer` and initialize the `scene`
+Antes de poder crear una escena, necesitamos un lugar donde mostrarla. Usando [ThreeJS](https://threejs.org/docs/index.html#manual/en/introduction/Creating-a-scene) simple, necesitaríamos crear un `canvas` html element para montar el `WebglRenderer` y inicializar la `scene`
 
-With **TresJS** you only need to import the default component `<TresCanvas />` and add it to the template of your Vue component.
+Con **TresJS** solo necesitas añadir el componente default `<TresCanvas >` a la plantilla de tu componente de Vue.
 
 ```vue
 <script lang="ts" setup>
@@ -18,23 +18,23 @@ import { TresCanvas } from '@tresjs/core'
 </script>
 <template>
   <TresCanvas window-size>
-    <!-- Your scene goes here -->
+    <!-- Tu escena vivirá aquí -->
   </TresCanvas>
 </template>
 ```
 
 ::: warning
-It's important that all components related to the scene live between the `<TresCanvas />` component. Otherwise, they will be not rendered.
+Es importante que todos los componentes con relación a la escena vivan entre el `<TresCanvas />` componente. Si no, no se renderizará.
 :::
 
-The `TresCanvas` component is going to do some setup work behind the scene:
+El `TresCanvas` componente internamente va a:
 
-- It creates a [**WebGLRenderer**](https://threejs.org/docs/index.html?q=webglrend#api/en/renderers/WebGLRenderer) that automatically updates every frame.
-- It sets the render loop to be called on every frame based on the browser refresh rate.
+- Crea un [**WebGLRenderer**](https://threejs.org/docs/index.html?q=webglrend#api/en/renderers/WebGLRenderer) que automáticamente se actualiza cada frame.
+- Eso crea el render loop una función que se llamará usando el requestAnimationFrame API del navegador.
 
-## Canvas size
+## Tamaño del canvas
 
-By default, `TresCanvas` component will take the **parent's width and height**, if you are experiencing a blank page make sure the parent element has a proper size.
+Por defecto el componente `TresCanvas` tomará **La altura y el ancho del elemento padre**, si estas experimentando una pagina en blanco, asegúrate de que los tamaños están correctamente configurados
 
 ```vue
 <script lang="ts" setup>
@@ -42,7 +42,7 @@ import { TresCanvas } from '@tresjs/core'
 </script>
 <template>
   <TresCanvas>
-    <!-- Your scene goes here -->
+    <!-- Acá va tu escena -->
   </TresCanvas>
 </template>
 <style>
@@ -60,7 +60,7 @@ body {
 </style>
 ```
 
-If your scene is not gonna be part of a UI, you can also force the canvas to take the width and height of the full window by using the `window-size` prop like this:
+Si tu escena no va a ser parte de la UI, puedes forzar el canvas para que tome los tamaños del viewport usando el `window-size` prop, de esta manera:
 
 ```vue
 <script lang="ts" setup>
@@ -68,31 +68,31 @@ import { TresCanvas } from '@tresjs/core'
 </script>
 <template>
   <TresCanvas window-size>
-    <!-- Your scene goes here -->
+    <!-- Acá va tu escena -->
   </TresCanvas>
 </template>
 ```
 
-## Creating a scene
+## Creando una escena
 
-We need 4 core elements to create a 3D experience:
+Necesitamos 4 elementos core para crear una experiencia 3D :
 
-- A [**Scene**](https://threejs.org/docs/index.html?q=scene#api/en/scenes/Scene) to hold the camera and the object(s) together.
-- A [**Renderer**](https://threejs.org/docs/index.html?q=renderer#api/en/renderers/WebGLRenderer) to render the scene into the DOM.
-- A [**Camera**](https://threejs.org/docs/index.html?q=camera#api/en/cameras/Camera)
-- An [**Object**](https://threejs.org/docs/index.html?q=object#api/en/core/Object3D)
+- Una [**Escena**](https://threejs.org/docs/index.html?q=scene#api/en/scenes/Scene) para agregar la cámara y los objetos juntos.
+- Un [**Renderer**](https://threejs.org/docs/index.html?q=renderer#api/en/renderers/WebGLRenderer) para renderizar los objetos dentro de nuestro canvas.
+- Una [**Camera**](https://threejs.org/docs/index.html?q=camera#api/en/cameras/Camera)
+- Un [**Objeto**](https://threejs.org/docs/index.html?q=object#api/en/core/Object3D)
 
-With **TresJS** you only need to add the `<TresCanvas />` component to the template of your Vue component and it will automatically create a `Renderer` (`canvas` DOM Element) and `Scene` for you.
+Con **TresJS** solo necesitas agregar el componente `<TresCanvas />` al template en tu Vue SFC y automáticamente creara el `Renderer` (`canvas` DOM Element) y la `Scene` por ti.
 
 ```vue
 <template>
   <TresCanvas window-size>
-    <!-- Your scene goes here -->
+    <!-- Acá va tu escena -->
   </TresCanvas>
 </template>
 ```
 
-Then you can add a [**PerspectiveCamera**](https://threejs.org/docs/index.html?q=perspectivecamera#api/en/cameras/PerspectiveCamera) using the `<TresPerspectiveCamera />` component.
+Puedes añadir una [**PerspectiveCamera**](https://threejs.org/docs/index.html?q=perspectivecamera#api/en/cameras/PerspectiveCamera) usando el`<TresPerspectiveCamera />` componente.
 
 ```vue
 <template>
@@ -103,12 +103,12 @@ Then you can add a [**PerspectiveCamera**](https://threejs.org/docs/index.html?q
 ```
 
 ::: warning
-A common issue is that the camera default position is the origin of the scene (0,0,0), TresJS will automatically set the position of your camera to `[3,3,3]` if the prop `position`. If no camera is defined in you scene, a perspective camera is added automatically.`
+Un problema común es que la posición por defecto de la cámara es (0,0,0), TresJs automáticamente configurar la posición de tu camera a `[3,3,3]` si la propiedad `position` no es configurada manualmente. Si no hay una cámara declarada en tu escena, una PerspectiveCamera será añadida automáticamente
 :::
 
-## Adding a 🍩
+## Añadir una 🍩
 
-That scene looks a little empty, let's add a basic object. If we were using plain **ThreeJS** we would need to create a [**Mesh**](https://threejs.org/docs/index.html?q=mesh#api/en/objects/Mesh) object and attach to it a [**Material**](https://threejs.org/docs/index.html?q=material#api/en/materials/Material) and a [**Geometry**](https://threejs.org/docs/index.html?q=geometry#api/en/core/BufferGeometry) like this:
+Esta escena parece un poquito vacía, añadamos un objeto básico. Si estuviéramos usando **ThreeJS** puro, necesitaríamos crear un [**Mesh**](https://threejs.org/docs/index.html?q=mesh#api/en/objects/Mesh) objeto y adjuntarlo a una [**Material**](https://threejs.org/docs/index.html?q=material#api/en/materials/Material) y una [**Geometry**](https://threejs.org/docs/index.html?q=geometry#api/en/core/BufferGeometry) como eso:
 
 ```ts
 const geometry = new THREE.TorusGeometry(1, 0.5, 16, 32)
@@ -117,9 +117,9 @@ const donut = new THREE.Mesh(geometry, material)
 scene.add(donut)
 ```
 
-A **Mesh** is a basic scene object in three.js, and it's used to hold the geometry and the material needed to represent a shape in 3D space.
+Un Mesh es un objeto básico de la escena en three.js, y es usado para contener la geometría y el material necesario para representar una forma en el espacio 3D.
 
-Now let's see how we can easily achieve the same with **TresJS**. To do that we are going to use `<TresMesh />` component, and between the default slots, we are going to pass a `<TresTorusGeometry />` and a `<TresMeshBasicMaterial />`.
+Ahora, vemos como podemos lograr fácilmente el mismo con **TresJS**. Para hacerlo, vamos a usar `<TresMesh />` componente, y entre los puestos por defecto, vamos a pasar un `<TresTorusGeometry />` y un `<TresMeshBasicMaterial />`.
 
 ```vue
 <template>
@@ -134,7 +134,7 @@ Now let's see how we can easily achieve the same with **TresJS**. To do that we 
 ```
 
 ::: info
-Notice that we don't need to import anything, that's because **TresJS** automatically generate a **Vue Component based on the Three Object you want to use in CamelCase with a Tres prefix**. For example, if you want to use an `AmbientLight` you would use `<TresAmbientLight />` component.
+Nota que no necesitamos importar nada, eso es porque **TresJS** generar automáticamente un **Componente de Vue con base del Three Objeto quieres usar en CamelCase con un prefijo Tres**. Por ejemplo, si quieres usar un `AmbientLight` usarías `<TresAmbientLight />` componente.
 :::
 
 <StackBlitzEmbed projectId="tresjs-first-scene" />
@@ -156,4 +156,4 @@ import { TresCanvas } from '@tresjs/core'
 </template>
 ```
 
-From here onwards you can start adding more objects to your scene and start playing with the properties of the components to see how they affect the scene.
+A partir de ahora, puedes empezar a añadir más objetos a tu escena y empezar a jugar con las propiedades de las componentes para ver como se cambian la escena.

@@ -1,5 +1,6 @@
-# Migration Guide
+# Guía de migración
 
+Esta guía tiene como objetivo ayudarte con la migración de la v1 ha la mas reciente v2 de Tresjs
 This guide is intended to help you migrate from v1 to brand new shiny v2 🤩✨ of TresJS.
 
 ::: code-group
@@ -18,23 +19,23 @@ yarn upgrade @tresjs/core
 
 :::
 
-## What's new?
+## ¡Lo nuevo!
 
 ### Vue Custom Renderer
 
-**TresJS** is now a [Vue Custom Renderer](https://vuejs.org/api/custom-renderer.html#createrenderer) 🎉 that lives inside of a wrapper component `TresCanvas` that is responsible for creating the `WebGLRenderer` and the `Scene` for you and creating a **new Vue App instance** to render the scene.
+**TresJS** ahora utiliza [Vue Custom Renderer](https://vuejs.org/api/custom-renderer.html#createrenderer) 🎉, vive dentro del componente `TresCanvas` que es el responsable de la creación del `WebGLRenderer` y la `Scene`.
 
-### Typescript support and Intellisense 🦾
+### Soporte para Typescript y Intellisense 🦾
 
 ![TresJS v2 Intellisense](/v2-intellisense.gif)
 
-This was probably the most **requested feature for TresJS**. Now Tres components work with Volar and provide type intellisense.
+Esta es probablemente una de las **funcionalidades mas solicitadas en TresJs**. Ahora los componentes de TresJs trabajan en conjunto con Volar, para proveerte intellisense y tipado.
 
-**TresJS** now generates type declaration on build time for all the components based of the catalog from ThreeJS. This means that you can use all the components from ThreeJS and get type intellisense for them.
+**TresJS** ahora genera los tipos de todos tus componentes al momento de hacer la compilación, basado en el catalogo de Threejs. Esto significa que podrás usar todos los componentes de Threejs y obtener intellisense
 
-### Tres Plugin is optional 👍
+### TresJs Plugin es opcional 👍
 
-The `TresPlugin` is now optional. You can use TresJS without it by importing the components directly from `tresjs/core`:
+El `TresPlugin` ahora es opcional. Tu podrás usar Tresjs importando lo directamente desde `tresjs/core`:
 
 ```vue
 <script setup lang="ts">
@@ -55,17 +56,17 @@ import { TresCanvas } from '@tresjs/core'
 </template>
 ```
 
-::: info
-This is recommended for performance and bundle size reasons, tree-shaking will work better and you will only import the components that you use.
+::: tip
+Esta es la forma recomendada para obtener mejor rendimiento, tree-shaking será mejor porque solo se importarán los componentes que se usaran
 :::
 
-### TresScene no longer needed
+### TresScene no es necesario
 
-The `<TresScene />` component is now deprecated since the scene is now created by the `<TresCanvas />`.
+El componente `<TresScene />` queda deprecado, la escena ahora vive dentro de `<TresCanvas />`.
 
-In the beginning, I thought that it would be a good idea to have a separate component for the scene in terms of verbosity and keep it as similar to plain ThreeJS, but it turned out that it was not really useful.
+Al comienzo, pensamos que podría ser una buena idea trabajar estos componentes de forma separada, pero pronto nos dimos cuenta que realmente no es util.
 
-You can now create a scene like this:
+Las escenas se crean de esta manera:
 
 ```vue
 <template>
@@ -82,15 +83,15 @@ You can now create a scene like this:
 </template>
 ```
 
-To migrate your code, you can just remove the `<TresScene />` component and move the children to the `<TresCanvas />` component.
+Para migrar tu código, debes remover el componente `<TresScene />` y colocar todos tus componentes de Tresjs dentro del componente padre `<TresCanvas />`
 
-### `useCatalog` is now deprecated
+### `useCatalog` esta deprecado
 
-The `useCatalog` function is now deprecated. You can now import the catalog directly from `@tresjs/core`
+La función del `useCatalog` esta ahora deprecada para la v2. Ahora puedes importar todo el catalogo directamente desde `@tresjs/core`
 
-You can read more about it here: [Extending](/advanced/extending.md)
+Puedes leer mas información aquí: [Extending](/advanced/extending.md)
 
-Change this:
+Cambia de esto:
 
 ```ts {2,5,7}
 // Wrong ❌
@@ -102,7 +103,7 @@ const { extend } = useCatalog()
 extend({ TextGeometry })
 ```
 
-To this:
+A esto:
 
 ```ts {2,6}
 // Correct ✅
@@ -113,11 +114,11 @@ import { TextGeometry } from 'three/addons/geometries/TextGeometry'
 extend({ TextGeometry })
 ```
 
-### Model's ref value `getModel` is now deprecated
+### En los modelos el `getModel` fue deprecado
 
-The `getModel` function is now deprecated. You can now use the `model` property directly.
+La función `getModel` fue deprecada. Ahora puedes usar el model directamente
 
-Change this:
+Cambia de esto:
 
 ```vue {7,9-12}
 // Wrong ❌
@@ -138,7 +139,7 @@ watch(modelRef, ({ getModel }) => {
 </template>
 ```
 
-To this:
+A esto:
 
 ```vue {7,9-12}
 // Correct ✅
@@ -159,11 +160,11 @@ watch(modelRef, model => {
 </template>
 ```
 
-### Cameras need to be before any control 🎥
+### Las cámaras necesitan vivir antes de cualquier control🎥
 
-The `TresOrbitControls` component needs to be after the camera in the tree. This is because the controls need to know the camera to work.
+El componente `TresOrbitControls` necesita ser colocado después de la cámara. Esto es así debido a que los componentes `controls` necesitan la cámara para trabajar de manera correcta
 
-Change this:
+Cambia de esto:
 
 ```vue {3,5}
 // Wrong ❌
@@ -175,7 +176,7 @@ Change this:
 </template>
 ```
 
-To this:
+A esto:
 
 ```vue {3,5}
 // Correct ✅
