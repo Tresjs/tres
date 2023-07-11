@@ -1,5 +1,18 @@
 
 
+## [2.3.0](https://github.com/Tresjs/cientos/compare/2.2.0...2.3.0) (2023-07-11)
+
+
+### Features
+
+* scroll-controls ([#118](https://github.com/Tresjs/cientos/issues/118)) ([293fcdc](https://github.com/Tresjs/cientos/commit/293fcdc2365c27a3565626d148d465ed52d0ef55))
+
+
+### Bug Fixes
+
+* initial camera position in keyboard controls ([#119](https://github.com/Tresjs/cientos/issues/119)) ([e4a03a6](https://github.com/Tresjs/cientos/commit/e4a03a6d7484c0c626142e79f3cc4dd9a43fdb25))
+* remove deconstructive props ([#124](https://github.com/Tresjs/cientos/issues/124)) ([d83d00d](https://github.com/Tresjs/cientos/commit/d83d00d089467807fd1f5bdb42a4df761dc44237))
+
 ## [2.2.0](https://github.com/Tresjs/cientos/compare/2.1.4...2.2.0) (2023-06-29)
 
 
