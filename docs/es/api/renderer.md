@@ -83,7 +83,7 @@ renderer.shadowMap.type: PCFSoftShadowMap
 | **clearColor**              | El color que el renderer usará para despejar el canvas.                                                                                                         | `#000000`          |
 | **windowSize**              | Si usa el tamaño de la ventana como el tamaño del canvas o el elemento padre.                                                                                   | `false`            |
 | **disableRender**           | Deshabilitar el render con requestAnimationFrame API, util para PostProcessing                                                                                  | `false`            |
-| **camera**                  | Una camara configurable de forma manual para el renderer.                                                                                                       |                    |
+| **camera**                  | Una cámara configurable de forma manual para el renderer.                                                                                                       |                    |
 
 ## Propiedades por defecto
 

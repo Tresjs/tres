@@ -55,7 +55,7 @@ import { useGLTF } from '@tresjs/cientos'
 const { scene, nodes, animations, materials } = await useGLTF('/models/AkuAku.gltf', { draco: true })
 ```
 
-Alternativamente puedes facilmente seleccionas los objetos dentro de tu modelo usando la propiedad `nodes`
+Alternativamente puedes fácilmente seleccionas los objetos dentro de tu modelo usando la propiedad `nodes`
 
 ```vue
 <script setup lang="ts">

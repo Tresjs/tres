@@ -2,7 +2,7 @@
 
 Esta guía te ayudará a empezar con animación básica en TresJS.
 
-Vamos a construir una escena sencilla con un cubo simple. Pués animarmos el cubo para girar de ejes Y y Z.
+Vamos a construir una escena sencilla con un cubo simple. Puesto que animamos el cubo para girar de ejes Y y Z.
 
 <StackBlitzEmbed projectId="tresjs-basic-animations" />
 
@@ -42,7 +42,7 @@ const boxRef: ShallowRef<TresInstance | null> = shallowRef(null)
 
 ## Animar el cubo
 
-Ahora que tenemos una referecia al cubo, podemos animarlo. Usaremos el `onLoop` callback para actualizar la rotación del cubo.
+Ahora que tenemos una referencia al cubo, podemos animarlo. Usaremos el `onLoop` callback para actualizar la rotación del cubo.
 
 ```ts
 onLoop(({ _delta, elapsed }) => {
@@ -73,7 +73,7 @@ onLoop(({ delta, elapsed }) => {
 </script>
 ```
 
-Podríamos sentirnos tentados a usar la reactividad de vue para animar el cubo. Pero eso sería una mala idea, esta es la razón [Vue's reactivity is based on Proxies](https://vuejs.org/guide/extras/reactivity-in-depth.html#how-reactivity-works-in-vue). Los proxies no estan diseñados para ser usados en el renderloop que se actualiza cada 60 frames por segundo o mas
+Podríamos sentirnos tentados a usar la reactividad de vue para animar el cubo. Pero eso sería una mala idea, esta es la razón [Vue's reactivity is based on Proxies](https://vuejs.org/guide/extras/reactivity-in-depth.html#how-reactivity-works-in-vue). Los proxies no están diseñados para ser usados en el renderloop que se actualiza cada 60 frames por segundo o mas
 
 Adjuntamos los benchmark sobre este caso [benchmark of a proxy vs a regular object](https://measurethat.net/Benchmarks/Show/12503/0/object-vs-proxy-vs-proxy-setter). Como puedes ver los proxies son 5 veces mas lentos que objetos normales
 <EmbedExperiment src="https://measurethat.net/Embed?id=399142" />

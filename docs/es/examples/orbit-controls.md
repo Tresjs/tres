@@ -10,7 +10,7 @@ Eso crea una problema porque **TresJS** automáticamente crea un catálogo del c
 
 Afortunadamente, **TresJS** provee una forma a extender el catálogo de componentes. Puedes hacerlo por usar el `extend` método usando el [useCatalogue](/api/composables#usecatalog) composable.
 
-Para más información sobre como extender tu catálogo TresJS catalog, hacer referencía a la sección [extending](/advanced/extending.md).
+Para más información sobre como extender tu catálogo TresJS catalog, hacer referencia a la sección [extending](/advanced/extending.md).
 
 ## Usando OrbitControls
 
@@ -74,7 +74,7 @@ const { state } = useThree()
 Aquí es donde el parte elevado empiece. ✨  
 El `cientos` package provee un componente se llama `<OrbitControls />` lo que es un wrapper del `OrbitControls` del modulo [`three-stdlib`](https://github.com/pmndrs/three-stdlib).
 
-¿El parte más agradable? No necesitas extender el catálogo o pasar ningun argumento.  
+¿El parte más agradable? No necesitas extender el catálogo o pasar ningún argumento.  
 Ya funciona. 💯
 
 ```vue

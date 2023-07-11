@@ -4,7 +4,7 @@ Vue 3 [Composition API](https://vuejs.org/guide/extras/composition-api-faq.html#
 
 **TresJS** aprovecha mucho está API para crear un grupo de funciones composables que se pueden usar para crear animaciones, interactuar con la escena y más. También te permite crear escenas más complejas que podrían no ser posible solo usando los componentes de Vue (Textures, Loaders, etc.).
 
-El core de **TresJS** usa estos composables internalmente, entonces estarías usando el mismo API que usa el core. Por ejemplo, componentes que se necesitan actualizar en el render loop internal usa el composable `useRenderLoop` para registrar un callback que se llamará cada vez el renderer actualiza la escena.
+El core de **TresJS** usa estos composables internamente, entonces estarías usando el mismo API que usa el core. Por ejemplo, componentes que se necesitan actualizar en el render loop internal usa el composable `useRenderLoop` para registrar un callback que se llamará cada vez el renderer actualiza la escena.
 
 ## useRenderLoop
 
@@ -49,7 +49,7 @@ onAfterLoop(({ delta, elapsed }) => {
 
 ### Pausar y continuar
 
-Puedes pausar y continuar el render loop usando los metodos expuestos de `pause` y `resume`.
+Puedes pausar y continuar el render loop usando los métodos expuestos de `pause` y `resume`.
 
 ```ts
 const { pause, resume } = useRenderLoop()
@@ -158,7 +158,7 @@ El composable `useSeek` provee de utilidades para navegar y buscar entre escenas
 const { seek, seekbyName } = useSeek()
 ```
 
-la funcion seek acepta tres parámetros:
+la función seek acepta tres parámetros:
 
 - `parent`: Una escena de Threejs o un objeto3D
 - `property`: Una propiedad para ser usada como condición de búsqueda.
