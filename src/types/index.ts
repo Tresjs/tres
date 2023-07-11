@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import type * as THREE from 'three'
-import { DefineComponent, Ref, VNode, VNodeRef } from 'vue'
+import { DefineComponent, Ref, VNode } from 'vue'
 
 // Based on React Three Fiber types by Pmndrs
 // https://github.com/pmndrs/react-three-fiber/blob/v9/packages/fiber/src/three-types.ts
