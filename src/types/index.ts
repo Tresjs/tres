@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import type * as THREE from 'three'
-import { DefineComponent, Ref, VNode } from 'vue'
+import { DefineComponent, Ref, VNode, VNodeRef } from 'vue'
 
 // Based on React Three Fiber types by Pmndrs
 // https://github.com/pmndrs/react-three-fiber/blob/v9/packages/fiber/src/three-types.ts
@@ -144,7 +144,7 @@ type EventProps<P> = P extends RaycastableRepresentation ? Partial<EventHandlers
 
 export interface VueProps<P> {
   children?: VNode[]
-  ref?: Ref<P>
+  ref?: string | null | Ref<P>
   key?: string
 }
 
@@ -159,8 +159,8 @@ export type ThreeElement<T extends ConstructorRepresentation> = Mutable<
 type ThreeExports = typeof THREE
 type ThreeInstancesImpl = {
   [K in keyof ThreeExports as Uncapitalize<K>]: ThreeExports[K] extends ConstructorRepresentation
-    ? ThreeElement<ThreeExports[K]>
-    : never
+  ? ThreeElement<ThreeExports[K]>
+  : never
 }
 
 export interface ThreeInstances extends ThreeInstancesImpl {
@@ -172,5 +172,5 @@ type TresComponents = {
 }
 
 declare module 'vue' {
-  export interface GlobalComponents extends TresComponents {}
+  export interface GlobalComponents extends TresComponents { }
 }
