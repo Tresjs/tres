@@ -1,19 +1,19 @@
-# Caveats 😱
+# Advertencias 😱
 
-Nuestro intención es proveer una forma simple a usar ThreeJS en VueJS con la mejor experiencia posible por el desarrollador. Sin embargo, necesitas ser consiente de algunos advertencias.
+Nuestro intención es proveer una forma simple de usar TresJs en VueJS con la mejor experiencia posible por el desarrollador. Sin embargo, necesitas ser consiente de algunos detalles.
 
-## ~~HMR and ThreeJS~~
+## ~~HMR and TresJs~~
 
 :::info
 
-This has been fixed in **TresJS** v1.7.0 🎉. You can now use HMR without reloading the page 🥹.
+This has been fixed in **TresJs** v1.7.0 🎉. You can now use HMR without reloading the page 🥹.
 
 :::
 
-Hot module replacement (HMR) es una herramienta que te permite actualizar tu código sin recargar la página. Es una gran herramienta con que desarrollo está mucho más rápido.
-**TresJS** usa [Vite](https://vitejs.dev/). Sin embargo, que funciona correctamente con ThreeJS es difícil.
+Hot module replacement (HMR) es una herramienta que te permite actualizar tu código sin recargar la página. Es una gran herramienta con que el desarrollo va mucho más rápido.
+**TresJs** usa [Vite](https://vitejs.dev/). Sin embargo, hacer que funcione correctamente con TresJs es difícil.
 
-Por qué? por causa de TresJs construye la escena en una forma declarativa. Eso significa que crea la instancia y la añade a la escena cuando el componente se monta. La complexidad es en conocer cuando hay que remover la instancia de la escena y cuando añadirla otra vez.
+Por qué? por causa de como TresJs construye la escena en una forma declarativa. Eso significa que crea la instancia y la añade a la escena cuando el componente se monta. La complejidad esta en conocer cuando hay que remover la instancia de la escena y cuando añadirla otra vez.
 
 Aunque se implementa un flujo de trabajo de eliminación mínima, no es perfecto. Eso significa que algunas veces necesitarás recargar la página para correctamente ver los cambios, especialmente cuando estás haciendo referencia a una instancia que usa [Template Refs](https://v3.vuejs.org/guide/component-template-refs.html)
 
@@ -47,15 +47,15 @@ Dicho eso, por eso estamos trabajando en una solución mejor 😁. Si tienes cua
 
 Puedes seguir la conversación en [HMR Disposal Discussion](https://github.com/Tresjs/tres/issues/23)
 
-## Reactivity
+## Reactividad
 
-Todos nosotros amamos reactivad 💚. Es uno de las funcionas más poderoso de VueJS. Sin embargo, de lo necesitamos ser consciente cuando usamos ThreeJS.
+Todos nosotros amamos reactivad 💚. Es uno de las funcionas más poderosas de VueJS. Sin embargo, de lo necesitamos ser consciente cuando usamos TresJs.
 
-Al base de la reactivad Vue es [Proxy](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy). se permita VueJS a monitorizar cambio a los objetos de datos automáticamente y actualizar los elementos DOM que corresponde cada vez que los datos cambian.
+La base de la reactivad de Vue son los [Proxy](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy). Permiten a VueJS monitorizar cambios en los objetos de datos automáticamente y actualizar los elementos DOM que corresponde cada vez que los datos cambian.
 
-Dado que estamos renderizando una escena y actualizándola en cada frame (60FPS), lo significa que estamos actualizando la escena 60 veces cada segundo. Si el objeto para ser actualizado es reactivo, Vue intentará actualizar el objeto está número de veces. eso no es un buen idea 😅 y estará dañino para rendimiento.
+Dado que estamos renderizando una escena y actualizándola en cada frame (60FPS), lo significa que estamos actualizando la escena 60 veces cada segundo. Si el objeto es reactivo, Vue intentará actualizar el objeto ese número de veces. eso no es una buena idea 😅 y será dañino para el rendimiento.
 
-Aquí es un benchmark de la diferencia entre usar un objeto Proxy y un objeto simple.
+Aquí un benchmark de la diferencia entre usar un objeto Proxy y un objeto simple.
 
 <figure>
   <img src="/proxy-benchmark.png" alt="Proxy vs Plain" style="width:100%">
@@ -66,7 +66,7 @@ Fuente: [Proxy vs Plain Object](https://www.measurethat.net/Benchmarks/Show/1250
 
 Si hay que usar reactivad, usa [shallowRef](https://vuejs.org/api/reactivity-advanced.html#shallowref)
 
-A diferencia de `ref()`, el valor interior de un shallow ref se guardado y revelado tal cual, y no será profundamente reactivo. Solo el .value acceso es reactivo. Fuente [VueJS Docs](https://vuejs.org/api/reactivity-advanced.html#shallowref)
+A diferencia de `ref()`, el valor interno de un shallow ref es guardado y preservado tal cual, y no será reactivo de manera profunda. Solo el .value será reactivo. Fuente [VueJS Docs](https://vuejs.org/api/reactivity-advanced.html#shallowref)
 
 ### Example
 

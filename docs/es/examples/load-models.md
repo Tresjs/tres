@@ -2,19 +2,19 @@
 
 > Todos los modelos usado en esta guía son de [Alvaro Saburido](https://sketchfab.com/3d-models/aku-aku-7dfcb6edf10b4098bbb965c56fd3055c)
 
-Los modelos 3D son disponible en cientos de formatos de archivo, cada uno con propósitos diferentes, características distintos, y complexidad variable.
+Los modelos 3D están disponible en cientos de formatos, cada uno con propósitos diferentes, características distintas, y complejidad variable.
 
-En esta guía, vamos a enfocarnos en cargando glTF (GL Transmission Format) modelos, que son el formato más común de modelos 3D en el web.
+En esta guía, vamos a enfocarnos en glTF (GL Transmission Format) modelos, que son el formato más común de modelos 3D en el web.
 
 <StackBlitzEmbed projectId="tresjs-gltf-load-model" />
 
-Hay algunas maneras para cargar modelos en TresJS:
+Hay algunas maneras para cargar modelos en TresJs:
 
 ## usando `useLoader`
 
-Para cargar el recurso, el `useLoader` composable te permite pasar cualquier tipo de Three.js cargador y un URL. Devuelve un `Promise` con el recurso cargado.
+Para cargar el recurso, el `useLoader` composable te permite pasar cualquier tipo de `Loader` de Three.js y una URL. Devuelve una `Promise` con el recurso cargado.
 
-Por una explanación detallada de como usar `useLoader`, ve la documentación de [useLoader](/api/composables#useloader).
+Para una explanación detallada de como usar `useLoader`, ve la documentación de [useLoader](/api/composables#useloader).
 
 ```ts
 import { useLoader } from '@tresjs/core'
@@ -33,13 +33,13 @@ Entonces, puedes pasar la escena de modelo a un componente `primitive`:
 </TresCanvas>
 ```
 
-> The `<primitive />` component is not a standalone component in the Tres source code. Instead, it's a part of the Tres core functionality. When you use `<primitive>`, it is translated to a `createElement` call, which creates the appropriate Three.js object based on the provided "object" prop.
+> El componente `<primitive />` es parte del núcleo en Tresjs. Cuando usas `<primitive>`, es transformado usando una llamada `createElement` que crea una instancia de Threejs, basado en la propiedad proporcionada en "object"
 
-Nota que en el ejemplo arriba que usamos el componente `Suspense` para 'wrap' el componente `TresCanvas`. Eso es por `useLoader` devuelve un `Promise` y necesitamos esperarlo resolver antes de renderizar la escena.
+Nota que en el ejemplo anterior que usamos el componente `Suspense` para 'envolver' el componente `TresCanvas`. Eso es por que el `useLoader` devuelve una `Promise` y necesitamos esperarlo a que se resuelva antes de renderizar la escena.
 
 ## Usando `useGLTF`
 
-Una manera más conveniente de cargar modelos es usando el `useGLTF` composable disponible de [@tresjs/cientos](https://github.com/Tresjs/tres/tree/main/packages/cientos) paquete.
+Una manera más conveniente de cargar modelos es usando el `useGLTF` composable disponible de [@tresjs/cientos](https://github.com/Tresjs/tres/tree/main/packages/cientos).
 
 ```ts
 import { useGLTF } from '@tresjs/cientos'
@@ -98,7 +98,7 @@ Esta estrategia en particular es más directo pero te da menos control sobre el 
 
 ## useFBX
 
-El composable `useFBX` es disponible del paquete [@tresjs/cientos](https://github.com/Tresjs/tres/tree/main/packages/cientos).
+El composable `useFBX` esta disponible del paquete [@tresjs/cientos](https://github.com/Tresjs/tres/tree/main/packages/cientos).
 
 ```ts
 import { useFBX } from '@tresjs/cientos'
@@ -106,7 +106,7 @@ import { useFBX } from '@tresjs/cientos'
 const model = await useFBX('/models/AkuAku.fbx')
 ```
 
-Entonces, es tan directo como añadir el modelo a tu escena:
+Entonces, es tan fácil como añadir el modelo a tu escena:
 
 ```html{3}
 <TresCanvas shadows alpha>
@@ -118,7 +118,7 @@ Entonces, es tan directo como añadir el modelo a tu escena:
 
 ## FBXModel
 
-El componente `FBXModel` es un 'wrapper' alrededor de `useFBX` que es disponible del paquete [@tresjs/cientos](https://github.com/Tresjs/tres/tree/main/packages/cientos). Tiene uso similar al `GLTFModel`:
+El componente `FBXModel` es un 'wrapper' alrededor de `useFBX` que esta disponible del paquete [@tresjs/cientos](https://github.com/Tresjs/tres/tree/main/packages/cientos). Tiene un uso similar al `GLTFModel`:
 
 ```vue{2,9}
 <script setup lang="ts">

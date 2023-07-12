@@ -2,17 +2,17 @@
 
 > Todas las texturas usada en este ejemplo son de [ambientcg](https://ambientcg.com/).
 
-Texturas tridimensionales (3D) son imágenes que contener capas múltiples de datos, permitiéndoles a representar volumen o simular estructuras tridimensionales. Estas texturas se usan frecuentemente en gráficas 3D y efectos para mejorar el realismo y complexidad de escenas y objetos.
+Texturas tridimensionales (3D) son imágenes que contener capas múltiples de datos, permitiéndoles a representar volumen o simular estructuras tridimensionales. Estas texturas se usan frecuentemente en gráficas 3D y efectos para mejorar el realismo y complejidad de escenas y objetos.
 
 <StackBlitzEmbed projectId="tresjs-load-textures" />
 
-Hay dos maneras de cargar texturas 3D en TresJS:
+Hay dos maneras de cargar texturas 3D en TresJs:
 
 ## Usando `useLoader`
 
-Para cargar el recurso, el `useLoader` composable te permite pasar cualquier tipo de Three.js cargador y un URL. Devuelve un `Promise` con el recurso cargado.
+Para cargar el recurso, el `useLoader` composable te permite pasar cualquier tipo de `Loader` de Three.js y una URL. Devuelve una `Promise` con el recurso cargado.
 
-Por una explanación detallada de como usar `useLoader`, ve la documentación de [useLoader](/api/composables#useloader).
+Para una explanación detallada de como usar `useLoader`, ve la documentación de [useLoader](/api/composables#useloader).
 
 ```ts
 import { useLoader } from '@tresjs/core'
@@ -36,11 +36,11 @@ Entonces, puedes pasar la textura al material:
 </Suspense>
 ```
 
-Nota que en el ejemplo arriba que usamos el componente `Suspense` para 'wrap' el componente `TresCanvas`. Eso es por `useLoader` devuelve un `Promise` y necesitamos esperarlo resolver antes de renderizar la escena.
+Nota que en el ejemplo anterior que usamos el componente `Suspense` para 'envolver' el componente `TresCanvas`. Eso es por que el `useLoader` devuelve una `Promise` y necesitamos esperarlo a que se resuelva antes de renderizar la escena.
 
 ## Usando `useTexture`
 
-Una manera más conveniente de cargar texturas es usar el composable `useTexture`. Se acepta un matrix de URLs o un objeto singular con las rutas de textura mapeados.
+Una manera más conveniente de cargar texturas es usar el composable `useTexture`. Se acepta un Array de URLs o un objeto singular con las rutas de textura mapeados.
 
 Para aprender más de `useTexture`, ve la documentación de [useTexture](/api/composables#use-texture).
 
@@ -56,7 +56,7 @@ const pbrTexture = await useTexture({
 })
 ```
 
-De la manera del ejemplo anterior, podemos pasar todas las texturas a un material via props:
+Al igual que en el ejemplo anterior, podemos pasar todas las texturas a un material via props:
 
 ```html
 <Suspense>

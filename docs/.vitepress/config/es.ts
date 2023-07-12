@@ -4,15 +4,15 @@ export const esConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
     themeConfig: {
         sidebar: [
             {
-                text: 'Guide',
+                text: 'Guía',
                 items: [
                     // This shows `/guide/index.md` page.
-                    { text: 'Introduction', link: '/es/guide/' },
-                    { text: 'Getting Started', link: '/es/guide/getting-started' },
-                    { text: 'Your first Scene', link: '/es/guide/your-first-scene' },
+                    { text: 'Introducción', link: '/es/guide/' },
+                    { text: 'Empezando', link: '/es/guide/getting-started' },
+                    { text: 'Tu primera escena', link: '/es/guide/your-first-scene' },
                     { text: 'Nuxt', link: '/es/guide/nuxt' },
-                    { text: 'Troubleshooting', link: '/es/guide/troubleshooting' },
-                    { text: 'Migrate from v1', link: '/es/guide/migration-guide' },
+                    { text: 'Problemas comunes', link: '/es/guide/troubleshooting' },
+                    { text: 'Migración desde la v1', link: '/es/guide/migration-guide' },
                 ],
             },
             {
@@ -20,7 +20,7 @@ export const esConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
                 items: [
                     { text: 'Renderer', link: '/es/api/renderer' },
                     {
-                        text: 'Instances, arguments and props',
+                        text: 'Instancias, argumentos y propiedades',
                         link: '/es/api/instances-arguments-and-props',
                     },
                     {
@@ -28,35 +28,35 @@ export const esConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
                         link: '/es/api/composables',
                     },
                     {
-                        text: 'Events',
+                        text: 'Eventos',
                         link: '/es/api/events',
                     },
                 ],
             },
             {
-                text: 'Examples',
+                text: 'Ejemplos',
                 items: [
                     { text: 'Orbit Controls', link: '/es/examples/orbit-controls' },
-                    { text: 'Basic Animations', link: '/es/examples/basic-animations' },
-                    { text: 'Groups', link: '/es/examples/groups' },
-                    { text: 'Load Textures', link: '/es/examples/load-textures' },
-                    { text: 'Load Models', link: '/es/examples/load-models' },
-                    { text: 'Load Text', link: '/es/examples/text-3d' },
+                    { text: 'Animaciones básicas', link: '/es/examples/basic-animations' },
+                    { text: 'Grupos', link: '/es/examples/groups' },
+                    { text: 'Usando texturas', link: '/es/examples/load-textures' },
+                    { text: 'Usando modelos', link: '/es/examples/load-models' },
+                    { text: 'Usando textos', link: '/es/examples/text-3d' },
                 ],
             },
             {
-                text: 'Advanced',
+                text: 'Avanzado',
 
                 items: [
-                    { text: 'Extending', link: '/es/advanced/extending' },
+                    { text: 'Extendiendo', link: '/es/advanced/extending' },
                     {
-                        text: 'Caveats',
+                        text: 'Advertencias',
                         link: '/es/advanced/caveats',
                     },
                 ],
             },
             {
-                text: 'Ecosystem',
+                text: 'Ecosistema',
                 items: [
                     {
                         text: `Cientos 💛`,
@@ -66,21 +66,21 @@ export const esConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
             },
         ],
         nav: [
-            { text: 'Guide', link: '/guide/' },
+            { text: 'Guía', link: '/guide/' },
             { text: 'API', link: '/api/renderer' },
             /*       { text: 'API', link: '/api/' },
             { text: 'Config', link: '/config/' }, */
             {
-                text: 'Resources',
+                text: 'Recursos',
                 items: [
-                    { text: 'Team', link: '/team' },
+                    { text: 'Equipo', link: '/team' },
                     { text: 'Releases', link: 'https://github.com/Tresjs/tres/releases' },
                     {
                         text: 'Playground',
                         link: 'https://playground.tresjs.org/'
                     },
                     {
-                        text: 'Ecosystem',
+                        text: 'Ecosistema',
                         items: [
                             {
                                 text: `Cientos 💛`,

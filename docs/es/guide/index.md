@@ -4,7 +4,7 @@
     <FirstScene style="aspect-ratio: 16/9; height: auto; margin: 2rem 0; border-radius: 8px; overflow:hidden;"/>
 </ClientOnly>
 
-Esta es la documentación para la `v2.0.0` en adelante de Tresjs. Si estas buscando la documentación para la version 1, revisa acá [V1 TresJS](https://v1.tresjs.org/).
+Esta es la documentación para la `v2.0.0` en adelante de Tresjs. Si estas buscando la documentación para la version 1, revisa acá [V1 TresJs](https://v1.tresjs.org/).
 
 ::: code-group
 
@@ -77,7 +77,7 @@ Ademas puedes revisar ejemplos de las utilidades, y "como hacer" en nuestro play
 
 ## Motivation
 
-[ThreeJS](https://threejs.org/) es una maravillosa librería que potencia la creación de sitios web en 3D usando **WebGL**. Se actualiza constantemente, un desafío para los mantenedores de [TroisJS](https://troisjs.github.io/)
+[TresJs](https://threejs.org/) es una maravillosa librería que potencia la creación de sitios web en 3D usando **WebGL**. Se actualiza constantemente, un desafío para los mantenedores de [TroisJS](https://troisjs.github.io/)
 
 EL ecosistema de React tiene una impresionante librería llamada [React-three-fiber](https://docs.pmnd.rs/react-three-fiber) que permite construir escenas declarativas, de manera reusable, que reaccionan a tu estado.
 

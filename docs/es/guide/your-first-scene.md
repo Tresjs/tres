@@ -1,6 +1,6 @@
 # Tu primera scene
 
-Esta guía te va a ayudar a crear tu primera scene Tres. 🍩
+Esta guía te va a ayudar a crear tu primera scene TresJs. 🍩
 
 <ClientOnly>
     <DonutExample style="aspect-ratio: 16/9; height: auto; margin: 2rem 0; border-radius: 8px; overflow:hidden;"/>
@@ -8,9 +8,9 @@ Esta guía te va a ayudar a crear tu primera scene Tres. 🍩
 
 ## Preparando el Canvas
 
-Antes de poder crear una escena, necesitamos un lugar donde mostrarla. Usando [ThreeJS](https://threejs.org/docs/index.html#manual/en/introduction/Creating-a-scene) simple, necesitaríamos crear un `canvas` html element para montar el `WebglRenderer` y inicializar la `scene`
+Antes de poder crear una escena, necesitamos un lugar donde mostrarla. Usando [TresJs](https://threejs.org/docs/index.html#manual/en/introduction/Creating-a-scene) simple, necesitaríamos crear un `canvas` html element para montar el `WebglRenderer` y inicializar la `scene`
 
-Con **TresJS** solo necesitas añadir el componente default `<TresCanvas >` a la plantilla de tu componente de Vue.
+Con **TresJs** solo necesitas añadir el componente default `<TresCanvas >` a la plantilla de tu componente de Vue.
 
 ```vue
 <script lang="ts" setup>
@@ -82,7 +82,7 @@ Necesitamos 4 elementos core para crear una experiencia 3D :
 - Una [**Camera**](https://threejs.org/docs/index.html?q=camera#api/en/cameras/Camera)
 - Un [**Objeto**](https://threejs.org/docs/index.html?q=object#api/en/core/Object3D)
 
-Con **TresJS** solo necesitas agregar el componente `<TresCanvas />` al template en tu Vue SFC y automáticamente creara el `Renderer` (`canvas` DOM Element) y la `Scene` por ti.
+Con **TresJs** solo necesitas agregar el componente `<TresCanvas />` al template en tu Vue SFC y automáticamente creara el `Renderer` (`canvas` DOM Element) y la `Scene` por ti.
 
 ```vue
 <template>
@@ -108,7 +108,7 @@ Un problema común es que la posición por defecto de la cámara es (0,0,0), Tre
 
 ## Añadir una 🍩
 
-Esta escena parece un poquito vacía, añadamos un objeto básico. Si estuviéramos usando **ThreeJS** puro, necesitaríamos crear un [**Mesh**](https://threejs.org/docs/index.html?q=mesh#api/en/objects/Mesh) objeto y adjuntarlo a una [**Material**](https://threejs.org/docs/index.html?q=material#api/en/materials/Material) y una [**Geometry**](https://threejs.org/docs/index.html?q=geometry#api/en/core/BufferGeometry) como eso:
+Esta escena parece un poquito vacía, añadamos un objeto básico. Si estuviéramos usando **TresJs** puro, necesitaríamos crear un [**Mesh**](https://threejs.org/docs/index.html?q=mesh#api/en/objects/Mesh) objeto y adjuntarlo a una [**Material**](https://threejs.org/docs/index.html?q=material#api/en/materials/Material) y una [**Geometry**](https://threejs.org/docs/index.html?q=geometry#api/en/core/BufferGeometry) como eso:
 
 ```ts
 const geometry = new THREE.TorusGeometry(1, 0.5, 16, 32)
@@ -119,7 +119,7 @@ scene.add(donut)
 
 Un Mesh es un objeto básico de la escena en three.js, y es usado para contener la geometría y el material necesario para representar una forma en el espacio 3D.
 
-Ahora, vemos como podemos lograr fácilmente el mismo con **TresJS**. Para hacerlo, vamos a usar `<TresMesh />` componente, y entre los puestos por defecto, vamos a pasar un `<TresTorusGeometry />` y un `<TresMeshBasicMaterial />`.
+Ahora, vemos como podemos lograr fácilmente el mismo con **TresJs**. Para hacerlo, vamos a usar `<TresMesh />` componente, y entre los puestos por defecto, vamos a pasar un `<TresTorusGeometry />` y un `<TresMeshBasicMaterial />`.
 
 ```vue
 <template>
@@ -134,7 +134,7 @@ Ahora, vemos como podemos lograr fácilmente el mismo con **TresJS**. Para hacer
 ```
 
 ::: info
-Nota que no necesitamos importar nada, eso es porque **TresJS** generar automáticamente un **Componente de Vue con base del Three Objeto quieres usar en CamelCase con un prefijo Tres**. Por ejemplo, si quieres usar un `AmbientLight` usarías `<TresAmbientLight />` componente.
+Nota que no necesitamos importar nada, eso es porque **TresJs** generar automáticamente un **Componente de Vue con base del Three Objeto quieres usar en CamelCase con un prefijo TresJs**. Por ejemplo, si quieres usar un `AmbientLight` usarías `<TresAmbientLight />` componente.
 :::
 
 <StackBlitzEmbed projectId="tresjs-first-scene" />

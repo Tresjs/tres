@@ -2,13 +2,11 @@
 
 ![Troubleshooting](https://media.giphy.com/media/LHZyixOnHwDDy/giphy.gif)
 
-Welcome to **TresJS v2 troubleshooting guide**. Where 3D stands for _"Dazzlingly Delightful Difficulties"_! We know 3D can be as complex as a tangled ball of yarn 🧶 or as unpredictable as a cat on a keyboard 🐈 ⌨️ , but fear not!
-
-This guide is intended to help you solve the most common issues that you might encounter when using TresJS v2.
+Bienvenido a la **Guía de resolución de problemas de TresJs v2** Sabemos que trabajar con 3D puede ser complejo, pero no temas, estamos aquí para ayudarte
 
 ## ¡No puedo ver mi escena 😭!
 
-¿Has seguido los pasos de la sección [Getting started guide](/guide/getting-started.md) pero aun así no puedes ver tu escena en pantalla?
+¿Has seguido los pasos de la sección [Empezando](/guide/getting-started.md) pero aun así no puedes ver tu escena en pantalla?
 
 Estas son algunas de las razones mas comunes:
 
@@ -52,7 +50,9 @@ O también puedes agrega el prop `window-size` al componente `TresCanvas`:
 
 ![](/failed-to-resolve-component.png)
 
-Desde la **TresJS v2**, se esta usando una solución llamada Vue Custom renderer dentro de la instancia principal de la aplicación de vue, Vue no reconocerá por defecto los componentes dentro del componente `TresCanvas`. Incluso si estos no afectan al desarrollo de nuestra escena, mostrará warning en la consola
+Desde la **TresJs v2**, se esta usando una solución llamada Vue Custom renderer dentro de la instancia principal de la aplicación de Vue, Vue no reconocerá por defecto los componentes dentro del componente `TresCanvas`.
+
+Incluso si estos no afectan al desarrollo de nuestra escena, mostrará warning en la consola
 
 ![](/failed-to-resolve-component.png)
 
@@ -77,7 +77,7 @@ export default defineConfig({
 
 Esto eliminara el mensaje en la consola.
 
-# Ayúdanos a hacer TresJS Purr-fect! 😼
+# Ayúdanos a hacer TresJs Purr-fect! 😼
 
 Sabemos que incluso los mejores ocasionalmente cometemos errores, y ¡necesitamos tu ayuda para hacer TresJs aún mejor! Si encuentras algún bug por favor no dudes en abrir un ticket acá [the
 repo](https://github.com/Tresjs/playground) **Recuerda proporcionar un link a la reproducción del error**

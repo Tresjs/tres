@@ -2,13 +2,13 @@
 
 Vue 3 [Composition API](https://vuejs.org/guide/extras/composition-api-faq.html#what-is-composition-api) te permite crear lógica reutilizable que se puede compartir entre los componentes. También te permite crear hooks personalizados que puede ser usado en tus componentes.
 
-**TresJS** aprovecha mucho está API para crear un grupo de funciones composables que se pueden usar para crear animaciones, interactuar con la escena y más. También te permite crear escenas más complejas que podrían no ser posible solo usando los componentes de Vue (Textures, Loaders, etc.).
+**TresJs** aprovecha mucho está API para crear un grupo de funciones composables que se pueden usar para crear animaciones, interactuar con la escena y más. También te permite crear escenas más complejas que podrían no ser posible solo usando los componentes de Vue (Textures, Loaders, etc.).
 
-El core de **TresJS** usa estos composables internamente, entonces estarías usando el mismo API que usa el core. Por ejemplo, componentes que se necesitan actualizar en el render loop internal usa el composable `useRenderLoop` para registrar un callback que se llamará cada vez el renderer actualiza la escena.
+El core de **TresJs** usa estos composables internamente, entonces estarías usando el mismo API que usa el core. Por ejemplo, componentes que se necesitan actualizar con request animation frame API pueden usar el composable `useRenderLoop` para registrar un callback que se llamará cada vez el renderer actualiza la escena.
 
 ## useRenderLoop
 
-El composable `useRenderLoop` es el core de los animaciones de **TresJS**. Te permite registrar un callback que se llamará en el ritmo nativo de actualizar. Esto es el composable más importante de **TresJS**.
+El composable `useRenderLoop` es el core de los animaciones de **TresJs**. Te permite registrar un callback que se llamará por cada frame. Este es uno de los composable más importante de **TresJs**.
 
 ```ts
 const { onLoop, resume } = useRenderLoop()
@@ -19,7 +19,7 @@ onLoop(({ delta, elapsed, clock, dt }) => {
 ```
 
 ::: warning
-Está consciente de la implicación sobre el rendimiento de usar est composable. Se funcionará a cada frame, entonces si tienes mucha lógica en tu callback, podría impactar el rendimiento de tu app. Especialmente si estás actualizando los estados reactivos o las referencias.
+Debes estar consciente de la implicación en el rendimiento para usar este composable. Se funcionará a cada frame, entonces si tienes mucha lógica en tu callback, podría impactar el rendimiento de tu app. Especialmente si estás actualizando los estados reactivos o las referencias.
 :::
 
 El callback `onLoop` recibe un objeto con las propiedades siguientes en base del [THREE clock](https://threejs.org/docs/?q=clock#api/en/core/Clock):
@@ -27,7 +27,7 @@ El callback `onLoop` recibe un objeto con las propiedades siguientes en base del
 - `delta`: El delta tiempo entre el frame actual y frame final. Esto es el tiempo en segundos desde el frame ultimo.
 - `elapsed`: El tiempo transcurrido desde cuando comenzó el render loop.
 
-Este composable se base en `useRafFn` de [vueuse](https://vueuse.org/core/useRafFn/). Gracias a [@wheatjs](https://github.com/orgs/Tresjs/people/wheatjs) por la contribución increíble.
+Este composable se base en `useRafFn` de [vueuse](https://vueuse.org/core/useRafFn/). Gracias a [@wheatjs](https://github.com/orgs/Tresjs/people/wheatjs) por la increíble contribución.
 
 ### Antes y después render
 
@@ -49,7 +49,7 @@ onAfterLoop(({ delta, elapsed }) => {
 
 ### Pausar y continuar
 
-Puedes pausar y continuar el render loop usando los métodos expuestos de `pause` y `resume`.
+Puedes pausar y continuar el render loop usando los métodos de `pause` y `resume`.
 
 ```ts
 const { pause, resume } = useRenderLoop()
@@ -83,7 +83,7 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader'
 const { scene } = await useLoader(THREE.GLTFLoader, 'path/to/asset.gltf')
 ```
 
-Desde el composable `useLoader` se desvuelve una promesa, puedes usarlo con un `async/await` o `then/catch`. Si estás usándolo en un componente, te aseguras de que es 'wrapped' con un componente `Suspense`. Ve [Suspense](https://vuejs.org/guide/built-ins/suspense.html#suspense) para más información.
+Desde el composable `useLoader` se desvuelve una promesa, puedes usarlo con un `async/await` o `then/catch`. Si estás usándolo en un componente, te aseguras de que es 'envuelto' con un componente `Suspense`. Ve [Suspense](https://vuejs.org/guide/built-ins/suspense.html#suspense) para más información.
 
 ```vue
 <template>
@@ -101,7 +101,7 @@ El composable `useTexture` te permite cargar texturas usando el [THREE.js textur
 const texture = await useTexture(['path/to/texture.png'])
 ```
 
-También **useTexture** se acepta un objeto con las propiedades siguientes:
+También **useTexture** acepta un objeto con las propiedades siguientes:
 
 - `map`:Una textura básica que se aplica al superficie de un objeto.
 - `displacementMap`: Una textura que se usa para añadir protuberancias o abolladuras al superficie del objeto.
@@ -148,7 +148,7 @@ Puedes hacer la conexión de las texturas al material, así.
 </template>
 ```
 
-Similar al composable anterior, el composable `useTexture` desvuelve una promesa puedes usarlo con `async/await` o `then/catch`. Si estás usándolo con un componente, te aseguras de que es 'wrapped' con un componente `Suspense`.
+Similar al composable anterior, el composable `useTexture` desvuelve una promesa puedes usarlo con `async/await` o `then/catch`. Si estás usándolo con un componente, te aseguras de que es 'envuelto' con un componente `Suspense`.
 
 ## useSeek
 

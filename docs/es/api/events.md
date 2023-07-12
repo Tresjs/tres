@@ -1,6 +1,6 @@
 # Events
 
-Los componentes de **TresJS** emiten eventos when cuando el pointer interactúa con ellos. Esto se aplica para componentes que deriven de [THREE.Object3D](https://threejs.org/docs/index.html?q=object#api/en/core/Object3D) (como meshes, grupos,...).
+Los componentes de **TresJs** emiten eventos cuando el puntero interactúa con ellos. Esto se aplica para componentes que deriven de [THREE.Object3D](https://threejs.org/docs/index.html?q=object#api/en/core/Object3D) (como meshes, grupos,...).
 
 <StackBlitzEmbed project-id="tresjs-events" />
 

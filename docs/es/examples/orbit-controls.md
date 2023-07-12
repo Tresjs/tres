@@ -4,23 +4,23 @@
 
 [OrbitControls](https://threejs.org/docs/index.html?q=orbit#examples/en/controls/OrbitControls) es una camera controller que te permite orbitar alrededor de una target. Es una forma buena para explorar tu escena.
 
-Sin embargo, no es parte del core de ThreeJS. Entonces, para usarlo, necesitarías importarlo del modulo `three/examples/jsm/controls/OrbitControls`.
+Sin embargo, no es parte del core de TresJs. Entonces, para usarlo, necesitarías importarlo del modulo `three/examples/jsm/controls/OrbitControls`.
 
-Eso crea una problema porque **TresJS** automáticamente crea un catálogo del core de Three para que puedes usarlos como componentes.
+Eso crea una problema porque **TresJs** automáticamente crea un catálogo del core de Three para que puedes usarlos como componentes y el OrbitControls no es parte del core.
 
-Afortunadamente, **TresJS** provee una forma a extender el catálogo de componentes. Puedes hacerlo por usar el `extend` método usando el [useCatalogue](/api/composables#usecatalog) composable.
+Afortunadamente, **TresJs** provee una manera para extender el catálogo del componentes. Puedes hacerlo usando el método `extend`.
 
-Para más información sobre como extender tu catálogo TresJS catalog, hacer referencia a la sección [extending](/advanced/extending.md).
+Para más información sobre como extender tu catálogo revisa la sección [extending](/advanced/extending.md).
 
 ## Usando OrbitControls
 
-Para usar `OrbitControls` necesitas importarlo del modulo `three/examples/jsm/controls/OrbitControls`.
+Para usar `OrbitControls` necesitamos importarlo del modulo `three/examples/jsm/controls/OrbitControls`.
 
 ```js
 import { OrbitControls } from 'three/addons/controls/OrbitControls'
 ```
 
-Entonces, necesitas extender el catálogo de componentes usando el método `extend` del [useCatalogue](/api/composables#usecatalog) composable.
+Después, necesitas extender el catálogo de componentes usando el método `extend`.
 
 ```js
 import { extend } from '@tresjs/core'
@@ -42,7 +42,7 @@ Ahora, puedes usar el componente `TresOrbitControls` en tu escena.
 
 Dado que [OrbitControls](https://threejs.org/docs/index.html?q=orbit#examples/en/controls/OrbitControls) necesita una referencia a la cámara y el renderer, necesitas pasarlas como argumentos.
 
-puedes usar el [useThree](/api/composables#usethree) composable para conseguir la cámara y el renderer.
+Puedes usar el [useThree](/api/composables#usethree) composable para conseguir la cámara y el renderer.
 
 ```ts
 import { useThree } from '@tresjs/core'
@@ -71,10 +71,10 @@ const { state } = useThree()
 
 ## OrbitControls usando `cientos`
 
-Aquí es donde el parte elevado empiece. ✨  
-El `cientos` package provee un componente se llama `<OrbitControls />` lo que es un wrapper del `OrbitControls` del modulo [`three-stdlib`](https://github.com/pmndrs/three-stdlib).
+Aquí es donde mejor parte empieza. ✨  
+El paquete `cientos` provee un componente llamado `<OrbitControls />` que es un wrapper del `OrbitControls` del modulo [`three-stdlib`](https://github.com/pmndrs/three-stdlib).
 
-¿El parte más agradable? No necesitas extender el catálogo o pasar ningún argumento.  
+¿El mejor parte? No necesitas extender el catálogo o pasar ningún argumento.
 Ya funciona. 💯
 
 ```vue

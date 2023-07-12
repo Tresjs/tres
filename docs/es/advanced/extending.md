@@ -1,8 +1,8 @@
-# Extend 🔌
+# Extender 🔌
 
-TresJs se ofrece funcionalidad esencial, pero es fácil añadir elementos externos y extenderles en tu catálogo interno.
+TresJs ofrece una funcionalidad esencial, pero es fácil añadir elementos externos y extenderlos en tu catálogo interno.
 
-Muchas de las experiencias 3D usa `OrbitControls` que no es una parte de la biblioteca core en Threejs. Puedes añadirlo importando lo directamente desde `three/addons/controls/OrbitControls`
+Muchas de las experiencias 3D, por ejemplo, usan `OrbitControls` que no es una parte del paquete centrar en Threejs. Puedes añadirlo importando lo directamente desde `three/addons/controls/OrbitControls`
 
 ```js
 import { OrbitControls } from 'three/addons/controls/OrbitControls'
@@ -25,7 +25,7 @@ extend({ TextGeometry, OrbitControls })
     <TresPerspectiveCamera :position="[5, 5, 5]" />
     <TresOrbitControls v-if="state.renderer" :args="[state.camera, state.renderer?.domElement]" />
     <TresMesh>
-      <TresTextGeometry :args="['TresJS', { font, ...fontOptions }]" center />
+      <TresTextGeometry :args="['TresJs', { font, ...fontOptions }]" center />
       <TresMeshMatcapMaterial :matcap="matcapTexture" />
     </TresMesh>
   </TresCanvas>

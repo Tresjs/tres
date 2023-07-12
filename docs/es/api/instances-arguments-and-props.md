@@ -1,8 +1,8 @@
 # Instancias
 
-El idea principal de **Tres** es un \_catálogo auto-generado_de todos los elementos de ThreeJS. Este catálogo se genera del código fuente de ThreeJS, entonces siempre está actualizado.
+La idea principal de **TresJs** es la de un **catálogo auto-generado** de todos los elementos de TresJs. Este catálogo se genera del código fuente de TresJs, entonces siempre está actualizado.
 
-Cuando usas ThreeJS, necesitas importar los elementos que quieres usar. Por ejemplo, si quieres usar un `PerspectiveCamera`, necesitas importarlo de paquete `three`:
+Cuando usas TresJs, necesitas importar los elementos que quieres usar. Por ejemplo, si quieres usar un `PerspectiveCamera`, necesitas importarlo de paquete `three`:
 
 ```js
 import { PerspectiveCamera } from 'three'
@@ -10,18 +10,18 @@ import { PerspectiveCamera } from 'three'
 const camera = new PerspectiveCamera(45, width / height, 1, 1000)
 ```
 
-Con **Tres** no necesitas importar nada, eso es porque **Tres**genera automáticamente un **Componente de Vue en base del Three Objeto quieres usar en CamelCase con un prefijo Tres**. Por ejemplo, si quieres usar un `PerspectiveCamera` usarías el componente `<TresPerspectiveCamera />` .
+Con **TresJs** no necesitas importar nada, eso es porque **TresJs** genera automáticamente un **Componente de Vue en base del Three Objeto quieres usar en CamelCase con un prefijo TresJs**. Por ejemplo, si quieres usar un `PerspectiveCamera` usarías el componente `<TresPerspectiveCamera />` .
 
 ```vue
 <template>
   <TresCanvas>
     <TresPerspectiveCamera />
-    <!-- Your scene goes here -->
+    <!-- Tu escena vive aquí -->
   </TresCanvas>
 </template>
 ```
 
-Se significa que puedes usar la misma [documentación](https://threejs.org/docs/) que usaría como cuando usas ThreeJS puro, pero con el poder de Vue.
+Eso significa que puedes usar la misma [documentación](https://threejs.org/docs/) que usaría como cuando usas TresJs puro, pero con el poder de Vue.
 
 ## Declarar objetos
 
@@ -36,7 +36,7 @@ Si continuamos con este argumento, podrías usar una instancia así: ❌
 </template>
 ```
 
-Pero con **Tres** no es necesario, puedes definer propiedades de forma declarativa así: ✅
+Pero con **TresJs** no es necesario, puedes definer propiedades de forma declarativa así: ✅
 
 ```vue
 <template>
@@ -47,9 +47,9 @@ Pero con **Tres** no es necesario, puedes definer propiedades de forma declarati
 </template>
 ```
 
-## Arguments
+## Argumentos
 
-Algunos objetos de ThreeJS tienen argumentos, por ejemplo, el constructor `PerspectiveCamera` tiene los argumentos siguientes:
+Algunos objetos de TresJs tienen argumentos, por ejemplo, el constructor `PerspectiveCamera` tiene los argumentos siguientes:
 
 - `fov` - Cámara tronco vertical campo de visión.
 - `aspect` - Cámara tronco relación de aspecto.
@@ -83,7 +83,7 @@ También puedes pasar props al componente, por ejemplo, el `TresAmbientLight` ti
 
 ### Set
 
-Todas las propiedades cuales objeto subyacente tiene un método `.set()` tienen un atajo para recibir el valor como un matriz. Por ejemplo, el `TresPerspectiveCamera` tiene una propiedad `position`, lo cual es un objeto `Vector3`, entonces puedes pasarla al componente así:
+Todas las propiedades cuales objeto subyacente tiene un método `.set()` tienen un atajo para recibir el valor como una matriz. Por ejemplo, el `TresPerspectiveCamera` tiene una propiedad `position`, lo cual es un objeto `Vector3`, entonces puedes pasarla al componente así:
 
 ```html
 <TresPerspectiveCamera :position="[1, 2, 3]" />
@@ -110,9 +110,9 @@ Es importante saber que cuando configuras la rotación con los atajos, el orden 
 <!-- Nota que el orden de la rotación importa, y cambiar el orden puede resultar en resultados diferentes. -->
 ```
 
-### Scalar
+### Mas atajos
 
-Otro atajo puedes usar es pasar un valor escalar a una propiedad que espera un objeto `Vector3`, usando el mismo valor por el resto del vector:
+Otro atajo puedes usar es pasar un valor a una propiedad que espera un objeto `Vector3`, usando el mismo valor por el resto del vector:
 
 ```html
 <TresPerspectiveCamera :position="5" /> ✅

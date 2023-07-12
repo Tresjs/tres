@@ -1,7 +1,6 @@
 # Guía de migración
 
 Esta guía tiene como objetivo ayudarte con la migración de la v1 ha la mas reciente v2 de Tresjs
-This guide is intended to help you migrate from v1 to brand new shiny v2 🤩✨ of TresJS.
 
 ::: code-group
 
@@ -23,15 +22,15 @@ yarn upgrade @tresjs/core
 
 ### Vue Custom Renderer
 
-**TresJS** ahora utiliza [Vue Custom Renderer](https://vuejs.org/api/custom-renderer.html#createrenderer) 🎉, vive dentro del componente `TresCanvas` que es el responsable de la creación del `WebGLRenderer` y la `Scene`.
+**TresJs** ahora utiliza [Vue Custom Renderer](https://vuejs.org/api/custom-renderer.html#createrenderer) 🎉, vive dentro del componente `TresCanvas` que es el responsable de la creación del `WebGLRenderer` y la `Scene`.
 
 ### Soporte para Typescript y Intellisense 🦾
 
-![TresJS v2 Intellisense](/v2-intellisense.gif)
+![TresJs v2 Intellisense](/v2-intellisense.gif)
 
-Esta es probablemente una de las **funcionalidades mas solicitadas en TresJs**. Ahora los componentes de TresJs trabajan en conjunto con Volar, para proveerte intellisense y tipado.
+Esta es probablemente una de las **funcionalidades mas solicitadas para TresJs**. Ahora los componentes de TresJs trabajan en conjunto con Volar, para proveerte intellisense y tipado.
 
-**TresJS** ahora genera los tipos de todos tus componentes al momento de hacer la compilación, basado en el catalogo de Threejs. Esto significa que podrás usar todos los componentes de Threejs y obtener intellisense
+**TresJs** ahora genera los tipos de todos tus componentes al momento de hacer la compilación, basado en el catalogo de Threejs. Esto significa que podrás usar todos los componentes de Threejs y obtener intellisense
 
 ### TresJs Plugin es opcional 👍
 
@@ -89,7 +88,7 @@ Para migrar tu código, debes remover el componente `<TresScene />` y colocar to
 
 La función del `useCatalog` esta ahora deprecada para la v2. Ahora puedes importar todo el catalogo directamente desde `@tresjs/core`
 
-Puedes leer mas información aquí: [Extending](/advanced/extending.md)
+Puedes leer mas información aquí: [Extendiendo](/advanced/extending.md)
 
 Cambia de esto:
 
@@ -116,7 +115,7 @@ extend({ TextGeometry })
 
 ### En los modelos el `getModel` fue deprecado
 
-La función `getModel` fue deprecada. Ahora puedes usar el model directamente
+La función `getModel` fue deprecada. Ahora puedes usar el modelo directamente
 
 Cambia de esto:
 

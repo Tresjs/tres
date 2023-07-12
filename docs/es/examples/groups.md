@@ -1,6 +1,6 @@
-# Group
+# Grupos
 
-Un `<TresGroup>` es una instancia de la clase [THREE.Group](https://threejs.org/docs/#api/en/objects/Group) que es casi igual a un [THREE.Object3D](https://threejs.org/docs/#api/en/objects/Object3D) pero te permite **juntar objectos múltiples en la escena** para que pueden ser manipulados como una unidad singular (transformación, rotación, etc).
+Un `<TresGroup>` es una instancia de la clase [THREE.Group](https://threejs.org/docs/#api/en/objects/Group) que es casi igual a un [THREE.Object3D](https://threejs.org/docs/#api/en/objects/Object3D) pero te permite **agrupar múltiples objectos en la escena** para que puedan ser manipulados como una unidad (transformación, rotación, etc).
 
 <StackBlitzEmbed projectId="tresjs-groups" />
 

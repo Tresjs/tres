@@ -1,6 +1,6 @@
 # Modulo de Nuxt `@tresjs/nuxt`
 
-![TresJS Nuxt Module](/nuxt-stones.png)
+![TresJs Nuxt Module](/nuxt-stones.png)
 
 <a href="https://www.npmjs.com/package/@tresjs/nuxt"><img src="https://img.shields.io/npm/v/@tresjs/nuxt/latest?color=%2382DBCA" alt="npm package"></a>
 
