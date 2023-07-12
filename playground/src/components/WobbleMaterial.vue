@@ -22,7 +22,7 @@ const context = ref()
     <TresPerspectiveCamera :position="[3, 3, 3]" />
     <TresMesh>
       <TresTorusGeometry />
-      <MeshWobbleMaterial color="orange" :speed="10" :factor="5" />
+      <MeshWobbleMaterial color="orange" :speed="10" :factor="8" />
     </TresMesh>
     <TresGridHelper :args="[10, 10]" />
     <TresAmbientLight :intensity="1" />

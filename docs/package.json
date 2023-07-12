@@ -9,12 +9,12 @@
     "preview": "vitepress preview"
   },
   "devDependencies": {
-    "unocss": "^0.53.0",
+    "unocss": "^0.53.5",
     "vite-svg-loader": "^4.0.0",
-    "vitepress": "1.0.0-beta.1"
+    "vitepress": "1.0.0-beta.5"
   },
   "dependencies": {
     "@tresjs/cientos": "workspace:^",
-    "gsap": "^3.11.5"
+    "gsap": "^3.12.2"
   }
 }

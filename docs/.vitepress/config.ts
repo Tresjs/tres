@@ -85,6 +85,13 @@ export default defineConfig({
         ],
       },
       {
+        text: 'Staging',
+        collapsed: true,
+        items: [
+          { text: 'Backdrop', link: '/guide/staging/backdrop' },
+        ]
+      },
+      {
         text: 'Misc',
         items: [{ text: 'useTweakpane', link: '/guide/misc/use-tweakpane' }],
       },

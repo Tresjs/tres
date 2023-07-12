@@ -7,6 +7,7 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    BackdropDemo: typeof import('./src/components/BackdropDemo.vue')['default']
     ContactShadowsDemo: typeof import('./src/components/ContactShadowsDemo.vue')['default']
     EnvironmentDemo: typeof import('./src/components/EnvironmentDemo.vue')['default']
     Gltf: typeof import('./src/components/gltf/index.vue')['default']

@@ -7,6 +7,7 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    BackdropDemo: typeof import('./.vitepress/theme/components/BackdropDemo.vue')['default']
     Feather: typeof import('./.vitepress/theme/components/Feather.vue')['default']
     LeviosoDemo: typeof import('./.vitepress/theme/components/LeviosoDemo.vue')['default']
     LoveVueThreeJS: typeof import('./.vitepress/theme/components/LoveVueThreeJS.vue')['default']

@@ -62,3 +62,11 @@
   color: var(--vp-button-alt-text);
   background-color: var(--vp-button-alt-bg);
 }
+
+.demo-scene {
+  height: auto;
+  margin: 2rem 0;
+  overflow: hidden;
+  aspect-ratio: 16/9;
+  border-radius: 8px;
+}
