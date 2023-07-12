@@ -31,3 +31,5 @@ const gl = {
     <TresDirectionalLight :position="[0, 2, 4]" :intensity="1" />
   </TresCanvas>
 </template>
+
+

@@ -14,7 +14,6 @@ const { data: formattedExperiments } = await useAsyncData('/', () =>
   ),
 )
 
-console.log({formattedExperiments})
 </script>
 <template>
   <main>

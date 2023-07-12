@@ -14,21 +14,21 @@
     "@iconify-json/ic": "^1.1.13",
     "@iconify-json/logos": "^1.1.33",
     "@nuxt/content": "^2.7.0",
-    "@nuxt/image-edge": "1.0.0-rc.1-28119537.bfe30ab",
-    "@tresjs/cientos": "2.2.0",
+    "@nuxt/image-edge": "1.0.0-rc.1-28143901.afe4120",
+    "@tresjs/cientos": "2.3.0",
     "@tresjs/nuxt": "1.0.0",
-    "@types/three": "^0.152.1",
-    "@unocss/nuxt": "^0.53.4",
-    "gsap": "^3.12.1",
-    "nuxt": "^3.6.0",
-    "nuxt-svgo": "^3.1.0",
-    "postprocessing": "^6.32.1",
+    "@types/three": "^0.153.0",
+    "@unocss/nuxt": "^0.53.5",
+    "gsap": "^3.12.2",
+    "nuxt": "^3.6.2",
+    "nuxt-svgo": "^3.3.0",
+    "postprocessing": "^6.32.2",
     "vite-plugin-glsl": "^1.1.2",
     "vite-svg-loader": "^4.0.0"
   },
   "dependencies": {
-    "@tresjs/core": "^2.3.0",
+    "@tresjs/core": "^2.4.0",
     "@tresjs/post-processing": "^0.3.0",
-    "three": "^0.153.0"
+    "three": "^0.154.0"
   }
 }
