@@ -23,36 +23,39 @@ const { onLoop } = useRenderLoop()
 onLoop(() => {
    if (boxRef.value) {
     boxRef.value.value.rotation.x = progress.value * 10
+    boxRef.value.value.rotation.y = progress.value * 2
    }
 })
 </script>
 <template>
-  <!-- <main>
+  <TresCanvas v-bind="gl" ref="canvasRef" window-size >
+    <TresPerspectiveCamera :position="[0, 2, 5]" />
+    <Stars :radius="1" />
+    <TresGridHelper :args="[10, 10]" />
+    
+    <ScrollControls ref="scRef" 
+    v-model="progress"
+    :distance="10"
+    :smooth-scroll="0.1"
+    >
+    <Sphere ref="sphereRef" :scale="0.1" :position="[1, 2, 0]" />
+    <Box ref="boxRef" :scale="0.5" :color="0xff00ff" :position="[-1, 1, 0]" />
+  </ScrollControls>
+  </TresCanvas>
+  <main>
     <section>
       <h1>First section</h1>
     </section>
+
      <section>
       <h2>Second section</h2>
     </section>
     <section>
       <h3 >Third section</h3>
     </section>
-  </main> -->
+  </main>
   <!-- <div class="container"> -->
-    <TresCanvas v-bind="gl" ref="canvasRef" window-size >
-      <TresPerspectiveCamera :position="[0, 2, 5]" />
-      <Stars :radius="1" />
-      <TresGridHelper :args="[10, 10]" />
-      
-      <ScrollControls ref="scRef" 
-      v-model="progress"
-      :distance="10"
-      :smooth-scroll="0.1"
-      >
-      <Sphere ref="sphereRef" :scale="0.1" :position="[1, 2, 0]" />
-      <Box ref="boxRef" :scale="0.5" :color="0xff00ff" :position="[-1, 1, 0]" />
-    </ScrollControls>
-    </TresCanvas>
+    
   <!-- </div> -->
 </template>
 <style scoped>

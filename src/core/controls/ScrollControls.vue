@@ -144,9 +144,19 @@ watch(
 
       scrollContainer.style[props.horizontal ? 'overflowX' : 'overflowY'] = 'auto'
       scrollContainer.style[props.horizontal ? 'overflowY' : 'overflowX'] = 'hidden'
+      scrollContainer.style.position = 'absolute'
+      scrollContainer.style.width = '100%'
+      scrollContainer.style.height = ' 100%'
+      scrollContainer.style.top = '0'
+      scrollContainer.style.left = ' 0'
       scrollContainer.classList.add('scrollContainer')
 
-      fixed.classList.add('fixedContainer')
+      fixed.style.position = 'sticky'
+      fixed.style.top = '0px'
+      fixed.style.left = '0px'
+      fixed.style.width = '100%'
+      fixed.style.height = '100%'
+      fixed.style.overflow = 'hidden'
       scrollContainer.appendChild(fixed)
 
       fill.style.height = props.horizontal ? '100%' : `${height.value * props.pages}px`
@@ -182,21 +192,3 @@ onLoop(() => {
     <slot />
   </TresGroup>
 </template>
-<style>
-.scrollContainer {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0px;
-  left: 0px;
-}
-
-.fixedContainer {
-  position: sticky;
-  top: 0px;
-  left: 0px;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-}
-</style>
