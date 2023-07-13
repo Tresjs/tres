@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { App, onMounted, onUnmounted, ref, watch } from 'vue'
+import { App, getCurrentInstance, onMounted, onUnmounted, ref, watch } from 'vue'
 import { PerspectiveCamera, Scene } from 'three'
 
 import { createTres } from '../core/renderer'
@@ -61,7 +61,7 @@ setState('scene', scene)
 setState('canvas', canvas)
 setState('container', container)
 setState('pointerEventHandler', pointerEventHandler)
-
+setState('appContext', getCurrentInstance())
 const { onLoop, resume } = useRenderLoop()
 
 const { activeCamera, pushCamera, clearCameras } = useCamera()
