@@ -15,7 +15,7 @@ interface PointerClickEventPayload {
 }
 
 export const useRaycaster = (objects: Ref<THREE.Object3D[]>) => {
-  const { state } = useTres()
+  const { state, setState } = useTres()
 
   const canvas = computed(() => state.canvas?.value) // having a seperate computed makes useElementBounding work
 
@@ -24,6 +24,8 @@ export const useRaycaster = (objects: Ref<THREE.Object3D[]>) => {
   const { width, height, top, left } = useElementBounding(canvas)
 
   const raycaster = new Raycaster()
+
+  setState('raycaster', raycaster)
 
   const getRelativePointerPosition = ({ x, y }: { x: number; y: number }) => {
     if (!canvas.value) return
