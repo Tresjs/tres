@@ -136,10 +136,12 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
 
       const deregisterAtPointerEventHandler = scene?.userData.tres__deregisterAtPointerEventHandler
 
-      if (!deregisterAtPointerEventHandler)
-        throw 'could not find tres__deregisterAtPointerEventHandler on scene\'s userData'
 
       const deregisterAtPointerEventHandlerIfRequired = (object: TresObject) => {
+        // TODO talk to alvaro about tests
+        // if (!deregisterAtPointerEventHandler)
+        //   throw 'could not find tres__deregisterAtPointerEventHandler on scene\'s userData'
+
         if (
           object?.onClick ||
           object?.onPointerMove ||
@@ -153,12 +155,13 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
       const deregisterCameraIfRequired = (object: Object3D) => {
         const deregisterCamera = scene?.userData.tres__deregisterCamera
 
-        if (!deregisterCamera)
-          throw 'could not find tres__deregisterCamera on scene\'s userData'
+        // TODO talk to alvaro about tests
+        // if (!deregisterCamera) 
+        // throw 'could not find tres__deregisterCamera on scene\'s userData'
 
 
         if ((object as Camera).isCamera)
-          deregisterCamera(object as Camera)
+          deregisterCamera?.(object as Camera)
       }
 
       object3D.traverse((child: Object3D) => {

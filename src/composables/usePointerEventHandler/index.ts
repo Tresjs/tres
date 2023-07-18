@@ -9,7 +9,7 @@ import { TresScene } from 'src/types'
 type CallbackFn = (intersection: Intersection<Object3D<Event>>, event: PointerEvent) => void
 type CallbackFnPointerLeave = (object: Object3D<Event>, event: PointerEvent) => void
 
-export type EventProps = { // TODO merge with TresObject?
+export type EventProps = {
   onClick?: CallbackFn
   onPointerEnter?: CallbackFn
   onPointerMove?: CallbackFn
@@ -27,11 +27,11 @@ export const usePointerEventHandler = (
     pointerLeave: new Map<Object3D, CallbackFnPointerLeave>(),
   })
 
-  const deregisterObject = (object: Object3D) => { // TODO use TresObject?
+  const deregisterObject = (object: Object3D) => {
     Object.values(objectsWithEventListeners).forEach(map => map.delete(object))
   }
 
-  const registerObject = (object: Object3D & EventProps) => { // TODO use TresObject?
+  const registerObject = (object: Object3D & EventProps) => {
     const { onClick, onPointerMove, onPointerEnter, onPointerLeave } = object
 
     if (onClick) objectsWithEventListeners.click.set(object, onClick)
