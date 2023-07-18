@@ -1,12 +1,12 @@
 import { RendererOptions } from 'vue'
-import { BufferAttribute, Scene } from 'three'
+import { BufferAttribute } from 'three'
 import { isFunction } from '@alvarosabu/utils'
 import { useLogger } from '../composables'
 import { catalogue } from './catalogue'
-import { TresObject } from '../types'
 import { isHTMLTag, kebabToCamel } from '../utils'
-import { OBJECT_3D_USER_DATA_KEYS } from '../keys'
-import type { Material, BufferGeometry, Object3D, Camera } from 'three'
+
+import type { Object3D, Camera } from 'three'
+import type { TresObject, TresObject3D, TresScene } from '../types'
 
 const onRE = /^on[^a-z]/
 export const isOn = (key: string) => onRE.test(key)
@@ -16,7 +16,7 @@ function noop(fn: string): any {
 }
 
 let fallback: TresObject | null = null
-let scene: Scene | null = null
+let scene: TresScene | null = null
 
 const { logError } = useLogger()
 
@@ -61,17 +61,16 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
 
     // determine whether the material was passed via prop to
     // prevent it's disposal when node is removed later in it's lifecycle
-    const { GEOMETRY_VIA_PROP, MATERIAL_VIA_PROP } = OBJECT_3D_USER_DATA_KEYS
 
     if (instance.isObject3D) {
-      if (props?.material?.isMaterial) (instance as Object3D).userData[MATERIAL_VIA_PROP] = true
-      if (props?.geometry?.isBufferGeometry) (instance as Object3D).userData[GEOMETRY_VIA_PROP] = true
+      if (props?.material?.isMaterial) (instance as TresObject3D).userData.tres__materialViaProp = true
+      if (props?.geometry?.isBufferGeometry) (instance as TresObject3D).userData.tres__geometryViaProp = true
     }
 
     return instance
   },
   insert(child, parent) {
-    if (parent && parent.isScene) scene = parent as unknown as Scene
+    if (parent && parent.isScene) scene = parent as unknown as TresScene
     if (
       (child?.__vnode?.type === 'TresGroup' || child?.__vnode?.type === 'TresObject3D') &&
       parent === null &&
@@ -86,8 +85,12 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
     if (!parent) parent = fallback as TresObject
 
     if (child?.isObject3D) {
-      if (child?.isCamera)
-        scene?.userData?.[OBJECT_3D_USER_DATA_KEYS.REGISTER_CAMERA]?.(child)
+      if (child?.isCamera) {
+        if (!scene?.userData.tres__registerCamera)
+          throw 'could not find tres__registerCamera on scene\'s userData'
+
+        scene?.userData.tres__registerCamera?.(child as unknown as Camera)
+      }
 
 
       if (
@@ -95,8 +98,12 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
         child?.onPointerMove ||
         child?.onPointerEnter ||
         child?.onPointerLeave
-      )
-        scene?.userData?.[OBJECT_3D_USER_DATA_KEYS.REGISTER_AT_POINTER_EVENT_HANDLER]?.(child)
+      ) {
+        if (!scene?.userData.tres__registerAtPointerEventHandler)
+          throw 'could not find tres__registerAtPointerEventHandler on scene\'s userData'
+
+        scene?.userData.tres__registerAtPointerEventHandler?.(child as Object3D)
+      }
     }
 
 
@@ -119,20 +126,18 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
     if (node.isObject3D) {
       const object3D = node as unknown as Object3D
 
-      const {
-        DEREGISTER_CAMERA,
-        GEOMETRY_VIA_PROP,
-        MATERIAL_VIA_PROP,
-        DEREGISTER_AT_POINTER_EVENT_HANDLER,
-      } = OBJECT_3D_USER_DATA_KEYS
-
       const disposeMaterialsAndGeometries = (object3D: Object3D) => {
-        if (!object3D.userData[MATERIAL_VIA_PROP]) (object3D as Object3D & { material: Material }).material?.dispose()
-        if (!object3D.userData[GEOMETRY_VIA_PROP])
-          (object3D as Object3D & { geometry: BufferGeometry }).geometry?.dispose()
+        const tresObject3D = object3D as TresObject3D
+
+        if (!object3D.userData.tres__materialViaProp) tresObject3D.material?.dispose()
+        if (!object3D.userData.tres__geometryViaProp)
+          tresObject3D.geometry?.dispose()
       }
 
-      const deregisterAtPointerEventHandler = scene?.userData?.[DEREGISTER_AT_POINTER_EVENT_HANDLER]
+      const deregisterAtPointerEventHandler = scene?.userData.tres__deregisterAtPointerEventHandler
+
+      if (!deregisterAtPointerEventHandler)
+        throw 'could not find tres__deregisterAtPointerEventHandler on scene\'s userData'
 
       const deregisterAtPointerEventHandlerIfRequired = (object: TresObject) => {
         if (
@@ -141,14 +146,19 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
           object?.onPointerEnter ||
           object?.onPointerLeave
         )
-          deregisterAtPointerEventHandler?.(object)
+          deregisterAtPointerEventHandler?.(object as Object3D)
       }
 
-      const deregisterCamera = scene?.userData?.[DEREGISTER_CAMERA]
 
       const deregisterCameraIfRequired = (object: Object3D) => {
+        const deregisterCamera = scene?.userData.tres__deregisterCamera
+
+        if (!deregisterCamera)
+          throw 'could not find tres__deregisterCamera on scene\'s userData'
+
+
         if ((object as Camera).isCamera)
-          deregisterCamera(object)
+          deregisterCamera(object as Camera)
       }
 
       object3D.traverse((child: Object3D) => {

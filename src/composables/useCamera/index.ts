@@ -1,32 +1,38 @@
 import { computed, watchEffect, ref, onUnmounted } from 'vue'
-import { Camera, OrthographicCamera, PerspectiveCamera, Scene } from 'three'
+import { Camera, OrthographicCamera, PerspectiveCamera } from 'three'
 
-import { OBJECT_3D_USER_DATA_KEYS } from '../../keys'
-
+import type { TresScene } from '../../types'
 import type { TresContext } from '../useTresContextProvider'
 
-export function useCamera({ sizes, scene }: Pick<TresContext, 'sizes'> & { scene: Scene }) {
-  const { IS_ACTIVE_CAMERA, REGISTER_CAMERA, DEREGISTER_CAMERA } = OBJECT_3D_USER_DATA_KEYS
+
+interface TresCamera extends Camera {
+  userData: {
+    tres__isActiveCamera: boolean
+    [key: string]: any
+  }
+}
+
+export function useCamera({ sizes, scene }: Pick<TresContext, 'sizes'> & { scene: TresScene }) {
 
   // computed "camera" relies on this to be a ref (not a shallowRef)
   // the computed does not trigger, when for example the camera postion changes
-  const cameras = ref<Camera[]>([])
-  const camera = computed<Camera | undefined>(
-    () => cameras.value.find(({ userData }) => userData[IS_ACTIVE_CAMERA])
+  const cameras = ref<TresCamera[]>([])
+  const camera = computed<TresCamera | undefined>(
+    () => cameras.value.find(({ userData }) => userData.tres__isActiveCamera)
   )
 
   const addCamera = (newCamera: Camera, active = true) => {
     if (cameras.value.some(({ uuid }) => uuid === newCamera.uuid))
       return
 
-    cameras.value.push(newCamera)
+    cameras.value.push(newCamera as TresCamera)
 
     if (active)
       setCameraActive(newCamera)
   }
 
   const removeCamera = (camera: Camera) => {
-    if (camera.userData[IS_ACTIVE_CAMERA]) {
+    if ((camera as TresCamera).userData.tres__isActiveCamera) {
       const lastCamera = cameras.value[cameras.value.length - 1];
       if (lastCamera)
         setCameraActive(lastCamera.uuid)
@@ -42,8 +48,10 @@ export function useCamera({ sizes, scene }: Pick<TresContext, 'sizes'> & { scene
 
     if (!camera) return
 
-    cameras.value.forEach(({ userData }) => userData[IS_ACTIVE_CAMERA] = false)
-    camera.userData[IS_ACTIVE_CAMERA] = true
+    cameras.value.forEach(({ userData }) => userData.tres__isActiveCamera = false)
+
+    const tresCamera = camera as TresCamera
+    tresCamera.userData.tres__isActiveCamera = true
   }
 
   const clearCameras = () => {
@@ -62,8 +70,8 @@ export function useCamera({ sizes, scene }: Pick<TresContext, 'sizes'> & { scene
     }
   })
 
-  scene.userData[REGISTER_CAMERA] = addCamera
-  scene.userData[DEREGISTER_CAMERA] = removeCamera
+  scene.userData.tres__registerCamera = addCamera
+  scene.userData.tres__deregisterCamera = removeCamera
 
   onUnmounted(() => {
     clearCameras()

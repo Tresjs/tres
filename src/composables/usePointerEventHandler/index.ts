@@ -1,15 +1,15 @@
 import { uniqueBy } from '../../utils'
 import { useRaycaster } from '../useRaycaster'
 import { computed, reactive } from 'vue'
-import { OBJECT_3D_USER_DATA_KEYS } from '../../keys'
 
 import type { TresContext } from '../useTresContextProvider'
-import type { Intersection, Event, Object3D, Scene } from 'three'
+import type { Intersection, Event, Object3D } from 'three'
+import { TresScene } from 'src/types'
 
 type CallbackFn = (intersection: Intersection<Object3D<Event>>, event: PointerEvent) => void
 type CallbackFnPointerLeave = (object: Object3D<Event>, event: PointerEvent) => void
 
-type EventProps = {
+export type EventProps = { // TODO merge with TresObject?
   onClick?: CallbackFn
   onPointerEnter?: CallbackFn
   onPointerMove?: CallbackFn
@@ -17,7 +17,7 @@ type EventProps = {
 }
 
 export const usePointerEventHandler = (
-  scene: Scene,
+  scene: TresScene,
   contextParts: Pick<TresContext, 'renderer' | 'camera'>
 ) => { // TODO think about passing objects to all the composables -> better maintainability
   const objectsWithEventListeners = reactive({
@@ -27,11 +27,11 @@ export const usePointerEventHandler = (
     pointerLeave: new Map<Object3D, CallbackFnPointerLeave>(),
   })
 
-  const deregisterObject = (object: Object3D) => {
+  const deregisterObject = (object: Object3D) => { // TODO use TresObject?
     Object.values(objectsWithEventListeners).forEach(map => map.delete(object))
   }
 
-  const registerObject = (object: Object3D & EventProps) => {
+  const registerObject = (object: Object3D & EventProps) => { // TODO use TresObject?
     const { onClick, onPointerMove, onPointerEnter, onPointerLeave } = object
 
     if (onClick) objectsWithEventListeners.click.set(object, onClick)
@@ -40,10 +40,9 @@ export const usePointerEventHandler = (
     if (onPointerLeave) objectsWithEventListeners.pointerLeave.set(object, onPointerLeave)
   }
 
-  const { REGISTER_AT_POINTER_EVENT_HANDLER, DEREGISTER_AT_POINTER_EVENT_HANDLER } = OBJECT_3D_USER_DATA_KEYS
   // to make the registerObject available in the custom renderer (nodeOps), it is attached to the scene
-  scene.userData[REGISTER_AT_POINTER_EVENT_HANDLER] = registerObject
-  scene.userData[DEREGISTER_AT_POINTER_EVENT_HANDLER] = deregisterObject
+  scene.userData.tres__registerAtPointerEventHandler = registerObject
+  scene.userData.tres__deregisterAtPointerEventHandler = deregisterObject
 
 
   const objectsToWatch = computed(() =>
