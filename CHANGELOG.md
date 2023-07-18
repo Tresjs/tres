@@ -1,5 +1,12 @@
 
 
+## [1.0.1](///compare/1.0.0...1.0.1) (2023-07-18)
+
+
+### Bug Fixes
+
+* added `TresCanvasProps` types locally ([#22](null//null/issues/22)) bb04e80
+
 ## [1.0.0](///compare/1.0.0-beta.2...1.0.0) (2023-06-22)
 
 ## [1.0.0-beta.2](///compare/1.0.0-beta.1...1.0.0-beta.2) (2023-06-20)
