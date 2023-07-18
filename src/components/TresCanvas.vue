@@ -88,10 +88,7 @@ onMounted(() => {
         canvas: existingCanvas,
         windowSize: props.windowSize,
         disableRender,
-        rendererOptions: {
-            ...props,
-            antialias: props.antialias === undefined ? true : props.antialias // an opinionated default of tres
-        },
+        rendererOptions: props
     })
 
     usePointerEventHandler(scene.value, context)

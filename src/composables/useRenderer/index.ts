@@ -123,7 +123,7 @@ export function useRenderer(
     canvas: unrefElement(canvas),
     context: toValue(options.context),
     stencil: toValue(options.stencil),
-    antialias: toValue(options.antialias),
+    antialias: toValue(options.antialias) === undefined ? true : toValue(options.antialias), // an opinionated default of tres
     precision: toValue(options.precision),
     powerPreference: toValue(options.powerPreference),
     premultipliedAlpha: toValue(options.premultipliedAlpha),
