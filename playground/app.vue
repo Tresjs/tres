@@ -10,13 +10,12 @@ const gl = {
   toneMapping: NoToneMapping,
 };
 
-const bloomParams = reactive({
+/* const bloomParams = reactive({
   luminanceThreshold: 0.2,
   luminanceSmoothing: 0.3,
   mipmapBlur: true,
   intensity: 0.5,
-});
-
+}); */
 </script>
 <template>
   <div style="height: 100vh">
@@ -27,9 +26,9 @@ const bloomParams = reactive({
       />
       <OrbitControls />
 
-      <EffectComposer :depth-buffer="true">
+      <!-- <EffectComposer :depth-buffer="true">
         <Bloom v-bind="bloomParams" />
-      </EffectComposer>
+      </EffectComposer> -->
 
       <Suspense>
         <NuxtStones />
@@ -39,7 +38,9 @@ const bloomParams = reactive({
 </template>
 
 <style>
-html, body {
+html,
+body {
+  background: "#18181B";
   margin: 0;
   padding: 0;
   overflow: hidden;
