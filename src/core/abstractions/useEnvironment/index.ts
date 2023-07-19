@@ -64,7 +64,7 @@ export async function useEnvironment({
 
   if (state.scene) {
     state.scene.environment = texture
-    if (background !== undefined) {
+    if (background) {
       state.scene.background = texture
     }
     if (blur) {
