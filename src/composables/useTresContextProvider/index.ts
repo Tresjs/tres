@@ -10,7 +10,7 @@ export type TresContext = {
   scene: DeepReadonly<ShallowRef<Scene>>;
   camera: ComputedRef<Camera | undefined>;
   cameras: DeepReadonly<Ref<Camera[]>>;
-  renderer: DeepReadonly<ShallowRef<WebGLRenderer>>
+  renderer: ShallowRef<WebGLRenderer>
 
   addCamera: (camera: Camera) => void;
   removeCamera: (camera: Camera) => void
@@ -71,10 +71,10 @@ export function useTresContextProvider({
 
   const toProvide: TresContext = {
     sizes,
-    scene: localScene,
+    scene: readonly(localScene),
     camera,
     cameras: readonly(cameras),
-    renderer: readonly(renderer),
+    renderer,
     addCamera,
     removeCamera,
     setCameraActive,
