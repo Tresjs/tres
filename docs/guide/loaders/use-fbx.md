@@ -15,7 +15,7 @@ Then is as straightforward as adding the scene to your scene:
 ```html{3}
 <TresCanvas shadows alpha>
   <Suspense>
-    <TresMesh v-bind="scene" />
+    <primitive :object="scene" />
   </Suspense>
 </TresCanvas>
 ```
