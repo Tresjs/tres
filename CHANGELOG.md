@@ -1,5 +1,7 @@
 
 
+## [2.4.0-next.6](https://github.com/Tresjs/tres/compare/2.4.0-next.5...2.4.0-next.6) (2023-07-19)
+
 ## [2.4.0-next.5](https://github.com/Tresjs/tres/compare/2.4.0-next.4...2.4.0-next.5) (2023-07-19)
 
 ## [2.4.0-next.4](https://github.com/Tresjs/tres/compare/2.4.0...2.4.0-next.4) (2023-07-07)
