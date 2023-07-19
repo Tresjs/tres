@@ -111,23 +111,23 @@ describe('nodeOps', () => {
     expect(parent.children.includes(child)).toBeTruthy()
   })
 
-  // it('remove: removes child from parent', async () => {
-  //   // Setup
-  //   const parent = new Scene() as unknown as TresObject
-  //   const child = new Mesh() as unknown as TresObject
+  it.skip('remove: removes child from parent', async () => {
+    // Setup
+    const parent = new Scene() as unknown as TresObject
+    const child = new Mesh() as unknown as TresObject
 
-  //   // Fake vnodes
-  //   child.__vnode = {
-  //     type: 'TresMesh',
-  //   }
-  //   nodeOps.insert(child, parent)
+    // Fake vnodes
+    child.__vnode = {
+      type: 'TresMesh',
+    }
+    nodeOps.insert(child, parent)
 
-  //   // Test
-  //   nodeOps.remove(child)
+    // Test
+    nodeOps.remove(child)
 
-  //   // Assert
-  //   expect(!parent.children.includes(child)).toBeTruthy()
-  // })
+    // Assert
+    expect(!parent.children.includes(child)).toBeTruthy()
+  })
 
   it('patchProp should patch property of node', async () => {
     // Setup

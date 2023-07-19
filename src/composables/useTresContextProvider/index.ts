@@ -71,7 +71,7 @@ export function useTresContextProvider({
 
   const toProvide: TresContext = {
     sizes,
-    scene: readonly(localScene),
+    scene: localScene,
     camera,
     cameras: readonly(cameras),
     renderer: readonly(renderer),
