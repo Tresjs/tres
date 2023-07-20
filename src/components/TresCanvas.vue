@@ -91,7 +91,7 @@ onMounted(() => {
         rendererOptions: props
     })
 
-    usePointerEventHandler(scene.value, context)
+    usePointerEventHandler({ scene: scene.value, contextParts: context })
 
     const { addCamera, camera, cameras, removeCamera } = context
 

@@ -17,9 +17,12 @@ export type EventProps = {
 }
 
 export const usePointerEventHandler = (
-  scene: TresScene,
-  contextParts: Pick<TresContext, 'renderer' | 'camera'>
-) => { // TODO think about passing objects to all the composables -> better maintainability
+  { scene, contextParts }:
+    {
+      scene: TresScene,
+      contextParts: Pick<TresContext, 'renderer' | 'camera'>
+    }
+) => {
   const objectsWithEventListeners = reactive({
     click: new Map<Object3D, CallbackFn>(),
     pointerMove: new Map<Object3D, CallbackFn>(),

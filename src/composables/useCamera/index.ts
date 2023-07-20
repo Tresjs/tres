@@ -12,7 +12,7 @@ interface TresCamera extends Camera {
   }
 }
 
-export function useCamera({ sizes, scene }: Pick<TresContext, 'sizes'> & { scene: TresScene }) {
+export const useCamera = ({ sizes, scene }: Pick<TresContext, 'sizes'> & { scene: TresScene }) => {
 
   // computed "camera" relies on this to be a ref (not a shallowRef)
   // the computed does not trigger, when for example the camera postion changes
