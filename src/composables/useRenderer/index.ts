@@ -8,7 +8,7 @@ import {
   useDevicePixelRatio,
 } from '@vueuse/core'
 
-import { merge } from '../../utils'
+import { get, merge, set } from '../../utils'
 import { useLogger } from '../useLogger'
 import { TresColor } from '../../types'
 import { useRenderLoop } from '../useRenderLoop'
@@ -186,31 +186,42 @@ export function useRenderer(
         logError('Renderer Preset must be one of these: ' + Object.keys(rendererPresets).join(', '))
 
       merge(renderer.value, rendererPresets[rendererPreset])
-
-      return // TODO should not return here -> discuss with team whether presets should be part of cientos
     }
 
-    const shadows = toValue(options.shadows)
-    renderer.value.shadowMap.enabled = shadows !== undefined ? shadows : threeDefaults.shadowMap.enabled
+    const getValue = <T>(option: MaybeRefOrGetter<T>, pathInThree: string): T | undefined => {
+      const value = toValue(option)
 
-    const shadowMapType = toValue(options.shadowMapType)
-    renderer.value.shadowMap.type = shadowMapType !== undefined ? shadowMapType : threeDefaults.shadowMap.type
+      const getValueFromPreset = () => {
+        if (!rendererPreset)
+          return
 
-    const toneMapping = toValue(options.toneMapping)
-    renderer.value.toneMapping = toneMapping !== undefined ? toneMapping : threeDefaults.toneMapping
-
-    const toneMappingExposure = toValue(options.toneMappingExposure)
-    renderer.value.toneMappingExposure = toneMappingExposure !== undefined ?
-      toneMappingExposure : threeDefaults.toneMappingExposure
-
-    const outputColorSpace = toValue(options.outputColorSpace)
-    renderer.value.outputColorSpace = outputColorSpace !== undefined ? outputColorSpace : threeDefaults.outputColorSpace
-
-    const useLegacyLights = toValue(options.useLegacyLights)
-    renderer.value.useLegacyLights = useLegacyLights !== undefined ? useLegacyLights : threeDefaults.useLegacyLights
+        return get(rendererPresets[rendererPreset], pathInThree)
+      }
 
 
-    const clearColor = toValue(options.clearColor)
+      if (value !== undefined)
+        return value
+
+      const valueInPreset = getValueFromPreset() as T
+
+      if (valueInPreset !== undefined)
+        return valueInPreset
+
+      return get(threeDefaults, pathInThree)
+    }
+
+    const setValueOrDefault = <T>(option: MaybeRefOrGetter<T>, pathInThree: string) =>
+      set(renderer.value, pathInThree, getValue(option, pathInThree))
+
+    setValueOrDefault(options.shadows, 'shadowMap.enabled')
+    setValueOrDefault(options.toneMapping, 'toneMapping')
+    setValueOrDefault(options.shadowMapType, 'shadowMap.type')
+    setValueOrDefault(options.useLegacyLights, 'useLegacyLights')
+    setValueOrDefault(options.outputColorSpace, 'outputColorSpace')
+    setValueOrDefault(options.toneMappingExposure, 'toneMappingExposure')
+
+    const clearColor = getValue(options.clearColor, 'clearColor')
+
     if (clearColor)
       renderer.value.setClearColor(
         clearColor ?
