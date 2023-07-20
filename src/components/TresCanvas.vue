@@ -74,7 +74,7 @@ const dispose = () => {
     app.unmount()
     app = createTres(slots)
     app.provide('extend', extend)
-    app.mount(scene as unknown)
+    app.mount(scene.value)
     resume()
 }
 
