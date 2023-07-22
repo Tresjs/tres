@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ref, watch } from 'vue'
+import { ref, watch, onUnmounted } from 'vue'
 import { PointerLockControls } from 'three-stdlib'
 import { Camera } from 'three'
 import { useEventListener } from '@vueuse/core'
@@ -53,6 +53,12 @@ let triggerSelector: HTMLElement | undefined
 
 extend({ PointerLockControls })
 
+const emit = defineEmits(['update:modelValue'])
+
+const isLockEvent = (event: boolean) => {
+  emit('update:modelValue', event)
+}
+
 watch(controls, value => {
   if (value && props.makeDefault) {
     setState('controls', value)
@@ -63,12 +69,17 @@ watch(controls, value => {
   triggerSelector = selector ? selector : state.renderer?.domElement
   useEventListener(triggerSelector, 'click', () => {
     controls.value?.lock()
+    controls.value?.addEventListener('lock', () => isLockEvent(true))
+    controls.value?.addEventListener('unlock', () => isLockEvent(false))
   })
 })
 
-defineExpose({
-  value: controls,
+onUnmounted(() => {
+  controls.value?.removeEventListener('lock', () => isLockEvent(true))
+  controls.value?.removeEventListener('unlock', () => isLockEvent(false))
 })
+
+defineExpose({ value: controls })
 </script>
 
 <template>
