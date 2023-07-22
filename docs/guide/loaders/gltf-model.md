@@ -11,7 +11,7 @@ import { OrbitControls, GLTFModel } from '@tresjs/cientos'
       <TresPerspectiveCamera :position="[11, 11, 11]" />
       <OrbitControls />
       <Suspense>
-        <GLTFModel path="/models/AkuAku.gltf" draco />
+        <GLTFModel path="/models/AkuAku.gltf" draco ref="modelRef" />
       </Suspense>
       <TresDirectionalLight :position="[-4, 8, 4]" :intensity="1.5" cast-shadow />
     </TresCanvas>
@@ -20,7 +20,7 @@ import { OrbitControls, GLTFModel } from '@tresjs/cientos'
 
 ## Model reference
 
-You can access the model reference by pasing a `ref` to the `model` prop and then using the method `getModel()` to get the object.
+You can access the model reference by passing a `ref` to the `model` prop and then using to get the object.
 
 ```vue{3,6}
 <script setup lang="ts">
@@ -28,13 +28,9 @@ import { OrbitControls, GLTFModel } from '@tresjs/cientos'
 
 const modelRef = shallowRef<THREE.Object3D>()
 
-watch(modelRef, ({model}) => {
-  model.traverse((child) => {
-    if (child.isMesh) {
-      child.castShadow = true
-      child.receiveShadow = true
-    }
-  })
+watch(modelRef, model => {
+  // Do something with the model
+  model.position.set(0, 0, 0)
 })
 </script>
 ```
