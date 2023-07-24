@@ -17,17 +17,14 @@ const gl = {
   shadowMapType: BasicShadowMap,
   toneMapping: NoToneMapping,
 }
-const isLock = ref(false)
 
-watchEffect(() => {
-  console.log('jaime ~ isLock:', isLock.value)
-})
+const isActive = (state: boolean) => console.log(state)
 </script>
 
 <template>
   <TresCanvas v-bind="gl">
     <TresPerspectiveCamera :position="[0, 3, 10]" />
-    <PointerLockControls ref="PLControlsRef" v-model="isLock" make-default  />
+    <PointerLockControls ref="PLControlsRef" make-default @is-lock="state => isActive(state)" />
     <KeyboardControls head-bobbing />
 
     <TresGridHelper :args="[100, 100]" />

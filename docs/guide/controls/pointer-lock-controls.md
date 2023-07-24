@@ -50,19 +50,13 @@ Additional we can detect if the controls has been active or not in a reactive wa
 
 ```vue{3}
 <script setup lang="ts">
-import { ref, watchEffect} from 'vue'
-
-const isLock = ref()
-
-watchEffect(() => {
-  console.log('jaime ~ isLock:', isLock.value)
-})
+const isActive = (state: boolean) => console.log(state)
 
 </script>
 <template>
 <button id="lock">Lock</button>
   <TresCanvas shadows alpha>
-    <TresPerspectiveCamera :position="[0, 0, 3]" v-model="isLock"  />
+    <TresPerspectiveCamera :position="[0, 0, 3]" @is-lock="state => isActive(state)"  />
     <PointerLockControls selector="lock" />
     <TresGridHelper :args="[10, 10]" />
 
