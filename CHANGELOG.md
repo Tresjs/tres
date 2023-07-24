@@ -1,5 +1,23 @@
 
 
+## [2.4.0-next.7](https://github.com/Tresjs/tres/compare/2.4.0...2.4.0-next.7) (2023-07-24)
+
+
+### Features
+
+* 331 new context for state  tino ([#340](https://github.com/Tresjs/tres/issues/340)) ([2c6707c](https://github.com/Tresjs/tres/commit/2c6707c6c4fdc4fc3496c688d697094d6d0ec5a1))
+* fixed renderer watch for aspectRatio changes ([308ab25](https://github.com/Tresjs/tres/commit/308ab254bd3b0313dbbef100eb79f375bd477a40))
+* refactor raycaster ([fc81aa5](https://github.com/Tresjs/tres/commit/fc81aa5c35fbede8e9b9f6afc04275762a84ee6b))
+* revert width height composables ([bab163f](https://github.com/Tresjs/tres/commit/bab163f2d880158ad87a3ef01b7e1266bf694e39))
+* tres context provider ([2f71c76](https://github.com/Tresjs/tres/commit/2f71c76330de0a32a215d9c0929fbc82012cd8f3))
+* useContextProvider onMounted ([a98ac67](https://github.com/Tresjs/tres/commit/a98ac67f491535f7a68bc6fc8bb67108d3694b7e))
+
+
+### Bug Fixes
+
+* change internal Scene component name to force rendering ([#330](https://github.com/Tresjs/tres/issues/330)) ([780743c](https://github.com/Tresjs/tres/commit/780743c62f421677b61f6c9ef9ef3feacd4b37f9))
+* prop types on TresCanvas ([#326](https://github.com/Tresjs/tres/issues/326)) ([309584a](https://github.com/Tresjs/tres/commit/309584a5431b63a63fe541a11a1347de54359dac))
+
 ## [2.4.0-next.6](https://github.com/Tresjs/tres/compare/2.4.0-next.5...2.4.0-next.6) (2023-07-19)
 
 ## [2.4.0-next.5](https://github.com/Tresjs/tres/compare/2.4.0-next.4...2.4.0-next.5) (2023-07-19)
