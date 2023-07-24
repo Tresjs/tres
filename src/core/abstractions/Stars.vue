@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { shallowRef, computed, toRefs } from 'vue'
+import { shallowRef, computed, toRefs, watchEffect, ref } from 'vue'
 import { Vector3, Spherical } from 'three'
 
 export interface StarsProps {
@@ -60,14 +60,6 @@ export interface StarsProps {
    */
   radius?: number
   /**
-   * factor of randomness scale star.
-   *
-   * @type {number}
-   * @memberof StarsProps
-   * @default 4
-   */
-  factor?: number
-  /**
    * texture of the stars.
    *
    * @type {string}
@@ -86,31 +78,41 @@ const props = withDefaults(defineProps<StarsProps>(), {
   count: 5000,
   depth: 50,
   radius: 100,
-  factor: 4,
 })
-//TODO: Make props reactive and use watchEffect to generate starts on change
 
-const { radius, depth, count, factor, size, sizeAttenuation, transparent, alphaMap, alphaTest } = toRefs(props)
+const position = ref()
+const scale = ref()
 
-let circle = radius.value + depth.value
-const increment = computed(() => depth.value / count.value)
+const { radius, depth, count, size, sizeAttenuation, transparent, alphaMap, alphaTest } = toRefs(props)
 
-const positionArray: number[] = []
-const scaleArray: number[] = Array.from({ length: count.value }, () => (0.5 + 0.5 * Math.random()) * factor.value)
+const setStars = () => {
+  let circle = radius.value + depth.value
+  const increment = computed(() => depth.value / count.value)
 
-const generateStars = (circle: number): Array<number> => {
-  const starArray = new Vector3()
-    .setFromSpherical(new Spherical(circle, Math.acos(1 - Math.random() * 2), Math.random() * 2 * Math.PI))
-    .toArray()
-  return starArray
+  const positionArray: number[] = []
+  const scaleArray: number[] = Array.from(
+    { length: count.value },
+    () => (0.5 + 0.5 * Math.random()) * 4,
+  )
+
+  const generateStars = (circle: number): Array<number> => {
+    const starArray = new Vector3()
+      .setFromSpherical(new Spherical(circle, Math.acos(1 - Math.random() * 2), Math.random() * 2 * Math.PI))
+      .toArray()
+    return starArray
+  }
+
+  for (let i = 0; i < count.value; i++) {
+    circle -= increment.value * Math.random()
+    positionArray.push(...generateStars(circle))
+  }
+  position.value = new Float32Array(positionArray)
+  scale.value = new Float32Array(scaleArray)
 }
 
-for (let i = 0; i < count.value; i++) {
-  circle -= increment.value * Math.random()
-  positionArray.push(...generateStars(circle))
-}
-const position = new Float32Array(positionArray)
-const scale = new Float32Array(scaleArray)
+watchEffect(() => {
+  setStars()
+})
 
 const starsRef = shallowRef()
 
