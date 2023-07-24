@@ -1,5 +1,33 @@
 
 
+## [2.4.0-next.6](https://github.com/Tresjs/tres/compare/2.4.0-next.5...2.4.0-next.6) (2023-07-19)
+
+## [2.4.0-next.5](https://github.com/Tresjs/tres/compare/2.4.0-next.4...2.4.0-next.5) (2023-07-19)
+
+## [2.4.0-next.4](https://github.com/Tresjs/tres/compare/2.4.0...2.4.0-next.4) (2023-07-07)
+
+
+### Features
+
+* added option to set a camera active by it's uuid and the object itself ([c4d4764](https://github.com/Tresjs/tres/commit/c4d47649aaec6a43f57ad1f2db34dc23febbbb1c))
+* added user data key for active cameras ([82a60e7](https://github.com/Tresjs/tres/commit/82a60e7fe6d04d83b88972d5fa014236cdf515d8))
+* fixed renderer watch for aspectRatio changes ([308ab25](https://github.com/Tresjs/tres/commit/308ab254bd3b0313dbbef100eb79f375bd477a40))
+* made camera handling work properly and fixed event handler problem ([929fb8e](https://github.com/Tresjs/tres/commit/929fb8ef1a8aadf5c26c313444ebd077fe35f507))
+* made multiple cameras work ([b4a1701](https://github.com/Tresjs/tres/commit/b4a17011a2fe7bfd4a6d5ebe1737ec3d43a29a6e))
+* made renderer constructor params reactive ([cd3037e](https://github.com/Tresjs/tres/commit/cd3037e048545d107fd6e1fc9f7cc8fbee0e1c97))
+* made window size reactive ([c42feba](https://github.com/Tresjs/tres/commit/c42febacc02ea410b616e42b1eb75c38f59c6039))
+* refactor raycaster ([fc81aa5](https://github.com/Tresjs/tres/commit/fc81aa5c35fbede8e9b9f6afc04275762a84ee6b))
+* refactored composables; seperated logic from TresCanvas ([2c75b36](https://github.com/Tresjs/tres/commit/2c75b366d2ca2cf5f19a7e6173f112456f7ec0dc))
+* revert width height composables ([bab163f](https://github.com/Tresjs/tres/commit/bab163f2d880158ad87a3ef01b7e1266bf694e39))
+* tres context provider ([2f71c76](https://github.com/Tresjs/tres/commit/2f71c76330de0a32a215d9c0929fbc82012cd8f3))
+* useContextProvider onMounted ([a98ac67](https://github.com/Tresjs/tres/commit/a98ac67f491535f7a68bc6fc8bb67108d3694b7e))
+
+
+### Bug Fixes
+
+* change internal Scene component name to force rendering ([#330](https://github.com/Tresjs/tres/issues/330)) ([780743c](https://github.com/Tresjs/tres/commit/780743c62f421677b61f6c9ef9ef3feacd4b37f9))
+* prop types on TresCanvas ([#326](https://github.com/Tresjs/tres/issues/326)) ([309584a](https://github.com/Tresjs/tres/commit/309584a5431b63a63fe541a11a1347de54359dac))
+
 ## [2.4.0](https://github.com/Tresjs/tres/compare/2.3.0...2.4.0) (2023-06-28)
 
 

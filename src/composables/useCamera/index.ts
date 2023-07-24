@@ -1,49 +1,87 @@
-import { PerspectiveCamera } from 'three';
-import { TresCamera } from '../../types';
-import { computed, watchEffect, shallowReactive, Ref } from 'vue';
+import { computed, watchEffect, ref, onUnmounted } from 'vue'
+import { Camera, OrthographicCamera, PerspectiveCamera } from 'three'
 
-export function useCamera(sizes: { height: Ref<number>, width: Ref<number>, aspectRatio: Ref<number> }) {
-  const cameras = shallowReactive<TresCamera[]>([]);
-  const camera = computed(() => cameras.find((camera: TresCamera) => camera.userData.IS_ACTIVE_CAMERA));
+import type { TresScene } from '../../types'
+import type { TresContext } from '../useTresContextProvider'
 
-  // Camera
-  function addCamera(camera: TresCamera, active = true): void {
-    // Reset all cameras to inactive
-    cameras.push(camera);
-    if (active) {
-      setCameraToActive(camera.uuid)
+
+interface TresCamera extends Camera {
+  userData: {
+    tres__isActiveCamera: boolean
+    [key: string]: any
+  }
+}
+
+export const useCamera = ({ sizes, scene }: Pick<TresContext, 'sizes'> & { scene: TresScene }) => {
+
+  // computed "camera" relies on this to be a ref (not a shallowRef)
+  // the computed does not trigger, when for example the camera postion changes
+  const cameras = ref<TresCamera[]>([])
+  const camera = computed<TresCamera | undefined>(
+    () => cameras.value.find(({ userData }) => userData.tres__isActiveCamera)
+  )
+
+  const addCamera = (newCamera: Camera, active = true) => {
+    if (cameras.value.some(({ uuid }) => uuid === newCamera.uuid))
+      return
+
+    cameras.value.push(newCamera as TresCamera)
+
+    if (active)
+      setCameraActive(newCamera)
+  }
+
+  const removeCamera = (camera: Camera) => {
+    if ((camera as TresCamera).userData.tres__isActiveCamera) {
+      const lastCamera = cameras.value[cameras.value.length - 1];
+      if (lastCamera)
+        setCameraActive(lastCamera.uuid)
     }
+
+    cameras.value = cameras.value.filter(({ uuid }) => uuid !== camera.uuid)
   }
 
-  function setCameraToActive(cameraId: string): void {
-    const camera = cameras.find((camera: TresCamera) => camera.uuid === cameraId);
-    if (!camera) return;
+  const setCameraActive = (cameraOrUuid: string | Camera) => {
+    const camera = cameraOrUuid instanceof Camera ?
+      cameraOrUuid :
+      cameras.value.find((camera: Camera) => camera.uuid === cameraOrUuid)
 
-    cameras.forEach((camera: TresCamera) => camera.userData.IS_ACTIVE_CAMERA = false);
-    camera.userData.IS_ACTIVE_CAMERA = true;
+    if (!camera) return
+
+    cameras.value.forEach(({ userData }) => userData.tres__isActiveCamera = false)
+
+    const tresCamera = camera as TresCamera
+    tresCamera.userData.tres__isActiveCamera = true
   }
 
-  function clearCameras(): void {
-    cameras.splice(0, cameras.length);
+  const clearCameras = () => {
+    cameras.value = []
   }
 
   watchEffect(() => {
-    if (sizes.aspectRatio?.value) {
-      console.log('camera watcher aspectRatio', sizes.aspectRatio.value)
-      cameras.forEach((camera: TresCamera) => {
-        if (camera instanceof PerspectiveCamera) {
-          camera.aspect = sizes.aspectRatio.value;
-        }
-        camera.updateProjectionMatrix();
+    if (sizes.aspectRatio.value) {
+      cameras.value.forEach((camera: Camera) => {
+        if (camera instanceof PerspectiveCamera)
+          camera.aspect = sizes.aspectRatio.value
+
+        if (camera instanceof PerspectiveCamera || camera instanceof OrthographicCamera)
+          camera.updateProjectionMatrix();
       })
     }
   })
 
+  scene.userData.tres__registerCamera = addCamera
+  scene.userData.tres__deregisterCamera = removeCamera
+
+  onUnmounted(() => {
+    clearCameras()
+  })
+
   return {
-    cameras,
     camera,
+    cameras,
     addCamera,
-    setCameraToActive,
-    clearCameras,
+    removeCamera,
+    setCameraActive,
   }
 }

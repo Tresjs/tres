@@ -1,10 +1,11 @@
-import { Object3D, Raycaster, Vector2 } from 'three'
-import { Ref, computed, onUnmounted, watchEffect } from 'vue'
+import { type Intersection, Object3D, Raycaster, Vector2 } from 'three'
+import { Ref, computed, onUnmounted } from 'vue'
 import { EventHook, createEventHook, useElementBounding, usePointer } from '@vueuse/core'
-import { useTresContext } from '../../provider'
-import { TresCamera } from '../../types'
 
-export type Intersects = THREE.Intersection<THREE.Object3D<THREE.Event>>[]
+import type { TresContext } from '../useTresContextProvider'
+
+
+export type Intersects = Intersection<THREE.Object3D<THREE.Event>>[]
 interface PointerMoveEventPayload {
   intersects?: Intersects
   event: PointerEvent
@@ -15,14 +16,17 @@ interface PointerClickEventPayload {
   event: PointerEvent
 }
 
-export const useRaycaster = (objects: Ref<THREE.Object3D[]>) => {
-  const { camera, renderer } = useTresContext()
+export const useRaycaster = (
+  objects: Ref<THREE.Object3D[]>,
+  { renderer, camera }: Pick<TresContext, 'renderer' | 'camera'>
+) => {
 
-  const canvas = computed(() => renderer?.value?.domElement) // having a seperate computed makes useElementBounding work
+  // having a seperate computed makes useElementBounding work
+  const canvas = computed(() => renderer.value.domElement as HTMLCanvasElement)
 
   const { x, y } = usePointer({ target: canvas })
 
-  const { width, height, top, left } = useElementBounding(canvas as unknown as Ref<HTMLElement>)
+  const { width, height, top, left } = useElementBounding(canvas)
 
   const raycaster = new Raycaster()
 
@@ -36,9 +40,9 @@ export const useRaycaster = (objects: Ref<THREE.Object3D[]>) => {
   }
 
   const getIntersectsByRelativePointerPosition = ({ x, y }: { x: number; y: number }) => {
-    if (!camera) return
+    if (!camera.value) return
 
-    raycaster.setFromCamera(new Vector2(x, y), camera as unknown as TresCamera)
+    raycaster.setFromCamera(new Vector2(x, y), camera.value)
 
     return raycaster.intersectObjects(objects.value, false)
   }
@@ -82,16 +86,10 @@ export const useRaycaster = (objects: Ref<THREE.Object3D[]>) => {
 
   const onPointerLeave = (event: PointerEvent) => eventHookPointerMove.trigger({ event, intersects: [] })
 
-  const unwatch = watchEffect(() => {
-    if (!canvas?.value) return
-
-    canvas.value.addEventListener('pointerup', onPointerUp)
-    canvas.value.addEventListener('pointerdown', onPointerDown)
-    canvas.value.addEventListener('pointermove', onPointerMove)
-    canvas.value.addEventListener('pointerleave', onPointerLeave)
-
-    unwatch()
-  })
+  canvas.value.addEventListener('pointerup', onPointerUp)
+  canvas.value.addEventListener('pointerdown', onPointerDown)
+  canvas.value.addEventListener('pointermove', onPointerMove)
+  canvas.value.addEventListener('pointerleave', onPointerLeave)
 
   onUnmounted(() => {
     if (!canvas?.value) return

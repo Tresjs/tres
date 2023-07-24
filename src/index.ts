@@ -4,7 +4,7 @@ export * from './composables'
 export * from './core/catalogue'
 export * from './components'
 export * from './types'
-import { useTresContext, type TresState } from './provider'
+import { useTresContext, type TresContext } from './composables'
 
 import { normalizeColor, normalizeVectorFlexibleParam } from './utils/normalize'
 import templateCompilerOptions from './utils/template-compiler-options'
@@ -26,4 +26,10 @@ const plugin: TresPlugin = {
 
 export default plugin
 
-export { TresState, useTresContext, normalizeColor, normalizeVectorFlexibleParam, templateCompilerOptions }
+export {
+  TresContext,
+  useTresContext,
+  normalizeColor,
+  normalizeVectorFlexibleParam,
+  templateCompilerOptions
+}

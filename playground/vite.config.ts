@@ -11,7 +11,12 @@ import { templateCompilerOptions } from '@tresjs/core'
 export default defineConfig({
   plugins: [
     glsl(),
-    vue(templateCompilerOptions),
+    vue({
+      script: {
+        propsDestructure: true,
+      },
+      ...templateCompilerOptions
+    }),
     AutoImport({
       dts: true,
       eslintrc: {

@@ -1,146 +1,153 @@
 <script setup lang="ts">
-import { App, Ref, ref, shallowRef, watch } from 'vue'
-import { PerspectiveCamera, type ColorSpace, type ShadowMapType, type ToneMapping, Scene } from 'three'
-
-import { useTresContextProvider } from '../provider'
-import { createTres } from '../core/renderer'
 import { extend } from '../core/catalogue'
+import { onMounted } from 'vue'
+import { createTres } from '../core/renderer'
+import { useTresContextProvider, type TresContext } from '../composables'
+import { App, Ref, computed, ref, shallowRef, watch, watchEffect } from 'vue'
+import {
+    Scene,
+    PerspectiveCamera,
+    WebGLRendererParameters,
+    type ColorSpace,
+    type ShadowMapType,
+    type ToneMapping,
+} from 'three'
 
 import {
-  useLogger,
-  useRenderLoop,
-  useRenderer,
-  usePointerEventHandler,
+    useLogger,
+    useRenderLoop,
+    usePointerEventHandler,
 } from '../composables'
-
-import { OBJECT_3D_USER_DATA_KEYS } from '../keys'
-
 
 import type { TresCamera } from '../types/'
 import type { RendererPresetsType } from '../composables/useRenderer/const'
-import { onMounted } from 'vue'
 
-export interface TresCanvasProps {
-  shadows?: boolean
-  shadowMapType?: ShadowMapType
-  useLegacyLights?: boolean
-  outputColorSpace?: ColorSpace
-  toneMapping?: ToneMapping
-  toneMappingExposure?: number
-  context?: WebGLRenderingContext
-  powerPreference?: 'high-performance' | 'low-power' | 'default'
-  preserveDrawingBuffer?: boolean
-  clearColor?: string
-  windowSize?: boolean
-  preset?: RendererPresetsType
-  disableRender?: boolean
-  camera?: TresCamera
+
+export interface TresCanvasProps extends Omit<WebGLRendererParameters, 'canvas'> {
+    // required by for useRenderer
+    shadows?: boolean
+    clearColor?: string
+    toneMapping?: ToneMapping
+    shadowMapType?: ShadowMapType
+    useLegacyLights?: boolean
+    outputColorSpace?: ColorSpace
+    toneMappingExposure?: number
+
+    // required by useTresContextProvider
+    windowSize?: boolean
+    preset?: RendererPresetsType
+    disableRender?: boolean
+    camera?: TresCamera,
 }
 
 const props = defineProps<TresCanvasProps>()
 
 const { logWarning } = useLogger()
 
-// Template Refs
 const canvas = ref<HTMLCanvasElement>()
+
+/*
+ `scene` is defined here and not in `useTresContextProvider` because the custom
+ renderer uses it to mount the app nodes. This happens before `useTresContextProvider` is called.
+ The custom renderer requires `scene` to be editable (not readonly).
+*/
 const scene = shallowRef(new Scene())
 
-// Canvas & Camera
-const { onLoop, resume } = useRenderLoop()
+const { resume } = useRenderLoop()
 
 const slots = defineSlots<{
-  default(): any
+    default(): any
 }>()
 
-function initRenderer() {
-  const tres = useTresContextProvider(scene.value, canvas, props)
-  const { addCamera, camera: activeCamera, clearCameras } = tres
 
-  // Custom Renderer 
-  let app: App
+let app: App
 
-  function mountApp() {
+const mountCustomRenderer = (context: TresContext) => {
     app = createTres(slots)
-    app.provide('useTres', tres)
+    app.provide('useTres', context) // TODO obsolete?
     app.provide('extend', extend)
     app.mount(scene.value)
-    setCamera()
-  }
-  mountApp()
-
-  const { renderer } = useRenderer(canvas as Ref<HTMLCanvasElement>, tres, props)
-
-  if (props.camera) {
-    addCamera(props.camera)
-  }
-
-  // Event handler
-  const pointerEventHandler = usePointerEventHandler()
-  scene.value.userData[OBJECT_3D_USER_DATA_KEYS.REGISTER_AT_POINTER_EVENT_HANDLER] = pointerEventHandler.registerObject
-
-
-  onLoop(() => {
-    if (activeCamera.value && props.disableRender !== true) renderer.value?.render(scene.value, activeCamera.value)
-  })
-
-  function setCamera() {
-    const camera = scene.value.getObjectByProperty('isCamera', true)
-
-    if (!camera) {
-      // eslint-disable-next-line max-len
-      logWarning('No camera found. Creating a default perspective camera. To have full control over a camera, please add one to the scene.')
-      const camera = new PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000)
-      camera.position.set(3, 3, 3)
-      camera.lookAt(0, 0, 0)
-      addCamera(camera)
-    } else {
-      addCamera(camera as TresCamera)
-    }
-
-    watch(
-      () => props.camera,
-      camera => {
-        if (camera) {
-          clearCameras()
-          addCamera(camera)
-        }
-      },
-    )
-
-    function dispose() {
-      scene.value.children = []
-      app.unmount()
-      app = createTres(slots)
-      app.provide('extend', extend)
-      app.mount(scene as unknown)
-      setCamera()
-      resume()
-    }
-
-    if (import.meta.hot) {
-      import.meta.hot.on('vite:afterUpdate', dispose)
-    }
-
-  }
 }
 
-// Renderer
-onMounted(() => {
-  initRenderer()
-})
+const dispose = () => {
+    scene.value.children = []
+    app.unmount()
+    app = createTres(slots)
+    app.provide('extend', extend)
+    app.mount(scene.value)
+    resume()
+}
 
+const disableRender = computed(() => props.disableRender)
+
+onMounted(() => {
+    const existingCanvas = canvas as Ref<HTMLCanvasElement>
+
+    const context = useTresContextProvider({
+        scene: scene.value,
+        canvas: existingCanvas,
+        windowSize: props.windowSize,
+        disableRender,
+        rendererOptions: props
+    })
+
+    usePointerEventHandler({ scene: scene.value, contextParts: context })
+
+    const { addCamera, camera, cameras, removeCamera } = context
+
+    mountCustomRenderer(context)
+
+    const addDefaultCamera = () => {
+        const camera = new PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000)
+        camera.position.set(3, 3, 3)
+        camera.lookAt(0, 0, 0)
+        addCamera(camera)
+
+        const unwatch = watchEffect(
+            () => {
+                if (cameras.value.length >= 2) {
+                    camera.removeFromParent()
+                    removeCamera(camera)
+                    unwatch?.()
+                }
+            },
+        )
+    }
+
+    watch(() => props.camera, (newCamera, oldCamera) => {
+        if (newCamera)
+            addCamera(newCamera)
+        else if (oldCamera) {
+            oldCamera.removeFromParent()
+            removeCamera(oldCamera)
+        }
+    }, {
+        immediate: true
+    })
+
+    if (!camera.value) {
+        logWarning(
+            'No camera found. Creating a default perspective camera. ' +
+            'To have full control over a camera, please add one to the scene.'
+        )
+        addDefaultCamera()
+    }
+
+    if (import.meta.hot)
+        import.meta.hot.on('vite:afterUpdate', dispose)
+})
 </script>
 <template>
-  <canvas ref="canvas" :data-scene="scene.uuid" :style="{
-    display: 'block',
-    width: '100%',
-    height: '100%',
-    position: windowSize ? 'fixed' : 'relative',
-    top: 0,
-    left: 0,
-    pointerEvents: 'auto',
-    touchAction: 'none',
-    zIndex: 1,
-  }">
-  </canvas>
+    <canvas ref="canvas" :data-scene="scene.uuid" :style="{
+        display: 'block',
+        width: '100%',
+        height: '100%',
+        position: windowSize ? 'fixed' : 'relative',
+        top: 0,
+        left: 0,
+        pointerEvents: 'auto',
+        touchAction: 'none',
+        zIndex: 1,
+    }">
+    </canvas>
 </template>
