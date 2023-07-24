@@ -12,6 +12,11 @@ const routes = [
     component: () => import('./pages/OrbitControlsDemo.vue'),
   },
   {
+    path: '/controls/camera-controls',
+    name: 'CameraControls',
+    component: () => import('./pages/CameraControlsDemo.vue'),
+  },
+  {
     path: '/controls/transform-controls',
     name: 'TransformControls',
     component: () => import('./pages/TransformControlsDemo.vue'),
