@@ -7,7 +7,7 @@ import { inject, provide, readonly, shallowRef, computed } from 'vue';
 import type { ComputedRef, DeepReadonly, MaybeRef, MaybeRefOrGetter, Ref, ShallowRef } from 'vue';
 
 export type TresContext = {
-  scene: DeepReadonly<ShallowRef<Scene>>;
+  scene: ShallowRef<Scene>;
   camera: ComputedRef<Camera | undefined>;
   cameras: DeepReadonly<Ref<Camera[]>>;
   renderer: ShallowRef<WebGLRenderer>
@@ -71,7 +71,7 @@ export function useTresContextProvider({
 
   const toProvide: TresContext = {
     sizes,
-    scene: readonly(localScene),
+    scene: localScene,
     camera,
     cameras: readonly(cameras),
     renderer,
