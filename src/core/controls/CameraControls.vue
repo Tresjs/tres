@@ -393,6 +393,10 @@ onUnmounted(() => {
     controlsRef.value.disconnect()
   }
 })
+
+defineExpose({
+  value: controlsRef,
+})
 </script>
 
 <template>

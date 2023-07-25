@@ -3,7 +3,8 @@
 import { reactive } from 'vue'
 import { TresCanvas } from '@tresjs/core'
 import { CameraControls, useTweakPane } from '@tresjs/cientos'
-import { BasicShadowMap, SRGBColorSpace, NoToneMapping } from 'three'
+import { MathUtils, BasicShadowMap, SRGBColorSpace, NoToneMapping } from 'three'
+import { shallowRef } from 'vue'
 
 const gl = {
   clearColor: '#82DBC5',
@@ -19,9 +20,17 @@ const controlsState = reactive({
   maxDistance: 100,
 })
 
+const controlsRef = shallowRef()
+const boxMeshRef = shallowRef()
+
 const { pane } = useTweakPane()
 
 const distanceFolder = pane.addFolder({ title: 'Distance' })
+distanceFolder.addInput(controlsState, 'minDistance', {
+  step: 0.01,
+  min: 0,
+  max: 10,
+})
 distanceFolder.addInput(controlsState, 'minDistance', {
   step: 0.01,
   min: 0,
@@ -33,7 +42,33 @@ distanceFolder.addInput(controlsState, 'maxDistance', {
   max: 100,
 })
 
-// TODO: replicate the panes from https://yomotsu.github.io/camera-controls/examples/basic.html
+// Basic example from https://yomotsu.github.io/camera-controls/examples/basic.html
+const dollyFolder = pane.addFolder({ title: 'Dolly' })
+dollyFolder.addButton({ title: 'Increment (+1)' }).on('click', () => {
+  controlsRef?.value?.value?.dolly(1, true)
+})
+dollyFolder.addButton({ title: 'Decrement (-1)' }).on('click', () => {
+  controlsRef?.value?.value?.dolly(-1, true)
+})
+
+const rotateFolder = pane.addFolder({ title: 'Rotate' })
+rotateFolder.addButton({ title: 'Rotate theta 45°' }).on('click', () => {
+  controlsRef?.value?.value?.rotate(45 * MathUtils.DEG2RAD, 0, true)
+})
+rotateFolder.addButton({ title: 'Rotate theta -90°' }).on('click', () => {
+  controlsRef?.value?.value?.rotate(-90 * MathUtils.DEG2RAD, 0, true)
+})
+rotateFolder.addButton({ title: 'Rotate theta 360°' }).on('click', () => {
+  controlsRef?.value?.value?.rotate(360 * MathUtils.DEG2RAD, 0, true)
+})
+rotateFolder.addButton({ title: 'Rotate phi 20°' }).on('click', () => {
+  controlsRef?.value?.value?.rotate(0, 20 * MathUtils.DEG2RAD, true)
+})
+
+const moveFolder = pane.addFolder({ title: 'Move' })
+moveFolder.addButton({ title: 'Fit to the bounding box of the mesh' }).on('click', () => {
+  controlsRef?.value?.value?.fitToBox(boxMeshRef.value, true)
+})
 
 function onChange() {
   console.log('change')
@@ -50,9 +85,13 @@ function onEnd() {
 
 <template>
   <TresCanvas v-bind="gl">
-    <TresPerspectiveCamera :position="[3, 3, 3]" />
-    <CameraControls v-bind="controlsState" @change="onChange" @start="onStart" @end="onEnd" />
-    <TresGridHelper />
+    <TresPerspectiveCamera :position="[5, 5, 5]" />
+    <CameraControls v-bind="controlsState" ref="controlsRef" @change="onChange" @start="onStart" @end="onEnd" />
+    <TresGridHelper :position="[0, -1, 0]" />
+    <TresMesh ref="boxMeshRef">
+      <TresBoxGeometry :args="[2, 2, 2]" />
+      <TresMeshBasicMaterial color="orange" wireframe />
+    </TresMesh>
     <TresAmbientLight :intensity="1" />
   </TresCanvas>
 </template>
