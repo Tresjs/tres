@@ -1,5 +1,12 @@
 
 
+## [2.4.0-next.9](https://github.com/Tresjs/tres/compare/2.4.0-next.8...2.4.0-next.9) (2023-07-25)
+
+
+### Features
+
+* add defaults props for trescanvas to match renderer ones ([b7d1c58](https://github.com/Tresjs/tres/commit/b7d1c589387a08fdb10008a4223fed0fca808327))
+
 ## [2.4.0-next.8](https://github.com/Tresjs/tres/compare/2.4.0-next.7...2.4.0-next.8) (2023-07-25)
 
 
