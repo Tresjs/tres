@@ -1,5 +1,12 @@
 
 
+## [2.4.0-next.8](https://github.com/Tresjs/tres/compare/2.4.0-next.7...2.4.0-next.8) (2023-07-25)
+
+
+### Features
+
+* remove readonly for scene on state context ([b6739c7](https://github.com/Tresjs/tres/commit/b6739c7f12e0ce4951174f59def37d562aefd7fd))
+
 ## [2.4.0-next.7](https://github.com/Tresjs/tres/compare/2.4.0...2.4.0-next.7) (2023-07-24)
 
 
