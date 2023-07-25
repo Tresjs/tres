@@ -40,7 +40,13 @@ export interface TresCanvasProps extends Omit<WebGLRendererParameters, 'canvas'>
     camera?: TresCamera,
 }
 
-const props = defineProps<TresCanvasProps>()
+const props = withDefaults(defineProps<TresCanvasProps>(), {
+    alpha: false,
+    antialias: true,
+    depth: true,
+    stencil: true,
+    preserveDrawingBuffer: false,
+})
 
 const { logWarning } = useLogger()
 
@@ -88,7 +94,7 @@ onMounted(() => {
         canvas: existingCanvas,
         windowSize: props.windowSize,
         disableRender,
-        rendererOptions: props
+        rendererOptions: props,
     })
 
     usePointerEventHandler({ scene: scene.value, contextParts: context })
