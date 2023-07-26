@@ -1,9 +1,5 @@
 lockfileVersion: '6.0'
 
-settings:
-  autoInstallPeers: true
-  excludeLinksFromLockfile: false
-
 importers:
 
   .:
@@ -14,6 +10,9 @@ importers:
       '@vueuse/core':
         specifier: ^10.2.1
         version: 10.2.1(vue@3.3.4)
+      camera-controls:
+        specifier: ^2.7.0
+        version: 2.7.0(three@0.154.0)
       three-stdlib:
         specifier: ^2.23.13
         version: 2.23.13(three@0.154.0)
@@ -27,6 +26,9 @@ importers:
       '@release-it/conventional-changelog':
         specifier: ^6.0.0
         version: 6.0.0(release-it@16.0.0)
+      '@tweakpane/core':
+        specifier: ^1.1.9
+        version: 1.1.9
       '@tweakpane/plugin-essentials':
         specifier: ^0.1.8
         version: 0.1.8(tweakpane@3.1.10)
@@ -1077,6 +1079,10 @@ packages:
     engines: {node: '>=10.13.0'}
     dev: true
 
+  /@tweakpane/core@1.1.9:
+    resolution: {integrity: sha512-9tq+KAhaqPiOgsFyLPAz1IMXkVfhRqxGzAgy1ps3As6o3W7XjnU7sev6OlD/Z+Pzw8uZVMukkSHf2e0uCU6u0A==}
+    dev: true
+
   /@tweakpane/plugin-essentials@0.1.8(tweakpane@3.1.10):
     resolution: {integrity: sha512-tWBXzWafcjiq+/XvZnOgSz0B+YikwZj0NnqiZPba+AwTiDqNk/6PU3so0Bs0qyxLIJKT/+AUPRL8jBmtERYzwA==}
     peerDependencies:
@@ -2053,6 +2059,14 @@ packages:
     resolution: {integrity: sha512-xlx1yCK2Oc1APsPXDL2LdlNP6+uu8OCDdhOBSVT279M/S+y75O30C2VuD8T2ogdePBBl7PfPF4504tnLgX3zfw==}
     engines: {node: '>=14.16'}
     dev: true
+
+  /camera-controls@2.7.0(three@0.154.0):
+    resolution: {integrity: sha512-HONMoMYHieOCQOoweS639bdWHP/P/fvVGR08imnECGVUp04mqGfsX/zp1ZufLeiAA5hA6i1JhP6SrnOwh01C0w==}
+    peerDependencies:
+      three: '>=0.126.1'
+    dependencies:
+      three: 0.154.0
+    dev: false
 
   /chalk@2.4.2:
     resolution: {integrity: sha512-Mti+f9lpJNcwF4tWV8/OrTTtF1gZi+f8FqlyAdouralcFWFQWF2+NgCHShjkCb+IFBLq9buZwE1xckQU4peSuQ==}
@@ -6428,3 +6442,7 @@ packages:
   /zstddec@0.0.2:
     resolution: {integrity: sha512-DCo0oxvcvOTGP/f5FA6tz2Z6wF+FIcEApSTu0zV5sQgn9hoT5lZ9YRAKUraxt9oP7l4e8TnNdi8IZTCX6WCkwA==}
     dev: false
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
