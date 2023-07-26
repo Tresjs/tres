@@ -1,5 +1,12 @@
 
 
+## [2.4.0-next.10](https://github.com/Tresjs/tres/compare/2.4.0-next.9...2.4.0-next.10) (2023-07-26)
+
+
+### Features
+
+* changed camera behavior so that the first added camera is always the active one ([1ae3c01](https://github.com/Tresjs/tres/commit/1ae3c01e48648610a9c8dce010bd805acf178b18))
+
 ## [2.4.0-next.9](https://github.com/Tresjs/tres/compare/2.4.0-next.8...2.4.0-next.9) (2023-07-25)
 
 
