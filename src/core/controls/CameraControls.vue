@@ -377,9 +377,9 @@ watch(controlsRef, value => {
 const emit = defineEmits(['change', 'start', 'end'])
 
 function addEventListeners() {
-  useEventListener(controlsRef.value as any, 'change', () => emit('change', controlsRef.value))
-  useEventListener(controlsRef.value as any, 'start', () => emit('start', controlsRef.value))
-  useEventListener(controlsRef.value as any, 'end', () => emit('end', controlsRef.value))
+  useEventListener(controlsRef.value as any, 'update', () => emit('change', controlsRef.value))
+  useEventListener(controlsRef.value as any, 'controlend', () => emit('end', controlsRef.value))
+  useEventListener(controlsRef.value as any, 'controlstart', () => emit('start', controlsRef.value))
 }
 
 const { onLoop } = useRenderLoop()
