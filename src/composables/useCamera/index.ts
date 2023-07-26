@@ -5,39 +5,27 @@ import type { TresScene } from '../../types'
 import type { TresContext } from '../useTresContextProvider'
 
 
-interface TresCamera extends Camera {
-  userData: {
-    tres__isActiveCamera: boolean
-    [key: string]: any
-  }
-}
-
 export const useCamera = ({ sizes, scene }: Pick<TresContext, 'sizes'> & { scene: TresScene }) => {
 
   // computed "camera" relies on this to be a ref (not a shallowRef)
   // the computed does not trigger, when for example the camera postion changes
-  const cameras = ref<TresCamera[]>([])
-  const camera = computed<TresCamera | undefined>(
-    () => cameras.value.find(({ userData }) => userData.tres__isActiveCamera)
+  const cameras = ref<Camera[]>([])
+  const camera = computed<Camera | undefined>(
+    () => cameras.value[0]
   )
 
-  const addCamera = (newCamera: Camera, active = true) => {
+  const addCamera = (newCamera: Camera, active = false) => {
     if (cameras.value.some(({ uuid }) => uuid === newCamera.uuid))
       return
 
-    cameras.value.push(newCamera as TresCamera)
-
     if (active)
       setCameraActive(newCamera)
+    else
+      cameras.value.push(newCamera)
+
   }
 
   const removeCamera = (camera: Camera) => {
-    if ((camera as TresCamera).userData.tres__isActiveCamera) {
-      const lastCamera = cameras.value[cameras.value.length - 1];
-      if (lastCamera)
-        setCameraActive(lastCamera.uuid)
-    }
-
     cameras.value = cameras.value.filter(({ uuid }) => uuid !== camera.uuid)
   }
 
@@ -48,14 +36,8 @@ export const useCamera = ({ sizes, scene }: Pick<TresContext, 'sizes'> & { scene
 
     if (!camera) return
 
-    cameras.value.forEach(({ userData }) => userData.tres__isActiveCamera = false)
-
-    const tresCamera = camera as TresCamera
-    tresCamera.userData.tres__isActiveCamera = true
-  }
-
-  const clearCameras = () => {
-    cameras.value = []
+    const otherCameras = cameras.value.filter(({ uuid }) => uuid !== camera.uuid)
+    cameras.value = [camera, ...otherCameras]
   }
 
   watchEffect(() => {
@@ -74,7 +56,7 @@ export const useCamera = ({ sizes, scene }: Pick<TresContext, 'sizes'> & { scene
   scene.userData.tres__deregisterCamera = removeCamera
 
   onUnmounted(() => {
-    clearCameras()
+    cameras.value = []
   })
 
   return {

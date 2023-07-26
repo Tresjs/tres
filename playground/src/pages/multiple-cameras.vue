@@ -22,7 +22,7 @@ watchEffect(() => {
   activeCameraUuid.value = camera1.value?.uuid
 })
 
-const camera3Exists = ref(true)
+const camera3Exists = ref(false)
 </script>
 
 <template>
