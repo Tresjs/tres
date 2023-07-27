@@ -42,10 +42,10 @@ Now you can use the `TresOrbitControls` component in your scene.
 
 Since [OrbitControls](https://threejs.org/docs/index.html?q=orbit#examples/en/controls/OrbitControls) needs a reference to the camera and the renderer, you need to pass them as arguments.
 
-You can use the [useThree](/api/composables#usethree) composable to get the camera and the renderer.
+You can use the [useTres](/api/composables#usetres) composable to get the camera and the renderer.
 
 ```ts
-import { useThree } from '@tresjs/core'
+import { useTres } from '@tresjs/core'
 
 const { state } = useTres()
 ```
@@ -54,12 +54,12 @@ So the final code would be something like this:
 
 ```vue
 <script setup lang="ts">
-import { extend } from '@tresjs/core'
+import { extend, useTres } from '@tresjs/core'
 import { OrbitControls } from 'three/addons/controls/OrbitControls'
 
 extend({ OrbitControls })
 
-const { state } = useThree()
+const { state } = useTres()
 </script>
 <template>
   <TresCanvas shadows alpha>
