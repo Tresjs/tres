@@ -64,6 +64,7 @@
   },
   "dependencies": {
     "@alvarosabu/utils": "^3.1.1",
+    "@tresjs/core": "workspace:2.4.0-next.10",
     "@vueuse/core": "^10.2.1"
   },
   "devDependencies": {
