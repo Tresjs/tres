@@ -1,8 +1,8 @@
-import { type Intersection, Object3D, Raycaster, Vector2 } from 'three'
+import { type Intersection, Object3D, Vector2 } from 'three'
 import { Ref, computed, onUnmounted } from 'vue'
 import { EventHook, createEventHook, useElementBounding, usePointer } from '@vueuse/core'
 
-import type { TresContext } from '../useTresContextProvider'
+import { useTresContext, type TresContext } from '../useTresContextProvider'
 
 
 export type Intersects = Intersection<THREE.Object3D<THREE.Event>>[]
@@ -20,7 +20,7 @@ export const useRaycaster = (
   objects: Ref<THREE.Object3D[]>,
   { renderer, camera }: Pick<TresContext, 'renderer' | 'camera'>
 ) => {
-
+  const { raycaster } = useTresContext()
   // having a seperate computed makes useElementBounding work
   const canvas = computed(() => renderer.value.domElement as HTMLCanvasElement)
 
@@ -28,7 +28,6 @@ export const useRaycaster = (
 
   const { width, height, top, left } = useElementBounding(canvas)
 
-  const raycaster = new Raycaster()
 
   const getRelativePointerPosition = ({ x, y }: { x: number; y: number }) => {
     if (!canvas.value) return
@@ -42,9 +41,9 @@ export const useRaycaster = (
   const getIntersectsByRelativePointerPosition = ({ x, y }: { x: number; y: number }) => {
     if (!camera.value) return
 
-    raycaster.setFromCamera(new Vector2(x, y), camera.value)
+    raycaster.value.setFromCamera(new Vector2(x, y), camera.value)
 
-    return raycaster.intersectObjects(objects.value, false)
+    return raycaster.value.intersectObjects(objects.value, false)
   }
 
   const getIntersects = (event?: PointerEvent | MouseEvent) => {

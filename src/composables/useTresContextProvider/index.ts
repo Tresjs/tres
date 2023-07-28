@@ -1,8 +1,8 @@
 import { useCamera } from '../useCamera';
-import { Camera, Scene, WebGLRenderer } from 'three';
+import { Camera, Raycaster, Scene, WebGLRenderer } from 'three';
 import { UseRendererOptions, useRenderer } from '../useRenderer';
 import { toValue, useElementSize, useWindowSize } from '@vueuse/core';
-import { inject, provide, readonly, shallowRef, computed } from 'vue';
+import { inject, provide, readonly, shallowRef, computed, ref } from 'vue';
 
 import type { ComputedRef, DeepReadonly, MaybeRef, MaybeRefOrGetter, Ref, ShallowRef } from 'vue';
 
@@ -11,7 +11,7 @@ export type TresContext = {
   camera: ComputedRef<Camera | undefined>;
   cameras: DeepReadonly<Ref<Camera[]>>;
   renderer: ShallowRef<WebGLRenderer>
-
+  raycaster: ShallowRef<Raycaster>
   addCamera: (camera: Camera) => void;
   removeCamera: (camera: Camera) => void
   setCameraActive: (cameraOrUuid: Camera | string) => void;
@@ -75,6 +75,7 @@ export function useTresContextProvider({
     camera,
     cameras: readonly(cameras),
     renderer,
+    raycaster: shallowRef(new Raycaster()),
     addCamera,
     removeCamera,
     setCameraActive,
