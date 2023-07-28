@@ -179,19 +179,19 @@ watch(carRef, ({ model }) => {
 })
 ```
 
-## useTresContext
+## useTres
 
 This composable aims to provide access to the state model which contains the default renderer, camera, scene, and other useful properties.
 
 ```ts
-const { camera, renderer } = useTresContext()
+const { camera, renderer } = useTres()
 
 console.log(camera.value) // THREE.PerspectiveCamera
 console.log(renderer.value) // THREE.WebGLRenderer
 ```
 
 ::: warning
-useTresContext can be only be used inside of a `TresCanvas` since `TresCanvas` acts as the provider for the context data.
+useTres can be only be used inside of a `TresCanvas` since `TresCanvas` acts as the provider for the context data.
 :::
 
 ```vue
@@ -204,8 +204,8 @@ useTresContext can be only be used inside of a `TresCanvas` since `TresCanvas` a
 // MyModel.vue
 
 <script lang="ts" setup>
-import { useTresContext } from '@tresjs/core'
+import { useTres } from '@tresjs/core'
 
-const context = useTresContext()
+const context = useTres()
 </script>
 ```

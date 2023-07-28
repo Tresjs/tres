@@ -140,6 +140,10 @@ importers:
         version: 0.14.5(vue@3.3.4)
 
   docs:
+    dependencies:
+      '@tresjs/core':
+        specifier: workspace:2.4.0-next.10
+        version: link:..
     devDependencies:
       unocss:
         specifier: ^0.53.4
