@@ -158,7 +158,7 @@ type EventProps<P> = P extends RaycastableRepresentation ? Partial<EventHandlers
 
 export interface VueProps<P> {
   children?: VNode[]
-  ref?: Ref<P>
+  ref?: string | null | Ref<P>
   key?: string
 }
 

@@ -1,70 +1,18 @@
-
-
-## [2.4.0-next.10](https://github.com/Tresjs/tres/compare/2.4.0-next.9...2.4.0-next.10) (2023-07-26)
-
-
-### Features
-
-* changed camera behavior so that the first added camera is always the active one ([1ae3c01](https://github.com/Tresjs/tres/commit/1ae3c01e48648610a9c8dce010bd805acf178b18))
-
-## [2.4.0-next.9](https://github.com/Tresjs/tres/compare/2.4.0-next.8...2.4.0-next.9) (2023-07-25)
-
-
-### Features
-
-* add defaults props for trescanvas to match renderer ones ([b7d1c58](https://github.com/Tresjs/tres/commit/b7d1c589387a08fdb10008a4223fed0fca808327))
-
-## [2.4.0-next.8](https://github.com/Tresjs/tres/compare/2.4.0-next.7...2.4.0-next.8) (2023-07-25)
-
-
-### Features
-
-* remove readonly for scene on state context ([b6739c7](https://github.com/Tresjs/tres/commit/b6739c7f12e0ce4951174f59def37d562aefd7fd))
-
-## [2.4.0-next.7](https://github.com/Tresjs/tres/compare/2.4.0...2.4.0-next.7) (2023-07-24)
-
-
-### Features
-
-* 331 new context for state  tino ([#340](https://github.com/Tresjs/tres/issues/340)) ([2c6707c](https://github.com/Tresjs/tres/commit/2c6707c6c4fdc4fc3496c688d697094d6d0ec5a1))
-* fixed renderer watch for aspectRatio changes ([308ab25](https://github.com/Tresjs/tres/commit/308ab254bd3b0313dbbef100eb79f375bd477a40))
-* refactor raycaster ([fc81aa5](https://github.com/Tresjs/tres/commit/fc81aa5c35fbede8e9b9f6afc04275762a84ee6b))
-* revert width height composables ([bab163f](https://github.com/Tresjs/tres/commit/bab163f2d880158ad87a3ef01b7e1266bf694e39))
-* tres context provider ([2f71c76](https://github.com/Tresjs/tres/commit/2f71c76330de0a32a215d9c0929fbc82012cd8f3))
-* useContextProvider onMounted ([a98ac67](https://github.com/Tresjs/tres/commit/a98ac67f491535f7a68bc6fc8bb67108d3694b7e))
+### [2.4.2](https://github.com/Tresjs/tres/compare/2.4.1...2.4.2) (2023-07-14)
 
 
 ### Bug Fixes
 
-* change internal Scene component name to force rendering ([#330](https://github.com/Tresjs/tres/issues/330)) ([780743c](https://github.com/Tresjs/tres/commit/780743c62f421677b61f6c9ef9ef3feacd4b37f9))
-* prop types on TresCanvas ([#326](https://github.com/Tresjs/tres/issues/326)) ([309584a](https://github.com/Tresjs/tres/commit/309584a5431b63a63fe541a11a1347de54359dac))
+* add raycaster to state ([#347](https://github.com/Tresjs/tres/issues/347)) ([c45d4c3](https://github.com/Tresjs/tres/commit/c45d4c32d12cba14c43588804458c40d81bcc055))
 
-## [2.4.0-next.6](https://github.com/Tresjs/tres/compare/2.4.0-next.5...2.4.0-next.6) (2023-07-19)
-
-## [2.4.0-next.5](https://github.com/Tresjs/tres/compare/2.4.0-next.4...2.4.0-next.5) (2023-07-19)
-
-## [2.4.0-next.4](https://github.com/Tresjs/tres/compare/2.4.0...2.4.0-next.4) (2023-07-07)
-
-
-### Features
-
-* added option to set a camera active by it's uuid and the object itself ([c4d4764](https://github.com/Tresjs/tres/commit/c4d47649aaec6a43f57ad1f2db34dc23febbbb1c))
-* added user data key for active cameras ([82a60e7](https://github.com/Tresjs/tres/commit/82a60e7fe6d04d83b88972d5fa014236cdf515d8))
-* fixed renderer watch for aspectRatio changes ([308ab25](https://github.com/Tresjs/tres/commit/308ab254bd3b0313dbbef100eb79f375bd477a40))
-* made camera handling work properly and fixed event handler problem ([929fb8e](https://github.com/Tresjs/tres/commit/929fb8ef1a8aadf5c26c313444ebd077fe35f507))
-* made multiple cameras work ([b4a1701](https://github.com/Tresjs/tres/commit/b4a17011a2fe7bfd4a6d5ebe1737ec3d43a29a6e))
-* made renderer constructor params reactive ([cd3037e](https://github.com/Tresjs/tres/commit/cd3037e048545d107fd6e1fc9f7cc8fbee0e1c97))
-* made window size reactive ([c42feba](https://github.com/Tresjs/tres/commit/c42febacc02ea410b616e42b1eb75c38f59c6039))
-* refactor raycaster ([fc81aa5](https://github.com/Tresjs/tres/commit/fc81aa5c35fbede8e9b9f6afc04275762a84ee6b))
-* refactored composables; seperated logic from TresCanvas ([2c75b36](https://github.com/Tresjs/tres/commit/2c75b366d2ca2cf5f19a7e6173f112456f7ec0dc))
-* revert width height composables ([bab163f](https://github.com/Tresjs/tres/commit/bab163f2d880158ad87a3ef01b7e1266bf694e39))
-* tres context provider ([2f71c76](https://github.com/Tresjs/tres/commit/2f71c76330de0a32a215d9c0929fbc82012cd8f3))
-* useContextProvider onMounted ([a98ac67](https://github.com/Tresjs/tres/commit/a98ac67f491535f7a68bc6fc8bb67108d3694b7e))
+### [2.4.1](https://github.com/Tresjs/tres/compare/2.4.0...2.4.1) (2023-07-13)
 
 
 ### Bug Fixes
 
+* add app context to state ([#346](https://github.com/Tresjs/tres/issues/346)) ([197f258](https://github.com/Tresjs/tres/commit/197f258f1bba39b057d3936ff53fee01c18388ab))
 * change internal Scene component name to force rendering ([#330](https://github.com/Tresjs/tres/issues/330)) ([780743c](https://github.com/Tresjs/tres/commit/780743c62f421677b61f6c9ef9ef3feacd4b37f9))
+* fake a `VNodeRef` on types to accept strings and null ([#344](https://github.com/Tresjs/tres/issues/344)) ([c069f64](https://github.com/Tresjs/tres/commit/c069f6423d4abf1a55d87d32ea121cb1752e5b58))
 * prop types on TresCanvas ([#326](https://github.com/Tresjs/tres/issues/326)) ([309584a](https://github.com/Tresjs/tres/commit/309584a5431b63a63fe541a11a1347de54359dac))
 
 ## [2.4.0](https://github.com/Tresjs/tres/compare/2.3.0...2.4.0) (2023-06-28)
