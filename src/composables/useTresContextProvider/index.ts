@@ -66,8 +66,7 @@ export function useTresContextProvider({
       options: rendererOptions,
       contextParts: { sizes, camera },
       disableRender,
-    }) //TODO should useRenderer be called if disableRender is used? idea: handle it like cameras; event listeners
-
+    })
 
   const toProvide: TresContext = {
     sizes,
