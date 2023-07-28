@@ -1,8 +1,8 @@
+import { toValue, useElementSize, useWindowSize } from '@vueuse/core';
+import { inject, provide, readonly, shallowRef, computed } from 'vue';
 import { useCamera } from '../useCamera';
 import { Camera, Raycaster, Scene, WebGLRenderer } from 'three';
 import { UseRendererOptions, useRenderer } from '../useRenderer';
-import { toValue, useElementSize, useWindowSize } from '@vueuse/core';
-import { inject, provide, readonly, shallowRef, computed, ref } from 'vue';
 
 import type { ComputedRef, DeepReadonly, MaybeRef, MaybeRefOrGetter, Ref, ShallowRef } from 'vue';
 
@@ -95,3 +95,5 @@ export function useTresContext(): TresContext {
 
   return context as TresContext;
 }
+
+export const useTres = useTresContext;
