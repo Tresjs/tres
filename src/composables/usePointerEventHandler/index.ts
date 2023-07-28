@@ -20,7 +20,7 @@ export const usePointerEventHandler = (
   { scene, contextParts }:
     {
       scene: TresScene,
-      contextParts: Pick<TresContext, 'renderer' | 'camera'>
+      contextParts: Pick<TresContext, 'renderer' | 'camera' | 'raycaster'>
     }
 ) => {
   const objectsWithEventListeners = reactive({
