@@ -13,6 +13,6 @@
     "vite-svg-loader": "^4.0.0"
   },
   "dependencies": {
-    "@tresjs/core": "workspace:2.4.0-next.10"
+    "@tresjs/core": "workspace:3.0.0"
   }
 }

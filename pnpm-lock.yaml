@@ -139,7 +139,7 @@ importers:
   docs:
     dependencies:
       '@tresjs/core':
-        specifier: workspace:2.4.0-next.10
+        specifier: workspace:3.0.0
         version: link:..
     devDependencies:
       unocss:
@@ -155,7 +155,7 @@ importers:
         specifier: 2.1.4
         version: 2.1.4(@tresjs/core@)(three@0.154.0)(vue@3.3.4)
       '@tresjs/core':
-        specifier: workspace:2.4.0-next.10
+        specifier: workspace:3.0.0
         version: link:..
       vue-router:
         specifier: ^4.2.4
