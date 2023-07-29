@@ -39,8 +39,8 @@ npm install @tresjs/nuxt
 
 ```js
 export default defineNuxtConfig({
-  modules: ["@tresjs/nuxt"],
-});
+  modules: ['@tresjs/nuxt'],
+})
 ```
 
 That's it! You can now use `@tresjs/nuxt` in your Nuxt app ✨

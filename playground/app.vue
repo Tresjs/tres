@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from "three";
+import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
 
 const gl = {
-  clearColor: "#18181B",
+  clearColor: '#18181B',
   shadows: true,
   alpha: false,
   shadowMapType: BasicShadowMap,
   outputColorSpace: SRGBColorSpace,
   toneMapping: NoToneMapping,
-};
+}
 
 /* const bloomParams = reactive({
   luminanceThreshold: 0.2,
@@ -17,6 +17,7 @@ const gl = {
   intensity: 0.5,
 }); */
 </script>
+
 <template>
   <div style="height: 100vh">
     <TresCanvas v-bind="gl">
