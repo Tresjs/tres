@@ -103,7 +103,7 @@
     "vite-plugin-inspect": "^0.7.32",
     "vite-plugin-require-transform": "^1.0.20",
     "vite-svg-loader": "^4.0.0",
-    "vitepress": "1.0.0-beta.5",
+    "vitepress": "1.0.0-beta.7",
     "vitest": "^0.32.3",
     "vue": "^3.3.4",
     "vue-demi": "^0.14.5"
