@@ -3,7 +3,7 @@ import { ref } from 'vue'
 import { TresCanvas as TC } from '@tresjs/core'
 import type { TresCamera } from '@tresjs/core'
 import { ACESFilmicToneMapping, PCFSoftShadowMap, SRGBColorSpace } from 'three'
-import type { ColorSpace, ShadowMapType, ToneMapping } from 'three'
+import type { ColorSpace, ShadowMapType, ToneMapping, WebGLRendererParameters } from 'three'
 
 defineProps<TresCanvasProps>()
 
@@ -21,18 +21,17 @@ const rendererPresets = {
 
 type RendererPresetsType = keyof typeof rendererPresets
 
-interface TresCanvasProps {
+interface TresCanvasProps extends Omit<WebGLRendererParameters, 'canvas'> {
+  // required by for useRenderer
   shadows?: boolean
+  clearColor?: string
+  toneMapping?: ToneMapping
   shadowMapType?: ShadowMapType
-  physicallyCorrectLights?: boolean
   useLegacyLights?: boolean
   outputColorSpace?: ColorSpace
-  toneMapping?: ToneMapping
   toneMappingExposure?: number
-  context?: WebGLRenderingContext
-  powerPreference?: 'high-performance' | 'low-power' | 'default'
-  preserveDrawingBuffer?: boolean
-  clearColor?: string
+
+  // required by useTresContextProvider
   windowSize?: boolean
   preset?: RendererPresetsType
   disableRender?: boolean
