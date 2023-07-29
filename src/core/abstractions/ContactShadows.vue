@@ -303,6 +303,5 @@ onLoop(() => {
       :rotation="[Math.PI / 2, 0, 0]"
       :args="[-cameraW / 2, cameraW / 2, cameraH / 2, -cameraH / 2, 0, far]"
     />
-    <TresAxesHelper :args="[10]" />
   </TresGroup>
 </template>
