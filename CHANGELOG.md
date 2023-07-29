@@ -1,5 +1,12 @@
 
 
+### [3.0.1](https://github.com/Tresjs/tres/compare/3.0.0...3.0.1) (2023-07-29)
+
+
+### Bug Fixes
+
+* added controls and extend to state context ([#355](https://github.com/Tresjs/tres/issues/355)) ([c2540a5](https://github.com/Tresjs/tres/commit/c2540a55064098b5c7b145a9e785e370b78c4d23))
+
 ## [3.0.0](https://github.com/Tresjs/tres/compare/2.4.2...3.0.0) (2023-07-29)
 
 
