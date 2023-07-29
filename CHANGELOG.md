@@ -1,3 +1,21 @@
+
+
+## [3.0.0](https://github.com/Tresjs/tres/compare/2.4.2...3.0.0) (2023-07-29)
+
+
+### ⚠ BREAKING CHANGES
+
+* UseTres is now useTresContext. Instead of using a store like in v2, we now use a context provider based on `provide/inject`.
+
+### Features
+
+* 331 new context for state ([#333](https://github.com/Tresjs/tres/issues/333)) ([0e66f43](https://github.com/Tresjs/tres/commit/0e66f43712d42370bd30ae0bdbe4d9b3a5d0f0ec)), closes [#340](https://github.com/Tresjs/tres/issues/340)
+
+
+### Documentation
+
+* explain state breaking changes ([4757da9](https://github.com/Tresjs/tres/commit/4757da981cd845c5a71b0d6f07c1d174855cc859))
+
 ### [2.4.2](https://github.com/Tresjs/tres/compare/2.4.1...2.4.2) (2023-07-14)
 
 
