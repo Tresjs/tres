@@ -5,7 +5,13 @@ import type { TresCamera } from '@tresjs/core'
 import { ACESFilmicToneMapping, PCFSoftShadowMap, SRGBColorSpace } from 'three'
 import type { ColorSpace, ShadowMapType, ToneMapping, WebGLRendererParameters } from 'three'
 
-defineProps<TresCanvasProps>()
+withDefaults(defineProps<TresCanvasProps>(), {
+  alpha: false,
+  antialias: true,
+  depth: true,
+  stencil: true,
+  preserveDrawingBuffer: false,
+})
 
 const rendererPresets = {
   realistic: {
