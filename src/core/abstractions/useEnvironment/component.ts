@@ -1,6 +1,6 @@
-import { EnvironmentOptions } from './const'
-import { CubeTexture, Texture } from 'three'
 import { defineComponent } from 'vue'
+import { CubeTexture, Texture } from 'three'
+import { EnvironmentOptions } from './const'
 
 import { useEnvironment } from '.'
 

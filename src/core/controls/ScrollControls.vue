@@ -1,9 +1,7 @@
 <script setup lang="ts">
 import { watch, ref, shallowRef } from 'vue'
+import { useRenderLoop, useLogger, useTresContext } from '@tresjs/core'
 import { useWindowScroll, useWindowSize, useScroll } from '@vueuse/core'
-import { useCientos } from '../../core/useCientos'
-import { useRenderLoop } from '@tresjs/core'
-import { useLogger } from '@tresjs/core'
 
 export interface ScrollControlsProps {
   /**
@@ -70,14 +68,13 @@ const { logWarning } = useLogger()
 if (props.smoothScroll < 0) logWarning('SmoothControl must be greater than zero')
 if (props.pages < 0) logWarning('Pages must be greater than zero')
 
-// TODO delete warnings in console ALVARO
-
-const { state } = useCientos()
+const { camera, controls, renderer } = useTresContext()
 const wrapperRef = shallowRef()
 const scrollContainer = document.createElement('div')
 
 const { y: windowY } = useWindowScroll()
 const { x: containerX, y: containerY, isScrolling } = useScroll(scrollContainer)
+
 const { height, width } = useWindowSize()
 
 let initCameraPos = 0
@@ -91,7 +88,7 @@ const direction = props.horizontal ? 'x' : 'y'
 const emit = defineEmits(['update:modelValue'])
 
 const unWatch = watch(
-  () => state.camera,
+  camera,
   value => {
     if (initialized.value) {
       unWatch()
@@ -100,11 +97,20 @@ const unWatch = watch(
     initCameraPos = props.horizontal ? value?.position.x || 0 : value?.position.y || 0
     initialized.value = true
   },
+  {
+    immediate: true,
+  },
 )
 
-watch(isScrolling, value => {
-  if (state.controls) state.controls.enabled = !value
-})
+watch(
+  isScrolling,
+  value => {
+    if (controls.value) controls.value.enabled = !value
+  },
+  {
+    immediate: true,
+  },
+)
 
 watch(windowY, value => {
   if (!isScrolling.value && !props.htmlScroll) return
@@ -124,13 +130,12 @@ watch(containerX, value => {
 })
 
 watch(
-  () => state.renderer,
+  renderer,
   value => {
     const canvas = value?.domElement
     if (props.htmlScroll && value?.domElement) {
       // use window scroll only Y axis
       if (canvas?.style.width && canvas?.style.position && canvas?.style.top && canvas?.style.left) {
-        state.container.value.style.height = `0px` // this will be removed with the new state
         canvas.style.width = '100%'
         canvas.style.position = 'fixed'
         canvas.style.zIndex = ' -99999'
@@ -148,7 +153,7 @@ watch(
       scrollContainer.style.width = '100%'
       scrollContainer.style.height = ' 100%'
       scrollContainer.style.top = '0'
-      scrollContainer.style.left = ' 0'
+      scrollContainer.style.left = '0'
       scrollContainer.classList.add('scrollContainer')
 
       fixed.style.position = 'sticky'
@@ -162,25 +167,30 @@ watch(
       fill.style.height = props.horizontal ? '100%' : `${height.value * props.pages}px`
       fill.style.width = props.horizontal ? `${width.value * props.pages}px` : '100vw'
       fill.style.pointerEvents = 'none'
+      canvas.style.position = 'fixed'
+      canvas.style.zIndex = '0'
       if (canvas?.style.width) {
         canvas.style.width = '100%'
       }
       scrollContainer.appendChild(fill)
-
+      value.domElement.parentNode.style.position = 'relative'
       value?.domElement?.parentNode?.appendChild(scrollContainer)
       scrollNodeY.value = props.horizontal ? width.value * props.pages : height.value * props.pages
     }
+  },
+  {
+    immediate: true,
   },
 )
 
 const { onLoop } = useRenderLoop()
 
 onLoop(() => {
-  if (state.camera?.position) {
+  if (camera.value?.position) {
     const delta =
-      (progress.value * props.distance - state.camera.position[direction] + initCameraPos) * props.smoothScroll
+      (progress.value * props.distance - camera.value.position[direction] + initCameraPos) * props.smoothScroll
 
-    state.camera.position[direction] += delta
+    camera.value.position[direction] += delta
     if (wrapperRef.value.children.length > 0) {
       wrapperRef.value.position[direction] += delta
     }

@@ -16,9 +16,8 @@ import {
   Vector4,
   Object3D,
 } from 'three'
-import { useRenderLoop } from '@tresjs/core'
+import { useRenderLoop, useTresContext } from '@tresjs/core'
 import { useEventListener } from '@vueuse/core'
-import { useCientos } from '../useCientos'
 
 export interface CameraControlsProps {
   /**
@@ -361,7 +360,7 @@ const subsetOfTHREE = {
 }
 CameraControls.install({ THREE: subsetOfTHREE })
 
-const { state, extend, setState } = useCientos()
+const { state, extend, setState } = useTresContext()
 const controlsRef = ref<CameraControls | null>(null)
 extend({ CameraControls })
 

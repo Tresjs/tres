@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { shallowRef } from 'vue'
-import { useRenderLoop } from '@tresjs/core'
+import { useRenderLoop, useTresContext } from '@tresjs/core'
 
-import { useCientos } from '../../../core/useCientos'
 import { WobbleMaterialImpl as MeshWobbleMaterial } from './material'
 
 const props = withDefaults(
@@ -18,7 +17,7 @@ const props = withDefaults(
 
 const materialRef = shallowRef()
 
-const { extend } = useCientos()
+const { extend } = useTresContext()
 extend({ MeshWobbleMaterial })
 
 const { onLoop } = useRenderLoop()

@@ -1,5 +1,7 @@
 <script setup lang="ts"></script>
 
 <template>
-  <router-view />
+  <Suspense>
+    <router-view />
+  </Suspense>
 </template>

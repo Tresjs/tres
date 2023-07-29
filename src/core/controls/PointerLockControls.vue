@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-import { ref, watch } from 'vue'
+import { ref, watch, onUnmounted } from 'vue'
 import { PointerLockControls } from 'three-stdlib'
 import { Camera } from 'three'
 import { useEventListener } from '@vueuse/core'
-import { useCientos } from '../../core/useCientos'
+import { useTresContext } from '@tresjs/core'
 
 export interface PointerLockControlsProps {
   /**
@@ -46,24 +46,31 @@ const props = withDefaults(defineProps<PointerLockControlsProps>(), {
   makeDefault: false,
 })
 
-const { state, setState, extend } = useCientos()
+const { camera: activeCamera, renderer, extend, controls } = useTresContext()
 
-const controls = ref<null | PointerLockControls>(null)
+const controlsRef = ref<null | PointerLockControls>(null)
 let triggerSelector: HTMLElement | undefined
 
 extend({ PointerLockControls })
 
-watch(controls, value => {
+watch(controlsRef, value => {
   if (value && props.makeDefault) {
-    setState('controls', value)
+    controls.value = value
   } else {
-    setState('controls', null)
+    controls.value = null
   }
   const selector = document.getElementById(props.selector || '')
-  triggerSelector = selector ? selector : state.renderer?.domElement
+  triggerSelector = selector ? selector : renderer.value.domElement
+
   useEventListener(triggerSelector, 'click', () => {
-    controls.value?.lock()
+    value?.lock()
   })
+})
+
+onUnmounted(() => {
+  if (controlsRef.value) {
+    controlsRef.value.dispose()
+  }
 })
 
 defineExpose({
@@ -73,8 +80,8 @@ defineExpose({
 
 <template>
   <TresPointerLockControls
-    v-if="state.camera && state.renderer"
-    ref="controls"
-    :args="[state.camera || camera, state.renderer?.domElement || domElement]"
+    v-if="activeCamera && renderer"
+    ref="controlsRef"
+    :args="[activeCamera || camera, renderer?.domElement || domElement]"
   />
 </template>

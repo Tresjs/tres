@@ -15,8 +15,10 @@ const gl = {
 <template>
   <TresCanvas v-bind="gl">
     <TresPerspectiveCamera :position="[0, 3, 10]" />
-    <PointerLockControls make-default />
-    <KeyboardControls head-bobbing />
+    <PointerLockControls />
+    <KeyboardControls head-bobbing>
+      <!-- <Box /> -->
+    </KeyboardControls>
 
     <TresGridHelper :args="[100, 100]" />
     <TresAmbientLight :intensity="1" />
