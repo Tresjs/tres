@@ -4,7 +4,7 @@
     <FirstScene style="aspect-ratio: 16/9; height: auto; margin: 2rem 0; border-radius: 8px; overflow:hidden;"/>
 </ClientOnly>
 
-This is the documentation for the `v2.0.0` of TresJS. If you are looking for the documentation for the version 1, check [V1 TresJS](https://v1.tresjs.org/).
+This is the documentation for version 3 of TresJS. If you are looking for the documentation for the version 1, check [V1 TresJS](https://v1.tresjs.org/).
 
 ::: code-group
 
@@ -39,6 +39,7 @@ yarn add @types/three -D
 ```bash [pnpm]
 pnpm add @types/three -D
 ```
+
 :::
 
 ## Vite
