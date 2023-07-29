@@ -1,4 +1,4 @@
-import { computed, watchEffect, onUnmounted, shallowRef } from 'vue'
+import { computed, watchEffect, onUnmounted, ref } from 'vue'
 import { Camera, OrthographicCamera, PerspectiveCamera } from 'three'
 
 import type { TresScene } from '../../types'
@@ -8,7 +8,7 @@ import type { TresContext } from '../useTresContextProvider'
 export const useCamera = ({ sizes, scene }: Pick<TresContext, 'sizes'> & { scene: TresScene }) => {
 
   // the computed does not trigger, when for example the camera postion changes
-  const cameras = shallowRef<Camera[]>([])
+  const cameras = ref<Camera[]>([])
   const camera = computed<Camera | undefined>(
     () => cameras.value[0]
   )
