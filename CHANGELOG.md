@@ -1,5 +1,12 @@
 
 
+## [1.1.3](///compare/1.1.2...1.1.3) (2023-07-29)
+
+
+### Bug Fixes
+
+* added default props to fake Nuxt Canvas 1251d66
+
 ## [1.1.2](///compare/1.1.1...1.1.2) (2023-07-29)
 
 
