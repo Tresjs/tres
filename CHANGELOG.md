@@ -1,5 +1,12 @@
 
 
+## [3.0.1](https://github.com/Tresjs/cientos/compare/3.0.0...3.0.1) (2023-07-29)
+
+
+### Bug Fixes
+
+* removed axesHelper from Contact Shadows ([#152](https://github.com/Tresjs/cientos/issues/152)) ([821205a](https://github.com/Tresjs/cientos/commit/821205ad3780a28b18554de9f1f544c884287181))
+
 ## [3.0.0](https://github.com/Tresjs/cientos/compare/2.3.0...3.0.0) (2023-07-29)
 
 
