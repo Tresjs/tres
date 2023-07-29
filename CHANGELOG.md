@@ -1,5 +1,12 @@
 
 
+## [1.1.1](///compare/1.1.0...1.1.1) (2023-07-29)
+
+
+### Bug Fixes
+
+* use templateCompilerOptions from core and new lint config b6cc19c
+
 ## [1.1.0](///compare/1.0.1...1.1.0) (2023-07-29)
 
 
