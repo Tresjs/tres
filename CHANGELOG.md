@@ -1,5 +1,12 @@
 
 
+## [1.1.2](///compare/1.1.1...1.1.2) (2023-07-29)
+
+
+### Bug Fixes
+
+* update TresCanvasProps to newest ([#29](null//null/issues/29)) 1bec0d7
+
 ## [1.1.1](///compare/1.1.0...1.1.1) (2023-07-29)
 
 
