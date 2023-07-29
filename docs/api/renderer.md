@@ -70,20 +70,20 @@ renderer.shadowMap.type: PCFSoftShadowMap
 
 ## Props
 
-| Prop                        | Description                                                                                                                                                     | Default            |
-| :-------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ |
-| **shadows**                 | Enable shadows in the Renderer                                                                                                                                  | `false`            |
-| **shadowMapType**           | Set the shadow map type                                                                                                                                         | `PCFSoftShadowMap` |
-| **physicallyCorrectLights** | Whether to use physically correct lighting mode. See the [lights / physical example](https://threejs.org/examples/#webgl_lights_physical).                      | `false`            |
-| **outputColorSpace**          | Defines the output encoding                                                                                                                                     | `LinearEncoding`   |
-| **toneMapping**             | Defines the tone mapping exposure used by the renderer.                                                                                                         | `NoToneMapping`    |
-| **context**                 | This can be used to attach the renderer to an existing [RenderingContext](https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext)               |                    |
-| **powerPreference**         | Provides a hint to the user agent indicating what configuration of GPU is suitable for this WebGL context. Can be "high-performance", "low-power" or "default". | `default`          |
-| **preserveDrawingBuffer**   | Whether to preserve the buffers until manually cleared or overwritten..                                                                                         | `false`            |
-| **clearColor**              | The color the renderer will use to clear the canvas.                                                                                                            | `#000000`          |
-| **windowSize**              | Whether to use the window size as the canvas size or the parent element.                                                                                        | `false`            |
-| **disableRender**           | Disable render on requestAnimationFrame, usefull for PostProcessing                                                                                             | `false`            |
-| **camera**                  | A manual camera to be used by the renderer.                                                                                                                     |                    |
+| Prop                      | Description                                                                                                                                                     | Default            |
+| :------------------------ | :-------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ |
+| **shadows**               | Enable shadows in the Renderer                                                                                                                                  | `false`            |
+| **shadowMapType**         | Set the shadow map type                                                                                                                                         | `PCFSoftShadowMap` |
+| **useLegacyLights**       | Whether to use the legacy lighting mode or not                                                                                                                  | `true`             |
+| **outputColorSpace**      | Defines the output encoding                                                                                                                                     | `LinearEncoding`   |
+| **toneMapping**           | Defines the tone mapping exposure used by the renderer.                                                                                                         | `NoToneMapping`    |
+| **context**               | This can be used to attach the renderer to an existing [RenderingContext](https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext)               |                    |
+| **powerPreference**       | Provides a hint to the user agent indicating what configuration of GPU is suitable for this WebGL context. Can be "high-performance", "low-power" or "default". | `default`          |
+| **preserveDrawingBuffer** | Whether to preserve the buffers until manually cleared or overwritten..                                                                                         | `false`            |
+| **clearColor**            | The color the renderer will use to clear the canvas.                                                                                                            | `#000000`          |
+| **windowSize**            | Whether to use the window size as the canvas size or the parent element.                                                                                        | `false`            |
+| **disableRender**         | Disable render on requestAnimationFrame, usefull for PostProcessing                                                                                             | `false`            |
+| **camera**                | A manual camera to be used by the renderer.                                                                                                                     |                    |
 
 ## Defaults
 

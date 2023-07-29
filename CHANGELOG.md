@@ -1,5 +1,3 @@
-
-
 ### [2.4.2](https://github.com/Tresjs/tres/compare/2.4.1...2.4.2) (2023-07-14)
 
 

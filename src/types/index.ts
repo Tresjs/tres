@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/ban-types */
-import type * as THREE from 'three'
 import { DefineComponent, Ref, VNode } from 'vue'
+
+import type * as THREE from 'three'
+import type { EventProps as PointerEventHandlerEventProps } from '../composables/usePointerEventHandler'
 
 // Based on React Three Fiber types by Pmndrs
 // https://github.com/pmndrs/react-three-fiber/blob/v9/packages/fiber/src/three-types.ts
@@ -40,12 +42,24 @@ export interface TresObject3D extends THREE.Object3D {
   geometry?: THREE.BufferGeometry & TresBaseObject
   material?: THREE.Material & TresBaseObject
   userData: {
-    MATERIAL_VIA_PROP: boolean
-    GEOMETRY_VIA_PROP: boolean
-  } & { [key: string]: any }
+    tres__materialViaProp: boolean
+    tres__geometryViaProp: boolean
+    [key: string]: any
+  }
 }
 
 export type TresObject = TresBaseObject & (TresObject3D | THREE.BufferGeometry | THREE.Material | THREE.Fog)
+
+export interface TresScene extends THREE.Scene {
+  userData: {
+    // keys are prefixed with tres__ to avoid name collisions
+    tres__registerCamera?: (newCamera: THREE.Camera, active?: boolean) => void,
+    tres__deregisterCamera?: (camera: THREE.Camera) => void,
+    tres__registerAtPointerEventHandler?: (object: THREE.Object3D & PointerEventHandlerEventProps) => void,
+    tres__deregisterAtPointerEventHandler?: (object: THREE.Object3D) => void,
+    [key: string]: any;
+  };
+}
 
 // Events
 export interface Intersection extends THREE.Intersection {
