@@ -1,8 +1,9 @@
+import { readFile } from 'fs/promises'
 import { defineNuxtModule, addImports, addComponent, createResolver, resolvePath } from '@nuxt/kit'
 import * as core from '@tresjs/core'
 import { readPackageJSON } from 'pkg-types'
 import { findExportNames } from 'mlly'
-import { readFile } from 'fs/promises'
+import { templateCompilerOptions } from '@tresjs/core'
 
 export interface ModuleOptions {
   modules: string[]
@@ -11,16 +12,16 @@ export interface ModuleOptions {
 export default defineNuxtModule<ModuleOptions>({
   meta: {
     name: '@tresjs/nuxt',
-    configKey: 'tres'
+    configKey: 'tres',
   },
   defaults: {
-    modules: []
+    modules: [],
   },
-  async setup (options, nuxt) {
+  async setup(options, nuxt) {
     const resolver = createResolver(import.meta.url)
     addComponent({
       filePath: resolver.resolve('./runtime/components/TresCanvas.vue'),
-      name: 'TresCanvas'
+      name: 'TresCanvas',
     })
     nuxt.options.build.transpile.push(/@tresjs/)
 
@@ -28,7 +29,7 @@ export default defineNuxtModule<ModuleOptions>({
       if (name.match(/^use/)) {
         addImports({
           from: '@tresjs/core',
-          name: name
+          name,
         })
       }
     }
@@ -36,29 +37,27 @@ export default defineNuxtModule<ModuleOptions>({
       {
         from: '@tresjs/core',
         name: 'extend',
-        as: 'extendTres'
+        as: 'extendTres',
       },
       {
-        from :'@tresjs/core',
+        from: '@tresjs/core',
         type: true,
-        name: 'TresObject'
-      }
+        name: 'TresObject',
+      },
     ])
 
     nuxt.hook('prepare:types', ({ references }) => {
       references.push({ types: '@tresjs/core' })
     })
-    const isCustomElement = nuxt.options.vue.compilerOptions.isCustomElement
-    nuxt.options.vue.compilerOptions.isCustomElement = (tag) => {
-      return ((tag.startsWith('Tres') && tag !== 'TresCanvas') || tag === 'primitive') || isCustomElement?.(tag)
-    }
+
+    nuxt.options.vue.compilerOptions.isCustomElement = templateCompilerOptions.template.compilerOptions.isCustomElement
 
     const pkg = await readPackageJSON(nuxt.options.rootDir)
     const coreDeps = Object.keys({ ...pkg.dependencies, ...pkg.devDependencies }).filter(d => d.startsWith('@tresjs/'))
     for (const mod of new Set([...options.modules, ...coreDeps])) {
       if (mod === '@tresjs/core' || mod === '@tresjs/nuxt') continue
 
-      const entry = await resolvePath(mod);
+      const entry = await resolvePath(mod)
       if (entry === mod) continue
 
       const imports = findExportNames(await readFile(entry, 'utf8'))
@@ -66,16 +65,17 @@ export default defineNuxtModule<ModuleOptions>({
         if (name.match(/^[a-z]/)) {
           addImports({
             from: mod,
-            name: name
+            name,
           })
-        } else {
+        }
+        else {
           addComponent({
-            name: name,
+            name,
             filePath: mod,
             export: name,
           })
         }
       }
     }
-  }
+  },
 })

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-
-import { MeshBasicMaterial, Texture } from 'three'
+import type { Texture } from 'three'
+import { MeshBasicMaterial } from 'three'
 
 const { nodes } = await useGLTF('/nuxt-stones/nuxt-stones.glb')
 const stonesTexture = await useTexture(['/nuxt-stones/RockBaked.png'])
@@ -24,7 +24,7 @@ nodes.Logo.material.emissiveIntensity = 10
 
 const littleStones = Object.values(nodes).filter(node => node.name.includes('Stone00'))
 
-littleStones.forEach(stone => {
+littleStones.forEach((stone) => {
   stone.material = LittleStonesBakedMaterial
 })
 
