@@ -231,7 +231,6 @@ export interface OrbitControlsProps {
 // TODO: remove disable once eslint is updated to support vue 3.3
 // eslint-disable-next-line vue/no-setup-props-destructure
 const {
-    makeDefault = false,
     autoRotate = false,
     autoRotateSpeed = 2,
     enableDamping = false,
