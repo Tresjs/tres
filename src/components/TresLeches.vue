@@ -27,7 +27,8 @@ function onChange(value: string, control: Control) {
 <template>
   <UseDraggable
     :initial-value="{ x: width - DEFAULT_WIDTH - 20, y: 10 }"
-    class="fixed select-none z-24 w-280px font-sans text-xs"
+    class="absolute select-none z-24 w-280px font-sans text-xs"
+    :class="$attrs.class"
     :handle="handle"
   >
     <div class="bg-white shadow-xl rounded border-4 border-solid border-black">
@@ -46,4 +47,3 @@ function onChange(value: string, control: Control) {
     </div>
   </UseDraggable>
 </template>
-../composables/useControls.old

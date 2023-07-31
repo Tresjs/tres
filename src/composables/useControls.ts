@@ -70,7 +70,7 @@ export function useControls<
   F extends SchemaOrFn<S> | string,
   G extends SchemaOrFn<S>,
   T extends SchemaOrFn<S>,
->(controlOrFolderName: F, settingsOrDepsOrControl: G, settings?: T) {
+>(controlOrFolderName: F, settingsOrDepsOrControl?: G, settings?: T) {
   const control = ref()
   if (typeof controlOrFolderName === 'string') {
     if (controlOrFolderName === 'fpsgraph') {
@@ -85,7 +85,7 @@ export function useControls<
         label: controlOrFolderName,
         visible: true,
         type: 'folder',
-        controls: parseObjectToControls(settingsOrDepsOrControl),
+        controls: settingsOrDepsOrControl ? parseObjectToControls(settingsOrDepsOrControl) : [],
       }
       control.value = controls[controlOrFolderName]
     }
