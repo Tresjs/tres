@@ -1,5 +1,17 @@
 
 
+## [0.5.0](https://github.com/Tresjs/leches/compare/0.4.0...0.5.0) (2023-07-31)
+
+
+### Features
+
+* controls state is now a reactive object. ([b127a9b](https://github.com/Tresjs/leches/commit/b127a9bbb71e7c95dfdaf9c082f9002c285d0fd5))
+
+
+### Bug Fixes
+
+* remove null as the control default ([c640982](https://github.com/Tresjs/leches/commit/c6409827d9b1b28e39c350dd6bc50afe7ffac53f))
+
 ## [0.4.0](https://github.com/Tresjs/leches/compare/0.3.1...0.4.0) (2023-07-04)
 
 
