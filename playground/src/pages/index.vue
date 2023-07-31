@@ -10,16 +10,13 @@ const gl = reactive({
   clearColor: '#82DBC5',
 })
 
-watchEffect(() => {
-  console.log(gl)
-})
 
 const wireframe = ref(false)
 const boxPosition = reactive(new Vector3(0, 0, 0))
 const boxRotation = reactive(new Vector3(0, Math.PI, 0))
 
 useControls('fpsgraph')
-useControls({ test: { value: 1, min: 0, max: 10, step: 0.1, icon: 'ic-baseline-arrow-forward' } })
+const objectTest = useControls({ awiwi: { value: 1, min: 0, max: 10, step: 0.1, icon: 'ic-baseline-arrow-forward' } })
 useControls(gl)
 /* useControls('fpsgraph')
 useControls(gl)
@@ -37,7 +34,7 @@ useControls('Box', {
 })
 const boxRef = ref()
 
-useControls({
+const test = useControls({
   label: 'test',
   options: [{ text: 'loading', value: 'LDG' },
   { text: 'menu', value: 'MNU' },
@@ -54,8 +51,12 @@ useControls({
     })
   }
 }) */
+watchEffect(() => {
+  console.log(test.value.value)
+})
 </script>
 <template>
+  <pre>{{ objectTest }}</pre>
   <TresLeches />
   <TresCanvas v-bind="gl">
     <TresPerspectiveCamera />

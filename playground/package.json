@@ -14,14 +14,14 @@
   },
   "dependencies": {
     "vue": "^3.2.47",
-    "vue-router": "^4.2.2"
+    "vue-router": "^4.2.4"
   },
   "devDependencies": {
-    "three": "^0.153.0",
-    "@tresjs/cientos": "2.1.4",
-    "@tresjs/core": "2.2.0",
-    "@types/three": "^0.152.1",
-    "unplugin-auto-import": "^0.16.4",
+    "@tresjs/cientos": "3.0.1",
+    "@tresjs/core": "3.0.1",
+    "@types/three": "^0.154.0",
+    "three": "^0.155.0",
+    "unplugin-auto-import": "^0.16.6",
     "unplugin-vue-components": "^0.25.1"
   }
 }

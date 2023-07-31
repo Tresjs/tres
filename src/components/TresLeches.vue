@@ -13,7 +13,7 @@ const DEFAULT_WIDTH = 280
 
 const handle = ref<HTMLElement | null>(null)
 
-const state = useControlsProvider()
+const controls = useControlsProvider()
 
 function onChange(value: string, control: Control) {
   if (control.ref) {
@@ -40,9 +40,10 @@ function onChange(value: string, control: Control) {
         </div>
         <div></div>
       </header>
-      <template v-for="control in state.controls" :key="control.label">
+      <template v-for="control of controls" :key="control.label">
         <ControlInput :control="control" @change="newValue => onChange(newValue, control)" />
       </template>
     </div>
   </UseDraggable>
 </template>
+../composables/useControls.old
