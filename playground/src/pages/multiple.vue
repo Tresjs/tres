@@ -1,4 +1,6 @@
 <script setup lang="ts"></script>
 <template>
-  <DebugUI />
+  <Suspense>
+    <MultipleCanvas />
+  </Suspense>
 </template>

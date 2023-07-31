@@ -53,3 +53,24 @@ export const uniqueBy = <T, K>(array: T[], iteratee: (value: T) => K): T[] => {
 
   return result
 }
+
+export const get = <T>(obj: any, path: string | string[]): T | undefined => {
+  if (!path) return undefined;
+
+  // Regex explained: https://regexr.com/58j0k
+  const pathArray = Array.isArray(path) ? path : path.match(/([^[.\]])+/g);
+
+  return pathArray?.reduce((prevObj, key) => prevObj && prevObj[key], obj);
+};
+
+export const set = (obj: any, path: string | string[], value: any): void => {
+  // Regex explained: https://regexr.com/58j0k
+  const pathArray = Array.isArray(path) ? path : path.match(/([^[.\]])+/g);
+
+  if (pathArray)
+    pathArray.reduce((acc, key, i) => {
+      if (acc[key] === undefined) acc[key] = {};
+      if (i === pathArray.length - 1) acc[key] = value;
+      return acc[key];
+    }, obj);
+};

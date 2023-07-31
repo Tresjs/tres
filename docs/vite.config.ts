@@ -3,6 +3,12 @@ import Unocss from 'unocss/vite'
 import svgLoader from 'vite-svg-loader'
 import Components from 'unplugin-vue-components/vite'
 
+const whitelist = [
+  'TresCanvas',
+  'TresLeches',
+  'TresScene',
+]
+
 export default defineConfig({
   plugins: [
     svgLoader(),
@@ -16,4 +22,11 @@ export default defineConfig({
       dts: 'components.d.ts',
     }),
   ],
+  vue: {
+    template: {
+      compilerOptions: {
+        isCustomElement: (tag: string) => tag.startsWith('Tres') && !whitelist.includes(tag) || tag === 'primitive',
+      },
+    },
+  }
 })

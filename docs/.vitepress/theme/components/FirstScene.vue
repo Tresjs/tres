@@ -16,7 +16,7 @@ const gl = {
 
 <template>
   <TresCanvas v-bind="gl">
-    <TresPerspectiveCamera :position="[11, 11, 11]" :fov="45" :aspect="1" :near="0.1" :far="1000" />
+    <TresPerspectiveCamera :position="[11, 11, 11]" :fov="45" :aspect="1" :near="0.1" :far="1000" :look-at="[0, 0, 0]" />
     <OrbitControls />
     <TresMesh :position="[-2, 6, 0]" :rotation="[0, Math.PI, 0]" cast-shadow>
       <TresConeGeometry :args="[1, 1.5, 3]" />

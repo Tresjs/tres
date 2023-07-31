@@ -1,5 +1,45 @@
 
 
+### [3.0.1](https://github.com/Tresjs/tres/compare/3.0.0...3.0.1) (2023-07-29)
+
+
+### Bug Fixes
+
+* added controls and extend to state context ([#355](https://github.com/Tresjs/tres/issues/355)) ([c2540a5](https://github.com/Tresjs/tres/commit/c2540a55064098b5c7b145a9e785e370b78c4d23))
+
+## [3.0.0](https://github.com/Tresjs/tres/compare/2.4.2...3.0.0) (2023-07-29)
+
+
+### ⚠ BREAKING CHANGES
+
+* UseTres is now useTresContext. Instead of using a store like in v2, we now use a context provider based on `provide/inject`.
+
+### Features
+
+* 331 new context for state ([#333](https://github.com/Tresjs/tres/issues/333)) ([0e66f43](https://github.com/Tresjs/tres/commit/0e66f43712d42370bd30ae0bdbe4d9b3a5d0f0ec)), closes [#340](https://github.com/Tresjs/tres/issues/340)
+
+
+### Documentation
+
+* explain state breaking changes ([4757da9](https://github.com/Tresjs/tres/commit/4757da981cd845c5a71b0d6f07c1d174855cc859))
+
+### [2.4.2](https://github.com/Tresjs/tres/compare/2.4.1...2.4.2) (2023-07-14)
+
+
+### Bug Fixes
+
+* add raycaster to state ([#347](https://github.com/Tresjs/tres/issues/347)) ([c45d4c3](https://github.com/Tresjs/tres/commit/c45d4c32d12cba14c43588804458c40d81bcc055))
+
+### [2.4.1](https://github.com/Tresjs/tres/compare/2.4.0...2.4.1) (2023-07-13)
+
+
+### Bug Fixes
+
+* add app context to state ([#346](https://github.com/Tresjs/tres/issues/346)) ([197f258](https://github.com/Tresjs/tres/commit/197f258f1bba39b057d3936ff53fee01c18388ab))
+* change internal Scene component name to force rendering ([#330](https://github.com/Tresjs/tres/issues/330)) ([780743c](https://github.com/Tresjs/tres/commit/780743c62f421677b61f6c9ef9ef3feacd4b37f9))
+* fake a `VNodeRef` on types to accept strings and null ([#344](https://github.com/Tresjs/tres/issues/344)) ([c069f64](https://github.com/Tresjs/tres/commit/c069f6423d4abf1a55d87d32ea121cb1752e5b58))
+* prop types on TresCanvas ([#326](https://github.com/Tresjs/tres/issues/326)) ([309584a](https://github.com/Tresjs/tres/commit/309584a5431b63a63fe541a11a1347de54359dac))
+
 ## [2.4.0](https://github.com/Tresjs/tres/compare/2.3.0...2.4.0) (2023-06-28)
 
 
