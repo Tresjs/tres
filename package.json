@@ -1,7 +1,7 @@
 {
   "name": "@tresjs/leches",
   "description": "Tasty GUI for Vue controls 🍰",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "type": "module",
   "packageManager": "pnpm@8.3.1",
   "author": "Alvaro Saburido <hola@alvarosaburido.dev> (https://github.com/alvarosabu/)",

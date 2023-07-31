@@ -1,5 +1,12 @@
 
 
+## [0.6.0](https://github.com/Tresjs/leches/compare/0.5.0...0.6.0) (2023-07-31)
+
+
+### Features
+
+* add absolute and inherit classes ([54f3c11](https://github.com/Tresjs/leches/commit/54f3c11b88291764959f6cfeaa4a09669a6f8cea))
+
 ## [0.5.0](https://github.com/Tresjs/leches/compare/0.4.0...0.5.0) (2023-07-31)
 
 
