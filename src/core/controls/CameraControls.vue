@@ -360,16 +360,16 @@ const subsetOfTHREE = {
 }
 CameraControls.install({ THREE: subsetOfTHREE })
 
-const { state, extend, setState } = useTresContext()
+const { camera: activeCamera, renderer, extend, controls } = useTresContext()
 const controlsRef = ref<CameraControls | null>(null)
 extend({ CameraControls })
 
 watch(controlsRef, value => {
   addEventListeners()
   if (value && makeDefault.value) {
-    setState('controls', value)
+    controls.value = value
   } else {
-    setState('controls', null)
+    controls.value = null
   }
 })
 
@@ -400,7 +400,7 @@ defineExpose({
 
 <template>
   <TresCameraControls
-    v-if="state.camera && state.renderer"
+    v-if="activeCamera && renderer"
     ref="controlsRef"
     :min-polar-angle="minPolarAngle"
     :max-polar-angle="maxPolarAngle"
@@ -425,6 +425,6 @@ defineExpose({
     :boundary-friction="boundaryFriction"
     :rest-threshold="restThreshold"
     :collider-meshes="colliderMeshes"
-    :args="[state.camera || camera, state.renderer?.domElement || domElement]"
+    :args="[activeCamera || camera, renderer?.domElement || domElement]"
   />
 </template>
