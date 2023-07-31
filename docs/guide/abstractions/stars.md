@@ -41,4 +41,3 @@ Notice that you can pass a texture as an alphaMap to personalize the star shape
 | **count**   | number of stars      | 5000    |
 | **depth** | depth of star's shape                         | 50    |
 | **radius**      | Radius of star's shape                            | 100    |
-| **factor**    | factor of randomness scale star                            | 4       |

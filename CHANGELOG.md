@@ -1,5 +1,43 @@
 
 
+## [3.0.1](https://github.com/Tresjs/cientos/compare/3.0.0...3.0.1) (2023-07-29)
+
+
+### Bug Fixes
+
+* removed axesHelper from Contact Shadows ([#152](https://github.com/Tresjs/cientos/issues/152)) ([821205a](https://github.com/Tresjs/cientos/commit/821205ad3780a28b18554de9f1f544c884287181))
+
+## [3.0.0](https://github.com/Tresjs/cientos/compare/2.3.0...3.0.0) (2023-07-29)
+
+
+### ⚠ BREAKING CHANGES
+
+* core v3 provides a new state context `useTresContext` which impacts all the abstractions depending on the state
+
+* chore: move core to deps
+
+* chore: updated lock
+
+* chore: fix lint
+
+* feat: removed useCientos and useTresContext instead
+
+### Features
+
+* 120 refactor usecientos to new state context provider ([#143](https://github.com/Tresjs/cientos/issues/143)) ([723a323](https://github.com/Tresjs/cientos/commit/723a3231da239a1214d0ffdfb3b6a6e7cb62eedc))
+* add more camera-controls playground examples ([d3c5dd3](https://github.com/Tresjs/cientos/commit/d3c5dd3ceefe3d816abd268f4b1a994d024f0d37))
+* add preliminary camera-controls abstraction ([bef41b9](https://github.com/Tresjs/cientos/commit/bef41b9f0ef6508ecd56735cd5e2d6fb205e114a))
+* backdrop stage abstraction ([#116](https://github.com/Tresjs/cientos/issues/116)) ([62f677c](https://github.com/Tresjs/cientos/commit/62f677c881dfc7b0386a79f9d5b0c162596c2838))
+
+
+### Bug Fixes
+
+* add reactivity to stars component, rmv factor as props unnecessary ([#144](https://github.com/Tresjs/cientos/issues/144)) ([ad5c6c8](https://github.com/Tresjs/cientos/commit/ad5c6c8572f2ac472063886fde48c63f81b667dc))
+* background not checked right useEnvironment ([#138](https://github.com/Tresjs/cientos/issues/138)) ([28d40fd](https://github.com/Tresjs/cientos/commit/28d40fde9a690cb44943c875799e48f3c17d5eb4))
+* map correct camera-controls events ([e7095eb](https://github.com/Tresjs/cientos/commit/e7095ebe958e690de0a8aba37a55679f6a321e10))
+* MouseParallax, clean code ([#134](https://github.com/Tresjs/cientos/issues/134)) ([257238a](https://github.com/Tresjs/cientos/commit/257238aa38bc921983dc4ae37ac4891becfb5113))
+* nuxt problem with scrollControls ([#130](https://github.com/Tresjs/cientos/issues/130)) ([1739965](https://github.com/Tresjs/cientos/commit/1739965dbbd3e7aef9921a91c6ffbfe5502074aa))
+
 ## [2.3.0](https://github.com/Tresjs/cientos/compare/2.2.0...2.3.0) (2023-07-11)
 
 

@@ -18,7 +18,7 @@ const state = reactive({
   opacity: 1,
   resolution: 512,
   color: '#0000ff',
-  helper: false,
+  helper: true,
 })
 
 const { pane } = useTweakPane()
@@ -65,9 +65,9 @@ onLoop(() => {
 
 <template>
   <TresCanvas v-bind="gl">
-    <TresPerspectiveCamera :position="[11, 11, 11]" />
-    <OrbitControls />
+    <TresPerspectiveCamera :position="[5, 5, 5]" />
 
+    <OrbitControls />
     <Box ref="boxRef" :args="[0.4, 0.4, 0.4]" :position="[0, 1, 0]">
       <TresMeshNormalMaterial />
     </Box>

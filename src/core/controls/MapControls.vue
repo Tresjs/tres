@@ -1,9 +1,8 @@
 <script lang="ts" setup>
+import { useTresContext } from '@tresjs/core'
 import { Camera } from 'three'
 import { MapControls } from 'three-stdlib'
-import { ref, watch } from 'vue'
-
-import { useCientos } from '../../core/useCientos'
+import { ref, watch, onUnmounted } from 'vue'
 
 export interface MapControlsProps {
   /**
@@ -37,25 +36,31 @@ const props = withDefaults(defineProps<MapControlsProps>(), {
   makeDefault: false,
 })
 
-const { state, setState, extend } = useCientos()
+const { camera: activeCamera, renderer, extend, controls } = useTresContext()
 
-const controls = ref(null)
+const controlsRef = ref<MapControls | null>(null)
 
 extend({ MapControls })
 
 watch(controls, value => {
   if (value && props.makeDefault) {
-    setState('controls', value)
+    controls.value = value
   } else {
-    setState('controls', null)
+    controls.value = null
+  }
+})
+
+onUnmounted(() => {
+  if (controlsRef.value) {
+    controlsRef.value.dispose()
   }
 })
 </script>
 
 <template>
   <TresMapControls
-    v-if="state.camera && state.renderer"
-    ref="controls"
-    :args="[state.camera || camera, state.renderer?.domElement || domElement]"
+    v-if="activeCamera && renderer"
+    ref="controlsRef"
+    :args="[activeCamera || camera, renderer?.domElement || domElement]"
   />
 </template>

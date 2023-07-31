@@ -3,8 +3,7 @@ import { onUnmounted, shallowRef, ShallowRef, watchEffect, toRefs } from 'vue'
 import { Object3D, type Event } from 'three'
 import { TransformControls } from 'three-stdlib'
 import { useEventListener } from '@vueuse/core'
-
-import { useCientos } from '../useCientos'
+import { useTresContext } from '@tresjs/core'
 
 export interface TransformControlsProps {
   object: Object3D
@@ -37,43 +36,43 @@ const { object, mode, enabled, axis, translationSnap, rotationSnap, scaleSnap, s
 
 const emit = defineEmits(['dragging', 'change', 'mouseDown', 'mouseUp', 'objectChange'])
 
-const controls: ShallowRef<TransformControls | undefined> = shallowRef()
+const controlsRef: ShallowRef<TransformControls | undefined> = shallowRef()
 
-const { state, extend } = useCientos()
+const { controls, camera, renderer, extend } = useTresContext()
 
 extend({ TransformControls })
 
 const onDragingChange = (e: Event) => {
-  if (state.controls) state.controls.enabled = !e.value
+  if (controls.value) controls.value.enabled = !e.value
   emit('dragging', e.value)
 }
 
 function addEventListeners() {
-  useEventListener(controls.value as any, 'change', () => emit('change'))
-  useEventListener(controls.value as any, 'dragging-changed', onDragingChange)
-  useEventListener(controls.value as any, 'mouseDown', () => emit('mouseDown'))
-  useEventListener(controls.value as any, 'mouseUp', () => emit('mouseUp'))
-  useEventListener(controls.value as any, 'objectChange', () => emit('objectChange'))
+  useEventListener(controlsRef.value as any, 'change', () => emit('change'))
+  useEventListener(controlsRef.value as any, 'dragging-changed', onDragingChange)
+  useEventListener(controlsRef.value as any, 'mouseDown', () => emit('mouseDown'))
+  useEventListener(controlsRef.value as any, 'mouseUp', () => emit('mouseUp'))
+  useEventListener(controlsRef.value as any, 'objectChange', () => emit('objectChange'))
 }
 
 watchEffect(() => {
-  if (controls.value) {
+  if (controlsRef.value) {
     addEventListeners()
   }
 })
 
 onUnmounted(() => {
-  if (controls.value) {
-    controls.value.dispose()
+  if (controlsRef.value) {
+    controlsRef.value.dispose()
   }
 })
 </script>
 <template>
   <TresTransformControls
-    v-if="state.camera && state.renderer"
-    ref="controls"
+    v-if="camera && renderer"
+    ref="controlsRef"
     :object="object"
-    :args="[state.camera, state.renderer.domElement]"
+    :args="[camera, renderer.domElement]"
     :mode="mode"
     :enabled="enabled"
     :axis="axis"

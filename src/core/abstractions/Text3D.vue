@@ -1,9 +1,7 @@
 <script setup lang="ts">
-import { computed, useSlots, shallowRef, watchEffect, toRefs } from 'vue'
-import { TextGeometry, FontLoader } from 'three-stdlib'
-
-import { useCientos } from '../../core/useCientos'
-import { toValue } from 'vue'
+import { computed, useSlots, shallowRef, watchEffect, toRefs, toValue } from 'vue'
+import { TextGeometry, FontLoader, TextGeometryParameters } from 'three-stdlib'
+import { useTresContext } from '@tresjs/core'
 
 export type Glyph = {
   _cachedOutline: string[]
@@ -152,7 +150,7 @@ const {
   bevelSegments,
 } = toRefs(props)
 
-const { extend } = useCientos()
+const { extend } = useTresContext()
 
 extend({ TextGeometry })
 
@@ -204,7 +202,7 @@ const textOptions = computed(() => {
 watchEffect(() => {
   if (text3DRef.value && needUpdates.value) {
     text3DRef.value.geometry.dispose()
-    text3DRef.value.geometry = new TextGeometry(localText.value, textOptions.value)
+    text3DRef.value.geometry = new TextGeometry(localText.value, textOptions.value as TextGeometryParameters)
     if (center.value) {
       text3DRef.value.geometry.center()
     }

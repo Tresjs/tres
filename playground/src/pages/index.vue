@@ -1,5 +1,6 @@
-<script setup lang="ts">
-</script>
+<script setup lang="ts"></script>
 <template>
-    <BackdropDemo/>
+  <Suspense>
+    <OrbitControlsDemo />
+  </Suspense>
 </template>

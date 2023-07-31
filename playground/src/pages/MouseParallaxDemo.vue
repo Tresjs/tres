@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
-import { OrbitControls, MeshWobbleMaterial } from '@tresjs/cientos'
 import { BasicShadowMap, SRGBColorSpace, NoToneMapping } from 'three'
+import { MouseParallax, TorusKnot } from '@tresjs/cientos'
 
 const gl = {
   clearColor: '#82DBC5',
@@ -14,14 +14,12 @@ const gl = {
 </script>
 
 <template>
-  <TresCanvas v-bind="gl" ref="context">
-    <TresPerspectiveCamera :position="[3, 3, 3]" />
-    <TresMesh>
-      <TresTorusGeometry />
-      <MeshWobbleMaterial color="orange" speed="1" factor="2" />
-    </TresMesh>
+  <TresCanvas v-bind="gl">
+    <TresPerspectiveCamera :position="[0, 0, 7.5]" :fov="75" :near="0.1" :far="1000" />
+    <TorusKnot ref="torusKnotRef">
+      <TresMeshNormalMaterial />
+    </TorusKnot>
+    <MouseParallax :factor="3" />
     <TresAmbientLight :intensity="1" />
-    <TresDirectionalLight :intensity="1" :position="[2, 2, 2]" />
-    <OrbitControls />
   </TresCanvas>
 </template>

@@ -5,7 +5,7 @@
 // As well, basically the same implementation as in pmndrs drei but with Vue Composition API
 // https://github.com/pmndrs/drei/blob/master/src/core/ContactShadows.tsx#L113
 
-import { TresColor, useRenderLoop } from '@tresjs/core'
+import { TresColor, useRenderLoop, useTresContext } from '@tresjs/core'
 import {
   Color,
   ColorRepresentation,
@@ -20,7 +20,6 @@ import {
 } from 'three'
 import { computed, shallowRef, watchEffect } from 'vue'
 import { HorizontalBlurShader, VerticalBlurShader } from 'three-stdlib'
-import { useCientos } from '../../core/useCientos'
 
 export interface ContactShadowsProps {
   /**
@@ -158,7 +157,7 @@ let renderTarget: WebGLRenderTarget, renderTargetBlur: WebGLRenderTarget
 let planeGeometry: PlaneGeometry, blurPlane: Mesh
 let depthMaterial: MeshDepthMaterial
 
-const { state } = useCientos()
+const { renderer, scene } = useTresContext()
 
 const cameraW = computed(() => props.width * (Array.isArray(props.scale) ? props.scale[0] : props.scale || 1))
 const cameraH = computed(() => props.height * (Array.isArray(props.scale) ? props.scale[1] : props.scale || 1))
@@ -173,6 +172,15 @@ watchEffect(() => {
   renderTarget = new WebGLRenderTarget(props.resolution, props.resolution)
   renderTargetBlur = new WebGLRenderTarget(props.resolution, props.resolution)
   renderTargetBlur.texture.generateMipmaps = renderTarget.texture.generateMipmaps = false
+
+  shadowCamera.value = new OrthographicCamera(
+    -cameraW.value / 2,
+    cameraW.value / 2,
+    cameraH.value / 2,
+    -cameraH.value / 2,
+    0,
+    props.far,
+  )
 
   planeGeometry = new PlaneGeometry(cameraW.value, cameraH.value).rotateX(Math.PI / 2)
   blurPlane = new Mesh(planeGeometry)
@@ -216,22 +224,22 @@ verticalBlurMaterial.depthTest = horizontalBlurMaterial.depthTest = false
 // Blur the shadow
 
 function blurShadows(blur: number) {
-  if (!state.renderer || !shadowCamera.value) return
+  if (!renderer.value || !shadowCamera.value) return
 
   blurPlane.visible = true
   blurPlane.material = horizontalBlurMaterial
   horizontalBlurMaterial.uniforms.tDiffuse.value = renderTarget.texture
   horizontalBlurMaterial.uniforms.h.value = blur / 256
 
-  state.renderer.setRenderTarget(renderTargetBlur)
-  state.renderer.render(blurPlane, shadowCamera.value)
+  renderer.value.setRenderTarget(renderTargetBlur)
+  renderer.value.render(blurPlane, shadowCamera.value)
 
   blurPlane.material = verticalBlurMaterial
   verticalBlurMaterial.uniforms.tDiffuse.value = renderTargetBlur.texture
   verticalBlurMaterial.uniforms.v.value = blur / 256
 
-  state.renderer.setRenderTarget(renderTarget)
-  state.renderer.render(blurPlane, shadowCamera.value)
+  renderer.value.setRenderTarget(renderTarget)
+  renderer.value.render(blurPlane, shadowCamera.value)
 
   blurPlane.visible = false
 }
@@ -243,22 +251,22 @@ let initialBackground: Color | Texture | null
 let initialOverrideMaterial: Material | null
 
 onLoop(() => {
-  if (!shadowCamera.value || state.scene === undefined || state.renderer === undefined) return
+  if (!shadowCamera.value || scene.value === undefined || renderer.value === undefined) return
 
   if (props.frames === Infinity || count < props.frames) {
     count++
 
     // Save the initial background and override material
-    initialBackground = state.scene.background
-    initialOverrideMaterial = state.scene.overrideMaterial
+    initialBackground = scene.value.background
+    initialOverrideMaterial = scene.value.overrideMaterial
 
     // Render the shadows
     groupRef.value.visible = false
-    state.scene.background = null
-    state.scene.overrideMaterial = depthMaterial
+    scene.value.background = null
+    scene.value.overrideMaterial = depthMaterial
 
-    state.renderer.setRenderTarget(renderTarget)
-    state.renderer.render(state.scene, shadowCamera.value)
+    renderer.value.setRenderTarget(renderTarget)
+    renderer.value.render(scene.value, shadowCamera.value)
 
     // Blur the shadows
     blurShadows(props.blur)
@@ -268,11 +276,11 @@ onLoop(() => {
     }
 
     // Restore the initial background and override material
-    state.renderer.setRenderTarget(null)
+    renderer.value.setRenderTarget(null)
 
     groupRef.value.visible = true
-    state.scene.background = initialBackground
-    state.scene.overrideMaterial = initialOverrideMaterial
+    scene.value.background = initialBackground
+    scene.value.overrideMaterial = initialOverrideMaterial
   }
 })
 </script>
@@ -291,7 +299,8 @@ onLoop(() => {
     <TresCameraHelper v-if="shadowCamera && helper" :args="[shadowCamera]" />
     <TresOrthographicCamera
       ref="shadowCamera"
-      :rotation-x="Math.PI / 2"
+      :position="[0, 0, 0]"
+      :rotation="[Math.PI / 2, 0, 0]"
       :args="[-cameraW / 2, cameraW / 2, cameraH / 2, -cameraH / 2, 0, far]"
     />
   </TresGroup>

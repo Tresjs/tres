@@ -10,6 +10,7 @@ const boxRef = ref()
 const progress = ref(0)
 
 watchEffect(() => {
+  // eslint-disable-next-line no-console
   console.log('jaime ~ progress:', progress.value)
 })
 
@@ -21,46 +22,48 @@ const gl = {
 }
 const { onLoop } = useRenderLoop()
 onLoop(() => {
-   if (boxRef.value) {
+  if (boxRef.value) {
     boxRef.value.value.rotation.x = progress.value * 10
     boxRef.value.value.rotation.y = progress.value * 2
-   }
+  }
 })
 </script>
 <template>
-  <TresCanvas v-bind="gl" ref="canvasRef" window-size >
+  <TresCanvas v-bind="gl" ref="canvasRef" window-size>
     <TresPerspectiveCamera :position="[0, 2, 5]" />
     <Stars :radius="1" />
     <TresGridHelper :args="[10, 10]" />
-    
-    <ScrollControls ref="scRef" 
-    v-model="progress"
-    :distance="10"
-    :smooth-scroll="0.1"
-    >
-    <Sphere ref="sphereRef" :scale="0.1" :position="[1, 2, 0]" />
-    <Box ref="boxRef" :scale="0.5" :color="0xff00ff" :position="[-1, 1, 0]" />
-  </ScrollControls>
+
+    <ScrollControls ref="scRef" v-model="progress" :distance="10" :smooth-scroll="0.1" html-scroll>
+      <Sphere ref="sphereRef" :scale="0.1" :position="[1, 2, 0]" />
+      <Box ref="boxRef" :scale="0.5" :color="0xff00ff" :position="[-1, 1, 0]" />
+    </ScrollControls>
   </TresCanvas>
   <main>
     <section>
       <h1>First section</h1>
     </section>
 
-     <section>
+    <section>
       <h2>Second section</h2>
     </section>
     <section>
-      <h3 >Third section</h3>
+      <h3>Third section</h3>
     </section>
   </main>
-  <!-- <div class="container"> -->
-    
-  <!-- </div> -->
 </template>
 <style scoped>
+.fixed {
+  position: fixed;
+  top: 0;
+  right: 0;
+}
+.scroll {
+  height: 200vh;
+}
 .container {
   height: 50vh;
+  overflow: scroll;
 }
 main {
   background-color: transparent;
