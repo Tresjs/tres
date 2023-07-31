@@ -15,9 +15,9 @@ const wireframe = ref(false)
 const boxPosition = reactive(new Vector3(0, 0, 0))
 const boxRotation = reactive(new Vector3(0, Math.PI, 0))
 
-const fpsgraph = useControls('fpsgraph')
+useControls('fpsgraph')
 const objectTest = useControls({ awiwi: { value: 1, min: 0, max: 10, step: 0.1, icon: 'ic-baseline-arrow-forward' } })
-const glTest = useControls(gl)
+useControls(gl)
 /* useControls('fpsgraph')
 useControls(gl)
 
@@ -27,7 +27,7 @@ useControls('Box', {
   wireframe,
 })
  */
-const box = useControls('Box', {
+useControls('Box', {
   position: boxPosition,
   rotation: boxRotation,
   wireframe,

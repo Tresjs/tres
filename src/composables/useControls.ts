@@ -1,7 +1,6 @@
 import { Vector3 } from 'three'
 import { isReactive, isRef, onUnmounted, provide, reactive, ref, toRefs } from 'vue'
 import { Control, Schema, SchemaOrFn } from '../types'
-import { toRef } from '@vueuse/core'
 
 export const CONTROLS_CONTEXT_KEY = Symbol('CONTROLS_CONTEXT_KEY')
 
@@ -61,7 +60,7 @@ function parseObjectToControls(obj: Schema): Control[] {
   }
 
 export function dispose() {
-  for (let key in controls) {
+  for (const key in controls) {
     delete controls[key];
   }
 }
@@ -113,14 +112,14 @@ export function useControls<
     control.value = controls[settingsOrDepsOrControl]
   } else if (isReactive(controlOrFolderName)) {
     const iternal = toRefs(controlOrFolderName)
-    let parsedControls = parseObjectToControls(iternal);
-    for (let parsedControl of parsedControls) {
+    const parsedControls = parseObjectToControls(iternal);
+    for (const parsedControl of parsedControls) {
       controls[parsedControl.label] = parsedControl;
     }
     control.value  = parsedControls
   } else {
-    let parsedControls = parseObjectToControls(controlOrFolderName);
-    for (let parsedControl of parsedControls) {
+    const parsedControls = parseObjectToControls(controlOrFolderName);
+    for (const parsedControl of parsedControls) {
       controls[parsedControl.label] = parsedControl;
     }
     control.value  = parsedControls
