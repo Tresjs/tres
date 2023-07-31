@@ -2,8 +2,7 @@
 import { BasicShadowMap, SRGBColorSpace, NoToneMapping } from 'three'
 
 import { TresCanvas } from '@tresjs/core'
-/* import LocalOrbitControls from './LocalOrbitControls.vue'; */
-/* import { OrbitControls } from '@tresjs/cientos' */
+import { OrbitControls } from '@tresjs/cientos'
 
 const gl = {
   clearColor: '#82DBC5',
@@ -18,7 +17,7 @@ const gl = {
 <template>
   <TresCanvas v-bind="gl">
     <TresPerspectiveCamera :position="[11, 11, 11]" :fov="45" :aspect="1" :near="0.1" :far="1000" :look-at="[0, 0, 0]" />
-    <!--     <LocalOrbitControls /> -->
+    <OrbitControls />
     <TresMesh :position="[-2, 6, 0]" :rotation="[0, Math.PI, 0]" cast-shadow>
       <TresConeGeometry :args="[1, 1.5, 3]" />
       <TresMeshToonMaterial color="#82DBC5" />

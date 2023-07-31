@@ -9,10 +9,10 @@
     "preview": "vitepress preview"
   },
   "devDependencies": {
-    "unocss": "^0.53.4",
+    "unocss": "^0.54.0",
     "vite-svg-loader": "^4.0.0"
   },
   "dependencies": {
-    "@tresjs/core": "workspace:3.0.0"
+    "@tresjs/core": "workspace:3.0.1"
   }
 }

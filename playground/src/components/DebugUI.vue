@@ -7,9 +7,9 @@ import { BasicShadowMap, SRGBColorSpace, NoToneMapping } from 'three'
 /* import '@tresjs/leches/styles' */
 
 const gl = reactive({
-  clearColor: '#82DBC5',
+  /*   clearColor: '#82DBC5', */
   shadows: true,
-  alpha: false,
+  alpha: true,
   shadowMapType: BasicShadowMap,
   outputColorSpace: SRGBColorSpace,
   toneMapping: NoToneMapping,
