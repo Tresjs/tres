@@ -71,7 +71,7 @@ export function useControls<
   G extends SchemaOrFn<S>,
   T extends SchemaOrFn<S>,
 >(controlOrFolderName: F, settingsOrDepsOrControl: G, settings?: T) {
-  const control = ref(null)
+  const control = ref()
   if (typeof controlOrFolderName === 'string') {
     if (controlOrFolderName === 'fpsgraph') {
       controls[controlOrFolderName] = {
