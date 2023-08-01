@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import CameraControls from 'camera-controls'
-import { ref, watch, onUnmounted, toRefs } from 'vue'
+import { ref, watchEffect, onUnmounted, toRefs } from 'vue'
 import {
   PerspectiveCamera,
   OrthographicCamera,
@@ -364,10 +364,10 @@ const { camera: activeCamera, renderer, extend, controls } = useTresContext()
 const controlsRef = ref<CameraControls | null>(null)
 extend({ CameraControls })
 
-watch(controlsRef, value => {
+watchEffect(() => {
   addEventListeners()
-  if (value && makeDefault.value) {
-    controls.value = value
+  if (controlsRef.value && makeDefault.value) {
+    controls.value = controlsRef.value
   } else {
     controls.value = null
   }
