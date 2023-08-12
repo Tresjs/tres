@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import { Vector2, Vector3 } from 'three'
 import { useMouse } from '@vueuse/core'
 import { computed, ref, watch } from 'vue'
-import { normalizeVectorFlexibleParam } from '../utils/'
+import { isVector2, isVector3, normalizeVectorFlexibleParam } from '../utils/'
 import { Control } from '../types'
 
 const props = defineProps<{
@@ -36,7 +35,7 @@ const calculateSpeed = (diff: number) => {
 const vector = computed(() => normalizeVectorFlexibleParam(props.control.value))
 const labels = computed(() => Object.keys(props.control.value))
 
-const isVector = computed(() => props.control.value instanceof Vector2 || props.control.value instanceof Vector3)
+const isVector = computed(() => isVector2(props.control.value) || isVector3(props.control.value))
 
 function onChange(event: Event, $index: number) {
   const { value } = props.control

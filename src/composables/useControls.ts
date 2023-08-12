@@ -1,4 +1,3 @@
-import { Vector3 } from 'three'
 import { isReactive, isRef, onUnmounted, provide, reactive, ref, toRefs } from 'vue'
 import { Control, Schema, SchemaOrFn } from '../types'
 
@@ -37,7 +36,7 @@ function parseObjectToControls(obj: Schema): Control[] {
         type = 'color'
       }
   
-      if (value instanceof Vector3 || value instanceof Vector3 || value instanceof Array) {
+      if (value.isVector3 || value instanceof Array) {
         type = 'vector'
       }
   
