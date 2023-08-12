@@ -109,7 +109,7 @@ export function useRenderer(
     contextParts: { sizes, camera },
   }:
     {
-      canvas: MaybeRef<HTMLCanvasElement>
+      canvas: MaybeRef<HTMLCanvasElement | undefined>
       scene: Scene
       options: UseRendererOptions
       contextParts: Pick<TresContext, 'sizes' | 'camera'>

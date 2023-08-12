@@ -1,26 +1,25 @@
 <script setup lang="ts">
-import { extend } from '../core/catalogue'
-import { onMounted } from 'vue'
-import { createTres } from '../core/renderer'
-import { useTresContextProvider, type TresContext } from '../composables'
-import { App, Ref, computed, ref, shallowRef, watch, watchEffect } from 'vue'
 import {
-    Scene,
     PerspectiveCamera,
+    Scene,
     WebGLRendererParameters,
     type ColorSpace,
     type ShadowMapType,
     type ToneMapping,
 } from 'three'
+import { computed, h, onMounted, ref, shallowRef, watch, watchEffect } from 'vue'
+import { useTresContextProvider } from '../composables'
+import { render } from '../core/renderer'
 
 import {
     useLogger,
-    useRenderLoop,
     usePointerEventHandler,
+    useRenderLoop,
 } from '../composables'
 
-import type { TresCamera } from '../types/'
+import { Fragment } from 'vue'
 import type { RendererPresetsType } from '../composables/useRenderer/const'
+import type { TresCamera, TresObject } from '../types/'
 
 
 export interface TresCanvasProps extends Omit<WebGLRendererParameters, 'canvas'> {
@@ -66,42 +65,31 @@ const slots = defineSlots<{
 }>()
 
 
-let app: App
-
-const mountCustomRenderer = (context: TresContext) => {
-    app = createTres(slots)
-    app.provide('useTres', context) // TODO obsolete?
-    app.provide('extend', extend)
-    app.mount(scene.value)
-}
-
-const dispose = () => {
-    scene.value.children = []
-    app.unmount()
-    app = createTres(slots)
-    app.provide('extend', extend)
-    app.mount(scene.value)
-    resume()
-}
 
 const disableRender = computed(() => props.disableRender)
 
+const context = useTresContextProvider({
+    scene: scene.value,
+    canvas,
+    windowSize: computed(() => props.windowSize),
+    disableRender,
+    rendererOptions: props,
+})
+
+usePointerEventHandler({ scene: scene.value, contextParts: context })
+
+const renderScene = () => {
+    const container = scene.value as unknown as TresObject
+    render(h(Fragment, null, slots && slots.default ? slots.default() : []), container)
+}
+
+
+
 onMounted(() => {
-    const existingCanvas = canvas as Ref<HTMLCanvasElement>
-
-    const context = useTresContextProvider({
-        scene: scene.value,
-        canvas: existingCanvas,
-        windowSize: props.windowSize,
-        disableRender,
-        rendererOptions: props,
-    })
-
-    usePointerEventHandler({ scene: scene.value, contextParts: context })
 
     const { addCamera, camera, cameras, removeCamera } = context
 
-    mountCustomRenderer(context)
+    renderScene()
 
     const addDefaultCamera = () => {
         const camera = new PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000)
@@ -138,10 +126,17 @@ onMounted(() => {
         )
         addDefaultCamera()
     }
-
-    if (import.meta.hot)
-        import.meta.hot.on('vite:afterUpdate', dispose)
 })
+
+
+if (import.meta.hot)
+    import.meta.hot.on('vite:afterUpdate', () => {
+        const container = scene.value as unknown as TresObject
+        render(h(Fragment, null, slots && slots.default ? slots.default() : []), container)
+        scene.value.updateMatrix()
+        resume()
+    })
+
 </script>
 <template>
     <canvas ref="canvas" :data-scene="scene.uuid" :style="{

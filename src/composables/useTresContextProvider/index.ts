@@ -6,6 +6,7 @@ import { UseRendererOptions, useRenderer } from '../useRenderer';
 import { extend } from '../../core/catalogue';
 
 import type { ComputedRef, DeepReadonly, MaybeRef, MaybeRefOrGetter, Ref, ShallowRef } from 'vue';
+import { useLogger } from '../useLogger';
 
 export type TresContext = {
   scene: ShallowRef<Scene>;
@@ -30,16 +31,20 @@ export function useTresContextProvider({
   rendererOptions
 }: {
   scene: Scene,
-  canvas: MaybeRef<HTMLCanvasElement>
+  canvas: MaybeRef<HTMLCanvasElement | undefined>
   windowSize: MaybeRefOrGetter<boolean>
   disableRender: MaybeRefOrGetter<boolean>
   rendererOptions: UseRendererOptions
 }): TresContext {
 
-  const elementSize = computed(() =>
-    toValue(windowSize)
-      ? useWindowSize()
-      : useElementSize(toValue(canvas).parentElement)
+  const { logWarning } = useLogger()
+
+  const elementSize = computed(() => {
+    if (toValue(windowSize))
+      return useWindowSize()
+    if (!toValue(canvas)) logWarning('//TODO')
+    return useElementSize(toValue(canvas)!.parentElement)
+  }
   )
 
   const width = computed(() => elementSize.value.width.value)
