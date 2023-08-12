@@ -1,9 +1,5 @@
 lockfileVersion: '6.0'
 
-settings:
-  autoInstallPeers: true
-  excludeLinksFromLockfile: false
-
 importers:
 
   .:
@@ -162,8 +158,8 @@ importers:
         version: 4.2.4(vue@3.3.4)
     devDependencies:
       '@tresjs/leches':
-        specifier: ^0.5.0
-        version: 0.5.0(three@0.155.0)(vue@3.3.4)
+        specifier: ^0.7.0
+        version: 0.7.0(vue@3.3.4)
       unplugin-auto-import:
         specifier: ^0.16.6
         version: 0.16.6(@vueuse/core@10.3.0)
@@ -1401,14 +1397,12 @@ packages:
     transitivePeerDependencies:
       - '@vue/composition-api'
 
-  /@tresjs/leches@0.5.0(three@0.155.0)(vue@3.3.4):
-    resolution: {integrity: sha512-WtExmpc8A1fn7f3MpMVv5rdhZ2SY3dSNpa2fF933GaKiJ43Dz0zjdJZCKHjA06Lj1G8dbdLNi3fv2U75a6zb5A==}
+  /@tresjs/leches@0.7.0(vue@3.3.4):
+    resolution: {integrity: sha512-WuPAvFdNuxaLTS5x6/6rTd9+X/VlxOiyWFz2f2sibAOOb9uAmugVKRvKJ3wiCCNHQetx1G4zFUfVWzZHx4DFRw==}
     peerDependencies:
-      three: '>=0.133'
       vue: '>=3.3'
     dependencies:
       '@vueuse/components': 10.3.0(vue@3.3.4)
-      three: 0.155.0
       vue: 3.3.4
     transitivePeerDependencies:
       - '@vue/composition-api'
@@ -7603,3 +7597,7 @@ packages:
 
   /zstddec@0.0.2:
     resolution: {integrity: sha512-DCo0oxvcvOTGP/f5FA6tz2Z6wF+FIcEApSTu0zV5sQgn9hoT5lZ9YRAKUraxt9oP7l4e8TnNdi8IZTCX6WCkwA==}
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
