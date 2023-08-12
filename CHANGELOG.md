@@ -1,5 +1,12 @@
 
 
+## [0.7.0](https://github.com/Tresjs/leches/compare/0.6.0...0.7.0) (2023-08-12)
+
+
+### Features
+
+* removed three as dep ([db0e5f3](https://github.com/Tresjs/leches/commit/db0e5f34f208de97e01ef57300d1519bcdf5916a))
+
 ## [0.6.0](https://github.com/Tresjs/leches/compare/0.5.0...0.6.0) (2023-07-31)
 
 
