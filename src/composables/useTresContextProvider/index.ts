@@ -36,7 +36,11 @@ export function useTresContextProvider({
   rendererOptions: UseRendererOptions
 }): TresContext {
 
-  const elementSize = computed(() => toValue(windowSize) ? useWindowSize() : useElementSize(toValue(canvas)?.parentElement))
+  const elementSize = computed(() =>
+    toValue(windowSize)
+      ? useWindowSize()
+      : useElementSize(toValue(canvas)?.parentElement)
+  )
 
   const width = computed(() => elementSize.value.width.value)
   const height = computed(() => elementSize.value.height.value)
