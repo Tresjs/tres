@@ -7,7 +7,7 @@ import {
     type ShadowMapType,
     type ToneMapping,
 } from 'three'
-import { Fragment, computed, defineComponent, h, onMounted, provide, ref, shallowRef, watch, watchEffect } from 'vue'
+import { Fragment, computed, defineComponent, h, onMounted, provide, ref, shallowRef, watch } from 'vue'
 import { useTresContextProvider } from '../composables'
 import { render } from '../core/renderer'
 
@@ -17,6 +17,7 @@ import {
     useRenderLoop,
 } from '../composables'
 
+import { triggerRef } from 'vue'
 import type { RendererPresetsType } from '../composables/useRenderer/const'
 import type { TresCamera, TresObject } from '../types/'
 
@@ -47,7 +48,6 @@ const props = withDefaults(defineProps<TresCanvasProps>(), {
 })
 
 const { logWarning } = useLogger()
-
 const canvas = ref<HTMLCanvasElement>()
 
 /*
@@ -68,7 +68,7 @@ const slots = defineSlots<{
 const disableRender = computed(() => props.disableRender)
 
 const context = useTresContextProvider({
-    scene: scene.value,
+    scene,
     canvas,
     windowSize: computed(() => props.windowSize),
     disableRender,
@@ -77,14 +77,16 @@ const context = useTresContextProvider({
 
 usePointerEventHandler({ scene: scene.value, contextParts: context })
 
+
+const internalFnComponent = defineComponent({
+    setup() {
+        provide('useTres', context);
+        return () => h(Fragment, null, slots && slots.default ? slots.default() : [])
+    }
+})
+
 const renderScene = () => {
     const container = scene.value as unknown as TresObject
-    const internalFnComponent = defineComponent({
-        setup() {
-            provide('useTres', context);
-            return () => h(Fragment, null, slots && slots.default ? slots.default() : [])
-        }
-    })
     render(h(internalFnComponent), container)
 }
 
@@ -92,26 +94,9 @@ const renderScene = () => {
 
 onMounted(() => {
 
-    const { addCamera, camera, cameras, removeCamera } = context
+    const { addCamera, removeCamera } = context
 
     renderScene()
-
-    const addDefaultCamera = () => {
-        const camera = new PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000)
-        camera.position.set(3, 3, 3)
-        camera.lookAt(0, 0, 0)
-        addCamera(camera)
-
-        const unwatch = watchEffect(
-            () => {
-                if (cameras.value.length >= 2) {
-                    camera.removeFromParent()
-                    removeCamera(camera)
-                    unwatch?.()
-                }
-            },
-        )
-    }
 
     watch(() => props.camera, (newCamera, oldCamera) => {
         if (newCamera)
@@ -124,20 +109,40 @@ onMounted(() => {
         immediate: true
     })
 
-    if (!camera.value) {
+})
+
+const addDefaultCamera = () => {
+    const camera = new PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000)
+    camera.position.set(3, 3, 3)
+    camera.lookAt(0, 0, 0)
+    context.addCamera(camera)
+
+    if (context.cameras.value.length >= 2) {
+        camera.removeFromParent()
+        context.removeCamera(camera)
+    }
+}
+
+watch(canvas, val => {
+    if (!val) return
+    triggerRef(scene)
+})
+
+watch(scene, () => {
+    if (!context.camera.value) {
         logWarning(
             'No camera found. Creating a default perspective camera. ' +
-            'To have full control over a camera, please add one to the scene.'
+            'To have full control over a camera, please add one to the scene.',
         )
         addDefaultCamera()
     }
 })
 
 
+
 if (import.meta.hot)
     import.meta.hot.on('vite:afterUpdate', () => {
-        const container = scene.value as unknown as TresObject
-        render(h(Fragment, null, slots && slots.default ? slots.default() : []), container)
+        renderScene()
         scene.value.updateMatrix()
         resume()
     })

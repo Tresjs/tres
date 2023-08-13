@@ -1,6 +1,6 @@
 import { Color, WebGLRenderer } from 'three'
 import { rendererPresets, RendererPresetsType } from './const'
-import { shallowRef, watchEffect, onUnmounted, type MaybeRef, computed, watch } from 'vue'
+import { shallowRef, watchEffect, onUnmounted, type MaybeRef, computed, watch, ShallowRef } from 'vue'
 import {
   toValue,
   unrefElement,
@@ -110,7 +110,7 @@ export function useRenderer(
   }:
     {
       canvas: MaybeRef<HTMLCanvasElement | undefined>
-      scene: Scene
+      scene: ShallowRef<Scene>
       options: UseRendererOptions
       contextParts: Pick<TresContext, 'sizes' | 'camera'>
       disableRender: MaybeRefOrGetter<boolean>
@@ -235,7 +235,7 @@ export function useRenderer(
 
   onLoop(() => {
     if (camera.value && !toValue(disableRender))
-      renderer.value.render(scene, camera.value)
+      renderer.value.render(scene.value, camera.value)
   })
 
   resume()

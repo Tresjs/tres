@@ -1,17 +1,18 @@
-import { computed, watchEffect, onUnmounted, ref } from 'vue'
 import { Camera, OrthographicCamera, PerspectiveCamera } from 'three'
+import { computed, triggerRef, watch, watchEffect } from 'vue'
 
-import type { TresScene } from '../../types'
 import type { TresContext } from '../useTresContextProvider'
 
 
-export const useCamera = ({ sizes, scene }: Pick<TresContext, 'sizes'> & { scene: TresScene }) => {
-
-  // the computed does not trigger, when for example the camera postion changes
-  const cameras = ref<Camera[]>([])
+export const useCamera = ({ sizes, scene }: Pick<TresContext, 'sizes' | 'scene'>) => {
+  const cameras = computed<Camera[]>(() => scene.value.children.filter((i): i is Camera => (i as any).isCamera))
   const camera = computed<Camera | undefined>(
-    () => cameras.value[0]
+    () => cameras.value[0],
   )
+  // don't known why need manually trigger here
+  watch(camera, () => {
+    triggerRef(cameras)
+  }, { deep: true })
 
   const addCamera = (newCamera: Camera, active = false) => {
     if (cameras.value.some(({ uuid }) => uuid === newCamera.uuid))
@@ -21,11 +22,10 @@ export const useCamera = ({ sizes, scene }: Pick<TresContext, 'sizes'> & { scene
       setCameraActive(newCamera)
     else
       cameras.value.push(newCamera)
-
   }
 
   const removeCamera = (camera: Camera) => {
-    cameras.value = cameras.value.filter(({ uuid }) => uuid !== camera.uuid)
+    scene.value.remove(camera)
   }
 
   const setCameraActive = (cameraOrUuid: string | Camera) => {
@@ -36,7 +36,7 @@ export const useCamera = ({ sizes, scene }: Pick<TresContext, 'sizes'> & { scene
     if (!camera) return
 
     const otherCameras = cameras.value.filter(({ uuid }) => uuid !== camera.uuid)
-    cameras.value = [camera, ...otherCameras]
+    scene.value.add(...otherCameras)
   }
 
   watchEffect(() => {
@@ -51,12 +51,9 @@ export const useCamera = ({ sizes, scene }: Pick<TresContext, 'sizes'> & { scene
     }
   })
 
-  scene.userData.tres__registerCamera = addCamera
-  scene.userData.tres__deregisterCamera = removeCamera
+  scene.value.userData.tres__registerCamera = addCamera
+  scene.value.userData.tres__deregisterCamera = removeCamera
 
-  onUnmounted(() => {
-    cameras.value = []
-  })
 
   return {
     camera,

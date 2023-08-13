@@ -29,7 +29,7 @@ export function useTresContextProvider({
   disableRender,
   rendererOptions
 }: {
-  scene: Scene,
+  scene: ShallowRef<Scene>,
   canvas: MaybeRef<HTMLCanvasElement | undefined>
   windowSize: MaybeRefOrGetter<boolean>
   disableRender: MaybeRefOrGetter<boolean>
@@ -53,7 +53,7 @@ export function useTresContextProvider({
     width,
     aspectRatio
   }
-  const localScene = shallowRef<Scene>(scene);
+
   const {
     camera,
     cameras,
@@ -73,7 +73,7 @@ export function useTresContextProvider({
 
   const toProvide: TresContext = {
     sizes,
-    scene: localScene,
+    scene,
     camera,
     cameras: readonly(cameras),
     renderer,
