@@ -1,5 +1,5 @@
 import { type Intersection, Object3D, Vector2 } from 'three'
-import { Ref, computed, onUnmounted } from 'vue'
+import { Ref, computed, onUnmounted, watchPostEffect } from 'vue'
 import { EventHook, createEventHook, useElementBounding, usePointer } from '@vueuse/core'
 
 import { type TresContext } from '../useTresContextProvider'
@@ -84,17 +84,20 @@ export const useRaycaster = (
 
   const onPointerLeave = (event: PointerEvent) => eventHookPointerMove.trigger({ event, intersects: [] })
 
-  canvas.value.addEventListener('pointerup', onPointerUp)
-  canvas.value.addEventListener('pointerdown', onPointerDown)
-  canvas.value.addEventListener('pointermove', onPointerMove)
-  canvas.value.addEventListener('pointerleave', onPointerLeave)
+  watchPostEffect(onCleanUp => {
+    if (!canvas.value) return
+    canvas.value.addEventListener('pointerup', onPointerUp)
+    canvas.value.addEventListener('pointerdown', onPointerDown)
+    canvas.value.addEventListener('pointermove', onPointerMove)
+    canvas.value.addEventListener('pointerleave', onPointerLeave)
+    onCleanUp(() => {
 
-  onUnmounted(() => {
-    if (!canvas?.value) return
-    canvas.value.removeEventListener('pointerup', onPointerUp)
-    canvas.value.removeEventListener('pointerdown', onPointerDown)
-    canvas.value.removeEventListener('pointermove', onPointerMove)
-    canvas.value.removeEventListener('pointerleave', onPointerLeave)
+      if (!canvas?.value) return
+      canvas.value.removeEventListener('pointerup', onPointerUp)
+      canvas.value.removeEventListener('pointerdown', onPointerDown)
+      canvas.value.removeEventListener('pointermove', onPointerMove)
+      canvas.value.removeEventListener('pointerleave', onPointerLeave)
+    })
   })
 
   return {
