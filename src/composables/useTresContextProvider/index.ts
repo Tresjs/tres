@@ -1,12 +1,11 @@
 import { toValue, useElementSize, useWindowSize } from '@vueuse/core';
-import { inject, provide, readonly, shallowRef, computed, ref } from 'vue';
-import { useCamera } from '../useCamera';
 import { Camera, EventDispatcher, Raycaster, Scene, WebGLRenderer } from 'three';
-import { UseRendererOptions, useRenderer } from '../useRenderer';
+import { computed, inject, provide, readonly, ref, shallowRef } from 'vue';
 import { extend } from '../../core/catalogue';
+import { useCamera } from '../useCamera';
+import { UseRendererOptions, useRenderer } from '../useRenderer';
 
 import type { ComputedRef, DeepReadonly, MaybeRef, MaybeRefOrGetter, Ref, ShallowRef } from 'vue';
-import { useLogger } from '../useLogger';
 
 export type TresContext = {
   scene: ShallowRef<Scene>;
@@ -37,12 +36,9 @@ export function useTresContextProvider({
   rendererOptions: UseRendererOptions
 }): TresContext {
 
-  const { logWarning } = useLogger()
-
   const elementSize = computed(() => {
     if (toValue(windowSize))
       return useWindowSize()
-    if (!toValue(canvas)) logWarning('//TODO')
     return useElementSize(toValue(canvas)!.parentElement)
   }
   )

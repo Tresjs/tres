@@ -7,7 +7,7 @@ import {
     type ShadowMapType,
     type ToneMapping,
 } from 'three'
-import { computed, h, onMounted, ref, shallowRef, watch, watchEffect } from 'vue'
+import { Fragment, computed, defineComponent, h, onMounted, provide, ref, shallowRef, watch, watchEffect } from 'vue'
 import { useTresContextProvider } from '../composables'
 import { render } from '../core/renderer'
 
@@ -17,7 +17,6 @@ import {
     useRenderLoop,
 } from '../composables'
 
-import { Fragment } from 'vue'
 import type { RendererPresetsType } from '../composables/useRenderer/const'
 import type { TresCamera, TresObject } from '../types/'
 
@@ -80,7 +79,13 @@ usePointerEventHandler({ scene: scene.value, contextParts: context })
 
 const renderScene = () => {
     const container = scene.value as unknown as TresObject
-    render(h(Fragment, null, slots && slots.default ? slots.default() : []), container)
+    const internalFnComponent = defineComponent({
+        setup() {
+            provide('useTres', context);
+            return () => h(Fragment, null, slots && slots.default ? slots.default() : [])
+        }
+    })
+    render(h(internalFnComponent), container)
 }
 
 
