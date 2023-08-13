@@ -123,9 +123,10 @@ const addDefaultCamera = () => {
     }
 }
 
-watch(canvas, val => {
+const unwatch = watch(canvas, val => {
     if (!val) return
     triggerRef(scene)
+    unwatch?.()
 })
 
 watch(scene, () => {

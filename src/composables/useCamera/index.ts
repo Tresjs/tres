@@ -10,8 +10,9 @@ export const useCamera = ({ sizes, scene }: Pick<TresContext, 'sizes' | 'scene'>
     () => cameras.value[0],
   )
   // don't known why need manually trigger here
-  watch(camera, () => {
+  const unwatch = watch(camera, () => {
     triggerRef(cameras)
+    unwatch?.()
   }, { deep: true })
 
   const addCamera = (newCamera: Camera, active = false) => {
