@@ -39,7 +39,6 @@ DefaultLoadingManager.onProgress = (item, loaded, total) => {
     <OrbitControls />
     <Suspense>
       <Environment
-        background
         :files="environmentFiles"
         :path="'https://raw.githubusercontent.com/Tresjs/assets/main/textures/environmentMap'"
       />

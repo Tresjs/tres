@@ -5,7 +5,7 @@ import Headphones from './Headphones.vue'
 
 const gl = {
   shadows: true,
-  alpha: false,
+  alpha: true,
   shadowMapType: BasicShadowMap,
   outputColorSpace: SRGBColorSpace,
 }
@@ -47,7 +47,14 @@ const state = reactive({
   <div class="absolute w-full md:w-1/2 inset-0 h-2/3 md:h-full flex justify-center items-center">
     <TresCanvas v-bind="gl" class="pointer-events-none">
       <TresPerspectiveCamera :position="[0, 0, 11]" />
-      <MouseParallax :factor="0.1" />
+      <!--  <MouseParallax :factor="0.1" /> -->
+      <!--   <MouseParallax :factor="0.1" />
+      <Suspense>
+        <Headphones :color="state.selectedColor" />
+      </Suspense>
+      <TresAmbientLight :intensity="2" />
+      <TresPointLight :position="[0, 0, 10]" :intensity="1" />
+      <TresDirectionalLight :position="[3, 3, 3]" :intensity="3" /> -->
       <Suspense>
         <Headphones :color="state.selectedColor" />
       </Suspense>

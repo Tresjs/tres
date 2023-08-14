@@ -6,11 +6,7 @@ const props = defineProps({
   },
 })
 
-const {
-  scene: headphones,
-  nodes,
-  materials,
-} = await useGLTF('/models/headphones/headphones.gltf', {
+const { nodes, materials } = await useGLTF('/models/headphones/headphones.gltf', {
   draco: true,
 })
 
@@ -31,7 +27,7 @@ watch(
 </script>
 <template>
   <Levioso>
-    <primitive :object="nodes.Headphones_7" :position="[0, 0.5, 0]" :scale="[0.8, 0.8, 0.8]"></primitive>
+    <primitive :object="nodes.Headphones_7"></primitive>
   </Levioso>
   <ContactShadows :opacity="0.2" :blur="3" :position="[0, -2, 0]" />
 </template>
