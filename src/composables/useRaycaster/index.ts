@@ -1,5 +1,5 @@
 import { type Intersection, Object3D, Vector2 } from 'three'
-import { Ref, computed, onUnmounted, watchPostEffect } from 'vue'
+import { Ref, computed, watchPostEffect } from 'vue'
 import { EventHook, createEventHook, useElementBounding, usePointer } from '@vueuse/core'
 
 import { type TresContext } from '../useTresContextProvider'
