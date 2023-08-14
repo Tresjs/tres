@@ -1,43 +1,39 @@
 import { Camera, OrthographicCamera, PerspectiveCamera } from 'three'
-import { computed, triggerRef, watch, watchEffect } from 'vue'
+import { computed, ref, triggerRef, watchEffect } from 'vue'
 
 import type { TresContext } from '../useTresContextProvider'
 
 
 export const useCamera = ({ sizes, scene }: Pick<TresContext, 'sizes' | 'scene'>) => {
   const cameras = computed<Camera[]>(() => scene.value.children.filter((i): i is Camera => (i as any).isCamera))
+  const activeCameraUuid = ref(cameras.value?.[0]?.uuid ?? "")
   const camera = computed<Camera | undefined>(
-    () => cameras.value[0],
+    () => cameras.value.find(c => c.uuid === activeCameraUuid.value) ?? cameras.value.at(0),
   )
-  // don't known why need manually trigger here
-  const unwatch = watch(camera, () => {
-    triggerRef(cameras)
-    unwatch?.()
-  }, { deep: true })
 
   const addCamera = (newCamera: Camera, active = false) => {
     if (cameras.value.some(({ uuid }) => uuid === newCamera.uuid))
       return
 
+    scene.value.add(newCamera)
+    triggerRef(scene)
     if (active)
       setCameraActive(newCamera)
-    else
-      cameras.value.push(newCamera)
   }
 
   const removeCamera = (camera: Camera) => {
     scene.value.remove(camera)
+    triggerRef(scene)
   }
 
   const setCameraActive = (cameraOrUuid: string | Camera) => {
-    const camera = cameraOrUuid instanceof Camera ?
-      cameraOrUuid :
-      cameras.value.find((camera: Camera) => camera.uuid === cameraOrUuid)
+    const cameraUuid = cameraOrUuid instanceof Camera ?
+      cameraOrUuid.uuid :
+      cameraOrUuid
 
-    if (!camera) return
+    if (!cameraUuid) return
 
-    const otherCameras = cameras.value.filter(({ uuid }) => uuid !== camera.uuid)
-    scene.value.add(...otherCameras)
+    activeCameraUuid.value = cameraUuid
   }
 
   watchEffect(() => {

@@ -7,7 +7,7 @@ import {
     type ShadowMapType,
     type ToneMapping,
 } from 'three'
-import { Fragment, computed, defineComponent, h, onMounted, provide, ref, shallowRef, watch } from 'vue'
+import { Fragment, computed, defineComponent, h, provide, ref, shallowRef, watch } from 'vue'
 import { useTresContextProvider } from '../composables'
 import { render } from '../core/renderer'
 
@@ -77,7 +77,6 @@ const context = useTresContextProvider({
 
 usePointerEventHandler({ scene: scene.value, contextParts: context })
 
-
 const internalFnComponent = defineComponent({
     setup() {
         provide('useTres', context);
@@ -88,27 +87,30 @@ const internalFnComponent = defineComponent({
 const renderScene = () => {
     const container = scene.value as unknown as TresObject
     render(h(internalFnComponent), container)
+    triggerRef(scene)
 }
 
-
-
-onMounted(() => {
-
-    const { addCamera, removeCamera } = context
-
+watch(canvas, canvas => {
+    if (!canvas) return
     renderScene()
+    if (!context.camera.value && !props.camera) {
+        logWarning(
+            'No camera found. Creating a default perspective camera. ' +
+            'To have full control over a camera, please add one to the scene.',
+        )
+        addDefaultCamera()
+    }
+})
 
-    watch(() => props.camera, (newCamera, oldCamera) => {
-        if (newCamera)
-            addCamera(newCamera)
-        else if (oldCamera) {
-            oldCamera.removeFromParent()
-            removeCamera(oldCamera)
-        }
-    }, {
-        immediate: true
-    })
-
+watch(() => props.camera, (newCamera, oldCamera) => {
+    if (newCamera)
+        context.addCamera(newCamera, true)
+    else if (oldCamera) {
+        oldCamera.removeFromParent()
+        context.removeCamera(oldCamera)
+    }
+}, {
+    immediate: true
 })
 
 const addDefaultCamera = () => {
@@ -122,24 +124,6 @@ const addDefaultCamera = () => {
         context.removeCamera(camera)
     }
 }
-
-const unwatch = watch(canvas, val => {
-    if (!val) return
-    triggerRef(scene)
-    unwatch?.()
-})
-
-watch(scene, () => {
-    if (!context.camera.value) {
-        logWarning(
-            'No camera found. Creating a default perspective camera. ' +
-            'To have full control over a camera, please add one to the scene.',
-        )
-        addDefaultCamera()
-    }
-})
-
-
 
 if (import.meta.hot)
     import.meta.hot.on('vite:afterUpdate', () => {

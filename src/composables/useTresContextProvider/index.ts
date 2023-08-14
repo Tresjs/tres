@@ -15,7 +15,7 @@ export type TresContext = {
   raycaster: ShallowRef<Raycaster>
   controls: Ref<(EventDispatcher & { enabled: boolean }) | null>
   extend: (objects: any) => void
-  addCamera: (camera: Camera) => void;
+  addCamera: (camera: Camera, active?: boolean) => void;
   removeCamera: (camera: Camera) => void
   setCameraActive: (cameraOrUuid: Camera | string) => void;
 
