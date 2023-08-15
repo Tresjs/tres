@@ -71,10 +71,11 @@ export function useTresContextProvider({
       disableRender,
     })
 
+  // make camera undefined in context to prevent some thing needs domElement but can't be patched in vue custom renderer
   const toProvide: TresContext = {
     sizes,
     scene,
-    camera,
+    camera: computed(() => renderer.value.domElement.isConnected ? camera.value : undefined),
     cameras: readonly(cameras),
     renderer,
     raycaster: shallowRef(new Raycaster()),
