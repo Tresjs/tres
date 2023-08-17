@@ -1,5 +1,19 @@
 
 
+## [3.1.0](https://github.com/Tresjs/cientos/compare/3.0.1...3.1.0) (2023-08-17)
+
+
+### Features
+
+* add camera controls to new context ([21ab955](https://github.com/Tresjs/cientos/commit/21ab955b9e8560d513a1804387e6bac707245a38))
+* chg to event, rmv vmodel, ([9b739a2](https://github.com/Tresjs/cientos/commit/9b739a23ef860ba8f3fe8120beaba76fc794fade))
+* remove tweakpane deps from final bundle ([#169](https://github.com/Tresjs/cientos/issues/169)) ([b99ac3c](https://github.com/Tresjs/cientos/commit/b99ac3cdc957d3fb1cd8257d03cde316ab22b573))
+
+
+### Bug Fixes
+
+* useGLTF return types ([#174](https://github.com/Tresjs/cientos/issues/174)) ([7f78106](https://github.com/Tresjs/cientos/commit/7f781069ca7d04986790ff644e8b3c8b62446a20))
+
 ## [3.0.1](https://github.com/Tresjs/cientos/compare/3.0.0...3.0.1) (2023-07-29)
 
 

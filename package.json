@@ -1,7 +1,7 @@
 {
   "name": "@tresjs/cientos",
   "description": "Collection of useful helpers and fully functional, ready-made abstractions for Tres",
-  "version": "3.0.1",
+  "version": "3.1.0",
   "type": "module",
   "packageManager": "pnpm@8.4.0",
   "author": "Alvaro Saburido <hola@alvarosaburido.dev> (https://github.com/alvarosabu/)",
