@@ -3,7 +3,7 @@ import { BufferAttribute } from 'three'
 import { isFunction } from '@alvarosabu/utils'
 import { useLogger } from '../composables'
 import { catalogue } from './catalogue'
-import { isHTMLTag, kebabToCamel } from '../utils'
+import { deepArrayEqual, isHTMLTag, kebabToCamel } from '../utils'
 
 import type { Object3D, Camera } from 'three'
 import type { TresObject, TresObject3D, TresScene } from '../types'
@@ -13,42 +13,6 @@ export const isOn = (key: string) => onRE.test(key)
 
 function noop(fn: string): any {
   fn
-}
-
-function deepEqual(a, b) {
-  // If both are primitives, return true if they are equal
-  if (a === b) return true;
-
-  // If either of them is null or not an object, return false
-  if (a === null || typeof a !== "object" || b === null || typeof b !== "object") return false;
-
-  // Get the keys of both objects
-  const keysA = Object.keys(a), keysB = Object.keys(b);
-
-  // If they have different number of keys, they are not equal
-  if (keysA.length !== keysB.length) return false;
-
-  // Check each key in A to see if it exists in B and its value is the same in both
-  for (const key of keysA) {
-    if (!keysB.includes(key) || !deepEqual(a[key], b[key])) return false;
-  }
-
-  return true;
-}
-
-function deepArrayEqual(arr1, arr2) {
-  // If they're not both arrays, return false
-  if (!Array.isArray(arr1) || !Array.isArray(arr2)) return false;
-
-  // If they don't have the same length, they're not equal
-  if (arr1.length !== arr2.length) return false;
-
-  // Check each element of arr1 against the corresponding element of arr2
-  for (let i = 0; i < arr1.length; i++) {
-    if (!deepEqual(arr1[i], arr2[i])) return false;
-  }
-
-  return true;
 }
 
 let fallback: TresObject | null = null
