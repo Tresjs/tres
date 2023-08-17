@@ -4,7 +4,7 @@ import { defineConfig } from 'vite'
 import banner from 'vite-plugin-banner'
 import dts from 'vite-plugin-dts'
 import analyze from 'rollup-plugin-analyzer'
-/* import { visualizer } from 'rollup-plugin-visualizer' */
+import { visualizer } from 'rollup-plugin-visualizer'
 
 import { resolve } from 'pathe'
 
@@ -35,9 +35,8 @@ export default defineConfig({
       insertTypesEntry: true,
     }),
     banner({
-      content: `/**\n * name: ${pkg.name}\n * version: v${
-        pkg.version
-      }\n * (c) ${new Date().getFullYear()}\n * description: ${pkg.description}\n * author: ${pkg.author}\n */`,
+      content: `/**\n * name: ${pkg.name}\n * version: v${pkg.version
+        }\n * (c) ${new Date().getFullYear()}\n * description: ${pkg.description}\n * author: ${pkg.author}\n */`,
     }),
   ],
   build: {
@@ -53,13 +52,13 @@ export default defineConfig({
     rollupOptions: {
       plugins: [
         analyze(),
-        /* visualizer({
+        visualizer({
           gzipSize: true,
           brotliSize: true,
-          open: false,
-        }), */
+          open: true,
+        }),
       ],
-      external: ['three', 'vue', '@tresjs/core'],
+      external: ['three', 'vue', '@tresjs/core', 'tweakpane', '@tweakpane/core', '@tweakpane/plugin-essentials'],
       output: {
         exports: 'named',
         // Provide global variables to use in the UMD build
@@ -73,6 +72,6 @@ export default defineConfig({
     },
   },
   optimizeDeps: {
-    exclude: ['three', 'vue', '@tresjs/core'],
+    exclude: ['three', 'vue', '@tresjs/core', 'tweakpane', '@tweakpane/core', '@tweakpane/plugin-essentials'],
   },
 })
