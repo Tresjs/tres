@@ -53,6 +53,12 @@ let triggerSelector: HTMLElement | undefined
 
 extend({ PointerLockControls })
 
+const emit = defineEmits(['isLock'])
+
+const isLockEmitter = (event: boolean) => {
+  emit('isLock', event)
+}
+
 watch(controlsRef, value => {
   if (value && props.makeDefault) {
     controls.value = value
@@ -63,11 +69,15 @@ watch(controlsRef, value => {
   triggerSelector = selector ? selector : renderer.value.domElement
 
   useEventListener(triggerSelector, 'click', () => {
-    value?.lock()
+    controls.value?.lock()
+    controls.value?.addEventListener('lock', () => isLockEmitter(true))
+    controls.value?.addEventListener('unlock', () => isLockEmitter(false))
   })
 })
 
 onUnmounted(() => {
+  controls.value?.removeEventListener('lock', () => isLockEmitter(true))
+  controls.value?.removeEventListener('unlock', () => isLockEmitter(false))
   if (controlsRef.value) {
     controlsRef.value.dispose()
   }

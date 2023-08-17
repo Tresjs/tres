@@ -10,15 +10,15 @@ const gl = {
   shadowMapType: BasicShadowMap,
   toneMapping: NoToneMapping,
 }
+
+const isActive = (state: boolean) => console.log(state)
 </script>
 
 <template>
   <TresCanvas v-bind="gl">
     <TresPerspectiveCamera :position="[0, 3, 10]" />
-    <PointerLockControls />
-    <KeyboardControls head-bobbing>
-      <!-- <Box /> -->
-    </KeyboardControls>
+    <PointerLockControls make-default @is-lock="state => isActive(state)" />
+    <KeyboardControls head-bobbing />
 
     <TresGridHelper :args="[100, 100]" />
     <TresAmbientLight :intensity="1" />
