@@ -76,6 +76,11 @@ const routes = [
     name: 'MouseParallax',
     component: () => import('./pages/MouseParallaxDemo.vue'),
   },
+  {
+    path: '/abstractions/lensflare',
+    name: 'MouseParallax',
+    component: () => import('./pages/LensflareDemo.vue'),
+  },
 ]
 
 export const router = createRouter({
