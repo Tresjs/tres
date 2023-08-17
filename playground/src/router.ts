@@ -80,7 +80,12 @@ const routes = [
     path: '/loaders/use-gltf',
     name: 'useGLTF',
     component: () => import('./pages/UseGLTFDemo.vue'),
-  }
+  },
+  {
+    path: '/abstractions/lensflare',
+    name: 'MouseParallax',
+    component: () => import('./pages/LensflareDemo.vue'),
+  },
 ]
 
 export const router = createRouter({
