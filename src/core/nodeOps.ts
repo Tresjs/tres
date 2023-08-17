@@ -190,6 +190,7 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
         if (node.type && nextValue.length > 0) {
           root = Object.assign(prevNode, new catalogue.value[node.type](...nextValue))
         }
+        return
       }
 
       if (root.type === 'BufferGeometry') {
