@@ -86,7 +86,8 @@ function onEnd() {
 <template>
   <TresCanvas v-bind="gl">
     <TresPerspectiveCamera :position="[5, 5, 5]" />
-    <CameraControls v-bind="controlsState" ref="controlsRef" make-default @change="onChange" @start="onStart" @end="onEnd" />
+    <CameraControls v-bind="controlsState" ref="controlsRef" make-default @change="onChange" @start="onStart"
+      @end="onEnd" />
     <TresGridHelper :position="[0, -1, 0]" />
     <TresMesh ref="boxMeshRef">
       <TresBoxGeometry :args="[2, 2, 2]" />
