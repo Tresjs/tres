@@ -7,9 +7,11 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    AkuAku: typeof import('./src/components/AkuAku.vue')['default']
     BackdropDemo: typeof import('./src/components/BackdropDemo.vue')['default']
     ContactShadowsDemo: typeof import('./src/components/ContactShadowsDemo.vue')['default']
     EnvironmentDemo: typeof import('./src/components/EnvironmentDemo.vue')['default']
+    GlassMaterialDemo: typeof import('./src/components/GlassMaterialDemo.vue')['default']
     Gltf: typeof import('./src/components/gltf/index.vue')['default']
     LeviosoDemo: typeof import('./src/components/LeviosoDemo.vue')['default']
     MapControlsDemo: typeof import('./src/components/MapControlsDemo.vue')['default']

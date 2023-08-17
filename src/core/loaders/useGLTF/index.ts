@@ -1,6 +1,5 @@
 import { GLTFLoader, DRACOLoader } from 'three-stdlib'
-import { useLoader } from '@tresjs/core'
-import { Object3D } from 'three'
+import { TresObject3D, useLoader } from '@tresjs/core'
 
 export interface GLTFLoaderOptions {
   /**
@@ -21,8 +20,8 @@ export interface GLTFLoaderOptions {
 
 export interface GLTFResult {
   animations: Array<THREE.AnimationClip>
-  nodes: Array<Object3D>
-  materials: Array<THREE.Material>
+  nodes: Record<string, TresObject3D>
+  materials: Record<string, THREE.Material>
   scene: THREE.Scene
 }
 

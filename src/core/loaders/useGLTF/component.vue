@@ -52,8 +52,10 @@ defineExpose({
   value: modelRef,
 })
 
-const { scene:model } = await useGLTF(props.path as string, { draco: props.draco, decoderPath: props.decoderPath })
-
+const { scene: model } = await useGLTF(props.path as string, {
+  draco: props.draco,
+  decoderPath: props.decoderPath,
+})
 </script>
 <template>
   <primitive ref="modelRef" :object="model" v-bind="$attrs" />
