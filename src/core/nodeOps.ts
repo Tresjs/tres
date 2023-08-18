@@ -184,10 +184,12 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
       let finalKey = kebabToCamel(key)
       let target = root?.[finalKey]
 
-      if (key === 'args' && !deepArrayEqual(_prevValue, nextValue)) {
+      if (key === 'args') {
         const prevNode = node as TresObject3D
+        const prevArgs = _prevValue ?? []
+        const args = nextValue ?? []
 
-        if (node.type && nextValue.length > 0) {
+        if (node.type && !deepArrayEqual(prevArgs, args)) {
           root = Object.assign(prevNode, new catalogue.value[node.type](...nextValue))
         }
         return
