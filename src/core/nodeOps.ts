@@ -192,8 +192,14 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
         const prevArgs = _prevValue ?? []
         const args = nextValue ?? []
         const instanceName = node.userData.tres__name || node.type
-
+        console.log('replacing', {
+          instanceName,
+          args,
+          prevArgs,
+          diff: !deepArrayEqual(prevArgs, args)
+        })
         if (instanceName && !deepArrayEqual(prevArgs, args)) {
+
           root = Object.assign(prevNode, new catalogue.value[instanceName](...nextValue))
         }
         return
