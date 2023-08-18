@@ -1,5 +1,12 @@
 
 
+## [3.1.0-next.1](https://github.com/Tresjs/tres/compare/3.1.0-next.0...3.1.0-next.1) (2023-08-18)
+
+
+### Bug Fixes
+
+* handle deepEqual edge case of DOM elements ([e5285d6](https://github.com/Tresjs/tres/commit/e5285d63461dc80eac26806465929c0195f3dbcb))
+
 ## [3.1.0-next.0](https://github.com/Tresjs/tres/compare/3.0.1...3.1.0-next.0) (2023-08-18)
 
 
