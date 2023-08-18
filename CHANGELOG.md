@@ -1,5 +1,24 @@
 
 
+## [3.1.0-next.0](https://github.com/Tresjs/tres/compare/3.0.1...3.1.0-next.0) (2023-08-18)
+
+
+### Features
+
+* shallowRef with manually track in useCamera ([177f00e](https://github.com/Tresjs/tres/commit/177f00e7d813d2ee7379d0348246b0dc3f27aae0))
+* use render instead createApp ([8a5d00f](https://github.com/Tresjs/tres/commit/8a5d00f242641bb93b2469342e1c04e594392b5c))
+
+
+### Bug Fixes
+
+* added logic on pathProps to re-instance nodes once `args` change ([#367](https://github.com/Tresjs/tres/issues/367)) ([453b031](https://github.com/Tresjs/tres/commit/453b031b258ab840af7d6b372ac3785b5f006851))
+* args should be empty when args was falsy ([#369](https://github.com/Tresjs/tres/issues/369)) ([81b7914](https://github.com/Tresjs/tres/commit/81b7914fc685aa7314541480a96801c0cc7fd542))
+* element size ([af4360a](https://github.com/Tresjs/tres/commit/af4360a3ccaaae5dd0a7b1c13195be88a54d5638))
+* event listener register in useRaycaster ([44ec37a](https://github.com/Tresjs/tres/commit/44ec37a7f32f0b30acc72a392826c2953c854671))
+* inject context lose in pure render function ([5085964](https://github.com/Tresjs/tres/commit/5085964320fd432be98f5c85d4d7ca23ca5cfccf))
+* only watch once ([d734a98](https://github.com/Tresjs/tres/commit/d734a988ca4db8a9055a9574aad61a5683fdaffe))
+* useCamera issue due to deps tracking ([6d39f0c](https://github.com/Tresjs/tres/commit/6d39f0c729538a0ad0cf187a3905972cd1bcd324))
+
 ### [3.0.1](https://github.com/Tresjs/tres/compare/3.0.0...3.0.1) (2023-07-29)
 
 
