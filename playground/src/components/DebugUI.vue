@@ -29,8 +29,8 @@ setTimeout(() => {
 
 <template>
   <TresCanvas v-bind="gl" :window-size="true">
-    <TresPerspectiveCamera :look-at="[0, 4, 0]" />
     <OrbitControls />
+    <TresPerspectiveCamera :look-at="[0, 4, 0]" />
     <TresMesh :position="[0, 1, 0]">
       <TresBoxGeometry :args="[boxWidth, 1, 1]" />
       <TresMeshToonMaterial color="teal" />

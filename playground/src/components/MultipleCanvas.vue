@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
 import { TresCanvas } from '@tresjs/core'
+import { OrbitControls } from '@tresjs/cientos'
 // import { GLTFModel, OrbitControls } from '@tresjs/cientos'
 
 const state = reactive({
@@ -36,7 +37,7 @@ const log = () => {
     <div class="w-1/2 aspect-video">
       <TresCanvas v-bind="state">
         <TresPerspectiveCamera :position="[5, 5, 5]" :fov="45" :near="0.1" :far="1000" :look-at="[0, 4, 0]" />
-
+        <OrbitControls />
         <TresAmbientLight :intensity="0.5" />
         <TresMesh :position="[0, 4, 0]" @click="log">
           <TresBoxGeometry :args="[1, 1, 1]" />
@@ -51,6 +52,7 @@ const log = () => {
     </div>
     <div class="w-1/2 aspect-video">
       <TresCanvas v-bind="state2">
+        <OrbitControls />
         <TresPerspectiveCamera :position="[5, 5, 5]" :fov="45" :near="0.1" :far="1000" :look-at="[0, 4, 0]" />
         <TresAmbientLight :intensity="0.5" />
 
