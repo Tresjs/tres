@@ -2,9 +2,10 @@
 import { Color } from 'three'
 import { TresCanvas } from '@tresjs/core'
 import { OrbitControls, useTweakPane } from '@tresjs/cientos'
+import { BlendFunction } from 'postprocessing'
 import { EffectComposer, Bloom } from '@tresjs/post-processing'
-import { BasicShadowMap, NoToneMapping } from 'three'
 import { onMounted, reactive, ref } from 'vue'
+import { BasicShadowMap, NoToneMapping } from 'three'
 
 const gl = {
   clearColor: '#121212',
@@ -19,6 +20,7 @@ const bloomParams = reactive({
   luminanceSmoothing: 0.3,
   mipmapBlur: true,
   intensity: 4.0,
+  blendFunction: BlendFunction.ADD,
 })
 
 const { pane } = useTweakPane()
@@ -41,10 +43,10 @@ onMounted(() => {
   <TresCanvas v-bind="gl" :disable-render="true">
     <TresPerspectiveCamera :position="[5, 5, 5]" :look-at="[0, 0, 0]" />
     <OrbitControls />
-    <!--     <TresMesh>
+    <TresMesh>
       <TresSphereGeometry :args="[2, 32, 32]" />
       <TresMeshStandardMaterial color="hotpink" :emissive="new Color('hotpink')" :emissive-intensity="9" />
-    </TresMesh> -->
+    </TresMesh>
     <TresMesh :position="[2, 2, -2]">
       <TresSphereGeometry :args="[2, 32, 32]" />
       <TresMeshStandardMaterial color="hotpink" />

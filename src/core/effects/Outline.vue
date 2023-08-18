@@ -1,12 +1,11 @@
 <script lang="ts" setup>
-import { useCore } from '../useCore'
-import { normalizeColor } from '@tresjs/core'
+import { normalizeColor, useTresContext } from '@tresjs/core'
 import { EffectPass, OutlineEffect } from 'postprocessing'
 import { effectComposerInjectionKey } from '../injectionKeys'
 import { inject, onUnmounted, shallowRef, watch, watchEffect, computed } from 'vue'
 
 import type { TresColor } from '@tresjs/core'
-import type { Object3D, Texture } from 'three'
+import type { Object3D, Scene, Texture } from 'three'
 import type { BlendFunction, KernelSize } from 'postprocessing'
 
 export type OutlineProps = {
@@ -53,11 +52,11 @@ export type OutlineProps = {
 
 const props = defineProps<OutlineProps>()
 
-const { state } = useCore()
-
 const composer = inject(effectComposerInjectionKey)
 const pass = shallowRef<EffectPass | null>(null)
 const effect = shallowRef<OutlineEffect | null>(null)
+
+defineExpose({ pass, effect }) // to allow users to modify pass and effect via template ref
 
 const colorToNumber = (color: TresColor | undefined) =>
   color !== undefined ? normalizeColor(color).getHex() : undefined
@@ -104,19 +103,25 @@ const outlineEffectParameters = computed<OutlineEffectParameters>(() => {
     visibleEdgeColor: colorToNumber(visibleEdgeColor),
   }
 })
-const unwatch = watchEffect(() => {
-  if (state.camera && composer && composer.value && state.scene) {
-    effect.value = new OutlineEffect(state.scene, state.camera, outlineEffectParameters.value)
-    pass.value = new EffectPass(state.camera, effect.value)
 
-    composer.value?.addPass(pass.value)
+const { camera, scene } = useTresContext()
 
-    unwatch()
-  }
+let unwatch: undefined | (() => void)
+
+unwatch = watchEffect(() => {
+  if (!camera.value || !composer?.value || !scene.value) return
+
+  unwatch?.()
+  if (effect.value) return
+
+  effect.value = new OutlineEffect(scene.value as Scene, camera.value, outlineEffectParameters.value)
+  pass.value = new EffectPass(camera.value, effect.value)
+
+  composer.value.addPass(pass.value)
 })
 
 watch(
-  [() => props.outlinedObjects, effect], // whatchEffect is intentionally not used here as it would result in an endless loop
+  [() => props.outlinedObjects, effect], // watchEffect is intentionally not used here as it would result in an endless loop
   () => {
     effect.value?.selection.set(props.outlinedObjects || [])
   },

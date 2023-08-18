@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { GlitchMode, EffectComposer, EffectPass, GlitchEffect, BlendFunction } from 'postprocessing'
-import { Ref, inject, onUnmounted, ref, toRaw, unref, watch, watchEffect } from 'vue'
+import { GlitchMode, EffectPass, GlitchEffect, BlendFunction } from 'postprocessing'
+import { inject, onUnmounted, shallowRef, toRaw, unref, watch, watchEffect } from 'vue'
 
 import { Vector2, Texture } from 'three'
 
-import { useCore } from '../useCore'
 import { effectComposerInjectionKey } from '../injectionKeys'
+import { useTresContext } from '@tresjs/core'
 
 export interface GlitchProps {
   blendFunction?: BlendFunction
@@ -84,7 +84,7 @@ export interface GlitchProps {
    * @type {Texture}
    * @memberof GlitchProps
    */
-  peturbationMap?: Texture
+  perturbationMap?: Texture
   /**
    * The size of the generated noise map. Will be ignored if a perturbation map is provided.
    *
@@ -96,89 +96,60 @@ export interface GlitchProps {
   dtSize?: number
 }
 
-const {
-  blendFunction = BlendFunction.ADD,
-  delay,
-  duration,
-  strength,
-  mode,
-  active,
-  ratio = 0.85,
-  columns = 0.05,
-  chromaticAberrationOffset,
-  peturbationMap,
-  dtSize = 64,
-} = defineProps<GlitchProps>()
-
-const { state } = useCore()
+const props = defineProps<GlitchProps>()
 
 const composer = inject(effectComposerInjectionKey)
-const pass = ref<EffectPass | null>(null)
-const effect = ref<GlitchEffect | null>(null)
+const pass = shallowRef<EffectPass | null>(null)
+const effect = shallowRef<GlitchEffect | null>(null)
 
-defineExpose({ pass })
+defineExpose({ pass, effect }) // to allow users to modify pass and effect via template ref
 
-function createPass() {
-  effect.value = new GlitchEffect({
-    blendFunction,
-    delay,
-    duration,
-    strength,
-    ratio,
-    columns,
-    chromaticAberrationOffset,
-    dtSize,
-  })
-  pass.value = new EffectPass(unref(state.camera), toRaw(effect.value) as GlitchEffect)
-}
+const { camera } = useTresContext()
 
-function disposePass() {
-  effect.value?.dispose()
-  pass.value?.dispose()
-  composer?.value?.removePass(toRaw(pass.value) as EffectPass)
-}
+let unwatch: undefined | (() => void)
 
-const unwatchComposer = watch(
-  () => [state.camera, composer?.value],
-  () => {
-    if (state.camera && composer && composer.value) {
-      createPass()
-      composer?.value?.addPass(toRaw(pass.value) as EffectPass)
-    }
-  },
-)
+unwatch = watchEffect(() => {
+  if (!camera.value || !composer?.value) return
 
-const unwatchProps = watch(
-  () => [delay, duration, strength, ratio, columns, chromaticAberrationOffset, peturbationMap, dtSize],
-  () => {
-    if (pass.value) {
-      composer?.value?.removePass(toRaw(pass.value) as EffectPass)
-      createPass()
-      composer?.value?.addPass(toRaw(pass.value) as EffectPass)
-    }
-  },
-)
+  unwatch?.()
+  if (effect.value) return
 
-watchEffect(() => {
-  if (pass.value) {
-    pass.value.mode = active ? mode || GlitchMode.SPORADIC : GlitchMode.DISABLED
-  }
+  effect.value = new GlitchEffect(props)
+  pass.value = new EffectPass(camera.value, effect.value)
+
+  composer.value.addPass(pass.value)
 })
 
-const unwatchActive = watch(
-  () => active,
-  value => {
-    if (pass.value) {
-      pass.value.enabled = value as boolean
-    }
-  },
-)
+watchEffect(() => {
+  if (!effect.value) return
+  const plainEffectPass = new GlitchEffect()
+
+  // blendFunction and dtSize are not updated, because it has no setter in BloomEffect
+
+  const getMode = () => {
+    if (props.mode !== undefined) return props.active === false ? GlitchMode.DISABLED : props.mode
+
+    return plainEffectPass.mode
+  }
+
+  effect.value.mode = getMode()
+  effect.value.ratio = props.ratio !== undefined ? props.ratio : plainEffectPass.ratio
+  effect.value.delay = props.delay !== undefined ? props.delay : plainEffectPass.delay
+  effect.value.columns = props.columns !== undefined ? props.columns : plainEffectPass.columns
+  effect.value.duration = props.duration !== undefined ? props.duration : plainEffectPass.duration
+  effect.value.strength = props.strength !== undefined ? props.strength : plainEffectPass.strength
+  effect.value.perturbationMap =
+    props.perturbationMap !== undefined ? props.perturbationMap : plainEffectPass.perturbationMap
+  effect.value.chromaticAberrationOffset =
+    props.chromaticAberrationOffset !== undefined
+      ? props.chromaticAberrationOffset
+      : plainEffectPass.chromaticAberrationOffset
+})
 
 onUnmounted(() => {
-  disposePass()
-  unwatchComposer()
-  unwatchProps()
-  unwatchActive()
+  if (pass.value) composer?.value?.removePass(pass.value)
+  effect.value?.dispose()
+  pass.value?.dispose()
 })
 </script>
 <template></template>

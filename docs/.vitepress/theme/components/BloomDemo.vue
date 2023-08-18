@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import { Color } from 'three'
-import { TresCanvas } from '@tresjs/core'
-import { BasicShadowMap, NoToneMapping } from 'three'
-
-import { EffectComposer, Bloom } from '/@'
 import { reactive } from 'vue'
+import { TresCanvas } from '@tresjs/core'
+import { BlendFunction } from 'postprocessing'
+import { EffectComposer, Bloom } from '/@'
 
 const gl = {
   clearColor: '#121212',
@@ -19,6 +18,7 @@ const bloomParams = reactive({
   intensity: 8,
   radius: 0.5,
   disableRender: true,
+  blendFunction: BlendFunction.ADD,
 })
 </script>
 

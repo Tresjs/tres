@@ -2,11 +2,11 @@
 import { KernelSize } from 'postprocessing'
 import { reactive, ref } from 'vue'
 import { EffectComposer, Outline } from '@tresjs/post-processing'
-import { TresCanvas, TresCanvasProps } from '@tresjs/core'
+import { TresCanvas } from '@tresjs/core'
 import { OrbitControls, useTweakPane } from '@tresjs/cientos'
 import { NoToneMapping, Object3D, Intersection } from 'three'
 
-const gl: TresCanvasProps = {
+const gl = {
   clearColor: '#4ADE80',
   toneMapping: NoToneMapping,
   disableRender: true,
@@ -48,7 +48,6 @@ pane.addInput(outlineParameters, 'kernelSize', { min: KernelSize.VERY_SMALL, max
         <TresMeshNormalMaterial />
       </TresMesh>
     </template>
-
     <TresGridHelper />
     <TresAmbientLight :intensity="1" />
     <Suspense>

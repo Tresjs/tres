@@ -22,13 +22,11 @@ import { EffectComposer, Bloom } from '@tresjs/post-processing'
 
 ## Props
 
-| Prop                 | Description                                                                                          | Default            |
-| -------------------- | ---------------------------------------------------------------------------------------------------- | ------------------ |
-| `intensity`          | The intensity of the bloom effect.                                                                   | `1`                |
-| `blurPass`           | An efficient, incremental blur pass.                                                                 |                    |
-| `width`              | The width of the render.                                                                             |                    |
-| `height`             | The height of the render.                                                                            |                    |
-| `kernelSize`         | The kernel size.                                                                                     | `KernelSize.LARGE` |
-| `luminanceThreshold` | The luminance threshold. Raise this value to mask out darker elements in the scene. Range is [0, 1]. | `0.9`              |
-| `luminanceSmoothing` | Controls the smoothness of the luminance threshold. Range is [0, 1].                                 | `0.025`            |
-| `mipMapBlur`         | Enables mip map blur. (UnrealBloom)                                                                  | `false`            |
+| Prop                 | Description                                                                                          | Default                                                                                                                                        |
+| -------------------- | ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| `blendFunction`      | The blend function of this effect. This prop is not reactive.                                        |  [BlendFunction.SCREEN](https://github.com/pmndrs/postprocessing/blob/c3ce388be247916437a314f17748a75329d65df1/src/enums/BlendFunction.js#L40) |
+| `intensity`          | The intensity of the bloom effect.                                                                   | `1`                                                                                                                                            |
+| `kernelSize`         | The kernel size.                                                                                     | `KernelSize.LARGE`                                                                                                                             |
+| `luminanceThreshold` | The luminance threshold. Raise this value to mask out darker elements in the scene. Range is [0, 1]. | `0.9`                                                                                                                                          |
+| `luminanceSmoothing` | Controls the smoothness of the luminance threshold. Range is [0, 1].                                 | `0.025`                                                                                                                                        |
+| `mipMapBlur`         | Enables mip map blur. (UnrealBloom)                                                                  | `false`                                                                                                                                        |
