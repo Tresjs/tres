@@ -1,6 +1,6 @@
 import { Color, WebGLRenderer } from 'three'
 import { rendererPresets, RendererPresetsType } from './const'
-import { shallowRef, watchEffect, onUnmounted, type MaybeRef, computed, watch, ShallowRef } from 'vue'
+import { shallowRef, watchEffect, onUnmounted, type MaybeRef, computed, watch, ShallowRef, triggerRef } from 'vue'
 import {
   toValue,
   unrefElement,
@@ -141,6 +141,7 @@ export function useRenderer(
   watch(webGLRendererConstructorParameters, () => {
     renderer.value.dispose()
     renderer.value = new WebGLRenderer(webGLRendererConstructorParameters.value)
+    triggerRef(renderer)
   })
 
   watchEffect(() => {
