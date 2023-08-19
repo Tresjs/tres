@@ -1,5 +1,12 @@
 
 
+## [3.1.0-next.2](https://github.com/Tresjs/tres/compare/3.1.0-next.1...3.1.0-next.2) (2023-08-19)
+
+
+### Bug Fixes
+
+* manually triggering render ref on constructor params change ([d3014a4](https://github.com/Tresjs/tres/commit/d3014a457b510d0452c5114f7a3c4666121e3bce))
+
 ## [3.1.0-next.1](https://github.com/Tresjs/tres/compare/3.1.0-next.0...3.1.0-next.1) (2023-08-18)
 
 
