@@ -88,12 +88,7 @@ export function deepEqual(a: any, b: any): boolean {
 
     if (attrsA.length !== attrsB.length) return false;
 
-    for (let i = 0; i < attrsA.length; i++) {
-      const { name, value } = attrsA[i];
-      if (b.getAttribute(name) !== value) return false;
-    }
-
-    return true;
+return attrsA.every(({ name, value }) => b.getAttribute(name) === value);
   }
 
   // If both are primitives, return true if they are equal
