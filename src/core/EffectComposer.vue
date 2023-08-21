@@ -5,8 +5,7 @@ import { DepthDownsamplingPass, EffectComposer as EffectComposerImpl, NormalPass
 
 import { isWebGL2Available } from 'three-stdlib'
 import { effectComposerInjectionKey } from './injectionKeys'
-import { ShallowRef, computed, provide, shallowRef, watchEffect } from 'vue'
-import { onUnmounted } from 'vue'
+import { ShallowRef, computed, provide, shallowRef, watch, onUnmounted, watchEffect } from 'vue'
 
 export type EffectComposerProps = {
   enabled?: boolean
@@ -78,13 +77,21 @@ const effectComposerParams = computed(() => {
   return params
 })
 
-watchEffect(() => {
-  if (renderer.value && scene.value && camera.value) {
-    effectComposer.value = new EffectComposerImpl(renderer.value, effectComposerParams.value)
-    effectComposer.value.addPass(new RenderPass(scene.value, camera.value))
+const initEffectComposer = () => {
+  if (!renderer.value && !scene.value && !camera.value) return
 
-    if (!props.disableNormalPass) setNormalPass()
-  }
+  effectComposer.value = new EffectComposerImpl(renderer.value, effectComposerParams.value)
+  effectComposer.value.addPass(new RenderPass(scene.value, camera.value))
+
+  if (!props.disableNormalPass) setNormalPass()
+}
+
+const stop = watch([sizes.height, sizes.width], () => {
+  // effect composer should only live once the canvas has a size > 0
+  if (!sizes.height.value && !sizes.width.value) return
+
+  watchEffect(initEffectComposer)
+  stop?.()
 })
 
 const { onLoop } = useRenderLoop()
