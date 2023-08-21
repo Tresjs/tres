@@ -5,7 +5,7 @@ const isOpen = ref(false)
 const isMobile = computed(() => window.innerWidth < 768)
 </script>
 <template>
-  <div class="the-info">
+  <div class="the-info relative z-36">
     <Transition
       name="fade-overlay"
       enter-active-class="opacity-1 transition-opacity duration-200"
@@ -13,7 +13,7 @@ const isMobile = computed(() => window.innerWidth < 768)
     >
       <div
         v-if="isOpen"
-        class="absolute inset-0 bg-gray-800 bg-opacity-50 cursor-pointer z-10"
+        class="fixed inset-0 bg-gray-800 bg-opacity-50 cursor-pointer z-36"
         @click.self="isOpen = false"
       >
         <div
@@ -21,7 +21,7 @@ const isMobile = computed(() => window.innerWidth < 768)
             'w-full h-screen': isMobile,
             'md:rounded-lg shadow-md': !isMobile,
           }"
-          class="absolute z-10 p-4 bg-white top-0 left-0 md:bottom-20 md:right-10 md:top-20 md:left-auto overflow-auto w-full md:min-width-70ch md:w-auto text-gray-600 md:text-sm"
+          class="absolute z-36 p-4 bg-white top-0 left-0 md:bottom-20 md:right-10 md:top-20 md:left-auto overflow-auto w-full md:min-width-70ch md:w-auto text-gray-600 md:text-sm"
         >
           <div v-if="isMobile" class="flex justify-end">
             <button
