@@ -67,6 +67,11 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
       if (props?.geometry?.isBufferGeometry) (instance as TresObject3D).userData.tres__geometryViaProp = true
     }
 
+    // Since THREE instances properties are not consistent, (Orbit Controls doesn't have a `type` property) 
+    // we take the tag name and we save it on the userData for later use in the re-instancing process.
+    if (!instance.userData) instance.userData = {}
+    instance.userData.tres__name = name
+
     return instance
   },
   insert(child, parent) {
@@ -188,9 +193,11 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
         const prevNode = node as TresObject3D
         const prevArgs = _prevValue ?? []
         const args = nextValue ?? []
+        const instanceName = node.userData.tres__name || node.type
 
-        if (node.type && !deepArrayEqual(prevArgs, args)) {
-          root = Object.assign(prevNode, new catalogue.value[node.type](...nextValue))
+        if (instanceName && prevArgs.length > 0 && !deepArrayEqual(prevArgs, args)) {
+          console.log('reinstancing', { instanceName, prevArgs, args })
+          root = Object.assign(prevNode, new catalogue.value[instanceName](...nextValue))
         }
         return
       }
