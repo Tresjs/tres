@@ -21,6 +21,9 @@ import type {
   ShadowMapType,
   WebGLRendererParameters,
 } from 'three'
+// eslint-disable-next-line max-len
+// Solution taken from Thretle that actually support different versions https://github.com/threlte/threlte/blob/5fa541179460f0dadc7dc17ae5e6854d1689379e/packages/core/src/lib/lib/useRenderer.ts
+import { revision } from '../../core/revision'
 
 type TransformToMaybeRefOrGetter<T> = {
   [K in keyof T]: MaybeRefOrGetter<T[K]> | MaybeRefOrGetter<T[K]>;
@@ -161,7 +164,6 @@ export function useRenderer(
     const plainRenderer = new WebGLRenderer()
 
     const defaults = {
-
       shadowMap: {
         enabled: plainRenderer.shadowMap.enabled,
         type: plainRenderer.shadowMap.type,
@@ -169,7 +171,6 @@ export function useRenderer(
       toneMapping: plainRenderer.toneMapping,
       toneMappingExposure: plainRenderer.toneMappingExposure,
       outputColorSpace: plainRenderer.outputColorSpace,
-      useLegacyLights: plainRenderer.useLegacyLights
     }
     plainRenderer.dispose()
 
@@ -216,7 +217,13 @@ export function useRenderer(
     setValueOrDefault(options.shadows, 'shadowMap.enabled')
     setValueOrDefault(options.toneMapping, 'toneMapping')
     setValueOrDefault(options.shadowMapType, 'shadowMap.type')
-    setValueOrDefault(options.useLegacyLights, 'useLegacyLights')
+
+    if (revision >= 150 && options.useLegacyLights) {
+      setValueOrDefault(options.useLegacyLights, 'useLegacyLights')
+    } else if (revision < 150) {
+      setValueOrDefault(!options.useLegacyLights, 'physicallyCorrectLights')
+    }
+
     setValueOrDefault(options.outputColorSpace, 'outputColorSpace')
     setValueOrDefault(options.toneMappingExposure, 'toneMappingExposure')
 
