@@ -218,11 +218,8 @@ export function useRenderer(
     setValueOrDefault(options.toneMapping, 'toneMapping')
     setValueOrDefault(options.shadowMapType, 'shadowMap.type')
 
-    if (revision >= 150 && options.useLegacyLights) {
-      setValueOrDefault(options.useLegacyLights, 'useLegacyLights')
-    } else if (revision < 150) {
+    if (revision < 150)
       setValueOrDefault(!options.useLegacyLights, 'physicallyCorrectLights')
-    }
 
     setValueOrDefault(options.outputColorSpace, 'outputColorSpace')
     setValueOrDefault(options.toneMappingExposure, 'toneMappingExposure')
