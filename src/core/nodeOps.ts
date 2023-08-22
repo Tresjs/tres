@@ -196,7 +196,6 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
         const instanceName = node.userData.tres__name || node.type
 
         if (instanceName && prevArgs.length > 0 && !deepArrayEqual(prevArgs, args)) {
-          console.log('reinstancing', { instanceName, prevArgs, args })
           root = Object.assign(prevNode, new catalogue.value[instanceName](...nextValue))
         }
         return
