@@ -69,8 +69,10 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
 
     // Since THREE instances properties are not consistent, (Orbit Controls doesn't have a `type` property) 
     // we take the tag name and we save it on the userData for later use in the re-instancing process.
-    if (!instance.userData) instance.userData = {}
-    instance.userData.tres__name = name
+    instance.userData = {
+      ...instance.userData,
+      tres__name: name
+    }
 
     return instance
   },
@@ -195,7 +197,7 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
         const args = nextValue ?? []
         const instanceName = node.userData.tres__name || node.type
 
-        if (instanceName && prevArgs.length > 0 && !deepArrayEqual(prevArgs, args)) {
+        if (instanceName && prevArgs.length && !deepArrayEqual(prevArgs, args)) {
           root = Object.assign(prevNode, new catalogue.value[instanceName](...nextValue))
         }
         return
