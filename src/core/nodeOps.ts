@@ -3,7 +3,7 @@ import { BufferAttribute } from 'three'
 import { isFunction } from '@alvarosabu/utils'
 import { useLogger } from '../composables'
 import { catalogue } from './catalogue'
-import { isHTMLTag, kebabToCamel } from '../utils'
+import { deepArrayEqual, isHTMLTag, kebabToCamel } from '../utils'
 
 import type { Object3D, Camera } from 'three'
 import type { TresObject, TresObject3D, TresScene } from '../types'
@@ -65,6 +65,13 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
     if (instance.isObject3D) {
       if (props?.material?.isMaterial) (instance as TresObject3D).userData.tres__materialViaProp = true
       if (props?.geometry?.isBufferGeometry) (instance as TresObject3D).userData.tres__geometryViaProp = true
+    }
+
+    // Since THREE instances properties are not consistent, (Orbit Controls doesn't have a `type` property) 
+    // we take the tag name and we save it on the userData for later use in the re-instancing process.
+    instance.userData = {
+      ...instance.userData,
+      tres__name: name
     }
 
     return instance
@@ -183,6 +190,18 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
       let key = prop
       let finalKey = kebabToCamel(key)
       let target = root?.[finalKey]
+
+      if (key === 'args') {
+        const prevNode = node as TresObject3D
+        const prevArgs = _prevValue ?? []
+        const args = nextValue ?? []
+        const instanceName = node.userData.tres__name || node.type
+
+        if (instanceName && prevArgs.length && !deepArrayEqual(prevArgs, args)) {
+          root = Object.assign(prevNode, new catalogue.value[instanceName](...nextValue))
+        }
+        return
+      }
 
       if (root.type === 'BufferGeometry') {
         if (key === 'args') return
