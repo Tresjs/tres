@@ -1,33 +1,35 @@
-/* eslint-disable max-len */
-import { watch, ref, shallowRef, computed, toRefs } from 'vue'
+import { Color, WebGLRenderer } from 'three'
+import { rendererPresets, RendererPresetsType } from './const'
+import { shallowRef, watchEffect, onUnmounted, type MaybeRef, computed, watch } from 'vue'
 import {
-  MaybeRefOrGetter,
   toValue,
   unrefElement,
+  type MaybeRefOrGetter,
   useDevicePixelRatio,
-  useElementSize,
-  useWindowSize,
 } from '@vueuse/core'
-import {
-  WebGLRendererParameters,
-  NoToneMapping,
-  LinearSRGBColorSpace,
-  WebGLRenderer,
-  ShadowMapType,
-  PCFShadowMap,
-  Clock,
-  ColorSpace,
-} from 'three'
-import type { ToneMapping } from 'three'
-import { useRenderLoop } from '../useRenderLoop'
-import { useTres } from '../useTres'
-import { normalizeColor } from '../../utils/normalize'
-import { TresColor } from '../../types'
-import { rendererPresets, RendererPresetsType } from './const'
-import { merge } from '../../utils'
-import { useLogger } from '../useLogger'
 
-export interface UseRendererOptions extends WebGLRendererParameters {
+import { get, merge, set } from '../../utils'
+import { useLogger } from '../useLogger'
+import { TresColor } from '../../types'
+import { useRenderLoop } from '../useRenderLoop'
+import { normalizeColor } from '../../utils/normalize'
+
+import type { Scene, ToneMapping } from 'three'
+import type { TresContext } from '../useTresContextProvider'
+import type {
+  ColorSpace,
+  ShadowMapType,
+  WebGLRendererParameters,
+} from 'three'
+// eslint-disable-next-line max-len
+// Solution taken from Thretle that actually support different versions https://github.com/threlte/threlte/blob/5fa541179460f0dadc7dc17ae5e6854d1689379e/packages/core/src/lib/lib/useRenderer.ts
+import { revision } from '../../core/revision'
+
+type TransformToMaybeRefOrGetter<T> = {
+  [K in keyof T]: MaybeRefOrGetter<T[K]> | MaybeRefOrGetter<T[K]>;
+};
+
+export interface UseRendererOptions extends TransformToMaybeRefOrGetter<WebGLRendererParameters> {
   /**
    * Enable shadows in the Renderer
    *
@@ -69,7 +71,10 @@ export interface UseRendererOptions extends WebGLRendererParameters {
 
   /**
    * Defines the tone mapping used by the renderer.
-   * Can be NoToneMapping, LinearToneMapping, ReinhardToneMapping, Uncharted2ToneMapping, CineonToneMapping, ACESFilmicToneMapping, CustomToneMapping
+   * Can be NoToneMapping, LinearToneMapping,
+   * ReinhardToneMapping, Uncharted2ToneMapping,
+   * CineonToneMapping, ACESFilmicToneMapping,
+   * CustomToneMapping
    *
    * @default NoToneMapping
    */
@@ -83,35 +88,13 @@ export interface UseRendererOptions extends WebGLRendererParameters {
   toneMappingExposure?: MaybeRefOrGetter<number>
 
   /**
-   * The context used by the renderer.
-   *
-   * @default undefined
-   */
-  context?: WebGLRenderingContext | undefined
-
-  /**
-   * Provides a hint to the user agent indicating what configuration of GPU is suitable for this WebGL context.
-   * Can be "high-performance", "low-power" or "default".
-   *
-   * @default "default"
-   */
-  powerPreference?: 'high-performance' | 'low-power' | 'default'
-
-  /**
-   * Whether to preserve the buffers until manually cleared or overwritten.
-   *
-   * @default false
-   */
-  preserveDrawingBuffer?: boolean
-
-  /**
    * The color value to use when clearing the canvas.
    *
    * @default 0x000000
    */
   clearColor?: MaybeRefOrGetter<TresColor>
   windowSize?: MaybeRefOrGetter<boolean | string>
-  preset?: RendererPresetsType
+  preset?: MaybeRefOrGetter<RendererPresetsType>
 }
 
 /**
@@ -120,157 +103,159 @@ export interface UseRendererOptions extends WebGLRendererParameters {
  * @param canvas
  * @param {UseRendererOptions} [options]
  */
-export function useRenderer(options: UseRendererOptions) {
-  const renderer = shallowRef<WebGLRenderer>()
-  const isReady = ref(false)
-  // Defaults
-  const {
-    alpha = true,
-    antialias = true,
-    depth,
-    logarithmicDepthBuffer,
-    failIfMajorPerformanceCaveat,
-    precision,
-    premultipliedAlpha,
-    stencil,
-    shadows = false,
-    shadowMapType = PCFShadowMap,
-    useLegacyLights = false,
-    outputColorSpace = LinearSRGBColorSpace,
-    toneMapping = NoToneMapping,
-    toneMappingExposure = 1,
-    context = undefined,
-    powerPreference = 'default',
-    preserveDrawingBuffer = false,
-    clearColor,
-    windowSize = false,
-    preset = undefined,
-  } = toRefs(options)
+export function useRenderer(
+  {
+    scene,
+    canvas,
+    options,
+    disableRender,
+    contextParts: { sizes, camera },
+  }:
+    {
+      canvas: MaybeRef<HTMLCanvasElement>
+      scene: Scene
+      options: UseRendererOptions
+      contextParts: Pick<TresContext, 'sizes' | 'camera'>
+      disableRender: MaybeRefOrGetter<boolean>
+    }
+) {
 
-  const { state, setState } = useTres()
+  const webGLRendererConstructorParameters = computed<WebGLRendererParameters>(() => ({
+    alpha: toValue(options.alpha),
+    depth: toValue(options.depth),
+    canvas: unrefElement(canvas),
+    context: toValue(options.context),
+    stencil: toValue(options.stencil),
+    antialias: toValue(options.antialias) === undefined ? // an opinionated default of tres
+      true :
+      toValue(options.antialias),
+    precision: toValue(options.precision),
+    powerPreference: toValue(options.powerPreference),
+    premultipliedAlpha: toValue(options.premultipliedAlpha),
+    preserveDrawingBuffer: toValue(options.preserveDrawingBuffer),
+    logarithmicDepthBuffer: toValue(options.logarithmicDepthBuffer),
+    failIfMajorPerformanceCaveat: toValue(options.failIfMajorPerformanceCaveat)
+  }))
 
-  const { width, height } =
-    toValue(windowSize) == true || toValue(windowSize) === '' || toValue(windowSize) === 'true'
-      ? useWindowSize()
-      : useElementSize(state.container)
-  const { logError, logWarning } = useLogger()
+  const renderer = shallowRef<WebGLRenderer>(new WebGLRenderer(webGLRendererConstructorParameters.value))
+
+  // since the properties set via the constructor can't be updated dynamically,
+  // the renderer is recreated once they change
+  watch(webGLRendererConstructorParameters, () => {
+    renderer.value.dispose()
+    renderer.value = new WebGLRenderer(webGLRendererConstructorParameters.value)
+  })
+
+  watchEffect(() => {
+    renderer.value.setSize(sizes.width.value, sizes.height.value)
+  })
+
+
   const { pixelRatio } = useDevicePixelRatio()
-  const { pause, resume } = useRenderLoop()
-  const aspectRatio = computed(() => width.value / height.value)
 
-  setTimeout(() => {
-    if (!toValue(windowSize) && !state.canvas?.value.offsetHeight) {
-      logWarning(`Oops... Seems like your canvas height is currently 0px, it's posible that you couldn't watch your scene.
-  You could set windowSize=true to force the canvas to be the size of the window.`)
+  watchEffect(() => {
+    renderer.value.setPixelRatio(pixelRatio.value)
+  })
+
+  const { logError } = useLogger()
+
+  const getThreeRendererDefaults = () => {
+
+    const plainRenderer = new WebGLRenderer()
+
+    const defaults = {
+      shadowMap: {
+        enabled: plainRenderer.shadowMap.enabled,
+        type: plainRenderer.shadowMap.type,
+      },
+      toneMapping: plainRenderer.toneMapping,
+      toneMappingExposure: plainRenderer.toneMappingExposure,
+      outputColorSpace: plainRenderer.outputColorSpace,
     }
-  }, 1000)
+    plainRenderer.dispose()
 
-  const updateRendererSize = () => {
-    if (!renderer.value) {
-      return
-    }
-
-    renderer.value.setSize(width.value, height.value)
-    renderer.value.setPixelRatio(Math.min(pixelRatio.value, 2))
+    return defaults
   }
 
-  const updateRendererOptions = () => {
-    if (!renderer.value) {
-      return
-    }
+  const threeDefaults = getThreeRendererDefaults()
 
-    const rendererPreset = toValue(preset)
+  watchEffect(() => {
+    const rendererPreset = toValue(options.preset)
 
     if (rendererPreset) {
       if (!(rendererPreset in rendererPresets))
         logError('Renderer Preset must be one of these: ' + Object.keys(rendererPresets).join(', '))
+
       merge(renderer.value, rendererPresets[rendererPreset])
-
-      return
     }
 
-    renderer.value.shadowMap.enabled = toValue(shadows) as boolean
-    renderer.value.shadowMap.type = toValue(shadowMapType) as ShadowMapType
-    renderer.value.toneMapping = (toValue(toneMapping) as ToneMapping) || NoToneMapping
-    renderer.value.toneMappingExposure = toValue(toneMappingExposure) as number
-    // Wating for https://github.com/DefinitelyTyped/DefinitelyTyped/pull/65356/files to be merged
-    renderer.value.outputColorSpace = toValue(outputColorSpace as ColorSpace) || LinearSRGBColorSpace
-    if (clearColor?.value) renderer.value.setClearColor(normalizeColor(toValue(clearColor) as TresColor))
+    const getValue = <T>(option: MaybeRefOrGetter<T>, pathInThree: string): T | undefined => {
+      const value = toValue(option)
 
-    /*    renderer.value.physicallyCorrectLights = toValue(physicallyCorrectLights) as boolean */
-    renderer.value.useLegacyLights = toValue(useLegacyLights) as boolean
-  }
+      const getValueFromPreset = () => {
+        if (!rendererPreset)
+          return
 
-  const init = () => {
-    const _canvas = unrefElement(state.canvas)
-
-    if (!_canvas) {
-      return
-    }
-
-    renderer.value = new WebGLRenderer({
-      canvas: _canvas,
-      alpha: toValue(alpha),
-      antialias: toValue(antialias),
-      context: toValue(context),
-      depth: toValue(depth),
-      failIfMajorPerformanceCaveat: toValue(failIfMajorPerformanceCaveat),
-      logarithmicDepthBuffer: toValue(logarithmicDepthBuffer),
-      powerPreference: toValue(powerPreference),
-      precision: toValue(precision),
-      stencil: toValue(stencil),
-      preserveDrawingBuffer: toValue(preserveDrawingBuffer),
-      premultipliedAlpha: toValue(premultipliedAlpha),
-    })
-
-    setState('renderer', renderer.value)
-    setState('clock', new Clock())
-    setState('aspectRatio', aspectRatio)
-    updateRendererOptions()
-    updateRendererSize()
-    resume()
-
-    isReady.value = true
-  }
-
-  const dispose = () => {
-    if (!renderer.value) {
-      return
-    }
-
-    renderer.value.dispose()
-    renderer.value = undefined
-
-    isReady.value = false
-    pause()
-  }
-
-  watch([aspectRatio, pixelRatio], updateRendererSize)
-
-  watch(
-    [shadows, shadowMapType, outputColorSpace, useLegacyLights, toneMapping, toneMappingExposure, clearColor],
-    updateRendererOptions,
-  )
-
-  watch(
-    () => [state.canvas, state.container],
-    () => {
-      if (unrefElement(state.canvas) && unrefElement(state.container)) {
-        init()
+        return get(rendererPresets[rendererPreset], pathInThree)
       }
-    },
-    { immediate: true, deep: true },
-  )
 
-  if (import.meta.hot) {
+
+      if (value !== undefined)
+        return value
+
+      const valueInPreset = getValueFromPreset() as T
+
+      if (valueInPreset !== undefined)
+        return valueInPreset
+
+      return get(threeDefaults, pathInThree)
+    }
+
+    const setValueOrDefault = <T>(option: MaybeRefOrGetter<T>, pathInThree: string) =>
+      set(renderer.value, pathInThree, getValue(option, pathInThree))
+
+    setValueOrDefault(options.shadows, 'shadowMap.enabled')
+    setValueOrDefault(options.toneMapping, 'toneMapping')
+    setValueOrDefault(options.shadowMapType, 'shadowMap.type')
+
+    if (revision < 150)
+      setValueOrDefault(!options.useLegacyLights, 'physicallyCorrectLights')
+
+    setValueOrDefault(options.outputColorSpace, 'outputColorSpace')
+    setValueOrDefault(options.toneMappingExposure, 'toneMappingExposure')
+
+    const clearColor = getValue(options.clearColor, 'clearColor')
+
+    if (clearColor)
+      renderer.value.setClearColor(
+        clearColor ?
+          normalizeColor(clearColor) :
+          new Color(0x000000) // default clear color is not easily/efficiently retrievable from three
+      )
+
+  })
+
+  const { pause, resume, onLoop } = useRenderLoop()
+
+  onLoop(() => {
+    if (camera.value && !toValue(disableRender))
+      renderer.value.render(scene, camera.value)
+  })
+
+  resume()
+
+  onUnmounted(() => {
+    pause() // TODO should the render loop pause itself if there is no more renderer? 🤔 What if there is another renderer which needs the loop?
+    renderer.value.dispose()
+    renderer.value.forceContextLoss()
+  })
+
+  if (import.meta.hot)
     import.meta.hot.on('vite:afterUpdate', resume)
-  }
+
 
   return {
     renderer,
-    isReady,
-    dispose,
-    aspectRatio,
   }
 }
 

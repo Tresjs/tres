@@ -3,7 +3,9 @@
 This guide will help you to create your first Tres scene. 🍩
 
 <ClientOnly>
-    <DonutExample style="aspect-ratio: 16/9; height: auto; margin: 2rem 0; border-radius: 8px; overflow:hidden;"/>
+<div style="aspect-ratio: 16/9; height: auto; margin: 2rem 0; border-radius: 8px; overflow:hidden;">
+  <DonutExample />
+</div>
 </ClientOnly>
 
 ## Setting up the experience Canvas

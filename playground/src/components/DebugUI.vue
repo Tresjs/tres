@@ -1,35 +1,40 @@
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
 import { BasicShadowMap, SRGBColorSpace, NoToneMapping } from 'three'
+import { OrbitControls } from '@tresjs/cientos'
 
-import { OrbitControls, Box } from '@tresjs/cientos'
-import { TresLeches, useControls } from '@tresjs/leches'
-import '@tresjs/leches/styles'
+// import { OrbitControls, Box } from '@tresjs/cientos'
+/* import { TresLeches, useControls } from '@tresjs/leches' */
+/* import '@tresjs/leches/styles' */
 
-const gl = {
-  clearColor: '#82DBC5',
+const gl = reactive({
+  /*   clearColor: '#82DBC5', */
   shadows: true,
-  alpha: false,
+  alpha: true,
   shadowMapType: BasicShadowMap,
   outputColorSpace: SRGBColorSpace,
   toneMapping: NoToneMapping,
-}
+})
 
-const boxPosition = ref([0, 0.5, 0])
+/* useControls('fpsgraph') */
+// useControls(gl)
+// useControls('Box', boxPosition.value)
 
-useControls(gl)
-useControls('Box', boxPosition.value)
+const boxWidth = ref(1)
 
+setTimeout(() => {
+  boxWidth.value = 2
+}, 2000)
 </script>
 
 <template>
-  <TresLeches />
-  <TresCanvas v-bind="gl">
-    <TresPerspectiveCamera :position="[3, 3, 3]" />
+  <TresCanvas v-bind="gl" :window-size="true">
+    <TresPerspectiveCamera :look-at="[0, 4, 0]" />
     <OrbitControls />
-    <Box :position-x="boxPosition[0]">
-      <TresMeshNormalMaterial />
-    </Box>
+    <TresMesh :position="[0, 1, 0]">
+      <TresBoxGeometry :args="[boxWidth, 1, 1]" />
+      <TresMeshToonMaterial color="teal" />
+    </TresMesh>
     <TresGridHelper />
     <TresAmbientLight :intensity="1" />
   </TresCanvas>

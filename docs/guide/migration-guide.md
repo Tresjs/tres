@@ -1,6 +1,6 @@
 # Migration Guide
 
-This guide is intended to help you migrate from v1 to brand new shiny v2 🤩✨ of TresJS.
+This guide is intended to help you migrate from v1 to the newest versions of TresJS 🤩✨.
 
 ::: code-group
 
@@ -26,7 +26,7 @@ yarn upgrade @tresjs/core
 
 ### Typescript support and Intellisense 🦾
 
-![TresJS v2 Intellisense](/v2-intellisense.gif)
+![TresJS Intellisense](/v2-intellisense.gif)
 
 This was probably the most **requested feature for TresJS**. Now Tres components work with Volar and provide type intellisense.
 
@@ -186,3 +186,35 @@ To this:
   </TresCanvas>
 </template>
 ```
+
+## UseTres is now useTresContext <Badge type="warning" text="^3.0.0" />
+
+For v3 we reworked the whole state logic to make it more flexible and easier to use for plugin authors and ecosystem packages. Instead of using a store like in v2, we now use a context provider based on `provide/inject`.
+
+The `useTres` function is now an alias of the `useTresContext` function to avoid breaking demos and experiments out there, but consider using `useTresContext` from now on. 
+
+Instead of a big reactive object, you will now get the `scene` and `renderer` refs, between other properties, directly.
+
+Change this:
+
+```ts {2}
+// Wrong ❌
+import { useTres } from '@tresjs/core'
+
+const { state, setState } = useTres()
+
+console.log(state.scene)
+```
+
+To this:
+
+```ts {2}
+// Correct ✅
+import { useTresContext } from '@tresjs/core'
+
+const { scene, renderer } = useTresContext()
+
+console.log(scene.value)
+```
+
+For more detailed information about the new context provider system, you can read the [API DOCS](/api/composables.md) section.
