@@ -26,6 +26,10 @@ const HTML_TAGS =
 
 export const isHTMLTag = /*#__PURE__*/ makeMap(HTML_TAGS)
 
+export function isDOMElement(obj: any): obj is HTMLElement {
+  return obj && obj.nodeType === 1;
+}
+
 export function kebabToCamel(str: string) {
   return str.replace(/-([a-z])/g, (_, c) => c.toUpperCase())
 }
@@ -77,6 +81,14 @@ export const set = (obj: any, path: string | string[], value: any): void => {
 
 
 export function deepEqual(a: any, b: any): boolean {
+  if (isDOMElement(a) && isDOMElement(b)) {
+    const attrsA = a.attributes;
+    const attrsB = b.attributes;
+
+    if (attrsA.length !== attrsB.length) return false;
+
+    return Array.from(attrsA).every(({ name, value }) => b.getAttribute(name) === value);
+  }
   // If both are primitives, return true if they are equal
   if (a === b) return true;
 
