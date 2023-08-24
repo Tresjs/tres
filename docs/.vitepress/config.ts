@@ -65,7 +65,10 @@ export default defineConfig({
       {
         text: 'Materials',
         collapsed: true,
-        items: [{ text: 'WobbleMaterial', link: '/guide/materials/wobble-material' }],
+        items: [
+          { text: 'WobbleMaterial', link: '/guide/materials/wobble-material' },
+          { text: 'MeshGlassMaterial', link: '/guide/materials/glass-material' },
+        ],
       },
       {
         text: 'Shapes',
@@ -89,9 +92,7 @@ export default defineConfig({
       {
         text: 'Staging',
         collapsed: true,
-        items: [
-          { text: 'Backdrop', link: '/guide/staging/backdrop' },
-        ]
+        items: [{ text: 'Backdrop', link: '/guide/staging/backdrop' }],
       },
       {
         text: 'Misc',
