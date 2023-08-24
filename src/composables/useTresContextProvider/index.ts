@@ -8,18 +8,17 @@ import { extend } from '../../core/catalogue';
 import type { ComputedRef, DeepReadonly, MaybeRef, MaybeRefOrGetter, Ref, ShallowRef } from 'vue';
 
 export type TresContext = {
-  scene: ShallowRef<Scene>;
-  camera: ComputedRef<Camera | undefined>;
-  cameras: DeepReadonly<Ref<Camera[]>>;
+  scene: ShallowRef<Scene>
+  sizes: { height: Ref<number>, width: Ref<number>, aspectRatio: ComputedRef<number> }
+  extend: (objects: any) => void
+  camera: ComputedRef<Camera | undefined>
+  cameras: DeepReadonly<Ref<Camera[]>>
+  controls: Ref<(EventDispatcher & { enabled: boolean }) | null>
   renderer: ShallowRef<WebGLRenderer>
   raycaster: ShallowRef<Raycaster>
-  controls: Ref<(EventDispatcher & { enabled: boolean }) | null>
-  extend: (objects: any) => void
-  addCamera: (camera: Camera) => void;
-  removeCamera: (camera: Camera) => void
-  setCameraActive: (cameraOrUuid: Camera | string) => void;
-
-  sizes: { height: Ref<number>, width: Ref<number>, aspectRatio: ComputedRef<number> }
+  registerCamera: (camera: Camera) => void
+  setCameraActive: (cameraOrUuid: Camera | string) => void
+  deregisterCamera: (camera: Camera) => void
 }
 
 export function useTresContextProvider({
@@ -57,8 +56,8 @@ export function useTresContextProvider({
   const {
     camera,
     cameras,
-    addCamera,
-    removeCamera,
+    registerCamera,
+    deregisterCamera,
     setCameraActive,
   } = useCamera({ sizes, scene });
 
@@ -80,9 +79,9 @@ export function useTresContextProvider({
     raycaster: shallowRef(new Raycaster()),
     controls: ref(null),
     extend,
-    addCamera,
-    removeCamera,
+    registerCamera,
     setCameraActive,
+    deregisterCamera,
   }
 
   provide('useTres', toProvide);
