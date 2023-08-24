@@ -283,11 +283,6 @@ onUnmounted(() => {
         controls.value.dispose()
     }
 })
-
-watchEffect(() => {
-    console.log('activeCamera', activeCamera.value)
-    console.log('renderer', renderer.value)
-})
 </script>
 
 <template>
