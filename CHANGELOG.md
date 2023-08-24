@@ -1,5 +1,20 @@
 
 
+## [3.1.0](https://github.com/Tresjs/tres/compare/3.0.1...3.1.0) (2023-08-23)
+
+
+### Features
+
+* use render instead of createApp ([#375](https://github.com/Tresjs/tres/issues/375)) ([9461a78](https://github.com/Tresjs/tres/commit/9461a78b1cb8082311765b5ef309e436da770012))
+
+
+### Bug Fixes
+
+* added logic on pathProps to re-instance nodes once `args` change ([#367](https://github.com/Tresjs/tres/issues/367)) ([453b031](https://github.com/Tresjs/tres/commit/453b031b258ab840af7d6b372ac3785b5f006851))
+* added revision version to apply useLegacyLights only if neccesary ([#373](https://github.com/Tresjs/tres/issues/373)) ([dee4b97](https://github.com/Tresjs/tres/commit/dee4b97faf906b8796dffa9f32369230f5bc417d))
+* args should be empty when args was falsy ([#369](https://github.com/Tresjs/tres/issues/369)) ([81b7914](https://github.com/Tresjs/tres/commit/81b7914fc685aa7314541480a96801c0cc7fd542))
+* instances re-instancing when not needed ([#374](https://github.com/Tresjs/tres/issues/374)) ([f2ae46b](https://github.com/Tresjs/tres/commit/f2ae46bebd7aa9a99961259dbc1db5ae6cf876dd))
+
 ### [3.0.1](https://github.com/Tresjs/tres/compare/3.0.0...3.0.1) (2023-07-29)
 
 

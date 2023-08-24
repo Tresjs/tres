@@ -1,26 +1,26 @@
 <script setup lang="ts">
-import { extend } from '../core/catalogue'
-import { onMounted } from 'vue'
-import { createTres } from '../core/renderer'
-import { useTresContextProvider, type TresContext } from '../composables'
-import { App, Ref, computed, ref, shallowRef, watch, watchEffect } from 'vue'
 import {
-    Scene,
     PerspectiveCamera,
+    Scene,
     WebGLRendererParameters,
     type ColorSpace,
     type ShadowMapType,
     type ToneMapping,
 } from 'three'
+import { Ref, computed, onMounted, provide, ref, shallowRef, watch, watchEffect } from 'vue'
+import { useTresContextProvider, type TresContext } from '../composables'
+import { extend } from '../core/catalogue'
+import { render } from '../core/renderer'
 
 import {
     useLogger,
-    useRenderLoop,
     usePointerEventHandler,
+    useRenderLoop,
 } from '../composables'
 
-import type { TresCamera } from '../types/'
+import { Fragment, defineComponent, h } from 'vue'
 import type { RendererPresetsType } from '../composables/useRenderer/const'
+import type { TresCamera, TresObject } from '../types/'
 
 
 export interface TresCanvasProps extends Omit<WebGLRendererParameters, 'canvas'> {
@@ -65,22 +65,24 @@ const slots = defineSlots<{
     default(): any
 }>()
 
-
-let app: App
-
-const mountCustomRenderer = (context: TresContext) => {
-    app = createTres(slots)
-    app.provide('useTres', context) // TODO obsolete?
-    app.provide('extend', extend)
-    app.mount(scene.value)
+const createInternalComponent = (context: TresContext) => {
+    return defineComponent({
+        setup() {
+            provide('useTres', context)
+            provide('extend', extend)
+            return () => h(Fragment, null, slots?.default ? slots.default() : [])
+        }
+    })
 }
 
-const dispose = () => {
+const mountCustomRenderer = (context: TresContext) => {
+    const InternalComponent = createInternalComponent(context)
+    render(h(InternalComponent), scene.value as unknown as TresObject)
+}
+
+const dispose = (context: TresContext) => {
     scene.value.children = []
-    app.unmount()
-    app = createTres(slots)
-    app.provide('extend', extend)
-    app.mount(scene.value)
+    mountCustomRenderer(context)
     resume()
 }
 
@@ -140,7 +142,7 @@ onMounted(() => {
     }
 
     if (import.meta.hot)
-        import.meta.hot.on('vite:afterUpdate', dispose)
+        import.meta.hot.on('vite:afterUpdate', () => dispose(context))
 })
 </script>
 <template>
