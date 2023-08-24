@@ -3,7 +3,7 @@ import { Pane } from 'tweakpane'
 import * as EssentialsPlugin from '@tweakpane/plugin-essentials'
 import { useRenderLoop } from '@tresjs/core'
 
-type TweakPane = Pane & { addBlade(blade: any): void }
+type TweakPane = Pane & { addBlade(blade: any): void, addInput(blade: any): void }
 let pane: TweakPane
 let fpsGraph: any
 

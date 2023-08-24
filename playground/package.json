@@ -9,11 +9,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@tresjs/core": "3.0.1",
+    "@tresjs/core": "3.1.0",
     "vue-router": "^4.2.4"
   },
   "devDependencies": {
-    "@tresjs/leches": "^0.4.0",
+    "@tresjs/leches": "^0.7.0",
     "unplugin-auto-import": "^0.16.6",
     "unplugin-vue-components": "^0.25.1",
     "vite-plugin-glsl": "^1.1.2",

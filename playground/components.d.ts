@@ -20,6 +20,7 @@ declare module 'vue' {
     RouterView: typeof import('vue-router')['RouterView']
     ScrollDemo: typeof import('./src/components/ScrollDemo.vue')['default']
     TheGizmos: typeof import('./src/components/TheGizmos.vue')['default']
+    UseVideoTextureDemo: typeof import('./src/components/useVideoTextureDemo.vue')['default']
     WobbleMaterial: typeof import('./src/components/WobbleMaterial.vue')['default']
   }
 }
