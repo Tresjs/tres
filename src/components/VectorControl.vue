@@ -33,9 +33,10 @@ const calculateSpeed = (diff: number) => {
 }
 
 const vector = computed(() => normalizeVectorFlexibleParam(props.control.value))
-const labels = computed(() => Object.keys(props.control.value))
+const labels = ref(['x','y','z'])
 
 const isVector = computed(() => isVector2(props.control.value) || isVector3(props.control.value))
+
 
 function onChange(event: Event, $index: number) {
   const { value } = props.control
@@ -54,9 +55,9 @@ watch(mouse.x, newValue => {
     const label = isVector.value ? labels.value[index.value] : index.value
 
     if (diff > 0) {
-      value[label] += 1 + speed
+      value[label] += 0.1 + speed
     } else if (diff < 0) {
-      value[label] -= 1 + speed
+      value[label] -= 0.1 + speed
     }
 
     if (props.control.min !== undefined && value < props.control.min) {
@@ -74,26 +75,26 @@ watch(mouse.x, newValue => {
 })
 </script>
 <template>
-  <div class="flex px-4 justify-between gap-2 items-center mb-2">
+  <div class="flex px-4 justify-between gap-1 items-center mb-2">
     <label class="text-gray-500 w-1/3">{{ label }}</label>
-    <div class="w-2/3 flex justify-between gap-1">
+    <div class="w-2/3 flex justify-between gap-0.5">
       <div
         v-for="(_subcontrol, $index) in vector"
         :key="label + $index"
         class="flex items-center w-1/3 bg-gray-100 rounded"
       >
-        <span v-if="labels[$index] && isVector" class="font-bold px-0.5 py-1 text-0.65rem text-gray-300">{{
-          labels[$index]
-        }}</span>
-        <input
-          type="text"
-          class="w-full pl-0 p-1 text-right text-0.65rem text-gray-400 bg-transparent focus:border-gray-200 outline-none border-none font-sans"
-          :value="vector[$index].toFixed(2)"
-          :class="{ 'cursor-ew-resize': isMouseDown }"
-          @input="onChange($event, $index)"
-          @mousedown="onInputMouseDown($event, $index)"
-          @mouseup="onInputMouseUp($event, $index)"
-        />
+      <span v-if="labels[$index] && isVector" class="font-bold px-1 py-1 text-0.65rem text-gray-300">{{
+        labels[$index]
+      }}</span>
+      <input
+        type="text"
+        class="w-full pl-0 p-1 text-right text-0.65rem text-gray-400 bg-transparent focus:border-gray-200 outline-none border-none font-sans"
+        :value="vector[$index].toFixed(2)"
+        :class="{ 'cursor-ew-resize': isMouseDown }"
+        @input="onChange($event, $index)"
+        @mousedown="onInputMouseDown($event, $index)"
+        @mouseup="onInputMouseUp($event, $index)"
+      />
       </div>
     </div>
   </div>
