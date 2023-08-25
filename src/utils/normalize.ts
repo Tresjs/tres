@@ -1,4 +1,4 @@
-import { isVector3 } from "."
+import {  isVector3 } from "."
 
 export type Vector3Prop = { x: number, y: number, z: number }
 export type SizeFlexibleParams =

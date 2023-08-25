@@ -2,9 +2,10 @@
 import { Vector3 } from 'three'
 import { TresCanvas } from '@tresjs/core'
 import { OrbitControls } from '@tresjs/cientos'
+
 import { TresLeches, useControls } from '@tresjs/leches'
 import '@tresjs/leches/style.css'
-import { reactive, ref, watchEffect } from 'vue'
+import { reactive, ref, watch, watchEffect } from 'vue'
 
 const gl = reactive({
   clearColor: '#82DBC5',
@@ -33,6 +34,7 @@ useControls('Box', {
   wireframe,
 })
 const boxRef = ref()
+const cameraRef = ref()
 
 const test = useControls({
   label: 'test',
@@ -42,15 +44,15 @@ const test = useControls({
   value: 'LDG',
 })
 
-/* watch(boxRef, value => {
+const unwatch = watch(cameraRef, value => {
   if (value) {
-    boxRef.value.position.x = 1
-    useControls(boxRef.value.position, 'x', {
-      min: -10,
-      max: 10,
+    useControls('Camera', {
+      position: cameraRef.value.position,
+      rotation: cameraRef.value.rotation,
     })
+    unwatch()
   }
-}) */
+})
 watchEffect(() => {
   console.log(test.value.value)
 })
@@ -59,7 +61,7 @@ watchEffect(() => {
   <pre>{{ objectTest }}</pre>
   <TresLeches />
   <TresCanvas v-bind="gl">
-    <TresPerspectiveCamera />
+    <TresPerspectiveCamera ref="cameraRef" :look-at="[1,2,0]" />
     <TresMesh ref="boxRef" :position-x="boxPosition.x" :position-y="boxPosition.y" :position-z="boxPosition.z"
       :rotation-x="boxRotation.x" :rotation-y="boxRotation.y" :rotation-z="boxRotation.z" :scale="[2, 2, 2]">
       <TresBoxGeometry />
