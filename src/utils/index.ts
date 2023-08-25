@@ -30,3 +30,6 @@ export function hasSetter(obj: any, prop: string): boolean {
   const setterName = `set${prop[0].toUpperCase()}${prop.slice(1)}`
   return obj[setterName] !== undefined
 }
+
+import RandUtils from './RandUtils'
+export { RandUtils }
