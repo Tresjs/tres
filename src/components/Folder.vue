@@ -31,7 +31,7 @@ const toggle = () => {
       enter-active-class=" animate-fade-in animate-duration-200 animate-ease-in-out"
       leave-active-class=" animate-fade-out animate-duration-200 animate-ease-in-out"
     >
-      <div class="bg-white rounded-b pt-4" v-show="isOpen">
+      <div v-show="isOpen" class="bg-white rounded-b pt-4">
         <template v-for="subcontrol in control.controls" :key="subcontrol.label">
           <ControlInput :control="subcontrol" @change="newValue => onChange(newValue, subcontrol)" />
         </template>
