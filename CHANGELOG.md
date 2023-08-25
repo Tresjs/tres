@@ -1,5 +1,18 @@
 
 
+## [3.2.0](https://github.com/Tresjs/cientos/compare/3.1.0...3.2.0) (2023-08-25)
+
+
+### Features
+
+* 107 use video texture ([#167](https://github.com/Tresjs/cientos/issues/167)) ([f0f1f9b](https://github.com/Tresjs/cientos/commit/f0f1f9bc6107c2d040195ca76f647ef6dcbeb2d3))
+* add glass material ([#172](https://github.com/Tresjs/cientos/issues/172)) ([5f60864](https://github.com/Tresjs/cientos/commit/5f608640ccd4eaa14357101a3784eeeac3592646))
+
+
+### Bug Fixes
+
+* 179 tweakpane plugin essentials ([#180](https://github.com/Tresjs/cientos/issues/180)) ([67b8d57](https://github.com/Tresjs/cientos/commit/67b8d57bbfdbdcd01e7a24f470934acafa6ae300))
+
 ## [3.2.0-next.0](https://github.com/Tresjs/cientos/compare/3.1.0...3.2.0-next.0) (2023-08-23)
 
 
