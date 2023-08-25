@@ -1,11 +1,10 @@
 import { onUnmounted, onMounted } from 'vue'
 import { Pane } from 'tweakpane'
-import * as EssentialsPlugin from '@tweakpane/plugin-essentials'
 import { useRenderLoop } from '@tresjs/core'
+import { useLogger } from '../../../composables/useLogger'
 
 type TweakPane = Pane & { addBlade(blade: any): void, addInput(blade: any): void }
 let pane: TweakPane
-let fpsGraph: any
 
 export /**
  * Creates a TweakPane instance and returns it.
@@ -22,13 +21,11 @@ export /**
       pane.element.style.top = '1rem'
       pane.element.style.right = '1rem'
       pane.element.style.zIndex = '9999'
-      pane.registerPlugin(EssentialsPlugin)
-
-      fpsGraph = pane.addBlade({
-        view: 'fpsgraph',
-        label: 'fpsgraph',
-      })
     }
+
+    const { logWarning } = useLogger()
+
+    logWarning('useTweakPane is going to be deprecated soon and will no longer be part of this package, please start migrating to @tresjs/leches package https://github.com/Tresjs/leches or v-tweakpane https://github.com/vinayakkulkarni/v-tweakpane instead.')
 
     /**
      * Disposes the TweakPane instance.
@@ -41,14 +38,12 @@ export /**
     }
 
     onMounted(() => {
-      const { onBeforeLoop, onAfterLoop, resume } = useRenderLoop()
+      const { resume } = useRenderLoop()
       resume()
-      onBeforeLoop(() => fpsGraph.begin())
-      onAfterLoop(() => fpsGraph.end())
     })
     onUnmounted(() => {
       disposeTweakPane()
     })
 
-    return { pane, fpsGraph, disposeTweakPane }
+    return { pane, disposeTweakPane }
   }

@@ -33,9 +33,6 @@ importers:
       '@tweakpane/core':
         specifier: ^1.1.9
         version: 1.1.9
-      '@tweakpane/plugin-essentials':
-        specifier: ^0.1.8
-        version: 0.1.8(tweakpane@3.1.10)
       '@types/node':
         specifier: ^20.5.4
         version: 20.5.4
@@ -1082,14 +1079,6 @@ packages:
 
   /@tweakpane/core@1.1.9:
     resolution: {integrity: sha512-9tq+KAhaqPiOgsFyLPAz1IMXkVfhRqxGzAgy1ps3As6o3W7XjnU7sev6OlD/Z+Pzw8uZVMukkSHf2e0uCU6u0A==}
-    dev: true
-
-  /@tweakpane/plugin-essentials@0.1.8(tweakpane@3.1.10):
-    resolution: {integrity: sha512-tWBXzWafcjiq+/XvZnOgSz0B+YikwZj0NnqiZPba+AwTiDqNk/6PU3so0Bs0qyxLIJKT/+AUPRL8jBmtERYzwA==}
-    peerDependencies:
-      tweakpane: ^3.1.4
-    dependencies:
-      tweakpane: 3.1.10
     dev: true
 
   /@tweenjs/tween.js@18.6.4:

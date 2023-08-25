@@ -1,5 +1,17 @@
 
 
+## [3.2.0-next.0](https://github.com/Tresjs/cientos/compare/3.1.0...3.2.0-next.0) (2023-08-23)
+
+
+### Features
+
+* 107 use video texture ([#167](https://github.com/Tresjs/cientos/issues/167)) ([f0f1f9b](https://github.com/Tresjs/cientos/commit/f0f1f9bc6107c2d040195ca76f647ef6dcbeb2d3))
+
+
+### Bug Fixes
+
+* remove tweakpane essentials import ([eeed334](https://github.com/Tresjs/cientos/commit/eeed334398374089d17b3ebf34bfc7b5f963372b))
+
 ## [3.1.0](https://github.com/Tresjs/cientos/compare/3.0.1...3.1.0) (2023-08-17)
 
 

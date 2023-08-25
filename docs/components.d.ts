@@ -13,7 +13,6 @@ declare module 'vue' {
     LoveVueThreeJS: typeof import('./.vitepress/theme/components/LoveVueThreeJS.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    WobbleMaterial: typeof import('./.vitepress/theme/components/WobbleMaterial.vue')['default']
     WobbleMaterialDemo: typeof import('./.vitepress/theme/components/WobbleMaterialDemo.vue')['default']
   }
 }
