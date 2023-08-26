@@ -21,7 +21,7 @@ const isMobile = computed(() => window.innerWidth < 768)
             'w-full h-screen': isMobile,
             'md:rounded-lg shadow-md': !isMobile,
           }"
-          class="absolute z-36 p-4 bg-white top-0 left-0 md:bottom-20 md:right-10 md:top-20 md:left-auto overflow-auto w-full md:min-width-70ch md:w-auto text-gray-600 md:text-sm"
+          class="absolute z-36 p-4 bg-white top-0 left-0 md:bottom-20 md:right-10 md:top-20 md:left-auto overflow-auto md:min-width-70ch text-gray-600 md:text-sm"
         >
           <div v-if="isMobile" class="flex justify-end">
             <button
