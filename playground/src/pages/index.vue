@@ -24,7 +24,26 @@ watchEffect(() => {
 watchEffect(() => {
   console.log('awiwi', awiwi.value)
 })
-//
+// Objects with ref values
+const { wireframe } = useControls({
+  wireframe: ref(false),
+})
+
+watchEffect(() => {
+  console.log('wireframe', wireframe.value)
+})
+
+// Objects with reactive values
+const cameraPosition = reactive(new Vector3(0, 0, 0))
+
+const { position } = useControls({
+  position: cameraPosition,
+})
+
+watchEffect(() => {
+  console.log('cameraPosition', position.value)
+})
+
 
 
 /* const { wireframe } = useControls({
@@ -85,7 +104,7 @@ useControls('Box', {
 <template>
   <TresLeches />
   <TresCanvas v-bind="gl">
-    <TresPerspectiveCamera ref="cameraRef" :look-at="[1,2,0]" />
+    <TresPerspectiveCamera ref="cameraRef"  :position-x="position.x" :look-at="[1,2,0]" />
     <TresMesh ref="boxRef" :position-x="boxPosition.x" :position-y="boxPosition.y" :position-z="boxPosition.z"
       :rotation-x="boxRotation.x" :rotation-y="boxRotation.y" :rotation-z="boxRotation.z" :scale="[2, 2, 2]">
       <TresBoxGeometry />
