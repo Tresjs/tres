@@ -3,9 +3,8 @@ import { ref } from 'vue'
 import { useWindowSize } from '@vueuse/core'
 import { UseDraggable } from '../composables/useDraggable/component'
 
-import { useControlsProvider } from '../composables/useControls'
+import { Control, useControlsProvider } from '../composables/useControls'
 import ControlInput from './ControlInput.vue'
-import { Control } from '../types'
 
 const { width } = useWindowSize()
 
@@ -15,13 +14,9 @@ const handle = ref<HTMLElement | null>(null)
 
 const controls = useControlsProvider()
 
-function onChange(value: string, control: Control) {
-  if (control.ref) {
-    control.ref[control.label] = value
-    control.value = value
-  } else {
-    control.value = value
-  }
+function onChange(label: string, value: string) {
+  console.log('onChange', { label, value })
+  controls[label].value = value
 }
 </script>
 <template>
@@ -42,7 +37,7 @@ function onChange(value: string, control: Control) {
         <div></div>
       </header>
       <template v-for="control of controls" :key="control.label">
-        <ControlInput :control="control" @change="newValue => onChange(newValue, control)" />
+        <ControlInput :control="control" @change="newValue => onChange(control.label, newValue )" />
       </template>
     </div>
   </UseDraggable>

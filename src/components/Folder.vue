@@ -19,7 +19,7 @@ const toggle = () => {
 <template>
   <div class="mb-4">
     <button
-      class="flex items-center justify-between w-full p-4 bg-gray-100 border-none text-gray-400 font-bold text-xs focus:outline-none font-sans cursor-pointer"
+      class="flex items-center justify-between w-full py-2 px-4 bg-gray-100 border-none text-gray-400 font-bold text-xs focus:outline-none font-sans cursor-pointer"
       @click="toggle"
     >
       <span>{{ control.label }}</span>

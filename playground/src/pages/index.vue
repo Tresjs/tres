@@ -10,15 +10,41 @@ import { reactive, ref, watch, watchEffect } from 'vue'
 const gl = reactive({
   clearColor: '#82DBC5',
 })
+// Refs
+
+// Reactive
+
+// Plain Objects
+const [{value:test}, {value:awiwi}] = useControls({ test: true, awiwi: 'awiwi' })
+console.log('test', test)
+console.log('awiwi', awiwi)
+watchEffect(() => {
+  console.log('test', test.value)
+})
+watchEffect(() => {
+  console.log('awiwi', awiwi.value)
+})
+//
 
 
-const wireframe = ref(false)
+/* const { wireframe } = useControls({
+  wireframe: ref(false),
+}) */
 const boxPosition = reactive(new Vector3(0, 0, 0))
 const boxRotation = reactive(new Vector3(0, Math.PI, 0))
+const boxRef = ref()
+const cameraRef = ref()
 
-useControls('fpsgraph')
-const objectTest = useControls({ awiwi: { value: 1, min: 0, max: 10, step: 0.1, icon: 'ic-baseline-arrow-forward' } })
-useControls(gl)
+/* const fps = useControls('fpsgraph')
+
+const { awiwi } = useControls({ 
+  awiwi: { value: 1, min: 0, max: 10, step: 0.1, icon: 'ic-baseline-arrow-forward' } 
+}) */
+
+/* console.log('wireframe',useControls({wireframe})) */
+
+
+/* useControls(gl) */
 /* useControls('fpsgraph')
 useControls(gl)
 
@@ -28,23 +54,22 @@ useControls('Box', {
   wireframe,
 })
  */
-useControls('Box', {
+/* const boxControls = useControls('Box', {
   position: boxPosition,
   rotation: boxRotation,
   wireframe,
-})
-const boxRef = ref()
-const cameraRef = ref()
+}) */
 
-const test = useControls({
+
+/* const state = useControls({
   label: 'test',
   options: [{ text: 'loading', value: 'LDG' },
   { text: 'menu', value: 'MNU' },
   { text: 'field', value: 'FLD' },],
   value: 'LDG',
-})
+}) */
 
-const unwatch = watch(cameraRef, value => {
+/* const unwatch = watch(cameraRef, value => {
   if (value) {
     useControls('Camera', {
       position: cameraRef.value.position,
@@ -52,13 +77,12 @@ const unwatch = watch(cameraRef, value => {
     })
     unwatch()
   }
-})
-watchEffect(() => {
-  console.log(test.value.value)
-})
+}) */
+/* watchEffect(() => {
+  console.log(state.test.value)
+}) */
 </script>
 <template>
-  <pre>{{ objectTest }}</pre>
   <TresLeches />
   <TresCanvas v-bind="gl">
     <TresPerspectiveCamera ref="cameraRef" :look-at="[1,2,0]" />

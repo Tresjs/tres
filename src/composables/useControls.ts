@@ -1,138 +1,61 @@
-import { isReactive, isRef, onUnmounted, provide, reactive, ref, toRefs } from 'vue'
-import { Control, Schema, SchemaOrFn } from '../types'
+import { Ref, isReactive, isRef, provide, reactive, ref, toRefs } from 'vue'
 
 export const CONTROLS_CONTEXT_KEY = Symbol('CONTROLS_CONTEXT_KEY')
 
-const controls = reactive<{ [key: string]: Control }>({})
+export interface Control {
+  label: Ref<string>;
+  name: Ref<string>;
+  type: Ref<string>;
+  value: Ref<any>;
+  visible: Ref<boolean>;
+  [key: string]: Ref<any> | boolean;
+}
+
+// Internal state
+const controls: { [key: string]: Control } = reactive({});
+
+// Helper function to infer type
+const inferType = (value: any): string => {
+  if (typeof value === 'boolean') return 'boolean';
+  if (typeof value === 'number') return 'number';
+  if (typeof value === 'string') return 'string';
+  // Add more types as needed
+  return 'unknown';
+};
 
 export function useControlsProvider() {
   provide(CONTROLS_CONTEXT_KEY, controls)
   return controls
 }
 
-
-function parseObjectToControls(obj: Schema): Control[] {
-    return Object.entries(obj).map(([key, schema]) => {
-      let type = 'string'
-      let value
-      const colorRegex = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$|^0x([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/
-  
-      if (!isRef(schema) && schema.value) {
-        type = typeof schema.value
-        value = schema.value
-      } else if (isRef(schema)) {
-        type = typeof schema.value
-        value = schema.value
-      } else {
-        type = typeof schema
-        value = schema
-      }
-  
-      if (type === 'number' && (schema.step || schema.max || schema.min)) {
-        type = 'range'
-      }
-  
-      if (type === 'string' && colorRegex.test(value)) {
-        type = 'color'
-      }
-  
-      if (value.isVector3 || value.isEuler || value instanceof Array) {
-        type = 'vector'
-      }
-  
-      if (!isRef(schema) && schema.value) {
-        return {
-          ...schema,
-          label: schema.label || key,
-          value: schema.value,
-          type,
-          visible: true,
-        }
-      }
-      return {
-        label: schema.label || key,
-        value: schema,
-        type,
-        visible: true,
-      }
-    })
-  }
-
-export function dispose() {
+export const dispose = () => {
   for (const key in controls) {
     delete controls[key];
   }
-}
+};
 
-export function useControls<
-  S extends Schema,
-  F extends SchemaOrFn<S> | string,
-  G extends SchemaOrFn<S>,
-  T extends SchemaOrFn<S>,
->(controlOrFolderName: F, settingsOrDepsOrControl?: G, settings?: T) {
-  const control = ref()
-  if (typeof controlOrFolderName === 'string') {
-    if (controlOrFolderName === 'fpsgraph') {
-      controls[controlOrFolderName] = {
-        label: 'fpsgraph',
-        visible: true,
-        type: 'fpsgraph',
-      }
-      control.value = controls[controlOrFolderName]
-    } else {
-      controls[controlOrFolderName] = {
-        label: controlOrFolderName,
-        visible: true,
-        type: 'folder',
-        controls: settingsOrDepsOrControl ? parseObjectToControls(settingsOrDepsOrControl) : [],
-      }
-      control.value = controls[controlOrFolderName]
-    }
-  } else if (typeof controlOrFolderName === 'object' && controlOrFolderName.options) {
-    controls[controlOrFolderName.label || 'Dropdown'] = {
-      ...settings,
-      label: controlOrFolderName.label || 'Dropdown',
-      visible: true,
-      value: controlOrFolderName.value,
-      type: 'select',
-      ref: controlOrFolderName,
-      options: controlOrFolderName.options,
-    }
-    control.value = controls[controlOrFolderName.label || 'Dropdown']
-  } else if (typeof controlOrFolderName === 'object' && typeof settingsOrDepsOrControl === 'string') {
-    controls[settingsOrDepsOrControl] = {
-      ...settings,
-      label: settingsOrDepsOrControl,
-      visible: true,
-      value: controlOrFolderName[settingsOrDepsOrControl],
-      type: typeof controlOrFolderName[settingsOrDepsOrControl],
-      ref: controlOrFolderName,
-    }
-    control.value = controls[settingsOrDepsOrControl]
-  } else if (isReactive(controlOrFolderName)) {
-    const iternal = toRefs(controlOrFolderName)
-    const parsedControls = parseObjectToControls(iternal);
-    for (const parsedControl of parsedControls) {
-      controls[parsedControl.label] = parsedControl;
-    }
-    control.value  = parsedControls
-  } else {
-    const parsedControls = parseObjectToControls(controlOrFolderName);
-    for (const parsedControl of parsedControls) {
-      controls[parsedControl.label] = parsedControl;
-    }
-    control.value  = parsedControls
+export const useControls = (params: { [key: string]: any }): Control | Control[] => {
+  const result: Control[] = [];
+
+  for (const key in params) {
+    const value = params[key];
+    const type = inferType(value);
+
+    const control: Control = {
+      label: ref(key),
+      name: ref(key),
+      type: ref(type),
+      value: ref(value),
+      visible: ref(true),
+      [key]: ref(value)
+    };
+
+    // Update the internal state
+    controls[key] = control;
+
+    result.push(control);
   }
 
-  onUnmounted(dispose)
+  return result.length === 1 ? result[0] : result;
+};
 
-/*   const controlRefs = computed(() => {
-    const refs = reactive<{ [label: string]: typeof ref }>({})
-    for (let key in controls.controls) {
-      refs[key] = ref(controls.controls[key].value)
-    }
-    return toRefs(refs)
-  }) */
-
-  return control
-}
