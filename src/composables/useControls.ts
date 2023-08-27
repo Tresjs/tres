@@ -26,6 +26,8 @@ const inferType = (value: any): string => {
   if (typeof value === 'number') return 'number';
   if (typeof value === 'string') return 'string';
   if (value.isVector3 || value.isEuler || value instanceof Array) return 'vector';
+  if (value.min !== undefined || value.max !== undefined || value.step !== undefined) return 'range';
+
   // Add more types as needed
   return 'unknown';
 };
@@ -41,6 +43,30 @@ export const useControls = (params: { [key: string]: any }): Control | Control[]
 
   for (const key in params) {
     let value = params[key];
+
+    // If the value is an object with control options
+    if (typeof value === 'object' && !isRef(value) && !Array.isArray(value) && value.value !== undefined) {
+      const controlOptions = value;
+      
+    // Ensure the value is a ref
+    const reactiveValue = isRef(controlOptions.value) ? controlOptions.value : ref(controlOptions.value);
+
+    const control: Control = {
+      label: ref(key),
+      name: ref(key),
+      type: ref(inferType(controlOptions)),
+      value: reactiveValue,
+      visible: ref(true),
+      [key]: reactiveValue,
+      min: controlOptions.min ? ref(controlOptions.min) : undefined,
+      max: controlOptions.max ? ref(controlOptions.max) : undefined,
+      step: controlOptions.step ? ref(controlOptions.step) : undefined
+    };
+
+    controls[key] = control;
+    result.push(control);
+    continue;
+    }
 
     // If the value is a ref, use it directly
     if (isRef(value)) {
