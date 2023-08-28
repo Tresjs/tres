@@ -44,7 +44,10 @@
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx,.vue",
     "story:dev": "histoire dev",
     "story:build": "histoire build",
-    "story:preview": "histoire preview"
+    "story:preview": "histoire preview",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs"
   },
   "peerDependencies": {
     "vue": ">=3.3"
@@ -77,9 +80,11 @@
     "rollup-plugin-visualizer": "^5.9.2",
     "typescript": "^5.1.6",
     "unocss": "^0.55.0",
+    "unplugin-vue-components": "^0.25.1",
     "vite": "^4.4.9",
     "vite-plugin-banner": "^0.7.0",
     "vite-plugin-dts": "^3.5.2",
+    "vitepress": "1.0.0-rc.9",
     "vitest": "^0.34.2",
     "vue": "^3.3.4",
     "vue-tsc": "^1.8.8",
