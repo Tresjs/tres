@@ -1,0 +1,17 @@
+{
+    "name": "docs",
+    "private": true,
+    "version": "0.0.0",
+    "type": "module",
+    "scripts": {
+      "dev": "vitepress dev",
+      "build": "vitepress build",
+      "preview": "vitepress preview"
+    },
+    "devDependencies": {
+      "unocss": "^0.54.0"
+    },
+    "dependencies": {
+      "@tresjs/leches": "workspace:0.7.0"
+    }
+  }
