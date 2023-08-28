@@ -7,8 +7,9 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
-    copy: typeof import('./.vitepress/theme/components/Test copy.vue')['default']
+    copy: typeof import('./.vitepress/theme/components/GettingStartedDemo copy.vue')['default']
     GettingStartedDemo: typeof import('./.vitepress/theme/components/GettingStartedDemo.vue')['default']
+    HeroDemo: typeof import('./.vitepress/theme/components/HeroDemo.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Test: typeof import('./.vitepress/theme/components/Test.vue')['default']
