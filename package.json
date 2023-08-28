@@ -50,6 +50,7 @@
     "vue": ">=3.3"
   },
   "dependencies": {
+    "@vitest/browser": "^0.34.3",
     "@vueuse/components": "^10.3.0"
   },
   "devDependencies": {
@@ -81,6 +82,7 @@
     "vite-plugin-dts": "^3.5.2",
     "vitest": "^0.34.2",
     "vue": "^3.3.4",
-    "vue-tsc": "^1.8.8"
+    "vue-tsc": "^1.8.8",
+    "webdriverio": "^8.15.9"
   }
 }

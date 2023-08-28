@@ -59,6 +59,11 @@ export default defineConfig({
     alias: {
       '/@': resolve(__dirname, './src'),
     },
+    browser: {
+      enabled: true,
+      name: 'chrome', // browser name is required
+      headless: true,
+    },
   },
   build: {
     lib: {
