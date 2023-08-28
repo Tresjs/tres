@@ -14,15 +14,17 @@ But for now let's hijack this space to announce what's happening in your favorit
 
 ## Remove TweakPane from cientos 😱
 
-Ok ok, not really, we haven't dropped TweakPane from Cientos yet.
+Ok ok, not really. We haven't dropped [TweakPane](https://cocopon.github.io/tweakpane/) from Cientos (just yet).
 
-In Cientos, we're constantly working to improve your development experience, and we have found that the tweakPane EssentialsPlugin was taking up HALF of the Cientos bundle size, so we have taken the decision to drop it from Cientos and add it as a peerDependency.
+In Cientos, we're constantly working to improve your development experience, and we have found that the tweakPane + plugin-essentials was taking up almost a third of the Cientos bundle size, so we have taken the decision to drop it from Cientos and add it as a peerDependency.
 
-This will mean that you have to manually instal it to use useTweakPane().
+This will mean that you have to manually install it to use `useTweakPane()`.
 
-So, as you may find in the logs, this package will be deprecated soon in the future
+So, as you may find in the logs, this package will be deprecated soon in the future.
 
 The good news is that we're working on a built-in solution... ok no more spoilers 😊
+
+![](/blog/announce-leches.jpg)
 
 ## GlassMaterial 🍷
 
@@ -41,6 +43,8 @@ This material is an adaptation of the MeshPhysicalMaterial so you can tweak the 
 More info [here](https://cientos.tresjs.org/guide/materials/glass-material.html)
 
 ## UseVideoTexture 🎞️
+
+![](/blog/useVideoTexture.gif)
 
 Yes!! the new loader allows you to easily use a video as a texture.
 
@@ -83,13 +87,13 @@ As always in Cientos we like to make things easy for you and so we created an ab
 
 The number of tweaks you can do here is out of this world, check it out[here](https://cientos.tresjs.org/guide/controls/camera-controls.html)
 
-### Big thanks to [notarun](https://github.com/notarun) ✨
+### Big thanks to [notarun](https://github.com/notarun) for this amazing contribution.✨
 
 for this amazing contribution.
 
 ## New Event isLocked in (PointerLockControls)
 
-A new event has been added to the PointerLockControls, now you can effortlessly know if the PointerLock event is active or not. Simply add a couple of lines of code:
+A new event has been added to the `PointerLockControls`, now you can effortlessly know if the PointerLock event is active or not. Simply add a couple of lines of code:
 
 ```js
 const isActive = (state: boolean) => console.log(state)
