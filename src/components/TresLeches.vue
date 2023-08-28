@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 import { useWindowSize } from '@vueuse/core'
 import { UseDraggable } from '../composables/useDraggable/component'
+import Folder from './Folder.vue'
 
 import { Control, useControlsProvider } from '../composables/useControls'
 import ControlInput from './ControlInput.vue'
@@ -15,13 +16,30 @@ const handle = ref<HTMLElement | null>(null)
 const controls = useControlsProvider()
 
 function onChange(label: string, value: string) {
-  console.log('onChange', { label, value })
   controls[label].value = value
 }
+
+import { computed } from 'vue';
+
+const groupedControls = computed(() => {
+  const groups: { [folder: string]: Control[] } = {};
+
+  for (const key in controls) {
+    const control = controls[key];
+    const folderName = control.folder || 'default'; // Ensure we access the value of the ref
+
+    if (!groups[folderName]) {
+      groups[folderName] = [];
+    }
+    groups[folderName].push(control);
+  }
+
+  return groups;
+});
 </script>
 <template>
   <UseDraggable
-    :initial-value="{ x: width - DEFAULT_WIDTH - 20, y: 10 }"
+    :initial-value="{ x: width - DEFAULT_WIDTH - 40, y: 10 }"
     class="absolute select-none z-24 w-280px font-sans text-xs"
     :class="$attrs.class"
     :handle="handle"
@@ -36,8 +54,11 @@ function onChange(label: string, value: string) {
         </div>
         <div></div>
       </header>
-      <template v-for="control of controls" :key="control.label">
-        <ControlInput :control="control" @change="newValue => onChange(control.label, newValue )" />
+      <template v-for="(group, folderName) of groupedControls" :key="folderName">
+        <Folder v-if="folderName !== 'default'" :label="folderName" :controls="group" />
+        <template v-if="folderName === 'default'">
+          <ControlInput v-for="control in group"  :key="control.label" :control="control" @change="newValue => onChange(control.label, newValue )" />
+        </template>
       </template>
     </div>
   </UseDraggable>

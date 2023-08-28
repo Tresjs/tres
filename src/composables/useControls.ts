@@ -32,54 +32,56 @@ const inferType = (value: any): string => {
   return 'unknown';
 };
 
+const createControl = (key: string, value: any, type: string, folderName: string | null): Control => {
+  const control: Control = {
+    label: ref(key),
+    name: ref(key),
+    type: ref(type),
+    value: ref(value),
+    visible: ref(true),
+    [key]: ref(value)
+  };
+
+  if (folderName) {
+    control.folder = ref(folderName);
+  }
+
+  return control;
+};
+
 export const dispose = (): void => {
   for (const key in controls) {
     delete controls[key];
   }
 };
 
-export const useControls = (params: { [key: string]: any }): Control | Control[] => {
+// eslint-disable-next-line max-len
+export const useControls = (folderNameOrParams: string | { [key: string]: any }, params?: { [key: string]: any }): Control | Control[] => {
   const result: Control[] = [];
 
-  for (const key in params) {
-    let value = params[key];
+  const folderName = typeof folderNameOrParams === 'string' ? folderNameOrParams : null;
+  const controlsParams = folderName ? params! : folderNameOrParams;
+
+  for (const key in controlsParams) {
+    let value = controlsParams[key];
 
     // If the value is an object with control options
     if (typeof value === 'object' && !isRef(value) && !Array.isArray(value) && value.value !== undefined) {
       const controlOptions = value;
-      
-    // Ensure the value is a ref
-    const reactiveValue = isRef(controlOptions.value) ? controlOptions.value : ref(controlOptions.value);
+      const reactiveValue = isRef(controlOptions.value) ? controlOptions.value : ref(controlOptions.value);
+      const control = createControl(key, reactiveValue, inferType(controlOptions), folderName);
+      control.min = controlOptions.min ? ref(controlOptions.min) : undefined;
+      control.max = controlOptions.max ? ref(controlOptions.max) : undefined;
+      control.step = controlOptions.step ? ref(controlOptions.step) : undefined;
 
-    const control: Control = {
-      label: ref(key),
-      name: ref(key),
-      type: ref(inferType(controlOptions)),
-      value: reactiveValue,
-      visible: ref(true),
-      [key]: reactiveValue,
-      min: controlOptions.min ? ref(controlOptions.min) : undefined,
-      max: controlOptions.max ? ref(controlOptions.max) : undefined,
-      step: controlOptions.step ? ref(controlOptions.step) : undefined
-    };
-
-    controls[key] = control;
-    result.push(control);
-    continue;
+      controls[key] = control;
+      result.push(control);
+      continue;
     }
 
     // If the value is a ref, use it directly
     if (isRef(value)) {
-      const control: Control = {
-        label: ref(key),
-        name: ref(key),
-        type: ref(inferType(value.value)),
-        value: value,  // Use the passed ref directly
-        visible: ref(true),
-        [key]: value   // Use the passed ref directly
-      };
-
-      // Update the internal state
+      const control = createControl(key, value, inferType(value.value), folderName);
       controls[key] = control;
       result.push(control);
       continue;
@@ -94,14 +96,7 @@ export const useControls = (params: { [key: string]: any }): Control | Control[]
     }
 
     // For non-ref values
-    const control: Control = {
-      label: ref(key),
-      name: ref(key),
-      type: ref(inferType(value)),
-      value: ref(value),
-      visible: ref(true),
-      [key]: ref(value)
-    };
+    const control = createControl(key, value, inferType(value), folderName);
 
     // Update the internal state
     controls[key] = control;

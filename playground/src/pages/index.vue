@@ -45,7 +45,7 @@ watchEffect(() => {
 })
 
 // Objects with options
-const { zoom } = useControls({
+const { zoom, visible } = useControls({
   zoom: { value: 1, min: 0, max: 10, step: 0.1, icon: 'ic-baseline-arrow-forward' },
 })
 
@@ -53,6 +53,13 @@ watchEffect(() => {
   console.log('zoom', zoom.value)
 })
 
+// Folders
+const folder = useControls('Box', {
+  positionX: { value: 1, min: 0, max: 10, step: 0.1, icon: 'ic-baseline-arrow-forward' },
+  positionY: { value: 1, min: 0, max: 10, step: 0.1, icon: 'ic-baseline-arrow-forward' },
+})
+
+console.log('folder', folder)
 
 
 /* const { wireframe } = useControls({
