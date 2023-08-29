@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { shallowRef, toRefs, watch, watchEffect } from 'vue'
+import { shallowRef, toRefs, onUnmounted, watch, watchEffect } from 'vue'
 import { TresOptions, useLoader } from '@tresjs/core'
 import { SVGLoader, SVGResultPaths } from 'three-stdlib'
 import { Vector3, DoubleSide, ShapeGeometry, MeshBasicMaterialParameters, BufferGeometry } from 'three'
@@ -98,7 +98,14 @@ async function useSVG(src: string) {
   return useLoader(SVGLoader, srcStr);
 };
 
+onUnmounted(dispose);
+
+function dispose() {
+  layers.value.forEach(layer => layer.geometry.dispose());
+}
+
 function updateLayers() {
+  dispose();
   const _layers = [];
   let i = 0;
   for (const path of paths.value) {
