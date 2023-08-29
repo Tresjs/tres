@@ -61,6 +61,20 @@ const folder = useControls('Box', {
 
 console.log('folder', folder)
 
+const { dropdown } = useControls({
+  dropdown: {
+    options: [
+    { text: 'loading', value: 'LDG' },
+    { text: 'menu', value: 'MNU' },
+    { text: 'field', value: 'FLD' },],
+    value: 'LDG',
+  }
+})
+
+watchEffect(() => {
+  console.log('dropdown', dropdown.value)
+})
+
 
 /* const { wireframe } = useControls({
   wireframe: ref(false),

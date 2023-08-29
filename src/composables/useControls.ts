@@ -20,7 +20,12 @@ const inferType = (value: any): string => {
   if (typeof value === 'string') return 'string';
   if (value.isVector3 || value.isEuler || value instanceof Array) return 'vector';
   if (value.min !== undefined || value.max !== undefined || value.step !== undefined) return 'range';
-
+  if (
+    value.options 
+    && Array.isArray(value.options) 
+    && value.options.every((option: { text: string, value: string}) => 'text' in option && 'value' in option)) {
+    return 'select';
+  }
   // Add more types as needed
   return 'unknown';
 };
@@ -75,10 +80,18 @@ export const useControls = (
     if (typeof value === 'object' && !isRef(value) && !Array.isArray(value) && value.value !== undefined) {
       const controlOptions = value;
       const reactiveValue = isRef(controlOptions.value) ? controlOptions.value : ref(controlOptions.value);
-      const control = createControl(key, reactiveValue, inferType(controlOptions), folderName);
-      control.min = controlOptions.min ? ref(controlOptions.min) : undefined;
-      control.max = controlOptions.max ? ref(controlOptions.max) : undefined;
-      control.step = controlOptions.step ? ref(controlOptions.step) : undefined;
+      const controlType = inferType(controlOptions);
+      const control = createControl(key, reactiveValue, controlType, folderName);
+
+      if(controlType === 'select') {
+        control.options = ref(controlOptions.options);
+      }
+
+      if(controlType === 'range') {
+        control.min = ref(controlOptions.min)
+        control.max = ref(controlOptions.max)
+        control.step = ref(controlOptions.step)
+      }
 
       controls[key] = control;
       result.push(control);
