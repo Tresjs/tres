@@ -28,6 +28,8 @@ The good news is that we're working on a built-in solution... ok no more spoiler
 
 ## GlassMaterial 🍷
 
+![](/blog/glass-material.gif)
+
 ¡We've something shiny here!
 
 A new fancy material only available in Cientos that emulates glass.
@@ -87,9 +89,7 @@ As always in Cientos we like to make things easy for you and so we created an ab
 
 The number of tweaks you can do here is out of this world, check it out[here](https://cientos.tresjs.org/guide/controls/camera-controls.html)
 
-### Big thanks to [notarun](https://github.com/notarun) for this amazing contribution.✨
-
-for this amazing contribution.
+Big thanks to [notarun](https://github.com/notarun) for this amazing contribution.
 
 ## New Event isLocked in (PointerLockControls)
 
