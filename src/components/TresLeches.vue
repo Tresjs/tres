@@ -1,11 +1,17 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { Ref, ref, toRefs, unref } from 'vue'
 import { useWindowSize } from '@vueuse/core'
 import { UseDraggable } from '../composables/useDraggable/component'
 import Folder from './Folder.vue'
 
-import { Control, useControlsProvider } from '../composables/useControls'
+import { useControlsProvider } from '../composables/useControls'
 import ControlInput from './ControlInput.vue'
+
+const props = defineProps<{
+  uuid?: string
+}>()
+
+const { uuid } = toRefs(props)
 
 const { width } = useWindowSize()
 
@@ -13,13 +19,16 @@ const DEFAULT_WIDTH = 280
 
 const handle = ref<HTMLElement | null>(null)
 
-const controls = useControlsProvider()
+const controls = useControlsProvider(uuid?.value)
 
-function onChange(label: string, value: string) {
-  controls[label].value = value
+console.log(uuid?.value, controls)
+
+function onChange(label: Ref<string>, value: string) {
+  controls[unref(label)].value = value as any
 }
 
 import { computed } from 'vue';
+import { Control } from '../types'
 
 const groupedControls = computed(() => {
   const groups: { [folder: string]: Control[] } = {};
@@ -28,10 +37,10 @@ const groupedControls = computed(() => {
     const control = controls[key];
     const folderName = control.folder || 'default'; // Ensure we access the value of the ref
 
-    if (!groups[folderName]) {
-      groups[folderName] = [];
+    if (!groups[folderName as unknown as string]) {
+      groups[folderName as unknown as string] = [];
     }
-    groups[folderName].push(control);
+    groups[folderName as unknown as string].push(control);
   }
 
   return groups;
@@ -39,6 +48,7 @@ const groupedControls = computed(() => {
 </script>
 <template>
   <UseDraggable
+    :id="uuid"
     :initial-value="{ x: width - DEFAULT_WIDTH - 40, y: 10 }"
     class="absolute select-none z-24 w-280px font-sans text-xs"
     :class="$attrs.class"
@@ -57,7 +67,12 @@ const groupedControls = computed(() => {
       <template v-for="(group, folderName) of groupedControls" :key="folderName">
         <Folder v-if="folderName !== 'default'" :label="folderName" :controls="group" />
         <template v-if="folderName === 'default'">
-          <ControlInput v-for="control in group"  :key="control.label" :control="control" @change="newValue => onChange(control.label, newValue )" />
+          <ControlInput 
+            v-for="control in group"  
+            :key="control.label" 
+            :control="control" 
+            @change="newValue => onChange(control.label, newValue )" 
+          />
         </template>
       </template>
     </div>

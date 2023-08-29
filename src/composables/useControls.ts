@@ -1,24 +1,17 @@
-import { Ref, isRef, provide, reactive, ref, toRefs } from 'vue'
+import { isRef, provide, reactive, ref, toRefs } from 'vue'
+import { Control } from '../types';
 
 export const CONTROLS_CONTEXT_KEY = Symbol('CONTROLS_CONTEXT_KEY')
+const DEFAULT_UUID = "default";
 
 
-export function useControlsProvider() {
-  provide(CONTROLS_CONTEXT_KEY, controls)
-  return controls
-}
-// Define the Control type
-interface Control {
-  label: Ref<string>;
-  name: Ref<string>;
-  type: Ref<string>;
-  value: Ref<any>;
-  visible: Ref<boolean>;
-  [key: string]: Ref<any> | Ref<boolean>;
+export function useControlsProvider(uuid: string = DEFAULT_UUID) {
+  provide(CONTROLS_CONTEXT_KEY, controlsStore)
+  return controlsStore[uuid]
 }
 
 // Internal state
-const controls: { [key: string]: Control } = reactive({});
+const controlsStore: { [uuid: string]: { [key: string]: Control } } = reactive({});
 
 // Helper function to infer type
 const inferType = (value: any): string => {
@@ -49,21 +42,34 @@ const createControl = (key: string, value: any, type: string, folderName: string
   return control;
 };
 
-export const dispose = (): void => {
-  for (const key in controls) {
-    delete controls[key];
+export const dispose = (uuid: string): void => {
+  for (const key in controlsStore[uuid]) {
+    delete controlsStore[uuid][key];
   }
 };
 
 // eslint-disable-next-line max-len
-export const useControls = (folderNameOrParams: string | { [key: string]: any }, params?: { [key: string]: any }): Control | Control[] => {
+export const useControls = (
+  folderNameOrParams: string | { [key: string]: any },
+  paramsOrOptions?: { [key: string]: any } | { uuid?: string },
+  options?: { uuid?: string }
+): Control | Control[] => {
   const result: Control[] = [];
 
   const folderName = typeof folderNameOrParams === 'string' ? folderNameOrParams : null;
-  const controlsParams = folderName ? params! : folderNameOrParams;
+  const controlsParams = folderName ? paramsOrOptions as { [key: string]: any } : folderNameOrParams;
 
-  for (const key in controlsParams) {
-    let value = controlsParams[key];
+  const actualOptions = folderName ? options! : paramsOrOptions as { uuid?: string };
+  const uuid = actualOptions?.uuid || DEFAULT_UUID;
+
+  if (!controlsStore[uuid]) {
+    controlsStore[uuid] = reactive({});
+  }
+
+  const controls = controlsStore[uuid];
+
+  for (const key in controlsParams as any) {
+    let value = (controlsParams as any)[key];
 
     // If the value is an object with control options
     if (typeof value === 'object' && !isRef(value) && !Array.isArray(value) && value.value !== undefined) {

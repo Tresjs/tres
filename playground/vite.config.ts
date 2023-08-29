@@ -5,6 +5,7 @@ import Components from 'unplugin-vue-components/vite'
 import { resolve } from 'pathe'
 import UnoCSS from 'unocss/vite'
 import { presetUno, presetIcons, presetWebFonts, presetTypography, transformerDirectives } from 'unocss'
+import { templateCompilerOptions } from '@tresjs/core'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -14,11 +15,7 @@ export default defineConfig({
       script: {
         propsDestructure: true,
       },
-      template: {
-        compilerOptions: {
-          isCustomElement: tag => (tag.startsWith('Tres') && tag !== 'TresCanvas' && tag !== 'TresLeches') || tag === 'primitive',
-        },
-      },
+      ...templateCompilerOptions
     }),
     AutoImport({
       dts: true,

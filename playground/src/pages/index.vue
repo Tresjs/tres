@@ -70,6 +70,13 @@ const boxRotation = reactive(new Vector3(0, Math.PI, 0))
 const boxRef = ref()
 const cameraRef = ref()
 
+
+const { slider } = useControls({
+  slider: { value: 1, min: 0, max: 10, step: 0.1, icon: 'ic-baseline-arrow-forward' },
+}, {
+  uuid: 'second',
+})
+
 /* const fps = useControls('fpsgraph')
 
 const { awiwi } = useControls({ 
@@ -119,6 +126,7 @@ useControls('Box', {
 </script>
 <template>
   <TresLeches />
+  <TresLeches uuid="second"/>
   <TresCanvas v-bind="gl">
     <TresPerspectiveCamera ref="cameraRef"  :position-x="position.x" :look-at="[1,2,0]" />
     <TresMesh ref="boxRef" :position-x="boxPosition.x" :position-y="boxPosition.y" :position-z="boxPosition.z"

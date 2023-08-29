@@ -43,3 +43,5 @@ useControls({
 ```
 
 <GettingStartedDemo />
+
+<HeroDemo />

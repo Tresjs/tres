@@ -1,14 +1,15 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import ControlInput from './ControlInput.vue'
-import { Control } from '../types'
+import { Control } from '../types';
+
 defineProps<{
   controls: Control[],
-  label: string
+  label: string | number
 }>()
 
 function onChange(value: string, control: Control) {
-  control.value = value
+  control.value = value as any
 }
 
 const isOpen = ref(false)
