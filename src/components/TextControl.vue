@@ -18,9 +18,10 @@ function onChange(event: Event) {
     <label class="text-gray-500 w-1/3">{{ label }}</label>
     <input
       :value="control.value"
-      type="string"
+      type="text"
       class="p-2 w-2/3 rounded text-right text-xs text-gray-400 bg-gray-100 focus:border-gray-200 outline-none border-none font-sans"
       @change="onChange"
     />
+    {{ control.value }}
   </div>
 </template>

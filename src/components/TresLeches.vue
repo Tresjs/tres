@@ -21,8 +21,6 @@ const handle = ref<HTMLElement | null>(null)
 
 const controls = useControlsProvider(uuid?.value)
 
-console.log(uuid?.value, controls)
-
 function onChange(label: Ref<string>, value: string) {
   controls[unref(label)].value = value as any
 }

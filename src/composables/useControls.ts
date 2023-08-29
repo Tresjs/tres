@@ -47,7 +47,7 @@ const createControl = (key: string, value: any, type: string, folderName: string
   return control;
 };
 
-export const dispose = (uuid: string): void => {
+export const dispose = (uuid: string = DEFAULT_UUID): void => {
   for (const key in controlsStore[uuid]) {
     delete controlsStore[uuid][key];
   }
