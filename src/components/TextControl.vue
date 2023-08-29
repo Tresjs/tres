@@ -22,6 +22,5 @@ function onChange(event: Event) {
       class="p-2 w-2/3 rounded text-right text-xs text-gray-400 bg-gray-100 focus:border-gray-200 outline-none border-none font-sans"
       @change="onChange"
     />
-    {{ control.value }}
   </div>
 </template>

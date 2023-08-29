@@ -17,6 +17,15 @@ export default defineConfig({
         items: [
           { text: 'Getting Started', link: '/guide/getting-started' },
         ]
+      },
+      {
+        text: 'Controls',
+        link: '/controls',
+        items: [
+          { text: 'Boolean', link: '/controls/index.html#boolean' },
+          { text: 'Text', link: '/controls/index.html#number' },
+          { text: 'Text', link: '/controls/index.html#text' },
+        ]
       }
     ],
 

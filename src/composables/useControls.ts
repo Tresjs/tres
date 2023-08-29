@@ -71,6 +71,13 @@ export const useControls = (
     controlsStore[uuid] = reactive({});
   }
 
+  if(folderNameOrParams === 'fpsgraph') {
+    const control = createControl('fpsgraph', null, 'fpsgraph', null);
+    controlsStore[uuid]['fpsgraph'] = control;
+    result.push(control);
+    return result.length === 1 ? result[0] : result;
+  }
+
   const controls = controlsStore[uuid];
 
   for (const key in controlsParams as any) {
