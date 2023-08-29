@@ -84,11 +84,11 @@ const props = withDefaults(defineProps<SVGProps>(),
 type SVGLayer = { geometry: BufferGeometry, material: MeshBasicMaterialParameters, key: string, isStroke: boolean };
 
 const { src, skipStrokes, skipFills, fillMaterial, strokeMaterial, fillMeshProps, strokeMeshProps } = toRefs(props);
-const groupRef = shallowRef();
+const svgRef = shallowRef();
 const layers = shallowRef([] as SVGLayer[]);
 const paths = shallowRef([] as SVGResultPaths[]);
 
-defineExpose({ value: groupRef });
+defineExpose({ value: svgRef });
 
 watchEffect(async() => useSVG(src.value).then(SVGResult => paths.value = SVGResult.paths));
 watch([skipFills, skipStrokes, fillMaterial, strokeMaterial, paths], updateLayers);
@@ -150,7 +150,7 @@ function updateLayers() {
 </script>
 
 <template>
-  <TresGroup v-bind="$attrs" ref="groupRef">
+  <TresGroup ref="svgRef">
     <TresMesh v-for="{ geometry, material, isStroke, key } of layers" :key="key"
       v-bind="isStroke ? strokeMeshProps : fillMeshProps" :geometry="geometry">
       <TresMeshBasicMaterial v-bind="material" />
