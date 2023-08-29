@@ -14,7 +14,7 @@ import { presetUno, presetIcons, presetWebFonts, transformerDirectives } from 'u
 import { lightGreen, magenta, gray, bold } from 'kolorist'
 
 import pkg from './package.json'
-
+function noop() {}
 // eslint-disable-next-line no-console
 console.log(`${lightGreen('▲')} ${gray('■')} ${magenta('🍰')} ${bold('Tres/leches')} v${pkg.version}`)
 
@@ -56,14 +56,38 @@ export default defineConfig({
   test: {
     environment: process.env.BROWSER_TEST ? 'node' : 'jsdom',
     globals: true,
+    threads: false,
     alias: {
       '/@': resolve(__dirname, './src'),
     },
+    isolate: !process.env.BROWSER_TEST,
     browser: {
-      enabled: true,
-      name: 'chrome', // browser name is required
-      headless: true,
+      enabled: !!process.env.BROWSER_TEST,
+
+      // @ts-expect-error ignore, we don't have the type here in vitest
+      enableUI: true,
+      name: 'chrome',
+      headless: !!process.env.HEADLESS,
+      provider: 'webdriverio',
     },
+    reporters: process.env.BROWSER_TEST
+      ? [
+          'json',
+          {
+            onInit: noop,
+            onPathsCollected: noop,
+            onCollected: noop,
+            onFinished: noop,
+            onTaskUpdate: noop,
+            onTestRemoved: noop,
+            onWatcherStart: noop,
+            onWatcherRerun: noop,
+            onServerRestart: noop,
+            onUserConsoleLog: noop,
+          },
+          'default',
+        ]
+      : undefined,
   },
   build: {
     lib: {

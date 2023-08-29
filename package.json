@@ -39,6 +39,8 @@
     "test": "vitest",
     "test:ci": "vitest run",
     "test:ui": "vitest --ui",
+    "test:browser": "BROWSER_TEST=true HEADLESS=true vitest",
+    "test:browser:ui": "BROWSER_TEST=true vitest",
     "release": "release-it",
     "coverage": "vitest run --coverage",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx,.vue",
@@ -53,7 +55,6 @@
     "vue": ">=3.3"
   },
   "dependencies": {
-    "@vitest/browser": "^0.34.3",
     "@vueuse/components": "^10.4.1"
   },
   "devDependencies": {
@@ -64,7 +65,9 @@
     "@typescript-eslint/eslint-plugin": "^6.5.0",
     "@typescript-eslint/parser": "^6.5.0",
     "@vitejs/plugin-vue": "^4.3.4",
+    "@vitest/browser": "^0.34.3",
     "@vitest/ui": "^0.34.3",
+    "@vue/test-utils": "^2.4.1",
     "@vueuse/core": "^10.4.1",
     "@vueuse/shared": "^10.4.1",
     "eslint": "^8.48.0",
