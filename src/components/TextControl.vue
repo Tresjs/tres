@@ -8,8 +8,9 @@ defineProps<{
 
 const emit = defineEmits(['change'])
 
-function onChange(value: string) {
-  emit('change', value)
+function onChange(event: Event) {
+  const { target } = event
+  emit('change', (target as HTMLInputElement).value)
 }
 </script>
 <template>

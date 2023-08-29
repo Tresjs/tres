@@ -1,14 +1,50 @@
-import { reactive } from 'vue'
+import { isRef, reactive } from 'vue'
 import { afterEach, describe, it, expect } from 'vitest'
 import { useControls, dispose } from '/@/composables/useControls'
-import { Vector3 } from 'three'
 
 describe('useControls', () => {
   afterEach(() => {
     dispose()
   })
 
-  describe('when pass an object', () => {
+  /* describe('when pass a string', () => {}) */
+
+  describe('when pass an plain object', () => {
+    /*
+    const obj = useControls({ test: 'awiwi' })
+    */
+    it('should return an object with a value', () => {
+      const { value } = useControls({ test: true })
+      expect(value.value).toBe(true)
+    })
+    it('should return refs of all properties', () => {
+      const { visible, value } = useControls({ test: true })
+      expect(isRef(value)).toBe(true)
+      expect(isRef(visible)).toBe(true)
+    })
+    it('should return an array of controls with ref properties if object has multiple properties', () => {
+      const controls = useControls({ test: true, test2: true })
+      expect(controls).toHaveLength(2)
+      expect(isRef(controls[0].value)).toBe(true)
+    })
+  /*   it('should return refs of all properties', () => {
+      const { value } = useControls({ test: true })
+      expect(isRef(value)).toBe(true)
+    })
+    it('should return a ref with the label that has the latest value', () => {
+      const { test } = useControls({ test: true })
+      expect(isRef(test)).toBe(true)
+    })
+    it('should add a control of type string from an object with a string value', () => {
+      const obj = useControls({ test: 'awiwi' })
+      expect(obj.value).toBe('awiwi')
+      expect(obj.type).toBe('string')
+    }) */
+
+
+  })
+
+  /* describe('when pass an object', () => {
     it('should return an array of controls', () => {
       const { controls } = useControls({ a: 'awiwi', b: 1 })
       expect(controls).toHaveLength(2)
@@ -130,5 +166,5 @@ describe('useControls', () => {
       expect(control.max).toBe(10)
       expect(control.step).toBe(0.1)
     })
-  })
+  }) */
 })

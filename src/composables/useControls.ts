@@ -1,138 +1,126 @@
-import { isReactive, isRef, onUnmounted, provide, reactive, ref, toRefs } from 'vue'
-import { Control, Schema, SchemaOrFn } from '../types'
+import { isRef, provide, reactive, ref, toRefs } from 'vue'
+import { Control } from '../types';
 
 export const CONTROLS_CONTEXT_KEY = Symbol('CONTROLS_CONTEXT_KEY')
+const DEFAULT_UUID = "default";
 
-const controls = reactive<{ [key: string]: Control }>({})
 
-export function useControlsProvider() {
-  provide(CONTROLS_CONTEXT_KEY, controls)
-  return controls
+export function useControlsProvider(uuid: string = DEFAULT_UUID) {
+  provide(CONTROLS_CONTEXT_KEY, controlsStore)
+  return controlsStore[uuid]
 }
 
+// Internal state
+const controlsStore: { [uuid: string]: { [key: string]: Control } } = reactive({});
 
-function parseObjectToControls(obj: Schema): Control[] {
-    return Object.entries(obj).map(([key, schema]) => {
-      let type = 'string'
-      let value
-      const colorRegex = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$|^0x([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/
-  
-      if (!isRef(schema) && schema.value) {
-        type = typeof schema.value
-        value = schema.value
-      } else if (isRef(schema)) {
-        type = typeof schema.value
-        value = schema.value
-      } else {
-        type = typeof schema
-        value = schema
-      }
-  
-      if (type === 'number' && (schema.step || schema.max || schema.min)) {
-        type = 'range'
-      }
-  
-      if (type === 'string' && colorRegex.test(value)) {
-        type = 'color'
-      }
-  
-      if (value.isVector3 || value.isEuler || value instanceof Array) {
-        type = 'vector'
-      }
-  
-      if (!isRef(schema) && schema.value) {
-        return {
-          ...schema,
-          label: schema.label || key,
-          value: schema.value,
-          type,
-          visible: true,
-        }
-      }
-      return {
-        label: schema.label || key,
-        value: schema,
-        type,
-        visible: true,
-      }
-    })
+// Helper function to infer type
+const inferType = (value: any): string => {
+  if (typeof value === 'boolean') return 'boolean';
+  if (typeof value === 'number') return 'number';
+  if (typeof value === 'string') return 'string';
+  if (value.isVector3 || value.isEuler || value instanceof Array) return 'vector';
+  if (value.min !== undefined || value.max !== undefined || value.step !== undefined) return 'range';
+  if (
+    value.options 
+    && Array.isArray(value.options) 
+    && value.options.every((option: { text: string, value: string}) => 'text' in option && 'value' in option)) {
+    return 'select';
+  }
+  // Add more types as needed
+  return 'unknown';
+};
+
+const createControl = (key: string, value: any, type: string, folderName: string | null): Control => {
+  const control: Control = {
+    label: ref(key),
+    name: ref(key),
+    type: ref(type),
+    value: ref(value),
+    visible: ref(true),
+    [key]: ref(value)
+  };
+
+  if (folderName) {
+    control.folder = ref(folderName);
   }
 
-export function dispose() {
-  for (const key in controls) {
-    delete controls[key];
-  }
-}
+  return control;
+};
 
-export function useControls<
-  S extends Schema,
-  F extends SchemaOrFn<S> | string,
-  G extends SchemaOrFn<S>,
-  T extends SchemaOrFn<S>,
->(controlOrFolderName: F, settingsOrDepsOrControl?: G, settings?: T) {
-  const control = ref()
-  if (typeof controlOrFolderName === 'string') {
-    if (controlOrFolderName === 'fpsgraph') {
-      controls[controlOrFolderName] = {
-        label: 'fpsgraph',
-        visible: true,
-        type: 'fpsgraph',
-      }
-      control.value = controls[controlOrFolderName]
-    } else {
-      controls[controlOrFolderName] = {
-        label: controlOrFolderName,
-        visible: true,
-        type: 'folder',
-        controls: settingsOrDepsOrControl ? parseObjectToControls(settingsOrDepsOrControl) : [],
-      }
-      control.value = controls[controlOrFolderName]
-    }
-  } else if (typeof controlOrFolderName === 'object' && controlOrFolderName.options) {
-    controls[controlOrFolderName.label || 'Dropdown'] = {
-      ...settings,
-      label: controlOrFolderName.label || 'Dropdown',
-      visible: true,
-      value: controlOrFolderName.value,
-      type: 'select',
-      ref: controlOrFolderName,
-      options: controlOrFolderName.options,
-    }
-    control.value = controls[controlOrFolderName.label || 'Dropdown']
-  } else if (typeof controlOrFolderName === 'object' && typeof settingsOrDepsOrControl === 'string') {
-    controls[settingsOrDepsOrControl] = {
-      ...settings,
-      label: settingsOrDepsOrControl,
-      visible: true,
-      value: controlOrFolderName[settingsOrDepsOrControl],
-      type: typeof controlOrFolderName[settingsOrDepsOrControl],
-      ref: controlOrFolderName,
-    }
-    control.value = controls[settingsOrDepsOrControl]
-  } else if (isReactive(controlOrFolderName)) {
-    const iternal = toRefs(controlOrFolderName)
-    const parsedControls = parseObjectToControls(iternal);
-    for (const parsedControl of parsedControls) {
-      controls[parsedControl.label] = parsedControl;
-    }
-    control.value  = parsedControls
-  } else {
-    const parsedControls = parseObjectToControls(controlOrFolderName);
-    for (const parsedControl of parsedControls) {
-      controls[parsedControl.label] = parsedControl;
-    }
-    control.value  = parsedControls
+export const dispose = (uuid: string): void => {
+  for (const key in controlsStore[uuid]) {
+    delete controlsStore[uuid][key];
+  }
+};
+
+// eslint-disable-next-line max-len
+export const useControls = (
+  folderNameOrParams: string | { [key: string]: any },
+  paramsOrOptions?: { [key: string]: any } | { uuid?: string },
+  options?: { uuid?: string }
+): Control | Control[] => {
+  const result: Control[] = [];
+
+  const folderName = typeof folderNameOrParams === 'string' ? folderNameOrParams : null;
+  const controlsParams = folderName ? paramsOrOptions as { [key: string]: any } : folderNameOrParams;
+
+  const actualOptions = folderName ? options! : paramsOrOptions as { uuid?: string };
+  const uuid = actualOptions?.uuid || DEFAULT_UUID;
+
+  if (!controlsStore[uuid]) {
+    controlsStore[uuid] = reactive({});
   }
 
-  onUnmounted(dispose)
+  const controls = controlsStore[uuid];
 
-/*   const controlRefs = computed(() => {
-    const refs = reactive<{ [label: string]: typeof ref }>({})
-    for (let key in controls.controls) {
-      refs[key] = ref(controls.controls[key].value)
+  for (const key in controlsParams as any) {
+    let value = (controlsParams as any)[key];
+
+    // If the value is an object with control options
+    if (typeof value === 'object' && !isRef(value) && !Array.isArray(value) && value.value !== undefined) {
+      const controlOptions = value;
+      const reactiveValue = isRef(controlOptions.value) ? controlOptions.value : ref(controlOptions.value);
+      const controlType = inferType(controlOptions);
+      const control = createControl(key, reactiveValue, controlType, folderName);
+
+      if(controlType === 'select') {
+        control.options = ref(controlOptions.options);
+      }
+
+      if(controlType === 'range') {
+        control.min = ref(controlOptions.min)
+        control.max = ref(controlOptions.max)
+        control.step = ref(controlOptions.step)
+      }
+
+      controls[key] = control;
+      result.push(control);
+      continue;
     }
-    return toRefs(refs)
-  }) */
 
-  return control
-}
+    // If the value is a ref, use it directly
+    if (isRef(value)) {
+      const control = createControl(key, value, inferType(value.value), folderName);
+      controls[key] = control;
+      result.push(control);
+      continue;
+    }
+
+    // If the value is reactive, convert it to ref
+    else if (typeof value === 'object' && !Array.isArray(value)) {
+      const reactiveRefs = toRefs(value);
+      if (reactiveRefs[key]) {
+        value = reactiveRefs[key];
+      }
+    }
+
+    // For non-ref values
+    const control = createControl(key, value, inferType(value), folderName);
+
+    // Update the internal state
+    controls[key] = control;
+    result.push(control);
+  }
+
+  return result.length === 1 ? result[0] : result;
+};

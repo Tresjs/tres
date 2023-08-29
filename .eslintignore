@@ -4,3 +4,4 @@ dist
 **.test.js
 **.cy.js
 **/cypress/**
+**.old.ts
