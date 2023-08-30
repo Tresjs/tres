@@ -68,7 +68,7 @@ export const useControls = (
   const folderName = typeof folderNameOrParams === 'string' ? folderNameOrParams : null;
   const controlsParams = folderName ? paramsOrOptions as { [key: string]: any } : folderNameOrParams;
 
-  const actualOptions = folderName ? options! : paramsOrOptions as { uuid?: string };
+  const actualOptions = folderName && folderName !== 'fpsgraph'  ? options! : paramsOrOptions as { uuid?: string };
   const uuid = actualOptions?.uuid || DEFAULT_UUID;
 
   if (!controlsStore[uuid]) {

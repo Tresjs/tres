@@ -9,11 +9,10 @@ declare module 'vue' {
   export interface GlobalComponents {
     BooleanDemo: typeof import('./.vitepress/theme/components/BooleanDemo.vue')['default']
     ColorDemo: typeof import('./.vitepress/theme/components/ColorDemo.vue')['default']
-    copy: typeof import('./.vitepress/theme/components/SelectDemo copy.vue')['default']
+    FPSDemo: typeof import('./.vitepress/theme/components/FPSDemo.vue')['default']
     GettingStartedDemo: typeof import('./.vitepress/theme/components/GettingStartedDemo.vue')['default']
     HeroDemo: typeof import('./.vitepress/theme/components/HeroDemo.vue')['default']
     NumberDemo: typeof import('./.vitepress/theme/components/NumberDemo.vue')['default']
-    Range: typeof import('./.vitepress/theme/components/Range.vue')['default']
     RangeDemo: typeof import('./.vitepress/theme/components/RangeDemo.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']

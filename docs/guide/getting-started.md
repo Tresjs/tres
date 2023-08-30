@@ -18,6 +18,10 @@ yarn add three @tresjs/leches
 
 :::
 
+::: warning
+This package is on heavy WIP and it's not ready for production. Expect possible breaking changes.
+:::
+
 ## Usage
 
 ```html
