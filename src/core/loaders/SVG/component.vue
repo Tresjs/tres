@@ -81,7 +81,7 @@ const props = withDefaults(defineProps<SVGProps>(),
   { skipStrokes: false, skipFills: false }
 );
 
-type SVGLayer = { geometry: BufferGeometry, material: MeshBasicMaterialParameters, key: string, isStroke: boolean };
+type SVGLayer = { geometry: BufferGeometry, material: MeshBasicMaterialParameters, isStroke: boolean };
 
 const { src, skipStrokes, skipFills, fillMaterial, strokeMaterial, fillMeshProps, strokeMeshProps } = toRefs(props);
 const svgRef = shallowRef();
@@ -125,8 +125,7 @@ function updateLayers() {
         _layers.push({
           geometry,
           material: fillMaterial,
-          isStroke: false,
-          key: '' + i++
+          isStroke: false
         })
       }
     }
@@ -144,8 +143,7 @@ function updateLayers() {
         _layers.push({
           geometry,
           material,
-          isStroke: true,
-          key: '' + i++
+          isStroke: true
         })
       }
     }
@@ -158,7 +156,7 @@ function updateLayers() {
 
 <template>
   <TresGroup ref="svgRef">
-    <TresMesh v-for="{ geometry, material, isStroke, key } of layers" :key="key"
+    <TresMesh v-for="({ geometry, material, isStroke }, i) of layers" :key="i + ''"
       v-bind="isStroke ? strokeMeshProps : fillMeshProps" :geometry="geometry">
       <TresMeshBasicMaterial v-bind="material" />
     </TresMesh>
