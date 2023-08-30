@@ -75,22 +75,40 @@ interface SVGProps {
    *
    **/
   strokeMeshProps?: TresOptions
+  /**
+   * 
+   * Depth type
+   * How should the resulting meshes and materials be stacked?
+   * 'flat' disables `depthWrite` on materials.
+   * 'renderOrder' disables `depthWrite` and sets the `renderOrder` of each layer.
+   * 'offsetZ' enables `depthWrite` and inserts a small distance between each layer on the z-axis to avoid z-fighting.
+   * number is treated the same as offset z; the number is used as the distance between layers
+   * 
+   * depthWrite documentation: https://threejs.org/docs/#api/en/materials/Material.depthWrite
+   * renderOrder documentation: https://threejs.org/docs/?q=mesh#api/en/core/Object3D.renderOrder
+   * 
+   * @type { 'flat' | 'renderOrder' | 'offsetZ' | number }
+   * @default 'flat'
+   * @memberof SVGProps
+   * 
+   */
+  depth?: 'flat' | 'renderOrder' | 'offsetZ' | number
 }
 
 const props = withDefaults(defineProps<SVGProps>(),
-  { skipStrokes: false, skipFills: false }
+  { skipStrokes: false, skipFills: false, depth: 'flat' }
 );
 
 type SVGLayer = { geometry: BufferGeometry, material: MeshBasicMaterialParameters, isStroke: boolean };
 
-const { src, skipStrokes, skipFills, fillMaterial, strokeMaterial, fillMeshProps, strokeMeshProps } = toRefs(props);
+const { src, skipStrokes, skipFills, fillMaterial, strokeMaterial, fillMeshProps, strokeMeshProps, depth } = toRefs(props);
 const svgRef = shallowRef();
 const layers = shallowRef([] as SVGLayer[]);
 const paths = shallowRef([] as SVGResultPaths[]);
 
 defineExpose({ value: svgRef });
 
-watchEffect(async() => useSVG(src.value).then(SVGResult => paths.value = SVGResult.paths));
+watchEffect(async () => useSVG(src.value).then(SVGResult => paths.value = SVGResult.paths));
 watch([skipFills, skipStrokes, fillMaterial, strokeMaterial, paths], updateLayers);
 
 async function useSVG(src: string) {
@@ -106,7 +124,18 @@ function dispose() {
 
 function updateLayers() {
   dispose();
+
   const _layers = [];
+
+  const [depthWrite, offsetZ] = (() => {
+    const DEPTH_WRITE = { 'flat': false, 'renderOrder': false, 'offsetZ': true };
+    const OFFSET_Z = { 'flat': 0, 'renderOrder': 0, 'offsetZ': 0.025 };
+    const d = depth.value;
+    return typeof d === 'number' ? [true, d] : [DEPTH_WRITE[d], OFFSET_Z[d]];
+  })();
+
+  let i = 0;
+
   for (const path of paths.value) {
     const style = path.userData?.style ?? {};
     const fillMaterial = (Object.assign({
@@ -114,13 +143,14 @@ function updateLayers() {
       opacity: style.fillOpacity,
       transparent: true,
       side: DoubleSide,
-      depthWrite: false
+      depthWrite
     },
       props.fillMaterial));
     if (!skipFills.value && style.fill !== undefined && style.fill !== 'none') {
       for (const shape of SVGLoader.createShapes(path)) {
         const geometry = new ShapeGeometry(shape);
         geometry.scale(1, -1, 1);
+        if (offsetZ) geometry.translate(0, 0, (i++) * offsetZ);
         _layers.push({
           geometry,
           material: fillMaterial,
@@ -133,12 +163,16 @@ function updateLayers() {
         color: path.userData?.style.stroke,
         opacity: path.userData?.style.strokeOpacity,
         transparent: true,
-        side: DoubleSide, depthWrite: false
+        side: DoubleSide,
+        depthWrite
       },
         props.strokeMaterial));
       for (const subPath of path.subPaths) {
         const points = subPath.getPoints().map(v2 => new Vector3(v2.x, -v2.y, 0));
         const geometry = SVGLoader.pointsToStroke(points, style || 'none');
+        if (offsetZ) {
+          geometry.translate(0, 0, (i++) * offsetZ);
+        }
         _layers.push({
           geometry,
           material,
@@ -156,7 +190,8 @@ function updateLayers() {
 <template>
   <TresGroup ref="svgRef">
     <TresMesh v-for="({ geometry, material, isStroke }, i) of layers" :key="i + ''"
-      v-bind="isStroke ? strokeMeshProps : fillMeshProps" :geometry="geometry">
+      v-bind="isStroke ? strokeMeshProps : fillMeshProps" :geometry="geometry"
+      :render-order="depth === 'renderOrder' ? i : 0">
       <TresMeshBasicMaterial v-bind="material" />
     </TresMesh>
   </TresGroup>
