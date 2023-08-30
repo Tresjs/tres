@@ -120,6 +120,9 @@ importers:
       '@tresjs/leches':
         specifier: workspace:0.7.0
         version: link:..
+      three:
+        specifier: ^0.155.0
+        version: 0.155.0
     devDependencies:
       unocss:
         specifier: ^0.54.0
@@ -7485,7 +7488,6 @@ packages:
 
   /three@0.155.0:
     resolution: {integrity: sha512-sNgCYmDijnIqkD/bMfk+1pHg3YzsxW7V2ChpuP6HCQ8NiZr3RufsXQr8M3SSUMjW4hG+sUk7YbyuY0DncaDTJQ==}
-    dev: true
 
   /through2@2.0.5:
     resolution: {integrity: sha512-/mrRod8xqpA+IHSLyGCQ2s8SPHiCDEeQJSep1jqLYeEUClOFG2Qsh+4FU6G9VeqpZnGW/Su8LQGc4YKni5rYSQ==}

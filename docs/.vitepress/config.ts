@@ -23,8 +23,10 @@ export default defineConfig({
         link: '/controls',
         items: [
           { text: 'Boolean', link: '/controls/index.html#boolean' },
-          { text: 'Text', link: '/controls/index.html#number' },
+          { text: 'Number', link: '/controls/index.html#number' },
           { text: 'Text', link: '/controls/index.html#text' },
+          { text: 'Color', link: '/controls/index.html#color' },
+
         ]
       }
     ],

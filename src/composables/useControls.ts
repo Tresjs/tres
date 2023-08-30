@@ -15,10 +15,13 @@ const controlsStore: { [uuid: string]: { [key: string]: Control } } = reactive({
 
 // Helper function to infer type
 const inferType = (value: any): string => {
+  const colorRegex = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$|^0x([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/
+
   if (typeof value === 'boolean') return 'boolean';
   if (typeof value === 'number') return 'number';
+  if (typeof value === 'string' && colorRegex.test(value)) return 'color';
   if (typeof value === 'string') return 'string';
-  if (value.isVector3 || value.isEuler || value instanceof Array) return 'vector';
+  if (value.isVector3 || value.isVector2 || value.isEuler || value instanceof Array) return 'vector';
   if (value.min !== undefined || value.max !== undefined || value.step !== undefined) return 'range';
   if (
     value.options 
@@ -26,6 +29,7 @@ const inferType = (value: any): string => {
     && value.options.every((option: { text: string, value: string}) => 'text' in option && 'value' in option)) {
     return 'select';
   }
+  
   // Add more types as needed
   return 'unknown';
 };
