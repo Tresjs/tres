@@ -1,5 +1,21 @@
 
 
+## [0.8.0](https://github.com/Tresjs/leches/compare/0.7.0...0.8.0) (2023-08-30)
+
+
+### Features
+
+* added component to hero ([a535abe](https://github.com/Tresjs/leches/commit/a535abeb3699e448b8b4f5127a7bd5e279977f79))
+* docs 🍰 ([0772916](https://github.com/Tresjs/leches/commit/07729164cb567f4fc0adf49e41ca76276995f9b8))
+* dropdowns are back ([27cd0ef](https://github.com/Tresjs/leches/commit/27cd0effbadb29d04fb6e270178c407e350f5759))
+* folder support ([441627e](https://github.com/Tresjs/leches/commit/441627ebe3f75b1235d55821f24b67e3113fc235))
+* multiple controls by uuid ([8f75e0b](https://github.com/Tresjs/leches/commit/8f75e0b40ec8dd391629b300dd2b5e59fcd2db73))
+* now reactive and refs work inside params ([900c3c1](https://github.com/Tresjs/leches/commit/900c3c1ab58941437abba70c8fe84204b5cb645f))
+* range options are working ([8feec7d](https://github.com/Tresjs/leches/commit/8feec7de13499cce406dbc2ae3135996d22acee3))
+* resize with window and vector controls improved ([acd5adb](https://github.com/Tresjs/leches/commit/acd5adb956e0b3cff862e9506662165638381d4d))
+* simplified logic for useControls ([6f1a239](https://github.com/Tresjs/leches/commit/6f1a2390e1861baff0caf5a6b374393372808e5b))
+* vitest component test working ([e18a7db](https://github.com/Tresjs/leches/commit/e18a7db4ff80cf1a6f7f3865d19234d1ef808a7a))
+
 ## [0.7.0](https://github.com/Tresjs/leches/compare/0.6.0...0.7.0) (2023-08-12)
 
 
