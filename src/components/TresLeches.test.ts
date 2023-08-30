@@ -1,8 +1,13 @@
 import { mount } from '@vue/test-utils'
-import TresLeches from '/@/'
+import { TresLeches } from '/@/'
 import { it, expect } from 'vitest'
+import { dispose } from '../composables/useControls'
 
-test('TresLeches', async () => {
+afterEach(() => {
+  dispose()
+})
+
+describe('TresLeches', async () => {
   it('should mount', async ()=> {
     const wrapper = mount(TresLeches, {
     /*    attachTo: document.body, */
@@ -14,3 +19,6 @@ test('TresLeches', async () => {
     expect(wrapper.find('div').attributes('id')).toBe('test')
   })
 })
+
+
+

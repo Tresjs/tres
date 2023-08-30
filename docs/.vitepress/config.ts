@@ -5,10 +5,13 @@ import { defineConfig } from 'vitepress'
 export default defineConfig({
   title: "TresLeches 🍰",
   description: "Tasty GUI for Vue controls",
+  head: [
+    ['link', { rel: 'icon', href: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">🍰/text></svg>' }],
+  ],
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     nav: [
-      { text: 'Home', link: '/' },
+      { text: 'Guide', link: '/guide/getting-started' },
     ],
 
     sidebar: [
@@ -16,6 +19,26 @@ export default defineConfig({
         text: 'Guide',
         items: [
           { text: 'Getting Started', link: '/guide/getting-started' },
+        ]
+      },
+      {
+        text: 'Controls',
+        link: '/controls',
+        items: [
+          { text: 'Boolean', link: '/controls/index.html#boolean' },
+          { text: 'Number', link: '/controls/index.html#number' },
+          { text: 'Text', link: '/controls/index.html#text' },
+          { text: 'Color', link: '/controls/index.html#color' },
+          { text: 'Range', link: '/controls/index.html#range' },
+          { text: 'Select', link: '/controls/index.html#select' },
+          { text: 'Vector', link: '/controls/index.html#vector' },
+        ]
+      },
+      {
+        text: 'Misc',
+        link: '/misc',
+        items: [
+          { text: 'fpsgraph', link: '/misc/index.html#fpsgraph' },
         ]
       }
     ],

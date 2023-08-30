@@ -7,11 +7,18 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
-    copy: typeof import('./.vitepress/theme/components/GettingStartedDemo copy.vue')['default']
+    BooleanDemo: typeof import('./.vitepress/theme/components/BooleanDemo.vue')['default']
+    ColorDemo: typeof import('./.vitepress/theme/components/ColorDemo.vue')['default']
+    FPSDemo: typeof import('./.vitepress/theme/components/FPSDemo.vue')['default']
     GettingStartedDemo: typeof import('./.vitepress/theme/components/GettingStartedDemo.vue')['default']
     HeroDemo: typeof import('./.vitepress/theme/components/HeroDemo.vue')['default']
+    NumberDemo: typeof import('./.vitepress/theme/components/NumberDemo.vue')['default']
+    RangeDemo: typeof import('./.vitepress/theme/components/RangeDemo.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    SelectDemo: typeof import('./.vitepress/theme/components/SelectDemo.vue')['default']
     Test: typeof import('./.vitepress/theme/components/Test.vue')['default']
+    TextDemo: typeof import('./.vitepress/theme/components/TextDemo.vue')['default']
+    Vector3Demo: typeof import('./.vitepress/theme/components/Vector3Demo.vue')['default']
   }
 }

@@ -10,6 +10,10 @@ import { reactive, ref, watchEffect } from 'vue'
 const gl = reactive({
   clearColor: '#82DBC5',
 })
+
+useControls('fpsgraph', {
+  uuid: 'second',
+})
 // Refs
 
 // Reactive
@@ -18,6 +22,7 @@ const gl = reactive({
 const [{value:test}, {value:awiwi}] = useControls({ test: true, awiwi: 'awiwi' })
 console.log('test', test)
 console.log('awiwi', awiwi)
+
 watchEffect(() => {
   console.log('test', test.value)
 })
