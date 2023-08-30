@@ -35,7 +35,7 @@
   "dependencies": {
     "@nuxt/kit": "^3.7.0",
     "@tresjs/core": "^3.1.1",
-    "@types/three": "^0.155.1",
+    "@types/three": "^0.155.0",
     "mlly": "^1.4.1",
     "pkg-types": "^1.0.3",
     "three": "^0.155.0",
