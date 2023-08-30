@@ -1,5 +1,12 @@
 
 
+## [1.1.4](///compare/1.1.3...1.1.4) (2023-08-30)
+
+
+### Bug Fixes
+
+* updated `@tresjs/core` to `3.1.1` ([#35](null//null/issues/35)) ad1fca3
+
 ## [1.1.3](///compare/1.1.2...1.1.3) (2023-07-29)
 
 
