@@ -107,7 +107,6 @@ function dispose() {
 function updateLayers() {
   dispose();
   const _layers = [];
-  let i = 0;
   for (const path of paths.value) {
     const style = path.userData?.style ?? {};
     const fillMaterial = (Object.assign({
