@@ -82,6 +82,11 @@ const routes = [
     component: () => import('./pages/SVGDemo.vue'),
   },
   {
+    path: '/loaders/svg/depth',
+    name: 'SVG Depth',
+    component: () => import('./pages/SVGDepthDemo.vue'),
+  },
+  {
     path: '/loaders/use-gltf',
     name: 'useGLTF',
     component: () => import('./pages/UseGLTFDemo.vue'),
