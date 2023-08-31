@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { TresCanvas, useRenderLoop } from '@tresjs/core'
-import { SVG, Text3D, OrbitControls } from '@tresjs/cientos'
+import { SVG, OrbitControls } from '@tresjs/cientos'
 import { NoToneMapping } from 'three'
 import { shallowRef } from 'vue'
 
@@ -16,16 +16,7 @@ fill="none" xmlns="http://www.w3.org/2000/svg">
 <rect x="172" y="2.64999" width="74.7" height="74.7" rx="4" fill="rgb(79,79,79)" stroke="rgb(79,79,79)" />
 </svg>`;
 
-const svgHeartURL = "https://raw.githubusercontent.com/andretchen0/tresjs_assets/feat/svg/svg/cientos.svg";
-const tigerURL = "https://raw.githubusercontent.com/mrdoob/three.js/" +
-  "9272367d1132c6b1b65bbbda85af625275bcbdeb/examples/models/svg/tiger.svg";
-const fontURL = 'https://raw.githubusercontent.com/Tresjs/assets/main/fonts/FiraCodeRegular.json'
-
-const gl = {
-  clearColor: '#333',
-  alpha: true,
-  toneMapping: NoToneMapping,
-}
+const svgHeartURL = "/cientos.svg";
 
 const { onLoop } = useRenderLoop()
 
@@ -45,6 +36,13 @@ onLoop(({ delta }) => {
     cooldown += 1;
   }
 });
+
+const gl = {
+  clearColor: '#333',
+  alpha: true,
+  toneMapping: NoToneMapping,
+}
+
 </script>
 
 <template>
@@ -64,33 +62,6 @@ onLoop(({ delta }) => {
       <Suspense>
         <SVG :src="svgHeartURL" :skip-fills="skipFillsC" :position="[321.5, -4, 0]" />
       </Suspense>
-
-      <TresGroup :position="[-100, 0, -20]" :scale="0.3">
-        <Suspense>
-          <SVG :src="tigerURL" :position="[0, 0, 0]" />
-        </Suspense>
-        <Suspense>
-          <Text3D text="flat" :size="50" :font="fontURL" center :position="[250, 0, 0]" />
-        </Suspense>
-        <Suspense>
-          <SVG :src="tigerURL" :position="[500, 0, 0]" depth="renderOrder" />
-        </Suspense>
-        <Suspense>
-          <Text3D text="renderOrder" :size="50" :font="fontURL" center :position="[750, 0, 0]" />
-        </Suspense>
-        <Suspense>
-          <SVG :src="tigerURL" :position="[1000, 0, 0]" depth="offsetZ" />
-        </Suspense>
-        <Suspense>
-          <Text3D text="offsetZ" :size="50" :font="fontURL" center :position="[1250, 0, 0]" />
-        </Suspense>
-        <Suspense>
-          <SVG :src="tigerURL" :position="[1500, 0, 0]" :depth="1.20" />
-        </Suspense>
-        <Suspense>
-          <Text3D text="number" :size="50" :font="fontURL" center :position="[1750, 0, 0]" />
-        </Suspense>
-      </TresGroup>
     </TresGroup>
     <TresAmbientLight />
     <TresDirectionalLight />
