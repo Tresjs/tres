@@ -101,7 +101,8 @@ const props = withDefaults(defineProps<SVGProps>(),
 
 type SVGLayer = { geometry: BufferGeometry, material: MeshBasicMaterialParameters, isStroke: boolean };
 
-const { src, skipStrokes, skipFills, fillMaterial, strokeMaterial, fillMeshProps, strokeMeshProps, depth } = toRefs(props);
+const { src, skipStrokes, skipFills, fillMaterial, strokeMaterial,
+  fillMeshProps, strokeMeshProps, depth } = toRefs(props);
 const svgRef = shallowRef();
 const layers = shallowRef([] as SVGLayer[]);
 const paths = shallowRef([] as SVGResultPaths[]);
