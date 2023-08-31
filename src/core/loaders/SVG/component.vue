@@ -40,7 +40,7 @@ interface SVGProps {
    * Fill material properties
    * 
    * @type {MeshBasicMaterialParameters}
-   * @default {}
+   * @default undefined
    * @memberof SVGProps
    *
    **/
@@ -50,7 +50,7 @@ interface SVGProps {
    * Stroke material properties
    * 
    * @type {MeshBasicMaterialParameters}
-   * @default {}
+   * @default undefined
    * @memberof SVGProps
    *
    **/
@@ -60,7 +60,7 @@ interface SVGProps {
    * Fill Mesh properties
    * 
    * @type {TresOptions}
-   * @default {}
+   * @default undefined
    * @memberof SVGProps
    *
    **/
@@ -70,7 +70,7 @@ interface SVGProps {
    * Stroke Mesh properties
    * 
    * @type {TresOptions}
-   * @default {}
+   * @default undefined
    * @memberof SVGProps
    *
    **/
