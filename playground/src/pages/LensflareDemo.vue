@@ -2,7 +2,7 @@
 import { shallowRef } from 'vue'
 import { TresCanvas, useRenderLoop } from '@tresjs/core'
 import { RandUtils, Levioso, Lensflare, Dodecahedron } from '@tresjs/cientos';
-import * as THREE from 'three';
+import { Color, MeshPhongMaterial } from 'three';
 
 import { OrbitControls } from '@tresjs/cientos'
 
@@ -30,7 +30,7 @@ onLoop(() => {
     if (!lightRef.value) return
 
     if (Math.random() > 0.99) {
-        lightRef.value.color = new THREE.Color(randomColor());
+        lightRef.value.color = new Color(randomColor());
         flarePropsRef.value = getFlareProps()
     }
 });
@@ -58,7 +58,7 @@ const rocks = new Array(ROCK_COUNT).fill(0).map((_, i) => ({
     key: i
 }));
 
-const rockMaterial = new THREE.MeshPhongMaterial({ color: 0x123141, specular: 0xffffff, shininess: 1000 });
+const rockMaterial = new MeshPhongMaterial({ color: 0x123141, specular: 0xffffff, shininess: 1000 });
 
 </script>
 
@@ -73,7 +73,7 @@ const rockMaterial = new THREE.MeshPhongMaterial({ color: 0x123141, specular: 0x
                 <Lensflare :seed="10" :flare="flarePropsRef" />
             </TresPointLight>
         </Levioso>
-        <TresPointLight :color="new THREE.Color(1, 1, 1)" :intensity="2000" :position="[10, 5, 0]">
+        <TresPointLight :color="new Color(1, 1, 1)" :intensity="2000" :position="[10, 5, 0]">
             <Lensflare :seed="Math.random()" />
         </TresPointLight>
         <Dodecahedron v-for="{ key, position, rotation, scale } in rocks" :key="key" :material="rockMaterial"

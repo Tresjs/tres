@@ -1,4 +1,4 @@
-import { MathUtils } from 'THREE'
+import { MathUtils } from 'three'
 const clamp = MathUtils.clamp
 
 /**

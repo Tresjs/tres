@@ -1,13 +1,12 @@
 <script setup lang="ts">
-import { Lensflare, LensflareElement } from 'three/addons/objects/Lensflare.js';
-import * as THREE from 'three';
-import { watch, shallowRef, onMounted } from 'vue'
+import { Lensflare, LensflareElement } from 'three/examples/jsm/objects/lensflare';
+import { MathUtils, Texture, TextureLoader, Color } from 'three';
+import { watch, shallowRef, onMounted, onUnmounted } from 'vue'
 import { normalizeColor } from '@tresjs/core';
 import RandUtils from '../../utils/RandUtils';
-import { onUnmounted } from 'vue';
 
 export type FlareElementProps = {
-  texture?: THREE.Texture | string
+  texture?: Texture | string
   size?: number
   distance?: number
 }
@@ -31,7 +30,7 @@ defineExpose({
   value: lensflareRef,
 });
 
-const textureLoader = new THREE.TextureLoader();
+const textureLoader = new TextureLoader();
 
 function linear(x: number): number {
   return x;
@@ -66,7 +65,7 @@ function easeOutBounce(x: number): number {
 
 const easingFunctions = [linear, easeInCubic, easeInOutCubic, easeInQuart, easeOutBounce];
 
-const lerp = THREE.MathUtils.lerp;
+const lerp = MathUtils.lerp;
 
 const TEXTURE_PATH = 'https://raw.githubusercontent.com/andretchen0/tresjs_assets/' +
   'b1bc3780de73a9328a530767c9a7f4cbab060396/textures/lensflare/';
@@ -204,7 +203,7 @@ const defaultElement: LensflareElement = {
   texture: `${TEXTURE_PATH}cirlceBlur.png`,
   size: 64,
   distance: 0,
-  color: new THREE.Color("white")
+  color: new Color("white")
 }
 
 const threeLensflare = new Lensflare();
