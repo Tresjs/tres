@@ -25,10 +25,10 @@ const props = withDefaults(
   },
 )
 
-const groupRef = shallowRef<Lensflare>();
+const lensflareRef = shallowRef<Lensflare>();
 
 defineExpose({
-  value: groupRef,
+  value: lensflareRef,
 });
 
 const textureLoader = new THREE.TextureLoader();
@@ -214,12 +214,12 @@ const threeElements: LensflareElement = [];
 
 const dispose = () => {
   while (threeElements.length) threeElements.pop();
-  groupRef.value?.children.forEach((c: any) => { if ('dispose' in c) c.dispose(); });
-  groupRef.value?.remove(...groupRef.value.children);
+  lensflareRef.value?.children.forEach((c: any) => { if ('dispose' in c) c.dispose(); });
+  lensflareRef.value?.remove(...lensflareRef.value.children);
 }
 
 const onChange = () => {
-  if (groupRef.value) {
+  if (lensflareRef.value) {
 
     const normalizedUserElements = (() => {
       // NOTE: The user can either tweak the seeded lensflare or provide their own.
@@ -288,7 +288,7 @@ const onChange = () => {
 }
 
 onMounted(() => {
-  groupRef.value.add(threeLensflare);
+  lensflareRef.value.add(threeLensflare);
   onChange();
 })
 
@@ -301,5 +301,5 @@ watch(() => props.flare, onChange)
 </script>
 
 <template>
-  <TresGroup v-bind="$attrs" ref="groupRef"></TresGroup>
+  <TresGroup v-bind="$attrs" ref="lensflareRef"></TresGroup>
 </template>
