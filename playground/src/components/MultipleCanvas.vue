@@ -90,10 +90,6 @@ const log = () => {
           <TresMeshToonMaterial color="yellow" />
         </TresMesh>
 
-        <!-- <Suspense>
-          <GLTFModel path="https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/aku-aku/AkuAku.gltf" draco />
-        </Suspense> -->
-
         <TresDirectionalLight
           :position="[0, 2, 4]"
           :intensity="1"

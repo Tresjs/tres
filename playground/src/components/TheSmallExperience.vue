@@ -19,7 +19,6 @@ import { OrbitControls } from '@tresjs/cientos/'
         :intensity="0.5"
       />
       <TresMesh
-        ref="sphereRef"
         :scale="1"
         cast-shadow
       >

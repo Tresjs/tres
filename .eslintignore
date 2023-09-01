@@ -5,4 +5,3 @@ dist
 **.cy.js
 **/cypress/**
 docs
-playground

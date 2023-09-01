@@ -5,7 +5,6 @@ import { Vector3 } from 'three'
 
 <template>
   <TresCanvas
-    ref="context"
     clear-color="#82DBC5"
     window-size
   >

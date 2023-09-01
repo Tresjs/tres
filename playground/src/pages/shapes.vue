@@ -117,7 +117,6 @@ const tubePath = new CubicBezierCurve3(
       <TresMeshToonMaterial color="orange" />
     </Box>
     <Sphere
-      ref="sphereRef"
       :args="[1, 32, 16]"
       :position="[2, 6, 0]"
       cast-shadow
@@ -153,7 +152,6 @@ const tubePath = new CubicBezierCurve3(
       />
     </Circle>
     <Cone
-      ref="coneRef"
       :args="[1, 1, 6]"
       :position="[2, 6, 2]"
       :rotation="[Math.PI, 0, 0]"

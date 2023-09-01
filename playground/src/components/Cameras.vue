@@ -21,6 +21,13 @@ const state = reactive({
 state.camera.position.set(5, 5, 5)
 state.camera.lookAt(0, 0, 0)
 const { pane } = useTweakPane()
+const perspectiveFolder = pane.addFolder({
+  title: 'Perspective Camera',
+})
+
+const orthographicFolder = pane.addFolder({
+  title: 'Ortographic Camera',
+})
 
 pane
   .addBlade({
@@ -46,14 +53,6 @@ pane
     orthographicFolder.hidden = e.value === 'perspective'
     /* context.value.state.accio += 1 */
   })
-
-const perspectiveFolder = pane.addFolder({
-  title: 'Perspective Camera',
-})
-
-const orthographicFolder = pane.addFolder({
-  title: 'Ortographic Camera',
-})
 
 orthographicFolder.hidden = true
 
