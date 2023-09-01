@@ -72,6 +72,19 @@ export default class RandUtils {
   }
 
   /**
+   * Choose an element from an array or return defaultValue if array is empty.
+   * @param array The array to choose from
+   * @param defaultValue The value to return if the array is empty
+   * @returns An element from the array or defaultValue if the array is empty
+   */
+  defaultChoice<T>(array: T[], defaultValue: T): T {
+    if (!array.length) {
+      return defaultValue
+    }
+    return array[Math.floor(this._getNext() * array.length)]
+  }
+
+  /**
    * Return n elements from an array.
    * @param array The array to sample
    * @param sampleSizeMin The minimum sample size
