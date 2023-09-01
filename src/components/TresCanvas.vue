@@ -8,17 +8,18 @@ import {
   type ToneMapping,
 } from 'three'
 import { Ref, computed, onMounted, provide, ref, shallowRef, watch, watchEffect } from 'vue'
-import { useTresContextProvider, type TresContext } from '../composables'
+import { Fragment, defineComponent, h } from 'vue'
+import {
+  useTresContextProvider, useLogger,
+  usePointerEventHandler,
+  useRenderLoop, type TresContext
+} from '../composables'
 import { extend } from '../core/catalogue'
 import { render } from '../core/renderer'
 
 import {
-  useLogger,
-  usePointerEventHandler,
-  useRenderLoop,
 } from '../composables'
 
-import { Fragment, defineComponent, h } from 'vue'
 import type { RendererPresetsType } from '../composables/useRenderer/const'
 import type { TresCamera, TresObject } from '../types/'
 
@@ -155,7 +156,6 @@ onMounted(() => {
     left: 0,
     pointerEvents: 'auto',
     touchAction: 'none',
-    zIndex: 1,
   }">
   </canvas>
 </template>
