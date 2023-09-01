@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import { shallowRef } from 'vue'
 import { TresCanvas, useRenderLoop } from '@tresjs/core'
-import { RandUtils, Levioso, Lensflare, Dodecahedron } from '@tresjs/cientos';
+import { Levioso, Lensflare, Dodecahedron } from '@tresjs/cientos';
 import { Color, MeshPhongMaterial } from 'three';
-
 import { OrbitControls } from '@tresjs/cientos'
 
 const gl = {
@@ -22,12 +21,13 @@ const color = randomColor();
 
 const lightRef = shallowRef();
 const seedRef = shallowRef(0);
+const scaleRef = shallowRef(1);
 const flarePropsRef = shallowRef([{ color, size: 1 }]);
 flarePropsRef.value = new Array(11).fill(0).map((_, i) => ({ size: Math.min(256 / (1 + i * i)), color }));
 
 const { onLoop } = useRenderLoop();
 
-onLoop(() => {
+onLoop(({ elapsed }) => {
     if (!lightRef.value) return
 
     if (Math.random() > 0.99) {
@@ -35,6 +35,8 @@ onLoop(() => {
         flarePropsRef.value = getFlareProps()
         seedRef.value = Math.floor(Math.random() * 10000)
     }
+
+    scaleRef.value = Math.sin(elapsed * 0.1) * 4;
 });
 
 function getFlareProps() {
@@ -49,14 +51,15 @@ function getFlareProps() {
 
 flarePropsRef.value = getFlareProps();
 
-const rand = new RandUtils(112);
+const float = (lo:number, hi:number) => { return Math.random() * (hi - lo) + lo;}
+const floatSpread = (range:number) => { return Math.random() * range - range * 0.5;}
 const ROCK_COUNT = 1000;
 const ROCK_DISTANCE = 200;
 const ROCK_SCALE = 3;
 const rocks = new Array(ROCK_COUNT).fill(0).map((_, i) => ({
-    position: [0, 0, 0].map(() => rand.floatSpread(ROCK_DISTANCE)),
-    rotation: [0, 0, 0].map(() => rand.floatSpread(Math.PI * 2)),
-    scale: [0, 0, 0].map(() => rand.float(ROCK_SCALE, ROCK_SCALE * 2)),
+    position: [0, 0, 0].map(() => floatSpread(ROCK_DISTANCE)),
+    rotation: [0, 0, 0].map(() => floatSpread(Math.PI * 2)),
+    scale: [0, 0, 0].map(() => float(ROCK_SCALE, ROCK_SCALE * 2)),
     key: i
 }));
 
@@ -72,7 +75,7 @@ const rockMaterial = new MeshPhongMaterial({ color: 0x123141, specular: 0xffffff
         <OrbitControls />
         <Levioso :speed="2" :range="[-13, 13]" :rotation-factor="10">
             <TresPointLight ref="lightRef" :color="color" :intensity="1000" :position="[10, 0, 0]">
-                <Lensflare :seed="seedRef" :flare="flarePropsRef" />
+                <Lensflare :seed="seedRef" :scale="scaleRef" :flare="flarePropsRef" />
             </TresPointLight>
         </Levioso>
         <TresPointLight :color="new Color(1, 1, 1)" :intensity="2000" :position="[10, 5, 0]">
