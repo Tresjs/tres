@@ -270,11 +270,9 @@ const onChangeLensflareElementProps = () => {
     // NOTE: We can't remove already added elements from the THREE lensflare. 
     // So if we've previously added more elements than are currently needed, 
     // make those elements too small to display.
-    while (normalizedUserElements.length < threeElements.length) {
       for (let i = normalizedUserElements.length - 1; i < threeElements.length; i++) {
         threeElements[i].size = 0;
       }
-    }
 
     normalizedUserElements.forEach((userElement, i) => {
       const threeElement = threeElements[i];
