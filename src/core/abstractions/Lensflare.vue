@@ -307,4 +307,6 @@ watch(() => props.flare, onChange)
 
 </script>
 
-<template><TresGroup v-bind="$attrs" ref="lensflareRef"></TresGroup></template>
+<template>
+  <TresGroup v-bind="$attrs" ref="lensflareRef"></TresGroup>
+</template>
