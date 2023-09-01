@@ -10,7 +10,6 @@
   },
   "dependencies": {
     "@tresjs/cientos": "3.1.0",
-    "@tresjs/core": "workspace:3.0.1",
     "vue-router": "^4.2.4"
   },
   "devDependencies": {
