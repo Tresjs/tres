@@ -71,7 +71,7 @@ const lerp = MathUtils.lerp;
 const TEXTURE_PATH = 'https://raw.githubusercontent.com/andretchen0/tresjs_assets/' +
   'b1bc3780de73a9328a530767c9a7f4cbab060396/textures/lensflare/';
 
-const getSeededFlareElements = (): LensflareElementProps[] => {
+const getSeededFlareElementProps = (): LensflareElementProps[] => {
   const rand: RandUtils = new RandUtils(props.seed);
 
   const numPoints = rand.choice([4, 6, 8]) as 4 | 6 | 8;
@@ -142,7 +142,7 @@ const getSeededFlareElements = (): LensflareElementProps[] => {
     oversizeTexturesOptional,
     rand.int(oversizeElementsNumMin, oversizeElementsNumMax)
   );
-  const oversizeElements: LensflareElementProps[] = oversizeTexturesSelected.map(
+  const oversizeElementProps: LensflareElementProps[] = oversizeTexturesSelected.map(
     texture => ({
       texture,
       size: rand.int(oversizeSizeMin, oversizeSizeMax),
@@ -156,7 +156,7 @@ const getSeededFlareElements = (): LensflareElementProps[] => {
     rand.int(bodyTexturesOptionalNumMin, bodyTexturesOptionalNumMax)
   );
 
-  const bodyElements: LensflareElementProps[] = [
+  const bodyElementProps: LensflareElementProps[] = [
     ...bodyTexturesRequired.map(texture => ({
       texture,
       size: rand.int(bodySizeMin, bodySizeMax),
@@ -191,7 +191,7 @@ const getSeededFlareElements = (): LensflareElementProps[] => {
   const backNumElements = rand.int(backElementsNumMin, backElementsNumMax);
   const backDistanceStart = rand.float(backOffsetMin, backOffsetMax);
   const backDistanceEnd = backDistanceStart + rand.float(backLengthMin, backLengthMax);
-  const backElements = new Array(backNumElements).fill(0).map(() => {
+  const backElementProps = new Array(backNumElements).fill(0).map(() => {
     const progress = easingFn(rand.rand());
     return {
       texture: rand.defaultChoice(backTexturesSelected, defaultElement.texture),
@@ -201,7 +201,7 @@ const getSeededFlareElements = (): LensflareElementProps[] => {
     };
   });
 
-  return [...oversizeElements, ...bodyElements, ...frontElementProps, ...backElements];
+  return [...oversizeElementProps, ...bodyElementProps, ...frontElementProps, ...backElementProps];
 }
 
 const defaultElement: LensflareElementProps = {
@@ -228,7 +228,7 @@ const lensflareElementPropsToLensflareElement = (p: LensflareElementProps) => {
   return p as LensflareElement;
 }
 
-const onChange = () => {
+const onChangeLensflareElementProps = () => {
   if (lensflareRef.value) {
 
     const normalizedUserElements: LensflareElement[] = (() => {
@@ -247,13 +247,13 @@ const onChange = () => {
 
       const normalizedProps = (function (): LensflareElementProps[] {
         if (hasSeed && hasFlare) {
-          return getSeededFlareElements().map((element, i) => Object.assign({}, element, flare[i]));
+          return getSeededFlareElementProps().map((element, i) => Object.assign({}, element, flare[i]));
         } else if (!hasSeed && hasFlare) {
           return flare.map(element => Object.assign({}, defaultElement, element))
         } else if (hasSeed && !hasFlare) {
-          return getSeededFlareElements();
+          return getSeededFlareElementProps();
         } else {
-          return getSeededFlareElements();
+          return getSeededFlareElementProps();
         }
       })();
 
@@ -296,14 +296,14 @@ const onChange = () => {
 
 onMounted(() => {
   lensflareRef.value?.add(threeLensflare);
-  onChange();
+  onChangeLensflareElementProps();
 })
 
 onUnmounted(() => {
   dispose();
 });
 
-watch(() => props.flare, onChange)
+watch(() => [props.flare, props.seed], onChangeLensflareElementProps)
 
 </script>
 
