@@ -32,10 +32,10 @@ pane
     ],
     value: 'perspective',
   })
-  .on('change', e => {
+  .on('change', (e) => {
     state.cameraType = e.value
-    const newCamera =
-      e.value === 'perspective'
+    const newCamera
+      = e.value === 'perspective'
         ? new PerspectiveCamera(75, 1, 0.1, 1000)
         : new OrthographicCamera(-10, 10, 10, -10, 0.1, 1000)
 
@@ -61,7 +61,7 @@ watch(
   () => state.cameraType,
   () => {
     if (state.cameraType === 'orthographic') {
-      perspectiveFolder.children.forEach(child => {
+      perspectiveFolder.children.forEach((child) => {
         child.dispose()
       })
       orthographicFolder.addInput(state.camera, 'left', { min: -50, max: 50 })
@@ -70,8 +70,9 @@ watch(
       orthographicFolder.addInput(state.camera, 'bottom', { min: -50, max: 50 })
       orthographicFolder.addInput(state.camera, 'near', { min: 0, max: 50 })
       orthographicFolder.addInput(state.camera, 'far', { min: 0, max: 50 })
-    } else {
-      orthographicFolder.children.forEach(child => {
+    }
+    else {
+      orthographicFolder.children.forEach((child) => {
         child.dispose()
       })
       perspectiveFolder.addInput(state.camera, 'fov', { min: 0, max: 180 })
@@ -100,14 +101,24 @@ setTimeout(() => {
 </script>
 
 <template>
-  <TresCanvas v-bind="gl" ref="context" :camera="state.camera">
+  <TresCanvas
+    v-bind="gl"
+    ref="context"
+    :camera="state.camera"
+  >
     <!--     <TresPerspectiveCamera v-if="state.cameraType === 'perspective'" :position="[11, 11, 11]" />
     <TresOrthographicCamera v-if="state.cameraType === 'orthographic'" :position="[11, 11, 11]" /> -->
-    <Box :position="[0, 1, 0]" :scale="[2, 2, 2]">
-      <TresMeshNormalMaterial :color="'teal'" />
+    <Box
+      :position="[0, 1, 0]"
+      :scale="[2, 2, 2]"
+    >
+      <TresMeshNormalMaterial color="teal" />
     </Box>
     <TresGridHelper />
     <TresAmbientLight :intensity="1" />
-    <TresDirectionalLight :position="[3, 3, 3]" :intensity="1" />
+    <TresDirectionalLight
+      :position="[3, 3, 3]"
+      :intensity="1"
+    />
   </TresCanvas>
 </template>

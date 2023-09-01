@@ -1,5 +1,4 @@
 import { Color, WebGLRenderer } from 'three'
-import { rendererPresets, RendererPresetsType } from './const'
 import { shallowRef, watchEffect, onUnmounted, type MaybeRef, computed, watch } from 'vue'
 import {
   toValue,
@@ -8,26 +7,28 @@ import {
   useDevicePixelRatio,
 } from '@vueuse/core'
 
-import { get, merge, set } from '../../utils'
-import { useLogger } from '../useLogger'
-import { TresColor } from '../../types'
-import { useRenderLoop } from '../useRenderLoop'
-import { normalizeColor } from '../../utils/normalize'
-
-import type { Scene, ToneMapping } from 'three'
-import type { TresContext } from '../useTresContextProvider'
-import type {
+import type { Scene, ToneMapping,
   ColorSpace,
   ShadowMapType,
   WebGLRendererParameters,
 } from 'three'
+import { useLogger } from '../useLogger'
+import type { TresColor } from '../../types'
+import { useRenderLoop } from '../useRenderLoop'
+import { normalizeColor } from '../../utils/normalize'
+
+import type { TresContext } from '../useTresContextProvider'
+import { get, merge, set } from '../../utils'
+
 // eslint-disable-next-line max-len
 // Solution taken from Thretle that actually support different versions https://github.com/threlte/threlte/blob/5fa541179460f0dadc7dc17ae5e6854d1689379e/packages/core/src/lib/lib/useRenderer.ts
 import { revision } from '../../core/revision'
+import { rendererPresets } from './const'
+import type { RendererPresetsType } from './const'
 
 type TransformToMaybeRefOrGetter<T> = {
   [K in keyof T]: MaybeRefOrGetter<T[K]> | MaybeRefOrGetter<T[K]>;
-};
+}
 
 export interface UseRendererOptions extends TransformToMaybeRefOrGetter<WebGLRendererParameters> {
   /**
@@ -111,13 +112,13 @@ export function useRenderer(
     disableRender,
     contextParts: { sizes, camera },
   }:
-    {
-      canvas: MaybeRef<HTMLCanvasElement>
-      scene: Scene
-      options: UseRendererOptions
-      contextParts: Pick<TresContext, 'sizes' | 'camera'>
-      disableRender: MaybeRefOrGetter<boolean>
-    }
+  {
+    canvas: MaybeRef<HTMLCanvasElement>
+    scene: Scene
+    options: UseRendererOptions
+    contextParts: Pick<TresContext, 'sizes' | 'camera'>
+    disableRender: MaybeRefOrGetter<boolean>
+  },
 ) {
 
   const webGLRendererConstructorParameters = computed<WebGLRendererParameters>(() => ({
@@ -126,15 +127,15 @@ export function useRenderer(
     canvas: unrefElement(canvas),
     context: toValue(options.context),
     stencil: toValue(options.stencil),
-    antialias: toValue(options.antialias) === undefined ? // an opinionated default of tres
-      true :
-      toValue(options.antialias),
+    antialias: toValue(options.antialias) === undefined // an opinionated default of tres
+      ? true
+      : toValue(options.antialias),
     precision: toValue(options.precision),
     powerPreference: toValue(options.powerPreference),
     premultipliedAlpha: toValue(options.premultipliedAlpha),
     preserveDrawingBuffer: toValue(options.preserveDrawingBuffer),
     logarithmicDepthBuffer: toValue(options.logarithmicDepthBuffer),
-    failIfMajorPerformanceCaveat: toValue(options.failIfMajorPerformanceCaveat)
+    failIfMajorPerformanceCaveat: toValue(options.failIfMajorPerformanceCaveat),
   }))
 
   const renderer = shallowRef<WebGLRenderer>(new WebGLRenderer(webGLRendererConstructorParameters.value))
@@ -149,7 +150,6 @@ export function useRenderer(
   watchEffect(() => {
     renderer.value.setSize(sizes.width.value, sizes.height.value)
   })
-
 
   const { pixelRatio } = useDevicePixelRatio()
 
@@ -184,7 +184,7 @@ export function useRenderer(
 
     if (rendererPreset) {
       if (!(rendererPreset in rendererPresets))
-        logError('Renderer Preset must be one of these: ' + Object.keys(rendererPresets).join(', '))
+        logError(`Renderer Preset must be one of these: ${Object.keys(rendererPresets).join(', ')}`)
 
       merge(renderer.value, rendererPresets[rendererPreset])
     }
@@ -198,7 +198,6 @@ export function useRenderer(
 
         return get(rendererPresets[rendererPreset], pathInThree)
       }
-
 
       if (value !== undefined)
         return value
@@ -228,9 +227,9 @@ export function useRenderer(
 
     if (clearColor)
       renderer.value.setClearColor(
-        clearColor ?
-          normalizeColor(clearColor) :
-          new Color(0x000000) // default clear color is not easily/efficiently retrievable from three
+        clearColor
+          ? normalizeColor(clearColor)
+          : new Color(0x000000), // default clear color is not easily/efficiently retrievable from three
       )
 
   })
@@ -252,7 +251,6 @@ export function useRenderer(
 
   if (import.meta.hot)
     import.meta.hot.on('vite:afterUpdate', resume)
-
 
   return {
     renderer,

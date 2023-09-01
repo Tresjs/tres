@@ -1,5 +1,6 @@
 import { isArray } from '@alvarosabu/utils'
-import { LoadingManager, Texture, TextureLoader } from 'three'
+import type { Texture } from 'three'
+import { LoadingManager, TextureLoader } from 'three'
 
 export interface PBRMaterialOptions {
   /**
@@ -58,29 +59,29 @@ export async function useTexture(
    * @param {string} url
    * @return {*}  {Promise<Texture>}
    */
-  const loadTexture = (url: string): Promise<Texture> => {
-    return new Promise((resolve, reject) => {
-      textureLoader.load(
-        url,
-        texture => resolve(texture),
-        () => null,
-        () => {
-          reject(new Error('[useTextures] - Failed to load texture'))
-        },
-      )
-    })
-  }
+  const loadTexture = (url: string): Promise<Texture> => new Promise((resolve, reject) => {
+    textureLoader.load(
+      url,
+      texture => resolve(texture),
+      () => null,
+      () => {
+        reject(new Error('[useTextures] - Failed to load texture'))
+      },
+    )
+  })
 
   if (isArray(paths)) {
     const textures = await Promise.all((paths as Array<string>).map(path => loadTexture(path)))
     if ((paths as Array<string>).length > 1) {
       return textures
-    } else {
+    }
+    else {
       return textures[0]
     }
-  } else {
-    const { map, displacementMap, normalMap, roughnessMap, metalnessMap, aoMap, alphaMap, matcap
-     } = paths as { [key: string]: string }
+  }
+  else {
+    const { map, displacementMap, normalMap, roughnessMap, metalnessMap, aoMap, alphaMap, matcap,
+    } = paths as { [key: string]: string }
     return {
       map: map ? await loadTexture(map) : null,
       displacementMap: displacementMap ? await loadTexture(displacementMap) : null,

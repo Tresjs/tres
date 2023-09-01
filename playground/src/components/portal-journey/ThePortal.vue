@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { SRGBColorSpace, DoubleSide, MeshBasicMaterial, ShaderMaterial, Color, Mesh } from 'three'
+import type { Mesh } from 'three'
+import { SRGBColorSpace, DoubleSide, MeshBasicMaterial, ShaderMaterial, Color } from 'three'
 import { useRenderLoop, useTexture } from '@tresjs/core'
 import { useGLTF, useTweakPane } from '@tresjs/cientos'
 
@@ -78,6 +79,7 @@ onLoop(({ elapsed }) => {
   portalLightMaterial.uniforms.uTime.value = elapsed
 })
 </script>
+
 <template>
   <TresMesh v-bind="portal" />
 </template>

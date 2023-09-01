@@ -18,6 +18,6 @@ export default defineConfig({
     }),
   ],
   vue: {
-    ...templateCompilerOptions
-  }
+    ...templateCompilerOptions,
+  },
 })
