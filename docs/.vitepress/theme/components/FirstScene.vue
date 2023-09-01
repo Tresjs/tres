@@ -61,7 +61,6 @@ const gl = {
     </TresMesh>
     <TresAmbientLight :intensity="0.75" />
     <TresDirectionalLight
-      ref="LightRef"
       :position="[0, 2, 4]"
       :intensity="2"
       cast-shadow
