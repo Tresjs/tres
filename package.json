@@ -54,7 +54,7 @@
     "@release-it/conventional-changelog": "^7.0.0",
     "@tweakpane/core": "^1.1.9",
     "@types/node": "^20.5.4",
-    "@types/three": "^0.155.1",
+    "@types/three": "^0.155.0",
     "@typescript-eslint/eslint-plugin": "^6.4.1",
     "@typescript-eslint/parser": "^6.4.1",
     "@vitejs/plugin-vue": "^4.3.3",

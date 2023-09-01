@@ -3,6 +3,8 @@ import { ref, watchEffect } from 'vue'
 import { TresCanvas, useRenderLoop } from '@tresjs/core'
 import { ScrollControls, Stars, Sphere, Box } from '@tresjs/cientos'
 import { SRGBColorSpace, NoToneMapping } from 'three'
+import { TresLeches, useControls } from '@tresjs/leches';
+import '@tresjs/leches/styles'
 
 const scRef = ref()
 const sphereRef = ref()
@@ -20,6 +22,12 @@ const gl = {
   outputColorSpace: SRGBColorSpace,
   toneMapping: NoToneMapping,
 }
+
+useControls('fpsgraph')
+useControls({
+  progress: progress.value
+})
+
 const { onLoop } = useRenderLoop()
 onLoop(() => {
   if (boxRef.value) {
@@ -29,6 +37,7 @@ onLoop(() => {
 })
 </script>
 <template>
+  <TresLeches class="important-fixed" />
   <TresCanvas v-bind="gl" ref="canvasRef" window-size>
     <TresPerspectiveCamera :position="[0, 2, 5]" />
     <Stars :radius="1" />

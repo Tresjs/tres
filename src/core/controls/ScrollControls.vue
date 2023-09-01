@@ -114,17 +114,17 @@ watch(
 
 watch(windowY, value => {
   if (!isScrolling.value && !props.htmlScroll) return
-  progressScroll.value = parseFloat((value / height.value / (scrollNodeY.value / height.value - 1)).toFixed(2))
+  progressScroll.value = (value / height.value / (scrollNodeY.value / height.value - 1))
   progress.value = -1 * progressScroll.value
   emit('update:modelValue', progressScroll.value)
 })
 watch(containerY, value => {
-  progressScroll.value = parseFloat((value / height.value / (scrollNodeY.value / height.value)).toFixed(2))
+  progressScroll.value = (value / height.value / (scrollNodeY.value / height.value))
   progress.value = -1 * progressScroll.value
   emit('update:modelValue', progressScroll.value)
 })
 watch(containerX, value => {
-  progressScroll.value = parseFloat((value / width.value / (scrollNodeY.value / width.value - 1)).toFixed(2))
+  progressScroll.value = (value / width.value / (scrollNodeY.value / width.value - 1))
   progress.value = +progressScroll.value
   emit('update:modelValue', progressScroll.value)
 })
