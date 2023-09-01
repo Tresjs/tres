@@ -295,7 +295,7 @@ const onChange = () => {
 }
 
 onMounted(() => {
-  lensflareRef.value.add(threeLensflare);
+  lensflareRef.value?.add(threeLensflare);
   onChange();
 })
 
