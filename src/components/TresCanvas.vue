@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import {
   PerspectiveCamera,
-  Scene } from 'three'
+  Scene,
+} from 'three'
 import type {
   WebGLRendererParameters,
-  type ColorSpace,
-  type ShadowMapType,
-  type ToneMapping,
+  ColorSpace,
+  ShadowMapType,
+  ToneMapping,
 } from 'three'
 import type { Ref } from 'vue'
 import { computed, onMounted, provide, ref, shallowRef, watch, watchEffect, Fragment, defineComponent, h } from 'vue'
