@@ -2,18 +2,19 @@
 import { Lensflare, LensflareElement } from 'three/examples/jsm/objects/lensflare';
 import { MathUtils, Texture, TextureLoader, Color } from 'three';
 import { watch, shallowRef, onMounted, onUnmounted } from 'vue'
-import { normalizeColor } from '@tresjs/core';
+import { normalizeColor, TresColor } from '@tresjs/core';
 import RandUtils from '../../utils/RandUtils';
 
-export type FlareElementProps = {
-  texture?: Texture | string
-  size?: number
-  distance?: number
+export type LensflareElementProps = {
+  texture: Texture | string
+  size: number
+  distance: number
+  color: TresColor
 }
 
 const props = withDefaults(
   defineProps<{
-    flare?: FlareElementProps[],
+    flare?: Partial<LensflareElementProps>[],
     scale?: number,
     seed?: number,
   }>(),
@@ -70,7 +71,7 @@ const lerp = MathUtils.lerp;
 const TEXTURE_PATH = 'https://raw.githubusercontent.com/andretchen0/tresjs_assets/' +
   'b1bc3780de73a9328a530767c9a7f4cbab060396/textures/lensflare/';
 
-const getSeededFlareElements = () => {
+const getSeededFlareElements = (): LensflareElementProps[] => {
   const rand: RandUtils = new RandUtils(props.seed);
 
   const numPoints = rand.choice([4, 6, 8]) as 4 | 6 | 8;
@@ -88,6 +89,7 @@ const getSeededFlareElements = () => {
   // NOTE:
   // Flare elements are divided into back, oversize, body, front. 
   // They are arranged as such, relative to the light source and camera:
+  //
   // [distance < 0]   [distance == 0]   [distance > 0]
   //                      light                          camera
   //      back        body, oversize       front
@@ -140,12 +142,12 @@ const getSeededFlareElements = () => {
     oversizeTexturesOptional,
     rand.int(oversizeElementsNumMin, oversizeElementsNumMax)
   );
-  const oversizeElements = oversizeTexturesSelected.map(
+  const oversizeElements: LensflareElementProps[] = oversizeTexturesSelected.map(
     texture => ({
       texture,
       size: rand.int(oversizeSizeMin, oversizeSizeMax),
       distance: 0,
-      color: rand.choice(oversizeColors)
+      color: rand.defaultChoice(oversizeColors, 'white')
     })
   );
 
@@ -153,32 +155,35 @@ const getSeededFlareElements = () => {
     bodyTexturesOptional,
     rand.int(bodyTexturesOptionalNumMin, bodyTexturesOptionalNumMax)
   );
-  const bodyElements = [
-    ...bodyTexturesRequired.map(texture => ({ 
-      texture, 
-      size: rand.int(bodySizeMin, bodySizeMax), 
-      distance: 0, 
-      color: rand.choice(bodyColors) })
-      ),
-    ...bodyTexturesOptionalSelected.map(texture => ({ 
-      texture, 
-      size: rand.int(bodySizeMin, bodySizeMax), 
-      distance: 0, 
-      color: rand.choice(bodyColors) })
-      )
+
+  const bodyElements: LensflareElementProps[] = [
+    ...bodyTexturesRequired.map(texture => ({
+      texture,
+      size: rand.int(bodySizeMin, bodySizeMax),
+      distance: 0,
+      color: rand.defaultChoice(bodyColors, defaultElement.color)
+    })
+    ),
+    ...bodyTexturesOptionalSelected.map(texture => ({
+      texture,
+      size: rand.int(bodySizeMin, bodySizeMax),
+      distance: 0,
+      color: rand.defaultChoice(bodyColors, defaultElement.color)
+    })
+    )
   ];
 
   const frontTexturesSelected = rand.sample(frontTexturesOptional, rand.int(frontTexturesNumMin, frontTexturesNumMax));
   const frontNumElements = rand.int(frontElementsNumMin, frontElementsNumMax);
   const frontDistanceStart = rand.float(frontOffsetMin, frontOffsetMax);
   const frontDistanceEnd = frontDistanceStart + rand.float(frontLengthMin, frontLengthMax);
-  const frontElementProps = new Array(frontNumElements).fill(0).map(() => {
+  const frontElementProps: LensflareElementProps[] = new Array(frontNumElements).fill(0).map(() => {
     const progress = easingFn(rand.rand());
     return {
-      texture: rand.choice(frontTexturesSelected),
+      texture: rand.defaultChoice(frontTexturesSelected, defaultElement.texture),
       size: lerp(frontSizeMin, frontSizeMax, easingFn(1 - progress)),
       distance: lerp(frontDistanceStart, frontDistanceEnd, progress),
-      color: rand.choice(frontColors)
+      color: rand.defaultChoice(frontColors, defaultElement.color)
     };
   });
 
@@ -189,17 +194,17 @@ const getSeededFlareElements = () => {
   const backElements = new Array(backNumElements).fill(0).map(() => {
     const progress = easingFn(rand.rand());
     return {
-      texture: rand.choice(backTexturesSelected),
+      texture: rand.defaultChoice(backTexturesSelected, defaultElement.texture),
       size: lerp(backSizeMin, backSizeMax, easingFn(1 - progress)),
       distance: -lerp(backDistanceStart, backDistanceEnd, progress),
-      color: rand.choice(backColors)
+      color: rand.defaultChoice(backColors, defaultElement.color)
     };
   });
 
   return [...oversizeElements, ...bodyElements, ...frontElementProps, ...backElements];
 }
 
-const defaultElement: LensflareElement = {
+const defaultElement: LensflareElementProps = {
   texture: `${TEXTURE_PATH}cirlceBlur.png`,
   size: 64,
   distance: 0,
@@ -209,7 +214,7 @@ const defaultElement: LensflareElement = {
 const threeLensflare = new Lensflare();
 // NOTE: THREE.Lensflare doesn't expose `elements` – the "parts" of a lensflare. 
 // We'll maintain a reference that we can update.
-const threeElements: LensflareElement = [];
+const threeElements: LensflareElement[] = [];
 
 const dispose = () => {
   while (threeElements.length) threeElements.pop();
@@ -217,10 +222,16 @@ const dispose = () => {
   lensflareRef.value?.remove(...lensflareRef.value.children);
 }
 
+const lensflareElementPropsToLensflareElement = (p: LensflareElementProps) => {
+  p.texture = typeof p.texture === 'string' ? textureLoader.load(p.texture) : p.texture;
+  p.color = normalizeColor(p.color);
+  return p as LensflareElement;
+}
+
 const onChange = () => {
   if (lensflareRef.value) {
 
-    const normalizedUserElements = (() => {
+    const normalizedUserElements: LensflareElement[] = (() => {
       // NOTE: The user can either tweak the seeded lensflare or provide their own.
       const flare = props.flare || [];
 
@@ -234,27 +245,24 @@ const onChange = () => {
       const hasSeed = typeof props.seed !== 'undefined';
       const hasFlare = Array.isArray(props.flare);
 
-      if (hasSeed && hasFlare) {
-        return getSeededFlareElements().map((element, i) => Object.assign({}, element, flare[i]));
-      } else if (!hasSeed && hasFlare) {
-        return flare.map(element => Object.assign({}, defaultElement, element))
-      } else if (hasSeed && !hasFlare) {
-        return getSeededFlareElements();
-      } else {
-        return getSeededFlareElements();
-      }
-    })();
+      const normalizedProps = (function (): LensflareElementProps[] {
+        if (hasSeed && hasFlare) {
+          return getSeededFlareElements().map((element, i) => Object.assign({}, element, flare[i]));
+        } else if (!hasSeed && hasFlare) {
+          return flare.map(element => Object.assign({}, defaultElement, element))
+        } else if (hasSeed && !hasFlare) {
+          return getSeededFlareElements();
+        } else {
+          return getSeededFlareElements();
+        }
+      })();
 
-    normalizedUserElements.forEach(el => {
-      if (typeof el.texture === 'string') {
-        el.texture = textureLoader.load(el.texture);
-      }
-      el.color = normalizeColor(el.color);
-    });
+      return normalizedProps.map(lensflareElementPropsToLensflareElement);
+    })();
 
     // NOTE: The THREE lensflare, doesn't expose "elements", so keep a copy.
     while (normalizedUserElements.length > threeElements.length) {
-      const element = Object.assign({}, defaultElement);
+      const element = normalizedUserElements[threeElements.length];
       threeElements.push(element);
       threeLensflare.addElement(element);
     }
@@ -299,6 +307,4 @@ watch(() => props.flare, onChange)
 
 </script>
 
-<template>
-  <TresGroup v-bind="$attrs" ref="lensflareRef"></TresGroup>
-</template>
+<template><TresGroup v-bind="$attrs" ref="lensflareRef"></TresGroup></template>
