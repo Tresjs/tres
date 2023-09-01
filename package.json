@@ -62,6 +62,7 @@
     "@histoire/plugin-vue": "^0.17.1",
     "@iconify-json/ic": "^1.1.14",
     "@release-it/conventional-changelog": "^7.0.0",
+    "@tresjs/eslint-config-vue": "^0.1.1",
     "@typescript-eslint/eslint-plugin": "^6.5.0",
     "@typescript-eslint/parser": "^6.5.0",
     "@vitejs/plugin-vue": "^4.3.4",

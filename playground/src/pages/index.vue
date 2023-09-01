@@ -19,7 +19,7 @@ useControls('fpsgraph', {
 // Reactive
 
 // Plain Objects
-const [{value:test}, {value:awiwi}] = useControls({ test: true, awiwi: 'awiwi' })
+const [{ value: test }, { value: awiwi }] = useControls({ test: true, awiwi: 'awiwi' })
 console.log('test', test)
 console.log('awiwi', awiwi)
 
@@ -69,17 +69,16 @@ console.log('folder', folder)
 const { dropdown } = useControls({
   dropdown: {
     options: [
-    { text: 'loading', value: 'LDG' },
-    { text: 'menu', value: 'MNU' },
-    { text: 'field', value: 'FLD' },],
+      { text: 'loading', value: 'LDG' },
+      { text: 'menu', value: 'MNU' },
+      { text: 'field', value: 'FLD' }],
     value: 'LDG',
-  }
+  },
 })
 
 watchEffect(() => {
   console.log('dropdown', dropdown.value)
 })
-
 
 /* const { wireframe } = useControls({
   wireframe: ref(false),
@@ -89,7 +88,7 @@ const boxRotation = reactive(new Vector3(0, Math.PI, 0))
 const boxRef = ref()
 const cameraRef = ref()
 
- useControls({
+useControls({
   slider: { value: 1, min: 0, max: 10, step: 0.1, icon: 'ic-baseline-arrow-forward' },
 }, {
   uuid: 'second',
@@ -102,7 +101,6 @@ const { awiwi } = useControls({
 }) */
 
 /* console.log('wireframe',useControls({wireframe})) */
-
 
 /* useControls(gl) */
 /* useControls('fpsgraph')
@@ -119,7 +117,6 @@ useControls('Box', {
   rotation: boxRotation,
   wireframe,
 }) */
-
 
 /* const state = useControls({
   label: 'test',
@@ -142,19 +139,38 @@ useControls('Box', {
   console.log(state.test.value)
 }) */
 </script>
+
 <template>
   <TresLeches />
-  <TresLeches uuid="second"/>
+  <TresLeches uuid="second" />
   <TresCanvas v-bind="gl">
-    <TresPerspectiveCamera ref="cameraRef"  :position-x="position.x" :look-at="[1,2,0]" />
-    <TresMesh ref="boxRef" :position-x="boxPosition.x" :position-y="boxPosition.y" :position-z="boxPosition.z"
-      :rotation-x="boxRotation.x" :rotation-y="boxRotation.y" :rotation-z="boxRotation.z" :scale="[2, 2, 2]">
+    <TresPerspectiveCamera
+      ref="cameraRef"
+      :position-x="position.x"
+      :look-at="[1, 2, 0]"
+    />
+    <TresMesh
+      ref="boxRef"
+      :position-x="boxPosition.x"
+      :position-y="boxPosition.y"
+      :position-z="boxPosition.z"
+      :rotation-x="boxRotation.x"
+      :rotation-y="boxRotation.y"
+      :rotation-z="boxRotation.z"
+      :scale="[2, 2, 2]"
+    >
       <TresBoxGeometry />
-      <TresMeshNormalMaterial :color="'teal'" :wireframe="wireframe" />
+      <TresMeshNormalMaterial
+        color="teal"
+        :wireframe="wireframe"
+      />
     </TresMesh>
     <TresGridHelper />
     <TresAmbientLight :intensity="1" />
-    <TresDirectionalLight :position="[3, 3, 3]" :intensity="1" />
+    <TresDirectionalLight
+      :position="[3, 3, 3]"
+      :intensity="1"
+    />
     <OrbitControls />
   </TresCanvas>
 </template>

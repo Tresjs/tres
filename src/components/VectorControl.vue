@@ -2,7 +2,7 @@
 import { useMouse } from '@vueuse/core'
 import { computed, ref, watch } from 'vue'
 import { isVector2, isVector3, normalizeVectorFlexibleParam } from '../utils/'
-import { Control } from '../types'
+import type { Control } from '../types'
 
 const props = defineProps<{
   label: string
@@ -28,15 +28,12 @@ const onInputMouseUp = (_event: MouseEvent, $index: number) => {
   isMouseDown.value = false
 }
 
-const calculateSpeed = (diff: number) => {
-  return Math.floor(Math.abs(diff) / 10)
-}
+const calculateSpeed = (diff: number) => Math.floor(Math.abs(diff) / 10)
 
 const vector = computed(() => normalizeVectorFlexibleParam(props.control.value))
-const labels = ref(['x','y','z'])
+const labels = ref(['x', 'y', 'z'])
 
 const isVector = computed(() => isVector2(props.control.value) || isVector3(props.control.value))
-
 
 function onChange(event: Event, $index: number) {
   const { value } = props.control
@@ -47,7 +44,7 @@ function onChange(event: Event, $index: number) {
   emit('change', value)
 }
 
-watch(mouse.x, newValue => {
+watch(mouse.x, (newValue) => {
   if (isMouseDown.value) {
     const diff = newValue - initialMouseX.value
     const speed = calculateSpeed(diff)
@@ -56,7 +53,8 @@ watch(mouse.x, newValue => {
 
     if (diff > 0) {
       value[label] += 0.1 + speed
-    } else if (diff < 0) {
+    }
+    else if (diff < 0) {
       value[label] -= 0.1 + speed
     }
 
@@ -74,6 +72,7 @@ watch(mouse.x, newValue => {
   }
 })
 </script>
+
 <template>
   <div class="flex px-4 justify-between gap-1 items-center mb-2">
     <label class="text-gray-500 w-1/3">{{ label }}</label>
@@ -83,18 +82,23 @@ watch(mouse.x, newValue => {
         :key="label + $index"
         class="flex items-center w-1/3 bg-gray-100 rounded"
       >
-      <span v-if="labels[$index] && isVector" class="font-bold px-1 py-1 text-0.65rem text-gray-300">{{
-        labels[$index]
-      }}</span>
-      <input
-        type="text"
-        class="w-full pl-0 p-1 text-right text-0.65rem text-gray-400 bg-transparent focus:border-gray-200 outline-none border-none font-sans"
-        :value="vector[$index].toFixed(2)"
-        :class="{ 'cursor-ew-resize': isMouseDown }"
-        @input="onChange($event, $index)"
-        @mousedown="onInputMouseDown($event, $index)"
-        @mouseup="onInputMouseUp($event, $index)"
-      />
+        <span
+          v-if="labels[$index] && isVector"
+          class="font-bold px-1 py-1 text-0.65rem text-gray-300"
+        >{{
+          labels[$index]
+        }}</span>
+        <!-- eslint-disable max-len -->
+        <input
+        
+          type="text"
+          class="w-full pl-0 p-1 text-right text-0.65rem text-gray-400 bg-transparent focus:border-gray-200 outline-none border-none font-sans"
+          :value="vector[$index].toFixed(2)"
+          :class="{ 'cursor-ew-resize': isMouseDown }"
+          @input="onChange($event, $index)"
+          @mousedown="onInputMouseDown($event, $index)"
+          @mouseup="onInputMouseUp($event, $index)"
+        >
       </div>
     </div>
   </div>

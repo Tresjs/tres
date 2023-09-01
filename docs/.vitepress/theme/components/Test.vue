@@ -1,7 +1,7 @@
 <script setup lang="ts">
-  import { TresLeches, useControls } from '@tresjs/leches'
+import { TresLeches, useControls } from '@tresjs/leches'
 
-  useControls('fpsgraph')
+useControls('fpsgraph')
 </script>
 
 <template>

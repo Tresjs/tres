@@ -15,7 +15,7 @@ export default defineConfig({
       script: {
         propsDestructure: true,
       },
-      ...templateCompilerOptions
+      ...templateCompilerOptions,
     }),
     AutoImport({
       dts: true,

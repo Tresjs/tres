@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 import { useMouse } from '@vueuse/core'
-import { Control } from '../types'
+import type { Control } from '../types'
 
 const props = defineProps<{
   label: string
@@ -29,17 +29,16 @@ const onInputMouseUp = () => {
   isMouseDown.value = false
 }
 
-const calculateSpeed = (diff: number) => {
-  return Math.floor(Math.abs(diff) / 10)
-}
+const calculateSpeed = (diff: number) => Math.floor(Math.abs(diff) / 10)
 
-watch(mouse.x, newValue => {
+watch(mouse.x, (newValue) => {
   if (isMouseDown.value) {
     const diff = newValue - initialMouseX.value
     const speed = calculateSpeed(diff)
     if (diff > 0) {
       emit('change', props.control.value + 1 + speed)
-    } else if (diff < 0) {
+    }
+    else if (diff < 0) {
       emit('change', props.control.value - 1 + speed)
     }
 
@@ -55,12 +54,25 @@ watch(mouse.x, newValue => {
   }
 })
 </script>
+
 <template>
   <div class="flex px-4 justify-between gap-4 items-center mb-2">
     <label class="text-gray-500 w-1/3">{{ label }}</label>
     <input
       :value="control.value"
-      class="p-2 w-1/3 rounded text-right text-xs text-gray-400 bg-gray-100 focus:border-gray-200 outline-none border-none font-sans"
+      class="
+        p-2
+        w-1/3
+        rounded
+        text-right
+        text-xs
+        text-gray-400
+        bg-gray-100
+        focus:border-gray-200
+        outline-none
+        border-none
+        font-sans
+      "
       type="number"
       :class="{ 'cursor-ew-resize': isMouseDown }"
       :min="control.min"
@@ -69,6 +81,6 @@ watch(mouse.x, newValue => {
       @input="onChange"
       @mousedown="onInputMouseDown"
       @mouseup="onInputMouseUp"
-    />
+    >
   </div>
 </template>

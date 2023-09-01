@@ -1,10 +1,12 @@
 <script setup lang="ts">
-import { Ref, ref, toRefs, unref } from 'vue'
+import type { Ref } from 'vue'
+import { ref, toRefs, unref, computed } from 'vue'
 import { useWindowSize } from '@vueuse/core'
 import { UseDraggable } from '../composables/useDraggable/component'
+import { useControlsProvider } from '../composables/useControls'
+import type { Control } from '../types'
 import Folder from './Folder.vue'
 
-import { useControlsProvider } from '../composables/useControls'
 import ControlInput from './ControlInput.vue'
 
 const props = defineProps<{
@@ -25,25 +27,23 @@ function onChange(label: Ref<string>, value: string) {
   controls[unref(label)].value = value as any
 }
 
-import { computed } from 'vue';
-import { Control } from '../types'
-
 const groupedControls = computed(() => {
-  const groups: { [folder: string]: Control[] } = {};
+  const groups: { [folder: string]: Control[] } = {}
 
   for (const key in controls) {
-    const control = controls[key];
-    const folderName = control.folder || 'default'; // Ensure we access the value of the ref
+    const control = controls[key]
+    const folderName = control.folder || 'default' // Ensure we access the value of the ref
 
     if (!groups[folderName as unknown as string]) {
-      groups[folderName as unknown as string] = [];
+      groups[folderName as unknown as string] = []
     }
-    groups[folderName as unknown as string].push(control);
+    groups[folderName as unknown as string].push(control)
   }
 
-  return groups;
-});
+  return groups
+})
 </script>
+
 <template>
   <UseDraggable
     :id="uuid"
@@ -53,23 +53,33 @@ const groupedControls = computed(() => {
     :handle="handle"
   >
     <div class="bg-white shadow-xl rounded border-4 border-solid border-black">
-      <header ref="handle" class="relative cursor-grabbing p-4 flex justify-between text-gray-200 relative">
+      <header
+        ref="handle"
+        class="relative cursor-grabbing p-4 flex justify-between text-gray-200 relative"
+      >
         <i class="h-4 w-4 p-1.5 flex items-center line-height-0 rounded-full bg-gray-100 text-xs">🍰</i>
         <div>
           <i class="i-ic-baseline-drag-indicator" /><i class="i-ic-baseline-drag-indicator" /><i
             class="i-ic-baseline-drag-indicator"
           />
         </div>
-        <div></div>
+        <div />
       </header>
-      <template v-for="(group, folderName) of groupedControls" :key="folderName">
-        <Folder v-if="folderName !== 'default'" :label="folderName" :controls="group" />
+      <template
+        v-for="(group, folderName) of groupedControls"
+        :key="folderName"
+      >
+        <Folder
+          v-if="folderName !== 'default'"
+          :label="folderName"
+          :controls="group"
+        />
         <template v-if="folderName === 'default'">
           <ControlInput 
             v-for="control in group"  
             :key="control.label" 
             :control="control" 
-            @change="newValue => onChange(control.label, newValue )" 
+            @change="newValue => onChange(control.label, newValue)" 
           />
         </template>
       </template>
