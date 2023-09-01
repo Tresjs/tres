@@ -1,6 +1,6 @@
 import { uniqueBy } from '../../utils'
 import { useRaycaster } from '../useRaycaster'
-import { computed, reactive } from 'vue'
+import { computed, reactive, ref } from 'vue'
 
 import type { TresContext } from '../useTresContextProvider'
 import type { Intersection, Event, Object3D } from 'three'
@@ -30,8 +30,19 @@ export const usePointerEventHandler = (
     pointerLeave: new Map<Object3D, CallbackFnPointerLeave>(),
   })
 
+  const blockingObjects = ref(new Set<Object3D>())
+
+  const registerBlockingObject = (object: Object3D) => {
+    blockingObjects.value.add(object)
+  }
+
+  const deregisterBlockingObject = (object: Object3D) => {
+    blockingObjects.value.delete(object)
+  }
+
   const deregisterObject = (object: Object3D) => {
     Object.values(objectsWithEventListeners).forEach(map => map.delete(object))
+    deregisterBlockingObject(object)
   }
 
   const registerObject = (object: Object3D & EventProps) => {
@@ -47,12 +58,18 @@ export const usePointerEventHandler = (
   scene.userData.tres__registerAtPointerEventHandler = registerObject
   scene.userData.tres__deregisterAtPointerEventHandler = deregisterObject
 
+  scene.userData.tres__registerBlockingObjectAtPointerEventHandler = registerBlockingObject
+  scene.userData.tres__deregisterBlockingObjectAtPointerEventHandler = deregisterBlockingObject
+
 
   const objectsToWatch = computed(() =>
     uniqueBy(
-      Object.values(objectsWithEventListeners)
-        .map(map => Array.from(map.keys()))
-        .flat(),
+      [
+        ...Array.from(blockingObjects.value),
+        ...Object.values(objectsWithEventListeners)
+          .map(map => Array.from(map.keys()))
+          .flat()
+      ],
       ({ uuid }) => uuid,
     ),
   )

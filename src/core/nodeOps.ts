@@ -8,9 +8,6 @@ import { deepArrayEqual, isHTMLTag, kebabToCamel } from '../utils'
 import type { Object3D, Camera } from 'three'
 import type { TresObject, TresObject3D, TresScene } from '../types'
 
-const onRE = /^on[^a-z]/
-export const isOn = (key: string) => onRE.test(key)
-
 function noop(fn: string): any {
   fn
 }
@@ -99,7 +96,6 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
         scene?.userData.tres__registerCamera?.(child as unknown as Camera)
       }
 
-
       if (
         child?.onClick ||
         child?.onPointerMove ||
@@ -142,9 +138,16 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
       }
 
       const deregisterAtPointerEventHandler = scene?.userData.tres__deregisterAtPointerEventHandler
-
+      const deregisterBlockingObjectAtPointerEventHandler =
+        scene?.userData.tres__deregisterBlockingObjectAtPointerEventHandler
 
       const deregisterAtPointerEventHandlerIfRequired = (object: TresObject) => {
+
+        if (!deregisterBlockingObjectAtPointerEventHandler)
+          throw 'could not find tres__deregisterBlockingObjectAtPointerEventHandler on scene\'s userData'
+
+        scene?.userData.tres__deregisterBlockingObjectAtPointerEventHandler?.(object as Object3D)
+
         if (!deregisterAtPointerEventHandler)
           throw 'could not find tres__deregisterAtPointerEventHandler on scene\'s userData'
 
@@ -188,6 +191,16 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
     if (node) {
       let root = node
       let key = prop
+      if (node.isObject3D && key === 'blocks-pointer-events') {
+        if (nextValue || nextValue === '')
+          scene?.userData.tres__registerBlockingObjectAtPointerEventHandler?.(node as Object3D)
+        else
+          scene?.userData.tres__deregisterBlockingObjectAtPointerEventHandler?.(node as Object3D)
+
+        return
+      }
+
+
       let finalKey = kebabToCamel(key)
       let target = root?.[finalKey]
 
