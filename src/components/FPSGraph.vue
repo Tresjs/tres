@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { useFps, useRafFn } from '@vueuse/core'
-import { Control } from '../types'
+import type { Control } from '../types'
 
 defineProps<{
   label: string
@@ -47,10 +47,30 @@ useRafFn(({ timestamp }) => {
     <label class="text-gray-500 w-1/3">{{ label }}</label>
 
     <div
-      class="relative w-2/3 p-1 rounded text-right text-xs text-gray-400 bg-gray-100 focus:border-gray-200 outline-none border-none font-sans"
+      class="
+        relative
+        w-2/3
+        p-1
+        rounded
+        text-right
+        text-xs
+        text-gray-400
+        bg-gray-100
+        focus:border-gray-200
+        outline-none
+        border-none
+        font-sans
+      "
     >
-      <div class="absolute bottom-0.5 right-0.5 font-sans text-xs">{{ Math.round(fps) }} FPS</div>
-      <svg :width="width" :height="height" xmlns="http://www.w3.org/2000/svg" class="bg-gray-100">
+      <div class="absolute bottom-0.5 right-0.5 font-sans text-xs">
+        {{ Math.round(fps) }} FPS
+      </div>
+      <svg
+        :width="width"
+        :height="height"
+        xmlns="http://www.w3.org/2000/svg"
+        class="bg-gray-100"
+      >
         <polyline
           :points="points"
           fill="none"

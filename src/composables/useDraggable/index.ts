@@ -6,20 +6,20 @@ import { computed, ref, watch } from 'vue'
 export const defaultWindow = /*#__PURE__*/ isClient ? window : undefined
 
 export interface Position {
-    x: number
-    y: number
-  }
+  x: number
+  y: number
+}
   
-  export interface RenderableComponent {
-    /**
+export interface RenderableComponent {
+  /**
      * The element that the component should be rendered as
      *
      * @default 'div'
      */
-    as?: object | string
-  }
+  as?: object | string
+}
   
-  export type PointerType = 'mouse' | 'touch' | 'pen'
+export type PointerType = 'mouse' | 'touch' | 'pen'
 
 export interface UseDraggableOptions {
   /**
@@ -127,17 +127,17 @@ export function useDraggable(
   } = options
 
   const { width } = useWindowSize()
-  let initialWindowWidth = width.value; // Store the initial window width outside the function
-
-  watch(width, () => {
-    const difference = width.value - initialWindowWidth; // Calculate the difference
-    position.value.x += difference; // Adjust the element's x position
-    initialWindowWidth = width.value; // Update the initial window width for the next resize
-  })
-
+  let initialWindowWidth = width.value // Store the initial window width outside the function
+  
   const position = ref<Position>(
     toValue(initialValue) ?? { x: 0, y: 0 },
   )
+  
+  watch(width, () => {
+    const difference = width.value - initialWindowWidth // Calculate the difference
+    position.value.x += difference // Adjust the element's x position
+    initialWindowWidth = width.value // Update the initial window width for the next resize
+  })
 
   const pressedDelta = ref<Position>()
 

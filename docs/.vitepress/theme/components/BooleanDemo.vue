@@ -5,7 +5,7 @@ const uuid = 'boolean'
 const { value } = useControls({
   awiwi: true,
 }, {
-  uuid
+  uuid,
 })
 </script>
 
@@ -15,7 +15,10 @@ const { value } = useControls({
       <pre class="bg-dark p-8 rounded text-white">awiwi: {{ value }}</pre>
     </div>
     <div class="relative w-280px min-h-200px">
-      <TresLeches class="important-left-0 -important-top-8" :uuid="uuid" />
+      <TresLeches
+        class="important-left-0 -important-top-8"
+        :uuid="uuid"
+      />
     </div>
   </div>
 </template>

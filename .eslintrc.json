@@ -1,0 +1,20 @@
+{
+  "extends": "@tresjs/eslint-config-vue",
+  "rules": {
+    "vue/max-len": ["error", {
+      "code": 120,
+      "template": 150,
+      "tabWidth": 2,
+      "comments": 120,
+      "ignorePattern": "",
+      "ignoreComments": false,
+      "ignoreTrailingComments": false,
+      "ignoreUrls": false,
+      "ignoreStrings": false,
+      "ignoreTemplateLiterals": false,
+      "ignoreRegExpLiterals": false,
+      "ignoreHTMLAttributeValues": false,
+      "ignoreHTMLTextContents": false
+    }]
+  }
+}

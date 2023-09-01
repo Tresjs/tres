@@ -1,12 +1,12 @@
-import {  isVector3 } from "."
+import { isVector3 } from '.'
 
-export type Vector3Prop = { x: number, y: number, z: number }
+export interface Vector3Prop { x: number; y: number; z: number }
 export type SizeFlexibleParams =
   | number[]
   | {
-      width: number
-      height: number
-    }
+    width: number
+    height: number
+  }
 
 export interface Vector2PropInterface {
   x?: number
@@ -26,7 +26,7 @@ export function normalizeVectorFlexibleParam(value: VectorFlexibleParams): Array
     return [value, value, value]
   }
   if (isVector3(value as Vector3Prop)) {
-    const { x, y, z} = value as Vector3Prop
+    const { x, y, z } = value as Vector3Prop
     return [x, y, z]
   }
   return value as Array<number>

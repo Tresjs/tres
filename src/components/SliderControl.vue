@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
 import { useMouse } from '@vueuse/core'
-import { Control } from '../types'
+import type { Control } from '../types'
 
 const props = defineProps<{
   label: string
@@ -17,8 +17,8 @@ function onChange(event: Event) {
 
 const sliderFilledStyle = computed(() => ({
   backgroundImage: `linear-gradient(to right, #333 0% ${
-    (100 * ((props.control.value as number) - (props.control.min || 0))) /
-    ((props.control.max || 100) - (props.control.min || 0))
+    (100 * ((props.control.value as number) - (props.control.min || 0)))
+    / ((props.control.max || 100) - (props.control.min || 0))
   }%, #e2e2e2 0%)`,
 }))
 
@@ -35,17 +35,16 @@ const onInputMouseUp = () => {
   isMouseDown.value = false
 }
 
-const calculateSpeed = (diff: number) => {
-  return Math.floor(Math.abs(diff) / 10)
-}
+const calculateSpeed = (diff: number) => Math.floor(Math.abs(diff) / 10)
 
-watch(mouse.x, newValue => {
+watch(mouse.x, (newValue) => {
   if (isMouseDown.value) {
     const diff = newValue - initialMouseX.value
     const speed = calculateSpeed(diff)
     if (diff > 0) {
       emit('change', props.control.value + 1 + speed)
-    } else if (diff < 0) {
+    }
+    else if (diff < 0) {
       emit('change', props.control.value - 1 + speed)
     }
 
@@ -61,11 +60,13 @@ watch(mouse.x, newValue => {
   }
 })
 </script>
+
 <template>
   <div class="px-4 relative flex justify-between gap-4 items-center mb-2">
-    <label class="text-gray-500 w-1/3" :class="{ 'flex justify-between items-center': control.icon }"
-      >{{ label }} <i :class="`i-${control.icon}`"></i
-    ></label>
+    <label
+      class="text-gray-500 w-1/3"
+      :class="{ 'flex justify-between items-center': control.icon }"
+    >{{ label }} <i :class="`i-${control.icon}`" /></label>
     <input
       :value="control.value"
       class="w-1/2 h-0.75 bg-dark-200 rounded-full appearance-none"
@@ -75,10 +76,22 @@ watch(mouse.x, newValue => {
       :max="control.max"
       :step="control.step"
       @input="onChange"
-    />
+    >
     <input
       :value="control.value"
-      class="p-2 w-1/4 rounded text-right text-xs text-gray-400 bg-gray-100 focus:border-gray-200 outline-none border-none font-sans"
+      class="
+        p-2
+        w-1/4
+        rounded
+        text-right
+        text-xs
+        text-gray-400
+        bg-gray-100
+        focus:border-gray-200
+        outline-none
+        border-none
+        font-sans
+      "
       :class="{ 'cursor-ew-resize': isMouseDown }"
       type="number"
       :min="control.min"
@@ -87,7 +100,7 @@ watch(mouse.x, newValue => {
       @input="onChange"
       @mousedown="onInputMouseDown"
       @mouseup="onInputMouseUp"
-    />
+    >
   </div>
 </template>
 
