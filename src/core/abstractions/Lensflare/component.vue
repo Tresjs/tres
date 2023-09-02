@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Lensflare, LensflareElement } from 'three/examples/jsm/objects/lensflare'
+import { Lensflare, LensflareElement } from 'three/examples/jsm/objects/Lensflare'
 import { TextureLoader } from 'three'
 import { watch, shallowRef, onMounted, onUnmounted } from 'vue'
 import { normalizeColor } from '@tresjs/core'
