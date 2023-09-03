@@ -1,4 +1,4 @@
-import { isRef, provide, reactive, ref, toRefs } from 'vue'
+import { isReactive, isRef, provide, reactive, ref, toRefs } from 'vue'
 import type { Control } from '../types'
 
 export const CONTROLS_CONTEXT_KEY = Symbol('CONTROLS_CONTEXT_KEY')
@@ -82,8 +82,17 @@ export const useControls = (
 
   const controls = controlsStore[uuid]
 
+  // Check if controlsParams is a reactive object
+  const isParamsReactive = isReactive(controlsParams)
+  const reactiveRefs = isParamsReactive ? toRefs(controlsParams as { [key: string]: any }) : {}
+
   for (const key in controlsParams as any) {
     let value = (controlsParams as any)[key]
+
+    // If controlsParams is reactive, use the reactive ref directly
+    if (isParamsReactive && reactiveRefs[key]) {
+      value = reactiveRefs[key]
+    }
 
     // If the value is an object with control options
     if (typeof value === 'object' && !isRef(value) && !Array.isArray(value) && value.value !== undefined) {

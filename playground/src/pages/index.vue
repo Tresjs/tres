@@ -14,6 +14,10 @@ const gl = reactive({
 useControls('fpsgraph', {
   uuid: 'second',
 })
+
+useControls(gl, {
+  uuid: 'second',
+})
 // Refs
 
 // Reactive
