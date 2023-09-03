@@ -24,7 +24,6 @@ const paneElements = reactive({
 useControls('fpsgraph')
 useControls(paneElements)
 
-
 const material = new MeshPhongMaterial({ color: '#ff0000' })
 </script>
 
