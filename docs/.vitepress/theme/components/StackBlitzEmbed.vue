@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import sdk, { EmbedOptions } from '@stackblitz/sdk'
+import type { EmbedOptions } from '@stackblitz/sdk'
+import sdk from '@stackblitz/sdk'
 import { ref, watch } from 'vue'
 
 const props = withDefaults(
@@ -23,16 +24,25 @@ const isSnippetLoaded = ref(false)
 
 watch(
   () => embed.value,
-  value => {
+  (value) => {
     if (value) {
       sdk.embedProjectId(value, props.projectId, props.options)
     }
   },
 )
 </script>
+
 <template>
-  <div ref="embed" class="stackblitz-embed">
-    <div v-if="!isSnippetLoaded" class="text-gray-500 text-2xl">Loading...</div>
+  <div
+    ref="embed"
+    class="stackblitz-embed"
+  >
+    <div
+      v-if="!isSnippetLoaded"
+      class="text-gray-500 text-2xl"
+    >
+      Loading...
+    </div>
   </div>
 </template>
 

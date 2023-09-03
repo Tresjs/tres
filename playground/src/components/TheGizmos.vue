@@ -37,7 +37,7 @@ pane
     ],
     value: transformState.mode,
   })
-  .on('change', ev => {
+  .on('change', (ev) => {
     transformState.mode = ev.value
   })
 
@@ -60,7 +60,7 @@ axisFolder
     ],
     value: transformState.axis,
   })
-  .on('change', ev => {
+  .on('change', (ev) => {
     transformState.axis = ev.value
   })
 axisFolder.addInput(transformState, 'showX')
@@ -70,20 +70,40 @@ axisFolder.addInput(transformState, 'showZ')
 
 <template>
   <TresCanvas v-bind="state">
-    <TresPerspectiveCamera :position="[11, 11, 11]" :fov="45" :near="0.1" :far="1000" :look-at="[-8, 3, -3]" />
+    <TresPerspectiveCamera
+      :position="[11, 11, 11]"
+      :fov="45"
+      :near="0.1"
+      :far="1000"
+      :look-at="[-8, 3, -3]"
+    />
 
     <OrbitControls make-default />
-    <TresMesh ref="boxRef" :position="[0, 4, 0]" cast-shadow>
+    <TresMesh
+      ref="boxRef"
+      :position="[0, 4, 0]"
+      cast-shadow
+    >
       <TresBoxGeometry :args="[1.5, 1.5, 1.5]" />
       <TresMeshToonMaterial color="#FBB03B" />
     </TresMesh>
-    <TransformControls :object="boxRef" v-bind="transformState" />
+    <TransformControls
+      :object="boxRef"
+      v-bind="transformState"
+    />
 
-    <TresMesh :rotation="[-Math.PI / 2, 0, 0]" receive-shadow>
+    <TresMesh
+      :rotation="[-Math.PI / 2, 0, 0]"
+      receive-shadow
+    >
       <TresPlaneGeometry :args="[10, 10, 10, 10]" />
       <TresMeshToonMaterial />
     </TresMesh>
     <TresAmbientLight :intensity="0.5" />
-    <TresDirectionalLight :position="[0, 8, 4]" :intensity="1.5" cast-shadow />
+    <TresDirectionalLight
+      :position="[0, 8, 4]"
+      :intensity="1.5"
+      cast-shadow
+    />
   </TresCanvas>
 </template>

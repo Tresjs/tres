@@ -10,16 +10,27 @@ const styles = {
 }
 
 const { camera, renderer } = useTresContext()
-
 </script>
+
 <template>
   <ClientOnly>
-    <TresCanvas shadows clear-color="#fff" :style="styles">
+    <TresCanvas
+      shadows
+      clear-color="#fff"
+      :style="styles"
+    >
       <TresPerspectiveCamera :position="[0, 2, 4]" />
       <TresScene>
-        <TresOrbitControls v-if="renderer" :args="[camera, renderer?.domElement]" />
+        <TresOrbitControls
+          v-if="renderer"
+          :args="[camera, renderer?.domElement]"
+        />
 
-        <TresDirectionalLight :position="[0, 2, 4]" :intensity="2" cast-shadow />
+        <TresDirectionalLight
+          :position="[0, 2, 4]"
+          :intensity="2"
+          cast-shadow
+        />
         <TresMesh :rotation="[-Math.PI / 4, -Math.PI / 4, Math.PI / 4]">
           <TresTorusGeometry :args="[1, 0.5, 16, 32]" />
           <TresMeshToonMaterial color="#FBB03B" />
