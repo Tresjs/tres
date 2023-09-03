@@ -64,18 +64,11 @@ function onPointerEnter(ev) {
       <TresPlaneGeometry :args="[10, 10, 10, 10]" />
       <TresMeshToonMaterial />
     </TresMesh>
-    <<<<<<< HEAD:playground/src/pages/TheBasic.vue <TresDirectionalLight
-      :position="[0, 2, 4]"
-      :intensity="1"
-      cast-shadow
-    />
-    =======
+
     <TresDirectionalLight
       :position="[0, 2, 4]"
       :intensity="1"
       cast-shadow
     />
-    <TransformControls :object="sphereRef" />
-    >>>>>>> main:playground/src/components/TheBasic.vue
   </TresCanvas>
 </template>
