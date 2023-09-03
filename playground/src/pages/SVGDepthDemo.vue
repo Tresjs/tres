@@ -67,18 +67,18 @@ onLoop(({ elapsed }) => {
   const theta = elapsed * 0.6;
   const floored = Math.floor(theta);
   const activeI = floored % numItems;
-  const progress = theta - floored; 
+  const progress = theta - floored;
   const dir = Math.floor((floored % (numItems * 4)) * 0.25);
   if (dir === 0 || dir === 2) {
     const sign = dir === 0 ? 1 : -1;
     itemRefs.value.forEach((object, i) => {
       object.rotation.x = 0;
-      object.rotation.y = i === activeI ? sign * Math.PI * 2 * ease(progress) : 0 ;
+      object.rotation.y = i === activeI ? sign * Math.PI * 2 * ease(progress) : 0;
     })
   } else {
     const sign = dir === 1 ? 1 : -1;
     itemRefs.value.forEach((object, i) => {
-      object.rotation.x = i === activeI ? sign * Math.PI * 2 * ease(progress) : 0 ;
+      object.rotation.x = i === activeI ? sign * Math.PI * 2 * ease(progress) : 0;
       object.rotation.y = 0;
     })
   }
@@ -107,10 +107,10 @@ const gl = {
           <SVG :src="svgTriangleString" :position="[-180, 200, 100]" :depth="depth" :scale="5" />
         </Suspense>
       </TresGroup>
-        <Suspense>
-          <Text3D :text="typeof depth === 'number' ? depth + '' : `'${depth}'`" :size="50" :font="fontURL" center
-            :position="[80, 0, 0]" />
-        </Suspense>
+      <Suspense>
+        <Text3D :text="typeof depth === 'number' ? depth + '' : `'${depth}'`" :size="50" :font="fontURL" center
+          :position="[80, 0, 0]" />
+      </Suspense>
     </TresGroup>
     <TresAmbientLight />
     <TresDirectionalLight />
