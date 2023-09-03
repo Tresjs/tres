@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { TresCanvas, useRenderLoop } from '@tresjs/core'
 import { ref } from 'vue'
-import { OrbitControls } from '@tresjs/cientos/'
+import { OrbitControls } from '@tresjs/cientos'
 
 const { onLoop } = useRenderLoop()
 
@@ -14,7 +14,7 @@ onLoop(() => {
 })
 </script>
 <template>
-  <div class="container">
+  <div class="w-full h-full">
     <TresCanvas>
       <TresPerspectiveCamera :position="[5, 5, 5]" :fov="75" :aspect="1" :near="0.1" :far="1000" />
       <OrbitControls />
