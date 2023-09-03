@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import TheBasic from './TheBasic.vue'
 </script>
+
 <template>
   <div class="modal">
     <TheBasic />

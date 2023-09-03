@@ -22,8 +22,14 @@ const pbrTexture = await useTexture({
     'https://raw.githubusercontent.com/Tresjs/assets/main/textures/black-rock/Rock035_2K_AmbientOcclusion.jpg',
 })
 </script>
+
 <template>
-  <TresMesh ref="sphereRef" :position="[-2, 2, 2]" :scale="1" cast-shadow>
+  <TresMesh
+    ref="sphereRef"
+    :position="[-2, 2, 2]"
+    :scale="1"
+    cast-shadow
+  >
     <TresSphereGeometry :args="[1, 500, 500]" />
     <TresMeshStandardMaterial v-bind="pbrTexture" />
   </TresMesh>
