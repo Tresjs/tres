@@ -17,8 +17,8 @@ Thanks from the heart 💚 for taking the time to help out. This guide will help
 
 All the packages in the ecosystem use [pnpm workspaces](https://pnpm.io/workspaces). PnPM is a package manager that is faster than npm and yarn. It also uses symlinks to avoid code duplication.
 
-
 The `workspace` has the following structure:
+
 
 ```
 .
@@ -51,6 +51,7 @@ To start developing, you can run `pnpm run playground` in the root folder.
 
 This will start the dev server for the playground at `http://localhost:5173/` where you can test the changes you are making in the `src` folder. 
 
+
 > **Important**
 > There is no need to run anything in the `src` folder or in the root, the `playground` will take care of it
 
@@ -59,6 +60,7 @@ Whenever you are working on a new feature or fixing a bug, make sure to add a de
 
 > **Warning**
 > Make sure to check if there is already a demo for the feature you are working on. If so, feel free to add your changes to the existing demo.
+
 
 
 ### Docs

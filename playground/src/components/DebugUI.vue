@@ -28,7 +28,10 @@ setTimeout(() => {
 </script>
 
 <template>
-  <TresCanvas v-bind="gl" :window-size="true">
+  <TresCanvas
+    v-bind="gl"
+    :window-size="true"
+  >
     <TresPerspectiveCamera :look-at="[0, 4, 0]" />
     <OrbitControls />
     <TresMesh :position="[0, 1, 0]">

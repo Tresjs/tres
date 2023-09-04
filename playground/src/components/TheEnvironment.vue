@@ -2,6 +2,7 @@
 import { ref, shallowRef, watch } from 'vue'
 import { Environment, Box, PamCameraMouse } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
+
 /* import { OrbitControls, GLTFModel } from '@tresjs/cientos' */
 
 const sphereRef = ref()
@@ -25,33 +26,68 @@ watch(environmentTexture, ({ getTexture }) => {
   envMap = getTexture()
 })
 </script>
+
 <template>
   <!--   <TresCanvas v-bind="state"> -->
   <TresCanvas preset="realistic">
-    <TresPerspectiveCamera :position="[10, 10, 18]" :fov="45" :near="0.1" :far="1000" :look-at="[-8, 3, -3]" />
+    <TresPerspectiveCamera
+      :position="[10, 10, 18]"
+      :fov="45"
+      :near="0.1"
+      :far="1000"
+      :look-at="[-8, 3, -3]"
+    />
     <PamCameraMouse :factor="2" />
 
     <Environment
       ref="environmentTexture"
       background
       :files="environmentFiles"
-      :path="'https://raw.githubusercontent.com/Tresjs/assets/main/textures/environmentMap'"
+      path="https://raw.githubusercontent.com/Tresjs/assets/main/textures/environmentMap"
     />
     <!--  <Environment ref="environmentTexture" background preset="sunset" /> -->
     <TresAmbientLight :intensity="0.5" />
 
-    <TresMesh ref="sphereRef" :position="[0, 4, 0]" cast-shadow>
+    <TresMesh
+      ref="sphereRef"
+      :position="[0, 4, 0]"
+      cast-shadow
+    >
       <TresSphereGeometry />
-      <TresMeshStandardMaterial color="#FBB03B" :map="envMap" :metalness="1" :roughness="0" />
+      <TresMeshStandardMaterial
+        color="#FBB03B"
+        :map="envMap"
+        :metalness="1"
+        :roughness="0"
+      />
     </TresMesh>
-    <Box :position="[2, 6, 0]" cast-shadow>
-      <TresMeshStandardMaterial color="#008080" :map="envMap" :metalness="1" :roughness="0" />
+    <Box
+      :position="[2, 6, 0]"
+      cast-shadow
+    >
+      <TresMeshStandardMaterial
+        color="#008080"
+        :map="envMap"
+        :metalness="1"
+        :roughness="0"
+      />
     </Box>
-    <TresDirectionalLight :position="[0, 8, 4]" :intensity="0.7" cast-shadow />
-    <TresMesh :rotation="[-Math.PI / 2, 0, 0]" receive-shadow>
+    <TresDirectionalLight
+      :position="[0, 8, 4]"
+      :intensity="0.7"
+      cast-shadow
+    />
+    <TresMesh
+      :rotation="[-Math.PI / 2, 0, 0]"
+      receive-shadow
+    >
       <TresPlaneGeometry :args="[20, 20, 20, 10]" />
       <TresMeshToonMaterial />
     </TresMesh>
-    <TresDirectionalLight :position="[0, 2, 4]" :intensity="1" cast-shadow />
+    <TresDirectionalLight
+      :position="[0, 2, 4]"
+      :intensity="1"
+      cast-shadow
+    />
   </TresCanvas>
 </template>

@@ -2,6 +2,7 @@
 import { SRGBColorSpace, BasicShadowMap, NoToneMapping } from 'three'
 import { TresCanvas } from '@tresjs/core'
 import { OrbitControls } from '@tresjs/cientos'
+
 // import { useRenderLoop } from '..'
 /* import { OrbitControls, GLTFModel } from '@tresjs/cientos' */
 
@@ -23,8 +24,12 @@ watchEffect(() => {
   }
 })
 </script>
+
 <template>
-  <TresCanvas v-bind="state" ref="context">
+  <TresCanvas
+    v-bind="state"
+    ref="context"
+  >
     <TresPerspectiveCamera
       :position-x="5"
       :position-y="5"
@@ -63,13 +68,30 @@ watchEffect(() => {
       cast-shadow
     >
       <TresBoxGeometry />
-      <TresMeshToonMaterial :color-r="0xff / 255" :color-g="0x0 / 255" :color-b="0xff / 255" />
+      <TresMeshToonMaterial
+        :color-r="0xff / 255"
+        :color-g="0x0 / 255"
+        :color-b="0xff / 255"
+      />
     </TresMesh>
-    <TresDirectionalLight :position-y="8" :position-z="4" :intensity="0.7" cast-shadow />
-    <TresMesh :rotation="[-Math.PI / 2, 0, 0]" receive-shadow>
+    <TresDirectionalLight
+      :position-y="8"
+      :position-z="4"
+      :intensity="0.7"
+      cast-shadow
+    />
+    <TresMesh
+      :rotation="[-Math.PI / 2, 0, 0]"
+      receive-shadow
+    >
       <TresPlaneGeometry :args="[10, 10, 10, 10]" />
       <TresMeshToonMaterial />
     </TresMesh>
-    <TresDirectionalLight :position-y="2" :position-z="4" :intensity="1" cast-shadow />
+    <TresDirectionalLight
+      :position-y="2"
+      :position-z="4"
+      :intensity="1"
+      cast-shadow
+    />
   </TresCanvas>
 </template>

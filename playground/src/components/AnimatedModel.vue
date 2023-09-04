@@ -50,10 +50,18 @@ console.log({ model, animations, actions, mixer })
       power-preference="high-performance"
       :output-encoding="SRGBColorSpace"
     >
-      <TresPerspectiveCamera :position="[8, 8, 8]" :fov="45" :near="0.1" :far="10000" />
+      <TresPerspectiveCamera
+        :position="[8, 8, 8]"
+        :fov="45"
+        :near="0.1"
+        :far="10000"
+      />
       <OrbitControls />
 
-      <TresAmbientLight :color="0xffffff" :intensity="2" />
+      <TresAmbientLight
+        :color="0xffffff"
+        :intensity="2"
+      />
       <TresMesh v-bind="model" />
       <TresDirectionalLight />
     </TresCanvas>

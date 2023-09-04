@@ -1,11 +1,12 @@
-import { Vector3, Color, ColorRepresentation } from 'three'
+import type { ColorRepresentation } from 'three'
+import { Vector3, Color } from 'three'
 
 export type SizeFlexibleParams =
   | number[]
   | {
-      width: number
-      height: number
-    }
+    width: number
+    height: number
+  }
 
 export interface Vector2PropInterface {
   x?: number

@@ -1,5 +1,5 @@
 import { isArray } from '@alvarosabu/utils'
-import { Object3D } from 'three'
+import type { Object3D } from 'three'
 import { useLogger } from '../useLogger'
 
 export interface TresLoader<T> extends THREE.Loader {
@@ -88,7 +88,7 @@ export async function useLoader<T extends LoaderProto<T>, U extends string | str
       new Promise((resolve, reject) => {
         proto.load(
           path,
-          data => {
+          (data) => {
             if (data.scene) {
               Object.assign(data, trasverseObjects(data.scene))
             }
