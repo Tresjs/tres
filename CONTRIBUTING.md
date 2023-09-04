@@ -49,7 +49,7 @@ brew install pnpm
 
 To start developing, you can run `pnpm run playground` in the root folder.
 
-This will start the dev server for the playground `http://localhost:5174/` where you can test the changes you are making on the `src` folder. 
+This will start the dev server for the playground at `http://localhost:5173/` where you can test the changes you are making in the `src` folder. 
 
 > **Important**
 > There is no need to run anything in the `src` folder or in the root, the `playground` will take care of it
