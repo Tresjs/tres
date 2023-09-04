@@ -78,25 +78,25 @@ interface SVGProps {
   /**
    * 
    * Depth type
-   * How should the resulting meshes and materials be stacked?
-   * 'flat' disables `depthWrite` on materials.
+   * How should the resulting meshes and materials be rendered?
    * 'renderOrder' disables `depthWrite` and sets the `renderOrder` of each layer.
+   * 'flat' disables `depthWrite` on materials.
    * 'offsetZ' enables `depthWrite` and inserts a small distance between each layer on the z-axis to avoid z-fighting.
-   * number is treated the same as offset z; the number is used as the distance between layers
+   * number is treated the same as 'offsetZ'; the number is used as the distance between layers
    * 
    * depthWrite documentation: https://threejs.org/docs/#api/en/materials/Material.depthWrite
    * renderOrder documentation: https://threejs.org/docs/?q=mesh#api/en/core/Object3D.renderOrder
    * 
-   * @type { 'flat' | 'renderOrder' | 'offsetZ' | number }
-   * @default 'flat'
+   * @type { 'renderOrder' | 'flat' | 'offsetZ' | number }
+   * @default 'renderOrder'
    * @memberof SVGProps
    * 
    */
-  depth?: 'flat' | 'renderOrder' | 'offsetZ' | number
+  depth?: 'renderOrder' | 'flat' | 'offsetZ' | number
 }
 
 const props = withDefaults(defineProps<SVGProps>(),
-  { skipStrokes: false, skipFills: false, depth: 'flat' }
+  { skipStrokes: false, skipFills: false, depth: 'renderOrder' }
 );
 
 type SVGLayer = { geometry: BufferGeometry, material: MeshBasicMaterialParameters, isStroke: boolean };
