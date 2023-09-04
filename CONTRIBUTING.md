@@ -58,7 +58,7 @@ This will start the dev server for the playground at `http://localhost:5173/` wh
 Whenever you are working on a new feature or fixing a bug, make sure to add a demo under `playground/src/pages` and create a route in the `playground/src/router.ts` to test the changes you are making.
 
 > **Warning**
-> Make sure to check if there is already a demo for the feature you are working on, if there is, you can add your changes to the existing demo.
+> Make sure to check if there is already a demo for the feature you are working on. If so, feel free to add your changes to the existing demo.
 
 
 ### Docs
