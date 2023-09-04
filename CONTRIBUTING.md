@@ -18,7 +18,7 @@ Thanks from the heart 💚 for taking the time to help out. This guide will help
 All the packages in the ecosystem uses [pnpm workspaces](https://pnpm.io/workspaces). Pnpm is a package manager that is faster than npm and yarn, and it also uses symlinks to avoid code duplication.
 
 
-The `workspace` have the following structure:
+The `workspace` has the following structure:
 
 ```
 .
