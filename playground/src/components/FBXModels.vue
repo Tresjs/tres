@@ -30,10 +30,18 @@ watch(jeepRef, ({ model }) => {
     power-preference="high-performance"
     :output-encoding="SRGBColorSpace"
   >
-    <TresPerspectiveCamera :position="8" :fov="45" :near="0.1" :far="10000" />
+    <TresPerspectiveCamera
+      :position="8"
+      :fov="45"
+      :near="0.1"
+      :far="10000"
+    />
     <OrbitControls />
 
-    <TresAmbientLight :color="0xffffff" :intensity="0.75" />
+    <TresAmbientLight
+      :color="0xffffff"
+      :intensity="0.75"
+    />
     <TresMesh v-bind="model" />
     <Suspense>
       <FBXModel

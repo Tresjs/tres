@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { useRenderLoop, extend } from '@tresjs/core'
 
-import { WobbleMaterialImpl as MeshWobbleMaterial } from './material'
 import { shallowRef, watchEffect } from 'vue'
+import { WobbleMaterialImpl as MeshWobbleMaterial } from './material'
 
 const props = withDefaults(
   defineProps<{
@@ -31,6 +31,11 @@ onLoop(({ elapsed }) => {
   }
 })
 </script>
+
 <template>
-  <TresMeshWobbleMaterial ref="materialRef" :factor="factor" v-bind="$attrs" />
+  <TresMeshWobbleMaterial
+    ref="materialRef"
+    :factor="factor"
+    v-bind="$attrs"
+  />
 </template>

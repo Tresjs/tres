@@ -1,13 +1,12 @@
-import { App } from 'vue'
+import type { App } from 'vue'
 import TresCanvas from './components/TresCanvas.vue'
+import { normalizeColor, normalizeVectorFlexibleParam } from './utils/normalize'
+import templateCompilerOptions from './utils/template-compiler-options'
+
 export * from './composables'
 export * from './core/catalogue'
 export * from './components'
 export * from './types'
-import { useTresContext, type TresContext } from './composables'
-
-import { normalizeColor, normalizeVectorFlexibleParam } from './utils/normalize'
-import templateCompilerOptions from './utils/template-compiler-options'
 
 export interface TresOptions {
   extends?: Record<string, unknown>
@@ -20,16 +19,14 @@ export interface TresPlugin {
 const plugin: TresPlugin = {
   install(app: App) {
     // Register core components
-    app.component(`TresCanvas`, TresCanvas)
+    app.component('TresCanvas', TresCanvas)
   },
 }
 
 export default plugin
 
 export {
-  TresContext,
-  useTresContext,
   normalizeColor,
   normalizeVectorFlexibleParam,
-  templateCompilerOptions
+  templateCompilerOptions,
 }

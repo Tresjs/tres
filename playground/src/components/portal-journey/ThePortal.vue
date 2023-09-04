@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { SRGBColorSpace, DoubleSide, MeshBasicMaterial, ShaderMaterial, Color, Mesh } from 'three'
+import type { Mesh } from 'three'
+import { SRGBColorSpace, DoubleSide, MeshBasicMaterial, ShaderMaterial, Color } from 'three'
 import { useRenderLoop, useTexture } from '@tresjs/core'
 import { useGLTF, useTweakPane } from '@tresjs/cientos'
 
@@ -10,30 +11,6 @@ const experiment = {
   portalColorStart: '#7030eb',
   portalColorEnd: '#ddc0ff',
 }
-
-const { pane } = useTweakPane()
-
-const portalCtrls = pane.addFolder({ title: 'Portal' })
-portalCtrls
-  .addInput(experiment, 'portalColorStart', {
-    label: 'color start',
-    min: 0,
-    max: 1,
-    step: 0.01,
-  })
-  .on('change', ({ value }) => {
-    portalLightMaterial.uniforms.uColorStart.value.set(value)
-  })
-portalCtrls
-  .addInput(experiment, 'portalColorEnd', {
-    label: 'color end',
-    min: 0,
-    max: 1,
-    step: 0.01,
-  })
-  .on('change', ({ value }) => {
-    portalLightMaterial.uniforms.uColorEnd.value.set(value)
-  })
 
 const { scene: portal } = await useGLTF(
   'https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/portal/portal.glb',
@@ -68,16 +45,42 @@ const portalLightMaterial = new ShaderMaterial({
 
 const portalObj = portal
 const bakedMesh = portalObj.children.find(child => child.name === 'baked')
-;(bakedMesh as Mesh).material = bakedMaterial
+  ; (bakedMesh as Mesh).material = bakedMaterial
 const portalCircle = portalObj.children.find(child => child.name === 'portalCircle')
-;(portalCircle as Mesh).material = portalLightMaterial
+  ; (portalCircle as Mesh).material = portalLightMaterial
 
 const { onLoop } = useRenderLoop()
 
 onLoop(({ elapsed }) => {
   portalLightMaterial.uniforms.uTime.value = elapsed
 })
+
+// Controls
+const { pane } = useTweakPane()
+
+const portalCtrls = pane.addFolder({ title: 'Portal' })
+portalCtrls
+  .addInput(experiment, 'portalColorStart', {
+    label: 'color start',
+    min: 0,
+    max: 1,
+    step: 0.01,
+  })
+  .on('change', ({ value }) => {
+    portalLightMaterial.uniforms.uColorStart.value.set(value)
+  })
+portalCtrls
+  .addInput(experiment, 'portalColorEnd', {
+    label: 'color end',
+    min: 0,
+    max: 1,
+    step: 0.01,
+  })
+  .on('change', ({ value }) => {
+    portalLightMaterial.uniforms.uColorEnd.value.set(value)
+  })
 </script>
+
 <template>
   <TresMesh v-bind="portal" />
 </template>

@@ -1,5 +1,12 @@
 
 
+## [3.1.1](https://github.com/Tresjs/tres/compare/3.1.0...3.1.1) (2023-08-26)
+
+
+### Bug Fixes
+
+* removing z-index from canvas ([#382](https://github.com/Tresjs/tres/issues/382)) ([ac096f7](https://github.com/Tresjs/tres/commit/ac096f7de31ac5714aaa168a3fd01e311a724dbe))
+
 ## [3.1.0](https://github.com/Tresjs/tres/compare/3.0.1...3.1.0) (2023-08-23)
 
 

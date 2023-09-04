@@ -1,4 +1,5 @@
-import { MeshStandardMaterial, MeshStandardMaterialParameters, Shader } from 'three'
+import type { MeshStandardMaterialParameters, Shader } from 'three'
+import { MeshStandardMaterial } from 'three'
 
 // Borrowed from @pmdrs drei implementation https://github.com/pmndrs/drei/blob/master/src/core/MeshWobbleMaterial.tsx
 interface Uniform<T> {

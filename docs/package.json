@@ -1,18 +1,18 @@
 {
   "name": "docs",
-  "private": true,
-  "version": "0.0.0",
   "type": "module",
+  "version": "0.0.0",
+  "private": true,
   "scripts": {
     "dev": "vitepress dev",
     "build": "vitepress build",
     "preview": "vitepress preview"
   },
+  "dependencies": {
+    "@tresjs/core": "workspace:^3.1.1"
+  },
   "devDependencies": {
     "unocss": "^0.54.0",
     "vite-svg-loader": "^4.0.0"
-  },
-  "dependencies": {
-    "@tresjs/core": "workspace:3.0.1"
   }
 }

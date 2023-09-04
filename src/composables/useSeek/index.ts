@@ -31,7 +31,7 @@ export function useSeek(): UseSeekReturn {
   function seek(parent: THREE.Scene | THREE.Object3D, property: string, value: string): THREE.Object3D | null {
     let foundChild: THREE.Object3D | null = null
 
-    parent.traverse(child => {
+    parent.traverse((child) => {
       if ((child as any)[property] === value) {
         foundChild = child
       }
