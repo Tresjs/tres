@@ -12,13 +12,20 @@ const { nodes, materials } = await useGLTF(
 
 const akuAkuRef = ref(null)
 
-watch(akuAkuRef, value => {
+watch(akuAkuRef, (value) => {
   console.log('akuAkuRef', value)
 })
 </script>
 
 <template>
-  <primitive ref="akuAkuRef" :object="nodes.Cactus">
-    <MeshWobbleMaterial :speed="10" :factor="0.4" :map="materials.Cactus.map" />
+  <primitive
+    ref="akuAkuRef"
+    :object="nodes.Cactus"
+  >
+    <MeshWobbleMaterial
+      :speed="10"
+      :factor="0.4"
+      :map="materials.Cactus.map"
+    />
   </primitive>
 </template>
