@@ -90,13 +90,15 @@ const gl = {
   toneMapping: NoToneMapping,
 }
 
+const depthOptions: ('renderOrder' | 'flat' | 'offsetZ' | number)[] = ['renderOrder', 'flat', 'offsetZ', 1];
+
 </script>
 
 <template>
   <TresCanvas v-bind="gl" ref="canvas">
     <TresPerspectiveCamera :position="[0, 0, 10]" />
     <TresGridHelper :args="[10, 20]" :rotation="[Math.PI * 0.5, Math.PI * 0.5, Math.PI]" />
-    <TresGroup v-for="(depth, i) of ['flat', 'renderOrder', 'offsetZ', 1]" 
+    <TresGroup v-for="(depth, i) of depthOptions" 
       :key="i + ''" :position="[i * 2 - 3.25, 1, 0]"
       :scale="0.003">
       <TresGroup ref="itemRefs" :position="[0, -360, 0]">
