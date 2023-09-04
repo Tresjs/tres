@@ -53,14 +53,14 @@ export type TresObject = TresBaseObject & (TresObject3D | THREE.BufferGeometry |
 export interface TresScene extends THREE.Scene {
   userData: {
     // keys are prefixed with tres__ to avoid name collisions
-    tres__registerCamera?: (newCamera: THREE.Camera, active?: boolean) => void,
-    tres__deregisterCamera?: (camera: THREE.Camera) => void,
-    tres__registerAtPointerEventHandler?: (object: THREE.Object3D & PointerEventHandlerEventProps) => void,
-    tres__deregisterAtPointerEventHandler?: (object: THREE.Object3D) => void,
+    tres__registerCamera?: (newCamera: THREE.Camera, active?: boolean) => void
+    tres__deregisterCamera?: (camera: THREE.Camera) => void
+    tres__registerAtPointerEventHandler?: (object: THREE.Object3D & PointerEventHandlerEventProps) => void
+    tres__deregisterAtPointerEventHandler?: (object: THREE.Object3D) => void
     tres__registerBlockingObjectAtPointerEventHandler?: (object: THREE.Object3D) => void
     tres__deregisterBlockingObjectAtPointerEventHandler?: (object: THREE.Object3D) => void
     [key: string]: any
-  };
+  }
 }
 
 // Events

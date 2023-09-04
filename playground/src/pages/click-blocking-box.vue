@@ -13,11 +13,18 @@ const boxOneBlocksPointerEvents = ref(false)
   <div>
     <TresCanvas window-size>
       <TresPerspectiveCamera :look-at="[0, 4, 0]" />
-      <TresMesh :position="[0, 1, 0]" :blocks-pointer-events="boxOneBlocksPointerEvents">
+      <TresMesh
+        :position="[0, 1, 0]"
+        :blocks-pointer-events="boxOneBlocksPointerEvents"
+      >
         <TresBoxGeometry :args="[1, 1, 1]" />
         <TresMeshNormalMaterial />
       </TresMesh>
-      <TresMesh :position="[-2, 0, -2]" name="box 2" @click="log('box 2')">
+      <TresMesh
+        :position="[-2, 0, -2]"
+        name="box 2"
+        @click="log('box 2')"
+      >
         <TresBoxGeometry :args="[1, 1, 1]" />
         <TresMeshNormalMaterial />
       </TresMesh>
@@ -25,6 +32,10 @@ const boxOneBlocksPointerEvents = ref(false)
       <TresGridHelper />
       <TresAmbientLight :intensity="1" />
     </TresCanvas>
-    <input v-model="boxOneBlocksPointerEvents" type="checkbox" style="position: fixed; top:10px; left: 10px;">
+    <input
+      v-model="boxOneBlocksPointerEvents"
+      type="checkbox"
+      style="position: fixed; top:10px; left: 10px;"
+    >
   </div>
 </template>

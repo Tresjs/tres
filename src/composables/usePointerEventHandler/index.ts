@@ -1,8 +1,8 @@
 import type { Intersection, Event, Object3D } from 'three'
 import type { TresScene } from 'src/types'
+import { computed, reactive, ref } from 'vue'
 import { uniqueBy } from '../../utils'
 import { useRaycaster } from '../useRaycaster'
-import { computed, reactive, ref } from 'vue'
 
 import type { TresContext } from '../useTresContextProvider'
 
@@ -61,14 +61,13 @@ export const usePointerEventHandler = (
   scene.userData.tres__registerBlockingObjectAtPointerEventHandler = registerBlockingObject
   scene.userData.tres__deregisterBlockingObjectAtPointerEventHandler = deregisterBlockingObject
 
-
   const objectsToWatch = computed(() =>
     uniqueBy(
       [
         ...Array.from(blockingObjects.value),
         ...Object.values(objectsWithEventListeners)
           .map(map => Array.from(map.keys()))
-          .flat()
+          .flat(),
       ],
       ({ uuid }) => uuid,
     ),

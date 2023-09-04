@@ -25,7 +25,7 @@ const routes = [
     path: '/click-blocking-box',
     name: 'Click Blocking Box',
     component: () => import('./pages/click-blocking-box.vue'),
-  }
+  },
 ]
 export const router = createRouter({
   history: createWebHistory(),

@@ -141,8 +141,8 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
       }
 
       const deregisterAtPointerEventHandler = scene?.userData.tres__deregisterAtPointerEventHandler
-      const deregisterBlockingObjectAtPointerEventHandler =
-        scene?.userData.tres__deregisterBlockingObjectAtPointerEventHandler
+      const deregisterBlockingObjectAtPointerEventHandler
+        = scene?.userData.tres__deregisterBlockingObjectAtPointerEventHandler
 
       const deregisterAtPointerEventHandlerIfRequired = (object: TresObject) => {
 
@@ -200,7 +200,6 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
 
         return
       }
-
 
       let finalKey = kebabToCamel(key)
       let target = root?.[finalKey]
