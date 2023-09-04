@@ -2,17 +2,19 @@
 import {
   PerspectiveCamera,
   Scene,
-  WebGLRendererParameters,
-  type ColorSpace,
-  type ShadowMapType,
-  type ToneMapping,
 } from 'three'
-import { Ref, computed, onMounted, provide, ref, shallowRef, watch, watchEffect } from 'vue'
-import { Fragment, defineComponent, h } from 'vue'
+import type {
+  WebGLRendererParameters,
+  ColorSpace,
+  ShadowMapType,
+  ToneMapping,
+} from 'three'
+import type { Ref } from 'vue'
+import { computed, onMounted, provide, ref, shallowRef, watch, watchEffect, Fragment, defineComponent, h } from 'vue'
 import {
   useTresContextProvider, useLogger,
   usePointerEventHandler,
-  useRenderLoop, type TresContext
+  useRenderLoop, type TresContext,
 } from '../composables'
 import { extend } from '../core/catalogue'
 import { render } from '../core/renderer'
@@ -22,7 +24,6 @@ import {
 
 import type { RendererPresetsType } from '../composables/useRenderer/const'
 import type { TresCamera, TresObject } from '../types/'
-
 
 export interface TresCanvasProps extends Omit<WebGLRendererParameters, 'canvas'> {
   // required by for useRenderer
@@ -38,7 +39,7 @@ export interface TresCanvasProps extends Omit<WebGLRendererParameters, 'canvas'>
   windowSize?: boolean
   preset?: RendererPresetsType
   disableRender?: boolean
-  camera?: TresCamera,
+  camera?: TresCamera
 }
 
 const props = withDefaults(defineProps<TresCanvasProps>(), {
@@ -66,15 +67,13 @@ const slots = defineSlots<{
   default(): any
 }>()
 
-const createInternalComponent = (context: TresContext) => {
-  return defineComponent({
-    setup() {
-      provide('useTres', context)
-      provide('extend', extend)
-      return () => h(Fragment, null, slots?.default ? slots.default() : [])
-    }
-  })
-}
+const createInternalComponent = (context: TresContext) => defineComponent({
+  setup() {
+    provide('useTres', context)
+    provide('extend', extend)
+    return () => h(Fragment, null, slots?.default ? slots.default() : [])
+  },
+})
 
 const mountCustomRenderer = (context: TresContext) => {
   const InternalComponent = createInternalComponent(context)
@@ -131,13 +130,13 @@ onMounted(() => {
       deregisterCamera(oldCamera)
     }
   }, {
-    immediate: true
+    immediate: true,
   })
 
   if (!camera.value) {
     logWarning(
-      'No camera found. Creating a default perspective camera. ' +
-      'To have full control over a camera, please add one to the scene.'
+      'No camera found. Creating a default perspective camera. '
+      + 'To have full control over a camera, please add one to the scene.',
     )
     addDefaultCamera()
   }
@@ -146,16 +145,20 @@ onMounted(() => {
     import.meta.hot.on('vite:afterUpdate', () => dispose(context))
 })
 </script>
+
 <template>
-  <canvas ref="canvas" :data-scene="scene.uuid" :style="{
-    display: 'block',
-    width: '100%',
-    height: '100%',
-    position: windowSize ? 'fixed' : 'relative',
-    top: 0,
-    left: 0,
-    pointerEvents: 'auto',
-    touchAction: 'none',
-  }">
-  </canvas>
+  <canvas
+    ref="canvas"
+    :data-scene="scene.uuid"
+    :style="{
+      display: 'block',
+      width: '100%',
+      height: '100%',
+      position: windowSize ? 'fixed' : 'relative',
+      top: 0,
+      left: 0,
+      pointerEvents: 'auto',
+      touchAction: 'none',
+    }"
+  />
 </template>

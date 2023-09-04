@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import TheEnvironment from './TheEnvironment.vue'
 </script>
+
 <template>
   <div class="modal">
     <TheEnvironment />

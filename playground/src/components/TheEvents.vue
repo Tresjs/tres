@@ -41,30 +41,32 @@ const visible = ref(true)
 </script>
 
 <template>
-  <button @click="visible = !visible"></button>
+  <button @click="visible = !visible" />
   <div v-if="visible">
-    <TresCanvas window-size v-bind="gl">
-  
-    <OrbitControls />
+    <TresCanvas
+      window-size
+      v-bind="gl"
+    >
+      <OrbitControls />
 
-    <template v-for="x in [-2.5, 0, 2.5]">
-      <template v-for="y in [-2.5, 0, 2.5]">
-        <TresMesh
-          v-for="z in [-2.5, 0, 2.5]"
-          :key="`${[x, y, z]}`"
-          :position="[x, y, z]"
-          @click="onClick"
-          @pointer-enter="onPointerEnter"
-          @pointer-leave="onPointerLeave"
-          @pointer-move="onPointerMove"
-        >
-          <TresBoxGeometry :args="[1, 1, 1]" />
-          <TresMeshToonMaterial color="#efefef" />
-        </TresMesh>
+      <template v-for="x in [-2.5, 0, 2.5]">
+        <template v-for="y in [-2.5, 0, 2.5]">
+          <TresMesh
+            v-for="z in [-2.5, 0, 2.5]"
+            :key="`${[x, y, z]}`"
+            :position="[x, y, z]"
+            @click="onClick"
+            @pointer-enter="onPointerEnter"
+            @pointer-leave="onPointerLeave"
+            @pointer-move="onPointerMove"
+          >
+            <TresBoxGeometry :args="[1, 1, 1]" />
+            <TresMeshToonMaterial color="#efefef" />
+          </TresMesh>
+        </template>
       </template>
-    </template>
-    <TresDirectionalLight :intensity="1" />
-    <TresAmbientLight :intensity="1" />
-  </TresCanvas>
+      <TresDirectionalLight :intensity="1" />
+      <TresAmbientLight :intensity="1" />
+    </TresCanvas>
   </div>
 </template>

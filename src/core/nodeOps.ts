@@ -1,12 +1,12 @@
-import { RendererOptions } from 'vue'
+import type { RendererOptions } from 'vue'
 import { BufferAttribute } from 'three'
 import { isFunction } from '@alvarosabu/utils'
+import type { Object3D, Camera } from 'three'
 import { useLogger } from '../composables'
-import { catalogue } from './catalogue'
 import { deepArrayEqual, isHTMLTag, kebabToCamel } from '../utils'
 
-import type { Object3D, Camera } from 'three'
 import type { TresObject, TresObject3D, TresScene } from '../types'
+import { catalogue } from './catalogue'
 
 const onRE = /^on[^a-z]/
 export const isOn = (key: string) => onRE.test(key)
@@ -33,11 +33,12 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
     let instance
 
     if (tag === 'primitive') {
-      if (props?.object === undefined) logError(`Tres primitives need a prop 'object'`)
+      if (props?.object === undefined) logError('Tres primitives need a prop \'object\'')
       const object = props.object as TresObject
       name = object.type
       instance = Object.assign(object, { type: name, attach: props.attach, primitive: true })
-    } else {
+    }
+    else {
       const target = catalogue.value[name]
       if (!target) {
         logError(`${name} is not defined on the THREE namespace. Use extend to add it to the catalog.`)
@@ -71,7 +72,7 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
     // we take the tag name and we save it on the userData for later use in the re-instancing process.
     instance.userData = {
       ...instance.userData,
-      tres__name: name
+      tres__name: name,
     }
 
     return instance
@@ -79,13 +80,14 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
   insert(child, parent) {
     if (parent && parent.isScene) scene = parent as unknown as TresScene
     if (
-      (child?.__vnode?.type === 'TresGroup' || child?.__vnode?.type === 'TresObject3D') &&
-      parent === null &&
-      !child?.__vnode?.ctx?.asyncResolved
+      (child?.__vnode?.type === 'TresGroup' || child?.__vnode?.type === 'TresObject3D')
+      && parent === null
+      && !child?.__vnode?.ctx?.asyncResolved
     ) {
       fallback = child
       return
-    } else if (child?.__vnode?.type.includes('Controls') && parent === null) {
+    }
+    else if (child?.__vnode?.type.includes('Controls') && parent === null) {
       fallback = scene as unknown as TresObject
     }
 
@@ -99,12 +101,11 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
         scene?.userData.tres__registerCamera?.(child as unknown as Camera)
       }
 
-
       if (
-        child?.onClick ||
-        child?.onPointerMove ||
-        child?.onPointerEnter ||
-        child?.onPointerLeave
+        child?.onClick
+        || child?.onPointerMove
+        || child?.onPointerEnter
+        || child?.onPointerLeave
       ) {
         if (!scene?.userData.tres__registerAtPointerEventHandler)
           throw 'could not find tres__registerAtPointerEventHandler on scene\'s userData'
@@ -113,13 +114,14 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
       }
     }
 
-
     if (child?.isObject3D && parent?.isObject3D) {
       parent.add(child)
       child.dispatchEvent({ type: 'added' })
-    } else if (child?.isFog) {
+    }
+    else if (child?.isFog) {
       parent.fog = child
-    } else if (typeof child?.attach === 'string') {
+    }
+    else if (typeof child?.attach === 'string') {
       child.__previousAttach = child[parent?.attach as string]
       if (parent) {
         parent[child.attach] = child
@@ -143,27 +145,24 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
 
       const deregisterAtPointerEventHandler = scene?.userData.tres__deregisterAtPointerEventHandler
 
-
       const deregisterAtPointerEventHandlerIfRequired = (object: TresObject) => {
         if (!deregisterAtPointerEventHandler)
           throw 'could not find tres__deregisterAtPointerEventHandler on scene\'s userData'
 
         if (
-          object?.onClick ||
-          object?.onPointerMove ||
-          object?.onPointerEnter ||
-          object?.onPointerLeave
+          object?.onClick
+          || object?.onPointerMove
+          || object?.onPointerEnter
+          || object?.onPointerLeave
         )
           deregisterAtPointerEventHandler?.(object as Object3D)
       }
-
 
       const deregisterCameraIfRequired = (object: Object3D) => {
         const deregisterCamera = scene?.userData.tres__deregisterCamera
 
         if (!deregisterCamera)
           throw 'could not find tres__deregisterCamera on scene\'s userData'
-
 
         if ((object as Camera).isCamera)
           deregisterCamera?.(object as Camera)

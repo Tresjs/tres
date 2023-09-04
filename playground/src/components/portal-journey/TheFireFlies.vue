@@ -35,9 +35,13 @@ onLoop(({ elapsed }) => {
   shader.uniforms.uTime.value = elapsed
 })
 </script>
+
 <template>
   <TresPoints>
-    <TresBufferGeometry :position="[positionArray, 3]" :a-scale="[scaleArray, 1]" />
+    <TresBufferGeometry
+      :position="[positionArray, 3]"
+      :a-scale="[scaleArray, 1]"
+    />
     <TresShaderMaterial v-bind="shader" />
   </TresPoints>
 </template>

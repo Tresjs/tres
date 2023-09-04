@@ -3,6 +3,7 @@ defineProps<{
   url: string
 }>()
 </script>
+
 <template>
   <iframe
     frameborder="0"

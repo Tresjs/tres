@@ -90,7 +90,7 @@ export default defineConfig({
         text: 'Ecosystem',
         items: [
           {
-            text: `Cientos 💛`,
+            text: 'Cientos 💛',
             link: 'https://cientos.tresjs.org/',
           },
         ],
@@ -107,13 +107,13 @@ export default defineConfig({
           { text: 'Releases', link: 'https://github.com/Tresjs/tres/releases' },
           {
             text: 'Playground',
-            link: 'https://playground.tresjs.org/'
+            link: 'https://playground.tresjs.org/',
           },
           {
             text: 'Ecosystem',
             items: [
               {
-                text: `Cientos 💛`,
+                text: 'Cientos 💛',
                 link: 'https://cientos.tresjs.org/',
               },
             ],

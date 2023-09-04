@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { BasicShadowMap, SRGBColorSpace, NoToneMapping, Vector2 } from 'three'
-import { TresCanvas, TresInstance, useRenderLoop } from '@tresjs/core'
+import type { TresInstance } from '@tresjs/core'
+import { TresCanvas, useRenderLoop } from '@tresjs/core'
 import { OrbitControls } from '@tresjs/cientos'
+import type { ShallowRef } from 'vue'
 import vertexShader from './shaders/vertex.glsl'
 import fragmentShader from './shaders/fragment.glsl'
-import { ShallowRef } from 'vue'
 
 const gl = {
   clearColor: '#4f4f4f',
@@ -35,9 +36,16 @@ onLoop(({ elapsed }) => {
   <TresCanvas v-bind="gl">
     <TresPerspectiveCamera :position="[11, 11, 11]" />
     <OrbitControls />
-    <TresMesh ref="blobRef" :position="[0, 4, 0]">
+    <TresMesh
+      ref="blobRef"
+      :position="[0, 4, 0]"
+    >
       <TresSphereGeometry :args="[2, 32, 32]" />
-      <TresShaderMaterial :vertex-shader="vertexShader" :fragment-shader="fragmentShader" :uniforms="uniforms" />
+      <TresShaderMaterial
+        :vertex-shader="vertexShader"
+        :fragment-shader="fragmentShader"
+        :uniforms="uniforms"
+      />
     </TresMesh>
     <TresMesh :rotation="[-Math.PI / 2, 0, 0]">
       <TresPlaneGeometry :args="[10, 10, 10, 10]" />

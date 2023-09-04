@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-types */
-import { DefineComponent, Ref, VNode } from 'vue'
+import type { DefineComponent, Ref, VNode } from 'vue'
 
 import type * as THREE from 'three'
 import type { EventProps as PointerEventHandlerEventProps } from '../composables/usePointerEventHandler'
@@ -53,15 +53,16 @@ export type TresObject = TresBaseObject & (TresObject3D | THREE.BufferGeometry |
 export interface TresScene extends THREE.Scene {
   userData: {
     // keys are prefixed with tres__ to avoid name collisions
-    tres__registerCamera?: (newCamera: THREE.Camera, active?: boolean) => void,
-    tres__deregisterCamera?: (camera: THREE.Camera) => void,
-    tres__registerAtPointerEventHandler?: (object: THREE.Object3D & PointerEventHandlerEventProps) => void,
-    tres__deregisterAtPointerEventHandler?: (object: THREE.Object3D) => void,
-    [key: string]: any;
-  };
+    tres__registerCamera?: (newCamera: THREE.Camera, active?: boolean) => void
+    tres__deregisterCamera?: (camera: THREE.Camera) => void
+    tres__registerAtPointerEventHandler?: (object: THREE.Object3D & PointerEventHandlerEventProps) => void
+    tres__deregisterAtPointerEventHandler?: (object: THREE.Object3D) => void
+    [key: string]: any
+  }
 }
 
 // Events
+// eslint-disable-next-line import/namespace
 export interface Intersection extends THREE.Intersection {
   /** The event source (the object which registered the handler) */
   eventObject: TresObject
@@ -137,9 +138,8 @@ export interface VectorCoordinates {
 
 export type MathType<T extends MathRepresentation | THREE.Euler> = T extends THREE.Color
   ? ConstructorParameters<typeof THREE.Color> | THREE.ColorRepresentation
-  : T extends VectorRepresentation | THREE.Layers | THREE.Euler
-  ? T | Parameters<T['set']> | number | VectorCoordinates
-  : T | Parameters<T['set']>
+  // eslint-disable-next-line max-len
+  : T extends VectorRepresentation | THREE.Layers | THREE.Euler ? T | Parameters<T['set']> | number | VectorCoordinates : T | Parameters<T['set']>
 
 export type TresVector2 = MathType<THREE.Vector2>
 export type TresVector3 = MathType<THREE.Vector3>
@@ -173,8 +173,8 @@ export type ThreeElement<T extends ConstructorRepresentation> = Mutable<
 type ThreeExports = typeof THREE
 type ThreeInstancesImpl = {
   [K in keyof ThreeExports as Uncapitalize<K>]: ThreeExports[K] extends ConstructorRepresentation
-  ? ThreeElement<ThreeExports[K]>
-  : never
+    ? ThreeElement<ThreeExports[K]>
+    : never
 }
 
 export interface ThreeInstances extends ThreeInstancesImpl {
@@ -188,3 +188,5 @@ type TresComponents = {
 declare module 'vue' {
   export interface GlobalComponents extends TresComponents { }
 }
+/* eslint-enable @typescript-eslint/ban-types */
+

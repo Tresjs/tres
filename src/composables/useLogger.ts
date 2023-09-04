@@ -23,6 +23,7 @@ export function useLogger(): LoggerComposition {
       console.log(`${logPrefix} - ${name}:`, value)
     }
   }
+  /*eslint-enable no-console */
 
   return {
     logError,

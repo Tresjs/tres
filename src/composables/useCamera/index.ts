@@ -4,13 +4,12 @@ import { Camera, OrthographicCamera, PerspectiveCamera } from 'three'
 import type { TresScene } from '../../types'
 import type { TresContext } from '../useTresContextProvider'
 
-
 export const useCamera = ({ sizes, scene }: Pick<TresContext, 'sizes'> & { scene: TresScene }) => {
 
   // the computed does not trigger, when for example the camera postion changes
   const cameras = ref<Camera[]>([])
   const camera = computed<Camera | undefined>(
-    () => cameras.value[0]
+    () => cameras.value[0],
   )
 
   const registerCamera = (newCamera: Camera, active = false) => {
@@ -29,9 +28,9 @@ export const useCamera = ({ sizes, scene }: Pick<TresContext, 'sizes'> & { scene
   }
 
   const setCameraActive = (cameraOrUuid: string | Camera) => {
-    const camera = cameraOrUuid instanceof Camera ?
-      cameraOrUuid :
-      cameras.value.find((camera: Camera) => camera.uuid === cameraOrUuid)
+    const camera = cameraOrUuid instanceof Camera
+      ? cameraOrUuid
+      : cameras.value.find((camera: Camera) => camera.uuid === cameraOrUuid)
 
     if (!camera) return
 
@@ -46,7 +45,7 @@ export const useCamera = ({ sizes, scene }: Pick<TresContext, 'sizes'> & { scene
           camera.aspect = sizes.aspectRatio.value
 
         if (camera instanceof PerspectiveCamera || camera instanceof OrthographicCamera)
-          camera.updateProjectionMatrix();
+          camera.updateProjectionMatrix()
       })
     }
   })
