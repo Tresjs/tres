@@ -1,10 +1,10 @@
 <script lang="ts" setup>
-import type { Camera } from "three";
-import { OrbitControls } from "three-stdlib";
-import { ref, unref, onUnmounted } from "vue";
-import type { TresVector3 } from "@tresjs/core";
-import { extend, useRenderLoop, useTresContext } from "@tresjs/core";
-import { useEventListener } from "@vueuse/core";
+import type { Camera } from 'three'
+import { OrbitControls } from 'three-stdlib'
+import { ref, unref, onUnmounted } from 'vue'
+import type { TresVector3 } from '@tresjs/core'
+import { extend, useRenderLoop, useTresContext } from '@tresjs/core'
+import { useEventListener } from '@vueuse/core'
 
 export interface OrbitControlsProps {
   /**
@@ -14,7 +14,7 @@ export interface OrbitControlsProps {
    * @type {boolean}
    * @memberof OrbitControlsProps
    */
-  makeDefault?: boolean;
+  makeDefault?: boolean
   /**
    * The camera to control.
    *
@@ -22,7 +22,7 @@ export interface OrbitControlsProps {
    * @memberof OrbitControlsProps
    * @see https://threejs.org/docs/#examples/en/controls/OrbitControls.camera
    */
-  camera?: Camera;
+  camera?: Camera
   /**
    * The dom element to listen to.
    *
@@ -30,7 +30,7 @@ export interface OrbitControlsProps {
    * @memberof OrbitControlsProps
    * @see https://threejs.org/docs/#examples/en/controls/OrbitControls.domElement
    */
-  domElement?: HTMLElement;
+  domElement?: HTMLElement
   /**
    * The target to orbit around.
    *
@@ -38,7 +38,7 @@ export interface OrbitControlsProps {
    * @memberof OrbitControlsProps
    * @see https://threejs.org/docs/#examples/en/controls/OrbitControls.target
    */
-  target?: TresVector3;
+  target?: TresVector3
   /**
    * Whether to enable damping (inertia)
    *
@@ -47,7 +47,7 @@ export interface OrbitControlsProps {
    * @memberof OrbitControlsProps
    * @see https://threejs.org/docs/#examples/en/controls/OrbitControls.enableDamping
    */
-  enableDamping?: boolean;
+  enableDamping?: boolean
   /**
    * The damping inertia used if `.enableDamping` is set to true
    *
@@ -56,7 +56,7 @@ export interface OrbitControlsProps {
    * @memberof OrbitControlsProps
    * @see https://threejs.org/docs/#examples/en/controls/OrbitControls.dampingFactor
    */
-  dampingFactor?: number;
+  dampingFactor?: number
   /**
    * Set to true to automatically rotate around the target.
    *
@@ -65,7 +65,7 @@ export interface OrbitControlsProps {
    * @memberof OrbitControlsProps
    * @see https://threejs.org/docs/#examples/en/controls/OrbitControls.autoRotate
    */
-  autoRotate?: boolean;
+  autoRotate?: boolean
   /**
    * How fast to rotate around the target if `.autoRotate` is true.
    *
@@ -74,7 +74,7 @@ export interface OrbitControlsProps {
    * @memberof OrbitControlsProps
    * @see https://threejs.org/docs/#examples/en/controls/OrbitControls.autoRotateSpeed
    */
-  autoRotateSpeed?: number;
+  autoRotateSpeed?: number
   /**
    * Whether to enable panning.
    *
@@ -83,7 +83,7 @@ export interface OrbitControlsProps {
    * @memberof OrbitControlsProps
    * @see https://threejs.org/docs/#examples/en/controls/OrbitControls.enablePan
    */
-  enablePan?: boolean;
+  enablePan?: boolean
   /**
    * How fast to pan the camera when the keyboard is used. Default is 7.0 pixels per keypress.
    *
@@ -92,7 +92,7 @@ export interface OrbitControlsProps {
    * @memberof OrbitControlsProps
    * @see https://threejs.org/docs/#examples/en/controls/OrbitControls.keyPanSpeed
    */
-  keyPanSpeed?: number;
+  keyPanSpeed?: number
   /**
    * This object contains references to the keycodes for controlling camera panning.
    * Default is the 4 arrow keys.
@@ -102,7 +102,7 @@ export interface OrbitControlsProps {
    * @memberof OrbitControlsProps
    * @see https://threejs.org/docs/#examples/en/controls/OrbitControls.keys
    */
-  keys?: Record<string, string>;
+  keys?: Record<string, string>
   /**
    * How far you can orbit horizontally, upper limit.
    * If set, the interval [ min, max ] must be a sub-interval of [ - 2 PI, 2 PI ],
@@ -113,7 +113,7 @@ export interface OrbitControlsProps {
    * @memberof OrbitControlsProps
    * @see https://threejs.org/docs/index.html?q=orbi#examples/en/controls/OrbitControls.maxAzimuthAngle
    */
-  maxAzimuthAngle?: number;
+  maxAzimuthAngle?: number
   /**
    * How far you can orbit horizontally, lower limit.
    * If set, the interval [ min, max ] must be a sub-interval of [ - 2 PI, 2 PI ],
@@ -125,7 +125,7 @@ export interface OrbitControlsProps {
    * @memberof OrbitControlsProps
    * @see https://threejs.org/docs/index.html?q=orbi#examples/en/controls/OrbitControls.minAzimuthAngle
    */
-  minAzimuthAngle?: number;
+  minAzimuthAngle?: number
   /**
    * How far you can orbit vertically, upper limit.
    * Range is 0 to Math.PI radians, and default is Math.PI.
@@ -135,7 +135,7 @@ export interface OrbitControlsProps {
    * @memberof OrbitControlsProps
    * @see https://threejs.org/docs/index.html?q=orbi#examples/en/controls/OrbitControls.maxPolarAngle
    */
-  maxPolarAngle?: number;
+  maxPolarAngle?: number
   /**
    * How far you can orbit vertically, lower limit.
    * Range is 0 to Math.PI radians, and default is 0.
@@ -145,7 +145,7 @@ export interface OrbitControlsProps {
    * @memberof OrbitControlsProps
    * @see https://threejs.org/docs/index.html?q=orbi#examples/en/controls/OrbitControls.minPolarAngle
    */
-  minPolarAngle?: number;
+  minPolarAngle?: number
   /**
    * The minimum distance of the camera to the target.
    * Default is 0.
@@ -155,7 +155,7 @@ export interface OrbitControlsProps {
    * @memberof OrbitControlsProps
    * @see https://threejs.org/docs/index.html?q=orbi#examples/en/controls/OrbitControls.minDistance
    */
-  minDistance?: number;
+  minDistance?: number
   /**
    * The maximum distance of the camera to the target.
    * Default is Infinity.
@@ -165,7 +165,7 @@ export interface OrbitControlsProps {
    * @memberof OrbitControlsProps
    * @see https://threejs.org/docs/index.html?q=orbi#examples/en/controls/OrbitControls.maxDistance
    */
-  maxDistance?: number;
+  maxDistance?: number
   /**
    * The minimum field of view angle, in radians.
    * Default is 0.
@@ -175,7 +175,7 @@ export interface OrbitControlsProps {
    * @memberof OrbitControlsProps
    * @see https://threejs.org/docs/index.html?q=orbi#examples/en/controls/OrbitControls.minZoom
    */
-  minZoom?: number;
+  minZoom?: number
   /**
    * The maximum field of view angle, in radians.
    * ( OrthographicCamera only ).
@@ -186,11 +186,11 @@ export interface OrbitControlsProps {
    * @memberof OrbitControlsProps
    * @see https://threejs.org/docs/index.html?q=orbi#examples/en/controls/OrbitControls.maxZoom
    */
-  maxZoom?: number;
+  maxZoom?: number
   touches?: {
-    ONE?: number;
-    TWO?: number;
-  };
+    ONE?: number
+    TWO?: number
+  }
   /**
    * Whether to enable zooming.
    *
@@ -199,7 +199,7 @@ export interface OrbitControlsProps {
    * @memberof OrbitControlsProps
    * @see https://threejs.org/docs/#examples/en/controls/OrbitControls.enableZoom
    */
-  enableZoom?: boolean;
+  enableZoom?: boolean
   /**
    * How fast to zoom in and out. Default is 1.
    *
@@ -208,7 +208,7 @@ export interface OrbitControlsProps {
    * @memberof OrbitControlsProps
    * @see https://threejs.org/docs/#examples/en/controls/OrbitControls.zoomSpeed
    */
-  zoomSpeed?: number;
+  zoomSpeed?: number
   /**
    * Whether to enable rotating.
    *
@@ -217,7 +217,7 @@ export interface OrbitControlsProps {
    * @memberof OrbitControlsProps
    * @see https://threejs.org/docs/#examples/en/controls/OrbitControls.enableRotate
    */
-  enableRotate?: boolean;
+  enableRotate?: boolean
   /**
    * How fast to rotate around the target. Default is 1.
    *
@@ -226,7 +226,7 @@ export interface OrbitControlsProps {
    * @memberof OrbitControlsProps
    * @see https://threejs.org/docs/#examples/en/controls/OrbitControls.rotateSpeed
    */
-  rotateSpeed?: number;
+  rotateSpeed?: number
 }
 
 // TODO: remove disable once eslint is updated to support vue 3.3
@@ -251,45 +251,45 @@ const {
   enableRotate = true,
   rotateSpeed = 1,
   target = [0, 0, 0],
-} = defineProps<OrbitControlsProps>();
+} = defineProps<OrbitControlsProps>()
 
-const emit = defineEmits(["change", "start", "end"]);
+const emit = defineEmits(['change', 'start', 'end'])
 
-const { renderer, camera: activeCamera } = useTresContext();
+const { renderer, camera: activeCamera } = useTresContext()
 
-const controls = ref<OrbitControls | null>(null);
+const controls = ref<OrbitControls | null>(null)
 
-extend({ OrbitControls });
+extend({ OrbitControls })
 
 function addEventListeners() {
-  useEventListener(controls.value as any, "change", () =>
-    emit("change", controls.value)
-  );
-  useEventListener(controls.value as any, "start", () =>
-    emit("start", controls.value)
-  );
-  useEventListener(controls.value as any, "end", () =>
-    emit("end", controls.value)
-  );
+  useEventListener(controls.value as any, 'change', () =>
+    emit('change', controls.value),
+  )
+  useEventListener(controls.value as any, 'start', () =>
+    emit('start', controls.value),
+  )
+  useEventListener(controls.value as any, 'end', () =>
+    emit('end', controls.value),
+  )
 }
 
-const { onLoop } = useRenderLoop();
+const { onLoop } = useRenderLoop()
 
 onLoop(() => {
   if (controls.value && (enableDamping || autoRotate)) {
-    controls.value.update();
+    controls.value.update()
   }
-});
+})
 
 onMounted(() => {
-  addEventListeners();
-});
+  addEventListeners()
+})
 
 onUnmounted(() => {
   if (controls.value) {
-    controls.value.dispose();
+    controls.value.dispose()
   }
-});
+})
 </script>
 
 <template>
