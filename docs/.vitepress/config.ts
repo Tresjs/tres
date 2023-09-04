@@ -60,6 +60,7 @@ export default defineConfig({
           { text: 'useFBX', link: '/guide/loaders/use-fbx' },
           { text: 'FBXModel', link: '/guide/loaders/fbx-model' },
           { text: 'useVideoTexture', link: '/guide/loaders/use-video-texture' },
+          { text: 'SVG', link: '/guide/loaders/svg' },
         ],
       },
       {
