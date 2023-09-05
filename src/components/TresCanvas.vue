@@ -1,8 +1,5 @@
 <script setup lang="ts">
-import {
-  PerspectiveCamera,
-  Scene,
-} from 'three'
+import { PerspectiveCamera, Scene } from 'three'
 import type {
   WebGLRendererParameters,
   ColorSpace,
@@ -10,22 +7,33 @@ import type {
   ToneMapping,
 } from 'three'
 import type { Ref } from 'vue'
-import { computed, onMounted, provide, ref, shallowRef, watch, watchEffect, Fragment, defineComponent, h } from 'vue'
 import {
-  useTresContextProvider, useLogger,
+  computed,
+  onMounted,
+  provide,
+  ref,
+  shallowRef,
+  watch,
+  watchEffect,
+  Fragment,
+  defineComponent,
+  h,
+} from 'vue'
+import {
+  useTresContextProvider,
+  useLogger,
   usePointerEventHandler,
-  useRenderLoop, type TresContext,
+  useRenderLoop,
+  type TresContext,
 } from '../composables'
 import { extend } from '../core/catalogue'
 import { render } from '../core/renderer'
 
-import {
-} from '../composables'
-
 import type { RendererPresetsType } from '../composables/useRenderer/const'
 import type { TresCamera, TresObject } from '../types/'
 
-export interface TresCanvasProps extends Omit<WebGLRendererParameters, 'canvas'> {
+export interface TresCanvasProps
+  extends Omit<WebGLRendererParameters, 'canvas'> {
   // required by for useRenderer
   shadows?: boolean
   clearColor?: string
@@ -36,18 +44,24 @@ export interface TresCanvasProps extends Omit<WebGLRendererParameters, 'canvas'>
   toneMappingExposure?: number
 
   // required by useTresContextProvider
-  windowSize?: boolean
-  preset?: RendererPresetsType
-  disableRender?: boolean
   camera?: TresCamera
+  preset?: RendererPresetsType
+  windowSize?: boolean
+  disableRender?: boolean
 }
 
 const props = withDefaults(defineProps<TresCanvasProps>(), {
-  alpha: false,
-  antialias: true,
-  depth: true,
-  stencil: true,
-  preserveDrawingBuffer: false,
+  alpha: undefined,
+  depth: undefined,
+  shadows: undefined,
+  stencil: undefined,
+  antialias: undefined,
+  windowSize: undefined,
+  disableRender: undefined,
+  useLegacyLights: undefined,
+  preserveDrawingBuffer: undefined,
+  logarithmicDepthBuffer: undefined,
+  failIfMajorPerformanceCaveat: undefined,
 })
 
 const { logWarning } = useLogger()
@@ -67,13 +81,14 @@ const slots = defineSlots<{
   default(): any
 }>()
 
-const createInternalComponent = (context: TresContext) => defineComponent({
-  setup() {
-    provide('useTres', context)
-    provide('extend', extend)
-    return () => h(Fragment, null, slots?.default ? slots.default() : [])
-  },
-})
+const createInternalComponent = (context: TresContext) =>
+  defineComponent({
+    setup() {
+      provide('useTres', context)
+      provide('extend', extend)
+      return () => h(Fragment, null, slots?.default ? slots.default() : [])
+    },
+  })
 
 const mountCustomRenderer = (context: TresContext) => {
   const InternalComponent = createInternalComponent(context)
@@ -106,37 +121,43 @@ onMounted(() => {
   mountCustomRenderer(context)
 
   const addDefaultCamera = () => {
-    const camera = new PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000)
+    const camera = new PerspectiveCamera(
+      45,
+      window.innerWidth / window.innerHeight,
+      0.1,
+      1000,
+    )
     camera.position.set(3, 3, 3)
     camera.lookAt(0, 0, 0)
     registerCamera(camera)
 
-    const unwatch = watchEffect(
-      () => {
-        if (cameras.value.length >= 2) {
-          camera.removeFromParent()
-          deregisterCamera(camera)
-          unwatch?.()
-        }
-      },
-    )
+    const unwatch = watchEffect(() => {
+      if (cameras.value.length >= 2) {
+        camera.removeFromParent()
+        deregisterCamera(camera)
+        unwatch?.()
+      }
+    })
   }
 
-  watch(() => props.camera, (newCamera, oldCamera) => {
-    if (newCamera)
-      registerCamera(newCamera)
-    else if (oldCamera) {
-      oldCamera.removeFromParent()
-      deregisterCamera(oldCamera)
-    }
-  }, {
-    immediate: true,
-  })
+  watch(
+    () => props.camera,
+    (newCamera, oldCamera) => {
+      if (newCamera) registerCamera(newCamera)
+      else if (oldCamera) {
+        oldCamera.removeFromParent()
+        deregisterCamera(oldCamera)
+      }
+    },
+    {
+      immediate: true,
+    },
+  )
 
   if (!camera.value) {
     logWarning(
       'No camera found. Creating a default perspective camera. '
-      + 'To have full control over a camera, please add one to the scene.',
+        + 'To have full control over a camera, please add one to the scene.',
     )
     addDefaultCamera()
   }
