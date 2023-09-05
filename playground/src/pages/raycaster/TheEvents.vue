@@ -47,6 +47,10 @@ const visible = ref(true)
       window-size
       v-bind="gl"
     >
+      <TresPerspectiveCamera
+        :position="[11, 11, 11]"
+        :look-at="[0, 0, 0]"
+      />
       <OrbitControls />
 
       <template v-for="x in [-2.5, 0, 2.5]">
