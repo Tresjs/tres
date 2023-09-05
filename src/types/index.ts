@@ -57,6 +57,8 @@ export interface TresScene extends THREE.Scene {
     tres__deregisterCamera?: (camera: THREE.Camera) => void
     tres__registerAtPointerEventHandler?: (object: THREE.Object3D & PointerEventHandlerEventProps) => void
     tres__deregisterAtPointerEventHandler?: (object: THREE.Object3D) => void
+    tres__registerBlockingObjectAtPointerEventHandler?: (object: THREE.Object3D) => void
+    tres__deregisterBlockingObjectAtPointerEventHandler?: (object: THREE.Object3D) => void
     [key: string]: any
   }
 }
