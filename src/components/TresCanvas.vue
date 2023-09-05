@@ -20,7 +20,6 @@ import { extend } from '../core/catalogue'
 import { render } from '../core/renderer'
 
 import {
-
 } from '../composables'
 
 import type { RendererPresetsType } from '../composables/useRenderer/const'
@@ -102,7 +101,7 @@ onMounted(() => {
 
   usePointerEventHandler({ scene: scene.value, contextParts: context })
 
-  const { addCamera, camera, cameras, removeCamera } = context
+  const { registerCamera, camera, cameras, deregisterCamera } = context
 
   mountCustomRenderer(context)
 
@@ -110,13 +109,13 @@ onMounted(() => {
     const camera = new PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000)
     camera.position.set(3, 3, 3)
     camera.lookAt(0, 0, 0)
-    addCamera(camera)
+    registerCamera(camera)
 
     const unwatch = watchEffect(
       () => {
         if (cameras.value.length >= 2) {
           camera.removeFromParent()
-          removeCamera(camera)
+          deregisterCamera(camera)
           unwatch?.()
         }
       },
@@ -125,10 +124,10 @@ onMounted(() => {
 
   watch(() => props.camera, (newCamera, oldCamera) => {
     if (newCamera)
-      addCamera(newCamera)
+      registerCamera(newCamera)
     else if (oldCamera) {
       oldCamera.removeFromParent()
-      removeCamera(oldCamera)
+      deregisterCamera(oldCamera)
     }
   }, {
     immediate: true,

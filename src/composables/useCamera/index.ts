@@ -12,7 +12,7 @@ export const useCamera = ({ sizes, scene }: Pick<TresContext, 'sizes'> & { scene
     () => cameras.value[0],
   )
 
-  const addCamera = (newCamera: Camera, active = false) => {
+  const registerCamera = (newCamera: Camera, active = false) => {
     if (cameras.value.some(({ uuid }) => uuid === newCamera.uuid))
       return
 
@@ -23,7 +23,7 @@ export const useCamera = ({ sizes, scene }: Pick<TresContext, 'sizes'> & { scene
 
   }
 
-  const removeCamera = (camera: Camera) => {
+  const deregisterCamera = (camera: Camera) => {
     cameras.value = cameras.value.filter(({ uuid }) => uuid !== camera.uuid)
   }
 
@@ -50,8 +50,8 @@ export const useCamera = ({ sizes, scene }: Pick<TresContext, 'sizes'> & { scene
     }
   })
 
-  scene.userData.tres__registerCamera = addCamera
-  scene.userData.tres__deregisterCamera = removeCamera
+  scene.userData.tres__registerCamera = registerCamera
+  scene.userData.tres__deregisterCamera = deregisterCamera
 
   onUnmounted(() => {
     cameras.value = []
@@ -60,8 +60,8 @@ export const useCamera = ({ sizes, scene }: Pick<TresContext, 'sizes'> & { scene
   return {
     camera,
     cameras,
-    addCamera,
-    removeCamera,
+    registerCamera,
+    deregisterCamera,
     setCameraActive,
   }
 }
