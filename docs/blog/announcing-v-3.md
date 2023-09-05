@@ -6,8 +6,8 @@ sidebar: false
 
 Already? Yes! We are excited to announce the release of:
 
-- **TresJS v3.0.0** 
-- **Cientos v3.0.0** 
+- **TresJS v3.0.0**
+- **Cientos v3.0.0**
 
 But you might be wondering, why a major release so soon if we just released 2.x.x not so while ago 🤔? Does it means more breaking changes? 🤯
 
@@ -23,15 +23,15 @@ Until now, we were using a `Store` to manage the internal state of the library
 
 ```ts
 const state: TresState = shallowReactive({
-    uuid: generateUUID(),
-    camera: undefined,
-    cameras: [],
-    canvas: undefined,
-    scene: undefined,
-    renderer: undefined,
-    aspectRatio: undefined,
-    pointerEventHandler: undefined,
-  })
+  uuid: generateUUID(),
+  camera: undefined,
+  cameras: [],
+  canvas: undefined,
+  scene: undefined,
+  renderer: undefined,
+  aspectRatio: undefined,
+  pointerEventHandler: undefined,
+})
 ```
 
 Important things for the abstractions like `camera`, `scene`, `renderer`, etc. were stored in the `Store` and we were using `reactive` and `shallowReactive` to make sure that the changes were propagated to the components that were using them.
@@ -40,12 +40,12 @@ And we had some kind of "getters" and "setters" to access/edit the state from th
 
 ```ts
 function getState(key: string) {
-    return state[key]
+  return state[key]
 }
 
 function setState(key: string, value: any) {
-    state[key] = value
-} 
+  state[key] = value
+}
 ```
 
 If a plugin author or a user wanted to create an abstraction around the `core`. They would have to use something like this:
@@ -55,9 +55,9 @@ const { state } = useTres()
 
 watch(
   () => state.camera,
-  (camera) => {
+  camera => {
     // do something with the camera
-  }
+  },
 )
 ```
 
@@ -67,33 +67,29 @@ Also we experience lot of bugs related to the reactivity system, specially when 
 
 So we decided to **move away from the `Store` and use a `Context Provider` instead** where the state is a plain object with .
 
-
 ```ts
 const toProvide: TresContext = {
-    sizes,
-    scene:  shallowRef<Scene>(scene),
-    camera,
-    cameras: readonly(cameras),
-    renderer,
-    raycaster: shallowRef(new Raycaster()),
-    controls: ref(null),
-    extend,
-    addCamera,
-    removeCamera,
-    setCameraActive,
-  }
+  sizes,
+  scene: shallowRef<Scene>(scene),
+  camera,
+  extend,
+  cameras: readonly(cameras),
+  renderer,
+  controls: ref(null),
+  raycaster: shallowRef(new Raycaster()),
+  setCameraActive,
+}
 
-  provide('useTres', toProvide);
+provide('useTres', toProvide)
 ```
 
 So now you can use any property of the state individually, like this:
 
 ```html
-
 <script lang="ts" setup>
-import { useTresContext } from '@tresjs/core'
+  import { useTresContext } from '@tresjs/core'
 
-const { camera, scene, renderer} = useTresContext()
+  const { camera, scene, renderer } = useTresContext()
 </script>
 ```
 
@@ -111,5 +107,3 @@ Hope you like this new release, we are working hard to bring you the best possib
 
 - Releases https://github.com/Tresjs/tres/releases
 - Cientos https://github.com/Tresjs/cientos/releases
-
-

@@ -8,6 +8,7 @@
     "PropType": true,
     "Ref": true,
     "VNode": true,
+    "WritableComputedRef": true,
     "computed": true,
     "createApp": true,
     "customRef": true,
