@@ -97,7 +97,10 @@ export default defineConfig({
       },
       {
         text: 'Misc',
-        items: [{ text: 'useTweakpane', link: '/guide/misc/use-tweakpane' }],
+        items: [
+          { text: 'useTweakpane', link: '/guide/misc/use-tweakpane' },
+          { text: 'Stats', link: '/guide/misc/stats' },
+        ],
       },
     ],
 

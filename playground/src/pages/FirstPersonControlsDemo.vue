@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
 import { BasicShadowMap, NoToneMapping } from 'three'
-import { PointerLockControls, KeyboardControls } from '@tresjs/cientos'
+import { PointerLockControls, KeyboardControls, stats } from '@tresjs/cientos'
 
 const gl = {
   clearColor: '#82DBC5',
@@ -10,6 +10,8 @@ const gl = {
   shadowMapType: BasicShadowMap,
   toneMapping: NoToneMapping,
 }
+
+stats(0)
 
 const isActive = (state: boolean) => console.log(state)
 </script>
@@ -27,3 +29,4 @@ const isActive = (state: boolean) => console.log(state)
     <TresAmbientLight :intensity="1" />
   </TresCanvas>
 </template>
+
