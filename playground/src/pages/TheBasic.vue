@@ -2,7 +2,7 @@
 import { SRGBColorSpace, BasicShadowMap, NoToneMapping } from 'three'
 import { reactive, ref } from 'vue'
 import { TresCanvas, useRenderLoop } from '@tresjs/core'
-import { OrbitControls, TransformControls } from '@tresjs/cientos'
+import { OrbitControls } from '@tresjs/cientos'
 
 const state = reactive({
   clearColor: '#201919',
@@ -49,7 +49,7 @@ function onPointerEnter(ev) {
       @pointer-enter="onPointerEnter"
     >
       <TresSphereGeometry :args="[2, 32, 32]" />
-      <TresMeshToonMaterial color="cyan" />
+      <TresMeshToonMaterial color="teal" />
     </TresMesh>
 
     <TresDirectionalLight
@@ -64,11 +64,11 @@ function onPointerEnter(ev) {
       <TresPlaneGeometry :args="[10, 10, 10, 10]" />
       <TresMeshToonMaterial />
     </TresMesh>
+
     <TresDirectionalLight
       :position="[0, 2, 4]"
       :intensity="1"
       cast-shadow
     />
-    <TransformControls :object="sphereRef" />
   </TresCanvas>
 </template>

@@ -155,15 +155,15 @@ importers:
   playground:
     dependencies:
       '@tresjs/cientos':
-        specifier: 3.1.0
-        version: 3.1.0(three@0.155.0)(tweakpane@4.0.0)(vue@3.3.4)
+        specifier: 3.2.1
+        version: 3.2.1(three@0.155.0)(tweakpane@4.0.0)(vue@3.3.4)
       vue-router:
         specifier: ^4.2.4
         version: 4.2.4(vue@3.3.4)
     devDependencies:
       '@tresjs/leches':
-        specifier: ^0.7.0
-        version: 0.7.0(vue@3.3.4)
+        specifier: ^0.8.0
+        version: 0.8.0(vue@3.3.4)
       '@tweakpane/plugin-essentials':
         specifier: ^0.2.0
         version: 0.2.0(tweakpane@4.0.0)
@@ -1180,6 +1180,25 @@ packages:
       vue: 3.3.4
     transitivePeerDependencies:
       - '@vue/composition-api'
+    dev: true
+
+  /@tresjs/cientos@3.2.1(three@0.155.0)(tweakpane@4.0.0)(vue@3.3.4):
+    resolution: {integrity: sha512-3smk5gWOy+XIezr2c6Je2MK9o4Uk5eHZTpKwHEy0/0TomYr77AgO7UGRlKnU8v6VnWZU5weVcAy35tiUmNOTDg==}
+    peerDependencies:
+      three: '>=0.133'
+      tweakpane: '>=3.0.0'
+      vue: '>=3.3'
+    dependencies:
+      '@tresjs/core': 3.1.1(three@0.155.0)(vue@3.3.4)
+      '@vueuse/core': 10.4.1(vue@3.3.4)
+      camera-controls: 2.7.2(three@0.155.0)
+      three: 0.155.0
+      three-stdlib: 2.25.1(three@0.155.0)
+      tweakpane: 4.0.0
+      vue: 3.3.4
+    transitivePeerDependencies:
+      - '@vue/composition-api'
+    dev: false
 
   /@tresjs/core@3.0.1(three@0.155.0)(vue@3.3.4):
     resolution: {integrity: sha512-bhLOXqDXCT527dFwdyvUpq7H+WpOgJrmJTFK3tCxrULv996+rIgS0Nz6QRLsFAuyVJwqg29FPD0H/MYEjrviSQ==}
@@ -1193,6 +1212,21 @@ packages:
       vue: 3.3.4
     transitivePeerDependencies:
       - '@vue/composition-api'
+    dev: true
+
+  /@tresjs/core@3.1.1(three@0.155.0)(vue@3.3.4):
+    resolution: {integrity: sha512-HkB65AqofpQ9wtOV0wV9tqy9gokmk4Z/46mV7ksr1eyraTd1OG0XQzejQ/uvPXlBz84K1us6YOGTGSzBwA0wlw==}
+    peerDependencies:
+      three: '>=0.133'
+      vue: '>=3.3'
+    dependencies:
+      '@alvarosabu/utils': 3.1.1
+      '@vueuse/core': 10.4.1(vue@3.3.4)
+      three: 0.155.0
+      vue: 3.3.4
+    transitivePeerDependencies:
+      - '@vue/composition-api'
+    dev: false
 
   /@tresjs/eslint-config-base@0.1.1(@typescript-eslint/eslint-plugin@6.4.1)(@typescript-eslint/parser@6.4.1)(eslint@8.47.0):
     resolution: {integrity: sha512-BAbFYERV23H3dkFZ9ITQQrpPgPVvNqsl+CcyDlpav54ailN2zuIY28NNXkREHf8KL+QeQZZLedcDWJbffKxMgg==}
@@ -1258,8 +1292,8 @@ packages:
       - supports-color
     dev: true
 
-  /@tresjs/leches@0.7.0(vue@3.3.4):
-    resolution: {integrity: sha512-WuPAvFdNuxaLTS5x6/6rTd9+X/VlxOiyWFz2f2sibAOOb9uAmugVKRvKJ3wiCCNHQetx1G4zFUfVWzZHx4DFRw==}
+  /@tresjs/leches@0.8.0(vue@3.3.4):
+    resolution: {integrity: sha512-bXTIYJoeM1I1kn4pRM5FIJsY0FJ/IDL2r1UF7dub+V9QT6vNV5uvQeWbsiBRsZkuh/ykp+27gZC/149g0uxlKQ==}
     peerDependencies:
       vue: '>=3.3'
     dependencies:

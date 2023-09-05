@@ -69,7 +69,10 @@ onLoop(({ elapsed }) => {
 </script>
 
 <template>
-  <TresCanvas v-bind="gl">
+  <TresCanvas
+    v-bind="gl"
+    window-size
+  >
     <TresPerspectiveCamera
       :position="[5, 5, 5]"
       :fov="45"
