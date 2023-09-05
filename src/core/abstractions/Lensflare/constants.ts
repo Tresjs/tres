@@ -6,19 +6,11 @@ export const circle = `${TEXTURE_PATH}circle.png`
 export const circleBlur = `${TEXTURE_PATH}cirlceBlur.png`
 export const circleRainbow = `${TEXTURE_PATH}circleRainbow.png`
 export const line = `${TEXTURE_PATH}line.png`
-export const poly4 = `${TEXTURE_PATH}poly4.png`
 export const poly6 = `${TEXTURE_PATH}poly6.png`
-export const poly8 = `${TEXTURE_PATH}poly8.png`
-export const polyStroke4 = `${TEXTURE_PATH}polyStroke4.png`
 export const polyStroke6 = `${TEXTURE_PATH}polyStroke6.png`
-export const polyStroke8 = `${TEXTURE_PATH}polyStroke8.png`
-export const rays4 = `${TEXTURE_PATH}rays4.png`
 export const rays6 = `${TEXTURE_PATH}rays6.png`
-export const rays8 = `${TEXTURE_PATH}rays8.png`
 export const ring = `${TEXTURE_PATH}ring.png`
-export const starThin4 = `${TEXTURE_PATH}starThin4.png`
 export const starThin6 = `${TEXTURE_PATH}starThin6.png`
-export const starThin8 = `${TEXTURE_PATH}starThin8.png`
 
 // NOTE:
 // Flare elements are divided into back, oversize, body, front.
