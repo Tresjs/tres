@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import TheEnvironment from './TheEnvironment.vue'
+import TheBasic from './TheBasic.vue'
 </script>
 
 <template>
   <div class="modal">
-    <TheEnvironment />
+    <TheBasic />
   </div>
 </template>
 
@@ -15,8 +15,8 @@ import TheEnvironment from './TheEnvironment.vue'
   left: 50%;
   right: 0;
   bottom: 0;
-  width: 200px;
-  height: 200px;
+  width: 600px;
+  height: 400px;
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 100;
 }

@@ -23,3 +23,5 @@
 | pointer-leave | ... the pointer is leaves the object                                                  | [PointerEvent](https://developer.mozilla.org/en-US/docs/Web/API/PointerEvent)                                                                                                                         |
 
 The returned [Intersection](https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/types/three/src/core/Raycaster.d.ts#L16) includes the [Object3D](https://threejs.org/docs/index.html?q=object#api/en/core/Object3D) that triggered the event. You can access it via `intersection.object`.
+
+By default, objects positioned in front of others with event handlers do not prevent those events from being triggered. This behavior can be achieved by using the prop `blocks-pointer-events`.

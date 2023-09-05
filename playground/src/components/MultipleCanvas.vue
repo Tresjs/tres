@@ -3,7 +3,6 @@ import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
 import { TresCanvas } from '@tresjs/core'
 
 // import { GLTFModel, OrbitControls } from '@tresjs/cientos'
-
 const state = reactive({
   clearColor: '#201919',
   shadows: true,
@@ -14,17 +13,14 @@ const state = reactive({
   disableRender: false,
   stencil: false,
 })
-
 const state2 = reactive({
   clearColor: '#4f4f4f',
   shadows: true,
   alpha: false,
-
   /*  shadowMapType: BasicShadowMap,
   outputColorSpace: SRGBColorSpace,
   toneMapping: NoToneMapping, */
 })
-
 const log = () => {
   console.log(3)
 }
