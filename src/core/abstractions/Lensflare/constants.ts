@@ -24,48 +24,48 @@ export const starThin8 = `${TEXTURE_PATH}starThin8.png`
 // Flare elements are divided into back, oversize, body, front.
 // They are arranged as such, relative to the light source and camera:
 //
-// [distance < 0]   [distance == 0]   [distance > 0]
-//                      light                          camera
-//      back        body, oversize       front
+// | distance < 0 | distance == 0  | distance > 0 | camera |
+// | ------------ | -------------- | ------------ | ------ |
+// |              |     light      |              |        |
+// | back         | body, oversize | front        |        |
 
-export const oversizeTexturesOptional = [line, ring]
-export const oversizeColors = ['white']
-export const oversizeSizeMin = 750
-export const oversizeSizeMax = 1024
-export const oversizeElementsNumMin = 0
-export const oversizeElementsNumMax = 2
+export const oversize = {
+  texture: [line, ring],
+  color: ['white'],
+  distance: [0, 0],
+  size: [750, 1024],
+  length: [0, 2],
+}
 
-export const bodyTexturesRequired = [circleBlur, rays6]
-export const bodyTexturesOptional = [circle, circleRainbow, ring, starThin6]
-export const bodyColors = ['white']
-export const bodySizeMin = 180
-export const bodySizeMax = 512
-export const bodyTexturesOptionalNumMin = 2
-export const bodyTexturesOptionalNumMax = 3
+export const bodyRequired = {
+  texture: [circleBlur, rays6],
+  color: ['white'],
+  distance: [0, 0],
+  size: [180, 512],
+}
 
-export const frontTexturesOptional = [circleBlur, circle, ring, poly6, polyStroke6]
+export const bodyOptional = {
+  texture: [circle, circleRainbow, ring, starThin6],
+  color: ['white'],
+  distance: [0, 0],
+  size: [180, 512],
+  length: [2, 3],
+}
+
 export const [darkPurple, darkBlue] = [0x38235f, 0x02055a]
-export const frontColors = ['dimgray', 'gray', 'darkgray', darkPurple, darkBlue]
-export const frontTexturesNumMin = 2
-export const frontTexturesNumMax = 4
-export const frontSizeMin = 20
-export const frontSizeMax = 180
-export const frontOffsetMin = 0.5
-export const frontOffsetMax = 1
-export const frontLengthMin = 0.75
-export const frontLengthMax = 2.5
-export const frontElementsNumMin = 5
-export const frontElementsNumMax = 21
 
-export const backTexturesOptional = frontTexturesOptional
-export const backColors = frontColors
-export const backTexturesNumMin = 2
-export const backTexturesNumMax = 4
-export const backSizeMin = 180
-export const backSizeMax = 360
-export const backOffsetMin = 0.1
-export const backOffsetMax = 0.2
-export const backLengthMin = 0.5
-export const backLengthMax = 0.6
-export const backElementsNumMin = 0
-export const backElementsNumMax = 5
+export const front = {
+  texture : [circleBlur, circle, ring, poly6, polyStroke6],
+  color: ['dimgray', 'gray', 'darkgray', darkPurple, darkBlue],
+  distance: [0.5, 2.5],
+  size: [20, 180],
+  length: [5, 21]
+}
+
+export const back = {
+  texture : [circleBlur, circle, ring, poly6, polyStroke6],
+  color: ['dimgray', 'gray', 'darkgray', darkPurple, darkBlue],
+  distance: [-0.6, -0.1],
+  size: [180, 360],
+  length: [0, 5]
+}
