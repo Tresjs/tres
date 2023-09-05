@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { BasicShadowMap, MeshPhongMaterial, NoToneMapping, SRGBColorSpace } from 'three'
 import { reactive } from 'vue'
-import { OrbitControls, useTweakPane } from '@tresjs/cientos'
+import { OrbitControls } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
+import { TresLeches, useControls } from '@tresjs/leches'
+import '@tresjs/leches/styles'
 
 const state = reactive({
   clearColor: '#201919',
@@ -19,16 +21,14 @@ const paneElements = reactive({
   boxPropMaterialVisible: true,
 })
 
-const { pane } = useTweakPane()
-
-pane.addInput(paneElements, 'boxVisible')
-pane.addInput(paneElements, 'groupVisible')
-pane.addInput(paneElements, 'boxPropMaterialVisible')
+useControls('fpsgraph')
+useControls(paneElements)
 
 const material = new MeshPhongMaterial({ color: '#ff0000' })
 </script>
 
 <template>
+  <TresLeches />
   <TresCanvas v-bind="state">
     <TresPerspectiveCamera
       :position="[11, 11, 11]"
