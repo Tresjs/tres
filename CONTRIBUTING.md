@@ -15,10 +15,10 @@ Thanks from the heart 💚 for taking the time to help out. This guide will help
 
 ## Setup
 
-All the packages in the ecosystem uses [pnpm workspaces](https://pnpm.io/workspaces). Pnpm is a package manager that is faster than npm and yarn, and it also uses symlinks to avoid code duplication.
+All the packages in the ecosystem use [pnpm workspaces](https://pnpm.io/workspaces). PnPM is a package manager that is faster than npm and yarn. It also uses symlinks to avoid code duplication.
 
+The `workspace` has the following structure:
 
-The `workspace` have the following structure:
 
 ```
 .
@@ -49,7 +49,8 @@ brew install pnpm
 
 To start developing, you can run `pnpm run playground` in the root folder.
 
-This will start the dev server for the playground `http://localhost:5174/` where you can test the changes you are making on the `src` folder. 
+This will start the dev server for the playground at `http://localhost:5173/` where you can test the changes you are making in the `src` folder. 
+
 
 > **Important**
 > There is no need to run anything in the `src` folder or in the root, the `playground` will take care of it
@@ -58,7 +59,8 @@ This will start the dev server for the playground `http://localhost:5174/` where
 Whenever you are working on a new feature or fixing a bug, make sure to add a demo under `playground/src/pages` and create a route in the `playground/src/router.ts` to test the changes you are making.
 
 > **Warning**
-> Make sure to check if there is already a demo for the feature you are working on, if there is, you can add your changes to the existing demo.
+> Make sure to check if there is already a demo for the feature you are working on. If so, feel free to add your changes to the existing demo.
+
 
 
 ### Docs
@@ -95,4 +97,4 @@ Adding a new third party library is generally discouraged, unless it is absolute
 
 ## Keep core small
 
-The core package should be as small as possible, it should only contain the core functionality of the library. If you are adding a new feature, please consider adding it as a plugin instead, for example, if you want to add support for [Effect Composer](https://threejs.org/examples/?q=compo#webgl_postprocessing_effectcomposer) you should create a new package called `@tresjs/post-processing` and add it as a plugin. If it's a smaller scope you can always add it to `cientos` package.
+The core package should be as small as possible, it should only contain the core functionality of the library. If you are adding a new feature, please consider adding it as a plugin instead. for example, if you want to add support for [Effect Composer](https://threejs.org/examples/?q=compo#webgl_postprocessing_effectcomposer) you should create a new package called `@tresjs/post-processing` and add it as a plugin. If it's a smaller scope you can always add it to the `cientos` package.
