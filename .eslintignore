@@ -4,3 +4,5 @@ dist
 **.test.js
 **.cy.js
 **/cypress/**
+docs/.vitepress/cache
+docs/.vitepress/dist

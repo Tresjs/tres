@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { useTresContext } from '@tresjs/core'
-import { Camera } from 'three'
+import type { Camera } from 'three'
 import { MapControls } from 'three-stdlib'
 import { ref, watch, onUnmounted } from 'vue'
 
@@ -42,10 +42,11 @@ const controlsRef = ref<MapControls | null>(null)
 
 extend({ MapControls })
 
-watch(controls, value => {
+watch(controls, (value) => {
   if (value && props.makeDefault) {
     controls.value = value
-  } else {
+  }
+  else {
     controls.value = null
   }
 })

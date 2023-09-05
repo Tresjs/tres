@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { shallowRef, computed, toRefs } from 'vue'
-import { TresColor, useTexture, useRenderLoop, useTresContext } from '@tresjs/core'
-import { Object3D, Texture } from 'three'
+import type { TresColor } from '@tresjs/core'
+import { useTexture, useRenderLoop, useTresContext } from '@tresjs/core'
+import type { Object3D, Texture } from 'three'
 
-export type SmokeProps = {
+export interface SmokeProps {
   /**
    * The color of the smoke.
    * @default 0xffffff
@@ -116,11 +117,25 @@ onLoop(() => {
   }
 })
 </script>
+
 <template>
-  <TresGroup ref="smokeRef" v-bind="$attrs">
-    <TresGroup ref="groupRef" :position="[0, 0, (segments / 2) * depth]">
-      <TresMesh v-for="({ scale, x, y, density }, index) in smoke" :key="`${index}`" :position="[x, y, -index * depth]">
-        <TresPlaneGeometry :scale="[scale, scale, scale]" :rotation="[0, 0, 0]" />
+  <TresGroup
+    ref="smokeRef"
+    v-bind="$attrs"
+  >
+    <TresGroup
+      ref="groupRef"
+      :position="[0, 0, (segments / 2) * depth]"
+    >
+      <TresMesh
+        v-for="({ scale, x, y, density }, index) in smoke"
+        :key="`${index}`"
+        :position="[x, y, -index * depth]"
+      >
+        <TresPlaneGeometry
+          :scale="[scale, scale, scale]"
+          :rotation="[0, 0, 0]"
+        />
         <TresMeshStandardMaterial
           :map="map"
           :depth-test="depthTest"

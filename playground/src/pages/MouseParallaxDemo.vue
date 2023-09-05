@@ -15,8 +15,13 @@ const gl = {
 
 <template>
   <TresCanvas v-bind="gl">
-    <TresPerspectiveCamera :position="[0, 0, 7.5]" :fov="75" :near="0.1" :far="1000" />
-    <TorusKnot ref="torusKnotRef">
+    <TresPerspectiveCamera
+      :position="[0, 0, 7.5]"
+      :fov="75"
+      :near="0.1"
+      :far="1000"
+    />
+    <TorusKnot>
       <TresMeshNormalMaterial />
     </TorusKnot>
     <MouseParallax :factor="3" />

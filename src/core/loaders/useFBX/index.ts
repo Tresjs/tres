@@ -1,6 +1,6 @@
 import { FBXLoader } from 'three-stdlib'
 import { useLoader } from '@tresjs/core'
-import { Object3D } from 'three'
+import type { Object3D } from 'three'
 
 /**
  * Loads an FBX file and returns a THREE.Object3D.

@@ -1,10 +1,9 @@
 <!-- eslint-disable no-console -->
 <script setup lang="ts">
-import { reactive } from 'vue'
+import { reactive, shallowRef } from 'vue'
 import { TresCanvas } from '@tresjs/core'
 import { CameraControls, useTweakPane } from '@tresjs/cientos'
 import { MathUtils, BasicShadowMap, SRGBColorSpace, NoToneMapping } from 'three'
-import { shallowRef } from 'vue'
 
 const gl = {
   clearColor: '#82DBC5',
@@ -86,12 +85,21 @@ function onEnd() {
 <template>
   <TresCanvas v-bind="gl">
     <TresPerspectiveCamera :position="[5, 5, 5]" />
-    <CameraControls v-bind="controlsState" ref="controlsRef" make-default @change="onChange" @start="onStart"
-      @end="onEnd" />
+    <CameraControls
+      v-bind="controlsState"
+      ref="controlsRef"
+      make-default
+      @change="onChange"
+      @start="onStart"
+      @end="onEnd"
+    />
     <TresGridHelper :position="[0, -1, 0]" />
     <TresMesh ref="boxMeshRef">
       <TresBoxGeometry :args="[2, 2, 2]" />
-      <TresMeshBasicMaterial color="orange" wireframe />
+      <TresMeshBasicMaterial
+        color="orange"
+        wireframe
+      />
     </TresMesh>
     <TresAmbientLight :intensity="1" />
   </TresCanvas>

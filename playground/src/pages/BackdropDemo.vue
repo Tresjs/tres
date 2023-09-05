@@ -18,8 +18,15 @@ const gl = {
   <TresCanvas v-bind="gl">
     <TresPerspectiveCamera :position="[11, 11, 11]" />
     <OrbitControls />
-    <Backdrop :floor="1.5" :scale="[20, 5, 5]">
-      <TresMeshPhysicalMaterial :roughness="1" color="#efefef" :side="2" />
+    <Backdrop
+      :floor="1.5"
+      :scale="[20, 5, 5]"
+    >
+      <TresMeshPhysicalMaterial
+        :roughness="1"
+        color="#efefef"
+        :side="2"
+      />
     </Backdrop>
     <TresAmbientLight :intensity="1" />
   </TresCanvas>

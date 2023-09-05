@@ -67,7 +67,8 @@ export async function useVideoTexture(src: string | MediaStream, options?: Parti
     const texture = await loadTexture()
     if (start && texture.image) texture.image.play()
     return texture
-  } catch {
+  }
+  catch {
     logError('Error loading resource')
   }
 }

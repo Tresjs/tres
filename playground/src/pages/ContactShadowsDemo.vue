@@ -40,7 +40,7 @@ pane.addInput(state, 'resolution', {
   max: 1024,
 })
 
-pane.addInput(state, 'color').on('change', ev => {
+pane.addInput(state, 'color').on('change', (ev) => {
   state.color = ev.value
 })
 
@@ -68,10 +68,18 @@ onLoop(() => {
     <TresPerspectiveCamera :position="[5, 5, 5]" />
 
     <OrbitControls />
-    <Box ref="boxRef" :args="[0.4, 0.4, 0.4]" :position="[0, 1, 0]">
+    <Box
+      ref="boxRef"
+      :args="[0.4, 0.4, 0.4]"
+      :position="[0, 1, 0]"
+    >
       <TresMeshNormalMaterial />
     </Box>
-    <Icosahedron ref="icoRef" :args="[0.3]" :position="[1, 1, 1]">
+    <Icosahedron
+      ref="icoRef"
+      :args="[0.3]"
+      :position="[1, 1, 1]"
+    >
       <TresMeshNormalMaterial />
     </Icosahedron>
     <ContactShadows
@@ -81,8 +89,11 @@ onLoop(() => {
       :color="state.color"
       :helper="state.helper"
     />
-    <Plane :args="[10, 10, 10]" :position="[0, -0.02, 0]">
-      <TresMeshBasicMaterial :color="'#ffffff'" />
+    <Plane
+      :args="[10, 10, 10]"
+      :position="[0, -0.02, 0]"
+    >
+      <TresMeshBasicMaterial color="#ffffff" />
     </Plane>
     <TresAmbientLight :intensity="1" />
   </TresCanvas>

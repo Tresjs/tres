@@ -3,7 +3,7 @@ import { ref, watchEffect } from 'vue'
 import { TresCanvas, useRenderLoop } from '@tresjs/core'
 import { ScrollControls, Stars, Sphere, Box } from '@tresjs/cientos'
 import { SRGBColorSpace, NoToneMapping } from 'three'
-import { TresLeches, useControls } from '@tresjs/leches';
+import { TresLeches, useControls } from '@tresjs/leches'
 import '@tresjs/leches/styles'
 
 const scRef = ref()
@@ -25,7 +25,7 @@ const gl = {
 
 useControls('fpsgraph')
 useControls({
-  progress: progress.value
+  progress: progress.value,
 })
 
 const { onLoop } = useRenderLoop()
@@ -36,16 +36,35 @@ onLoop(() => {
   }
 })
 </script>
+
 <template>
   <TresLeches class="important-fixed" />
-  <TresCanvas v-bind="gl" ref="canvasRef" window-size>
+  <TresCanvas
+    v-bind="gl"
+    window-size
+  >
     <TresPerspectiveCamera :position="[0, 2, 5]" />
     <Stars :radius="1" />
     <TresGridHelper :args="[10, 10]" />
 
-    <ScrollControls ref="scRef" v-model="progress" :distance="10" :smooth-scroll="0.1" html-scroll>
-      <Sphere ref="sphereRef" :scale="0.1" :position="[1, 2, 0]" />
-      <Box ref="boxRef" :scale="0.5" :color="0xff00ff" :position="[-1, 1, 0]" />
+    <ScrollControls
+      ref="scRef"
+      v-model="progress"
+      :distance="10"
+      :smooth-scroll="0.1"
+      html-scroll
+    >
+      <Sphere
+        ref="sphereRef"
+        :scale="0.1"
+        :position="[1, 2, 0]"
+      />
+      <Box
+        ref="boxRef"
+        :scale="0.5"
+        :color="0xff00ff"
+        :position="[-1, 1, 0]"
+      />
     </ScrollControls>
   </TresCanvas>
   <main>
@@ -61,6 +80,7 @@ onLoop(() => {
     </section>
   </main>
 </template>
+
 <style scoped>
 .fixed {
   position: fixed;

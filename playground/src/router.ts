@@ -85,7 +85,7 @@ const routes = [
     path: '/loaders/use-gltf',
     name: 'useGLTF',
     component: () => import('./pages/UseGLTFDemo.vue'),
-  }
+  },
 ]
 
 export const router = createRouter({

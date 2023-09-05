@@ -1,6 +1,8 @@
-import { AnimationAction, AnimationClip, AnimationMixer, Object3D, Scene } from 'three'
+import type { AnimationAction, AnimationClip, Object3D, Scene } from 'three'
+import { AnimationMixer } from 'three'
 import { useRenderLoop } from '@tresjs/core'
-import { ref, Ref, shallowReactive } from 'vue'
+import type { Ref } from 'vue'
+import { ref, shallowReactive } from 'vue'
 
 /**
  * Creates an AnimationMixer and returns it.
@@ -21,7 +23,7 @@ export function useAnimations<T extends AnimationClip>(
 
   const actions = shallowReactive<{ [key: string]: AnimationAction }>({})
 
-  animations.forEach(animation => {
+  animations.forEach((animation) => {
     const action = mixer.clipAction(animation, reference.value)
     actions[animation.name] = action
   })

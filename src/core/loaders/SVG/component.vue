@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import { shallowRef, toRefs, onUnmounted, watch, watchEffect } from 'vue'
-import { TresOptions, useLoader } from '@tresjs/core'
-import { SVGLoader, SVGResultPaths } from 'three-stdlib'
-import { Vector3, DoubleSide, ShapeGeometry, MeshBasicMaterialParameters, BufferGeometry } from 'three'
+import type { TresOptions } from '@tresjs/core'
+import { useLoader } from '@tresjs/core'
+import type { SVGResultPaths } from 'three-stdlib'
+import { SVGLoader } from 'three-stdlib'
+import type { MeshBasicMaterialParameters, BufferGeometry } from 'three'
+import { Vector3, DoubleSide, ShapeGeometry } from 'three'
 
 interface SVGProps {
   /**
@@ -96,66 +99,66 @@ interface SVGProps {
 }
 
 const props = withDefaults(defineProps<SVGProps>(),
-  { skipStrokes: false, skipFills: false, depth: 'renderOrder' }
-);
+  { skipStrokes: false, skipFills: false, depth: 'renderOrder' },
+)
 
-type SVGLayer = { geometry: BufferGeometry, material: MeshBasicMaterialParameters, isStroke: boolean };
+interface SVGLayer { geometry: BufferGeometry; material: MeshBasicMaterialParameters; isStroke: boolean }
 
 const { src, skipStrokes, skipFills, fillMaterial, strokeMaterial,
-  fillMeshProps, strokeMeshProps, depth } = toRefs(props);
-const svgRef = shallowRef();
-const layers = shallowRef([] as SVGLayer[]);
-const paths = shallowRef([] as SVGResultPaths[]);
+  fillMeshProps, strokeMeshProps, depth } = toRefs(props)
+const svgRef = shallowRef()
+const layers = shallowRef([] as SVGLayer[])
+const paths = shallowRef([] as SVGResultPaths[])
 
-defineExpose({ value: svgRef });
+defineExpose({ value: svgRef })
 
-watchEffect(async () => useSVG(src.value).then(SVGResult => paths.value = SVGResult.paths));
-watch([skipFills, skipStrokes, fillMaterial, strokeMaterial, paths], updateLayers);
+watchEffect(async () => useSVG(src.value).then(SVGResult => paths.value = SVGResult.paths))
+watch([skipFills, skipStrokes, fillMaterial, strokeMaterial, paths], updateLayers)
 
 async function useSVG(src: string) {
-  const srcStr = !src.startsWith('<svg') ? src : encodeURI(`data:image/svg+xml;utf8,${src}`);
-  return useLoader(SVGLoader, srcStr);
+  const srcStr = !src.startsWith('<svg') ? src : encodeURI(`data:image/svg+xml;utf8,${src}`)
+  return useLoader(SVGLoader, srcStr)
 };
 
-onUnmounted(dispose);
+onUnmounted(dispose)
 
 function dispose() {
-  layers.value.forEach(layer => layer.geometry.dispose());
+  layers.value.forEach(layer => layer.geometry.dispose())
 }
 
 function updateLayers() {
-  dispose();
+  dispose()
 
-  const _layers = [];
+  const _layers = []
 
   const [depthWrite, offsetZ] = (() => {
-    const DEPTH_WRITE = { 'flat': false, 'renderOrder': false, 'offsetZ': true };
-    const OFFSET_Z = { 'flat': 0, 'renderOrder': 0, 'offsetZ': 0.025 };
-    const d = depth.value;
-    return typeof d === 'number' ? [true, d] : [DEPTH_WRITE[d], OFFSET_Z[d]];
-  })();
+    const DEPTH_WRITE = { flat: false, renderOrder: false, offsetZ: true }
+    const OFFSET_Z = { flat: 0, renderOrder: 0, offsetZ: 0.025 }
+    const d = depth.value
+    return typeof d === 'number' ? [true, d] : [DEPTH_WRITE[d], OFFSET_Z[d]]
+  })()
 
-  let i = 0;
+  let i = 0
 
   for (const path of paths.value) {
-    const style = path.userData?.style ?? {};
+    const style = path.userData?.style ?? {}
     const fillMaterial = (Object.assign({
       color: style.fill,
       opacity: style.fillOpacity,
       transparent: true,
       side: DoubleSide,
-      depthWrite
+      depthWrite,
     },
-      props.fillMaterial));
+    props.fillMaterial))
     if (!skipFills.value && style.fill !== undefined && style.fill !== 'none') {
       for (const shape of SVGLoader.createShapes(path)) {
-        const geometry = new ShapeGeometry(shape);
-        geometry.scale(1, -1, 1);
-        if (offsetZ) geometry.translate(0, 0, (i++) * offsetZ);
+        const geometry = new ShapeGeometry(shape)
+        geometry.scale(1, -1, 1)
+        if (offsetZ) geometry.translate(0, 0, (i++) * offsetZ)
         _layers.push({
           geometry,
           material: fillMaterial,
-          isStroke: false
+          isStroke: false,
         })
       }
     }
@@ -165,34 +168,37 @@ function updateLayers() {
         opacity: path.userData?.style.strokeOpacity,
         transparent: true,
         side: DoubleSide,
-        depthWrite
+        depthWrite,
       },
-        props.strokeMaterial));
+      props.strokeMaterial))
       for (const subPath of path.subPaths) {
-        const points = subPath.getPoints().map(v2 => new Vector3(v2.x, -v2.y, 0));
-        const geometry = SVGLoader.pointsToStroke(points, style || 'none');
+        const points = subPath.getPoints().map(v2 => new Vector3(v2.x, -v2.y, 0))
+        const geometry = SVGLoader.pointsToStroke(points, style || 'none')
         if (offsetZ) {
-          geometry.translate(0, 0, (i++) * offsetZ);
+          geometry.translate(0, 0, (i++) * offsetZ)
         }
         _layers.push({
           geometry,
           material,
-          isStroke: true
+          isStroke: true,
         })
       }
     }
   }
 
-  layers.value = _layers;
+  layers.value = _layers
 }
-
 </script>
 
 <template>
   <TresGroup ref="svgRef">
-    <TresMesh v-for="({ geometry, material, isStroke }, i) of layers" :key="i + ''"
-      v-bind="isStroke ? strokeMeshProps : fillMeshProps" :geometry="geometry"
-      :render-order="depth === 'renderOrder' ? i : 0">
+    <TresMesh
+      v-for="({ geometry, material, isStroke }, i) of layers"
+      :key="`${i}`"
+      v-bind="isStroke ? strokeMeshProps : fillMeshProps"
+      :geometry="geometry"
+      :render-order="depth === 'renderOrder' ? i : 0"
+    >
       <TresMeshBasicMaterial v-bind="material" />
     </TresMesh>
   </TresGroup>

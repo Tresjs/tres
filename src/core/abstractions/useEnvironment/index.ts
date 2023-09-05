@@ -1,14 +1,16 @@
 import { useLoader, useTresContext } from '@tresjs/core'
+import type {
+  CubeTexture,
+  Texture } from 'three'
 import {
   CubeReflectionMapping,
-  CubeTexture,
   CubeTextureLoader,
   EquirectangularReflectionMapping,
   SRGBColorSpace,
-  Texture,
 } from 'three'
 import { RGBELoader } from 'three-stdlib'
-import { EnvironmentOptions, environmentPresets } from './const'
+import type { EnvironmentOptions } from './const'
+import { environmentPresets } from './const'
 
 /**
  * Component that loads an environment map and sets it as the scene's background and environment.
@@ -35,7 +37,7 @@ export async function useEnvironment({
 
   if (preset) {
     if (!(preset in environmentPresets))
-      throw new Error('Preset must be one of: ' + Object.keys(environmentPresets).join(', '))
+      throw new Error(`Preset must be one of: ${Object.keys(environmentPresets).join(', ')}`)
     files = environmentPresets[preset]
     path = 'https://raw.githubusercontent.com/Tresjs/assets/main/textures/hdr/'
   }

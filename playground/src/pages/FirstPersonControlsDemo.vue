@@ -17,7 +17,10 @@ const isActive = (state: boolean) => console.log(state)
 <template>
   <TresCanvas v-bind="gl">
     <TresPerspectiveCamera :position="[0, 3, 10]" />
-    <PointerLockControls make-default @is-lock="state => isActive(state)" />
+    <PointerLockControls
+      make-default
+      @is-lock="state => isActive(state)"
+    />
     <KeyboardControls head-bobbing />
 
     <TresGridHelper :args="[100, 100]" />

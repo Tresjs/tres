@@ -14,8 +14,8 @@ export interface FBXModelProps {
 }
 
 const props = defineProps<{
-    path: string
-  }>()
+  path: string
+}>()
 
 const modelRef = ref()
 
@@ -24,8 +24,12 @@ defineExpose({
 })
 
 const model = await useFBX(props.path as string)
-
 </script>
+
 <template>
-  <primitive ref="modelRef" :object="model" v-bind="$attrs" />
+  <primitive
+    ref="modelRef"
+    :object="model"
+    v-bind="$attrs"
+  />
 </template>

@@ -1,4 +1,5 @@
-import {  MeshStandardMaterial, MeshStandardMaterialParameters } from 'three'
+import type { MeshStandardMaterialParameters } from 'three'
+import { MeshStandardMaterial } from 'three'
 import * as MathUtils from 'three/src/math/MathUtils'
 import { Vector2 } from 'three/src/math/Vector2.js'
 import { Color } from 'three/src/math/Color.js'
@@ -44,10 +45,10 @@ class MeshGlassMaterial extends MeshStandardMaterial {
     this.ior = 1.5
 
     Object.defineProperty(this, 'reflectivity', {
-      get: function () {
+      get() {
         return MathUtils.clamp((2.5 * (this.ior - 1)) / (this.ior + 1), 0, 1)
       },
-      set: function (reflectivity) {
+      set(reflectivity) {
         this.ior = (1 + 0.4 * reflectivity) / (1 - 0.4 * reflectivity)
       },
     })
@@ -111,7 +112,6 @@ class MeshGlassMaterial extends MeshStandardMaterial {
     this.clearcoatNormalScale.copy(source.clearcoatNormalScale)
 
     this.ior = source.ior
-
 
     this.transmission = source.transmission
     this.transmissionMap = source.transmissionMap

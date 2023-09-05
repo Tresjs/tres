@@ -15,13 +15,18 @@ const gl = {
 </script>
 
 <template>
-  <TresCanvas v-bind="gl" ref="context">
+  <TresCanvas
+    v-bind="gl"
+  >
     <TresPerspectiveCamera :position="[1, 2, 1]" />
     <Suspense>
       <Feather />
     </Suspense>
     <TresAmbientLight :intensity="1" />
-    <TresDirectionalLight :intensity="1" :position="[2, 2, 2]" />
+    <TresDirectionalLight
+      :intensity="1"
+      :position="[2, 2, 2]"
+    />
     <OrbitControls />
   </TresCanvas>
 </template>

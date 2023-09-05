@@ -4,7 +4,7 @@ import { useRenderLoop, useTresContext } from '@tresjs/core'
 import { PointerLockControls } from 'three-stdlib'
 import { onKeyStroke } from '@vueuse/core'
 
-export type KeyboardControlsProps = {
+export interface KeyboardControlsProps {
   /**
    * Keys to go forward.
    * @type {string[]}
@@ -106,7 +106,7 @@ const HBAmplitude = 0.3
 const initJumpTime = ref(0)
 const wrapperRef = shallowRef()
 const _forward = is2D.value ? 'y' : 'z'
-let initCameraPos = activeCamera.value.position?.y || 0
+const initCameraPos = activeCamera.value.position?.y || 0
 
 // FORWARD DIRECTION MOVEMENTS
 onKeyStroke(
@@ -165,14 +165,13 @@ onKeyStroke(jump.value, () => {
 })
 
 // HEAD BOBBING
-const headBobbingMov = (elapsedTime: number) => {
-  return isHeadBobbing.value ? Math.sin(elapsedTime * HBSpeed) * HBAmplitude + initCameraPos : initCameraPos
-}
+const headBobbingMov = (elapsedTime: number) => isHeadBobbing.value
+  ? Math.sin(elapsedTime * HBSpeed) * HBAmplitude + initCameraPos
+  : initCameraPos
+
 // JUMP
 const getJumpTime = () => ((Date.now() - initJumpTime.value) / 1000) * 3
-const getJumpDistance = (jumpTime: number) => {
-  return initCameraPos + jumpSpeed * jumpTime - 0.5 * gravity.value * Math.pow(jumpTime, 2)
-}
+const getJumpDistance = (jumpTime: number) => initCameraPos + jumpSpeed * jumpTime - 0.5 * gravity.value * jumpTime ** 2
 
 const getJump = () => {
   if (isJumping.value) {
@@ -194,12 +193,14 @@ onLoop(({ elapsed }) => {
       activeCamera.value.position.y = headBobbing.value ? headBobbingMov(elapsed) : initCameraPos
       activeCamera.value.position.y += getJump()
     }
-  } else if (wrapperRef.value.children.length > 0 && !(controls.value instanceof PointerLockControls)) {
+  }
+  else if (wrapperRef.value.children.length > 0 && !(controls.value instanceof PointerLockControls)) {
     wrapperRef.value.position.x += xMove.value
     wrapperRef.value.position[_forward] += is2D.value ? zMove.value : -zMove.value
   }
 })
 </script>
+
 <template>
   <TresGroup ref="wrapperRef">
     <slot />

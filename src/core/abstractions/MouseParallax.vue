@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import { computed, ref, toRefs } from 'vue'
-import { Group } from 'three'
+import { computed, ref, toRefs, watch } from 'vue'
+import type { Group } from 'three'
 import { useRenderLoop, useTresContext } from '@tresjs/core'
 import { useMouse, useWindowSize } from '@vueuse/core'
-import { watch } from 'vue'
 
 export interface MouseParallaxProps {
   /**
@@ -60,11 +59,12 @@ onLoop(({ delta }) => {
 
 watch(
   () => cameraGroupRef.value,
-  value => {
+  (value) => {
     value?.add(camera.value)
   },
 )
 </script>
+
 <template>
   <TresGroup ref="cameraGroupRef" />
 </template>

@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { watchEffect, shallowRef, toRefs } from 'vue'
-import { useRenderLoop, TresColor } from '@tresjs/core'
+import type { TresColor } from '@tresjs/core'
+import { useRenderLoop } from '@tresjs/core'
 
-export type PrecipitationProps = {
+export interface PrecipitationProps {
   /**
    * The size of the drops.
    *
@@ -205,6 +206,10 @@ onLoop(() => {
       :transparent="transparent"
       :size-attenuation="sizeAttenuation"
     />
-    <TresBufferGeometry ref="geometryRef" :position="[positionArray, 3]" :velocity="[velocityArray]" />
+    <TresBufferGeometry
+      ref="geometryRef"
+      :position="[positionArray, 3]"
+      :velocity="[velocityArray]"
+    />
   </TresPoints>
 </template>

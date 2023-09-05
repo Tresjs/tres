@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { TresColor } from '@tresjs/core'
-import { OctahedronGeometry } from 'three'
+import type { TresColor } from '@tresjs/core'
+import type { OctahedronGeometry } from 'three'
 import { shallowRef, toRefs } from 'vue'
 
-export type OctahedronProps = {
+export interface OctahedronProps {
   /**
    * The radius and detail of the octahedron.
    * @default [1, 0]
@@ -30,8 +30,12 @@ defineExpose({
   value: octahedronRef,
 })
 </script>
+
 <template>
-  <TresMesh ref="octahedronRef" v-bind="$attrs">
+  <TresMesh
+    ref="octahedronRef"
+    v-bind="$attrs"
+  >
     <TresOctahedronGeometry :args="args" />
     <slot>
       <TresMeshBasicMaterial :color="color" />

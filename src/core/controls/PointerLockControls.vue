@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { ref, watch, onUnmounted } from 'vue'
 import { PointerLockControls } from 'three-stdlib'
-import { Camera } from 'three'
+import type { Camera } from 'three'
 import { useEventListener } from '@vueuse/core'
 import { useTresContext } from '@tresjs/core'
 
@@ -46,6 +46,8 @@ const props = withDefaults(defineProps<PointerLockControlsProps>(), {
   makeDefault: false,
 })
 
+const emit = defineEmits(['isLock'])
+
 const { camera: activeCamera, renderer, extend, controls } = useTresContext()
 
 const controlsRef = ref<null | PointerLockControls>(null)
@@ -53,16 +55,15 @@ let triggerSelector: HTMLElement | undefined
 
 extend({ PointerLockControls })
 
-const emit = defineEmits(['isLock'])
-
 const isLockEmitter = (event: boolean) => {
   emit('isLock', event)
 }
 
-watch(controlsRef, value => {
+watch(controlsRef, (value) => {
   if (value && props.makeDefault) {
     controls.value = value
-  } else {
+  }
+  else {
     controls.value = null
   }
   const selector = document.getElementById(props.selector || '')

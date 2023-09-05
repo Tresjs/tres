@@ -131,7 +131,12 @@ function onEnd() {
   <TresLeches />
   <TresCanvas v-bind="gl">
     <TresPerspectiveCamera :position="[3, 3, 3]" />
-    <OrbitControls v-bind="controlsState" @change="onChange" @start="onStart" @end="onEnd" />
+    <OrbitControls
+      v-bind="controlsState"
+      @change="onChange"
+      @start="onStart"
+      @end="onEnd"
+    />
     <TresGridHelper />
     <TresAmbientLight :intensity="1" />
   </TresCanvas>

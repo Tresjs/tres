@@ -1,6 +1,6 @@
-import { TextureEncoding } from 'three'
+import type { TextureEncoding } from 'three'
 
-export type EnvironmentOptions = {
+export interface EnvironmentOptions {
   /**
    * If true, the environment will be set as the scene's background.
    *

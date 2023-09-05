@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { TresColor } from '@tresjs/core'
-import { TorusKnotGeometry } from 'three'
+import type { TresColor } from '@tresjs/core'
+import type { TorusKnotGeometry } from 'three'
 import { shallowRef, toRefs } from 'vue'
 
-export type TorusKnotProps = {
+export interface TorusKnotProps {
   /**
    * The radius, tube, radialSegments, tubularSegments and p, q of the torus knot.
    * @default [1, 0.4, 64, 8, 2, 3]
@@ -31,8 +31,12 @@ defineExpose({
   value: torusKnotRef,
 })
 </script>
+
 <template>
-  <TresMesh ref="torusKnotRef" v-bind="$attrs">
+  <TresMesh
+    ref="torusKnotRef"
+    v-bind="$attrs"
+  >
     <TresTorusKnotGeometry :args="args" />
     <slot>
       <TresMeshBasicMaterial :color="color" />
