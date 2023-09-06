@@ -1,4 +1,10 @@
-# CameraControls
+# CameraControls <Badge type="warning" text="^3.2.0" />
+
+<ClientOnly>
+  <div style="aspect-ratio: 16/9; height: auto; margin: 2rem 0; border-radius: 8px; overflow:hidden;">
+    <CameraControlsDemo />
+  </div> 
+</ClientOnly>
 
 [CameraControls](https://github.com/yomotsu/camera-controls) is a camera controller similar to [OrbitControls](https://cientos.tresjs.org/guide/controls/orbit-controls.html) yet supports smooth transitions and more features.
 
