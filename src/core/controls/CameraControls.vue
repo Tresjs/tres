@@ -87,6 +87,14 @@ export interface CameraControlsProps {
   maxAzimuthAngle?: number
 
   /**
+   * Current disatnce.
+   *
+   * @type {number}
+   * @memberof CameraControlsProps
+   */
+  distance?: number
+
+  /**
    * Minimum distance for dolly. The value must be higher than `0`.
    * PerspectiveCamera only.
    *
@@ -293,6 +301,7 @@ const props = withDefaults(defineProps<CameraControlsProps>(), {
   maxPolarAngle: Math.PI,
   minAzimuthAngle: -Infinity,
   maxAzimuthAngle: Infinity,
+  distance: 8,
   minDistance: Number.EPSILON,
   maxDistance: Infinity,
   infinityDolly: false,
@@ -325,6 +334,7 @@ const {
   maxPolarAngle,
   minAzimuthAngle,
   maxAzimuthAngle,
+  distance,
   minDistance,
   maxDistance,
   infinityDolly,
@@ -408,6 +418,7 @@ defineExpose({
     :max-polar-angle="maxPolarAngle"
     :min-azimuth-angle="minAzimuthAngle"
     :max-azimuth-angle="maxAzimuthAngle"
+    :distance="distance"
     :min-distance="minDistance"
     :max-distance="maxDistance"
     :infinity-dolly="infinityDolly"
