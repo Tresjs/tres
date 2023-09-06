@@ -2,7 +2,11 @@
 
 `<Precipitation />` is a fully flexible component that renders an infinite particle flow, It comes with several props that allow you customize it to create different effects like precipitation, snow, waterfall, beams, etc.
 
-![Precipitation](/cientos/precipitation.gif)
+<ClientOnly>
+  <div style="aspect-ratio: 16/9; height: auto; margin: 2rem 0; border-radius: 8px; overflow:hidden;">
+    <PrecipitationDemo />
+  </div> 
+</ClientOnly>
 
 ## Usage
 
@@ -24,7 +28,11 @@ To create uniques effects play around with the different props available
 <template>
   <TresCanvas>
     ...
-      <Precipitation :speed="1" :count="2500" :map="myTexture" />
+    <Precipitation
+      :speed="1"
+      :count="2500"
+      :map="myTexture"
+    />
     ...
   </TresCanvas>
 </template>
