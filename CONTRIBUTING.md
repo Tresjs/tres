@@ -1,4 +1,4 @@
-![repository-banner.png](/public/github-banner.png)
+![repository-banner.png](https://res.cloudinary.com/alvarosaburido/image/upload/v1683452574/repo-banner_d2xeem.png)
 
 # Tres Contributing Guide
 
@@ -8,9 +8,25 @@ No contribution is too small, whether it is a typo in the docs, a bug report or 
 
 Thanks from the heart 💚 for taking the time to help out. This guide will help you to get started with the project.
 
+## Ecosystem
+- [@tresjs/core](https://github.com/Tresjs/tres) - The core package.
+- [@tresjs/cientos](https://github.com/Tresjs/cientos) - The abstractions package.
+- [@tresjs/postprocessing](https://github.com/Tresjs/post-processing) - The post-processing package.
+
 ## Setup
 
-Tresjs is a monorepo using [pnpm workspaces](https://pnpm.io/workspaces). Pnpm is a package manager that is faster than npm and yarn, and it also uses symlinks to avoid code duplication.
+All the packages in the ecosystem use [pnpm workspaces](https://pnpm.io/workspaces). PnPM is a package manager that is faster than npm and yarn. It also uses symlinks to avoid code duplication.
+
+The `workspace` has the following structure:
+
+
+```
+.
+├── docs // The documentation
+├── playground // The playground to test the package
+├── src // The source code
+
+```
 
 Make sure you are using [Node.js](https://nodejs.org/en/) version 14 or higher.
 
@@ -28,21 +44,24 @@ If you have the package manager installed, you can install pnpm using the follow
 brew install pnpm
 ```
 
-To develop Tres core or any of the packages, run `pnpm install` in the root of the project. This will install all the dependencies and link the packages together. There is also a `postinstall` script that will build all the packages.
 
 ## Development
 
-TresJS is an ecosystem of packages, each one of them has its own purpose. The main package is `@tresjs/core` which is the core of the library. The other packages are plugins that extend the core functionality, like `@tresjs/cientos` which is a plugin that adds a bunch abstractions and composables to make it easier to create 3D scenes.
+To start developing, you can run `pnpm playground` in the root folder.
 
-### Core
+This will start the dev server for the playground at `http://localhost:5173/` where you can test the changes you are making in the `src` folder. 
 
-You can go to the `packages/tres` folder and run `pnpm dev` to start the dev server. This will start a vite server that will watch for changes in the code and rebuild the package.
 
-This is only a playground to test the core package, to keep the `App.vue` clean create a new component with your scene and import it in the `App.vue` file.
+> **Important**
+> There is no need to run anything in the `src` folder or in the root, the `playground` will take care of it
 
-### Cientos
 
-You can go to the `packages/cientos` folder and run `pnpm build --watch` to build the package and watch for changes. That way you can test the changes in the playground on the `packages/tres` folder.
+Whenever you are working on a new feature or fixing a bug, make sure to add a demo under `playground/src/pages` and create a route in the `playground/src/router.ts` to test the changes you are making.
+
+> **Warning**
+> Make sure to check if there is already a demo for the feature you are working on. If so, feel free to add your changes to the existing demo.
+
+
 
 ### Docs
 
@@ -64,14 +83,14 @@ Before opening a pull request, make sure to run `pnpm lint` to make sure the cod
 - Please follow the [commit message conventions](https://www.conventionalcommits.org/en/v1.0.0-beta.4/) when committing your changes. This is important because the release notes will be automatically generated from these messages. Small scoped commits are always preferred, as it is easier to review them.
 - If adding new feature:
   - Provide convincing reason to add this feature. Ideally you should open a suggestion issue first and have it greenlighted before working on it. We would reject feature PRs that are not first opened as suggestions except for trivial changes.
-  - Create a `feature/{issue-number}-add-test-to-core` branch for this feature. Make the name meaningful.
-  - PR title must start with `feat(pkg): Descriptive title`. For example: `feat(core): added unit test to composables`.
+  - Create a `feature/{issue-number}-add-test-to-cientos` branch for this feature. Make the name meaningful.
+  - PR title must start with `feat(pkg): Descriptive title`. For example: `feat(cientos): added unit test to composables`.
 - If fixing a bug 🐛:
 
   - Provide detailed description of the bug in the PR. Live demo preferred.
   - Create a `fix/{issue-number}-fix-test-in-core` branch for this bug fix.
   - If you are resolving a special issue, add `(fix #xxx[,#xxx])` (#xxx is the issue id) in your PR title for a better release log, e.g. `update entities encoding/decoding (fix #3899)`.
 
-## Keep core small
+## Third Party Libraries
 
-The core package should be as small as possible, it should only contain the core functionality of the library. If you are adding a new feature, please consider adding it as a plugin instead, for example, if you want to add support for [Effect Composer](https://threejs.org/examples/?q=compo#webgl_postprocessing_effectcomposer) you should create a new package called `@tresjs/postprocessing` and add it as a plugin. If it's a smaller scope you can always add it to `cientos` package.
+Adding a new third party library is generally discouraged, unless it is absolutely necessary. If you want to add a new library, please open an issue first to discuss the best approach.
