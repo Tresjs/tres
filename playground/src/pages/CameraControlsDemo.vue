@@ -15,6 +15,7 @@ const gl = {
 }
 
 const controlsState = reactive({
+  distance: 8,
   minDistance: 0,
   maxDistance: 100,
 })
@@ -25,10 +26,10 @@ const boxMeshRef = shallowRef()
 const { pane } = useTweakPane()
 
 const distanceFolder = pane.addFolder({ title: 'Distance' })
-distanceFolder.addInput(controlsState, 'minDistance', {
+distanceFolder.addInput(controlsState, 'distance', {
   step: 0.01,
   min: 0,
-  max: 10,
+  max: 100,
 })
 distanceFolder.addInput(controlsState, 'minDistance', {
   step: 0.01,
