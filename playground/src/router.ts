@@ -52,6 +52,11 @@ const routes = [
     component: () => import('./pages/StarsDemo.vue'),
   },
   {
+    path: '/misc/stats-gl',
+    name: 'StatsGL',
+    component: () => import('./pages/StatsGlDemo.vue'),
+  },
+  {
     path: '/abstractions/text-3d',
     name: 'Text3D',
     component: () => import('./pages/Text3DDemo.vue'),

@@ -1,4 +1,5 @@
 import { useTweakPane } from './useTweakPane'
 import { stats } from './Stats'
+import { StatsGl } from './StatsGl'
 
-export { useTweakPane, stats }
+export { useTweakPane, stats, StatsGl }
