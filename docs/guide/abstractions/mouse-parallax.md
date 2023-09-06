@@ -1,6 +1,10 @@
 # MouseParallax
 
-![](/cientos/MouseParallax.gif)
+<ClientOnly>
+  <div style="aspect-ratio: 16/9; height: auto; margin: 2rem 0; border-radius: 8px; overflow:hidden;">
+    <MouseParallaxDemo />
+  </div> 
+</ClientOnly>
 
 `<MouseParallax />` is a component that allow you to create easily the pam parallax effect. The camera will update automatically according to the mouse position, creating a beautiful nice effect
 
@@ -14,7 +18,10 @@ Factor is a number to increase the movement range of the camera and ease it's a 
 <template>
   <TresCanvas>
     <MouseParallax />
-    <Text3D text="TresJS" font="/fonts/FiraCodeRegular.json">
+    <Text3D
+      text="TresJS"
+      font="/fonts/FiraCodeRegular.json"
+    >
       <TresMeshNormalMaterial />
     </Text3D>
   </TresCanvas>
