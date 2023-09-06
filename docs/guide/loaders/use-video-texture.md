@@ -1,4 +1,4 @@
-# useVideoProgress
+# useVideoProgress <Badge type="warning" text="^3.2.0" />
 
 A composable to easily use videos as textures in your meshes.
 
