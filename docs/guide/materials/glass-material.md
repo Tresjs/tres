@@ -1,6 +1,10 @@
-# MeshGlassMaterial
+# MeshGlassMaterial <Badge type="warning" text="^3.2.0" />
 
-![](/cientos/glass-material.gif)
+<ClientOnly>
+  <div style="aspect-ratio: 16/9; height: auto; margin: 2rem 0; border-radius: 8px; overflow:hidden;">
+    <GlassMaterialDemo />
+  </div> 
+</ClientOnly>
 
 The `cientos` package provides a new`<MeshGlassMaterial />` component that makes a geometry look like glass. This is achieved by re-defining the `MeshPhysicalMaterial` so all the default props can be passed normally.
 
