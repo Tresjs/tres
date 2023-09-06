@@ -1,5 +1,18 @@
 
 
+## [3.2.0](https://github.com/Tresjs/tres/compare/3.1.1...3.2.0) (2023-09-06)
+
+
+### Features
+
+* objects blocking pointer event ([#388](https://github.com/Tresjs/tres/issues/388)) ([03ab2e1](https://github.com/Tresjs/tres/commit/03ab2e1ea737f0fa9ac2b2ca421335126fd077d4))
+* renamed useCamera composable methods to prevent confusion ([#380](https://github.com/Tresjs/tres/issues/380)) ([58feabd](https://github.com/Tresjs/tres/commit/58feabd1f220a779d1e85f9f75ee453e767848ad))
+
+
+### Bug Fixes
+
+* removed boolean prop defaults from TresCanvas ([#384](https://github.com/Tresjs/tres/issues/384)) ([bb5fca5](https://github.com/Tresjs/tres/commit/bb5fca5508b1ee1e742c44bc3bf42159a815bfa1))
+
 ## [3.1.1](https://github.com/Tresjs/tres/compare/3.1.0...3.1.1) (2023-08-26)
 
 
