@@ -36,7 +36,7 @@
     "composables"
   ],
   "scripts": {
-    "playground": "cd playground && nr dev",
+    "playground": "cd playground && pnpm dev",
     "build": "vite build",
     "release": "release-it",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx,.vue",
