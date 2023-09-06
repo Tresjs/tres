@@ -1,9 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { controlsRoutes } from './routes/controls'
-import { abstractionsRoutes } from './routes/abstractions'
-import { stagingRoutes } from './routes/staging'
-import { loadersRoutes } from './routes/loaders'
-import { materialsRoutes } from './routes/materials'
+import {
+  abstractionsRoutes,
+  controlsRoutes,
+  stagingRoutes,
+  loadersRoutes,
+  materialsRoutes,
+} from './routes'
 
 const routes = [
   {
