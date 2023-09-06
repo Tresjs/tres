@@ -2,7 +2,11 @@
 
 `<Smoke />` is a component that renders a smoke in your scene. It is an abstraction that use a combination of textures, transparency and some calculation, to create a beautiful  smoke - cloud - fog effect
 
-![Smoke](/cientos/smoke.gif)
+<ClientOnly>
+  <div style="aspect-ratio: 16/9; height: auto; margin: 2rem 0; border-radius: 8px; overflow:hidden;">
+    <SmokeDemo />
+  </div> 
+</ClientOnly>
 
 ## Usage
 
@@ -15,7 +19,7 @@ You can use `<Smoke />` component without passing any props, but still if you wa
 ```vue
 <template>
   <TresCanvas>
-  ...
+    ...
     <Suspense>
       <Smoke />
     </Suspense>
@@ -29,10 +33,15 @@ Notice that you can pass a texture in combination with props,  to personalize yo
 ```vue
 <template>
   <TresCanvas>
-  ...
+    ...
     <Suspense>
-        <Smoke :speed="0.8" :segments="12" texture="my_texture_path" :color="#f7f" />
-      </Suspense>
+      <Smoke
+        :speed="0.8"
+        :segments="12"
+        texture="my_texture_path"
+        :color="#f7f"
+      />
+    </Suspense>
     ...
   </TresCanvas>
 </template>
