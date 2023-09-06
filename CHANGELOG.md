@@ -1,5 +1,19 @@
 
 
+## [0.4.0](https://github.com/Tresjs/post-processing/compare/0.3.0...0.4.0) (2023-09-06)
+
+
+### Features
+
+* refactor usecore to new state context provider ([#44](https://github.com/Tresjs/post-processing/issues/44)) ([9f920f1](https://github.com/Tresjs/post-processing/commit/9f920f1c6f2b381ba4f29b53a3dbd4276b2e4b25))
+
+
+### Bug Fixes
+
+* **deps:** update dependency @tresjs/core to v2.4.0 ([#20](https://github.com/Tresjs/post-processing/issues/20)) ([5725498](https://github.com/Tresjs/post-processing/commit/5725498d7972e673c8f8c71ff9a5ca52a3648a97))
+* **deps:** update dependency @tresjs/core to v3.1.1 ([#48](https://github.com/Tresjs/post-processing/issues/48)) ([09fc4f8](https://github.com/Tresjs/post-processing/commit/09fc4f884980ccecd7afd0a3dfb2e706cf35740b))
+* made effect composer live only when canvas has an area ([#46](https://github.com/Tresjs/post-processing/issues/46)) ([7238cb3](https://github.com/Tresjs/post-processing/commit/7238cb3af3a0400a1dd03e4fd15682895771fc85))
+
 ## [0.3.0](https://github.com/Tresjs/post-processing/compare/0.2.1...0.3.0) (2023-06-26)
 
 
