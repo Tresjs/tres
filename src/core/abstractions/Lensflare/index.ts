@@ -3,18 +3,27 @@ import { TresColor } from '@tresjs/core'
 import RandUtils from './RandUtils'
 import { linear, easeInCubic, easeInOutCubic, easeInQuart, easeOutBounce } from '../../../utils/easing'
 import Lensflare from './component.vue'
-import * as constant from './constants'
+import { defaultSeedProps, TEXTURE_PATH } from './constants'
 
 export { Lensflare }
 
+export type SeedProps = {
+  texture: string[],
+  color: TresColor[],
+  distance: [number, number],
+  size: [number, number],
+  length: [number, number]
+}
+
 export const partialLensflarePropsArrayToLensflarePropsArray = (
   partialProps: Partial<LensflareElementProps>[] | undefined,
-  seed: number | undefined,
+  seed?: number | undefined,
+  seedProps?: SeedProps[],
 ) =>
   partialPropsArrayToPropsArray<LensflareElementProps>(
     partialProps,
     seed,
-    getSeededLensflareElementProps,
+    (seed) => getSeededLensflareElementProps(seed, seedProps),
     defaultElement,
   )
 
@@ -70,27 +79,19 @@ function partialPropsArrayToPropsArray<T>(
 }
 
 const defaultElement: LensflareElementProps = {
-  texture: `${constant.TEXTURE_PATH}cirlceBlur.png`,
+  texture: `${TEXTURE_PATH}cirlceBlur.png`,
   size: 64,
   distance: 0,
   color: new Color('white'),
 }
 
-const getSeededLensflareElementProps = (seed: number): LensflareElementProps[] => {
+const getSeededLensflareElementProps = (seed=0, seedProps=defaultSeedProps): LensflareElementProps[] => {
   const rand: RandUtils = new RandUtils(seed)
 
   const easingFn = rand.choice(easingFunctions) as (n: number) => number
-
-  const bodyRequiredElementProps: LensflareElementProps[] = [
-    ...constant.bodyRequired.texture.map(texture => ({
-      texture,
-      size: rand.float(constant.bodyRequired.size[0], constant.bodyRequired.size[1]),
-      distance: rand.float(constant.bodyRequired.distance[0], constant.bodyRequired.distance[1]),
-      color: rand.defaultChoice(constant.bodyRequired.color, defaultElement.color),
-    })),
-  ]
-
-  const [oversizeElementProps, frontElementProps, bodyOptionalElementsProps, backElementProps] = [constant.oversize, constant.front, constant.bodyOptional, constant.back].map(preset => {
+  
+  return seedProps.map((preset, i) => {
+    const rand: RandUtils = new RandUtils(seed * (i * 7907 + 1))
     const numElements = rand.int(preset.length[0], preset.length[1])
     return new Array(numElements).fill(0).map(() => {
       const progress = easingFn(rand.rand())
@@ -101,7 +102,5 @@ const getSeededLensflareElementProps = (seed: number): LensflareElementProps[] =
         color: rand.defaultChoice(preset.color, defaultElement.color),
       }
     })
-  })
-
-  return [...oversizeElementProps, ...bodyRequiredElementProps, ...bodyOptionalElementsProps, ...frontElementProps, ...backElementProps]
+  }).flat()
 }
