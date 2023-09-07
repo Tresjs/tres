@@ -7,13 +7,13 @@ import { LensflareElementProps, partialLensflarePropsArrayToLensflarePropsArray 
 
 const props = withDefaults(
   defineProps<{
-    flare?: Partial<LensflareElementProps>[],
+    elements?: Partial<LensflareElementProps>[],
     scale?: number,
     seed?: number,
     seedProps?: SeedProps[]
   }>(),
   {
-    flare: undefined,
+    elements: undefined,
     scale: 1,
     seed: undefined,
     seedProps: undefined,
@@ -102,11 +102,11 @@ onUnmounted(() => {
 
 onMounted(() => {
   lensflareRef.value?.add(threeLensflare);
-  lensflareElementPropsArray.value = fillInProps(props.flare, props.seed, props.seedProps);
+  lensflareElementPropsArray.value = fillInProps(props.elements, props.seed, props.seedProps);
 })
 
-watch(() => [props.flare, props.seed, props.seedProps], () => {
-  lensflareElementPropsArray.value = fillInProps(props.flare, props.seed, props.seedProps);
+watch(() => [props.elements, props.seed, props.seedProps], () => {
+  lensflareElementPropsArray.value = fillInProps(props.elements, props.seed, props.seedProps);
 })
 
 watch(() => props.scale, () => {

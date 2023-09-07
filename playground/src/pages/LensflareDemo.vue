@@ -24,8 +24,8 @@ const color = randomColor();
 const lightRef = shallowRef();
 const seedRef = shallowRef(847);
 const seedPropsRef = shallowRef();
-const flarePropsRef = shallowRef([{ color, size: 1 }]);
-flarePropsRef.value = new Array(11).fill(0).map((_, i) => ({ size: Math.min(256 / (1 + i * i)), color }));
+const elementsRef = shallowRef([{ color, size: 1 }]);
+elementsRef.value = new Array(11).fill(0).map((_, i) => ({ size: Math.min(256 / (1 + i * i)), color }));
 
 const { onLoop } = useRenderLoop();
 
@@ -34,7 +34,7 @@ onLoop(() => {
 
     if (Math.random() > 0.99) {
         lightRef.value.color = new Color(randomColor());
-        flarePropsRef.value = getFlareProps()
+        elementsRef.value = getFlareProps()
     }
 });
 
@@ -48,7 +48,7 @@ function getFlareProps() {
         }));
 }
 
-flarePropsRef.value = getFlareProps();
+elementsRef.value = getFlareProps();
 
 const float = (lo: number, hi: number) => { return Math.random() * (hi - lo) + lo; }
 const floatSpread = (range: number) => { return Math.random() * range - range * 0.5; }
@@ -238,7 +238,7 @@ const rockMaterial = new MeshPhongMaterial({ color: 0x123141, specular: 0xffffff
         <OrbitControls />
         <Levioso :speed="1.3" :range="[-13, 13]" :rotation-factor="10">
             <TresPointLight ref="lightRef" :color="color" :intensity="1000" :position="[10, 0, 0]">
-                <Lensflare :seed="seedRef" :scale="0.5" :flare="flarePropsRef" />
+                <Lensflare :seed="seedRef" :scale="0.5" :elements="elementsRef" />
             </TresPointLight>
         </Levioso>
         <TresPointLight :color="new Color(1, 1, 1)" :intensity="2000" :position="[10, 5, 0]">
