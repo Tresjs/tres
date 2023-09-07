@@ -21,8 +21,8 @@ importers:
         specifier: ^7.0.0
         version: 7.0.0(release-it@16.1.5)
       '@tresjs/eslint-config-vue':
-        specifier: ^0.1.1
-        version: 0.1.1(@typescript-eslint/eslint-plugin@6.5.0)(eslint@8.48.0)(typescript@5.2.2)
+        specifier: ^0.2.0
+        version: 0.2.0(@typescript-eslint/eslint-plugin@6.5.0)(eslint@8.48.0)(typescript@5.2.2)
       '@typescript-eslint/eslint-plugin':
         specifier: ^6.5.0
         version: 6.5.0(@typescript-eslint/parser@6.5.0)(eslint@8.48.0)(typescript@5.2.2)
@@ -1342,8 +1342,8 @@ packages:
       - '@vue/composition-api'
     dev: true
 
-  /@tresjs/eslint-config-base@0.1.1(@typescript-eslint/eslint-plugin@6.5.0)(@typescript-eslint/parser@6.5.0)(eslint@8.48.0):
-    resolution: {integrity: sha512-BAbFYERV23H3dkFZ9ITQQrpPgPVvNqsl+CcyDlpav54ailN2zuIY28NNXkREHf8KL+QeQZZLedcDWJbffKxMgg==}
+  /@tresjs/eslint-config-base@0.2.0(@typescript-eslint/eslint-plugin@6.5.0)(@typescript-eslint/parser@6.5.0)(eslint@8.48.0):
+    resolution: {integrity: sha512-sHlTnxRXDQ/6Hbj2I7Xqk1YY4DHdq/HYYcIaqeoGXNAVDD8QhFmr1lgherWxttQjR83R7zNdeHcbiMtZDI+8Ig==}
     peerDependencies:
       eslint: '>=7.4.0'
     dependencies:
@@ -1369,13 +1369,13 @@ packages:
       - supports-color
     dev: true
 
-  /@tresjs/eslint-config-ts@0.1.1(eslint@8.48.0)(typescript@5.2.2):
-    resolution: {integrity: sha512-VkW0Pgd8OswsP1m0P5S0bupIvunA+mvtVX7vz3b08ONpxTvYzBos1FL0GmxaUrCjT1FkMDXGvNH9lth25X1Y4w==}
+  /@tresjs/eslint-config-ts@0.2.0(eslint@8.48.0)(typescript@5.2.2):
+    resolution: {integrity: sha512-S75fb1aGAajoXOsx6VAZv1IKpBBIESgsq3xkpkIwb+4rh1H2KzN41G6RMJRUcZcKkjDa5hNRZNUNjMBkbNgKtw==}
     peerDependencies:
       eslint: '>=7.4.0'
       typescript: '>=3.9'
     dependencies:
-      '@tresjs/eslint-config-base': 0.1.1(@typescript-eslint/eslint-plugin@6.5.0)(@typescript-eslint/parser@6.5.0)(eslint@8.48.0)
+      '@tresjs/eslint-config-base': 0.2.0(@typescript-eslint/eslint-plugin@6.5.0)(@typescript-eslint/parser@6.5.0)(eslint@8.48.0)
       '@typescript-eslint/eslint-plugin': 6.5.0(@typescript-eslint/parser@6.5.0)(eslint@8.48.0)(typescript@5.2.2)
       '@typescript-eslint/parser': 6.5.0(eslint@8.48.0)(typescript@5.2.2)
       eslint: 8.48.0
@@ -1386,14 +1386,14 @@ packages:
       - supports-color
     dev: true
 
-  /@tresjs/eslint-config-vue@0.1.1(@typescript-eslint/eslint-plugin@6.5.0)(eslint@8.48.0)(typescript@5.2.2):
-    resolution: {integrity: sha512-1zE4mPkwdNA/Tz44thZ0b11F2thZqzICxshGJFUZCpqSQa28gxXFpOyChjNA9sjAbSuGBvTdSRmJXUz2+naO4Q==}
+  /@tresjs/eslint-config-vue@0.2.0(@typescript-eslint/eslint-plugin@6.5.0)(eslint@8.48.0)(typescript@5.2.2):
+    resolution: {integrity: sha512-CZ7eXuUg/8uOSE6mGSawXZ42N9OEKSM4PCaAx4/bzoCdkVKmO/sZl70CVOvMQxk6opRXCsP84HHBavp0O2P57Q==}
     peerDependencies:
       eslint: '>=7.4.0'
       typescript: '>=3.9'
     dependencies:
-      '@tresjs/eslint-config-base': 0.1.1(@typescript-eslint/eslint-plugin@6.5.0)(@typescript-eslint/parser@6.5.0)(eslint@8.48.0)
-      '@tresjs/eslint-config-ts': 0.1.1(eslint@8.48.0)(typescript@5.2.2)
+      '@tresjs/eslint-config-base': 0.2.0(@typescript-eslint/eslint-plugin@6.5.0)(@typescript-eslint/parser@6.5.0)(eslint@8.48.0)
+      '@tresjs/eslint-config-ts': 0.2.0(eslint@8.48.0)(typescript@5.2.2)
       '@typescript-eslint/parser': 6.5.0(eslint@8.48.0)(typescript@5.2.2)
       eslint: 8.48.0
       eslint-plugin-vue: 9.17.0(eslint@8.48.0)
