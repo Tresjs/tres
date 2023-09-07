@@ -8,7 +8,7 @@ export /**
  * @param {number} [showPanel=0]
  * @return {*}
  */
-const stats = (showPanel = 0) => {
+const Stats = (showPanel = 0) => {
   const stats = new StatsImpl()
 
   if (stats) {
