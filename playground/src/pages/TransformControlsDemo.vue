@@ -95,16 +95,31 @@ pane.addInput(controlsState, 'showZ')
 </script>
 
 <template>
-  <TresCanvas v-bind="gl" ref="context">
+  <TresCanvas
+    v-bind="gl"
+    ref="context"
+  >
     <TresPerspectiveCamera :position="[3, 3, 3]" />
     <OrbitControls make-default />
 
-    <TresMesh ref="boxRef" :position="[-2, 1, 0]" @click="changeObject(boxRef)">
+    <TresMesh
+      ref="boxRef"
+      :position="[-2, 1, 0]"
+      @click="changeObject(boxRef)"
+    >
       <TresBoxGeometry />
       <TresMeshNormalMaterial />
     </TresMesh>
-    <TransformControls v-if="transformRef" :object="transformRef" v-bind="controlsState" />
-    <TresMesh ref="sphereRef" :position="[2, 1, 0]" @click="changeObject(sphereRef)">
+    <TransformControls
+      v-if="transformRef"
+      :object="transformRef"
+      v-bind="controlsState"
+    />
+    <TresMesh
+      ref="sphereRef"
+      :position="[2, 1, 0]"
+      @click="changeObject(sphereRef)"
+    >
       <TresSphereGeometry />
       <TresMeshNormalMaterial />
     </TresMesh>

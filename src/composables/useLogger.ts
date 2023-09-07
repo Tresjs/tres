@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 export const isProd = import.meta.env.MODE === 'production'
 
 const logPrefix = '[TresJS - Cientos ▲ ■ ♥] '
@@ -20,7 +19,9 @@ export function useLogger(): LoggerComposition {
 
   function logMessage(name: string, value: any) {
     if (!isProd) {
+      // eslint-disable-next-line no-console
       console.log(`${logPrefix} - ${name}:`, value)
+      // eslint-enabled
     }
   }
 

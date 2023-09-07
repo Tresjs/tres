@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { TresColor } from '@tresjs/core'
-import { DodecahedronGeometry } from 'three'
+import type { TresColor } from '@tresjs/core'
+import type { DodecahedronGeometry } from 'three'
 import { shallowRef, toRefs } from 'vue'
 
-export type DodecahedronProps = {
+export interface DodecahedronProps {
   /**
    * The radius and detail of the dodecahedron.
    * @default [1, 0]
@@ -31,8 +31,12 @@ defineExpose({
   value: dodecahedronRef,
 })
 </script>
+
 <template>
-  <TresMesh ref="dodecahedronRef" v-bind="$attrs">
+  <TresMesh
+    ref="dodecahedronRef"
+    v-bind="$attrs"
+  >
     <TresDodecahedronGeometry :args="args" />
     <slot>
       <TresMeshBasicMaterial :color="color" />

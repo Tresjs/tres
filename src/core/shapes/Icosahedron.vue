@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { TresColor } from '@tresjs/core'
-import { IcosahedronGeometry } from 'three'
+import type { TresColor } from '@tresjs/core'
+import type { IcosahedronGeometry } from 'three'
 import { shallowRef, toRefs } from 'vue'
 
-export type IcosahedronProps = {
+export interface IcosahedronProps {
   /**
    * The radius and detail of the icosahedron.
    * @default [1, 0]
@@ -30,8 +30,12 @@ defineExpose({
   value: icosahedronRef,
 })
 </script>
+
 <template>
-  <TresMesh ref="icosahedronRef" v-bind="$attrs">
+  <TresMesh
+    ref="icosahedronRef"
+    v-bind="$attrs"
+  >
     <TresIcosahedronGeometry :args="args" />
     <slot>
       <TresMeshBasicMaterial :color="color" />

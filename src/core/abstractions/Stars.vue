@@ -120,9 +120,13 @@ defineExpose({
   value: starsRef,
 })
 </script>
+
 <template>
   <TresPoints ref="starsRef">
-    <TresBufferGeometry :position="[position, 3]" :a-scale="[scale, 1]" />
+    <TresBufferGeometry
+      :position="[position, 3]"
+      :a-scale="[scale, 1]"
+    />
     <TresPointsMaterial
       :size="size"
       :size-attenuation="sizeAttenuation"

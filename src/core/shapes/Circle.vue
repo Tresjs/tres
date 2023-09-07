@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { TresColor } from '@tresjs/core'
-import { CircleGeometry } from 'three'
+import type { TresColor } from '@tresjs/core'
+import type { CircleGeometry } from 'three'
 import { shallowRef, toRefs } from 'vue'
 
-export type CircleProps = {
+export interface CircleProps {
   /**
    * The radius, segment, thetaStart, thetaLength of the circle.
    * @default [1, 32, 0, Math.PI * 2]
@@ -31,8 +31,12 @@ defineExpose({
   value: circleRef,
 })
 </script>
+
 <template>
-  <TresMesh ref="circleRef" v-bind="$attrs">
+  <TresMesh
+    ref="circleRef"
+    v-bind="$attrs"
+  >
     <TresCircleGeometry :args="args" />
     <slot>
       <TresMeshBasicMaterial :color="color" />

@@ -8,6 +8,7 @@ import Lensflare from './Lensflare/component.vue'
 import Levioso from './Levioso.vue'
 import ContactShadows from './ContactShadows.vue'
 import MouseParallax from './MouseParallax.vue'
+
 export * from './useEnvironment'
 export {
   Text3D,

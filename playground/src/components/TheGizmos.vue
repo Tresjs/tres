@@ -36,7 +36,7 @@ pane
     ],
     value: transformState.mode,
   })
-  .on('change', ev => {
+  .on('change', (ev) => {
     transformState.mode = ev.value
   })
 
@@ -58,24 +58,37 @@ axisFolder
     ],
     value: transformState.axis,
   })
-  .on('change', ev => {
+  .on('change', (ev) => {
     transformState.axis = ev.value
   })
 axisFolder.addInput(transformState, 'showX')
 axisFolder.addInput(transformState, 'showY')
 axisFolder.addInput(transformState, 'showZ')
 </script>
+
 <template>
   <TresCanvas v-bind="gl">
-    <TresPerspectiveCamera :position="[5, 5, 5]" :fov="45" :near="0.1" :far="1000" />
+    <TresPerspectiveCamera
+      :position="[5, 5, 5]"
+      :fov="45"
+      :near="0.1"
+      :far="1000"
+    />
     <OrbitControls make-default />
     <TresAmbientLight :intensity="0.5" />
-    <TresDirectionalLight :position="[0, 2, 4]" :intensity="1" cast-shadow />
+    <TresDirectionalLight
+      :position="[0, 2, 4]"
+      :intensity="1"
+      cast-shadow
+    />
     <TresAxesHelper />
     <TresMesh ref="boxRef">
       <TresBoxGeometry :args="[1, 1, 1]" />
       <TresMeshToonMaterial color="teal" />
     </TresMesh>
-    <TransformControls :object="boxRef" v-bind="transformState" />
+    <TransformControls
+      :object="boxRef"
+      v-bind="transformState"
+    />
   </TresCanvas>
 </template>

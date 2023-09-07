@@ -1,15 +1,16 @@
 <script setup lang="ts">
 import { computed, useSlots, shallowRef, watchEffect, toRefs, toValue } from 'vue'
-import { TextGeometry, FontLoader, TextGeometryParameters } from 'three-stdlib'
+import type { TextGeometryParameters } from 'three-stdlib'
+import { TextGeometry, FontLoader } from 'three-stdlib'
 import { useTresContext } from '@tresjs/core'
 
-export type Glyph = {
+export interface Glyph {
   _cachedOutline: string[]
   ha: number
   o: string
 }
 
-export type FontData = {
+export interface FontData {
   boundingBox: {
     yMax: number
     yMin: number
@@ -173,31 +174,31 @@ defineExpose({
 const localFont = await new Promise((resolve, reject) => {
   try {
     if (typeof font.value === 'string') {
-      loader.load(font.value, font => {
+      loader.load(font.value, (font) => {
         resolve(font)
       })
-    } else {
+    }
+    else {
       resolve(font.value)
     }
-  } catch (error) {
+  }
+  catch (error) {
     // eslint-disable-next-line no-console
     reject(console.error('cientos', error))
   }
 })
 
-const textOptions = computed(() => {
-  return {
-    font: localFont,
-    size: toValue(size),
-    height: toValue(height),
-    curveSegments: toValue(curveSegments),
-    bevelEnabled: toValue(bevelEnabled),
-    bevelThickness: toValue(bevelThickness),
-    bevelSize: toValue(bevelSize),
-    bevelOffset: toValue(bevelOffset),
-    bevelSegments: toValue(bevelSegments),
-  }
-})
+const textOptions = computed(() => ({
+  font: localFont,
+  size: toValue(size),
+  height: toValue(height),
+  curveSegments: toValue(curveSegments),
+  bevelEnabled: toValue(bevelEnabled),
+  bevelThickness: toValue(bevelThickness),
+  bevelSize: toValue(bevelSize),
+  bevelOffset: toValue(bevelOffset),
+  bevelSegments: toValue(bevelSegments),
+}))
 
 watchEffect(() => {
   if (text3DRef.value && needUpdates.value) {
@@ -209,9 +210,17 @@ watchEffect(() => {
   }
 })
 </script>
+
 <template>
-  <TresMesh v-if="font" ref="text3DRef">
-    <TresTextGeometry v-if="localText" :args="[localText, textOptions]" :center="center" />
+  <TresMesh
+    v-if="font"
+    ref="text3DRef"
+  >
+    <TresTextGeometry
+      v-if="localText"
+      :args="[localText, textOptions]"
+      :center="center"
+    />
     <slot />
   </TresMesh>
 </template>

@@ -1,10 +1,11 @@
 <!-- eslint-disable max-len -->
 <script setup lang="ts">
-import { TresColor } from '@tresjs/core'
-import { QuadraticBezierCurve3, TubeGeometry, Vector3 } from 'three'
+import type { TresColor } from '@tresjs/core'
+import type { TubeGeometry } from 'three'
+import { QuadraticBezierCurve3, Vector3 } from 'three'
 import { shallowRef, toRefs } from 'vue'
 
-export type TubeProps = {
+export interface TubeProps {
   /**
    * The curve, segments, radius, radialSegments, closed.
    * @default [new QuadraticBezierCurve3(new Vector3(-1, 0, 0), new Vector3(0, 1, 0), new Vector3(1, 0, 0)), 20, 0.2, 8, false]
@@ -41,8 +42,12 @@ defineExpose({
   value: tubeRef,
 })
 </script>
+
 <template>
-  <TresMesh ref="tubeRef" v-bind="$attrs">
+  <TresMesh
+    ref="tubeRef"
+    v-bind="$attrs"
+  >
     <TresTubeGeometry :args="args" />
     <slot>
       <TresMeshBasicMaterial :color="color" />

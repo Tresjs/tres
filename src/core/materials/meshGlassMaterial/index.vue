@@ -12,6 +12,7 @@ extend({ MeshGlassMaterial })
 
 defineExpose({ MeshGlassMaterialClass })
 </script>
+
 <template>
   <TresMeshGlassMaterial ref="MeshGlassMaterialClass" />
 </template>

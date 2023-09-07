@@ -28,6 +28,11 @@ onLoop(({ elapsed }) => {
   }
 })
 </script>
+
 <template>
-  <TresMeshWobbleMaterial ref="materialRef" :factor="factor" v-bind="$attrs" />
+  <TresMeshWobbleMaterial
+    ref="materialRef"
+    :factor="factor"
+    v-bind="$attrs"
+  />
 </template>

@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { TresColor } from '@tresjs/core'
-import { PlaneGeometry } from 'three'
+import type { TresColor } from '@tresjs/core'
+import type { PlaneGeometry } from 'three'
 import { shallowRef, toRefs } from 'vue'
 
-export type PlaneProps = {
+export interface PlaneProps {
   /**
    * The width and height, widthSegments, heightSegments of the plane.
    * @default [1, 1, 1, 1]
@@ -31,8 +31,13 @@ defineExpose({
   value: planeRef,
 })
 </script>
+
 <template>
-  <TresMesh ref="planeRef" :rotation="[-Math.PI / 2, 0, 0]" v-bind="$attrs">
+  <TresMesh
+    ref="planeRef"
+    :rotation="[-Math.PI / 2, 0, 0]"
+    v-bind="$attrs"
+  >
     <TresPlaneGeometry :args="args" />
     <slot>
       <TresMeshBasicMaterial :color="color" />

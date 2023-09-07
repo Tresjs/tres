@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { TresColor } from '@tresjs/core'
-import { BoxGeometry } from 'three'
+import type { TresColor } from '@tresjs/core'
+import type { BoxGeometry } from 'three'
 
 import { shallowRef, toRefs } from 'vue'
 
-export type BoxProps = {
+export interface BoxProps {
   /**
    * The width, height and depth of the box.
    * @default [1, 1, 1]
@@ -34,8 +34,12 @@ defineExpose({
   value: boxRef,
 })
 </script>
+
 <template>
-  <TresMesh ref="boxRef" v-bind="$attrs">
+  <TresMesh
+    ref="boxRef"
+    v-bind="$attrs"
+  >
     <TresBoxGeometry :args="args" />
     <slot>
       <TresMeshBasicMaterial :color="color" />

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useGLTF, Levioso } from '@tresjs/cientos'
-import { shallowRef } from 'vue'
-import { watchEffect } from 'vue'
+import { shallowRef, watchEffect } from 'vue'
+
 const { scene: feather, nodes } = await useGLTF('/feather.glb')
 
 /* const feather = computed(() => nodes.Sketchfab_model)
@@ -11,6 +11,7 @@ const featherRef = shallowRef()
 
 watchEffect(() => {
   if (featherRef.value) {
+    // eslint-disable-next-line no-console
     console.log(featherRef.value)
     featherRef.value.rotation.y = -Math.PI / 4
     featherRef.value.updateMatrixWorld()
@@ -19,9 +20,16 @@ watchEffect(() => {
   }
 })
 </script>
+
 <template>
-  <Levioso ref="groupRef" :speed="4">
-    <primitive ref="featherRef" :object="nodes.Sketchfab_model" :position-y="-Math.PI / 4" />
+  <Levioso
+    :speed="4"
+  >
+    <primitive
+      ref="featherRef"
+      :object="nodes.Sketchfab_model"
+      :position-y="-Math.PI / 4"
+    />
   </Levioso>
   <!--  <TresMesh ref="featherRef" v-bind="feather"></TresMesh> -->
 </template>

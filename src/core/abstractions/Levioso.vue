@@ -40,8 +40,12 @@ onLoop(({ elapsed }) => {
   groupRef.value.position.y = yPosition * props.floatFactor
 })
 </script>
+
 <template>
-  <TresGroup v-bind="$attrs" ref="groupRef">
+  <TresGroup
+    v-bind="$attrs"
+    ref="groupRef"
+  >
     <slot />
   </TresGroup>
 </template>

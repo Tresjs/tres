@@ -40,14 +40,16 @@ pane.addInput(leviosoState, 'floatFactor', {
   max: 10,
 })
 const groupRef = shallowRef()
-
 </script>
 
 <template>
   <TresCanvas v-bind="gl">
     <TresPerspectiveCamera :position="[11, 11, 11]" />
     <OrbitControls />
-    <Levioso ref="groupRef" v-bind="leviosoState">
+    <Levioso
+      ref="groupRef"
+      v-bind="leviosoState"
+    >
       <TorusKnot :position="[0, 4, 0]">
         <TresMeshNormalMaterial />
       </TorusKnot>

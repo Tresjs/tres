@@ -43,8 +43,11 @@ pane.addInput(options, 'sizeAttenuation')
 
 const star = shallowRef<Stars>(null)
 </script>
+
 <template>
-  <TresCanvas v-bind="gl" ref="canvas">
+  <TresCanvas
+    v-bind="gl"
+  >
     <TresPerspectiveCamera :position="[0, 2, 5]" />
     <MouseParallax :factor="0.5" />
     <Stars

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
 import { BasicShadowMap, NoToneMapping } from 'three'
-import { PointerLockControls, KeyboardControls } from '@tresjs/cientos'
+import { PointerLockControls, KeyboardControls, stats } from '@tresjs/cientos'
 
 const gl = {
   clearColor: '#82DBC5',
@@ -11,16 +11,22 @@ const gl = {
   toneMapping: NoToneMapping,
 }
 
+stats(0)
+
 const isActive = (state: boolean) => console.log(state)
 </script>
 
 <template>
   <TresCanvas v-bind="gl">
     <TresPerspectiveCamera :position="[0, 3, 10]" />
-    <PointerLockControls make-default @is-lock="state => isActive(state)" />
+    <PointerLockControls
+      make-default
+      @is-lock="state => isActive(state)"
+    />
     <KeyboardControls head-bobbing />
 
     <TresGridHelper :args="[100, 100]" />
     <TresAmbientLight :intensity="1" />
   </TresCanvas>
 </template>
+

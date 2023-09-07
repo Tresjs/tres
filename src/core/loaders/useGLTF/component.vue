@@ -57,6 +57,11 @@ const { scene: model } = await useGLTF(props.path as string, {
   decoderPath: props.decoderPath,
 })
 </script>
+
 <template>
-  <primitive ref="modelRef" :object="model" v-bind="$attrs" />
+  <primitive
+    ref="modelRef"
+    :object="model"
+    v-bind="$attrs"
+  />
 </template>

@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { TresColor } from '@tresjs/core'
-import { TetrahedronGeometry } from 'three'
+import type { TresColor } from '@tresjs/core'
+import type { TetrahedronGeometry } from 'three'
 import { shallowRef, toRefs } from 'vue'
 
-export type TetrahedronProps = {
+export interface TetrahedronProps {
   /**
    * The radius and detail of the tetrahedron.
    * @default [1, 0]
@@ -30,8 +30,13 @@ defineExpose({
   value: tetrahedronRef,
 })
 </script>
+
 <template>
-  <TresMesh ref="tetrahedronRef" :rotation="[-Math.PI / 2, 0, 0]" v-bind="$attrs">
+  <TresMesh
+    ref="tetrahedronRef"
+    :rotation="[-Math.PI / 2, 0, 0]"
+    v-bind="$attrs"
+  >
     <TresTetrahedronGeometry :args="args" />
     <slot>
       <TresMeshBasicMaterial :color="color" />

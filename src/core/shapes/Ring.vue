@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { TresColor } from '@tresjs/core'
-import { RingGeometry } from 'three'
+import type { TresColor } from '@tresjs/core'
+import type { RingGeometry } from 'three'
 import { shallowRef, toRefs } from 'vue'
 
-export type RingProps = {
+export interface RingProps {
   /**
    * The innerRadius, outerRadius, thetaSegments, phiSegments, tethaStart, thetaLength of the ring.
    * @default [0.5, 1, 32, 1, 0, Math.PI * 2]
@@ -32,8 +32,12 @@ defineExpose({
   value: ringRef,
 })
 </script>
+
 <template>
-  <TresMesh ref="ringRef" v-bind="$attrs">
+  <TresMesh
+    ref="ringRef"
+    v-bind="$attrs"
+  >
     <TresRingGeometry :args="args" />
     <slot>
       <TresMeshBasicMaterial :color="color" />

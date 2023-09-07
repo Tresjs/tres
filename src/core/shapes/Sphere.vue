@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { TresColor } from '@tresjs/core'
-import { SphereGeometry } from 'three'
+import type { TresColor } from '@tresjs/core'
+import type { SphereGeometry } from 'three'
 import { shallowRef, toRefs } from 'vue'
 
-export type SphereProps = {
+export interface SphereProps {
   /**
    * The radius, widthSegments, heightSegments, phiStart phiLength,
    * thetaStart and thetaLength of the sphere.
@@ -32,8 +32,12 @@ defineExpose({
   value: sphereRef,
 })
 </script>
+
 <template>
-  <TresMesh ref="sphereRef" v-bind="$attrs">
+  <TresMesh
+    ref="sphereRef"
+    v-bind="$attrs"
+  >
     <TresSphereGeometry :args="args" />
     <slot>
       <TresMeshBasicMaterial :color="color" />

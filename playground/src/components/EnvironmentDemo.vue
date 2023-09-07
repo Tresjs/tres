@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
 import { BasicShadowMap, SRGBColorSpace, NoToneMapping } from 'three'
-const environmentFiles = ['/px.jpg', '/nx.jpg', '/py.jpg', '/ny.jpg', '/pz.jpg', '/nz.jpg']
 
 import { OrbitControls, useProgress, Environment } from '@tresjs/cientos'
+
+const environmentFiles = ['/px.jpg', '/nx.jpg', '/py.jpg', '/ny.jpg', '/pz.jpg', '/nz.jpg']
 
 const gl = {
   clearColor: '#82DBC5',
@@ -30,7 +31,7 @@ const { progress, hasFinishLoading, items } = await useProgress()
     >
       <div class="w-200px">
         Loading... {{ progress }} %
-        <i class="i-ic-twotone-catching-pokemon animate-rotate-in"></i>
+        <i class="i-ic-twotone-catching-pokemon animate-rotate-in" />
       </div>
     </div>
   </Transition>
@@ -41,7 +42,7 @@ const { progress, hasFinishLoading, items } = await useProgress()
       <Environment
         background
         :files="environmentFiles"
-        :path="'https://raw.githubusercontent.com/Tresjs/assets/main/textures/environmentMap'"
+        path="https://raw.githubusercontent.com/Tresjs/assets/main/textures/environmentMap"
       />
     </Suspense>
     <TresGridHelper />

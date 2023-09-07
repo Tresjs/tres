@@ -1,6 +1,8 @@
 <script setup lang="ts">
-import { onUnmounted, shallowRef, ShallowRef, watchEffect, toRefs } from 'vue'
-import { Object3D, type Event } from 'three'
+import type { ShallowRef } from 'vue'
+import { onUnmounted, shallowRef, watchEffect, toRefs } from 'vue'
+import type { Object3D, Event } from 'three'
+
 import { TransformControls } from 'three-stdlib'
 import { useEventListener } from '@vueuse/core'
 import { useTresContext } from '@tresjs/core'
@@ -31,10 +33,10 @@ const props = withDefaults(defineProps<TransformControlsProps>(), {
   showZ: true,
 })
 
-const { object, mode, enabled, axis, translationSnap, rotationSnap, scaleSnap, space, size, showX, showY, showZ } =
-  toRefs(props)
-
 const emit = defineEmits(['dragging', 'change', 'mouseDown', 'mouseUp', 'objectChange'])
+
+const { object, mode, enabled, axis, translationSnap, rotationSnap, scaleSnap, space, size, showX, showY, showZ }
+  = toRefs(props)
 
 const controlsRef: ShallowRef<TransformControls | undefined> = shallowRef()
 
@@ -67,6 +69,7 @@ onUnmounted(() => {
   }
 })
 </script>
+
 <template>
   <TresTransformControls
     v-if="camera && renderer"

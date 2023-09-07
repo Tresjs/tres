@@ -5,17 +5,19 @@
 // As well, basically the same implementation as in pmndrs drei but with Vue Composition API
 // https://github.com/pmndrs/drei/blob/master/src/core/ContactShadows.tsx#L113
 
-import { TresColor, useRenderLoop, useTresContext } from '@tresjs/core'
-import {
-  Color,
+import type { TresColor } from '@tresjs/core'
+import { useRenderLoop, useTresContext } from '@tresjs/core'
+import type {
   ColorRepresentation,
   Material,
+  Texture } from 'three'
+import {
+  Color,
   Mesh,
   MeshDepthMaterial,
   OrthographicCamera,
   PlaneGeometry,
   ShaderMaterial,
-  Texture,
   WebGLRenderTarget,
 } from 'three'
 import { computed, shallowRef, watchEffect } from 'vue'
@@ -194,13 +196,13 @@ watchEffect(() => {
     depthMaterial.depthTest = depthMaterial.depthWrite = false
 
     // Overwrite depthMaterial sahders
-    depthMaterial.onBeforeCompile = shader => {
+    depthMaterial.onBeforeCompile = (shader) => {
       shader.uniforms = {
         ...shader.uniforms,
         ucolor: { value: props.color ? new Color(props.color as ColorRepresentation) : new Color() },
       }
       shader.fragmentShader = shader.fragmentShader.replace(
-        `void main() {`, //
+        'void main() {', //
         `uniform vec3 ucolor;
              void main() {
             `,
@@ -284,9 +286,16 @@ onLoop(() => {
   }
 })
 </script>
+
 <template>
-  <TresGroup ref="groupRef" v-bind="$attrs">
-    <TresMesh :scale="[1, -1, 1]" :geometry="planeGeometry">
+  <TresGroup
+    ref="groupRef"
+    v-bind="$attrs"
+  >
+    <TresMesh
+      :scale="[1, -1, 1]"
+      :geometry="planeGeometry"
+    >
       <TresMeshBasicMaterial
         :map="renderTarget.texture"
         :opacity="opacity"
@@ -296,7 +305,10 @@ onLoop(() => {
     </TresMesh>
     <primitive :object="blurPlane" />
 
-    <TresCameraHelper v-if="shadowCamera && helper" :args="[shadowCamera]" />
+    <TresCameraHelper
+      v-if="shadowCamera && helper"
+      :args="[shadowCamera]"
+    />
     <TresOrthographicCamera
       ref="shadowCamera"
       :position="[0, 0, 0]"

@@ -1,20 +1,21 @@
 <script setup lang="ts">
-import { BufferAttribute, PlaneGeometry } from 'three'
-import { Ref, ref, toRefs, watch } from 'vue'
+import type { BufferAttribute, PlaneGeometry } from 'three'
+import type { Ref } from 'vue'
+import { ref, toRefs, watch } from 'vue'
 
-export type BackdropProps = {
+export interface BackdropProps {
   floor?: number
   segments?: number
   receiveShadow?: boolean
 }
-
-const easeInExpo = (x: number) => (x === 0 ? 0 : Math.pow(2, 10 * x - 10))
 
 const props = withDefaults(defineProps<BackdropProps>(), {
   floor: 0.25,
   segments: 20,
   receiveShadow: false,
 })
+
+const easeInExpo = (x: number) => (x === 0 ? 0 : 2 ** (10 * x - 10))
 
 const { floor, segments, receiveShadow } = toRefs(props)
 
@@ -42,12 +43,22 @@ watch(
   },
 )
 </script>
+
 <template>
   <TresGroup v-bind="$attrs">
-    <TresMesh :receive-shadow="receiveShadow" :rotation="[-Math.PI / 2, 0, Math.PI / 2]">
-      <TresPlaneGeometry ref="planeRef" :args="[1, 1, segments, segments]" />
+    <TresMesh
+      :receive-shadow="receiveShadow"
+      :rotation="[-Math.PI / 2, 0, Math.PI / 2]"
+    >
+      <TresPlaneGeometry
+        ref="planeRef"
+        :args="[1, 1, segments, segments]"
+      />
       <slot>
-        <TresMeshStandardMaterial :color="0x808080" :side="2" />
+        <TresMeshStandardMaterial
+          :color="0x808080"
+          :side="2"
+        />
       </slot>
     </TresMesh>
   </TresGroup>

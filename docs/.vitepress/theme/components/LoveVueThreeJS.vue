@@ -1,10 +1,10 @@
 <script setup lang="ts">
 ///<reference types="vite-svg-loader" />
+import { gsap } from 'gsap'
+import { onMounted, ref } from 'vue'
 import Triangle from '../assets/triangle.svg'
 import SecondRow from '../assets/second-row.svg'
 import ThirdRow from '../assets/third-row.svg'
-import { gsap } from 'gsap'
-import { onMounted, ref } from 'vue'
 
 const triangleRef = ref()
 const secondRowRef = ref()

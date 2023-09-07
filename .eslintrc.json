@@ -1,0 +1,6 @@
+{
+  "extends": "@tresjs/eslint-config-vue",
+  "rules": {
+    "@typescript-eslint/no-use-before-define": "off"
+  }
+}
