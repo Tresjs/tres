@@ -2,6 +2,6 @@
 
 <template>
   <Suspense>
-    <GlassMaterialDemo />
+    <ModelsDemo />
   </Suspense>
 </template>
