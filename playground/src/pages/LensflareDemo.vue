@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { shallowRef } from 'vue'
+import { shallowRef, watch } from 'vue'
 import { TresCanvas, useRenderLoop } from '@tresjs/core'
 import { Levioso, Lensflare, Dodecahedron } from '@tresjs/cientos';
 import { Color, MeshPhongMaterial } from 'three';
@@ -32,7 +32,7 @@ const { onLoop } = useRenderLoop();
 onLoop(() => {
     if (!lightRef.value) return
 
-   if (Math.random() > 0.99) {
+    if (Math.random() > 0.99) {
         lightRef.value.color = new Color(randomColor());
         flarePropsRef.value = getFlareProps()
     }
@@ -213,13 +213,15 @@ const rockMaterial = new MeshPhongMaterial({ color: 0x123141, specular: 0xffffff
 
     watch(() => [
         seedRef.value,
-        oversizeSizeMin.value, oversizeSizeMax.value, oversizeLengthMin.value, oversizeLengthMax.value, 
+        oversizeSizeMin.value, oversizeSizeMax.value, oversizeLengthMin.value, oversizeLengthMax.value,
         oversizeColorA.value, oversizeColorB.value, oversizeColorC.value, oversizeSeed.value,
-        bodySizeMin.value, bodySizeMax.value, bodyLengthMin.value, bodyLengthMax.value, 
+        bodySizeMin.value, bodySizeMax.value, bodyLengthMin.value, bodyLengthMax.value,
         bodyColorA.value, bodyColorB.value, bodyColorC.value, bodySeed.value,
-        frontSizeMin.value, frontSizeMax.value, frontLengthMin.value, frontLengthMax.value, frontOffset.value, frontDistance.value, 
+        frontSizeMin.value, frontSizeMax.value, frontLengthMin.value, frontLengthMax.value, 
+        frontOffset.value, frontDistance.value,
         frontColorA.value, frontColorB.value, frontColorC.value, frontSeed.value,
-        backSizeMin.value, backSizeMax.value, backLengthMin.value, backLengthMax.value, backDistance.value, backOffset.value, 
+        backSizeMin.value, backSizeMax.value, backLengthMin.value, backLengthMax.value, 
+        backDistance.value, backOffset.value,
         backColorA.value, backColorB.value, backColorC.value, backSeed.value,
     ], updateSeedProps);
 
@@ -240,7 +242,7 @@ const rockMaterial = new MeshPhongMaterial({ color: 0x123141, specular: 0xffffff
             </TresPointLight>
         </Levioso>
         <TresPointLight :color="new Color(1, 1, 1)" :intensity="2000" :position="[10, 5, 0]">
-            <Lensflare :seed="seedRef" :seedProps="seedPropsRef" />
+            <Lensflare :seed="seedRef" :seed-props="seedPropsRef" />
         </TresPointLight>
         <Dodecahedron v-for="{ key, position, rotation, scale } in rocks" :key="key" :material="rockMaterial"
             :position="position" :rotation="rotation" :scale="scale" />

@@ -3,7 +3,7 @@ import { Lensflare, LensflareElement } from 'three/examples/jsm/objects/Lensflar
 import { TextureLoader } from 'three'
 import { watch, shallowRef, onMounted, onUnmounted } from 'vue'
 import { normalizeColor } from '@tresjs/core'
-import { LensflareElementProps, partialLensflarePropsArrayToLensflarePropsArray, SeedProps } from '.'
+import { LensflareElementProps, partialLensflarePropsArrayToLensflarePropsArray as fillInProps, SeedProps } from '.'
 
 const props = withDefaults(
   defineProps<{
@@ -102,11 +102,11 @@ onUnmounted(() => {
 
 onMounted(() => {
   lensflareRef.value?.add(threeLensflare);
-  lensflareElementPropsArray.value = partialLensflarePropsArrayToLensflarePropsArray(props.flare, props.seed, props.seedProps);
+  lensflareElementPropsArray.value = fillInProps(props.flare, props.seed, props.seedProps);
 })
 
 watch(() => [props.flare, props.seed, props.seedProps], () => {
-  lensflareElementPropsArray.value = partialLensflarePropsArrayToLensflarePropsArray(props.flare, props.seed, props.seedProps);
+  lensflareElementPropsArray.value = fillInProps(props.flare, props.seed, props.seedProps);
 })
 
 watch(() => props.scale, () => {

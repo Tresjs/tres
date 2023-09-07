@@ -24,7 +24,7 @@ export const partialLensflarePropsArrayToLensflarePropsArray = (
   partialPropsArrayToPropsArray<LensflareElementProps>(
     partialProps,
     seed,
-    (seed) => getSeededLensflareElementProps(seed, seedProps),
+    seed => getSeededLensflareElementProps(seed, seedProps),
     defaultElement,
   )
 
