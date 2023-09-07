@@ -12,7 +12,8 @@ export type SeedProps = {
   color: TresColor[],
   distance: [number, number],
   size: [number, number],
-  length: [number, number]
+  length: [number, number],
+  seed?: number
 }
 
 export const partialLensflarePropsArrayToLensflarePropsArray = (
@@ -91,7 +92,7 @@ const getSeededLensflareElementProps = (seed=0, seedProps=defaultSeedProps): Len
   const easingFn = rand.choice(easingFunctions) as (n: number) => number
   
   return seedProps.map((preset, i) => {
-    const rand: RandUtils = new RandUtils(seed * (i * 7907 + 1))
+    const rand: RandUtils = new RandUtils(seed * (i * 7907 + 1) + (typeof preset.seed === 'number' ? preset.seed : 0))
     const numElements = rand.int(preset.length[0], preset.length[1])
     return new Array(numElements).fill(0).map(() => {
       const progress = easingFn(rand.rand())

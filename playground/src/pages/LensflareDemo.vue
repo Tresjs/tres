@@ -22,7 +22,7 @@ const randomColor = () => colors[Math.trunc(Math.random() * colors.length)];
 const color = randomColor();
 
 const lightRef = shallowRef();
-const seedRef = shallowRef(1049);
+const seedRef = shallowRef(847);
 const seedPropsRef = shallowRef();
 const flarePropsRef = shallowRef([{ color, size: 1 }]);
 flarePropsRef.value = new Array(11).fill(0).map((_, i) => ({ size: Math.min(256 / (1 + i * i)), color }));
@@ -32,7 +32,7 @@ const { onLoop } = useRenderLoop();
 onLoop(() => {
     if (!lightRef.value) return
 
-    if (Math.random() > 0.99) {
+   if (Math.random() > 0.99) {
         lightRef.value.color = new Color(randomColor());
         flarePropsRef.value = getFlareProps()
     }
@@ -77,15 +77,23 @@ const rockMaterial = new MeshPhongMaterial({ color: 0x123141, specular: 0xffffff
     const rays6 = `${TEXTURE_PATH}rays6.png`
     const ring = `${TEXTURE_PATH}ring.png`
 
-    const oversizeSizeMin = shallowRef(750)
+    const oversizeSizeMin = shallowRef(512)
     const oversizeSizeMax = shallowRef(1024)
     const oversizeLengthMin = shallowRef(0)
     const oversizeLengthMax = shallowRef(2)
+    const oversizeSeed = shallowRef(1)
+    const oversizeColorA = shallowRef('#ffffff')
+    const oversizeColorB = shallowRef('#ffffff')
+    const oversizeColorC = shallowRef('#ffffff')
 
     const bodySizeMin = shallowRef(180)
     const bodySizeMax = shallowRef(512)
     const bodyLengthMin = shallowRef(2)
     const bodyLengthMax = shallowRef(4)
+    const bodySeed = shallowRef(1)
+    const bodyColorA = shallowRef('#ffffff')
+    const bodyColorB = shallowRef('#ffffff')
+    const bodyColorC = shallowRef('#808080')
 
     const frontSizeMin = shallowRef(20)
     const frontSizeMax = shallowRef(180)
@@ -93,6 +101,10 @@ const rockMaterial = new MeshPhongMaterial({ color: 0x123141, specular: 0xffffff
     const frontLengthMax = shallowRef(21)
     const frontOffset = shallowRef(0.25)
     const frontDistance = shallowRef(2.5)
+    const frontSeed = shallowRef(1)
+    const frontColorA = shallowRef('#ffffff')
+    const frontColorB = shallowRef('#808080')
+    const frontColorC = shallowRef('#a9a9a9')
 
     const backSizeMin = shallowRef(180)
     const backSizeMax = shallowRef(360)
@@ -100,70 +112,116 @@ const rockMaterial = new MeshPhongMaterial({ color: 0x123141, specular: 0xffffff
     const backLengthMax = shallowRef(5)
     const backOffset = shallowRef(0.1)
     const backDistance = shallowRef(1)
+    const backSeed = shallowRef(1)
+    const backColorA = shallowRef('#ffffff')
+    const backColorB = shallowRef('#a9a9a9')
+    const backColorC = shallowRef('#00008b')
 
     const updateSeedProps = () => {
         seedPropsRef.value = [
             {
                 texture: [line, ring],
-                color: ['white'],
+                color: [oversizeColorA.value, oversizeColorB.value, oversizeColorC.value],
                 distance: [0, 0],
                 size: [oversizeSizeMin.value, oversizeSizeMax.value],
-                length: [oversizeLengthMin.value, oversizeLengthMax.value]
+                length: [oversizeLengthMin.value, oversizeLengthMax.value],
+                seed: oversizeSeed.value
             },
             {
                 texture: [circleBlur, rays6, circleRainbow, circle],
-                color: ['white', 'gray'],
+                color: [bodyColorA.value, bodyColorB.value, bodyColorC.value],
                 distance: [0, 0],
                 size: [bodySizeMin.value, bodySizeMax.value],
-                length: [bodyLengthMin.value, bodyLengthMax.value]
+                length: [bodyLengthMin.value, bodyLengthMax.value],
+                seed: bodySeed.value
             },
             {
                 texture: [circleBlur, ring, poly6, polyStroke6],
-                color: ['white', 'gray', 'darkBlue'],
+                color: [frontColorA.value, frontColorB.value, frontColorC.value],
                 distance: [frontOffset.value, frontOffset.value + frontDistance.value],
                 size: [frontSizeMin.value, frontSizeMax.value],
-                length: [frontLengthMin.value, frontLengthMax.value]
+                length: [frontLengthMin.value, frontLengthMax.value],
+                seed: frontSeed.value
             },
             {
                 texture: [circleBlur, ring, poly6, polyStroke6],
-                color: ['white', 'gray', 'darkBlue'],
+                color: [backColorA.value, backColorB.value, backColorC.value],
                 distance: [-backOffset.value - backDistance.value, -backOffset.value],
                 size: [backSizeMin.value, backSizeMax.value],
-                length: [backLengthMin.value, backLengthMax.value]
+                length: [backLengthMin.value, backLengthMax.value],
+                seed: backSeed.value
             }
         ]
     };
 
-    watch(() => [
-        oversizeSizeMin.value, oversizeSizeMax.value, oversizeLengthMin.value, oversizeLengthMax.value,
-        bodySizeMin.value, bodySizeMax.value, bodyLengthMin.value, bodyLengthMax.value,
-        frontSizeMin.value, frontSizeMax.value, frontLengthMin.value, frontLengthMax.value, frontOffset.value, frontDistance.value,
-        backSizeMin.value, backSizeMax.value, backLengthMin.value, backLengthMax.value, backDistance.value, backOffset.value
-    ], updateSeedProps)
-    
     useControls({
         seed: seedRef,
-        oversizeSizeMin,
-        oversizeSizeMax,
-        oversizeLengthMin,
-        oversizeLengthMax,
-        bodySizeMin,
-        bodySizeMax,
-        bodyLengthMin,
-        bodyLengthMax,
-        frontOffset,
-        frontDistance,
-        frontSizeMin,
-        frontSizeMax,
-        frontLengthMin,
-        frontLengthMax,
-        backOffset,
-        backDistance,
-        backSizeMin,
-        backSizeMax,
-        backLengthMin,
-        backLengthMax,
-    })
+    });
+
+    useControls(
+        'Oversize',
+        {
+            sizeMin: oversizeSizeMin,
+            sizeMax: oversizeSizeMax,
+            lengthMin: oversizeLengthMin,
+            lengthMax: oversizeLengthMax,
+            colorA: oversizeColorA,
+            colorB: oversizeColorB,
+            colorC: oversizeColorC,
+            seed: oversizeSeed
+        });
+    useControls(
+        'Body',
+        {
+            sizeMin: bodySizeMin,
+            sizeMax: bodySizeMax,
+            lengthMin: bodyLengthMin,
+            lengthMax: bodyLengthMax,
+            colorA: bodyColorA,
+            colorB: bodyColorB,
+            colorC: bodyColorC,
+            seed: bodySeed
+        });
+    useControls(
+        'Front',
+        {
+            offset: frontOffset,
+            distance: frontDistance,
+            sizeMin: frontSizeMin,
+            sizeMax: frontSizeMax,
+            lengthMin: frontLengthMin,
+            lengthMax: frontLengthMax,
+            colorA: frontColorA,
+            colorB: frontColorB,
+            colorC: frontColorC,
+            seed: frontSeed
+        });
+    useControls(
+        'Back',
+        {
+            offset: backOffset,
+            distance: backDistance,
+            sizeMin: backSizeMin,
+            sizeMax: backSizeMax,
+            lengthMin: backLengthMin,
+            lengthMax: backLengthMax,
+            colorA: backColorA,
+            colorB: backColorB,
+            colorC: backColorC,
+            seed: backSeed
+        });
+
+    watch(() => [
+        seedRef.value,
+        oversizeSizeMin.value, oversizeSizeMax.value, oversizeLengthMin.value, oversizeLengthMax.value, 
+        oversizeColorA.value, oversizeColorB.value, oversizeColorC.value, oversizeSeed.value,
+        bodySizeMin.value, bodySizeMax.value, bodyLengthMin.value, bodyLengthMax.value, 
+        bodyColorA.value, bodyColorB.value, bodyColorC.value, bodySeed.value,
+        frontSizeMin.value, frontSizeMax.value, frontLengthMin.value, frontLengthMax.value, frontOffset.value, frontDistance.value, 
+        frontColorA.value, frontColorB.value, frontColorC.value, frontSeed.value,
+        backSizeMin.value, backSizeMax.value, backLengthMin.value, backLengthMax.value, backDistance.value, backOffset.value, 
+        backColorA.value, backColorB.value, backColorC.value, backSeed.value,
+    ], updateSeedProps);
 
     updateSeedProps();
 }
