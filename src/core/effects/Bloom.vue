@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { useTresContext } from '@tresjs/core'
+import { h, inject, onUnmounted, shallowRef, watchEffect } from 'vue'
+import type { KernelSize, BlendFunction } from 'postprocessing'
+import { EffectPass, BloomEffect } from 'postprocessing'
 import { effectComposerInjectionKey } from '../injectionKeys'
-import { inject, onUnmounted, shallowRef, watchEffect } from 'vue'
-import { KernelSize, EffectPass, BloomEffect, BlendFunction } from 'postprocessing'
 
-export type BloomProps = {
+export interface BloomProps {
   blendFunction?: BlendFunction
   /**
    * The intensity of the bloom effect.
@@ -62,9 +63,7 @@ defineExpose({ pass, effect }) // to allow users to modify pass and effect via t
 
 const { camera } = useTresContext()
 
-let unwatch: undefined | (() => void)
-
-unwatch = watchEffect(() => {
+const unwatch = watchEffect(() => {
   if (!camera.value || !composer?.value) return
 
   unwatch?.()
@@ -84,10 +83,10 @@ watchEffect(() => {
 
   effect.value.intensity = props.intensity !== undefined ? props.intensity : plainEffectPass.intensity
   effect.value.kernelSize = props.kernelSize !== undefined ? props.kernelSize : plainEffectPass.kernelSize
-  effect.value.luminanceMaterial.smoothing =
-    props.luminanceSmoothing !== undefined ? props.luminanceSmoothing : plainEffectPass.luminanceMaterial.smoothing
-  effect.value.luminanceMaterial.threshold =
-    props.luminanceThreshold !== undefined ? props.luminanceThreshold : plainEffectPass.luminanceMaterial.threshold
+  effect.value.luminanceMaterial.smoothing
+    = props.luminanceSmoothing !== undefined ? props.luminanceSmoothing : plainEffectPass.luminanceMaterial.smoothing
+  effect.value.luminanceMaterial.threshold
+    = props.luminanceThreshold !== undefined ? props.luminanceThreshold : plainEffectPass.luminanceMaterial.threshold
 
   plainEffectPass.dispose()
 })
@@ -98,4 +97,5 @@ onUnmounted(() => {
   pass.value?.dispose()
 })
 </script>
+
 <template></template>

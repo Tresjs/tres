@@ -15,7 +15,10 @@ const gl = {
 
 <template>
   <TresCanvas v-bind="gl">
-    <TresPerspectiveCamera :position="[0, 1, 5]" :look-at="[0, 0, 0]" />
+    <TresPerspectiveCamera
+      :position="[0, 1, 5]"
+      :look-at="[0, 0, 0]"
+    />
     <Suspense>
       <Text3D
         :position="[0, 1, 0]"
@@ -23,7 +26,6 @@ const gl = {
         font="https://raw.githubusercontent.com/Tresjs/assets/main/fonts/FiraCodeRegular.json"
       >
         <TresMeshStandardMaterial
-          ref="materialRef"
           color="hotpink"
           :emissive="new Color('hotpink')"
           :emissive-intensity="1.2"
@@ -33,7 +35,10 @@ const gl = {
     <TresGridHelper />
 
     <TresAmbientLight :intensity="2" />
-    <TresDirectionalLight :position="[3, 3, 3]" :intensity="1" />
+    <TresDirectionalLight
+      :position="[3, 3, 3]"
+      :intensity="1"
+    />
     <Suspense>
       <EffectComposer>
         <Glitch />

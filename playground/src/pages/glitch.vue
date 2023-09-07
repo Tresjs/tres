@@ -1,5 +1,5 @@
+<script lang="ts" setup></script>
+
 <template>
   <GlitchDemo />
 </template>
-
-<script lang="ts" setup></script>

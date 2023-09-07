@@ -1,4 +1,5 @@
 <script setup>
+// eslint-disable-next-line import/no-named-as-default
 import DefaultTheme from 'vitepress/theme'
 import LoveVueThreeJS from './components/LoveVueThreeJS.vue'
 

@@ -1,11 +1,10 @@
 <script setup lang="ts">
-import { Color } from 'three'
+import { Color, BasicShadowMap, NoToneMapping } from 'three'
 import { TresCanvas } from '@tresjs/core'
 import { OrbitControls, useTweakPane } from '@tresjs/cientos'
 import { BlendFunction } from 'postprocessing'
 import { EffectComposer, Bloom } from '@tresjs/post-processing'
 import { onMounted, reactive, ref } from 'vue'
-import { BasicShadowMap, NoToneMapping } from 'three'
 
 const gl = {
   clearColor: '#121212',
@@ -40,12 +39,22 @@ onMounted(() => {
 </script>
 
 <template>
-  <TresCanvas v-bind="gl" :disable-render="true">
-    <TresPerspectiveCamera :position="[5, 5, 5]" :look-at="[0, 0, 0]" />
+  <TresCanvas
+    v-bind="gl"
+    :disable-render="true"
+  >
+    <TresPerspectiveCamera
+      :position="[5, 5, 5]"
+      :look-at="[0, 0, 0]"
+    />
     <OrbitControls />
     <TresMesh>
       <TresSphereGeometry :args="[2, 32, 32]" />
-      <TresMeshStandardMaterial color="hotpink" :emissive="new Color('hotpink')" :emissive-intensity="9" />
+      <TresMeshStandardMaterial
+        color="hotpink"
+        :emissive="new Color('hotpink')"
+        :emissive-intensity="9"
+      />
     </TresMesh>
     <TresMesh :position="[2, 2, -2]">
       <TresSphereGeometry :args="[2, 32, 32]" />
@@ -62,10 +71,13 @@ onMounted(() => {
     </TresMesh>
     <TresGridHelper />
     <TresAmbientLight :intensity="0.5" />
-    <TresDirectionalLight :position="[3, 3, 3]" :intensity="2" />
+    <TresDirectionalLight
+      :position="[3, 3, 3]"
+      :intensity="2"
+    />
     <Suspense>
       <EffectComposer :depth-buffer="true">
-        <Bloom v-bind="bloomParams"></Bloom>
+        <Bloom v-bind="bloomParams" />
       </EffectComposer>
     </Suspense>
   </TresCanvas>

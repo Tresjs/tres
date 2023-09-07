@@ -3,7 +3,8 @@ import { TresCanvas } from '@tresjs/core'
 import { OrbitControls, useTweakPane } from '@tresjs/cientos'
 import { reactive, ref } from 'vue'
 import { EffectComposer, Outline } from '@tresjs/post-processing'
-import { BasicShadowMap, NoToneMapping, Object3D, Intersection } from 'three'
+import type { Object3D, Intersection } from 'three'
+import { BasicShadowMap, NoToneMapping } from 'three'
 
 const gl = {
   alpha: false,
@@ -37,11 +38,24 @@ pane.addInput(outlineParameters, 'visibleEdgeColor')
 
 <template>
   <TresCanvas v-bind="gl">
-    <TresPerspectiveCamera :position="[3, 3, 3]" :look-at="[2, 2, 2]" />
+    <TresPerspectiveCamera
+      :position="[3, 3, 3]"
+      :look-at="[2, 2, 2]"
+    />
     <OrbitControls />
-    <template v-for="i in 5" :key="i">
-      <TresMesh @click="toggleMeshSelectionState" :position="[i * 1.1 - 2.8, 1, 0]">
-        <TresBoxGeometry :width="4" :height="4" :depth="4" />
+    <template
+      v-for="i in 5"
+      :key="i"
+    >
+      <TresMesh
+        :position="[i * 1.1 - 2.8, 1, 0]"
+        @click="toggleMeshSelectionState"
+      >
+        <TresBoxGeometry
+          :width="4"
+          :height="4"
+          :depth="4"
+        />
         <TresMeshNormalMaterial />
       </TresMesh>
     </template>
@@ -50,7 +64,10 @@ pane.addInput(outlineParameters, 'visibleEdgeColor')
     <TresAmbientLight :intensity="1" />
     <Suspense>
       <EffectComposer>
-        <Outline :outlined-objects="outlinedObjects" v-bind="outlineParameters" />
+        <Outline
+          :outlined-objects="outlinedObjects"
+          v-bind="outlineParameters"
+        />
       </EffectComposer>
     </Suspense>
   </TresCanvas>

@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { GlitchMode, EffectPass, GlitchEffect, BlendFunction } from 'postprocessing'
+import type { BlendFunction } from 'postprocessing'
+import { GlitchMode, EffectPass, GlitchEffect } from 'postprocessing'
 import { inject, onUnmounted, shallowRef, toRaw, unref, watch, watchEffect } from 'vue'
 
-import { Vector2, Texture } from 'three'
+import type { Vector2, Texture } from 'three'
 
-import { effectComposerInjectionKey } from '../injectionKeys'
 import { useTresContext } from '@tresjs/core'
+import { effectComposerInjectionKey } from '../injectionKeys'
 
 export interface GlitchProps {
   blendFunction?: BlendFunction
@@ -106,9 +107,7 @@ defineExpose({ pass, effect }) // to allow users to modify pass and effect via t
 
 const { camera } = useTresContext()
 
-let unwatch: undefined | (() => void)
-
-unwatch = watchEffect(() => {
+const unwatch = watchEffect(() => {
   if (!camera.value || !composer?.value) return
 
   unwatch?.()
@@ -138,10 +137,10 @@ watchEffect(() => {
   effect.value.columns = props.columns !== undefined ? props.columns : plainEffectPass.columns
   effect.value.duration = props.duration !== undefined ? props.duration : plainEffectPass.duration
   effect.value.strength = props.strength !== undefined ? props.strength : plainEffectPass.strength
-  effect.value.perturbationMap =
-    props.perturbationMap !== undefined ? props.perturbationMap : plainEffectPass.perturbationMap
-  effect.value.chromaticAberrationOffset =
-    props.chromaticAberrationOffset !== undefined
+  effect.value.perturbationMap
+    = props.perturbationMap !== undefined ? props.perturbationMap : plainEffectPass.perturbationMap
+  effect.value.chromaticAberrationOffset
+    = props.chromaticAberrationOffset !== undefined
       ? props.chromaticAberrationOffset
       : plainEffectPass.chromaticAberrationOffset
 })
@@ -152,4 +151,5 @@ onUnmounted(() => {
   pass.value?.dispose()
 })
 </script>
+
 <template></template>

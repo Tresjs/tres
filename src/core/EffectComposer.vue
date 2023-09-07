@@ -1,13 +1,15 @@
 <script setup lang="ts">
 import { HalfFloatType } from 'three'
-import { TresObject, useRenderLoop, useTresContext } from '@tresjs/core'
+import type { TresObject } from '@tresjs/core'
+import { useRenderLoop, useTresContext } from '@tresjs/core'
 import { DepthDownsamplingPass, EffectComposer as EffectComposerImpl, NormalPass, RenderPass } from 'postprocessing'
 
 import { isWebGL2Available } from 'three-stdlib'
+import type { ShallowRef } from 'vue'
+import { computed, provide, shallowRef, watch, onUnmounted, watchEffect } from 'vue'
 import { effectComposerInjectionKey } from './injectionKeys'
-import { ShallowRef, computed, provide, shallowRef, watch, onUnmounted, watchEffect } from 'vue'
 
-export type EffectComposerProps = {
+export interface EffectComposerProps {
   enabled?: boolean
   children?: TresObject[]
   depthBuffer?: boolean
@@ -68,8 +70,8 @@ const effectComposerParams = computed(() => {
     multisampling: isWebGL2Available()
       ? 0
       : props.multisampling !== undefined
-      ? props.multisampling
-      : plainEffectComposer.multisampling,
+        ? props.multisampling
+        : plainEffectComposer.multisampling,
     frameBufferType: props.frameBufferType !== undefined ? props.frameBufferType : HalfFloatType,
   }
   plainEffectComposer.dispose()
@@ -110,6 +112,7 @@ onUnmounted(() => {
   effectComposer.value?.dispose()
 })
 </script>
+
 <template>
   <slot />
 </template>

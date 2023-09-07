@@ -1,14 +1,14 @@
 <script lang="ts" setup>
 import { normalizeColor, useTresContext } from '@tresjs/core'
 import { EffectPass, OutlineEffect } from 'postprocessing'
-import { effectComposerInjectionKey } from '../injectionKeys'
 import { inject, onUnmounted, shallowRef, watch, watchEffect, computed } from 'vue'
 
 import type { TresColor } from '@tresjs/core'
 import type { Object3D, Scene, Texture } from 'three'
 import type { BlendFunction, KernelSize } from 'postprocessing'
+import { effectComposerInjectionKey } from '../injectionKeys'
 
-export type OutlineProps = {
+export interface OutlineProps {
   /**
    * The objects in the scene which should have an outline.
    */
@@ -106,9 +106,7 @@ const outlineEffectParameters = computed<OutlineEffectParameters>(() => {
 
 const { camera, scene } = useTresContext()
 
-let unwatch: undefined | (() => void)
-
-unwatch = watchEffect(() => {
+const unwatch = watchEffect(() => {
   if (!camera.value || !composer?.value || !scene.value) return
 
   unwatch?.()
@@ -163,10 +161,10 @@ watchEffect(() => {
   effect.value.patternScale = patternScale !== undefined ? patternScale : plainEffectPass.patternScale
   effect.value.multisampling = multisampling !== undefined ? multisampling : plainEffectPass.multisampling
 
-  effect.value.hiddenEdgeColor =
-    hiddenEdgeColor !== undefined ? normalizeColor(hiddenEdgeColor) : plainEffectPass.hiddenEdgeColor
-  effect.value.visibleEdgeColor =
-    visibleEdgeColor !== undefined ? normalizeColor(visibleEdgeColor) : plainEffectPass.visibleEdgeColor
+  effect.value.hiddenEdgeColor
+    = hiddenEdgeColor !== undefined ? normalizeColor(hiddenEdgeColor) : plainEffectPass.hiddenEdgeColor
+  effect.value.visibleEdgeColor
+    = visibleEdgeColor !== undefined ? normalizeColor(visibleEdgeColor) : plainEffectPass.visibleEdgeColor
 
   plainEffectPass.dispose()
 })
