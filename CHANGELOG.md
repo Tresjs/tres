@@ -1,5 +1,18 @@
 
 
+## [0.9.0](https://github.com/Tresjs/leches/compare/0.8.0...0.9.0) (2023-09-08)
+
+
+### Features
+
+* multiple controls now return object ([9f82e9c](https://github.com/Tresjs/leches/commit/9f82e9caf37ced8365a1b356ed5455fb59443e0f))
+
+
+### Bug Fixes
+
+* check if object past is reactive ([b89b2d3](https://github.com/Tresjs/leches/commit/b89b2d3c3baf45c3960e87c5f3cdfc123146710e))
+* fixed problem with reactivity when multiple vector controls ([22d2ed2](https://github.com/Tresjs/leches/commit/22d2ed22e2b6264653efb1610388b62ac35d829d))
+
 ## [0.8.0](https://github.com/Tresjs/leches/compare/0.7.0...0.8.0) (2023-08-30)
 
 
