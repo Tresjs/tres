@@ -59,9 +59,10 @@ const lensflareElementPropsToLensflareElement = (p: LensflareElementProps) => {
 
 const updateThreeElements = () => {
   while (lensflareElementPropsArray.value.length > threeElements.length) {
-    const element = { ... lensflareElementPropsToLensflareElement(lensflareElementPropsArray.value[threeElements.length]) };
-    threeElements.push(element)
-    threeLensflare.addElement(element)
+    const element = lensflareElementPropsToLensflareElement(lensflareElementPropsArray.value[threeElements.length])
+    const copy = { ... element }
+    threeElements.push(copy)
+    threeLensflare.addElement(copy)
   }
 
   lensflareElementPropsArray.value.forEach((elementProps, i) => {
@@ -99,7 +100,7 @@ const scaleThreeElements = () => {
   }
 
   lensflareElementPropsArray.value.forEach((elementProps, i) => {
-    threeElements[i].size = elementProps.size * props.scale;
+    threeElements[i].size = elementProps.size * props.scale
   })
 }
 
