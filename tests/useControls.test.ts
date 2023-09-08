@@ -9,7 +9,7 @@ describe('useControls', () => {
 
   /* describe('when pass a string', () => {}) */
 
-  describe('when pass an plain object', () => {
+  describe('when pass an single control object', () => {
     /*
     const obj = useControls({ test: 'awiwi' })
     */
@@ -21,11 +21,6 @@ describe('useControls', () => {
       const { visible, value } = useControls({ test: true })
       expect(isRef(value)).toBe(true)
       expect(isRef(visible)).toBe(true)
-    })
-    it('should return an array of controls with ref properties if object has multiple properties', () => {
-      const controls = useControls({ test: true, test2: true })
-      expect(controls).toHaveLength(2)
-      expect(isRef(controls[0].value)).toBe(true)
     })
   /*   it('should return refs of all properties', () => {
       const { value } = useControls({ test: true })
@@ -42,6 +37,14 @@ describe('useControls', () => {
     }) */
 
 
+  })
+
+  describe('when pass multiple controls', () => {
+    it('should return an array of controls with ref properties if object has multiple properties', () => {
+      const controls = useControls({ test: true, test2: true })
+      expect(Object.keys(controls)).toHaveLength(2)
+      expect(isRef(controls.test.value)).toBe(true)
+    })
   })
 
   /* describe('when pass an object', () => {

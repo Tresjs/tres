@@ -1,180 +1,57 @@
 <script setup lang="ts">
-import { Vector3 } from 'three'
 import { TresCanvas } from '@tresjs/core'
-import { OrbitControls } from '@tresjs/cientos'
-
+import { BasicShadowMap, SRGBColorSpace, NoToneMapping } from 'three'
 import { TresLeches, useControls } from '@tresjs/leches'
 import '@tresjs/leches/style.css'
-import { reactive, ref, watchEffect } from 'vue'
+import { OrbitControls } from '@tresjs/cientos'
+import { watch, watchEffect } from 'vue'
 
-const gl = reactive({
+const gl = {
   clearColor: '#82DBC5',
+  shadows: true,
+  alpha: false,
+  shadowMapType: BasicShadowMap,
+  outputColorSpace: SRGBColorSpace,
+  toneMapping: NoToneMapping,
+}
+
+useControls('fpsgraph')
+
+// Single control
+
+const { value: test } = useControls({
+  test: false,
 })
 
-useControls('fpsgraph', {
-  uuid: 'second',
-})
-
-useControls(gl, {
-  uuid: 'second',
-})
-// Refs
-
-// Reactive
-
-// Plain Objects
-const [{ value: test }, { value: awiwi }] = useControls({ test: true, awiwi: 'awiwi' })
-console.log('test', test)
-console.log('awiwi', awiwi)
-
-watchEffect(() => {
-  console.log('test', test.value)
-})
-watchEffect(() => {
-  console.log('awiwi', awiwi.value)
-})
-// Objects with ref values
-const { wireframe } = useControls({
-  wireframe: ref(false),
+watch(test, (value) => {
+  console.log('Watcher', value)
 })
 
 watchEffect(() => {
-  console.log('wireframe', wireframe.value)
+  console.log('Single control', test.value)
 })
 
-// Objects with reactive values
-const cameraPosition = reactive(new Vector3(0, 0, 0))
+// Double control
 
-const { position } = useControls({
-  position: cameraPosition,
-})
-
-watchEffect(() => {
-  console.log('cameraPosition', position.value)
-})
-
-// Objects with options
-const { zoom } = useControls({
-  zoom: { value: 1, min: 0, max: 10, step: 0.1, icon: 'ic-baseline-arrow-forward' },
+const { awiwi, color } = useControls({
+  awiwi: false,
+  color: '#ff0000',
 })
 
 watchEffect(() => {
-  console.log('zoom', zoom.value)
+  console.log('Double control', awiwi.value.value)
 })
-
-// Folders
-const folder = useControls('Box', {
-  positionX: { value: 1, min: 0, max: 10, step: 0.1, icon: 'ic-baseline-arrow-forward' },
-  positionY: { value: 1, min: 0, max: 10, step: 0.1, icon: 'ic-baseline-arrow-forward' },
-})
-
-console.log('folder', folder)
-
-const { dropdown } = useControls({
-  dropdown: {
-    options: [
-      { text: 'loading', value: 'LDG' },
-      { text: 'menu', value: 'MNU' },
-      { text: 'field', value: 'FLD' }],
-    value: 'LDG',
-  },
-})
-
-watchEffect(() => {
-  console.log('dropdown', dropdown.value)
-})
-
-/* const { wireframe } = useControls({
-  wireframe: ref(false),
-}) */
-const boxPosition = reactive(new Vector3(0, 0, 0))
-const boxRotation = reactive(new Vector3(0, Math.PI, 0))
-const boxRef = ref()
-const cameraRef = ref()
-
-useControls({
-  slider: { value: 1, min: 0, max: 10, step: 0.1, icon: 'ic-baseline-arrow-forward' },
-}, {
-  uuid: 'second',
-})
-
-/* const fps = useControls('fpsgraph')
-
-const { awiwi } = useControls({ 
-  awiwi: { value: 1, min: 0, max: 10, step: 0.1, icon: 'ic-baseline-arrow-forward' } 
-}) */
-
-/* console.log('wireframe',useControls({wireframe})) */
-
-/* useControls(gl) */
-/* useControls('fpsgraph')
-useControls(gl)
-
-useControls('Box', {
-  position: boxPosition,
-  rotation: boxRotation,
-  wireframe,
-})
- */
-/* const boxControls = useControls('Box', {
-  position: boxPosition,
-  rotation: boxRotation,
-  wireframe,
-}) */
-
-/* const state = useControls({
-  label: 'test',
-  options: [{ text: 'loading', value: 'LDG' },
-  { text: 'menu', value: 'MNU' },
-  { text: 'field', value: 'FLD' },],
-  value: 'LDG',
-}) */
-
-/* const unwatch = watch(cameraRef, value => {
-  if (value) {
-    useControls('Camera', {
-      position: cameraRef.value.position,
-      rotation: cameraRef.value.rotation,
-    })
-    unwatch()
-  }
-}) */
-/* watchEffect(() => {
-  console.log(state.test.value)
-}) */
 </script>
 
 <template>
   <TresLeches />
-  <TresLeches uuid="second" />
-  <TresCanvas v-bind="gl">
-    <TresPerspectiveCamera
-      ref="cameraRef"
-      :position-x="position.x"
-      :look-at="[1, 2, 0]"
-    />
-    <TresMesh
-      ref="boxRef"
-      :position-x="boxPosition.x"
-      :position-y="boxPosition.y"
-      :position-z="boxPosition.z"
-      :rotation-x="boxRotation.x"
-      :rotation-y="boxRotation.y"
-      :rotation-z="boxRotation.z"
-      :scale="[2, 2, 2]"
-    >
-      <TresBoxGeometry />
-      <TresMeshNormalMaterial
-        color="teal"
-        :wireframe="wireframe"
-      />
-    </TresMesh>
+  <TresCanvas
+    v-bind="gl"
+    :clear-color="color.value"
+  >
+    <TresPerspectiveCamera :position="[3, 3, 3]" />
+    <OrbitControls />
     <TresGridHelper />
     <TresAmbientLight :intensity="1" />
-    <TresDirectionalLight
-      :position="[3, 3, 3]"
-      :intensity="1"
-    />
-    <OrbitControls />
   </TresCanvas>
 </template>
