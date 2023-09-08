@@ -135,6 +135,7 @@ watchEffect(() => {
     <TresMesh
       ref="boxRef"
       :position="[position.value.x, position.value.y, position.value.z]"
+      :rotation="[rotation.value.x, rotation.value.y, rotation.value.z]"
       :scale="[2, 2, 2]"
     >
       <TresBoxGeometry />
