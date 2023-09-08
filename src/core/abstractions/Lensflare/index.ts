@@ -1,18 +1,24 @@
-import { Texture, MathUtils, Color } from 'three'
-import { TresColor } from '@tresjs/core'
+import { MathUtils, Color } from 'three'
+import type { TresColor } from '@tresjs/core'
+import {
+  linear,
+  easeInCubic,
+  easeInOutCubic,
+  easeInQuart,
+  easeOutBounce,
+} from '../../../utils/easing'
 import RandUtils from './RandUtils'
-import { linear, easeInCubic, easeInOutCubic, easeInQuart, easeOutBounce } from '../../../utils/easing'
 import Lensflare from './component.vue'
 import { defaultSeedProps, TEXTURE_PATH } from './constants'
 
 export { Lensflare }
 
-export type SeedProps = {
-  texture: string[],
-  color: TresColor[],
-  distance: [number, number],
-  size: [number, number],
-  length: [number, number],
+export interface SeedProps {
+  texture: string[]
+  color: TresColor[]
+  distance: [number, number]
+  size: [number, number]
+  length: [number, number]
   seed?: number
 }
 
@@ -28,11 +34,17 @@ export const partialLensflarePropsArrayToLensflarePropsArray = (
     defaultElement,
   )
 
-const easingFunctions = [linear, easeInCubic, easeInOutCubic, easeInQuart, easeOutBounce]
+const easingFunctions = [
+  linear,
+  easeInCubic,
+  easeInOutCubic,
+  easeInQuart,
+  easeOutBounce,
+]
 
 const lerp = MathUtils.lerp
 
-export type LensflareElementProps = {
+export interface LensflareElementProps {
   texture: Texture | string
   size: number
   distance: number
@@ -66,14 +78,21 @@ function partialPropsArrayToPropsArray<T>(
 
   if (hasPartialProps) {
     if (hasSeed) {
-      return getSeededPropsArray(seed).map((seededProps, i) => Object.assign({}, seededProps, partialProps[i]))
-    } else {
-      return partialProps.map(props => Object.assign({}, defaultProps, props))
+      return getSeededPropsArray(seed).map((seededProps, i) =>
+        Object.assign({}, seededProps, partialProps[i]),
+      )
     }
-  } else {
+    else {
+      return partialProps.map(props =>
+        Object.assign({}, defaultProps, props),
+      )
+    }
+  }
+  else {
     if (hasSeed) {
       return getSeededPropsArray(seed)
-    } else {
+    }
+    else {
       return getSeededPropsArray(0)
     }
   }
@@ -86,22 +105,30 @@ const defaultElement: LensflareElementProps = {
   color: new Color('white'),
 }
 
-const getSeededLensflareElementProps = (seed=0, seedProps=defaultSeedProps): LensflareElementProps[] => {
+const getSeededLensflareElementProps = (
+  seed = 0,
+  seedProps = defaultSeedProps,
+): LensflareElementProps[] => {
   const rand: RandUtils = new RandUtils(seed)
 
   const easingFn = rand.choice(easingFunctions) as (n: number) => number
-  
-  return seedProps.map((preset, i) => {
-    const rand: RandUtils = new RandUtils(seed * (i * 7907 + 1) + (typeof preset.seed === 'number' ? preset.seed : 0))
-    const numElements = rand.int(preset.length[0], preset.length[1])
-    return new Array(numElements).fill(0).map(() => {
-      const progress = easingFn(rand.rand())
-      return {
-        texture: rand.defaultChoice(preset.texture, defaultElement.texture),
-        size: lerp(preset.size[0], preset.size[1], easingFn(1 - progress)),
-        distance: lerp(preset.distance[0], preset.distance[1], progress),
-        color: rand.defaultChoice(preset.color, defaultElement.color),
-      }
+
+  return seedProps
+    .map((preset, i) => {
+      const rand: RandUtils = new RandUtils(
+        seed * (i * 7907 + 1)
+          + (typeof preset.seed === 'number' ? preset.seed : 0),
+      )
+      const numElements = rand.int(preset.length[0], preset.length[1])
+      return new Array(numElements).fill(0).map(() => {
+        const progress = easingFn(rand.rand())
+        return {
+          texture: rand.defaultChoice(preset.texture, defaultElement.texture),
+          size: lerp(preset.size[0], preset.size[1], easingFn(1 - progress)),
+          distance: lerp(preset.distance[0], preset.distance[1], progress),
+          color: rand.defaultChoice(preset.color, defaultElement.color),
+        }
+      })
     })
-  }).flat()
+    .flat()
 }

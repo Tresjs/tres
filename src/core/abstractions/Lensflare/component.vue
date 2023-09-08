@@ -1,15 +1,17 @@
 <script setup lang="ts">
-import { Lensflare, LensflareElement } from 'three/examples/jsm/objects/Lensflare'
+import type { LensflareElement } from 'three/examples/jsm/objects/Lensflare'
+import { Lensflare } from 'three/examples/jsm/objects/Lensflare'
 import { TextureLoader } from 'three'
 import { watch, shallowRef, onMounted, onUnmounted } from 'vue'
 import { normalizeColor } from '@tresjs/core'
-import { LensflareElementProps, partialLensflarePropsArrayToLensflarePropsArray as fillInProps, SeedProps } from '.'
+import type { LensflareElementProps, SeedProps } from '.'
+import { partialLensflarePropsArrayToLensflarePropsArray as fillInProps } from '.'
 
 const props = withDefaults(
   defineProps<{
-    elements?: Partial<LensflareElementProps>[],
-    scale?: number,
-    seed?: number,
+    elements?: Partial<LensflareElementProps>[]
+    scale?: number
+    seed?: number
     seedProps?: SeedProps[]
   }>(),
   {
@@ -20,67 +22,72 @@ const props = withDefaults(
   },
 )
 
-const lensflareRef = shallowRef<Lensflare>();
-const lensflareElementPropsArray = shallowRef<LensflareElementProps[]>([]);
+const lensflareRef = shallowRef<Lensflare>()
+const lensflareElementPropsArray = shallowRef<LensflareElementProps[]>([])
 
 defineExpose({
   value: lensflareRef,
-});
+})
 
-const textureLoader = new TextureLoader();
+const textureLoader = new TextureLoader()
 
-const threeLensflare = new Lensflare();
+const threeLensflare = new Lensflare()
 // NOTE: THREE.Lensflare doesn't expose `elements` – the "parts" of a lensflare. 
 // We'll maintain references that we can update.
-const threeElements: LensflareElement[] = [];
+const threeElements: LensflareElement[] = []
 
 const dispose = () => {
-  while (threeElements.length) threeElements.pop();
-  lensflareRef.value?.children.forEach((c: any) => { if ('dispose' in c) c.dispose(); });
-  lensflareRef.value?.remove(...lensflareRef.value.children);
-  lensflareRef.value?.dispose();
+  while (threeElements.length) threeElements.pop()
+  lensflareRef.value?.children.forEach((c: any) => { 
+    if ('dispose' in c) {
+      c.dispose() 
+    }
+  })
+  lensflareRef.value?.remove(...lensflareRef.value.children)
+  lensflareRef.value?.dispose()
 }
 
 const lensflareElementPropsToLensflareElement = (p: LensflareElementProps) => {
   if (typeof p.texture === 'string') {
-    const path = p.texture;
-    p.texture = textureLoader.load(path);
-    p.texture.name = path;
+    const path = p.texture
+    p.texture = textureLoader.load(path)
+    p.texture.name = path
   }
-  p.color = normalizeColor(p.color);
-  return p as LensflareElement;
+  p.color = normalizeColor(p.color)
+  return p as LensflareElement
 }
 
 const updateThreeElements = () => {
   while (lensflareElementPropsArray.value.length > threeElements.length) {
-    const element = lensflareElementPropsToLensflareElement(lensflareElementPropsArray.value[threeElements.length]);
-    threeElements.push(element);
-    threeLensflare.addElement(element);
+    const element = lensflareElementPropsToLensflareElement(lensflareElementPropsArray.value[threeElements.length])
+    threeElements.push(element)
+    threeLensflare.addElement(element)
   }
 
   lensflareElementPropsArray.value.forEach((elementProps, i) => {
-    const threeElement = threeElements[i];
-    const { texture, size, distance, color } = elementProps;
+    const threeElement = threeElements[i]
+    const { texture, size, distance, color } = elementProps
     if (typeof texture === 'string') {
       if (threeElement.texture.name !== texture) {
-        threeElement.texture.dispose();
-        const name = texture;
-        threeElement.texture = textureLoader.load(name);
-        threeElement.texture.name = name;
+        threeElement.texture.dispose()
+        const name = texture
+        threeElement.texture = textureLoader.load(name)
+        threeElement.texture.name = name
       }
-    } else {
+    }
+    else {
       if (threeElement.texture !== texture) {
-        threeElement.texture.dispose();
-        threeElement.texture = texture;
+        threeElement.texture.dispose()
+        threeElement.texture = texture
       }
     }
 
-    threeElement.size = size;
-    threeElement.distance = distance;
-    threeElement.color = normalizeColor(color);
-  });
+    threeElement.size = size
+    threeElement.distance = distance
+    threeElement.color = normalizeColor(color)
+  })
 
-  scaleThreeElements();
+  scaleThreeElements()
 }
 
 const scaleThreeElements = () => {
@@ -88,37 +95,36 @@ const scaleThreeElements = () => {
   // So if we've previously added more elements than are currently needed, 
   // make those elements too small to display.
   for (let i = lensflareElementPropsArray.value.length - 1; i < threeElements.length; i++) {
-    threeElements[i].size = 0;
+    threeElements[i].size = 0
   }
 
   lensflareElementPropsArray.value.forEach((elementProps, i) => {
-    threeElements[i].size = elementProps.size * props.scale;
-  });
+    threeElements[i].size = elementProps.size * props.scale
+  })
 }
 
 onUnmounted(() => {
-  dispose();
-});
+  dispose()
+})
 
 onMounted(() => {
-  lensflareRef.value?.add(threeLensflare);
-  lensflareElementPropsArray.value = fillInProps(props.elements, props.seed, props.seedProps);
+  lensflareRef.value?.add(threeLensflare)
+  lensflareElementPropsArray.value = fillInProps(props.elements, props.seed, props.seedProps)
 })
 
 watch(() => [props.elements, props.seed, props.seedProps], () => {
-  lensflareElementPropsArray.value = fillInProps(props.elements, props.seed, props.seedProps);
+  lensflareElementPropsArray.value = fillInProps(props.elements, props.seed, props.seedProps)
 })
 
 watch(() => props.scale, () => {
-  scaleThreeElements();
-});
+  scaleThreeElements()
+})
 
 watch(() => lensflareElementPropsArray.value, () => {
-  updateThreeElements();
-});
-
+  updateThreeElements()
+})
 </script>
 
 <template>
-  <TresGroup ref="lensflareRef"></TresGroup>
+  <TresGroup ref="lensflareRef" />
 </template>
