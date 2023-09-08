@@ -36,7 +36,8 @@ useControls({
     min: 0,
     max: 1,
     step: 0.01,
-  }
+  },
+  color: '#008080',
 })
 
 </script>
@@ -47,3 +48,4 @@ useControls({
 ```
 
 <GettingStartedDemo />
+

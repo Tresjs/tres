@@ -60,8 +60,8 @@ export const useControls = (
   folderNameOrParams: string | { [key: string]: any },
   paramsOrOptions?: { [key: string]: any } | { uuid?: string },
   options?: { uuid?: string },
-): Control | Control[] => {
-  const result: Control[] = []
+): Control | { [key: string]: Control } => {
+  const result: { [key: string]: Control } = {}
 
   const folderName = typeof folderNameOrParams === 'string' ? folderNameOrParams : null
   const controlsParams = folderName ? paramsOrOptions as { [key: string]: any } : folderNameOrParams
@@ -76,8 +76,8 @@ export const useControls = (
   if (folderNameOrParams === 'fpsgraph') {
     const control = createControl('fpsgraph', null, 'fpsgraph', null)
     controlsStore[uuid]['fpsgraph'] = control
-    result.push(control)
-    return result.length === 1 ? result[0] : result
+    result['fpsgraph'] = control
+    return result
   }
 
   const controls = controlsStore[uuid]
@@ -112,7 +112,7 @@ export const useControls = (
       }
 
       controls[key] = control
-      result.push(control)
+      result[key] = control
       continue
     }
 
@@ -120,7 +120,7 @@ export const useControls = (
     if (isRef(value)) {
       const control = createControl(key, value, inferType(value.value), folderName)
       controls[key] = control
-      result.push(control)
+      result[key] = control
       continue
     }
 
@@ -137,8 +137,8 @@ export const useControls = (
 
     // Update the internal state
     controls[key] = control
-    result.push(control)
+    result[key] = control
   }
 
-  return result.length === 1 ? result[0] : result
+  return Object.keys(result).length > 1 ? result : Object.values(result)[0]
 }

@@ -23,7 +23,7 @@ useControls(gl, {
 // Reactive
 
 // Plain Objects
-const [{ value: test }, { value: awiwi }] = useControls({ test: true, awiwi: 'awiwi' })
+const { test, awiwi } = useControls({ test: true, awiwi: 'awiwi' })
 console.log('test', test)
 console.log('awiwi', awiwi)
 
@@ -31,11 +31,11 @@ watchEffect(() => {
   console.log('test', test.value)
 })
 watchEffect(() => {
-  console.log('awiwi', awiwi.value)
+  console.log('awiwi', awiwi.value.value)
 })
 // Objects with ref values
-const { wireframe } = useControls({
-  wireframe: ref(false),
+const { value: wireframe } = useControls({
+  wireframe: false,
 })
 
 watchEffect(() => {
@@ -45,12 +45,12 @@ watchEffect(() => {
 // Objects with reactive values
 const cameraPosition = reactive(new Vector3(0, 0, 0))
 
-const { position } = useControls({
+const { position: camPos } = useControls({
   position: cameraPosition,
 })
 
 watchEffect(() => {
-  console.log('cameraPosition', position.value)
+  console.log('cameraPosition', camPos.value)
 })
 
 // Objects with options
@@ -62,14 +62,6 @@ watchEffect(() => {
   console.log('zoom', zoom.value)
 })
 
-// Folders
-const folder = useControls('Box', {
-  positionX: { value: 1, min: 0, max: 10, step: 0.1, icon: 'ic-baseline-arrow-forward' },
-  positionY: { value: 1, min: 0, max: 10, step: 0.1, icon: 'ic-baseline-arrow-forward' },
-})
-
-console.log('folder', folder)
-
 const { dropdown } = useControls({
   dropdown: {
     options: [
@@ -79,88 +71,65 @@ const { dropdown } = useControls({
     value: 'LDG',
   },
 })
-
+  
 watchEffect(() => {
   console.log('dropdown', dropdown.value)
 })
-
+  
 /* const { wireframe } = useControls({
-  wireframe: ref(false),
-}) */
+    wireframe: ref(false),
+  }) */
 const boxPosition = reactive(new Vector3(0, 0, 0))
 const boxRotation = reactive(new Vector3(0, Math.PI, 0))
 const boxRef = ref()
 const cameraRef = ref()
 
+const { position, rotation } = useControls({
+  position: boxPosition,
+  rotation: boxRotation,
+})
+
+watchEffect(() => {
+  console.log('boxPosition', position.value)
+})
+  
 useControls({
   slider: { value: 1, min: 0, max: 10, step: 0.1, icon: 'ic-baseline-arrow-forward' },
 }, {
   uuid: 'second',
 })
 
-/* const fps = useControls('fpsgraph')
-
-const { awiwi } = useControls({ 
-  awiwi: { value: 1, min: 0, max: 10, step: 0.1, icon: 'ic-baseline-arrow-forward' } 
-}) */
-
-/* console.log('wireframe',useControls({wireframe})) */
-
-/* useControls(gl) */
-/* useControls('fpsgraph')
-useControls(gl)
-
-useControls('Box', {
-  position: boxPosition,
-  rotation: boxRotation,
-  wireframe,
+const folder = useControls('Folder', {
+  pepe: true,
+  slider: {
+    value: 0.5,
+    min: 0,
+    max: 1,
+    step: 0.01,
+  },
 })
- */
-/* const boxControls = useControls('Box', {
-  position: boxPosition,
-  rotation: boxRotation,
-  wireframe,
-}) */
 
-/* const state = useControls({
-  label: 'test',
-  options: [{ text: 'loading', value: 'LDG' },
-  { text: 'menu', value: 'MNU' },
-  { text: 'field', value: 'FLD' },],
-  value: 'LDG',
-}) */
+console.log('folder', folder)
 
-/* const unwatch = watch(cameraRef, value => {
-  if (value) {
-    useControls('Camera', {
-      position: cameraRef.value.position,
-      rotation: cameraRef.value.rotation,
-    })
-    unwatch()
-  }
-}) */
-/* watchEffect(() => {
-  console.log(state.test.value)
-}) */
+watchEffect(() => {
+  console.log('folder', folder.pepe.value.value)
+})
 </script>
 
 <template>
+  <pre>{{ position }}</pre>
   <TresLeches />
   <TresLeches uuid="second" />
   <TresCanvas v-bind="gl">
     <TresPerspectiveCamera
       ref="cameraRef"
-      :position-x="position.x"
+      :position-x="camPos.x"
       :look-at="[1, 2, 0]"
     />
     <TresMesh
       ref="boxRef"
-      :position-x="boxPosition.x"
-      :position-y="boxPosition.y"
-      :position-z="boxPosition.z"
-      :rotation-x="boxRotation.x"
-      :rotation-y="boxRotation.y"
-      :rotation-z="boxRotation.z"
+      :position="[position.x, position.y, position.z]"
+      :rotation="[rotation.x, rotation.y, rotation.z]"
       :scale="[2, 2, 2]"
     >
       <TresBoxGeometry />

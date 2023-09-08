@@ -25,6 +25,7 @@ const controls = useControlsProvider(uuid?.value)
 
 function onChange(label: Ref<string>, value: string) {
   controls[unref(label)].value = value as any
+  controls[unref(label)][unref(label)] = value as any
 }
 
 const groupedControls = computed(() => {

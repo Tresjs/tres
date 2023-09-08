@@ -1,23 +1,24 @@
 <script setup lang="ts">
 import { TresLeches, useControls } from '@tresjs/leches'
 
-const uuid = 'getting-started'
-useControls({
+const uuid = 'multiple'
+const controls = useControls({
   pepe: true,
   slider: {
-    value: 0.5,
     min: 0,
-    max: 1,
-    step: 0.01,
+    max: 100,
+    value: 50,
   },
-  color: '#008080',
 }, {
   uuid,
 })
 </script>
 
 <template>
-  <div class="w-full h-300px bg-gray-200 mb-8 relative flex justify-center items-center">
+  <div class="w-full min-h-300px bg-gray-200 mb-8 relative grid grid-cols-2 gap-16 items-center">
+    <div class="p-4">
+      <pre class="bg-dark p-8 rounded text-white">{{ controls }}</pre>
+    </div>
     <div class="relative w-280px min-h-200px">
       <TresLeches
         class="important-left-0 -important-top-8"
