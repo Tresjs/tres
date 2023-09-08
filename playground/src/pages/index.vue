@@ -45,8 +45,8 @@ watchEffect(() => {
 // Objects with reactive values
 const cameraPosition = reactive(new Vector3(0, 0, 0))
 
-const { position: camPos } = useControls({
-  position: cameraPosition,
+const { camPos } = useControls({
+  camPos: cameraPosition,
 })
 
 watchEffect(() => {
@@ -79,18 +79,24 @@ watchEffect(() => {
 /* const { wireframe } = useControls({
     wireframe: ref(false),
   }) */
-const boxPosition = reactive(new Vector3(0, 0, 0))
-const boxRotation = reactive(new Vector3(0, Math.PI, 0))
 const boxRef = ref()
 const cameraRef = ref()
+const boxPosition = reactive(new Vector3(0, 0, 0))
+const boxRotation = reactive(new Vector3(0, Math.PI, 0))
 
-const { position, rotation } = useControls({
+const { position, rotation, something } = useControls({
   position: boxPosition,
   rotation: boxRotation,
+  something: ref(true),
+  
 })
 
 watchEffect(() => {
-  console.log('boxPosition', position.value)
+  console.log('boxPosition', position.value.value.x)
+})
+
+watchEffect(() => {
+  console.log('something', something.value.value)
 })
   
 useControls({
@@ -117,7 +123,7 @@ watchEffect(() => {
 </script>
 
 <template>
-  <pre>{{ position }}</pre>
+  <pre>{{ position.value }}</pre>
   <TresLeches />
   <TresLeches uuid="second" />
   <TresCanvas v-bind="gl">
@@ -128,8 +134,8 @@ watchEffect(() => {
     />
     <TresMesh
       ref="boxRef"
-      :position="[position.x, position.y, position.z]"
-      :rotation="[rotation.x, rotation.y, rotation.z]"
+      :position="[position.value.x, position.value.y, position.value.z]"
+      :rotation="[rotation.value.x, rotation.value.y, rotation.value.z]"
       :scale="[2, 2, 2]"
     >
       <TresBoxGeometry />

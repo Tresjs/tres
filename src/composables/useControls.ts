@@ -1,3 +1,4 @@
+import type { ToRefs } from 'vue'
 import { isReactive, isRef, provide, reactive, ref, toRefs } from 'vue'
 import type { Control } from '../types'
 
@@ -60,7 +61,7 @@ export const useControls = (
   folderNameOrParams: string | { [key: string]: any },
   paramsOrOptions?: { [key: string]: any } | { uuid?: string },
   options?: { uuid?: string },
-): Control | { [key: string]: Control } => {
+): Control | ToRefs<{ [key: string]: Control }> => {
   const result: { [key: string]: Control } = {}
 
   const folderName = typeof folderNameOrParams === 'string' ? folderNameOrParams : null
@@ -77,7 +78,7 @@ export const useControls = (
     const control = createControl('fpsgraph', null, 'fpsgraph', null)
     controlsStore[uuid]['fpsgraph'] = control
     result['fpsgraph'] = control
-    return result
+    return toRefs(reactive(result)) 
   }
 
   const controls = controlsStore[uuid]
@@ -140,5 +141,5 @@ export const useControls = (
     result[key] = control
   }
 
-  return Object.keys(result).length > 1 ? result : Object.values(result)[0]
+  return Object.keys(result).length > 1 ? toRefs(reactive(result)) : Object.values(result)[0]
 }
