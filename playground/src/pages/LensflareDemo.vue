@@ -21,7 +21,6 @@ const randomColor = () => colors[Math.trunc(Math.random() * colors.length)]
 const color = randomColor()
 
 const lightRef = shallowRef()
-const seedRef = shallowRef(847)
 const seedPropsRef = shallowRef()
 const elementsRef = shallowRef([{ color, size: 1 }])
 elementsRef.value = new Array(11).fill(0).map((_, i) => ({ size: Math.min(256 / (1 + i * i)), color }))
@@ -63,6 +62,12 @@ const rocks = new Array(ROCK_COUNT).fill(0).map((_, i) => ({
 
 const rockMaterial = new MeshPhongMaterial({ color: 0x123141, specular: 0xffffff, shininess: 1000 })
 
+const [seedRef, scaleRef] = useControls(
+  {
+    seed: { value: 847 },
+    scale: { value: 1, min: 0, max: 2, step: 0.01 }
+  });
+
 {
   const TEXTURE_PATH
     = 'https://raw.githubusercontent.com/andretchen0/tresjs_assets/'
@@ -76,82 +81,75 @@ const rockMaterial = new MeshPhongMaterial({ color: 0x123141, specular: 0xffffff
   const rays6 = `${TEXTURE_PATH}rays6.png`
   const ring = `${TEXTURE_PATH}ring.png`
 
-  useControls({
-    seed: seedRef,
-  })
 
-  const [oversizeSize, oversizeSizeRand, oversizeOffset, oversizeSpread, oversizeNumElements,
+  const [oversizeSize, oversizeSizeRand, oversizeNumElements,
     oversizeNumElementsRand, oversizeColorA, oversizeColorB, oversizeColorC, oversizeSeed] = useControls(
-    'Oversize',
-    {
-      size0: { value: 768, min: 0, max: 1024, step: 1 },
-      sizeRand0: { value: 512, min: 0, max: 1024, step: 1 },
-      offset0: { value: 0, min: -4, max: 4, step: 0.1 },
-      spread0: { value: 0, min: 0, max: 4, step: 0.1 },
-      count0: { value: 1, min: 0, max: 20, step: 1 },
-      countRand0: { value: 2, min: 0, max: 20, step: 1 },
-      colorA0: '#ffffff',
-      colorB0: '#ffffff',
-      colorC0: '#ffffff',
-      seed0: { value: 930104199, min: 0, max: 2 ** 31, step: 1 },
-    })
+      'Oversize',
+      {
+        size0: { value: 768, min: 0, max: 1024, step: 1 },
+        sizeRand0: { value: 512, min: 0, max: 1024, step: 1 },
+        count0: { value: 1, min: 0, max: 20, step: 1 },
+        countRand0: { value: 2, min: 0, max: 20, step: 1 },
+        colorA0: '#ffffff',
+        colorB0: '#ffffff',
+        colorC0: '#ffffff',
+        seed0: { value: 930104199, min: 0, max: 2 ** 31, step: 1 },
+      })
 
-  const [bodySize, bodySizeRand, bodyOffset, bodySpread, bodyNumElements, bodyNumElementsRand,
+  const [bodySize, bodySizeRand, bodyNumElements, bodyNumElementsRand,
     bodyColorA, bodyColorB, bodyColorC, bodySeed] = useControls(
-    'Body',
-    {
-      size1: { value: 180, min: 0, max: 512, step: 1 },
-      sizeRand1: { value: 256, min: 0, max: 512, step: 1 },
-      offset1: { value: 0, min: -4, max: 4, step: 0.1 },
-      spread1: { value: 0, min: 0, max: 4, step: 0.1 },
-      count1: { value: 2, min: 0, max: 20, step: 1 },
-      countRand1: { value: 1, min: 0, max: 20, step: 1 },
-      colorA1: '#ffffff',
-      colorB1: '#ffffff',
-      colorC1: '#808080',
-      seed1: { value: 1021142105, min: 0, max: 2 ** 31, step: 1 },
-    })
+      'Body',
+      {
+        size1: { value: 180, min: 0, max: 512, step: 1 },
+        sizeRand1: { value: 256, min: 0, max: 512, step: 1 },
+        count1: { value: 2, min: 0, max: 20, step: 1 },
+        countRand1: { value: 1, min: 0, max: 20, step: 1 },
+        colorA1: '#ffffff',
+        colorB1: '#ffffff',
+        colorC1: '#808080',
+        seed1: { value: 1021142105, min: 0, max: 2 ** 31, step: 1 },
+      })
 
   const [frontSize, frontSizeRand, frontOffset, frontSpread, frontNumElements, frontNumElementsRand,
     frontColorA, frontColorB, frontColorC, frontSeed] = useControls(
-    'Front',
-    {
-      size2: { value: 20, min: 0, max: 512, step: 1 },
-      sizeRand2: { value: 160, min: 0, max: 512, step: 1 },
-      offset2: { value: 0.5, min: 0, max: 4, step: 0.1 },
-      spread2: { value: 1, min: 0, max: 4, step: 0.1 },
-      count2: { value: 5, min: 0, max: 20, step: 1 },
-      countRand2: { value: 16, min: 0, max: 20, step: 1 },
-      colorA2: '#ffffff',
-      colorB2: '#808080',
-      colorC2: '#a9a9a9',
-      seed2: { value: 2, min: 0, max: 2 ** 31, step: 1 },
-    },
-  )
+      'Front',
+      {
+        size2: { value: 20, min: 0, max: 512, step: 1 },
+        sizeRand2: { value: 160, min: 0, max: 512, step: 1 },
+        offset2: { value: 0.5, min: 0, max: 4, step: 0.1 },
+        spread2: { value: 1, min: 0, max: 4, step: 0.1 },
+        count2: { value: 5, min: 0, max: 20, step: 1 },
+        countRand2: { value: 16, min: 0, max: 20, step: 1 },
+        colorA2: '#ffffff',
+        colorB2: '#808080',
+        colorC2: '#a9a9a9',
+        seed2: { value: 2, min: 0, max: 2 ** 31, step: 1 },
+      },
+    )
 
   const [backSize, backSizeRand, backOffset, backSpread, backNumElements, backNumElementsRand,
     backColorA, backColorB, backColorC, backSeed] = useControls(
-    'Back',
-    {
-      size3: { value: 180, min: 0, max: 512, step: 1 },
-      sizeRand3: { value: 90, min: 0, max: 512, step: 1 },
-      offset3: { value: 0.5, min: 0, max: 4, step: 0.1 },
-      spread3: { value: 0.5, min: 0, max: 4, step: 0.1 },
-      count3: { value: 3, min: 0, max: 20, step: 1 },
-      countRand3: { value: 2, min: 0, max: 20, step: 1 },
-      colorA3: '#ffffff',
-      colorB3: '#a9a9a9',
-      colorC3: '#00008b',
-      seed3: { value: 869412245, min: 0, max: 2 ** 31, step: 1 },
-    },
-  )
+      'Back',
+      {
+        size3: { value: 180, min: 0, max: 512, step: 1 },
+        sizeRand3: { value: 90, min: 0, max: 512, step: 1 },
+        offset3: { value: 0.5, min: 0, max: 4, step: 0.1 },
+        spread3: { value: 0.5, min: 0, max: 4, step: 0.1 },
+        count3: { value: 3, min: 0, max: 20, step: 1 },
+        countRand3: { value: 2, min: 0, max: 20, step: 1 },
+        colorA3: '#ffffff',
+        colorB3: '#a9a9a9',
+        colorC3: '#00008b',
+        seed3: { value: 869412245, min: 0, max: 2 ** 31, step: 1 },
+      },
+    )
 
   const updateSeedProps = () => {
     seedPropsRef.value = [
       {
         texture: [line, ring],
         color: [oversizeColorA.value.value, oversizeColorB.value.value, oversizeColorC.value.value],
-        distance: [oversizeOffset.value.value, oversizeOffset.value.value + oversizeSpread.value.value],
+        distance: [0, 0],
         size: [
           Math.max(0, Math.floor(oversizeSize.value.value - 0.5 * oversizeSizeRand.value.value)),
           Math.max(0, Math.floor(oversizeSize.value.value + 0.5 * oversizeSizeRand.value.value)),
@@ -165,7 +163,7 @@ const rockMaterial = new MeshPhongMaterial({ color: 0x123141, specular: 0xffffff
       {
         texture: [circleBlur, rays6, circleRainbow, circle],
         color: [bodyColorA.value.value, bodyColorB.value.value, bodyColorC.value.value],
-        distance: [bodyOffset.value.value, bodyOffset.value.value + bodySpread.value.value],
+        distance: [0, 0],
         size: [
           Math.max(0, Math.floor(bodySize.value.value - 0.5 * bodySizeRand.value.value)),
           Math.max(0, Math.floor(bodySize.value.value + 0.5 * bodySizeRand.value.value)),
@@ -212,13 +210,11 @@ const rockMaterial = new MeshPhongMaterial({ color: 0x123141, specular: 0xffffff
 
     oversizeSize.value.value, oversizeSizeRand.value.value,
     oversizeNumElements.value.value, oversizeNumElementsRand.value.value,
-    oversizeOffset.value.value, oversizeSpread.value.value,
     oversizeColorA.value.value, oversizeColorB.value.value, oversizeColorC.value.value,
     oversizeSeed.value.value,
 
     bodySize.value.value, bodySizeRand.value.value,
     bodyNumElements.value.value, bodyNumElementsRand.value.value,
-    bodyOffset.value.value, bodySpread.value.value,
     bodyColorA.value.value, bodyColorB.value.value, bodyColorC.value.value,
     bodySeed.value.value,
 
@@ -237,6 +233,7 @@ const rockMaterial = new MeshPhongMaterial({ color: 0x123141, specular: 0xffffff
 
   updateSeedProps()
 }
+
 </script>
 
 <template>
@@ -246,22 +243,9 @@ const rockMaterial = new MeshPhongMaterial({ color: 0x123141, specular: 0xffffff
       <TresPerspectiveCamera :position="[11, 11, 100]" />
     </Levioso>
     <OrbitControls />
-    <Levioso
-      :speed="1.3"
-      :range="[-13, 13]"
-      :rotation-factor="10"
-    >
-      <TresPointLight
-        ref="lightRef"
-        :color="color"
-        :intensity="1000"
-        :position="[10, 0, 0]"
-      >
-        <Lensflare
-          :seed="seedRef"
-          :scale="0.5"
-          :elements="elementsRef"
-        />
+    <Levioso :speed="1.3" :range="[-13, 13]" :rotation-factor="10">
+      <TresPointLight ref="lightRef" :color="color" :intensity="1000" :position="[10, 0, 0]">
+        <Lensflare :seed="seedRef.value.value" :scale="0.5" :elements="elementsRef" />
       </TresPointLight>
     </Levioso>
     <TresPointLight
@@ -270,17 +254,12 @@ const rockMaterial = new MeshPhongMaterial({ color: 0x123141, specular: 0xffffff
       :position="[10, 5, 0]"
     >
       <Lensflare
-        :seed="seedRef"
+        :seed="seedRef.value.value"
         :seed-props="seedPropsRef"
+        :scale="scaleRef.value.value"
       />
     </TresPointLight>
-    <Dodecahedron
-      v-for="{ key, position, rotation, scale } in rocks"
-      :key="key"
-      :material="rockMaterial"
-      :position="position"
-      :rotation="rotation"
-      :scale="scale"
-    />
+    <Dodecahedron v-for="{ key, position, rotation, scale } in rocks" :key="key" :material="rockMaterial"
+      :position="position" :rotation="rotation" :scale="scale" />
   </TresCanvas>
 </template>

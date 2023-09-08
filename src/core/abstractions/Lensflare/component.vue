@@ -99,7 +99,7 @@ const scaleThreeElements = () => {
   }
 
   lensflareElementPropsArray.value.forEach((elementProps, i) => {
-    threeElements[i].size = elementProps.size * props.scale
+    threeElements[i].size = elementProps.size * props.scale;
   })
 }
 
