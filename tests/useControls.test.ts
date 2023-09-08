@@ -40,10 +40,10 @@ describe('useControls', () => {
   })
 
   describe('when pass multiple controls', () => {
-    it('should return an array of controls with ref properties if object has multiple properties', () => {
+    it('should return an object of controls with ref properties if object has multiple properties', () => {
       const controls = useControls({ test: true, test2: true })
       expect(Object.keys(controls)).toHaveLength(2)
-      expect(isRef(controls.test.value)).toBe(true)
+      expect(isRef(controls.test)).toBe(true)
     })
   })
 
