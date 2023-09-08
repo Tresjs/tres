@@ -77,79 +77,63 @@ const rockMaterial = new MeshPhongMaterial({ color: 0x123141, specular: 0xffffff
     const rays6 = `${TEXTURE_PATH}rays6.png`
     const ring = `${TEXTURE_PATH}ring.png`
 
-    const oversizeSizeMin = shallowRef(512)
-    const oversizeSizeMax = shallowRef(1024)
-    const oversizeLengthMin = shallowRef(0)
-    const oversizeLengthMax = shallowRef(2)
-    const oversizeSeed = shallowRef(1)
-    const oversizeColorA = shallowRef('#ffffff')
-    const oversizeColorB = shallowRef('#ffffff')
-    const oversizeColorC = shallowRef('#ffffff')
-
-    const bodySizeMin = shallowRef(180)
-    const bodySizeMax = shallowRef(512)
-    const bodyLengthMin = shallowRef(2)
-    const bodyLengthMax = shallowRef(4)
-    const bodySeed = shallowRef(1)
-    const bodyColorA = shallowRef('#ffffff')
-    const bodyColorB = shallowRef('#ffffff')
-    const bodyColorC = shallowRef('#808080')
-
-    const frontSizeMin = shallowRef(20)
-    const frontSizeMax = shallowRef(180)
-    const frontLengthMin = shallowRef(5)
-    const frontLengthMax = shallowRef(21)
-    const frontOffset = shallowRef(0.25)
-    const frontDistance = shallowRef(2.5)
-    const frontSeed = shallowRef(1)
-    const frontColorA = shallowRef('#ffffff')
-    const frontColorB = shallowRef('#808080')
-    const frontColorC = shallowRef('#a9a9a9')
-
-    const backSizeMin = shallowRef(180)
-    const backSizeMax = shallowRef(360)
-    const backLengthMin = shallowRef(0)
-    const backLengthMax = shallowRef(5)
-    const backOffset = shallowRef(0.1)
-    const backDistance = shallowRef(1)
-    const backSeed = shallowRef(1)
-    const backColorA = shallowRef('#ffffff')
-    const backColorB = shallowRef('#a9a9a9')
-    const backColorC = shallowRef('#00008b')
-
     const updateSeedProps = () => {
         seedPropsRef.value = [
             {
                 texture: [line, ring],
-                color: [oversizeColorA.value, oversizeColorB.value, oversizeColorC.value],
-                distance: [0, 0],
-                size: [oversizeSizeMin.value, oversizeSizeMax.value],
-                length: [oversizeLengthMin.value, oversizeLengthMax.value],
-                seed: oversizeSeed.value
+                color: [oversizeColorA.value.value, oversizeColorB.value.value, oversizeColorC.value.value],
+                distance: [oversizeOffset.value.value, oversizeOffset.value.value + oversizeSpread.value.value],
+                size: [
+                    Math.max(0, Math.floor(oversizeSize.value.value - 0.5 * oversizeSizeRand.value.value)), 
+                    Math.max(0, Math.floor(oversizeSize.value.value + 0.5 * oversizeSizeRand.value.value))
+                ],
+                length: [
+                    Math.max(0, Math.floor(oversizeNumElements.value.value - 0.5 * oversizeNumElementsRand.value.value)),
+                    Math.max(0, Math.floor(oversizeNumElements.value.value + 0.5 * oversizeNumElementsRand.value.value))
+                ],
+                seed: oversizeSeed.value.value
             },
             {
                 texture: [circleBlur, rays6, circleRainbow, circle],
-                color: [bodyColorA.value, bodyColorB.value, bodyColorC.value],
-                distance: [0, 0],
-                size: [bodySizeMin.value, bodySizeMax.value],
-                length: [bodyLengthMin.value, bodyLengthMax.value],
-                seed: bodySeed.value
+                color: [bodyColorA.value.value, bodyColorB.value.value, bodyColorC.value.value],
+                distance: [bodyOffset.value.value, bodyOffset.value.value + bodySpread.value.value],
+                size: [
+                    Math.max(0, Math.floor(bodySize.value.value - 0.5 * bodySizeRand.value.value)), 
+                    Math.max(0, Math.floor(bodySize.value.value + 0.5 * bodySizeRand.value.value))
+                ],
+                length: [
+                    Math.max(0, Math.floor(bodyNumElements.value.value - 0.5 * bodyNumElementsRand.value.value)),
+                    Math.max(0, Math.floor(bodyNumElements.value.value + 0.5 * bodyNumElementsRand.value.value))
+                ],
+                seed: bodySeed.value.value
             },
             {
                 texture: [circleBlur, ring, poly6, polyStroke6],
-                color: [frontColorA.value, frontColorB.value, frontColorC.value],
-                distance: [frontOffset.value, frontOffset.value + frontDistance.value],
-                size: [frontSizeMin.value, frontSizeMax.value],
-                length: [frontLengthMin.value, frontLengthMax.value],
-                seed: frontSeed.value
+                color: [frontColorA.value.value, frontColorB.value.value, frontColorC.value.value],
+                distance: [frontOffset.value.value, frontOffset.value.value + frontSpread.value.value],
+                size: [
+                    Math.max(0, Math.floor(frontSize.value.value - 0.5 * frontSizeRand.value.value)), 
+                    Math.max(0, Math.floor(frontSize.value.value + 0.5 * frontSizeRand.value.value))
+                ],
+                length: [
+                    Math.max(0, Math.floor(frontNumElements.value.value - 0.5 * frontNumElementsRand.value.value)),
+                    Math.max(0, Math.floor(frontNumElements.value.value + 0.5 * frontNumElementsRand.value.value))
+                ],
+                seed: frontSeed.value.value
             },
             {
                 texture: [circleBlur, ring, poly6, polyStroke6],
-                color: [backColorA.value, backColorB.value, backColorC.value],
-                distance: [-backOffset.value - backDistance.value, -backOffset.value],
-                size: [backSizeMin.value, backSizeMax.value],
-                length: [backLengthMin.value, backLengthMax.value],
-                seed: backSeed.value
+                color: [backColorA.value.value, backColorB.value.value, backColorC.value.value],
+                distance: [-backOffset.value.value, -backOffset.value.value - backSpread.value.value],
+                size: [
+                    Math.max(0, Math.floor(backSize.value.value - 0.5 * backSizeRand.value.value)), 
+                    Math.max(0, Math.floor(backSize.value.value + 0.5 * backSizeRand.value.value))
+                ],
+                length: [
+                    Math.max(0, Math.floor(backNumElements.value.value - 0.5 * backNumElementsRand.value.value)),
+                    Math.max(0, Math.floor(backNumElements.value.value + 0.5 * backNumElementsRand.value.value))
+                ],
+                seed: backSeed.value.value
             }
         ]
     };
@@ -158,71 +142,94 @@ const rockMaterial = new MeshPhongMaterial({ color: 0x123141, specular: 0xffffff
         seed: seedRef,
     });
 
-    useControls(
+    const [oversizeSize, oversizeSizeRand, oversizeOffset, oversizeSpread, oversizeNumElements, oversizeNumElementsRand, oversizeColorA, oversizeColorB, oversizeColorC, oversizeSeed] = useControls(
         'Oversize',
         {
-            sizeMin: oversizeSizeMin,
-            sizeMax: oversizeSizeMax,
-            lengthMin: oversizeLengthMin,
-            lengthMax: oversizeLengthMax,
-            colorA: oversizeColorA,
-            colorB: oversizeColorB,
-            colorC: oversizeColorC,
-            seed: oversizeSeed
+            size0: { value: 768, min: 0, max: 1024, step: 1 },
+            sizeRand0: { value: 512, min: 0, max: 1024, step: 1 },
+            offset0: { value: 0, min: -4, max: 4, step: 0.1 },
+            spread0: { value: 0, min: 0, max: 4, step: 0.1 },
+            count0: { value: 1, min: 0, max: 20, step: 1 },
+            countRand0: { value: 2, min: 0, max: 20, step: 1 },
+            colorA0: '#ffffff',
+            colorB0: '#ffffff',
+            colorC0: '#ffffff',
+            seed0: { value: 930104199, min: 0, max: Math.pow(2, 31), step: 1 }
         });
-    useControls(
+
+    const [bodySize, bodySizeRand, bodyOffset, bodySpread, bodyNumElements, bodyNumElementsRand, bodyColorA, bodyColorB, bodyColorC, bodySeed] = useControls(
         'Body',
         {
-            sizeMin: bodySizeMin,
-            sizeMax: bodySizeMax,
-            lengthMin: bodyLengthMin,
-            lengthMax: bodyLengthMax,
-            colorA: bodyColorA,
-            colorB: bodyColorB,
-            colorC: bodyColorC,
-            seed: bodySeed
+            size1: { value: 180, min: 0, max: 512, step: 1 },
+            sizeRand1: { value: 256, min: 0, max: 512, step: 1 },
+            offset1: { value: 0, min: -4, max: 4, step: 0.1 },
+            spread1: { value: 0, min: 0, max: 4, step: 0.1 },
+            count1: { value: 2, min: 0, max: 20, step: 1 },
+            countRand1: { value: 1, min: 0, max: 20, step: 1 },
+            colorA1: '#ffffff',
+            colorB1: '#ffffff',
+            colorC1: '#808080',
+            seed1: { value: 1021142105, min: 0, max: Math.pow(2, 31), step: 1 }
         });
-    useControls(
+
+    const [frontSize, frontSizeRand, frontOffset, frontSpread, frontNumElements, frontNumElementsRand, frontColorA, frontColorB, frontColorC, frontSeed] = useControls(
         'Front',
         {
-            offset: frontOffset,
-            distance: frontDistance,
-            sizeMin: frontSizeMin,
-            sizeMax: frontSizeMax,
-            lengthMin: frontLengthMin,
-            lengthMax: frontLengthMax,
-            colorA: frontColorA,
-            colorB: frontColorB,
-            colorC: frontColorC,
-            seed: frontSeed
-        });
-    useControls(
+            size2: { value: 20, min: 0, max: 512, step: 1 },
+            sizeRand2: { value: 160, min: 0, max: 512, step: 1 },
+            offset2: { value: 0.5, min: 0, max: 4, step: 0.1 },
+            spread2: { value: 1, min: 0, max: 4, step: 0.1 },
+            count2: { value: 5, min: 0, max: 20, step: 1 },
+            countRand2: { value: 16, min: 0, max: 20, step: 1 },
+            colorA2: '#ffffff',
+            colorB2: '#808080',
+            colorC2: '#a9a9a9',
+            seed2: { value: 2, min: 0, max: Math.pow(2, 31), step: 1 }
+        }
+    );
+
+    const [backSize, backSizeRand, backOffset, backSpread, backNumElements, backNumElementsRand, backColorA, backColorB, backColorC, backSeed] = useControls(
         'Back',
         {
-            offset: backOffset,
-            distance: backDistance,
-            sizeMin: backSizeMin,
-            sizeMax: backSizeMax,
-            lengthMin: backLengthMin,
-            lengthMax: backLengthMax,
-            colorA: backColorA,
-            colorB: backColorB,
-            colorC: backColorC,
-            seed: backSeed
-        });
+            size3: { value: 180, min: 0, max: 512, step: 1 },
+            sizeRand3: { value: 90, min: 0, max: 512, step: 1 },
+            offset3: { value: 0.5, min: 0, max: 4, step: 0.1 },
+            spread3: { value: 0.5, min: 0, max: 4, step: 0.1 },
+            count3: { value: 3, min: 0, max: 20, step: 1 },
+            countRand3: { value: 2, min: 0, max: 20, step: 1 },
+            colorA3: '#ffffff',
+            colorB3: '#a9a9a9',
+            colorC3: '#00008b',
+            seed3: { value: 869412245, min: 0, max: Math.pow(2, 31), step: 1 }
+        }
+    );
 
     watch(() => [
         seedRef.value,
-        oversizeSizeMin.value, oversizeSizeMax.value, oversizeLengthMin.value, oversizeLengthMax.value,
-        oversizeColorA.value, oversizeColorB.value, oversizeColorC.value, oversizeSeed.value,
-        bodySizeMin.value, bodySizeMax.value, bodyLengthMin.value, bodyLengthMax.value,
-        bodyColorA.value, bodyColorB.value, bodyColorC.value, bodySeed.value,
-        frontSizeMin.value, frontSizeMax.value, frontLengthMin.value, frontLengthMax.value, 
-        frontOffset.value, frontDistance.value,
-        frontColorA.value, frontColorB.value, frontColorC.value, frontSeed.value,
-        backSizeMin.value, backSizeMax.value, backLengthMin.value, backLengthMax.value, 
-        backDistance.value, backOffset.value,
-        backColorA.value, backColorB.value, backColorC.value, backSeed.value,
+
+        oversizeSize.value.value, oversizeSizeRand.value.value,
+        oversizeNumElements.value.value, oversizeNumElementsRand.value.value,
+        oversizeOffset.value.value, oversizeSpread.value.value,
+        oversizeColorA.value.value, oversizeColorB.value.value, oversizeColorC.value.value,
+        oversizeSeed.value.value,
+
+        bodySize.value.value, bodySizeRand.value.value,
+        bodyNumElements.value.value, bodyNumElementsRand.value.value,
+        bodyOffset.value.value, bodySpread.value.value,
+        bodyColorA.value.value, bodyColorB.value.value, bodyColorC.value.value,
+        bodySeed.value.value,
+
+        frontSize.value.value, frontSizeRand.value.value,
+        frontNumElements.value.value, frontNumElementsRand.value.value,
+        frontOffset.value.value, frontSpread.value.value,
+        frontColorA.value.value, frontColorB.value.value, frontColorC.value.value,
+        frontSeed.value.value,
+
+        backSize.value.value, backSizeRand.value.value,
+        backNumElements.value.value, backNumElementsRand.value.value,
+        backOffset.value.value, backSpread.value.value,
+        backColorA.value.value, backColorB.value.value, backColorC.value.value,
+        backSeed.value.value,
     ], updateSeedProps);
 
     updateSeedProps();
