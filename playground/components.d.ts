@@ -8,16 +8,10 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     AkuAku: typeof import('./src/components/AkuAku.vue')['default']
-    EnvironmentDemo: typeof import('./src/components/EnvironmentDemo.vue')['default']
-    GlassMaterialDemo: typeof import('./src/components/GlassMaterialDemo.vue')['default']
+    DirectivesDemo: typeof import('./src/components/DirectivesDemo.vue')['default']
     Gltf: typeof import('./src/components/gltf/index.vue')['default']
-    LeviosoDemo: typeof import('./src/components/LeviosoDemo.vue')['default']
-    MapControlsDemo: typeof import('./src/components/MapControlsDemo.vue')['default']
     ModelsDemo: typeof import('./src/components/ModelsDemo.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    TheGizmos: typeof import('./src/components/TheGizmos.vue')['default']
-    UseVideoTextureDemo: typeof import('./src/components/useVideoTextureDemo.vue')['default']
-    WobbleMaterial: typeof import('./src/components/WobbleMaterial.vue')['default']
   }
 }
