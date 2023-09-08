@@ -59,7 +59,7 @@ const lensflareElementPropsToLensflareElement = (p: LensflareElementProps) => {
 
 const updateThreeElements = () => {
   while (lensflareElementPropsArray.value.length > threeElements.length) {
-    const element = lensflareElementPropsToLensflareElement(lensflareElementPropsArray.value[threeElements.length])
+    const element = { ... lensflareElementPropsToLensflareElement(lensflareElementPropsArray.value[threeElements.length]) };
     threeElements.push(element)
     threeLensflare.addElement(element)
   }
