@@ -1,15 +1,18 @@
 {
   "name": "@tresjs/leches",
-  "description": "Tasty GUI for Vue controls 🍰",
-  "version": "0.9.0",
   "type": "module",
+  "version": "0.9.0",
   "packageManager": "pnpm@8.3.1",
+  "description": "Tasty GUI for Vue controls 🍰",
   "author": "Alvaro Saburido <hola@alvarosaburido.dev> (https://github.com/alvarosabu/)",
   "license": "MIT",
+  "keywords": [
+    "vue",
+    "gui",
+    "pane",
+    "controls"
+  ],
   "sideEffects": false,
-  "main": "./dist/tresleches.js",
-  "module": "./dist/tresleches.js",
-  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -18,6 +21,9 @@
     "./styles": "./dist/style.css",
     "./*": "./*"
   },
+  "main": "./dist/tresleches.js",
+  "module": "./dist/tresleches.js",
+  "types": "./dist/index.d.ts",
   "files": [
     "dist",
     "*.d.ts"
@@ -25,12 +31,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "keywords": [
-    "vue",
-    "gui",
-    "pane",
-    "controls"
-  ],
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc && vite build",

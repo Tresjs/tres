@@ -22,6 +22,26 @@ describe('useControls', () => {
       expect(isRef(value)).toBe(true)
       expect(isRef(visible)).toBe(true)
     })
+    it('should set the initial control label', () => {
+      const { label } = useControls({ 
+        test: {
+          label: 'Awiwi',
+          value: true,
+        } 
+      })
+      expect(label.value).toBe('Awiwi')
+    })
+    it('should return a visible control by default', () => {
+      const { visible } = useControls({ test: true })
+      expect(visible.value).toBeTruthy()
+    })
+    it('should set the initial control visibility', () => {
+      const { visible } = useControls({ test: {
+        visible: false,
+        value: true,
+      } })
+      expect(visible.value).toBeFalsy()
+    })
   /*   it('should return refs of all properties', () => {
       const { value } = useControls({ test: true })
       expect(isRef(value)).toBe(true)

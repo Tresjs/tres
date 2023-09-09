@@ -64,6 +64,7 @@ watchEffect(() => {
 
 const { dropdown } = useControls({
   dropdown: {
+    label: 'Dropdown 21',
     options: [
       { text: 'loading', value: 'LDG' },
       { text: 'menu', value: 'MNU' },
@@ -99,10 +100,14 @@ watchEffect(() => {
   console.log('something', something.value.value)
 })
   
-useControls({
-  slider: { value: 1, min: 0, max: 10, step: 0.1, icon: 'ic-baseline-arrow-forward' },
+const { visible } = useControls({
+  slider: { value: 1, min: 0, max: 10, step: 0.1, icon: 'ic-baseline-arrow-forward', visible: false },
 }, {
   uuid: 'second',
+})
+
+watchEffect(() => {
+  console.log('visible', visible.value)
 })
 
 const folder = useControls('Folder', {
