@@ -107,10 +107,14 @@ export const useControls = (
       }
 
       if (controlType === 'range') {
-        control.min = ref(controlOptions.min)
-        control.max = ref(controlOptions.max)
-        control.step = ref(controlOptions.step)
+        control.min = ref(controlOptions.min || 0)
+        control.max = ref(controlOptions.max || 1)
+        control.step = ref(controlOptions.step || 0.1)
       }
+
+      control.label.value = controlOptions.label || key
+
+      control.visible.value = controlOptions.visible !== undefined ? controlOptions.visible : true
 
       controls[key] = control
       result[key] = control
