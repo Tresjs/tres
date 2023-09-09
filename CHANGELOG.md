@@ -1,5 +1,12 @@
 
 
+## [0.9.1](https://github.com/Tresjs/leches/compare/0.9.0...0.9.1) (2023-09-09)
+
+
+### Bug Fixes
+
+* added visibile and label initialization through params ([bc63423](https://github.com/Tresjs/leches/commit/bc634233f2389273cf5c2e6e1e25177460ba5c1e))
+
 ## [0.9.0](https://github.com/Tresjs/leches/compare/0.8.0...0.9.0) (2023-09-08)
 
 
