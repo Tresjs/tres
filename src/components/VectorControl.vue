@@ -28,6 +28,10 @@ const onInputMouseUp = (_event: MouseEvent, $index: number) => {
   isMouseDown.value = false
 }
 
+const onControlMouseUp = () => {
+  isMouseDown.value = false
+}
+
 const calculateSpeed = (diff: number) => Math.floor(Math.abs(diff) / 10)
 
 const vector = computed(() => normalizeVectorFlexibleParam(props.control.value))
@@ -74,7 +78,10 @@ watch(mouse.x, (newValue) => {
 </script>
 
 <template>
-  <div class="flex px-4 justify-between gap-1 items-center mb-2">
+  <div
+    class="flex px-4 justify-between gap-1 items-center mb-2"
+    @mouseup="onControlMouseUp()"
+  >
     <label class="text-gray-500 w-1/3">{{ label }}</label>
     <div class="w-2/3 flex justify-between gap-0.5">
       <div

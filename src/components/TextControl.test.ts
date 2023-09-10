@@ -77,7 +77,7 @@ describe('Text Control', async () => {
 
     expect(wrapper.vm.textValue).toBe('this is a text')
   })
-  it('should hide the control when the visible property is false', async ()=> {
+  it('should hide the control when the visible property is toggled', async ()=> {
     const component = defineComponent({
       template: `
         <TresLeches />
@@ -99,5 +99,54 @@ describe('Text Control', async () => {
     wrapper.vm.visible = false
     await nextTick();
     expect(wrapper.find('input[type="text"]').exists()).toBe(false)
+  })
+  it('should show the control by default', async ()=> {
+    const component = defineComponent({
+      template: `
+        <TresLeches />
+      `,
+      setup() {
+        const { visible } = useControls({ test: 'awiwi' })
+        return {
+          visible
+        }
+      }
+    })
+
+    const wrapper = mount(component, {
+      components: {
+        TresLeches
+      },
+    })
+    const checkboxInput = wrapper.find('input[type="text"]')
+    expect(checkboxInput.exists()).toBe(true)
+
+    expect(wrapper.vm.visible).toBe(true)
+  })
+  it('should not show the control if the visibility is initially false', async ()=> {
+    const component = defineComponent({
+      template: `
+        <TresLeches />
+      `,
+      setup() {
+        const { visible } = useControls({ test: {
+          value: 'awiwi',
+          visible: false
+        } })
+        return {
+          visible
+        }
+      }
+    })
+
+    const wrapper = mount(component, {
+      components: {
+        TresLeches
+      },
+    })
+    const checkboxInput = wrapper.find('input[type="text"]')
+    expect(checkboxInput.exists()).toBe(false)
+
+    expect(wrapper.vm.visible).toBe(false)
   })
 })
