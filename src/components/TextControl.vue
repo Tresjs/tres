@@ -20,6 +20,7 @@ function onChange(event: Event) {
     <input
       :value="control.value"
       type="text"
+      tabindex="0"
       class="p-2
         w-2/3
         rounded

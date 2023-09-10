@@ -56,7 +56,7 @@ describe('Vector Control', async () => {
       },
     })
     expect(wrapper.html()).toMatchSnapshot()
-    expect(wrapper.findAll('input[type="text"]').length).toBe(3)
+    expect(wrapper.findAll('input[type="number"]').length).toBe(3)
   })
   it('should render a number control with a label', async ()=> {
     const component = defineComponent({
@@ -102,7 +102,7 @@ describe('Vector Control', async () => {
         TresLeches
       },
     })
-    const inputs = wrapper.findAll('input[type="text"]')
+    const inputs = wrapper.findAll('input[type="number"]')
 
     await inputs[0].setValue(20)
     await inputs[1].setValue(-20)

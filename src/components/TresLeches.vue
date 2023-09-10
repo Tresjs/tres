@@ -53,7 +53,10 @@ const groupedControls = computed(() => {
     :class="$attrs.class"
     :handle="handle"
   >
-    <div class="bg-white shadow-xl rounded border-4 border-solid border-black">
+    <div
+      tabindex="0"
+      class="bg-white shadow-xl rounded border-4 border-solid border-black"
+    >
       <header
         ref="handle"
         class="relative cursor-grabbing p-4 flex justify-between text-gray-200 relative"

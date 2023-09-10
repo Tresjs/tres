@@ -29,6 +29,7 @@ function onChange(event: Event) {
       class="inline-flex items-center cursor-pointer"
     >
       <span
+        tabindex="0"
         :class="{ 'bg-dark-500': control.value, 'bg-gray-200': !control.value }"
         class="w-4 
           h-4 
