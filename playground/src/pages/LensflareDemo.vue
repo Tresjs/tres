@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { shallowRef, watch } from 'vue'
+import type { TresColor } from '@tresjs/core'
 import { TresCanvas, useRenderLoop } from '@tresjs/core'
 import { Levioso, Lensflare, Dodecahedron, OrbitControls } from '@tresjs/cientos'
 import { Color, MeshPhongMaterial } from 'three'
@@ -12,41 +13,35 @@ const gl = {
   alpha: false,
 }
 
-function easeInOutQuint(x: number): number {
-  return x < 0.5 ? 16 * x * x * x * x * x : 1 - (-2 * x + 2) ** 5 / 2
-}
-
 const colors = ['white', 'yellow', 'red', 'orange', 'purple']
-const randomColor = () => colors[Math.trunc(Math.random() * colors.length)]
-const color = randomColor()
+const randomColor = () => new Color(colors[Math.trunc(Math.random() * colors.length)])
 
-const lightRef = shallowRef()
+const colorRef = shallowRef(randomColor() as TresColor)
 const seedPropsRef = shallowRef()
-const elementsRef = shallowRef([{ color, size: 1 }])
-elementsRef.value = new Array(11).fill(0).map((_, i) => ({ size: Math.min(256 / (1 + i * i)), color }))
+const speedRef = shallowRef(1)
 
 const { onLoop } = useRenderLoop()
 
-onLoop(() => {
-  if (!lightRef.value) return
-
-  if (Math.random() > 0.99) {
-    lightRef.value.color = new Color(randomColor())
-    elementsRef.value = getFlareProps()
+let cooldown = 5
+onLoop(({ delta }) => {
+  cooldown -= delta
+  while (cooldown < 0) {
+    colorRef.value = randomColor()
+    cooldown += 5
   }
 })
 
-function getFlareProps() {
-  const NUM_ELEMENTS = 15
-  return new Array(NUM_ELEMENTS).fill(0).map(
-    (_, i) => ({
-      size: 216 * (1 - easeInOutQuint(i / NUM_ELEMENTS)),
-      distance: i < 5 ? 0 : easeInOutQuint(i / NUM_ELEMENTS),
-      color: lightRef.value?.color ?? 'white',
-    }))
-}
-
-elementsRef.value = getFlareProps()
+const TEXTURE_PATH
+  = 'https://raw.githubusercontent.com/andretchen0/tresjs_assets/'
+  + 'b1bc3780de73a9328a530767c9a7f4cbab060396/textures/lensflare/'
+const circle = `${TEXTURE_PATH}circle.png`
+const circleBlur = `${TEXTURE_PATH}cirlceBlur.png`
+const circleRainbow = `${TEXTURE_PATH}circleRainbow.png`
+const line = `${TEXTURE_PATH}line.png`
+const poly6 = `${TEXTURE_PATH}poly6.png`
+const polyStroke6 = `${TEXTURE_PATH}polyStroke6.png`
+const rays6 = `${TEXTURE_PATH}rays6.png`
+const ring = `${TEXTURE_PATH}ring.png`
 
 const float = (lo: number, hi: number) => Math.random() * (hi - lo) + lo
 const floatSpread = (range: number) => Math.random() * range - range * 0.5
@@ -64,23 +59,11 @@ const rockMaterial = new MeshPhongMaterial({ color: 0x123141, specular: 0xffffff
 
 const [seedRef, scaleRef] = useControls(
   {
-    seed: { value: 847 },
+    seed: { value: 847, min: 0, max: 2 ** 31, step: 1 },
     scale: { value: 1, min: 0, max: 2, step: 0.01 },
   })
 
 {
-  const TEXTURE_PATH
-    = 'https://raw.githubusercontent.com/andretchen0/tresjs_assets/'
-    + 'b1bc3780de73a9328a530767c9a7f4cbab060396/textures/lensflare/'
-  const circle = `${TEXTURE_PATH}circle.png`
-  const circleBlur = `${TEXTURE_PATH}cirlceBlur.png`
-  const circleRainbow = `${TEXTURE_PATH}circleRainbow.png`
-  const line = `${TEXTURE_PATH}line.png`
-  const poly6 = `${TEXTURE_PATH}poly6.png`
-  const polyStroke6 = `${TEXTURE_PATH}polyStroke6.png`
-  const rays6 = `${TEXTURE_PATH}rays6.png`
-  const ring = `${TEXTURE_PATH}ring.png`
-
   const [oversizeSize, oversizeSizeRand, oversizeNumElements,
     oversizeNumElementsRand, oversizeColorA, oversizeColorB, oversizeColorC, oversizeSeed] = useControls(
     'Oversize',
@@ -237,7 +220,7 @@ const [seedRef, scaleRef] = useControls(
 <template>
   <TresLeches class="important-fixed" />
   <TresCanvas v-bind="gl">
-    <Levioso :speed="1">
+    <Levioso :speed="speedRef">
       <TresPerspectiveCamera :position="[11, 11, 100]" />
     </Levioso>
     <OrbitControls />
@@ -247,29 +230,40 @@ const [seedRef, scaleRef] = useControls(
       :rotation-factor="10"
     >
       <TresPointLight
-        ref="lightRef"
-        :color="color"
+        :color="colorRef"
         :intensity="1000"
         :position="[10, 0, 0]"
       >
         <Lensflare
-          :seed="seedRef.value.value"
-          :scale="0.5"
-          :elements="elementsRef"
+          :color="colorRef"
+          :texture="circleBlur"
+          :distance="1"
+          :size="216"
+          :scale="0.75"
+          :elements="[
+            { texture: ring, size: 512, distance: 0 },
+            { texture: rays6, distance: 0, color: 'white' },
+            { distance: 0 },
+            { distance: 0.2 },
+            { distance: 0.5 },
+            {},
+          ]"
         />
       </TresPointLight>
     </Levioso>
+
     <TresPointLight
-      :color="new Color(1, 1, 1)"
+      color="white"
       :intensity="2000"
       :position="[10, 5, 0]"
     >
       <Lensflare
+        :scale="scaleRef.value.value"
         :seed="seedRef.value.value"
         :seed-props="seedPropsRef"
-        :scale="scaleRef.value.value"
       />
     </TresPointLight>
+
     <Dodecahedron
       v-for="{ key, position, rotation, scale } in rocks"
       :key="key"

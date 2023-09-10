@@ -5,10 +5,11 @@ import { TextureLoader } from 'three'
 import { watch, shallowRef, onMounted, onUnmounted } from 'vue'
 import { normalizeColor } from '@tresjs/core'
 import type { LensflareElementProps, SeedProps } from '.'
-import { partialLensflarePropsArrayToLensflarePropsArray as fillInProps } from '.'
+import { partialLensflarePropsArrayToLensflarePropsArray as fillInProps,
+  partialLensflareElementPropsFromComponentProps as userDefaultLensflarePropsFromProps } from '.'
 
 const props = withDefaults(
-  defineProps<{
+  defineProps<Partial<LensflareElementProps> & {
     elements?: Partial<LensflareElementProps>[]
     scale?: number
     seed?: number
@@ -23,7 +24,9 @@ const props = withDefaults(
 )
 
 const lensflareRef = shallowRef<Lensflare>()
-const lensflareElementPropsArray = shallowRef<LensflareElementProps[]>([])
+const lensflareElementPropsArrayRef = shallowRef<LensflareElementProps[]>([])
+const userDefaultLensflareElementPropsRef 
+  = shallowRef<Partial<LensflareElementProps>>(userDefaultLensflarePropsFromProps(props))
 
 defineExpose({
   value: lensflareRef,
@@ -38,9 +41,9 @@ const threeElements: LensflareElement[] = []
 
 const dispose = () => {
   while (threeElements.length) threeElements.pop()
-  lensflareRef.value?.children.forEach((c: any) => { 
+  lensflareRef.value?.children.forEach((c: any) => {
     if ('dispose' in c) {
-      c.dispose() 
+      c.dispose()
     }
   })
   lensflareRef.value?.remove(...lensflareRef.value.children)
@@ -58,14 +61,14 @@ const lensflareElementPropsToLensflareElement = (p: LensflareElementProps) => {
 }
 
 const updateThreeElements = () => {
-  while (lensflareElementPropsArray.value.length > threeElements.length) {
-    const element = lensflareElementPropsToLensflareElement(lensflareElementPropsArray.value[threeElements.length])
-    const copy = { ... element }
+  while (lensflareElementPropsArrayRef.value.length > threeElements.length) {
+    const element = lensflareElementPropsToLensflareElement(lensflareElementPropsArrayRef.value[threeElements.length])
+    const copy = { ...element }
     threeElements.push(copy)
     threeLensflare.addElement(copy)
   }
 
-  lensflareElementPropsArray.value.forEach((elementProps, i) => {
+  lensflareElementPropsArrayRef.value.forEach((elementProps, i) => {
     const threeElement = threeElements[i]
     const { texture, size, distance, color } = elementProps
     if (typeof texture === 'string') {
@@ -95,11 +98,11 @@ const scaleThreeElements = () => {
   // NOTE: We can't remove already added elements from the THREE lensflare. 
   // So if we've previously added more elements than are currently needed, 
   // make those elements too small to display.
-  for (let i = lensflareElementPropsArray.value.length - 1; i < threeElements.length; i++) {
+  for (let i = lensflareElementPropsArrayRef.value.length - 1; i < threeElements.length; i++) {
     threeElements[i].size = 0
   }
 
-  lensflareElementPropsArray.value.forEach((elementProps, i) => {
+  lensflareElementPropsArrayRef.value.forEach((elementProps, i) => {
     threeElements[i].size = elementProps.size * props.scale
   })
 }
@@ -110,18 +113,29 @@ onUnmounted(() => {
 
 onMounted(() => {
   lensflareRef.value?.add(threeLensflare)
-  lensflareElementPropsArray.value = fillInProps(props.elements, props.seed, props.seedProps)
+  lensflareElementPropsArrayRef.value 
+    = fillInProps(props.elements, userDefaultLensflareElementPropsRef.value, props.seed, props.seedProps)
 })
 
-watch(() => [props.elements, props.seed, props.seedProps], () => {
-  lensflareElementPropsArray.value = fillInProps(props.elements, props.seed, props.seedProps)
+watch(() => [props.color, props.distance, props.size, props.texture], () => {
+  userDefaultLensflareElementPropsRef.value = {
+    color: props.color,
+    distance: props.distance,
+    size: props.size,
+    texture: props.texture,
+  }
+})
+
+watch(() => [userDefaultLensflareElementPropsRef.value, props.elements, props.seed, props.seedProps], () => {
+  lensflareElementPropsArrayRef.value 
+    = fillInProps(props.elements, userDefaultLensflareElementPropsRef.value, props.seed, props.seedProps)
 })
 
 watch(() => props.scale, () => {
   scaleThreeElements()
 })
 
-watch(() => lensflareElementPropsArray.value, () => {
+watch(() => lensflareElementPropsArrayRef.value, () => {
   updateThreeElements()
 })
 </script>

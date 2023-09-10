@@ -1,4 +1,4 @@
-import type { SeedProps } from '.'
+import type { LensflareElementProps, SeedProps } from '.'
 
 export const TEXTURE_PATH
   = 'https://raw.githubusercontent.com/andretchen0/tresjs_assets/'
@@ -74,3 +74,10 @@ export const back: SeedProps = {
 }
 
 export const defaultSeedProps: SeedProps[] = [oversize, bodyRequired0, bodyRequired1, bodyOptional, front, back]
+
+export const defaultLensflareElementProps: LensflareElementProps = {
+  color: 'white',
+  distance: 0,
+  size: 512,
+  texture: circleBlur,
+}
