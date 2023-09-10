@@ -319,7 +319,7 @@ onUnmounted(() => {
 
 <template>
   <TresOrbitControls
-    v-if="activeCamera && renderer"
+    v-if="(camera || activeCamera) && (domElement || renderer)"
     ref="controlsRef"
     :target="target"
     :auto-rotate="autoRotate"
@@ -342,6 +342,6 @@ onUnmounted(() => {
     :zoom-speed="zoomSpeed"
     :enable-rotate="enableRotate"
     :rotate-speed="rotateSpeed"
-    :args="[activeCamera || camera, renderer?.domElement || domElement]"
+    :args="[camera || activeCamera, domElement || renderer.domElement]"
   />
 </template>
