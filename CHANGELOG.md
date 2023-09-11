@@ -1,5 +1,12 @@
 
 
+## [3.2.1-next.1](https://github.com/Tresjs/tres/compare/3.2.1-next.0...3.2.1-next.1) (2023-09-11)
+
+
+### Bug Fixes
+
+* object assign approach for inner app context ([3a6dc31](https://github.com/Tresjs/tres/commit/3a6dc317c39cba6b2ebcdcf372eb8ccd6676ef2e))
+
 ## [3.2.1-next.0](https://github.com/Tresjs/tres/compare/3.2.0...3.2.1-next.0) (2023-09-11)
 
 
