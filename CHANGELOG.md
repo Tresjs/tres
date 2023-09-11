@@ -1,5 +1,40 @@
 
 
+## [3.2.1-next.4](https://github.com/Tresjs/tres/compare/3.2.1-next.3...3.2.1-next.4) (2023-09-11)
+
+
+### Reverts
+
+* Revert "chore: fix lint" ([f53fba9](https://github.com/Tresjs/tres/commit/f53fba955a0c3f0040ce79f52e1b756147fad4ec))
+
+## [3.2.1-next.3](https://github.com/Tresjs/tres/compare/3.2.1-next.2...3.2.1-next.3) (2023-09-11)
+
+
+### Bug Fixes
+
+* revert object assign usage for setting app in appContext ([889e022](https://github.com/Tresjs/tres/commit/889e0221ed2e8f2c6a3e4ee91413125c9bfe7281))
+
+## [3.2.1-next.2](https://github.com/Tresjs/tres/compare/3.2.1-next.1...3.2.1-next.2) (2023-09-11)
+
+
+### Bug Fixes
+
+* explicitely set app context app ([c2a758f](https://github.com/Tresjs/tres/commit/c2a758f4c63641897db7b7065fed8286a699c20e))
+
+## [3.2.1-next.1](https://github.com/Tresjs/tres/compare/3.2.1-next.0...3.2.1-next.1) (2023-09-11)
+
+
+### Bug Fixes
+
+* object assign approach for inner app context ([3a6dc31](https://github.com/Tresjs/tres/commit/3a6dc317c39cba6b2ebcdcf372eb8ccd6676ef2e))
+
+## [3.2.1-next.0](https://github.com/Tresjs/tres/compare/3.2.0...3.2.1-next.0) (2023-09-11)
+
+
+### Bug Fixes
+
+* proxy app context ([128e3a5](https://github.com/Tresjs/tres/commit/128e3a5eb7af9c3d9b76f67e4afb19d6d0f550b0))
+
 ## [3.2.0](https://github.com/Tresjs/tres/compare/3.1.1...3.2.0) (2023-09-06)
 
 
