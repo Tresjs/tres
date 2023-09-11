@@ -83,13 +83,22 @@ const slots = defineSlots<{
   default(): any
 }>()
 
-const vueApp = getCurrentInstance()?.appContext.app
+const instance = getCurrentInstance()!
 
 const createInternalComponent = (context: TresContext) =>
   defineComponent({
     setup() {
-      const ctx = getCurrentInstance()?.appContext
-      if (ctx) ctx.app = vueApp as App
+      const inner = getCurrentInstance()!
+      
+      Object.assign(inner.appContext, instance.appContext)
+      //@ts-expect-error: internal property
+      Object.assign(inner.provides, inner.appContext.provides)
+      if (import.meta.env.DEV) {
+      //@ts-expect-error: internal property
+        inner.appContext.reload = () => {
+          mountCustomRenderer(context)
+        }
+      }
       provide('useTres', context)
       provide('extend', extend)
       return () => h(Fragment, null, slots?.default ? slots.default() : [])
