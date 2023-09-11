@@ -412,7 +412,7 @@ defineExpose({
 
 <template>
   <TresCameraControls
-    v-if="activeCamera && renderer"
+    v-if="(camera || activeCamera) && (domElement || renderer)"
     ref="controlsRef"
     :min-polar-angle="minPolarAngle"
     :max-polar-angle="maxPolarAngle"
@@ -438,6 +438,6 @@ defineExpose({
     :boundary-friction="boundaryFriction"
     :rest-threshold="restThreshold"
     :collider-meshes="colliderMeshes"
-    :args="[activeCamera || camera, renderer?.domElement || domElement]"
+    :args="[camera || activeCamera, domElement || renderer.domElement]"
   />
 </template>
