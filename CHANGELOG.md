@@ -1,5 +1,12 @@
 
 
+## [3.2.1-next.2](https://github.com/Tresjs/tres/compare/3.2.1-next.1...3.2.1-next.2) (2023-09-11)
+
+
+### Bug Fixes
+
+* explicitely set app context app ([c2a758f](https://github.com/Tresjs/tres/commit/c2a758f4c63641897db7b7065fed8286a699c20e))
+
 ## [3.2.1-next.1](https://github.com/Tresjs/tres/compare/3.2.1-next.0...3.2.1-next.1) (2023-09-11)
 
 
