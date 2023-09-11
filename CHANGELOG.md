@@ -1,5 +1,12 @@
 
 
+## [3.2.1](https://github.com/Tresjs/tres/compare/3.2.0...3.2.1) (2023-09-11)
+
+
+### Bug Fixes
+
+* proxy app context ([#394](https://github.com/Tresjs/tres/issues/394)) ([2301269](https://github.com/Tresjs/tres/commit/2301269aef4d7405ca0d327bd0ae80cebac5aad6))
+
 ## [3.2.1-next.4](https://github.com/Tresjs/tres/compare/3.2.1-next.3...3.2.1-next.4) (2023-09-11)
 
 
