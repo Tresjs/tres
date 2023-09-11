@@ -60,8 +60,8 @@ onUnmounted(() => {
 
 <template>
   <TresMapControls
-    v-if="activeCamera && renderer"
+    v-if="(camera || activeCamera) && (domElement || renderer)"
     ref="controlsRef"
-    :args="[activeCamera || camera, renderer?.domElement || domElement]"
+    :args="[camera || activeCamera, domElement || renderer.domElement]"
   />
 </template>
