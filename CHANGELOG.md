@@ -1,5 +1,38 @@
 
 
+## [3.3.0-next.0](https://github.com/Tresjs/cientos/compare/3.2.1...3.3.0-next.0) (2023-09-11)
+
+
+### Features
+
+* 158 stats ([#166](https://github.com/Tresjs/cientos/issues/166)) ([4a71885](https://github.com/Tresjs/cientos/commit/4a71885dc585a6a8ee733239fe73453157eca85c))
+* add distance prop in camera controls ([388b5de](https://github.com/Tresjs/cientos/commit/388b5de4a7819fe9ef4c09ff9828a102661893dd))
+* SVG ([28e3b6a](https://github.com/Tresjs/cientos/commit/28e3b6a4a47bfe2db16ed61214ea6d4cbddcb0c3))
+* **SVG:** add depth demo ([ba1fd18](https://github.com/Tresjs/cientos/commit/ba1fd18ff18d52b4eec4d93d70ffd19c058055a6))
+* **SVG:** add depth options ([e453a1d](https://github.com/Tresjs/cientos/commit/e453a1dad3a67a7bf612294a016a7c2cced851c7))
+* **SVG:** add docs ([b176dc4](https://github.com/Tresjs/cientos/commit/b176dc4fb782b151ba2f2acb9b3b1434db897ba2))
+* **SVG:** change 'depth' default to 'renderOrder' ([5c1dd27](https://github.com/Tresjs/cientos/commit/5c1dd2731c2974b5e3aaaa088393f25c3edb742a))
+* **SVG:** dispose of geometries ([a75d571](https://github.com/Tresjs/cientos/commit/a75d57189697405dbe2ebc6a67746fd2de4065f2))
+* **SVG:** fix linter warnings ([80dbaab](https://github.com/Tresjs/cientos/commit/80dbaabdbd27daa4145dbbd9bb75635c8ac9f0bf))
+* **SVG:** fix type error ([4439aa1](https://github.com/Tresjs/cientos/commit/4439aa10bdc8ef4e3b3d7a353a627fcf40cedf82))
+* **SVG:** remove depth prop demo ([ca82737](https://github.com/Tresjs/cientos/commit/ca82737f3a82de6a7bfbb56ae708b694ac6fa873))
+* **SVG:** remove depth prop from demo ([87ceb34](https://github.com/Tresjs/cientos/commit/87ceb34a368680119843287ac824ca43d51f0bd8))
+* **SVG:** remove key ([01061a9](https://github.com/Tresjs/cientos/commit/01061a9b3e9ffc356ee20c1948c10197aa3f085e))
+* **SVG:** remove unused variable ([c85a96f](https://github.com/Tresjs/cientos/commit/c85a96fa227ec71d063365f18f1820a4679d9fee))
+* **SVG:** rename exposed ref ([95bada9](https://github.com/Tresjs/cientos/commit/95bada9d80893fcd0c29cbc300b6ca82c366831d))
+* **SVG:** split line for linter ([469273a](https://github.com/Tresjs/cientos/commit/469273acbe61ecc5b3aee611f5b0cc0945b99b1b))
+* **SVG:** update JSDoc ([8c0aaf6](https://github.com/Tresjs/cientos/commit/8c0aaf6dc87396b3ac07bc251e78bfdc64a6d548))
+* **SVG:** update props, depth in docs ([da85374](https://github.com/Tresjs/cientos/commit/da853745a0c3949f5c3f08c92f360206ee688763))
+* **SVG:** whitespace ([d83493b](https://github.com/Tresjs/cientos/commit/d83493b76f0e37910ebdd012483649ef39e23c39))
+* update lint rules, ([#196](https://github.com/Tresjs/cientos/issues/196)) ([ccdf81f](https://github.com/Tresjs/cientos/commit/ccdf81f89805e7b4d546592e2a188d704449439e))
+
+
+### Bug Fixes
+
+* **cientos:** controls props priority ([a9e47fc](https://github.com/Tresjs/cientos/commit/a9e47fc17c5507d1f0c37cfa05c9e7c1d57b4d95))
+* dead link ([f784021](https://github.com/Tresjs/cientos/commit/f784021d949bac5cac8dad90e572ea7794c6bb29))
+* set `@tresjs/core` as peer ([77f7a3c](https://github.com/Tresjs/cientos/commit/77f7a3ca39dd1c433db5e64afa73076943baea15))
+
 ## [3.2.1](https://github.com/Tresjs/cientos/compare/3.2.0...3.2.1) (2023-09-01)
 
 

@@ -8,9 +8,6 @@ importers:
 
   .:
     dependencies:
-      '@tresjs/core':
-        specifier: 3.1.1
-        version: 3.1.1(three@0.155.0)(vue@3.3.0)
       '@vueuse/core':
         specifier: ^10.3.0
         version: 10.3.0(vue@3.3.0)
@@ -30,6 +27,9 @@ importers:
       '@release-it/conventional-changelog':
         specifier: ^7.0.0
         version: 7.0.0(release-it@16.1.5)
+      '@tresjs/core':
+        specifier: ^3.2.1
+        version: 3.2.1(three@0.155.0)(vue@3.3.0)
       '@tresjs/eslint-config-vue':
         specifier: ^0.1.1
         version: 0.1.1(@typescript-eslint/eslint-plugin@6.4.1)(eslint@8.47.0)(typescript@5.1.6)
@@ -287,7 +287,6 @@ packages:
 
   /@alvarosabu/utils@3.1.1:
     resolution: {integrity: sha512-DdZNe0i0UsqA2X/+JtaznG4qGorU24FaHqxMAhVspQaC1my+YAVQLpfw8GilHpzMxPxX4sGVzuTnBF8GOdG5oA==}
-    dev: false
 
   /@ampproject/remapping@2.2.1:
     resolution: {integrity: sha512-lFMjJTrFL3j7L9yBxwYfCq2k6qqwHyzuUl/XBnif78PWTJYyL/dfowQHWE3sp6U6ZzqWiiIZnpTMO96zhkjwtg==}
@@ -1019,20 +1018,6 @@ packages:
     resolution: {integrity: sha512-C5Mc6rdnsaJDjO3UpGW/CQTHtCKaYlScZTly4JIu97Jxo/odCiH0ITnDXSJPTOrEKk/ycSZ0AOgTmkDtkOsvIA==}
     dev: true
 
-  /@tresjs/core@3.1.1(three@0.155.0)(vue@3.3.0):
-    resolution: {integrity: sha512-HkB65AqofpQ9wtOV0wV9tqy9gokmk4Z/46mV7ksr1eyraTd1OG0XQzejQ/uvPXlBz84K1us6YOGTGSzBwA0wlw==}
-    peerDependencies:
-      three: '>=0.133'
-      vue: '>=3.3'
-    dependencies:
-      '@alvarosabu/utils': 3.1.1
-      '@vueuse/core': 10.3.0(vue@3.3.0)
-      three: 0.155.0
-      vue: 3.3.0
-    transitivePeerDependencies:
-      - '@vue/composition-api'
-    dev: false
-
   /@tresjs/core@3.1.1(three@0.155.0)(vue@3.3.4):
     resolution: {integrity: sha512-HkB65AqofpQ9wtOV0wV9tqy9gokmk4Z/46mV7ksr1eyraTd1OG0XQzejQ/uvPXlBz84K1us6YOGTGSzBwA0wlw==}
     peerDependencies:
@@ -1046,6 +1031,20 @@ packages:
     transitivePeerDependencies:
       - '@vue/composition-api'
     dev: false
+
+  /@tresjs/core@3.2.1(three@0.155.0)(vue@3.3.0):
+    resolution: {integrity: sha512-akmI8v9aoDZkB6ymrbu0PozXFKcA0Bnr1j9FMM8DJOLKx4rFBu8qM0pAwkaOL5YBuz8B0I66pc+f5GxmDlQIqQ==}
+    peerDependencies:
+      three: '>=0.133'
+      vue: '>=3.3'
+    dependencies:
+      '@alvarosabu/utils': 3.1.1
+      '@vueuse/core': 10.4.1(vue@3.3.0)
+      three: 0.155.0
+      vue: 3.3.0
+    transitivePeerDependencies:
+      - '@vue/composition-api'
+    dev: true
 
   /@tresjs/eslint-config-base@0.1.1(@typescript-eslint/eslint-plugin@6.4.1)(@typescript-eslint/parser@6.4.1)(eslint@8.47.0):
     resolution: {integrity: sha512-BAbFYERV23H3dkFZ9ITQQrpPgPVvNqsl+CcyDlpav54ailN2zuIY28NNXkREHf8KL+QeQZZLedcDWJbffKxMgg==}
@@ -1816,6 +1815,18 @@ packages:
       - '@vue/composition-api'
       - vue
 
+  /@vueuse/core@10.4.1(vue@3.3.0):
+    resolution: {integrity: sha512-DkHIfMIoSIBjMgRRvdIvxsyboRZQmImofLyOHADqiVbQVilP8VVHDhBX2ZqoItOgu7dWa8oXiNnScOdPLhdEXg==}
+    dependencies:
+      '@types/web-bluetooth': 0.0.17
+      '@vueuse/metadata': 10.4.1
+      '@vueuse/shared': 10.4.1(vue@3.3.0)
+      vue-demi: 0.14.6(vue@3.3.0)
+    transitivePeerDependencies:
+      - '@vue/composition-api'
+      - vue
+    dev: true
+
   /@vueuse/core@10.4.1(vue@3.3.4):
     resolution: {integrity: sha512-DkHIfMIoSIBjMgRRvdIvxsyboRZQmImofLyOHADqiVbQVilP8VVHDhBX2ZqoItOgu7dWa8oXiNnScOdPLhdEXg==}
     dependencies:
@@ -1900,6 +1911,15 @@ packages:
     transitivePeerDependencies:
       - '@vue/composition-api'
       - vue
+
+  /@vueuse/shared@10.4.1(vue@3.3.0):
+    resolution: {integrity: sha512-vz5hbAM4qA0lDKmcr2y3pPdU+2EVw/yzfRsBdu+6+USGa4PxqSQRYIUC9/NcT06y+ZgaTsyURw2I9qOFaaXHAg==}
+    dependencies:
+      vue-demi: 0.14.6(vue@3.3.0)
+    transitivePeerDependencies:
+      - '@vue/composition-api'
+      - vue
+    dev: true
 
   /@vueuse/shared@10.4.1(vue@3.3.4):
     resolution: {integrity: sha512-vz5hbAM4qA0lDKmcr2y3pPdU+2EVw/yzfRsBdu+6+USGa4PxqSQRYIUC9/NcT06y+ZgaTsyURw2I9qOFaaXHAg==}
