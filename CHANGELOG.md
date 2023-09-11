@@ -1,5 +1,12 @@
 
 
+## [3.2.1-next.4](https://github.com/Tresjs/tres/compare/3.2.1-next.3...3.2.1-next.4) (2023-09-11)
+
+
+### Reverts
+
+* Revert "chore: fix lint" ([f53fba9](https://github.com/Tresjs/tres/commit/f53fba955a0c3f0040ce79f52e1b756147fad4ec))
+
 ## [3.2.1-next.3](https://github.com/Tresjs/tres/compare/3.2.1-next.2...3.2.1-next.3) (2023-09-11)
 
 
