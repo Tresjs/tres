@@ -18,6 +18,8 @@ import {
   Fragment,
   defineComponent,
   h,
+  App, 
+  getCurrentInstance
 } from 'vue'
 import {
   useTresContextProvider,
@@ -31,8 +33,6 @@ import { render } from '../core/renderer'
 
 import type { RendererPresetsType } from '../composables/useRenderer/const'
 import type { TresCamera, TresObject } from '../types/'
-import { getCurrentInstance } from 'vue'
-import { App } from 'vue'
 
 export interface TresCanvasProps
   extends Omit<WebGLRendererParameters, 'canvas'> {
