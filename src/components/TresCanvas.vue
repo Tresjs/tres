@@ -6,7 +6,8 @@ import type {
   ShadowMapType,
   ToneMapping,
 } from 'three'
-import type { Ref } from 'vue'
+import type { Ref,
+  App } from 'vue'
 import {
   computed,
   onMounted,
@@ -17,9 +18,8 @@ import {
   watchEffect,
   Fragment,
   defineComponent,
-  h,
-  App, 
-  getCurrentInstance
+  h, 
+  getCurrentInstance,
 } from 'vue'
 import {
   useTresContextProvider,
@@ -83,13 +83,13 @@ const slots = defineSlots<{
   default(): any
 }>()
 
-const vueApp =  getCurrentInstance()?.appContext.app
+const vueApp = getCurrentInstance()?.appContext.app
 
 const createInternalComponent = (context: TresContext) =>
   defineComponent({
     setup() {
       const ctx = getCurrentInstance()?.appContext
-      if(ctx) ctx.app = vueApp as App
+      if (ctx) ctx.app = vueApp as App
       provide('useTres', context)
       provide('extend', extend)
       return () => h(Fragment, null, slots?.default ? slots.default() : [])
