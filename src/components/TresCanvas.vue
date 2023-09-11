@@ -89,8 +89,7 @@ const createInternalComponent = (context: TresContext) =>
   defineComponent({
     setup() {
       const inner = getCurrentInstance()!
-      
-      Object.assign(inner.appContext.app, instance.appContext.app)
+      inner.appContext.app = instance.appContext.app
       //@ts-expect-error: internal property
       Object.assign(inner.provides, inner.appContext.provides)
       if (import.meta.env.DEV) {
