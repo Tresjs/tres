@@ -52,5 +52,5 @@ import { OrbitControls, Sphere, vLog } from '@tresjs/cientos'
 Note that you can pass a modifier with the name of a property, for example `v-log:material`, and will log directly the `material` property 😍
 
 ::: warning
-The component `<TresCanvas >` will no log the canvas nor the scene
+The component `<TresCanvas >` will not log the canvas or the scene.
 :::
