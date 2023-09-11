@@ -1,5 +1,12 @@
 
 
+## [3.2.1-next.3](https://github.com/Tresjs/tres/compare/3.2.1-next.2...3.2.1-next.3) (2023-09-11)
+
+
+### Bug Fixes
+
+* revert object assign usage for setting app in appContext ([889e022](https://github.com/Tresjs/tres/commit/889e0221ed2e8f2c6a3e4ee91413125c9bfe7281))
+
 ## [3.2.1-next.2](https://github.com/Tresjs/tres/compare/3.2.1-next.1...3.2.1-next.2) (2023-09-11)
 
 
