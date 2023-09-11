@@ -83,21 +83,13 @@ const slots = defineSlots<{
   default(): any
 }>()
 
-const instance = getCurrentInstance()!
+const instance = getCurrentInstance()?.appContext.app
 
 const createInternalComponent = (context: TresContext) =>
   defineComponent({
     setup() {
-      const inner = getCurrentInstance()!
-      inner.appContext.app = instance.appContext.app
-      //@ts-expect-error: internal property
-      Object.assign(inner.provides, inner.appContext.provides)
-      if (import.meta.env.DEV) {
-      //@ts-expect-error: internal property
-        inner.appContext.reload = () => {
-          mountCustomRenderer(context)
-        }
-      }
+      const ctx = getCurrentInstance()?.appContext
+      if (ctx) ctx.app = instance as App
       provide('useTres', context)
       provide('extend', extend)
       return () => h(Fragment, null, slots?.default ? slots.default() : [])
