@@ -5,8 +5,7 @@ import { TextureLoader } from 'three'
 import { watch, shallowRef, onMounted, onUnmounted } from 'vue'
 import { normalizeColor } from '@tresjs/core'
 import type { LensflareElementProps, SeedProps } from '.'
-import { partialLensflarePropsArrayToLensflarePropsArray as fillInProps,
-  partialLensflareElementPropsFromComponentProps as userDefaultLensflarePropsFromProps } from '.'
+import { partialLensflarePropsArrayToLensflarePropsArray as fillInProps, filterLensflareElementProps } from '.'
 
 const props = withDefaults(
   defineProps<Partial<LensflareElementProps> & {
@@ -25,8 +24,8 @@ const props = withDefaults(
 
 const lensflareRef = shallowRef<Lensflare>()
 const lensflareElementPropsArrayRef = shallowRef<LensflareElementProps[]>([])
-const userDefaultLensflareElementPropsRef 
-  = shallowRef<Partial<LensflareElementProps>>(userDefaultLensflarePropsFromProps(props))
+const userDefaultLensflareElementPropsRef
+  = shallowRef<Partial<LensflareElementProps>>(filterLensflareElementProps(props))
 
 defineExpose({
   value: lensflareRef,
