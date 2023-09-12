@@ -33,6 +33,10 @@ const { onLoop } = useRenderLoop()
 onLoop(({ elapsed }) => {
   nodes.Logo.material.emissiveIntensity = Math.sin(elapsed) * 6 + 7
 })
+
+const ctx = useNuxtApp()
+//eslint-disable-next-line no-console
+console.log({ ctx, useFetch: await useFetch('api/url') })
 </script>
 
 <template>

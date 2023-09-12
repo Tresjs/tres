@@ -33,27 +33,28 @@
     "test:watch": "vitest watch"
   },
   "dependencies": {
-    "@nuxt/kit": "^3.7.0",
-    "@tresjs/core": "^3.1.1",
-    "@types/three": "^0.155.0",
-    "mlly": "^1.4.1",
+    "@nuxt/kit": "^3.7.1",
+    "@tresjs/cientos": "3.3.0",
+    "@tresjs/core": "3.2.1",
+    "@types/three": "^0.156.0",
+    "mlly": "^1.4.2",
     "pkg-types": "^1.0.3",
-    "three": "^0.155.0",
+    "three": "^0.156.1",
     "typescript": "^5.2.2"
   },
   "devDependencies": {
     "@alvarosabu/eslint-config-vue": "^0.4.0",
     "@nuxt/eslint-config": "^0.2.0",
-    "@nuxt/module-builder": "^0.5.0",
-    "@nuxt/schema": "^3.7.0",
-    "@nuxt/test-utils": "^3.7.0",
-    "@release-it/conventional-changelog": "^7.0.0",
-    "@types/node": "^20.5.7",
+    "@nuxt/module-builder": "^0.5.1",
+    "@nuxt/schema": "^3.7.1",
+    "@nuxt/test-utils": "^3.7.1",
+    "@release-it/conventional-changelog": "^7.0.1",
+    "@types/node": "^20.6.0",
     "changelogen": "^0.5.5",
-    "eslint": "^8.48.0",
-    "nuxt": "^3.7.0",
+    "eslint": "^8.49.0",
+    "nuxt": "^3.7.1",
     "playwright": "^1.37.1",
     "release-it": "^16.1.5",
-    "vitest": "^0.34.3"
+    "vitest": "^0.34.4"
   }
 }
