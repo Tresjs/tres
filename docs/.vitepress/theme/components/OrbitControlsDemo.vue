@@ -59,7 +59,7 @@ function onEnd() {
       @start="onStart"
       @end="onEnd"
     />
-    <TresMesh ref="boxMeshRef">
+    <TresMesh>
       <TresBoxGeometry :args="[2, 2, 2]" />
       <TresMeshToonMaterial
         color="orange"

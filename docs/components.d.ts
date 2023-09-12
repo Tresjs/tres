@@ -16,14 +16,17 @@ declare module 'vue' {
     GlassMaterialDemo: typeof import('./.vitepress/theme/components/GlassMaterialDemo.vue')['default']
     LeviosoDemo: typeof import('./.vitepress/theme/components/LeviosoDemo.vue')['default']
     LoveVueThreeJS: typeof import('./.vitepress/theme/components/LoveVueThreeJS.vue')['default']
+    MapControlsDemo: typeof import('./.vitepress/theme/components/MapControlsDemo.vue')['default']
     MouseParallaxDemo: typeof import('./.vitepress/theme/components/MouseParallaxDemo.vue')['default']
     OrbitControlsDemo: typeof import('./.vitepress/theme/components/OrbitControlsDemo.vue')['default']
     PrecipitationDemo: typeof import('./.vitepress/theme/components/PrecipitationDemo.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    ScrollControlsDemo: typeof import('./.vitepress/theme/components/ScrollControlsDemo.vue')['default']
     SmokeDemo: typeof import('./.vitepress/theme/components/SmokeDemo.vue')['default']
     StarsDemo: typeof import('./.vitepress/theme/components/StarsDemo.vue')['default']
     Text3Demo: typeof import('./.vitepress/theme/components/Text3Demo.vue')['default']
+    TransformControlsDemo: typeof import('./.vitepress/theme/components/TransformControlsDemo.vue')['default']
     WobbleMaterialDemo: typeof import('./.vitepress/theme/components/WobbleMaterialDemo.vue')['default']
   }
 }

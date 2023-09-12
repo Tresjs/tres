@@ -1,5 +1,9 @@
 # MapControls
 
+<DocsDemo>
+  <MapControlsDemo />
+</DocsDemo>
+
 [MapControls](https://threejs.org/docs/index.html?q=controls#examples/en/controls/MapControls) similar to OrbitControls, this control is intended for transforming a camera over a map from bird's eye perspective, but uses a specific preset for mouse/touch interaction and disables screen space panning by default.
 
 However, as it is not part of the core of ThreeJS, to use it you would need to import it from the `three/examples/jsm/controls/MapControls` module.

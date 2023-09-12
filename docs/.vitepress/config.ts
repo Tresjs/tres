@@ -2,6 +2,7 @@ import { defineConfig } from 'vitepress'
 import Unocss from 'unocss/vite'
 import svgLoader from 'vite-svg-loader'
 import { resolve } from 'pathe'
+import { templateCompilerOptions } from '@tresjs/core'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
@@ -129,10 +130,6 @@ export default defineConfig({
     },
   },
   vue: {
-    template: {
-      compilerOptions: {
-        isCustomElement: tag => tag.startsWith('Tres') && tag !== 'TresCanvas',
-      },
-    },
+    ...templateCompilerOptions,
   },
 })
