@@ -10,5 +10,5 @@ export {
   useAnimations,
   MouseParallax,
   Levioso,
-  Lensflare
+  Lensflare,
 }
