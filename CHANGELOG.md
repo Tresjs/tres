@@ -1,5 +1,12 @@
 
 
+## [1.1.6](https://example.com///compare/1.1.5...1.1.6) (2023-09-12)
+
+
+### Bug Fixes
+
+* update `core` to `v3.2.1` with context fix ([#39](https://example.com//null/issues/39)) ([6857c88](https://example.com///commit/6857c881c1e3dc9d874a4ff3a56123221404c808))
+
 ## [1.1.5](///compare/1.1.4...1.1.5) (2023-08-30)
 
 
