@@ -37,6 +37,7 @@ export default defineConfig({
           { text: 'Levioso (Float)', link: '/guide/abstractions/levioso' },
           { text: 'Contact Shadows', link: '/guide/abstractions/contact-shadows' },
           { text: 'Precipitation', link: '/guide/abstractions/precipitation' },
+          { text: 'Lensflare', link: '/guide/abstractions/lensflare' },
         ],
       },
       {
