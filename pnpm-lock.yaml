@@ -8,9 +8,6 @@ importers:
 
   .:
     dependencies:
-      '@tresjs/core':
-        specifier: 3.1.1
-        version: 3.1.1(three@0.155.0)(vue@3.3.0)
       '@vueuse/core':
         specifier: ^10.3.0
         version: 10.3.0(vue@3.3.0)
@@ -30,6 +27,9 @@ importers:
       '@release-it/conventional-changelog':
         specifier: ^7.0.0
         version: 7.0.0(release-it@16.1.5)
+      '@tresjs/core':
+        specifier: ^3.2.1
+        version: 3.2.1(three@0.155.0)(vue@3.3.0)
       '@tresjs/eslint-config-vue':
         specifier: ^0.1.1
         version: 0.1.1(@typescript-eslint/eslint-plugin@6.4.1)(eslint@8.47.0)(typescript@5.1.6)
@@ -108,6 +108,9 @@ importers:
       '@tresjs/cientos':
         specifier: workspace:^
         version: link:..
+      '@tweakpane/plugin-essentials':
+        specifier: ^0.2.0
+        version: 0.2.0(tweakpane@4.0.1)
     devDependencies:
       unocss:
         specifier: ^0.54.0
@@ -284,7 +287,6 @@ packages:
 
   /@alvarosabu/utils@3.1.1:
     resolution: {integrity: sha512-DdZNe0i0UsqA2X/+JtaznG4qGorU24FaHqxMAhVspQaC1my+YAVQLpfw8GilHpzMxPxX4sGVzuTnBF8GOdG5oA==}
-    dev: false
 
   /@ampproject/remapping@2.2.1:
     resolution: {integrity: sha512-lFMjJTrFL3j7L9yBxwYfCq2k6qqwHyzuUl/XBnif78PWTJYyL/dfowQHWE3sp6U6ZzqWiiIZnpTMO96zhkjwtg==}
@@ -1016,20 +1018,6 @@ packages:
     resolution: {integrity: sha512-C5Mc6rdnsaJDjO3UpGW/CQTHtCKaYlScZTly4JIu97Jxo/odCiH0ITnDXSJPTOrEKk/ycSZ0AOgTmkDtkOsvIA==}
     dev: true
 
-  /@tresjs/core@3.1.1(three@0.155.0)(vue@3.3.0):
-    resolution: {integrity: sha512-HkB65AqofpQ9wtOV0wV9tqy9gokmk4Z/46mV7ksr1eyraTd1OG0XQzejQ/uvPXlBz84K1us6YOGTGSzBwA0wlw==}
-    peerDependencies:
-      three: '>=0.133'
-      vue: '>=3.3'
-    dependencies:
-      '@alvarosabu/utils': 3.1.1
-      '@vueuse/core': 10.3.0(vue@3.3.0)
-      three: 0.155.0
-      vue: 3.3.0
-    transitivePeerDependencies:
-      - '@vue/composition-api'
-    dev: false
-
   /@tresjs/core@3.1.1(three@0.155.0)(vue@3.3.4):
     resolution: {integrity: sha512-HkB65AqofpQ9wtOV0wV9tqy9gokmk4Z/46mV7ksr1eyraTd1OG0XQzejQ/uvPXlBz84K1us6YOGTGSzBwA0wlw==}
     peerDependencies:
@@ -1043,6 +1031,20 @@ packages:
     transitivePeerDependencies:
       - '@vue/composition-api'
     dev: false
+
+  /@tresjs/core@3.2.1(three@0.155.0)(vue@3.3.0):
+    resolution: {integrity: sha512-akmI8v9aoDZkB6ymrbu0PozXFKcA0Bnr1j9FMM8DJOLKx4rFBu8qM0pAwkaOL5YBuz8B0I66pc+f5GxmDlQIqQ==}
+    peerDependencies:
+      three: '>=0.133'
+      vue: '>=3.3'
+    dependencies:
+      '@alvarosabu/utils': 3.1.1
+      '@vueuse/core': 10.4.1(vue@3.3.0)
+      three: 0.155.0
+      vue: 3.3.0
+    transitivePeerDependencies:
+      - '@vue/composition-api'
+    dev: true
 
   /@tresjs/eslint-config-base@0.1.1(@typescript-eslint/eslint-plugin@6.4.1)(@typescript-eslint/parser@6.4.1)(eslint@8.47.0):
     resolution: {integrity: sha512-BAbFYERV23H3dkFZ9ITQQrpPgPVvNqsl+CcyDlpav54ailN2zuIY28NNXkREHf8KL+QeQZZLedcDWJbffKxMgg==}
@@ -1127,6 +1129,14 @@ packages:
   /@tweakpane/core@1.1.9:
     resolution: {integrity: sha512-9tq+KAhaqPiOgsFyLPAz1IMXkVfhRqxGzAgy1ps3As6o3W7XjnU7sev6OlD/Z+Pzw8uZVMukkSHf2e0uCU6u0A==}
     dev: true
+
+  /@tweakpane/plugin-essentials@0.2.0(tweakpane@4.0.1):
+    resolution: {integrity: sha512-/kO90nfm0y0CYJPUvoNrjXhjNoqr+RaoySIdJmy++pb5vrSHi/DXdxG/sPszUPZggDY9M31RTacnxXi6Dv7r8Q==}
+    peerDependencies:
+      tweakpane: ^4.0.0-beta.2
+    dependencies:
+      tweakpane: 4.0.1
+    dev: false
 
   /@tweenjs/tween.js@18.6.4:
     resolution: {integrity: sha512-lB9lMjuqjtuJrx7/kOkqQBtllspPIN+96OvTCeJ2j5FEzinoAXTdAMFnDAQT1KVPRlnYfBrqxtqP66vDM40xxQ==}
@@ -1805,6 +1815,18 @@ packages:
       - '@vue/composition-api'
       - vue
 
+  /@vueuse/core@10.4.1(vue@3.3.0):
+    resolution: {integrity: sha512-DkHIfMIoSIBjMgRRvdIvxsyboRZQmImofLyOHADqiVbQVilP8VVHDhBX2ZqoItOgu7dWa8oXiNnScOdPLhdEXg==}
+    dependencies:
+      '@types/web-bluetooth': 0.0.17
+      '@vueuse/metadata': 10.4.1
+      '@vueuse/shared': 10.4.1(vue@3.3.0)
+      vue-demi: 0.14.6(vue@3.3.0)
+    transitivePeerDependencies:
+      - '@vue/composition-api'
+      - vue
+    dev: true
+
   /@vueuse/core@10.4.1(vue@3.3.4):
     resolution: {integrity: sha512-DkHIfMIoSIBjMgRRvdIvxsyboRZQmImofLyOHADqiVbQVilP8VVHDhBX2ZqoItOgu7dWa8oXiNnScOdPLhdEXg==}
     dependencies:
@@ -1889,6 +1911,15 @@ packages:
     transitivePeerDependencies:
       - '@vue/composition-api'
       - vue
+
+  /@vueuse/shared@10.4.1(vue@3.3.0):
+    resolution: {integrity: sha512-vz5hbAM4qA0lDKmcr2y3pPdU+2EVw/yzfRsBdu+6+USGa4PxqSQRYIUC9/NcT06y+ZgaTsyURw2I9qOFaaXHAg==}
+    dependencies:
+      vue-demi: 0.14.6(vue@3.3.0)
+    transitivePeerDependencies:
+      - '@vue/composition-api'
+      - vue
+    dev: true
 
   /@vueuse/shared@10.4.1(vue@3.3.4):
     resolution: {integrity: sha512-vz5hbAM4qA0lDKmcr2y3pPdU+2EVw/yzfRsBdu+6+USGa4PxqSQRYIUC9/NcT06y+ZgaTsyURw2I9qOFaaXHAg==}
@@ -6276,6 +6307,10 @@ packages:
   /tweakpane@3.1.10:
     resolution: {integrity: sha512-rqwnl/pUa7+inhI2E9ayGTqqP0EPOOn/wVvSWjZsRbZUItzNShny7pzwL3hVlaN4m9t/aZhsP0aFQ9U5VVR2VQ==}
     dev: true
+
+  /tweakpane@4.0.1:
+    resolution: {integrity: sha512-1JmmGbF4h2zuFbpN1XfIWcV0kLbBUgSXpR1QtW19vJFx44asnCrufRSvd69OItOFMEWgbVtoiWM2uDPUEUKcMQ==}
+    dev: false
 
   /type-check@0.4.0:
     resolution: {integrity: sha512-XleUoc9uwGXqjWwXaUTZAmzMcFZ5858QA2vvx1Ur5xIcixXIP+8LnFDgRplU30us6teqdlskFfu+ae4K79Ooew==}

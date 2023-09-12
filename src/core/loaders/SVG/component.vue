@@ -5,7 +5,7 @@ import { useLoader } from '@tresjs/core'
 import type { SVGResultPaths } from 'three-stdlib'
 import { SVGLoader } from 'three-stdlib'
 import type { MeshBasicMaterialParameters, BufferGeometry } from 'three'
-import { Vector3, DoubleSide, ShapeGeometry } from 'three'
+import { Vector2, DoubleSide, ShapeGeometry } from 'three'
 
 interface SVGProps {
   /**
@@ -172,7 +172,7 @@ function updateLayers() {
       },
       props.strokeMaterial))
       for (const subPath of path.subPaths) {
-        const points = subPath.getPoints().map(v2 => new Vector3(v2.x, -v2.y, 0))
+        const points = subPath.getPoints().map(v2 => new Vector2(v2.x, -v2.y))
         const geometry = SVGLoader.pointsToStroke(points, style || 'none')
         if (offsetZ) {
           geometry.translate(0, 0, (i++) * offsetZ)

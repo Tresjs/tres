@@ -4,7 +4,7 @@
 
 Is a component abstraction that automatically sets up a global cubemap, which affects the default `scene.environment`, and optionally `scene.background`,
 
-It uses the composable [useEnvironment](/guide/abstractions/use-environment) under the hood to load the cubemap.
+It uses the composable [useEnvironment](/guide/staging/use-environment) under the hood to load the cubemap.
 
 ## Usage
 
