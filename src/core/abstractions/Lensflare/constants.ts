@@ -1,16 +1,15 @@
 import type { LensflareElementProps, SeedProps } from '.'
 
 export const TEXTURE_PATH
-  = 'https://raw.githubusercontent.com/andretchen0/tresjs_assets/'
-  + 'b1bc3780de73a9328a530767c9a7f4cbab060396/textures/lensflare/'
+  = 'https://raw.githubusercontent.com/Tresjs/assets/93976c7d63ac83d4a254a41a10b2362bc17e90c9/textures/lensflare/'
 
 export const circle = `${TEXTURE_PATH}circle.png`
-export const circleBlur = `${TEXTURE_PATH}cirlceBlur.png`
+export const circleBlur = `${TEXTURE_PATH}circleBlur.png`
 export const circleRainbow = `${TEXTURE_PATH}circleRainbow.png`
 export const line = `${TEXTURE_PATH}line.png`
 export const poly6 = `${TEXTURE_PATH}poly6.png`
 export const polyStroke6 = `${TEXTURE_PATH}polyStroke6.png`
-export const rays6 = `${TEXTURE_PATH}rays6.png`
+export const rays = `${TEXTURE_PATH}rays.png`
 export const ring = `${TEXTURE_PATH}ring.png`
 export const starThin6 = `${TEXTURE_PATH}starThin6.png`
 
@@ -40,7 +39,7 @@ export const bodyRequired0: SeedProps = {
 }
 
 export const bodyRequired1: SeedProps = {
-  texture: [rays6],
+  texture: [rays],
   color: ['white'],
   distance: [0, 0],
   size: [180, 512],

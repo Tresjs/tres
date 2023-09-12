@@ -32,15 +32,14 @@ onLoop(({ delta }) => {
 })
 
 const TEXTURE_PATH
-  = 'https://raw.githubusercontent.com/andretchen0/tresjs_assets/'
-  + 'b1bc3780de73a9328a530767c9a7f4cbab060396/textures/lensflare/'
+  = 'https://raw.githubusercontent.com/Tresjs/assets/93976c7d63ac83d4a254a41a10b2362bc17e90c9/textures/lensflare/'
 const circle = `${TEXTURE_PATH}circle.png`
-const circleBlur = `${TEXTURE_PATH}cirlceBlur.png`
+const circleBlur = `${TEXTURE_PATH}circleBlur.png`
 const circleRainbow = `${TEXTURE_PATH}circleRainbow.png`
 const line = `${TEXTURE_PATH}line.png`
 const poly6 = `${TEXTURE_PATH}poly6.png`
 const polyStroke6 = `${TEXTURE_PATH}polyStroke6.png`
-const rays6 = `${TEXTURE_PATH}rays6.png`
+const rays = `${TEXTURE_PATH}rays.png`
 const ring = `${TEXTURE_PATH}ring.png`
 
 const float = (lo: number, hi: number) => Math.random() * (hi - lo) + lo
@@ -143,7 +142,7 @@ const [seedRef, scaleRef] = useControls(
         seed: oversizeSeed.value.value,
       },
       {
-        texture: [circleBlur, rays6, circleRainbow, circle],
+        texture: [circleBlur, rays, circleRainbow, circle],
         color: [bodyColorA.value.value, bodyColorB.value.value, bodyColorC.value.value],
         distance: [0, 0],
         size: [
@@ -242,7 +241,7 @@ const [seedRef, scaleRef] = useControls(
           :scale="0.75"
           :elements="[
             { texture: ring, size: 512, distance: 0 },
-            { texture: rays6, distance: 0, color: 'white' },
+            { texture: rays, distance: 0, color: 'white' },
             { distance: 0 },
             { distance: 0.2 },
             { distance: 0.5 },
