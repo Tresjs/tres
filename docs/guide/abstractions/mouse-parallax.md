@@ -1,10 +1,8 @@
 # MouseParallax
 
-<ClientOnly>
-  <div style="aspect-ratio: 16/9; height: auto; margin: 2rem 0; border-radius: 8px; overflow:hidden;">
-    <MouseParallaxDemo />
-  </div> 
-</ClientOnly>
+<DocsDemo>
+  <MouseParallaxDemo />
+</DocsDemo>
 
 `<MouseParallax />` is a component that allow you to create easily the pam parallax effect. The camera will update automatically according to the mouse position, creating a beautiful nice effect
 

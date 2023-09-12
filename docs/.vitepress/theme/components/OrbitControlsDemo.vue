@@ -1,9 +1,10 @@
 <!-- eslint-disable no-console -->
 <script setup lang="ts">
-import { reactive, shallowRef } from 'vue'
 import { TresCanvas } from '@tresjs/core'
-import { CameraControls } from '@tresjs/cientos'
 import { BasicShadowMap, SRGBColorSpace, NoToneMapping } from 'three'
+
+import { OrbitControls } from '@tresjs/cientos'
+import { reactive } from 'vue'
 
 const gl = {
   clearColor: '#82DBC5',
@@ -15,23 +16,49 @@ const gl = {
 }
 
 const controlsState = reactive({
-  minDistance: 0,
+  enableDamping: true,
+  dampingFactor: 0.05,
+  enableZoom: true,
+  autoRotate: false,
+  autoRotateSpeed: 2,
+  maxPolarAngle: Math.PI,
+  minPolarAngle: 0,
+  maxAzimuthAngle: Math.PI,
+  minAzimuthAngle: -Math.PI,
+  enablePan: true,
+  keyPanSpeed: 7,
   maxDistance: 100,
+  minDistance: 0,
+  minZoom: 0,
+  maxZoom: 100,
+  zoomSpeed: 1,
+  enableRotate: true,
+  rotateSpeed: 1,
 })
 
-const controlsRef = shallowRef()
-const boxMeshRef = shallowRef()
+function onChange() {
+  /* console.log('change') */
+}
+
+function onStart() {
+  /*  console.log('start') */
+}
+
+function onEnd() {
+  /*   console.log('end') */
+}
 </script>
 
 <template>
+  <TresLeches />
   <TresCanvas v-bind="gl">
-    <TresPerspectiveCamera :position="[5, 5, 5]" />
-    <CameraControls
+    <TresPerspectiveCamera :position="[3, 3, 3]" />
+    <OrbitControls
       v-bind="controlsState"
-      ref="controlsRef"
-      make-default
+      @change="onChange"
+      @start="onStart"
+      @end="onEnd"
     />
-    <TresGridHelper :position="[0, -1, 0]" />
     <TresMesh ref="boxMeshRef">
       <TresBoxGeometry :args="[2, 2, 2]" />
       <TresMeshToonMaterial
@@ -43,5 +70,6 @@ const boxMeshRef = shallowRef()
       :intensity="1"
       :position="[0, 2, 4]"
     />
+    <TresGridHelper />
   </TresCanvas>
 </template>

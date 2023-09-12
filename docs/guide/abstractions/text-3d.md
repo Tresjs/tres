@@ -2,11 +2,9 @@
 
 `<Text3D />` is a component that renders a 3D text. It is a wrapper around the [TextGeometry](https://threejs.org/docs/#api/en/geometries/TextGeometry) class.
 
-<ClientOnly>
-  <div style="aspect-ratio: 16/9; height: auto; margin: 2rem 0; border-radius: 8px; overflow:hidden;">
-    <Text3Demo />
-  </div> 
-</ClientOnly>
+<DocsDemo>
+  <Text3Demo />
+</DocsDemo>
 
 ## Usage
 

@@ -8,11 +8,22 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     BackdropDemo: typeof import('./.vitepress/theme/components/BackdropDemo.vue')['default']
+    CameraControlsDemo: typeof import('./.vitepress/theme/components/CameraControlsDemo.vue')['default']
+    ContactShadowDemo: typeof import('./.vitepress/theme/components/ContactShadowDemo.vue')['default']
+    DocDemo: typeof import('./.vitepress/theme/components/DocDemo.vue')['default']
+    DocsDemo: typeof import('./.vitepress/theme/components/DocsDemo.vue')['default']
     Feather: typeof import('./.vitepress/theme/components/Feather.vue')['default']
+    GlassMaterialDemo: typeof import('./.vitepress/theme/components/GlassMaterialDemo.vue')['default']
     LeviosoDemo: typeof import('./.vitepress/theme/components/LeviosoDemo.vue')['default']
     LoveVueThreeJS: typeof import('./.vitepress/theme/components/LoveVueThreeJS.vue')['default']
+    MouseParallaxDemo: typeof import('./.vitepress/theme/components/MouseParallaxDemo.vue')['default']
+    OrbitControlsDemo: typeof import('./.vitepress/theme/components/OrbitControlsDemo.vue')['default']
+    PrecipitationDemo: typeof import('./.vitepress/theme/components/PrecipitationDemo.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    SmokeDemo: typeof import('./.vitepress/theme/components/SmokeDemo.vue')['default']
+    StarsDemo: typeof import('./.vitepress/theme/components/StarsDemo.vue')['default']
+    Text3Demo: typeof import('./.vitepress/theme/components/Text3Demo.vue')['default']
     WobbleMaterialDemo: typeof import('./.vitepress/theme/components/WobbleMaterialDemo.vue')['default']
   }
 }

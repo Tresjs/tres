@@ -19,10 +19,10 @@ const reactiveText = ref('You can edit me')
 </script>
 
 <template>
-  <div class="input-center">
+  <div class="bg-gray-100 flex justify-center">
     <input
       v-model="reactiveText"
-      style="border: 1px solid #f7f7f7;"
+      class="p-2 m-2 rounded-md bg-white border border-gray-400"
     >
   </div>
   <TresCanvas v-bind="gl">
@@ -35,16 +35,11 @@ const reactiveText = ref('You can edit me')
         :font="fontPath"
         center
         :need-updates="true"
-      />
+      >
+        <TresMeshNormalMaterial />
+      </Text3D>
     </Suspense>
     <TresAmbientLight :intensity="1" />
   </TresCanvas>
 </template>
 
-<style scoped>
-.input-center {
-  display: flex;
-  justify-content: center;
-  padding: 0.25rem;
-}
-</style>
