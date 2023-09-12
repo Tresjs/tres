@@ -40,6 +40,7 @@ const line = `${TEXTURE_PATH}line.png`
 const poly6 = `${TEXTURE_PATH}poly6.png`
 const polyStroke6 = `${TEXTURE_PATH}polyStroke6.png`
 const rays = `${TEXTURE_PATH}rays.png`
+const rays6 = `${TEXTURE_PATH}rays6.png`
 const ring = `${TEXTURE_PATH}ring.png`
 
 const float = (lo: number, hi: number) => Math.random() * (hi - lo) + lo
@@ -77,9 +78,9 @@ const [seedRef, scaleRef] = useControls(
       seed0: { value: 930104199, min: 0, max: 2 ** 31, step: 1 },
     })
 
-  const [bodySize, bodySizeRand, bodyNumElements, bodyNumElementsRand,
-    bodyColorA, bodyColorB, bodyColorC, bodySeed] = useControls(
-    'Body',
+  const [raysSize, raysSizeRand, raysNumElements, raysNumElementsRand,
+    raysColorA, raysColorB, raysColorC, raysSeed] = useControls(
+    'Rays',
     {
       size1: { value: 180, min: 0, max: 512, step: 1 },
       sizeRand1: { value: 256, min: 0, max: 512, step: 1 },
@@ -91,20 +92,34 @@ const [seedRef, scaleRef] = useControls(
       seed1: { value: 1021142105, min: 0, max: 2 ** 31, step: 1 },
     })
 
+  const [bodySize, bodySizeRand, bodyNumElements, bodyNumElementsRand,
+    bodyColorA, bodyColorB, bodyColorC, bodySeed] = useControls(
+    'Body',
+    {
+      size2: { value: 180, min: 0, max: 512, step: 1 },
+      sizeRand2: { value: 256, min: 0, max: 512, step: 1 },
+      count2: { value: 2, min: 0, max: 20, step: 1 },
+      countRand2: { value: 1, min: 0, max: 20, step: 1 },
+      colorA2: '#ffffff',
+      colorB2: '#ffffff',
+      colorC2: '#808080',
+      seed2: { value: 1248736959, min: 0, max: 2 ** 31, step: 1 },
+    })
+
   const [frontSize, frontSizeRand, frontOffset, frontSpread, frontNumElements, frontNumElementsRand,
     frontColorA, frontColorB, frontColorC, frontSeed] = useControls(
     'Front',
     {
-      size2: { value: 20, min: 0, max: 512, step: 1 },
-      sizeRand2: { value: 160, min: 0, max: 512, step: 1 },
-      offset2: { value: 0.5, min: 0, max: 4, step: 0.1 },
-      spread2: { value: 1, min: 0, max: 4, step: 0.1 },
-      count2: { value: 5, min: 0, max: 20, step: 1 },
-      countRand2: { value: 16, min: 0, max: 20, step: 1 },
-      colorA2: '#ffffff',
-      colorB2: '#808080',
-      colorC2: '#a9a9a9',
-      seed2: { value: 2, min: 0, max: 2 ** 31, step: 1 },
+      size3: { value: 20, min: 0, max: 512, step: 1 },
+      sizeRand3: { value: 160, min: 0, max: 512, step: 1 },
+      offset3: { value: 0.5, min: 0, max: 4, step: 0.1 },
+      spread3: { value: 1, min: 0, max: 4, step: 0.1 },
+      count3: { value: 5, min: 0, max: 20, step: 1 },
+      countRand3: { value: 16, min: 0, max: 20, step: 1 },
+      colorA3: '#ffffff',
+      colorB3: '#808080',
+      colorC3: '#a9a9a9',
+      seed3: { value: 1673580564, min: 0, max: 2 ** 31, step: 1 },
     },
   )
 
@@ -112,16 +127,16 @@ const [seedRef, scaleRef] = useControls(
     backColorA, backColorB, backColorC, backSeed] = useControls(
     'Back',
     {
-      size3: { value: 180, min: 0, max: 512, step: 1 },
-      sizeRand3: { value: 90, min: 0, max: 512, step: 1 },
-      offset3: { value: 0.5, min: 0, max: 4, step: 0.1 },
-      spread3: { value: 0.5, min: 0, max: 4, step: 0.1 },
-      count3: { value: 3, min: 0, max: 20, step: 1 },
-      countRand3: { value: 2, min: 0, max: 20, step: 1 },
-      colorA3: '#ffffff',
-      colorB3: '#a9a9a9',
-      colorC3: '#00008b',
-      seed3: { value: 869412245, min: 0, max: 2 ** 31, step: 1 },
+      size4: { value: 180, min: 0, max: 512, step: 1 },
+      sizeRand4: { value: 90, min: 0, max: 512, step: 1 },
+      offset4: { value: 0.5, min: 0, max: 4, step: 0.1 },
+      spread4: { value: 0.5, min: 0, max: 4, step: 0.1 },
+      count4: { value: 3, min: 0, max: 20, step: 1 },
+      countRand4: { value: 2, min: 0, max: 20, step: 1 },
+      colorA4: '#ffffff',
+      colorB4: '#a9a9a9',
+      colorC4: '#00008b',
+      seed4: { value: 1764618553, min: 0, max: 2 ** 31, step: 1 },
     },
   )
 
@@ -142,7 +157,21 @@ const [seedRef, scaleRef] = useControls(
         seed: oversizeSeed.value.value,
       },
       {
-        texture: [circleBlur, rays, circleRainbow, circle],
+        texture: [rays, rays6],
+        color: [raysColorA.value.value, raysColorB.value.value, raysColorC.value.value],
+        distance: [0, 0],
+        size: [
+          Math.max(0, Math.floor(raysSize.value.value - 0.5 * raysSizeRand.value.value)),
+          Math.max(0, Math.floor(raysSize.value.value + 0.5 * raysSizeRand.value.value)),
+        ],
+        length: [
+          Math.max(0, Math.floor(raysNumElements.value.value - 0.5 * raysNumElementsRand.value.value)),
+          Math.max(0, Math.floor(raysNumElements.value.value + 0.5 * raysNumElementsRand.value.value)),
+        ],
+        seed: raysSeed.value.value,
+      },
+      {
+        texture: [circleBlur, circleRainbow, circle],
         color: [bodyColorA.value.value, bodyColorB.value.value, bodyColorC.value.value],
         distance: [0, 0],
         size: [
@@ -194,6 +223,11 @@ const [seedRef, scaleRef] = useControls(
     oversizeColorA.value.value, oversizeColorB.value.value, oversizeColorC.value.value,
     oversizeSeed.value.value,
 
+    raysSize.value.value, raysSizeRand.value.value,
+    raysNumElements.value.value, raysNumElementsRand.value.value,
+    raysColorA.value.value, raysColorB.value.value, raysColorC.value.value,
+    raysSeed.value.value,
+
     bodySize.value.value, bodySizeRand.value.value,
     bodyNumElements.value.value, bodyNumElementsRand.value.value,
     bodyColorA.value.value, bodyColorB.value.value, bodyColorC.value.value,
@@ -236,16 +270,16 @@ const [seedRef, scaleRef] = useControls(
         <Lensflare
           :color="colorRef"
           :texture="circleBlur"
-          :distance="1"
+          :distance="0.2"
           :size="216"
-          :scale="0.75"
+          :scale="0.45"
           :elements="[
             { texture: ring, size: 512, distance: 0 },
             { texture: rays, distance: 0, color: 'white' },
             { distance: 0 },
-            { distance: 0.2 },
-            { distance: 0.5 },
-            {},
+            { distance: 0.1, size: 124 },
+            { distance: 0.14, size: 90 },
+            { texture: ring, size: 80 },
           ]"
         />
       </TresPointLight>
