@@ -15,14 +15,14 @@ const gl = {
 
 const fontPath = 'https://raw.githubusercontent.com/Tresjs/assets/main/fonts/FiraCodeRegular.json'
 
-const reactiveText = ref('You can edit me')
+const reactiveText = ref('You can edit me...')
 </script>
 
 <template>
   <div class="bg-gray-100 flex justify-center">
     <input
       v-model="reactiveText"
-      class="p-2 m-2 rounded-md bg-white border border-gray-400"
+      class="p-2 m-2 rounded-md bg-white border border-gray-400 color-red"
     >
   </div>
   <TresCanvas v-bind="gl">

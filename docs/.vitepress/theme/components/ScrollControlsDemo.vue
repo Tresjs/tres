@@ -51,7 +51,6 @@ onLoop(() => {
       v-model="progress"
       :distance="20"
       :smooth-scroll="0.1"
-      html-scroll
     >
       <Sphere
         ref="sphereRef"
