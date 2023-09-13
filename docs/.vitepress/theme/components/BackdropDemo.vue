@@ -64,10 +64,10 @@ const { hasFinishLoading, progress, items } = await useProgress()
       <Suspense>
         <GLTFModel
           ref="model"
-          cast-shadow
-          path="/card-bo-bot/CardBoBotv3.glb"
-          draco
+          path="https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/blender-cube.glb"
           :rotation="[0, 0.5, 0]"
+          :position="[0, 0.4, 0]"
+          :scale="0.5"
         />
       </Suspense>
       <Backdrop
@@ -88,8 +88,6 @@ const { hasFinishLoading, progress, items } = await useProgress()
         cast-shadow
         :position="[3, 4, 4]"
         :look-at="[0, 0, 0]"
-        :shadow-map-size-width="256"
-        :shadow-map-size-height="256"
         :shadow-camera-near="0.5"
         :shadow-camera-left="-10"
       />
@@ -98,8 +96,6 @@ const { hasFinishLoading, progress, items } = await useProgress()
         cast-shadow
         :position="[-3, 2, 4]"
         :look-at="[0, 0, 0]"
-        :shadow-map-size-width="256"
-        :shadow-map-size-height="256"
         :shadow-camera-near="0.5"
         :shadow-camera-left="-10"
       />
