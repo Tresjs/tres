@@ -103,6 +103,13 @@ export default defineConfig({
           { text: 'Stats', link: '/guide/misc/stats' },
         ],
       },
+      {
+        text: 'Directives',
+        collapsed: true,
+        items: [
+          { text: 'v-log', link: '/guide/directives/v-log' },
+        ],
+      },
     ],
 
     socialLinks: [
