@@ -50,10 +50,12 @@ const pbrTexture = await useTexture({
   displacementMap: '/textures/black-rock/Rock035_2K_Displacement.jpg',
   roughnessMap: '/textures/black-rock/Rock035_2K_Roughness.jpg',
   normalMap: '/textures/black-rock/Rock035_2K_NormalDX.jpg',
-  ambientOcclusion: '/textures/black-rock/Rock035_2K_AmbientOcclusion.jpg',
+  aoMap: '/textures/black-rock/Rock035_2K_AmbientOcclusion.jpg',
+  metalnessMap: '/textures/black-rock/myMetalnessTexture.jpg',
+  matcap: '/textures/black-rock/myMatcapTexture.jpg',
+  alphaMap: '/textures/black-rock/myAlphaMapTexture.jpg'
 })
 ```
-
 Similar to the previous example, we can pass all the textures to a material via props:
 
 ```html
@@ -66,7 +68,7 @@ Similar to the previous example, we can pass all the textures to a material via 
         :displacementMap="pbrTexture.displacementMap"
         :roughnessMap="pbrTexture.roughnessMap"
         :normalMap="pbrTexture.normalMap"
-        :ambientOcclusionMap="pbrTexture.ambientOcclusionMap"
+        :aoMap="pbrTexture.ambientOcclusionMap"
       />
     </TresMesh>
   </TresCanvas>
