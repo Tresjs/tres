@@ -2,11 +2,9 @@
 
 `<Precipitation />` is a fully flexible component that renders an infinite particle flow, It comes with several props that allow you customize it to create different effects like precipitation, snow, waterfall, beams, etc.
 
-<ClientOnly>
-  <div style="aspect-ratio: 16/9; height: auto; margin: 2rem 0; border-radius: 8px; overflow:hidden;">
-    <PrecipitationDemo />
-  </div> 
-</ClientOnly>
+<DocsDemo>
+  <PrecipitationDemo />
+</DocsDemo>
 
 ## Usage
 

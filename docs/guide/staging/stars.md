@@ -2,11 +2,9 @@
 
 `<Stars />` is a component that renders a stars in the sky of your scene. It is an abstraction that use Points, PointsMaterial and BufferGeometry to create a beautiful stars effect
 
-<ClientOnly>
-  <div style="aspect-ratio: 16/9; height: auto; margin: 2rem 0; border-radius: 8px; overflow:hidden;">
-    <StarsDemo />
-  </div> 
-</ClientOnly>
+<DocsDemo>
+  <StarsDemo />
+</DocsDemo>
 
 ## Usage
 

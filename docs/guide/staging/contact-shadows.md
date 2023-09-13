@@ -1,10 +1,8 @@
 # Contact Shadows
 
-<ClientOnly>
-  <div style="aspect-ratio: 16/9; height: auto; margin: 2rem 0; border-radius: 8px; overflow:hidden;">
-    <ContactShadowDemo />
-  </div> 
-</ClientOnly>
+<DocsDemo>
+  <ContactShadowDemo />
+</DocsDemo>
 
 A contact shadow implementation is a technique used in 3D graphics to create shadows that appear where objects meet or "contact" each other. This is different from traditional shadowing techniques, which often only create shadows based on the position of a light source relative to an object.
 

@@ -2,11 +2,9 @@
 
 `<Smoke />` is a component that renders a smoke in your scene. It is an abstraction that use a combination of textures, transparency and some calculation, to create a beautiful  smoke - cloud - fog effect
 
-<ClientOnly>
-  <div style="aspect-ratio: 16/9; height: auto; margin: 2rem 0; border-radius: 8px; overflow:hidden;">
-    <SmokeDemo />
-  </div> 
-</ClientOnly>
+<DocsDemo> 
+  <SmokeDemo />
+</DocsDemo>
 
 ## Usage
 
