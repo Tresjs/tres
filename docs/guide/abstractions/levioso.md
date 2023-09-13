@@ -1,10 +1,8 @@
 # Levioso (Float)
 
-<ClientOnly>
-  <div style="aspect-ratio: 16/9; height: auto; margin: 2rem 0; border-radius: 8px; overflow:hidden;">
-    <LeviosoDemo />
-  </div> 
-</ClientOnly>
+<DocsDemo>
+  <LeviosoDemo />
+</DocsDemo>
 
 ![Leviosa](https://media.giphy.com/media/HaCFT5ghY6L1m/giphy.gif)
 

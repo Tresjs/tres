@@ -1,6 +1,8 @@
 # Contact Shadows
 
-![Contact Shadows](/cientos/contact-shadows.png)
+<DocsDemo>
+  <ContactShadowDemo />
+</DocsDemo>
 
 A contact shadow implementation is a technique used in 3D graphics to create shadows that appear where objects meet or "contact" each other. This is different from traditional shadowing techniques, which often only create shadows based on the position of a light source relative to an object.
 

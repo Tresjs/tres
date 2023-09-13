@@ -2,7 +2,9 @@
 
 `<Stars />` is a component that renders a stars in the sky of your scene. It is an abstraction that use Points, PointsMaterial and BufferGeometry to create a beautiful stars effect
 
-<!-- <StackBlitzEmbed projectId="tresjs-text3d-cientos" /> -->
+<DocsDemo>
+  <StarsDemo />
+</DocsDemo>
 
 ## Usage
 
@@ -11,7 +13,7 @@ You can use `<Stars />` component without passing any props, but still if you wa
 ```vue
 <template>
   <TresCanvas>
-  ...
+    ...
     <Stars />
     ...
   </TresCanvas>
@@ -23,8 +25,13 @@ Notice that you can pass a texture as an alphaMap to personalize the star shape
 ```vue
 <template>
   <TresCanvas>
-  ...
-    <Stars :radius="50" :depth="20" :count="3000" :alphaMap="alphaMap"  />
+    ...
+    <Stars
+      :radius="50"
+      :depth="20"
+      :count="3000"
+      :alpha-map="alphaMap"
+    />
     ...
   </TresCanvas>
 </template>

@@ -11,7 +11,7 @@ The nicest part? You don't need to extend the catalog or pass any arguments.
 It just works. 💯
 
 ::: warning
-This control uses the [Pointer Lock API] (https://developer.mozilla.org/en-US/docs/Web/API/Pointer_Lock_API), the same rules are applied, for example, you need to interact with the browser to "lock" or start the event.
+This control uses the [Pointer Lock API](https://developer.mozilla.org/en-US/docs/Web/API/Pointer_Lock_API), the same rules are applied, for example, you need to interact with the browser to "lock" or start the event.
 In addition, you need to wait 1 second between canceling and re-starting the event
 :::
 

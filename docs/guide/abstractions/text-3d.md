@@ -2,7 +2,9 @@
 
 `<Text3D />` is a component that renders a 3D text. It is a wrapper around the [TextGeometry](https://threejs.org/docs/#api/en/geometries/TextGeometry) class.
 
-<StackBlitzEmbed projectId="tresjs-text3d-cientos" />
+<DocsDemo>
+  <Text3Demo />
+</DocsDemo>
 
 ## Usage
 
@@ -11,7 +13,10 @@ To use the `<Text3D />` component you need to pass the `font` prop with the URL 
 ```vue
 <template>
   <TresCanvas>
-    <Text3D text="TresJS" font="/fonts/FiraCodeRegular.json">
+    <Text3D
+      text="TresJS"
+      font="/fonts/FiraCodeRegular.json"
+    >
       <TresMeshNormalMaterial />
     </Text3D>
   </TresCanvas>
@@ -37,7 +42,12 @@ In addition, you can use the power of Vue to add reactivity, but you need to app
 <template>
   <input v-model="myReactiveText">
   <TresCanvas>
-    <Text3D :text="myReactiveText" font="/fonts/FiraCodeRegular.json" center need-updates>
+    <Text3D
+      :text="myReactiveText"
+      font="/fonts/FiraCodeRegular.json"
+      center
+      need-updates
+    />
   </TresCanvas>
 </template>
 ```

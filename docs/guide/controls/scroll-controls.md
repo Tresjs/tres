@@ -1,5 +1,9 @@
 # ScrollControls
 
+<DocsDemo>
+  <ScrollControlsDemo />
+</DocsDemo>
+
 `ScrollControls` use scroll as a trigger for control the scene, you can use the HTML native scroll or use the one that it get creates for you.
 
 The `cientos` package create this controls from scratch for you, and comes with really useful props to customize your experiences, try it out. ✨

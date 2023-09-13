@@ -1,5 +1,9 @@
 # Using `GLTFModel`
 
+<DocsDemo>
+  <GLTFModelDemo />
+</DocsDemo>
+
 The `GLTFModel` component is a wrapper around [`useGLTF`](./use-gltf.md) composable and accepts the same options as props.
 
 ```vue{2,9}

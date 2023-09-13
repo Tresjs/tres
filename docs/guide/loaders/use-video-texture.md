@@ -1,4 +1,8 @@
-# useVideoProgress
+# useVideoTexture <Badge type="warning" text="^3.2.0" />
+
+<DocsDemo>
+  <VideoTextureDemo />
+</DocsDemo>
 
 A composable to easily use videos as textures in your meshes.
 

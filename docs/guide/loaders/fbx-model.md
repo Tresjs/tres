@@ -1,5 +1,9 @@
 # Using `FBXModel`
 
+<DocsDemo>
+  <FBXModelDemo />
+</DocsDemo>
+
 The `FBXModel` component is a wrapper around [`useFBX`](./use-fbx.md) composable and accepts the same options as props.
 
 ```vue{2,9}
@@ -11,7 +15,7 @@ import { OrbitControls, FBXModel } from '@tresjs/cientos'
       <TresPerspectiveCamera :position="[11, 11, 11]" />
       <OrbitControls />
       <Suspense>
-        <FBXModel path="/models/AkuAku.fbx" />
+        <FBXModel path="/models/Jeep.fbx" />
       </Suspense>
       <TresDirectionalLight :position="[-4, 8, 4]" :intensity="1.5" cast-shadow />
     </TresCanvas>

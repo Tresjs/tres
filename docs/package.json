@@ -9,11 +9,14 @@
     "preview": "vitepress preview"
   },
   "devDependencies": {
+    "@tresjs/leches": "^0.8.0",
     "unocss": "^0.54.0",
     "vite-svg-loader": "^4.0.0"
   },
   "dependencies": {
+    "-": "^0.0.1",
     "@tresjs/cientos": "workspace:^",
-    "@tweakpane/plugin-essentials": "^0.2.0"
+    "@tweakpane/plugin-essentials": "^0.2.0",
+    "D": "^1.0.0"
   }
 }

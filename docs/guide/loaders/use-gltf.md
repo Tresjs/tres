@@ -1,5 +1,9 @@
 # useGLTF
 
+<DocsDemo>
+  <GLTFModelDemo />
+</DocsDemo>
+
 A composable that allows you to easily load glTF models into your **TresJS** scene.
 
 ## Usage
