@@ -150,7 +150,7 @@ onMounted(() => {
     () => props.camera,
     (newCamera, oldCamera) => {
       if (newCamera) registerCamera(newCamera)
-      else if (oldCamera) {
+      if (oldCamera) {
         oldCamera.removeFromParent()
         deregisterCamera(oldCamera)
       }
