@@ -32,6 +32,7 @@ export default defineConfig({
           { text: 'Levioso (Float)', link: '/guide/abstractions/levioso' },
           { text: 'useAnimations', link: '/guide/abstractions/use-animations' },
           { text: 'MouseParallax', link: '/guide/abstractions/mouse-parallax' },
+          { text: 'Lensflare', link: '/guide/abstractions/lensflare' },
         ],
       },
       {

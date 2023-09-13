@@ -14,4 +14,9 @@ export const abstractionsRoutes = [
     name: 'MouseParallax',
     component: () => import('../../pages/abstractions/MouseParallaxDemo.vue'),
   },
+  {
+    path: '/abstractions/lensflare',
+    name: 'Lensflare',
+    component: () => import('../../pages/abstractions/LensflareDemo.vue'),
+  },
 ]
