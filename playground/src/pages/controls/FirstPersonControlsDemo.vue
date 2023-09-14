@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
 import { BasicShadowMap, NoToneMapping } from 'three'
-import { PointerLockControls, KeyboardControls, stats } from '@tresjs/cientos'
+import { PointerLockControls, KeyboardControls, Stats } from '@tresjs/cientos'
 
 const gl = {
   clearColor: '#82DBC5',
@@ -11,7 +11,7 @@ const gl = {
   toneMapping: NoToneMapping,
 }
 
-stats(0)
+Stats(0)
 
 const isActive = (state: boolean) => console.log(state)
 </script>
