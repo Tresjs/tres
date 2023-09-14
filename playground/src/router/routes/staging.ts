@@ -30,4 +30,9 @@ export const stagingRoutes = [
     name: 'ContactShadows',
     component: () => import('../../pages/staging/ContactShadowsDemo.vue'),
   },
+  {
+    path: '/staging/sky',
+    name: 'Sky',
+    component: () => import('../../pages/staging/SkyDemo.vue'),
+  },
 ]
