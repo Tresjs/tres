@@ -5,6 +5,7 @@ import {
   stagingRoutes,
   loadersRoutes,
   materialsRoutes,
+  directivesRoutes,
 } from './routes'
 
 const routes = [
@@ -18,6 +19,7 @@ const routes = [
   ...stagingRoutes,
   ...loadersRoutes,
   ...materialsRoutes,
+  ...directivesRoutes,
 ]
 
 export const router = createRouter({
