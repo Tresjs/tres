@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { MathUtils, Vector3 } from 'three'
 import { Sky as SkyImpl } from 'three/examples/jsm/objects/Sky'
-import { watch } from 'vue'
+import { computed } from 'vue'
 
 export interface SkyProps {
   turbidity?: number
@@ -24,24 +24,12 @@ const props = withDefaults(defineProps<SkyProps>(), {
 })
 
 const skyImpl = new SkyImpl()
-{
-  const uniforms = skyImpl.material.uniforms
-  uniforms.sunPosition.value = getSunPosition(props.azimuth, props.elevation)
-  uniforms.mieCoefficient.value = props.mieCoefficient
-  uniforms.mieDirectionalG.value = props.mieDirectionalG
-  watch(() => [props.azimuth, props.elevation],
-    () => getSunPosition(props.azimuth, props.elevation, uniforms.sunPosition.value))
-  watch(() => [props.mieCoefficient], () => skyImpl.material.uniforms.mieCoefficient.value = props.mieCoefficient)
-  watch(() => [props.mieDirectionalG], () => skyImpl.material.uniforms.mieDirectionalG.value = props.mieDirectionalG)
-}
+const sunPosition = computed(() => getSunPosition(props.azimuth, props.elevation))
 
-function getSunPosition(azimuth: number, elevation: number, v?: Vector3) {
-  if (!v) {
-    v = new Vector3(0, 0, 0)
-  }
+function getSunPosition(azimuth: number, elevation: number) {
   const phi = MathUtils.degToRad(90 - elevation)
   const theta = MathUtils.degToRad(azimuth)
-  return v.setFromSphericalCoords(1, phi, theta)
+  return new Vector3().setFromSphericalCoords(1, phi, theta)
 }
 </script>
 
@@ -50,6 +38,9 @@ function getSunPosition(azimuth: number, elevation: number, v?: Vector3) {
     :object="skyImpl"
     :material-uniforms-turbidity-value="props.turbidity"
     :material-uniforms-rayleigh-value="props.rayleigh"
+    :material-uniforms-mieCoefficient-value="props.mieCoefficient"
+    :material-uniforms-mieDirectionalG-value="props.mieDirectionalG"
+    :material-uniforms-sunPosition-value="sunPosition"
     :scale="props.distance"
   />
 </template>
