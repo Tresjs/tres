@@ -19,7 +19,7 @@ const props = withDefaults(defineProps<SkyProps>(), {
   mieCoefficient: 0.005,
   mieDirectionalG: 0.7,
   elevation: 0.6,
-  azimuth: 0,
+  azimuth: 180,
   distance: 450000,
 })
 
