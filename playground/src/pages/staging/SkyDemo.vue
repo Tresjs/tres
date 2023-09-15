@@ -39,7 +39,6 @@ const skyRef = shallowRef(null)
       :rayleigh="rayleigh.value.value"
       :turbidity="turbidity.value.value"
     />
-    <TresGridHelper :args="[10, 10]" />
     <OrbitControls :zoom-speed="0" />
   </TresCanvas>
 </template>
