@@ -10,10 +10,10 @@ dependencies:
     version: 3.7.1(rollup@3.29.1)
   '@tresjs/cientos':
     specifier: 3.3.0
-    version: 3.3.0(@tresjs/core@3.2.1)(three@0.156.1)(tweakpane@4.0.1)(vue@3.3.4)
+    version: 3.3.0(@tresjs/core@3.2.2)(three@0.156.1)(tweakpane@4.0.1)(vue@3.3.4)
   '@tresjs/core':
-    specifier: 3.2.1
-    version: 3.2.1(three@0.156.1)(vue@3.3.4)
+    specifier: 3.2.2
+    version: 3.2.2(three@0.156.1)(vue@3.3.4)
   '@types/three':
     specifier: ^0.156.0
     version: 0.156.0
@@ -39,7 +39,7 @@ devDependencies:
     version: 0.2.0(eslint@8.49.0)
   '@nuxt/module-builder':
     specifier: ^0.5.1
-    version: 0.5.1(@nuxt/kit@3.7.1)(nuxi@3.8.3)(typescript@5.2.2)
+    version: 0.5.1(@nuxt/kit@3.7.1)(nuxi@3.8.4)(typescript@5.2.2)
   '@nuxt/schema':
     specifier: ^3.7.1
     version: 3.7.1(rollup@3.29.1)
@@ -1041,7 +1041,7 @@ packages:
       - rollup
       - supports-color
 
-  /@nuxt/module-builder@0.5.1(@nuxt/kit@3.7.1)(nuxi@3.8.3)(typescript@5.2.2):
+  /@nuxt/module-builder@0.5.1(@nuxt/kit@3.7.1)(nuxi@3.8.4)(typescript@5.2.2):
     resolution: {integrity: sha512-O39UrOFbNgL27urwDqeMgXeYiNIUvp73nsmtt7jm9JDcMVIWykuUzyBPYtHif7gq5ElzIjjmDw9zdRGgyMzo+w==}
     hasBin: true
     peerDependencies:
@@ -1052,7 +1052,7 @@ packages:
       consola: 3.2.3
       mlly: 1.4.2
       mri: 1.2.0
-      nuxi: 3.8.3
+      nuxi: 3.8.4
       pathe: 1.1.1
       unbuild: 2.0.0(typescript@5.2.2)
     transitivePeerDependencies:
@@ -1669,7 +1669,7 @@ packages:
     resolution: {integrity: sha512-C5Mc6rdnsaJDjO3UpGW/CQTHtCKaYlScZTly4JIu97Jxo/odCiH0ITnDXSJPTOrEKk/ycSZ0AOgTmkDtkOsvIA==}
     dev: true
 
-  /@tresjs/cientos@3.3.0(@tresjs/core@3.2.1)(three@0.156.1)(tweakpane@4.0.1)(vue@3.3.4):
+  /@tresjs/cientos@3.3.0(@tresjs/core@3.2.2)(three@0.156.1)(tweakpane@4.0.1)(vue@3.3.4):
     resolution: {integrity: sha512-C7sCcupSeML0qSVIg90rjayqjE6T6tcv6co6lUSqhY3RTLxMsureo7Dz1zzH8RMfssMPZD0bewVmbZMl1AbeLw==}
     peerDependencies:
       '@tresjs/core': '>=3.2'
@@ -1677,7 +1677,7 @@ packages:
       tweakpane: '>=3.0.0'
       vue: '>=3.3'
     dependencies:
-      '@tresjs/core': 3.2.1(three@0.156.1)(vue@3.3.4)
+      '@tresjs/core': 3.2.2(three@0.156.1)(vue@3.3.4)
       '@vueuse/core': 10.4.1(vue@3.3.4)
       camera-controls: 2.7.2(three@0.156.1)
       stats.js: 0.17.0
@@ -1689,8 +1689,8 @@ packages:
       - '@vue/composition-api'
     dev: false
 
-  /@tresjs/core@3.2.1(three@0.156.1)(vue@3.3.4):
-    resolution: {integrity: sha512-akmI8v9aoDZkB6ymrbu0PozXFKcA0Bnr1j9FMM8DJOLKx4rFBu8qM0pAwkaOL5YBuz8B0I66pc+f5GxmDlQIqQ==}
+  /@tresjs/core@3.2.2(three@0.156.1)(vue@3.3.4):
+    resolution: {integrity: sha512-zNh32siTJqk2JcnA8hZ8zPGkGvepNP03oCtlnUFl22BGULpQvehMWtMjYx233Gqoq5tiyUEcWeXxBSUHIEJjRg==}
     peerDependencies:
       three: '>=0.133'
       vue: '>=3.3'
@@ -6145,6 +6145,14 @@ packages:
 
   /nuxi@3.8.3:
     resolution: {integrity: sha512-LS1KlxQhQDt+WREENAG44zfO91uiPYDcorQ7xlcaV0ejV65v7Eub94FTmJ6JNXL2boHhc+raODtJBClW2uYyJw==}
+    engines: {node: ^14.18.0 || >=16.10.0}
+    hasBin: true
+    optionalDependencies:
+      fsevents: 2.3.3
+    dev: true
+
+  /nuxi@3.8.4:
+    resolution: {integrity: sha512-YQAH2msfL1PeaDuk880jQAJdtF1hpuYaTQ7j8Ombl+SyyamcB9VTx0gbkNyZj7wmJQYxfiV6a42nlGQ7cJDO+g==}
     engines: {node: ^14.18.0 || >=16.10.0}
     hasBin: true
     optionalDependencies:
