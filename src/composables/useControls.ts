@@ -24,8 +24,7 @@ const inferType = (value: any): string => {
   if (value.min !== undefined || value.max !== undefined || value.step !== undefined) return 'range'
   if (
     value.options 
-    && Array.isArray(value.options) 
-    && value.options.every((option: { text: string; value: string }) => 'text' in option && 'value' in option)) {
+    && Array.isArray(value.options)) {
     return 'select'
   }
   
@@ -35,6 +34,7 @@ const inferType = (value: any): string => {
 
 const createControl = (key: string, value: any, type: string, folderName: string | null): Control => {
   const control: Control = {
+    key: ref(key),
     label: ref(key),
     name: ref(key),
     type: ref(type),
@@ -103,7 +103,17 @@ export const useControls = (
       const control = createControl(key, reactiveValue, controlType, folderName)
 
       if (controlType === 'select') {
-        control.options = ref(controlOptions.options)
+        control.options = ref(controlOptions.options.map((option) => {
+          if (typeof option === 'object' && option.text && option.value) {
+            return option
+          }
+          else {
+            return {
+              text: option,
+              value: option,
+            }
+          }
+        }))
       }
 
       if (controlType === 'range') {
