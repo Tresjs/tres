@@ -19,6 +19,7 @@ export const vLightHelper = {
     }
     const currentHelper = helpers[el.type]
     const currentInstance = el.parent.children.find((child: any) => child instanceof currentHelper)
+    currentInstance.dispose()
     el.parent.remove(currentInstance)
   },
 }
