@@ -1,6 +1,6 @@
 # Primitives
 
-The `<primitive />` component is a versatile low-level component in TresJS that allows you to directly use any Three.js object within your Vue application without any abstraction. It acts as a bridge between Vue's reactivity system and Three.js's scene graph.
+The `<primitive />` component is a versatile low-level component in TresJS that allows you to directly use any Three.js object within your Vue application without an abstraction. It acts as a bridge between Vue's reactivity system and Three.js's scene graph.
 
 ## Usage
 
