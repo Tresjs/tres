@@ -1,6 +1,6 @@
 # Primitives
 
-The `<primitive />` component is a versatile  is a low-level component in TresJS that allows you to directly use any Three.js object within your Vue application without any abstraction. It acts as a bridge between Vue's reactivity system and Three.js's scene graph.
+The `<primitive />` component is a versatile low-level component in TresJS that allows you to directly use any Three.js object within your Vue application without any abstraction. It acts as a bridge between Vue's reactivity system and Three.js's scene graph.
 
 ## Usage
 
@@ -30,7 +30,7 @@ The `<primitive />` component is a versatile  is a low-level component in TresJS
 
 ## Usage with Models 
 
-The `<primitive />` component is speciallly usefull to render complex objects like models loaded from external sources. The following example shows how to load a model from a GLTF file and render it using the `<primitive />` component.
+The `<primitive />` component is is especially usefull to render complex objects like models loaded from external sources. The following example shows how to load a model from a GLTF file and render it using the `<primitive />` component.
 
 ```html
 <script lang="ts" setup>
