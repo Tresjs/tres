@@ -22,7 +22,6 @@ const [turbidity, rayleigh, mieCoefficient, mieDirectionalG, elevation, azimuth,
   distance: { value: 450000, min: 1000, max: 1000000, step: 1000 },
   exposure: { value: 0.5, min: 0, max: 1, step: 0.01 },
 })
-
 </script>
 
 <template>
@@ -41,6 +40,9 @@ const [turbidity, rayleigh, mieCoefficient, mieDirectionalG, elevation, azimuth,
       :turbidity="turbidity.value.value"
       :distance="distance.value.value"
     />
-    <OrbitControls :enable-pan="false" :enable-zoom="false" />
+    <OrbitControls 
+      :enable-pan="false"
+      :enable-zoom="false"
+    />
   </TresCanvas>
 </template>
