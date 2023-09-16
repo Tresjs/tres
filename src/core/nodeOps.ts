@@ -84,7 +84,8 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
       fallback = child
       return
     }
-    else if (child?.__vnode?.type.includes('Controls') && parent === null) {
+    else if (parent === null 
+      && (child?.__vnode?.type.includes('Controls') || child?.__vnode?.type.includes('Helper'))) {
       fallback = scene as unknown as TresObject
     }
 
