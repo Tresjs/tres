@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { shallowRef } from 'vue'
 import { TresCanvas } from '@tresjs/core'
 import { OrbitControls, Sky } from '@tresjs/cientos'
 import { SRGBColorSpace, ACESFilmicToneMapping } from 'three'
@@ -23,7 +22,6 @@ const [turbidity, rayleigh, mieCoefficient, mieDirectionalG, elevation, azimuth,
   exposure: { value: 0.5, min: 0, max: 1, step: 0.01 },
 })
 
-const skyRef = shallowRef(null)
 </script>
 
 <template>
@@ -34,7 +32,6 @@ const skyRef = shallowRef(null)
   >
     <TresPerspectiveCamera :position="[0, 100, 2000]" />
     <Sky
-      ref="skyRef"
       :elevation="elevation.value.value"
       :azimuth="azimuth.value.value"
       :mie-coefficient="mieCoefficient.value.value"
