@@ -23,7 +23,7 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader'
 const { scene } = await useLoader(GLTFLoader, '/models/AkuAku.gltf')
 ```
 
-Then you can pass the model scene to a TresJS `primitive`:
+Then you can pass the model scene to a TresJS [`primitive`](/advanced/primitive) component to render it:
 
 ```html{3}
 <TresCanvas>
@@ -63,8 +63,13 @@ import { useGLTF } from '@tresjs/cientos'
 
 const { scene, nodes, animations, materials } = await useGLTF('/models/AkuAku.gltf', { draco: true })
 </script>
+
 <template>
-  <TresCanvas clear-color="#82DBC5" shadows alpha>
+  <TresCanvas
+    clear-color="#82DBC5"
+    shadows
+    alpha
+  >
     <TresPerspectiveCamera :position="[11, 11, 11]" />
     <OrbitControls />
     <Suspense>
@@ -96,7 +101,7 @@ import { OrbitControls, GLTFModel } from '@tresjs/cientos'
 
 This particular approach is more straightforward but gives you less control over the model.
 
-## useFBX
+## useFBX
 
 The `useFBX` composable is available from [@tresjs/cientos](https://github.com/Tresjs/tres/tree/main/packages/cientos) package.
 
