@@ -1,5 +1,14 @@
 
 
+## [3.2.2](https://github.com/Tresjs/tres/compare/3.2.1...3.2.2) (2023-09-16)
+
+
+### Bug Fixes
+
+* ensure scene as parent fallback for helpers ([#397](https://github.com/Tresjs/tres/issues/397)) ([d63b028](https://github.com/Tresjs/tres/commit/d63b0286aee10baf954bee9d0d180ba3ff17cf48))
+* made reactivity of camera prop on TresCanvas work again ([#396](https://github.com/Tresjs/tres/issues/396)) ([990612d](https://github.com/Tresjs/tres/commit/990612dffc593e01a98fccb761a87ea43eddaf2b))
+* useTexture docs detail ([#395](https://github.com/Tresjs/tres/issues/395)) ([158d4c3](https://github.com/Tresjs/tres/commit/158d4c3e9f3907fe19b16f6ae7c248626bef8d5b))
+
 ## [3.2.1](https://github.com/Tresjs/tres/compare/3.2.0...3.2.1) (2023-09-11)
 
 
