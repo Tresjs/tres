@@ -41,6 +41,6 @@ const [turbidity, rayleigh, mieCoefficient, mieDirectionalG, elevation, azimuth,
       :turbidity="turbidity.value.value"
       :distance="distance.value.value"
     />
-    <OrbitControls :zoom-speed="0" />
+    <OrbitControls :enable-pan="false" :enable-zoom="false" />
   </TresCanvas>
 </template>
