@@ -103,7 +103,7 @@ export const useControls = (
       const control = createControl(key, reactiveValue, controlType, folderName)
 
       if (controlType === 'select') {
-        control.options = ref(controlOptions.options.map((option) => {
+        control.options = ref(controlOptions.options.map((option: string | { text: String; value: any }) => {
           if (typeof option === 'object' && option.text && option.value) {
             return option
           }

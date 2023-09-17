@@ -17,12 +17,6 @@ const isOpen = ref(false)
 const toggle = () => {
   isOpen.value = !isOpen.value
 }
-
-const handleKeyDown = (event: KeyboardEvent) => {
-  if (event.key === 'Enter' || event.key === ' ') {
-    toggle()
-  }
-}
 </script>
 
 <template>
