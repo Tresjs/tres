@@ -18,11 +18,19 @@ function onChange(event: Event) {
   <div class="flex px-4 justify-between gap-4 items-center mb-2">
     <label class="text-gray-500 w-1/3">{{ label }}</label>
     <input
+      :id="`input-${label}`"
+      tabindex="0"
       :value="control.value"
+      :aria-label="label"
+      class="focus:outline-none focus:ring-2 focus:ring-blue-600"
+      :class="{ 'important-outline-gray-200': control.value === '#ffffff' }"
       type="color"
       @input="onChange"
     >
     <input
+      :id="`input-${label}`"
+      tabindex="0"
+      :aria-label="label"
       :value="control.value"
       class="
         p-2 
@@ -32,8 +40,6 @@ function onChange(event: Event) {
         text-xs
         text-gray-400
         bg-gray-100
-        focus:border-gray-200
-        outline-none
         border-none
         font-sans
       "
