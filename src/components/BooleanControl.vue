@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { Control } from '../types'
 
-defineProps<{
+const props = defineProps<{
   label: string
   control: Control
 }>()
@@ -11,6 +11,13 @@ const emit = defineEmits(['change'])
 function onChange(event: Event) {
   const { target } = event
   emit('change', (target as HTMLInputElement).checked)
+}
+
+function onKeydown(event: KeyboardEvent) {
+  if (event.code === 'Space' || event.code === 'Enter') {
+    event.preventDefault() // Prevent scrolling when space is pressed
+    emit('change', !props.control.value)
+  }
 }
 </script>
 
@@ -29,6 +36,9 @@ function onChange(event: Event) {
       class="inline-flex items-center cursor-pointer"
     >
       <span
+        tabindex="0"
+        role="checkbox"
+        :aria-checked="control.value.toString()"
         :class="{ 'bg-dark-500': control.value, 'bg-gray-200': !control.value }"
         class="w-4 
           h-4 
@@ -41,6 +51,7 @@ function onChange(event: Event) {
           mr-2 
           transition-colors 
           duration-200"
+        @keydown="onKeydown"
       >
         <i
           v-show="control.value"

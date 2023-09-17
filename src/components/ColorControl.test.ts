@@ -4,8 +4,8 @@ import { it, expect } from 'vitest'
 import { defineComponent, nextTick } from 'vue'
 
 
-describe('Boolean Control', async () => {
-  it('should render a boolean control', async ()=> {
+describe('Color Control', async () => {
+  it('should render a color control', async ()=> {
     const component = defineComponent({
       template: `
         <TresLeches />
@@ -14,20 +14,22 @@ describe('Boolean Control', async () => {
         TresLeches
       },
       setup() {
-        const { value: test } = useControls({ test: true })
+        const { value: colorValue } = useControls({ colorValue: '#008080' })
         return {
-          test
+          colorValue
         }
       }
     })
 
     const wrapper = mount(component, {
-    /*    attachTo: document.body, */
+      components: {
+        TresLeches
+      },
     })
     expect(wrapper.html()).toMatchSnapshot()
-    expect(wrapper.find('input').attributes('type')).toBe('checkbox')
+    expect(wrapper.find('input').attributes('type')).toBe('color')
   })
-  it('should render a boolean control with a label', async ()=> {
+  it('should render a color control with a label', async ()=> {
     const component = defineComponent({
       template: `
         <TresLeches />
@@ -36,18 +38,19 @@ describe('Boolean Control', async () => {
         TresLeches
       },
       setup() {
-        const { value:test } = useControls({ test: true })
+        const { colorValue } = useControls({ colorValue: '#008080' })
         return {
-          test
+          colorValue
         }
       }
     })
 
     const wrapper = mount(component, {
-    /*    attachTo: document.body, */
+      components: {
+        TresLeches
+      },
     })
-    expect(wrapper.html()).toMatchSnapshot()
-    expect(wrapper.find('label').text()).toBe('test')
+    expect(wrapper.find('label').text()).toBe('colorValue')
   })
   it('should change the value of the control when the input changes', async ()=> {
     const component = defineComponent({
@@ -55,9 +58,9 @@ describe('Boolean Control', async () => {
         <TresLeches />
       `,
       setup() {
-        const { value:test } = useControls({ test: true })
+        const { value: colorValue } = useControls({ colorValue: '#008080' })
         return {
-          test
+          colorValue
         }
       }
     })
@@ -67,12 +70,12 @@ describe('Boolean Control', async () => {
         TresLeches
       },
     })
-    const checkboxInput = wrapper.find('input[type="checkbox"]')
+    const input = wrapper.find('input[type="color"]')
 
-    await checkboxInput.setChecked(false)
+    await input.setValue('#ff2400')
     await nextTick();
 
-    expect(wrapper.vm.test).toBe(false)
+    expect(wrapper.vm.colorValue).toBe('#ff2400')
   })
   it('should hide the control when the visible property is toggled', async ()=> {
     const component = defineComponent({
@@ -80,9 +83,9 @@ describe('Boolean Control', async () => {
         <TresLeches />
       `,
       setup() {
-        const { value: test, visible } = useControls({ test: true })
+        const { value: colorValue, visible } = useControls({ colorValue: '#008080' })
         return {
-          test,
+          colorValue,
           visible
         }
       }
@@ -95,7 +98,7 @@ describe('Boolean Control', async () => {
     })
     wrapper.vm.visible = false
     await nextTick();
-    expect(wrapper.find('input[type="checkbox"]').exists()).toBe(false)
+    expect(wrapper.find('input[type="color"]').exists()).toBe(false)
   })
   it('should show the control by default', async ()=> {
     const component = defineComponent({
@@ -103,7 +106,7 @@ describe('Boolean Control', async () => {
         <TresLeches />
       `,
       setup() {
-        const { visible } = useControls({ test: true })
+        const { visible } = useControls({ test: '#008080' })
         return {
           visible
         }
@@ -115,7 +118,7 @@ describe('Boolean Control', async () => {
         TresLeches
       },
     })
-    const checkboxInput = wrapper.find('input[type="checkbox"]')
+    const checkboxInput = wrapper.find('input[type="color"]')
     expect(checkboxInput.exists()).toBe(true)
 
     expect(wrapper.vm.visible).toBe(true)
@@ -127,7 +130,7 @@ describe('Boolean Control', async () => {
       `,
       setup() {
         const { visible } = useControls({ test: {
-          value: true,
+          value: '#008080',
           visible: false
         } })
         return {
@@ -141,7 +144,7 @@ describe('Boolean Control', async () => {
         TresLeches
       },
     })
-    const checkboxInput = wrapper.find('input[type="checkbox"]')
+    const checkboxInput = wrapper.find('input[type="color"]')
     expect(checkboxInput.exists()).toBe(false)
 
     expect(wrapper.vm.visible).toBe(false)

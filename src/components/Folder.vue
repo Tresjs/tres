@@ -34,10 +34,13 @@ const toggle = () => {
         text-gray-400
         font-bold
         text-xs
-        focus:outline-none
         font-sans
         cursor-pointer
       "
+      :aria-expanded="isOpen"
+      aria-haspopup="true"
+      role="button"
+      tabindex="0"
       @click="toggle"
     >
       <span>{{ label }}</span>
@@ -52,6 +55,7 @@ const toggle = () => {
       <div
         v-show="isOpen"
         class="bg-white rounded-b pt-4"
+        role="menu"
       >
         <template
           v-for="subcontrol in controls"
@@ -59,6 +63,7 @@ const toggle = () => {
         >
           <ControlInput
             :control="subcontrol"
+            role="menuitem"
             @change="newValue => onChange(newValue, subcontrol)"
           />
         </template>

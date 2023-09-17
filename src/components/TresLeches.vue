@@ -23,9 +23,9 @@ const handle = ref<HTMLElement | null>(null)
 
 const controls = useControlsProvider(uuid?.value)
 
-function onChange(label: Ref<string>, value: string) {
-  controls[unref(label)].value = value as any
-  controls[unref(label)][unref(label)] = value as any
+function onChange(key: Ref<string>, value: string) {
+  controls[unref(key)].value = value as any
+  controls[unref(key)][unref(key)] = value as any
 }
 
 const groupedControls = computed(() => {
@@ -53,7 +53,10 @@ const groupedControls = computed(() => {
     :class="$attrs.class"
     :handle="handle"
   >
-    <div class="bg-white shadow-xl rounded border-4 border-solid border-black">
+    <div
+      tabindex="0"
+      class="bg-white shadow-xl rounded border-4 border-solid border-black"
+    >
       <header
         ref="handle"
         class="relative cursor-grabbing p-4 flex justify-between text-gray-200 relative"
@@ -80,7 +83,7 @@ const groupedControls = computed(() => {
             v-for="control in group"  
             :key="control.label" 
             :control="control" 
-            @change="newValue => onChange(control.label, newValue)" 
+            @change="newValue => onChange(control.key, newValue)" 
           />
         </template>
       </template>

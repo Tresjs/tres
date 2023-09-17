@@ -28,6 +28,10 @@ const onInputMouseUp = (_event: MouseEvent, $index: number) => {
   isMouseDown.value = false
 }
 
+const onControlMouseUp = () => {
+  isMouseDown.value = false
+}
+
 const calculateSpeed = (diff: number) => Math.floor(Math.abs(diff) / 10)
 
 const vector = computed(() => normalizeVectorFlexibleParam(props.control.value))
@@ -40,7 +44,7 @@ function onChange(event: Event, $index: number) {
   const { target } = event
   index.value = $index
 
-  value[isVector.value ? labels.value[index.value] : index.value] = parseInt((target as HTMLInputElement).value, 10)
+  value[isVector.value ? labels.value[index.value] : index.value] = parseFloat((target as HTMLInputElement).value)
   emit('change', value)
 }
 
@@ -74,7 +78,10 @@ watch(mouse.x, (newValue) => {
 </script>
 
 <template>
-  <div class="flex px-4 justify-between gap-1 items-center mb-2">
+  <div
+    class="flex px-4 justify-between gap-1 items-center mb-2"
+    @mouseup="onControlMouseUp()"
+  >
     <label class="text-gray-500 w-1/3">{{ label }}</label>
     <div class="w-2/3 flex justify-between gap-0.5">
       <div
@@ -88,11 +95,21 @@ watch(mouse.x, (newValue) => {
         >{{
           labels[$index]
         }}</span>
-        <!-- eslint-disable max-len -->
         <input
-        
-          type="text"
-          class="w-full pl-0 p-1 text-right text-0.65rem text-gray-400 bg-transparent focus:border-gray-200 outline-none border-none font-sans"
+          type="number"
+          step="0.1"
+          class="w-full
+            px-0
+            p-1
+            text-right
+            text-0.65rem
+            text-gray-400
+            bg-transparent
+            focus:border-gray-200
+            outline-none
+            border-none
+            font-sans
+            appearence-none"
           :value="vector[$index].toFixed(2)"
           :class="{ 'cursor-ew-resize': isMouseDown }"
           @input="onChange($event, $index)"
