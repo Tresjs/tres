@@ -95,11 +95,21 @@ watch(mouse.x, (newValue) => {
         >{{
           labels[$index]
         }}</span>
-        <!-- eslint-disable max-len -->
         <input
           type="number"
           step="0.1"
-          class="w-full px-0 p-1 text-right text-0.65rem text-gray-400 bg-transparent focus:border-gray-200 outline-none border-none font-sans appearence-none"
+          class="w-full
+            px-0
+            p-1
+            text-right
+            text-0.65rem
+            text-gray-400
+            bg-transparent
+            focus:border-gray-200
+            outline-none
+            border-none
+            font-sans
+            appearence-none"
           :value="vector[$index].toFixed(2)"
           :class="{ 'cursor-ew-resize': isMouseDown }"
           @input="onChange($event, $index)"
