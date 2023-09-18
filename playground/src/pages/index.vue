@@ -2,6 +2,6 @@
 
 <template>
   <Suspense>
-    <DirectivesDemo />
+    <ModelsDemo />
   </Suspense>
 </template>

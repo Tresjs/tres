@@ -32,6 +32,7 @@ onLoop(({ elapsed }) => {
   <TresCanvas v-bind="gl">
     <TresPerspectiveCamera :position="[0, 2, 5]" />
     <Stars
+      v-log
       :radius="options.radius"
       :depth="options.depth"
       :count="options.count"

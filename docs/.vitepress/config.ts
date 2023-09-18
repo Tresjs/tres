@@ -111,6 +111,7 @@ export default defineConfig({
         collapsed: true,
         items: [
           { text: 'v-log', link: '/guide/directives/v-log' },
+          { text: 'v-light-helper', link: '/guide/directives/v-light-helper' },
         ],
       },
     ],
