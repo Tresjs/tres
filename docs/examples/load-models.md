@@ -23,7 +23,7 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader'
 const { scene } = await useLoader(GLTFLoader, '/models/AkuAku.gltf')
 ```
 
-Then you can pass the model scene to a TresJS `primitive`:
+Then you can pass the model scene to a TresJS [`primitive`](/advanced/primitive) component to render it:
 
 ```html{3}
 <TresCanvas>
@@ -39,7 +39,7 @@ Notice in the example above that we are using the `Suspense` component to wrap t
 
 ## Using `useGLTF`
 
-A more convenient way of loading models is using the `useGLTF` composable available from [@tresjs/cientos](https://github.com/Tresjs/tres/tree/main/packages/cientos) package.
+A more convenient way of loading models is using the `useGLTF` composable available from the [@tresjs/cientos](https://github.com/Tresjs/tres/tree/main/packages/cientos) package.
 
 ```ts
 import { useGLTF } from '@tresjs/cientos'
@@ -63,8 +63,13 @@ import { useGLTF } from '@tresjs/cientos'
 
 const { scene, nodes, animations, materials } = await useGLTF('/models/AkuAku.gltf', { draco: true })
 </script>
+
 <template>
-  <TresCanvas clear-color="#82DBC5" shadows alpha>
+  <TresCanvas
+    clear-color="#82DBC5"
+    shadows
+    alpha
+  >
     <TresPerspectiveCamera :position="[11, 11, 11]" />
     <OrbitControls />
     <Suspense>
@@ -76,7 +81,7 @@ const { scene, nodes, animations, materials } = await useGLTF('/models/AkuAku.gl
 
 ## Using `GLTFModel`
 
-The `GLTFModel` component is a wrapper around `useGLTF` that's available from [@tresjs/cientos](https://github.com/Tresjs/tres/tree/main/packages/cientos) package.
+The `GLTFModel` component is a wrapper around `useGLTF` that's available from the [@tresjs/cientos](https://github.com/Tresjs/tres/tree/main/packages/cientos) package.
 
 ```vue{2,9}
 <script setup lang="ts">
@@ -96,9 +101,9 @@ import { OrbitControls, GLTFModel } from '@tresjs/cientos'
 
 This particular approach is more straightforward but gives you less control over the model.
 
-## useFBX
+## useFBX
 
-The `useFBX` composable is available from [@tresjs/cientos](https://github.com/Tresjs/tres/tree/main/packages/cientos) package.
+The `useFBX` composable is available from the [@tresjs/cientos](https://github.com/Tresjs/tres/tree/main/packages/cientos) package.
 
 ```ts
 import { useFBX } from '@tresjs/cientos'
@@ -118,7 +123,7 @@ Then is as straightforward as adding the scene to your scene:
 
 ## FBXModel
 
-The `FBXModel` component is a wrapper around `useFBX` that's available from [@tresjs/cientos](https://github.com/Tresjs/tres/tree/main/packages/cientos) package. It's similar usage to `GLTFModel`:
+The `FBXModel` component is a wrapper around `useFBX` that's available from the [@tresjs/cientos](https://github.com/Tresjs/tres/tree/main/packages/cientos) package. It's similar usage to `GLTFModel`:
 
 ```vue{2,9}
 <script setup lang="ts">
