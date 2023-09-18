@@ -9,4 +9,9 @@ export const directivesRoutes = [
     name: 'vLightHelper',
     component: () => import('../../pages/directives/vLightHelper.vue'),
   },
+  {
+    path: '/directives/v-always-look-at',
+    name: 'vAlwaysLookAt',
+    component: () => import('../../pages/directives/vAlwaysLookAt.vue'),
+  },
 ]
