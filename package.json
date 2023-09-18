@@ -52,17 +52,16 @@
     "docs:preview": "vitepress preview docs"
   },
   "peerDependencies": {
-    "vue": ">=3.3"
+    "vue": ">=3.3.4"
   },
   "dependencies": {
     "@vueuse/components": "^10.4.1"
   },
   "devDependencies": {
-    "@alvarosabu/prettier-config": "^1.3.0",
     "@histoire/plugin-vue": "^0.17.1",
     "@iconify-json/ic": "^1.1.14",
     "@release-it/conventional-changelog": "^7.0.0",
-    "@tresjs/eslint-config-vue": "^0.2.0",
+    "@tresjs/eslint-config-vue": "^0.2.1",
     "@typescript-eslint/eslint-plugin": "^6.5.0",
     "@typescript-eslint/parser": "^6.5.0",
     "@vitejs/plugin-vue": "^4.3.4",
@@ -72,13 +71,12 @@
     "@vueuse/core": "^10.4.1",
     "@vueuse/shared": "^10.4.1",
     "eslint": "^8.48.0",
-    "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-vitest-globals": "^1.4.0",
     "eslint-plugin-vue": "^9.17.0",
     "histoire": "^0.17.0",
     "kolorist": "^1.8.0",
     "pathe": "^1.1.1",
-    "prettier": "^3.0.2",
+
     "release-it": "^16.1.5",
     "rollup-plugin-analyzer": "^4.0.0",
     "rollup-plugin-visualizer": "^5.9.2",
