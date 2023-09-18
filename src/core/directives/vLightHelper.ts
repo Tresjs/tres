@@ -9,21 +9,25 @@ export const vLightHelper = {
       logWarning(`${el.type} is not a light`)
       return
     }
-    const currentHelper = helpers[el.type]
+    currentHelper = helpers[el.type]
     el.parent.add(new currentHelper(el))
+  },
+  updated: (el: any) => {
+    currentInstance = el.parent.children.find((child: any) => child instanceof currentHelper)
+    currentInstance.update()
   },
   unmounted: (el: any) => {
     if (!el.isLight) {
       logWarning(`${el.type} is not a light`)
       return
     }
-    const currentHelper = helpers[el.type]
-    const currentInstance = el.parent.children.find((child: any) => child instanceof currentHelper)
+    currentInstance = el.parent.children.find((child: any) => child instanceof currentHelper)
     currentInstance.dispose()
     el.parent.remove(currentInstance)
   },
 }
-
+let currentHelper: any
+let currentInstance: any
 const helpers = {
   DirectionalLight: DirectionalLightHelper,
   PointLight: PointLightHelper,

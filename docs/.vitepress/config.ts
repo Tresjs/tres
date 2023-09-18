@@ -92,6 +92,7 @@ export default defineConfig({
           { text: 'Backdrop', link: '/guide/staging/backdrop' },
           { text: 'Environment', link: '/guide/staging/environment' },
           { text: 'useEnvironment', link: '/guide/staging/use-environment' },
+          { text: 'Sky', link: '/guide/staging/sky' },
           { text: 'Stars', link: '/guide/staging/stars' },
           { text: 'Smoke', link: '/guide/staging/smoke' },
           { text: 'Contact Shadows', link: '/guide/staging/contact-shadows' },

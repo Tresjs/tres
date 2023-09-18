@@ -26,8 +26,6 @@ import { OrbitControls, Sphere, vLightHelper } from '@tresjs/cientos'
 </template>
 ```
 
-Note that you can pass a modifier with the name of a property, for example `v-log:material`, and will log directly the `material` property 
-
 ::: warning
 This directive just work with the following lights:DirectionalLight,PointLight, SpotLight, HemisphereLight.
 By this way you can't tweaks the props for the helper if you need to do that, please use the normal helper instance

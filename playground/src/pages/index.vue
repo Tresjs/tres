@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { useRouter } from 'vue-router'
 import {
   abstractionsRoutes,
   controlsRoutes,
@@ -8,8 +7,6 @@ import {
   materialsRoutes,
   directivesRoutes,
 } from '../router/routes'
-
-const router = useRouter()
 </script>
 
 <template>

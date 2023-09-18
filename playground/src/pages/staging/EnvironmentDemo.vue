@@ -48,12 +48,11 @@ const { progress, hasFinishLoading } = await useProgress()
   <TresCanvas v-bind="gl">
     <OrbitControls />
     <Suspense>
-      <Environment v-bind="environmentOptions" />
-      <!-- <Environment
+      <Environment
         background
         :files="environmentFiles"
-        :path="'https://raw.githubusercontent.com/Tresjs/assets/main/textures/environmentMap'"
-      /> -->
+        path="https://raw.githubusercontent.com/Tresjs/assets/main/textures/environmentMap"
+      />
     </Suspense>
     <TresGridHelper />
     <TresAmbientLight :intensity="1" />
