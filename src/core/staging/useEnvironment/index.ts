@@ -65,7 +65,7 @@ export async function useEnvironment({
 
   if (scene.value) {
     scene.value.environment = texture
-    if (background) {
+    if (background || background === '') {
       scene.value.background = texture
     }
     if (blur) {

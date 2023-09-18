@@ -1,4 +1,3 @@
-import type { TextureEncoding } from 'three'
 
 export interface EnvironmentOptions {
   /**
@@ -7,7 +6,7 @@ export interface EnvironmentOptions {
    * @type {boolean}
    * @default false
    */
-  background?: boolean
+  background?: boolean | string
   /**
    * The blur radius of the environment.
    *
