@@ -112,6 +112,7 @@ export default defineConfig({
         items: [
           { text: 'v-log', link: '/guide/directives/v-log' },
           { text: 'v-light-helper', link: '/guide/directives/v-light-helper' },
+          { text: 'v-always-look-at', link: '/guide/directives/v-always-look-at' },
         ],
       },
     ],

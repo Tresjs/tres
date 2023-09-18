@@ -1,4 +1,5 @@
 import { vLog } from './vLog'
 import { vLightHelper } from './vLightHelper'
+import { vAlwaysLookAt } from './vAlwaysLookAt'
 
-export { vLog, vLightHelper }
+export { vLog, vLightHelper, vAlwaysLookAt }
