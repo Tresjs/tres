@@ -1,5 +1,18 @@
 
 
+## [0.10.0](https://github.com/Tresjs/leches/compare/0.9.1...0.10.0) (2023-09-18)
+
+
+### Features
+
+* better keyboard accesibility ([b40fd00](https://github.com/Tresjs/leches/commit/b40fd00bd09900552ea1669e79b9feee4152fd27))
+
+
+### Bug Fixes
+
+* outline for color input ([4746469](https://github.com/Tresjs/leches/commit/47464693059c62e9ff4b1d2b2c1781b68b0a37b4))
+* vector control accesibility issues ([4af9bcf](https://github.com/Tresjs/leches/commit/4af9bcf16b72fd336233a43f67245c627dbc9386))
+
 ## [0.9.1](https://github.com/Tresjs/leches/compare/0.9.0...0.9.1) (2023-09-09)
 
 
