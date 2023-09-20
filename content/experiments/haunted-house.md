@@ -3,6 +3,7 @@ thumbnail: /haunted-house-demo.png
 title: Haunted house
 slug: haunted-house
 author: jaime-bboyjt
+status: published
 description: The classical threejs-journey haunted house, done with TresJs
 tags: ['PointLight', 'fog', 'useTexture', 'threejs-journey']
 ---
@@ -66,11 +67,14 @@ pane.addInput(moonOptions, 'intensity', {
       <Floor />
     </Suspense>
     <Ghosts />
-    <TresAmbientLight color="#b9d5ff" :intensity="0.3" />
+    <TresAmbientLight
+      color="#b9d5ff"
+      :intensity="0.3"
+    />
     <TresDirectionalLight
       v-bind="moonOptions"
-      :shadow-mapSize-width="256"
-      :shadow-mapSize-height="256"
+      :shadow-map-size-width="256"
+      :shadow-map-size-height="256"
       :shadow-camera-far="15"
       cast-shadow
     />
@@ -111,7 +115,7 @@ const floorOptions = {
   roughnessMap: floorTexture.roughnessMap,
   aoMap: floorTexture.aoMap,
 }
-watch(floorRef, value => {
+watch(floorRef, (value) => {
   value.geometry.setAttribute('uv2', new Float32BufferAttribute(value.geometry.attributes.uv.array, 2))
 })
 
@@ -156,12 +160,23 @@ for (let i = 0; i < 50; i++) {
   graves.push(grave)
 }
 </script>
+
 <template>
-  <TresMesh ref="floorRef" receive-shadow :rotation="[-Math.PI * 0.5, 0, 0]" :position="[0, 0, 0]">
+  <TresMesh
+    ref="floorRef"
+    receive-shadow
+    :rotation="[-Math.PI * 0.5, 0, 0]"
+    :position="[0, 0, 0]"
+  >
     <TresPlaneGeometry :args="[20, 20]" />
     <TresMeshStandardMaterial v-bind="floorOptions" />
   </TresMesh>
-  <TresMesh v-for="({ position, scale }, index) in bushes" :key="index" :position="position" :scale="scale">
+  <TresMesh
+    v-for="({ position, scale }, index) in bushes"
+    :key="index"
+    :position="position"
+    :scale="scale"
+  >
     <TresSphereGeometry :args="[1, 16, 16]" />
     <TresMeshStandardMaterial color="#89c854" />
   </TresMesh>
@@ -174,8 +189,7 @@ for (let i = 0; i < 50; i++) {
       :rotation="rotation"
       :material="graveMaterial"
       :geometry="graveGeometry"
-    >
-    </TresMesh>
+    />
   </TresGroup>
 </template>
 ```
@@ -227,33 +241,45 @@ const doorOptions = {
   metalnessMap: doorTextures.metalnessMap,
   roughnessMap: doorTextures.roughnessMap,
 }
-watch(wallRef, value => {
+watch(wallRef, (value) => {
   value.geometry.setAttribute('uv2', new Float32BufferAttribute(value.geometry.attributes.uv.array, 2))
 })
 
-watch(doorRef, value => {
+watch(doorRef, (value) => {
   value.geometry.setAttribute('uv2', new Float32BufferAttribute(value.geometry.attributes.uv.array, 2))
 })
 </script>
+
 <template>
   <TresGroup ref="houseRef">
-    <TresMesh ref="doorRef" :position="[0, 0.9, 2.01]">
+    <TresMesh
+      ref="doorRef"
+      :position="[0, 0.9, 2.01]"
+    >
       <TresPlaneGeometry :args="[2, 2, 100, 100]" />
       <TresMeshStandardMaterial v-bind="doorOptions" />
     </TresMesh>
-    <TresMesh ref="roofRef" :position="[0, 3, 0]" :rotation="[0, Math.PI * 0.25, 0]">
+    <TresMesh
+      ref="roofRef"
+      :position="[0, 3, 0]"
+      :rotation="[0, Math.PI * 0.25, 0]"
+    >
       <TresConeGeometry :args="[3.5, 1, 4]" />
       <TresMeshStandardMaterial color="#b35f45" />
     </TresMesh>
-    <TresMesh ref="wallRef" :position="[0, 1.25, 0]" cast-shadow>
+    <TresMesh
+      ref="wallRef"
+      :position="[0, 1.25, 0]"
+      cast-shadow
+    >
       <TresBoxGeometry :args="[4, 2.5, 4]" />
       <TresMeshStandardMaterial v-bind="wallOptions" />
     </TresMesh>
     <TresPointLight
       :position="[0, 2.2, 2.7]"
       :args="['#ff7d46', 1, 7]"
-      :shadow-mapSize-width="256"
-      :shadow-mapSize-height="256"
+      :shadow-map-size-width="256"
+      :shadow-map-size-height="256"
       :shadow-camera-far="7"
       cast-shadow
     />
@@ -291,10 +317,23 @@ onLoop(({ elapsed }) => {
   }
 })
 </script>
+
 <template>
-  <TresPointLight :args="['#ff00ff', 3, 3]" ref="ghost1" cast-shadow />
-  <TresPointLight :args="['#00ffff', 3, 3]" ref="ghost2" cast-shadow />
-  <TresPointLight :args="['#ff7800', 3, 3]" ref="ghost3" cast-shadow />
+  <TresPointLight
+    ref="ghost1"
+    :args="['#ff00ff', 3, 3]"
+    cast-shadow
+  />
+  <TresPointLight
+    ref="ghost2"
+    :args="['#00ffff', 3, 3]"
+    cast-shadow
+  />
+  <TresPointLight
+    ref="ghost3"
+    :args="['#ff7800', 3, 3]"
+    cast-shadow
+  />
 </template>
 ```
 

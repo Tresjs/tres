@@ -41,25 +41,36 @@ const doorOptions = {
   metalnessMap: doorTextures.metalnessMap,
   roughnessMap: doorTextures.roughnessMap,
 }
-watch(wallRef, value => {
+watch(wallRef, (value) => {
   value.geometry.setAttribute('uv2', new Float32BufferAttribute(value.geometry.attributes.uv.array, 2))
 })
 
-watch(doorRef, value => {
+watch(doorRef, (value) => {
   value.geometry.setAttribute('uv2', new Float32BufferAttribute(value.geometry.attributes.uv.array, 2))
 })
 </script>
+
 <template>
-  <TresGroup ref="houseRef">
-    <TresMesh ref="doorRef" :position="[0, 0.9, 2.01]">
+  <TresGroup>
+    <TresMesh
+      ref="doorRef"
+      :position="[0, 0.9, 2.01]"
+    >
       <TresPlaneGeometry :args="[2, 2, 100, 100]" />
       <TresMeshStandardMaterial v-bind="doorOptions" />
     </TresMesh>
-    <TresMesh ref="roofRef" :position="[0, 3, 0]" :rotation="[0, Math.PI * 0.25, 0]">
+    <TresMesh
+      :position="[0, 3, 0]"
+      :rotation="[0, Math.PI * 0.25, 0]"
+    >
       <TresConeGeometry :args="[3.5, 1, 4]" />
       <TresMeshStandardMaterial color="#b35f45" />
     </TresMesh>
-    <TresMesh ref="wallRef" :position="[0, 1.25, 0]" cast-shadow>
+    <TresMesh
+      ref="wallRef"
+      :position="[0, 1.25, 0]"
+      cast-shadow
+    >
       <TresBoxGeometry :args="[4, 2.5, 4]" />
       <TresMeshStandardMaterial v-bind="wallOptions" />
     </TresMesh>

@@ -3,6 +3,7 @@ thumbnail: /galaxy-generator.png
 title: Galaxy Generator 🪐
 slug: galaxy-generator
 author: alvarosabu
+status: published
 description: Animated galaxy from ThreeJS Journey done with TresJS
 tags: ['particles', 'shaders', 'glsl']
 ---
@@ -73,9 +74,9 @@ for (let i = 0; i < parameters.count; i++) {
   positions[i3 + 1] = 0 // y
   positions[i3 + 2] = Math.sin(branchAngle) * radius // z
 
-  const randomX = Math.pow(Math.random(), parameters.randomnessPower) * (Math.random() < 0.5 ? -1 : 1)
-  const randomY = Math.pow(Math.random(), parameters.randomnessPower) * (Math.random() < 0.5 ? -1 : 1)
-  const randomZ = Math.pow(Math.random(), parameters.randomnessPower) * (Math.random() < 0.5 ? -1 : 1)
+  const randomX = Math.random() ** parameters.randomnessPower * (Math.random() < 0.5 ? -1 : 1)
+  const randomY = Math.random() ** parameters.randomnessPower * (Math.random() < 0.5 ? -1 : 1)
+  const randomZ = Math.random() ** parameters.randomnessPower * (Math.random() < 0.5 ? -1 : 1)
 
   randomness[i3] = randomX
   randomness[i3 + 1] = randomY
@@ -127,9 +128,9 @@ function updateGalaxy() {
       positions[i3 + 1] = 0 // y
       positions[i3 + 2] = Math.sin(branchAngle) * radius // z
 
-      const randomX = Math.pow(Math.random(), parameters.randomnessPower) * (Math.random() < 0.5 ? -1 : 1)
-      const randomY = Math.pow(Math.random(), parameters.randomnessPower) * (Math.random() < 0.5 ? -1 : 1)
-      const randomZ = Math.pow(Math.random(), parameters.randomnessPower) * (Math.random() < 0.5 ? -1 : 1)
+      const randomX = Math.random() ** parameters.randomnessPower * (Math.random() < 0.5 ? -1 : 1)
+      const randomY = Math.random() ** parameters.randomnessPower * (Math.random() < 0.5 ? -1 : 1)
+      const randomZ = Math.random() ** parameters.randomnessPower * (Math.random() < 0.5 ? -1 : 1)
 
       randomness[i3] = randomX
       randomness[i3 + 1] = randomY
@@ -230,7 +231,7 @@ pane.addInput(parameters, 'outsideColor').on('change', updateGalaxy)
 
 Now we need to create the shaders. Shaders are written in GLSL, a C-like language for writing shaders.
 
-```glsl
+```
 // vertex.glsl
 uniform float uSize;
 uniform float uTime;
@@ -270,7 +271,7 @@ void main() {
 }
 ```
 
-```glsl
+```
 // fragment.glsl
 varying vec3 vColor;
 

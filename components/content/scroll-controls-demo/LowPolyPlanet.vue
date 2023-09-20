@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { TresObject3D } from '@tresjs/core';
+import type { TresObject3D } from '@tresjs/core'
 import { shallowRef } from 'vue'
 
 const props = defineProps<{
@@ -33,12 +33,20 @@ onLoop(({ delta }) => {
   } */
 })
 </script>
+
 <template>
   <TresGroup :position="[-2, 2, 0]">
-    <primitive ref="planetRef" :object="planet" />
+    <primitive
+      ref="planetRef"
+      :object="planet"
+    />
     <TresGroup :rotation="[0, -progress, 0]">
-      <primitive v-for="cloud in clouds" :object="cloud" :key="cloud.id" ref="cloudsRef" />
+      <primitive
+        v-for="cloud in clouds"
+        :key="cloud.id"
+        ref="cloudsRef"
+        :object="cloud"
+      />
     </TresGroup>
-
   </TresGroup>
 </template>

@@ -31,7 +31,13 @@ function onPointerLeave(ev: TresEvent) {
 
 <template>
   <TresCanvas v-bind="gl">
-    <TresPerspectiveCamera :position="[11, 11, 11]" :fov="45" :near="0.1" :far="1000" :look-at="[0, 0, 0]" />
+    <TresPerspectiveCamera
+      :position="[11, 11, 11]"
+      :fov="45"
+      :near="0.1"
+      :far="1000"
+      :look-at="[0, 0, 0]"
+    />
     <OrbitControls />
 
     <template v-for="x in [-2.5, 0, 2.5]">

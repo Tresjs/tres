@@ -1,31 +1,14 @@
 <script setup lang="ts">
-import { BasicShadowMap, DefaultLoadingManager } from 'three'
+import { BasicShadowMap } from 'three'
 
 const gl = reactive({
   clearColor: '#242424',
   shadows: true,
   alpha: false,
   shadowMapType: BasicShadowMap,
-  /*   outputColorSpace: SRGBColorSpace,
-  toneMapping: NoToneMapping, */
 })
 
-const { pane } = useTweakPane()
-
-pane.addInput(gl, 'clearColor', { label: 'Background' })
-
-const hasFinishLoading = ref(false)
-const progress = ref(0)
-
-let saveLastTotalLoaded = 0
-
-DefaultLoadingManager.onProgress = (item, loaded, total) => {
-  if (loaded === total) {
-    saveLastTotalLoaded = total
-    hasFinishLoading.value = true
-  }
-  progress.value = Math.round(((loaded - saveLastTotalLoaded) / (total - saveLastTotalLoaded)) * 100 || 100, 2)
-}
+const { hasFinishLoading, progress } = await useProgress()
 </script>
 
 <template>
@@ -40,21 +23,23 @@ DefaultLoadingManager.onProgress = (item, loaded, total) => {
     >
       <div class="w-200px text-white">
         Loading... {{ progress }} %
-        <i class="i-game-icons-snitch-quidditch-ball animate-tada text-yellow"></i>
+        <i class="i-game-icons-snitch-quidditch-ball animate-tada text-yellow" />
       </div>
     </div>
   </Transition>
   <TresCanvas v-bind="gl">
-    <TresPerspectiveCamera :position="[11, 15, 11]" :look-at="[0, 4, 0]" />
+    <TresPerspectiveCamera
+      :position="[11, 15, 11]"
+      :look-at="[0, 4, 0]"
+    />
     <Suspense>
       <Experience />
     </Suspense>
-    <TresFog :color="0x242424" :near="1" :far="100" />
-    <!--  <EffectComposer>
-      <Suspense>
-        <Bloom v-bind="bloomParams" />
-      </Suspense>
-    </EffectComposer> -->
+    <TresFog
+      :color="0x242424"
+      :near="1"
+      :far="100"
+    />
     <TresAmbientLight :intensity="2" />
   </TresCanvas>
 </template>

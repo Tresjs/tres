@@ -17,14 +17,28 @@ const state = reactive({
 </script>
 
 <template>
-  <div class="landingpage-bg w-full inset-0 h-full"></div>
+  <div class="landingpage-bg w-full inset-0 h-full" />
   <div
-    class="absolute p-8 md:p-0 w-full inset-0 h-full flex flex-col md:flex-row md:justify-center md:items-center bg-red-200 bg-opacity-75"
+    class="absolute
+    p-8
+    md:p-0
+    w-full
+    inset-0
+    h-full
+    flex
+    flex-col
+    md:flex-row
+    md:justify-center
+    md:items-center
+    bg-red-200
+    bg-opacity-75"
   >
     <div class="w-full h-full md:w-2/3 md:h-1/2 bg-red-300 shadow-lg rounded flex flex-col md:flex-row">
-      <div class="h-1/2 w-full md:w-1/2"></div>
+      <div class="h-1/2 w-full md:w-1/2" />
       <div class="p-6 w-full md:w-1/2 md:p-4 text-light">
-        <h1 class="title animate-fade-in-right animate-ease">Experience Sound</h1>
+        <h1 class="title animate-fade-in-right animate-ease">
+          Experience Sound
+        </h1>
 
         <span class="absolute border-1 border-solid border-white w-800px inline-block" />
 
@@ -33,19 +47,25 @@ const state = reactive({
         </p>
 
         <ul class="flex gap-8">
-          <li v-for="color in state.colors">
+          <li
+            v-for="color in state.colors"
+            :key="color"
+          >
             <button
               class="w-10 h-10 rounded-full border-2 border-solid border-white mr-2 cursor-pointer"
               :style="{ backgroundColor: color }"
               @click="state.selectedColor = color"
-            ></button>
+            />
           </li>
         </ul>
       </div>
     </div>
   </div>
   <div class="absolute w-full md:w-1/2 inset-0 h-2/3 md:h-full flex justify-center items-center">
-    <TresCanvas v-bind="gl" class="pointer-events-none">
+    <TresCanvas
+      v-bind="gl"
+      class="pointer-events-none"
+    >
       <TresPerspectiveCamera :position="[0, 0, 11]" />
       <!--  <MouseParallax :factor="0.1" /> -->
       <!--   <MouseParallax :factor="0.1" />
@@ -59,8 +79,14 @@ const state = reactive({
         <Headphones :color="state.selectedColor" />
       </Suspense>
       <TresAmbientLight :intensity="2" />
-      <TresPointLight :position="[0, 0, 10]" :intensity="1" />
-      <TresDirectionalLight :position="[3, 3, 3]" :intensity="3" />
+      <TresPointLight
+        :position="[0, 0, 10]"
+        :intensity="1"
+      />
+      <TresDirectionalLight
+        :position="[3, 3, 3]"
+        :intensity="3"
+      />
     </TresCanvas>
   </div>
 </template>

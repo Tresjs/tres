@@ -74,7 +74,7 @@ onLoop(() => {
 
 Now we need to create the shaders. Shaders are written in GLSL, a C-like language for writing shaders.
 
-```glsl
+```
 // vertex.glsl
 varying vec2 vUv;
 varying vec3 vPosition;
@@ -101,7 +101,7 @@ gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
 }
 ```
 
-```glsl
+```
 // fragment.glsl
 precision mediump float;
 varying vec2 vUv;

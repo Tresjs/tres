@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { BasicShadowMap, SRGBColorSpace, NoToneMapping } from 'three'
 
-import { ShallowRef } from 'vue'
-
 const gl = {
   clearColor: '#82DBC5',
   shadows: true,
@@ -39,18 +37,27 @@ const transformState = shallowReactive({
   showY: true,
   showZ: true,
 })
-</script>
+</script>x
 
 <template>
   <TresCanvas v-bind="gl">
     <!--  <OrbitControls /> -->
-    <TresPerspectiveCamera ref="camera" :position="[3, 3, 3]" />
+    <TresPerspectiveCamera
+      ref="camera"
+      :position="[3, 3, 3]"
+    />
     <OrbitControls make-default />
-    <TresMesh ref="boxRef" :scale="1">
+    <TresMesh
+      ref="boxRef"
+      :scale="1"
+    >
       <TresBoxGeometry :args="[1, 1, 1]" />
       <TresMeshNormalMaterial />
     </TresMesh>
     <TresAmbientLight :intensity="1" />
-    <TresDirectionalLight :position="[0, 2, 4]" :intensity="2" />
+    <TresDirectionalLight
+      :position="[0, 2, 4]"
+      :intensity="2"
+    />
   </TresCanvas>
 </template>

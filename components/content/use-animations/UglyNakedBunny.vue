@@ -6,12 +6,37 @@ const { scene: model, animations } = await useGLTF(
 )
 
 const { actions, mixer } = useAnimations(animations, model)
+console.log({ actions, mixer })
+const currentAction = ref(actions.Greeting)
 
-let currentAction = actions.Greeting
+currentAction.value.play()
 
-currentAction.play()
+const { value: action } = useControls({
+  actions: {
+    label: 'Actions',
+    options: Object.keys(actions).map(name => ({
+      text: name,
+      value: name,
+    })),
+    value: 'Iddle',
+  },
+})
 
-const { pane } = useTweakPane()
+watch(action, (value) => {
+  console.log({ value })
+  if (currentAction.value) {
+    currentAction.value.fadeOut(0.2)
+  }
+
+  currentAction.value = actions[value]
+  currentAction.value.reset()
+  currentAction.value.fadeIn(0.2)
+  currentAction.value.play()
+}, {
+  immediate: true,
+})
+
+/* const { pane } = useTweakPane()
 
 pane
   .addBlade({
@@ -31,8 +56,9 @@ pane
     currentAction = actions[value]
 
     currentAction.play()
-  })
+  }) */
 </script>
+
 <template>
-  <primitive :object="model"></primitive>
+  <primitive :object="model" />
 </template>

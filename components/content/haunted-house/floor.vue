@@ -28,7 +28,7 @@ const floorOptions = {
   roughnessMap: floorTexture.roughnessMap,
   aoMap: floorTexture.aoMap,
 }
-watch(floorRef, value => {
+watch(floorRef, (value) => {
   value.geometry.setAttribute('uv2', new Float32BufferAttribute(value.geometry.attributes.uv.array, 2))
 })
 
@@ -73,12 +73,23 @@ for (let i = 0; i < 50; i++) {
   graves.push(grave)
 }
 </script>
+
 <template>
-  <TresMesh ref="floorRef" receive-shadow :rotation="[-Math.PI * 0.5, 0, 0]" :position="[0, 0, 0]">
+  <TresMesh
+    ref="floorRef"
+    receive-shadow
+    :rotation="[-Math.PI * 0.5, 0, 0]"
+    :position="[0, 0, 0]"
+  >
     <TresPlaneGeometry :args="[20, 20]" />
     <TresMeshStandardMaterial v-bind="floorOptions" />
   </TresMesh>
-  <TresMesh v-for="({ position, scale }, index) in bushes" :key="index" :position="position" :scale="scale">
+  <TresMesh
+    v-for="({ position, scale }, index) in bushes"
+    :key="index"
+    :position="position"
+    :scale="scale"
+  >
     <TresSphereGeometry :args="[1, 16, 16]" />
     <TresMeshStandardMaterial color="#89c854" />
   </TresMesh>
@@ -91,7 +102,6 @@ for (let i = 0; i < 50; i++) {
       :rotation="rotation"
       :material="graveMaterial"
       :geometry="graveGeometry"
-    >
-    </TresMesh>
+    />
   </TresGroup>
 </template>

@@ -1,8 +1,10 @@
 <script setup lang="ts">
 const tableTexture = await useTexture(['/models/potions-classroom/table.png'])
-
+tableTexture.flipY = false
 const roomTexture = await useTexture(['/models/potions-classroom/room.png'])
+roomTexture.flipY = false
 </script>
+
 <template>
   <Suspense>
     <template v-if="tableTexture">

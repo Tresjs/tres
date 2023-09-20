@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { TresObject3D } from '@tresjs/core';
+import type { TresObject3D } from '@tresjs/core'
 
 const props = defineProps<{
   progress: number
@@ -19,20 +19,28 @@ const { onLoop } = useRenderLoop()
 
 onLoop(({ delta }) => {
 
-    if (!rocket) return
-    rocket.rotation.y = - progress.value * Math.PI / 2 * 8
+  if (!rocket) return
+  rocket.rotation.y = - progress.value * Math.PI / 2 * 8
 
-    if(progress.value > 0.5) {
-      rocket.position.x = -Math.pow(progress.value,2) * 7
-    }
+  if (progress.value > 0.5) {
+    rocket.position.x = -(progress.value ** 2) * 7
+  }
 
-    /* if(progress.value === 1) {
+  /* if(progress.value === 1) {
       rocket.position.set(rocket.position.x + Math.random() * -.1, Math.random() * -.1, Math.random() * -.1)
     } */
 })
 </script>
+
 <template>
-  <TresGroup :position="[7, 3, 0]" :scale="[0.4, 0.4, 0.4]" :rotate-z="Math.PI / 4">
-    <primitive ref="rocketRef" :object="rocket" />
+  <TresGroup
+    :position="[7, 3, 0]"
+    :scale="[0.4, 0.4, 0.4]"
+    :rotate-z="Math.PI / 4"
+  >
+    <primitive
+      ref="rocketRef"
+      :object="rocket"
+    />
   </TresGroup>
 </template>

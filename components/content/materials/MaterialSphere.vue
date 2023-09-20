@@ -52,7 +52,7 @@ pane
 
 const materialProps = ['metalness', 'roughness']
 
-materialProps.forEach(element => {
+materialProps.forEach((element) => {
   pane
     .addBlade({
       view: 'slider',
@@ -85,7 +85,7 @@ pane
     ],
     value: MeshToonMaterial,
   })
-  .on('change', ev => {
+  .on('change', (ev) => {
     sphereRef.value.material = new ev.value(materialState)
 
     if (ev.value === MeshStandardMaterial || ev.value === MeshPhysicalMaterial) {
@@ -93,8 +93,12 @@ pane
     }
   })
 </script>
+
 <template>
-  <TresMesh ref="sphereRef" :position="[0, 1, 0]">
+  <TresMesh
+    ref="sphereRef"
+    :position="[0, 1, 0]"
+  >
     <TresSphereGeometry :args="[1, 32, 32]" />
     <TresMeshToonMaterial :color="materialState.color" />
   </TresMesh>

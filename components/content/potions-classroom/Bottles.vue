@@ -7,10 +7,12 @@ const { nodes } = await useGLTF(
 )
 
 const bottles = Object.values(nodes).filter(node => node.name.includes('Bottle'))
-
-
-
 </script>
+
 <template>
-<primitive v-for="bottle of bottles" :object="bottle" />
+  <primitive
+    v-for="(bottle, $index) of bottles"
+    :key="$index"
+    :object="bottle"
+  />
 </template>

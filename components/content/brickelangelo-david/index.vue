@@ -1,12 +1,11 @@
 <script setup lang="ts">
-import { TresCanvas } from '@tresjs/core'
 import { BasicShadowMap, SRGBColorSpace, NoToneMapping, Vector3 } from 'three'
 import { useMouse } from '@vueuse/core'
 import gsap from 'gsap'
 
-const { x, y } = useMouse()
-
 import David from './David.vue'
+
+const { x, y } = useMouse()
 
 const gl = {
   clearColor: 'black',
@@ -39,7 +38,7 @@ useControls({ cameraPosition })
 
 const { hasFinishLoading, progress, items } = await useProgress()
 
-watch(hasFinishLoading, hasFinishLoading => {
+watch(hasFinishLoading, (hasFinishLoading) => {
   if (!cameraRef.value || hasFinishLoading) return
   gsap.to(cameraRef.value.position, {
     duration: 10,
@@ -64,27 +63,42 @@ watch(hasFinishLoading, hasFinishLoading => {
       v-show="!hasFinishLoading"
       class="absolute bg-black t-0 l-0 w-full h-full z-30 flex justify-center items-center text-white font-mono"
     >
-      <div class="font-italic title w-200px">Loading Art... {{ progress }} %</div>
+      <div class="font-italic title w-200px">
+        Loading Art... {{ progress }} %
+      </div>
     </div>
   </Transition>
   <div
     class="cursor fixed w-16 h-16 bg-white bg-opacity-40 rounded-full"
     :style="{ left: `${x}px`, top: `${y}px` }"
-  ></div>
+  />
   <!--   <TresLeches /> -->
   <TresCanvas v-bind="gl">
-    <TresPerspectiveCamera ref="cameraRef" :position="cameraPosition" :look-at="[0, 5, 0]" />
+    <TresPerspectiveCamera
+      ref="cameraRef"
+      :position="cameraPosition"
+      :look-at="[0, 5, 0]"
+    />
     <TresFog color="black" />
     <Suspense>
       <David />
     </Suspense>
-    <TresSpotLight ref="lightRef" :position="[5, 5, 5]" :intensity="8" cast-shadow />
+    <TresSpotLight
+      ref="lightRef"
+      :position="[5, 5, 5]"
+      :intensity="8"
+      cast-shadow
+    />
   </TresCanvas>
   <div
     class="title absolute left-0 bottom-30 w-full text-white z-20 pointer-events-none flex flex-col items-center justify-around"
   >
-    <h2 class="text-3xl font-italic">Brickelangelo's</h2>
-    <h1 class="text-8xl my-8">David</h1>
+    <h2 class="text-3xl font-italic">
+      Brickelangelo's
+    </h2>
+    <h1 class="text-8xl my-8">
+      David
+    </h1>
   </div>
 </template>
 

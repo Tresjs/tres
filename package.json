@@ -5,32 +5,35 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
-  },
-  "devDependencies": {
-    "@alvarosabu/prettier-config": "^1.3.0",
-    "@iconify-json/carbon": "^1.1.20",
-    "@iconify-json/game-icons": "^1.1.3",
-    "@iconify-json/ic": "^1.1.14",
-    "@iconify-json/logos": "^1.1.34",
-    "@nuxt/content": "^2.7.2",
-    "@nuxt/image-edge": "1.0.0-rc.1-28205905.cb96767",
-    "@tresjs/cientos": "3.1.0",
-    "@tresjs/leches": "^0.7.0",
-    "@tresjs/nuxt": "1.1.3",
-    "@tweakpane/plugin-essentials": "^0.2.0",
-    "@types/three": "^0.155.1",
-    "@unocss/nuxt": "^0.55.2",
-    "gsap": "^3.12.2",
-    "nuxt": "^3.6.5",
-    "nuxt-svgo": "^3.4.0",
-    "postprocessing": "^6.33.0",
-    "vite-plugin-glsl": "^1.1.2",
-    "vite-svg-loader": "^4.0.0"
+    "postinstall": "nuxt prepare",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx,.vue"
   },
   "dependencies": {
-    "@tresjs/core": "^3.1.0",
-    "@tresjs/post-processing": "^0.3.0",
-    "three": "^0.155.0"
+    "@tresjs/post-processing": "^0.4.0",
+    "mdast-util-to-string": "^4.0.0",
+    "three": "^0.156.1",
+    "unist-util-stringify-position": "^4.0.0"
+  },
+  "devDependencies": {
+    "@iconify-json/carbon": "^1.1.21",
+    "@iconify-json/game-icons": "^1.1.3",
+    "@iconify-json/ic": "^1.1.14",
+    "@iconify-json/logos": "^1.1.37",
+    "@nuxt/content": "^2.8.2",
+    "@nuxt/image-edge": "1.0.0-rc.2-28252196.34e7c67",
+    "@tresjs/cientos": "3.3.0",
+    "@tresjs/core": "^3.2.2",
+    "@tresjs/eslint-config-vue": "^0.2.1",
+    "@tresjs/leches": "^0.10.0",
+    "@tresjs/nuxt": "1.1.7",
+    "@tweakpane/plugin-essentials": "^0.2.0",
+    "@types/three": "^0.155.1",
+    "@unocss/nuxt": "^0.55.3",
+    "gsap": "^3.12.2",
+    "nuxt": "^3.7.3",
+    "nuxt-svgo": "^3.5.3",
+    "postprocessing": "^6.33.1",
+    "vite-plugin-glsl": "^1.1.2",
+    "vite-svg-loader": "^4.0.0"
   }
 }

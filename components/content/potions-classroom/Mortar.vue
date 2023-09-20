@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { DoubleSide, MeshBasicMaterial, Texture } from 'three';
+import type { Texture } from 'three'
+import { DoubleSide, MeshBasicMaterial } from 'three'
 
 const props = defineProps<{
-    texture: Texture
+  texture: Texture
 }>()
 
 const { nodes } = await useGLTF(
@@ -12,19 +13,14 @@ const { nodes } = await useGLTF(
   },
 )
 
-
-props.texture.flipY = false
-
 const bakedMaterial = new MeshBasicMaterial({
   map: props.texture,
   side: DoubleSide,
 })
 
 nodes.Mortar.material = bakedMaterial
-
-
-
 </script>
+
 <template>
-<primitive :object="nodes.Mortar" />
+  <primitive :object="nodes.Mortar" />
 </template>

@@ -32,7 +32,7 @@ const colorOutside = new Color(parameters.outsideColor)
 const positions = new Float32Array(parameters.count * 3)
 const colors = new Float32Array(parameters.count * 3)
 const scales = new Float32Array(parameters.count)
-const randomness = new Float32Array(parameters.count * 3)
+const randomnessArray = new Float32Array(parameters.count * 3)
 
 for (let i = 0; i < parameters.count; i++) {
   const i3 = i * 3
@@ -46,13 +46,13 @@ for (let i = 0; i < parameters.count; i++) {
   positions[i3 + 1] = 0 // y
   positions[i3 + 2] = Math.sin(branchAngle) * radius // z
 
-  const randomX = Math.pow(Math.random(), parameters.randomnessPower) * (Math.random() < 0.5 ? -1 : 1)
-  const randomY = Math.pow(Math.random(), parameters.randomnessPower) * (Math.random() < 0.5 ? -1 : 1)
-  const randomZ = Math.pow(Math.random(), parameters.randomnessPower) * (Math.random() < 0.5 ? -1 : 1)
+  const randomX = Math.random() ** parameters.randomnessPower * (Math.random() < 0.5 ? -1 : 1)
+  const randomY = Math.random() ** parameters.randomnessPower * (Math.random() < 0.5 ? -1 : 1)
+  const randomZ = Math.random() ** parameters.randomnessPower * (Math.random() < 0.5 ? -1 : 1)
 
-  randomness[i3] = randomX
-  randomness[i3 + 1] = randomY
-  randomness[i3 + 2] = randomZ
+  randomnessArray[i3] = randomX
+  randomnessArray[i3 + 1] = randomY
+  randomnessArray[i3 + 2] = randomZ
 
   const mixedColor = colorInside.clone()
   mixedColor.lerp(colorOutside, radius / parameters.radius)
@@ -100,9 +100,9 @@ function updateGalaxy() {
       positions[i3 + 1] = 0 // y
       positions[i3 + 2] = Math.sin(branchAngle) * radius // z
 
-      const randomX = Math.pow(Math.random(), parameters.randomnessPower) * (Math.random() < 0.5 ? -1 : 1)
-      const randomY = Math.pow(Math.random(), parameters.randomnessPower) * (Math.random() < 0.5 ? -1 : 1)
-      const randomZ = Math.pow(Math.random(), parameters.randomnessPower) * (Math.random() < 0.5 ? -1 : 1)
+      const randomX = Math.random() ** parameters.randomnessPower * (Math.random() < 0.5 ? -1 : 1)
+      const randomY = Math.random() ** parameters.randomnessPower * (Math.random() < 0.5 ? -1 : 1)
+      const randomZ = Math.random() ** parameters.randomnessPower * (Math.random() < 0.5 ? -1 : 1)
 
       randomness[i3] = randomX
       randomness[i3 + 1] = randomY
@@ -133,53 +133,60 @@ onLoop(({ elapsed }) => {
     bufferRef.value.material.uniforms.uTime.value = elapsed
   }
 })
-
-const { pane } = useTweakPane()
-
-pane
-  .addInput(parameters, 'count', {
+useControls('fpsgraph')
+const [count, size, radius, branches, spin, randomness, randomnessPower, insideColor, outsideColor] = useControls({
+  count: {
+    value: 30000,
     min: 0,
     max: 100000,
-  })
-  .on('change', updateGalaxy)
-pane
-  .addInput(parameters, 'size', {
+    step: 1,
+  },
+  size: {
+    value: 20,
     min: 0.01,
     max: 40,
     step: 1,
-  })
-  .on('change', updateGalaxy)
-pane
-  .addInput(parameters, 'radius', {
+  },
+  radius: {
+    value: 5,
     min: 0.1,
     max: 20,
     step: 0.01,
-  })
-  .on('change', updateGalaxy)
-pane
-  .addInput(parameters, 'branches', {
+  },
+  branches: {
+    value: 5,
     min: 2,
     max: 10,
     step: 1,
-  })
-  .on('change', updateGalaxy)
-pane
-  .addInput(parameters, 'spin', {
+  },
+  spin: {
+    value: 4,
     min: -5,
     max: 5,
     step: 0.01,
-  })
-  .on('change', updateGalaxy)
-pane
-  .addInput(parameters, 'randomness', {
+  },
+  randomness: {
+    value: 0.13,
     min: 0.1,
     max: 0.2,
     step: 0.01,
+  },
+  randomnessPower: {
+    value: 7.5,
+    min: 1,
+    max: 10,
+    step: 0.001,
+  },
+  insideColor: '#b5f28d',
+  outsideColor: '#1b3984',
+})
+
+watch([count.value, size.value, radius.value, branches.value, spin.value, randomness.value, randomnessPower.value, insideColor.value, outsideColor.value], (state) => {
+  state.forEach((value, index) => {
+    parameters[Object.keys(parameters)[index] as string] = value
   })
-  .on('change', updateGalaxy)
-pane.addInput(parameters, 'randomnessPower', { min: 1, max: 10, step: 0.001 }).on('change', updateGalaxy)
-pane.addInput(parameters, 'insideColor').on('change', updateGalaxy)
-pane.addInput(parameters, 'outsideColor').on('change', updateGalaxy)
+  updateGalaxy()
+})
 
 onMounted(() => {
   gsap.to('.title', {
@@ -194,6 +201,7 @@ onMounted(() => {
 </script>
 
 <template>
+  <TresLeches />
   <h1
     class="title font-title text-6xl text-white fixed top-8 transform w-full text-center display-none opacity-0 z-10 pointer-events-none"
   >
@@ -206,7 +214,7 @@ onMounted(() => {
         :position="[positions, 3]"
         :a-scale="[scales, 1]"
         :color="[colors, 3]"
-        :a-randomness="[randomness, 3]"
+        :a-randomness="[randomnessArray, 3]"
       />
       <TresShaderMaterial v-bind="shader" />
     </TresPoints>

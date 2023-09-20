@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { DoubleSide, MeshBasicMaterial, Texture } from 'three'
+import type { Texture } from 'three'
+import { DoubleSide, MeshBasicMaterial } from 'three'
 
 const props = defineProps<{
   texture: Texture
@@ -9,21 +10,18 @@ const { nodes } = await useGLTF('/models/potions-classroom/wizard-potions-classr
   draco: true,
 })
 
-console.log(nodes)
-
-props.texture.flipY = false
-
 const bakedMaterial = new MeshBasicMaterial({
   map: props.texture,
   side: DoubleSide,
 })
 
-nodes.Lamp.traverse(child => {
+nodes.Lamp.traverse((child: any) => {
   if (child.isMesh) {
     child.material = bakedMaterial
   }
 })
 </script>
+
 <template>
   <primitive :object="nodes.Lamp" />
   <primitive :object="nodes.Bulb" />

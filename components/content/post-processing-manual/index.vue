@@ -41,11 +41,12 @@ pane
     ],
     value: null,
   })
-  .on('change', ev => {
+  .on('change', (ev) => {
     effectComposer?.removePass(activePass)
     if (ev.value.fragmentShader) {
       activePass = new ShaderPass(ev.value)
-    } else {
+    }
+    else {
       activePass = new EffectPass(context.value.camera, new ev.value())
     }
     effectComposer?.addPass(activePass)
@@ -101,11 +102,14 @@ DefaultLoadingManager.onProgress = (item, loaded, total) => {
         <span
           class="mt-4 block bg-black h-1 w-1 z-10 transition-1"
           :style="{ transform: `scaleX(${progress / 2})`, transformOrigin: '0 100%' }"
-        ></span>
+        />
       </div>
     </div>
   </Transition>
-  <TresCanvas v-bind="gl" ref="context">
+  <TresCanvas
+    v-bind="gl"
+    ref="context"
+  >
     <TresPerspectiveCamera :position="[5, 5, 5]" />
     <OrbitControls />
     <TresDirectionalLight :position="[10, 10, 10]" />

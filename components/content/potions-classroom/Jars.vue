@@ -5,6 +5,11 @@ const { nodes } = await useGLTF('/models/potions-classroom/wizard-potions-classr
 
 const jars = Object.values(nodes).filter(node => node.name.includes('Jar'))
 </script>
+
 <template>
-  <primitive v-for="jar of jars" :object="jar" />
+  <primitive
+    v-for="jar of jars"
+    :key="jar.uuid"
+    :object="jar"
+  />
 </template>

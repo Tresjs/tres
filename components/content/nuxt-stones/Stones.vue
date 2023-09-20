@@ -1,5 +1,7 @@
 <script setup lang="ts">
-import { MeshBasicMaterial, Texture } from 'three'
+import type { Texture } from 'three'
+import { MeshBasicMaterial } from 'three'
+
 const { nodes, materials } = await useGLTF('/models/nuxt-stones/nuxt-stones.glb')
 const stonesTexture = await useTexture(['/models/nuxt-stones/RockBaked.png'])
 const littleStonesTexture = await useTexture(['/models/nuxt-stones/LittleRocksBaked.png'])
@@ -22,7 +24,7 @@ nodes.Logo.material.emissiveIntensity = 10
 
 const littleStones = Object.values(nodes).filter(node => node.name.includes('Stone00'))
 
-littleStones.forEach(stone => {
+littleStones.forEach((stone) => {
   stone.material = LittleStonesBakedMaterial
 })
 
@@ -38,5 +40,9 @@ onLoop(({ elapsed }) => {
   <primitive :object="nodes.Logo" />
   <primitive :object="nodes.Stone" />
   <primitive :object="nodes.StoneCarved" />
-  <primitive v-for="stone in littleStones" :object="stone" :key="stone.id" />
+  <primitive
+    v-for="stone in littleStones"
+    :key="stone.id"
+    :object="stone"
+  />
 </template>

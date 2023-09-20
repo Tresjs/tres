@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { DoubleSide, MeshBasicMaterial, Texture } from 'three';
+import type { Texture } from 'three'
+import { DoubleSide, MeshBasicMaterial } from 'three'
 
 const props = defineProps<{
-    texture: Texture
+  texture: Texture
 }>()
 
 const { nodes } = await useGLTF(
@@ -14,19 +15,20 @@ const { nodes } = await useGLTF(
 
 const bricks = Object.values(nodes).filter(node => node.name.includes('Brick'))
 
-props.texture.flipY = false
-
 const bakedMaterial = new MeshBasicMaterial({
   map: props.texture,
   side: DoubleSide,
 })
 
-bricks.forEach(brick => {
+bricks.forEach((brick) => {
   brick.material = bakedMaterial
 })
-
-
 </script>
+
 <template>
-<primitive v-for="brick of bricks" :object="brick" />
+  <primitive
+    v-for="brick of bricks"
+    :key="brick.uuid"
+    :object="brick"
+  />
 </template>

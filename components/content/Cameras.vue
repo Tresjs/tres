@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { BasicShadowMap, NoToneMapping, OrthographicCamera, PerspectiveCamera, SRGBColorSpace } from 'three';
+import { BasicShadowMap, NoToneMapping, OrthographicCamera, PerspectiveCamera, SRGBColorSpace } from 'three'
 
 const gl = {
   clearColor: '#2B3846',
@@ -29,10 +29,10 @@ pane
     ],
     value: 'perspective',
   })
-  .on('change', e => {
+  .on('change', (e) => {
     state.cameraType = e.value
-    const newCamera =
-      e.value === 'perspective'
+    const newCamera
+      = e.value === 'perspective'
         ? new PerspectiveCamera(75, 1, 0.1, 1000)
         : new OrthographicCamera(-10, 10, 10, -10, 0.1, 1000)
 
@@ -58,7 +58,7 @@ watch(
   () => state.cameraType,
   () => {
     if (state.cameraType === 'orthographic') {
-      perspectiveFolder.children.forEach(child => {
+      perspectiveFolder.children.forEach((child) => {
         child.dispose()
       })
       orthographicFolder.addInput(state.camera, 'left', { min: -50, max: 50 })
@@ -67,8 +67,9 @@ watch(
       orthographicFolder.addInput(state.camera, 'bottom', { min: -50, max: 50 })
       orthographicFolder.addInput(state.camera, 'near', { min: 0, max: 50 })
       orthographicFolder.addInput(state.camera, 'far', { min: 0, max: 500 })
-    } else {
-      orthographicFolder.children.forEach(child => {
+    }
+    else {
+      orthographicFolder.children.forEach((child) => {
         child.dispose()
       })
       perspectiveFolder.addInput(state.camera, 'fov', { min: 0, max: 180 })
@@ -83,12 +84,6 @@ watch(
 
 const context = ref(null)
 
-watchEffect(() => {
-  if (context.value) {
-    console.log(context.value)
-  }
-})
-
 const asyncTorus = ref(false)
 
 setTimeout(() => {
@@ -97,12 +92,22 @@ setTimeout(() => {
 </script>
 
 <template>
-  <TresCanvas v-bind="gl" ref="context" :camera="state.camera">
-    <Box :position="[0, 1, 0]" :scale="[2, 2, 2]">
-      <TresMeshNormalMaterial :color="'teal'" />
+  <TresCanvas
+    v-bind="gl"
+    ref="context"
+    :camera="state.camera"
+  >
+    <Box
+      :position="[0, 1, 0]"
+      :scale="[2, 2, 2]"
+    >
+      <TresMeshNormalMaterial color="teal" />
     </Box>
     <TresGridHelper />
     <TresAmbientLight :intensity="1" />
-    <TresDirectionalLight :position="[3, 3, 3]" :intensity="1" />
+    <TresDirectionalLight
+      :position="[3, 3, 3]"
+      :intensity="1"
+    />
   </TresCanvas>
 </template>

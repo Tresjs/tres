@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { DoubleSide, MeshBasicMaterial, Texture } from 'three'
+import type { Texture } from 'three'
+import { DoubleSide, MeshBasicMaterial } from 'three'
 
 const props = defineProps<{
   texture: Texture
@@ -9,14 +10,12 @@ const { nodes } = await useGLTF('/models/potions-classroom/wizard-potions-classr
   draco: true,
 })
 
-props.texture.flipY = false
-
 const bakedMaterial = new MeshBasicMaterial({
   map: props.texture,
   side: DoubleSide,
 })
 
-nodes.Table.children.forEach(child => {
+nodes.Table.children.forEach((child) => {
   if (child.isMesh) {
     child.material = bakedMaterial
   }
@@ -24,11 +23,15 @@ nodes.Table.children.forEach(child => {
 
 const stools = Object.values(nodes).filter(node => node.name.includes('Stool'))
 
-stools.forEach(stool => {
+stools.forEach((stool) => {
   stool.material = bakedMaterial
 })
 </script>
+
 <template>
   <primitive :object="nodes.Table" />
-  <primitive v-for="stool of stools" :object="stool" />
+  <primitive
+    v-for="stool of stools"
+    :object="stool"
+  />
 </template>

@@ -31,9 +31,18 @@ onLoop(() => {
 
 <template>
   <TresCanvas v-bind="gl">
-    <TresPerspectiveCamera :position="[0, 0, 5]" :fov="75" :near="0.1" :far="1000" />
+    <TresPerspectiveCamera
+      :position="[0, 0, 5]"
+      :fov="75"
+      :near="0.1"
+      :far="1000"
+    />
     <MouseParallax :factor="2" />
-    <TresMesh :scale="2" :position="[0.5, 0.5, 0]" cast-shadow>
+    <TresMesh
+      :scale="2"
+      :position="[0.5, 0.5, 0]"
+      cast-shadow
+    >
       <TresSphereGeometry :args="[1, 30, 30]" />
       <TresShaderMaterial v-bind="shader" />
     </TresMesh>

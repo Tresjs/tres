@@ -1,21 +1,6 @@
 <script setup lang="ts">
-import { DefaultLoadingManager } from 'three'
 const environmentFiles = ['/px.jpg', '/nx.jpg', '/py.jpg', '/ny.jpg', '/pz.jpg', '/nz.jpg']
-
-//TODO: replace this when UseProgress is implemented https://github.com/Tresjs/cientos/issues/22
-
-const hasFinishLoading = ref(false)
-const progress = ref(0)
-
-let saveLastTotalLoaded = 0
-
-DefaultLoadingManager.onProgress = (item, loaded, total) => {
-  if (loaded === total) {
-    saveLastTotalLoaded = total
-    hasFinishLoading.value = true
-  }
-  progress.value = Math.round(((loaded - saveLastTotalLoaded) / (total - saveLastTotalLoaded)) * 100 || 100, 2)
-}
+const { hasFinishLoading, progress } = await useProgress()
 </script>
 
 <template>
@@ -26,11 +11,11 @@ DefaultLoadingManager.onProgress = (item, loaded, total) => {
   >
     <div
       v-show="!hasFinishLoading"
-      class="absolute bg-grey-600 t-0 l-0 w-full h-full z-20 flex justify-center items-center text-black font-mono"
+      class="absolute bg-grey-600 t-0 l-0 w-full h-full z-20 flex justify-center items-center text-white font-mono"
     >
       <div class="w-200px">
         Loading... {{ progress }} %
-        <i class="i-ic-twotone-catching-pokemon animate-rotate-in"></i>
+        <i class="i-ic-twotone-catching-pokemon animate-rotate-in" />
       </div>
     </div>
   </Transition>
@@ -39,15 +24,19 @@ DefaultLoadingManager.onProgress = (item, loaded, total) => {
     <OrbitControls />
     <Suspense>
       <Environment
+        background
         :files="environmentFiles"
-        :path="'https://raw.githubusercontent.com/Tresjs/assets/main/textures/environmentMap'"
+        path="https://raw.githubusercontent.com/Tresjs/assets/main/textures/environmentMap"
       />
     </Suspense>
     <Suspense>
       <Pokeball />
     </Suspense>
 
-    <TresDirectionalLight :position="[5, 5, 5]" :intensity="1" />
+    <TresDirectionalLight
+      :position="[5, 5, 5]"
+      :intensity="1"
+    />
     <TresAmbientLight :intensity="1" />
   </TresCanvas>
 </template>

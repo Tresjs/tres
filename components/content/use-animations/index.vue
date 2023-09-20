@@ -11,13 +11,23 @@ const gl = {
   outputColorSpace: SRGBColorSpace,
   toneMapping: NoToneMapping,
 }
+
+useControls('fpsgraph')
 </script>
 
 <template>
+  <TresLeches />
   <TresCanvas v-bind="gl">
-    <TresPerspectiveCamera :position="[2, 3, 8]" :look-at="[0, 0, 0]" />
+    <TresPerspectiveCamera
+      :position="[2, 3, 8]"
+      :look-at="[0, 0, 0]"
+    />
     <OrbitControls />
-    <TresDirectionalLight color="#F78B3D" :position="[3, 3, 3]" :intensity="1" />
+    <TresDirectionalLight
+      color="#F78B3D"
+      :position="[3, 3, 3]"
+      :intensity="1"
+    />
     <Suspense>
       <UglyNakedBunny />
     </Suspense>

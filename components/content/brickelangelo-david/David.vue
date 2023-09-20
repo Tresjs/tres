@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { InstancedMesh, MeshPhongMaterial, Raycaster, Vector3, Object3D, Group } from 'three'
+import type { Group } from 'three'
+import { InstancedMesh, MeshPhongMaterial, Raycaster, Vector3, Object3D } from 'three'
 import { MeshSurfaceSampler } from 'three/addons/math/MeshSurfaceSampler.js'
 import { useMouse } from '@vueuse/core'
 
@@ -87,6 +88,7 @@ for (let i = 0; i < instanceCount; i++) {
 
 legoInstancedMesh.instanceMatrix.needsUpdate = true
 </script>
+
 <template>
   <TresGroup ref="groupRef">
     <primitive :object="legoInstancedMesh" />

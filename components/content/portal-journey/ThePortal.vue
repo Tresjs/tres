@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { SRGBColorSpace, DoubleSide, MeshBasicMaterial, ShaderMaterial, Color, Mesh } from 'three'
+import type { Mesh } from 'three'
+import { SRGBColorSpace, DoubleSide, MeshBasicMaterial, ShaderMaterial, Color } from 'three'
 
 import PortalVertex from './shaders/portal/vertex.glsl'
 import PortalFragment from './shaders/portal/fragment.glsl'
@@ -76,6 +77,7 @@ onLoop(({ _delta, elapsed }) => {
   portalLightMaterial.uniforms.uTime.value = elapsed
 })
 </script>
+
 <template>
   <TresMesh v-bind="portal" />
 </template>

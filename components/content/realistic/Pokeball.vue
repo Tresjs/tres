@@ -9,6 +9,7 @@ watch(gameboyRef, ({ model }) => {
   }
 })
 </script>
+
 <template>
   <GLTFModel
     ref="gameboyRef"

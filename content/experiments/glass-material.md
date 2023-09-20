@@ -2,6 +2,7 @@
 thumbnail: /glass-example.png
 title: Glass/Plastic Material
 author: jaime-bboyjt
+status: published
 description: A realistic glass/plastic effect, play with it!
 tags: ['materials', 'useTweakPane']
 ---
@@ -82,20 +83,42 @@ hdrEquiredButton.on('click', () => {
   options.envMap = options.envMap ? null : hdrEquirect
 })
 </script>
+
 <template>
-  <TresCanvas window-size clear-color="#F7F7F7" class="over-hidden" grid>
-    <TresPerspectiveCamera :position="[0, 0, 3]" :fov="45" :aspect="1" :near="0.1" :far="1000" />
+  <TresCanvas
+    window-size
+    clear-color="#F7F7F7"
+    class="over-hidden"
+    grid
+  >
+    <TresPerspectiveCamera
+      :position="[0, 0, 3]"
+      :fov="45"
+      :aspect="1"
+      :near="0.1"
+      :far="1000"
+    />
     <OrbitControls />
-    <TresGridHelper :args="[30, 30]" :position="[0, -2.5, 0]" />
+    <TresGridHelper
+      :args="[30, 30]"
+      :position="[0, -2.5, 0]"
+    />
     <TresMesh :position="[-0, 0, 0]">
       <TresIcosahedronGeometry :args="[1, 10]" />
       <TresMeshPhysicalMaterial v-bind="options" />
     </TresMesh>
-    <TresMesh ref="planeRef" :position="[0, 0, -1]">
+    <TresMesh
+      ref="planeRef"
+      :position="[0, 0, -1]"
+    >
       <TresPlaneGeometry :args="[5, 5]" />
       <TresMeshBasicMaterial :map="map" />
     </TresMesh>
-    <TresDirectionalLight :position="[0, 2, 4]" :intensity="2" cast-shadow />
+    <TresDirectionalLight
+      :position="[0, 2, 4]"
+      :intensity="2"
+      cast-shadow
+    />
     <TresAmbientLight />
   </TresCanvas>
 </template>

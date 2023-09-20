@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Object3D } from 'three'
+import type { Object3D } from 'three'
 import { shallowRef, watch } from 'vue'
 
 const props = defineProps<{
@@ -14,7 +14,7 @@ const airplaneRef = shallowRef()
 
 const airplane = scene
 airplane.rotation.set(0, Math.PI, 0)
-scene.traverse(child => {
+scene.traverse((child) => {
   if (child.isMesh) {
     child.castShadow = true
   }
@@ -25,40 +25,25 @@ const { onLoop } = useRenderLoop()
 
 watch(
   () => props.planet,
-  planet => {
+  (planet) => {
     if (!planet) return
     planet.geometry.computeBoundingSphere()
-    const radius = Math.abs(planet.geometry.boundingSphere?.radius | 1) + 0.5
+    const radius = Math.abs(planet.geometry.boundingSphere?.radius | 1)
     airplane.position.set(radius, 0, 0)
 
     airplane.lookAt(planet.position)
   },
 )
 
-const { pane } = useTweakPane()
-
-const folder = pane.addFolder({
-  title: 'Airplane',
-  expanded: true,
-})
-
-watch(
-  () => airplaneRef.value,
-  planet => {
-    if (!planet) return
-    folder.addInput(airplaneRef.value, 'visible', { label: 'Visible' })
-  },
-)
-
 let angle = 0
-let speed = 0.2
+const speed = 0.2
 onLoop(({ delta }) => {
   if (!airplane || !props.planet) return
 
   const radius = Math.abs(props.planet.geometry.boundingSphere.radius) + 0.5
   angle += delta * speed
-  let x = radius * Math.cos(angle)
-  let z = radius * Math.sin(angle)
+  const x = radius * Math.cos(angle)
+  const z = radius * Math.sin(angle)
   airplane.position.x = x
   airplane.position.z = z
   airplane.rotation.z = -Math.PI / 2
@@ -66,6 +51,7 @@ onLoop(({ delta }) => {
   airplane.updateMatrixWorld()
 })
 </script>
+
 <template>
-  <TresMesh ref="airplaneRef" v-bind="airplane" />
+  <primitive :object="airplane" />
 </template>

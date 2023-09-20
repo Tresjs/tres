@@ -3,6 +3,7 @@ thumbnail: /array-cameras.png
 title: Array of cameras
 slug: array-cameras
 author: jaime-bboyjt
+status: published
 description: An advance technique using ArrayCamera with a model animation
 tags: ['array-camera', 'useGltf', 'useRenderLoop', 'useProgress']
 ---
@@ -63,7 +64,7 @@ const cameraOptions = [
   },
 ]
 
-cameraOptions.forEach(data => {
+cameraOptions.forEach((data) => {
   const currentCam = new PerspectiveCamera(40, ASPECT_RATIO.value, 0.1, 10)
   currentCam.name = data.name
   currentCam.viewport = data.viewPort
@@ -76,6 +77,7 @@ cameraOptions.forEach(data => {
 
 const { hasFinishLoading, progress, items } = await useProgress()
 </script>
+
 <template>
   <Transition
     name="fade-overlay"
@@ -86,17 +88,36 @@ const { hasFinishLoading, progress, items } = await useProgress()
       v-show="!hasFinishLoading"
       class="absolute bg-grey-600 t-0 l-0 w-full h-full z-20 flex justify-center items-center text-black font-mono"
     >
-      <div class="w-200px">Loading... {{ progress }} %</div>
+      <div class="w-200px">
+        Loading... {{ progress }} %
+      </div>
     </div>
   </Transition>
-  <TresCanvas window-size clear-color="#82DBC5" class="over-hidden">
-    <TresArrayCamera :args="[cameras]" :position="[0, 2, 5]" />
+  <TresCanvas
+    window-size
+    clear-color="#82DBC5"
+    class="over-hidden"
+  >
+    <TresArrayCamera
+      :args="[cameras]"
+      :position="[0, 2, 5]"
+    />
     <Suspense>
       <model />
     </Suspense>
-    <TresAmbientLight :color="0xffffff" :intensity="1" />
-    <TresSpotLight :color="0xffffff" :intensity="100" :position="[0, 0, 5]" />
-    <TresDirectionalLight :color="0xffffff" :intensity="5" />
+    <TresAmbientLight
+      :color="0xffffff"
+      :intensity="1"
+    />
+    <TresSpotLight
+      :color="0xffffff"
+      :intensity="100"
+      :position="[0, 0, 5]"
+    />
+    <TresDirectionalLight
+      :color="0xffffff"
+      :intensity="5"
+    />
     <TresHemisphereLight />
   </TresCanvas>
 </template>
@@ -138,7 +159,7 @@ const animationList = pane.addBlade({
   value: 'Idle',
 })
 
-animationList.on('change', value => {
+animationList.on('change', (value) => {
   currentAction.stop()
   currentAction = actions[value.value]
   currentAction.play()
@@ -152,6 +173,7 @@ onLoop(() => {
   }
 })
 </script>
+
 <template>
   <Suspense>
     <primitive :object="model" />

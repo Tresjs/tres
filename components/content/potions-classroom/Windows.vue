@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { DoubleSide, MeshBasicMaterial, Texture } from 'three';
+import type { Texture } from 'three'
+import { DoubleSide, MeshBasicMaterial } from 'three'
 
 const props = defineProps<{
-    texture: Texture
+  texture: Texture
 }>()
 
 const { nodes } = await useGLTF(
@@ -12,17 +13,15 @@ const { nodes } = await useGLTF(
   },
 )
 
-props.texture.flipY = false
-
 const bakedMaterial = new MeshBasicMaterial({
   map: props.texture,
   side: DoubleSide,
 })
 
-
 nodes.Window_Grid.material = bakedMaterial
 </script>
+
 <template>
-<primitive :object="nodes.Window_Glass" />
-<primitive :object="nodes.Window_Grid" />
+  <primitive :object="nodes.Window_Glass" />
+  <primitive :object="nodes.Window_Grid" />
 </template>

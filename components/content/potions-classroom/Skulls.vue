@@ -9,18 +9,27 @@ const boneTexture = await useTexture(['/models/potions-classroom/skull.png'])
 
 const skulls = Object.values(nodes).filter(node => node.name.includes('Skull'))
 
-boneTexture.flipY = false
-
 const bakedMaterial = new MeshBasicMaterial({
   map: boneTexture,
   side: DoubleSide,
 })
 
-skulls.forEach(skull => {
+skulls.forEach((skull) => {
   skull.material = bakedMaterial
 })
 </script>
+
 <template>
-  <primitive v-for="skull of skulls" :object="skull" />
-  <TresPointLight :position="skulls[1].position" color="#2ddb4e" :distance="10" :intensity="2" :decay="2" />
+  <primitive
+    v-for="skull of skulls"
+    :key="skull.uuid"
+    :object="skull"
+  />
+  <TresPointLight
+    :position="skulls[1].position"
+    color="#2ddb4e"
+    :distance="10"
+    :intensity="2"
+    :decay="2"
+  />
 </template>

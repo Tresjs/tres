@@ -25,8 +25,21 @@ onLoop(({ elapsed }) => {
   }
 })
 </script>
+
 <template>
-  <TresPointLight :args="['#ff00ff', 3, 3]" ref="ghost1" cast-shadow />
-  <TresPointLight :args="['#00ffff', 3, 3]" ref="ghost2" cast-shadow />
-  <TresPointLight :args="['#ff7800', 3, 3]" ref="ghost3" cast-shadow />
+  <TresPointLight
+    ref="ghost1"
+    :args="['#ff00ff', 3, 3]"
+    cast-shadow
+  />
+  <TresPointLight
+    ref="ghost2"
+    :args="['#00ffff', 3, 3]"
+    cast-shadow
+  />
+  <TresPointLight
+    ref="ghost3"
+    :args="['#ff7800', 3, 3]"
+    cast-shadow
+  />
 </template>

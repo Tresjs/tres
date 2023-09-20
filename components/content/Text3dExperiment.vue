@@ -1,11 +1,7 @@
 <script setup lang="ts">
 import { BasicShadowMap, SRGBColorSpace, NoToneMapping } from 'three'
-import { useWindowSize } from '@vueuse/core'
-import { EffectComposer, RenderPass } from 'postprocessing'
-
 import { OrbitControls, Text3D, Torus } from '@tresjs/cientos'
-
-/* const pane = useTweakPane() */
+import type { TresCamera } from '@tresjs/core'
 
 const gl = {
   clearColor: '#82DBC5',
@@ -19,13 +15,11 @@ const gl = {
 const matcapTexture = await useTexture(['https://raw.githubusercontent.com/Tresjs/assets/main/textures/matcaps/7.png'])
 const donutTexture = await useTexture(['https://raw.githubusercontent.com/Tresjs/assets/main/textures/matcaps/8.png'])
 
-const donuts = Array.from({ length: 200 }, () => {
-  return {
-    position: [(Math.random() - 0.5) * 30, (Math.random() - 0.5) * 30, (Math.random() - 0.5) * 30],
-    rotation: [(Math.random() - 0.5) * 10, (Math.random() - 0.5) * 10, (Math.random() - 0.5) * 10],
-    scale: [0.4, 0.4, 0.4],
-  }
-})
+const donuts = Array.from({ length: 200 }, () => ({
+  position: [(Math.random() - 0.5) * 30, (Math.random() - 0.5) * 30, (Math.random() - 0.5) * 30],
+  rotation: [(Math.random() - 0.5) * 10, (Math.random() - 0.5) * 10, (Math.random() - 0.5) * 10],
+  scale: [0.4, 0.4, 0.4],
+}))
 
 const donutsRef = ref(null)
 
@@ -45,36 +39,48 @@ const camera = ref(null)
 
 watchEffect(() => {
   if (camera.value) {
-    camera.value.lookAt(0, 0, 0)
+    (camera.value as TresCamera).lookAt(0, 0, 0)
   }
 })
 
-
+useControls('fpsgraph')
 </script>
 
 <template>
-  <TresCanvas v-bind="gl" ref="context">
-    <TresPerspectiveCamera ref="camera" :position="[6, 5, 5]" :focus="100" />
+  <TresLeches />
+  <TresCanvas
+    v-bind="gl"
+  >
+    <TresPerspectiveCamera
+      ref="camera"
+      :position="[6, 5, 5]"
+      :focus="100"
+    />
     <OrbitControls make-default />
     <Suspense>
       <Text3D
         font="https://raw.githubusercontent.com/Tresjs/assets/main/fonts/FiraCodeRegular.json"
         center
-        :text="'TresJS'"
+        text="TresJS"
         :size="1"
         :height="0.2"
-        :curveSegments="12"
-        :bevelEnabled="true"
-        :bevelThickness="0.05"
-        :bevelSize="0.03"
-        :bevelOffset="0"
-        :bevelSegments="4"
+        :curve-segments="12"
+        :bevel-enabled="true"
+        :bevel-thickness="0.05"
+        :bevel-size="0.03"
+        :bevel-offset="0"
+        :bevel-segments="4"
       >
         <TresMeshMatcapMaterial :matcap="matcapTexture" />
       </Text3D>
     </Suspense>
     <TresGroup ref="donutsRef">
-      <Torus :args="[1, 0.6, 16, 32]" v-for="donut in donuts" v-bind="donut">
+      <Torus
+        v-for="(donut, $index) in donuts"
+        :key="$index"
+        :args="[1, 0.6, 16, 32]"
+        v-bind="donut"
+      >
         <TresMeshMatcapMaterial :matcap="donutTexture" />
       </Torus>
     </TresGroup>

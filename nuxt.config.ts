@@ -2,7 +2,7 @@ import { presetUno, presetIcons, presetTypography, presetWebFonts } from 'unocss
 import svgLoader from 'vite-svg-loader'
 
 import glsl from 'vite-plugin-glsl'
-import { templateCompilerOptions } from '@tresjs/core'
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   app: {
@@ -19,6 +19,7 @@ export default defineNuxtConfig({
   },
   modules: ['@tresjs/nuxt', '@unocss/nuxt', 'nuxt-svgo', '@nuxt/content', '@nuxt/image-edge'],
   css: ['@unocss/reset/tailwind-compat.css', '@tresjs/leches/styles'],
+  declare: ['*.glsl'],
   unocss: {
     // presets
     theme: {
