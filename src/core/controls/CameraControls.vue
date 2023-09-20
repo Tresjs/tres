@@ -301,7 +301,7 @@ const props = withDefaults(defineProps<CameraControlsProps>(), {
   maxPolarAngle: Math.PI,
   minAzimuthAngle: -Infinity,
   maxAzimuthAngle: Infinity,
-  distance: 8,
+  distance: () => useTresContext().camera.value!.position.z,
   minDistance: Number.EPSILON,
   maxDistance: Infinity,
   infinityDolly: false,
@@ -374,6 +374,7 @@ const subsetOfTHREE = {
 CameraControls.install({ THREE: subsetOfTHREE })
 
 const { camera: activeCamera, renderer, extend, controls } = useTresContext()
+
 const controlsRef = ref<CameraControls | null>(null)
 extend({ CameraControls })
 
