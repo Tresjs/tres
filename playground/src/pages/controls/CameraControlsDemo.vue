@@ -15,7 +15,7 @@ const gl = {
 }
 
 const controlsState = reactive({
-  distance: 8,
+  distance: 5,
   minDistance: 0,
   maxDistance: 100,
 })
