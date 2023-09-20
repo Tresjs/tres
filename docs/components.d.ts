@@ -30,6 +30,7 @@ declare module 'vue' {
     ScrollControlsDemo: typeof import('./.vitepress/theme/components/ScrollControlsDemo.vue')['default']
     SmokeDemo: typeof import('./.vitepress/theme/components/SmokeDemo.vue')['default']
     StarsDemo: typeof import('./.vitepress/theme/components/StarsDemo.vue')['default']
+    StatsGlDemo: typeof import('./.vitepress/theme/components/StatsGlDemo.vue')['default']
     Text3Demo: typeof import('./.vitepress/theme/components/Text3Demo.vue')['default']
     TransformControlsDemo: typeof import('./.vitepress/theme/components/TransformControlsDemo.vue')['default']
     VideoTexture: typeof import('./.vitepress/theme/components/VideoTexture.vue')['default']

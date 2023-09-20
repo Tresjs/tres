@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { CameraControls, Stars, StatsGl } from '@tresjs/cientos';
-import { TresCanvas, useRenderLoop } from '@tresjs/core';
-import { NoToneMapping, Points, SRGBColorSpace } from 'three';
-import { reactive, shallowRef } from 'vue';
+import { CameraControls, Stars, StatsGl } from '@tresjs/cientos'
+import { TresCanvas, useRenderLoop } from '@tresjs/core'
+import type { Points } from 'three'
+import { NoToneMapping, SRGBColorSpace } from 'three'
+import { reactive, shallowRef } from 'vue'
 
 const gl = {
   clearColor: '#000',
