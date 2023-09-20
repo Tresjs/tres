@@ -1,6 +1,6 @@
 # Stats
 
-[stats.js](https://github.com/mrdoob/stats.js/) is a JavaScript performance monitor, made by [mrdoop](https://github.com/mrdoob). stats.js provides a simple info box that will help you monitor your code performance.
+[stats.js](https://github.com/mrdoob/stats.js/) is a JavaScript performance monitor, made by [mrdoob](https://github.com/mrdoob). stats.js provides a simple info box that will help you monitor your code performance.
 
 - FPS Frames rendered in the last second. The higher the number the better.
 - MS Milliseconds needed to render a frame. The lower the number the better.

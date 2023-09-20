@@ -6,7 +6,7 @@
 
 ![Leviosa](https://media.giphy.com/media/HaCFT5ghY6L1m/giphy.gif)
 
-The `cientos` package provides a `<Levioso />` wrapper that makes it content... float, just like Magic 🪄✨
+The `cientos` package provides a `<Levioso />` wrapper that makes its content … float, just like Magic 🪄✨
 
 ## Usage
 
