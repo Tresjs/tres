@@ -2,6 +2,7 @@ import { defineConfig } from 'vitepress'
 import Unocss from 'unocss/vite'
 import svgLoader from 'vite-svg-loader'
 import { resolve } from 'pathe'
+import { templateCompilerOptions } from '@tresjs/core'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
@@ -28,15 +29,10 @@ export default defineConfig({
         text: 'Abstractions',
         items: [
           { text: 'Text3D', link: '/guide/abstractions/text-3d' },
-          { text: 'useAnimations', link: '/guide/abstractions/use-animations' },
-          { text: 'Environment', link: '/guide/abstractions/environment' },
-          { text: 'useEnvironment', link: '/guide/abstractions/use-environment' },
-          { text: 'MouseParallax', link: '/guide/abstractions/mouse-parallax' },
-          { text: 'Stars', link: '/guide/abstractions/stars' },
-          { text: 'Smoke', link: '/guide/abstractions/smoke' },
           { text: 'Levioso (Float)', link: '/guide/abstractions/levioso' },
-          { text: 'Contact Shadows', link: '/guide/abstractions/contact-shadows' },
-          { text: 'Precipitation', link: '/guide/abstractions/precipitation' },
+          { text: 'useAnimations', link: '/guide/abstractions/use-animations' },
+          { text: 'MouseParallax', link: '/guide/abstractions/mouse-parallax' },
+          { text: 'Lensflare', link: '/guide/abstractions/lensflare' },
         ],
       },
       {
@@ -92,14 +88,31 @@ export default defineConfig({
       },
       {
         text: 'Staging',
-        collapsed: true,
-        items: [{ text: 'Backdrop', link: '/guide/staging/backdrop' }],
+        items: [
+          { text: 'Backdrop', link: '/guide/staging/backdrop' },
+          { text: 'Environment', link: '/guide/staging/environment' },
+          { text: 'useEnvironment', link: '/guide/staging/use-environment' },
+          { text: 'Sky', link: '/guide/staging/sky' },
+          { text: 'Stars', link: '/guide/staging/stars' },
+          { text: 'Smoke', link: '/guide/staging/smoke' },
+          { text: 'Contact Shadows', link: '/guide/staging/contact-shadows' },
+          { text: 'Precipitation', link: '/guide/staging/precipitation' }],
       },
       {
         text: 'Misc',
+        collapsed: true,
         items: [
           { text: 'useTweakpane', link: '/guide/misc/use-tweakpane' },
           { text: 'Stats', link: '/guide/misc/stats' },
+        ],
+      },
+      {
+        text: 'Directives',
+        collapsed: true,
+        items: [
+          { text: 'v-log', link: '/guide/directives/v-log' },
+          { text: 'v-light-helper', link: '/guide/directives/v-light-helper' },
+          { text: 'v-always-look-at', link: '/guide/directives/v-always-look-at' },
         ],
       },
     ],
@@ -128,10 +141,6 @@ export default defineConfig({
     },
   },
   vue: {
-    template: {
-      compilerOptions: {
-        isCustomElement: tag => tag.startsWith('Tres') && tag !== 'TresCanvas',
-      },
-    },
+    ...templateCompilerOptions,
   },
 })

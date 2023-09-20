@@ -1,5 +1,10 @@
 # OrbitControls
 
+<DocsDemo>
+  <OrbitControlsDemo />
+</DocsDemo>
+
+
 [OrbitControls](https://threejs.org/docs/index.html?q=orbit#examples/en/controls/OrbitControls) is a camera controller that allows you to orbit around a target. It's a great way to explore your scene.
 
 However, it is not part of the core of ThreeJS. So to use it you would need to import it from the `three/examples/jsm/controls/OrbitControls` module.

@@ -59,9 +59,7 @@ onLoop(({ delta }) => {
 
 watch(
   () => cameraGroupRef.value,
-  (value) => {
-    value?.add(camera.value)
-  },
+  value => value?.add(camera.value),
 )
 </script>
 
