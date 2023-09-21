@@ -122,3 +122,8 @@ export function deepArrayEqual(arr1: any[], arr2: any[]): boolean {
 
   return true
 }
+
+/**
+ * TypeSafe version of Array.isArray
+ */
+export const isArray = Array.isArray as (a: any) => a is any[] | readonly any[]
