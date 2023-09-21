@@ -134,7 +134,8 @@ onLoop(({ elapsed }) => {
   }
 })
 useControls('fpsgraph')
-const [count, size, radius, branches, spin, randomness, randomnessPower, insideColor, outsideColor] = useControls({
+const {count, size, radius, branches, spin, randomness, randomnessPower, insideColor, outsideColor} = useControls({
+
   count: {
     value: 30000,
     min: 0,
@@ -183,7 +184,7 @@ const [count, size, radius, branches, spin, randomness, randomnessPower, insideC
 
 watch([count.value, size.value, radius.value, branches.value, spin.value, randomness.value, randomnessPower.value, insideColor.value, outsideColor.value], (state) => {
   state.forEach((value, index) => {
-    parameters[Object.keys(parameters)[index] as string] = value
+    parameters[Object.keys(parameters)[index] as string] = value.value
   })
   updateGalaxy()
 })

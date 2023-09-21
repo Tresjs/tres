@@ -34,7 +34,7 @@ const options = reactive({
   envMapIntensity: 1.5,
 })
 
-const [transmission, thickness, roughness, envMapIntensity, useHDR] = useControls({
+const {transmission, thickness, roughness, envMapIntensity, useHDR} = useControls({
   transmission: {
     value: 1,
     min: 0,
@@ -64,7 +64,7 @@ const [transmission, thickness, roughness, envMapIntensity, useHDR] = useControl
 
 watch([transmission.value, thickness.value, roughness.value, envMapIntensity.value], (state) => {
   state.forEach((value, index) => {
-    options[Object.keys(options)[index] as string] = value
+    options[Object.keys(options)[index] as string] = value.value
   })
 })
 
