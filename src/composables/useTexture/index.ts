@@ -1,6 +1,6 @@
-import { isArray } from '@alvarosabu/utils'
 import type { Texture } from 'three'
 import { LoadingManager, TextureLoader } from 'three'
+import { isArray } from '../../utils'
 
 export interface PBRMaterialOptions {
   /**
@@ -22,9 +22,66 @@ export interface PBRMaterialOptions {
 export interface PBRTextureMaps {
   [key: string]: Texture | null
 }
-// eslint-disable-next-line require-await
+
 /**
- * Composable for loading textures.
+ * Map of textures to load that can be passed to `useTexture()`.
+ */
+export interface PBRUseTextureMap {
+  map?: string
+  displacementMap?: string
+  normalMap?: string
+  roughnessMap?: string
+  metalnessMap?: string
+  aoMap?: string
+  alphaMap?: string
+  matcap?: string
+}
+
+/**
+ * Loads a single texture.
+ *
+ * ```ts
+ * import { useTexture } from 'tres'
+ *
+ * const matcapTexture = await useTexture(['path/to/texture.png'])
+ * ```
+ * Then you can use the texture in your material.
+ *
+ * ```vue
+ * <TresMeshMatcapMaterial :matcap="matcapTexture" />
+ * ```
+ * @see https://tresjs.org/examples/load-textures.html
+ * @export
+ * @param paths
+ * @return A promise of the resulting texture
+ */
+export async function useTexture(paths: readonly [string]): Promise<Texture>
+/**
+ * Loads multiple textures.
+ *
+ * ```ts
+ * import { useTexture } from 'tres'
+ *
+ * const [texture1, texture2] = await useTexture([
+ *  'path/to/texture1.png',
+ *  'path/to/texture2.png',
+ * ])
+ * ```
+ * Then you can use the texture in your material.
+ *
+ * ```vue
+ * <TresMeshStandardMaterial map="texture1" />
+ * ```
+ * @see https://tresjs.org/examples/load-textures.html
+ * @export
+ * @param paths
+ * @return A promise of the resulting textures
+ */
+export async function useTexture<T extends string[]>(
+  paths: [...T]
+): Promise<{ [K in keyof T]: Texture }>
+/**
+ * Loads a PBR texture map.
  *
  * ```ts
  * import { useTexture } from 'tres'
@@ -44,12 +101,20 @@ export interface PBRTextureMaps {
  * ```
  * @see https://tresjs.org/examples/load-textures.html
  * @export
- * @param {(Array<string> | { [key: string]: string })} paths
- * @return {*}  {(Promise<Texture | Array<Texture> | PBRTextureMaps>)}
+ * @param paths
+ * @return A promise of the resulting pbr texture map
  */
+export async function useTexture<TextureMap extends PBRUseTextureMap>(
+  paths: TextureMap
+): Promise<{
+  [K in keyof Required<PBRUseTextureMap>]: K extends keyof TextureMap
+    ? Texture
+    : null
+}>
+
 export async function useTexture(
-  paths: Array<string> | { [key: string]: string },
-): Promise<Texture | Array<Texture> | PBRTextureMaps> {
+  paths: readonly [string] | string[] | PBRUseTextureMap,
+): Promise<Texture | Texture[] | PBRTextureMaps> {
   const loadingManager = new LoadingManager()
   const textureLoader = new TextureLoader(loadingManager)
 
