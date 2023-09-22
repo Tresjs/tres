@@ -25,7 +25,7 @@ const texture = await useEnvironment({
 
 Then you can use the `texture` in your scene:
 
-```html{3}
+```vue{3}
 <TresMesh>
     <TresSphereGeometry />
     <TresMeshStandardMaterial :map="texture" />

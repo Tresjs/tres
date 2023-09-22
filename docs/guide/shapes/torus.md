@@ -18,7 +18,7 @@ Reference: [TorusGeometry](https://threejs.org/docs/?q=torus#api/en/geometries/T
 
 ## Usage
 
-```html
+```vue
 <Torus :args="[2, 0.4, 42, 100]" color="cyan" />
 
 // Torus with a custom material transformations

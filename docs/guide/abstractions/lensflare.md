@@ -60,7 +60,7 @@ If you set a `seed` but not `seedProps`, the component will fall back to the def
 
 ### Example
 
-```
+```vue
 <Lensflare :seed="seedRef" />
 ```
 

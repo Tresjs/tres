@@ -12,7 +12,7 @@ Reference: [DodecahedronGeometry](https://threejs.org/docs/?q=dode#api/en/geomet
 
 ## Usage
 
-```html
+```vue
 <Dodecahedron :args="[1, 0]" color="deeppink" />
 
 // Dodecahedron with a custom material transformations

@@ -19,7 +19,7 @@ Reference: [TorusKnotGeometry](https://threejs.org/docs/?q=torus#api/en/geometri
 
 ## Usage
 
-```html
+```vue
 <TorusKnot :args="[0.6, 0.2, 64, 8]" color="lime" />
 
 // TorusKnot with a custom material transformations

@@ -6,6 +6,8 @@
 
 The `GLTFModel` component is a wrapper around [`useGLTF`](./use-gltf.md) composable and accepts the same options as props.
 
+## Usage
+
 ```vue{2,9}
 <script setup lang="ts">
 import { OrbitControls, GLTFModel } from '@tresjs/cientos'
@@ -26,7 +28,7 @@ import { OrbitControls, GLTFModel } from '@tresjs/cientos'
 
 You can access the model reference by passing a `ref` to the `model` prop and then using to get the object.
 
-```vue{3,6}
+```ts
 <script setup lang="ts">
 import { OrbitControls, GLTFModel } from '@tresjs/cientos'
 

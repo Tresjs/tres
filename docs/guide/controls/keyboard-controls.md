@@ -2,18 +2,19 @@
 
 KeyboardControls is a special type of controller that allows you to move using your keyboard.
 
-## In combination with PointerLockControls.
+## Usage
+
+### In combination with PointerLockControls
 
 Here you need to use the PointerLockControls with make-default props, KeyboardControls will automatically adapt to it, creating a really good effect first player experiences.
 
-```vue{3}
+```vue{5}
 <template>
   <TresCanvas shadows alpha>
     <TresPerspectiveCamera :position="[0, 0, 3]" />
     <PointerLockControls make-default  />
     <KeyboardControls />
     <TresGridHelper :args="[10, 10]" />
-
   </TresCanvas>
 </template>
 ```
@@ -24,20 +25,19 @@ Just by doing this, works great but in addition the TresJs team give some specia
 - Jump: to jump
 - gravity: to control the gravity related to the jump
 
-## In combination with slots.
+### In combination with slots
 
 Here you can move meshes by using your keyboard, by default you move through the X and Z axis, but you can change it with the is2D prop, to move your meshes on the X and Y axis
 
-```vue{3}
+```vue{4-8}
 <template>
   <TresCanvas shadows alpha>
     <TresPerspectiveCamera :position="[0, 0, 3]" />
-    <KeyboardControls >
+    <KeyboardControls>
       <Sphere>
         <TresMeshNormalMaterial />
       </Sphere>
     </KeyboardControls>
-
   </TresCanvas>
 </template>
 ```

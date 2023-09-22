@@ -41,7 +41,7 @@ The Transform Controls can be used in three different modes:
 
 The default mode allows you to move the object around the scene.
 
-```html
+```vue
 <TransformControls mode="translate" :object="sphereRef" />
 ```
 
@@ -51,7 +51,7 @@ The default mode allows you to move the object around the scene.
 
 The rotate mode allows you to rotate the object around the scene.
 
-```html
+```vue
 <TransformControls mode="rotate" :object="boxRef" />
 ```
 
@@ -61,7 +61,7 @@ The rotate mode allows you to rotate the object around the scene.
 
 The scale mode allows you to scale the object around the scene.
 
-```html
+```vue
 <TransformControls mode="scale" :object="sphereRef" />
 ```
 

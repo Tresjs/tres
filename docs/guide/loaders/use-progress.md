@@ -14,7 +14,7 @@ const { hasFinishLoading, progress, items } = await useProgress()
 
 Then you can use the `progress` value to show a loading bar or a spinner:
 
-```html
+```vue
 <template>
   <Transition
     name="fade-overlay"

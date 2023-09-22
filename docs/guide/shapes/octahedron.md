@@ -12,7 +12,7 @@ Reference: [OctahedronGeometry](https://threejs.org/docs/?q=octa#api/en/geometri
 
 ## Usage
 
-```html
+```vue
 <Octahedron :args="[1, 0]" color="red" />
 
 // Octahedron with a custom material transformations

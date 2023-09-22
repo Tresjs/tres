@@ -11,7 +11,7 @@ The `cientos` package provides a `<MeshWobbleMaterial />` component that makes a
 
 ## Usage
 
-```html
+```vue
 <TresMesh>
   <TresTorusGeometry />
   <MeshWobbleMaterial color="orange" speed="10" factor="5" />

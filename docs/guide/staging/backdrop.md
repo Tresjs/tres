@@ -8,7 +8,7 @@ The `cientos` package provides a `<Backdrop />` component. It's just a curved pl
 
 ## Usage
 
-```html
+```vue
 <Backdrop />
 
 // Backdrop with a custom material

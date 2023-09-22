@@ -10,7 +10,7 @@ The `cientos` package provides a new`<MeshGlassMaterial />` component that makes
 
 ### You can use it like you normally do with TresJs
 
-```html
+```vue{3}
 <TresMesh>
   <TresTorusGeometry />
   <MeshGlassMaterial />
@@ -19,7 +19,7 @@ The `cientos` package provides a new`<MeshGlassMaterial />` component that makes
 
 ### You can also replace the material of an existing mesh like this:
 
-```vue{3}
+```vue{4,6-15,20}
 <script setup lang="ts">
 import { ref, shallowRef, watch } from 'vue'
 import { TresCanvas } from '@tresjs/core'
@@ -46,7 +46,7 @@ watch(glassMaterialRef, value => {
     <TresBoxGeometry />
     <MeshBasicMaterial  />
   </TresMesh>
-</template
+</template>
 ```
 ## Tips
 

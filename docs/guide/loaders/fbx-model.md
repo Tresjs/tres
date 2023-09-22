@@ -6,6 +6,8 @@
 
 The `FBXModel` component is a wrapper around [`useFBX`](./use-fbx.md) composable and accepts the same options as props.
 
+## Usage
+
 ```vue{2,9}
 <script setup lang="ts">
 import { OrbitControls, FBXModel } from '@tresjs/cientos'

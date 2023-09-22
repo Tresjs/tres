@@ -10,7 +10,7 @@ This component is used to create and manage contact shadows in a 3D scene. It is
 
 ## Usage
 
-```html {11}
+```vue{11}
 <template>
   <TresCanvas v-bind="gl">
     <TresPerspectiveCamera :position="[11, 11, 11]" />

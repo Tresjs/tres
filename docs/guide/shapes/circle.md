@@ -12,7 +12,7 @@ Reference: [CircleGeometry](https://threejs.org/docs/?q=circle#api/en/geometries
 
 ## Usage
 
-```html
+```vue
 <Circle :args="[1, 32]" color="lightsalmon" />
 
 // Circle with a custom material transformations

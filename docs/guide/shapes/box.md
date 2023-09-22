@@ -19,7 +19,7 @@ Reference: [BoxGeometry](https://threejs.org/docs/?q=box#api/en/geometries/BoxGe
 
 ## Usage
 
-```html
+```vue
 <Box :args="[1, 1, 1]" color="orange" />
 
 // Box with a custom material transformations

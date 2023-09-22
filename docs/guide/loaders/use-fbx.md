@@ -16,7 +16,7 @@ const model = await useFBX('/models/Jeep.fbx')
 
 Then is as straightforward as adding the scene to your scene:
 
-```html{3}
+```vue{3}
 <TresCanvas shadows alpha>
   <Suspense>
     <primitive :object="scene" />

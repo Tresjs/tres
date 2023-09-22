@@ -14,7 +14,9 @@ The `cientos` package provides a component called `<CameraControls />` that is a
 The nicest part? You don't need to extend the catalog or pass any arguments.
 It just works. 💯
 
-```vue{3}
+## Usage
+
+```vue{4}
 <template>
   <TresCanvas shadows alpha>
     <TresPerspectiveCamera :args="[45, 1, 0.1, 1000]" />
@@ -63,7 +65,7 @@ Certainly! Here's the properties of the object in raw markdown table format:
 
 ## Events
 
-```html
+```vue
 <CameraControls @change="onChange" @start="onStart" @end="onEnd" />
 ```
 
