@@ -6,7 +6,7 @@ sidebar: false
 
 Cientos is here again with a new and exiting release 🎉.
 
- 😊 https://github.com/damiankoper
+ 😊 
 
 - **Cientos v3.4.0**
 
@@ -93,6 +93,12 @@ Big thanks to [notarun](https://github.com/notarun) for this amazing contributio
 
 Official doc [here](https://cientos.tresjs.org/guide/misc/stats-gl.html)
 
+## Fix camera as a param problem in controls
+
+[damiankoper](https://github.com/damiankoper) discover a bug when you tried to use the camera as a parameter
+
+Thanks to [damiankoper](https://github.com/damiankoper) for this useful contribution
+
 ## new documentation full of examples
 
 In addition to all this amazing new features, we have working internally to improve the UX, and now you can visit the [cientos](https://cientos.tresjs.org/) page and navigate through the components and see right away the inline examples.
@@ -100,3 +106,5 @@ In addition to all this amazing new features, we have working internally to impr
 ## internal organization of code (will be ease to contribute)
 
 Also we're constantly working in the DX, in refactors, cleaning and internal improvement, so now we have a clear path which also get transform on a easy and intuitive package, so now is easier to contribute to cientos pkg than ever 😁.
+
+Thanks for reading and happy 3D coding
