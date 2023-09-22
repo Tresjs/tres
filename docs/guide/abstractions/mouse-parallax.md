@@ -8,7 +8,7 @@
 
 ## Usage
 
-You only need import it and add it to your template as `<MouseParallax />`. Additionally, you can pass the following props.
+You only need to import it and add it to your template as `<MouseParallax />`. Additionally, you can pass the following props:
 
 `factor` is a number to increase the movement range of the camera. `ease` is a number that smoothes the movement. You can also disable the effect with the `disabled` prop.
 
