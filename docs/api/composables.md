@@ -179,7 +179,7 @@ watch(carRef, ({ model }) => {
 })
 ```
 
-## useTresContext (former useTres)
+## useTresContext
 <!-- IMPROVE -->
 This composable aims to provide access to the state model which contains the default renderer, camera, scene, and other useful properties.
 

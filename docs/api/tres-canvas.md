@@ -93,6 +93,12 @@ renderer.shadowMap.type = PCFSoftShadowMap
 | **useLegacyLights** | Whether to use the legacy lighting mode or not | `true` |
 | **windowSize** | Whether to use the window size as the canvas size or the parent element. | `false` |
 
-## Defaults
+### Defaults
 
 Tres tries to be as less opinionated as possible. That's why it doesn't set almost any default value for the `TresCanvas` component. It uses the defaults from [three.js](https://threejs.org/). The only exception is the `antialias` prop. It's set to `true` by default.
+
+## Exposed public properties
+
+| Property | Description |
+| ---- | ---- |
+| context | see [useTresContext](composables#usetrescontext) |
