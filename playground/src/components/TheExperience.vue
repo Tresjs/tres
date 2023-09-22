@@ -16,11 +16,11 @@ const gl = {
 
 const wireframe = ref(true)
 
-const context = ref()
+const canvas = ref()
 
 watchEffect(() => {
-  if (context.value) {
-    console.log({ context: context.value })
+  if (canvas.value) {
+    console.log(canvas.value.context)
   }
 })
 </script>
@@ -34,7 +34,7 @@ watchEffect(() => {
   <pre>{{ wireframe }}</pre>
   <TresCanvas
     v-bind="gl"
-    ref="context"
+    ref="canvas"
   >
     <TresPerspectiveCamera
       :position="[7, 7, 7]"

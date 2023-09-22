@@ -12,7 +12,7 @@ There are several ways to load models on TresJS:
 
 ## Using `useLoader`
 
-The `useLoader` composable allows you to pass any type of Three.js loader and a URL to load the resource from. It returns a `Promise` with the loaded resource.
+The `useLoader` composable allows you to pass any type of three.js loader and a URL to load the resource from. It returns a `Promise` with the loaded resource.
 
 For a detailed explanation of how to use `useLoader`, check out the [useLoader](/api/composables#useloader) documentation.
 
@@ -33,7 +33,7 @@ Then you can pass the model scene to a TresJS [`primitive`](/advanced/primitive)
 </TresCanvas>
 ```
 
-> The `<primitive />` component is not a standalone component in the Tres source code. Instead, it's a part of the Tres core functionality. When you use `<primitive>`, it is translated to a `createElement` call, which creates the appropriate Three.js object based on the provided "object" prop.
+> The `<primitive />` component is not a standalone component in the Tres source code. Instead, it's a part of the Tres core functionality. When you use `<primitive>`, it is translated to a `createElement` call, which creates the appropriate three.js object based on the provided "object" prop.
 
 Notice in the example above that we are using the `Suspense` component to wrap the `TresCanvas` component. This is because `useLoader` returns a `Promise` and we need to wait for it to resolve before rendering the scene.
 

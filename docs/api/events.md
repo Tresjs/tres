@@ -1,6 +1,6 @@
 # Events
 
-**TresJS** components emit pointer events when they are interacted with. This is the case for the components that represent Three.js classes that derive from [THREE.Object3D](https://threejs.org/docs/index.html?q=object#api/en/core/Object3D) (like meshes, groups,...).
+**TresJS** components emit pointer events when they are interacted with. This is the case for the components that represent three.js classes that derive from [THREE.Object3D](https://threejs.org/docs/index.html?q=object#api/en/core/Object3D) (like meshes, groups,...).
 
 <StackBlitzEmbed project-id="tresjs-events" />
 
