@@ -14,7 +14,7 @@ The `useRenderLoop` composable is the core of **TresJS** animations. It allows y
 const { onLoop, resume } = useRenderLoop()
 
 onLoop(({ delta, elapsed, clock, dt }) => {
-  // I will run at every frame ~ 60FPS (depending of your monitor)
+  // I will run at every frame ~60FPS (depending of your monitor)
 })
 ```
 
@@ -181,17 +181,15 @@ watch(carRef, ({ model }) => {
 
 ## useTresContext
 <!-- IMPROVE -->
-This composable aims to provide access to the state model which contains the default renderer, camera, scene, and other useful properties.
+This composable aims to provide access to the state model which contains multiple useful properties.
 
 ```ts
-const { camera, renderer } = useTresContext()
+const { camera, renderer, camera, cameras } = useTresContext()
 
-console.log(camera.value) // THREE.PerspectiveCamera
-console.log(renderer.value) // THREE.WebGLRenderer
 ```
 
 ::: warning
-`useTresContext` can be only be used inside of a `TresCanvas` since `TresCanvas` acts as the provider for the context data.
+`useTresContext` can be only be used inside of a `TresCanvas` since `TresCanvas` acts as the provider for the context data. Use [the context exposed by TresCanvas](tres-canvas#exposed-public-properties) if you find yourself needing it in parent components of TresCanvas. 
 :::
 
 ```vue
@@ -209,3 +207,19 @@ import { useTresContext } from '@tresjs/core'
 const context = useTresContext()
 </script>
 ```
+
+### Properties of context
+| Property | Description |
+| --- | --- |
+| **camera** | the currently active camera |
+| **cameras** | the cameras that exist in the scene |
+| **controls** | the controls of your scene |
+| **deregisterCamera** | a method to deregister a camera. This is only required if you manually create a camera. Cameras in the template are deregistered automatically. |
+| **extend** | extends the component catalogue|
+| **raycaster** | the global raycaster used for pointer events |
+| **registerCamera** | a method to register a camera. This is only required if you manually create a camera. Cameras in the template are registered automatically. |
+| **renderer** | the [WebGLRenderer](https://threejs.org/docs/#api/en/renderers/WebGLRenderer) of your scene |
+| **scene** | the [scene](https://threejs.org/docs/?q=sce#api/en/scenes/Scene). |
+| **setCameraActive** | a method to set a camera active |
+| **sizes** | contains width, height and aspect ratio of your canvas |
+

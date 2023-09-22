@@ -95,7 +95,7 @@ renderer.shadowMap.type = PCFSoftShadowMap
 
 ### Defaults
 
-Tres tries to be as less opinionated as possible. That's why it doesn't set almost any default value for the `TresCanvas` component. It uses the defaults from [three.js](https://threejs.org/). The only exception is the `antialias` prop. It's set to `true` by default.
+Tres tries to be as little opinionated as possible. That's why it doesn't set almost any default value for the `TresCanvas` component. It uses the defaults from [three.js](https://threejs.org/). The only exception is the `antialias` prop. It's set to `true` by default.
 
 ## Exposed public properties
 
