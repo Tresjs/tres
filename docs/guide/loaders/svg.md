@@ -8,16 +8,26 @@ A wrapper around the `three` [SVGLoader](https://threejs.org/examples/?q=sv#webg
 
 ## Usage
 
-```ts
-import { SVG } from '@tresjs/cientos'
-```
+```vue{3,12-18}
+<script setup lang="ts">
+import { TresCanvas } from '@tresjs/core'
+import { OrbitControls, SVG } from '@tresjs/cientos'
 
-```vue{4}
+const svgURL = 'https://raw.githubusercontent.com/'
+  + 'Tresjs/assets/main/svgs/cientos_heart.svg'
+</script>
+
 <template>
-  <TresCanvas>
+  <TresCanvas clear-color="#333">
+    <OrbitControls />
     <Suspense>
-      <SVG src="/favicon.svg" />
+      <SVG 
+        :src="svgURL"
+        :position="[-0.4, 1, 0]"
+        :scale="0.01"
+      />
     </Suspense>
+    <TresGridHelper />
   </TresCanvas>
 </template>
 ```
