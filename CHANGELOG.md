@@ -1,5 +1,12 @@
 
 
+## [3.2.3](https://github.com/Tresjs/tres/compare/3.2.2...3.2.3) (2023-09-22)
+
+
+### Bug Fixes
+
+* **types:** useTexture() ([#401](https://github.com/Tresjs/tres/issues/401)) ([20ffa4b](https://github.com/Tresjs/tres/commit/20ffa4bbc8d8a45643c8d4368a91cf68513b94c2))
+
 ## [3.2.2](https://github.com/Tresjs/tres/compare/3.2.1...3.2.2) (2023-09-16)
 
 
