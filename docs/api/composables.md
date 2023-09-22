@@ -136,12 +136,12 @@ Then you can bind the textures to the material.
       <TresSphereGeometry />
       <TresMeshStandardMaterial
         :map="map"
-        :displacementMap="displacementMap"
-        :normalMap="normalMap"
-        :roughnessMap="roughnessMap"
-        :metalnessMap="metalnessMap"
-        :aoMap="aoMap"
-        :alphaMap="alphaMap"
+        :displacement-map="displacementMap"
+        :normal-map="normalMap"
+        :roughness-map="roughnessMap"
+        :metalness-map="metalnessMap"
+        :ao-map="aoMap"
+        :alpha-map="alphaMap"
       />
     </TresMesh>
   </TresCanvas>
@@ -180,7 +180,7 @@ watch(carRef, ({ model }) => {
 ```
 
 ## useTresContext (former useTres)
-
+<!-- IMPROVE -->
 This composable aims to provide access to the state model which contains the default renderer, camera, scene, and other useful properties.
 
 ```ts

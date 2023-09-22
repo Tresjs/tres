@@ -2,6 +2,8 @@ import { ACESFilmicToneMapping, PCFSoftShadowMap, SRGBColorSpace } from 'three'
 
 export const rendererPresets = {
   realistic: {
+    shadows: true,
+    physicallyCorrectLights: true,
     outputColorSpace: SRGBColorSpace,
     toneMapping: ACESFilmicToneMapping,
     toneMappingExposure: 3,
