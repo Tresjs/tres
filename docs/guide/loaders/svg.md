@@ -1,5 +1,9 @@
 # SVG <Badge type="warning" text="^3.3.0" />
 
+<DocsDemo>
+  <SVGDemo />
+</DocsDemo>
+
 A wrapper around the `three` [SVGLoader](https://threejs.org/examples/?q=sv#webgl_loader_svg), this component allows you to easily load and display SVG elements in your **TresJS** scene. 
 
 ## Usage
