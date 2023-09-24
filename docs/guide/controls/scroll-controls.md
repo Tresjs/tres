@@ -8,9 +8,11 @@
 
 The `cientos` package create this controls from scratch for you, and comes with really useful props to customize your experiences, try it out. ✨
 
+## Usage
+
 To start using it, you just need to import it and play with it.
 
-```vue{3}
+```vue{4}
 <template>
   <TresCanvas window-size>
     <TresPerspectiveCamera :position="[0, 0, 3]" />
@@ -26,7 +28,7 @@ Is really important that the Perspective camera is set first in the canvas. Othe
 
 By default `ScrollControls` creates a scroll around the canvas and takes the camera as a default for animate, also it comes with a reactive `progress` param that returns a normalized value from 0 (start point) to 1 (end point) you just need to attach it to a v-model.
 
-```vue{3}
+```vue{2-5,10}
 <script setup>
 const progress = ref(0) // it will return a normalized number from 0 to 1
 watchEffect(() => {
@@ -44,7 +46,7 @@ watchEffect(() => {
 
 You can use the `horizontal` prop, to makes the scroll horizontal way,.
 
-```vue{3}
+```vue{4}
 <template>
   <TresCanvas window-size>
     <TresPerspectiveCamera :position="[0, 0, 3]" />
@@ -56,7 +58,7 @@ You can use the `horizontal` prop, to makes the scroll horizontal way,.
 
 With the `pages` prop you can control the length of the scroll, and with the `distance` you can control how much movement is apply to the objects ( you can for example use it with 0 value and use the progress element)
 
-```vue{3}
+```vue{4-8}
 <template>
   <TresCanvas window-size> // 
     <TresPerspectiveCamera :position="[0, 0, 3]" />
@@ -72,7 +74,7 @@ With the `pages` prop you can control the length of the scroll, and with the `di
 
 But it's not all, you can also pass the `htmlScroll` props and deactivate the custom scroll and use the native html scroll.
 
-```vue{3}
+```vue{5}
 <template>
 <div style="height="200vh"></div> //
   <TresCanvas window-size>
@@ -88,11 +90,11 @@ But it's not all, you can also pass the `htmlScroll` props and deactivate the cu
 - The `htmlScroll` will set the TresCanvas as a fixed background.
 :::
 
-## Slots
+### Slots
 
-the elements that you pass as a slot will be affected by the scroll effect, and follow the camera
+The elements that you pass as a slot will be affected by the scroll effect, and follow the camera.
 
-```vue{3}
+```vue{5-7}
 <template>
 <div style="height="200vh"></div> //
   <TresCanvas window-size>

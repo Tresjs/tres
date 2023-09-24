@@ -1,6 +1,6 @@
 # Text3D
 
-`<Text3D />` is a component that renders a 3D text. It is a wrapper around the [TextGeometry](https://threejs.org/docs/#api/en/geometries/TextGeometry) class.
+`<Text3D />` is a component that renders text in 3D. It is a wrapper around the [TextGeometry](https://threejs.org/docs/#api/en/geometries/TextGeometry) class.
 
 <DocsDemo>
   <Text3Demo />

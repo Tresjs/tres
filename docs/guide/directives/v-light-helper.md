@@ -2,7 +2,9 @@
 
 With the new directive v-light-helper provided by **TresJS**, you can add fast the respective helper to your lights with just one line of code 😍.
 
-```vue{3}
+## Usage
+
+```vue{2,8,11,14,17}
 <script setup lang="ts">
 import { OrbitControls, Sphere, vLightHelper } from '@tresjs/cientos'
 </script>
@@ -18,7 +20,6 @@ import { OrbitControls, Sphere, vLightHelper } from '@tresjs/cientos'
       <TresSpotLight
         v-light-helper
       />
-
       <TresHemisphereLight
         v-light-helper
       />

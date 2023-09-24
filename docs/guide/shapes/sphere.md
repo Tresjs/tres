@@ -20,7 +20,7 @@ Reference: [SphereGeometry](https://threejs.org/docs/?q=sphere#api/en/geometries
 
 ## Usage
 
-```html
+```vue
 <Sphere :args="[1, 1, 1]" color="pink" />
 
 // Sphere with a custom material transformations

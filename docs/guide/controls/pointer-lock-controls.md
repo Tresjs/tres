@@ -15,7 +15,9 @@ This control uses the [Pointer Lock API](https://developer.mozilla.org/en-US/doc
 In addition, you need to wait 1 second between canceling and re-starting the event
 :::
 
-```vue{3}
+## Usage
+
+```vue{4}
 <template>
   <TresCanvas shadows alpha>
     <TresPerspectiveCamera :position="[0, 0, 3]" />

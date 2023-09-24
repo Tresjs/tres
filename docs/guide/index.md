@@ -9,7 +9,7 @@ The `cientos` package uses [`three-stdlib`](https://github.com/pmndrs/three-stdl
 It just works. 💯
 
 ::: info
-This package is not required to use the core library, but they can make your DX way better, specially for complex scenes.
+This package is not required to use the core library, but it improves DX, especially for complex scenes.
 :::
 
 ## Installation

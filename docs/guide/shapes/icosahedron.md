@@ -12,7 +12,7 @@ Reference: [IcosahedronGeometry](https://threejs.org/docs/?q=ico#api/en/geometri
 
 ## Usage
 
-```html
+```vue
 <Icosahedron :args="[1, 0]" color="red" />
 
 // Icosahedron with a custom material transformations

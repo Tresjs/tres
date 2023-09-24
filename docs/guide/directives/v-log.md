@@ -4,7 +4,7 @@
 
 When you have to log your instance you have to use the template reference and then log them:
 
-```vue{3}
+```vue
 <script setup lang="ts">
 import { shallowRef, watch } from 'vue'
 
@@ -28,11 +28,11 @@ watch(sphereRef, value => {
 
 And is A LOT of code just for a simple log right?
 
-## Solution
+## Usage
 
 With the new directive v-log provided by **TresJS**, you can do this by just adding `v-log` to the instance.
 
-```vue{3}
+```vue{2,10,12}
 <script setup lang="ts">
 import { OrbitControls, Sphere, vLog } from '@tresjs/cientos'
 </script>
