@@ -6,33 +6,31 @@ sidebar: false
 
 Cientos is here again with a new and exiting release 🎉.
 
- 😊 
-
 - **Cientos v3.4.0**
 
 <iframe src="https://giphy.com/embed/2XOL4zsm6V0nm" width="480" height="358" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/walking-2XOL4zsm6V0nm">via GIPHY</a></p>
 
 ## lensFlare
 
-A new and completely original abstraction, has arrived to Cientos ✨ Behold His Majesty lensFlare
+A new and completely original abstraction has arrived to Cientos ✨ Behold His Majesty lensFlare.
 
-Is a wrapper of the addon [lensFlare](https://threejs.org/docs/#examples/en/objects/Lensflare)
+It's a wrapper of the threejs [lensFlare](https://threejs.org/docs/#examples/en/objects/Lensflare) addon.
 
 ![](/blog/lensflare.gif)
 
-Could be intimidating at first but this component has a lot of flexibility, check it out[here](https://cientos.tresjs.org/guide/abstractions/lensflare.html)
+While it could look intimidating at first, this component has a lot of flexibility, so check out all the different options [here](https://cientos.tresjs.org/guide/abstractions/lensflare.html)
 
-We're going to say thanks [andretchen0](https://github.com/andretchen0) for this incredible contribution.
+We're going to say thanks to [andretchen0](https://github.com/andretchen0) for this incredible contribution.
 
-## SKY
+## Sky
 
-You can now create realistic outdoor scenes with the use of sky, which as the names implies it create sky gradients and more with just a few lines of code
+The `Sky` component allows you to create realistic outdoor scenes with the use of sky, which as the name implies creates sky gradients and more with just a few lines of code.
 
 ![](/blog/sky.gif)
 
-This is  fancy wrapper of the addon [Sky](https://threejs.org/examples/?q=sky#webgl_shaders_sky)
+This is  fancy wrapper of the addon [Sky](https://threejs.org/examples/?q=sky#webgl_shaders_sky).
 
-```
+```vue
 <script setup lang="ts">
 import { Sky } from '@tresjs/cientos'
 </script>
@@ -44,11 +42,11 @@ import { Sky } from '@tresjs/cientos'
   </TresCanvas>
 </template>
 ```
-Could be more simple?
+Could it be simpler?
 
 You can find the official docs [here](https://cientos.tresjs.org/guide/staging/sky.html)
 
-Another one of [andretchen0](https://github.com/andretchen0) amazing contribution!
+Another one of [andretchen0](https://github.com/andretchen0) amazing contributions!
 
 ## SVG
 
@@ -56,7 +54,7 @@ Another one of [andretchen0](https://github.com/andretchen0) amazing contributio
 
 A classical one, the svg loader component has arrived in cientos this release, a wrapper of the original [loader](https://threejs.org/docs/?q=svg#examples/en/loaders/SVGLoader) with basically one line of code (well two if you count the import 😅)
 
-```
+```html
 <template>
   <TresCanvas>
     <Suspense>
@@ -65,7 +63,7 @@ A classical one, the svg loader component has arrived in cientos this release, a
   </TresCanvas>
 </template>
 ```
-You can find the official docs [here](https://cientos.tresjs.org/guide/loaders/svg.html)
+You can find the official docs [here](https://cientos.tresjs.org/guide/loaders/svg.html).
 
 And yes, again big thanks to [andretchen0](https://github.com/andretchen0) 3 in a row!
 
@@ -74,9 +72,9 @@ And yes, again big thanks to [andretchen0](https://github.com/andretchen0) 3 in 
 ![](/blog/stats-gl.png)
 
 
-Another exiting one is the addition of Stats-gl which is like statsjs but with superpowers, original developed for [RenaudRohlinger](https://github.com/RenaudRohlinger/stats-gl) is a powerful performance monitoring tool
+Another exiting update is the addition of Stats-gl, which is like statsjs but with superpowers. Developed for [RenaudRohlinger](https://github.com/RenaudRohlinger/stats-gl), it is a powerful performance monitoring tool
 
-```
+```vue
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
 import { StatsGl } from '@tresjs/cientos'
@@ -89,22 +87,24 @@ import { StatsGl } from '@tresjs/cientos'
 </template>
 ```
 
-Big thanks to [notarun](https://github.com/notarun) for this amazing contribution.
+Big thanks to [notarun](https://github.com/notarun) for this contribution.
 
-Official doc [here](https://cientos.tresjs.org/guide/misc/stats-gl.html)
+Official docs [here](https://cientos.tresjs.org/guide/misc/stats-gl.html).
 
 ## Fix camera as a param problem in controls
 
-[damiankoper](https://github.com/damiankoper) discover a bug when you tried to use the camera as a parameter
+[damiankoper](https://github.com/damiankoper) discovered a bug when you tried to use the camera as a parameter.
 
-Thanks to [damiankoper](https://github.com/damiankoper) for this useful contribution
+Thanks to [damiankoper](https://github.com/damiankoper) for this useful contribution.
 
-## new documentation full of examples
+## New documentation full of examples
 
-In addition to all this amazing new features, we have working internally to improve the UX, and now you can visit the [cientos](https://cientos.tresjs.org/) page and navigate through the components and see right away the inline examples.
+![](/blog/docs-examples.png)
 
-## internal organization of code (will be ease to contribute)
+In addition to all these amazing new features, we have been working internally to improve the UX, and now you can visit the [cientos](https://cientos.tresjs.org/) page and navigate through the components and see the inline examples right away.
 
-Also we're constantly working in the DX, in refactors, cleaning and internal improvement, so now we have a clear path which also get transform on a easy and intuitive package, so now is easier to contribute to cientos pkg than ever 😁.
+## Internal organization of code (will be easier to contribute)
 
-Thanks for reading and happy 3D coding
+Also we're constantly working on the DX: refactors, cleaning and internal improvement. So now we have a clear structure, now it is easier than ever to contribute to cientos pkg 😁.
+
+Thanks for reading and happy 3D coding  😊
