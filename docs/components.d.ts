@@ -31,6 +31,7 @@ declare module 'vue' {
     SkyDemo: typeof import('./.vitepress/theme/components/SkyDemo.vue')['default']
     SmokeDemo: typeof import('./.vitepress/theme/components/SmokeDemo.vue')['default']
     StarsDemo: typeof import('./.vitepress/theme/components/StarsDemo.vue')['default']
+    SVGDemo: typeof import('./.vitepress/theme/components/SVGDemo.vue')['default']
     StatsGlDemo: typeof import('./.vitepress/theme/components/StatsGlDemo.vue')['default']
     Text3Demo: typeof import('./.vitepress/theme/components/Text3Demo.vue')['default']
     TransformControlsDemo: typeof import('./.vitepress/theme/components/TransformControlsDemo.vue')['default']
