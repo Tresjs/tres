@@ -28,6 +28,7 @@ declare module 'vue' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     ScrollControlsDemo: typeof import('./.vitepress/theme/components/ScrollControlsDemo.vue')['default']
+    SkyDemo: typeof import('./.vitepress/theme/components/SkyDemo.vue')['default']
     SmokeDemo: typeof import('./.vitepress/theme/components/SmokeDemo.vue')['default']
     StarsDemo: typeof import('./.vitepress/theme/components/StarsDemo.vue')['default']
     StatsGlDemo: typeof import('./.vitepress/theme/components/StatsGlDemo.vue')['default']
