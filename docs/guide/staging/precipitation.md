@@ -8,7 +8,7 @@
 
 ## Usage
 
-You can use `<Precipitation />` component without passing any props.
+You can use `<Precipitation />` component without passing any props, this will achieve a snowy effect, like the before example.
 
 ```vue
 <template>
@@ -20,7 +20,12 @@ You can use `<Precipitation />` component without passing any props.
 </template>
 ```
 
-To create uniques effects play around with the different props available
+By setting the randomness to 0, increase the speed  and reduce the count. You can easily achieve a more rainy effect
+
+<DocsDemo>
+  <PrecipitationRainDemo />
+</DocsDemo>
+
 
 ```vue
 <template>
@@ -28,14 +33,55 @@ To create uniques effects play around with the different props available
     ...
     <Precipitation
       :speed="1"
+      :randomness="0"
       :count="2500"
-      :map="myTexture"
+    />
+    ...
+  </TresCanvas>
+</template>
+```
+A storm effect? Easy just increase the randomness
+
+<DocsDemo>
+  <PrecipitationStormDemo />
+</DocsDemo>
+
+```vue
+<template>
+  <TresCanvas>
+    ...
+    <Precipitation
+      :speed="1"
+      :randomness="3"
+      :count="2500"
     />
     ...
   </TresCanvas>
 </template>
 ```
 
+What about an infinite beam?
+
+<DocsDemo>
+  <PrecipitationBeamDemo />
+</DocsDemo>
+
+Just set the area, to the axis that you need constrain
+
+```vue
+<template>
+  <TresCanvas>
+    ...
+    <Precipitation
+      :randomness="0"
+      :speed="0.5"
+      :count="2000"
+      :area="[1, 10, 1]"
+    />
+    ...
+  </TresCanvas>
+</template>
+```
 ::: warning
 Be careful with the performance this components render infinite particles in movement
 :::
