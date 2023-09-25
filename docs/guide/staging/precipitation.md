@@ -10,7 +10,11 @@
 
 You can use `<Precipitation />` component without passing any props, this will achieve a snowy effect, like the before example.
 
-```vue
+```vue{8}
+<script setup lang="ts">
+import { TresCanvas } from '@tresjs/core'
+import { Precipitation } from '@tresjs/cientos'
+</script>
 <template>
   <TresCanvas>
     ...
@@ -20,14 +24,18 @@ You can use `<Precipitation />` component without passing any props, this will a
 </template>
 ```
 
-By setting the randomness to 0, increase the speed  and reduce the count. You can easily achieve a more rainy effect
+By setting the randomness to 0, increase the speed  and reduce the count. You can easily achieve a more rainy effect.
 
 <DocsDemo>
   <PrecipitationRainDemo />
 </DocsDemo>
 
 
-```vue
+```vue{9,10,11}
+<script setup lang="ts">
+import { TresCanvas } from '@tresjs/core'
+import { Precipitation } from '@tresjs/cientos'
+</script>
 <template>
   <TresCanvas>
     ...
@@ -40,13 +48,17 @@ By setting the randomness to 0, increase the speed  and reduce the count. You ca
   </TresCanvas>
 </template>
 ```
-A storm effect? Easy just increase the randomness
+A storm effect? Easy just increase the randomness.
 
 <DocsDemo>
   <PrecipitationStormDemo />
 </DocsDemo>
 
-```vue
+```vue{9,10,11}
+<script setup lang="ts">
+import { TresCanvas } from '@tresjs/core'
+import { Precipitation } from '@tresjs/cientos'
+</script>
 <template>
   <TresCanvas>
     ...
@@ -60,15 +72,19 @@ A storm effect? Easy just increase the randomness
 </template>
 ```
 
-What about an infinite beam?
+What about an infinite beam?.
 
 <DocsDemo>
   <PrecipitationBeamDemo />
 </DocsDemo>
 
-Just set the area, to the axis that you need constrain
+Just set the area, to the axis that you need constrain.
 
-```vue
+```vue{9,10,11,12}
+<script setup lang="ts">
+import { TresCanvas } from '@tresjs/core'
+import { Precipitation } from '@tresjs/cientos'
+</script>
 <template>
   <TresCanvas>
     ...
@@ -82,6 +98,8 @@ Just set the area, to the axis that you need constrain
   </TresCanvas>
 </template>
 ```
+You can create much more! ☔
+
 ::: warning
 Be careful with the performance this components render infinite particles in movement
 :::
