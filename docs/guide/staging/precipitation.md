@@ -17,9 +17,9 @@ import { Precipitation } from '@tresjs/cientos'
 </script>
 <template>
   <TresCanvas>
-    ...
+    <TresPerspectiveCamera :position="[0, 2, 15]" />
     <Precipitation />
-    ...
+    <TresGridHelper :args="[10, 10]" />
   </TresCanvas>
 </template>
 ```
@@ -38,13 +38,13 @@ import { Precipitation } from '@tresjs/cientos'
 </script>
 <template>
   <TresCanvas>
-    ...
+    <TresPerspectiveCamera :position="[0, 2, 15]" />
     <Precipitation
       :speed="1"
       :randomness="0"
       :count="2500"
     />
-    ...
+    <TresGridHelper :args="[10, 10]" />
   </TresCanvas>
 </template>
 ```
@@ -61,13 +61,13 @@ import { Precipitation } from '@tresjs/cientos'
 </script>
 <template>
   <TresCanvas>
-    ...
+    <TresPerspectiveCamera :position="[0, 2, 15]" />
     <Precipitation
       :speed="1"
       :randomness="3"
       :count="2500"
     />
-    ...
+    <TresGridHelper :args="[10, 10]" />
   </TresCanvas>
 </template>
 ```
@@ -87,14 +87,14 @@ import { Precipitation } from '@tresjs/cientos'
 </script>
 <template>
   <TresCanvas>
-    ...
+    <TresPerspectiveCamera :position="[0, 2, 15]" />
     <Precipitation
       :randomness="0"
       :speed="0.5"
       :count="2000"
       :area="[1, 10, 1]"
     />
-    ...
+    <TresGridHelper :args="[10, 10]" />
   </TresCanvas>
 </template>
 ```
