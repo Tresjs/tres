@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { shallowRef } from 'vue'
+import { shallowRef, reactive } from 'vue'
 import { TresCanvas } from '@tresjs/core'
 import { Precipitation } from '@tresjs/cientos'
 import { SRGBColorSpace, NoToneMapping } from 'three'
@@ -20,6 +20,9 @@ const precipitationRef = shallowRef()
     <TresPerspectiveCamera :position="[0, 2, 15]" />
     <Precipitation
       ref="precipitationRef"
+      :randomness="0"
+      :speed="1"
+      :count="2500"
     />
     <TresGridHelper :args="[10, 10]" />
   </TresCanvas>
