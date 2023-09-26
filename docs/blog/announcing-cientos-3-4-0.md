@@ -52,7 +52,7 @@ Another one of [andretchen0](https://github.com/andretchen0) amazing contributio
 
 ![](/blog/svg.gif)
 
-A classical one, the svg loader component has arrived in cientos this release, a wrapper of the original [loader](https://threejs.org/docs/?q=svg#examples/en/loaders/SVGLoader) with basically one line of code (well two if you count the import 😅)
+A classical one, the svg loader component has arrived in cientos this release, to bring the versatility of `svg` into a wrapper of the original [loader](https://threejs.org/docs/?q=svg#examples/en/loaders/SVGLoader) with basically one line of code (well two if you count the import 😅).
 
 ```html
 <template>
