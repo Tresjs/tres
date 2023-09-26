@@ -72,7 +72,7 @@ And yes, again big thanks to [andretchen0](https://github.com/andretchen0) 3 in 
 ![](/blog/stats-gl.png)
 
 
-Another exiting update is the addition of Stats-gl, which is like statsjs but with superpowers. Developed for [RenaudRohlinger](https://github.com/RenaudRohlinger/stats-gl), it is a powerful performance monitoring tool
+Another exciting one is the addition of Stats-gl which is like statsjs but with superpowers, originally developed by [RenaudRohlinger](https://github.com/RenaudRohlinger/stats-gl) is a powerful performance monitoring tool.
 
 ```vue
 <script setup lang="ts">
