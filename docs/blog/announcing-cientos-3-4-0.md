@@ -10,11 +10,11 @@ Cientos is here again with a new and exiting release 🎉.
 
 <iframe src="https://giphy.com/embed/2XOL4zsm6V0nm" width="480" height="358" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/walking-2XOL4zsm6V0nm">via GIPHY</a></p>
 
-## lensFlare
+## LensFlare
 
-A new and completely original abstraction has arrived to Cientos ✨ Behold His Majesty lensFlare.
+A new and completely original abstraction has arrived to Cientos ✨ Behold His Majesty `<LensFlare />`.
 
-It's a wrapper of the threejs [lensFlare](https://threejs.org/docs/#examples/en/objects/Lensflare) addon.
+It's a wrapper of the Three.js [LensFlare](https://threejs.org/docs/#examples/en/objects/Lensflare) addon.
 
 ![](/blog/lensflare.gif)
 
@@ -105,6 +105,6 @@ In addition to all these amazing new features, we have been working internally t
 
 ## Internal organization of code (will be easier to contribute)
 
-Also we're constantly working on the DX: refactors, cleaning and internal improvement. So now we have a clear structure, now it is easier than ever to contribute to cientos pkg 😁.
+Also, we're constantly working on the DX: refactors, cleaning, and internal improvement. So now we have a clear structure, now it is easier than ever to contribute to the cientos package 😁.
 
-Thanks for reading and happy 3D coding  😊
+Thanks for reading and happy 3D coding  😊.
