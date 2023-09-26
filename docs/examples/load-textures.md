@@ -10,7 +10,7 @@ There are two ways of loading 3D textures in TresJS:
 
 ## Using `useLoader`
 
-The `useLoader` composable allows you to pass any type of Three.js loader and a URL to load the resource from. It returns a `Promise` with the loaded resource.
+The `useLoader` composable allows you to pass any type of three.js loader and a URL to load the resource from. It returns a `Promise` with the loaded resource.
 
 For a detailed explanation of how to use `useLoader`, check out the [useLoader](/api/composables#use-loader) documentation.
 
