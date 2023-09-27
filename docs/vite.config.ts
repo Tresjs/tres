@@ -2,7 +2,6 @@ import { defineConfig } from 'vite'
 import Unocss from 'unocss/vite'
 import svgLoader from 'vite-svg-loader'
 import Components from 'unplugin-vue-components/vite'
-import { templateCompilerOptions } from '@tresjs/core'
 
 export default defineConfig({
   plugins: [
