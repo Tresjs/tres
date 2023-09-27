@@ -11,7 +11,7 @@ import { ScrollControls, Stars, Box } from '@tresjs/cientos'
     <TresPerspectiveCamera :position="[0, 2, 5]" />
     <Stars :radius="1" />
     <TresGridHelper :args="[10, 10]" />
-    <ScrollControls />
+    <ScrollControls horizontal />
     <Box
       :scale="0.5"
       :color="0xff00ff"
