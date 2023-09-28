@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { watch } from 'vue'
 import { useRoute } from 'vue-router'
+
 const route = useRoute()
-function setBodyClass(routeName:string) {
+function setBodyClass(routeName: string) {
   document.title = `Cientos Playground - ${routeName}`
   document.body.className = routeName
 }

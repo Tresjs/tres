@@ -26,9 +26,9 @@ export default defineConfig({
       theme: {
         colors: {
           'cientos-blue': '#82dbc5',
-          'cientos-orange': '#fbb03b'
+          'cientos-orange': '#fbb03b',
         },
-      }
+      },
     }),
   ],
   resolve: {
