@@ -23,7 +23,12 @@ export default defineConfig({
       /* options */
     }),
     UnoCSS({
-      /* options */
+      theme: {
+        colors: {
+          'cientos-blue': '#82dbc5',
+          'cientos-orange': '#fbb03b',
+        },
+      },
     }),
   ],
   resolve: {
