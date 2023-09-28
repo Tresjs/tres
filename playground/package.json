@@ -11,6 +11,7 @@
   "dependencies": {
     "@tresjs/cientos": "^3.0.1",
     "@tresjs/core": "3.2.0",
+    "@tresjs/leches": "^0.9.1",
     "vue-router": "^4.2.2"
   },
   "devDependencies": {

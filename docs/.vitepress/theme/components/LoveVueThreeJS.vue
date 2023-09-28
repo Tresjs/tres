@@ -1,7 +1,6 @@
 <script setup lang="ts">
 ///<reference types="vite-svg-loader" />
-// eslint-disable-next-line import/no-named-as-default
-import gsap from 'gsap'
+import { gsap } from 'gsap'
 import { onMounted, ref } from 'vue'
 import Triangle from '../assets/triangle.svg'
 import SecondRow from '../assets/second-row.svg'

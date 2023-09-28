@@ -3,7 +3,7 @@ import { Color } from 'three'
 import { reactive } from 'vue'
 import { TresCanvas } from '@tresjs/core'
 import { BlendFunction } from 'postprocessing'
-import { EffectComposer, Bloom } from '/@'
+import { EffectComposer, Bloom } from '@tresjs/post-processing'
 
 const gl = {
   clearColor: '#121212',

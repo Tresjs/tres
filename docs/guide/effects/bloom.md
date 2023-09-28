@@ -1,8 +1,8 @@
 # Bloom
 
-<ClientOnly>
-<BloomDemo class="demo-scene"  />
-</ClientOnly>
+<DocsDemo>
+  <BloomDemo />
+</DocsDemo>
 
 Bloom is an effect that simulates the way that bright objects in the real world can create a "glow" effect around themselves. The effect works by adding a blurred and brightened version of the scene to the final render. This can help to create a more realistic and visually appealing scene.
 
@@ -15,7 +15,13 @@ import { EffectComposer, Bloom } from '@tresjs/post-processing'
 
 <template>
   <EffectComposer>
-    <Bloom :luminance-threshold="0.1" :luminance-smoothing="0.3" mipmap-blur :intensity="4.0" :radius="0.85" />
+    <Bloom
+      :radius="0.85"
+      :intensity="4.0"
+      :luminance-threshold="0.1"
+      :luminance-smoothing="0.3"
+      mipmap-blur
+    />
   </EffectComposer>
 </template>
 ```
@@ -30,3 +36,6 @@ import { EffectComposer, Bloom } from '@tresjs/post-processing'
 | `luminanceThreshold` | The luminance threshold. Raise this value to mask out darker elements in the scene. Range is [0, 1]. | `0.9`                                                                                                                                          |
 | `luminanceSmoothing` | Controls the smoothness of the luminance threshold. Range is [0, 1].                                 | `0.025`                                                                                                                                        |
 | `mipMapBlur`         | Enables mip map blur. (UnrealBloom)                                                                  | `false`                                                                                                                                        |
+
+## Further Reading
+see [postprocessing docs](https://pmndrs.github.io/postprocessing/public/docs/class/src/effects/BloomEffect.js~BloomEffect.html)

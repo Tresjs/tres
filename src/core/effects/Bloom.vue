@@ -6,6 +6,12 @@ import { EffectPass, BloomEffect } from 'postprocessing'
 import { effectComposerInjectionKey } from '../injectionKeys'
 
 export interface BloomProps {
+  /**
+   * The blend function of this effect. This prop is not reactive.
+   * @default BlendFunction.SCREEN
+   * @type {BlendFunction}
+   * @memberof BloomProps
+  */
   blendFunction?: BlendFunction
   /**
    * The intensity of the bloom effect.

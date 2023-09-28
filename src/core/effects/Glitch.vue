@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { BlendFunction } from 'postprocessing'
 import { GlitchMode, EffectPass, GlitchEffect } from 'postprocessing'
-import { inject, onUnmounted, shallowRef, toRaw, unref, watch, watchEffect } from 'vue'
+import { inject, onUnmounted, shallowRef, watchEffect } from 'vue'
 
 import type { Vector2, Texture } from 'three'
 

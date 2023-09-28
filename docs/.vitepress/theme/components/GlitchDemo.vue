@@ -3,7 +3,7 @@ import { Color } from 'three'
 import { TresCanvas } from '@tresjs/core'
 import { Text3D } from '@tresjs/cientos'
 
-import { EffectComposer, Glitch } from '/@'
+import { EffectComposer, Glitch } from '@tresjs/post-processing'
 
 const gl = {
   clearColor: '#121212',

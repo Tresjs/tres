@@ -3,7 +3,7 @@ import { ref, shallowRef } from 'vue'
 import { watchOnce } from '@vueuse/core'
 import { TresCanvas } from '@tresjs/core'
 import { KernelSize } from 'postprocessing'
-import { EffectComposer, Outline } from '/@'
+import { EffectComposer, Outline } from '@tresjs/post-processing'
 import type { Intersection, Object3D } from 'three'
 import { Color } from 'three'
 

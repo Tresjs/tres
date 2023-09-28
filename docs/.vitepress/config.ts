@@ -2,6 +2,7 @@ import { defineConfig } from 'vitepress'
 import Unocss from 'unocss/vite'
 import svgLoader from 'vite-svg-loader'
 import { resolve } from 'pathe'
+import { templateCompilerOptions } from '@tresjs/core'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
@@ -28,6 +29,7 @@ export default defineConfig({
         text: 'Effects',
         items: [
           { text: 'Bloom', link: '/guide/effects/bloom' },
+          { text: 'Depth of Field', link: '/guide/effects/depth-of-field' },
           { text: 'Glitch', link: '/guide/effects/glitch' },
           { text: 'Outline', link: '/guide/effects/outline' },
         ],
@@ -40,11 +42,23 @@ export default defineConfig({
     ],
   },
   vite: {
-    plugins: [svgLoader(), Unocss()],
-    resolve: {
-      alias: {
-        '/@': resolve(__dirname, '../../src'),
+    optimizeDeps: {
+      exclude: ['vitepress'],
+      include: ['three'],
+    },
+    server: {
+      hmr: {
+        overlay: false,
       },
     },
+    resolve: {
+      alias: {
+        '@tresjs/post-processing': resolve(__dirname, '../../dist/tres-postprocessing.js'),
+      },
+      dedupe: ['three'],
+    },
+  },
+  vue: {
+    ...templateCompilerOptions,
   },
 })

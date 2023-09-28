@@ -1,18 +1,30 @@
 # Outline
 
-<ClientOnly>
-<OutlineDemo class="demo-scene"  />
-</ClientOnly>
+<DocsDemo>
+  <OutlineDemo />
+</DocsDemo>
+
+Outline is an effect that applies an outline to objects in your scene. This effect is commonly used to highlight objects.
 
 ## Usage
 
-Outline is an effect that applies an outline to objects in your scene. This effect is commonly used to highlight objects.
+```vue
+<script setup lang="ts">
+import { EffectComposer, Outline } from '@tresjs/post-processing'
+</script>
+
+<template>
+  <EffectComposer>
+    <Outline />
+  </EffectComposer>
+</template>
+```
 
 ## Props
 
 | Prop             | Description                                                                                 | Default                                                                                                                                       |
 | ---------------- | ------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
-| outlinedObjects  | the objects to highlight                                                                    | []                                                                                                                                            |
+| outlinedObjects  | The objects to highlight                                                                    | []                                                                                                                                            |
 | blur             | Whether the outline should be blurred.                                                      | false                                                                                                                                         |
 | xRay             | Whether occluded parts of selected objects should be visible.                               | true                                                                                                                                          |
 | kernelSize       | The blur kernel size. Use together with blur being true.                                    | [KernelSize.VERY_SMALL](https://github.com/pmndrs/postprocessing/blob/c3ce388be247916437a314f17748a75329d65df1/src/enums/KernelSize.js)       |
@@ -27,3 +39,6 @@ Outline is an effect that applies an outline to objects in your scene. This effe
 | resolutionScale  | The resolution scale. This prop is not reactive.                                            | 0.5                                                                                                                                           |
 | hiddenEdgeColor  | The color of hidden edges.                                                                  | 0x22090a                                                                                                                                      |
 | visibleEdgeColor | The color of visible edges.                                                                 | 0xffffff                                                                                                                                      |
+
+## Further Reading
+see [postprocessing docs](https://pmndrs.github.io/postprocessing/public/docs/class/src/effects/OutlineEffect.js~OutlineEffect.html)
