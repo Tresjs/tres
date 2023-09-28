@@ -87,4 +87,4 @@ pnpm run docs:build
 
 ## Sponsors
 
-Be the first to support this project [here](https://github.com/sponsors/alvarosabu) ☺️
+Be the first to support this project [here](https://github.com/sponsors/alvarosabu) ☺️.

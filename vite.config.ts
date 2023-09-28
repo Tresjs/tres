@@ -39,7 +39,6 @@ export default defineConfig({
       entry: resolve(__dirname, 'src/index.ts'),
       name: 'trescientos',
       fileName: 'trescientos',
-      formats: ['es'],
     },
     copyPublicDir: false,
     watch: {
@@ -47,7 +46,8 @@ export default defineConfig({
     },
     rollupOptions: {
       plugins: [
-        /*  analyze(),
+        analyze(),
+        /* analyze(),
         visualizer({
           gzipSize: true,
           brotliSize: true,

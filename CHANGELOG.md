@@ -1,5 +1,13 @@
 
 
+## [3.4.1](https://github.com/Tresjs/cientos/compare/3.4.0...3.4.1) (2023-09-27)
+
+
+### Bug Fixes
+
+* fake commit to force a patch ([b1a055c](https://github.com/Tresjs/cientos/commit/b1a055c07765bb5b97c6b5ff66e2c4183bf54fba))
+* remove es only format bundle ([b9bb1b9](https://github.com/Tresjs/cientos/commit/b9bb1b99905767b4280260e1d439acb7215d0195))
+
 ## [3.4.0](https://github.com/Tresjs/cientos/compare/3.3.0...3.4.0) (2023-09-26)
 
 
