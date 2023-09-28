@@ -6,6 +6,7 @@ import {
   loadersRoutes,
   materialsRoutes,
   directivesRoutes,
+  shapesRoutes,
   miscRoutes,
 } from './routes'
 
@@ -22,6 +23,7 @@ const routes = [
   ...materialsRoutes,
   ...miscRoutes,
   ...directivesRoutes,
+  ...shapesRoutes,
   ...miscRoutes,
 ]
 
