@@ -1,8 +1,12 @@
 import { defineConfig } from 'vitepress'
-import Unocss from 'unocss/vite'
-import svgLoader from 'vite-svg-loader'
 import { resolve } from 'pathe'
 import { templateCompilerOptions } from '@tresjs/core'
+
+const whitelist = [
+  'TresCanvas',
+  'TresLeches',
+  'TresScene',
+]
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
@@ -104,6 +108,7 @@ export default defineConfig({
         items: [
           { text: 'useTweakpane', link: '/guide/misc/use-tweakpane' },
           { text: 'Stats', link: '/guide/misc/stats' },
+          { text: 'Html', link: '/guide/misc/html-component' },
           { text: 'StatsGl', link: '/guide/misc/stats-gl' },
         ],
       },
@@ -142,6 +147,10 @@ export default defineConfig({
     },
   },
   vue: {
-    ...templateCompilerOptions,
+    template: {
+      compilerOptions: {
+        isCustomElement: (tag: string) => tag.startsWith('Tres') && !whitelist.includes(tag) || tag === 'primitive',
+      },
+    },
   },
 })

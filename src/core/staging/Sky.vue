@@ -1,4 +1,5 @@
 <script setup lang="ts">
+// eslint-disable-file vue/attribute-hyphenation
 import { MathUtils, Vector3 } from 'three'
 import { Sky as SkyImpl } from 'three/examples/jsm/objects/Sky'
 import { computed } from 'vue'

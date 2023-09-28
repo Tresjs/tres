@@ -20,6 +20,7 @@ const routes = [
   ...stagingRoutes,
   ...loadersRoutes,
   ...materialsRoutes,
+  ...miscRoutes,
   ...directivesRoutes,
   ...miscRoutes,
 ]

@@ -1,22 +1,20 @@
 {
   "name": "docs",
-  "private": true,
-  "version": "0.0.0",
   "type": "module",
+  "version": "0.0.0",
+  "private": true,
   "scripts": {
     "dev": "vitepress dev",
     "build": "vitepress build",
     "preview": "vitepress preview"
   },
+  "dependencies": {
+    "@tresjs/cientos": "workspace:^3.4.0",
+    "@tweakpane/plugin-essentials": "^0.2.0"
+  },
   "devDependencies": {
-    "@tresjs/leches": "^0.8.0",
+    "@tresjs/leches": "^0.9.1",
     "unocss": "^0.54.0",
     "vite-svg-loader": "^4.0.0"
-  },
-  "dependencies": {
-    "-": "^0.0.1",
-    "@tresjs/cientos": "workspace:^",
-    "@tweakpane/plugin-essentials": "^0.2.0",
-    "D": "^1.0.0"
   }
 }

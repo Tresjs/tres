@@ -5,11 +5,12 @@ import banner from 'vite-plugin-banner'
 import dts from 'vite-plugin-dts'
 import analyze from 'rollup-plugin-analyzer'
 import { visualizer } from 'rollup-plugin-visualizer'
+import { templateCompilerOptions } from '@tresjs/core'
 
 import { resolve } from 'pathe'
 
 import { lightGreen, yellow, gray, bold } from 'kolorist'
-
+import glsl from 'vite-plugin-glsl'
 import pkg from './package.json'
 
 // eslint-disable-next-line no-console
@@ -21,19 +22,13 @@ export default defineConfig({
   },
   plugins: [
     vue({
-      script: {
-        propsDestructure: true,
-      },
       isProduction: false,
-      template: {
-        compilerOptions: {
-          isCustomElement: tag => tag.startsWith('Tres') && tag !== 'TresCanvas',
-        },
-      },
+      ...templateCompilerOptions,
     }),
     dts({
       insertTypesEntry: true,
     }),
+    glsl(),
     banner({
       content: `/**\n * name: ${pkg.name}\n * version: v${pkg.version
         }\n * (c) ${new Date().getFullYear()}\n * description: ${pkg.description}\n * author: ${pkg.author}\n */`,
@@ -44,6 +39,7 @@ export default defineConfig({
       entry: resolve(__dirname, 'src/index.ts'),
       name: 'trescientos',
       fileName: 'trescientos',
+      formats: ['es'],
     },
     copyPublicDir: false,
     watch: {
@@ -51,12 +47,12 @@ export default defineConfig({
     },
     rollupOptions: {
       plugins: [
-        analyze(),
+        /*  analyze(),
         visualizer({
           gzipSize: true,
           brotliSize: true,
           open: true,
-        }),
+        }), */
       ],
       external: ['three', 'vue', '@tresjs/core', 'tweakpane', '@tweakpane/core', '@tweakpane/plugin-essentials'],
       output: {
