@@ -8,20 +8,13 @@
 </p>
 <br/>
 
-# Post-Processing WIP
+# Post-Processing
 
-> Collection of useful helpers and fully functional, ready-made abstractions for Tres
+> Collection of useful helpers and fully functional, ready-made post-processing effects for Tres
 
-- 💡 Build a 3D scene working only with Vue components.
+- 💡 Build your effects with Vue components only.
 - ⚡️ Powered by Vite
-- 🥰 It brings all the updated features of ThreeJS right awayregardless the version
 - 🦾 Fully Typed
-
-Cientos (Spanish word for "hundreds", pronounced /θjentos/ ) is is a collection of useful ready-to-go helpers and components that are not part of the core package. The name uses the word uses in spanish to multiply by 100, to refer to the potential reach of the package to hold a amazing abstractions.
-
-The postprocessing package uses three-stdlib module under the hood instead of the three/examples/jsm module. This means that you don't need to extend the catalogue of components using the extend method from the `core`, postprocessing does it for you.
-
-It just works. 💯
 
 ## Installation
 
@@ -31,7 +24,7 @@ pnpm i @tresjs/post-processing
 
 ## Docs
 
-Checkout the [docs](https://cientos.tresjs.org/)
+Checkout the [docs](https://postprocessing.tresjs.org/)
 
 ## Demos
 
@@ -39,7 +32,7 @@ Checkout the [docs](https://cientos.tresjs.org/)
 
 ## Contributing
 
-We are open to contributions, please read the [contributing guide](/CONTRIBUTING.md) to get started.
+We are open to contributions, please read the [contributing guide](https://github.com/Tresjs/tres/blob/main/CONTRIBUTING.md) to get started.
 
 ### Build
 
