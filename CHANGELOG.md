@@ -1,5 +1,17 @@
 
 
+## [3.3.0-next.0](https://github.com/Tresjs/tres/compare/3.2.3...3.3.0-next.0) (2023-09-29)
+
+
+### Features
+
+* context (TresContext) is now exposed from TresCanvas ([#404](https://github.com/Tresjs/tres/issues/404)) ([838d779](https://github.com/Tresjs/tres/commit/838d779e59494cacf61274fe497373983dbe8278))
+
+
+### Bug Fixes
+
+* made v-if work again ([277e901](https://github.com/Tresjs/tres/commit/277e901f8e41dc72bf755db17c584b3e28086347))
+
 ## [3.2.3](https://github.com/Tresjs/tres/compare/3.2.2...3.2.3) (2023-09-22)
 
 
