@@ -17,7 +17,7 @@ The `cientos` package provides a `<CatmullRomCurve3 />` component that allows yo
 | Prop         | Type      | Description                                                                   | Default        |
 | ------------ | --------- | ----------------------------------------------------------------------------- | -------------- |
 | points  | `Array<Vector3 \| [number, number, number]>` | Curve's control points |            |
-| segments     | `number`  | Number of points to insert between each pair of points in props.points        | 20             |
+| segments     | `number`  | Number of segments in the resulting curve (higher = smoother) | 20             |
 | closed       | `boolean` | The curve will loop back onto itself when this is true.                       | false          |
 | curveType    | `'centripetal' \| 'chordal' \| 'catmullrom'` | Curve type                                 | 'centripetal'  |
 | tension      | `number`  | Catmullrom's tension, when curveType is 'catmullrom'                          | 0.5            |
