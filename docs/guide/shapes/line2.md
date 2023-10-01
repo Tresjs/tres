@@ -45,12 +45,37 @@ import { Line2, OrbitControls } from '@tresjs/cientos'
 
 ### Points
 
-The points prop can be any of these types:
+The points prop has the following type:
 
-| Type                         | Interpretation                                                                   |
+`Array<Vector3 | Vector2 | [number, number, number] | [number, number] | number>`
+
+The passed array is converted to `Array<number>` – i.e., a series of x, y, z, x, y, z, x ... vertex coordinates. This is done array entry by array entry, as follows:
+
+| Entry type                   | Interpretation                                                                   |
 | ---------------------------- | -------------------------------------------------------------------------------- |
-| `Vector3[]`                  | Each Vector3 maps to a point's x, y, z.                                          |
-| <nobr>`[number, number, number][]`</nobr> | Each entry maps to [x, y, z].                                          |
-| `Vector2[]`                  | Each Vector2 maps to a point's x and y. z = 0.                                   |
-| `[number, number][]`         | Each entry maps to [x, y, 0].                                                    |
-| `number[]`                   | An array of [x, y, z, x, y, z, x ...] coordinates. Length should be a multiple of 3. Proper length is not checked. |
+| `Vector3`                    | Insert the vector's x, y, z into the result array                                |
+| <nobr>`[number, number, number]`</nobr> | Insert the array values into the result array                         |
+| `Vector2`                    | Insert the vector's x, y, then 0 into the result array                           |
+| `[number, number]`           | Insert the array values, then 0 into the result array                            |
+| `number`                     | Insert the number into the result array                                          |
+
+:::warning
+If you pass "bare" numbers in the points array, ensure that you pass "triplets" – groups of three numbers. Otherwise, you'll corrupt the coordinates that follow.
+
+This:
+
+```vue
+//       ✅     ❌     ✅
+:points=[[1,1], 2, 2, [3,3]]
+// result: (1,1,0) (2,2,3) (3,0,?)
+```
+
+So, make sure that you pass three numbers in a row.
+
+```vue
+//       ✅     ✅        ✅
+:points=[[1,1], 2, 2, 0, [3,3]]
+// result: (1,1,0) (2,2,0) (3,3,0)
+```
+The component, like Three.js, will not keep you from shooting yourself in the foot.
+:::

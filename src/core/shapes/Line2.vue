@@ -8,7 +8,7 @@ import { watch, onUnmounted, computed } from 'vue'
 import type { TresColor } from '@tresjs/core'
 import { normalizeColor, useTresContext } from '@tresjs/core'
 
-type Points = Vector3[] | Vector2[] | [number, number, number][] | [number, number][] | number[]
+type Points = (Vector3 | Vector2 | [number, number, number] | [number, number] | number)[]
 type VertexColors = Array<TresColor>
 export interface LineProps {
   points: Points

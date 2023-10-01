@@ -1,12 +1,11 @@
 <script setup lang="ts">
 import type { TresColor } from '@tresjs/core'
-import type { Vector2 } from 'three'
 import { CatmullRomCurve3, Vector3 } from 'three'
 import { computed } from 'vue'
 import Line2 from './Line2.vue'
 
 type CurveType = 'centripetal' | 'chordal' | 'catmullrom'
-type Points = Array<Vector3 | Vector2 | [number, number, number] | [number, number] | number>
+type Points = Array<Vector3 | [number, number, number]>
 
 interface CatmullRomCurve3Props {
   segments?: number
