@@ -46,14 +46,14 @@ If you pass "bare" numbers in the points array, ensure that you pass "triplets" 
 
 ::: code-group
 ```vue [Wrong]
-//       ✅     ❌     ✅
-:points=[[1,1], 2, 2, [3,3]]
-// result: (1,1,0) (2,2,3) (3,0,?)
+//        ✅     ❌     ✅
+:points="[[1,1], 2, 2, [3,3]]"
+// result: (1,1,0) (2,2,3) (3,0,❌)
 ```
 
 ```vue [Right]
-//       ✅     ✅        ✅
-:points=[[1,1], 2, 2, 0, [3,3]]
+//        ✅     ✅        ✅
+:points="[[1,1], 2, 2, 0, [3,3]]"
 // result: (1,1,0) (2,2,0) (3,3,0)
 ```
 The component, like Three.js, will not keep you from shooting yourself in the foot.
