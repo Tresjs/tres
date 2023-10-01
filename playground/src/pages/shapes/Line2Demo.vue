@@ -69,7 +69,7 @@ useRenderLoop().onLoop(({ elapsed }) => {
 </script>
 
 <template>
-  <TresCanvas v-bind="{clearColor:'#888'}">
+  <TresCanvas v-bind="{ clearColor: '#888' }">
     <Line2
       :points="points"
     />
