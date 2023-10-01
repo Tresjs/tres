@@ -4,7 +4,7 @@
   <Line2Demo />
 </DocsDemo>
 
-The `cientos` package provides a `<Line2 />` component that wraps [Three.js's `Line2`](https://github.com/mrdoob/three.js/blob/e2bcdfff6427c2f106cb819b18d88d1e13aa508a/examples/jsm/lines/Line2.js).
+The `cientos` package provides a `<Line2 />` component for creating 3-D lines. It wraps [Three.js's `Line2`](https://github.com/mrdoob/three.js/blob/e2bcdfff6427c2f106cb819b18d88d1e13aa508a/examples/jsm/lines/Line2.js).
 
 ## Usage
 <<< @/.vitepress/theme/components/Line2Demo.vue{3,8-12}
