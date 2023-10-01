@@ -1,5 +1,5 @@
 import Box from './Box.vue'
-import CatmullRomLine from './CatmullRomLine.vue'
+import CatmullRomCurve3 from './CatmullRomCurve3.vue'
 import Circle from './Circle.vue'
 import Cone from './Cone.vue'
 import Dodecahedron from './Dodecahedron.vue'
@@ -16,7 +16,7 @@ import Tube from './Tube.vue'
 
 export {
   Box,
-  CatmullRomLine,
+  CatmullRomCurve3,
   Circle,
   Cone,
   Dodecahedron,

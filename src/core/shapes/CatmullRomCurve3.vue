@@ -8,7 +8,7 @@ import Line2 from './Line2.vue'
 type CurveType = 'centripetal' | 'chordal' | 'catmullrom'
 type Points = Array<Vector3 | Vector2 | [number, number, number] | [number, number] | number>
 
-interface CatmullRomLineProps {
+interface CatmullRomCurve3Props {
   segments?: number
   closed?: boolean
   curveType?: CurveType
@@ -28,7 +28,7 @@ interface CatmullRomLineProps {
   worldUnits?: boolean
 }
 
-const props = withDefaults(defineProps<CatmullRomLineProps>(), {
+const props = withDefaults(defineProps<CatmullRomCurve3Props>(), {
   segments: 20,
   closed: false,
   curveType: 'centripetal',

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { TresCanvas, useRenderLoop } from '@tresjs/core'
-import { OrbitControls, CatmullRomLine } from '@tresjs/cientos'
+import { OrbitControls, CatmullRomCurve3 } from '@tresjs/cientos'
 
 const gl = {
   clearColor: '#888',
@@ -70,7 +70,7 @@ useRenderLoop().onLoop(({ elapsed }) => {
 
 <template>
   <TresCanvas v-bind="gl">
-    <CatmullRomLine
+    <CatmullRomCurve3
       :position="[0, 0, 0]"
       :points="points"
       :vertex-colors="colors"

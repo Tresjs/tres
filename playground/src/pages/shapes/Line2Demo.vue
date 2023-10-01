@@ -69,16 +69,9 @@ useRenderLoop().onLoop(({ elapsed }) => {
 </script>
 
 <template>
-  <TresCanvas v-bind="gl">
+  <TresCanvas v-bind="{clearColor:'#888'}">
     <Line2
-      :position="[0, 0, 0]"
       :points="points"
-      :vertex-colors="colors"
-      :world-units="true"
-      :line-width="lineWidth"
-      :dashed="dashed"
-      :dash-scale="dashScaleRef"
-      :dash-offset="dashOffset"
     />
     <TresGridHelper />
     <OrbitControls />

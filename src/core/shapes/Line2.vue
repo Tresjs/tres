@@ -8,33 +8,33 @@ import { watch, onUnmounted, computed } from 'vue'
 import type { TresColor } from '@tresjs/core'
 import { normalizeColor, useTresContext } from '@tresjs/core'
 
-type Points = Array<Vector3 | Vector2 | [number, number, number] | [number, number] | number>
-type VertexColors = Array<TresColor | [number, number, number]>
+type Points = Vector3[] | Vector2[] | [number, number, number][] | [number, number][] | number[]
+type VertexColors = Array<TresColor>
 export interface LineProps {
   points: Points
   vertexColors?: VertexColors | null
   color?: TresColor
   lineWidth?: number
+  worldUnits?: boolean
   alphaToCoverage?: boolean
   dashed?: boolean
   dashSize?: number
+  gapSize?: number
   dashScale?: number
   dashOffset?: number
-  gapSize?: number
-  worldUnits?: boolean
 }
 
 const props = withDefaults(defineProps<LineProps>(), {
   vertexColors: null,
   color: 'white',
   lineWidth: 1,
-  alphaToCoverage: true,
+  worldUnits: false,
+  alphaToCoverage: false,
   dashed: false,
   dashSize: 1,
+  gapSize: 1,
   dashScale: 1,
   dashOffset: 0,
-  gapSize: 1,
-  worldUnits: false,
 })
 
 type PropsType = typeof props
@@ -74,16 +74,13 @@ function updateLineGeometry(geometry: LineGeometry, points: Points, vertexColors
     else if (p instanceof Vector2) {
       return [p.x, p.y, 0]
     }
-    else if (Array.isArray(p) && p.length === 3) {
-      return p
-    }
     else if (Array.isArray(p) && p.length === 2) {
       return [p[0], p[1], 0]
     }
     else {
-      return [p, 0, 0]
+      return p
     }
-  })
+  }).flat()
   geometry.setPositions(pValues.flat())
 
   const colors = getInterpolatedVertexColors(vertexColors, points.length).map(c => c.toArray()).flat()
