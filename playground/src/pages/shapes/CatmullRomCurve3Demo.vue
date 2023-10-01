@@ -2,10 +2,6 @@
 import { TresCanvas, useRenderLoop } from '@tresjs/core'
 import { OrbitControls, CatmullRomCurve3 } from '@tresjs/cientos'
 
-const gl = {
-  clearColor: '#888',
-}
-
 const NUM_POINTS = 10
 const points = ref(new Array(NUM_POINTS).fill(0).map((_, i) => [i * 0.1, 0, 0]))
 const colors = ref([
@@ -46,7 +42,6 @@ const dashed = ref(true)
 const dashSize = ref(1)
 const dashScaleRef = ref(50)
 const dashOffset = ref(0)
-const gapSize = ref(1)
 
 useRenderLoop().onLoop(({ elapsed }) => {
   points.value.forEach((v, i) => {
@@ -69,7 +64,7 @@ useRenderLoop().onLoop(({ elapsed }) => {
 </script>
 
 <template>
-  <TresCanvas v-bind="gl">
+  <TresCanvas clear-color="#777">
     <CatmullRomCurve3
       :position="[0, 0, 0]"
       :points="points"

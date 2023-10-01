@@ -2,10 +2,6 @@
 import { TresCanvas, useRenderLoop } from '@tresjs/core'
 import { OrbitControls, Line2 } from '@tresjs/cientos'
 
-const gl = {
-  clearColor: '#888',
-}
-
 const NUM_POINTS = 10
 const points = ref(new Array(NUM_POINTS).fill(0).map((_, i) => [i * 0.1, 0, 0]))
 const colors = ref([
@@ -43,10 +39,7 @@ const colors = ref([
 
 const lineWidth = ref(5)
 const dashed = ref(true)
-const dashSize = ref(1)
-const dashScaleRef = ref(50)
-const dashOffset = ref(0)
-const gapSize = ref(1)
+const dashScale = ref(50)
 
 useRenderLoop().onLoop(({ elapsed }) => {
   points.value.forEach((v, i) => {
@@ -60,18 +53,20 @@ useRenderLoop().onLoop(({ elapsed }) => {
   colors.value.unshift(c)
 
   dashed.value = Math.sin(elapsed * 0.5) < 0
-  dashSize.value = 1 * (Math.sin(elapsed) + 1)
-  dashScaleRef.value = 25 + 25 * Math.sin(elapsed) 
-  dashOffset.value = 1 * (Math.sin(elapsed) + 1)
-
+  dashScale.value = 5 + 5 * Math.sin(elapsed) 
   lineWidth.value = 0.1 * (Math.sin(elapsed) + 1) + 0.1
 })
 </script>
 
 <template>
-  <TresCanvas v-bind="{ clearColor: '#888' }">
+  <TresCanvas clear-color="#777">
     <Line2
       :points="points"
+      :vertex-colors="colors"
+      :world-units="true"
+      :line-width="lineWidth"
+      :dashed="dashed"
+      :dash-scale="dashScale"
     />
     <TresGridHelper />
     <OrbitControls />
