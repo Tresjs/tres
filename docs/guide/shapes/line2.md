@@ -7,25 +7,7 @@
 The `cientos` package provides a `<Line2 />` component that wraps [Three.js's `Line2`](https://github.com/mrdoob/three.js/blob/e2bcdfff6427c2f106cb819b18d88d1e13aa508a/examples/jsm/lines/Line2.js).
 
 ## Usage
-
-```vue{3,8-12}
-<script setup lang="ts">
-import { TresCanvas } from '@tresjs/core'
-import { Line2, OrbitControls } from '@tresjs/cientos'
-</script>
-
-<template>
-  <TresCanvas v-bind="{clearColor:'#888'}">
-    <Line2
-      :points="[[-0.5,0,0], [0.5,0,0] ,[0,0.8660,0], [-0.5,0,0]]"
-      :line-width="10"
-      color="#82dbc5"
-    />
-    <TresGridHelper />
-    <OrbitControls />
-  </TresCanvas>
-</template>
-```
+<<< @/.vitepress/theme/components/Line2Demo.vue{3,8-12}
 
 ## Props
 
@@ -49,7 +31,7 @@ The points prop has the following type:
 
 `Array<Vector3 | Vector2 | [number, number, number] | [number, number] | number>`
 
-The passed array is converted to `Array<number>` – i.e., a series of x, y, z, x, y, z, x ... vertex coordinates. This is done array entry by array entry, as follows:
+The passed array is converted to `Array<number>` – i.e., a series of x, y, z vertex coordinates. This is done array entry by array entry, as follows:
 
 | Entry type                   | Interpretation                                                                   |
 | ---------------------------- | -------------------------------------------------------------------------------- |
@@ -62,17 +44,14 @@ The passed array is converted to `Array<number>` – i.e., a series of x, y, z, 
 :::warning
 If you pass "bare" numbers in the points array, ensure that you pass "triplets" – groups of three numbers. Otherwise, you'll corrupt the coordinates that follow.
 
-This:
-
-```vue
+::: code-group
+```vue [Wrong]
 //       ✅     ❌     ✅
 :points=[[1,1], 2, 2, [3,3]]
 // result: (1,1,0) (2,2,3) (3,0,?)
 ```
 
-So, make sure that you pass three numbers in a row.
-
-```vue
+```vue [Right]
 //       ✅     ✅        ✅
 :points=[[1,1], 2, 2, 0, [3,3]]
 // result: (1,1,0) (2,2,0) (3,3,0)
