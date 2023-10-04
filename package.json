@@ -14,6 +14,11 @@
     "threejs-vue",
     "composables"
   ],
+  "maintainers": [
+    "Alvaro Saburido (https://github.com/alvarosabu/)",
+    "Jaime Torrealba (https://github.com/JaimeTorrealba)",
+    "Andre Tchen (https://github.com/andretchen0)"
+  ],
   "sideEffects": false,
   "exports": {
     ".": {
