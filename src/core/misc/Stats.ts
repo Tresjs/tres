@@ -1,31 +1,35 @@
-import { onUnmounted, onMounted } from 'vue'
+import { onUnmounted, defineComponent } from 'vue'
 import { useRenderLoop } from '@tresjs/core'
 import StatsImpl from 'stats.js'
 
-export /**
- * Initialize stats with a specific panel.
- *
- * @param {number} [showPanel=0]
- * @return {*}
- */
-const Stats = (showPanel = 0) => {
-  const stats = new StatsImpl()
+export const Stats = defineComponent({
+  name: 'Stats',
+  props: {
+    showPanel: {
+      type: Number,
+      default: 0,
+    },
+  },
 
-  if (stats) {
+  setup(props, { expose }) {
+
+    const stats = new StatsImpl()
+
+    expose({ stats })
+
     const node = document.body
-    stats.showPanel(showPanel)
+    stats.showPanel(props.showPanel || 0)
     node?.appendChild(stats.dom)
 
-    onMounted(() => {
-      const { onBeforeLoop, onAfterLoop, resume } = useRenderLoop()
-      resume()
-      onBeforeLoop(() => stats.begin())
-      onAfterLoop(() => stats.end())
-    })
+    const { onBeforeLoop, onAfterLoop, resume } = useRenderLoop()
+    resume()
+    onBeforeLoop(() => stats.begin())
+    onAfterLoop(() => stats.end())
+    
     onUnmounted(() => {
       node?.removeChild(stats.dom)
     })
-  }
-
-  return null
-}
+  
+    return null
+  },
+})
