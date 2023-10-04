@@ -8,7 +8,7 @@ Simply drop the StatsGl component into your TresCanvas for easy performance moni
 
 ## Basic usage
 
-```ts
+```vue{3,8}
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
 import { StatsGl } from '@tresjs/cientos'

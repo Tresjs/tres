@@ -7,14 +7,21 @@
 - MB MBytes of allocated memory. (Run Chrome with --enable-precise-memory-info)
 - CUSTOM User-defined panel support.
 
-**TresJS** provides a function called `Stats` that creates a panel without effort or configuration in the top left corner where you'll be able to monitor your app.
+**TresJS** provides a component called `Stats` that creates a panel without effort or configuration in the top left corner where you'll be able to monitor your app.
 
 ## Basic usage
 
-```ts
+```vue{3,8}
+<script setup lang="ts">
+import { TresCanvas } from '@tresjs/core'
 import { Stats } from '@tresjs/cientos'
+</script>
 
-Stats()
+<template>
+  <TresCanvas>
+    <Stats />
+  </TresCanvas>
+</template>
 ```
 
 ## Options
