@@ -76,10 +76,12 @@ export default defineConfig({
         collapsed: true,
         items: [
           { text: 'Box', link: '/guide/shapes/box' },
+          { text: 'CatmullRomCurve3', link: '/guide/shapes/catmullromcurve3' },
           { text: 'Circle', link: '/guide/shapes/circle' },
           { text: 'Cone', link: '/guide/shapes/cone' },
           { text: 'Dodecahedron', link: '/guide/shapes/dodecahedron' },
           { text: 'Icosahedron', link: '/guide/shapes/icosahedron' },
+          { text: 'Line2', link: '/guide/shapes/line2' },
           { text: 'Octahedron', link: '/guide/shapes/octahedron' },
           { text: 'Plane', link: '/guide/shapes/plane' },
           { text: 'Ring', link: '/guide/shapes/ring' },
