@@ -1,14 +1,11 @@
 <script setup lang="ts">
-import { ref } from 'vue'
 import { TresCanvas } from '@tresjs/core'
-import { GlobalAudio, TorusKnot } from '@tresjs/cientos'
+import { GlobalAudio } from '@tresjs/cientos'
 import { TresLeches, useControls } from '@tresjs/leches'
 import '@tresjs/leches/styles'
 
 const exampleAudio
   = 'https://raw.githubusercontent.com/Tresjs/assets/main/music/sunny-afternoon.mp3'
-
-const currentAudio = ref(exampleAudio)
 
 const gl = {
   clearColor: '#82DBC5',
@@ -18,7 +15,6 @@ const options = useControls({
   volume: { value: 0.5, min: 0, max: 3, step: 0.1 },
   playbackRate: { value: 0.5, min: 0, max: 3, step: 0.1 },
 })
-console.log('jaime ~ options:', options.playbackRate.value.playbackRate)
 </script>
 
 <template>
@@ -33,18 +29,6 @@ console.log('jaime ~ options:', options.playbackRate.value.playbackRate)
     <button id="stopBtn">
       Stop
     </button>
-    <select
-      id="cars" 
-      v-model="currentAudio"
-      name="cars"
-    >
-      <option :value="exampleAudio">
-        Audio one
-      </option>
-      <option value="Audio">
-        Audio two
-      </option>
-    </select>
   </div>
   <TresCanvas v-bind="gl">
     <TresPerspectiveCamera
@@ -54,7 +38,7 @@ console.log('jaime ~ options:', options.playbackRate.value.playbackRate)
       :far="1000"
     />
     <GlobalAudio
-      :src="currentAudio"
+      :src="exampleAudio"
       :volume="options.volume.value.volume"
       :loop="false"
       :playback-rate="options.playbackRate.value.playbackRate"
@@ -63,10 +47,6 @@ console.log('jaime ~ options:', options.playbackRate.value.playbackRate)
       stop-element="stopBtn"
       @is-playing="(e) => console.log('isPlaying', e)"
     />
-    <TorusKnot>
-      <TresMeshNormalMaterial />
-    </TorusKnot>
-    <TresAmbientLight :intensity="1" />
   </TresCanvas>
 </template>
 

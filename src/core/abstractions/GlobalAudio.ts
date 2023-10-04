@@ -5,14 +5,14 @@ import { useTresContext } from '@tresjs/core'
 
 export interface AudioProps {
   /**
-   * Whether to disable the mouse controls.
+   * Path to your audio file.
    * @type {string}
    * @memberof AudioProps
    *
    */
   src: string
   /**
-   * Whether to disable the mouse controls.
+   * Id of the DOM element that trigger the play state.
    * @type {string}
    * @memberof AudioProps
    * @default renderer.domElement
@@ -20,7 +20,7 @@ export interface AudioProps {
    */
   playElement?: string
   /**
-   * Whether to disable the mouse controls.
+   * Id of the DOM element that trigger the pause state.
    * @type {string}
    * @memberof AudioProps
    * @default
@@ -28,7 +28,7 @@ export interface AudioProps {
    */
   pauseElement?: string
   /**
-   * Whether to disable the mouse controls.
+   * Id of the DOM element that trigger the stop state.
    * @type {string}
    * @memberof AudioProps
    * @default
@@ -36,7 +36,7 @@ export interface AudioProps {
    */
   stopElement?: string
   /**
-   * Whether to disable the mouse controls.
+   * If the audio must be replayed when ends.
    * @type {boolean}
    * @memberof AudioProps
    * @default false
@@ -44,7 +44,7 @@ export interface AudioProps {
    */
   loop?: boolean
   /**
-   * Whether to disable the mouse controls.
+   * Volume of the audio.
    * @type {number}
    * @memberof AudioProps
    * @default 0.5
@@ -52,7 +52,7 @@ export interface AudioProps {
    */
   volume?: number
   /**
-   * Whether to disable the mouse controls.
+   * PlaybackRate of the audio.
    * @type {number}
    * @memberof AudioProps
    * @default 1
