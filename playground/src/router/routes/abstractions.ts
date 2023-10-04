@@ -19,4 +19,9 @@ export const abstractionsRoutes = [
     name: 'Lensflare',
     component: () => import('../../pages/abstractions/LensflareDemo.vue'),
   },
+  {
+    path: '/abstractions/global-audio',
+    name: 'GlobalAudio',
+    component: () => import('../../pages/abstractions/GlobalAudioDemo.vue'),
+  },
 ]
