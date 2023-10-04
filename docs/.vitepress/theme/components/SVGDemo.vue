@@ -2,7 +2,8 @@
 import { TresCanvas } from '@tresjs/core'
 import { OrbitControls, SVG } from '@tresjs/cientos'
 
-const svgURL = 'https://raw.githubusercontent.com/Tresjs/assets/main/svgs/cientos_heart.svg'
+const svgURL = 'https://raw.githubusercontent.com/'
+  + 'Tresjs/assets/main/svgs/cientos_heart.svg'
 </script>
 
 <template>
