@@ -1,4 +1,4 @@
-import { defineComponent } from 'vue'
+import { defineComponent, onUnmounted } from 'vue'
 import StatsGlImpl from 'stats-gl'
 import { useRenderLoop, useTresContext } from '@tresjs/core'
 
@@ -103,6 +103,10 @@ export const StatsGl = defineComponent<StatsGlProps>({
     resume()
     onBeforeLoop(() => statsGl.begin())
     onAfterLoop(() => statsGl.end())
+
+    onUnmounted(() => {
+      node?.removeChild(statsGl.container)
+    })
 
     return null
   },
