@@ -1,24 +1,13 @@
 <script setup lang="ts">
+import { ref } from 'vue'
 import { TresCanvas } from '@tresjs/core'
-import { BasicShadowMap, SRGBColorSpace, NoToneMapping } from 'three'
-
-import { OrbitControls, Html } from '@tresjs/cientos'
-import { reactive, ref } from 'vue'
-
-const gl = {
-  clearColor: '#82DBC5',
-  shadows: true,
-  alpha: false,
-  shadowMapType: BasicShadowMap,
-  outputColorSpace: SRGBColorSpace,
-  toneMapping: NoToneMapping,
-}
+import { Html, OrbitControls } from '@tresjs/cientos'
 
 const sphereRef = ref(null)
 </script>
 
 <template>
-  <TresCanvas v-bind="gl">
+  <TresCanvas clear-color="#82DBC5">
     <TresPerspectiveCamera :position="[3, 3, 8]" />
     <OrbitControls />
     <TresMesh :position="[1, 1, 1]">
@@ -52,6 +41,6 @@ const sphereRef = ref(null)
       </Html>
     </TresMesh>
     <TresGridHelper />
-    <TresAmbientLight :intensity="1" />
+    <TresAmbientLight />
   </TresCanvas>
 </template>

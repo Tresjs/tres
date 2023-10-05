@@ -8,7 +8,7 @@
 
 ## Usage
 
-You can use `<Stars />` component without passing any props, but still if you want you can tweak the props to find the best setup for you
+You can use `<Stars />` component without passing any props, 
 
 ```vue
 <template>
@@ -19,6 +19,10 @@ You can use `<Stars />` component without passing any props, but still if you wa
   </TresCanvas>
 </template>
 ```
+
+But still if you want you can tweak the props to find the best setup for you.
+
+<<< @/.vitepress/theme/components/StarsDemo.vue{4,15-22}
 
 Notice that you can pass a texture as an alphaMap to personalize the star shape
 

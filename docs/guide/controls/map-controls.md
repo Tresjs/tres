@@ -16,15 +16,7 @@ It just works. 💯
 
 ## Usage
 
-```vue{4}
-<template>
-  <TresCanvas shadows alpha>
-    <TresPerspectiveCamera :position="[0, 0, 3]" />
-    <MapControls />
-    <TresGridHelper :args="[10, 10]" />
-  </TresCanvas>
-</template>
-```
+<<< @/.vitepress/theme/components/MapControlsDemo.vue{3,9}
 
 ::: warning
 Is really important that the Perspective camera is set first in the canvas. Otherwise might break.

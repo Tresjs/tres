@@ -1,28 +1,14 @@
 # useGLTF
 
 <DocsDemo>
-  <GLTFModelDemo />
+  <UseGLTFDemo />
 </DocsDemo>
 
 A composable that allows you to easily load glTF models into your **TresJS** scene.
 
 ## Usage
 
-```ts
-import { useGLTF } from '@tresjs/cientos'
-
-const { scene } = await useGLTF('/models/AkuAku.gltf')
-```
-
-Then is as straightforward as adding the scene to your scene:
-
-```vue{3}
-<TresCanvas shadows alpha>
-  <Suspense>
-    <primitive :object="scene" />
-  </Suspense>
-</TresCanvas>
-```
+<<< @/.vitepress/theme/components/UseGLTFDemo.vue{3,7,14-16}
 
 An advantage of using `useGLTF`is that you can pass a `draco` prop to enable [Draco compression](https://threejs.org/docs/index.html?q=drac#examples/en/loaders/DRACOLoader) for the model. This will reduce the size of the model and improve performance.
 

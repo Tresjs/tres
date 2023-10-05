@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
-import { GLTFModel, OrbitControls } from '@tresjs/cientos'
+import { useGLTF, OrbitControls } from '@tresjs/cientos'
+
+const path = 'https://raw.githubusercontent.com/'
++ 'Tresjs/assets/main/models/gltf/blender-cube.glb'
+const { scene } = await useGLTF(path)
 </script>
 
 <template>
@@ -8,7 +12,7 @@ import { GLTFModel, OrbitControls } from '@tresjs/cientos'
     <TresPerspectiveCamera :position="[3, 2, 5]" />
     <OrbitControls />
     <Suspense>
-      <GLTFModel path="https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/blender-cube.glb" />
+      <primitive :object="scene" />
     </Suspense>
     <TresDirectionalLight
       :intensity="2"

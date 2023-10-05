@@ -10,23 +10,7 @@ This composable is based on the Drei [useVideoTexture](https://github.com/pmndrs
 
 ## Usage
 
-```ts
-import { useVideoTexture } from '@tresjs/cientos'
-import exampleVideo from '/myVideoPath'
-
-const texture = ref()
-texture.value = await useVideoTexture(exampleVideo, { loop: false })
-```
-
-Then you can use the texture in your material, for example:
-
-```vue{3}
-...
-    <Sphere :position="[0, 2, 0]">
-      <TresMeshBasicMaterial :map="texture" />
-    </Sphere>
-...
-```
+<<< @/.vitepress/theme/components/VideoTextureDemo.vue{4,8-9,20}
 
 ## Props
 

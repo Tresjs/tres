@@ -10,19 +10,9 @@
 
 You can use `<Precipitation />` component without passing any props, this will achieve a snowy effect, like the before example.
 
-```vue{8}
-<script setup lang="ts">
-import { TresCanvas } from '@tresjs/core'
-import { Precipitation } from '@tresjs/cientos'
-</script>
-<template>
-  <TresCanvas>
-    <TresPerspectiveCamera :position="[0, 2, 15]" />
-    <Precipitation />
-    <TresGridHelper :args="[10, 10]" />
-  </TresCanvas>
-</template>
-```
+<<< @/.vitepress/theme/components/PrecipitationDemo.vue{3,9}
+
+### Rain
 
 By setting the randomness to 0, increase the speed  and reduce the count. You can easily achieve a more rainy effect.
 
@@ -30,74 +20,28 @@ By setting the randomness to 0, increase the speed  and reduce the count. You ca
   <PrecipitationRainDemo />
 </DocsDemo>
 
+<<< @/.vitepress/theme/components/PrecipitationRainDemo.vue{3,9-13}
 
-```vue{9,10,11}
-<script setup lang="ts">
-import { TresCanvas } from '@tresjs/core'
-import { Precipitation } from '@tresjs/cientos'
-</script>
-<template>
-  <TresCanvas>
-    <TresPerspectiveCamera :position="[0, 2, 15]" />
-    <Precipitation
-      :speed="1"
-      :randomness="0"
-      :count="2500"
-    />
-    <TresGridHelper :args="[10, 10]" />
-  </TresCanvas>
-</template>
-```
+### Storm
+
 A storm effect? Easy just increase the randomness.
 
 <DocsDemo>
   <PrecipitationStormDemo />
 </DocsDemo>
 
-```vue{9,10,11}
-<script setup lang="ts">
-import { TresCanvas } from '@tresjs/core'
-import { Precipitation } from '@tresjs/cientos'
-</script>
-<template>
-  <TresCanvas>
-    <TresPerspectiveCamera :position="[0, 2, 15]" />
-    <Precipitation
-      :speed="1"
-      :randomness="3"
-      :count="2500"
-    />
-    <TresGridHelper :args="[10, 10]" />
-  </TresCanvas>
-</template>
-```
+<<< @/.vitepress/theme/components/PrecipitationStormDemo.vue{3,9-13}
 
-What about an infinite beam?.
+### Beam
+
+What about an infinite beam? Just set the area, to the axis that you need constrain.
 
 <DocsDemo>
   <PrecipitationBeamDemo />
 </DocsDemo>
 
-Just set the area, to the axis that you need constrain.
+<<< @/.vitepress/theme/components/PrecipitationBeamDemo.vue{3,9-15}
 
-```vue{9,10,11,12}
-<script setup lang="ts">
-import { TresCanvas } from '@tresjs/core'
-import { Precipitation } from '@tresjs/cientos'
-</script>
-<template>
-  <TresCanvas>
-    <TresPerspectiveCamera :position="[0, 2, 15]" />
-    <Precipitation
-      :randomness="0"
-      :speed="0.5"
-      :count="2000"
-      :area="[1, 10, 1]"
-    />
-    <TresGridHelper :args="[10, 10]" />
-  </TresCanvas>
-</template>
-```
 You can create much more! ☔
 
 ::: warning

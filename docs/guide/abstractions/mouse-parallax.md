@@ -12,19 +12,7 @@ You only need to import it and add it to your template as `<MouseParallax />`. A
 
 `factor` is a number to increase the movement range of the camera. `ease` is a number that smoothes the movement. You can also disable the effect with the `disabled` prop.
 
-```vue
-<template>
-  <TresCanvas>
-    <MouseParallax />
-    <Text3D
-      text="TresJS"
-      font="/fonts/FiraCodeRegular.json"
-    >
-      <TresMeshNormalMaterial />
-    </Text3D>
-  </TresCanvas>
-</template>
-```
+<<< @/.vitepress/theme/components/MouseParallaxDemo.vue{3,15-18}
 
 ## Props
 
