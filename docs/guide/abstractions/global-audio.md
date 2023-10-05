@@ -20,20 +20,21 @@ import { GlobalAudio } from '@tresjs/cientos'
 </template>
 ```
 
+*The `src` prop is required
+
 ## Props
 
-| Prop           | Description                                         | Default               |
-| :------------- | :-------------------------------------------------- | --------------------- |
-| `src`          | Path to your audio file                             |                       |
-| `playElement`  | Id of the DOM element that triggers the play state  | `renderer.domElement` |
-| `pauseElement` | Id of the DOM element that triggers the pause state |                       |
-| `stopElement`  | Id of the DOM element that triggers the stop state  |                       |
-| `loop`         | If the audio must be replayed when ends             | `false`               |
-| `volume`       | Volume of the audio                                 | `0.5`                 |
-| `playbackRate` | PlaybackRate of the audio                           | `1`                   |
+| Prop           | Description                                              | Default               |
+| :------------- | :------------------------------------------------------- | --------------------- |
+| `src`          | Path to your audio file                                  |                       |
+| `playTrigger`  | Id of the DOM element that triggers the play/pause state | `renderer.domElement` |
+| `stopTrigger`  | Id of the DOM element that triggers the stop state       |                       |
+| `loop`         | If the audio must be replayed when ends                  | `false`               |
+| `volume`       | Volume of the audio                                      | `0.5`                 |
+| `playbackRate` | PlaybackRate of the audio                                | `1`                   |
 
 ## Events
 
-| Event       | Description                                                       |
-| :---------- | :---------------------------------------------------------------- |
-| `isPlaying` | Dispatched when the Audio change its state (play, pause or stop)  |
+| Event       | Description                                                      |
+| :---------- | :--------------------------------------------------------------- |
+| `isPlaying` | Dispatched when the Audio change its state (play, pause or stop) |

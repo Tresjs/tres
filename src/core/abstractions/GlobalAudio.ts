@@ -12,21 +12,13 @@ export interface AudioProps {
    */
   src: string
   /**
-   * Id of the DOM element that trigger the play state.
+   * Id of the DOM element that trigger the play/pause state.
    * @type {string}
    * @memberof AudioProps
    * @default renderer.domElement
    *
    */
-  playElement?: string
-  /**
-   * Id of the DOM element that trigger the pause state.
-   * @type {string}
-   * @memberof AudioProps
-   * @default
-   *
-   */
-  pauseElement?: string
+  playTrigger?: string
   /**
    * Id of the DOM element that trigger the stop state.
    * @type {string}
@@ -34,7 +26,7 @@ export interface AudioProps {
    * @default
    *
    */
-  stopElement?: string
+  stopTrigger?: string
   /**
    * If the audio must be replayed when ends.
    * @type {boolean}
@@ -69,9 +61,8 @@ export const GlobalAudio = defineComponent<AudioProps>({
     'loop',
     'volume',
     'playbackRate',
-    'playElement',
-    'pauseElement',
-    'stopElement',
+    'playTrigger',
+    'stopTrigger',
   ] as unknown as undefined,
 
   async setup(props, { expose, emit }) {
@@ -101,22 +92,17 @@ export const GlobalAudio = defineComponent<AudioProps>({
       
     }, { immediate: true })
     
-    const selector = document.getElementById(props.playElement ?? '')
+    const selector = document.getElementById(props.playTrigger ?? '')
     const btnPlay = selector ? selector : renderer.value.domElement
     useEventListener(btnPlay, 'click', () => {
-      sound.play()
+      if (sound.isPlaying) {
+        sound.pause()
+      }
+      else sound.play()
       emit('isPlaying', sound.isPlaying)
     })
 
-    const btnPause = document.getElementById(props.pauseElement ?? '')
-    if (btnPause) {
-      useEventListener(btnPause, 'click', () => {
-        sound.pause()
-        emit('isPlaying', sound.isPlaying)
-      })
-    }
-
-    const btnStop = document.getElementById(props.stopElement ?? '')
+    const btnStop = document.getElementById(props.stopTrigger ?? '')
     if (btnStop) {
       useEventListener(btnStop, 'click', () => {
         sound.stop()

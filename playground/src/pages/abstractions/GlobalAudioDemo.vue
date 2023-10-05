@@ -1,36 +1,29 @@
 <script setup lang="ts">
+import { shallowRef, watch } from 'vue'
 import { TresCanvas } from '@tresjs/core'
 import { GlobalAudio } from '@tresjs/cientos'
-import { TresLeches, useControls } from '@tresjs/leches'
-import '@tresjs/leches/styles'
 
 const exampleAudio
   = 'https://raw.githubusercontent.com/Tresjs/assets/main/music/sunny-afternoon.mp3'
 
-const gl = {
-  clearColor: '#82DBC5',
-  alpha: false,
-}
-const options = useControls({
-  volume: { value: 0.5, min: 0, max: 3, step: 0.1 },
-  playbackRate: { value: 0.5, min: 0, max: 3, step: 0.1 },
+const isPlaying = shallowRef(false)
+const sound = shallowRef(false)
+
+watch(sound, (value) => {
+  console.log(value)
 })
 </script>
 
 <template>
-  <TresLeches />
   <div class="floating-controls">
-    <button id="pauseBtn">
-      Pause
-    </button>
     <button id="playBtn">
-      Play
+      {{ !isPlaying ? 'Play' : 'Pause' }}
     </button>
     <button id="stopBtn">
       Stop
     </button>
   </div>
-  <TresCanvas v-bind="gl">
+  <TresCanvas clear-color="#82DBC5">
     <TresPerspectiveCamera
       :position="[0, 0, 7.5]"
       :fov="75"
@@ -38,14 +31,14 @@ const options = useControls({
       :far="1000"
     />
     <GlobalAudio
+      ref="sound"
       :src="exampleAudio"
       :volume="0.5"
-      :loop="false"
+      :loop="true"
       :playback-rate="1"
-      play-element="playBtn"
-      pause-element="pauseBtn"
-      stop-element="stopBtn"
-      @is-playing="(e) => console.log('isPlaying', e)"
+      play-trigger="playBtn"
+      stop-trigger="stopBtn"
+      @is-playing="(e) => isPlaying = e"
     />
   </TresCanvas>
 </template>
