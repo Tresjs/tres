@@ -8,21 +8,7 @@ The `GLTFModel` component is a wrapper around [`useGLTF`](./use-gltf.md) composa
 
 ## Usage
 
-```vue{2,9}
-<script setup lang="ts">
-import { OrbitControls, GLTFModel } from '@tresjs/cientos'
-</script>
-<template>
-    <TresCanvas clear-color="#82DBC5" shadows alpha>
-      <TresPerspectiveCamera :position="[11, 11, 11]" />
-      <OrbitControls />
-      <Suspense>
-        <GLTFModel path="/models/AkuAku.gltf" draco ref="modelRef" />
-      </Suspense>
-      <TresDirectionalLight :position="[-4, 8, 4]" :intensity="1.5" cast-shadow />
-    </TresCanvas>
-</template>
-```
+<<< @/.vitepress/theme/components/GLTFModelDemo.vue{3,10-12}
 
 ## Model reference
 

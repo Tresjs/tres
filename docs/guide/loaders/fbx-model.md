@@ -8,21 +8,7 @@ The `FBXModel` component is a wrapper around [`useFBX`](./use-fbx.md) composable
 
 ## Usage
 
-```vue{2,9}
-<script setup lang="ts">
-import { OrbitControls, FBXModel } from '@tresjs/cientos'
-</script>
-<template>
-    <TresCanvas clear-color="#82DBC5" shadows alpha>
-      <TresPerspectiveCamera :position="[11, 11, 11]" />
-      <OrbitControls />
-      <Suspense>
-        <FBXModel path="/models/Jeep.fbx" />
-      </Suspense>
-      <TresDirectionalLight :position="[-4, 8, 4]" :intensity="1.5" cast-shadow />
-    </TresCanvas>
-</template>
-```
+<<< @/.vitepress/theme/components/FBXModelDemo.vue{3,10-15}
 
 ## Props
 

@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
-import { FBXModel, OrbitControls } from '@tresjs/cientos'
+import { useFBX, OrbitControls } from '@tresjs/cientos'
+
+const path = 'https://raw.githubusercontent.com/'
+  + 'Tresjs/assets/main/models/fbx/low-poly-truck/Jeep_done.fbx'
+const model = await useFBX(path)
 </script>
 
 <template>
@@ -8,8 +12,8 @@ import { FBXModel, OrbitControls } from '@tresjs/cientos'
     <TresPerspectiveCamera :position="[11, 11, 11]" />
     <OrbitControls />
     <Suspense>
-      <FBXModel
-        path="https://raw.githubusercontent.com/Tresjs/assets/main/models/fbx/low-poly-truck/Jeep_done.fbx"
+      <primitive
+        :object="model"
         :scale="0.025"
       />
     </Suspense>
@@ -17,6 +21,6 @@ import { FBXModel, OrbitControls } from '@tresjs/cientos'
       :intensity="2"
       :position="[3, 3, 3]"
     />
-    <TresAmbientLight />
+    <TresAmbientLight :intensity="1" />
   </TresCanvas>
 </template>

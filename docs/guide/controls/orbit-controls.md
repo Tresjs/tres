@@ -17,14 +17,7 @@ It just works. 💯
 
 ## Usage
 
-```vue{4}
-<template>
-  <TresCanvas shadows alpha>
-    <TresPerspectiveCamera :args="[45, 1, 0.1, 1000]" />
-    <OrbitControls />
-  </TresCanvas>
-</template>
-```
+<<< @/.vitepress/theme/components/OrbitControlsDemo.vue{3,9}
 
 ::: warning
 Is really important that the Perspective camera is set first in the canvas. Otherwise might break.

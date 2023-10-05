@@ -11,8 +11,8 @@ import { ScrollControls, Stars, Box } from '@tresjs/cientos'
     <TresPerspectiveCamera :position="[0, 2, 5]" />
     <Stars :radius="1" />
     <TresGridHelper :args="[10, 10]" />
-    <ScrollControls
-      :pages="20"
+    <ScrollControls 
+      :pages="20" 
       :distance="20"
       :smooth-scroll="0.05"
     />

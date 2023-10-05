@@ -1,22 +1,10 @@
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
-import { OrbitControls, MeshWobbleMaterial } from '@tresjs/cientos'
-import { BasicShadowMap, SRGBColorSpace, NoToneMapping } from 'three'
-
-const gl = {
-  clearColor: '#82DBC5',
-  shadows: true,
-  alpha: false,
-  shadowMapType: BasicShadowMap,
-  outputColorSpace: SRGBColorSpace,
-  toneMapping: NoToneMapping,
-}
+import { MeshWobbleMaterial, OrbitControls } from '@tresjs/cientos'
 </script>
 
 <template>
-  <TresCanvas
-    v-bind="gl"
-  >
+  <TresCanvas clear-color="#82DBC5">
     <TresPerspectiveCamera :position="[3, 3, 3]" />
     <TresMesh>
       <TresTorusGeometry />
@@ -27,10 +15,7 @@ const gl = {
       />
     </TresMesh>
     <TresAmbientLight :intensity="1" />
-    <TresDirectionalLight
-      :intensity="1"
-      :position="[2, 2, 2]"
-    />
+    <TresDirectionalLight :position="[2, 2, 2]" />
     <OrbitControls />
   </TresCanvas>
 </template>
