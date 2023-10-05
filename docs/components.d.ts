@@ -8,11 +8,9 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     BackdropDemo: typeof import('./.vitepress/theme/components/BackdropDemo.vue')['default']
-    BackdropSimpleDemo: typeof import('./.vitepress/theme/components/BackdropSimpleDemo.vue')['default']
     CameraControlsDemo: typeof import('./.vitepress/theme/components/CameraControlsDemo.vue')['default']
     CatmullRomCurve3Demo: typeof import('./.vitepress/theme/components/CatmullRomCurve3Demo.vue')['default']
     ContactShadowDemo: typeof import('./.vitepress/theme/components/ContactShadowDemo.vue')['default']
-    copy: typeof import('./.vitepress/theme/components/FBXModelDemo copy.vue')['default']
     DocsDemo: typeof import('./.vitepress/theme/components/DocsDemo.vue')['default']
     FBXModelDemo: typeof import('./.vitepress/theme/components/FBXModelDemo.vue')['default']
     Feather: typeof import('./.vitepress/theme/components/Feather.vue')['default']
@@ -45,8 +43,6 @@ declare module 'vue' {
     SVGDemo: typeof import('./.vitepress/theme/components/SVGDemo.vue')['default']
     Text3Demo: typeof import('./.vitepress/theme/components/Text3Demo.vue')['default']
     TransformControlsDemo: typeof import('./.vitepress/theme/components/TransformControlsDemo.vue')['default']
-    UseFBXDemo: typeof import('./.vitepress/theme/components/UseFBXDemo.vue')['default']
-    UseGLTFDemo: typeof import('./.vitepress/theme/components/UseGLTFDemo.vue')['default']
     VideoTextureDemo: typeof import('./.vitepress/theme/components/VideoTextureDemo.vue')['default']
     WobbleMaterialDemo: typeof import('./.vitepress/theme/components/WobbleMaterialDemo.vue')['default']
   }
