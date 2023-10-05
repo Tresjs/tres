@@ -39,9 +39,9 @@ const options = useControls({
     />
     <GlobalAudio
       :src="exampleAudio"
-      :volume="options.volume.value.volume"
+      :volume="0.5"
       :loop="false"
-      :playback-rate="options.playbackRate.value.playbackRate"
+      :playback-rate="1"
       play-element="playBtn"
       pause-element="pauseBtn"
       stop-element="stopBtn"

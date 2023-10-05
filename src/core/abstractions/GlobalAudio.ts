@@ -92,23 +92,23 @@ export const GlobalAudio = defineComponent<AudioProps>({
       }
     })
 
-    watch(() => [props.playbackRate], () => sound.setPlaybackRate( props.playbackRate || 1 ), { immediate: true })
-    watch(() => [props.volume], () => sound.setVolume( props.volume || 0.5 ), { immediate: true })
-    watch(() => [props.loop], () => sound.setLoop( props.loop || false ), { immediate: true })
+    watch(() => [props.playbackRate], () => sound.setPlaybackRate( props.playbackRate ?? 1 ), { immediate: true })
+    watch(() => [props.volume], () => sound.setVolume( props.volume ?? 0.5 ), { immediate: true })
+    watch(() => [props.loop], () => sound.setLoop( props.loop ?? false ), { immediate: true })
     watch(() => [props.src], async () => {
       const buffer = await audioLoader.loadAsync( props.src)
       sound.setBuffer( buffer )
       
     }, { immediate: true })
     
-    const selector = document.getElementById(props.playElement || '')
+    const selector = document.getElementById(props.playElement ?? '')
     const btnPlay = selector ? selector : renderer.value.domElement
     useEventListener(btnPlay, 'click', () => {
       sound.play()
       emit('isPlaying', sound.isPlaying)
     })
 
-    const btnPause = document.getElementById(props.pauseElement || '')
+    const btnPause = document.getElementById(props.pauseElement ?? '')
     if (btnPause) {
       useEventListener(btnPause, 'click', () => {
         sound.pause()
@@ -116,7 +116,7 @@ export const GlobalAudio = defineComponent<AudioProps>({
       })
     }
 
-    const btnStop = document.getElementById(props.stopElement || '')
+    const btnStop = document.getElementById(props.stopElement ?? '')
     if (btnStop) {
       useEventListener(btnStop, 'click', () => {
         sound.stop()
