@@ -37,6 +37,7 @@ export default defineConfig({
           { text: 'useAnimations', link: '/guide/abstractions/use-animations' },
           { text: 'MouseParallax', link: '/guide/abstractions/mouse-parallax' },
           { text: 'Lensflare', link: '/guide/abstractions/lensflare' },
+          { text: 'GlobalAudio', link: '/guide/abstractions/global-audio' },
         ],
       },
       {
