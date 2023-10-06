@@ -1,5 +1,14 @@
 
 
+## [1.1.9](https://example.com///compare/1.1.7...1.1.9) (2023-10-06)
+
+
+### Bug Fixes
+
+* 46 multiple instances of threejs orbitcontrols broken ([#47](https://example.com//null/issues/47)) ([7a49603](https://example.com///commit/7a49603e827d54cd980cd1e009a83e26cd48103e))
+* add `defu` as dep ([387c244](https://example.com///commit/387c2441ccd9614604bda93a4f0dfce84d3e97b2))
+* **deps:** update dependency @tresjs/core to v3.3.0 ([#40](https://example.com//null/issues/40)) ([a0167ac](https://example.com///commit/a0167ac01907ba00c3bf80b9350e1875ba78b134))
+
 ## [1.1.7](https://example.com///compare/1.1.6...1.1.7) (2023-09-16)
 
 ## [1.1.6](https://example.com///compare/1.1.5...1.1.6) (2023-09-12)
