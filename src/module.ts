@@ -4,6 +4,7 @@ import * as core from '@tresjs/core'
 import { readPackageJSON } from 'pkg-types'
 import { findExportNames } from 'mlly'
 import { templateCompilerOptions } from '@tresjs/core'
+import defu from 'defu'
 
 export interface ModuleOptions {
   modules: string[]
@@ -77,5 +78,9 @@ export default defineNuxtModule<ModuleOptions>({
         }
       }
     }
+
+    nuxt.options.vite.resolve = defu(nuxt.options.vite.resolve, {
+      dedupe: ['three'],
+    })
   },
 })

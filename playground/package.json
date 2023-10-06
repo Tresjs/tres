@@ -8,10 +8,10 @@
     "generate": "nuxi generate"
   },
   "devDependencies": {
-    "@tresjs/cientos": "^3.3.0",
+    "@tresjs/cientos": "^3.4.1",
     "@tresjs/post-processing": "^0.4.0",
-    "nuxt": "^3.7.1",
-    "postprocessing": "^6.33.0",
+    "nuxt": "^3.7.4",
+    "postprocessing": "^6.33.2",
     "tweakpane": "^4.0.1"
   }
 }
