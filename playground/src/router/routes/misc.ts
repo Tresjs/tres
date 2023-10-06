@@ -14,4 +14,9 @@ export const miscRoutes = [
     name: 'StatsGl',
     component: () => import('../../pages/misc/StatsGlDemo.vue'),
   },
+  {
+    path: '/misc/stats',
+    name: 'Stats',
+    component: () => import('../../pages/misc/StatsDemo.vue'),
+  },
 ]

@@ -7,6 +7,7 @@ import {
   materialsRoutes,
   directivesRoutes,
   shapesRoutes,
+  miscRoutes,
 } from '../router/routes'
 
 const sections = [
@@ -17,6 +18,7 @@ const sections = [
   { icon: '👔', title: 'Materials', routes: materialsRoutes },
   { icon: '📢', title: 'Directives', routes: directivesRoutes },
   { icon: '🔷', title: 'Shapes', routes: shapesRoutes },
+  { icon: '🛠️', title: 'Misc', routes: miscRoutes },
 ]
 </script>
 
