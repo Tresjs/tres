@@ -17,6 +17,9 @@ dependencies:
   '@types/three':
     specifier: ^0.156.0
     version: 0.156.0
+  defu:
+    specifier: ^6.1.2
+    version: 6.1.2
   mlly:
     specifier: ^1.4.2
     version: 1.4.2
