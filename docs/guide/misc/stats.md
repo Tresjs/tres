@@ -28,4 +28,4 @@ import { Stats } from '@tresjs/cientos'
 - 0: FPS Frames rendered in the last second. The higher the number the better.
 - 1: MS Milliseconds needed to render a frame. The lower the number the better.
 - 2: MB MBytes of allocated memory. (Run Chrome with --enable-precise-memory-info)
-- 3+: CUSTOM User-defined panel support, for mor info please check [stats.js](https://github.com/mrdoob/stats.js/).
+- 3+: CUSTOM User-defined panel support. For more info please check [stats.js](https://github.com/mrdoob/stats.js/).
