@@ -25,7 +25,9 @@ const props = withDefaults(defineProps<SkyProps>(), {
 })
 
 const skyImpl = new SkyImpl()
-const sunPosition = computed(() => getSunPosition(props.azimuth, props.elevation))
+const sunPosition = computed(() =>
+  getSunPosition(props.azimuth, props.elevation),
+)
 
 function getSunPosition(azimuth: number, elevation: number) {
   const phi = MathUtils.degToRad(90 - elevation)
