@@ -14,4 +14,9 @@ export const directivesRoutes = [
     name: 'vAlwaysLookAt',
     component: () => import('../../pages/directives/vAlwaysLookAt.vue'),
   },
+  {
+    path: '/directives/v-distance-to',
+    name: 'vDistanceTo',
+    component: () => import('../../pages/directives/vDistanceTo.vue'),
+  },
 ]

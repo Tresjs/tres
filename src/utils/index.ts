@@ -1,3 +1,5 @@
+import { Vector3 } from 'three'
+
 /**
  * Update the function signature to explicitly specify the type of the props parameter
  *
@@ -29,4 +31,13 @@ export function pick<T extends object, K extends keyof T>(obj: T, props: K[]): P
 export function hasSetter(obj: any, prop: string): boolean {
   const setterName = `set${prop[0].toUpperCase()}${prop.slice(1)}`
   return obj[setterName] !== undefined
+}
+
+export function extractBindingPosition(binding: any): Vector3 {
+  let observer = binding.value
+  if (binding.value && binding.value?.value?.isMesh) {
+    observer = binding.value.value.position
+  }
+  if (Array.isArray(binding.value)) observer = new Vector3(...observer)
+  return observer
 }
