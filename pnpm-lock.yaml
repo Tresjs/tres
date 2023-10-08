@@ -115,8 +115,8 @@ importers:
         version: 0.2.0(tweakpane@4.0.1)
     devDependencies:
       '@tresjs/leches':
-        specifier: ^0.9.1
-        version: 0.9.1(vue@3.3.4)
+        specifier: ^0.10.0
+        version: 0.10.0(vue@3.3.4)
       unocss:
         specifier: ^0.54.0
         version: 0.54.0(postcss@8.4.29)(vite@4.4.9)
@@ -134,8 +134,8 @@ importers:
         version: 4.2.4(vue@3.3.4)
     devDependencies:
       '@tresjs/leches':
-        specifier: ^0.9.1
-        version: 0.9.1(vue@3.3.4)
+        specifier: ^0.10.0
+        version: 0.10.0(vue@3.3.4)
       unplugin-auto-import:
         specifier: ^0.16.6
         version: 0.16.6(@vueuse/core@10.4.1)
@@ -1116,10 +1116,10 @@ packages:
       - supports-color
     dev: true
 
-  /@tresjs/leches@0.9.1(vue@3.3.4):
-    resolution: {integrity: sha512-LHSkWlSvqZJwjtvObbqVzKmcX9XoxFYyBfg2W65CgYaTzNabZqHYZ05NDPt/SlrGJtaKCsag2ZOcIVYyEVW/iQ==}
+  /@tresjs/leches@0.10.0(vue@3.3.4):
+    resolution: {integrity: sha512-OuVYZE6LttLJPjc7QRnZy/SfWjru0+viirg5xndk8COxiC2GywGTbwwP14zzZVGZvjD4u0hbNrQ8pCjTQXW6dg==}
     peerDependencies:
-      vue: '>=3.3'
+      vue: '>=3.3.4'
     dependencies:
       '@vueuse/components': 10.4.1(vue@3.3.4)
       vue: 3.3.4
