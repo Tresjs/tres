@@ -1,16 +1,20 @@
 # Lensflare
 
-![Lensflare](/cientos/lensflare.png)
+<DocsDemo>
+  <LensflareDemo />
+</DocsDemo>
+
 
 `<Lensflare />` wraps the [three.js Lensflare](https://threejs.org/docs/#examples/en/objects/Lensflare).
 
-## Basic Usage
+## Usage
 
-```ts
+```vue{3,9}
+<script setup lang="ts">
+import { TresCanvas } from '@tresjs/core'
 import { Lensflare } from '@tresjs/cientos'
-```
+</script>
 
-```vue{4}
 <template>
   <TresCanvas>
     <TresPointLight>
