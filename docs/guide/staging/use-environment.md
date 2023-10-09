@@ -1,4 +1,8 @@
-# UseEnvironment <Badge type="warning" text="^1.7.0" />
+# UseEnvironment 
+
+<DocsDemo>
+  <EnvironmentDemo />
+</DocsDemo>
 
 `useEnvironment` composable that automatically sets up a global cubemap, which affects the default `scene.environment`, and optionally `scene.background`.
 
@@ -27,8 +31,8 @@ Then you can use the `texture` in your scene:
 
 ```vue{3}
 <TresMesh>
-    <TresSphereGeometry />
-    <TresMeshStandardMaterial :map="texture" />
+  <TresSphereGeometry />
+  <TresMeshStandardMaterial :map="texture" />
 </TresMesh>
 ```
 

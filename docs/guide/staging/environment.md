@@ -1,6 +1,8 @@
 # Environment
 
-![Environment](/cientos/environment.png)
+<DocsDemo>
+  <EnvironmentDemo />
+</DocsDemo>
 
 Is a component abstraction that automatically sets up a global cubemap, which affects the default `scene.environment`, and optionally `scene.background`,
 
@@ -54,6 +56,18 @@ watch(environmentTexture, ({ getTexture }) => {
   </TresMesh>
 </template>
 ```
+
+## Presets
+
+You can use one of the available presets by passing the `preset` prop:
+
+```html
+<Environment preset="city" />
+```
+
+<DocsDemo>
+  <EnvironmentPresetsDemo/>
+</DocsDemo>
 
 ## Props
 

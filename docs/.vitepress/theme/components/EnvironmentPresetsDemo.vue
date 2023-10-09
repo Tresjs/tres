@@ -5,8 +5,7 @@ import { BasicShadowMap, SRGBColorSpace, NoToneMapping } from 'three'
 import { OrbitControls, useProgress, Environment, TorusKnot } from '@tresjs/cientos'
 import { TresLeches, useControls } from '@tresjs/leches'
 import '@tresjs/leches/styles'
-
-const environmentFiles = ['/px.jpg', '/nx.jpg', '/py.jpg', '/ny.jpg', '/pz.jpg', '/nz.jpg']
+import { ref, watchEffect } from 'vue'
 
 const gl = {
   clearColor: '#82DBC5',
@@ -42,17 +41,11 @@ const { background, blur, preset } = useControls({
     ],
     value: 'sunset',
   },
+}, {
+  uuid: 'presets',
 })
 
 const environmentRef = ref(null)
-
-watchEffect(() => {
-  console.log(background.value.value)
-})
-
-watchEffect(() => {
-  console.log(environmentRef.value)
-})
 
 const { progress, hasFinishLoading } = await useProgress()
 </script>
@@ -73,20 +66,17 @@ const { progress, hasFinishLoading } = await useProgress()
       </div>
     </div>
   </Transition>
-  <TresLeches />
+  <TresLeches
+    class="top-0 important-left-4"
+    uuid="presets"
+  />
   <TresCanvas v-bind="gl">
-    <TresPerspectiveCamera :position="[10, 10, 10]" />
+    <TresPerspectiveCamera :position="[5, 5, 5]" />
     <OrbitControls />
     <Suspense>
-      <!-- <Environment
-        ref="environmentRef"
-        :background="background.value"
-        :files="environmentFiles"
-        :blur="blur.value"
-        path="https://raw.githubusercontent.com/Tresjs/assets/main/textures/environmentMap"
-      /> -->
       <Environment
-        :background="background.value"
+        ref="environmentRef"
+        background
         :blur="blur.value"
         :preset="preset.value"
       />
@@ -98,7 +88,6 @@ const { progress, hasFinishLoading } = await useProgress()
         :metalness="0.5"
       />
     </TorusKnot>
-    <TresGridHelper />
     <TresAmbientLight :intensity="1" />
   </TresCanvas>
 </template>

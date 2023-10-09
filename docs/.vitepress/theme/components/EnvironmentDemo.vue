@@ -2,9 +2,10 @@
 import { TresCanvas } from '@tresjs/core'
 import { BasicShadowMap, SRGBColorSpace, NoToneMapping } from 'three'
 
-import { OrbitControls, useProgress, Environment, TorusKnot } from '@tresjs/cientos'
+import { OrbitControls, useProgress, Environment, Sphere } from '@tresjs/cientos'
 import { TresLeches, useControls } from '@tresjs/leches'
 import '@tresjs/leches/styles'
+import { ref, watchEffect } from 'vue'
 
 const environmentFiles = ['/px.jpg', '/nx.jpg', '/py.jpg', '/ny.jpg', '/pz.jpg', '/nz.jpg']
 
@@ -17,7 +18,7 @@ const gl = {
   toneMapping: NoToneMapping,
 }
 
-const { background, blur, preset } = useControls({
+const { background, blur } = useControls({
   background: true,
   blur: {
     value: 0,
@@ -25,34 +26,11 @@ const { background, blur, preset } = useControls({
     max: 1,
     step: 0.01,
   },
-  preset: {
-    options: [
-      'sunset',
-      'studio',
-      'city',
-      'umbrellas',
-      'night',
-      'forest',
-      'snow',
-      'dawn',
-      'hangar',
-      'urban',
-      'modern',
-      'shangai',
-    ],
-    value: 'sunset',
-  },
+}, {
+  uuid: 'environment',
 })
 
 const environmentRef = ref(null)
-
-watchEffect(() => {
-  console.log(background.value.value)
-})
-
-watchEffect(() => {
-  console.log(environmentRef.value)
-})
 
 const { progress, hasFinishLoading } = await useProgress()
 </script>
@@ -73,32 +51,34 @@ const { progress, hasFinishLoading } = await useProgress()
       </div>
     </div>
   </Transition>
-  <TresLeches />
+  <TresLeches
+    class="top-0 important-left-4"
+    uuid="environment"
+  />
   <TresCanvas v-bind="gl">
-    <TresPerspectiveCamera :position="[10, 10, 10]" />
+    <TresPerspectiveCamera :position="[7, 7, 7]" />
     <OrbitControls />
     <Suspense>
-      <!-- <Environment
+      <Environment
         ref="environmentRef"
         :background="background.value"
         :files="environmentFiles"
         :blur="blur.value"
         path="https://raw.githubusercontent.com/Tresjs/assets/main/textures/environmentMap"
-      /> -->
-      <Environment
+      />
+      <!-- <Environment
         :background="background.value"
         :blur="blur.value"
-        :preset="preset.value"
-      />
+        preset="sunset"
+      /> -->
     </Suspense>
-    <TorusKnot>
+    <Sphere>
       <TresMeshStandardMaterial
         color="yellow"
         :roughness="0"
         :metalness="0.5"
       />
-    </TorusKnot>
-    <TresGridHelper />
+    </Sphere>
     <TresAmbientLight :intensity="1" />
   </TresCanvas>
 </template>

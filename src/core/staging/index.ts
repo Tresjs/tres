@@ -1,4 +1,4 @@
-import { Environment } from './useEnvironment/component'
+import Environment from './useEnvironment/component.vue'
 import Backdrop from './Backdrop.vue'
 import ContactShadows from './ContactShadows.vue'
 import Stars from './Stars.vue'

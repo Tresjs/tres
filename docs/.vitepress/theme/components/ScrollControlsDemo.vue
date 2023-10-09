@@ -1,6 +1,35 @@
 <script setup lang="ts">
-import { TresCanvas } from '@tresjs/core'
-import { ScrollControls, Stars, Box } from '@tresjs/cientos'
+import { ref } from 'vue'
+import { TresCanvas, useRenderLoop } from '@tresjs/core'
+import { ScrollControls, Stars, Sphere, Box } from '@tresjs/cientos'
+import { SRGBColorSpace, NoToneMapping } from 'three'
+import { useControls } from '@tresjs/leches'
+import '@tresjs/leches/styles'
+
+const scRef = ref()
+const sphereRef = ref()
+const boxRef = ref()
+const progress = ref(0)
+
+const gl = {
+  clearColor: '#333',
+  alpha: true,
+  outputColorSpace: SRGBColorSpace,
+  toneMapping: NoToneMapping,
+}
+
+useControls('fpsgraph')
+useControls({
+  progress: progress.value,
+})
+
+const { onLoop } = useRenderLoop()
+onLoop(() => {
+  if (boxRef.value) {
+    boxRef.value.value.rotation.x = progress.value * 10
+    boxRef.value.value.rotation.y = progress.value * 2
+  }
+})
 </script>
 
 <template>

@@ -34,16 +34,21 @@ export interface EnvironmentOptions {
    * @type {EnvironmentPresetsType}
    */
   preset?: EnvironmentPresetsType
-  /**
-   * The encoding of the environment.
-   *
-   * @type {TextureEncoding}
-   */
-  encoding?: TextureEncoding
 }
 
 export const environmentPresets = {
-  sunset: 'venice/venice_sunset_4k.hdr',
+  sunset: 'venice/venice_sunset_1k.hdr',
+  studio: 'studio/poly_haven_studio_1k.hdr',
+  city: 'city/canary_wharf_1k.hdr',
+  umbrellas: 'outdoor/outdoor_umbrellas_1k.hdr',
+  night: 'outdoor/satara_night_1k.hdr',
+  forest: 'outood/mossy_forest_1k.hdr',
+  snow: 'outdoor/snowy_forest_path_01_1k.hdr',
+  dawn: 'kiara/kiara_1_dawn_1k.hdr',
+  hangar: 'indoor/small_hangar_01_1k.hdr',
+  urban: 'indoor/abandoned_games_room_02_1k.hdr',
+  modern: 'city/modern_buildings_2_1k.hdr',
+  shangai: 'city/shanghai_bund_1k.hdr',
 }
 
 export type EnvironmentPresetsType = keyof typeof environmentPresets

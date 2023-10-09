@@ -1,4 +1,4 @@
-# Html <Badge type="warning" text="^3.4.0" />
+# Html <Badge type="warning" text="^3.5.0" />
 
 This component allows you to project HTML content to any object in your scene. TresJS will automatically update the position of the HTML content to match the position of the object in the scene.
 

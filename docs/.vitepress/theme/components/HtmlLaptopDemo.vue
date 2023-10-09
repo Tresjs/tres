@@ -1,16 +1,29 @@
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
-import { Html, useGLTF, ContactShadows, OrbitControls } from '@tresjs/cientos'
+import { BasicShadowMap, SRGBColorSpace, NoToneMapping } from 'three'
 
-const path = 'https://vazxmixjsiawhamofees.supabase.co/'
-  + 'storage/v1/object/public/models/macbook/model.gltf'
-const { nodes } = await useGLTF(path, { draco: true })
+import { OrbitControls, Html, useGLTF, ContactShadows } from '@tresjs/cientos'
+
+const gl = {
+  clearColor: '#241a1a',
+  shadows: true,
+  alpha: false,
+  shadowMapType: BasicShadowMap,
+  outputColorSpace: SRGBColorSpace,
+  toneMapping: NoToneMapping,
+}
+
+const { nodes } 
+  = await useGLTF('https://vazxmixjsiawhamofees.supabase.co/storage/v1/object/public/models/macbook/model.gltf', 
+    { draco: true },
+  )
 </script>
 
 <template>
-  <TresCanvas clear-color="#241a1a">
+  <TresCanvas v-bind="gl">
     <TresPerspectiveCamera :position="[-5, 4, 3]" />
     <OrbitControls />
+
     <primitive :object="nodes.Macbook">
       <Html
         transform
