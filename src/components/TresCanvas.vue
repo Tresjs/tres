@@ -109,10 +109,14 @@ const dispose = (context: TresContext) => {
 
 const disableRender = computed(() => props.disableRender)
 
+const context = shallowRef<TresContext | null>(null)
+
+defineExpose({ context })
+
 onMounted(() => {
   const existingCanvas = canvas as Ref<HTMLCanvasElement>
 
-  const context = useTresContextProvider({
+  context.value = useTresContextProvider({
     scene: scene.value,
     canvas: existingCanvas,
     windowSize: props.windowSize,
@@ -120,11 +124,11 @@ onMounted(() => {
     rendererOptions: props,
   })
 
-  usePointerEventHandler({ scene: scene.value, contextParts: context })
+  usePointerEventHandler({ scene: scene.value, contextParts: context.value })
 
-  const { registerCamera, camera, cameras, deregisterCamera } = context
+  const { registerCamera, camera, cameras, deregisterCamera } = context.value
 
-  mountCustomRenderer(context)
+  mountCustomRenderer(context.value)
 
   const addDefaultCamera = () => {
     const camera = new PerspectiveCamera(
@@ -168,8 +172,8 @@ onMounted(() => {
     addDefaultCamera()
   }
 
-  if (import.meta.hot)
-    import.meta.hot.on('vite:afterUpdate', () => dispose(context))
+  if (import.meta.hot && context.value)
+    import.meta.hot.on('vite:afterUpdate', () => dispose(context.value as TresContext))
 })
 </script>
 

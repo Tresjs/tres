@@ -49,7 +49,7 @@ export default defineConfig({
       {
         text: 'API',
         items: [
-          { text: 'Renderer', link: '/api/renderer' },
+          { text: 'TresCanvas', link: '/api/tres-canvas' },
           {
             text: 'Instances, arguments and props',
             link: '/api/instances-arguments-and-props',

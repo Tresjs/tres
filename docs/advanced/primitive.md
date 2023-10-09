@@ -1,12 +1,12 @@
 # Primitives
 
-The `<primitive />` component is a versatile low-level component in TresJS that allows you to directly use any Three.js object within your Vue application without an abstraction. It acts as a bridge between Vue's reactivity system and Three.js's scene graph.
+The `<primitive />` component is a versatile low-level component in TresJS that allows you to directly use any three.js object within your Vue application without an abstraction. It acts as a bridge between Vue's reactivity system and three.js's scene graph.
 
 ## Usage
 
 ```html
 <script setup lang="ts">
-  // Import necessary Three.js classes
+  // Import necessary three.js classes
   import { Mesh, BoxGeometry, MeshBasicMaterial } from 'three';
 
   // Create a box geometry and a basic material
@@ -26,7 +26,7 @@ The `<primitive />` component is a versatile low-level component in TresJS that 
 
 ## Props
 
-`object`: This prop expects a Three.js Object3D or any of its derived classes. It is the primary object that the `<primitive />` component will render. In the updated example, a `Mesh` object with an associated `Material` is passed to this prop.
+`object`: This prop expects a three.js Object3D or any of its derived classes. It is the primary object that the `<primitive />` component will render. In the updated example, a `Mesh` object with an associated `Material` is passed to this prop.
 
 ## Usage with Models 
 

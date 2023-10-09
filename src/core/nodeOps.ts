@@ -12,7 +12,6 @@ function noop(fn: string): any {
   fn
 }
 
-let fallback: TresObject | null = null
 let scene: TresScene | null = null
 
 const { logError } = useLogger()
@@ -76,20 +75,8 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
   },
   insert(child, parent) {
     if (parent && parent.isScene) scene = parent as unknown as TresScene
-    if (
-      (child?.__vnode?.type === 'TresGroup' || child?.__vnode?.type === 'TresObject3D')
-      && parent === null
-      && !child?.__vnode?.ctx?.asyncResolved
-    ) {
-      fallback = child
-      return
-    }
-    else if (parent === null 
-      && (child?.__vnode?.type.includes('Controls') || child?.__vnode?.type.includes('Helper'))) {
-      fallback = scene as unknown as TresObject
-    }
-
-    if (!parent) parent = fallback as TresObject
+    
+    const parentObject = parent || scene
 
     if (child?.isObject3D) {
       if (child?.isCamera) {
@@ -112,17 +99,17 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
       }
     }
 
-    if (child?.isObject3D && parent?.isObject3D) {
-      parent.add(child)
+    if (child?.isObject3D && parentObject?.isObject3D) {
+      parentObject.add(child)
       child.dispatchEvent({ type: 'added' })
     }
     else if (child?.isFog) {
-      parent.fog = child
+      parentObject.fog = child
     }
     else if (typeof child?.attach === 'string') {
-      child.__previousAttach = child[parent?.attach as string]
-      if (parent) {
-        parent[child.attach] = child
+      child.__previousAttach = child[parentObject?.attach as string]
+      if (parentObject) {
+        parentObject[child.attach] = child
       }
     }
   },
