@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useRenderLoop } from '@tresjs/core'
 import { MathUtils } from 'three'
-import { ref, shallowRef } from 'vue'
+import { shallowRef } from 'vue'
 
 const props = withDefaults(
   defineProps<{
@@ -24,21 +24,29 @@ defineExpose({
   value: groupRef,
 })
 
-const { onLoop } = useRenderLoop()
+{
+  const PERIOD_SCALE = 1 / 4
+  const AMPLITUDE_ROTATION_X = 1 / 8
+  const AMPLITUDE_ROTATION_Y = 1 / 8
+  const AMPLITUDE_ROTATION_Z = 1 / 20
+  const START_OFFSET = Math.random() * 10000
 
-const offset = ref(Math.random() * 10000)
+  const { onLoop } = useRenderLoop()
+  let elapsed = START_OFFSET
 
-onLoop(({ elapsed }) => {
-  if (!groupRef.value) return
+  onLoop(({ delta }) => {
+    if (!groupRef.value) return
 
-  const theta = offset.value + elapsed
-  groupRef.value.rotation.x = (Math.cos((theta / 4) * props.speed) / 8) * props.rotationFactor
-  groupRef.value.rotation.y = (Math.sin((theta / 4) * props.speed) / 8) * props.rotationFactor
-  groupRef.value.rotation.z = (Math.sin((theta / 4) * props.speed) / 20) * props.rotationFactor
-  let yPosition = Math.sin((theta / 4) * props.speed) / 10
-  yPosition = MathUtils.mapLinear(yPosition, -0.1, 0.1, props.range?.[0] ?? -0.1, props.range?.[1] ?? 0.1)
-  groupRef.value.position.y = yPosition * props.floatFactor
-})
+    elapsed += delta * props.speed
+    const theta = elapsed * PERIOD_SCALE
+
+    const group = groupRef.value
+    group.rotation.x = Math.cos(theta) * AMPLITUDE_ROTATION_X * props.rotationFactor
+    group.rotation.y = Math.sin(theta) * AMPLITUDE_ROTATION_Y * props.rotationFactor
+    group.rotation.z = Math.sin(theta) * AMPLITUDE_ROTATION_Z * props.rotationFactor
+    group.position.y = MathUtils.mapLinear(Math.sin(theta), -1, 1, props.range[0], props.range[1]) * props.floatFactor
+  })
+}
 </script>
 
 <template>
