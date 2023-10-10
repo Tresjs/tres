@@ -1,5 +1,35 @@
 
 
+## [3.5.0](https://github.com/Tresjs/cientos/compare/3.4.0...3.5.0) (2023-10-10)
+
+
+### Features
+
+* 178 v distance to ([#220](https://github.com/Tresjs/cientos/issues/220)) ([d2e2521](https://github.com/Tresjs/cientos/commit/d2e252108c4913529b92cdbb0fc86f79dbc4337e))
+* 23 html component ([#184](https://github.com/Tresjs/cientos/issues/184)) ([3a488f0](https://github.com/Tresjs/cientos/commit/3a488f0c62f9bab4b2d4b1626f36b4b0d34415e2))
+* add `<Fbo />` abstraction ([#228](https://github.com/Tresjs/cientos/issues/228)) ([6efc076](https://github.com/Tresjs/cientos/commit/6efc07670bbf4b604acae5aa9b3a280c595df733))
+* add global-audio component ([f66d81d](https://github.com/Tresjs/cientos/commit/f66d81d7c9d620ebbe8190ddc78fa99b1defe0f9))
+* change stats to renderless component ([3ae6f5d](https://github.com/Tresjs/cientos/commit/3ae6f5dbf6f824dfb1485f69d476a3c8e43d77c9))
+* **Lines:** add CatumullRomLine, Line2 ([4a267a5](https://github.com/Tresjs/cientos/commit/4a267a5e4661e8f9adc319a7b3a561c34243f3f6))
+* **Lines:** add docs, correct name ([f868d4e](https://github.com/Tresjs/cientos/commit/f868d4e1e7ab738fbe7c846d12e15f1beb49e930))
+* **Lines:** adjust types ([e876314](https://github.com/Tresjs/cientos/commit/e87631436abd2f4bab17ada47dc9a1c70650f38b))
+* **Lines:** correct segments prop description ([a22d25d](https://github.com/Tresjs/cientos/commit/a22d25d582cb5339235056399634116ec754f2eb))
+* **Lines:** fix linter errors ([6ab3ef5](https://github.com/Tresjs/cientos/commit/6ab3ef5ea4e70f10cebc1df6565824e85d6d9bbb))
+* **Lines:** format docs ([a3b612f](https://github.com/Tresjs/cientos/commit/a3b612fc3c94736ba294f9d41960cc27b0ec9350))
+* **Lines:** format docs ([28e78b1](https://github.com/Tresjs/cientos/commit/28e78b137376f9ac25b24ffb2ca6650b7b2ea033))
+* **Lines:** make Line2 import relative ([6788d8e](https://github.com/Tresjs/cientos/commit/6788d8e30045e6b009694bf9769154efafd5e7ec))
+* **Lines:** remove unneeded refs, objects from demos ([128ea59](https://github.com/Tresjs/cientos/commit/128ea59e40ef8ad1e44f8593142a5b9240bd97d6))
+* **Lines:** reword docs ([45002ed](https://github.com/Tresjs/cientos/commit/45002ed0facb2b8586676b690d05a65f5ae2de69))
+* remove pauseTrigger, now play-trigger element also work for pause state when is playing ([6973f23](https://github.com/Tresjs/cientos/commit/6973f23c3e5f0b6193934863a7e53e0449a916ca))
+
+
+### Bug Fixes
+
+* 147 enhance environment and useenvironment abstractions ([#219](https://github.com/Tresjs/cientos/issues/219)) ([876fa9f](https://github.com/Tresjs/cientos/commit/876fa9f01677ba2b0c6d8fa7eac18b08d9dbe884))
+* **deps:** update dependency @tresjs/core to v3.3.0 ([#200](https://github.com/Tresjs/cientos/issues/200)) ([c33d383](https://github.com/Tresjs/cientos/commit/c33d383d08a92643ae60b8e5739305eefd1e4fce))
+* **Levioso:** changing speed causes jerkiness ([#212](https://github.com/Tresjs/cientos/issues/212)) ([a941576](https://github.com/Tresjs/cientos/commit/a941576054ec25c71cb671edc6b6b949bf66a589))
+* v3.4.1 ([#238](https://github.com/Tresjs/cientos/issues/238)) ([8be6c82](https://github.com/Tresjs/cientos/commit/8be6c8276bb89cc054ea0c5781c13146a54e9b2e))
+
 ## [3.4.1](https://github.com/Tresjs/cientos/compare/3.4.0...3.4.1) (2023-09-27)
 
 
