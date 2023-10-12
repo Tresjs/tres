@@ -1,12 +1,12 @@
 <script lang="ts" setup>
 import { normalizeColor, useTresContext } from '@tresjs/core'
-import { EffectPass, OutlineEffect } from 'postprocessing'
-import { inject, onUnmounted, shallowRef, watch, watchEffect, computed } from 'vue'
-
+import { OutlineEffect } from 'postprocessing'
+import { watch, computed } from 'vue'
 import type { TresColor } from '@tresjs/core'
-import type { Object3D, Scene, Texture } from 'three'
+import type { Object3D, Texture } from 'three'
 import type { BlendFunction, KernelSize } from 'postprocessing'
-import { effectComposerInjectionKey } from '../injectionKeys'
+import { useEffect } from '../composables/effect'
+import { makePropWatchers } from '../../util/prop'
 
 export interface OutlineProps {
   /**
@@ -50,13 +50,13 @@ export interface OutlineProps {
   visibleEdgeColor?: TresColor
 }
 
-const props = defineProps<OutlineProps>()
-
-const composer = inject(effectComposerInjectionKey)
-const pass = shallowRef<EffectPass | null>(null)
-const effect = shallowRef<OutlineEffect | null>(null)
-
-defineExpose({ pass, effect }) // to allow users to modify pass and effect via template ref
+const props = withDefaults(
+  defineProps<OutlineProps>(),
+  {
+    blur: undefined,
+    xRay: undefined,
+  },
+)
 
 const colorToNumber = (color: TresColor | undefined) =>
   color !== undefined ? normalizeColor(color).getHex() : undefined
@@ -64,59 +64,31 @@ const colorToNumber = (color: TresColor | undefined) =>
 type OutlineEffectParameters = NonNullable<
   Exclude<
     ConstructorParameters<typeof OutlineEffect>[2],
-    'width' | 'height' // excluded, because those are deprecated in postprocessing's OutlineEffec
+    'width' | 'height' // excluded, because those are deprecated in postprocessing's OutlineEffect
   >
 >
 
-const outlineEffectParameters = computed<OutlineEffectParameters>(() => {
-  const {
-    blur,
-    xRay,
-    kernelSize,
-    pulseSpeed,
-    resolutionX,
-    resolutionY,
-    patternScale,
-    edgeStrength,
-    multisampling,
-    blendFunction,
-    patternTexture,
-    resolutionScale,
-    hiddenEdgeColor,
-    visibleEdgeColor,
-  } = props // the rest operator (const {outlinedObjects: _, ...rest} = props) was intentionally not used here to prevent triggering this computed when outlinedObjects changes
-
-  return {
-    blur,
-    xRay,
-    kernelSize,
-    pulseSpeed,
-    resolutionX,
-    resolutionY,
-    patternScale,
-    edgeStrength,
-    blendFunction,
-    multisampling,
-    patternTexture,
-    resolutionScale,
-    hiddenEdgeColor: colorToNumber(hiddenEdgeColor),
-    visibleEdgeColor: colorToNumber(visibleEdgeColor),
-  }
-})
-
 const { camera, scene } = useTresContext()
+const params: OutlineEffectParameters = {
+  blur: props.blur,
+  xRay: props.xRay,
+  kernelSize: props.kernelSize,
+  pulseSpeed: props.pulseSpeed,
+  resolutionX: props.resolutionX,
+  resolutionY: props.resolutionY,
+  patternScale: props.patternScale,
+  edgeStrength: props.edgeStrength,
+  blendFunction: props.blendFunction,
+  multisampling: props.multisampling,
+  patternTexture: props.patternTexture,
+  resolutionScale: props.resolutionScale,
+  hiddenEdgeColor: colorToNumber(props.hiddenEdgeColor),
+  visibleEdgeColor: colorToNumber(props.visibleEdgeColor),
+}
+  
+const { pass, effect } = useEffect(() => new OutlineEffect(scene.value, camera.value, params))
 
-const unwatch = watchEffect(() => {
-  if (!camera.value || !composer?.value || !scene.value) return
-
-  unwatch?.()
-  if (effect.value) return
-
-  effect.value = new OutlineEffect(scene.value as Scene, camera.value, outlineEffectParameters.value)
-  pass.value = new EffectPass(camera.value, effect.value)
-
-  composer.value.addPass(pass.value)
-})
+defineExpose({ pass, effect }) // to allow users to modify pass and effect via template ref
 
 watch(
   [() => props.outlinedObjects, effect], // watchEffect is intentionally not used here as it would result in an endless loop
@@ -128,53 +100,33 @@ watch(
   },
 )
 
-watchEffect(() => {
-  if (!effect.value) return
+const normalizedColors = computed(() => ({
+  hiddenEdgeColor: props.hiddenEdgeColor ? normalizeColor(props.hiddenEdgeColor) : undefined,
+  visibleEdgeColor: props.visibleEdgeColor ? normalizeColor(props.visibleEdgeColor) : undefined,
+}))
 
-  const plainEffectPass = new OutlineEffect()
-
-  /* some properties are not updated because of different reasons:
+makePropWatchers(
+  [
+    /* some properties are not updated because of different reasons:
         resolutionX - has no setter in OutlineEffect
         resolutionY - has no setter in OutlineEffect
         blendFunction - has no setter in OutlineEffect
         patternTexture - different type in constructor and in setter
         resolutionScale - has no setter in OutlineEffect
       */
-
-  const {
-    blur,
-    xRay,
-    kernelSize,
-    pulseSpeed,
-    patternScale,
-    edgeStrength,
-    multisampling,
-    hiddenEdgeColor,
-    visibleEdgeColor,
-  } = outlineEffectParameters.value
-
-  effect.value.blur = blur !== undefined ? blur : plainEffectPass.blur
-  effect.value.xRay = xRay !== undefined ? xRay : plainEffectPass.xRay
-  effect.value.pulseSpeed = pulseSpeed !== undefined ? pulseSpeed : plainEffectPass.pulseSpeed
-  effect.value.kernelSize = kernelSize !== undefined ? kernelSize : plainEffectPass.kernelSize
-  effect.value.edgeStrength = edgeStrength !== undefined ? edgeStrength : plainEffectPass.edgeStrength
-  effect.value.patternScale = patternScale !== undefined ? patternScale : plainEffectPass.patternScale
-  effect.value.multisampling = multisampling !== undefined ? multisampling : plainEffectPass.multisampling
-
-  effect.value.hiddenEdgeColor
-    = hiddenEdgeColor !== undefined ? normalizeColor(hiddenEdgeColor) : plainEffectPass.hiddenEdgeColor
-  effect.value.visibleEdgeColor
-    = visibleEdgeColor !== undefined ? normalizeColor(visibleEdgeColor) : plainEffectPass.visibleEdgeColor
-
-  plainEffectPass.dispose()
-})
-
-onUnmounted(() => {
-  effect.value?.selection.clear()
-  if (pass.value) composer?.value?.removePass(pass.value)
-  effect.value?.dispose()
-  pass.value?.dispose()
-})
+    [() => props.blur, 'blur'],
+    [() => props.xRay, 'xRay'],
+    [() => props.pulseSpeed, 'pulseSpeed'],
+    [() => props.kernelSize, 'kernelSize'],
+    [() => props.edgeStrength, 'edgeStrength'],
+    [() => props.patternScale, 'patternScale'],
+    [() => props.multisampling, 'multisampling'],
+    [() => normalizedColors.value.hiddenEdgeColor, 'hiddenEdgeColor'],
+    [() => normalizedColors.value.visibleEdgeColor, 'visibleEdgeColor'],
+  ],
+  effect,
+  () => new OutlineEffect(),
+)
 </script>
 
 <template></template>

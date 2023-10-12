@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import { useTresContext } from '@tresjs/core'
-import { h, inject, onUnmounted, shallowRef, watchEffect } from 'vue'
+import { BloomEffect } from 'postprocessing'
 import type { KernelSize, BlendFunction } from 'postprocessing'
-import { EffectPass, BloomEffect } from 'postprocessing'
-import { effectComposerInjectionKey } from '../injectionKeys'
+import { useEffect } from '../composables/effect'
+import { makePropWatchers } from '../../util/prop'
 
 export interface BloomProps {
   /**
@@ -59,49 +58,28 @@ export interface BloomProps {
   mipmapBlur?: boolean
 }
 
-const props = defineProps<BloomProps>()
+const props = withDefaults(
+  defineProps<BloomProps>(),
+  {
+    mipmapBlur: undefined,
+  },
+)
 
-const composer = inject(effectComposerInjectionKey)
-const pass = shallowRef<EffectPass | null>(null)
-const effect = shallowRef<BloomEffect | null>(null)
+const { pass, effect } = useEffect(() => new BloomEffect(props))
 
 defineExpose({ pass, effect }) // to allow users to modify pass and effect via template ref
 
-const { camera } = useTresContext()
-
-const unwatch = watchEffect(() => {
-  if (!camera.value || !composer?.value) return
-
-  unwatch?.()
-  if (effect.value) return
-
-  effect.value = new BloomEffect(props)
-  pass.value = new EffectPass(camera.value, effect.value)
-
-  composer.value.addPass(pass.value)
-})
-
-watchEffect(() => {
-  if (!effect.value) return
-  const plainEffectPass = new BloomEffect()
-
-  // blendFunction is not updated, because it has no setter in BloomEffect
-
-  effect.value.intensity = props.intensity !== undefined ? props.intensity : plainEffectPass.intensity
-  effect.value.kernelSize = props.kernelSize !== undefined ? props.kernelSize : plainEffectPass.kernelSize
-  effect.value.luminanceMaterial.smoothing
-    = props.luminanceSmoothing !== undefined ? props.luminanceSmoothing : plainEffectPass.luminanceMaterial.smoothing
-  effect.value.luminanceMaterial.threshold
-    = props.luminanceThreshold !== undefined ? props.luminanceThreshold : plainEffectPass.luminanceMaterial.threshold
-
-  plainEffectPass.dispose()
-})
-
-onUnmounted(() => {
-  if (pass.value) composer?.value?.removePass(pass.value)
-  effect.value?.dispose()
-  pass.value?.dispose()
-})
+makePropWatchers(
+  [
+    // blendFunction is not updated, because it has no setter in BloomEffect
+    [() => props.intensity, 'intensity'],
+    [() => props.kernelSize, 'kernelSize'],
+    [() => props.luminanceSmoothing, 'luminanceMaterial.smoothing'],
+    [() => props.luminanceThreshold, 'luminanceMaterial.threshold'],
+  ],
+  effect,
+  () => new BloomEffect(),
+)
 </script>
 
 <template></template>

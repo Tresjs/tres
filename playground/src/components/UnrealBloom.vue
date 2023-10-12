@@ -17,7 +17,6 @@ const gl = {
 const bloomParams = reactive({
   luminanceThreshold: 0.2,
   luminanceSmoothing: 0.3,
-  mipmapBlur: true,
   intensity: 4.0,
   blendFunction: BlendFunction.ADD,
 })
@@ -26,7 +25,6 @@ const { pane } = useTweakPane()
 
 pane.addInput(bloomParams, 'luminanceThreshold', { min: 0, max: 1 })
 pane.addInput(bloomParams, 'luminanceSmoothing', { min: 0, max: 1 })
-pane.addInput(bloomParams, 'mipmapBlur')
 pane.addInput(bloomParams, 'intensity', { min: 0, max: 10 })
 
 const materialRef = ref(null)
@@ -77,7 +75,10 @@ onMounted(() => {
     />
     <Suspense>
       <EffectComposer :depth-buffer="true">
-        <Bloom v-bind="bloomParams" />
+        <Bloom
+          v-bind="bloomParams"
+          mipmap-blur
+        />
       </EffectComposer>
     </Suspense>
   </TresCanvas>

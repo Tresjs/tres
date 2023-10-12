@@ -22,7 +22,7 @@ export const makePropWatcher = <T, E>(
 ) =>
     watch(propGetter, (newValue) => {
       if (!target.value) return
-
+      
       if (newValue === undefined) {
         const plainObject = newPlainObjectFunction()
 
@@ -44,11 +44,30 @@ export const makePropWatcher = <T, E>(
  * @param {Ref<E>} target - A Ref representing the target object to be updated.
  * @param {() => E & { dispose?(): void }} newPlainObjectFunction - A function that creates a new plain object to retrieve the defaults from with an optional "dispose" method for cleanup.
  */
-export const makePropWatchers = <T, E>(
-  propGettersAndPropertyPaths: (string | (() => T))[][],
+export const makePropWatchers = <E>(
+  propGettersAndPropertyPaths: (string | (() => any))[][],
   target: Ref<E>,
   newPlainObjectFunction: () => E & { dispose?(): void },
 ) => 
     propGettersAndPropertyPaths.map(([propGetterFn, path]) => makePropWatcher(
-      propGetterFn as () => T, target, path as string, newPlainObjectFunction,
+      propGetterFn as () => any, target, path as string, newPlainObjectFunction,
+    ))
+
+/**
+ * Creates multiple prop watchers via the props object for monitoring changes to multiple properties and updating a target object.
+ * Use this method in case the prop names match the names of the properties you want to set on your target object.
+ * 
+ * @param props - The props object. Usually created via defineProps.
+ * @param {Ref<E>} target - A Ref representing the target object to be updated.
+ * @param {() => E & { dispose?(): void }} newPlainObjectFunction - A function that creates a new plain object to retrieve the defaults from with an optional "dispose" method for cleanup.
+ */
+export const makePropWatchersUsingAllProps = <E>(
+  props: { [key: string]: any },
+  target: Ref<E>,
+  newPlainObjectFunction: () => E & { dispose?(): void }) => 
+    Object.keys(props).map(key => makePropWatcher(
+      () => props[key],
+      target,
+      key,
+      newPlainObjectFunction,
     ))
