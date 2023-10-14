@@ -5,12 +5,34 @@ import { Sky as SkyImpl } from 'three/examples/jsm/objects/Sky'
 import { computed } from 'vue'
 
 export interface SkyProps {
+  /**
+   * Haziness
+   * @param {number} turbidity
+   */
   turbidity?: number
+  /**
+   * [Rayleigh scattering](https://en.wikipedia.org/wiki/Rayleigh_scattering)
+   */
   rayleigh?: number
+  /**
+   * [Mie scattering](https://en.wikipedia.org/wiki/Mie_scattering) amount
+   */
   mieCoefficient?: number
+  /**
+   * [Mie scattering](https://en.wikipedia.org/wiki/Mie_scattering) direction
+   */
   mieDirectionalG?: number
+  /**
+   * Sun's elevation from the horizon, in degrees
+   */
   elevation?: number
+  /**
+   * Sun's [azimuth angle](https://en.wikipedia.org/wiki/Solar_azimuth_angle), in degrees – its horizontal coordinate on the horizon
+   */
   azimuth?: number
+  /**
+   * Sky box scale
+   */
   distance?: number
 }
 
