@@ -32,10 +32,6 @@ const onControlMouseUp = () => {
   isMouseDown.value = false
 }
 
-const onInputFocus = (_event: FocusEvent, $index: number) => {
-  /*  console.log('onInputFocus', $index) */
-}
-
 const calculateSpeed = (diff: number) => Math.floor(Math.abs(diff) / 10)
 
 const vector = computed(() => normalizeVectorFlexibleParam(props.control.value))
@@ -118,7 +114,6 @@ watch(mouse.x, (newValue) => {
           :value="vector[$index].toFixed(2)"
           :class="{ 'cursor-ew-resize': isMouseDown }"
           @input="onChange($event, $index)"
-          @focus="onInputFocus($event, $index)"
           @mousedown="onInputMouseDown($event, $index)"
           @mouseup="onInputMouseUp($event, $index)"
         >
