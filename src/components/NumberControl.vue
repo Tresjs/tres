@@ -57,8 +57,12 @@ watch(mouse.x, (newValue) => {
 
 <template>
   <div class="flex px-4 justify-between gap-4 items-center mb-2">
-    <label class="text-gray-500 w-1/3">{{ label }}</label>
+    <label
+      class="text-gray-500 w-1/3"
+      :for="control.uniqueKey"
+    >{{ label }}</label>
     <input
+      :id="control.uniqueKey"
       :value="control.value"
       class="
         p-2

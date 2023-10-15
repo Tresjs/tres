@@ -56,6 +56,19 @@ export const dispose = (uuid: string = DEFAULT_UUID): void => {
   }
 }
 
+// Helper function to generate a unique key
+const generateUniqueKey = (baseKey: string, controls: any): string => {
+  let suffix = 1
+  let newKey = `${baseKey}_${suffix}`
+
+  while (controls[newKey]) {
+    suffix++
+    newKey = `${baseKey}_${suffix}`
+  }
+
+  return newKey
+}
+
 // eslint-disable-next-line max-len
 export const useControls = (
   folderNameOrParams: string | { [key: string]: any },
@@ -89,10 +102,21 @@ export const useControls = (
 
   for (const key in controlsParams as any) {
     let value = (controlsParams as any)[key]
+    let uniqueKey = key
 
     // If controlsParams is reactive, use the reactive ref directly
     if (isParamsReactive && reactiveRefs[key]) {
       value = reactiveRefs[key]
+    }
+
+    // If the control is part of a folder, prefix the key with the folder name
+    if (folderName) {
+      uniqueKey = `${folderName}${key.charAt(0).toUpperCase() + key.slice(1)}`
+    }
+    // If the control is not part of a folder and a control with the same key already exists, 
+    // append a numerical suffix to the key
+    if (!folderName && controls[uniqueKey]) {
+      uniqueKey = generateUniqueKey(key, controls)
     }
 
     // If the value is an object with control options
@@ -126,16 +150,16 @@ export const useControls = (
 
       control.visible.value = controlOptions.visible !== undefined ? controlOptions.visible : true
 
-      controls[key] = control
-      result[key] = control
+      controls[uniqueKey] = control
+      result[uniqueKey] = control
       continue
     }
 
     // If the value is a ref, use it directly
     if (isRef(value)) {
       const control = createControl(key, value, inferType(value.value), folderName)
-      controls[key] = control
-      result[key] = control
+      controls[uniqueKey] = control
+      result[uniqueKey] = control
       continue
     }
 
@@ -151,8 +175,9 @@ export const useControls = (
     const control = createControl(key, value, inferType(value), folderName)
 
     // Update the internal state
-    controls[key] = control
-    result[key] = control
+    controls[uniqueKey] = control
+    result[uniqueKey] = control
+    control.uniqueKey = uniqueKey
   }
 
   return Object.keys(result).length > 1 ? toRefs(reactive(result)) : Object.values(result)[0]

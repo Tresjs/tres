@@ -120,11 +120,7 @@ const folder = useControls('Folder', {
   },
 })
 
-console.log('folder', folder)
-
-watchEffect(() => {
-  console.log('folder', folder.pepe.value.value)
-})
+useControls('camera', { position: new Vector3(3, 2, 4) })
 </script>
 
 <template>

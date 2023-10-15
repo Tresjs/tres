@@ -25,14 +25,14 @@ function onKeydown(event: KeyboardEvent) {
   <div class="flex px-4 justify-start gap-2 items-center mb-2 min-h-32px">
     <label class="text-gray-500 w-1/3">{{ label }}</label>
     <input
-      :id="control.label"
+      :id="control.uniqueKey"
       :checked="control.value"
       class="hidden"
       type="checkbox"
       @input="onChange"
     >
     <label
-      :for="control.label"
+      :for="control.uniqueKey"
       class="inline-flex items-center cursor-pointer"
     >
       <span

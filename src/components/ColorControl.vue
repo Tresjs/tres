@@ -18,7 +18,7 @@ function onChange(event: Event) {
   <div class="flex px-4 justify-between gap-4 items-center mb-2">
     <label class="text-gray-500 w-1/3">{{ label }}</label>
     <input
-      :id="`input-${label}`"
+      :id="control.uniqueKey"
       tabindex="0"
       :value="control.value"
       :aria-label="label"
@@ -28,7 +28,7 @@ function onChange(event: Event) {
       @input="onChange"
     >
     <input
-      :id="`input-${label}`"
+      :id="control.uniqueKey"
       tabindex="0"
       :aria-label="label"
       :value="control.value"
