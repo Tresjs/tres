@@ -1,9 +1,5 @@
 lockfileVersion: '6.0'
 
-settings:
-  autoInstallPeers: true
-  excludeLinksFromLockfile: false
-
 importers:
 
   .:
@@ -43,8 +39,8 @@ importers:
         specifier: ^20.6.1
         version: 20.6.1
       '@types/three':
-        specifier: ^0.156.0
-        version: 0.156.0
+        specifier: ^0.157.0
+        version: 0.157.0
       '@typescript-eslint/eslint-plugin':
         specifier: ^6.7.0
         version: 6.7.0(@typescript-eslint/parser@6.7.0)(eslint@8.49.0)(typescript@5.2.2)
@@ -1175,8 +1171,8 @@ packages:
     resolution: {integrity: sha512-9w+a7bR8PeB0dCT/HBULU2fMqf6BAzvKbxFboYhmDtDkKPiyXYbjoe2auwsXlEFI7CFNMF1dCv3dFH5Poy9R1w==}
     dev: true
 
-  /@types/three@0.156.0:
-    resolution: {integrity: sha512-733bXDSRdlrxqOmQuOmfC1UBRuJ2pREPk8sWnx9MtIJEVDQMx8U0NQO5MVVaOrjzDPyLI+cFPim2X/ss9v0+LQ==}
+  /@types/three@0.157.0:
+    resolution: {integrity: sha512-+BG+wqEyH506w23tKpwXnCTJb/MeyeQ/wcFlSFQ26Z9hS5Qde2vc7o+aqd+z98b38PVGuHa5GYxg/3CY7qrxFw==}
     dependencies:
       '@types/stats.js': 0.17.0
       '@types/webxr': 0.5.4
@@ -6745,3 +6741,7 @@ packages:
   /zstddec@0.0.2:
     resolution: {integrity: sha512-DCo0oxvcvOTGP/f5FA6tz2Z6wF+FIcEApSTu0zV5sQgn9hoT5lZ9YRAKUraxt9oP7l4e8TnNdi8IZTCX6WCkwA==}
     dev: false
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false

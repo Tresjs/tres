@@ -69,7 +69,7 @@
     "@tresjs/eslint-config-vue": "^0.2.1",
     "@tweakpane/core": "^1.1.9",
     "@types/node": "^20.6.1",
-    "@types/three": "^0.156.0",
+    "@types/three": "^0.157.0",
     "@typescript-eslint/eslint-plugin": "^6.7.0",
     "@typescript-eslint/parser": "^6.7.0",
     "@vitejs/plugin-vue": "^4.3.4",
