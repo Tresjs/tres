@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useMouse, useMousePressed } from '@vueuse/core'
+import { useKeyModifier, useMouse, useMousePressed } from '@vueuse/core'
 import { computed, ref, watch } from 'vue'
 import { isVector2, isVector3, normalizeVectorFlexibleParam } from '../utils/'
 import type { Control } from '../types'
@@ -18,7 +18,18 @@ const initialMouseX = ref(0)
 const isMouseDown = ref(false)
 const index = ref(0)
 const focused = ref<number | null>(null) // new ref to track focused input
+const step = ref(1)
+const shiftKeyState = useKeyModifier('Shift')
+const altKeyState = useKeyModifier('Alt')
 
+watch(shiftKeyState, (newValue) => {
+  step.value = newValue ? 10 : 1
+})
+
+watch(altKeyState, (newValue) => {
+  step.value = newValue ? 0.1 : 1
+})
+  
 const onInputFocus = ($index: number) => {
   focused.value = $index
 }
@@ -73,10 +84,10 @@ watch(mouse.x, (newValue) => {
     const label = isVector.value ? labels.value[index.value] : index.value
 
     if (diff > 0) {
-      value[label] += 0.1 + speed
+      value[label] += step.value + speed
     }
     else if (diff < 0) {
-      value[label] -= 0.1 + speed
+      value[label] -= step.value + speed
     }
 
     if (props.control.min !== undefined && value < props.control.min) {
@@ -117,7 +128,7 @@ watch(mouse.x, (newValue) => {
         <input
           :id="`${control.uniqueKey}-${labels[$index]}`"
           type="number"
-          step="0.1"
+          :step="step"
           class="w-full
             px-0
             p-1
