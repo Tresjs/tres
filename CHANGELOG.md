@@ -1,5 +1,12 @@
 
 
+## [0.11.0](https://github.com/Tresjs/leches/compare/0.10.0...0.11.0) (2023-10-15)
+
+
+### Features
+
+* uniquey to avoid folder control repetition ([e355039](https://github.com/Tresjs/leches/commit/e355039cb214d80bac94986024965ecb30c87cc1))
+
 ## [0.10.0](https://github.com/Tresjs/leches/compare/0.9.1...0.10.0) (2023-09-18)
 
 
