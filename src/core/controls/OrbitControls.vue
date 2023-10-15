@@ -315,6 +315,8 @@ onUnmounted(() => {
     controlsRef.value.dispose()
   }
 })
+
+defineExpose({ value: controlsRef })
 </script>
 
 <template>
