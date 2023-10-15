@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useMouse } from '@vueuse/core'
+import { useMouse, useMousePressed } from '@vueuse/core'
 import { computed, ref, watch } from 'vue'
 import { isVector2, isVector3, normalizeVectorFlexibleParam } from '../utils/'
 import type { Control } from '../types'
@@ -12,15 +12,26 @@ const props = defineProps<{
 const emit = defineEmits(['change'])
 
 const mouse = useMouse()
+const { pressed } = useMousePressed()
 
 const initialMouseX = ref(0)
 const isMouseDown = ref(false)
 const index = ref(0)
+const focused = ref<number | null>(null) // new ref to track focused input
+
+const onInputFocus = ($index: number) => {
+  focused.value = $index
+}
+
+const onInputBlur = () => {
+  focused.value = null
+}
 
 const onInputMouseDown = (event: MouseEvent, $index: number) => {
   index.value = $index
   initialMouseX.value = event.clientX
   isMouseDown.value = true
+
 }
 
 const onInputMouseUp = (_event: MouseEvent, $index: number) => {
@@ -31,6 +42,12 @@ const onInputMouseUp = (_event: MouseEvent, $index: number) => {
 const onControlMouseUp = () => {
   isMouseDown.value = false
 }
+
+watch(pressed, (newValue) => {
+  if (!newValue) {
+    isMouseDown.value = false
+  }
+})
 
 const calculateSpeed = (diff: number) => Math.floor(Math.abs(diff) / 10)
 
@@ -83,11 +100,12 @@ watch(mouse.x, (newValue) => {
     @mouseup="onControlMouseUp()"
   >
     <label class="text-gray-500 w-1/3">{{ label }}</label>
-    <div class="w-2/3 flex justify-between gap-0.5">
+    <div class="relative w-2/3 flex justify-between gap-0.5">
       <div
         v-for="(_subcontrol, $index) in vector"
         :key="label + $index"
         class="flex items-center w-1/3 bg-gray-100 rounded"
+        :class="{ 'w-2/5': focused === $index }" 
       >
         <span
           v-if="labels[$index] && isVector"
@@ -95,6 +113,7 @@ watch(mouse.x, (newValue) => {
         >{{
           labels[$index]
         }}</span>
+        
         <input
           :id="`${control.uniqueKey}-${labels[$index]}`"
           type="number"
@@ -116,6 +135,8 @@ watch(mouse.x, (newValue) => {
           @input="onChange($event, $index)"
           @mousedown="onInputMouseDown($event, $index)"
           @mouseup="onInputMouseUp($event, $index)"
+          @focus="onInputFocus($index)"
+          @blur="onInputBlur"         
         >
       </div>
     </div>
