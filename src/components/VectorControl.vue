@@ -33,7 +33,7 @@ const onControlMouseUp = () => {
 }
 
 const onInputFocus = (_event: FocusEvent, $index: number) => {
-  console.log('onInputFocus', $index)
+  /*  console.log('onInputFocus', $index) */
 }
 
 const calculateSpeed = (diff: number) => Math.floor(Math.abs(diff) / 10)
