@@ -8,7 +8,7 @@ exports[`Number Control > should render a number control 1`] = `
       <div></div>
     </header>
     <!--v-if-->
-    <div class=\\"flex px-4 justify-between gap-4 items-center mb-2\\"><label class=\\"text-gray-500 w-1/3\\">numberValue</label><input class=\\"p-2 w-1/3 rounded text-right text-xs text-gray-400 bg-gray-100 focus:border-gray-200 outline-none border-none font-sans\\" type=\\"number\\"></div>
+    <div class=\\"flex px-4 justify-between gap-4 items-center mb-2\\"><label class=\\"text-gray-500 w-1/3\\" for=\\"numberValue\\">numberValue</label><input id=\\"numberValue\\" class=\\"p-2 w-1/3 rounded text-right text-xs text-gray-400 bg-gray-100 focus:border-gray-200 outline-none border-none font-sans\\" type=\\"number\\"></div>
   </div>
 </div>"
 `;

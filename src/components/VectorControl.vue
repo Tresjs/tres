@@ -96,6 +96,7 @@ watch(mouse.x, (newValue) => {
           labels[$index]
         }}</span>
         <input
+          :id="`${control.uniqueKey}-${labels[$index]}`"
           type="number"
           step="0.1"
           class="w-full

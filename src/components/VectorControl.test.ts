@@ -1,7 +1,8 @@
 import { mount } from '@vue/test-utils'
 import { TresLeches, useControls } from '/@/'
-import { it, expect, describe } from 'vitest'
+import { it, expect, describe, beforeEach } from 'vitest'
 import { defineComponent, nextTick } from 'vue'
+import { dispose } from '/@/composables/useControls';
 
 class Vector3 {
   constructor( x = 0, y = 0, z = 0 ) {
@@ -35,73 +36,36 @@ class Vector3 {
 	}
 }
 describe('Vector Control', async () => {
+  let wrapper;
+  let component;
+
+  const mountComponent = (setup) => {
+    component = defineComponent({
+      template: `<TresLeches />`,
+      components: { TresLeches },
+      setup,
+    });
+
+    wrapper = mount(component, {
+      components: { TresLeches },
+    });
+  };
+
+  beforeEach(() => {
+    dispose()
+    mountComponent(() => {
+      const { position, visible } = useControls({ position: new Vector3(0, 2, 4) })
+      return { position, visible };
+     });
+  });
   it('should render 3 numeric inputs', async ()=> {
-    const component = defineComponent({
-      template: `
-        <TresLeches />
-      `,
-      components: {
-        TresLeches
-      },
-      setup() {
-        const { position } = useControls({ position: new Vector3(0, 2, 4) })
-        return {
-          position
-        }
-      }
-    })
-    const wrapper = mount(component, {
-      components: {
-        TresLeches
-      },
-    })
     expect(wrapper.html()).toMatchSnapshot()
     expect(wrapper.findAll('input[type="number"]').length).toBe(3)
   })
   it('should render a number control with a label', async ()=> {
-    const component = defineComponent({
-      template: `
-        <TresLeches />
-      `,
-      components: {
-        TresLeches
-      },
-      setup() {
-        const { position } = useControls({ position: new Vector3(0, 2, 4) })
-        return {
-          position
-        }
-      }
-    })
-
-    const wrapper = mount(component, {
-      components: {
-        TresLeches
-      },
-    })
     expect(wrapper.find('label').text()).toBe('position')
   })
   it('should change the value of the control when any of the input changes', async ()=> {
-    const component = defineComponent({
-      template: `
-        <TresLeches />
-      `,
-      components: {
-        TresLeches
-      },
-      setup() {
-        const { position } = useControls({ position: new Vector3(0, 2, 4) })
-        return {
-          position
-        }
-      }
-    })
-
-    const wrapper = mount(component, {
-      components: {
-        TresLeches
-      },
-    })
     const inputs = wrapper.findAll('input[type="number"]')
 
     await inputs[0].setValue(20)

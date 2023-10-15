@@ -17,11 +17,11 @@ function onChange(event: Event) {
 <template>
   <div class="flex px-4 justify-between gap-4 items-center mb-2 min-h-32px">
     <label
-      :for="`input-${label}`"
+      :for="control.uniqueKey"
       class="text-gray-500 w-1/3"
     >{{ label }}</label>
     <input
-      :id="`input-${label}`"
+      :id="control.uniqueKey"
       :value="control.value"
       type="text"
       tabindex="0"

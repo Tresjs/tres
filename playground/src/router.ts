@@ -6,6 +6,11 @@ const routes = [
     name: 'Home',
     component: () => import('./pages/index.vue'),
   },
+  {
+    path: '/folders',
+    name: 'Folders',
+    component: () => import('./pages/folders.vue'),
+  },
 ]
 export const router = createRouter({
   history: createWebHistory(),

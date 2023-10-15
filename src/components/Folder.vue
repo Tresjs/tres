@@ -40,6 +40,7 @@ const toggle = () => {
       :aria-expanded="isOpen"
       aria-haspopup="true"
       role="button"
+      :data-folder="label"
       tabindex="0"
       @click="toggle"
     >
