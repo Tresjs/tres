@@ -1,5 +1,17 @@
 
 
+## [1.2.0](https://example.com///compare/1.1.9...1.2.0) (2023-10-16)
+
+
+### Features
+
+* refactor wrapper to component client only registration ([#44](https://example.com//null/issues/44)) ([f43fcb4](https://example.com///commit/f43fcb441211557c43d313b43a611af0766c768e))
+
+
+### Bug Fixes
+
+* 49 nuxtjs orbitcontrolsjs encountered an unknown camera type ([#51](https://example.com//null/issues/51)) ([8de0200](https://example.com///commit/8de0200b59711a3edf980e8597e91c2b81176a1c))
+
 ## [1.2.0-next.3](https://example.com///compare/1.1.9...1.2.0-next.3) (2023-10-16)
 
 
