@@ -1,5 +1,17 @@
 
 
+## [0.12.0](https://github.com/Tresjs/leches/compare/0.11.0...0.12.0) (2023-10-16)
+
+
+### Features
+
+* add key modifiers to vector inputs ([ba22d55](https://github.com/Tresjs/leches/commit/ba22d559b612083156cef6d493497243dc3776b8))
+
+
+### Bug Fixes
+
+* avoid mouse pressed control to get stucket out of the dom element ([4892bdc](https://github.com/Tresjs/leches/commit/4892bdcbb157a4a7eac89033cb926cd5c6e21681))
+
 ## [0.11.0](https://github.com/Tresjs/leches/compare/0.10.0...0.11.0) (2023-10-15)
 
 
