@@ -1,9 +1,29 @@
 
 
+## [1.2.0-next.3](https://example.com///compare/1.1.9...1.2.0-next.3) (2023-10-16)
+
+
+### Bug Fixes
+
+* 49 nuxtjs orbitcontrolsjs encountered an unknown camera type ([#51](https://example.com//null/issues/51)) ([8de0200](https://example.com///commit/8de0200b59711a3edf980e8597e91c2b81176a1c))
+* node mismatch issue ([7dc1d42](https://example.com///commit/7dc1d42b02a45c435dde3575026dc939be09bdee))
+
+## [1.2.0-next.0](https://example.com///compare/1.1.9...1.2.0-next.3) (2023-09-28)
+
+
+### Features
+
+* remove runtime wrapper ([60db258](https://example.com///commit/60db25805bdf99f266b2e6f753587bd5ce7864b9))
+
 ## [1.2.0-next.2](https://example.com///compare/1.2.0-next.1...1.2.0-next.2) (2023-10-08)
 
 ## [1.2.0-next.1](https://example.com///compare/1.1.9...1.2.0-next.1) (2023-10-08)
 
+## [1.2.0-next.0](https://example.com///compare/1.1.7...1.2.0-next.0) (2023-09-28)
+
+### Features
+
+* remove runtime wrapper ([60db258](https://example.com///commit/60db25805bdf99f266b2e6f753587bd5ce7864b9))
 
 ### Bug Fixes
 

@@ -1,14 +1,16 @@
 import { readFile } from 'fs/promises'
+import { resolve } from 'path'
 import { defineNuxtModule, addImports, addComponent, createResolver, resolvePath } from '@nuxt/kit'
 import * as core from '@tresjs/core'
+import { templateCompilerOptions } from '@tresjs/core'
 import { readPackageJSON } from 'pkg-types'
 import { findExportNames } from 'mlly'
-import { templateCompilerOptions } from '@tresjs/core'
 import { defu } from 'defu'
 
 export interface ModuleOptions {
   modules: string[]
 }
+const resolver = createResolver(import.meta.url)
 
 export default defineNuxtModule<ModuleOptions>({
   meta: {
@@ -18,11 +20,18 @@ export default defineNuxtModule<ModuleOptions>({
   defaults: {
     modules: [],
   },
-  async setup(options, nuxt) {
-    const resolver = createResolver(import.meta.url)
+  async setup(options, nuxt) { 
     addComponent({
-      filePath: resolver.resolve('./runtime/components/TresCanvas.vue'),
       name: 'TresCanvas',
+      filePath: '@tresjs/core',
+      export: 'TresCanvas',
+      mode: 'client',
+      _raw: true,
+    })
+    addComponent({
+      name: 'TresCanvas',
+      filePath: resolver.resolve('./runtime/ServerTresCanvas.vue'),
+      mode: 'server',
     })
     nuxt.options.build.transpile.push(/@tresjs/)
 
@@ -62,6 +71,7 @@ export default defineNuxtModule<ModuleOptions>({
       if (entry === mod) continue
 
       const imports = findExportNames(await readFile(entry, 'utf8'))
+    
       for (const name of imports) {
         if (name.match(/^[a-z]/)) {
           addImports({
@@ -81,6 +91,10 @@ export default defineNuxtModule<ModuleOptions>({
 
     nuxt.options.vite.resolve = defu(nuxt.options.vite.resolve, {
       dedupe: ['three'],
+    })
+
+    nuxt.options.vite.optimizeDeps = defu(nuxt.options.vite.optimizeDeps, {
+      include: ['three'],
     })
   },
 })

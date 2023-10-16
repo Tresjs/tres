@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
 
-const gl = {
+const gl = reactive({
   clearColor: '#18181B',
   shadows: true,
   alpha: false,
   shadowMapType: BasicShadowMap,
   outputColorSpace: SRGBColorSpace,
   toneMapping: NoToneMapping,
-}
+})
 
 /* const bloomParams = reactive({
   luminanceThreshold: 0.2,
@@ -16,6 +16,11 @@ const gl = {
   mipmapBlur: true,
   intensity: 0.5,
 }) */
+const showScene = ref(false)
+
+setTimeout(() => {
+  showScene.value = true
+}, 5000)
 </script>
 
 <template>
