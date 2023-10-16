@@ -1,7 +1,7 @@
 {
   "name": "@tresjs/nuxt",
   "type": "module",
-  "version": "1.1.9",
+  "version": "1.2.0-next.2",
   "packageManager": "pnpm@8.6.2",
   "description": "TresJS integration for Nuxt.",
   "author": "Daniel Roe (https://github.com/danielroe/)",
@@ -32,15 +32,16 @@
     "test": "vitest run",
     "test:watch": "vitest watch"
   },
+  "peerDependencies": {
+    "three": ">=0.133"
+  },
   "dependencies": {
     "@nuxt/kit": "^3.7.4",
-    "@tresjs/cientos": "3.4.1",
     "@tresjs/core": "3.3.0",
     "@types/three": "^0.156.0",
     "defu": "^6.1.2",
     "mlly": "^1.4.2",
     "pkg-types": "^1.0.3",
-    "three": "^0.157.0",
     "typescript": "^5.2.2"
   },
   "devDependencies": {
@@ -56,6 +57,7 @@
     "nuxt": "^3.7.4",
     "playwright": "^1.38.1",
     "release-it": "^16.2.1",
+    "three": "^0.157.0",
     "vitest": "^0.34.6"
   }
 }
