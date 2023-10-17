@@ -99,7 +99,7 @@ export default defineConfig({
     ],
     nav: [
       { text: 'Guide', link: '/guide/' },
-      { text: 'API', link: '/api/renderer' },
+      { text: 'API', link: '/api/tres-canvas' },
       /*       { text: 'API', link: '/api/' },
       { text: 'Config', link: '/config/' }, */
       { text: 'Resources',
