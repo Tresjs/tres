@@ -28,9 +28,15 @@ function onPointerEnter(ev) {
     ev.object.material.color.set('#DFFF45')
   }
 }
+
+const sphereExists = ref(true)
 </script>
 
 <template>
+  <input
+    v-model="sphereExists"
+    type="checkbox"
+  >
   <TresCanvas v-bind="state">
     <TresPerspectiveCamera
       :position="[5, 5, 5]"
@@ -42,15 +48,19 @@ function onPointerEnter(ev) {
     <OrbitControls />
     <TresAmbientLight :intensity="0.5" />
 
-    <TresMesh
-      ref="sphereRef"
-      :position="[0, 4, 0]"
-      cast-shadow
-      @pointer-enter="onPointerEnter"
-    >
-      <TresSphereGeometry :args="[2, 32, 32]" />
-      <TresMeshToonMaterial color="teal" />
-    </TresMesh>
+    <TresGroup>
+      <TresMesh
+        ref="sphereRef"
+        :visible="sphereExists"
+        :user-data="{ debug: true }"
+        :position="[0, 4, 0]"
+        cast-shadow
+        @pointer-enter="onPointerEnter"
+      >
+        <TresSphereGeometry :args="[2, 32, 32]" />
+        <TresMeshToonMaterial color="teal" />
+      </TresMesh>
+    </TresGroup>
 
     <TresDirectionalLight
       :position="[0, 8, 4]"
