@@ -63,7 +63,7 @@ const { state } = useTres()
 </script>
 <template>
   <TresCanvas shadows alpha>
-    <TresPerspectiveCamera :args="[45," 1, 0.1, 1000] />
+    <TresPerspectiveCamera :args="[45, 1, 0.1, 1000]" />
     <TresOrbitControls v-if="state.renderer" :args="[state.camera, state.renderer?.domElement]" />
   </TresCanvas>
 </template>
@@ -80,7 +80,7 @@ It just works. 💯
 ```vue
 <template>
   <TresCanvas shadows alpha>
-    <TresPerspectiveCamera :args="[45," 1, 0.1, 1000] />
+    <TresPerspectiveCamera :args="[45, 1, 0.1, 1000]" />
     <OrbitControls />
   </TresCanvas>
 </template>
