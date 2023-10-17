@@ -111,6 +111,14 @@ export default defineConfig({
             link: 'https://playground.tresjs.org/',
           },
           {
+            text: 'Github',
+            link: 'https://github.com/Tresjs/tres/',
+          },
+          {
+            text: 'Issues',
+            link: 'https://github.com/Tresjs/tres/issues',
+          },
+          {
             text: 'Ecosystem',
             items: [
               {
