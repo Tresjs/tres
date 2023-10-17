@@ -67,6 +67,7 @@ const state = reactive({
       class="pointer-events-none"
     >
       <TresPerspectiveCamera :position="[0, 0, 11]" />
+ 
       <!--  <MouseParallax :factor="0.1" /> -->
       <!--   <MouseParallax :factor="0.1" />
       <Suspense>

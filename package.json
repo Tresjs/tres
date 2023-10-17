@@ -11,7 +11,7 @@
   "dependencies": {
     "@tresjs/post-processing": "^0.4.0",
     "mdast-util-to-string": "^4.0.0",
-    "three": "^0.156.1",
+    "three": "^0.157.0",
     "unist-util-stringify-position": "^4.0.0"
   },
   "devDependencies": {
@@ -20,19 +20,19 @@
     "@iconify-json/ic": "^1.1.14",
     "@iconify-json/logos": "^1.1.37",
     "@nuxt/content": "^2.8.2",
-    "@nuxt/image-edge": "1.0.0-rc.2-28252196.34e7c67",
-    "@tresjs/cientos": "3.3.0",
-    "@tresjs/core": "^3.2.2",
+    "@nuxt/image-edge": "1.0.0-rc.3-28290977.ffac767",
+    "@tresjs/cientos": "3.5.0",
+    "@tresjs/core": "^3.3.0",
     "@tresjs/eslint-config-vue": "^0.2.1",
-    "@tresjs/leches": "^0.10.0",
-    "@tresjs/nuxt": "1.1.7",
+    "@tresjs/leches": "^0.12.0",
+    "@tresjs/nuxt": "1.2.0",
     "@tweakpane/plugin-essentials": "^0.2.0",
-    "@types/three": "^0.155.1",
+    "@types/three": "^0.157.0",
     "@unocss/nuxt": "^0.55.3",
     "gsap": "^3.12.2",
-    "nuxt": "^3.7.3",
-    "nuxt-svgo": "^3.5.3",
-    "postprocessing": "^6.33.1",
+    "nuxt": "^3.7.4",
+    "nuxt-svgo": "^3.5.5",
+    "postprocessing": "^6.33.2",
     "vite-plugin-glsl": "^1.1.2",
     "vite-svg-loader": "^4.0.0"
   }
