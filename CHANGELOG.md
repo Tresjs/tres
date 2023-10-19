@@ -1,5 +1,12 @@
 
 
+## [3.4.1](https://github.com/Tresjs/tres/compare/3.4.0...3.4.1) (2023-10-19)
+
+
+### Bug Fixes
+
+* passing class and style attrs only ([#423](https://github.com/Tresjs/tres/issues/423)) ([8fd991a](https://github.com/Tresjs/tres/commit/8fd991a032fff358c815f1b4cb2b98bc44d8eef1))
+
 ## [3.4.0](https://github.com/Tresjs/tres/compare/3.3.0...3.4.0) (2023-10-19)
 
 
