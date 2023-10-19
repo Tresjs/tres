@@ -181,6 +181,7 @@ onMounted(() => {
   <canvas
     ref="canvas"
     :data-scene="scene.uuid"
+    v-bind="$attrs"
     :style="{
       display: 'block',
       width: '100%',
