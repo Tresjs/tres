@@ -1,5 +1,13 @@
 
 
+## [3.5.1](https://github.com/Tresjs/cientos/compare/3.5.0...3.5.1) (2023-10-18)
+
+
+### Bug Fixes
+
+* add key to html slot wrapper to force re-render ([#258](https://github.com/Tresjs/cientos/issues/258)) ([f7a32e2](https://github.com/Tresjs/cientos/commit/f7a32e22954816bc6240fc518f3dbbbd8f8bad96))
+* **OrbitControls:** expose ref ([#250](https://github.com/Tresjs/cientos/issues/250)) ([0f1d162](https://github.com/Tresjs/cientos/commit/0f1d162731292ea338678e74e9a3289c04378412))
+
 ## [3.5.0](https://github.com/Tresjs/cientos/compare/3.4.0...3.5.0) (2023-10-10)
 
 

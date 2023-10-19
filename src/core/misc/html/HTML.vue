@@ -168,7 +168,7 @@ watch(
 )
 
 watch(
-  () => [groupRef.value, renderer.value, sizes.width.value, sizes.height.value],
+  () => [groupRef.value, renderer.value, sizes.width.value, sizes.height.value, slots.default?.()],
   ([group, _renderer]: [TresObject3D | null, WebGLRenderer]): void => {
     if (group && _renderer) {
       const target = portal?.value || _renderer.domElement
@@ -193,12 +193,22 @@ watch(
       if (transform.value) {
         vnode.value = createVNode('div', { id: 'outer', style: styles.value }, [
           createVNode('div', { id: 'inner', style: transformInnerStyles.value }, [
-            createVNode('div', { id: scene?.value.uuid, class: attrs.class, style: attrs.style }, slots.default?.()),
+            createVNode('div', { 
+              key: meshRef.value?.uuid,
+              id: scene?.value.uuid,
+              class: attrs.class,
+              style: attrs.style, 
+            }, slots.default?.()),
           ]),
         ])
       }
       else {
-        vnode.value = createVNode('div', { id: scene?.value.uuid, style: styles.value }, slots.default?.())
+        vnode.value = createVNode('div', {
+          key: meshRef.value?.uuid,
+          id: scene?.value.uuid,
+          style: styles.value, 
+        },
+        slots.default?.())
       }
       render(vnode.value, el.value)
     }
