@@ -1,5 +1,12 @@
 
 
+## [1.2.2](https://example.com///compare/1.2.1...1.2.2) (2023-10-19)
+
+
+### Bug Fixes
+
+* update `@tresjs/core` to v3.4.1 ([#54](https://example.com//null/issues/54)) ([b59272d](https://example.com///commit/b59272d82b0bada66f41727ca4e47bcda2c52df4))
+
 ## [1.2.1](https://example.com///compare/1.2.0...1.2.1) (2023-10-19)
 
 ## [1.2.0](https://example.com///compare/1.1.9...1.2.0) (2023-10-16)
