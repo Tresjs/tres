@@ -1,9 +1,11 @@
 <script setup lang="ts">
-import { LensflareElement } from 'three/examples/jsm/objects/Lensflare'
 import { Lensflare } from 'three/examples/jsm/objects/Lensflare'
-import { Texture, TextureLoader } from 'three'
+import type { LensflareElement } from 'three/examples/jsm/objects/Lensflare'
+import type { Texture } from 'three'
+import { TextureLoader } from 'three'
 import { watch, shallowRef, onMounted, onUnmounted } from 'vue'
-import { TresColor, normalizeColor } from '@tresjs/core'
+import type { TresColor } from '@tresjs/core'
+import { normalizeColor } from '@tresjs/core'
 import type { LensflareElementProps, SeedProps } from '.'
 import { partialLensflarePropsArrayToLensflarePropsArray as fillInProps, filterLensflareElementProps } from '.'
 
@@ -16,7 +18,7 @@ export interface LensflareProps {
    * array of lensflare element properties
    */
   elements?: Partial<LensflareElementProps>[]
-    /**
+  /**
      * random seed for generating random seeded elements
      */
   seed?: number
@@ -52,7 +54,7 @@ const props = withDefaults(defineProps<LensflareProps>(),
     distance: undefined,
     size: undefined,
     texture: undefined,
-  }
+  },
 )
 
 const lensflareRef = shallowRef<Lensflare>()
