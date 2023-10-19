@@ -9,8 +9,14 @@ const skipEmptyCols = props.skipEmptyCols ?? true;
 const onFinishColRow = props.onFinishColRow ?? function (colName, rowName, value) { return value; }
 const hyphenateNames = props.hyphenateNames ?? false
 
-const s = data.data[props.componentPath]
-const prps = s.props
+if (!props.componentPath) {
+    throw new Error("CientosPropsTable - component-path must be a non-empty string.")
+} else if (!data.data.hasOwnProperty(props.componentPath)) {
+    throw new Error(`CientosPropsTable - could not find ${props.componentPath}`)
+}
+
+const componentDoc = data.data[props.componentPath]
+const prps = componentDoc.props
 if (skipEmptyCols) {
     const emptyCols = new Set(columns)
     for (const p of prps) {
