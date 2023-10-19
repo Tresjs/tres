@@ -105,7 +105,7 @@ function getValue(colName, row) {
 function getAndFormatColValue(colName, row) {
   const value = getValue(colName, row)
   const formatted = formatColValue(colName, value)
-  const callbackFn = (colName0) => getAndFormatColValue(colName0, row)
+  const callbackFn = colName0 => getAndFormatColValue(colName0, row)
   return onFinishColRow(colName, row.name, formatted, callbackFn)
 }
 </script>
