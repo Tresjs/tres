@@ -9,8 +9,8 @@ dependencies:
     specifier: ^3.7.4
     version: 3.7.4(rollup@3.29.4)
   '@tresjs/core':
-    specifier: 3.4.0
-    version: 3.4.0(three@0.157.0)(vue@3.3.4)
+    specifier: 3.4.1
+    version: 3.4.1(three@0.157.0)(vue@3.3.4)
   '@types/three':
     specifier: ^0.157.2
     version: 0.157.2
@@ -1673,8 +1673,8 @@ packages:
     resolution: {integrity: sha512-C5Mc6rdnsaJDjO3UpGW/CQTHtCKaYlScZTly4JIu97Jxo/odCiH0ITnDXSJPTOrEKk/ycSZ0AOgTmkDtkOsvIA==}
     dev: true
 
-  /@tresjs/core@3.4.0(three@0.157.0)(vue@3.3.4):
-    resolution: {integrity: sha512-QPK0XNN29jsmKoYuQvXcThHfky7MqAeSf/7LdYHD5iIWoVgjPq4xR0tAgtEncfcI9d7bIz0acVu/U9FtxinSnQ==}
+  /@tresjs/core@3.4.1(three@0.157.0)(vue@3.3.4):
+    resolution: {integrity: sha512-C48PNObHT9F85ci6xvo0ifngDQSSeZjKcxsaLyrHGq65XYGSN1XCFXA/FgsSE20WUkpeG2lPWBxNwE5dnhPqHw==}
     peerDependencies:
       three: '>=0.133'
       vue: '>=3.3'
