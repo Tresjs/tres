@@ -20,6 +20,7 @@ const routes = [
   makeRoute('Outline'),
   makeRoute('Glitch'),
   makeRoute('Depth of Field'),
+  makeRoute('Pixelation'),
 ]
 
 export const router = createRouter({

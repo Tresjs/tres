@@ -32,6 +32,7 @@ export default defineConfig({
           { text: 'Depth of Field', link: '/guide/effects/depth-of-field' },
           { text: 'Glitch', link: '/guide/effects/glitch' },
           { text: 'Outline', link: '/guide/effects/outline' },
+          { text: 'Pixelation', link: '/guide/effects/pixelation' },
         ],
       },
     ],

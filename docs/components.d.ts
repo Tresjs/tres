@@ -15,6 +15,7 @@ declare module '@vue/runtime-core' {
     GlitchDemo: typeof import('./.vitepress/theme/components/GlitchDemo.vue')['default']
     LoveVueThreeJS: typeof import('./.vitepress/theme/components/LoveVueThreeJS.vue')['default']
     OutlineDemo: typeof import('./.vitepress/theme/components/OutlineDemo.vue')['default']
+    PixelationDemo: typeof import('./.vitepress/theme/components/PixelationDemo.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }
