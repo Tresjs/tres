@@ -61,6 +61,7 @@
     "camera-controls": "^2.7.2",
     "stats-gl": "^1.0.5",
     "stats.js": "^0.17.0",
+    "three-custom-shader-material": "^5.4.0",
     "three-stdlib": "^2.27.3"
   },
   "devDependencies": {
