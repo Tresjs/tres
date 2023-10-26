@@ -27,22 +27,23 @@ import { Lensflare } from '@tresjs/cientos'
 
 <CientosPropsTable 
 component-path="src/core/abstractions/Lensflare/component.vue" 
-:columns="['name', 'description', 'default']"
-:on-finish-col-row="(colName, rowName, value, getRowValFn) => {
-  if (colName === 'description') {
-    return getRowValFn('type') + ' – ' + value
+:fields="['name', 'description', 'default']"
+:on-format-value="({valueFormatted, propName, fieldName, getFieldFormatted}) => {
+  if (fieldName === 'description') {
+    return getFieldFormatted('type') + ' – ' + valueFormatted
   }
-  if (colName === 'name') {
+  if (fieldName === 'name') {
     const seeMores = {
-    'elements': `<a href='#elements'>${value}</a>`,
-    'seed': `<a href='#seed'>${value}</a>`,
-    'seedProps': `<a href='#seedprops'>${value}</a>`,
+    'elements': `<a href='#elements'>${valueFormatted}</a>`,
+    'seed': `<a href='#seed'>${valueFormatted}</a>`,
+    'seedProps': `<a href='#seedprops'>${valueFormatted}</a>`,
     }
-    return seeMores.hasOwnProperty(rowName) ? seeMores[rowName] : value
+    return seeMores.hasOwnProperty(propName) ? seeMores[propName] : valueFormatted
   }
-  return value
 }"
  />
+
+<CientosPropsList component-path="src/core/abstractions/Lensflare/component.vue" :fields="['name', 'description']" />
 
 ## `elements`
 

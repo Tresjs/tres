@@ -1,46 +1,181 @@
-<script setup>
+<script setup lang="ts">
+import type { ComponentDoc } from 'vue-docgen-api'
 import { hyphenate } from '@vueuse/core'
-import { truncate as lodashTruncate } from 'lodash'
-import { data } from './cientosProps.data.ts'
+import * as cientosProps from './cientosProps.data'
 
-const props = defineProps(['componentPath', 'columns', 'skipEmptyCols', 'onFinishColRow', 'hyphenateNames', 'patch'])
-let columns = props.columns || ['name', 'type', 'description', 'default', 'required']
-const skipEmptyCols = props.skipEmptyCols ?? true
-const noop = (colName, rowName, value, getRowValue = colName => getAndFormatColValue(colName, row)) => value
-const onFinishColRow = props.onFinishColRow ?? noop
-const hyphenateNames = props.hyphenateNames ?? false
-const patch = props.patch ?? {}
-
-if (!props.componentPath) {
-  throw new Error('CientosPropsTable - component-path must be a non-empty string.')
-}
-else if (!data.data.hasOwnProperty(props.componentPath)) {
-  throw new Error(`CientosPropsTable - could not find ${props.componentPath}`)
+export interface PropHooksUnformattedArgument {
+  propName: string
+  fieldName: string
+  value: string
+  getFieldFormatted: (fieldName:string) => string
+  getFieldUnformatted: (fieldName:string) => string
 }
 
-const componentDoc = data.data[props.componentPath]
-const prps = componentDoc.props
-if (skipEmptyCols) {
-  const emptyCols = new Set(columns)
-  for (const p of prps) {
-    for (const col of emptyCols) {
-      if (getValue(p, col, patch) !== '') {
-        emptyCols.delete(col)
-      }
+export type PropHooksFormattedArgument = PropHooksUnformattedArgument & {
+  valueFormatted: string
+}
+
+export interface CientosPropsListerProps {
+  /**
+   * path to the component whose props will be displayed
+   */
+  componentPath: string
+  /**
+   * list of fields to display – will serve as headers for the table
+   */
+  fields?: string[]
+  /**
+   * callback to alter the unformatted value of a prop field
+   * @example
+   * // puts 'SPECIAL' in the entry having the header 'default' and row 'scale'.
+   * :on-get-value="({value, propName, fieldName}) => propName === 'scale' && fieldName === 'default' ? 'SPECIAL' : value"
+   * @example
+   * // adds data from the `type` field to the `description`
+   * :on-get-value="({value, fieldName, getFieldUnformatted}) => fieldName === 'description' ? getFieldUnformatted('type') + '–' + value : value
+   */
+  onGetValue?: (
+    hooksArg: PropHooksUnformattedArgument
+  ) => string | undefined
+
+  /**
+   * callback to alter the formatted value of a prop field
+   * @example
+   * // wraps all descriptions in h3 tag
+   * :on-get-value="({value, fieldName}) => { if (fieldName === 'description') return '<h3>' + value + '</h3>' }"
+   */
+  onFormatValue?: (
+    hooksFormattedArg: PropHooksFormattedArgument
+  ) => string | undefined
+  /**
+   * whether to use kebab-case for props' 'name' field
+   */
+  hyphenateNames?: boolean
+}
+
+const props = withDefaults(defineProps<CientosPropsListerProps>(), {
+  fields: () => ['name', 'type', 'description', 'default', 'required'],
+  onGetValue: () => undefined,
+  onFormatValue: () => undefined,
+  hyphenateNames: false,
+})
+
+function getPropFieldFormatted(componentProp: ComponentDoc, fieldName: string): string {
+  const getFieldUnformatted = (fieldName0: string) => getPropFieldUnformatted(componentProp, fieldName0)
+  const getFieldFormatted = (fieldName0: string) => getPropFieldFormatted(componentProp, fieldName0)
+  const propName = componentProp.name ?? ''
+
+  const valueUnformattedDefault = getPropFieldUnformatted(componentProp, fieldName)
+  const hookArgs0 = { propName, fieldName, value: valueUnformattedDefault, getFieldFormatted, getFieldUnformatted }
+  const valueUnformattedUser = props.onGetValue(hookArgs0)
+  const valueUnformatted = typeof valueUnformattedUser === 'string' ? valueUnformattedUser : valueUnformattedDefault
+
+  const valueFormattedDefault = formatValue(valueUnformatted, fieldName, props.hyphenateNames)
+  const hookArgs1 = {
+    propName,
+    fieldName,
+    value: valueUnformatted,
+    valueFormatted: valueFormattedDefault,
+    getFieldFormatted,
+    getFieldUnformatted
+  }
+  const valueFormattedUser = props.onFormatValue(hookArgs1)
+
+  return typeof valueFormattedUser === 'string' ? valueFormattedUser : valueFormattedDefault
+}
+
+const componentProps = (() => {
+  const data = cientosProps.data as Record<string, any>
+  if (!data.hasOwnProperty(props.componentPath)) {
+    const msg = `CientosPropsTable - could not find ${props.componentPath}`
+    console.warn(msg)
+    throw new Error(msg)
+  }
+
+  const componentDoc = data[props.componentPath]
+  const componentProps = componentDoc.props
+  return componentProps
+})()
+</script>
+
+<script lang="ts">
+export function getPropFieldUnformatted(doc: ComponentDoc, fieldName: string) {
+  if ('description' === fieldName) {
+    return doc.description ?? ''
+  }
+  else if ('default' === fieldName) {
+    return doc.defaultValue ? getDefaultValue(doc.defaultValue) : ''
+  }
+  else if ('type' === fieldName) {
+    return getType(doc)
+  }
+  else {
+    return fieldName in doc ? `${doc[fieldName]}` : ''
+  }
+}
+
+function formatValue(valueUnformatted: string, fieldName: string, isHyphenate = false) {
+  if (fieldName === 'name') {
+    if (!valueUnformatted) {
+      return ''
     }
+    return wrapInTag(['strong', 'nobr'], isHyphenate ? hyphenate(valueUnformatted) : valueUnformatted)
   }
-  columns = columns.filter(c => !emptyCols.has(c))
+  if (fieldName === 'type') return valueUnformatted ? wrapInTag('code', valueUnformatted) : ''
+  if (fieldName === 'default') return valueUnformatted ? wrapInTag('code', valueUnformatted) : ''
+  if (fieldName === 'required') return (!valueUnformatted || valueUnformatted === 'false') ? 'No' : 'Yes'
+  if (fieldName === 'description') return valueUnformatted ? pToBr(valueUnformatted) : ''
+  return valueUnformatted
 }
 
-function truncate(str, options = { length: 15 }) {
-  const s = lodashTruncate(str, options)
-  if (s !== str) {
-    return `<span style="cursor:help" title=${str}>${s}</span>`
-  }
-  return s
+function getType(doc: ComponentDoc) {
+  const typeObject = doc.type
+  return getTypeHelper(typeObject)
 }
 
-function capitalize(str) {
+function getTypeHelper(typeObject: ComponentDoc) {
+  if (!typeObject || !('name' in typeObject)) {
+    return ''
+  }
+  const name = typeObject.name
+  const elements = ('elements' in typeObject) ? typeObject.elements : []
+  if ('Partial' === name) {
+    return `${name}&lt;${elements.map(getTypeHelper).join(' ')}&gt;`
+  }
+  else if ('Array' === name) {
+    return `${elements.map(getTypeHelper).join(' ')}[]`
+  }
+  else if ('union' === name) {
+    return elements.map(getTypeHelper).join(' | ')
+  }
+  else if ('Record' === name) {
+    return `${name}&lt;${elements.map(getTypeHelper).join(', ')}&gt;`
+  }
+  else if ('WithElements' === name || typeObject.hasOwnProperty('elements')) {
+    return `${name}&lt;${elements.map(getTypeHelper).join(' | ')}&gt;`
+  }
+  else if ('TSTupleType' === name) {
+    return 'TSTupleType'
+  }
+  else {
+    return name
+  }
+}
+
+function getDefaultValue(defaultValueObj: ComponentDoc) {
+  if (typeof defaultValueObj === 'undefined' || typeof defaultValueObj.value === 'undefined') {
+    return ''
+  }
+  if (defaultValueObj.func === false) {
+    return unwrapFunctionString(defaultValueObj.value)
+  }
+  return defaultValueObj.value
+}
+
+function pToBr(htmlString: string) {
+  return htmlString.replace(/<p[^>]*>/g, '').replace(/<\/p>/g, '<br />')
+}
+
+function capitalize(str: string) {
   if (str.length === 0) {
     return ''
   }
@@ -52,110 +187,39 @@ function capitalize(str) {
   }
 }
 
-function wrapInTag(tagOrTags, value) {
+export function wrapInTag(tagOrTags: string | string[], value: string) {
   if (Array.isArray(tagOrTags)) {
     while (tagOrTags.length > 0) {
-      value = wrapInTag(tagOrTags.pop(), value)
+      value = wrapInTag(tagOrTags.pop() || '', value)
     }
     return value
   }
   return `<${tagOrTags}>${value}</${tagOrTags}>`
 }
 
-function formatColValue(colName, value) {
-  if (colName === 'name') {
-    if (!value) {
-      return ''
-    }
-    return wrapInTag(['strong', 'nobr'], hyphenateNames ? hyphenate(value) : value)
-  }
-  if (colName === 'type') return value ? wrapInTag('code', value) : ''
-  if (colName === 'default') return value ? wrapInTag('code', truncate(value, { length: 15 })) : ''
-  if (colName === 'required') return (!value || value === 'false') ? 'No' : 'Yes'
-  if (colName === 'description') return value ? pToBr(value) : ''
-  return value
-}
-
-function pToBr(htmlString) {
-  return htmlString.replace(/<p[^>]*>/g, '').replace(/<\/p>/g, '<br />')
-}
-
-function getAndFormatColValue(colName, row) {
-  const value = getValue(row, colName, patch)
-  const formatted = formatColValue(colName, value)
-  const callbackFn = colName0 => getAndFormatColValue(colName0, row)
-  return onFinishColRow(colName, row.name, formatted, callbackFn)
-}
-</script>
-
-<template>
-  <table>
-    <thead>
-      <tr>
-        <th v-for="col, i in columns" :key="`header${i}`">
-          {{ capitalize(col) }}
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="row, i in prps" :key="`row${i}`">
-        <td v-for="col, ii in columns" :key="`cell${ii}`" v-html="getAndFormatColValue(col, row)" />
-      </tr>
-    </tbody>
-  </table>
-</template>
-
-<script>
-export function getType(propObject) {
-  const typeObject = propObject.type
-  function recur(typeObject) {
-    if (typeObject && 'name' in typeObject) {
-      const name = typeObject.name
-      const fns = {
-        Partial: () => `${name}&lt;${typeObject.elements.map(recur).join(' ')}&gt;`,
-        Array: () => `${typeObject.elements.map(recur).join(' ')}[]`,
-        union: () => typeObject.elements.map(recur).join(' | '),
-        Record: () => `${name}&lt;${typeObject.elements.map(recur).join(', ')}&gt;`,
-        WithElements: () => `${name}&lt;${typeObject.elements.map(recur).join(' | ')}&gt;`,
-        TSTupleType: () => console.error(`TSTupleType does not contain specific type information. Supply the type with \`:patch={${propObject.name}: {type: [...]}}\``)
-      }
-      if (name in fns) {
-        return fns[name]()
-      } else if (typeObject.hasOwnProperty('elements')) {
-        return fns['WithElements']()
-      }
-      return name
-    }
-    return ''
-  }
-  return recur(typeObject)
-}
-
-export function unwrapFunctionString(maybeFn) {
+function unwrapFunctionString(maybeFn: string) {
   const arrow = '() => '
   if (maybeFn.startsWith(arrow)) {
     return maybeFn.slice(arrow.length)
   }
   return maybeFn
 }
-
-export function getDefaultValue(defaultValueObj) {
-  if (typeof defaultValueObj === 'undefined' || typeof defaultValueObj.value === 'undefined') {
-    return ''
-  }
-  if (defaultValueObj.func === false) {
-    return unwrapFunctionString(defaultValueObj.value)
-  }
-  return defaultValueObj.value
-}
-
-export function getValue(propObj, fieldName, patchObj = {}) {
-  if (propObj.name && propObj.name in patchObj && fieldName in patchObj[propObj.name]) {
-    return patchObj[propObj.name][fieldName]
-  }
-  if (fieldName === 'description') return propObj.description ?? ''
-  if (fieldName === 'default') return propObj.defaultValue ? getDefaultValue(propObj.defaultValue) : ''
-  if (fieldName === 'type') return getType(propObj)
-  return propObj[fieldName] ?? ''
-}
 </script>
+
+<template>
+  <table>
+    <thead>
+      <tr class="row-header">
+        <th v-for="field, i in fields" :key="`header-${i}`" :class="`col-${hyphenate(field)}`">
+          {{ capitalize(field) }}
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr v-for="prop, i in componentProps" :key="`row-${i}`" :class="`row-${hyphenate(prop.name)}`">
+        <td v-for="field, ii in fields" :key="`cell-${ii}`" :class="`col-${hyphenate(field)}`"
+          v-html="getPropFieldFormatted(prop, field)" />
+      </tr>
+    </tbody>
+  </table>
+</template>

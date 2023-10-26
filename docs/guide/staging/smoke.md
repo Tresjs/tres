@@ -46,4 +46,6 @@ Notice that you can pass a texture in combination with props,  to personalize yo
 ```
 ## Props
 
-<CientosPropsTable component-path="src/core/staging/Smoke.vue" />
+<CientosPropsTable component-path="src/core/staging/Smoke.vue" 
+:on-format-value="({valueFormatted, propName, fieldName}) => propName === 'texture' && fieldName === 'default' ? 'default component texture' : valueFormatted"
+/>

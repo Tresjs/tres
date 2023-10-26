@@ -22,4 +22,4 @@ The `cientos` package provides a `<Backdrop />` component. It's just a curved pl
 
 ## Props
 
-<CientosPropsTable component-path="src/core/staging/Backdrop.vue" />
+<CientosPropsTable component-path="src/core/staging/Backdrop.vue" :fields="['name', 'type', 'default', 'required']" />
