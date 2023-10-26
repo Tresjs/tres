@@ -35,4 +35,9 @@ export const stagingRoutes = [
     name: 'Sky',
     component: () => import('../../pages/staging/SkyDemo.vue'),
   },
+  {
+    path: '/staging/sparkles',
+    name: 'Sparkles',
+    component: () => import('../../pages/staging/SparklesDemo.vue'),
+  },
 ]
