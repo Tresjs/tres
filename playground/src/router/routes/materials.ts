@@ -9,4 +9,9 @@ export const materialsRoutes = [
     name: 'GlassMaterial',
     component: () => import('../../pages/materials/GlassMaterialDemo.vue'),
   },
+  {
+    path: '/materials/custom-shader-material',
+    name: 'CustomShaderMaterial',
+    component: () => import('../../pages/materials/CustomShaderMaterialDemo.vue'),
+  },
 ]

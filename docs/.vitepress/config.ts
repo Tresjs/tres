@@ -72,6 +72,7 @@ export default defineConfig({
         items: [
           { text: 'WobbleMaterial', link: '/guide/materials/wobble-material' },
           { text: 'MeshGlassMaterial', link: '/guide/materials/glass-material' },
+          { text: 'CustomShaderMaterial', link: '/guide/materials/custom-shader-material' },
         ],
       },
       {
@@ -105,7 +106,8 @@ export default defineConfig({
           { text: 'Stars', link: '/guide/staging/stars' },
           { text: 'Smoke', link: '/guide/staging/smoke' },
           { text: 'Contact Shadows', link: '/guide/staging/contact-shadows' },
-          { text: 'Precipitation', link: '/guide/staging/precipitation' }],
+          { text: 'Precipitation', link: '/guide/staging/precipitation' },
+          { text: 'Sparkles', link: '/guide/staging/sparkles' }],
       },
       {
         text: 'Misc',
