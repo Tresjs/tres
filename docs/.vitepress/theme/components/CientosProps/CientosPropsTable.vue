@@ -83,22 +83,7 @@ function getPropFieldFormatted(componentProp: ComponentDoc, fieldName: string): 
   return typeof valueFormattedUser === 'string' ? valueFormattedUser : valueFormattedDefault
 }
 
-const componentProps = (() => {
-  const data = cientosProps.data as Record<string, any>
-  if (!data.hasOwnProperty(props.componentPath)) {
-    const msg = `CientosPropsTable - could not find ${props.componentPath}`
-    console.warn(msg)
-    throw new Error(msg)
-  }
-
-  const componentDoc = data[props.componentPath]
-  const componentProps = componentDoc.props
-  return componentProps
-})()
-</script>
-
-<script lang="ts">
-export function getPropFieldUnformatted(doc: ComponentDoc, fieldName: string) {
+function getPropFieldUnformatted(doc: ComponentDoc, fieldName: string) {
   if ('description' === fieldName) {
     return doc.description ?? ''
   }
@@ -187,7 +172,7 @@ function capitalize(str: string) {
   }
 }
 
-export function wrapInTag(tagOrTags: string | string[], value: string) {
+function wrapInTag(tagOrTags: string | string[], value: string) {
   if (Array.isArray(tagOrTags)) {
     while (tagOrTags.length > 0) {
       value = wrapInTag(tagOrTags.pop() || '', value)
@@ -204,6 +189,19 @@ function unwrapFunctionString(maybeFn: string) {
   }
   return maybeFn
 }
+
+const componentProps = (() => {
+  const data = cientosProps.data as Record<string, any>
+  if (!data.hasOwnProperty(props.componentPath)) {
+    const msg = `CientosPropsTable - could not find ${props.componentPath}`
+    console.warn(msg)
+    throw new Error(msg)
+  }
+
+  const componentDoc = data[props.componentPath]
+  const componentProps = componentDoc.props
+  return componentProps
+})()
 </script>
 
 <template>
