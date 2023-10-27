@@ -7,8 +7,8 @@ export interface PropHooksUnformattedArgument {
   propName: string
   fieldName: string
   value: string
-  getFieldFormatted: (fieldName:string) => string
-  getFieldUnformatted: (fieldName:string) => string
+  getFieldFormatted: (fieldName: string) => string
+  getFieldUnformatted: (fieldName: string) => string
 }
 
 export type PropHooksFormattedArgument = PropHooksUnformattedArgument & {
@@ -76,7 +76,7 @@ function getPropFieldFormatted(componentProp: ComponentDoc, fieldName: string): 
     value: valueUnformatted,
     valueFormatted: valueFormattedDefault,
     getFieldFormatted,
-    getFieldUnformatted
+    getFieldUnformatted,
   }
   const valueFormattedUser = props.onFormatValue(hookArgs1)
 
@@ -210,15 +210,27 @@ function unwrapFunctionString(maybeFn: string) {
   <table>
     <thead>
       <tr class="row-header">
-        <th v-for="field, i in fields" :key="`header-${i}`" :class="`col-${hyphenate(field)}`">
+        <th
+          v-for="field, i in fields"
+          :key="`header-${i}`"
+          :class="`col-${hyphenate(field)}`"
+        >
           {{ capitalize(field) }}
         </th>
       </tr>
     </thead>
     <tbody>
-      <tr v-for="prop, i in componentProps" :key="`row-${i}`" :class="`row-${hyphenate(prop.name)}`">
-        <td v-for="field, ii in fields" :key="`cell-${ii}`" :class="`col-${hyphenate(field)}`"
-          v-html="getPropFieldFormatted(prop, field)" />
+      <tr
+        v-for="prop, i in componentProps"
+        :key="`row-${i}`"
+        :class="`row-${hyphenate(prop.name)}`"
+      >
+        <td
+          v-for="field, ii in fields"
+          :key="`cell-${ii}`"
+          :class="`col-${hyphenate(field)}`"
+          v-html="getPropFieldFormatted(prop, field)"
+        />
       </tr>
     </tbody>
   </table>
