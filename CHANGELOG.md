@@ -1,5 +1,21 @@
 
 
+## [0.5.0](https://github.com/Tresjs/post-processing/compare/0.4.0...0.5.0) (2023-10-28)
+
+
+### Features
+
+* 50 similar linting rules throughout the tresjs packages ([#51](https://github.com/Tresjs/post-processing/issues/51)) ([1ea91b8](https://github.com/Tresjs/post-processing/commit/1ea91b825bde53b2ae62a08a1de0690af3ed690c))
+* **post-processing:** depth of field effect ([#56](https://github.com/Tresjs/post-processing/issues/56)) ([9264231](https://github.com/Tresjs/post-processing/commit/9264231a1c668ba7f405eddf17dfd91c51bd74f8))
+* **post-processing:** pixelation effect ([#68](https://github.com/Tresjs/post-processing/issues/68)) ([8e3e583](https://github.com/Tresjs/post-processing/commit/8e3e58345a650912dbbb09b800e5ce6a881cb06c))
+* **post-processing:** refactor of existing effects ([#64](https://github.com/Tresjs/post-processing/issues/64)) ([a2afd3f](https://github.com/Tresjs/post-processing/commit/a2afd3f3d694c8ee737bec3eda3d601fad0e7205))
+
+
+### Bug Fixes
+
+* 58 postprocessing breaks on nuxt ([#69](https://github.com/Tresjs/post-processing/issues/69)) ([013b4a1](https://github.com/Tresjs/post-processing/commit/013b4a18fa43e169b520aad3c116146ec114daf2))
+* **deps:** update dependency @tresjs/core to v3.2.0 ([#53](https://github.com/Tresjs/post-processing/issues/53)) ([4ec3156](https://github.com/Tresjs/post-processing/commit/4ec3156301bf3242cce3757f78bf24576bedbc64))
+
 ## [0.4.0](https://github.com/Tresjs/post-processing/compare/0.3.0...0.4.0) (2023-09-06)
 
 
