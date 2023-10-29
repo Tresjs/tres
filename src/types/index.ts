@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-types */
-import type { DefineComponent, Ref, VNode } from 'vue'
+import type { DefineComponent, VNode, VNodeRef } from 'vue'
 
 import type * as THREE from 'three'
 import type { EventProps as PointerEventHandlerEventProps } from '../composables/usePointerEventHandler'
@@ -160,8 +160,8 @@ type EventProps<P> = P extends RaycastableRepresentation ? Partial<EventHandlers
 
 export interface VueProps<P> {
   children?: VNode[]
-  ref?: string | null | Ref<P>
-  key?: string
+  ref?: VNodeRef
+  key?: string | number | symbol
 }
 
 type ElementProps<T extends ConstructorRepresentation, P = InstanceType<T>> = Partial<
