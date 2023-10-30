@@ -35,6 +35,9 @@ watchEffect(() => {
   <TresCanvas
     v-bind="gl"
     ref="canvas"
+    window-size
+    class="awiwi"
+    :style="{ background: '#008080' }"
   >
     <TresPerspectiveCamera
       :position="[7, 7, 7]"
