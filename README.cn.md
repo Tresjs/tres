@@ -5,38 +5,38 @@
   <a href="https://discord.gg/UCr96AQmWn"><img src="https://img.shields.io/badge/chat-discord-purple?style=flat&logo=discord" alt="discord chat"></a>
 </p>
 
-English | [简体中文](./README.cn.md)
+[English](./README.md) | 简体中文
 
 # TresJS `@tresjs/core`
 
-> Declarative ThreeJS using Vue Components
+> 使用Vue组件实现声明式的ThreeJS
 
-- 💡 Build 3D scene as they were Vue components
-- ⚡️ Powered by Vite
-- 🥰 It brings all the updated features of ThreeJS right away regardless the version
-- 🦾 Fully Typed
+- 💡 将3D场景构建为Vue组件形式
+- ⚡️ 由Vite驱动
+- 🥰 使用ThreeJS的所有更新功能，全版本兼容。
+- 🦾 完全类型化
 
-Tres (Spanish word for "three", pronounced `/tres/` ) is a way of creating ThreeJS scenes with Vue components in a declarative fashion.
+Tres (是西班牙语的"three", 读作 `/tres/` ) 是一种以声明式方式使用Vue组件创建ThreeJS场景的方法。
 
-It's build on-top of a [Vue Custom Renderer](https://vuejs.org/api/custom-renderer.html#createrenderer) and it's powered by Vite.
+它是基于 [Vue自定义渲染器](https://vuejs.org/api/custom-renderer.html#createrenderer) 构建的，并且由Vite提供支持。
 
-The goal is to provide the Vue's community an easy way of building 3D scenes with Vue, always up to date with the latest ThreeJS features and with 0-to-none mantainance.
+我们的目标是为Vue社区提供一种简单的方式来构建使用Vue的3D场景，并始终与最新的ThreeJS功能保持同步，同时减少维护工作。
 
-## Installation
+## 安装
 
 ```bash
 pnpm install @tresjs/core three
 ```
 
-## Docs
+## 文档
 
 Checkout the [docs](https://tresjs.org)
 
-## Demos
+## 演示
 
 - [Stackblitz Collection](https://stackblitz.com/@alvarosabu/collections/tresjs)
 
-## Ecosystem
+## 生态系统
 
 | Package                     | Version                                                                                            |
 | --------------------------- | :------------------------------------------------------------------------------------------------- |
@@ -44,50 +44,50 @@ Checkout the [docs](https://tresjs.org)
 | [Cientos](packages/cientos) | ![cientos version](https://img.shields.io/npm/v/@tresjs/cientos/latest.svg?label=%20&color=%23f19b00) |
 | [Post-processing](packages/post-processing) | ![post-processing version](https://img.shields.io/npm/v/@tresjs/post-processing/latest.svg?label=%20&color=%ff7bac00) |
 
-## Contribution
+## 贡献
 
-We are open to contributions, please read the [contributing guide](/CONTRIBUTING.md) to get started.
+我们欢迎贡献者加入，请阅读[贡献指南](/CONTRIBUTING.md)开始参与。
 
-### Setup
+### 安装
 
 ```
 pnpm install --shamefully-hoist
 ```
 
-### Playground
+### 案例展示
 
-To run the small playground
+运行案例展示
 
 ```
 pnpm run playground
 ```
 
-### Build lib
+### 编译库
 
-To build the core as library mode just use
+编译核心使用库模式
 
 ```
 pnpm run build
 ```
 
-### Docs
+### 文档
 
-To run de docs in dev mode
+使用开发模式下运行文档
 
 ```bash
 pnpm run docs:dev
 ```
 
-To build them
+编译生成文档
 
 ```bash
 pnpm run docs:build
 ```
 
-## License
+## 许可
 
 [MIT](/LICENSE)
 
-## Sponsors
+## 赞助者
 
-Be the first to support this project [here](https://github.com/sponsors/alvarosabu) ☺️
+成为首个支持该项目的人。 [点这里](https://github.com/sponsors/alvarosabu) ☺️
