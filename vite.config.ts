@@ -54,6 +54,7 @@ export default defineConfig({
       name: 'tres',
       fileName: 'tres',
     },
+    minify: false,
     watch: {
       include: [resolve(__dirname, 'src')],
     },
