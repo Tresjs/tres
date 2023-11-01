@@ -114,9 +114,10 @@ export async function useTexture<TextureMap extends PBRUseTextureMap>(
 
 export async function useTexture(
   paths: readonly [string] | string[] | PBRUseTextureMap,
+  addDefaultLoadingManager: boolean = true,
 ): Promise<Texture | Texture[] | PBRTextureMaps> {
-  const loadingManager = new LoadingManager()
-  const textureLoader = new TextureLoader(loadingManager)
+  // TextureLoader use THREE.DefaultLoadingManager as default loading manager
+  const textureLoader = new TextureLoader(addDefaultLoadingManager ? undefined : new LoadingManager())
 
   /**
    * Load a texture.
