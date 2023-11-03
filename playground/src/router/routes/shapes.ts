@@ -9,4 +9,9 @@ export const shapesRoutes = [
     name: 'Line2',
     component: () => import('../../pages/shapes/Line2Demo.vue'),
   },
+  {
+    path: '/shapes/superformula',
+    name: 'Superformula',
+    component: () => import('../../pages/shapes/SuperformulaDemo.vue'),
+  },
 ]
