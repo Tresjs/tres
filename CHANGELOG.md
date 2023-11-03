@@ -1,5 +1,12 @@
 
 
+## [0.12.1](https://github.com/Tresjs/leches/compare/0.12.0...0.12.1) (2023-11-03)
+
+
+### Bug Fixes
+
+* remove unique key generation on controls duplicated outside of folders ([5858b57](https://github.com/Tresjs/leches/commit/5858b572cc0f7532870af8caa67703aa628162ed))
+
 ## [0.12.0](https://github.com/Tresjs/leches/compare/0.11.0...0.12.0) (2023-10-16)
 
 
