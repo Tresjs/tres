@@ -10,9 +10,9 @@
   },
   "dependencies": {
     "@tresjs/leches": "workspace:*",
-    "three": "^0.155.0"
+    "three": "^0.158.0"
   },
   "devDependencies": {
-    "unocss": "^0.54.0"
+    "unocss": "^0.57.1"
   }
 }

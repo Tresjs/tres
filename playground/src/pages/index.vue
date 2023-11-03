@@ -27,20 +27,24 @@ const { test, awiwi } = useControls({ test: true, awiwi: 'awiwi' })
 console.log('test', test)
 console.log('awiwi', awiwi)
 
-watchEffect(() => {
+useControls({
+  api: true
+})
+
+/* watchEffect(() => {
   console.log('test', test.value)
 })
 watchEffect(() => {
   console.log('awiwi', awiwi.value.value)
-})
+}) */
 // Objects with ref values
 const { value: wireframe } = useControls({
   wireframe: false,
 })
 
-watchEffect(() => {
+/* watchEffect(() => {
   console.log('wireframe', wireframe.value)
-})
+}) */
 
 // Objects with reactive values
 const cameraPosition = reactive(new Vector3(0, 0, 0))
@@ -49,18 +53,18 @@ const { camPos } = useControls({
   camPos: cameraPosition,
 })
 
-watchEffect(() => {
+/* watchEffect(() => {
   console.log('cameraPosition', camPos.value)
-})
+}) */
 
 // Objects with options
 const { zoom } = useControls({
   zoom: { value: 1, min: 0, max: 10, step: 0.1, icon: 'ic-baseline-arrow-forward' },
 })
 
-watchEffect(() => {
+/* watchEffect(() => {
   console.log('zoom', zoom.value)
-})
+}) */
 
 const { dropdown } = useControls({
   dropdown: {
@@ -73,9 +77,9 @@ const { dropdown } = useControls({
   },
 })
   
-watchEffect(() => {
+/* watchEffect(() => {
   console.log('dropdown', dropdown.value)
-})
+}) */
   
 /* const { wireframe } = useControls({
     wireframe: ref(false),
@@ -92,13 +96,13 @@ const { position, rotation, something } = useControls({
   
 })
 
-watchEffect(() => {
-  console.log('boxPosition', position.value.value.x)
+/* watchEffect(() => {
+  console.log('boxPosition2', position.value.value.x)
 })
 
 watchEffect(() => {
   console.log('something', something.value.value)
-})
+}) */
   
 const { visible } = useControls({
   slider: { value: 1, min: 0, max: 10, step: 0.1, icon: 'ic-baseline-arrow-forward', visible: false },
@@ -106,17 +110,17 @@ const { visible } = useControls({
   uuid: 'second',
 })
 
-watchEffect(() => {
+/* watchEffect(() => {
   console.log('visible', visible.value)
-})
+}) */
 
-const folder = useControls('Folder', {
+ useControls('Folder', {
   pepe: true,
   slider: {
     value: 0.5,
     min: 0,
     max: 1,
-    step: 0.01,
+    step: 0.02,
   },
 })
 
@@ -124,7 +128,6 @@ useControls('camera', { position: new Vector3(3, 2, 4) })
 </script>
 
 <template>
-  <pre>{{ position.value }}</pre>
   <TresLeches />
   <TresLeches uuid="second" />
   <TresCanvas v-bind="gl">
