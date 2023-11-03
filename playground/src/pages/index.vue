@@ -27,10 +27,6 @@ const { test, awiwi } = useControls({ test: true, awiwi: 'awiwi' })
 console.log('test', test)
 console.log('awiwi', awiwi)
 
-useControls({
-  api: true
-})
-
 /* watchEffect(() => {
   console.log('test', test.value)
 })
@@ -114,7 +110,7 @@ const { visible } = useControls({
   console.log('visible', visible.value)
 }) */
 
- useControls('Folder', {
+useControls('Folder', {
   pepe: true,
   slider: {
     value: 0.5,

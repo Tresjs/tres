@@ -56,19 +56,6 @@ export const dispose = (uuid: string = DEFAULT_UUID): void => {
   }
 }
 
-// Helper function to generate a unique key
-const generateUniqueKey = (baseKey: string, controls: any): string => {
-  let suffix = 1
-  let newKey = `${baseKey}_${suffix}`
-
-  while (controls[newKey]) {
-    suffix++
-    newKey = `${baseKey}_${suffix}`
-  }
-
-  return newKey
-}
-
 // eslint-disable-next-line max-len
 export const useControls = (
   folderNameOrParams: string | { [key: string]: any },
@@ -112,11 +99,6 @@ export const useControls = (
     // If the control is part of a folder, prefix the key with the folder name
     if (folderName) {
       uniqueKey = `${folderName}${key.charAt(0).toUpperCase() + key.slice(1)}`
-    }
-    // If the control is not part of a folder and a control with the same key already exists, 
-    // append a numerical suffix to the key
-    if (!folderName && controls[uniqueKey]) {
-      uniqueKey = generateUniqueKey(key, controls)
     }
 
     // If the value is an object with control options
