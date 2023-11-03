@@ -27,9 +27,6 @@ const { test, awiwi } = useControls({ test: true, awiwi: 'awiwi' })
 console.log('test', test)
 console.log('awiwi', awiwi)
 
-useControls({
-  api: true
-})
 
 /* watchEffect(() => {
   console.log('test', test.value)
