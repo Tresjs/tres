@@ -9,6 +9,8 @@ import { useLogger } from '../useLogger'
 export interface UseSeekReturn {
   seek: (parent: THREE.Scene | THREE.Object3D, property: string, value: string) => THREE.Object3D | null
   seekByName: (parent: THREE.Scene | THREE.Object3D, value: string) => THREE.Object3D | null
+  seekAll: (parent: THREE.Scene | THREE.Object3D, property: string, value: string) => THREE.Object3D[]
+  seekAllByName: (parent: THREE.Scene | THREE.Object3D, value: string) => THREE.Object3D[]
 }
 
 /**
@@ -45,6 +47,30 @@ export function useSeek(): UseSeekReturn {
   }
 
   /**
+ * Returns an array of child objects of the parent given a property
+ *
+ * @param {(THREE.Scene | THREE.Object3D)} parent
+ * @param {string} property
+ * @param {string} value
+ * @return {*}  {(THREE.Object3D[])}
+ */
+  function seekAll(parent: THREE.Scene | THREE.Object3D, property: string, value: string): THREE.Object3D[] {
+    const foundChildren: THREE.Object3D[] = []
+
+    parent.traverse((child) => {
+      if ((child as any)[property] === value) {
+        foundChildren.push(child)
+      }
+    })
+
+    if (!foundChildren.length) {
+      logWarning(`Children with ${property} '${value}' not found.`)
+    }
+
+    return foundChildren
+  }
+
+  /**
    * Returns a child object of the parent given a child.name
    *
    * @param {(THREE.Scene | THREE.Object3D)} parent
@@ -55,8 +81,21 @@ export function useSeek(): UseSeekReturn {
     return seek(parent, 'name', value)
   }
 
+  /**
+ * Returns an array of child objects of the parent given a child.name
+ *
+ * @param {(THREE.Scene | THREE.Object3D)} parent
+ * @param {string} value
+ * @return {*}  {(THREE.Object3D[])}
+ */
+  function seekAllByName(parent: THREE.Scene | THREE.Object3D, value: string): THREE.Object3D[] {
+    return seekAll(parent, 'name', value)
+  }
+
   return {
     seek,
     seekByName,
+    seekAll,
+    seekAllByName,
   }
 }
