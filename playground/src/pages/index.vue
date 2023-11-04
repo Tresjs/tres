@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Vector3 } from 'three'
+import { Vector3, Vector2 } from 'three'
 import { TresCanvas } from '@tresjs/core'
 import { OrbitControls } from '@tresjs/cientos'
 

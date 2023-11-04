@@ -115,8 +115,8 @@ watch(mouse.x, (newValue) => {
       <div
         v-for="(_subcontrol, $index) in vector"
         :key="label + $index"
-        class="flex items-center w-1/3 bg-gray-100 rounded"
-        :class="{ 'w-2/5': focused === $index }" 
+        class="flex items-center bg-gray-100 rounded"
+        :class="{ 'w-2/5': focused === $index, 'w-1/3': isVector3(control.value), 'w-1/2': isVector2(control.value) }" 
       >
         <span
           v-if="labels[$index] && isVector"
