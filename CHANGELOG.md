@@ -1,5 +1,12 @@
 
 
+## [0.13.0](https://github.com/Tresjs/leches/compare/0.12.1...0.13.0) (2023-11-04)
+
+
+### Features
+
+* add vector 2 support ([1c067ff](https://github.com/Tresjs/leches/commit/1c067ffa2b1c56c367cc0b462e3d6e8b050f5b14))
+
 ## [0.12.1](https://github.com/Tresjs/leches/compare/0.12.0...0.12.1) (2023-11-03)
 
 
