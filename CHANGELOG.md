@@ -1,5 +1,17 @@
 
 
+## [3.5.0](https://github.com/Tresjs/tres/compare/3.4.1...3.5.0) (2023-11-05)
+
+
+### Features
+
+* **useSeek:** Add `seekAll` and `seekAllByName` methods to `useSeek` composable ([#433](https://github.com/Tresjs/tres/issues/433)) ([ef905a3](https://github.com/Tresjs/tres/commit/ef905a311347f010f3902cd2ee5546ffed0811ab))
+
+
+### Bug Fixes
+
+* **types-(fix-#427):** vueprops change ref to vnoderef and key add number and symbol ([#428](https://github.com/Tresjs/tres/issues/428)) ([45aeafd](https://github.com/Tresjs/tres/commit/45aeafd41ca77a056f5668075f5a8e5ed3346761)), closes [fix-#427](https://github.com/Tresjs/fix-/issues/427) [#427](https://github.com/Tresjs/tres/issues/427)
+
 ## [3.4.1](https://github.com/Tresjs/tres/compare/3.4.0...3.4.1) (2023-10-19)
 
 
