@@ -5,6 +5,7 @@ import { BasicShadowMap, SRGBColorSpace, NoToneMapping } from 'three'
 
 import '@tresjs/leches/styles'
 import { OrbitControls, Html } from '@tresjs/cientos'
+import Card from './Card.vue'
 
 const gl = {
   clearColor: '#82DBC5',
@@ -33,7 +34,7 @@ const isActive = ref(false)
     <OrbitControls />
     <TresMesh
       :position="[1, 1, 1]"
-      @click="isActive = true"
+      @click="isActive = !isActive"
     >
       <TresBoxGeometry />
       <TresMeshNormalMaterial />
@@ -61,9 +62,7 @@ const isActive = ref(false)
         transform
         :position="[0.5, 1, 0]"
       >
-        <h1 class="bg-dark text-white text-xs p-0.5 rounded">
-          Sphere
-        </h1>
+        <Card :active="isActive" />
       </Html>
     </TresMesh>
     <TresMesh
