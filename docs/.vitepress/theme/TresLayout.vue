@@ -1,8 +1,8 @@
 <script setup>
-import DefaultTheme from 'vitepress/theme'
+import Theme from 'vitepress/theme'
 import LoveVueThreeJS from './components/LoveVueThreeJS.vue'
 
-const { Layout } = DefaultTheme
+const { Layout } = Theme
 </script>
 
 <template>
