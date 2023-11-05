@@ -181,6 +181,7 @@ onMounted(() => {
   <canvas
     ref="canvas"
     :data-scene="scene.uuid"
+    :class="$attrs.class"
     :style="{
       display: 'block',
       width: '100%',
@@ -190,6 +191,7 @@ onMounted(() => {
       left: 0,
       pointerEvents: 'auto',
       touchAction: 'none',
+      ...$attrs.style as Object,
     }"
   />
 </template>

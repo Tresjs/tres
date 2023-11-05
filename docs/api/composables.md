@@ -152,10 +152,10 @@ Similar to above composable, the `useTexture` composable returns a promise, you 
 
 ## useSeek
 
-The `useSeek` composable provides utilities to easily traverse and navigate through complex ThreeJS scenes and object children graphs. It exports two functions, `seek` and `seekByName`, which allow you to find child objects based on specific properties.
+The `useSeek` composable provides utilities to easily traverse and navigate through complex ThreeJS scenes and object children graphs. It exports 4 functions which allow you to find child objects based on specific properties.
 
 ```ts
-const { seek, seekbyName } = useSeek()
+const { seek, seekByName, seekAll, seekAllByName } = useSeek()
 ```
 
 The seek function accepts three parameters:
@@ -164,7 +164,7 @@ The seek function accepts three parameters:
 - `property`: The property to be used in the search condition.
 - `value`: The value of the property to match.
 
-Both function traverses the object and returns the child object with the specified property and value. If no child with the given property and value is found, it returns null and logs a warning.
+The `seek` and `seekByName` function traverses the object and returns the child object with the specified property and value. If no child with the given property and value is found, it returns null and logs a warning.
 
 ```ts
 const carRef = ref(null)
@@ -175,6 +175,18 @@ watch(carRef, ({ model }) => {
 
     const body = seek(car, 'name', 'Octane_Octane_Body_0')
     body.color.set(new Color('blue'))
+  }
+})
+```
+
+Similarly, the `seekAll` and `seekAllByName` functions return an array of child objects whose property includes the given value. If no matches are found, then they return an empty array and a warning is logged.
+
+```ts
+const character = ref(null)
+
+watch(character, ({ model }) => {
+  if (model) {
+    const bones = seekAll(character, type, 'Bone')
   }
 })
 ```

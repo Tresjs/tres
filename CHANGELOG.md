@@ -1,5 +1,24 @@
 
 
+## [3.4.1](https://github.com/Tresjs/tres/compare/3.4.0...3.4.1) (2023-10-19)
+
+
+### Bug Fixes
+
+* passing class and style attrs only ([#423](https://github.com/Tresjs/tres/issues/423)) ([8fd991a](https://github.com/Tresjs/tres/commit/8fd991a032fff358c815f1b4cb2b98bc44d8eef1))
+
+## [3.4.0](https://github.com/Tresjs/tres/compare/3.3.0...3.4.0) (2023-10-19)
+
+
+### Features
+
+* announce cientos 3.5.0 ([#417](https://github.com/Tresjs/tres/issues/417)) ([064806f](https://github.com/Tresjs/tres/commit/064806f518a6456822e133fb7bd190690b5906de))
+
+
+### Bug Fixes
+
+* pass attrs down to canvas ([#422](https://github.com/Tresjs/tres/issues/422)) ([aeab3e8](https://github.com/Tresjs/tres/commit/aeab3e8632c7b8708cd0b58c5e979d7015368ec9))
+
 ## [3.3.0](https://github.com/Tresjs/tres/compare/3.2.3...3.3.0) (2023-10-02)
 
 
