@@ -45,6 +45,7 @@
     "access": "public"
   },
   "scripts": {
+    "dev": "cd playground && npm run dev",
     "build": "vite build",
     "playground": "cd playground && npm run dev",
     "test": "vitest",
