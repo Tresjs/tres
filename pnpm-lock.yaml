@@ -152,6 +152,9 @@ importers:
       unplugin-vue-components:
         specifier: ^0.25.2
         version: 0.25.2(vue@3.3.7)
+      vite-plugin-qrcode:
+        specifier: ^0.2.2
+        version: 0.2.2(vite@4.5.0)
 
 packages:
 
@@ -6716,6 +6719,11 @@ packages:
       - utf-8-validate
     dev: true
 
+  /qrcode-terminal@0.12.0:
+    resolution: {integrity: sha512-EXtzRZmC+YGmGlDFbXKxQiMZNwCLEO6BANKXG4iCtSIM0yqc/pappSx3RIKr4r0uh5JsBckOXeKrB3Iz7mdQpQ==}
+    hasBin: true
+    dev: true
+
   /query-selector-shadow-dom@1.0.1:
     resolution: {integrity: sha512-lT5yCqEBgfoMYpf3F2xQRK7zEr1rhIIZuceDK6+xRkJQ4NMbHTwXqk4NkwDwQMNqXgG9r9fyHnzwNVs6zV5KRw==}
     dev: true
@@ -8133,6 +8141,16 @@ packages:
       - '@types/node'
       - rollup
       - supports-color
+    dev: true
+
+  /vite-plugin-qrcode@0.2.2(vite@4.5.0):
+    resolution: {integrity: sha512-FvFOz+gb4Xv4KU8QJK1daIFmMnwBQjsU0g006nufIpaOdwAZLfY5uOimtlHNrrOTmbev0ZQ8lm68iaz4ZEQFdw==}
+    engines: {node: ^14.13.1 || ^16.0.0 || >=18}
+    peerDependencies:
+      vite: ^3.0.0 || ^4.0.0
+    dependencies:
+      qrcode-terminal: 0.12.0
+      vite: 4.5.0(@types/node@20.8.10)
     dev: true
 
   /vite@4.5.0(@types/node@20.8.10):

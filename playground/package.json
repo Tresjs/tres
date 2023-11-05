@@ -1,10 +1,10 @@
 {
   "name": "playground",
-  "private": true,
-  "version": "0.0.0",
   "type": "module",
+  "version": "0.0.0",
+  "private": true,
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host",
     "build": "vue-tsc && vite build",
     "preview": "vite preview"
   },
@@ -18,10 +18,11 @@
   },
   "devDependencies": {
     "@tresjs/cientos": "3.5.1",
-    "@tresjs/core": "3.4.1",
+    "@tresjs/core": "3.5.0",
     "@types/three": "^0.158.1",
     "three": "^0.158.0",
     "unplugin-auto-import": "^0.16.7",
-    "unplugin-vue-components": "^0.25.2"
+    "unplugin-vue-components": "^0.25.2",
+    "vite-plugin-qrcode": "^0.2.2"
   }
 }

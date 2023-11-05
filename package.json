@@ -32,7 +32,7 @@
     "access": "public"
   },
   "scripts": {
-    "dev": "vite",
+    "dev": "cd playground && npm run dev",
     "build": "vue-tsc && vite build",
     "preview": "vite preview",
     "playground": "cd playground && npm run dev",
