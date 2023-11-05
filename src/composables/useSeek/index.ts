@@ -58,7 +58,7 @@ export function useSeek(): UseSeekReturn {
     const foundChildren: THREE.Object3D[] = []
 
     parent.traverse((child) => {
-      if ((child as any)[property] === value) {
+      if ((child as any)[property].includes(value)) {
         foundChildren.push(child)
       }
     })
