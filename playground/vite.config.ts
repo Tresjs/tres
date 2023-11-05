@@ -6,6 +6,7 @@ import { resolve } from 'pathe'
 import UnoCSS from 'unocss/vite'
 import { presetUno, presetIcons, presetWebFonts, presetTypography, transformerDirectives } from 'unocss'
 import { templateCompilerOptions } from '@tresjs/core'
+import { qrcode } from 'vite-plugin-qrcode'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -82,6 +83,7 @@ export default defineConfig({
       ],
       transformers: [transformerDirectives()],
     }),
+    qrcode(),
   ],
   server: {
     fs: {

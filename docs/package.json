@@ -13,6 +13,6 @@
     "three": "^0.158.0"
   },
   "devDependencies": {
-    "unocss": "^0.57.1"
+    "unocss": "^0.57.2"
   }
 }
