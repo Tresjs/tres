@@ -40,7 +40,7 @@ const createControl = (key: string, value: any, type: string, folderName: string
     type: ref(type),
     value: ref(value),
     visible: ref(true),
-    icon: ref(value.icon),
+    icon: ref(),
     [key]: ref(value),
   }
 

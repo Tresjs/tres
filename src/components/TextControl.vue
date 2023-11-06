@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { Control } from '../types'
+import ControlLabel from './ControlLabel.vue'
 
 defineProps<{
   label: string
@@ -16,16 +17,10 @@ function onChange(event: Event) {
 
 <template>
   <div class="flex px-4 justify-between gap-4 items-center mb-2 min-h-32px">
-    <label
-      :for="control.uniqueKey"
-      class="text-gray-500 w-1/3"
-    >
-      <i
-        v-if="control.icon"
-        :class="control.icon"
-      />
-      <template v-else>{{ label }}</template>
-    </label>
+    <ControlLabel
+      :label="label"
+      :control="control"
+    />
     <input
       :id="control.uniqueKey"
       :value="control.value"

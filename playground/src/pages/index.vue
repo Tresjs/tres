@@ -23,7 +23,7 @@ useControls(gl, {
 // Reactive
 
 // Plain Objects
-const { test, awiwi } = useControls({ test: true, awiwi: 'awiwi' })
+const { test, awiwi } = useControls({ test: true, aReallyLongLabel: 'awiwi' })
 console.log('test', test)
 console.log('awiwi', awiwi)
 
