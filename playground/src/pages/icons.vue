@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
-import { BasicShadowMap, SRGBColorSpace, NoToneMapping } from 'three'
+import { BasicShadowMap, SRGBColorSpace, NoToneMapping, Vector3 } from 'three'
 
 import { OrbitControls, Sphere } from '@tresjs/cientos'
 
@@ -20,6 +20,22 @@ useControls({
     value: 'Hello World',
     label: 'Text',
     placeholder: 'Type something',
+    icon: 'i-carbon-checkmark',
+  },
+  camera: {
+    value: new Vector3(0, 2, 4),
+    icon: 'i-carbon-camera',
+  },
+  select: {
+    value: 'option1',
+    options: ['option1', 'option2', 'option3'],
+    icon: 'i-carbon-checkmark',
+  },
+  number: {
+    value: 1,
+    min: 0,
+    max: 10,
+    step: 0.1,
     icon: 'i-carbon-checkmark',
   },
 })

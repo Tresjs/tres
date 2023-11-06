@@ -20,7 +20,15 @@ const inferType = (value: any): string => {
   if (typeof value === 'number') return 'number'
   if (typeof value === 'string' && colorRegex.test(value)) return 'color'
   if (typeof value === 'string') return 'string'
-  if (value.isVector3 || value.isVector2 || value.isEuler || value instanceof Array) return 'vector'
+  if (value.isVector3
+    || value.isVector2 
+    || value.isEuler 
+    || value.value instanceof Array
+    || value.value.isVector3
+    || value.value.isVector2
+    || value.value.isEuler
+    || value.value.value instanceof Array
+  ) return 'vector'
   if (value.min !== undefined || value.max !== undefined || value.step !== undefined) return 'range'
   if (
     value.options 
@@ -41,6 +49,7 @@ const createControl = (key: string, value: any, type: string, folderName: string
     value: ref(value),
     visible: ref(true),
     icon: ref(),
+    uniqueKey: ref(key),
     [key]: ref(value),
   }
 
@@ -108,6 +117,11 @@ export const useControls = (
       const reactiveValue = isRef(controlOptions.value) ? controlOptions.value : ref(controlOptions.value)
       const controlType = controlOptions.type || inferType(controlOptions)
       const control = createControl(key, reactiveValue, controlType, folderName)
+      console.log({
+        controlOptions,
+        controlType,
+        control,
+      })
 
       if (controlType === 'select') {
         control.options = ref(controlOptions.options.map((option: string | { text: String; value: any }) => {
@@ -132,7 +146,7 @@ export const useControls = (
       control.label.value = controlOptions.label || key
       control.icon.value = controlOptions.icon
       control.visible.value = controlOptions.visible !== undefined ? controlOptions.visible : true
-
+      control.uniqueKey.value = uniqueKey
       controls[uniqueKey] = control
       result[uniqueKey] = control
       continue
@@ -160,7 +174,7 @@ export const useControls = (
     // Update the internal state
     controls[uniqueKey] = control
     result[uniqueKey] = control
-    control.uniqueKey = uniqueKey
+    control.uniqueKey.value = uniqueKey
   }
 
   return Object.keys(result).length > 1 ? toRefs(reactive(result)) : Object.values(result)[0]

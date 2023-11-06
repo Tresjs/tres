@@ -91,5 +91,6 @@ describe('Vector Control', async () => {
     });
     const icon = wrapper.find('i.i-carbon-checkmark');
     expect(icon.exists()).toBe(true);
+    expect(wrapper.findAll('input[type="number"]').length).toBeGreaterThan(1)
   })
 })
