@@ -21,10 +21,9 @@ const classes = computed(() => {
     @click="control.value.onClick"
   >
     <i
-      class="mr-2"
-      :class="control.value.icon"
+      :class="[control.value.icon, control.value.label ? 'mr-1' : '']"
     />
-    {{ control.label }}
+    {{ control.value.label }}
   </button>
 </template>
 

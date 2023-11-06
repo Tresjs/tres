@@ -1,0 +1,105 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Button Controls > should render a block size button 1`] = `
+"<div style=\\"left: 704px; top: 10px;\\" class=\\"absolute select-none z-24 w-280px font-sans text-xs\\">
+  <div tabindex=\\"0\\" class=\\"bg-white shadow-xl rounded border-4 border-solid border-black\\">
+    <header class=\\"relative cursor-grabbing p-4 flex justify-between text-gray-200 relative\\"><i class=\\"h-4 w-4 p-1.5 flex items-center line-height-0 rounded-full bg-gray-100 text-xs\\">🍰</i>
+      <div><i class=\\"i-ic-baseline-drag-indicator\\"></i><i class=\\"i-ic-baseline-drag-indicator\\"></i><i class=\\"i-ic-baseline-drag-indicator\\"></i></div>
+      <div></div>
+    </header>
+    <!--v-if-->
+    <div class=\\"p-2 flex\\"><button data-v-9a5f9367=\\"\\" class=\\"leches-btn leches-btn-primary leches-btn-block\\"><i data-v-9a5f9367=\\"\\" class=\\"mr-1\\"></i> Accept</button></div>
+  </div>
+</div>"
+`;
+
+exports[`Button Controls > should render a button 1`] = `
+"<div style=\\"left: 704px; top: 10px;\\" class=\\"absolute select-none z-24 w-280px font-sans text-xs\\">
+  <div tabindex=\\"0\\" class=\\"bg-white shadow-xl rounded border-4 border-solid border-black\\">
+    <header class=\\"relative cursor-grabbing p-4 flex justify-between text-gray-200 relative\\"><i class=\\"h-4 w-4 p-1.5 flex items-center line-height-0 rounded-full bg-gray-100 text-xs\\">🍰</i>
+      <div><i class=\\"i-ic-baseline-drag-indicator\\"></i><i class=\\"i-ic-baseline-drag-indicator\\"></i><i class=\\"i-ic-baseline-drag-indicator\\"></i></div>
+      <div></div>
+    </header>
+    <!--v-if-->
+    <div class=\\"p-2 inline-flex\\"><button data-v-9a5f9367=\\"\\" class=\\"leches-btn leches-btn-primary leches-btn-sm\\"><i data-v-9a5f9367=\\"\\" class=\\"mr-1\\"></i> Accept</button></div>
+  </div>
+</div>"
+`;
+
+exports[`Button Controls > should render a button with a label 1`] = `
+"<div style=\\"left: 704px; top: 10px;\\" class=\\"absolute select-none z-24 w-280px font-sans text-xs\\">
+  <div tabindex=\\"0\\" class=\\"bg-white shadow-xl rounded border-4 border-solid border-black\\">
+    <header class=\\"relative cursor-grabbing p-4 flex justify-between text-gray-200 relative\\"><i class=\\"h-4 w-4 p-1.5 flex items-center line-height-0 rounded-full bg-gray-100 text-xs\\">🍰</i>
+      <div><i class=\\"i-ic-baseline-drag-indicator\\"></i><i class=\\"i-ic-baseline-drag-indicator\\"></i><i class=\\"i-ic-baseline-drag-indicator\\"></i></div>
+      <div></div>
+    </header>
+    <!--v-if-->
+    <div class=\\"p-2 inline-flex\\"><button data-v-9a5f9367=\\"\\" class=\\"leches-btn leches-btn-primary leches-btn-sm\\"><i data-v-9a5f9367=\\"\\" class=\\"mr-1\\"></i> Accept</button></div>
+  </div>
+</div>"
+`;
+
+exports[`Button Controls > should render a large button 1`] = `
+"<div style=\\"left: 704px; top: 10px;\\" class=\\"absolute select-none z-24 w-280px font-sans text-xs\\">
+  <div tabindex=\\"0\\" class=\\"bg-white shadow-xl rounded border-4 border-solid border-black\\">
+    <header class=\\"relative cursor-grabbing p-4 flex justify-between text-gray-200 relative\\"><i class=\\"h-4 w-4 p-1.5 flex items-center line-height-0 rounded-full bg-gray-100 text-xs\\">🍰</i>
+      <div><i class=\\"i-ic-baseline-drag-indicator\\"></i><i class=\\"i-ic-baseline-drag-indicator\\"></i><i class=\\"i-ic-baseline-drag-indicator\\"></i></div>
+      <div></div>
+    </header>
+    <!--v-if-->
+    <div class=\\"p-2 inline-flex\\"><button data-v-9a5f9367=\\"\\" class=\\"leches-btn leches-btn-primary leches-btn-lg\\"><i data-v-9a5f9367=\\"\\" class=\\"mr-1\\"></i> Accept</button></div>
+  </div>
+</div>"
+`;
+
+exports[`Button Controls > should render a primary button variant by default 1`] = `
+"<div style=\\"left: 704px; top: 10px;\\" class=\\"absolute select-none z-24 w-280px font-sans text-xs\\">
+  <div tabindex=\\"0\\" class=\\"bg-white shadow-xl rounded border-4 border-solid border-black\\">
+    <header class=\\"relative cursor-grabbing p-4 flex justify-between text-gray-200 relative\\"><i class=\\"h-4 w-4 p-1.5 flex items-center line-height-0 rounded-full bg-gray-100 text-xs\\">🍰</i>
+      <div><i class=\\"i-ic-baseline-drag-indicator\\"></i><i class=\\"i-ic-baseline-drag-indicator\\"></i><i class=\\"i-ic-baseline-drag-indicator\\"></i></div>
+      <div></div>
+    </header>
+    <!--v-if-->
+    <div class=\\"p-2 inline-flex\\"><button data-v-9a5f9367=\\"\\" class=\\"leches-btn leches-btn-primary leches-btn-sm\\"><i data-v-9a5f9367=\\"\\" class=\\"mr-1\\"></i> Accept</button></div>
+  </div>
+</div>"
+`;
+
+exports[`Button Controls > should render a secondary button variant 1`] = `
+"<div style=\\"left: 704px; top: 10px;\\" class=\\"absolute select-none z-24 w-280px font-sans text-xs\\">
+  <div tabindex=\\"0\\" class=\\"bg-white shadow-xl rounded border-4 border-solid border-black\\">
+    <header class=\\"relative cursor-grabbing p-4 flex justify-between text-gray-200 relative\\"><i class=\\"h-4 w-4 p-1.5 flex items-center line-height-0 rounded-full bg-gray-100 text-xs\\">🍰</i>
+      <div><i class=\\"i-ic-baseline-drag-indicator\\"></i><i class=\\"i-ic-baseline-drag-indicator\\"></i><i class=\\"i-ic-baseline-drag-indicator\\"></i></div>
+      <div></div>
+    </header>
+    <!--v-if-->
+    <div class=\\"p-2 inline-flex\\"><button data-v-9a5f9367=\\"\\" class=\\"leches-btn leches-btn-secondary leches-btn-sm\\"><i data-v-9a5f9367=\\"\\" class=\\"mr-1\\"></i> Accept</button></div>
+  </div>
+</div>"
+`;
+
+exports[`Button Controls > should render a small button 1`] = `
+"<div style=\\"left: 704px; top: 10px;\\" class=\\"absolute select-none z-24 w-280px font-sans text-xs\\">
+  <div tabindex=\\"0\\" class=\\"bg-white shadow-xl rounded border-4 border-solid border-black\\">
+    <header class=\\"relative cursor-grabbing p-4 flex justify-between text-gray-200 relative\\"><i class=\\"h-4 w-4 p-1.5 flex items-center line-height-0 rounded-full bg-gray-100 text-xs\\">🍰</i>
+      <div><i class=\\"i-ic-baseline-drag-indicator\\"></i><i class=\\"i-ic-baseline-drag-indicator\\"></i><i class=\\"i-ic-baseline-drag-indicator\\"></i></div>
+      <div></div>
+    </header>
+    <!--v-if-->
+    <div class=\\"p-2 inline-flex\\"><button data-v-9a5f9367=\\"\\" class=\\"leches-btn leches-btn-primary leches-btn-sm\\"><i data-v-9a5f9367=\\"\\" class=\\"mr-1\\"></i> Accept</button></div>
+  </div>
+</div>"
+`;
+
+exports[`Button Controls > should render an icon on the button 1`] = `
+"<div style=\\"left: 704px; top: 10px;\\" class=\\"absolute select-none z-24 w-280px font-sans text-xs\\">
+  <div tabindex=\\"0\\" class=\\"bg-white shadow-xl rounded border-4 border-solid border-black\\">
+    <header class=\\"relative cursor-grabbing p-4 flex justify-between text-gray-200 relative\\"><i class=\\"h-4 w-4 p-1.5 flex items-center line-height-0 rounded-full bg-gray-100 text-xs\\">🍰</i>
+      <div><i class=\\"i-ic-baseline-drag-indicator\\"></i><i class=\\"i-ic-baseline-drag-indicator\\"></i><i class=\\"i-ic-baseline-drag-indicator\\"></i></div>
+      <div></div>
+    </header>
+    <!--v-if-->
+    <div class=\\"p-2 inline-flex\\"><button data-v-9a5f9367=\\"\\" class=\\"leches-btn leches-btn-primary leches-btn-sm\\"><i data-v-9a5f9367=\\"\\" class=\\"i-carbon-checkmark mr-1\\"></i> Accept</button></div>
+  </div>
+</div>"
+`;

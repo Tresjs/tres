@@ -16,13 +16,12 @@ const gl = {
 }
 useControls({
   reset: {
-    label: 'Reset',
     type: 'button',
     onClick: () => {
       console.log('Reset')
     },
     icon: 'i-carbon-reset',
-    size: 'block',
+    size: 'sm',
   },
   accept: {
     label: 'Accept',
