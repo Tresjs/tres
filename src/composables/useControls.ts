@@ -117,11 +117,6 @@ export const useControls = (
       const reactiveValue = isRef(controlOptions.value) ? controlOptions.value : ref(controlOptions.value)
       const controlType = controlOptions.type || inferType(controlOptions)
       const control = createControl(key, reactiveValue, controlType, folderName)
-      console.log({
-        controlOptions,
-        controlType,
-        control,
-      })
 
       if (controlType === 'select') {
         control.options = ref(controlOptions.options.map((option: string | { text: String; value: any }) => {
