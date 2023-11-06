@@ -69,4 +69,18 @@ describe('Number Control', async () => {
 
     expect(wrapper.vm.visible).toBe(false)
   })
+  it('should render an icon instead of a label', () => {
+    dispose();
+    mountComponent(() => {
+      const { visible } = useControls({  
+        test: {
+          value: 2,
+          icon: 'i-carbon-checkmark',
+        }
+      });
+      return { visible };
+    });
+    const icon = wrapper.find('i.i-carbon-checkmark');
+    expect(icon.exists()).toBe(true);
+  })
 })

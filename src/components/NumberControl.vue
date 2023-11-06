@@ -2,6 +2,7 @@
 import { ref, watch } from 'vue'
 import { useMouse } from '@vueuse/core'
 import type { Control } from '../types'
+import ControlLabel from './ControlLabel.vue'
 
 const props = defineProps<{
   label: string
@@ -57,10 +58,10 @@ watch(mouse.x, (newValue) => {
 
 <template>
   <div class="flex px-4 justify-between gap-4 items-center mb-2">
-    <label
-      class="text-gray-500 w-1/3"
-      :for="control.uniqueKey"
-    >{{ label }}</label>
+    <ControlLabel
+      :label="label"
+      :control="control"
+    />
     <input
       :id="control.uniqueKey"
       :value="control.value"
