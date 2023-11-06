@@ -105,7 +105,7 @@ export const useControls = (
     if (typeof value === 'object' && !isRef(value) && !Array.isArray(value) && value.value !== undefined) {
       const controlOptions = value
       const reactiveValue = isRef(controlOptions.value) ? controlOptions.value : ref(controlOptions.value)
-      const controlType = controlOptions.type || inferType(controlOptions.value)
+      const controlType = controlOptions.type || inferType(controlOptions)
       const control = createControl(key, reactiveValue, controlType, folderName)
 
       if (controlType === 'select') {

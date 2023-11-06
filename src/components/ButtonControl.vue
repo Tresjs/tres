@@ -8,9 +8,9 @@ const props = defineProps<{
 }>()
 
 const classes = computed(() => {
-  const base = 'btn'
-  const variant = `btn-${props.control.value.variant || 'primary'}`
-  const size = `btn-${props.control.value.size || 'sm'}`
+  const base = 'leches-btn'
+  const variant = `leches-btn-${props.control.value.variant || 'primary'}`
+  const size = `leches-btn-${props.control.value.size || 'sm'}`
   return [base, variant, size]
 })
 </script>
@@ -29,40 +29,40 @@ const classes = computed(() => {
 </template>
 
 <style scoped>
-.btn {
+.leches-btn {
   @apply rounded-md cursor-pointer border-none flex items-center;
   @apply font-bold;
   @apply transition-all duration-200;
 }
 
-.btn-sm {
+.leches-btn-sm {
   @apply text-xs px-2.5 py-2;
 }
 
-.btn-md {
+.leches-btn-md {
   @apply text-sm px-3 py-2;
 }
 
-.btn-lg {
+.leches-btn-lg {
   @apply text-base px-4 py-2;
 }
 
-.btn-block {
+.leches-btn-block {
   @apply px-4 py-2 text-base w-full justify-center;
 }
 
-.btn-primary {
+.leches-btn-primary {
   @apply bg-gray-100 text-gray-700;
 }
-.btn-primary:hover {
+.leches-btn-primary:hover {
   @apply bg-gray-200;
 }
 
-.btn-secondary {
+.leches-btn-secondary {
   @apply bg-dark-700 text-light-100;
 }
 
-.btn-secondary:hover {
+.leches-btn-secondary:hover {
   @apply bg-dark-600;
 }
 </style>
