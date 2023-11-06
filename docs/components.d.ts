@@ -8,6 +8,12 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     BooleanDemo: typeof import('./.vitepress/theme/components/BooleanDemo.vue')['default']
+    ButtonDemo: typeof import('./.vitepress/theme/components/ButtonDemo.vue')['default']
+    ButtonSecondary: typeof import('./.vitepress/theme/components/ButtonSecondary.vue')['default']
+    ButtonSizes: typeof import('./.vitepress/theme/components/ButtonSizes.vue')['default']
+    ButtonSizesDemo: typeof import('./.vitepress/theme/components/ButtonSizesDemo.vue')['default']
+    ButtonVariant: typeof import('./.vitepress/theme/components/ButtonVariant.vue')['default']
+    ButtonVariantDemo: typeof import('./.vitepress/theme/components/ButtonVariantDemo.vue')['default']
     ColorDemo: typeof import('./.vitepress/theme/components/ColorDemo.vue')['default']
     copy: typeof import('./.vitepress/theme/components/MultipleControlDemo copy.vue')['default']
     FPSDemo: typeof import('./.vitepress/theme/components/FPSDemo.vue')['default']

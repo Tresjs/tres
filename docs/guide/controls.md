@@ -52,7 +52,6 @@ watchEffect(() => {
 })
 ```
 
-
 ## Multiple controls
 
 Most commonly, you will want to use multiple controls at the same time. In this case, the `useControls` composable is going to return an object with the controls. The returned controls are objects with ref properties (exactly as when you use only one control) meaning that you can deconstruct them without loosing reactivity.
@@ -116,3 +115,4 @@ watchEffect(() => {
 ```
 
 <VisibilityDemo />
+

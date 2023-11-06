@@ -38,6 +38,7 @@ export default defineConfig({
           { text: 'Range', link: '/controls/index.html#range' },
           { text: 'Select', link: '/controls/index.html#select' },
           { text: 'Vector', link: '/controls/index.html#vector' },
+          { text: 'Button', link: '/controls/index.html#button' },
         ],
       },
       {
