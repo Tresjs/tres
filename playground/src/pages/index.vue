@@ -89,7 +89,6 @@ const { position, rotation, something } = useControls({
   position: boxPosition,
   rotation: boxRotation,
   something: ref(true),
-  
 })
 
 /* watchEffect(() => {

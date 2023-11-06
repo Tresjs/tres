@@ -23,6 +23,7 @@ export interface Control {
   type: Ref<string>;
   value: Ref<unknown>;
   visible: Ref<boolean>;
+  icon: Ref<string>;
   options?: Array<{ text: string; value: string }>
   [key: string]: Ref<any> | Ref<boolean>;
 }

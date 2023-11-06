@@ -19,7 +19,13 @@ function onChange(event: Event) {
     <label
       :for="control.uniqueKey"
       class="text-gray-500 w-1/3"
-    >{{ label }}</label>
+    >
+      <i
+        v-if="control.icon"
+        :class="control.icon"
+      />
+      <template v-else>{{ label }}</template>
+    </label>
     <input
       :id="control.uniqueKey"
       :value="control.value"
