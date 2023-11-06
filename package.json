@@ -61,6 +61,7 @@
   "devDependencies": {
     "@histoire/plugin-vue": "^0.17.4",
     "@iconify-json/ic": "^1.1.14",
+    "@iconify/json": "^2.2.138",
     "@release-it/conventional-changelog": "^7.0.2",
     "@tresjs/eslint-config-vue": "^0.2.1",
     "@typescript-eslint/eslint-plugin": "^6.9.1",

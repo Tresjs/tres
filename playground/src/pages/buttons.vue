@@ -1,12 +1,10 @@
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
-import { BasicShadowMap, SRGBColorSpace, NoToneMapping, Vector3, Vector2 } from 'three'
+import { BasicShadowMap, SRGBColorSpace, NoToneMapping } from 'three'
 
 import { OrbitControls, Sphere } from '@tresjs/cientos'
 
 import { TresLeches, useControls } from '@tresjs/leches'
-import '@tresjs/leches/style.css'
-import { watch } from 'vue'
 
 const gl = {
   clearColor: '#82DBC5',
@@ -16,8 +14,16 @@ const gl = {
   outputColorSpace: SRGBColorSpace,
   toneMapping: NoToneMapping,
 }
-
-useControls('camera', {
+useControls({
+  reset: {
+    label: 'Reset',
+    type: 'button',
+    onClick: () => {
+      console.log('Reset')
+    },
+    icon: 'i-carbon-reset',
+    size: 'block',
+  },
   accept: {
     label: 'Accept',
     type: 'button',
@@ -26,11 +32,8 @@ useControls('camera', {
       console.log('accept')
     },
     icon: 'i-carbon-checkmark',
-    size: 'sm',
+    size: 'block',
   },
-  position: new Vector3(3, 2, 3),
-
-  /*  delay: new Vector2(1.5, 3.5), */
 })
 
 /* const { position: lightPosition } = useControls('light', {

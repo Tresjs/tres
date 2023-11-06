@@ -105,7 +105,7 @@ export const useControls = (
     if (typeof value === 'object' && !isRef(value) && !Array.isArray(value) && value.value !== undefined) {
       const controlOptions = value
       const reactiveValue = isRef(controlOptions.value) ? controlOptions.value : ref(controlOptions.value)
-      const controlType = inferType(controlOptions)
+      const controlType = controlOptions.type || inferType(controlOptions.value)
       const control = createControl(key, reactiveValue, controlType, folderName)
 
       if (controlType === 'select') {
@@ -139,7 +139,7 @@ export const useControls = (
 
     // If the value is a ref, use it directly
     if (isRef(value)) {
-      const control = createControl(key, value, inferType(value.value), folderName)
+      const control = createControl(key, value, (value.value as any).type || inferType(value.value), folderName)
       controls[uniqueKey] = control
       result[uniqueKey] = control
       continue
@@ -154,7 +154,7 @@ export const useControls = (
     }
 
     // For non-ref values
-    const control = createControl(key, value, inferType(value), folderName)
+    const control = createControl(key, value, value.type || inferType(value), folderName)
 
     // Update the internal state
     controls[uniqueKey] = control

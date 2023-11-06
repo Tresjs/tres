@@ -21,6 +21,9 @@ importers:
       '@iconify-json/ic':
         specifier: ^1.1.14
         version: 1.1.14
+      '@iconify/json':
+        specifier: ^2.2.138
+        version: 2.2.138
       '@release-it/conventional-changelog':
         specifier: ^7.0.2
         version: 7.0.2(release-it@16.2.1)
@@ -127,6 +130,9 @@ importers:
 
   playground:
     dependencies:
+      '@tresjs/leches':
+        specifier: workspace:^
+        version: link:..
       vue:
         specifier: ^3.3.7
         version: 3.3.7(typescript@5.2.2)
@@ -803,6 +809,13 @@ packages:
     resolution: {integrity: sha512-vbATa9uwb9pIsRWQ+iXObQCgLTePk/0vo4shBr3Td0GnTjsAU/7VUGTkrZFVf5vpgiG6OsXkcKMPzBPvt966sg==}
     dependencies:
       '@iconify/types': 2.0.0
+    dev: true
+
+  /@iconify/json@2.2.138:
+    resolution: {integrity: sha512-Xadn4xiIiaF02VLbJwviPSNqB2pNH2NQ+mxgtM5SuYQ/U/D9Sa+hr2Jwc/YlcOWgeqIp+hIVR2YzJDtSiL3fPA==}
+    dependencies:
+      '@iconify/types': 2.0.0
+      pathe: 1.1.1
     dev: true
 
   /@iconify/types@2.0.0:
