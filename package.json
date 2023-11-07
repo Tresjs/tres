@@ -1,26 +1,11 @@
 {
   "name": "@tresjs/post-processing",
-  "description": "Post-processing library for TresJS",
-  "version": "0.5.0",
   "type": "module",
+  "version": "0.5.0",
+  "packageManager": "pnpm@8.10.2",
+  "description": "Post-processing library for TresJS",
   "author": "Alvaro Saburido <hola@alvarosaburido.dev> (https://github.com/alvarosabu/)",
-  "files": [
-    "dist",
-    "*.d.ts"
-  ],
   "license": "MIT",
-  "main": "./dist/tres-postprocessing.js",
-  "module": "./dist/tres-postprocessing.js",
-  "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/tres-postprocessing.js"
-    },
-    "./*": "./*"
-  },
-  "publishConfig": {
-    "access": "public"
-  },
   "keywords": [
     "vue",
     "3d",
@@ -30,8 +15,24 @@
     "effects",
     "fx"
   ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/tres-postprocessing.js"
+    },
+    "./*": "./*"
+  },
+  "main": "./dist/tres-postprocessing.js",
+  "module": "./dist/tres-postprocessing.js",
+  "files": [
+    "dist",
+    "*.d.ts"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
-    "dev": "vite",
+    "dev": "cd playground && npm run dev",
     "playground": "cd playground && npm run dev",
     "build": "vite build",
     "preview": "vite preview",
@@ -47,16 +48,16 @@
     "vue": ">=3.3"
   },
   "dependencies": {
-    "@tresjs/core": "^3.4.1",
-    "@unocss/core": "^0.57.1",
+    "@tresjs/core": "^3.5.0",
+    "@unocss/core": "^0.57.2",
     "@vueuse/core": "^10.5.0",
-    "postprocessing": "^6.33.2",
-    "three-stdlib": "^2.28.3"
+    "postprocessing": "^6.33.3",
+    "three-stdlib": "^2.28.5"
   },
   "devDependencies": {
     "@release-it/conventional-changelog": "^7.0.2",
     "@tresjs/eslint-config-vue": "^0.2.1",
-    "@types/three": "^0.157.2",
+    "@types/three": "^0.158.1",
     "@vitejs/plugin-vue": "^4.4.0",
     "gsap": "^3.12.2",
     "kolorist": "^1.8.0",
@@ -67,12 +68,12 @@
     "rollup-plugin-visualizer": "^5.9.2",
     "three": "^0.158.0",
     "typescript": "^5.2.2",
-    "unocss": "^0.57.1",
+    "unocss": "^0.57.2",
     "vite": "^4.5.0",
     "vite-plugin-banner": "^0.7.1",
-    "vite-plugin-dts": "3.6.2",
+    "vite-plugin-dts": "3.6.3",
     "vite-svg-loader": "^4.0.0",
-    "vitepress": "1.0.0-rc.24",
+    "vitepress": "1.0.0-rc.25",
     "vue": "^3.3.7",
     "vue-tsc": "^1.8.22"
   }

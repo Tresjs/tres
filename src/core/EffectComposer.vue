@@ -97,7 +97,7 @@ stop = watch([sizes.height, sizes.width], () => {
   watchEffect(initEffectComposer)
   stop?.()
 }, {
-  immediate: true
+  immediate: true,
 })
 
 const { onLoop } = useRenderLoop()
