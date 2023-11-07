@@ -4,19 +4,20 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host",
     "build": "vue-tsc && vite build",
     "preview": "vite preview"
   },
   "dependencies": {
-    "@tresjs/core": "3.3.0",
-    "vue-router": "^4.2.4"
+    "@tresjs/core": "3.5.0",
+    "vue-router": "^4.2.5"
   },
   "devDependencies": {
-    "@tresjs/leches": "^0.12.0",
-    "unplugin-auto-import": "^0.16.6",
+    "@tresjs/leches": "^0.13.0",
+    "unplugin-auto-import": "^0.16.7",
     "unplugin-vue-components": "^0.25.2",
     "vite-plugin-glsl": "^1.1.2",
-    "vue-tsc": "^1.8.11"
+    "vite-plugin-qrcode": "^0.2.2",
+    "vue-tsc": "^1.8.22"
   }
 }

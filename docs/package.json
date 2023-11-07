@@ -13,8 +13,8 @@
     "@tweakpane/plugin-essentials": "^0.2.0"
   },
   "devDependencies": {
-    "@tresjs/leches": "^0.12.0",
-    "unocss": "^0.54.0",
+    "@tresjs/leches": "^0.13.0",
+    "unocss": "^0.57.2",
     "vite-svg-loader": "^4.0.0"
   }
 }
