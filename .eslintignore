@@ -1,0 +1,8 @@
+dist
+**.spec.js
+**.test.ts
+**.test.js
+**.cy.js
+**/cypress/**
+docs/.vitepress/cache
+docs/.vitepress/dist

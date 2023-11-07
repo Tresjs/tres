@@ -1,0 +1,84 @@
+{
+  "name": "@tresjs/rapier",
+  "type": "module",
+  "version": "0.0.0",
+  "private": true,
+  "packageManager": "pnpm@8.10.2",
+  "license": "MIT",
+  "keywords": [
+    "vue",
+    "3d",
+    "threejs",
+    "three",
+    "threejs-vue",
+    "rapier",
+    "rapier3d",
+    "physics"
+  ],
+  "maintainers": [
+    "Alvaro Saburido (https://github.com/alvarosabu/)"
+  ],
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/tresrapier.js"
+    },
+    "./core": {
+      "types": "./dist/core/index.d.ts"
+    },
+    "./*": "./*"
+  },
+  "main": "./dist/tresrapier.js",
+  "module": "./dist/tresrapier.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "*.d.ts"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "dev": "cd playground && pnpm dev",
+    "playground": "cd playground && pnpm dev",
+    "build": "vite build",
+    "release": "release-it",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx,.vue",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs"
+  },
+  "peerDependencies": {
+    "@tresjs/core": ">=3.2",
+    "three": ">=0.133",
+    "vue": ">=3.3"
+  },
+  "dependencies": {
+    "@dimforge/rapier3d-compat": "^0.11.2",
+    "@tresjs/core": "^3.5.0",
+    "three": "^0.158.0",
+    "vue": "^3.3.4"
+  },
+  "devDependencies": {
+    "@release-it/conventional-changelog": "^7.0.2",
+    "@tresjs/eslint-config-vue": "^0.2.1",
+    "@types/node": "^20.8.7",
+    "@types/three": "^0.158.2",
+    "@vitejs/plugin-vue": "^4.2.3",
+    "dts": "^0.1.1",
+    "eslint": "^8.51.0",
+    "eslint-plugin-vue": "^9.17.0",
+    "kolorist": "^1.8.0",
+    "pathe": "^1.1.1",
+    "release-it": "^16.2.1",
+    "rollup-plugin-analyzer": "^4.0.0",
+    "typescript": "^5.0.2",
+    "unocss": "^0.57.2",
+    "vite": "^4.4.5",
+    "vite-plugin-banner": "^0.7.1",
+    "vite-plugin-dts": "^3.6.3",
+    "vitepress": "1.0.0-rc.25",
+    "vue-tsc": "^1.8.5"
+  }
+}
