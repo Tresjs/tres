@@ -1,5 +1,24 @@
 
 
+## [3.6.0](https://github.com/Tresjs/cientos/compare/3.5.1...3.6.0) (2023-11-07)
+
+
+### Features
+
+* **cientos:** Add `CustomShaderMaterial` wrapper ([#261](https://github.com/Tresjs/cientos/issues/261)) ([43701f8](https://github.com/Tresjs/cientos/commit/43701f824379df4dc7086cdc47a84f91cd18f7de))
+* **Sparkles:** add Sparkles ([#253](https://github.com/Tresjs/cientos/issues/253)) ([cbcc9b9](https://github.com/Tresjs/cientos/commit/cbcc9b9eda16d04da3996954185a57fbb35d7ea4))
+* **Superformula:** add superformula ([#274](https://github.com/Tresjs/cientos/issues/274)) ([19130b4](https://github.com/Tresjs/cientos/commit/19130b429cb20bf562d73275d8def8657241ba64))
+
+
+### Bug Fixes
+
+* avoid html container to be appended again ([#278](https://github.com/Tresjs/cientos/issues/278)) ([8c2b17d](https://github.com/Tresjs/cientos/commit/8c2b17d6965de3ec2d51a9d4aadba857d4d358b5))
+
+
+### Reverts
+
+* **docs:** remove docs/ from .gitignore ([#272](https://github.com/Tresjs/cientos/issues/272)) ([8b5577e](https://github.com/Tresjs/cientos/commit/8b5577eef4b5f0fa0df5ecc7fe4693a31ac96e68))
+
 ## [3.5.1](https://github.com/Tresjs/cientos/compare/3.5.0...3.5.1) (2023-10-18)
 
 
