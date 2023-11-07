@@ -1,5 +1,12 @@
 
 
+## [0.6.0-next.0](https://github.com/Tresjs/post-processing/compare/0.5.0...0.6.0-next.0) (2023-10-30)
+
+
+### Features
+
+* noise effect ([9f65ebf](https://github.com/Tresjs/post-processing/commit/9f65ebf8a74a08b2c95cfcee87270df515f9a563))
+
 ## [0.5.0](https://github.com/Tresjs/post-processing/compare/0.4.0...0.5.0) (2023-10-28)
 
 

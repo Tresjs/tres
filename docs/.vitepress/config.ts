@@ -31,6 +31,7 @@ export default defineConfig({
           { text: 'Bloom', link: '/guide/effects/bloom' },
           { text: 'Depth of Field', link: '/guide/effects/depth-of-field' },
           { text: 'Glitch', link: '/guide/effects/glitch' },
+          { text: 'Noise', link: '/guide/effects/noise' },
           { text: 'Outline', link: '/guide/effects/outline' },
           { text: 'Pixelation', link: '/guide/effects/pixelation' },
         ],

@@ -124,13 +124,13 @@ importers:
       '@tresjs/core':
         specifier: 3.5.0
         version: 3.5.0(three@0.158.0)(vue@3.3.7)
-      '@tresjs/leches':
-        specifier: ^0.13.0
-        version: 0.13.0(vue@3.3.7)
       vue-router:
         specifier: ^4.2.5
         version: 4.2.5(vue@3.3.7)
     devDependencies:
+      '@tresjs/leches':
+        specifier: ^0.13.0
+        version: 0.13.0(vue@3.3.7)
       '@types/three':
         specifier: ^0.158.1
         version: 0.158.1
@@ -2345,7 +2345,7 @@ packages:
       vue: 3.3.7(typescript@5.2.2)
     transitivePeerDependencies:
       - '@vue/composition-api'
-    dev: false
+    dev: true
 
   /@tresjs/nuxt@1.2.2(three@0.158.0)(vue@3.3.7):
     resolution: {integrity: sha512-t+CzZvyRxkolLqP+o1nlfSf5qu5hJN43jKc04rBp5HXA0XqDHnL+351vEmXzG/3H+s3sTuKJlBMJh0smyRGDfQ==}
@@ -3162,7 +3162,7 @@ packages:
     transitivePeerDependencies:
       - '@vue/composition-api'
       - vue
-    dev: false
+    dev: true
 
   /@vueuse/core@10.5.0(vue@3.3.7):
     resolution: {integrity: sha512-z/tI2eSvxwLRjOhDm0h/SXAjNm8N5ld6/SC/JQs6o6kpJ6Ya50LnEL8g5hoYu005i28L0zqB5L5yAl8Jl26K3A==}
