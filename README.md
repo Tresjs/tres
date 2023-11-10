@@ -19,7 +19,7 @@ Tres (Spanish word for "three", pronounced `/tres/` ) is a way of creating Three
 
 It's build on-top of a [Vue Custom Renderer](https://vuejs.org/api/custom-renderer.html#createrenderer) and it's powered by Vite.
 
-The goal is to provide the Vue's community an easy way of building 3D scenes with Vue, always up to date with the latest ThreeJS features and with 0-to-none mantainance.
+The goal is to provide the Vue's community an easy way of building 3D scenes with Vue, always up to date with the latest ThreeJS features and with 0-to-none maintenance.
 
 ## Installation
 

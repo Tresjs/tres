@@ -6,7 +6,7 @@ import type { TresContext } from '../useTresContextProvider'
 
 export const useCamera = ({ sizes, scene }: Pick<TresContext, 'sizes'> & { scene: TresScene }) => {
 
-  // the computed does not trigger, when for example the camera postion changes
+  // the computed does not trigger, when for example the camera position changes
   const cameras = ref<Camera[]>([])
   const camera = computed<Camera | undefined>(
     () => cameras.value[0],
