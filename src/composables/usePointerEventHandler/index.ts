@@ -1,4 +1,4 @@
-import type { Intersection, Event, Object3D } from 'three'
+import type { Intersection, Event, Object3D  } from 'three'
 import type { TresScene } from 'src/types'
 import { computed, reactive, ref } from 'vue'
 import { uniqueBy } from '../../utils'
@@ -77,22 +77,37 @@ export const usePointerEventHandler = (
 
   onClick(({ intersects, event }) => {
     if (intersects.length) objectsWithEventListeners.click.get(intersects[0].object)?.(intersects[0], event)
+    if (intersects.length && intersects[0].object?.parent?.isGroup) objectsWithEventListeners.click.get(intersects[0].object?.parent)?.(intersects[0], event);
   })
 
   let previouslyIntersectedObject: Object3D<Event> | null
 
   onPointerMove(({ intersects, event }) => {
+    if (intersects?.length > 0) 
+      console.log(intersects)
     const firstObject = intersects?.[0]?.object
+    const parentObject = intersects?.[0]?.object?.parent
 
     const { pointerLeave, pointerEnter, pointerMove } = objectsWithEventListeners
 
-    if (previouslyIntersectedObject && previouslyIntersectedObject !== firstObject)
+    if (previouslyIntersectedObject && previouslyIntersectedObject !== firstObject){
       pointerLeave.get(previouslyIntersectedObject)?.(previouslyIntersectedObject, event)
 
+      if(parentObject ?? parentObject?.isGroup)
+        pointerLeave.get(parentObject)?.(previouslyIntersectedObject, event)
+    }
+
     if (firstObject) {
-      if (previouslyIntersectedObject !== firstObject) pointerEnter.get(firstObject)?.(intersects[0], event)
+      if (previouslyIntersectedObject !== firstObject) {
+        pointerEnter.get(firstObject)?.(intersects[0], event)
+
+        if(parentObject ?? parentObject?.isGroup)
+          pointerEnter.get(parentObject)?.(previouslyIntersectedObject, event)
+      }
 
       pointerMove.get(firstObject)?.(intersects[0], event)
+      if(parentObject ?? parentObject?.isGroup)
+        pointerMove.get(parentObject)?.(previouslyIntersectedObject, event)
     }
 
     previouslyIntersectedObject = firstObject || null
