@@ -1,4 +1,4 @@
-import type { Intersection, Event, Object3D  } from 'three'
+import type { Intersection, Event, Object3D } from 'three'
 import type { TresScene } from 'src/types'
 import { computed, reactive, ref } from 'vue'
 import { uniqueBy } from '../../utils'
@@ -45,6 +45,14 @@ export const usePointerEventHandler = (
     deregisterBlockingObject(object)
   }
 
+  const combineFunctions = (groupFn: CallbackFn, childFn: CallbackFn): CallbackFn | CallbackFnPointerLeave => {
+    return (intersection: Intersection<Object3D<Event>>, event: PointerEvent) => {
+      // Emit child events first
+      childFn?.(intersection, event);
+      groupFn?.(intersection, event);
+    }
+  }
+
   const registerObject = (object: Object3D & EventProps) => {
     const { onClick, onPointerMove, onPointerEnter, onPointerLeave } = object
 
@@ -52,6 +60,19 @@ export const usePointerEventHandler = (
     if (onPointerMove) objectsWithEventListeners.pointerMove.set(object, onPointerMove)
     if (onPointerEnter) objectsWithEventListeners.pointerEnter.set(object, onPointerEnter)
     if (onPointerLeave) objectsWithEventListeners.pointerLeave.set(object, onPointerLeave)
+
+    // If object is a TresGroup, attach it's event handlers to all children.
+    // If child already has an event attached, join the 2 functions via a callback
+    if(object?.isGroup){
+      for(const child of object?.children) {
+        const { onClick: onChildClick, onPointerMove: onChildPointerMove, onPointerEnter: onChildPointerEnter, onPointerLeave: onChildPointerLeave } = child
+
+        if (onClick) objectsWithEventListeners.click.set(child, combineFunctions(onClick, onChildClick))
+        if (onPointerMove) objectsWithEventListeners.pointerMove.set(child, combineFunctions(onPointerMove, onChildPointerMove))
+        if (onPointerEnter) objectsWithEventListeners.pointerEnter.set(child, combineFunctions(onPointerEnter, onChildPointerEnter))
+        if (onPointerLeave) objectsWithEventListeners.pointerLeave.set(child, combineFunctions(onPointerLeave, onChildPointerLeave))
+      }
+    }
   }
 
   // to make the registerObject available in the custom renderer (nodeOps), it is attached to the scene
@@ -77,37 +98,24 @@ export const usePointerEventHandler = (
 
   onClick(({ intersects, event }) => {
     if (intersects.length) objectsWithEventListeners.click.get(intersects[0].object)?.(intersects[0], event)
-    if (intersects.length && intersects[0].object?.parent?.isGroup) objectsWithEventListeners.click.get(intersects[0].object?.parent)?.(intersects[0], event);
   })
 
   let previouslyIntersectedObject: Object3D<Event> | null
 
   onPointerMove(({ intersects, event }) => {
-    if (intersects?.length > 0) 
-      console.log(intersects)
     const firstObject = intersects?.[0]?.object
-    const parentObject = intersects?.[0]?.object?.parent
 
     const { pointerLeave, pointerEnter, pointerMove } = objectsWithEventListeners
 
-    if (previouslyIntersectedObject && previouslyIntersectedObject !== firstObject){
+    if (previouslyIntersectedObject && previouslyIntersectedObject !== firstObject)
       pointerLeave.get(previouslyIntersectedObject)?.(previouslyIntersectedObject, event)
-
-      if(parentObject ?? parentObject?.isGroup)
-        pointerLeave.get(parentObject)?.(previouslyIntersectedObject, event)
-    }
+    
 
     if (firstObject) {
-      if (previouslyIntersectedObject !== firstObject) {
+      if (previouslyIntersectedObject !== firstObject) 
         pointerEnter.get(firstObject)?.(intersects[0], event)
 
-        if(parentObject ?? parentObject?.isGroup)
-          pointerEnter.get(parentObject)?.(previouslyIntersectedObject, event)
-      }
-
       pointerMove.get(firstObject)?.(intersects[0], event)
-      if(parentObject ?? parentObject?.isGroup)
-        pointerMove.get(parentObject)?.(previouslyIntersectedObject, event)
     }
 
     previouslyIntersectedObject = firstObject || null
