@@ -85,7 +85,7 @@
     "eslint": "^8.53.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-vue": "^9.18.1",
-    "esno": "^0.17.0",
+    "esno": "^4.0.0",
     "gsap": "^3.12.2",
     "jsdom": "^22.1.0",
     "kolorist": "^1.8.0",
