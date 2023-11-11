@@ -4,15 +4,14 @@ import { useRoute } from 'vue-router'
 
 const route = useRoute()
 function setBodyClass(routeName: string) {
-  document.title = `Post-processing Playground - ${routeName}`
-  document.body.className = routeName
+	document.title = `Rapier Playground - ${routeName}`
+	document.body.className = routeName
 }
 watch([route], () => setBodyClass(route.name?.toString() ?? ''))
 </script>
 
 <template>
-  <Suspense>
-    <router-view />
-  </Suspense>
+	<Suspense>
+		<router-view />
+	</Suspense>
 </template>
-

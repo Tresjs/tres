@@ -50,35 +50,35 @@
     "docs:preview": "vitepress preview docs"
   },
   "peerDependencies": {
-    "@tresjs/core": ">=3.2",
-    "three": ">=0.133",
-    "vue": ">=3.3"
+    "@tresjs/core": ">=3.5.0",
+    "three": ">=0.158.0",
+    "vue": ">=3.3.8"
   },
   "dependencies": {
     "@dimforge/rapier3d-compat": "^0.11.2",
     "@tresjs/core": "^3.5.0",
     "three": "^0.158.0",
-    "vue": "^3.3.4"
+    "vue": "^3.3.8"
   },
   "devDependencies": {
-    "@release-it/conventional-changelog": "^7.0.2",
+    "@release-it/conventional-changelog": "^8.0.0",
     "@tresjs/eslint-config-vue": "^0.2.1",
-    "@types/node": "^20.8.7",
+    "@types/node": "^20.9.0",
     "@types/three": "^0.158.2",
-    "@vitejs/plugin-vue": "^4.2.3",
+    "@vitejs/plugin-vue": "^4.4.1",
     "dts": "^0.1.1",
-    "eslint": "^8.51.0",
-    "eslint-plugin-vue": "^9.17.0",
+    "eslint": "^8.53.0",
+    "eslint-plugin-vue": "^9.18.1",
     "kolorist": "^1.8.0",
     "pathe": "^1.1.1",
-    "release-it": "^16.2.1",
+    "release-it": "^17.0.0",
     "rollup-plugin-analyzer": "^4.0.0",
-    "typescript": "^5.0.2",
-    "unocss": "^0.57.2",
-    "vite": "^4.4.5",
+    "typescript": "^5.2.2",
+    "unocss": "^0.57.3",
+    "vite": "^4.5.0",
     "vite-plugin-banner": "^0.7.1",
     "vite-plugin-dts": "^3.6.3",
     "vitepress": "1.0.0-rc.25",
-    "vue-tsc": "^1.8.5"
+    "vue-tsc": "^1.8.22"
   }
 }
