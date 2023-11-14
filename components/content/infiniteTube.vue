@@ -49,7 +49,7 @@ onLoop(({ delta }) => {
 <template>
   <TresCanvas
     window-size
-    clear-color="#ff4444"
+    clear-color="#4f4f4f"
     antialias
   >
     <TresFog :args="[0x222222, 0.6, 2.8]" />
