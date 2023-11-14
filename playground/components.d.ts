@@ -7,6 +7,7 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    BlenderCube: typeof import('./src/components/BlenderCube.vue')['default']
     copy: typeof import('./src/components/UnrealBloom copy.vue')['default']
     GlitchDemo: typeof import('./src/components/GlitchDemo.vue')['default']
     NoiseDemo: typeof import('./src/components/NoiseDemo.vue')['default']

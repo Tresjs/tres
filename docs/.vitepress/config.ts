@@ -34,6 +34,7 @@ export default defineConfig({
           { text: 'Noise', link: '/guide/effects/noise' },
           { text: 'Outline', link: '/guide/effects/outline' },
           { text: 'Pixelation', link: '/guide/effects/pixelation' },
+          { text: 'Vignette', link: '/guide/effects/vignette' },
         ],
       },
     ],

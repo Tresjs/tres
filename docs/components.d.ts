@@ -7,6 +7,7 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    BlenderCube: typeof import('./.vitepress/theme/components/BlenderCube.vue')['default']
     BloomDemo: typeof import('./.vitepress/theme/components/BloomDemo.vue')['default']
     DepthOfFieldDemo: typeof import('./.vitepress/theme/components/DepthOfFieldDemo.vue')['default']
     DocsDemo: typeof import('./.vitepress/theme/components/DocsDemo.vue')['default']
@@ -17,5 +18,6 @@ declare module 'vue' {
     PixelationDemo: typeof import('./.vitepress/theme/components/PixelationDemo.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    VignetteDemo: typeof import('./.vitepress/theme/components/VignetteDemo.vue')['default']
   }
 }

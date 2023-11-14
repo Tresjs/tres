@@ -26,6 +26,7 @@ export const routes = [
   makeRoute('Pixelation', '👾'),
   makeRoute('Bloom', '🌼'),
   makeRoute('Noise', '📟'),
+  makeRoute('Vignette', '🕶️'),
 ]
 
 export const router = createRouter({

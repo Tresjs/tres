@@ -1,0 +1,39 @@
+<script setup lang="ts">
+import { TresCanvas } from '@tresjs/core'
+import { BasicShadowMap, SRGBColorSpace, NoToneMapping } from 'three'
+import { OrbitControls } from '@tresjs/cientos'
+import { EffectComposer, Vignette, DepthOfField } from '@tresjs/post-processing'
+import BlenderCube from './BlenderCube.vue'
+
+const gl = {
+  clearColor: '#4f4f4f',
+  shadows: true,
+  alpha: false,
+  shadowMapType: BasicShadowMap,
+  outputColorSpace: SRGBColorSpace,
+  toneMapping: NoToneMapping,
+}
+</script>
+
+<template>
+  <TresLeches />
+  <TresCanvas v-bind="gl">
+    <TresPerspectiveCamera :position="[3, 3, 3]" />
+    <OrbitControls />
+    <Suspense>
+      <BlenderCube />
+    </Suspense>
+    <EffectComposer>
+      <DepthOfField
+        :focus-distance="0"
+        :focal-length="0.02"
+        :bokeh-scale="2"
+      />
+      <Vignette
+        :darkness="0.9"
+        :offset="0.3"
+      />
+    </EffectComposer>
+    <TresAmbientLight :intensity="1" />
+  </TresCanvas>
+</template>
