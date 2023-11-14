@@ -1,5 +1,12 @@
 
 
+## [0.6.0](https://github.com/Tresjs/post-processing/compare/0.5.0...0.6.0) (2023-11-14)
+
+
+### Features
+
+* 66 noise ([#71](https://github.com/Tresjs/post-processing/issues/71)) ([cdb9497](https://github.com/Tresjs/post-processing/commit/cdb9497b964181bc8e7359aecdedc1b57042b5dc))
+
 ## [0.6.0-next.0](https://github.com/Tresjs/post-processing/compare/0.5.0...0.6.0-next.0) (2023-10-30)
 
 
