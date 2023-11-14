@@ -20,6 +20,11 @@ export const abstractionsRoutes = [
     component: () => import('../../pages/abstractions/LensflareDemo.vue'),
   },
   {
+    path: '/abstractions/reflector-mesh',
+    name: 'ReflectorMeshDemo',
+    component: () => import('../../pages/abstractions/ReflectorMeshDemo.vue'),
+  },
+  {
     path: '/abstractions/global-audio',
     name: 'GlobalAudio',
     component: () => import('../../pages/abstractions/GlobalAudioDemo.vue'),
