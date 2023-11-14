@@ -20,7 +20,7 @@ export default defineConfig({
     alias: {
       '/@': resolve(__dirname, './src'),
     },
-    dedupe: ['@tresjs/core'],
+    dedupe: ['@tresjs/core', '@vueuse/core'],
   },
   plugins: [
     vue({
@@ -61,7 +61,7 @@ export default defineConfig({
           open: false,
         }),
       ],
-      external: ['three', 'vue', '@tresjs/core', 'postprocessing'],
+      external: ['three', 'vue', '@tresjs/core', 'postprocessing', '@vueuse/core'],
       output: {
         exports: 'named',
         // Provide global variables to use in the UMD build
@@ -71,11 +71,12 @@ export default defineConfig({
           three: 'Three',
           vue: 'Vue',
           postprocessing: 'Postprocessing',
+          '@vueuse/core': 'VueUseCore',
         },
       },
     },
   },
   optimizeDeps: {
-    exclude: ['three', 'vue', '@tresjs/core', 'postprocessing'],
+    exclude: ['three', 'vue', '@tresjs/core', 'postprocessing', '@vueuse/core'],
   },
 })

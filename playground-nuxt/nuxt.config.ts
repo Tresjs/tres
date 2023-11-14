@@ -11,7 +11,7 @@ export default defineNuxtConfig({
       alias: {
         '@tresjs/post-processing': resolve(__dirname, '../src/'),
       },
-      dedupe: ['three', '@tresjs/core'],
+      dedupe: ['three', '@tresjs/core', '@vueuse/core'],
     },
   },
 })

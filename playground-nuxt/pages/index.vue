@@ -39,7 +39,7 @@ const bloomParams = reactive({
     <TresGridHelper />
     <TresAmbientLight :intensity="1" />
     <Suspense>
-      <EffectComposer :depth-buffer="true">
+      <EffectComposer>
         <Bloom />
       </EffectComposer>
     </Suspense>

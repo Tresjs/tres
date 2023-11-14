@@ -24,3 +24,4 @@ dist-ssr
 *.sw?
 docs/.vitepress/dist/
 docs/.vitepress/cache/
+stats.html
