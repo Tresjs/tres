@@ -1,5 +1,17 @@
 
 
+## [0.7.0](https://github.com/Tresjs/post-processing/compare/0.6.0...0.7.0) (2023-11-14)
+
+
+### Features
+
+* vignette effect ([#75](https://github.com/Tresjs/post-processing/issues/75)) ([70c92da](https://github.com/Tresjs/post-processing/commit/70c92da58b8353f129d1bcc8f441bdd62a827f72))
+
+
+### Bug Fixes
+
+* avoid  recursive updates when resizing the window ([#81](https://github.com/Tresjs/post-processing/issues/81)) ([83f88c1](https://github.com/Tresjs/post-processing/commit/83f88c1ea5f35bc6a73a745ea805190fa065236b))
+
 ## [0.6.0](https://github.com/Tresjs/post-processing/compare/0.5.0...0.6.0) (2023-11-14)
 
 
