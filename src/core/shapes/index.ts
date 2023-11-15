@@ -9,6 +9,7 @@ import Octahedron from './Octahedron.vue'
 import Plane from './Plane.vue'
 import Ring from './Ring.vue'
 import Sphere from './Sphere.vue'
+import Superformula from './Superformula.vue'
 import Tetrahedron from './Tetrahedron.vue'
 import Torus from './Torus.vue'
 import TorusKnot from './TorusKnot.vue'
@@ -26,6 +27,7 @@ export {
   Plane,
   Ring,
   Sphere,
+  Superformula,
   Tetrahedron,
   Torus,
   TorusKnot,

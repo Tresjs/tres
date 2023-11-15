@@ -186,7 +186,7 @@ watch(
         = `position:absolute;top:0;left:0;transform:translate3d(${vector[0]}px,${vector[1]}px,0);transform-origin:0 0;`
       }
 
-      if (target) {
+      if (target && !el.value.parentNode) {
         target.parentNode?.appendChild(el.value)
       }
 

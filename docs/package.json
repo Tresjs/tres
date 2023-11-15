@@ -13,9 +13,9 @@
     "@tweakpane/plugin-essentials": "^0.2.0"
   },
   "devDependencies": {
-    "@tresjs/leches": "^0.12.0",
+    "@tresjs/leches": "^0.13.0",
     "markdown-it": "^13.0.2",
-    "unocss": "^0.54.0",
+    "unocss": "^0.57.2",
     "vite-svg-loader": "^4.0.0",
     "vue-docgen-api": "^4.74.2"
   }

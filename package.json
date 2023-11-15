@@ -1,8 +1,8 @@
 {
   "name": "@tresjs/cientos",
   "type": "module",
-  "version": "3.5.1",
-  "packageManager": "pnpm@8.4.0",
+  "version": "3.6.0",
+  "packageManager": "pnpm@8.10.2",
   "description": "Collection of useful helpers and fully functional, ready-made abstractions for Tres",
   "author": "Alvaro Saburido <hola@alvarosaburido.dev> (https://github.com/alvarosabu/)",
   "license": "MIT",
@@ -41,6 +41,7 @@
     "access": "public"
   },
   "scripts": {
+    "dev": "cd playground && pnpm dev",
     "playground": "cd playground && pnpm dev",
     "build": "vite build",
     "release": "release-it",
@@ -56,7 +57,7 @@
     "vue": ">=3.3"
   },
   "dependencies": {
-    "@tresjs/core": "3.3.0",
+    "@tresjs/core": "3.5.0",
     "@vueuse/core": "^10.5.0",
     "camera-controls": "^2.7.2",
     "stats-gl": "^1.0.5",
@@ -70,7 +71,7 @@
     "@tresjs/eslint-config-vue": "^0.2.1",
     "@tweakpane/core": "^1.1.9",
     "@types/node": "^20.8.7",
-    "@types/three": "^0.157.0",
+    "@types/three": "^0.158.1",
     "@typescript-eslint/eslint-plugin": "^6.8.0",
     "@typescript-eslint/parser": "^6.8.0",
     "@vitejs/plugin-vue": "^4.4.0",
@@ -82,15 +83,15 @@
     "release-it": "^16.2.1",
     "rollup-plugin-analyzer": "^4.0.0",
     "rollup-plugin-visualizer": "^5.9.2",
-    "three": "^0.157.0",
+    "three": "^0.158.0",
     "tweakpane": "^3.1.10",
     "typescript": "^5.2.2",
-    "unocss": "^0.54.0",
+    "unocss": "^0.57.2",
     "vite": "^4.5.0",
     "vite-plugin-banner": "^0.7.1",
-    "vite-plugin-dts": "3.6.0",
+    "vite-plugin-dts": "3.6.3",
     "vite-plugin-glsl": "^1.1.2",
     "vite-svg-loader": "^4.0.0",
-    "vitepress": "1.0.0-rc.22"
+    "vitepress": "1.0.0-rc.25"
   }
 }
