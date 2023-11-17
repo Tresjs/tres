@@ -1,11 +1,14 @@
 <script setup lang="ts">
 import { KernelSize } from 'postprocessing'
-import { reactive, ref } from 'vue'
+import { ref } from 'vue'
 import { EffectComposer, Outline } from '@tresjs/post-processing'
 import { TresCanvas } from '@tresjs/core'
-import { OrbitControls, useTweakPane } from '@tresjs/cientos'
+import { OrbitControls } from '@tresjs/cientos'
 import type { Object3D, Intersection } from 'three'
 import { NoToneMapping } from 'three'
+
+import { TresLeches, useControls } from '@tresjs/leches'
+import '@tresjs/leches/styles'
 
 const gl = {
   clearColor: '#4ADE80',
@@ -21,25 +24,32 @@ const toggleMeshSelectionState = ({ object }: Intersection) => {
   else outlinedObjects.value = [...outlinedObjects.value, object]
 }
 
-const outlineParameters = reactive({
-  pulseSpeed: 0,
-  edgeStrength: 2000,
+const { edgeStrength, pulseSpeed, visibleEdgeColor, blur, kernelSize } = useControls({
+  edgeStrength: {
+    value: 2000,
+    min: 0,
+    max: 3000,
+    step: 10,
+  },
+  pulseSpeed: {
+    value: 0,
+    min: 0,
+    max: 2,
+    step: 0.01,
+  },
   visibleEdgeColor: '#ffffff',
-  multisampling: 4,
-  kernelSize: 3,
   blur: false,
+  kernelSize: {
+    value: 3,
+    min: KernelSize.VERY_SMALL,
+    max: KernelSize.VERY_LARGE,
+    step: 1,
+  },
 })
-
-const { pane } = useTweakPane()
-
-pane.addInput(outlineParameters, 'edgeStrength', { min: 0, max: 3000 })
-pane.addInput(outlineParameters, 'pulseSpeed', { min: 0, max: 2 })
-pane.addInput(outlineParameters, 'visibleEdgeColor')
-pane.addInput(outlineParameters, 'blur')
-pane.addInput(outlineParameters, 'kernelSize', { min: KernelSize.VERY_SMALL, max: KernelSize.VERY_LARGE, step: 1 })
 </script>
 
 <template>
+  <TresLeches />
   <TresCanvas
     v-bind="gl"
     :disable-render="true"
@@ -71,7 +81,11 @@ pane.addInput(outlineParameters, 'kernelSize', { min: KernelSize.VERY_SMALL, max
       <EffectComposer>
         <Outline
           :outlined-objects="outlinedObjects"
-          v-bind="outlineParameters"
+          :blur="blur.value"
+          :edge-strength="edgeStrength.value"
+          :pulse-speed="pulseSpeed.value"
+          :visible-edge-color="visibleEdgeColor.value"
+          :kernel-size="kernelSize.value"
         />
       </EffectComposer>
     </Suspense>

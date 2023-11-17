@@ -5,12 +5,17 @@ import { Text3D } from '@tresjs/cientos'
 
 import { EffectComposer, Glitch } from '@tresjs/post-processing'
 
+import { useRouteDisposal } from '../composables/useRouteDisposal'
+
 const gl = {
   clearColor: '#121212',
   shadows: true,
   alpha: false,
   disableRender: true,
 }
+
+// Need to dispose of the effect composer when the route changes because Vitepress doesnt unmount the components
+const { effectComposer } = useRouteDisposal()
 </script>
 
 <template>
@@ -40,7 +45,7 @@ const gl = {
       :intensity="1"
     />
     <Suspense>
-      <EffectComposer>
+      <EffectComposer ref="effectComposer">
         <Glitch />
       </EffectComposer>
     </Suspense>

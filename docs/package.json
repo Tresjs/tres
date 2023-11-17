@@ -9,15 +9,16 @@
     "preview": "vitepress preview"
   },
   "dependencies": {
-    "@tresjs/cientos": "^3.5.1",
+    "@tresjs/cientos": "^3.6.0",
     "@tresjs/core": "^3.5.0",
     "@tresjs/post-processing": "workspace:^",
     "gsap": "^3.12.2"
   },
   "devDependencies": {
-    "unocss": "^0.57.2",
+    "@tresjs/leches": "^0.13.0",
+    "unocss": "^0.57.4",
     "unplugin-vue-components": "^0.25.2",
     "vite-svg-loader": "^4.0.0",
-    "vitepress": "1.0.0-rc.25"
+    "vitepress": "1.0.0-rc.26"
   }
 }

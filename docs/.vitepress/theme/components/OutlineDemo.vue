@@ -1,13 +1,25 @@
 <script lang="ts" setup>
-import { ref, shallowRef } from 'vue'
-import { watchOnce } from '@vueuse/core'
-import { TresCanvas } from '@tresjs/core'
-import { KernelSize } from 'postprocessing'
-import { EffectComposer, Outline } from '@tresjs/post-processing'
+import { ref } from 'vue'
 import type { Intersection, Object3D } from 'three'
-import { Color } from 'three'
+import { NoToneMapping } from 'three'
+import { TresCanvas } from '@tresjs/core'
+import { OrbitControls } from '@tresjs/cientos'
+import { Outline, EffectComposer } from '@tresjs/post-processing'
+import { KernelSize } from 'postprocessing'
 
-const boxWidth = 2
+import { TresLeches, useControls } from '@tresjs/leches'
+import '@tresjs/leches/styles'
+
+import { useRouteDisposal } from '../composables/useRouteDisposal'
+
+const gl = {
+  clearColor: '#121212',
+  toneMapping: NoToneMapping,
+  disableRender: true,
+}
+
+const { effectComposer } = useRouteDisposal()
+
 const outlinedObjects = ref<Object3D[]>([])
 
 const toggleMeshSelectionState = ({ object }: Intersection) => {
@@ -16,55 +28,71 @@ const toggleMeshSelectionState = ({ object }: Intersection) => {
   else outlinedObjects.value = [...outlinedObjects.value, object]
 }
 
-const meshes = shallowRef<Object3D[] | null>(null)
-
-watchOnce(meshes, () => {
-  if (meshes.value?.[0]) outlinedObjects.value.push(meshes.value[0])
-  if (meshes.value?.[2]) outlinedObjects.value.push(meshes.value[2])
+const { edgeStrength, pulseSpeed, visibleEdgeColor, blur, kernelSize } = useControls({
+  edgeStrength: {
+    value: 8000,
+    min: 0,
+    max: 8000,
+    step: 10,
+  },
+  pulseSpeed: {
+    value: 0,
+    min: 0,
+    max: 2,
+    step: 0.01,
+  },
+  visibleEdgeColor: '#ffffff',
+  blur: false,
+  kernelSize: {
+    value: 0,
+    min: KernelSize.VERY_SMALL,
+    max: KernelSize.VERY_LARGE,
+    step: 1,
+  },
 })
+
+// Need to dispose of the effect composer when the route changes because Vitepress doesnt unmount the components
+useRouteDisposal(effectComposer)
 </script>
 
 <template>
+  <TresLeches />
   <TresCanvas
-    clear-color="#121212"
-    :alpha="false"
-    :shadows="true"
+    v-bind="gl"
     :disable-render="true"
   >
     <TresPerspectiveCamera
-      :position="[3, 3, 4]"
-      :look-at="[0, 0, 0]"
+      :position="[1, 3, 3]"
+      :look-at="[2, 2, 2]"
     />
-    <TresMesh
-      v-for="i in 3"
-      ref="meshes"
-      :key="i.toString()"
-      :position="[(i - 2) * boxWidth, 0.5, 1]"
-      @click="toggleMeshSelectionState"
+    <OrbitControls />
+    <template
+      v-for="i in 5"
+      :key="i"
     >
-      <TresBoxGeometry />
-      <TresMeshStandardMaterial
-        color="hotpink"
-        :emissive="new Color('hotpink')"
-        :emissive-intensity="1"
-      />
-    </TresMesh>
+      <TresMesh
+        :position="[i * 1.1 - 2.8, 1, 0]"
+        @click="toggleMeshSelectionState"
+      >
+        <TresBoxGeometry
+          :width="4"
+          :height="4"
+          :depth="4"
+        />
+        <TresMeshStandardMaterial color="hotpink" />
+      </TresMesh>
+    </template>
     <TresGridHelper />
     <TresAmbientLight :intensity="2" />
-    <TresDirectionalLight
-      :position="[-4, 4, 3]"
-      :intensity="2"
-    />
-
     <Suspense>
-      <EffectComposer>
+      <EffectComposer ref="effectComposer">
         <Outline
-          blur
-          :edge-glow="3"
-          :kernel-size="KernelSize.LARGE"
-          :edge-strength="20"
           :outlined-objects="outlinedObjects"
-          visible-edge-color="#82DBC5"
+          :blur="blur.value"
+          :edge-strength="edgeStrength.value"
+          :pulse-speed="pulseSpeed.value"
+          :visible-edge-color="visibleEdgeColor.value"
+          :kernel-size="kernelSize.value"
         />
       </EffectComposer>
     </Suspense>

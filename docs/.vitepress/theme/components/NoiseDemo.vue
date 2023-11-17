@@ -4,7 +4,8 @@ import { BasicShadowMap, SRGBColorSpace, NoToneMapping } from 'three'
 import { EffectComposer, Noise } from '@tresjs/post-processing'
 import { OrbitControls } from '@tresjs/cientos'
 import { BlendFunction } from 'postprocessing'
-import '@tresjs/leches/styles'
+
+import { useRouteDisposal } from '../composables/useRouteDisposal'
 
 const gl = {
   clearColor: '#82DBC5',
@@ -14,6 +15,9 @@ const gl = {
   outputColorSpace: SRGBColorSpace,
   toneMapping: NoToneMapping,
 }
+
+// Need to dispose of the effect composer when the route changes because Vitepress doesnt unmount the components
+const { effectComposer } = useRouteDisposal()
 </script>
 
 <template>
@@ -23,7 +27,7 @@ const gl = {
     <TresGridHelper />
     <TresAmbientLight :intensity="1" />
     <Suspense>
-      <EffectComposer :depth-buffer="true">
+      <EffectComposer ref="effectComposer">
         <Noise
           premultiply
           :blend-function="BlendFunction.SCREEN"

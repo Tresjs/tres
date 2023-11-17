@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { Color } from 'three'
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue'
 import { TresCanvas } from '@tresjs/core'
 import { BlendFunction } from 'postprocessing'
 import { EffectComposer, Bloom } from '@tresjs/post-processing'
+
+import { useRouteDisposal } from '../composables/useRouteDisposal'
 
 const gl = {
   clearColor: '#121212',
@@ -20,6 +22,9 @@ const bloomParams = reactive({
   disableRender: true,
   blendFunction: BlendFunction.ADD,
 })
+
+// Need to dispose of the effect composer when the route changes because Vitepress doesnt unmount the components
+const { effectComposer } = useRouteDisposal()
 </script>
 
 <template>
@@ -44,7 +49,7 @@ const bloomParams = reactive({
       :intensity="1"
     />
     <Suspense>
-      <EffectComposer>
+      <EffectComposer ref="effectComposer">
         <Bloom v-bind="bloomParams" />
       </EffectComposer>
     </Suspense>

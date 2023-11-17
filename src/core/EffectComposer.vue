@@ -26,7 +26,6 @@ const props = withDefaults(defineProps<EffectComposerProps>(), {
   autoClear: true,
   frameBufferType: HalfFloatType,
   disableNormalPass: false,
-
   depthBuffer: undefined,
   multisampling: 0,
   stencilBuffer: undefined,
@@ -39,7 +38,7 @@ let downSamplingPass: DepthDownsamplingPass | null = null
 let normalPass: NormalPass | null = null
 
 provide(effectComposerInjectionKey, effectComposer)
-
+defineExpose({ composer: effectComposer })
 const setNormalPass = () => {
   if (!effectComposer.value) return
 
