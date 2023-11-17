@@ -20,22 +20,22 @@ const toggle = () => {
 </script>
 
 <template>
-  <div class="mb-4">
+  <div class="tl-mb-4">
     <button
       class="
-        flex
-        items-center
-        justify-between
-        w-full
-        py-2
-        px-4
-        bg-gray-100
-        border-none
-        text-gray-400
-        font-bold
-        text-xs
-        font-sans
-        cursor-pointer
+        tl-flex
+        tl-items-center
+        tl-justify-between
+        tl-w-full
+        tl-py-2
+        tl-px-4
+        tl-bg-gray-100
+        tl-border-none
+        tl-text-gray-400
+        tl-font-bold
+        tl-text-xs
+        tl-font-sans
+        tl-cursor-pointer
       "
       :aria-expanded="isOpen"
       aria-haspopup="true"
@@ -50,12 +50,12 @@ const toggle = () => {
 
     <Transition
       name="slide"
-      enter-active-class=" animate-fade-in animate-duration-200 animate-ease-in-out"
-      leave-active-class=" animate-fade-out animate-duration-200 animate-ease-in-out"
+      enter-active-class="tl-animate-fade-in tl-animate-duration-200 tl-animate-ease-in-out"
+      leave-active-class="tl-animate-fade-out tl-animate-duration-200 tl-animate-ease-in-out"
     >
       <div
         v-show="isOpen"
-        class="bg-white rounded-b pt-4"
+        class="tl-bg-white tl-rounded-b tl-pt-4"
         role="menu"
       >
         <template

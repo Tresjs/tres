@@ -49,19 +49,29 @@ const groupedControls = computed(() => {
   <UseDraggable
     :id="uuid"
     :initial-value="{ x: width - DEFAULT_WIDTH - 40, y: 10 }"
-    class="absolute select-none z-24 w-280px font-sans text-xs"
+    class="tl-absolute tl-select-none tl-z-24 tl-w-280px tl-font-sans tl-text-xs"
     :class="$attrs.class"
     :handle="handle"
   >
     <div
       tabindex="0"
-      class="bg-white shadow-xl rounded border-4 border-solid border-black"
+      class="tl-bg-white tl-shadow-xl tl-rounded tl-border-4 tl-border-solid tl-border-black"
     >
       <header
         ref="handle"
-        class="relative cursor-grabbing p-4 flex justify-between text-gray-200 relative"
+        class="tl-relative tl-cursor-grabbing tl-p-4 tl-flex tl-justify-between tl-text-gray-200 tl-relative"
       >
-        <i class="h-4 w-4 p-1.5 flex items-center line-height-0 rounded-full bg-gray-100 text-xs">🍰</i>
+        <i
+          class="tl-h-4
+            tl-w-4
+            tl-p-1.5
+            tl-flex
+            tl-items-center
+            tl-line-height-0
+            tl-rounded-full
+            tl-bg-gray-100
+            tl-text-xs"
+        >🍰</i>
         <div>
           <i class="i-ic-baseline-drag-indicator" /><i class="i-ic-baseline-drag-indicator" /><i
             class="i-ic-baseline-drag-indicator"

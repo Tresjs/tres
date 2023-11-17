@@ -43,33 +43,33 @@ useRafFn(({ timestamp }) => {
 </script>
 
 <template>
-  <div class="flex px-4 justify-between gap-4 items-center mb-2">
-    <label class="text-gray-500 w-1/3">{{ label }}</label>
+  <div class="tl-flex tl-px-4 tl-justify-between tl-gap-4 tl-items-center tl-mb-2">
+    <label class="tl-text-gray-500 tl-w-1/3">{{ label }}</label>
 
     <div
       class="
-        relative
-        w-2/3
-        p-1
-        rounded
-        text-right
-        text-xs
-        text-gray-400
-        bg-gray-100
-        focus:border-gray-200
-        outline-none
-        border-none
-        font-sans
+        tl-relative
+        tl-w-2/3
+        tl-p-1
+        tl-rounded
+        tl-text-right
+        tl-text-xs
+        tl-text-gray-400
+        tl-bg-gray-100
+        tl-focus:border-gray-200
+        tl-outline-none
+        tl-border-none
+        tl-font-sans
       "
     >
-      <div class="absolute bottom-0.5 right-0.5 font-sans text-xs">
+      <div class="tl-absolute tl-bottom-0.5 tl-right-0.5 tl-font-sans tl-text-xs">
         {{ Math.round(fps) }} FPS
       </div>
       <svg
         :width="width"
         :height="height"
         xmlns="http://www.w3.org/2000/svg"
-        class="bg-gray-100"
+        class="tl-bg-gray-100"
       >
         <polyline
           :points="points"

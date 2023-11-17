@@ -22,40 +22,40 @@ function onKeydown(event: KeyboardEvent) {
 </script>
 
 <template>
-  <div class="flex px-4 justify-start gap-2 items-center mb-2 min-h-32px">
-    <label class="text-gray-500 w-1/3">{{ label }}</label>
+  <div class="tl-flex tl-px-4 tl-justify-start tl-gap-2 tl-items-center tl-mb-2 tl-min-h-32px">
+    <label class="tl-text-gray-500 tl-w-1/3">{{ label }}</label>
     <input
       :id="control.uniqueKey"
       :checked="control.value"
-      class="hidden"
+      class="tl-hidden"
       type="checkbox"
       @input="onChange"
     >
     <label
       :for="control.uniqueKey"
-      class="inline-flex items-center cursor-pointer"
+      class="tl-inline-flex tl-items-center tl-cursor-pointer"
     >
       <span
         tabindex="0"
         role="checkbox"
         :aria-checked="control.value.toString()"
-        :class="{ 'bg-dark-500': control.value, 'bg-gray-200': !control.value }"
-        class="w-4 
-          h-4 
-          flex 
-          justify-center 
-          items-center 
-          rounded 
-          border 
-          border-gray-300 
-          mr-2 
-          transition-colors 
-          duration-200"
+        :class="{ 'tl-bg-dark-500': control.value, 'tl-bg-gray-200': !control.value }"
+        class="tl-w-4 
+          tl-h-4 
+          tl-flex 
+          tl-justify-center 
+          tl-items-center 
+          tl-rounded 
+          tl-border 
+          tl-border-gray-300 
+          tl-mr-2 
+          tl-transition-colors 
+          tl-duration-200"
         @keydown="onKeydown"
       >
         <i
           v-show="control.value"
-          class="i-ic:baseline-check text-light"
+          class="i-ic:baseline-check tl-text-light"
         /></span>
     </label>
   </div>
