@@ -146,6 +146,9 @@ importers:
         specifier: ^4.2.5
         version: 4.2.5(vue@3.3.7)
     devDependencies:
+      '@iconify-json/carbon':
+        specifier: ^1.1.21
+        version: 1.1.21
       '@tresjs/cientos':
         specifier: 3.5.1
         version: 3.5.1(@tresjs/core@3.5.0)(three@0.158.0)(tweakpane@4.0.1)(vue@3.3.7)

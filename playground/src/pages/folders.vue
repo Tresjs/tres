@@ -5,8 +5,6 @@ import { BasicShadowMap, SRGBColorSpace, NoToneMapping, Vector3, Vector2 } from 
 import { OrbitControls, Sphere } from '@tresjs/cientos'
 
 import { TresLeches, useControls } from '@tresjs/leches'
-import '@tresjs/leches/style.css'
-import { watch } from 'vue'
 
 const gl = {
   clearColor: '#82DBC5',
