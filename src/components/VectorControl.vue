@@ -3,6 +3,7 @@ import { useKeyModifier, useMouse, useMousePressed } from '@vueuse/core'
 import { computed, ref, watch } from 'vue'
 import { isVector2, isVector3, normalizeVectorFlexibleParam } from '../utils/'
 import type { Control } from '../types'
+import ControlLabel from './ControlLabel.vue'
 
 const props = defineProps<{
   label: string
@@ -110,7 +111,10 @@ watch(mouse.x, (newValue) => {
     class="tl-flex tl-px-4 tl-justify-between tl-gap-1 tl-items-center tl-mb-2"
     @mouseup="onControlMouseUp()"
   >
-    <label class="tl-text-gray-500 tl-w-1/3">{{ label }}</label>
+    <ControlLabel
+      :label="label"
+      :control="control"
+    />
     <div class="tl-relative tl-w-2/3 tl-flex tl-justify-between tl-gap-0.5">
       <div
         v-for="(_subcontrol, $index) in vector"

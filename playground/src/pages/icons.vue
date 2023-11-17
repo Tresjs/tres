@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
-import { BasicShadowMap, SRGBColorSpace, NoToneMapping, Vector3, Vector2 } from 'three'
+import { BasicShadowMap, SRGBColorSpace, NoToneMapping, Vector3 } from 'three'
 
 import { OrbitControls, Sphere } from '@tresjs/cientos'
 
@@ -14,21 +14,30 @@ const gl = {
   outputColorSpace: SRGBColorSpace,
   toneMapping: NoToneMapping,
 }
-
-useControls('camera', {
-  accept: {
-    label: 'Accept',
-    type: 'button',
-    variant: 'secondary',
-    onClick: () => {
-      console.log('accept')
-    },
+useControls({
+  text: {
+    type: 'text',
+    value: 'Hello World',
+    label: 'Text',
+    placeholder: 'Type something',
     icon: 'i-carbon-checkmark',
-    size: 'sm',
   },
-  position: new Vector3(3, 2, 3),
-
-  /*  delay: new Vector2(1.5, 3.5), */
+  camera: {
+    value: new Vector3(0, 2, 4),
+    icon: 'i-carbon-camera',
+  },
+  select: {
+    value: 'option1',
+    options: ['option1', 'option2', 'option3'],
+    icon: 'i-carbon-checkmark',
+  },
+  number: {
+    value: 1,
+    min: 0,
+    max: 10,
+    step: 0.1,
+    icon: 'i-carbon-checkmark',
+  },
 })
 
 /* const { position: lightPosition } = useControls('light', {

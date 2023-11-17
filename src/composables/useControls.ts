@@ -20,7 +20,15 @@ const inferType = (value: any): string => {
   if (typeof value === 'number') return 'number'
   if (typeof value === 'string' && colorRegex.test(value)) return 'color'
   if (typeof value === 'string') return 'string'
-  if (value.isVector3 || value.isVector2 || value.isEuler || value instanceof Array) return 'vector'
+  if (value.isVector3
+    || value.isVector2 
+    || value.isEuler 
+    || value.value instanceof Array
+    || value.value.isVector3
+    || value.value.isVector2
+    || value.value.isEuler
+    || value.value.value instanceof Array
+  ) return 'vector'
   if (value.min !== undefined || value.max !== undefined || value.step !== undefined) return 'range'
   if (
     value.options 
@@ -40,6 +48,8 @@ const createControl = (key: string, value: any, type: string, folderName: string
     type: ref(type),
     value: ref(value),
     visible: ref(true),
+    icon: ref(),
+    uniqueKey: ref(key),
     [key]: ref(value),
   }
 
@@ -105,7 +115,7 @@ export const useControls = (
     if (typeof value === 'object' && !isRef(value) && !Array.isArray(value) && value.value !== undefined) {
       const controlOptions = value
       const reactiveValue = isRef(controlOptions.value) ? controlOptions.value : ref(controlOptions.value)
-      const controlType = inferType(controlOptions)
+      const controlType = controlOptions.type || inferType(controlOptions)
       const control = createControl(key, reactiveValue, controlType, folderName)
 
       if (controlType === 'select') {
@@ -129,9 +139,9 @@ export const useControls = (
       }
 
       control.label.value = controlOptions.label || key
-
+      control.icon.value = controlOptions.icon
       control.visible.value = controlOptions.visible !== undefined ? controlOptions.visible : true
-
+      control.uniqueKey.value = uniqueKey
       controls[uniqueKey] = control
       result[uniqueKey] = control
       continue
@@ -139,7 +149,7 @@ export const useControls = (
 
     // If the value is a ref, use it directly
     if (isRef(value)) {
-      const control = createControl(key, value, inferType(value.value), folderName)
+      const control = createControl(key, value, (value.value as any).type || inferType(value.value), folderName)
       controls[uniqueKey] = control
       result[uniqueKey] = control
       continue
@@ -154,12 +164,12 @@ export const useControls = (
     }
 
     // For non-ref values
-    const control = createControl(key, value, inferType(value), folderName)
+    const control = createControl(key, value, value.type || inferType(value), folderName)
 
     // Update the internal state
     controls[uniqueKey] = control
     result[uniqueKey] = control
-    control.uniqueKey = uniqueKey
+    control.uniqueKey.value = uniqueKey
   }
 
   return Object.keys(result).length > 1 ? toRefs(reactive(result)) : Object.values(result)[0]

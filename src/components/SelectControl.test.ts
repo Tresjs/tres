@@ -91,4 +91,24 @@ describe('Dropdown Control', async () => {
 
     expect(wrapper.vm.visible).toBe(false)
   })
+  it('should render an icon instead of a label', () => {
+    dispose();
+    mountComponent(() => {
+      const { visible } = useControls({  
+        test: {
+          label: 'Games',
+          options: [
+            { text: 'Crash Bandicoot', value: 'crash-bandicoot' },
+            { text: 'Spyro The Dragon', value: 'spyro-the-dragon' },
+            { text: 'Metal Gear Solid', value: 'metal-gear-solid' }],
+          value: 'crash-bandicoot',
+          icon: 'i-carbon-checkmark',
+        }
+      });
+      return { visible };
+    });
+    const icon = wrapper.find('i.i-carbon-checkmark');
+    expect(icon.exists()).toBe(true);
+  })
+
 })

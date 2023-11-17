@@ -8,6 +8,7 @@ import ColorControl from './ColorControl.vue'
 import VectorControl from './VectorControl.vue'
 import FPSGraph from './FPSGraph.vue'
 import SelectControl from './SelectControl.vue'
+import ButtonControl from './ButtonControl.vue'
 
 defineProps<{
   control: Control
@@ -63,6 +64,17 @@ function onChange(value: string) {
       :control="control"
       @change="onChange"
     />
+    <div
+      v-else-if="control.type === 'button'"
+      class="p-2"
+      :class="control.value.size === 'block' ? 'flex' : 'inline-flex'"
+    >
+      <ButtonControl
+   
+        :label="control.label"
+        :control="control"
+      />
+    </div>
     <TextControl
       v-else
       :label="control.label"

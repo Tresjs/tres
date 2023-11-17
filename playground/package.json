@@ -18,6 +18,7 @@
     "vue-router": "^4.2.5"
   },
   "devDependencies": {
+    "@iconify-json/carbon": "^1.1.21",
     "@tresjs/cientos": "3.5.1",
     "@tresjs/core": "3.5.0",
     "@types/three": "^0.158.1",

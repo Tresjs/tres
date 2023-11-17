@@ -1,5 +1,12 @@
 
 
+## [0.14.0-next.0](https://github.com/Tresjs/leches/compare/0.13.0...0.14.0-next.0) (2023-11-06)
+
+
+### Features
+
+* added buttons and icons ([99f2e0e](https://github.com/Tresjs/leches/commit/99f2e0ef4ff00ab36eb098cc7f91a38ed99a06b9))
+
 ## [0.13.0](https://github.com/Tresjs/leches/compare/0.12.1...0.13.0) (2023-11-04)
 
 

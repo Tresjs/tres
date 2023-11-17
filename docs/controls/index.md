@@ -103,3 +103,53 @@ const { value } = useControls({
 ```
 
 <Vector3Demo/>
+
+## Button
+
+```ts
+useControls({
+  acceptBtn: {
+    label: 'Accept',
+    type: 'button',
+    onClick: () => {
+      console.log('accept')
+    },
+    size: 'sm',
+  },
+})
+```
+<ButtonDemo/>
+
+### Variants
+
+```ts
+useControls({
+  acceptBtn: {
+    label: 'Button Secondary',
+    type: 'button',
+    variant: 'secondary',
+    onClick: () => {
+      console.log('accept')
+    },
+  },
+})
+```
+
+<ButtonVariantDemo/>
+
+### Sizes
+
+```ts
+useControls({
+  acceptBtn: {
+    label: 'Button Small',
+    type: 'button',
+    size: 'sm',
+    onClick: () => {
+      console.log('accept')
+    },
+  },
+})
+```
+
+<ButtonSizesDemo/>

@@ -72,5 +72,20 @@ describe('Text Control', () => {
       expect(input.exists()).toBe(false);
       expect(wrapper.vm.visible).toBe(false);
     });
+
+    it('should render an icon instead of a label', () => {
+      dispose();
+      mountComponent(() => {
+        const { visible } = useControls({  
+          test: {
+            value: 'awiwi',
+            icon: 'i-carbon-checkmark',
+          }
+        });
+        return { visible };
+      });
+      const icon = wrapper.find('i.i-carbon-checkmark');
+      expect(icon.exists()).toBe(true);
+    })
   });
 });

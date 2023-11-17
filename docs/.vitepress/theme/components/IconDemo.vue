@@ -1,9 +1,14 @@
 <script setup lang="ts">
 import { TresLeches, useControls } from '@tresjs/leches'
+import { Vector3 } from 'three'
 
-const uuid = 'single'
-const control = useControls({
-  awiwi: true,
+const uuid = 'icon'
+const { value } = useControls({
+  camera: {
+    label: 'Camera Position',
+    value: new Vector3(0, 0, 0),
+    icon: 'i-carbon-camera',
+  },
 }, {
   uuid,
 })
@@ -12,7 +17,7 @@ const control = useControls({
 <template>
   <div class="w-full h-300px bg-gray-200 mb-8 relative grid grid-cols-2 gap-16 items-center">
     <div class="p-4">
-      <pre class="bg-dark p-8 rounded text-white text-xs">{{ control }}</pre>
+      <pre class="bg-dark p-8 rounded text-white">{{ value }}</pre>
     </div>
     <div class="relative w-280px min-h-200px">
       <TresLeches

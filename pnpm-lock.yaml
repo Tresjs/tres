@@ -24,6 +24,9 @@ importers:
       '@iconify-json/ic':
         specifier: ^1.1.14
         version: 1.1.14
+      '@iconify/json':
+        specifier: ^2.2.138
+        version: 2.2.138
       '@release-it/conventional-changelog':
         specifier: ^7.0.2
         version: 7.0.2(release-it@16.2.1)
@@ -124,6 +127,9 @@ importers:
         specifier: ^0.158.0
         version: 0.158.0
     devDependencies:
+      '@iconify-json/carbon':
+        specifier: ^1.1.21
+        version: 1.1.21
       unocss:
         specifier: ^0.57.2
         version: 0.57.2(postcss@8.4.31)(vite@4.5.0)
@@ -140,6 +146,9 @@ importers:
         specifier: ^4.2.5
         version: 4.2.5(vue@3.3.7)
     devDependencies:
+      '@iconify-json/carbon':
+        specifier: ^1.1.21
+        version: 1.1.21
       '@tresjs/cientos':
         specifier: 3.5.1
         version: 3.5.1(@tresjs/core@3.5.0)(three@0.158.0)(tweakpane@4.0.1)(vue@3.3.7)
@@ -783,10 +792,23 @@ packages:
     resolution: {integrity: sha512-trnsAYxU3xnS1gPHPyU961coFyLkh4gAD/0zQ5mymY4yOZ+CYvsPqUbOFSw0aDM4y0tV7tiFxL/1XfXPNC6IPg==}
     dev: true
 
+  /@iconify-json/carbon@1.1.21:
+    resolution: {integrity: sha512-bK2cMVM4noBU+FGlay433flpXLRzQu0ED095iAnoO6ka3yb4uz0lvb8acpN5gthyGLJ89C4HpfIbQZLQnMKQww==}
+    dependencies:
+      '@iconify/types': 2.0.0
+    dev: true
+
   /@iconify-json/ic@1.1.14:
     resolution: {integrity: sha512-vbATa9uwb9pIsRWQ+iXObQCgLTePk/0vo4shBr3Td0GnTjsAU/7VUGTkrZFVf5vpgiG6OsXkcKMPzBPvt966sg==}
     dependencies:
       '@iconify/types': 2.0.0
+    dev: true
+
+  /@iconify/json@2.2.138:
+    resolution: {integrity: sha512-Xadn4xiIiaF02VLbJwviPSNqB2pNH2NQ+mxgtM5SuYQ/U/D9Sa+hr2Jwc/YlcOWgeqIp+hIVR2YzJDtSiL3fPA==}
+    dependencies:
+      '@iconify/types': 2.0.0
+      pathe: 1.1.1
     dev: true
 
   /@iconify/types@2.0.0:

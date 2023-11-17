@@ -78,4 +78,19 @@ describe('Vector Control', async () => {
     expect(wrapper.vm.position.z).toBe(-1)
   })
   // TODO: mouseDown
+  it('should render an icon instead of a label', () => {
+    dispose();
+    mountComponent(() => {
+      const { visible } = useControls({  
+        test: {
+          value: new Vector3(0, 2, 4),
+          icon: 'i-carbon-checkmark',
+        }
+      });
+      return { visible };
+    });
+    const icon = wrapper.find('i.i-carbon-checkmark');
+    expect(icon.exists()).toBe(true);
+    expect(wrapper.findAll('input[type="number"]').length).toBeGreaterThan(1)
+  })
 })

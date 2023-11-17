@@ -2,6 +2,7 @@
 import { computed, ref, watch } from 'vue'
 import { useMouse } from '@vueuse/core'
 import type { Control } from '../types'
+import ControlLabel from './ControlLabel.vue'
 
 const props = defineProps<{
   label: string
@@ -63,10 +64,10 @@ watch(mouse.x, (newValue) => {
 
 <template>
   <div class="tl-px-4 tl-relative tl-flex tl-justify-between tl-gap-4 tl-items-center tl-mb-2">
-    <label
-      class="tl-text-gray-500 tl-w-1/3"
-      :class="{ 'tl-flex tl-justify-between tl-items-center': control.icon }"
-    >{{ label }} <i :class="`i-${control.icon}`" /></label>
+    <ControlLabel
+      :label="label"
+      :control="control"
+    />
     <input
       :value="control.value"
       class="tl-w-1/2 tl-h-0.75 tl-bg-dark-200 tl-rounded-full tl-appearance-none"
