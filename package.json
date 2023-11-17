@@ -105,7 +105,7 @@
     "vite-plugin-dts": "3.6.3",
     "vite-plugin-inspect": "^0.7.41",
     "vite-plugin-require-transform": "^1.0.21",
-    "vite-svg-loader": "^4.0.0",
+    "vite-svg-loader": "^5.0.0",
     "vitepress": "1.0.0-rc.24",
     "vitest": "^0.34.6",
     "vue": "^3.3.7",
