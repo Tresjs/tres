@@ -92,9 +92,9 @@ export default defineConfig({
     },
   },
   resolve: {
-    alias: {
+    /* alias: {
       '@tresjs/leches': resolve(__dirname, '../src/'),
-    },
+    }, */
     dedupe: ['three'],
   },
 })

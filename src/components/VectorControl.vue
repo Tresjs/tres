@@ -108,23 +108,27 @@ watch(mouse.x, (newValue) => {
 
 <template>
   <div
-    class="flex px-4 justify-between gap-1 items-center mb-2"
+    class="tl-flex tl-px-4 tl-justify-between tl-gap-1 tl-items-center tl-mb-2"
     @mouseup="onControlMouseUp()"
   >
     <ControlLabel
       :label="label"
       :control="control"
     />
-    <div class="relative w-2/3 flex justify-between gap-0.5">
+    <div class="tl-relative tl-w-2/3 tl-flex tl-justify-between tl-gap-0.5">
       <div
         v-for="(_subcontrol, $index) in vector"
         :key="label + $index"
-        class="flex items-center bg-gray-100 rounded"
-        :class="{ 'w-2/5': focused === $index, 'w-1/3': isVector3(control.value), 'w-1/2': isVector2(control.value) }" 
+        class="tl-flex tl-items-center tl-bg-gray-100 tl-rounded"
+        :class="{ 
+          'tl-w-2/5': focused === $index,
+          'tl-w-1/3': isVector3(control.value), 
+          'tl-w-1/2': isVector2(control.value), 
+        }" 
       >
         <span
           v-if="labels[$index] && isVector"
-          class="font-bold px-1 py-1 text-0.65rem text-gray-300"
+          class="tl-font-bold tl-px-1 tl-py-1 tl-text-0.65rem tl-text-gray-300"
         >{{
           labels[$index]
         }}</span>
@@ -133,20 +137,20 @@ watch(mouse.x, (newValue) => {
           :id="`${control.uniqueKey}-${labels[$index]}`"
           type="number"
           :step="step"
-          class="w-full
-            px-0
-            p-1
-            text-right
-            text-0.65rem
-            text-gray-400
-            bg-transparent
-            focus:border-gray-200
-            outline-none
-            border-none
-            font-sans
-            appearence-none"
+          class="tl-w-full
+            tl-px-0
+            tl-p-1
+            tl-text-right
+            tl-text-0.65rem
+            tl-text-gray-400
+            tl-bg-transparent
+            focus:tl-border-gray-200
+            tl-outline-none
+            tl-border-none
+            tl-font-sans
+            tl-appearence-none"
           :value="vector[$index].toFixed(2)"
-          :class="{ 'cursor-ew-resize': isMouseDown }"
+          :class="{ 'tl-cursor-ew-resize': isMouseDown }"
           @input="onChange($event, $index)"
           @mousedown="onInputMouseDown($event, $index)"
           @mouseup="onInputMouseUp($event, $index)"

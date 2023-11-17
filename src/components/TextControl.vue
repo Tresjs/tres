@@ -16,7 +16,7 @@ function onChange(event: Event) {
 </script>
 
 <template>
-  <div class="flex px-4 justify-between gap-4 items-center mb-2 min-h-32px">
+  <div class="tl-flex tl-px-4 tl-justify-between tl-gap-4 tl-items-center tl-mb-2 tl-min-h-32px">
     <ControlLabel
       :label="label"
       :control="control"
@@ -26,7 +26,17 @@ function onChange(event: Event) {
       :value="control.value"
       type="text"
       tabindex="0"
-      class="p-2 w-2/3 rounded text-right text-xs text-gray-400 bg-gray-100 focus:border-gray-200 border-none font-sans"
+      class="
+        tl-p-2
+        tl-w-2/3
+        tl-rounded
+        tl-text-right
+        tl-text-xs
+        tl-text-gray-400
+        tl-bg-gray-100
+        focus:tl-border-gray-200
+        tl-border-none
+        tl-font-sans"
       :aria-label="label"
       placeholder="Enter value here..."
       @change="onChange"

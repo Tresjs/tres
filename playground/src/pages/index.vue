@@ -4,7 +4,8 @@ import { TresCanvas } from '@tresjs/core'
 import { OrbitControls } from '@tresjs/cientos'
 
 import { TresLeches, useControls } from '@tresjs/leches'
-import '@tresjs/leches/style.css'
+
+/* import '@tresjs/leches/style.css' */
 import { reactive, ref, watchEffect } from 'vue'
 
 const gl = reactive({

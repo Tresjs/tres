@@ -12,6 +12,7 @@ import { resolve } from 'pathe'
 import UnoCSS from 'unocss/vite'
 import { presetUno, presetIcons, presetWebFonts, transformerDirectives } from 'unocss'
 import { lightGreen, magenta, gray, bold } from 'kolorist'
+import cssInjectedByJsPlugin from 'vite-plugin-css-injected-by-js'
 
 import pkg from './package.json'
 
@@ -34,7 +35,10 @@ export default defineConfig({
     UnoCSS({
       /* options */
       presets: [
-        presetUno(),
+        presetUno({
+          prefix: 'tl-',
+          variablePrefix: 'tl-',
+        }),
         presetIcons({
           scale: 1.2,
           warn: true,
@@ -53,6 +57,8 @@ export default defineConfig({
       ],
       transformers: [transformerDirectives()],
     }),
+    /*  cssInjectedByJsPlugin(), */
+
   ],
   test: {
     environment: process.env.BROWSER_TEST ? 'node' : 'jsdom',

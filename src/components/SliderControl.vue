@@ -63,14 +63,14 @@ watch(mouse.x, (newValue) => {
 </script>
 
 <template>
-  <div class="px-4 relative flex justify-between gap-4 items-center mb-2">
+  <div class="tl-px-4 tl-relative tl-flex tl-justify-between tl-gap-4 tl-items-center tl-mb-2">
     <ControlLabel
       :label="label"
       :control="control"
     />
     <input
       :value="control.value"
-      class="w-1/2 h-0.75 bg-dark-200 rounded-full appearance-none"
+      class="tl-w-1/2 tl-h-0.75 tl-bg-dark-200 tl-rounded-full tl-appearance-none"
       :style="sliderFilledStyle"
       type="range"
       :min="control.min"
@@ -81,19 +81,19 @@ watch(mouse.x, (newValue) => {
     <input
       :value="control.value"
       class="
-        p-2
-        w-1/4
-        rounded
-        text-right
-        text-xs
-        text-gray-400
-        bg-gray-100
-        focus:border-gray-200
-        outline-none
-        border-none
-        font-sans
+        tl-p-2
+        tl-w-1/4
+        tl-rounded
+        tl-text-right
+        tl-text-xs
+        tl-text-gray-400
+        tl-bg-gray-100
+        tl-focus:border-gray-200
+        tl-outline-none
+        tl-border-none
+        tl-font-sans
       "
-      :class="{ 'cursor-ew-resize': isMouseDown }"
+      :class="{ 'tl-cursor-ew-resize': isMouseDown }"
       type="number"
       :min="control.min"
       :max="control.max"

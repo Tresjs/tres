@@ -56,7 +56,8 @@
   },
   "dependencies": {
     "@unocss/core": "^0.57.2",
-    "@vueuse/components": "^10.5.0"
+    "@vueuse/components": "^10.5.0",
+    "vite-plugin-css-injected-by-js": "^3.3.0"
   },
   "devDependencies": {
     "@histoire/plugin-vue": "^0.17.4",
