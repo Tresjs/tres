@@ -5,9 +5,11 @@ import { useWindowSize } from '@vueuse/core'
 import { UseDraggable } from '../composables/useDraggable/component'
 import { useControlsProvider } from '../composables/useControls'
 import type { Control } from '../types'
+import { usePerfProvider } from '../composables/usePerf'
 import Folder from './Folder.vue'
 
 import ControlInput from './ControlInput.vue'
+import PerformanceMonitor from './PerformanceMonitor.vue'
 
 const props = defineProps<{
   uuid?: string
@@ -22,6 +24,7 @@ const DEFAULT_WIDTH = 280
 const handle = ref<HTMLElement | null>(null)
 
 const controls = useControlsProvider(uuid?.value)
+const perf = usePerfProvider(uuid?.value)
 
 function onChange(key: Ref<string>, value: string) {
   controls[unref(key)].value = value as any
@@ -96,6 +99,9 @@ const groupedControls = computed(() => {
             @change="newValue => onChange(control.key, newValue)" 
           />
         </template>
+      </template>
+      <template v-if="perf.gl">
+        <PerformanceMonitor :uuid="uuid" />
       </template>
     </div>
   </UseDraggable>

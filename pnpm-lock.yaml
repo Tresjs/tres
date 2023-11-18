@@ -8,12 +8,21 @@ importers:
 
   .:
     dependencies:
+      '@tresjs/core':
+        specifier: 3.5.0
+        version: 3.5.0(three@0.158.0)(vue@3.3.7)
+      '@types/three':
+        specifier: ^0.158.1
+        version: 0.158.1
       '@unocss/core':
         specifier: ^0.57.2
         version: 0.57.2
       '@vueuse/components':
         specifier: ^10.5.0
         version: 10.5.0(vue@3.3.7)
+      three:
+        specifier: ^0.158.0
+        version: 0.158.0
       vite-plugin-css-injected-by-js:
         specifier: ^3.3.0
         version: 3.3.0(vite@4.5.0)
@@ -24,6 +33,9 @@ importers:
       '@iconify-json/ic':
         specifier: ^1.1.14
         version: 1.1.14
+      '@iconify-json/iconoir':
+        specifier: ^1.1.33
+        version: 1.1.33
       '@iconify/json':
         specifier: ^2.2.138
         version: 2.2.138
@@ -319,7 +331,6 @@ packages:
 
   /@alvarosabu/utils@3.1.1:
     resolution: {integrity: sha512-DdZNe0i0UsqA2X/+JtaznG4qGorU24FaHqxMAhVspQaC1my+YAVQLpfw8GilHpzMxPxX4sGVzuTnBF8GOdG5oA==}
-    dev: true
 
   /@ampproject/remapping@2.2.1:
     resolution: {integrity: sha512-lFMjJTrFL3j7L9yBxwYfCq2k6qqwHyzuUl/XBnif78PWTJYyL/dfowQHWE3sp6U6ZzqWiiIZnpTMO96zhkjwtg==}
@@ -800,6 +811,12 @@ packages:
 
   /@iconify-json/ic@1.1.14:
     resolution: {integrity: sha512-vbATa9uwb9pIsRWQ+iXObQCgLTePk/0vo4shBr3Td0GnTjsAU/7VUGTkrZFVf5vpgiG6OsXkcKMPzBPvt966sg==}
+    dependencies:
+      '@iconify/types': 2.0.0
+    dev: true
+
+  /@iconify-json/iconoir@1.1.33:
+    resolution: {integrity: sha512-sHYHsI/XXY6ByFZD5wjSqToz1EsIhMzI6QOgsN+saWPYEyXVsGwRaygXzMiK+NE1i/4xxVryU9u/NXRVMrqb/w==}
     dependencies:
       '@iconify/types': 2.0.0
     dev: true
@@ -1290,7 +1307,6 @@ packages:
       vue: 3.3.7(typescript@5.2.2)
     transitivePeerDependencies:
       - '@vue/composition-api'
-    dev: true
 
   /@tresjs/eslint-config-base@0.2.1(@typescript-eslint/eslint-plugin@6.9.1)(@typescript-eslint/parser@6.9.1)(eslint@8.53.0):
     resolution: {integrity: sha512-9fkwDaNu4nLKujeERi5d1S7+ZdZpxBE+g/jUbM4ywhn/+5P7Qv8dXlo1vB05LteX5cTBnZxHQTFrJGK+sMcFdg==}
@@ -1451,7 +1467,6 @@ packages:
 
   /@types/stats.js@0.17.2:
     resolution: {integrity: sha512-j1oI+BOPiAAAKFysNNutE9aAIjvHqqILubCs2EeHKc19pi4uybaGAgBfLXsCgJYcyKWkiilEvl8CkFF/SL+baA==}
-    dev: true
 
   /@types/three@0.158.1:
     resolution: {integrity: sha512-U7SimpoMrlpY2TjYedb9sQeOVHdRWJEiaNQxywJETMGMoEhWEfpP0sywRADR/xOQbaixZ6lk5Hv+3IOFriprkw==}
@@ -1460,7 +1475,6 @@ packages:
       '@types/webxr': 0.5.7
       fflate: 0.6.10
       meshoptimizer: 0.18.1
-    dev: true
 
   /@types/unist@2.0.8:
     resolution: {integrity: sha512-d0XxK3YTObnWVp6rZuev3c49+j4Lo8g4L1ZRm9z5L0xpoZycUPshHgczK5gsUMaZOstjVYYi09p5gYvUtfChYw==}
@@ -1471,7 +1485,6 @@ packages:
 
   /@types/webxr@0.5.7:
     resolution: {integrity: sha512-Rcgs5c2eNFnHp53YOjgtKfl/zWX1Y+uFGUwlSXrWcZWu3yhANRezmph4MninmqybUYT6g9ZE0aQ9QIdPkLR3Kg==}
-    dev: true
 
   /@types/which@2.0.2:
     resolution: {integrity: sha512-113D3mDkZDjo+EeUEHCFy0qniNc1ZpecGiAU7WSo7YDoSzolZIQKpYFHrPpjkB2nuyahcKfrmLXeQlh7gqJYdw==}
@@ -4242,7 +4255,6 @@ packages:
 
   /fflate@0.6.10:
     resolution: {integrity: sha512-IQrh3lEPM93wVCEczc9SaAOvkmcoQn/G8Bo1e8ZPlY3X3bnAxWaBdvTdvM1hP62iZp0BXWDy4vTAy4fF0+Dlpg==}
-    dev: true
 
   /fflate@0.8.1:
     resolution: {integrity: sha512-/exOvEuc+/iaUm105QIiOt4LpBdMTWsXxqR0HDF35vx3fmaKzw7354gTilCh5rkzEt8WYyG//ku3h3nRmd7CHQ==}
@@ -5860,7 +5872,6 @@ packages:
 
   /meshoptimizer@0.18.1:
     resolution: {integrity: sha512-ZhoIoL7TNV4s5B6+rx5mC//fw8/POGyNxS/DZyCJeiZ12ScLfVwRE/GfsxwiTkMYYD5DmK2/JXnEVXqL4rF+Sw==}
-    dev: true
 
   /micromark@2.11.4:
     resolution: {integrity: sha512-+WoovN/ppKolQOFIAajxi7Lu9kInbPxFuTBVEavFcL8eAfVstoc5MocPmqBeAdBOJV00uaVjegzH4+MA0DN/uA==}

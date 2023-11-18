@@ -55,13 +55,17 @@
     "vue": ">=3.3.4"
   },
   "dependencies": {
+    "@tresjs/core": "3.5.0",
+    "@types/three": "^0.158.1",
     "@unocss/core": "^0.57.2",
     "@vueuse/components": "^10.5.0",
+    "three": "^0.158.0",
     "vite-plugin-css-injected-by-js": "^3.3.0"
   },
   "devDependencies": {
     "@histoire/plugin-vue": "^0.17.4",
     "@iconify-json/ic": "^1.1.14",
+    "@iconify-json/iconoir": "^1.1.33",
     "@iconify/json": "^2.2.138",
     "@release-it/conventional-changelog": "^7.0.2",
     "@tresjs/eslint-config-vue": "^0.2.1",

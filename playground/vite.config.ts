@@ -31,7 +31,10 @@ export default defineConfig({
     UnoCSS({
       /* options */
       presets: [
-        presetUno(),
+        presetUno({
+          prefix: 'tl-',
+          variablePrefix: 'tl-',
+        }),
         presetIcons({
           scale: 1.2,
           warn: true,
@@ -92,9 +95,9 @@ export default defineConfig({
     },
   },
   resolve: {
-    /* alias: {
+    alias: {
       '@tresjs/leches': resolve(__dirname, '../src/'),
-    }, */
+    },
     dedupe: ['three'],
   },
 })

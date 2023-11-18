@@ -21,6 +21,11 @@ const routes = [
     name: 'Icons',
     component: () => import('./pages/icons.vue'),
   },
+  {
+    path: '/perf',
+    name: 'Perf',
+    component: () => import('./pages/perf.vue'),
+  },
 ]
 export const router = createRouter({
   history: createWebHistory(),
