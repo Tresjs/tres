@@ -46,13 +46,6 @@ Notice that you can pass a texture in combination with props,  to personalize yo
 ```
 ## Props
 
-| Prop               | Description                                                            | Default |
-| :----------------- | :--------------------------------------------------------------------- | ------- |
-| **opacity**        | The strength of the opacity.                                           |   0.5   |
-| **speed**          | The rotation speed of the smoke.                                      | 0.4    |
-| **width**          | The base width.                                                        | 4    |
-| **depth**          | The base depth.                                                        | 10    |
-| **segments**       | The number of smoke to render.                                        | 10   |
-| **texture**        | The texture of the smoke.                                             |  null   |
-| **color**          | The color of the smoke.                                               | 0xffffff      |
-| **depthTest**      | The depthTest.                                                         | true     |
+<CientosPropsTable component-path="src/core/staging/Smoke.vue" 
+:on-format-value="({valueFormatted, propName, fieldName}) => propName === 'texture' && fieldName === 'default' ? 'default component texture' : valueFormatted"
+/>

@@ -19,3 +19,7 @@ The `cientos` package provides a `<Backdrop />` component. It's just a curved pl
     <TresMeshPhysicalMaterial color="orange" :roughness="1" />
 </Backdrop>
 ```
+
+## Props
+
+<CientosPropsTable component-path="src/core/staging/Backdrop.vue" :fields="['name', 'type', 'default', 'required']" />

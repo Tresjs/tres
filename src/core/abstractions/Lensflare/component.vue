@@ -1,24 +1,59 @@
 <script setup lang="ts">
-import type { LensflareElement } from 'three/examples/jsm/objects/Lensflare'
 import { Lensflare } from 'three/examples/jsm/objects/Lensflare'
+import type { LensflareElement } from 'three/examples/jsm/objects/Lensflare'
+import type { Texture } from 'three'
 import { TextureLoader } from 'three'
 import { watch, shallowRef, onMounted, onUnmounted } from 'vue'
+import type { TresColor } from '@tresjs/core'
 import { normalizeColor } from '@tresjs/core'
 import type { LensflareElementProps, SeedProps } from '.'
 import { partialLensflarePropsArrayToLensflarePropsArray as fillInProps, filterLensflareElementProps } from '.'
 
-const props = withDefaults(
-  defineProps<Partial<LensflareElementProps> & {
-    elements?: Partial<LensflareElementProps>[]
-    scale?: number
-    seed?: number
-    seedProps?: SeedProps[]
-  }>(),
+export interface LensflareProps {
+  /** 
+   * scale of the lensflare
+   */
+  scale?: number
+  /**
+   * array of lensflare element properties
+   */
+  elements?: Partial<LensflareElementProps>[]
+  /**
+     * random seed for generating random seeded elements
+     */
+  seed?: number
+  /**
+   * specifications for generating random seeded elements
+   */
+  seedProps?: SeedProps[]
+  /**
+   * default color of lensflare elements
+   */
+  color?: TresColor
+  /**
+   *  default distance of lensflare elements from flare center
+   */
+  distance?: number
+  /**
+   *  default size of lensflare elements
+   */
+  size?: number
+  /**
+   * default texture of lensflare elements
+   */
+  texture?: Texture | string[]
+}
+
+const props = withDefaults(defineProps<LensflareProps>(),
   {
+    scale: 1.0,
     elements: undefined,
-    scale: 1,
     seed: undefined,
     seedProps: undefined,
+    color: undefined,
+    distance: undefined,
+    size: undefined,
+    texture: undefined,
   },
 )
 
@@ -112,7 +147,7 @@ onUnmounted(() => {
 
 onMounted(() => {
   lensflareRef.value?.add(threeLensflare)
-  lensflareElementPropsArrayRef.value 
+  lensflareElementPropsArrayRef.value
     = fillInProps(props.elements, userDefaultLensflareElementPropsRef.value, props.seed, props.seedProps)
 })
 
@@ -126,7 +161,7 @@ watch(() => [props.color, props.distance, props.size, props.texture], () => {
 })
 
 watch(() => [userDefaultLensflareElementPropsRef.value, props.elements, props.seed, props.seedProps], () => {
-  lensflareElementPropsArrayRef.value 
+  lensflareElementPropsArrayRef.value
     = fillInProps(props.elements, userDefaultLensflareElementPropsRef.value, props.seed, props.seedProps)
 })
 
