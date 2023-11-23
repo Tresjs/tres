@@ -2,7 +2,7 @@
 
 [TextGeometry](https://threejs.org/docs/index.html?q=text#examples/en/geometries/TextGeometry) is one of the ways we can add 3D text in our scene.
 
-<StackBlitzEmbed projectId="tresjs-text3d-cientos" />
+<SandboxDemo url="https://play.tresjs.org/#eNqdVlFv2zYQ/iuEgsEbZkuOnXSd5gxe7G5YsbRF7LcqD7RES0wokiApO0Hg/74jKduUkWbp8hCYdx+/O3684+k5Wiqi/5Ay3jQkSqOJzhWVBmliGokY5uVVFhmdRb9nnNZSKIOe0TXWNF9UuBDbGyz7aHH71/VMMKEWEuekjz6JpeAEXJLyEu3QWoka9UylCOn9FvDY0DPMN1gfQFMDtnud5EJ1sZ/VipqZ4EYJ9gKcEm6EDnYsyaNpQXFiF/aAvYxnPBdcG1QydIWeM45QzghWLv0U9c7ej+bXs8te33q0O6JOkVENcRbMZIVTtMZMe4OHwFGXT5Kkp8pYhGiMbCDzvTzpqVwWZI56pV35wL2DU00SfzFwDbAwpJYMGwIrhCaBjJvBivICrqxk7soQ/Dn/F6K0JLmhGzLDNVEYpVJoaqjggP466o/6v95lEUr2m7p6H8yLBmi49pE9uxX64E9OAC74nCobWnDM/qFlZbqxh3006qMLGz2l3MBmap7AcR6PwJRjbQZe5TbKJDkeGAyTJFADlto8MfuzMjUD8VaiePL3XGNVUp6iIciJkMRF4dT2y4rYxFJ0Phz+4AxbWpjqsN5l/AzuwxP9BxahFc4fSiUaXgxyX1dnw6GNAzRwkS7BqB/5Sh3UWMb3WnDoPkeftQ5outQHtLawMawjiypjpE6TJC847C8IoxsVc2ISLuskhE/H8WU8TAqqTWLNgM4iV3YdYt9C38PtdwD9u5C+NXejmC3BDxLzt+R+wE4v4mF83jLvjXFN7Z6Q2z4sb+G1uCkwXr6HfH8mug5lgOeh0eTN+gbw6fnQCQydRx7juqtui4MKVqT4DmK/4TVqAA4KUtM3kO6h9vAX8buE0VVIaRmhNHdQk0bD87im5UlF5qKWlBH1Wdqu7VYmZkxsPzrb4Z10eyqSP7xgv9ePPuUvUCxEbUDu41VCjxLj3R8Wn+BpCZy1KBrWXs43nLdEC9bYHD3sGnoQ0g5wLtu/XYNB+y/1h0f34rSH6iRq4El31q/7x+5Qa95w54RzeHcds1dUOp5sHI8Dwfej6XT2hvMW6sHCGkVenpPhSAXceP7N+biffjU2OcyslvQK4S2mJojzoztyb19UCm/jkpqqWQFEAQVoZmIoCvcUAz/WkLROakw5PMeOwq5sEJ38Ekte2ol699Prk6ydJuP5Xm/UnRSD8z6CaTGEUXFEKLK2nyiw75asQ8ca0gTP/zqD3auTP6nCM1FAVZUNw8r1RBjhMASR+5T5uDiu3dy7Ibq6cSLAf6IoZij1okBenSsIJ6/7WhnPu6Mt2v0LMkc7LA=="/>
 
 However, it is not part of the core of ThreeJS. So to use it you would need to import it from the `three/addons/controls/TextGeometry` module.
 
@@ -26,7 +26,7 @@ Then you need to extend the catalogue of components using the `extend` method.
 import { extend } from '@tresjs/core'
 import { TextGeometry } from 'three/addons/geometries/TextGeometry'
 
-extend({ TextGeometry: TextGeometry })
+extend({ TextGeometry })
 ```
 
 [TextGeometry](https://threejs.org/docs/index.html?q=text#examples/en/geometries/TextGeometry) needs a only one required argument the font, you can see an example below.
@@ -38,10 +38,11 @@ const loader = new FontLoader()
 
 const font = await new Promise((resolve, reject) => {
   try {
-    loader.load(fontPath, font => {
+    loader.load(fontPath, (font) => {
       resolve(font)
     })
-  } catch (error) {
+  }
+  catch (error) {
     reject(console.error('cientos', error))
   }
 })
@@ -51,9 +52,15 @@ Now you can use the `TresTextGeometry` component inside a TresMesh in your scene
 
 ```vue
 <template>
-  <TresCanvas shadows alpha>
+  <TresCanvas
+    shadows
+    alpha
+  >
     <TresMesh>
-      <TresTextGeometry :args="['TresJS', { font, ...fontOptions }]" center />
+      <TresTextGeometry
+        :args="['TresJS', { font, ...fontOptions }]"
+        center
+      />
     </TresMesh>
   </TresCanvas>
 </template>
@@ -94,7 +101,7 @@ import { TextGeometry } from 'three/addons/geometries/TextGeometry'
 import { FontLoader } from 'three/addons/loaders/FontLoader'
 import { useTexture } from '/@/composables'
 
-extend({ TextGeometry: TextGeometry })
+extend({ TextGeometry })
 
 const fontPath = 'https://raw.githubusercontent.com/Tresjs/assets/main/fonts/FiraCodeRegular.json'
 
@@ -113,20 +120,28 @@ const loader = new FontLoader()
 
 const font = await new Promise((resolve, reject) => {
   try {
-    loader.load(fontPath, font => {
+    loader.load(fontPath, (font) => {
       resolve(font)
     })
-  } catch (error) {
+  }
+  catch (error) {
     reject(console.error('cientos', error))
   }
 })
 
 const matcapTexture = await useTexture(['https://raw.githubusercontent.com/Tresjs/assets/main/textures/matcaps/7.png'])
 </script>
+
 <template>
-  <TresCanvas shadows alpha>
+  <TresCanvas
+    shadows
+    alpha
+  >
     <TresMesh>
-      <TresTextGeometry :args="['TresJS', { font, ...fontOptions }]" center />
+      <TresTextGeometry
+        :args="['TresJS', { font, ...fontOptions }]"
+        center
+      />
       <TresMeshNormalMaterial :matcap="matcapTexture" />
     </TresMesh>
   </TresCanvas>
@@ -144,7 +159,10 @@ It just works. 💯 (if not text is provided, the text will be TresJS)
 
 ```vue
 <template>
-  <TresCanvas shadows alpha>
+  <TresCanvas
+    shadows
+    alpha
+  >
     <Text3D :font="fontPath" />
   </TresCanvas>
 </template>
