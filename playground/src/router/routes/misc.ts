@@ -19,4 +19,9 @@ export const miscRoutes = [
     name: 'Stats',
     component: () => import('../../pages/misc/StatsDemo.vue'),
   },
+  {
+    path: '/misc/gltfExporter',
+    name: 'GLTFExporter',
+    component: () => import('../../pages/misc/GLTFExporterDemo.vue'),
+  },
 ]
