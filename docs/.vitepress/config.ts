@@ -119,6 +119,7 @@ export default defineConfig({
           { text: 'Stats', link: '/guide/misc/stats' },
           { text: 'Html', link: '/guide/misc/html-component' },
           { text: 'StatsGl', link: '/guide/misc/stats-gl' },
+          { text: 'useGLTLExporter', link: '/guide/misc/use-gltf-exporter' },
         ],
       },
       {
