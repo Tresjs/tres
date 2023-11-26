@@ -17,8 +17,8 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/tres.js",
-      "require": "./dist/tres.umd.cjs"
+      "require": "./dist/tres.umd.cjs",
+      "import": "./dist/tres.js"
     },
     "./components": {
       "types": "./dist/components/index.d.ts"

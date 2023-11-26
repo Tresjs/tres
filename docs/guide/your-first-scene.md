@@ -18,6 +18,7 @@ With **TresJS** you only need to import the default component `<TresCanvas />` a
 <script lang="ts" setup>
 import { TresCanvas } from '@tresjs/core'
 </script>
+
 <template>
   <TresCanvas window-size>
     <!-- Your scene goes here -->
@@ -42,11 +43,13 @@ By default, `TresCanvas` component will take the **parent's width and height**, 
 <script lang="ts" setup>
 import { TresCanvas } from '@tresjs/core'
 </script>
+
 <template>
   <TresCanvas>
     <!-- Your scene goes here -->
   </TresCanvas>
 </template>
+
 <style>
 html,
 body {
@@ -68,6 +71,7 @@ If your scene is not gonna be part of a UI, you can also force the canvas to tak
 <script lang="ts" setup>
 import { TresCanvas } from '@tresjs/core'
 </script>
+
 <template>
   <TresCanvas window-size>
     <!-- Your scene goes here -->
@@ -139,7 +143,7 @@ Now let's see how we can easily achieve the same with **TresJS**. To do that we 
 Notice that we don't need to import anything, that's because **TresJS** automatically generate a **Vue Component based on the Three Object you want to use in CamelCase with a Tres prefix**. For example, if you want to use an `AmbientLight` you would use `<TresAmbientLight />` component.
 :::
 
-<StackBlitzEmbed projectId="tresjs-first-scene" />
+
 
 ```vue
 <script setup lang="ts">
@@ -147,8 +151,14 @@ import { TresCanvas } from '@tresjs/core'
 </script>
 
 <template>
-  <TresCanvas clear-color="#82DBC5" window-size>
-    <TresPerspectiveCamera :position="[3, 3, 3]" :look-at="[0, 0, 0]" />
+  <TresCanvas
+    clear-color="#82DBC5"
+    window-size
+  >
+    <TresPerspectiveCamera
+      :position="[3, 3, 3]"
+      :look-at="[0, 0, 0]"
+    />
     <TresMesh>
       <TresTorusGeometry :args="[1, 0.5, 16, 32]" />
       <TresMeshBasicMaterial color="orange" />
@@ -159,3 +169,5 @@ import { TresCanvas } from '@tresjs/core'
 ```
 
 From here onwards you can start adding more objects to your scene and start playing with the properties of the components to see how they affect the scene.
+
+<SandboxDemo url="https://play.tresjs.org/#eNqVVMtu2kAU/ZWRu8iiYIcQoojSikCjqlXTRi27OIuJfYGBeWlmzKOIf+8d2zhD2kZU8oI5955z3+yiiQF7o3W8KiDqRwObGaYdseAKTTiVs/dp5GwafUglE1oZR3bEU8ZUrqglezI1SpCzoUNsYZNMGTh7l8pBUgkhDR8OhObUAb4IGQT0jAM17UxxZTDOm+uLj6NxL43ImslcrduW/ao4NesejNWQObaCMRVgaGUjpK+VZY4piSoP3Rbx32MaNeapWqHlEqUbiCu1bFPnCect4r+GkIQx78DO63eNTJQp7CdQApzZkj41M+tVOigR91qkc4XBL1Cs0QmURtSy7A5bYRjl5FC4MthoCBiD5EXoUuBGPDGQ7iubzR3pM+lAYtVbFOg03IpZtReBQRL0PmpF1Qzbgup4YZXEie88K60NOOg+KRGPhUP1hjSaO6dtP0myXCI/B85WJpbgEqlFEroPu3EvPk9yZl3iYfROo9Yfwr4cVQY9VbtioPxVKF/Dx1HcGuhSU3lK7o3v8DI+jzu18gGMBfOcUHtu4CRd7zdExd415vsWrAjbgDdXWDi5v4H7sIO7hop4J7CJxXF3az87pwby/xCuCK9Jo2M7B8FOED24+uIv46uEs6dQ0ivuU7nHnXQ2U3LKZi82MlNCMw7mu/aHfbyZlHO1/lJizhTQ5JfNIVv+BV/YTZXyPS4LmBW2+3mUeMDgKvPtz2+wwd+NUai84PVw/mH8AVbxwudYuY0KmWPagV+Z7efywJicTeztprzcuqijRN1WQ4k+HP46ml2rgMeycaV/OY7xK116rqwbd5uG738DogXwDg==" />

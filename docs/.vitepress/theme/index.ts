@@ -1,10 +1,12 @@
 import 'uno.css'
+import { h } from 'vue'
 
 // .vitepress/theme/index.ts
 import Theme from 'vitepress/theme'
 import './config.css'
 
 import TresLayout from './TresLayout.vue'
+import HomeSponsors from './components/HomeSponsors.vue'
 
 /* const plausible = createPlausible({
   init: {
