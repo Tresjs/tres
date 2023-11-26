@@ -46,26 +46,6 @@ Or using your own HTML element to trigger the event
 Is really important that the Perspective camera is set first in the canvas. Otherwise might break.
 :::
 
-## Detect if is active
-
-Additional we can detect if the controls has been active or not in a reactive way by just provide a v-model into the component
-
-```vue{3}
-<script setup lang="ts">
-const isActive = (state: boolean) => console.log(state)
-
-</script>
-<template>
-<button id="lock">Lock</button>
-  <TresCanvas shadows alpha>
-    <TresPerspectiveCamera :position="[0, 0, 3]" @is-lock="state => isActive(state)"  />
-    <PointerLockControls selector="lock" />
-    <TresGridHelper :args="[10, 10]" />
-
-  </TresCanvas>
-</template>
-```
-
 ## Props
 
 | Prop            | Description                                                                               | Default     |
@@ -74,3 +54,14 @@ const isActive = (state: boolean) => console.log(state)
 | **camera**      | The camera to control.                                                                    | `undefined` |
 | **domElement**  | The dom element to listen to.                                                             | `undefined` |
 | **selector**    | Accept an id element as string, if it is set, the new element will be used as the trigger | `undefined` |
+
+## Events
+
+```vue
+<PointerLockControls @change="onChange" @is-lock="(state) => isActive(state)" />
+```
+
+| Event      | Description                                                      |
+| :--------- | :--------------------------------------------------------------- |
+| **isLock** | Return `true` if "lock", `false` if "unlock" events are trigger. |
+| **change** | Dispatched when the control changes.                             |
