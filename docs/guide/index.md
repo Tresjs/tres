@@ -6,20 +6,18 @@
     </div>
 </ClientOnly>
 
-This is the documentation for version 3 of TresJS. If you are looking for the documentation for the version 1, check [V1 TresJS](https://v1.tresjs.org/).
-
 ::: code-group
 
 ```bash [npm]
-npm install three @tresjs/core
+npm install @tresjs/core three 
 ```
 
 ```bash [yarn]
-yarn add three @tresjs/core
+yarn add @tresjs/core three 
 ```
 
 ```bash [pnpm]
-pnpm add three @tresjs/core
+pnpm add @tresjs/core three 
 ```
 
 :::
@@ -65,6 +63,14 @@ This is required to make the template compiler work with the custom renderer and
 
 ## Try it online
 
+### Sandbox
+
+You can try TresJS online using the official [sandbox](https://play.tresjs.org/). Check it out:
+
+<iframe src="https://play.tresjs.org/" class="w-full rounded shadow-lg outline-none border-none aspect-4/3"></iframe>
+
+### StackBlitz
+
 We have a brand new [StackBlitz](https://stackblitz.com/) starter to try TresJS online. Check it out:
 
 ![](/stackblitz-starter.png)
@@ -104,8 +110,5 @@ const lunchboxApp = createLunchboxApp(LunchboxApp)
 lunchboxApp.mount('#lunchbox')
 ```
 
-So I was inspired by both libraries to create ~~something that wouldn't require creating a **custom renderer** but intelligent enough to generate Vue components based on the ThreeJS constructors with 0-to-none manteinance required `three:latest`. That's **TresjS v1**~~.
+So I was inspired by both libraries to create a Vue custom renderer for ThreeJS. That's **TresJS v2**.
 
-Although v1 was a decent solution 😄, it has some limitations that would only be solved by creating a proper **custom renderer**. After several POCs, I decided to create a new version of TresJS that would be based on a Vue custom renderer but saving the user to do any weird stuff. That's **TresJS v2**.
-
-To learn more how to migrate from v1, check the [migration guide](/guide/migration-guide.html).
