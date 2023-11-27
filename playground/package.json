@@ -9,7 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@tresjs/cientos": "3.5.1",
+    "@tresjs/cientos": "3.6.0",
     "vue-router": "^4.2.5"
   },
   "devDependencies": {

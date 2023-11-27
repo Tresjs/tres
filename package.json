@@ -73,7 +73,7 @@
     "@huntersofbook/plausible-vue": "^1.0.0",
     "@release-it/conventional-changelog": "^7.0.2",
     "@stackblitz/sdk": "^1.9.0",
-    "@tresjs/cientos": "3.5.1",
+    "@tresjs/cientos": "3.6.0",
     "@tresjs/eslint-config-vue": "^0.2.1",
     "@types/three": "^0.158.1",
     "@typescript-eslint/eslint-plugin": "^6.9.1",
