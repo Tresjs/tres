@@ -9,14 +9,14 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@tresjs/cientos": "3.5.1",
+    "@tresjs/cientos": "3.6.0",
     "vue-router": "^4.2.5"
   },
   "devDependencies": {
     "@tresjs/leches": "^0.13.0",
     "@tweakpane/plugin-essentials": "^0.2.0",
-    "unplugin-auto-import": "^0.16.7",
-    "vite-plugin-glsl": "^1.1.2",
+    "unplugin-auto-import": "^0.17.1",
+    "vite-plugin-glsl": "^1.2.0",
     "vite-plugin-qrcode": "^0.2.2",
     "vue-tsc": "^1.8.22"
   }
