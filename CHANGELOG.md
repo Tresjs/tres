@@ -1,5 +1,7 @@
 
 
+## [3.5.1](https://github.com/Tresjs/tres/compare/3.5.0...3.5.1) (2023-11-28)
+
 ## [3.5.0](https://github.com/Tresjs/tres/compare/3.4.1...3.5.0) (2023-11-05)
 
 

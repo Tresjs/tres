@@ -26,7 +26,7 @@ export default defineConfig({
         content: 'https://repository-images.githubusercontent.com/571314349/10996566-7f70-473b-a8e5-4e56fc0ca850',
       },
     ],
-    ['script', { defer: 'true', 'data-domain': 'tresjs.org', src: 'https://plausible.io/js/script.js' }],
+    ['script', { defer: 'true', 'data-site': 'OWBUVCJK', src: 'https://cdn.usefathom.com/script.js' }],
   ],
   themeConfig: {
     logo: '/logo.svg',

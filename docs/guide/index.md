@@ -6,20 +6,18 @@
     </div>
 </ClientOnly>
 
-This is the documentation for version 3 of TresJS. If you are looking for the documentation for the version 1, check [V1 TresJS](https://v1.tresjs.org/).
-
 ::: code-group
 
 ```bash [npm]
-npm install three @tresjs/core
+npm install @tresjs/core three 
 ```
 
 ```bash [yarn]
-yarn add three @tresjs/core
+yarn add @tresjs/core three 
 ```
 
 ```bash [pnpm]
-pnpm add three @tresjs/core
+pnpm add @tresjs/core three 
 ```
 
 :::
@@ -65,6 +63,14 @@ This is required to make the template compiler work with the custom renderer and
 
 ## Try it online
 
+### Sandbox
+
+You can try TresJS online using the official [sandbox](https://play.tresjs.org/). Check it out:
+
+<iframe src="https://play.tresjs.org/" class="w-full rounded shadow-lg outline-none border-none aspect-4/3"></iframe>
+
+### StackBlitz
+
 We have a brand new [StackBlitz](https://stackblitz.com/) starter to try TresJS online. Check it out:
 
 ![](/stackblitz-starter.png)
@@ -81,7 +87,7 @@ We also have a playground where you can try TresJS online. Check it out [here](h
 
 [ThreeJS](https://threejs.org/) is a wonderful library to create awesome **WebGL** 3D websites. Is also a constantly updated library that makes hard for wrapper maintainers like [TroisJS](https://troisjs.github.io/) to keep up with all the enhancements.
 
-React ecosystem has an impressive **custom render** solution called [React-three-fiber](https://docs.pmnd.rs/react-three-fiber) that allows you build your scenes declaratively with re-usable, self-contained components that react to state.
+React ecosystem has an impresive **custom render** solution called [React-three-fiber](https://docs.pmnd.rs/react-three-fiber) that allows you build your scenes declaratively with re-usable, self-contained components that react to state.
 
 In my search for something similar in the VueJS ecosystem, I found this amazing library called [Lunchbox](https://github.com/breakfast-studio/lunchboxjs) which works with the same concept that R3F, it provides a [custom Vue3 Renderer](https://vuejs.org/api/custom-renderer.html). I'm also contributing to improve this library so it gets as mature and feature-rich as R3F.
 
@@ -104,8 +110,5 @@ const lunchboxApp = createLunchboxApp(LunchboxApp)
 lunchboxApp.mount('#lunchbox')
 ```
 
-So I was inspired by both libraries to create ~~something that wouldn't require creating a **custom renderer** but intelligent enough to generate Vue components based on the ThreeJS constructors with 0-to-none maintenance required `three:latest`. That's **TresjS v1**~~.
+So I was inspired by both libraries to create a Vue custom renderer for ThreeJS. That's **TresJS v2**.
 
-Although v1 was a decent solution 😄, it has some limitations that would only be solved by creating a proper **custom renderer**. After several POCs, I decided to create a new version of TresJS that would be based on a Vue custom renderer but saving the user to do any weird stuff. That's **TresJS v2**.
-
-To learn more how to migrate from v1, check the [migration guide](/guide/migration-guide.html).
