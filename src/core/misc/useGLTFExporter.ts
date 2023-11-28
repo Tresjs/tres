@@ -1,4 +1,4 @@
-import { GLTFExporter } from 'three/addons/exporters/GLTFExporter.js'
+import { GLTFExporter } from 'three-stdlib'
 import { ref } from 'vue'
 import type { AnimationClip, Object3D } from 'three'
 import { useLogger } from '@tresjs/core'
@@ -22,7 +22,7 @@ export async function useGLTFExporter(object3D: Object3D, options?: gltfExporter
 
   exporter.parse(
     objectToDownload.value,
-    ( gltf: Object3D ) => {
+    ( gltf: any ) => {
       if ( gltf instanceof ArrayBuffer ) {
         saveArrayBuffer( gltf, `${name}.glb` )
       }
@@ -32,11 +32,10 @@ export async function useGLTFExporter(object3D: Object3D, options?: gltfExporter
       }
     },
     ( error: any ) => {
-      logError( 'An error happened', error )
+      logError( 'An error happened while exporting the GLTF', error )
     },
     options,
   )
-  return true
 }
 
 function saveString( text: string, filename: string ) {
