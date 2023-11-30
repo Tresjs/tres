@@ -114,10 +114,10 @@ input[type='range'] {
 }
 
 input[type='range']::-webkit-slider-thumb {
-  @apply h-4 w-3 border-2 bg-dark-200 rounded-sm cursor-pointer appearance-none shadow-lg;
+  @apply tl-h-4 tl-w-3 tl-border-2 tl-bg-dark-200 tl-rounded-sm tl-cursor-pointer tl-appearance-none tl-shadow-lg;
 }
 
 input[type='range']::-moz-range-thumb {
-  @apply h-4 w-3 border-2 bg-dark-200 rounded-sm cursor-pointer appearance-none shadow-lg;
+  @apply tl-h-4 tl-w-3 tl-border-2 tl-bg-dark-200 tl-rounded-sm tl-cursor-pointer tl-appearance-none tl-shadow-lg;
 }
 </style>
