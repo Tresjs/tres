@@ -55,14 +55,14 @@
     "vue": ">=3.3.4"
   },
   "dependencies": {
-    "@unocss/core": "^0.57.2",
-    "@vueuse/components": "^10.5.0",
+    "@unocss/core": "^0.57.7",
+    "@vueuse/components": "^10.6.1",
     "vite-plugin-css-injected-by-js": "^3.3.0"
   },
   "devDependencies": {
     "@histoire/plugin-vue": "^0.17.6",
     "@iconify-json/ic": "^1.1.16",
-    "@iconify/json": "^2.2.149",
+    "@iconify/json": "^2.2.150",
     "@release-it/conventional-changelog": "^8.0.1",
     "@tresjs/eslint-config-vue": "^0.2.1",
     "@typescript-eslint/eslint-plugin": "^6.13.1",
@@ -75,7 +75,7 @@
     "@vueuse/shared": "^10.6.1",
     "eslint": "^8.54.0",
     "eslint-plugin-vitest-globals": "^1.4.0",
-    "eslint-plugin-vue": "^9.18.1",
+    "eslint-plugin-vue": "^9.19.2",
     "histoire": "^0.17.6",
     "kolorist": "^1.8.0",
     "pathe": "^1.1.1",
@@ -85,13 +85,13 @@
     "typescript": "^5.3.2",
     "unocss": "^0.57.7",
     "unplugin-vue-components": "^0.25.2",
-    "vite": "^5.0.3",
+    "vite": "^5.0.4",
     "vite-plugin-banner": "^0.7.1",
-    "vite-plugin-dts": "^3.6.3",
+    "vite-plugin-dts": "^3.6.4",
     "vitepress": "1.0.0-rc.31",
     "vitest": "^0.34.6",
     "vue": "^3.3.9",
-    "vue-tsc": "^1.8.22",
-    "webdriverio": "^8.24.3"
+    "vue-tsc": "^1.8.24",
+    "webdriverio": "^8.24.5"
   }
 }
