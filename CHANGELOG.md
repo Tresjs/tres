@@ -1,5 +1,24 @@
 
 
+## [0.14.0](https://github.com/Tresjs/leches/compare/0.14.0-next.0...0.14.0) (2023-11-30)
+
+
+### Features
+
+* control label component and truncate ([c26f76d](https://github.com/Tresjs/leches/commit/c26f76d4ae7572ca96691dcb9aa147b149d129a5))
+* icons on text control ([931ad45](https://github.com/Tresjs/leches/commit/931ad45421ec45e9ac870b0932733f121f82b074))
+* number control icons and centralized label ([c08c97a](https://github.com/Tresjs/leches/commit/c08c97aa2566109ab793acf45565d217bbf5e2f1))
+* select, vector and slider labels with icons ([7bbc666](https://github.com/Tresjs/leches/commit/7bbc666ae07cc3b75e8898638f9975c368a61118))
+
+
+### Bug Fixes
+
+* added control label new util prefix ([357964e](https://github.com/Tresjs/leches/commit/357964e2ec2c513548d04159822c8a3129fc9cc4))
+* added prefixes to missing apply utilities ([63dd3f1](https://github.com/Tresjs/leches/commit/63dd3f1d3e4a0945820ca922ddfd50f1f72e1680))
+* broken test for dropwdown control ([5dcde71](https://github.com/Tresjs/leches/commit/5dcde7135229c5c571cc8d9aef93e7e49232c433))
+* fix bug with verbose controls specially vectors ([acbe014](https://github.com/Tresjs/leches/commit/acbe014a0753c2e1fd06a57a259ae78abe6e2a03))
+* uno utils and variables prefixes to avoid overlapping ([688a867](https://github.com/Tresjs/leches/commit/688a86778bdd223fecd75efc5b7c1272366ccfbb))
+
 ## [0.14.0-next.0](https://github.com/Tresjs/leches/compare/0.13.0...0.14.0-next.0) (2023-11-06)
 
 
