@@ -29,39 +29,39 @@ const classes = computed(() => {
 
 <style scoped>
 .leches-btn {
-  @apply rounded-md cursor-pointer border-none flex items-center;
-  @apply font-bold;
-  @apply transition-all duration-200;
+  @apply tl-rounded-md tl-cursor-pointer tl-border-none tl-flex tl-items-center;
+  @apply tl-font-bold;
+  @apply tl-transition-all tl-duration-200;
 }
 
 .leches-btn-sm {
-  @apply text-xs px-2.5 py-2;
+  @apply tl-text-xs tl-px-2.5 tl-py-2;
 }
 
 .leches-btn-md {
-  @apply text-sm px-3 py-2;
+  @apply tl-text-sm tl-px-3 tl-py-2;
 }
 
 .leches-btn-lg {
-  @apply text-base px-4 py-2;
+  @apply tl-text-base tl-px-4 tl-py-2;
 }
 
 .leches-btn-block {
-  @apply px-4 py-2 text-base w-full justify-center;
+  @apply tl-px-4 tl-py-2 tl-text-base tl-w-full tl-justify-center;
 }
 
 .leches-btn-primary {
-  @apply bg-gray-100 text-gray-700;
+  @apply tl-bg-gray-100 tl-text-gray-700;
 }
 .leches-btn-primary:hover {
-  @apply bg-gray-200;
+  @apply tl-bg-gray-200;
 }
 
 .leches-btn-secondary {
-  @apply bg-dark-700 text-light-100;
+  @apply tl-bg-dark-700 tl-text-light-100;
 }
 
 .leches-btn-secondary:hover {
-  @apply bg-dark-600;
+  @apply tl-bg-dark-600;
 }
 </style>
