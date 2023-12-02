@@ -8,11 +8,11 @@
     "generate": "nuxi generate"
   },
   "devDependencies": {
-    "@nuxt/devtools": "1.0.0-beta.0",
-    "@tresjs/cientos": "^3.4.1",
-    "@tresjs/post-processing": "^0.4.0",
-    "nuxt": "^3.7.4",
-    "postprocessing": "^6.33.2",
+    "@nuxt/devtools": "1.0.4",
+    "@tresjs/cientos": "^3.6.0",
+    "@tresjs/post-processing": "^0.7.0",
+    "nuxt": "^3.8.2",
+    "postprocessing": "^6.33.3",
     "tweakpane": "^4.0.1"
   }
 }

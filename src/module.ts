@@ -1,5 +1,4 @@
 import { readFile } from 'fs/promises'
-import { resolve } from 'path'
 import { defineNuxtModule, addImports, addComponent, createResolver, resolvePath } from '@nuxt/kit'
 import * as core from '@tresjs/core'
 import { templateCompilerOptions } from '@tresjs/core'
@@ -64,6 +63,7 @@ export default defineNuxtModule<ModuleOptions>({
 
     const pkg = await readPackageJSON(nuxt.options.rootDir)
     const coreDeps = Object.keys({ ...pkg.dependencies, ...pkg.devDependencies }).filter(d => d.startsWith('@tresjs/'))
+   
     for (const mod of new Set([...options.modules, ...coreDeps])) {
       if (mod === '@tresjs/core' || mod === '@tresjs/nuxt') continue
 

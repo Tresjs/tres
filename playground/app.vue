@@ -10,12 +10,12 @@ const gl = reactive({
   toneMapping: NoToneMapping,
 })
 
-/* const bloomParams = reactive({
+const bloomParams = reactive({
   luminanceThreshold: 0.2,
   luminanceSmoothing: 0.3,
   mipmapBlur: true,
   intensity: 0.5,
-}) */
+})
 const showScene = ref(false)
 
 setTimeout(() => {
@@ -31,11 +31,11 @@ setTimeout(() => {
         :look-at="[0, 0, 0]"
       />
       <OrbitControls />
-  
-      <!--  <EffectComposer :depth-buffer="true">
-        <Bloom v-bind="bloomParams" />
-      </EffectComposer> -->
-  
+      <Suspense>
+        <EffectComposer>
+         <Bloom v-bind="bloomParams" />
+       </EffectComposer>
+      </Suspense>
       <Suspense>
         <NuxtStones />
       </Suspense>
