@@ -1,5 +1,12 @@
 
 
+## [1.3.0](https://example.com///compare/1.2.2...1.3.0) (2023-12-02)
+
+
+### Features
+
+* **deps:** update deps ([#63](https://example.com//null/issues/63)) ([cdcae38](https://example.com///commit/cdcae38a3ab1da2d5030064fbc946fdc8fc34e57))
+
 ## [1.2.2](https://example.com///compare/1.2.1...1.2.2) (2023-10-19)
 
 
