@@ -1,5 +1,13 @@
 
 
+## [0.15.0-next.3](https://github.com/Tresjs/leches/compare/0.15.0-next.2...0.15.0-next.3) (2023-12-04)
+
+
+### Bug Fixes
+
+* export Perf ([6ca2e65](https://github.com/Tresjs/leches/commit/6ca2e65c4051fd2acb07d5177578e9dffcc8bc18))
+* remove div and disable rule for valud template root on Perf ([57cef65](https://github.com/Tresjs/leches/commit/57cef65f8419063b21afc5a2131c66d7da3f397f))
+
 ## [0.15.0-next.2](https://github.com/Tresjs/leches/compare/0.15.0-next.1...0.15.0-next.2) (2023-12-04)
 
 
