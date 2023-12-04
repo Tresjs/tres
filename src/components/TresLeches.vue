@@ -9,7 +9,7 @@ import { usePerfProvider } from '../composables/usePerf'
 import Folder from './Folder.vue'
 
 import ControlInput from './ControlInput.vue'
-import PerformanceMonitor from './PerformanceMonitor.vue'
+import PerformanceMonitor from './performance-monitor/index.vue'
 
 const props = defineProps<{
   uuid?: string

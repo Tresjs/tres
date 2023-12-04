@@ -26,6 +26,11 @@ const routes = [
     name: 'Perf',
     component: () => import('./pages/perf.vue'),
   },
+  {
+    path: '/perf-instanced',
+    name: 'PerfInstanced',
+    component: () => import('./pages/perfInstancedMesh.vue'),
+  },
 ]
 export const router = createRouter({
   history: createWebHistory(),
