@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { usePerf } from '../composables/usePerf'
 
-const { gl } = usePerf()
+usePerf()
 </script>
 
 <template>

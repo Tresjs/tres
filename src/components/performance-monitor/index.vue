@@ -37,7 +37,23 @@ const renderInfo = [{
   icon: 'i-iconoir-linear',
 }]
 
-const info = reactive({
+export interface WebGL2Program extends WebGLProgram {
+  name: string
+  type: string
+  uniforms: Record<string, any>
+  getUniforms: () => Record<string, any>
+}
+
+const info = reactive<{
+  geometries: number
+  textures: number
+  calls: number
+  triangles: number
+  points: number
+  lines: number
+  programs: WebGL2Program[]
+  [key: string]: number | WebGL2Program[]
+}>({
   geometries: 0,
   textures: 0,
   calls: 0,
@@ -50,14 +66,14 @@ const info = reactive({
 // Memory usage state
 
 useRafFn(() => {
+  if (!gl) return
   info.geometries = gl.info.memory.geometries
   info.textures = gl.info.memory.textures
   info.calls = gl.info.render.calls
   info.triangles = gl.info.render.triangles
   info.points = gl.info.render.points
   info.lines = gl.info.render.lines,
-  info.programs = gl.info.programs
-
+  info.programs = gl.info.programs as unknown as WebGL2Program[]
 })
 
 // Folder

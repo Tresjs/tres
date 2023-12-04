@@ -45,6 +45,9 @@ importers:
       '@tresjs/eslint-config-vue':
         specifier: ^0.2.1
         version: 0.2.1(@typescript-eslint/eslint-plugin@6.13.1)(eslint@8.54.0)(typescript@5.3.2)
+      '@types/webgl2':
+        specifier: ^0.0.10
+        version: 0.0.10
       '@typescript-eslint/eslint-plugin':
         specifier: ^6.13.1
         version: 6.13.1(@typescript-eslint/parser@6.13.1)(eslint@8.54.0)(typescript@5.3.2)
@@ -2104,6 +2107,10 @@ packages:
 
   /@types/web-bluetooth@0.0.20:
     resolution: {integrity: sha512-g9gZnnXVq7gM7v3tJCWV/qw7w+KeOlSHAhgF9RytFyifW6AF61hdT2ucrYhPq9hLs5JIryeupHV3qGk95dH9ow==}
+
+  /@types/webgl2@0.0.10:
+    resolution: {integrity: sha512-6dHYY2BLqGt02Jdr5MqnCNST9/3cv3NQnNHD57xpTbmCn9cbObTpKzOjr+tQdCE0Z9Rm6rFnhgqXwpW+DXIa8g==}
+    dev: true
 
   /@types/webxr@0.5.10:
     resolution: {integrity: sha512-n3u5sqXQJhf1CS68mw3Wf16FQ4cRPNBBwdYLFzq3UddiADOim1Pn3Y6PBdDilz1vOJF3ybLxJ8ZEDlLIzrOQZg==}

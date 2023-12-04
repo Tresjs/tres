@@ -1,13 +1,14 @@
-import type { Ref, ShallowReactive } from 'vue'
-import { provide, reactive, ref, onUnmounted, unref } from 'vue'
+import type { Ref } from 'vue'
+import { provide, reactive, onUnmounted, unref } from 'vue'
 import { useFps, useMemory, useRafFn } from '@vueuse/core'
 import { useTresContext } from '@tresjs/core'
-import type { WebGLRenderer } from 'three'
+import type { Scene, WebGLRenderer } from 'three'
 import { calculateMemoryUsage } from '../utils'
 
 interface MemoryUsageData {
   currentMem: number
   averageMem: number
+  allocatedMem: number
   maxMemory: number
   accumulator: number[]
   lastLoggedTime: number
@@ -26,6 +27,7 @@ interface PerfData {
   fps: FpsData
   memory: MemoryUsageData // Adjust 'any' to a more specific type as needed
   gl: WebGLRenderer | undefined
+  scene: Scene | undefined
 }
 
 // Define the structure of the store
@@ -78,8 +80,8 @@ export function usePerf(options?: TresPerfOptions) {
   }
 
   const perf = perfStore[DEFAULT_UUID].perf
-  perf.gl = gl
-  perf.scene = scene
+  perf.gl = gl as WebGLRenderer
+  perf.scene = scene.value as Scene
 
   const updateInterval = 100 // Update interval in milliseconds
   const fps = useFps({ every: updateInterval }) 
@@ -89,7 +91,7 @@ export function usePerf(options?: TresPerfOptions) {
 
   let lastUpdateTime = performance.now()
 
-  const updatePerformanceData = ({ timestamp }) => {
+  const updatePerformanceData = ({ timestamp }: { timestamp: number }) => {
 
     // Update WebGL Memory Usage (Placeholder for actual logic)
     // perf.memory.value = calculateMemoryUsage(gl)
@@ -109,7 +111,7 @@ export function usePerf(options?: TresPerfOptions) {
       perf.fps.value = perf.fps.accumulator.reduce((a, b) => a + b, 0) / perf.fps.accumulator.length
 
       // Update memory
-      if (isSupported.value) {
+      if (isSupported.value && memory.value) {
         perf.memory.accumulator.push(memory.value.usedJSHeapSize / 1024 / 1024 as never)
 
         if (perf.memory.accumulator.length > maxFrames) {
