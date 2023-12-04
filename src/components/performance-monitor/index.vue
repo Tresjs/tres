@@ -144,7 +144,10 @@ const programs = computed(() => info.programs.map(program => ({
             label="memory"
           />
           <Pane title="Render">
-            <template v-for="kpi in renderInfo">
+            <template
+              v-for="kpi in renderInfo"
+              :key="kpi"
+            >
               <div class="tl-flex tl-flex-col tl-items-center tl-mb-2">
                 <div class="tl-flex tl-items-center tl-mb-2">
                   <span class="tl-bg-gray-200 tl-text-gray-600 tl-rounded tl-p-1 tl-flex tl-w-4 tl-mr-1">
