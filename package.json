@@ -52,6 +52,7 @@
     "docs:preview": "vitepress preview docs"
   },
   "peerDependencies": {
+    "three": ">=0.133",
     "vue": ">=3.3.4"
   },
   "dependencies": {
@@ -59,7 +60,6 @@
     "@types/three": "^0.158.1",
     "@unocss/core": "^0.57.2",
     "@vueuse/components": "^10.5.0",
-    "three": "^0.159.0",
     "vite-plugin-css-injected-by-js": "^3.3.0"
   },
   "devDependencies": {
@@ -87,6 +87,7 @@
     "release-it": "^17.0.0",
     "rollup-plugin-analyzer": "^4.0.0",
     "rollup-plugin-visualizer": "^5.9.3",
+    "three": "^0.159.0",
     "typescript": "^5.3.2",
     "unocss": "^0.57.7",
     "unplugin-vue-components": "^0.25.2",

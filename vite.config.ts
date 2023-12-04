@@ -114,19 +114,21 @@ export default defineConfig({
           open: false,
         }),
       ],
-      external: ['vue', '@vueuse/core'],
+      external: ['vue', '@vueuse/core', 'three', '@tresjs/core'],
       output: {
         exports: 'named',
         // Provide global variables to use in the UMD build
         // for externalized deps
         globals: {
+          '@tresjs/core': 'TresjsCore',
           '@vueuse/core': 'VueUseCore',
+          three: 'Three',
           vue: 'Vue',
         },
       },
     },
   },
   optimizeDeps: {
-    exclude: ['vue', '@vueuse/core'],
+    exclude: ['vue', '@vueuse/core', 'three', '@tresjs/core'],
   },
 })
