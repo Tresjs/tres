@@ -1,14 +1,35 @@
 import { defineConfig } from 'vitepress'
-import Unocss from 'unocss/vite'
-import svgLoader from 'vite-svg-loader'
 import { resolve } from 'pathe'
 import { templateCompilerOptions } from '@tresjs/core'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   title: 'Post-processing',
-  description: 'Post-processing effects for ViteJS',
-  head: [['link', { rel: 'icon', type: 'image/svg', href: '/favicon.svg' }]],
+  description: 'Post-processing effects for TresJS',
+  head: [
+    ['link', { rel: 'icon', type: 'image/svg', href: '/favicon.svg' }],
+    ['meta', { name: 'theme-color', content: '#82DBC5' }],
+    ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
+    ['meta', { name: 'twitter:site', content: '@tresjs_dev' }],
+    ['meta', { name: 'twitter:creator', content: '@tresjs_dev' }],
+    ['meta', { property: 'og:type', content: 'website' }],
+    ['meta', { property: 'og:site_name', content: 'Cientos - TresJS' }],
+    [
+      'meta',
+      {
+        property: 'og:image',
+        content: '/og-banner.png',
+      },
+    ],
+    [
+      'meta',
+      {
+        property: 'twitter:image',
+        content: '/og-banner.png',
+      },
+    ],
+    ['script', { defer: 'true', 'data-site': 'OWBUVCJK', src: 'https://cdn.usefathom.com/script.js' }],
+  ],
   themeConfig: {
     logo: '/logo.svg',
     search: {
@@ -17,7 +38,7 @@ export default defineConfig({
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: 'Guide', link: '/guide/' },
-      { text: 'Examples', link: '/examples' },
+      { text: 'Examples', link: 'https://playground.tresjs.org/' },
     ],
 
     sidebar: [
@@ -42,6 +63,7 @@ export default defineConfig({
     socialLinks: [
       { icon: 'twitter', link: 'https://twitter.com/tresjs_dev' },
       { icon: 'discord', link: 'https://discord.gg/UCr96AQmWn' },
+      { icon: 'github', link: 'https://github.com/Tresjs/post-processing' },
     ],
   },
   vite: {

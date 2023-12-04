@@ -17,15 +17,15 @@ This package is not required to use with the core library, but it can make your 
 ::: code-group
 
 ```bash [npm]
-npm install three @tresjs/post-processing
+npm install @tresjs/post-processing
 ```
 
 ```bash [yarn]
-yarn add three @tresjs/post-processing
+yarn add @tresjs/post-processing
 ```
 
 ```bash [pnpm]
-pnpm add three @tresjs/post-processing
+pnpm add @tresjs/post-processing
 ```
 
 :::

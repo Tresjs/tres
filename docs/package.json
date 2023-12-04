@@ -10,15 +10,15 @@
   },
   "dependencies": {
     "@tresjs/cientos": "^3.6.0",
-    "@tresjs/core": "^3.5.0",
+    "@tresjs/core": "^3.5.1",
     "@tresjs/post-processing": "workspace:^",
-    "gsap": "^3.12.2"
+    "gsap": "^3.12.3"
   },
   "devDependencies": {
-    "@tresjs/leches": "^0.13.0",
-    "unocss": "^0.57.4",
-    "unplugin-vue-components": "^0.25.2",
-    "vite-svg-loader": "^4.0.0",
-    "vitepress": "1.0.0-rc.26"
+    "@tresjs/leches": "^0.14.0",
+    "unocss": "^0.58.0",
+    "unplugin-vue-components": "^0.26.0",
+    "vite-svg-loader": "^5.1.0",
+    "vitepress": "1.0.0-rc.31"
   }
 }

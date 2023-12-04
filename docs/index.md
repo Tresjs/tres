@@ -20,5 +20,8 @@ features:
     details: Add post-processing passes and effects with Vue components.
   - icon: 🚀
     title: Performant
-    details: Uses pmdrs/postprocessing pkg under the hood for maximum performance.
+    details: Uses `pmndrs/postprocessing` pkg under the hood for maximum performance.
+  - icon: 😍
+    title: Visually awesome
+    details: Let's face it, it looks super cool.
 ---
