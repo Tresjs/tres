@@ -1,5 +1,12 @@
 
 
+## [0.15.0-next.2](https://github.com/Tresjs/leches/compare/0.15.0-next.1...0.15.0-next.2) (2023-12-04)
+
+
+### Bug Fixes
+
+* add three as external and peer ([56b723c](https://github.com/Tresjs/leches/commit/56b723c4e61788f019f9424eb90dd22ca7eb4e4f))
+
 ## [0.15.0-next.1](https://github.com/Tresjs/leches/compare/0.14.0...0.15.0-next.1) (2023-12-04)
 
 
