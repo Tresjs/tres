@@ -6,7 +6,8 @@ export function calculateMemoryUsage(object) {
       const geometry = node.geometry
       const verticesMemory = geometry.attributes.position.count * 3 * Float32Array.BYTES_PER_ELEMENT
       const facesMemory = geometry.index ? geometry.index.count * Uint32Array.BYTES_PER_ELEMENT : 0
-      const normalsMemory = geometry.attributes.normal ? geometry.attributes.normal.count * 3 * Float32Array.BYTES_PER_ELEMENT : 0
+      const normalsMemory 
+        = geometry.attributes.normal ? geometry.attributes.normal.count * 3 * Float32Array.BYTES_PER_ELEMENT : 0
       const uvsMemory = geometry.attributes.uv ? geometry.attributes.uv.count * 2 * Float32Array.BYTES_PER_ELEMENT : 0
 
       const geometryMemory = verticesMemory + facesMemory + normalsMemory + uvsMemory

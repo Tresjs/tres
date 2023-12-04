@@ -13,7 +13,7 @@ const props = defineProps<{
 
 const { uuid } = toRefs(props)
 
-const { gl, fps, memory } = usePerfProvider(uuid?.value)
+const { gl, memory } = usePerfProvider(uuid?.value)
 
 const memoryInfo = [{
   label: 'geometries',
@@ -114,8 +114,14 @@ const programs = computed(() => info.programs.map(program => ({
       >
         <div class="tl-p-2">
           <Pane :title="`Memory ${bytesToKB(memory.allocatedMem)}KB`">
-            <template v-for="kpi in memoryInfo">
-              <div class="tl-flex tl-flex-col tl-items-center">
+            <template
+              v-for="kpi in memoryInfo"
+              :key="kpi"
+            >
+              <div
+              
+                class="tl-flex tl-flex-col tl-items-center"
+              >
                 <div class="tl-flex tl-items-center tl-mb-2">
                   <span class="tl-bg-gray-200 tl-text-gray-600 tl-rounded tl-p-1 tl-flex tl-w-4 tl-mr-1">
                     <i

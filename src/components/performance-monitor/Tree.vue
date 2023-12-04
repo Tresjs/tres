@@ -20,8 +20,6 @@ const fItems = computed(() => props.items?.map(item => reactive({
   isOpen: false,
 })))
 
-console.log(fItems)
-
 function toggle(item: TreeItem) {
   item.isOpen = !item.isOpen
 }
