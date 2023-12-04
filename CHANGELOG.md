@@ -1,5 +1,13 @@
 
 
+## [0.15.0-next.1](https://github.com/Tresjs/leches/compare/0.14.0...0.15.0-next.1) (2023-12-04)
+
+
+### Features
+
+* abstracted graph and store for memory measures ([d7215bc](https://github.com/Tresjs/leches/commit/d7215bc58159e2188b3282db583933ec289b2a96))
+* performance monitor ([d69cd60](https://github.com/Tresjs/leches/commit/d69cd601691d3bca535e8d50b4c900d54669be0a))
+
 ## [0.14.0](https://github.com/Tresjs/leches/compare/0.14.0-next.0...0.14.0) (2023-11-30)
 
 
