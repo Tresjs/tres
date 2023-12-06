@@ -1,5 +1,4 @@
 import { GLTFExporter } from 'three-stdlib'
-import { ref } from 'vue'
 import type { AnimationClip, Object3D } from 'three'
 import { useLogger } from '@tresjs/core'
 
@@ -16,15 +15,14 @@ interface gltfExporterOptions {
 }
 
 export async function useGLTFExporter(
-  object3D: Object3D,
+  object3D: Object3D | Object3D[],
   options?: gltfExporterOptions,
 ) {
   const exporter = new GLTFExporter()
-  const objectToDownload = ref(object3D)
-  const name = options?.fileName || object3D.name || 'scene'
+  const name = options?.fileName || 'scene'
 
   exporter.parse(
-    objectToDownload.value,
+    object3D,
     (gltf) => {
       if (gltf instanceof ArrayBuffer) {
         saveArrayBuffer(gltf, `${name}.glb`)
