@@ -101,8 +101,13 @@ const mountCustomRenderer = (context: TresContext) => {
   render(h(InternalComponent), scene.value as unknown as TresObject)
 }
 
-const dispose = (context: TresContext) => {
+const dispose = (context: TresContext, force = false) => {
   scene.value.children = []
+  if (force) {
+    context.renderer.value.dispose()
+    context.renderer.value.renderLists.dispose()
+    context.renderer.value.forceContextLoss()
+  }
   mountCustomRenderer(context)
   resume()
 }
@@ -111,7 +116,7 @@ const disableRender = computed(() => props.disableRender)
 
 const context = shallowRef<TresContext | null>(null)
 
-defineExpose({ context })
+defineExpose({ context, dispose: () => dispose(context.value as TresContext, true) })
 
 onMounted(() => {
   const existingCanvas = canvas as Ref<HTMLCanvasElement>

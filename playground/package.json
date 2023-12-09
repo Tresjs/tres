@@ -13,7 +13,7 @@
     "vue-router": "^4.2.5"
   },
   "devDependencies": {
-    "@tresjs/leches": "^0.13.0",
+    "@tresjs/leches": "0.15.0-next.3",
     "@tweakpane/plugin-essentials": "^0.2.0",
     "unplugin-auto-import": "^0.17.1",
     "vite-plugin-glsl": "^1.2.0",
