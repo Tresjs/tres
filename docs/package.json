@@ -12,7 +12,7 @@
     "@tresjs/core": "workspace:^3.1.1"
   },
   "devDependencies": {
-    "unocss": "^0.57.7",
+    "unocss": "^0.58.0",
     "vite-svg-loader": "^5.1.0"
   }
 }

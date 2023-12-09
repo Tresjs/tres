@@ -93,7 +93,7 @@
     "rollup-plugin-copy": "^3.5.0",
     "rollup-plugin-visualizer": "^5.9.3",
     "three": "^0.158.0",
-    "unocss": "^0.57.7",
+    "unocss": "^0.58.0",
     "unplugin": "^1.5.1",
     "unplugin-vue-components": "^0.25.2",
     "vite": "^5.0.2",
