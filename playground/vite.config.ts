@@ -35,7 +35,7 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
-      '@tresjs/core': resolve(__dirname, '../src/index.ts'),
+      '@tresjs/core': resolve(__dirname, '../dist/tres.js'),
     },
     dedupe: ['three'],
   },

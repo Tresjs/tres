@@ -1,4 +1,4 @@
-import { toValue, useElementSize, useWindowSize } from '@vueuse/core'
+import { toValue, useElementSize, useFps, useMemory, useWindowSize } from '@vueuse/core'
 import { inject, provide, readonly, shallowRef, computed, ref } from 'vue'
 import type { Camera, EventDispatcher, Scene, WebGLRenderer } from 'three'
 import { Raycaster } from 'three'
@@ -85,6 +85,7 @@ export function useTresContextProvider({
   }
 
   provide('useTres', toProvide)
+
   return toProvide
 }
 

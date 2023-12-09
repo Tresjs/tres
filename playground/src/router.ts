@@ -77,6 +77,11 @@ const routes = [
     component: () => import('./pages/perf/index.vue'),
   },
   {
+    path: '/potions-classroom',
+    name: 'Potions',
+    component: () => import('./pages/PotionsClass.vue'),
+  },
+  {
     path: '/empty',
     name: 'empty',
     component: () => import('./pages/empty.vue'),
