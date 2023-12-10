@@ -60,7 +60,7 @@
     "@tresjs/core": "3.5.0",
     "@vueuse/core": "^10.6.1",
     "camera-controls": "^2.7.2",
-    "stats-gl": "^1.0.7",
+    "stats-gl": "^2.0.1",
     "stats.js": "^0.17.0",
     "three-custom-shader-material": "^5.4.0",
     "three-stdlib": "^2.28.7"

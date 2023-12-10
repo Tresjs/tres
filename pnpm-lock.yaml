@@ -18,8 +18,8 @@ importers:
         specifier: ^2.7.2
         version: 2.7.3(three@0.159.0)
       stats-gl:
-        specifier: ^1.0.7
-        version: 1.0.7
+        specifier: ^2.0.1
+        version: 2.0.1
       stats.js:
         specifier: ^0.17.0
         version: 0.17.0
@@ -6999,8 +6999,8 @@ packages:
     resolution: {integrity: sha512-D9cPgkvLlV3t3IzL0D0YLvGA9Ahk4PcvVwUbN0dSGr1aP0Nrt4AEnTUbuGvquEC0mA64Gqt1fzirlRs5ibXx8g==}
     dev: true
 
-  /stats-gl@1.0.7:
-    resolution: {integrity: sha512-vZI82CjefSxLC1bjw36z28v0+QE9rJKymGlXtfWu+ipW70ZEAwa4EbO4LxluAfLfpqiaAS04NzpYBRLDeAwYWQ==}
+  /stats-gl@2.0.1:
+    resolution: {integrity: sha512-EhFm1AxoSBK3MflkFawZ4jmOX1dWu0nBAtCpvGxGsondEvCpsohbpRpM8pi8UAcxG5eRsDsCiRcxdH20j3Rp9A==}
     dev: false
 
   /stats.js@0.17.0:
