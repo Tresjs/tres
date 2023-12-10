@@ -1,4 +1,5 @@
 {
   "name": "tres-nuxt-module",
+  "type": "module",
   "private": true
 }

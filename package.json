@@ -12,19 +12,19 @@
   },
   "exports": {
     ".": {
-      "types": "./dist/types.d.ts",
-      "require": "./dist/module.cjs",
-      "import": "./dist/module.mjs"
+      "types": "./dist/types.d.mts",
+      "default": "./dist/module.mjs"
     }
   },
-  "main": "./dist/module.cjs",
-  "types": "./dist/types.d.ts",
+  "main": "dist/module.mjs",
+  "types": "dist/types.d.ts",
   "files": [
     "dist"
   ],
   "scripts": {
-    "prepack": "nuxt-module-build && npm run client:build",
-    "client:build": "nuxi generate client",
+    "prepack": "npm run module:build && npm run client:build",
+    "module:build": "nuxt-module-build prepare && nuxt-module-build build && jiti scripts/postbuild.ts",
+    "client:build": "nuxt prepare client && nuxi generate client",
     "client:dev": "nuxi dev client --port 3300",
     "dev": "nuxi dev playground",
     "dev:build": "nuxi build playground",
@@ -38,39 +38,58 @@
     "three": ">=0.133"
   },
   "dependencies": {
-    "@nuxt/devtools-kit": "^1.0.4",
+    "@nuxt/devtools-kit": "^1.0.5",
     "@nuxt/kit": "^3.8.2",
     "@nuxt/ui": "^2.11.0",
     "@tresjs/core": "3.6.0-next.0",
     "@types/three": "^0.159.0",
-    "@unocss/nuxt": "^0.57.7",
+    "@unocss/nuxt": "^0.58.0",
     "defu": "^6.1.3",
     "mlly": "^1.4.2",
     "pkg-types": "^1.0.3",
     "sirv": "^2.0.3",
-    "typescript": "^5.3.2"
+    "typescript": "^5.3.3"
   },
   "devDependencies": {
     "@alvarosabu/eslint-config-vue": "^0.4.0",
-    "@iconify-json/carbon": "^1.1.24",
+    "@iconify-json/carbon": "^1.1.25",
     "@iconify-json/file-icons": "^1.1.7",
     "@iconify-json/iconoir": "^1.1.36",
     "@iconify-json/ph": "^1.1.8",
-    "@nuxt/devtools-ui-kit": "^1.0.4",
+    "@nuxt/devtools-ui-kit": "^1.0.5",
     "@nuxt/eslint-config": "^0.2.0",
     "@nuxt/module-builder": "^0.5.4",
     "@nuxt/schema": "^3.8.2",
     "@nuxt/test-utils": "^3.8.1",
     "@release-it/conventional-changelog": "^8.0.1",
-    "@types/node": "^20.10.2",
+    "@types/node": "^20.10.4",
     "changelogen": "^0.5.5",
     "eslint": "^8.55.0",
     "nuxt": "^3.8.2",
     "nuxt-icon": "^0.6.7",
     "playwright": "^1.40.1",
-    "release-it": "^17.0.0",
+    "release-it": "^17.0.1",
     "three": "^0.159.0",
-    "vite-plugin-glsl": "^1.2.0",
-    "vitest": "^0.34.6"
+    "vite-plugin-glsl": "^1.2.1",
+    "vitest": "^1.0.4"
+  },
+  "build": {
+    "externals": [
+      "node:child_process",
+      "vite-plugin-glsl",
+      "@rollup/pluginutils",
+      "vite",
+      "esbuild",
+      "rollup",
+      "estree-walker",
+      "picomatch",
+      "postcss",
+      "lightningcss",
+      "fsevents",
+      "pnpapi",
+      "picocolors",
+      "source-map-js",
+      "nanoid/non-secure"
+    ]
   }
 }

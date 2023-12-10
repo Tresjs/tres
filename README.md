@@ -71,6 +71,48 @@ export default defineNuxtConfig({
 })
 ```
 
+## GLSL shaders support
+
+TresJS nuxt module comes with a vite plugin that allows you to import GLSL shaders as strings. It uses [`vite-plugin-glsl`](https://github.com/UstymUkhman/vite-plugin-glsl) under the hood.
+
+```js
+export default defineNuxtConfig({
+  modules: ['@tresjs/nuxt', '@nuxt/devtools' ],
+  tres: {
+    glsl: true,
+  },
+})
+```
+
+With this option enabled, you can import GLSL shaders as strings in your components.
+
+```vue
+<script setup lang="ts">
+import vertexShader from './shaders/vertex.glsl'
+import fragmentShader from './shaders/fragment.glsl'
+
+const uniforms = {
+  uTime: { value: 0 },
+  uAmplitude: { value: new Vector2(0.1, 0.1) },
+  uFrequency: { value: new Vector2(20, 5) },
+}
+</script>
+
+<template>
+  <TresMesh
+    :position="[0, 4, 0]"
+  >
+    <TresSphereGeometry :args="[2, 32, 32]" />
+    <TresShaderMaterial
+      :vertex-shader="vertexShader"
+      :fragment-shader="fragmentShader"
+      :uniforms="uniforms"
+    />
+  </TresMesh>
+</template>
+```
+
+
 
 ## Development
 

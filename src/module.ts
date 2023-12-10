@@ -1,15 +1,17 @@
 import { readFile } from 'fs/promises'
-import { defineNuxtModule, addImports, addComponent, createResolver, resolvePath } from '@nuxt/kit'
+import { defineNuxtModule, addImports, addComponent, createResolver, resolvePath, addVitePlugin } from '@nuxt/kit'
 import * as core from '@tresjs/core'
 import { templateCompilerOptions } from '@tresjs/core'
 import { readPackageJSON } from 'pkg-types'
 import { findExportNames } from 'mlly'
 import { defu } from 'defu'
+import glsl from 'vite-plugin-glsl'
 import { setupDevToolsUI } from './devtools'
 
 export interface ModuleOptions {
   modules: string[]
   devtools: boolean
+  glsl: boolean
 }
 const resolver = createResolver(import.meta.url)
 
@@ -21,6 +23,7 @@ export default defineNuxtModule<ModuleOptions>({
   defaults: {
     modules: [],
     devtools: true,
+    glsl: false,
   },
   async setup(options, nuxt) { 
     addComponent({
@@ -102,5 +105,8 @@ export default defineNuxtModule<ModuleOptions>({
 
     if (options.devtools)
       setupDevToolsUI(nuxt, resolver)
+
+    if (options.glsl)
+      addVitePlugin(glsl())
   },
 })
