@@ -19,6 +19,7 @@ Official Nuxt module for TresJS. Build 3D scenes as they were Vue components.
 - `TresCanvas` client only, you don't need to add `.client` to the component name or `<ClientOnly />`
 - Automatically configures vue compiler to support TresJS components, see [why](https://tresjs.org/guide/troubleshooting.html#failed-resolve-component-trescomponent-%F0%9F%A4%94)?
 - All the DX Magic that comes with Nuxt ✨
+-  NEW v2: TresJS nuxt devtools.
 
 ## Quick Setup
 
@@ -51,6 +52,25 @@ If you want to use the any package from the TresJS ecosystem, you can install th
 # Using pnpm
 pnpm add @tresjs/cientos @tresjs/post-processing
 ```
+
+## Devtools
+
+![Devtools](/public/tresjs-nuxt-devtools.png)
+
+TresJS nuxt module comes with a devtools extension that allows you to inspect the 3D scene and measure performance.
+
+To activate the devtools, you need to add the `devtools` option to the `tres` section of `nuxt.config.ts`.
+
+
+```js
+export default defineNuxtConfig({
+  modules: ['@tresjs/nuxt', '@nuxt/devtools' ],
+  tres: {
+    devtools: true,
+  },
+})
+```
+
 
 ## Development
 

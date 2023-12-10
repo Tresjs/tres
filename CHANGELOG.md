@@ -1,5 +1,32 @@
 
 
+## [1.4.0-next.1](https://example.com///compare/1.4.0-next.0...1.4.0-next.1) (2023-12-10)
+
+
+### Features
+
+* icons for bones, groups, skinned mesh and fix subitem tree borders ([d0672da](https://example.com///commit/d0672da7598e2b637e95caf086734831729ff069))
+
+
+### Bug Fixes
+
+* issues with reactivity and renderer info ([6fbb87c](https://example.com///commit/6fbb87cb7f85800e48935b183abfc64c1a52bc28))
+
+## [1.4.0-next.0](https://example.com///compare/1.3.0...1.4.0-next.0) (2023-12-06)
+
+
+### Features
+
+* change name to scenegraphitem ([8368efc](https://example.com///commit/8368efc6432ee3b4943fd5c3ba850bca352e1a85))
+* devtools scene graph and cb injection ([0cc3e31](https://example.com///commit/0cc3e31541f44b182587821c03ed3523795b6e7b))
+* nuxt ui on client and more info about scene objects ([1c6e53d](https://example.com///commit/1c6e53d93905b2d4d29b82832e154ad80fba6e7a))
+* use devtool cb and perf stats from core ([e35d546](https://example.com///commit/e35d546d3c30d0ce2064aa339201833395dfc1e6))
+
+
+### Bug Fixes
+
+* **types:** improve types ([29ff44d](https://example.com///commit/29ff44d0da6f743e7ebf757d599ab5112f38760a))
+
 ## [1.3.0](https://example.com///compare/1.2.2...1.3.0) (2023-12-02)
 
 

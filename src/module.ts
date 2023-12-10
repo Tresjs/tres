@@ -5,9 +5,11 @@ import { templateCompilerOptions } from '@tresjs/core'
 import { readPackageJSON } from 'pkg-types'
 import { findExportNames } from 'mlly'
 import { defu } from 'defu'
+import { setupDevToolsUI } from './devtools'
 
 export interface ModuleOptions {
   modules: string[]
+  devtools: boolean
 }
 const resolver = createResolver(import.meta.url)
 
@@ -18,6 +20,7 @@ export default defineNuxtModule<ModuleOptions>({
   },
   defaults: {
     modules: [],
+    devtools: true,
   },
   async setup(options, nuxt) { 
     addComponent({
@@ -96,5 +99,8 @@ export default defineNuxtModule<ModuleOptions>({
     nuxt.options.vite.optimizeDeps = defu(nuxt.options.vite.optimizeDeps, {
       include: ['three'],
     })
+
+    if (options.devtools)
+      setupDevToolsUI(nuxt, resolver)
   },
 })

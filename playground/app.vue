@@ -10,16 +10,10 @@ const gl = reactive({
   toneMapping: NoToneMapping,
 })
 
-const bloomParams = reactive({
-  luminanceThreshold: 0.2,
-  luminanceSmoothing: 0.3,
-  mipmapBlur: true,
-  intensity: 0.5,
-})
-const showScene = ref(false)
+const showCube = ref(false)
 
 setTimeout(() => {
-  showScene.value = true
+  showCube.value = true
 }, 5000)
 </script>
 
@@ -31,14 +25,14 @@ setTimeout(() => {
         :look-at="[0, 0, 0]"
       />
       <OrbitControls />
+      <TresAmbientLight
+        :color="0xffffff"
+        :intensity="0.5"
+      />
       <Suspense>
-        <EffectComposer>
-         <Bloom v-bind="bloomParams" />
-       </EffectComposer>
+        <NuxtStones v-if="showCube" />
       </Suspense>
-      <Suspense>
-        <NuxtStones />
-      </Suspense>
+      <ShaderBall />
     </TresCanvas>
   </div>
 </template>

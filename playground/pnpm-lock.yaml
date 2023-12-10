@@ -10,16 +10,16 @@ devDependencies:
     version: 1.0.4(nuxt@3.8.2)(vite@4.5.0)
   '@tresjs/cientos':
     specifier: ^3.6.0
-    version: 3.6.0(@tresjs/core@3.5.1)(three@0.158.0)(tweakpane@4.0.1)(vue@3.3.9)
+    version: 3.6.0(@tresjs/core@3.5.1)(three@0.159.0)(tweakpane@4.0.1)(vue@3.3.9)
   '@tresjs/post-processing':
     specifier: ^0.7.0
-    version: 0.7.0(three@0.158.0)(vue@3.3.9)
+    version: 0.7.0(three@0.159.0)(vue@3.3.9)
   nuxt:
     specifier: ^3.8.2
     version: 3.8.2(vite@4.5.0)
   postprocessing:
-    specifier: ^6.33.3
-    version: 6.33.3(three@0.158.0)
+    specifier: ^6.33.4
+    version: 6.33.4(three@0.159.0)
   tweakpane:
     specifier: ^4.0.1
     version: 4.0.1
@@ -1307,6 +1307,7 @@ packages:
     dependencies:
       is-glob: 4.0.3
       micromatch: 4.0.5
+      napi-wasm: 1.1.0
     dev: true
     bundledDependencies:
       - napi-wasm
@@ -1648,7 +1649,7 @@ packages:
     engines: {node: '>=18'}
     dev: true
 
-  /@tresjs/cientos@3.6.0(@tresjs/core@3.5.1)(three@0.158.0)(tweakpane@4.0.1)(vue@3.3.9):
+  /@tresjs/cientos@3.6.0(@tresjs/core@3.5.1)(three@0.159.0)(tweakpane@4.0.1)(vue@3.3.9):
     resolution: {integrity: sha512-VM6LamAFlcKufbrtbYN71ncuAw2JPVfKUC6Ey9+scq05qvHdQM8fU0WoppNZEtmIL7m2aUqroOZRnr9LXyZPCg==}
     peerDependencies:
       '@tresjs/core': '>=3.2'
@@ -1656,14 +1657,14 @@ packages:
       tweakpane: '>=3.0.0'
       vue: '>=3.3'
     dependencies:
-      '@tresjs/core': 3.5.1(three@0.158.0)(vue@3.3.9)
+      '@tresjs/core': 3.5.1(three@0.159.0)(vue@3.3.9)
       '@vueuse/core': 10.6.1(vue@3.3.9)
-      camera-controls: 2.7.3(three@0.158.0)
+      camera-controls: 2.7.3(three@0.159.0)
       stats-gl: 1.0.7
       stats.js: 0.17.0
-      three: 0.158.0
-      three-custom-shader-material: 5.4.0(three@0.158.0)
-      three-stdlib: 2.28.7(three@0.158.0)
+      three: 0.159.0
+      three-custom-shader-material: 5.4.0(three@0.159.0)
+      three-stdlib: 2.28.7(three@0.159.0)
       tweakpane: 4.0.1
       vue: 3.3.9
     transitivePeerDependencies:
@@ -1672,7 +1673,7 @@ packages:
       - react
     dev: true
 
-  /@tresjs/core@3.5.1(three@0.158.0)(vue@3.3.9):
+  /@tresjs/core@3.5.1(three@0.159.0)(vue@3.3.9):
     resolution: {integrity: sha512-j7fHT3X8NamQk+n5A20r/UUkInHWQOJr5dzzcuOCdD6s3FFc3WMYtbRq+cJN8FR8mS0vpSK6h9s82com8cmRNA==}
     peerDependencies:
       three: '>=0.133'
@@ -1680,24 +1681,24 @@ packages:
     dependencies:
       '@alvarosabu/utils': 3.1.1
       '@vueuse/core': 10.6.1(vue@3.3.9)
-      three: 0.158.0
+      three: 0.159.0
       vue: 3.3.9
     transitivePeerDependencies:
       - '@vue/composition-api'
     dev: true
 
-  /@tresjs/post-processing@0.7.0(three@0.158.0)(vue@3.3.9):
+  /@tresjs/post-processing@0.7.0(three@0.159.0)(vue@3.3.9):
     resolution: {integrity: sha512-HCLZLvextKBxZBRb09cfmKSmP3GQf/meeaBQoPrawX/mQw0tQMp2SP9jdo0nBCd/xotwudteygXp2PfRzpzzSA==}
     peerDependencies:
       three: '>=0.133'
       vue: '>=3.3'
     dependencies:
-      '@tresjs/core': 3.5.1(three@0.158.0)(vue@3.3.9)
+      '@tresjs/core': 3.5.1(three@0.159.0)(vue@3.3.9)
       '@unocss/core': 0.57.7
       '@vueuse/core': 10.6.1(vue@3.3.9)
-      postprocessing: 6.33.3(three@0.158.0)
-      three: 0.158.0
-      three-stdlib: 2.28.7(three@0.158.0)
+      postprocessing: 6.33.4(three@0.159.0)
+      three: 0.159.0
+      three-stdlib: 2.28.7(three@0.159.0)
       vue: 3.3.9
     transitivePeerDependencies:
       - '@vue/composition-api'
@@ -2336,12 +2337,12 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
-  /camera-controls@2.7.3(three@0.158.0):
+  /camera-controls@2.7.3(three@0.159.0):
     resolution: {integrity: sha512-L4mxjBd3u8qiOLozdWrH2P8ZybSsDXBF7iyNyqNEFJhPUkovmuARWR8JTc1B/qlclOIg6FvZZA/0uAZMMim0mw==}
     peerDependencies:
       three: '>=0.126.1'
     dependencies:
-      three: 0.158.0
+      three: 0.159.0
     dev: true
 
   /caniuse-api@3.0.0:
@@ -4049,6 +4050,10 @@ packages:
     hasBin: true
     dev: true
 
+  /napi-wasm@1.1.0:
+    resolution: {integrity: sha512-lHwIAJbmLSjF9VDRm9GoVOy9AGp3aIvkjv+Kvz9h16QR3uSVYH78PNQUnT2U4X53mhlnV2M7wrhibQ3GHicDmg==}
+    dev: true
+
   /negotiator@0.6.3:
     resolution: {integrity: sha512-+EUsqGPLsM+j/zdChZjsnX51g4XrHFOIXwfnCVPGlQk/k5giakcKsuxCObBRu6DSm9opw/O6slWbJdghQM4bBg==}
     engines: {node: '>= 0.6'}
@@ -4948,13 +4953,13 @@ packages:
       source-map-js: 1.0.2
     dev: true
 
-  /postprocessing@6.33.3(three@0.158.0):
-    resolution: {integrity: sha512-zQAVvcMf7bfeggQNQeVErD/UFd1XHBi2X6+yxwIv9PjhGCLAYKue3UuzVyu95O7ZUvkDwF0TyTzKdxoaVwYi7w==}
+  /postprocessing@6.33.4(three@0.159.0):
+    resolution: {integrity: sha512-2gFymFsEEKVGGD9g/JDi8bNzFNc4PGQiVn3oMYTZd+ebc90gHFXI4eWircELHADxaQVYMlhHvhCpsnlJ1SLhQw==}
     engines: {node: '>= 0.13.2'}
     peerDependencies:
-      three: '>= 0.138.0 < 0.159.0'
+      three: '>= 0.138.0 < 0.160.0'
     dependencies:
-      three: 0.158.0
+      three: 0.159.0
     dev: true
 
   /potpack@1.0.2:
@@ -5616,7 +5621,7 @@ packages:
       source-map-support: 0.5.21
     dev: true
 
-  /three-custom-shader-material@5.4.0(three@0.158.0):
+  /three-custom-shader-material@5.4.0(three@0.159.0):
     resolution: {integrity: sha512-Yn1lFlKOk3Vul3npEGAmbbFUZ5S2+yjPgM2XqJEZEYRSUUH2vk+WVYrtTB6Bcq15wa7hLUXAKoctAvbRmBmbYA==}
     peerDependencies:
       '@react-three/fiber': '>=8.0'
@@ -5632,10 +5637,10 @@ packages:
       glsl-token-string: 1.0.1
       glsl-tokenizer: 2.1.5
       object-hash: 3.0.0
-      three: 0.158.0
+      three: 0.159.0
     dev: true
 
-  /three-stdlib@2.28.7(three@0.158.0):
+  /three-stdlib@2.28.7(three@0.159.0):
     resolution: {integrity: sha512-E7NuztilCswBKnEoyqydvA7N4dy0cf/gLA0bKrrg6+Q6j4WtusGa/+t9oK2HVq47S1AHRH2CvFHpdIGNjPKo/A==}
     peerDependencies:
       three: '>=0.128.0'
@@ -5646,11 +5651,11 @@ packages:
       draco3d: 1.5.6
       fflate: 0.6.10
       potpack: 1.0.2
-      three: 0.158.0
+      three: 0.159.0
     dev: true
 
-  /three@0.158.0:
-    resolution: {integrity: sha512-TALj4EOpdDPF1henk2Q+s17K61uEAAWQ7TJB68nr7FKxqwyDr3msOt5IWdbGm4TaWKjrtWS8DJJWe9JnvsWOhQ==}
+  /three@0.159.0:
+    resolution: {integrity: sha512-eCmhlLGbBgucuo4VEA9IO3Qpc7dh8Bd4VKzr7WfW4+8hMcIfoAVi1ev0pJYN9PTTsCslbcKgBwr2wNZ1EvLInA==}
     dev: true
 
   /through2@0.6.5:
