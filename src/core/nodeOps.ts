@@ -115,71 +115,90 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
   },
   remove(node) {
     if (!node) return
-    // remove is only called on the node being removed and not on child nodes.
 
-    if (node.isObject3D) {
-      const object3D = node as unknown as Object3D
+    const disposeMaterialsAndGeometries = (object3D: Object3D) => {
+      const tresObject3D = object3D as TresObject3D
 
-      const disposeMaterialsAndGeometries = (object3D: Object3D) => {
-        const tresObject3D = object3D as TresObject3D
-
-        if (!object3D.userData.tres__materialViaProp) {
-          tresObject3D.material?.dispose()
-          tresObject3D.material = undefined
-        }
-          
-        if (!object3D.userData.tres__geometryViaProp) {
-          tresObject3D.geometry?.dispose()
-          tresObject3D.geometry = undefined
-        }
+      if (!object3D.userData.tres__materialViaProp) {
+        tresObject3D.material?.dispose()
+        delete tresObject3D.material
       }
+        
+      if (!object3D.userData.tres__geometryViaProp) {
+        tresObject3D.geometry?.dispose()
+        delete tresObject3D.geometry
+      }
+    }
 
-      const deregisterAtPointerEventHandler = scene?.userData.tres__deregisterAtPointerEventHandler
-      const deregisterBlockingObjectAtPointerEventHandler
+    const deregisterAtPointerEventHandler = scene?.userData.tres__deregisterAtPointerEventHandler
+    const deregisterBlockingObjectAtPointerEventHandler
         = scene?.userData.tres__deregisterBlockingObjectAtPointerEventHandler
 
-      const deregisterAtPointerEventHandlerIfRequired = (object: TresObject) => {
+    const deregisterAtPointerEventHandlerIfRequired = (object: TresObject) => {
 
-        if (!deregisterBlockingObjectAtPointerEventHandler)
-          throw 'could not find tres__deregisterBlockingObjectAtPointerEventHandler on scene\'s userData'
+      if (!deregisterBlockingObjectAtPointerEventHandler)
+        throw 'could not find tres__deregisterBlockingObjectAtPointerEventHandler on scene\'s userData'
 
-        scene?.userData.tres__deregisterBlockingObjectAtPointerEventHandler?.(object as Object3D)
+      scene?.userData.tres__deregisterBlockingObjectAtPointerEventHandler?.(object as Object3D)
 
-        if (!deregisterAtPointerEventHandler)
-          throw 'could not find tres__deregisterAtPointerEventHandler on scene\'s userData'
+      if (!deregisterAtPointerEventHandler)
+        throw 'could not find tres__deregisterAtPointerEventHandler on scene\'s userData'
 
-        if (
-          object?.onClick
+      if (
+        object?.onClick
           || object?.onPointerMove
           || object?.onPointerEnter
           || object?.onPointerLeave
-        )
-          deregisterAtPointerEventHandler?.(object as Object3D)
-      }
-
-      const deregisterCameraIfRequired = (object: Object3D) => {
-        const deregisterCamera = scene?.userData.tres__deregisterCamera
-
-        if (!deregisterCamera)
-          throw 'could not find tres__deregisterCamera on scene\'s userData'
-
-        if ((object as Camera).isCamera)
-          deregisterCamera?.(object as Camera)
-      }
-
-      node.removeFromParent?.()
-      object3D.traverse((child: Object3D) => {
-        disposeMaterialsAndGeometries(child)
-        deregisterCameraIfRequired(child)
-        deregisterAtPointerEventHandlerIfRequired?.(child as TresObject)
-      })
-
-      disposeMaterialsAndGeometries(object3D)
-      deregisterCameraIfRequired(object3D)
-      deregisterAtPointerEventHandlerIfRequired?.(object3D as TresObject)
+      )
+        deregisterAtPointerEventHandler?.(object as Object3D)
     }
 
-    node.dispose?.()
+    const deregisterCameraIfRequired = (object: Object3D) => {
+      const deregisterCamera = scene?.userData.tres__deregisterCamera
+
+      if (!deregisterCamera)
+        throw 'could not find tres__deregisterCamera on scene\'s userData'
+
+      if ((object as Camera).isCamera)
+        deregisterCamera?.(object as Camera)
+    }
+
+    // Since remove is only called on the node being removed and not on child nodes.
+    // We need to recursively remove objects.
+    // In order for an object to be able to dispose it has to have
+    //   - a dispose method,
+    //   - it cannot be a <primitive object={...} />
+    //   - it cannot be a THREE.Scene, because three has broken it's own api
+    //
+    const isPrimitive = node?.primitive
+    const shouldDispose = !isPrimitive && (node.dispose === undefined ? node.dispose !== null : false)
+
+    // Add code to detach 
+    if (node?.isObject3D && node.parent?.isObject3D) {
+      node.parent.remove(node)
+      node.removeFromParent?.()
+    }
+
+    // Only dispose if it's not a primitive and it has a dispose method,
+    //  if its a primitive, disposal needs to be handled by the user.
+    if (!isPrimitive && node?.isObject3D) {
+      node.children.forEach((child: TresObject) => nodeOps.remove(child))
+      disposeMaterialsAndGeometries(node as Object3D)
+      deregisterCameraIfRequired(node as Object3D)
+      deregisterAtPointerEventHandlerIfRequired?.(node as TresObject)
+      for (const p in node) {
+        if (p !== 'geometry' && p !== 'material') {
+          ;(p as any).dispose?.()
+          delete node[p]
+        }
+      }
+    }
+    
+    if (shouldDispose && node.dispose && node.type !== 'Scene') {
+      node.dispose()
+    }
+
+    // Add invalidation code similar to https://github.com/pmndrs/react-three-fiber/blob/master/packages/fiber/src/core/utils.ts#L436
   },
   patchProp(node, prop, _prevValue, nextValue) {
     if (node) {
