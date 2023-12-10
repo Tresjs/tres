@@ -85,7 +85,6 @@ export function useTresContextProvider({
   }
 
   provide('useTres', toProvide)
-
   return toProvide
 }
 
