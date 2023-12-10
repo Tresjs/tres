@@ -18,8 +18,8 @@ const gl = {
 
 const router = useRouter()
 
-const { sphere } = useControls({
-  sphere: true,
+const { isShown } = useControls({
+  isShown: true,
 })
 
 const ctx = ref(null)
@@ -51,15 +51,23 @@ useControls({
     <TresPerspectiveCamera :position="[3, 3, 3]" />
     <OrbitControls />
     <Suspense> 
-      <AkuAku v-if="sphere" />
+      <AkuAku v-if="isShown" />
     </Suspense>
-    <!--  <TresMesh
-      v-if="sphere.value"
-      :position="[0, 0, 0]"
-    >
-      <TresSphereGeometry />
-      <TresMeshStandardMaterial color="teal" />
-    </TresMesh> -->
+    <!--     <TresGroup v-if="isShown">
+      <TresMesh
+        :position="[0, 0, 0]"
+      >
+        <TresSphereGeometry />
+        <TresMeshToonMaterial color="teal" />
+      </TresMesh>
+      <TresMesh
+       
+        :position="[2, 0, 0]"
+      >
+        <TresSphereGeometry />
+        <TresMeshToonMaterial color="pink" />
+      </TresMesh>
+    </TresGroup> -->
     <TresAmbientLight :intensity="1" />
   </TresCanvas>
 </template>

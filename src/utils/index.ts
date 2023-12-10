@@ -127,3 +127,12 @@ export function deepArrayEqual(arr1: any[], arr2: any[]): boolean {
  * TypeSafe version of Array.isArray
  */
 export const isArray = Array.isArray as (a: any) => a is any[] | readonly any[]
+
+// Disposes an object and all its properties
+export function dispose<TresObj extends { dispose?: () => void; type?: string; [key: string]: any }>(obj: TresObj) {
+  if (obj.dispose && obj.type !== 'Scene') obj.dispose()
+  for (const p in obj) {
+    ;(p as any).dispose?.()
+    delete obj[p]
+  }
+}
