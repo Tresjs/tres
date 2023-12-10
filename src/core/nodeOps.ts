@@ -123,9 +123,15 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
       const disposeMaterialsAndGeometries = (object3D: Object3D) => {
         const tresObject3D = object3D as TresObject3D
 
-        if (!object3D.userData.tres__materialViaProp) tresObject3D.material?.dispose()
-        if (!object3D.userData.tres__geometryViaProp)
+        if (!object3D.userData.tres__materialViaProp) {
+          tresObject3D.material?.dispose()
+          tresObject3D.material = undefined
+        }
+          
+        if (!object3D.userData.tres__geometryViaProp) {
           tresObject3D.geometry?.dispose()
+          tresObject3D.geometry = undefined
+        }
       }
 
       const deregisterAtPointerEventHandler = scene?.userData.tres__deregisterAtPointerEventHandler
@@ -161,6 +167,7 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
           deregisterCamera?.(object as Camera)
       }
 
+      node.removeFromParent?.()
       object3D.traverse((child: Object3D) => {
         disposeMaterialsAndGeometries(child)
         deregisterCameraIfRequired(child)
@@ -171,8 +178,6 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
       deregisterCameraIfRequired(object3D)
       deregisterAtPointerEventHandlerIfRequired?.(object3D as TresObject)
     }
-
-    node.removeFromParent?.()
 
     node.dispose?.()
   },

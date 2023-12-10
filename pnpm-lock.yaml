@@ -150,8 +150,8 @@ importers:
         version: 4.2.5(vue@3.3.9)
     devDependencies:
       '@tresjs/leches':
-        specifier: ^0.13.0
-        version: 0.13.0(vue@3.3.9)
+        specifier: 0.15.0-next.3
+        version: 0.15.0-next.3(three@0.158.0)(vite@4.5.0)(vue@3.3.9)
       '@tweakpane/plugin-essentials':
         specifier: ^0.2.0
         version: 0.2.0(tweakpane@4.0.1)
@@ -314,7 +314,6 @@ packages:
 
   /@alvarosabu/utils@3.1.1:
     resolution: {integrity: sha512-DdZNe0i0UsqA2X/+JtaznG4qGorU24FaHqxMAhVspQaC1my+YAVQLpfw8GilHpzMxPxX4sGVzuTnBF8GOdG5oA==}
-    dev: false
 
   /@ampproject/remapping@2.2.1:
     resolution: {integrity: sha512-lFMjJTrFL3j7L9yBxwYfCq2k6qqwHyzuUl/XBnif78PWTJYyL/dfowQHWE3sp6U6ZzqWiiIZnpTMO96zhkjwtg==}
@@ -1806,6 +1805,20 @@ packages:
       - '@vue/composition-api'
       - react
 
+  /@tresjs/core@3.5.1(three@0.158.0)(vue@3.3.9):
+    resolution: {integrity: sha512-j7fHT3X8NamQk+n5A20r/UUkInHWQOJr5dzzcuOCdD6s3FFc3WMYtbRq+cJN8FR8mS0vpSK6h9s82com8cmRNA==}
+    peerDependencies:
+      three: '>=0.133'
+      vue: '>=3.3'
+    dependencies:
+      '@alvarosabu/utils': 3.1.1
+      '@vueuse/core': 10.6.1(vue@3.3.9)
+      three: 0.158.0
+      vue: 3.3.9(typescript@5.3.2)
+    transitivePeerDependencies:
+      - '@vue/composition-api'
+    dev: true
+
   /@tresjs/eslint-config-base@0.2.1(@typescript-eslint/eslint-plugin@6.13.0)(@typescript-eslint/parser@6.13.0)(eslint@8.54.0):
     resolution: {integrity: sha512-9fkwDaNu4nLKujeERi5d1S7+ZdZpxBE+g/jUbM4ywhn/+5P7Qv8dXlo1vB05LteX5cTBnZxHQTFrJGK+sMcFdg==}
     peerDependencies:
@@ -1870,16 +1883,22 @@ packages:
       - supports-color
     dev: true
 
-  /@tresjs/leches@0.13.0(vue@3.3.9):
-    resolution: {integrity: sha512-Fgvwl6q3Hb3DVlM71WHhqG0QSXOGcdcQN6d2EU78etLBUj7SQSq2mBeS0WNZ8r0bdNfB1tNkrPkA3uBdMS4yuw==}
+  /@tresjs/leches@0.15.0-next.3(three@0.158.0)(vite@4.5.0)(vue@3.3.9):
+    resolution: {integrity: sha512-kI8DovuzZ/mnSY3ifEiKJ1fd3aBoM5hYSfX0uwlJ6KWblVafrhds1J8j5aoFq6Kx0pjDVsY72fL8itAfm0ZrzQ==}
     peerDependencies:
+      three: '>=0.133'
       vue: '>=3.3.4'
     dependencies:
-      '@unocss/core': 0.57.2
+      '@tresjs/core': 3.5.1(three@0.158.0)(vue@3.3.9)
+      '@types/three': 0.158.3
+      '@unocss/core': 0.57.7
       '@vueuse/components': 10.5.0(vue@3.3.9)
+      three: 0.158.0
+      vite-plugin-css-injected-by-js: 3.3.0(vite@4.5.0)
       vue: 3.3.9(typescript@5.3.2)
     transitivePeerDependencies:
       - '@vue/composition-api'
+      - vite
     dev: true
 
   /@trysound/sax@0.2.0:
@@ -2212,10 +2231,6 @@ packages:
     dependencies:
       '@unocss/core': 0.57.7
       unconfig: 0.3.11
-    dev: true
-
-  /@unocss/core@0.57.2:
-    resolution: {integrity: sha512-iTmowhObigxeqcxtEW4v+mAEQtFslifTG0Fiw8kXs3+t4L6fcnjj0i7/FtBbz+nOxrWyt2EzdkUyjpLGQa/yCw==}
     dev: true
 
   /@unocss/core@0.57.7:
@@ -8492,6 +8507,14 @@ packages:
 
   /vite-plugin-banner@0.7.1:
     resolution: {integrity: sha512-Bww2Xd5tOGsZ1yZ9rQiGneryvsL1u86znPrqeQjCsXPsG72pnSdV5lcQA+cy8UNDguMqyTJiCevlNUbLnT85UA==}
+    dev: true
+
+  /vite-plugin-css-injected-by-js@3.3.0(vite@4.5.0):
+    resolution: {integrity: sha512-xG+jyHNCmUqi/TXp6q88wTJGeAOrNLSyUUTp4qEQ9QZLGcHWQQsCsSSKa59rPMQr8sOzfzmWDd8enGqfH/dBew==}
+    peerDependencies:
+      vite: '>2.0.0-0'
+    dependencies:
+      vite: 4.5.0
     dev: true
 
   /vite-plugin-dts@3.6.3(typescript@5.3.2)(vite@5.0.2):
