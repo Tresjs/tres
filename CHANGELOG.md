@@ -1,5 +1,13 @@
 
 
+## [2.0.0](https://example.com///compare/1.3.0...2.0.0) (2023-12-11)
+
+
+### Features
+
+* 65 add vite plugin glsl for shaders support via options ([#68](https://example.com//null/issues/68)) ([965803a](https://example.com///commit/965803af819bb4946eb49a696ec558527076c2da))
+* nuxt devtools tab ([#66](https://example.com//null/issues/66)) ([3c131f6](https://example.com///commit/3c131f6b836b7f28168cdc4773fa6fb6b7ec6279))
+
 ## [1.4.0-next.1](https://example.com///compare/1.4.0-next.0...1.4.0-next.1) (2023-12-10)
 
 
