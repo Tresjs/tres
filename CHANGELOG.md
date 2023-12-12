@@ -6,6 +6,14 @@
 ### Features
 
 * devtools hook on window object ([df96c1f](https://github.com/Tresjs/tres/commit/df96c1f31aafe1b73cd344fde39420c1ae443d47))
+  
+
+## [3.5.2](https://github.com/Tresjs/tres/compare/3.5.1...3.5.2) (2023-12-12)
+
+
+### Bug Fixes
+
+* force memory free allocation when disposing materials and geometries ([#463](https://github.com/Tresjs/tres/issues/463)) ([1ef3533](https://github.com/Tresjs/tres/commit/1ef353363d02256275c483ec15ad424dc058991a))
 
 ## [3.5.1](https://github.com/Tresjs/tres/compare/3.5.0...3.5.1) (2023-11-28)
 
