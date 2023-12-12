@@ -1,5 +1,14 @@
 
 
+## [2.0.1-next.1](https://example.com///compare/2.0.1-next.0...2.0.1-next.1) (2023-12-12)
+
+## [2.0.1-next.0](https://example.com///compare/2.0.0...2.0.1-next.0) (2023-12-12)
+
+
+### Bug Fixes
+
+* move vite-plugin-glsl to deps ([e9d4946](https://example.com///commit/e9d4946a09f447e64a53a2a0cefbdb326f2ec69a))
+
 ## [2.0.0](https://example.com///compare/1.3.0...2.0.0) (2023-12-11)
 
 
