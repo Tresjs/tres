@@ -20,7 +20,7 @@ import {
   defineComponent,
   h, 
   getCurrentInstance,
-} from 'vue'
+  onUnmounted } from 'vue'
 import {
   useTresContextProvider,
   useLogger,
@@ -29,10 +29,11 @@ import {
   type TresContext,
 } from '../composables'
 import { extend } from '../core/catalogue'
-import { render } from '../core/renderer'
+import { render, disposeCustomRenderer } from '../core/renderer'
 
 import type { RendererPresetsType } from '../composables/useRenderer/const'
 import type { TresCamera, TresObject } from '../types/'
+import disposeObject3D, { dispose } from '../utils'
 
 export interface TresCanvasProps
   extends Omit<WebGLRendererParameters, 'canvas'> {
@@ -84,7 +85,7 @@ const slots = defineSlots<{
 }>()
 
 const instance = getCurrentInstance()?.appContext.app
-
+let InternalComponent = null
 const createInternalComponent = (context: TresContext) =>
   defineComponent({
     setup() {
@@ -97,17 +98,26 @@ const createInternalComponent = (context: TresContext) =>
   })
 
 const mountCustomRenderer = (context: TresContext) => {
-  const InternalComponent = createInternalComponent(context)
+  InternalComponent = createInternalComponent(context)
   render(h(InternalComponent), scene.value as unknown as TresObject)
 }
 
-const dispose = (context: TresContext, force = false) => {
+const unmountCustomRenderer = () => {
+  InternalComponent = null
+}
+
+const hardDispose = (context: TresContext) => {
+  dispose(scene.value)
+  scene.value = null as unknown as Scene
+  render(null, scene.value as unknown as TresObject)
+  unmountCustomRenderer()
+  /* context.renderer.value.forceContextLoss()
+  context.renderer.value.dispose()
+  context.renderer.value.renderLists.dispose() */
+}
+
+const softDispose = (context: TresContext) => {
   scene.value.children = []
-  if (force) {
-    context.renderer.value.dispose()
-    context.renderer.value.renderLists.dispose()
-    context.renderer.value.forceContextLoss()
-  }
   mountCustomRenderer(context)
   resume()
 }
@@ -116,7 +126,7 @@ const disableRender = computed(() => props.disableRender)
 
 const context = shallowRef<TresContext | null>(null)
 
-defineExpose({ context, dispose: () => dispose(context.value as TresContext, true) })
+defineExpose({ context, dispose: () => hardDispose(context.value as TresContext) })
 
 onMounted(() => {
   const existingCanvas = canvas as Ref<HTMLCanvasElement>
@@ -177,8 +187,13 @@ onMounted(() => {
     addDefaultCamera()
   }
 
+  // If there is a change detected on HMR, we do a soft disposal.
   if (import.meta.hot && context.value)
-    import.meta.hot.on('vite:afterUpdate', () => dispose(context.value as TresContext))
+    import.meta.hot.on('vite:afterUpdate', () => softDispose(context.value as TresContext))
+})
+
+onUnmounted(() => {
+  if (context.value) hardDispose(context.value)
 })
 </script>
 

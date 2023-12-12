@@ -1,3 +1,6 @@
+import { Object3D } from 'three'
+import { c } from 'vitest/dist/reporters-5f784f42'
+
 export function toSetMethodName(key: string) {
   return `set${key[0].toUpperCase()}${key.slice(1)}`
 }
@@ -130,9 +133,39 @@ export const isArray = Array.isArray as (a: any) => a is any[] | readonly any[]
 
 // Disposes an object and all its properties
 export function dispose<TresObj extends { dispose?: () => void; type?: string; [key: string]: any }>(obj: TresObj) {
-  if (obj.dispose && obj.type !== 'Scene') obj.dispose()
+  if (obj.children) obj.children.forEach((child: any) => dispose(child))
   for (const p in obj) {
-    ;(p as any).dispose?.()
+    ;(obj[p] as any)?.dispose?.()
     delete obj[p]
   }
+
+  if (obj.dispose && obj.type !== 'Scene') obj.dispose()
 }
+
+export function disposeObject3D(object: Object3D): void {
+  // If object has a parent and both are Object3D, remove from parent
+  if (object.parent && object instanceof Object3D && object.parent instanceof Object3D) {
+    object.parent.remove(object)
+  }
+
+  // If object has children, recursively call this function for each child
+  object.children.forEach((child: Object3D) => disposeObject3D(child))
+
+  // Check which properties have a dispose method and dispose them
+  for (const property in object) {
+    if (Object.prototype.hasOwnProperty.call(object, property)) {
+      const value = (object as any)[property]
+      if (value && typeof value.dispose === 'function') {
+        value.dispose()
+        delete (object as any)[property]
+      }
+    }
+  }
+
+  // If the object has a dispose method and is not a Scene, also dispose it
+  if (typeof (object as any).dispose === 'function' && object.type !== 'Scene') {
+    (object as any).dispose()
+  }
+}
+
+export default disposeObject3D
