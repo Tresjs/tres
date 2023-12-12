@@ -1,5 +1,13 @@
 
 
+## [3.6.0-next.0](https://github.com/Tresjs/tres/compare/3.5.1...3.6.0-next.0) (2023-12-06)
+
+
+### Features
+
+* devtools hook on window object ([df96c1f](https://github.com/Tresjs/tres/commit/df96c1f31aafe1b73cd344fde39420c1ae443d47))
+  
+
 ## [3.5.2](https://github.com/Tresjs/tres/compare/3.5.1...3.5.2) (2023-12-12)
 
 
