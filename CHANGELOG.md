@@ -1,5 +1,12 @@
 
 
+## [3.6.0](https://github.com/Tresjs/tres/compare/3.5.2...3.6.0) (2023-12-12)
+
+
+### Features
+
+* enable devtools ([#465](https://github.com/Tresjs/tres/issues/465)) ([d61df05](https://github.com/Tresjs/tres/commit/d61df0597965e708581d1b32eafa2f14866bf9b4))
+
 ## [3.6.0-next.0](https://github.com/Tresjs/tres/compare/3.5.1...3.6.0-next.0) (2023-12-06)
 
 
