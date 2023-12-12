@@ -20,7 +20,7 @@
   "devDependencies": {
     "@iconify-json/carbon": "^1.1.23",
     "@tresjs/cientos": "3.6.0",
-    "@tresjs/core": "3.5.1",
+    "@tresjs/core": "3.6.0",
     "@types/three": "^0.158.3",
     "three": "^0.158.0",
     "unplugin-auto-import": "^0.17.1",

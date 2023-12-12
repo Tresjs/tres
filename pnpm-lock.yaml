@@ -1,9 +1,5 @@
 lockfileVersion: '6.0'
 
-settings:
-  autoInstallPeers: true
-  excludeLinksFromLockfile: false
-
 importers:
 
   .:
@@ -151,10 +147,10 @@ importers:
         version: 1.1.23
       '@tresjs/cientos':
         specifier: 3.6.0
-        version: 3.6.0(@tresjs/core@3.5.1)(three@0.158.0)(tweakpane@4.0.1)(vue@3.3.9)
+        version: 3.6.0(@tresjs/core@3.6.0)(three@0.158.0)(tweakpane@4.0.1)(vue@3.3.9)
       '@tresjs/core':
-        specifier: 3.5.1
-        version: 3.5.1(three@0.158.0)(vue@3.3.9)
+        specifier: 3.6.0
+        version: 3.6.0(three@0.158.0)(vue@3.3.9)
       '@types/three':
         specifier: ^0.158.3
         version: 0.158.3
@@ -1829,7 +1825,7 @@ packages:
     resolution: {integrity: sha512-C5Mc6rdnsaJDjO3UpGW/CQTHtCKaYlScZTly4JIu97Jxo/odCiH0ITnDXSJPTOrEKk/ycSZ0AOgTmkDtkOsvIA==}
     dev: true
 
-  /@tresjs/cientos@3.6.0(@tresjs/core@3.5.1)(three@0.158.0)(tweakpane@4.0.1)(vue@3.3.9):
+  /@tresjs/cientos@3.6.0(@tresjs/core@3.6.0)(three@0.158.0)(tweakpane@4.0.1)(vue@3.3.9):
     resolution: {integrity: sha512-VM6LamAFlcKufbrtbYN71ncuAw2JPVfKUC6Ey9+scq05qvHdQM8fU0WoppNZEtmIL7m2aUqroOZRnr9LXyZPCg==}
     peerDependencies:
       '@tresjs/core': '>=3.2'
@@ -1837,7 +1833,7 @@ packages:
       tweakpane: '>=3.0.0'
       vue: '>=3.3'
     dependencies:
-      '@tresjs/core': 3.5.1(three@0.158.0)(vue@3.3.9)
+      '@tresjs/core': 3.6.0(three@0.158.0)(vue@3.3.9)
       '@vueuse/core': 10.6.1(vue@3.3.9)
       camera-controls: 2.7.3(three@0.158.0)
       stats-gl: 1.0.7
@@ -1853,14 +1849,14 @@ packages:
       - react
     dev: true
 
-  /@tresjs/core@3.5.1(three@0.158.0)(vue@3.3.9):
-    resolution: {integrity: sha512-j7fHT3X8NamQk+n5A20r/UUkInHWQOJr5dzzcuOCdD6s3FFc3WMYtbRq+cJN8FR8mS0vpSK6h9s82com8cmRNA==}
+  /@tresjs/core@3.6.0(three@0.158.0)(vue@3.3.9):
+    resolution: {integrity: sha512-eG5WFyETwSMmGt/5v+5yTk8nxU2ohyUdE2F6Dv4e7PIMXGsiNaT6ouT3jR9oK4LBU+I/1KZXb0V6HJKCS+AV/Q==}
     peerDependencies:
       three: '>=0.133'
       vue: '>=3.3'
     dependencies:
       '@alvarosabu/utils': 3.1.1
-      '@vueuse/core': 10.6.1(vue@3.3.9)
+      '@vueuse/core': 10.7.0(vue@3.3.9)
       three: 0.158.0
       vue: 3.3.9(typescript@5.3.2)
     transitivePeerDependencies:
@@ -2676,6 +2672,18 @@ packages:
       - '@vue/composition-api'
       - vue
 
+  /@vueuse/core@10.7.0(vue@3.3.9):
+    resolution: {integrity: sha512-4EUDESCHtwu44ZWK3Gc/hZUVhVo/ysvdtwocB5vcauSV4B7NiGY5972WnsojB3vRNdxvAt7kzJWE2h9h7C9d5w==}
+    dependencies:
+      '@types/web-bluetooth': 0.0.20
+      '@vueuse/metadata': 10.7.0
+      '@vueuse/shared': 10.7.0(vue@3.3.9)
+      vue-demi: 0.14.6(vue@3.3.9)
+    transitivePeerDependencies:
+      - '@vue/composition-api'
+      - vue
+    dev: true
+
   /@vueuse/integrations@10.6.1(focus-trap@7.5.4)(vue@3.3.9):
     resolution: {integrity: sha512-mPDupuofMJ4DPmtX/FfP1MajmWRzYDv8WSaTCo8LQ5kFznjWgmUQ16ApjYqgMquqffNY6+IRMdMgosLDRZOSZA==}
     peerDependencies:
@@ -2729,6 +2737,10 @@ packages:
   /@vueuse/metadata@10.6.1:
     resolution: {integrity: sha512-qhdwPI65Bgcj23e5lpGfQsxcy0bMjCAsUGoXkJ7DsoeDUdasbZ2DBa4dinFCOER3lF4gwUv+UD2AlA11zdzMFw==}
 
+  /@vueuse/metadata@10.7.0:
+    resolution: {integrity: sha512-GlaH7tKP2iBCZ3bHNZ6b0cl9g0CJK8lttkBNUX156gWvNYhTKEtbweWLm9rxCPIiwzYcr/5xML6T8ZUEt+DkvA==}
+    dev: true
+
   /@vueuse/shared@10.6.1(vue@3.3.9):
     resolution: {integrity: sha512-TECVDTIedFlL0NUfHWncf3zF9Gc4VfdxfQc8JFwoVZQmxpONhLxFrlm0eHQeidHj4rdTPL3KXJa0TZCk1wnc5Q==}
     dependencies:
@@ -2736,6 +2748,15 @@ packages:
     transitivePeerDependencies:
       - '@vue/composition-api'
       - vue
+
+  /@vueuse/shared@10.7.0(vue@3.3.9):
+    resolution: {integrity: sha512-kc00uV6CiaTdc3i1CDC4a3lBxzaBE9AgYNtFN87B5OOscqeWElj/uza8qVDmk7/U8JbqoONLbtqiLJ5LGRuqlw==}
+    dependencies:
+      vue-demi: 0.14.6(vue@3.3.9)
+    transitivePeerDependencies:
+      - '@vue/composition-api'
+      - vue
+    dev: true
 
   /@wdio/config@8.24.5:
     resolution: {integrity: sha512-fNzr4SCMZXCVzff/rk8pXxmmDXqUrO0AVzjFXwh4Hw7VxoRHvEvaM7UZP/GHfS+PljhYgMBjjyxw5JMl3B7FIQ==}
@@ -9886,3 +9907,7 @@ packages:
   /zwitch@2.0.4:
     resolution: {integrity: sha512-bXE4cR/kVZhKZX/RjPEflHaKVhUVl85noU3v6b8apfQEc1x4A+zBxjZ4lN8LqGd6WZ3dl98pY4o717VFmoPp+A==}
     dev: true
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
