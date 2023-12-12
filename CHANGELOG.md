@@ -1,5 +1,12 @@
 
 
+## [2.0.1](https://example.com///compare/2.0.0...2.0.1) (2023-12-12)
+
+
+### Bug Fixes
+
+* 69 cannot find module vite plugin glsl after upgrading to v2 ([#70](https://example.com//null/issues/70)) ([7eb8118](https://example.com///commit/7eb8118f112b385036381e6f2c48f8b432fc962a))
+
 ## [2.0.1-next.1](https://example.com///compare/2.0.1-next.0...2.0.1-next.1) (2023-12-12)
 
 ## [2.0.1-next.0](https://example.com///compare/2.0.0...2.0.1-next.0) (2023-12-12)
