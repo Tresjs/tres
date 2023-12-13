@@ -15,8 +15,8 @@ dependencies:
     specifier: ^2.11.1
     version: 2.11.1(nuxt@3.8.2)(rollup@3.29.4)(vite@5.0.8)(vue@3.3.11)
   '@tresjs/core':
-    specifier: 3.6.0-next.0
-    version: 3.6.0-next.0(three@0.159.0)(vue@3.3.11)
+    specifier: 3.6.0
+    version: 3.6.0(three@0.159.0)(vue@3.3.11)
   '@tresjs/nuxt':
     specifier: 2.0.1-next.0
     version: 2.0.1-next.0(nuxt@3.8.2)(postcss@8.4.32)(rollup@3.29.4)(three@0.159.0)(vite@5.0.8)(vue@3.3.11)(webpack@5.89.0)
@@ -2931,6 +2931,20 @@ packages:
   /@tootallnate/quickjs-emscripten@0.23.0:
     resolution: {integrity: sha512-C5Mc6rdnsaJDjO3UpGW/CQTHtCKaYlScZTly4JIu97Jxo/odCiH0ITnDXSJPTOrEKk/ycSZ0AOgTmkDtkOsvIA==}
     dev: true
+
+  /@tresjs/core@3.6.0(three@0.159.0)(vue@3.3.11):
+    resolution: {integrity: sha512-eG5WFyETwSMmGt/5v+5yTk8nxU2ohyUdE2F6Dv4e7PIMXGsiNaT6ouT3jR9oK4LBU+I/1KZXb0V6HJKCS+AV/Q==}
+    peerDependencies:
+      three: '>=0.133'
+      vue: '>=3.3'
+    dependencies:
+      '@alvarosabu/utils': 3.1.1
+      '@vueuse/core': 10.7.0(vue@3.3.11)
+      three: 0.159.0
+      vue: 3.3.11(typescript@5.3.3)
+    transitivePeerDependencies:
+      - '@vue/composition-api'
+    dev: false
 
   /@tresjs/core@3.6.0-next.0(three@0.159.0)(vue@3.3.11):
     resolution: {integrity: sha512-/061QUCYgTHGH7a2/JKy6OymEbOMEZBgHX6AgYvt9bBwGk4mQRNEdBn8U/NS8Xk6vPd6sS1u3CP2da+F/MnDRQ==}
