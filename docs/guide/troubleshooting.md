@@ -8,7 +8,7 @@ This guide is intended to help you solve the most common issues that you might e
 
 ## I can't see my 3D scene 😭!
 
-You followed the [Getting started guide](/guide/getting-started.md) but you still can see your scene renderered.
+You followed the [Getting started guide](/guide/getting-started.md) but you still can see your scene rendered.
 
 These are the most common reasons why you might not be able to see your scene:
 
