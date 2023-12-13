@@ -403,6 +403,7 @@ onUnmounted(() => {
   if (shaderMaterial.value) {
     shaderMaterial.value.dispose()
   }
+  el.value.remove()
 })
 </script>
 
