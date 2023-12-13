@@ -2,8 +2,6 @@
 
 A `<TresGroup>` is an instance of the [THREE.Group](https://threejs.org/docs/#api/en/objects/Group) class which is almost the same as a [THREE.Object3D](https://threejs.org/docs/#api/en/objects/Object3D) but allows you to **group together multiple objects in the scene** so that they can be manipulated as a single unit (transform, rotation, etc).
 
-<StackBlitzEmbed projectId="tresjs-groups" />
-
 ## Usage
 
 ```vue{13,22}

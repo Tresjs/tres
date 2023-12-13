@@ -83,7 +83,7 @@ You can also pass props to the component, for example, the `TresAmbientLight` ha
 
 ### Set
 
-All properties whose underlying object has a `.set()` method have a shortcut to recieve the value as an array. For example, the `TresPerspectiveCamera` has a `position` property, which is a `Vector3` object, so you can pass it to the component like this:
+All properties whose underlying object has a `.set()` method have a shortcut to receive the value as an array. For example, the `TresPerspectiveCamera` has a `position` property, which is a `Vector3` object, so you can pass it to the component like this:
 
 ```html
 <TresPerspectiveCamera :position="[1, 2, 3]" />

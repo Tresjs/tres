@@ -26,7 +26,7 @@ export default defineConfig({
         content: 'https://repository-images.githubusercontent.com/571314349/10996566-7f70-473b-a8e5-4e56fc0ca850',
       },
     ],
-    ['script', { defer: 'true', 'data-domain': 'tresjs.org', src: 'https://plausible.io/js/script.js' }],
+    ['script', { defer: 'true', 'data-site': 'OWBUVCJK', src: 'https://cdn.usefathom.com/script.js' }],
   ],
   themeConfig: {
     logo: '/logo.svg',
@@ -94,6 +94,17 @@ export default defineConfig({
             text: 'Cientos 💛',
             link: 'https://cientos.tresjs.org/',
           },
+          {
+            text: 'Nuxt module',
+            link: 'https://github.com/Tresjs/nuxt',
+          },
+          {
+            text: 'TresLeches 🍰',
+            link: 'https://tresleches.tresjs.org/',
+          },
+          {
+            text: 'Post-processing (Soon)',
+          },
         ],
       },
     ],
@@ -111,11 +122,27 @@ export default defineConfig({
             link: 'https://playground.tresjs.org/',
           },
           {
+            text: 'Github',
+            link: 'https://github.com/Tresjs/tres/',
+          },
+          {
+            text: 'Issues',
+            link: 'https://github.com/Tresjs/tres/issues',
+          },
+          {
             text: 'Ecosystem',
             items: [
               {
                 text: 'Cientos 💛',
                 link: 'https://cientos.tresjs.org/',
+              },
+              {
+                text: 'Nuxt module',
+                link: 'https://github.com/Tresjs/nuxt',
+              },
+              {
+                text: 'TresLeches 🍰',
+                link: 'https://tresleches.tresjs.org/',
               },
             ],
           },
@@ -124,7 +151,7 @@ export default defineConfig({
     ],
     socialLinks: [
       { icon: 'github', link: 'https://github.com/tresjs/tres' },
-      { icon: 'twitter', link: 'https://twitter.com/tresjs_dev' },
+      { icon: 'x', link: 'https://twitter.com/tresjs_dev' },
       { icon: 'discord', link: 'https://discord.gg/UCr96AQmWn' },
     ],
   },

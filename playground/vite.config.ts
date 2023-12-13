@@ -6,11 +6,14 @@ import Components from 'unplugin-vue-components/vite'
 import glsl from 'vite-plugin-glsl'
 import UnoCSS from 'unocss/vite'
 import { templateCompilerOptions } from '@tresjs/core'
+import { qrcode } from 'vite-plugin-qrcode'
+import VueDevTools from 'vite-plugin-vue-devtools'
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
     glsl(),
+    VueDevTools(),
     vue({
       script: {
         propsDestructure: true,
@@ -30,6 +33,7 @@ export default defineConfig({
     UnoCSS({
       /* options */
     }),
+    qrcode(), // only applies in dev mode
   ],
   resolve: {
     alias: {

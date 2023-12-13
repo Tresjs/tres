@@ -1,5 +1,41 @@
 
 
+## [3.6.0](https://github.com/Tresjs/tres/compare/3.5.2...3.6.0) (2023-12-12)
+
+
+### Features
+
+* enable devtools ([#465](https://github.com/Tresjs/tres/issues/465)) ([d61df05](https://github.com/Tresjs/tres/commit/d61df0597965e708581d1b32eafa2f14866bf9b4))
+
+## [3.6.0-next.0](https://github.com/Tresjs/tres/compare/3.5.1...3.6.0-next.0) (2023-12-06)
+
+
+### Features
+
+* devtools hook on window object ([df96c1f](https://github.com/Tresjs/tres/commit/df96c1f31aafe1b73cd344fde39420c1ae443d47))
+  
+
+## [3.5.2](https://github.com/Tresjs/tres/compare/3.5.1...3.5.2) (2023-12-12)
+
+
+### Bug Fixes
+
+* force memory free allocation when disposing materials and geometries ([#463](https://github.com/Tresjs/tres/issues/463)) ([1ef3533](https://github.com/Tresjs/tres/commit/1ef353363d02256275c483ec15ad424dc058991a))
+
+## [3.5.1](https://github.com/Tresjs/tres/compare/3.5.0...3.5.1) (2023-11-28)
+
+## [3.5.0](https://github.com/Tresjs/tres/compare/3.4.1...3.5.0) (2023-11-05)
+
+
+### Features
+
+* **useSeek:** Add `seekAll` and `seekAllByName` methods to `useSeek` composable ([#433](https://github.com/Tresjs/tres/issues/433)) ([ef905a3](https://github.com/Tresjs/tres/commit/ef905a311347f010f3902cd2ee5546ffed0811ab))
+
+
+### Bug Fixes
+
+* **types-(fix-#427):** vueprops change ref to vnoderef and key add number and symbol ([#428](https://github.com/Tresjs/tres/issues/428)) ([45aeafd](https://github.com/Tresjs/tres/commit/45aeafd41ca77a056f5668075f5a8e5ed3346761)), closes [fix-#427](https://github.com/Tresjs/fix-/issues/427) [#427](https://github.com/Tresjs/tres/issues/427)
+
 ## [3.4.1](https://github.com/Tresjs/tres/compare/3.4.0...3.4.1) (2023-10-19)
 
 
