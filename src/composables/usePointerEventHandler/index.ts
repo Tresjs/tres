@@ -45,12 +45,29 @@ export const usePointerEventHandler = (
     deregisterBlockingObject(object)
   }
 
-  const combineFunctions = (groupFn: CallbackFn, childFn: CallbackFn): CallbackFn | CallbackFnPointerLeave => {
-    return (intersection: Intersection<Object3D<Event>>, event: PointerEvent) => {
-      // Emit child events first
-      childFn?.(intersection, event);
-      groupFn?.(intersection, event);
-    }
+  /**
+   * Recursive functions that bubbles events up the scene graph
+   * 
+   * @param ancestor - Ancestor to bubble event to
+   * @param eventArgs
+   * @param eventMap Any of the {click|move|enter|leave} object to callbackFn mappers
+   * @returns void
+   */
+  const bubbleEvent = (
+    ancestor: Object3D | null, 
+    eventArgs: [Intersection<Object3D<Event>>[] | Object3D<Event>, PointerEvent], 
+    eventMap: Map<Object3D, CallbackFn> | Map<Object3D, CallbackFnPointerLeave>,
+  ) => {
+    // Early return if ancestor is undefined
+    if (!ancestor)
+      return
+
+    // If this ancestor has an event listener wired up, emit this event
+    eventMap?.get(ancestor)?.(...eventArgs)
+
+    // Recursively bubble the event up to our ancestors
+    if (ancestor?.parent)
+      bubbleEvent(ancestor.parent, eventArgs, eventMap)
   }
 
   const registerObject = (object: Object3D & EventProps) => {
@@ -60,19 +77,6 @@ export const usePointerEventHandler = (
     if (onPointerMove) objectsWithEventListeners.pointerMove.set(object, onPointerMove)
     if (onPointerEnter) objectsWithEventListeners.pointerEnter.set(object, onPointerEnter)
     if (onPointerLeave) objectsWithEventListeners.pointerLeave.set(object, onPointerLeave)
-
-    // If object is a TresGroup, attach it's event handlers to all children.
-    // If child already has an event attached, join the 2 functions via a callback
-    if(object?.isGroup){
-      for(const child of object?.children) {
-        const { onClick: onChildClick, onPointerMove: onChildPointerMove, onPointerEnter: onChildPointerEnter, onPointerLeave: onChildPointerLeave } = child
-
-        if (onClick) objectsWithEventListeners.click.set(child, combineFunctions(onClick, onChildClick))
-        if (onPointerMove) objectsWithEventListeners.pointerMove.set(child, combineFunctions(onPointerMove, onChildPointerMove))
-        if (onPointerEnter) objectsWithEventListeners.pointerEnter.set(child, combineFunctions(onPointerEnter, onChildPointerEnter))
-        if (onPointerLeave) objectsWithEventListeners.pointerLeave.set(child, combineFunctions(onPointerLeave, onChildPointerLeave))
-      }
-    }
   }
 
   // to make the registerObject available in the custom renderer (nodeOps), it is attached to the scene
@@ -97,7 +101,10 @@ export const usePointerEventHandler = (
   const { onClick, onPointerMove } = useRaycaster(objectsToWatch, contextParts)
 
   onClick(({ intersects, event }) => {
-    if (intersects.length) objectsWithEventListeners.click.get(intersects[0].object)?.(intersects[0], event)
+    if (intersects.length) {      
+      objectsWithEventListeners.click.get(intersects[0].object)?.(intersects[0], event)
+      bubbleEvent(intersects[0].object.parent, [intersects[0], event], objectsWithEventListeners.click)
+    }
   })
 
   let previouslyIntersectedObject: Object3D<Event> | null
@@ -107,15 +114,19 @@ export const usePointerEventHandler = (
 
     const { pointerLeave, pointerEnter, pointerMove } = objectsWithEventListeners
 
-    if (previouslyIntersectedObject && previouslyIntersectedObject !== firstObject)
+    if (previouslyIntersectedObject && previouslyIntersectedObject !== firstObject) {
       pointerLeave.get(previouslyIntersectedObject)?.(previouslyIntersectedObject, event)
-    
+      bubbleEvent(previouslyIntersectedObject.parent, [previouslyIntersectedObject, event], pointerLeave)
+    }
 
     if (firstObject) {
-      if (previouslyIntersectedObject !== firstObject) 
+      if (previouslyIntersectedObject !== firstObject) {
         pointerEnter.get(firstObject)?.(intersects[0], event)
+        bubbleEvent(firstObject.parent, [intersects[0], event], pointerEnter)
+      }
 
       pointerMove.get(firstObject)?.(intersects[0], event)
+      bubbleEvent(firstObject.parent, [intersects[0], event], pointerMove)
     }
 
     previouslyIntersectedObject = firstObject || null
