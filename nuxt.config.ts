@@ -1,8 +1,6 @@
 import { presetUno, presetIcons, presetTypography, presetWebFonts } from 'unocss'
 import svgLoader from 'vite-svg-loader'
 
-import glsl from 'vite-plugin-glsl'
-
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   app: {
@@ -23,10 +21,15 @@ export default defineNuxtConfig({
     'nuxt-svgo',
     '@nuxt/content',
     '@nuxt/image-edge',
-    "@nuxt/image"
+    '@nuxt/image',
+    '@nuxt/devtools',
   ],
   css: ['@unocss/reset/tailwind-compat.css', '@tresjs/leches/styles'],
   declare: ['*.glsl'],
+  tres: {
+    devtools: true,
+    glsl: true,
+  },
   unocss: {
     // presets
     theme: {
@@ -108,7 +111,7 @@ export default defineNuxtConfig({
     },
   },
   vite: {
-    plugins: [glsl(), svgLoader()],
+    plugins: [svgLoader()],
   },
   build: {
     transpile: ['fsevents', 'postprocessing'],
