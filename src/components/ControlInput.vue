@@ -22,7 +22,7 @@ function onChange(value: string) {
 </script>
 
 <template>
-  <template v-if="control.visible">
+  <div v-if="control.visible">
     <ColorControl
       v-if="control.type === 'color'"
       :label="control.label"
@@ -81,5 +81,5 @@ function onChange(value: string) {
       :control="control"
       @change="onChange"
     />
-  </template>
+  </div>
 </template>
