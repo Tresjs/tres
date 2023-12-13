@@ -39,11 +39,11 @@ Checkout the [docs](https://tresjs.org)
 
 | Package                     | Version                                                                                            |
 | --------------------------- | :------------------------------------------------------------------------------------------------- |
-| [Tres](packages/tres)       | ![tres version](https://img.shields.io/npm/v/@tresjs/core/latest.svg?label=%20&color=%2382DBCA)    |
-| [Cientos](packages/cientos) | ![cientos version](https://img.shields.io/npm/v/@tresjs/cientos/latest.svg?label=%20&color=%23f19b00) |
-| [Post-processing](packages/post-processing) | ![post-processing version](https://img.shields.io/npm/v/@tresjs/post-processing/latest.svg?label=%20&color=ff7bac) |
-| [Nuxt](packages/nuxt) | ![nuxt version](https://img.shields.io/npm/v/@tresjs/nuxt/latest.svg?label=%20&color=4f4f4f&logo=nuxt.js) |
-| [TresLeches 🍰](packages/leches) | ![tresleches version](https://img.shields.io/npm/v/@tresjs/leches/latest.svg?label=%20&color=ffffff) |
+| [Tres](https://github.com/TresJS/tres)       | ![tres version](https://img.shields.io/npm/v/@tresjs/core/latest.svg?label=%20&color=%2382DBCA)    |
+| [Cientos](https://github.com/TresJS/cientos) | ![cientos version](https://img.shields.io/npm/v/@tresjs/cientos/latest.svg?label=%20&color=%23f19b00) |
+| [Post-processing](https://github.com/TresJS/post-processing) | ![post-processing version](https://img.shields.io/npm/v/@tresjs/post-processing/latest.svg?label=%20&color=ff7bac) |
+| [Nuxt](https://github.com/TresJS/nuxt) | ![nuxt version](https://img.shields.io/npm/v/@tresjs/nuxt/latest.svg?label=%20&color=4f4f4f&logo=nuxt.js) |
+| [TresLeches 🍰](https://github.com/TresJS/leches) | ![tresleches version](https://img.shields.io/npm/v/@tresjs/leches/latest.svg?label=%20&color=ffffff) |
 
 ## Contribution
 

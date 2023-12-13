@@ -71,6 +71,16 @@ const routes = [
     name: 'Click Blocking Box',
     component: () => import('./pages/click-blocking-box.vue'),
   },
+  {
+    path: '/perf',
+    name: 'Perf',
+    component: () => import('./pages/perf/index.vue'),
+  },
+  {
+    path: '/empty',
+    name: 'empty',
+    component: () => import('./pages/empty.vue'),
+  },
 ]
 export const router = createRouter({
   history: createWebHistory(),
