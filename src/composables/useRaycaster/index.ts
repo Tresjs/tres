@@ -22,7 +22,7 @@ export const useRaycaster = (
   objects: Ref<THREE.Object3D[]>,
   { renderer, camera, raycaster }: Pick<TresContext, 'renderer' | 'camera' | 'raycaster'>,
 ) => {
-  // having a seperate computed makes useElementBounding work
+  // having a separate computed makes useElementBounding work
   const canvas = computed(() => renderer.value.domElement as HTMLCanvasElement)
 
   const { x, y } = usePointer({ target: canvas })

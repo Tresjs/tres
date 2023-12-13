@@ -12,7 +12,7 @@ Lets jump right into it like it was a mountain of leaves. 🍂
 
 ## TresJS `v3.5.0`
 
-Core package has been updated to v3.5.0, this update includes a new feature that comes extrenemly handy when working with gltf models.
+Core package has been updated to v3.5.0, this update includes a new feature that comes extremely handy when working with gltf models.
 
 ### useSeek new methods
 
@@ -180,7 +180,7 @@ A highly requested bugfix that allows you to use CSS transitions on the `<Html /
 
 ## Time for dessert 🍰
 
-To finish this update, we have a new package in the ecosystem thats near to hit alpha soon. 🎉
+To finish this update, we have a new package in the ecosystem that's near to hit alpha soon. 🎉
 
 ![Tresleches package](/blog/tres-leches.png)
 
