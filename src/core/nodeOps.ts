@@ -227,6 +227,9 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
         finalKey = key.toLowerCase()
         if (!target?.set) root = chain.reduce((acc, key) => acc[kebabToCamel(key)], root)
       }
+      if (nextValue === undefined && prop === 'target') {
+        return
+      }
       let value = nextValue
       if (value === '') value = true
       // Set prop, prefer atomic methods if applicable

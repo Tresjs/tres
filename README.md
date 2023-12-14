@@ -6,6 +6,8 @@
   <a href="https://discord.gg/UCr96AQmWn"><img src="https://img.shields.io/badge/chat-discord-purple?style=flat&logo=discord" alt="discord chat"></a>
 </p>
 
+English | [简体中文](./README.cn.md)
+
 # TresJS `@tresjs/core`
 
 > Declarative ThreeJS using Vue Components
