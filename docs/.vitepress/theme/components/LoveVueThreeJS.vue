@@ -13,7 +13,7 @@ const thirdRowRef = ref()
 const tl2r = gsap.timeline()
 const tl3r = gsap.timeline()
 
-const heightOfSignleSvg = 150
+const heightOfSingleSvg = 150
 
 async function restartAnimation() {
   gsap.to(secondRowRef.value.$el, {
@@ -36,13 +36,13 @@ onMounted(() => {
   tl2r.to(secondRowRef.value.$el, {
     delay: 1,
     duration: 2,
-    y: -(8 * heightOfSignleSvg),
+    y: -(8 * heightOfSingleSvg),
     ease: 'elastic.easeOut',
   })
   tl3r.to(thirdRowRef.value.$el, {
     delay: 1.25,
     duration: 2,
-    y: -(12 * heightOfSignleSvg),
+    y: -(12 * heightOfSingleSvg),
     ease: 'power1.out',
   })
 })

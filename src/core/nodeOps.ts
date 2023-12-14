@@ -16,6 +16,13 @@ let scene: TresScene | null = null
 
 const { logError } = useLogger()
 
+const supportedPointerEvents = [
+  'onClick',
+  'onPointerMove',
+  'onPointerEnter',
+  'onPointerLeave',
+]
+
 export const nodeOps: RendererOptions<TresObject, TresObject> = {
   createElement(tag, _isSVG, _anchor, props) {
     if (!props) props = {}
@@ -75,7 +82,7 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
   },
   insert(child, parent) {
     if (parent && parent.isScene) scene = parent as unknown as TresScene
-    
+
     const parentObject = parent || scene
 
     if (child?.isObject3D) {
@@ -87,10 +94,7 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
       }
 
       if (
-        child?.onClick
-        || child?.onPointerMove
-        || child?.onPointerEnter
-        || child?.onPointerLeave
+        child && supportedPointerEvents.some(eventName => child[eventName])
       ) {
         if (!scene?.userData.tres__registerAtPointerEventHandler)
           throw 'could not find tres__registerAtPointerEventHandler on scene\'s userData'
@@ -145,10 +149,7 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
         throw 'could not find tres__deregisterAtPointerEventHandler on scene\'s userData'
 
       if (
-        object?.onClick
-          || object?.onPointerMove
-          || object?.onPointerEnter
-          || object?.onPointerLeave
+        object && supportedPointerEvents.some(eventName => object[eventName])
       )
         deregisterAtPointerEventHandler?.(object as Object3D)
     }
@@ -249,8 +250,11 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
       if (value === '') value = true
       // Set prop, prefer atomic methods if applicable
       if (isFunction(target)) {
-        if (Array.isArray(value)) node[finalKey](...value)
-        else node[finalKey](value)
+        //don't call pointer event callback functions
+        if (!supportedPointerEvents.includes(prop)) {
+          if (Array.isArray(value)) node[finalKey](...value)
+          else node[finalKey](value)
+        }
         return
       }
       if (!target?.set && !isFunction(target)) root[finalKey] = value

@@ -126,7 +126,7 @@ export interface EventHandlers {
 }
 
 interface MathRepresentation {
-  set(...args: number[]): any
+  set(...args: number[] | [THREE.ColorRepresentation]): any
 }
 interface VectorRepresentation extends MathRepresentation {
   setScalar(s: number): any
