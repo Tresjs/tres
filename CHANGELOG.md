@@ -1,5 +1,19 @@
 
 
+## [3.7.0-next.0](https://github.com/Tresjs/tres/compare/3.6.0...3.7.0-next.0) (2023-12-14)
+
+
+### Features
+
+* disposal util for manual disposal of objects ([2b7caa4](https://github.com/Tresjs/tres/commit/2b7caa42174f04fec4c6e07ad6e9bc27ff09e10a))
+
+
+### Bug Fixes
+
+* correct minor typos ([#438](https://github.com/Tresjs/tres/issues/438)) ([341faac](https://github.com/Tresjs/tres/commit/341faacb93fd347aced7f1bc7e0484ecbc12e6ce)), closes [#452](https://github.com/Tresjs/tres/issues/452)
+* incorrect MathRepresentation type ([#456](https://github.com/Tresjs/tres/issues/456)) ([314b088](https://github.com/Tresjs/tres/commit/314b0883b78ded0cad2bdf9f2506bbeac4a0817e))
+* recursive disposal if nodes are not primitives ([7e4c509](https://github.com/Tresjs/tres/commit/7e4c509b8e7ca1b6810a74e7af98867c8c0308e3))
+
 ## [3.6.0](https://github.com/Tresjs/tres/compare/3.5.2...3.6.0) (2023-12-12)
 
 
