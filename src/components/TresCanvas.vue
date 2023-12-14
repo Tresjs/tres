@@ -102,15 +102,9 @@ const mountCustomRenderer = (context: TresContext) => {
   render(h(InternalComponent), scene.value as unknown as TresObject)
 }
 
-const unmountCustomRenderer = () => {
-  InternalComponent = null
-}
-
 const hardDispose = (context: TresContext) => {
   dispose(scene.value)
   scene.value = null as unknown as Scene
-  render(null, scene.value as unknown as TresObject)
-  unmountCustomRenderer()
   /* context.renderer.value.forceContextLoss()
   context.renderer.value.dispose()
   context.renderer.value.renderLists.dispose() */
