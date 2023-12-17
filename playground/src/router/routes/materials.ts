@@ -14,4 +14,9 @@ export const materialsRoutes = [
     name: 'CustomShaderMaterial',
     component: () => import('../../pages/materials/CustomShaderMaterialDemo.vue'),
   },
+  {
+    path: '/materials/reflection-material',
+    name: 'ReflectionMaterial',
+    component: () => import('../../pages/materials/ReflectionMaterial.vue'),
+  },
 ]
