@@ -171,7 +171,7 @@ const computedBlur = computed(() => {
 
 const hasBlur = computed(() => computedBlur.value[0] > 0 || computedBlur.value[1] > 0)
 
-const state = shallowReactive({
+const state = {
   reflectorPlane: new Plane(),
   normal: new Vector3(),
   reflectorWorldPosition: new Vector3(),
@@ -184,7 +184,7 @@ const state = shallowReactive({
   q: new Vector4(),
   virtualCamera: new PerspectiveCamera(),
   textureMatrix: new Matrix4(),
-})
+}
 
 watchEffect(() => {
   fbo.value?.texture.dispose()
@@ -256,10 +256,8 @@ onLoop(() => {
   parent.visible = false // Avoid re-rendering the reflected object
   const currentXrEnabled = renderer.value.xr.enabled
   const currentShadowAutoUpdate = renderer.value.shadowMap.autoUpdate
-  
-  console.time('beforeRender')
+ 
   beforeRender(parent)
-  console.timeEnd('beforeRender')
 
   renderer.value.shadowMap.autoUpdate = false
   renderer.value.setRenderTarget(fbo.value)
