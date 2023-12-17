@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { shallowRef, onBeforeUnmount, watchEffect, toRefs, reactive, computed, useAttrs } from 'vue'
+import { shallowRef, onBeforeUnmount, watchEffect, toRefs, shallowReactive, computed, useAttrs } from 'vue'
 import { useRenderLoop, useTresContext } from '@tresjs/core'
 import type { TresObject } from '@tresjs/core'
 import type {
@@ -171,7 +171,7 @@ const computedBlur = computed(() => {
 
 const hasBlur = computed(() => computedBlur.value[0] > 0 || computedBlur.value[1] > 0)
 
-const state = reactive({
+const state = shallowReactive({
   reflectorPlane: new Plane(),
   normal: new Vector3(),
   reflectorWorldPosition: new Vector3(),
@@ -188,8 +188,6 @@ const state = reactive({
 
 watchEffect(() => {
   fbo.value?.texture.dispose()
-  fbo.value?.dispose()
-  outputFbo.value?.dispose()
   
   const parameters = {
     minFilter: LinearFilter,
@@ -255,11 +253,13 @@ onLoop(() => {
   const parent: TresObject = findMeshByMaterialUuid(scene.value as unknown as TresObject, materialRef.value.uuid)
   if (!parent) return
   
-  beforeRender(parent)
-
   parent.visible = false // Avoid re-rendering the reflected object
   const currentXrEnabled = renderer.value.xr.enabled
   const currentShadowAutoUpdate = renderer.value.shadowMap.autoUpdate
+  
+  console.time('beforeRender')
+  beforeRender(parent)
+  console.timeEnd('beforeRender')
 
   renderer.value.shadowMap.autoUpdate = false
   renderer.value.setRenderTarget(fbo.value)
@@ -272,6 +272,7 @@ onLoop(() => {
   renderer.value.shadowMap.autoUpdate = currentShadowAutoUpdate
   parent.visible = true
   renderer.value.setRenderTarget(null)
+
 })
 
 const attrs = useAttrs()

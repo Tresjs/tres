@@ -234,7 +234,7 @@ const props = withDefaults(defineProps<OrbitControlsProps>(), {
   makeDefault: false,
   autoRotate: false,
   autoRotateSpeed: 2,
-  enableDamping: false,
+  enableDamping: true,
   dampingFactor: 0.05,
   enablePan: true,
   keyPanSpeed: 7,
