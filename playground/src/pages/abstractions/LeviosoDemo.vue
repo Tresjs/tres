@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
-import { OrbitControls, useTweakPane, Levioso, TorusKnot } from '@tresjs/cientos'
+import { OrbitControls, Levioso, TorusKnot } from '@tresjs/cientos'
 import { BasicShadowMap, SRGBColorSpace, NoToneMapping } from 'three'
 import { shallowRef, shallowReactive } from 'vue'
+import { TresLeches, useControls } from '@tresjs/leches'
+import '@tresjs/leches/styles'
 
 const gl = {
   clearColor: '#82DBC5',
@@ -13,8 +15,6 @@ const gl = {
   toneMapping: NoToneMapping,
 }
 
-const { pane } = useTweakPane()
-
 const leviosoState = shallowReactive({
   speed: 5,
   rotationFactor: 1,
@@ -22,27 +22,22 @@ const leviosoState = shallowReactive({
   range: [-0.1, 0.1],
 })
 
-pane.addInput(leviosoState, 'speed', {
-  step: 1,
-  min: 0,
-  max: 100,
+const { speed, rotationFactor, floatFactor } = useControls({
+  speed: { value: leviosoState.speed, min: 0, max: 100, step: 1 },
+  rotationFactor: { value: leviosoState.rotationFactor, min: 0, max: 10, step: 1 },
+  floatFactor: { value: leviosoState.floatFactor, min: 0, max: 10, step: 1 },
 })
 
-pane.addInput(leviosoState, 'rotationFactor', {
-  step: 1,
-  min: 0,
-  max: 10,
-})
-
-pane.addInput(leviosoState, 'floatFactor', {
-  step: 1,
-  min: 0,
-  max: 10,
+watch([speed.value, rotationFactor.value, floatFactor.value], () => {
+  leviosoState.speed = speed.value.value
+  leviosoState.rotationFactor = rotationFactor.value.value
+  leviosoState.floatFactor = floatFactor.value.value
 })
 const groupRef = shallowRef()
 </script>
 
 <template>
+  <TresLeches />
   <TresCanvas v-bind="gl">
     <TresPerspectiveCamera :position="[11, 11, 11]" />
     <OrbitControls />

@@ -2,8 +2,10 @@
 <script setup lang="ts">
 import { reactive, shallowRef } from 'vue'
 import { TresCanvas } from '@tresjs/core'
-import { CameraControls, useTweakPane } from '@tresjs/cientos'
+import { CameraControls } from '@tresjs/cientos'
 import { MathUtils, BasicShadowMap, SRGBColorSpace, NoToneMapping } from 'three'
+import { TresLeches, useControls } from '@tresjs/leches'
+import '@tresjs/leches/styles'
 
 const gl = {
   clearColor: '#82DBC5',
@@ -23,53 +25,6 @@ const controlsState = reactive({
 const controlsRef = shallowRef()
 const boxMeshRef = shallowRef()
 
-const { pane } = useTweakPane()
-
-const distanceFolder = pane.addFolder({ title: 'Distance' })
-distanceFolder.addInput(controlsState, 'distance', {
-  step: 0.01,
-  min: 0,
-  max: 100,
-})
-distanceFolder.addInput(controlsState, 'minDistance', {
-  step: 0.01,
-  min: 0,
-  max: 10,
-})
-distanceFolder.addInput(controlsState, 'maxDistance', {
-  step: 0.01,
-  min: 0,
-  max: 100,
-})
-
-// Basic example from https://yomotsu.github.io/camera-controls/examples/basic.html
-const dollyFolder = pane.addFolder({ title: 'Dolly' })
-dollyFolder.addButton({ title: 'Increment (+1)' }).on('click', () => {
-  controlsRef?.value?.value?.dolly(1, true)
-})
-dollyFolder.addButton({ title: 'Decrement (-1)' }).on('click', () => {
-  controlsRef?.value?.value?.dolly(-1, true)
-})
-
-const rotateFolder = pane.addFolder({ title: 'Rotate' })
-rotateFolder.addButton({ title: 'Rotate theta 45°' }).on('click', () => {
-  controlsRef?.value?.value?.rotate(45 * MathUtils.DEG2RAD, 0, true)
-})
-rotateFolder.addButton({ title: 'Rotate theta -90°' }).on('click', () => {
-  controlsRef?.value?.value?.rotate(-90 * MathUtils.DEG2RAD, 0, true)
-})
-rotateFolder.addButton({ title: 'Rotate theta 360°' }).on('click', () => {
-  controlsRef?.value?.value?.rotate(360 * MathUtils.DEG2RAD, 0, true)
-})
-rotateFolder.addButton({ title: 'Rotate phi 20°' }).on('click', () => {
-  controlsRef?.value?.value?.rotate(0, 20 * MathUtils.DEG2RAD, true)
-})
-
-const moveFolder = pane.addFolder({ title: 'Move' })
-moveFolder.addButton({ title: 'Fit to the bounding box of the mesh' }).on('click', () => {
-  controlsRef?.value?.value?.fitToBox(boxMeshRef.value, true)
-})
-
 function onChange() {
   console.log('change')
 }
@@ -81,9 +36,97 @@ function onStart() {
 function onEnd() {
   console.log('end')
 }
+
+const { distance, minDistance, maxDistance } = useControls({
+  distance: {
+    value: controlsState.distance,
+    min: 0,
+    max: 100,
+    step: 0.01,
+  },
+  minDistance: {
+    value: controlsState.minDistance,
+    min: 0,
+    max: 10,
+    step: 0.01,
+  },
+  maxDistance: {
+    value: controlsState.maxDistance,
+    min: 0,
+    max: 100,
+    step: 0.01,
+  },
+})
+
+watch([distance.value, minDistance.value, maxDistance.value], () => {
+  controlsState.distance = distance.value.value
+  controlsState.minDistance = minDistance.value.value
+  controlsState.maxDistance = maxDistance.value.value
+})
+
+useControls(
+  'Dolly', {
+    dollyInc: {
+      type: 'button',
+      onClick: () => {
+        controlsRef?.value?.value?.dolly(1, true)
+      },
+      label: 'Increment (+1)',
+    },
+    dollyDec: {
+      type: 'button',
+      onClick: () => {
+        controlsRef?.value?.value?.dolly(-1, true)
+      },
+      label: 'Increment (-1)',
+    } })
+
+useControls(
+  'Rotate', {
+    rotateTheta45: {
+      type: 'button',
+      label: 'Rotate theta 45°',
+      onClick: () => {
+        controlsRef?.value?.value?.rotate(45 * MathUtils.DEG2RAD, 0, true)
+      },
+    },
+    rotateTheta90: {
+      type: 'button',
+      label: 'Rotate theta -90°',
+      onClick: () => {
+        controlsRef?.value?.value?.rotate(-90 * MathUtils.DEG2RAD, 0, true)
+      },
+    },
+    rotateTheta360: {
+      type: 'button',
+      label: 'Rotate theta 360°',
+      onClick: () => {
+        controlsRef?.value?.value?.rotate(360 * MathUtils.DEG2RAD, 0, true)
+      },
+    },
+    rotatePhi20: {
+      type: 'button',
+      label: 'Rotate phi 20°',
+      onClick: () => {
+        controlsRef?.value?.value?.rotate(0, 20 * MathUtils.DEG2RAD, true)
+      },
+    },
+  })
+
+useControls(
+  'Move', {
+    fitToBoundingBox: {
+      type: 'button',
+      label: 'Fit to the bounding box of the mesh',
+      onClick: () => {
+        controlsRef?.value?.value?.fitToBox(boxMeshRef.value, true)
+      },
+    },
+  })
 </script>
 
 <template>
+  <TresLeches />
   <TresCanvas v-bind="gl">
     <TresPerspectiveCamera :position="[5, 5, 5]" />
     <CameraControls

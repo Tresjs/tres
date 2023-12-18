@@ -1,12 +1,13 @@
-# useTweakPane
-
-[TweakPane](https://cocopon.github.io/tweakpane/) is a JavaScript library for creating a user interface for tweaking values of JavaScript variables. It's a great tool for fine-tuning parameters and monitoring value changes on your three.js applications.
+# useTweakPane <Badge type="warning" text="deprecated" />
 
 ::: warning
 
-useTweakPane is going to be deprecated soon and will no longer be part of this package, please start migrating to [`@tresjs/leches` package](https://github.com/Tresjs/leches) or [v-tweakpane](https://github.com/vinayakkulkarni/v-tweakpane) instead.
+useTweakPane is deprecated as of Cientos v3.7.0 and will no longer be part of this package. Please migrate to [`@tresjs/leches` package](https://github.com/Tresjs/leches) or [v-tweakpane](https://github.com/vinayakkulkarni/v-tweakpane) instead.
 
 :::
+
+[TweakPane](https://cocopon.github.io/tweakpane/) is a JavaScript library for creating a user interface for tweaking values of JavaScript variables. It's a great tool for fine-tuning parameters and monitoring value changes on your three.js applications.
+
 
 ::: code-group
 

@@ -117,9 +117,6 @@ importers:
       '@tresjs/cientos':
         specifier: workspace:^3.4.0
         version: link:..
-      '@tweakpane/plugin-essentials':
-        specifier: ^0.2.0
-        version: 0.2.0(tweakpane@4.0.2)
     devDependencies:
       '@tresjs/leches':
         specifier: ^0.13.0
@@ -1899,14 +1896,6 @@ packages:
     resolution: {integrity: sha512-9tq+KAhaqPiOgsFyLPAz1IMXkVfhRqxGzAgy1ps3As6o3W7XjnU7sev6OlD/Z+Pzw8uZVMukkSHf2e0uCU6u0A==}
     dev: true
 
-  /@tweakpane/plugin-essentials@0.2.0(tweakpane@4.0.2):
-    resolution: {integrity: sha512-/kO90nfm0y0CYJPUvoNrjXhjNoqr+RaoySIdJmy++pb5vrSHi/DXdxG/sPszUPZggDY9M31RTacnxXi6Dv7r8Q==}
-    peerDependencies:
-      tweakpane: ^4.0.0-beta.2
-    dependencies:
-      tweakpane: 4.0.2
-    dev: false
-
   /@types/argparse@1.0.38:
     resolution: {integrity: sha512-ebDJ9b0e702Yr7pWgB0jzm+CX4Srzz8RcXtLJDJB+BSccqMa36uyH/zUsSYao5+BD1ytv3k3rPYCq4mAE1hsXA==}
     dev: true
@@ -2655,7 +2644,7 @@ packages:
     dependencies:
       '@vue/compiler-ssr': 3.3.12
       '@vue/shared': 3.3.12
-      vue: 3.3.12(typescript@5.3.3)
+      vue: 3.3.12(typescript@5.3.2)
 
   /@vue/server-renderer@3.3.9(vue@3.3.9):
     resolution: {integrity: sha512-w0zT/s5l3Oa3ZjtLW88eO4uV6AQFqU8X5GOgzq7SkQQu6vVr+8tfm+OI2kDBplS/W/XgCBuFXiPw6T5EdwXP0A==}
@@ -7715,10 +7704,6 @@ packages:
     resolution: {integrity: sha512-rqwnl/pUa7+inhI2E9ayGTqqP0EPOOn/wVvSWjZsRbZUItzNShny7pzwL3hVlaN4m9t/aZhsP0aFQ9U5VVR2VQ==}
     dev: true
 
-  /tweakpane@4.0.2:
-    resolution: {integrity: sha512-AW3HpTJkM/8gpWt/TATV6Xtkng2VPDiz/4R2q0S5azHK03XKHlbFt4M6/r+g+1fkml2RcQ494E9QPbbE93Ky9A==}
-    dev: false
-
   /type-check@0.4.0:
     resolution: {integrity: sha512-XleUoc9uwGXqjWwXaUTZAmzMcFZ5858QA2vvx1Ur5xIcixXIP+8LnFDgRplU30us6teqdlskFfu+ae4K79Ooew==}
     engines: {node: '>= 0.8.0'}
@@ -8417,7 +8402,7 @@ packages:
       '@vue/composition-api':
         optional: true
     dependencies:
-      vue: 3.3.12(typescript@5.3.3)
+      vue: 3.3.12(typescript@5.3.2)
 
   /vue-demi@0.14.6(vue@3.3.9):
     resolution: {integrity: sha512-8QA7wrYSHKaYgUxDA5ZC24w+eHm3sYCbp0EzcDwKqN3p6HqtTCGR/GVsPyZW92unff4UlcSh++lmqDWN3ZIq4w==}
@@ -8532,7 +8517,6 @@ packages:
       '@vue/server-renderer': 3.3.12(vue@3.3.12)
       '@vue/shared': 3.3.12
       typescript: 5.3.2
-    dev: true
 
   /vue@3.3.12(typescript@5.3.3):
     resolution: {integrity: sha512-jYNv2QmET2OTHsFzfWHMnqgCfqL4zfo97QwofdET+GBRCHhSCHuMTTvNIgeSn0/xF3JRT5OGah6MDwUFN7MPlg==}

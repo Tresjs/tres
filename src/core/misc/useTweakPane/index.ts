@@ -26,7 +26,7 @@ const useTweakPane = (selector = 'body') => {
   const { logWarning } = useLogger()
 
   // eslint-disable-next-line max-len
-  logWarning('useTweakPane is going to be deprecated soon and will no longer be part of this package, please start migrating to @tresjs/leches package https://github.com/Tresjs/leches or v-tweakpane https://github.com/vinayakkulkarni/v-tweakpane instead.')
+  logWarning('useTweakPane is deprecated as of Cientos v3.7.0 and will no longer be part of this package. Please migrate to @tresjs/leches package https://github.com/Tresjs/leches or v-tweakpane https://github.com/vinayakkulkarni/v-tweakpane instead.')
   // eslint-enabled
 
   /**
