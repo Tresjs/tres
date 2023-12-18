@@ -1,6 +1,6 @@
-# useGLTLExporter
+# useGLTFExporter
 
-[GLTFExporter](https://threejs.org/docs/index.html?q=expo#examples/en/exporters/GLTFExporter) is an addons in threeJs that allow you to download any object3D in a [GLTF](https://www.khronos.org/gltf) format. **TresJS** provides a composable that simplify this process with just a few lines of code.
+[GLTFExporter](https://threejs.org/docs/index.html?q=expo#examples/en/exporters/GLTFExporter) is an addon in threeJs that allows you to download any object3D in a [GLTF](https://www.khronos.org/gltf) format. **TresJS** provides a composable that simplifies this process with just a few lines of code.
 
 ## Basic usage
 
@@ -37,10 +37,10 @@ const downloadBox = () => {
 
 ## Arguments
 
-| Name         | Type       | Default     | Description             |
-| :----------- | ---------- | ----------- | ----------------------- |
-| **Selector** | `Object3D` | Required    | The object to download. |
-| **Options**  | `Options`  | `undefined` | Description below       |
+| Name         | Type       | Default     | Description                                          |
+| :----------- | ---------- | ----------- | ---------------------------------------------------- |
+| **Selector** | `Object3D` | Required    | The object to download. Could be an array of objects |
+| **Options**  | `Options`  | `undefined` | Description below                                    |
 
 ## Options
 
