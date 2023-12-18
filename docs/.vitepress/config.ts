@@ -63,6 +63,8 @@ export default defineConfig({
           { text: 'GlobalAudio', link: '/guide/abstractions/global-audio' },
           { text: 'Fbo', link: '/guide/abstractions/fbo' },
           { text: 'useFBO', link: '/guide/abstractions/use-fbo' },
+          { text: 'useSurfaceSampler', link: '/guide/abstractions/use-surface-sampler' },
+          { text: 'Sampler', link: '/guide/abstractions/sampler' },
         ],
       },
       {
