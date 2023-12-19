@@ -39,9 +39,6 @@ importers:
       '@tresjs/eslint-config-vue':
         specifier: ^0.2.1
         version: 0.2.1(@typescript-eslint/eslint-plugin@6.13.0)(eslint@8.54.0)(typescript@5.3.2)
-      '@tweakpane/core':
-        specifier: ^1.1.9
-        version: 1.1.9
       '@types/node':
         specifier: ^20.10.0
         version: 20.10.0
@@ -84,9 +81,6 @@ importers:
       three:
         specifier: ^0.159.0
         version: 0.159.0
-      tweakpane:
-        specifier: ^3.1.10
-        version: 3.1.10
       typescript:
         specifier: ^5.3.2
         version: 5.3.2
@@ -1890,10 +1884,6 @@ packages:
   /@trysound/sax@0.2.0:
     resolution: {integrity: sha512-L7z9BgrNEcYyUYtF+HaEfiS5ebkh9jXqbszz7pC0hRBPaatV0XjSD3+eHrpqFemQfgwiFF0QPIarnIihIDn7OA==}
     engines: {node: '>=10.13.0'}
-    dev: true
-
-  /@tweakpane/core@1.1.9:
-    resolution: {integrity: sha512-9tq+KAhaqPiOgsFyLPAz1IMXkVfhRqxGzAgy1ps3As6o3W7XjnU7sev6OlD/Z+Pzw8uZVMukkSHf2e0uCU6u0A==}
     dev: true
 
   /@types/argparse@1.0.38:
@@ -7698,10 +7688,6 @@ packages:
 
   /tslib@2.6.2:
     resolution: {integrity: sha512-AEYxH93jGFPn/a2iVAwW87VuUIkR1FVUKB77NwMF7nBTDkDrrT/Hpt/IrCJ0QXhW27jTBDcf5ZY7w6RiqTMw2Q==}
-    dev: true
-
-  /tweakpane@3.1.10:
-    resolution: {integrity: sha512-rqwnl/pUa7+inhI2E9ayGTqqP0EPOOn/wVvSWjZsRbZUItzNShny7pzwL3hVlaN4m9t/aZhsP0aFQ9U5VVR2VQ==}
     dev: true
 
   /type-check@0.4.0:
