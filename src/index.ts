@@ -1,6 +1,7 @@
 import type { App } from 'vue'
 import TresCanvas from './components/TresCanvas.vue'
 import { normalizeColor, normalizeVectorFlexibleParam } from './utils/normalize'
+import { dispose } from './utils/'
 import templateCompilerOptions from './utils/template-compiler-options'
 
 export * from './composables'
@@ -29,4 +30,5 @@ export {
   normalizeColor,
   normalizeVectorFlexibleParam,
   templateCompilerOptions,
+  dispose,
 }

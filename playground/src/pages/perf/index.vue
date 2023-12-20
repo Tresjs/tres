@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
 import { BasicShadowMap, SRGBColorSpace, NoToneMapping } from 'three'
-import { TresLeches, Perf, useControls } from '@tresjs/leches'
-import '@tresjs/leches/styles'
+
+/* import { TresLeches, Perf, useControls } from '@tresjs/leches'
+import '@tresjs/leches/styles' */
 import { OrbitControls } from '@tresjs/cientos'
 import { useRouter } from 'vue-router'
 import AkuAku from './AkuAku.vue'
@@ -18,9 +19,9 @@ const gl = {
 
 const router = useRouter()
 
-const { sphere } = useControls({
-  sphere: true,
-})
+/* const { isShown } = useControls({
+  isShown: true,
+}) */
 
 const ctx = ref(null)
 
@@ -29,6 +30,8 @@ watchEffect(() => {
   console.log('ctx', ctx.value)
 })
 
+const isShown = ref(true)
+/* 
 useControls({
   button: {
     label: 'Render dispose',
@@ -37,29 +40,54 @@ useControls({
       ctx.value.dispose()
     },
   },
+}) */
 
-})
+// Route change example
+
+/* useControls({
+  button: {
+    label: 'Go other page',
+    type: 'button',
+    onClick() {
+      router.push('/empty')
+    },
+  },
+}) */
 </script>
 
 <template>
-  <TresLeches />
+  <RouterLink to="empty">
+    Go
+  </RouterLink>
+  <button @click="isShown = !isShown">
+    Toggle
+  </button>
+  <!--   <TresLeches /> -->
   <TresCanvas
     v-bind="gl"
     ref="ctx"
   >
-    <Perf />
+    <!--    <Perf /> -->
     <TresPerspectiveCamera :position="[3, 3, 3]" />
     <OrbitControls />
     <Suspense> 
-      <AkuAku v-if="sphere" />
+      <AkuAku v-if="isShown" />
     </Suspense>
-    <!--  <TresMesh
-      v-if="sphere.value"
-      :position="[0, 0, 0]"
-    >
-      <TresSphereGeometry />
-      <TresMeshStandardMaterial color="teal" />
-    </TresMesh> -->
+    <TresGroup v-if="isShown">
+      <TresMesh
+        :position="[0, 0, 0]"
+      >
+        <TresSphereGeometry />
+        <TresMeshToonMaterial color="teal" />
+      </TresMesh>
+      <TresMesh
+       
+        :position="[2, 0, 0]"
+      >
+        <TresSphereGeometry />
+        <TresMeshToonMaterial color="pink" />
+      </TresMesh>
+    </TresGroup>
     <TresAmbientLight :intensity="1" />
   </TresCanvas>
 </template>
