@@ -3,6 +3,8 @@ import { ref, watchEffect } from 'vue'
 import { BasicShadowMap, SRGBColorSpace, NoToneMapping } from 'three'
 import { TresCanvas } from '@tresjs/core'
 import { OrbitControls } from '@tresjs/cientos'
+import { TresLeches, useControls } from '@tresjs/leches'
+import '@tresjs/leches/styles'
 import TheSphere from './TheSphere.vue'
 
 const gl = {
@@ -19,6 +21,10 @@ const wireframe = ref(true)
 const canvas = ref()
 const meshRef = ref()
 
+const { isVisible } = useControls({
+  isVisible: true,
+})
+
 watchEffect(() => {
   if (meshRef.value) {
     console.log(meshRef.value)
@@ -27,12 +33,7 @@ watchEffect(() => {
 </script>
 
 <template>
-  <div>
-    <button @click="wireframe = !wireframe">
-      Click
-    </button>
-  </div>
-  <pre>{{ wireframe }}</pre>
+  <TresLeches />
   <TresCanvas
     v-bind="gl"
     ref="canvas"
@@ -75,7 +76,7 @@ watchEffect(() => {
         color="#D3FC8A"
       />
     </TresMesh>
-    <TheSphere />
+    <TheSphere v-if="isVisible" />
     <TresAxesHelper :args="[1]" />
     <TresDirectionalLight
       :position="[0, 2, 4]"

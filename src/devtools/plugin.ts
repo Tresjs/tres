@@ -4,6 +4,8 @@ import {
   setupDevtoolsPlugin,
 } from '@vue/devtools-api'
 import { reactive } from 'vue'
+import type { Mesh, Object3D } from 'three'
+import { animateHighlight, createHighlightMesh, editSceneObject } from '../utils'
 import { bytesToKB, calculateMemoryUsage } from '../utils/perf'
 import type { TresContext } from '../composables'
 import type { TresObject } from './../types'
@@ -116,6 +118,7 @@ export function registerTresDevtools(app: DevtoolsApp, tres: TresContext) {
     (api) => {
       if (typeof api.now !== 'function') {
         toastMessage(
+          // eslint-disable-next-line max-len
           'You seem to be using an outdated version of Vue Devtools. Are you still using the Beta release instead of the stable one? You can find the links at https://devtools.vuejs.org/guide/installation.html.',
         )
       }
@@ -130,6 +133,10 @@ export function registerTresDevtools(app: DevtoolsApp, tres: TresContext) {
       setInterval(() => {
         api.sendInspectorTree(INSPECTOR_ID)
       }, 1000)
+
+      setInterval(() => {
+        api.notifyComponentUpdate()
+      }, 5000)
 
       api.on.getInspectorTree((payload) => {
         if (payload.inspectorId === INSPECTOR_ID) {
@@ -164,43 +171,58 @@ export function registerTresDevtools(app: DevtoolsApp, tres: TresContext) {
           ] */
         }
       })
-
+      let highlightMesh: Mesh | null = null
+      let prevInstance: Object3D | null = null
+      
       api.on.getInspectorState((payload) => {
         if (payload.inspectorId === INSPECTOR_ID) {
           // Your logic here
           const [instance] = tres.scene.value.getObjectsByProperty('uuid', payload.nodeId)
+          if (!instance) return 
+          if (prevInstance && highlightMesh && highlightMesh.parent) {
+            prevInstance.remove(highlightMesh)
+          }
+          const newHighlightMesh = createHighlightMesh(instance)
+          instance.add(newHighlightMesh)
 
+          // Start the animation
+          const startTime = Date.now()
+          animateHighlight(newHighlightMesh, startTime)
+
+          highlightMesh = newHighlightMesh
+          prevInstance = instance
+          
           if (instance) {
             payload.state = {
               object: [
                 {
                   key: 'uuid',
-                  editable: false,
+                  editable: true,
                   value: instance.uuid,
                 },
                 {
                   key: 'name',
-                  editable: false,
+                  editable: true,
                   value: instance.name,
                 },
                 {
                   key: 'type',
-                  editable: false,
+                  editable: true,
                   value: instance.type,
                 },
                 {
                   key: 'position',
-                  editable: false,
+                  editable: true,
                   value: instance.position,
                 },
                 {
                   key: 'rotation',
-                  editable: false,
+                  editable: true,
                   value: instance.rotation,
                 },
                 {
                   key: 'scale',
-                  editable: false,
+                  editable: true,
                   value: instance.scale,
                 },
                 {
@@ -213,37 +235,37 @@ export function registerTresDevtools(app: DevtoolsApp, tres: TresContext) {
                 },
                 {
                   key: 'color',
-                  editable: false,
+                  editable: true,
                   value: instance.color,
                 },
                 {
                   key: 'intensity',
-                  editable: false,
+                  editable: true,
                   value: instance.intensity,
                 },
                 {
                   key: 'castShadow',
-                  editable: false,
+                  editable: true,
                   value: instance.castShadow,
                 },
                 {
                   key: 'receiveShadow',
-                  editable: false,
+                  editable: true,
                   value: instance.receiveShadow,
                 },
                 {
                   key: 'frustumCulled',
-                  editable: false,
+                  editable: true,
                   value: instance.frustumCulled,
                 },
                 {
                   key: 'matrixAutoUpdate',
-                  editable: false,
+                  editable: true,
                   value: instance.matrixAutoUpdate,
                 },
                 {
                   key: 'matrixWorldNeedsUpdate',
-                  editable: false,
+                  editable: true,
                   value: instance.matrixWorldNeedsUpdate,
                 },
                 {
@@ -253,9 +275,8 @@ export function registerTresDevtools(app: DevtoolsApp, tres: TresContext) {
                 
                 {
                   key: 'visible',
-                  editable: false,
+                  editable: true,
                   value: instance.visible,
-              
                 },
               ],
             }
@@ -263,7 +284,12 @@ export function registerTresDevtools(app: DevtoolsApp, tres: TresContext) {
           
         }
       })
-   
+
+      api.on.editInspectorState((payload) => {
+        if (payload.inspectorId === INSPECTOR_ID) {
+          editSceneObject(tres.scene.value, payload.nodeId, payload.path, payload.state.value)
+        }
+      })
     },
   )
 }

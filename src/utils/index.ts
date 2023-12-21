@@ -1,3 +1,6 @@
+import { type Scene, type Object3D, Mesh, MeshBasicMaterial, DoubleSide } from 'three'
+import THREE from 'three'
+
 export function toSetMethodName(key: string) {
   return `set${key[0].toUpperCase()}${key.slice(1)}`
 }
@@ -127,3 +130,97 @@ export function deepArrayEqual(arr1: any[], arr2: any[]): boolean {
  * TypeSafe version of Array.isArray
  */
 export const isArray = Array.isArray as (a: any) => a is any[] | readonly any[]
+
+export function editSceneObject(scene: Scene, objectUuid: string, propertyPath: string[], value: any): void {
+  // Function to recursively find the object by UUID
+  const findObjectByUuid = (node: Object3D): Object3D | undefined => {
+    if (node.uuid === objectUuid) {
+      return node
+    }
+
+    for (const child of node.children) {
+      const found = findObjectByUuid(child)
+      if (found) {
+        return found
+      }
+    }
+
+    return undefined
+  }
+
+  // Find the target object
+  const targetObject = findObjectByUuid(scene)
+  if (!targetObject) {
+    console.warn('Object with UUID not found in the scene.')
+    return
+  }
+
+  // Traverse the property path to get to the desired property
+  let currentProperty: any = targetObject
+  for (let i = 0; i < propertyPath.length - 1; i++) {
+    if (currentProperty[propertyPath[i]] !== undefined) {
+      currentProperty = currentProperty[propertyPath[i]]
+    }
+    else {
+      console.warn(`Property path is not valid: ${propertyPath.join('.')}`)
+      return
+    }
+  }
+
+  // Set the new value
+  const lastProperty = propertyPath[propertyPath.length - 1]
+  if (currentProperty[lastProperty] !== undefined) {
+    currentProperty[lastProperty] = value
+  }
+  else {
+    console.warn(`Property path is not valid: ${propertyPath.join('.')}`)
+  }
+}
+
+export function createHighlightMaterial(): MeshBasicMaterial {
+  return new MeshBasicMaterial({
+    color: 0xA7E6D7, // Highlight color, e.g., yellow
+    transparent: true,
+    opacity: 0.2,
+    depthTest: false, // So the highlight is always visible
+    side: DoubleSide, // To ensure the highlight is visible from all angles
+  })
+}
+let animationFrameId: number | null = null
+export function animateHighlight(highlightMesh: Mesh, startTime: number): void {
+  const currentTime = Date.now()
+  const time = (currentTime - startTime) / 1000 // convert to seconds
+
+  // Pulsing effect parameters
+  const scaleAmplitude = 0.07 // Amplitude of the scale pulsation
+  const pulseSpeed = 2.5 // Speed of the pulsation
+
+  // Calculate the scale factor with a sine function for pulsing effect
+  const scaleFactor = 1 + scaleAmplitude * Math.sin(pulseSpeed * time)
+
+  // Apply the scale factor
+  highlightMesh.scale.set(scaleFactor, scaleFactor, scaleFactor)
+
+  // Update the animation frame ID
+  animationFrameId = requestAnimationFrame(() => animateHighlight(highlightMesh, startTime))
+}
+
+export function stopHighlightAnimation(): void {
+  if (animationFrameId !== null) {
+    cancelAnimationFrame(animationFrameId)
+    animationFrameId = null
+  }
+}
+
+export function createHighlightMesh(object: Object3D): Mesh {
+  const highlightMaterial = createHighlightMaterial()
+
+  // Clone the geometry of the object. You might need a more complex approach 
+  // if the object's geometry is not straightforward.
+  const highlightMesh = new Mesh(object.geometry.clone(), highlightMaterial)
+
+  // Scale the highlight mesh slightly larger than the original object
+  highlightMesh.scale.multiplyScalar(1.05)
+
+  return highlightMesh
+}
