@@ -5,7 +5,7 @@ import {
 } from '@vue/devtools-api'
 import { reactive } from 'vue'
 import type { Mesh, Object3D } from 'three'
-import { animateHighlight, createHighlightMesh, editSceneObject } from '../utils'
+import { createHighlightMesh, editSceneObject } from '../utils'
 import { bytesToKB, calculateMemoryUsage } from '../utils/perf'
 import type { TresContext } from '../composables'
 import type { TresObject } from './../types'
@@ -92,7 +92,7 @@ const createNode = (object: TresObject): SceneGraphObject => {
 
 function buildGraph(object: TresObject, node: SceneGraphObject) {
   object.children.forEach((child: TresObject) => {
-    if(child.type === 'HightlightMesh') return
+    if (child.type === 'HightlightMesh') return
     const childNode = createNode(child)
     node.children.push(childNode)
     buildGraph(child, childNode)
@@ -184,106 +184,102 @@ export function registerTresDevtools(app: DevtoolsApp, tres: TresContext) {
             prevInstance.remove(highlightMesh)
           }
           
-          if(instance.isMesh) {
+          if (instance.isMesh) {
             const newHighlightMesh = createHighlightMesh(instance)
             instance.add(newHighlightMesh)
-  
-            console.log('highlightMesh', instance)
   
             highlightMesh = newHighlightMesh
             prevInstance = instance
           }
 
-            payload.state = {
-              object: [
-                {
-                  key: 'uuid',
-                  editable: true,
-                  value: instance.uuid,
-                },
-                {
-                  key: 'name',
-                  editable: true,
-                  value: instance.name,
-                },
-                {
-                  key: 'type',
-                  editable: true,
-                  value: instance.type,
-                },
-                {
-                  key: 'position',
-                  editable: true,
-                  value: instance.position,
-                },
-                {
-                  key: 'rotation',
-                  editable: true,
-                  value: instance.rotation,
-                },
-                {
-                  key: 'scale',
-                  editable: true,
-                  value: instance.scale,
-                },
-                {
-                  key: 'geometry',
-                  value: instance.geometry,
-                },
-                {
-                  key: 'material',
-                  value: instance.material,
-                },
-                {
-                  key: 'color',
-                  editable: true,
-                  value: instance.color,
-                },
-                {
-                  key: 'intensity',
-                  editable: true,
-                  value: instance.intensity,
-                },
-                {
-                  key: 'castShadow',
-                  editable: true,
-                  value: instance.castShadow,
-                },
-                {
-                  key: 'receiveShadow',
-                  editable: true,
-                  value: instance.receiveShadow,
-                },
-                {
-                  key: 'frustumCulled',
-                  editable: true,
-                  value: instance.frustumCulled,
-                },
-                {
-                  key: 'matrixAutoUpdate',
-                  editable: true,
-                  value: instance.matrixAutoUpdate,
-                },
-                {
-                  key: 'matrixWorldNeedsUpdate',
-                  editable: true,
-                  value: instance.matrixWorldNeedsUpdate,
-                },
-                {
-                  key: 'matrixWorld',
-                  value: instance.matrixWorld,
-                },
+          payload.state = {
+            object: [
+              {
+                key: 'uuid',
+                editable: true,
+                value: instance.uuid,
+              },
+              {
+                key: 'name',
+                editable: true,
+                value: instance.name,
+              },
+              {
+                key: 'type',
+                editable: true,
+                value: instance.type,
+              },
+              {
+                key: 'position',
+                editable: true,
+                value: instance.position,
+              },
+              {
+                key: 'rotation',
+                editable: true,
+                value: instance.rotation,
+              },
+              {
+                key: 'scale',
+                editable: true,
+                value: instance.scale,
+              },
+              {
+                key: 'geometry',
+                value: instance.geometry,
+              },
+              {
+                key: 'material',
+                value: instance.material,
+              },
+              {
+                key: 'color',
+                editable: true,
+                value: instance.color,
+              },
+              {
+                key: 'intensity',
+                editable: true,
+                value: instance.intensity,
+              },
+              {
+                key: 'castShadow',
+                editable: true,
+                value: instance.castShadow,
+              },
+              {
+                key: 'receiveShadow',
+                editable: true,
+                value: instance.receiveShadow,
+              },
+              {
+                key: 'frustumCulled',
+                editable: true,
+                value: instance.frustumCulled,
+              },
+              {
+                key: 'matrixAutoUpdate',
+                editable: true,
+                value: instance.matrixAutoUpdate,
+              },
+              {
+                key: 'matrixWorldNeedsUpdate',
+                editable: true,
+                value: instance.matrixWorldNeedsUpdate,
+              },
+              {
+                key: 'matrixWorld',
+                value: instance.matrixWorld,
+              },
                 
-                {
-                  key: 'visible',
-                  editable: true,
-                  value: instance.visible,
-                },
-              ],
-            }
+              {
+                key: 'visible',
+                editable: true,
+                value: instance.visible,
+              },
+            ],
           }
-          
-  
+        }
       })
 
       api.on.editInspectorState((payload) => {
