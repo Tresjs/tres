@@ -18,7 +18,7 @@ export function calculateMemoryUsage(object: TresObject | Scene) {
     }
   })
 
-  return totalMemory
+  return totalMemory // In bytes
 }
 
 export function bytesToKB(bytes: number): string {

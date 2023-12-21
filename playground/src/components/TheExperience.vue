@@ -17,10 +17,11 @@ const gl = {
 const wireframe = ref(true)
 
 const canvas = ref()
+const meshRef = ref()
 
 watchEffect(() => {
-  if (canvas.value) {
-    console.log(canvas.value.context)
+  if (meshRef.value) {
+    console.log(meshRef.value)
   }
 })
 </script>
@@ -44,14 +45,10 @@ watchEffect(() => {
       :look-at="[0, 4, 0]"
     />
     <OrbitControls />
-    <TresFog
-      :color="gl.clearColor"
-      :near="5"
-      :far="15"
-    />
     <TresMesh
       :position="[-2, 6, 0]"
       :rotation="[0, Math.PI, 0]"
+      name="cone"
       cast-shadow
     >
       <TresConeGeometry :args="[1, 1.5, 3]" />
@@ -68,11 +65,15 @@ watchEffect(() => {
       />
     </TresMesh>
     <TresMesh
-      :rotation="[-Math.PI / 2, 0, 0]"
+      ref="meshRef"
+      :rotation="[-Math.PI / 2, 0, Math.PI / 2]"
+      name="floor"
       receive-shadow
     >
-      <TresPlaneGeometry :args="[10, 10, 10, 10]" />
-      <TresMeshToonMaterial color="#D3FC8A" />
+      <TresPlaneGeometry :args="[20, 20, 20]" />
+      <TresMeshToonMaterial
+        color="#D3FC8A"
+      />
     </TresMesh>
     <TheSphere />
     <TresAxesHelper :args="[1]" />
@@ -81,6 +82,5 @@ watchEffect(() => {
       :intensity="2"
       cast-shadow
     />
-    <TresOrthographicCamera />
   </TresCanvas>
 </template>
