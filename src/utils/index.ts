@@ -1,5 +1,6 @@
-import { type Scene, type Object3D, Mesh, MeshBasicMaterial, DoubleSide } from 'three'
-import THREE from 'three'
+import THREE, { MeshBasicMaterial, DoubleSide } from 'three'
+import type { Mesh, type Scene, type Object3D } from 'three'
+import { HightlightMesh } from '../devtools/highlight'
 
 export function toSetMethodName(key: string) {
   return `set${key[0].toUpperCase()}${key.slice(1)}`
@@ -213,14 +214,16 @@ export function stopHighlightAnimation(): void {
 }
 
 export function createHighlightMesh(object: Object3D): Mesh {
-  const highlightMaterial = createHighlightMaterial()
-
+  const highlightMaterial = new MeshBasicMaterial({
+    color: 0xa7e6d7, // Highlight color, e.g., yellow
+    transparent: true,
+    opacity: 0.2,
+    depthTest: false, // So the highlight is always visible
+    side: DoubleSide, // To e
+  })
   // Clone the geometry of the object. You might need a more complex approach 
   // if the object's geometry is not straightforward.
-  const highlightMesh = new Mesh(object.geometry.clone(), highlightMaterial)
-
-  // Scale the highlight mesh slightly larger than the original object
-  highlightMesh.scale.multiplyScalar(1.05)
+  const highlightMesh = new HightlightMesh(object.geometry.clone(), highlightMaterial)
 
   return highlightMesh
 }

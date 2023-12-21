@@ -92,6 +92,7 @@ const createNode = (object: TresObject): SceneGraphObject => {
 
 function buildGraph(object: TresObject, node: SceneGraphObject) {
   object.children.forEach((child: TresObject) => {
+    if(child.type === 'HightlightMesh') return
     const childNode = createNode(child)
     node.children.push(childNode)
     buildGraph(child, childNode)
@@ -182,17 +183,17 @@ export function registerTresDevtools(app: DevtoolsApp, tres: TresContext) {
           if (prevInstance && highlightMesh && highlightMesh.parent) {
             prevInstance.remove(highlightMesh)
           }
-          const newHighlightMesh = createHighlightMesh(instance)
-          instance.add(newHighlightMesh)
-
-          // Start the animation
-          const startTime = Date.now()
-          animateHighlight(newHighlightMesh, startTime)
-
-          highlightMesh = newHighlightMesh
-          prevInstance = instance
           
-          if (instance) {
+          if(instance.isMesh) {
+            const newHighlightMesh = createHighlightMesh(instance)
+            instance.add(newHighlightMesh)
+  
+            console.log('highlightMesh', instance)
+  
+            highlightMesh = newHighlightMesh
+            prevInstance = instance
+          }
+
             payload.state = {
               object: [
                 {
@@ -282,7 +283,7 @@ export function registerTresDevtools(app: DevtoolsApp, tres: TresContext) {
             }
           }
           
-        }
+  
       })
 
       api.on.editInspectorState((payload) => {
