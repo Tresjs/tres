@@ -21,7 +21,6 @@ export interface Tags {
 export interface SceneGraphObject {
   id: string
   label: string
-  icon: string
   children: SceneGraphObject[]
   tags: Tags[]
 }
@@ -73,6 +72,7 @@ const createNode = (object: TresObject): SceneGraphObject => {
       tooltip: 'Field of view',
     })
     node.tags.push({
+      // eslint-disable-next-line max-len
       label: `x: ${Math.round(object.position.x)} y: ${Math.round(object.position.y)} z: ${Math.round(object.position.z)}`,
       textColor: 0x9499A6,
       backgroundColor: 0xF8F9FA,

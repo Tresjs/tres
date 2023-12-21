@@ -21,6 +21,7 @@ export function toastMessage(
     console.warn(tresMessage)
   }
   else {
+    // eslint-disable-next-line no-console
     console.log(tresMessage)
   }
 }
