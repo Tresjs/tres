@@ -2,7 +2,7 @@
 
 ![Cientos banner](/cientos-banner.png)
 
-> Cientos (Spanish word for "hundreds", pronounced `/θjentos/` ) is is a collection of useful ready-to-go helpers and components that are not part of the [core](/guide/index.md) package. The name uses the word uses in spanish to multiply by 100, to refer to the potential reach of the package to hold a amazing abstractions.
+> Cientos (Spanish word for "hundreds", pronounced `/θjentos/` ) is a collection of useful ready-to-go helpers and components that are not part of the [core](https://docs.tresjs.org/) package. The name uses the word in Spanish to multiply by 100, to refer to the potential reach of the package to hold amazing abstractions.
 
 The `cientos` package uses [`three-stdlib`](https://github.com/pmndrs/three-stdlib) module under the hood instead of the `three/examples/jsm` module. This means that you don't need to extend the catalogue of components using the `extend` method, `cientos` does it for you.
 
