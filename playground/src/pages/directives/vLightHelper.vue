@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { reactive, shallowRef } from 'vue'
 import { TresCanvas, useRenderLoop } from '@tresjs/core'
-import { OrbitControls, Sphere, vLightHelper } from '@tresjs/cientos'
+import { OrbitControls, Sphere, vLightHelper, vAlwaysLookAt } from '@tresjs/cientos'
 import { SRGBColorSpace, NoToneMapping } from 'three'
 
 const gl = {
@@ -66,8 +66,13 @@ onLoop(({ elapsed }) => {
       :color="0x0000ff"
       :ground-color="0x00ffff"
       :intensity="50"
+    /> 
+    <TresRectAreaLight
+      v-light-helper
+      v-always-look-at="[0, 0, 0]"
+      :args="[0xffff00, 100, 1, 1]"
+      :position="[2.5, 0, 2.5]"
     />
-
     <TresGridHelper :args="[10, 10]" />
     <OrbitControls />
   </TresCanvas>

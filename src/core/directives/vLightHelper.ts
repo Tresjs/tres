@@ -1,5 +1,6 @@
 import { useLogger } from '@tresjs/core'
 import { DirectionalLightHelper, PointLightHelper, SpotLightHelper, HemisphereLightHelper } from 'three'
+import { RectAreaLightHelper } from 'three-stdlib'
 
 const { logWarning } = useLogger()
 
@@ -14,7 +15,9 @@ export const vLightHelper = {
   },
   updated: (el: any) => {
     currentInstance = el.parent.children.find((child: any) => child instanceof currentHelper)
+    if (currentInstance instanceof RectAreaLightHelper) return
     currentInstance.update()
+
   },
   unmounted: (el: any) => {
     if (!el.isLight) {
@@ -33,4 +36,5 @@ const helpers = {
   PointLight: PointLightHelper,
   SpotLight: SpotLightHelper,
   HemisphereLight: HemisphereLightHelper,
+  RectAreaLight: RectAreaLightHelper,
 }

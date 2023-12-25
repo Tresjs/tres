@@ -2,9 +2,10 @@
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
 import { BasicShadowMap, SRGBColorSpace, NoToneMapping } from 'three'
-
-import { OrbitControls, useTweakPane } from '@tresjs/cientos'
+import { OrbitControls } from '@tresjs/cientos'
 import { reactive } from 'vue'
+import { TresLeches, useControls } from '@tresjs/leches'
+import '@tresjs/leches/styles'
 
 const gl = {
   clearColor: '#82DBC5',
@@ -36,82 +37,126 @@ const controlsState = reactive({
   rotateSpeed: 1,
 })
 
-const { pane } = useTweakPane()
-
-pane.addInput(controlsState, 'enableDamping')
-pane.addInput(controlsState, 'dampingFactor', {
-  step: 0.01,
-  min: 0,
-  max: 10,
-})
-pane.addInput(controlsState, 'enableZoom')
-
-pane.addInput(controlsState, 'enablePan')
-pane.addInput(controlsState, 'keyPanSpeed', {
-  step: 0.01,
-  min: 0,
-  max: 10,
-})
-
-const rotateFolder = pane.addFolder({ title: 'Rotate' })
-rotateFolder.addInput(controlsState, 'autoRotate')
-rotateFolder.addInput(controlsState, 'autoRotateSpeed', {
-  step: 0.01,
-  min: 0,
-  max: Math.PI,
-})
-
-// Polar
-const angleFolder = pane.addFolder({ title: 'Angles' })
-angleFolder.addInput(controlsState, 'maxPolarAngle', {
-  step: 0.01,
-  min: 0,
-  max: Math.PI,
-})
-angleFolder.addInput(controlsState, 'minPolarAngle', {
-  step: 0.01,
-  min: 0,
-  max: Math.PI,
-})
-angleFolder.addInput(controlsState, 'maxAzimuthAngle', {
-  step: 0.01,
-  min: 0,
-  max: 2 * Math.PI,
-})
-angleFolder.addInput(controlsState, 'minAzimuthAngle', {
-  step: 0.01,
-  min: 0,
-  max: 2 * Math.PI,
+const {
+  'enable Damping': enableDamping,
+  dampingFactor,
+  'enable Zoom': enableZoom,
+  'enable Pan': enablePan,
+  keyPanSpeed,
+} = useControls({
+  'enable Damping': controlsState.enableDamping,
+  dampingFactor: {
+    value: controlsState.dampingFactor,
+    step: 0.01,
+    min: 0,
+    max: 10,
+  },
+  'enable Zoom': controlsState.enableZoom,
+  'enable Pan': controlsState.enablePan,
+  keyPanSpeed: {
+    value: controlsState.keyPanSpeed,
+    step: 0.01,
+    min: 0,
+    max: 10,
+  },
 })
 
-const distances = pane.addFolder({ title: 'Distances' })
-distances.addInput(controlsState, 'maxDistance', {
-  step: 0.01,
-  min: 0,
-  max: 100,
-})
-distances.addInput(controlsState, 'minDistance', {
-  step: 0.01,
-  min: 0,
-  max: 100,
+watch([enableDamping.value, dampingFactor.value, enableZoom.value, enablePan.value, keyPanSpeed.value], () => {
+  controlsState.enableDamping = enableDamping.value.value
+  controlsState.dampingFactor = dampingFactor.value.value
+  controlsState.enableZoom = enableZoom.value.value
+  controlsState.enablePan = enablePan.value.value
+  controlsState.keyPanSpeed = keyPanSpeed.value.value
 })
 
-const zoomFolder = pane.addFolder({ title: 'Zoom' })
-zoomFolder.addInput(controlsState, 'enableZoom')
-zoomFolder.addInput(controlsState, 'minZoom', {
-  step: 0.01,
-  min: 0,
-  max: 10,
+const {
+  AnglesMaxPolarAngle,
+  AnglesMinPolarAngle,
+  AnglesMaxAzimuthAngle,
+  AnglesMinAzimuthAngle,
+} = useControls('Angles', {
+  maxPolarAngle: {
+    value: controlsState.maxPolarAngle,
+    step: 0.01,
+    min: 0,
+    max: Math.PI,
+  }, minPolarAngle: {
+    value: controlsState.minPolarAngle,
+    step: 0.01,
+    min: 0,
+    max: Math.PI,
+  }, maxAzimuthAngle: {
+    value: controlsState.maxAzimuthAngle,
+    step: 0.01,
+    min: 0,
+    max: 2 * Math.PI,
+  }, minAzimuthAngle: {
+    value: controlsState.minPolarAngle,
+    step: 0.01,
+    min: 0,
+    max: 2 * Math.PI,
+  },
 })
-zoomFolder.addInput(controlsState, 'maxZoom', {
-  step: 0.01,
-  min: 0,
-  max: 100,
+
+watch([
+  AnglesMaxPolarAngle.value,
+  AnglesMinPolarAngle.value,
+  AnglesMaxAzimuthAngle.value,
+  AnglesMinAzimuthAngle.value,
+  keyPanSpeed.value,
+], () => {
+  controlsState.maxPolarAngle = AnglesMaxPolarAngle.value.value
+  controlsState.minPolarAngle = AnglesMinPolarAngle.value.value
+  controlsState.maxAzimuthAngle = AnglesMaxAzimuthAngle.value.value
+  controlsState.minAzimuthAngle = AnglesMinAzimuthAngle.value.value
 })
-zoomFolder.addInput(controlsState, 'zoomSpeed', {
-  step: 0.01,
-  min: 0,
-  max: 100,
+
+const { DistancesMaxDistance, DistancesMinDistance } = useControls('Distances', {
+  maxDistance: {
+    value: controlsState.maxDistance,
+    step: 0.01,
+    min: 0,
+    max: 100,
+  }, minDistance: {
+    value: controlsState.minDistance,
+    step: 0.01,
+    min: 0,
+    max: 100,
+  },
+})
+
+watch([DistancesMaxDistance.value, DistancesMinDistance.value], () => {
+  controlsState.maxDistance = DistancesMaxDistance.value.value
+  controlsState.minDistance = DistancesMinDistance.value.value
+})
+
+const { ZoomEnableZoom, ZoomMinZoom, ZoomMaxZoom, ZoomZoomSpeed } = useControls('Zoom', {
+  enableZoom: controlsState.enableZoom,
+  minZoom: {
+    value: controlsState.minZoom,
+    step: 0.01,
+    min: 0,
+    max: 10,
+  },
+  maxZoom: {
+    value: controlsState.maxZoom,
+    step: 0.01,
+    min: 0,
+    max: 100,
+  },
+  zoomSpeed: {
+    value: controlsState.zoomSpeed,
+    step: 0.01,
+    min: 0,
+    max: 100,
+  },
+})
+
+watch([ZoomEnableZoom.value, ZoomMinZoom.value, ZoomMaxZoom.value, ZoomZoomSpeed.value], () => {
+  controlsState.enableZoom = ZoomEnableZoom.value.value
+  controlsState.minZoom = ZoomMinZoom.value.value
+  controlsState.maxZoom = ZoomMaxZoom.value.value
+  controlsState.zoomSpeed = ZoomZoomSpeed.value.value
 })
 
 function onChange() {

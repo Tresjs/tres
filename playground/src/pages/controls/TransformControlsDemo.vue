@@ -2,7 +2,9 @@
 import { ref, reactive } from 'vue'
 import { TresCanvas } from '@tresjs/core'
 import { BasicShadowMap, SRGBColorSpace, NoToneMapping } from 'three'
-import { OrbitControls, TransformControls, useTweakPane } from '@tresjs/cientos'
+import { OrbitControls, TransformControls } from '@tresjs/cientos'
+import { TresLeches, useControls } from '@tresjs/leches'
+import '@tresjs/leches/styles'
 
 const gl = {
   clearColor: '#82DBC5',
@@ -35,66 +37,49 @@ const controlsState = reactive({
   showZ: true,
 })
 
-const { pane } = useTweakPane()
-
-pane
-  .addBlade({
-    view: 'list',
+const { mode, enabled, space, axis, size, showX, showY, showZ } = useControls({
+  mode: {
     label: 'Mode',
-    options: [
-      { text: 'Translate', value: 'translate' },
-      { text: 'Rotate', value: 'rotate' },
-      { text: 'Scale', value: 'scale' },
-    ],
     value: controlsState.mode,
-  })
-  .on('change', (e: any) => {
-    controlsState.mode = e.value
-  })
-
-pane.addInput(controlsState, 'enabled')
-
-pane
-  .addBlade({
-    view: 'list',
+    options: ['translate', 'rotate', 'scale'],
+  },
+  enabled: controlsState.enabled,
+  space: {
     label: 'Space',
-    options: [
-      { text: 'World', value: 'world' },
-      { text: 'Local', value: 'local' },
-    ],
     value: controlsState.space,
-  })
-  .on('change', (e: any) => {
-    controlsState.space = e.value
-  })
-
-pane.addBlade({
-  view: 'list',
-  label: 'Axis',
-  options: [
-    { text: 'X', value: 'X' },
-    { text: 'Y', value: 'Y' },
-    { text: 'Z', value: 'Z' },
-    { text: 'XY', value: 'XY' },
-    { text: 'YZ', value: 'YZ' },
-    { text: 'XZ', value: 'XZ' },
-    { text: 'XYZ', value: 'XYZ' },
-  ],
-  value: controlsState.axis,
+    options: ['world', 'local'],
+  },
+  axis: {
+    label: 'Axis',
+    value: controlsState.axis,
+    options: ['X', 'Y', 'Z', 'XY', 'YZ', 'XZ', 'XYZ'],
+  },
+  size: {
+    label: 'Size',
+    value: controlsState.size,
+    min: 0,
+    max: 10,
+    step: 0.01,
+  },
+  showX: true,
+  showY: true,
+  showZ: true,
 })
 
-pane.addInput(controlsState, 'size', {
-  step: 0.01,
-  min: 0,
-  max: 10,
+watch([mode.value, enabled.value, space.value, axis.value, size.value, showX.value, showY.value, showZ.value], () => {
+  controlsState.mode = mode.value.value
+  controlsState.enabled = enabled.value.value
+  controlsState.space = space.value.value
+  controlsState.axis = axis.value.value
+  controlsState.size = size.value.value
+  controlsState.showX = showX.value.value
+  controlsState.showY = showY.value.value
+  controlsState.showZ = showZ.value.value
 })
-
-pane.addInput(controlsState, 'showX')
-pane.addInput(controlsState, 'showY')
-pane.addInput(controlsState, 'showZ')
 </script>
 
 <template>
+  <TresLeches />
   <TresCanvas
     v-bind="gl"
     ref="context"

@@ -2,7 +2,7 @@
 import { ref, reactive } from 'vue'
 import { TresCanvas } from '@tresjs/core'
 import { BasicShadowMap, SRGBColorSpace, NoToneMapping } from 'three'
-
+import { TresLeches, useControls } from '@tresjs/leches'
 import '@tresjs/leches/styles'
 import { OrbitControls, Html } from '@tresjs/cientos'
 import Card from './Card.vue'
@@ -26,9 +26,13 @@ const state = reactive({
 })
 
 const isActive = ref(false)
+const { showHtml } = useControls({
+  showHtml: false,
+})
 </script>
 
 <template>
+  <TresLeches />
   <TresCanvas v-bind="gl">
     <TresPerspectiveCamera :position="[3, 0, 8]" />
     <OrbitControls />
@@ -39,6 +43,7 @@ const isActive = ref(false)
       <TresBoxGeometry />
       <TresMeshNormalMaterial />
       <Html
+        v-if="showHtml"
         v-bind="state"
         transform
         :occlude="[sphereRef]"

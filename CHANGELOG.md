@@ -1,5 +1,21 @@
 
 
+## [3.7.0](https://github.com/Tresjs/cientos/compare/3.6.0...3.7.0) (2023-12-13)
+
+
+### Features
+
+* add 'change' event to pointerlock controls, improve docs ([c394f10](https://github.com/Tresjs/cientos/commit/c394f10b1d219618bfad7619106669fe17c75e32))
+* add rectAreaLightHelper to vLightHelper directive ([#283](https://github.com/Tresjs/cientos/issues/283)) ([8bc64a1](https://github.com/Tresjs/cientos/commit/8bc64a139ee350cb1a3e8d629a6f0c5a44bca973))
+* add reflector ([#136](https://github.com/Tresjs/cientos/issues/136)) ([bd4d710](https://github.com/Tresjs/cientos/commit/bd4d7107bbb990f31ac0feb77feb8729c0b8d019))
+* sampler and useSampler ([#286](https://github.com/Tresjs/cientos/issues/286)) ([826833c](https://github.com/Tresjs/cientos/commit/826833c95d281c76f48d972fc0e7a39ec49ea81a))
+
+
+### Bug Fixes
+
+* remove wrapper element on unmounted ([#310](https://github.com/Tresjs/cientos/issues/310)) ([1a37c92](https://github.com/Tresjs/cientos/commit/1a37c92c8d461f31dfb272089c6299d6305eb1ff))
+* wrap `Text3D` inside `Suspense` in the docs ([#307](https://github.com/Tresjs/cientos/issues/307)) ([27ce1f0](https://github.com/Tresjs/cientos/commit/27ce1f0b54e015c44f1b30cc9b4ffaeb26e06a8a))
+
 ## [3.6.0](https://github.com/Tresjs/cientos/compare/3.5.1...3.6.0) (2023-11-07)
 
 

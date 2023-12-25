@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { TresCanvas, useRenderLoop } from '@tresjs/core'
-import { OrbitControls, useTweakPane, ContactShadows, Box, Plane, Icosahedron } from '@tresjs/cientos'
+import { OrbitControls, ContactShadows, Box, Plane, Icosahedron } from '@tresjs/cientos'
 import { BasicShadowMap, SRGBColorSpace, NoToneMapping } from 'three'
 import { reactive, shallowRef } from 'vue'
+import { TresLeches, useControls } from '@tresjs/leches'
+import '@tresjs/leches/styles'
 
 const gl = {
   clearColor: '#fff',
@@ -21,30 +23,39 @@ const state = reactive({
   helper: true,
 })
 
-const { pane } = useTweakPane()
-
-pane.addInput(state, 'blur', {
-  step: 0.1,
-  min: 0,
-  max: 10,
+const { blur, opacity, resolution, color, helper } = useControls({
+  blur: {
+    value: state.blur,
+    step: 0.1,
+    min: 0,
+    max: 10,
+  },
+  opacity: {
+    value: state.opacity,
+    step: 0.1,
+    min: 0,
+    max: 1,
+  },
+  resolution: {
+    value: state.resolution,
+    step: 1,
+    min: 0,
+    max: 1024,
+  },
+  color: {
+    type: 'color',
+    value: state.color,
+  },
+  helper: state.helper,
 })
-pane.addInput(state, 'opacity', {
-  step: 0.1,
-  min: 0,
-  max: 1,
-})
 
-pane.addInput(state, 'resolution', {
-  step: 1,
-  min: 0,
-  max: 1024,
+watch([blur.value, opacity.value, resolution.value, color.value, helper.value ], () => {
+  state.blur = blur.value.value
+  state.opacity = opacity.value.value
+  state.resolution = resolution.value.value
+  state.color = color.value.value
+  state.helper = helper.value.value
 })
-
-pane.addInput(state, 'color').on('change', (ev) => {
-  state.color = ev.value
-})
-
-pane.addInput(state, 'helper')
 
 const boxRef = shallowRef()
 const icoRef = shallowRef()
@@ -64,6 +75,7 @@ onLoop(() => {
 </script>
 
 <template>
+  <TresLeches />
   <TresCanvas v-bind="gl">
     <TresPerspectiveCamera :position="[5, 5, 5]" />
 

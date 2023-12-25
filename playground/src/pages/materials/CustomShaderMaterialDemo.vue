@@ -3,9 +3,10 @@ import { TresCanvas, useRenderLoop, useTexture } from '@tresjs/core'
 import {
   CustomShaderMaterial,
   StatsGl,
-  useTweakPane,
   OrbitControls,
 } from '@tresjs/cientos'
+import { TresLeches, useControls } from '@tresjs/leches'
+import '@tresjs/leches/styles'
 
 import { MeshMatcapMaterial } from 'three'
 import { onMounted, nextTick } from 'vue'
@@ -60,42 +61,40 @@ const materialProps = {
 onMounted(async () => {
   await nextTick()
 
-  createDebugPanel()
-
   onLoop(() => {
     materialProps.uniforms.u_Time.value
-			+= 0.01 * materialProps.uniforms.u_WobbleSpeed.value
+      += 0.01 * materialProps.uniforms.u_WobbleSpeed.value
   })
 })
 
-function createDebugPanel() {
-  const { pane } = useTweakPane()
-
-  const folder = pane.addFolder({
-    title: 'Settings',
-  })
-
-  folder.addInput(materialProps.uniforms.u_WobbleSpeed, 'value', {
-    label: 'Wobble Speed',
+const { speed, amplitude, frequency } = useControls({
+  speed: {
+    value: materialProps.uniforms.u_WobbleSpeed.value,
     min: 0,
     max: 10,
-  })
-
-  folder.addInput(materialProps.uniforms.u_WobbleAmplitude, 'value', {
-    label: 'Wobble Amplitude',
+  },
+  amplitude: {
+    value: materialProps.uniforms.u_WobbleAmplitude.value,
     min: 0,
     max: 0.2,
-  })
-
-  folder.addInput(materialProps.uniforms.u_WobbleFrequency, 'value', {
-    label: 'Wobble Frequency',
+    step: 0.01,
+  },
+  frequency: {
+    value: materialProps.uniforms.u_WobbleFrequency.value,
     min: 1,
     max: 30,
-  })
-}
+  },
+})
+
+watch([speed.value, amplitude.value, frequency.value], () => {
+  materialProps.uniforms.u_WobbleSpeed.value = speed.value.value
+  materialProps.uniforms.u_WobbleAmplitude.value = amplitude.value.value
+  materialProps.uniforms.u_WobbleFrequency.value = frequency.value.value
+})
 </script>
 
 <template>
+  <TresLeches />
   <TresCanvas v-bind="gl">
     <TresPerspectiveCamera
       :position="[0, 2, 4]"

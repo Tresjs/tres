@@ -46,7 +46,7 @@ const props = withDefaults(defineProps<PointerLockControlsProps>(), {
   makeDefault: false,
 })
 
-const emit = defineEmits(['isLock'])
+const emit = defineEmits(['isLock', 'change'])
 
 const { camera: activeCamera, renderer, extend, controls } = useTresContext()
 
@@ -69,6 +69,7 @@ watch(controlsRef, (value) => {
   const selector = document.getElementById(props.selector || '')
   triggerSelector = selector ? selector : renderer.value.domElement
 
+  useEventListener(controls.value as any, 'change', () => emit('change', controls.value))
   useEventListener(triggerSelector, 'click', () => {
     controls.value?.lock()
     controls.value?.addEventListener('lock', () => isLockEmitter(true))

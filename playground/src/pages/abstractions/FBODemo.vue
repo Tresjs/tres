@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { TresCanvas, useRenderLoop } from '@tresjs/core'
-import { OrbitControls, useTweakPane, Fbo } from '@tresjs/cientos'
+import { OrbitControls, Fbo } from '@tresjs/cientos'
 import { SRGBColorSpace, ACESFilmicToneMapping } from 'three'
+import { TresLeches, useControls } from '@tresjs/leches'
+import '@tresjs/leches/styles'
 
 const gl = {
   clearColor: '#82DBC5',
@@ -35,27 +37,31 @@ onMounted(async () => {
     capsuleRef.value.rotation.x = elapsed * 0.471
     capsuleRef.value.rotation.z = elapsed * 0.632
   })
-
-  setupTweakpane()
 })
 
-function setupTweakpane() {
-  const { pane } = useTweakPane()
-
-  pane.title = 'FBO config'
-
-  pane.addInput(state, 'depth', { label: 'Toggle Depth Buffer' })
-
-  pane.addInput(state.settings, 'samples', {
+const { 'Depth Buffer': isUseDepthBuffer, 'MSAA Samples': numMsaaSamples } = useControls({
+  'Depth Buffer': state.depth,
+  'MSAA Samples': {
     label: 'MSAA Samples',
+    value: state.settings.samples,
     min: 0,
     max: 8,
     step: 1,
-  })
-}
+  },
+})
+
+watch(
+  isUseDepthBuffer.value,
+  () => { state.depth = isUseDepthBuffer.value.value },
+)
+watch(
+  numMsaaSamples.value,
+  () => { state.settings.samples = numMsaaSamples.value.value },
+)
 </script>
 
 <template>
+  <TresLeches />
   <TresCanvas v-bind="gl">
     <TresPerspectiveCamera :position="[0, 0.5, 5]" />
     <OrbitControls />

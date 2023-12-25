@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { shallowRef, reactive } from 'vue'
 import { TresCanvas } from '@tresjs/core'
-import { OrbitControls, Stars, MouseParallax, useTweakPane } from '@tresjs/cientos'
+import { OrbitControls, Stars, MouseParallax } from '@tresjs/cientos'
 import { SRGBColorSpace, NoToneMapping } from 'three'
+import { TresLeches, useControls } from '@tresjs/leches'
+import '@tresjs/leches/styles'
 
 const gl = {
   clearColor: '#333',
@@ -17,37 +19,48 @@ const options = reactive({
   radius: 100,
 })
 
-const { pane } = useTweakPane()
+const { radius, depth, count, size, 'size attenuation': sizeAttenuation } = useControls({
+  radius: {
+    value: options.radius,
+    step: 5,
+    min: 0,
+    max: 300,
+  },
+  depth: {
+    value: options.depth,
+    step: 1,
+    min: 0,
+    max: 50,
+  },
+  count: {
+    value: options.count,
+    step: 100,
+    min: 1000,
+    max: 15000,
+  },
+  size: {
+    value: options.size,
+    step: 0.1,
+    min: 0,
+    max: 50,
+  },
+  'size attenuation': options.sizeAttenuation,
+})
 
-pane.addInput(options, 'radius', {
-  step: 5,
-  min: 0,
-  max: 300,
+watch([radius.value, depth.value, count.value, size.value, sizeAttenuation.value], () => {
+  options.radius = radius.value.value
+  options.depth = depth.value.value
+  options.count = count.value.value
+  options.size = size.value.value
+  options.sizeAttenuation = sizeAttenuation.value.value
 })
-pane.addInput(options, 'depth', {
-  step: 1,
-  min: 0,
-  max: 50,
-})
-pane.addInput(options, 'count', {
-  step: 100,
-  min: 1000,
-  max: 15000,
-})
-pane.addInput(options, 'size', {
-  step: 0.1,
-  min: 0,
-  max: 50,
-})
-pane.addInput(options, 'sizeAttenuation')
 
 const star = shallowRef<Stars>(null)
 </script>
 
 <template>
-  <TresCanvas
-    v-bind="gl"
-  >
+  <TresLeches />
+  <TresCanvas v-bind="gl">
     <TresPerspectiveCamera :position="[0, 2, 5]" />
     <MouseParallax :factor="0.5" />
     <Stars
