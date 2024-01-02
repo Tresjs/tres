@@ -38,7 +38,7 @@ interface TresBaseObject {
 }
 
 // Custom type for geometry and material properties in Object3D
-export interface TresObject3D extends THREE.Object3D {
+export interface TresObject3D extends THREE.Object3D<THREE.Object3DEventMap> {
   geometry?: THREE.BufferGeometry & TresBaseObject
   material?: THREE.Material & TresBaseObject
   userData: {

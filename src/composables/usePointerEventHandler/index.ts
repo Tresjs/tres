@@ -1,4 +1,4 @@
-import type { Intersection, Event, Object3D } from 'three'
+import type { Intersection, Object3D, Object3DEventMap } from 'three'
 import type { TresScene } from 'src/types'
 import { computed, reactive, ref } from 'vue'
 import { uniqueBy } from '../../utils'
@@ -6,8 +6,8 @@ import { useRaycaster } from '../useRaycaster'
 
 import type { TresContext } from '../useTresContextProvider'
 
-type CallbackFn = (intersection: Intersection<Object3D<Event>>, event: PointerEvent) => void
-type CallbackFnPointerLeave = (object: Object3D<Event>, event: PointerEvent) => void
+type CallbackFn = (intersection: Intersection<Object3D<Object3DEventMap>>, event: PointerEvent) => void
+type CallbackFnPointerLeave = (object: Object3D, event: PointerEvent) => void
 
 export interface EventProps {
   onClick?: CallbackFn
@@ -24,10 +24,10 @@ export const usePointerEventHandler = (
   },
 ) => {
   const objectsWithEventListeners = reactive({
-    click: new Map<Object3D, CallbackFn>(),
-    pointerMove: new Map<Object3D, CallbackFn>(),
-    pointerEnter: new Map<Object3D, CallbackFn>(),
-    pointerLeave: new Map<Object3D, CallbackFnPointerLeave>(),
+    click: new Map<Object3D<Object3DEventMap>, CallbackFn>(),
+    pointerMove: new Map<Object3D<Object3DEventMap>, CallbackFn>(),
+    pointerEnter: new Map<Object3D<Object3DEventMap>, CallbackFn>(),
+    pointerLeave: new Map<Object3D<Object3DEventMap>, CallbackFnPointerLeave>(),
   })
 
   const blockingObjects = ref(new Set<Object3D>())
@@ -79,7 +79,7 @@ export const usePointerEventHandler = (
     if (intersects.length) objectsWithEventListeners.click.get(intersects[0].object)?.(intersects[0], event)
   })
 
-  let previouslyIntersectedObject: Object3D<Event> | null
+  let previouslyIntersectedObject: Object3D | null
 
   onPointerMove(({ intersects, event }) => {
     const firstObject = intersects?.[0]?.object
