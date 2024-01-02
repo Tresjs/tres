@@ -23,7 +23,7 @@ importers:
         version: 1.9.0
       '@tresjs/cientos':
         specifier: 3.6.0
-        version: 3.6.0(@tresjs/core@3.5.1)(three@0.159.0)(tweakpane@4.0.1)(vue@3.3.11)
+        version: 3.6.0(@tresjs/core@)(three@0.159.0)(tweakpane@4.0.1)(vue@3.3.11)
       '@tresjs/eslint-config-vue':
         specifier: ^0.2.1
         version: 0.2.1(@typescript-eslint/eslint-plugin@6.14.0)(eslint@8.55.0)(typescript@5.3.3)
@@ -130,7 +130,7 @@ importers:
   docs:
     dependencies:
       '@tresjs/core':
-        specifier: workspace:3.6.0-next.0
+        specifier: workspace:*
         version: link:..
     devDependencies:
       unocss:
@@ -144,7 +144,7 @@ importers:
     dependencies:
       '@tresjs/cientos':
         specifier: 3.6.0
-        version: 3.6.0(@tresjs/core@3.5.1)(three@0.159.0)(tweakpane@4.0.1)(vue@3.3.11)
+        version: 3.6.0(@tresjs/core@)(three@0.159.0)(tweakpane@4.0.1)(vue@3.3.11)
       vue-router:
         specifier: ^4.2.5
         version: 4.2.5(vue@3.3.11)
@@ -1812,7 +1812,7 @@ packages:
     resolution: {integrity: sha512-C5Mc6rdnsaJDjO3UpGW/CQTHtCKaYlScZTly4JIu97Jxo/odCiH0ITnDXSJPTOrEKk/ycSZ0AOgTmkDtkOsvIA==}
     dev: true
 
-  /@tresjs/cientos@3.6.0(@tresjs/core@3.5.1)(three@0.159.0)(tweakpane@4.0.1)(vue@3.3.11):
+  /@tresjs/cientos@3.6.0(@tresjs/core@)(three@0.159.0)(tweakpane@4.0.1)(vue@3.3.11):
     resolution: {integrity: sha512-VM6LamAFlcKufbrtbYN71ncuAw2JPVfKUC6Ey9+scq05qvHdQM8fU0WoppNZEtmIL7m2aUqroOZRnr9LXyZPCg==}
     peerDependencies:
       '@tresjs/core': '>=3.2'
@@ -1820,7 +1820,7 @@ packages:
       tweakpane: '>=3.0.0'
       vue: '>=3.3'
     dependencies:
-      '@tresjs/core': 3.5.1(three@0.159.0)(vue@3.3.11)
+      '@tresjs/core': 'link:'
       '@vueuse/core': 10.7.0(vue@3.3.11)
       camera-controls: 2.7.3(three@0.159.0)
       stats-gl: 1.0.7
@@ -1847,6 +1847,7 @@ packages:
       vue: 3.3.11(typescript@5.3.3)
     transitivePeerDependencies:
       - '@vue/composition-api'
+    dev: true
 
   /@tresjs/eslint-config-base@0.2.1(@typescript-eslint/eslint-plugin@6.14.0)(@typescript-eslint/parser@6.14.0)(eslint@8.55.0):
     resolution: {integrity: sha512-9fkwDaNu4nLKujeERi5d1S7+ZdZpxBE+g/jUbM4ywhn/+5P7Qv8dXlo1vB05LteX5cTBnZxHQTFrJGK+sMcFdg==}
