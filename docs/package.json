@@ -9,7 +9,7 @@
     "preview": "vitepress preview"
   },
   "dependencies": {
-    "@tresjs/core": "workspace:3.6.0"
+    "@tresjs/core": "workspace:*"
   },
   "devDependencies": {
     "unocss": "^0.58.0",
