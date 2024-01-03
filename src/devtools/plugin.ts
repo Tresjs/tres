@@ -1,7 +1,7 @@
 import type {
-  App as DevtoolsApp } from '@vue/devtools-api'
+  App as DevtoolsApp,  } from '@vue/devtools-api'
 import {
-  setupDevtoolsPlugin,
+  addCustomTab
 } from '@vue/devtools-api'
 import { reactive } from 'vue'
 import type { Mesh, Object3D } from 'three'
@@ -99,14 +99,14 @@ function buildGraph(object: TresObject, node: SceneGraphObject) {
   })
 }
 
-const componentStateTypes: string[] = []
-const INSPECTOR_ID = 'tres:inspector'
+const DEVTOOLS_UI_ROUTE = '/__tres_devtools'
 
 const state = reactive({
   sceneGraph: null as SceneGraphObject | null,
 })
 export function registerTresDevtools(app: DevtoolsApp, tres: TresContext) {
-  setupDevtoolsPlugin(
+  // Legacy Chrome one
+  /* setupDevtoolsPlugin(
     {
       id: 'dev.esm.tres',
       label: 'TresJS 🪐',
@@ -169,7 +169,7 @@ export function registerTresDevtools(app: DevtoolsApp, tres: TresContext) {
                 },
               ],
             },
-          ] */
+          ] 
         }
       })
       let highlightMesh: Mesh | null = null
@@ -288,5 +288,20 @@ export function registerTresDevtools(app: DevtoolsApp, tres: TresContext) {
         }
       })
     },
-  )
+  ) */
+
+  addCustomTab({
+    // unique identifier
+    name: 'tres-vue-devtools',
+    // title to display in the tab
+    title: 'TresJS',
+    // any icon from Iconify, or a URL to an image
+    icon: 'https://raw.githubusercontent.com/Tresjs/tres/main/public/favicon.svg',
+    // iframe view
+    view: {
+      type: 'iframe',
+      src: DEVTOOLS_UI_ROUTE,
+    },
+    category: 'advanced',
+  })
 }

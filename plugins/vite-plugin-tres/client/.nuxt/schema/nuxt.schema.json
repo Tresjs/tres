@@ -1,0 +1,120 @@
+{
+  "id": "#",
+  "properties": {
+    "appConfig": {
+      "id": "#appConfig",
+      "properties": {
+        "nuxtIcon": {
+          "title": "Nuxt Icon",
+          "description": "Configure Nuxt Icon module preferences.",
+          "id": "#appConfig/nuxtIcon",
+          "properties": {
+            "size": {
+              "title": "Icon Size",
+              "description": "Set the default icon size. Set to false to disable the sizing of icon in style.",
+              "tags": [
+                "@studioIcon material-symbols:format-size-rounded"
+              ],
+              "tsType": "string | false",
+              "id": "#appConfig/nuxtIcon/size",
+              "default": "1em",
+              "type": "string"
+            },
+            "class": {
+              "title": "CSS Class",
+              "description": "Set the default CSS class.",
+              "tags": [
+                "@studioIcon material-symbols:css"
+              ],
+              "id": "#appConfig/nuxtIcon/class",
+              "default": "",
+              "type": "string"
+            },
+            "aliases": {
+              "title": "Icon aliases",
+              "description": "Define Icon aliases to update them easily without code changes.",
+              "tags": [
+                "@studioIcon material-symbols:star-rounded"
+              ],
+              "tsType": "{ [alias: string]: string }",
+              "id": "#appConfig/nuxtIcon/aliases",
+              "default": {},
+              "type": "object"
+            },
+            "iconifyApiOptions": {
+              "title": "Iconify API Options",
+              "description": "Define preferences for Iconify API fetch.",
+              "tags": [
+                "@studioIcon material-symbols:tv-options-input-settings"
+              ],
+              "id": "#appConfig/nuxtIcon/iconifyApiOptions",
+              "properties": {
+                "url": {
+                  "title": "Iconify API URL",
+                  "description": "Define a custom Iconify API URL. Useful if you want to use a self-hosted Iconify API. Learn more: https://iconify.design/docs/api.",
+                  "tags": [
+                    "@studioIcon material-symbols:api"
+                  ],
+                  "id": "#appConfig/nuxtIcon/iconifyApiOptions/url",
+                  "default": "https://api.iconify.design",
+                  "type": "string"
+                },
+                "publicApiFallback": {
+                  "title": "Public Iconify API fallback",
+                  "description": "Define if the public Iconify API should be used as fallback.",
+                  "tags": [
+                    "@studioIcon material-symbols:public"
+                  ],
+                  "id": "#appConfig/nuxtIcon/iconifyApiOptions/publicApiFallback",
+                  "default": false,
+                  "type": "boolean"
+                }
+              },
+              "type": "object",
+              "default": {
+                "url": "https://api.iconify.design",
+                "publicApiFallback": false
+              }
+            }
+          },
+          "type": "object",
+          "default": {
+            "size": "1em",
+            "class": "",
+            "aliases": {},
+            "iconifyApiOptions": {
+              "url": "https://api.iconify.design",
+              "publicApiFallback": false
+            }
+          }
+        }
+      },
+      "type": "object",
+      "default": {
+        "nuxtIcon": {
+          "size": "1em",
+          "class": "",
+          "aliases": {},
+          "iconifyApiOptions": {
+            "url": "https://api.iconify.design",
+            "publicApiFallback": false
+          }
+        }
+      }
+    }
+  },
+  "type": "object",
+  "default": {
+    "appConfig": {
+      "nuxtIcon": {
+        "size": "1em",
+        "class": "",
+        "aliases": {},
+        "iconifyApiOptions": {
+          "url": "https://api.iconify.design",
+          "publicApiFallback": false
+        }
+      }
+    }
+  }
+}

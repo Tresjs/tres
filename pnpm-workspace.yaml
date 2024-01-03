@@ -1,3 +1,5 @@
 packages:
   - docs
   - playground
+  - 'plugins/*'
+  - plugins/vite-plugin-tres/client-nuxt/

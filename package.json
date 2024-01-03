@@ -58,7 +58,8 @@
     "docs:build": "vitepress build docs",
     "docs:serve": "vitepress serve docs",
     "docs:preview": "vitepress preview docs",
-    "docs:contributors": "esno scripts/update-contributors.ts"
+    "docs:contributors": "esno scripts/update-contributors.ts",
+    "plugin:build": "cd plugins/vite-plugin-tres && npm run build"
   },
   "peerDependencies": {
     "three": ">=0.133",
@@ -79,6 +80,7 @@
     "@vitejs/plugin-vue": "^5.0.2",
     "@vitest/coverage-c8": "^0.33.0",
     "@vitest/ui": "^1.1.1",
+    "@vue/devtools-api": "^7.0.3",
     "@vue/test-utils": "^2.4.3",
     "eslint": "^8.56.0",
     "eslint-plugin-vue": "^9.19.2",
