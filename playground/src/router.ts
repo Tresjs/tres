@@ -77,6 +77,11 @@ const routes = [
     component: () => import('./pages/perf/index.vue'),
   },
   {
+    path: '/events',
+    name: 'Events',
+    component: () => import('./pages/events.vue'),
+  },
+  {
     path: '/empty',
     name: 'empty',
     component: () => import('./pages/empty.vue'),
