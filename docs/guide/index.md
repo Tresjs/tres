@@ -63,9 +63,9 @@ This is required to make the template compiler work with the custom renderer and
 
 ## Try it online
 
-### Sandbox
+### Playground
 
-You can try TresJS online using the official [sandbox](https://play.tresjs.org/). Check it out:
+You can try TresJS online using the official [Playground](https://play.tresjs.org/). Check it out:
 
 <iframe src="https://play.tresjs.org/" class="w-full rounded shadow-lg outline-none border-none aspect-4/3"></iframe>
 
@@ -75,13 +75,6 @@ We have a brand new [StackBlitz](https://stackblitz.com/) starter to try TresJS 
 
 ![](/stackblitz-starter.png)
 
-<StackBlitzEmbed projectId="tresjs-basic" />
-
-## Playground
-
-We also have a playground where you can try TresJS online. Check it out [here](https://playground.tresjs.org/).
-
-![](/public/playground.png)
 
 ## Motivation
 
