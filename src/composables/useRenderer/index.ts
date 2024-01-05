@@ -168,9 +168,6 @@ export function useRenderer(
     if (camera.value && !toValue(disableRender) && internal.frames.value > 0)
       renderer.value.render(scene, camera.value)
 
-    // Call subscribers' render callbacks
-    internal.subscribers.value.forEach(({ callback }) => callback())
-
     // Reset priority
     internal.priority.value = 0
 

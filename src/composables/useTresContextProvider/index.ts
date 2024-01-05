@@ -9,17 +9,10 @@ import type { UseRendererOptions } from '../useRenderer'
 import { useRenderer } from '../useRenderer'
 import { extend } from '../../core/catalogue'
 
-export interface InternalSubscriber {
-  callback: (timestamp: number) => void
-  priority: number
-}
-
 export interface InternalState {
   priority: Ref<number>
   frames: Ref<number>
-  subscribers: Ref<InternalSubscriber[]>
   maxFrames: number
-  subscribe: (callback: (timestamp: number) => void, priority: number) => () => void
 }
 
 export interface PerformanceState {
@@ -95,20 +88,7 @@ export function useTresContextProvider({
   const internal: InternalState = {
     priority: ref(0),
     frames: ref(0),
-    subscribers: ref([]),
     maxFrames: 60,
-    subscribe: (callback, priority) => {
-      const subscription = { callback, priority }
-      internal.subscribers.value.push(subscription)
-      // Sort subscribers based on priority
-      internal.subscribers.value.sort((a, b) => b.priority - a.priority)
-  
-      // Return an unsubscribe function
-      return () => {
-        const index = internal.subscribers.value.indexOf(subscription)
-        if (index > -1) internal.subscribers.value.splice(index, 1)
-      }
-    },
   }
 
   const { renderer } = useRenderer(
