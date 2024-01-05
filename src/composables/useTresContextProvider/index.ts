@@ -52,12 +52,14 @@ export function useTresContextProvider({
   windowSize,
   disableRender,
   rendererOptions,
+  emit,
 }: {
   scene: Scene
   canvas: MaybeRef<HTMLCanvasElement>
   windowSize: MaybeRefOrGetter<boolean>
   disableRender: MaybeRefOrGetter<boolean>
   rendererOptions: UseRendererOptions
+  emit: (event: string, ...args: any[]) => void
 }): TresContext {
 
   const elementSize = computed(() =>
@@ -97,6 +99,7 @@ export function useTresContextProvider({
       scene,
       canvas,
       options: rendererOptions,
+      emit,
       contextParts: { sizes, camera, internal, invalidate },
       disableRender,
     })

@@ -98,7 +98,6 @@ export interface UseRendererOptions extends TransformToMaybeRefOrGetter<WebGLRen
   preset?: MaybeRefOrGetter<RendererPresetsType>
   renderMode?: MaybeRefOrGetter<'always' | 'on-demand' | 'manual'>
 }
-
 /**
  * Reactive three.js WebGLRenderer instance
  *
@@ -111,6 +110,7 @@ export function useRenderer(
     canvas,
     options,
     disableRender,
+    emit,
     contextParts: { sizes, camera, internal, invalidate },
   }:
   {
@@ -146,10 +146,20 @@ export function useRenderer(
   watch(webGLRendererConstructorParameters, () => {
     renderer.value.dispose()
     renderer.value = new WebGLRenderer(webGLRendererConstructorParameters.value)
+
+    if (options.renderMode === 'on-demand') {
+      invalidate()
+    }
   })
 
   watchEffect(() => {
     renderer.value.setSize(sizes.width.value, sizes.height.value)
+  })
+
+  watch(() => options.clearColor, () => {
+    if (options.renderMode === 'on-demand') {
+      invalidate()
+    }
   })
 
   const { pixelRatio } = useDevicePixelRatio()
@@ -165,8 +175,10 @@ export function useRenderer(
   const { resume, onLoop } = useRenderLoop()
 
   onLoop(() => {
-    if (camera.value && !toValue(disableRender) && internal.frames.value > 0)
+    if (camera.value && !toValue(disableRender) && internal.frames.value > 0) {
       renderer.value.render(scene, camera.value)
+      emit('render', renderer.value)
+    }
 
     // Reset priority
     internal.priority.value = 0
@@ -201,6 +213,13 @@ export function useRenderer(
 
   const threeDefaults = getThreeRendererDefaults()
 
+  const renderMode = toValue(options.renderMode)
+
+  if (renderMode !== 'always') { 
+    // Invalidate for the first time
+    invalidate()
+  }
+
   watchEffect(() => {
     const rendererPreset = toValue(options.preset)
 
@@ -218,10 +237,6 @@ export function useRenderer(
     if (renderMode === 'always') {
       // If the render mode is 'always', ensure there's always a frame pending
       internal.frames.value = Math.max(1, internal.frames.value)
-    }
-    else {
-      // Invalidate for the first time
-      invalidate()
     }
 
     const getValue = <T>(option: MaybeRefOrGetter<T>, pathInThree: string): T | undefined => {

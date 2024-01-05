@@ -13,7 +13,7 @@ const showMesh = ref(true)
 
 setTimeout(() => {
   /*  positionX.value = 1 */
-  showMesh.value = false
+/*   showMesh.value = false */
 }, 3000)
 
 /* invalidate() */

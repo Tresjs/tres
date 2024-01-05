@@ -69,6 +69,8 @@ const props = withDefaults(defineProps<TresCanvasProps>(), {
   renderMode: 'always',
 })
 
+const emit = defineEmits(['render'])
+
 const { logWarning } = useLogger()
 
 const canvas = ref<HTMLCanvasElement>()
@@ -124,7 +126,6 @@ const disableRender = computed(() => props.disableRender)
 const context = shallowRef<TresContext | null>(null)
 
 defineExpose({ context, dispose: () => dispose(context.value as TresContext, true) })
-
 onMounted(() => {
   const existingCanvas = canvas as Ref<HTMLCanvasElement>
 
@@ -134,6 +135,7 @@ onMounted(() => {
     windowSize: props.windowSize ?? true,
     disableRender: disableRender.value ?? false,
     rendererOptions: props,
+    emit,
   })
 
   usePointerEventHandler({ scene: scene.value, contextParts: context.value })
