@@ -2,11 +2,13 @@
 import { TresCanvas } from '@tresjs/core'
 
 import Scene from './scene.vue'
+
+const clearColor = ref('#82DBC5')
 </script>
 
 <template>
   <TresCanvas
-    clear-color="#82DBC5"
+    :clear-color="clearColor"
     render-mode="on-demand"
   >
     <Scene />

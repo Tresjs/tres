@@ -9,18 +9,23 @@ function onControlChange() {
 }
 
 const positionX = ref(0)
+const showMesh = ref(true)
 
 setTimeout(() => {
-  positionX.value = 1
+  /*  positionX.value = 1 */
+  showMesh.value = false
 }, 3000)
 
-invalidate()
+/* invalidate() */
 </script>
 
 <template>
   <OrbitControls @change="onControlChange" />
   <TresGridHelper />
-  <TresMesh :position-x="positionX">
+  <TresMesh
+    v-if="showMesh"
+    :position-x="positionX"
+  >
     <TresBoxGeometry />
     <TresMeshNormalMaterial />
   </TresMesh>

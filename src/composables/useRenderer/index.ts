@@ -111,7 +111,7 @@ export function useRenderer(
     canvas,
     options,
     disableRender,
-    contextParts: { sizes, camera, internal },
+    contextParts: { sizes, camera, internal, invalidate },
   }:
   {
     canvas: MaybeRef<HTMLCanvasElement>
@@ -218,7 +218,11 @@ export function useRenderer(
     if (renderMode === 'always') {
       // If the render mode is 'always', ensure there's always a frame pending
       internal.frames.value = Math.max(1, internal.frames.value)
-    } 
+    }
+    else {
+      // Invalidate for the first time
+      invalidate()
+    }
 
     const getValue = <T>(option: MaybeRefOrGetter<T>, pathInThree: string): T | undefined => {
       const value = toValue(option)
