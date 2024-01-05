@@ -38,6 +38,7 @@ export interface TresContext {
   renderer: ShallowRef<WebGLRenderer>
   raycaster: ShallowRef<Raycaster>
   perf: PerformanceState
+  renderMode: MaybeRefOrGetter<'always' | 'on-demand' | 'manual'>
   internal: InternalState
   invalidate: () => void
   registerCamera: (camera: Camera) => void
@@ -125,6 +126,7 @@ export function useTresContextProvider({
         accumulator: [],
       },
     },
+    renderMode: ref(rendererOptions.renderMode || 'always'),
     internal,
     extend,
     invalidate,
@@ -134,6 +136,9 @@ export function useTresContextProvider({
   }
 
   provide('useTres', toProvide)
+
+  // Add context to scene.userData
+  toProvide.scene.value.userData.tres__context = toProvide
 
   // Performance
   const updateInterval = 100 // Update interval in milliseconds
@@ -182,7 +187,7 @@ export function useTresContextProvider({
   let accumulatedTime = 0
   const interval = 1 // Interval in milliseconds, e.g., 1000 ms = 1 second
     
-  const { pause, resume } = useRafFn(({ delta }) => {
+  const { pause } = useRafFn(({ delta }) => {
     if (!window.__TRES__DEVTOOLS__) return
 
     updatePerformanceData({ timestamp: performance.now() })

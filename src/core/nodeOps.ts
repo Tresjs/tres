@@ -23,6 +23,17 @@ const supportedPointerEvents = [
   'onPointerLeave',
 ]
 
+export function invalidateInstance(instance: TresObject) {
+  const ctx = instance.userData.tres__root?.userData?.tres__context
+  
+  if (!ctx) return
+  
+  if (ctx.renderMode.value === 'on-demand' && ctx.internal.frames.value === 0) {
+    ctx.invalidate()
+  }
+
+}
+
 export const nodeOps: RendererOptions<TresObject, TresObject> = {
   createElement(tag, _isSVG, _anchor, props) {
     if (!props) props = {}
@@ -81,11 +92,17 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
     return instance
   },
   insert(child, parent) {
-    if (parent && parent.isScene) scene = parent as unknown as TresScene
+    if (parent && parent.isScene) {
+      scene = parent as unknown as TresScene
+      if (child) {
+        child.userData.tres__root = scene
+      }
+    }
 
     const parentObject = parent || scene
 
     if (child?.isObject3D) {
+
       if (child?.isCamera) {
         if (!scene?.userData.tres__registerCamera)
           throw 'could not find tres__registerCamera on scene\'s userData'
@@ -180,6 +197,7 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
       deregisterAtPointerEventHandlerIfRequired?.(object3D as TresObject)
     }
 
+    invalidateInstance(node as TresObject)
     node.dispose?.()
   },
   patchProp(node, prop, _prevValue, nextValue) {
@@ -243,6 +261,8 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
       else if (Array.isArray(value)) target.set(...value)
       else if (!target.isColor && target.setScalar) target.setScalar(value)
       else target.set(value)
+
+      invalidateInstance(node as TresObject)
     }
   },
 

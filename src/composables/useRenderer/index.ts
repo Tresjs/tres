@@ -96,7 +96,7 @@ export interface UseRendererOptions extends TransformToMaybeRefOrGetter<WebGLRen
   clearColor?: MaybeRefOrGetter<TresColor>
   windowSize?: MaybeRefOrGetter<boolean | string>
   preset?: MaybeRefOrGetter<RendererPresetsType>
-  renderMode?: MaybeRefOrGetter<'always' | 'on-demand'>
+  renderMode?: MaybeRefOrGetter<'always' | 'on-demand' | 'manual'>
 }
 
 /**

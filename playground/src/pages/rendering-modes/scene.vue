@@ -8,13 +8,19 @@ function onControlChange() {
   invalidate()
 }
 
+const positionX = ref(0)
+
+setTimeout(() => {
+  positionX.value = 1
+}, 3000)
+
 invalidate()
 </script>
 
 <template>
   <OrbitControls @change="onControlChange" />
   <TresGridHelper />
-  <TresMesh>
+  <TresMesh :position-x="positionX">
     <TresBoxGeometry />
     <TresMeshNormalMaterial />
   </TresMesh>

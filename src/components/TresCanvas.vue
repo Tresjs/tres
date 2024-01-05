@@ -45,7 +45,7 @@ export interface TresCanvasProps
   useLegacyLights?: boolean
   outputColorSpace?: ColorSpace
   toneMappingExposure?: number
-  renderMode?: 'always' | 'on-demand' 
+  renderMode?: 'always' | 'on-demand' | 'manual' 
 
   // required by useTresContextProvider
   camera?: TresCamera
