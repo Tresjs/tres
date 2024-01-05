@@ -9,6 +9,32 @@ import type { UseRendererOptions } from '../useRenderer'
 import { useRenderer } from '../useRenderer'
 import { extend } from '../../core/catalogue'
 
+export interface InternalSubscriber {
+  callback: (timestamp: number) => void
+  priority: number
+}
+
+export interface InternalState {
+  priority: Ref<number>
+  frames: Ref<number>
+  subscribers: Ref<InternalSubscriber[]>
+  maxFrames: number
+  subscribe: (callback: (timestamp: number) => void, priority: number) => () => void
+}
+
+export interface PerformanceState {
+  maxFrames: number
+  fps: {
+    value: number
+    accumulator: number[]
+  }
+  memory: {
+    currentMem: number
+    allocatedMem: number
+    accumulator: number[]
+  }
+}
+
 export interface TresContext {
   scene: ShallowRef<Scene>
   sizes: { height: Ref<number>; width: Ref<number>; aspectRatio: ComputedRef<number> }
@@ -18,18 +44,9 @@ export interface TresContext {
   controls: Ref<(EventDispatcher & { enabled: boolean }) | null>
   renderer: ShallowRef<WebGLRenderer>
   raycaster: ShallowRef<Raycaster>
-  perf: {
-    maxFrames: number
-    fps: {
-      value: number
-      accumulator: number[]
-    }
-    memory: {
-      currentMem: number
-      allocatedMem: number
-      accumulator: number[]
-    }
-  }
+  perf: PerformanceState
+  internal: InternalState
+  invalidate: () => void
   registerCamera: (camera: Camera) => void
   setCameraActive: (cameraOrUuid: Camera | string) => void
   deregisterCamera: (camera: Camera) => void
@@ -74,14 +91,39 @@ export function useTresContextProvider({
     setCameraActive,
   } = useCamera({ sizes, scene })
 
+  // Initialize internal state
+  const internal: InternalState = {
+    priority: ref(0),
+    frames: ref(0),
+    subscribers: ref([]),
+    maxFrames: 60,
+    subscribe: (callback, priority) => {
+      const subscription = { callback, priority }
+      internal.subscribers.value.push(subscription)
+      // Sort subscribers based on priority
+      internal.subscribers.value.sort((a, b) => b.priority - a.priority)
+  
+      // Return an unsubscribe function
+      return () => {
+        const index = internal.subscribers.value.indexOf(subscription)
+        if (index > -1) internal.subscribers.value.splice(index, 1)
+      }
+    },
+  }
+
   const { renderer } = useRenderer(
     {
       scene,
       canvas,
       options: rendererOptions,
-      contextParts: { sizes, camera },
+      contextParts: { sizes, camera, internal },
       disableRender,
     })
+
+  function invalidate(frames = 1) {
+    // Increase the frame count, ensuring not to exceed a maximum if desired
+    internal.frames.value = Math.min(internal.maxFrames, internal.frames.value + frames)
+  }
 
   const toProvide: TresContext = {
     sizes,
@@ -103,7 +145,9 @@ export function useTresContextProvider({
         accumulator: [],
       },
     },
+    internal,
     extend,
+    invalidate,
     registerCamera,
     setCameraActive,
     deregisterCamera,

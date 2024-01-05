@@ -96,6 +96,7 @@ export interface UseRendererOptions extends TransformToMaybeRefOrGetter<WebGLRen
   clearColor?: MaybeRefOrGetter<TresColor>
   windowSize?: MaybeRefOrGetter<boolean | string>
   preset?: MaybeRefOrGetter<RendererPresetsType>
+  renderMode?: MaybeRefOrGetter<'always' | 'on-demand'>
 }
 
 /**
@@ -110,7 +111,7 @@ export function useRenderer(
     canvas,
     options,
     disableRender,
-    contextParts: { sizes, camera },
+    contextParts: { sizes, camera, internal },
   }:
   {
     canvas: MaybeRef<HTMLCanvasElement>
@@ -159,6 +160,30 @@ export function useRenderer(
 
   const { logError } = useLogger()
 
+  // TheLoop
+
+  const { resume, onLoop } = useRenderLoop()
+
+  onLoop(() => {
+    if (camera.value && !toValue(disableRender) && internal.frames.value > 0)
+      renderer.value.render(scene, camera.value)
+
+    // Call subscribers' render callbacks
+    internal.subscribers.value.forEach(({ callback }) => callback())
+
+    // Reset priority
+    internal.priority.value = 0
+
+    internal.frames.value = Math.max(0, internal.frames.value - 1)
+
+    if (toValue(options.renderMode) === 'always') {
+      internal.frames.value = 1
+    }
+
+  })
+
+  resume()
+
   const getThreeRendererDefaults = () => {
 
     const plainRenderer = new WebGLRenderer()
@@ -188,6 +213,15 @@ export function useRenderer(
 
       merge(renderer.value, rendererPresets[rendererPreset])
     }
+
+    // Render mode
+
+    const renderMode = toValue(options.renderMode)
+
+    if (renderMode === 'always') {
+      // If the render mode is 'always', ensure there's always a frame pending
+      internal.frames.value = Math.max(1, internal.frames.value)
+    } 
 
     const getValue = <T>(option: MaybeRefOrGetter<T>, pathInThree: string): T | undefined => {
       const value = toValue(option)
@@ -234,17 +268,7 @@ export function useRenderer(
 
   })
 
-  const { pause, resume, onLoop } = useRenderLoop()
-
-  onLoop(() => {
-    if (camera.value && !toValue(disableRender))
-      renderer.value.render(scene, camera.value)
-  })
-
-  resume()
-
   onUnmounted(() => {
-    pause() // TODO should the render loop pause itself if there is no more renderer? 🤔 What if there is another renderer which needs the loop?
     renderer.value.dispose()
     renderer.value.forceContextLoss()
   })

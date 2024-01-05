@@ -45,6 +45,7 @@ export interface TresCanvasProps
   useLegacyLights?: boolean
   outputColorSpace?: ColorSpace
   toneMappingExposure?: number
+  renderMode?: 'always' | 'on-demand' 
 
   // required by useTresContextProvider
   camera?: TresCamera
@@ -65,6 +66,7 @@ const props = withDefaults(defineProps<TresCanvasProps>(), {
   preserveDrawingBuffer: undefined,
   logarithmicDepthBuffer: undefined,
   failIfMajorPerformanceCaveat: undefined,
+  renderMode: 'always',
 })
 
 const { logWarning } = useLogger()
@@ -129,8 +131,8 @@ onMounted(() => {
   context.value = useTresContextProvider({
     scene: scene.value,
     canvas: existingCanvas,
-    windowSize: props.windowSize,
-    disableRender,
+    windowSize: props.windowSize ?? true,
+    disableRender: disableRender.value ?? false,
     rendererOptions: props,
   })
 
