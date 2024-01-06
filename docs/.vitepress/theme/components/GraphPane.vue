@@ -42,7 +42,20 @@ useRafFn(({ timestamp }) => {
 
 <template>
   <div
-    class="absolute right-2 top-2 flex px-4 py-1 justify-between gap-4 items-center mb-2 z-10 bg-white shadow-xl
+    class="absolute
+      right-2
+      top-2
+      flex
+      px-4
+      py-1
+      justify-between
+      gap-4
+      items-center
+      mb-2
+      z-10
+      bg-white
+      dark:bg-dark
+      shadow-xl
       rounded 
       border-4 
       border-solid 
@@ -56,6 +69,7 @@ useRafFn(({ timestamp }) => {
     <div
       class="
         bg-gray-100
+        dark:bg-gray-600
         relative
         w-2/3
         p-1
