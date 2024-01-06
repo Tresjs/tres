@@ -132,7 +132,7 @@ onMounted(() => {
   context.value = useTresContextProvider({
     scene: scene.value,
     canvas: existingCanvas,
-    windowSize: props.windowSize ?? true,
+    windowSize: props.windowSize ?? false,
     disableRender: disableRender.value ?? false,
     rendererOptions: props,
     emit,
