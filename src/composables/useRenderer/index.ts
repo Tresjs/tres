@@ -141,30 +141,32 @@ export function useRenderer(
 
   const renderer = shallowRef<WebGLRenderer>(new WebGLRenderer(webGLRendererConstructorParameters.value))
 
+  function invalidateOnDemand() {
+    if (options.renderMode === 'on-demand') {
+      invalidate()
+    }
+  }
   // since the properties set via the constructor can't be updated dynamically,
   // the renderer is recreated once they change
   watch(webGLRendererConstructorParameters, () => {
     renderer.value.dispose()
     renderer.value = new WebGLRenderer(webGLRendererConstructorParameters.value)
 
-    if (options.renderMode === 'on-demand') {
-      invalidate()
-    }
+    invalidateOnDemand()
   })
 
-  watchEffect(() => {
+  watch([sizes.width, sizes.height], () => {
     renderer.value.setSize(sizes.width.value, sizes.height.value)
+    invalidateOnDemand()
+  }, {
+    immediate: true,
   })
 
-  watch(() => options.clearColor, () => {
-    if (options.renderMode === 'on-demand') {
-      invalidate()
-    }
-  })
+  watch(() => options.clearColor, invalidateOnDemand)
 
   const { pixelRatio } = useDevicePixelRatio()
 
-  watchEffect(() => {
+  watch(pixelRatio, () => {
     renderer.value.setPixelRatio(pixelRatio.value)
   })
 
