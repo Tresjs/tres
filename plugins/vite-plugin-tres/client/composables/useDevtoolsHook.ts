@@ -1,6 +1,9 @@
 import type { TresContext, TresObject } from '@tresjs/core'
-import type { Scene, WebGLRenderer } from 'three'
+import { DoubleSide, MeshBasicMaterial } from 'three'
+import type { Mesh, Object3D, type Scene, type WebGLRenderer } from 'three'
+import { reactive } from 'vue'
 import type { SceneGraphObject } from '../types'
+import { HightlightMesh } from '../utils/highlightedMesh'
 
 interface FPSState {
   value: number
@@ -45,6 +48,7 @@ interface DevtoolsHookReturn {
   fps: FPSState
   memory: MemoryState
   renderer: RendererState
+  highlightObject: (object: TresObject) => void
 }
 
 const scene = reactive<{
@@ -58,6 +62,11 @@ const scene = reactive<{
 })
 
 const gl = {
+  internal: reactive<{}>({
+    selectedObject: null,
+    prevInstance: null,
+    highlightMesh: null,
+  }),
   fps: reactive<FPSState>({
     value: 0,
     accumulator: [],
@@ -108,6 +117,7 @@ const icons: Record<string, string> = {
 
 function createNode(object: TresObject) {
   const node: SceneGraphObject = {
+    uuid: object.uuid,
     name: object.name,
     type: object.type,
     icon: icons[object.type.toLowerCase()] || 'i-carbon-cube',
@@ -170,6 +180,36 @@ function countObjectsInScene(scene: Scene) {
   return count
 }
 
+function createHighlightMesh(object: Object3D): Mesh {
+  const highlightMaterial = new MeshBasicMaterial({
+    color: 0xa7e6d7, // Highlight color, e.g., yellow
+    transparent: true,
+    opacity: 0.2,
+    depthTest: false, // So the highlight is always visible
+    side: DoubleSide, // To e
+  })
+  // Clone the geometry of the object. You might need a more complex approach 
+  // if the object's geometry is not straightforward.
+  const highlightMesh = new HightlightMesh(object.geometry.clone(), highlightMaterial)
+
+  return highlightMesh
+}
+
+function highlightObject(object: TresObject) {
+  const [instance] = scene.value.getObjectsByProperty('uuid', object.uuid)
+  if (gl.internal.prevInstance && gl.internal.highlightMesh && gl.internal.highlightMesh.parent) {
+    gl.internal.prevInstance.remove(gl.internal.highlightMesh)
+  }
+  
+  if (instance.isMesh) {
+    const newHighlightMesh = createHighlightMesh(instance)
+    instance.add(newHighlightMesh)
+
+    gl.internal.highlightMesh = newHighlightMesh
+    gl.internal.prevInstance = instance
+  }
+}
+
 export function useDevtoolsHook(): DevtoolsHookReturn {
   // Connect with Core
   const tresGlobalHook = {
@@ -196,5 +236,6 @@ export function useDevtoolsHook(): DevtoolsHookReturn {
     fps: gl.fps,
     memory: gl.memory,
     renderer: gl.renderer,
+    highlightObject,
   }
 }

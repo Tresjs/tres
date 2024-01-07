@@ -1,7 +1,8 @@
 <script setup lang="ts">
+import { useDevtoolsHook } from '../composables/useDevtoolsHook'
 import type { SceneGraphObject } from '../types'
 
-withDefaults(defineProps<{
+const props = withDefaults(defineProps<{
   item: SceneGraphObject
   depth?: number
 }>(), {
@@ -10,8 +11,15 @@ withDefaults(defineProps<{
 
 const isExpanded = ref(false)
 
+const { internal, highlightObject } = useDevtoolsHook()
+
 function roundNumber(num: number) {
   return Math.round((num + Number.EPSILON) * 100) / 100
+}
+
+function handleClick() {
+  isExpanded.value = !isExpanded.value
+  highlightObject(props.item)
 }
 </script>
 
@@ -21,7 +29,7 @@ function roundNumber(num: number) {
   >
     <div
       class="flex gap-2 items-end cursor-pointer pt2 mb2"
-      @click="isExpanded = !isExpanded"
+      @click="handleClick"
     >
       <span
         v-if="depth > 0"

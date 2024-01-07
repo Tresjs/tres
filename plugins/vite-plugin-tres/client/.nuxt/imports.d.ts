@@ -26,6 +26,7 @@ export { computedAsync, asyncComputed, computedEager, eagerComputed, computedInj
 export { createGenericProjection, createProjection, logicAnd, logicNot, logicOr, useAbs, useAverage, useCeil, useClamp, useFloor, useMath, useMax, useMin, usePrecision, useProjection, useRound, useSum, useTrunc } from '@vueuse/math';
 export { injectHead, useHead, useSeoMeta, useHeadSafe, useServerHead, useServerSeoMeta, useServerHeadSafe } from '@unhead/vue';
 export { useDevtoolsHook } from '../composables/useDevtoolsHook';
+export { HightlightMesh } from '../utils/highlightedMesh';
 export { calculateMemoryUsage, bytesToKB, bytesToMB, bytesToGB } from '../utils/perf';
 export { ShortcutConfig, ShortcutsConfig, ShortcutsOptions } from '../../../../node_modules/.pnpm/@nuxt+ui@2.11.1_nuxt@3.9.0_rollup@3.29.4_vite@5.0.10_vue@3.4.3/node_modules/@nuxt/ui/dist/runtime/composables/defineShortcuts.d';
 export { defineShortcuts } from '../../../../node_modules/.pnpm/@nuxt+ui@2.11.1_nuxt@3.9.0_rollup@3.29.4_vite@5.0.10_vue@3.4.3/node_modules/@nuxt/ui/dist/runtime/composables/defineShortcuts';
