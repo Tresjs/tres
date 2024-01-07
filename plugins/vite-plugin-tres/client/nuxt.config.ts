@@ -20,7 +20,7 @@ export default defineNuxtConfig({
       mesh: 'carbon:cube',
     },
   },
-  /* app: {
+  app: {
     baseURL: '/__tres_devtools',
-  }, */
+  },
 })

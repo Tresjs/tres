@@ -59,7 +59,8 @@
     "docs:serve": "vitepress serve docs",
     "docs:preview": "vitepress preview docs",
     "docs:contributors": "esno scripts/update-contributors.ts",
-    "plugin:build": "cd plugins/vite-plugin-tres && npm run build"
+    "plugin:build": "cd plugins/vite-plugin-tres && npm run build",
+    "plugin:dev": "cd plugins/vite-plugin-tres && npm run client:dev"
   },
   "peerDependencies": {
     "three": ">=0.133",

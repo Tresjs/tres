@@ -1,6 +1,5 @@
 <template>
-  Awiwi
-<!--   <NuxtLayout>
+  <NuxtLayout>
     <NuxtPage />
-  </NuxtLayout> -->
+  </NuxtLayout>
 </template>

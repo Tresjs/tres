@@ -1,8 +1,14 @@
 <!-- eslint-disable max-len -->
 <script setup lang="ts">
-import { useDevtoolsClient } from '@nuxt/devtools-kit/iframe-client'
+import { onDevToolsClientConnected } from '@vue/devtools-api'
+import { ref } from 'vue'
 
-const client = useDevtoolsClient()
+const isClientConnected = ref(false)
+
+onDevToolsClientConnected(() => {
+  console.log('Client connected')
+  isClientConnected.value = true
+})
 
 // Scene Graph
 const { scene, memory, fps } = useDevtoolsHook()
@@ -53,9 +59,9 @@ const { scene, memory, fps } = useDevtoolsHook()
         </UButton>
       </div>
     </header>
- 
+
     <div
-      v-if="client && scene.objects > 0"
+      v-if="scene.objects > 0"
       class="flex flex-col gap-2"
     >
       <NSectionBlock
