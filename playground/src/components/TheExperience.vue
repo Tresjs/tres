@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { ref, watchEffect } from 'vue'
-import { BasicShadowMap, SRGBColorSpace, NoToneMapping } from 'three'
 import { TresCanvas } from '@tresjs/core'
 import { OrbitControls } from '@tresjs/cientos'
 import { TresLeches, useControls } from '@tresjs/leches'
@@ -10,10 +9,6 @@ import TheSphere from './TheSphere.vue'
 const gl = {
   clearColor: '#82DBC5',
   shadows: true,
-  alpha: false,
-  shadowMapType: BasicShadowMap,
-  outputColorSpace: SRGBColorSpace,
-  toneMapping: NoToneMapping,
 }
 
 const wireframe = ref(true)
@@ -39,7 +34,6 @@ watchEffect(() => {
     ref="canvas"
     window-size
     class="awiwi"
-    :style="{ background: '#008080' }"
   >
     <TresPerspectiveCamera
       :position="[7, 7, 7]"

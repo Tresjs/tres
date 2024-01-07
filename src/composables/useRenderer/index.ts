@@ -1,4 +1,4 @@
-import { Color, WebGLRenderer } from 'three'
+import { ACESFilmicToneMapping, Color, WebGLRenderer } from 'three'
 import { shallowRef, watchEffect, onUnmounted, type MaybeRef, computed, watch } from 'vue'
 import {
   toValue,
@@ -122,7 +122,9 @@ export function useRenderer(
 ) {
 
   const webGLRendererConstructorParameters = computed<WebGLRendererParameters>(() => ({
-    alpha: toValue(options.alpha),
+    alpha: toValue(options.alpha) === undefined // an opinionated default of tres
+      ? true
+      : toValue(options.alpha),
     depth: toValue(options.depth),
     canvas: unrefElement(canvas),
     context: toValue(options.context),
@@ -179,6 +181,8 @@ export function useRenderer(
 
   const threeDefaults = getThreeRendererDefaults()
 
+  // Set opinionated defaults
+  
   watchEffect(() => {
     const rendererPreset = toValue(options.preset)
 
@@ -214,7 +218,7 @@ export function useRenderer(
       set(renderer.value, pathInThree, getValue(option, pathInThree))
 
     setValueOrDefault(options.shadows, 'shadowMap.enabled')
-    setValueOrDefault(options.toneMapping, 'toneMapping')
+    setValueOrDefault(options.toneMapping || ACESFilmicToneMapping, 'toneMapping')
     setValueOrDefault(options.shadowMapType, 'shadowMap.type')
 
     if (revision < 150)
