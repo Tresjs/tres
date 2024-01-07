@@ -67,8 +67,6 @@ const props = withDefaults(defineProps<TresCanvasProps>(), {
   failIfMajorPerformanceCaveat: undefined,
 })
 
-const { logWarning } = useLogger()
-
 const canvas = ref<HTMLCanvasElement>()
 
 /*
