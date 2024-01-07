@@ -4,7 +4,7 @@
 
 We are running WebGL on the browser, which can be quite expensive and it will depend on how powerful the user's device is. To make 3D accessible to everyone, we need to make sure our applications are optimized to run also on low-end devices. This guide will provide some tips to improve the performance of your Tres.js application.
 
-## On-demand rendering
+## On-demand rendering <Badge type="tip" text="^4.0.0" />
 
 By default, Tres.js will render your scene on every frame. This is great for most applications, but if you are building a game or a complex application, you might want to control when the scene is rendered. 
 
