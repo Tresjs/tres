@@ -38,9 +38,21 @@ export interface TresContext {
   renderer: ShallowRef<WebGLRenderer>
   raycaster: ShallowRef<Raycaster>
   perf: PerformanceState
-  renderMode: MaybeRefOrGetter<'always' | 'on-demand' | 'manual'>
+  /**
+   * If set to 'on-demand', the scene will only be rendered when the current frame is invalidated
+   * If set to 'manual', the scene will only be rendered when advance() is called
+   * If set to 'always', the scene will be rendered every frame
+   */
+  renderMode: Ref<'always' | 'on-demand' | 'manual'>
   internal: InternalState
+  /**
+   * Invalidates the current frame when renderMode === 'on-demand'
+   */
   invalidate: () => void
+  /**
+   * Advance one frame when renderMode === 'manual'
+   */
+  advance: () => void
   registerCamera: (camera: Camera) => void
   setCameraActive: (cameraOrUuid: Camera | string) => void
   deregisterCamera: (camera: Camera) => void
@@ -94,20 +106,26 @@ export function useTresContextProvider({
     maxFrames: 60,
   }
 
+  function invalidate(frames = 1) {
+    // Increase the frame count, ensuring not to exceed a maximum if desired
+    internal.frames.value = Math.min(internal.maxFrames, internal.frames.value + frames)
+  }
+
+  function advance() {
+    if (rendererOptions.renderMode === 'manual') {
+      invalidate()
+    }
+  }
+
   const { renderer } = useRenderer(
     {
       scene,
       canvas,
       options: rendererOptions,
       emit,
-      contextParts: { sizes, camera, internal, invalidate },
+      contextParts: { sizes, camera, internal, invalidate, advance },
       disableRender,
     })
-
-  function invalidate(frames = 1) {
-    // Increase the frame count, ensuring not to exceed a maximum if desired
-    internal.frames.value = Math.min(internal.maxFrames, internal.frames.value + frames)
-  }
 
   const toProvide: TresContext = {
     sizes,
@@ -131,6 +149,7 @@ export function useTresContextProvider({
     },
     renderMode: ref(rendererOptions.renderMode || 'always'),
     internal,
+    advance,
     extend,
     invalidate,
     registerCamera,

@@ -111,13 +111,14 @@ export function useRenderer(
     options,
     disableRender,
     emit,
-    contextParts: { sizes, camera, internal, invalidate },
+    contextParts: { sizes, camera, internal, invalidate, advance },
   }:
   {
     canvas: MaybeRef<HTMLCanvasElement>
     scene: Scene
     options: UseRendererOptions
-    contextParts: Pick<TresContext, 'sizes' | 'camera'>
+    emit: (event: string, ...args: any[]) => void
+    contextParts: Pick<TresContext, 'sizes' | 'camera' | 'internal'> & { invalidate: () => void; advance: () => void }
     disableRender: MaybeRefOrGetter<boolean>
   },
 ) {
@@ -185,7 +186,11 @@ export function useRenderer(
     // Reset priority
     internal.priority.value = 0
 
-    internal.frames.value = Math.max(0, internal.frames.value - 1)
+    // If renderMode is not 'manual', auto-decrement frames
+    // If it is 'manual', frames will be managed by the advance function
+    if (renderMode !== 'manual') {
+      internal.frames.value = Math.max(0, internal.frames.value - 1)
+    }
 
     if (toValue(options.renderMode) === 'always') {
       internal.frames.value = 1
