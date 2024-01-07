@@ -30,5 +30,102 @@ You can do that by setting the `renderMode` prop to `on-demand` or `manual`:
 </TresCanvas>
 ```
 
+#### Automatic Invalidation
 
+When using `render-mode="on-demand"`, Tres.js will automatically invalidate the current frame by observing component props and lyfecycle hooks like `onMounted` and `onUnmounted`. It will also invalidate the frame when resizing the window or change any prop from the `<TresCanvas>` component like `clearColor` or `antialias`.
+
+This will trigger a new render: 
+
+```vue
+<script setup>
+import { ref } from 'vue'
+
+const positionX = ref(0)
+
+setTimeout(() => {
+  positionX.value = 1
+}, 1000)
+</script>
+
+<template>
+  <TresCanvas render-mode="on-demand">
+    <TresMesh :position-x="positionX">
+      <TresBoxGeometry />
+      <TresMeshBasicMaterial color="teal" />
+    </TresMesh>
+  </TresCanvas>
+</template>
+```
+
+#### Manual Invalidation
+
+Since is not really possible to observe all the possible changes in your application, you can also manually invalidate the frame by calling the `invalidate()` method from the [`useTresContext` composable](../api/composables.md#usetrescontext):
+
+
+::: code-group
+
+```vue [App.vue]
+<script setup>
+import { TresCanvas } from '@tresjs/core'
+import Scene from './Scene.vue'
+</script>
+
+<template>
+  <TresCanvas
+    render-mode="manual"
+  >
+    <Scene />
+  </TresCanvas>
+</template>
+```
+
+```vue [Scene.vue]
+<script setup>
+import { useTres } from '@tresjs/core'
+
+const boxRef = ref()
+const { invalidate } = useTres()
+
+watch(boxRef.value, () => {
+  boxRef.value.position.x = 1
+  invalidate()
+})
+</script>
+
+<template>
+  <TresMesh ref="boxRef">
+    <TresBoxGeometry />
+    <TresMeshBasicMaterial color="teal" />
+  </TresMesh>
+</template>
+```
+
+:::
+
+### Mode `always` 
+
+In this rendering mode, Tres will continously render the scene on every frame. This is the default mode and the easiest to use, but it's also the most resource expensive one.
+
+
+### Mode `manual`
+
+If you want to have full control of when the scene is rendered, you can set the `render-mode` prop to `manual`:
+
+```vue
+<TresCanvas render-mode="manual">
+  <!-- Your scene goes here -->
+</TresCanvas>
+```
+
+In this mode, Tres will not render the scene automatically. You will need to call the `advance()` method from the [`useTresContext` composable](../api/composables.md#usetrescontext) to render the scene:
+
+```vue
+<script setup>
+import { useTres } from '@tresjs/core'
+
+const { advance } = useTres()
+
+advance()
+</script>
+```
 
