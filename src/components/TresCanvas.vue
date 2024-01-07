@@ -67,7 +67,7 @@ const props = withDefaults(defineProps<TresCanvasProps>(), {
   failIfMajorPerformanceCaveat: undefined,
 })
 
-const { logWarning } = useLogger()
+const { warn } = useLogger()
 
 const canvas = ref<HTMLCanvasElement>()
 
@@ -175,7 +175,7 @@ onMounted(() => {
   )
 
   if (!camera.value) {
-    logWarning(
+    warn(
       'No camera found. Creating a default perspective camera. '
         + 'To have full control over a camera, please add one to the scene.',
     )

@@ -4,21 +4,21 @@ export const isProd = import.meta.env.MODE === 'production'
 const logPrefix = '[TresJS ▲ ■ ●] '
 
 interface LoggerComposition {
-  logError: (message: string, error?: Error | ErrorEvent) => void
-  logWarning: (message: string) => void
-  logMessage: (name: string, value: any) => void
+  err: (message: string, error?: Error | ErrorEvent) => void
+  warn: (message: string) => void
+  msg: (name: string, value: any) => void
 }
 
 export function useLogger(): LoggerComposition {
-  function logError(message: string, error?: Error | ErrorEvent) {
+  function err(message: string, error?: Error | ErrorEvent) {
     console.error(`${logPrefix} ${message}`, error || '')
   }
 
-  function logWarning(message: string) {
+  function warn(message: string) {
     console.warn(`${logPrefix} ${message}`)
   }
 
-  function logMessage(name: string, value: any) {
+  function msg(name: string, value: any) {
     if (!isProd) {
       console.log(`${logPrefix} - ${name}:`, value)
     }
@@ -26,8 +26,8 @@ export function useLogger(): LoggerComposition {
   /*eslint-enable no-console */
 
   return {
-    logError,
-    logWarning,
-    logMessage,
+    err,
+    warn,
+    msg,
   }
 }

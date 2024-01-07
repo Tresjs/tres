@@ -14,7 +14,7 @@ function noop(fn: string): any {
 
 let scene: TresScene | null = null
 
-const { logError } = useLogger()
+const { err } = useLogger()
 
 const supportedPointerEvents = [
   'onClick',
@@ -36,7 +36,7 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
     let instance
 
     if (tag === 'primitive') {
-      if (props?.object === undefined) logError('Tres primitives need a prop \'object\'')
+      if (props?.object === undefined) err('Tres primitives need a prop \'object\'')
       const object = props.object as TresObject
       name = object.type
       instance = Object.assign(object, { type: name, attach: props.attach, primitive: true })
@@ -44,7 +44,7 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
     else {
       const target = catalogue.value[name]
       if (!target) {
-        logError(`${name} is not defined on the THREE namespace. Use extend to add it to the catalog.`)
+        err(`${name} is not defined on the THREE namespace. Use extend to add it to the catalog.`)
       }
       instance = new target(...props.args)
     }

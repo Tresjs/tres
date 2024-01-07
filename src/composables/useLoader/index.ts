@@ -71,7 +71,7 @@ export async function useLoader<T extends LoaderProto<T>, U extends string | str
   onProgress?: (event: ProgressEvent<EventTarget>) => void,
   cb?: (proto: TresLoader<T>) => void,
 ) {
-  const { logError } = useLogger()
+  const { err } = useLogger()
   const proto = new Loader()
   if (cb) {
     cb(proto)
@@ -95,7 +95,7 @@ export async function useLoader<T extends LoaderProto<T>, U extends string | str
             resolve(data)
           },
           onProgress,
-          (error: ErrorEvent) => reject(logError('[useLoader] - Failed to load resource', error as unknown as Error)),
+          (error: ErrorEvent) => reject(err('[useLoader] - Failed to load resource', error as unknown as Error)),
         )
       }),
   )

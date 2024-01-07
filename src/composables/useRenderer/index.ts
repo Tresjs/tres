@@ -157,7 +157,7 @@ export function useRenderer(
     renderer.value.setPixelRatio(pixelRatio.value)
   })
 
-  const { logError } = useLogger()
+  const { err } = useLogger()
 
   const getThreeRendererDefaults = () => {
 
@@ -184,7 +184,7 @@ export function useRenderer(
 
     if (rendererPreset) {
       if (!(rendererPreset in rendererPresets))
-        logError(`Renderer Preset must be one of these: ${Object.keys(rendererPresets).join(', ')}`)
+        err(`Renderer Preset must be one of these: ${Object.keys(rendererPresets).join(', ')}`)
 
       merge(renderer.value, rendererPresets[rendererPreset])
     }

@@ -20,7 +20,7 @@ export interface UseSeekReturn {
  * @return {*}  {UseSeekReturn}
  */
 export function useSeek(): UseSeekReturn {
-  const { logWarning } = useLogger()
+  const { warn } = useLogger()
 
   /**
    * Returns a child object of the parent given a property
@@ -40,7 +40,7 @@ export function useSeek(): UseSeekReturn {
     })
 
     if (!foundChild) {
-      logWarning(`Child with ${property} '${value}' not found.`)
+      warn(`Child with ${property} '${value}' not found.`)
     }
 
     return foundChild
@@ -64,7 +64,7 @@ export function useSeek(): UseSeekReturn {
     })
 
     if (!foundChildren.length) {
-      logWarning(`Children with ${property} '${value}' not found.`)
+      warn(`Children with ${property} '${value}' not found.`)
     }
 
     return foundChildren
