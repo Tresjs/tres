@@ -8,6 +8,7 @@ import { useCamera } from '../useCamera'
 import type { UseRendererOptions } from '../useRenderer'
 import { useRenderer } from '../useRenderer'
 import { extend } from '../../core/catalogue'
+import { useLogger } from '../useLogger'
 
 export interface InternalState {
   priority: Ref<number>
@@ -74,6 +75,8 @@ export function useTresContextProvider({
   emit: (event: string, ...args: any[]) => void
 }): TresContext {
 
+  const { logWarning } = useLogger()
+
   const elementSize = computed(() =>
     toValue(windowSize)
       ? useWindowSize()
@@ -108,12 +111,20 @@ export function useTresContextProvider({
 
   function invalidate(frames = 1) {
     // Increase the frame count, ensuring not to exceed a maximum if desired
-    internal.frames.value = Math.min(internal.maxFrames, internal.frames.value + frames)
+    if (rendererOptions.renderMode === 'on-demand') {
+      internal.frames.value = Math.min(internal.maxFrames, internal.frames.value + frames)
+    }
+    else {
+      logWarning('`invalidate` can only be used when `renderMode` is set to `on-demand`')
+    }
   }
 
   function advance() {
     if (rendererOptions.renderMode === 'manual') {
-      invalidate()
+      internal.frames.value = 1
+    }
+    else {
+      logWarning('`advance` can only be used when `renderMode` is set to `manual`')
     }
   }
 

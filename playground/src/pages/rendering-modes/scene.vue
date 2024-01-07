@@ -2,21 +2,20 @@
 import { useRenderLoop, useTres } from '@tresjs/core'
 import { OrbitControls } from '@tresjs/cientos'
 
-const { invalidate } = useTres()
+const { invalidate, advance } = useTres()
 
 function onControlChange() {
-  invalidate()
+  advance()
 }
 
 const positionX = ref(0)
 const showMesh = ref(true)
 
 setTimeout(() => {
-  /*  positionX.value = 1 */
-/*   showMesh.value = false */
-}, 3000)
+  positionX.value = 1
+  /*   showMesh.value = false */
 
-/* invalidate() */
+}, 3000)
 </script>
 
 <template>

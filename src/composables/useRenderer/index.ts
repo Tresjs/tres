@@ -1,5 +1,5 @@
 import { Color, WebGLRenderer } from 'three'
-import { shallowRef, watchEffect, onUnmounted, type MaybeRef, computed, watch } from 'vue'
+import { shallowRef, watchEffect, onUnmounted, type MaybeRef, computed, watch, nextTick } from 'vue'
 import {
   toValue,
   unrefElement,
@@ -186,14 +186,11 @@ export function useRenderer(
     // Reset priority
     internal.priority.value = 0
 
-    // If renderMode is not 'manual', auto-decrement frames
-    // If it is 'manual', frames will be managed by the advance function
-    if (renderMode !== 'manual') {
-      internal.frames.value = Math.max(0, internal.frames.value - 1)
-    }
-
     if (toValue(options.renderMode) === 'always') {
       internal.frames.value = 1
+    }
+    else {
+      internal.frames.value = Math.max(0, internal.frames.value - 1)
     }
 
   })
@@ -222,9 +219,16 @@ export function useRenderer(
 
   const renderMode = toValue(options.renderMode)
 
-  if (renderMode !== 'always') { 
+  if (renderMode === 'on-demand') { 
     // Invalidate for the first time
     invalidate()
+  }
+
+  if (renderMode === 'manual') {
+    // Advance for the first time, setTimeout to make sure there is something to render
+    setTimeout(() => {
+      advance()
+    }, 1)
   }
 
   watchEffect(() => {
@@ -238,8 +242,6 @@ export function useRenderer(
     }
 
     // Render mode
-
-    const renderMode = toValue(options.renderMode)
 
     if (renderMode === 'always') {
       // If the render mode is 'always', ensure there's always a frame pending

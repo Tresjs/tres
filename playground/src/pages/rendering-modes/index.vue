@@ -13,7 +13,7 @@ setTimeout(() => {
 <template>
   <TresCanvas
     :clear-color="clearColor"
-    render-mode="on-demand"
+    render-mode="manual"
     @render="() => console.log('onRender')"
   >
     <Scene />
