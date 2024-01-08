@@ -1,9 +1,9 @@
 {
-  "_hash": "e5qt6NnmQK",
+  "_hash": "l6R7Pf8uco",
   "project": {
     "rootDir": "/Users/alvarosabu/Projects/tres/core/plugins/vite-plugin-tres/client"
   },
   "versions": {
-    "nuxt": "3.9.0"
+    "nuxt": "3.9.1"
   }
 }

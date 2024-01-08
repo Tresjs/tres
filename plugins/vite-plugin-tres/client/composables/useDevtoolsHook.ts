@@ -39,6 +39,12 @@ interface RendererState {
   }
 }
 
+interface InternalState {
+  selectedObject: Object3D | null
+  prevInstance: Object3D | null
+  highlightMesh: Mesh | null
+}
+
 interface DevtoolsHookReturn {
   scene: {
     objects: number
@@ -48,7 +54,9 @@ interface DevtoolsHookReturn {
   fps: FPSState
   memory: MemoryState
   renderer: RendererState
+  internal: InternalState
   highlightObject: (object: TresObject) => void
+  selectObject: (object: TresObject) => void
 }
 
 const scene = reactive<{
@@ -62,7 +70,7 @@ const scene = reactive<{
 })
 
 const gl = {
-  internal: reactive<{}>({
+  internal: reactive<InternalState>({
     selectedObject: null,
     prevInstance: null,
     highlightMesh: null,
@@ -156,7 +164,9 @@ function getSceneGraph(scene: TresObject) {
   function buildGraph(object: TresObject, node: SceneGraphObject) {
     object.children.forEach((child: TresObject) => {
       const childNode = createNode(child)
-      node.children.push(childNode)
+      if (child.type !== 'HightlightMesh') {
+        node.children.push(childNode)
+      }
       buildGraph(child, childNode)
     })
   }
@@ -182,7 +192,7 @@ function countObjectsInScene(scene: Scene) {
 
 function createHighlightMesh(object: Object3D): Mesh {
   const highlightMaterial = new MeshBasicMaterial({
-    color: 0xa7e6d7, // Highlight color, e.g., yellow
+    color: 0xa7e6d7, // Highlight color
     transparent: true,
     opacity: 0.2,
     depthTest: false, // So the highlight is always visible
@@ -208,6 +218,11 @@ function highlightObject(object: TresObject) {
     gl.internal.highlightMesh = newHighlightMesh
     gl.internal.prevInstance = instance
   }
+}
+
+function selectObject(object: TresObject) {
+  const [instance] = scene.value.getObjectsByProperty('uuid', object.uuid)
+  gl.internal.selectedObject = instance
 }
 
 export function useDevtoolsHook(): DevtoolsHookReturn {
@@ -236,6 +251,8 @@ export function useDevtoolsHook(): DevtoolsHookReturn {
     fps: gl.fps,
     memory: gl.memory,
     renderer: gl.renderer,
+    internal: gl.internal,
     highlightObject,
+    selectObject,
   }
 }

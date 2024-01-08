@@ -3,7 +3,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { mkdirSync } from 'node:fs';
 import { parentPort, threadId } from 'node:worker_threads';
-import { defineEventHandler, handleCacheHeaders, splitCookiesString, isEvent, createEvent, getRequestHeader, eventHandler, setHeaders, sendRedirect, proxyRequest, setResponseHeader, send, getResponseStatus, setResponseStatus, setResponseHeaders, getRequestHeaders, createApp, createRouter as createRouter$1, toNodeListener, fetchWithEvent, lazyEventHandler, getQuery as getQuery$1, createError, getResponseStatusText } from 'file:///Users/alvarosabu/Projects/tres/core/node_modules/.pnpm/h3@1.9.0/node_modules/h3/dist/index.mjs';
+import { defineEventHandler, handleCacheHeaders, splitCookiesString, isEvent, createEvent, getRequestHeader, eventHandler, setHeaders, sendRedirect, proxyRequest, setResponseHeader, send, getResponseStatus, setResponseStatus, setResponseHeaders, getRequestHeaders, createApp, createRouter as createRouter$1, toNodeListener, fetchWithEvent, lazyEventHandler, getQuery as getQuery$1, createError, getResponseStatusText } from 'file:///Users/alvarosabu/Projects/tres/core/node_modules/.pnpm/h3@1.10.0/node_modules/h3/dist/index.mjs';
 import { getRequestDependencies, getPreloadLinks, getPrefetchLinks, createRenderer } from 'file:///Users/alvarosabu/Projects/tres/core/node_modules/.pnpm/vue-bundle-renderer@2.0.0/node_modules/vue-bundle-renderer/dist/runtime.mjs';
 import { stringify, uneval } from 'file:///Users/alvarosabu/Projects/tres/core/node_modules/.pnpm/devalue@4.3.2/node_modules/devalue/index.js';
 import { renderSSRHead } from 'file:///Users/alvarosabu/Projects/tres/core/node_modules/.pnpm/@unhead+ssr@1.8.9/node_modules/@unhead/ssr/dist/index.mjs';
@@ -13,13 +13,13 @@ import { createCall, createFetch } from 'file:///Users/alvarosabu/Projects/tres/
 import { createHooks } from 'file:///Users/alvarosabu/Projects/tres/core/node_modules/.pnpm/hookable@5.5.3/node_modules/hookable/dist/index.mjs';
 import { snakeCase } from 'file:///Users/alvarosabu/Projects/tres/core/node_modules/.pnpm/scule@1.1.1/node_modules/scule/dist/index.mjs';
 import { klona } from 'file:///Users/alvarosabu/Projects/tres/core/node_modules/.pnpm/klona@2.0.6/node_modules/klona/dist/index.mjs';
-import defu, { defuFn } from 'file:///Users/alvarosabu/Projects/tres/core/node_modules/.pnpm/defu@6.1.3/node_modules/defu/dist/defu.mjs';
+import defu, { defuFn } from 'file:///Users/alvarosabu/Projects/tres/core/node_modules/.pnpm/defu@6.1.4/node_modules/defu/dist/defu.mjs';
 import { hash } from 'file:///Users/alvarosabu/Projects/tres/core/node_modules/.pnpm/ohash@1.1.3/node_modules/ohash/dist/index.mjs';
 import { parseURL, withoutBase, joinURL, getQuery, withQuery } from 'file:///Users/alvarosabu/Projects/tres/core/node_modules/.pnpm/ufo@1.3.2/node_modules/ufo/dist/index.mjs';
 import { createStorage, prefixStorage } from 'file:///Users/alvarosabu/Projects/tres/core/node_modules/.pnpm/unstorage@1.10.1/node_modules/unstorage/dist/index.mjs';
 import unstorage_47drivers_47fs from 'file:///Users/alvarosabu/Projects/tres/core/node_modules/.pnpm/unstorage@1.10.1/node_modules/unstorage/drivers/fs.mjs';
 import { toRouteMatcher, createRouter } from 'file:///Users/alvarosabu/Projects/tres/core/node_modules/.pnpm/radix3@1.1.0/node_modules/radix3/dist/index.mjs';
-import { version, unref } from 'file:///Users/alvarosabu/Projects/tres/core/node_modules/.pnpm/vue@3.4.3_typescript@5.3.3/node_modules/vue/index.mjs';
+import { version, unref } from 'file:///Users/alvarosabu/Projects/tres/core/node_modules/.pnpm/vue@3.4.5_typescript@5.3.3/node_modules/vue/dist/vue.cjs.js';
 import { createServerHead as createServerHead$1 } from 'file:///Users/alvarosabu/Projects/tres/core/node_modules/.pnpm/unhead@1.8.9/node_modules/unhead/dist/index.mjs';
 import { defineHeadPlugin } from 'file:///Users/alvarosabu/Projects/tres/core/node_modules/.pnpm/@unhead+shared@1.8.9/node_modules/@unhead/shared/dist/index.mjs';
 
@@ -633,6 +633,7 @@ const errorHandler = (async function errorhandler(error, event) {
     statusMessage,
     message,
     stack: statusCode !== 404 ? `<pre>${stack.map((i) => `<span class="stack${i.internal ? " internal" : ""}">${i.text}</span>`).join("\n")}</pre>` : "",
+    // TODO: check and validate error.data for serialisation into query
     data: error.data
   };
   if (error.unhandled || error.fatal) {
@@ -684,11 +685,11 @@ const errorHandler = (async function errorhandler(error, event) {
   return send(event, html);
 });
 
-const _lazy_oNp8So = () => Promise.resolve().then(function () { return renderer$1; });
+const _lazy_GrHsm2 = () => Promise.resolve().then(function () { return renderer$1; });
 
 const handlers = [
-  { route: '/__nuxt_error', handler: _lazy_oNp8So, lazy: true, middleware: false, method: undefined },
-  { route: '/**', handler: _lazy_oNp8So, lazy: true, middleware: false, method: undefined }
+  { route: '/__nuxt_error', handler: _lazy_GrHsm2, lazy: true, middleware: false, method: undefined },
+  { route: '/**', handler: _lazy_GrHsm2, lazy: true, middleware: false, method: undefined }
 ];
 
 function createNitroApp() {
@@ -1080,9 +1081,9 @@ const renderer = defineRenderHandler(async (event) => {
   const { headTags, bodyTags, bodyTagsOpen, htmlAttrs, bodyAttrs } = await renderSSRHead(head);
   const htmlContext = {
     island: Boolean(islandContext),
-    htmlAttrs: [htmlAttrs],
+    htmlAttrs: htmlAttrs ? [htmlAttrs] : [],
     head: normalizeChunks([headTags, ssrContext.styles]),
-    bodyAttrs: [bodyAttrs],
+    bodyAttrs: bodyAttrs ? [bodyAttrs] : [],
     bodyPrepend: normalizeChunks([bodyTagsOpen, ssrContext.teleports?.body]),
     body: [_rendered.html],
     bodyAppend: [bodyTags]
@@ -1121,11 +1122,7 @@ function joinAttrs(chunks) {
   return chunks.join(" ");
 }
 function renderHTMLDocument(html) {
-  return `<!DOCTYPE html>
-<html ${joinAttrs(html.htmlAttrs)}>
-<head>${joinTags(html.head)}</head>
-<body ${joinAttrs(html.bodyAttrs)}>${joinTags(html.bodyPrepend)}${joinTags(html.body)}${joinTags(html.bodyAppend)}</body>
-</html>`;
+  return `<!DOCTYPE html><html${joinAttrs(html.htmlAttrs)}><head>${joinTags(html.head)}</head><body${joinAttrs(html.bodyAttrs)}>${joinTags(html.bodyPrepend)}${joinTags(html.body)}${joinTags(html.bodyAppend)}</body></html>`;
 }
 async function renderInlineStyles(usedModules) {
   const styleMap = await getSSRStyles();

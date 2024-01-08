@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { computed } from 'vue'
 import { useDevtoolsHook } from '../composables/useDevtoolsHook'
 import type { SceneGraphObject } from '../types'
 
@@ -9,9 +10,7 @@ const props = withDefaults(defineProps<{
   depth: 0,
 })
 
-const isExpanded = ref(false)
-
-const { internal, highlightObject } = useDevtoolsHook()
+const { internal, highlightObject, selectObject } = useDevtoolsHook()
 
 function roundNumber(num: number) {
   return Math.round((num + Number.EPSILON) * 100) / 100
@@ -20,7 +19,10 @@ function roundNumber(num: number) {
 function handleClick() {
   isExpanded.value = !isExpanded.value
   highlightObject(props.item)
+  selectObject(props.item)
 }
+
+const isExpanded = computed(() => internal?.selectedObject?.uuid === props.item.uuid || false)
 </script>
 
 <template>

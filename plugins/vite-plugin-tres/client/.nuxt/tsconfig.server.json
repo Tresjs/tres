@@ -16,7 +16,7 @@
         "./types/nitro-imports"
       ],
       "#paths": [
-        "../../../../node_modules/.pnpm/nuxt@3.9.0_eslint@8.56.0_rollup@3.29.4_typescript@5.3.3_vite@5.0.10/node_modules/nuxt/dist/core/runtime/nitro/paths"
+        "../../../../node_modules/.pnpm/nuxt@3.9.1_eslint@8.56.0_rollup@3.29.4_typescript@5.3.3_vite@5.0.11/node_modules/nuxt/dist/core/runtime/nitro/paths"
       ],
       "~": [
         "./.."
@@ -51,20 +51,20 @@
       "public/*": [
         "../public/*"
       ],
-      "#color-mode-options": [
-        "./color-mode-options"
-      ],
       "#ui": [
-        "../../../../node_modules/.pnpm/@nuxt+ui@2.11.1_nuxt@3.9.0_rollup@3.29.4_vite@5.0.10_vue@3.4.3/node_modules/@nuxt/ui/dist/runtime"
+        "../../../../node_modules/.pnpm/@nuxt+ui@2.11.1_nuxt@3.9.1_rollup@3.29.4_vite@5.0.11_vue@3.4.5/node_modules/@nuxt/ui/dist/runtime"
       ],
       "#ui/*": [
-        "../../../../node_modules/.pnpm/@nuxt+ui@2.11.1_nuxt@3.9.0_rollup@3.29.4_vite@5.0.10_vue@3.4.3/node_modules/@nuxt/ui/dist/runtime/*"
+        "../../../../node_modules/.pnpm/@nuxt+ui@2.11.1_nuxt@3.9.1_rollup@3.29.4_vite@5.0.11_vue@3.4.5/node_modules/@nuxt/ui/dist/runtime/*"
       ],
       "#ui-colors": [
         "./ui.colors"
       ],
       "#icon-collections": [
         "./icon-collections"
+      ],
+      "#color-mode-options": [
+        "./color-mode-options"
       ],
       "#tailwind-config": [
         "./tailwind.config"
@@ -76,14 +76,14 @@
   },
   "include": [
     "./types/nitro-nuxt.d.ts",
-    "../../../../node_modules/.pnpm/@unocss+nuxt@0.58.3_postcss@8.4.32_rollup@3.29.4_vite@5.0.10_webpack@5.89.0/node_modules/@unocss/nuxt/dist/index.mjs/runtime/server",
-    "../../../../node_modules/.pnpm/@vueuse+nuxt@10.7.1_nuxt@3.9.0_rollup@3.29.4_vue@3.4.3/node_modules/@vueuse/nuxt/index.mjs/runtime/server",
-    "../../../../node_modules/.pnpm/@nuxtjs+color-mode@3.3.2_rollup@3.29.4/node_modules/@nuxtjs/color-mode/dist/module.mjs/runtime/server",
-    "../../../../node_modules/.pnpm/v-lazy-show@0.2.4_@vue+compiler-core@3.4.3/node_modules/v-lazy-show/dist/nuxt.mjs/runtime/server",
-    "../../../../node_modules/.pnpm/@nuxt+devtools-ui-kit@1.0.6_@nuxt+devtools@1.0.6_@vue+compiler-core@3.4.3_nuxt@3.9.0_postcss@_xctq33jbjumt3eipitcopi5o2i/node_modules/@nuxt/devtools-ui-kit/runtime/server",
-    "../../../../node_modules/.pnpm/nuxt-icon@0.6.8_nuxt@3.9.0_rollup@3.29.4_vite@5.0.10_vue@3.4.3/node_modules/nuxt-icon/runtime/server",
+    "../../../../node_modules/.pnpm/@unocss+nuxt@0.58.3_postcss@8.4.33_rollup@3.29.4_vite@5.0.11_webpack@5.89.0/node_modules/@unocss/nuxt/runtime/server",
+    "../../../../node_modules/.pnpm/nuxt-icon@0.6.8_nuxt@3.9.1_rollup@3.29.4_vite@5.0.11_vue@3.4.5/node_modules/nuxt-icon/runtime/server",
+    "../../../../node_modules/.pnpm/@nuxtjs+color-mode@3.3.2_rollup@3.29.4/node_modules/@nuxtjs/color-mode/runtime/server",
     "../../../../node_modules/.pnpm/@nuxtjs+tailwindcss@6.10.3_rollup@3.29.4/node_modules/@nuxtjs/tailwindcss/runtime/server",
-    "../../../../node_modules/.pnpm/@nuxt+ui@2.11.1_nuxt@3.9.0_rollup@3.29.4_vite@5.0.10_vue@3.4.3/node_modules/@nuxt/ui/runtime/server",
+    "../../../../node_modules/.pnpm/@nuxt+ui@2.11.1_nuxt@3.9.1_rollup@3.29.4_vite@5.0.11_vue@3.4.5/node_modules/@nuxt/ui/runtime/server",
+    "../../../../node_modules/.pnpm/@vueuse+nuxt@10.7.1_nuxt@3.9.1_rollup@3.29.4_vue@3.4.5/node_modules/@vueuse/nuxt/index.mjs/runtime/server",
+    "../../../../node_modules/.pnpm/v-lazy-show@0.2.4_@vue+compiler-core@3.4.5/node_modules/v-lazy-show/dist/nuxt.mjs/runtime/server",
+    "../../../../node_modules/.pnpm/@nuxt+devtools-ui-kit@1.0.6_@nuxt+devtools@1.0.6_@vue+compiler-core@3.4.5_nuxt@3.9.1_postcss@_kejjckstavjwqe4nstbhzjh6se/node_modules/@nuxt/devtools-ui-kit/runtime/server",
     "../../../../../../../.nvm/versions/node/v18.14.1/lib/node_modules/@nuxt/devtools/module.cjs/runtime/server",
     "../../../../node_modules/.pnpm/@nuxt+telemetry@2.5.3_rollup@3.29.4/node_modules/@nuxt/telemetry/runtime/server",
     "./types/nitro.d.ts",
@@ -94,11 +94,9 @@
     "../node_modules",
     "../../node_modules",
     "../../../../node_modules",
-    "../../../../node_modules/.pnpm/nuxt@3.9.0_eslint@8.56.0_rollup@3.29.4_typescript@5.3.3_vite@5.0.10/node_modules/nuxt/node_modules",
-    "../../../../node_modules/.pnpm/@unocss+nuxt@0.58.3_postcss@8.4.32_rollup@3.29.4_vite@5.0.10_webpack@5.89.0/node_modules/@unocss/nuxt/dist",
-    "../../../../node_modules/.pnpm/@vueuse+nuxt@10.7.1_nuxt@3.9.0_rollup@3.29.4_vue@3.4.3/node_modules/@vueuse/nuxt",
-    "../../../../node_modules/.pnpm/@nuxtjs+color-mode@3.3.2_rollup@3.29.4/node_modules/@nuxtjs/color-mode/dist",
-    "../../../../node_modules/.pnpm/v-lazy-show@0.2.4_@vue+compiler-core@3.4.3/node_modules/v-lazy-show/dist",
+    "../../../../node_modules/.pnpm/nuxt@3.9.1_eslint@8.56.0_rollup@3.29.4_typescript@5.3.3_vite@5.0.11/node_modules/nuxt/node_modules",
+    "../../../../node_modules/.pnpm/@vueuse+nuxt@10.7.1_nuxt@3.9.1_rollup@3.29.4_vue@3.4.5/node_modules/@vueuse/nuxt",
+    "../../../../node_modules/.pnpm/v-lazy-show@0.2.4_@vue+compiler-core@3.4.5/node_modules/v-lazy-show/dist",
     "../../../../../../../.nvm/versions/node/v18.14.1/lib/node_modules/@nuxt/devtools",
     "../dist"
   ]

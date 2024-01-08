@@ -1,66 +1,37 @@
 <!-- eslint-disable max-len -->
 <script setup lang="ts">
-import { onDevToolsClientConnected } from '@vue/devtools-api'
 import { ref } from 'vue'
 
-const isClientConnected = ref(false)
-
-onDevToolsClientConnected(() => {
-  console.log('Client connected')
-  isClientConnected.value = true
-})
-
 // Scene Graph
-const { scene, memory, fps } = useDevtoolsHook()
 </script>
 
 <template>
-  <div class="relative n-bg-base flex flex-col h-screen">
-    <header
-      class="p4 flex items-center justify-between hover:bg-active"
-      border="b base"
-    >
-      <div class="flex items-center gap-4">
-        <img
-        
-          src="/logo.svg"
-          alt="tres logo"
+  <div class="panel-grids-center h-full">
+    <div class="max-w-300 w-full px20 ma">
+      <div class="flex flex-wrap gap2">
+        <RouterLink
+          to="/scene-graph"
+          class="p4 replace min-w-40 p4 theme-card-lime flex-col flex-auto"
         >
-        <h2 class="text-xl opacity-60 font-bold">
-          TresJS DevTools
-        </h2>
-      </div>  
-      <div class="flex items-center gap-2">
-        <UButton
-          variant="ghost"
-          color="white"
-          size="sm"
-          icon="i-carbon-document"
-          target="_blank"
-          to="https://docs.tresjs.org/"
-        />
-        <UButton
-          variant="ghost"
-          color="white"
-          size="sm"
-          icon="i-iconoir-github"
-          target="_blank"
-          to="https://github.com/Tresjs/nuxt"
-        />
-        <UButton
-          variant="solid"
-          color="white"
-          size="sm"
-          target="_blank"
-          class="ml2"
-          to="https://github.com/Tresjs/nuxt/issues/new?labels=enhancement&template=feature_request.yml"
+          <Icon
+            class="text-4xl"
+            name="i-carbon-web-services-container"
+          />
+          <code>Scene Graph</code>
+        </RouterLink>
+        <RouterLink
+          to="/scene-graph"
+          class="p4 replace min-w-40 p4 theme-card-lime flex-col flex-auto"
         >
-          Request feature
-        </UButton>
+          <Icon
+            class="text-4xl"
+            name="i-iconoir-dashboard-speed"
+          />
+          <code>Performance</code>
+        </RouterLink>
       </div>
-    </header>
-
-    <div
+    </div>
+    <!-- <div
       v-if="scene.objects > 0"
       class="flex flex-col gap-2"
     >
@@ -99,6 +70,6 @@ const { scene, memory, fps } = useDevtoolsHook()
       <NTip n="yellow">
         Failed to connect to the client. Did you open this page inside Nuxt DevTools?
       </NTip>
-    </div>
+    </div> -->
   </div>
 </template>
