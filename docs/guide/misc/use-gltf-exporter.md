@@ -12,7 +12,7 @@ import { shallowRef } from 'vue'
 
 const boxRef = shallowRef()
 
-// options are optional
+// options are no required
 const downloadBox = () => {
   useGLTFExporter(boxRef.value, { fileName: 'cube', binary: true })
 }
