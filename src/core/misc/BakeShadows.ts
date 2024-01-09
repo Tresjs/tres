@@ -11,7 +11,5 @@ export const BakeShadows = defineComponent({
       renderer.value.shadowMap.autoUpdate = false
       renderer.value.shadowMap.needsUpdate = true
     })
-
-    return null
   },
 })

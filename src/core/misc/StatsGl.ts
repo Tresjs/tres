@@ -108,7 +108,5 @@ export const StatsGl = defineComponent<StatsGlProps>({
     onUnmounted(() => {
       node?.removeChild(statsGl.dom)
     })
-
-    return null
   },
 })

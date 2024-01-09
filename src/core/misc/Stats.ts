@@ -29,7 +29,5 @@ export const Stats = defineComponent({
     onUnmounted(() => {
       node?.removeChild(stats.dom)
     })
-  
-    return null
   },
 })
