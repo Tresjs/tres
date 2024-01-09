@@ -61,12 +61,16 @@ function setExtensions(options: GLTFLoaderOptions, extendLoader?: (loader: GLTFL
  * @param {(loader: GLTFLoader) => void} [extendLoader]
  * @return {*}  {Promise<GLTFResult>}
  */
-export async function useGLTF(
-  path: string | string[],
+export async function useGLTF<T extends string | string[]>(
+  path: T,
   options: GLTFLoaderOptions = {
     draco: false,
   },
-  extendLoader?: (loader: GLTFLoader) => void,
-): Promise<GLTFResult> {
-  return (await useLoader(GLTFLoader, path, setExtensions(options, extendLoader))) as unknown as GLTFResult
+  extendLoader?: (loader: GLTFLoader) => void
+): Promise<T extends string[] ? GLTFResult[] : GLTFResult> {
+  return await useLoader(
+    GLTFLoader,
+    path,
+    setExtensions(options, extendLoader)
+  );
 }
