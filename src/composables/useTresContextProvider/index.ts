@@ -230,7 +230,7 @@ export function useTresContextProvider({
     
     // Check if the accumulated time is greater than or equal to the interval
     if (accumulatedTime >= interval) {
-      window.__TRES__DEVTOOLS__.cb(toProvide)
+      /* window.__TRES__DEVTOOLS__.cb(toProvide) */
     
       // Reset the accumulated time
       accumulatedTime = 0

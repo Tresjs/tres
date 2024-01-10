@@ -12,9 +12,9 @@ const { scene, internal } = useDevtoolsHook()
       class="h-full p4 overflow-y-scroll"
       min-size="20"
     >
-      <div v-if="scene.objects > 0">
+      <!-- <div v-if="scene.objects > 0">
         <SceneGraphItem :item="scene.graph" />
-      </div>
+      </div> -->
     </Pane>
     <Pane
       class="h-full"

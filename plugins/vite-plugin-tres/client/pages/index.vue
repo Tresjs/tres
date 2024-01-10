@@ -1,13 +1,20 @@
 <!-- eslint-disable max-len -->
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, watch, watchEffect } from 'vue'
+import { useDevtoolsHook } from '../composables/useDevtoolsHook'
+
+const { scene, connected, state } = useDevtoolsHook()
+
+watch(scene, () => {
+  console.log('scene changed', scene.value)
+})
 
 // Scene Graph
 </script>
 
 <template>
   <div class="panel-grids-center h-full">
-    <div class="max-w-300 w-full px20 ma">
+    <!-- <div class="max-w-300 w-full px20 ma">
       <div class="flex flex-wrap gap2">
         <RouterLink
           to="/scene-graph"
@@ -30,7 +37,7 @@ import { ref } from 'vue'
           <code>Performance</code>
         </RouterLink>
       </div>
-    </div>
+    </div> -->
     <!-- <div
       v-if="scene.objects > 0"
       class="flex flex-col gap-2"

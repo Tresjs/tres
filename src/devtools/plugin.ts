@@ -1,7 +1,7 @@
 import type {
-  App as DevtoolsApp,  } from '@vue/devtools-api'
+  App as DevtoolsApp } from '@vue/devtools-api'
 import {
-  addCustomTab
+  addCustomTab,
 } from '@vue/devtools-api'
 import { reactive } from 'vue'
 import type { Mesh, Object3D } from 'three'
@@ -9,7 +9,6 @@ import { createHighlightMesh, editSceneObject } from '../utils'
 import { bytesToKB, calculateMemoryUsage } from '../utils/perf'
 import type { TresContext } from '../composables'
 import type { TresObject } from './../types'
-import { toastMessage } from './utils'
 
 export interface Tags {
   label: string

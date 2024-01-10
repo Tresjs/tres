@@ -1,4 +1,4 @@
-import { Color, WebGLRenderer } from 'three'
+import { Color, MathUtils, WebGLRenderer } from 'three'
 import { shallowRef, watchEffect, onUnmounted, type MaybeRef, computed, watch, nextTick } from 'vue'
 import {
   toValue,
@@ -12,6 +12,7 @@ import type { Scene, ToneMapping,
   ShadowMapType,
   WebGLRendererParameters,
 } from 'three'
+import type { DevtoolsContextPayload, DevtoolsPerformancePayload } from '../../devtools'
 import { useLogger } from '../useLogger'
 import type { TresColor } from '../../types'
 import { useRenderLoop } from '../useRenderLoop'
@@ -177,10 +178,27 @@ export function useRenderer(
 
   const { resume, onLoop } = useRenderLoop()
 
+  function sendDevtoolEvent(
+    payload: DevtoolsContextPayload | DevtoolsPerformancePayload,
+    type: 'context' | 'performance' = 'context',
+  ) {
+    if (!window.__TRES__DEVTOOLS__) return
+
+    window.__TRES__DEVTOOLS__?.cb({
+      id: MathUtils.generateUUID(),
+      timestamp: Date.now(),
+      type,
+      payload,
+    })
+  }
+
   onLoop(() => {
     if (camera.value && !toValue(disableRender) && internal.frames.value > 0) {
       renderer.value.render(scene, camera.value)
       emit('render', renderer.value)
+      /* sendDevtoolEvent({
+        scene,
+      }) */
     }
 
     // Reset priority
