@@ -66,11 +66,11 @@ export async function useGLTF<T extends string | string[]>(
   options: GLTFLoaderOptions = {
     draco: false,
   },
-  extendLoader?: (loader: GLTFLoader) => void
+  extendLoader?: (loader: GLTFLoader) => void,
 ): Promise<T extends string[] ? GLTFResult[] : GLTFResult> {
   return await useLoader(
     GLTFLoader,
     path,
-    setExtensions(options, extendLoader)
-  );
+    setExtensions(options, extendLoader),
+  )
 }
