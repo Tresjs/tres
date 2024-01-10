@@ -10,6 +10,10 @@ For this guide we are going to focus on loading gLTF (GL Transmission Format) mo
 
 There are several ways to load models on TresJS:
 
+::: warning
+Please note that the examples above we use top level await, make sure you wrap it with a [Suspense](https://vuejs.org/guide/built-ins/suspense.html#suspense) component. See Suspense for more information. .
+:::
+
 ## Using `useLoader`
 
 The `useLoader` composable allows you to pass any type of three.js loader and a URL to load the resource from. It returns a `Promise` with the loaded resource.
@@ -27,9 +31,7 @@ Then you can pass the model scene to a TresJS [`primitive`](/advanced/primitive)
 
 ```html{3}
 <TresCanvas>
-  <Suspense>
     <primitive :object="scene" />
-  </Suspense>
 </TresCanvas>
 ```
 
@@ -72,9 +74,7 @@ const { scene, nodes, animations, materials } = await useGLTF('/models/AkuAku.gl
   >
     <TresPerspectiveCamera :position="[11, 11, 11]" />
     <OrbitControls />
-    <Suspense>
-      <primitive :object="nodes.MyModel" />
-    </Suspense>
+    <primitive :object="nodes.MyModel" /> // please note that "MyModel" here is just a placeholder 
   </TresCanvas>
 </template>
 ```
@@ -115,9 +115,7 @@ Then is as straightforward as adding the scene to your scene:
 
 ```html{3}
 <TresCanvas shadows alpha>
-  <Suspense>
     <primitive :object="scene" />
-  </Suspense>
 </TresCanvas>
 ```
 
