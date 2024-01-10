@@ -2,7 +2,7 @@
 import CodeView from '../CodeView.vue'
 import InspectorTree from './InspectorTree.vue'
 
-const tabs = ref([
+const tabs = [
   {
     slug: 'inspector-tree',
     name: 'Inspector Tree',
@@ -17,7 +17,7 @@ const tabs = ref([
     path: '/code-view',
     icon: 'i-iconoir-code',
   },
-])
+]
 const currentTab = ref(0)
 
 const { internal } = useDevtoolsHook()

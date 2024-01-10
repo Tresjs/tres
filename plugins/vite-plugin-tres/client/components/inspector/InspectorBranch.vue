@@ -31,6 +31,8 @@ const toggleCollapse = (uuid) => {
 }
 
 const isExpanded = uuid => collapsedKeys[uuid]
+
+const editableKeys = reactive({})
 </script>
 
 <template>
@@ -40,7 +42,7 @@ const isExpanded = uuid => collapsedKeys[uuid]
     class="pb1 text-sm"
   >
     <!-- Check if the item is expandable (either an object or an array) -->
-    <template v-if="item.expandable && depth < 2">
+    <template v-if="item.expandable && depth < 1">
       <div
         class="flex items-center"
         @click="toggleCollapse(item.uuid)"
@@ -49,7 +51,7 @@ const isExpanded = uuid => collapsedKeys[uuid]
           class="mr-2"
           :name="isExpanded(item.uuid) ? 'i-carbon-caret-down' : 'i-carbon-caret-right'"
         />
-        {{ item.key }} : {{ isArray(item.value) ? 'Array' : 'Object' }}
+        <span class="text-purple-400"> {{ item.key }}</span>  : {{ isArray(item.value) ? 'Array' : 'Object' }}
       </div>
       <div
         v-show="isExpanded(item.uuid)"
@@ -57,10 +59,10 @@ const isExpanded = uuid => collapsedKeys[uuid]
       >
         <!-- Handle Objects -->
         <template v-if="isObject(item.value)">
-          <InspectorBranch
+          <!--  <InspectorBranch
             :entry="item.value"
             :depth="depth + 1"
-          />
+          /> -->
         </template>
         <!-- Handle Arrays -->
         <template v-if="isArray(item.value)">
@@ -77,8 +79,12 @@ const isExpanded = uuid => collapsedKeys[uuid]
     <!-- Non-expandable items (primitive types) -->
     <template v-else>
       <div class="flex gap-1">
-        <label for="">{{ item.key }}</label> : 
+        <label
+          for=""
+          class="text-purple-400"
+        >{{ item.key }}</label> :
         <input
+          class="text-red-400"
           :value="item.value"
           :type="typeof item.value"
         >

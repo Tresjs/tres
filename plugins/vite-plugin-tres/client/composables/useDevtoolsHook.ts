@@ -1,7 +1,7 @@
 import type { TresContext, TresObject } from '@tresjs/core'
 import { DoubleSide, MeshBasicMaterial } from 'three'
 import type { Mesh, Object3D, type Scene, type WebGLRenderer } from 'three'
-import { reactive } from 'vue'
+import { reactive, shallowReactive } from 'vue'
 import type { SceneGraphObject } from '../types'
 import { HightlightMesh } from '../utils/highlightedMesh'
 
@@ -221,8 +221,7 @@ function highlightObject(object: TresObject) {
 }
 
 function selectObject(object: TresObject) {
-  const [instance] = scene.value.getObjectsByProperty('uuid', object.uuid)
-  gl.internal.selectedObject = instance
+  gl.internal.selectedObject = object
 }
 
 export function useDevtoolsHook(): DevtoolsHookReturn {
@@ -231,6 +230,8 @@ export function useDevtoolsHook(): DevtoolsHookReturn {
     cb(context: TresContext) {
       scene.value = context.scene.value
       scene.objects = countObjectsInScene(context.scene.value)
+      scene.graph = getSceneGraph(context.scene.value as unknown as TresObject)
+
       Object.assign(gl.renderer.info.render, context.renderer.value.info.render)
       Object.assign(gl.renderer.info.memory, context.renderer.value.info.memory)
       gl.renderer.info.programs = [...context.renderer.value.info.programs as WebGLProgram[]]
@@ -238,7 +239,7 @@ export function useDevtoolsHook(): DevtoolsHookReturn {
       gl.fps.accumulator = [...context.perf.fps.accumulator]
       Object.assign(gl.memory, context.perf.memory)
       gl.memory.accumulator = [...context.perf.memory.accumulator]
-      scene.graph = getSceneGraph(context.scene.value as unknown as TresObject)
+
       /* 
       console.log('Devtools hook updated', context.renderer.value.info.render.triangles) */
     },

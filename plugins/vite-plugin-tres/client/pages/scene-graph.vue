@@ -9,7 +9,7 @@ const { scene, internal } = useDevtoolsHook()
     class="h-full"
   >
     <Pane
-      class="h-full p4"
+      class="h-full p4 overflow-y-scroll"
       min-size="20"
     >
       <div v-if="scene.objects > 0">
@@ -19,7 +19,7 @@ const { scene, internal } = useDevtoolsHook()
     <Pane
       class="h-full"
     >
-      <InspectorState v-if="internal?.selectedObject" />
+      <!-- <InspectorState v-if="internal?.selectedObject" /> -->
     </Pane>
   </Splitpanes>
 </template>

@@ -37,7 +37,8 @@
     "sirv": "^2.0.4",
     "splitpanes": "^3.1.5",
     "vue": "^3.4.5",
-    "vue-router": "^4.2.5"
+    "vue-router": "^4.2.5",
+    "vue-virtual-scroller": "^1.1.2"
   },
   "devDependencies": {
     "@alvarosabu/eslint-config-vue": "^0.4.0",
