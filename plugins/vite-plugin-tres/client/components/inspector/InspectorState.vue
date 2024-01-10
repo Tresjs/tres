@@ -1,17 +1,19 @@
 <script setup lang="ts">
-import PropertyTree from '../PropertyTree.vue'
 import CodeView from '../CodeView.vue'
+import InspectorTree from './InspectorTree.vue'
 
 const tabs = ref([
   {
-    slug: 'property-tree',
-    name: PropertyTree,
-    path: '/property-tree',
+    slug: 'inspector-tree',
+    name: 'Inspector Tree',
+    component: InspectorTree,
+    path: '/inspector-tree',
     icon: 'i-carbon-tree-view',
   },
   {
     slug: 'code-view',
-    name: CodeView,
+    name: 'Code View',
+    component: CodeView,
     path: '/code-view',
     icon: 'i-iconoir-code',
   },
@@ -44,7 +46,7 @@ const { internal } = useDevtoolsHook()
     </div>
   </header>
   <div class="w-full p4 overflow-y-scroll h-full">
-    <component :is="tabs[currentTab].name" />
+    <component :is="tabs[currentTab].component" />
     <!--  <template v-if="currentTab.slug === 'property-tree'">
       <PropertyTree />
     </template>
