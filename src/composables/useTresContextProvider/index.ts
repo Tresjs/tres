@@ -8,6 +8,26 @@ import { useCamera } from '../useCamera'
 import type { UseRendererOptions } from '../useRenderer'
 import { useRenderer } from '../useRenderer'
 import { extend } from '../../core/catalogue'
+import { useLogger } from '../useLogger'
+
+export interface InternalState {
+  priority: Ref<number>
+  frames: Ref<number>
+  maxFrames: number
+}
+
+export interface PerformanceState {
+  maxFrames: number
+  fps: {
+    value: number
+    accumulator: number[]
+  }
+  memory: {
+    currentMem: number
+    allocatedMem: number
+    accumulator: number[]
+  }
+}
 
 export interface TresContext {
   scene: ShallowRef<Scene>
@@ -18,18 +38,22 @@ export interface TresContext {
   controls: Ref<(EventDispatcher & { enabled: boolean }) | null>
   renderer: ShallowRef<WebGLRenderer>
   raycaster: ShallowRef<Raycaster>
-  perf: {
-    maxFrames: number
-    fps: {
-      value: number
-      accumulator: number[]
-    }
-    memory: {
-      currentMem: number
-      allocatedMem: number
-      accumulator: number[]
-    }
-  }
+  perf: PerformanceState
+  /**
+   * If set to 'on-demand', the scene will only be rendered when the current frame is invalidated
+   * If set to 'manual', the scene will only be rendered when advance() is called
+   * If set to 'always', the scene will be rendered every frame
+   */
+  renderMode: Ref<'always' | 'on-demand' | 'manual'>
+  internal: InternalState
+  /**
+   * Invalidates the current frame when renderMode === 'on-demand'
+   */
+  invalidate: () => void
+  /**
+   * Advance one frame when renderMode === 'manual'
+   */
+  advance: () => void
   registerCamera: (camera: Camera) => void
   setCameraActive: (cameraOrUuid: Camera | string) => void
   deregisterCamera: (camera: Camera) => void
@@ -41,13 +65,17 @@ export function useTresContextProvider({
   windowSize,
   disableRender,
   rendererOptions,
+  emit,
 }: {
   scene: Scene
   canvas: MaybeRef<HTMLCanvasElement>
   windowSize: MaybeRefOrGetter<boolean>
   disableRender: MaybeRefOrGetter<boolean>
   rendererOptions: UseRendererOptions
+  emit: (event: string, ...args: any[]) => void
 }): TresContext {
+
+  const { logWarning } = useLogger()
 
   const elementSize = computed(() =>
     toValue(windowSize)
@@ -74,12 +102,39 @@ export function useTresContextProvider({
     setCameraActive,
   } = useCamera({ sizes, scene })
 
+  // Initialize internal state
+  const internal: InternalState = {
+    priority: ref(0),
+    frames: ref(0),
+    maxFrames: 60,
+  }
+
+  function invalidate(frames = 1) {
+    // Increase the frame count, ensuring not to exceed a maximum if desired
+    if (rendererOptions.renderMode === 'on-demand') {
+      internal.frames.value = Math.min(internal.maxFrames, internal.frames.value + frames)
+    }
+    else {
+      logWarning('`invalidate` can only be used when `renderMode` is set to `on-demand`')
+    }
+  }
+
+  function advance() {
+    if (rendererOptions.renderMode === 'manual') {
+      internal.frames.value = 1
+    }
+    else {
+      logWarning('`advance` can only be used when `renderMode` is set to `manual`')
+    }
+  }
+
   const { renderer } = useRenderer(
     {
       scene,
       canvas,
       options: rendererOptions,
-      contextParts: { sizes, camera },
+      emit,
+      contextParts: { sizes, camera, internal, invalidate, advance },
       disableRender,
     })
 
@@ -103,13 +158,20 @@ export function useTresContextProvider({
         accumulator: [],
       },
     },
+    renderMode: ref(rendererOptions.renderMode || 'always'),
+    internal,
+    advance,
     extend,
+    invalidate,
     registerCamera,
     setCameraActive,
     deregisterCamera,
   }
 
   provide('useTres', toProvide)
+
+  // Add context to scene.userData
+  toProvide.scene.value.userData.tres__context = toProvide
 
   // Performance
   const updateInterval = 100 // Update interval in milliseconds
@@ -158,7 +220,7 @@ export function useTresContextProvider({
   let accumulatedTime = 0
   const interval = 1 // Interval in milliseconds, e.g., 1000 ms = 1 second
     
-  const { pause, resume } = useRafFn(({ delta }) => {
+  const { pause } = useRafFn(({ delta }) => {
     if (!window.__TRES__DEVTOOLS__) return
 
     updatePerformanceData({ timestamp: performance.now() })
