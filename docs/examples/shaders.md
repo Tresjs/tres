@@ -10,12 +10,12 @@ _Basic knowledge of how shaders work is necessary_
 
 ## Let's first setup our scene (optional)
 
-We import all the modules that we need, for confort we can use the orbit-controls from cientos,
-[check here to know how](/examples/orbit-controls).
+We import all the modules that we need, for comfort we can use the orbit-controls from cientos,
+[look here to see how](/examples/orbit-controls).
 
-Also let's put our camera in the `[11,11,11]` position.
+Now, let's put our camera in the `[11,11,11]` position.
 
-Lastly just for help us with the location, let's add a simple plane, rotate in the X axis, with `[10, 10]` units in the geometry.
+Lastly just to help us with the location, let's add a simple plane, rotated in the X axis, with `[10, 10]` units.
 
 ```vue
 <script setup lang="ts">
@@ -41,9 +41,9 @@ import { OrbitControls } from '@tresjs/cientos'
 
 ## ShaderMaterial
 
-As you know every instance in [ThreeJs](https://threejs.org/) is available in **TresJs** so is the `ShaderMaterial`, we just need to add the `Tres` prefix to use it.
+As you know every instance in [ThreeJs](https://threejs.org/) is available in **TresJs**, so is the `ShaderMaterial`, we just need to add the `Tres` prefix to use it.
 
-For our blob, we could use a simple `SphereGeometry` adding some widthSegments and heightSegments to create a smooth effect. Also let's put our blob 4 units in the Y positive axis
+For our blob, we could use a simple `SphereGeometry` adding some widthSegments and heightSegments to create a smooth effect, and put our blob 4 units in the Y positive axis
 
 ```vue
     <TresMesh :position="[0, 4, 0]">
@@ -52,9 +52,9 @@ For our blob, we could use a simple `SphereGeometry` adding some widthSegments a
     </TresMesh>
 ```
 
-The `ShaderMaterial` accept special properties like `uniforms` `vertexShader` and `fragmentShader`, so we can create it in our script section and make the bound with our instance.
+The `ShaderMaterial` accepts special properties, like `uniforms` `vertexShader` and `fragmentShader`, so we can create it in our script section and make the bind with our instance.
 
-For this example our uniforms end like this:
+For this example, our uniforms look like this:
 
 ```ts
 import { Vector2 } from 'three'
@@ -68,7 +68,7 @@ const uniforms = {
 //..
 ```
 
-Our fragment shader, like this:
+Our fragment shader looks like this:
 
 ```ts
 //...
@@ -108,9 +108,7 @@ void main() {
 
 ## Animating the blob
 
-Similar to what we learn in the [Basic animations](/examples/basic-animations) example.
-
-We start by referencing our blob, using [Template Ref](https://vuejs.org/guide/essentials/template-refs.html)
+Similar to what we learn in the [Basic animations](/examples/basic-animations) example, we start by referencing our blob, using [Template Ref](https://vuejs.org/guide/essentials/template-refs.html)
 
 ```vue
 <script setup lang="ts">
@@ -139,7 +137,7 @@ const blobRef = shallowRef(null)
   </TresCanvas>
 </template>
 ```
- Once we got that we could use the `onLoop` callback to animate our `uTime`
+ Once we have got that, we could use the `onLoop` callback to animate our `uTime`.
 
  ```ts
 import { TresCanvas, useRenderLoop } from '@tresjs/core'
@@ -155,15 +153,15 @@ onLoop(({ elapsed }) => {
  //...
 ```
 
-And that it is, we have our basic shader running smoothly
+And that it is, we have our basic shader running smoothly.
 
 ## Using GLSL vite-pluging (optional)
 
 _This step is completly optional and is out of the scope of the **TresJs** team_
 
-Defining our shader inline, is not always the best idea, but if you're using VITE you can put your `GLSL` files in a different file just by using the (vite-plugin-glsl)[https://www.npmjs.com/package/vite-plugin-glsl].
+Defining our shader inline is not always the best idea, but if you're using VITE you can put your `GLSL` files in a different file just by using the (vite-plugin-glsl)[https://www.npmjs.com/package/vite-plugin-glsl] (check out the link for the official documentation).
 
-you could have a struncture similar to this:
+And you could have a structure similar to this:
 
 ├── src/
 │   ├── myTresJsComponent.vue
