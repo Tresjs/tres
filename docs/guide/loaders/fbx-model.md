@@ -15,3 +15,5 @@ The `FBXModel` component is a wrapper around [`useFBX`](./use-fbx.md) composable
 | Prop   | Description             | Default     |
 | :----- | :---------------------- | ----------- |
 | `path` | Path to the model file. | `undefined` |
+| `castShadow`  | Apply `cast-shadow` to all meshes inside your model.                                                                  | `false`     |
+| `receiveShadow` | Apply `receive-shadow` to all meshes inside your model.                                                             | `false`     |

@@ -11,11 +11,36 @@ export interface FBXModelProps {
    * @required
    */
   path: string
+  /**
+   *
+   * Whether to use cast-shadow to the model.
+   *
+   * @type {boolean}
+   * @default false
+   * @memberof FBXModelProps
+   *
+   **/
+  castShadow?: boolean
+  /**
+   *
+   * Whether to use receive-shadow to the model.
+   *
+   * @type {boolean}
+   * @default false
+   * @memberof FBXModelProps
+   *
+   **/
+  receiveShadow?: boolean
 }
 
-const props = defineProps<{
+const props = withDefaults(defineProps<{
   path: string
-}>()
+  castShadow?: boolean
+  receiveShadow?: boolean
+}>(), {
+  castShadow: false,
+  receiveShadow: false,
+})
 
 const modelRef = ref()
 
@@ -24,6 +49,15 @@ defineExpose({
 })
 
 const model = await useFBX(props.path as string)
+
+if ( props.castShadow || props.receiveShadow ) {
+  model.traverse((child) => {
+    if (child.isMesh) {
+      child.castShadow = props.castShadow
+      child.receiveShadow = props.receiveShadow
+    }
+  })
+}
 </script>
 
 <template>

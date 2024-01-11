@@ -14,13 +14,13 @@ The `GLTFModel` component is a wrapper around [`useGLTF`](./use-gltf.md) composa
 
 You can access the model reference by passing a `ref` to the `model` prop and then using to get the object.
 
-```ts
+```vue
 <script setup lang="ts">
 import { OrbitControls, GLTFModel } from '@tresjs/cientos'
 
 const modelRef = shallowRef<THREE.Object3D>()
 
-watch(modelRef, model => {
+watch(modelRef, (model) => {
   // Do something with the model
   model.position.set(0, 0, 0)
 })
@@ -34,3 +34,5 @@ watch(modelRef, model => {
 | `path`        | Path to the model file.                                                                                               | `undefined` |
 | `draco`       | Enable [Draco compression](https://threejs.org/docs/index.html?q=drac#examples/en/loaders/DRACOLoader) for the model. | `false`     |
 | `decoderPath` | Path to a local Draco decoder.                                                                                        | `undefined` |
+| `castShadow`  | Apply `cast-shadow` to all meshes inside your model.                                                                  | `false`     |
+| `receiveShadow` | Apply `receive-shadow` to all meshes inside your model.                                                             | `false`     |
