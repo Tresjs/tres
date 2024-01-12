@@ -29,7 +29,7 @@ const { scene } = await useLoader(GLTFLoader, '/models/AkuAku.gltf')
 
 Then you can pass the model scene to a TresJS [`primitive`](/advanced/primitive) component to render it:
 
-```html{3}
+```html{2}
 <TresCanvas>
     <primitive :object="scene" />
 </TresCanvas>
@@ -113,7 +113,7 @@ const model = await useFBX('/models/AkuAku.fbx')
 
 Then is as straightforward as adding the scene to your scene:
 
-```html{3}
+```html{2}
 <TresCanvas shadows alpha>
     <primitive :object="scene" />
 </TresCanvas>
