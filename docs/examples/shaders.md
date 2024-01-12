@@ -46,10 +46,10 @@ As you know every instance in [ThreeJs](https://threejs.org/) is available in **
 For our blob, we could use a simple `SphereGeometry` adding some widthSegments and heightSegments to create a smooth effect, and put our blob 4 units in the Y positive axis
 
 ```vue
-    <TresMesh :position="[0, 4, 0]">
-      <TresSphereGeometry :args="[2, 32, 32]" />
-      <TresShaderMaterial />
-    </TresMesh>
+<TresMesh :position="[0, 4, 0]">
+  <TresSphereGeometry :args="[2, 32, 32]" />
+  <TresShaderMaterial />
+</TresMesh>
 ```
 
 The `ShaderMaterial` accepts special properties, like `uniforms` `vertexShader` and `fragmentShader`, so we can create it in our script section and make the bind with our instance.
@@ -163,8 +163,10 @@ Defining our shader inline is not always the best idea, but if you're using VITE
 
 And you could have a structure similar to this:
 
+```
 ├── src/
 │   ├── myTresJsComponent.vue
 │   ├── shaders/
 │       ├── vertexShader.glsl
 │       ├── fragmentShader.glsl
+```
