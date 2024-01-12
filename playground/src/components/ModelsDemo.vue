@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useRenderLoop } from '@tresjs/core'
 import { useGLTF, GLTFModel, useFBX, FBXModel } from '@tresjs/cientos'
 import { NoToneMapping } from 'three'
 
@@ -20,6 +21,17 @@ const gl = {
   alpha: true,
   toneMapping: NoToneMapping,
 }
+
+const { onLoop } = useRenderLoop()
+
+onLoop(() => {
+  if (akuAkuRef.value) {
+    akuAkuRef.value.value.rotation.y += 0.01
+  }
+  if (jeepRef.value) {
+    jeepRef.value.value.rotation.y -= 0.01
+  }
+})
 </script>
 
 <template>
@@ -33,7 +45,7 @@ const gl = {
         ref="akuAkuRef"
         :path="modelPath"
         draco
-        :position="[0, -2, 0]"
+        :position="[0, -2, 2]"
         :rotation-x="0.5"
         name="Aku_aku"
         cast-shadow
@@ -50,7 +62,7 @@ const gl = {
         ref="jeepRef"
         :path="modelPathFbx"
         :scale="0.01"
-        :position="[-6, -1, 2]"
+        :position="[0, -1, -2]"
         name="jeep_model"
         cast-shadow
       />
