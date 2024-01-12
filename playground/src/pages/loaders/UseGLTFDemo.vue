@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
 import { BasicShadowMap, SRGBColorSpace, NoToneMapping } from 'three'
-
-import { OrbitControls } from '@tresjs/cientos'
+import { CameraControls } from '@tresjs/cientos'
+import ModelsDemo from '../../components/ModelsDemo.vue'
 
 const gl = {
   clearColor: '#82DBC5',
@@ -17,10 +17,23 @@ const gl = {
 <template>
   <TresCanvas v-bind="gl">
     <TresPerspectiveCamera :position="[3, 3, 3]" />
-    <OrbitControls />
+    <CameraControls />
     <Suspense>
-      <AkuAku />
+      <ModelsDemo />
     </Suspense>
+    <TresMesh
+      :rotate-x="Math.PI * -0.5"
+      :position-y="-2"
+      receive-shadow
+    >
+      <TresPlaneGeometry :args="[40, 40]" />
+      <TresMeshStandardMaterial :color="0xf7f7f7" />
+    </TresMesh>
     <TresAmbientLight :intensity="1" />
+    <TresDirectionalLight
+      :intensity="1"
+      cast-shadow
+      :position="[0, 10, 0]"
+    />
   </TresCanvas>
 </template>

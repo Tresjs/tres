@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { TresCanvas } from '@tresjs/core'
-import { useGLTF, OrbitControls, GLTFModel, useFBX, FBXModel } from '@tresjs/cientos'
+import { useRenderLoop } from '@tresjs/core'
+import { useGLTF, GLTFModel, useFBX, FBXModel } from '@tresjs/cientos'
 import { NoToneMapping } from 'three'
 
 const modelPath = 'https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/aku-aku/AkuAku.gltf'
@@ -21,35 +21,40 @@ const gl = {
   alpha: true,
   toneMapping: NoToneMapping,
 }
+
+const { onLoop } = useRenderLoop()
+
+onLoop(() => {
+  if (akuAkuRef.value) {
+    akuAkuRef.value.value.rotation.y += 0.01
+  }
+  if (jeepRef.value) {
+    jeepRef.value.value.rotation.y -= 0.01
+  }
+})
 </script>
 
 <template>
-  <TresCanvas
-    v-bind="gl"
-  >
-    <TresPerspectiveCamera :position="[0, 2, 10]" />
-    <TresGridHelper :args="[10, 10]" />
-    <OrbitControls
-      :keys="{}"
-      :auto-rotate="true"
-    />
+  <TresGroup>
     <primitive
       :object="model"
-      :position="[-3, -2, 0]"
+      :position="[-3, 0, 0]"
     />
     <Suspense>
       <GLTFModel
         ref="akuAkuRef"
         :path="modelPath"
         draco
-        :position="[0, -2, 0]"
+        :position="[0, -2, 2]"
+        :rotation-x="0.5"
         name="Aku_aku"
+        cast-shadow
       />
     </Suspense>
     <!-- FBX MODELS -->
     <primitive
       :object="modelFbx"
-      :position="[6, 0, 0]"
+      :position="[6, 0, 2]"
       :scale="[0.01, 0.01, 0.01]"
     />
     <Suspense>
@@ -57,11 +62,10 @@ const gl = {
         ref="jeepRef"
         :path="modelPathFbx"
         :scale="0.01"
-        :position="[0, -4, 0]"
+        :position="[0, -1, -2]"
         name="jeep_model"
+        cast-shadow
       />
     </Suspense>
-    <TresAmbientLight />
-    <TresDirectionalLight />
-  </TresCanvas>
+  </TresGroup>
 </template>
