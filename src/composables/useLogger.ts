@@ -13,12 +13,24 @@ interface LoggerComposition {
 
 export function useLogger(): LoggerComposition {
   function logError(...args: OneOrMore<any>) {
-    args[0] = logPrefix + args[0]
+    if (typeof args[0] === 'string') {
+      // NOTE: Don't break console string substitution
+      args[0] = logPrefix + args[0]
+    }
+    else {
+      args.unshift(logPrefix)
+    }
     console.error(...args)
   }
 
   function logWarning(...args: OneOrMore<any>) {
-    args[0] = logPrefix + args[0]
+    if (typeof args[0] === 'string') {
+      // NOTE: Don't break console string substitution
+      args[0] = logPrefix + args[0]
+    }
+    else {
+      args.unshift(logPrefix)
+    }
     console.warn(...args)
   }
 
