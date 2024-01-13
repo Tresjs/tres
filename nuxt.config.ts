@@ -1,16 +1,16 @@
-import { presetUno, presetIcons, presetTypography, presetWebFonts } from 'unocss'
+import { presetUno, presetIcons, presetTypography, presetWebFonts, transformerDirectives } from 'unocss'
 import svgLoader from 'vite-svg-loader'
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   app: {
     head: {
-      title: 'TresJS Playground',
+      title: 'TresJS Lab',
       link: [
         {
           rel: 'icon',
           type: 'image/svg',
-          href: '/favicon.svg',
+          href: '/flask.svg',
         },
       ],
     },
@@ -24,7 +24,7 @@ export default defineNuxtConfig({
     '@nuxt/image',
     '@nuxt/devtools',
   ],
-  css: ['@unocss/reset/tailwind-compat.css', '@tresjs/leches/styles'],
+  css: ['/styles/main.css', '@unocss/reset/tailwind-compat.css', '@tresjs/leches/styles'],
   declare: ['*.glsl'],
   tres: {
     devtools: true,
@@ -67,7 +67,7 @@ export default defineNuxtConfig({
             'border-radius': '0.5rem',
           },
           code: {
-            'font-family': 'DM Mono',
+            'font-family': 'JetBrains Mono',
             'font-size': '0.875rem',
           },
           /*  code: {
@@ -88,9 +88,8 @@ export default defineNuxtConfig({
       }),
       presetWebFonts({
         fonts: {
-          sans: 'DM Sans',
-          serif: 'DM Serif Display',
-          mono: 'DM Mono',
+          sans: 'Inter',
+          mono: 'JetBrains Mono',
           title: 'Sacramento',
         },
       }),
@@ -98,6 +97,9 @@ export default defineNuxtConfig({
     // core options
     shortcuts: [],
     rules: [],
+    transformers: [
+      transformerDirectives(),
+    ],
   },
   content: {
     highlight: {
