@@ -3,19 +3,23 @@ export const isProd = import.meta.env.MODE === 'production'
 
 const logPrefix = '[TresJS ▲ ■ ●] '
 
+type OneOrMore<T> = { 0: T } & Array<T>
+
 interface LoggerComposition {
-  logError: (message: string, error?: Error | ErrorEvent) => void
-  logWarning: (message: string) => void
+  logError: (...args: OneOrMore<any>) => void
+  logWarning: (...args: OneOrMore<any>) => void
   logMessage: (name: string, value: any) => void
 }
 
 export function useLogger(): LoggerComposition {
-  function logError(message: string, error?: Error | ErrorEvent) {
-    console.error(`${logPrefix} ${message}`, error || '')
+  function logError(...args: OneOrMore<any>) {
+    args[0] = logPrefix + args[0]
+    console.error(...args)
   }
 
-  function logWarning(message: string) {
-    console.warn(`${logPrefix} ${message}`)
+  function logWarning(...args: OneOrMore<any>) {
+    args[0] = logPrefix + args[0]
+    console.warn(...args)
   }
 
   function logMessage(name: string, value: any) {
