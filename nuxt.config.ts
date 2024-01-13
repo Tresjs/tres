@@ -6,6 +6,26 @@ export default defineNuxtConfig({
   app: {
     head: {
       title: 'TresJS Lab',
+      meta: [
+        { name: 'description', content: 'Showcase and examples lab for TresJS.' },
+        { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+        { name: 'theme-color', content: '#82DBC5' },
+        { name: 'keywords', content: 'threejs, vuejs, renderer, vue, three, 3D' },
+        // Open Graph
+        { property: 'og:title', content: 'TresJS Lab' },
+        { property: 'og:description', content: 'Showcase and examples lab for TresJS.' },
+        { property: 'og:type', content: 'website' },
+        { property: 'og:url', content: 'https://lab.tresjs.org' },
+        { property: 'og:image', content: '/tresjs-lab-og.png' },
+        { property: 'og:image:alt', content: 'TresJS Lab' },
+        // Twitter
+        { name: 'twitter:card', content: 'summary_large_image' },
+        { name: 'twitter:site', content: '@tresjs' },
+        { name: 'twitter:title', content: 'TresJS Lab' },
+        { name: 'twitter:description', content: 'Showcase and examples lab for TresJS.' },
+        { name: 'twitter:image', content: '/tresjs-lab-og.png' },
+        { name: 'twitter:image:alt', content: 'TresJS Lab' },
+      ],
       link: [
         {
           rel: 'icon',
