@@ -12,7 +12,7 @@ import { shallowRef } from 'vue'
 
 const boxRef = shallowRef()
 
-// options are no required
+// the second argument – options – is not required
 const downloadBox = () => {
   useGLTFExporter(boxRef.value, { fileName: 'cube', binary: true })
 }
@@ -34,6 +34,21 @@ const downloadBox = () => {
 </template>
 
 ```
+
+### Download the scene: a quick tip
+
+In the previous example, if we want to download the whole scene, we can easily do it by just accessing the `parent` property.
+```ts{3}
+...
+const downloadBox = () => {
+  useGLTFExporter(boxRef.value.parent) // As the parent is the current scene
+}
+...
+```
+_This may vary in your scene please first check what is in your `parent` property_
+
+Otherwise, you can access your scene using the [useTresContext](https://docs.tresjs.org/api/composables.html#usetrescontext)
+
 
 ## Arguments
 
