@@ -6,11 +6,11 @@
 </p>
 <br/>
 
-# TresJS Playground
+# TresJS Lab
 
-> Playground for TresJS experiments and R3F using [Astro](https://astro.build/)
+> Showcase and examples lab for TresJS
 
-Live at [Playground](https://playground.tresjs.org/)
+Live at [Lab](https://lab.tresjs.org/)
 
 ## Setup
 

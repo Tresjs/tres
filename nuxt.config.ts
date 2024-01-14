@@ -1,16 +1,36 @@
-import { presetUno, presetIcons, presetTypography, presetWebFonts } from 'unocss'
+import { presetUno, presetIcons, presetTypography, presetWebFonts, transformerDirectives } from 'unocss'
 import svgLoader from 'vite-svg-loader'
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   app: {
     head: {
-      title: 'TresJS Playground',
+      title: 'TresJS Lab',
+      meta: [
+        { name: 'description', content: 'Showcase and examples lab for TresJS.' },
+        { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+        { name: 'theme-color', content: '#82DBC5' },
+        { name: 'keywords', content: 'threejs, vuejs, renderer, vue, three, 3D' },
+        // Open Graph
+        { property: 'og:title', content: 'TresJS Lab' },
+        { property: 'og:description', content: 'Showcase and examples lab for TresJS.' },
+        { property: 'og:type', content: 'website' },
+        { property: 'og:url', content: 'https://lab.tresjs.org' },
+        { property: 'og:image', content: '/tresjs-lab-og.png' },
+        { property: 'og:image:alt', content: 'TresJS Lab' },
+        // Twitter
+        { name: 'twitter:card', content: 'summary_large_image' },
+        { name: 'twitter:site', content: '@tresjs' },
+        { name: 'twitter:title', content: 'TresJS Lab' },
+        { name: 'twitter:description', content: 'Showcase and examples lab for TresJS.' },
+        { name: 'twitter:image', content: '/tresjs-lab-og.png' },
+        { name: 'twitter:image:alt', content: 'TresJS Lab' },
+      ],
       link: [
         {
           rel: 'icon',
           type: 'image/svg',
-          href: '/favicon.svg',
+          href: '/flask.svg',
         },
       ],
     },
@@ -24,7 +44,7 @@ export default defineNuxtConfig({
     '@nuxt/image',
     '@nuxt/devtools',
   ],
-  css: ['@unocss/reset/tailwind-compat.css', '@tresjs/leches/styles'],
+  css: ['/styles/main.css', '@unocss/reset/tailwind-compat.css', '@tresjs/leches/styles'],
   declare: ['*.glsl'],
   tres: {
     devtools: true,
@@ -67,7 +87,7 @@ export default defineNuxtConfig({
             'border-radius': '0.5rem',
           },
           code: {
-            'font-family': 'DM Mono',
+            'font-family': 'JetBrains Mono',
             'font-size': '0.875rem',
           },
           /*  code: {
@@ -88,9 +108,8 @@ export default defineNuxtConfig({
       }),
       presetWebFonts({
         fonts: {
-          sans: 'DM Sans',
-          serif: 'DM Serif Display',
-          mono: 'DM Mono',
+          sans: 'Inter',
+          mono: 'JetBrains Mono',
           title: 'Sacramento',
         },
       }),
@@ -98,6 +117,9 @@ export default defineNuxtConfig({
     // core options
     shortcuts: [],
     rules: [],
+    transformers: [
+      transformerDirectives(),
+    ],
   },
   content: {
     highlight: {
