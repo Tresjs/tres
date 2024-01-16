@@ -59,7 +59,7 @@ export function useTresContextProvider({
     width: 0,
     height: 0,
   })
-  const DebouncedReactiveSize = refDebounced(reactiveSize, 10)
+  const debouncedReactiveSize = refDebounced(reactiveSize, 10)
   const unWatchSize = watchEffect(() => {
     reactiveSize.value = {
       width: elementSize.value.width.value,
@@ -67,11 +67,11 @@ export function useTresContextProvider({
     }
   })
 
-  const aspectRatio = computed(() => DebouncedReactiveSize.value.width / DebouncedReactiveSize.value.height)
+  const aspectRatio = computed(() => debouncedReactiveSize.value.width / debouncedReactiveSize.value.height)
 
   const sizes = {
-    height: computed(() => DebouncedReactiveSize.value.height),
-    width: computed(() => DebouncedReactiveSize.value.width),
+    height: computed(() => debouncedReactiveSize.value.height),
+    width: computed(() => debouncedReactiveSize.value.width),
     aspectRatio,
   }
   const localScene = shallowRef<Scene>(scene)
