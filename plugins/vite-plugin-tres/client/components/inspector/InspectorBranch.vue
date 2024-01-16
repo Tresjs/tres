@@ -1,10 +1,13 @@
 <script setup lang="ts">
+import { toRaw } from 'vue'
+
 const props = defineProps<{
   entry: any
   depth?: number
 }>()
 
 const isObject = value => value && typeof value === 'object' && !Array.isArray(value)
+const isString = value => typeof value === 'string'
 
 const isArray = value => Array.isArray(value)
 
@@ -16,7 +19,6 @@ const data = computed(() => {
     return {
       key,
       value,
-      uuid: Math.random().toString(36).substring(7),
       expandable: isObject(value) || isArray(value),
     }
   })
@@ -26,53 +28,72 @@ const data = computed(() => {
 const collapsedKeys = reactive({})
 
 // Toggle the collapsed state
-const toggleCollapse = (uuid) => {
-  collapsedKeys[uuid] = !collapsedKeys[uuid]
+const toggleCollapse = (key) => {
+  collapsedKeys[key] = !collapsedKeys[key]
 }
 
-const isExpanded = uuid => collapsedKeys[uuid]
+const isExpanded = key => collapsedKeys[key]
 
-const editableKeys = reactive({})
+function changeValue(key, value) {
+  console.log('changeValue', key, value)
+}
 </script>
 
 <template>
   <div
-    v-for="item in data"
-    :key="item.key"
+    v-for="(item, index) in data"
+    :key="item.key + index"
     class="pb1 text-sm"
   >
     <!-- Check if the item is expandable (either an object or an array) -->
-    <template v-if="item.expandable && depth < 1">
+    <template v-if="item.expandable && depth < 2">
       <div
         class="flex items-center"
-        @click="toggleCollapse(item.uuid)"
+        @click="toggleCollapse(item.key)"
       >
         <Icon
           class="mr-2"
-          :name="isExpanded(item.uuid) ? 'i-carbon-caret-down' : 'i-carbon-caret-right'"
+          :name="isExpanded(item.key) ? 'i-carbon-caret-down' : 'i-carbon-caret-right'"
         />
-        <span class="text-purple-400"> {{ item.key }}</span>  : {{ isArray(item.value) ? 'Array' : 'Object' }}
+        <span class="text-gray-400"> {{ item.key }}</span>  : {{ isArray(item.value) ? `Array(${item.value.length})` : 'Object' }}
       </div>
       <div
-        v-show="isExpanded(item.uuid)"
+        v-show="isExpanded(item.key)"
         class="pl-8 py2"
       >
         <!-- Handle Objects -->
         <template v-if="isObject(item.value)">
-          <!--  <InspectorBranch
-            :entry="item.value"
+          <InspectorBranch
+            :key="item.key"
+            :entry="{ ...item.value }"
             :depth="depth + 1"
-          /> -->
+          />
         </template>
         <!-- Handle Arrays -->
         <template v-if="isArray(item.value)">
+          <span class="text-gray-500 -ml-4">[<span class="text-gray-400">{{ item.value.length > 0 ? '{' : '' }}</span></span>
           <div
             v-for="(elem, index) in item.value"
             :key="index"
+            class="pl-4"
           >
+            <span
+              v-if="index > 0"
+              class="text-gray-400  -ml-4"
+            >{</span>
+            <InspectorBranch
+              :key="index"
+              :entry="{ ...elem }"
+              :depth="depth + 1"
+            />   
             <!-- This assumes you want to show each array element. Adjust as needed. -->
             <!--  <InspectorBranch :entry="elem" /> -->
+            <span
+              v-if="index < item.value.length - 1"
+              class="text-gray-400 -ml-4"
+            >},</span>
           </div>
+          <span class="text-gray-500"><span class="text-gray-400">{{ item.value.length > 0 ? '}' : '' }}</span>]</span>
         </template>
       </div>
     </template>
@@ -81,13 +102,19 @@ const editableKeys = reactive({})
       <div class="flex gap-1">
         <label
           for=""
-          class="text-purple-400"
+          class="text-gray-400"
         >{{ item.key }}</label> :
-        <input
-          class="text-red-400"
-          :value="item.value"
-          :type="typeof item.value"
-        >
+        <UBadge
+          color="gray"
+          variant="soft"
+        > 
+          {{ isString(item.value) ? '"' : '' }}  {{ item.value }}   {{ isString(item.value) ? '"' : '' }}
+        </UBadge>
+        <!-- <input
+          :value="toRaw(item.value)"
+          type="text"
+          @input="changeValue(item.key, $event.target.value)"
+        > -->
       </div>
     </template>
   </div>

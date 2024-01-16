@@ -1,5 +1,5 @@
 import { Color, MathUtils, WebGLRenderer } from 'three'
-import { shallowRef, watchEffect, onUnmounted, type MaybeRef, computed, watch, nextTick } from 'vue'
+import { shallowRef, watchEffect, onUnmounted, type MaybeRef, computed, watch, nextTick, ref } from 'vue'
 import {
   toValue,
   unrefElement,
@@ -178,11 +178,17 @@ export function useRenderer(
 
   const { resume, onLoop } = useRenderLoop()
 
+  const retries = ref(2)
   function sendDevtoolEvent(
     payload: DevtoolsContextPayload | DevtoolsPerformancePayload,
     type: 'context' | 'performance' = 'context',
   ) {
-    if (!window.__TRES__DEVTOOLS__) return
+    if (!window.__TRES__DEVTOOLS__ || retries.value > 0) {
+      setTimeout(() => {
+        retries.value--
+        sendDevtoolEvent(payload, type)
+      }, 100)
+    }
 
     window.__TRES__DEVTOOLS__?.cb({
       id: MathUtils.generateUUID(),
@@ -192,13 +198,29 @@ export function useRenderer(
     })
   }
 
-  onLoop(() => {
+  // Devtools
+  let accumulatedTime = 0
+  const interval = 1 // Interval in milliseconds, e.g., 1000 ms = 1 second
+
+  onLoop(({ delta }) => {
     if (camera.value && !toValue(disableRender) && internal.frames.value > 0) {
       renderer.value.render(scene, camera.value)
       emit('render', renderer.value)
-      /* sendDevtoolEvent({
-        scene,
-      }) */
+
+      // Accumulate the delta time
+      accumulatedTime += delta
+    
+      // Check if the accumulated time is greater than or equal to the interval
+      if (accumulatedTime >= interval) {
+      /* window.__TRES__DEVTOOLS__.cb(toProvide) */
+        sendDevtoolEvent({
+          scene,
+          invalidate: invalidateOnDemand,
+        })
+        // Reset the accumulated time
+        accumulatedTime = 0
+      }
+    
     }
 
     // Reset priority

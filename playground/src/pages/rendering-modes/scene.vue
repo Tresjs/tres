@@ -5,14 +5,14 @@ import { OrbitControls } from '@tresjs/cientos'
 const { invalidate, advance } = useTres()
 
 function onControlChange() {
-  advance()
+  invalidate()
 }
 
 const positionX = ref(0)
 const showMesh = ref(true)
 
 setTimeout(() => {
-  positionX.value = 1
+/*   positionX.value = 1 */
   /*   showMesh.value = false */
 
 }, 3000)
@@ -20,6 +20,7 @@ setTimeout(() => {
 
 <template>
   <OrbitControls @change="onControlChange" />
+  <TresPerspectiveCamera :position="[0, 0, 5]" />
   <TresGridHelper />
   <TresMesh
     v-if="showMesh"

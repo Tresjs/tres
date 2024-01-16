@@ -3,9 +3,13 @@ import * as THREE from 'three'
 export class HightlightMesh extends THREE.Mesh {
   type = 'HightlightMesh'
   createTime: number
-  constructor(...args: THREE.Mesh['args']) {
+  invalidate: (frames?: number) => void
+  constructor( invalidate: (frames?: number) => void, ...args: THREE.Mesh['args']) {
     super(...args)
     this.createTime = Date.now()
+    this.invalidate = invalidate
+
+    invalidate()
   }
 
   onBeforeRender() {
@@ -20,5 +24,8 @@ export class HightlightMesh extends THREE.Mesh {
 
     // Apply the scale factor
     this.scale.set(scaleFactor, scaleFactor, scaleFactor)
+
+    this.invalidate()
   }
+  
 }

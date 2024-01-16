@@ -49,16 +49,6 @@ const route = useRoute()
         target="_blank"
         to="https://github.com/Tresjs/nuxt"
       />
-      <UButton
-        variant="solid"
-          
-        size="sm"
-        target="_blank"
-        class="ml2"
-        to="https://github.com/Tresjs/nuxt/issues/new?labels=enhancement&template=feature_request.yml"
-      >
-        Request feature
-      </UButton>
     </div>
   </header>
 </template>

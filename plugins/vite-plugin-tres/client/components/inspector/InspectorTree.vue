@@ -1,10 +1,13 @@
 <script setup lang="ts">
-const { internal } = useDevtoolsHook()
+import { watch } from 'vue'
+
+const { selectedObject } = useDevtoolsHook()
 </script>
 
 <template>
   <InspectorBranch
-    :entry="internal.selectedObject"
+    :key="selectedObject.uuid"
+    :entry="selectedObject"
     :depth="0"
   />
 </template>

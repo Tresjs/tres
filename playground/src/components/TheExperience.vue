@@ -21,6 +21,10 @@ const wireframe = ref(true)
 const canvas = ref()
 const meshRef = ref()
 
+const { isVisible } = useControls({
+  isVisible: true,
+})
+
 watchEffect(() => {
   if (meshRef.value) {
     console.log(meshRef.value)
@@ -29,12 +33,12 @@ watchEffect(() => {
 </script>
 
 <template>
+  <TresLeches />
   <TresCanvas
     v-bind="gl"
     ref="canvas"
     window-size
     class="awiwi"
-    render-mode="on-demand"
     :style="{ background: '#008080' }"
   >
     <TresPerspectiveCamera
@@ -51,16 +55,9 @@ watchEffect(() => {
       <TresConeGeometry :args="[1, 1.5, 3]" />
       <TresMeshToonMaterial color="#82DBC5" />
     </TresMesh>
-    <TresMesh
-      :position="[0, 4, 0]"
-      cast-shadow
-    >
-      <TresBoxGeometry :args="[1.5, 1.5, 1.5]" />
-      <TresMeshToonMaterial
-        color="#4F4F4F"
-        :wireframe="wireframe"
-      />
-    </TresMesh>
+    <Suspense>
+      <BlenderCube :position="[0, 5, 0]" />
+    </Suspense>
     <TresMesh
       ref="meshRef"
       :rotation="[-Math.PI / 2, 0, Math.PI / 2]"
@@ -72,6 +69,7 @@ watchEffect(() => {
         color="#D3FC8A"
       />
     </TresMesh>
+    <TheSphere v-if="isVisible" />
     <TresAxesHelper :args="[1]" />
     <TresDirectionalLight
       :position="[0, 2, 4]"

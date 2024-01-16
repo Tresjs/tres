@@ -1,6 +1,6 @@
 import type { BufferGeometry, Material, Scene, WebGLRenderer } from 'three'
 
-export interface SceneGraphObject {
+export interface GraphObject {
   name: string
   type: string
   icon: string
@@ -23,7 +23,7 @@ export interface SceneGraphObject {
   intensity?: number
   material?: Material
   geometry?: BufferGeometry
-  children: SceneGraphObject[]
+  children: GraphObject[]
   [key: string]: any
 }
 

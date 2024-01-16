@@ -5,16 +5,18 @@ import { useDevtoolsHook } from '../composables/useDevtoolsHook'
 
 const { scene, connected, state } = useDevtoolsHook()
 
-watch(scene, () => {
+/* watch(scene, () => {
   console.log('scene changed', scene.value)
-})
+}, {
+  immediate: true,
+}) */
 
-// Scene Graph
+// Scene scene
 </script>
 
 <template>
   <div class="panel-grids-center h-full">
-    <!-- <div class="max-w-300 w-full px20 ma">
+    <div class="max-w-300 w-full px20 ma">
       <div class="flex flex-wrap gap2">
         <RouterLink
           to="/scene-graph"
@@ -37,7 +39,7 @@ watch(scene, () => {
           <code>Performance</code>
         </RouterLink>
       </div>
-    </div> -->
+    </div>
     <!-- <div
       v-if="scene.objects > 0"
       class="flex flex-col gap-2"

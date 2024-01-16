@@ -50,11 +50,8 @@ export interface DevtoolsPerformancePayload {
 
 // Context Devtools
 export interface DevtoolsContextPayload {
-  scene: {
-    objects: number
-    graph: Record<string, unknown>
-    value: Scene | undefined
-  }
+  scene: Scene | undefined
+  invalidate: (frames: number) => void
 }
 
 export interface DevtoolsEvent<T extends DevtoolsPerformancePayload | DevtoolsContextPayload> {

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { useDevtoolsHook } from '../composables/useDevtoolsHook'
 import type { SceneGraphObject } from '../types'
 
@@ -10,7 +10,9 @@ const props = withDefaults(defineProps<{
   depth: 0,
 })
 
-const { internal, highlightObject, selectObject } = useDevtoolsHook()
+const isExpanded = ref(false)
+
+const { highlightObject, unhighlightObject, selectObject } = useDevtoolsHook()
 
 function roundNumber(num: number) {
   return Math.round((num + Number.EPSILON) * 100) / 100
@@ -18,11 +20,9 @@ function roundNumber(num: number) {
 
 function handleClick() {
   isExpanded.value = !isExpanded.value
-  highlightObject(props.item)
+  isExpanded.value ? highlightObject(props.item) : unhighlightObject()
   selectObject(props.item)
 }
-
-const isExpanded = computed(() => internal?.selectedObject?.uuid === props.item.uuid || false)
 </script>
 
 <template>
@@ -37,9 +37,13 @@ const isExpanded = computed(() => internal?.selectedObject?.uuid === props.item.
         v-if="depth > 0"
         class="h-1 border-b border-gray-300 w-4"
       />
-      <div class="flex gap-2 items-center -mb2.5">
+      <div
+        v-if="depth > 0"
+        class="flex gap-2 items-center -mb2.5"
+      >
         <Icon :name="item.icon" />
-        <!-- <i :class="item.icon" /> -->{{ item.type }} <UBadge
+        <!-- <i :class="item.icon" /> -->{{ item.type }} 
+        <UBadge
           v-if="item.name "
           variant="soft"
         >
@@ -149,6 +153,7 @@ const isExpanded = computed(() => internal?.selectedObject?.uuid === props.item.
             </UBadge>
 
             <UBadge
+              v-if="item.material.color"
               color="gray"
               variant="soft"
             > 

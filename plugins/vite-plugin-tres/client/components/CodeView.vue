@@ -1,7 +1,7 @@
 <script setup>
-const { internal } = useDevtoolsHook()
+const { selectedObject } = useDevtoolsHook()
 
-const code = computed(() => JSON.stringify(internal.selectedObject, null, 2).trim())
+const code = computed(() => JSON.stringify(selectedObject, null, 2).trim())
 </script>
 
 <template>

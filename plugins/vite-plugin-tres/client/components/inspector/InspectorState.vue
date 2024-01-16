@@ -20,18 +20,18 @@ const tabs = [
 ]
 const currentTab = ref(0)
 
-const { internal } = useDevtoolsHook()
+const { selectedObject } = useDevtoolsHook()
 </script>
 
 <template>
   <header class="border-b border-base p4 text-gray-400 flex justify-between">
     <div>
-      {{ internal?.selectedObject.type }} 
+      {{ selectedObject.type }} 
       <UBadge
-        v-if="internal.selectedObject.name "
+        v-if="selectedObject.name "
         variant="soft"
       >
-        {{ internal.selectedObject.name }}
+        {{ selectedObject.name }}
       </UBadge>
     </div>
     <div class="flex gap-4">

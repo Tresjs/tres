@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { Pane, Splitpanes } from 'splitpanes'
+import { useDevtoolsHook } from '../composables/useDevtoolsHook'
 
-const { scene, internal } = useDevtoolsHook()
+const { selectedObject, graph } = useDevtoolsHook()
 </script>
 
 <template>
@@ -12,14 +13,14 @@ const { scene, internal } = useDevtoolsHook()
       class="h-full p4 overflow-y-scroll"
       min-size="20"
     >
-      <!-- <div v-if="scene.objects > 0">
-        <SceneGraphItem :item="scene.graph" />
-      </div> -->
+      <div v-if="graph">
+        <SceneGraphItem :item="graph" />
+      </div>
     </Pane>
     <Pane
       class="h-full"
     >
-      <!-- <InspectorState v-if="internal?.selectedObject" /> -->
+      <InspectorState v-if="selectedObject" />
     </Pane>
   </Splitpanes>
 </template>
