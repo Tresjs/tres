@@ -21,6 +21,7 @@ import {
   h, 
   getCurrentInstance,
 } from 'vue'
+import pkg from '../../package.json'
 import {
   useTresContextProvider,
   useLogger,
@@ -187,6 +188,7 @@ onMounted(() => {
     ref="canvas"
     :data-scene="scene.uuid"
     :class="$attrs.class"
+    :data-tres="`tresjs ${pkg.version}`"
     :style="{
       display: 'block',
       width: '100%',
