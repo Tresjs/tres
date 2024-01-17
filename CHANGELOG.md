@@ -1,5 +1,14 @@
 
 
+## [2.0.2](https://example.com///compare/2.0.1...2.0.2) (2024-01-17)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @tresjs/core to v3.6.0 ([#71](https://example.com//null/issues/71)) ([8eea463](https://example.com///commit/8eea463109d113fe5e9ef879c956fc90fd5f93e2))
+* **deps:** update dependency @tresjs/core to v3.6.1 ([#78](https://example.com//null/issues/78)) ([38752ef](https://example.com///commit/38752efef4c3ffcdf2858871a2f867ad0f419629))
+* fix split styles issue ([#77](https://example.com//null/issues/77)) ([8835b24](https://example.com///commit/8835b242a8094a9b17789acb2e239e8f51c679f7))
+
 ## [2.0.1](https://example.com///compare/2.0.0...2.0.1) (2023-12-12)
 
 
