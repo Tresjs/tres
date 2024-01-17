@@ -1,5 +1,5 @@
 import { computed, readonly } from 'vue'
-import type { MaybeRefOrGetter, MaybeRef } from 'vue'
+import type { MaybeRefOrGetter, MaybeRef, ComputedRef, Ref } from 'vue'
 import { refDebounced, toValue, useElementSize, useWindowSize } from '@vueuse/core'
 
 export interface SizesType {
