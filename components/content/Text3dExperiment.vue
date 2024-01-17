@@ -84,6 +84,6 @@ useControls('fpsgraph')
         <TresMeshMatcapMaterial :matcap="donutTexture" />
       </Torus>
     </TresGroup>
-    <TresAmbientLight :intensity="1" />
+    <TresAmbientLight :intensity="2" />
   </TresCanvas>
 </template>
