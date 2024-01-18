@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, watchEffect } from 'vue'
-import { BasicShadowMap, SRGBColorSpace, NoToneMapping, Mesh, TorusGeometry, MeshToonMaterial, TorusKnotGeometry, PlaneGeometry } from 'three'
+import { BasicShadowMap, SRGBColorSpace, NoToneMapping, Mesh, TorusGeometry, MeshToonMaterial, TorusKnotGeometry, PlaneGeometry, Group, SphereGeometry } from 'three'
 import { TresCanvas } from '@tresjs/core'
 import { OrbitControls } from '@tresjs/cientos'
 import { TresLeches, useControls } from '@tresjs/leches'
@@ -44,12 +44,19 @@ const torusKnot = new Mesh(
   }),
 )
 
-const plane = new Mesh(
-  new PlaneGeometry(10, 10, 10, 10),
+const sphere = new Mesh(
+  new SphereGeometry(1, 32, 32),
   new MeshToonMaterial({
     color: '#82DBC5',
   }),
 )
+
+const firstGroup = new Group()
+firstGroup.add(torusMesh)
+firstGroup.add(torusKnot)
+
+const secondGroup = new Group()
+secondGroup.add(sphere)
 </script>
 
 <template>
@@ -67,10 +74,12 @@ const plane = new Mesh(
     />
     <OrbitControls />
     <primitive
-      :position="[0, 2, 0]"
-      :object="knot ? torusKnot : torusMesh"
+      :position="[4, 2, 0]"
+      :object="knot ? firstGroup : secondGroup"
     />
-    <primitive :object="plane" />
+    <Suspense>
+      <DynamicModel />
+    </Suspense>
     <TresAxesHelper :args="[1]" />
     <TresDirectionalLight
       :position="[0, 2, 4]"
