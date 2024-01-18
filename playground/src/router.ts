@@ -77,6 +77,11 @@ const routes = [
     component: () => import('./pages/perf/index.vue'),
   },
   {
+    path: '/primitives',
+    name: 'Primitives',
+    component: () => import('./pages/primitives.vue'),
+  },
+  {
     path: '/empty',
     name: 'empty',
     component: () => import('./pages/empty.vue'),

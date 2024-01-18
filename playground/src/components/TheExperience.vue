@@ -3,8 +3,6 @@ import { ref, watchEffect } from 'vue'
 import { BasicShadowMap, SRGBColorSpace, NoToneMapping } from 'three'
 import { TresCanvas } from '@tresjs/core'
 import { OrbitControls } from '@tresjs/cientos'
-import { TresLeches, useControls } from '@tresjs/leches'
-import '@tresjs/leches/styles'
 import TheSphere from './TheSphere.vue'
 
 const gl = {
@@ -19,25 +17,18 @@ const gl = {
 const wireframe = ref(true)
 
 const canvas = ref()
-const meshRef = ref()
-
-const { isVisible } = useControls({
-  isVisible: true,
-})
 
 watchEffect(() => {
-  if (meshRef.value) {
-    console.log(meshRef.value)
+  if (canvas.value) {
+    console.log(canvas.value.context)
   }
 })
 </script>
 
 <template>
-  <TresLeches />
   <TresCanvas
     v-bind="gl"
     ref="canvas"
-    window-size
     class="awiwi"
     :style="{ background: '#008080' }"
   >
@@ -46,10 +37,14 @@ watchEffect(() => {
       :look-at="[0, 4, 0]"
     />
     <OrbitControls />
+    <TresFog
+      :color="gl.clearColor"
+      :near="5"
+      :far="15"
+    />
     <TresMesh
       :position="[-2, 6, 0]"
       :rotation="[0, Math.PI, 0]"
-      name="cone"
       cast-shadow
     >
       <TresConeGeometry :args="[1, 1.5, 3]" />
@@ -66,22 +61,19 @@ watchEffect(() => {
       />
     </TresMesh>
     <TresMesh
-      ref="meshRef"
-      :rotation="[-Math.PI / 2, 0, Math.PI / 2]"
-      name="floor"
+      :rotation="[-Math.PI / 2, 0, 0]"
       receive-shadow
     >
-      <TresPlaneGeometry :args="[20, 20, 20]" />
-      <TresMeshToonMaterial
-        color="#D3FC8A"
-      />
+      <TresPlaneGeometry :args="[10, 10, 10, 10]" />
+      <TresMeshToonMaterial color="#D3FC8A" />
     </TresMesh>
-    <TheSphere v-if="isVisible" />
+    <TheSphere />
     <TresAxesHelper :args="[1]" />
     <TresDirectionalLight
       :position="[0, 2, 4]"
       :intensity="2"
       cast-shadow
     />
+    <TresOrthographicCamera />
   </TresCanvas>
 </template>

@@ -39,7 +39,8 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
       if (props?.object === undefined) logError('Tres primitives need a prop \'object\'')
       const object = props.object as TresObject
       name = object.type
-      instance = Object.assign(object, { type: name, attach: props.attach, primitive: true })
+      instance = Object.assign(object, { type: name })
+      instance.userData.tres__primitive = true
     }
     else {
       const target = catalogue.value[name]
@@ -59,8 +60,8 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
     }
 
     if (props?.attach === undefined) {
-      if (instance.isMaterial) instance.attach = 'material'
-      else if (instance.isBufferGeometry) instance.attach = 'geometry'
+      if (instance.isMaterial) instance.userData.tres__attach = 'material'
+      else if (instance.isBufferGeometry) instance.userData.tres__attach = 'geometry'
     }
 
     // determine whether the material was passed via prop to
@@ -76,6 +77,7 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
     instance.userData = {
       ...instance.userData,
       tres__name: name,
+      tres__memoisedProps: props,
     }
 
     return instance
@@ -110,10 +112,10 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
     else if (child?.isFog) {
       parentObject.fog = child
     }
-    else if (typeof child?.attach === 'string') {
-      child.__previousAttach = child[parentObject?.attach as string]
+    else if (typeof child?.userData.tres__attach === 'string') {
+      child.__previousAttach = child[parentObject?.userData.tres__attach as string]
       if (parentObject) {
-        parentObject[child.attach] = child
+        parentObject[child.userData.tres__attach] = child
       }
     }
   },
@@ -182,10 +184,29 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
 
     node.dispose?.()
   },
-  patchProp(node, prop, _prevValue, nextValue) {
+  patchProp(node, prop, prevValue, nextValue) {
     if (node) {
       let root = node
       let key = prop
+      if ( key === 'object' && prevValue !== null) {
+        const parent = node.parent || scene
+        const index = parent?.children.indexOf(prevValue)
+
+        if (index !== undefined && index !== -1) {
+          parent.children.splice(index, 1)
+        }
+        const newInstance = nodeOps.createElement('primitive', false, null, { 
+          object: nextValue, 
+        })
+
+        Object.entries(prevValue.userData.tres__memoisedProps).forEach(([key, value]) => {
+          nodeOps.patchProp(newInstance, key, null, value)
+        })
+        
+        nodeOps.insert(newInstance, parent)
+        /* switchInstance(node, nextValue) */
+      }
+
       if (node.isObject3D && key === 'blocks-pointer-events') {
         if (nextValue || nextValue === '')
           scene?.userData.tres__registerBlockingObjectAtPointerEventHandler?.(node as Object3D)
@@ -200,7 +221,7 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
 
       if (key === 'args') {
         const prevNode = node as TresObject3D
-        const prevArgs = _prevValue ?? []
+        const prevArgs = prevValue ?? []
         const args = nextValue ?? []
         const instanceName = node.userData.tres__name || node.type
 
