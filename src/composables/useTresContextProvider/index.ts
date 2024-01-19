@@ -1,5 +1,5 @@
-import { toValue, useElementSize, useFps, useMemory, useRafFn, useWindowSize } from '@vueuse/core'
-import { inject, provide, readonly, shallowRef, computed, ref, onUnmounted } from 'vue'
+import { toValue, useElementSize, useFps, useMemory, useRafFn, useWindowSize, refDebounced } from '@vueuse/core'
+import { inject, provide, readonly, shallowRef, computed, ref, onUnmounted, watchEffect } from 'vue'
 import type { Camera, EventDispatcher, Scene, WebGLRenderer } from 'three'
 import { Raycaster } from 'three'
 import type { ComputedRef, DeepReadonly, MaybeRef, MaybeRefOrGetter, Ref, ShallowRef } from 'vue'
@@ -83,14 +83,23 @@ export function useTresContextProvider({
       : useElementSize(toValue(canvas).parentElement),
   )
 
-  const width = computed(() => elementSize.value.width.value)
-  const height = computed(() => elementSize.value.height.value)
+  const reactiveSize = shallowRef({
+    width: 0,
+    height: 0,
+  })
+  const debouncedReactiveSize = refDebounced(reactiveSize, 10)
+  const unWatchSize = watchEffect(() => {
+    reactiveSize.value = {
+      width: elementSize.value.width.value,
+      height: elementSize.value.height.value,
+    }
+  })
 
-  const aspectRatio = computed(() => width.value / height.value)
+  const aspectRatio = computed(() => debouncedReactiveSize.value.width / debouncedReactiveSize.value.height)
 
   const sizes = {
-    height,
-    width,
+    height: computed(() => debouncedReactiveSize.value.height),
+    width: computed(() => debouncedReactiveSize.value.width),
     aspectRatio,
   }
   const localScene = shallowRef<Scene>(scene)
@@ -175,7 +184,7 @@ export function useTresContextProvider({
 
   // Performance
   const updateInterval = 100 // Update interval in milliseconds
-  const fps = useFps({ every: updateInterval }) 
+  const fps = useFps({ every: updateInterval })
   const { isSupported, memory } = useMemory({ interval: updateInterval })
   const maxFrames = 160
   let lastUpdateTime = performance.now()
@@ -187,7 +196,7 @@ export function useTresContextProvider({
     if (toProvide.scene.value) {
       toProvide.perf.memory.allocatedMem = calculateMemoryUsage(toProvide.scene.value as unknown as TresObject)
     }
-    
+
     // Update memory usage
     if (timestamp - lastUpdateTime >= updateInterval) {
       lastUpdateTime = timestamp
@@ -209,9 +218,9 @@ export function useTresContextProvider({
           toProvide.perf.memory.accumulator.shift()
         }
 
-        toProvide.perf.memory.currentMem 
+        toProvide.perf.memory.currentMem
         = toProvide.perf.memory.accumulator.reduce((a, b) => a + b, 0) / toProvide.perf.memory.accumulator.length
-        
+
       }
     }
   }
@@ -219,25 +228,26 @@ export function useTresContextProvider({
   // Devtools
   let accumulatedTime = 0
   const interval = 1 // Interval in milliseconds, e.g., 1000 ms = 1 second
-    
+
   const { pause } = useRafFn(({ delta }) => {
     if (!window.__TRES__DEVTOOLS__) return
 
     updatePerformanceData({ timestamp: performance.now() })
-    
+
     // Accumulate the delta time
     accumulatedTime += delta
-    
+
     // Check if the accumulated time is greater than or equal to the interval
     if (accumulatedTime >= interval) {
       window.__TRES__DEVTOOLS__.cb(toProvide)
-    
+
       // Reset the accumulated time
       accumulatedTime = 0
     }
-  }, { immediate: true }) 
-  
+  }, { immediate: true })
+
   onUnmounted(() => {
+    unWatchSize()
     pause()
   })
 

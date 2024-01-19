@@ -6,12 +6,19 @@
 ### Features
 
 * 474 vue chrome devtools plugin ([#479](https://github.com/Tresjs/tres/issues/479)) ([224ab06](https://github.com/Tresjs/tres/commit/224ab06a4404e2ae5a0cbd2f43041961862b09fd))
+  
+
+## [3.6.1](https://github.com/Tresjs/tres/compare/3.6.0...3.6.1) (2024-01-16)
 
 
 ### Bug Fixes
 
 * correct minor typos ([#438](https://github.com/Tresjs/tres/issues/438)) ([341faac](https://github.com/Tresjs/tres/commit/341faacb93fd347aced7f1bc7e0484ecbc12e6ce)), closes [#452](https://github.com/Tresjs/tres/issues/452)
 * incorrect MathRepresentation type ([#456](https://github.com/Tresjs/tres/issues/456)) ([314b088](https://github.com/Tresjs/tres/commit/314b0883b78ded0cad2bdf9f2506bbeac4a0817e))
+<<<<<<< HEAD
+=======
+* **usetrescontextprovider:** fixed rendering issues caused when resize is triggered ([#512](https://github.com/Tresjs/tres/issues/512)) ([a16b12b](https://github.com/Tresjs/tres/commit/a16b12b160098e97993b14a7bb054103c88b6263)), closes [#511](https://github.com/Tresjs/tres/issues/511)
+>>>>>>> main
 
 ## [3.6.0](https://github.com/Tresjs/tres/compare/3.5.2...3.6.0) (2023-12-12)
 
