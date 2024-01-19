@@ -191,17 +191,21 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
     if (node) {
       let root = node
       let key = prop
-      if ( key === 'object' && prevValue !== null) {
-        const newInstance = nodeOps.createElement('primitive', false, null, { 
+      if (key === 'object' && prevValue !== null) {
+        // If the prop 'object' is changed, we need to re-instance the object and swap the old one with the new one
+        const newInstance = nodeOps.createElement('primitive', undefined, undefined, { 
           object: nextValue, 
         })
-        const blacklistedKeys = ['uuid', 'position', 'rotation', 'scale', 'quaternion']
-        newInstance.uuid = node.uuid
-        for (const key in newInstance) {
-          if (!blacklistedKeys.includes(key)) {
-            node[key] = newInstance[key]
-          }
+        for (const subkey in newInstance) {
+          const target = node[subkey]
+          const value = newInstance[subkey]
+          if (!target?.set && !isFunction(target)) node[subkey] = value
+          else if (target.constructor === value.constructor && target?.copy) target?.copy(value)
+          else if (Array.isArray(value)) target.set(...value)
+          else if (!target.isColor && target.setScalar) target.setScalar(value)
+          else target.set(value)
         }
+        // This code is needed to handle the case where the prop 'object' type change from a group to a mesh or vice versa, otherwise the object will not be rendered correctly (models will be invisible)
         if (newInstance.isGroup) {
           node.geometry = undefined
           node.material = undefined
@@ -209,7 +213,6 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
         else {
           delete node.isGroup
         }
-
       }
 
       if (node.isObject3D && key === 'blocks-pointer-events') {

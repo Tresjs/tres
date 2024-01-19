@@ -63,6 +63,8 @@ const sphere = new Mesh(
   }),
 )
 
+sphere.position.set(2, -2, 0)
+
 const firstGroup = new Group()
 firstGroup.add(torus)
 firstGroup.add(torusKnot)
@@ -86,7 +88,6 @@ secondGroup.add(sphere)
     <OrbitControls />
     <primitive
       v-if="isVisible"
-      :position="[4, 2, 0]"
       :object="knot ? firstGroup : sphere"
     />
     <Suspense>
