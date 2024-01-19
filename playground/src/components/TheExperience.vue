@@ -3,7 +3,9 @@ import { ref, watchEffect } from 'vue'
 import { BasicShadowMap, SRGBColorSpace, NoToneMapping } from 'three'
 import { TresCanvas } from '@tresjs/core'
 import { OrbitControls } from '@tresjs/cientos'
+import { TresLeches, useControls } from '@tresjs/leches'
 import TheSphere from './TheSphere.vue'
+import '@tresjs/leches/styles'
 
 const gl = {
   clearColor: '#82DBC5',
@@ -15,7 +17,9 @@ const gl = {
 }
 
 const wireframe = ref(true)
-
+const { isVisible } = useControls({
+  isVisible: true,
+})
 const canvas = ref()
 
 watchEffect(() => {
@@ -26,6 +30,7 @@ watchEffect(() => {
 </script>
 
 <template>
+  <TresLeches />
   <TresCanvas
     v-bind="gl"
     ref="canvas"
@@ -51,6 +56,7 @@ watchEffect(() => {
       <TresMeshToonMaterial color="#82DBC5" />
     </TresMesh>
     <TresMesh
+      v-if="isVisible"
       :position="[0, 4, 0]"
       cast-shadow
     >

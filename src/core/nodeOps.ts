@@ -39,7 +39,7 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
       if (props?.object === undefined) logError('Tres primitives need a prop \'object\'')
       const object = props.object as TresObject
       name = object.type
-      instance = Object.assign(object, { type: name })
+      instance = Object.assign(object.clone(), { type: name }) as TresObject
       instance.userData.tres__primitive = true
     }
     else {
@@ -60,8 +60,8 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
     }
 
     if (props?.attach === undefined) {
-      if (instance.isMaterial) instance.userData.tres__attach = 'material'
-      else if (instance.isBufferGeometry) instance.userData.tres__attach = 'geometry'
+      if (instance.isMaterial) instance.attach = 'material'
+      else if (instance.isBufferGeometry) instance.attach = 'geometry'
     }
 
     // determine whether the material was passed via prop to
@@ -112,17 +112,17 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
     else if (child?.isFog) {
       parentObject.fog = child
     }
-    else if (typeof child?.userData.tres__attach === 'string') {
-      child.__previousAttach = child[parentObject?.userData.tres__attach as string]
+    else if (typeof child?.attach === 'string') {
+      child.__previousAttach = child[parentObject?.attach as string]
       if (parentObject) {
-        parentObject[child.userData.tres__attach] = child
+        parentObject[child.attach] = child
       }
     }
   },
   remove(node) {
     if (!node) return
     // remove is only called on the node being removed and not on child nodes.
-
+    node.parent = node.parent || scene
     if (node.isObject3D) {
       const object3D = node as unknown as Object3D
 
@@ -171,6 +171,7 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
       }
 
       node.removeFromParent?.()
+      
       object3D.traverse((child: Object3D) => {
         disposeMaterialsAndGeometries(child)
         deregisterCameraIfRequired(child)
@@ -180,31 +181,35 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
       disposeMaterialsAndGeometries(object3D)
       deregisterCameraIfRequired(object3D)
       deregisterAtPointerEventHandlerIfRequired?.(object3D as TresObject)
+
+      node.dispose?.()
+      
     }
 
-    node.dispose?.()
   },
   patchProp(node, prop, prevValue, nextValue) {
     if (node) {
       let root = node
       let key = prop
       if ( key === 'object' && prevValue !== null) {
-        const parent = node.parent || scene
-        const index = parent?.children.indexOf(prevValue)
-
-        if (index !== undefined && index !== -1) {
-          parent.children.splice(index, 1)
-        }
         const newInstance = nodeOps.createElement('primitive', false, null, { 
           object: nextValue, 
         })
+        const blacklistedKeys = ['uuid', 'position', 'rotation', 'scale', 'quaternion']
+        newInstance.uuid = node.uuid
+        for (const key in newInstance) {
+          if (!blacklistedKeys.includes(key)) {
+            node[key] = newInstance[key]
+          }
+        }
+        if (newInstance.isGroup) {
+          node.geometry = undefined
+          node.material = undefined
+        }
+        else {
+          delete node.isGroup
+        }
 
-        Object.entries(prevValue.userData.tres__memoisedProps).forEach(([key, value]) => {
-          nodeOps.patchProp(newInstance, key, null, value)
-        })
-        
-        nodeOps.insert(newInstance, parent)
-        /* switchInstance(node, nextValue) */
       }
 
       if (node.isObject3D && key === 'blocks-pointer-events') {

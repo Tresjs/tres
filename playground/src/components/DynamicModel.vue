@@ -2,19 +2,20 @@
 import { useControls } from '@tresjs/leches'
 import { useGLTF } from '@tresjs/cientos'
 
-const { scene } = await useGLTF('https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/blender-cube.glb', 
-  { draco: true })
+const { nodes } 
+  = await useGLTF('https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/blender-cube.glb', 
+    { draco: true })
 
-const { nodes } = await useGLTF(
+const { scene: AkuAku, nodes: akukuNodes } = await useGLTF(
   'https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/aku-aku/AkuAku.gltf',
   { draco: true },
 )
-const model = nodes.AkuAku
+
 const { isCube } = useControls({
-  isCube: true,
+  isCube: false,
 })
 </script>
 
 <template>
-  <primitive :object="isCube ? scene : model" />
+  <primitive :object="isCube ? nodes.Cube : AkuAku" />
 </template>

@@ -1,6 +1,17 @@
 <script setup lang="ts">
 import { ref, watchEffect } from 'vue'
-import { BasicShadowMap, SRGBColorSpace, NoToneMapping, Mesh, TorusGeometry, MeshToonMaterial, TorusKnotGeometry, PlaneGeometry, Group, SphereGeometry } from 'three'
+import { 
+  BasicShadowMap,
+  SRGBColorSpace,
+  NoToneMapping,
+  Mesh,
+  TorusGeometry,
+  MeshToonMaterial,
+  TorusKnotGeometry,
+  PlaneGeometry,
+  Group,
+  SphereGeometry, 
+} from 'three'
 import { TresCanvas } from '@tresjs/core'
 import { OrbitControls } from '@tresjs/cientos'
 import { TresLeches, useControls } from '@tresjs/leches'
@@ -14,14 +25,15 @@ const gl = {
   outputColorSpace: SRGBColorSpace,
   toneMapping: NoToneMapping,
 }
-
-const wireframe = ref(true)
-
 const canvas = ref()
 const meshRef = ref()
 
 const { knot } = useControls({
-  knot: true,
+  knot: false,
+})
+
+const { isVisible } = useControls({
+  isVisible: true,
 })
 
 watchEffect(() => {
@@ -30,7 +42,7 @@ watchEffect(() => {
   }
 })
 
-const torusMesh = new Mesh(
+const torus = new Mesh(
   new TorusGeometry(1, 0.5, 16, 100),
   new MeshToonMaterial({
     color: '#82DBC5',
@@ -52,7 +64,7 @@ const sphere = new Mesh(
 )
 
 const firstGroup = new Group()
-firstGroup.add(torusMesh)
+firstGroup.add(torus)
 firstGroup.add(torusKnot)
 
 const secondGroup = new Group()
@@ -70,12 +82,12 @@ secondGroup.add(sphere)
   >
     <TresPerspectiveCamera
       :position="[7, 7, 7]"
-      :look-at="[0, 4, 0]"
     />
     <OrbitControls />
     <primitive
+      v-if="isVisible"
       :position="[4, 2, 0]"
-      :object="knot ? firstGroup : secondGroup"
+      :object="knot ? firstGroup : sphere"
     />
     <Suspense>
       <DynamicModel />
