@@ -2,6 +2,7 @@ import type { App } from 'vue'
 import TresCanvas from './components/TresCanvas.vue'
 import { normalizeColor, normalizeVectorFlexibleParam } from './utils/normalize'
 import templateCompilerOptions from './utils/template-compiler-options'
+import { editSceneObject } from './utils'
 
 export * from './composables'
 export * from './core/catalogue'
@@ -29,4 +30,5 @@ export {
   normalizeColor,
   normalizeVectorFlexibleParam,
   templateCompilerOptions,
+  editSceneObject,
 }

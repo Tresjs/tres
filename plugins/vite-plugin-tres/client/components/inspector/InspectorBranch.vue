@@ -4,6 +4,7 @@ import { toRaw } from 'vue'
 const props = defineProps<{
   entry: any
   depth?: number
+  path?: string
 }>()
 
 const isObject = value => value && typeof value === 'object' && !Array.isArray(value)
@@ -67,6 +68,7 @@ function changeValue(key, value) {
             :key="item.key"
             :entry="{ ...item.value }"
             :depth="depth + 1"
+            :path="path ? `${path}.${item.key}` : item.key"
           />
         </template>
         <!-- Handle Arrays -->
@@ -104,17 +106,18 @@ function changeValue(key, value) {
           for=""
           class="text-gray-400"
         >{{ item.key }}</label> :
-        <UBadge
+        <!-- <UBadge
           color="gray"
           variant="soft"
         > 
           {{ isString(item.value) ? '"' : '' }}  {{ item.value }}   {{ isString(item.value) ? '"' : '' }}
-        </UBadge>
-        <!-- <input
-          :value="toRaw(item.value)"
-          type="text"
-          @input="changeValue(item.key, $event.target.value)"
-        > -->
+        </UBadge> -->
+        <InspectorControl
+          :label="item.key"
+          :value="item.value"
+          :path="path ? `${path}.${item.key}` : item.key"
+          :type="typeof item.value"
+        />
       </div>
     </template>
   </div>

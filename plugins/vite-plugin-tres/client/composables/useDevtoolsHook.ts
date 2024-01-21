@@ -3,6 +3,7 @@ import { computed, nextTick, reactive, ref, toRefs } from 'vue'
 import type { DevtoolsContextPayload, DevtoolsPerformancePayload, DevtoolsEvent, TresObject } from '@tresjs/core'
 import type { Mesh, Object3D } from 'three'
 import { DoubleSide, MeshBasicMaterial } from 'three'
+import { editSceneObject } from '@tresjs/core'
 import type { GraphObject } from '../types'
 import { HightlightMesh } from '../utils/highlightedMesh'
 
@@ -20,6 +21,7 @@ interface DevtoolsHookReturn {
   highlightObject: (object: TresObject) => void
   unhighlightObject: () => void
   selectObject: (object: TresObject) => void
+  editSceneObjectByPath: (path: string, value: any) => void
 }
 
 const state = reactive<DevtoolsState>({
@@ -163,6 +165,10 @@ function selectObject(object: TresObject) {
   state.selectedObject = { ...instance }
 }
 
+function editSceneObjectByPath(path: string, value: any) {
+  editSceneObject(state.scene, state.selectedObject.uuid, path.split('.'), value)
+}
+
 export function useDevtoolsHook(): DevtoolsHookReturn {
   function cb(event: DevtoolsEvent) {
     state.connected = true
@@ -191,5 +197,6 @@ export function useDevtoolsHook(): DevtoolsHookReturn {
     highlightObject,
     unhighlightObject,
     selectObject,
+    editSceneObjectByPath,
   }
 } 
