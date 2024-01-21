@@ -11,14 +11,14 @@ export interface SizesType {
 export default function useSizes(
   windowSize: MaybeRefOrGetter<boolean>,
   canvas: MaybeRef<HTMLCanvasElement>,
-  debounce: number = 10,
+  debounceMs: number = 10,
 ) {
   const reactiveSize = toValue(windowSize)
     ? useWindowSize()
     : useElementSize(computed(() => toValue(canvas).parentElement))
 
-  const debouncedReactiveWidth = readonly(refDebounced(reactiveSize.width, debounce))
-  const debouncedReactiveHeight = readonly(refDebounced(reactiveSize.height, debounce))
+  const debouncedReactiveWidth = readonly(refDebounced(reactiveSize.width, debounceMs))
+  const debouncedReactiveHeight = readonly(refDebounced(reactiveSize.height, debounceMs))
 
   const aspectRatio = computed(() => debouncedReactiveWidth.value / debouncedReactiveHeight.value)
 
