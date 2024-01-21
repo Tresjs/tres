@@ -77,7 +77,7 @@ export interface UseRendererOptions extends TransformToMaybeRefOrGetter<WebGLRen
    * CineonToneMapping, ACESFilmicToneMapping,
    * CustomToneMapping
    *
-   * @default NoToneMapping
+   * @default ACESFilmicToneMapping
    */
   toneMapping?: MaybeRefOrGetter<ToneMapping>
 
@@ -122,16 +122,12 @@ export function useRenderer(
 ) {
 
   const webGLRendererConstructorParameters = computed<WebGLRendererParameters>(() => ({
-    alpha: toValue(options.alpha) === undefined // an opinionated default of tres
-      ? true
-      : toValue(options.alpha),
+    alpha: toValue(options.alpha) ?? true,
     depth: toValue(options.depth),
     canvas: unrefElement(canvas),
     context: toValue(options.context),
     stencil: toValue(options.stencil),
-    antialias: toValue(options.antialias) === undefined // an opinionated default of tres
-      ? true
-      : toValue(options.antialias),
+    antialias: toValue(options.antialias) ?? true,
     precision: toValue(options.precision),
     powerPreference: toValue(options.powerPreference),
     premultipliedAlpha: toValue(options.premultipliedAlpha),
@@ -218,7 +214,7 @@ export function useRenderer(
       set(renderer.value, pathInThree, getValue(option, pathInThree))
 
     setValueOrDefault(options.shadows, 'shadowMap.enabled')
-    setValueOrDefault(options.toneMapping || ACESFilmicToneMapping, 'toneMapping')
+    setValueOrDefault(options.toneMapping ?? ACESFilmicToneMapping, 'toneMapping')
     setValueOrDefault(options.shadowMapType, 'shadowMap.type')
 
     if (revision < 150)
