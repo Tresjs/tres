@@ -5,7 +5,7 @@ import { OrbitControls } from '@tresjs/cientos'
 const { invalidate, advance } = useTres()
 
 function onControlChange() {
-  advance()
+  invalidate()
 }
 
 const positionX = ref(0)

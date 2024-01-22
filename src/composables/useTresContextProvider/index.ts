@@ -45,6 +45,7 @@ export interface TresContext {
    * If set to 'always', the scene will be rendered every frame
    */
   renderMode: Ref<'always' | 'on-demand' | 'manual'>
+  canBeInvalidated: ComputedRef<boolean>
   internal: InternalState
   /**
    * Invalidates the current frame when renderMode === 'on-demand'
@@ -147,6 +148,8 @@ export function useTresContextProvider({
       disableRender,
     })
 
+  const renderMode = ref<'always' | 'on-demand' | 'manual'>(rendererOptions.renderMode || 'always')
+
   const toProvide: TresContext = {
     sizes,
     scene: localScene,
@@ -167,7 +170,8 @@ export function useTresContextProvider({
         accumulator: [],
       },
     },
-    renderMode: ref(rendererOptions.renderMode || 'always'),
+    renderMode,
+    canBeInvalidated: computed(() => renderMode.value === 'on-demand' && internal.frames.value === 0),
     internal,
     advance,
     extend,

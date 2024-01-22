@@ -28,7 +28,7 @@ export function invalidateInstance(instance: TresObject) {
   
   if (!ctx) return
   
-  if (ctx.renderMode.value === 'on-demand' && ctx.internal.frames.value === 0) {
+  if (ctx.canBeInvalidated.value) {
     ctx.invalidate()
   }
 
