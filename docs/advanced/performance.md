@@ -32,9 +32,9 @@ You can do that by setting the `renderMode` prop to `on-demand` or `manual`:
 
 #### Automatic Invalidation
 
-When using `render-mode="on-demand"`, Tres.js will automatically invalidate the current frame by observing component props and lyfecycle hooks like `onMounted` and `onUnmounted`. It will also invalidate the frame when resizing the window or change any prop from the `<TresCanvas>` component like `clearColor` or `antialias`.
+When using `render-mode="on-demand"`, Tres.js will automatically invalidate the current frame by observing component props and lifecycle hooks like `onMounted` and `onUnmounted`. It will also invalidate the frame when resizing the window or changing any prop from the `<TresCanvas>` component like `clearColor` or `antialias`.
 
-This will trigger a new render: 
+The code below updates TresMesh's position-x prop every second, triggering a new render.
 
 ```vue
 <script setup>
@@ -59,7 +59,7 @@ setTimeout(() => {
 
 #### Manual Invalidation
 
-Since is not really possible to observe all the possible changes in your application, you can also manually invalidate the frame by calling the `invalidate()` method from the [`useTresContext` composable](../api/composables.md#usetrescontext):
+Since it is not really possible to observe all the possible changes in your application, you can also manually invalidate the frame by calling the `invalidate()` method from the [`useTresContext` composable](../api/composables.md#usetrescontext):
 
 
 ::: code-group
