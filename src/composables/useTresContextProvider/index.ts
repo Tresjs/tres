@@ -16,6 +16,19 @@ export interface InternalState {
   maxFrames: number
 }
 
+export interface RenderState {
+  /**
+   * If set to 'on-demand', the scene will only be rendered when the current frame is invalidated
+   * If set to 'manual', the scene will only be rendered when advance() is called
+   * If set to 'always', the scene will be rendered every frame
+   */
+  mode: Ref<'always' | 'on-demand' | 'manual'>
+  priority: Ref<number>
+  frames: Ref<number>
+  maxFrames: number
+  canBeInvalidated: ComputedRef<boolean>
+}
+
 export interface PerformanceState {
   maxFrames: number
   fps: {
@@ -39,21 +52,14 @@ export interface TresContext {
   renderer: ShallowRef<WebGLRenderer>
   raycaster: ShallowRef<Raycaster>
   perf: PerformanceState
-  /**
-   * If set to 'on-demand', the scene will only be rendered when the current frame is invalidated
-   * If set to 'manual', the scene will only be rendered when advance() is called
-   * If set to 'always', the scene will be rendered every frame
-   */
-  renderMode: Ref<'always' | 'on-demand' | 'manual'>
-  canBeInvalidated: ComputedRef<boolean>
-  internal: InternalState
+  render: RenderState
   /**
    * Invalidates the current frame when renderMode === 'on-demand'
    */
   invalidate: () => void
   /**
-   * Advance one frame when renderMode === 'manual'
-   */
+     * Advance one frame when renderMode === 'manual'
+     */
   advance: () => void
   registerCamera: (camera: Camera) => void
   setCameraActive: (cameraOrUuid: Camera | string) => void
@@ -112,17 +118,20 @@ export function useTresContextProvider({
     setCameraActive,
   } = useCamera({ sizes, scene })
 
-  // Initialize internal state
-  const internal: InternalState = {
+  // Render state
+
+  const render: RenderState = {
+    mode: ref<'always' | 'on-demand' | 'manual'>(rendererOptions.renderMode || 'always'),
     priority: ref(0),
     frames: ref(0),
     maxFrames: 60,
+    canBeInvalidated: computed(() => render.mode.value === 'on-demand' && render.frames.value === 0),
   }
 
   function invalidate(frames = 1) {
     // Increase the frame count, ensuring not to exceed a maximum if desired
     if (rendererOptions.renderMode === 'on-demand') {
-      internal.frames.value = Math.min(internal.maxFrames, internal.frames.value + frames)
+      render.frames.value = Math.min(render.maxFrames, render.frames.value + frames)
     }
     else {
       logWarning('`invalidate` can only be used when `renderMode` is set to `on-demand`')
@@ -131,7 +140,7 @@ export function useTresContextProvider({
 
   function advance() {
     if (rendererOptions.renderMode === 'manual') {
-      internal.frames.value = 1
+      render.frames.value = 1
     }
     else {
       logWarning('`advance` can only be used when `renderMode` is set to `manual`')
@@ -144,13 +153,12 @@ export function useTresContextProvider({
       canvas,
       options: rendererOptions,
       emit,
-      contextParts: { sizes, camera, internal, invalidate, advance },
+      // TODO: replace contextParts with full ctx at https://github.com/Tresjs/tres/issues/516
+      contextParts: { sizes, camera, render, invalidate, advance },
       disableRender,
     })
 
-  const renderMode = ref<'always' | 'on-demand' | 'manual'>(rendererOptions.renderMode || 'always')
-
-  const toProvide: TresContext = {
+  const ctx: TresContext = {
     sizes,
     scene: localScene,
     camera,
@@ -170,9 +178,7 @@ export function useTresContextProvider({
         accumulator: [],
       },
     },
-    renderMode,
-    canBeInvalidated: computed(() => renderMode.value === 'on-demand' && internal.frames.value === 0),
-    internal,
+    render,
     advance,
     extend,
     invalidate,
@@ -181,10 +187,10 @@ export function useTresContextProvider({
     deregisterCamera,
   }
 
-  provide('useTres', toProvide)
+  provide('useTres', ctx)
 
   // Add context to scene.userData
-  toProvide.scene.value.userData.tres__context = toProvide
+  ctx.scene.value.userData.tres__context = ctx
 
   // Performance
   const updateInterval = 100 // Update interval in milliseconds
@@ -197,8 +203,8 @@ export function useTresContextProvider({
 
     // Update WebGL Memory Usage (Placeholder for actual logic)
     // perf.memory.value = calculateMemoryUsage(gl)
-    if (toProvide.scene.value) {
-      toProvide.perf.memory.allocatedMem = calculateMemoryUsage(toProvide.scene.value as unknown as TresObject)
+    if (ctx.scene.value) {
+      ctx.perf.memory.allocatedMem = calculateMemoryUsage(ctx.scene.value as unknown as TresObject)
     }
 
     // Update memory usage
@@ -206,24 +212,24 @@ export function useTresContextProvider({
       lastUpdateTime = timestamp
 
       // Update FPS
-      toProvide.perf.fps.accumulator.push(fps.value as never)
+      ctx.perf.fps.accumulator.push(fps.value as never)
 
-      if (toProvide.perf.fps.accumulator.length > maxFrames) {
-        toProvide.perf.fps.accumulator.shift()
+      if (ctx.perf.fps.accumulator.length > maxFrames) {
+        ctx.perf.fps.accumulator.shift()
       }
 
-      toProvide.perf.fps.value = fps.value
+      ctx.perf.fps.value = fps.value
 
       // Update memory
       if (isSupported.value && memory.value) {
-        toProvide.perf.memory.accumulator.push(memory.value.usedJSHeapSize / 1024 / 1024 as never)
+        ctx.perf.memory.accumulator.push(memory.value.usedJSHeapSize / 1024 / 1024 as never)
 
-        if (toProvide.perf.memory.accumulator.length > maxFrames) {
-          toProvide.perf.memory.accumulator.shift()
+        if (ctx.perf.memory.accumulator.length > maxFrames) {
+          ctx.perf.memory.accumulator.shift()
         }
 
-        toProvide.perf.memory.currentMem
-        = toProvide.perf.memory.accumulator.reduce((a, b) => a + b, 0) / toProvide.perf.memory.accumulator.length
+        ctx.perf.memory.currentMem
+        = ctx.perf.memory.accumulator.reduce((a, b) => a + b, 0) / ctx.perf.memory.accumulator.length
 
       }
     }
@@ -243,7 +249,7 @@ export function useTresContextProvider({
 
     // Check if the accumulated time is greater than or equal to the interval
     if (accumulatedTime >= interval) {
-      window.__TRES__DEVTOOLS__.cb(toProvide)
+      window.__TRES__DEVTOOLS__.cb(ctx)
 
       // Reset the accumulated time
       accumulatedTime = 0
@@ -255,7 +261,7 @@ export function useTresContextProvider({
     pause()
   })
 
-  return toProvide
+  return ctx
 }
 
 export function useTresContext(): TresContext {

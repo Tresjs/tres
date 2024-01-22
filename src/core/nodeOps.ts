@@ -28,7 +28,7 @@ export function invalidateInstance(instance: TresObject) {
   
   if (!ctx) return
   
-  if (ctx.canBeInvalidated.value) {
+  if (ctx.render && ctx.render.canBeInvalidated.value) {
     ctx.invalidate()
   }
 

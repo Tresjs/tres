@@ -111,14 +111,14 @@ export function useRenderer(
     options,
     disableRender,
     emit,
-    contextParts: { sizes, camera, internal, invalidate, advance },
+    contextParts: { sizes, camera, render, invalidate, advance },
   }:
   {
     canvas: MaybeRef<HTMLCanvasElement>
     scene: Scene
     options: UseRendererOptions
     emit: (event: string, ...args: any[]) => void
-    contextParts: Pick<TresContext, 'sizes' | 'camera' | 'internal'> & { invalidate: () => void; advance: () => void }
+    contextParts: Pick<TresContext, 'sizes' | 'camera' | 'render'> & { invalidate: () => void; advance: () => void }
     disableRender: MaybeRefOrGetter<boolean>
   },
 ) {
@@ -178,19 +178,19 @@ export function useRenderer(
   const { resume, onLoop } = useRenderLoop()
 
   onLoop(() => {
-    if (camera.value && !toValue(disableRender) && internal.frames.value > 0) {
+    if (camera.value && !toValue(disableRender) && render.frames.value > 0) {
       renderer.value.render(scene, camera.value)
       emit('render', renderer.value)
     }
 
     // Reset priority
-    internal.priority.value = 0
+    render.priority.value = 0
 
     if (toValue(options.renderMode) === 'always') {
-      internal.frames.value = 1
+      render.frames.value = 1
     }
     else {
-      internal.frames.value = Math.max(0, internal.frames.value - 1)
+      render.frames.value = Math.max(0, render.frames.value - 1)
     }
 
   })
@@ -245,7 +245,7 @@ export function useRenderer(
 
     if (renderMode === 'always') {
       // If the render mode is 'always', ensure there's always a frame pending
-      internal.frames.value = Math.max(1, internal.frames.value)
+      render.frames.value = Math.max(1, render.frames.value)
     }
 
     const getValue = <T>(option: MaybeRefOrGetter<T>, pathInThree: string): T | undefined => {
