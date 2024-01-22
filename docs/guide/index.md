@@ -81,7 +81,7 @@ We have a brand new [StackBlitz](https://stackblitz.com/) starter to try TresJS 
 
 We also have a playground where you can try TresJS online. Check it out [here](https://playground.tresjs.org/).
 
-![](/public/playground.png)
+![](/playground.png)
 
 ## Motivation
 
