@@ -37,15 +37,27 @@ interface TresBaseObject {
   [prop: string]: any // for arbitrary properties
 }
 
+export interface LocalState {
+  type: string
+  // objects and parent are used when children are added with `attach` instead of being added to the Object3D scene graph
+  objects: TresObject3D[]
+  parent: TresObject3D | null
+  primitive?: boolean
+  eventCount: number
+  handlers: Partial<EventHandlers>
+  memoizedProps: { [key: string]: any }
+}
+
 // Custom type for geometry and material properties in Object3D
 export interface TresObject3D extends THREE.Object3D<THREE.Object3DEventMap> {
   geometry?: THREE.BufferGeometry & TresBaseObject
   material?: THREE.Material & TresBaseObject
-  userData: {
+  __tres: LocalState
+  /* userData: {
     tres__materialViaProp: boolean
     tres__geometryViaProp: boolean
     [key: string]: any
-  }
+  } */
 }
 
 export type TresObject = TresBaseObject & (TresObject3D | THREE.BufferGeometry | THREE.Material | THREE.Fog)

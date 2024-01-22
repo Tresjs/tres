@@ -2,6 +2,7 @@ import type { RendererOptions } from 'vue'
 import { BufferAttribute } from 'three'
 import { isFunction } from '@alvarosabu/utils'
 import type { Object3D, Camera } from 'three'
+import type { TresContext } from '../composables'
 import { useLogger } from '../composables'
 import { deepArrayEqual, isHTMLTag, kebabToCamel } from '../utils'
 
@@ -13,7 +14,6 @@ function noop(fn: string): any {
 }
 
 let scene: TresScene | null = null
-
 const { logError } = useLogger()
 
 const supportedPointerEvents = [
@@ -24,7 +24,7 @@ const supportedPointerEvents = [
 ]
 
 export function invalidateInstance(instance: TresObject) {
-  const ctx = instance.userData.tres__root?.userData?.tres__context
+  const ctx = instance.__tres.root
   
   if (!ctx) return
   
@@ -34,8 +34,8 @@ export function invalidateInstance(instance: TresObject) {
 
 }
 
-export const nodeOps: RendererOptions<TresObject, TresObject> = {
-  createElement(tag, _isSVG, _anchor, props) {
+export const nodeOps: RendererOptions<TresObject, TresObject | null> = {
+  createElement(tag, _isSVG, _anchor, props): TresObject | null {
     if (!props) props = {}
 
     if (!props.args) {
@@ -44,13 +44,13 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
     if (tag === 'template') return null
     if (isHTMLTag(tag)) return null
     let name = tag.replace('Tres', '')
-    let instance
+    let instance: TresObject | null
 
     if (tag === 'primitive') {
       if (props?.object === undefined) logError('Tres primitives need a prop \'object\'')
       const object = props.object as TresObject
       name = object.type
-      instance = Object.assign(object, { type: name, attach: props.attach, primitive: true })
+      instance = Object.assign(object, { type: name, attach: props.attach })
     }
     else {
       const target = catalogue.value[name]
@@ -59,6 +59,8 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
       }
       instance = new target(...props.args)
     }
+
+    if (!instance) return null
 
     if (instance.isCamera) {
       if (!props?.position) {
@@ -82,20 +84,21 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
       if (props?.geometry?.isBufferGeometry) (instance as TresObject3D).userData.tres__geometryViaProp = true
     }
 
-    // Since THREE instances properties are not consistent, (Orbit Controls doesn't have a `type` property) 
-    // we take the tag name and we save it on the userData for later use in the re-instancing process.
-    instance.userData = {
-      ...instance.userData,
-      tres__name: name,
+    instance.__tres = {
+      ...instance.__tres,
+      type: name,
+      memoizedProps: props,
+      eventCount: 0,
+      primitive: tag === 'primitive',
     }
 
-    return instance
+    return instance as TresObject
   },
   insert(child, parent) {
     if (parent && parent.isScene) {
       scene = parent as unknown as TresScene
       if (child) {
-        child.userData.tres__root = scene
+        child.__tres.root = scene.userData.tres__context as TresContext
       }
     }
 
@@ -220,7 +223,7 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
         const prevNode = node as TresObject3D
         const prevArgs = _prevValue ?? []
         const args = nextValue ?? []
-        const instanceName = node.userData.tres__name || node.type
+        const instanceName = node.__tres.type || node.type
 
         if (instanceName && prevArgs.length && !deepArrayEqual(prevArgs, args)) {
           root = Object.assign(prevNode, new catalogue.value[instanceName](...nextValue))
