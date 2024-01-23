@@ -46,6 +46,7 @@ export interface TresCanvasProps
   useLegacyLights?: boolean
   outputColorSpace?: ColorSpace
   toneMappingExposure?: number
+  renderMode?: 'always' | 'on-demand' | 'manual' 
 
   // required by useTresContextProvider
   camera?: TresCamera
@@ -66,7 +67,10 @@ const props = withDefaults(defineProps<TresCanvasProps>(), {
   preserveDrawingBuffer: undefined,
   logarithmicDepthBuffer: undefined,
   failIfMajorPerformanceCaveat: undefined,
+  renderMode: 'always',
 })
+
+const emit = defineEmits(['render'])
 
 const { logWarning } = useLogger()
 
@@ -123,16 +127,16 @@ const disableRender = computed(() => props.disableRender)
 const context = shallowRef<TresContext | null>(null)
 
 defineExpose({ context, dispose: () => dispose(context.value as TresContext, true) })
-
 onMounted(() => {
   const existingCanvas = canvas as Ref<HTMLCanvasElement>
 
   context.value = useTresContextProvider({
     scene: scene.value,
     canvas: existingCanvas,
-    windowSize: props.windowSize,
-    disableRender,
+    windowSize: props.windowSize ?? false,
+    disableRender: disableRender.value ?? false,
     rendererOptions: props,
+    emit,
   })
 
   usePointerEventHandler({ scene: scene.value, contextParts: context.value })
