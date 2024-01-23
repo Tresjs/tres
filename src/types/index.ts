@@ -55,11 +55,6 @@ export interface TresObject3D extends THREE.Object3D<THREE.Object3DEventMap> {
   geometry?: THREE.BufferGeometry & TresBaseObject
   material?: THREE.Material & TresBaseObject
   __tres: LocalState
-  /* userData: {
-    tres__materialViaProp: boolean
-    tres__geometryViaProp: boolean
-    [key: string]: any
-  } */
 }
 
 export type TresObject = TresBaseObject & (TresObject3D | THREE.BufferGeometry | THREE.Material | THREE.Fog)
@@ -67,16 +62,6 @@ export type TresObject = TresBaseObject & (TresObject3D | THREE.BufferGeometry |
 export interface TresScene extends THREE.Scene {
   __tres: {
     root: TresContext
-  }
-  userData: {
-    // keys are prefixed with tres__ to avoid name collisions
-    tres__registerCamera?: (newCamera: THREE.Camera, active?: boolean) => void
-    tres__deregisterCamera?: (camera: THREE.Camera) => void
-    tres__registerAtPointerEventHandler?: (object: THREE.Object3D & PointerEventHandlerEventProps) => void
-    tres__deregisterAtPointerEventHandler?: (object: THREE.Object3D) => void
-    tres__registerBlockingObjectAtPointerEventHandler?: (object: THREE.Object3D) => void
-    tres__deregisterBlockingObjectAtPointerEventHandler?: (object: THREE.Object3D) => void
-    [key: string]: any
   }
 }
 
