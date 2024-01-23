@@ -47,6 +47,7 @@ export interface LocalState {
   eventCount: number
   handlers: Partial<EventHandlers>
   memoizedProps: { [key: string]: any }
+  disposable: boolean
 }
 
 // Custom type for geometry and material properties in Object3D

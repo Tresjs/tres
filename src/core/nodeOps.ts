@@ -75,20 +75,20 @@ export const nodeOps: RendererOptions<TresObject, TresObject | null> = {
       else if (instance.isBufferGeometry) instance.attach = 'geometry'
     }
 
-    // determine whether the material was passed via prop to
-    // prevent it's disposal when node is removed later in it's lifecycle
-
-    if (instance.isObject3D) {
-      if (props?.material?.isMaterial) (instance as TresObject3D).userData.tres__materialViaProp = true
-      if (props?.geometry?.isBufferGeometry) (instance as TresObject3D).userData.tres__geometryViaProp = true
-    }
-
     instance.__tres = {
       ...instance.__tres,
       type: name,
       memoizedProps: props,
       eventCount: 0,
+      disposable: true,
       primitive: tag === 'primitive',
+    }
+
+    // determine whether the material was passed via prop to
+    // prevent it's disposal when node is removed later in it's lifecycle
+
+    if (instance.isObject3D && (props?.material || props?.geometry)) {
+      instance.__tres.disposable = false
     }
 
     return instance as TresObject
@@ -134,24 +134,21 @@ export const nodeOps: RendererOptions<TresObject, TresObject | null> = {
   },
   remove(node) {
     if (!node) return
+    const ctx = node.__tres
     // remove is only called on the node being removed and not on child nodes.
     const { 
       deregisterObjectAtPointerEventHandler,
       deregisterBlockingObjectAtPointerEventHandler, 
-    } = node.__tres.root
+    } = ctx.root
 
     if (node.isObject3D) {
-      const object3D = node as unknown as Object3D
 
-      const disposeMaterialsAndGeometries = (object3D: Object3D) => {
+      const disposeMaterialsAndGeometries = (object3D: TresObject) => {
         const tresObject3D = object3D as TresObject3D
-
-        if (!object3D.userData.tres__materialViaProp) {
+        // TODO: to be improved on https://github.com/Tresjs/tres/pull/466/files
+        if (ctx.disposable) {
           tresObject3D.material?.dispose()
           tresObject3D.material = undefined
-        }
-
-        if (!object3D.userData.tres__geometryViaProp) {
           tresObject3D.geometry?.dispose()
           tresObject3D.geometry = undefined
         }
@@ -174,15 +171,15 @@ export const nodeOps: RendererOptions<TresObject, TresObject | null> = {
 
       node.removeFromParent?.()
 
-      object3D.traverse((child: Object3D) => {
-        disposeMaterialsAndGeometries(child)
+      node.traverse((child: Object3D) => {
+        disposeMaterialsAndGeometries(child as TresObject)
         deregisterCameraIfRequired(child)
         deregisterAtPointerEventHandlerIfRequired?.(child as TresObject)
       })
 
-      disposeMaterialsAndGeometries(object3D)
-      deregisterCameraIfRequired(object3D)
-      deregisterAtPointerEventHandlerIfRequired?.(object3D as TresObject)
+      disposeMaterialsAndGeometries(node)
+      deregisterCameraIfRequired(node as Object3D)
+      deregisterAtPointerEventHandlerIfRequired?.(node as TresObject)
     }
 
     invalidateInstance(node as TresObject)
