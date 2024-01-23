@@ -3,6 +3,7 @@ import type { DefineComponent, VNode, VNodeRef } from 'vue'
 
 import type * as THREE from 'three'
 import type { EventProps as PointerEventHandlerEventProps } from '../composables/usePointerEventHandler'
+import type { TresContext } from '../composables/useTresContextProvider'
 
 // Based on React Three Fiber types by Pmndrs
 // https://github.com/pmndrs/react-three-fiber/blob/v9/packages/fiber/src/three-types.ts
@@ -63,6 +64,9 @@ export interface TresObject3D extends THREE.Object3D<THREE.Object3DEventMap> {
 export type TresObject = TresBaseObject & (TresObject3D | THREE.BufferGeometry | THREE.Material | THREE.Fog)
 
 export interface TresScene extends THREE.Scene {
+  __tres: {
+    root: TresContext
+  }
   userData: {
     // keys are prefixed with tres__ to avoid name collisions
     tres__registerCamera?: (newCamera: THREE.Camera, active?: boolean) => void

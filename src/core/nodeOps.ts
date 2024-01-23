@@ -98,7 +98,7 @@ export const nodeOps: RendererOptions<TresObject, TresObject | null> = {
     if (parent && parent.isScene) {
       scene = parent as unknown as TresScene
       if (child) {
-        child.__tres.root = scene.userData.tres__context as TresContext
+        child.__tres.root = scene.__tres.root as TresContext
       }
     }
 

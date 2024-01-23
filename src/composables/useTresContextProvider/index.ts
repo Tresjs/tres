@@ -9,6 +9,7 @@ import type { UseRendererOptions } from '../useRenderer'
 import { useRenderer } from '../useRenderer'
 import { extend } from '../../core/catalogue'
 import { useLogger } from '../useLogger'
+import type { TresScene } from '../../types'
 
 export interface InternalState {
   priority: Ref<number>
@@ -43,7 +44,7 @@ export interface PerformanceState {
 }
 
 export interface TresContext {
-  scene: ShallowRef<Scene>
+  scene: ShallowRef<TresScene>
   sizes: { height: Ref<number>; width: Ref<number>; aspectRatio: ComputedRef<number> }
   extend: (objects: any) => void
   camera: ComputedRef<Camera | undefined>
@@ -74,7 +75,7 @@ export function useTresContextProvider({
   rendererOptions,
   emit,
 }: {
-  scene: Scene
+  scene: TresScene
   canvas: MaybeRef<HTMLCanvasElement>
   windowSize: MaybeRefOrGetter<boolean>
   disableRender: MaybeRefOrGetter<boolean>
@@ -109,7 +110,7 @@ export function useTresContextProvider({
     width: computed(() => debouncedReactiveSize.value.width),
     aspectRatio,
   }
-  const localScene = shallowRef<Scene>(scene)
+  const localScene = shallowRef<TresScene>(scene)
   const {
     camera,
     cameras,
@@ -189,8 +190,8 @@ export function useTresContextProvider({
 
   provide('useTres', ctx)
 
-  // Add context to scene.userData
-  ctx.scene.value.userData.tres__context = ctx
+  // Add context to scene local state
+  ctx.scene.value.__tres.root = ctx
 
   // Performance
   const updateInterval = 100 // Update interval in milliseconds
