@@ -24,7 +24,6 @@ import {
 import pkg from '../../package.json'
 import {
   useTresContextProvider,
-  useLogger,
   usePointerEventHandler,
   useRenderLoop,
   type TresContext,
@@ -71,8 +70,6 @@ const props = withDefaults(defineProps<TresCanvasProps>(), {
 })
 
 const emit = defineEmits(['render'])
-
-const { logWarning } = useLogger()
 
 const canvas = ref<HTMLCanvasElement>()
 
@@ -180,10 +177,6 @@ onMounted(() => {
   )
 
   if (!camera.value) {
-    logWarning(
-      'No camera found. Creating a default perspective camera. '
-        + 'To have full control over a camera, please add one to the scene.',
-    )
     addDefaultCamera()
   }
 
