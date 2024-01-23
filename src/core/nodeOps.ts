@@ -5,7 +5,6 @@ import type { Object3D, Camera } from 'three'
 import type { TresContext } from '../composables'
 import { useLogger } from '../composables'
 import { deepArrayEqual, isHTMLTag, kebabToCamel } from '../utils'
-
 import type { TresObject, TresObject3D, TresScene } from '../types'
 import { catalogue } from './catalogue'
 
@@ -95,28 +94,27 @@ export const nodeOps: RendererOptions<TresObject, TresObject | null> = {
     return instance as TresObject
   },
   insert(child, parent) {
+    if (!child) return
+    
     if (parent && parent.isScene) {
       scene = parent as unknown as TresScene
-      if (child) {
-        child.__tres.root = scene.__tres.root as TresContext
-      }
+    }
+
+    if (scene) {
+      child.__tres.root = scene.__tres.root as TresContext
     }
 
     const parentObject = parent || scene
-
+    
     if (child?.isObject3D) {
-
+      const { registerCamera, registerObjectAtPointerEventHandler } = child.__tres.root
       if (child?.isCamera) {
-        child.__tres.root.registerCamera?.(child as unknown as Camera)
+        registerCamera(child as unknown as Camera)
       }
-
       if (
         child && supportedPointerEvents.some(eventName => child[eventName])
       ) {
-        if (!scene?.userData.tres__registerAtPointerEventHandler)
-          throw 'could not find tres__registerAtPointerEventHandler on scene\'s userData'
-
-        scene?.userData.tres__registerAtPointerEventHandler?.(child as Object3D)
+        registerObjectAtPointerEventHandler(child as Object3D)
       }
     }
 
@@ -137,6 +135,10 @@ export const nodeOps: RendererOptions<TresObject, TresObject | null> = {
   remove(node) {
     if (!node) return
     // remove is only called on the node being removed and not on child nodes.
+    const { 
+      deregisterObjectAtPointerEventHandler,
+      deregisterBlockingObjectAtPointerEventHandler, 
+    } = node.__tres.root
 
     if (node.isObject3D) {
       const object3D = node as unknown as Object3D
@@ -155,37 +157,23 @@ export const nodeOps: RendererOptions<TresObject, TresObject | null> = {
         }
       }
 
-      const deregisterAtPointerEventHandler = scene?.userData.tres__deregisterAtPointerEventHandler
-      const deregisterBlockingObjectAtPointerEventHandler
-        = scene?.userData.tres__deregisterBlockingObjectAtPointerEventHandler
-
       const deregisterAtPointerEventHandlerIfRequired = (object: TresObject) => {
-
-        if (!deregisterBlockingObjectAtPointerEventHandler)
-          throw 'could not find tres__deregisterBlockingObjectAtPointerEventHandler on scene\'s userData'
-
-        scene?.userData.tres__deregisterBlockingObjectAtPointerEventHandler?.(object as Object3D)
-
-        if (!deregisterAtPointerEventHandler)
-          throw 'could not find tres__deregisterAtPointerEventHandler on scene\'s userData'
-
+        deregisterBlockingObjectAtPointerEventHandler(object as Object3D)
         if (
           object && supportedPointerEvents.some(eventName => object[eventName])
         )
-          deregisterAtPointerEventHandler?.(object as Object3D)
+          deregisterObjectAtPointerEventHandler?.(object as Object3D)
       }
 
       const deregisterCameraIfRequired = (object: Object3D) => {
         const deregisterCamera = node.__tres.root.deregisterCamera
-
-        if (!deregisterCamera)
-          throw 'could not find tres__deregisterCamera on scene\'s userData'
 
         if ((object as Camera).isCamera)
           deregisterCamera?.(object as Camera)
       }
 
       node.removeFromParent?.()
+
       object3D.traverse((child: Object3D) => {
         disposeMaterialsAndGeometries(child)
         deregisterCameraIfRequired(child)
@@ -204,13 +192,21 @@ export const nodeOps: RendererOptions<TresObject, TresObject | null> = {
     if (node) {
       let root = node
       let key = prop
-      if (node.isObject3D && key === 'blocks-pointer-events') {
-        if (nextValue || nextValue === '')
-          scene?.userData.tres__registerBlockingObjectAtPointerEventHandler?.(node as Object3D)
-        else
-          scene?.userData.tres__deregisterBlockingObjectAtPointerEventHandler?.(node as Object3D)
 
-        return
+      if (node.__tres.root) {
+        const { 
+          registerBlockingObjectAtPointerEventHandler,
+          deregisterBlockingObjectAtPointerEventHandler, 
+        } = node.__tres.root
+  
+        if (node.isObject3D && key === 'blocks-pointer-events') {
+          if (nextValue || nextValue === '')
+            registerBlockingObjectAtPointerEventHandler(node as Object3D)
+          else
+            deregisterBlockingObjectAtPointerEventHandler(node as Object3D)
+  
+          return
+        }
       }
 
       let finalKey = kebabToCamel(key)

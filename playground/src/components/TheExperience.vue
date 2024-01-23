@@ -70,6 +70,7 @@ watchEffect(() => {
       :rotation="[-Math.PI / 2, 0, Math.PI / 2]"
       name="floor"
       receive-shadow
+      @click="wireframe = !wireframe"
     >
       <TresPlaneGeometry :args="[20, 20, 20]" />
       <TresMeshToonMaterial

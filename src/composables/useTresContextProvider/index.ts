@@ -1,6 +1,6 @@
 import { toValue, useElementSize, useFps, useMemory, useRafFn, useWindowSize, refDebounced } from '@vueuse/core'
 import { inject, provide, readonly, shallowRef, computed, ref, onUnmounted, watchEffect } from 'vue'
-import type { Camera, EventDispatcher, WebGLRenderer } from 'three'
+import type { Camera, EventDispatcher, Object3D, WebGLRenderer } from 'three'
 import { Raycaster } from 'three'
 import type { ComputedRef, DeepReadonly, MaybeRef, MaybeRefOrGetter, Ref, ShallowRef } from 'vue'
 import { calculateMemoryUsage } from '../../utils/perf'
@@ -10,6 +10,7 @@ import { useRenderer } from '../useRenderer'
 import { extend } from '../../core/catalogue'
 import { useLogger } from '../useLogger'
 import type { TresScene } from '../../types'
+import type { EventProps } from '../usePointerEventHandler'
 
 export interface InternalState {
   priority: Ref<number>
@@ -62,9 +63,17 @@ export interface TresContext {
      * Advance one frame when renderMode === 'manual'
      */
   advance: () => void
+  // Camera
   registerCamera: (camera: Camera) => void
   setCameraActive: (cameraOrUuid: Camera | string) => void
   deregisterCamera: (camera: Camera) => void
+  // Events
+  // Temporaly add the methods to the context, this should be handled later by the EventManager state on the context https://github.com/Tresjs/tres/issues/515
+  // When thats done maybe we can short the names of the methods since the parent will give the context.
+  registerObjectAtPointerEventHandler: (object: Object3D & EventProps) => void
+  deregisterObjectAtPointerEventHandler: (object: Object3D) => void
+  registerBlockingObjectAtPointerEventHandler: (object: Object3D) => void
+  deregisterBlockingObjectAtPointerEventHandler: (object: Object3D) => void
 }
 
 export function useTresContextProvider({

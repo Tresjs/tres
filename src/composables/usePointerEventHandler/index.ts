@@ -1,5 +1,4 @@
 import type { Intersection, Object3D, Object3DEventMap } from 'three'
-import type { TresScene } from 'src/types'
 import { computed, reactive, ref } from 'vue'
 import { uniqueBy } from '../../utils'
 import { useRaycaster } from '../useRaycaster'
@@ -17,11 +16,7 @@ export interface EventProps {
 }
 
 export const usePointerEventHandler = (
-  { scene, contextParts }:
-  {
-    scene: TresScene
-    contextParts: Pick<TresContext, 'renderer' | 'camera' | 'raycaster'>
-  },
+  ctx: TresContext,
 ) => {
   const objectsWithEventListeners = reactive({
     click: new Map<Object3D<Object3DEventMap>, CallbackFn>(),
@@ -54,13 +49,6 @@ export const usePointerEventHandler = (
     if (onPointerLeave) objectsWithEventListeners.pointerLeave.set(object, onPointerLeave)
   }
 
-  // to make the registerObject available in the custom renderer (nodeOps), it is attached to the scene
-  scene.userData.tres__registerAtPointerEventHandler = registerObject
-  scene.userData.tres__deregisterAtPointerEventHandler = deregisterObject
-
-  scene.userData.tres__registerBlockingObjectAtPointerEventHandler = registerBlockingObject
-  scene.userData.tres__deregisterBlockingObjectAtPointerEventHandler = deregisterBlockingObject
-
   const objectsToWatch = computed(() =>
     uniqueBy(
       [
@@ -73,7 +61,13 @@ export const usePointerEventHandler = (
     ),
   )
 
-  const { onClick, onPointerMove } = useRaycaster(objectsToWatch, contextParts)
+  // Temporaly add the methods to the context, this should be handled later by the EventManager state on the context https://github.com/Tresjs/tres/issues/515
+  ctx.registerObjectAtPointerEventHandler = registerObject
+  ctx.deregisterObjectAtPointerEventHandler = deregisterObject
+  ctx.registerBlockingObjectAtPointerEventHandler = registerBlockingObject
+  ctx.deregisterBlockingObjectAtPointerEventHandler = deregisterBlockingObject
+
+  const { onClick, onPointerMove } = useRaycaster(objectsToWatch, ctx)
 
   onClick(({ intersects, event }) => {
     if (intersects.length) objectsWithEventListeners.click.get(intersects[0].object)?.(intersects[0], event)
@@ -101,5 +95,7 @@ export const usePointerEventHandler = (
   return {
     registerObject,
     deregisterObject,
+    registerBlockingObject,
+    deregisterBlockingObject,
   }
 }
