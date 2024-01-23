@@ -1,6 +1,6 @@
 import { toValue, useElementSize, useFps, useMemory, useRafFn, useWindowSize, refDebounced } from '@vueuse/core'
 import { inject, provide, readonly, shallowRef, computed, ref, onUnmounted, watchEffect } from 'vue'
-import type { Camera, EventDispatcher, Scene, WebGLRenderer } from 'three'
+import type { Camera, EventDispatcher, WebGLRenderer } from 'three'
 import { Raycaster } from 'three'
 import type { ComputedRef, DeepReadonly, MaybeRef, MaybeRefOrGetter, Ref, ShallowRef } from 'vue'
 import { calculateMemoryUsage } from '../../utils/perf'
@@ -122,7 +122,7 @@ export function useTresContextProvider({
   // Render state
 
   const render: RenderState = {
-    mode: ref<'always' | 'on-demand' | 'manual'>(rendererOptions.renderMode || 'always'),
+    mode: ref(rendererOptions.renderMode || 'always') as Ref<'always' | 'on-demand' | 'manual'>,
     priority: ref(0),
     frames: ref(0),
     maxFrames: 60,
