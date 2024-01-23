@@ -2,7 +2,6 @@
 import type { DefineComponent, VNode, VNodeRef } from 'vue'
 
 import type * as THREE from 'three'
-import type { EventProps as PointerEventHandlerEventProps } from '../composables/usePointerEventHandler'
 import type { TresContext } from '../composables/useTresContextProvider'
 
 // Based on React Three Fiber types by Pmndrs
