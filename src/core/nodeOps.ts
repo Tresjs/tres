@@ -107,10 +107,7 @@ export const nodeOps: RendererOptions<TresObject, TresObject | null> = {
     if (child?.isObject3D) {
 
       if (child?.isCamera) {
-        if (!scene?.userData.tres__registerCamera)
-          throw 'could not find tres__registerCamera on scene\'s userData'
-
-        scene?.userData.tres__registerCamera?.(child as unknown as Camera)
+        child.__tres.root.registerCamera?.(child as unknown as Camera)
       }
 
       if (
@@ -179,7 +176,7 @@ export const nodeOps: RendererOptions<TresObject, TresObject | null> = {
       }
 
       const deregisterCameraIfRequired = (object: Object3D) => {
-        const deregisterCamera = scene?.userData.tres__deregisterCamera
+        const deregisterCamera = node.__tres.root.deregisterCamera
 
         if (!deregisterCamera)
           throw 'could not find tres__deregisterCamera on scene\'s userData'

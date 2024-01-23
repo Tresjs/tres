@@ -191,7 +191,9 @@ export function useTresContextProvider({
   provide('useTres', ctx)
 
   // Add context to scene local state
-  ctx.scene.value.__tres.root = ctx
+  ctx.scene.value.__tres = {
+    root: ctx,
+  }
 
   // Performance
   const updateInterval = 100 // Update interval in milliseconds
