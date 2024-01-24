@@ -96,8 +96,18 @@ describe('nodeOps', () => {
 
   it('insert should insert child into parent', async () => {
     // Setup
-    const parent: TresObject = new Scene()
-    const child: TresObject = new Mesh()
+    const parent = new Scene()
+    parent.__tres = {
+      root: {
+        registerCamera: () => { },
+        registerObjectAtPointerEventHandler: () => { },
+      }
+    }
+    const child = new Mesh()
+
+    child.__tres = {
+      root: null
+    }
 
     // Fake vnodes
     child.__vnode = {
@@ -132,6 +142,11 @@ describe('nodeOps', () => {
   it('patchProp should patch property of node', async () => {
     // Setup
     const node: TresObject = new Mesh()
+    node.__tres = {
+      root: {
+        invalidate: () => { },
+      }
+    }
     const prop = 'visible'
     const nextValue = false
 
@@ -145,6 +160,11 @@ describe('nodeOps', () => {
   it('patchProp should patch traverse pierced props', async () => {
     // Setup
     const node: TresObject = new Mesh()
+    node.__tres = {
+      root: {
+        invalidate: () => { },
+      }
+    }
     const prop = 'position-x'
     const nextValue = 5
 
@@ -158,6 +178,11 @@ describe('nodeOps', () => {
   it('patchProp it should not patch traverse pierced props of existing dashed properties', async () => {
     // Setup
     const node: TresObject = new Mesh()
+    node.__tres = {
+      root: {
+        invalidate: () => { },
+      }
+    }
     const prop = 'cast-shadow'
     const nextValue = true
 
