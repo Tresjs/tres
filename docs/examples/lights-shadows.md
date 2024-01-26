@@ -74,11 +74,11 @@ Internally, ThreeJS automatically generates a new mesh with a [ShadowMaterial](h
 The overuse of shadows in this way could drop your performance. However, there are ways to increase your performance, for more information please check out [this video](https://youtu.be/WGNvVGrS0kY?si=q7XyL5eABKUh3gbS&t=1256)
 :::
 
-## Setting our lights and shadow
+## Enabling shadows
 
-We could divide this into three steps.
+We could divide this into three steps:
 
-### Set the shadows on the renderer
+### Activate shadows on the renderer
 
 ```vue
 //...
@@ -92,7 +92,7 @@ We could divide this into three steps.
   //...
 </template>
 ```
-### Set the light to cast shadow
+### Set the light to cast shadows
 
 We can simple put the boolean `cast-shadow`, Vue understand this as a `prop` with `true` value
 
