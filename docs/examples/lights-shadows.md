@@ -5,7 +5,7 @@ This guide will help you get started with simple light and shadows in TresJS.
 We will build a simple scene with three meshes and a plane but only two will have shadows.
 <SandboxDemo url="https://play.tresjs.org/#eNqVVt1y2jwQfRUN30WSKdimhLbjL3Qo9GfaadpM4K7uhbAXUGpLGkn8pJm8e1eSDXZCMmRCGGv37NHZ1XrFXWuqQH+QMlivoBW3LnSqmDREg1lJklO+GCQto5PW+4SzQgplyB3RS5rnYnMNc3JP5koU5ASjT/6vQSzrmPI11W2y0nANPAP1XQhZBQwNIm50mArVjPypZsyMBTdK5HrHv4Mz4EboRsSIapZOljQTm0sq22Ry/WU0FrlQE0lTaJMfYio4oEsyvtgxmqUCOEl4wlPBtSGLnAzIXcIJSXOgyhHE5OS/d68/jsb9k7b1YOK4iY6JUStwFprLJY3JnObaGzwEN5veSogfarMIsTJyhRlWAuOHgi3I7BXHzQTQfb9XPRNbewyD2pmcnu3dd0RwW3XMetA8B4/y3tPTMzJ475Nn81PPGaxpvoIzZ6xbAiUMNUzw4Ja8GpAoiLoWgpruHWXCL0LfRNgyuDBQyJwawBUhF/u+IOvOjPEM22uRJy2ywWex6Wj21yMR2+yEsDJbiitQWkJq2BrGtABFSSyFZlYWEv7qt8nbwH/9Ru54LtZoPu/bZ+oCcdm1K45Hjc9R4FZzt+hGUYSrxoaXoJfNPTqv2wQ/kdugqol1RG1ySc0yuPrqvSVNlTye5BcQBRh1i2LUQtuYbpt0reCeZas2rm09FYIjKShGc5LaVsGosjXrUsMq4JF2BXMM8QeJESnVpuN7tZkWqrefR7pHYntAttVcfb1I+vln+3ec9LrWplisvz2Gx2oncglqX+ejZX0ejaLe6NiKpoD991QVO71DzdEpW4OErnkOab/CqXuoRRC8/3+i2BNDeUZV9jiz+Vv791Rmtdw+FDM7Y7+zxdKQmHEDHPO6LV+YxkvxkWENbGY09/Dnumr3rhym9HL8aEDDRVibG612yw/7TkFlcKMFx5vKDaakdOAFFfv5ZW31u8U6ktbSGKnjMEwzjvEZ5GytAg4m5LII6/BhL+gHUZgxbUJrRnTSchO5QexvoZdw+wikf1OnL83NXcwG6B+JTXAE/w47PA9wiJXMlTEomI2pc9tb7xheixsiY/8d6n0FuqiXAW97vEyOrm8NPuxGrsA47WEbFM3qljhsIAXZC4h9wHPUCOxkULAjSCuoTf48eBPmbFanrO467Emj8ZKds8WDjkxFIVkO6qe03d/sTHdHf3O23U8IF7OE9M8B+43eeslX2Cyg1lju/VHiZADj3Z8mP2CLzztnIbJVXh7OE85r0CJfWY0eNlrxDGXXcE7tV/eC4Q+Pqf60dW9umVRDqMFfO876q5pJu17zht+ucA7vjmP8TJX2mfWC3q7g9/8AWlN6bg==" />
 
-## Let's first setup our scene (optional)
+## Setting up the scene (optional)
 
 We import all the modules that we need, for comfort we can use the orbit-controls from cientos,
 [check here to know how](/examples/orbit-controls).
@@ -74,7 +74,7 @@ Internally, ThreeJS automatically generates a new mesh with a (ShadowMaterial)[h
 
 We could divide this into three steps.
 
-**Number 1**: Set the shadows on the renderer
+### Set the shadows on the renderer
 
 ```vue
 //...
@@ -88,7 +88,7 @@ We could divide this into three steps.
   //...
 </template>
 ```
-**Number 2**: Set the light to cast shadow
+### Set the light to cast shadow
 
 We can simple put the boolean `cast-shadow`, Vue understand this as a `prop` with `true` value
 
@@ -108,7 +108,7 @@ _The AmbientLight doesn't generate any type of shadow here_
   //...
 </template>
 ```
-**Number 3**: Set the objects to cast or receive shadows
+### Set the objects to cast or receive shadows
 
 Similarly to the previous step, we set the mesh that we want to cast shadow (our sphere) with the `cast-shadow` prop, and set the object to receive shadow (our plane) with the `receive-shadow` prop.
 
@@ -167,7 +167,7 @@ onLoop(() => {
 </template>
 ```
 
-_Note that I intentionally did not apply `cast-shadow` to the ``Cone` so it doesn't cast any shadow_
+_Note that I intentionally did not apply `cast-shadow` to the `Cone` so it doesn't cast any shadow_
 
 ::: warning
 The overuse of shadows in this way could drop your performance. However, there are ways to increase your performance, for more information please check out [this video](https://youtu.be/WGNvVGrS0kY?si=q7XyL5eABKUh3gbS&t=1256)
