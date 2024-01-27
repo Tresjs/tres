@@ -90,6 +90,16 @@ export default defineConfig({
         ],
       },
       {
+        text: 'Directives',
+        collapsed: true,
+        items: [
+          { text: 'v-log', link: '/directives/v-log' },
+          { text: 'v-light-helper', link: '/directives/v-light-helper' },
+          { text: 'v-always-look-at', link: '/directives/v-always-look-at' },
+          { text: 'v-distance-to', link: '/directives/v-distance-to' },
+        ],
+      },
+      {
         text: 'Ecosystem',
         items: [
           {
