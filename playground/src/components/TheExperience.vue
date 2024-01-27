@@ -27,15 +27,13 @@ watchEffect(() => {
 
 <template>
   <div>
-    <button @click="wireframe = !wireframe">
-      Click
-    </button>
+    <RouterLink to="/multiple">
+      Multiple
+    </RouterLink>
   </div>
-  <pre>{{ wireframe }}</pre>
   <TresCanvas
     v-bind="gl"
     ref="canvas"
-    window-size
     class="awiwi"
     :style="{ background: '#008080' }"
   >
