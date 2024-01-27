@@ -84,7 +84,7 @@
     "eslint-plugin-vue": "^9.19.2",
     "esno": "^4.0.0",
     "gsap": "^3.12.3",
-    "jsdom": "^23.0.1",
+    "jsdom": "^24.0.0",
     "kolorist": "^1.8.0",
     "ohmyfetch": "^0.4.21",
     "pathe": "^1.1.1",
