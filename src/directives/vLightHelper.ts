@@ -1,4 +1,4 @@
-import { useLogger } from '@tresjs/core'
+
 import type {
   Light,
 } from 'three'
@@ -9,6 +9,7 @@ import {
   HemisphereLightHelper,
 } from 'three'
 import { RectAreaLightHelper } from 'three-stdlib'
+import { useLogger } from '../composables'
 import type { TresObject } from '../types'
 
 const { logWarning } = useLogger()

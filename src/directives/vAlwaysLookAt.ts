@@ -1,8 +1,8 @@
-import { useRenderLoop, useLogger } from '@tresjs/core'
 import type { Object3D } from 'three'
 import type { Ref } from 'vue'
 import { extractBindingPosition } from '../utils'
 import type { TresVector3 } from '../types'
+import { useLogger, useRenderLoop } from '../composables'
 
 const { logWarning } = useLogger()
 
