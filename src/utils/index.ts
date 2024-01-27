@@ -132,8 +132,8 @@ export const isArray = Array.isArray as (a: any) => a is any[] | readonly any[]
 
 export function extractBindingPosition(binding: any): Vector3 {
   let observer = binding.value
-  if (binding.value && binding.value?.value?.isMesh) {
-    observer = binding.value.value.position
+  if (binding.value && binding.value?.isMesh) {
+    observer = binding.value.position
   }
   if (Array.isArray(binding.value)) observer = new Vector3(...observer)
   return observer

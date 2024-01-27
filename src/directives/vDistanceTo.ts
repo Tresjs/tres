@@ -1,11 +1,13 @@
 import { useLogger } from '@tresjs/core'
 import { ArrowHelper } from 'three'
+import type { Ref } from 'vue'
 import { extractBindingPosition } from '../utils'
+import type { TresObject } from '../types'
 
 const { logWarning } = useLogger()
 
 export const vDistanceTo = {
-  updated: (el: any, binding: any) => {
+  updated: (el: TresObject, binding: Ref<TresObject>) => {
     const observer = extractBindingPosition(binding)
     if (!observer) {
       logWarning(`v-distance-to: problem with binding value: ${binding.value}`)
@@ -17,7 +19,7 @@ export const vDistanceTo = {
     }
     const dir = observer.clone().sub(el.position)
     dir.normalize()
-    arrowHelper = new ArrowHelper( dir, el.position, el.position.distanceTo(observer) / 1.5, 0xffff00 )
+    arrowHelper = new ArrowHelper( dir, el.position, el.position.distanceTo(observer), 0xffff00 )
     el.parent.add( arrowHelper )
     // eslint-disable-next-line no-console
     console.table([
@@ -27,7 +29,7 @@ export const vDistanceTo = {
     ],
     )
   },
-  unmounted: (el: any) => {
+  unmounted: (el: TresObject) => {
     arrowHelper?.dispose()
     el.parent.remove(arrowHelper)
   },
