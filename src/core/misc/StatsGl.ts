@@ -93,7 +93,9 @@ export const StatsGl = defineComponent<StatsGlProps>({
     expose({ statsGl })
 
     const node = document.body
-    node?.appendChild(statsGl.dom)
+    const statContainer = statsGl.dom || statsGl.container
+
+    node?.appendChild(statContainer)
 
     const { renderer } = useTresContext()
     const { onAfterLoop, resume } = useRenderLoop()
@@ -106,7 +108,8 @@ export const StatsGl = defineComponent<StatsGlProps>({
     })
 
     onUnmounted(() => {
-      node?.removeChild(statsGl.dom)
+      node?.removeChild(statContainer)
     })
   },
+    
 })
