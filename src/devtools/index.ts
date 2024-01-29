@@ -1,0 +1,1 @@
+export { registerTresDevtools } from './plugin'

@@ -3,6 +3,7 @@
 <template>
   <TresMesh
     :position="[2, 2, 0]"
+    name="sphere"
     cast-shadow
   >
     <TresSphereGeometry />
