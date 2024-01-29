@@ -64,6 +64,25 @@ export default defineConfig({
           },
         ],
       },
+
+      {
+        text: 'Advanced',
+
+        items: [
+          { text: 'Extending', link: '/advanced/extending' },
+          { text: 'primitive', link: '/advanced/primitive' },
+          {
+            text: 'Caveats',
+            link: '/advanced/caveats',
+          },
+        ],
+      },
+      {
+        text: 'Debug',
+        items: [
+          { text: 'Devtools', link: '/debug/devtools' },
+        ],
+      },
       {
         text: 'Examples',
         items: [
@@ -75,18 +94,6 @@ export default defineConfig({
           { text: 'Load Text', link: '/examples/text-3d' },
           { text: 'Lights & Shadows', link: '/examples/lights-shadows' },
           { text: 'Shaders', link: '/examples/shaders' },
-        ],
-      },
-      {
-        text: 'Advanced',
-
-        items: [
-          { text: 'Extending', link: '/advanced/extending' },
-          { text: 'primitive', link: '/advanced/primitive' },
-          {
-            text: 'Caveats',
-            link: '/advanced/caveats',
-          },
         ],
       },
       {
