@@ -1,3 +1,5 @@
+import { Vector3 } from 'three'
+
 export function toSetMethodName(key: string) {
   return `set${key[0].toUpperCase()}${key.slice(1)}`
 }
@@ -127,3 +129,12 @@ export function deepArrayEqual(arr1: any[], arr2: any[]): boolean {
  * TypeSafe version of Array.isArray
  */
 export const isArray = Array.isArray as (a: any) => a is any[] | readonly any[]
+
+export function extractBindingPosition(binding: any): Vector3 {
+  let observer = binding.value
+  if (binding.value && binding.value?.isMesh) {
+    observer = binding.value.position
+  }
+  if (Array.isArray(binding.value)) observer = new Vector3(...observer)
+  return observer
+}

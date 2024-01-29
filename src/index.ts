@@ -7,6 +7,7 @@ export * from './composables'
 export * from './core/catalogue'
 export * from './components'
 export * from './types'
+export * from './directives'
 
 export interface TresOptions {
   extends?: Record<string, unknown>
