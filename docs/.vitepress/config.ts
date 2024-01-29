@@ -73,6 +73,8 @@ export default defineConfig({
           { text: 'Load Textures', link: '/examples/load-textures' },
           { text: 'Load Models', link: '/examples/load-models' },
           { text: 'Load Text', link: '/examples/text-3d' },
+          { text: 'Lights & Shadows', link: '/examples/lights-shadows' },
+          { text: 'Shaders', link: '/examples/shaders' },
         ],
       },
       {

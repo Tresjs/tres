@@ -130,7 +130,7 @@ importers:
   docs:
     dependencies:
       '@tresjs/core':
-        specifier: workspace:3.6.0
+        specifier: workspace:*
         version: link:..
     devDependencies:
       unocss:
