@@ -1,5 +1,18 @@
 
 
+## [3.7.0](https://github.com/Tresjs/tres/compare/3.6.1...3.7.0) (2024-01-29)
+
+
+### Features
+
+* 474 vue chrome devtools plugin ([#526](https://github.com/Tresjs/tres/issues/526)) ([0185bfa](https://github.com/Tresjs/tres/commit/0185bfa6f04faff5eabbc526616713ef7747ebeb))
+* 524 feat add directives to core ([#525](https://github.com/Tresjs/tres/issues/525)) ([5268e9f](https://github.com/Tresjs/tres/commit/5268e9f13bf65c61d5ddfe7153b71b335449b81d))
+
+
+### Bug Fixes
+
+* **docs:** change image path to silence warning ([#519](https://github.com/Tresjs/tres/issues/519)) ([280d248](https://github.com/Tresjs/tres/commit/280d2482760bde1032e24c4a9e96af4beea954ed))
+
 ## [3.6.1](https://github.com/Tresjs/tres/compare/3.6.0...3.6.1) (2024-01-16)
 
 
