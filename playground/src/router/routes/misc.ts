@@ -24,4 +24,9 @@ export const miscRoutes = [
     name: 'BakeShadows',
     component: () => import('../../pages/misc/BakeShadows.vue'),
   },
+  {
+    path: '/misc/gltfExporter',
+    name: 'GLTFExporter',
+    component: () => import('../../pages/misc/GLTFExporterDemo.vue'),
+  },
 ]
