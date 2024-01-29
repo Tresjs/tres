@@ -3,7 +3,7 @@ import { BasicShadowMap, EquirectangularReflectionMapping, NoToneMapping, SRGBCo
 import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader'
 
 const gl = {
-  clearColor: '#F7F7F7',
+  clearColor: '#e4e4e4',
   shadows: true,
   alpha: false,
   shadowMapType: BasicShadowMap,
