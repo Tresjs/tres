@@ -37,7 +37,6 @@ watchEffect(() => {
   <TresCanvas
     v-bind="gl"
     ref="canvas"
-    window-size
     class="awiwi"
     :style="{ background: '#008080' }"
   >
