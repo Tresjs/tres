@@ -6,7 +6,14 @@
   "description": "TresJS integration for Nuxt.",
   "author": "Daniel Roe (https://github.com/danielroe/)",
   "license": "MIT",
-  "repository": "@tresjs/nuxt",
+  "homepage": "https://tresjs.org",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tresjs/nuxt.git"
+  },
+  "bugs": {
+    "url": "https://github.com/tresjs/nuxt/issues"
+  },
   "publishConfig": {
     "access": "public"
   },
