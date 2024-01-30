@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@tresjs/core':
-        specifier: 3.6.0
-        version: 3.6.0(three@0.159.0)(vue@3.4.7)
+        specifier: 3.7.0
+        version: 3.7.0(three@0.159.0)(vue@3.4.7)
       '@vueuse/core':
         specifier: ^10.7.1
         version: 10.7.1(vue@3.4.7)
@@ -131,8 +131,8 @@ importers:
   playground:
     dependencies:
       '@tresjs/core':
-        specifier: 3.6.0
-        version: 3.6.0(three@0.160.0)(vue@3.4.7)
+        specifier: 3.7.0
+        version: 3.7.0(three@0.159.0)(vue@3.4.7)
       vue-router:
         specifier: ^4.2.5
         version: 4.2.5(vue@3.4.7)
@@ -1426,8 +1426,8 @@ packages:
     resolution: {integrity: sha512-C5Mc6rdnsaJDjO3UpGW/CQTHtCKaYlScZTly4JIu97Jxo/odCiH0ITnDXSJPTOrEKk/ycSZ0AOgTmkDtkOsvIA==}
     dev: true
 
-  /@tresjs/core@3.6.0(three@0.159.0)(vue@3.4.7):
-    resolution: {integrity: sha512-eG5WFyETwSMmGt/5v+5yTk8nxU2ohyUdE2F6Dv4e7PIMXGsiNaT6ouT3jR9oK4LBU+I/1KZXb0V6HJKCS+AV/Q==}
+  /@tresjs/core@3.7.0(three@0.159.0)(vue@3.4.7):
+    resolution: {integrity: sha512-Hg6VK7RQuGiXyLlbB+7FdPyS4KERxIpnU8EO/UzmN4/Bfr6I9Kuo1F0LF+5BBFyxBPqc7sD1Dcy7Epj8We9ETg==}
     peerDependencies:
       three: '>=0.133'
       vue: '>=3.3'
@@ -1435,20 +1435,6 @@ packages:
       '@alvarosabu/utils': 3.1.1
       '@vueuse/core': 10.7.1(vue@3.4.7)
       three: 0.159.0
-      vue: 3.4.7(typescript@5.3.3)
-    transitivePeerDependencies:
-      - '@vue/composition-api'
-    dev: false
-
-  /@tresjs/core@3.6.0(three@0.160.0)(vue@3.4.7):
-    resolution: {integrity: sha512-eG5WFyETwSMmGt/5v+5yTk8nxU2ohyUdE2F6Dv4e7PIMXGsiNaT6ouT3jR9oK4LBU+I/1KZXb0V6HJKCS+AV/Q==}
-    peerDependencies:
-      three: '>=0.133'
-      vue: '>=3.3'
-    dependencies:
-      '@alvarosabu/utils': 3.1.1
-      '@vueuse/core': 10.7.1(vue@3.4.7)
-      three: 0.160.0
       vue: 3.4.7(typescript@5.3.3)
     transitivePeerDependencies:
       - '@vue/composition-api'
@@ -7098,10 +7084,6 @@ packages:
 
   /three@0.159.0:
     resolution: {integrity: sha512-eCmhlLGbBgucuo4VEA9IO3Qpc7dh8Bd4VKzr7WfW4+8hMcIfoAVi1ev0pJYN9PTTsCslbcKgBwr2wNZ1EvLInA==}
-
-  /three@0.160.0:
-    resolution: {integrity: sha512-DLU8lc0zNIPkM7rH5/e1Ks1Z8tWCGRq6g8mPowdDJpw1CFBJMU7UoJjC6PefXW7z//SSl0b2+GCw14LB+uDhng==}
-    dev: false
 
   /through2@0.6.5:
     resolution: {integrity: sha512-RkK/CCESdTKQZHdmKICijdKKsCRVHs5KsLZ6pACAmF/1GPUQhonHSXWNERctxEp7RmvjdNbZTL5z9V7nSCXKcg==}
