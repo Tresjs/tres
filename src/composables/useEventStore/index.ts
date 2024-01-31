@@ -17,6 +17,20 @@ export const useEventStore = createGlobalState(
       return _scene.value ? _scene.value.children : []
     })
 
+    function executeEventListeners(listeners: Function | Function[], intersection, event){
+      // Components with multiple event listeners will have an array of functions
+      if (Array.isArray(listeners)) {
+        for (const listener of listeners) {
+          listener(intersection, event);
+        }
+      }
+
+      // Single listener will be a function
+      if (typeof listeners === 'function') {
+        listeners(intersection, event);
+      }
+    }
+
     /**
      * propogateEvent
      * 
@@ -26,28 +40,21 @@ export const useEventStore = createGlobalState(
      * @param intersects - An array of intersections
      */
     function propogateEvent(eventName: string, event, intersects) {
-      // console.log(`propogateEvent: ${eventName}` , event, intersects);
-
+      let stopPropagating = true;
+      
       // Loop through all intersected objects and call their event handler
       if (intersects.length) {
         for(const intersection of intersects) {
-          const { object } = intersection
-          object[eventName]?.(intersection, event)
+          if (stopPropagating) return;
+          intersection.stopPropagation = () => stopPropagating = true;
 
-          // Todo: Flesh out event modifiers, blocking, stopPropagation, etc here and below
-          if ("blocks-pointer-events" in object) {
-            return;
-          }
-          
+          const { object } = intersection
+          executeEventListeners(object[eventName], intersection, event)
+
           // Propogate the event up the parent chain before moving on to the next intersected object
           let parent = object.parent
-          while(parent !== null) {
-            parent[eventName]?.(intersection, event)
-
-            if ("blocks-pointer-events" in parent) {
-              return;
-            }
-
+          while(parent !== null && !stopPropagating) {
+            executeEventListeners(parent[eventName], intersection, event)
             parent = parent.parent
           }
 

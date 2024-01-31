@@ -41,7 +41,7 @@ const gl = {
     <primitive :object="meshWithMaterial" :position="[3, 1.5, 2]" @click="event => event.object.material.color.set('red')" />
     <Box :position="[-5, 1.5, 2]" name="Moving"></Box>
     <Box :position="[0, 1.5, 0]" name="A0">
-      <Box :position="[-0.66, -1, 0]" name="B0" blocks-pointer-events>
+      <Box :position="[-0.66, -1, 0]" name="B0">
         <Box :position="[-0.66, -1, 0]" name="C0">
           <Box :position="[-0.66, -1, 0]" name="D0" />
           <Box :position="[0.66, -1, 0]" name="D1" />
