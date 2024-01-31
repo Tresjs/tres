@@ -47,16 +47,17 @@ export interface LocalState {
   handlers: Partial<EventHandlers>
   memoizedProps: { [key: string]: any }
   disposable: boolean
+  root: TresContext
 }
 
 // Custom type for geometry and material properties in Object3D
 export interface TresObject3D extends THREE.Object3D<THREE.Object3DEventMap> {
   geometry?: THREE.BufferGeometry & TresBaseObject
   material?: THREE.Material & TresBaseObject
-  __tres: LocalState
 }
 
-export type TresObject = TresBaseObject & (TresObject3D | THREE.BufferGeometry | THREE.Material | THREE.Fog)
+export type TresObject = 
+  TresBaseObject & (TresObject3D | THREE.BufferGeometry | THREE.Material | THREE.Fog) & { __tres: LocalState }
 
 export interface TresScene extends THREE.Scene {
   __tres: {
