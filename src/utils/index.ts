@@ -38,6 +38,12 @@ export function kebabToCamel(str: string) {
   return str.replace(/-([a-z])/g, (_, c) => c.toUpperCase())
 }
 
+//CamelCase to kebab-case
+const hyphenateRE = /\B([A-Z])/g
+export function hyphenate(str: string) {
+  return str.replace(hyphenateRE, '-$1').toLowerCase()
+}
+
 export function makeMap(str: string, expectsLowerCase?: boolean): (key: string) => boolean {
   const map: Record<string, boolean> = Object.create(null)
   const list: Array<string> = str.split(',')

@@ -8,12 +8,14 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     AnimatedModel: typeof import('./src/components/AnimatedModel.vue')['default']
+    Box: typeof import('./src/components/Box.vue')['default']
     CameraOperator: typeof import('./src/components/CameraOperator.vue')['default']
     Cameras: typeof import('./src/components/Cameras.vue')['default']
     copy: typeof import('./src/components/TheBasic copy.vue')['default']
     DanielTest: typeof import('./src/components/DanielTest.vue')['default']
     DebugUI: typeof import('./src/components/DebugUI.vue')['default']
     DeleteMe: typeof import('./src/components/DeleteMe.vue')['default']
+    EventsPropogation: typeof import('./src/components/EventsPropogation.vue')['default']
     FBXModels: typeof import('./src/components/FBXModels.vue')['default']
     Gltf: typeof import('./src/components/gltf/index.vue')['default']
     LocalOrbitControls: typeof import('./src/components/LocalOrbitControls.vue')['default']

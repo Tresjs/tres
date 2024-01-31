@@ -1,0 +1,94 @@
+import { computed, ref, shallowRef } from 'vue'
+import type { TresContext } from '../useTresContextProvider'
+import { useRaycaster } from '../useRaycaster'
+import { createGlobalState } from '@vueuse/core'
+import { Intersection, Event, Object3D } from 'three'
+import { hyphenate } from '../../utils'
+
+export const useEventStore = createGlobalState(
+  (scene, context, emit) => {
+    const _scene = shallowRef<THREE.Scene>()
+    const _context = shallowRef<TresContext>()
+
+    if(scene) _scene.value = scene
+    if(context) _context.value = context
+
+    const sceneChildren = computed(() => {
+      return _scene.value ? _scene.value.children : []
+    })
+
+    /**
+     * propogateEvent
+     * 
+     * Propogates an event to all intersected objects and their parents
+     * @param eventName - The name of the event to propogate
+     * @param event - The event object
+     * @param intersects - An array of intersections
+     */
+    function propogateEvent(eventName: string, event, intersects) {
+      // console.log(`propogateEvent: ${eventName}` , event, intersects);
+
+      // Loop through all intersected objects and call their event handler
+      if (intersects.length) {
+        for(const intersection of intersects) {
+          const { object } = intersection
+          object[eventName]?.(intersection, event)
+
+          // Todo: Flesh out event modifiers, blocking, stopPropagation, etc here and below
+          if ("blocks-pointer-events" in object) {
+            return;
+          }
+          
+          // Propogate the event up the parent chain before moving on to the next intersected object
+          let parent = object.parent
+          while(parent !== null) {
+            parent[eventName]?.(intersection, event)
+
+            if ("blocks-pointer-events" in parent) {
+              return;
+            }
+
+            parent = parent.parent
+          }
+
+          // Convert eventName to kebab case to emit event from TresCanvas
+          let kebabEventName = hyphenate(eventName.slice(2))
+          emit(kebabEventName, { intersection, event })
+        }
+      }
+    }
+
+    const { onClick, onDblClick, onContextMenu, onPointerMove, onPointerDown, onPointerUp, onWheel, forceUpdate } = useRaycaster(sceneChildren, _context.value)
+
+    onPointerUp(({event, intersects}) => propogateEvent("onPointerUp", event, intersects))
+    onPointerDown(({event, intersects}) => propogateEvent("onPointerDown", event, intersects))
+    onClick(({event, intersects}) => propogateEvent("onClick", event, intersects))
+    onDblClick(({event, intersects}) => propogateEvent("onDoubleClick", event, intersects))
+    onContextMenu(({event, intersects}) => propogateEvent("onContextMenu", event, intersects))
+    onWheel(({event, intersects}) => propogateEvent("onWheel", event, intersects))
+
+
+    let previouslyIntersectedObject: Object3D<Event> | null
+
+    onPointerMove(({ intersects, event }) => {
+      const firstObject = intersects?.[0]?.object
+  
+      if (previouslyIntersectedObject && previouslyIntersectedObject !== firstObject){
+        propogateEvent("onPointerLeave", event, [{object: previouslyIntersectedObject}])
+        propogateEvent("onPointerOut", event, [{object: previouslyIntersectedObject}])
+      }
+  
+      if (firstObject) {
+        if (previouslyIntersectedObject !== firstObject) {
+          propogateEvent("onPointerEnter", event, intersects)
+          propogateEvent("onPointerOver", event, intersects)
+        }
+        propogateEvent("onPointerMove", event, intersects)
+      }
+  
+      previouslyIntersectedObject = firstObject || null
+    })
+
+    return { forceUpdate }
+  }
+)
