@@ -40,7 +40,7 @@ export const useEventStore = createGlobalState(
      * @param intersects - An array of intersections
      */
     function propogateEvent(eventName: string, event, intersects) {
-      let stopPropagating = true;
+      let stopPropagating = false;
       
       // Loop through all intersected objects and call their event handler
       if (intersects.length) {
