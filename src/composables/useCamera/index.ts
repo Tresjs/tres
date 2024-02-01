@@ -1,5 +1,6 @@
 import { computed, watchEffect, onUnmounted, ref } from 'vue'
-import { Camera, OrthographicCamera, PerspectiveCamera } from 'three'
+import type { OrthographicCamera } from 'three'
+import { Camera, PerspectiveCamera } from 'three'
 
 import type { TresScene } from '../../types'
 import type { TresContext } from '../useTresContextProvider'
@@ -49,7 +50,8 @@ export const useCamera = ({
         if (!camera.manual && (camera instanceof PerspectiveCamera || isOrthographicCamera(camera))) {
           if (camera instanceof PerspectiveCamera) {
             camera.aspect = sizes.aspectRatio.value
-          } else {
+          }
+          else {
             camera.left = sizes.width.value * -0.5
             camera.right = sizes.width.value * 0.5
             camera.top = sizes.height.value * 0.5
@@ -77,6 +79,6 @@ export const useCamera = ({
   }
 }
 
-function isOrthographicCamera(o:any): o is OrthographicCamera {
+function isOrthographicCamera(o: any): o is OrthographicCamera {
   return o.hasOwnProperty('isOrthographicCamera') && o.isOrthographicCamera
 }

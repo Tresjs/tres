@@ -13,7 +13,7 @@ const gl = {
   outputColorSpace: SRGBColorSpace,
   toneMapping: NoToneMapping,
 }
-type Cam = (PerspectiveCamera | OrthographicCamera) & {manual?: boolean}
+type Cam = (PerspectiveCamera | OrthographicCamera) & { manual?: boolean }
 
 const state = reactive({
   cameraType: 'perspective',
@@ -32,18 +32,19 @@ const { cameraType, manual } = useControls({
     }, {
       text: 'Orthographic',
       value: 'orthographic',
-    }
-  ],
+    },
+    ],
     value: state.cameraType,
   },
-  manual: false
+  manual: false,
 })
 
 watch(() => [cameraType.value.value, manual.value.value], () => {
   state.cameraType = cameraType.value.value
   if (cameraType.value.value === 'perspective') {
     state.camera = new PerspectiveCamera(75, 1, 0.1, 1000)
-  } else if (cameraType.value.value === 'orthographic') {
+  }
+  else if (cameraType.value.value === 'orthographic') {
     state.camera = new OrthographicCamera(-1, 1, 1, -1, 0, 1000)
     state.camera.zoom = 20
   }
