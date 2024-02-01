@@ -136,7 +136,7 @@ onMounted(() => {
     emit,
   })
 
-  usePointerEventHandler({ scene: scene.value, contextParts: context.value })
+  usePointerEventHandler(context.value)
 
   const { registerCamera, camera, cameras, deregisterCamera } = context.value
 
