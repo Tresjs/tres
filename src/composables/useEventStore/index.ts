@@ -1,12 +1,10 @@
-import { computed, ref, shallowRef } from 'vue'
+import { computed, shallowRef } from 'vue'
 import type { TresContext } from '../useTresContextProvider'
 import { useRaycaster } from '../useRaycaster'
-import { createGlobalState } from '@vueuse/core'
-import { Intersection, Event, Object3D } from 'three'
+import { Event, Object3D } from 'three'
 import { hyphenate } from '../../utils'
 
-export const useEventStore = createGlobalState(
-  (scene, context, emit) => {
+export function useEventStore(scene: THREE.Scene, context: TresContext, emit) {
     const _scene = shallowRef<THREE.Scene>()
     const _context = shallowRef<TresContext>()
 
@@ -41,12 +39,12 @@ export const useEventStore = createGlobalState(
      */
     function propogateEvent(eventName: string, event, intersects) {
       let stopPropagating = false;
-      
+      const stopPropagatingFn = () => stopPropagating = true;
       // Loop through all intersected objects and call their event handler
       if (intersects.length) {
         for(const intersection of intersects) {
           if (stopPropagating) return;
-          intersection.stopPropagation = () => stopPropagating = true;
+          intersection.stopPropagation = stopPropagatingFn
 
           const { object } = intersection
           executeEventListeners(object[eventName], intersection, event)
@@ -98,4 +96,3 @@ export const useEventStore = createGlobalState(
 
     return { forceUpdate }
   }
-)
