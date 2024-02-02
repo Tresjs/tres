@@ -47,7 +47,7 @@ const planeRef: Ref<TresObject | null> = ref(null)
       <TresMeshToonMaterial />
     </TresMesh>
     <TresMesh
-      v-rotate="0.01"
+      v-rotate.x="0.005"
       :position="[-2, 2, 0]"
     >
       <TresBoxGeometry :args="[1, 1, 1]" />

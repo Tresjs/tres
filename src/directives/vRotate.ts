@@ -1,4 +1,4 @@
-import { shallowRef } from 'vue'
+import { ref } from 'vue'
 import { Quaternion, Vector3 } from 'three'
 import type { TresObject } from '../types'
 import { useLogger, useRenderLoop } from '../composables'
@@ -18,44 +18,23 @@ export const vRotate = {
       logWarning(`Rotate the ${el.type} is not a good idea`)
       return
     }
-    const speed = binding.value ?? 0.01
-    const defaultQuaternion = new Quaternion()
-    const quaternionX = shallowRef(
-      binding.modifiers.x || binding.arg === 'x'
-        ? new Quaternion().setFromAxisAngle(new Vector3(1, 0, 0), speed)
-        : defaultQuaternion,
-    )
-    const quaternionY = shallowRef(
-      binding.modifiers.y || binding.arg === 'y'
-        ? new Quaternion().setFromAxisAngle(new Vector3(0, 1, 0), speed)
-        : defaultQuaternion,
-    )
-    const quaternionZ = shallowRef(
-      binding.modifiers.z || binding.arg === 'z'
-        ? new Quaternion().setFromAxisAngle(new Vector3(0, 0, 1), speed)
-        : defaultQuaternion,
-    )
-    if (
-      quaternionX.value === defaultQuaternion
-      && quaternionY.value === defaultQuaternion
-      && quaternionZ.value === defaultQuaternion
-    ) {
-      quaternionZ.value = new Quaternion().setFromAxisAngle(
-        new Vector3(0, 0, 1),
-        speed,
-      )
-      quaternionY.value = new Quaternion().setFromAxisAngle(
-        new Vector3(0, 1, 0),
-        speed,
-      )
+    const radiansPerFrame = binding.value ?? 0.01
+    const x = ref(binding.modifiers.x || binding.arg === 'x' ? 1 : 0)
+    const y = ref(binding.modifiers.y || binding.arg === 'y' ? 1 : 0)
+    const z = ref(binding.modifiers.z || binding.arg === 'z' ? 1 : 0)
+
+    if (x.value + y.value + z.value === 0) {
+      x.value = 1
+      y.value = 1
     }
+
+    const quaternion = new Quaternion().setFromAxisAngle(new Vector3(x.value, y.value, z.value)
+      .normalize(), radiansPerFrame)
 
     const { onLoop } = useRenderLoop()
 
     onLoop(() => {
-      el.applyQuaternion(quaternionX.value)
-      el.applyQuaternion(quaternionY.value)
-      el.applyQuaternion(quaternionZ.value)
+      el.applyQuaternion(quaternion)
     })
   },
 }
