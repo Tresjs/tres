@@ -271,14 +271,11 @@ export function registerTresDevtools(app: DevtoolsApp, tres: TresContext) {
                 key: 'matrixWorld',
                 value: instance.matrixWorld,
               },
+                
               {
                 key: 'visible',
                 editable: true,
                 value: instance.visible,
-              },
-              {
-                key: 'userData',
-                value: instance.userData,
               },
             ],
           }

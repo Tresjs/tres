@@ -12,6 +12,11 @@ const routes = [
     component: () => import('./pages/TheBasic.vue'),
   },
   {
+    path: '/lights',
+    name: 'lights',
+    component: () => import('./pages/lights.vue'),
+  },
+  {
     path: '/groups',
     name: 'Groups',
     component: () => import('./pages/TheGroups.vue'),
@@ -86,6 +91,7 @@ const routes = [
     name: 'empty',
     component: () => import('./pages/empty.vue'),
   },
+  
 ]
 export const router = createRouter({
   history: createWebHistory(),
