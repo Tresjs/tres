@@ -50,9 +50,6 @@ export const useCamera = ({ sizes, scene }: Pick<TresContext, 'sizes'> & { scene
     }
   })
 
-  scene.userData.tres__registerCamera = registerCamera
-  scene.userData.tres__deregisterCamera = deregisterCamera
-
   onUnmounted(() => {
     cameras.value = []
   })

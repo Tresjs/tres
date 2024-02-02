@@ -64,8 +64,29 @@ export default defineConfig({
           },
         ],
       },
+
+      {
+        text: 'Advanced',
+
+        items: [
+          { text: 'Extending', link: '/advanced/extending' },
+          { text: 'primitive', link: '/advanced/primitive' },
+          { text: 'Performance', link: '/advanced/performance' },
+          {
+            text: 'Caveats',
+            link: '/advanced/caveats',
+          },
+        ],
+      },
+      {
+        text: 'Debug',
+        items: [
+          { text: 'Devtools', link: '/debug/devtools' },
+        ],
+      },
       {
         text: 'Examples',
+        collapsed: true,
         items: [
           { text: 'Orbit Controls', link: '/examples/orbit-controls' },
           { text: 'Basic Animations', link: '/examples/basic-animations' },
@@ -73,18 +94,18 @@ export default defineConfig({
           { text: 'Load Textures', link: '/examples/load-textures' },
           { text: 'Load Models', link: '/examples/load-models' },
           { text: 'Load Text', link: '/examples/text-3d' },
+          { text: 'Lights & Shadows', link: '/examples/lights-shadows' },
+          { text: 'Shaders', link: '/examples/shaders' },
         ],
       },
       {
-        text: 'Advanced',
-
+        text: 'Directives',
+        collapsed: true,
         items: [
-          { text: 'Extending', link: '/advanced/extending' },
-          { text: 'primitive', link: '/advanced/primitive' },
-          {
-            text: 'Caveats',
-            link: '/advanced/caveats',
-          },
+          { text: 'v-log', link: '/directives/v-log' },
+          { text: 'v-light-helper', link: '/directives/v-light-helper' },
+          { text: 'v-always-look-at', link: '/directives/v-always-look-at' },
+          { text: 'v-distance-to', link: '/directives/v-distance-to' },
         ],
       },
       {

@@ -1,12 +1,14 @@
-
-
-## [4.0.0-next.0](https://github.com/Tresjs/tres/compare/3.6.0...4.0.0-next.0) (2023-12-22)
-
+## [3.7.0](https://github.com/Tresjs/tres/compare/3.6.1...3.7.0) (2024-01-29)
 
 ### Features
-
-* 474 vue chrome devtools plugin ([#479](https://github.com/Tresjs/tres/issues/479)) ([224ab06](https://github.com/Tresjs/tres/commit/224ab06a4404e2ae5a0cbd2f43041961862b09fd))
   
+* 474 vue chrome devtools plugin ([#526](https://github.com/Tresjs/tres/issues/526)) ([0185bfa](https://github.com/Tresjs/tres/commit/0185bfa6f04faff5eabbc526616713ef7747ebeb))
+* 524 feat add directives to core ([#525](https://github.com/Tresjs/tres/issues/525)) ([5268e9f](https://github.com/Tresjs/tres/commit/5268e9f13bf65c61d5ddfe7153b71b335449b81d))
+
+
+### Bug Fixes
+
+* **docs:** change image path to silence warning ([#519](https://github.com/Tresjs/tres/issues/519)) ([280d248](https://github.com/Tresjs/tres/commit/280d2482760bde1032e24c4a9e96af4beea954ed))
 
 ## [3.6.1](https://github.com/Tresjs/tres/compare/3.6.0...3.6.1) (2024-01-16)
 
@@ -15,10 +17,7 @@
 
 * correct minor typos ([#438](https://github.com/Tresjs/tres/issues/438)) ([341faac](https://github.com/Tresjs/tres/commit/341faacb93fd347aced7f1bc7e0484ecbc12e6ce)), closes [#452](https://github.com/Tresjs/tres/issues/452)
 * incorrect MathRepresentation type ([#456](https://github.com/Tresjs/tres/issues/456)) ([314b088](https://github.com/Tresjs/tres/commit/314b0883b78ded0cad2bdf9f2506bbeac4a0817e))
-<<<<<<< HEAD
-=======
 * **usetrescontextprovider:** fixed rendering issues caused when resize is triggered ([#512](https://github.com/Tresjs/tres/issues/512)) ([a16b12b](https://github.com/Tresjs/tres/commit/a16b12b160098e97993b14a7bb054103c88b6263)), closes [#511](https://github.com/Tresjs/tres/issues/511)
->>>>>>> main
 
 ## [3.6.0](https://github.com/Tresjs/tres/compare/3.5.2...3.6.0) (2023-12-12)
 
