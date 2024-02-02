@@ -52,9 +52,9 @@ const routes = [
     component: () => import('./pages/raycaster/TheEvents.vue'),
   },
   {
-    path: '/raycaster/propogation',
+    path: '/raycaster/propagation',
     name: 'Event Propogation',
-    component: () => import('./pages/raycaster/Propogation.vue'),
+    component: () => import('./pages/raycaster/Propagation.vue'),
   },
   {
     path: '/misc/text-3d',

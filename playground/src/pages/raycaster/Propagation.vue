@@ -1,10 +1,6 @@
 <script setup lang="ts">
-import { TransitionPresets, useTransition, useIntervalFn } from "@vueuse/core";
 import {
   TresCanvas,
-  useRenderLoop,
-  useTresContext,
-  useEventStore,
 } from "@tresjs/core";
 import { BasicShadowMap, SRGBColorSpace, NoToneMapping, Vector3 } from "three";
 import { OrbitControls } from "@tresjs/cientos";
@@ -39,7 +35,6 @@ const gl = {
     <TresDirectionalLight :intensity="1" :position="[1, 1, 1]" />
     <TresAmbientLight :intensity="1" />
     <primitive :object="meshWithMaterial" :position="[3, 1.5, 2]" @click="event => event.object.material.color.set('red')" />
-    <Box :position="[-5, 1.5, 2]" name="Moving"></Box>
     <Box :position="[0, 1.5, 0]" name="A0">
       <Box :position="[-0.66, -1, 0]" name="B0">
         <Box :position="[-0.66, -1, 0]" name="C0">
