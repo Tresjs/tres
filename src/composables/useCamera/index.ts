@@ -63,9 +63,6 @@ export const useCamera = ({
     }
   })
 
-  scene.userData.tres__registerCamera = registerCamera
-  scene.userData.tres__deregisterCamera = deregisterCamera
-
   onUnmounted(() => {
     cameras.value = []
   })

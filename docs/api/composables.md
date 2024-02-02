@@ -233,4 +233,7 @@ const context = useTresContext()
 | **scene** | the [scene](https://threejs.org/docs/?q=sce#api/en/scenes/Scene). |
 | **setCameraActive** | a method to set a camera active |
 | **sizes** | contains width, height and aspect ratio of your canvas |
+| **invalidate** | a method to invalidate the render loop. This is only required if you set the `render-mode` prop to `on-demand`. |
+| **advance** | a method to advance the render loop. This is only required if you set the `render-mode` prop to `manual`. |
+
 

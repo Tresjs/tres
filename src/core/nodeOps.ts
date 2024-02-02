@@ -2,9 +2,9 @@ import type { RendererOptions } from 'vue'
 import { BufferAttribute } from 'three'
 import { isFunction } from '@alvarosabu/utils'
 import type { Object3D, Camera } from 'three'
+import type { TresContext } from '../composables'
 import { useLogger } from '../composables'
 import { deepArrayEqual, isHTMLTag, kebabToCamel } from '../utils'
-
 import type { TresObject, TresObject3D, TresScene } from '../types'
 import { catalogue } from './catalogue'
 
@@ -13,7 +13,6 @@ function noop(fn: string): any {
 }
 
 let scene: TresScene | null = null
-
 const { logError } = useLogger()
 
 const supportedPointerEvents = [
@@ -23,8 +22,19 @@ const supportedPointerEvents = [
   'onPointerLeave',
 ]
 
-export const nodeOps: RendererOptions<TresObject, TresObject> = {
-  createElement(tag, _isSVG, _anchor, props) {
+export function invalidateInstance(instance: TresObject) {
+  const ctx = instance.__tres.root
+  
+  if (!ctx) return
+  
+  if (ctx.render && ctx.render.canBeInvalidated.value) {
+    ctx.invalidate()
+  }
+
+}
+
+export const nodeOps: RendererOptions<TresObject, TresObject | null> = {
+  createElement(tag, _isSVG, _anchor, props): TresObject | null {
     if (!props) props = {}
 
     if (!props.args) {
@@ -33,13 +43,13 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
     if (tag === 'template') return null
     if (isHTMLTag(tag)) return null
     let name = tag.replace('Tres', '')
-    let instance
+    let instance: TresObject | null
 
     if (tag === 'primitive') {
       if (props?.object === undefined) logError('Tres primitives need a prop \'object\'')
       const object = props.object as TresObject
       name = object.type
-      instance = Object.assign(object, { type: name, attach: props.attach, primitive: true })
+      instance = Object.assign(object, { type: name, attach: props.attach })
     }
     else {
       const target = catalogue.value[name]
@@ -48,6 +58,8 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
       }
       instance = new target(...props.args)
     }
+
+    if (!instance) return null
 
     if (instance.isCamera) {
       if (!props?.position) {
@@ -63,43 +75,46 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
       else if (instance.isBufferGeometry) instance.attach = 'geometry'
     }
 
+    instance.__tres = {
+      ...instance.__tres,
+      type: name,
+      memoizedProps: props,
+      eventCount: 0,
+      disposable: true,
+      primitive: tag === 'primitive',
+    }
+
     // determine whether the material was passed via prop to
     // prevent it's disposal when node is removed later in it's lifecycle
 
-    if (instance.isObject3D) {
-      if (props?.material?.isMaterial) (instance as TresObject3D).userData.tres__materialViaProp = true
-      if (props?.geometry?.isBufferGeometry) (instance as TresObject3D).userData.tres__geometryViaProp = true
+    if (instance.isObject3D && (props?.material || props?.geometry)) {
+      instance.__tres.disposable = false
     }
 
-    // Since THREE instances properties are not consistent, (Orbit Controls doesn't have a `type` property) 
-    // we take the tag name and we save it on the userData for later use in the re-instancing process.
-    instance.userData = {
-      ...instance.userData,
-      tres__name: name,
-    }
-
-    return instance
+    return instance as TresObject
   },
   insert(child, parent) {
-    if (parent && parent.isScene) scene = parent as unknown as TresScene
+    if (!child) return
+    
+    if (parent && parent.isScene) {
+      scene = parent as unknown as TresScene
+    }
+
+    if (scene) {
+      child.__tres.root = scene.__tres.root as TresContext
+    }
 
     const parentObject = parent || scene
-
+    
     if (child?.isObject3D) {
+      const { registerCamera, registerObjectAtPointerEventHandler } = child.__tres.root
       if (child?.isCamera) {
-        if (!scene?.userData.tres__registerCamera)
-          throw 'could not find tres__registerCamera on scene\'s userData'
-
-        scene?.userData.tres__registerCamera?.(child as unknown as Camera)
+        registerCamera(child as unknown as Camera)
       }
-
       if (
         child && supportedPointerEvents.some(eventName => child[eventName])
       ) {
-        if (!scene?.userData.tres__registerAtPointerEventHandler)
-          throw 'could not find tres__registerAtPointerEventHandler on scene\'s userData'
-
-        scene?.userData.tres__registerAtPointerEventHandler?.(child as Object3D)
+        registerObjectAtPointerEventHandler(child as Object3D)
       }
     }
 
@@ -119,80 +134,76 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
   },
   remove(node) {
     if (!node) return
+    const ctx = node.__tres
     // remove is only called on the node being removed and not on child nodes.
+    const { 
+      deregisterObjectAtPointerEventHandler,
+      deregisterBlockingObjectAtPointerEventHandler, 
+    } = ctx.root
 
     if (node.isObject3D) {
-      const object3D = node as unknown as Object3D
 
-      const disposeMaterialsAndGeometries = (object3D: Object3D) => {
+      const disposeMaterialsAndGeometries = (object3D: TresObject) => {
         const tresObject3D = object3D as TresObject3D
-
-        if (!object3D.userData.tres__materialViaProp) {
+        // TODO: to be improved on https://github.com/Tresjs/tres/pull/466/files
+        if (ctx.disposable) {
           tresObject3D.material?.dispose()
           tresObject3D.material = undefined
-        }
-
-        if (!object3D.userData.tres__geometryViaProp) {
           tresObject3D.geometry?.dispose()
           tresObject3D.geometry = undefined
         }
       }
 
-      const deregisterAtPointerEventHandler = scene?.userData.tres__deregisterAtPointerEventHandler
-      const deregisterBlockingObjectAtPointerEventHandler
-        = scene?.userData.tres__deregisterBlockingObjectAtPointerEventHandler
-
       const deregisterAtPointerEventHandlerIfRequired = (object: TresObject) => {
-
-        if (!deregisterBlockingObjectAtPointerEventHandler)
-          throw 'could not find tres__deregisterBlockingObjectAtPointerEventHandler on scene\'s userData'
-
-        scene?.userData.tres__deregisterBlockingObjectAtPointerEventHandler?.(object as Object3D)
-
-        if (!deregisterAtPointerEventHandler)
-          throw 'could not find tres__deregisterAtPointerEventHandler on scene\'s userData'
-
+        deregisterBlockingObjectAtPointerEventHandler(object as Object3D)
         if (
           object && supportedPointerEvents.some(eventName => object[eventName])
         )
-          deregisterAtPointerEventHandler?.(object as Object3D)
+          deregisterObjectAtPointerEventHandler?.(object as Object3D)
       }
 
       const deregisterCameraIfRequired = (object: Object3D) => {
-        const deregisterCamera = scene?.userData.tres__deregisterCamera
-
-        if (!deregisterCamera)
-          throw 'could not find tres__deregisterCamera on scene\'s userData'
+        const deregisterCamera = node.__tres.root.deregisterCamera
 
         if ((object as Camera).isCamera)
           deregisterCamera?.(object as Camera)
       }
 
       node.removeFromParent?.()
-      object3D.traverse((child: Object3D) => {
-        disposeMaterialsAndGeometries(child)
+
+      node.traverse((child: Object3D) => {
+        disposeMaterialsAndGeometries(child as TresObject)
         deregisterCameraIfRequired(child)
         deregisterAtPointerEventHandlerIfRequired?.(child as TresObject)
       })
 
-      disposeMaterialsAndGeometries(object3D)
-      deregisterCameraIfRequired(object3D)
-      deregisterAtPointerEventHandlerIfRequired?.(object3D as TresObject)
+      disposeMaterialsAndGeometries(node)
+      deregisterCameraIfRequired(node as Object3D)
+      deregisterAtPointerEventHandlerIfRequired?.(node as TresObject)
     }
 
+    invalidateInstance(node as TresObject)
     node.dispose?.()
   },
   patchProp(node, prop, _prevValue, nextValue) {
     if (node) {
       let root = node
       let key = prop
-      if (node.isObject3D && key === 'blocks-pointer-events') {
-        if (nextValue || nextValue === '')
-          scene?.userData.tres__registerBlockingObjectAtPointerEventHandler?.(node as Object3D)
-        else
-          scene?.userData.tres__deregisterBlockingObjectAtPointerEventHandler?.(node as Object3D)
 
-        return
+      if (node.__tres.root) {
+        const { 
+          registerBlockingObjectAtPointerEventHandler,
+          deregisterBlockingObjectAtPointerEventHandler, 
+        } = node.__tres.root
+  
+        if (node.isObject3D && key === 'blocks-pointer-events') {
+          if (nextValue || nextValue === '')
+            registerBlockingObjectAtPointerEventHandler(node as Object3D)
+          else
+            deregisterBlockingObjectAtPointerEventHandler(node as Object3D)
+  
+          return
+        }
       }
 
       let finalKey = kebabToCamel(key)
@@ -202,7 +213,7 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
         const prevNode = node as TresObject3D
         const prevArgs = _prevValue ?? []
         const args = nextValue ?? []
-        const instanceName = node.userData.tres__name || node.type
+        const instanceName = node.__tres.type || node.type
 
         if (instanceName && prevArgs.length && !deepArrayEqual(prevArgs, args)) {
           root = Object.assign(prevNode, new catalogue.value[instanceName](...nextValue))
@@ -243,6 +254,8 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
       else if (Array.isArray(value)) target.set(...value)
       else if (!target.isColor && target.setScalar) target.setScalar(value)
       else target.set(value)
+
+      invalidateInstance(node as TresObject)
     }
   },
 
