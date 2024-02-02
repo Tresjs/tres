@@ -12,7 +12,7 @@ import {
   Group,
   SphereGeometry, 
 } from 'three'
-import { TresCanvas } from '@tresjs/core'
+import { TresCanvas, useRenderLoop } from '@tresjs/core'
 import { OrbitControls } from '@tresjs/cientos'
 import { TresLeches, useControls } from '@tresjs/leches'
 import '@tresjs/leches/styles'
@@ -29,7 +29,7 @@ const canvas = ref()
 const meshRef = ref()
 
 const { knot } = useControls({
-  knot: false,
+  knot: true,
 })
 
 const { isVisible } = useControls({
@@ -71,6 +71,28 @@ firstGroup.add(torusKnot)
 
 const secondGroup = new Group()
 secondGroup.add(sphere)
+
+const primitiveRef = ref()
+
+useRenderLoop().onLoop(() => {  
+  if (primitiveRef.value) {
+    primitiveRef.value.rotation.x += 0.01
+    primitiveRef.value.rotation.y += 0.01
+  }
+})
+
+watchEffect(() => {
+  console.log('primitiveRef.value', primitiveRef.value)
+})
+
+const reactivePrimitiveRef = ref(new Mesh(
+  new TorusKnotGeometry(1, 0.5, 100, 16),
+  new MeshToonMaterial({
+    color: 'orange',
+  }),
+))
+
+const modelArray = ref([torus, torusKnot, sphere])
 </script>
 
 <template>
@@ -86,13 +108,23 @@ secondGroup.add(sphere)
       :position="[7, 7, 7]"
     />
     <OrbitControls />
+    <!--  <primitive
+      :object="reactivePrimitiveRef"
+    /> -->
+    <!--    <primitive
+      v-for="(model, index) of modelArray"
+      :key="index"
+      :object="model"
+      :position="[index * 2, index * 2, 0]"
+    /> -->
     <primitive
       v-if="isVisible"
-      :object="knot ? firstGroup : sphere"
+      ref="primitiveRef"
+      :object="knot ? torusKnot : torus"
     />
-    <Suspense>
+    <!--    <Suspense>
       <DynamicModel />
-    </Suspense>
+    </Suspense> -->
     <TresAxesHelper :args="[1]" />
     <TresDirectionalLight
       :position="[0, 2, 4]"
