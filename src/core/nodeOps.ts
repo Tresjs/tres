@@ -1,4 +1,4 @@
-import { watch, type RendererOptions } from 'vue'
+import { type RendererOptions } from 'vue'
 import { BufferAttribute } from 'three'
 import { isFunction } from '@alvarosabu/utils'
 import type { Object3D, Camera } from 'three'
