@@ -13,13 +13,13 @@ The `useRenderLoop` composable is the core of **TresJS** animations. It allows y
 ```ts
 const { onLoop, resume } = useRenderLoop()
 
-onLoop(({ delta, elapsed, clock, dt }) => {
+onLoop(({ delta, elapsed, clock }) => {
   // I will run at every frame ~60FPS (depending of your monitor)
 })
 ```
 
 ::: warning
-Be mindfull of the performance implications of using this composable. It will run at every frame, so if you have a lot of logic in your callback, it might impact the performance of your app. Specially if you are updating reactive states or references.
+Be mindful of the performance implications of using this composable. It will run at every frame, so if you have a lot of logic in your callback, it might impact the performance of your app. Specially if you are updating reactive states or references.
 :::
 
 The `onLoop` callback receives an object with the following properties based on the [THREE clock](https://threejs.org/docs/?q=clock#api/en/core/Clock):
