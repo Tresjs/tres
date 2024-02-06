@@ -1,26 +1,26 @@
-# Text3D
+# Texto3D
 
-[TextGeometry](https://threejs.org/docs/index.html?q=text#examples/en/geometries/TextGeometry) is one of the ways we can add 3D text in our scene.
+[TextGeometry](https://threejs.org/docs/index.html?q=text#examples/en/geometries/TextGeometry) es una de las formas en las que podemos agregar texto en 3D a nuestra escena.
 
 <SandboxDemo url="https://play.tresjs.org/#eNqdVlFv2zYQ/iuEgsEbZkuOnXSd5gxe7G5YsbRF7LcqD7RES0wokiApO0Hg/74jKduUkWbp8hCYdx+/O3684+k5Wiqi/5Ay3jQkSqOJzhWVBmliGokY5uVVFhmdRb9nnNZSKIOe0TXWNF9UuBDbGyz7aHH71/VMMKEWEuekjz6JpeAEXJLyEu3QWoka9UylCOn9FvDY0DPMN1gfQFMDtnud5EJ1sZ/VipqZ4EYJ9gKcEm6EDnYsyaNpQXFiF/aAvYxnPBdcG1QydIWeM45QzghWLv0U9c7ej+bXs8te33q0O6JOkVENcRbMZIVTtMZMe4OHwFGXT5Kkp8pYhGiMbCDzvTzpqVwWZI56pV35wL2DU00SfzFwDbAwpJYMGwIrhCaBjJvBivICrqxk7soQ/Dn/F6K0JLmhGzLDNVEYpVJoaqjggP466o/6v95lEUr2m7p6H8yLBmi49pE9uxX64E9OAC74nCobWnDM/qFlZbqxh3006qMLGz2l3MBmap7AcR6PwJRjbQZe5TbKJDkeGAyTJFADlto8MfuzMjUD8VaiePL3XGNVUp6iIciJkMRF4dT2y4rYxFJ0Phz+4AxbWpjqsN5l/AzuwxP9BxahFc4fSiUaXgxyX1dnw6GNAzRwkS7BqB/5Sh3UWMb3WnDoPkeftQ5outQHtLawMawjiypjpE6TJC847C8IoxsVc2ISLuskhE/H8WU8TAqqTWLNgM4iV3YdYt9C38PtdwD9u5C+NXejmC3BDxLzt+R+wE4v4mF83jLvjXFN7Z6Q2z4sb+G1uCkwXr6HfH8mug5lgOeh0eTN+gbw6fnQCQydRx7juqtui4MKVqT4DmK/4TVqAA4KUtM3kO6h9vAX8buE0VVIaRmhNHdQk0bD87im5UlF5qKWlBH1Wdqu7VYmZkxsPzrb4Z10eyqSP7xgv9ePPuUvUCxEbUDu41VCjxLj3R8Wn+BpCZy1KBrWXs43nLdEC9bYHD3sGnoQ0g5wLtu/XYNB+y/1h0f34rSH6iRq4El31q/7x+5Qa95w54RzeHcds1dUOp5sHI8Dwfej6XT2hvMW6sHCGkVenpPhSAXceP7N+biffjU2OcyslvQK4S2mJojzoztyb19UCm/jkpqqWQFEAQVoZmIoCvcUAz/WkLROakw5PMeOwq5sEJ38Ekte2ol699Prk6ydJuP5Xm/UnRSD8z6CaTGEUXFEKLK2nyiw75asQ8ca0gTP/zqD3auTP6nCM1FAVZUNw8r1RBjhMASR+5T5uDiu3dy7Ibq6cSLAf6IoZij1okBenSsIJ6/7WhnPu6Mt2v0LMkc7LA=="/>
 
-However, it is not part of the core of ThreeJS. So to use it you would need to import it from the `three/addons/controls/TextGeometry` module.
+Sin embargo, no forma parte del núcleo de ThreeJS. Por lo tanto, para usarlo, tendrías que importarlo desde el módulo `three/addons/controls/TextGeometry`.
 
-This creates a problem because **TresJS** automatically creates a catalog of the core of Three so you can use them as components.
+Esto crea un problema porque **TresJS** crea automáticamente un catálogo del núcleo de Three para que puedas usarlos como componentes.
 
-Fortunately, **TresJS** provides a way to extend the catalog of components. You can do it by using the `extend` method from the core library.
+Afortunadamente, **TresJS** proporciona una forma de ampliar el catálogo de componentes. Puedes hacerlo utilizando el método `extend` de la biblioteca principal.
 
-For more information about extending your TresJS catalog, refer to the [extending](/advanced/extending.md) section.
+Para obtener más información sobre cómo ampliar tu catálogo de TresJS, consulta la sección de [extending](/advanced/extending.md).
 
-## Using TextGeometry
+## Usando TextGeometry
 
-To use `TextGeometry` you need to import it from the `three/addons/geometries/TextGeometry` module.
+Para usar `TextGeometry`, debes importarlo desde el módulo `three/addons/geometries/TextGeometry`.
 
 ```js
 import { TextGeometry } from 'three/addons/geometries/TextGeometry'
 ```
 
-Then you need to extend the catalogue of components using the `extend` method.
+Luego, debes ampliar el catálogo de componentes utilizando el método `extend`.
 
 ```js
 import { extend } from '@tresjs/core'
@@ -29,7 +29,7 @@ import { TextGeometry } from 'three/addons/geometries/TextGeometry'
 extend({ TextGeometry })
 ```
 
-[TextGeometry](https://threejs.org/docs/index.html?q=text#examples/en/geometries/TextGeometry) needs a only one required argument the font, you can see an example below.
+[TextGeometry](https://threejs.org/docs/index.html?q=text#examples/en/geometries/TextGeometry) necesita solo un argumento requerido, la fuente. Puedes ver un ejemplo a continuación.
 
 ```js
 const fontPath = 'https://raw.githubusercontent.com/Tresjs/assets/main/fonts/FiraCodeRegular.json'
@@ -48,7 +48,7 @@ const font = await new Promise((resolve, reject) => {
 })
 ```
 
-Now you can use the `TresTextGeometry` component inside a TresMesh in your scene
+Ahora puedes usar el componente `TresTextGeometry` dentro de un TresMesh en tu escena.
 
 ```vue
 <template>
@@ -66,7 +66,7 @@ Now you can use the `TresTextGeometry` component inside a TresMesh in your scene
 </template>
 ```
 
-then as in the example you can pass an object with the desired configurations.
+luego, como en el ejemplo, puedes pasar un objeto con las configuraciones deseadas.
 
 ```ts
 const fontOptions = {
@@ -81,7 +81,7 @@ const fontOptions = {
 }
 ```
 
-We can also pass a matcapTexture to add final details, using the TresMeshNormalMaterial inside the TresMesh
+También podemos pasar una matcapTexture para agregar detalles finales, utilizando TresMeshNormalMaterial dentro de TresMesh.
 
 ```ts
 const matcapTexture = await useTexture(['https://raw.githubusercontent.com/Tresjs/assets/main/textures/matcaps/7.png'])
@@ -92,7 +92,7 @@ const matcapTexture = await useTexture(['https://raw.githubusercontent.com/Tresj
   </TresMesh>
 ```
 
-So the final code would be something like this:
+Entonces, el código final sería algo como esto:
 
 ```vue
 <script setup lang="ts">
@@ -148,14 +148,14 @@ const matcapTexture = await useTexture(['https://raw.githubusercontent.com/Tresj
 </template>
 ```
 
-I know seems like a lot of work, but good news there is a much more simple way
+Sé que parece mucho trabajo, pero tengo buenas noticias, hay una forma mucho más sencilla.
 
-## TextGeometry from `cientos`
+## TextGeometry de `cientos`
 
-The `cientos` package provides a component called `<Text3D />` that is a wrapper of the `TextGeometry` from the [`three-stdlib`](https://github.com/pmndrs/three-stdlib) module.
+El paquete `cientos` proporciona un componente llamado `<Text3D />` que es un envoltorio de `TextGeometry` del módulo [`three-stdlib`](https://github.com/pmndrs/three-stdlib).
 
-The nicest part? You don't need to extend the catalog and just pass the font argument.
-It just works. 💯 (if not text is provided, the text will be TresJS)
+¿Lo mejor? No necesitas extender el catálogo, solo pasa el argumento de la fuente.
+Simplemente funciona. 💯 (si no se proporciona un texto, el texto será TresJS)
 
 ```vue
 <template>
@@ -168,13 +168,13 @@ It just works. 💯 (if not text is provided, the text will be TresJS)
 </template>
 ```
 
-We can pass the options as props
+Podemos pasar las opciones como props
 
 ```html
 <Text3D :font="fontPath" :text="my 3d text" :size="0.8" />
 ```
 
-in case the options are not provided the default values are:
+en caso de que no se proporcionen las opciones, los valores predeterminados son:
 
 ```js
 size: 0.5,
@@ -187,7 +187,7 @@ bevelOffset: 0,
 bevelSegments: 4,
 ```
 
-By default text in ThreeJS starts at the mesh initial position, so it's [0,0,0] the text will start there but we can center it by just passing the flag "center"
+De forma predeterminada, el texto en ThreeJS comienza en la posición inicial de la malla, por lo que si es [0,0,0], el texto comenzará allí, pero podemos centrarlo simplemente pasando la bandera "center".
 
 ```vue
 <Text3D :font="fontPath" :text="my 3d text" center />
