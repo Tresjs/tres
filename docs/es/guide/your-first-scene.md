@@ -21,7 +21,7 @@ import { TresCanvas } from '@tresjs/core'
 
 <template>
   <TresCanvas window-size>
-    <!-- Your scene goes here -->
+    <!-- Tu escena vive aqui -->
   </TresCanvas>
 </template>
 ```
@@ -46,7 +46,7 @@ import { TresCanvas } from '@tresjs/core'
 
 <template>
   <TresCanvas>
-    <!-- Your scene goes here -->
+    <!-- Tu escena vive aqui -->
   </TresCanvas>
 </template>
 
@@ -74,7 +74,7 @@ import { TresCanvas } from '@tresjs/core'
 
 <template>
   <TresCanvas window-size>
-    <!-- Your scene goes here -->
+    <!-- Tu escena vive aqui -->
   </TresCanvas>
 </template>
 ```
