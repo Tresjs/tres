@@ -1,18 +1,19 @@
-# Light-shadows
+# Luces y sombras
 
-This guide will help you get started with simple light and shadows in TresJS.
+Esta guía te ayudará a comenzar con luces y sombras simples en TresJS.
 
-We will build a simple scene with three meshes and a plane but only two will have shadows.
+Construiremos una escena simple con tres mallas y un plano, pero solo dos tendrán sombras.
+
 <SandboxDemo url="https://play.tresjs.org/#eNqVVt1y2jwQfRUN30WSKdimhLbjL3Qo9GfaadpM4K7uhbAXUGpLGkn8pJm8e1eSDXZCMmRCGGv37NHZ1XrFXWuqQH+QMlivoBW3LnSqmDREg1lJklO+GCQto5PW+4SzQgplyB3RS5rnYnMNc3JP5koU5ASjT/6vQSzrmPI11W2y0nANPAP1XQhZBQwNIm50mArVjPypZsyMBTdK5HrHv4Mz4EboRsSIapZOljQTm0sq22Ry/WU0FrlQE0lTaJMfYio4oEsyvtgxmqUCOEl4wlPBtSGLnAzIXcIJSXOgyhHE5OS/d68/jsb9k7b1YOK4iY6JUStwFprLJY3JnObaGzwEN5veSogfarMIsTJyhRlWAuOHgi3I7BXHzQTQfb9XPRNbewyD2pmcnu3dd0RwW3XMetA8B4/y3tPTMzJ475Nn81PPGaxpvoIzZ6xbAiUMNUzw4Ja8GpAoiLoWgpruHWXCL0LfRNgyuDBQyJwawBUhF/u+IOvOjPEM22uRJy2ywWex6Wj21yMR2+yEsDJbiitQWkJq2BrGtABFSSyFZlYWEv7qt8nbwH/9Ru54LtZoPu/bZ+oCcdm1K45Hjc9R4FZzt+hGUYSrxoaXoJfNPTqv2wQ/kdugqol1RG1ySc0yuPrqvSVNlTye5BcQBRh1i2LUQtuYbpt0reCeZas2rm09FYIjKShGc5LaVsGosjXrUsMq4JF2BXMM8QeJESnVpuN7tZkWqrefR7pHYntAttVcfb1I+vln+3ec9LrWplisvz2Gx2oncglqX+ejZX0ejaLe6NiKpoD991QVO71DzdEpW4OErnkOab/CqXuoRRC8/3+i2BNDeUZV9jiz+Vv791Rmtdw+FDM7Y7+zxdKQmHEDHPO6LV+YxkvxkWENbGY09/Dnumr3rhym9HL8aEDDRVibG612yw/7TkFlcKMFx5vKDaakdOAFFfv5ZW31u8U6ktbSGKnjMEwzjvEZ5GytAg4m5LII6/BhL+gHUZgxbUJrRnTSchO5QexvoZdw+wikf1OnL83NXcwG6B+JTXAE/w47PA9wiJXMlTEomI2pc9tb7xheixsiY/8d6n0FuqiXAW97vEyOrm8NPuxGrsA47WEbFM3qljhsIAXZC4h9wHPUCOxkULAjSCuoTf48eBPmbFanrO467Emj8ZKds8WDjkxFIVkO6qe03d/sTHdHf3O23U8IF7OE9M8B+43eeslX2Cyg1lju/VHiZADj3Z8mP2CLzztnIbJVXh7OE85r0CJfWY0eNlrxDGXXcE7tV/eC4Q+Pqf60dW9umVRDqMFfO876q5pJu17zht+ucA7vjmP8TJX2mfWC3q7g9/8AWlN6bg==" />
 
-## Setting up the scene (optional)
+## Configurando la escena (opcional)
 
-We import all the modules that we need, for comfort we can use the orbit-controls from cientos,
-[check here to know how](/examples/orbit-controls).
+Importamos todos los módulos que necesitamos, para mayor comodidad podemos usar orbit-controls de cientos,
+[ver aquí para saber cómo](/examples/orbit-controls).
 
-Let's put four objects in our scene, one will be the plane that receive shadows, two of them will cast shadows and the last one will not cast any shadow at all.
+Coloquemos cuatro objetos en nuestra escena, uno será el plano que recibirá sombras, dos de ellos proyectarán sombras y el último no proyectará ninguna sombra en absoluto.
 
-I'm going to use [MeshToonMaterial](https://threejs.org/docs/index.html?q=toon#api/en/materials/MeshToonMaterial). Simply because we can see the "soft shadow" easily.
+Voy a usar [MeshToonMaterial](https://threejs.org/docs/index.html?q=toon#api/en/materials/MeshToonMaterial). Simplemente porque podemos ver fácilmente el "sobreado suave".
 
 ```vue
 <script setup lang="ts">
@@ -58,27 +59,27 @@ import { OrbitControls } from '@tresjs/cientos'
 </template>
 ```
 
-## Lights (explanation)
+## Luces (explicación)
 
-As you know every instance in [ThreeJs](https://threejs.org/) is available in **TresJs** so are all the light types, we just need to add the `Tres` prefix to use them.
+Como sabes, cada instancia en [ThreeJs](https://threejs.org/) está disponible en **TresJs**, por lo que todos los tipos de luces también están disponibles, solo necesitamos agregar el prefijo `Tres` para usarlos.
 
-But not all lights can cast shadows, this definition comes directly from ThreeJs and makes sense, for example the purpose of an [ambientLight](https://threejs.org/docs/index.html?q=ambient#api/en/lights/AmbientLight) is to iluminate everysingle side of your scene, so it makes no sense for it to cast shadows, on the contrary, a [DirectionalLight](https://threejs.org/docs/index.html?q=light#api/en/helpers/DirectionalLightHelper) immitating the sun can and should cast shadows.
+Pero no todas las luces pueden generar sombras, esta definición proviene directamente de ThreeJs y tiene sentido. Por ejemplo, el propósito de una [ambientLight](https://threejs.org/docs/index.html?q=ambient#api/en/lights/AmbientLight) es iluminar todos los lados de tu escena, por lo que no tiene sentido que genere sombras. En cambio, una [DirectionalLight](https://threejs.org/docs/index.html?q=light#api/en/helpers/DirectionalLightHelper) que imita al sol puede y debe generar sombras.
 
-## Shadows (explanation)
+## Sombras (explicación)
 
-There are also many types of shadows, for example the "soft shadow" is generated automatially when an object receives more light from one side, but in summary a "ThreeJS default shadow" that is directed towards another surface needs to be cast by a mesh and another mesh needs to receive it. As we see in our example, the `Plane` is receiving a shadow but not casting it. Please note that not all materials can cast or receive shadows.
+También existen muchos tipos de sombras, por ejemplo, la "sombra suave" se genera automáticamente cuando un objeto recibe más luz de un lado, pero en resumen, una "sombra predeterminada de ThreeJS" que se dirige hacia otra superficie debe ser proyectada por una malla y otra malla debe recibirla. Como vemos en nuestro ejemplo, el `Plano` está recibiendo una sombra pero no la está proyectando. Ten en cuenta que no todos los materiales pueden proyectar o recibir sombras.
 
-Internally, ThreeJS automatically generates a new mesh with a [ShadowMaterial](https://threejs.org/docs/index.html?q=shado#api/en/materials/ShadowMaterial) which gets updated in each frame, that is why if you apply animations, the shadow also is animated, but also why you have to use shadows carefully, because they could slow your performance down.
+Internamente, ThreeJS genera automáticamente una nueva malla con un [ShadowMaterial](https://threejs.org/docs/index.html?q=shado#api/en/materials/ShadowMaterial) que se actualiza en cada fotograma, por eso si aplicas animaciones, la sombra también se anima, pero también es por eso que debes usar las sombras con cuidado, ya que pueden ralentizar el rendimiento.
 
 ::: warning
-The overuse of shadows in this way could drop your performance. However, there are ways to increase your performance, for more information please check out [this video](https://youtu.be/WGNvVGrS0kY?si=q7XyL5eABKUh3gbS&t=1256)
+El uso excesivo de sombras de esta manera puede afectar el rendimiento. Sin embargo, existen formas de mejorar el rendimiento. Para obtener más información, consulta [este video](https://youtu.be/WGNvVGrS0kY?si=q7XyL5eABKUh3gbS&t=1256)
 :::
 
-## Enabling shadows
+## Habilitando las sombras
 
-We could divide this into three steps:
+Podemos dividir esto en tres pasos:
 
-### Activate shadows on the renderer
+### Activar las sombras en el renderizador
 
 ```vue
 //...
@@ -92,11 +93,11 @@ We could divide this into three steps:
   //...
 </template>
 ```
-### Set the light to cast shadows
+### Configurar la luz para proyectar sombras
 
-We can simple put the boolean `cast-shadow`, Vue understand this as a `prop` with `true` value
+Podemos simplemente agregar el booleano `cast-shadow`, Vue lo interpreta como una `prop` con valor `true`.
 
-_The AmbientLight doesn't generate any type of shadow here_
+_La luz ambiental no genera ningún tipo de sombra aquí_
 
 ```vue
 //...
@@ -112,9 +113,9 @@ _The AmbientLight doesn't generate any type of shadow here_
   //...
 </template>
 ```
-### Set the objects to cast or receive shadows
+### Establecer los objetos para proyectar o recibir sombras
 
-Similarly to the previous step, we set the mesh that we want to cast shadow (our sphere) with the `cast-shadow` prop, and set the object to receive shadow (our plane) with the `receive-shadow` prop.
+De manera similar al paso anterior, configuramos la malla que queremos que proyecte sombra (nuestra esfera) con la propiedad `cast-shadow`, y configuramos el objeto para recibir sombra (nuestro plano) con la propiedad `receive-shadow`.
 
 ```vue
 //...
@@ -139,7 +140,7 @@ Similarly to the previous step, we set the mesh that we want to cast shadow (our
 </template>
 ```
 
-Now we have all the necessary steps to add shadows to our scene, and if we apply what we learned in [basic animations](/examples/basic-animations), and we add movement to our cube, you will see the shadow is animated as well 🤩
+Ahora tenemos todos los pasos necesarios para agregar sombras a nuestra escena, y si aplicamos lo que aprendimos en [animaciones básicas](/examples/basic-animations), y agregamos movimiento a nuestro cubo, verás que la sombra también se anima 🤩
 
 ```vue
 <script setup>
@@ -171,4 +172,4 @@ onLoop(() => {
 </template>
 ```
 
-_Note that I intentionally did not apply `cast-shadow` to the `Cone` so it doesn't cast any shadow_
+_Nota que intencionalmente no apliqué `cast-shadow` al `Cone` para que no proyecte ninguna sombra_

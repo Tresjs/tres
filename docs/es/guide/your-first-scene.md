@@ -143,8 +143,6 @@ Ahora veamos cómo podemos lograr lo mismo fácilmente con **TresJS**. Para hace
 Observa que no necesitamos importar nada, esto se debe a que **TresJS** genera automáticamente un **Componente Vue basado en el objeto Three que deseas usar en CamelCase con un prefijo Tres**. Por ejemplo, si quieres usar una `AmbientLight`, puedes usar el componente `<TresAmbientLight />`.
 :::
 
-
-
 ```vue
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'

@@ -1,8 +1,8 @@
-# Group
+# Grupo
 
-A `<TresGroup>` is an instance of the [THREE.Group](https://threejs.org/docs/#api/en/objects/Group) class which is almost the same as a [THREE.Object3D](https://threejs.org/docs/#api/en/objects/Object3D) but allows you to **group together multiple objects in the scene** so that they can be manipulated as a single unit (transform, rotation, etc).
+Un `<TresGroup>` es una instancia de la clase [THREE.Group](https://threejs.org/docs/#api/en/objects/Group) que es casi lo mismo que un [THREE.Object3D](https://threejs.org/docs/#api/en/objects/Object3D) pero te permite **agrupar varios objetos en la escena** para que puedan ser manipulados como una unidad única (transformación, rotación, etc).
 
-## Usage
+## Uso
 
 ```vue{13,22}
 <script setup lang="ts">
