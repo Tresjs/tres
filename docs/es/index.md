@@ -14,10 +14,10 @@ hero:
   actions:
     - theme: brand
       text: Empezar
-      link: /guide/
+      link: /es/guide/
     - theme: alt
       text: ¿Por qué Tres?
-      link: /guide/#motivation
+      link: /es/guide/#motivation
 
 features:
   - icon: 💡
