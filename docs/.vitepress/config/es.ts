@@ -85,15 +85,15 @@ export const esConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
         items: [
           {
             text: 'Cientos 💛',
-            link: '/eshttps://cientos.tresjs.org/',
+            link: 'https://cientos.tresjs.org/',
           },
           {
             text: 'Módulo Nuxt',
-            link: '/eshttps://github.com/Tresjs/nuxt',
+            link: 'https://github.com/Tresjs/nuxt',
           },
           {
             text: 'TresLeches 🍰',
-            link: '/eshttps://tresleches.tresjs.org/',
+            link: 'https://tresleches.tresjs.org/',
           },
           {
             text: 'Post-procesamiento (Próximamente)',
@@ -109,33 +109,33 @@ export const esConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
       { text: 'Recursos',
         items: [
           { text: 'Equipo', link: '/es/team' },
-          { text: 'Versiones', link: '/eshttps://github.com/Tresjs/tres/releases' },
+          { text: 'Versiones', link: 'https://github.com/Tresjs/tres/releases' },
           {
             text: 'Playground',
-            link: '/eshttps://playground.tresjs.org/',
+            link: 'https://playground.tresjs.org/',
           },
           {
             text: 'Github',
-            link: '/eshttps://github.com/Tresjs/tres/',
+            link: 'https://github.com/Tresjs/tres/',
           },
           {
             text: 'Problemas',
-            link: '/eshttps://github.com/Tresjs/tres/issues',
+            link: 'https://github.com/Tresjs/tres/issues',
           },
           {
             text: 'Ecosistema',
             items: [
               {
                 text: 'Cientos 💛',
-                link: '/eshttps://cientos.tresjs.org/',
+                link: 'https://cientos.tresjs.org/',
               },
               {
                 text: 'Módulo Nuxt',
-                link: '/eshttps://github.com/Tresjs/nuxt',
+                link: 'https://github.com/Tresjs/nuxt',
               },
               {
                 text: 'TresLeches 🍰',
-                link: '/eshttps://tresleches.tresjs.org/',
+                link: 'https://tresleches.tresjs.org/',
               },
             ],
           },
