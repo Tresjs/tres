@@ -1,3 +1,4 @@
+import { templateCompilerOptions } from '@tresjs/core';
 /// <reference types="vitest" />
 
 import { defineConfig } from 'vite'
@@ -27,11 +28,7 @@ export default defineConfig({
   plugins: [
     vue({
       isProduction: false,
-      template: {
-        compilerOptions: {
-          isCustomElement: tag => tag.startsWith('Tres') && tag !== 'TresCanvas',
-        },
-      },
+      ...templateCompilerOptions,
     }),
     dts({
       insertTypesEntry: true,
