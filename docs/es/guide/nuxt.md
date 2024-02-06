@@ -4,11 +4,11 @@
 
 <a href="https://www.npmjs.com/package/@tresjs/nuxt"><img src="https://img.shields.io/npm/v/@tresjs/nuxt/latest?color=%2382DBCA" alt="npm package"></a>
 
-A official Nuxt module for TresJS is here 🎉. 
+¡Aquí está el módulo oficial de Nuxt para TresJS! 🎉.
 
-Repository is [here](https://github.com/Tresjs/nuxt)
+El repositorio está [aquí](https://github.com/Tresjs/nuxt)
 
-## Installation
+## Instalación
 
 ::: code-group
 
@@ -26,26 +26,26 @@ yarn add three @tresjs/nuxt
 
 :::
 
-## Features
+## Características
 
-- 🤓 Auto-import components and composables from the [TresJS ecosystem](https://github.com/orgs/Tresjs/repositories)
-- `TresCanvas` client only, you don't need to add `.client` to the component name or `<ClientOnly />`
-- Automatically configures vue compiler to support TresJS components, see [why](/guide/troubleshooting.html#failed-resolve-component-trescomponent-%F0%9F%A4%94)?
-- All the DX Magic that comes with Nuxt ✨
+- 🤓 Importación automática de componentes y composables del [ecosistema de TresJS](https://github.com/orgs/Tresjs/repositories)
+- `TresCanvas` esta disponible solo en el cliente, no es necesario agregar `.client` al nombre del componente o `<ClientOnly />`
+- Configura automáticamente el compilador de Vue para admitir componentes de TresJS, consulta [por qué](/guide/troubleshooting.html#failed-resolve-component-trescomponent-%F0%9F%A4%94)?
+- Toda la magia de DX que viene con Nuxt ✨
 
-## Usage
+## Uso
 
- Add `@tresjs/nuxt` to the `modules` section of `nuxt.config.ts`
+Agrega `@tresjs/nuxt` a la sección `modules` de `nuxt.config.ts`
 
 ```js
 export default defineNuxtConfig({
-  modules: ["@tresjs/nuxt"],
-});
+  modules: ['@tresjs/nuxt'],
+})
 ```
 
-That's it! You can now use `@tresjs/nuxt` in your Nuxt app ✨
+¡Eso es todo! Ahora puedes usar `@tresjs/nuxt` en tu aplicación Nuxt ✨
 
-If you want to use the any package from the TresJS ecosystem, you can install the packages you want to use and they will be auto-imported by the module 🧙🏼‍♂️.
+Si deseas utilizar cualquier paquete del ecosistema de TresJS, puedes instalar los paquetes que desees utilizar y serán importados automáticamente por el módulo 🧙🏼‍♂️.
 
 | Package                     | Version                                                                                            |
 | --------------------------- | :------------------------------------------------------------------------------------------------- |
@@ -53,6 +53,6 @@ If you want to use the any package from the TresJS ecosystem, you can install th
 | [Post-processing](https://github.com/Tresjs/post-processing) | ![post-processing version](https://img.shields.io/npm/v/@tresjs/post-processing/latest.svg?label=%20&color=ff69b4) |
 
 ```bash
-# Using pnpm
+# Usando pnpm
 pnpm add @tresjs/cientos @tresjs/post-processing
 ```

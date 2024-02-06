@@ -1,6 +1,6 @@
-# Migration Guide
+# Guía de Migración
 
-This guide is intended to help you migrate from v1 to the newest versions of TresJS 🤩✨.
+Esta guía tiene como objetivo ayudarte a migrar de la versión 1 a las versiones más recientes de TresJS 🤩✨.
 
 ::: code-group
 
@@ -18,23 +18,23 @@ yarn upgrade @tresjs/core
 
 :::
 
-## What's new?
+## Novedades
 
 ### Vue Custom Renderer
 
-**TresJS** is now a [Vue Custom Renderer](https://vuejs.org/api/custom-renderer.html#createrenderer) 🎉 that lives inside of a wrapper component `TresCanvas` that is responsible for creating the `WebGLRenderer` and the `Scene` for you and creating a **new Vue App instance** to render the scene.
+**TresJS** es ahora un [Vue Custom Renderer](https://vuejs.org/api/custom-renderer.html#createrenderer) 🎉 que se encuentra dentro de un componente envolvente `TresCanvas` que se encarga de crear el `WebGLRenderer` y la `Scene` por ti, y crear una **nueva instancia de la aplicación Vue** para renderizar la escena.
 
-### Typescript support and Intellisense 🦾
+### Soporte de TypeScript e Intellisense 🦾
 
 ![TresJS Intellisense](/v2-intellisense.gif)
 
-This was probably the most **requested feature for TresJS**. Now Tres components work with Volar and provide type intellisense.
+Esta fue probablemente la característica más **solicitada para TresJS**. Ahora los componentes de Tres funcionan con Volar y proporcionan intellisense de tipos.
 
-**TresJS** now generates type declaration on build time for all the components based of the catalog from ThreeJS. This means that you can use all the components from ThreeJS and get type intellisense for them.
+**TresJS** ahora genera declaraciones de tipos en tiempo de compilación para todos los componentes basados en el catálogo de ThreeJS. Esto significa que puedes usar todos los componentes de ThreeJS y obtener intellisense de tipos para ellos.
 
-### Tres Plugin is optional 👍
+### El plugin de Tres es opcional 👍
 
-The `TresPlugin` is now optional. You can use TresJS without it by importing the components directly from `tresjs/core`:
+El `TresPlugin` ahora es opcional. Puedes usar TresJS sin él importando los componentes directamente desde `tresjs/core`:
 
 ```vue
 <script setup lang="ts">
@@ -50,16 +50,19 @@ import { TresCanvas } from '@tresjs/core'
       :near="cameraNear"
       :far="cameraFar"
     />
-    <TresMesh :geometry="geometry" :material="material" />
+    <TresMesh
+      :geometry="geometry"
+      :material="material"
+    />
   </TresCanvas>
 </template>
 ```
 
 ::: info
-This is recommended for performance and bundle size reasons, tree-shaking will work better and you will only import the components that you use.
+Esto es recomendado por razones de rendimiento y tamaño del paquete, el tree-shaking funcionará mejor y solo importarás los componentes que uses.
 :::
 
-### TresScene no longer needed
+### TresScene ya no es necesario
 
 The `<TresScene />` component is now deprecated since the scene is now created by the `<TresCanvas />`.
 
@@ -77,23 +80,25 @@ You can now create a scene like this:
       :near="cameraNear"
       :far="cameraFar"
     />
-    <TresMesh :geometry="geometry" :material="material" />
+    <TresMesh
+      :geometry="geometry"
+      :material="material"
+    />
   </TresCanvas>
 </template>
 ```
 
-To migrate your code, you can just remove the `<TresScene />` component and move the children to the `<TresCanvas />` component.
+Para migrar tu código, simplemente puedes eliminar el componente `<TresScene />` y mover los hijos al componente `<TresCanvas />`.
 
-### `useCatalog` is now deprecated
+### `useCatalog` ahora está obsoleto
 
-The `useCatalog` function is now deprecated. You can now import the catalog directly from `@tresjs/core`
+La función `useCatalog` ahora está obsoleta. Ahora puedes importar el catálogo directamente desde `@tresjs/core`.
 
-You can read more about it here: [Extending](/advanced/extending.md)
+Puedes leer más al respecto aquí: [Extending](/advanced/extending.md)
 
-Change this:
+Cambia esto:
 
 ```ts {2,5,7}
-// Wrong ❌
 import { useCatalog } from '@tresjs/core'
 import { TextGeometry } from 'three/addons/geometries/TextGeometry'
 
@@ -102,25 +107,24 @@ const { extend } = useCatalog()
 extend({ TextGeometry })
 ```
 
-To this:
+Por esto:
 
 ```ts {2,6}
-// Correct ✅
+// Correcto ✅
 import { extend } from '@tresjs/core'
 import { TextGeometry } from 'three/addons/geometries/TextGeometry'
 
-// Add the element to the catalogue
 extend({ TextGeometry })
 ```
 
-### Model's ref value `getModel` is now deprecated
+### El valor de referencia del modelo `getModel` ahora está obsoleto
 
-The `getModel` function is now deprecated. You can now use the `model` property directly.
+La función `getModel` ahora está obsoleta. Ahora puedes usar directamente la propiedad `model`.
 
-Change this:
+Cambia esto:
 
 ```vue {7,9-12}
-// Wrong ❌
+// Incorrecto ❌
 <script setup lang="ts">
 import { useGLTF } from '@tresjs/cientos'
 
@@ -133,6 +137,7 @@ watch(modelRef, ({ getModel }) => {
   model.position.set(0, 0, 0)
 })
 </script>
+
 <template>
   <primitive :object="nodes.MyModel" />
 </template>
@@ -141,7 +146,7 @@ watch(modelRef, ({ getModel }) => {
 To this:
 
 ```vue {7,9-12}
-// Correct ✅
+// Correcto ✅
 <script setup lang="ts">
 import { useGLTF } from '@tresjs/cientos'
 
@@ -149,24 +154,25 @@ const { scene, nodes, animations, materials } = await useGLTF('/models/AkuAku.gl
 
 const modelRef = ref()
 
-watch(modelRef, model => {
+watch(modelRef, (model) => {
   // Do something with the model
   model.position.set(0, 0, 0)
 })
 </script>
+
 <template>
   <primitive :object="nodes.MyModel" />
 </template>
 ```
 
-### Cameras need to be before any control 🎥
+### Las cámaras deben estar antes de cualquier control 🎥
 
-The `TresOrbitControls` component needs to be after the camera in the tree. This is because the controls need to know the camera to work.
+El componente `TresOrbitControls` debe estar después de la cámara en el árbol. Esto se debe a que los controles necesitan conocer la cámara para funcionar.
 
-Change this:
+Cambia esto:
 
 ```vue {3,5}
-// Wrong ❌
+// Incorrecto ❌
 <template>
   <TresCanvas>
     <TresOrbitControls />
@@ -175,10 +181,10 @@ Change this:
 </template>
 ```
 
-To this:
+Por esto:
 
 ```vue {3,5}
-// Correct ✅
+// Correcto ✅
 <template>
   <TresCanvas>
     <TresPerspectiveCamera />
@@ -187,18 +193,18 @@ To this:
 </template>
 ```
 
-## UseTres is now useTresContext <Badge type="warning" text="^3.0.0" />
+## UseTres ahora es useTresContext <Badge type="warning" text="^3.0.0" />
 
-For v3 we reworked the whole state logic to make it more flexible and easier to use for plugin authors and ecosystem packages. Instead of using a store like in v2, we now use a context provider based on `provide/inject`.
+Para la versión 3, reestructuramos toda la lógica de estado para que sea más flexible y fácil de usar para los autores de complementos y paquetes del ecosistema. En lugar de usar una tienda como en la versión 2, ahora usamos un proveedor de contexto basado en `provide/inject`.
 
-The `useTres` function is now an alias of the `useTresContext` function to avoid breaking demos and experiments out there, but consider using `useTresContext` from now on. 
+La función `useTres` ahora es un alias de la función `useTresContext` para evitar romper demos y experimentos existentes, pero considera usar `useTresContext` a partir de ahora.
 
-Instead of a big reactive object, you will now get the `scene` and `renderer` refs, between other properties, directly.
+En lugar de obtener un objeto reactivo grande, ahora obtendrás directamente las referencias `scene` y `renderer`, entre otras propiedades.
 
-Change this:
+Cambia esto:
 
 ```ts {2}
-// Wrong ❌
+// Incorrecto ❌
 import { useTres } from '@tresjs/core'
 
 const { state, setState } = useTres()
@@ -206,10 +212,10 @@ const { state, setState } = useTres()
 console.log(state.scene)
 ```
 
-To this:
+Por esto:
 
 ```ts {2}
-// Correct ✅
+// Correcto ✅
 import { useTresContext } from '@tresjs/core'
 
 const { scene, renderer } = useTresContext()
@@ -217,4 +223,4 @@ const { scene, renderer } = useTresContext()
 console.log(scene.value)
 ```
 
-For more detailed information about the new context provider system, you can read the [API DOCS](/api/composables.md) section.
+Para obtener información más detallada sobre el nuevo sistema de proveedor de contexto, puedes leer la sección [API DOCS](/api/composables.md).

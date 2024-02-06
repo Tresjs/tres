@@ -1,4 +1,4 @@
-# Introduction
+# Introduccion
 
 <ClientOnly>
     <div style="aspect-ratio: 16/9; height: auto; margin: 2rem 0; border-radius: 8px; overflow:hidden;">
@@ -24,7 +24,7 @@ pnpm add @tresjs/core three
 
 ## Typescript
 
-TresJS is written in Typescript and it's fully typed. If you are using Typescript, you will get the full benefit of the typings. Just make sure you install the types for three.
+TresJS está escrito en Typescript y está completamente tipado. Si estás utilizando Typescript, obtendrás todos los beneficios de los tipos. Solo asegúrate de instalar los tipos para three.
 
 ::: code-group
 
@@ -44,7 +44,7 @@ pnpm add @types/three -D
 
 ## Vite
 
-If you are using Vite, you have add the following to your `vite.config.ts`:
+Si estás utilizando Vite, debes agregar lo siguiente a tu `vite.config.ts`:
 
 ```ts
 import { templateCompilerOptions } from '@tresjs/core'
@@ -59,19 +59,19 @@ export default defineConfig({
 }),
 ```
 
-This is required to make the template compiler work with the custom renderer and not throw warnings on the console. For more info check [here](/guide/troubleshooting.html).
+Esto es necesario para que el compilador de plantillas funcione con el renderizador personalizado y no lance advertencias en la consola. Para obtener más información, consulta [aquí](/guide/troubleshooting.html).
 
-## Try it online
+## Pruébalo en línea
 
 ### Sandbox
 
-You can try TresJS online using the official [sandbox](https://play.tresjs.org/). Check it out:
+Puedes probar TresJS en línea utilizando el [sandbox](https://play.tresjs.org/) oficial. ¡Échale un vistazo:
 
 <iframe src="https://play.tresjs.org/" class="w-full rounded shadow-lg outline-none border-none aspect-4/3"></iframe>
 
 ### StackBlitz
 
-We have a brand new [StackBlitz](https://stackblitz.com/) starter to try TresJS online. Check it out:
+Tenemos un nuevo inicio de [StackBlitz](https://stackblitz.com/) para probar TresJS en línea. ¡Échale un vistazo:
 
 ![](/stackblitz-starter.png)
 
@@ -79,19 +79,19 @@ We have a brand new [StackBlitz](https://stackblitz.com/) starter to try TresJS 
 
 ## Playground
 
-We also have a playground where you can try TresJS online. Check it out [here](https://playground.tresjs.org/).
+También tenemos un playground donde puedes probar TresJS en línea. Échale un vistazo [aquí](https://playground.tresjs.org/).
 
 ![](/playground.png)
 
-## Motivation
+## Motivación
 
-[ThreeJS](https://threejs.org/) is a wonderful library to create awesome **WebGL** 3D websites. Is also a constantly updated library that makes hard for wrapper maintainers like [TroisJS](https://troisjs.github.io/) to keep up with all the enhancements.
+[ThreeJS](https://threejs.org/) es una maravillosa biblioteca para crear increíbles sitios web 3D con WebGL. También es una biblioteca constantemente actualizada que dificulta a los mantenedores de envoltorios como [TroisJS](https://troisjs.github.io/) mantenerse al día con todas las mejoras.
 
-React ecosystem has an impresive **custom render** solution called [React-three-fiber](https://docs.pmnd.rs/react-three-fiber) that allows you build your scenes declaratively with re-usable, self-contained components that react to state.
+El ecosistema de React tiene una solución impresionante de **renderizado personalizado** llamada [React-three-fiber](https://docs.pmnd.rs/react-three-fiber) que te permite construir tus escenas de forma declarativa con componentes reutilizables y autocontenidos que reaccionan al estado.
 
-In my search for something similar in the VueJS ecosystem, I found this amazing library called [Lunchbox](https://github.com/breakfast-studio/lunchboxjs) which works with the same concept that R3F, it provides a [custom Vue3 Renderer](https://vuejs.org/api/custom-renderer.html). I'm also contributing to improve this library so it gets as mature and feature-rich as R3F.
+En mi búsqueda de algo similar en el ecosistema de VueJS, encontré esta increíble biblioteca llamada [Lunchbox](https://github.com/breakfast-studio/lunchboxjs) que funciona con el mismo concepto que R3F, proporciona un [renderizador personalizado de Vue3](https://vuejs.org/api/custom-renderer.html). También estoy contribuyendo para mejorar esta biblioteca y que sea tan madura y rica en características como R3F.
 
-The only problem is, mixing compilers renderers in Vue 3 is something the Vue community is still working on - see [here](https://github.com/vuejs/vue-loader/pull/1645) for more information.
+El único problema es que mezclar compiladores y renderizadores en Vue 3 es algo en lo que la comunidad de Vue todavía está trabajando. Puedes ver más información [aquí](https://github.com/vuejs/vue-loader/pull/1645).
 
 ```ts
 // Example Vite setup
@@ -110,5 +110,5 @@ const lunchboxApp = createLunchboxApp(LunchboxApp)
 lunchboxApp.mount('#lunchbox')
 ```
 
-So I was inspired by both libraries to create a Vue custom renderer for ThreeJS. That's **TresJS v2**.
+Así que me inspiré en ambas bibliotecas para crear un renderizador personalizado de Vue para ThreeJS. Eso es **TresJS v2**.
 
