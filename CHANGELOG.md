@@ -2,18 +2,12 @@
 
 ## [3.8.0](https://github.com/Tresjs/cientos/compare/3.7.0...3.8.0) (2024-02-07)
 
-
-### ⚠ BREAKING CHANGES
-
-* The tweakpane package has been removed in favor of @tresjs/leches package or v-tweakpane
-
 ### Features
 
 * add BakeShadows component ([77df084](https://github.com/Tresjs/cientos/commit/77df0843129bb3957fdd3ea536943fceb046d851))
 * add gltfExporter composable ([0c77d33](https://github.com/Tresjs/cientos/commit/0c77d332240100b31c5a385e2bb1bcd6a21c123c))
 * **app:** 329 Add cast-shadow/receive-shadow to 3D model ([471e28a](https://github.com/Tresjs/cientos/commit/471e28a92ae99097137b6210c32912d04f9c14c4))
 * reflection material ([5cccaa9](https://github.com/Tresjs/cientos/commit/5cccaa9ea3fc42cf6064567430eb1c87dd26a45a))
-* remove tweakpane ([#313](https://github.com/Tresjs/cientos/issues/313)) ([19b08cc](https://github.com/Tresjs/cientos/commit/19b08cc953b515d23c6bd1476a0206e1625a15c6))
 
 
 ### Bug Fixes
