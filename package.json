@@ -71,10 +71,10 @@
     "@tresjs/eslint-config-vue": "^0.2.1",
     "@tweakpane/core": "^1.1.9",
     "@types/node": "^20.11.16",
-    "@types/three": "^0.159.0",
+    "@types/three": "^0.161.2",
     "@typescript-eslint/eslint-plugin": "^6.21.0",
     "@typescript-eslint/parser": "^6.21.0",
-    "@vitejs/plugin-vue": "^4.6.2",
+    "@vitejs/plugin-vue": "^5.0.3",
     "eslint": "^8.56.0",
     "eslint-plugin-vue": "^9.21.1",
     "gsap": "^3.12.5",
@@ -83,15 +83,15 @@
     "release-it": "^17.0.3",
     "rollup-plugin-analyzer": "^4.0.0",
     "rollup-plugin-visualizer": "^5.12.0",
-    "three": "^0.159.0",
+    "three": "^0.161.0",
     "tweakpane": "^3.1.10",
     "typescript": "^5.3.3",
-    "unocss": "^0.57.7",
+    "unocss": "^0.58.5",
     "vite": "^5.0.12",
     "vite-plugin-banner": "^0.7.1",
     "vite-plugin-dts": "3.7.2",
     "vite-plugin-glsl": "^1.2.1",
     "vite-svg-loader": "^5.1.0",
-    "vitepress": "1.0.0-rc.40"
+    "vitepress": "1.0.0-rc.42"
   }
 }
