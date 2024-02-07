@@ -1,9 +1,7 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, shallowReactive } from 'vue'
 import { TresCanvas } from '@tresjs/core'
-import { TresLeches, useControls } from '@tresjs/leches'
-import '@tresjs/leches/dist/style.css'
-import { OrbitControls, Sampler } from '@tresjs/cientos'
+import { OrbitControls, Sampler, useTweakPane } from '@tresjs/cientos'
 import { SRGBColorSpace, ACESFilmicToneMapping } from 'three'
 import type { Mesh } from 'three'
 
@@ -18,13 +16,17 @@ const gl = {
 const torusRef = ref<Mesh>()
 const instancesRef = ref<Mesh>()
 
-const { samples } = useControls({
-  samples: {
-    min: 1,
-    max: 50,
-    step: 1,
-    value: 1,
-  },
+const state = shallowReactive({
+  count: 1,
+})
+
+const { pane } = useTweakPane()
+
+pane.addInput(state, 'count', {
+  label: 'samplers',
+  min: 1,
+  max: 50,
+  step: 1,
 })
 </script>
 
@@ -34,7 +36,7 @@ const { samples } = useControls({
     <TresPerspectiveCamera :position="[0, 0.5, 5]" />
     <OrbitControls />
 
-    <Sampler :count="samples">
+    <Sampler :count="state.count">
       <TresMesh ref="torusRef">
         <TresTorusGeometry />
       </TresMesh>

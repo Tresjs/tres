@@ -5,7 +5,7 @@ import banner from 'vite-plugin-banner'
 import dts from 'vite-plugin-dts'
 import analyze from 'rollup-plugin-analyzer'
 
-import { visualizer } from 'rollup-plugin-visualizer'
+/* import { visualizer } from 'rollup-plugin-visualizer' */
 import { templateCompilerOptions } from '@tresjs/core'
 
 import { resolve } from 'pathe'
@@ -48,13 +48,13 @@ export default defineConfig({
     rollupOptions: {
       plugins: [
         analyze(),
-        visualizer({
+        /* visualizer({
           gzipSize: true,
           brotliSize: true,
           open: true,
-        }),
+        }), */
       ],
-      external: ['three', 'vue', '@tresjs/core'],
+      external: ['three', 'vue', '@tresjs/core', 'tweakpane', '@tweakpane/core', '@tweakpane/plugin-essentials'],
       output: {
         exports: 'named',
         // Provide global variables to use in the UMD build
@@ -68,6 +68,6 @@ export default defineConfig({
     },
   },
   optimizeDeps: {
-    exclude: ['three', 'vue', '@tresjs/core'],
+    exclude: ['three', 'vue', '@tresjs/core', 'tweakpane', '@tweakpane/core', '@tweakpane/plugin-essentials'],
   },
 })
