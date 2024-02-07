@@ -1,5 +1,33 @@
 
 
+## [3.8.0](https://github.com/Tresjs/cientos/compare/3.7.0...3.8.0) (2024-02-07)
+
+
+### ⚠ BREAKING CHANGES
+
+* The tweakpane package has been removed in favor of @tresjs/leches package or v-tweakpane
+
+### Features
+
+* add BakeShadows component ([77df084](https://github.com/Tresjs/cientos/commit/77df0843129bb3957fdd3ea536943fceb046d851))
+* add gltfExporter composable ([0c77d33](https://github.com/Tresjs/cientos/commit/0c77d332240100b31c5a385e2bb1bcd6a21c123c))
+* **app:** 329 Add cast-shadow/receive-shadow to 3D model ([471e28a](https://github.com/Tresjs/cientos/commit/471e28a92ae99097137b6210c32912d04f9c14c4))
+* reflection material ([5cccaa9](https://github.com/Tresjs/cientos/commit/5cccaa9ea3fc42cf6064567430eb1c87dd26a45a))
+* remove tweakpane ([#313](https://github.com/Tresjs/cientos/issues/313)) ([19b08cc](https://github.com/Tresjs/cientos/commit/19b08cc953b515d23c6bd1476a0206e1625a15c6))
+
+
+### Bug Fixes
+
+* **app:** 336 Fix stats-gl problem ([505e243](https://github.com/Tresjs/cientos/commit/505e2434fef9f6c9207065fb6ef4af9bdd89fd3a))
+* **deps:** update dependency @tresjs/core to v3.7.0 ([#333](https://github.com/Tresjs/cientos/issues/333)) ([4d09ebb](https://github.com/Tresjs/cientos/commit/4d09ebbcc75c274376dfe6bb179d70bb9e4e861d))
+* reduce beforeRenderer time ([b9df580](https://github.com/Tresjs/cientos/commit/b9df5809fd5543ec6f5140e3899f4867b62f3dc8))
+* reduce lagging on the reflection ([dca5c31](https://github.com/Tresjs/cientos/commit/dca5c31ad0581261e48c6b49bf3022ad3210c216))
+
+
+### Reverts
+
+* remove tweakpane ([#313](https://github.com/Tresjs/cientos/issues/313))" ([#343](https://github.com/Tresjs/cientos/issues/343)) ([1314abd](https://github.com/Tresjs/cientos/commit/1314abd9b9c0cae0d1bcc202c4b7e9c61d335d5b))
+
 ## [3.7.0](https://github.com/Tresjs/cientos/compare/3.6.0...3.7.0) (2023-12-13)
 
 
