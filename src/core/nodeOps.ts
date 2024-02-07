@@ -192,7 +192,7 @@ export const nodeOps: RendererOptions<TresObject, TresObject | null> = {
     if (node) {
       let root = node
       let key = prop
-      if (key === 'object' && prevValue !== null) {
+      if (node.__tres.primitive && key === 'object' && prevValue !== null) {
         // If the prop 'object' is changed, we need to re-instance the object and swap the old one with the new one
         const newInstance = nodeOps.createElement('primitive', undefined, undefined, { 
           object: nextValue, 
