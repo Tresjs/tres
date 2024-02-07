@@ -13,7 +13,6 @@ export interface ModuleOptions {
   devtools: boolean
   glsl: boolean
 }
-const resolver = createResolver(import.meta.url)
 
 export default defineNuxtModule<ModuleOptions>({
   meta: {
@@ -25,19 +24,9 @@ export default defineNuxtModule<ModuleOptions>({
     devtools: true,
     glsl: false,
   },
-  async setup(options, nuxt) { 
-    addComponent({
-      name: 'TresCanvas',
-      filePath: '@tresjs/core',
-      export: 'TresCanvas',
-      mode: 'client',
-      _raw: true,
-    })
-    addComponent({
-      name: 'TresCanvas',
-      filePath: resolver.resolve('./runtime/ServerTresCanvas.vue'),
-      mode: 'server',
-    })
+  async setup(options, nuxt) {
+    const resolver = createResolver(import.meta.url)
+
     nuxt.options.build.transpile.push(/@tresjs/)
 
     for (const name in core) {
@@ -69,7 +58,7 @@ export default defineNuxtModule<ModuleOptions>({
 
     const pkg = await readPackageJSON(nuxt.options.rootDir)
     const coreDeps = Object.keys({ ...pkg.dependencies, ...pkg.devDependencies }).filter(d => d.startsWith('@tresjs/'))
-   
+
     for (const mod of new Set([...options.modules, ...coreDeps])) {
       if (mod === '@tresjs/core' || mod === '@tresjs/nuxt') continue
 
@@ -77,7 +66,7 @@ export default defineNuxtModule<ModuleOptions>({
       if (entry === mod) continue
 
       const imports = findExportNames(await readFile(entry, 'utf8'))
-    
+
       for (const name of imports) {
         if (name.match(/^[a-z]/)) {
           addImports({
@@ -102,6 +91,17 @@ export default defineNuxtModule<ModuleOptions>({
     nuxt.options.vite.optimizeDeps = defu(nuxt.options.vite.optimizeDeps, {
       include: ['three'],
     })
+
+    await Promise.all([
+      addComponent({
+        name: 'TresCanvas',
+        filePath: resolver.resolve('./runtime/TresCanvas.client.vue'),
+      }),
+      addComponent({
+        name: 'TresCanvas',
+        filePath: resolver.resolve('./runtime/TresCanvas.server.vue'),
+      }),
+    ])
 
     if (options.devtools)
       setupDevToolsUI(nuxt, resolver)
