@@ -1,5 +1,12 @@
 
 
+## [2.1.1](https://github.com/tresjs/nuxt/compare/2.1.0...2.1.1) (2024-02-07)
+
+
+### Bug Fixes
+
+* 83 trescanvas component is missing template or render function after 3100 ([#84](https://github.com/tresjs/nuxt/issues/84)) ([faca608](https://github.com/tresjs/nuxt/commit/faca6088cfe8124c8d32063f70b7dcc9efdd9f2e))
+
 ## [2.1.0](https://github.com/tresjs/nuxt/compare/2.0.2...2.1.0) (2024-01-30)
 
 
