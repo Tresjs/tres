@@ -10,7 +10,7 @@ export const deConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
       {
         text: 'Anleitung',
         items: [
-          // Esto muestra la página `/guide/index.md`.
+          // Dies zeigt die Seite `/guide/index.md`.
           { text: 'Einführung', link: '/de/guide/' },
           { text: 'Loslegen', link: '/de/guide/getting-started' },
           { text: 'Deine erste Szene', link: '/de/guide/your-first-scene' },
@@ -40,10 +40,9 @@ export const deConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
 
       {
         text: 'Fortgeschritten',
-
         items: [
           { text: 'Erweitern', link: '/de/advanced/extending' },
-          { text: 'primitive', link: '/de/advanced/primitive' },
+          { text: 'Primitive', link: '/de/advanced/primitive' },
           {
             text: 'Warnhinweise',
             link: '/de/advanced/caveats',
@@ -84,7 +83,7 @@ export const deConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
         text: 'Ökosystem',
         items: [
           {
-            text: 'Hunderte 💛',
+            text: 'Cientos 💛',
             link: 'https://cientos.tresjs.org/',
           },
           {
