@@ -8,7 +8,7 @@ import { shallowRef, toRefs } from 'vue'
 
 export interface BoxProps {
   /**
-   * The width, height and depth, segments, radius.
+   * The width, height, depth, segments and radius.
    * @default [1, 1, 1, 2, 0.1]
    * @type {number[]}
    * @memberof BoxProps

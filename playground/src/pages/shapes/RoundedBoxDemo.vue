@@ -23,7 +23,9 @@ watch(boxRef, (box) => {
       :far="1000"
     />
     <OrbitControls />
-    <RoundedBox ref="boxRef">
+    <RoundedBox
+      ref="boxRef"
+    >
       <TresMeshBasicMaterial
         :color="0x00ff00"
         wireframe
