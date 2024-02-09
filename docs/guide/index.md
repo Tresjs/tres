@@ -9,15 +9,15 @@
 ::: code-group
 
 ```bash [npm]
-npm install @tresjs/core three 
+npm install @tresjs/core three
 ```
 
 ```bash [yarn]
-yarn add @tresjs/core three 
+yarn add @tresjs/core three
 ```
 
 ```bash [pnpm]
-pnpm add @tresjs/core three 
+pnpm add @tresjs/core three
 ```
 
 :::
@@ -59,7 +59,7 @@ export default defineConfig({
 }),
 ```
 
-This is required to make the template compiler work with the custom renderer and not throw warnings on the console. For more info check [here](/guide/troubleshooting.html).
+This is required to make the template compiler work with the custom renderer and not throw warnings on the console. For more info check [here](/es/guide/troubleshooting.html).
 
 ## Try it online
 
@@ -95,20 +95,19 @@ The only problem is, mixing compilers renderers in Vue 3 is something the Vue co
 
 ```ts
 // Example Vite setup
-import { createApp } from 'vue'
-import { createApp as createLunchboxApp } from 'lunchboxjs'
-import App from './App.vue'
-import LunchboxApp from './LunchboxApp.vue'
+import { createApp } from "vue";
+import { createApp as createLunchboxApp } from "lunchboxjs";
+import App from "./App.vue";
+import LunchboxApp from "./LunchboxApp.vue";
 
 // html app
-const app = createApp(App)
-app.mount('#app')
+const app = createApp(App);
+app.mount("#app");
 
 // lunchbox app
-const lunchboxApp = createLunchboxApp(LunchboxApp)
+const lunchboxApp = createLunchboxApp(LunchboxApp);
 // assuming there's an element with ID `lunchbox` in your HTML app
-lunchboxApp.mount('#lunchbox')
+lunchboxApp.mount("#lunchbox");
 ```
 
 So I was inspired by both libraries to create a Vue custom renderer for ThreeJS. That's **TresJS v2**.
-
