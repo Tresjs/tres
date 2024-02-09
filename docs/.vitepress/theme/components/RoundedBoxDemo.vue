@@ -1,11 +1,9 @@
-<script setup>
-import { shallowRef, watch, Fragment } from 'vue'
+<script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
 import { OrbitControls, RoundedBox, Html } from '@tresjs/cientos'
 </script>
 
 <template>
-  <TresLeches class="top-0 important-left-4" />
   <TresCanvas
     clear-color="#111"
   >

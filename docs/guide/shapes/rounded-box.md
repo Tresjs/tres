@@ -1,4 +1,4 @@
-# Rounded-box <Badge type="warning" text="^3.8.1" />
+# Rounded-box
 
 <DocsDemo>
   <RoundedBoxDemo />
