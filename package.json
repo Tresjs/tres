@@ -54,6 +54,7 @@
     "release": "release-it",
     "coverage": "vitest run --coverage",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx,.vue",
+    "lint:fix": "eslint --ext \".ts,.js,.vue\" --fix --ignore-path .gitignore --ignore-path .eslintignore",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
     "docs:serve": "vitepress serve docs",
