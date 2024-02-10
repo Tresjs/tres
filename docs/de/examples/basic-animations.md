@@ -1,16 +1,16 @@
-# Basic Animations
+# Einfache Animationen
 
-Esta guía te ayudará a comenzar con animaciones básicas en TresJS.
+Diese Anleitung wird dir helfen, mit grundlegenden Animationen in TresJS zu beginnen.
 
-Construiremos una escena simple con un cubo. Luego animaremos el cubo para que rote alrededor del eje Y y Z.
+Wir werden eine einfache Szene mit einem Würfel erstellen. Anschließend animieren wir den Würfel, sodass er sich um die Y- und Z-Achse dreht.
 
 <SandboxDemo url="https://play.tresjs.org/#eNqVVF1P2zAU/StW9kAZbVI+hTqKOjo0bRofYrwRHkxy2xoc27KdtlD1v+8mTloHBipSH5rjc889vh9eBLcazHelwmkOQS84MYlmyhIDNleEUzHux4E1cXAaC5YpqS1ZEDOhnMvZDYzIkoy0zMgWRm998yiF6pCKKTVtkhu4AZGC/iOlWkUMLFIeTZRI3Qy90g/MDqWwWnLzls5AWGmKiFgkUhhLHuS8sNL3fLVEzvm2x1kQKar0/aahlqO541ZrQVLglrYJcKoMpGS5TfqnZBELQtiItFyycEp5DtsOJpUDB4ZaWmqZFOEz2ek7NczwPu0FHdXJvpJuuFeyl7FYFs5OItcRrD9+WMgUpxbwi5CTdZFJwoHqTiK51NiwL8d7P86Gh3FQlCSVM0MoVxNKZkzgV8ewF6eAGs1qRxVciV+DNgoSy6YwpBloWp8S0lPSsMI/prvbbZO9Njm8jwOPMJJTPDtAFx5ISz3EdxuwQPcIdsMmPCrR3W63u4ZfWbwAMyEaRshz5cVL90xCObgkJKHGdlwZVpFV7Jmc/wSZgdXP6EyPTXWX4od38VJ5yS6lzii/wCZoRrlvJ6oprjvlp2sPAieR17ugHbhx72RUhY9GCly9cpbi6gA3rldPVxz4u1IcxMHEWmV6UZSkAuNxyNhUhwJsJFQW+fTBfngYdqOUGRsVMLLjoP1G2G3VZ7RdBMof+fIV3MxiZ0CfFBWbeF9xBwchjkOlXINhxooYX3uiYSPdgjdAxcNj9LsDJvPLgM8XPgob19ejD3a7ZYFxs2AeZs3qVjycPg3pJ4RdwEfSSOykkLENRGtqcfmD8Cji7MGXrB8bnElr8LEcsfGriUxkphgHfaWKfW9OZvng/i4xq3NY+UsmkDz9B380c2f5GocF9BTLvW4lriBYd3z+9xLm+H91mMk051Vz3jm8ASN5Xnh0tLNcpGjb45Vuf5ULxsT41pzPLQhTX6ph1D4rKNG7er9Xs+aA+7JwJb9sx/CDKq1vth/urwq+/AdyGHHw" />
 
 ## useRenderLoop
 
-El composable `useRenderLoop` es el núcleo de las animaciones en TresJS. Te permite registrar una función de devolución de llamada que se ejecutará cada vez que el renderizador actualice la escena con la frecuencia de actualización del navegador.
+Das Composable `useRenderLoop` ist das Herzstück der Animationen in TresJS. Es ermöglicht dir, eine Callback-Funktion zu registrieren, die jedes Mal ausgeführt wird, wenn der Renderer die Szene mit der Aktualisierungsfrequenz des Browsers aktualisiert.
 
-Para obtener una explicación detallada de cómo funciona, consulta la documentación de [useRenderLoop](/api/composables#userenderloop).
+Für eine detaillierte Erklärung, wie es funktioniert, siehe die Dokumentation von [useRenderLoop](/api/composables#userenderloop).
 
 ```ts
 const { onLoop } = useRenderLoop()
@@ -20,11 +20,11 @@ onLoop(({ delta, elapsed }) => {
 })
 ```
 
-## Obteniendo la referencia al cubo
+## Eine Referenz zum Würfel bekommen
 
-Para animar el cubo, necesitamos obtener una referencia a él. Podemos hacerlo pasando una [Referencia de Plantilla](https://vuejs.org/guide/essentials/template-refs.html) utilizando la propiedad `ref` en el componente `TresMesh`. Esto nos devolverá la instancia de THREE.
+Um den Würfel zu animieren, benötigen wir eine Referenz zu ihm. Dies können wir tun, indem wir eine [Template-Referenz](https://vuejs.org/guide/essentials/template-refs.html) verwenden, indem wir die `ref`-Eigenschaft im `TresMesh`-Komponenten verwenden. Dies wird uns die Instanz von THREE zurückgeben.
 
-Para mejorar el rendimiento, utilizaremos una [Referencia Superficial](https://v3.vuejs.org/guide/reactivity-fundamentals.html#shallow-reactivity) para almacenar la referencia en lugar de una referencia regular. Puedes ver por qué [aquí](../advanced/caveats.md#reactivity)
+Um die Performance zu verbessern, werden wir eine [Oberflächliche Referenz](https://v3.vuejs.org/guide/reactivity-fundamentals.html#shallow-reactivity) verwenden, um die Referenz zu speichern, anstatt einer regulären Referenz. Warum das so ist, kannst du [hier](../advanced/caveats.md#reactivity) sehen.
 
 ```vue
 <script setup lang="ts">
@@ -46,9 +46,10 @@ const boxRef: ShallowRef<TresInstance | null> = shallowRef(null)
 </template>
 ```
 
-## Animando el cubo
+## Den Würfel animieren
 
-Ahora que tenemos una referencia al cubo, podemos animarlo. Utilizaremos la devolución de llamada `onLoop` para actualizar la rotación del cubo.
+Jetzt, wo wir eine Referenz zum Würfel haben, können wir ihn animieren. Wir werden die `onLoop`-Callback-Funktion verwenden, um die Rotation des Würfels zu aktualisieren.
+
 
 ```ts
 onLoop(({ delta, elapsed }) => {
@@ -59,11 +60,11 @@ onLoop(({ delta, elapsed }) => {
 })
 ```
 
-También puedes usar el `delta` del [reloj interno de THREE](https://threejs.org/docs/?q=clock#api/en/core/Clock) o el `elapsed` para animar el cubo.
+Du kannst auch das `delta` der [internen Uhr von THREE](https://threejs.org/docs/?q=clock#api/en/core/Clock) oder das `elapsed` nutzen, um den Würfel zu animieren.
 
-## ¿Pero por qué no usar la reactividad?
+## Aber warum nicht die Reaktivität nutzen?
 
-Es posible que te preguntes por qué no estamos usando la reactividad para animar el cubo. La respuesta es simple: rendimiento.
+Du fragst dich vielleicht, warum wir die Reaktivität nicht nutzen, um den Würfel zu animieren. Die Antwort ist einfach: Leistung.
 
 ```vue
 // Esto es una mala idea ❌
@@ -78,12 +79,11 @@ onLoop(({ delta, elapsed }) => {
 })
 </script>
 ```
+Wir könnten versucht sein, die Reaktivität zu nutzen, um den Würfel zu animieren. Aber das wäre eine schlechte Idee.
+Der Grund ist, dass [die Reaktivität von Vue auf Proxies basiert](https://vuejs.org/guide/extras/reactivity-in-depth.html#how-reactivity-works-in-vue) und nicht dafür ausgelegt ist, in einem Render-Loop verwendet zu werden, der 60 oder mehr Mal pro Sekunde aktualisiert wird.
 
-Podemos sentirnos tentados a usar la reactividad para animar el cubo. Pero sería una mala idea.
-La razón es que [la reactividad de Vue se basa en Proxies](https://vuejs.org/guide/extras/reactivity-in-depth.html#how-reactivity-works-in-vue) y no está diseñada para ser utilizada en un bucle de renderizado que se actualiza 60 o más veces por segundo.
-
-La página incrustada a continuación muestra la [prueba de rendimiento de un proxy frente a un objeto regular](https://measurethat.net/Benchmarks/Show/12503/0/object-vs-proxy-vs-proxy-setter). Como puedes ver, el proxy es 5 veces más lento que el objeto regular.
+Die unten eingebettete Seite zeigt den [Leistungstest eines Proxy im Vergleich zu einem regulären Objekt](https://measurethat.net/Benchmarks/Show/12503/0/object-vs-proxy-vs-proxy-setter). Wie du sehen kannst, ist der Proxy 5 Mal langsamer als das reguläre Objekt.
 
 <EmbedExperiment src="https://measurethat.net/Embed?id=399142" />
 
-Puedes leer más sobre esto en la sección de [Caveats](../advanced/caveats.md#reactivity).
+Mehr darüber kannst du im Abschnitt [Caveats](../advanced/caveats.md#reactivity) lesen.

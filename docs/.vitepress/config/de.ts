@@ -60,7 +60,7 @@ export const deConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
         collapsed: true,
         items: [
           { text: 'Orbit-Kontrollen', link: '/de/examples/orbit-controls' },
-          { text: 'Grundlegende Animationen', link: '/de/examples/basic-animations' },
+          { text: 'Einfache Animationen', link: '/de/examples/basic-animations' },
           { text: 'Gruppen', link: '/de/examples/groups' },
           { text: 'Texturen laden', link: '/de/examples/load-textures' },
           { text: 'Modelle laden', link: '/de/examples/load-models' },
