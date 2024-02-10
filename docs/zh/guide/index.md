@@ -87,7 +87,7 @@ export default defineConfig({
 
 ThreeJS 是一个用于创建超棒 **WebGL**3D 网站的奇妙的库。同时他也是一个保持不断更新的库，一些对其封装的维护者，如 [TroisJS](https://troisjs.github.io/)，往往很难跟上其所有的更新。
 
-React 生态系统中有一个令人印象深刻的使用**自定义渲染器**的解决方案叫[React-three-fiber](https://docs.pmnd.rs/react-three-fiber)，它能让你使用一些可重用，独立的对状态做出反应的组件进行声明式的构建你的场景。
+React 生态系统中有一个令人印象深刻的使用**自定义渲染器**的解决方案叫 [React-three-fiber](https://docs.pmnd.rs/react-three-fiber)，它能让你使用一些可重用，独立的对状态做出反应的组件进行声明式的构建你的场景。
 
 我在 VueJS 生态系统中寻找类似的东西时，发现了这个名为 [Lunchbox](https://github.com/breakfast-studio/lunchboxjs) 的神奇库，它的工作原理与 R3F 相同，提供了一个[自定义的 Vue3 渲染器](https://cn.vuejs.org/api/custom-renderer.html)。我也在不断改进这个库，让它变得像 R3F 一样成熟、功能丰富。
 

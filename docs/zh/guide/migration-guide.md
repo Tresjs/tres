@@ -1,6 +1,6 @@
-# Migration Guide
+# 迁移指南
 
-This guide is intended to help you migrate from v1 to the newest versions of TresJS 🤩✨.
+本指南旨在帮助您从 v1 迁移到最新版本的 TresJS 🤩✨ 。
 
 ::: code-group
 
@@ -18,23 +18,23 @@ yarn upgrade @tresjs/core
 
 :::
 
-## What's new?
+## 有什么变化?
 
-### Vue Custom Renderer
+### Vue 自定义渲染器
 
-**TresJS** is now a [Vue Custom Renderer](https://vuejs.org/api/custom-renderer.html#createrenderer) 🎉 that lives inside of a wrapper component `TresCanvas` that is responsible for creating the `WebGLRenderer` and the `Scene` for you and creating a **new Vue App instance** to render the scene.
+**TresJS** 现在是一个位于一个包装组件中的 [Vue 自定义渲染器](https://vuejs.org/api/custom-renderer.html#createrenderer)，该组件 `TresCanvas` 负责为您创建 `WebGLRenderer` 和 `Scene` 创建一个 **新的 Vue App实例** 来渲染场景。
 
-### Typescript support and Intellisense 🦾
+### Typescript 支持以及智能提示 🦾
 
 ![TresJS Intellisense](/v2-intellisense.gif)
 
-This was probably the most **requested feature for TresJS**. Now Tres components work with Volar and provide type intellisense.
+这可能是 TresJS **最需要的功能**。现在，Tres 组件可与 Volar 配合使用，并提供类型智能提示。
 
-**TresJS** now generates type declaration on build time for all the components based of the catalog from ThreeJS. This means that you can use all the components from ThreeJS and get type intellisense for them.
+**TresJS** 现在在构建时为基于 ThreeJS 对象清单的所有组件生成类型声明。这意味着您可以使用 ThreeJS 中的所有组件并为它们获取类型智能提示。
 
-### Tres Plugin is optional 👍
+### Tres 插件现在是可选项👍
 
-The `TresPlugin` is now optional. You can use TresJS without it by importing the components directly from `tresjs/core`:
+`TresPlugin` 现在是可选的。您可以在没有它的情况下使用 TresJS，方法是直接从 `tresjs/core` 导入组件：
 
 ```vue
 <script setup lang="ts">
@@ -56,16 +56,16 @@ import { TresCanvas } from '@tresjs/core'
 ```
 
 ::: info
-This is recommended for performance and bundle size reasons, tree-shaking will work better and you will only import the components that you use.
+出于性能和捆绑包大小的考虑，建议采用这种方法，树摇的效果会更好，而且您只需导入您使用的组件。
 :::
 
-### TresScene no longer needed
+### 不再需要 TresScene
 
-The `<TresScene />` component is now deprecated since the scene is now created by the `<TresCanvas />`.
+ `<TresScene />`  组件现已弃用，因为场景现在由 `<TresCanvas />`创建.
 
-In the beginning, I thought that it would be a good idea to have a separate component for the scene in terms of verbosity and keep it as similar to plain ThreeJS, but it turned out that it was not really useful.
+一开始，我认为为场景创建一个单独的组件，在语义方面保持与普通 ThreeJS 相似是个好主意，但事实证明这并没有什么用处。
 
-You can now create a scene like this:
+现在您可以创建这样一个场景：
 
 ```vue
 <template>
@@ -82,18 +82,18 @@ You can now create a scene like this:
 </template>
 ```
 
-To migrate your code, you can just remove the `<TresScene />` component and move the children to the `<TresCanvas />` component.
+要迁移代码，只需移除 `<TresScene />` 组件并将子组件移至 `<TresCanvas />` 组件内即可。
 
-### `useCatalog` is now deprecated
+### `useCatalog` 现已废弃
 
-The `useCatalog` function is now deprecated. You can now import the catalog directly from `@tresjs/core`
+`useCatalog`函数现已废弃。现在可以直接从 `@tresjs/core` 中导入目录。
 
-You can read more about it here: [Extending](/advanced/extending.md)
+您可以在此处阅读有关它的更多信息：[Extending](/advanced/extending.md)
 
-Change this:
+将如下代码：
 
 ```ts {2,5,7}
-// Wrong ❌
+// 错误的 ❌
 import { useCatalog } from '@tresjs/core'
 import { TextGeometry } from 'three/addons/geometries/TextGeometry'
 
@@ -102,25 +102,25 @@ const { extend } = useCatalog()
 extend({ TextGeometry })
 ```
 
-To this:
+转换成：
 
 ```ts {2,6}
-// Correct ✅
+// 正确的 ✅
 import { extend } from '@tresjs/core'
 import { TextGeometry } from 'three/addons/geometries/TextGeometry'
 
-// Add the element to the catalogue
+// 将元素添加到目录中
 extend({ TextGeometry })
 ```
 
-### Model's ref value `getModel` is now deprecated
+### 模型的`getModel`实例方法现已废弃
 
-The `getModel` function is now deprecated. You can now use the `model` property directly.
+`getModel`方法现已废弃. 你可以直接访问`model`的属性.
 
-Change this:
+将如下代码：
 
 ```vue {7,9-12}
-// Wrong ❌
+// 错误的 ❌
 <script setup lang="ts">
 import { useGLTF } from '@tresjs/cientos'
 
@@ -138,10 +138,10 @@ watch(modelRef, ({ getModel }) => {
 </template>
 ```
 
-To this:
+转换成：
 
 ```vue {7,9-12}
-// Correct ✅
+// 正确的 ✅
 <script setup lang="ts">
 import { useGLTF } from '@tresjs/cientos'
 
@@ -159,14 +159,14 @@ watch(modelRef, model => {
 </template>
 ```
 
-### Cameras need to be before any control 🎥
+### 相机需要放置于任何控制器之前 🎥
 
-The `TresOrbitControls` component needs to be after the camera in the tree. This is because the controls need to know the camera to work.
+`TresOrbitControls`组件在组件树内需要处于相机之后。这是因为控制器需要知道相机才能工作。
 
-Change this:
+将如下代码：
 
 ```vue {3,5}
-// Wrong ❌
+// 错误的 ❌
 <template>
   <TresCanvas>
     <TresOrbitControls />
@@ -175,10 +175,10 @@ Change this:
 </template>
 ```
 
-To this:
+转换成：
 
 ```vue {3,5}
-// Correct ✅
+// 正确的 ✅
 <template>
   <TresCanvas>
     <TresPerspectiveCamera />
@@ -187,18 +187,18 @@ To this:
 </template>
 ```
 
-## UseTres is now useTresContext <Badge type="warning" text="^3.0.0" />
+## UseTres 现在变成了 useTresContext <Badge type="warning" text="^3.0.0" />
 
-For v3 we reworked the whole state logic to make it more flexible and easier to use for plugin authors and ecosystem packages. Instead of using a store like in v2, we now use a context provider based on `provide/inject`.
+对于 v3，我们重新设计了整个状态逻辑，使其更灵活、更易于用于插件作者和生态系统包。我们现在不再像 v2 那样使用存储，而是使用基于 `provide/inject`。
 
-The `useTres` function is now an alias of the `useTresContext` function to avoid breaking demos and experiments out there, but consider using `useTresContext` from now on. 
+`useTres` 函数现在是 `useTresContext` 函数的别名，以避免破坏演示和实验，但从现在起请考虑使用 `useTresContext`。
 
-Instead of a big reactive object, you will now get the `scene` and `renderer` refs, between other properties, directly.
+您现在可以直接获取 `scene` 和 `renderer`的引用以及其他属性，而不是一个大的 reactive 对象。
 
-Change this:
+将如下代码：
 
 ```ts {2}
-// Wrong ❌
+// 错误的 ❌
 import { useTres } from '@tresjs/core'
 
 const { state, setState } = useTres()
@@ -206,10 +206,10 @@ const { state, setState } = useTres()
 console.log(state.scene)
 ```
 
-To this:
+转换成：
 
 ```ts {2}
-// Correct ✅
+// 正确的 ✅
 import { useTresContext } from '@tresjs/core'
 
 const { scene, renderer } = useTresContext()
@@ -217,4 +217,4 @@ const { scene, renderer } = useTresContext()
 console.log(scene.value)
 ```
 
-For more detailed information about the new context provider system, you can read the [API DOCS](/api/composables.md) section.
+有关新 context provider 系统的更多详细信息，请阅读 [API 文档](/zh/api/composables.md) 部分。
