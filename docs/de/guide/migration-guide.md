@@ -93,7 +93,7 @@ Um deinen Code zu migrieren, kannst du einfach die Komponente `<TresScene />` en
 
 Die Funktion `useCatalog` ist jetzt veraltet. Du kannst den Katalog jetzt direkt von `@tresjs/core` importieren.
 
-Du kannst mehr darüber hier lesen: [Erweiterung](/advanced/extending.md)
+Du kannst mehr darüber hier lesen: [Erweiterung](/de/advanced/extending.md)
 
 Ändere dies:
 
