@@ -15,10 +15,10 @@ El composable `useLoader` te permite pasar cualquier tipo de cargador de three.j
 Para obtener una explicación detallada de cómo usar `useLoader`, consulta la documentación de [useLoader](/api/composables#use-loader).
 
 ```ts
-import { useLoader } from '@tresjs/core'
-import { TextureLoader } from 'three'
+import { useLoader } from "@tresjs/core";
+import { TextureLoader } from "three";
 
-const texture = useLoader(TextureLoader, '/Rock035_2K_Color.jpg')
+const texture = useLoader(TextureLoader, "/Rock035_2K_Color.jpg");
 ```
 
 Luego puedes pasar la textura a un material:
@@ -43,20 +43,19 @@ Una forma más conveniente de cargar texturas es utilizando el composable `useTe
 Para obtener más información sobre `useTexture`, consulta la documentación de [useTexture](/api/composables#use-texture).
 
 ```ts
-import { useTexture } from '@tresjs/core'
+import { useTexture } from "@tresjs/core";
 
 const pbrTexture = await useTexture({
-  map: '/textures/black-rock/Rock035_2K_Displacement.jpg',
-  displacementMap: '/textures/black-rock/Rock035_2K_Displacement.jpg',
-  roughnessMap: '/textures/black-rock/Rock035_2K_Roughness.jpg',
-  normalMap: '/textures/black-rock/Rock035_2K_NormalDX.jpg',
-  aoMap: '/textures/black-rock/Rock035_2K_AmbientOcclusion.jpg',
-  metalnessMap: '/textures/black-rock/myMetalnessTexture.jpg',
-  matcap: '/textures/black-rock/myMatcapTexture.jpg',
-  alphaMap: '/textures/black-rock/myAlphaMapTexture.jpg'
-})
+  map: "/textures/black-rock/Rock035_2K_Displacement.jpg",
+  displacementMap: "/textures/black-rock/Rock035_2K_Displacement.jpg",
+  roughnessMap: "/textures/black-rock/Rock035_2K_Roughness.jpg",
+  normalMap: "/textures/black-rock/Rock035_2K_NormalDX.jpg",
+  aoMap: "/textures/black-rock/Rock035_2K_AmbientOcclusion.jpg",
+  metalnessMap: "/textures/black-rock/myMetalnessTexture.jpg",
+  matcap: "/textures/black-rock/myMatcapTexture.jpg",
+  alphaMap: "/textures/black-rock/myAlphaMapTexture.jpg",
+});
 ```
-Similar to the previous example, we can pass all the textures to a material via props:
 
 Al igual que en el ejemplo anterior, podemos pasar todas las texturas a un material a través de props:
 

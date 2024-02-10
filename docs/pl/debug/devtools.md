@@ -1,26 +1,26 @@
-# Herramientas de desarrollo
+# Narzędzia deweloperskie
 
-Una de las cosas más difíciles a las que se enfrenta un desarrollador al crear experiencias 3D en el navegador es la depuración. El `canvas` del navegador es una caja negra y es difícil saber qué está sucediendo en su interior. La naturaleza imperativa de [ThreeJS](https://threejs.org/) hace que sea increíblemente difícil depurar, teniendo que depender de `console.log` para ver qué está sucediendo, o de terceros para ajustar y inspeccionar la escena.
+Jednym z najtrudniejszych wyzwań, przed którym stoi programista tworząc doświadczenia 3D w przeglądarce, jest debugowanie. Element `canvas` przeglądarki to czarna skrzynka, trudno jest zrozumieć, co się dzieje w środku. Imperatywny charakter [ThreeJS](https://threejs.org/) sprawia, że jest to niezwykle trudne do debugowania, trzeba polegać na `console.log` aby zobaczyć, co się dzieje, lub używać narzędzi zewnętrznych do dostrojenia i sprawdzenia sceny.
 
-No me hagas empezar con la comprobación del rendimiento de tu escena. 😱
+Niech mnie nie zaczynają od sprawdzania wydajności twojej sceny. 😱
 
-![desarrollador depurando 3D](/debug-3D.png)
+![deweloper debugujący 3D](/debug-3D.png)
 
-Uno de nuestros objetivos con TresJS es ofrecer **la mejor experiencia de desarrollo (DX, por sus siglas en inglés)** al trabajar con escenas 3D en el navegador. Gracias a la naturaleza declarativa del ecosistema y a la variedad de soluciones que ofrece el ecosistema de Vue, como Vue Devtools, Nuxt y Vite, podemos ofrecer mejores herramientas para que los desarrolladores depuren sus escenas.
+Jednym z naszych celów przy tworzeniu TresJS jest zaoferowanie **najlepszego DX (Developer Experience)** przy pracy ze scenami 3D w przeglądarce. Dzięki deklaratywnemu charakterowi ekosystemu, a także różnym rozwiązaniom oferowanym przez ekosystem Vue, takim jak Vue Devtools, Nuxt i Vite, możemy zapewnić lepsze narzędzia dla programistów do debugowania ich scen.
 
-## Presentando las Herramientas de Desarrollo
+## Przedstawiamy narzędzia deweloperskie
 
-A partir de la versión <Badge text="^3.7.0" />, estamos introduciendo las Herramientas de Desarrollo de TresJS, una pestaña de inspector personalizada para las [Herramientas de Desarrollo de Chrome oficiales de Vue](https://devtools.vuejs.org/guide/installation.html) que te permite inspeccionar tus escenas y componentes de TresJS.
+Od wersji <Badge text="^3.7.0" />, wprowadzamy narzędzia deweloperskie TresJS, dostosowaną zakładkę inspektora dla [ Oficjalnych narzędzi deweloperskich Chrome dla Vue](https://devtools.vuejs.org/guide/installation.html), które umożliwiają inspekcję scen i komponentów TresJS.
 
-![Herramientas de Desarrollo de TresJS](/vue-chrome-devtools.png)
+![Narzędzia deweloperskie TresJS](/vue-chrome-devtools.png)
 
-### Características
+### Funkcje
 
-- **Inspector de Escena**: Inspecciona la escena actual y sus componentes utilizando una vista en árbol similar al inspector de componentes de Vue Devtools.
-- **Asignación de Memoria**: Muestra cuánta memoria está utilizando cada componente.
-- **Inspector de Objetos**: Inspecciona las propiedades del objeto seleccionado en la escena, incluidos sus hijos.
-- **Propiedades Editables**: Y sí, puedes editar las propiedades del objeto seleccionado y ver los cambios en tiempo real.
+- **Inspektor Sceny**: Sprawdź bieżącą scenę i jej komponenty, korzystając z widoku drzewa podobnego do inspektora komponentów Vue Devtools.
+- **Przydzielanie Pamięci**: Zobacz, ile pamięci zużywają komponenty.
+- **Inspektor Obiektów**: Sprawdź właściwości wybranego obiektu w scenie, w tym jego dzieci.
+- **Edytowalne właściwości**: I tak, możesz edytować właściwości wybranego obiektu i zobaczyć zmiany w czasie rzeczywistym.
 
 ![](/devtools-scene-inspector.png)
 
-¡Disfruta de las nuevas Herramientas de Desarrollo y dinos qué opinas! 🎉
+Ciesz się nowymi narzędziami deweloperskimi i daj nam znać, co o nich myślisz! 🎉

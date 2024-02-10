@@ -1,42 +1,36 @@
-# Extender 🔌
+# Rozszerzania 🔌
 
-Tres ofrece la funcionalidad básica, pero es fácil agregar elementos de terceros y extenderlos en su catálogo interno.
+Tres oferuje podstawową funkcjonalność, ale łatwo można dodać elementy zewnętrzne i rozszerzyć je do wewnętrznego katalogu.
 
-La mayoría de las experiencias en 3D utilizan `OrbitControls`, que no forma parte de la biblioteca principal. Puedes agregarlo a tu proyecto importándolo desde el módulo `three/addons/controls/OrbitControls`.
+Większość doświadczeń 3D wykorzystuje `OrbitControls`, który nie jest częścią biblioteki głównej. Możesz dodać go do swojego projektu, importując go z modułu `three/addons/controls/OrbitControls`.
 
 ```js
-import { OrbitControls } from 'three/addons/controls/OrbitControls'
+import { OrbitControls } from "three/addons/controls/OrbitControls";
 ```
 
-## Extender un elemento dinámicamente
+## Dynamiczne rozszerzanie elementu
 
-También puedes agregarlo dinámicamente en tus componentes:
+Możesz również dodawać go dynamicznie w swoich komponentach:
 
 ```vue {2,3,4,7,13,15}
 <script setup lang="ts">
-import { extend } from '@tresjs/core'
-import { OrbitControls } from 'three/addons/controls/OrbitControls'
-import { TextGeometry } from 'three/addons/geometries/TextGeometry'
+import { extend } from "@tresjs/core";
+import { OrbitControls } from "three/addons/controls/OrbitControls";
+import { TextGeometry } from "three/addons/geometries/TextGeometry";
 
 // Añadimos OrbitControls al catalogo interno
-extend({ TextGeometry, OrbitControls })
+extend({ TextGeometry, OrbitControls });
 </script>
 
 <template>
-  <TresCanvas
-    shadows
-    alpha
-  >
+  <TresCanvas shadows alpha>
     <TresPerspectiveCamera :position="[5, 5, 5]" />
     <TresOrbitControls
       v-if="state.renderer"
       :args="[state.camera, state.renderer?.domElement]"
     />
     <TresMesh>
-      <TresTextGeometry
-        :args="['TresJS', { font, ...fontOptions }]"
-        center
-      />
+      <TresTextGeometry :args="['TresJS', { font, ...fontOptions }]" center />
       <TresMeshMatcapMaterial :matcap="matcapTexture" />
     </TresMesh>
   </TresCanvas>
