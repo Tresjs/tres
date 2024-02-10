@@ -56,7 +56,7 @@ export default defineConfig({
       ...templateCompilerOptions
     }),
   ],
-}),
+})
 ```
 
 Ceci est nécessaire afin que le compilateur de template fonctionne avec le moteur de rendu personnalisé et ne renvoi pas d'erreur dans la console. Pour plus d'informations, consultez [cet article](/guide/troubleshooting.html).
