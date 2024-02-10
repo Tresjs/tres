@@ -16,7 +16,7 @@ Mit **Tres** musst du nichts importieren, da **Tres** automatisch eine **Vue-Kom
 <template>
   <TresCanvas>
     <TresPerspectiveCamera />
-    <!-- Tu escena vive aqui -->
+    <!-- Deine Szene -->
   </TresCanvas>
 </template>
 ```
@@ -34,7 +34,7 @@ Wenn wir diesem Argument folgen, solltest du in der Lage sein, eine Instanz auf 
       visible
       :position="new THREE.Vector3(1, 2, 3)"
     />
-    <!-- Tu escena vive aqui -->
+    <!-- Deine Szene -->
   </TresCanvas>
 </template>
 ```
@@ -48,7 +48,7 @@ Aber mit **Tres** ist das nicht notwendig, du kannst die Eigenschaften auf dekla
       visible
       :position="[1, 2, 3]"
     />
-    <!-- Tu escena vive aqui -->
+    <!-- Deine Szene -->
   </TresCanvas>
 </template>
 ```
@@ -68,7 +68,7 @@ Um diese Argumente an die Komponente `TresPerspectiveCamera` zu übergeben, kann
 <template>
   <TresCanvas>
     <TresPerspectiveCamera :args="[45, 1, 0.1, 1000]" />
-    <!-- Tu escena vive aqui -->
+    <!-- Deine Szene -->
   </TresCanvas>
 </template>
 ```
@@ -115,7 +115,8 @@ Es ist wichtig zu beachten, dass die Reihenfolge, in der du die Winkel setzt, we
 
 <TresMesh :rotation-z="Math.PI * 2" :rotation-x="1" :rotation-y="2" />
 
-<!-- Beachte, dass die Reihenfolge der Rotationseigenschaften wichtig ist und das Ändern der Reihenfolge zu unterschiedlichen Ergebnissen führen kann. -->
+<!-- Beachte, dass die Reihenfolge der Rotationseigenschaften wichtig ist
+ und das Ändern der Reihenfolge zu unterschiedlichen Ergebnissen führen kann. -->
 ```
 
 ### Skalieren
