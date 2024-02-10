@@ -45,7 +45,7 @@ export const frConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
           { text: 'Étendre', link: '/fr/advanced/extending' },
           { text: 'primitive', link: '/fr/advanced/primitive' },
           {
-            text: 'Caveats',
+            text: 'Mise en garde',
             link: '/fr/advanced/caveats',
           },
         ],
