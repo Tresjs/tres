@@ -1,16 +1,16 @@
-# Extender 🔌
+# Erweitern 🔌
 
-Tres ofrece la funcionalidad básica, pero es fácil agregar elementos de terceros y extenderlos en su catálogo interno.
+Tres bietet grundlegende Funktionalitäten, aber es ist einfach, Drittanbieter-Elemente hinzuzufügen und sie in seinem internen Katalog zu erweitern.
 
-La mayoría de las experiencias en 3D utilizan `OrbitControls`, que no forma parte de la biblioteca principal. Puedes agregarlo a tu proyecto importándolo desde el módulo `three/addons/controls/OrbitControls`.
+Die meisten 3D-Erlebnisse nutzen `OrbitControls`, die nicht Teil der Hauptbibliothek sind. Du kannst sie zu deinem Projekt hinzufügen, indem du sie aus dem Modul `three/addons/controls/OrbitControls` importierst.
 
 ```js
 import { OrbitControls } from 'three/addons/controls/OrbitControls'
 ```
 
-## Extender un elemento dinámicamente
+## Ein Element dynamisch erweitern
 
-También puedes agregarlo dinámicamente en tus componentes:
+Du kannst es auch dynamisch in deinen Komponenten hinzufügen:
 
 ```vue {2,3,4,7,13,15}
 <script setup lang="ts">
@@ -18,7 +18,7 @@ import { extend } from '@tresjs/core'
 import { OrbitControls } from 'three/addons/controls/OrbitControls'
 import { TextGeometry } from 'three/addons/geometries/TextGeometry'
 
-// Añadimos OrbitControls al catalogo interno
+// Element dem Katalog hinzufügen
 extend({ TextGeometry, OrbitControls })
 </script>
 
