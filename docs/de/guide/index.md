@@ -59,7 +59,7 @@ export default defineConfig({
 }),
 ```
 
-Dies ist notwendig, damit der Vorlagencompiler mit dem benutzerdefinierten Renderer funktioniert und keine Warnungen in der Konsole ausgibt. Für weitere Informationen siehe [hier](/de/guide/troubleshooting.html).
+Dies ist notwendig, damit der Templatecompiler mit dem benutzerdefinierten Renderer funktioniert und keine Warnungen in der Konsole ausgibt. Für weitere Informationen siehe [hier](/de/guide/troubleshooting.html).
 
 
 ## Probiere es online aus
