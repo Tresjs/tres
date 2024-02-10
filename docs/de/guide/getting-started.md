@@ -71,7 +71,7 @@ import { TresCanvas } from '@tresjs/core'
 </template>
 ```
 
-::: Tipp
+::: tip
 Dies wird aus Gründen der Leistung und der Paketgröße empfohlen, da das Tree-Shaking besser funktionieren wird und du nur die Komponenten importierst, die du verwendest.
 :::
 

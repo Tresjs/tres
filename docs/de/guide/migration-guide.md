@@ -220,4 +220,4 @@ const { scene, renderer } = useTresContext()
 console.log(scene.value)
 ```
 
-Für detailliertere Informationen über das neue Kontextanbieter-System kannst du den Abschnitt [API DOCS](/api/composables.md) lesen.
+Für detailliertere Informationen über das neue Kontextanbieter-System kannst du den Abschnitt [API DOCS](/de/api/composables.md) lesen.

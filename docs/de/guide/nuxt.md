@@ -4,38 +4,38 @@
 
 <a href="https://www.npmjs.com/package/@tresjs/nuxt"><img src="https://img.shields.io/npm/v/@tresjs/nuxt/latest?color=%2382DBCA" alt="npm package"></a>
 
-¡Aquí está el módulo oficial de Nuxt para TresJS! 🎉.
+Hier ist das offizielle Nuxt-Modul für TresJS! 🎉.
 
-El repositorio está [aquí](https://github.com/Tresjs/nuxt)
+Das Repository findest du [hier](https://github.com/Tresjs/nuxt).
 
 ## Instalación
 
 ::: code-group
 
 ```bash [pnpm]
-pnpm add three @tresjs/nuxt 
+pnpm add three @tresjs/nuxt
 ```
 
 ```bash [npm]
-npm install three @tresjs/nuxt 
+npm install three @tresjs/nuxt
 ```
 
 ```bash [yarn]
-yarn add three @tresjs/nuxt 
+yarn add three @tresjs/nuxt
 ```
 
 :::
 
-## Características
+## Eigenschaften
 
-- 🤓 Importación automática de componentes y composables del [ecosistema de TresJS](https://github.com/orgs/Tresjs/repositories)
-- `TresCanvas` esta disponible solo en el cliente, no es necesario agregar `.client` al nombre del componente o `<ClientOnly />`
-- Configura automáticamente el compilador de Vue para admitir componentes de TresJS, consulta [por qué](/guide/troubleshooting.html#failed-resolve-component-trescomponent-%F0%9F%A4%94)?
-- Toda la magia de DX que viene con Nuxt ✨
+- 🤓 Automatischer Import von Komponenten und Composables aus dem [TresJS-Ökosystem](https://github.com/orgs/Tresjs/repositories)
+- `TresCanvas` ist nur auf dem Client verfügbar, es ist nicht notwendig, `.client` zum Namen der Komponente hinzuzufügen oder `<ClientOnly />` zu verwenden
+- Konfiguriert automatisch den Vue-Compiler, um TresJS-Komponenten zu unterstützen, siehe [warum](/de/guide/troubleshooting.html#failed-resolve-component-trescomponent-%F0%9F%A4%94)?
+- All die DX-Magie, die mit Nuxt kommt ✨
 
-## Uso
+## Verwendung
 
-Agrega `@tresjs/nuxt` a la sección `modules` de `nuxt.config.ts`
+Füge `@tresjs/nuxt` zum Abschnitt `modules` in `nuxt.config.ts` hinzu
 
 ```js
 export default defineNuxtConfig({
@@ -43,9 +43,9 @@ export default defineNuxtConfig({
 })
 ```
 
-¡Eso es todo! Ahora puedes usar `@tresjs/nuxt` en tu aplicación Nuxt ✨
+Das ist alles! Jetzt kannst du `@tresjs/nuxt` in deiner Nuxt-Anwendung verwenden ✨
 
-Si deseas utilizar cualquier paquete del ecosistema de TresJS, puedes instalar los paquetes que desees utilizar y serán importados automáticamente por el módulo 🧙🏼‍♂️.
+Wenn du irgendwelche Pakete aus dem TresJS-Ökosystem verwenden möchtest, kannst du die gewünschten Pakete installieren und sie werden automatisch vom Modul importiert 🧙🏼‍♂️.
 
 | Package                     | Version                                                                                            |
 | --------------------------- | :------------------------------------------------------------------------------------------------- |
