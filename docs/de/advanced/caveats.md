@@ -1,20 +1,21 @@
-# Avisos 😱
+# Warnhinweise 😱
 
-Nuestro objetivo es proporcionar una forma sencilla de utilizar ThreeJS en VueJS con la mejor experiencia de desarrollo posible. Sin embargo, hay algunas advertencias de las que debes ser consciente.
+Unser Ziel ist es, eine einfache Möglichkeit zu bieten, ThreeJS in VueJS mit der bestmöglichen Entwicklererfahrung zu nutzen. Es gibt jedoch einige Vorbehalte, derer du dir bewusst sein solltest.
 
-## ~~HMR y ThreeJS~~
+## ~~HMR und ThreeJS~~
 
 :::info
 
-Esto se ha solucionado en **TresJS** v1.7.0 🎉. Ahora puedes utilizar HMR sin tener que recargar la página 🥹.
+Dies wurde in **TresJS** v1.7.0 🎉 behoben. Jetzt kannst du HMR nutzen, ohne die Seite neu laden zu müssen 🥹.
 
 :::
 
-La sustitución de módulos en caliente (HMR) es una característica que te permite actualizar tu código sin recargar la página. Esta es una gran característica que hace que el desarrollo sea mucho más rápido. **TresJS** utiliza [Vite](https://vitejs.dev/). Sin embargo, es realmente complicado hacer que funcione correctamente con ThreeJS.
+Die Hot Module Replacement (HMR) ist eine Funktion, die es dir erlaubt, deinen Code zu aktualisieren, ohne die Seite neu zu laden. Dies ist eine großartige Funktion, die die Entwicklung viel schneller macht. **TresJS** verwendet [Vite](https://vitejs.dev/). Es ist jedoch wirklich kompliziert, dies korrekt mit ThreeJS zu bewerkstelligen.
 
-¿Por qué? Porque Tres construye la escena de forma declarativa. Esto significa que crea la instancia y la añade a la escena cuando se monta el componente. La complejidad radica en saber cuándo quitar la instancia de la escena y cuándo añadirla de nuevo.
+Warum? Weil Tres die Szene deklarativ aufbaut. Das bedeutet, dass es die Instanz erstellt und der Szene hinzufügt, wenn die Komponente gemountet wird. Die Komplexität liegt darin zu wissen, wann die Instanz aus der Szene entfernt und wann sie wieder hinzugefügt werden soll.
 
-Aunque se ha implementado un flujo de eliminación mínimo, no es perfecto. Esto significa que a veces tendrás que recargar la página para ver los cambios correctamente, especialmente cuando estás haciendo referencia a instancias utilizando [Template Refs](https://v3.vuejs.org/guide/component-template-refs.html)
+Obwohl ein minimaler Löschfluss implementiert wurde, ist er nicht perfekt. Das bedeutet, dass du manchmal die Seite neu laden musst, um die Änderungen korrekt zu sehen, insbesondere wenn du Instanzen über [Template Refs](https://v3.vuejs.org/guide/component-template-refs.html) referenzierst.
+
 
 ```vue
 <script setup lang="ts">
@@ -40,40 +41,40 @@ onLoop(({ _delta, elapsed }) => {
 </template>
 ```
 
-Si realizas un cambio en el `color` del componente `TresMeshStandardMaterial`, verás que el cambio se aplica pero la rotación ya no funciona. Esto se debe a que la instancia se elimina y se crea de nuevo.
+Wenn du eine Änderung an der `color`-Eigenschaft des `TresMeshStandardMaterial`-Komponenten vornimmst, wirst du sehen, dass die Änderung angewendet wird, aber die Rotation funktioniert nicht mehr. Dies liegt daran, dass die Instanz entfernt und neu erstellt wird.
 
 :::tip
-Entonces, como **regla general**, debes recargar la página cuando no veas los cambios que has realizado.
+Also, als **Faustregel**, solltest du die Seite neu laden, wenn du die von dir vorgenommenen Änderungen nicht siehst.
 :::
 
-Dicho esto, estamos trabajando en una mejor solución para esto 😁. Si tienes alguna idea de cómo resolverlo, por favor avísanos.
+Mit dem gesagt, arbeiten wir an einer besseren Lösung dafür 😁. Wenn du eine Idee hast, wie man dies lösen könnte, lass es uns bitte wissen.
 
-Puedes seguir la discusión en [HMR Disposal Discussion](https://github.com/Tresjs/tres/issues/23)
+Du kannst der Diskussion in [HMR Disposal Discussion](https://github.com/Tresjs/tres/issues/23) folgen.
 
-## Reactividad
+## Reaktivität
 
-Todos amamos la reactividad 💚. Es una de las características más poderosas de VueJS. Sin embargo, debemos tener cuidado al usar ThreeJS.
+Wir alle lieben Reaktivität 💚. Es ist eines der mächtigsten Features von VueJS. Allerdings sollten wir vorsichtig sein, wenn wir ThreeJS verwenden.
 
-La reactividad de Vue se basa en [Proxy](https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Proxy). Esto permite que Vue 3 rastree automáticamente los cambios en los objetos de datos y actualice los elementos DOM correspondientes cada vez que los datos cambien.
+Die Reaktivität von Vue basiert auf [Proxy](https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/Proxy). Dies ermöglicht es Vue 3, automatisch Änderungen an Datenobjekten zu verfolgen und die entsprechenden DOM-Elemente jedes Mal zu aktualisieren, wenn sich die Daten ändern.
 
-Dado que estamos renderizando una escena y actualizándola en cada fotograma (60FPS), eso significa que estamos actualizando la escena 60 veces por segundo. Si el objeto a actualizar es reactivo, Vue intentará actualizar ese objeto tantas veces. Esto no es una buena idea 😅 y será perjudicial para el rendimiento.
+Da wir eine Szene rendern und sie bei jedem Frame (60FPS) aktualisieren, bedeutet das, dass wir die Szene 60 Mal pro Sekunde aktualisieren. Wenn das zu aktualisierende Objekt reaktiv ist, wird Vue versuchen, dieses Objekt so oft zu aktualisieren. Das ist keine gute Idee 😅 und wird sich negativ auf die Leistung auswirken.
 
-Aquí tienes una prueba de rendimiento de la diferencia entre usar un objeto Proxy y un objeto plano.
+Hier ist ein Benchmark, der den Unterschied zwischen der Verwendung eines Proxy-Objekts und eines einfachen Objekts zeigt.
 
 <figure>
   <img src="/proxy-benchmark.png" alt="Proxy vs Plain" style="width:100%">
-  <figcaption>Fig.1 - Ejecuciones por segundo Objeto Plano vs Proxy. </figcaption>
+  <figcaption>Fig.1 - Ausführungen pro Sekunde: Objekt vs Proxy. </figcaption>
 </figure>
 
-Fuente: [Proxy vs Plain Object](https://www.measurethat.net/Benchmarks/Show/12503/0/object-vs-proxy-vs-proxy-setter)
+Quelle: [Proxy vs Plain Object](https://www.measurethat.net/Benchmarks/Show/12503/0/object-vs-proxy-vs-proxy-setter)
 
-Si te ves obligado a usar reactividad, utiliza [shallowRef](https://vuejs.org/api/reactivity-advanced.html#shallowref)
+Wenn du gezwungen bist, Reaktivität zu nutzen, verwende [shallowRef](https://vuejs.org/api/reactivity-advanced.html#shallowref).
 
-A diferencia de `ref()`, el valor interno de un shallow ref se almacena y se expone tal cual, y no se hace reactividad profunda. Solo el acceso a `.value` es reactivo. Fuente [VueJS Docs](https://vuejs.org/api/reactivity-advanced.html#shallowref)
+Im Gegensatz zu `ref()` wird der innere Wert eines shallow ref gespeichert und so wie er ist exponiert, und es findet keine tiefe Reaktivität statt. Nur der Zugriff auf `.value` ist reaktiv. Quelle: [VueJS Docs](https://vuejs.org/api/reactivity-advanced.html#shallowref)
 
-### Ejemplo
+### Beispiel
 
-❌ Incorrecto
+❌ Falsch
 
 ```vue
 <script setup lang="ts">
@@ -95,7 +96,7 @@ onLoop(({ _delta, elapsed }) => {
 </template>
 ```
 
-✅ Correcto
+✅ Richtig
 
 ```vue
 <script setup lang="ts">
