@@ -1,6 +1,6 @@
-# Instalación
+# Installation
 
-Aprende cómo instalar TresJS
+Erfahre, wie du TresJS installieren kannst
 
 ::: code-group
 
@@ -18,11 +18,12 @@ yarn add three @tresjs/core
 
 :::
 
-> Mejor usar con Vue 3.x y Composition API
+> Besser mit Vue 3.x und Composition API
 
 ## Typescript
 
-TresJS está escrito en Typescript y está completamente tipado. Si estás utilizando Typescript, obtendrás todos los beneficios de los tipos. Solo asegúrate de instalar los tipos para three.
+TresJS ist in Typescript geschrieben und vollständig typisiert. Wenn du Typescript verwendest, wirst du alle Vorteile der Typisierung genießen. Stelle nur sicher, dass du die Typen für Three installierst.
+
 
 ::: code-group
 
@@ -40,9 +41,10 @@ pnpm add @types/three -D
 
 :::
 
-## Empezando
+## Loslegen
 
-Puedes instalar TresJS como cualquier otro complemento de Vue
+Du kannst TresJS wie jedes andere Vue-Plugin installieren
+
 
 ```ts
 import { createApp } from 'vue'
@@ -55,7 +57,7 @@ app.use(Tres)
 app.mount('#app')
 ```
 
-O puedes usarlo directamente en tu componente
+Oder du kannst es direkt in deiner Komponente verwenden
 
 ```vue
 <script setup lang="ts">
@@ -69,15 +71,20 @@ import { TresCanvas } from '@tresjs/core'
 </template>
 ```
 
-::: tip
-Esto es recomendado por razones de rendimiento y tamaño del paquete, el tree-shaking funcionará mejor y solo importarás los componentes que uses.
+::: Tipp
+Dies wird aus Gründen der Leistung und der Paketgröße empfohlen, da das Tree-Shaking besser funktionieren wird und du nur die Komponenten importierst, die du verwendest.
 :::
+
 
 ## Vite
 
-Dado que la versión 2 es un renderizador personalizado, necesitamos informar al `vue-compiler` de tu aplicación que los componentes de Tres están permitidos para ser incluidos y evitar la advertencia `[Vue warn]: Failed to resolve component`.
+Da die Version 2 ein benutzerdefinierter Renderer ist, müssen wir dem `vue-compiler` deiner Anwendung mitteilen, dass die Tres-Komponenten einbezogen werden dürfen, um die Warnung `[Vue warn]: Failed to resolve component` zu vermeiden.
 
-Solo necesitas agregar esto a tu archivo `vite.config.ts` dentro del plugin de Vue:
+Du musst dies lediglich zu deiner `vite.config.ts`-Datei innerhalb des Vue-Plugins hinzufügen:
+
+
+
+
 
 ```ts
 import { templateCompilerOptions } from '@tresjs/core'
