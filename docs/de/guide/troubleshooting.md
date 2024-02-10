@@ -1,28 +1,28 @@
-# La divertida guía de problemas comunes y cómo solucionarlos
+# Der unterhaltsame Leitfaden für häufige Probleme und deren Lösungen
 
-![Solución de problemas](https://media.giphy.com/media/LHZyixOnHwDDy/giphy.gif)
+![Problembehandlung](https://media.giphy.com/media/LHZyixOnHwDDy/giphy.gif)
 
-Bienvenido a la guía de solución de problemas de **TresJS v2**. ¡Donde 3D significa _"Dificultades Deslumbrantemente Deliciosas"_! Sabemos que el 3D puede ser tan complejo como una bola de lana enredada 🧶 o tan impredecible como un gato en un teclado 🐈 ⌨️, ¡pero no temas!
+Willkommen beim Troubleshooting-Guide für **TresJS v2**. Wo 3D für _"Dazzlingly Delicious Difficulties"_ steht! Wir wissen, dass 3D so komplex wie ein verwickelter Wollknäuel 🧶 oder so unberechenbar wie eine Katze auf einer Tastatur 🐈 ⌨️ sein kann, aber keine Sorge!
 
-Esta guía está destinada a ayudarte a resolver los problemas más comunes que puedes encontrar al usar TresJS v2.
+Dieser Leitfaden soll dir helfen, die häufigsten Probleme zu lösen, die du beim Einsatz von TresJS v2 treffen könntest.
 
-## ¡No puedo ver mi escena 3D 😭!
+## Ich kann meine 3D-Szene nicht sehen 😭!
 
-Has seguido la [guía de inicio](/guide/getting-started.md) pero aún no puedes ver tu escena renderizada.
+Du hast der [Startanleitung](/guide/getting-started.md) gefolgt, kannst aber deine gerenderte Szene immer noch nicht sehen.
 
-Estas son las razones más comunes por las que es posible que no puedas ver tu escena:
+Hier sind die häufigsten Gründe, warum du deine Szene möglicherweise nicht sehen kannst:
 
-### Verifica la altura de tu lienzo 📏
+### Überprüfe die Höhe deines Canvas 📏
 
-Otro problema común es que el componente `TresCanvas` crea por defecto un elemento `canvas` que toma el `width` y `height` del elemento padre. Si el elemento padre no tiene altura, el lienzo tampoco la tendrá.
+Ein weiteres häufiges Problem ist, dass die Komponente `TresCanvas` standardmäßig ein `canvas`-Element erstellt, das die `width` und `height` des Elternelements übernimmt. Wenn das Elternelement keine Höhe hat, wird auch das Canvas keine Höhe haben.
 
 ![No se encontró altura](/canvas-height.png)
 
-También verás este error en la consola:
+Du wirst auch diesen Fehler in der Konsole sehen:
 
 ![Advertencia de altura del lienzo](/canvas-height-warning.png)
 
-Una forma sencilla de solucionar esto es establecer la altura del elemento padre en `100%`:
+Eine einfache Lösung dafür ist, die Höhe des Elternelements auf `100%` zu setzen:
 
 ```css
 html,
@@ -39,7 +39,7 @@ body {
 }
 ```
 
-O también puedes establecer la propiedad `window-size` del componente `TresCanvas`:
+Oder du kannst auch die Eigenschaft `window-size` der Komponente `TresCanvas` setzen:
 
 ```vue
 <TresCanvas window-size>
@@ -48,17 +48,17 @@ O también puedes establecer la propiedad `window-size` del componente `TresCanv
 </TresCanvas>
 ```
 
-## Error al resolver el componente: TresComponent...
+## Fehler beim Auflösen des Komponenten: TresComponent...
 
 ![](/failed-to-resolve-component.png)
 
-Dado que **TresJS v2** utiliza un Renderizador Personalizado de Vue dentro de la instancia principal de la aplicación Vue, el renderizador principal de Vue que actúa como padre no reconocerá los componentes dentro del componente `TresCanvas`. Aunque no afecta la representación, mostrará una advertencia en la consola.
+Da **TresJS v2** einen benutzerdefinierten Vue-Renderer innerhalb der Hauptinstanz der Vue-Anwendung verwendet, wird der Hauptrenderer von Vue, der als Elternteil fungiert, die Komponenten innerhalb der Komponente `TresCanvas` nicht erkennen. Obwohl es die Darstellung nicht beeinträchtigt, wird eine Warnung in der Konsole angezeigt.
 
 ![](/failed-to-resolve-component.png)
 
-En este momento, no hay soporte nativo de Vue para definir el renderizador utilizado en la etiqueta `<template />`, pero hay una solución rápida para eliminar las advertencias.
+Derzeit gibt es keine native Unterstützung von Vue, um den verwendeten Renderer im `<template />`-Tag zu definieren, aber es gibt eine schnelle Lösung, um die Warnungen zu entfernen.
 
-Ve a tu archivo `vite.config.ts` y agrega la siguiente configuración al `@vitejs/plugin-vue`:
+Gehe zu deiner Datei `vite.config.ts` und füge die folgende Konfiguration zum `@vitejs/plugin-vue` hinzu:
 
 ```ts
 import { defineConfig } from 'vite'
@@ -75,14 +75,14 @@ export default defineConfig({
 })
 ```
 
-Esto eliminará la advertencia de la consola.
+Das wird die Warnung in der Konsole entfernen.
 
-# ¡Ayúdanos a hacer que TresJS sea purr-fecto! 😼
+# Hilf uns, TresJS miau-tastisch zu machen! 😼
 
-Sabemos que incluso los mejores gatos dormilones ocasionalmente cometen errores, ¡y necesitamos tu ayuda para hacer que TresJS sea aún mejor! Si encuentras un error, por favor abre un ticket en [el repositorio](https://github.com/Tresjs/playground) y **por favor proporciona un enlace de reproducción**.
+Wir wissen, dass selbst die besten Schlafkatzen gelegentlich Fehler machen, und wir brauchen deine Hilfe, um TresJS noch besser zu machen! Wenn du einen Fehler findest, eröffne bitte ein Ticket im [Repository](https://github.com/Tresjs/playground) und **bitte stelle einen Reproduktionslink bereit**.
 
 ::: warning
-Los tickets sin un enlace de reproducción serán cerrados.
+Tickets ohne einen Reproduktionslink werden geschlossen.
 :::
 
-Nuestro equipo de amantes de los gatos programadores se pondrá en acción para eliminar esos molestos errores y mejorar TresJS para todos. ¡Juntos, hagamos que TresJS sea el maullido del renderizado 3D en Vue!
+Unser Team aus katzenliebenden Entwicklern wird in Aktion treten, um diese lästigen Fehler zu beseitigen und TresJS für alle zu verbessern. Zusammen können wir TresJS zum Schnurren des 3D-Renderings in Vue machen!
