@@ -1,8 +1,8 @@
 # Primitives
 
-El componente `<primitive />` es un componente versátil de bajo nivel en TresJS que te permite utilizar directamente cualquier objeto de three.js dentro de tu aplicación Vue sin una abstracción. Actúa como un puente entre el sistema de reactividad de Vue y el grafo de escena de three.js.
+Die `<primitive />`-Komponente ist eine vielseitige Low-Level-Komponente in TresJS, die es dir ermöglicht, jedes Objekt von three.js direkt in deiner Vue-Anwendung zu verwenden, ohne eine Abstraktion. Sie dient als Brücke zwischen dem Reaktivitätssystem von Vue und dem Szenengraph von three.js.
 
-## Usage
+## Verwendung
 
 ```html
 <script setup lang="ts">
@@ -20,17 +20,17 @@ El componente `<primitive />` es un componente versátil de bajo nivel en TresJS
 <template>
   <TresCanvas>
     <primitive :object="meshWithMaterial" />
-  </TresCanvas>  
+  </TresCanvas>
 </template>
 ```
 
 ## Props
 
-`object`: Esta propiedad espera un objeto `Object3D` de three.js o cualquiera de sus clases derivadas. Es el objeto principal que el componente `<primitive />` renderizará. En el ejemplo actualizado, se pasa un objeto `Mesh` con su correspondiente `Material` a esta propiedad.
+`object`: Diese Eigenschaft erwartet ein `Object3D`-Objekt von three.js oder eine seiner abgeleiteten Klassen. Es ist das Hauptobjekt, das die `<primitive />`-Komponente rendern wird. Im aktualisierten Beispiel wird ein `Mesh`-Objekt mit dem entsprechenden `Material` an diese Eigenschaft übergeben.
 
-## Uso con Modelos
+## Verwendung mit Modellen
 
-El componente `<primitive />` es especialmente útil para renderizar objetos complejos como modelos cargados desde fuentes externas. El siguiente ejemplo muestra cómo cargar un modelo desde un archivo GLTF y renderizarlo utilizando el componente `<primitive />`.
+Die `<primitive />`-Komponente ist besonders nützlich, um komplexe Objekte wie Modelle, die aus externen Quellen geladen werden, zu rendern. Das folgende Beispiel zeigt, wie ein Modell aus einer GLTF-Datei geladen und mit der `<primitive />`-Komponente gerendert wird.
 
 ```html
 <script lang="ts" setup>
