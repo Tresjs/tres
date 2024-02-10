@@ -1,6 +1,6 @@
-# Installation
+# 安装
 
-Learn how to install TresJS
+了解如何安装 TresJS
 
 ::: code-group
 
@@ -18,11 +18,11 @@ yarn add three @tresjs/core
 
 :::
 
-> Better use with Vue 3.x and composition API
+> 最好与 Vue 3.x 和组合式 API 一起使用
 
 ## Typescript
 
-TresJS is written in Typescript and it's fully typed. If you are using Typescript, you will get the full benefit of the typings. Just make sure you install the types for three.
+TresJS 是用 Typescript 编写的，是完全类型化的。如果您使用的是 Typescript，您就能充分享受类型的好处。 只需要保证你安装了 three 的类型定义。
 
 ::: code-group
 
@@ -40,9 +40,9 @@ pnpm add @types/three -D
 
 :::
 
-## Getting started
+## 开始
 
-You can install TresJS as any other Vue plugin
+你可以像其他的 Vue 插件一样安装 TresJS
 
 ```ts
 import { createApp } from 'vue'
@@ -55,7 +55,7 @@ app.use(Tres)
 app.mount('#app')
 ```
 
-Or you can use it directly in your component
+或者你可以直接在你的组件中使用
 
 ```vue
 <script setup lang="ts">
@@ -70,14 +70,14 @@ import { TresCanvas } from '@tresjs/core'
 ```
 
 ::: tip
-This is recommended for performance and bundle size reasons, tree-shaking will work better and you will only import the components that you use.
+出于性能和捆绑包大小的考虑，建议采用这种方法，树摇的效果会更好，而且您只需导入您使用的组件。
 :::
 
 ## Vite
 
-Since v2 is a custom renderer, we need to let the `vue-compiler` of your app know that the components of Tres are ok to be included to avoid the `[Vue warn]: Failed to resolve component` warning.
+由于 v2 是自定义的呈现器，我们需要让应用程序的 `vue-compiler` 知道 Tres 的组件是被包含在内的，以避免出现 `[Vue warn]: Failed to resolve component` 警告。
 
-You just need to add this to your `vite.config.ts` inside of the vue plugin:
+您只需将此添加到 vue 插件中的 `vite.config.ts`：
 
 ```ts
 import { templateCompilerOptions } from '@tresjs/core'

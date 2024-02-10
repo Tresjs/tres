@@ -1,4 +1,4 @@
-# Introduction
+# 简介
 
 <ClientOnly>
     <div style="aspect-ratio: 16/9; height: auto; margin: 2rem 0; border-radius: 8px; overflow:hidden;">
@@ -24,7 +24,7 @@ pnpm add @tresjs/core three
 
 ## Typescript
 
-TresJS is written in Typescript and it's fully typed. If you are using Typescript, you will get the full benefit of the typings. Just make sure you install the types for three.
+TresJS 是用 Typescript 编写的，是完全类型化的。如果您使用的是 Typescript，您就能充分享受类型的好处。 只需要保证你安装了 three 的类型定义。
 
 ::: code-group
 
@@ -44,7 +44,7 @@ pnpm add @types/three -D
 
 ## Vite
 
-If you are using Vite, you have add the following to your `vite.config.ts`:
+如果你使用 Vite，你需要在你的 `vite.config.ts` 中添加下面的配置:
 
 ```ts
 import { templateCompilerOptions } from '@tresjs/core'
@@ -59,39 +59,39 @@ export default defineConfig({
 }),
 ```
 
-This is required to make the template compiler work with the custom renderer and not throw warnings on the console. For more info check [here](/guide/troubleshooting.html).
+要使模板编译器能与自定义渲染器一起工作，并且不会在控制台上发出警告，这样做是必须的。获得更多信息，请点击[此处](/guide/troubleshooting.html)。
 
-## Try it online
+## 线上尝试
 
-### Sandbox
+### 沙盒
 
-You can try TresJS online using the official [sandbox](https://play.tresjs.org/). Check it out:
+你可以在官方[沙盒](https://play.tresjs.org/)中线上尝试 TresJS。尝试一下：
 
 <iframe src="https://play.tresjs.org/" class="w-full rounded shadow-lg outline-none border-none aspect-4/3"></iframe>
 
 ### StackBlitz
 
-We have a brand new [StackBlitz](https://stackblitz.com/) starter to try TresJS online. Check it out:
+我们现在有一个全新的[StackBlitz](https://stackblitz.com/)模板供线上尝试 TresJS。尝试一下：
 
 ![](/stackblitz-starter.png)
 
 <StackBlitzEmbed projectId="tresjs-basic" />
 
-## Playground
+## 演练场
 
-We also have a playground where you can try TresJS online. Check it out [here](https://playground.tresjs.org/).
+我们同时也拥有一个可以让你线上尝试 TresJS 的演练场。点击这里[here](https://playground.tresjs.org/)尝试一下。
 
 ![](/playground.png)
 
-## Motivation
+## 动机
 
-[ThreeJS](https://threejs.org/) is a wonderful library to create awesome **WebGL** 3D websites. Is also a constantly updated library that makes hard for wrapper maintainers like [TroisJS](https://troisjs.github.io/) to keep up with all the enhancements.
+ThreeJS 是一个用于创建超棒 **WebGL**3D 网站的奇妙的库。同时他也是一个保持不断更新的库，一些对其封装的维护者，如 [TroisJS](https://troisjs.github.io/)，往往很难跟上其所有的更新。
 
-React ecosystem has an impresive **custom render** solution called [React-three-fiber](https://docs.pmnd.rs/react-three-fiber) that allows you build your scenes declaratively with re-usable, self-contained components that react to state.
+React 生态系统中有一个令人印象深刻的使用**自定义渲染器**的解决方案叫[React-three-fiber](https://docs.pmnd.rs/react-three-fiber)，它能让你使用一些可重用，独立的对状态做出反应的组件进行声明式的构建你的场景。
 
-In my search for something similar in the VueJS ecosystem, I found this amazing library called [Lunchbox](https://github.com/breakfast-studio/lunchboxjs) which works with the same concept that R3F, it provides a [custom Vue3 Renderer](https://vuejs.org/api/custom-renderer.html). I'm also contributing to improve this library so it gets as mature and feature-rich as R3F.
+我在 VueJS 生态系统中寻找类似的东西时，发现了这个名为 [Lunchbox](https://github.com/breakfast-studio/lunchboxjs) 的神奇库，它的工作原理与 R3F 相同，提供了一个[自定义的 Vue3 渲染器](https://cn.vuejs.org/api/custom-renderer.html)。我也在不断改进这个库，让它变得像 R3F 一样成熟、功能丰富。
 
-The only problem is, mixing compilers renderers in Vue 3 is something the Vue community is still working on - see [here](https://github.com/vuejs/vue-loader/pull/1645) for more information.
+同时唯一的问题是，混合编译不同的渲染器是 Vue 社区仍在努力解决的问题 —— 更多信息参阅[此处](https://github.com/vuejs/vue-loader/pull/1645)。
 
 ```ts
 // Example Vite setup
@@ -110,5 +110,5 @@ const lunchboxApp = createLunchboxApp(LunchboxApp)
 lunchboxApp.mount('#lunchbox')
 ```
 
-So I was inspired by both libraries to create a Vue custom renderer for ThreeJS. That's **TresJS v2**.
+因此，我受到这两个库的启发，为 ThreeJS 创建了一个 Vue 自定义渲染器。这就是 **TresJS v2**。
 

@@ -2,34 +2,34 @@
 layout: home
 
 title: TresJS
-titleTemplate: The solution for 3D on VueJS
+titleTemplate: VueJS 的 3D 解决方案
 
 hero:
   name: TresJS
-  text: Bring Three to the Vue ecosystem
-  tagline: Create awesome 3D experiences with the framework you love.
+  text: 将 Three 带到了 Vue 生态系统中
+  tagline: 用你喜欢的框架创建超棒的 3D 体验。
   image:
     src: /hero.png
     alt: Tresjs
   actions:
     - theme: brand
-      text: Get Started
-      link: /guide/
+      text: 入门指南
+      link: /zh/guide/
     - theme: alt
-      text: Why Tres?
-      link: /guide/#motivation
+      text: 为什么是 Tres ?
+      link: /zh/guide/#motivation
 
 features:
   - icon: 💡
-    title: Declarative
-    details: Build 3D scene as they were Vue components.
+    title: 声明式
+    details: 像使用 Vue 组件一样构建 3D 场景。
   - icon: ⚡️
-    title: Powered by Vite
-    details: Hot Module Replacement (HMR) that stays fast regardless of app size.
+    title: 由 Vite 驱动
+    details: 无论你的应用大小，模块热替换 (HMR) 总能保持快速运行。
   - icon: 🥰
-    title: Keeps up to date
-    details: It brings all the updated features of ThreeJS right away.
+    title: 不断更新
+    details: 为您带来 ThreeJS 所有最新的更新特性
   - icon: 🌳
-    title: Ecosystem
-    details: Extend the core functionality with packages like `cientos` and `postprocessing`. Or add your own.
+    title: 生态系统
+    details: 使用像 `cientos` 或是 `postprocessing` 的包来扩展核心功能。或者你也可以添加你自己的。
 ---

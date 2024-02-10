@@ -4,84 +4,83 @@ export const zhConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
   themeConfig: {
     editLink: {
       pattern: 'https://github.com/tresjs/tres/edit/main/packages/docs/:path',
-      text: 'Suggest changes to this page',
+      text: '对本页内容给出建议',
     },
     sidebar: [
       {
-        text: 'Guide',
+        text: '使用指南',
         items: [
-          // This shows `/guide/index.md` page.
-          { text: 'Introduction', link: '/guide/' },
-          { text: 'Getting Started', link: '/guide/getting-started' },
-          { text: 'Your first Scene', link: '/guide/your-first-scene' },
-          { text: 'Nuxt', link: '/guide/nuxt' },
-          { text: 'Troubleshooting', link: '/guide/troubleshooting' },
-          { text: 'Migrate from v1', link: '/guide/migration-guide' },
+          { text: '简介', link: '/zh/guide/' },
+          { text: '入门指南', link: '/zh/guide/getting-started' },
+          { text: '你的第一个场景', link: '/zh/guide/your-first-scene' },
+          { text: 'Nuxt', link: '/zh/guide/nuxt' },
+          { text: '故障排除', link: '/zh/guide/troubleshooting' },
+          { text: '从 v1 迁移', link: '/zh/guide/migration-guide' },
         ],
       },
       {
         text: 'API',
         items: [
-          { text: 'TresCanvas', link: '/api/tres-canvas' },
+          { text: 'TresCanvas', link: '/zh/api/tres-canvas' },
           {
-            text: 'Instances, arguments and props',
-            link: '/api/instances-arguments-and-props',
+            text: '实例, 参数和 props',
+            link: '/zh/api/instances-arguments-and-props',
           },
           {
-            text: 'Composables',
-            link: '/api/composables',
+            text: '组合式函数',
+            link: '/zh/api/composables',
           },
           {
-            text: 'Events',
-            link: '/api/events',
+            text: '事件',
+            link: '/zh/api/events',
           },
         ],
       },
 
       {
-        text: 'Advanced',
+        text: '进阶',
 
         items: [
-          { text: 'Extending', link: '/advanced/extending' },
-          { text: 'primitive', link: '/advanced/primitive' },
+          { text: 'Extending', link: '/zh/advanced/extending' },
+          { text: 'primitive', link: '/zh/advanced/primitive' },
           {
             text: 'Caveats',
-            link: '/advanced/caveats',
+            link: '/zh/advanced/caveats',
           },
         ],
       },
       {
         text: 'Debug',
         items: [
-          { text: 'Devtools', link: '/debug/devtools' },
+          { text: 'Devtools', link: '/zh/debug/devtools' },
         ],
       },
       {
-        text: 'Examples',
+        text: '范例',
         collapsed: true,
         items: [
-          { text: 'Orbit Controls', link: '/examples/orbit-controls' },
-          { text: 'Basic Animations', link: '/examples/basic-animations' },
-          { text: 'Groups', link: '/examples/groups' },
-          { text: 'Load Textures', link: '/examples/load-textures' },
-          { text: 'Load Models', link: '/examples/load-models' },
-          { text: 'Load Text', link: '/examples/text-3d' },
-          { text: 'Lights & Shadows', link: '/examples/lights-shadows' },
-          { text: 'Shaders', link: '/examples/shaders' },
+          { text: 'Orbit Controls', link: '/zh/examples/orbit-controls' },
+          { text: 'Basic Animations', link: '/zh/examples/basic-animations' },
+          { text: 'Groups', link: '/zh/examples/groups' },
+          { text: 'Load Textures', link: '/zh/examples/load-textures' },
+          { text: 'Load Models', link: '/zh/examples/load-models' },
+          { text: 'Load Text', link: '/zh/examples/text-3d' },
+          { text: 'Lights & Shadows', link: '/zh/examples/lights-shadows' },
+          { text: 'Shaders', link: '/zh/examples/shaders' },
         ],
       },
       {
-        text: 'Directives',
+        text: '指令',
         collapsed: true,
         items: [
-          { text: 'v-log', link: '/directives/v-log' },
-          { text: 'v-light-helper', link: '/directives/v-light-helper' },
-          { text: 'v-always-look-at', link: '/directives/v-always-look-at' },
-          { text: 'v-distance-to', link: '/directives/v-distance-to' },
+          { text: 'v-log', link: '/zh/directives/v-log' },
+          { text: 'v-light-helper', link: '/zh/directives/v-light-helper' },
+          { text: 'v-always-look-at', link: '/zh/directives/v-always-look-at' },
+          { text: 'v-distance-to', link: '/zh/directives/v-distance-to' },
         ],
       },
       {
-        text: 'Ecosystem',
+        text: '生态系统',
         items: [
           {
             text: 'Cientos 💛',
@@ -102,16 +101,17 @@ export const zhConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
       },
     ],
     nav: [
-      { text: 'Guide', link: '/guide/' },
-      { text: 'API', link: '/api/tres-canvas' },
+      { text: '使用指南', link: '/zh/guide/' },
+      { text: 'API', link: '/zh/api/tres-canvas' },
       /*       { text: 'API', link: '/api/' },
       { text: 'Config', link: '/config/' }, */
-      { text: 'Resources',
+      {
+        text: '资源',
         items: [
-          { text: 'Team', link: '/team' },
-          { text: 'Releases', link: 'https://github.com/Tresjs/tres/releases' },
+          { text: '团队', link: '/zh/team' },
+          { text: '版本发布', link: 'https://github.com/Tresjs/tres/releases' },
           {
-            text: 'Playground',
+            text: '演练场',
             link: 'https://playground.tresjs.org/',
           },
           {
@@ -123,14 +123,14 @@ export const zhConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
             link: 'https://github.com/Tresjs/tres/issues',
           },
           {
-            text: 'Ecosystem',
+            text: '生态系统',
             items: [
               {
                 text: 'Cientos 💛',
                 link: 'https://cientos.tresjs.org/',
               },
               {
-                text: 'Nuxt module',
+                text: 'Nuxt 模块',
                 link: 'https://github.com/Tresjs/nuxt',
               },
               {
@@ -140,7 +140,17 @@ export const zhConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
             ],
           },
         ],
-      },  
+      },
     ],
+    darkModeSwitchLabel: "外观",
+    sidebarMenuLabel: "菜单",
+    returnToTopLabel: "返回顶部",
+    langMenuLabel: "更改语言",
+    lastUpdatedText: "最近更新",
+    outlineTitle: "此页面上",
+    docFooter: {
+      next: "下一页",
+      prev: "上一页"
+    }
   },
 }
