@@ -60,7 +60,7 @@ export const frConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
         text: 'Exemples',
         collapsed: true,
         items: [
-          { text: 'Orbit Controls', link: '/fr/examples/orbit-controls' },
+          { text: 'Controles des orbites', link: '/fr/examples/orbit-controls' },
           { text: 'Animations de base', link: '/fr/examples/basic-animations' },
           { text: 'Groupes', link: '/fr/examples/groups' },
           { text: 'Charger des textures', link: '/fr/examples/load-textures' },
