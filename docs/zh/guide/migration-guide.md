@@ -88,7 +88,7 @@ import { TresCanvas } from '@tresjs/core'
 
 `useCatalog`函数现已废弃。现在可以直接从 `@tresjs/core` 中导入目录。
 
-您可以在此处阅读有关它的更多信息：[Extending](/advanced/extending.md)
+您可以在此处阅读有关它的更多信息：[Extending](/zh/advanced/extending.md)
 
 将如下代码：
 
@@ -217,4 +217,4 @@ const { scene, renderer } = useTresContext()
 console.log(scene.value)
 ```
 
-有关新 context provider 系统的更多详细信息，请阅读 [API 文档](/zh/api/composables.md) 部分。
+有关新上下文对象提供系统的更多详细信息，请阅读 [API 文档](/zh/api/composables.md) 部分。
