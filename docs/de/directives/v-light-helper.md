@@ -1,8 +1,8 @@
 # v-light-helper 🔆
 
-With the new directive v-light-helper provided by **TresJS**, you can add fast the respective helper to your lights with just one line of code 😍.
+Mit der neuen Direktive `v-light-helper`, die von **TresJS** bereitgestellt wird, kannst du schnell den entsprechenden Helfer zu deinen Licht
 
-The following lights are supported:
+Die folgenden Lichter werden unterstützt:
 - DirectionalLight
 - PointLight
 - SpotLight

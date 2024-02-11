@@ -2,7 +2,7 @@
 
 ### Problem
 
-When you have to log your instance you have to use the template reference and then log them:
+Wenn du deine Instanz loggen musst, musst du die Template-Referenz verwenden und diese dann loggen:
 
 ```vue
 <script setup lang="ts">
@@ -11,7 +11,7 @@ import { shallowRef, watch } from 'vue'
 const sphereRef = shallowRef()
 
 watch(sphereRef, (value) => {
-  console.log(value) // Really for a log?!!! 😫
+  console.log(value) // Echt jetzt?!!! 😫
 })
 </script>
 
@@ -27,11 +27,11 @@ watch(sphereRef, (value) => {
 </template>
 ```
 
-And is A LOT of code just for a simple log right?
+Und das ist VIEL Code nur für ein einfaches Log, nicht wahr?
 
-## Usage
+## Benutzung
 
-With the new directive v-log provided by **TresJS**, you can do this by just adding `v-log` to the instance.
+Mit der neuen Direktive v-log, die von **TresJS** bereitgestellt wird, kannst du dies tun, indem du einfach `v-log` zur Instanz hinzufügst.
 
 ```vue{2,10,12}
 <script setup lang="ts">
@@ -43,11 +43,11 @@ import { OrbitControls, Sphere, vLog } from '@tresjs/cientos'
     <Sphere
       ref="sphereRef"
       :scale="0.5"
-      v-log:material  <!-- will print just the material 🎉 -->
+      v-log:material  <!-- wird nur das Material loggen 🎉 -->
     />
     <OrbitControls v-log />
   </TresCanvas>
 </template>
 ```
 
-Note that you can pass a modifier with the name of a property, for example `v-log:material`, and will log directly the `material` property 😍
+Beachte, dass du einen Modifikator mit dem Namen einer Eigenschaft übergeben kannst, zum Beispiel `v-log:material`, und es wird direkt die `material` Eigenschaft gelogged 😍
