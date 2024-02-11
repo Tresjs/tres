@@ -40,7 +40,7 @@ Beachte im obigen Beispiel, dass wir die `Suspense`-Komponente verwenden, um die
 
 Eine bequemere Möglichkeit, Texturen zu laden, ist die Verwendung des Composables `useTexture`. Es akzeptiert sowohl ein Array von URLs als auch ein einzelnes Objekt mit den Pfaden der gemappten Texturen.
 
-Für mehr Informationen über `useTexture`, siehe die Dokumentation von [useTexture](/api/composables#use-texture).
+Für mehr Informationen über `useTexture`, siehe die Dokumentation von [useTexture](../api/composables#usetexture).
 
 ```ts
 import { useTexture } from '@tresjs/core'

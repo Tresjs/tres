@@ -18,7 +18,7 @@ import { core } from './_data/team'
   <VPTeamPageTitle>
     <template #title>Meet the Team</template>
     <template #lead>
-      The TresJS ecosystem is develop and maintain by a global team.
+      Das TresJS Ökosystem wird von einem globalen Team gepflegt und entwickelt.
     </template>
   </VPTeamPageTitle>
   <VPTeamMembers :members="core" />
