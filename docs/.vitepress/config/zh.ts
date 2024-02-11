@@ -41,10 +41,10 @@ export const zhConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
         text: '进阶',
 
         items: [
-          { text: 'Extending', link: '/zh/advanced/extending' },
-          { text: 'primitive', link: '/zh/advanced/primitive' },
+          { text: '扩展', link: '/zh/advanced/extending' },
+          { text: '原语', link: '/zh/advanced/primitive' },
           {
-            text: 'Caveats',
+            text: '注意事项',
             link: '/zh/advanced/caveats',
           },
         ],
@@ -59,14 +59,14 @@ export const zhConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
         text: '范例',
         collapsed: true,
         items: [
-          { text: 'Orbit Controls', link: '/zh/examples/orbit-controls' },
-          { text: 'Basic Animations', link: '/zh/examples/basic-animations' },
-          { text: 'Groups', link: '/zh/examples/groups' },
-          { text: 'Load Textures', link: '/zh/examples/load-textures' },
-          { text: 'Load Models', link: '/zh/examples/load-models' },
-          { text: 'Load Text', link: '/zh/examples/text-3d' },
-          { text: 'Lights & Shadows', link: '/zh/examples/lights-shadows' },
-          { text: 'Shaders', link: '/zh/examples/shaders' },
+          { text: '轨道控制器', link: '/zh/examples/orbit-controls' },
+          { text: '基础动画', link: '/zh/examples/basic-animations' },
+          { text: '组', link: '/zh/examples/groups' },
+          { text: '加载贴图', link: '/zh/examples/load-textures' },
+          { text: '加载模型', link: '/zh/examples/load-models' },
+          { text: '加载文本', link: '/zh/examples/text-3d' },
+          { text: '光照和阴影', link: '/zh/examples/lights-shadows' },
+          { text: '着色器', link: '/zh/examples/shaders' },
         ],
       },
       {

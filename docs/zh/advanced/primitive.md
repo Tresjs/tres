@@ -1,8 +1,8 @@
 # Primitives
 
-The `<primitive />` component is a versatile low-level component in TresJS that allows you to directly use any three.js object within your Vue application without an abstraction. It acts as a bridge between Vue's reactivity system and three.js's scene graph.
+`<primitive />` 组件是 TresJS 中一种通用的底层组件，它允许您在 Vue 应用程序中直接使用任何 three.js 对象，而无需进行抽象。它是 Vue 响应式系统和 three.js 场景画面之间的桥梁。
 
-## Usage
+## 使用方法
 
 ```html
 <script setup lang="ts">
@@ -26,11 +26,11 @@ The `<primitive />` component is a versatile low-level component in TresJS that 
 
 ## Props
 
-`object`: This prop expects a three.js Object3D or any of its derived classes. It is the primary object that the `<primitive />` component will render. In the updated example, a `Mesh` object with an associated `Material` is passed to this prop.
+`object`：这个 prop 接受一个 three.js Object3D 或其任何派生类。它是 `<primitive />` 组件将呈现的主要对象。在更新的示例中，一个被附加了 `Material` 的 `Mesh` 对象被传递给此 prop。
 
-## Usage with Models 
+## 与模型一起使用
 
-The `<primitive />` component is especially useful for rendering complex objects like models loaded from external sources. The following example shows how to load a model from a GLTF file and render it using the `<primitive />` component.
+对于呈现复杂对象（如从外部加载的模型），`<primitive />` 组件尤其有用。下面的示例展示了如何从 GLTF 文件加载模型，并使用 `<primitive />` 组件对其进行渲染。
 
 ```html
 <script lang="ts" setup>

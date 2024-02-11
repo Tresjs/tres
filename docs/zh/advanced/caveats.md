@@ -1,20 +1,21 @@
-# Caveats 😱
+# 注意事项 😱
 
-Our aim is to provide a simple way of using ThreeJS in VueJS with the best developer experience possible. However, there are some caveats that you should be aware of.
+我们的目标是提供一种在 VueJS 中使用 ThreeJS 的简单方法，并尽可能提供最佳的开发人员体验。但是，您仍有一些注意事项应该了解。
 
-## ~~HMR and ThreeJS~~
+## ~~HMR 和 ThreeJS~~
 
 :::info
 
-This has been fixed in **TresJS** v1.7.0 🎉. You can now use HMR without reloading the page 🥹.
+这一问题已在 **TresJS** v1.7.0 🎉 中得到修复。现在您可以使用 HMR 而无需重新加载页面。
 
 :::
 
-Hot module replacement (HMR) is a feature that allows you to update your code without reloading the page. This is a great feature that makes development much faster. **TresJS** uses [Vite](https://vitejs.dev/). However, is really tricky to make it work correctly with ThreeJS.
+热模块替换（HMR）是一项无需重新加载页面即可更新代码的功能。这是一项伟大的功能，能大大加快开发速度。**TresJS**使用[Vite](https://vitejs.dev/)。然而，要让它在 ThreeJS 中正常工作确实非常棘手。
 
-Why? Because Tres builds the scene in a declarative way. This means that it creates the instance and add it to the scene when the component is mounted. The complexity comes to know when to remove the instance from the scene and when to add it again.
+为什么呢？因为 Tres 是以声明的方式构建场景的。这意味着它创建了实例，并在安装组件时将其添加到场景中。复杂之处在于何时从场景中移除实例，何时再次添加。
 
-Although a minimal disposal workflow is implemented, it is not perfect. This means that sometimes you will have to reload the page to see the changes correctly, specially when you are referencing an instances using [Template Refs](https://v3.vuejs.org/guide/component-template-refs.html)
+虽然实现了最低限度的处置工作流程，但它并不完美。这意味着有时您必须重新加载页面才能正确看到变化，特别是当您使用 [模板引用](https://cn.vuejs.org/guide/essentials/template-refs.html) 访问实例时。
+
 
 ```vue
 <script setup lang="ts">
@@ -36,40 +37,40 @@ onLoop(({ _delta, elapsed }) => {
 </template>
 ```
 
-If you make a change on the `color` of the `TresMeshStandardMaterial` component, you will see that the change is applied but the rotation is not working anymore. This is because the instance is disposed and created again.
+如果对 `TresMeshStandardMaterial` 组件的 `color` 进行更改，你会发现更改被应用了，但旋转却失效了。这是因为该实例已被弃置并重新创建。
 
 :::tip
-So as **rule of thumb** you should reload the page whenever you don't see the changes you made.
+因此，**根据经验**，每当您没有看到所做的更改时，您应该重新加载页面。
 :::
 
-That being said we are working on a better solution for this 😁. If you have any idea how to solve this, please let us know.
+尽管如此，我们仍在努力寻找更好的解决方案😁。如果您有任何解决方法，请让我们知道。
 
-You can follow the discussion in [HMR Disposal Discussion](https://github.com/Tresjs/tres/issues/23)
+您可以在 [HMR 处理讨论](https://github.com/Tresjs/tres/issues/23) 中关注讨论。
 
-## Reactivity
+## 响应性
 
-We all love reactivity 💚. It is one of the most powerful features of VueJS. However, we need to be mindful of it when using ThreeJS.
+我们都喜欢响应性💚。它是 VueJS 最强大的功能之一。不过，在使用 ThreeJS 时，我们需要注意这一点。
 
-Vue reactivity is based on [Proxy](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy). This allows Vue 3 to automatically track changes to data objects and update the corresponding DOM elements whenever the data changes.
+Vue 的反应性基于 [Proxy](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Proxy)。这使得 Vue 3 可以自动跟踪数据对象的变化，并在数据发生变化时更新相应的 DOM 元素。
 
-Since we are rendering an scene and updating it in every frame (60FPS), that means that we are updating the scene 60 times per second. If the object to be updated is reactive, Vue will try to update the that objectthat many times. This is not a good idea 😅 and will be detrimental for performance.
+由于我们正在渲染一个场景并在每一帧中更新（60FPS），这意味着我们每秒要更新场景 60 次。如果要更新的对象是反应式的，Vue 就会尝试更新该对象这么多次。这不是一个好主意😅，会对性能造成损害。
 
-Here is a benchmark of the difference between using a Proxy object and a plain object.
+下面是使用 Proxy 对象和普通对象的区别基准。
 
 <figure>
   <img src="/proxy-benchmark.png" alt="Proxy vs Plain" style="width:100%">
-  <figcaption>Fig.1 - Executions per second Plan Object vs Proxy. </figcaption>
+  <figcaption>图 1 - 计划对象与代理的每秒执行次数。 </figcaption>
 </figure>
 
-Source: [Proxy vs Plain Object](https://www.measurethat.net/Benchmarks/Show/12503/0/object-vs-proxy-vs-proxy-setter)
+来源：[Proxy vs Plain Object](https://www.measurethat.net/Benchmarks/Show/12503/0/object-vs-proxy-vs-proxy-setter)
 
-If you are forced to use reactivity, use [shallowRef](https://vuejs.org/api/reactivity-advanced.html#shallowref)
+如果您不得不使用反应性，请使用 [shallowRef](https://cn.vuejs.org/api/reactivity-advanced.html#shallowref)
 
-Unlike `ref()`, the inner value of a shallow ref is stored and exposed as-is, and will not be made deeply reactive. Only the .value access is reactive. Source [VueJS Docs](https://vuejs.org/api/reactivity-advanced.html#shallowref)
+和 ref() 不同，浅层 ref 的内部值将会原样存储和暴露，并且不会被深层递归地转为响应式。只有对 .value 的访问是响应式的。来源 [VueJS 文档](https://cn.vuejs.org/api/reactivity-advanced.html#shallowref)
 
-### Example
+### 范例
 
-❌ Incorrect
+❌ 错误的
 
 ```vue
 <script setup lang="ts">
@@ -87,7 +88,7 @@ onLoop(({ _delta, elapsed }) => {
 </template>
 ```
 
-✅ Correct
+✅ 正确的
 
 ```vue
 <script setup lang="ts">

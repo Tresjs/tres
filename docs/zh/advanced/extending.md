@@ -1,16 +1,16 @@
-# Extend 🔌
+# 扩展 🔌
 
-Tres offers bare bones functionality, but it's easy to add third-party elements and extend them into its internal catalogue.
+Tres 提供基本功能，但可以轻松添加第三方元素并将其扩展到内部目录中。
 
-Most of 3D experience uses `OrbitControls` which is not part of the core library. You can add it to your project by importing it from the `three/addons/controls/OrbitControls` module.
+大部分 3D 体验使用的是 `OrbitControls`，但是它不是核心库的一部分。您可以从 `three/addons/controls/OrbitControls` 模块中导入，将其添加到您的项目中。
 
 ```js
 import { OrbitControls } from 'three/addons/controls/OrbitControls'
 ```
 
-## Extending an element dynamically
+## 动态扩展元素
 
-Or you can also add it dynamically in your components:
+或者也可以在组件中动态添加：
 
 ```vue {2,3,4,7,13,15}
 <script setup lang="ts">
