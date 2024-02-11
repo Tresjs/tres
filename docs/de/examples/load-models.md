@@ -1,24 +1,25 @@
-# Cargar Modelos
+# Modelle laden
 
-> Todos los modelos utilizados en esta guía son de [Alvaro Saburido](https://sketchfab.com/3d-models/aku-aku-7dfcb6edf10b4098bbb965c56fd3055c).
+> Alle Modelle, die in dieser Anleitung verwendet werden, stammen von [Alvaro Saburido](https://sketchfab.com/3d-models/aku-aku-7dfcb6edf10b4098bbb965c56fd3055c).
 
-Los modelos 3D están disponibles en cientos de formatos de archivo, cada uno con diferentes propósitos, características variadas y complejidad variable.
+3D-Modelle sind in Hunderten von Dateiformaten verfügbar, jedes mit unterschiedlichen Zwecken, variierenden Eigenschaften und Komplexität.
 
-Para esta guía, nos vamos a centrar en cargar modelos gLTF (GL Transmission Format), que son el formato más común para modelos 3D en la web.
+In dieser Anleitung konzentrieren wir uns auf das Laden von gLTF-Modellen (GL Transmission Format), dem häufigsten Format für 3D-Modelle im Web.
 
 <SandboxDemo url="https://play.tresjs.org/#eNqVVdtu2zgQ/RVC++AsVpacuu12tc7CidsGu+i2Re0+VX2gpbHMhCIJkrLjBvn3DqmLJfeCFPCDNXNmeOZ+H6w0mEulol0FQRLMTKaZssSArdQ/qWClktqSe+JgCyp21JAHstGyJKO5RdmNiTOpYfR3D/tOr5ldSGG15N+BMxBWmoHFFTUsW25pLvf/UxWS5Yfrq4XkUi8VzSAkb+VKCkCVYqLoPNqtBhilonP0sSj44aoS4tAgovgochG6R1ORSWEsKTi5IPepICTjQLV/LiGj317/+eJq+nIUOo3xlExCrK7ASyhXW5qQDeWmFtQQpLY6KEhOI3EIWVlVYT7acJLT8BzIHuNLhuF69Z4J9LhkX9C64fKQillclwsLNbNQKk4t4H9CZr1y7cZrNL5Ig4Kngdc2+vegjYLMsh0saAma1rpEScMskwJNPj0JCf7++pwGjZJLeTum1ukmXjdpdHHrelj9Trys8DFhan5e0qtWh4pPYJ7oS6YdTSkof8OKrW09ZC6FyKQpWcvxJIRpSNyvCwHVTFh8g9kD6s9becfBT0S5dm3qnxvin6RBA53Fxyy7CsRdCYIwqDtyXFIV3RgpcLR8q6WNwqRBUjefk/UnySnSYGutMkkcZ7lA+xw42+lIgI2FKuM+fD6NnkWTOGfGxk6M6DTwLTNwXM/cr/iuLdD98777Rjx8xe6B3ioqHsO9w86fRpPovPHcCqOSOZu+bzfjj/HrcHP0+OwF8v0DTNlPA45+ZeDR+e3B5+cTn2AcIbiLymF2GxyuAA35LziuDX7mGoHjHEr2CKct1AX/NHoec7buu3QecVU8YE9ag5tvw4qTjsxkqRgH/U65kRl2JuVc7v/zsm4FepstZLffkd+Yu5rye2wW0DtM97GUVBdga/Wr5Vu4w/+dspR5xZvi/ED5AYzkleNYw3B15Ei7h/Ns//UDhotzZV7d+bltghoQtbitvfRTuxW6XqsFn33iPN6XY/GTLB0jm0bTXsKHx+f0vBJORYEbxS2D/qnVsOlOnLtZPRU2zyV+UU8hdJ/Xb1avf3hij8funpgMBB4PTCXwkNDOCxpfELqnzLbuzlwEo7bnNN1HBbPbao1qjd4wpTbCnvHbDx+jBqMxcUmZiL13ExfcbuIKYx8Legv5eO1S8I1gXJOAPHJ4d3B/7xOmfuXX/AZxnx3Jh3U8Pbus0hoJXnpjtMRknjWeomssr2uMGt4HRjvKK4hwex/OvLZ3Wb+5rUqzEq/LDkgi1zd4mbCGnkZzGfqH4OErWPcr8A==" />
 
-Hay varias formas de cargar modelos en TresJS:
+Es gibt verschiedene Möglichkeiten, Modelle in TresJS zu laden:
+
 
 ::: warning
-Por favor, ten en cuenta que en los ejemplos anteriores utilizamos el await de nivel superior, asegúrate de envolverlo con un componente [Suspense](https://vuejs.org/guide/built-ins/suspense.html#suspense). Consulta Suspense para obtener más información.
+Bitte beachte, dass wir in den vorherigen Beispielen das oberste Level `await` verwendet haben, stelle sicher, dass du es mit einer [Suspense](https://vuejs.org/guide/built-ins/suspense.html#suspense)-Komponente umgibst. Siehe Suspense für mehr Informationen.
 :::
 
-## Usando `useLoader`
+## Verwendung von `useLoader`
 
-El composable `useLoader` te permite pasar cualquier tipo de cargador de three.js y una URL para cargar el recurso. Devuelve una `Promise` con el recurso cargado.
+Das Composable `useLoader` ermöglicht es dir, jeden Typ von three.js-Loader und eine URL zum Laden der Ressource zu übergeben. Es gibt ein `Promise` mit der geladenen Ressource zurück.
 
-Para obtener una explicación detallada de cómo usar `useLoader`, consulta la documentación de [useLoader](/api/composables#useloader).
+Für eine detaillierte Erklärung, wie `useLoader` verwendet wird, siehe die Dokumentation von [useLoader](/api/composables#useloader).
 
 ```ts
 import { useLoader } from '@tresjs/core'
@@ -27,7 +28,7 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader'
 const { scene } = await useLoader(GLTFLoader, '/models/AkuAku.gltf')
 ```
 
-Luego puedes pasar la escena del modelo a un componente [`primitive`](/advanced/primitive) de TresJS para renderizarlo:
+Dann kannst du die Szene des Modells in einer [`primitive`](/de/advanced/primitive)-Komponente von TresJS übergeben, um es zu rendern:
 
 ```html{2}
 <TresCanvas>
@@ -35,13 +36,13 @@ Luego puedes pasar la escena del modelo a un componente [`primitive`](/advanced/
 </TresCanvas>
 ```
 
-> El componente `<primitive />` no es un componente independiente en el código fuente de Tres. En su lugar, es parte de la funcionalidad principal de Tres. Cuando usas `<primitive>`, se traduce a una llamada a `createElement`, que crea el objeto three.js adecuado según la propiedad "object" proporcionada.
+> Die Komponente `<primitive />` ist keine eigenständige Komponente im Quellcode von Tres. Stattdessen ist sie Teil der Kernfunktionalität von Tres. Wenn du `<primitive>` verwendest, wird dies zu einem Aufruf von `createElement`, der das entsprechende three.js-Objekt basierend auf der bereitgestellten "object"-Eigenschaft erstellt.
 
-Observa en el ejemplo anterior que estamos utilizando el componente `Suspense` para envolver el componente `TresCanvas`. Esto se debe a que `useLoader` devuelve una `Promise` y necesitamos esperar a que se resuelva antes de renderizar la escena.
+Beachte im obigen Beispiel, dass wir die `Suspense`-Komponente verwenden, um die `TresCanvas`-Komponente zu umgeben. Dies liegt daran, dass `useLoader` ein `Promise` zurückgibt und wir warten müssen, bis es gelöst ist, bevor wir die Szene rendern können.
 
-## Usando `useGLTF`
+## Verwendung von `useGLTF`
 
-Una forma más conveniente de cargar modelos es utilizando el composable `useGLTF` disponible en el paquete [@tresjs/cientos](https://github.com/Tresjs/tres/tree/main/packages/cientos).
+Eine bequemere Möglichkeit, Modelle zu laden, ist die Verwendung des Composables `useGLTF`, das im Paket [@tresjs/cientos](https://github.com/Tresjs/tres/tree/main/packages/cientos) verfügbar ist.
 
 ```ts
 import { useGLTF } from '@tresjs/cientos'
@@ -49,7 +50,7 @@ import { useGLTF } from '@tresjs/cientos'
 const { scene, nodes, animations, materials } = await useGLTF('/models/AkuAku.gltf')
 ```
 
-Una ventaja de usar `useGLTF` es que puedes pasar una propiedad `draco` para habilitar la [compresión Draco](https://threejs.org/docs/index.html?q=drac#examples/en/loaders/DRACOLoader) para el modelo. Esto reducirá el tamaño del modelo y mejorará el rendimiento.
+Ein Vorteil der Verwendung von `useGLTF` ist, dass du eine `draco`-Eigenschaft übergeben kannst, um die [Draco-Kompression](https://threejs.org/docs/index.html?q=drac#examples/en/loaders/DRACOLoader) für das Modell zu aktivieren. Dies wird die Größe des Modells reduzieren und die Leistung verbessern.
 
 ```ts
 import { useGLTF } from '@tresjs/cientos'
@@ -57,7 +58,7 @@ import { useGLTF } from '@tresjs/cientos'
 const { scene, nodes, animations, materials } = await useGLTF('/models/AkuAku.gltf', { draco: true })
 ```
 
-Alternativamente, puedes seleccionar fácilmente objetos dentro del modelo utilizando la propiedad `nodes`.
+Alternativ kannst du Objekte innerhalb des Modells leicht mit der Eigenschaft `nodes` auswählen.
 
 ```vue
 <script setup lang="ts">
@@ -74,14 +75,14 @@ const { scene, nodes, animations, materials } = await useGLTF('/models/AkuAku.gl
   >
     <TresPerspectiveCamera :position="[11, 11, 11]" />
     <OrbitControls />
-    <primitive :object="nodes.MyModel" /> // please note that "MyModel" here is just a placeholder 
+    <primitive :object="nodes.MyModel" /> // please note that "MyModel" here is just a placeholder
   </TresCanvas>
 </template>
 ```
 
-## Usando `GLTFModel`
+## Verwendung von `GLTFModel`
 
-El componente `GLTFModel` es un envoltorio alrededor de `useGLTF` que está disponible en el paquete [@tresjs/cientos](https://github.com/Tresjs/tres/tree/main/packages/cientos).
+Die Komponente `GLTFModel` ist eine Hülle um `useGLTF`, die im Paket [@tresjs/cientos](https://github.com/Tresjs/tres/tree/main/packages/cientos) verfügbar ist.
 
 ```vue{2,9}
 <script setup lang="ts">
@@ -99,11 +100,11 @@ import { OrbitControls, GLTFModel } from '@tresjs/cientos'
 </template>
 ```
 
-Este enfoque en particular es más sencillo pero te brinda menos control sobre el modelo.
+Dieser spezielle Ansatz ist einfacher, bietet aber weniger Kontrolle über das Modell.
 
-## useFBX
+## Verwendung von `useFBX`
 
-El composable `useFBX` está disponible en el paquete [@tresjs/cientos](https://github.com/Tresjs/tres/tree/main/packages/cientos).
+Das Composable `useFBX` ist im Paket [@tresjs/cientos](https://github.com/Tresjs/tres/tree/main/packages/cientos) verfügbar.
 
 ```ts
 import { useFBX } from '@tresjs/cientos'
@@ -111,7 +112,7 @@ import { useFBX } from '@tresjs/cientos'
 const model = await useFBX('/models/AkuAku.fbx')
 ```
 
-Entonces, es tan sencillo como agregar la escena a tu escena:
+Dann ist es so einfach wie das Hinzufügen der Szene zu deiner Szene:
 
 ```html{2}
 <TresCanvas shadows alpha>
@@ -119,9 +120,9 @@ Entonces, es tan sencillo como agregar la escena a tu escena:
 </TresCanvas>
 ```
 
-## FBXModel
+## Verwendung von `FBXModel`
 
-El componente `FBXModel` es un envoltorio alrededor de `useFBX` que está disponible en el paquete [@tresjs/cientos](https://github.com/Tresjs/tres/tree/main/packages/cientos). Su uso es similar al de `GLTFModel`:
+Die Komponente `FBXModel` ist eine Hülle um `useFBX`, die im Paket [@tresjs/cientos](https://github.com/Tresjs/tres/tree/main/packages/cientos) verfügbar ist. Ihre Verwendung ist ähnlich wie bei `GLTFModel`:
 
 ```vue{2,9}
 <script setup lang="ts">
