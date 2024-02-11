@@ -126,7 +126,7 @@ export const deConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
             text: 'Ökosystem',
             items: [
               {
-                text: 'Hunderte 💛',
+                text: 'Cientos 💛',
                 link: 'https://cientos.tresjs.org/',
               },
               {
