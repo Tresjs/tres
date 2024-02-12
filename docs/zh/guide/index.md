@@ -79,13 +79,13 @@ export default defineConfig({
 
 ## 演练场
 
-我们同时也拥有一个可以让你线上尝试 TresJS 的演练场。点击这里[here](https://playground.tresjs.org/)尝试一下。
+我们同时也拥有一个可以让你线上尝试 TresJS 的演练场。点击[这里](https://playground.tresjs.org/)尝试一下。
 
 ![](/playground.png)
 
 ## 动机
 
-ThreeJS 是一个用于创建超棒 **WebGL**3D 网站的奇妙的库。同时他也是一个保持不断更新的库，一些对其封装的维护者，如 [TroisJS](https://troisjs.github.io/)，往往很难跟上其所有的更新。
+ThreeJS 是一个用于创建超棒 **WebGL** 3D 网站的奇妙的库。同时他也是一个保持不断更新的库，一些对其封装的维护者，如 [TroisJS](https://troisjs.github.io/)，往往很难跟上其所有的更新。
 
 React 生态系统中有一个令人印象深刻的使用**自定义渲染器**的解决方案叫 [React-three-fiber](https://docs.pmnd.rs/react-three-fiber)，它能让你使用一些可重用，独立的对状态做出反应的组件进行声明式的构建你的场景。
 

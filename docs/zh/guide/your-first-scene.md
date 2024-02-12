@@ -21,7 +21,7 @@ import { TresCanvas } from '@tresjs/core'
 
 <template>
   <TresCanvas window-size>
-    <!-- Your scene goes here -->
+    <!-- 这里是您的场景 -->
   </TresCanvas>
 </template>
 ```
@@ -46,7 +46,7 @@ import { TresCanvas } from '@tresjs/core'
 
 <template>
   <TresCanvas>
-    <!-- Your scene goes here -->
+    <!-- 这里是您的场景 -->
   </TresCanvas>
 </template>
 
@@ -74,7 +74,7 @@ import { TresCanvas } from '@tresjs/core'
 
 <template>
   <TresCanvas window-size>
-    <!-- Your scene goes here -->
+    <!-- 这里是您的场景 -->
   </TresCanvas>
 </template>
 ```
@@ -93,7 +93,7 @@ import { TresCanvas } from '@tresjs/core'
 ```vue
 <template>
   <TresCanvas window-size>
-    <!-- Your scene goes here -->
+    <!-- 这里是您的场景 -->
   </TresCanvas>
 </template>
 ```
@@ -109,7 +109,7 @@ import { TresCanvas } from '@tresjs/core'
 ```
 
 ::: warning
-一个常见的问题是相机默认位置是场景的原点（0,0,0），TresJS会自动将相机的位置设置为 `[3,3,3]` 如果 prop `position` 为空 。如果场景中未定义摄像机，则会自动添加透视摄像机。
+一个常见的问题是相机默认位置是场景的原点（0,0,0），如果 prop `position` 为空， TresJS 会自动将相机的位置设置为 `[3,3,3]`。如果场景中未定义摄像机，则会自动添加透视摄像机。
 :::
 
 ## 添加一个🍩

@@ -1,8 +1,8 @@
-# Basic Animations
+# 基础动画
 
 本指南将帮助您开始使用 TresJS 进行基本的动画。
 
-我们将创建一个简单的场景，其中包含一个方块。然后，我们将方块添加动画，使其围绕 Y 和 Z 轴旋转。
+我们将创建一个简单的场景，其中包含一个立方体。然后，我们将立方体添加动画，使其围绕 Y 和 Z 轴旋转。
 
 <SandboxDemo url="https://play.tresjs.org/#eNqVVF1P2zAU/StW9kAZbVI+hTqKOjo0bRofYrwRHkxy2xoc27KdtlD1v+8mTloHBipSH5rjc889vh9eBLcazHelwmkOQS84MYlmyhIDNleEUzHux4E1cXAaC5YpqS1ZEDOhnMvZDYzIkoy0zMgWRm998yiF6pCKKTVtkhu4AZGC/iOlWkUMLFIeTZRI3Qy90g/MDqWwWnLzls5AWGmKiFgkUhhLHuS8sNL3fLVEzvm2x1kQKar0/aahlqO541ZrQVLglrYJcKoMpGS5TfqnZBELQtiItFyycEp5DtsOJpUDB4ZaWmqZFOEz2ek7NczwPu0FHdXJvpJuuFeyl7FYFs5OItcRrD9+WMgUpxbwi5CTdZFJwoHqTiK51NiwL8d7P86Gh3FQlCSVM0MoVxNKZkzgV8ewF6eAGs1qRxVciV+DNgoSy6YwpBloWp8S0lPSsMI/prvbbZO9Njm8jwOPMJJTPDtAFx5ISz3EdxuwQPcIdsMmPCrR3W63u4ZfWbwAMyEaRshz5cVL90xCObgkJKHGdlwZVpFV7Jmc/wSZgdXP6EyPTXWX4od38VJ5yS6lzii/wCZoRrlvJ6oprjvlp2sPAieR17ugHbhx72RUhY9GCly9cpbi6gA3rldPVxz4u1IcxMHEWmV6UZSkAuNxyNhUhwJsJFQW+fTBfngYdqOUGRsVMLLjoP1G2G3VZ7RdBMof+fIV3MxiZ0CfFBWbeF9xBwchjkOlXINhxooYX3uiYSPdgjdAxcNj9LsDJvPLgM8XPgob19ejD3a7ZYFxs2AeZs3qVjycPg3pJ4RdwEfSSOykkLENRGtqcfmD8Cji7MGXrB8bnElr8LEcsfGriUxkphgHfaWKfW9OZvng/i4xq3NY+UsmkDz9B380c2f5GocF9BTLvW4lriBYd3z+9xLm+H91mMk051Vz3jm8ASN5Xnh0tLNcpGjb45Vuf5ULxsT41pzPLQhTX6ph1D4rKNG7er9Xs+aA+7JwJb9sx/CDKq1vth/urwq+/AdyGHHw" />
 
@@ -20,9 +20,9 @@ onLoop(({ delta, elapsed }) => {
 })
 ```
 
-## 获取方块的引用
+## 获取立方体的引用
 
-要为方块设置动画，我们需要获取它的引用。我们可以通过使用 [模板引用](https://cn.vuejs.org/guide/essentials/template-refs.html) 将 ref 属性传递给 `TresMesh` 组件来实现。这将返回 THREE 实例。
+要为立方体设置动画，我们需要获取它的引用。我们可以通过使用 [模板引用](https://cn.vuejs.org/guide/essentials/template-refs.html) 将 ref 属性传递给 `TresMesh` 组件来实现。这将返回 THREE 实例。
 
 为了提高性能，我们将使用 [Shallow Ref](https://v3.vuejs.org/guide/reactivity-fundamentals.html#shallow-reactivity) 来存储引用，而不是常规引用。原因请参阅此处[here](../advanced/caveats.md#reactivity)
 
@@ -46,9 +46,9 @@ const boxRef: ShallowRef<TresInstance | null> = shallowRef(null)
 </template>
 ```
 
-## 使方块动起来
+## 使立方体动起来
 
-现在我们已经获得了方块的引用，就可以对其进行动画处理了。我们将使用 `onLoop` 回调更新立方体的旋转。
+现在我们已经获得了立方体的引用，就可以对其进行动画处理了。我们将使用 `onLoop` 回调更新立方体的旋转。
 
 ```ts
 onLoop(({ delta, elapsed }) => {
