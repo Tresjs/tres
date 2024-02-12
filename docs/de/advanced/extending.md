@@ -1,6 +1,6 @@
 # Erweitern 🔌
 
-Tres bietet grundlegende Funktionalitäten, aber es ist einfach, Drittanbieter-Elemente hinzuzufügen und sie in seinem internen Katalog zu erweitern.
+Tres bietet grundlegende Funktionalitäten, aber es ist einfach, Drittanbieterelemente hinzuzufügen.
 
 Die meisten 3D-Erlebnisse nutzen `OrbitControls`, die nicht Teil der Hauptbibliothek sind. Du kannst sie zu deinem Projekt hinzufügen, indem du sie aus dem Modul `three/addons/controls/OrbitControls` importierst.
 
