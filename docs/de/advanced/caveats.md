@@ -41,7 +41,7 @@ onLoop(({ _delta, elapsed }) => {
 </template>
 ```
 
-Wenn du eine Änderung an der `color`-Eigenschaft des `TresMeshStandardMaterial`-Komponenten vornimmst, wirst du sehen, dass die Änderung angewendet wird, aber die Rotation funktioniert nicht mehr. Dies liegt daran, dass die Instanz entfernt und neu erstellt wird.
+Wenn du eine Änderung an der `color`-Eigenschaft bei Instanzen der  `TresMeshStandardMaterial`-Komponente vornimmst, wirst du sehen, dass die Änderung angewendet wird, aber die Rotation  nicht mehr funktioniert. Dies liegt daran, dass die Instanz entfernt und neu erstellt wird.
 
 :::tip
 Also, als **Faustregel**, solltest du die Seite neu laden, wenn du die von dir vorgenommenen Änderungen nicht siehst.
