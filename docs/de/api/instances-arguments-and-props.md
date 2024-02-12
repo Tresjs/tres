@@ -58,9 +58,9 @@ Aber mit **Tres** ist das nicht notwendig, du kannst die Eigenschaften auf dekla
 Einige Three.js-Objekte haben Argumente. Zum Beispiel hat der Konstruktor `PerspectiveCamera` folgende Argumente:
 
 - `fov` - Vertikales Sichtfeld der Kamera.
-- `aspect` - Seitenverhältnis des Kamera-Frustums.
-- `near` - Naher Plan des Kamera-Frustums.
-- `far` - Ferner Plan des Kamera-Frustums.
+- `aspect` - Seitenverhältnis des Frustums der Kamera.
+- `near` - Naher Plan des Frustums der Kamera.
+- `far` - Ferner Plan des Frustums der Kamera.
 
 Um diese Argumente an die Komponente `TresPerspectiveCamera` zu übergeben, kannst du die Eigenschaft `args` verwenden:
 
