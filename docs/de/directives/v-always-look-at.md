@@ -19,7 +19,7 @@ import { Box, vAlwaysLookAt } from '@tresjs/cientos'
 </template>
 ```
 
-Egal, wohin sich die Box bewegt, sie wird immer die Position [0,0,0] anschauen.
+Egal, wohin sich die Box bewegt, sie wird immer auf die Position [0,0,0] ausgerichtet sein.
 
 ### Warum nicht die eingebaute Methode look-at verwenden?
 

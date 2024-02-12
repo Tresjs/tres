@@ -4,7 +4,7 @@ Eine der größten Herausforderungen, denen sich ein Entwickler beim Erstellen v
 
 Fang gar nicht erst damit an, die Performance deiner Szene zu überprüfen. 😱
 
-![desarrollador depurando 3D](/debug-3D.png)
+![Entwickler Debugging 3D](/debug-3D.png)
 
 Eines unserer Ziele mit TresJS ist es, **die beste Entwicklererfahrung (DX)** beim Arbeiten mit 3D-Szenen im Browser zu bieten. Dank der deklarativen Natur des Ökosystems und der Vielfalt an Lösungen, die das Vue-Ökosystem bietet, wie Vue Devtools, Nuxt und Vite, können wir bessere Tools für Entwickler anbieten, um ihre Szenen zu debuggen.
 
