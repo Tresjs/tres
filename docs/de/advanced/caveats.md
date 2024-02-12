@@ -70,7 +70,7 @@ Quelle: [Proxy vs Plain Object](https://www.measurethat.net/Benchmarks/Show/1250
 
 Falls es wirklich notwendig ist, Reaktivität zu nutzen, verwende [shallowRef](https://vuejs.org/api/reactivity-advanced.html#shallowref).
 
-Im Gegensatz zu `ref()` wird der innere Wert eines shallow ref gespeichert und so wie er ist exponiert, und es findet keine tiefe Reaktivität statt. Nur der Zugriff auf `.value` ist reaktiv. Quelle: [VueJS Docs](https://vuejs.org/api/reactivity-advanced.html#shallowref)
+Im Gegensatz zu `ref()` wird der innere Wert eines shallow Ref gespeichert und so wie er ist exponiert. Nur der Zugriff auf `.value` ist reaktiv. Quelle: [Vue.js Docs](https://vuejs.org/api/reactivity-advanced.html#shallowref)
 
 ### Beispiel
 
