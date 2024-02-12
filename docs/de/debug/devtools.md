@@ -16,9 +16,9 @@ Ab Version <Badge text="^3.7.0" />, führen wir die TresJS-Entwicklerwerkzeuge e
 
 ### Funktionen
 
-- **Szeneninspektor**: Inspeziere die aktuelle Szene und ihre Komponenten mit einer Baumansicht ähnlich dem Komponenteninspektor von Vue Devtools.
+- **Szeneninspektor**: Inspiziere die aktuelle Szene und ihre Komponenten mit einer Baumansicht ähnlich dem Komponenteninspektor von Vue Devtools.
 - **Speicherzuweisung**: Zeigt an, wie viel Speicher jede Komponente verwendet.
-- **Objektinspektor**: Inspeziere die Eigenschaften des in der Szene ausgewählten Objekts, einschließlich seiner Kinder.
+- **Objektinspektor**: Inspiziere die Eigenschaften des in der Szene ausgewählten Objekts, einschließlich seiner Kinder.
 - **Editierbare Eigenschaften**: Und ja, du kannst die Eigenschaften des ausgewählten Objekts bearbeiten und die Änderungen in Echtzeit sehen.
 
 ![](/devtools-scene-inspector.png)

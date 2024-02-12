@@ -89,13 +89,13 @@ Du kannst auch Eigenschaften an die Komponente übergeben, zum Beispiel hat das 
 
 ### Werte Setzen
 
-Alle Eigenschaften, deren zugrunde liegendes Objekt eine `.set()`-Methode hat, haben eine Abkürzung, um den Wert als Array zu erhalten. Zum Beispiel hat die `TresPerspectiveCamera` eine Eigenschaft `position`, die ein `Vector3` Objekt ist, so dass du es der Komponente auf diese Weise übergeben kannst:
+Alle Eigenschaften, deren zugrunde liegendes Objekt eine `.set()`-Methode hat, haben eine Kurzform, um den Wert als Array zu erhalten. Zum Beispiel hat die `TresPerspectiveCamera` eine Eigenschaft `position`, die ein `Vector3` Objekt ist, so dass du es der Komponente auf diese Weise übergeben kannst:
 
 ```html
 <TresPerspectiveCamera :position="[1, 2, 3]" />
 ```
 
-Um Transformationseigenschaften wie Position, Rotation und Skalierung anzugeben, gibt es eine Abkürzung, die es dir erlaubt, direkt die Achse anzugeben, die du innerhalb der Eigenschaften setzen möchtest. Eine ähnliche Abkürzung ist auch für die Farbeigenschaft verfügbar.
+Um Transformationseigenschaften wie Position, Rotation und Skalierung anzugeben, gibt es eine Kurzform, die es dir erlaubt, direkt die Achse anzugeben, die du innerhalb der Eigenschaften setzen möchtest. Eine ähnliche Kurzform ist auch für die Farbeigenschaft verfügbar.
 
 
 <!-- Wir haben die Farbsyntax von Vue zu HTML geändert, da Vue scheinbar kaputt ist und verschachtelte Komponenten nicht einfärbt -->

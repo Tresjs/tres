@@ -23,13 +23,15 @@ Egal, wohin sich die Box bewegt, sie wird immer die Position [0,0,0] anschauen.
 
 ### Warum nicht die eingebaute Methode look-at verwenden?
 
-Man könnte fragen, das ist in Ordnung, aber ich kann die `:look-at`-Methode direkt im Komponenten verwenden, warum sollte ich das brauchen?
+Eine berechtigte Frage wäre, warum man nicht die `:look-at`-Methode direkt in der Komponente verwenden sollte.
 
 Die Antwort ist, dass mit der Methode `:look-at` angegeben wird, dass die Position nur einmal beim Mounten der Instanz angeschaut wird, dann, wenn sich das Objekt ändert, wird dies nicht aktualisiert.
 
 ### Du kannst auch andere Instanzen anschauen!
 
-Ein weiterer Vorteil ist, dass du eine sich bewegende Instanz anschauen kannst, zum Beispiel mit der Kamera, so:
+Ein weiterer Vorteil ist, dass du mit der Kamera auch nicht-stationäre Objekte beobachten kannst:
+
+Zum Beispiel:
 
 ```vue{4,6,20,23}
 <script setup lang="ts">

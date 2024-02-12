@@ -10,7 +10,7 @@ Dies wurde in **TresJS** v1.7.0 🎉 behoben. Jetzt kannst du HMR nutzen, ohne d
 
 :::
 
-Die Hot Module Replacement (HMR) ist eine Funktion, die es dir erlaubt, deinen Code zu aktualisieren, ohne die Seite neu zu laden. Dies ist eine großartige Funktion, die die Entwicklung viel schneller macht. **TresJS** verwendet [Vite](https://vitejs.dev/). Es ist jedoch wirklich kompliziert, dies korrekt mit ThreeJS zu bewerkstelligen.
+Hot Module Replacement (HMR) ist eine Funktion, die es dir erlaubt, deinen Code zu aktualisieren, ohne die Seite neu zu laden. Dies ist eine großartige Funktion, die die Entwicklung viel schneller macht. **TresJS** verwendet [Vite](https://vitejs.dev/). Es ist jedoch wirklich kompliziert, dies korrekt mit ThreeJS zu bewerkstelligen.
 
 Warum? Weil Tres die Szene deklarativ aufbaut. Das bedeutet, dass es die Instanz erstellt und der Szene hinzufügt, wenn die Komponente gemountet wird. Die Komplexität liegt darin zu wissen, wann die Instanz aus der Szene entfernt und wann sie wieder hinzugefügt werden soll.
 
@@ -47,7 +47,7 @@ Wenn du eine Änderung an der `color`-Eigenschaft des `TresMeshStandardMaterial`
 Also, als **Faustregel**, solltest du die Seite neu laden, wenn du die von dir vorgenommenen Änderungen nicht siehst.
 :::
 
-Mit dem gesagt, arbeiten wir an einer besseren Lösung dafür 😁. Wenn du eine Idee hast, wie man dies lösen könnte, lass es uns bitte wissen.
+Wir arbeiten bereits an einer besseren Lösung dafür 😁. Wenn du eine Idee hast, wie man dies lösen könnte, lass es uns bitte wissen.
 
 Du kannst der Diskussion in [HMR Disposal Discussion](https://github.com/Tresjs/tres/issues/23) folgen.
 
@@ -68,7 +68,7 @@ Hier ist ein Benchmark, der den Unterschied zwischen der Verwendung eines Proxy-
 
 Quelle: [Proxy vs Plain Object](https://www.measurethat.net/Benchmarks/Show/12503/0/object-vs-proxy-vs-proxy-setter)
 
-Wenn du gezwungen bist, Reaktivität zu nutzen, verwende [shallowRef](https://vuejs.org/api/reactivity-advanced.html#shallowref).
+Falls es wirklich notwendig ist, Reaktivität zu nutzen, verwende [shallowRef](https://vuejs.org/api/reactivity-advanced.html#shallowref).
 
 Im Gegensatz zu `ref()` wird der innere Wert eines shallow ref gespeichert und so wie er ist exponiert, und es findet keine tiefe Reaktivität statt. Nur der Zugriff auf `.value` ist reaktiv. Quelle: [VueJS Docs](https://vuejs.org/api/reactivity-advanced.html#shallowref)
 
