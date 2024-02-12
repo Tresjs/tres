@@ -14,7 +14,7 @@ Hot Module Replacement (HMR) ist eine Funktion, die es dir erlaubt, deinen Code 
 
 Warum? Weil Tres die Szene deklarativ aufbaut. Das bedeutet, dass es die Instanz erstellt und der Szene hinzufügt, wenn die Komponente gemountet wird. Die Komplexität liegt darin zu wissen, wann die Instanz aus der Szene entfernt und wann sie wieder hinzugefügt werden soll.
 
-Obwohl ein minimaler Löschfluss implementiert wurde, ist er nicht perfekt. Das bedeutet, dass du manchmal die Seite neu laden musst, um die Änderungen korrekt zu sehen, insbesondere wenn du Instanzen über [Template Refs](https://v3.vuejs.org/guide/component-template-refs.html) referenzierst.
+Obwohl ein minimaler Aufräummechanismus implementiert wurde, ist er nicht perfekt. Das bedeutet, dass du manchmal die Seite neu laden musst, um die Änderungen korrekt zu sehen, insbesondere wenn du Instanzen über [Template Refs](https://v3.vuejs.org/guide/component-template-refs.html) referenzierst.
 
 
 ```vue
