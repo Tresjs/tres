@@ -62,7 +62,7 @@ export const zhConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
           { text: '轨道控制器', link: '/zh/examples/orbit-controls' },
           { text: '基础动画', link: '/zh/examples/basic-animations' },
           { text: '组', link: '/zh/examples/groups' },
-          { text: '加载贴图', link: '/zh/examples/load-textures' },
+          { text: '加载纹理', link: '/zh/examples/load-textures' },
           { text: '加载模型', link: '/zh/examples/load-models' },
           { text: '加载文本', link: '/zh/examples/text-3d' },
           { text: '光照和阴影', link: '/zh/examples/lights-shadows' },

@@ -1,8 +1,8 @@
-# Group
+# 组
 
-A `<TresGroup>` is an instance of the [THREE.Group](https://threejs.org/docs/#api/en/objects/Group) class which is almost the same as a [THREE.Object3D](https://threejs.org/docs/#api/en/objects/Object3D) but allows you to **group together multiple objects in the scene** so that they can be manipulated as a single unit (transform, rotation, etc).
+`<TresGroup>` 是一个 [THREE.Group](https://threejs.org/docs/#api/zh/objects/Group) 类的实例，它与 [THREE.Object3D](https://threejs.org/docs/#api/zh/objects/Object3D) 非常相似，但允许您将 场景中的多个对象分组在一起，以便将它们作为一个整体进行操作（变换、旋转等）。
 
-## Usage
+## 使用方法
 
 ```vue{13,22}
 <script setup lang="ts">

@@ -1,23 +1,22 @@
-# Shaders
+# 着色器
 
-This guide will help you get started with shaders in TresJS.
+本指南将帮助你开始在 TresJS 中使用着色器。
 
-We will build a simple scene with a blob. We will then animate the blob to softly distorted it.
+我们将构建一个带有 blob 的简单场景。然后，我们将对 blob 进行动画处理，使其柔和地扭曲。
 
 ::: warning
-_Basic knowledge of how shaders work is necessary_
+_需要了解着色器工作原理的基本知识_
 :::
 
 <SandboxDemo url="https://play.tresjs.org/#eNqVVltv2zYU/iuE91BntSU7cYrBS4q0QTt0WNcgyfZSFxsjH9tMJVIjKdle4P++j9TFVJMU3oMDndvH71x4mIferSbzJs+jsqDetHdmEi1yywzZImcpl8vzWc+aWe/1TIosV9qyB2ZWPE3V+poWbMcWWmXsBaJf/By4ONRLLktuBqwwdE1yTvo3pfI24sLC5d7EidLd0E/6TthLJa1WqXnsLkhaZToRf1JilT5ufe1KE72YyZlMlDSW3aXqzpE9D5j3ZZGmR0BpnAopFkpnBl4PM8lYcSsymgK95GmBjxHbDbz+TZanwhbz0Chp3bDoj6LxgOHPURPwXtM/Bclk+0zA8WjATivv3Z5PSdrS5mbFUThw+nsma4awJMcBDeTQtbTnBZZFqjhydDn5nEuut0Iuq4jyj7JSKjFnGReyf1TVgDn7hGVqTumVMsIKJcHFyx+51WLDfvQu/by2Dtg4GrmyuuBOXLRlL9EAgHfVDmJPGeKwonnk9G2S0eZJzI3DTJT5BnPbxdw+g+kKFKRZCloHWTqxTbKDX1NZpn8F7rlW92gohH1lAsA6BqWGb+HqjV6jqU27F5ovM4x22PBcUyKMg89oLoosr9qI2EPbB4rvAXypUuUwfavQoIGLibZuTE/bjlV8KjYPTMn6toJteH/71Z2pzP3+A0NdLB8wSnluaM52R+z8dX28WLB+ffciP/ctr442yrglLXgaNXcw8t2qrCBQY7tQkNw5BmdxtaiwliBYQk8BAomxs/3uYUlKXA8Tlz722A/j8XjWc0tgrtaG8TRfcbYWEtLQiH+rcAB0N1DcqB3uFWmTuzaXdMkz0pxNm9HHAZ/HuPrV7wsOmi5UCe3k1H1zHwfRUZhK8MI31oT388J4NBpB6pz3kcyKaVrAXNfM+YdHopkTNBLn1XF15E2+Ik2/kMrI6i3O10vj/I8H7MT/HMPmrCbGDx/m17eDTcMdhNhQ9LQ7MwuHrsK5NB2FsfkMU4ybHH0fu1lPtbK8yXIIUqvo6gOLGcgj58cJX+G1eiLfMZz3vyeSdoe95UYkbd7tvEwmk+fYNmI1aFCcxcEU9ga96nUaZjyP7o2SeFv97M9qA8qA56ACnvXCx9AZZr2VtbmZxnEyl4jHJROljiTZWOZZHLpfnESn0SieC2Njp4b3rOcfng5w9Wz+H+wqAvCvQvha3T3Frol/zVH+A/Bb34tJhPGvkRtllAkXE2K7x/wQXOd3AcTTn8D3JZksLAP+P8EaO7i+gfvFGEsSiFgTtImybnVrP2wUjf10OHAV8D1oOA7nlIkDQBtXl/wkehWn4i6EbNYmZtIarPeFWH4zkYnKcpGS/pS769adTP//0q9eZ3VBLb9kRcnXJ/T3ZlNRvsKwkC5R7n0rcSfJVuZ3N7/TBt+tES9skdbNecZ4TUalheNYub0t5By0Az/P9oO/YHgeb827jSXpXtDHRO02J6/93GyDdtYqxRdfOO/v23H5nSrtMzuJTtqC7/4DVvHLxg==" />
 
-## Setting up the scene (optional)
+## 设置场景（可选）
 
-We import all the modules that we need, for comfort we can use the orbit-controls from cientos,
-[look here to see how](/examples/orbit-controls).
+我们导入所需的所有模块，为了方便，我们可以使用 cientos 中的轨道控件，[点击此处查看方法](/zh/examples/orbit-controls)。
 
-Now, let's put our camera in the `[11,11,11]` position.
+现在，我们将相机放在 `[11,11,11]` 位置。
 
-Lastly just to help us with the location, let's add a simple plane, rotated in the X axis, with `[10, 10]` units.
+最后，为了帮助我们确定位置，我们添加一个简单的平面，绕 X 轴旋转，单位为 `[10, 10]`。
 
 ```vue
 <script setup lang="ts">
@@ -43,9 +42,9 @@ import { OrbitControls } from '@tresjs/cientos'
 
 ## ShaderMaterial
 
-As you know every instance in [ThreeJs](https://threejs.org/) is available in **TresJs**, so is the `ShaderMaterial`, we just need to add the `Tres` prefix to use it.
+如你所知，[ThreeJs](https://threejs.org/) 中的每个实例都可以在 **TresJs** 中使用，`ShaderMaterial` 也是如此，我们只需要添加 `Tres` 前缀即可使用它。
 
-For our blob, we could use a simple `SphereGeometry` adding some widthSegments and heightSegments to create a smooth effect, and put our blob 4 units in the Y positive axis
+对于我们的 blob ，我们可以使用简单的 `SphereGeometry`，添加一些 `widthSegments` 和 `heightSegments` 来创建平滑效果，并将 blob 放在 Y 轴正方向的 4 个单位处
 
 ```vue
 <TresMesh :position="[0, 4, 0]">
@@ -54,9 +53,9 @@ For our blob, we could use a simple `SphereGeometry` adding some widthSegments a
 </TresMesh>
 ```
 
-The `ShaderMaterial` accepts special properties, like `uniforms` `vertexShader` and `fragmentShader`, so we can create it in our script section and make the bind with our instance.
+`ShaderMaterial` 接受特殊属性，如 `uniforms` `vertexShader` 和 `fragmentShader`，因此我们可以在脚本部分创建它，并与我们的实例进行绑定。
 
-For this example, our uniforms look like this:
+对于此示例，我们的 uniforms 如下所示：
 
 ```ts
 import { Vector2 } from 'three'
@@ -70,7 +69,7 @@ const uniforms = {
 //..
 ```
 
-Our fragment shader looks like this:
+我们的片段着色器如下所示：
 
 ```ts
 //...
@@ -85,7 +84,7 @@ void main() {
 //..
 ```
 
-And lastly our vertexShader:
+最后是我们的顶点着色器：
 
 ```ts
 const vertexShader = `
@@ -108,9 +107,9 @@ void main() {
 //..
 ```
 
-## Animating the blob
+## 为 blob 添加动画
 
-Similar to what we learn in the [Basic animations](/examples/basic-animations) example, we start by referencing our blob, using [Template Ref](https://vuejs.org/guide/essentials/template-refs.html)
+类似于我们在 [基本动画](/zh/examples/basic-animations) 示例中学习到的，我们首先使用 [模板引用](https://cn.vuejs.org/guide/essentials/template-refs.html) 引用 blob 
 
 ```vue
 <script setup lang="ts">
@@ -139,7 +138,7 @@ const blobRef = shallowRef(null)
   </TresCanvas>
 </template>
 ```
- Once we have got that, we could use the `onLoop` callback to animate our `uTime`.
+ 获得引用后，我们可以使用 `onLoop` 回调为 `uTime` 添加动画。
 
  ```ts
 import { TresCanvas, useRenderLoop } from '@tresjs/core'
@@ -155,15 +154,15 @@ onLoop(({ elapsed }) => {
  //...
 ```
 
-And that it is, we have our basic shader running smoothly.
+就这样，我们的基本着色器顺利运行。
 
-## Using GLSL vite-pluging (optional)
+## 使用 GLSL vite 插件（可选）
 
-_This step is completly optional and is out of the scope of the **TresJs** team_
+_此步骤完全是可选的，并且超出了 **TresJs** 团队的范围_
 
-Defining our shader inline is not always the best idea, but if you're using [vite](https://vitejs.dev/) you can put your `GLSL` files in a different file just by using the [vite-plugin-glsl](https://www.npmjs.com/package/vite-plugin-glsl) (check out the link for the official documentation).
+将着色器定义为内联形式并不总是最好的主意，但是如果你正在使用 [vite](https://vitejs.dev/)，你可以通过使用 [vite-plugin-glsl](https://www.npmjs.com/package/vite-plugin-glsl) 将你的 `GLSL` 文件放在另一个文件中（查看链接以获取官方文档）。
 
-And you could have a structure similar to this:
+你可以拥有类似于这样的结构：
 
 ```
 ├── src/

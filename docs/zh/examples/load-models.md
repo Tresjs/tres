@@ -1,24 +1,24 @@
-# Load Models
+# 加载模型
 
-> All models used in this guide are from [Alvaro Saburido](https://sketchfab.com/3d-models/aku-aku-7dfcb6edf10b4098bbb965c56fd3055c).
+> 本指南中使用的所有模型均来自 [Alvaro Saburido](https://sketchfab.com/3d-models/aku-aku-7dfcb6edf10b4098bbb965c56fd3055c)。
 
-3D models are available in hundreds of file formats, each with different purposes, assorted features, and varying complexity.
+3D 模型有数百种文件格式，每种格式都有不同的用途、不同的功能和不同的复杂性。
 
-For this guide we are going to focus on loading gLTF (GL Transmission Format) models, which are the most common format for 3D models on the web.
+在本指南中，我们将重点介绍加载 gLTF（GL 传输格式）模型，这是 Web 上最常见的 3D 模型格式。
 
 <SandboxDemo url="https://play.tresjs.org/#eNqVVdtu2zgQ/RVC++AsVpacuu12tc7CidsGu+i2Re0+VX2gpbHMhCIJkrLjBvn3DqmLJfeCFPCDNXNmeOZ+H6w0mEulol0FQRLMTKaZssSArdQ/qWClktqSe+JgCyp21JAHstGyJKO5RdmNiTOpYfR3D/tOr5ldSGG15N+BMxBWmoHFFTUsW25pLvf/UxWS5Yfrq4XkUi8VzSAkb+VKCkCVYqLoPNqtBhilonP0sSj44aoS4tAgovgochG6R1ORSWEsKTi5IPepICTjQLV/LiGj317/+eJq+nIUOo3xlExCrK7ASyhXW5qQDeWmFtQQpLY6KEhOI3EIWVlVYT7acJLT8BzIHuNLhuF69Z4J9LhkX9C64fKQillclwsLNbNQKk4t4H9CZr1y7cZrNL5Ig4Kngdc2+vegjYLMsh0saAma1rpEScMskwJNPj0JCf7++pwGjZJLeTum1ukmXjdpdHHrelj9Trys8DFhan5e0qtWh4pPYJ7oS6YdTSkof8OKrW09ZC6FyKQpWcvxJIRpSNyvCwHVTFh8g9kD6s9becfBT0S5dm3qnxvin6RBA53Fxyy7CsRdCYIwqDtyXFIV3RgpcLR8q6WNwqRBUjefk/UnySnSYGutMkkcZ7lA+xw42+lIgI2FKuM+fD6NnkWTOGfGxk6M6DTwLTNwXM/cr/iuLdD98777Rjx8xe6B3ioqHsO9w86fRpPovPHcCqOSOZu+bzfjj/HrcHP0+OwF8v0DTNlPA45+ZeDR+e3B5+cTn2AcIbiLymF2GxyuAA35LziuDX7mGoHjHEr2CKct1AX/NHoec7buu3QecVU8YE9ag5tvw4qTjsxkqRgH/U65kRl2JuVc7v/zsm4FepstZLffkd+Yu5rye2wW0DtM97GUVBdga/Wr5Vu4w/+dspR5xZvi/ED5AYzkleNYw3B15Ei7h/Ns//UDhotzZV7d+bltghoQtbitvfRTuxW6XqsFn33iPN6XY/GTLB0jm0bTXsKHx+f0vBJORYEbxS2D/qnVsOlOnLtZPRU2zyV+UU8hdJ/Xb1avf3hij8funpgMBB4PTCXwkNDOCxpfELqnzLbuzlwEo7bnNN1HBbPbao1qjd4wpTbCnvHbDx+jBqMxcUmZiL13ExfcbuIKYx8Legv5eO1S8I1gXJOAPHJ4d3B/7xOmfuXX/AZxnx3Jh3U8Pbus0hoJXnpjtMRknjWeomssr2uMGt4HRjvKK4hwex/OvLZ3Wb+5rUqzEq/LDkgi1zd4mbCGnkZzGfqH4OErWPcr8A==" />
 
-There are several ways to load models on TresJS:
+在 TresJS 中加载模型有多种方法：
 
 ::: warning
-Please note that the examples above we use top level await, make sure you wrap it with a [Suspense](https://vuejs.org/guide/built-ins/suspense.html#suspense) component. See Suspense for more information. .
+请注意，在上面的示例中，我们使用顶级 await，请确保用 [Suspense](https://vuejs.org/guide/built-ins/suspense.html#suspense) 组件包装它。有关更多信息，请参阅 Suspense。
 :::
 
-## Using `useLoader`
+## 使用 `useLoader`
 
-The `useLoader` composable allows you to pass any type of three.js loader and a URL to load the resource from. It returns a `Promise` with the loaded resource.
+`useLoader` 组合式函数允许你传递任何类型的 three.js 加载器和一个用于加载资源的 URL。它返回一个包含已加载资源的 `Promise`。
 
-For a detailed explanation of how to use `useLoader`, check out the [useLoader](/api/composables#useloader) documentation.
+有关如何使用 `useLoader` 的详细说明，请查看 [useLoader](/api/composables#useloader) 文档。
 
 ```ts
 import { useLoader } from '@tresjs/core'
@@ -27,7 +27,7 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader'
 const { scene } = await useLoader(GLTFLoader, '/models/AkuAku.gltf')
 ```
 
-Then you can pass the model scene to a TresJS [`primitive`](/advanced/primitive) component to render it:
+然后，你可以将模型场景传递给 TresJS [`primitive`](/advanced/primitive) 组件以渲染它：
 
 ```html{2}
 <TresCanvas>
@@ -35,13 +35,13 @@ Then you can pass the model scene to a TresJS [`primitive`](/advanced/primitive)
 </TresCanvas>
 ```
 
-> The `<primitive />` component is not a standalone component in the Tres source code. Instead, it's a part of the Tres core functionality. When you use `<primitive>`, it is translated to a `createElement` call, which creates the appropriate three.js object based on the provided "object" prop.
+> `<primitive />` 组件不是 Tres 源代码中的独立组件。相反，它是 Tres 核心功能的一部分。当你使用 `<primitive>` 时，它会被转换为 `createElement` 调用，该调用会根据提供的“object”道具创建适当的 three.js 对象。
 
-Notice in the example above that we are using the `Suspense` component to wrap the `TresCanvas` component. This is because `useLoader` returns a `Promise` and we need to wait for it to resolve before rendering the scene.
+请注意，在上面的示例中，我们使用 `Suspense` 组件包装 `TresCanvas` 组件。这是因为 `useLoader` 返回一个 `Promise`，我们需要等到它解析后才能渲染场景。
 
-## Using `useGLTF`
+## 使用 `useGLTF`
 
-A more convenient way of loading models is using the `useGLTF` composable available from the [@tresjs/cientos](https://github.com/Tresjs/tres/tree/main/packages/cientos) package.
+一种更方便的加载模型的方式是使用 [@tresjs/cientos](https://github.com/Tresjs/tres/tree/main/packages/cientos) 包中提供的 `useGLTF` 组合式函数。
 
 ```ts
 import { useGLTF } from '@tresjs/cientos'
@@ -49,7 +49,7 @@ import { useGLTF } from '@tresjs/cientos'
 const { scene, nodes, animations, materials } = await useGLTF('/models/AkuAku.gltf')
 ```
 
-An advantage of using `useGLTF`is that you can pass a `draco` prop to enable [Draco compression](https://threejs.org/docs/index.html?q=drac#examples/en/loaders/DRACOLoader) for the model. This will reduce the size of the model and improve performance.
+使用 `useGLTF` 的一个优点是，你可以传递一个 `draco` 道具来启用模型的 [Draco 压缩](https://threejs.org/docs/index.html#examples/zh/loaders/DRACOLoader)。这将减小模型的大小并提高性能。
 
 ```ts
 import { useGLTF } from '@tresjs/cientos'
@@ -57,7 +57,7 @@ import { useGLTF } from '@tresjs/cientos'
 const { scene, nodes, animations, materials } = await useGLTF('/models/AkuAku.gltf', { draco: true })
 ```
 
-Alternatively you can easily select Objects inside the model using `nodes` property
+或者，你可以使用 `nodes` 属性轻松选择模型中的对象
 
 ```vue
 <script setup lang="ts">
@@ -74,14 +74,14 @@ const { scene, nodes, animations, materials } = await useGLTF('/models/AkuAku.gl
   >
     <TresPerspectiveCamera :position="[11, 11, 11]" />
     <OrbitControls />
-    <primitive :object="nodes.MyModel" /> // please note that "MyModel" here is just a placeholder 
+    <primitive :object="nodes.MyModel" /> // 请注意，这里的 "MyModel" 只是一个占位符
   </TresCanvas>
 </template>
 ```
 
-## Using `GLTFModel`
+## 使用 `GLTFModel`
 
-The `GLTFModel` component is a wrapper around `useGLTF` that's available from the [@tresjs/cientos](https://github.com/Tresjs/tres/tree/main/packages/cientos) package.
+`GLTFModel` 组件是 `useGLTF` 的包装器，可从 [@tresjs/cientos](https://github.com/Tresjs/tres/tree/main/packages/cientos) 包中获得。
 
 ```vue{2,9}
 <script setup lang="ts">
@@ -99,11 +99,11 @@ import { OrbitControls, GLTFModel } from '@tresjs/cientos'
 </template>
 ```
 
-This particular approach is more straightforward but gives you less control over the model.
+这种特殊的方法更直接，但它让你对模型的控制更少。
 
 ## useFBX
 
-The `useFBX` composable is available from the [@tresjs/cientos](https://github.com/Tresjs/tres/tree/main/packages/cientos) package.
+`useFBX` 组合式函数可从 [@tresjs/cientos](https://github.com/Tresjs/tres/tree/main/packages/cientos) 包中获得。
 
 ```ts
 import { useFBX } from '@tresjs/cientos'
@@ -111,7 +111,7 @@ import { useFBX } from '@tresjs/cientos'
 const model = await useFBX('/models/AkuAku.fbx')
 ```
 
-Then is as straightforward as adding the scene to your scene:
+然后，将场景添加到你的场景中非常简单：
 
 ```html{2}
 <TresCanvas shadows alpha>
@@ -121,7 +121,7 @@ Then is as straightforward as adding the scene to your scene:
 
 ## FBXModel
 
-The `FBXModel` component is a wrapper around `useFBX` that's available from the [@tresjs/cientos](https://github.com/Tresjs/tres/tree/main/packages/cientos) package. It's similar usage to `GLTFModel`:
+`FBXModel` 组件是 `useFBX` 的包装器，可从 [@tresjs/cientos](https://github.com/Tresjs/tres/tree/main/packages/cientos) 包中获得。它的用法类似于 `GLTFModel`：
 
 ```vue{2,9}
 <script setup lang="ts">
