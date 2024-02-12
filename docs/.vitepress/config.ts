@@ -114,6 +114,7 @@ export default defineConfig({
           { text: 'Octahedron', link: '/guide/shapes/octahedron' },
           { text: 'Plane', link: '/guide/shapes/plane' },
           { text: 'Ring', link: '/guide/shapes/ring' },
+          { text: 'RoundedBox', link: '/guide/shapes/rounded-box' },
           { text: 'Sphere', link: '/guide/shapes/sphere' },
           { text: 'Superformula', link: '/guide/shapes/superformula' },
           { text: 'Tetrahedron', link: '/guide/shapes/tetrahedron' },

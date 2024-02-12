@@ -14,4 +14,9 @@ export const shapesRoutes = [
     name: 'Superformula',
     component: () => import('../../pages/shapes/SuperformulaDemo.vue'),
   },
+  {
+    path: '/shapes/roundedbox',
+    name: 'RoundedBox',
+    component: () => import('../../pages/shapes/RoundedBoxDemo.vue'),
+  },
 ]
