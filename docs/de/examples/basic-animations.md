@@ -16,7 +16,7 @@ Für eine detaillierte Erklärung, wie es funktioniert, siehe die Dokumentation 
 const { onLoop } = useRenderLoop()
 
 onLoop(({ delta, elapsed }) => {
-  // Se ejecutará en cada fotograma ~ 60FPS (dependiendo de tu monitor)
+  // wird bei jeder Bildaktualisierung ausgeführt (60FPS, abhängig vom Monitor
 })
 ```
 
@@ -67,7 +67,7 @@ Du kannst auch das `delta` der [internen Uhr von THREE](https://threejs.org/docs
 Du fragst dich vielleicht, warum wir die Reaktivität nicht nutzen, um den Würfel zu animieren. Die Antwort ist einfach: Leistung.
 
 ```vue
-// Esto es una mala idea ❌
+// Das ist keine gute Idee ❌
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
 

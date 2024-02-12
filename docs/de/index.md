@@ -31,5 +31,5 @@ features:
     details: Bringt sofort alle aktualisierten Funktionen von Three.js.
   - icon: 🌳
     title: Ökosystem
-    details: Erweitere die Kernfunktionalität mit Paketen wie `hundreds` und `postprocessing`. Oder füge deine eigenen hinzu.
+    details: Erweitere die Kernfunktionalität mit Paketen wie `cientos` und `postprocessing`. Oder füge deine eigenen hinzu.
 ---

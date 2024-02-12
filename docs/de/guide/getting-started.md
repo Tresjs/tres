@@ -22,7 +22,7 @@ yarn add three @tresjs/core
 
 ## Typescript
 
-TresJS ist in Typescript geschrieben und vollständig typisiert. Wenn du Typescript verwendest, wirst du alle Vorteile der Typisierung genießen. Stelle nur sicher, dass du die Typen für Three installierst.
+TresJS ist in Typescript geschrieben und vollständig typisiert. Wenn du Typescript verwendest, wirst du alle Vorteile der Typisierung genießen. Stelle nur sicher, dass du die Typdeklarationen für Three installierst.
 
 
 ::: code-group

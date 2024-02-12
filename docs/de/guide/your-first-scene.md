@@ -134,7 +134,7 @@ Jetzt sehen wir, wie wir dasselbe einfach mit **TresJS** erreichen können. Dazu
 ```
 
 ::: info
-Beachte, dass wir nichts importieren müssen, da **TresJS** automatisch eine **Vue-Komponente basierend auf dem Three-Objekt, das du verwenden möchtest, im CamelCase mit einem Tres-Prefix** generiert. Wenn du zum Beispiel eine `AmbientLight` verwenden möchtest, würdest du die Komponente `<TresAmbientLight />` nutzen.
+Beachte, dass wir nichts importieren müssen, da **TresJS** automatisch eine **Vue-Komponente basierend auf dem Three-Objekt, das du verwenden möchtest, im CamelCase mit einem Tres-Prefix** generiert. Wenn du zum Beispiel ein `AmbientLight` verwenden möchtest, würdest du die `TresAmbientLight`-Komponente nutzen.
 :::
 
 

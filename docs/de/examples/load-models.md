@@ -75,7 +75,7 @@ const { scene, nodes, animations, materials } = await useGLTF('/models/AkuAku.gl
   >
     <TresPerspectiveCamera :position="[11, 11, 11]" />
     <OrbitControls />
-    <primitive :object="nodes.MyModel" /> // please note that "MyModel" here is just a placeholder
+    <primitive :object="nodes.MyModel" /> // "MyModel" dient hier nur als Platzhalter
   </TresCanvas>
 </template>
 ```

@@ -1,6 +1,6 @@
 # v-always-look-at 👀
 
-Mit der neuen Direktive `v-always-look-at`, die von **TresJS** bereitgestellt wird, kannst du einfach einem [Object3D](https://threejs.org/docs/index.html?q=object#api/en/core/Object3D) befehlen, immer eine spezifische Position anzuschauen, dies kann als Vector3 oder Array übergeben werden.
+Mit der neuen Direktive `v-always-look-at`, die von **TresJS** bereitgestellt wird, kannst du ein [Object3D](https://threejs.org/docs/index.html?q=object#api/en/core/Object3D) anweisen, immer eine spezifische Position anzuschauen. Dies kann als Vector3 oder Array übergeben werden.
 
 ## Benutzung
 

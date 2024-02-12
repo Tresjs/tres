@@ -41,7 +41,7 @@ body {
 
 ## Presets
 
-Tres bietet einige Voreinstellungen für die `TresCanvas`-Komponente. Du kannst sie nutzen, indem du die Eigenschaft `preset` einstellst.
+Tres bietet einige Voreinstellungen für die `TresCanvas`-Komponente. Du kannst sie nutzen, indem du die Eigenschaft `preset` verwendest.
 
 ### Realistic
 
@@ -81,12 +81,12 @@ renderer.shadowMap.type = PCFSoftShadowMap
 | **failIfMajorPerformanceCaveat** | Gibt an, ob die Erstellung des Renderers fehlschlagen soll, wenn eine geringe Leistung festgestellt wird. Siehe die [WebGL-Spezifikation](https://registry.khronos.org/webgl/specs/latest/1.0/#5.2) für weitere Details. | `false` |
 | **logarithmicDepthBuffer** | Gibt an, ob ein logarithmischer Tiefenpuffer verwendet werden soll. Dies kann notwendig sein, wenn in einer einzigen Szene enorme Skalendifferenzen gehandhabt werden müssen. Beachte, dass diese Einstellung gl_FragDepth verwendet, wenn verfügbar, was die Optimierung [Early Fragment Test](https://www.khronos.org/opengl/wiki/Early_Fragment_Test) deaktiviert und zu einer Leistungsverminderung führen kann. | `false` |
 | **outputColorSpace** | Definiert die Ausgabekodierung. | `LinearEncoding` |
-| **powerPreference** | Gibt eine Hinweis an den Benutzeragenten, welche GPU-Konfiguration für diesen WebGL-Kontext geeignet ist. Kann "high-performance", "low-power" oder "default" sein. | `default` |
+| **powerPreference** | Gibt einen Hinweis an den Benutzeragenten, welche GPU-Konfiguration für diesen WebGL-Kontext geeignet ist. Kann "high-performance", "low-power" oder "default" sein. | `default` |
 | **precision** | Shader-Präzision. Kann "highp", "mediump" oder "lowp" sein. | "highp" wenn vom Gerät unterstützt |
 | **premultipliedAlpha** | Gibt an, ob der Renderer annimmt, dass die Farben [vormultipliziertes Alpha](https://en.wikipedia.org/wiki/Glossary_of_computer_graphics#premultiplied_alpha) haben. | `true` |
 | **preserveDrawingBuffer** | Gibt an, ob die Puffer erhalten bleiben sollen, bis sie manuell gelöscht oder überschrieben werden. | `false` |
 | **shadows** | Aktiviert Schatten im Renderer. | `false` |
-| **shadowMapType** | Legt den Typ der Schattenkarte fest. | `PCFSoftShadowMap` |
+| **shadowMapType** | Legt den Typ der `shadowMap` fest. | `PCFSoftShadowMap` |
 | **stencil** | Gibt an, ob der Zeichenpuffer einen [Stencil-Puffer](https://en.wikipedia.org/wiki/Stencil_buffer) von mindestens 8 Bit hat. | `true` |
 | **toneMapping** | Definiert das Tone-Mapping-Verfahren, das vom Renderer verwendet wird. | `NoToneMapping` |
 | **toneMappingExposure** | Belichtungslevel des Tone-Mappings. | `1` |

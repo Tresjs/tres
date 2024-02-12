@@ -98,7 +98,7 @@ Wir können dies in drei Schritte unterteilen:
 
 Wir können einfach das Boolean `cast-shadow` hinzufügen, Vue interpretiert es als eine `prop` mit dem Wert `true`.
 
-_Ambientales Licht erzeugt hier keine Art von Schatten_
+_Umgebungslicht erzeugt hier keine Art von Schatten_
 
 
 ```vue

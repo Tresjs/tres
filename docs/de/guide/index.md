@@ -24,7 +24,7 @@ pnpm add @tresjs/core three
 
 ## Typescript
 
-TresJS ist in Typescript geschrieben und vollständig typisiert. Wenn du Typescript verwendest, wirst du alle Vorteile der Typisierung genießen. Stelle nur sicher, dass du die Typen für Three installierst.
+TresJS ist in Typescript geschrieben und vollständig typisiert. Wenn du Typescript verwendest, wirst du alle Vorteile der Typisierung genießen. Stelle nur sicher, dass du die Typdeklarationen für Three installierst.
 
 ::: code-group
 
@@ -56,7 +56,7 @@ export default defineConfig({
       ...templateCompilerOptions
     }),
   ],
-}),
+})
 ```
 
 Dies ist notwendig, damit der Templatecompiler mit dem benutzerdefinierten Renderer funktioniert und keine Warnungen in der Konsole ausgibt. Für weitere Informationen siehe [hier](/de/guide/troubleshooting.html).
@@ -66,13 +66,13 @@ Dies ist notwendig, damit der Templatecompiler mit dem benutzerdefinierten Rende
 
 ### Sandbox
 
-Du kannst TresJS online mit der offiziellen [Sandbox](https://play.tresjs.org/) ausprobieren. Schau es dir an:
+Du kannst TresJS online mit der offiziellen [Sandbox](https://play.tresjs.org/) ausprobieren:
 
 <iframe src="https://play.tresjs.org/" class="w-full rounded shadow-lg outline-none border-none aspect-4/3"></iframe>
 
 ### StackBlitz
 
-Wir haben einen neuen [StackBlitz](https://stackblitz.com/) Startpunkt, um TresJS online zu testen. Schau es dir an:
+Wir haben einen neuen [StackBlitz](https://stackblitz.com/) Startpunkt, um TresJS online zu testen:
 
 ![](/stackblitz-starter.png)
 
@@ -80,7 +80,7 @@ Wir haben einen neuen [StackBlitz](https://stackblitz.com/) Startpunkt, um TresJ
 
 ## Playground
 
-Wir haben auch einen Playground, wo du TresJS online testen kannst. Schau es dir [hier](https://playground.tresjs.org/) an.
+Wir haben auch einen Playground, wo du TresJS online testen kannst. Probiere es [hier](https://playground.tresjs.org/) aus.
 
 ![](/playground.png)
 

@@ -148,7 +148,7 @@ const matcapTexture = await useTexture(['https://raw.githubusercontent.com/Tresj
 </template>
 ```
 
-Ich weiß, es scheint viel Arbeit zu sein, aber ich habe gute Nachrichten, es gibt eine viel einfachere Möglichkeit.
+Das scheint viel Arbeit zu sein, aber es gibt eine einfachere Möglichkeit.
 
 ## TextGeometry von `cientos`
 

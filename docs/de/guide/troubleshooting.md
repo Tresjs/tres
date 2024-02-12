@@ -16,11 +16,11 @@ Hier sind die häufigsten Gründe, warum du deine Szene möglicherweise nicht se
 
 Ein weiteres häufiges Problem ist, dass die Komponente `TresCanvas` standardmäßig ein `canvas`-Element erstellt, das die `width` und `height` des Elternelements übernimmt. Wenn das Elternelement keine Höhe hat, wird auch das Canvas keine Höhe haben.
 
-![No se encontró altura](/canvas-height.png)
+![Keine Höhenangabe gefunden](/canvas-height.png)
 
 Du wirst auch diesen Fehler in der Konsole sehen:
 
-![Advertencia de altura del lienzo](/canvas-height-warning.png)
+![Canvas Höhenwarnung](/canvas-height-warning.png)
 
 Eine einfache Lösung dafür ist, die Höhe des Elternelements auf `100%` zu setzen:
 
