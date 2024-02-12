@@ -55,12 +55,12 @@ Aber mit **Tres** ist das nicht notwendig, du kannst die Eigenschaften auf dekla
 
 ## Argumente
 
-Einige Three.js-Objekte haben Argumente, zum Beispiel hat der Konstruktor `PerspectiveCamera` folgende Argumente:
+Einige Three.js-Objekte haben Argumente. Zum Beispiel hat der Konstruktor `PerspectiveCamera` folgende Argumente:
 
 - `fov` - Vertikales Sichtfeld der Kamera.
-- `aspect` - Seitenverhältnis des Kamera-Frustums.
-- `near` - Naher Plan des Kamera-Frustums.
-- `far` - Ferner Plan des Kamera-Frustums.
+- `aspect` - Seitenverhältnis des Frustums der Kamera.
+- `near` - Naher Plan des Frustums der Kamera.
+- `far` - Ferner Plan des Frustums der Kamera.
 
 Um diese Argumente an die Komponente `TresPerspectiveCamera` zu übergeben, kannst du die Eigenschaft `args` verwenden:
 
@@ -81,7 +81,7 @@ const camera = new PerspectiveCamera(45, 1, 0.1, 1000)
 
 # Eigenschaften
 
-Du kannst auch Eigenschaften an die Komponente übergeben, zum Beispiel hat das `TresAmbientLight` eine Eigenschaft `intensity`, so dass du sie der Komponente folgendermaßen übergeben kannst:
+Du kannst auch Eigenschaften an die Komponente übergeben. Zum Beispiel hat das `TresAmbientLight` eine Eigenschaft `intensity`, so dass du sie der Komponente folgendermaßen übergeben kannst:
 
 ```html
 <TresAmbientLight :intensity="0.5" />
@@ -89,7 +89,7 @@ Du kannst auch Eigenschaften an die Komponente übergeben, zum Beispiel hat das 
 
 ### Werte Setzen
 
-Alle Eigenschaften, deren zugrunde liegendes Objekt eine `.set()`-Methode hat, haben eine Kurzform, um den Wert als Array zu erhalten. Zum Beispiel hat die `TresPerspectiveCamera` eine Eigenschaft `position`, die ein `Vector3` Objekt ist, so dass du es der Komponente auf diese Weise übergeben kannst:
+Alle Eigenschaften, die in der zugrundeliegenden Klasse eine `.set()`-Methode haben, können via Prop als Array übergeben werden. Zum Beispiel hat die `TresPerspectiveCamera` eine Eigenschaft `position`, die ein `Vector3`-Objekt ist. Du kannst ihren Wert so setzen:
 
 ```html
 <TresPerspectiveCamera :position="[1, 2, 3]" />

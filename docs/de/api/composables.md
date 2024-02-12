@@ -8,7 +8,7 @@ Der Kern von **TresJS** verwendet diese Composables intern, so dass du dieselbe 
 
 ## useRenderLoop
 
-Das Composable `useRenderLoop` ist der Kern der Animationen in **TresJS**. Es ermöglicht dir, einen Callback zu registrieren, der mit der nativen Aktualisierungsfrequenz aufgerufen wird. Dies ist das wichtigste Composable in **TresJS**.
+Das Composable `useRenderLoop` ist der Kern der Animationen in **TresJS**. Es ermöglicht dir, einen Callback zu registrieren, der mit der nativen Bildwiederholrate aufgerufen wird. Dies ist das wichtigste Composable in **TresJS**.
 
 ```ts
 const { onLoop, resume } = useRenderLoop()
