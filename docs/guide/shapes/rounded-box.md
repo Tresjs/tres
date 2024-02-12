@@ -1,4 +1,4 @@
-# Rounded-box
+# RoundedBox
 
 <DocsDemo>
   <RoundedBoxDemo />
