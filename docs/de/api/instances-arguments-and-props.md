@@ -1,6 +1,6 @@
 # Instanzen
 
-Die Hauptidee von **Tres** ist ein _selbstgenerierter Katalog_ aller ThreeJS-Elemente. Dieser Katalog wird aus dem Quellcode von ThreeJS generiert, sodass er immer auf dem neuesten Stand ist.
+Die Hauptidee von **Tres** ist ein _selbstgenerierter Katalog_ aller Three.js-Elemente. Dieser Katalog wird aus dem Quellcode von Three.js generiert, sodass er immer auf dem neuesten Stand ist.
 
 Wenn du ThreeJS verwendest, musst du die Elemente, die du nutzen möchtest, importieren. Zum Beispiel, wenn du eine `PerspectiveCamera` verwenden möchtest, musst du sie aus dem `three` Paket importieren:
 
