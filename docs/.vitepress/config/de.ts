@@ -32,7 +32,7 @@ export const deConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
             link: '/de/api/composables',
           },
           {
-            text: 'Ereignisse',
+            text: 'Events',
             link: '/de/api/events',
           },
         ],
