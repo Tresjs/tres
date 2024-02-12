@@ -1,28 +1,26 @@
-# Devtools
+# 开发工具
 
+开发人员在浏览器上创建 3D 体验时面临的最困难的事情之一就是调试。浏览器“画布”是一个黑匣子，很难知道里面发生了什么。[ThreeJS](https://threejs.org/) 的命令式特性使其难以调试，必须依赖 `console.log` 来查看发生了什么，或者依赖第三方来微调和检查场景。
 
+别让我来检查你场景的性能。😱
 
-One of the most difficult things a developer faces when creating 3D experiences on the browser is debugging. The browser `canvas` is a black box, and it's hard to know what's going on inside. The imperative nature of [ThreeJS](https://threejs.org/) makes it incredibly difficult to debug, having to depend on `console.log` to see what's going on, or third party to fine-tune and inspect the scene.
+![开发人员调试 3D](/debug-3D.png)
 
-Don't make me get started with checking the performance of your scene. 😱
+TresJS 的目标之一是在浏览器上处理 3D 场景时提供**最佳 DX（开发人员体验）**。由于生态系统的声明式特性以及 Vue 生态系统提供的各种解决方案，例如 Vue Devtools、Nuxt 和 Vite，我们可以为开发人员提供更好的工具来调试他们的场景。
 
-![developer debugging 3D](/debug-3D.png)
+## 介绍开发工具
 
-One of our goals with TresJS is to offer **the best DX (Developer Experience)** when dealing with 3D scenes on the browser. Thanks to the declarative nature of the ecosystem plus the variety of solutions the Vue ecosystem offers such as the Vue Devtools, Nuxt and Vite, we can offer a better tooling for devs to debug their scenes.
-
-## Introducing the Devtools
-
-From <Badge text="^3.7.0" /> we are introducing the TresJS Devtools, a customized inspector tab for the [Official Vue Chrome Devtools](https://devtools.vuejs.org/guide/installation.html) that allows you to inspect your TresJS scenes and components.
+从 <Badge text="^3.7.0" /> 开始，我们引入了 TresJS Devtools，这是 [官方 Vue Chrome Devtools](https://devtools.vuejs.org/guide/installation.html) 的一个自定义检查器选项卡，允许你检查你的 TresJS 场景和组件。
 
 ![TresJS Devtools](/vue-chrome-devtools.png)
 
-### Features
+### 特性
 
-- **Scene Inspector**: Inspect the current scene and its components using a tree view similar to the Vue Devtools component inspector.
-- **Memory Allocation**: See how much memory is being by the components.
-- **Object Inspector**: Inspect the properties of the selected object in the scene, including its children.
-- **Editable Properties**: And yes, you can edit the properties of the selected object and see the changes in real-time.
+- **场景检查器**：使用类似于 Vue Devtools 组件检查器的树视图检查当前场景及其组件。
+- **内存分配**：查看组件占用了多少内存。
+- **对象检查器**：检查场景中选定对象及其子对象的属性。
+- **可编辑属性**：是的，你可以编辑选定对象及其子对象的属性，并实时查看更改。
 
 ![](/devtools-scene-inspector.png)
 
-Enjoy the new Devtools and let us know what you think! 🎉
+尽情享受新的 Devtools，并告诉我们你的想法！🎉
