@@ -2,9 +2,9 @@
 
 Die Composition API von Vue 3 [Composition API](https://vuejs.org/guide/extras/composition-api-faq.html#what-is-composition-api) ermöglicht es dir, wiederverwendbare Logik zu erstellen, die zwischen Komponenten geteilt werden kann. Sie ermöglicht dir auch, benutzerdefinierte Hooks zu erstellen, die in deinen Komponenten verwendet werden können.
 
-**TresJS** nutzt diese API voll aus, um eine Reihe von zusammensetzbaren Funktionen zu erstellen, die verwendet werden können, um Animationen zu erstellen, mit der Szene zu interagieren und mehr. Es ermöglicht dir auch, komplexere Szenen zu erstellen, die nur mit Vue-Komponenten (Texturen, Loader usw.) möglicherweise nicht möglich wären.
+**TresJS** nutzt diese API, um eine Reihe von zusammensetzbaren Funktionen zu erstellen, die verwendet werden können, zum Beispiel um Animationen zu erstellen oder mit der Szene zu interagieren. Es ermöglicht dir auch, komplexere Szenen zu erstellen, die nur mit Vue-Komponenten (Texturen, Loader usw.) möglicherweise nicht möglich wären.
 
-Der Kern von **TresJS** verwendet diese Composables intern, so dass du dieselbe API verwendest, die der Kern nutzt. Zum Beispiel verwenden Komponenten, die im internen Rendering-Loop aktualisiert werden müssen, das Composable `useRenderLoop`, um einen Callback zu registrieren, der bei jedem Update der Szene durch den Renderer aufgerufen wird.
+Der Kern von **TresJS** verwendet diese Composables intern, so dass du dieselbe API verwendest, die der Kern nutzt. Zum Beispiel verwenden Komponenten, die im internen Rendering-Loop aktualisiert werden müssen, das Composable `useRenderLoop`, um einen Callback zu registrieren, der bei jeder Aktualisierung der Szene durch den Renderer aufgerufen wird.
 
 ## useRenderLoop
 
@@ -14,12 +14,12 @@ Das Composable `useRenderLoop` ist der Kern der Animationen in **TresJS**. Es er
 const { onLoop, resume } = useRenderLoop()
 
 onLoop(({ delta, elapsed, clock, dt }) => {
-  // Ich werde jeden frame zu ~60FPS ausgeführt (abhängig vom Monitor)
+  // Wird jeden Frame ausgeführt (60 FPS, abhängig vom Monitor)
 })
 ```
 
 ::: warning
-Beachte die Leistungsauswirkungen beim Verwenden dieses Composables. Es wird bei jedem Frame ausgeführt, sodass, wenn du viel Logik in deinem Callback hast, dies die Leistung deiner Anwendung beeinträchtigen könnte. Insbesondere, wenn du Zustände oder reaktive Referenzen aktualisierst.
+Beachte die Leistungsauswirkungen beim Verwenden dieses Composables. Es wird bei jedem Frame ausgeführt. Das bedeutet, wenn du viel Logik in deinem Callback hast, dies die Performance deiner Anwendung beeinträchtigen könnte. Insbesondere, wenn du Zustände oder reaktive Referenzen aktualisierst.
 :::
 
 Der `onLoop`-Callback erhält ein Objekt mit den folgenden, auf der [Uhr von THREE](https://threejs.org/docs/?q=clock#api/en/core/Clock) basierenden Eigenschaften:
@@ -37,12 +37,12 @@ Du kannst auch einen Callback registrieren, der aufgerufen wird, bevor und nachd
 const { onBeforeLoop, onAfterLoop } = useRenderLoop()
 
 onBeforeLoop(({ delta, elapsed }) => {
-  // Ich werde ausgeführt bevor der Renderer die Szene updated
+  // Wird ausgeführt bevor der Renderer die Szene aktualisiert
   fps.begin()
 })
 
 onAfterLoop(({ delta, elapsed }) => {
-  // Ich werde ausgeführt nachdem der Renderer die Szene geupdated wurde
+  // Wird ausgeführt nachdem der Renderer die Szene aktualisiert hat
   fps.end()
 })
 ```
@@ -54,10 +54,10 @@ Du kannst den Rendering-Loop mit den Methoden `pause` und `resume` pausieren und
 ```ts
 const { pause, resume } = useRenderLoop()
 
-// Pausa el bucle de renderizado
+// Rendering-Loop pausieren
 pause()
 
-// Reanuda el bucle de renderizado
+// Rendering-Loop fortsetzen
 resume()
 ```
 
@@ -109,7 +109,7 @@ const texture = await useTexture(['path/to/texture.png'])
 - `roughnessMap`: Eine Textur, die verwendet wird, um Rauheit oder ein mattes Finish auf der Oberfläche des Objekts hinzuzufügen
 - `metalnessMap`: Eine Textur, die verwendet wird, um einen metallischen Effekt auf der Oberfläche des Objekts hinzuzufügen
 - `aoMap`: Eine Textur, die verwendet wird, um Ambient Occlusion (Schattierung in Bereichen, wo Licht durch andere Objekte blockiert wird) am Objekt hinzuzufügen
-- `alphaMap`: Eine Textur, die verwendet wird, um Transparenz hinzuzufügen (der schwarze Teil wird als transparent gerendert). Es ist notwendig, :transparent="true" im Material zu setzen, um diese Karte zu verwenden
+- `alphaMap`: Eine Textur, die verwendet wird, um Transparenz hinzuzufügen (der schwarze Teil wird als transparent gerendert). Es ist notwendig, :transparent="true" im Material zu setzen, um diese "Map" zu verwenden
 - `matcap`: Diese Textur kodiert die Farbe und Schattierung des Materials
 
 In diesem Fall gibt es ein Objekt mit den geladenen Texturen zurück.
@@ -193,7 +193,7 @@ watch(character, ({ model }) => {
 
 ## useTresContext
 
-Dieses Composable zielt darauf ab, Zugriff auf das Zustandsmodell zu bieten, das mehrere nützliche Eigenschaften enthält.
+Dieses Composable bietet Zugriff auf das Zustandsmodell, das mehrere nützliche Eigenschaften enthält.
 
 ```ts
 const { camera, renderer, camera, cameras } = useTresContext()
@@ -226,7 +226,7 @@ const context = useTresContext()
 | **camera** | die aktuell aktive Kamera |
 | **cameras** | die Kameras, die in der Szene vorhanden sind |
 | **controls** | die Steuerungen deiner Szene |
-| **deregisterCamera** | eine Methode zum Abmelden einer Kamera. Dies ist nur notwendig, wenn du eine Kamera manuell erstellst. Kameras im Template werden automatisch registriert. |
+| **deregisterCamera** | eine Methode zum de-registrieren einer Kamera. Dies ist nur notwendig, wenn du eine Kamera manuell erstellst. Kameras im Template werden automatisch registriert. |
 | **extend** | Erweitert den Katalog der Komponenten. Siehe [Erweiterung](/advanced/extending) |
 | **raycaster** | der globale Raycaster, der für Zeigereignisse verwendet wird |
 | **registerCamera** | eine Methode zum Registrieren einer Kamera. Dies ist nur notwendig, wenn du eine Kamera manuell erstellst. Kameras im Template werden automatisch registriert. |

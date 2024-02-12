@@ -6,14 +6,14 @@ Die `<primitive />`-Komponente ist eine vielseitige Low-Level-Komponente in Tres
 
 ```html
 <script setup lang="ts">
-  // Importa las clases necesarias de three.js
+  // Importieren der notwendigen Klassen von three.js
   import { Mesh, BoxGeometry, MeshBasicMaterial } from 'three';
 
-  // Crea una geometría de caja y un material básico
+  // Geometry und Material erstellen
   const geometry = new BoxGeometry(1, 1, 1);
   const material = new MeshBasicMaterial({ color: 0x00ff00 });
 
-  // Crea un mesh con la geometría y el material
+  // Mesh mit der Geometrie und dem Material erstellen
   const meshWithMaterial = new Mesh(geometry, material);
 </script>
 

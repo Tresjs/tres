@@ -21,7 +21,7 @@ Mit **Tres** musst du nichts importieren, da **Tres** automatisch eine **Vue-Kom
 </template>
 ```
 
-Das bedeutet, dass du dieselbe [Dokumentation](https://threejs.org/docs/) nutzen kannst, die du beim Verwenden von basic ThreeJS verwenden würdest, aber mit der Kraft von Vue.
+Das bedeutet, dass du dieselbe [Dokumentation](https://threejs.org/docs/) nutzen kannst, die du beim Verwenden von ThreeJS verwenden würdest.
 
 ## Objekte deklarieren
 
@@ -73,7 +73,7 @@ Um diese Argumente an die Komponente `TresPerspectiveCamera` zu übergeben, kann
 </template>
 ```
 
-Das ist dasselbe wie dies zu tun:
+Dasselbe kann wie folgt geschrieben werden:
 
 ```ts
 const camera = new PerspectiveCamera(45, 1, 0.1, 1000)
@@ -98,7 +98,7 @@ Alle Eigenschaften, deren zugrunde liegendes Objekt eine `.set()`-Methode hat, h
 Um Transformationseigenschaften wie Position, Rotation und Skalierung anzugeben, gibt es eine Kurzform, die es dir erlaubt, direkt die Achse anzugeben, die du innerhalb der Eigenschaften setzen möchtest. Eine ähnliche Kurzform ist auch für die Farbeigenschaft verfügbar.
 
 
-<!-- Wir haben die Farbsyntax von Vue zu HTML geändert, da Vue scheinbar kaputt ist und verschachtelte Komponenten nicht einfärbt -->
+<!-- Wir haben die Farbsyntax von Vue zu HTML geändert, da Vue verschachtelte Komponenten nicht einfärbt -->
 ```html
 <TresMesh :position-x="1" :scale-y="2" :rotation-x="Math.PI * 2">
   <TresMeshBasicMaterial :color-r="0.7" :color-b="0.3" />
@@ -107,7 +107,7 @@ Um Transformationseigenschaften wie Position, Rotation und Skalierung anzugeben,
 
 ::: warning
 Wenn du die Rotations-Eigenschaft in [three.js](https://threejs.org/docs/index.html#api/en/math/Euler) setzt, wird standardmäßig die Reihenfolge 'XYZ' verwendet.
-Es ist wichtig zu beachten, dass die Reihenfolge, in der du die Winkel setzt, wenn du die Kurzform verwendest, wichtig ist. Für mehr Informationen zu diesem Thema, siehe [Eulerwinkel](https://de.wikipedia.org/wiki/Eulersche_Winkel).
+Falls die Kurzform verwendet wird, ist die Reihenfolge, in der die Winkel gesetzt werden wichtig. Für mehr Informationen zu diesem Thema, siehe [Eulerwinkel](https://de.wikipedia.org/wiki/Eulersche_Winkel).
 :::
 
 ```vue
@@ -145,7 +145,7 @@ Du kannst Farben an die Komponenten übergeben, indem du die Eigenschaft `color`
 
 ### Methoden
 
-Einige zugrundeliegende Eigenschaften sind tatsächlich Methoden, die `TresPerspectiveCamera` hat eine Methode `lookAt`, die von [Object3d](https://threejs.org/docs/#api/en/core/Object3D.lookAt) geerbt ist, so dass du dem Komponenten auf diese Weise die Koordinaten übergeben kannst:
+Einige Eigenschaften sind eigentlich Methoden. Zum Beispiel die `TresPerspectiveCamera` hat eine Methode `lookAt`, die von [Object3d](https://threejs.org/docs/#api/en/core/Object3D.lookAt) geerbt ist. Das bedeutet dass du der Komponente die Koordination auf folgende Weise übergeben kannst:
 
 ```html
 <TresPerspectiveCamera :look-at="[1, 2, 3]" />
