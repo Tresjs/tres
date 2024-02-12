@@ -1,6 +1,6 @@
 # Warnhinweise 😱
 
-Unser Ziel ist es, eine einfache Möglichkeit zu bieten, ThreeJS in VueJS mit der bestmöglichen Entwicklererfahrung zu nutzen. Es gibt jedoch einige Vorbehalte, derer du dir bewusst sein solltest.
+Unser Ziel ist es, eine einfache Möglichkeit zu bieten, Three.js in Vue.js mit der bestmöglichen Entwicklererfahrung zu nutzen. Es gibt jedoch einige Vorbehalte, derer du dir bewusst sein solltest.
 
 ## ~~HMR und ThreeJS~~
 
