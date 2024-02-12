@@ -11,7 +11,7 @@ Dieser Leitfaden hilft dir, deine erste Szene in Tres zu erstellen. 🍩
 
 ## Das Canvas einrichten
 
-Bevor wir eine Szene erstellen können, benötigen wir einen Ort, um sie anzuzeigen. Würden wir nur [ThreeJS](https://threejs.org/docs/index.html#manual/en/introduction/Creating-a-scene) verwenden, müssten wir ein HTML-`canvas`-Element erstellen, um den `WebglRenderer` zu montieren und die `scene` zu initialisieren.
+Bevor wir eine Szene erstellen können, benötigen wir einen Ort, um sie anzuzeigen. Würden wir nur [Three.js](https://threejs.org/docs/index.html#manual/en/introduction/Creating-a-scene) verwenden, müssten wir ein HTML-`canvas`-Element erstellen, um den `WebglRenderer` zu montieren und die `scene` zu initialisieren.
 
 Mit **TresJS** musst du nur die Standardkomponente `<TresCanvas />` importieren und sie zum Template deiner Vue-Komponente hinzufügen.
 
@@ -107,7 +107,7 @@ Ein häufiges Problem ist, dass die Standardposition der Kamera der Ursprung der
 
 ## Einen 🍩 hinzufügen
 
-Die Szene sieht ein wenig leer aus, fügen wir also ein Basisobjekt hinzu. Wenn wir reines **ThreeJS** verwenden würden, müssten wir ein [**Mesh**](https://threejs.org/docs/index.html?q=mesh#api/en/objects/Mesh)-Objekt erstellen und ihm ein [**Material**](https://threejs.org/docs/index.html?q=material#api/en/materials/Material) sowie eine [**Geometrie**](https://threejs.org/docs/index.html?q=geometry#api/en/core/BufferGeometry) wie folgt anhängen:
+Die Szene sieht ein wenig leer aus, fügen wir also ein Basisobjekt hinzu. Wenn wir reines **Three.js** verwenden würden, müssten wir ein [**Mesh**](https://threejs.org/docs/index.html?q=mesh#api/en/objects/Mesh)-Objekt erstellen und ihm ein [**Material**](https://threejs.org/docs/index.html?q=material#api/en/materials/Material) sowie eine [**Geometrie**](https://threejs.org/docs/index.html?q=geometry#api/en/core/BufferGeometry) wie folgt anhängen:
 
 ```ts
 const geometry = new THREE.TorusGeometry(1, 0.5, 16, 32)

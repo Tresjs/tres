@@ -1,8 +1,8 @@
 # Instanzen
 
-Die Hauptidee von **Tres** ist ein _selbstgenerierter Katalog_ aller ThreeJS-Elemente. Dieser Katalog wird aus dem Quellcode von ThreeJS generiert, sodass er immer auf dem neuesten Stand ist.
+Die Hauptidee von **Tres** ist ein _selbstgenerierter Katalog_ aller Three.js-Elemente. Dieser Katalog wird aus dem Quellcode von Three.js generiert, sodass er immer auf dem neuesten Stand ist.
 
-Wenn du ThreeJS verwendest, musst du die Elemente, die du nutzen möchtest, importieren. Zum Beispiel, wenn du eine `PerspectiveCamera` verwenden möchtest, musst du sie aus dem `three` Paket importieren:
+Wenn du Three.js verwendest, musst du die Elemente, die du nutzen möchtest, importieren. Zum Beispiel, wenn du eine `PerspectiveCamera` verwenden möchtest, musst du sie aus dem `three` Paket importieren:
 
 ```js
 import { PerspectiveCamera } from 'three'
@@ -21,7 +21,7 @@ Mit **Tres** musst du nichts importieren, da **Tres** automatisch eine **Vue-Kom
 </template>
 ```
 
-Das bedeutet, dass du dieselbe [Dokumentation](https://threejs.org/docs/) nutzen kannst, die du beim Verwenden von ThreeJS verwenden würdest.
+Das bedeutet, dass du dieselbe [Dokumentation](https://threejs.org/docs/) nutzen kannst, die du beim Verwenden von Three.js verwenden würdest.
 
 ## Objekte deklarieren
 
@@ -55,7 +55,7 @@ Aber mit **Tres** ist das nicht notwendig, du kannst die Eigenschaften auf dekla
 
 ## Argumente
 
-Einige ThreeJS-Objekte haben Argumente, zum Beispiel hat der Konstruktor `PerspectiveCamera` folgende Argumente:
+Einige Three.js-Objekte haben Argumente, zum Beispiel hat der Konstruktor `PerspectiveCamera` folgende Argumente:
 
 - `fov` - Vertikales Sichtfeld der Kamera.
 - `aspect` - Seitenverhältnis des Kamera-Frustums.

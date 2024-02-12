@@ -28,7 +28,7 @@ features:
     details: Hot Module-Reloading (HMR), das schnell bleibt, unabhängig von der Größe der Anwendung.
   - icon: 🥰
     title: Immer auf dem neuesten Stand
-    details: Bringt sofort alle aktualisierten Funktionen von ThreeJS.
+    details: Bringt sofort alle aktualisierten Funktionen von Three.js.
   - icon: 🌳
     title: Ökosystem
     details: Erweitere die Kernfunktionalität mit Paketen wie `hundreds` und `postprocessing`. Oder füge deine eigenen hinzu.

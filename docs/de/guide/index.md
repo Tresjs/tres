@@ -86,7 +86,7 @@ Wir haben auch einen Playground, wo du TresJS online testen kannst. Schau es dir
 
 ## Motivation
 
-[ThreeJS](https://threejs.org/) ist eine wunderbare Bibliothek für die Erstellung von erstaunlichen 3D-Webseiten mit WebGL. Es ist auch eine ständig aktualisierte Bibliothek, die es für die Maintainer von Wrappern wie [TroisJS](https://troisjs.github.io/) schwierig macht, mit allen Verbesserungen Schritt zu halten.
+[Three.js](https://threejs.org/) ist eine wunderbare Bibliothek für die Erstellung von erstaunlichen 3D-Webseiten mit WebGL. Es ist auch eine ständig aktualisierte Bibliothek, die es für die Maintainer von Wrappern wie [TroisJS](https://troisjs.github.io/) schwierig macht, mit allen Verbesserungen Schritt zu halten.
 
 Das React-Ökosystem hat eine beeindruckende Lösung für das **benutzerdefinierte Rendering** namens [React-three-fiber](https://docs.pmnd.rs/react-three-fiber), die es dir ermöglicht, deine Szenen deklarativ mit wiederverwendbaren und selbstständigen Komponenten zu bauen, die auf den Zustand reagieren.
 
@@ -111,4 +111,4 @@ const lunchboxApp = createLunchboxApp(LunchboxApp)
 lunchboxApp.mount('#lunchbox')
 ```
 
-Daher ließ ich mich von beiden Bibliotheken inspirieren, um einen benutzerdefinierten Vue-Renderer für ThreeJS zu erstellen. Das ist **TresJS v2**.
+Daher ließ ich mich von beiden Bibliotheken inspirieren, um einen benutzerdefinierten Vue-Renderer für Three.js zu erstellen. Das ist **TresJS v2**.

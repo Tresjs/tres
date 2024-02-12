@@ -1,8 +1,8 @@
 # Warnhinweise 😱
 
-Unser Ziel ist es, eine einfache Möglichkeit zu bieten, ThreeJS in VueJS mit der bestmöglichen Entwicklererfahrung zu nutzen. Es gibt jedoch einige Vorbehalte, derer du dir bewusst sein solltest.
+Unser Ziel ist es, eine einfache Möglichkeit zu bieten, Three.js in VueJS mit der bestmöglichen Entwicklererfahrung zu nutzen. Es gibt jedoch einige Vorbehalte, derer du dir bewusst sein solltest.
 
-## ~~HMR und ThreeJS~~
+## ~~HMR und Three.js~~
 
 :::info
 
@@ -10,7 +10,7 @@ Dies wurde in **TresJS** v1.7.0 🎉 behoben. Jetzt kannst du HMR nutzen, ohne d
 
 :::
 
-Hot Module Replacement (HMR) ist eine Funktion, die es dir erlaubt, deinen Code zu aktualisieren, ohne die Seite neu zu laden. Dies ist eine großartige Funktion, die die Entwicklung viel schneller macht. **TresJS** verwendet [Vite](https://vitejs.dev/). Es ist jedoch wirklich kompliziert, dies korrekt mit ThreeJS zu bewerkstelligen.
+Hot Module Replacement (HMR) ist eine Funktion, die es dir erlaubt, deinen Code zu aktualisieren, ohne die Seite neu zu laden. Dies ist eine großartige Funktion, die die Entwicklung viel schneller macht. **TresJS** verwendet [Vite](https://vitejs.dev/). Es ist jedoch wirklich kompliziert, dies korrekt mit Three.js zu bewerkstelligen.
 
 Warum? Weil Tres die Szene deklarativ aufbaut. Das bedeutet, dass es die Instanz erstellt und der Szene hinzufügt, wenn die Komponente gemountet wird. Die Komplexität liegt darin zu wissen, wann die Instanz aus der Szene entfernt und wann sie wieder hinzugefügt werden soll.
 
@@ -53,7 +53,7 @@ Du kannst der Diskussion in [HMR Disposal Discussion](https://github.com/Tresjs/
 
 ## Reaktivität
 
-Wir alle lieben Reaktivität 💚. Es ist eines der mächtigsten Features von VueJS. Allerdings sollten wir vorsichtig sein, wenn wir ThreeJS verwenden.
+Wir alle lieben Reaktivität 💚. Es ist eines der mächtigsten Features von VueJS. Allerdings sollten wir vorsichtig sein, wenn wir Three.js verwenden.
 
 Die Reaktivität von Vue basiert auf [Proxy](https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/Proxy). Dies ermöglicht es Vue 3, automatisch Änderungen an Datenobjekten zu verfolgen und die entsprechenden DOM-Elemente jedes Mal zu aktualisieren, wenn sich die Daten ändern.
 

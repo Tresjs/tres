@@ -1,6 +1,6 @@
 # Entwicklungstools
 
-Eine der größten Herausforderungen, denen sich ein Entwickler beim Erstellen von 3D-Erlebnissen im Browser gegenübersieht, ist das Debugging. Das `canvas` des Browsers ist eine Blackbox, und es ist schwierig zu wissen, was darin vor sich geht. Die imperative Natur von [ThreeJS](https://threejs.org/) macht es unglaublich schwierig zu debuggen, wobei man sich auf `console.log` verlassen muss, um zu sehen, was passiert, oder auf Drittanbieter-Tools, um die Szene anzupassen und zu inspizieren.
+Eine der größten Herausforderungen, denen sich ein Entwickler beim Erstellen von 3D-Erlebnissen im Browser gegenübersieht, ist das Debugging. Das `canvas` des Browsers ist eine Blackbox, und es ist schwierig zu wissen, was darin vor sich geht. Die imperative Natur von [Three.js](https://threejs.org/) macht es unglaublich schwierig zu debuggen, wobei man sich auf `console.log` verlassen muss, um zu sehen, was passiert, oder auf Drittanbieter-Tools, um die Szene anzupassen und zu inspizieren.
 
 Fang gar nicht erst damit an, die Performance deiner Szene zu überprüfen. 😱
 

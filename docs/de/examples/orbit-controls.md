@@ -4,7 +4,7 @@
 
 [OrbitControls](https://threejs.org/docs/index.html?q=orbit#examples/en/controls/OrbitControls) ist ein Kamerasteuerungselement, das es dir ermöglicht, um ein Ziel zu orbitieren. Es ist eine großartige Möglichkeit, deine Szene zu erkunden.
 
-Allerdings ist es kein Teil des Kerns von ThreeJS. Daher müsstest du es aus dem Modul `three/addons/controls/OrbitControls` importieren.
+Allerdings ist es kein Teil des Kerns von Three.js. Daher müsstest du es aus dem Modul `three/addons/controls/OrbitControls` importieren.
 
 Das schafft ein Problem, weil **TresJS** automatisch einen Katalog aus dem Kern von Three erstellt, damit du sie als Komponenten nutzen kannst.
 

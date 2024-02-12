@@ -152,7 +152,7 @@ Dann kannst du die Texturen an das Material binden.
 
 ## useSeek
 
-Das Composable `useSeek` bietet Hilfsmittel, um leicht durch komplexe ThreeJS-Szenen und Objektgrafiken zu navigieren. Es exportiert 4 Funktionen, die es dir ermöglichen, Kindobjekte basierend auf spezifischen Eigenschaften zu finden.
+Das Composable `useSeek` bietet Hilfsmittel, um leicht durch komplexe Three.js-Szenen und Objektgrafiken zu navigieren. Es exportiert 4 Funktionen, die es dir ermöglichen, Kindobjekte basierend auf spezifischen Eigenschaften zu finden.
 
 ```ts
 const { seek, seekByName, seekAll, seekAllByName } = useSeek()
@@ -160,7 +160,7 @@ const { seek, seekByName, seekAll, seekAllByName } = useSeek()
 
 Die Funktion `seek` akzeptiert drei Parameter:
 
-- `parent`: Eine ThreeJS-Szene oder Object3D.
+- `parent`: Eine Three.js-Szene oder Object3D.
 - `property`: Die Eigenschaft, die für die Suchbedingung verwendet wird.
 - `value`: Der Wert der Eigenschaft, mit dem abgeglichen wird.
 

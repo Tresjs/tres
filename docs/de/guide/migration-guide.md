@@ -30,7 +30,7 @@ yarn upgrade @tresjs/core
 
 Dies war wahrscheinlich das am **meisten gefragte Feature für TresJS**. Jetzt funktionieren die Tres-Komponenten mit Volar und bieten Typ-Intellisense.
 
-**TresJS** generiert nun zur Kompilierungszeit Typdeklarationen für alle Komponenten basierend auf dem ThreeJS-Katalog. Das bedeutet, dass du alle ThreeJS-Komponenten verwenden und Typ-Intellisense dafür erhalten kannst.
+**TresJS** generiert nun zur Kompilierungszeit Typdeklarationen für alle Komponenten basierend auf dem Three.js-Katalog. Das bedeutet, dass du alle Three.js-Komponenten verwenden und Typ-Intellisense dafür erhalten kannst.
 
 ### Das Tres-Plugin ist optional 👍
 
@@ -66,7 +66,7 @@ Dies wird aus Gründen der Leistung und der Paketgröße empfohlen, da das Tree-
 
 Die Komponente `<TresScene />` ist nun veraltet, da die Szene jetzt durch `<TresCanvas />` erstellt wird.
 
-Am Anfang dachte ich, dass es eine gute Idee wäre, eine separate Komponente für die Szene in Bezug auf die Ausführlichkeit zu haben und sie so ähnlich wie möglich an plain ThreeJS zu halten, aber es stellte sich heraus, dass es nicht wirklich nützlich war.
+Am Anfang dachte ich, dass es eine gute Idee wäre, eine separate Komponente für die Szene in Bezug auf die Ausführlichkeit zu haben und sie so ähnlich wie möglich an plain Three.js zu halten, aber es stellte sich heraus, dass es nicht wirklich nützlich war.
 
 Du kannst jetzt eine Szene so erstellen:
 

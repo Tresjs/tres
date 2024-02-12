@@ -67,9 +67,9 @@ Aber nicht alle Lichter können Schatten erzeugen, diese Definition kommt direkt
 
 ## Schatten (Erklärung)
 
-Es gibt auch viele Arten von Schatten, zum Beispiel wird der "weiche Schatten" automatisch erzeugt, wenn ein Objekt von einer Seite mehr Licht erhält, aber kurz gesagt, ein "Standard ThreeJS Schatten", der auf eine andere Oberfläche gerichtet wird, muss von einem Mesh ausgeworfen und von einem anderen Mesh empfangen werden. Wie wir in unserem Beispiel sehen, empfängt die `Ebene` einen Schatten, wirft aber keinen. Beachte, dass nicht alle Materialien Schatten werfen oder empfangen können.
+Es gibt auch viele Arten von Schatten, zum Beispiel wird der "weiche Schatten" automatisch erzeugt, wenn ein Objekt von einer Seite mehr Licht erhält, aber kurz gesagt, ein "Standard Three.js Schatten", der auf eine andere Oberfläche gerichtet wird, muss von einem Mesh ausgeworfen und von einem anderen Mesh empfangen werden. Wie wir in unserem Beispiel sehen, empfängt die `Ebene` einen Schatten, wirft aber keinen. Beachte, dass nicht alle Materialien Schatten werfen oder empfangen können.
 
-Intern generiert ThreeJS automatisch ein neues Mesh mit einem [ShadowMaterial](https://threejs.org/docs/index.html?q=shado#api/en/materials/ShadowMaterial), das in jedem Frame aktualisiert wird, deshalb, wenn du Animationen anwendest, wird der Schatten auch animiert, aber das ist auch der Grund, warum du Schatten vorsichtig verwenden solltest, da sie die Leistung beeinträchtigen können.
+Intern generiert Three.js automatisch ein neues Mesh mit einem [ShadowMaterial](https://threejs.org/docs/index.html?q=shado#api/en/materials/ShadowMaterial), das in jedem Frame aktualisiert wird, deshalb, wenn du Animationen anwendest, wird der Schatten auch animiert, aber das ist auch der Grund, warum du Schatten vorsichtig verwenden solltest, da sie die Leistung beeinträchtigen können.
 
 ::: warning
 Die übermäßige Verwendung von Schatten auf diese Weise kann die Leistung beeinträchtigen. Es gibt jedoch Möglichkeiten, die Leistung zu verbessern. Für weitere Informationen, siehe [dieses Video](https://youtu.be/WGNvVGrS0kY?si=q7XyL5eABKUh3gbS&t=1256)
