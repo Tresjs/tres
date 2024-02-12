@@ -81,7 +81,7 @@ const camera = new PerspectiveCamera(45, 1, 0.1, 1000)
 
 # Eigenschaften
 
-Du kannst auch Eigenschaften an die Komponente übergeben, zum Beispiel hat das `TresAmbientLight` eine Eigenschaft `intensity`, so dass du sie der Komponente folgendermaßen übergeben kannst:
+Du kannst auch Eigenschaften an die Komponente übergeben. Zum Beispiel hat das `TresAmbientLight` eine Eigenschaft `intensity`, so dass du sie der Komponente folgendermaßen übergeben kannst:
 
 ```html
 <TresAmbientLight :intensity="0.5" />
