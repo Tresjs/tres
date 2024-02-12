@@ -1,8 +1,8 @@
 # v-always-look-at 👀
 
-With the new directive v-always-look-at provided by **TresJS**, you can add easily command an [Object3D](https://threejs.org/docs/index.html?q=object#api/en/core/Object3D) to always look at a specific position, this could be passed as a Vector3 or an Array.
+使用 **TresJS** 提供的新指令 `v-always-look-at`，您可以轻松地使 [Object3D](https://threejs.org/docs/index.html?q=object#api/en/core/Object3D) 始终朝向特定位置，可以传入 Vector3 对象或数组。
 
-## Usage
+## 推荐使用
 
 ```vue{3,9}
 <script setup lang="ts">
@@ -18,17 +18,17 @@ import { Box, vAlwaysLookAt } from '@tresjs/cientos'
   </TresCanvas>
 </template>
 ```
-No matter where the Box move will always look-at the position [0,0,0]
+无论 Box 移动到何处，它都将始终朝向位置 [0,0,0]。
 
-### Why not use the in built method look-at?
+### 为什么不使用内置的 look-at 方法呢？
 
-You could ask, this is fine but I can use the `:look-at` method directly in the component, why should I need this?
+您可能会问，我可以直接在组件中使用 `:look-at` 方法，为什么我需要这个呢？
 
-The answers is that with the method `:look-at` you will indicated to look at that position just once, when the instance is mounted, then if the object changes this will not get updated
+答案是使用 `:look-at` 方法时，您只会在实例挂载时指示其一次性朝向该位置，然后如果对象更改，它将不会更新。
 
-### You can look at other instance too!
+### 您还可以查看其他实例！
 
-Another advantage is that you can look at an instance in movement, for example with the camera, like so:
+另一个优势是您可以查看一个在移动中的实例，例如使用相机，如下所示：
 
 ```vue{4,6,20,23}
 <script setup lang="ts">
@@ -40,7 +40,7 @@ const sphereRef = shallowRef()
 
 const { onLoop } = useRenderLoop()
 
-// here we update the position of the sphere and the camera will always follow the object
+// 在这里，我们更新了球体的位置，相机将始终跟随该对象
 onLoop(({ elapsed }) => {
   if (sphereRef.value) {
     sphereRef.value.value.position.y = Math.sin(elapsed) * 1.5

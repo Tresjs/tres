@@ -1,27 +1,27 @@
-# Events
+# 事件
 
-**TresJS** components emit pointer events when they are interacted with. This is the case for the components that represent three.js classes that derive from [THREE.Object3D](https://threejs.org/docs/index.html?q=object#api/en/core/Object3D) (like meshes, groups,...).
+**TresJS** 组件在交互时会触发鼠标事件。适用于继承自[THREE.Object3D](https://threejs.org/docs/index.html?q=object#api/en/core/Object3D) 的three.js类的组件（例如网格、组等）。
 
 <StackBlitzEmbed project-id="tresjs-events" />
 
-## Pointer Events
+## 鼠标事件
 
 ```html
 <TresMesh
-  @click="(intersection, pointerEvent) => console.log('click', intersection, pointerEvent)"
-  @pointer-move="(intersection, pointerEvent) => console.log('pointer-move', intersection, pointerEvent)"
-  @pointer-enter="(intersection, pointerEvent) => console.log('pointer-enter', intersection, pointerEvent)"
-  @pointer-leave="(intersection, pointerEvent) => console.log('pointer-leave', pointerEvent)"
+  @click="(intersection, pointerEvent) => console.log('单击', intersection, pointerEvent)"
+  @pointer-move="(intersection, pointerEvent) => console.log('移动', intersection, pointerEvent)"
+  @pointer-enter="(intersection, pointerEvent) => console.log('移入', intersection, pointerEvent)"
+  @pointer-leave="(intersection, pointerEvent) => console.log('移出', pointerEvent)"
 />
 ```
 
-| Event         | fires when ...                                                                        | Event Handler Parameter Type(s)                                                                                                                                                                       |
+| 事件         | 触发时 ...                                                                        | 事件参数类型                                                                                                                                                                       |
 | ------------- | ------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| click         | ... the events pointerdown and pointerup fired on the same object one after the other | [Intersection](https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/types/three/src/core/Raycaster.d.ts#L16), [PointerEvent](https://developer.mozilla.org/en-US/docs/Web/API/PointerEvent) |
-| pointer-move  | ... the pointer is moving above the object                                            | [Intersection](https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/types/three/src/core/Raycaster.d.ts#L16), [PointerEvent](https://developer.mozilla.org/en-US/docs/Web/API/PointerEvent) |
-| pointer-enter | ... the pointer is entering the object                                                | [Intersection](https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/types/three/src/core/Raycaster.d.ts#L16), [PointerEvent](https://developer.mozilla.org/en-US/docs/Web/API/PointerEvent) |
-| pointer-leave | ... the pointer is leaves the object                                                  | [PointerEvent](https://developer.mozilla.org/en-US/docs/Web/API/PointerEvent)                                                                                                                         |
+| click         | ... 在同一对象上依次触发的 `pointerdown` 和 `pointerup` 事件 | [Intersection](https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/types/three/src/core/Raycaster.d.ts#L16), [PointerEvent](https://developer.mozilla.org/en-US/docs/Web/API/PointerEvent) |
+| pointer-move  | ... 鼠标在对象上方移动                                            | [Intersection](https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/types/three/src/core/Raycaster.d.ts#L16), [PointerEvent](https://developer.mozilla.org/en-US/docs/Web/API/PointerEvent) |
+| pointer-enter | ... 鼠标移入对象                                                | [Intersection](https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/types/three/src/core/Raycaster.d.ts#L16), [PointerEvent](https://developer.mozilla.org/en-US/docs/Web/API/PointerEvent) |
+| pointer-leave | ... 鼠标移出对象                                                  | [PointerEvent](https://developer.mozilla.org/en-US/docs/Web/API/PointerEvent)                                                                                                                         |
 
-The returned [Intersection](https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/types/three/src/core/Raycaster.d.ts#L16) includes the [Object3D](https://threejs.org/docs/index.html?q=object#api/en/core/Object3D) that triggered the event. You can access it via `intersection.object`.
+返回的 [Intersection](https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/types/three/src/core/Raycaster.d.ts#L16) 包括触发事件的[Object3D](https://threejs.org/docs/index.html?q=object#api/en/core/Object3D) 。您可以通过`intersection.object` 访问它。
 
-By default, objects positioned in front of others with event handlers do not prevent those events from being triggered. This behavior can be achieved by using the prop `blocks-pointer-events`.
+默认情况下，不会阻止事件冒泡。可以通过使用`blocks-pointer-events` 属性来实现此行为。

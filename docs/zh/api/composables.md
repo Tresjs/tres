@@ -1,67 +1,67 @@
-# Composables
+# 组合式函数
 
-Vue 3 [Composition API](https://vuejs.org/guide/extras/composition-api-faq.html#what-is-composition-api) allows you to create reusable logic that can be shared across components. It also allows you to create custom hooks that can be used in your components.
+Vue 3的[Composition API](https://vuejs.org/guide/extras/composition-api-faq.html#what-is-composition-api) 允许您创建可在组件之间共享的可重用逻辑。它还允许您创建可在组件中使用的自定义钩子。
 
-**TresJS** takes huge advantage of this API to create a set of composable functions that can be used to create animations, interact with the scene and more. It also allows you to create more complex scenes that might not be possible using just the Vue Components (Textures, Loaders, etc.).
+**TresJS** 充分利用这个API创建了一组可组合的函数，可用于创建动画、与场景交互等。它还允许您创建更复杂的场景，不仅使用Vue组件（纹理、加载器等）实现。
 
-The core of **TresJS** uses these composables internally, so you would be using the same API that the core uses. For instance, components that need to updated on the internal render loop use the `useRenderLoop` composable to register a callback that will be called every time the renderer updates the scene.
+**TresJS** 核心在内部使用这些组合API，因此可以使用与核心相同API。例如，需要在内部渲染循环中更新的组件使用 `useRenderLoop` 来注册一个回调函数，每当渲染器更新场景时都会调用该函数。
 
 ## useRenderLoop
 
-The `useRenderLoop` composable is the core of **TresJS** animations. It allows you to register a callback that will be called on native refresh rate. This is the most important composable in **TresJS**.
+`useRenderLoop` 是 **TresJS** 动画的核心。它可以注册一个回调函数，该函数将在本地刷新时被调用。这是 **TresJS** 中最重要的可组合项。
 
 ```ts
 const { onLoop, resume } = useRenderLoop()
 
 onLoop(({ delta, elapsed, clock }) => {
-  // I will run at every frame ~60FPS (depending of your monitor)
+  // 它将在每一帧运行 ~60FPS (取决于您的显示器)
 })
 ```
 
 ::: warning
-Be mindful of the performance implications of using this composable. It will run at every frame, so if you have a lot of logic in your callback, it might impact the performance of your app. Specially if you are updating reactive states or references.
+请注意使用此组合API的性能影响。它将在每一帧运行，因此如果在回调中有大量逻辑，可能会影响应用程序的性能。特别是如果您正在更新响应式状态或引用。
 :::
 
-The `onLoop` callback receives an object with the following properties based on the [THREE clock](https://threejs.org/docs/?q=clock#api/en/core/Clock):
+`onLoop` 回调接收一个基于[THREE clock](https://threejs.org/docs/?q=clock#api/en/core/Clock)的对象，该对象具有以下属性：
 
-- `delta`: The delta time between the current and the last frame. This is the time in seconds since the last frame.
-- `elapsed`: The elapsed time since the start of the render loop.
+- `delta`: 当前帧与上一帧之间的时间差。这是自上一帧以来的时间（以秒为单位）。
+- `elapsed`: 自渲染循环开始以来的时间。
 
-This composable is based on `useRafFn` from [vueuse](https://vueuse.org/core/useRafFn/). Thanks to [@wheatjs](https://github.com/orgs/Tresjs/people/wheatjs) for the amazing contribution.
+这个组合API基于 [vueuse](https://vueuse.org/core/useRafFn/) 中的 `useRafFn` 。感谢 [@wheatjs](https://github.com/orgs/Tresjs/people/wheatjs) 的出色贡献
 
-### Before and after render
+### 渲染前后
 
-You can also register a callback that will be called before and after the renderer updates the scene. This is useful if you add a profiler to measure the FPS for example.
+您还可以注册一个在渲染器更新场景之前和之后调用的回调函数。例如，添加了性能分析工具以测量FPS，将非常有用。
 
 ```ts
 const { onBeforeLoop, onAfterLoop } = useRenderLoop()
 
 onBeforeLoop(({ delta, elapsed }) => {
-  // I will run before the renderer updates the scene
+  // 在渲染器更新场景之前运行
   fps.begin()
 })
 
 onAfterLoop(({ delta, elapsed }) => {
-  // I will run after the renderer updates the scene
+  // 在渲染器更新场景之后运行
   fps.end()
 })
 ```
 
-### Pause and resume
+### 暂停和恢复
 
-You can pause and resume the render loop using the exposed `pause` and `resume` methods.
+您可以使用 `pause` 和 `resume` 方法来暂停和恢复循环渲染。
 
 ```ts
 const { pause, resume } = useRenderLoop()
 
-// Pause the render loop
+// 暂停循环渲染
 pause()
 
-// Resume the render loop
+// 恢复循环渲染
 resume()
 ```
 
-Also you can get the active state of the render loop using the `isActive` property.
+您还可以使用 `isActive` 属性获取循环渲染的活动状态。
 
 ```ts
 const { resume, isActive } = useRenderLoop()
@@ -75,7 +75,7 @@ console.log(isActive) // true
 
 ## useLoader
 
-The `useLoader` composable allows you to load assets using the [THREE.js loaders](https://threejs.org/docs/#manual/en/introduction/Loading-3D-models). It returns a promise with loaded asset.
+`useLoader` 组合API可以使用 [THREE.js loaders](https://threejs.org/docs/#manual/en/introduction/Loading-3D-models) 加载器加载资源。它返回一个带有加载后资源的Promise。
 
 ```ts
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader'
@@ -83,7 +83,7 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader'
 const { scene } = await useLoader(THREE.GLTFLoader, 'path/to/asset.gltf')
 ```
 
-Since the `useLoader` composable returns a promise, you can use it with `async/await` or `then/catch`. If you are using it on a component make sure you wrap it with a `Suspense` component. See [Suspense](https://vuejs.org/guide/built-ins/suspense.html#suspense) for more information.
+由于 `useLoader`组合API返回一个Promise，您可以使用 `async/await` 或 `then/catch`。如果您在组件上使用它，请确保将其包装在 `Suspense` 组件中。有关更多信息，请参阅[Suspense](https://vuejs.org/guide/built-ins/suspense.html#suspense)。
 
 ```vue
 <template>
@@ -95,24 +95,24 @@ Since the `useLoader` composable returns a promise, you can use it with `async/a
 
 ## useTexture
 
-The `useTexture` composable allows you to load textures using the [THREE.js texture loader](https://threejs.org/docs/#api/en/loaders/TextureLoader). It returns a promise with the loaded texture(s).
+`useTexture` 组合API可以使用 [THREE.js texture loader](https://threejs.org/docs/#api/en/loaders/TextureLoader) 纹理加载器加载纹理。它返回一个带有已加载纹理的Promise。
 
 ```ts
 const texture = await useTexture(['path/to/texture.png'])
 ```
 
-**useTexture** also accepts an object with the following properties:
+**useTexture** 还可以传入一个包含以下属性的对象：
 
-- `map`: a basic texture that is applied to the surface of an object
-- `displacementMap`: a texture that is used to add bumps or indentations to the object's surface
-- `normalMap`: a texture that is used to add surface detail to and variations in shading to the object
-- `roughnessMap`: a texture that is used to add roughness or a matte finish to the object's surface
-- `metalnessMap`: a texture that is used to add a metallic effect to the object's surface
-- `aoMap`: a texture that is used to add ambient occlusion (shading in areas where light is blocked by other objects) to the object.
-- `alphaMap`: a texture that is used to add alpha (the black part render as transparent) to the object. It's necessary to set :trasparent="true" on the material to use this map
-- `matcap`: this textures encodes the material color and shading.
+- `map`: 用于物体表面的基本纹理
+- `displacementMap`: 用于在物体表面添加凹凸或凹痕的纹理
+- `normalMap`: 用于在物体上添加表面细节和阴影变化的纹理
+- `roughnessMap`: 用于在物体表面添加粗糙度或哑光效果的纹理
+- `metalnessMap`: 用于在物体表面添加金属效果的纹理
+- `aoMap`: 用于在物体上添加环境遮蔽（在光被其他物体挡住的区域中添加阴影）的纹理
+- `alphaMap`: 用于向物体添加 alpha（黑色部分渲染为透明）的纹理。在材质上使用这个映射，需要设置 `:transparent="true"`
+- `matcap`: 材质颜色和阴影的纹理编码
 
-In that case it will return an object with the loaded textures.
+在这种情况下，它将返回一个包含已加载纹理的对象。
 
 ```ts
 const { map, displacementMap, normalMap, roughnessMap, metalnessMap, aoMap, alphaMap, matcap } = await useTexture({
@@ -127,7 +127,7 @@ const { map, displacementMap, normalMap, roughnessMap, metalnessMap, aoMap, alph
 })
 ```
 
-Then you can bind the textures to the material.
+然后，可以将纹理绑定到材质上。
 
 ```vue
 <template>
@@ -148,23 +148,23 @@ Then you can bind the textures to the material.
 </template>
 ```
 
-Similar to above composable, the `useTexture` composable returns a promise, you can use it with `async/await` or `then/catch`. If you are using it on a component make sure you wrap it with a `Suspense` component.
+与上述类似，`useTexture` 组合项返回一个Promise，您可以使用 `async/await` 或 `then/catch`。如果您在组件上使用它，请确保将其包装在 `Suspense` 组件中。
 
 ## useSeek
 
-The `useSeek` composable provides utilities to easily traverse and navigate through complex ThreeJS scenes and object children graphs. It exports 4 functions which allow you to find child objects based on specific properties.
+`useSeek` 组合API提供了一些实用工具，可轻松遍历和浏览复杂的ThreeJS场景和对象子图。它导出了4个函数，允许您根据特定属性查找子对象。
 
 ```ts
 const { seek, seekByName, seekAll, seekAllByName } = useSeek()
 ```
 
-The seek function accepts three parameters:
+`useSeek` 函数接受三个参数：
 
-- `parent`: A ThreeJS scene or Object3D.
-- `property`: The property to be used in the search condition.
-- `value`: The value of the property to match.
+- `parent`: 一个 ThreeJS 场景或 Object3D
+- `property`: 用于搜索条件的属性
+- `value`: 匹配的属性值
 
-The `seek` and `seekByName` function traverses the object and returns the child object with the specified property and value. If no child with the given property and value is found, it returns null and logs a warning.
+`seek` 和 `seekByName` 函数遍历对象并返回具有指定属性和值的子对象。如果找不到具有给定属性和值的子对象，则返回 null 并抛出警告。
 
 ```ts
 const carRef = ref(null)
@@ -179,7 +179,7 @@ watch(carRef, ({ model }) => {
 })
 ```
 
-Similarly, the `seekAll` and `seekAllByName` functions return an array of child objects whose property includes the given value. If no matches are found, then they return an empty array and a warning is logged.
+类似地，`seekAll` 和 `seekAllByName` 函数返回一个包含具有指定属性和值的子对象的数组。如果没有找到匹配项，则返回一个空数组，并抛出警告。
 
 ```ts
 const character = ref(null)
@@ -192,7 +192,8 @@ watch(character, ({ model }) => {
 ```
 
 ## useTresContext
-This composable aims to provide access to the state model which contains multiple useful properties.
+
+这个组合API提供对包含多个有用属性的状态模型的访问。
 
 ```ts
 const { camera, renderer, camera, cameras } = useTresContext()
@@ -200,7 +201,7 @@ const { camera, renderer, camera, cameras } = useTresContext()
 ```
 
 ::: warning
-`useTresContext` can be only be used inside of a `TresCanvas` since `TresCanvas` acts as the provider for the context data. Use [the context exposed by TresCanvas](tres-canvas#exposed-public-properties) if you find yourself needing it in parent components of TresCanvas. 
+`useTresContext` 只能在 `TresCanvas` 内部使用，因为 `TresCanvas` 充当上下文数据的提供者。如果在TresCanvas的父组件中需要上下文，请使用[TresCanvas暴露的上下文](tres-canvas#exposed-public-properties)。
 :::
 
 ```vue
@@ -219,18 +220,18 @@ const context = useTresContext()
 </script>
 ```
 
-### Properties of context
-| Property | Description |
+### 上下文的属性
+| 属性 | 描述 |
 | --- | --- |
-| **camera** | the currently active camera |
-| **cameras** | the cameras that exist in the scene |
-| **controls** | the controls of your scene |
-| **deregisterCamera** | a method to deregister a camera. This is only required if you manually create a camera. Cameras in the template are deregistered automatically. |
-| **extend** | Extends the component catalogue. See [extending](/advanced/extending) |
-| **raycaster** | the global raycaster used for pointer events |
-| **registerCamera** | a method to register a camera. This is only required if you manually create a camera. Cameras in the template are registered automatically. |
-| **renderer** | the [WebGLRenderer](https://threejs.org/docs/#api/en/renderers/WebGLRenderer) of your scene |
-| **scene** | the [scene](https://threejs.org/docs/?q=sce#api/en/scenes/Scene). |
-| **setCameraActive** | a method to set a camera active |
-| **sizes** | contains width, height and aspect ratio of your canvas |
+| **camera** | 当前激活的相机 |
+| **cameras** | 场景中存在的相机|
+| **controls** | 场景控件 |
+| **deregisterCamera** | 用于取消注册相机的方法。仅在手动创建相机时需要。`template` 中的相机会自动取消注册。 |
+| **extend** | 扩展组件目录。请查看 [extending](/advanced/extending) |
+| **raycaster** | 用于鼠标事件的全局光线投射器 |
+| **registerCamera** | 用于注册相机的方法。只有在手动创建相机时才需要。在 `template` 中，相机会自动注册。 |
+| **renderer** | 场景中的 [WebGLRenderer](https://threejs.org/docs/#api/en/renderers/WebGLRenderer) |
+| **scene** | [场景](https://threejs.org/docs/?q=sce#api/en/scenes/Scene) |
+| **setCameraActive** | 设置当前激活的相机 |
+| **sizes** | 画布的宽度、高度和宽高比 |
 
