@@ -89,7 +89,7 @@ Du kannst auch Eigenschaften an die Komponente übergeben. Zum Beispiel hat das 
 
 ### Werte Setzen
 
-Alle Eigenschaften, deren zugrunde liegendes Objekt eine `.set()`-Methode hat, haben eine Kurzform, um den Wert als Array zu erhalten. Zum Beispiel hat die `TresPerspectiveCamera` eine Eigenschaft `position`, die ein `Vector3` Objekt ist, so dass du es der Komponente auf diese Weise übergeben kannst:
+Alle Eigenschaften, die in der zugrundeliegenden Klasse eine `.set()`-Methode haben, können via Prop als Array übergeben werden. Zum Beispiel hat die `TresPerspectiveCamera` eine Eigenschaft `position`, die ein `Vector3`-Objekt ist. Du kannst ihren Wert so setzen:
 
 ```html
 <TresPerspectiveCamera :position="[1, 2, 3]" />
