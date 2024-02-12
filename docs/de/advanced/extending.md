@@ -2,7 +2,7 @@
 
 Tres bietet grundlegende Funktionalitäten, aber es ist einfach, Drittanbieterelemente hinzuzufügen.
 
-Die meisten 3D-Erlebnisse nutzen `OrbitControls`, die nicht Teil der Hauptbibliothek sind. Du kannst sie zu deinem Projekt hinzufügen, indem du sie aus dem Modul `three/addons/controls/OrbitControls` importierst.
+Die meisten 3D-Szenen nutzen `OrbitControls`, das nicht Teil der Hauptbibliothek ist. Du kannst es zu deinem Projekt hinzufügen, indem du es aus dem Modul `three/addons/controls/OrbitControls` importierst.
 
 ```js
 import { OrbitControls } from 'three/addons/controls/OrbitControls'
