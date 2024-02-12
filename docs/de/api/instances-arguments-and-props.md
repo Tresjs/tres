@@ -55,7 +55,7 @@ Aber mit **Tres** ist das nicht notwendig, du kannst die Eigenschaften auf dekla
 
 ## Argumente
 
-Einige ThreeJS-Objekte haben Argumente, zum Beispiel hat der Konstruktor `PerspectiveCamera` folgende Argumente:
+Einige Three.js-Objekte haben Argumente. Zum Beispiel hat der Konstruktor `PerspectiveCamera` folgende Argumente:
 
 - `fov` - Vertikales Sichtfeld der Kamera.
 - `aspect` - Seitenverhältnis des Kamera-Frustums.
