@@ -1,6 +1,6 @@
 # TresCanvas
 
-Die `TresCanvas` Komponente ist die Haupt-Komponente von Tres, welche den `WebGLRenderer` erstellt.
+Die `TresCanvas` Komponente ist die Hauptkomponente von Tres, welche den `WebGLRenderer` erstellt.
 
 ```vue{2,5}
 <template>
