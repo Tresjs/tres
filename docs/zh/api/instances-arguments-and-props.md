@@ -60,6 +60,7 @@ ThreeJS对象的一些参数，例如，`PerspectiveCamera` 构造函数有以�
 - `near` - 相机截锥体的近裁剪面。
 - `far` - 相机截锥体的远裁剪面。
 
+
 要将这些参数传递给 `TresPerspectiveCamera` 组件，您可以使用 `args` prop：
 
 ```vue
@@ -103,6 +104,7 @@ const camera = new PerspectiveCamera(45, 1, 0.1, 1000)
 ```
 
 ::: warning
+
 
 在 [three.js](https://threejs.org/docs/index.html#api/en/math/Euler) 中设置旋转属性时，默认会使用'XYZ'顺序。
 值得注意的是，使用简写设置旋转属性时，设置角度的顺序是重要的。关于该主题的更多信息，请参阅 [Euler angles](https://en.wikipedia.org/wiki/Euler_angles)。
