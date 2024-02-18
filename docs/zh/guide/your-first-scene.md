@@ -10,7 +10,7 @@
 
 ## 设置体验画布
 
-在我们创建场景前，我们需要一个什么来展示它。使用原始的 [ThreeJS](https://threejs.org/docs/index.html#manual/en/introduction/Creating-a-scene) 我们会需要创建一个 `canvas` HTML 原始来挂载 `WebglRenderer` 并初始化一个场景。
+在我们创建场景前，我们需要一个什么来展示它。使用原始的 [ThreeJS](https://threejs.org/docs/index.html#manual/en/introduction/Creating-a-scene) 我们会需要创建一个 `canvas` HTML 元素来挂载 `WebglRenderer` 并初始化一个场景。
 
 通过 **TresJS** 你仅仅需要导入默认组件 `<TresCanvas />` 并把它添加到你的 Vue 组件的模板部分即可。
 
@@ -37,7 +37,7 @@ import { TresCanvas } from '@tresjs/core'
 
 ## 画布尺寸
 
-默认的情况下，`TresCanvas` 组件会跟随**父元素的宽高**，如果你的如果出现空白页，请确保父元素的大小合适。
+默认的情况下，`TresCanvas` 组件会跟随**父元素的宽高**，如果出现空白页，请确保父元素的大小合适。
 
 ```vue
 <script lang="ts" setup>

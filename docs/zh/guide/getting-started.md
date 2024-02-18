@@ -75,7 +75,7 @@ import { TresCanvas } from '@tresjs/core'
 
 ## Vite
 
-由于 v2 是自定义的呈现器，我们需要让应用程序的 `vue-compiler` 知道 Tres 的组件是被包含在内的，以避免出现 `[Vue warn]: Failed to resolve component` 警告。
+由于 v2 是自定义渲染器，我们需要让应用程序的 `vue-compiler` 知道 Tres 的组件是被包含在内的，以避免出现 `[Vue warn]: Failed to resolve component` 警告。
 
 您只需将此添加到 vue 插件中的 `vite.config.ts`：
 
