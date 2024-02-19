@@ -1,15 +1,14 @@
-# WIP
-<!-- # Nuxt module `@tresjs/nuxt`
+# Module Nuxt `@tresjs/nuxt`
 
 ![TresJS Nuxt Module](/nuxt-stones.png)
 
 <a href="https://www.npmjs.com/package/@tresjs/nuxt"><img src="https://img.shields.io/npm/v/@tresjs/nuxt/latest?color=%2382DBCA" alt="npm package"></a>
 
-¡Aquí está el módulo oficial de Nuxt para TresJS! 🎉.
+Voici le module Nuxt officiel pour TresJS! 🎉.
 
-El repositorio está [aquí](https://github.com/Tresjs/nuxt)
+Le dépot se trouve [ici](https://github.com/Tresjs/nuxt)
 
-## Instalación
+## Installation
 
 ::: code-group
 
@@ -27,16 +26,16 @@ yarn add three @tresjs/nuxt
 
 :::
 
-## Características
+## Fonctionnalités
 
-- 🤓 Importación automática de componentes y composables del [ecosistema de TresJS](https://github.com/orgs/Tresjs/repositories)
-- `TresCanvas` esta disponible solo en el cliente, no es necesario agregar `.client` al nombre del componente o `<ClientOnly />`
-- Configura automáticamente el compilador de Vue para admitir componentes de TresJS, consulta [por qué](/guide/troubleshooting.html#failed-resolve-component-trescomponent-%F0%9F%A4%94)?
-- Toda la magia de DX que viene con Nuxt ✨
+- 🤓 Importation automatique des composants et des composables de [l'écosystème TresJS](https://github.com/orgs/Tresjs/repositories)
+- `TresCanvas` est disponible uniquement dans le client, pas besoin d'ajouter `.client` au nom du composant ou `<ClientOnly />`
+- Configure automatiquement le compilateur de Vue pour accepter les composants de TresJS, voir [pourquoi?](/guide/troubleshooting.html#failed-resolve-component-trescomponent-%F0%9F%A4%94)?
+- Toute la magie de DX qui viens avec Nuxt ✨
 
-## Uso
+## Usage
 
-Agrega `@tresjs/nuxt` a la sección `modules` de `nuxt.config.ts`
+Ajoutez `@tresjs/nuxt` à la section `modules` de votre `nuxt.config.ts`
 
 ```js
 export default defineNuxtConfig({
@@ -44,9 +43,9 @@ export default defineNuxtConfig({
 })
 ```
 
-¡Eso es todo! Ahora puedes usar `@tresjs/nuxt` en tu aplicación Nuxt ✨
+C'est tout! Maintenant vous pouvez utilisez `@tresjs/nuxt` dans votre application Nuxt ✨
 
-Si deseas utilizar cualquier paquete del ecosistema de TresJS, puedes instalar los paquetes que desees utilizar y serán importados automáticamente por el módulo 🧙🏼‍♂️.
+Si vous souhaitez utiliser n'importe quel autre paquet de l'écosytème TresJS, installez simplement le paquet et il sera automatiquement importé par le module 🧙🏼‍♂️.
 
 | Package                     | Version                                                                                            |
 | --------------------------- | :------------------------------------------------------------------------------------------------- |
@@ -54,6 +53,6 @@ Si deseas utilizar cualquier paquete del ecosistema de TresJS, puedes instalar l
 | [Post-processing](https://github.com/Tresjs/post-processing) | ![post-processing version](https://img.shields.io/npm/v/@tresjs/post-processing/latest.svg?label=%20&color=ff69b4) |
 
 ```bash
-# Usando pnpm
+# Avec pnpm
 pnpm add @tresjs/cientos @tresjs/post-processing
-``` -->
+```
