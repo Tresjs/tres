@@ -1,3 +1,11 @@
+---
+title: Basic Animations
+description: How to use a the useRenderLoop composable to animate your objects.
+author: alvarosabu
+thumbnail: /recipes/animations.png
+difficulty: 0
+---
+
 # Basic Animations
 
 This guide will help you get started with basic animations in TresJS.
