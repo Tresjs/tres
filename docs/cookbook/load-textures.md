@@ -1,3 +1,11 @@
+---
+title: Load Textures
+description: Add texture maps to your TresJS objects.
+author: alvarosabu
+thumbnail: /recipes/load-textures.png
+difficulty: 1
+---
+
 # Load Textures
 
 > All textures used in this example are from [ambientcg](https://ambientcg.com/).

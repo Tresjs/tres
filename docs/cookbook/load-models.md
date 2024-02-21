@@ -3,7 +3,7 @@ title: Load Models
 description: Load 3D models into your Tres scenes.
 author: alvarosabu
 thumbnail: /recipes/gltf-model.png
-difficulty: 2
+difficulty: 1
 ---
 
 # Load Models
@@ -39,7 +39,7 @@ Then you can pass the model scene to a TresJS [`primitive`](/advanced/primitive)
 
 ```html{2}
 <TresCanvas>
-    <primitive :object="scene" />
+  <primitive :object="scene" />
 </TresCanvas>
 ```
 

@@ -1,3 +1,11 @@
+---
+title: Text 3D
+description: Add 3D text with ease
+author: alvarosabu
+thumbnail: /recipes/text-3d.png
+difficulty: 1
+---
+
 # Text3D
 
 [TextGeometry](https://threejs.org/docs/index.html?q=text#examples/en/geometries/TextGeometry) is one of the ways we can add 3D text in our scene.

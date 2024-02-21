@@ -1,3 +1,11 @@
+---
+title: Lights and Shadows
+description: Learn how to add lights and shadows to your scene.
+author: alvarosabu
+thumbnail: /recipes/lights-and-shadows.png
+difficulty: 0
+---
+
 # Light-shadows
 
 This guide will help you get started with simple light and shadows in TresJS.
