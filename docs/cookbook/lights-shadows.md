@@ -16,7 +16,7 @@ We will build a simple scene with three meshes and a plane but only two will hav
 ## Setting up the scene (optional)
 
 We import all the modules that we need, for comfort we can use the orbit-controls from cientos,
-[check here to know how](/examples/orbit-controls).
+[check here to know how](/cookbook/orbit-controls).
 
 Let's put four objects in our scene, one will be the plane that receive shadows, two of them will cast shadows and the last one will not cast any shadow at all.
 
@@ -147,7 +147,7 @@ Similarly to the previous step, we set the mesh that we want to cast shadow (our
 </template>
 ```
 
-Now we have all the necessary steps to add shadows to our scene, and if we apply what we learned in [basic animations](/examples/basic-animations), and we add movement to our cube, you will see the shadow is animated as well 🤩
+Now we have all the necessary steps to add shadows to our scene, and if we apply what we learned in [basic animations](/cookbook/basic-animations), and we add movement to our cube, you will see the shadow is animated as well 🤩
 
 ```vue
 <script setup>

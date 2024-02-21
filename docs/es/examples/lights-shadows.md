@@ -9,7 +9,7 @@ Construiremos una escena simple con tres mallas y un plano, pero solo dos tendr�
 ## Configurando la escena (opcional)
 
 Importamos todos los módulos que necesitamos, para mayor comodidad podemos usar orbit-controls de cientos,
-[ver aquí para saber cómo](/examples/orbit-controls).
+[ver aquí para saber cómo](/cookbook/orbit-controls).
 
 Coloquemos cuatro objetos en nuestra escena, uno será el plano que recibirá sombras, dos de ellos proyectarán sombras y el último no proyectará ninguna sombra en absoluto.
 
@@ -140,7 +140,7 @@ De manera similar al paso anterior, configuramos la malla que queremos que proye
 </template>
 ```
 
-Ahora tenemos todos los pasos necesarios para agregar sombras a nuestra escena, y si aplicamos lo que aprendimos en [animaciones básicas](/examples/basic-animations), y agregamos movimiento a nuestro cubo, verás que la sombra también se anima 🤩
+Ahora tenemos todos los pasos necesarios para agregar sombras a nuestra escena, y si aplicamos lo que aprendimos en [animaciones básicas](/cookbook/basic-animations), y agregamos movimiento a nuestro cubo, verás que la sombra también se anima 🤩
 
 ```vue
 <script setup>

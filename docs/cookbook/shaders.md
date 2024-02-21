@@ -21,7 +21,7 @@ _Basic knowledge of how shaders work is necessary_
 ## Setting up the scene (optional)
 
 We import all the modules that we need, for comfort we can use the orbit-controls from cientos,
-[look here to see how](/examples/orbit-controls).
+[look here to see how](/cookbook/orbit-controls).
 
 Now, let's put our camera in the `[11,11,11]` position.
 
@@ -118,7 +118,7 @@ void main() {
 
 ## Animating the blob
 
-Similar to what we learn in the [Basic animations](/examples/basic-animations) example, we start by referencing our blob, using [Template Ref](https://vuejs.org/guide/essentials/template-refs.html)
+Similar to what we learn in the [Basic animations](/cookbook/basic-animations) example, we start by referencing our blob, using [Template Ref](https://vuejs.org/guide/essentials/template-refs.html)
 
 ```vue
 <script setup lang="ts">

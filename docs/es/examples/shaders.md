@@ -13,7 +13,7 @@ _Es necesario tener conocimientos básicos sobre cómo funcionan los shaders_
 ## Configurando la escena (opcional)
 
 Importamos todos los módulos que necesitamos. Para mayor comodidad, podemos usar los orbit-controls de cientos.
-[Consulta aquí para ver cómo](/examples/orbit-controls).
+[Consulta aquí para ver cómo](/cookbook/orbit-controls).
 
 Ahora, coloquemos nuestra cámara en la posición `[11,11,11]`.
 
@@ -110,7 +110,7 @@ void main() {
 
 ## Animando el blob
 
-Similar a lo que aprendimos en el ejemplo de [Animaciones básicas](/examples/basic-animations), comenzamos haciendo referencia a nuestro blob utilizando [Template Ref](https://vuejs.org/guide/essentials/template-refs.html)
+Similar a lo que aprendimos en el ejemplo de [Animaciones básicas](/cookbook/basic-animations), comenzamos haciendo referencia a nuestro blob utilizando [Template Ref](https://vuejs.org/guide/essentials/template-refs.html)
 
 ```vue
 <script setup lang="ts">
