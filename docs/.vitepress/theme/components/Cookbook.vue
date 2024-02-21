@@ -1,7 +1,5 @@
 <script setup>
 import { data as recipes } from '../recipes.data.ts'
-
-console.log(recipes)
 </script>
 
 <template>
