@@ -14,6 +14,7 @@ declare module 'vue' {
     DanielTest: typeof import('./src/components/DanielTest.vue')['default']
     DebugUI: typeof import('./src/components/DebugUI.vue')['default']
     DeleteMe: typeof import('./src/components/DeleteMe.vue')['default']
+    DynamicModel: typeof import('./src/components/DynamicModel.vue')['default']
     FBXModels: typeof import('./src/components/FBXModels.vue')['default']
     Gltf: typeof import('./src/components/gltf/index.vue')['default']
     LocalOrbitControls: typeof import('./src/components/LocalOrbitControls.vue')['default']
