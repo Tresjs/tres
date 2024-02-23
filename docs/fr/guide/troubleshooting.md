@@ -4,13 +4,13 @@
 
 Bienvenue dans le guide de résolution de problèmes de **TresJS v2**. Où 3D veux dire _"Difficulté Déraisonnablement Délicieuse"_! Nous savons que la 3D peut être aussi complèxe qu'une pelotte de laine 🧶 ou aussi imprévisible qu'un chat sur un clavier 🐈 ⌨️, mais n'ayez crainte!
 
-Ce guide à pour vocation à vous aider à résoudre les problèmes les plus communs que vous pourriez rencontrer en utilisant TresJS v2.
+Ce guide a pour vocation de vous aider à résoudre les problèmes les plus communs que vous pourriez rencontrer en utilisant TresJS v2.
 
 ## Je ne vois pas ma scène 3D 😭!
 
-Vous avez suivi l'[introduction](/guide/getting-started.md) mais vous n'avez toujours aucun rendu dans votre scène.
+Vous avez suivi l'[introduction](/guide/getting-started.md) mais vous n'avez toujours aucun rendu de votre scène.
 
-Voici les raisons les plus courantes de pourquoi votre scène n'est toujours pas visivble:
+Voici les raisons les plus courantes qui pourraient expliquer pourquoi votre scène n'est toujours pas visible:
 
 ### Verifiez la taille de votre canvas 📏
 
@@ -22,7 +22,7 @@ Vous aurez aussi cette erreur dans la console:
 
 ![Avertissement sur la hauteur du canvas](/canvas-height-warning.png)
 
-Le plus simple pour résoudre ce soucis est de donner à l'élément parent une hauteur de `100%`:
+Le plus simple pour résoudre ce souci est de donner à l'élément parent une hauteur de `100%`:
 
 ```css
 html,
@@ -52,13 +52,13 @@ Ou vous pouvez utiliser la propriété `window-size` du composant `TresCanvas`:
 
 ![](/failed-to-resolve-component.png)
 
-Depuis que **TresJS v2** utilise un moteur de rendu Personnalisé à l'interieur de l'instance principale de l'application Vue, le moteur de rendu principal de Vue qui agis comme un parent ne reconnaitra pas les composants à l'intérieur de `TresCanvas`. Même si cela n'a aucun effet sur le rendu, ça affichera un avertissement dans la console.
+Étant donné que **TresJS v2** utilise un moteur de rendu Personnalisé au sein de l'instance principale de l'application Vue, le moteur de rendu principal de Vue, agissant comme un parent, ne reconnaitra pas les composants au sein de `TresCanvas`. Même si cela n'a aucun effet sur le rendu, cela affichera un avertissement dans la console.
 
 ![](/failed-to-resolve-component.png)
 
 Actuellement, il n'est pas possible de définir nativement un autre moteur de rendu pour le `<template />`, mais voici la solution pour éviter les avertissements.
 
-Dans votre `vite.config.ts` ajoutez la configuration pour le plugin `@vitejs/plugin-vue`:
+Dans votre `vite.config.ts`, ajoutez la configuration pour le plugin `@vitejs/plugin-vue`:
 
 ```ts
 import { defineConfig } from 'vite'
@@ -77,12 +77,12 @@ export default defineConfig({
 
 Ceci retirera les avertissements dans la console.
 
-# Aidez nous à faire en sorte que TresJS soit purr-fais! 😼
+# Aidez nous à faire en sorte que TresJS soit purr-fait! 😼
 
 Nous savons que même les meilleurs font parfois des erreurs, et nous avons besoin de votre aide pour rendre TresJS encore meilleur ! Si vous trouvez un bug, veuillez ouvrir un ticket sur [le dépôt](https://github.com/Tresjs/playground) et **fournir un lien de reproduction.**
 
 ::: warning
-Les tickets sans lien de reproductions seront fermés
+Les tickets sans lien de reproduction seront fermés
 :::
 
 Notre équipe de développeurs amoureux des chats passera à l'action pour éliminer ces bugs embêtants et améliorer TresJS pour tout le monde. Ensemble, faisons de TresJS le miaulement de chat du rendu 3D dans Vue !
