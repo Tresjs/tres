@@ -9,22 +9,22 @@
 ::: code-group
 
 ```bash [npm]
-npm install @tresjs/core three 
+npm install @tresjs/core three
 ```
 
 ```bash [yarn]
-yarn add @tresjs/core three 
+yarn add @tresjs/core three
 ```
 
 ```bash [pnpm]
-pnpm add @tresjs/core three 
+pnpm add @tresjs/core three
 ```
 
 :::
 
 ## Typescript
 
-TresJS est écrit en TypeScript et est entièrement typé. Si vous utilisez Typescript, vous pouvez obtenir tous les bénéfices du typage. Assurez vous seulement d'installer les types pour Three.
+TresJS est écrit en TypeScript et est entièrement typé. Si vous utilisez Typescript, vous pouvez obtenir tous les bénéfices du typage. Assurez-vous seulement d'installer les types pour Three.
 
 ::: code-group
 
@@ -59,7 +59,7 @@ export default defineConfig({
 })
 ```
 
-Ceci est nécessaire afin que le compilateur de template fonctionne avec le moteur de rendu personnalisé et ne renvoi pas d'erreur dans la console. Pour plus d'informations, consultez [cet article](/guide/troubleshooting.html).
+Ceci est nécessaire afin que le compilateur de template fonctionne avec le moteur de rendu personnalisé et ne renvoie pas d'erreur dans la console. Pour plus d'informations, consultez [cet article](/guide/troubleshooting.html).
 
 ## Essayer en ligne
 
@@ -85,13 +85,13 @@ Nous avons aussi un playground où vous pouvez essayer TresJS en ligne. Testez [
 
 ## Motivation
 
-[ThreeJS](https://threejs.org/) est une bibliothèque merveilleuse pour faire de superbe site en 3D avec WebGL. C'est aussi une bibliothèque en perpétuelle évolution ce qui rend complèxe le maintien de wrapper comme [TroisJS](https://troisjs.github.io/) afin de le garder constamment à jour.
+[ThreeJS](https://threejs.org/) est une merveilleuse bibliothèque pour faire de superbes sites en 3D avec WebGL. C'est aussi une bibliothèque en perpétuelle évolution, ce qui rend complèxe le maintien de wrapper comme [TroisJS](https://troisjs.github.io/) afin de le garder constamment à jour.
 
 L'écosytème React possède un impréssionnant **moteur de rendu personnalisé** appellé [React-three-fiber](https://docs.pmnd.rs/react-three-fiber) qui permet de créer des scènes 3D, de manière déclarative, avec des composants réutilisables et autonomes qui réagissent aux états.
 
 Dans ma recherche d'un outil similaire dans l'écosytème VueJS j'ai trouvé cette incroyable bibliothèque nommée [Lunchbox](https://github.com/breakfast-studio/lunchboxjs) qui fonctionne de la même manière que R3F, il propose un [moteur de rendu personnalisé Vue3](https://vuejs.org/api/custom-renderer.html). Je contribue aussi à améliorer cette bibliothèque afin qu'elle devienne aussi mature et complète que R3F.
 
-Le seul problème est que mélanger les compilateurs et les moteurs de rendu en Vue3 est un sujet sur lequel la communauté Vue travail encore. Pour plus d'informations voir [ici](https://github.com/vuejs/vue-loader/pull/1645).
+Le seul problème concerne le mélange des compilateurs et des moteurs de rendu en Vue3. C'est un sujet sur lequel la communauté Vue travaille encore. Pour plus d'informations voir [ici](https://github.com/vuejs/vue-loader/pull/1645).
 
 ```ts
 // Example Vite setup
@@ -110,5 +110,4 @@ const lunchboxApp = createLunchboxApp(LunchboxApp)
 lunchboxApp.mount('#lunchbox')
 ```
 
-Ces deux bibliothèque m'ont donc inspiré pour créer un moteur de rendu personnalisé Vue pour ThreeJS. Il s'appel **TresJS v2**.
-
+Ces deux bibliothèques m'ont donc inspiré pour créer un moteur de rendu personnalisé Vue pour ThreeJS. Il s'appel **TresJS v2**.
