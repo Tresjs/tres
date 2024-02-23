@@ -6,22 +6,22 @@
 
 Voici le module Nuxt officiel pour TresJS! 🎉.
 
-Le dépot se trouve [ici](https://github.com/Tresjs/nuxt)
+Le dépôt se trouve [ici](https://github.com/Tresjs/nuxt)
 
 ## Installation
 
 ::: code-group
 
 ```bash [pnpm]
-pnpm add three @tresjs/nuxt 
+pnpm add three @tresjs/nuxt
 ```
 
 ```bash [npm]
-npm install three @tresjs/nuxt 
+npm install three @tresjs/nuxt
 ```
 
 ```bash [yarn]
-yarn add three @tresjs/nuxt 
+yarn add three @tresjs/nuxt
 ```
 
 :::
@@ -30,8 +30,8 @@ yarn add three @tresjs/nuxt
 
 - 🤓 Importation automatique des composants et des composables de [l'écosystème TresJS](https://github.com/orgs/Tresjs/repositories)
 - `TresCanvas` est disponible uniquement dans le client, pas besoin d'ajouter `.client` au nom du composant ou `<ClientOnly />`
-- Configure automatiquement le compilateur de Vue pour accepter les composants de TresJS, voir [pourquoi?](/guide/troubleshooting.html#failed-resolve-component-trescomponent-%F0%9F%A4%94)?
-- Toute la magie de DX qui viens avec Nuxt ✨
+- Configuration automatique du compilateur de Vue pour accepter les composants de TresJS, voir [pourquoi?](/guide/troubleshooting.html#failed-resolve-component-trescomponent-%F0%9F%A4%94)?
+- Toute la magie de DX qui vient avec Nuxt ✨
 
 ## Usage
 
@@ -43,7 +43,7 @@ export default defineNuxtConfig({
 })
 ```
 
-C'est tout! Maintenant vous pouvez utilisez `@tresjs/nuxt` dans votre application Nuxt ✨
+C'est tout! Maintenant vous pouvez utiliser `@tresjs/nuxt` dans votre application Nuxt ✨
 
 Si vous souhaitez utiliser n'importe quel autre paquet de l'écosytème TresJS, installez simplement le paquet et il sera automatiquement importé par le module 🧙🏼‍♂️.
 
