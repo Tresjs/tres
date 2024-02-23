@@ -55,7 +55,7 @@ app.use(Tres)
 app.mount('#app')
 ```
 
-Ou vous pouvez l'utilisez directement dans vos composants
+Ou vous pouvez l'utiliser directement dans vos composants
 
 ```vue
 <script setup lang="ts">
@@ -75,7 +75,7 @@ Ceci est recommandé pour des raisons de performances et de taille du projet. Le
 
 ## Vite
 
-Depuis que v2 es un moteur de rendu personnalisé, il nous faut informer le `vue-compiler` de votre application que les composants de Tres sont autorisés à être importé sans retourné l'erreur : `[Vue warn]: Failed to resolve component`.
+Depuis que v2 es un moteur de rendu personnalisé, il nous faut informer le `vue-compiler` de votre application que les composants de Tres sont autorisés à être importés sans retourner l'erreur : `[Vue warn]: Failed to resolve component`.
 
 Vous devez seulement ajouter ceci à votre `vite.config.ts` dans le plugin Vue:
 
