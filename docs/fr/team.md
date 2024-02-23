@@ -18,7 +18,7 @@ import { core } from '../_data/team'
   <VPTeamPageTitle>
     <template #title>Rencontrez l'équipe</template>
     <template #lead>
-      L'écosystème TresJS est développé et maintenu par une équipe mondiale.
+      L'écosystème TresJS est développé et maintenu par une équipe internationale.
     </template>
   </VPTeamPageTitle>
   <VPTeamMembers :members="core" />
