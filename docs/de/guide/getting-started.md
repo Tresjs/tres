@@ -22,8 +22,7 @@ yarn add three @tresjs/core
 
 ## Typescript
 
-TresJS ist in Typescript geschrieben und vollständig typisiert. Wenn du Typescript verwendest, wirst du alle Vorteile der Typisierung genießen. Stelle nur sicher, dass du die Typdeklarationen für Three installierst.
-
+TresJS ist in Typescript geschrieben und vollständig typisiert. Installiere auch die Typdeklarationen für Three um alle Vorteile von Typescript zu genießen.
 
 ::: code-group
 
@@ -72,18 +71,15 @@ import { TresCanvas } from '@tresjs/core'
 ```
 
 ::: tip
-Dies wird aus Gründen der Leistung und der Paketgröße empfohlen, da das Tree-Shaking besser funktionieren wird und du nur die Komponenten importierst, die du verwendest.
+Aufgrund von Performance und Größe des Bundles ist dieser Ansatz zu empfelhen, da das Tree-Shaking besser funktionieren wird und nur die tatsächlich verwendeten Komponenten importiert werden.
 :::
 
 
 ## Vite
 
-Da die Version 2 ein benutzerdefinierter Renderer ist, müssen wir dem `vue-compiler` deiner Anwendung mitteilen, dass die Tres-Komponenten einbezogen werden dürfen, um die Warnung `[Vue warn]: Failed to resolve component` zu vermeiden.
+Da die Version 2 ein benutzerdefinierter Renderer ist, müssen wir dem `vue-compiler` deiner Anwendung mitteilen, dass die Tres-Komponenten einbezogen werden, um die Warnung `[Vue warn]: Failed to resolve component` zu vermeiden.
 
-Du musst dies lediglich zu deiner `vite.config.ts`-Datei innerhalb des Vue-Plugins hinzufügen:
-
-
-
+Du musst lediglich Folgendes zu deiner `vite.config.ts`-Datei innerhalb des Vue-Plugins hinzufügen:
 
 
 ```ts

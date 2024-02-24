@@ -58,7 +58,7 @@ Da **TresJS v2** einen benutzerdefinierten Vue-Renderer innerhalb der Hauptinsta
 
 Derzeit gibt es keine native Unterstützung von Vue, um den verwendeten Renderer im `<template />`-Tag zu definieren, aber es gibt eine schnelle Lösung, um die Warnungen zu entfernen.
 
-Gehe zu deiner Datei `vite.config.ts` und füge die folgende Konfiguration zum `@vitejs/plugin-vue` hinzu:
+Öffne `vite.config.ts` und füge die folgende Konfiguration zum `@vitejs/plugin-vue` hinzu um die Warnung aus der Konsole zu entfernen:
 
 ```ts
 import { defineConfig } from 'vite'
@@ -75,11 +75,9 @@ export default defineConfig({
 })
 ```
 
-Das wird die Warnung in der Konsole entfernen.
-
 # Hilf uns, TresJS miau-tastisch zu machen! 😼
 
-Wir wissen, dass selbst die besten Schlafkatzen gelegentlich Fehler machen, und wir brauchen deine Hilfe, um TresJS noch besser zu machen! Wenn du einen Fehler findest, eröffne bitte ein Ticket im [Repository](https://github.com/Tresjs/playground) und **bitte stelle einen Reproduktionslink bereit**.
+Wir wissen, dass selbst die besten Schlafkatzen gelegentlich Fehler machen, und wir brauchen deine Hilfe, um TresJS noch besser zu machen! Wenn du einen Fehler findest, öffne bitte ein Ticket im [Repository](https://github.com/Tresjs/tres/issues) und **bitte stelle einen Reproduktionslink bereit**.
 
 ::: warning
 Tickets ohne einen Reproduktionslink werden geschlossen.

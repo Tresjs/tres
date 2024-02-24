@@ -24,7 +24,7 @@ pnpm add @tresjs/core three
 
 ## Typescript
 
-TresJS ist in Typescript geschrieben und vollständig typisiert. Wenn du Typescript verwendest, wirst du alle Vorteile der Typisierung genießen. Stelle nur sicher, dass du die Typdeklarationen für Three installierst.
+TresJS ist in Typescript geschrieben und vollständig typisiert. Installiere auch die Typdeklarationen für Three um alle Vorteile von Typescript zu genießen.
 
 ::: code-group
 
@@ -86,9 +86,9 @@ Wir haben auch einen Playground, wo du TresJS online testen kannst. Probiere es 
 
 ## Motivation
 
-[Three.js](https://threejs.org/) ist eine wunderbare Bibliothek für die Erstellung von erstaunlichen 3D-Webseiten mit WebGL. Es ist auch eine ständig aktualisierte Bibliothek, die es für die Maintainer von Wrappern wie [TroisJS](https://troisjs.github.io/) schwierig macht, mit allen Verbesserungen Schritt zu halten.
+[Three.js](https://threejs.org/) ist eine wunderbare Bibliothek für die Erstellung von erstaunlichen 3D-Webseiten mit WebGL. Sie wird konstant weiterentwickelt, was es für die Maintainer von Wrappern wie [TroisJS](https://troisjs.github.io/) schwierig macht, mit allen Verbesserungen Schritt zu halten.
 
-Das React-Ökosystem hat eine beeindruckende Lösung für das **benutzerdefinierte Rendering** namens [React-three-fiber](https://docs.pmnd.rs/react-three-fiber), die es dir ermöglicht, deine Szenen deklarativ mit wiederverwendbaren und selbstständigen Komponenten zu bauen, die auf den Zustand reagieren.
+Das React-Ökosystem hat eine beeindruckende Lösung für das **benutzerdefinierte Rendering** namens [react-three-fiber](https://docs.pmnd.rs/react-three-fiber), die es dir ermöglicht, deine Szenen deklarativ mit wiederverwendbaren und selbstständigen Komponenten zu bauen, die auf `reactive state` reagieren.
 
 Auf der Suche nach etwas Ähnlichem im VueJS-Ökosystem fand ich diese erstaunliche Bibliothek namens [Lunchbox](https://github.com/breakfast-studio/lunchboxjs), die mit demselben Konzept wie R3F arbeitet und einen [benutzerdefinierten Vue3-Renderer](https://vuejs.org/api/custom-renderer.html) bereitstellt. Ich trage auch dazu bei, diese Bibliothek zu verbessern, damit sie so ausgereift und funktionsreich wie R3F wird.
 

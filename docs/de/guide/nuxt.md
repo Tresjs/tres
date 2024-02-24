@@ -4,7 +4,7 @@
 
 <a href="https://www.npmjs.com/package/@tresjs/nuxt"><img src="https://img.shields.io/npm/v/@tresjs/nuxt/latest?color=%2382DBCA" alt="npm package"></a>
 
-Hier ist das offizielle Nuxt-Modul für TresJS! 🎉.
+Dies ist das offizielle Nuxt-Modul für TresJS! 🎉.
 
 Das Repository findest du [hier](https://github.com/Tresjs/nuxt).
 
@@ -26,7 +26,7 @@ yarn add three @tresjs/nuxt
 
 :::
 
-## Eigenschaften
+## Features
 
 - 🤓 Automatischer Import von Komponenten und Composables aus dem [TresJS-Ökosystem](https://github.com/orgs/Tresjs/repositories)
 - `TresCanvas` ist nur auf dem Client verfügbar, daher ist es nicht notwendig, `.client` zum Namen der Komponente hinzuzufügen oder `<ClientOnly />` zu verwenden

@@ -28,9 +28,9 @@ yarn upgrade @tresjs/core
 
 ![TresJS Intellisense](/v2-intellisense.gif)
 
-Dies war wahrscheinlich das am **meisten gefragte Feature für TresJS**. Jetzt funktionieren die Tres-Komponenten mit Volar und bieten Typ-Intellisense.
+Dies war wahrscheinlich das am **meisten gefragte Feature für TresJS**. Jetzt funktionieren die Tres-Komponenten mit Volar und bieten Type-Intellisense.
 
-**TresJS** generiert nun zur Kompilierungszeit Typdeklarationen für alle Komponenten basierend auf dem Three.js-Katalog. Das bedeutet, dass du alle Three.js-Komponenten verwenden und Typ-Intellisense dafür erhalten kannst.
+**TresJS** generiert nun zur Kompilierungszeit Typdeklarationen für alle Komponenten basierend auf dem Three.js-Katalog. Das bedeutet, dass du alle Three.js-Komponenten verwenden und Type-Intellisense dafür erhalten kannst.
 
 ### Das Tres-Plugin ist optional 👍
 
@@ -58,8 +58,8 @@ import { TresCanvas } from '@tresjs/core'
 </template>
 ```
 
-::: info
-Dies wird aus Gründen der Leistung und der Paketgröße empfohlen, da das Tree-Shaking besser funktionieren wird und du nur die Komponenten importierst, die du verwendest.
+::: tip
+Aufgrund von Performance und Größe des Bundles ist dieser Ansatz zu empfelhen, da das Tree-Shaking besser funktionieren wird und nur die tatsächlich verwendeten Komponenten importiert werden.
 :::
 
 ### TresScene ist nicht mehr notwendig
@@ -162,9 +162,9 @@ watch(modelRef, (model) => {
   <primitive :object="nodes.MyModel" />
 </template>
 ```
-### Kameras müssen vor jeglichen Steuerungen sein 🎥
+### Kameras müssen vor jeglichen Controls sein 🎥
 
-Die Komponente `TresOrbitControls` muss nach der Kamera im Baum stehen. Dies liegt daran, dass die Steuerungen die Kamera kennen müssen, um zu funktionieren.
+Die Komponente `TresOrbitControls` muss nach der Kamera im Baum stehen. Dies liegt daran, dass die Controls die Kamera kennen müssen, um zu funktionieren.
 
 Ändere dies:
 
@@ -192,9 +192,9 @@ Zu diesem:
 
 ## UseTres ist jetzt useTresContext <Badge type="warning" text="^3.0.0" />
 
-Für Version 3 haben wir die gesamte Zustandslogik umstrukturiert, um sie flexibler und einfacher für Entwickler von Plugins und Paketen des Ökosystems zu machen. Anstatt wie in Version 2 einen Store zu verwenden, nutzen wir jetzt einen Kontextanbieter basierend auf `provide/inject`.
+Für Version 3 haben wir die gesamte State-Logik umstrukturiert, um sie flexibler und einfacher für Entwickler von Plugins und Paketen des Ökosystems zu machen. Anstatt wie in Version 2 einen Store zu verwenden, nutzen wir jetzt einen Kontextanbieter basierend auf `provide/inject`.
 
-Die Funktion `useTres` ist jetzt ein Alias für die Funktion `useTresContext`, um bestehende Demos und Experimente nicht zu unterbrechen, aber erwäge stattdessen `useTresContext` zu verwenden.
+Die Funktion `useTres` ist jetzt ein Alias für die Funktion `useTresContext`, um bestehende Demos und Experimente nicht zu brechen, aber erwäge künftig `useTres` zu verwenden.
 
 Anstelle eines großen reaktiven Objekts erhältst du jetzt direkt die Referenzen `scene` und `renderer`, unter anderem.
 
