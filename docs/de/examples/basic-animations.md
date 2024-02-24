@@ -60,7 +60,7 @@ onLoop(({ delta, elapsed }) => {
 })
 ```
 
-Du kannst auch das `delta` der [internen Uhr von THREE](https://threejs.org/docs/?q=clock#api/en/core/Clock) oder das `elapsed` nutzen, um den Würfel zu animieren.
+Du kannst auch das `delta` der [internen Uhr von THREE](https://threejs.org/docs/?q=clock#api/en/core/Clock) oder `elapsed` nutzen, um den Würfel zu animieren.
 
 ## Aber warum nicht die Reaktivität nutzen?
 
