@@ -43,7 +43,7 @@ const sphereRef = shallowRef()
 
 const { onLoop } = useRenderLoop()
 
-// Die Position der Sphäre wird verändert, aber die Kamera bleibt am Ball ⚽️
+// Die Position der Kugel wird verändert, aber die Kamera folgt ihr.
 onLoop(({ elapsed }) => {
   if (sphereRef.value) {
     sphereRef.value.value.position.y = Math.sin(elapsed) * 1.5
