@@ -22,7 +22,7 @@ onLoop(({ delta, elapsed }) => {
 
 ## Eine Referenz zum Würfel bekommen
 
-Um den Würfel zu animieren, benötigen wir eine Referenz zu ihm. Dies können wir tun, indem wir eine [Template-Referenz](https://vuejs.org/guide/essentials/template-refs.html) verwenden, indem wir die `ref`-Eigenschaft im `TresMesh`-Komponenten verwenden. Dies wird uns die Instanz von THREE zurückgeben.
+Um den Würfel zu animieren, benötigen wir eine Referenz zu ihm. Dies können wir tun, indem wir eine [Template-Referenz](https://vuejs.org/guide/essentials/template-refs.html) verwenden. Dazu verwenden wir die `ref`-Eigenschaft an der `TresMesh`-Komponente. Dies wird uns die Instanz von THREE bereitstellen.
 
 Um die Performance zu verbessern, werden wir ein [Shallow Ref](https://v3.vuejs.org/guide/reactivity-fundamentals.html#shallow-reactivity) verwenden, um die Referenz zu speichern, anstatt einer regulären Referenz. Warum das so ist, kannst du [hier](../advanced/caveats.md#reactivity) sehen.
 
