@@ -2,7 +2,7 @@
 
 Hast du schon einmal versucht, die Distanz zwischen zwei Object3Ds zu berechnen?
 
-Mit der neuen Direktive `v-distance-to` ist es einfacher als je zuvor. Du musst nur das Zielobjekt für die Messung angeben, und das Ergebnis wird in deiner Konsole erscheinen.
+Mit der neuen Direktive `v-distance-to` ist es einfacher als je zuvor. Du musst nur das Zielobjekt für die Messung angeben und das Ergebnis wird in deiner Konsole erscheinen.
 
 Zusätzlich wird ein Pfeil erstellt, um anzuzeigen, welche Objekte du misst.
 
