@@ -64,7 +64,7 @@ Du kannst auch das `delta` der [internen Uhr von THREE](https://threejs.org/docs
 
 ## Aber warum nicht die Reaktivität nutzen?
 
-Du fragst dich vielleicht, warum wir die Reaktivität nicht nutzen, um den Würfel zu animieren. Die Antwort ist einfach: Leistung.
+Du fragst dich vielleicht, warum wir keine Reaktivität nutzen, um den Würfel zu animieren. Die Antwort ist einfach: Performance.
 
 ```vue
 // Das ist keine gute Idee ❌
@@ -79,10 +79,11 @@ onLoop(({ delta, elapsed }) => {
 })
 </script>
 ```
-Wir könnten versucht sein, die Reaktivität zu nutzen, um den Würfel zu animieren. Aber das wäre eine schlechte Idee.
+
+Als Vue Entwickler mag es intiuitiv scheinen, Reaktivität zu nutzen, um den Würfel zu animieren, aber das wäre eine schlechte Idee.
 Der Grund ist, dass [die Reaktivität von Vue auf Proxies basiert](https://vuejs.org/guide/extras/reactivity-in-depth.html#how-reactivity-works-in-vue) und nicht dafür ausgelegt ist, in einem Render-Loop verwendet zu werden, der 60 oder mehr Mal pro Sekunde aktualisiert wird.
 
-Die unten eingebettete Seite zeigt den [Leistungstest eines Proxy im Vergleich zu einem regulären Objekt](https://measurethat.net/Benchmarks/Show/12503/0/object-vs-proxy-vs-proxy-setter). Wie du sehen kannst, ist der Proxy 5 Mal langsamer als das reguläre Objekt.
+Die unten eingebettete Seite zeigt den [Performancestest eines Proxy im Vergleich zu einem regulären Objekt](https://measurethat.net/Benchmarks/Show/12503/0/object-vs-proxy-vs-proxy-setter). Wie du sehen kannst, ist der Proxy 5 Mal langsamer als das reguläre Objekt.
 
 <EmbedExperiment src="https://measurethat.net/Embed?id=399142" />
 

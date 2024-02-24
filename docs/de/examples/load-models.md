@@ -12,7 +12,7 @@ Es gibt verschiedene Möglichkeiten, Modelle in TresJS zu laden:
 
 
 ::: warning
-Bitte beachte, dass wir in den vorherigen Beispielen das oberste Level `await` verwendet haben, stelle sicher, dass du es mit einer [Suspense](https://vuejs.org/guide/built-ins/suspense.html#suspense)-Komponente umgibst. Siehe Suspense für mehr Informationen.
+Bitte beachte, dass wir in den vorherigen Beispielen das "top-level" `await` verwendet haben, stelle sicher, dass du es mit einer [Suspense](https://vuejs.org/guide/built-ins/suspense.html#suspense)-Komponente umgibst.
 :::
 
 ## Verwendung von `useLoader`
@@ -28,7 +28,7 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader'
 const { scene } = await useLoader(GLTFLoader, '/models/AkuAku.gltf')
 ```
 
-Dann kannst du die Szene des Modells in einer [`primitive`](/de/advanced/primitive)-Komponente von TresJS übergeben, um es zu rendern:
+Dann kannst du die Szene des Modells in einer [`primitive`](/de/advanced/primitive)-Komponente von TresJS übergeben, um sie zu rendern:
 
 ```html{2}
 <TresCanvas>
@@ -50,7 +50,7 @@ import { useGLTF } from '@tresjs/cientos'
 const { scene, nodes, animations, materials } = await useGLTF('/models/AkuAku.gltf')
 ```
 
-Ein Vorteil der Verwendung von `useGLTF` ist, dass du eine `draco`-Eigenschaft übergeben kannst, um die [Draco-Kompression](https://threejs.org/docs/index.html?q=drac#examples/en/loaders/DRACOLoader) für das Modell zu aktivieren. Dies wird die Größe des Modells reduzieren und die Leistung verbessern.
+Ein Vorteil der Verwendung von `useGLTF` ist, dass du eine `draco`-Eigenschaft übergeben kannst, um die [Draco-Kompression](https://threejs.org/docs/index.html?q=drac#examples/en/loaders/DRACOLoader) für das Modell zu aktivieren. Dies wird die Größe des Modells reduzieren und die Performance verbessern.
 
 ```ts
 import { useGLTF } from '@tresjs/cientos'
@@ -100,7 +100,7 @@ import { OrbitControls, GLTFModel } from '@tresjs/cientos'
 </template>
 ```
 
-Dieser spezielle Ansatz ist einfacher, bietet aber weniger Kontrolle über das Modell.
+Dieser Ansatz ist zwar einfacher, bietet aber weniger Kontrolle über das Modell.
 
 ## Verwendung von `useFBX`
 
@@ -112,11 +112,11 @@ import { useFBX } from '@tresjs/cientos'
 const model = await useFBX('/models/AkuAku.fbx')
 ```
 
-Dann ist es so einfach wie das Hinzufügen der Szene zu deiner Szene:
+Dann muss man nur das dem primitive das model zuweisen:
 
 ```html{2}
 <TresCanvas shadows alpha>
-    <primitive :object="scene" />
+    <primitive :object="model" />
 </TresCanvas>
 ```
 

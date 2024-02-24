@@ -17,7 +17,7 @@ Wir importieren alle Module, die wir benötigen. Für zusätzlichen Komfort kön
 
 Nun positionieren wir unsere Kamera an der Position `[11,11,11]`.
 
-Zuletzt, um uns bei der Positionierung zu helfen, fügen wir eine einfache Ebene hinzu, die um die X-Achse gedreht ist, mit den Maßen `[10, 10]` Einheiten.
+Zuletzt, um uns bei der Positionierung zu helfen, fügen wir eine einfache Ebene hinzu, die um die X-Achse gedreht ist, mit den Maßen `[10, 10]`.
 
 ```vue
 <script setup lang="ts">
@@ -43,7 +43,7 @@ import { OrbitControls } from '@tresjs/cientos'
 
 ## ShaderMaterial
 
-Wie du weißt, ist jede Instanz in [ThreeJs](https://threejs.org/) in **TresJs** verfügbar, also können wir auch `ShaderMaterial` verwenden, wir müssen nur das Präfix `Tres` hinzufügen, um es zu nutzen.
+Wie du weißt, ist jede Instanz in [ThreeJs](https://threejs.org/) in **TresJs** verfügbar, also können wir auch `ShaderMaterial` verwenden. Wir müssen lediglich das Präfix `Tres` hinzufügen, um es zu nutzen.
 
 Für unseren Blob könnten wir eine einfache `SphereGeometry` verwenden, indem wir einige `widthSegments` und `heightSegments` hinzufügen, um einen sanften Effekt zu erzielen, und unseren Blob 4 Einheiten entlang der positiven Y-Achse platzieren.
 
@@ -140,7 +140,7 @@ const blobRef = shallowRef(null)
 </template>
 ```
 
-Sobald wir das getan haben, können wir den `onLoop`-Callback nutzen, um unser `uTime` zu animieren.
+Nun können wir den `onLoop`-Callback nutzen, um `uTime` zu animieren.
 
  ```ts
 import { TresCanvas, useRenderLoop } from '@tresjs/core'
@@ -156,7 +156,7 @@ onLoop(({ elapsed }) => {
  //...
 ```
 
-Und das war's, wir haben unseren grundlegenden Shader reibungslos am Laufen.
+Somit haben unseren grundlegenden Shader zum Laufen gebracht!
 
 ## Verwendung des GLSL vite-plugins (optional)
 

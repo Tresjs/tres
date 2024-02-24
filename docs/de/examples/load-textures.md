@@ -10,7 +10,7 @@ Es gibt zwei Möglichkeiten, 3D-Texturen in TresJS zu laden:
 
 ## Verwendung von `useLoader`
 
-Das Composable `useLoader` ermöglicht es dir, jeden Typ von three.js-Loader und eine URL zum Laden der Resource zu übergeben. Es gibt ein `Promise` mit der geladenen Resource zurück.
+Das Composable `useLoader` ermöglicht es dir, einen three.js-Loader und eine URL zum Laden der Resource zu übergeben. Es gibt ein `Promise` mit der geladenen Resource zurück.
 
 Für eine detaillierte Erklärung, wie `useLoader` verwendet wird, siehe die Dokumentation von [useLoader](/de/api/composables#use-loader).
 
@@ -34,7 +34,7 @@ Dann kannst du die Textur einem Material zuweisen:
 </Suspense>
 ```
 
-Beachte im obigen Beispiel, dass wir die `Suspense`-Komponente verwenden, um die `TresCanvas`-Komponente zu umgeben. Dies liegt daran, dass `useLoader` ein `Promise` zurückgibt und wir warten müssen, bis es gelöst ist, bevor wir die Szene rendern können.
+Beachte im obigen Beispiel, den `TresCanvas` innerhalb einer `Suspense`-Komponente platziert haben. Dies liegt daran, dass `useLoader` ein `Promise` zurückgibt und wir warten müssen, bis es gelöst ist, bevor wir die Szene rendern können.
 
 ## Verwendung von `useTexture`
 

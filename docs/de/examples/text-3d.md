@@ -29,7 +29,7 @@ import { TextGeometry } from 'three/addons/geometries/TextGeometry'
 extend({ TextGeometry })
 ```
 
-[TextGeometry](https://threejs.org/docs/index.html?q=text#examples/en/geometries/TextGeometry) benötigt nur ein erforderliches Argument, die Schriftart. Unten siehst du ein Beispiel.
+[TextGeometry](https://threejs.org/docs/index.html?q=text#examples/en/geometries/TextGeometry) benötigt nur ein Argument, die Schriftart. Unten siehst du ein Beispiel.
 
 ```js
 const fontPath = 'https://raw.githubusercontent.com/Tresjs/assets/main/fonts/FiraCodeRegular.json'

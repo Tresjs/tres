@@ -61,18 +61,18 @@ import { OrbitControls } from '@tresjs/cientos'
 
 ## Lichter (Erklärung)
 
-Wie du weißt, ist jede Instanz in [three.js](https://threejs.org/) in **TresJS** verfügbar. Also sind alle Arten von Lichtern ebenfalls verfügbar. Wir müssen nur das Präfix `Tres` hinzufügen, um sie zu nutzen.
+Wie du weißt, sind alle Teile von [three.js](https://threejs.org/) in **TresJS** verfügbar. Das gilt auch für alle Arten von Lichtern. Wir müssen nur das Präfix `Tres` hinzufügen, um sie zu nutzen.
 
-Aber nicht alle Lichter können Schatten erzeugen, diese Definition kommt direkt von ThreeJs und macht Sinn. Zum Beispiel ist der Zweck eines [ambientLight](https://threejs.org/docs/index.html?q=ambient#api/en/lights/AmbientLight) alle Seiten deiner Szene zu beleuchten, also macht es keinen Sinn, dass es Schatten erzeugt. Im Gegensatz dazu kann und sollte ein [DirectionalLight](https://threejs.org/docs/index.html?q=light#api/en/helpers/DirectionalLightHelper), das die Sonne imitiert, Schatten werfen.
+Aber nicht alle Lichter können Schatten erzeugen, diese Definition kommt direkt von ThreeJs und ergibt Sinn. Zum Beispiel ist der Zweck eines [ambientLight](https://threejs.org/docs/index.html?q=ambient#api/en/lights/AmbientLight) alle Seiten deiner Szene zu beleuchten, dabei sollen keine Schatten erzeugt werden. Im Gegensatz dazu kann und sollte ein [DirectionalLight](https://threejs.org/docs/index.html?q=light#api/en/helpers/DirectionalLightHelper), das die Sonne imitiert, Schatten werfen.
 
 ## Schatten (Erklärung)
 
-Es gibt auch viele Arten von Schatten, zum Beispiel wird der "weiche Schatten" automatisch erzeugt, wenn ein Objekt von einer Seite mehr Licht erhält, aber kurz gesagt, ein "Standard Three.js Schatten", der auf eine andere Oberfläche gerichtet wird, muss von einem Mesh ausgeworfen und von einem anderen Mesh empfangen werden. Wie wir in unserem Beispiel sehen, empfängt die `Ebene` einen Schatten, wirft aber keinen. Beachte, dass nicht alle Materialien Schatten werfen oder empfangen können.
+Es gibt auch viele Arten von Schatten, zum Beispiel wird der "weiche Schatten" automatisch erzeugt, wenn ein Objekt von einer Seite mehr Licht erhält. Ein "Standard Three.js Schatten", der auf eine andere Oberfläche gerichtet wird, muss von einem Mesh geworfen und von einem anderen Mesh empfangen werden. Wie wir in unserem Beispiel sehen, empfängt die `Ebene` einen Schatten, wirft aber keinen. Beachte, dass nicht alle Materialien Schatten werfen beziehungsweise empfangen können.
 
-Intern generiert Three.js automatisch ein neues Mesh mit einem [ShadowMaterial](https://threejs.org/docs/index.html?q=shado#api/en/materials/ShadowMaterial), das in jedem Frame aktualisiert wird, deshalb, wenn du Animationen anwendest, wird der Schatten auch animiert, aber das ist auch der Grund, warum du Schatten vorsichtig verwenden solltest, da sie die Leistung beeinträchtigen können.
+Intern generiert Three.js automatisch ein neues Mesh mit einem [ShadowMaterial](https://threejs.org/docs/index.html?q=shado#api/en/materials/ShadowMaterial), das in jedem Frame aktualisiert wird, deshalb, wenn du Animationen anwendest, wird der Schatten auch animiert, aber das ist auch der Grund, warum du Schatten vorsichtig verwenden solltest, da sie die Performance beeinträchtigen können.
 
 ::: warning
-Die übermäßige Verwendung von Schatten auf diese Weise kann die Leistung beeinträchtigen. Es gibt jedoch Möglichkeiten, die Leistung zu verbessern. Für weitere Informationen, siehe [dieses Video](https://youtu.be/WGNvVGrS0kY?si=q7XyL5eABKUh3gbS&t=1256)
+Die übermäßige Verwendung von Schatten auf diese Weise kann die Performance beeinträchtigen. Es gibt jedoch Möglichkeiten, die Performance zu verbessern. Für weitere Informationen, siehe [dieses Video](https://youtu.be/WGNvVGrS0kY?si=q7XyL5eABKUh3gbS&t=1256)
 :::
 
 ## Schatten aktivieren
@@ -96,7 +96,7 @@ Wir können dies in drei Schritte unterteilen:
 
 ## Das Licht zum Werfen von Schatten konfigurieren
 
-Wir können einfach das Boolean `cast-shadow` hinzufügen, Vue interpretiert es als eine `prop` mit dem Wert `true`.
+Wir können einfach das Boolean `cast-shadow` hinzufügen. Vue interpretiert es als ein `prop` mit dem Wert `true`.
 
 _Umgebungslicht erzeugt hier keine Art von Schatten_
 
@@ -118,7 +118,7 @@ _Umgebungslicht erzeugt hier keine Art von Schatten_
 
 ### Objekte zum Werfen oder Empfangen von Schatten einstellen
 
-Ähnlich wie im vorherigen Schritt konfigurieren wir das Mesh, von dem wir möchten, dass es Schatten wirft (unsere Kugel), mit der Eigenschaft `cast-shadow`, und wir konfigurieren das Objekt, das Schatten empfangen soll (unsere Ebene), mit der Eigenschaft `receive-shadow`.
+Ähnlich wie im vorherigen Schritt konfigurieren wir das Mesh, von dem wir möchten, dass es Schatten wirft (unsere Kugel), mit der Eigenschaft `cast-shadow`. Zusätzlich konfigurieren wir das Objekt, das Schatten empfangen soll (unsere Ebene), mit der Eigenschaft `receive-shadow`.
 
 ```vue
 //...
@@ -143,7 +143,7 @@ _Umgebungslicht erzeugt hier keine Art von Schatten_
 </template>
 ```
 
-Jetzt haben wir alle notwendigen Schritte, um Schatten zu unserer Szene hinzuzufügen, und wenn wir das, was wir in [grundlegenden Animationen](/de/examples/basic-animations) gelernt haben, anwenden und unserem Würfel Bewegung hinzufügen, wirst du sehen, dass der Schatten auch animiert wird 🤩
+Jetzt haben wir alle notwendigen Schritte, um Schatten zu unserer Szene hinzuzufügen. Wenn wir nun das, was wir in [grundlegenden Animationen](/de/examples/basic-animations) gelernt haben, anwenden und unseren Würfel bewegen, wirst du sehen, dass der Schatten auch animiert wird 🤩
 
 ```vue
 <script setup>

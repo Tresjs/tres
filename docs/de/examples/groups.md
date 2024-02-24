@@ -1,6 +1,6 @@
 # Gruppen
 
-Eine `<TresGroup>` ist eine Instanz der Klasse [THREE.Group](https://threejs.org/docs/#api/en/objects/Group), die fast das Gleiche wie ein [THREE.Object3D](https://threejs.org/docs/#api/en/objects/Object3D) ist, es dir aber ermöglicht, **mehrere Objekte in der Szene zu gruppieren**, sodass sie als eine einzige Einheit  manipuliert werden können (Transformation, Rotation, etc...)."
+Eine `<TresGroup>` ist eine Instanz der Klasse [THREE.Group](https://threejs.org/docs/#api/en/objects/Group), die fast das Gleiche wie ein [THREE.Object3D](https://threejs.org/docs/#api/en/objects/Object3D) ist. Sie ermöglicht aber, **mehrere Objekte in der Szene zu gruppieren**, sodass sie gebündelt manipuliert werden können (Transformation, Rotation, etc...)."
 
 ## Benutzung
 

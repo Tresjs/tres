@@ -57,7 +57,7 @@ Wir alle lieben Reaktivität 💚. Es ist eines der mächtigsten Features von Vu
 
 Die Reaktivität von Vue basiert auf [Proxies](https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/Proxy). Dies ermöglicht es Vue 3, automatisch Änderungen an Datenobjekten zu verfolgen und die entsprechenden DOM-Elemente jedes Mal zu aktualisieren, wenn sich die Daten ändern.
 
-Da wir eine Szene rendern und sie bei jedem Frame (60FPS) aktualisieren, bedeutet das, dass wir die Szene 60 Mal pro Sekunde aktualisieren. Wenn das zu aktualisierende Objekt reaktiv ist, wird Vue versuchen, dieses Objekt so oft zu aktualisieren. Das ist keine gute Idee 😅 und wird sich negativ auf die Leistung auswirken.
+Da wir eine Szene rendern und sie bei jedem Frame (60FPS) aktualisieren, bedeutet das, dass wir die Szene 60 Mal pro Sekunde aktualisieren. Wenn das zu aktualisierende Objekt reaktiv ist, wird Vue versuchen, dieses Objekt so oft zu aktualisieren. Das ist keine gute Idee 😅 und wird sich negativ auf die Performance auswirken.
 
 Hier ist ein Benchmark, der den Unterschied zwischen der Verwendung eines Proxy-Objekts und eines einfachen Objekts zeigt.
 
