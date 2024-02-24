@@ -61,7 +61,7 @@ import { OrbitControls } from '@tresjs/cientos'
 
 ## Lichter (Erklärung)
 
-Wie du weißt, ist jede Instanz in [ThreeJs](https://threejs.org/) in **TresJs** verfügbar, also sind alle Arten von Lichtern ebenfalls verfügbar, wir müssen nur das Präfix `Tres` hinzufügen, um sie zu nutzen.
+Wie du weißt, ist jede Instanz in [three.js](https://threejs.org/) in **TresJS** verfügbar. Also sind alle Arten von Lichtern ebenfalls verfügbar. Wir müssen nur das Präfix `Tres` hinzufügen, um sie zu nutzen.
 
 Aber nicht alle Lichter können Schatten erzeugen, diese Definition kommt direkt von ThreeJs und macht Sinn. Zum Beispiel ist der Zweck eines [ambientLight](https://threejs.org/docs/index.html?q=ambient#api/en/lights/AmbientLight) alle Seiten deiner Szene zu beleuchten, also macht es keinen Sinn, dass es Schatten erzeugt. Im Gegensatz dazu kann und sollte ein [DirectionalLight](https://threejs.org/docs/index.html?q=light#api/en/helpers/DirectionalLightHelper), das die Sonne imitiert, Schatten werfen.
 
