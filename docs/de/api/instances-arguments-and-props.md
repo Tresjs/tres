@@ -81,7 +81,7 @@ const camera = new PerspectiveCamera(45, 1, 0.1, 1000)
 
 # Eigenschaften
 
-Du kannst auch Eigenschaften an die Komponente übergeben. Zum Beispiel hat das `TresAmbientLight` eine Eigenschaft `intensity`, so dass du sie der Komponente folgendermaßen übergeben kannst:
+Du kannst auch Eigenschaften an die Komponente übergeben. Zum Beispiel hat das `TresAmbientLight` eine Eigenschaft `intensity`, die folgendermaßen übergeben werden können:
 
 ```html
 <TresAmbientLight :intensity="0.5" />
@@ -133,7 +133,7 @@ Ein weiteres Kürzel, das du verwenden kannst, ist das Übergeben eines Skalarwe
 
 ### Farben
 
-Du kannst Farben an die Komponenten übergeben, indem du die Eigenschaft `color` verwendest, die einen String mit dem Namen der Farbe oder einen Hexadezimalwert akzeptiert:
+Du kannst Farben an die Komponenten übergeben, indem du die Eigenschaft `color` verwendest, die einen String mit dem Namen der Farbe oder einen Hex-Wert akzeptiert:
 
 ```html
 <TresAmbientLight color="teal" /> ✅

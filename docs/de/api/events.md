@@ -1,6 +1,6 @@
 # Events
 
-**TresJS**-Komponenten lösen Mouse-Events aus, wenn mit ihnen interagiert wird. Dies gilt für Komponenten, die Klassen von Three.js repräsentieren, die von [THREE.Object3D](https://threejs.org/docs/index.html?q=object#api/en/core/Object3D) abgeleitet sind (wie Meshes, Groups, ...).
+**TresJS**-Komponenten lösen Mouse-Events aus, wenn mit ihnen interagiert wird. Dies gilt für Komponenten, die von [THREE.Object3D](https://threejs.org/docs/index.html?q=object#api/en/core/Object3D) abgeleitet sind (wie Meshes, Groups, ...).
 
 <StackBlitzEmbed project-id="tresjs-events" />
 

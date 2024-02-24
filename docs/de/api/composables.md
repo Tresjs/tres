@@ -1,8 +1,8 @@
 # Composables
 
-Die Composition API von Vue 3 [Composition API](https://vuejs.org/guide/extras/composition-api-faq.html#what-is-composition-api) ermöglicht es dir, wiederverwendbare Logik zu erstellen, die zwischen Komponenten geteilt werden kann. Sie ermöglicht dir auch, benutzerdefinierte Hooks zu erstellen, die in deinen Komponenten verwendet werden können.
+Die Composition API von Vue 3 [Composition API](https://vuejs.org/guide/extras/composition-api-faq.html#what-is-composition-api) ermöglicht es dir, Logik und Hooks zu schreiben, die zwischen Komponenten wieder verwendet werden kann.
 
-**TresJS** nutzt diese API, um eine Reihe von zusammensetzbaren Funktionen zu erstellen, die verwendet werden können, zum Beispiel um Animationen zu erstellen oder mit der Szene zu interagieren. Es ermöglicht dir auch, komplexere Szenen zu erstellen, die nur mit Vue-Komponenten (Texturen, Loader usw.) möglicherweise nicht möglich wären.
+**TresJS** nutzt diese API, um eine Reihe von zusammensetzbaren Funktionen zu erstellen, die verwendet werden können, zum Beispiel um Animationen zu erstellen oder mit der Szene zu interagieren. Es ermöglicht dir auch, komplexere Szenen zu erstellen, die nur mit Vue-Komponenten (Texturen, Loader usw.) eventuell nicht möglich wären.
 
 Der Kern von **TresJS** verwendet diese Composables intern, so dass du dieselbe API verwendest, die der Kern nutzt. Zum Beispiel verwenden Komponenten, die im internen Rendering-Loop aktualisiert werden müssen, das Composable `useRenderLoop`, um einen Callback zu registrieren, der bei jeder Aktualisierung der Szene durch den Renderer aufgerufen wird.
 
@@ -19,7 +19,7 @@ onLoop(({ delta, elapsed, clock, dt }) => {
 ```
 
 ::: warning
-Beachte die Leistungsauswirkungen beim Verwenden dieses Composables. Es wird bei jedem Frame ausgeführt. Das bedeutet, wenn du viel Logik in deinem Callback hast, dies die Performance deiner Anwendung beeinträchtigen könnte. Insbesondere, wenn du Zustände oder reaktive Referenzen aktualisierst.
+Beachte die Performance-Auswirkungen beim Verwenden dieses Composables. Es wird bei jedem Frame ausgeführt. Das bedeutet, wenn du viel Logik in deinem Callback hast, dies die Performance deiner Anwendung beeinträchtigen könnte. Insbesondere, wenn du States oder reaktive Referenzen aktualisierst.
 :::
 
 Der `onLoop`-Callback erhält ein Objekt mit den folgenden, auf der [Uhr von THREE](https://threejs.org/docs/?q=clock#api/en/core/Clock) basierenden Eigenschaften:
@@ -27,7 +27,7 @@ Der `onLoop`-Callback erhält ein Objekt mit den folgenden, auf der [Uhr von THR
 - `delta`: Die verstrichene Zeit zwischen dem aktuellen Frame und dem letzten Frame. Dies ist die Zeit in Sekunden seit dem letzten Frame.
 - `elapsed`: Die seit Beginn des Render-Loops verstrichene Zeit.
 
-Dieses Composable basiert auf `useRafFn` von [vueuse](https://vueuse.org/core/useRafFn/). Dank an [@wheatjs](https://github.com/orgs/Tresjs/people/wheatjs) für den unglaublichen Beitrag.
+Dieses Composable basiert auf `useRafFn` von [vueuse](https://vueuse.org/core/useRafFn/). Dank an [@wheatjs](https://github.com/orgs/Tresjs/people/wheatjs) für diesen wundervollen Beitrag.
 
 ### Vor und nach dem Rendern
 
@@ -179,7 +179,7 @@ watch(carRef, ({ model }) => {
 })
 ```
 
-Ähnlich geben die Funktionen `seekAll` und `seekAllByName` ein Array von Kindobjekten zurück, deren Eigenschaft den gegebenen Wert enthält. Wenn keine Übereinstimmungen gefunden werden, geben sie ein leeres Array zurück und registrieren eine Warnung.
+Ähnlich geben die Funktionen `seekAll` und `seekAllByName` ein Array von Kindobjekten zurück, deren Eigenschaft den gegebenen Wert enthält. Wenn keine Übereinstimmungen gefunden werden, geben sie ein leeres Array zurück und zeigen eine Warnung.
 
 ```ts
 const character = ref(null)
@@ -193,14 +193,14 @@ watch(character, ({ model }) => {
 
 ## useTresContext
 
-Dieses Composable bietet Zugriff auf das Zustandsmodell, das mehrere nützliche Eigenschaften enthält.
+Dieses Composable bietet Zugriff auf den Kontext, der mehrere nützliche Eigenschaften enthält.
 
 ```ts
 const { camera, renderer, camera, cameras } = useTresContext()
 ```
 
 ::: warning
-`useTresContext` kann nur innerhalb eines `TresCanvas` verwendet werden, da `TresCanvas` als Anbieter der Kontextdaten fungiert. Verwende [den von TresCanvas bereitgestellten Kontext](tres-canvas#offentlich-exportierte-eigenschaften), wenn du darauf in Komponenten zugreifen musst, die über TresCanvas hinausgehen.
+`useTresContext` kann nur innerhalb eines `TresCanvas` verwendet werden, da `TresCanvas` als Anbieter der Kontextdaten fungiert. Verwende [den von TresCanvas bereitgestellten Kontext](tres-canvas#offentlich-exportierte-eigenschaften), wenn du in Komponenten darauf zugreifen musst, die über den TresCanvas hinausgehen.
 :::
 
 ```vue
