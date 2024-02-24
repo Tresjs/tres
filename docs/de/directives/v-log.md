@@ -2,7 +2,7 @@
 
 ### Problem
 
-Wenn du deine Instanz loggen musst, musst du die Template-Referenz verwenden und diese dann loggen:
+Wenn du deine Instanz loggen möchtest, musst du normalerweise die Template-Referenz verwenden und diese dann loggen:
 
 ```vue
 <script setup lang="ts">
@@ -27,7 +27,7 @@ watch(sphereRef, (value) => {
 </template>
 ```
 
-Und das ist VIEL Code nur für ein einfaches Log, nicht wahr?
+Das ist VIEL Code nur für ein einfaches Log, oder?
 
 ## Benutzung
 

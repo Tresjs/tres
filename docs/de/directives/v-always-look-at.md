@@ -25,7 +25,7 @@ Egal, wohin sich die Box bewegt, sie wird immer auf die Position [0,0,0] ausgeri
 
 Eine berechtigte Frage wäre, warum man nicht die `:look-at`-Methode direkt in der Komponente verwenden sollte.
 
-Die Antwort ist, dass mit der Methode `:look-at` angegeben wird, dass die Position nur einmal beim Mounten der Instanz angeschaut wird, dann, wenn sich das Objekt ändert, wird dies nicht aktualisiert.
+Die Antwort ist, dass mit der Methode `:look-at` angegeben wird, dass die Position nur einmal beim Mounten der Instanz angeschaut wird. Wenn sich das Objekt ändert, wird dies nicht aktualisiert.
 
 ### Du kannst auch andere Instanzen anschauen!
 

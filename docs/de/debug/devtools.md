@@ -1,8 +1,6 @@
 # Entwicklungstools
 
-Eine der größten Herausforderungen, denen sich ein Entwickler beim Erstellen von 3D-Erlebnissen im Browser gegenübersieht, ist das Debugging. Das `<canvas>`-Element des Browsers ist eine Blackbox, und es ist schwierig zu wissen, was darin vor sich geht. Die imperative Natur von [Three.js](https://threejs.org/) macht es schwierig zu debuggen. Man muss sich auf `console.log` verlassen, um zu sehen was passiert, oder auf Drittanbieter-Tools, um die Szene anzupassen und zu inspizieren.
-
-Fang gar nicht erst damit an, die Performance deiner Szene zu überprüfen. 😱
+Eine der größten Herausforderungen, denen sich ein Entwickler beim Erstellen von 3D-Erlebnissen im Browser gegenübersieht, ist das Debugging. Das `<canvas>`-Element des Browsers ist eine Blackbox, und es ist schwierig zu wissen, was darin passiert. Die imperative Natur von [Three.js](https://threejs.org/) macht es schwierig zu debuggen. Man muss sich auf `console.log` verlassen, um zu sehen was passiert, oder auf Drittanbieter-Tools, um die Szene anzupassen und zu inspizieren. Auch das Messen der Performance von Szenen gestaltet sich als äußerst schwer.
 
 ![Entwickler Debugging 3D](/debug-3D.png)
 
@@ -10,7 +8,7 @@ Eines unserer Ziele mit TresJS ist es, **die beste Entwicklererfahrung (DX)** be
 
 ## Vorstellung der Entwicklerwerkzeuge
 
-Ab Version <Badge text="^3.7.0" />, führen wir die TresJS-Entwicklerwerkzeuge ein, einen benutzerdefinierten Inspektor-Tab für die [offiziellen Chrome Developer Tools von Vue](https://devtools.vuejs.org/guide/installation.html), der es dir ermöglicht, deine TresJS-Szenen und -Komponenten zu inspizieren.
+Ab Version <Badge text="^3.7.0" />, führen wir die TresJS-Entwicklerwerkzeuge ein! Einen benutzerdefinierten Inspektor-Tab für die [offiziellen Chrome Developer Tools von Vue](https://devtools.vuejs.org/guide/installation.html), der es dir ermöglicht, deine TresJS-Szenen und -Komponenten zu inspizieren.
 
 ![TresJS DevTools](/vue-chrome-devtools.png)
 
