@@ -34,7 +34,7 @@ Dann kannst du die Textur einem Material zuweisen:
 </Suspense>
 ```
 
-Beachte im obigen Beispiel, den `TresCanvas` innerhalb einer `Suspense`-Komponente platziert haben. Dies liegt daran, dass `useLoader` ein `Promise` zurückgibt und wir warten müssen, bis es gelöst ist, bevor wir die Szene rendern können.
+Beachte im obigen Beispiel, dass `TresCanvas` von einer `Suspense`-Komponente umgeben ist. Dies liegt daran, dass `useLoader` ein `Promise` zurückgibt und wir warten müssen, bis es erfüllt ist, bevor wir die Szene rendern können.
 
 ## Verwendung von `useTexture`
 
