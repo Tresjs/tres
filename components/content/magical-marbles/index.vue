@@ -185,7 +185,7 @@ const updateBackground = (immediate = false) => {
     }
 }
 
-onLoop(({ delta, elapsed, clock }) => {
+onLoop(({ delta }) => {
     uniforms.time.value += params.timeOffset + delta * speed.value.value
 })
 
@@ -212,7 +212,7 @@ onLoop(({ delta, elapsed, clock }) => {
 
         <div ref="backgroundRef" class="magical-marbles__bg" />
 
-        <!-- <TresLeches /> -->
+        <TresLeches />
 
         <TresCanvas window-size v-bind="gl">
             <TresPerspectiveCamera :position="[0, 0, 4.5]" :fov="45" :near=".1" :far="1000" />
@@ -235,10 +235,6 @@ onLoop(({ delta, elapsed, clock }) => {
 .magical-marbles {
     width: 100%;
     height: 100%;
-}
-
-* {
-    font-family: "Segoe UI", Helvetica, Arial, sans-serif;
 }
 
 .magical-marbles__bg {
@@ -290,6 +286,11 @@ onLoop(({ delta, elapsed, clock }) => {
 
 .magical-marbles__cta:hover {
     transform: scale(1.05)
+}
+
+.magical-marbles p,
+.magical-marbles a {
+    font-family: "Segoe UI", Helvetica, Arial, sans-serif;
 }
 
 .magical-marbles__infos p {
