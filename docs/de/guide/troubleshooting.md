@@ -4,7 +4,7 @@
 
 Willkommen beim Troubleshooting-Guide für **TresJS v2**. Wo 3D für _"Dazzlingly Delicious Difficulties"_ steht! Wir wissen, dass 3D so komplex wie ein verwickelter Wollknäuel 🧶 oder so unberechenbar wie eine Katze auf einer Tastatur 🐈 ⌨️ sein kann, aber keine Sorge!
 
-Dieser Leitfaden soll dir helfen, die häufigsten Probleme zu lösen, die du beim Einsatz von TresJS v2 treffen könntest.
+Dieser Leitfaden soll dir helfen, die häufigsten Probleme zu lösen, auf die du beim Einsatz von TresJS v2 treffen könntest.
 
 ## Ich kann meine 3D-Szene nicht sehen 😭!
 
