@@ -271,7 +271,7 @@ onLoop(({ delta }) => {
     z-index: 3;
     background: white;
     position: absolute;
-    top: 40px;
+    bottom: 40px;
     right: 60px;
     padding: 10px 20px;
     color: black;
