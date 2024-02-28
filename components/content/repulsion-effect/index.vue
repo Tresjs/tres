@@ -9,7 +9,7 @@ const gl = {
 <template>
   <div class="repulsion-effect__content">
     <h2>PERRIN</h2>
-    <h3>Chocolaterie</h3>
+    <h3>chocolaterie</h3>
   </div>
 
   <NuxtLink class="repulsion-effect__logo" to="/">

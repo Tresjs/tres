@@ -37,7 +37,7 @@ import { gsap } from 'gsap'
 
 const meshesRef = shallowRef(null)
 const shapesGroupRef = shallowRef(null)
-const grid = reactive({ rows: 6, cols: 13, gutter: 2.2 })
+const grid = reactive({ rows: 6, cols: 14, gutter: 2.2 })
 
 const gridOffset = computed(() => {
   const x = ((grid.cols - 1) * grid.gutter) / 2;
@@ -112,11 +112,12 @@ const map = (value, start1, stop1, start2, stop2) => {
 }
 
 const getShapeType = (row, col) => {
-  const seed = (row + col) * row * col;
-  const result = seed % 4; // Divide by 4 instead of 3
-  if (result === 0 || result === 3) return 'torus'; // 2 out of 4 possibilities for torus
-  if (result === 1) return 'cone'; // 1 out of 4 possibilities for cone
-  return 'cylinder'; // 1 out of 4 possibilities for cylinder
+  const randomIndex = Math.floor(Math.random() * 3); // Generate a random number between 0 and 2
+
+  // Assigning shape types based on the random index
+  if (randomIndex === 0) return 'torus';
+  if (randomIndex === 1) return 'cone';
+  return 'cylinder';
 }
 
 const computePosition = (col, row) => {
