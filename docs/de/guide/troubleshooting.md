@@ -8,7 +8,7 @@ Dieser Leitfaden soll dir helfen, die häufigsten Probleme zu lösen, auf die du
 
 ## Ich kann meine 3D-Szene nicht sehen 😭!
 
-Du hast der [Startanleitung](/de/guide/getting-started.md) gefolgt, kannst aber deine gerenderte Szene immer noch nicht sehen.
+Du bist der [Startanleitung](/de/guide/getting-started.md) gefolgt, kannst aber deine gerenderte Szene immer noch nicht sehen?
 
 Hier sind die häufigsten Gründe, warum du deine Szene möglicherweise nicht sehen kannst:
 
