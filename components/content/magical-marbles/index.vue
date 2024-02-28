@@ -1,12 +1,11 @@
 <script setup lang="ts">
+import { gsap } from 'gsap'
 import { Color, RepeatWrapping, NearestFilter, MeshStandardMaterial } from 'three'
 import { vertex, fragment } from './shaders'
-import { gsap } from 'gsap'
 
 const gl = {
     alpha: true,
-    shadows: true,
-    powerPreference: "high-performance"
+    shadows: false,
 }
 
 let ctx, tl
@@ -15,8 +14,7 @@ const sphereRef = shallowRef(null)
 const backgroundRef = ref(null)
 const mainRef = ref(null)
 const indexColor = ref(0)
-const isDragging = ref(false)
-const clickDisabled = ref(false);
+const tlInProgress = ref(false)
 
 const colors = ref([
     [0, 100, 50],
@@ -27,6 +25,7 @@ const colors = ref([
 ])
 
 const params = reactive({
+    timeOffset: 0,
     roughness: 0.15,
     speed: 0.05,
     iterations: 48,
@@ -99,7 +98,7 @@ const backgroundGradient = computed(() => `radial-gradient(hsl(${currentColor.va
 const uniforms = reactive({
     time: { value: 0 },
     colorA: { value: new Color(0, 0, 0) },
-    colorB: { value: colorFinalB },
+    colorB: { value: new Color(`hsl(${colors.value[0][0]}, ${colors.value[0][1]}%, ${colors.value[0][2]}%)`) },
     heightMap: { value: heightMap },
     displacementMap: { value: displacementMap },
     iterations,
@@ -113,7 +112,7 @@ onMounted(() => {
 })
 
 onUnmounted(() => {
-    ctx.revert();
+    ctx?.revert();
 })
 
 watch(sphereRef, (value) => {
@@ -121,24 +120,14 @@ watch(sphereRef, (value) => {
 })
 
 const onPointerClick = () => {
-    if (isDragging.value) return;
+    if (tlInProgress.value) return
 
     indexColor.value = (indexColor.value + 1) % colors.value.length
 
     updateBackground()
 }
 
-const onStartDragging = (e) => {
-    isDragging.value = true;
-}
-
-const onEndDragging = async () => {
-    isDragging.value = false;
-}
-
 const updateBackground = (immediate = false) => {
-    if (isDragging.value) return
-
     if (immediate) {
         ctx.add(() => {
             gsap.set(backgroundRef.value, {
@@ -147,47 +136,63 @@ const updateBackground = (immediate = false) => {
         });
     } else {
         ctx.add(() => {
-            tl = gsap.timeline()
+            tl = gsap.timeline({
+                onStart: () => {
+                    tlInProgress.value = true
+                },
+                onComplete: () => {
+                    tlInProgress.value = false
+                }
+            })
                 .addLabel('sphereAnimation')
                 .to(backgroundRef.value, {
                     background: `${backgroundGradient.value}`,
-                    duration: .5,
-                    ease: 'power3.out'
-                }, 'sphereAnimation')
+                    duration: .75,
+                    ease: 'power1.out'
+                }, 'sphereAnimation+=.15')
                 .to(uniforms.colorB.value, {
                     r: colorFinalB.value.r,
                     g: colorFinalB.value.g,
                     b: colorFinalB.value.b,
-                    duration: .5,
-                    ease: 'power3.out'
-                }, 'sphereAnimation')
+                    duration: .75,
+                    ease: 'power1.out'
+                }, 'sphereAnimation+=.15')
                 .to(sphereRef.value.value.scale, {
-                    x: 1.065,
-                    y: 1.065,
-                    z: 1.065,
-                    duration: .25,
-                    ease: 'power3.out'
-                }, 'sphereAnimation')
+                    x: .95,
+                    y: .95,
+                    z: .95,
+                    duration: 0.35,
+                    ease: 'power1.inOut'
+                }, 'sphereAnimation+=.15')
                 .to(sphereRef.value.value.scale, {
                     x: 1,
                     y: 1,
                     z: 1,
-                    duration: .25,
-                    ease: 'power3.out'
-                }, 'sphereAnimation+=100%')
+                    duration: 0.5,
+                    ease: 'elastic.out(1, 0.5)'
+                }, 'sphereAnimation+=85%')
+                .to(params, {
+                    timeOffset: ((1 + indexColor.value) * 0.0035),
+                    duration: 0.65,
+                    ease: "power1.inOut"
+                }, 'sphereAnimation')
+                .to(params, {
+                    timeOffset: 0,
+                    duration: 0.35,
+                    ease: "power1.out"
+                }, 'sphereAnimation+=.5');
         });
     }
 }
 
 onLoop(({ delta, elapsed, clock }) => {
-    uniforms.time.value += delta * speed.value.value
+    uniforms.time.value += params.timeOffset + delta * speed.value.value
 })
 
 </script>
 
 <template>
     <main ref="mainRef" class="magical-marbles">
-
         <NuxtLink class="magical-marbles__logo" to="/">
             <img src="/lab.svg" alt="TresJS Logo" />
         </NuxtLink>
@@ -211,7 +216,7 @@ onLoop(({ delta, elapsed, clock }) => {
 
         <TresCanvas window-size v-bind="gl">
             <TresPerspectiveCamera :position="[0, 0, 4.5]" :fov="45" :near=".1" :far="1000" />
-            <OrbitControls @start="onStartDragging" @end="onEndDragging" auto-rotate make-default />
+            <OrbitControls auto-rotate make-default />
 
             <Suspense>
                 <Environment preset="hangar" />
@@ -279,7 +284,7 @@ onLoop(({ delta, elapsed, clock }) => {
     will-change: transform;
     text-transform: uppercase;
     font-weight: 800;
-    font-size: 1vw;
+    font-size: 0.85vw;
     transform: scale(1)
 }
 
