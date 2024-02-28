@@ -38,7 +38,7 @@ Dann kannst du die Szene des Modells in einer [`primitive`](/de/advanced/primiti
 
 > Die Komponente `<primitive />` ist keine eigenständige Komponente im Quellcode von Tres. Stattdessen ist sie Teil der Kernfunktionalität von Tres. Wenn du `<primitive>` verwendest, wird dies zu einem Aufruf von `createElement`, der das entsprechende three.js-Objekt basierend auf der bereitgestellten "object"-Eigenschaft erstellt.
 
-Beachte im obigen Beispiel, dass wir die `Suspense`-Komponente verwenden, um die `TresCanvas`-Komponente zu umgeben. Dies liegt daran, dass `useLoader` ein `Promise` zurückgibt und wir warten müssen, bis es gelöst ist, bevor wir die Szene rendern können.
+Beachte im obigen Beispiel, dass wir die `Suspense`-Komponente verwenden, um die `TresCanvas`-Komponente zu umgeben. Dies liegt daran, dass `useLoader` eine `Promise` zurückgibt und wir warten müssen, bis sie erfüllt ist, bevor wir die Szene rendern können.
 
 ## Verwendung von `useGLTF`
 
