@@ -39,7 +39,7 @@ body {
 }
 ```
 
-Oder du kannst auch die Eigenschaft `window-size` der Komponente `TresCanvas` setzen:
+Du kannst auch die Eigenschaft `window-size` der Komponente `TresCanvas` verwenden:
 
 ```vue
 <TresCanvas window-size>
