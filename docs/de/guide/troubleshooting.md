@@ -77,7 +77,7 @@ export default defineConfig({
 
 # Hilf uns, TresJS miau-tastisch zu machen! 😼
 
-Wir wissen, dass selbst die besten Schlafkatzen gelegentlich Fehler machen, und wir brauchen deine Hilfe, um TresJS noch besser zu machen! Wenn du einen Fehler findest, öffne bitte ein Ticket im [Repository](https://github.com/Tresjs/tres/issues) und **bitte stelle einen Reproduktionslink bereit**.
+Wir wissen, dass selbst die besten Schlafkatzen gelegentlich Fehler machen und wir brauchen deine Hilfe, um TresJS noch besser zu machen! Wenn du einen Fehler findest, öffne bitte ein Ticket im [Repository](https://github.com/Tresjs/tres/issues) und **bitte stelle einen Reproduktionslink bereit**.
 
 ::: warning
 Tickets ohne einen Reproduktionslink werden geschlossen.
