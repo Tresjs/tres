@@ -10,7 +10,7 @@
         <!-- Torus Mesh -->
         <TresMesh v-if="getShapeType(row, col) === 'torus'" name="torus" cast-shadow receive-shadow
           :position="computePosition(col, row)">
-          <TresTorusGeometry :args="[.3, .12, 30, 200]" />
+          <TresTorusGeometry :args="[.25, .08, 30, 200]" />
           <TresMeshPhysicalMaterial color="#3e2917" :metalness=".58" emissive="#000000" :roughness=".05" />
         </TresMesh>
 
@@ -22,7 +22,7 @@
 
         <!-- Cylinder Mesh -->
         <TresMesh v-else name="cylinder" cast-shadow receive-shadow :position="computePosition(col, row)">
-          <TresCylinderGeometry :args="[.25, .25, .75, 32]" />
+          <TresCylinderGeometry :args="[.3, .3, .2, 64]" />
           <TresMeshPhysicalMaterial color="#3e2917" :metalness=".58" emissive="#000000" :roughness=".05" />
         </TresMesh>
       </TresGroup>
@@ -32,12 +32,12 @@
 </template>
 
 <script setup lang="ts">
-import { mapLinear, degToRad } from 'three/src/math/MathUtils'
-import gsap from 'gsap'
+import { degToRad } from 'three/src/math/MathUtils'
+import { gsap } from 'gsap'
 
 const meshesRef = shallowRef(null)
 const shapesGroupRef = shallowRef(null)
-const grid = reactive({ rows: 5, cols: 11, gutter: 2.65 })
+const grid = reactive({ rows: 6, cols: 13, gutter: 2.2 })
 
 const gridOffset = computed(() => {
   const x = ((grid.cols - 1) * grid.gutter) / 2;
@@ -55,8 +55,10 @@ watch(shapesGroupRef, () => {
     mesh.initialRotation = {
       x: mesh.name === 'torus' ? degToRad(90) : mesh.rotation.x,
       y: mesh.rotation.y,
-      z: mesh.name === 'cone' ? degToRad(-180) : mesh.rotation.z,
+      z: mesh.name === 'cone' || mesh.name === 'cylinder' ? degToRad(-180) : mesh.rotation.z,
     };
+
+    console.log(mesh.name, mesh.initialRotation)
 
     mesh.rotation.x = mesh.initialRotation.x
     mesh.rotation.y = mesh.initialRotation.y
@@ -74,29 +76,28 @@ const onPointerMove = ({ point }) => {
       mesh.position.x,
       mesh.position.z);
 
-    const y = mapLinear(mouseDistance, 6, 0, 0, 10);
+    const y = map(mouseDistance, 7, 0, 0, 6);
 
     gsap.to(mesh.position, { y: y < 1 ? 1 : y, duration: .3 });
 
-    const scaleFactor = mesh.position.y / 2.5;
+    const scaleFactor = mesh.position.y / 1.2;
     const scale = scaleFactor < 1 ? 1 : scaleFactor;
 
     gsap.to(mesh.scale,
       {
-        ease: "expo.Out",
+        ease: "expo.out",
         x: scale,
         y: scale,
         z: scale,
         duration: .3
       });
 
-
     gsap.to(mesh.rotation, {
       duration: .7,
-      ease: "expo.Out",
-      x: mapLinear(mesh.position.y, -1, degToRad(45), 1, mesh.initialRotation.x),
-      z: mapLinear(mesh.position.y, -1, degToRad(-90), 1, mesh.initialRotation.y),
-      y: mapLinear(mesh.position.y, -1, degToRad(90), 1, mesh.initialRotation.z),
+      ease: "expo.out",
+      x: map(mesh.position.y, -1, 1, degToRad(270), mesh.initialRotation.x),
+      z: map(mesh.position.y, -1, 1, degToRad(-90), mesh.initialRotation.z),
+      y: map(mesh.position.y, -1, 1, degToRad(45), mesh.initialRotation.y),
     });
   })
 
@@ -106,12 +107,16 @@ const distance = (x1, y1, x2, y2) => {
   return Math.sqrt(Math.pow((x1 - x2), 2) + Math.pow((y1 - y2), 2));
 }
 
+const map = (value, start1, stop1, start2, stop2) => {
+  return (value - start1) / (stop1 - start1) * (stop2 - start2) + start2
+}
+
 const getShapeType = (row, col) => {
   const seed = (row + col) * row * col;
-  const result = seed % 3; // Divide by 3 to obtain a remainder of 0, 1 or 2
-  if (result === 0) return 'torus';
-  if (result === 1) return 'cone';
-  return 'cylinder'; // default
+  const result = seed % 4; // Divide by 4 instead of 3
+  if (result === 0 || result === 3) return 'torus'; // 2 out of 4 possibilities for torus
+  if (result === 1) return 'cone'; // 1 out of 4 possibilities for cone
+  return 'cylinder'; // 1 out of 4 possibilities for cylinder
 }
 
 const computePosition = (col, row) => {

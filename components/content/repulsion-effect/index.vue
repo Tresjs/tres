@@ -1,28 +1,16 @@
 <script setup lang="ts">
-import { TresCanvas, useTresContext } from '@tresjs/core'
-import { PCFSoftShadowMap, BasicShadowMap, PCFShadowMap, NoColorSpace, LinearSRGBColorSpace, SRGBColorSpace, NoToneMapping } from 'three'
-import { OrbitControls, Box, vAlwaysLookAt, vLightHelper } from '@tresjs/cientos';
-
-const rectAreaLightRef = ref(null)
-
 const gl = {
   alpha: true,
   shadows: true,
-  shadowMapType: PCFSoftShadowMap,
   powerPreference: "high-performance",
 }
-
-
-watchEffect(() => {
-  if (rectAreaLightRef.value) {
-    rectAreaLightRef.value.lookAt(0, 0, 0);
-  }
-})
-
 </script>
 
 <template>
-  <h1>PERRIN</h1>
+  <div class="repulsion-effect__content">
+    <h2>PERRIN</h2>
+    <h3>Chocolaterie</h3>
+  </div>
 
   <NuxtLink class="repulsion-effect__logo" to="/">
     <img src="/lab.svg" alt="TresJS Logo" />
@@ -53,14 +41,15 @@ watchEffect(() => {
     <TresSpotLight color="#7bccd7" :decay="0" cast-shadow :shadow-mapSize-width="2048" :shadow-mapSize-height="2048"
       :position="[0, 25, 0]" />
 
-    <TresRectAreaLight ref="rectAreaLightRef" color="#341212" :decay="0" :width="1000" :height="1000"
-      :position="[5, 20, 50]" />
+    <TresRectAreaLight color="#341212" :decay="0" :width="1000" :height="1000" :position="[5, 20, 50]"
+      :look-at="[0, 0, 0]" />
     <Scene />
   </TresCanvas>
 </template>
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Sacramento&display=swap');
 
 .repulsion-effect__bg {
   position: fixed;
@@ -80,7 +69,7 @@ watchEffect(() => {
   position: absolute;
   top: 40px;
   left: 60px;
-  width: 7.5%;
+  width: 6.5%;
   z-index: 3;
 }
 
@@ -93,6 +82,7 @@ watchEffect(() => {
 }
 
 .repulsion-effect__infos p {
+  font-family: 'Montserrat', sans-serif;
   color: #FFF;
 }
 
@@ -100,17 +90,36 @@ watchEffect(() => {
   pointer-events: auto;
   color: #ad836d;
   transition: color 0.25s;
+  font-weight: 500;
+  font-family: 'Montserrat', sans-serif;
 }
 
 .repulsion-effect__infos a:hover {
   color: #79573e;
 }
 
-h1 {
+.repulsion-effect__content {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  pointer-events: none;
+}
+
+h3 {
+  color: #c13535;
+  font-size: 7vw;
+  font-family: 'Sacramento', cursive;
+  font-weight: 400;
+  margin: 0;
+  line-height: 1;
+}
+
+h2 {
   font-size: 13vw;
   color: #48271b;
   text-transform: uppercase;
@@ -118,8 +127,6 @@ h1 {
   font-family: 'Montserrat', sans-serif;
   font-weight: 700;
   line-height: 1;
-  pointer-events: none;
-  z-index: 1;
 }
 
 canvas {
