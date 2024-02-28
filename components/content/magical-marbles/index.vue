@@ -33,7 +33,6 @@ const params = reactive({
     smoothing: 0.2,
     displacement: 0.1,
     metalness: 0,
-    colorB: "#008080",
 })
 
 const heightMap = await useTexture(['/magical-marbles/heightMap.jpeg'])
@@ -86,7 +85,6 @@ const { roughness, iterations, depth, smoothing, displacement, metalness, speed 
         max: .5,
         step: 0.001
     },
-    colorB: params.colorB,
 })
 
 const currentColor = computed(() => colors.value[indexColor.value])
