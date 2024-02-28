@@ -43,7 +43,7 @@ Jetzt kannst du die Komponente `TresOrbitControls` in deiner Szene verwenden.
 </template>
 ```
 
-Da [OrbitControls](https://threejs.org/docs/index.html?q=orbit#examples/en/controls/OrbitControls) eine Referenz zur Kamera und zum Renderer benötigt, musst du sie als Argumente übergeben.
+Da [OrbitControls](https://threejs.org/docs/index.html?q=orbit#examples/en/controls/OrbitControls) eine Referenz zur Kamera und zum Renderer benötigt, musst du diese als Argumente übergeben.
 
 Du kannst das Composable [useTres](/api/composables#usetres) verwenden, um die Kamera und den Renderer zu erhalten.
 
