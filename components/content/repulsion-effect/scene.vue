@@ -58,8 +58,6 @@ watch(shapesGroupRef, () => {
       z: mesh.name === 'cone' || mesh.name === 'cylinder' ? degToRad(-180) : mesh.rotation.z,
     };
 
-    console.log(mesh.name, mesh.initialRotation)
-
     mesh.rotation.x = mesh.initialRotation.x
     mesh.rotation.y = mesh.initialRotation.y
     mesh.rotation.z = mesh.initialRotation.z
