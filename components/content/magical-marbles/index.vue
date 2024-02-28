@@ -204,7 +204,7 @@ onLoop(({ delta, elapsed, clock }) => {
         <div class="magical-marbles__infos">
             <NuxtLink to="/">See more experiments and examples</NuxtLink>
             <p>Magical Marbles inspired by the
-                <a target="_blank" href="https://tympanus.net/Tutorials/MagicalMarbles/">
+                <a target="_blank" href="https://tympanus.net/codrops/2021/08/02/magical-marbles-in-three-js/">
                     Codrops tutorial
                 </a>
             </p>
