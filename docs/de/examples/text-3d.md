@@ -6,7 +6,7 @@
 
 Allerdings ist es kein Teil des Kerns von Three.js. Daher müsstest du es aus dem Modul `three/addons/geometries/TextGeometry` importieren.
 
-**TresJS** erstellt bereits automatisch einen Katalog aus dem Core von Three, damit du sie als Komponenten nutzen kannst. Allerdings ist standardmäßig `TextGeometry` nicht Teil dieses Katalogs.
+**TresJS** erstellt automatisch einen Katalog aus dem Core von Three, damit du sie als Komponenten nutzen kannst. Allerdings ist standardmäßig `TextGeometry` nicht Teil dieses Katalogs.
 
 Glücklicherweise bietet **TresJS** eine Möglichkeit, den Komponentenkatalog mit der `extend`-Methode zu erweitern.
 
