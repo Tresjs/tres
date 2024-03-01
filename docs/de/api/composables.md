@@ -1,6 +1,6 @@
 # Composables
 
-Die Composition API von Vue 3 [Composition API](https://vuejs.org/guide/extras/composition-api-faq.html#what-is-composition-api) ermöglicht es dir, Logik und Hooks zu schreiben, die zwischen Komponenten wieder verwendet werden kann.
+Die Composition API von Vue 3 [Composition API](https://vuejs.org/guide/extras/composition-api-faq.html#what-is-composition-api) ermöglicht es dir, Logik und Hooks zu schreiben, die zwischen Komponenten wiederverwendet werden kann.
 
 **TresJS** nutzt diese API, um eine Reihe von zusammensetzbaren Funktionen zu erstellen, die verwendet werden können, zum Beispiel um Animationen zu erstellen oder mit der Szene zu interagieren. Es ermöglicht dir auch, komplexere Szenen zu erstellen, die nur mit Vue-Komponenten (Texturen, Loader usw.) eventuell nicht möglich wären.
 

@@ -7,7 +7,7 @@ titleTemplate: Die Lösung für 3D in VueJS
 hero:
   name: TresJS
   text: Bringe Three in das Vue-Ökosystem
-  tagline: Erstelle unglaubliche 3D-Erlebnisse mit dem Framework, das du liebst.
+  tagline: Erstelle unglaubliche 3D-Erlebnisse mit dem VueJS.
   image:
     src: /hero.png
     alt: Tresjs

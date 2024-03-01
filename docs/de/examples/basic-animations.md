@@ -8,9 +8,9 @@ Wir werden eine einfache Szene mit einem Würfel erstellen. Anschließend animie
 
 ## useRenderLoop
 
-Das Composable `useRenderLoop` ist das Herzstück der Animationen in TresJS. Es ermöglicht dir, eine Callback-Funktion zu registrieren, die jedes Mal ausgeführt wird, wenn der Renderer die Szene mit der Aktualisierungsfrequenz des Browsers aktualisiert.
+Das Composable `useRenderLoop` ist das Herzstück der Animationen in TresJS. Es ermöglicht dir, eine Funktion zu registrieren, die jedes Mal ausgeführt wird, wenn der Renderer die Szene aktualisiert.
 
-Für eine detaillierte Erklärung, wie es funktioniert, siehe die Dokumentation von [useRenderLoop](/api/composables#userenderloop).
+Weitere Informationen zur Funktionsweise gibt es in der Dokumentation von [useRenderLoop](/api/composables#userenderloop).
 
 ```ts
 const { onLoop } = useRenderLoop()
@@ -22,9 +22,9 @@ onLoop(({ delta, elapsed }) => {
 
 ## Eine Referenz zum Würfel bekommen
 
-Um den Würfel zu animieren, benötigen wir eine Referenz zu ihm. Dies können wir tun, indem wir eine [Template-Referenz](https://vuejs.org/guide/essentials/template-refs.html) verwenden. Dazu verwenden wir die `ref`-Eigenschaft an der `TresMesh`-Komponente. Dies wird uns die Instanz von THREE bereitstellen.
+Um den Würfel zu animieren, benötigen wir eine Referenz via eines [Template-Ref](https://vuejs.org/guide/essentials/template-refs.html). Dazu verwenden wir die `ref`-Eigenschaft an der `TresMesh`-Komponente damit wir Zugriff auf die THREE-Instanz bekommen.
 
-Um die Performance zu verbessern, werden wir ein [Shallow Ref](https://v3.vuejs.org/guide/reactivity-fundamentals.html#shallow-reactivity) verwenden, um die Referenz zu speichern, anstatt einer regulären Referenz. Warum das so ist, kannst du [hier](../advanced/caveats.md#reactivity) sehen.
+Um die Performance zu verbessern, verwenden wir ein [Shallow Ref](https://v3.vuejs.org/guide/reactivity-fundamentals.html#shallow-reactivity), zum Speichern der Referenz. Warum wir keine reguläre Referenz benutzen, kannst du [hier](../advanced/caveats.md#reactivity) nachlesen.
 
 ```vue
 <script setup lang="ts">
@@ -48,7 +48,7 @@ const boxRef: ShallowRef<TresInstance | null> = shallowRef(null)
 
 ## Den Würfel animieren
 
-Jetzt, wo wir eine Referenz zum Würfel haben, können wir ihn animieren. Wir werden die `onLoop`-Callback-Funktion verwenden, um die Rotation des Würfels zu aktualisieren.
+Jetzt, wo wir eine Referenz zum Würfel haben, können wir ihn animieren. Wir werden den `onLoop`-Callback verwenden, um die Rotation des Würfels zu aktualisieren.
 
 
 ```ts
@@ -81,7 +81,7 @@ onLoop(({ delta, elapsed }) => {
 ```
 
 Als Vue Entwickler mag es intiuitiv scheinen, Reaktivität zu nutzen, um den Würfel zu animieren, aber das wäre eine schlechte Idee.
-Der Grund ist, dass [die Reaktivität von Vue auf Proxies basiert](https://vuejs.org/guide/extras/reactivity-in-depth.html#how-reactivity-works-in-vue) und nicht dafür ausgelegt ist, in einem Render-Loop verwendet zu werden, der 60 oder mehr Mal pro Sekunde aktualisiert wird.
+Der Grund ist, dass [die Reaktivität von Vue auf Proxies basiert](https://vuejs.org/guide/extras/reactivity-in-depth.html#how-reactivity-works-in-vue) und nicht dafür ausgelegt ist, in einem Render-Loop verwendet zu werden, der 60 oder mehr Mal pro Sekunde ausgeführt wird.
 
 Die unten eingebettete Seite zeigt den [Performancestest eines Proxy im Vergleich zu einem regulären Objekt](https://measurethat.net/Benchmarks/Show/12503/0/object-vs-proxy-vs-proxy-setter). Wie du sehen kannst, ist der Proxy 5 Mal langsamer als das reguläre Objekt.
 

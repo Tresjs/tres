@@ -30,12 +30,12 @@ yarn add three @tresjs/nuxt
 
 - 🤓 Automatischer Import von Komponenten und Composables aus dem [TresJS-Ökosystem](https://github.com/orgs/Tresjs/repositories)
 - `TresCanvas` ist nur auf dem Client verfügbar, daher ist es nicht notwendig, `.client` zum Namen der Komponente hinzuzufügen oder `<ClientOnly />` zu verwenden
-- Konfiguriert automatisch den Vue-Compiler, um TresJS-Komponenten zu unterstützen, siehe [warum](/de/guide/troubleshooting.html#failed-resolve-component-trescomponent-%F0%9F%A4%94)?
+- Konfiguriert automatisch den Vue-Compiler, um TresJS-Komponenten zu unterstützen, siehe [warum](http://localhost:5173/de/guide/troubleshooting.html#fehler-beim-auflosen-des-komponenten-trescomponent)?
 - All die DX-Magie, die mit Nuxt kommt ✨
 
 ## Verwendung
 
-Füge `@tresjs/nuxt` zum Abschnitt `modules` in `nuxt.config.ts` hinzu
+Füge `@tresjs/nuxt` zum Abschnitt `modules` in `nuxt.config.ts` hinzu.
 
 ```js
 export default defineNuxtConfig({
@@ -43,9 +43,9 @@ export default defineNuxtConfig({
 })
 ```
 
-Das ist alles! Jetzt kannst du `@tresjs/nuxt` in deiner Nuxt-Anwendung verwenden ✨
+Das ist alles! Jetzt kannst du `@tresjs/nuxt` in deiner Nuxt-Anwendung verwenden ✨.
 
-Wenn du irgendwelche Pakete aus dem TresJS-Ökosystem verwenden möchtest, kannst du die gewünschten Pakete installieren und sie werden automatisch vom Modul importiert 🧙🏼‍♂️.
+Wenn du irgendwelche Pakete aus dem TresJS-Ökosystem verwenden möchtest, kannst du die gewünschten Pakete installieren und sie werden automatisch vom Modul importiert 🧙.
 
 | Package                     | Version                                                                                            |
 | --------------------------- | :------------------------------------------------------------------------------------------------- |

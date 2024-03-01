@@ -6,9 +6,9 @@
 
 Allerdings ist es kein Teil des Kerns von Three.js. Daher müsstest du es aus dem Modul `three/addons/geometries/TextGeometry` importieren.
 
-Das schafft ein Problem, weil **TresJS** automatisch einen Katalog aus dem Kern von Three erstellt, damit du sie als Komponenten nutzen kannst.
+**TresJS** erstellt bereits automatisch einen Katalog aus dem Core von Three, damit du sie als Komponenten nutzen kannst. Allerdings ist standardmäßig `TextGeometry` nicht Teil dieses Katalogs.
 
-Glücklicherweise bietet **TresJS** eine Möglichkeit, den Komponentenkatalog zu erweitern. Du kannst dies tun, indem du die `extend`-Methode der Hauptbibliothek verwendest.
+Glücklicherweise bietet **TresJS** eine Möglichkeit, den Komponentenkatalog mit der `extend`-Methode zu erweitern.
 
 Für weitere Informationen darüber, wie du deinen TresJS-Katalog erweitern kannst, siehe den Abschnitt [Erweitern](/de/advanced/extending.md).
 
@@ -29,7 +29,7 @@ import { TextGeometry } from 'three/addons/geometries/TextGeometry'
 extend({ TextGeometry })
 ```
 
-[TextGeometry](https://threejs.org/docs/index.html?q=text#examples/en/geometries/TextGeometry) benötigt nur ein Argument, die Schriftart. Unten siehst du ein Beispiel.
+[TextGeometry](https://threejs.org/docs/index.html?q=text#examples/en/geometries/TextGeometry) benötigt nur die Schriftart als Argument. Unten siehst du ein Beispiel.
 
 ```js
 const fontPath = 'https://raw.githubusercontent.com/Tresjs/assets/main/fonts/FiraCodeRegular.json'
@@ -148,7 +148,7 @@ const matcapTexture = await useTexture(['https://raw.githubusercontent.com/Tresj
 </template>
 ```
 
-Das scheint viel Arbeit zu sein, aber es gibt eine einfachere Möglichkeit.
+Das scheint viel Arbeit zu sein, aber es gibt eine einfachere Alternative.
 
 ## TextGeometry von `cientos`
 
@@ -156,7 +156,7 @@ Das Paket `cientos` bietet eine Komponente namens `<Text3D />`, die ein Wrapper 
 
 Das Beste daran? Du musst den Katalog nicht erweitern, gib einfach das Schriftargument an.
 
-Es funktioniert einfach. 💯 (wenn kein Text bereitgestellt wird, wird der Text TresJS sein)
+Es funktioniert einfach. 💯 (wenn kein Text angegeben wird, wird der Text TresJS sein)
 
 ```vue
 <template>
@@ -190,7 +190,7 @@ const fontOptions = {
 }
 ```
 
-Standardmäßig beginnt der Text in Three.js an der Ausgangsposition des Meshs, also wenn es [0,0,0] ist, wird der Text dort beginnen, aber wir können ihn einfach zentrieren, indem wir das Flag "center" übergeben.
+Der Text in Three.js beginnt standardmäßig an der Ausgangsposition des Meshs, also bei [0,0,0]. Um den Text zu zentrieren, können wir einfach das Flag "center" übergeben.
 
 ```vue
 <Text3D :font="fontPath" :text="my 3d text" center />

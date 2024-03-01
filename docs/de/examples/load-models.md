@@ -8,18 +8,18 @@ In dieser Anleitung konzentrieren wir uns auf das Laden von gLTF-Modellen (GL Tr
 
 <SandboxDemo url="https://play.tresjs.org/#eNqVVdtu2zgQ/RVC++AsVpacuu12tc7CidsGu+i2Re0+VX2gpbHMhCIJkrLjBvn3DqmLJfeCFPCDNXNmeOZ+H6w0mEulol0FQRLMTKaZssSArdQ/qWClktqSe+JgCyp21JAHstGyJKO5RdmNiTOpYfR3D/tOr5ldSGG15N+BMxBWmoHFFTUsW25pLvf/UxWS5Yfrq4XkUi8VzSAkb+VKCkCVYqLoPNqtBhilonP0sSj44aoS4tAgovgochG6R1ORSWEsKTi5IPepICTjQLV/LiGj317/+eJq+nIUOo3xlExCrK7ASyhXW5qQDeWmFtQQpLY6KEhOI3EIWVlVYT7acJLT8BzIHuNLhuF69Z4J9LhkX9C64fKQillclwsLNbNQKk4t4H9CZr1y7cZrNL5Ig4Kngdc2+vegjYLMsh0saAma1rpEScMskwJNPj0JCf7++pwGjZJLeTum1ukmXjdpdHHrelj9Trys8DFhan5e0qtWh4pPYJ7oS6YdTSkof8OKrW09ZC6FyKQpWcvxJIRpSNyvCwHVTFh8g9kD6s9becfBT0S5dm3qnxvin6RBA53Fxyy7CsRdCYIwqDtyXFIV3RgpcLR8q6WNwqRBUjefk/UnySnSYGutMkkcZ7lA+xw42+lIgI2FKuM+fD6NnkWTOGfGxk6M6DTwLTNwXM/cr/iuLdD98777Rjx8xe6B3ioqHsO9w86fRpPovPHcCqOSOZu+bzfjj/HrcHP0+OwF8v0DTNlPA45+ZeDR+e3B5+cTn2AcIbiLymF2GxyuAA35LziuDX7mGoHjHEr2CKct1AX/NHoec7buu3QecVU8YE9ag5tvw4qTjsxkqRgH/U65kRl2JuVc7v/zsm4FepstZLffkd+Yu5rye2wW0DtM97GUVBdga/Wr5Vu4w/+dspR5xZvi/ED5AYzkleNYw3B15Ei7h/Ns//UDhotzZV7d+bltghoQtbitvfRTuxW6XqsFn33iPN6XY/GTLB0jm0bTXsKHx+f0vBJORYEbxS2D/qnVsOlOnLtZPRU2zyV+UU8hdJ/Xb1avf3hij8funpgMBB4PTCXwkNDOCxpfELqnzLbuzlwEo7bnNN1HBbPbao1qjd4wpTbCnvHbDx+jBqMxcUmZiL13ExfcbuIKYx8Legv5eO1S8I1gXJOAPHJ4d3B/7xOmfuXX/AZxnx3Jh3U8Pbus0hoJXnpjtMRknjWeomssr2uMGt4HRjvKK4hwex/OvLZ3Wb+5rUqzEq/LDkgi1zd4mbCGnkZzGfqH4OErWPcr8A==" />
 
-Es gibt verschiedene Möglichkeiten, Modelle in TresJS zu laden:
+Es gibt verschiedene Möglichkeiten, Modelle in TresJS zu laden.
 
 
 ::: warning
-Bitte beachte, dass wir in den vorherigen Beispielen das "top-level" `await` verwendet haben, stelle sicher, dass du es mit einer [Suspense](https://vuejs.org/guide/built-ins/suspense.html#suspense)-Komponente umgibst.
+Bitte beachte, dass wir in den vorherigen Beispielen das "top-level" `await` verwendet haben. Stelle sicher, dass du es mit einer [Suspense](https://vuejs.org/guide/built-ins/suspense.html#suspense)-Komponente umgibst.
 :::
 
 ## Verwendung von `useLoader`
 
 Das Composable `useLoader` ermöglicht es dir, jeden Typ von three.js-Loader und eine URL zum Laden der Ressource zu übergeben. Es gibt ein `Promise` mit der geladenen Ressource zurück.
 
-Für eine detaillierte Erklärung, wie `useLoader` verwendet wird, siehe die Dokumentation von [useLoader](/api/composables#useloader).
+Eine detaillierte Erklärung, wie `useLoader` verwendet wird, findest du in der Dokumentation von [useLoader](/api/composables#useloader).
 
 ```ts
 import { useLoader } from '@tresjs/core'
@@ -38,7 +38,7 @@ Dann kannst du die Szene des Modells in einer [`primitive`](/de/advanced/primiti
 
 > Die Komponente `<primitive />` ist keine eigenständige Komponente im Quellcode von Tres. Stattdessen ist sie Teil der Kernfunktionalität von Tres. Wenn du `<primitive>` verwendest, wird dies zu einem Aufruf von `createElement`, der das entsprechende three.js-Objekt basierend auf der bereitgestellten "object"-Eigenschaft erstellt.
 
-Beachte im obigen Beispiel, dass wir die `Suspense`-Komponente verwenden, um die `TresCanvas`-Komponente zu umgeben. Dies liegt daran, dass `useLoader` ein `Promise` zurückgibt und wir warten müssen, bis es gelöst ist, bevor wir die Szene rendern können.
+Beachte im obigen Beispiel, dass wir die `Suspense`-Komponente verwenden, um die `TresCanvas`-Komponente zu umgeben. Dies liegt daran, dass `useLoader` eine `Promise` zurückgibt und wir warten müssen, bis sie erfüllt ist, bevor wir die Szene rendern können.
 
 ## Verwendung von `useGLTF`
 

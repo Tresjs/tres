@@ -4,11 +4,11 @@
 
 Willkommen beim Troubleshooting-Guide für **TresJS v2**. Wo 3D für _"Dazzlingly Delicious Difficulties"_ steht! Wir wissen, dass 3D so komplex wie ein verwickelter Wollknäuel 🧶 oder so unberechenbar wie eine Katze auf einer Tastatur 🐈 ⌨️ sein kann, aber keine Sorge!
 
-Dieser Leitfaden soll dir helfen, die häufigsten Probleme zu lösen, die du beim Einsatz von TresJS v2 treffen könntest.
+Dieser Leitfaden soll dir helfen, die häufigsten Probleme zu lösen, auf die du beim Einsatz von TresJS v2 treffen könntest.
 
 ## Ich kann meine 3D-Szene nicht sehen 😭!
 
-Du hast der [Startanleitung](/de/guide/getting-started.md) gefolgt, kannst aber deine gerenderte Szene immer noch nicht sehen.
+Du bist der [Startanleitung](/de/guide/getting-started.md) gefolgt, kannst aber deine gerenderte Szene immer noch nicht sehen?
 
 Hier sind die häufigsten Gründe, warum du deine Szene möglicherweise nicht sehen kannst:
 
@@ -39,7 +39,7 @@ body {
 }
 ```
 
-Oder du kannst auch die Eigenschaft `window-size` der Komponente `TresCanvas` setzen:
+Du kannst auch die Eigenschaft `window-size` der Komponente `TresCanvas` verwenden:
 
 ```vue
 <TresCanvas window-size>
@@ -77,7 +77,7 @@ export default defineConfig({
 
 # Hilf uns, TresJS miau-tastisch zu machen! 😼
 
-Wir wissen, dass selbst die besten Schlafkatzen gelegentlich Fehler machen, und wir brauchen deine Hilfe, um TresJS noch besser zu machen! Wenn du einen Fehler findest, öffne bitte ein Ticket im [Repository](https://github.com/Tresjs/tres/issues) und **bitte stelle einen Reproduktionslink bereit**.
+Wir wissen, dass selbst die besten Schlafkatzen gelegentlich Fehler machen und wir brauchen deine Hilfe, um TresJS noch besser zu machen! Wenn du einen Fehler findest, öffne bitte ein Ticket im [Repository](https://github.com/Tresjs/tres/issues) und **bitte stelle einen Reproduktionslink bereit**.
 
 ::: warning
 Tickets ohne einen Reproduktionslink werden geschlossen.

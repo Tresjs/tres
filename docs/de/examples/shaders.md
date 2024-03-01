@@ -17,7 +17,7 @@ Wir importieren alle Module, die wir benötigen. Für zusätzlichen Komfort kön
 
 Nun positionieren wir unsere Kamera an der Position `[11,11,11]`.
 
-Zuletzt, um uns bei der Positionierung zu helfen, fügen wir eine einfache Ebene hinzu, die um die X-Achse gedreht ist, mit den Maßen `[10, 10]`.
+Um uns bei der Positionierung zu helfen, fügen wir zum Schluß eine einfache Ebene  mit den Maßen `[10, 10]` hinzu, die um die X-Achse gedreht ist.
 
 ```vue
 <script setup lang="ts">

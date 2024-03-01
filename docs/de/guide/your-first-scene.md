@@ -11,7 +11,7 @@ Dieser Leitfaden hilft dir, deine erste Szene in Tres zu erstellen. 🍩
 
 ## Das Canvas einrichten
 
-Bevor wir eine Szene erstellen können, benötigen wir einen Ort, um sie anzuzeigen. Würden wir nur [Three.js](https://threejs.org/docs/index.html#manual/en/introduction/Creating-a-scene) verwenden, müssten wir ein HTML-`canvas`-Element erstellen, um mit dem `WebglRenderer` eine `scene` zu initialisieren.
+Bevor wir eine Szene erstellen können, benötigen wir einen Ort, um sie anzuzeigen. Würden wir nur reines [Three.js](https://threejs.org/docs/index.html#manual/en/introduction/Creating-a-scene) verwenden, müssten wir ein HTML-`canvas`-Element erstellen, um mit dem `WebglRenderer` eine `scene` zu initialisieren.
 
 Mit **TresJS** kannst du direkt die Standardkomponente `<TresCanvas />` importieren und sie zum Template deiner Vue-Komponente hinzufügen.
 
@@ -38,7 +38,7 @@ Und sie stellt den Rendering-Loop so ein, dass er bei jedem Frame basierend auf 
 
 ## Leinwandgröße
 
-Standardmäßig nimmt die `TresCanvas`-Komponente **die Breite und Höhe des Elternelements** an. Wenn du eine leere Seite erhälst, stelle sicher, dass das Elternelement eine angemessene Größe hat.
+Standardmäßig nimmt die `TresCanvas`-Komponente **die Breite und Höhe des Elternelements** an. Wenn du eine leere Seite erhälst, muss das Elternelement eine angemessene Größe haben.
 
 ```vue
 <script lang="ts" setup>
@@ -66,9 +66,9 @@ body {
 </style>
 ```
 
-Wenn deine Szene nicht Teil einer Benutzeroberfläche sein wird, kannst du auch die gesamte Breite und Höhe des Fensters mit der Eigenschaft `window-size` auf diese Weise nutzen:
+Wenn deine Szene nicht Teil einer Benutzeroberfläche sein wird, kannst du auch die gesamte Breite und Höhe des Fensters mit der Eigenschaft `window-size` nutzen:
 
-```vue
+```vue{6}
 <script lang="ts" setup>
 import { TresCanvas } from '@tresjs/core'
 </script>
@@ -134,7 +134,7 @@ Jetzt sehen wir, wie wir dasselbe mit **TresJS** erreichen können. Dazu verwend
 ```
 
 ::: info
-Beachte, dass wir nichts importieren müssen, da **TresJS** automatisch eine **Vue-Komponente basierend auf dem Three-Objekt, das du verwenden möchtest, im CamelCase mit einem Tres-Prefix** generiert. Wenn du zum Beispiel ein `AmbientLight` verwenden möchtest, würdest du die `TresAmbientLight`-Komponente nutzen.
+Beachte, dass wir nichts importieren müssen, da **TresJS** automatisch eine **Vue-Komponente basierend auf dem Three-Objekt, das du verwenden möchtest, im PascalCase mit einem Tres-Prefix** generiert. Wenn du zum Beispiel ein `AmbientLight` verwenden möchtest, würdest du die `TresAmbientLight`-Komponente nutzen.
 :::
 
 
