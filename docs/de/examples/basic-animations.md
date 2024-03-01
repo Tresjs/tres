@@ -8,7 +8,7 @@ Wir werden eine einfache Szene mit einem Würfel erstellen. Anschließend animie
 
 ## useRenderLoop
 
-Das Composable `useRenderLoop` ist das Herzstück der Animationen in TresJS. Es ermöglicht dir, eine Funktion zu registrieren, die jedes Mal ausgeführt wird, wenn der Renderer die Szene aktualisiert.
+Das Composable `useRenderLoop` ist das Herzstück von Animationen in TresJS. Es ermöglicht dir, eine Funktion zu registrieren, die jedes Mal ausgeführt wird, wenn der Renderer die Szene aktualisiert.
 
 Weitere Informationen zur Funktionsweise gibt es in der Dokumentation von [useRenderLoop](/api/composables#userenderloop).
 
