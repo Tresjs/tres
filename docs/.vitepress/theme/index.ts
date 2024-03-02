@@ -2,7 +2,7 @@ import 'uno.css'
 
 // .vitepress/theme/index.ts
 import Theme from 'vitepress/theme'
-import './config.css'
+import './custom.css'
 
 import TresLayout from './TresLayout.vue'
 
