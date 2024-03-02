@@ -9,15 +9,16 @@ import { data as recipes } from '../recipes.data.ts'
       :key="recipe.title"
       class="list-none important-m-0"
     >
-      <img
-        :src="recipe.thumbnail"
-        :alt="recipe.title"
-        class="aspect-video object-cover rounded-lg"
-      >
       <a
         :href="recipe.url"
       >
-        <h2>
+        <img
+          :src="recipe.thumbnail"
+          :alt="recipe.title"
+          class="aspect-video object-cover rounded-lg"
+        >
+    
+        <h3>
           {{ recipe.title }}
           <span
             v-for="n in recipe.difficulty"
@@ -25,9 +26,9 @@ import { data as recipes } from '../recipes.data.ts'
             aria-label="chili"
             role="img"
             class="text-sm"
-          >🌶️</span></h2>
+          >🌶️</span>
         
-      </a>
+        </h3></a>
       <p>{{ recipe.excerpt }}</p>
     </li>
   </ul>
