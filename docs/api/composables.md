@@ -27,7 +27,7 @@ The `onLoop` callback receives an object with the following properties based on 
 - `delta`: The delta time between the current and the last frame. This is the time in seconds since the last frame.
 - `elapsed`: The elapsed time since the start of the render loop.
 
-This composable is based on `useRafFn` from [vueuse](https://vueuse.org/core/useRafFn/). Thanks to [@wheatjs](https://github.com/orgs/Tresjs/people/wheatjs) for the amazing contribution.
+This composable is based on `useRafFn` from [vueuse](https://vueuse.org/core/useRafFn/). Thanks to [@wheatjs](https://github.com/wheatjs) for the amazing contribution.
 
 ### Before and after render
 
@@ -200,7 +200,7 @@ const { camera, renderer, camera, cameras } = useTresContext()
 ```
 
 ::: warning
-`useTresContext` can be only be used inside of a `TresCanvas` since `TresCanvas` acts as the provider for the context data. Use [the context exposed by TresCanvas](tres-canvas#exposed-public-properties) if you find yourself needing it in parent components of TresCanvas. 
+`useTresContext` can be only be used inside of a `TresCanvas` since `TresCanvas` acts as the provider for the context data. Use [the context exposed by TresCanvas](tres-canvas#exposed-public-properties) if you find yourself needing it in parent components of TresCanvas.
 :::
 
 ```vue
