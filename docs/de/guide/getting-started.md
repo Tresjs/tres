@@ -22,7 +22,7 @@ yarn add three @tresjs/core
 
 ## Typescript
 
-TresJS ist in Typescript geschrieben und vollständig typisiert. Installiere auch die Typdeklarationen für Three um alle Vorteile von Typescript zu genießen.
+TresJS ist in Typescript geschrieben und vollständig typisiert. Installiere die Typdeklarationen für Three um alle Vorteile von Typescript zu genießen.
 
 ::: code-group
 
@@ -65,13 +65,13 @@ import { TresCanvas } from '@tresjs/core'
 
 <template>
   <TresCanvas>
-    <!-- Your scene here -->
+    <!-- Deine Szene lebt hier -->
   </TresCanvas>
 </template>
 ```
 
 ::: tip
-Aufgrund von Performance und Bundlegröße ist dieser Ansatz zu empfehlen. Durch das Tree-Shaking werden nur die tatsächlich verwendeten Komponenten importiert.
+Aufgrund von Performance und Bundlegröße ist dieser Ansatz zu empfehlen, da durch das Tree-Shaking nur die tatsächlich verwendeten Komponenten importiert werden.
 :::
 
 

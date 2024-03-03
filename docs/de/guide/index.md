@@ -24,7 +24,7 @@ pnpm add @tresjs/core three
 
 ## Typescript
 
-TresJS ist in Typescript geschrieben und vollständig typisiert. Installiere auch die Typdeklarationen für Three um alle Vorteile von Typescript zu genießen.
+TresJS ist in Typescript geschrieben und vollständig typisiert. Installiere die Typdeklarationen für Three um alle Vorteile von Typescript zu genießen.
 
 ::: code-group
 
@@ -88,11 +88,11 @@ Wir haben auch einen Playground, wo du TresJS online testen kannst. Probiere es 
 
 [Three.js](https://threejs.org/) ist eine wunderbare Bibliothek für die Erstellung von erstaunlichen 3D-Webseiten mit WebGL. Sie wird konstant weiterentwickelt, was es für die Maintainer von Wrappern wie [TroisJS](https://troisjs.github.io/) schwierig macht, mit allen Verbesserungen Schritt zu halten.
 
-Das React-Ökosystem hat eine beeindruckende Lösung für das **benutzerdefinierte Rendering** namens [react-three-fiber](https://docs.pmnd.rs/react-three-fiber), die es dir ermöglicht, deine Szenen deklarativ mit wiederverwendbaren, reaktiven Komponenten zu bauen.
+Das React-Ökosystem hat eine beeindruckendes **custom Rendering** Projekt namens [react-three-fiber](https://docs.pmnd.rs/react-three-fiber), das es dir ermöglicht, deine Szenen deklarativ mit wiederverwendbaren, reaktiven Komponenten zu bauen.
 
-Auf der Suche nach etwas Ähnlichem im VueJS-Ökosystem fand ich diese erstaunliche Bibliothek namens [Lunchbox](https://github.com/breakfast-studio/lunchboxjs), die mit demselben Konzept wie R3F arbeitet und einen [benutzerdefinierten Vue3-Renderer](https://vuejs.org/api/custom-renderer.html) bereitstellt. Ich trage auch dazu bei, diese Bibliothek zu verbessern, damit sie so ausgereift und funktionsreich wie R3F wird.
+Auf der Suche nach etwas Ähnlichem im VueJS-Ökosystem fand ich eine erstaunliche Bibliothek namens [Lunchbox](https://github.com/breakfast-studio/lunchboxjs), die mit demselben Konzept wie R3F arbeitet und einen [custom Vue3-Renderer](https://vuejs.org/api/custom-renderer.html) bereitstellt. Ich habe seinerzeit auch dazu beigetragen, diese Bibliothek zu verbessern, damit sie so ausgereift und funktionsreich wie R3F wird.
 
-Das einzige Problem ist, dass die Kombination von Compilern und Renderern in Vue3-Templates etwas ist, an dem die Vue-Community noch arbeitet. Weitere Informationen findest du [hier](https://github.com/vuejs/vue-loader/pull/1645).
+Das einzige Problem ist, dass die Kombination von Compilern und Renderern in Vue3-Templates etwas ist, an dem die Vue-Community noch arbeitet. Mehr Informationen dazu findest du [hier](https://github.com/vuejs/vue-loader/pull/1645).
 
 ```ts
 // Example Vite setup

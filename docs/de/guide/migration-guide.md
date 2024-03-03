@@ -30,7 +30,7 @@ yarn upgrade @tresjs/core
 
 Dies war wahrscheinlich das am **meisten gefragte Feature für TresJS**. Jetzt funktionieren die Tres-Komponenten mit Volar und bieten Type-Intellisense.
 
-**TresJS** generiert nun zur Kompilierungszeit Typdeklarationen für alle Komponenten basierend auf dem Three.js-Katalog. Das bedeutet, dass du alle Three.js-Komponenten verwenden und Type-Intellisense dafür erhalten kannst.
+**TresJS** generiert nun zur Kompilierungszeit Typdeklarationen für alle Komponenten basierend auf dem Three.js-Katalog. Das bedeutet, dass du alle Three.js-Komponenten verwenden kannst und Type-Intellisense dafür erhälst.
 
 ### Das Tres-Plugin ist optional 👍
 
@@ -59,14 +59,14 @@ import { TresCanvas } from '@tresjs/core'
 ```
 
 ::: tip
-Aufgrund von Performance und Größe des Bundles ist dieser Ansatz zu empfelhen, da das Tree-Shaking besser funktionieren wird und nur die tatsächlich verwendeten Komponenten importiert werden.
+Aufgrund von Performance und Bundlegröße ist dieser Ansatz zu empfehlen, da durch das Tree-Shaking nur die tatsächlich verwendeten Komponenten importiert werden.
 :::
 
 ### TresScene ist nicht mehr notwendig
 
 Die Komponente `<TresScene />` ist nun veraltet, da die Szene jetzt durch `<TresCanvas />` erstellt wird.
 
-Am Anfang dachte ich, dass es eine gute Idee wäre, eine separate Komponente für die Szene in Bezug auf die Ausführlichkeit zu haben und sie so ähnlich wie möglich an plain Three.js zu halten, aber es stellte sich heraus, dass es nicht wirklich nützlich war.
+Am Anfang dachte ich, dass es eine gute Idee wäre, eine separate Komponente für die Szene zu haben, um den Aufbau so ähnlich wie möglich an plain Three.js zu halten. Es stellte sich aber heraus, dass es nicht wirklich nützlich war.
 
 Du kannst jetzt eine Szene so erstellen:
 
@@ -220,4 +220,4 @@ const { scene, renderer } = useTresContext()
 console.log(scene.value)
 ```
 
-Für detailliertere Informationen über das neue Kontextanbieter-System kannst du den Abschnitt [API DOCS](/de/api/composables.md) lesen.
+Für detailliertere Informationen über das neue Context-Provider-System kannst du den Abschnitt [API DOCS](/de/api/composables.md) lesen.

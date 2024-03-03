@@ -4,7 +4,7 @@ Hast du schon einmal versucht, die Distanz zwischen zwei Object3Ds zu berechnen?
 
 Mit der neuen Direktive `v-distance-to` ist es einfacher als je zuvor. Du musst nur das Zielobjekt für die Messung angeben und das Ergebnis wird in deiner Konsole erscheinen.
 
-Zusätzlich wird ein Pfeil erstellt, um anzuzeigen, welche Objekte du misst.
+Zusätzlich wird ein Pfeil zwischen den beiden Objekten erstellt.
 
 ```vue{2,8,13}
 <script setup lang="ts">
@@ -32,5 +32,5 @@ import { OrbitControls, Sphere, vLog } from '@tresjs/cientos'
 Die Verwendung von `v-distance-to` ist reaktiv, sodass sie perfekt mit `@tres/leches` 🍰 funktioniert.
 
 ::: warning
-`v-distance-to` wird kein Objekt in Bewegung innerhalb des RenderLoops messen.
+`v-distance-to` wird kein bewegtes Objekt innerhalb des RenderLoops messen.
 :::

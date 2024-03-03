@@ -97,8 +97,8 @@ renderer.shadowMap.type = PCFSoftShadowMap
 
 Tres versucht so unvoreingenommen wie möglich zu sein. Deshalb setzt es fast keine Standardwerte für die `TresCanvas`-Komponente. Es verwendet die Standardwerte von [three.js](https://threejs.org/). Die einzige Ausnahme ist die Eigenschaft `antialias`, die standardmäßig auf `true` gesetzt ist.
 
-## Öffentlich exportierte Eigenschaften
+## Öffentlich exportierte Properties
 
-| Eigenschaft | Beschreibung |
+| Property | Beschreibung |
 | ---- | ---- |
 | context | siehe [useTresContext](composables#usetrescontext) |

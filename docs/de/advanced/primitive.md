@@ -26,7 +26,7 @@ Die `<primitive />`-Komponente ist eine vielseitige Low-Level-Komponente in Tres
 
 ## Props
 
-`object`: Diese Eigenschaft erwartet ein `Object3D`-Objekt von three.js oder eine seiner abgeleiteten Klassen. Es ist das Hauptobjekt, das die `<primitive />`-Komponente rendern wird. Im aktualisierten Beispiel wird ein `Mesh`-Objekt mit dem entsprechenden `Material` an diese Eigenschaft übergeben.
+`object`: Diese Property erwartet ein `Object3D`-Objekt von three.js oder eine seiner abgeleiteten Klassen. Es ist das Hauptobjekt, das die `<primitive />`-Komponente rendern wird. Im aktualisierten Beispiel wird ein `Mesh`-Objekt mit dem entsprechenden `Material` an diese Property übergeben.
 
 ## Verwendung mit Modellen
 

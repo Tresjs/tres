@@ -22,7 +22,7 @@ onLoop(({ delta, elapsed, clock, dt }) => {
 Achte auf die Performance-Auswirkungen beim Verwenden dieses Composables, da es bei jedem Frame ausgeführt wird. Wenn du also viel Logik in deinem Callback hast, könnte dies die Performance deiner Anwendung beeinträchtigen. Insbesondere, wenn du State oder reaktive Referenzen veränderst.
 :::
 
-Der `onLoop`-Callback erhält ein Objekt mit den folgenden, auf der [Uhr von THREE](https://threejs.org/docs/?q=clock#api/en/core/Clock) basierenden Eigenschaften:
+Der `onLoop`-Callback erhält ein Objekt mit den folgenden, auf der [Uhr von THREE](https://threejs.org/docs/?q=clock#api/en/core/Clock) basierenden Properties:
 
 - `delta`: Die verstrichene Zeit zwischen dem aktuellen Frame und dem letzten Frame. Dies ist die Zeit in Sekunden seit dem letzten Frame.
 - `elapsed`: Die verstrichene Zeit seit Beginn des Render-Loops.
@@ -61,7 +61,7 @@ pause()
 resume()
 ```
 
-Du kannst auch den aktiven Status des Rendering-Loops mit der Eigenschaft `isActive` abfragen.
+Du kannst auch den aktiven Status des Rendering-Loops mit der Property `isActive` abfragen.
 
 ```ts
 const { resume, isActive } = useRenderLoop()
@@ -101,7 +101,7 @@ Das Composable `useTexture` ermöglicht es dir, Texturen mit dem [Texture Loader
 const texture = await useTexture(['path/to/texture.png'])
 ```
 
-**useTexture** akzeptiert auch ein Objekt mit den folgenden Eigenschaften:
+**useTexture** akzeptiert auch ein Objekt mit den folgenden Properties:
 
 - `map`: Eine Basistextur, die auf die Oberfläche eines Objekts angewendet wird
 - `displacementMap`: Eine Textur, die verwendet wird, um Beulen oder Einbuchtungen auf der Oberfläche des Objekts hinzuzufügen
@@ -152,7 +152,7 @@ Dann kannst du die Texturen an das Material binden.
 
 ## useSeek
 
-Das Composable `useSeek` bietet Hilfsmittel, um leicht durch komplexe Three.js-Szenen und Objektgrafiken zu navigieren. Es exportiert 4 Funktionen, die es dir ermöglichen, Objekte basierend auf spezifischen Eigenschaften zu finden.
+Das Composable `useSeek` bietet Hilfsmittel, um leicht durch komplexe Three.js-Szenen und Objektgrafiken zu navigieren. Es exportiert 4 Funktionen, die es dir ermöglichen, Objekte basierend auf spezifischen Properties zu finden.
 
 ```ts
 const { seek, seekByName, seekAll, seekAllByName } = useSeek()
@@ -161,10 +161,10 @@ const { seek, seekByName, seekAll, seekAllByName } = useSeek()
 Die Funktion `seek` akzeptiert drei Parameter:
 
 - `parent`: Eine Three.js-Szene oder Object3D.
-- `property`: Die Eigenschaft, die für die Suchbedingung verwendet wird.
-- `value`: Der Wert der Eigenschaft, mit dem abgeglichen wird.
+- `property`: Die Property, die für die Suchbedingung verwendet wird.
+- `value`: Der Wert der Property, mit dem abgeglichen wird.
 
-Die Funktionen `seek` und `seekByName` durchsuchen das Objekt nach einem Kindobjekt mit den angegebenen Parametern. Wenn kein Kind mit der passenden Eigenschaft und  Wert gefunden wird, geben sie `null` zurück und zeigen eine Warnung.
+Die Funktionen `seek` und `seekByName` durchsuchen das Objekt nach einem Kindobjekt mit den angegebenen Parametern. Wenn kein Kind mit der passenden Property und  Wert gefunden wird, geben sie `null` zurück und zeigen eine Warnung.
 
 ```ts
 const carRef = ref(null)
@@ -179,7 +179,7 @@ watch(carRef, ({ model }) => {
 })
 ```
 
-Ähnlich geben die Funktionen `seekAll` und `seekAllByName` ein Array von Kindobjekten zurück, deren Eigenschaft den gegebenen Wert enthält. Wenn keine Übereinstimmungen gefunden werden, geben sie ein leeres Array zurück und zeigen eine Warnung.
+Ähnlich geben die Funktionen `seekAll` und `seekAllByName` ein Array von Kindobjekten zurück, deren Property den gegebenen Wert enthält. Wenn keine Übereinstimmungen gefunden werden, geben sie ein leeres Array zurück und zeigen eine Warnung.
 
 ```ts
 const character = ref(null)
@@ -200,7 +200,7 @@ const { camera, renderer, camera, cameras } = useTresContext()
 ```
 
 ::: warning
-`useTresContext` kann nur innerhalb eines `TresCanvas` verwendet werden, da `TresCanvas` als Anbieter der Kontextdaten fungiert. Verwende [den von TresCanvas bereitgestellten Kontext](tres-canvas#offentlich-exportierte-eigenschaften), wenn du in Komponenten darauf zugreifen musst, die über den TresCanvas hinausgehen.
+`useTresContext` kann nur innerhalb eines `TresCanvas` verwendet werden, da `TresCanvas` als Anbieter der Kontextdaten fungiert. Verwende [den von TresCanvas bereitgestellten Kontext](tres-canvas#offentlich-exportierte-properties), wenn du in Komponenten darauf zugreifen musst, die über den TresCanvas hinausgehen.
 :::
 
 ```vue
