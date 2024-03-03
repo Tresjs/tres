@@ -11,7 +11,7 @@ For this guide we are going to focus on loading gLTF (GL Transmission Format) mo
 There are several ways to load models on TresJS:
 
 ::: warning
-Please note that the examples above we use top level await, make sure you wrap it with a [Suspense](https://vuejs.org/guide/built-ins/suspense.html#suspense) component. See Suspense for more information. .
+Please note that in the examples above we use top level await, make sure you wrap it with a [Suspense](https://vuejs.org/guide/built-ins/suspense.html#suspense) component. See Suspense for more information. .
 :::
 
 ## Using `useLoader`
@@ -57,7 +57,7 @@ import { useGLTF } from '@tresjs/cientos'
 const { scene, nodes, animations, materials } = await useGLTF('/models/AkuAku.gltf', { draco: true })
 ```
 
-Alternatively you can easily select Objects inside the model using `nodes` property
+Alternatively you can easily select objects inside the model using `nodes` property.
 
 ```vue
 <script setup lang="ts">
@@ -81,7 +81,7 @@ const { scene, nodes, animations, materials } = await useGLTF('/models/AkuAku.gl
 
 ## Using `GLTFModel`
 
-The `GLTFModel` component is a wrapper around `useGLTF` that's available from the [@tresjs/cientos](https://github.com/Tresjs/tres/tree/main/packages/cientos) package.
+The `GLTFModel` component is a wrapper around the `useGLTF` composable, which is available from the [@tresjs/cientos](https://github.com/Tresjs/tres/tree/main/packages/cientos) package.
 
 ```vue{2,9}
 <script setup lang="ts">
@@ -121,7 +121,7 @@ Then is as straightforward as adding the scene to your scene:
 
 ## FBXModel
 
-The `FBXModel` component is a wrapper around `useFBX` that's available from the [@tresjs/cientos](https://github.com/Tresjs/tres/tree/main/packages/cientos) package. It's similar usage to `GLTFModel`:
+The `FBXModel` component is a wrapper around the `useFBX` composable, which is available from the [@tresjs/cientos](https://github.com/Tresjs/tres/tree/main/packages/cientos) package. It's similar in usage to `GLTFModel`:
 
 ```vue{2,9}
 <script setup lang="ts">
