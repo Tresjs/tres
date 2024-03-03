@@ -27,7 +27,7 @@ watch(sphereRef, (value) => {
 </template>
 ```
 
-And is A LOT of code just for a simple log right?
+Don't you think this is A LOT of code just for a simple log?
 
 ## Usage
 
@@ -50,4 +50,4 @@ import { OrbitControls, Sphere, vLog } from '@tresjs/cientos'
 </template>
 ```
 
-Note that you can pass a modifier with the name of a property, for example `v-log:material`, and will log directly the `material` property 😍
+Note that you can pass a modifier with the name of a property, for example `v-log:material`, and it will directly log the `material` property 😍

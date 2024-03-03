@@ -29,7 +29,7 @@ import { TextGeometry } from 'three/addons/geometries/TextGeometry'
 extend({ TextGeometry })
 ```
 
-[TextGeometry](https://threejs.org/docs/index.html?q=text#examples/en/geometries/TextGeometry) needs a only one required argument the font, you can see an example below.
+[TextGeometry](https://threejs.org/docs/index.html?q=text#examples/en/geometries/TextGeometry) requires only one argument - the font. You can find an example below.
 
 ```js
 const fontPath = 'https://raw.githubusercontent.com/Tresjs/assets/main/fonts/FiraCodeRegular.json'
@@ -48,7 +48,7 @@ const font = await new Promise((resolve, reject) => {
 })
 ```
 
-Now you can use the `TresTextGeometry` component inside a TresMesh in your scene
+Next you can use the `TresTextGeometry` component inside a TresMesh in your scene
 
 ```vue
 <template>
@@ -81,7 +81,7 @@ const fontOptions = {
 }
 ```
 
-We can also pass a matcapTexture to add final details, using the TresMeshNormalMaterial inside the TresMesh
+We can also pass a matcapTexture to add final details, using the TresMeshNormalMaterial inside the TresMesh.
 
 ```ts
 const matcapTexture = await useTexture(['https://raw.githubusercontent.com/Tresjs/assets/main/textures/matcaps/7.png'])
@@ -92,7 +92,7 @@ const matcapTexture = await useTexture(['https://raw.githubusercontent.com/Tresj
   </TresMesh>
 ```
 
-So the final code would be something like this:
+So the final code would look something like this:
 
 ```vue
 <script setup lang="ts">
@@ -148,11 +148,11 @@ const matcapTexture = await useTexture(['https://raw.githubusercontent.com/Tresj
 </template>
 ```
 
-I know seems like a lot of work, but good news there is a much more simple way
+We know this seems like a lot of work, but good news is, there is a much more simple way
 
 ## TextGeometry from `cientos`
 
-The `cientos` package provides a component called `<Text3D />` that is a wrapper of the `TextGeometry` from the [`three-stdlib`](https://github.com/pmndrs/three-stdlib) module.
+The `cientos` package provides a component called `<Text3D />`, which is a wrapper of the `TextGeometry` from the [`three-stdlib`](https://github.com/pmndrs/three-stdlib) module.
 
 The nicest part? You don't need to extend the catalog and just pass the font argument.
 It just works. 💯 (if not text is provided, the text will be TresJS)
@@ -174,7 +174,7 @@ We can pass the options as props
 <Text3D :font="fontPath" :text="my 3d text" :size="0.8" />
 ```
 
-in case the options are not provided the default values are:
+in case the options are not provided, the default values will be:
 
 ```js
 size: 0.5,
@@ -187,7 +187,7 @@ bevelOffset: 0,
 bevelSegments: 4,
 ```
 
-By default text in ThreeJS starts at the mesh initial position, so it's [0,0,0] the text will start there but we can center it by just passing the flag "center"
+By default text in ThreeJS starts at the mesh initial position, so it's [0,0,0] and the text will start there but we can center it by just passing the flag "center"
 
 ```vue
 <Text3D :font="fontPath" :text="my 3d text" center />

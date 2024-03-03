@@ -46,7 +46,7 @@ Now you can use the `TresOrbitControls` component in your scene.
 </template>
 ```
 
-Since [OrbitControls](https://threejs.org/docs/index.html?q=orbit#examples/en/controls/OrbitControls) needs a reference to the camera and the renderer, you need to pass them as arguments.
+Since [OrbitControls](https://threejs.org/docs/index.html?q=orbit#examples/en/controls/OrbitControls) needs a reference to the camera and the renderer, you need to pass those as arguments.
 
 You can use the [useTres](/api/composables#usetres) composable to get the camera and the renderer.
 
@@ -85,7 +85,7 @@ const { state } = useTres()
 ## OrbitControls from `cientos`
 
 Here is where the fancy part begins. ✨  
-The `cientos` package provides a component called `<OrbitControls />` that is a wrapper of the `OrbitControls` from the [`three-stdlib`](https://github.com/pmndrs/three-stdlib) module.
+The `cientos` package provides a component called `<OrbitControls />` which is a wrapper of the `OrbitControls` from the [`three-stdlib`](https://github.com/pmndrs/three-stdlib) module.
 
 The nicest part? You don't need to extend the catalog or pass any arguments.  
 It just works. 💯
