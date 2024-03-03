@@ -226,7 +226,7 @@ const context = useTresContext()
 | **cameras** | the cameras that exist in the scene |
 | **controls** | the controls of your scene |
 | **deregisterCamera** | a method to deregister a camera. This is only required if you manually create a camera. Cameras in the template are deregistered automatically. |
-| **extend** | Extends the component catalogue. See [extending](/advanced/extending) |
+| **extend** | extends the component catalogue. See [extending](/advanced/extending) |
 | **raycaster** | the global raycaster used for pointer events |
 | **registerCamera** | a method to register a camera. This is only required if you manually create a camera. Cameras in the template are registered automatically. |
 | **renderer** | the [WebGLRenderer](https://threejs.org/docs/#api/en/renderers/WebGLRenderer) of your scene |
