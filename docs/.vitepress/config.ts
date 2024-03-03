@@ -70,7 +70,7 @@ export default defineConfig({
 
         items: [
           { text: 'Extending', link: '/advanced/extending' },
-          { text: 'primitive', link: '/advanced/primitive' },
+          { text: 'Primitive', link: '/advanced/primitive' },
           {
             text: 'Caveats',
             link: '/advanced/caveats',
