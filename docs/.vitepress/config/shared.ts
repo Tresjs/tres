@@ -30,6 +30,82 @@ export const sharedConfig = defineConfig({
   ],
   themeConfig: {
     logo: '/logo.svg',
+    search: {
+      provider: 'local',
+      options: {
+        locales: {
+          root: {
+            translations: {
+              button: {
+                buttonText: 'Search',
+                buttonAriaLabel: 'Search',
+              },
+              modal: {
+                displayDetails: 'Display detailed list',
+                resetButtonTitle: 'Reset search',
+                backButtonTitle: 'Close search',
+                noResultsText: 'No results for',
+                footer: {
+                  selectText: 'to select',
+                  selectKeyAriaLabel: 'enter',
+                  navigateText: 'to navigate',
+                  navigateUpKeyAriaLabel: 'up arrow',
+                  navigateDownKeyAriaLabel: 'down arrow',
+                  closeText: 'to close',
+                  closeKeyAriaLabel: 'escape',
+                },
+              },
+            },
+          },
+          es: {
+            translations: {
+              button: {
+                buttonText: 'Buscar',
+                buttonAriaLabel: 'Buscar',
+              },
+              modal: {
+                displayDetails: 'Mostrar lista detallada',
+                resetButtonTitle: 'Resetear búsqueda',
+                backButtonTitle: 'Cerrar búsqueda',
+                noResultsText: 'Sin resultados para',
+                footer: {
+                  selectText: 'para seleccionar',
+                  selectKeyAriaLabel: 'intro',
+                  navigateText: 'para navegar',
+                  navigateUpKeyAriaLabel: 'flecha arriba',
+                  navigateDownKeyAriaLabel: 'flecha abajo',
+                  closeText: 'para cerrar',
+                  closeKeyAriaLabel: 'escape',
+                },
+              },
+            },
+          },
+          de: {
+            translations: {
+              button: {
+                buttonText: 'Suchen',
+                buttonAriaLabel: 'Suchen',
+              },
+              modal: {
+                displayDetails: 'Detaillierte Liste anzeigen',
+                resetButtonTitle: 'Suche zurücksetzen',
+                backButtonTitle: 'Suche schließen',
+                noResultsText: 'Keine Ergebnisse für',
+                footer: {
+                  selectText: 'zur Auswahl',
+                  selectKeyAriaLabel: 'enter',
+                  navigateText: 'zum Navigieren',
+                  navigateUpKeyAriaLabel: 'Pfeil nach oben',
+                  navigateDownKeyAriaLabel: 'Pfeil nach unten',
+                  closeText: 'zum Schließen',
+                  closeKeyAriaLabel: 'escape',
+                },
+              },
+            },
+          },
+        },
+      },
+    },
     socialLinks: [
       { icon: 'github', link: 'https://github.com/tresjs/tres' },
       { icon: 'x', link: 'https://twitter.com/tresjs_dev' },
@@ -39,7 +115,7 @@ export const sharedConfig = defineConfig({
   vite: {
     optimizeDeps: {
       exclude: ['vitepress'],
-      include: ['three'],
+      include: ['@tresjs/cientos', '@stackblitz/sdk', '@vueuse/core', 'three'],
     },
     server: {
       hmr: {
