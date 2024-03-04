@@ -46,7 +46,7 @@ Now you can use the `TresOrbitControls` component in your scene.
 </template>
 ```
 
-Since [OrbitControls](https://threejs.org/docs/index.html?q=orbit#examples/en/controls/OrbitControls) needs a reference to the camera and the renderer, you need to pass those as arguments.
+Since [OrbitControls](https://threejs.org/docs/index.html?q=orbit#examples/en/controls/OrbitControls) needs a reference to the camera and the renderer. You need to pass those as arguments.
 
 You can use the [useTres](/api/composables#usetres) composable to get the camera and the renderer.
 

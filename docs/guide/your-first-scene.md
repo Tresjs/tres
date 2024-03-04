@@ -10,7 +10,7 @@ This guide will help you to create your first Tres scene. 🍩
 
 ## Setting up the experience Canvas
 
-Before we can create a scene, we need a space to display it. Using plain [ThreeJS](https://threejs.org/docs/index.html#manual/en/introduction/Creating-a-scene) we would need to create a `canvas` HTML element to mount the `WebglRenderer` and initialize the `scene`
+Before we can create a ThreeJS `Scene`, we need a space to display it. Using plain [ThreeJS](https://threejs.org/docs/index.html#manual/en/introduction/Creating-a-scene) we would need to create a `canvas` HTML element to mount the `WebglRenderer` and initialize the `Scene`.
 
 With **TresJS** you only need to import the default component `<TresCanvas />` and add it to the template of your Vue component.
 
@@ -109,7 +109,7 @@ Then you can add a [**PerspectiveCamera**](https://threejs.org/docs/index.html?q
 ```
 
 ::: warning
-A common issue is, that the camera default position is the origin of the scene (0,0,0). TresJS will automatically set the position of your camera to `[3,3,3]` if the prop `position` is not set by you. If no camera is defined in you scene, a perspective camera is added automatically.
+A common issue is that the camera default position is the origin of the scene (0,0,0). TresJS will automatically set the position of your camera to `[3,3,3]` if the prop `position` is not set by you. If no camera is defined in you scene, a perspective camera is added automatically.
 :::
 
 ## Adding a 🍩

@@ -11,7 +11,7 @@ For this guide we are going to focus on loading gLTF (GL Transmission Format) mo
 There are several ways to load models on TresJS:
 
 ::: warning
-Please note that in the examples above we use top level await, make sure you wrap it with a [Suspense](https://vuejs.org/guide/built-ins/suspense.html#suspense) component. See Suspense for more information. .
+Please note that in the examples above we use top level `await`s. Make sure to wrap such code with a [Suspense](https://vuejs.org/guide/built-ins/suspense.html#suspense) component. See Suspense for more information.
 :::
 
 ## Using `useLoader`
@@ -57,7 +57,7 @@ import { useGLTF } from '@tresjs/cientos'
 const { scene, nodes, animations, materials } = await useGLTF('/models/AkuAku.gltf', { draco: true })
 ```
 
-Alternatively you can easily select objects inside the model using `nodes` property.
+Alternatively you can easily select objects inside the model using the `nodes` property.
 
 ```vue
 <script setup lang="ts">

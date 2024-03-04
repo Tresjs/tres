@@ -62,11 +62,11 @@ import { OrbitControls } from '@tresjs/cientos'
 
 As you know every instance in [ThreeJs](https://threejs.org/) is available in **TresJs** so are all the light types, we just need to add the `Tres` prefix to use them.
 
-But not all lights can cast shadows, this definition comes directly from ThreeJs and makes sense, for example the purpose of an [ambientLight](https://threejs.org/docs/index.html?q=ambient#api/en/lights/AmbientLight) is to iluminate every single side of your scene, so it makes no sense for it to cast shadows, on the contrary, a [DirectionalLight](https://threejs.org/docs/index.html?q=light#api/en/helpers/DirectionalLightHelper) immitating the sun can and should cast shadows.
+But not all lights can cast shadows, this definition comes directly from ThreeJs and makes sense, for example the purpose of an [ambientLight](https://threejs.org/docs/index.html?q=ambient#api/en/lights/AmbientLight) is to illuminate every single side of your scene, so it makes no sense for it to cast shadows, on the contrary, a [DirectionalLight](https://threejs.org/docs/index.html?q=light#api/en/helpers/DirectionalLightHelper) immitating the sun can and should cast shadows.
 
 ## Shadows (explanation)
 
-There are many types of different shadows, for example the "soft shadow" is generated automatially when an object receives more light from one side. In conclusion a "ThreeJS default shadow" that is directed towards another surface needs to be cast by a mesh and another mesh needs to receive it. As we see in our example, the `Plane` is receiving a shadow but not casting it. Please note that not all materials can cast or receive shadows.
+There are many types of different shadows. For example the "soft shadow" is automatially generated when an object receives more light from one side. In general a "ThreeJS default shadow" directed to another surface must be cast by a mesh and another mesh needs to receive it. As we see in our example, the `Plane` is receiving a shadow but does not cast it. Please note that not all materials can cast or receive shadows.
 
 Internally, ThreeJS automatically generates a new mesh with a [ShadowMaterial](https://threejs.org/docs/index.html?q=shado#api/en/materials/ShadowMaterial) which gets updated in each frame, that is why if you apply animations, the shadow also is animated, but also why you have to use shadows carefully, because they could slow your performance down.
 
@@ -94,7 +94,7 @@ We could divide this into three steps:
 ```
 ### Set the light to cast shadows
 
-We can simply add the boolean `cast-shadow`, Vue understand this as a `prop` with `true` value
+We can simply add the boolean `cast-shadow`. Vue understands this as a `prop` with a value of `true`.
 
 _The AmbientLight doesn't generate any type of shadow here_
 
