@@ -140,7 +140,37 @@ export const esConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
             ],
           },
         ],
-      },  
+      },
     ],
+    search: {
+      provider: 'local',
+      options: {
+        locales: {
+          es: {
+            translations: {
+              button: {
+                buttonText: 'Buscar',
+                buttonAriaLabel: 'Buscar',
+              },
+              modal: {
+                displayDetails: 'Mostrar lista detallada',
+                resetButtonTitle: 'Restablecer búsqueda',
+                backButtonTitle: 'Cerrar búsqueda',
+                noResultsText: 'Sin resultados para',
+                footer: {
+                  selectText: 'para seleccionar',
+                  selectKeyAriaLabel: 'entrar',
+                  navigateText: 'para navegar',
+                  navigateUpKeyAriaLabel: 'flecha arriba',
+                  navigateDownKeyAriaLabel: 'flecha abajo',
+                  closeText: 'para cerrar',
+                  closeKeyAriaLabel: 'escape',
+                },
+              },
+            },
+          },
+        },
+      },
+    },
   },
 }

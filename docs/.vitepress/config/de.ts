@@ -142,5 +142,35 @@ export const deConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
         ],
       },
     ],
+    search: {
+      provider: 'local',
+      options: {
+        locales: {
+          de: {
+            translations: {
+              button: {
+                buttonText: 'Suchen',
+                buttonAriaLabel: 'Suchen',
+              },
+              modal: {
+                displayDetails: 'Detaillierte Liste anzeigen',
+                resetButtonTitle: 'Suche zurücksetzen',
+                backButtonTitle: 'Suche schließen',
+                noResultsText: 'Keine Ergebnisse für',
+                footer: {
+                  selectText: 'zur Auswahl',
+                  selectKeyAriaLabel: 'enter',
+                  navigateText: 'zum Navigieren',
+                  navigateUpKeyAriaLabel: 'Pfeil nach oben',
+                  navigateDownKeyAriaLabel: 'Pfeil nach unten',
+                  closeText: 'zum Schließen',
+                  closeKeyAriaLabel: 'escape',
+                },
+              },
+            },
+          },
+        },
+      },
+    },
   },
 }
