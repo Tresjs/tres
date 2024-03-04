@@ -7,11 +7,21 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    DirectiveVAlwaysLookAtExampleCode: typeof import('./.vitepress/theme/components/DirectiveVAlwaysLookAtExampleCode.md')['default']
+    DirectiveVAlwaysLookAtUsageCode: typeof import('./.vitepress/theme/components/DirectiveVAlwaysLookAtUsageCode.md')['default']
+    DirectiveVDistanceToCode: typeof import('./.vitepress/theme/components/DirectiveVDistanceToCode.md')['default']
+    DirectiveVDistinceToCode: typeof import('./.vitepress/theme/components/DirectiveVDistinceToCode.md')['default']
+    DirectiveVLightHelperUsageCode: typeof import('./.vitepress/theme/components/DirectiveVLightHelperUsageCode.md')['default']
+    DirectiveVLogCode: typeof import('./.vitepress/theme/components/DirectiveVLogCode.md')['default']
+    DirectiveVLogUsageCode: typeof import('./.vitepress/theme/components/DirectiveVLogUsageCode.md')['default']
     DonutExample: typeof import('./.vitepress/theme/components/DonutExample.vue')['default']
     EmbedExperiment: typeof import('./.vitepress/theme/components/EmbedExperiment.vue')['default']
     ExtendExample: typeof import('./.vitepress/theme/components/ExtendExample.vue')['default']
     FirstScene: typeof import('./.vitepress/theme/components/FirstScene.vue')['default']
     FirstSceneLightToon: typeof import('./.vitepress/theme/components/FirstSceneLightToon.vue')['default']
+    GudeInstallTS: typeof import('./.vitepress/theme/components/GudeInstallTS.md')['default']
+    GuideInstall: typeof import('./.vitepress/theme/components/GuideInstall.md')['default']
+    GuideInstallTypescript: typeof import('./.vitepress/theme/components/GuideInstallTypescript.md')['default']
     HomeSponsors: typeof import('./.vitepress/theme/components/HomeSponsors.vue')['default']
     LocalOrbitControls: typeof import('./.vitepress/theme/components/LocalOrbitControls.vue')['default']
     LoveVueThreeJS: typeof import('./.vitepress/theme/components/LoveVueThreeJS.vue')['default']

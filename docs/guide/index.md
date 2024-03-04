@@ -6,41 +6,13 @@
     </div>
 </ClientOnly>
 
-::: code-group
-
-```bash [npm]
-npm install @tresjs/core three 
-```
-
-```bash [yarn]
-yarn add @tresjs/core three 
-```
-
-```bash [pnpm]
-pnpm add @tresjs/core three 
-```
-
-:::
+<GuideInstall />
 
 ## Typescript
 
 TresJS is written in Typescript and it's fully typed. If you are using Typescript, you will get the full benefit of the typings. Just make sure you install the types for three.
 
-::: code-group
-
-```bash [npm]
-npm install @types/three -D
-```
-
-```bash [yarn]
-yarn add @types/three -D
-```
-
-```bash [pnpm]
-pnpm add @types/three -D
-```
-
-:::
+<GuideInstallTypescript />
 
 ## Vite
 
