@@ -1,3 +1,11 @@
+---
+title: Modelle laden
+description: Lade 3D-Modelle in deine Tres-Szenen.
+author: alvarosabu
+thumbnail: /recipes/gltf-model.png
+difficulty: 1
+---
+
 # Modelle laden
 
 > Alle Modelle, die in dieser Anleitung verwendet werden, stammen von [Alvaro Saburido](https://sketchfab.com/3d-models/aku-aku-7dfcb6edf10b4098bbb965c56fd3055c).

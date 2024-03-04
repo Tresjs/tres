@@ -1,3 +1,11 @@
+---
+title: Licht und Schatten
+description: Erfahren Sie, wie Sie Lichter und Schatten zu Ihrer Szene hinzufügen können.
+author: alvarosabu
+thumbnail: /recipes/lights-and-shadows.png
+difficulty: 0
+---
+
 # Licht und Schatten
 
 Diese Anleitung wird dir helfen, mit einfachen Lichtern und Schatten in TresJS zu beginnen.

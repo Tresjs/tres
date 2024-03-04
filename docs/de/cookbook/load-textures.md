@@ -1,3 +1,11 @@
+---
+title: Texturen laden
+description: Füge Texturkarten zu deinen TresJS-Objekten hinzu.
+author: alvarosabu
+thumbnail: /recipes/load-textures.png
+difficulty: 1
+---
+
 # Texturen laden
 
 > Alle Texturen in diesem Beispiel stammen von [ambientcg](https://ambientcg.com/).

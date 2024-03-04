@@ -1,3 +1,11 @@
+---
+title: Shaders
+description: Shaders eröffnen eine Welt voller Möglichkeiten.
+author: alvarosabu
+thumbnail: /recipes/shaders.png
+difficulty: 2
+---
+
 # Shaders
 
 Diese Anleitung wird dir helfen, deine ersten Schritte mit Shadern in TresJS zu machen.

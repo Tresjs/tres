@@ -1,3 +1,11 @@
+---
+title: Einfache Animationen
+description: Wie man die useRenderLoop Composable verwendet, um Objekte zu animieren.
+author: alvarosabu
+thumbnail: /recipes/animations.png
+difficulty: 0
+---
+
 # Einfache Animationen
 
 Diese Anleitung wird dir helfen, mit grundlegenden Animationen in TresJS zu beginnen.
