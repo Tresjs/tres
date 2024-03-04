@@ -57,52 +57,7 @@ export const sharedConfig = defineConfig({
               },
             },
           },
-          es: {
-            translations: {
-              button: {
-                buttonText: 'Buscar',
-                buttonAriaLabel: 'Buscar',
-              },
-              modal: {
-                displayDetails: 'Mostrar lista detallada',
-                resetButtonTitle: 'Resetear búsqueda',
-                backButtonTitle: 'Cerrar búsqueda',
-                noResultsText: 'Sin resultados para',
-                footer: {
-                  selectText: 'para seleccionar',
-                  selectKeyAriaLabel: 'intro',
-                  navigateText: 'para navegar',
-                  navigateUpKeyAriaLabel: 'flecha arriba',
-                  navigateDownKeyAriaLabel: 'flecha abajo',
-                  closeText: 'para cerrar',
-                  closeKeyAriaLabel: 'escape',
-                },
-              },
-            },
-          },
-          de: {
-            translations: {
-              button: {
-                buttonText: 'Suchen',
-                buttonAriaLabel: 'Suchen',
-              },
-              modal: {
-                displayDetails: 'Detaillierte Liste anzeigen',
-                resetButtonTitle: 'Suche zurücksetzen',
-                backButtonTitle: 'Suche schließen',
-                noResultsText: 'Keine Ergebnisse für',
-                footer: {
-                  selectText: 'zur Auswahl',
-                  selectKeyAriaLabel: 'enter',
-                  navigateText: 'zum Navigieren',
-                  navigateUpKeyAriaLabel: 'Pfeil nach oben',
-                  navigateDownKeyAriaLabel: 'Pfeil nach unten',
-                  closeText: 'zum Schließen',
-                  closeKeyAriaLabel: 'escape',
-                },
-              },
-            },
-          },
+          
         },
       },
     },
