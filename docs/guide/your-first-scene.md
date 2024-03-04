@@ -69,7 +69,7 @@ If your scene is not gonna be part of a UI, you can also force the canvas to tak
 
 ```vue
 <script lang="ts" setup>
-import { TresCanvas } from "@tresjs/core"
+import { TresCanvas } from '@tresjs/core'
 </script>
 
 <template>
