@@ -19,7 +19,7 @@ Bitte beachte, dass wir in den vorherigen Beispielen das "top-level" `await` ver
 
 Das Composable `useLoader` ermöglicht es dir, jeden Typ von three.js-Loader und eine URL zum Laden der Ressource zu übergeben. Es gibt ein `Promise` mit der geladenen Ressource zurück.
 
-Eine detaillierte Erklärung, wie `useLoader` verwendet wird, findest du in der Dokumentation von [useLoader](/api/composables#useloader).
+Eine detaillierte Erklärung, wie `useLoader` verwendet wird, findest du in der Dokumentation von [useLoader](/de/api/composables#useloader).
 
 ```ts
 import { useLoader } from '@tresjs/core'
