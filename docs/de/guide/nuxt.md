@@ -30,7 +30,7 @@ yarn add three @tresjs/nuxt
 
 - 🤓 Automatischer Import von Komponenten und Composables aus dem [TresJS-Ökosystem](https://github.com/orgs/Tresjs/repositories)
 - `TresCanvas` ist nur auf dem Client verfügbar, daher ist es nicht notwendig, `.client` zum Namen der Komponente hinzuzufügen oder `<ClientOnly />` zu verwenden
-- Konfiguriert automatisch den Vue-Compiler, um TresJS-Komponenten zu unterstützen, siehe [warum](/guide/troubleshooting.html#fehler-beim-auflosen-des-komponenten-trescomponent)?
+- Konfiguriert automatisch den Vue-Compiler, um TresJS-Komponenten zu unterstützen, siehe [warum](/de/guide/troubleshooting.html#fehler-beim-auflosen-des-komponenten-trescomponent)?
 - All die DX-Magie, die mit Nuxt kommt ✨
 
 ## Verwendung
