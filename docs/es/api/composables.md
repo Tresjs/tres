@@ -27,7 +27,7 @@ El callback `onLoop` recibe un objeto con las siguientes propiedades basadas en 
 - `delta`: El tiempo transcurrido entre el fotograma actual y el último fotograma. Este es el tiempo en segundos desde el último fotograma.
 - `elapsed`: El tiempo transcurrido desde el inicio del bucle de renderizado.
 
-Este composable se basa en `useRafFn` de [vueuse](https://vueuse.org/core/useRafFn/). Gracias a [@wheatjs](https://github.com/orgs/Tresjs/people/wheatjs) por la increíble contribución.
+Este composable se basa en `useRafFn` de [vueuse](https://vueuse.org/core/useRafFn/). Gracias a [@wheatjs](https://github.com/wheatjs) por la increíble contribución.
 
 ### Antes y después de renderizar
 
