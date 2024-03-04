@@ -35,7 +35,8 @@ With the new directive v-log provided by **TresJS**, you can do this by just add
 
 ```vue{2,10,12}
 <script setup lang="ts">
-import { OrbitControls, Sphere, vLog } from '@tresjs/cientos'
+import { vLog } from '@tresjs/core'
+import { OrbitControls, Sphere } from '@tresjs/cientos'
 </script>
 <template>
     <TresCanvas >

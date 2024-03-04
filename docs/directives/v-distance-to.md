@@ -8,7 +8,8 @@ In addition, an arrow will be created to indicate which objects you're measuring
 
 ```vue{2,8,13}
 <script setup lang="ts">
-import { OrbitControls, Sphere, vLog } from '@tresjs/cientos'
+import { vDistanceTo } from '@tresjs/core'
+import { OrbitControls, Sphere } from '@tresjs/cientos'
 </script>
 <template>
   <TresCanvas v-bind="gl">
