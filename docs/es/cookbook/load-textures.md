@@ -1,3 +1,11 @@
+---
+title: Cargar Texturas
+description: Agrega mapas de texturas a tus objetos en TresJS.
+author: alvarosabu
+thumbnail: /recipes/load-textures.png
+difficulty: 1
+---
+
 # Cargar Texturas
 
 > Todas las texturas utilizadas en este ejemplo son de [ambientcg](https://ambientcg.com/).

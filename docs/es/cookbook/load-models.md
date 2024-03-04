@@ -1,3 +1,11 @@
+---
+title: Cargar Modelos
+description: Carga modelos 3D en tus escenas de Tres.
+author: alvarosabu
+thumbnail: /recipes/gltf-model.png
+difficulty: 1
+---
+
 # Cargar Modelos
 
 > Todos los modelos utilizados en esta guía son de [Alvaro Saburido](https://sketchfab.com/3d-models/aku-aku-7dfcb6edf10b4098bbb965c56fd3055c).

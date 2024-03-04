@@ -1,3 +1,11 @@
+---
+title: Luces y sombras
+description: Aprende cómo agregar luces y sombras a tu escena.
+author: alvarosabu
+thumbnail: /recipes/lights-and-shadows.png
+difficulty: 0
+---
+
 # Luces y sombras
 
 Esta guía te ayudará a comenzar con luces y sombras simples en TresJS.

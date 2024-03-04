@@ -1,11 +1,17 @@
 <script setup>
+import { computed } from 'vue'
+import { useData } from 'vitepress'
 import { data as recipes } from '../recipes.data.ts'
+
+const { lang } = useData()
+
+const filteredRecipes = computed(() => recipes.filter(recipe => recipe.lang === lang.value.split('-')[0]))
 </script>
 
 <template>
   <ul class="grid grid-cols-1 sm:grid-cols-2 gap-8 -mx-4 pt-8">
     <li
-      v-for="recipe of recipes"
+      v-for="recipe of filteredRecipes"
       :key="recipe.title"
       class="list-none important-m-0"
     >

@@ -58,7 +58,7 @@ export const esConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
       },
       {
         text: 'Recetario 🍳🧑‍🍳',
-        link: '/cookbook/',
+        link: '/es/cookbook/',
         items: [
           { text: 'Controles de órbita', link: '/es/cookbook/orbit-controls' },
           { text: 'Animaciones básicas', link: '/es/cookbook/basic-animations' },

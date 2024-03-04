@@ -1,4 +1,12 @@
-# Texto3D
+---
+title: Texto 3D
+description: Añade texto en 3D a tu escena.
+author: alvarosabu
+thumbnail: /recipes/text-3d.png
+difficulty: 1
+---
+
+# Text3D
 
 [TextGeometry](https://threejs.org/docs/index.html?q=text#examples/en/geometries/TextGeometry) es una de las formas en las que podemos agregar texto en 3D a nuestra escena.
 
