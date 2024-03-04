@@ -1,6 +1,6 @@
 ---
 title: Einfache Animationen
-description: Wie man die useRenderLoop Composable verwendet, um Objekte zu animieren.
+description: Wie man das useRenderLoop Composable verwendet, um Objekte zu animieren.
 author: alvarosabu
 thumbnail: /recipes/animations.png
 difficulty: 0

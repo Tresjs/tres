@@ -1,6 +1,6 @@
 ---
 title: Licht und Schatten
-description: Erfahren Sie, wie Sie Lichter und Schatten zu Ihrer Szene hinzufügen können.
+description: Erfahre, wie man Lichter und Schatten zu einer Szene hinzufügen kann.
 author: alvarosabu
 thumbnail: /recipes/lights-and-shadows.png
 difficulty: 0

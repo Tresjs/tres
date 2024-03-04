@@ -1,6 +1,6 @@
 ---
 title: Shaders
-description: Shaders eröffnen eine Welt voller Möglichkeiten.
+description: Shaders bieten eine Welt voller Möglichkeiten.
 author: alvarosabu
 thumbnail: /recipes/shaders.png
 difficulty: 2

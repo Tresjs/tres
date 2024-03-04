@@ -1,6 +1,6 @@
 ---
 title: Gruppen
-description: Erfahren Sie, wie Sie mehrere Objekte in der Szene gruppieren können.
+description: Erfahre, wie man mehrere Objekte in der Szene gruppieren kann.
 author: alvarosabu
 thumbnail: /recipes/groups.png
 difficulty: 0
