@@ -18,18 +18,7 @@ TresJS is written in Typescript and it's fully typed. If you are using Typescrip
 
 If you are using Vite, you have add the following to your `vite.config.ts`:
 
-```ts
-import { templateCompilerOptions } from '@tresjs/core'
-
-export default defineConfig({
-  plugins: [
-    vue({
-      // Other config
-      ...templateCompilerOptions
-    }),
-  ],
-}),
-```
+<GuideVite />
 
 This is required to make the template compiler work with the custom renderer and not throw warnings on the console. For more info check [here](/guide/troubleshooting.html).
 
@@ -65,22 +54,7 @@ In my search for something similar in the VueJS ecosystem, I found this amazing 
 
 The only problem is, mixing compilers renderers in Vue 3 is something the Vue community is still working on - see [here](https://github.com/vuejs/vue-loader/pull/1645) for more information.
 
-```ts
-// Example Vite setup
-import { createApp } from 'vue'
-import { createApp as createLunchboxApp } from 'lunchboxjs'
-import App from './App.vue'
-import LunchboxApp from './LunchboxApp.vue'
-
-// html app
-const app = createApp(App)
-app.mount('#app')
-
-// lunchbox app
-const lunchboxApp = createLunchboxApp(LunchboxApp)
-// assuming there's an element with ID `lunchbox` in your HTML app
-lunchboxApp.mount('#lunchbox')
-```
+<GuideLunchbox />
 
 So I was inspired by both libraries to create a Vue custom renderer for ThreeJS. That's **TresJS v2**.
 

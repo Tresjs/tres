@@ -22,6 +22,8 @@ declare module 'vue' {
     GudeInstallTS: typeof import('./.vitepress/theme/components/GudeInstallTS.md')['default']
     GuideInstall: typeof import('./.vitepress/theme/components/GuideInstall.md')['default']
     GuideInstallTypescript: typeof import('./.vitepress/theme/components/GuideInstallTypescript.md')['default']
+    GuideLunchbox: typeof import('./.vitepress/theme/components/GuideLunchbox.md')['default']
+    GuideVite: typeof import('./.vitepress/theme/components/GuideVite.md')['default']
     HomeSponsors: typeof import('./.vitepress/theme/components/HomeSponsors.vue')['default']
     LocalOrbitControls: typeof import('./.vitepress/theme/components/LocalOrbitControls.vue')['default']
     LoveVueThreeJS: typeof import('./.vitepress/theme/components/LoveVueThreeJS.vue')['default']
