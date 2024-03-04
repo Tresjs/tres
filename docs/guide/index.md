@@ -95,19 +95,19 @@ The only issue with this is, mixing compilers renderers in Vue 3 is something th
 
 ```ts
 // Example Vite setup
-import { createApp } from "vue";
-import { createApp as createLunchboxApp } from "lunchboxjs";
-import App from "./App.vue";
-import LunchboxApp from "./LunchboxApp.vue";
+import { createApp } from 'vue'
+import { createApp as createLunchboxApp } from 'lunchboxjs'
+import App from './App.vue'
+import LunchboxApp from './LunchboxApp.vue'
 
 // html app
-const app = createApp(App);
-app.mount("#app");
+const app = createApp(App)
+app.mount('#app')
 
 // lunchbox app
-const lunchboxApp = createLunchboxApp(LunchboxApp);
+const lunchboxApp = createLunchboxApp(LunchboxApp)
 // assuming there's an element with ID `lunchbox` in your HTML app
-lunchboxApp.mount("#lunchbox");
+lunchboxApp.mount('#lunchbox')
 ```
 
 So I was inspired by both libraries to create a Vue custom renderer for ThreeJS. That's **TresJS v2**.

@@ -16,7 +16,7 @@ With **TresJS** you only need to import the default component `<TresCanvas />` a
 
 ```vue
 <script lang="ts" setup>
-import { TresCanvas } from "@tresjs/core";
+import { TresCanvas } from '@tresjs/core'
 </script>
 
 <template>
@@ -41,7 +41,7 @@ By default, `TresCanvas` component will take the **parent's width and height**, 
 
 ```vue
 <script lang="ts" setup>
-import { TresCanvas } from "@tresjs/core";
+import { TresCanvas } from '@tresjs/core'
 </script>
 
 <template>
@@ -69,7 +69,7 @@ If your scene is not gonna be part of a UI, you can also force the canvas to tak
 
 ```vue
 <script lang="ts" setup>
-import { TresCanvas } from "@tresjs/core";
+import { TresCanvas } from "@tresjs/core"
 </script>
 
 <template>
@@ -117,10 +117,10 @@ A common issue is, that the camera default position is the origin of the scene (
 That scene looks a little empty, let's add a basic object. If we were using plain **ThreeJS** we would need to create a [**Mesh**](https://threejs.org/docs/index.html?q=mesh#api/en/objects/Mesh) object and attach to it a [**Material**](https://threejs.org/docs/index.html?q=material#api/en/materials/Material) and a [**Geometry**](https://threejs.org/docs/index.html?q=geometry#api/en/core/BufferGeometry) like this:
 
 ```ts
-const geometry = new THREE.TorusGeometry(1, 0.5, 16, 32);
-const material = new THREE.MeshBasicMaterial({ color: "orange" });
-const donut = new THREE.Mesh(geometry, material);
-scene.add(donut);
+const geometry = new THREE.TorusGeometry(1, 0.5, 16, 32)
+const material = new THREE.MeshBasicMaterial({ color: 'orange' })
+const donut = new THREE.Mesh(geometry, material)
+scene.add(donut)
 ```
 
 A **Mesh** is a basic scene object in three.js, and it's used to hold the geometry and the material needed to represent a shape in 3D space.
@@ -145,12 +145,18 @@ Notice that we don't need to import anything, that's because **TresJS** automati
 
 ```vue
 <script setup lang="ts">
-import { TresCanvas } from "@tresjs/core";
+import { TresCanvas } from '@tresjs/core'
 </script>
 
 <template>
-  <TresCanvas clear-color="#82DBC5" window-size>
-    <TresPerspectiveCamera :position="[3, 3, 3]" :look-at="[0, 0, 0]" />
+  <TresCanvas
+    clear-color="#82DBC5"
+    window-size
+  >
+    <TresPerspectiveCamera
+      :position="[3, 3, 3]"
+      :look-at="[0, 0, 0]"
+    />
     <TresMesh>
       <TresTorusGeometry :args="[1, 0.5, 16, 32]" />
       <TresMeshBasicMaterial color="orange" />
