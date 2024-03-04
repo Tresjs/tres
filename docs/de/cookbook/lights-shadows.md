@@ -16,7 +16,7 @@ Wir werden eine einfache Szene mit drei Meshes und einer Ebene erstellen, aber n
 
 ## Einrichten der Szene (optional)
 
-Wir importieren alle Module, die wir benötigen. Zusätzlich können wir Orbit-Controls von Cientos verwenden um unsere Szene besser zu beobachten, [siehe hier wie das geht](/de/examples/orbit-controls).
+Wir importieren alle Module, die wir benötigen. Zusätzlich können wir Orbit-Controls von Cientos verwenden um unsere Szene besser zu beobachten, [siehe hier wie das geht](/de/cookbook/orbit-controls).
 
 Das erste Objekt unserer Szene wird die Ebene sein, die Schatten empfängt. Zwei weitere Objekte werden Schatten werfen und das letzte wird überhaupt keinen Schatten werfen.
 
@@ -150,7 +150,7 @@ _Umgebungslicht erzeugt hier keine Art von Schatten_
 </template>
 ```
 
-Jetzt haben wir alle notwendigen Schritte, um Schatten zu unserer Szene hinzuzufügen abgeschlossen. Wenn wir nun das, was wir in [grundlegenden Animationen](/de/examples/basic-animations) gelernt haben, anwenden und unseren Würfel bewegen, wirst du sehen, dass der Schatten auch animiert wird 🤩
+Jetzt haben wir alle notwendigen Schritte, um Schatten zu unserer Szene hinzuzufügen abgeschlossen. Wenn wir nun das, was wir in [grundlegenden Animationen](/de/cookbook/basic-animations) gelernt haben, anwenden und unseren Würfel bewegen, wirst du sehen, dass der Schatten auch animiert wird 🤩
 
 ```vue
 <script setup>

@@ -20,7 +20,7 @@ _Es sind Grundkenntnisse über Shader erforderlich_
 
 ## Einrichten der Szene (optional)
 
-Wir importieren alle Module, die wir benötigen. Zusätzlich können wir die Orbit-Controls von Cientos verwenden.  [Siehe hier, wie das geht](/de/examples/orbit-controls).
+Wir importieren alle Module, die wir benötigen. Zusätzlich können wir die Orbit-Controls von Cientos verwenden.  [Siehe hier, wie das geht](/de/cookbook/orbit-controls).
 
 Nun positionieren wir unsere Kamera an der Position `[11,11,11]`.
 
@@ -117,7 +117,7 @@ void main() {
 
 ## Animieren des Blobs
 
-Ähnlich wie wir im Beispiel [Grundlegende Animationen](/de/examples/basic-animations) gelernt haben, beginnen wir, indem wir unseren Blob mit einer [Template-Ref](https://vuejs.org/guide/essentials/template-refs.html) referenzieren.
+Ähnlich wie wir im Beispiel [Grundlegende Animationen](/de/cookbook/basic-animations) gelernt haben, beginnen wir, indem wir unseren Blob mit einer [Template-Ref](https://vuejs.org/guide/essentials/template-refs.html) referenzieren.
 <!-- TODO: Ich bin verwirrt - text und code stimmen nicht überein -->
 
 ```vue
