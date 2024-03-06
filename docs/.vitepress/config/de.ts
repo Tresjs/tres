@@ -56,17 +56,17 @@ export const deConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
         ],
       },
       {
-        text: 'Beispiele',
-        collapsed: true,
+        text: 'Kochbuch 🍳🧑‍🍳',
+        link: '/de/cookbook/',
         items: [
-          { text: 'Orbit-Controls', link: '/de/examples/orbit-controls' },
-          { text: 'Einfache Animationen', link: '/de/examples/basic-animations' },
-          { text: 'Gruppen', link: '/de/examples/groups' },
-          { text: 'Texturen laden', link: '/de/examples/load-textures' },
-          { text: 'Modelle laden', link: '/de/examples/load-models' },
-          { text: 'Text laden', link: '/de/examples/text-3d' },
-          { text: 'Lichter und Schatten', link: '/de/examples/lights-shadows' },
-          { text: 'Shaders', link: '/de/examples/shaders' },
+          { text: 'Orbit-Controls', link: '/de/cookbook/orbit-controls' },
+          { text: 'Einfache Animationen', link: '/de/cookbook/basic-animations' },
+          { text: 'Gruppen', link: '/de/cookbook/groups' },
+          { text: 'Texturen laden', link: '/de/cookbook/load-textures' },
+          { text: 'Modelle laden', link: '/de/cookbook/load-models' },
+          { text: 'Text laden', link: '/de/cookbook/text-3d' },
+          { text: 'Lichter und Schatten', link: '/de/cookbook/lights-shadows' },
+          { text: 'Shaders', link: '/de/cookbook/shaders' },
         ],
       },
       {
@@ -142,5 +142,35 @@ export const deConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
         ],
       },
     ],
+    search: {
+      provider: 'local',
+      options: {
+        locales: {
+          de: {
+            translations: {
+              button: {
+                buttonText: 'Suchen',
+                buttonAriaLabel: 'Suchen',
+              },
+              modal: {
+                displayDetails: 'Detaillierte Liste anzeigen',
+                resetButtonTitle: 'Suche zurücksetzen',
+                backButtonTitle: 'Suche schließen',
+                noResultsText: 'Keine Ergebnisse für',
+                footer: {
+                  selectText: 'zur Auswahl',
+                  selectKeyAriaLabel: 'enter',
+                  navigateText: 'zum Navigieren',
+                  navigateUpKeyAriaLabel: 'Pfeil nach oben',
+                  navigateDownKeyAriaLabel: 'Pfeil nach unten',
+                  closeText: 'zum Schließen',
+                  closeKeyAriaLabel: 'escape',
+                },
+              },
+            },
+          },
+        },
+      },
+    },
   },
 }
