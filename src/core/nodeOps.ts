@@ -12,7 +12,6 @@ function noop(fn: string): any {
   fn
 }
 
-let scene: TresScene | null = null
 const { logError } = useLogger()
 
 const supportedPointerEvents = [
@@ -33,8 +32,9 @@ export function invalidateInstance(instance: TresObject) {
 
 }
 
-export const nodeOps: RendererOptions<TresObject, TresObject | null> = {
-  createElement(tag, _isSVG, _anchor, props): TresObject | null {
+export const nodeOps: () => RendererOptions<TresObject, TresObject | null> = () => {
+  let scene: TresScene | null = null
+  return { createElement(tag, _isSVG, _anchor, props): TresObject | null {
     if (!props) props = {}
 
     if (!props.args) {
@@ -303,5 +303,5 @@ export const nodeOps: RendererOptions<TresObject, TresObject | null> = {
   setScopeId: () => noop('setScopeId'),
   cloneNode: () => noop('cloneNode'),
 
-  insertStaticContent: () => noop('insertStaticContent'),
+  insertStaticContent: () => noop('insertStaticContent') }
 }

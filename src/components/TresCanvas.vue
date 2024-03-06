@@ -6,8 +6,8 @@ import type {
   ShadowMapType,
   ToneMapping,
 } from 'three'
-import type { Ref,
-  App } from 'vue'
+import * as THREE from 'three'
+import type { Ref, App } from 'vue'
 import {
   computed,
   onMounted,
@@ -20,6 +20,7 @@ import {
   defineComponent,
   h, 
   getCurrentInstance,
+  createRenderer,
 } from 'vue'
 import pkg from '../../package.json'
 import {
@@ -29,7 +30,7 @@ import {
   type TresContext,
 } from '../composables'
 import { extend } from '../core/catalogue'
-import { render } from '../core/renderer'
+import { nodeOps } from '../core/nodeOps'
 
 import type { RendererPresetsType } from '../composables/useRenderer/const'
 import type { TresCamera, TresObject } from '../types/'
@@ -87,6 +88,7 @@ const slots = defineSlots<{
 }>()
 
 const instance = getCurrentInstance()?.appContext.app
+extend(THREE)
 
 const createInternalComponent = (context: TresContext) =>
   defineComponent({
@@ -105,6 +107,9 @@ const createInternalComponent = (context: TresContext) =>
 
 const mountCustomRenderer = (context: TresContext) => {
   const InternalComponent = createInternalComponent(context)
+
+  const { render } = createRenderer(nodeOps())
+
   render(h(InternalComponent), scene.value as unknown as TresObject)
 }
 
