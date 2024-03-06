@@ -82,6 +82,11 @@ const routes = [
     component: () => import('./pages/perf/index.vue'),
   },
   {
+    path: '/primitives',
+    name: 'Primitives',
+    component: () => import('./pages/primitives.vue'),
+  },
+  {
     path: '/rendering-modes',
     name: 'Rendering Modes',
     component: () => import('./pages/rendering-modes/index.vue'),

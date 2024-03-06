@@ -89,7 +89,7 @@ importers:
         version: 0.160.1
       unocss:
         specifier: ^0.58.3
-        version: 0.58.4(postcss@8.4.32)(vite@5.0.10)
+        version: 0.58.4(postcss@8.4.33)(vite@5.0.10)
       unplugin:
         specifier: ^1.6.0
         version: 1.6.0
@@ -116,7 +116,7 @@ importers:
         version: 5.1.0(vue@3.4.15)
       vitepress:
         specifier: 1.0.0-rc.34
-        version: 1.0.0-rc.34(@algolia/client-search@4.22.0)(postcss@8.4.32)(search-insights@2.13.0)(typescript@5.3.3)
+        version: 1.0.0-rc.34(@algolia/client-search@4.22.0)(postcss@8.4.33)(search-insights@2.13.0)(typescript@5.3.3)
       vitest:
         specifier: ^1.1.1
         version: 1.2.2(@vitest/ui@1.2.2)(jsdom@23.0.1)
@@ -135,7 +135,7 @@ importers:
     devDependencies:
       unocss:
         specifier: ^0.58.3
-        version: 0.58.4(postcss@8.4.32)(vite@5.0.10)
+        version: 0.58.4(postcss@8.4.33)(vite@5.0.10)
       vite-svg-loader:
         specifier: ^5.1.0
         version: 5.1.0(vue@3.4.15)
@@ -2119,7 +2119,7 @@ packages:
       sirv: 2.0.4
     dev: true
 
-  /@unocss/postcss@0.58.4(postcss@8.4.32):
+  /@unocss/postcss@0.58.4(postcss@8.4.33):
     resolution: {integrity: sha512-pg2qCGakV1TyMApPdvuvqqmPDhgogPWF14J97BT5zIfGYITAJSmBsm7d3+06w6EuqIS+vcYRw+qCV3oX6qTeiA==}
     engines: {node: '>=14'}
     peerDependencies:
@@ -2131,7 +2131,7 @@ packages:
       css-tree: 2.3.1
       fast-glob: 3.3.2
       magic-string: 0.30.5
-      postcss: 8.4.32
+      postcss: 8.4.33
     dev: true
 
   /@unocss/preset-attributify@0.58.4:
@@ -2927,7 +2927,7 @@ packages:
     resolution: {integrity: sha512-GAwkz0AihzY5bkwIY5QDR+LvsRQgB/B+1foMPvi0FZPMl5fjD7ICiznUiBdLYMH1QYe6vqu4gWYytZOccLouFw==}
     engines: {node: '>= 10.0.0'}
     dependencies:
-      '@babel/types': 7.23.6
+      '@babel/types': 7.23.9
     dev: true
 
   /balanced-match@1.0.2:
@@ -3395,8 +3395,8 @@ packages:
   /constantinople@4.0.1:
     resolution: {integrity: sha512-vCrqcSIq4//Gx74TXXCGnHpulY1dskqLTFGDmhrGxzeXL8lF8kvXv6mpNWlJj1uD4DW23D4ljAqbY4RRaaUZIw==}
     dependencies:
-      '@babel/parser': 7.23.6
-      '@babel/types': 7.23.6
+      '@babel/parser': 7.23.9
+      '@babel/types': 7.23.9
     dev: true
 
   /conventional-changelog-angular@7.0.0:
@@ -7919,7 +7919,7 @@ packages:
     engines: {node: '>= 10.0.0'}
     dev: true
 
-  /unocss@0.58.4(postcss@8.4.32)(vite@5.0.10):
+  /unocss@0.58.4(postcss@8.4.33)(vite@5.0.10):
     resolution: {integrity: sha512-JYeQddAIObJPr6nuxahOgku0MIzjIaQ2P73KtJr0zSuzx6kiq20jf67FgDIOP1Ks6s7iJd7Ga3yuY2h49XjDjg==}
     engines: {node: '>=14'}
     peerDependencies:
@@ -7935,7 +7935,7 @@ packages:
       '@unocss/cli': 0.58.4
       '@unocss/core': 0.58.4
       '@unocss/extractor-arbitrary-variants': 0.58.4
-      '@unocss/postcss': 0.58.4(postcss@8.4.32)
+      '@unocss/postcss': 0.58.4(postcss@8.4.33)
       '@unocss/preset-attributify': 0.58.4
       '@unocss/preset-icons': 0.58.4
       '@unocss/preset-mini': 0.58.4
@@ -8337,7 +8337,7 @@ packages:
       fsevents: 2.3.3
     dev: true
 
-  /vitepress@1.0.0-rc.34(@algolia/client-search@4.22.0)(postcss@8.4.32)(search-insights@2.13.0)(typescript@5.3.3):
+  /vitepress@1.0.0-rc.34(@algolia/client-search@4.22.0)(postcss@8.4.33)(search-insights@2.13.0)(typescript@5.3.3):
     resolution: {integrity: sha512-TUbTiSdAZFni2XlHlpx61KikgkQ5uG4Wtmw2R0SXhIOG6qGqzDJczAFjkMc4i45I9c3KyatwOYe8oEfCnzVYwQ==}
     hasBin: true
     peerDependencies:
@@ -8360,7 +8360,7 @@ packages:
       mark.js: 8.11.1
       minisearch: 6.3.0
       mrmime: 2.0.0
-      postcss: 8.4.32
+      postcss: 8.4.33
       shikiji: 0.9.19
       shikiji-core: 0.9.19
       shikiji-transformers: 0.9.19
@@ -8660,8 +8660,8 @@ packages:
     resolution: {integrity: sha512-RNGKj82nUPg3g5ygxkQl0R937xLyho1J24ItRCBTr/m1YnZkzJy1hUiHUJrc/VlsDQzsCnInEGSg3bci0Lmd4w==}
     engines: {node: '>= 10.0.0'}
     dependencies:
-      '@babel/parser': 7.23.6
-      '@babel/types': 7.23.6
+      '@babel/parser': 7.23.9
+      '@babel/types': 7.23.9
       assert-never: 1.2.1
       babel-walk: 3.0.0-canary-5
     dev: true

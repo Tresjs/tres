@@ -1,4 +1,4 @@
-import type { RendererOptions } from 'vue'
+import { type RendererOptions } from 'vue'
 import { BufferAttribute } from 'three'
 import { isFunction } from '@alvarosabu/utils'
 import type { Object3D, Camera } from 'three'
@@ -49,7 +49,7 @@ export const nodeOps: RendererOptions<TresObject, TresObject | null> = {
       if (props?.object === undefined) logError('Tres primitives need a prop \'object\'')
       const object = props.object as TresObject
       name = object.type
-      instance = Object.assign(object, { type: name, attach: props.attach })
+      instance = Object.assign(object.clone(), { type: name }) as TresObject
     }
     else {
       const target = catalogue.value[name]
@@ -136,6 +136,8 @@ export const nodeOps: RendererOptions<TresObject, TresObject | null> = {
     if (!node) return
     const ctx = node.__tres
     // remove is only called on the node being removed and not on child nodes.
+    node.parent = node.parent || scene
+    
     const { 
       deregisterObjectAtPointerEventHandler,
       deregisterBlockingObjectAtPointerEventHandler, 
@@ -180,15 +182,41 @@ export const nodeOps: RendererOptions<TresObject, TresObject | null> = {
       disposeMaterialsAndGeometries(node)
       deregisterCameraIfRequired(node as Object3D)
       deregisterAtPointerEventHandlerIfRequired?.(node as TresObject)
+      invalidateInstance(node as TresObject)
+      node.dispose?.()
+      
     }
 
-    invalidateInstance(node as TresObject)
-    node.dispose?.()
   },
-  patchProp(node, prop, _prevValue, nextValue) {
+  patchProp(node, prop, prevValue, nextValue) {
     if (node) {
       let root = node
       let key = prop
+      if (node.__tres.primitive && key === 'object' && prevValue !== null) {
+        // If the prop 'object' is changed, we need to re-instance the object and swap the old one with the new one
+        const newInstance = nodeOps.createElement('primitive', undefined, undefined, { 
+          object: nextValue, 
+        })
+        for (const subkey in newInstance) {
+          if (subkey === 'uuid') continue
+          const target = node[subkey]
+          const value = newInstance[subkey]
+          if (!target?.set && !isFunction(target)) node[subkey] = value
+          else if (target.constructor === value.constructor && target?.copy) target?.copy(value)
+          else if (Array.isArray(value)) target.set(...value)
+          else if (!target.isColor && target.setScalar) target.setScalar(value)
+          else target.set(value)
+        }
+        newInstance.__tres.root = scene?.__tres.root
+        // This code is needed to handle the case where the prop 'object' type change from a group to a mesh or vice versa, otherwise the object will not be rendered correctly (models will be invisible)
+        if (newInstance.isGroup) {
+          node.geometry = undefined
+          node.material = undefined
+        }
+        else {
+          delete node.isGroup
+        }
+      }
 
       if (node.__tres.root) {
         const { 
@@ -211,7 +239,7 @@ export const nodeOps: RendererOptions<TresObject, TresObject | null> = {
 
       if (key === 'args') {
         const prevNode = node as TresObject3D
-        const prevArgs = _prevValue ?? []
+        const prevArgs = prevValue ?? []
         const args = nextValue ?? []
         const instanceName = node.__tres.type || node.type
 
