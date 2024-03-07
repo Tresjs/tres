@@ -1,3 +1,11 @@
+---
+title: Ładowanie tekstur
+description: Dodaj mapy tekstur do swoich obiektów w TresJS.
+author: alvarosabu
+thumbnail: /recipes/load-textures.png
+difficulty: 1
+---
+
 # Ładowanie tekstur
 
 > Wszystkie tekstury używane w tym przykładzie pochodzą z [ambientcg](https://ambientcg.com/).

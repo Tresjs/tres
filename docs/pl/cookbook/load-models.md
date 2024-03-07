@@ -1,3 +1,11 @@
+---
+title: Wczytywanie Modeli
+description: Wczytaj modele 3D do swoich scen w Tres.
+author: alvarosabu
+thumbnail: /recipes/gltf-model.png
+difficulty: 1
+---
+
 # Wczytywanie Modeli
 
 > Wszystkie modele używane w tej instrukcji pochodzą od [Alvaro Saburido](https://sketchfab.com/3d-models/aku-aku-7dfcb6edf10b4098bbb965c56fd3055c).

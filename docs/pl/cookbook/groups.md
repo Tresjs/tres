@@ -1,3 +1,11 @@
+---
+title: Grupa
+description: Naucz się, jak grupować wiele obiektów na scenie.
+author: alvarosabu
+thumbnail: /recipes/groups.png
+difficulty: 0
+---
+
 # Grupa
 
 `<TresGroup>` to instancja klasy [THREE.Group](https://threejs.org/docs/#api/en/objects/Group), która jest prawie taka sama jak [THREE.Object3D](https://threejs.org/docs/#api/en/objects/Object3D), ale pozwala na **grupowanie wielu obiektów w scenie**, aby mogły być manipulowane jako jednostka (przesuwanie, obracanie itp.).

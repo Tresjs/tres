@@ -1,3 +1,11 @@
+---
+title: Shadery
+description: Shadery otwierają świat nieograniczonych możliwości.
+author: alvarosabu
+thumbnail: /recipes/shaders.png
+difficulty: 2
+---
+
 # Shadery
 
 To przewodnik pomoże Ci rozpocząć pracę ze shaderami w TresJS.
@@ -13,7 +21,7 @@ _Wymagana jest podstawowa wiedza na temat działania shaderów_
 ## Konfiguracja sceny (opcjonalnie)
 
 Importujemy wszystkie moduły, których potrzebujemy, dla wygody możemy użyć orbit-controls z cientos,
-[zobacz tutaj, aby dowiedzieć się jak](/examples/orbit-controls).
+[zobacz tutaj, aby dowiedzieć się jak](/cookbook/orbit-controls).
 
 Teraz umieśćmy naszą kamerę w pozycji `[11,11,11]`.
 
@@ -107,7 +115,7 @@ void main() {
 
 ## Animowanie bloba
 
-Podobnie jak w przypadku przykładu [Podstawowe animacje](/examples/basic-animations), zaczynamy od odwołania się do naszego bloba, używając [Template Ref](https://vuejs.org/guide/essentials/template-refs.html)
+Podobnie jak w przypadku przykładu [Podstawowe animacje](/cookbook/basic-animations), zaczynamy od odwołania się do naszego bloba, używając [Template Ref](https://vuejs.org/guide/essentials/template-refs.html)
 
 ```vue
 <script setup lang="ts">

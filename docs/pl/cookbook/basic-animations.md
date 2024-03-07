@@ -1,3 +1,11 @@
+---
+title: Podstawowe animacje
+description: Jak używać kompozycji useRenderLoop do animowania swoich obiektów.
+author: alvarosabu
+thumbnail: /recipes/animations.png
+difficulty: 0
+---
+
 # Podstawowe animacje
 
 Ten przewodnik pomoże ci rozpocząć pracę z podstawowymi animacjami w TresJS.

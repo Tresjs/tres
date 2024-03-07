@@ -1,4 +1,12 @@
-# Światło i Cienie
+---
+title: Światła i Cienie
+description: Naucz się, jak dodawać światła i cienie do swojej sceny.
+author: alvarosabu
+thumbnail: /recipes/lights-and-shadows.png
+difficulty: 0
+---
+
+# Światła i Cienie
 
 Ten przewodnik pomoże Ci rozpocząć pracę z prostym oświetleniem i cieniami w TresJS.
 
@@ -10,7 +18,7 @@ Zbudujemy prostą scenę z trzema meshami i płaszczyzną, ale tylko dwa z nich 
 
 Konfiguracja sceny (opcjonalne)
 Importujemy wszystkie moduły, których potrzebujemy, dla większej wygody możemy użyć orbit-controls z pakietu cientos,
-[zobacz tutaj, aby dowiedzieć się jak](/examples/orbit-controls).
+[zobacz tutaj, aby dowiedzieć się jak](/cookbook/orbit-controls).
 
 Umieśćmy cztery obiekty w naszej scenie, jeden z nich będzie płaszczyzną, która odbierze cienie, dwa z nich będą rzutować cienie, a ostatni nie będzie rzutował żadnych cieni w ogóle.
 
@@ -119,7 +127,7 @@ Podobnie jak w poprzednim kroku, ustawiamy siatkę, którą chcemy, aby rzuciła
 </template>
 ```
 
-eraz mamy wszystkie niezbędne kroki, aby dodać cienie do naszej sceny, a jeśli zastosujemy to, co się nauczyliśmy w [podstawowych animacjach](/examples/basic-animations), i dodamy ruch do naszego sześcianu, zauważysz, że cień również animuje się 🤩
+eraz mamy wszystkie niezbędne kroki, aby dodać cienie do naszej sceny, a jeśli zastosujemy to, co się nauczyliśmy w [podstawowych animacjach](/cookbook/basic-animations), i dodamy ruch do naszego sześcianu, zauważysz, że cień również animuje się 🤩
 
 ```vue
 <script setup>
