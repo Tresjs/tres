@@ -1,5 +1,5 @@
-import { toValue, useElementSize, useFps, useMemory, useRafFn, useWindowSize, refDebounced } from '@vueuse/core'
-import { inject, provide, readonly, shallowRef, computed, ref, onUnmounted, watchEffect } from 'vue'
+import { useFps, useMemory, useRafFn } from '@vueuse/core'
+import { inject, provide, readonly, shallowRef, computed, ref, onUnmounted } from 'vue'
 import type { Camera, EventDispatcher, Object3D, WebGLRenderer } from 'three'
 import { Raycaster } from 'three'
 import type { ComputedRef, DeepReadonly, MaybeRef, MaybeRefOrGetter, Ref, ShallowRef } from 'vue'
@@ -11,6 +11,7 @@ import { extend } from '../../core/catalogue'
 import { useLogger } from '../useLogger'
 import type { TresScene } from '../../types'
 import type { EventProps } from '../usePointerEventHandler'
+import useSizes, { type SizesType } from '../useSizes'
 
 export interface InternalState {
   priority: Ref<number>
@@ -46,7 +47,7 @@ export interface PerformanceState {
 
 export interface TresContext {
   scene: ShallowRef<TresScene>
-  sizes: { height: Ref<number>; width: Ref<number>; aspectRatio: ComputedRef<number> }
+  sizes: SizesType
   extend: (objects: any) => void
   camera: ComputedRef<Camera | undefined>
   cameras: DeepReadonly<Ref<Camera[]>>
@@ -94,32 +95,9 @@ export function useTresContextProvider({
 
   const { logWarning } = useLogger()
 
-  const elementSize = computed(() =>
-    toValue(windowSize)
-      ? useWindowSize()
-      : useElementSize(toValue(canvas).parentElement),
-  )
-
-  const reactiveSize = shallowRef({
-    width: 0,
-    height: 0,
-  })
-  const debouncedReactiveSize = refDebounced(reactiveSize, 10)
-  const unWatchSize = watchEffect(() => {
-    reactiveSize.value = {
-      width: elementSize.value.width.value,
-      height: elementSize.value.height.value,
-    }
-  })
-
-  const aspectRatio = computed(() => debouncedReactiveSize.value.width / debouncedReactiveSize.value.height)
-
-  const sizes = {
-    height: computed(() => debouncedReactiveSize.value.height),
-    width: computed(() => debouncedReactiveSize.value.width),
-    aspectRatio,
-  }
   const localScene = shallowRef<TresScene>(scene)
+  const sizes = useSizes(windowSize, canvas)
+
   const {
     camera,
     cameras,
@@ -269,7 +247,6 @@ export function useTresContextProvider({
   }, { immediate: true })
 
   onUnmounted(() => {
-    unWatchSize()
     pause()
   })
 

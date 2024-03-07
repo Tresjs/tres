@@ -1,5 +1,5 @@
-import THREE, { MeshBasicMaterial, DoubleSide } from 'three'
-import type { Mesh, type Scene, type Object3D } from 'three'
+import { MeshBasicMaterial, DoubleSide, Vector3 } from 'three'
+import type { Mesh, Scene, Object3D } from 'three'
 import { HightlightMesh } from '../devtools/highlight'
 
 export function toSetMethodName(key: string) {
@@ -232,4 +232,13 @@ export function createHighlightMesh(object: Object3D): Mesh {
   const highlightMesh = new HightlightMesh(object.geometry.clone(), highlightMaterial)
 
   return highlightMesh
+}
+
+export function extractBindingPosition(binding: any): Vector3 {
+  let observer = binding.value
+  if (binding.value && binding.value?.isMesh) {
+    observer = binding.value.position
+  }
+  if (Array.isArray(binding.value)) observer = new Vector3(...observer)
+  return observer
 }

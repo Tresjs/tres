@@ -64,17 +64,7 @@ export default defineConfig({
           },
         ],
       },
-      {
-        text: 'Examples',
-        items: [
-          { text: 'Orbit Controls', link: '/examples/orbit-controls' },
-          { text: 'Basic Animations', link: '/examples/basic-animations' },
-          { text: 'Groups', link: '/examples/groups' },
-          { text: 'Load Textures', link: '/examples/load-textures' },
-          { text: 'Load Models', link: '/examples/load-models' },
-          { text: 'Load Text', link: '/examples/text-3d' },
-        ],
-      },
+
       {
         text: 'Advanced',
 
@@ -86,6 +76,36 @@ export default defineConfig({
             text: 'Caveats',
             link: '/advanced/caveats',
           },
+        ],
+      },
+      {
+        text: 'Debug',
+        items: [
+          { text: 'Devtools', link: '/debug/devtools' },
+        ],
+      },
+      {
+        text: 'Examples',
+        collapsed: true,
+        items: [
+          { text: 'Orbit Controls', link: '/examples/orbit-controls' },
+          { text: 'Basic Animations', link: '/examples/basic-animations' },
+          { text: 'Groups', link: '/examples/groups' },
+          { text: 'Load Textures', link: '/examples/load-textures' },
+          { text: 'Load Models', link: '/examples/load-models' },
+          { text: 'Load Text', link: '/examples/text-3d' },
+          { text: 'Lights & Shadows', link: '/examples/lights-shadows' },
+          { text: 'Shaders', link: '/examples/shaders' },
+        ],
+      },
+      {
+        text: 'Directives',
+        collapsed: true,
+        items: [
+          { text: 'v-log', link: '/directives/v-log' },
+          { text: 'v-light-helper', link: '/directives/v-light-helper' },
+          { text: 'v-always-look-at', link: '/directives/v-always-look-at' },
+          { text: 'v-distance-to', link: '/directives/v-distance-to' },
         ],
       },
       {

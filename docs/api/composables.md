@@ -13,13 +13,13 @@ The `useRenderLoop` composable is the core of **TresJS** animations. It allows y
 ```ts
 const { onLoop, resume } = useRenderLoop()
 
-onLoop(({ delta, elapsed, clock, dt }) => {
+onLoop(({ delta, elapsed, clock }) => {
   // I will run at every frame ~60FPS (depending of your monitor)
 })
 ```
 
 ::: warning
-Be mindfull of the performance implications of using this composable. It will run at every frame, so if you have a lot of logic in your callback, it might impact the performance of your app. Specially if you are updating reactive states or references.
+Be mindful of the performance implications of using this composable. It will run at every frame, so if you have a lot of logic in your callback, it might impact the performance of your app. Specially if you are updating reactive states or references.
 :::
 
 The `onLoop` callback receives an object with the following properties based on the [THREE clock](https://threejs.org/docs/?q=clock#api/en/core/Clock):
@@ -27,7 +27,7 @@ The `onLoop` callback receives an object with the following properties based on 
 - `delta`: The delta time between the current and the last frame. This is the time in seconds since the last frame.
 - `elapsed`: The elapsed time since the start of the render loop.
 
-This composable is based on `useRafFn` from [vueuse](https://vueuse.org/core/useRafFn/). Thanks to [@wheatjs](https://github.com/orgs/Tresjs/people/wheatjs) for the amazing contribution.
+This composable is based on `useRafFn` from [vueuse](https://vueuse.org/core/useRafFn/). Thanks to [@wheatjs](https://github.com/wheatjs) for the amazing contribution.
 
 ### Before and after render
 
@@ -200,7 +200,7 @@ const { camera, renderer, camera, cameras } = useTresContext()
 ```
 
 ::: warning
-`useTresContext` can be only be used inside of a `TresCanvas` since `TresCanvas` acts as the provider for the context data. Use [the context exposed by TresCanvas](tres-canvas#exposed-public-properties) if you find yourself needing it in parent components of TresCanvas. 
+`useTresContext` can be only be used inside of a `TresCanvas` since `TresCanvas` acts as the provider for the context data. Use [the context exposed by TresCanvas](tres-canvas#exposed-public-properties) if you find yourself needing it in parent components of TresCanvas.
 :::
 
 ```vue
