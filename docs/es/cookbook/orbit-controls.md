@@ -54,7 +54,7 @@ Ahora puedes usar el componente `TresOrbitControls` en tu escena.
 Dado que [OrbitControls](https://threejs.org/docs/index.html?q=orbit#examples/en/controls/OrbitControls) necesita una referencia a la cámara y al renderizador, debes pasarlos como argumentos. Puedes usar el composable [useTresContext](/es/api/composables#usetrescontext) para obtener la cámara y el renderizador.
 
 ::: warning
-`useTresContext` solo puede ser utilizado dentro de un `TresCanvas` ya que `TresCanvas` actúa como proveedor de los datos de contexto. Es por eso que creamos un subcomponente llamado `OrbitControls.vue`. Obtén más información sobre [contexto](/api/composables$usetrescontext).
+`useTresContext` solo puede ser utilizado dentro de un `TresCanvas` ya que `TresCanvas` actúa como proveedor de los datos de contexto. Es por eso que creamos un subcomponente llamado `OrbitControls.vue`. Obtén más información sobre [contexto](/api/composables#usetrescontext).
 :::
 
 ```ts
