@@ -44,7 +44,7 @@ pnpm add @types/three -D
 
 ## Vite
 
-If you are using Vite, you just need to add this to your `vite.config.ts` inside of the vue plugin:
+If you are using Vite, you just need to import and add the `templateCompilerOptions` from TresJS to your `vite.config.ts` inside of the vue plugin:
 
 ```ts
 import { templateCompilerOptions } from '@tresjs/core'
