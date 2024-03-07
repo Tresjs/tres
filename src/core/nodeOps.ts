@@ -221,7 +221,7 @@ export const nodeOps: RendererOptions<TresObject, TresObject | null> = {
         return
       }
         
-        let finalKey = kebabToCamel(key)
+      let finalKey = kebabToCamel(key)
       let target = root?.[finalKey]
 
       if (key === 'args') {
@@ -254,7 +254,6 @@ export const nodeOps: RendererOptions<TresObject, TresObject | null> = {
 
       // Traverse pierced props (e.g. foo-bar=value => foo.bar = value)
       if (key.includes('-') && target === undefined) {
-        console.log(key)
         const chain = key.split('-')
         target = chain.reduce((acc, key) => acc[kebabToCamel(key)], root)
         key = chain.pop() as string

@@ -48,8 +48,8 @@ export const useRaycaster = (
 
     ctx.raycaster.value.setFromCamera(new Vector2(x, y), ctx.camera.value)
 
-    intersects.value =  ctx.raycaster.value.intersectObjects(objects.value, true)
-    return intersects.value;
+    intersects.value = ctx.raycaster.value.intersectObjects(objects.value, true)
+    return intersects.value
   }
 
   const getIntersects = (event?: PointerEvent | MouseEvent | WheelEvent) => {
@@ -72,22 +72,21 @@ export const useRaycaster = (
   const eventHookContextMenu = createEventHook<PointerClickEventPayload>()
   const eventHookWheel = createEventHook<WheelEventPayload>()
 
-
   const triggerEventHook = (eventHook: EventHook, event: PointerEvent | MouseEvent | WheelEvent) => {
     eventHook.trigger({ event, intersects: intersects.value })
   }
 
-  let previousPointerMoveEvent: PointerEvent | undefined = undefined;
+  let previousPointerMoveEvent: PointerEvent | undefined = undefined
   const onPointerMove = (event: PointerEvent) => {
     // Update the raycast intersects
     getIntersects(event)
     triggerEventHook(eventHookPointerMove, event)
-    previousPointerMoveEvent = event;
+    previousPointerMoveEvent = event
   }
 
   const forceUpdate = () => {
-    if(previousPointerMoveEvent)
-      triggerEventHook(eventHookPointerMove, previousPointerMoveEvent);
+    if (previousPointerMoveEvent)
+      triggerEventHook(eventHookPointerMove, previousPointerMoveEvent)
   }
 
   // a click event is fired whenever a pointerdown happened after pointerup on the same object
@@ -99,38 +98,40 @@ export const useRaycaster = (
   }
 
   let previousClickObject: Object3D | undefined = undefined
-  let doubleClickConfirmed: boolean = false;
+  let doubleClickConfirmed: boolean = false
 
   const onPointerUp = (event: MouseEvent) => {
     if (!(event instanceof PointerEvent)) return // prevents triggering twice on mobile devices
 
     if (mouseDownObject === intersects.value[0]?.object) {
       // We clicked on the object, update the count
-      if(event.button === 0) {
+      if (event.button === 0) {
         // Left click
         triggerEventHook(eventHookClick, event)
 
-        if(previousClickObject === intersects.value[0]?.object) {
-          doubleClickConfirmed = true;
-        } else {
-          previousClickObject = intersects.value[0]?.object;
-          doubleClickConfirmed = false;
+        if (previousClickObject === intersects.value[0]?.object) {
+          doubleClickConfirmed = true
         }
-      }else if(event.button === 2) {
+        else {
+          previousClickObject = intersects.value[0]?.object
+          doubleClickConfirmed = false
+        }
+      }
+      else if (event.button === 2) {
         // Right click
         triggerEventHook(eventHookContextMenu, event)
       }
     }
 
-    triggerEventHook(eventHookPointerUp, event);
+    triggerEventHook(eventHookPointerUp, event)
   }
 
   const onDoubleClick = (event: MouseEvent) => {
-      if(doubleClickConfirmed) {
-        triggerEventHook(eventHookDblClick, event)
-        previousClickObject = undefined;
-        doubleClickConfirmed = false;
-      }
+    if (doubleClickConfirmed) {
+      triggerEventHook(eventHookDblClick, event)
+      previousClickObject = undefined
+      doubleClickConfirmed = false
+    }
   }
 
   const onPointerLeave = (event: PointerEvent) => eventHookPointerMove.trigger({ event, intersects: [] })
@@ -141,8 +142,8 @@ export const useRaycaster = (
   canvas.value.addEventListener('pointerdown', onPointerDown)
   canvas.value.addEventListener('pointermove', onPointerMove)
   canvas.value.addEventListener('pointerleave', onPointerLeave)
-  canvas.value.addEventListener('dblclick', onDoubleClick);
-  canvas.value.addEventListener('wheel', onWheel);
+  canvas.value.addEventListener('dblclick', onDoubleClick)
+  canvas.value.addEventListener('wheel', onWheel)
 
   onUnmounted(() => {
     if (!canvas?.value) return
