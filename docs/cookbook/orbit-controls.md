@@ -39,41 +39,56 @@ extend({ OrbitControls })
 
 Now you can use the `TresOrbitControls` component in your scene.
 
-```vue
+::: code-group
+
+```vue [OrbitControls.vue]
 <template>
-  <TresCanvas
-    shadows
-    alpha
-  >
-    <TresPerspectiveCamera :args="[45, 1, 0.1, 1000]" />
-    <TresOrbitControls
-      v-if="state.renderer"
-      :args="[state.camera, state.renderer?.domElement]"
-    />
-  </TresCanvas>
+  <TresOrbitControls
+    v-if="renderer"
+    :args="[camera, renderer?.domElement]"
+  />
 </template>
 ```
+:::
 
-Since [OrbitControls](https://threejs.org/docs/index.html?q=orbit#examples/en/controls/OrbitControls) needs a reference to the camera and the renderer, you need to pass them as arguments.
 
-You can use the [useTres](/api/composables#usetres) composable to get the camera and the renderer.
+Since [OrbitControls](https://threejs.org/docs/index.html?q=orbit#examples/en/controls/OrbitControls) needs a reference to the camera and the renderer, you need to pass them as arguments. You can use the [useTresContext](/api/composables#usetrescontext) composable to get the camera and the renderer.
+
+::: warning
+`useTres` can be only be used inside of a `TresCanvas` since `TresCanvas` acts as the provider for the context data. Thats why we created a subcomponent called `OrbitControls.vue`. See more about [context](/api/composables$usetrescontext).
+:::
 
 ```ts
-import { useTres } from '@tresjs/core'
+import { useTresContext } from '@tresjs/core'
 
-const { state } = useTres()
+const { camera, renderer } = useTresContext()
 ```
 
 So the final code would be something like this:
 
-```vue
+::: code-group
+
+```vue [OrbitControls.vue]
 <script setup lang="ts">
-import { extend, useTres } from '@tresjs/core'
+import { extend, useTresContext } from '@tresjs/core'
 import { OrbitControls } from 'three/addons/controls/OrbitControls'
 
 extend({ OrbitControls })
 
-const { state } = useTres()
+const { camera, renderer } = useTresContext()
+</script>
+
+<template>
+  <TresOrbitControls
+    v-if="renderer"
+    :args="[camera, renderer?.domElement]"
+  />
+</template>
+```
+
+```vue [App.vue]
+<script setup lang="ts">
+import { OrbitControls } from './OrbitControls.vue'
 </script>
 
 <template>
@@ -82,13 +97,12 @@ const { state } = useTres()
     alpha
   >
     <TresPerspectiveCamera :args="[45, 1, 0.1, 1000]" />
-    <TresOrbitControls
-      v-if="state.renderer"
-      :args="[state.camera, state.renderer?.domElement]"
-    />
+    <OrbitControls />
   </TresCanvas>
 </template>
 ```
+:::
+
 
 ## OrbitControls from `cientos`
 
