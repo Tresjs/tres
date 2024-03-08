@@ -1,11 +1,3 @@
----
-title: Shaders
-description: Shaders open a world of possibilities.
-author: alvarosabu
-thumbnail: /recipes/shaders.png
-difficulty: 2
----
-
 # Shaders
 
 This guide will help you get started with shaders in TresJS.
@@ -20,7 +12,7 @@ _Basic knowledge of how shaders work is necessary_
 
 ## Setting up the scene (optional)
 
-We import all the modules that we need, for comfort we can use the orbit-controls from cientos,
+We import all the modules that we need. To make it more convenient we will import and use the orbit-controls from cientos,
 [look here to see how](/cookbook/orbit-controls).
 
 Now, let's put our camera in the `[11,11,11]` position.
@@ -163,7 +155,7 @@ onLoop(({ elapsed }) => {
  //...
 ```
 
-And that it is, we have our basic shader running smoothly.
+And that's it, we have our basic shader running smoothly. 🎉
 
 ## Using GLSL vite-pluging (optional)
 

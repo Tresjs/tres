@@ -102,7 +102,7 @@ We could divide this into three steps:
 ```
 ### Set the light to cast shadows
 
-We can simple put the boolean `cast-shadow`, Vue understand this as a `prop` with `true` value
+We can simply add the boolean `cast-shadow`, Vue understands this as a `prop` with a value of `true`.
 
 _The AmbientLight doesn't generate any type of shadow here_
 
@@ -147,7 +147,7 @@ Similarly to the previous step, we set the mesh that we want to cast shadow (our
 </template>
 ```
 
-Now we have all the necessary steps to add shadows to our scene, and if we apply what we learned in [basic animations](/cookbook/basic-animations), and we add movement to our cube, you will see the shadow is animated as well 🤩
+Now we have all the necessary steps to add shadows to our scene, and if we apply what we learned in [basic animations](/cookbook/basic-animations), and we add movement to our cube, you will see the shadow is animated as well. 🤩
 
 ```vue
 <script setup>

@@ -43,7 +43,7 @@ export const esConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
 
         items: [
           { text: 'Extender', link: '/es/advanced/extending' },
-          { text: 'primitive', link: '/es/advanced/primitive' },
+          { text: 'Primitive', link: '/es/advanced/primitive' },
           {
             text: 'Advertencias',
             link: '/es/advanced/caveats',

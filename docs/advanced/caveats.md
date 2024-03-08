@@ -36,13 +36,13 @@ onLoop(({ _delta, elapsed }) => {
 </template>
 ```
 
-If you make a change on the `color` of the `TresMeshStandardMaterial` component, you will see that the change is applied but the rotation is not working anymore. This is because the instance is disposed and created again.
+If you change the `color` attribute of the `TresMeshStandardMaterial` component, you will see that the change is applied but the rotation is not working anymore. This is because the instance is disposed and created again.
 
 :::tip
-So as **rule of thumb** you should reload the page whenever you don't see the changes you made.
+So as **rule of thumb** you should reload the page whenever you don't see your changes reflected.
 :::
 
-That being said we are working on a better solution for this 😁. If you have any idea how to solve this, please let us know.
+That being said we are working on a better solution for this 😁. If you have any idea on how to solve this, please let us know.
 
 You can follow the discussion in [HMR Disposal Discussion](https://github.com/Tresjs/tres/issues/23)
 
@@ -52,7 +52,7 @@ We all love reactivity 💚. It is one of the most powerful features of VueJS. H
 
 Vue reactivity is based on [Proxy](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy). This allows Vue 3 to automatically track changes to data objects and update the corresponding DOM elements whenever the data changes.
 
-Since we are rendering an scene and updating it in every frame (60FPS), that means that we are updating the scene 60 times per second. If the object to be updated is reactive, Vue will try to update the that objectthat many times. This is not a good idea 😅 and will be detrimental for performance.
+Since we are rendering a scene and updating it in every frame, for example with a rate of 60FPS this means that we are updating the scene 60 times per second. If the object to be updated is reactive, Vue will try to update set object 60 times. This is not a good idea 😅 and will be detrimental for performance.
 
 Here is a benchmark of the difference between using a Proxy object and a plain object.
 

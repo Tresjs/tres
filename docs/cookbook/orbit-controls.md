@@ -51,8 +51,7 @@ Now you can use the `TresOrbitControls` component in your scene.
 ```
 :::
 
-
-Since [OrbitControls](https://threejs.org/docs/index.html?q=orbit#examples/en/controls/OrbitControls) needs a reference to the camera and the renderer, you need to pass them as arguments. You can use the [useTresContext](/api/composables#usetrescontext) composable to get the camera and the renderer.
+Since [OrbitControls](https://threejs.org/docs/index.html?q=orbit#examples/en/controls/OrbitControls) needs a reference to the camera and the renderer. You need to pass those as arguments. You can use the [useTresContext](/api/composables#usetrescontext) composable to get the camera and the renderer.
 
 ::: warning
 `useTresContext` can be only be used inside of a `TresCanvas` since `TresCanvas` acts as the provider for the context data. Thats why we created a subcomponent called `OrbitControls.vue`. See more about [context](/api/composables#usetrescontext).
@@ -107,7 +106,7 @@ import { OrbitControls } from './OrbitControls.vue'
 ## OrbitControls from `cientos`
 
 Here is where the fancy part begins. ✨  
-The `cientos` package provides a component called `<OrbitControls />` that is a wrapper of the `OrbitControls` from the [`three-stdlib`](https://github.com/pmndrs/three-stdlib) module.
+The `cientos` package provides a component called `<OrbitControls />` which is a wrapper of the `OrbitControls` from the [`three-stdlib`](https://github.com/pmndrs/three-stdlib) module.
 
 The nicest part? You don't need to extend the catalog or pass any arguments.  
 It just works. 💯

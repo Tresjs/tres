@@ -222,15 +222,15 @@ const context = useTresContext()
 ### Properties of context
 | Property | Description |
 | --- | --- |
-| **camera** | the currently active camera |
-| **cameras** | the cameras that exist in the scene |
-| **controls** | the controls of your scene |
-| **deregisterCamera** | a method to deregister a camera. This is only required if you manually create a camera. Cameras in the template are deregistered automatically. |
+| **camera** | The currently active camera |
+| **cameras** | The cameras that exist in the scene |
+| **controls** | The controls of your scene |
+| **deregisterCamera** | A method to deregister a camera. This is only required if you manually create a camera. Cameras in the template are deregistered automatically. |
 | **extend** | Extends the component catalogue. See [extending](/advanced/extending) |
-| **raycaster** | the global raycaster used for pointer events |
-| **registerCamera** | a method to register a camera. This is only required if you manually create a camera. Cameras in the template are registered automatically. |
-| **renderer** | the [WebGLRenderer](https://threejs.org/docs/#api/en/renderers/WebGLRenderer) of your scene |
-| **scene** | the [scene](https://threejs.org/docs/?q=sce#api/en/scenes/Scene). |
-| **setCameraActive** | a method to set a camera active |
-| **sizes** | contains width, height and aspect ratio of your canvas |
+| **raycaster** | The global raycaster used for pointer events |
+| **registerCamera** | A method to register a camera. This is only required if you manually create a camera. Cameras in the template are registered automatically. |
+| **renderer** | The [WebGLRenderer](https://threejs.org/docs/#api/en/renderers/WebGLRenderer) of your scene |
+| **scene** | The [scene](https://threejs.org/docs/?q=sce#api/en/scenes/Scene). |
+| **setCameraActive** | A method to set a camera active |
+| **sizes** | Contains width, height and aspect ratio of your canvas |
 
