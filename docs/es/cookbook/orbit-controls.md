@@ -85,9 +85,10 @@ const { camera, renderer } = useTresContext()
 </template>
 ```
 
-```vue [App.vue]
+```vue [App.vue] {3,12}
 <script setup lang="ts">
-import { OrbitControls } from './OrbitControls.vue'
+import { TresCanvas } from '@tresjs/core'
+import OrbitControls from './OrbitControls.vue'
 </script>
 
 <template>
@@ -97,6 +98,7 @@ import { OrbitControls } from './OrbitControls.vue'
   >
     <TresPerspectiveCamera :args="[45, 1, 0.1, 1000]" />
     <OrbitControls />
+    <TresGridHelper :args="[10, 10]" />
   </TresCanvas>
 </template>
 ```
@@ -111,7 +113,12 @@ El paquete `cientos` proporciona un componente llamado `<OrbitControls />` que e
 ¿Lo mejor? No necesitas ampliar el catálogo ni pasar ningún argumento.  
 Simplemente funciona. 💯
 
-```vue
+```vue {3,12}
+<script setup lang="ts">
+import { TresCanvas } from '@tresjs/core'
+import { OrbitControls } from '@tresjs/cientos'
+</script>
+
 <template>
   <TresCanvas
     shadows
