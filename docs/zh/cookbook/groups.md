@@ -1,3 +1,11 @@
+---
+title: 组
+description: 学习如何在场景中对多个对象进行分组。
+author: alvarosabu
+thumbnail: /recipes/groups.png
+difficulty: 0
+---
+
 # 组
 
 `<TresGroup>` 是一个 [THREE.Group](https://threejs.org/docs/#api/zh/objects/Group) 类的实例，它与 [THREE.Object3D](https://threejs.org/docs/#api/zh/objects/Object3D) 非常相似，但允许您将 场景中的多个对象分组在一起，以便将它们作为一个整体进行操作（变换、旋转等）。

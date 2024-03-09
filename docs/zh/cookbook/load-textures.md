@@ -1,3 +1,11 @@
+---
+title: 加载纹理
+description: 将纹理贴图添加到你的TresJS对象。
+author: alvarosabu
+thumbnail: /recipes/load-textures.png
+difficulty: 1
+---
+
 # 加载纹理
 
 > 本示例中使用的所有纹理均来自 [ambientcg](https://ambientcg.com/).

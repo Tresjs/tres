@@ -1,4 +1,12 @@
-# Text3D
+---
+title: 3D 文本
+description: 轻松添加3D文本
+author: alvarosabu
+thumbnail: /recipes/text-3d.png
+difficulty: 1
+---
+
+# 3D 文本
 
 [TextGeometry](https://threejs.org/docs/index.html?q=text#examples/en/geometries/TextGeometry) 是我们在场景中添加 3D 文本的一种方式。
 

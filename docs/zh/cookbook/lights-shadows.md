@@ -1,4 +1,12 @@
-# 光影
+---
+title: 光照和阴影
+description: 学习如何向场景中添加光照和阴影。
+author: alvarosabu
+thumbnail: /recipes/lights-and-shadows.png
+difficulty: 0
+---
+
+# 光照和阴影
 
 本指南将帮助你开始在 TresJS 中使用简单的光照和阴影。
 

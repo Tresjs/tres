@@ -1,3 +1,11 @@
+---
+title: 加载模型
+description: 将3D模型加载到您的Tres场景中。
+author: alvarosabu
+thumbnail: /recipes/gltf-model.png
+difficulty: 1
+---
+
 # 加载模型
 
 > 本指南中使用的所有模型均来自 [Alvaro Saburido](https://sketchfab.com/3d-models/aku-aku-7dfcb6edf10b4098bbb965c56fd3055c)。

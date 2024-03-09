@@ -1,3 +1,11 @@
+---
+title: 基础动画
+description: 如何使用 useRenderLoop 组合函数来为您的对象添加动画。
+author: alvarosabu
+thumbnail: /recipes/animations.png
+difficulty: 0
+---
+
 # 基础动画
 
 本指南将帮助您开始使用 TresJS 进行基本的动画。
