@@ -12,7 +12,7 @@ _需要了解着色器工作原理的基本知识_
 
 ## 设置场景（可选）
 
-我们导入所需的所有模块，为了方便，我们可以使用 cientos 中的轨道控件，[点击此处查看方法](/zh/examples/orbit-controls)。
+我们导入所需的所有模块，为了方便，我们可以使用 cientos 中的轨道控件，[点击此处查看方法](/zh/cookbook/orbit-controls)。
 
 现在，我们将相机放在 `[11,11,11]` 位置。
 
@@ -109,7 +109,7 @@ void main() {
 
 ## 为 blob 添加动画
 
-类似于我们在 [基本动画](/zh/examples/basic-animations) 示例中学习到的，我们首先使用 [模板引用](https://cn.vuejs.org/guide/essentials/template-refs.html) 引用 blob 
+类似于我们在 [基本动画](/zh/cookbook/basic-animations) 示例中学习到的，我们首先使用 [模板引用](https://cn.vuejs.org/guide/essentials/template-refs.html) 引用 blob 
 
 ```vue
 <script setup lang="ts">

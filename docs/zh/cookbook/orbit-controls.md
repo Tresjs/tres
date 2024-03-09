@@ -57,7 +57,7 @@ extend({ OrbitControls })
 
 由于 [轨道控制器（OrbitControls）](https://threejs.org/docs/index.html#examples/zh/controls/OrbitControls) 需要相机和渲染器的引用，因此你需要将它们作为参数传递。
 
-你可以使用 [useTres](/zh/composables#usetres) 组合式函数获取相机和渲染器。
+你可以使用 [useTres](/zh/api/composables#usetres) 组合式函数获取相机和渲染器。
 
 ```ts
 import { useTres } from '@tresjs/core'
