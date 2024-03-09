@@ -21,7 +21,7 @@ interface PointerClickEventPayload {
 export const useRaycaster = (
   objects: Ref<THREE.Object3D[]>,
   { renderer, camera, raycaster }: Pick<TresContext, 'renderer' | 'camera' | 'raycaster'>,
-  isWindow: boolean,
+  isWindow?: boolean,
 ) => {
   // having a separate computed makes useElementBounding work
   const canvas = computed(() => renderer.value.domElement as HTMLCanvasElement)
@@ -98,7 +98,8 @@ export const useRaycaster = (
     window.addEventListener('pointerdown', onPointerDown)
     window.addEventListener('pointermove', onPointerMove)
     window.addEventListener('pointerleave', onPointerLeave)
-  } else { 
+  }
+  else { 
     canvas.value.addEventListener('pointerup', onPointerUp)
     canvas.value.addEventListener('pointerdown', onPointerDown)
     canvas.value.addEventListener('pointermove', onPointerMove)

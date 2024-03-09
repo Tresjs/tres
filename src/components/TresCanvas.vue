@@ -62,6 +62,7 @@ const props = withDefaults(defineProps<TresCanvasProps>(), {
   stencil: undefined,
   antialias: undefined,
   windowSize: undefined,
+  useWindowPointer: undefined,
   disableRender: undefined,
   useLegacyLights: undefined,
   preserveDrawingBuffer: undefined,

@@ -21,7 +21,7 @@ export const usePointerEventHandler = (
   {
     scene: TresScene
     contextParts: Pick<TresContext, 'renderer' | 'camera' | 'raycaster'>
-    isWindow: boolean
+    isWindow?: boolean
   },
 ) => {
   const objectsWithEventListeners = reactive({
