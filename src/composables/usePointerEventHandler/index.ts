@@ -17,10 +17,11 @@ export interface EventProps {
 }
 
 export const usePointerEventHandler = (
-  { scene, contextParts }:
+  { scene, contextParts, isWindow }:
   {
     scene: TresScene
     contextParts: Pick<TresContext, 'renderer' | 'camera' | 'raycaster'>
+    isWindow: boolean
   },
 ) => {
   const objectsWithEventListeners = reactive({
@@ -73,7 +74,7 @@ export const usePointerEventHandler = (
     ),
   )
 
-  const { onClick, onPointerMove } = useRaycaster(objectsToWatch, contextParts)
+  const { onClick, onPointerMove } = useRaycaster(objectsToWatch, contextParts, isWindow)
 
   onClick(({ intersects, event }) => {
     if (intersects.length) objectsWithEventListeners.click.get(intersects[0].object)?.(intersects[0], event)

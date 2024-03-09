@@ -1,9 +1,9 @@
 import { Vector2 } from 'three'
 import type { Object3D, type Intersection } from 'three'
 import type { Ref } from 'vue'
-import { computed, onUnmounted } from 'vue'
+import { computed, onUnmounted, ref } from 'vue'
 import type { EventHook } from '@vueuse/core'
-import { createEventHook, useElementBounding, usePointer } from '@vueuse/core'
+import { createEventHook, useElementBounding, usePointer, useWindowSize } from '@vueuse/core'
 
 import { type TresContext } from '../useTresContextProvider'
 
@@ -21,13 +21,21 @@ interface PointerClickEventPayload {
 export const useRaycaster = (
   objects: Ref<THREE.Object3D[]>,
   { renderer, camera, raycaster }: Pick<TresContext, 'renderer' | 'camera' | 'raycaster'>,
+  isWindow: boolean,
 ) => {
   // having a separate computed makes useElementBounding work
   const canvas = computed(() => renderer.value.domElement as HTMLCanvasElement)
+  const target = isWindow ? window : canvas
 
-  const { x, y } = usePointer({ target: canvas })
+  const { x, y } = usePointer({ target })
 
-  const { width, height, top, left } = useElementBounding(canvas)
+  const windowSize = {
+    ...useWindowSize(),
+    top: ref(0),
+    left: ref(0),
+  }
+
+  const { width, height, top, left } = isWindow ? windowSize : useElementBounding(canvas)
 
   const getRelativePointerPosition = ({ x, y }: { x: number; y: number }) => {
     if (!canvas.value) return
@@ -85,10 +93,17 @@ export const useRaycaster = (
 
   const onPointerLeave = (event: PointerEvent) => eventHookPointerMove.trigger({ event, intersects: [] })
 
-  canvas.value.addEventListener('pointerup', onPointerUp)
-  canvas.value.addEventListener('pointerdown', onPointerDown)
-  canvas.value.addEventListener('pointermove', onPointerMove)
-  canvas.value.addEventListener('pointerleave', onPointerLeave)
+  if (isWindow) {
+    window.addEventListener('pointerup', onPointerUp)
+    window.addEventListener('pointerdown', onPointerDown)
+    window.addEventListener('pointermove', onPointerMove)
+    window.addEventListener('pointerleave', onPointerLeave)
+  } else { 
+    canvas.value.addEventListener('pointerup', onPointerUp)
+    canvas.value.addEventListener('pointerdown', onPointerDown)
+    canvas.value.addEventListener('pointermove', onPointerMove)
+    canvas.value.addEventListener('pointerleave', onPointerLeave)
+  }
 
   onUnmounted(() => {
     if (!canvas?.value) return
