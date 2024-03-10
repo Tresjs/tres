@@ -43,7 +43,7 @@ export const esConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
 
         items: [
           { text: 'Extender', link: '/es/advanced/extending' },
-          { text: 'primitive', link: '/es/advanced/primitive' },
+          { text: 'Primitive', link: '/es/advanced/primitive' },
           {
             text: 'Advertencias',
             link: '/es/advanced/caveats',
@@ -57,17 +57,17 @@ export const esConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
         ],
       },
       {
-        text: 'Ejemplos',
-        collapsed: true,
+        text: 'Recetario 🍳🧑‍🍳',
+        link: '/es/cookbook/',
         items: [
-          { text: 'Controles de órbita', link: '/es/examples/orbit-controls' },
-          { text: 'Animaciones básicas', link: '/es/examples/basic-animations' },
-          { text: 'Grupos', link: '/es/examples/groups' },
-          { text: 'Cargar texturas', link: '/es/examples/load-textures' },
-          { text: 'Cargar modelos', link: '/es/examples/load-models' },
-          { text: 'Cargar texto', link: '/es/examples/text-3d' },
-          { text: 'Luces y sombras', link: '/es/examples/lights-shadows' },
-          { text: 'Shaders', link: '/es/examples/shaders' },
+          { text: 'Controles de órbita', link: '/es/cookbook/orbit-controls' },
+          { text: 'Animaciones básicas', link: '/es/cookbook/basic-animations' },
+          { text: 'Grupos', link: '/es/cookbook/groups' },
+          { text: 'Cargar texturas', link: '/es/cookbook/load-textures' },
+          { text: 'Cargar modelos', link: '/es/cookbook/load-models' },
+          { text: 'Cargar texto', link: '/es/cookbook/text-3d' },
+          { text: 'Luces y sombras', link: '/es/cookbook/lights-shadows' },
+          { text: 'Shaders', link: '/es/cookbook/shaders' },
         ],
       },
       {
@@ -140,7 +140,37 @@ export const esConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
             ],
           },
         ],
-      },  
+      },
     ],
+    search: {
+      provider: 'local',
+      options: {
+        locales: {
+          es: {
+            translations: {
+              button: {
+                buttonText: 'Buscar',
+                buttonAriaLabel: 'Buscar',
+              },
+              modal: {
+                displayDetails: 'Mostrar lista detallada',
+                resetButtonTitle: 'Restablecer búsqueda',
+                backButtonTitle: 'Cerrar búsqueda',
+                noResultsText: 'Sin resultados para',
+                footer: {
+                  selectText: 'para seleccionar',
+                  selectKeyAriaLabel: 'entrar',
+                  navigateText: 'para navegar',
+                  navigateUpKeyAriaLabel: 'flecha arriba',
+                  navigateDownKeyAriaLabel: 'flecha abajo',
+                  closeText: 'para cerrar',
+                  closeKeyAriaLabel: 'escape',
+                },
+              },
+            },
+          },
+        },
+      },
+    },
   },
 }

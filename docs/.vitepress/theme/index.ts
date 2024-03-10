@@ -1,12 +1,10 @@
-import 'uno.css'
-import { h } from 'vue'
+import type { Theme } from 'vitepress'
+import VPTheme from 'vitepress/theme'
 
-// .vitepress/theme/index.ts
-import Theme from 'vitepress/theme'
-import './config.css'
+import 'uno.css'
+import './custom.css'
 
 import TresLayout from './TresLayout.vue'
-import HomeSponsors from './components/HomeSponsors.vue'
 
 /* const plausible = createPlausible({
   init: {
@@ -20,11 +18,10 @@ import HomeSponsors from './components/HomeSponsors.vue'
 }) */
 
 export default {
-  ...Theme,
+  ...VPTheme,
 
-  enhanceApp(ctx) {
-    Theme.enhanceApp(ctx)
-    /* ctx.app.use(plausible) */
-  },
+  /* enhanceApp(ctx) {
+    ctx.app.use(plausible)
+  }, */
   Layout: TresLayout,
-}
+} satisfies Theme
