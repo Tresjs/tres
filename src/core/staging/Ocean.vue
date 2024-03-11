@@ -11,7 +11,7 @@ export interface OceanProps {
   /**
    * The textureWidth of the internal WebGLRenderTarget.
    *
-   * @default window.innerWidth
+   * @default 512
    * @type {number}
    * @memberof OceanProps
    *
@@ -20,7 +20,7 @@ export interface OceanProps {
   /**
    * The textureHeight of the internal WebGLRenderTarget.
    *
-   * @default window.innerHeight
+   * @default 512
    * @type {number}
    * @memberof OceanProps
    *
