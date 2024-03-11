@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { shallowRef, toRefs, watch, onMounted, nextTick } from 'vue'
+import { shallowRef, toRefs, onMounted, nextTick } from 'vue'
 import { useTresContext, useRenderLoop, useTexture } from '@tresjs/core'
 import type { TresColor, TresVector3 } from '@tresjs/core'
 import { Water } from 'three/addons/objects/Water.js'
@@ -108,7 +108,7 @@ export interface OceanProps {
 const props = withDefaults(defineProps<OceanProps>(), {
   textureWidth: 512,
   textureHeight: 512,
-  waterNormals: 'https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/water/Water_1_M_Normal.jpg',
+  waterNormals: 'https://raw.githubusercontent.com/Tresjs/assets/main/textures/water-normals/Water_1_M_Normal.jpg',
   sunDirection: () => new Vector3(),
   sunColor: 0xffffff,
   waterColor: 0x001e0f,

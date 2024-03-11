@@ -40,8 +40,8 @@ export const stagingRoutes = [
     component: () => import('../../pages/staging/SparklesDemo.vue'),
   },
   {
-    path: '/staging/water',
-    name: 'Water',
-    component: () => import('../../pages/staging/WaterDemo.vue'),
+    path: '/staging/ocean',
+    name: 'Ocean',
+    component: () => import('../../pages/staging/OceanDemo.vue'),
   },
 ]
