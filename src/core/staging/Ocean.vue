@@ -136,12 +136,12 @@ const { extend, scene } = useTresContext()
 
 extend({ Water })
 
-const WaterRef = shallowRef()
+const waterRef = shallowRef()
 const sunRef = shallowRef()
 const _fog = scene.value.fog !== undefined
 
 defineExpose({
-  WaterRef,
+  root: waterRef,
 })
 
 scene.value.traverse((child) => {
@@ -154,7 +154,7 @@ onMounted(async () => {
   await nextTick()
   if (sunRef.value) {
     const sunPosition = sunRef.value.material.uniforms.sunPosition.value
-    WaterRef.value.material.uniforms.sunDirection.value.copy(sunPosition)
+    waterRef.value.material.uniforms.sunDirection.value.copy(sunPosition)
   }
 })
 
@@ -165,13 +165,13 @@ normalMap.wrapS = normalMap.wrapT = RepeatWrapping
 const { onLoop } = useRenderLoop()
 
 onLoop(({ delta }) => {
-  WaterRef.value.material.uniforms.time.value += delta
+  waterRef.value.material.uniforms.time.value += delta
 })
 </script>
 
 <template>
   <TresWater
-    ref="WaterRef"
+    ref="waterRef"
     :rotation-x="-Math.PI / 2"
     :args="[undefined, {
       textureWidth,

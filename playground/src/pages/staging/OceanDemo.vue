@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { shallowRef, watch } from 'vue'
 import { TresCanvas } from '@tresjs/core'
 import { OrbitControls, Ocean, Sky } from '@tresjs/cientos'
 import { SRGBColorSpace, ACESFilmicToneMapping, Vector3 } from 'three'
@@ -10,13 +9,6 @@ const gl = {
   toneMapping: ACESFilmicToneMapping,
   toneMappingExposure: 1,
 }
-
-const newSunDirection = new Vector3(10, 0, 0)
-
-// const skyRef = shallowRef()
-// watch(skyRef, (value) => {
-//   console.log(value)
-// })
 </script>
 
 <template>

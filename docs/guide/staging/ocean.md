@@ -7,7 +7,7 @@
 `<Ocean />` is a wrapper for the [Three.js `Water` add-on](https://threejs.org/examples/?q=ocean#webgl_shaders_ocean).
 
 ::: warning
-Smoke componente comes with a default texture abstraction it needs to be wrapped by a Suspense component
+`<Ocean />` componente comes with a default texture abstraction it needs to be wrapped by a Suspense component.
 :::
 
 ## Usage
@@ -16,16 +16,16 @@ Smoke componente comes with a default texture abstraction it needs to be wrapped
 
 ### SKY
 
-The `<Ocean />` work pair to pair with the [Sky](https://cientos.tresjs.org/guide/staging/sky.html) component, detecting the position of the sun and reflecting on the water.
-(`<Sky />` component is not required for making this component work)
+The `<Ocean />` work hand to hand with the [Sky](https://cientos.tresjs.org/guide/staging/sky.html) component, detecting the position of the sun and reflecting on the water.
+(<Sky /> is not required for making this component work.).
 
 ### Fog
 
-The `<Ocean />` component also react when there's [Fog](https://threejs.org/docs/index.html?q=fog#api/en/scenes/Fog) or [FogExp2](https://threejs.org/docs/index.html?q=fog#api/en/scenes/FogExp2) on your scene.
+The `<Ocean />` component also reacts when there's [Fog](https://threejs.org/docs/index.html?q=fog#api/en/scenes/Fog) or [FogExp2](https://threejs.org/docs/index.html?q=fog#api/en/scenes/FogExp2) in your scene.
 
 ## Custom Geometry
 
-You can usw a custom geometry by simple adding as a slot
+You can use custom geometry by adding it as a child.
 
 ```
     <Suspense>
@@ -38,12 +38,12 @@ You can usw a custom geometry by simple adding as a slot
 ## Props
 
 ::: warning
-All of the props of this component are not reactive
+All of the props of this component are not reactive.
 :::
 
 | Prop                | Description                                 | Default                                                                                          |
 | :------------------ | :------------------------------------------ | ------------------------------------------------------------------------------------------------ |
-| **textureWidth**    | With of the mirror texture                  | 512                                                                                              |
+| **textureWidth**    | Width of the mirror texture                  | 512                                                                                              |
 | **textureHeight**   | Height of the mirror texture                | 512                                                                                              |
 | **waterNormals**    | Normals of the water                        | https://raw.githubusercontent.com/Tresjs/assets/main/textures/water-normals/Water_1_M_Normal.jpg |
 | **sunDirection**    | Sun direction to be reflected on the water  | Vector3(0,0,0)                                                                                   |
