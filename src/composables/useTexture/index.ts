@@ -1,5 +1,5 @@
-import type { Texture } from 'three'
-import { LoadingManager, TextureLoader } from 'three'
+import type { Texture, LoadingManager } from 'three'
+import { TextureLoader } from 'three'
 import { isArray } from '../../utils'
 
 export interface PBRMaterialOptions {
@@ -114,9 +114,10 @@ export async function useTexture<TextureMap extends PBRUseTextureMap>(
 
 export async function useTexture(
   paths: readonly [string] | string[] | PBRUseTextureMap,
+  manager?: LoadingManager,
 ): Promise<Texture | Texture[] | PBRTextureMaps> {
-  const loadingManager = new LoadingManager()
-  const textureLoader = new TextureLoader(loadingManager)
+  // fiexd TextureLoader use THREE.DefaultLoadingManager as default loading manager 
+  const textureLoader = new TextureLoader(manager)
 
   /**
    * Load a texture.
