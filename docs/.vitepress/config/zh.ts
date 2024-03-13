@@ -119,7 +119,7 @@ export const zhConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
             link: 'https://github.com/Tresjs/tres/',
           },
           {
-            text: 'Issues',
+            text: '议题',
             link: 'https://github.com/Tresjs/tres/issues',
           },
           {
@@ -142,6 +142,36 @@ export const zhConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
         ],
       },
     ],
+    search: {
+      provider: "local",
+      options: {
+        locales: {
+          zh: {
+            translations: {
+              button: {
+                buttonText: '搜索',
+                buttonAriaLabel: '搜索',
+              },
+              modal: {
+                displayDetails: '显示详细列表',
+                resetButtonTitle: '重制搜索',
+                backButtonTitle: '关闭搜索',
+                noResultsText: '没有找到相关结果',
+                footer: {
+                  selectText: '选择',
+                  selectKeyAriaLabel: 'enter',
+                  navigateText: '切换',
+                  navigateUpKeyAriaLabel: '上方向键',
+                  navigateDownKeyAriaLabel: '下方向键',
+                  closeText: '关闭',
+                  closeKeyAriaLabel: 'esc',
+                },
+              },
+            }
+          }
+        }
+      }
+    },
     darkModeSwitchLabel: "外观",
     sidebarMenuLabel: "菜单",
     returnToTopLabel: "返回顶部",
