@@ -135,7 +135,9 @@ export default defineConfig({
           { text: 'Smoke', link: '/guide/staging/smoke' },
           { text: 'Contact Shadows', link: '/guide/staging/contact-shadows' },
           { text: 'Precipitation', link: '/guide/staging/precipitation' },
-          { text: 'Sparkles', link: '/guide/staging/sparkles' }],
+          { text: 'Sparkles', link: '/guide/staging/sparkles' },
+          { text: 'Ocean', link: '/guide/staging/ocean' },
+        ],
       },
       {
         text: 'Misc',

@@ -14,7 +14,6 @@ export const stagingRoutes = [
     name: 'Stars',
     component: () => import('../../pages/staging/StarsDemo.vue'),
   },
-    
   {
     path: '/staging/environment',
     name: 'Environment',
@@ -39,5 +38,10 @@ export const stagingRoutes = [
     path: '/staging/sparkles',
     name: 'Sparkles',
     component: () => import('../../pages/staging/SparklesDemo.vue'),
+  },
+  {
+    path: '/staging/ocean',
+    name: 'Ocean',
+    component: () => import('../../pages/staging/OceanDemo.vue'),
   },
 ]
