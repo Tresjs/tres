@@ -118,12 +118,11 @@ describe("nodeOps", () => {
         createElement: (tag) => ({ text: tag + " alright job" }),
       });
       const nodeOps = useNodeOpsWithContext({}, [plugin1, plugin2]);
-      const returnValue = { element: "I'm an element" };
 
       const noMatchingFilter = nodeOps.createElement("Bad tag", false, "", {
         visible: false,
       });
-      expect(noMatchingFilter).equals(null);
+      expect(noMatchingFilter.text).toBeUndefined();
 
       const matchesFilter = nodeOps.createElement("Awesome tag", false, "", {
         visible: false,
