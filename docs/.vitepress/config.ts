@@ -65,6 +65,7 @@ export default defineConfig({
           { text: 'useFBO', link: '/guide/abstractions/use-fbo' },
           { text: 'useSurfaceSampler', link: '/guide/abstractions/use-surface-sampler' },
           { text: 'Sampler', link: '/guide/abstractions/sampler' },
+          { text: 'Positional Audio', link: '/guide/abstractions/positional-audio' },
         ],
       },
       {
