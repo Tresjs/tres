@@ -1,86 +1,88 @@
 <script setup lang="ts">
-import { ref, watchEffect } from 'vue'
-import { BasicShadowMap, SRGBColorSpace, NoToneMapping } from 'three'
-import { TresCanvas } from '@tresjs/core'
+import {
+  TresCanvas,
+  pluginCore,
+  pluginCannon,
+  pluginText,
+} from '@tresjs/core'
 import { OrbitControls } from '@tresjs/cientos'
-import { TresLeches, useControls } from '@tresjs/leches'
-import '@tresjs/leches/styles'
-import TheSphere from './TheSphere.vue'
+import { MeshNormalMaterial, BoxGeometry } from 'three'
 
-const gl = {
-  clearColor: '#82DBC5',
-  shadows: true,
-  alpha: false,
-  shadowMapType: BasicShadowMap,
-  outputColorSpace: SRGBColorSpace,
-  toneMapping: NoToneMapping,
+function range(n: number) {
+  return Math.random() * 2 * n - n
 }
 
-const wireframe = ref(true)
-
-const canvas = ref()
-const meshRef = ref()
-
-const { isVisible } = useControls({
-  isVisible: true,
-})
-
-watchEffect(() => {
-  if (meshRef.value) {
-    console.log(meshRef.value)
-  }
-})
+const mat = new MeshNormalMaterial()
+const geo = new BoxGeometry(1)
 </script>
 
 <template>
-  <TresLeches />
   <TresCanvas
-    v-bind="gl"
-    ref="canvas"
-    class="awiwi"
-    :style="{ background: '#008080' }"
+    clear-color="#688"
+    :plugins="[pluginCore, pluginCannon, pluginText]"
   >
-    <TresPerspectiveCamera
-      :position="[7, 7, 7]"
-      :look-at="[0, 4, 0]"
-    />
+    <TresPerspectiveCamera :position="[25, 25, 25]" />
     <OrbitControls />
     <TresMesh
-      :position="[-2, 6, 0]"
-      :rotation="[0, Math.PI, 0]"
-      name="cone"
-      cast-shadow
+      :position="[0, 18, 0]"
+      :material="mat"
     >
-      <TresConeGeometry :args="[1, 1.5, 3]" />
-      <TresMeshToonMaterial color="#82DBC5" />
+      <Collider
+        shape="Box"
+        :angular-velocity="[range(10), range(10), range(10)]"
+        :args="[0.5, 0.5, 0.5]"
+      />
+      <TresBoxGeometry :args="[0.5, 0.5, 0.5]" />
+      First! 😆
     </TresMesh>
     <TresMesh
-      :position="[0, 4, 0]"
-      cast-shadow
+      v-for="i of new Array(500).fill(0).map((_, i) => i)"
+      :key="i"
+      :position="[range(2), i + 22, range(2)]"
+      :material="mat"
+      :geometry="geo"
     >
-      <TresBoxGeometry :args="[1.5, 1.5, 1.5]" />
-      <TresMeshToonMaterial
-        color="#4F4F4F"
-        :wireframe="wireframe"
+      <Collider
+        shape="Box"
+        :angular-velocity="[range(10), range(10), range(10)]"
       />
     </TresMesh>
+
     <TresMesh
-      ref="meshRef"
-      :rotation="[-Math.PI / 2, 0, Math.PI / 2]"
-      name="floor"
-      receive-shadow
+      :position="[0, 8, 0]"
+      :material="mat"
+      :rotation="[-Math.PI * 0.25, 0, Math.PI * 0.25]"
     >
-      <TresPlaneGeometry :args="[20, 20, 20]" />
-      <TresMeshToonMaterial
-        color="#D3FC8A"
+      <Collider
+        shape="Box"
+        :args="[8, 8, 8]"
+        :mass="0"
       />
+      <TresBoxGeometry :args="[8, 8, 8]" />
     </TresMesh>
-    <TheSphere v-if="isVisible" />
-    <TresAxesHelper :args="[1]" />
-    <TresDirectionalLight
-      :position="[0, 2, 4]"
-      :intensity="2"
-      cast-shadow
-    />
+
+    <TresMesh
+      :position="[0, 1, 0]"
+      :rotation="[0, Math.PI / 2, 0]"
+      :material="mat"
+    >
+      <Collider
+        shape="Box"
+        :args="[30, 0.1, 30]"
+        :mass="0"
+      />
+      <TresBoxGeometry :args="[30, 0.1, 30]" />
+    </TresMesh>
   </TresCanvas>
 </template>
+
+<style>
+.tres-text {
+  background-color: white;
+  color: #444;
+  font-size: 12px;
+  border-radius: 2px;
+  padding: 5px;
+  font-family: sans-serif;
+}
+</style>

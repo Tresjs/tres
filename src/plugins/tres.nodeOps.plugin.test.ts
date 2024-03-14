@@ -1,13 +1,18 @@
 import * as THREE from 'three'
-import { nodeOps } from './nodeOps'
+import { useNodeOpsWithContext } from './../core/nodeOps'
+import { plugin as tresCorePlugin } from './tres.nodeOps.plugin'
+import { extend } from '../core/catalogue'
 import { TresObject } from '../types'
-import { extend } from './catalogue'
 import { Mesh, Scene } from 'three'
+
+let nodeOps;
+
+const countKey = new Object()
 
 describe('nodeOps', () => {
   beforeAll(() => {
     // Setup
-    extend(THREE)
+    nodeOps = useNodeOpsWithContext({scene: new THREE.Scene(), extend}, tresCorePlugin)
   })
   it('createElement should create an instance with given tag', async () => {
     // Setup

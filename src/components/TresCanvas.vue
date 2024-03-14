@@ -20,6 +20,7 @@ import {
   defineComponent,
   h, 
   getCurrentInstance,
+  createRenderer,
 } from 'vue'
 import pkg from '../../package.json'
 import {
@@ -30,11 +31,13 @@ import {
   type TresContext,
 } from '../composables'
 import { extend } from '../core/catalogue'
-import { render } from '../core/renderer'
 
 import type { RendererPresetsType } from '../composables/useRenderer/const'
 import type { TresCamera, TresObject } from '../types/'
 import { registerTresDevtools } from '../devtools'
+import { plugin as tresCorePlugin } from '../plugins/tres.nodeOps.plugin'
+import { useNodeOpsWithContext } from '../core/nodeOps'
+import type { TresNodeOpsPlugin } from '../core/nodeOps'
 
 export interface TresCanvasProps
   extends Omit<WebGLRendererParameters, 'canvas'> {
@@ -52,6 +55,7 @@ export interface TresCanvasProps
   preset?: RendererPresetsType
   windowSize?: boolean
   disableRender?: boolean
+  plugins?: TresNodeOpsPlugin<any, any, TresContext> | TresNodeOpsPlugin<any, any, TresContext>[]
 }
 
 const props = withDefaults(defineProps<TresCanvasProps>(), {
@@ -66,6 +70,7 @@ const props = withDefaults(defineProps<TresCanvasProps>(), {
   preserveDrawingBuffer: undefined,
   logarithmicDepthBuffer: undefined,
   failIfMajorPerformanceCaveat: undefined,
+  plugins: () => [tresCorePlugin],
 })
 
 const { logWarning } = useLogger()
@@ -104,7 +109,8 @@ const createInternalComponent = (context: TresContext) =>
 
 const mountCustomRenderer = (context: TresContext) => {
   const InternalComponent = createInternalComponent(context)
-  render(h(InternalComponent), scene.value as unknown as TresObject)
+  const { render } = createRenderer(useNodeOpsWithContext(context, props.plugins))
+  render(h(InternalComponent), context.scene.value as unknown as TresObject)
 }
 
 const dispose = (context: TresContext, force = false) => {
