@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { withDefaults, onBeforeUnmount, onUnmounted, defineProps, shallowRef, watch, toRefs, shallowReactive, onMounted } from 'vue';
+import { defineExpose, withDefaults, onBeforeUnmount, onUnmounted, defineProps, shallowRef, watch, toRefs, shallowReactive, onMounted } from 'vue';
 import { Box3, AudioLoader, AudioListener, PositionalAudio } from 'three'
 import { useTresContext, useLoader } from '@tresjs/core'
 import { PositionalAudioHelper } from 'three/examples/jsm/helpers/PositionalAudioHelper'
@@ -9,6 +9,7 @@ import { PositionalAudioHelper } from 'three/examples/jsm/helpers/PositionalAudi
 // TODO: Add & Dynamize : setDistanceModel 'STRING' from https://threejs.org/docs/index.html?q=posi#api/en/audio/PositionalAudio.setDistanceModel
 
 export interface PositionalAudioProps {
+    ready: boolean,
     url: string,
     distance?: number,
     helper?: boolean,
@@ -20,16 +21,17 @@ export interface PositionalAudioProps {
 }
 
 const props = withDefaults(defineProps<PositionalAudioProps>(), {
+    ready: false,
     helper: false,
     distance: 2,
-    loop: true,
-    autoplay: true,
+    loop: false,
+    autoplay: false,
     innerAngle: 360,
     outerAngle: 360,
     outerGain: 0,
 });
 
-const { url, distance, helper, loop, autoplay, innerAngle, outerAngle, outerGain } = toRefs(props);
+const { ready, url, distance, helper, loop, autoplay, innerAngle, outerAngle, outerGain } = toRefs(props);
 
 const { camera } = useTresContext()
 
@@ -54,7 +56,7 @@ watch(helper, () => {
     }
 })
 
-watch([distance, loop, buffer, positionalAudioRef, innerAngle, outerAngle, outerGain], () => {
+watch([distance, loop, buffer, positionalAudioRef, innerAngle, outerAngle, outerGain, ready, autoplay], () => {
     updatePositionalAudio()
 })
 
@@ -84,7 +86,8 @@ const updatePositionalAudio = () => {
     positionalAudioRef.value.setDirectionalCone(innerAngle.value, outerAngle.value, outerGain.value);
     positionalAudioHelperRef.value.update();
 
-    if (autoplay.value && !positionalAudioRef.value.isPlaying) positionalAudioRef.value.play()
+    if (autoplay.value && ready.value) playAudio()
+    if (!autoplay.value && ready.value) stopAudio()
 }
 
 const createHelper = () => {
@@ -101,14 +104,26 @@ const disposeHelper = () => {
     positionalAudioRef?.value?.remove(positionalAudioHelperRef?.value);
 }
 
+const playAudio = () => {
+    if (!positionalAudioRef.value.isPlaying) positionalAudioRef.value.play()
+}
+
+const pauseAudio = () => {
+    if (positionalAudioRef.value.isPlaying) positionalAudioRef.value.pause()
+}
+
+const stopAudio = () => {
+    if (!positionalAudioRef.value) return
+
+    positionalAudioRef.value.stop();
+}
+
 const disposeAudio = () => {
     if (!positionalAudioRef?.value) return
 
-    const audio = positionalAudioRef.value;
+    stopAudio()
 
-    if (audio.isPlaying) {
-        audio.stop();
-    }
+    const audio = positionalAudioRef.value;
 
     if (audio.source && (audio.source as any)._connected) {
         audio.disconnect();
@@ -116,7 +131,10 @@ const disposeAudio = () => {
 }
 
 defineExpose({
-    value: positionalAudioRef,
+    ref: positionalAudioRef,
+    play: playAudio,
+    stop: stopAudio,
+    pause: pauseAudio
 })
 </script>
 
