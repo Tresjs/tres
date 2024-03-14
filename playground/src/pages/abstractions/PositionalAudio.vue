@@ -9,10 +9,10 @@ const gl = {
 }
 
 const ready = ref(false)
-const positionalAudio = shallowRef(null);
+const positionalAudioRef = shallowRef(null);
 
 const handlerAudio = (action: string) => {
-  const { exposed } = positionalAudio.value.$
+  const { exposed } = positionalAudioRef.value.$
 
   // console.log(exposed.ref)
 
@@ -31,6 +31,7 @@ const onContinue = () => {
 </script>
 
 <template>
+
   <div v-if="!ready" class="playground-positional-audio__ready">
     <button @click="onContinue">click to continue</button>
   </div>
@@ -49,7 +50,7 @@ const onContinue = () => {
       <TresMeshNormalMaterial />
 
       <Suspense>
-        <PositionalAudio :ready="ready" ref="positionalAudio" :innerAngle="220" :outerAngle="220" :outerGain=".2"
+        <PositionalAudio :ready="ready" ref="positionalAudioRef" :innerAngle="220" :outerAngle="220" :outerGain=".2"
           :distance="2" helper url="/positional-audio/sound1.mp3" />
       </Suspense>
     </Box>
