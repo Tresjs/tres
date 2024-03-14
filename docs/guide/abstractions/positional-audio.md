@@ -1,7 +1,7 @@
 # Positional Audio
 
 <DocsDemo>
-  <PositionalAudioDemo />
+  <!-- <PositionalAudioDemo /> -->
 </DocsDemo>
 
 The `cientos` package provides an abstraction of the [PositionalAudio](https://threejs.org/docs/index.html?q=posi#api/en/audio/PositionalAudio), `<PositionalAudio>` is an object specifically designed for controlling sound in a scene graph space. This allows for the simulation of various audio environments, creating a more immersive user experience.
@@ -22,11 +22,8 @@ This component is still under development, so please report any problems or sugg
 
 :::
 
-### Minimal
-
-The minimal version is very easy to set up: you just need to insert a `<Decal>` component with a map props for the Texture and a call to `v-bind`.
-
-*The default material is [MeshBasicMaterial](https://threejs.org/docs/#api/en/materials/MeshBasicMaterial)*.
+### Basic
+Description
 
 <DocsDemo>
   <PositionalAudioDemo />

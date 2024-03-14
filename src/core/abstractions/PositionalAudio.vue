@@ -45,7 +45,7 @@ buffer.value = await useLoader(AudioLoader, url.value)
 watch(positionalAudioRef, () => {
     if (!positionalAudioRef?.value) return
 
-    createHelper()
+    if (helper.value) createHelper()
 })
 
 watch(helper, () => {
@@ -56,7 +56,14 @@ watch(helper, () => {
     }
 })
 
-watch([distance, loop, buffer, positionalAudioRef, innerAngle, outerAngle, outerGain, ready, autoplay], () => {
+watch(ready, () => {
+    if (ready.value) updatePositionalAudio()
+
+    if (autoplay.value && ready.value) playAudio()
+    if (!autoplay.value && ready.value) stopAudio()
+})
+
+watch([distance, loop, buffer, innerAngle, outerAngle, outerGain, autoplay], () => {
     updatePositionalAudio()
 })
 
@@ -82,15 +89,13 @@ const updatePositionalAudio = () => {
     positionalAudioRef.value.setBuffer(buffer.value)
     positionalAudioRef.value.setRefDistance(distance.value)
     positionalAudioRef.value.setLoop(loop.value)
-
     positionalAudioRef.value.setDirectionalCone(innerAngle.value, outerAngle.value, outerGain.value);
-    positionalAudioHelperRef.value.update();
-
-    if (autoplay.value && ready.value) playAudio()
-    if (!autoplay.value && ready.value) stopAudio()
+    // positionalAudioHelperRef.value.update();
 }
 
 const createHelper = () => {
+    updatePositionalAudio()
+
     const parent = positionalAudioRef.value?.parent
     const boxParent = new Box3().setFromObject(parent);
     const depthParent = (boxParent.max.z - boxParent.min.z) * 2

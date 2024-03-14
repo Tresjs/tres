@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
-import { OrbitControls, PositionalAudio, Box, } from '@tresjs/cientos'
+import { OrbitControls, PositionalAudio, Box } from '@tresjs/cientos'
 
 const gl = {
   clearColor: '#82DBC5',
