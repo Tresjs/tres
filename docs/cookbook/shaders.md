@@ -134,7 +134,7 @@ const blobRef = shallowRef(null)
       :position="[0, 4, 0]"
     >
       <TresSphereGeometry :args="[2, 32, 32]" />
-      <TresShaderMaterial />
+      <TresShaderMaterial :vertexShader="vertexShader" :fragmentShader="fragmentShader" :uniforms="uniforms"/>
     </TresMesh>
   </TresCanvas>
 </template>
