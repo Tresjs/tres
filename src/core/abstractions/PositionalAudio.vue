@@ -90,7 +90,7 @@ const updatePositionalAudio = () => {
     positionalAudioRef.value.setRefDistance(distance.value)
     positionalAudioRef.value.setLoop(loop.value)
     positionalAudioRef.value.setDirectionalCone(innerAngle.value, outerAngle.value, outerGain.value);
-    // positionalAudioHelperRef.value.update();
+    positionalAudioHelperRef?.value?.update()
 }
 
 const createHelper = () => {
@@ -100,11 +100,14 @@ const createHelper = () => {
     const boxParent = new Box3().setFromObject(parent);
     const depthParent = (boxParent.max.z - boxParent.min.z) * 2
 
-    positionalAudioHelperRef.value = new PositionalAudioHelper(positionalAudioRef.value, depthParent, 32, 32);
+    positionalAudioHelperRef.value = new PositionalAudioHelper(positionalAudioRef.value, depthParent, 32, 16);
     positionalAudioRef.value.add(positionalAudioHelperRef.value);
+    positionalAudioHelperRef.value.update()
 }
 
 const disposeHelper = () => {
+    if (!positionalAudioRef?.value || !positionalAudioHelperRef?.value) return
+
     positionalAudioHelperRef?.value?.dispose();
     positionalAudioRef?.value?.remove(positionalAudioHelperRef?.value);
 }
@@ -135,11 +138,18 @@ const disposeAudio = () => {
     }
 }
 
+const dispose = () => {
+    disposeAudio()
+    disposeHelper()
+    camera?.value?.remove(listener);
+}
+
 defineExpose({
     ref: positionalAudioRef,
     play: playAudio,
     stop: stopAudio,
-    pause: pauseAudio
+    pause: pauseAudio,
+    dispose: dispose
 })
 </script>
 

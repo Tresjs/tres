@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { ref, shallowRef } from 'vue'
+import { ref, shallowRef, onUnmounted } from 'vue'
 import { TresCanvas } from '@tresjs/core'
 import { OrbitControls, PositionalAudio, Box } from '@tresjs/cientos'
 import { TresLeches, useControls } from '@tresjs/leches'
 import '@tresjs/leches/styles'
 
 const gl = {
-  clearColor: '##FAFAFA',
+  clearColor: '#FAFAFA',
   shadows: true,
   alpha: false,
 }
@@ -14,14 +14,38 @@ const gl = {
 const ready = ref(false)
 const positionalAudioRef = shallowRef(null);
 
-const { helper } = useControls({
+const { helper, innerAngle, outerAngle, outerGain } = useControls({
   helper: true,
+  innerAngle: {
+    label: 'innerAngle',
+    value: 180,
+    min: 0,
+    max: 360,
+    step: 1
+  },
+  outerAngle: {
+    label: 'outerAngle',
+    value: 280,
+    min: 0,
+    max: 360,
+    step: 1
+  },
+  outerGain: {
+    label: 'outerGain',
+    value: 0,
+    min: 0,
+    max: 1,
+    step: .01
+  },
 })
 
-console.log(helper)
+onUnmounted(() => {
+  const { exposed } = positionalAudioRef.value.$
+  exposed.dispose()
+})
+
 const handlerAudio = (action: string) => {
   const { exposed } = positionalAudioRef.value.$
-  // console.log(exposed.ref)
 
   if (action === 'play') {
     exposed.play()
@@ -52,10 +76,10 @@ const handlerAudio = (action: string) => {
 
     <Box :args="[1, 1, 1]">
       <TresMeshNormalMaterial />
-
       <Suspense>
-        <PositionalAudio :ready="ready" ref="positionalAudioRef" :innerAngle="180" :outerAngle="230" :outerGain=".1"
-          :distance="2" :helper="helper" url="/positional-audio/sound1.mp3" />
+        <PositionalAudio ref="positionalAudioRef" loop :ready :innerAngle="innerAngle.value"
+          :outerAngle="outerAngle.value" :outerGain="outerGain.value" :helper="helper.value"
+          url="/positional-audio/sound1.mp3" />
       </Suspense>
     </Box>
 
@@ -68,33 +92,5 @@ const handlerAudio = (action: string) => {
 </template>
 
 <style scoped>
-.ready {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  z-index: 99;
-  background-color: rgba(0, 0, 0, .75);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  backdrop-filter: blur(5px);
-}
-
-.controls {
-  position: absolute;
-  z-index: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  backdrop-filter: blur(5px);
-  top: 25px;
-  left: 25px;
-  column-gap: 5px;
-}
-
-button {
-  padding: 5px 10px;
-  background: #1B1C1E;
-  border: 1px solid #161618;
-}
+@import "../assets/positional-audio/demo.css";
 </style>
