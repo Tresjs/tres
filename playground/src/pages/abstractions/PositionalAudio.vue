@@ -50,7 +50,7 @@ const onContinue = () => {
       <TresMeshNormalMaterial />
 
       <Suspense>
-        <PositionalAudio :ready="ready" ref="positionalAudioRef" :innerAngle="220" :outerAngle="220" :outerGain=".2"
+        <PositionalAudio :ready="ready" ref="positionalAudioRef" :innerAngle="180" :outerAngle="220" :outerGain=".2"
           :distance="2" helper url="/positional-audio/sound1.mp3" />
       </Suspense>
     </Box>

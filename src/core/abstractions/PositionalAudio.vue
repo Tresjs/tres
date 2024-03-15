@@ -46,6 +46,7 @@ watch(positionalAudioRef, () => {
     if (!positionalAudioRef?.value) return
 
     if (helper.value) createHelper()
+    if (ready.value && autoplay) playAudio()
 })
 
 watch(helper, () => {
@@ -90,7 +91,19 @@ const updatePositionalAudio = () => {
     positionalAudioRef.value.setRefDistance(distance.value)
     positionalAudioRef.value.setLoop(loop.value)
     positionalAudioRef.value.setDirectionalCone(innerAngle.value, outerAngle.value, outerGain.value);
+
     positionalAudioHelperRef?.value?.update()
+
+    // Small hack to solve the visibility problem of material[0] inside the positionalAudioHelperRef function update()
+    // https://github.com/mrdoob/three.js/blob/ef80ac74e6716a50104a57d8add6c8a950bff8d7/examples/jsm/helpers/PositionalAudioHelper.js#L94C49-L94C57
+    if (positionalAudioHelperRef?.value) {
+
+        const materialVisible = positionalAudioHelperRef.value.material[0].visible
+
+        if (!materialVisible && outerAngle.value !== innerAngle.value) {
+            positionalAudioHelperRef.value.material[0].visible = true
+        }
+    }
 }
 
 const createHelper = () => {
@@ -141,6 +154,7 @@ const disposeAudio = () => {
 const dispose = () => {
     disposeAudio()
     disposeHelper()
+
     camera?.value?.remove(listener);
 }
 

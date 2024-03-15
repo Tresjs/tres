@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, shallowRef, onUnmounted } from 'vue'
+import { ref, shallowRef, onUnmounted, watch } from 'vue'
 import { TresCanvas } from '@tresjs/core'
 import { OrbitControls, PositionalAudio, Box } from '@tresjs/cientos'
 import { TresLeches, useControls } from '@tresjs/leches'
@@ -15,6 +15,30 @@ const ready = ref(false)
 const positionalAudioRef = shallowRef(null);
 
 const { helper, innerAngle, outerAngle, outerGain } = useControls({
+  playAudio: {
+    label: 'Play',
+    type: 'button',
+    onClick: () => {
+      handlerAudio('play')
+    },
+    size: 'sm',
+  },
+  pauseAudio: {
+    label: 'Pause',
+    type: 'button',
+    onClick: () => {
+      handlerAudio('pause')
+    },
+    size: 'sm',
+  },
+  stopAudio: {
+    label: 'Stop',
+    type: 'button',
+    onClick: () => {
+      handlerAudio('stop')
+    },
+    size: 'sm',
+  },
   helper: true,
   innerAngle: {
     label: 'innerAngle',
@@ -39,12 +63,20 @@ const { helper, innerAngle, outerAngle, outerGain } = useControls({
   },
 })
 
+watch(helper.value, () => {
+  innerAngle.value.visible = helper.value.value
+  outerAngle.value.visible = helper.value.value
+  outerGain.value.visible = helper.value.value
+})
+
 onUnmounted(() => {
   const { exposed } = positionalAudioRef.value.$
   exposed.dispose()
 })
 
 const handlerAudio = (action: string) => {
+  if (!positionalAudioRef.value) return
+
   const { exposed } = positionalAudioRef.value.$
 
   if (action === 'play') {
@@ -55,6 +87,7 @@ const handlerAudio = (action: string) => {
     exposed.stop()
   }
 }
+
 </script>
 
 <template>
@@ -62,12 +95,6 @@ const handlerAudio = (action: string) => {
 
   <div v-if="!ready" class="ready">
     <button @click="ready = true">click to continue</button>
-  </div>
-
-  <div v-if="ready" class="controls">
-    <button @click="handlerAudio('play')">play</button>
-    <button @click="handlerAudio('pause')">pause</button>
-    <button @click="handlerAudio('stop')">stop</button>
   </div>
 
   <TresCanvas v-bind="gl">
@@ -92,5 +119,21 @@ const handlerAudio = (action: string) => {
 </template>
 
 <style scoped>
-@import "../assets/positional-audio/demo.css";
+.ready {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  z-index: 99;
+  background-color: rgba(0, 0, 0, .75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(5px);
+}
+
+.ready button {
+  padding: 5px 10px;
+  background: #1B1C1E;
+  border: 1px solid #161618;
+}
 </style>
