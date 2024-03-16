@@ -9,19 +9,21 @@ const gl = {
 }
 
 const ready = ref(false)
-const positionalAudioRef = shallowRef(null);
+const positionalAudioRef = shallowRef(null)
 
 const handlerAudio = (action: string) => {
-  const { exposed } = positionalAudioRef.value.$
+  if (!positionalAudioRef.value) return
 
-  // console.log(exposed.ref)
+  const { play, pause, stop } = positionalAudioRef.value
 
   if (action === 'play') {
-    exposed.play()
-  } else if (action === 'pause') {
-    exposed.pause()
-  } else if (action === 'stop') {
-    exposed.stop()
+    play()
+  }
+  else if (action === 'pause') {
+    pause()
+  }
+  else if (action === 'stop') {
+    stop()
   }
 }
 
@@ -31,15 +33,28 @@ const onContinue = () => {
 </script>
 
 <template>
-
-  <div v-if="!ready" class="playground-positional-audio__ready">
-    <button @click="onContinue">click to continue</button>
+  <div
+    v-if="!ready"
+    class="playground-positional-audio__ready"
+  >
+    <button @click="onContinue">
+      click to continue
+    </button>
   </div>
 
-  <div v-if="ready" class="playground-positional-audio__controls">
-    <button @click="handlerAudio('play')">play</button>
-    <button @click="handlerAudio('pause')">pause</button>
-    <button @click="handlerAudio('stop')">stop</button>
+  <div
+    v-if="ready"
+    class="playground-positional-audio__controls"
+  >
+    <button @click="handlerAudio('play')">
+      play
+    </button>
+    <button @click="handlerAudio('pause')">
+      pause
+    </button>
+    <button @click="handlerAudio('stop')">
+      stop
+    </button>
   </div>
 
   <TresCanvas v-bind="gl">
@@ -50,16 +65,34 @@ const onContinue = () => {
       <TresMeshNormalMaterial />
 
       <Suspense>
-        <PositionalAudio :ready="ready" ref="positionalAudioRef" :innerAngle="180" :outerAngle="220" :outerGain=".2"
-          :distance="2" helper url="/positional-audio/sound1.mp3" />
+        <PositionalAudio
+          ref="positionalAudioRef"
+          :ready="ready"
+          :inner-angle="180"
+          :outer-angle="220"
+          :outer-gain=".2"
+          :distance="2"
+          helper
+          url="/positional-audio/sound1.mp3"
+        />
       </Suspense>
     </Box>
 
-    <Box :args="[4, 2, 0.1]" :position="[0, 0, -1]">
-      <TresMeshBasicMaterial color="#ff0000" transparent :opacity="0.5" />
+    <Box
+      :args="[4, 2, 0.1]"
+      :position="[0, 0, -1]"
+    >
+      <TresMeshBasicMaterial
+        color="#ff0000"
+        transparent
+        :opacity="0.5"
+      />
     </Box>
 
-    <TresGridHelper :position="[0, -.01, 0]" :args="[10, 10]" />
+    <TresGridHelper
+      :position="[0, -.01, 0]"
+      :args="[10, 10]"
+    />
   </TresCanvas>
 </template>
 

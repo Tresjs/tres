@@ -12,7 +12,23 @@ const gl = {
 }
 
 const ready = ref(false)
-const positionalAudioRef = shallowRef(null);
+const positionalAudioRef = shallowRef(null)
+
+const handlerAudio = (action: string) => {
+  if (!positionalAudioRef.value) return
+
+  const { play, pause, stop } = positionalAudioRef.value
+
+  if (action === 'play') {
+    play()
+  }
+  else if (action === 'pause') {
+    pause()
+  }
+  else if (action === 'stop') {
+    stop()
+  }
+}
 
 const { helper, innerAngle, outerAngle, outerGain } = useControls({
   playAudio: {
@@ -45,56 +61,46 @@ const { helper, innerAngle, outerAngle, outerGain } = useControls({
     value: 180,
     min: 0,
     max: 360,
-    step: 1
+    step: 1,
   },
   outerAngle: {
     label: 'outerAngle',
     value: 280,
     min: 0,
     max: 360,
-    step: 1
+    step: 1,
   },
   outerGain: {
     label: 'outerGain',
     value: 0,
     min: 0,
     max: 1,
-    step: .01
+    step: .01,
   },
 })
 
 watch(helper.value, () => {
-  innerAngle.value.visible = helper.value.value
-  outerAngle.value.visible = helper.value.value
-  outerGain.value.visible = helper.value.value
+  innerAngle.value.visible = outerAngle.value.visible = outerGain.value.visible = helper.value.value
 })
 
 onUnmounted(() => {
-  const { exposed } = positionalAudioRef.value.$
-  exposed.dispose()
-})
-
-const handlerAudio = (action: string) => {
   if (!positionalAudioRef.value) return
 
-  const { exposed } = positionalAudioRef.value.$
-
-  if (action === 'play') {
-    exposed.play()
-  } else if (action === 'pause') {
-    exposed.pause()
-  } else if (action === 'stop') {
-    exposed.stop()
-  }
-}
-
+  const { dispose } = positionalAudioRef.value
+  dispose()
+})
 </script>
 
 <template>
   <TresLeches class="important-left-initial important-right-2" />
 
-  <div v-if="!ready" class="ready">
-    <button @click="ready = true">click to continue</button>
+  <div
+    v-if="!ready"
+    class="ready"
+  >
+    <button @click="ready = true">
+      click to continue
+    </button>
   </div>
 
   <TresCanvas v-bind="gl">
@@ -104,17 +110,34 @@ const handlerAudio = (action: string) => {
     <Box :args="[1, 1, 1]">
       <TresMeshNormalMaterial />
       <Suspense>
-        <PositionalAudio ref="positionalAudioRef" loop :ready :innerAngle="innerAngle.value"
-          :outerAngle="outerAngle.value" :outerGain="outerGain.value" :helper="helper.value"
-          url="/positional-audio/sound1.mp3" />
+        <PositionalAudio
+          ref="positionalAudioRef"
+          loop
+          :ready
+          :inner-angle="innerAngle.value"
+          :outer-angle="outerAngle.value"
+          :outer-gain="outerGain.value"
+          :helper="helper.value"
+          url="/positional-audio/sound1.mp3"
+        />
       </Suspense>
     </Box>
 
-    <Box :args="[4, 2, 0.1]" :position="[0, 0, -1]">
-      <TresMeshBasicMaterial color="#ff0000" transparent :opacity="0.5" />
+    <Box
+      :args="[4, 2, 0.1]"
+      :position="[0, 0, -1]"
+    >
+      <TresMeshBasicMaterial
+        color="#ff0000"
+        transparent
+        :opacity="0.5"
+      />
     </Box>
 
-    <TresGridHelper :position="[0, -.01, 0]" :args="[10, 10, '#c1c1c1', '#c1c1c1']" />
+    <TresGridHelper
+      :position="[0, -.01, 0]"
+      :args="[10, 10, '#c1c1c1', '#c1c1c1']"
+    />
   </TresCanvas>
 </template>
 
