@@ -102,7 +102,7 @@ This package also provides optional configuration for Nuxt. To use it, simply ad
 
 ```js
 // eslint.config.js
-import { tresLintConfig, nuxt } from '@tresjs/eslint-config'
+import { nuxt, tresLintConfig } from '@tresjs/eslint-config'
 
 export default tresLintConfig(
   {}, // @antfu/eslint-config options, must always be present as first item even if empty
