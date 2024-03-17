@@ -69,6 +69,7 @@ export const useRaycaster = (
   const eventHookPointerMove = createEventHook<PointerMoveEventPayload>()
   const eventHookPointerUp = createEventHook<PointerMoveEventPayload>()
   const eventHookPointerDown = createEventHook<PointerMoveEventPayload>()
+  const eventHookPointerMissed = createEventHook<PointerClickEventPayload>()
   const eventHookContextMenu = createEventHook<PointerClickEventPayload>()
   const eventHookWheel = createEventHook<WheelEventPayload>()
 
@@ -86,7 +87,7 @@ export const useRaycaster = (
 
   const forceUpdate = () => {
     if (previousPointerMoveEvent)
-      triggerEventHook(eventHookPointerMove, previousPointerMoveEvent)
+      onPointerMove(previousPointerMoveEvent)
   }
 
   // a click event is fired whenever a pointerdown happened after pointerup on the same object
@@ -102,6 +103,11 @@ export const useRaycaster = (
 
   const onPointerUp = (event: MouseEvent) => {
     if (!(event instanceof PointerEvent)) return // prevents triggering twice on mobile devices
+
+    // We missed every object, trigger the pointer missed event
+    if (intersects.value.length === 0) {
+      triggerEventHook(eventHookPointerMissed, event)
+    }
 
     if (mouseDownObject === intersects.value[0]?.object) {
       // We clicked on the object, update the count
@@ -163,6 +169,7 @@ export const useRaycaster = (
     onPointerMove: (fn: (value: PointerMoveEventPayload) => void) => eventHookPointerMove.on(fn).off,
     onPointerUp: (fn: (value: PointerMoveEventPayload) => void) => eventHookPointerUp.on(fn).off,
     onPointerDown: (fn: (value: PointerMoveEventPayload) => void) => eventHookPointerDown.on(fn).off,
+    onPointerMissed: (fn: (value: PointerClickEventPayload) => void) => eventHookPointerMissed.on(fn).off,
     onWheel: (fn: (value: WheelEventPayload) => void) => eventHookWheel.on(fn).off,
     forceUpdate,
   }

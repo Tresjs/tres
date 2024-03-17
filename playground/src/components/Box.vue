@@ -37,7 +37,8 @@ function handleClick(color: Color) {
   <TresMesh
     ref="boxRef"
     v-bind="props"
-    @click="handleClick(green)"
+    @click.self="handleClick(green)"
+    @pointer-missed="handleClick(blue)"
   >
     <TresBoxGeometry />
     <TresMeshStandardMaterial />

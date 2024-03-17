@@ -120,15 +120,15 @@ export const nodeOps: RendererOptions<TresObject, TresObject | null> = {
     const parentObject = parent || scene
     
     if (child?.isObject3D) {
-      const { registerCamera, registerObjectAtPointerEventHandler } = child.__tres.root
+      const { registerCamera } = child.__tres.root
       if (child?.isCamera) {
         registerCamera(child as unknown as Camera)
       }
-      // if (
-      //   child && supportedPointerEvents.some(eventName => child[eventName])
-      // ) {
-      //   registerObjectAtPointerEventHandler(child as Object3D)
-      // }
+
+      // Track onPointerMissed objects separate from the scene
+      if (child['onPointerMissed']) {
+        child.__tres.root.eventManager.registerPointerMissedObject(child as Object3D)
+      }
     }
 
     if (child?.isObject3D && parentObject?.isObject3D) {
@@ -151,10 +151,6 @@ export const nodeOps: RendererOptions<TresObject, TresObject | null> = {
     // remove is only called on the node being removed and not on child nodes.
     node.parent = node.parent || scene
     
-    const { 
-      deregisterObjectAtPointerEventHandler,
-      deregisterBlockingObjectAtPointerEventHandler, 
-    } = ctx.root
 
     if (node.isObject3D) {
 
@@ -169,14 +165,6 @@ export const nodeOps: RendererOptions<TresObject, TresObject | null> = {
         }
       }
 
-      // const deregisterAtPointerEventHandlerIfRequired = (object: TresObject) => {
-      //   deregisterBlockingObjectAtPointerEventHandler(object as Object3D)
-      //   if (
-      //     object && supportedPointerEvents.some(eventName => object[eventName])
-      //   )
-      //     deregisterObjectAtPointerEventHandler?.(object as Object3D)
-      // }
-
       const deregisterCameraIfRequired = (object: Object3D) => {
         const deregisterCamera = node.__tres.root.deregisterCamera
 
@@ -189,6 +177,9 @@ export const nodeOps: RendererOptions<TresObject, TresObject | null> = {
         disposeMaterialsAndGeometries(child as TresObject)
         deregisterCameraIfRequired(child)
         // deregisterAtPointerEventHandlerIfRequired?.(child as TresObject)
+        if (child['onPointerMissed']) {
+          ctx.root.eventManager.deregisterPointerMissedObject(child)
+        }
       })
 
       disposeMaterialsAndGeometries(node)

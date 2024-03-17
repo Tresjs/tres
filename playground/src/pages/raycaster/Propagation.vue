@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { ref, onUnmounted } from "vue";
 import {
   TresCanvas,
 } from '@tresjs/core'
@@ -21,13 +22,25 @@ const gl = {
   shadowMapType: BasicShadowMap,
   outputColorSpace: SRGBColorSpace,
   toneMapping: NoToneMapping,
-}
+};
+
+
+const showBox = ref(true);
+
+const intervalRef = setInterval(() => {
+  // showBox.value = !showBox.value;
+}, 1000);
+
+onUnmounted(() => {
+  clearInterval(intervalRef);
+});
 </script>
 
 <template>
   <TresCanvas
     window-size
     v-bind="gl"
+    @pointer-missed="event => console.log('pointer-missed', event)"
   >
     <TresPerspectiveCamera
       :position="[0, 0, 6]"
@@ -40,31 +53,12 @@ const gl = {
       :position="[1, 1, 1]"
     />
     <TresAmbientLight :intensity="1" />
-    <primitive
-      :object="meshWithMaterial"
-      :position="[3, 1.5, 2]"
-      @click="event => event.object.material.color.set('red')"
-    />
-    <Box
-      :position="[0, 1.5, 0]"
-      name="A0"
-    >
-      <Box
-        :position="[-0.66, -1, 0]"
-        name="B0"
-      >
-        <Box
-          :position="[-0.66, -1, 0]"
-          name="C0"
-        >
-          <Box
-            :position="[-0.66, -1, 0]"
-            name="D0"
-          />
-          <Box
-            :position="[0.66, -1, 0]"
-            name="D1"
-          />
+    <!-- <primitive :object="meshWithMaterial" :position="[3, 1.5, 2]" @click="event => event.object.material.color.set('red')" /> -->
+    <Box :position="[0, 1.5, 0]" name="A0">
+      <Box :position="[-0.66, -1, 0]" name="B0">
+        <Box :position="[-0.66, -1, 0]" name="C0">
+          <Box :position="[-0.66, -1, 0]" name="D0" />
+          <Box :position="[0.66, -1, 0]" name="D1" />
         </Box>
         <Box
           :position="[0.66, -1, 0]"
@@ -76,41 +70,17 @@ const gl = {
           />
         </Box>
       </Box>
-      <Box
-        :position="[0.66, -1, 0]"
-        name="B1"
-      >
-        <Box
-          :position="[0.66, -1, 0]"
-          name="C2"
-        >
-          <Box
-            :position="[0.66, -1, 0]"
-            name="D3"
-          />
+      <Box :position="[0.66, -1, 0]" name="B1">
+        <Box :position="[0.66, -1, 0]" name="C2">
+          <Box v-if="showBox" :position="[0.66, -1, 0]" name="D3" />
         </Box>
       </Box>
     </Box>
-    <Box
-      :position="[0, 1.5, -3]"
-      name="A0"
-    >
-      <Box
-        :position="[-0.66, -1, 0]"
-        name="B0"
-      >
-        <Box
-          :position="[-0.66, -1, 0]"
-          name="C0"
-        >
-          <Box
-            :position="[-0.66, -1, 0]"
-            name="D0"
-          />
-          <Box
-            :position="[0.66, -1, 0]"
-            name="D1"
-          />
+    <Box v-if="false" :position="[0, 1.5, -3]" name="A0">
+      <Box :position="[-0.66, -1, 0]" name="B0">
+        <Box :position="[-0.66, -1, 0]" name="C0">
+          <Box :position="[-0.66, -1, 0]" name="D0" />
+          <Box :position="[0.66, -1, 0]" name="D1" />
         </Box>
         <Box
           :position="[0.66, -1, 0]"
