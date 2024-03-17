@@ -150,7 +150,6 @@ export const nodeOps: RendererOptions<TresObject, TresObject | null> = {
     const ctx = node.__tres
     // remove is only called on the node being removed and not on child nodes.
     node.parent = node.parent || scene
-    
 
     if (node.isObject3D) {
 
