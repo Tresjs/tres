@@ -88,5 +88,6 @@ onUnmounted(() => {
     :show-y="showY"
     :show-z="showZ"
     :visible="true"
+    :key="camera.uuid"
   />
 </template>
