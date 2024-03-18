@@ -1,5 +1,13 @@
 
 
+## [0.7.1](https://github.com/Tresjs/post-processing/compare/0.7.0...0.7.1) (2024-03-18)
+
+
+### Bug Fixes
+
+* expose effectComposer ([#83](https://github.com/Tresjs/post-processing/issues/83)) ([4878a95](https://github.com/Tresjs/post-processing/commit/4878a956f05ba8b19289062e4b77b6e3fc5ae40f))
+* multisampling prop value ([#102](https://github.com/Tresjs/post-processing/issues/102)) ([dce70cc](https://github.com/Tresjs/post-processing/commit/dce70cc56bbcf6e4b379fa34293cdce280f3da5a))
+
 ## [0.7.0](https://github.com/Tresjs/post-processing/compare/0.6.0...0.7.0) (2023-11-14)
 
 
