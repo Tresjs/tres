@@ -62,10 +62,10 @@ const effectComposerParams = computed(() => {
     stencilBuffer:
       props.stencilBuffer !== undefined ? props.stencilBuffer : plainEffectComposer.inputBuffer.stencilBuffer,
     multisampling: isWebGL2Available()
-      ? 0
-      : props.multisampling !== undefined
+      ? props.multisampling !== undefined
         ? props.multisampling
-        : plainEffectComposer.multisampling,
+        : plainEffectComposer.multisampling
+      : 0,
     frameBufferType: props.frameBufferType !== undefined ? props.frameBufferType : HalfFloatType,
   }
   plainEffectComposer.dispose()
