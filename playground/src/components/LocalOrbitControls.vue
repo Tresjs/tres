@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { Camera } from 'three'
 import { OrbitControls } from 'three-stdlib'
-import { ref, unref, onUnmounted } from 'vue'
+import { onUnmounted, ref, unref } from 'vue'
 import type { TresVector3 } from '@tresjs/core'
 import { extend, useRenderLoop, useTresContext } from '@tresjs/core'
 import { useEventListener } from '@vueuse/core'
@@ -230,7 +230,7 @@ export interface OrbitControlsProps {
 }
 
 // TODO: remove disable once eslint is updated to support vue 3.3
-// eslint-disable-next-line vue/no-setup-props-destructure
+
 const {
   autoRotate = false,
   autoRotateSpeed = 2,
@@ -238,14 +238,14 @@ const {
   dampingFactor = 0.05,
   enablePan = true,
   keyPanSpeed = 7,
-  maxAzimuthAngle = Infinity,
-  minAzimuthAngle = -Infinity,
+  maxAzimuthAngle = Number.POSITIVE_INFINITY,
+  minAzimuthAngle = Number.NEGATIVE_INFINITY,
   maxPolarAngle = Math.PI,
   minPolarAngle = 0,
   minDistance = 0,
-  maxDistance = Infinity,
+  maxDistance = Number.POSITIVE_INFINITY,
   minZoom = 0,
-  maxZoom = Infinity,
+  maxZoom = Number.POSITIVE_INFINITY,
   enableZoom = true,
   zoomSpeed = 1,
   enableRotate = true,
@@ -263,14 +263,11 @@ extend({ OrbitControls })
 
 function addEventListeners() {
   useEventListener(controls.value as any, 'change', () =>
-    emit('change', controls.value),
-  )
+    emit('change', controls.value))
   useEventListener(controls.value as any, 'start', () =>
-    emit('start', controls.value),
-  )
+    emit('start', controls.value))
   useEventListener(controls.value as any, 'end', () =>
-    emit('end', controls.value),
-  )
+    emit('end', controls.value))
 }
 
 const { onLoop } = useRenderLoop()

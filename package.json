@@ -17,8 +17,8 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "require": "./dist/tres.umd.cjs",
-      "import": "./dist/tres.js"
+      "import": "./dist/tres.js",
+      "require": "./dist/tres.umd.cjs"
     },
     "./components": {
       "types": "./dist/components/index.d.ts"
@@ -38,8 +38,8 @@
   "module": "./dist/tres.js",
   "types": "./dist/index.d.ts",
   "files": [
-    "dist",
-    "*.d.ts"
+    "*.d.ts",
+    "dist"
   ],
   "publishConfig": {
     "access": "public"
@@ -53,7 +53,8 @@
     "test:ui": "vitest --ui",
     "release": "release-it",
     "coverage": "vitest run --coverage",
-    "lint": "eslint . --ext .js,.jsx,.ts,.tsx,.vue",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
     "docs:serve": "vitepress serve docs",
@@ -72,7 +73,7 @@
     "@release-it/conventional-changelog": "^8.0.1",
     "@stackblitz/sdk": "^1.9.0",
     "@tresjs/cientos": "3.6.0",
-    "@tresjs/eslint-config-vue": "^0.2.1",
+    "@tresjs/eslint-config": "^1.0.0",
     "@types/three": "^0.159.0",
     "@typescript-eslint/eslint-plugin": "^6.14.0",
     "@typescript-eslint/parser": "^6.14.0",

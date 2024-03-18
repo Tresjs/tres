@@ -1,10 +1,10 @@
+<!-- eslint-disable no-console -->
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
-import { BasicShadowMap, SRGBColorSpace, NoToneMapping } from 'three'
-import { TresLeches, Perf, useControls } from '@tresjs/leches'
+import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
+import { Perf, TresLeches, useControls } from '@tresjs/leches'
 import '@tresjs/leches/styles'
 import { OrbitControls } from '@tresjs/cientos'
-import { useRouter } from 'vue-router'
 import AkuAku from './AkuAku.vue'
 
 const gl = {
@@ -16,8 +16,6 @@ const gl = {
   toneMapping: NoToneMapping,
 }
 
-const router = useRouter()
-
 const { sphere } = useControls({
   sphere: true,
 })
@@ -25,7 +23,9 @@ const { sphere } = useControls({
 const ctx = ref(null)
 
 watchEffect(() => {
-  if (!ctx.value) return
+  if (!ctx.value) {
+    return
+  }
   console.log('ctx', ctx.value)
 })
 
@@ -50,7 +50,7 @@ useControls({
     <Perf />
     <TresPerspectiveCamera :position="[3, 3, 3]" />
     <OrbitControls />
-    <Suspense> 
+    <Suspense>
       <AkuAku v-if="sphere" />
     </Suspense>
     <!--  <TresMesh

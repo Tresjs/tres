@@ -1,6 +1,6 @@
+<!-- eslint-disable no-console -->
 <script setup lang="ts">
 import { useGLTF } from '@tresjs/cientos'
-import { useControls } from '@tresjs/leches'
 
 const { nodes } = await useGLTF(
   'https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/aku-aku/AkuAku.gltf',
@@ -19,7 +19,7 @@ const model = nodes.AkuAku
   },
 }) */
 
-function disposeModel() {
+/* function disposeModel() {
   console.log('disposingModel')
   model.traverse((child) => {
     if (child.isMesh) {
@@ -27,7 +27,7 @@ function disposeModel() {
       if (child.material) {
         child.material.dispose()
       }
-        
+
       // Dispose of the geometry
       if (child.geometry) {
         child.geometry.dispose()
@@ -35,7 +35,7 @@ function disposeModel() {
     }
   })
   console.log('disposingModel Finished')
-}
+} */
 
 model.traverse((child) => {
   if (child.material) {

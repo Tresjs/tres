@@ -21,8 +21,6 @@ const pbrTexture = await useTexture({
   ambientOcclusion:
     'https://raw.githubusercontent.com/Tresjs/assets/main/textures/black-rock/Rock035_2K_AmbientOcclusion.jpg',
 })
-
-console.log('sphereRef', getCurrentInstance())
 </script>
 
 <template>

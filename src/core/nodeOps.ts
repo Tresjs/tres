@@ -1,7 +1,7 @@
 import type { RendererOptions } from 'vue'
 import { BufferAttribute } from 'three'
 import { isFunction } from '@alvarosabu/utils'
-import type { Object3D, Camera } from 'three'
+import type { Camera, Object3D } from 'three'
 import { useLogger } from '../composables'
 import { deepArrayEqual, isHTMLTag, kebabToCamel } from '../utils'
 
@@ -25,18 +25,18 @@ const supportedPointerEvents = [
 
 export const nodeOps: RendererOptions<TresObject, TresObject> = {
   createElement(tag, _isSVG, _anchor, props) {
-    if (!props) props = {}
+    if (!props) { props = {} }
 
     if (!props.args) {
       props.args = []
     }
-    if (tag === 'template') return null
-    if (isHTMLTag(tag)) return null
+    if (tag === 'template') { return null }
+    if (isHTMLTag(tag)) { return null }
     let name = tag.replace('Tres', '')
     let instance
 
     if (tag === 'primitive') {
-      if (props?.object === undefined) logError('Tres primitives need a prop \'object\'')
+      if (props?.object === undefined) { logError('Tres primitives need a prop \'object\'') }
       const object = props.object as TresObject
       name = object.type
       instance = Object.assign(object, { type: name, attach: props.attach, primitive: true })
@@ -59,19 +59,19 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
     }
 
     if (props?.attach === undefined) {
-      if (instance.isMaterial) instance.attach = 'material'
-      else if (instance.isBufferGeometry) instance.attach = 'geometry'
+      if (instance.isMaterial) { instance.attach = 'material' }
+      else if (instance.isBufferGeometry) { instance.attach = 'geometry' }
     }
 
     // determine whether the material was passed via prop to
     // prevent it's disposal when node is removed later in it's lifecycle
 
     if (instance.isObject3D) {
-      if (props?.material?.isMaterial) (instance as TresObject3D).userData.tres__materialViaProp = true
-      if (props?.geometry?.isBufferGeometry) (instance as TresObject3D).userData.tres__geometryViaProp = true
+      if (props?.material?.isMaterial) { (instance as TresObject3D).userData.tres__materialViaProp = true }
+      if (props?.geometry?.isBufferGeometry) { (instance as TresObject3D).userData.tres__geometryViaProp = true }
     }
 
-    // Since THREE instances properties are not consistent, (Orbit Controls doesn't have a `type` property) 
+    // Since THREE instances properties are not consistent, (Orbit Controls doesn't have a `type` property)
     // we take the tag name and we save it on the userData for later use in the re-instancing process.
     instance.userData = {
       ...instance.userData,
@@ -81,14 +81,13 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
     return instance
   },
   insert(child, parent) {
-    if (parent && parent.isScene) scene = parent as unknown as TresScene
+    if (parent && parent.isScene) { scene = parent as unknown as TresScene }
 
     const parentObject = parent || scene
 
     if (child?.isObject3D) {
       if (child?.isCamera) {
-        if (!scene?.userData.tres__registerCamera)
-          throw 'could not find tres__registerCamera on scene\'s userData'
+        if (!scene?.userData.tres__registerCamera) { throw 'could not find tres__registerCamera on scene\'s userData' }
 
         scene?.userData.tres__registerCamera?.(child as unknown as Camera)
       }
@@ -96,8 +95,7 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
       if (
         child && supportedPointerEvents.some(eventName => child[eventName])
       ) {
-        if (!scene?.userData.tres__registerAtPointerEventHandler)
-          throw 'could not find tres__registerAtPointerEventHandler on scene\'s userData'
+        if (!scene?.userData.tres__registerAtPointerEventHandler) { throw 'could not find tres__registerAtPointerEventHandler on scene\'s userData' }
 
         scene?.userData.tres__registerAtPointerEventHandler?.(child as Object3D)
       }
@@ -118,7 +116,7 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
     }
   },
   remove(node) {
-    if (!node) return
+    if (!node) { return }
     // remove is only called on the node being removed and not on child nodes.
 
     if (node.isObject3D) {
@@ -143,29 +141,23 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
         = scene?.userData.tres__deregisterBlockingObjectAtPointerEventHandler
 
       const deregisterAtPointerEventHandlerIfRequired = (object: TresObject) => {
-
-        if (!deregisterBlockingObjectAtPointerEventHandler)
-          throw 'could not find tres__deregisterBlockingObjectAtPointerEventHandler on scene\'s userData'
+        if (!deregisterBlockingObjectAtPointerEventHandler) { throw 'could not find tres__deregisterBlockingObjectAtPointerEventHandler on scene\'s userData' }
 
         scene?.userData.tres__deregisterBlockingObjectAtPointerEventHandler?.(object as Object3D)
 
-        if (!deregisterAtPointerEventHandler)
-          throw 'could not find tres__deregisterAtPointerEventHandler on scene\'s userData'
+        if (!deregisterAtPointerEventHandler) { throw 'could not find tres__deregisterAtPointerEventHandler on scene\'s userData' }
 
         if (
           object && supportedPointerEvents.some(eventName => object[eventName])
-        )
-          deregisterAtPointerEventHandler?.(object as Object3D)
+        ) { deregisterAtPointerEventHandler?.(object as Object3D) }
       }
 
       const deregisterCameraIfRequired = (object: Object3D) => {
         const deregisterCamera = scene?.userData.tres__deregisterCamera
 
-        if (!deregisterCamera)
-          throw 'could not find tres__deregisterCamera on scene\'s userData'
+        if (!deregisterCamera) { throw 'could not find tres__deregisterCamera on scene\'s userData' }
 
-        if ((object as Camera).isCamera)
-          deregisterCamera?.(object as Camera)
+        if ((object as Camera).isCamera) { deregisterCamera?.(object as Camera) }
       }
 
       node.removeFromParent?.()
@@ -187,10 +179,8 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
       let root = node
       let key = prop
       if (node.isObject3D && key === 'blocks-pointer-events') {
-        if (nextValue || nextValue === '')
-          scene?.userData.tres__registerBlockingObjectAtPointerEventHandler?.(node as Object3D)
-        else
-          scene?.userData.tres__deregisterBlockingObjectAtPointerEventHandler?.(node as Object3D)
+        if (nextValue || nextValue === '') { scene?.userData.tres__registerBlockingObjectAtPointerEventHandler?.(node as Object3D) }
+        else { scene?.userData.tres__deregisterBlockingObjectAtPointerEventHandler?.(node as Object3D) }
 
         return
       }
@@ -211,7 +201,7 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
       }
 
       if (root.type === 'BufferGeometry') {
-        if (key === 'args') return
+        if (key === 'args') { return }
         root.setAttribute(
           kebabToCamel(key),
           new BufferAttribute(...(nextValue as ConstructorParameters<typeof BufferAttribute>)),
@@ -225,24 +215,24 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
         target = chain.reduce((acc, key) => acc[kebabToCamel(key)], root)
         key = chain.pop() as string
         finalKey = key.toLowerCase()
-        if (!target?.set) root = chain.reduce((acc, key) => acc[kebabToCamel(key)], root)
+        if (!target?.set) { root = chain.reduce((acc, key) => acc[kebabToCamel(key)], root) }
       }
       let value = nextValue
-      if (value === '') value = true
+      if (value === '') { value = true }
       // Set prop, prefer atomic methods if applicable
       if (isFunction(target)) {
-        //don't call pointer event callback functions
+        // don't call pointer event callback functions
         if (!supportedPointerEvents.includes(prop)) {
-          if (Array.isArray(value)) node[finalKey](...value)
-          else node[finalKey](value)
+          if (Array.isArray(value)) { node[finalKey](...value) }
+          else { node[finalKey](value) }
         }
         return
       }
-      if (!target?.set && !isFunction(target)) root[finalKey] = value
-      else if (target.constructor === value.constructor && target?.copy) target?.copy(value)
-      else if (Array.isArray(value)) target.set(...value)
-      else if (!target.isColor && target.setScalar) target.setScalar(value)
-      else target.set(value)
+      if (!target?.set && !isFunction(target)) { root[finalKey] = value }
+      else if (target.constructor === value.constructor && target?.copy) { target?.copy(value) }
+      else if (Array.isArray(value)) { target.set(...value) }
+      else if (!target.isColor && target.setScalar) { target.setScalar(value) }
+      else { target.set(value) }
     }
   },
 

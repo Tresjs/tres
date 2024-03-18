@@ -1,6 +1,7 @@
+<!-- eslint-disable no-console -->
 <script setup lang="ts">
 import { ref, watchEffect } from 'vue'
-import { BasicShadowMap, SRGBColorSpace, NoToneMapping } from 'three'
+import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
 import { TresCanvas } from '@tresjs/core'
 import { OrbitControls } from '@tresjs/cientos'
 import { TresLeches, useControls } from '@tresjs/leches'
