@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import { ref, shallowRef, onUnmounted, watch } from 'vue'
+import { ref, shallowRef, onUnmounted, watch, onMounted } from 'vue'
 import { TresCanvas } from '@tresjs/core'
-import { OrbitControls, PositionalAudio, Box } from '@tresjs/cientos'
-import { TresLeches, useControls } from '@tresjs/leches'
-import '@tresjs/leches/styles'
+import { OrbitControls, PositionalAudio, Sphere, useGLTF, useProgress } from '@tresjs/cientos'
+import { gsap } from 'gsap'
 
 const gl = {
   clearColor: '#FAFAFA',
@@ -11,89 +10,48 @@ const gl = {
   alpha: false,
 }
 
+let tl, ctx
+
 const ready = ref(false)
 const positionalAudioRef = shallowRef(null)
+const ballRef = shallowRef(null)
+const innerAngle = ref(195)
+const outerAngle = ref(260)
+const outerGain = ref(0.4)
 
-const handlerAudio = (action: string) => {
-  if (!positionalAudioRef.value) return
+const model = await useGLTF('/positional-audio/pingpong.glb', { draco: true })
 
-  const { play, pause, stop } = positionalAudioRef.value
+console.log(model)
 
-  if (action === 'play') {
-    play()
-  }
-  else if (action === 'pause') {
-    pause()
-  }
-  else if (action === 'stop') {
-    stop()
+const onBallBounce = () => {
+  const iteration = tl.iteration() % 2
+
+  if (!iteration) {
+    positionalAudioRef?.value?.play()
   }
 }
 
-const { helper, innerAngle, outerAngle, outerGain } = useControls({
-  playAudio: {
-    label: 'Play',
-    type: 'button',
-    onClick: () => {
-      handlerAudio('play')
-    },
-    size: 'sm',
-  },
-  pauseAudio: {
-    label: 'Pause',
-    type: 'button',
-    onClick: () => {
-      handlerAudio('pause')
-    },
-    size: 'sm',
-  },
-  stopAudio: {
-    label: 'Stop',
-    type: 'button',
-    onClick: () => {
-      handlerAudio('stop')
-    },
-    size: 'sm',
-  },
-  helper: true,
-  innerAngle: {
-    label: 'innerAngle',
-    value: 180,
-    min: 0,
-    max: 360,
-    step: 1,
-  },
-  outerAngle: {
-    label: 'outerAngle',
-    value: 280,
-    min: 0,
-    max: 360,
-    step: 1,
-  },
-  outerGain: {
-    label: 'outerGain',
-    value: 0,
-    min: 0,
-    max: 1,
-    step: .01,
-  },
+watch([ballRef, ready], ([ball]) => {
+  if (!ball?.value || !ready.value) return
+  
+  ctx.add(() => {
+    tl = gsap
+      .timeline({ repeat: -1, yoyo: true, onRepeat: onBallBounce })
+      .to(ball.value.position, { y: 0, ease: 'power1.in', duration: .35 })
+  })
 })
 
-watch(helper.value, () => {
-  innerAngle.value.visible = outerAngle.value.visible = outerGain.value.visible = helper.value.value
+onMounted(() => {
+  ctx = gsap.context((self) => {}, ballRef?.value) 
 })
 
 onUnmounted(() => {
-  if (!positionalAudioRef.value) return
-
-  const { dispose } = positionalAudioRef.value
-  dispose()
+  ctx?.revert() 
+  positionalAudioRef?.value?.dispose()
 })
 </script>
 
 <template>
-  <TresLeches class="important-left-initial important-right-2" />
-
   <div
     v-if="!ready"
     class="ready"
@@ -103,40 +61,61 @@ onUnmounted(() => {
     </button>
   </div>
 
-  <TresCanvas v-bind="gl">
-    <TresPerspectiveCamera :position="[0, 0.5, 5]" />
-    <OrbitControls />
+  <div
+    v-if="ready"
+    class="controls"
+  >
+    <button @click="tl?.play()">
+      play
+    </button>
+    <button @click="tl?.pause()">
+      pause
+    </button>
+  </div>
 
-    <Box :args="[1, 1, 1]">
-      <TresMeshNormalMaterial />
+  <TresCanvas v-bind="gl">
+    <TresPerspectiveCamera :position="[0, 0.5, 15]" />
+    <OrbitControls make-default />
+
+    <Sphere
+      ref="ballRef"
+      :args="[1, 16, 16]"
+      :position="[0, 3, 0]"
+      :rotation-x="Math.PI / -2"
+      cast-shadow
+      receive-shadow
+    >
+      <TresMeshStandardMaterial />
+
       <Suspense>
         <PositionalAudio
           ref="positionalAudioRef"
-          loop
           :ready
-          :inner-angle="innerAngle.value"
-          :outer-angle="outerAngle.value"
-          :outer-gain="outerGain.value"
-          :helper="helper.value"
-          url="/positional-audio/sound1.mp3"
+          :inner-angle="innerAngle"
+          :outer-angle="outerAngle"
+          :outer-gain="outerGain"
+          url="/positional-audio/ping.mp3"
         />
       </Suspense>
-    </Box>
+    </Sphere>
 
-    <Box
-      :args="[4, 2, 0.1]"
-      :position="[0, 0, -1]"
-    >
-      <TresMeshBasicMaterial
-        color="#ff0000"
-        transparent
-        :opacity="0.5"
+    <Suspense>
+      <primitive
+        :scale="[.2, .2, .2]"
+        :position="[0, -1.15, 0]"
+        receive-shadow
+        :object="model.scene"
       />
-    </Box>
+    </Suspense>
 
-    <TresGridHelper
-      :position="[0, -.01, 0]"
-      :args="[10, 10, '#c1c1c1', '#c1c1c1']"
+    <TresAmbientLight
+      color="#ffffff"
+      :intensity="2"
+    />
+    <TresDirectionalLight
+      :position="[5, 10, 0]"
+      :intensity="2"
+      cast-shadow
     />
   </TresCanvas>
 </template>
@@ -146,7 +125,7 @@ onUnmounted(() => {
   width: 100%;
   height: 100%;
   position: absolute;
-  z-index: 99;
+  z-index: 24;
   background-color: rgba(0, 0, 0, .75);
   display: flex;
   align-items: center;
@@ -154,7 +133,19 @@ onUnmounted(() => {
   backdrop-filter: blur(5px);
 }
 
-.ready button {
+.controls {
+  position: absolute;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(5px);
+  top: 25px;
+  left: 25px;
+  column-gap: 5px;
+}
+
+.ready button, .controls button {
   padding: 5px 10px;
   background: #1B1C1E;
   border: 1px solid #161618;

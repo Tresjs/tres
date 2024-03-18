@@ -73,7 +73,7 @@ const onContinue = () => {
           :outer-gain=".2"
           :distance="2"
           helper
-          url="/positional-audio/sound1.mp3"
+          url="/positional-audio/sound.mp3"
         />
       </Suspense>
     </Box>
