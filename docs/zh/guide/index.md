@@ -63,9 +63,9 @@ export default defineConfig({
 
 ## 线上尝试
 
-### 沙盒
+### 演练场
 
-你可以在官方[沙盒](https://play.tresjs.org/)中线上尝试 TresJS。尝试一下：
+你可以在官方[演练场](https://play.tresjs.org/)中线上尝试 TresJS。尝试一下：
 
 <iframe src="https://play.tresjs.org/" class="w-full rounded shadow-lg outline-none border-none aspect-4/3"></iframe>
 
@@ -77,11 +77,11 @@ export default defineConfig({
 
 <StackBlitzEmbed projectId="tresjs-basic" />
 
-## 演练场
+## 实验室
 
-我们同时也拥有一个可以让你线上尝试 TresJS 的演练场。点击[这里](https://playground.tresjs.org/)尝试一下。
+我们同时也拥有一个使用 TresJS 制作的实例展示实验室。点击[这里](https://playground.tresjs.org/)来查看。
 
-![](/playground.png)
+![](/tresjs-lab.png)
 
 ## 动机
 

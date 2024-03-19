@@ -112,7 +112,7 @@ export const zhConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
           { text: '版本发布', link: 'https://github.com/Tresjs/tres/releases' },
           {
             text: '演练场',
-            link: 'https://playground.tresjs.org/',
+            link: 'https://play.tresjs.org/',
           },
           {
             text: 'Github',
