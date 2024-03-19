@@ -79,7 +79,7 @@ export default defineConfig({
 
 ## 实验室
 
-我们同时也拥有一个使用 TresJS 制作的实例展示实验室。点击[这里](https://playground.tresjs.org/)来查看。
+我们同时也拥有一个使用 TresJS 制作的实例展示实验室。点击[这里](https://lab.tresjs.org/)来查看。
 
 ![](/tresjs-lab.png)
 
