@@ -21,8 +21,6 @@ const outerGain = ref(0.4)
 
 const model = await useGLTF('/positional-audio/pingpong.glb', { draco: true })
 
-console.log(model)
-
 const onBallBounce = () => {
   const iteration = tl.iteration() % 2
 
