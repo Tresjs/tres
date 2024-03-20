@@ -57,7 +57,7 @@ export const zhConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
       },
       {
         text: '专题手册 🍳🧑‍🍳',
-        link: "/zh/cookbook/",
+        link: '/zh/cookbook/',
         items: [
           { text: '轨道控制器', link: '/zh/cookbook/orbit-controls' },
           { text: '基础动画', link: '/zh/cookbook/basic-animations' },
@@ -143,7 +143,7 @@ export const zhConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
       },
     ],
     search: {
-      provider: "local",
+      provider: 'local',
       options: {
         locales: {
           zh: {
@@ -167,20 +167,20 @@ export const zhConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
                   closeKeyAriaLabel: 'esc',
                 },
               },
-            }
-          }
-        }
-      }
+            },
+          },
+        },
+      },
     },
-    darkModeSwitchLabel: "外观",
-    sidebarMenuLabel: "菜单",
-    returnToTopLabel: "返回顶部",
-    langMenuLabel: "更改语言",
-    lastUpdatedText: "最近更新",
-    outlineTitle: "此页面上",
+    darkModeSwitchLabel: '外观',
+    sidebarMenuLabel: '菜单',
+    returnToTopLabel: '返回顶部',
+    langMenuLabel: '更改语言',
+    lastUpdatedText: '最近更新',
+    outlineTitle: '此页面上',
     docFooter: {
-      next: "下一页",
-      prev: "上一页"
-    }
+      next: '下一页',
+      prev: '上一页',
+    },
   },
 }
