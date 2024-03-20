@@ -51,6 +51,7 @@ export interface TresCanvasProps
   camera?: TresCamera
   preset?: RendererPresetsType
   windowSize?: boolean
+  useWindowPointer?: boolean
   disableRender?: boolean
 }
 
@@ -61,6 +62,7 @@ const props = withDefaults(defineProps<TresCanvasProps>(), {
   stencil: undefined,
   antialias: undefined,
   windowSize: undefined,
+  useWindowPointer: undefined,
   disableRender: undefined,
   useLegacyLights: undefined,
   preserveDrawingBuffer: undefined,
@@ -135,7 +137,7 @@ onMounted(() => {
     rendererOptions: props,
   })
 
-  usePointerEventHandler({ scene: scene.value, contextParts: context.value })
+  usePointerEventHandler({ scene: scene.value, contextParts: context.value, isWindow: props.useWindowPointer })
 
   const { registerCamera, camera, cameras, deregisterCamera } = context.value
 
