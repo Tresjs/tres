@@ -101,4 +101,4 @@ The core package should be as small as possible, it should only contain the core
 
 ### Assets
 
-If you need/want to add assets like models, videos, musics, textures, etc. Please consider adding to our [oficial assets repo](https://github.com/Tresjs/assets).
+If you need/want to add assets like models, videos, musics, textures, etc. Please consider adding to our [official assets repo](https://github.com/Tresjs/assets).
