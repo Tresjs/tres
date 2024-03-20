@@ -1,266 +1,376 @@
-import type { RendererOptions } from 'vue'
-import { BufferAttribute } from 'three'
-import { isFunction } from '@alvarosabu/utils'
-import type { Object3D, Camera } from 'three'
-import { useLogger } from '../composables'
-import { deepArrayEqual, isHTMLTag, kebabToCamel } from '../utils'
+import { type RendererElement, type RendererNode, type RendererOptions } from 'vue'
 
-import type { TresObject, TresObject3D, TresScene } from '../types'
-import { catalogue } from './catalogue'
+/**
+ * Main API
+ */
 
-function noop(fn: string): any {
-  fn
+const CONTEXT_TO_NODE_OPS = new WeakMap()
+
+/**
+ * NOTE: 
+ * Regarding the generic types used below:
+ * HostNode, HostElement types are from Vue's RendererOptions. They are the types RendererOptions functions return.
+ * HostContext is passed to the plugin as plugin(c: HostContext). In the case of Tres, it's TresContext.
+ */
+export type TresNodeOpsPluginStore< N extends RendererNode, E extends RendererElement> = PluginStore<N, E>
+export type TresNodeOpsPlugin<N extends RendererNode, E extends RendererNode, C extends WeakKey> = 
+  Plugin<N, E, C>
+
+export function useNodeOpsWithContext<
+  HostNode extends RendererNode,
+  HostElement extends RendererElement,
+  HostContext extends WeakKey,
+>(
+  context: HostContext = {} as HostContext,
+  pluginOrPlugins: Plugin<HostNode, HostElement, HostContext> 
+  | Plugin<HostNode, HostElement, HostContext>[] = [],
+): PluggableRendererOptions<HostNode, HostElement, HostContext> {
+  if (CONTEXT_TO_NODE_OPS.has(context)) {
+    return CONTEXT_TO_NODE_OPS.get(context)
+  }
+
+  const pluginStore: PluginStore<HostNode, HostElement> = doAddPlugin(pluginOrPlugins, {}, context)
+  const result: PluggableRendererOptions<HostNode, HostElement, HostContext>
+    = Object.assign({}, 
+      noopRendererOptions, 
+      { 
+        hasPlugin: (pluginName: string) => pluginStore.hasOwnProperty(pluginName),
+        dispose: () => Object.values(pluginStore).forEach(p => p.dispose()),
+      }, 
+      doGetRendererOptionsFromPluginStore(pluginStore),
+    )
+  
+  CONTEXT_TO_NODE_OPS.set(context, result)
+
+  return result
 }
 
-let scene: TresScene | null = null
+/**
+ * NOTE: Helper functions
+ */
 
-const { logError } = useLogger()
+function doGetRendererOptionsFromPluginStore<
+  HostNode extends RendererNode,
+  HostElement extends RendererElement,
+>(
+  pluginStore: PluginStore<HostNode, HostElement>,
+): RendererOptions<HostNode, HostElement> {
+  const result = Object.assign({}, noopRendererOptions)
+  const createElementPluginEntries = getSortedPluginEntriesFromStore(pluginStore, 'createElement')
+  const patchPropPluginEntries = getSortedPluginEntriesFromStore(pluginStore, 'patchProp')
+  const insertPluginEntries = getSortedPluginEntriesFromStore(pluginStore, 'insert')
+  const removePluginEntries = getSortedPluginEntriesFromStore(pluginStore, 'remove')
+  const createTextPluginEntries = getSortedPluginEntriesFromStore(pluginStore, 'createText')
+  const createCommentPluginEntries = getSortedPluginEntriesFromStore(pluginStore, 'createComment')
+  const setTextPluginEntries = getSortedPluginEntriesFromStore(pluginStore, 'setText')
+  const setElementTextPluginEntries = getSortedPluginEntriesFromStore(pluginStore, 'setElementText')
+  const parentNodePluginEntries = getSortedPluginEntriesFromStore(pluginStore, 'parentNode')
 
-const supportedPointerEvents = [
-  'onClick',
-  'onPointerMove',
-  'onPointerEnter',
-  'onPointerLeave',
-]
-
-export const nodeOps: RendererOptions<TresObject, TresObject> = {
-  createElement(tag, _isSVG, _anchor, props) {
-    if (!props) props = {}
-
-    if (!props.args) {
-      props.args = []
-    }
-    if (tag === 'template') return null
-    if (isHTMLTag(tag)) return null
-    let name = tag.replace('Tres', '')
-    let instance
-
-    if (tag === 'primitive') {
-      if (props?.object === undefined) logError('Tres primitives need a prop \'object\'')
-      const object = props.object as TresObject
-      name = object.type
-      instance = Object.assign(object, { type: name, attach: props.attach, primitive: true })
-    }
-    else {
-      const target = catalogue.value[name]
-      if (!target) {
-        logError(`${name} is not defined on the THREE namespace. Use extend to add it to the catalog.`)
-      }
-      instance = new target(...props.args)
-    }
-
-    if (instance.isCamera) {
-      if (!props?.position) {
-        instance.position.set(3, 3, 3)
-      }
-      if (!props?.lookAt) {
-        instance.lookAt(0, 0, 0)
-      }
-    }
-
-    if (props?.attach === undefined) {
-      if (instance.isMaterial) instance.attach = 'material'
-      else if (instance.isBufferGeometry) instance.attach = 'geometry'
-    }
-
-    // determine whether the material was passed via prop to
-    // prevent it's disposal when node is removed later in it's lifecycle
-
-    if (instance.isObject3D) {
-      if (props?.material?.isMaterial) (instance as TresObject3D).userData.tres__materialViaProp = true
-      if (props?.geometry?.isBufferGeometry) (instance as TresObject3D).userData.tres__geometryViaProp = true
-    }
-
-    // Since THREE instances properties are not consistent, (Orbit Controls doesn't have a `type` property) 
-    // we take the tag name and we save it on the userData for later use in the re-instancing process.
-    instance.userData = {
-      ...instance.userData,
-      tres__name: name,
-    }
-
-    return instance
-  },
-  insert(child, parent) {
-    if (parent && parent.isScene) scene = parent as unknown as TresScene
-
-    const parentObject = parent || scene
-
-    if (child?.isObject3D) {
-      if (child?.isCamera) {
-        if (!scene?.userData.tres__registerCamera)
-          throw 'could not find tres__registerCamera on scene\'s userData'
-
-        scene?.userData.tres__registerCamera?.(child as unknown as Camera)
-      }
-
-      if (
-        child && supportedPointerEvents.some(eventName => child[eventName])
-      ) {
-        if (!scene?.userData.tres__registerAtPointerEventHandler)
-          throw 'could not find tres__registerAtPointerEventHandler on scene\'s userData'
-
-        scene?.userData.tres__registerAtPointerEventHandler?.(child as Object3D)
-      }
-    }
-
-    if (child?.isObject3D && parentObject?.isObject3D) {
-      parentObject.add(child)
-      child.dispatchEvent({ type: 'added' })
-    }
-    else if (child?.isFog) {
-      parentObject.fog = child
-    }
-    else if (typeof child?.attach === 'string') {
-      child.__previousAttach = child[parentObject?.attach as string]
-      if (parentObject) {
-        parentObject[child.attach] = child
-      }
-    }
-  },
-  remove(node) {
-    if (!node) return
-    // remove is only called on the node being removed and not on child nodes.
-
-    if (node.isObject3D) {
-      const object3D = node as unknown as Object3D
-
-      const disposeMaterialsAndGeometries = (object3D: Object3D) => {
-        const tresObject3D = object3D as TresObject3D
-
-        if (!object3D.userData.tres__materialViaProp) {
-          tresObject3D.material?.dispose()
-          tresObject3D.material = undefined
-        }
-
-        if (!object3D.userData.tres__geometryViaProp) {
-          tresObject3D.geometry?.dispose()
-          tresObject3D.geometry = undefined
+  result.createElement = (tag: string, ...rest) => {
+    for (const entry of createElementPluginEntries) {
+      if (entry.filter.tag(tag)) {
+        const result = entry.fn(tag, ... rest)
+        if (result) {
+          return result
         }
       }
-
-      const deregisterAtPointerEventHandler = scene?.userData.tres__deregisterAtPointerEventHandler
-      const deregisterBlockingObjectAtPointerEventHandler
-        = scene?.userData.tres__deregisterBlockingObjectAtPointerEventHandler
-
-      const deregisterAtPointerEventHandlerIfRequired = (object: TresObject) => {
-
-        if (!deregisterBlockingObjectAtPointerEventHandler)
-          throw 'could not find tres__deregisterBlockingObjectAtPointerEventHandler on scene\'s userData'
-
-        scene?.userData.tres__deregisterBlockingObjectAtPointerEventHandler?.(object as Object3D)
-
-        if (!deregisterAtPointerEventHandler)
-          throw 'could not find tres__deregisterAtPointerEventHandler on scene\'s userData'
-
-        if (
-          object && supportedPointerEvents.some(eventName => object[eventName])
-        )
-          deregisterAtPointerEventHandler?.(object as Object3D)
-      }
-
-      const deregisterCameraIfRequired = (object: Object3D) => {
-        const deregisterCamera = scene?.userData.tres__deregisterCamera
-
-        if (!deregisterCamera)
-          throw 'could not find tres__deregisterCamera on scene\'s userData'
-
-        if ((object as Camera).isCamera)
-          deregisterCamera?.(object as Camera)
-      }
-
-      node.removeFromParent?.()
-      object3D.traverse((child: Object3D) => {
-        disposeMaterialsAndGeometries(child)
-        deregisterCameraIfRequired(child)
-        deregisterAtPointerEventHandlerIfRequired?.(child as TresObject)
-      })
-
-      disposeMaterialsAndGeometries(object3D)
-      deregisterCameraIfRequired(object3D)
-      deregisterAtPointerEventHandlerIfRequired?.(object3D as TresObject)
     }
+    return noopRendererOptions['createElement']
+  }
 
-    node.dispose?.()
-  },
-  patchProp(node, prop, _prevValue, nextValue) {
-    if (node) {
-      let root = node
-      let key = prop
-      if (node.isObject3D && key === 'blocks-pointer-events') {
-        if (nextValue || nextValue === '')
-          scene?.userData.tres__registerBlockingObjectAtPointerEventHandler?.(node as Object3D)
-        else
-          scene?.userData.tres__deregisterBlockingObjectAtPointerEventHandler?.(node as Object3D)
-
-        return
+  result.patchProp = (
+    el: HostElement,
+    key: string,
+    prevValue: any,
+    nextValue: any,
+    // the rest is unused for most custom renderers
+    ...rest
+  ) => {
+    for (const entry of patchPropPluginEntries) {
+      if (entry.filter.element(el)) {
+        entry.fn(el, key, prevValue, nextValue, ...rest)
       }
-
-      let finalKey = kebabToCamel(key)
-      let target = root?.[finalKey]
-
-      if (key === 'args') {
-        const prevNode = node as TresObject3D
-        const prevArgs = _prevValue ?? []
-        const args = nextValue ?? []
-        const instanceName = node.userData.tres__name || node.type
-
-        if (instanceName && prevArgs.length && !deepArrayEqual(prevArgs, args)) {
-          root = Object.assign(prevNode, new catalogue.value[instanceName](...nextValue))
-        }
-        return
-      }
-
-      if (root.type === 'BufferGeometry') {
-        if (key === 'args') return
-        root.setAttribute(
-          kebabToCamel(key),
-          new BufferAttribute(...(nextValue as ConstructorParameters<typeof BufferAttribute>)),
-        )
-        return
-      }
-
-      // Traverse pierced props (e.g. foo-bar=value => foo.bar = value)
-      if (key.includes('-') && target === undefined) {
-        const chain = key.split('-')
-        target = chain.reduce((acc, key) => acc[kebabToCamel(key)], root)
-        key = chain.pop() as string
-        finalKey = key.toLowerCase()
-        if (!target?.set) root = chain.reduce((acc, key) => acc[kebabToCamel(key)], root)
-      }
-      let value = nextValue
-      if (value === '') value = true
-      // Set prop, prefer atomic methods if applicable
-      if (isFunction(target)) {
-        //don't call pointer event callback functions
-        if (!supportedPointerEvents.includes(prop)) {
-          if (Array.isArray(value)) node[finalKey](...value)
-          else node[finalKey](value)
-        }
-        return
-      }
-      if (!target?.set && !isFunction(target)) root[finalKey] = value
-      else if (target.constructor === value.constructor && target?.copy) target?.copy(value)
-      else if (Array.isArray(value)) target.set(...value)
-      else if (!target.isColor && target.setScalar) target.setScalar(value)
-      else target.set(value)
     }
-  },
+  }
 
-  parentNode(node) {
-    return node?.parent || null
-  },
-  createText: () => noop('createText'),
-  createComment: () => noop('createComment'),
+  result.insert = (
+    el: HostNode,
+    parent: HostElement,
+    anchor?: HostNode | null,
+  ) => {
+    for (const entry of insertPluginEntries) {
+      if (entry.filter.node(el)) {
+        entry.fn(el, parent, anchor)
+      }
+    }
+  }
 
-  setText: () => noop('setText'),
+  result.remove = (el: HostNode) => {
+    for (const entry of removePluginEntries) {
+      if (entry.filter.node(el)) {
+        entry.fn(el)
+      }
+    }
+  }
 
-  setElementText: () => noop('setElementText'),
-  nextSibling: () => noop('nextSibling'),
+  result.parentNode = (el: HostNode) => {
+    for (const entry of parentNodePluginEntries) {
+      const result = entry.fn(el)
+      if (result) return result
+    }
+    return null
+  }
 
-  querySelector: () => noop('querySelector'),
+  result.createText = (text: string) => {
+    for (const entry of createTextPluginEntries) {
+      const result = entry.fn(text)
+      if (result) return result
+    }
+    return text
+  }
 
-  setScopeId: () => noop('setScopeId'),
-  cloneNode: () => noop('cloneNode'),
+  result.createComment = (text: string) => {
+    for (const entry of createCommentPluginEntries) {
+      const result = entry.fn(text)
+      if (result) return result
+    }
+    return null
+  }
 
-  insertStaticContent: () => noop('insertStaticContent'),
+  result.setText = (node: HostNode, text: string) => {
+    for (const entry of setTextPluginEntries) {
+      entry.fn(node, text)
+    }
+  }
+
+  result.setElementText = (el: HostElement, text: string) => {
+    for (const entry of setElementTextPluginEntries) {
+      entry.fn(el, text)
+    }
+  }
+
+  result.nextSibling = () => noop('nextSibling')
+  result.querySelector = () => noop('querySelector')
+  result.setScopeId = () => noop('setScopeId')
+  result.cloneNode = () => noop('cloneNode')
+  result.insertStaticContent = () => noop('insertStaticContent')
+
+  return result
 }
+
+function getSortedPluginEntriesFromStore<
+  HostNode extends RendererNode,
+  HostElement extends RendererElement,
+  T extends RendererOptionsFunctionKey,
+>(store: PluginStore<HostNode, HostElement>, key: T) {
+  const result: PNE<T>[] = []
+  for (const plugin of Object.values(store)) {
+    if (plugin.hasOwnProperty(key)) {
+      result.push(plugin[key] as PNE<T>)
+    }
+  }
+
+  result.sort((a: PNE<T>, b: PNE<T>) => a.weight - b.weight)
+
+  return result
+
+  type PNE<T extends RendererOptionsFunctionKey> = PluginEntryNormalized<
+    HostNode,
+    HostElement,
+    T
+  >
+}
+
+function doAddPlugin<
+  HostNode extends RendererNode,
+  HostElement extends RendererElement,
+  HostContext,
+>(
+  plugin:
+  | Plugin<HostNode, HostElement, HostContext >
+  | Plugin<HostNode, HostElement, HostContext>[],
+  pluginStore: PluginStore<HostNode, HostElement>,
+  context: HostContext,
+): PluginStore<HostNode, HostElement> {
+
+  if (Array.isArray(plugin)) {
+    let result: PS = Object.assign({}, pluginStore)
+    for (const p of plugin) {
+      result = doAddPlugin(p, result, context)
+    }
+    return result
+  }
+  else {
+    const result: PS = Object.assign({}, pluginStore)
+    const boundPlugin = doBindAndNormalizePlugin( plugin, context )
+
+    if (result.hasOwnProperty(boundPlugin.name)) {
+      throw new Error(
+        `Plugin store already contains plugin named ${
+          boundPlugin.name
+        }`,
+      )
+    }
+    result[boundPlugin.name] = boundPlugin
+    return result
+  }
+
+  type PS = PluginStore<HostNode, HostElement>
+}
+
+function doBindAndNormalizePlugin<
+  HostNode extends RendererNode,
+  HostElement extends RendererElement,
+  HostContext,
+>(
+  plugin: Plugin<HostNode, HostElement, HostContext>,
+  context: HostContext,
+): PluginNormalized<HostNode, HostElement> {
+  const boundPlugin = plugin(context)
+  const name = boundPlugin.name
+  const weight = boundPlugin.weight ?? 0
+  const filter = {
+    tag: boundPlugin.filter?.tag ?? ((tag: string) => true),
+    node: boundPlugin.filter?.node ?? ((a: any): a is HostNode => true),
+    element: boundPlugin.filter?.element ?? ((a: any): a is HostElement => true),
+  }
+  const dispose = boundPlugin.dispose ?? (() => {})
+
+  const result: PluginNormalized<HostNode, HostElement> = { name, dispose }
+
+  for (const key of rendererOptionsFunctionKeys) {
+    if (key in boundPlugin) {
+      const entry = boundPlugin[key]
+      if (typeof entry === 'object' && typeof entry.fn === 'function') {
+        result[key] = { fn: entry.fn, weight: entry.weight ?? weight, name, filter }
+      } 
+      else if (typeof entry === 'function') {
+        result[key] = { fn: entry, weight, name, filter }
+      }
+    }
+  }
+
+  return result as PluginNormalized<HostNode, HostElement>
+}
+
+export const forImplementationTests = {
+  doAddPlugin,
+  doGetPluginFromPluginStore: (
+    name: string, 
+    store: PluginStore<any, any>,
+  ) => (store[name] as PluginNormalized<any, any>) ?? null,
+}
+
+/**
+ * NOTE: Misc. data
+ */
+
+const noopRendererOptions: RendererOptions<any, any> = {
+  patchProp: (... rest) => {},
+  insert: () => {},
+  remove: () => {},
+  createElement: () => null,
+  createText: () => ({}),
+  createComment: (text: string) => ({}),
+  setText: () => {},
+  setElementText: () => {},
+  parentNode: () => null,
+  nextSibling: () => null,
+}
+
+function noop(fn: string): any { }
+
+const rendererOptionsFunctionKeys: Set<RendererOptionsFunctionKey> = new Set([
+  'patchProp',
+  'insert',
+  'remove',
+  'createElement',
+  'createText',
+  'createComment',
+  'setText',
+  'setElementText',
+  'parentNode',
+  'nextSibling',
+])
+
+/**
+ * Types
+ */
+
+type PluggableRendererOptions<
+  HostNode extends RendererNode,
+  HostElement extends RendererElement,
+  HostContext,
+> = RendererOptions<HostNode, HostElement> &
+Pluggable<HostNode, HostElement, HostContext>
+
+interface Pluggable<
+  HostNode extends RendererNode,
+  HostElement extends RendererElement,
+  HostContext,
+> {
+  hasPlugin: (s: string) => boolean
+  dispose: () => void
+}
+
+type FunctionKeys<T> = {
+  [K in keyof T]: T[K] extends (...a: any) => any ? K : never;
+}[keyof T]
+type RendererOptionsFunctionKey = Exclude<
+  FunctionKeys<RendererOptions>,
+  undefined
+>
+
+type Plugin< HostNode extends RendererNode, HostElement extends RendererElement, HostContext> = 
+(context: HostContext) => {
+  name: string
+  weight?: number
+  filter?: PluginFilter<HostNode, HostElement>
+  dispose?: () => void
+} & Partial<{
+  [K in RendererOptionsFunctionKey]: PluginEntry< K >;
+}>
+
+type PluginEntry< K extends RendererOptionsFunctionKey > = {
+  weight?: number
+  fn: RendererOptions[K]
+} | RendererOptions[K]
+
+type PluginNormalized<
+  HostNode extends RendererNode,
+  HostElement extends RendererElement,
+> = {
+  name: string
+  dispose: () => void
+} &
+Partial<{ 
+  [K in RendererOptionsFunctionKey]: PluginEntryNormalized<
+    HostNode,
+    HostElement,
+    K
+  >;
+}>
+
+interface PluginEntryNormalized<
+  HostNode extends RendererNode,
+  HostElement extends RendererElement,
+  K extends RendererOptionsFunctionKey,
+> {
+  name: string
+  weight: number
+  filter: PluginFilterNormalized<HostNode, HostElement>
+  fn: RendererOptions[K]
+}
+
+type PluginFilter<HostNode, HostElement> = Partial<PluginFilterNormalized<HostNode, HostElement>>
+
+interface PluginFilterNormalized<HostNode, HostElement> {
+  tag: (tag: string) => boolean
+  node: (a: any) => a is HostNode
+  element: (a: any) => a is HostElement
+}
+
+type PluginStore<
+  HostNode extends RendererNode,
+  HostElement extends RendererElement,
+> = Record<string, PluginNormalized<HostNode, HostElement>>
