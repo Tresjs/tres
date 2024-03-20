@@ -11,7 +11,7 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "forceConsistentCasingInFileNames": true,
-    "types": ["vite/client"]
+    "types": ["vite/client", "vitepress"]
   },
   "exclude": [
     "dist",

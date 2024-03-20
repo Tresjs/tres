@@ -222,10 +222,10 @@ const context = useTresContext()
 ### Properties of context
 | Property | Description |
 | --- | --- |
-| **camera** | the currently active camera |
-| **cameras** | the cameras that exist in the scene |
-| **controls** | the controls of your scene |
-| **deregisterCamera** | a method to deregister a camera. This is only required if you manually create a camera. Cameras in the template are deregistered automatically. |
+| **camera** | The currently active camera |
+| **cameras** | The cameras that exist in the scene |
+| **controls** | The controls of your scene |
+| **deregisterCamera** | A method to deregister a camera. This is only required if you manually create a camera. Cameras in the template are deregistered automatically. |
 | **extend** | Extends the component catalogue. See [extending](/advanced/extending) |
 | **raycaster** | the global raycaster used for pointer events |
 | **registerCamera** | a method to register a camera. This is only required if you manually create a camera. Cameras in the template are registered automatically. |
