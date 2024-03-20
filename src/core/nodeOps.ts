@@ -21,15 +21,16 @@ const supportedPointerEvents = [
   'onPointerLeave',
 ]
 
+const tresLocalState = new WeakMap();
+
 export function invalidateInstance(instance: TresObject) {
-  const ctx = instance.__tres.root
+  const ctx = tresLocalState.get(instance).root
   
   if (!ctx) return
   
   if (ctx.render && ctx.render.canBeInvalidated.value) {
     ctx.invalidate()
   }
-
 }
 
 export const nodeOps: () => RendererOptions<TresObject, TresObject | null> = () => {
@@ -75,20 +76,23 @@ export const nodeOps: () => RendererOptions<TresObject, TresObject | null> = () 
       else if (instance.isBufferGeometry) instance.attach = 'geometry'
     }
 
-    instance.__tres = {
-      ...instance.__tres,
-      type: name,
-      memoizedProps: props,
-      eventCount: 0,
-      disposable: true,
-      primitive: tag === 'primitive',
-    }
+    const existingState = tresLocalState.get(instance) || {};
+      tresLocalState.set(instance, {
+        ...existingState,
+        type: name,
+        memoizedProps: props,
+        eventCount: 0,
+        disposable: true,
+        primitive: tag === 'primitive',
+    });
 
     // determine whether the material was passed via prop to
     // prevent it's disposal when node is removed later in it's lifecycle
 
     if (instance.isObject3D && (props?.material || props?.geometry)) {
-      instance.__tres.disposable = false
+      tresLocalState.set(instance, {
+        disposable: false,
+      })
     }
 
     return instance as TresObject
@@ -100,14 +104,16 @@ export const nodeOps: () => RendererOptions<TresObject, TresObject | null> = () 
       scene = parent as unknown as TresScene
     }
 
+    const childLocalState = tresLocalState.get(child) || {};
+
     if (scene) {
-      child.__tres.root = scene.__tres.root as TresContext
+     childLocalState.root = scene.__tres.root as TresContext
     }
 
     const parentObject = parent || scene
     
     if (child?.isObject3D) {
-      const { registerCamera, registerObjectAtPointerEventHandler } = child.__tres.root
+      const { registerCamera, registerObjectAtPointerEventHandler } =childLocalState.root
       if (child?.isCamera) {
         registerCamera(child as unknown as Camera)
       }
@@ -134,7 +140,7 @@ export const nodeOps: () => RendererOptions<TresObject, TresObject | null> = () 
   },
   remove(node) {
     if (!node) return
-    const ctx = node.__tres
+    const ctx = tresLocalState.get(node)
     // remove is only called on the node being removed and not on child nodes.
     node.parent = node.parent || scene
     
@@ -192,7 +198,8 @@ export const nodeOps: () => RendererOptions<TresObject, TresObject | null> = () 
     if (node) {
       let root = node
       let key = prop
-      if (node.__tres.primitive && key === 'object' && prevValue !== null) {
+      const nodeLocalState = tresLocalState.get(node)
+      if (nodeLocalState.primitive && key === 'object' && prevValue !== null) {
         // If the prop 'object' is changed, we need to re-instance the object and swap the old one with the new one
         const newInstance = nodeOps.createElement('primitive', undefined, undefined, { 
           object: nextValue, 
@@ -218,11 +225,11 @@ export const nodeOps: () => RendererOptions<TresObject, TresObject | null> = () 
         }
       }
 
-      if (node.__tres.root) {
+      if (nodeLocalState.root) {
         const { 
           registerBlockingObjectAtPointerEventHandler,
           deregisterBlockingObjectAtPointerEventHandler, 
-        } = node.__tres.root
+        } = nodeLocalState.root
   
         if (node.isObject3D && key === 'blocks-pointer-events') {
           if (nextValue || nextValue === '')
@@ -241,7 +248,7 @@ export const nodeOps: () => RendererOptions<TresObject, TresObject | null> = () 
         const prevNode = node as TresObject3D
         const prevArgs = prevValue ?? []
         const args = nextValue ?? []
-        const instanceName = node.__tres.type || node.type
+        const instanceName = nodeLocalState.type || node.type
 
         if (instanceName && prevArgs.length && !deepArrayEqual(prevArgs, args)) {
           root = Object.assign(prevNode, new catalogue.value[instanceName](...nextValue))
