@@ -76,7 +76,7 @@
     "@types/three": "^0.159.0",
     "@typescript-eslint/eslint-plugin": "^6.14.0",
     "@typescript-eslint/parser": "^6.14.0",
-    "@vitejs/plugin-vue": "^4.5.2",
+    "@vitejs/plugin-vue": "^5.0.0",
     "@vitest/coverage-c8": "^0.33.0",
     "@vitest/ui": "^1.0.4",
     "@vue/test-utils": "^2.4.3",
