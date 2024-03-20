@@ -21,7 +21,7 @@ const supportedPointerEvents = [
   'onPointerLeave',
 ]
 
-const tresLocalState = new WeakMap();
+const tresLocalState = new WeakMap()
 
 export function invalidateInstance(instance: TresObject) {
   const ctx = tresLocalState.get(instance).root
@@ -76,15 +76,15 @@ export const nodeOps: () => RendererOptions<TresObject, TresObject | null> = () 
       else if (instance.isBufferGeometry) instance.attach = 'geometry'
     }
 
-    const existingState = tresLocalState.get(instance) || {};
-      tresLocalState.set(instance, {
-        ...existingState,
-        type: name,
-        memoizedProps: props,
-        eventCount: 0,
-        disposable: true,
-        primitive: tag === 'primitive',
-    });
+    const existingState = tresLocalState.get(instance) || {}
+    tresLocalState.set(instance, {
+      ...existingState,
+      type: name,
+      memoizedProps: props,
+      eventCount: 0,
+      disposable: true,
+      primitive: tag === 'primitive',
+    })
 
     // determine whether the material was passed via prop to
     // prevent it's disposal when node is removed later in it's lifecycle
@@ -104,16 +104,16 @@ export const nodeOps: () => RendererOptions<TresObject, TresObject | null> = () 
       scene = parent as unknown as TresScene
     }
 
-    const childLocalState = tresLocalState.get(child) || {};
+    const childLocalState = tresLocalState.get(child) || {}
 
     if (scene) {
-     childLocalState.root = scene.__tres.root as TresContext
+      childLocalState.root = scene.__tres.root as TresContext
     }
 
     const parentObject = parent || scene
     
     if (child?.isObject3D) {
-      const { registerCamera, registerObjectAtPointerEventHandler } =childLocalState.root
+      const { registerCamera, registerObjectAtPointerEventHandler } = childLocalState.root
       if (child?.isCamera) {
         registerCamera(child as unknown as Camera)
       }
