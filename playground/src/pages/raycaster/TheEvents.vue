@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { ThreeEvent, TresCanvas } from '@tresjs/core'
+import type { ThreeEvent } from '@tresjs/core'
+import { TresCanvas } from '@tresjs/core'
 import { BasicShadowMap, SRGBColorSpace, NoToneMapping } from 'three'
-import { TresLeches, useControls } from '@tresjs/leches';
+import { TresLeches, useControls } from '@tresjs/leches'
 import { OrbitControls } from '@tresjs/cientos'
 import '@tresjs/leches/styles'
-import { func } from 'three/examples/jsm/nodes/Nodes.js';
 
 const gl = {
   clearColor: '#202020',
@@ -38,7 +38,7 @@ function onPointerEnter(ev: ThreeEvent<MouseEvent>) {
 
 function onPointerLeave(ev: ThreeEvent<MouseEvent>) {
   if (stopPropagation.value) ev.stopPropagation()
-    /*  ev.object.material.color.set('#efefef') */
+  /*  ev.object.material.color.set('#efefef') */
 }
 
 function onPointerMove(ev: ThreeEvent<MouseEvent>) {
@@ -55,7 +55,6 @@ function onPointerMissed(ev: ThreeEvent<MouseEvent>) {
   console.log('pointer-missed', ev)
   if (stopPropagation.value) ev.stopPropagation()
 }
-
 </script>
 
 <template>
