@@ -1,6 +1,6 @@
 import type { DefaultTheme, LocaleSpecificConfig } from 'vitepress'
 
-export const enConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
+export const nlConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
   themeConfig: {
     editLink: {
       pattern: 'https://github.com/tresjs/tres/edit/main/packages/docs/:path',
