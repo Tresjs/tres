@@ -1,6 +1,6 @@
 ---
 title: OrbitControls
-description: How to use OrbitControls to interact with the scene.
+description: Hoe u OrbitControls kunt gebruiken om met de scène te communiceren.
 author: alvarosabu
 thumbnail: /recipes/orbit-controls.png
 difficulty: 1
@@ -10,25 +10,25 @@ difficulty: 1
 
 <SandboxDemo url="https://play.tresjs.org/#eNqVVU1z2zYQ/Ss78nR0KEVSlp1JWaejWk7TdmInY+kW5gCRMAkbBDAAKFnj0X/PAhAlyvlydBJ23z7svl0snwYLTc3fSsWrlg6ywYUpNFMWDLWtAk5E9SYfWJMP/soFa5TUFp7gkhhWzGtSyvU1URHMb99dziSXeq5IQSO4kQspKLoUExVs4U7LBoa21pQO/+zxuKtnRKyI2YOmFm33JimkPsZ+0EtmZ1JYLbmJYEEf7eTq6zBGhZXGRSZJiIFiFwTLDWAUFSVmlYtcoMNYqDi8gadcABScEu3ryGB48vr06nJ2Poycx/haTQZWt9RbCFc1yeCOcBMMAYI1LzaKZs8lcgjZWtViCZ1O2XPdHMgehMuOdUT3Fsu6SEKHsB94sLRRnFiKJ4CLnp6r0ZKJEntXcd87wJ/3f6TaKFpYtqIz0lBNIFPSMMukQPSnswgmEfzxOR9A0oUdSX8wz1skEibcHfh9U7ojHDOnEYwjSJH5ALAYgL4ZZ8UD3AzhSpOq77/DS9FfW6tMliSarOOK2bpdtoZq11fsdlzIJnGVYfuJwbk1SUOYSFysSf5hmsxkSW9p1XKi43sjBdbWXbHPfafONTX1jdQN4deoqmaE7+tFRBIK7ARIningGa6YdupKQfh7VtX2KxFOIzhz8mbMpY+uDTrG8SmaCmLsKAzSQWZH+k6z8l/KFdU7O6ay7zUaLpLeIODR2A13f2vbcJybpSw3YcQboismMkhxkgAUKd1b6I41dQlnME7T37xhzUpb78/bXJzgKAain2ABlqR4qLRsRTkqwpM6SVN3D9LgDPsEB9EgvO9RQ5RvDW4gT5/vHLh4snChs/WXg3McJqMoBcaXlLOVjgW1iVBN0odPJ/F5nCYlMzZxZkTnA//ijojD+vgV7hCB9K/69Dvz8S12TcmDIuIlue+x07M4jcc75s4YN8zF9Lndcn0Jr8NNkfH8Neb7OzVNXwb8BuDLerG+Pfh0nHqBcenQx7g5VneHw8nWtPwF4hDwI2oEjkrasBeQdlBX/Fn8KuFs2ad0jDiaW5xJa3C13LHq2UTinlGMU/1Budd8PJmEc7n+39v2nwgfU9Pi4Rv2e/MYUv6Iw0L1CuU+tBLfKLXB/XZ+gyun52xk2fJdc77jvKVG8tblGGCX+AYx7R7OZ/uff2D4/Bfmrfsqmq6oo0Qtfs289VO3BfezFgyfvXAe79sx+4FKh8om8WQv+PYLbBTQQA==" />
 
-[OrbitControls](https://threejs.org/docs/index.html?q=orbit#examples/en/controls/OrbitControls) is a camera controller that allows you to orbit around a target. It's a great way to explore your scene.
+[OrbitControls](https://threejs.org/docs/index.html?q=orbit#examples/en/controls/OrbitControls) is een cameracontroller waarmee je rond een doel kunt cirkelen. Het is een geweldige manier om je scène te verkennen.
 
-However, it is not part of the core of ThreeJS. So to use it you would need to import it from the `three/addons/controls/OrbitControls` module.
+Het maakt echter geen deel uit van de kern van ThreeJS. Om het te gebruiken moet je het dus importeren vanuit de module `three/addons/controls/OrbitControls`.
 
-This creates a problem because **TresJS** automatically creates a catalog of the core of Three so you can use them as components.
+Dit levert een probleem op omdat **TresJS** automatisch een catalogus van de kern van Three maakt, zodat u deze als componenten kunt gebruiken.
 
-Fortunately, **TresJS** provides a way to extend the catalog of components. You can do it by using the `extend` method from the core library.
+Gelukkig biedt **TresJS** een manier om de catalogus met componenten uit te breiden. U kunt dit doen door de `extend`-methode uit de kernbibliotheek te gebruiken.
 
-For more information about extending your TresJS catalog, refer to the [extending](/advanced/extending.md) section.
+Voor meer informatie over het uitbreiden van uw TresJS-catalogus raadpleegt u de sectie [extending](/nl/advanced/extending.md).
 
-## Using OrbitControls
+## OrbitControls gebruiken
 
-To use `OrbitControls` you need to import it from the `three/addons/controls/OrbitControls` module.
+Om `OrbitControls` te gebruiken moet je die importeren via de `three/addons/controls/OrbitControls` module.
 
 ```js
 import { OrbitControls } from 'three/addons/controls/OrbitControls'
 ```
 
-Then you need to extend the catalogue of components using the `extend` method.
+Vervolgens moet u de catalogus met componenten uitbreiden met behulp van de `extend` methode.
 
 ```js
 import { extend } from '@tresjs/core'
@@ -37,7 +37,7 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls'
 extend({ OrbitControls })
 ```
 
-Now you can use the `TresOrbitControls` component in your scene.
+Nu kun je de `TresOrbitControls` component gebruiken in je scene.
 
 ::: code-group
 
@@ -51,10 +51,10 @@ Now you can use the `TresOrbitControls` component in your scene.
 ```
 :::
 
-Since [OrbitControls](https://threejs.org/docs/index.html?q=orbit#examples/en/controls/OrbitControls) needs a reference to the camera and the renderer. You need to pass those as arguments. You can use the [useTresContext](/api/composables#usetrescontext) composable to get the camera and the renderer.
+Omdat [OrbitControls](https://threejs.org/docs/index.html?q=orbit#examples/en/controls/OrbitControls) een verwijzing naar de camera en de renderer nodig heeft. Moet je die als argumenten doorgeven.U kunt de composable [useTresContext](/api/composables#usetrescontext) gebruiken om de camera en de renderer op te halen.
 
 ::: warning
-`useTresContext` can be only be used inside of a `TresCanvas` since `TresCanvas` acts as the provider for the context data. Thats why we created a subcomponent called `OrbitControls.vue`. See more about [context](/api/composables#usetrescontext).
+`useTresContext` kan alleen binnen een `TresCanvas` worden gebruikt, omdat `TresCanvas` fungeert als de provider voor de context data. Daarom hebben we een subcomponent gemaakt met de naam `OrbitControls.vue`. Zie meer over [context](/nl/api/composables#usetrescontext).
 :::
 
 ```ts
@@ -63,7 +63,7 @@ import { useTresContext } from '@tresjs/core'
 const { camera, renderer } = useTresContext()
 ```
 
-So the final code would be something like this:
+Dus de eindcode word zoiets als:
 
 ::: code-group
 
@@ -105,12 +105,12 @@ import OrbitControls from './OrbitControls.vue'
 :::
 
 
-## OrbitControls from `cientos`
+## OrbitControls van `cientos`
 
-Here is where the fancy part begins. ✨  
-The `cientos` package provides a component called `<OrbitControls />` which is a wrapper of the `OrbitControls` from the [`three-stdlib`](https://github.com/pmndrs/three-stdlib) module.
+Hier begint het fancy gedeelte. ✨  
+De `cientos` package bied ons de component `<OrbitControls />` wat een wrapper van de `OrbitControls` is van de [`three-stdlib`](https://github.com/pmndrs/three-stdlib) module.
 
-The nicest part? You don't need to extend the catalog or pass any arguments.  
+Het beste gedeelte? Je hoeft de catalogus niet te extenden of arguments door te geven.  
 It just works. 💯
 
 ```vue {3,12}

@@ -1,23 +1,23 @@
 # Shaders
 
-This guide will help you get started with shaders in TresJS.
+Deze handleiding helpt u aan de slag te gaan met shaders in TresJS.
 
-We will build a simple scene with a blob. We will then animate the blob to softly distorted it.
+We zullen een eenvoudige scène bouwen met een blob. Vervolgens zullen we de blob animeren om deze zachtjes te vervormen.
 
 ::: warning
-_Basic knowledge of how shaders work is necessary_
+_Basis kennis over hoe shaders werken is noodzakelijk_
 :::
 
 <SandboxDemo url="https://play.tresjs.org/#eNqVVltv2zYU/iuE91BntSU7cYrBS4q0QTt0WNcgyfZSFxsjH9tMJVIjKdle4P++j9TFVJMU3oMDndvH71x4mIferSbzJs+jsqDetHdmEi1yywzZImcpl8vzWc+aWe/1TIosV9qyB2ZWPE3V+poWbMcWWmXsBaJf/By4ONRLLktuBqwwdE1yTvo3pfI24sLC5d7EidLd0E/6TthLJa1WqXnsLkhaZToRf1JilT5ufe1KE72YyZlMlDSW3aXqzpE9D5j3ZZGmR0BpnAopFkpnBl4PM8lYcSsymgK95GmBjxHbDbz+TZanwhbz0Chp3bDoj6LxgOHPURPwXtM/Bclk+0zA8WjATivv3Z5PSdrS5mbFUThw+nsma4awJMcBDeTQtbTnBZZFqjhydDn5nEuut0Iuq4jyj7JSKjFnGReyf1TVgDn7hGVqTumVMsIKJcHFyx+51WLDfvQu/by2Dtg4GrmyuuBOXLRlL9EAgHfVDmJPGeKwonnk9G2S0eZJzI3DTJT5BnPbxdw+g+kKFKRZCloHWTqxTbKDX1NZpn8F7rlW92gohH1lAsA6BqWGb+HqjV6jqU27F5ovM4x22PBcUyKMg89oLoosr9qI2EPbB4rvAXypUuUwfavQoIGLibZuTE/bjlV8KjYPTMn6toJteH/71Z2pzP3+A0NdLB8wSnluaM52R+z8dX28WLB+ffciP/ctr442yrglLXgaNXcw8t2qrCBQY7tQkNw5BmdxtaiwliBYQk8BAomxs/3uYUlKXA8Tlz722A/j8XjWc0tgrtaG8TRfcbYWEtLQiH+rcAB0N1DcqB3uFWmTuzaXdMkz0pxNm9HHAZ/HuPrV7wsOmi5UCe3k1H1zHwfRUZhK8MI31oT388J4NBpB6pz3kcyKaVrAXNfM+YdHopkTNBLn1XF15E2+Ik2/kMrI6i3O10vj/I8H7MT/HMPmrCbGDx/m17eDTcMdhNhQ9LQ7MwuHrsK5NB2FsfkMU4ybHH0fu1lPtbK8yXIIUqvo6gOLGcgj58cJX+G1eiLfMZz3vyeSdoe95UYkbd7tvEwmk+fYNmI1aFCcxcEU9ga96nUaZjyP7o2SeFv97M9qA8qA56ACnvXCx9AZZr2VtbmZxnEyl4jHJROljiTZWOZZHLpfnESn0SieC2Njp4b3rOcfng5w9Wz+H+wqAvCvQvha3T3Frol/zVH+A/Bb34tJhPGvkRtllAkXE2K7x/wQXOd3AcTTn8D3JZksLAP+P8EaO7i+gfvFGEsSiFgTtImybnVrP2wUjf10OHAV8D1oOA7nlIkDQBtXl/wkehWn4i6EbNYmZtIarPeFWH4zkYnKcpGS/pS769adTP//0q9eZ3VBLb9kRcnXJ/T3ZlNRvsKwkC5R7n0rcSfJVuZ3N7/TBt+tES9skdbNecZ4TUalheNYub0t5By0Az/P9oO/YHgeb827jSXpXtDHRO02J6/93GyDdtYqxRdfOO/v23H5nSrtMzuJTtqC7/4DVvHLxg==" />
 
-## Setting up the scene (optional)
+## De scene opzetten (optoneel)
 
-We import all the modules that we need. To make it more convenient we will import and use the orbit-controls from cientos,
-[look here to see how](/cookbook/orbit-controls).
+We importeren alle modules die we nodig hebben. Om het gemakkelijker te maken zullen we de orbit-controls van cientos importeren en gebruiken,
+[kijk hier om te zien hoe](/nl/cookbook/orbit-controls).
 
-Now, let's put our camera in the `[11,11,11]` position.
+Laten we nu onze camera in de `[11,11,11]` positie plaatsen.
 
-Lastly just to help us with the location, let's add a simple plane, rotated in the X axis, with `[10, 10]` units.
+Om ons ten slotte te helpen met de locatie, voegen we een eenvoudig vlak toe, geroteerd in de X-as, met `[10, 10]` eenheden.
 
 ```vue
 <script setup lang="ts">
@@ -43,9 +43,9 @@ import { OrbitControls } from '@tresjs/cientos'
 
 ## ShaderMaterial
 
-As you know every instance in [ThreeJs](https://threejs.org/) is available in **TresJs**, so is the `ShaderMaterial`, we just need to add the `Tres` prefix to use it.
+Zoals u weet is elke instantie in [ThreeJs](https://threejs.org/) beschikbaar in **TresJs**, en dat geldt ook voor `ShaderMaterial`. We hoeven alleen maar het voorvoegsel `Tres` toe te voegen om het te gebruiken.
 
-For our blob, we could use a simple `SphereGeometry` adding some widthSegments and heightSegments to create a smooth effect, and put our blob 4 units in the Y positive axis
+Voor onze blob kunnen we een eenvoudige `SphereGeometry` gebruiken, waarbij enkele breedte- en hoogtesegmenten worden toegevoegd om een vloeiend effect te creëren, en onze blob 4 eenheden in de positieve Y-as plaatsen
 
 ```vue
 <TresMesh :position="[0, 4, 0]">
@@ -54,9 +54,9 @@ For our blob, we could use a simple `SphereGeometry` adding some widthSegments a
 </TresMesh>
 ```
 
-The `ShaderMaterial` accepts special properties, like `uniforms` `vertexShader` and `fragmentShader`, so we can create it in our script section and make the bind with our instance.
+Het `ShaderMaterial` accepteert speciale eigenschappen, zoals `uniforms` `vertexShader` en `fragmentShader`, zodat we het in onze scriptsectie kunnen maken en de binding met onze instantie kunnen maken.
 
-For this example, our uniforms look like this:
+Voor dit voorbeeld zien onze uniformen er als volgt uit:
 
 ```ts
 import { Vector2 } from 'three'
@@ -70,7 +70,7 @@ const uniforms = {
 //..
 ```
 
-Our fragment shader looks like this:
+Onze fragment shader ziet er als volgt uit:
 
 ```ts
 //...
@@ -85,7 +85,7 @@ void main() {
 //..
 ```
 
-And lastly our vertexShader:
+En tot slot onze vertexShader:
 
 ```ts
 const vertexShader = `
@@ -108,9 +108,9 @@ void main() {
 //..
 ```
 
-## Animating the blob
+## De blob animeren
 
-Similar to what we learn in the [Basic animations](/cookbook/basic-animations) example, we start by referencing our blob, using [Template Ref](https://vuejs.org/guide/essentials/template-refs.html)
+Vergelijkbaar met wat we leren in het voorbeeld van [Basic Animations](/nl/cookbook/basic-animations), beginnen we met het verwijzen naar onze blob, met behulp van [Template Ref](https://vuejs.org/guide/essentials/template-refs.html)
 
 ```vue
 <script setup lang="ts">
@@ -139,7 +139,7 @@ const blobRef = shallowRef(null)
   </TresCanvas>
 </template>
 ```
- Once we have got that, we could use the `onLoop` callback to animate our `uTime`.
+Zodra we dat hebben, kunnen we de `onLoop` callback gebruiken om onze `uTime` te animeren.
 
  ```ts
 import { TresCanvas, useRenderLoop } from '@tresjs/core'
@@ -155,15 +155,15 @@ onLoop(({ elapsed }) => {
  //...
 ```
 
-And that's it, we have our basic shader running smoothly. 🎉
+En dat is alles, onze basisshader werkt soepel. 🎉
 
-## Using GLSL vite-pluging (optional)
+## Gebruik van GLSL vite-pluging (optioneel)
 
-_This step is completly optional and is out of the scope of the **TresJs** team_
+_Deze stap is volledig optioneel en uit scope van het **TresJs** team_
 
-Defining our shader inline is not always the best idea, but if you're using [vite](https://vitejs.dev/) you can put your `GLSL` files in a different file just by using the [vite-plugin-glsl](https://www.npmjs.com/package/vite-plugin-glsl) (check out the link for the official documentation).
+Het inline definiëren van onze shader is niet altijd het beste idee, maar als u [vite](https://vitejs.dev/) gebruikt, kunt u uw `GLSL`-bestanden in een ander bestand plaatsen door gewoon de [vite-plugin-glsl](https://www.npmjs.com/package/vite-plugin-glsl) (bekijk de link voor de officiële documentatie).
 
-And you could have a structure similar to this:
+En je zou een structuur kunnen hebben die er ongeveer zo uitziet:
 
 ```
 ├── src/

@@ -1,26 +1,27 @@
 ---
-title: Lights and Shadows
-description: Learn how to add lights and shadows to your scene.
+title: Lichten en schaduwen
+description: Leer hoe u licht en schaduw aan uw scène kunt toevoegen.
 author: alvarosabu
 thumbnail: /recipes/lights-and-shadows.png
 difficulty: 0
 ---
 
-# Light-shadows
+# Light-schaduwen
 
-This guide will help you get started with simple light and shadows in TresJS.
+Deze gids helpt u aan de slag te gaan met eenvoudig licht en schaduwen in TresJS.
 
-We will build a simple scene with three meshes and a plane but only two will have shadows.
+We zullen een eenvoudige scène bouwen met drie meshes en een vlak, maar slechts twee zullen schaduwen hebben.
+
 <SandboxDemo url="https://play.tresjs.org/#eNqVVt1y2jwQfRUN30WSKdimhLbjL3Qo9GfaadpM4K7uhbAXUGpLGkn8pJm8e1eSDXZCMmRCGGv37NHZ1XrFXWuqQH+QMlivoBW3LnSqmDREg1lJklO+GCQto5PW+4SzQgplyB3RS5rnYnMNc3JP5koU5ASjT/6vQSzrmPI11W2y0nANPAP1XQhZBQwNIm50mArVjPypZsyMBTdK5HrHv4Mz4EboRsSIapZOljQTm0sq22Ry/WU0FrlQE0lTaJMfYio4oEsyvtgxmqUCOEl4wlPBtSGLnAzIXcIJSXOgyhHE5OS/d68/jsb9k7b1YOK4iY6JUStwFprLJY3JnObaGzwEN5veSogfarMIsTJyhRlWAuOHgi3I7BXHzQTQfb9XPRNbewyD2pmcnu3dd0RwW3XMetA8B4/y3tPTMzJ475Nn81PPGaxpvoIzZ6xbAiUMNUzw4Ja8GpAoiLoWgpruHWXCL0LfRNgyuDBQyJwawBUhF/u+IOvOjPEM22uRJy2ywWex6Wj21yMR2+yEsDJbiitQWkJq2BrGtABFSSyFZlYWEv7qt8nbwH/9Ru54LtZoPu/bZ+oCcdm1K45Hjc9R4FZzt+hGUYSrxoaXoJfNPTqv2wQ/kdugqol1RG1ySc0yuPrqvSVNlTye5BcQBRh1i2LUQtuYbpt0reCeZas2rm09FYIjKShGc5LaVsGosjXrUsMq4JF2BXMM8QeJESnVpuN7tZkWqrefR7pHYntAttVcfb1I+vln+3ec9LrWplisvz2Gx2oncglqX+ejZX0ejaLe6NiKpoD991QVO71DzdEpW4OErnkOab/CqXuoRRC8/3+i2BNDeUZV9jiz+Vv791Rmtdw+FDM7Y7+zxdKQmHEDHPO6LV+YxkvxkWENbGY09/Dnumr3rhym9HL8aEDDRVibG612yw/7TkFlcKMFx5vKDaakdOAFFfv5ZW31u8U6ktbSGKnjMEwzjvEZ5GytAg4m5LII6/BhL+gHUZgxbUJrRnTSchO5QexvoZdw+wikf1OnL83NXcwG6B+JTXAE/w47PA9wiJXMlTEomI2pc9tb7xheixsiY/8d6n0FuqiXAW97vEyOrm8NPuxGrsA47WEbFM3qljhsIAXZC4h9wHPUCOxkULAjSCuoTf48eBPmbFanrO467Emj8ZKds8WDjkxFIVkO6qe03d/sTHdHf3O23U8IF7OE9M8B+43eeslX2Cyg1lju/VHiZADj3Z8mP2CLzztnIbJVXh7OE85r0CJfWY0eNlrxDGXXcE7tV/eC4Q+Pqf60dW9umVRDqMFfO876q5pJu17zht+ucA7vjmP8TJX2mfWC3q7g9/8AWlN6bg==" />
 
-## Setting up the scene (optional)
+## De scene opzetten (optioneel)
 
-We import all the modules that we need, for comfort we can use the orbit-controls from cientos,
-[check here to know how](/cookbook/orbit-controls).
+We importeren alle modules die we nodig hebben, voor het comfort kunnen we de orbit-controls van cientos gebruiken,
+[kijk hier om te weten hoe](/cookbook/orbit-controls).
 
-Let's put four objects in our scene, one will be the plane that receive shadows, two of them will cast shadows and the last one will not cast any shadow at all.
+Laten we vier objecten in onze scène plaatsen, één zal het vlak zijn dat schaduwen ontvangt, twee ervan zullen schaduwen werpen en de laatste zal helemaal geen schaduw werpen.
 
-I'm going to use [MeshToonMaterial](https://threejs.org/docs/index.html?q=toon#api/en/materials/MeshToonMaterial). Simply because we can see the "soft shadow" easily.
+Ik ga [MeshToonMaterial](https://threejs.org/docs/index.html?q=toon#api/en/materials/MeshToonMaterial) gebruiken. Simpelweg omdat we de ‘zachte schaduw’ gemakkelijk kunnen zien.
 
 ```vue
 <script setup lang="ts">
@@ -66,27 +67,27 @@ import { OrbitControls } from '@tresjs/cientos'
 </template>
 ```
 
-## Lights (explanation)
+## Lichten (uitleg)
 
-As you know every instance in [ThreeJs](https://threejs.org/) is available in **TresJs** so are all the light types, we just need to add the `Tres` prefix to use them.
+Zoals u weet is elke instantie in [ThreeJs](https://threejs.org/) beschikbaar in **TresJs**, en dat geldt ook voor alle lichttypen. We hoeven alleen maar het voorvoegsel `Tres` toe te voegen om ze te gebruiken.
 
-But not all lights can cast shadows, this definition comes directly from ThreeJs and makes sense, for example the purpose of an [ambientLight](https://threejs.org/docs/index.html?q=ambient#api/en/lights/AmbientLight) is to iluminate everysingle side of your scene, so it makes no sense for it to cast shadows, on the contrary, a [DirectionalLight](https://threejs.org/docs/index.html?q=light#api/en/helpers/DirectionalLightHelper) immitating the sun can and should cast shadows.
+Maar niet alle lichten kunnen schaduwen werpen, deze definitie komt rechtstreeks van ThreeJs en is logisch, bijvoorbeeld het doel van een [ambientLight](https://threejs.org/docs/index.html?q=ambient#api/en/lights/AmbientLight) is bedoeld om elke kant van uw scène te verlichten, dus het heeft geen zin om schaduwen te werpen, integendeel, een [DirectionalLight](https://threejs.org/docs/index.html?q=light#api/en/helpers/DirectionalLightHelper) het imiteren van de zon kan en moet schaduwen werpen.
 
-## Shadows (explanation)
+## Schaduwen (uitleg)
 
-There are also many types of shadows, for example the "soft shadow" is generated automatially when an object receives more light from one side, but in summary a "ThreeJS default shadow" that is directed towards another surface needs to be cast by a mesh and another mesh needs to receive it. As we see in our example, the `Plane` is receiving a shadow but not casting it. Please note that not all materials can cast or receive shadows.
+Er zijn ook veel soorten schaduwen, de "zachte schaduw" wordt bijvoorbeeld automatisch gegenereerd wanneer een object meer licht van één kant ontvangt, maar kort samengevat moet een "ThreeJS-standaardschaduw" die naar een ander oppervlak is gericht, door een mesh worden geworpen en een ander mesh moet het ontvangen. Zoals we in ons voorbeeld zien, ontvangt het `Plane` een schaduw, maar werpt deze niet. Houd er rekening mee dat niet alle materialen schaduw kunnen werpen of ontvangen.
 
-Internally, ThreeJS automatically generates a new mesh with a [ShadowMaterial](https://threejs.org/docs/index.html?q=shado#api/en/materials/ShadowMaterial) which gets updated in each frame, that is why if you apply animations, the shadow also is animated, but also why you have to use shadows carefully, because they could slow your performance down.
+Intern genereert ThreeJS automatisch een nieuwe mesh met een [ShadowMaterial](https://threejs.org/docs/index.html?q=shado#api/en/materials/ShadowMaterial) die in elk frame wordt bijgewerkt, daarom als je animaties toepast, wordt de schaduw ook geanimeerd, maar ook waarom je schaduwen zorgvuldig moet gebruiken, omdat ze je prestaties kunnen vertragen.
 
 ::: warning
-The overuse of shadows in this way could drop your performance. However, there are ways to increase your performance, for more information please check out [this video](https://youtu.be/WGNvVGrS0kY?si=q7XyL5eABKUh3gbS&t=1256)
+Als u op deze manier overmatig gebruik maakt van schaduwen, kunnen uw prestaties afnemen. Er zijn echter manieren om uw prestaties te verbeteren. Voor meer informatie kunt u [deze video](https://youtu.be/WGNvVGrS0kY?si=q7XyL5eABKUh3gbS&t=1256) bekijken.
 :::
 
-## Enabling shadows
+## Schaduwen aanzetten
 
-We could divide this into three steps:
+We kunnen dit verdelen in drie stappen:
 
-### Activate shadows on the renderer
+### Activeer schaduwen op de renderer
 
 ```vue
 //...
@@ -100,11 +101,11 @@ We could divide this into three steps:
   //...
 </template>
 ```
-### Set the light to cast shadows
+### Stel het licht in om schaduwen te werpen
 
-We can simply add the boolean `cast-shadow`, Vue understands this as a `prop` with a value of `true`.
+We kunnen simpel de boolean `cast-shadow` toevoegen, Vue snapt dit als een `prop` met een waarde van `true`.
 
-_The AmbientLight doesn't generate any type of shadow here_
+_Het AmbientLight genereert hier geen enkele vorm van schaduw_
 
 ```vue
 //...
@@ -120,9 +121,9 @@ _The AmbientLight doesn't generate any type of shadow here_
   //...
 </template>
 ```
-### Set the objects to cast or receive shadows
+### Stel de objecten in om schaduwen te werpen of te ontvangen
 
-Similarly to the previous step, we set the mesh that we want to cast shadow (our sphere) with the `cast-shadow` prop, and set the object to receive shadow (our plane) with the `receive-shadow` prop.
+Op dezelfde manier als in de vorige stap stellen we de mesh waarop we schaduw willen werpen (onze bol) in met de `cast-shadow` prop, en stellen we het object in om schaduw te ontvangen (ons vlak) met de `receive-shadow` prop.
 
 ```vue
 //...
@@ -147,7 +148,7 @@ Similarly to the previous step, we set the mesh that we want to cast shadow (our
 </template>
 ```
 
-Now we have all the necessary steps to add shadows to our scene, and if we apply what we learned in [basic animations](/cookbook/basic-animations), and we add movement to our cube, you will see the shadow is animated as well. 🤩
+Nu hebben we alle noodzakelijke stappen om schaduwen aan onze scène toe te voegen, en als we toepassen wat we hebben geleerd in [basisanimaties](/nl/cookbook/basic-animations), en we voegen beweging toe aan onze kubus, zul je zien dat de schaduw ook geanimeerd is. 🤩
 
 ```vue
 <script setup>
@@ -179,4 +180,4 @@ onLoop(() => {
 </template>
 ```
 
-_Note that I intentionally did not apply `cast-shadow` to the `Cone` so it doesn't cast any shadow_
+_Merk op dat ik met opzet geen `cast-shadow` heb toegepast op de `Kegel`, zodat deze geen schaduw werpt_
