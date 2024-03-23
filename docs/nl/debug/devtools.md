@@ -1,26 +1,26 @@
 # Devtools
 
-One of the most difficult things a developer faces when creating 3D experiences on the browser is debugging. The browser `canvas` is a black box, and it's hard to know what's going on inside. The imperative nature of [ThreeJS](https://threejs.org/) makes it incredibly difficult to debug, having to depend on `console.log` to see what's going on, or third party to fine-tune and inspect the scene.
+Een van de moeilijkste dingen waarmee een ontwikkelaar wordt geconfronteerd bij het maken van 3D-ervaringen in de browser, is het debuggen. Het browser `canvas` is een zwarte doos en het is moeilijk om te weten wat er binnenin gebeurt. Het imperatieve karakter van [ThreeJS](https://threejs.org/) maakt het ongelooflijk moeilijk om fouten op te sporen, omdat je afhankelijk bent van `console.log` om te zien wat er aan de hand is, of van een derde partij om de scène te verfijnen en te inspecteren.
 
-Don't make me get started with checking the performance of your scene. 😱
+Laat me niet beginnen met het controleren van de uitvoering van uw scène. 😱
 
 ![developer debugging 3D](/debug-3D.png)
 
-One of our goals with TresJS is to offer **the best DX (Developer Experience)** when dealing with 3D scenes on the browser. Thanks to the declarative nature of the ecosystem plus the variety of solutions the Vue ecosystem offers such as the Vue Devtools, Nuxt and Vite, we can offer a better tooling for devs to debug their scenes.
+Een van onze doelen met TresJS is om **de beste DX (Developer Experience)** te bieden bij het omgaan met 3D-scènes in de browser. Dankzij het declaratieve karakter van het ecosysteem plus de verscheidenheid aan oplossingen die het Vue-ecosysteem biedt, zoals de Vue Devtools, Nuxt en Vite, kunnen we ontwikkelaars een betere tool bieden om hun scènes te debuggen.
 
-## Introducing the Devtools
+## Introductie van de Devtools
 
-From <Badge text="^3.7.0" /> we are introducing the TresJS Devtools, a customized inspector tab for the [Official Vue Chrome Devtools](https://devtools.vuejs.org/guide/installation.html) that allows you to inspect your TresJS scenes and components.
+Vanaf <Badge text="^3.7.0" /> introduceren we TresJS Devtools, een aangepast infotabblad voor de [Official Vue Chrome Devtools](https://devtools.vuejs.org/guide/installation.html) Hiermee kunt u uw TresJS-scènes en componenten inspecteren.
 
 ![TresJS Devtools](/vue-chrome-devtools.png)
 
-### Features
+### Functionaliteiten
 
-- **Scene Inspector**: Inspect the current scene and its components using a tree view similar to the Vue Devtools component inspector.
-- **Memory Allocation**: See how much memory is being consumed by the components.
-- **Object Inspector**: Inspect the properties of the selected object in the scene, including its children.
-- **Editable Properties**: And yes, you can edit the properties of the selected object and see the changes in real-time.
+- **Scene Inspector**: inspecteer de huidige scène en de componenten ervan met behulp van een boomstructuur vergelijkbaar met de componentinspecteur van Vue Devtools.
+- **Memory Allocation**: zie hoeveel geheugen door de componenten wordt verbruikt.
+- **Object Inspector**: inspecteer de eigenschappen van het geselecteerde object in de scène, inclusief de onderliggende objecten.
+- **Editable Properties**: En ja, u kunt de eigenschappen van het geselecteerde object bewerken en de wijzigingen in realtime bekijken.
 
 ![](/devtools-scene-inspector.png)
 
-Enjoy the new Devtools and let us know what you think! 🎉
+Geniet van de nieuwe Devtools en laat ons weten wat je ervan vindt! 🎉

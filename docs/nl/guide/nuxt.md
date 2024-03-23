@@ -4,11 +4,11 @@
 
 <a href="https://www.npmjs.com/package/@tresjs/nuxt"><img src="https://img.shields.io/npm/v/@tresjs/nuxt/latest?color=%2382DBCA" alt="npm package"></a>
 
-A official Nuxt module for TresJS is here 🎉. 
+Een officiele Nuxt module voor TresJS is hier 🎉. 
 
-Repository is [here](https://github.com/Tresjs/nuxt)
+Repository is [hier](https://github.com/Tresjs/nuxt)
 
-## Installation
+## Installatie
 
 ::: code-group
 
@@ -26,16 +26,16 @@ yarn add three @tresjs/nuxt
 
 :::
 
-## Features
+## Functionaliteiten
 
-- 🤓 Auto-import components and composables from the [TresJS ecosystem](https://github.com/orgs/Tresjs/repositories)
-- `TresCanvas` client only, you don't need to add `.client` to the component name or `<ClientOnly />`
-- Automatically configures vue compiler to support TresJS components, see [why](/guide/troubleshooting)
-- All the DX Magic that comes with Nuxt ✨
+- 🤓 Auto-import componenten and composables van het [TresJS ecosystem](https://github.com/orgs/Tresjs/repositories)
+- `TresCanvas` client only, je hoeft niet `.client` toe te voegen aan de component naam of `<ClientOnly />`
+- Configureert automatisch de vue compiler om TresJS componenten te ondersteunen, zie [waarom](/nl/guide/troubleshooting)
+- Alle DX Magie die komt met Nuxt ✨
 
-## Usage
+## Gebruik
 
- Add `@tresjs/nuxt` to the `modules` section of `nuxt.config.ts`
+ Voeg `@tresjs/nuxt` toe aan de `modules` sectie van `nuxt.config.ts`
 
 ```js
 export default defineNuxtConfig({
@@ -43,11 +43,11 @@ export default defineNuxtConfig({
 });
 ```
 
-That's it! You can now use `@tresjs/nuxt` in your Nuxt app ✨
+Dat is alles! Je kan nu `@tresjs/nuxt` gebruiken in je Nuxt app ✨
 
-If you want to use the any package from the TresJS ecosystem, you can install the packages you want to use and they will be auto-imported by the module 🧙🏼‍♂️.
+Als u elk ander pakket uit het TresJS-ecosysteem wilt gebruiken, kunt u de pakketten die u wilt gebruiken installeren en deze worden automatisch geïmporteerd door de module 🧙🏼‍♂️.
 
-| Package                     | Version                                                                                            |
+| Package                     | Versie                                                                                            |
 | --------------------------- | :------------------------------------------------------------------------------------------------- |
 | [Cientos](https://github.com/Tresjs/cientos) | ![cientos version](https://img.shields.io/npm/v/@tresjs/cientos/latest.svg?label=%20&color=%23f19b00) |
 | [Post-processing](https://github.com/Tresjs/post-processing) | ![post-processing version](https://img.shields.io/npm/v/@tresjs/post-processing/latest.svg?label=%20&color=ff69b4) |

@@ -1,28 +1,28 @@
-# The hilarious guide of common issues and how to solve them
+# De hilarische gids van vaak voorkomende issues en hoe ze op te lossen
 
-![Troubleshooting](https://media.giphy.com/media/LHZyixOnHwDDy/giphy.gif)
+![Problemen oplossen](https://media.giphy.com/media/LHZyixOnHwDDy/giphy.gif)
 
-Welcome to **TresJS v2 troubleshooting guide**. Where 3D stands for _"Dazzlingly Delightful Difficulties"_! We know 3D can be as complex as a tangled ball of yarn 🧶 or as unpredictable as a cat on a keyboard 🐈 ⌨️ , but fear not!
+Welkom bij **TresJS v2 probleemoplossingsgids**. Waar 3D staat voor _"Dazzlingly Delightful Difficulties"_! We weten dat 3D zo complex kan zijn als een verwarde bol garen 🧶 of zo onvoorspelbaar als een kat op een toetsenbord 🐈 ⌨️, maar wees niet bang!
 
-This guide is intended to help you solve the most common issues that you might encounter when using TresJS v2.
+Deze handleiding is bedoeld om u te helpen bij het oplossen van de meest voorkomende problemen die u kunt tegenkomen bij het gebruik van TresJS v2.
 
-## I can't see my 3D scene 😭!
+## Ik kan mijn 3D scene niet zien 😭!
 
-You followed the [Getting started guide](/guide/getting-started.md) but you still can't see your scene rendered.
+Je hebt de [Getting started guide](/nl/guide/getting-started.md) gevolgd, maar nog steeds kan je je scene niet gerendered zien.
 
-These are the most common reasons why you might not be able to see your scene:
+Dit zijn de meest waarschijnlijke redenen waarom je je scene niet ziet:
 
-### Check the height of your canvas 📏
+### Controleer de hoogte van je canvas 📏
 
-Another common issue is that the `TresCanvas` component is creating by default a `canvas` element that takes the `width` and `height` of the parent element. If the parent element has no height, the canvas will have no height either.
+Een ander veelvoorkomend probleem is dat de component `TresCanvas` standaard een `canvas` element aanmaakt dat de `width` en `height` van het bovenliggende element aanneemt. Als het bovenliggende element geen hoogte heeft, heeft het canvas ook geen hoogte.
 
 ![No height found](/canvas-height.png)
 
-You will also see this error in the console:
+Je zal ook deze error in de console zien:
 
 ![Canvas height warning](/canvas-height-warning.png)
 
-A easy way to fix this is to set the height of the parent element to `100%`:
+Een gemakkelijke manier om dit te fixen is door de hoogte van de parent op `100%` te zetten:
 
 ```css
 html,
@@ -39,7 +39,7 @@ body {
 }
 ```
 
-Or you can set the `window-size` prop of the `TresCanvas` component:
+Of je kan de `window-size` prop of the `TresCanvas` component zetten:
 
 ```vue
 <TresCanvas window-size>
@@ -52,13 +52,13 @@ Or you can set the `window-size` prop of the `TresCanvas` component:
 
 ![](/failed-to-resolve-component.png)
 
-Since **TresJS v2** is using a Vue Custom Renderer inside of the main Vue App instance, the core Vue renderer that acts as parent is not going to recognize the components inside of `TresCanvas` component. Even if it doesn't affect the rendering, it will show a warning in the console.
+Omdat **TresJS v2** een custom Vue-renderer in de main Vue App gebruikt, zal de core Vue renderer die als ouder fungeert de componenten in de component `TresCanvas` niet herkennen. Zelfs als dit geen invloed heeft op de weergave, wordt er een waarschuwing weergegeven in de console.
 
 ![](/failed-to-resolve-component.png)
 
-At this moment, there is no native Vue support to define the renderer used on the `<template />` but there is a quick workaround to remove the warnings
+Op dit moment is er geen native Vue-ondersteuning om de renderer te definiëren die wordt gebruikt op de `<template />`, maar er is een snelle oplossing om de waarschuwingen te verwijderen
 
-Got to your `vite.config.ts` and add the following configuration to the `@vitejs/plugin-vue`:
+Ga naar je `vite.config.ts` en voeg de volgende configuratie toe aan `@vitejs/plugin-vue`:
 
 ```ts
 import { defineConfig } from 'vite'
@@ -68,24 +68,24 @@ import { templateCompilerOptions } from '@tresjs/core'
 export default defineConfig({
   plugins: [
     vue({
-      // Other config
+      // Andere config
       ...templateCompilerOptions,
     }),
   ],
 })
 ```
 
-This will remove the warning from the console.
+Dit zal de waarschuwing verwijderen uit de console.
 
-# Help Us Make TresJS Purr-fect! 😼
+# Help ons om TresJS Purr-fect te maken! 😼
 
-We know that even the best cat nappers occasionally make mistakes, and we need you help to make TresJS even better! If you find a bug, please open a ticket at [the
-repo](https://github.com/Tresjs/playground) and **please provide a reproduction link**.
+We weten dat zelfs de beste kattenluiers af en toe fouten maken, en we hebben jouw hulp nodig om TresJS nog beter te maken! Als je een bug vindt, open dan een ticket op [the
+repo](https://github.com/Tresjs/playground) en **geef een reproductielink op**.
 
 ::: warning
-Tickets without a reproduction link will be closed.
+Tickets zonder reproductielink worden gesloten.
 :::
 
-Our team of coding cat lovers
-will jump into action to squash those pesky bugs and improve TresJS for everyone. Together, let's make TresJS the cat's
-meow of 3D rendering in Vue!
+Ons team van coderende kattenliefhebbers
+zal in actie komen om die vervelende bugs te elimineren en TresJS voor iedereen te verbeteren. Laten we samen van TresJS de kat maken
+miauw van 3D-weergave in Vue!
