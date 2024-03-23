@@ -1,6 +1,6 @@
 # Events
 
-**TresJS** components emit pointer events when they are interacted with. This is the case for the components that represent three.js classes that derive from [THREE.Object3D](https://threejs.org/docs/index.html?q=object#api/en/core/Object3D) (like meshes, groups,...).
+**TresJS** componenten zenden pointer events uit wanneer er interactie mee is. Dit is het geval voor de componenten die three.js-klassen vertegenwoordigen die zijn afgeleid van [THREE.Object3D](https://threejs.org/docs/index.html?q=object#api/en/core/Object3D) (zoals netten, groepen,...).
 
 <StackBlitzEmbed project-id="tresjs-events" />
 
@@ -15,13 +15,13 @@
 />
 ```
 
-| Event         | fires when ...                                                                        | Event Handler Parameter Type(s)                                                                                                                                                                       |
+| Event         | wordt afgevuurd, wanneer ...                                                          | Event Handler Parameter Type(s)                                                                                                                                                                       |
 | ------------- | ------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| click         | ... the events pointerdown and pointerup fired on the same object one after the other | [Intersection](https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/types/three/src/core/Raycaster.d.ts#L16), [PointerEvent](https://developer.mozilla.org/en-US/docs/Web/API/PointerEvent) |
-| pointer-move  | ... the pointer is moving above the object                                            | [Intersection](https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/types/three/src/core/Raycaster.d.ts#L16), [PointerEvent](https://developer.mozilla.org/en-US/docs/Web/API/PointerEvent) |
-| pointer-enter | ... the pointer is entering the object                                                | [Intersection](https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/types/three/src/core/Raycaster.d.ts#L16), [PointerEvent](https://developer.mozilla.org/en-US/docs/Web/API/PointerEvent) |
-| pointer-leave | ... the pointer is leaves the object                                                  | [PointerEvent](https://developer.mozilla.org/en-US/docs/Web/API/PointerEvent)                                                                                                                         |
+| click         | ... de events pointerdown and pointerup vuurt op hetzelfde object de een na de ander | [Intersection](https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/types/three/src/core/Raycaster.d.ts#L16), [PointerEvent](https://developer.mozilla.org/en-US/docs/Web/API/PointerEvent) |
+| pointer-move  | ... de pointer hangt boven het object                                            | [Intersection](https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/types/three/src/core/Raycaster.d.ts#L16), [PointerEvent](https://developer.mozilla.org/en-US/docs/Web/API/PointerEvent) |
+| pointer-enter | ... de pointer gaat het object in                                                | [Intersection](https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/types/three/src/core/Raycaster.d.ts#L16), [PointerEvent](https://developer.mozilla.org/en-US/docs/Web/API/PointerEvent) |
+| pointer-leave | ... de pointer is uit het object aan het gaan                                                  | [PointerEvent](https://developer.mozilla.org/en-US/docs/Web/API/PointerEvent)                                                                                                                         |
 
-The returned [Intersection](https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/types/three/src/core/Raycaster.d.ts#L16) includes the [Object3D](https://threejs.org/docs/index.html?q=object#api/en/core/Object3D) that triggered the event. You can access it via `intersection.object`.
+De returned [Intersection](https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/types/three/src/core/Raycaster.d.ts#L16) bevat de [Object3D](https://threejs.org/docs/index.html?q=object#api/en/core/Object3D) die het event triggerde. Je kan het benaderen via `intersection.object`.
 
-By default, objects positioned in front of others with event handlers do not prevent those events from being triggered. This behavior can be achieved by using the prop `blocks-pointer-events`.
+Standaard voorkomen objecten die vóór anderen zijn geplaatst met event handlers niet dat deze gebeurtenissen worden geactiveerd. Dit gedrag kan worden bereikt door de prop `blocks-pointer-events` te gebruiken.

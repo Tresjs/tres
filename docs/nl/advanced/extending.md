@@ -1,16 +1,16 @@
-# Extend 🔌
+# Uitbreiden 🔌
 
-Tres offers bare bones functionality, but it's easy to add third-party elements and extend them into its internal catalogue.
+Tres biedt eenvoudige functionaliteit, maar het is eenvoudig om elementen van derden toe te voegen en deze uit te breiden naar de interne catalogus.
 
-Most of 3D experience uses `OrbitControls` which is not part of the core library. You can add it to your project by importing it from the `three/addons/controls/OrbitControls` module.
+Het grootste deel van de 3D-ervaring maakt gebruik van `OrbitControls`, wat geen deel uitmaakt van de kernbibliotheek. U kunt het aan uw project toevoegen door het te importeren vanuit de module `three/addons/controls/OrbitControls`.
 
 ```js
 import { OrbitControls } from 'three/addons/controls/OrbitControls'
 ```
 
-## Extending an element dynamically
+## Een element dynamisch uitbreiden
 
-Or you can also add it dynamically in your components:
+Of u kunt het ook dynamisch toevoegen aan uw componenten:
 
 ```vue {2,3,4,7,13,15}
 <script setup lang="ts">
@@ -18,7 +18,7 @@ import { extend } from '@tresjs/core'
 import { OrbitControls } from 'three/addons/controls/OrbitControls'
 import { TextGeometry } from 'three/addons/geometries/TextGeometry'
 
-// Add the element to the catalogue
+// Voeg het element toe aan de catalogus
 extend({ TextGeometry, OrbitControls })
 </script>
 

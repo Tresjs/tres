@@ -2,34 +2,34 @@
 layout: home
 
 title: TresJS
-titleTemplate: The solution for 3D on VueJS
+titleTemplate: De oplossing voor 3D in VueJS
 
 hero:
   name: TresJS
-  text: Bring Three to the Vue ecosystem
-  tagline: Create awesome 3D experiences with the framework you love.
+  text: Breng Three naar het Vue ecosystem
+  tagline: Bouw geweldige 3D ervaringen met het framework waar je van houdt.
   image:
     src: /hero.png
     alt: Tresjs
   actions:
     - theme: brand
-      text: Get Started
-      link: /guide/
+      text: Beginnen
+      link: /nl/guide/
     - theme: alt
-      text: Why Tres?
-      link: /guide/#motivation
+      text: Waarom Tres?
+      link: /nl/guide/#motivation
 
 features:
   - icon: 💡
-    title: Declarative
-    details: Build 3D scene as they were Vue components.
+    title: Declaratief
+    details: Bouw een 3D-scène alsof het Vue-componenten zijn.
   - icon: ⚡️
-    title: Powered by Vite
-    details: Hot Module Replacement (HMR) that stays fast regardless of app size.
+    title: Aangedreven door Vite
+    details: Hot Module Replacement (HMR) die snel blijft ongeacht de app grootte.
   - icon: 🥰
-    title: Keeps up to date
-    details: It brings all the updated features of ThreeJS right away.
+    title: Blijft up-to-date
+    details: Het biedt meteen alle bijgewerkte functies van ThreeJS.
   - icon: 🌳
-    title: Ecosystem
-    details: Extend the core functionality with packages like `cientos` and `postprocessing`. Or add your own.
+    title: Ecosysteem
+    details: Breid de kernfunctionaliteit uit met pakketten zoals `cientos` en `postprocessing`. Of voeg je eigen toe.
 ---

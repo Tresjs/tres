@@ -1,14 +1,14 @@
 # Composables
 
-Vue 3 [Composition API](https://vuejs.org/guide/extras/composition-api-faq.html#what-is-composition-api) allows you to create reusable logic that can be shared across components. It also allows you to create custom hooks that can be used in your components.
+De Composition API van Vue 3 [Composition API](https://vuejs.org/guide/extras/composition-api-faq.html#what-is-composition-api) stelt je in staat om herbruikbare logica te bouwen die met meerdere componenten gedeeld kan worden. Ook kun je custom hooks maken die je kan gebruiken in je componenten.
 
-**TresJS** takes huge advantage of this API to create a set of composable functions that can be used to create animations, interact with the scene and more. It also allows you to create more complex scenes that might not be possible using just the Vue Components (Textures, Loaders, etc.).
+**TresJS** maakt enorm gebruik van deze API om een reeks samenstelbare functies te creëren die kunnen worden gebruikt om animaties te maken, interactie te hebben met de scène en meer. Hiermee kun je ook complexere scènes maken die misschien niet mogelijk zijn met alleen de Vue-componenten (texturen, laders, enz.).
 
-The core of **TresJS** uses these composables internally, so you would be using the same API that the core uses. For instance, components that need to updated on the internal render loop use the `useRenderLoop` composable to register a callback that will be called every time the renderer updates the scene.
+De kern van **TresJS** gebruikt deze composables intern, dus u zou dezelfde API gebruiken als de kern. Componenten die moeten worden bijgewerkt op de interne renderlus, gebruiken bijvoorbeeld de `useRenderLoop` composable om een callback te registreren die elke keer wordt aangeroepen als de renderer de scène bijwerkt.
 
 ## useRenderLoop
 
-The `useRenderLoop` composable is the core of **TresJS** animations. It allows you to register a callback that will be called on native refresh rate. This is the most important composable in **TresJS**.
+De composable `useRenderLoop` is de kern van **TresJS**-animaties. Hiermee kunt u een callback registreren die wordt aangeroepen met de eigen refresh rate. Dit is de belangrijkste composable in **TresJS**.
 
 ```ts
 const { onLoop, resume } = useRenderLoop()
@@ -19,49 +19,49 @@ onLoop(({ delta, elapsed, clock }) => {
 ```
 
 ::: warning
-Be mindful of the performance implications of using this composable. It will run at every frame, so if you have a lot of logic in your callback, it might impact the performance of your app. Specially if you are updating reactive states or references.
+Houd rekening met de prestatie-implicaties van het gebruik van deze composable. Het wordt bij elk frame uitgevoerd, dus als je veel logica in je callback hebt, kan dit de prestaties van je app beïnvloeden. Vooral als u reactieve states of references bijwerkt.
 :::
 
-The `onLoop` callback receives an object with the following properties based on the [THREE clock](https://threejs.org/docs/?q=clock#api/en/core/Clock):
+De `onLoop` callback ontvangt een object met de volgende eigenshappen gebaseerd op de [THREE clock](https://threejs.org/docs/?q=clock#api/en/core/Clock):
 
-- `delta`: The delta time between the current and the last frame. This is the time in seconds since the last frame.
-- `elapsed`: The elapsed time since the start of the render loop.
+- `delta`: De deltatijd tussen het huidige en het laatste frame. Dit is de tijd in seconden sinds het laatste frame.
+- `elapsed`: De verstreken tijd sinds het begin van de render loops.
 
-This composable is based on `useRafFn` from [vueuse](https://vueuse.org/core/useRafFn/). Thanks to [@wheatjs](https://github.com/wheatjs) for the amazing contribution.
+Deze composable is gebaseerd op `useRafFn` van [vueuse](https://vueuse.org/core/useRafFn/). Met dank aan [@wheatjs](https://github.com/wheatjs) voor de geweldige bijdrage.
 
-### Before and after render
+### Voor en na de render
 
-You can also register a callback that will be called before and after the renderer updates the scene. This is useful if you add a profiler to measure the FPS for example.
+U kunt ook een callback registreren die wordt aangeroepen vóór en nadat de renderer de scène heeft bijgewerkt. Dit is handig als je een profiler toevoegt om bijvoorbeeld de FPS te meten.
 
 ```ts
 const { onBeforeLoop, onAfterLoop } = useRenderLoop()
 
 onBeforeLoop(({ delta, elapsed }) => {
-  // I will run before the renderer updates the scene
+  // Ik zal uitvoeren voordat de renderer de scène bijwerkt
   fps.begin()
 })
 
 onAfterLoop(({ delta, elapsed }) => {
-  // I will run after the renderer updates the scene
+  // Ik zal uitvoeren nadat de renderer de scène heeft bijgewerkt
   fps.end()
 })
 ```
 
-### Pause and resume
+### Pauzeren en doorgaan
 
-You can pause and resume the render loop using the exposed `pause` and `resume` methods.
+U kunt de weergavelus pauzeren en hervatten met behulp van de blootgestelde methoden `pause` en `resume`.
 
 ```ts
 const { pause, resume } = useRenderLoop()
 
-// Pause the render loop
+// Pauzeer de render loop
 pause()
 
-// Resume the render loop
+// Hervat de render loop
 resume()
 ```
 
-Also you can get the active state of the render loop using the `isActive` property.
+U kunt ook de actieve status van de render loop verkrijgen met behulp van de eigenschap `isActive`.
 
 ```ts
 const { resume, isActive } = useRenderLoop()
@@ -75,7 +75,7 @@ console.log(isActive) // true
 
 ## useLoader
 
-The `useLoader` composable allows you to load assets using the [THREE.js loaders](https://threejs.org/docs/#manual/en/introduction/Loading-3D-models). It returns a promise with loaded asset.
+De `useLoader` composable stelt je in staat assets the laden met behulp van de [THREE.js loaders](https://threejs.org/docs/#manual/en/introduction/Loading-3D-models). Het returned een promise met geladen asset.
 
 ```ts
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader'
@@ -83,7 +83,7 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader'
 const { scene } = await useLoader(THREE.GLTFLoader, 'path/to/asset.gltf')
 ```
 
-Since the `useLoader` composable returns a promise, you can use it with `async/await` or `then/catch`. If you are using it on a component make sure you wrap it with a `Suspense` component. See [Suspense](https://vuejs.org/guide/built-ins/suspense.html#suspense) for more information.
+Omdat de `useLoader` composable een promise returned, kun je deze gebruiken met `async/await` or `then/catch`. Als je het op een component gebruikt, zorg er dan voor dat je er een `Suspense` component omheen zet. Zie [Suspense](https://vuejs.org/guide/built-ins/suspense.html#suspense) voor meer informatie.
 
 ```vue
 <template>
@@ -95,24 +95,24 @@ Since the `useLoader` composable returns a promise, you can use it with `async/a
 
 ## useTexture
 
-The `useTexture` composable allows you to load textures using the [THREE.js texture loader](https://threejs.org/docs/#api/en/loaders/TextureLoader). It returns a promise with the loaded texture(s).
+De  `useTexture` composable stelt je in staat om textures te laden met behulp van de [THREE.js texture loader](https://threejs.org/docs/#api/en/loaders/TextureLoader). Het returned een promise met de geladen texture(s).
 
 ```ts
 const texture = await useTexture(['path/to/texture.png'])
 ```
 
-**useTexture** also accepts an object with the following properties:
+**useTexture** accepteert ook een object met de volgende eigenschappen:
 
-- `map`: a basic texture that is applied to the surface of an object
-- `displacementMap`: a texture that is used to add bumps or indentations to the object's surface
-- `normalMap`: a texture that is used to add surface detail to and variations in shading to the object
-- `roughnessMap`: a texture that is used to add roughness or a matte finish to the object's surface
-- `metalnessMap`: a texture that is used to add a metallic effect to the object's surface
-- `aoMap`: a texture that is used to add ambient occlusion (shading in areas where light is blocked by other objects) to the object.
-- `alphaMap`: a texture that is used to add alpha (the black part render as transparent) to the object. It's necessary to set :trasparent="true" on the material to use this map
-- `matcap`: this textures encodes the material color and shading.
+- `map`: een basistextuur die op het oppervlak van een object wordt aangebracht
+- `displacementMap`: een textuur die wordt gebruikt om hobbels of inkepingen aan het oppervlak van het object toe te voegen
+- `normalMap`: een textuur die wordt gebruikt om oppervlaktedetails en variaties in schaduw aan het object toe te voegen
+- `roughnessMap`:een textuur die wordt gebruikt om ruwheid of een matte afwerking aan het oppervlak van het object toe te voegen
+- `metalnessMap`: en textuur die wordt gebruikt om een metaalachtig effect aan het oppervlak van het object toe te voegen
+- `aoMap`: een textuur die wordt gebruikt om omgevingsocclusie (schaduw in gebieden waar licht wordt geblokkeerd door andere objecten) aan het object toe te voegen.
+- `alphaMap`: een textuur die wordt gebruikt om alpha (het zwarte gedeelte wordt transparant weergegeven) aan het object toe te voegen. Het is noodzakelijk om :trasparent="true" in te stellen op het materiaal om deze kaart te gebruiken
+- `matcap`: deze textuur codeert de kleur en shading van het materiaal.
 
-In that case it will return an object with the loaded textures.
+n dat geval zal het een object returnen met de geladen texturen.
 
 ```ts
 const { map, displacementMap, normalMap, roughnessMap, metalnessMap, aoMap, alphaMap, matcap } = await useTexture({
@@ -127,7 +127,7 @@ const { map, displacementMap, normalMap, roughnessMap, metalnessMap, aoMap, alph
 })
 ```
 
-Then you can bind the textures to the material.
+Dan kun je de textures binden aan het materiaal
 
 ```vue
 <template>
@@ -148,23 +148,23 @@ Then you can bind the textures to the material.
 </template>
 ```
 
-Similar to above composable, the `useTexture` composable returns a promise, you can use it with `async/await` or `then/catch`. If you are using it on a component make sure you wrap it with a `Suspense` component.
+Vergelijkbaar met de bovenstaande composable, returned de `useTexture` composable een promise, je kunt deze gebruiken met `async/await` of `then/catch`. Als je het op een component gebruikt, zorg er dan voor dat je er een `Suspense` component omheen zet.
 
 ## useSeek
 
-The `useSeek` composable provides utilities to easily traverse and navigate through complex ThreeJS scenes and object children graphs. It exports 4 functions which allow you to find child objects based on specific properties.
+De `useSeek` composable biedt utilities waarmee u eenvoudig door complexe ThreeJS-scènes en object-child-grafieken kunt navigeren. Het exporteert vier functies waarmee u onderliggende objecten kunt vinden op basis van specifieke eigenschappen.
 
 ```ts
 const { seek, seekByName, seekAll, seekAllByName } = useSeek()
 ```
 
-The seek function accepts three parameters:
+De zoekfunctie accepteert drie parameters:
 
-- `parent`: A ThreeJS scene or Object3D.
-- `property`: The property to be used in the search condition.
-- `value`: The value of the property to match.
+- `parent`: een ThreeJS-scène of Object3D.
+- `property`: de eigenschap die moet worden gebruikt in de zoekvoorwaarde.
+- `value`: De waarde van de eigenschap die moet overeenkomen.
 
-The `seek` and `seekByName` function traverses the object and returns the child object with the specified property and value. If no child with the given property and value is found, it returns null and logs a warning.
+De functies `seek` en `seekByName` doorlopen het object en returnen het child object met de opgegeven eigenschap en waarde. Als er geen child met de opgegeven eigenschap en waarde wordt gevonden, returned het null en wordt er een waarschuwing geregistreerd.
 
 ```ts
 const carRef = ref(null)
@@ -179,7 +179,7 @@ watch(carRef, ({ model }) => {
 })
 ```
 
-Similarly, the `seekAll` and `seekAllByName` functions return an array of child objects whose property includes the given value. If no matches are found, then they return an empty array and a warning is logged.
+Op dezelfde manier returnen de functies `seekAll` en `seekAllByName` een array van child objecten waarvan de eigenschap de gegeven waarde bevat. Als er geen overeenkomsten worden gevonden, returnen ze een lege array en wordt er een waarschuwing gelogged.
 
 ```ts
 const character = ref(null)
@@ -192,7 +192,7 @@ watch(character, ({ model }) => {
 ```
 
 ## useTresContext
-This composable aims to provide access to the state model which contains multiple useful properties.
+Deze composable is om toegang te bieden tot het state model dat meerdere nuttige eigenschappen bevat.
 
 ```ts
 const { camera, renderer, camera, cameras } = useTresContext()
@@ -200,7 +200,7 @@ const { camera, renderer, camera, cameras } = useTresContext()
 ```
 
 ::: warning
-`useTresContext` can be only be used inside of a `TresCanvas` since `TresCanvas` acts as the provider for the context data. Use [the context exposed by TresCanvas](tres-canvas#exposed-public-properties) if you find yourself needing it in parent components of TresCanvas.
+`useTresContext` kan alleen gebruikt worden in een `TresCanvas` omdat `TresCanvas` werkt als de provider voor de context data. Gebruik [de context exposed door TresCanvas](tres-canvas#exposed-public-properties) als je merkt dat je het nodig hebt in parent componenten van TresCanvas.
 :::
 
 ```vue
@@ -220,17 +220,17 @@ const context = useTresContext()
 ```
 
 ### Properties of context
-| Property | Description |
+| Eigenschap | Beschrijving |
 | --- | --- |
-| **camera** | The currently active camera |
-| **cameras** | The cameras that exist in the scene |
-| **controls** | The controls of your scene |
-| **deregisterCamera** | A method to deregister a camera. This is only required if you manually create a camera. Cameras in the template are deregistered automatically. |
-| **extend** | Extends the component catalogue. See [extending](/advanced/extending) |
-| **raycaster** | The global raycaster used for pointer events |
-| **registerCamera** | A method to register a camera. This is only required if you manually create a camera. Cameras in the template are registered automatically. |
-| **renderer** | The [WebGLRenderer](https://threejs.org/docs/#api/en/renderers/WebGLRenderer) of your scene |
-| **scene** | The [scene](https://threejs.org/docs/?q=sce#api/en/scenes/Scene). |
-| **setCameraActive** | A method to set a camera active |
-| **sizes** | Contains width, height and aspect ratio of your canvas |
+| **camera** | De huidig actieve camera |
+| **cameras** | De camera's die bestaan in de scene |
+| **controls** | De controls van je scene |
+| **deregisterCamera** | Een methode om een camera af te melden. Dit is alleen nodig als u handmatig een camera aanmaakt. Camera's in de template worden automatisch afgemeld. |
+| **extend** | Breid de component calalogus uit. Zie [extending](/advanced/extending) |
+| **raycaster** | De globale raycaster gebruikt voor pointer events |
+| **registerCamera** | Een methode om een camera te registreren. Dit is alleen nodig als u handmatig een camera aanmaakt. Camera's in de template worden automatisch geregistreerd.|
+| **renderer** | De [WebGLRenderer](https://threejs.org/docs/#api/en/renderers/WebGLRenderer) van je scene |
+| **scene** | De [scene](https://threejs.org/docs/?q=sce#api/en/scenes/Scene). |
+| **setCameraActive** | Een methode om de actieve camera te zetten |
+| **sizes** | Bevat breedte, hoogte en aspect ratio van je canvas |
 

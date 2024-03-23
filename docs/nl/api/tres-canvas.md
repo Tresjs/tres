@@ -1,29 +1,29 @@
 # TresCanvas
 
-The `TresCanvas` component is the main component of Tres. It's the one that creates the ThreeJS `WebGLRenderer`.
+Het onderdeel `TresCanvas` is de core van Tres. Het is degene die de ThreeJS `WebGLRenderer` creëert.
 
 ```vue{2,5}
 <template>
   <TresCanvas shadows :output-encoding="SRGBColorSpace">
     <TresPerspectiveCamera />
-      <!-- Your scene goes here -->
+      <!-- Je scene komt hier -->
   </TresCanvas>
 </template>
 ```
 
-## Canvas size
+## Canvas grootte
 
-The `TresCanvas` component will use the parent element size as the canvas size. If you want to use the window size as the canvas size, you can set the `window-size` prop to `true`.
+De component `TresCanvas` gebruikt de grootte van het parent element als canvasgrootte. Als je de window size als canvasgrootte wilt gebruiken, kun je de `window-size` prop op `true` zetten.
 
 ```vue
 <template>
   <TresCanvas window-size>
-    <!-- Your scene goes here -->
+    <!-- Je scene komt hier -->
   </TresCanvas>
 </template>
 ```
 
-Or you can use CSS to set your canvas size.
+Of je kan CSS gebruiken om jouw canvasgrootte in te stellen.
 
 ```css
 html,
@@ -41,21 +41,21 @@ body {
 
 ## Presets
 
-Tres comes with a few presets for the `TresCanvas` component. You can use them by setting the `preset` prop.
+Tres wordt geleverd met een paar presets voor de component `TresCanvas`. Je kunt ze gebruiken door de `preset` prop in te stellen.
 
 ### Realistic
 
-The `realistic` preset makes it easy to setup the renderer for more realistic 3D scenes.
+De `realistic` preset maakt het eenvoudig om de renderer in te stellen voor meer realistische 3D-scènes.
 
 ```vue
 <template>
   <TresCanvas preset="realistic">
-    <!-- Your scene goes here -->
+    <!-- Je scene komt hier -->
   </TresCanvas>
 </template>
 ```
 
-It's equivalent to:
+Het is gelijk aan:
 
 ```ts
 renderer.shadows = true
@@ -69,36 +69,36 @@ renderer.shadowMap.type = PCFSoftShadowMap
 
 ## Props
 
-| Prop | Description | Default |
+| Prop | Beschrijving | Standaard |
 | ---- | ---- | --- |
-| **alpha** | Controls the default clear alpha value. When set to true, the value is 0. Otherwise it's 1. | false |
-| **antialias** | Whether to perform antialiasing. | `true` |
-| **camera** | A manual camera to be used by the renderer. | |
-| **clearColor** | The color the renderer will use to clear the canvas. | `#000000` |
-| **context** | This can be used to attach the renderer to an existing [RenderingContext](https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext) | |
-| **depth** | Whether the drawing buffer has a [depth buffer](https://en.wikipedia.org/wiki/Z-buffering) of at least 16 bits. | `true` |
-| **disableRender** | Disable render on requestAnimationFrame, useful for PostProcessing | `false` |
-| **failIfMajorPerformanceCaveat** | Whether the renderer creation will fail upon low performance is detected. See [WebGL spec](https://registry.khronos.org/webgl/specs/latest/1.0/#5.2) for details. | `false` |
-| **logarithmicDepthBuffer** | Whether to use a logarithmic depth buffer. It may be necessary to use this if dealing with huge differences in scale in a single scene. Note that this setting uses gl_FragDepth if available which disables the [Early Fragment Test](https://www.khronos.org/opengl/wiki/Early_Fragment_Test) optimization and can cause a decrease in performance. | `false` |
-| **outputColorSpace** | Defines the output encoding | `LinearEncoding` |
-| **powerPreference** | Provides a hint to the user agent indicating what configuration of GPU is suitable for this WebGL context. Can be "high-performance", "low-power" or "default". | `default` |
-| **precision** | Shader precision. Can be "highp", "mediump" or "lowp". | "highp" if supported by the device |
-| **premultipliedAlpha** | Whether the renderer will assume that colors have [premultiplied alpha](https://en.wikipedia.org/wiki/Glossary_of_computer_graphics#premultiplied_alpha). | `true` |
-| **preserveDrawingBuffer** | Whether to preserve the buffers until manually cleared or overwritten.. | `false` |
-| **shadows** | Enable shadows in the renderer | `false` |
-| **shadowMapType** | Set the shadow map type | `PCFSoftShadowMap` |
-| **stencil** | Whether the drawing buffer has a [stencil buffer](https://en.wikipedia.org/wiki/Stencil_buffer) of at least 8 bits. | `true` |
-| **toneMapping** | Defines the tone mapping exposure used by the renderer. | `NoToneMapping` |
-| **toneMappingExposure** | Exposure level of tone mapping. | `1` |
-| **useLegacyLights** | Whether to use the legacy lighting mode or not | `true` |
-| **windowSize** | Whether to use the window size as the canvas size or the parent element. | `false` |
+| **alpha** | Beheert de standaardwaarde voor duidelijke alfa. Wanneer ingesteld op true, is de waarde 0. Anders is het 1. | false |
+| **antialias** |Of anti-aliasing moet worden uitgevoerd. | `true` |
+| **camera** | Een handmatige camera die door de renderer moet worden gebruikt. | |
+| **clearColor** | De kleur die de renderer gebruikt om het canvas leeg te maken. | `#000000` |
+| **context** | Dit kan worden gebruikt om de renderer aan een bestaand [RenderingContext](https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext) te koppelen | |
+| **depth** | Of de drawing buffer een [depth buffer](https://en.wikipedia.org/wiki/Z-buffering) heeft van tenminste 16 bits. | `true` |
+| **disableRender** | Blokkeer render op requestAnimationFrame, handig voor PostProcessing | `false` |
+| **failIfMajorPerformanceCaveat** | Er wordt gedetecteerd of het maken van de renderer zal mislukken bij lage prestaties. Zie [WebGL spec](https://registry.khronos.org/webgl/specs/latest/1.0/#5.2) for details. | `false` |
+| **logarithmicDepthBuffer** | Of de logarithmic depth buffer gebruikt moet worden. Het kan zijn dat dit noodzakelijk is als je te maken hebt met flinke verschillen in scale in een enkele scene. Merk op dat deze setting gebruik maakt van gl_FragDepth wanneer deze beschikbaar is en deze schakelt [Early Fragment Test](https://www.khronos.org/opengl/wiki/Early_Fragment_Test) uit en kan een verlies in prestaties veroorzaken. | `false` |
+| **outputColorSpace** | Definieert de uitvoercodering | `LinearEncoding` |
+| **powerPreference** | Geeft een hint aan de user-agent die aangeeft welke configuratie van GPU geschikt is voor deze WebGL-context. Kan "high-performance", "low-power" or "default" zijn. | `default` |
+| **precision** | Shader presisie. Kan "highp", "mediump" or "lowp" zijn. | "highp" als deze is ondersteund door het apparaat |
+| **premultipliedAlpha** | Of de renderer ervan uitgaat dat kleuren [premultiplied alpha](https://en.wikipedia.org/wiki/Glossary_of_computer_graphics#premultiplied_alpha) hebben. | `true` |
+| **preserveDrawingBuffer** | Of de buffers moeten worden behouden totdat ze handmatig worden gewist of overschreven.. | `false` |
+| **shadows** | Schakelt shadows in de renderer in | `false` |
+| **shadowMapType** | Zet de shadow map type | `PCFSoftShadowMap` |
+| **stencil** | Of de drawing buffer een [stencil buffer](https://en.wikipedia.org/wiki/Stencil_buffer) heeft van tenminste 8 bits. | `true` |
+| **toneMapping** | Definiërt de tone mapping exposure gebruikt door de renderer. | `NoToneMapping` |
+| **toneMappingExposure** | Exposure level van tone mapping. | `1` |
+| **useLegacyLights** | Of de legacy belichtingsmodus gebruikt moet worden of niet | `true` |
+| **windowSize** | Of de window grootte gebruikt moet worden als de canvas grootte of de parent element. | `false` |
 
-### Defaults
+### Standaard waardes
 
-Tres tries to be as little opinionated as possible. That's why it doesn't set almost any default value for the `TresCanvas` component. It uses the defaults from [three.js](https://threejs.org/). The only exception is the `antialias` prop. It's set to `true` by default.
+Tres probeert zo min mogelijk een mening te hebben. Dat is de reden waarom het vrijwel geen standaardwaarde voor de `TresCanvas`-component instelt. Het gebruikt de standaardinstellingen van [three.js](https://threejs.org/). De enige uitzondering is de prop `antialias`. Die is standaard ingesteld op `true`.
 
-## Exposed public properties
+## Blootgestelde public eigenschappen
 
-| Property | Description |
+| Eigenschap | Beschrijving |
 | ---- | ---- |
-| context | see [useTresContext](composables#usetrescontext) |
+| context | zie [useTresContext](composables#usetrescontext) |
