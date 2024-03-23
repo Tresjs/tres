@@ -17,7 +17,7 @@ We zullen een eenvoudige scène bouwen met drie meshes en een vlak, maar slechts
 ## De scene opzetten (optioneel)
 
 We importeren alle modules die we nodig hebben, voor het comfort kunnen we de orbit-controls van cientos gebruiken,
-[kijk hier om te weten hoe](/cookbook/orbit-controls).
+[kijk hier om te weten hoe](/nl/cookbook/orbit-controls).
 
 Laten we vier objecten in onze scène plaatsen, één zal het vlak zijn dat schaduwen ontvangt, twee ervan zullen schaduwen werpen en de laatste zal helemaal geen schaduw werpen.
 

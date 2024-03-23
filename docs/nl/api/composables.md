@@ -222,11 +222,11 @@ const context = useTresContext()
 ### Properties of context
 | Eigenschap | Beschrijving |
 | --- | --- |
-| **camera** | De huidig actieve camera |
+| **camera** | De huidige actieve camera |
 | **cameras** | De camera's die bestaan in de scene |
 | **controls** | De controls van je scene |
 | **deregisterCamera** | Een methode om een camera af te melden. Dit is alleen nodig als u handmatig een camera aanmaakt. Camera's in de template worden automatisch afgemeld. |
-| **extend** | Breid de component calalogus uit. Zie [extending](/advanced/extending) |
+| **extend** | Breid de component calalogus uit. Zie [extending](/nl/advanced/extending) |
 | **raycaster** | De globale raycaster gebruikt voor pointer events |
 | **registerCamera** | Een methode om een camera te registreren. Dit is alleen nodig als u handmatig een camera aanmaakt. Camera's in de template worden automatisch geregistreerd.|
 | **renderer** | De [WebGLRenderer](https://threejs.org/docs/#api/en/renderers/WebGLRenderer) van je scene |

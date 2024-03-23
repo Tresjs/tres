@@ -51,7 +51,7 @@ Nu kun je de `TresOrbitControls` component gebruiken in je scene.
 ```
 :::
 
-Omdat [OrbitControls](https://threejs.org/docs/index.html?q=orbit#examples/en/controls/OrbitControls) een verwijzing naar de camera en de renderer nodig heeft. Moet je die als argumenten doorgeven.U kunt de composable [useTresContext](/api/composables#usetrescontext) gebruiken om de camera en de renderer op te halen.
+Omdat [OrbitControls](https://threejs.org/docs/index.html?q=orbit#examples/en/controls/OrbitControls) een verwijzing naar de camera en de renderer nodig heeft. Moet je die als argumenten doorgeven.U kunt de composable [useTresContext](/nl/api/composables#usetrescontext) gebruiken om de camera en de renderer op te halen.
 
 ::: warning
 `useTresContext` kan alleen binnen een `TresCanvas` worden gebruikt, omdat `TresCanvas` fungeert als de provider voor de context data. Daarom hebben we een subcomponent gemaakt met de naam `OrbitControls.vue`. Zie meer over [context](/nl/api/composables#usetrescontext).

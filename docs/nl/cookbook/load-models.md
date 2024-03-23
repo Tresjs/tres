@@ -35,7 +35,7 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader'
 const { scene } = await useLoader(GLTFLoader, '/models/AkuAku.gltf')
 ```
 
-Vervolgens kunt u de modelscène doorgeven aan een TresJS [`primitive`](/advanced/primitive) component om deze te renderen:
+Vervolgens kunt u de modelscène doorgeven aan een TresJS [`primitive`](/nl/advanced/primitive) component om deze te renderen:
 
 ```html{2}
 <TresCanvas>
