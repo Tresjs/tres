@@ -1,8 +1,8 @@
 # v-log
 
-### Problem
+### Probleem
 
-When you have to log your instance you have to use the template reference and then log them:
+Wanneer u uw instantie moet loggen, moet u de template reference gebruiken en deze vervolgens loggen:
 
 ```vue
 <script setup lang="ts">
@@ -27,11 +27,11 @@ watch(sphereRef, (value) => {
 </template>
 ```
 
-Don't you think this is A LOT of code just for a simple log?
+Vind je niet dat dat dit VEEL code is voor een simpele log?
 
-## Usage
+## Gebruik
 
-With the new directive v-log provided by **TresJS**, you can do this by just adding `v-log` to the instance.
+Met de nieuwe directive v-log aangeboden door **TresJS**, kun je dit doen door aleen `v-log` toe te voegen aan de instantie.
 
 ```vue{2,10,12}
 <script setup lang="ts">
@@ -43,11 +43,11 @@ import { OrbitControls, Sphere, vLog } from '@tresjs/cientos'
     <Sphere
       ref="sphereRef"
       :scale="0.5"
-      v-log:material  <!-- will print just the material 🎉 -->
+      v-log:material  <!-- zal alleen het materiaal loggen 🎉 -->
     />
     <OrbitControls v-log />
   </TresCanvas>
 </template>
 ```
 
-Note that you can pass a modifier with the name of a property, for example `v-log:material`, and it will directly log the `material` property 😍
+Houd er rekening mee dat u een modifier kunt doorgeven met de naam van een eigenschap, bijvoorbeeld `v-log:material`, en deze zal direct de `material` eigenschap loggen 😍
