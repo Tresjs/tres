@@ -78,7 +78,7 @@ We hebben een gloednieuwe [StackBlitz](https://stackblitz.com/) starter om TresJ
 
 ## Labs
 
-We hebben ook een showcaselab met voorbeelden gemaakt met TresJS. Bekijk het [hier](https://playground.tresjs.org/).
+We hebben ook een showcaselab met voorbeelden gemaakt met TresJS. Bekijk het [hier](https://lab.tresjs.org/).
 
 ![](/tresjs-lab.png)
 
