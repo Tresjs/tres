@@ -15,7 +15,19 @@ export default function useSizes(
 ) {
   const reactiveSize = toValue(windowSize)
     ? useWindowSize()
-    : useElementSize(computed(() => toValue(canvas).parentElement))
+    : useElementSize(
+      computed(
+        () => toValue(canvas).parentElement,
+      ),
+      {
+        width:
+            toValue(canvas).parentElement
+              ?.clientWidth ?? 0,
+        height:
+            toValue(canvas).parentElement
+              ?.clientHeight ?? 0,
+      },
+    )
 
   const debouncedReactiveWidth = readonly(refDebounced(reactiveSize.width, debounceMs))
   const debouncedReactiveHeight = readonly(refDebounced(reactiveSize.height, debounceMs))
