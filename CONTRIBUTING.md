@@ -62,7 +62,11 @@ To start developing, you can run `pnpm playground` in the root folder.
 
 This will start the dev server for the playground at `http://localhost:5173/` where you can test the changes you are making in the `src` folder. 
 
-After running the dev server press F5 or `Run and Debug` play mode to be able to set and read breakpoints
+After running the dev server press F5 or `Run and Debug` play mode to be able to set and read breakpoints.
+
+If you have breakpoints hit, you'll notice that chrome devtools always jumps to the sources tab.
+You can disable this in chrome devtools => ⚙️ Settings => Toggle `Focus Sources panel when triggering a breakpoint`.
+
 
 > **Important**
 > There is no need to run anything in the `src` folder or in the root, the `playground` will take care of it
