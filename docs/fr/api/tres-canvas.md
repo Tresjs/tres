@@ -1,28 +1,29 @@
-# WIP
-<!-- # TresCanvas
+# TresCanvas
 
-El componente `TresCanvas` es el componente principal de Tres. Es el que crea el `WebGLRenderer` de ThreeJS.
+Le composant `TresCanvas` est le composant principal de Tres. C'est celui qui crée le `WebGLRenderer` ThreeJS.
 
 ```vue{2,5}
 <template>
   <TresCanvas shadows :output-encoding="SRGBColorSpace">
     <TresPerspectiveCamera />
+      <!-- Votre scène -->
   </TresCanvas>
 </template>
 ```
 
-## Tamaño del lienzo
+## Taille du canva
 
-El componente `TresCanvas` utilizará el tamaño del elemento padre como tamaño del lienzo. Si deseas utilizar el tamaño de la ventana como tamaño del lienzo, puedes establecer la propiedad `window-size` en `true`.
+Le composant `TresCanvas` utilisera la taille de l'élément parent comme taille du canevas. Si vous souhaitez utiliser la taille de la fenêtre comme taille du canevas, vous pouvez définir la propriété « window-size » sur « true »
 
 ```vue
 <template>
   <TresCanvas window-size>
+    <!-- Votre scène -->
   </TresCanvas>
 </template>
 ```
 
-Or you can use CSS to set your canvas size.
+Ou vous pouvez utiliser CSS pour définir la taille de votre canevas.
 
 ```css
 html,
@@ -40,20 +41,21 @@ body {
 
 ## Presets
 
-Tres viene con algunos presets para el componente `TresCanvas`. Puedes usarlos estableciendo la propiedad `preset`.
+Tres est livré avec quelques préréglages pour le composant `TresCanvas`. Vous pouvez les utiliser en définissant la propriété `preset`.
 
-### Realista
+### Réaliste
 
-El preset `realista` facilita la configuración del renderizador para escenas 3D más realistas.
+Le preset `réaliste` facilite la configuration du moteur de rendu pour des scènes 3D plus réalistes.
 
 ```vue
 <template>
   <TresCanvas preset="realistic">
+    <!-- Votre scène -->
   </TresCanvas>
 </template>
 ```
 
-It's equivalent to:
+C'est équivalent à:
 
 ```ts
 renderer.shadows = true
@@ -67,37 +69,37 @@ renderer.shadowMap.type = PCFSoftShadowMap
 
 ## Props
 
-| Prop | Descripción | Valor por defecto |
+| Prop | Description | Valeur par défaut |
 | ---- | ---- | --- |
-| **alpha** | Controla el valor alfa predeterminado. Cuando se establece en true, el valor es 0. De lo contrario, es 1. | false |
-| **antialias** | Indica si se debe realizar el antialiasing. | `true` |
-| **camera** | Una cámara manual que se utilizará por el renderizador. | |
-| **clearColor** | El color que el renderizador utilizará para borrar el lienzo. | `#000000` |
-| **context** | Esto se puede usar para adjuntar el renderizador a un [RenderingContext](https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext) existente. | |
-| **depth** | Indica si el búfer de dibujo tiene un [búfer de profundidad](https://en.wikipedia.org/wiki/Z-buffering) de al menos 16 bits. | `true` |
-| **disableRender** | Desactiva el renderizado en requestAnimationFrame, útil para PostProcessing. | `false` |
-| **failIfMajorPerformanceCaveat** | Indica si la creación del renderizador fallará si se detecta un bajo rendimiento. Consulta la [especificación de WebGL](https://registry.khronos.org/webgl/specs/latest/1.0/#5.2) para más detalles. | `false` |
-| **logarithmicDepthBuffer** | Indica si se debe utilizar un búfer de profundidad logarítmico. Puede ser necesario utilizar esto si se manejan diferencias enormes de escala en una sola escena. Ten en cuenta que esta configuración utiliza gl_FragDepth si está disponible, lo cual deshabilita la optimización [Early Fragment Test](https://www.khronos.org/opengl/wiki/Early_Fragment_Test) y puede causar una disminución en el rendimiento. | `false` |
-| **outputColorSpace** | Define la codificación de salida. | `LinearEncoding` |
-| **powerPreference** | Proporciona una sugerencia al agente de usuario que indica qué configuración de GPU es adecuada para este contexto WebGL. Puede ser "high-performance", "low-power" o "default". | `default` |
-| **precision** | Precisión del shader. Puede ser "highp", "mediump" o "lowp". | "highp" si es compatible con el dispositivo |
-| **premultipliedAlpha** | Indica si el renderizador asumirá que los colores tienen [alfa premultiplicado](https://en.wikipedia.org/wiki/Glossary_of_computer_graphics#premultiplied_alpha). | `true` |
-| **preserveDrawingBuffer** | Indica si se deben preservar los búferes hasta que se borren o se sobrescriban manualmente. | `false` |
-| **shadows** | Habilita las sombras en el renderizador. | `false` |
-| **shadowMapType** | Establece el tipo de mapa de sombras. | `PCFSoftShadowMap` |
-| **stencil** | Indica si el búfer de dibujo tiene un [búfer de stencil](https://en.wikipedia.org/wiki/Stencil_buffer) de al menos 8 bits. | `true` |
-| **toneMapping** | Define la exposición de mapeo de tonos utilizada por el renderizador. | `NoToneMapping` |
-| **toneMappingExposure** | Nivel de exposición del mapeo de tonos. | `1` |
-| **useLegacyLights** | Indica si se debe utilizar el modo de iluminación heredado o no. | `true` |
-| **windowSize** | Indica si se debe utilizar el tamaño de la ventana como el tamaño del lienzo o el elemento padre. | `false` |
+| **alpha** | Contrôle la valeur alpha par défaut. Lorsqu'elle est définie sur true, la valeur est 0. Sinon, elle est 1. | false |
+| **antialias** | Indique si un anticrénelage doit être effectué. | `true` |
+| **camera** | Une caméra manuelle à utiliser par le moteur de rendu. | |
+| **clearColor** | La couleur que le moteur de rendu utilisera pour effacer le canevas. | `#000000` |
+| **context** | Ceci peut être utilisé pour attacher le moteur de rendu à un [RenderingContext](https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext) existente. | |
+| **depth** | Indique si le tampon de dessin a une [profondeur du tampon](https://en.wikipedia.org/wiki/Z-buffering) de au moins 16 bits. | `true` |
+| **disableRender** | Désactive le rendu sur requestAnimationFrame, utile pour le post-traitement. | `false` |
+| **failIfMajorPerformanceCaveat** | Indique si la création du moteur de rendu échouera si de mauvaises performances sont détectées. Voir la [spécification WebGL](https://registry.khronos.org/webgl/specs/latest/1.0/#5.2) para más detalles. | `false` |
+| **logarithmicDepthBuffer** | Indique s’il faut utiliser un tampon de profondeur logarithmique. Il peut être nécessaire de l'utiliser s'il s'agit de différences d'échelle énormes dans une seule scène. Notez que ce paramètre utilise gl_FragDepth s'il est disponible, ce qui désactive l'optimisation [Early Fragment Test](https://www.khronos.org/opengl/wiki/Early_Fragment_Test) et peut entraîner une baisse des performances. | `false` |
+| **outputColorSpace** | Définit l'encodage de sortie. | `LinearEncoding` |
+| **powerPreference** | Fournit un indice à l'agent utilisateur indiquant quelle configuration GPU est appropriée pour ce contexte WebGL. Il peut être « haute performance », « faible consommation » ou « par défaut ». | `default` |
+| **precision** | Précision du shader. Il peut être « élevé », « moyen » ou « faible ». | "highp" si pris en charge par l'appareil |
+| **premultipliedAlpha** | Indique si le moteur de rendu supposera que les couleurs ont [alpha prémultiplié](https://en.wikipedia.org/wiki/Glossary_of_computer_graphics#premultiplied_alpha). | `true` |
+| **preserveDrawingBuffer** | Indique si les tampons doivent être conservés jusqu'à ce qu'ils soient effacés ou écrasés manuellement. | `false` |
+| **shadows** | Activez les ombres dans le moteur de rendu. | `false` |
+| **shadowMapType** | Définit le type de carte d'ombrage. | `PCFSoftShadowMap` |
+| **stencil** | Indique si le tampon de dessin possède un [tampon de pochoir](https://en.wikipedia.org/wiki/Stencil_buffer) de au moins 8 bits. | `true` |
+| **toneMapping** | Définit l’exposition du mappage de tons utilisée par le moteur de rendu. | `NoToneMapping` |
+| **toneMappingExposure** | Niveau d'exposition du mappage de tons. | `1` |
+| **useLegacyLights** | Indique s’il faut utiliser ou non le mode d’éclairage existant. | `true` |
+| **windowSize** | Indique s’il faut utiliser la taille de la fenêtre comme taille du canevas ou de l’élément parent. | `false` |
 
-### Valores predeterminados
+### Valeurs par défaut
 
-Tres intenta ser lo menos opinado posible. Es por eso que no establece casi ningún valor predeterminado para el componente `TresCanvas`. Utiliza los valores predeterminados de [three.js](https://threejs.org/). La única excepción es la propiedad `antialias`, que se establece en `true` de forma predeterminada.
+Tres essaie d’être aussi neutre que possible. C'est pourquoi il ne définit presque aucune valeur par défaut pour le composant `TresCanvas`. Utilisez les valeurs par défaut de [Three.js](https://threejs.org/). La seule exception est la propriété « antialias », qui est définie par défaut sur « true ».
 
-## Propiedades públicas expuestas
+## Propriétés publiques exposées
 
-| Propiedad | Descripción |
+| Propriété | Descriptif |
 | ---- | ---- |
-| context | ver [useTresContext](composables#usetrescontext) |
- -->
+| context | voir [useTresContext](composables#usetrescontext) |
+

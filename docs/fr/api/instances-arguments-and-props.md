@@ -1,9 +1,8 @@
-# WIP
-<!-- # Instancias
+# Instances
 
-La idea principal de **Tres** es un _catálogo autogenerado_ de todos los elementos de ThreeJS. Este catálogo se genera a partir del código fuente de ThreeJS, por lo que siempre está actualizado.
+L'idée principale de **Tres** est un _catalogue généré automatiquement_ de tous les éléments ThreeJS. Ce catalogue est généré à partir du code source ThreeJS, il est donc toujours à jour.
 
-Cuando usas ThreeJS, necesitas importar los elementos que deseas utilizar. Por ejemplo, si quieres usar una `PerspectiveCamera`, necesitas importarla desde el paquete `three`:
+Lorsque vous utilisez ThreeJS, vous devez importer les éléments que vous souhaitez utiliser. Par exemple, si vous souhaitez utiliser une « PerspectiveCamera », vous devez l'importer depuis le package `three`:
 
 ```js
 import { PerspectiveCamera } from 'three'
@@ -11,21 +10,22 @@ import { PerspectiveCamera } from 'three'
 const camera = new PerspectiveCamera(45, width / height, 1, 1000)
 ```
 
-Con **Tres** no necesitas importar nada, esto se debe a que **Tres** genera automáticamente un **Componente Vue basado en el objeto Three que deseas usar en CamelCase con un prefijo Tres**. Por ejemplo, si quieres usar una `PerspectiveCamera`, puedes usar el componente `<TresPerspectiveCamera />`.
+Avec **Tres**, vous n'avez pas besoin d'importer quoi que ce soit, car **Tres** génère automatiquement un composant **Vue basé sur l'objet Three que vous souhaitez utiliser dans CamelCase avec un préfixe Tres**. Par exemple, si vous souhaitez utiliser une `PerspectiveCamera`, vous pouvez utiliser le composant `<TresPerspectiveCamera />`.
 
 ```vue
 <template>
   <TresCanvas>
     <TresPerspectiveCamera />
+    <!-- Votre scène -->
   </TresCanvas>
 </template>
 ```
 
-Esto significa que puedes utilizar la misma [documentación](https://threejs.org/docs/) que usarías al utilizar ThreeJS básico, pero con el poder de Vue.
+Cela signifie que vous pouvez utiliser la même [documentation](https://threejs.org/docs/) que celle que vous utiliseriez lors de l'utilisation de ThreeJS de base, mais avec la puissance de Vue.
 
-## Declarando objetos
+## Déclarer des objets
 
-Si seguimos este argumento, deberías poder definir una instancia de esta manera: ❌
+Si nous suivons cet argument, vous devriez pouvoir définir une instance comme celle-ci : ❌
 
 ```vue
 <template>
@@ -34,11 +34,12 @@ Si seguimos este argumento, deberías poder definir una instancia de esta manera
       visible
       :position="new THREE.Vector3(1, 2, 3)"
     />
+    <!-- Votre scène -->
   </TresCanvas>
 </template>
 ```
 
-Pero con **Tres** esto no es necesario, puedes definir las propiedades de forma declarativa de la siguiente manera: ✅
+Mais avec **Tres** ce n'est pas nécessaire, vous pouvez définir les propriétés de manière déclarative comme suit : ✅
 
 ```vue
 <template>
@@ -47,53 +48,56 @@ Pero con **Tres** esto no es necesario, puedes definir las propiedades de forma 
       visible
       :position="[1, 2, 3]"
     />
+    <!-- Votre scène -->
   </TresCanvas>
 </template>
 ```
 
-## Argumentos
+## Arguments
 
-Algunos objetos de ThreeJS tienen argumentos, por ejemplo, el constructor `PerspectiveCamera` tiene los siguientes argumentos:
+Certains objets ThreeJS ont des arguments, par exemple le constructeur « PerspectiveCamera » a les arguments suivants :
 
-- `fov` - Campo de visión vertical de la cámara.
-- `aspect` - Relación de aspecto del frustum de la cámara.
-- `near` - Plano cercano del frustum de la cámara.
-- `far` - Plano lejano del frustum de la cámara.
+- `fov` - Champ de vision vertical de la caméra.
+- `aspect` - Rapport hauteur/largeur du tronc de la caméra.
+- `near` - Plan rapproché du tronc de la caméra.
+- `far` - Plan lointain du tronc de la caméra.
 
-Para pasar estos argumentos al componente `TresPerspectiveCamera`, puedes usar la propiedad `args`:
+Pour transmettre ces arguments au composant `TresPerspectiveCamera`, vous pouvez utiliser la propriété `args` :
 
 ```vue
 <template>
   <TresCanvas>
     <TresPerspectiveCamera :args="[45, 1, 0.1, 1000]" />
+    <!-- Votre scène -->
   </TresCanvas>
 </template>
 ```
 
-Esto es lo mismo que hacer esto:
+C'est la même chose que de faire ceci :
 
 ```ts
 const camera = new PerspectiveCamera(45, 1, 0.1, 1000)
 ```
 
-## Propiedades
+## Propriétés
 
-También puedes pasar propiedades al componente, por ejemplo, el `TresAmbientLight` tiene una propiedad `intensity`, por lo que puedes pasarla al componente de la siguiente manera:
+Vous pouvez également transmettre des propriétés au composant, par exemple `TresAmbientLight` a une propriété `intensity`, vous pouvez donc la transmettre au composant comme ceci :
 
 ```html
 <TresAmbientLight :intensity="0.5" />
 ```
 
-### Establecer
+### Set
 
-Todas las propiedades cuyo objeto subyacente tiene un método `.set()` tienen un atajo para recibir el valor como un array. Por ejemplo, el `TresPerspectiveCamera` tiene una propiedad `position`, que es un objeto `Vector3`, por lo que puedes pasarlo al componente de esta manera:
+Toutes les propriétés dont l'objet sous-jacent a une méthode `.set()` ont un raccourci pour recevoir la valeur sous forme de tableau. Par exemple, `TresPerspectiveCamera` a une propriété `position`, qui est un objet `Vector3`, vous pouvez donc la transmettre au composant comme ceci :
 
 ```html
 <TresPerspectiveCamera :position="[1, 2, 3]" />
 ```
 
-Para especificar propiedades de transformación como posición, rotación y escala, hay una forma abreviada disponible que te permite indicar directamente el eje que deseas establecer dentro de las propiedades. Una forma abreviada similar también está disponible para la propiedad de color.
+Pour spécifier les propriétés de transformation telles que la position, la rotation et l'échelle, un raccourci est disponible qui vous permet d'indiquer directement l'axe que vous souhaitez définir dans les propriétés. Un raccourci similaire est également disponible pour la propriété color.
 
+<!-- J'ai changé la syntaxe des couleurs de Vue en HTML, car Vue semble être cassé et ne colore pas les composants imbriqués -->
 ```html
 <TresMesh :position-x="1" :scale-y="2" :rotation-x="Math.PI * 2">
   <TresMeshBasicMaterial :color-r="0.7" :color-b="0.3" />
@@ -101,19 +105,21 @@ Para especificar propiedades de transformación como posición, rotación y esca
 ```
 
 ::: warning
-Cuando estableces la propiedad de rotación en [three.js](https://threejs.org/docs/index.html#api/en/math/Euler), se utilizará el orden 'XYZ' de forma predeterminada.
-Es importante tener en cuenta que al establecer la propiedad de rotación con la forma abreviada, el orden en el que estableces los ángulos importa. Para obtener más información sobre este tema, consulta [Ángulos de Euler](https://es.wikipedia.org/wiki/%C3%81ngulos_de_Euler)
+Lorsque vous définissez la propriété de rotation avec [three.js](https://threejs.org/docs/index.html#api/en/math/Euler), l'ordre 'XYZ' sera utilisé par défaut.
+Il est important de noter que lors de la définition de la propriété rotation avec le raccourci, l'ordre dans lequel vous définissez les angles est important. Pour plus d'informations sur ce sujet, voir [Angle d'Euler](https://fr.wikipedia.org/wiki/Angles_d%27Euler)
 :::
 
+<!-- Notez que l'ordre des propriétés de rotation est important et que la modification de cet ordre peut conduire à des résultats différents. -->
 ```vue
 <TresMesh :rotation-x="1" :rotation-y="2" :rotation-z="Math.PI * 2" />
 
 <TresMesh :rotation-z="Math.PI * 2" :rotation-x="1" :rotation-y="2" />
+
 ```
 
-### Escalar
+### Scalaire
 
-Otro atajo que puedes usar es pasar un valor escalar a una propiedad que espera un objeto `Vector3`, usando el mismo valor para el resto del vector:
+Un autre raccourci que vous pouvez utiliser consiste à transmettre une valeur scalaire à une propriété qui attend un objet « Vector3 », en utilisant la même valeur pour le reste du vecteur :
 
 ```html
 <TresPerspectiveCamera :position="5" /> ✅
@@ -123,9 +129,9 @@ Otro atajo que puedes usar es pasar un valor escalar a una propiedad que espera 
 <TresPerspectiveCamera :position="[5, 5, 5]" /> ✅
 ```
 
-### Colores
+### Couleurs
 
-Puedes pasar colores a los componentes usando la propiedad `color`, la cual acepta un string con el nombre del color o un valor hexadecimal:
+Vous pouvez transmettre des couleurs aux composants en utilisant la propriété `color`, qui accepte une chaîne avec le nom de la couleur ou une valeur hexadécimale :
 
 ```html
 <TresAmbientLight color="teal" /> ✅
@@ -135,10 +141,10 @@ Puedes pasar colores a los componentes usando la propiedad `color`, la cual acep
 <TresAmbientLight color="#008080" /> ✅
 ```
 
-### Métodos
+### Méthodes
 
-Algunas propiedades subyacentes son en realidad métodos, el `TresPerspectiveCamera` tiene un método `lookAt` heredado de [Object3d](https://threejs.org/docs/#api/en/core/Object3D.lookAt), por lo que puedes pasarle las coordenadas al componente de esta manera:
+Certaines propriétés sous-jacentes sont en fait des méthodes, le `TresPerspectiveCamera` a une méthode `lookAt` héritée de [Object3d](https://threejs.org/docs/#api/en/core/Object3D.lookAt), vous pouvez donc transmettre les coordonnées au composant comme ceci :
 
 ```html
 <TresPerspectiveCamera :look-at="[1, 2, 3]" />
-``` -->
+```
