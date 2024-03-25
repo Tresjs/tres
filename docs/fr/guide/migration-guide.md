@@ -55,7 +55,7 @@ import { TresCanvas } from '@tresjs/core'
   </TresCanvas>
 </template>
 ```
-::: Info :
+::: info
 Ceci est recommandé pour des raisons de performances et de tailles de Bundle, le tree-shaking fonctionnera mieux et vous n'aurez qu'à importer les composants que vous utilisez.
 :::
 
