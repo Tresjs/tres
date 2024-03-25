@@ -1,11 +1,10 @@
-# WIP
-<!-- # v-distance-to
+# v-distance-to
 
-Have you tried to calculate the distance between two Object3Ds?
+Avez-vous déja essayé de calculer la distance entre deux objets 3D?
 
-With the new directive `v-distance-to` it's easier than ever, you should only indicate the target object to perform the measure and the result will appear in your console.
+Avec la nouvelle directive `v-distance-to` c'est plus facile que jamais, vous devez uniquement indiquer l'objet cible pour effectuer la mesure et le résultat apparaîtra dans votre console.
 
-In addition, an arrow will be created to indicate which objects you're measuring.
+De plus, une flèche sera créée pour indiquer les objets que vous mesurez.
 
 ```vue{2,8,13}
 <script setup lang="ts">
@@ -30,8 +29,8 @@ import { OrbitControls, Sphere, vLog } from '@tresjs/cientos'
 </template>
 ```
 
-The use of `v-distance-to` is reactive, so it works perfectly with @tres/leches 🍰.
+L'utilisation de `v-distance-to` est réactive, donc ça marche parfaitement avec @tres/leches 🍰.
 
 ::: warning
-`v-distance-to` will not measure an object in movement within the renderLoop.
-::: -->
+`v-distance-to` ne mesurera pas un objet en mouvement dans la renderLoop.
+:::

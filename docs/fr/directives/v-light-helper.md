@@ -1,9 +1,8 @@
-# WIP
-<!-- # v-light-helper 🔆
+# v-light-helper 🔆
 
-With the new directive v-light-helper provided by **TresJS**, you can add fast the respective helper to your lights with just one line of code 😍.
+Avec la nouvelle directive v-light-helper fourni par **TresJS**, vous pouvez ajouter rapidement l'assistant correspondant à vos lumières avec une seule ligne de code 😍.
 
-The following lights are supported:
+Les lumières suivantes sont prises en charge:
 - DirectionalLight
 - PointLight
 - SpotLight
@@ -32,4 +31,4 @@ import { OrbitControls, Sphere, vLightHelper } from '@tresjs/cientos'
     />
   </TresCanvas>
 </template>
-``` -->
+```

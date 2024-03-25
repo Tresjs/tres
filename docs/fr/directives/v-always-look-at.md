@@ -1,7 +1,6 @@
-# WIP
-<!-- # v-always-look-at 👀
+# v-always-look-at 👀
 
-With the new directive v-always-look-at provided by **TresJS**, you can add easily command an [Object3D](https://threejs.org/docs/index.html?q=object#api/en/core/Object3D) to always look at a specific position, this could be passed as a Vector3 or an Array.
+ Avec la nouvelle directive v-always-look-at fournie par **TresJS**, vous pouvez facilement ajouter une commande à un [Objet 3D](https://threejs.org/docs/index.html?q=object#api/en/core/Object3D) pour toujours regarder une position spécifique, cela pourrait être passé en tant que Vector3 ou Array..
 
 ## Usage
 
@@ -19,17 +18,17 @@ import { Box, vAlwaysLookAt } from '@tresjs/cientos'
   </TresCanvas>
 </template>
 ```
-No matter where the Box move will always look-at the position [0,0,0]
+Peu importe où la boîte se déplace, elle regardera toujours la position [0,0,0]
 
-### Why not use the in built method look-at?
+### Pourquoi ne pas utiliser la méthode intégrée look-at?
 
-You could ask, this is fine but I can use the `:look-at` method directly in the component, why should I need this?
+Vous pourriez demander, c'est bien mais je peux utiliser la méthode `:look-at` directement dans le composant, pourquoi aurais-je besoin de ça?
 
-The answers is that with the method `:look-at` you will indicated to look at that position just once, when the instance is mounted, then if the object changes this will not get updated
+La réponse est qu'avec la méthode `:look-at`, vous indiquerez de regarder cette position une seule fois, lorsque l'instance est montée, puis si l'objet change, il ne sera pas mis à jour.
 
-### You can look at other instance too!
+### Vous pouvez également consulter une autre instance!
 
-Another advantage is that you can look at an instance in movement, for example with the camera, like so:
+Un autre avantage est que vous pouvez regarder une instance en mouvement, par exemple avec la caméra, comme ceci:
 
 ```vue{4,6,20,23}
 <script setup lang="ts">
@@ -41,7 +40,7 @@ const sphereRef = shallowRef()
 
 const { onLoop } = useRenderLoop()
 
-// here we update the position of the sphere and the camera will always follow the object
+// ici nous mettons à jour la position de la sphère et la caméra suivra toujours l'objet
 onLoop(({ elapsed }) => {
   if (sphereRef.value) {
     sphereRef.value.value.position.y = Math.sin(elapsed) * 1.5
@@ -59,4 +58,4 @@ onLoop(({ elapsed }) => {
       />
   </TresCanvas>
 </template>
-``` -->
+```
