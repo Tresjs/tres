@@ -10,10 +10,8 @@
 
 > Declarative ThreeJS using Vue Components
 
-- 💡 Build 3D scene as they were Vue components
-- ⚡️ Powered by Vite
-- 🥰 It brings all the updated features of ThreeJS right away regardless the version
-- 🦾 Fully Typed
+- [📖 &nbsp;Read the documentation](https://tresjs.org)
+- [👾 &nbsp;Playgrounds](https://stackblitz.com/@alvarosabu/collections/tresjs)
 
 Tres (Spanish word for "three", pronounced `/tres/` ) is a way of creating ThreeJS scenes with Vue components in a declarative fashion.
 
@@ -21,54 +19,52 @@ It's build on-top of a [Vue Custom Renderer](https://vuejs.org/api/custom-render
 
 The goal is to provide the Vue's community an easy way of building 3D scenes with Vue, always up to date with the latest ThreeJS features and with 0-to-none maintenance.
 
+## Features
+
+- 💡 Build 3D scene as they were Vue components
+- ⚡️ Powered by Vite
+- 🥰 It brings all the updated features of ThreeJS right away regardless the version
+- 🦾 Fully Typed
+
 ## Installation
 
 ```bash
 pnpm install @tresjs/core three
 ```
 
-## Docs
-
-Checkout the [docs](https://tresjs.org)
-
-## Demos
-
-- [Stackblitz Collection](https://stackblitz.com/@alvarosabu/collections/tresjs)
-
 ## Ecosystem
 
-| Package                     | Version                                                                                            |
-| --------------------------- | :------------------------------------------------------------------------------------------------- |
-| [Tres](https://github.com/TresJS/tres)       | ![tres version](https://img.shields.io/npm/v/@tresjs/core/latest.svg?label=%20&color=%2382DBCA)    |
-| [Cientos](https://github.com/TresJS/cientos) | ![cientos version](https://img.shields.io/npm/v/@tresjs/cientos/latest.svg?label=%20&color=%23f19b00) |
+| Package                                                      | Version                                                                                                            |
+| ------------------------------------------------------------ | :----------------------------------------------------------------------------------------------------------------- |
+| [Tres](https://github.com/TresJS/tres)                       | ![tres version](https://img.shields.io/npm/v/@tresjs/core/latest.svg?label=%20&color=%2382DBCA)                    |
+| [Cientos](https://github.com/TresJS/cientos)                 | ![cientos version](https://img.shields.io/npm/v/@tresjs/cientos/latest.svg?label=%20&color=%23f19b00)              |
 | [Post-processing](https://github.com/TresJS/post-processing) | ![post-processing version](https://img.shields.io/npm/v/@tresjs/post-processing/latest.svg?label=%20&color=ff7bac) |
-| [Nuxt](https://github.com/TresJS/nuxt) | ![nuxt version](https://img.shields.io/npm/v/@tresjs/nuxt/latest.svg?label=%20&color=4f4f4f&logo=nuxt.js) |
-| [TresLeches 🍰](https://github.com/TresJS/leches) | ![tresleches version](https://img.shields.io/npm/v/@tresjs/leches/latest.svg?label=%20&color=ffffff) |
+| [Nuxt](https://github.com/TresJS/nuxt)                       | ![nuxt version](https://img.shields.io/npm/v/@tresjs/nuxt/latest.svg?label=%20&color=4f4f4f&logo=nuxt.js)          |
+| [TresLeches 🍰](https://github.com/TresJS/leches)            | ![tresleches version](https://img.shields.io/npm/v/@tresjs/leches/latest.svg?label=%20&color=ffffff)               |
 
 ## Contribution
 
-We are open to contributions, please read the [contributing guide](/CONTRIBUTING.md) to get started.
+We are open to contributions 🙏, please read the [contributing guide](/CONTRIBUTING.md) to get started.
 
 ### Setup
 
-```
-pnpm install --shamefully-hoist
-```
-
-### Playground
-
-To run the small playground
+- Clone this repository
+- Install dependencies using
 
 ```
-pnpm run playground
+pnpm install
 ```
 
-### Build lib
-
-To build the core as library mode just use
+- Build the library code
 
 ```
-pnpm run build
+pnpm build
+```
+
+- Run the playground and start developing with TresJS
+
+```
+pnpm playground
 ```
 
 ### Docs
@@ -85,9 +81,9 @@ To build them
 pnpm run docs:build
 ```
 
-## License
+## 📑 License
 
-[MIT](/LICENSE)
+Published under the [MIT Licence](/LICENSE) - Made with 💚
 
 ## Sponsors
 
