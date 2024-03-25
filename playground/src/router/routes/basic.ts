@@ -33,5 +33,5 @@ export const basicRoutes = [
     path: '/basic/responsive',
     name: 'Responsiveness',
     component: () => import('../../pages/basic/Responsiveness.vue'),
-  }
+  },
 ]

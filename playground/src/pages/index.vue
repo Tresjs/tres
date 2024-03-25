@@ -3,14 +3,14 @@ import {
   basicRoutes,
   perfRoutes,
   eventsRoutes,
-  cameraRoutes
+  cameraRoutes,
 } from '../router/routes'
 
 const sections = [
   { icon: '📦', title: 'Basic', routes: basicRoutes },
-  { icon : '🏎️', title: 'Perf', routes: perfRoutes },
-  { icon: '📣',  title: 'Events', routes: eventsRoutes},
-  { icon: '📷',  title: 'Camera', routes: cameraRoutes},
+  { icon: '🏎️', title: 'Perf', routes: perfRoutes },
+  { icon: '📣', title: 'Events', routes: eventsRoutes },
+  { icon: '📷', title: 'Camera', routes: cameraRoutes },
 ]
 </script>
 
@@ -31,7 +31,7 @@ const sections = [
       >
         <div>
           <img
-            :src="'/logo.svg'"
+            src="/logo.svg"
             alt="Cientos logo"
             class="max-w-36 sm:max-w-xs align-baseline"
           >

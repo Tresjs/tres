@@ -1,11 +1,11 @@
-import { cameraRoutes } from './cameras';
-import { eventsRoutes } from './events';
-import { basicRoutes } from './basic';
-import { perfRoutes } from './performance';
+import { cameraRoutes } from './cameras'
+import { eventsRoutes } from './events'
+import { basicRoutes } from './basic'
+import { perfRoutes } from './performance'
 
 export {
   basicRoutes,
   perfRoutes,
   eventsRoutes,
-  cameraRoutes
+  cameraRoutes,
 }

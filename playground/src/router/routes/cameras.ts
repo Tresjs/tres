@@ -13,5 +13,5 @@ export const cameraRoutes = [
     path: '/cameras/multiple-cameras',
     name: 'Multiple Cameras',
     component: () => import('../../pages/cameras/MultipleCameras.vue'),
-  }
+  },
 ]
