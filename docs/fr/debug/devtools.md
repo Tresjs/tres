@@ -1,27 +1,26 @@
-# WIP
-<!-- # Herramientas de desarrollo
+# Outils de développement
 
-Una de las cosas más difíciles a las que se enfrenta un desarrollador al crear experiencias 3D en el navegador es la depuración. El `canvas` del navegador es una caja negra y es difícil saber qué está sucediendo en su interior. La naturaleza imperativa de [ThreeJS](https://threejs.org/) hace que sea increíblemente difícil depurar, teniendo que depender de `console.log` para ver qué está sucediendo, o de terceros para ajustar y inspeccionar la escena.
+L'une des tâches les plus difficiles auxquelles un développeur est confronté lors de la création d'expériences 3D dans le navigateur est le débogage. Le `canvas` du navigateur est une boite noire et il est difficile de savoir ce qui se passe à l’intérieur. La nature impérative de [ThreeJS](https://threejs.org/) rend le débogage incroyablement difficile, car il faut s'appuyer sur « console.log » pour voir ce qui se passe, ou sur des tiers pour ajuster et inspecter la scène.
 
-No me hagas empezar con la comprobación del rendimiento de tu escena. 😱
+Ne me demandez pas dans la vérification des performances de votre scène. 😱
 
-![desarrollador depurando 3D](/debug-3D.png)
+![développeur débogage 3D](/debug-3D.png)
 
-Uno de nuestros objetivos con TresJS es ofrecer **la mejor experiencia de desarrollo (DX, por sus siglas en inglés)** al trabajar con escenas 3D en el navegador. Gracias a la naturaleza declarativa del ecosistema y a la variedad de soluciones que ofrece el ecosistema de Vue, como Vue Devtools, Nuxt y Vite, podemos ofrecer mejores herramientas para que los desarrolladores depuren sus escenas.
+L'un de nos objectifs avec TresJS est d'offrir **la meilleure expérience de développement (DX)** lorsque vous travaillez avec des scènes 3D dans le navigateur. Grâce à la nature déclarative de l'écosystème et à la variété de solutions proposées par l'écosystème Vue, telles que Vue Devtools, Nuxt et Vite, nous pouvons offrir de meilleurs outils aux développeurs pour déboguer leurs scènes.
 
-## Presentando las Herramientas de Desarrollo
+## Présentation des outils de développement
 
-A partir de la versión <Badge text="^3.7.0" />, estamos introduciendo las Herramientas de Desarrollo de TresJS, una pestaña de inspector personalizada para las [Herramientas de Desarrollo de Chrome oficiales de Vue](https://devtools.vuejs.org/guide/installation.html) que te permite inspeccionar tus escenas y componentes de TresJS.
+A partir de la version <Badge text="^3.7.0" />, nous introduisons TresJS Dev Tools, un onglet d'inspecteur personnalisé pour les [outils de développement officiels de Vue Chrome](https://devtools.vuejs.org/guide/installation.html) qui vous permet d'inspecter vos scènes et composants TresJS.
 
-![Herramientas de Desarrollo de TresJS](/vue-chrome-devtools.png)
+![Outils de développement TresJS](/vue-chrome-devtools.png)
 
-### Características
+### Caracteristique
 
-- **Inspector de Escena**: Inspecciona la escena actual y sus componentes utilizando una vista en árbol similar al inspector de componentes de Vue Devtools.
-- **Asignación de Memoria**: Muestra cuánta memoria está utilizando cada componente.
-- **Inspector de Objetos**: Inspecciona las propiedades del objeto seleccionado en la escena, incluidos sus hijos.
-- **Propiedades Editables**: Y sí, puedes editar las propiedades del objeto seleccionado y ver los cambios en tiempo real.
+- **Inspecteur de scène**: Inspectez la scène actuelle et ses composants à l'aide d'une arborescence similaire à l'inspecteur de composants de Vue Devtools.
+- **Allocation de mémoire** : indique la quantité de mémoire utilisée par chaque composant.
+- **Inspecteur d'objet** : Inspecte les propriétés de l'objet sélectionné dans la scène, y compris ses enfants.
+- **Propriétés modifiables** : Et oui, vous pouvez modifier les propriétés de l'objet sélectionné et voir les modifications en temps réel.
 
 ![](/devtools-scene-inspector.png)
 
-¡Disfruta de las nuevas Herramientas de Desarrollo y dinos qué opinas! 🎉 -->
+Profitez des nouveaux outils de développement et dites-nous ce que vous en pensez ! 🎉
