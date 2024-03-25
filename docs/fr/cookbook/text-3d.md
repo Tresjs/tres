@@ -1,4 +1,11 @@
 # WIP
+---
+title: 
+description: 
+author: 
+thumbnail: 
+difficulty: 
+---
 <!-- # Texto3D
 
 [TextGeometry](https://threejs.org/docs/index.html?q=text#examples/en/geometries/TextGeometry) es una de las formas en las que podemos agregar texto en 3D a nuestra escena.

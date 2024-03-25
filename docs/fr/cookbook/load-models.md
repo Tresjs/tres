@@ -1,4 +1,11 @@
 # WIP
+---
+title: 
+description: 
+author: 
+thumbnail: 
+difficulty: 
+---
 <!-- # Cargar Modelos
 
 > Todos los modelos utilizados en esta guía son de [Alvaro Saburido](https://sketchfab.com/3d-models/aku-aku-7dfcb6edf10b4098bbb965c56fd3055c).

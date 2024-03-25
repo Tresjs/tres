@@ -1,4 +1,11 @@
 # WIP
+---
+title: 
+description: 
+author: 
+thumbnail: 
+difficulty: 
+---
 <!-- # Shaders
 
 Esta guía te ayudará a comenzar con los shaders en TresJS.

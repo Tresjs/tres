@@ -1,4 +1,11 @@
 # WIP
+---
+title: 
+description: 
+author: 
+thumbnail: 
+difficulty: 
+---
 <!-- # Basic Animations
 
 Esta guía te ayudará a comenzar con animaciones básicas en TresJS.

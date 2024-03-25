@@ -1,4 +1,11 @@
 # WIP
+---
+title: 
+description: 
+author: 
+thumbnail: 
+difficulty: 
+---
 <!-- # Luces y sombras
 
 Esta guía te ayudará a comenzar con luces y sombras simples en TresJS.

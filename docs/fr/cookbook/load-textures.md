@@ -1,4 +1,11 @@
 # WIP
+---
+title: 
+description: 
+author: 
+thumbnail: 
+difficulty: 
+---
 <!-- # Cargar Texturas
 
 > Todas las texturas utilizadas en este ejemplo son de [ambientcg](https://ambientcg.com/).
