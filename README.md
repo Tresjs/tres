@@ -67,6 +67,8 @@ pnpm build
 pnpm playground
 ```
 
+- Set and read breakpoints by pressing F5 or the play button in `Run and Debug`
+
 ### Docs
 
 To run de docs in dev mode
