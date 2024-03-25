@@ -1,7 +1,18 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { basicRoutes } from './routes/basic'
+import { cameraRoutes, eventsRoutes, perfRoutes } from './routes'
 
 const routes = [
   {
+    path: '/',
+    name: 'Home',
+    component: () => import('../pages/index.vue'),
+  },
+  ...basicRoutes,
+  ...perfRoutes,
+  ...eventsRoutes,
+  ...cameraRoutes
+/*   {
     path: '/',
     name: 'Home',
     component: () => import('./pages/index.vue'),
@@ -92,11 +103,16 @@ const routes = [
     component: () => import('./pages/rendering-modes/index.vue'),
   },
   {
+    path: '/on-demand-rendering',
+    name: 'On Demand Rendering',
+    component: () => import('./pages/on-demand-rendering.vue'),
+  },
+  {
     path: '/empty',
     name: 'empty',
     component: () => import('./pages/empty.vue'),
   },
-  
+   */
 ]
 export const router = createRouter({
   history: createWebHistory(),
