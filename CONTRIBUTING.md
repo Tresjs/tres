@@ -44,12 +44,28 @@ If you have the package manager installed, you can install pnpm using the follow
 brew install pnpm
 ```
 
+Build the core library 
+
+```
+pnpm run build
+```
+
+Now run the playground to get started
+
+```
+pnpm run playground
+```
 
 ## Development
 
-To start developing, you can run `pnpm run playground` in the root folder.
+To start developing, you can run `pnpm playground` in the root folder.
 
 This will start the dev server for the playground at `http://localhost:5173/` where you can test the changes you are making in the `src` folder. 
+
+After running the dev server press F5 or `Run and Debug` play mode to be able to set and read breakpoints.
+
+If you have breakpoints hit, you'll notice that chrome devtools always jumps to the sources tab.
+You can disable this in chrome devtools => ⚙️ Settings => Toggle `Focus Sources panel when triggering a breakpoint`.
 
 
 > **Important**
