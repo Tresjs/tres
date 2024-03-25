@@ -1,20 +1,19 @@
-# WIP
-<!-- # Primitives
+# Primitives
 
-El componente `<primitive />` es un componente versátil de bajo nivel en TresJS que te permite utilizar directamente cualquier objeto de three.js dentro de tu aplicación Vue sin una abstracción. Actúa como un puente entre el sistema de reactividad de Vue y el grafo de escena de three.js.
+Le composant `<primitive />` est un composant polyvalent de bas niveau dans TresJS qui vous permet d'utiliser directement n'importe quel objet three.js dans votre application Vue sans abstraction. Il agit comme un pont entre le système de réactivité de Vue et le graphe de scène de three.js.
 
 ## Usage
 
 ```html
 <script setup lang="ts">
-  // Importa las clases necesarias de three.js
+  // Importez les classes three.js nécessaires
   import { Mesh, BoxGeometry, MeshBasicMaterial } from 'three';
 
-  // Crea una geometría de caja y un material básico
+  // Créer une géométrie de boîte et un matériau de base
   const geometry = new BoxGeometry(1, 1, 1);
   const material = new MeshBasicMaterial({ color: 0x00ff00 });
 
-  // Crea un mesh con la geometría y el material
+  // Créer un mesh avec la géométrie et le matériau
   const meshWithMaterial = new Mesh(geometry, material);
 </script>
 
@@ -27,11 +26,11 @@ El componente `<primitive />` es un componente versátil de bajo nivel en TresJS
 
 ## Props
 
-`object`: Esta propiedad espera un objeto `Object3D` de three.js o cualquiera de sus clases derivadas. Es el objeto principal que el componente `<primitive />` renderizará. En el ejemplo actualizado, se pasa un objeto `Mesh` con su correspondiente `Material` a esta propiedad.
+`object` : cette propriété attend un objet `Object3D` de three.js ou de l'une de ses classes dérivées. C'est l'objet principal que le composant `<primitive />` rendra. Dans l'exemple mis à jour, un objet « Mesh » avec son « Material » correspondant est transmis à cette propriété.
 
-## Uso con Modelos
+## Utiliser avec des modèles
 
-El componente `<primitive />` es especialmente útil para renderizar objetos complejos como modelos cargados desde fuentes externas. El siguiente ejemplo muestra cómo cargar un modelo desde un archivo GLTF y renderizarlo utilizando el componente `<primitive />`.
+Le composant `<primitive />` est particulièrement utile pour restituer des objets complexes tels que des modèles chargés à partir de sources externes. L'exemple suivant montre comment charger un modèle à partir d'un fichier GLTF et le restituer à l'aide du composant `<primitive />`.
 
 ```html
 <script lang="ts" setup>
@@ -45,4 +44,4 @@ const { nodes } = await useGLTF('/models/AkuAku.gltf')
     <primitive :object="nodes.AkuAku" />
   </Suspense>
 </TresCanvas>
-``` -->
+```
