@@ -16,9 +16,19 @@ const { logError } = useLogger()
 
 const supportedPointerEvents = [
   'onClick',
+  'onContextMenu',
   'onPointerMove',
   'onPointerEnter',
   'onPointerLeave',
+  'onPointerOver',
+  'onPointerOut',
+  'onDoubleClick',
+  'onPointerDown',
+  'onPointerUp',
+  'onPointerCancel',
+  'onPointerMissed',
+  'onLostPointerCapture',
+  'onWheel',
 ]
 
 export function invalidateInstance(instance: TresObject) {
@@ -46,7 +56,8 @@ export const nodeOps: () => RendererOptions<TresObject, TresObject | null> = () 
     let instance: TresObject | null
 
     if (tag === 'primitive') {
-      if (props?.object === undefined) logError('Tres primitives need a prop \'object\'')
+      if (props?.object === undefined)
+        logError('Tres primitives need a prop \'object\'')
       const object = props.object as TresObject
       name = object.type
       instance = Object.assign(object.clone(), { type: name }) as TresObject
@@ -54,7 +65,9 @@ export const nodeOps: () => RendererOptions<TresObject, TresObject | null> = () 
     else {
       const target = catalogue.value[name]
       if (!target) {
-        logError(`${name} is not defined on the THREE namespace. Use extend to add it to the catalog.`)
+        logError(
+          `${name} is not defined on the THREE namespace. Use extend to add it to the catalog.`,
+        )
       }
       instance = new target(...props.args)
     }
@@ -107,14 +120,14 @@ export const nodeOps: () => RendererOptions<TresObject, TresObject | null> = () 
     const parentObject = parent || scene
     
     if (child?.isObject3D) {
-      const { registerCamera, registerObjectAtPointerEventHandler } = child.__tres.root
+      const { registerCamera } = child.__tres.root
       if (child?.isCamera) {
         registerCamera(child as unknown as Camera)
       }
-      if (
-        child && supportedPointerEvents.some(eventName => child[eventName])
-      ) {
-        registerObjectAtPointerEventHandler(child as Object3D)
+
+      // Track onPointerMissed objects separate from the scene
+      if (child['onPointerMissed']) {
+        child.__tres.root.eventManager.registerPointerMissedObject(child as Object3D)
       }
     }
 
@@ -137,11 +150,6 @@ export const nodeOps: () => RendererOptions<TresObject, TresObject | null> = () 
     const ctx = node.__tres
     // remove is only called on the node being removed and not on child nodes.
     node.parent = node.parent || scene
-    
-    const { 
-      deregisterObjectAtPointerEventHandler,
-      deregisterBlockingObjectAtPointerEventHandler, 
-    } = ctx.root
 
     if (node.isObject3D) {
 
@@ -156,19 +164,10 @@ export const nodeOps: () => RendererOptions<TresObject, TresObject | null> = () 
         }
       }
 
-      const deregisterAtPointerEventHandlerIfRequired = (object: TresObject) => {
-        deregisterBlockingObjectAtPointerEventHandler(object as Object3D)
-        if (
-          object && supportedPointerEvents.some(eventName => object[eventName])
-        )
-          deregisterObjectAtPointerEventHandler?.(object as Object3D)
-      }
-
       const deregisterCameraIfRequired = (object: Object3D) => {
         const deregisterCamera = node.__tres.root.deregisterCamera
 
-        if ((object as Camera).isCamera)
-          deregisterCamera?.(object as Camera)
+        if ((object as Camera).isCamera) deregisterCamera?.(object as Camera)
       }
 
       node.removeFromParent?.()
@@ -176,12 +175,15 @@ export const nodeOps: () => RendererOptions<TresObject, TresObject | null> = () 
       node.traverse((child: Object3D) => {
         disposeMaterialsAndGeometries(child as TresObject)
         deregisterCameraIfRequired(child)
-        deregisterAtPointerEventHandlerIfRequired?.(child as TresObject)
+        // deregisterAtPointerEventHandlerIfRequired?.(child as TresObject)
+        if (child['onPointerMissed']) {
+          ctx.root.eventManager.deregisterPointerMissedObject(child)
+        }
       })
 
       disposeMaterialsAndGeometries(node)
       deregisterCameraIfRequired(node as Object3D)
-      deregisterAtPointerEventHandlerIfRequired?.(node as TresObject)
+      /*  deregisterAtPointerEventHandlerIfRequired?.(node as TresObject) */
       invalidateInstance(node as TresObject)
       node.dispose?.()
       
@@ -219,21 +221,24 @@ export const nodeOps: () => RendererOptions<TresObject, TresObject | null> = () 
       }
 
       if (node.__tres.root) {
-        const { 
-          registerBlockingObjectAtPointerEventHandler,
-          deregisterBlockingObjectAtPointerEventHandler, 
-        } = node.__tres.root
-  
-        if (node.isObject3D && key === 'blocks-pointer-events') {
-          if (nextValue || nextValue === '')
-            registerBlockingObjectAtPointerEventHandler(node as Object3D)
-          else
-            deregisterBlockingObjectAtPointerEventHandler(node as Object3D)
-  
-          return
-        }
+        // const { 
+        //   registerBlockingObjectAtPointerEventHandler,
+        //   deregisterBlockingObjectAtPointerEventHandler, 
+        // } = node.__tres.root
       }
+      if (node?.isObject3D && key === 'blocks-pointer-events') {
+      //   if (nextValue || nextValue === '')
+      //     registerBlockingObjectAtPointerEventHandler(node as Object3D)
+      //   else
+      //     deregisterBlockingObjectAtPointerEventHandler(node as Object3D)
 
+        if (nextValue || nextValue === '')
+          node[key] = nextValue
+        else
+          delete node[key]
+        return
+      }
+        
       let finalKey = kebabToCamel(key)
       let target = root?.[finalKey]
 
@@ -243,8 +248,15 @@ export const nodeOps: () => RendererOptions<TresObject, TresObject | null> = () 
         const args = nextValue ?? []
         const instanceName = node.__tres.type || node.type
 
-        if (instanceName && prevArgs.length && !deepArrayEqual(prevArgs, args)) {
-          root = Object.assign(prevNode, new catalogue.value[instanceName](...nextValue))
+        if (
+          instanceName
+          && prevArgs.length
+          && !deepArrayEqual(prevArgs, args)
+        ) {
+          root = Object.assign(
+            prevNode,
+            new catalogue.value[instanceName](...nextValue),
+          )
         }
         return
       }

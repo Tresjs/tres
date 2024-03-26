@@ -45,6 +45,20 @@ export interface PerformanceState {
   }
 }
 
+interface TresEventManager {
+  /**
+   * Forces the event system to refire events with the previous mouse event
+   */
+  forceUpdate: () => void
+  /**
+   * pointer-missed events by definition are fired when the pointer missed every object in the scene
+   * So we need to track them separately
+   * Note: These used in nodeOps
+   */
+  registerPointerMissedObject: (object: Object3D) => void
+  deregisterPointerMissedObject: (object: Object3D) => void
+}
+
 export interface TresContext {
   scene: ShallowRef<TresScene>
   sizes: SizesType
@@ -68,6 +82,7 @@ export interface TresContext {
   registerCamera: (camera: Camera) => void
   setCameraActive: (cameraOrUuid: Camera | string) => void
   deregisterCamera: (camera: Camera) => void
+  eventManager: TresEventManager
   // Events
   // Temporaly add the methods to the context, this should be handled later by the EventManager state on the context https://github.com/Tresjs/tres/issues/515
   // When thats done maybe we can short the names of the methods since the parent will give the context.
