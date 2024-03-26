@@ -290,7 +290,6 @@ export const nodeOps: () => RendererOptions<TresObject, TresObject | null> = () 
   function parentNode(node) {
     return node?.parent || null
   }
-  
 
   return {
     insert,
