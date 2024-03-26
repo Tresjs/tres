@@ -1,6 +1,6 @@
 # Composables
 
-L'API de composition Vue 3 [Composition API]((https://vuejs.org/guide/extras/composition-api-faq.html#what-is-composition-api)) vous permet de créer une logique réutilisable qui peut être partagée entre les composants. Il vous permet également de créer des hooks personnalisés qui peuvent être utilisés dans vos composants.
+L'API de composition Vue 3 [Composition API](https://vuejs.org/guide/extras/composition-api-faq.html#what-is-composition-api) vous permet de créer une logique réutilisable qui peut être partagée entre les composants. Il vous permet également de créer des hooks personnalisés qui peuvent être utilisés dans vos composants.
 
 **TresJS** tire pleinement parti de cette API pour créer un ensemble de fonctions composables qui peuvent être utilisées pour créer des animations, interagir avec la scène, etc. Il vous permet également de créer des scènes plus complexes qui pourraient ne pas être possibles en utilisant uniquement les composants Vue (textures, loaders, etc.).
 
