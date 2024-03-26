@@ -1,16 +1,16 @@
-# WIP
 ---
-title: 
-description: 
-author: 
-thumbnail: 
-difficulty: 
+title: Groupes
+description: Apprenez à regrouper plusieurs objets dans la scène.
+author: alvarosabu
+thumbnail: /recipes/groups.png
+difficulty: 0
 ---
-<!-- # Grupo
 
-Un `<TresGroup>` es una instancia de la clase [THREE.Group](https://threejs.org/docs/#api/en/objects/Group) que es casi lo mismo que un [THREE.Object3D](https://threejs.org/docs/#api/en/objects/Object3D) pero te permite **agrupar varios objetos en la escena** para que puedan ser manipulados como una unidad única (transformación, rotación, etc).
+# Groupes
 
-## Uso
+Un `<TresGroup>` est une instance de la classe [THREE.Group](https://threejs.org/docs/#api/en/objects/Group) qui est quasiment la même que [THREE.Object3D](https://threejs.org/docs/#api/en/objects/Object3D) mais qui permet de **regrouper plusieurs objets dans la scène** afin qu'ils puissent être manipulés comme une seule unité (transformation, rotation, etc.).
+
+## Usage
 
 ```vue{13,22}
 <script setup lang="ts">
@@ -37,4 +37,4 @@ onLoop(() => {
     </TresGroup>
   </TresCanvas>
 </template>
-``` -->
+```

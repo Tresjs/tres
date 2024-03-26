@@ -1,27 +1,27 @@
-# WIP
 ---
-title: 
-description: 
-author: 
-thumbnail: 
-difficulty: 
+title: Lumières et ombres
+description: Apprenez à ajouter des lumières et des ombres à votre scène.
+author: alvarosabu
+thumbnail: /recipes/lights-and-shadows.png
+difficulty: 0
 ---
-<!-- # Luces y sombras
 
-Esta guía te ayudará a comenzar con luces y sombras simples en TresJS.
+# Lumières et ombres
 
-Construiremos una escena simple con tres mallas y un plano, pero solo dos tendrán sombras.
+Ce guide vous aidera à démarrer avec des lumières et des ombres simples dans TresJS.
+
+Nous allons construire une scène simple avec trois maillages et un plan, mais seulement deux auront des ombres.
 
 <SandboxDemo url="https://play.tresjs.org/#eNqVVt1y2jwQfRUN30WSKdimhLbjL3Qo9GfaadpM4K7uhbAXUGpLGkn8pJm8e1eSDXZCMmRCGGv37NHZ1XrFXWuqQH+QMlivoBW3LnSqmDREg1lJklO+GCQto5PW+4SzQgplyB3RS5rnYnMNc3JP5koU5ASjT/6vQSzrmPI11W2y0nANPAP1XQhZBQwNIm50mArVjPypZsyMBTdK5HrHv4Mz4EboRsSIapZOljQTm0sq22Ry/WU0FrlQE0lTaJMfYio4oEsyvtgxmqUCOEl4wlPBtSGLnAzIXcIJSXOgyhHE5OS/d68/jsb9k7b1YOK4iY6JUStwFprLJY3JnObaGzwEN5veSogfarMIsTJyhRlWAuOHgi3I7BXHzQTQfb9XPRNbewyD2pmcnu3dd0RwW3XMetA8B4/y3tPTMzJ475Nn81PPGaxpvoIzZ6xbAiUMNUzw4Ja8GpAoiLoWgpruHWXCL0LfRNgyuDBQyJwawBUhF/u+IOvOjPEM22uRJy2ywWex6Wj21yMR2+yEsDJbiitQWkJq2BrGtABFSSyFZlYWEv7qt8nbwH/9Ru54LtZoPu/bZ+oCcdm1K45Hjc9R4FZzt+hGUYSrxoaXoJfNPTqv2wQ/kdugqol1RG1ySc0yuPrqvSVNlTye5BcQBRh1i2LUQtuYbpt0reCeZas2rm09FYIjKShGc5LaVsGosjXrUsMq4JF2BXMM8QeJESnVpuN7tZkWqrefR7pHYntAttVcfb1I+vln+3ec9LrWplisvz2Gx2oncglqX+ejZX0ejaLe6NiKpoD991QVO71DzdEpW4OErnkOab/CqXuoRRC8/3+i2BNDeUZV9jiz+Vv791Rmtdw+FDM7Y7+zxdKQmHEDHPO6LV+YxkvxkWENbGY09/Dnumr3rhym9HL8aEDDRVibG612yw/7TkFlcKMFx5vKDaakdOAFFfv5ZW31u8U6ktbSGKnjMEwzjvEZ5GytAg4m5LII6/BhL+gHUZgxbUJrRnTSchO5QexvoZdw+wikf1OnL83NXcwG6B+JTXAE/w47PA9wiJXMlTEomI2pc9tb7xheixsiY/8d6n0FuqiXAW97vEyOrm8NPuxGrsA47WEbFM3qljhsIAXZC4h9wHPUCOxkULAjSCuoTf48eBPmbFanrO467Emj8ZKds8WDjkxFIVkO6qe03d/sTHdHf3O23U8IF7OE9M8B+43eeslX2Cyg1lju/VHiZADj3Z8mP2CLzztnIbJVXh7OE85r0CJfWY0eNlrxDGXXcE7tV/eC4Q+Pqf60dW9umVRDqMFfO876q5pJu17zht+ucA7vjmP8TJX2mfWC3q7g9/8AWlN6bg==" />
 
-## Configurando la escena (opcional)
+## Configurer la scène (facultatif)
 
-Importamos todos los módulos que necesitamos, para mayor comodidad podemos usar orbit-controls de cientos,
-[ver aquí para saber cómo](/examples/orbit-controls).
+Nous importons tous les modules dont nous avons besoin, pour plus de commodité nous pouvons utiliser des centaines de contrôles d'orbite,
+[voir ici pour savoir comment](/examples/orbit-controls).
 
-Coloquemos cuatro objetos en nuestra escena, uno será el plano que recibirá sombras, dos de ellos proyectarán sombras y el último no proyectará ninguna sombra en absoluto.
+Plaçons quatre objets dans notre scène, l'un sera le plan qui recevra les ombres, deux d'entre eux projetteront des ombres et le dernier ne projettera aucune ombre.
 
-Voy a usar [MeshToonMaterial](https://threejs.org/docs/index.html?q=toon#api/en/materials/MeshToonMaterial). Simplemente porque podemos ver fácilmente el "sobreado suave".
+Nous allons utiliser [MeshToonMaterial](https://threejs.org/docs/index.html?q=toon#api/en/materials/MeshToonMaterial). Tout simplement parce que l’on voit facilement le « soft overlay ».
 
 ```vue
 <script setup lang="ts">
@@ -67,27 +67,27 @@ import { OrbitControls } from '@tresjs/cientos'
 </template>
 ```
 
-## Luces (explicación)
+## Lumières (explication)
 
-Como sabes, cada instancia en [ThreeJs](https://threejs.org/) está disponible en **TresJs**, por lo que todos los tipos de luces también están disponibles, solo necesitamos agregar el prefijo `Tres` para usarlos.
+Comme vous le savez, chaque instance dans [ThreeJs](https://threejs.org/) est disponible dans **TresJs**, donc tous les types de lumières sont également disponibles, il suffit d'ajouter le préfixe `Tres` pour les utiliser.
 
-Pero no todas las luces pueden generar sombras, esta definición proviene directamente de ThreeJs y tiene sentido. Por ejemplo, el propósito de una [ambientLight](https://threejs.org/docs/index.html?q=ambient#api/en/lights/AmbientLight) es iluminar todos los lados de tu escena, por lo que no tiene sentido que genere sombras. En cambio, una [DirectionalLight](https://threejs.org/docs/index.html?q=light#api/en/helpers/DirectionalLightHelper) que imita al sol puede y debe generar sombras.
+Mais toutes les lumières ne peuvent pas projeter des ombres, cette définition vient directement de ThreeJs et est logique. Par exemple, le but d'un [ambientLight](https://threejs.org/docs/index.html?q=ambient#api/en/lights/AmbientLight) est d'éclairer tous les côtés de votre scène, cela n'a donc aucun sens de projeter des ombres. D'un autre côté, une [DirectionalLight](https://threejs.org/docs/index.html?q=light#api/en/helpers/DirectionalLightHelper) qui imite le soleil peut et doit générer des ombres.
 
-## Sombras (explicación)
+## Ombres (explication)
 
-También existen muchos tipos de sombras, por ejemplo, la "sombra suave" se genera automáticamente cuando un objeto recibe más luz de un lado, pero en resumen, una "sombra predeterminada de ThreeJS" que se dirige hacia otra superficie debe ser proyectada por una malla y otra malla debe recibirla. Como vemos en nuestro ejemplo, el `Plano` está recibiendo una sombra pero no la está proyectando. Ten en cuenta que no todos los materiales pueden proyectar o recibir sombras.
+Il existe également de nombreux types d'ombres, par exemple une "ombre douce" est générée automatiquement lorsqu'un objet reçoit plus de lumière d'un côté, mais en bref, une "ombre par défaut ThreeJS" qui est dirigée vers une autre surface doit être projetée par un maillage et une autre maille doit le recevoir. Comme nous le voyons dans notre exemple, le `Plan` reçoit une ombre mais ne la projette pas. Gardez à l’esprit que tous les matériaux ne peuvent pas projeter ou recevoir des ombres.
 
-Internamente, ThreeJS genera automáticamente una nueva malla con un [ShadowMaterial](https://threejs.org/docs/index.html?q=shado#api/en/materials/ShadowMaterial) que se actualiza en cada fotograma, por eso si aplicas animaciones, la sombra también se anima, pero también es por eso que debes usar las sombras con cuidado, ya que pueden ralentizar el rendimiento.
+En interne, ThreeJS génère automatiquement un nouveau maillage avec un [ShadowMaterial](https://threejs.org/docs/index.html?q=shado#api/en/materials/ShadowMaterial) qui met à jour chaque image, donc si vous appliquez des animations, l'ombre s'anime également, mais c'est aussi pourquoi vous devez utiliser les ombres avec précaution car elles peuvent ralentir les performances.
 
 ::: warning
-El uso excesivo de sombras de esta manera puede afectar el rendimiento. Sin embargo, existen formas de mejorar el rendimiento. Para obtener más información, consulta [este video](https://youtu.be/WGNvVGrS0kY?si=q7XyL5eABKUh3gbS&t=1256)
+Une utilisation excessive des ombres de cette manière peut affecter les performances. Il existe cependant des moyens d’améliorer les performances. Pour plus d'informations, regardez [cette vidéo](https://youtu.be/WGNvVGrS0kY?si=q7XyL5eABKUh3gbS&t=1256)
 :::
 
-## Habilitando las sombras
+## Activation des ombres
 
-Podemos dividir esto en tres pasos:
+Nous pouvons décomposer cela en trois étapes :
 
-### Activar las sombras en el renderizador
+### Activer les ombres dans le moteur de rendu
 
 ```vue
 //...
@@ -101,11 +101,11 @@ Podemos dividir esto en tres pasos:
   //...
 </template>
 ```
-### Configurar la luz para proyectar sombras
+### Réglez la lumière pour projeter des ombres
 
-Podemos simplemente agregar el booleano `cast-shadow`, Vue lo interpreta como una `prop` con valor `true`.
+Nous pouvons simplement ajouter le booléen `cast-shadow`, Vue l'interprète comme un `prop` avec la valeur `true`.
 
-_La luz ambiental no genera ningún tipo de sombra aquí_
+_La lumière ambiante ne génère ici aucun type d'ombre_
 
 ```vue
 //...
@@ -121,9 +121,9 @@ _La luz ambiental no genera ningún tipo de sombra aquí_
   //...
 </template>
 ```
-### Establecer los objetos para proyectar o recibir sombras
+### Définir des objets pour projeter ou recevoir des ombres
 
-De manera similar al paso anterior, configuramos la malla que queremos que proyecte sombra (nuestra esfera) con la propiedad `cast-shadow`, y configuramos el objeto para recibir sombra (nuestro plano) con la propiedad `receive-shadow`.
+Semblable à l'étape précédente, nous définissons le maillage sur lequel nous voulons projeter l'ombre (notre sphère) avec la propriété `cast-shadow`, et nous définissons l'objet pour qu'il reçoive l'ombre (notre plan) avec la propriété `receive-shadow`.
 
 ```vue
 //...
@@ -148,7 +148,7 @@ De manera similar al paso anterior, configuramos la malla que queremos que proye
 </template>
 ```
 
-Ahora tenemos todos los pasos necesarios para agregar sombras a nuestra escena, y si aplicamos lo que aprendimos en [animaciones básicas](/examples/basic-animations), y agregamos movimiento a nuestro cubo, verás que la sombra también se anima 🤩
+Nous avons maintenant toutes les étapes nécessaires pour ajouter des ombres à notre scène, et si nous appliquons ce que nous avons appris dans [animations de base](/examples/basic-animations) et ajoutons du mouvement à notre cube, vous verrez que l'ombre s'anime bien 🤩
 
 ```vue
 <script setup>
@@ -180,4 +180,4 @@ onLoop(() => {
 </template>
 ```
 
-_Nota que intencionalmente no apliqué `cast-shadow` al `Cone` para que no proyecte ninguna sombra_ -->
+_Notez que je n'ai intentionnellement pas appliqué `cast-shadow` au `Cone` afin qu'il ne projette aucune ombre_
