@@ -34,7 +34,7 @@ export function invalidateInstance(instance: TresObject) {
 
 export const nodeOps: () => RendererOptions<TresObject, TresObject | null> = () => {
   let scene: TresScene | null = null
-  return { createElement(tag, _isSVG, _anchor, props): TresObject | null {
+  function createElement(tag, _isSVG, _anchor, props): TresObject | null {
     if (!props) props = {}
 
     if (!props.args) {
@@ -92,8 +92,8 @@ export const nodeOps: () => RendererOptions<TresObject, TresObject | null> = () 
     }
 
     return instance as TresObject
-  },
-  insert(child, parent) {
+  }
+  function insert(child, parent) {
     if (!child) return
     
     if (parent && parent.isScene) {
@@ -131,8 +131,8 @@ export const nodeOps: () => RendererOptions<TresObject, TresObject | null> = () 
         parentObject[child.attach] = child
       }
     }
-  },
-  remove(node) {
+  }
+  function remove(node) {
     if (!node) return
     const ctx = node.__tres
     // remove is only called on the node being removed and not on child nodes.
@@ -187,14 +187,14 @@ export const nodeOps: () => RendererOptions<TresObject, TresObject | null> = () 
       
     }
 
-  },
-  patchProp(node, prop, prevValue, nextValue) {
+  }
+  function patchProp(node, prop, prevValue, nextValue) {
     if (node) {
       let root = node
       let key = prop
       if (node.__tres.primitive && key === 'object' && prevValue !== null) {
         // If the prop 'object' is changed, we need to re-instance the object and swap the old one with the new one
-        const newInstance = nodeOps.createElement('primitive', undefined, undefined, { 
+        const newInstance = createElement('primitive', undefined, undefined, { 
           object: nextValue, 
         })
         for (const subkey in newInstance) {
@@ -285,23 +285,27 @@ export const nodeOps: () => RendererOptions<TresObject, TresObject | null> = () 
 
       invalidateInstance(node as TresObject)
     }
-  },
+  }
 
-  parentNode(node) {
+  function parentNode(node) {
     return node?.parent || null
-  },
-  createText: () => noop('createText'),
-  createComment: () => noop('createComment'),
+  }
+  
 
-  setText: () => noop('setText'),
-
-  setElementText: () => noop('setElementText'),
-  nextSibling: () => noop('nextSibling'),
-
-  querySelector: () => noop('querySelector'),
-
-  setScopeId: () => noop('setScopeId'),
-  cloneNode: () => noop('cloneNode'),
-
-  insertStaticContent: () => noop('insertStaticContent') }
+  return {
+    insert,
+    remove,
+    createElement,
+    patchProp,
+    parentNode,
+    createText: () => noop('createText'),
+    createComment: () => noop('createComment'),
+    setText: () => noop('setText'),
+    setElementText: () => noop('setElementText'),
+    nextSibling: () => noop('nextSibling'),
+    querySelector: () => noop('querySelector'),
+    setScopeId: () => noop('setScopeId'),
+    cloneNode: () => noop('cloneNode'),
+    insertStaticContent: () => noop('insertStaticContent'),
+  }
 }
