@@ -16,7 +16,6 @@ const { isCube } = useControls({
 })
 
 const model = computed(() => isCube.value ? nodes.Cube : AkuAku)
-
 </script>
 
 <template>

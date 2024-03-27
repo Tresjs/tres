@@ -27,14 +27,12 @@ const gl = {
 }
 
 useControls('fpsgraph')
-
 </script>
 
 <template>
   <TresLeches />
   <TresCanvas
     v-bind="gl"
-    ref="canvas"
     window-size
     class="awiwi"
     :style="{ background: '#008080' }"
@@ -44,7 +42,7 @@ useControls('fpsgraph')
     />
     <OrbitControls />
 
-     <Suspense>
+    <Suspense>
       <DynamicModel />
     </Suspense>
     <TresAxesHelper :args="[1]" />

@@ -12,7 +12,7 @@ const routes = [
   ...perfRoutes,
   ...eventsRoutes,
   ...cameraRoutes,
-  ...modelsRoutes
+  ...modelsRoutes,
 /*   {
     path: '/',
     name: 'Home',

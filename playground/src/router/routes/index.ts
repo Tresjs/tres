@@ -1,4 +1,4 @@
-import { modelsRoutes } from './models';
+import { modelsRoutes } from './models'
 import { cameraRoutes } from './cameras'
 import { eventsRoutes } from './events'
 import { basicRoutes } from './basic'
@@ -9,5 +9,5 @@ export {
   perfRoutes,
   eventsRoutes,
   cameraRoutes,
-  modelsRoutes
+  modelsRoutes,
 }
