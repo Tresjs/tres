@@ -62,6 +62,7 @@ export const enConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
         items: [
           { text: 'Orbit Controls', link: '/cookbook/orbit-controls' },
           { text: 'Basic Animations', link: '/cookbook/basic-animations' },
+          { text: 'Advanced Animations', link: '/cookbook/advanced-animations' },
           { text: 'Groups', link: '/cookbook/groups' },
           { text: 'Load Textures', link: '/cookbook/load-textures' },
           { text: 'Load Models', link: '/cookbook/load-models' },
@@ -106,7 +107,8 @@ export const enConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
       { text: 'API', link: '/api/tres-canvas' },
       /*       { text: 'API', link: '/api/' },
       { text: 'Config', link: '/config/' }, */
-      { text: 'Resources',
+      {
+        text: 'Resources',
         items: [
           { text: 'Team', link: '/team' },
           { text: 'Releases', link: 'https://github.com/Tresjs/tres/releases' },

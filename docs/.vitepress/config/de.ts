@@ -61,6 +61,7 @@ export const deConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
         items: [
           { text: 'Orbit-Controls', link: '/de/cookbook/orbit-controls' },
           { text: 'Einfache Animationen', link: '/de/cookbook/basic-animations' },
+          { text: 'Fortgeschrittene Animationen', link: '/de/cookbook/advanced-animations' },
           { text: 'Gruppen', link: '/de/cookbook/groups' },
           { text: 'Texturen laden', link: '/de/cookbook/load-textures' },
           { text: 'Modelle laden', link: '/de/cookbook/load-models' },
