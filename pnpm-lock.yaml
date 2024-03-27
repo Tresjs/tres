@@ -171,8 +171,8 @@ importers:
         specifier: ^0.2.3
         version: 0.2.3(vite@5.2.6)
       vite-plugin-vue-devtools:
-        specifier: 1.0.0-rc.6
-        version: 1.0.0-rc.6(pug@3.0.2)(vite@5.2.6)
+        specifier: 1.0.0-rc.8
+        version: 1.0.0-rc.8(pug@3.0.2)(vite@5.2.6)
       vue-tsc:
         specifier: ^1.8.25
         version: 1.8.27(typescript@5.4.3)
@@ -2360,8 +2360,8 @@ packages:
       - rollup
     dev: true
 
-  /@vite-plugin-vue-devtools/core@1.0.0-rc.6(vite@5.2.6):
-    resolution: {integrity: sha512-9A7BEvW6tPgLJK+bRyjWCMcXs/mWAdyrcSH1hNr+b7d5lEWoyBrm9d8s0UGEXLnRoJAfHhrAx525wMUGZI1QNA==}
+  /@vite-plugin-vue-devtools/core@1.0.0-rc.8(vite@5.2.6):
+    resolution: {integrity: sha512-UtNf/I5D6vk/xr/V+O6lMgqYbCJQ+ctjXPiebzz/wgMuNj4DF1iEuui9E260vrIgUsqaK4O1zmTkjoYtb9lYYw==}
     peerDependencies:
       vite: ^3.1.0 || ^4.0.0-0 || ^5.0.0-0
     dependencies:
@@ -8561,13 +8561,13 @@ packages:
       - supports-color
     dev: true
 
-  /vite-plugin-vue-devtools@1.0.0-rc.6(pug@3.0.2)(vite@5.2.6):
-    resolution: {integrity: sha512-mtWRTz1VwBEZcb6rosgiDvXHZunxPxgBaPsORbJECZGkjZFRig7NIEwiRXgSgpx+DAiEzBoX+FLsNnGgVq+VuA==}
+  /vite-plugin-vue-devtools@1.0.0-rc.8(pug@3.0.2)(vite@5.2.6):
+    resolution: {integrity: sha512-xl7m81yHaMG4TuOFSLkHjbOLUJ8IEMHxc5TJJUDgqDDxrvethXFy6Ay+AOH1ilZLZ1N45KR13YnqWw+f89NwOw==}
     engines: {node: '>=v14.21.3'}
     peerDependencies:
       vite: ^3.1.0 || ^4.0.0-0 || ^5.0.0-0
     dependencies:
-      '@vite-plugin-vue-devtools/core': 1.0.0-rc.6(vite@5.2.6)
+      '@vite-plugin-vue-devtools/core': 1.0.0-rc.8(vite@5.2.6)
       '@webfansplz/vuedoc-parser': 0.0.4(pug@3.0.2)
       birpc: 0.2.17
       execa: 8.0.1
