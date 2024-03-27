@@ -26,14 +26,14 @@ const sections = [
       <div
         class="
     mt-24 mb-12 text-center align-baseline items-center gap-6
-    sm:mt-16 sm:mb-6 sm:text-left sm:flex sm:flex-row-reverse
+    sm:mt-16 sm:mb-6 sm:text-left sm:flex sm:flex-row-reverse sm:justify-left
     "
       >
         <div>
           <img
             src="/logo.svg"
-            alt="Cientos logo"
-            class="max-w-36 sm:max-w-xs align-baseline"
+            alt="TresJS logo"
+            class="max-w-24 sm:max-w-48 align-baseline"
           >
         </div>
         <div class="sm:w-2/3">
@@ -43,7 +43,7 @@ const sections = [
         sm:mx-none sm:w-1/2 sm:max-w-72
         "
           >
-            <span class="text-cientos-blue">TresJS</span> Playground
+            <span class="text-tres-primary">TresJS</span> Playground
           </h1>
           <p class="text-lg">
             Testing zone for TresJS/core components
