@@ -1,5 +1,12 @@
 
 
+## [4.0.0-next.2](https://github.com/Tresjs/tres/compare/4.0.0-next.1...4.0.0-next.2) (2024-03-27)
+
+
+### Bug Fixes
+
+* refactor nodeOps to return methods at the end of the function ([#602](https://github.com/Tresjs/tres/issues/602)) ([cd0c3bc](https://github.com/Tresjs/tres/commit/cd0c3bcd891f019cf91f30e5fdd547630332a065))
+
 ## [4.0.0-next.1](https://github.com/Tresjs/tres/compare/3.7.0...4.0.0-next.1) (2024-03-18)
 
 
