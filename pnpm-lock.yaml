@@ -118,8 +118,8 @@ importers:
         specifier: ^5.1.0
         version: 5.1.0(vue@3.4.21)
       vitepress:
-        specifier: 1.0.0-rc.44
-        version: 1.0.0-rc.44(@algolia/client-search@4.23.1)(postcss@8.4.38)(search-insights@2.13.0)(typescript@5.4.3)
+        specifier: 1.0.1
+        version: 1.0.1(@algolia/client-search@4.23.1)(postcss@8.4.38)(search-insights@2.13.0)(typescript@5.4.3)
       vitest:
         specifier: ^1.0.4
         version: 1.4.0(@vitest/ui@1.4.0)(jsdom@23.2.0)
@@ -8645,12 +8645,12 @@ packages:
       fsevents: 2.3.3
     dev: true
 
-  /vitepress@1.0.0-rc.44(@algolia/client-search@4.23.1)(postcss@8.4.38)(search-insights@2.13.0)(typescript@5.4.3):
-    resolution: {integrity: sha512-tO5taxGI7fSpBK1D8zrZTyJJERlyU9nnt0jHSt3fywfq3VKn977Hg0wUuTkEmwXlFYwuW26+6+3xorf4nD3XvA==}
+  /vitepress@1.0.1(@algolia/client-search@4.23.1)(postcss@8.4.38)(search-insights@2.13.0)(typescript@5.4.3):
+    resolution: {integrity: sha512-eNr5pOBppYUUjEhv8S0S2t9Tv95LQ6mMeHj6ivaGwfHxpov70Vduuwl/QQMDRznKDSaP0WKV7a82Pb4JVOaqEw==}
     hasBin: true
     peerDependencies:
-      markdown-it-mathjax3: ^4.3.2
-      postcss: ^8.4.35
+      markdown-it-mathjax3: ^4
+      postcss: ^8
     peerDependenciesMeta:
       markdown-it-mathjax3:
         optional: true
