@@ -7,6 +7,7 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    AkuAku: typeof import('./src/components/AkuAku.vue')['default']
     AnimatedModel: typeof import('./src/components/AnimatedModel.vue')['default']
     BlenderCube: typeof import('./src/components/BlenderCube.vue')['default']
     CameraOperator: typeof import('./src/components/CameraOperator.vue')['default']
