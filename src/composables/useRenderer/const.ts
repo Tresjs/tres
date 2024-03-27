@@ -1,4 +1,4 @@
-import { ACESFilmicToneMapping, PCFSoftShadowMap, SRGBColorSpace } from 'three'
+import { ACESFilmicToneMapping, NoToneMapping, PCFSoftShadowMap, SRGBColorSpace } from 'three'
 
 export const rendererPresets = {
   realistic: {
@@ -11,6 +11,10 @@ export const rendererPresets = {
       enabled: true,
       type: PCFSoftShadowMap,
     },
+  },
+  flat: {
+    toneMapping: NoToneMapping,
+    toneMappingExposure: 1,
   },
 }
 
