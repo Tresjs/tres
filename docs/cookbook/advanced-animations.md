@@ -9,3 +9,25 @@ difficulty: 0
 # Advanced Animations
 
 In this guide, we are goning to use GSAP to animate our scene instead of the `useRenderLoop` composable.
+
+<StackBlitzEmbed project-id="tresjs-advanced-animations" />
+
+## Use GSAP to trigger animations on 3D Objects
+
+We don't have to rely on `useRenderLoop` or TresJS to handle our animations. We could also leverage GSAP's `to` function for example:
+
+```ts
+import gsap from 'gsap';
+
+const objectRef = shallowRef(null);
+
+watchEffect(() => {
+  if (objectRef.value) {
+    gsap.to(objectRef.value.position, {
+      y: 2,
+    });
+  }
+})
+```
+
+GSAP has been a very popular animation library and you can find a lot of help and resources online, including [these demos on codepen](https://codepen.io/GreenSock)
