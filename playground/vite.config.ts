@@ -35,8 +35,8 @@ export default defineConfig({
       theme: {
         colors: {
           'tres-primary': '#82dbc5',
-        }
-      }
+        },
+      },
     }),
     qrcode(), // only applies in dev mode
   ],
