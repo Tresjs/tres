@@ -17,7 +17,7 @@ Nous allons construire une scène simple avec trois maillages et un plan, mais s
 ## Configurer la scène (facultatif)
 
 Nous importons tous les modules dont nous avons besoin, pour plus de commodité nous pouvons utiliser des centaines de contrôles d'orbite,
-[voir ici pour savoir comment](/examples/orbit-controls).
+[voir ici pour savoir comment](/cookbook/orbit-controls).
 
 Plaçons quatre objets dans notre scène, l'un sera le plan qui recevra les ombres, deux d'entre eux projetteront des ombres et le dernier ne projettera aucune ombre.
 
@@ -148,7 +148,7 @@ Semblable à l'étape précédente, nous définissons le maillage sur lequel nou
 </template>
 ```
 
-Nous avons maintenant toutes les étapes nécessaires pour ajouter des ombres à notre scène, et si nous appliquons ce que nous avons appris dans [animations de base](/examples/basic-animations) et ajoutons du mouvement à notre cube, vous verrez que l'ombre s'anime bien 🤩
+Nous avons maintenant toutes les étapes nécessaires pour ajouter des ombres à notre scène, et si nous appliquons ce que nous avons appris dans [animations de base](/cookbook/basic-animations) et ajoutons du mouvement à notre cube, vous verrez que l'ombre s'anime bien 🤩
 
 ```vue
 <script setup>

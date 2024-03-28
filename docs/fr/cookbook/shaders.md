@@ -21,7 +21,7 @@ _Il est nécessaire d’avoir des connaissances de base sur le fonctionnement de
 ## Configurer la scène (facultatif)
 
 Nous importons tous les modules dont nous avons besoin. Pour plus de commodité, nous pouvons utiliser les orbit-controls de cientos.
-[Voir ici comment](/examples/orbit-controls).
+[Voir ici comment](/cookbook/orbit-controls).
 
 Mettons notre caméra en position `[11,11,11]`.
 
@@ -118,7 +118,7 @@ void main() {
 
 ## Animer le blob
 
-Semblable à ce que nous avons appris dans l'exemple des [Animations de bases](/examples/basic-animations), Nous commençons par référencer notre blob en utilisant [Template Ref](https://vuejs.org/guide/essentials/template-refs.html)
+Semblable à ce que nous avons appris dans l'exemple des [Animations de bases](/cookbook/basic-animations), Nous commençons par référencer notre blob en utilisant [Template Ref](https://vuejs.org/guide/essentials/template-refs.html)
 
 ```vue
 <script setup lang="ts">
