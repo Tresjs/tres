@@ -30,6 +30,37 @@ export const sharedConfig = defineConfig({
   ],
   themeConfig: {
     logo: '/logo.svg',
+    search: {
+      provider: 'local',
+      options: {
+        locales: {
+          root: {
+            translations: {
+              button: {
+                buttonText: 'Search',
+                buttonAriaLabel: 'Search',
+              },
+              modal: {
+                displayDetails: 'Display detailed list',
+                resetButtonTitle: 'Reset search',
+                backButtonTitle: 'Close search',
+                noResultsText: 'No results for',
+                footer: {
+                  selectText: 'to select',
+                  selectKeyAriaLabel: 'enter',
+                  navigateText: 'to navigate',
+                  navigateUpKeyAriaLabel: 'up arrow',
+                  navigateDownKeyAriaLabel: 'down arrow',
+                  closeText: 'to close',
+                  closeKeyAriaLabel: 'escape',
+                },
+              },
+            },
+          },
+          
+        },
+      },
+    },
     socialLinks: [
       { icon: 'github', link: 'https://github.com/tresjs/tres' },
       { icon: 'x', link: 'https://twitter.com/tresjs_dev' },
@@ -39,7 +70,7 @@ export const sharedConfig = defineConfig({
   vite: {
     optimizeDeps: {
       exclude: ['vitepress'],
-      include: ['three'],
+      include: ['@tresjs/cientos', '@stackblitz/sdk', '@vueuse/core', 'three'],
     },
     server: {
       hmr: {

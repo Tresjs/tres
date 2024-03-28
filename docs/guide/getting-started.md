@@ -77,7 +77,7 @@ This is recommended for performance and bundle size reasons, tree-shaking will w
 
 Since v2 is a custom renderer, we need to let the `vue-compiler` of your app know that the components of Tres are ok to be included to avoid the `[Vue warn]: Failed to resolve component` warning.
 
-You just need to add this to your `vite.config.ts` inside of the vue plugin:
+You just need to import and add the `templateCompilerOptions` from TresJS to your `vite.config.ts` inside of the vue plugin:
 
 ```ts
 import { templateCompilerOptions } from '@tresjs/core'

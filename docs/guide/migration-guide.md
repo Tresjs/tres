@@ -22,7 +22,7 @@ yarn upgrade @tresjs/core
 
 ### Vue Custom Renderer
 
-**TresJS** is now a [Vue Custom Renderer](https://vuejs.org/api/custom-renderer.html#createrenderer) 🎉 that lives inside of a wrapper component `TresCanvas` that is responsible for creating the `WebGLRenderer` and the `Scene` for you and creating a **new Vue App instance** to render the scene.
+**TresJS** is now a [Vue Custom Renderer](https://vuejs.org/api/custom-renderer.html#createrenderer) 🎉 that lives inside of a wrapper component called `TresCanvas` that is responsible for creating the `WebGLRenderer` and the `Scene` for you and creating a **new Vue App instance** to render the scene.
 
 ### Typescript support and Intellisense 🦾
 

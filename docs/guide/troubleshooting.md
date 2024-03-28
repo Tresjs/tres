@@ -8,13 +8,13 @@ This guide is intended to help you solve the most common issues that you might e
 
 ## I can't see my 3D scene 😭!
 
-You followed the [Getting started guide](/guide/getting-started.md) but you still can see your scene rendered.
+You followed the [Getting started guide](/guide/getting-started.md) but you still can't see your scene rendered.
 
 These are the most common reasons why you might not be able to see your scene:
 
 ### Check the height of your canvas 📏
 
-Another common issue is that the `TresCanvas` component is creating by default a `canvas` element takes the `width` and `height` of the parent element. If the parent element has no height, the canvas will have no height either.
+Another common issue is that the `TresCanvas` component is creating by default a `canvas` element that takes the `width` and `height` of the parent element. If the parent element has no height, the canvas will have no height either.
 
 ![No height found](/canvas-height.png)
 
