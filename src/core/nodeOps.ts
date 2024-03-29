@@ -4,7 +4,7 @@ import { isFunction } from '@alvarosabu/utils'
 import type { Object3D, Camera } from 'three'
 import type { TresContext } from '../composables'
 import { useLogger } from '../composables'
-import { deepArrayEqual, isHTMLTag, kebabToCamel } from '../utils'
+import { deepArrayEqual, disposeObject3D, isHTMLTag, kebabToCamel } from '../utils'
 import type { TresObject, TresObject3D, TresScene } from '../types'
 import { catalogue } from './catalogue'
 
@@ -132,29 +132,19 @@ export const nodeOps: () => RendererOptions<TresObject, TresObject | null> = () 
       }
     }
   }
+
   function remove(node) {
     if (!node) return
     const ctx = node.__tres
     // remove is only called on the node being removed and not on child nodes.
     node.parent = node.parent || scene
-    
+  
     const { 
       deregisterObjectAtPointerEventHandler,
       deregisterBlockingObjectAtPointerEventHandler, 
     } = ctx.root
 
     if (node.isObject3D) {
-
-      const disposeMaterialsAndGeometries = (object3D: TresObject) => {
-        const tresObject3D = object3D as TresObject3D
-        // TODO: to be improved on https://github.com/Tresjs/tres/pull/466/files
-        if (ctx.disposable) {
-          tresObject3D.material?.dispose()
-          tresObject3D.material = undefined
-          tresObject3D.geometry?.dispose()
-          tresObject3D.geometry = undefined
-        }
-      }
 
       const deregisterAtPointerEventHandlerIfRequired = (object: TresObject) => {
         deregisterBlockingObjectAtPointerEventHandler(object as Object3D)
@@ -173,18 +163,27 @@ export const nodeOps: () => RendererOptions<TresObject, TresObject | null> = () 
 
       node.removeFromParent?.()
 
+      // Remove nested child objects. Primitives should not have objects and children that are
+      // attached to them declaratively ...
+
       node.traverse((child: Object3D) => {
-        disposeMaterialsAndGeometries(child as TresObject)
         deregisterCameraIfRequired(child)
         deregisterAtPointerEventHandlerIfRequired?.(child as TresObject)
       })
 
-      disposeMaterialsAndGeometries(node)
       deregisterCameraIfRequired(node as Object3D)
       deregisterAtPointerEventHandlerIfRequired?.(node as TresObject)
       invalidateInstance(node as TresObject)
+
+      // Dispose the object if it's disposable, primitives needs to be manually disposed by 
+      // calling dispose from `@tresjs/core` package like this `dispose(model)`
+      const isPrimitive = node.__tres.primitive
+
+      if (!isPrimitive && node.__tres.disposable) {
+        disposeObject3D(node as TresObject3D)
+        delete node.__tres
+      } 
       node.dispose?.()
-      
     }
 
   }
