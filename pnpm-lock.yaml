@@ -26,13 +26,13 @@ importers:
         version: 1.9.0
       '@tresjs/cientos':
         specifier: 3.6.0
-        version: 3.6.0(@tresjs/core@)(three@0.159.0)(tweakpane@4.0.3)(vue@3.4.21)
+        version: 3.6.0(@tresjs/core@)(three@0.163.0)(tweakpane@4.0.3)(vue@3.4.21)
       '@tresjs/eslint-config-vue':
         specifier: ^0.2.1
         version: 0.2.1(@typescript-eslint/eslint-plugin@6.21.0)(eslint@8.57.0)(typescript@5.4.3)
       '@types/three':
-        specifier: ^0.159.0
-        version: 0.159.0
+        specifier: ^0.163.0
+        version: 0.163.0
       '@typescript-eslint/eslint-plugin':
         specifier: ^6.14.0
         version: 6.21.0(@typescript-eslint/parser@6.21.0)(eslint@8.57.0)(typescript@5.4.3)
@@ -88,8 +88,8 @@ importers:
         specifier: ^5.11.0
         version: 5.12.0
       three:
-        specifier: ^0.159.0
-        version: 0.159.0
+        specifier: ^0.163.0
+        version: 0.163.0
       unocss:
         specifier: ^0.58.0
         version: 0.58.7(postcss@8.4.38)(vite@5.2.6)
@@ -147,7 +147,7 @@ importers:
     dependencies:
       '@tresjs/cientos':
         specifier: 3.6.0
-        version: 3.6.0(@tresjs/core@)(three@0.159.0)(tweakpane@4.0.3)(vue@3.4.21)
+        version: 3.6.0(@tresjs/core@)(three@0.163.0)(tweakpane@4.0.3)(vue@3.4.21)
       '@tresjs/core':
         specifier: workspace:^
         version: link:..
@@ -157,7 +157,7 @@ importers:
     devDependencies:
       '@tresjs/leches':
         specifier: 0.15.0-next.3
-        version: 0.15.0-next.3(three@0.159.0)(vite@5.2.6)(vue@3.4.21)
+        version: 0.15.0-next.3(three@0.163.0)(vite@5.2.6)(vue@3.4.21)
       '@tweakpane/plugin-essentials':
         specifier: ^0.2.0
         version: 0.2.1(tweakpane@4.0.3)
@@ -1760,7 +1760,7 @@ packages:
     resolution: {integrity: sha512-C5Mc6rdnsaJDjO3UpGW/CQTHtCKaYlScZTly4JIu97Jxo/odCiH0ITnDXSJPTOrEKk/ycSZ0AOgTmkDtkOsvIA==}
     dev: true
 
-  /@tresjs/cientos@3.6.0(@tresjs/core@)(three@0.159.0)(tweakpane@4.0.3)(vue@3.4.21):
+  /@tresjs/cientos@3.6.0(@tresjs/core@)(three@0.163.0)(tweakpane@4.0.3)(vue@3.4.21):
     resolution: {integrity: sha512-VM6LamAFlcKufbrtbYN71ncuAw2JPVfKUC6Ey9+scq05qvHdQM8fU0WoppNZEtmIL7m2aUqroOZRnr9LXyZPCg==}
     peerDependencies:
       '@tresjs/core': '>=3.2'
@@ -1770,12 +1770,12 @@ packages:
     dependencies:
       '@tresjs/core': 'link:'
       '@vueuse/core': 10.9.0(vue@3.4.21)
-      camera-controls: 2.8.3(three@0.159.0)
+      camera-controls: 2.8.3(three@0.163.0)
       stats-gl: 1.0.7
       stats.js: 0.17.0
-      three: 0.159.0
-      three-custom-shader-material: 5.4.0(three@0.159.0)
-      three-stdlib: 2.29.6(three@0.159.0)
+      three: 0.163.0
+      three-custom-shader-material: 5.4.0(three@0.163.0)
+      three-stdlib: 2.29.6(three@0.163.0)
       tweakpane: 4.0.3
       vue: 3.4.21(typescript@5.4.3)
     transitivePeerDependencies:
@@ -1783,7 +1783,7 @@ packages:
       - '@vue/composition-api'
       - react
 
-  /@tresjs/core@3.5.1(three@0.159.0)(vue@3.4.21):
+  /@tresjs/core@3.5.1(three@0.163.0)(vue@3.4.21):
     resolution: {integrity: sha512-j7fHT3X8NamQk+n5A20r/UUkInHWQOJr5dzzcuOCdD6s3FFc3WMYtbRq+cJN8FR8mS0vpSK6h9s82com8cmRNA==}
     peerDependencies:
       three: '>=0.133'
@@ -1791,7 +1791,7 @@ packages:
     dependencies:
       '@alvarosabu/utils': 3.2.0
       '@vueuse/core': 10.9.0(vue@3.4.21)
-      three: 0.159.0
+      three: 0.163.0
       vue: 3.4.21(typescript@5.4.3)
     transitivePeerDependencies:
       - '@vue/composition-api'
@@ -1861,17 +1861,17 @@ packages:
       - supports-color
     dev: true
 
-  /@tresjs/leches@0.15.0-next.3(three@0.159.0)(vite@5.2.6)(vue@3.4.21):
+  /@tresjs/leches@0.15.0-next.3(three@0.163.0)(vite@5.2.6)(vue@3.4.21):
     resolution: {integrity: sha512-kI8DovuzZ/mnSY3ifEiKJ1fd3aBoM5hYSfX0uwlJ6KWblVafrhds1J8j5aoFq6Kx0pjDVsY72fL8itAfm0ZrzQ==}
     peerDependencies:
       three: '>=0.133'
       vue: '>=3.3.4'
     dependencies:
-      '@tresjs/core': 3.5.1(three@0.159.0)(vue@3.4.21)
+      '@tresjs/core': 3.5.1(three@0.163.0)(vue@3.4.21)
       '@types/three': 0.158.3
       '@unocss/core': 0.57.7
       '@vueuse/components': 10.9.0(vue@3.4.21)
-      three: 0.159.0
+      three: 0.163.0
       vite-plugin-css-injected-by-js: 3.5.0(vite@5.2.6)
       vue: 3.4.21(typescript@5.4.3)
     transitivePeerDependencies:
@@ -1890,6 +1890,10 @@ packages:
       tweakpane: ^4.0.0
     dependencies:
       tweakpane: 4.0.3
+    dev: true
+
+  /@tweenjs/tween.js@23.1.1:
+    resolution: {integrity: sha512-ZpboH7pCPPeyBWKf8c7TJswtCEQObFo3bOBYalm99NzZarATALYCo5OhbCa/n4RQyJyHfhkdx+hNrdL5ByFYDw==}
     dev: true
 
   /@types/argparse@1.0.38:
@@ -1987,12 +1991,13 @@ packages:
       meshoptimizer: 0.18.1
     dev: true
 
-  /@types/three@0.159.0:
-    resolution: {integrity: sha512-2gybdh7HtX+rGUgslzK7QEJfzD2I0qrbUGzKk+dK0FDx49UHkNX0rqZVRzIgeFjBd1HzzhNNgwNoMacm3Wyc7w==}
+  /@types/three@0.163.0:
+    resolution: {integrity: sha512-uIdDhsXRpQiBUkflBS/i1l3JX14fW6Ot9csed60nfbZNXHDTRsnV2xnTVwXcgbvTiboAR4IW+t+lTL5f1rqIqA==}
     dependencies:
+      '@tweenjs/tween.js': 23.1.1
       '@types/stats.js': 0.17.3
       '@types/webxr': 0.5.14
-      fflate: 0.6.10
+      fflate: 0.8.2
       meshoptimizer: 0.18.1
     dev: true
 
@@ -3223,12 +3228,12 @@ packages:
     engines: {node: '>=14.16'}
     dev: true
 
-  /camera-controls@2.8.3(three@0.159.0):
+  /camera-controls@2.8.3(three@0.163.0):
     resolution: {integrity: sha512-zFjqUR6onLkG+z1A6vAWfzovxZxWVSvp6e5t3lfZgfgPZtX3n74aykNAUaoRbq8Y3tOxadHkDjbfGDOP9hFf2w==}
     peerDependencies:
       three: '>=0.126.1'
     dependencies:
-      three: 0.159.0
+      three: 0.163.0
 
   /caniuse-lite@1.0.30001600:
     resolution: {integrity: sha512-+2S9/2JFhYmYaDpZvo0lKkfvuKIglrx68MwOBqMGHhQsNkLjB5xtc/TGoEPs+MxjSyN/72qer2g97nzR641mOQ==}
@@ -7872,7 +7877,7 @@ packages:
     resolution: {integrity: sha512-N+8UisAXDGk8PFXP4HAzVR9nbfmVJ3zYLAWiTIoqC5v5isinhr+r5uaO8+7r3BMfuNIufIsA7RdpVgacC2cSpw==}
     dev: true
 
-  /three-custom-shader-material@5.4.0(three@0.159.0):
+  /three-custom-shader-material@5.4.0(three@0.163.0):
     resolution: {integrity: sha512-Yn1lFlKOk3Vul3npEGAmbbFUZ5S2+yjPgM2XqJEZEYRSUUH2vk+WVYrtTB6Bcq15wa7hLUXAKoctAvbRmBmbYA==}
     peerDependencies:
       '@react-three/fiber': '>=8.0'
@@ -7888,9 +7893,9 @@ packages:
       glsl-token-string: 1.0.1
       glsl-tokenizer: 2.1.5
       object-hash: 3.0.0
-      three: 0.159.0
+      three: 0.163.0
 
-  /three-stdlib@2.29.6(three@0.159.0):
+  /three-stdlib@2.29.6(three@0.163.0):
     resolution: {integrity: sha512-nj9bHkzhhwfmqQcM/keC2RDb0bHhbw6bRXTy81ehzi8F1rtp6pJ5eS0/vl1Eg5RMFqXOMyxJ6sDHPoLU+IrVZg==}
     peerDependencies:
       three: '>=0.128.0'
@@ -7901,10 +7906,10 @@ packages:
       draco3d: 1.5.7
       fflate: 0.6.10
       potpack: 1.0.2
-      three: 0.159.0
+      three: 0.163.0
 
-  /three@0.159.0:
-    resolution: {integrity: sha512-eCmhlLGbBgucuo4VEA9IO3Qpc7dh8Bd4VKzr7WfW4+8hMcIfoAVi1ev0pJYN9PTTsCslbcKgBwr2wNZ1EvLInA==}
+  /three@0.163.0:
+    resolution: {integrity: sha512-HlMgCb2TF/dTLRtknBnjUTsR8FsDqBY43itYop2+Zg822I+Kd0Ua2vs8CvfBVefXkBdNDrLMoRTGCIIpfCuDew==}
 
   /through2@0.6.5:
     resolution: {integrity: sha512-RkK/CCESdTKQZHdmKICijdKKsCRVHs5KsLZ6pACAmF/1GPUQhonHSXWNERctxEp7RmvjdNbZTL5z9V7nSCXKcg==}
