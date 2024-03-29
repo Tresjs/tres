@@ -14,8 +14,10 @@ const { scene: AkuAku, nodes: akukuNodes } = await useGLTF(
 const { isCube } = useControls({
   isCube: false,
 })
+
+const model = computed(() => isCube.value ? nodes.Cube : AkuAku)
 </script>
 
 <template>
-  <primitive :object="isCube ? nodes.Cube : AkuAku" />
+  <primitive :object="model" />
 </template>
