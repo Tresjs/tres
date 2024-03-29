@@ -21,6 +21,7 @@ import {
   h, 
   getCurrentInstance,
   createRenderer,
+  onUnmounted
 } from 'vue'
 import pkg from '../../package.json'
 import {
@@ -31,10 +32,12 @@ import {
 } from '../composables'
 import { extend } from '../core/catalogue'
 import { nodeOps } from '../core/nodeOps'
+import { registerTresDevtools } from '../devtools'
+import { disposeObject3D } from '../utils/'
 
 import type { RendererPresetsType } from '../composables/useRenderer/const'
 import type { TresCamera, TresObject } from '../types/'
-import { registerTresDevtools } from '../devtools'
+
 
 export interface TresCanvasProps
   extends Omit<WebGLRendererParameters, 'canvas'> {
@@ -114,14 +117,24 @@ const mountCustomRenderer = (context: TresContext) => {
 }
 
 const dispose = (context: TresContext, force = false) => {
-  scene.value.children = []
+  disposeObject3D(context.scene.value)
+  /* disposeObject3D(scene.value) */
+ /*  scene.value.children.forEach((child) => {
+    child.removeFromParent()
+    disposeObject3D(child)
+  })
+  context.scene.value.children.forEach((child) => {
+    child.removeFromParent()
+    disposeObject3D(child)
+  }) */
+  /* console.log('disposing', scene.value.children)
   if (force) {
     context.renderer.value.dispose()
     context.renderer.value.renderLists.dispose()
     context.renderer.value.forceContextLoss()
   }
   mountCustomRenderer(context)
-  resume()
+  resume() */
 }
 
 const disableRender = computed(() => props.disableRender)
@@ -129,6 +142,7 @@ const disableRender = computed(() => props.disableRender)
 const context = shallowRef<TresContext | null>(null)
 
 defineExpose({ context, dispose: () => dispose(context.value as TresContext, true) })
+
 onMounted(() => {
   const existingCanvas = canvas as Ref<HTMLCanvasElement>
 
@@ -185,9 +199,16 @@ onMounted(() => {
     addDefaultCamera()
   }
 
+  
+  // HMR support
   if (import.meta.hot && context.value)
-    import.meta.hot.on('vite:afterUpdate', () => dispose(context.value as TresContext))
+  import.meta.hot.on('vite:afterUpdate', () => dispose(context.value as TresContext))
 })
+
+onUnmounted(() => {
+  dispose(context.value as TresContext)
+})
+
 </script>
 
 <template>

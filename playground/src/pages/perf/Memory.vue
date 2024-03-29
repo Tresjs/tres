@@ -7,7 +7,7 @@ import { TresLeches, useControls } from '@tresjs/leches'
 import '@tresjs/leches/styles'
 
 const gl = {
-  clearColor: '#82DBC5',
+  clearColor: '#fff',
   shadows: true,
   alpha: false,
   shadowMapType: BasicShadowMap,
@@ -24,26 +24,30 @@ const { isVisible } = useControls({
   new MeshToonMaterial({ color: 0x00ff00 }),
 )
  */
-const boxRef = ref(null)
+
+onUnmounted(() => {
+  console.log('unmounted 2')
+  // dispose(mesh)
+})
 </script>
 
 <template>
+  <RouterLink to="/basic">Go to another page</RouterLink>
   <TresLeches />
   <TresCanvas v-bind="gl">
-    <StatsGl />
     <TresPerspectiveCamera
       :position="[3, 3, 3]"
       :look-at="[0, 0, 0]"
     />
-    <!--  <TresGroup  v-if="isVisible">
-      <TresMesh ref="boxRef" :position="[0,0,0]">
+     <TresGroup v-if="isVisible">
+      <TresMesh :position="[0,0,0]">
         <TresBoxGeometry />
-        <TresMeshToonMaterial :color="0x00ff00" />
+        <TresMeshPhysicalMaterial :color="0x00ff00" />
       </TresMesh>
-    </TresGroup> -->
-    <Suspense>
-      <BlenderCube v-if="isVisible" />
-    </Suspense>
+    </TresGroup>
+   <!--  <Suspense> -->
+   <!--    <BlenderC -->ube v-if="isVisible" />
+   <!--  </Suspense> -->
     <!-- <TresMesh :position="[0,0,0]" v-if="isVisible">
       <TresBoxGeometry />
       <TresMeshToonMaterial :color="0x00ff00" />

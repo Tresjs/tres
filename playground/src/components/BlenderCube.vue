@@ -19,6 +19,10 @@ useControls({
     size: 'sm',
   },
 })
+
+onUnmounted(() => {
+  dispose(model)
+})
 </script>
 
 <template>

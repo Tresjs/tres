@@ -264,13 +264,16 @@ export function disposeObject3D(object: Object3D): void {
     const mesh = object as Mesh
     if (mesh.geometry) {
       mesh.geometry.dispose()
+      delete mesh.geometry
     }
 
     if (Array.isArray(mesh.material)) {
       mesh.material.forEach(material => disposeMaterial(material))
+      delete mesh.material
     }
     else if (mesh.material) {
       disposeMaterial(mesh.material)
+      delete mesh.material
     }
   }
 }

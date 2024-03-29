@@ -43,7 +43,8 @@ export const enConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
 
         items: [
           { text: 'Extending', link: '/advanced/extending' },
-          { text: 'Primitive', link: '/advanced/primitive' },
+          { text: 'Primitives', link: '/advanced/primitive' },
+          { text: 'Scaling Performance 🚀', link: '/advanced/performance' },
           {
             text: 'Caveats',
             link: '/advanced/caveats',
