@@ -2,7 +2,7 @@
   "name": "@tresjs/core",
   "type": "module",
   "version": "3.7.0",
-  "packageManager": "pnpm@8.10.2",
+  "packageManager": "pnpm@8.15.5",
   "description": "Declarative ThreeJS using Vue Components",
   "author": "Alvaro Saburido <hola@alvarosaburido.dev> (https://github.com/alvarosabu/)",
   "license": "MIT",
