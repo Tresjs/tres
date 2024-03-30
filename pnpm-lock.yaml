@@ -106,8 +106,8 @@ importers:
         specifier: ^0.7.1
         version: 0.7.1
       vite-plugin-dts:
-        specifier: 3.6.4
-        version: 3.6.4(typescript@5.4.3)(vite@5.2.6)
+        specifier: 3.8.1
+        version: 3.8.1(typescript@5.4.3)(vite@5.2.6)
       vite-plugin-inspect:
         specifier: ^0.8.1
         version: 0.8.3(vite@5.2.6)
@@ -8455,8 +8455,8 @@ packages:
       vite: 5.2.6
     dev: true
 
-  /vite-plugin-dts@3.6.4(typescript@5.4.3)(vite@5.2.6):
-    resolution: {integrity: sha512-yOVhUI/kQhtS6lCXRYYLv2UUf9bftcwQK9ROxCX2ul17poLQs02ctWX7+vXB8GPRzH8VCK3jebEFtPqqijXx6w==}
+  /vite-plugin-dts@3.8.1(typescript@5.4.3)(vite@5.2.6):
+    resolution: {integrity: sha512-zEYyQxH7lKto1VTKZHF3ZZeOPkkJgnMrePY4VxDHfDSvDjmYMMfWjZxYmNwW8QxbaItWJQhhXY+geAbyNphI7g==}
     engines: {node: ^14.18.0 || >=16.0.0}
     peerDependencies:
       typescript: '*'
@@ -8470,6 +8470,7 @@ packages:
       '@vue/language-core': 1.8.27(typescript@5.4.3)
       debug: 4.3.4
       kolorist: 1.8.0
+      magic-string: 0.30.8
       typescript: 5.4.3
       vite: 5.2.6
       vue-tsc: 1.8.27(typescript@5.4.3)
