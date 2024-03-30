@@ -1,7 +1,7 @@
 {
   "name": "@tresjs/core",
   "type": "module",
-  "version": "3.6.1",
+  "version": "3.7.0",
   "packageManager": "pnpm@8.10.2",
   "description": "Declarative ThreeJS using Vue Components",
   "author": "Alvaro Saburido <hola@alvarosaburido.dev> (https://github.com/alvarosabu/)",
@@ -66,6 +66,7 @@
   },
   "dependencies": {
     "@alvarosabu/utils": "^3.1.1",
+    "@vue/devtools-api": "^6.6.1",
     "@vueuse/core": "^10.7.0"
   },
   "devDependencies": {
@@ -102,7 +103,7 @@
     "vite-plugin-inspect": "^0.8.1",
     "vite-plugin-require-transform": "^1.0.21",
     "vite-svg-loader": "^5.1.0",
-    "vitepress": "1.0.0-rc.31",
+    "vitepress": "1.0.0-rc.44",
     "vitest": "^1.0.4",
     "vue": "^3.3.11",
     "vue-demi": "^0.14.6"

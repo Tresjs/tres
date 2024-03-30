@@ -34,6 +34,7 @@ import { render } from '../core/renderer'
 
 import type { RendererPresetsType } from '../composables/useRenderer/const'
 import type { TresCamera, TresObject } from '../types/'
+import { registerTresDevtools } from '../devtools'
 
 export interface TresCanvasProps
   extends Omit<WebGLRendererParameters, 'canvas'> {
@@ -93,6 +94,10 @@ const createInternalComponent = (context: TresContext) =>
       if (ctx) ctx.app = instance as App
       provide('useTres', context)
       provide('extend', extend)
+
+      if (typeof window !== 'undefined') {
+        registerTresDevtools(ctx.app, context)
+      }
       return () => h(Fragment, null, slots?.default ? slots.default() : [])
     },
   })
