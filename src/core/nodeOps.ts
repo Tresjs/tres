@@ -263,7 +263,7 @@ export const nodeOps: () => RendererOptions<TresObject, TresObject | null> = () 
         const chain = key.split('-')
         target = chain.reduce((acc, key) => acc[kebabToCamel(key)], root)
         key = chain.pop() as string
-        finalKey = key.toLowerCase()
+        finalKey = key
         if (!target?.set) root = chain.reduce((acc, key) => acc[kebabToCamel(key)], root)
       }
       let value = nextValue
