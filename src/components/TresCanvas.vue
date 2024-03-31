@@ -21,7 +21,7 @@ import {
   h, 
   getCurrentInstance,
   createRenderer,
-  onUnmounted
+  onUnmounted,
 } from 'vue'
 import pkg from '../../package.json'
 import {
@@ -37,7 +37,6 @@ import { disposeObject3D } from '../utils/'
 
 import type { RendererPresetsType } from '../composables/useRenderer/const'
 import type { TresCamera, TresObject } from '../types/'
-
 
 export interface TresCanvasProps
   extends Omit<WebGLRendererParameters, 'canvas'> {
@@ -119,7 +118,7 @@ const mountCustomRenderer = (context: TresContext) => {
 const dispose = (context: TresContext, force = false) => {
   disposeObject3D(context.scene.value)
   /* disposeObject3D(scene.value) */
- /*  scene.value.children.forEach((child) => {
+  /*  scene.value.children.forEach((child) => {
     child.removeFromParent()
     disposeObject3D(child)
   })
@@ -198,17 +197,15 @@ onMounted(() => {
   if (!camera.value) {
     addDefaultCamera()
   }
-
   
   // HMR support
   if (import.meta.hot && context.value)
-  import.meta.hot.on('vite:afterUpdate', () => dispose(context.value as TresContext))
+    import.meta.hot.on('vite:afterUpdate', () => dispose(context.value as TresContext))
 })
 
 onUnmounted(() => {
   dispose(context.value as TresContext)
 })
-
 </script>
 
 <template>

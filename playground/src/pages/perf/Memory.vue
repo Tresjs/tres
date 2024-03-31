@@ -32,22 +32,24 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <RouterLink to="/basic">Go to another page</RouterLink>
+  <RouterLink to="/basic">
+    Go to another page
+  </RouterLink>
   <TresLeches />
   <TresCanvas v-bind="gl">
     <TresPerspectiveCamera
       :position="[3, 3, 3]"
       :look-at="[0, 0, 0]"
     />
-     <TresGroup v-if="isVisible">
-      <TresMesh :position="[0,0,0]">
+    <TresGroup v-if="isVisible">
+      <TresMesh :position="[0, 0, 0]">
         <TresBoxGeometry />
         <TresMeshPhysicalMaterial :color="0x00ff00" />
       </TresMesh>
     </TresGroup>
-   <!--  <Suspense> -->
-   <!--    <BlenderC -->ube v-if="isVisible" />
-   <!--  </Suspense> -->
+    <!--  <Suspense> -->
+    <!--    <BlenderC -->ube v-if="isVisible" />
+    <!--  </Suspense> -->
     <!-- <TresMesh :position="[0,0,0]" v-if="isVisible">
       <TresBoxGeometry />
       <TresMeshToonMaterial :color="0x00ff00" />
