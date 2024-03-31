@@ -34,4 +34,9 @@ export const basicRoutes = [
     name: 'Responsiveness',
     component: () => import('../../pages/basic/Responsiveness.vue'),
   },
+  {
+    path: '/basic/pierced-props',
+    name: 'Pierced Props',
+    component: () => import('../../pages/basic/PiercedProps.vue'),
+  },
 ]
