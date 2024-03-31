@@ -13,7 +13,7 @@ const routes = [
   ...eventsRoutes,
   ...cameraRoutes,
   ...modelsRoutes,
-  ...miscRoutes
+  ...miscRoutes,
 /*   {
     path: '/',
     name: 'Home',
