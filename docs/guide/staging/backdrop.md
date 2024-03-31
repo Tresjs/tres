@@ -15,7 +15,7 @@ The `cientos` package provides a `<Backdrop />` component. It's just a curved pl
 <Backdrop  
   :floor="1.5" 
   :segments="20" 
-  recieve-shadow>
+  receive-shadow>
     <TresMeshPhysicalMaterial color="orange" :roughness="1" />
 </Backdrop>
 ```
