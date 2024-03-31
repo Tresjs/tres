@@ -5,6 +5,7 @@ import {
   eventsRoutes,
   cameraRoutes,
   modelsRoutes,
+  miscRoutes,
 } from '../router/routes'
 
 const sections = [
@@ -13,6 +14,7 @@ const sections = [
   { icon: '📣', title: 'Events', routes: eventsRoutes },
   { icon: '📷', title: 'Camera', routes: cameraRoutes },
   { icon: '🐇', title: 'Models', routes: modelsRoutes },
+  { icon: '🤪', title: 'Misc', routes: miscRoutes },
 ]
 </script>
 
