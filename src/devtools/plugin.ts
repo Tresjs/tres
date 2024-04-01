@@ -1,4 +1,3 @@
-import { get } from './../utils/index';
 import type {
   App as DevtoolsApp } from '@vue/devtools-api'
 import {
@@ -6,7 +5,7 @@ import {
 } from '@vue/devtools-api'
 import { reactive } from 'vue'
 import type { Mesh, Object3D } from 'three'
-import { createHighlightMesh, editSceneObject } from '../utils'
+import { createHighlightMesh, editSceneObject, get } from '../utils'
 import { bytesToKB, calculateMemoryUsage } from '../utils/perf'
 import type { TresContext } from '../composables'
 import type { TresObject } from './../types'
@@ -257,7 +256,7 @@ export function registerTresDevtools(app: DevtoolsApp, tres: TresContext) {
             ],
           }
 
-          if(instance.isScene) {
+          if (instance.isScene) {
             payload.state.info = {
               memory: calculateMemoryUsage(instance),
               objects: instance.children.length,
@@ -266,17 +265,15 @@ export function registerTresDevtools(app: DevtoolsApp, tres: TresContext) {
               points: tres.renderer.value.info.render.points,
               lines: tres.renderer.value.info.render.lines,
             },
-            payload.state.programs = tres.renderer.value.info.programs?.map((program) => {
-              return {
-                key: program.name || program.type,
-                value: {
-                  ...program,
-                  vertexShader: program.vertexShader,
-                  attributes: program.getAttributes(),
-                  uniforms: program.getUniforms(),
-                },
-              }
-            })
+            payload.state.programs = tres.renderer.value.info.programs?.map(program => ({
+              key: program.name || program.type,
+              value: {
+                ...program,
+                vertexShader: program.vertexShader,
+                attributes: program.getAttributes(),
+                uniforms: program.getUniforms(),
+              },
+            }))
           }
         }
       })
