@@ -90,12 +90,13 @@ const createNode = (object: TresObject): SceneGraphObject => {
   return node
 }
 
-function buildGraph(object: TresObject, node: SceneGraphObject) {
+function buildGraph(object: TresObject, node: SceneGraphObject, filter: string = '') {
   object.children.forEach((child: TresObject) => {
     if (child.type === 'HightlightMesh') return
+    if (filter && !child.type.includes(filter) && !child.name.includes(filter)) return
     const childNode = createNode(child)
     node.children.push(childNode)
-    buildGraph(child, childNode)
+    buildGraph(child, childNode, filter)
   })
 }
 
@@ -143,7 +144,7 @@ export function registerTresDevtools(app: DevtoolsApp, tres: TresContext) {
         if (payload.inspectorId === INSPECTOR_ID) {
           // Your logic here
           const root = createNode(tres.scene.value)
-          buildGraph(tres.scene.value, root)
+          buildGraph(tres.scene.value, root, payload.filter)
           state.sceneGraph = root
           payload.rootNodes = [root]
         }
