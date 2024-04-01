@@ -1,6 +1,7 @@
 import type { Material, Texture, Mesh, Object3D } from 'three'
 import { MeshBasicMaterial, DoubleSide, Vector3, Scene } from 'three'
 import { HightlightMesh } from '../devtools/highlight'
+import { TresObject3D } from '~/types'
 
 export function toSetMethodName(key: string) {
   return `set${key[0].toUpperCase()}${key.slice(1)}`
@@ -253,6 +254,7 @@ export function disposeObject3D(object: Object3D): void {
   if (object.parent) {
     object.removeFromParent?.()
   }
+  delete object.__tres
   // Clone the children array to safely iterate
   const children = [...object.children]
   children.forEach(child => disposeObject3D(child))
@@ -275,5 +277,6 @@ export function disposeObject3D(object: Object3D): void {
       disposeMaterial(mesh.material)
       delete mesh.material
     }
+    object.dispose?.()
   }
 }

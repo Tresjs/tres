@@ -117,6 +117,16 @@ const mountCustomRenderer = (context: TresContext) => {
 
 const dispose = (context: TresContext, force = false) => {
   disposeObject3D(context.scene.value)
+  if (force) {
+    context.renderer.value.dispose()
+    context.renderer.value.renderLists.dispose()
+    context.renderer.value.forceContextLoss()
+  }
+  scene.value.__tres = {
+    root: context,
+  }
+  mountCustomRenderer(context)
+  resume() 
   /* disposeObject3D(scene.value) */
   /*  scene.value.children.forEach((child) => {
     child.removeFromParent()

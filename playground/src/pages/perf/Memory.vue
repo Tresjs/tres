@@ -44,7 +44,7 @@ onUnmounted(() => {
     <TresGroup v-if="isVisible">
       <TresMesh :position="[0, 0, 0]">
         <TresBoxGeometry />
-        <TresMeshPhysicalMaterial :color="0x00ff00" />
+        <TresMeshToonMaterial :color="0x00ff00" />
       </TresMesh>
     </TresGroup>
     <!--  <Suspense> -->

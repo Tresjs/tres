@@ -181,7 +181,6 @@ export const nodeOps: () => RendererOptions<TresObject, TresObject | null> = () 
 
       if (!isPrimitive && node.__tres.disposable) {
         disposeObject3D(node as TresObject3D)
-        delete node.__tres
       } 
       node.dispose?.()
     }
