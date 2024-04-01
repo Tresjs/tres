@@ -147,30 +147,6 @@ export function registerTresDevtools(app: DevtoolsApp, tres: TresContext) {
           buildGraph(tres.scene.value, root)
           state.sceneGraph = root
           payload.rootNodes = [root]
-          /*  payload.rootNodes = [
-            {
-              id: 'root',
-              label: 'Root ',
-              children: [
-                {
-                  id: 'child',
-                  label: `Child ${payload.filter}`,
-                  tags: [
-                    {
-                      label: 'active',
-                      textColor: 0x000000,
-                      backgroundColor: 0xFF984F,
-                    },
-                    {
-                      label: 'test',
-                      textColor: 0xffffff,
-                      backgroundColor: 0x000000,
-                    },
-                  ],
-                },
-              ],
-            },
-          ] */
         }
       })
       let highlightMesh: Mesh | null = null
@@ -282,6 +258,14 @@ export function registerTresDevtools(app: DevtoolsApp, tres: TresContext) {
           }
 
           if(instance.isScene) {
+            payload.state.info = {
+              memory: calculateMemoryUsage(instance),
+              objects: instance.children.length,
+              calls: tres.renderer.value.info.render.calls,
+              triangles: tres.renderer.value.info.render.triangles,
+              points: tres.renderer.value.info.render.points,
+              lines: tres.renderer.value.info.render.lines,
+            },
             payload.state.programs = tres.renderer.value.info.programs?.map((program) => {
               return {
                 key: program.name || program.type,
