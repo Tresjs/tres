@@ -5,6 +5,7 @@ import { frConfig } from './fr'
 import { deConfig } from './de'
 import { sharedConfig } from './shared'
 import { zhConfig } from './zh' 
+import { nlConfig } from './nl'
 
 export default defineConfig({
   ...sharedConfig,
@@ -15,5 +16,6 @@ export default defineConfig({
     fr: { label: 'Français', lang: 'fr-FR', link: '/fr/', ...frConfig },
     de: { label: 'Deutsch', lang: 'de-DE', link: '/de/', ...deConfig },
     zh: { label: '简体中文', lang: 'zh-CN', link: '/zh/', ...zhConfig }, 
+    nl: { label: 'Nederlands', lang: 'nl-NL', link: '/nl/', ...nlConfig },
   },
 })
