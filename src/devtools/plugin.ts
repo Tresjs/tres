@@ -1,3 +1,4 @@
+import { get } from './../utils/index';
 import type {
   App as DevtoolsApp } from '@vue/devtools-api'
 import {
@@ -183,7 +184,7 @@ export function registerTresDevtools(app: DevtoolsApp, tres: TresContext) {
           if (prevInstance && highlightMesh && highlightMesh.parent) {
             prevInstance.remove(highlightMesh)
           }
-          
+
           if (instance.isMesh) {
             const newHighlightMesh = createHighlightMesh(instance)
             instance.add(newHighlightMesh)
@@ -278,6 +279,20 @@ export function registerTresDevtools(app: DevtoolsApp, tres: TresContext) {
                 value: instance.visible,
               },
             ],
+          }
+
+          if(instance.isScene) {
+            payload.state.programs = tres.renderer.value.info.programs?.map((program) => {
+              return {
+                key: program.name || program.type,
+                value: {
+                  ...program,
+                  vertexShader: program.vertexShader,
+                  attributes: program.getAttributes(),
+                  uniforms: program.getUniforms(),
+                },
+              }
+            })
           }
         }
       })
