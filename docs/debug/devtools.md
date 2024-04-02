@@ -1,8 +1,6 @@
 # Devtools
 
-
-
-One of the most difficult things a developer faces when creating 3D experiences on the browser is debugging. The browser `canvas` is a black box, and it's hard to know what's going on inside. The imperative nature of [ThreeJS](https://threejs.org/) makes it incredibly difficult to debug, having to depend on `console.log` to see what's going on, or third party to fine-tune and inspect the scene.
+One of the most difficult things a developer faces when creating 3D experiences in the browser is debugging. The browser `canvas` is a black box, and it's hard to know what's going on inside. A developer might come to rely on a series of `console.log`s or third-party tools just to inspect the scene.
 
 Don't make me get started with checking the performance of your scene. 😱
 
