@@ -19,7 +19,7 @@ For this guide we are going to focus on loading gLTF (GL Transmission Format) mo
 There are several ways to load models on TresJS:
 
 ::: warning
-Please note that in the examples above we use top level `await`s. Make sure to wrap such code with a [Suspense](https://vuejs.org/guide/built-ins/suspense.html#suspense) component. See Suspense for more information.
+Please note that in the examples below use top level `await`. Make sure to wrap such code with a Vue's [Suspense](https://vuejs.org/guide/built-ins/suspense.html#suspense) component.
 :::
 
 ## Using `useLoader`
@@ -37,10 +37,8 @@ const { scene } = await useLoader(GLTFLoader, '/models/AkuAku.gltf')
 
 Then you can pass the model scene to a TresJS [`primitive`](/advanced/primitive) component to render it:
 
-```html{2}
-<TresCanvas>
-  <primitive :object="scene" />
-</TresCanvas>
+```html
+<primitive :object="scene" />
 ```
 
 > The `<primitive />` component is not a standalone component in the Tres source code. Instead, it's a part of the Tres core functionality. When you use `<primitive>`, it is translated to a `createElement` call, which creates the appropriate three.js object based on the provided "object" prop.
@@ -67,11 +65,11 @@ const { scene, nodes, animations, materials } = await useGLTF('/models/AkuAku.gl
 
 Alternatively you can easily select objects inside the model using the `nodes` property.
 
-```vue
-<script setup lang="ts">
-import { useGLTF } from '@tresjs/cientos'
+::: code-group
 
-const { scene, nodes, animations, materials } = await useGLTF('/models/AkuAku.gltf', { draco: true })
+```vue [App.vue]
+<script setup lang="ts">
+import Model from './Model.vue'
 </script>
 
 <template>
@@ -82,10 +80,26 @@ const { scene, nodes, animations, materials } = await useGLTF('/models/AkuAku.gl
   >
     <TresPerspectiveCamera :position="[11, 11, 11]" />
     <OrbitControls />
-    <primitive :object="nodes.MyModel" /> // please note that "MyModel" here is just a placeholder 
+    <Suspense>
+      <Model />
+    </Suspense>
   </TresCanvas>
 </template>
 ```
+
+```vue [Model.vue]
+<script setup lang="ts">
+import { useGLTF } from '@tresjs/cientos'
+
+const { nodes } = await useGLTF('/models/AkuAku.gltf', { draco: true })
+</script>
+
+<template>
+  <primitive :object="node.AkuAku" />
+</template>
+```
+:::
+
 
 ## Using `GLTFModel`
 
@@ -121,10 +135,8 @@ const model = await useFBX('/models/AkuAku.fbx')
 
 Then is as straightforward as adding the scene to your scene:
 
-```html{2}
-<TresCanvas shadows alpha>
-    <primitive :object="scene" />
-</TresCanvas>
+```html
+<primitive :object="model" />
 ```
 
 ## FBXModel
@@ -146,3 +158,4 @@ import { OrbitControls, FBXModel } from '@tresjs/cientos'
   </TresCanvas>
 </template>
 ```
+

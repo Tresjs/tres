@@ -37,10 +37,8 @@ const { scene } = await useLoader(GLTFLoader, '/models/AkuAku.gltf')
 
 Ensuite, vous pouvez transmettre la scène du modèle à un composant [`primitive`](/advanced/primitive) de TresJS pour le restituer:
 
-```html{2}
-<TresCanvas>
-    <primitive :object="scene" />
-</TresCanvas>
+```html
+<primitive :object="scene" />
 ```
 
 > Le composant `<primitive />` n'est pas un composant autonome dans le code source de Tres. Au lieu de cela, cela fait partie des fonctionnalités de base de Tres. Lorsque vous utilisez `<primitive>`, cela se traduit par un appel à `createElement`, qui crée l'objet three.js approprié en fonction de la propriété "object" fournie.
@@ -67,11 +65,11 @@ const { scene, nodes, animations, materials } = await useGLTF('/models/AkuAku.gl
 
 Alternativement, vous pouvez facilement sélectionner des objets dans le modèle à l'aide de la propriété `nodes`.
 
-```vue
-<script setup lang="ts">
-import { useGLTF } from '@tresjs/cientos'
+::: code-group
 
-const { scene, nodes, animations, materials } = await useGLTF('/models/AkuAku.gltf', { draco: true })
+```vue [App.vue]
+<script setup lang="ts">
+import Model from './Model.vue'
 </script>
 
 <template>
@@ -82,10 +80,25 @@ const { scene, nodes, animations, materials } = await useGLTF('/models/AkuAku.gl
   >
     <TresPerspectiveCamera :position="[11, 11, 11]" />
     <OrbitControls />
-    <primitive :object="nodes.MyModel" /> // "MyModel" ici n'est qu'un placeholder 
+    <Suspense>
+      <Model />
+    </Suspense>
   </TresCanvas>
 </template>
 ```
+
+```vue [Model.vue]
+<script setup lang="ts">
+import { useGLTF } from '@tresjs/cientos'
+
+const { nodes } = await useGLTF('/models/AkuAku.gltf', { draco: true })
+</script>
+
+<template>
+  <primitive :object="node.AkuAku" />
+</template>
+```
+:::
 
 ## Avec `GLTFModel`
 
@@ -121,10 +134,8 @@ const model = await useFBX('/models/AkuAku.fbx')
 
 Ensuite, c'est aussi simple que d'ajouter la scène à votre scène :
 
-```html{2}
-<TresCanvas shadows alpha>
-    <primitive :object="scene" />
-</TresCanvas>
+```html
+<primitive :object="model" />
 ```
 
 ## FBXModel

@@ -38,10 +38,8 @@ const { scene } = await useLoader(GLTFLoader, '/models/AkuAku.gltf')
 
 Dann kannst du die Szene des Modells in einer [`primitive`](/de/advanced/primitive)-Komponente von TresJS übergeben, um sie zu rendern:
 
-```html{2}
-<TresCanvas>
-    <primitive :object="scene" />
-</TresCanvas>
+```html
+<primitive :object="scene" />
 ```
 
 > Die Komponente `<primitive />` ist keine eigenständige Komponente im Quellcode von Tres. Stattdessen ist sie Teil der Kernfunktionalität von Tres. Wenn du `<primitive>` verwendest, wird dies zu einem Aufruf von `createElement`, der das entsprechende three.js-Objekt basierend auf der bereitgestellten "object"-Eigenschaft erstellt.
@@ -68,11 +66,11 @@ const { scene, nodes, animations, materials } = await useGLTF('/models/AkuAku.gl
 
 Alternativ kannst du Objekte innerhalb des Modells leicht mit der Eigenschaft `nodes` auswählen.
 
-```vue
-<script setup lang="ts">
-import { useGLTF } from '@tresjs/cientos'
+::: code-group
 
-const { scene, nodes, animations, materials } = await useGLTF('/models/AkuAku.gltf', { draco: true })
+```vue [App.vue]
+<script setup lang="ts">
+import Model from './Model.vue'
 </script>
 
 <template>
@@ -83,10 +81,25 @@ const { scene, nodes, animations, materials } = await useGLTF('/models/AkuAku.gl
   >
     <TresPerspectiveCamera :position="[11, 11, 11]" />
     <OrbitControls />
-    <primitive :object="nodes.MyModel" /> // "MyModel" dient hier nur als Platzhalter
+    <Suspense>
+      <Model />
+    </Suspense>
   </TresCanvas>
 </template>
 ```
+
+```vue [Model.vue]
+<script setup lang="ts">
+import { useGLTF } from '@tresjs/cientos'
+
+const { nodes } = await useGLTF('/models/AkuAku.gltf', { draco: true })
+</script>
+
+<template>
+  <primitive :object="node.AkuAku" />
+</template>
+```
+:::
 
 ## Verwendung von `GLTFModel`
 
@@ -122,10 +135,8 @@ const model = await useFBX('/models/AkuAku.fbx')
 
 Dann muss man nur das dem primitive das model zuweisen:
 
-```html{2}
-<TresCanvas shadows alpha>
-    <primitive :object="model" />
-</TresCanvas>
+```html
+<primitive :object="model" />
 ```
 
 ## Verwendung von `FBXModel`
