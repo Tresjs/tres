@@ -91,18 +91,44 @@ const fontOptions = {
 
 We can also pass a matcapTexture to add final details, using the TresMeshNormalMaterial inside the TresMesh.
 
-```ts
+```html
+<script setup lang="ts">
 const matcapTexture = await useTexture(['https://raw.githubusercontent.com/Tresjs/assets/main/textures/matcaps/7.png'])
+</script>
 
+<template>
   <TresMesh>
     <TresTextGeometry :args="['TresJS', { font, ...fontOptions }]" center />
     <TresMeshNormalMaterial :matcap="matcapTexture" />
   </TresMesh>
+</template>
 ```
 
 So the final code would look something like this:
 
-```vue
+::: code-group
+
+```vue [App.vue]
+<script setup lang="ts">
+import MyText from './MyText.vue'
+</script>
+
+<template>
+  <TresCanvas
+    clear-color="#82DBC5"
+    shadows
+    alpha
+  >
+    <TresPerspectiveCamera :position="[11, 11, 11]" />
+    <OrbitControls />
+    <Suspense>
+      <MyText />
+    </Suspense>
+  </TresCanvas>
+</template>
+```
+
+```vue [MyText.vue]
 <script setup lang="ts">
 import { extend } from '@tresjs/core'
 import { TextGeometry } from 'three/addons/geometries/TextGeometry'
@@ -141,24 +167,21 @@ const matcapTexture = await useTexture(['https://raw.githubusercontent.com/Tresj
 </script>
 
 <template>
-  <TresCanvas
-    shadows
-    alpha
-  >
-    <TresMesh>
-      <TresTextGeometry
-        :args="['TresJS', { font, ...fontOptions }]"
-        center
-      />
-      <TresMeshNormalMaterial :matcap="matcapTexture" />
-    </TresMesh>
-  </TresCanvas>
+  <TresMesh>
+    <TresTextGeometry
+      :args="['TresJS', { font, ...fontOptions }]"
+      center
+    />
+    <TresMeshNormalMaterial :matcap="matcapTexture" />
+  </TresMesh>
 </template>
 ```
 
+:::
+
 We know this seems like a lot of work, but good news is, there is a much more simple way
 
-## TextGeometry from `cientos`
+## Text3D from `cientos`
 
 The `cientos` package provides a component called `<Text3D />`, which is a wrapper of the `TextGeometry` from the [`three-stdlib`](https://github.com/pmndrs/three-stdlib) module.
 
@@ -166,12 +189,18 @@ The nicest part? You don't need to extend the catalog and just pass the font arg
 It just works. 💯 (if not text is provided, the text will be TresJS)
 
 ```vue
+<script setup lang="ts">
+import { Text3D } from '@tresjs/cientos'
+</script>
+
 <template>
   <TresCanvas
     shadows
     alpha
   >
-    <Text3D :font="fontPath" />
+    <Suspense>
+      <Text3D :font="fontPath" />
+    </Suspense>
   </TresCanvas>
 </template>
 ```
