@@ -16,6 +16,10 @@ Three-dimensional (3D) textures are images that contain multiple layers of data,
 
 There are two ways of loading 3D textures in TresJS:
 
+::: warning
+Please note that in the examples below use top level `await`. Make sure to wrap such code with a Vue's [Suspense](https://vuejs.org/guide/built-ins/suspense.html#suspense) component.
+:::
+
 ## Using `useLoader`
 
 The `useLoader` composable allows you to pass any type of three.js loader and a URL to load the resource from. It returns a `Promise` with the loaded resource.
@@ -31,18 +35,42 @@ const texture = useLoader(TextureLoader, '/Rock035_2K_Color.jpg')
 
 Then you can pass the texture to a material:
 
-```html
-<Suspense>
-  <TresCanvas>
-    <TresMesh>
-      <TresSphereGeometry :args="[1,32,32]" />
-      <TresMeshStandardMaterial :map="texture" />
-    </TresMesh>
+::: code-group
+```vue [App.vue]
+<script setup lang="ts">
+import TexturedSphere from './TexturedSphere.vue'
+</script>
+
+<template>
+  <TresCanvas
+    clear-color="#82DBC5"
+    shadows
+    alpha
+  >
+    <Suspense>
+      <TexturedSphere />
+    </Suspense>
   </TresCanvas>
-</Suspense>
+</template>
 ```
 
-Notice in the example above that we are using the `Suspense` component to wrap the `TresCanvas` component. This is because `useLoader` returns a `Promise` and we need to wait for it to resolve before rendering the scene.
+```vue [Model.vue]
+<script setup lang="ts">
+import { useLoader } from '@tresjs/core'
+import { TextureLoader } from 'three'
+
+const texture = useLoader(TextureLoader, '/Rock035_2K_Color.jpg')
+</script>
+
+<template>
+  <TresMesh>
+    <TresSphereGeometry :args="[1,32,32]" />
+    <TresMeshStandardMaterial :map="texture" />
+  </TresMesh>
+</template>
+```
+:::
+
 
 ## Using `useTexture`
 
@@ -67,18 +95,14 @@ const pbrTexture = await useTexture({
 Similar to the previous example, we can pass all the textures to a material via props:
 
 ```html
-<Suspense>
-  <TresCanvas>
-    <TresMesh>
-      <TresSphereGeometry :args="[1,32,32]" />
-      <TresMeshStandardMaterial
-        :map="pbrTexture.map"
-        :displacementMap="pbrTexture.displacementMap"
-        :roughnessMap="pbrTexture.roughnessMap"
-        :normalMap="pbrTexture.normalMap"
-        :aoMap="pbrTexture.ambientOcclusionMap"
-      />
-    </TresMesh>
-  </TresCanvas>
-</Suspense>
+<TresMesh>
+  <TresSphereGeometry :args="[1,32,32]" />
+  <TresMeshStandardMaterial
+    :map="pbrTexture.map"
+    :displacementMap="pbrTexture.displacementMap"
+    :roughnessMap="pbrTexture.roughnessMap"
+    :normalMap="pbrTexture.normalMap"
+    :aoMap="pbrTexture.ambientOcclusionMap"
+  />
+</TresMesh>
 ```
