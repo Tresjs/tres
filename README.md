@@ -26,14 +26,7 @@ Official Nuxt module for TresJS. Build 3D scenes as they were Vue components.
 1. Add `@tresjs/nuxt` dependency to your project
 
 ```bash
-# Using pnpm
-pnpm add @tresjs/nuxt
-
-# Using yarn
-yarn add @tresjs/nuxt
-
-# Using npm
-npm install @tresjs/nuxt
+npx nuxi@latest module add tresjs
 ```
 
 2. Add `@tresjs/nuxt` to the `modules` section of `nuxt.config.ts`
