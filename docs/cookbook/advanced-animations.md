@@ -8,7 +8,7 @@ difficulty: 0
 
 # Advanced Animations
 
-In this guide, we are goning to use GSAP to animate our scene instead of the `useRenderLoop` composable.
+In this guide, we are going to use GSAP to animate our scene instead of the `useRenderLoop` composable.
 
 <StackBlitzEmbed project-id="tresjs-advanced-animations" />
 
@@ -30,4 +30,6 @@ watchEffect(() => {
 })
 ```
 
-GSAP has been a very popular animation library and you can find a lot of help and resources online, including [these demos on codepen](https://codepen.io/GreenSock)
+GSAP has been a very popular animation library and you can find a lot of help and resources online, including [these demos on codepen](https://codepen.io/GreenSock).
+
+Of course there are lots of alternatives out there, and you should feel free to reach for _your_ favorite animation library!
