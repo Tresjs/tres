@@ -23,7 +23,7 @@ pnpm i @tresjs/post-processing
 
 ## Docs
 
-Checkout the [docs](https://postprocessing.tresjs.org/)
+Checkout the [docs](https://post-processing.tresjs.org/)
 
 ## Demos
 
