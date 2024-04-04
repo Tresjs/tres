@@ -7,6 +7,8 @@ import Pixelation from './core/effects/Pixelation.vue'
 import Vignette from './core/effects/Vignette.vue'
 import Noise from './core/effects/Noise.vue'
 
+import { useEffect } from './core/composables/effect.ts'
+
 export { 
   Bloom,
   DepthOfField, 
@@ -16,4 +18,5 @@ export {
   Outline,
   Pixelation,
   Vignette,
+  useEffect,
 }
