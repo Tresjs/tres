@@ -2,7 +2,7 @@
 title: Advanced Animations
 description: How to use GSAP to animate your scene
 author: dennissmuda
-thumbnail: /recipes/animations.png
+thumbnail: /recipes/advanced-animations.png
 difficulty: 0
 ---
 
