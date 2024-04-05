@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { shallowRef, watch } from 'vue'
 import { TresCanvas } from '@tresjs/core'
-import { HolographicMaterial, OrbitControls, useGLTF, Sphere } from '@tresjs/cientos'
+import { HolographicMaterial, OrbitControls, useGLTF, Levioso } from '@tresjs/cientos'
 
 const path = 'https://raw.githubusercontent.com/'
-+ 'Tresjs/assets/main/models/gltf/aku-aku/AkuAku.gltf'
+  + 'Tresjs/assets/main/models/gltf/aku-aku/AkuAku.gltf'
 const { scene } = await useGLTF(path)
 
 const holographicMaterialRef = shallowRef()
@@ -21,16 +21,15 @@ watch(holographicMaterialRef, (value) => {
 
 <template>
   <TresCanvas clear-color="#333">
-    <TresPerspectiveCamera
-      :position="[0, 0, 10]"
-      :look-at="[0, 5, 0]"
-    />
-    <primitive :object="scene" />
-    <Sphere :visible="false">
-      <HolographicMaterial ref="holographicMaterialRef" />
-    </Sphere>
-    <TresAmbientLight />
-    <TresDirectionalLight :position="[2, 2, 2]" />
+    <TresPerspectiveCamera :position="[0, 0, 6]" />
+    <Levioso :speed="5">
+      <primitive
+        :object="scene"
+        :position-y="-2.5"
+      >
+        <HolographicMaterial ref="holographicMaterialRef" />
+      </primitive>
+    </Levioso>
     <OrbitControls />
   </TresCanvas>
 </template>
