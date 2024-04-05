@@ -33,7 +33,9 @@ import { HolographicMaterial, Sphere } from '@tresjs/cientos'
 </template>
 ```
 
-### You can also replace the material of an existing mesh like this:
+### Replace a mesh's material
+
+You can also replace the material of an existing mesh like this:
 
 <<< @/.vitepress/theme/components/HolographicMaterialDemo.vue{4}
 
