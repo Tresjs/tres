@@ -10,7 +10,7 @@ Cientos provides an `<Fbo />` component make it easy to use FBOs in your applica
 
 ## Usage
 
-<<< @/.vitepress/theme/components/FboDemo.vue{3,15,48,49,50,51,58}
+<<< @/.vitepress/theme/components/FboDemo.vue{3,15,48-51,58}
 
 ## Props
 

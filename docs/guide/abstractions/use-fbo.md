@@ -16,7 +16,7 @@ The `useFBO` composable must be used inside of a child component since it needs 
 
 `FboCube.vue`
 
-<<< @/.vitepress/theme/components/FboCube.vue{2,4,5,6,7,8,9,10,11,20}
+<<< @/.vitepress/theme/components/FboCube.vue{2,4-11,20}
 
 `Experience.vue`
 
