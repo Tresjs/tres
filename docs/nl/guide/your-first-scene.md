@@ -139,7 +139,7 @@ Laten we nu eens kijken hoe we gemakkelijk hetzelfde kunnen bereiken met **TresJ
 ```
 
 ::: info
-Merk op dat we niets hoeven te importeren, omdat **TresJS** automatisch een **Vue-component genereert op basis van de drie objecten die u in CamelCase wilt gebruiken met een Tres-voorvoegsel**. Als u bijvoorbeeld een 'AmbientLight' wilt gebruiken, gebruikt u de component `<TresAmbientLight />`.
+Merk op dat we niets hoeven te importeren, omdat **TresJS** automatisch een **Vue-component genereert op basis van de drie objecten die u in UpperCamelCase wilt gebruiken met een Tres-voorvoegsel**. Als u bijvoorbeeld een 'AmbientLight' wilt gebruiken, gebruikt u de component `<TresAmbientLight />`.
 :::
 
 ```vue

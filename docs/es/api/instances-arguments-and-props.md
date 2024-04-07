@@ -10,7 +10,7 @@ import { PerspectiveCamera } from 'three'
 const camera = new PerspectiveCamera(45, width / height, 1, 1000)
 ```
 
-Con **Tres** no necesitas importar nada, esto se debe a que **Tres** genera automáticamente un **Componente Vue basado en el objeto Three que deseas usar en CamelCase con un prefijo Tres**. Por ejemplo, si quieres usar una `PerspectiveCamera`, puedes usar el componente `<TresPerspectiveCamera />`.
+Con **Tres** no necesitas importar nada, esto se debe a que **Tres** genera automáticamente un **Componente Vue basado en el objeto Three que deseas usar en UpperCamelCase con un prefijo Tres**. Por ejemplo, si quieres usar una `PerspectiveCamera`, puedes usar el componente `<TresPerspectiveCamera />`.
 
 ```vue
 <template>

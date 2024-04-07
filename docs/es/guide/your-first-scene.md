@@ -140,7 +140,7 @@ Ahora veamos cómo podemos lograr lo mismo fácilmente con **TresJS**. Para hace
 ```
 
 ::: info
-Observa que no necesitamos importar nada, esto se debe a que **TresJS** genera automáticamente un **Componente Vue basado en el objeto Three que deseas usar en CamelCase con un prefijo Tres**. Por ejemplo, si quieres usar una `AmbientLight`, puedes usar el componente `<TresAmbientLight />`.
+Observa que no necesitamos importar nada, esto se debe a que **TresJS** genera automáticamente un **Componente Vue basado en el objeto Three que deseas usar en UpperCamelCase con un prefijo Tres**. Por ejemplo, si quieres usar una `AmbientLight`, puedes usar el componente `<TresAmbientLight />`.
 :::
 
 ```vue
