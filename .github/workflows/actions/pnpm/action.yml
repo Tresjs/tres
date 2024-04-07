@@ -25,3 +25,8 @@ runs:
     - name: install dependencies
       run: pnpm install --shamefully-hoist
       shell: bash
+
+# Avoid running husky hooks on Github
+# http://typicode.github.io/husky/how-to.html
+env:
+  HUSKY: 0
