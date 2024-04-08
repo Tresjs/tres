@@ -1,8 +1,8 @@
 import { isArray } from '@alvarosabu/utils'
-import type { Object3D } from 'three'
+import type { Loader, Object3D } from 'three'
 import { useLogger } from '../useLogger'
 
-export interface TresLoader<T> extends THREE.Loader {
+export interface TresLoader<T> extends Loader {
   load(
     url: string,
     onLoad?: (result: T) => void,
