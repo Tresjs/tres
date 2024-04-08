@@ -1,5 +1,12 @@
 
 
+## [3.8.1](https://github.com/Tresjs/tres/compare/3.8.0...3.8.1) (2024-04-08)
+
+
+### Bug Fixes
+
+* correct type exporting issues ([#625](https://github.com/Tresjs/tres/issues/625)) ([8e52cf1](https://github.com/Tresjs/tres/commit/8e52cf1935d7b725b87c9a41e44ba61e33bd3e85))
+
 ## [3.8.0](https://github.com/Tresjs/tres/compare/3.7.0...3.8.0) (2024-04-03)
 
 
