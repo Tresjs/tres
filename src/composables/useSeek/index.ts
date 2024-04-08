@@ -1,4 +1,4 @@
-import { Scene, Object3D } from 'three'
+import type { Scene, Object3D } from 'three'
 import { useLogger } from '../useLogger'
 
 /**
