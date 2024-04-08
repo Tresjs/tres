@@ -10,7 +10,7 @@ import { PerspectiveCamera } from 'three'
 const camera = new PerspectiveCamera(45, width / height, 1, 1000)
 ```
 
-Avec **Tres**, vous n'avez pas besoin d'importer quoi que ce soit, car **Tres** génère automatiquement un composant **Vue basé sur l'objet Three que vous souhaitez utiliser dans UpperCamelCase avec un préfixe Tres**. Par exemple, si vous souhaitez utiliser une `PerspectiveCamera`, vous pouvez utiliser le composant `<TresPerspectiveCamera />`.
+Avec **Tres**, vous n'avez pas besoin d'importer quoi que ce soit, car **Tres** génère automatiquement un composant **Vue basé sur l'objet Three que vous souhaitez utiliser dans PascalCase avec un préfixe Tres**. Par exemple, si vous souhaitez utiliser une `PerspectiveCamera`, vous pouvez utiliser le composant `<TresPerspectiveCamera />`.
 
 ```vue
 <template>

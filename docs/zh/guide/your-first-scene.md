@@ -140,7 +140,7 @@ scene.add(donut)
 ```
 
 ::: info
-请注意，我们不需要导入任何东西，这是因为 **TresJS** 会为**您使用的 UpperCamelCase 的带有 Tres 前缀的 Three 对象自动生成一个 Vue 组件**。例如，如果要使用 `<TresAmbientLight />` 组件。
+请注意，我们不需要导入任何东西，这是因为 **TresJS** 会为**您使用的 PascalCase 的带有 Tres 前缀的 Three 对象自动生成一个 Vue 组件**。例如，如果要使用 `<TresAmbientLight />` 组件。
 :::
 
 ```vue
