@@ -1,3 +1,4 @@
+import { Scene, Object3D } from 'three'
 import { useLogger } from '../useLogger'
 
 /**
@@ -7,10 +8,10 @@ import { useLogger } from '../useLogger'
  * @interface UseSeekReturn
  */
 export interface UseSeekReturn {
-  seek: (parent: THREE.Scene | THREE.Object3D, property: string, value: string) => THREE.Object3D | null
-  seekByName: (parent: THREE.Scene | THREE.Object3D, value: string) => THREE.Object3D | null
-  seekAll: (parent: THREE.Scene | THREE.Object3D, property: string, value: string) => THREE.Object3D[]
-  seekAllByName: (parent: THREE.Scene | THREE.Object3D, value: string) => THREE.Object3D[]
+  seek: (parent: Scene | Object3D, property: string, value: string) => Object3D | null
+  seekByName: (parent: Scene | Object3D, value: string) => Object3D | null
+  seekAll: (parent: Scene | Object3D, property: string, value: string) => Object3D[]
+  seekAllByName: (parent: Scene | Object3D, value: string) => Object3D[]
 }
 
 /**
@@ -25,13 +26,13 @@ export function useSeek(): UseSeekReturn {
   /**
    * Returns a child object of the parent given a property
    *
-   * @param {(THREE.Scene | THREE.Object3D)} parent
+   * @param {(Scene | Object3D)} parent
    * @param {string} property
    * @param {string} value
-   * @return {*}  {(THREE.Object3D | null)}
+   * @return {*}  {(Object3D | null)}
    */
-  function seek(parent: THREE.Scene | THREE.Object3D, property: string, value: string): THREE.Object3D | null {
-    let foundChild: THREE.Object3D | null = null
+  function seek(parent: Scene | Object3D, property: string, value: string): Object3D | null {
+    let foundChild: Object3D | null = null
 
     parent.traverse((child) => {
       if ((child as any)[property] === value) {
@@ -49,13 +50,13 @@ export function useSeek(): UseSeekReturn {
   /**
  * Returns an array of child objects of the parent given a property
  *
- * @param {(THREE.Scene | THREE.Object3D)} parent
+ * @param {(Scene | Object3D)} parent
  * @param {string} property
  * @param {string} value
- * @return {*}  {(THREE.Object3D[])}
+ * @return {*}  {(Object3D[])}
  */
-  function seekAll(parent: THREE.Scene | THREE.Object3D, property: string, value: string): THREE.Object3D[] {
-    const foundChildren: THREE.Object3D[] = []
+  function seekAll(parent: Scene | Object3D, property: string, value: string): Object3D[] {
+    const foundChildren: Object3D[] = []
 
     parent.traverse((child) => {
       if ((child as any)[property].includes(value)) {
@@ -73,22 +74,22 @@ export function useSeek(): UseSeekReturn {
   /**
    * Returns a child object of the parent given a child.name
    *
-   * @param {(THREE.Scene | THREE.Object3D)} parent
+   * @param {(Scene | Object3D)} parent
    * @param {string} value
-   * @return {*}  {(THREE.Object3D | null)}
+   * @return {*}  {(Object3D | null)}
    */
-  function seekByName(parent: THREE.Scene | THREE.Object3D, value: string): THREE.Object3D | null {
+  function seekByName(parent: Scene | Object3D, value: string): Object3D | null {
     return seek(parent, 'name', value)
   }
 
   /**
  * Returns an array of child objects of the parent given a child.name
  *
- * @param {(THREE.Scene | THREE.Object3D)} parent
+ * @param {(Scene | Object3D)} parent
  * @param {string} value
- * @return {*}  {(THREE.Object3D[])}
+ * @return {*}  {(Object3D[])}
  */
-  function seekAllByName(parent: THREE.Scene | THREE.Object3D, value: string): THREE.Object3D[] {
+  function seekAllByName(parent: Scene | Object3D, value: string): Object3D[] {
     return seekAll(parent, 'name', value)
   }
 

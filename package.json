@@ -21,16 +21,16 @@
       "import": "./dist/tres.js"
     },
     "./components": {
-      "types": "./dist/components/index.d.ts"
+      "types": "./dist/src/components/index.d.ts"
     },
     "./composables": {
-      "types": "./dist/composables/index.d.ts"
+      "types": "./dist/src/composables/index.d.ts"
     },
     "./types": {
-      "types": "./dist/types/index.d.ts"
+      "types": "./dist/src/types/index.d.ts"
     },
     "./utils": {
-      "types": "./dist/utils/index.d.ts"
+      "types": "./dist/src/utils/index.d.ts"
     },
     "./*": "./*"
   },

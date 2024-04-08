@@ -1,5 +1,5 @@
 import { Vector2 } from 'three'
-import type { Object3D, type Intersection } from 'three'
+import type { Object3D, Intersection, Object3DEventMap } from 'three'
 import type { Ref } from 'vue'
 import { computed, onUnmounted } from 'vue'
 import type { EventHook } from '@vueuse/core'
@@ -7,7 +7,7 @@ import { createEventHook, useElementBounding, usePointer } from '@vueuse/core'
 
 import { type TresContext } from '../useTresContextProvider'
 
-export type Intersects = Intersection<THREE.Object3D<THREE.Event>>[]
+export type Intersects = Intersection<Object3D<Object3DEventMap>>[]
 interface PointerMoveEventPayload {
   intersects?: Intersects
   event: PointerEvent
@@ -19,7 +19,7 @@ interface PointerClickEventPayload {
 }
 
 export const useRaycaster = (
-  objects: Ref<THREE.Object3D[]>,
+  objects: Ref<Object3D[]>,
   { renderer, camera, raycaster }: Pick<TresContext, 'renderer' | 'camera' | 'raycaster'>,
 ) => {
   // having a separate computed makes useElementBounding work
