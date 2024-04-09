@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-types */
 import type { DefineComponent, VNode, VNodeRef } from 'vue'
 
 import type * as THREE from 'three'
@@ -159,7 +158,7 @@ interface RaycastableRepresentation {
 type EventProps<P> = P extends RaycastableRepresentation ? Partial<EventHandlers> : unknown
 
 export interface VueProps<P> {
-  children?: VNode[]
+  children?: VNode<P>[]
   ref?: VNodeRef
   key?: string | number | symbol
 }
@@ -190,4 +189,3 @@ type TresComponents = {
 declare module 'vue' {
   export interface GlobalComponents extends TresComponents { }
 }
-/* eslint-enable @typescript-eslint/ban-types */

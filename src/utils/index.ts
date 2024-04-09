@@ -9,7 +9,9 @@ export function toSetMethodName(key: string) {
 export const merge = (target: any, source: any) => {
   // Iterate through `source` properties and if an `Object` set property to merge of `target` and `source` properties
   for (const key of Object.keys(source)) {
-    if (source[key] instanceof Object) { Object.assign(source[key], merge(target[key], source[key])) }
+    if (source[key] instanceof Object) {
+      Object.assign(source[key], merge(target[key], source[key]))
+    }
   }
 
   // Join `target` and modified `source`
@@ -63,7 +65,9 @@ export const uniqueBy = <T, K>(array: T[], iteratee: (value: T) => K): T[] => {
 }
 
 export const get = <T>(obj: any, path: string | string[]): T | undefined => {
-  if (!path) { return undefined }
+  if (!path) {
+    return undefined
+  }
 
   // Regex explained: https://regexr.com/58j0k
   const pathArray = Array.isArray(path) ? path : path.match(/([^[.\]])+/g)
@@ -77,8 +81,12 @@ export const set = (obj: any, path: string | string[], value: any): void => {
 
   if (pathArray) {
     pathArray.reduce((acc, key, i) => {
-      if (acc[key] === undefined) { acc[key] = {} }
-      if (i === pathArray.length - 1) { acc[key] = value }
+      if (acc[key] === undefined) {
+        acc[key] = {}
+      }
+      if (i === pathArray.length - 1) {
+        acc[key] = value
+      }
       return acc[key]
     }, obj)
   }
@@ -89,25 +97,35 @@ export function deepEqual(a: any, b: any): boolean {
     const attrsA = a.attributes
     const attrsB = b.attributes
 
-    if (attrsA.length !== attrsB.length) { return false }
+    if (attrsA.length !== attrsB.length) {
+      return false
+    }
 
     return Array.from(attrsA).every(({ name, value }) => b.getAttribute(name) === value)
   }
   // If both are primitives, return true if they are equal
-  if (a === b) { return true }
+  if (a === b) {
+    return true
+  }
 
   // If either of them is null or not an object, return false
-  if (a === null || typeof a !== 'object' || b === null || typeof b !== 'object') { return false }
+  if (a === null || typeof a !== 'object' || b === null || typeof b !== 'object') {
+    return false
+  }
 
   // Get the keys of both objects
   const keysA = Object.keys(a); const keysB = Object.keys(b)
 
   // If they have different number of keys, they are not equal
-  if (keysA.length !== keysB.length) { return false }
+  if (keysA.length !== keysB.length) {
+    return false
+  }
 
   // Check each key in A to see if it exists in B and its value is the same in both
   for (const key of keysA) {
-    if (!keysB.includes(key) || !deepEqual(a[key], b[key])) { return false }
+    if (!keysB.includes(key) || !deepEqual(a[key], b[key])) {
+      return false
+    }
   }
 
   return true
@@ -115,14 +133,20 @@ export function deepEqual(a: any, b: any): boolean {
 
 export function deepArrayEqual(arr1: any[], arr2: any[]): boolean {
   // If they're not both arrays, return false
-  if (!Array.isArray(arr1) || !Array.isArray(arr2)) { return false }
+  if (!Array.isArray(arr1) || !Array.isArray(arr2)) {
+    return false
+  }
 
   // If they don't have the same length, they're not equal
-  if (arr1.length !== arr2.length) { return false }
+  if (arr1.length !== arr2.length) {
+    return false
+  }
 
   // Check each element of arr1 against the corresponding element of arr2
   for (let i = 0; i < arr1.length; i++) {
-    if (!deepEqual(arr1[i], arr2[i])) { return false }
+    if (!deepEqual(arr1[i], arr2[i])) {
+      return false
+    }
   }
 
   return true
