@@ -22,6 +22,7 @@ import {
   watch,
   watchEffect,
 } from 'vue'
+import pkg from '../../package.json'
 
 import {
   type TresContext,
