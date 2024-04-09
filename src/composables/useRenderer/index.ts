@@ -94,12 +94,7 @@ export interface UseRendererOptions extends TransformToMaybeRefOrGetter<WebGLRen
   preset?: MaybeRefOrGetter<RendererPresetsType>
   renderMode?: MaybeRefOrGetter<'always' | 'on-demand' | 'manual'>
 }
-/**
- * Reactive three.js WebGLRenderer instance
- *
- * @param canvas
- * @param {UseRendererOptions} [options]
- */
+
 export function useRenderer(
   {
     scene,

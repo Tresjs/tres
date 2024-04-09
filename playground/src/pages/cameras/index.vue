@@ -32,8 +32,7 @@ const { cameraType, manual } = useControls({
     }, {
       text: 'Orthographic',
       value: 'orthographic',
-    },
-    ],
+    }],
     value: state.cameraType,
   },
   manual: false,

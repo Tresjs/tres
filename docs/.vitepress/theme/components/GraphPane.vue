@@ -56,11 +56,11 @@ useRafFn(({ timestamp }) => {
       bg-white
       dark:bg-dark
       shadow-xl
-      rounded 
-      border-4 
-      border-solid 
-      bg-primary 
-      border-primary 
+      rounded
+      border-4
+      border-solid
+      bg-primary
+      border-primary
       pointer-events-none
       overflow-hidden"
   >

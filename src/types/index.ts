@@ -55,7 +55,7 @@ export interface TresObject3D extends THREE.Object3D<THREE.Object3DEventMap> {
   material?: THREE.Material & TresBaseObject
 }
 
-export type TresObject = 
+export type TresObject =
   TresBaseObject & (TresObject3D | THREE.BufferGeometry | THREE.Material | THREE.Fog) & { __tres: LocalState }
 
 export interface TresScene extends THREE.Scene {

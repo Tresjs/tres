@@ -15,12 +15,18 @@ const label = shallowRef('')
 
 const refs = [x, y, z, rx, ry, rz, sx, sy, sz]
 const labels = [
-  'position-x', 'position-y', 'position-z', 
-  'rotation-x', 'rotation-y', 'rotation-z', 
-  'scale-x', 'scale-y', 'scale-z',
+  'position-x',
+  'position-y',
+  'position-z',
+  'rotation-x',
+  'rotation-y',
+  'rotation-z',
+  'scale-x',
+  'scale-y',
+  'scale-z',
 ]
 
-const PI2 = Math.PI * 2
+/* const PI2 = Math.PI * 2 */
 
 useRenderLoop().onLoop(({ elapsed }) => {
   const i = Math.floor(elapsed % refs.length)
@@ -54,8 +60,8 @@ useRenderLoop().onLoop(({ elapsed }) => {
 
 <style>
 .overlay {
-    position: fixed;
-    padding: 10px;
-    font-family: sans-serif;
+  position: fixed;
+  padding: 10px;
+  font-family: sans-serif;
 }
 </style>
