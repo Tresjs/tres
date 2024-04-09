@@ -93,7 +93,9 @@ const createNode = (object: TresObject): SceneGraphObject => {
 
 function buildGraph(object: TresObject, node: SceneGraphObject) {
   object.children.forEach((child: TresObject) => {
-    if (child.type === 'HightlightMesh') { return }
+    if (child.type === 'HightlightMesh') {
+      return
+    }
     const childNode = createNode(child)
     node.children.push(childNode)
     buildGraph(child, childNode)

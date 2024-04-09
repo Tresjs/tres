@@ -18,7 +18,7 @@ describe('useSeek', () => {
     const result = seek(parent, 'customProperty', 'customValue')
     expect(result).toBe(child)
   })
-  it('should find a child by a property', () => {
+  it('should find a child by a name', () => { // Renamed the test case to have a different name
     const { seekByName } = composable
     const parent = new Object3D()
     const child = new Object3D()

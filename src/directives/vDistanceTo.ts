@@ -6,6 +6,8 @@ import { useLogger } from '../composables'
 
 const { logWarning } = useLogger()
 
+let arrowHelper: ArrowHelper | null = null
+
 export const vDistanceTo = {
   updated: (el: TresObject, binding: Ref<TresObject>) => {
     const observer = extractBindingPosition(binding)
@@ -34,4 +36,3 @@ export const vDistanceTo = {
     el.parent.remove(arrowHelper)
   },
 }
-let arrowHelper: ArrowHelper | null = null

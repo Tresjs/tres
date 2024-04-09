@@ -143,7 +143,7 @@ export function useTresContextProvider({
   let accumulatedTime = 0
   const interval = 1 // Interval in milliseconds, e.g., 1000 ms = 1 second
 
-  const { pause, resume } = useRafFn(({ delta }) => {
+  const { pause } = useRafFn(({ delta }) => {
     if (!window.__TRES__DEVTOOLS__) { return }
 
     updatePerformanceData({ timestamp: performance.now() })

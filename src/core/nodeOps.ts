@@ -9,6 +9,7 @@ import type { TresObject, TresObject3D, TresScene } from '../types'
 import { catalogue } from './catalogue'
 
 function noop(fn: string): any {
+  // eslint-disable-next-line no-unused-expressions
   fn
 }
 
@@ -46,6 +47,7 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
       if (!target) {
         logError(`${name} is not defined on the THREE namespace. Use extend to add it to the catalog.`)
       }
+      // eslint-disable-next-line new-cap
       instance = new target(...props.args)
     }
 
@@ -87,7 +89,7 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
 
     if (child?.isObject3D) {
       if (child?.isCamera) {
-        if (!scene?.userData.tres__registerCamera) { throw 'could not find tres__registerCamera on scene\'s userData' }
+        if (!scene?.userData.tres__registerCamera) { throw new Error('could not find tres__registerCamera on scene\'s userData') }
 
         scene?.userData.tres__registerCamera?.(child as unknown as Camera)
       }
@@ -95,7 +97,7 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
       if (
         child && supportedPointerEvents.some(eventName => child[eventName])
       ) {
-        if (!scene?.userData.tres__registerAtPointerEventHandler) { throw 'could not find tres__registerAtPointerEventHandler on scene\'s userData' }
+        if (!scene?.userData.tres__registerAtPointerEventHandler) { throw new Error('could not find tres__registerAtPointerEventHandler on scene\'s userData') }
 
         scene?.userData.tres__registerAtPointerEventHandler?.(child as Object3D)
       }
@@ -141,11 +143,11 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
         = scene?.userData.tres__deregisterBlockingObjectAtPointerEventHandler
 
       const deregisterAtPointerEventHandlerIfRequired = (object: TresObject) => {
-        if (!deregisterBlockingObjectAtPointerEventHandler) { throw 'could not find tres__deregisterBlockingObjectAtPointerEventHandler on scene\'s userData' }
+        if (!deregisterBlockingObjectAtPointerEventHandler) { throw new Error('could not find tres__deregisterBlockingObjectAtPointerEventHandler on scene\'s userData') }
 
         scene?.userData.tres__deregisterBlockingObjectAtPointerEventHandler?.(object as Object3D)
 
-        if (!deregisterAtPointerEventHandler) { throw 'could not find tres__deregisterAtPointerEventHandler on scene\'s userData' }
+        if (!deregisterAtPointerEventHandler) { throw new Error('could not find tres__deregisterAtPointerEventHandler on scene\'s userData') }
 
         if (
           object && supportedPointerEvents.some(eventName => object[eventName])
@@ -155,7 +157,7 @@ export const nodeOps: RendererOptions<TresObject, TresObject> = {
       const deregisterCameraIfRequired = (object: Object3D) => {
         const deregisterCamera = scene?.userData.tres__deregisterCamera
 
-        if (!deregisterCamera) { throw 'could not find tres__deregisterCamera on scene\'s userData' }
+        if (!deregisterCamera) { throw new Error('could not find tres__deregisterCamera on scene\'s userData') }
 
         if ((object as Camera).isCamera) { deregisterCamera?.(object as Camera) }
       }

@@ -93,12 +93,6 @@ export interface UseRendererOptions extends TransformToMaybeRefOrGetter<WebGLRen
   preset?: MaybeRefOrGetter<RendererPresetsType>
 }
 
-/**
- * Reactive three.js WebGLRenderer instance
- *
- * @param canvas
- * @param {UseRendererOptions} [options]
- */
 export function useRenderer(
   {
     scene,

@@ -41,7 +41,9 @@ export const vLightHelper = {
   },
   updated: (el: TresObject) => {
     currentInstance = el.parent.children.find((child: TresObject) => child instanceof CurrentHelper)
-    if (currentInstance instanceof RectAreaLightHelper) { return }
+    if (currentInstance instanceof RectAreaLightHelper) {
+      return
+    }
     currentInstance.update()
   },
   unmounted: (el: TresObject) => {
