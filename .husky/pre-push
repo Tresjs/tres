@@ -1,0 +1,25 @@
+# NOTE: Don't fail immediately after error
+# This allows us to echo messages even if the linter exits with an error.
+set +e  
+
+# NOTE: --silent to keep pnpm from echoing, e.g., "> @tresjs/core[...] lint" 
+# --max-warnings=0 to fail on errors *and* warnings
+pnpm --silent lint --max-warnings=0
+
+# NOTE: Capture linter exit status.
+LINT_STATUS=$?
+
+# NOTE: If linting failed, inform user how to proceed.
+if [[ $LINT_STATUS != 0 ]]; then
+  echo "
+To fix linter problems:
+  pnpm lint --fix  – fix automatically fixable problems
+  pnpm lint        – print a list of problems to fix by hand
+
+To skip this verification and push anyway (not recommended):
+  git push --no-verify <...>
+"
+fi
+
+# NOTE: +e was set, so we have to return an exit status.
+exit $LINT_STATUS

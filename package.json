@@ -59,7 +59,8 @@
     "docs:build": "vitepress build docs",
     "docs:serve": "vitepress serve docs",
     "docs:preview": "vitepress preview docs",
-    "docs:contributors": "esno scripts/update-contributors.ts"
+    "docs:contributors": "esno scripts/update-contributors.ts",
+    "prepare": "node .husky/install.mjs"
   },
   "peerDependencies": {
     "three": ">=0.133",
@@ -87,6 +88,7 @@
     "eslint-plugin-vue": "^9.19.2",
     "esno": "^4.0.0",
     "gsap": "^3.12.3",
+    "husky": "^9.0.11",
     "jsdom": "^24.0.0",
     "kolorist": "^1.8.0",
     "ohmyfetch": "^0.4.21",
