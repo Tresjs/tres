@@ -16,7 +16,7 @@ Pour ce guide, nous allons nous concentrer sur le téléchargement de modèles g
 
 <SandboxDemo url="https://play.tresjs.org/#eNqVVdtu2zgQ/RVC++AsVpacuu12tc7CidsGu+i2Re0+VX2gpbHMhCIJkrLjBvn3DqmLJfeCFPCDNXNmeOZ+H6w0mEulol0FQRLMTKaZssSArdQ/qWClktqSe+JgCyp21JAHstGyJKO5RdmNiTOpYfR3D/tOr5ldSGG15N+BMxBWmoHFFTUsW25pLvf/UxWS5Yfrq4XkUi8VzSAkb+VKCkCVYqLoPNqtBhilonP0sSj44aoS4tAgovgochG6R1ORSWEsKTi5IPepICTjQLV/LiGj317/+eJq+nIUOo3xlExCrK7ASyhXW5qQDeWmFtQQpLY6KEhOI3EIWVlVYT7acJLT8BzIHuNLhuF69Z4J9LhkX9C64fKQillclwsLNbNQKk4t4H9CZr1y7cZrNL5Ig4Kngdc2+vegjYLMsh0saAma1rpEScMskwJNPj0JCf7++pwGjZJLeTum1ukmXjdpdHHrelj9Trys8DFhan5e0qtWh4pPYJ7oS6YdTSkof8OKrW09ZC6FyKQpWcvxJIRpSNyvCwHVTFh8g9kD6s9becfBT0S5dm3qnxvin6RBA53Fxyy7CsRdCYIwqDtyXFIV3RgpcLR8q6WNwqRBUjefk/UnySnSYGutMkkcZ7lA+xw42+lIgI2FKuM+fD6NnkWTOGfGxk6M6DTwLTNwXM/cr/iuLdD98777Rjx8xe6B3ioqHsO9w86fRpPovPHcCqOSOZu+bzfjj/HrcHP0+OwF8v0DTNlPA45+ZeDR+e3B5+cTn2AcIbiLymF2GxyuAA35LziuDX7mGoHjHEr2CKct1AX/NHoec7buu3QecVU8YE9ag5tvw4qTjsxkqRgH/U65kRl2JuVc7v/zsm4FepstZLffkd+Yu5rye2wW0DtM97GUVBdga/Wr5Vu4w/+dspR5xZvi/ED5AYzkleNYw3B15Ei7h/Ns//UDhotzZV7d+bltghoQtbitvfRTuxW6XqsFn33iPN6XY/GTLB0jm0bTXsKHx+f0vBJORYEbxS2D/qnVsOlOnLtZPRU2zyV+UU8hdJ/Xb1avf3hij8funpgMBB4PTCXwkNDOCxpfELqnzLbuzlwEo7bnNN1HBbPbao1qjd4wpTbCnvHbDx+jBqMxcUmZiL13ExfcbuIKYx8Legv5eO1S8I1gXJOAPHJ4d3B/7xOmfuXX/AZxnx3Jh3U8Pbus0hoJXnpjtMRknjWeomssr2uMGt4HRjvKK4hwex/OvLZ3Wb+5rUqzEq/LDkgi1zd4mbCGnkZzGfqH4OErWPcr8A==" />
 
-Il existe plusieurs façons de charger des modèles dans TresJS :
+Il existe plusieurs façons de charger des modèles dans TresJS :
 
 ::: warning
 Veuillez noter que dans les exemples ci-dessus, nous avons utilisé l'attente de niveau supérieur, assurez-vous de l'envelopper avec un composant [Suspense](https://vuejs.org/guide/built-ins/suspense.html#suspense). Voir Suspense pour plus d'informations.
@@ -24,7 +24,7 @@ Veuillez noter que dans les exemples ci-dessus, nous avons utilisé l'attente de
 
 ## Avec `useLoader`
 
-Le composable `useLoader` vous permet de transmettre n'importe quel type de loader three.js et une URL pour charger la ressource. Renvoie une « Promesse » avec la ressource chargée.
+Le composable `useLoader` vous permet de transmettre n'importe quel type de loader three.js et une URL pour charger la ressource. Renvoie une « Promesse » avec la ressource chargée.
 
 Pour une explication détaillée de la façon d'utiliser `useLoader`, consultez la documentation [useLoader](/api/composables#useloader).
 
@@ -82,7 +82,7 @@ const { scene, nodes, animations, materials } = await useGLTF('/models/AkuAku.gl
   >
     <TresPerspectiveCamera :position="[11, 11, 11]" />
     <OrbitControls />
-    <primitive :object="nodes.MyModel" /> // "MyModel" ici n'est qu'un placeholder 
+    <primitive :object="nodes.MyModel" /> // "MyModel" ici n'est qu'un placeholder
   </TresCanvas>
 </template>
 ```
@@ -119,7 +119,7 @@ import { useFBX } from '@tresjs/cientos'
 const model = await useFBX('/models/AkuAku.fbx')
 ```
 
-Ensuite, c'est aussi simple que d'ajouter la scène à votre scène :
+Ensuite, c'est aussi simple que d'ajouter la scène à votre scène :
 
 ```html{2}
 <TresCanvas shadows alpha>

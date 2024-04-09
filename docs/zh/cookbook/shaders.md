@@ -60,19 +60,19 @@ import { OrbitControls } from '@tresjs/cientos'
 ```ts
 import { Vector2 } from 'three'
 
-//...
+// ...
 const uniforms = {
   uTime: { value: 0 },
   uAmplitude: { value: new Vector2(0.1, 0.1) },
   uFrequency: { value: new Vector2(20, 5) },
 }
-//..
+// ..
 ```
 
 我们的片段着色器如下所示：
 
 ```ts
-//...
+// ...
 const fragmentShader = `
 precision mediump float;
 varying vec2 vUv;
@@ -81,7 +81,7 @@ void main() {
     gl_FragColor = vec4(1.0, vUv.y, 0.5, 1.0);
 }
 `
-//..
+// ..
 ```
 
 最后是我们的顶点着色器：
@@ -104,12 +104,12 @@ void main() {
     vUv = uv;
 }
 `
-//..
+// ..
 ```
 
 ## 为 blob 添加动画
 
-类似于我们在 [基本动画](/zh/cookbook/basic-animations) 示例中学习到的，我们首先使用 [模板引用](https://cn.vuejs.org/guide/essentials/template-refs.html) 引用 blob 
+类似于我们在 [基本动画](/zh/cookbook/basic-animations) 示例中学习到的，我们首先使用 [模板引用](https://cn.vuejs.org/guide/essentials/template-refs.html) 引用 blob
 
 ```vue
 <script setup lang="ts">
@@ -118,7 +118,7 @@ import { TresCanvas } from '@tresjs/core'
 import { OrbitControls } from '@tresjs/cientos'
 
 const blobRef = shallowRef(null)
-//...
+// ...
 </script>
 
 <template>
@@ -142,16 +142,16 @@ const blobRef = shallowRef(null)
 
  ```ts
 import { TresCanvas, useRenderLoop } from '@tresjs/core'
- 
- //...
+
+ // ...
  const { onLoop } = useRenderLoop()
- 
+
 onLoop(({ elapsed }) => {
    if (blobRef.value) {
      blobRef.value.material.uniforms.uTime.value = elapsed
    }
 })
- //...
+ // ...
 ```
 
 就这样，我们的基本着色器顺利运行。

@@ -56,7 +56,7 @@ export default defineConfig({
       ...templateCompilerOptions
     }),
   ],
-}),
+})
 ```
 
 Dit is nodig om de template compiler te laten werken met de custom renderer, zodat deze geen waarschuwingen op de console genereert. Voor meer informatie, kijk [hier](/nl/guide/troubleshooting.html).
@@ -74,7 +74,6 @@ Je kan TresJS proberen via de officiele [Speelplaats](https://play.tresjs.org/).
 We hebben een gloednieuwe [StackBlitz](https://stackblitz.com/) starter om TresJS online te proberen. Bekijk het hier:
 
 ![](/stackblitz-starter.png)
-
 
 ## Labs
 

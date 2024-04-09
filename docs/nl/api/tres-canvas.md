@@ -76,7 +76,7 @@ renderer.shadowMap.type = PCFSoftShadowMap
 | **camera** | Een handmatige camera die door de renderer moet worden gebruikt. | |
 | **clearColor** | De kleur die de renderer gebruikt om het canvas leeg te maken. | `#000000` |
 | **context** | Dit kan worden gebruikt om de renderer aan een bestaand [RenderingContext](https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext) te koppelen | |
-| **depth** | Of de drawing buffer een [depth buffer](https://en.wikipedia.org/wiki/Z-buffering) heeft van tenminste 16 bits. | `true` |
+| **depth** | Of de drawing buffer een [depth buffer](https://en.wikipedia.org/wiki/Z-buffering) heeft van tenminste 16 bits. | `true` |
 | **disableRender** | Blokkeer render op requestAnimationFrame, handig voor PostProcessing | `false` |
 | **failIfMajorPerformanceCaveat** | Er wordt gedetecteerd of het maken van de renderer zal mislukken bij lage prestaties. Zie [WebGL spec](https://registry.khronos.org/webgl/specs/latest/1.0/#5.2) for details. | `false` |
 | **logarithmicDepthBuffer** | Of de logarithmic depth buffer gebruikt moet worden. Het kan zijn dat dit noodzakelijk is als je te maken hebt met flinke verschillen in scale in een enkele scene. Merk op dat deze setting gebruik maakt van gl_FragDepth wanneer deze beschikbaar is en deze schakelt [Early Fragment Test](https://www.khronos.org/opengl/wiki/Early_Fragment_Test) uit en kan een verlies in prestaties veroorzaken. | `false` |

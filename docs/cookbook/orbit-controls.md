@@ -104,13 +104,12 @@ import OrbitControls from './OrbitControls.vue'
 ```
 :::
 
-
 ## OrbitControls from `cientos`
 
-Here is where the fancy part begins. ✨  
+Here is where the fancy part begins. ✨
 The `cientos` package provides a component called `<OrbitControls />` which is a wrapper of the `OrbitControls` from the [`three-stdlib`](https://github.com/pmndrs/three-stdlib) module.
 
-The nicest part? You don't need to extend the catalog or pass any arguments.  
+The nicest part? You don't need to extend the catalog or pass any arguments.
 It just works. 💯
 
 ```vue {3,12}

@@ -17,10 +17,10 @@ A partir de la version <Badge text="^3.7.0" />, nous introduisons TresJS Dev Too
 ### Caracteristique
 
 - **Inspecteur de scène**: Inspectez la scène actuelle et ses composants à l'aide d'une arborescence similaire à l'inspecteur de composants de Vue Devtools.
-- **Allocation de mémoire** : indique la quantité de mémoire utilisée par chaque composant.
-- **Inspecteur d'objet** : Inspecte les propriétés de l'objet sélectionné dans la scène, y compris ses enfants.
-- **Propriétés modifiables** : Et oui, vous pouvez modifier les propriétés de l'objet sélectionné et voir les modifications en temps réel.
+- **Allocation de mémoire** : indique la quantité de mémoire utilisée par chaque composant.
+- **Inspecteur d'objet** : Inspecte les propriétés de l'objet sélectionné dans la scène, y compris ses enfants.
+- **Propriétés modifiables** : Et oui, vous pouvez modifier les propriétés de l'objet sélectionné et voir les modifications en temps réel.
 
 ![](/devtools-scene-inspector.png)
 
-Profitez des nouveaux outils de développement et dites-nous ce que vous en pensez ! 🎉
+Profitez des nouveaux outils de développement et dites-nous ce que vous en pensez ! 🎉

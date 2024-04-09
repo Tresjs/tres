@@ -24,7 +24,7 @@ Veuillez noter les implications en termes de performances lors de l'utilisation 
 
 La fonction callback `onLoop` reçoit un objet avec les propriétés suivantes basées sur [l'horloge de THREE](https://threejs.org/docs/?q=clock#api/en/core/Clock):
 
-- `delta` : Le temps écoulé entre la trame actuelle et la dernière trame. Il s'agit du temps en secondes depuis la dernière image.
+- `delta` : Le temps écoulé entre la trame actuelle et la dernière trame. Il s'agit du temps en secondes depuis la dernière image.
 - `elapsed` : Le temps écoulé depuis le début de la boucle de rendu.
 
 Ce composable est basé sur `useRafFn` de [vueuse](https://vueuse.org/core/useRafFn/). Merci à [@wheatjs](https://github.com/orgs/Tresjs/people/wheatjs) pour son incroyable contribution.
@@ -101,7 +101,7 @@ Le composable `useTexture` vous permet de charger des textures à l'aide du [loa
 const texture = await useTexture(['path/to/texture.png'])
 ```
 
-**useTexture** accepte également un objet avec les propriétés suivantes :
+**useTexture** accepte également un objet avec les propriétés suivantes :
 
 - `map`: une texture de base appliquée à la surface d'un objet
 - `displacementMap`: une texture utilisée pour ajouter des bosses ou des indentations à la surface de l'objet
@@ -161,8 +161,8 @@ const { seek, seekByName, seekAll, seekAllByName } = useSeek()
 La fonction `seek` accepte trois paramètres:
 
 - `parent` : Une scène ThreeJS ou Object3D.
-- `property` : La propriété à utiliser dans la condition de recherche.
-- `value` : La valeur de la propriété à correspondre.
+- `property` : La propriété à utiliser dans la condition de recherche.
+- `value` : La valeur de la propriété à correspondre.
 
 Les fonctions `seek` et `seekByName` parcourent l'objet et renvoient l'objet enfant avec la propriété et la valeur spécifiées. Si aucun enfant avec la propriété et la valeur données n'est trouvé, il renvoie null et enregistre un avertissement.
 
@@ -196,7 +196,6 @@ Ce composable vise à donner accès au modèle d'état qui contient plusieurs pr
 
 ```ts
 const { camera, renderer, camera, cameras } = useTresContext()
-
 ```
 
 ::: warning
@@ -233,4 +232,3 @@ const context = useTresContext()
 | **scene** | la [scène](https://threejs.org/docs/?q=sce#api/en/scenes/Scene) |
 | **setCameraActive** | une méthode pour définir une caméra active |
 | **sizes** | contient la largeur, la hauteur et les proportions de votre toile |
-

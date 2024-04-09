@@ -196,7 +196,6 @@ Este composable tiene como objetivo proporcionar acceso al modelo de estado que 
 
 ```ts
 const { camera, renderer, camera, cameras } = useTresContext()
-
 ```
 
 ::: warning
@@ -233,4 +232,3 @@ const context = useTresContext()
 | **scene** | la [escena](https://threejs.org/docs/?q=sce#api/en/scenes/Scene) |
 | **setCameraActive** | un método para establecer una cámara activa |
 | **sizes** | contiene el ancho, alto y relación de aspecto de tu lienzo |
-

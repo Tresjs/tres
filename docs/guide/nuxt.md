@@ -4,7 +4,7 @@
 
 <a href="https://www.npmjs.com/package/@tresjs/nuxt"><img src="https://img.shields.io/npm/v/@tresjs/nuxt/latest?color=%2382DBCA" alt="npm package"></a>
 
-A official Nuxt module for TresJS is here 🎉. 
+A official Nuxt module for TresJS is here 🎉.
 
 Repository is [here](https://github.com/Tresjs/nuxt)
 
@@ -13,15 +13,15 @@ Repository is [here](https://github.com/Tresjs/nuxt)
 ::: code-group
 
 ```bash [pnpm]
-pnpm add three @tresjs/nuxt 
+pnpm add three @tresjs/nuxt
 ```
 
 ```bash [npm]
-npm install three @tresjs/nuxt 
+npm install three @tresjs/nuxt
 ```
 
 ```bash [yarn]
-yarn add three @tresjs/nuxt 
+yarn add three @tresjs/nuxt
 ```
 
 :::
@@ -39,8 +39,8 @@ yarn add three @tresjs/nuxt
 
 ```js
 export default defineNuxtConfig({
-  modules: ["@tresjs/nuxt"],
-});
+  modules: ['@tresjs/nuxt'],
+})
 ```
 
 That's it! You can now use `@tresjs/nuxt` in your Nuxt app ✨

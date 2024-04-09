@@ -117,7 +117,7 @@ _AmbientLight 在这里不会生成任何类型的阴影_
     :position="[0, 2, 0]"
     :intensity="1"
   />
-  
+
   //...
 </template>
 ```

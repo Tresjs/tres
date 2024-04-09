@@ -117,7 +117,7 @@ _La luz ambiental no genera ningún tipo de sombra aquí_
     :position="[0, 2, 0]"
     :intensity="1"
   />
-  
+
   //...
 </template>
 ```

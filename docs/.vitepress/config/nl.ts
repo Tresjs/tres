@@ -106,41 +106,39 @@ export const nlConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
       { text: 'API', link: '/nl/api/tres-canvas' },
       /*       { text: 'API', link: '/nl/api/' },
       { text: 'Config', link: '/nl/config/' }, */
-      { text: 'Resources',
-        items: [
-          { text: 'Team', link: '/nl/team' },
-          { text: 'Releases', link: 'https://github.com/Tresjs/tres/releases' },
-          {
-            text: 'Speelplaats',
-            link: 'https://play.tresjs.org/',
-          },
-          {
-            text: 'Github',
-            link: 'https://github.com/Tresjs/tres/',
-          },
-          {
-            text: 'Problemen',
-            link: 'https://github.com/Tresjs/tres/issues',
-          },
-          {
-            text: 'Ecosysteem',
-            items: [
-              {
-                text: 'Cientos 💛',
-                link: 'https://cientos.tresjs.org/',
-              },
-              {
-                text: 'Nuxt module',
-                link: 'https://github.com/Tresjs/nuxt',
-              },
-              {
-                text: 'TresLeches 🍰',
-                link: 'https://tresleches.tresjs.org/',
-              },
-            ],
-          },
-        ],
-      },
+      { text: 'Resources', items: [
+        { text: 'Team', link: '/nl/team' },
+        { text: 'Releases', link: 'https://github.com/Tresjs/tres/releases' },
+        {
+          text: 'Speelplaats',
+          link: 'https://play.tresjs.org/',
+        },
+        {
+          text: 'Github',
+          link: 'https://github.com/Tresjs/tres/',
+        },
+        {
+          text: 'Problemen',
+          link: 'https://github.com/Tresjs/tres/issues',
+        },
+        {
+          text: 'Ecosysteem',
+          items: [
+            {
+              text: 'Cientos 💛',
+              link: 'https://cientos.tresjs.org/',
+            },
+            {
+              text: 'Nuxt module',
+              link: 'https://github.com/Tresjs/nuxt',
+            },
+            {
+              text: 'TresLeches 🍰',
+              link: 'https://tresleches.tresjs.org/',
+            },
+          ],
+        },
+      ] },
     ],
     search: {
       provider: 'local',

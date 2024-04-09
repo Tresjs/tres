@@ -93,14 +93,16 @@ Nous pouvons également transmettre un matcapTexture pour ajouter les derniers d
 
 ```ts
 const matcapTexture = await useTexture(['https://raw.githubusercontent.com/Tresjs/assets/main/textures/matcaps/7.png'])
-
-  <TresMesh>
-    <TresTextGeometry :args="['TresJS', { font, ...fontOptions }]" center />
-    <TresMeshNormalMaterial :matcap="matcapTexture" />
-  </TresMesh>
 ```
 
-Le code final ressemblerait donc à ceci :
+```html
+<TresMesh>
+  <TresTextGeometry :args="['TresJS', { font, ...fontOptions }]" center />
+  <TresMeshNormalMaterial :matcap="matcapTexture" />
+</TresMesh>
+```
+
+Le code final ressemblerait donc à ceci :
 
 ```vue
 <script setup lang="ts">
@@ -184,7 +186,7 @@ Nous pouvons passer les options comme une propriété:
 
 Dans le cas où les options ne sont pas fournies, les valeurs par défaut sont :
 
-```js
+```
 size: 0.5,
 height: 0.2,
 curveSegments: 5,

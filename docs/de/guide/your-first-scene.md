@@ -8,7 +8,6 @@ Dieser Leitfaden hilft dir, deine erste Szene in Tres zu erstellen. 🍩
 </div>
 </ClientOnly>
 
-
 ## Das Canvas einrichten
 
 Bevor wir eine Szene erstellen können, benötigen wir einen Ort, um sie anzuzeigen. Würden wir nur reines [Three.js](https://threejs.org/docs/index.html#manual/en/introduction/Creating-a-scene) verwenden, müssten wir ein HTML-`canvas`-Element erstellen, um mit dem `WebglRenderer` eine `scene` zu initialisieren.
@@ -120,7 +119,6 @@ Ein **Mesh** ist ein grundlegendes Szenenobjekt in three.js und wird verwendet, 
 
 Jetzt sehen wir, wie wir dasselbe mit **TresJS** erreichen können. Dazu verwenden wir die Komponente `<TresMesh />` und fügen im Standard-Slot eine `<TresTorusGeometry />` und ein `<TresMeshBasicMaterial />` ein.
 
-
 ```vue
 <template>
   <TresCanvas window-size>
@@ -136,7 +134,6 @@ Jetzt sehen wir, wie wir dasselbe mit **TresJS** erreichen können. Dazu verwend
 ::: info
 Beachte, dass wir nichts importieren müssen, da **TresJS** automatisch eine **Vue-Komponente basierend auf dem Three-Objekt, das du verwenden möchtest, im PascalCase mit einem Tres-Prefix** generiert. Wenn du zum Beispiel ein `AmbientLight` verwenden möchtest, würdest du die `TresAmbientLight`-Komponente nutzen.
 :::
-
 
 ```vue
 <script setup lang="ts">

@@ -56,7 +56,7 @@ export default defineConfig({
       ...templateCompilerOptions
     }),
   ],
-}),
+})
 ```
 
 This is required to make the template compiler work with the custom renderer so it does not throw warnings on the console. For more info check [here](/guide/troubleshooting.html).
@@ -74,7 +74,6 @@ You can try TresJS online using the official [playground](https://play.tresjs.or
 We have a brand new [StackBlitz](https://stackblitz.com/) starter to try TresJS online. Check it out:
 
 ![](/stackblitz-starter.png)
-
 
 ## Labs
 
