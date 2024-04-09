@@ -19,6 +19,7 @@ const canvas = ref()
 
 watchEffect(() => {
   if (canvas.value) {
+    // eslint-disable-next-line no-console
     console.log(canvas.value.context)
   }
 })

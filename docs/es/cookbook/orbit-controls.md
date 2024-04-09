@@ -104,13 +104,12 @@ import OrbitControls from './OrbitControls.vue'
 ```
 :::
 
-
 ## OrbitControls de `cientos`
 
-Aquí es donde comienza la parte interesante. ✨  
+Aquí es donde comienza la parte interesante. ✨
 El paquete `cientos` proporciona un componente llamado `<OrbitControls />` que es un envoltorio de los `OrbitControls` del módulo [`three-stdlib`](https://github.com/pmndrs/three-stdlib).
 
-¿Lo mejor? No necesitas ampliar el catálogo ni pasar ningún argumento.  
+¿Lo mejor? No necesitas ampliar el catálogo ni pasar ningún argumento.
 Simplemente funciona. 💯
 
 ```vue {3,12}

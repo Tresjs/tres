@@ -1,4 +1,4 @@
-import { ref, onMounted } from 'vue'
+import { onMounted, ref } from 'vue'
 
 const data = ref()
 
@@ -7,7 +7,7 @@ export function useSponsor() {
     if (data.value) {
       return
     }
-    /* 
+    /*
     const result = await fetch(dataUrl)
     const json = await result.json() */
 

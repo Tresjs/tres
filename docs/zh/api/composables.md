@@ -25,7 +25,6 @@ onLoop(({ delta, elapsed, clock }) => {
 
 `onLoop` 回调接收一个基于[THREE clock](https://threejs.org/docs/?q=clock#api/en/core/Clock)的对象，该对象具有以下属性：
 
-
 - `delta`: 当前帧与上一帧之间的时间差。这是自上一帧以来的时间（以秒为单位）。
 - `elapsed`: 自渲染循环开始以来的时间。
 
@@ -79,7 +78,6 @@ console.log(isActive) // true
 
 `useLoader` 组合式函数可以使用 [THREE.js loaders](https://threejs.org/docs/#manual/en/introduction/Loading-3D-models) 加载器加载资源。它返回一个带有加载后资源的Promise。
 
-
 ```ts
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader'
 
@@ -97,7 +95,6 @@ const { scene } = await useLoader(THREE.GLTFLoader, 'path/to/asset.gltf')
 ```
 
 ## useTexture
-
 
 `useTexture` 组合式函数可以使用 [THREE.js texture loader](https://threejs.org/docs/#api/en/loaders/TextureLoader) 纹理加载器加载纹理。它返回一个带有已加载纹理的Promise。
 
@@ -158,7 +155,6 @@ const { map, displacementMap, normalMap, roughnessMap, metalnessMap, aoMap, alph
 
 `useSeek` 组合式函数提供了一些实用工具，可轻松遍历和浏览复杂的ThreeJS场景和对象子图。它导出了4个函数，允许您根据特定属性查找子对象。
 
-
 ```ts
 const { seek, seekByName, seekAll, seekAllByName } = useSeek()
 ```
@@ -198,13 +194,10 @@ watch(character, ({ model }) => {
 
 ## useTresContext
 
-
 这个组合式函数提供对包含多个有用属性的状态模型的访问。
-
 
 ```ts
 const { camera, renderer, camera, cameras } = useTresContext()
-
 ```
 
 ::: warning
@@ -241,4 +234,3 @@ const context = useTresContext()
 | **scene** | [场景](https://threejs.org/docs/?q=sce#api/en/scenes/Scene) |
 | **setCameraActive** | 设置当前激活的相机 |
 | **sizes** | 画布的宽度、高度和宽高比 |
-

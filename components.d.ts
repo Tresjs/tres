@@ -1,1 +1,1 @@
-export * from './dist/components/index.js'
+export * from './dist/src/components/index.js'
