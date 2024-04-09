@@ -7,26 +7,26 @@ Le composant `<primitive />` est un composant polyvalent de bas niveau dans Tres
 ```html
 <script setup lang="ts">
   // Importez les classes three.js nécessaires
-  import { Mesh, BoxGeometry, MeshBasicMaterial } from 'three';
+  import { Mesh, BoxGeometry, MeshBasicMaterial } from 'three'
 
   // Créer une géométrie de boîte et un matériau de base
-  const geometry = new BoxGeometry(1, 1, 1);
-  const material = new MeshBasicMaterial({ color: 0x00ff00 });
+  const geometry = new BoxGeometry(1, 1, 1)
+  const material = new MeshBasicMaterial({ color: 0x00ff00 })
 
   // Créer un mesh avec la géométrie et le matériau
-  const meshWithMaterial = new Mesh(geometry, material);
+  const meshWithMaterial = new Mesh(geometry, material)
 </script>
 
 <template>
   <TresCanvas>
     <primitive :object="meshWithMaterial" />
-  </TresCanvas>  
+  </TresCanvas>
 </template>
 ```
 
 ## Props
 
-`object` : cette propriété attend un objet `Object3D` de three.js ou de l'une de ses classes dérivées. C'est l'objet principal que le composant `<primitive />` rendra. Dans l'exemple mis à jour, un objet « Mesh » avec son « Material » correspondant est transmis à cette propriété.
+`object` : cette propriété attend un objet `Object3D` de three.js ou de l'une de ses classes dérivées. C'est l'objet principal que le composant `<primitive />` rendra. Dans l'exemple mis à jour, un objet « Mesh » avec son « Material » correspondant est transmis à cette propriété.
 
 ## Utiliser avec des modèles
 
@@ -34,9 +34,9 @@ Le composant `<primitive />` est particulièrement utile pour restituer des obje
 
 ```html
 <script lang="ts" setup>
-import { useGLTF } from '@tresjs/cientos'
+  import { useGLTF } from '@tresjs/cientos'
 
-const { nodes } = await useGLTF('/models/AkuAku.gltf')
+  const { nodes } = await useGLTF('/models/AkuAku.gltf')
 </script>
 
 <TresCanvas>

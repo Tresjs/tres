@@ -13,15 +13,15 @@ El repositorio está [aquí](https://github.com/Tresjs/nuxt)
 ::: code-group
 
 ```bash [pnpm]
-pnpm add three @tresjs/nuxt 
+pnpm add three @tresjs/nuxt
 ```
 
 ```bash [npm]
-npm install three @tresjs/nuxt 
+npm install three @tresjs/nuxt
 ```
 
 ```bash [yarn]
-yarn add three @tresjs/nuxt 
+yarn add three @tresjs/nuxt
 ```
 
 :::

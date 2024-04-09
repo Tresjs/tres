@@ -1,4 +1,4 @@
-import type { Scene, Object3D } from 'three'
+import type { Object3D, Scene } from 'three'
 import { useLogger } from '../useLogger'
 
 /**
@@ -48,13 +48,13 @@ export function useSeek(): UseSeekReturn {
   }
 
   /**
- * Returns an array of child objects of the parent given a property
- *
- * @param {(Scene | Object3D)} parent
- * @param {string} property
- * @param {string} value
- * @return {*}  {(Object3D[])}
- */
+   * Returns an array of child objects of the parent given a property
+   *
+   * @param {(Scene | Object3D)} parent
+   * @param {string} property
+   * @param {string} value
+   * @return {*}  {(Object3D[])}
+   */
   function seekAll(parent: Scene | Object3D, property: string, value: string): Object3D[] {
     const foundChildren: Object3D[] = []
 
@@ -83,12 +83,12 @@ export function useSeek(): UseSeekReturn {
   }
 
   /**
- * Returns an array of child objects of the parent given a child.name
- *
- * @param {(Scene | Object3D)} parent
- * @param {string} value
- * @return {*}  {(Object3D[])}
- */
+   * Returns an array of child objects of the parent given a child.name
+   *
+   * @param {(Scene | Object3D)} parent
+   * @param {string} value
+   * @return {*}  {(Object3D[])}
+   */
   function seekAllByName(parent: Scene | Object3D, value: string): Object3D[] {
     return seekAll(parent, 'name', value)
   }

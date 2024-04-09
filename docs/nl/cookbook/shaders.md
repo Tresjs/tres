@@ -61,19 +61,19 @@ Voor dit voorbeeld zien onze uniformen er als volgt uit:
 ```ts
 import { Vector2 } from 'three'
 
-//...
+// ...
 const uniforms = {
   uTime: { value: 0 },
   uAmplitude: { value: new Vector2(0.1, 0.1) },
   uFrequency: { value: new Vector2(20, 5) },
 }
-//..
+// ..
 ```
 
 Onze fragment shader ziet er als volgt uit:
 
 ```ts
-//...
+// ...
 const fragmentShader = `
 precision mediump float;
 varying vec2 vUv;
@@ -82,7 +82,7 @@ void main() {
     gl_FragColor = vec4(1.0, vUv.y, 0.5, 1.0);
 }
 `
-//..
+// ..
 ```
 
 En tot slot onze vertexShader:
@@ -105,7 +105,7 @@ void main() {
     vUv = uv;
 }
 `
-//..
+// ..
 ```
 
 ## De blob animeren
@@ -119,7 +119,7 @@ import { TresCanvas } from '@tresjs/core'
 import { OrbitControls } from '@tresjs/cientos'
 
 const blobRef = shallowRef(null)
-//...
+// ...
 </script>
 
 <template>
@@ -134,7 +134,7 @@ const blobRef = shallowRef(null)
       :position="[0, 4, 0]"
     >
       <TresSphereGeometry :args="[2, 32, 32]" />
-      <TresShaderMaterial :vertexShader="vertexShader" :fragmentShader="fragmentShader" :uniforms="uniforms"/>
+      <TresShaderMaterial :vertex-shader="vertexShader" :fragment-shader="fragmentShader" :uniforms="uniforms" />
     </TresMesh>
   </TresCanvas>
 </template>
@@ -143,16 +143,16 @@ Zodra we dat hebben, kunnen we de `onLoop` callback gebruiken om onze `uTime` te
 
  ```ts
 import { TresCanvas, useRenderLoop } from '@tresjs/core'
- 
- //...
+
+ // ...
  const { onLoop } = useRenderLoop()
- 
+
 onLoop(({ elapsed }) => {
    if (blobRef.value) {
      blobRef.value.material.uniforms.uTime.value = elapsed
    }
 })
- //...
+ // ...
 ```
 
 En dat is alles, onze basisshader werkt soepel. 🎉

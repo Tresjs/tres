@@ -2,7 +2,6 @@
 
 **TresJS** 组件在交互时会触发鼠标事件。适用于继承自 [THREE.Object3D](https://threejs.org/docs/index.html?q=object#api/en/core/Object3D) 的 three.js 类的组件（例如网格、组等）。
 
-
 <StackBlitzEmbed project-id="tresjs-events" />
 
 ## 鼠标事件
@@ -16,10 +15,9 @@
 />
 ```
 
-
 | 事件         | 在 ... 触发                                                                       | 事件参数类型                                                                                                                                                                       |
 | ------------- | ------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| click         | ... 在同一对象上依次触发的 `pointerdown` 和 `pointerup` 事件 | [Intersection](https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/types/three/src/core/Raycaster.d.ts#L16), [PointerEvent](https://developer.mozilla.org/en-US/docs/Web/API/PointerEvent) |
+| click        | ... 在同一对象上依次触发的 `pointerdown` 和 `pointerup` 事件 | [Intersection](https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/types/three/src/core/Raycaster.d.ts#L16), [PointerEvent](https://developer.mozilla.org/en-US/docs/Web/API/PointerEvent) |
 | pointer-move  | ... 鼠标在对象上方移动                                            | [Intersection](https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/types/three/src/core/Raycaster.d.ts#L16), [PointerEvent](https://developer.mozilla.org/en-US/docs/Web/API/PointerEvent) |
 | pointer-enter | ... 鼠标移入对象                                                | [Intersection](https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/types/three/src/core/Raycaster.d.ts#L16), [PointerEvent](https://developer.mozilla.org/en-US/docs/Web/API/PointerEvent) |
 | pointer-leave | ... 鼠标移出对象                                                  | [PointerEvent](https://developer.mozilla.org/en-US/docs/Web/API/PointerEvent)                                                                                                                         |

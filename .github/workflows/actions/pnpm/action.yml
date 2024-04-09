@@ -1,18 +1,18 @@
 # From https://github.com/remirror/template/blob/4f8c5f5629a081217672a8cce1df085510f43913/.github/actions/pnpm/action.yml
-name: 'pnpm installation'
-description: 'Install and audit dependencies for pnpm'
+name: pnpm installation
+description: Install and audit dependencies for pnpm
 inputs:
   cache: # id of input
-    description: 'The location of the pnpm cache'
+    description: The location of the pnpm cache
     required: true
-    default: '.pnpm-store'
+    default: .pnpm-store
   version: # id of input
-    description: 'The version to use'
+    description: The version to use
     required: false
     default: 6.10.0
 
 runs:
-  using: 'composite'
+  using: composite
   steps:
     - name: install pnpm
       run: npm install pnpm@${{ inputs.version }} -g

@@ -1,4 +1,4 @@
-import { LoadingManager, Texture, TextureLoader } from 'three'
+import { LoadingManager, TextureLoader } from 'three'
 import { useTexture } from '.'
 
 describe('useTexture', () => {
@@ -11,7 +11,7 @@ describe('useTexture', () => {
     const textureLoader = new TextureLoader(loadingManager)
 
     const spy = vi.spyOn(textureLoader, 'load').mockImplementation(() => {})
-    const texture = await useTexture([
+    await useTexture([
       'https://github.com/Tresjs/assets/blob/main/textures/stylized-grass/stylized-grass1_albedo.png?raw=true',
     ])
     expect(spy).toHaveBeenCalledTimes(1)

@@ -3,13 +3,13 @@ import type { Loader, Object3D } from 'three'
 import { useLogger } from '../useLogger'
 
 export interface TresLoader<T> extends Loader {
-  load(
+  load: (
     url: string,
     onLoad?: (result: T) => void,
     onProgress?: (event: ProgressEvent) => void,
     onError?: (event: ErrorEvent) => void,
-  ): unknown
-  loadAsync(url: string, onProgress?: (event: ProgressEvent) => void): Promise<T>
+  ) => unknown
+  loadAsync: (url: string, onProgress?: (event: ProgressEvent) => void) => Promise<T>
 }
 
 export type LoaderProto<T> = new (...args: any) => TresLoader<T extends unknown ? any : T>

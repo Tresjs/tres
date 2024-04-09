@@ -86,7 +86,7 @@ const routes = [
     name: 'empty',
     component: () => import('./pages/empty.vue'),
   },
-  
+
 ]
 export const router = createRouter({
   history: createWebHistory(),

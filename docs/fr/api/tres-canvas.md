@@ -102,4 +102,3 @@ Tres essaie d’être aussi neutre que possible. C'est pourquoi il ne définit p
 | Propriété | Descriptif |
 | ---- | ---- |
 | context | voir [useTresContext](composables#usetrescontext) |
-
