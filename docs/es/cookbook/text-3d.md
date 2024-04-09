@@ -93,11 +93,13 @@ También podemos pasar una matcapTexture para agregar detalles finales, utilizan
 
 ```ts
 const matcapTexture = await useTexture(['https://raw.githubusercontent.com/Tresjs/assets/main/textures/matcaps/7.png'])
+```
 
-  <TresMesh>
-    <TresTextGeometry :args="['TresJS', { font, ...fontOptions }]" center />
-    <TresMeshNormalMaterial :matcap="matcapTexture" />
-  </TresMesh>
+```html
+<TresMesh>
+  <TresTextGeometry :args="['TresJS', { font, ...fontOptions }]" center />
+  <TresMeshNormalMaterial :matcap="matcapTexture" />
+</TresMesh>
 ```
 
 Entonces, el código final sería algo como esto:
@@ -184,15 +186,17 @@ Podemos pasar las opciones como props
 
 en caso de que no se proporcionen las opciones, los valores predeterminados son:
 
-```js
-size: 0.5,
-height: 0.2,
-curveSegments: 5,
-bevelEnabled: true,
-bevelThickness: 0.05,
-bevelSize: 0.02,
-bevelOffset: 0,
-bevelSegments: 4,
+```
+{
+  size: 0.5,
+  height: 0.2,
+  curveSegments: 5,
+  bevelEnabled: true,
+  bevelThickness: 0.05,
+  bevelSize: 0.02,
+  bevelOffset: 0,
+  bevelSegments: 4,
+}
 ```
 
 De forma predeterminada, el texto en ThreeJS comienza en la posición inicial de la malla, por lo que si es [0,0,0], el texto comenzará allí, pero podemos centrarlo simplemente pasando la bandera "center".

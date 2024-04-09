@@ -25,7 +25,7 @@ Nous importons tous les modules dont nous avons besoin. Pour plus de commodité,
 
 Mettons notre caméra en position `[11,11,11]`.
 
-Enfin, pour nous aider avec le placement, ajoutons un plan simple, tourné sur l'axe X, avec une mesure de `[10, 10]` unités.
+Enfin, pour nous aider avec le placement, ajoutons un plan simple, tourné sur l'axe X, avec une mesure de `[10, 10]` unités.
 
 ```vue
 <script setup lang="ts">
@@ -64,24 +64,24 @@ Pour notre blob, nous pourrions utiliser un simple `SphereGeometry` en ajoutant 
 
 Le `ShaderMaterial` accepte des propriétés spéciales, telles que `uniforms`, `vertexShader` et `fragmentShader`, afin que nous puissions le créer dans notre section de script et établir la connexion à notre instance.
 
-Pour cet exemple, nos uniformes ressemblent à ceci :
+Pour cet exemple, nos uniformes ressemblent à ceci :
 
 ```ts
 import { Vector2 } from 'three'
 
-//...
+// ...
 const uniforms = {
   uTime: { value: 0 },
   uAmplitude: { value: new Vector2(0.1, 0.1) },
   uFrequency: { value: new Vector2(20, 5) },
 }
-//..
+// ..
 ```
 
-Notre fragment shader ressemble à ceci :
+Notre fragment shader ressemble à ceci :
 
 ```ts
-//...
+// ...
 const fragmentShader = `
 precision mediump float;
 varying vec2 vUv;
@@ -90,7 +90,7 @@ void main() {
     gl_FragColor = vec4(1.0, vUv.y, 0.5, 1.0);
 }
 `
-//..
+// ..
 ```
 
 Et enfin notre `vertexShader`:
@@ -113,7 +113,7 @@ void main() {
     vUv = uv;
 }
 `
-//..
+// ..
 ```
 
 ## Animer le blob
@@ -127,7 +127,7 @@ import { TresCanvas } from '@tresjs/core'
 import { OrbitControls } from '@tresjs/cientos'
 
 const blobRef = shallowRef(null)
-//...
+// ...
 </script>
 
 <template>
@@ -151,16 +151,16 @@ Une fois que nous avons fait cela, nous pouvons utiliser le rappel `onLoop` pour
 
  ```ts
 import { TresCanvas, useRenderLoop } from '@tresjs/core'
- 
- //...
+
+ // ...
  const { onLoop } = useRenderLoop()
- 
+
 onLoop(({ elapsed }) => {
    if (blobRef.value) {
      blobRef.value.material.uniforms.uTime.value = elapsed
    }
 })
- //...
+ // ...
 ```
 
 Et voilà, notre shader de base fonctionne correctement.
@@ -171,7 +171,7 @@ _Cette étape est totalement facultative et hors du cadre de l'équipe **TresJs*
 
 Définir notre shader en ligne n'est pas toujours la meilleure idée, mais si vous utilisez [vite](https://vitejs.dev/), vous pouvez mettre vos fichiers `GLSL` dans un fichier différent en utilisant le [vite-plugin-glsl](https://www.npmjs.com/package/vite-plugin-glsl). (voir lien pour la documentation officielle)
 
-Et vous devriez avoir une structure similaire à celle-ci :
+Et vous devriez avoir une structure similaire à celle-ci :
 
 ```
 ├── src/

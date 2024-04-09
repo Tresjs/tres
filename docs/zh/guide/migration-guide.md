@@ -133,6 +133,7 @@ watch(modelRef, ({ getModel }) => {
   model.position.set(0, 0, 0)
 })
 </script>
+
 <template>
   <primitive :object="nodes.MyModel" />
 </template>
@@ -149,11 +150,12 @@ const { scene, nodes, animations, materials } = await useGLTF('/models/AkuAku.gl
 
 const modelRef = ref()
 
-watch(modelRef, model => {
+watch(modelRef, (model) => {
   // Do something with the model
   model.position.set(0, 0, 0)
 })
 </script>
+
 <template>
   <primitive :object="nodes.MyModel" />
 </template>

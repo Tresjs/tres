@@ -93,11 +93,13 @@ We can also pass a matcapTexture to add final details, using the TresMeshNormalM
 
 ```ts
 const matcapTexture = await useTexture(['https://raw.githubusercontent.com/Tresjs/assets/main/textures/matcaps/7.png'])
+```
 
-  <TresMesh>
-    <TresTextGeometry :args="['TresJS', { font, ...fontOptions }]" center />
-    <TresMeshNormalMaterial :matcap="matcapTexture" />
-  </TresMesh>
+```html
+<TresMesh>
+  <TresTextGeometry :args="['TresJS', { font, ...fontOptions }]" center />
+  <TresMeshNormalMaterial :matcap="matcapTexture" />
+</TresMesh>
 ```
 
 So the final code would look something like this:
@@ -184,7 +186,7 @@ We can pass the options as props
 
 in case the options are not provided, the default values will be:
 
-```js
+```
 size: 0.5,
 height: 0.2,
 curveSegments: 5,

@@ -67,7 +67,6 @@ In het begin dacht ik dat het een goed idee zou zijn om een aparte component voo
 
 Je kunt nu een scène als deze maken:
 
-
 ```vue
 <template>
   <TresCanvas>
@@ -134,6 +133,7 @@ watch(modelRef, ({ getModel }) => {
   model.position.set(0, 0, 0)
 })
 </script>
+
 <template>
   <primitive :object="nodes.MyModel" />
 </template>
@@ -150,11 +150,12 @@ const { scene, nodes, animations, materials } = await useGLTF('/models/AkuAku.gl
 
 const modelRef = ref()
 
-watch(modelRef, model => {
+watch(modelRef, (model) => {
   // Doe iets met het model
   model.position.set(0, 0, 0)
 })
 </script>
+
 <template>
   <primitive :object="nodes.MyModel" />
 </template>

@@ -117,7 +117,7 @@ _Het AmbientLight genereert hier geen enkele vorm van schaduw_
     :position="[0, 2, 0]"
     :intensity="1"
   />
-  
+
   //...
 </template>
 ```

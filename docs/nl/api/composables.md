@@ -196,7 +196,6 @@ Deze composable is om toegang te bieden tot het state model dat meerdere nuttige
 
 ```ts
 const { camera, renderer, camera, cameras } = useTresContext()
-
 ```
 
 ::: warning
@@ -233,4 +232,3 @@ const context = useTresContext()
 | **scene** | De [scene](https://threejs.org/docs/?q=sce#api/en/scenes/Scene). |
 | **setCameraActive** | Een methode om de actieve camera te zetten |
 | **sizes** | Bevat breedte, hoogte en aspect ratio van je canvas |
-

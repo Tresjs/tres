@@ -7,20 +7,20 @@ El componente `<primitive />` es un componente versátil de bajo nivel en TresJS
 ```html
 <script setup lang="ts">
   // Importa las clases necesarias de three.js
-  import { Mesh, BoxGeometry, MeshBasicMaterial } from 'three';
+  import { Mesh, BoxGeometry, MeshBasicMaterial } from 'three'
 
   // Crea una geometría de caja y un material básico
-  const geometry = new BoxGeometry(1, 1, 1);
-  const material = new MeshBasicMaterial({ color: 0x00ff00 });
+  const geometry = new BoxGeometry(1, 1, 1)
+  const material = new MeshBasicMaterial({ color: 0x00ff00 })
 
   // Crea un mesh con la geometría y el material
-  const meshWithMaterial = new Mesh(geometry, material);
+  const meshWithMaterial = new Mesh(geometry, material)
 </script>
 
 <template>
   <TresCanvas>
     <primitive :object="meshWithMaterial" />
-  </TresCanvas>  
+  </TresCanvas>
 </template>
 ```
 
@@ -34,9 +34,9 @@ El componente `<primitive />` es especialmente útil para renderizar objetos com
 
 ```html
 <script lang="ts" setup>
-import { useGLTF } from '@tresjs/cientos'
+  import { useGLTF } from '@tresjs/cientos'
 
-const { nodes } = await useGLTF('/models/AkuAku.gltf')
+  const { nodes } = await useGLTF('/models/AkuAku.gltf')
 </script>
 
 <TresCanvas>

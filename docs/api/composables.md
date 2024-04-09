@@ -151,7 +151,7 @@ Then you can bind the textures to the material.
 `useTexture` by default takes the second argument 'manager' as LoadingManager. When omitted, it will automatically be added to `THREE.DefaultLoadingManager`. Of course, you can also add your own LoadingManager, like this:
 ```ts
 const loadingManager = new LoadingManager()
-const texture = await useTexture({ map: 'path/to/texture.png' },loadingManager)
+const texture = await useTexture({ map: 'path/to/texture.png' }, loadingManager)
 ```
 
 Similar to above composable, the `useTexture` composable returns a promise, you can use it with `async/await` or `then/catch`. If you are using it on a component make sure you wrap it with a `Suspense` component.
@@ -202,7 +202,6 @@ This composable aims to provide access to the state model which contains multipl
 
 ```ts
 const { camera, renderer, camera, cameras } = useTresContext()
-
 ```
 
 ::: warning
@@ -239,4 +238,3 @@ const context = useTresContext()
 | **scene** | The [scene](https://threejs.org/docs/?q=sce#api/en/scenes/Scene). |
 | **setCameraActive** | A method to set a camera active |
 | **sizes** | Contains width, height and aspect ratio of your canvas |
-
