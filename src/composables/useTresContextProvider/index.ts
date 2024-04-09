@@ -1,5 +1,5 @@
 import { useFps, useMemory, useRafFn } from '@vueuse/core'
-import { inject, provide, readonly, shallowRef, ref, onUnmounted } from 'vue'
+import { inject, onUnmounted, provide, readonly, ref, shallowRef } from 'vue'
 import type { Camera, EventDispatcher, Scene, WebGLRenderer } from 'three'
 import { Raycaster } from 'three'
 import type { ComputedRef, DeepReadonly, MaybeRef, MaybeRefOrGetter, Ref, ShallowRef } from 'vue'
@@ -49,9 +49,8 @@ export function useTresContextProvider({
   disableRender: MaybeRefOrGetter<boolean>
   rendererOptions: UseRendererOptions
 }): TresContext {
-
   const sizes = useSizes(windowSize, canvas)
-  
+
   const localScene = shallowRef<Scene>(scene)
   const {
     camera,
@@ -68,7 +67,8 @@ export function useTresContextProvider({
       options: rendererOptions,
       contextParts: { sizes, camera },
       disableRender,
-    })
+    },
+  )
 
   const toProvide: TresContext = {
     sizes,
@@ -106,7 +106,6 @@ export function useTresContextProvider({
   let lastUpdateTime = performance.now()
 
   const updatePerformanceData = ({ timestamp }: { timestamp: number }) => {
-
     // Update WebGL Memory Usage (Placeholder for actual logic)
     // perf.memory.value = calculateMemoryUsage(gl)
     if (toProvide.scene.value) {
@@ -136,7 +135,6 @@ export function useTresContextProvider({
 
         toProvide.perf.memory.currentMem
         = toProvide.perf.memory.accumulator.reduce((a, b) => a + b, 0) / toProvide.perf.memory.accumulator.length
-
       }
     }
   }
@@ -146,7 +144,7 @@ export function useTresContextProvider({
   const interval = 1 // Interval in milliseconds, e.g., 1000 ms = 1 second
 
   const { pause, resume } = useRafFn(({ delta }) => {
-    if (!window.__TRES__DEVTOOLS__) return
+    if (!window.__TRES__DEVTOOLS__) { return }
 
     updatePerformanceData({ timestamp: performance.now() })
 

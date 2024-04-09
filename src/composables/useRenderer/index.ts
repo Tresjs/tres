@@ -1,17 +1,13 @@
 import { Color, WebGLRenderer } from 'three'
-import { shallowRef, watchEffect, onUnmounted, type MaybeRef, computed, watch } from 'vue'
+import { type MaybeRef, computed, onUnmounted, shallowRef, watch, watchEffect } from 'vue'
 import {
+  type MaybeRefOrGetter,
   toValue,
   unrefElement,
-  type MaybeRefOrGetter,
   useDevicePixelRatio,
 } from '@vueuse/core'
 
-import type { Scene, ToneMapping,
-  ColorSpace,
-  ShadowMapType,
-  WebGLRendererParameters,
-} from 'three'
+import type { ColorSpace, Scene, ShadowMapType, ToneMapping, WebGLRendererParameters } from 'three'
 import { useLogger } from '../useLogger'
 import type { TresColor } from '../../types'
 import { useRenderLoop } from '../useRenderLoop'
@@ -20,7 +16,6 @@ import { normalizeColor } from '../../utils/normalize'
 import type { TresContext } from '../useTresContextProvider'
 import { get, merge, set } from '../../utils'
 
-// eslint-disable-next-line max-len
 // Solution taken from Thretle that actually support different versions https://github.com/threlte/threlte/blob/5fa541179460f0dadc7dc17ae5e6854d1689379e/packages/core/src/lib/lib/useRenderer.ts
 import { revision } from '../../core/revision'
 import { rendererPresets } from './const'
@@ -120,7 +115,6 @@ export function useRenderer(
     disableRender: MaybeRefOrGetter<boolean>
   },
 ) {
-
   const webGLRendererConstructorParameters = computed<WebGLRendererParameters>(() => ({
     alpha: toValue(options.alpha),
     depth: toValue(options.depth),
@@ -160,7 +154,6 @@ export function useRenderer(
   const { logError } = useLogger()
 
   const getThreeRendererDefaults = () => {
-
     const plainRenderer = new WebGLRenderer()
 
     const defaults = {
@@ -183,8 +176,7 @@ export function useRenderer(
     const rendererPreset = toValue(options.preset)
 
     if (rendererPreset) {
-      if (!(rendererPreset in rendererPresets))
-        logError(`Renderer Preset must be one of these: ${Object.keys(rendererPresets).join(', ')}`)
+      if (!(rendererPreset in rendererPresets)) { logError(`Renderer Preset must be one of these: ${Object.keys(rendererPresets).join(', ')}`) }
 
       merge(renderer.value, rendererPresets[rendererPreset])
     }
@@ -193,19 +185,16 @@ export function useRenderer(
       const value = toValue(option)
 
       const getValueFromPreset = () => {
-        if (!rendererPreset)
-          return
+        if (!rendererPreset) { return }
 
         return get(rendererPresets[rendererPreset], pathInThree)
       }
 
-      if (value !== undefined)
-        return value
+      if (value !== undefined) { return value }
 
       const valueInPreset = getValueFromPreset() as T
 
-      if (valueInPreset !== undefined)
-        return valueInPreset
+      if (valueInPreset !== undefined) { return valueInPreset }
 
       return get(threeDefaults, pathInThree)
     }
@@ -217,28 +206,26 @@ export function useRenderer(
     setValueOrDefault(options.toneMapping, 'toneMapping')
     setValueOrDefault(options.shadowMapType, 'shadowMap.type')
 
-    if (revision < 150)
-      setValueOrDefault(!options.useLegacyLights, 'physicallyCorrectLights')
+    if (revision < 150) { setValueOrDefault(!options.useLegacyLights, 'physicallyCorrectLights') }
 
     setValueOrDefault(options.outputColorSpace, 'outputColorSpace')
     setValueOrDefault(options.toneMappingExposure, 'toneMappingExposure')
 
     const clearColor = getValue(options.clearColor, 'clearColor')
 
-    if (clearColor)
+    if (clearColor) {
       renderer.value.setClearColor(
         clearColor
           ? normalizeColor(clearColor)
           : new Color(0x000000), // default clear color is not easily/efficiently retrievable from three
       )
-
+    }
   })
 
   const { pause, resume, onLoop } = useRenderLoop()
 
   onLoop(() => {
-    if (camera.value && !toValue(disableRender))
-      renderer.value.render(scene, camera.value)
+    if (camera.value && !toValue(disableRender)) { renderer.value.render(scene, camera.value) }
   })
 
   resume()
@@ -249,8 +236,7 @@ export function useRenderer(
     renderer.value.forceContextLoss()
   })
 
-  if (import.meta.hot)
-    import.meta.hot.on('vite:afterUpdate', resume)
+  if (import.meta.hot) { import.meta.hot.on('vite:afterUpdate', resume) }
 
   return {
     renderer,

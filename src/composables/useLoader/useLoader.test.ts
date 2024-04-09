@@ -1,8 +1,7 @@
 import { useLoader } from '.'
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 
 describe('useLoader', () => {
-  test('is defined', () => {
+  it('is defined', () => {
     expect(useLoader).toBeDefined()
   })
   /* test('loads a glTF file using GLTFLoader and returns the result', async () => {

@@ -1,4 +1,4 @@
-import type { Texture, LoadingManager } from 'three'
+import type { LoadingManager, Texture } from 'three'
 import { TextureLoader } from 'three'
 import { isArray } from '../../utils'
 
@@ -116,7 +116,6 @@ export async function useTexture(
   paths: readonly [string] | string[] | PBRUseTextureMap,
   manager?: LoadingManager,
 ): Promise<Texture | Texture[] | PBRTextureMaps> {
-  
   const textureLoader = new TextureLoader(manager)
 
   /**

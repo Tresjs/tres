@@ -64,7 +64,7 @@ export interface TresScene extends THREE.Scene {
 }
 
 // Events
-// eslint-disable-next-line import/namespace
+
 export interface Intersection extends THREE.Intersection {
   /** The event source (the object which registered the handler) */
   eventObject: TresObject
@@ -126,10 +126,10 @@ export interface EventHandlers {
 }
 
 interface MathRepresentation {
-  set(...args: number[] | [THREE.ColorRepresentation]): any
+  set: (...args: number[] | [THREE.ColorRepresentation]) => any
 }
 interface VectorRepresentation extends MathRepresentation {
-  setScalar(s: number): any
+  setScalar: (s: number) => any
 }
 
 export interface VectorCoordinates {
@@ -140,7 +140,7 @@ export interface VectorCoordinates {
 
 export type MathType<T extends MathRepresentation | THREE.Euler> = T extends THREE.Color
   ? ConstructorParameters<typeof THREE.Color> | THREE.ColorRepresentation
-  // eslint-disable-next-line max-len
+
   : T extends VectorRepresentation | THREE.Layers | THREE.Euler ? T | Parameters<T['set']> | number | VectorCoordinates : T | Parameters<T['set']>
 
 export type TresVector2 = MathType<THREE.Vector2>
@@ -154,7 +154,7 @@ export type TresEuler = MathType<THREE.Euler>
 type WithMathProps<P> = { [K in keyof P]: P[K] extends MathRepresentation | THREE.Euler ? MathType<P[K]> : P[K] }
 
 interface RaycastableRepresentation {
-  raycast(raycaster: THREE.Raycaster, intersects: THREE.Intersection[]): void
+  raycast: (raycaster: THREE.Raycaster, intersects: THREE.Intersection[]) => void
 }
 type EventProps<P> = P extends RaycastableRepresentation ? Partial<EventHandlers> : unknown
 
@@ -191,4 +191,3 @@ declare module 'vue' {
   export interface GlobalComponents extends TresComponents { }
 }
 /* eslint-enable @typescript-eslint/ban-types */
-

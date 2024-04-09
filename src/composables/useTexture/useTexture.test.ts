@@ -1,4 +1,4 @@
-import { LoadingManager, Texture, TextureLoader } from 'three'
+import { LoadingManager, TextureLoader } from 'three'
 import { useTexture } from '.'
 
 describe('useTexture', () => {

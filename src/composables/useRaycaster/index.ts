@@ -1,11 +1,11 @@
 import { Vector2 } from 'three'
-import type { Object3D, Intersection, Object3DEventMap } from 'three'
+import type { Intersection, Object3D, Object3DEventMap } from 'three'
 import type { Ref } from 'vue'
 import { computed, onUnmounted } from 'vue'
 import type { EventHook } from '@vueuse/core'
 import { createEventHook, useElementBounding, usePointer } from '@vueuse/core'
 
-import { type TresContext } from '../useTresContextProvider'
+import type { TresContext } from '../useTresContextProvider'
 
 export type Intersects = Intersection<Object3D<Object3DEventMap>>[]
 interface PointerMoveEventPayload {
@@ -29,8 +29,8 @@ export const useRaycaster = (
 
   const { width, height, top, left } = useElementBounding(canvas)
 
-  const getRelativePointerPosition = ({ x, y }: { x: number; y: number }) => {
-    if (!canvas.value) return
+  const getRelativePointerPosition = ({ x, y }: { x: number, y: number }) => {
+    if (!canvas.value) { return }
 
     return {
       x: ((x - left.value) / width.value) * 2 - 1,
@@ -38,8 +38,8 @@ export const useRaycaster = (
     }
   }
 
-  const getIntersectsByRelativePointerPosition = ({ x, y }: { x: number; y: number }) => {
-    if (!camera.value) return
+  const getIntersectsByRelativePointerPosition = ({ x, y }: { x: number, y: number }) => {
+    if (!camera.value) { return }
 
     raycaster.value.setFromCamera(new Vector2(x, y), camera.value)
 
@@ -51,7 +51,7 @@ export const useRaycaster = (
       x: event?.clientX ?? x.value,
       y: event?.clientY ?? y.value,
     })
-    if (!pointerPosition) return []
+    if (!pointerPosition) { return [] }
 
     return getIntersectsByRelativePointerPosition(pointerPosition) || []
   }
@@ -71,16 +71,16 @@ export const useRaycaster = (
 
   // a click event is fired whenever a pointerdown happened after pointerup on the same object
 
-  let mouseDownObject: Object3D | undefined = undefined
+  let mouseDownObject: Object3D | undefined
 
   const onPointerDown = (event: PointerEvent) => {
     mouseDownObject = getIntersects(event)[0]?.object
   }
 
   const onPointerUp = (event: MouseEvent) => {
-    if (!(event instanceof PointerEvent)) return // prevents triggering twice on mobile devices
+    if (!(event instanceof PointerEvent)) { return } // prevents triggering twice on mobile devices
 
-    if (mouseDownObject === getIntersects(event)[0]?.object) triggerEventHook(eventHookClick, event)
+    if (mouseDownObject === getIntersects(event)[0]?.object) { triggerEventHook(eventHookClick, event) }
   }
 
   const onPointerLeave = (event: PointerEvent) => eventHookPointerMove.trigger({ event, intersects: [] })
@@ -91,7 +91,7 @@ export const useRaycaster = (
   canvas.value.addEventListener('pointerleave', onPointerLeave)
 
   onUnmounted(() => {
-    if (!canvas?.value) return
+    if (!canvas?.value) { return }
     canvas.value.removeEventListener('pointerup', onPointerUp)
     canvas.value.removeEventListener('pointerdown', onPointerDown)
     canvas.value.removeEventListener('pointermove', onPointerMove)
