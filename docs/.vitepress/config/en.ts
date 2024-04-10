@@ -114,7 +114,7 @@ export const enConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
           { text: 'Releases', link: 'https://github.com/Tresjs/tres/releases' },
           {
             text: 'Playground',
-            link: 'https://playground.tresjs.org/',
+            link: 'https://play.tresjs.org/',
           },
           {
             text: 'Github',
@@ -141,7 +141,7 @@ export const enConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
               },
             ],
           },
-        ],
+        ]
       },
     ],
   },

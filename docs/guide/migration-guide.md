@@ -133,6 +133,7 @@ watch(modelRef, ({ getModel }) => {
   model.position.set(0, 0, 0)
 })
 </script>
+
 <template>
   <primitive :object="nodes.MyModel" />
 </template>
@@ -149,11 +150,12 @@ const { scene, nodes, animations, materials } = await useGLTF('/models/AkuAku.gl
 
 const modelRef = ref()
 
-watch(modelRef, model => {
+watch(modelRef, (model) => {
   // Do something with the model
   model.position.set(0, 0, 0)
 })
 </script>
+
 <template>
   <primitive :object="nodes.MyModel" />
 </template>
@@ -191,7 +193,7 @@ To this:
 
 For v3 we reworked the whole state logic to make it more flexible and easier to use for plugin authors and ecosystem packages. Instead of using a store like in v2, we now use a context provider based on `provide/inject`.
 
-The `useTres` function is now an alias of the `useTresContext` function to avoid breaking demos and experiments out there, but consider using `useTresContext` from now on. 
+The `useTres` function is now an alias of the `useTresContext` function to avoid breaking demos and experiments out there, but consider using `useTresContext` from now on.
 
 Instead of a big reactive object, you will now get the `scene` and `renderer` refs, between other properties, directly.
 

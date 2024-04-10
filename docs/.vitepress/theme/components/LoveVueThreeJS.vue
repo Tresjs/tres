@@ -1,5 +1,5 @@
 <script setup lang="ts">
-///<reference types="vite-svg-loader" />
+/// <reference types="vite-svg-loader" />
 import { gsap } from 'gsap'
 import { onMounted, ref } from 'vue'
 import Triangle from '../assets/triangle.svg'

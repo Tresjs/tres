@@ -13,7 +13,7 @@ import copy from 'rollup-plugin-copy'
  */ /* import { visualizer } from 'rollup-plugin-visualizer' */
 import { resolve } from 'pathe'
 
-import { lightGreen, yellow, gray, bold } from 'kolorist'
+import { bold, gray, lightGreen, yellow } from 'kolorist'
 
 import pkg from './package.json'
 
@@ -77,9 +77,9 @@ export default defineConfig({
         // Provide global variables to use in the UMD build
         // for externalized deps
         globals: {
-          vue: 'Vue',
+          'vue': 'Vue',
           '@vueuse/core': 'VueUseCore',
-          three: 'Three',
+          'three': 'Three',
         },
       },
     },

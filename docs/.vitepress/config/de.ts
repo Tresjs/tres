@@ -113,7 +113,7 @@ export const deConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
           { text: 'Versionen', link: 'https://github.com/Tresjs/tres/releases' },
           {
             text: 'Spielplatz',
-            link: 'https://playground.tresjs.org/',
+            link: 'https://play.tresjs.org/',
           },
           {
             text: 'Github',

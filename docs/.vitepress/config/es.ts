@@ -114,7 +114,7 @@ export const esConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
           { text: 'Versiones', link: 'https://github.com/Tresjs/tres/releases' },
           {
             text: 'Playground',
-            link: 'https://playground.tresjs.org/',
+            link: 'https://play.tresjs.org/',
           },
           {
             text: 'Github',
@@ -141,7 +141,7 @@ export const esConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
               },
             ],
           },
-        ],
+        ]
       },
     ],
     search: {

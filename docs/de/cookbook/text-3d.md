@@ -93,11 +93,13 @@ Wir können auch eine matcapTexture übergeben, um feine Details hinzuzufügen, 
 
 ```ts
 const matcapTexture = await useTexture(['https://raw.githubusercontent.com/Tresjs/assets/main/textures/matcaps/7.png'])
+```
 
-  <TresMesh>
-    <TresTextGeometry :args="['TresJS', { font, ...fontOptions }]" center />
-    <TresMeshNormalMaterial :matcap="matcapTexture" />
-  </TresMesh>
+```html
+<TresMesh>
+  <TresTextGeometry :args="['TresJS', { font, ...fontOptions }]" center />
+  <TresMeshNormalMaterial :matcap="matcapTexture" />
+</TresMesh>
 ```
 
 Also würde der finale Code so aussehen:

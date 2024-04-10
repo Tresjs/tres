@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { SRGBColorSpace, BasicShadowMap, NoToneMapping } from 'three'
+import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
 import { reactive, ref } from 'vue'
 import { TresCanvas, useRenderLoop } from '@tresjs/core'
 import { OrbitControls } from '@tresjs/cientos'
@@ -19,7 +19,7 @@ const sphereRef = ref()
 const { onLoop } = useRenderLoop()
 
 onLoop(({ elapsed }) => {
-  if (!sphereRef.value) return
+  if (!sphereRef.value) { return }
   sphereRef.value.position.y += Math.sin(elapsed) * 0.01
 })
 
@@ -36,7 +36,7 @@ const sphereExists = ref(true)
   <input
     v-model="sphereExists"
     type="checkbox"
-  >
+  />
   <TresCanvas v-bind="state">
     <TresPerspectiveCamera
       :position="[5, 5, 5]"

@@ -1,33 +1,32 @@
 <script setup lang="ts">
 import { PerspectiveCamera, Scene } from 'three'
 import type {
-  WebGLRendererParameters,
   ColorSpace,
   ShadowMapType,
   ToneMapping,
+  WebGLRendererParameters,
 } from 'three'
-import type { Ref,
-  App } from 'vue'
+import type { App, Ref } from 'vue'
 import {
+  Fragment,
   computed,
+  defineComponent,
+  getCurrentInstance,
+  h,
   onMounted,
   provide,
   ref,
   shallowRef,
   watch,
   watchEffect,
-  Fragment,
-  defineComponent,
-  h, 
-  getCurrentInstance,
 } from 'vue'
 import pkg from '../../package.json'
 import {
-  useTresContextProvider,
+  type TresContext,
   useLogger,
   usePointerEventHandler,
   useRenderLoop,
-  type TresContext,
+  useTresContextProvider,
 } from '../composables'
 import { extend } from '../core/catalogue'
 import { render } from '../core/renderer'
@@ -68,6 +67,10 @@ const props = withDefaults(defineProps<TresCanvasProps>(), {
   failIfMajorPerformanceCaveat: undefined,
 })
 
+const slots = defineSlots<{
+  default: () => any
+}>()
+
 const { logWarning } = useLogger()
 
 const canvas = ref<HTMLCanvasElement>()
@@ -81,17 +84,13 @@ const scene = shallowRef(new Scene())
 
 const { resume } = useRenderLoop()
 
-const slots = defineSlots<{
-  default(): any
-}>()
-
 const instance = getCurrentInstance()?.appContext.app
 
 const createInternalComponent = (context: TresContext) =>
   defineComponent({
     setup() {
       const ctx = getCurrentInstance()?.appContext
-      if (ctx) ctx.app = instance as App
+      if (ctx) { ctx.app = instance as App }
       provide('useTres', context)
       provide('extend', extend)
 
@@ -164,7 +163,7 @@ onMounted(() => {
   watch(
     () => props.camera,
     (newCamera, oldCamera) => {
-      if (newCamera) registerCamera(newCamera)
+      if (newCamera) { registerCamera(newCamera) }
       if (oldCamera) {
         oldCamera.removeFromParent()
         deregisterCamera(oldCamera)
@@ -178,13 +177,12 @@ onMounted(() => {
   if (!camera.value) {
     logWarning(
       'No camera found. Creating a default perspective camera. '
-        + 'To have full control over a camera, please add one to the scene.',
+      + 'To have full control over a camera, please add one to the scene.',
     )
     addDefaultCamera()
   }
 
-  if (import.meta.hot && context.value)
-    import.meta.hot.on('vite:afterUpdate', () => dispose(context.value as TresContext))
+  if (import.meta.hot && context.value) { import.meta.hot.on('vite:afterUpdate', () => dispose(context.value as TresContext)) }
 })
 </script>
 
@@ -205,5 +203,5 @@ onMounted(() => {
       touchAction: 'none',
       ...$attrs.style as Object,
     }"
-  />
+  ></canvas>
 </template>

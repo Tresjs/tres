@@ -22,8 +22,8 @@ const filteredRecipes = computed(() => recipes.filter(recipe => recipe.lang === 
           :src="recipe.thumbnail"
           :alt="recipe.title"
           class="aspect-video object-cover rounded-lg"
-        >
-    
+        />
+
         <h3>
           {{ recipe.title }}
           <span
@@ -33,7 +33,7 @@ const filteredRecipes = computed(() => recipes.filter(recipe => recipe.lang === 
             role="img"
             class="text-sm"
           >🌶️</span>
-        
+
         </h3></a>
       <p>{{ recipe.excerpt }}</p>
     </li>

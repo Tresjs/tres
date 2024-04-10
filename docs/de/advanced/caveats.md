@@ -16,7 +16,6 @@ Warum? Weil Tres die Szene deklarativ aufbaut. Das bedeutet, dass es die Instanz
 
 Obwohl ein minimaler Aufräummechanismus implementiert wurde, ist er nicht perfekt. Das bedeutet, dass du manchmal die Seite neu laden musst, um die Änderungen korrekt zu sehen, insbesondere wenn du Instanzen über [Template Refs](https://v3.vuejs.org/guide/component-template-refs.html) referenzierst.
 
-
 ```vue
 <script setup lang="ts">
 const boxRef: Ref<TresInstance | null> = ref(null)

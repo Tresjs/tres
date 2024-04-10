@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { TresObject } from '@tresjs/core'
-import { TresCanvas, vLightHelper, vAlwaysLookAt, vDistanceTo, vLog } from '@tresjs/core'
-import { BasicShadowMap, SRGBColorSpace, NoToneMapping } from 'three'
+import { TresCanvas, vAlwaysLookAt, vDistanceTo, vLightHelper, vLog } from '@tresjs/core'
+import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
 
 import { OrbitControls } from '@tresjs/cientos'
 
@@ -19,12 +19,12 @@ const planeRef: Ref<TresObject | null> = ref(null)
 
 <template>
   <TresCanvas
-   
+
     v-bind="gl"
   >
     <TresPerspectiveCamera :position="[3, 3, 3]" />
     <OrbitControls />
-   
+
     <TresDirectionalLight
       v-light-helper
       v-always-look-at="[8, 16, 0]"

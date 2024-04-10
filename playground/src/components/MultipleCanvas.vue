@@ -22,6 +22,7 @@ const state2 = reactive({
   toneMapping: NoToneMapping, */
 })
 const log = () => {
+  // eslint-disable-next-line no-console
   console.log(3)
 }
 </script>
@@ -33,12 +34,12 @@ const log = () => {
       v-model="state.clearColor"
       type="text"
       name=""
-    >
+    />
     <input
       v-model="state.stencil"
       type="checkbox"
       name=""
-    >
+    />
     <div class="w-1/2 aspect-video">
       <TresCanvas v-bind="state">
         <TresPerspectiveCamera

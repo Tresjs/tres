@@ -34,7 +34,7 @@ const routes = [
   {
     path: '/multiple',
     name: 'Multiple',
-    component: () => import('./pages/Multiple.vue'),
+    component: () => import('./pages/MultipleCanvas.vue'),
   },
   {
     path: '/cameras/multiple-cameras',
@@ -86,7 +86,7 @@ const routes = [
     name: 'empty',
     component: () => import('./pages/empty.vue'),
   },
-  
+
 ]
 export const router = createRouter({
   history: createWebHistory(),
