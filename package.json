@@ -84,7 +84,7 @@
     "@vitest/coverage-c8": "^0.33.0",
     "@vitest/ui": "^1.0.4",
     "@vue/test-utils": "^2.4.3",
-    "eslint": "^8.55.0",
+    "eslint": "^9.0.0",
     "eslint-plugin-vue": "^9.19.2",
     "esno": "^4.0.0",
     "gsap": "^3.12.3",
