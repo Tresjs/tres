@@ -58,7 +58,6 @@ const boxRef: ShallowRef<TresInstance | null> = shallowRef(null)
 
 Jetzt, wo wir eine Referenz zum Würfel haben, können wir ihn animieren. Wir werden den `onLoop`-Callback verwenden, um die Rotation des Würfels zu aktualisieren.
 
-
 ```ts
 onLoop(({ delta, elapsed }) => {
   if (boxRef.value) {

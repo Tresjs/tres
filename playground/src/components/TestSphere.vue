@@ -22,6 +22,7 @@ const pbrTexture = await useTexture({
     'https://raw.githubusercontent.com/Tresjs/assets/main/textures/black-rock/Rock035_2K_AmbientOcclusion.jpg',
 })
 
+// eslint-disable-next-line no-console
 console.log('sphereRef', getCurrentInstance())
 </script>
 

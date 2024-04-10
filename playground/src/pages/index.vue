@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import {
   basicRoutes,
-  perfRoutes,
-  eventsRoutes,
   cameraRoutes,
-  modelsRoutes,
+  eventsRoutes,
   miscRoutes,
+  modelsRoutes,
+  perfRoutes,
 } from '../router/routes'
 
 const sections = [
@@ -23,7 +23,7 @@ const sections = [
     class="
   container mx-auto max-w-3xl
   font-sans text-xs color-gray
-  bg-white 
+  bg-white
   "
   >
     <div class="mx-4">
@@ -38,7 +38,7 @@ const sections = [
             src="/logo.svg"
             alt="TresJS logo"
             class="max-w-24 sm:max-w-48 align-baseline"
-          >
+          />
         </div>
         <div class="sm:w-2/3">
           <h1

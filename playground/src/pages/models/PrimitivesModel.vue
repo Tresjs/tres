@@ -1,16 +1,8 @@
 <script setup lang="ts">
-import { ref, watchEffect } from 'vue'
-import { 
+import {
   BasicShadowMap,
-  SRGBColorSpace,
   NoToneMapping,
-  Mesh,
-  TorusGeometry,
-  MeshToonMaterial,
-  TorusKnotGeometry,
-  PlaneGeometry,
-  Group,
-  SphereGeometry, 
+  SRGBColorSpace,
 } from 'three'
 import { TresCanvas } from '@tresjs/core'
 import { OrbitControls } from '@tresjs/cientos'

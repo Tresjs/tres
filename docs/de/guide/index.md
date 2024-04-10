@@ -61,7 +61,6 @@ export default defineConfig({
 
 Das ist notwendig, damit der Templatecompiler mit dem benutzerdefinierten Renderer funktioniert und keine Warnungen in der Konsole ausgibt. Für weitere Informationen siehe [hier](/de/guide/troubleshooting.html).
 
-
 ## Probiere es online aus
 
 ### Playground
@@ -75,7 +74,6 @@ Du kannst TresJS online mit der offiziellen [Playground](https://play.tresjs.org
 Wir haben einen neuen [StackBlitz](https://stackblitz.com/) Startpunkt, um TresJS online zu testen:
 
 ![](/stackblitz-starter.png)
-
 
 ## Labs
 

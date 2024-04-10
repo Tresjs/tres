@@ -1,8 +1,8 @@
 import * as THREE from 'three'
-import { nodeOps } from './nodeOps'
-import { TresObject } from '../types'
-import { extend } from './catalogue'
 import { Mesh, Scene } from 'three'
+import type { TresObject } from '../types'
+import { nodeOps } from './nodeOps'
+import { extend } from './catalogue'
 
 describe('nodeOps', () => {
   beforeAll(() => {
@@ -101,12 +101,12 @@ describe('nodeOps', () => {
       root: {
         registerCamera: () => { },
         registerObjectAtPointerEventHandler: () => { },
-      }
+      },
     }
     const child = new Mesh()
 
     child.__tres = {
-      root: null
+      root: null,
     }
 
     // Fake vnodes
@@ -145,7 +145,7 @@ describe('nodeOps', () => {
     node.__tres = {
       root: {
         invalidate: () => { },
-      }
+      },
     }
     const prop = 'visible'
     const nextValue = false
@@ -163,7 +163,7 @@ describe('nodeOps', () => {
     node.__tres = {
       root: {
         invalidate: () => { },
-      }
+      },
     }
     const prop = 'position-x'
     const nextValue = 5
@@ -181,7 +181,7 @@ describe('nodeOps', () => {
     node.__tres = {
       root: {
         invalidate: () => { },
-      }
+      },
     }
     const prop = 'cast-shadow'
     const nextValue = true
@@ -195,19 +195,19 @@ describe('nodeOps', () => {
 
   it('patchProp should preserve ALL_CAPS_CASE in pierced props', () => {
     // Issue: https://github.com/Tresjs/tres/issues/605
-    const {createElement, patchProp} = nodeOps()
+    const { createElement, patchProp } = nodeOps()
     const node = createElement('TresMeshStandardMaterial', null, null, {})
     const allCapsKey = 'STANDARD'
     const allCapsUnderscoresKey = 'USE_UVS'
     const allCapsValue = 'hello'
     const allCapsUnderscoresValue = 'goodbye'
 
-    patchProp(node, 'defines-' + allCapsKey, null, allCapsValue)
-    patchProp(node, 'defines-' + allCapsUnderscoresKey, null, allCapsUnderscoresValue)
+    patchProp(node, `defines-${allCapsKey}`, null, allCapsValue)
+    patchProp(node, `defines-${allCapsUnderscoresKey}`, null, allCapsUnderscoresValue)
 
     expect(node.defines[allCapsKey]).equals(allCapsValue)
     expect(node.defines[allCapsUnderscoresKey]).equals(allCapsUnderscoresValue)
-  }) 
+  })
 
   it('parentNode: returns parent of a node', async () => {
     // Setup

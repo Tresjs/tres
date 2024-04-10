@@ -1,7 +1,6 @@
-import type { Material, Texture, Mesh, Object3D } from 'three'
-import { MeshBasicMaterial, DoubleSide, Vector3, Scene } from 'three'
+import type { Material, Mesh, Object3D, Texture } from 'three'
+import { DoubleSide, MeshBasicMaterial, Scene, Vector3 } from 'three'
 import { HightlightMesh } from '../devtools/highlight'
-import { TresObject3D } from '~/types'
 
 export function toSetMethodName(key: string) {
   return `set${key[0].toUpperCase()}${key.slice(1)}`
@@ -10,7 +9,9 @@ export function toSetMethodName(key: string) {
 export const merge = (target: any, source: any) => {
   // Iterate through `source` properties and if an `Object` set property to merge of `target` and `source` properties
   for (const key of Object.keys(source)) {
-    if (source[key] instanceof Object) Object.assign(source[key], merge(target[key], source[key]))
+    if (source[key] instanceof Object) {
+      Object.assign(source[key], merge(target[key], source[key]))
+    }
   }
 
   // Join `target` and modified `source`
@@ -29,7 +30,7 @@ const HTML_TAGS
   + 'option,output,progress,select,textarea,details,dialog,menu,'
   + 'summary,template,blockquote,iframe,tfoot'
 
-export const isHTMLTag = /*#__PURE__*/ makeMap(HTML_TAGS)
+export const isHTMLTag = /* #__PURE__ */ makeMap(HTML_TAGS)
 
 export function isDOMElement(obj: any): obj is HTMLElement {
   return obj && obj.nodeType === 1
@@ -64,7 +65,9 @@ export const uniqueBy = <T, K>(array: T[], iteratee: (value: T) => K): T[] => {
 }
 
 export const get = <T>(obj: any, path: string | string[]): T | undefined => {
-  if (!path) return undefined
+  if (!path) {
+    return undefined
+  }
 
   // Regex explained: https://regexr.com/58j0k
   const pathArray = Array.isArray(path) ? path : path.match(/([^[.\]])+/g)
@@ -76,12 +79,17 @@ export const set = (obj: any, path: string | string[], value: any): void => {
   // Regex explained: https://regexr.com/58j0k
   const pathArray = Array.isArray(path) ? path : path.match(/([^[.\]])+/g)
 
-  if (pathArray)
+  if (pathArray) {
     pathArray.reduce((acc, key, i) => {
-      if (acc[key] === undefined) acc[key] = {}
-      if (i === pathArray.length - 1) acc[key] = value
+      if (acc[key] === undefined) {
+        acc[key] = {}
+      }
+      if (i === pathArray.length - 1) {
+        acc[key] = value
+      }
       return acc[key]
     }, obj)
+  }
 }
 
 export function deepEqual(a: any, b: any): boolean {
@@ -89,25 +97,35 @@ export function deepEqual(a: any, b: any): boolean {
     const attrsA = a.attributes
     const attrsB = b.attributes
 
-    if (attrsA.length !== attrsB.length) return false
+    if (attrsA.length !== attrsB.length) {
+      return false
+    }
 
     return Array.from(attrsA).every(({ name, value }) => b.getAttribute(name) === value)
   }
   // If both are primitives, return true if they are equal
-  if (a === b) return true
+  if (a === b) {
+    return true
+  }
 
   // If either of them is null or not an object, return false
-  if (a === null || typeof a !== 'object' || b === null || typeof b !== 'object') return false
+  if (a === null || typeof a !== 'object' || b === null || typeof b !== 'object') {
+    return false
+  }
 
   // Get the keys of both objects
-  const keysA = Object.keys(a), keysB = Object.keys(b)
+  const keysA = Object.keys(a); const keysB = Object.keys(b)
 
   // If they have different number of keys, they are not equal
-  if (keysA.length !== keysB.length) return false
+  if (keysA.length !== keysB.length) {
+    return false
+  }
 
   // Check each key in A to see if it exists in B and its value is the same in both
   for (const key of keysA) {
-    if (!keysB.includes(key) || !deepEqual(a[key], b[key])) return false
+    if (!keysB.includes(key) || !deepEqual(a[key], b[key])) {
+      return false
+    }
   }
 
   return true
@@ -115,14 +133,20 @@ export function deepEqual(a: any, b: any): boolean {
 
 export function deepArrayEqual(arr1: any[], arr2: any[]): boolean {
   // If they're not both arrays, return false
-  if (!Array.isArray(arr1) || !Array.isArray(arr2)) return false
+  if (!Array.isArray(arr1) || !Array.isArray(arr2)) {
+    return false
+  }
 
   // If they don't have the same length, they're not equal
-  if (arr1.length !== arr2.length) return false
+  if (arr1.length !== arr2.length) {
+    return false
+  }
 
   // Check each element of arr1 against the corresponding element of arr2
   for (let i = 0; i < arr1.length; i++) {
-    if (!deepEqual(arr1[i], arr2[i])) return false
+    if (!deepEqual(arr1[i], arr2[i])) {
+      return false
+    }
   }
 
   return true
@@ -216,13 +240,13 @@ export function stopHighlightAnimation(): void {
 
 export function createHighlightMesh(object: Object3D): Mesh {
   const highlightMaterial = new MeshBasicMaterial({
-    color: 0xa7e6d7, // Highlight color, e.g., yellow
+    color: 0xA7E6D7, // Highlight color, e.g., yellow
     transparent: true,
     opacity: 0.2,
     depthTest: false, // So the highlight is always visible
     side: DoubleSide, // To e
   })
-  // Clone the geometry of the object. You might need a more complex approach 
+  // Clone the geometry of the object. You might need a more complex approach
   // if the object's geometry is not straightforward.
   const highlightMesh = new HightlightMesh(object.geometry.clone(), highlightMaterial)
 
@@ -234,7 +258,7 @@ export function extractBindingPosition(binding: any): Vector3 {
   if (binding.value && binding.value?.isMesh) {
     observer = binding.value.position
   }
-  if (Array.isArray(binding.value)) observer = new Vector3(...observer)
+  if (Array.isArray(binding.value)) { observer = new Vector3(...observer) }
   return observer
 }
 

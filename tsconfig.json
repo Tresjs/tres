@@ -1,24 +1,28 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
-    "target": "esnext",
-    "module": "esnext",
-    "moduleResolution": "node",
-    "strict": true,
-    "jsx": "preserve",
-    "sourceMap": true,
-    "resolveJsonModule": true,
-    "esModuleInterop": true,
-    "lib": ["esnext", "dom"],
-    "types": ["vite/client", "node", "vitest/globals"],
     "incremental": false,
-    "skipLibCheck": true,
+    "target": "esnext",
+    "jsx": "preserve",
+    "lib": ["esnext", "dom"],
+    "baseUrl": ".",
+    "module": "esnext",
+
+    /* Bundler mode */
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "types": ["vite/client", "node", "vitest/globals"],
+    "allowImportingTsExtensions": true,
+
+    /* Linting */
+    "strict": true,
+    "noFallthroughCasesInSwitch": true,
     "noUnusedLocals": true,
-    "strictNullChecks": true,
-    "forceConsistentCasingInFileNames": true,
-    "declaration": true
+    "noUnusedParameters": true,
+    "noEmit": true,
+    "isolatedModules": true,
+    "skipLibCheck": true
   },
+  "references": [{ "path": "./tsconfig.node.json" }],
   "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
-  "exclude": ["node_modules", "src/**/*.cy.ts", "src/**/*.test.ts"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "exclude": ["node_modules", "src/**/*.cy.ts", "src/**/*.test.ts"]
 }

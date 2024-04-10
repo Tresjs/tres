@@ -43,10 +43,10 @@ export const usePointerEventHandler = (
   const registerObject = (object: Object3D & EventProps) => {
     const { onClick, onPointerMove, onPointerEnter, onPointerLeave } = object
 
-    if (onClick) objectsWithEventListeners.click.set(object, onClick)
-    if (onPointerMove) objectsWithEventListeners.pointerMove.set(object, onPointerMove)
-    if (onPointerEnter) objectsWithEventListeners.pointerEnter.set(object, onPointerEnter)
-    if (onPointerLeave) objectsWithEventListeners.pointerLeave.set(object, onPointerLeave)
+    if (onClick) { objectsWithEventListeners.click.set(object, onClick) }
+    if (onPointerMove) { objectsWithEventListeners.pointerMove.set(object, onPointerMove) }
+    if (onPointerEnter) { objectsWithEventListeners.pointerEnter.set(object, onPointerEnter) }
+    if (onPointerLeave) { objectsWithEventListeners.pointerLeave.set(object, onPointerLeave) }
   }
 
   const objectsToWatch = computed(() =>
@@ -70,7 +70,7 @@ export const usePointerEventHandler = (
   const { onClick, onPointerMove } = useRaycaster(objectsToWatch, ctx)
 
   onClick(({ intersects, event }) => {
-    if (intersects.length) objectsWithEventListeners.click.get(intersects[0].object)?.(intersects[0], event)
+    if (intersects.length) { objectsWithEventListeners.click.get(intersects[0].object)?.(intersects[0], event) }
   })
 
   let previouslyIntersectedObject: Object3D | null
@@ -80,11 +80,10 @@ export const usePointerEventHandler = (
 
     const { pointerLeave, pointerEnter, pointerMove } = objectsWithEventListeners
 
-    if (previouslyIntersectedObject && previouslyIntersectedObject !== firstObject)
-      pointerLeave.get(previouslyIntersectedObject)?.(previouslyIntersectedObject, event)
+    if (previouslyIntersectedObject && previouslyIntersectedObject !== firstObject) { pointerLeave.get(previouslyIntersectedObject)?.(previouslyIntersectedObject, event) }
 
     if (firstObject) {
-      if (previouslyIntersectedObject !== firstObject) pointerEnter.get(firstObject)?.(intersects[0], event)
+      if (previouslyIntersectedObject !== firstObject) { pointerEnter.get(firstObject)?.(intersects[0], event) }
 
       pointerMove.get(firstObject)?.(intersects[0], event)
     }

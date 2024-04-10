@@ -1,16 +1,16 @@
+<!-- eslint-disable no-console -->
 <script setup lang="ts">
 import { ref, watchEffect } from 'vue'
-import { 
+import {
   BasicShadowMap,
-  SRGBColorSpace,
-  NoToneMapping,
-  Mesh,
-  TorusGeometry,
-  MeshToonMaterial,
-  TorusKnotGeometry,
-  PlaneGeometry,
   Group,
-  SphereGeometry, 
+  Mesh,
+  MeshToonMaterial,
+  NoToneMapping,
+  SRGBColorSpace,
+  SphereGeometry,
+  TorusGeometry,
+  TorusKnotGeometry,
 } from 'three'
 import { TresCanvas, useRenderLoop } from '@tresjs/core'
 import { OrbitControls } from '@tresjs/cientos'
@@ -74,7 +74,7 @@ secondGroup.add(sphere)
 
 const primitiveRef = ref()
 
-useRenderLoop().onLoop(() => {  
+useRenderLoop().onLoop(() => {
   if (primitiveRef.value) {
     primitiveRef.value.rotation.x += 0.01
     primitiveRef.value.rotation.y += 0.01
@@ -85,14 +85,14 @@ watchEffect(() => {
   console.log('primitiveRef.value', primitiveRef.value)
 })
 
-const reactivePrimitiveRef = ref(new Mesh(
+/* const reactivePrimitiveRef = ref(new Mesh(
   new TorusKnotGeometry(1, 0.5, 100, 16),
   new MeshToonMaterial({
     color: 'orange',
   }),
 ))
 
-const modelArray = ref([torus, torusKnot, sphere])
+const modelArray = ref([torus, torusKnot, sphere]) */
 </script>
 
 <template>

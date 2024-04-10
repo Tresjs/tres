@@ -26,7 +26,7 @@ onLoop(() => {
       />
       <OrbitControls />
       <TresAmbientLight
-        :color="0xffffff"
+        :color="0xFFFFFF"
         :intensity="0.5"
       />
       <TresGroup

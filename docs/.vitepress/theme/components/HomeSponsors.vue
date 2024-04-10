@@ -18,7 +18,7 @@ const { data } = useSponsor()
       target="_blank"
       rel="noreferrer"
     >
-      Become a sponsor <i class="i-carbon-heart" />
+      Become a sponsor <i class="i-carbon-heart"></i>
     </a>
   </div>
 </template>
