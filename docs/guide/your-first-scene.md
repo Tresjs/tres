@@ -140,7 +140,7 @@ Now let's see how we can easily achieve the same with **TresJS**. To do that we 
 ```
 
 ::: info
-Notice that we don't need to import anything, that's because **TresJS** automatically generate a **Vue Component based on the three objects you want to use in CamelCase with a Tres prefix**. For example, if you want to use an `AmbientLight` you would use the `<TresAmbientLight />` component.
+Notice that we don't need to import anything, that's because **TresJS** automatically generate a **Vue Component based on the three objects you want to use in PascalCase with a Tres prefix**. For example, if you want to use an `AmbientLight` you would use the `<TresAmbientLight />` component.
 :::
 
 ```vue
