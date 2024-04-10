@@ -141,7 +141,7 @@ export const enConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
               },
             ],
           },
-        ]
+        ],
       },
     ],
   },

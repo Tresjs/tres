@@ -17,15 +17,15 @@ In this guide, we are going to use GSAP to animate our scene instead of the `use
 We don't have to rely on `useRenderLoop` or TresJS to handle our animations. We could also leverage GSAP's `to` function for example:
 
 ```ts
-import gsap from 'gsap';
+import gsap from 'gsap'
 
-const objectRef = shallowRef(null);
+const objectRef = shallowRef(null)
 
 watchEffect(() => {
   if (objectRef.value) {
     gsap.to(objectRef.value.position, {
       y: 2,
-    });
+    })
   }
 })
 ```

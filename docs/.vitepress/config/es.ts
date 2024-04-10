@@ -141,7 +141,7 @@ export const esConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
               },
             ],
           },
-        ]
+        ],
       },
     ],
     search: {

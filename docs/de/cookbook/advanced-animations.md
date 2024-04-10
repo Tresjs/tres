@@ -17,15 +17,15 @@ In diesem Rezept werden wir GSAP verwenden um unsere Szene zu animieren, statt d
 Wir müssen nicht unbedingt `useRenderLoop` oder gar TresJS für unsere Animationen benutzen. Zum Beispiel könnten wir auch GSAP's `to`-Method verwenden:
 
 ```ts
-import gsap from 'gsap';
+import gsap from 'gsap'
 
-const objectRef = shallowRef(null);
+const objectRef = shallowRef(null)
 
 watchEffect(() => {
   if (objectRef.value) {
     gsap.to(objectRef.value.position, {
       y: 2,
-    });
+    })
   }
 })
 ```
