@@ -1,4 +1,3 @@
-
 export interface EnvironmentOptions {
   /**
    * If true, the environment will be set as the scene's background.
@@ -34,6 +33,34 @@ export interface EnvironmentOptions {
    * @type {EnvironmentPresetsType}
    */
   preset?: EnvironmentPresetsType
+  /**
+  * The resolution of the WebGLCubeRenderTarget.
+  *
+  * @type {number}
+  * @default 256
+  */
+  resolution?: number
+  /**
+  * The near of the CubeCamera.
+  *
+  * @type {number}
+  * @default 1
+  */
+  near?: number
+  /**
+  * The far of the CubeCamera.
+  *
+  * @type {number}
+  * @default 1000
+  */
+  far?: number
+  /**
+  * The frames of the cubeCamera.update.
+  *
+  * @type {number}
+  * @default Infinity
+  */
+  frames?: number
 }
 
 export const environmentPresets = {
