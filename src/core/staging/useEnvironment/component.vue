@@ -25,40 +25,62 @@ defineExpose({ texture })
 
 const { extend, renderer, scene } = useTresContext()
 let slots = null as any
-let fbo = null as null | WebGLCubeRenderTarget
+let fbo = ref(null as null | WebGLCubeRenderTarget)
 let cubeCamera = null as null | CubeCamera
-if (useSlots().default !== undefined) {
-  extend({ EnvSence })
-  slots = (useSlots() as any).default()
-  fbo = new WebGLCubeRenderTarget(props.resolution)
-  fbo.texture.type = HalfFloatType
-  cubeCamera = new CubeCamera(props.near, props.far, fbo)
-}
+
 const envSence = ref<EnvSence | null>(null)
 onUnmounted(() => {
   envSence.value?.destructor()
-  fbo?.dispose()
+  fbo.value?.dispose()
 })
 const { onBeforeLoop } = useRenderLoop()
 let count = 1
 onBeforeLoop(() => {
-  if (cubeCamera && envSence.value) {
+  if (cubeCamera && envSence.value && fbo.value) {
     if (props.frames === Infinity || count < props.frames) {
       cubeCamera.update(renderer.value, toRaw(envSence.value.virtualScene))
       count++
     }
   }
 })
-const useEnvironmentTexture = (await useEnvironment(props) as any).texture
-watch(useEnvironmentTexture, (value) => {
+const useEnvironmentTexture = (await useEnvironment(props, fbo as any)).texture
+const setTextureEnvAndBG = (fbo: WebGLCubeRenderTarget) => {
   if (fbo) {
     scene.value.environment = fbo.texture
     if (props.background) {
       scene.value.background = fbo.texture
     }
+  } else {
+    scene.value.environment = useEnvironmentTexture.value
+    if (props.background) {
+      scene.value.background = useEnvironmentTexture.value
+    }
+  }
+}
+watch(useEnvironmentTexture, (value) => {
+  if (fbo.value) {
+    setTextureEnvAndBG(fbo.value)
   }
 }, { immediate: true, deep: true })
 
+watch(useSlots().default, (value) => {
+  if (value) {
+    slots = value
+    if (Array.isArray(slots)&&slots.length>0) {
+      if (typeof slots[0]?.type !== 'symbol') {
+        extend({ EnvSence })
+        fbo.value = new WebGLCubeRenderTarget(props.resolution)
+        fbo.value.texture.type = HalfFloatType
+        cubeCamera = new CubeCamera(props.near, props.far, fbo.value)
+        setTextureEnvAndBG(fbo.value)
+        return
+      }
+    }
+  }
+  fbo.value?.dispose()
+  fbo.value = null
+  setTextureEnvAndBG()
+}, { immediate: true, deep: true })
 texture.value = useEnvironmentTexture
 </script>
 
