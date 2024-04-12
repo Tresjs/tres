@@ -1,13 +1,17 @@
+import { describe, beforeAll, it, expect } from 'vitest'
 import * as THREE from 'three'
 import { Mesh, Scene } from 'three'
 import type { TresObject } from '../types'
-import { nodeOps } from './nodeOps'
+import { nodeOps as getNodeOps } from './nodeOps'
 import { extend } from './catalogue'
+
+let nodeOps = getNodeOps()
 
 describe('nodeOps', () => {
   beforeAll(() => {
     // Setup
     extend(THREE)
+    nodeOps = getNodeOps()
   })
   it('createElement should create an instance with given tag', async () => {
     // Setup
@@ -15,10 +19,10 @@ describe('nodeOps', () => {
     const props = { args: [] }
 
     // Test
-    const instance = nodeOps().createElement(tag, false, null, props)
+    const instance = nodeOps.createElement(tag, undefined, undefined, props)
 
     // Assert
-    expect(instance.isObject3D).toBeTruthy()
+    expect(instance?.isObject3D).toBeTruthy()
     expect(instance).toBeInstanceOf(Mesh)
   })
 
@@ -28,13 +32,13 @@ describe('nodeOps', () => {
     const props = { args: [10, 3, 16, 100] }
 
     // Test
-    const instance = nodeOps().createElement(tag, false, null, props)
+    const instance = nodeOps.createElement(tag, undefined, undefined, props)
 
     // Assert
-    expect(instance.parameters.radius).toBe(10)
-    expect(instance.parameters.tube).toBe(3)
-    expect(instance.parameters.radialSegments).toBe(16)
-    expect(instance.parameters.tubularSegments).toBe(100)
+    expect(instance?.parameters.radius).toBe(10)
+    expect(instance?.parameters.tube).toBe(3)
+    expect(instance?.parameters.radialSegments).toBe(16)
+    expect(instance?.parameters.tubularSegments).toBe(100)
   })
 
   it.skip('createElement should create an camera instance', async () => {
@@ -43,10 +47,10 @@ describe('nodeOps', () => {
     const props = { args: [75, 2, 0.1, 5] }
 
     // Test
-    const instance = nodeOps().createElement(tag, false, null, props)
+    const instance = nodeOps.createElement(tag, undefined, undefined, props)
 
     // Assert
-    expect(instance.isCamera).toBeTruthy()
+    expect(instance?.isCamera).toBeTruthy()
     expect(instance).toBeInstanceOf(THREE.PerspectiveCamera)
   })
 
@@ -60,10 +64,10 @@ describe('nodeOps', () => {
     consoleWarnSpy.mockImplementation(() => { })
 
     // Test
-    const instance = nodeOps().createElement(tag, false, null, props)
+    const instance = nodeOps.createElement(tag, undefined, undefined, props)
 
     // Assert
-    expect(instance.isCamera).toBeTruthy()
+    expect(instance?.isCamera).toBeTruthy()
     expect(instance).toBeInstanceOf(THREE.PerspectiveCamera)
     expect(consoleWarnSpy).toHaveBeenCalled()
   })
@@ -74,11 +78,11 @@ describe('nodeOps', () => {
     const props = { args: [] }
 
     // Test
-    const instance = nodeOps().createElement(tag, false, null, props)
+    const instance = nodeOps.createElement(tag, undefined, undefined, props)
 
     // Assert
-    expect(instance.isMaterial).toBeTruthy()
-    expect(instance.attach).toBe('material')
+    expect(instance?.isMaterial).toBeTruthy()
+    expect(instance?.attach).toBe('material')
   })
 
   it('createElement should add attach geometry property if instance is a geometry', () => {
@@ -87,11 +91,11 @@ describe('nodeOps', () => {
     const props = { args: [] }
 
     // Test
-    const instance = nodeOps().createElement(tag, false, null, props)
+    const instance = nodeOps.createElement(tag, undefined, undefined, props)
 
     // Assert
-    expect(instance.isBufferGeometry).toBeTruthy()
-    expect(instance.attach).toBe('geometry')
+    expect(instance?.isBufferGeometry).toBeTruthy()
+    expect(instance?.attach).toBe('geometry')
   })
 
   it('insert should insert child into parent', async () => {
@@ -115,7 +119,7 @@ describe('nodeOps', () => {
     }
 
     // Test
-    nodeOps().insert(child, parent, null)
+    nodeOps.insert(child, parent, null)
 
     // Assert
     expect(parent.children.includes(child)).toBeTruthy()
@@ -130,10 +134,10 @@ describe('nodeOps', () => {
     child.__vnode = {
       type: 'TresMesh',
     }
-    nodeOps().insert(child, parent)
+    nodeOps.insert(child, parent)
 
     // Test
-    nodeOps().remove(child)
+    nodeOps.remove(child)
 
     // Assert
     expect(!parent.children.includes(child)).toBeTruthy()
@@ -141,17 +145,12 @@ describe('nodeOps', () => {
 
   it('patchProp should patch property of node', async () => {
     // Setup
-    const node: TresObject = new Mesh()
-    node.__tres = {
-      root: {
-        invalidate: () => { },
-      },
-    }
+    const node = nodeOps.createElement('Mesh')!
     const prop = 'visible'
     const nextValue = false
 
     // Test
-    nodeOps().patchProp(node, prop, null, nextValue)
+    nodeOps.patchProp(node, prop, null, nextValue)
 
     // Assert
     expect(node.visible === nextValue)
@@ -159,17 +158,12 @@ describe('nodeOps', () => {
 
   it('patchProp should patch traverse pierced props', async () => {
     // Setup
-    const node: TresObject = new Mesh()
-    node.__tres = {
-      root: {
-        invalidate: () => { },
-      },
-    }
+    const node = nodeOps.createElement('Mesh')!
     const prop = 'position-x'
     const nextValue = 5
 
     // Test
-    nodeOps().patchProp(node, prop, null, nextValue)
+    nodeOps.patchProp(node, prop, null, nextValue)
 
     // Assert
     expect(node.position.x === nextValue)
@@ -177,17 +171,12 @@ describe('nodeOps', () => {
 
   it('patchProp it should not patch traverse pierced props of existing dashed properties', async () => {
     // Setup
-    const node: TresObject = new Mesh()
-    node.__tres = {
-      root: {
-        invalidate: () => { },
-      },
-    }
+    const node = nodeOps.createElement('Mesh')!
     const prop = 'cast-shadow'
     const nextValue = true
 
     // Test
-    nodeOps().patchProp(node, prop, null, nextValue)
+    nodeOps.patchProp(node, prop, null, nextValue)
 
     // Assert
     expect(node.castShadow === nextValue)
@@ -195,8 +184,8 @@ describe('nodeOps', () => {
 
   it('patchProp should preserve ALL_CAPS_CASE in pierced props', () => {
     // Issue: https://github.com/Tresjs/tres/issues/605
-    const { createElement, patchProp } = nodeOps()
-    const node = createElement('TresMeshStandardMaterial', null, null, {})
+    const { createElement, patchProp } = nodeOps
+    const node = createElement('TresMeshStandardMaterial', undefined, undefined, {})!
     const allCapsKey = 'STANDARD'
     const allCapsUnderscoresKey = 'USE_UVS'
     const allCapsValue = 'hello'
@@ -212,12 +201,12 @@ describe('nodeOps', () => {
   it('parentNode: returns parent of a node', async () => {
     // Setup
     const parent: TresObject = new Scene()
-    const child: TresObject = new Mesh()
+    const child: TresObject = nodeOps.createElement('Mesh')!
     parent.children.push(child)
     child.parent = parent
 
     // Test
-    const parentNode = nodeOps().parentNode(child)
+    const parentNode = nodeOps.parentNode(child)
 
     // Assert
     expect(parentNode === parent)
