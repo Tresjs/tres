@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import TheBasic from './TheBasic.vue'
+import TheBasic from '../basic/index.vue'
 </script>
 
 <template>

@@ -232,9 +232,11 @@ const context = useTresContext()
 | **controls** | The controls of your scene |
 | **deregisterCamera** | A method to deregister a camera. This is only required if you manually create a camera. Cameras in the template are deregistered automatically. |
 | **extend** | Extends the component catalogue. See [extending](/advanced/extending) |
-| **raycaster** | The global raycaster used for pointer events |
-| **registerCamera** | A method to register a camera. This is only required if you manually create a camera. Cameras in the template are registered automatically. |
-| **renderer** | The [WebGLRenderer](https://threejs.org/docs/#api/en/renderers/WebGLRenderer) of your scene |
-| **scene** | The [scene](https://threejs.org/docs/?q=sce#api/en/scenes/Scene). |
-| **setCameraActive** | A method to set a camera active |
-| **sizes** | Contains width, height and aspect ratio of your canvas |
+| **raycaster** | the global raycaster used for pointer events |
+| **registerCamera** | a method to register a camera. This is only required if you manually create a camera. Cameras in the template are registered automatically. |
+| **renderer** | the [WebGLRenderer](https://threejs.org/docs/#api/en/renderers/WebGLRenderer) of your scene |
+| **scene** | the [scene](https://threejs.org/docs/?q=sce#api/en/scenes/Scene). |
+| **setCameraActive** | a method to set a camera active |
+| **sizes** | contains width, height and aspect ratio of your canvas |
+| **invalidate** | a method to invalidate the render loop. This is only required if you set the `render-mode` prop to `on-demand`. |
+| **advance** | a method to advance the render loop. This is only required if you set the `render-mode` prop to `manual`. |

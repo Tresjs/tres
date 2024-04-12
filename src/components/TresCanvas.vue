@@ -6,10 +6,12 @@ import type {
   ToneMapping,
   WebGLRendererParameters,
 } from 'three'
+import * as THREE from 'three'
 import type { App, Ref } from 'vue'
 import {
   Fragment,
   computed,
+  createRenderer,
   defineComponent,
   getCurrentInstance,
   h,
@@ -21,6 +23,7 @@ import {
   watchEffect,
 } from 'vue'
 import pkg from '../../package.json'
+
 import {
   type TresContext,
   useLogger,
@@ -29,7 +32,7 @@ import {
   useTresContextProvider,
 } from '../composables'
 import { extend } from '../core/catalogue'
-import { render } from '../core/renderer'
+import { nodeOps } from '../core/nodeOps'
 
 import type { RendererPresetsType } from '../composables/useRenderer/const'
 import type { TresCamera, TresObject } from '../types/'
@@ -45,6 +48,7 @@ export interface TresCanvasProps
   useLegacyLights?: boolean
   outputColorSpace?: ColorSpace
   toneMappingExposure?: number
+  renderMode?: 'always' | 'on-demand' | 'manual'
 
   // required by useTresContextProvider
   camera?: TresCamera
@@ -65,8 +69,10 @@ const props = withDefaults(defineProps<TresCanvasProps>(), {
   preserveDrawingBuffer: undefined,
   logarithmicDepthBuffer: undefined,
   failIfMajorPerformanceCaveat: undefined,
+  renderMode: 'always',
 })
 
+const emit = defineEmits(['render'])
 const slots = defineSlots<{
   default: () => any
 }>()
@@ -85,6 +91,7 @@ const scene = shallowRef(new Scene())
 const { resume } = useRenderLoop()
 
 const instance = getCurrentInstance()?.appContext.app
+extend(THREE)
 
 const createInternalComponent = (context: TresContext) =>
   defineComponent({
@@ -95,7 +102,7 @@ const createInternalComponent = (context: TresContext) =>
       provide('extend', extend)
 
       if (typeof window !== 'undefined') {
-        registerTresDevtools(ctx.app, context)
+        registerTresDevtools(ctx?.app, context)
       }
       return () => h(Fragment, null, slots?.default ? slots.default() : [])
     },
@@ -103,6 +110,9 @@ const createInternalComponent = (context: TresContext) =>
 
 const mountCustomRenderer = (context: TresContext) => {
   const InternalComponent = createInternalComponent(context)
+
+  const { render } = createRenderer(nodeOps())
+
   render(h(InternalComponent), scene.value as unknown as TresObject)
 }
 
@@ -122,19 +132,19 @@ const disableRender = computed(() => props.disableRender)
 const context = shallowRef<TresContext | null>(null)
 
 defineExpose({ context, dispose: () => dispose(context.value as TresContext, true) })
-
 onMounted(() => {
   const existingCanvas = canvas as Ref<HTMLCanvasElement>
 
   context.value = useTresContextProvider({
     scene: scene.value,
     canvas: existingCanvas,
-    windowSize: props.windowSize,
-    disableRender,
+    windowSize: props.windowSize ?? false,
+    disableRender: disableRender.value ?? false,
     rendererOptions: props,
+    emit,
   })
 
-  usePointerEventHandler({ scene: scene.value, contextParts: context.value })
+  usePointerEventHandler(context.value)
 
   const { registerCamera, camera, cameras, deregisterCamera } = context.value
 

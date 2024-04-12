@@ -32,6 +32,11 @@ export default defineConfig({
     }),
     UnoCSS({
       /* options */
+      theme: {
+        colors: {
+          'tres-primary': '#82dbc5',
+        },
+      },
     }),
     qrcode(), // only applies in dev mode
   ],

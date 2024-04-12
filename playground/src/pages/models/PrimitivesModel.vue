@@ -1,9 +1,12 @@
 <script setup lang="ts">
+import {
+  BasicShadowMap,
+  NoToneMapping,
+  SRGBColorSpace,
+} from 'three'
 import { TresCanvas } from '@tresjs/core'
-import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
 import { OrbitControls } from '@tresjs/cientos'
 import { TresLeches, useControls } from '@tresjs/leches'
-
 import '@tresjs/leches/styles'
 
 const gl = {
@@ -15,19 +18,30 @@ const gl = {
   toneMapping: NoToneMapping,
 }
 
-const { isVisible } = useControls({
-  isVisible: true,
-})
+useControls('fpsgraph')
 </script>
 
 <template>
   <TresLeches />
-  <TresCanvas v-bind="gl">
-    <TresPerspectiveCamera :position="[3, 3, 3]" />
+  <TresCanvas
+    v-bind="gl"
+    window-size
+    class="awiwi"
+    :style="{ background: '#008080' }"
+  >
+    <TresPerspectiveCamera
+      :position="[7, 7, 7]"
+    />
     <OrbitControls />
+
     <Suspense>
-      <Text3D v-if="isVisible" />
+      <DynamicModel />
     </Suspense>
-    <TresAmbientLight :intensity="1" />
+    <TresAxesHelper :args="[1]" />
+    <TresDirectionalLight
+      :position="[0, 2, 4]"
+      :intensity="2"
+      cast-shadow
+    />
   </TresCanvas>
 </template>
