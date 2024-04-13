@@ -42,8 +42,9 @@ onAfterLoop.on(() => {
 })
 
 export const useRenderLoop = (): UseRenderLoopReturn => {
-  const { logError } = useLogger()
-  logError('useRenderLoop is deprecated in v4, use `useLoop` instead. Check the migration guide for more information.')
+  const { logWarning } = useLogger()
+  // TODO: add migration guide link here
+  logWarning('useRenderLoop is deprecated is gonna be deprecated on v5, please migrate to `useLoop`. Check the migration guide for more information. ')
   return {
     onBeforeLoop: onBeforeLoop.on,
     onLoop: onLoop.on,
