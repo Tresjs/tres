@@ -25,9 +25,10 @@ export function createRenderLoop(): RendererLoop {
     delta: number
     elapsed: number
     clock: Clock
-  }) => void
+  }, index: number) => void
 
   function registerCallback(callback: LoopCallback, index = 0) {
+    console.log('registerCallback', { index, callback })
     if (!subscribers.has(index)) {
       subscribers.set(index, [])
     }
@@ -59,6 +60,7 @@ export function createRenderLoop(): RendererLoop {
     Array.from(subscribers.keys())
       .sort((a, b) => a - b) // Ensure numerical order
       .forEach((index) => {
+        console.log('Processing index:', index) // Debug: Check order of processing
         subscribers.get(index).forEach((callback: LoopCallback) => {
           callback({ delta, elapsed, clock })
         })

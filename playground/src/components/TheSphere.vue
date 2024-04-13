@@ -6,17 +6,17 @@ import { useLoop } from '@tresjs/core'
 
 const sphereRef = ref()
 
-/* useLoop(() => {
+useLoop(() => {
   console.log('before renderer')
 }, -1)
 
 useLoop(() => {
   console.log('after renderer')
-}, 1) */
+}, 2)
 
 useLoop((state) => {
   if (!sphereRef.value) { return }
-  console.log('state', state)
+  console.log('this should be before render', state)
   sphereRef.value.position.y += Math.sin(state.elapsed) * 0.01
 })
 </script>

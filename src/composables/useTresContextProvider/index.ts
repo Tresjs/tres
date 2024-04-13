@@ -190,6 +190,7 @@ export function useTresContextProvider({
   // The loop
 
   ctx.loop.onLoop(() => {
+    console.log('the render 1')
     if (camera.value && render.frames.value > 0) {
       renderer.value.render(scene, camera.value)
       emit('render', ctx.renderer.value)
@@ -204,7 +205,7 @@ export function useTresContextProvider({
     else {
       render.frames.value = Math.max(0, render.frames.value - 1)
     }
-  })
+  }, 1)
   ctx.loop.start()
 
   onUnmounted(() => {
