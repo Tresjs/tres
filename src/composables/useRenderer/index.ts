@@ -163,7 +163,7 @@ export function useRenderer(
 
   // TheLoop
 
-  const { resume, onLoop } = useRenderLoop()
+  /*   const { resume, onLoop } = useRenderLoop()
 
   onLoop(() => {
     if (camera.value && !toValue(disableRender) && render.frames.value > 0) {
@@ -182,7 +182,7 @@ export function useRenderer(
     }
   })
 
-  resume()
+  resume() */
 
   const getThreeRendererDefaults = () => {
     const plainRenderer = new WebGLRenderer()
@@ -279,7 +279,7 @@ export function useRenderer(
     renderer.value.forceContextLoss()
   })
 
-  if (import.meta.hot) { import.meta.hot.on('vite:afterUpdate', resume) }
+  /* if (import.meta.hot) { import.meta.hot.on('vite:afterUpdate', resume) } */
 
   return {
     renderer,

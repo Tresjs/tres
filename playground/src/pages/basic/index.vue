@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
 import { reactive, ref } from 'vue'
-import { TresCanvas, useRenderLoop } from '@tresjs/core'
+import { TresCanvas } from '@tresjs/core'
 import { OrbitControls } from '@tresjs/cientos'
 
 const state = reactive({
@@ -15,13 +15,6 @@ const state = reactive({
 })
 
 const sphereRef = ref()
-
-const { onLoop } = useRenderLoop()
-
-onLoop(({ elapsed }) => {
-  if (!sphereRef.value) { return }
-  sphereRef.value.position.y += Math.sin(elapsed) * 0.01
-})
 
 function onPointerEnter(ev) {
   if (ev) {
@@ -74,7 +67,7 @@ const sphereExists = ref(true)
       <TresPlaneGeometry :args="[10, 10, 10, 10]" />
       <TresMeshToonMaterial />
     </TresMesh>
-
+    <TheSphere />
     <TresDirectionalLight
       :position="[0, 2, 4]"
       :intensity="1"

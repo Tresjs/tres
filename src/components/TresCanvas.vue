@@ -28,7 +28,7 @@ import {
   type TresContext,
   useLogger,
   usePointerEventHandler,
-  useRenderLoop,
+  /* useRenderLoop, */
   useTresContextProvider,
 } from '../composables'
 import { extend } from '../core/catalogue'
@@ -88,7 +88,7 @@ const canvas = ref<HTMLCanvasElement>()
 */
 const scene = shallowRef(new Scene())
 
-const { resume } = useRenderLoop()
+/* const { resume } = useRenderLoop() */
 
 const instance = getCurrentInstance()?.appContext.app
 extend(THREE)
@@ -124,7 +124,7 @@ const dispose = (context: TresContext, force = false) => {
     context.renderer.value.forceContextLoss()
   }
   mountCustomRenderer(context)
-  resume()
+/*   resume() */
 }
 
 const disableRender = computed(() => props.disableRender)
@@ -143,6 +143,8 @@ onMounted(() => {
     rendererOptions: props,
     emit,
   })
+
+  instance?.provide('useTres', context)
 
   usePointerEventHandler(context.value)
 
