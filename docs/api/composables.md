@@ -17,21 +17,32 @@ const { camera, renderer, camera, cameras } = useTresContext()
 `useTresContext` can be only be used inside of a `TresCanvas` since this component acts as the provider for the context data.
 :::
 
-```vue
-<TresCanvas>
-  <MyModel />
-</TresCanvas>
+::: code-group
+
+```vue [App.vue]
+<script setup>
+import { TresCanvas } from '@tresjs/core'
+import SubComponent from './SubComponent.vue'
+</script>
+
+<template>
+  <TresCanvas
+    render-mode="manual"
+  >
+    <SubComponent />
+  </TresCanvas>
+</template>
 ```
 
-```vue
-// MyModel.vue
-
+```vue [SubComponent.vue]
 <script lang="ts" setup>
 import { useTresContext } from '@tresjs/core'
 
 const context = useTresContext()
 </script>
 ```
+
+:::
 
 ### Properties of context
 | Property | Description |
@@ -98,6 +109,31 @@ useLoop(({ delta }) => {
 :::
 
 Your callback function will be triggered just before a frame is rendered and it will be unmounted automatically when the component is destroyed.
+
+#### Render priority
+
+The `useLoop` composable accepts a second argument `index` which is used to determine the order in which the loop functions are executed. The default value is `1` (see [below](#take-control-of-the-render-loop)) and the lower the value, the earlier the function will be executed.
+
+```ts
+useLoop(() => {
+  console.count('before renderer')
+}, -1)
+
+useLoop(() => {
+  console.count('after renderer')
+}, 2)
+```
+
+#### Take control of the render-loop
+
+By default, the render-loop is automatically started when the component is mounted. However, you can take control of the render-loop by overwriting the main loop function setting the `index` value to `1` .
+
+```ts
+useLoop(({ ctx }) => {
+  // Takes over the render-loop, the user has the responsibility to render
+  ctx.renderer.value.render(ctx.scene.value, ctx.camera.value)
+}, 1)
+```
 
 ## useLoader
 
