@@ -50,7 +50,7 @@
     "playground": "cd playground && npm run dev",
     "test": "vitest",
     "test:ci": "vitest run",
-    "test:ui": "vitest --ui",
+    "test:ui": "vitest --ui --coverage.enabled=true",
     "release": "release-it",
     "coverage": "vitest run --coverage",
     "lint": "eslint .",
