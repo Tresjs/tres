@@ -44,7 +44,7 @@ onAfterLoop.on(() => {
 export const useRenderLoop = (): UseRenderLoopReturn => {
   const { logWarning } = useLogger()
   // TODO: add migration guide link here
-  logWarning('useRenderLoop is deprecated is gonna be deprecated on v5, please migrate to `useLoop`. Check the migration guide for more information. ')
+  logWarning('useRenderLoop is deprecated is gonna be deprecated on v5, please migrate to `useLoop` https://docs.tresjs.org/api/composables.html#useloop. Check the migration guide for more information. ')
   return {
     onBeforeLoop: onBeforeLoop.on,
     onLoop: onLoop.on,
