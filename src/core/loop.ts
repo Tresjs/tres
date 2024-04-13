@@ -6,7 +6,7 @@ import type { Fn } from '@vueuse/core'
 export interface RendererLoop {
   subscribers: Map<number, Fn[]>
   loopId: string
-  onLoop: (callback: Fn) => void
+  onLoop: (callback: Fn, index: number) => void
   start: () => void
   stop: () => void
   isActive: Ref<boolean>
@@ -25,14 +25,20 @@ export function createRenderLoop(): RendererLoop {
     delta: number
     elapsed: number
     clock: Clock
-  }, index: number) => void
+  }) => void
 
   function registerCallback(callback: LoopCallback, index = 0) {
-    console.log('registerCallback', { index, callback })
-    if (!subscribers.has(index)) {
-      subscribers.set(index, [])
+    if (index === 1) {
+      // Take control over the main loop
+      subscribers.set(index, [callback])
     }
-    subscribers.get(index).push(callback)
+    else {
+      // Standard behavior: accumulate callbacks at the given index
+      if (!subscribers.has(index)) {
+        subscribers.set(index, [])
+      }
+      subscribers.get(index).push(callback)
+    }
   }
 
   function start() {
@@ -60,7 +66,6 @@ export function createRenderLoop(): RendererLoop {
     Array.from(subscribers.keys())
       .sort((a, b) => a - b) // Ensure numerical order
       .forEach((index) => {
-        console.log('Processing index:', index) // Debug: Check order of processing
         subscribers.get(index).forEach((callback: LoopCallback) => {
           callback({ delta, elapsed, clock })
         })

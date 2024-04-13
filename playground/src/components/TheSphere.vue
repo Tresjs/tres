@@ -5,20 +5,28 @@ import { useLoop } from '@tresjs/core'
 /* const { invalidate } = useTres() */
 
 const sphereRef = ref()
-
-useLoop(() => {
-  console.log('before renderer')
+useLoop((state) => {
+  if (!sphereRef.value) { return }
+  sphereRef.value.position.y += Math.sin(state.elapsed) * 0.01
+})
+/* useLoop(() => {
+  console.count('before renderer')
 }, -1)
 
 useLoop(() => {
-  console.log('after renderer')
+  console.count('after renderer')
 }, 2)
 
 useLoop((state) => {
   if (!sphereRef.value) { return }
-  console.log('this should be before render', state)
+  console.log('this should be just before render')
   sphereRef.value.position.y += Math.sin(state.elapsed) * 0.01
 })
+
+useLoop(({ ctx }) => {
+  console.log('this should replace the renderer', ctx)
+  ctx.renderer.value.render(ctx.scene.value, ctx.camera.value)
+}, 1) */
 </script>
 
 <template>

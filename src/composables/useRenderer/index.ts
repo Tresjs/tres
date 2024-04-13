@@ -11,7 +11,6 @@ import {
 import type { ColorSpace, Scene, ShadowMapType, ToneMapping, WebGLRendererParameters } from 'three'
 import { useLogger } from '../useLogger'
 import type { TresColor } from '../../types'
-import { useRenderLoop } from '../useRenderLoop'
 import { normalizeColor } from '../../utils/normalize'
 
 import type { TresContext } from '../useTresContextProvider'
@@ -97,12 +96,9 @@ export interface UseRendererOptions extends TransformToMaybeRefOrGetter<WebGLRen
 
 export function useRenderer(
   {
-    scene,
     canvas,
     options,
-    disableRender,
-    emit,
-    contextParts: { sizes, camera, render, invalidate, advance },
+    contextParts: { sizes, render, invalidate, advance },
   }:
   {
     canvas: MaybeRef<HTMLCanvasElement>
@@ -160,29 +156,6 @@ export function useRenderer(
   })
 
   const { logError } = useLogger()
-
-  // TheLoop
-
-  /*   const { resume, onLoop } = useRenderLoop()
-
-  onLoop(() => {
-    if (camera.value && !toValue(disableRender) && render.frames.value > 0) {
-      renderer.value.render(scene, camera.value)
-      emit('render', renderer.value)
-    }
-
-    // Reset priority
-    render.priority.value = 0
-
-    if (toValue(options.renderMode) === 'always') {
-      render.frames.value = 1
-    }
-    else {
-      render.frames.value = Math.max(0, render.frames.value - 1)
-    }
-  })
-
-  resume() */
 
   const getThreeRendererDefaults = () => {
     const plainRenderer = new WebGLRenderer()
@@ -278,8 +251,6 @@ export function useRenderer(
     renderer.value.dispose()
     renderer.value.forceContextLoss()
   })
-
-  /* if (import.meta.hot) { import.meta.hot.on('vite:afterUpdate', resume) } */
 
   return {
     renderer,
