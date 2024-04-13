@@ -4,74 +4,100 @@ Vue 3 [Composition API](https://vuejs.org/guide/extras/composition-api-faq.html#
 
 **TresJS** takes huge advantage of this API to create a set of composable functions that can be used to create animations, interact with the scene and more. It also allows you to create more complex scenes that might not be possible using just the Vue Components (Textures, Loaders, etc.).
 
-The core of **TresJS** uses these composables internally, so you would be using the same API that the core uses. For instance, components that need to updated on the internal render loop use the `useRenderLoop` composable to register a callback that will be called every time the renderer updates the scene.
+The core of **TresJS** uses these composables internally, so you would be using the same API that the core uses.
 
-## useRenderLoop
-
-The `useRenderLoop` composable is the core of **TresJS** animations. It allows you to register a callback that will be called on native refresh rate. This is the most important composable in **TresJS**.
+## useTresContext
+This composable aims to provide access to the state model which contains multiple useful properties.
 
 ```ts
-const { onLoop, resume } = useRenderLoop()
-
-onLoop(({ delta, elapsed, clock }) => {
-  // I will run at every frame ~60FPS (depending of your monitor)
-})
+const { camera, renderer, camera, cameras } = useTresContext()
 ```
 
 ::: warning
-Be mindful of the performance implications of using this composable. It will run at every frame, so if you have a lot of logic in your callback, it might impact the performance of your app. Specially if you are updating reactive states or references.
+`useTresContext` can be only be used inside of a `TresCanvas` since this component acts as the provider for the context data.
 :::
 
-The `onLoop` callback receives an object with the following properties based on the [THREE clock](https://threejs.org/docs/?q=clock#api/en/core/Clock):
+```vue
+<TresCanvas>
+  <MyModel />
+</TresCanvas>
+```
 
-- `delta`: The delta time between the current and the last frame. This is the time in seconds since the last frame.
-- `elapsed`: The elapsed time since the start of the render loop.
+```vue
+// MyModel.vue
 
-This composable is based on `useRafFn` from [vueuse](https://vueuse.org/core/useRafFn/). Thanks to [@wheatjs](https://github.com/wheatjs) for the amazing contribution.
+<script lang="ts" setup>
+import { useTresContext } from '@tresjs/core'
 
-### Before and after render
+const context = useTresContext()
+</script>
+```
 
-You can also register a callback that will be called before and after the renderer updates the scene. This is useful if you add a profiler to measure the FPS for example.
+### Properties of context
+| Property | Description |
+| --- | --- |
+| **camera** | The currently active camera |
+| **cameras** | The cameras that exist in the scene |
+| **controls** | The controls of your scene |
+| **deregisterCamera** | A method to deregister a camera. This is only required if you manually create a camera. Cameras in the template are deregistered automatically. |
+| **extend** | Extends the component catalogue. See [extending](/advanced/extending) |
+| **raycaster** | the global raycaster used for pointer events |
+| **registerCamera** | a method to register a camera. This is only required if you manually create a camera. Cameras in the template are registered automatically. |
+| **renderer** | the [WebGLRenderer](https://threejs.org/docs/#api/en/renderers/WebGLRenderer) of your scene |
+| **scene** | the [scene](https://threejs.org/docs/?q=sce#api/en/scenes/Scene). |
+| **setCameraActive** | a method to set a camera active |
+| **sizes** | contains width, height and aspect ratio of your canvas |
+| **invalidate** | a method to invalidate the render loop. This is only required if you set the `render-mode` prop to `on-demand`. |
+| **advance** | a method to advance the render loop. This is only required if you set the `render-mode` prop to `manual`. |
+| **loop** | the renderer loop |
 
-```ts
-const { onBeforeLoop, onAfterLoop } = useRenderLoop()
+### useLoop <Badge text="v4.0.0" />
 
-onBeforeLoop(({ delta, elapsed }) => {
-  // I will run before the renderer updates the scene
-  fps.begin()
+This composable allows you to execute a callback on every rendered frame, similar to `useRenderLoop` but unique to each `TresCanvas` instance. However, this composable can only be used inside a `TresCanvas` component since it relies on the context provided by `TresCanvas`.
+
+::: warning
+`useLoop` can be only be used inside of a `TresCanvas` since this component acts as the provider for the context data.
+:::
+
+::: code-group
+
+```vue [App.vue]
+<script setup>
+import { TresCanvas } from '@tresjs/core'
+import AnimatedBox from './AnimatedBox.vue'
+</script>
+
+<template>
+  <TresCanvas
+    render-mode="manual"
+  >
+    <AnimatedBox />
+  </TresCanvas>
+</template>
+```
+
+```vue [AnimatedBox.vue]
+<script setup>
+import { useLoop } from '@tresjs/core'
+
+const boxRef = ref()
+
+useLoop(({ delta }) => {
+  boxRef.value.rotation.y += 0.01
 })
+</script>
 
-onAfterLoop(({ delta, elapsed }) => {
-  // I will run after the renderer updates the scene
-  fps.end()
-})
+<template>
+  <TresMesh ref="boxRef">
+    <TresBoxGeometry />
+    <TresMeshBasicMaterial color="teal" />
+  </TresMesh>
+</template>
 ```
 
-### Pause and resume
+:::
 
-You can pause and resume the render loop using the exposed `pause` and `resume` methods.
-
-```ts
-const { pause, resume } = useRenderLoop()
-
-// Pause the render loop
-pause()
-
-// Resume the render loop
-resume()
-```
-
-Also you can get the active state of the render loop using the `isActive` property.
-
-```ts
-const { resume, isActive } = useRenderLoop()
-
-console.log(isActive) // false
-
-resume()
-
-console.log(isActive) // true
-```
+Your callback function will be triggered just before a frame is rendered and it will be unmounted automatically when the component is destroyed.
 
 ## useLoader
 
@@ -197,46 +223,73 @@ watch(character, ({ model }) => {
 })
 ```
 
-## useTresContext
-This composable aims to provide access to the state model which contains multiple useful properties.
+## useRenderLoop <Badge type="warning" text="to be deprecated on V5" />
+
+::: warning
+This composable will be deprecated on V5. Use `useLoop` instead. [Read why](#useloop)
+:::
+
+The `useRenderLoop` composable is the core of **TresJS** animations. It allows you to register a callback that will be called on native refresh rate.
 
 ```ts
-const { camera, renderer, camera, cameras } = useTresContext()
+const { onLoop, resume } = useRenderLoop()
+
+onLoop(({ delta, elapsed, clock }) => {
+  // I will run at every frame ~60FPS (depending of your monitor)
+})
 ```
 
 ::: warning
-`useTresContext` can be only be used inside of a `TresCanvas` since `TresCanvas` acts as the provider for the context data. Use [the context exposed by TresCanvas](tres-canvas#exposed-public-properties) if you find yourself needing it in parent components of TresCanvas.
+Be mindful of the performance implications of using this composable. It will run at every frame, so if you have a lot of logic in your callback, it might impact the performance of your app. Specially if you are updating reactive states or references.
 :::
 
-```vue
-<TresCanvas>
-  <MyModel />
-</TresCanvas>
+The `onLoop` callback receives an object with the following properties based on the [THREE clock](https://threejs.org/docs/?q=clock#api/en/core/Clock):
+
+- `delta`: The delta time between the current and the last frame. This is the time in seconds since the last frame.
+- `elapsed`: The elapsed time since the start of the render loop.
+
+This composable is based on `useRafFn` from [vueuse](https://vueuse.org/core/useRafFn/). Thanks to [@wheatjs](https://github.com/wheatjs) for the amazing contribution.
+
+### Before and after render
+
+You can also register a callback that will be called before and after the renderer updates the scene. This is useful if you add a profiler to measure the FPS for example.
+
+```ts
+const { onBeforeLoop, onAfterLoop } = useRenderLoop()
+
+onBeforeLoop(({ delta, elapsed }) => {
+  // I will run before the renderer updates the scene
+  fps.begin()
+})
+
+onAfterLoop(({ delta, elapsed }) => {
+  // I will run after the renderer updates the scene
+  fps.end()
+})
 ```
 
-```vue
-// MyModel.vue
+### Pause and resume
 
-<script lang="ts" setup>
-import { useTresContext } from '@tresjs/core'
+You can pause and resume the render loop using the exposed `pause` and `resume` methods.
 
-const context = useTresContext()
-</script>
+```ts
+const { pause, resume } = useRenderLoop()
+
+// Pause the render loop
+pause()
+
+// Resume the render loop
+resume()
 ```
 
-### Properties of context
-| Property | Description |
-| --- | --- |
-| **camera** | The currently active camera |
-| **cameras** | The cameras that exist in the scene |
-| **controls** | The controls of your scene |
-| **deregisterCamera** | A method to deregister a camera. This is only required if you manually create a camera. Cameras in the template are deregistered automatically. |
-| **extend** | Extends the component catalogue. See [extending](/advanced/extending) |
-| **raycaster** | the global raycaster used for pointer events |
-| **registerCamera** | a method to register a camera. This is only required if you manually create a camera. Cameras in the template are registered automatically. |
-| **renderer** | the [WebGLRenderer](https://threejs.org/docs/#api/en/renderers/WebGLRenderer) of your scene |
-| **scene** | the [scene](https://threejs.org/docs/?q=sce#api/en/scenes/Scene). |
-| **setCameraActive** | a method to set a camera active |
-| **sizes** | contains width, height and aspect ratio of your canvas |
-| **invalidate** | a method to invalidate the render loop. This is only required if you set the `render-mode` prop to `on-demand`. |
-| **advance** | a method to advance the render loop. This is only required if you set the `render-mode` prop to `manual`. |
+Also you can get the active state of the render loop using the `isActive` property.
+
+```ts
+const { resume, isActive } = useRenderLoop()
+
+console.log(isActive) // false
+
+resume()
+
+console.log(isActive) // true
+```

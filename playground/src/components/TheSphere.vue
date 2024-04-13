@@ -1,6 +1,6 @@
 <!-- eslint-disable no-console -->
 <script setup lang="ts">
-import { useLoop, useTres } from '@tresjs/core'
+import { useLoop } from '@tresjs/core'
 
 /* const { invalidate } = useTres() */
 
@@ -14,10 +14,10 @@ useLoop(() => {
   console.log('after renderer')
 }, 1) */
 
-useLoop(({ elapsed }) => {
+useLoop((state) => {
   if (!sphereRef.value) { return }
-  sphereRef.value.position.y += Math.sin(elapsed) * 0.01
-/*   invalidate() */
+  console.log('state', state)
+  sphereRef.value.position.y += Math.sin(state.elapsed) * 0.01
 })
 </script>
 
