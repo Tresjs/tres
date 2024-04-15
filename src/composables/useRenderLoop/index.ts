@@ -57,5 +57,9 @@ function getNewRenderLoop() {
 }
 
 export const useRenderLoop = () => {
-  return inject(INJECTION_KEY, getNewRenderLoop, true)
+  const result = inject(INJECTION_KEY, getNewRenderLoop, true)
+  if (!result) {
+    return getNewRenderLoop()
+  }
+  return result
 }
