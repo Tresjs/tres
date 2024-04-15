@@ -1,6 +1,6 @@
 import type { EventHookOn, Fn } from '@vueuse/core'
 import { createEventHook, useRafFn } from '@vueuse/core'
-import type { Ref } from 'vue'
+import { type Ref, inject, provide } from 'vue'
 import { Clock } from 'three'
 
 export interface RenderLoop {
@@ -18,33 +18,44 @@ export interface UseRenderLoopReturn {
   isActive: Ref<boolean>
 }
 
-const onBeforeLoop = createEventHook<RenderLoop>()
-const onLoop = createEventHook<RenderLoop>()
-const onAfterLoop = createEventHook<RenderLoop>()
+const INJECTION_KEY = Symbol('onRenderLoop')
 
-const clock = new Clock()
-let delta = 0
-let elapsed = 0
+function getNewRenderLoop() {
+  const onBeforeLoop = createEventHook<RenderLoop>()
+  const onLoop = createEventHook<RenderLoop>()
+  const onAfterLoop = createEventHook<RenderLoop>()
 
-const { pause, resume, isActive } = useRafFn(
-  () => {
-    onBeforeLoop.trigger({ delta, elapsed, clock })
-    onLoop.trigger({ delta, elapsed, clock })
-    onAfterLoop.trigger({ delta, elapsed, clock })
-  },
-  { immediate: false },
-)
+  const clock = new Clock()
+  let delta = 0
+  let elapsed = 0
 
-onAfterLoop.on(() => {
-  delta = clock.getDelta()
-  elapsed = clock.getElapsedTime()
-})
+  onAfterLoop.on(() => {
+    delta = clock.getDelta()
+    elapsed = clock.getElapsedTime()
+  })
 
-export const useRenderLoop = (): UseRenderLoopReturn => ({
-  onBeforeLoop: onBeforeLoop.on,
-  onLoop: onLoop.on,
-  onAfterLoop: onAfterLoop.on,
-  pause,
-  resume,
-  isActive,
-})
+  const { pause, resume, isActive } = useRafFn(
+    () => {
+      onBeforeLoop.trigger({ delta, elapsed, clock })
+      onLoop.trigger({ delta, elapsed, clock })
+      onAfterLoop.trigger({ delta, elapsed, clock })
+    },
+    { immediate: false },
+  )
+
+  const result = {
+    onBeforeLoop: onBeforeLoop.on,
+    onLoop: onLoop.on,
+    onAfterLoop: onAfterLoop.on,
+    pause,
+    resume,
+    isActive,
+  }
+
+  provide(INJECTION_KEY, result)
+  return result
+}
+
+export const useRenderLoop = () => {
+  return inject(INJECTION_KEY, getNewRenderLoop, true)
+}
