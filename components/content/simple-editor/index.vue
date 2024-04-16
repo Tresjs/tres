@@ -2,7 +2,7 @@
 import { type Object3D } from 'three'
 import { TresCanvas } from '@tresjs/core'
 import { TransformControls } from '@tresjs/cientos'
-import { useElementSize, useRefHistory } from '@vueuse/core'
+import { useElementSize, useRefHistory, useDark } from '@vueuse/core'
 
 import type { BoxSceneNode, CameraSceneNode, ConeSceneNode, SceneSettings, SphereSceneNode } from './types'
 
@@ -24,6 +24,8 @@ const state = ref<State>({ sceneSettings: { width: 800, height: 600 }, sceneNode
 ] })
 const history = useRefHistory(state, { deep: true })
 history.clear()
+
+const isDark = useDark()
 
 const currentCameraName = ref('nav')
 const currentCamera = computed(() => ({ render: renderCamRef, nav: navCamRef }[currentCameraName.value]?.value))
@@ -50,6 +52,7 @@ const cameraHelperRef = shallowRef()
 const canvasContainerRef = shallowRef()
 const sceneNodeRefs = ref<{ [sceneNodeId: string]: Object3D }>({})
 
+// Set cameras to manual during initialization. This runs only once as soon as refs are not null
 const setCamerasManualWatcher = watchEffect(() => {
   if (renderCamRef.value != null && navCamRef.value != null) {
     renderCamRef.value.manual = false
@@ -58,6 +61,7 @@ const setCamerasManualWatcher = watchEffect(() => {
   }
 })
 
+// When switching current camera set it in the tres context
 watchEffect(() => {
   if (tresCanvasRef.value?.context != null && currentCamera.value != null) {
     const { setCameraActive } = tresCanvasRef.value.context
@@ -65,6 +69,7 @@ watchEffect(() => {
   }
 })
 
+// when render cam is active, update manually what is required. CameraHelper has to be manually update when aspect/fov changes
 watchEffect(() => {
   if (renderCamRef.value != null) {
     renderCamRef.value.aspect = state.value.sceneSettings.width / state.value.sceneSettings.height
@@ -76,6 +81,7 @@ watchEffect(() => {
   }
 })
 
+// when nav cam is active, update manually what is required
 const canvasContainerSize = useElementSize(canvasContainerRef)
 watchEffect(() => {
   if (navCamRef.value != null) {
@@ -279,7 +285,7 @@ function handleDeleteSceneNode(sceneNodeId: string) {
             <TresCanvas
               v-if=" cameraNode != null"
               ref="tresCanvasRef"
-              clear-color="#FAFAFA"
+              :clear-color="isDark ? '#252526' : '#FAFAFA'"
             >
               <TresPerspectiveCamera
                 :ref="
