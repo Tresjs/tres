@@ -107,7 +107,7 @@ export const useRaycaster = (
       ...eventProperties, 
       intersections: intersects.value,
       // The unprojectedPoint is wrong, math needs to be fixed
-      unprojectedPoint: new Vector3(event?.clientX ?? x.value, event?.clientY ?? y.value, 0).unproject(ctx.camera?.value),
+      unprojectedPoint: new Vector3(event?.clientX, event?.clientY, 0).unproject(ctx.camera?.value),
       ray: ctx.raycaster?.value.ray,
       camera: ctx.camera?.value,
       sourceEvent: event,

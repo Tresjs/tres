@@ -121,7 +121,7 @@ export function useTresEventManager(
 
   let prevIntersections: Intersects = []
 
-  onPointerMove(event => {
+  onPointerMove((event) => {
     // Current intersections mapped as meshes
     const hits = event.intersections.map(({ object }) => object)
 
@@ -136,7 +136,7 @@ export function useTresEventManager(
     })
 
     // Newly intersected mesh is not in the previous intersections, fire onPointerEnter
-    event.intersections.forEach(({ object: hit}) => {
+    event.intersections.forEach(({ object: hit }) => {
       if (!prevIntersections.includes(hit)) {
         propogateEvent('onPointerEnter', event)
         propogateEvent('onPointerOver', event)
