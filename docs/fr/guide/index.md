@@ -63,9 +63,9 @@ Ceci est nécessaire afin que le compilateur de template fonctionne avec le mote
 
 ## Essayer en ligne
 
-### Sandbox
+### Playground
 
-Vous pouvez essayer TresJS en ligne en utilisant la [sandbox](https://play.tresjs.org/) officielle. Testez ici:
+Vous pouvez essayer TresJS en ligne en utilisant la [playground](https://play.tresjs.org/) officielle. Testez ici:
 
 <iframe src="https://play.tresjs.org/" class="w-full rounded shadow-lg outline-none border-none aspect-4/3"></iframe>
 
@@ -77,11 +77,11 @@ Nous avons un nouveau starter [StackBlitz](https://stackblitz.com/) afin d'essay
 
 <StackBlitzEmbed projectId="tresjs-basic" />
 
-## Playground
+## Labs
 
-Nous avons aussi un playground où vous pouvez essayer TresJS en ligne. Testez [ici](https://playground.tresjs.org/).
+Nous disposons également d'un laboratoire de démonstration d'exemples réalisés avec TresJS. Vérifiez le [ici](https://lab.tresjs.org/).
 
-![](/playground.png)
+![](/tresjs-lab.png)
 
 ## Motivation
 
