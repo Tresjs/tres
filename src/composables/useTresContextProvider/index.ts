@@ -1,5 +1,5 @@
 import { useFps, useMemory, useRafFn } from '@vueuse/core'
-import { inject, provide, readonly, shallowRef, computed, ref, onUnmounted } from 'vue'
+import { computed, inject, onUnmounted, provide, readonly, ref, shallowRef } from 'vue'
 import type { Camera, EventDispatcher, Object3D, WebGLRenderer } from 'three'
 import { Raycaster } from 'three'
 import type { ComputedRef, DeepReadonly, MaybeRef, MaybeRefOrGetter, Ref, ShallowRef } from 'vue'
@@ -62,8 +62,8 @@ export interface TresContext {
    */
   invalidate: () => void
   /**
-     * Advance one frame when renderMode === 'manual'
-     */
+   * Advance one frame when renderMode === 'manual'
+   */
   advance: () => void
   // Camera
   registerCamera: (camera: Camera) => void
@@ -94,7 +94,6 @@ export function useTresContextProvider({
   rendererOptions: UseRendererOptions
   emit: (event: string, ...args: any[]) => void
 }): TresContext {
-
   const { logWarning } = useLogger()
 
   const localScene = shallowRef<TresScene>(scene)
@@ -146,7 +145,8 @@ export function useTresContextProvider({
       // TODO: replace contextParts with full ctx at https://github.com/Tresjs/tres/issues/516
       contextParts: { sizes, camera, render, invalidate, advance },
       disableRender,
-    })
+    },
+  )
 
   const ctx: TresContext = {
     sizes,
@@ -192,7 +192,6 @@ export function useTresContextProvider({
   let lastUpdateTime = performance.now()
 
   const updatePerformanceData = ({ timestamp }: { timestamp: number }) => {
-
     // Update WebGL Memory Usage (Placeholder for actual logic)
     // perf.memory.value = calculateMemoryUsage(gl)
     if (ctx.scene.value) {
@@ -222,7 +221,6 @@ export function useTresContextProvider({
 
         ctx.perf.memory.currentMem
         = ctx.perf.memory.accumulator.reduce((a, b) => a + b, 0) / ctx.perf.memory.accumulator.length
-
       }
     }
   }
@@ -232,7 +230,7 @@ export function useTresContextProvider({
   const interval = 1 // Interval in milliseconds, e.g., 1000 ms = 1 second
 
   const { pause } = useRafFn(({ delta }) => {
-    if (!window.__TRES__DEVTOOLS__) return
+    if (!window.__TRES__DEVTOOLS__) { return }
 
     updatePerformanceData({ timestamp: performance.now() })
 

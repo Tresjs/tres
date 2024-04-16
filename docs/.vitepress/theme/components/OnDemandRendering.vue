@@ -1,7 +1,5 @@
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
-import { BasicShadowMap, SRGBColorSpace, NoToneMapping } from 'three'
-import { OrbitControls } from '@tresjs/cientos'
 import { useState } from '../composables/state'
 import BlenderCube from './BlenderCube.vue'
 import GraphPane from './GraphPane.vue'
@@ -11,7 +9,6 @@ const { renderingTimes } = useState()
 
 function onRender() {
   renderingTimes.value = 1
-
 }
 </script>
 

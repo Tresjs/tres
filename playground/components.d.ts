@@ -7,8 +7,10 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    AkuAku: typeof import('./src/components/AkuAku.vue')['default']
     AnimatedModel: typeof import('./src/components/AnimatedModel.vue')['default']
     Box: typeof import('./src/components/Box.vue')['default']
+    BlenderCube: typeof import('./src/components/BlenderCube.vue')['default']
     CameraOperator: typeof import('./src/components/CameraOperator.vue')['default']
     Cameras: typeof import('./src/components/Cameras.vue')['default']
     copy: typeof import('./src/components/TheBasic copy.vue')['default']
@@ -19,10 +21,12 @@ declare module 'vue' {
     EventsPropogation: typeof import('./src/components/EventsPropogation.vue')['default']
     FBXModels: typeof import('./src/components/FBXModels.vue')['default']
     Gltf: typeof import('./src/components/gltf/index.vue')['default']
+    GraphPane: typeof import('./src/components/GraphPane.vue')['default']
     LocalOrbitControls: typeof import('./src/components/LocalOrbitControls.vue')['default']
     MeshWobbleMaterial: typeof import('./src/components/meshWobbleMaterial/index.vue')['default']
     MultipleCanvas: typeof import('./src/components/MultipleCanvas.vue')['default']
     PortalJourney: typeof import('./src/components/portal-journey/index.vue')['default']
+    RenderingLogger: typeof import('./src/components/RenderingLogger.vue')['default']
     Responsiveness: typeof import('./src/components/Responsiveness.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']

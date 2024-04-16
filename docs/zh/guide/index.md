@@ -9,15 +9,15 @@
 ::: code-group
 
 ```bash [npm]
-npm install @tresjs/core three 
+npm install @tresjs/core three
 ```
 
 ```bash [yarn]
-yarn add @tresjs/core three 
+yarn add @tresjs/core three
 ```
 
 ```bash [pnpm]
-pnpm add @tresjs/core three 
+pnpm add @tresjs/core three
 ```
 
 :::
@@ -56,7 +56,7 @@ export default defineConfig({
       ...templateCompilerOptions
     }),
   ],
-}),
+})
 ```
 
 要使模板编译器能与自定义渲染器一起工作，并且不会在控制台上发出警告，这样做是必须的。获得更多信息，请点击[此处](/guide/troubleshooting.html)。
@@ -111,4 +111,3 @@ lunchboxApp.mount('#lunchbox')
 ```
 
 因此，我受到这两个库的启发，为 ThreeJS 创建了一个 Vue 自定义渲染器。这就是 **TresJS v2**。
-

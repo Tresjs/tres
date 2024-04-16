@@ -1,33 +1,35 @@
 <script setup lang="ts">
 import { PerspectiveCamera, Scene } from 'three'
 import type {
-  WebGLRendererParameters,
   ColorSpace,
   ShadowMapType,
   ToneMapping,
+  WebGLRendererParameters,
 } from 'three'
 import * as THREE from 'three'
-import type { Ref, App } from 'vue'
+import type { App, Ref } from 'vue'
 import {
+  Fragment,
   computed,
+  createRenderer,
+  defineComponent,
+  getCurrentInstance,
+  h,
   onMounted,
   provide,
   ref,
   shallowRef,
   watch,
   watchEffect,
-  Fragment,
-  defineComponent,
-  h, 
-  getCurrentInstance,
-  createRenderer,
 } from 'vue'
 import pkg from '../../package.json'
+
 import {
+  type TresContext,
+  useLogger,
+  useRenderLoop,
   useTresContextProvider,
   useTresEventManager,
-  useRenderLoop,
-  type TresContext,
 } from '../composables'
 import { extend } from '../core/catalogue'
 import { nodeOps } from '../core/nodeOps'
@@ -46,7 +48,7 @@ export interface TresCanvasProps
   useLegacyLights?: boolean
   outputColorSpace?: ColorSpace
   toneMappingExposure?: number
-  renderMode?: 'always' | 'on-demand' | 'manual' 
+  renderMode?: 'always' | 'on-demand' | 'manual'
 
   // required by useTresContextProvider
   camera?: TresCamera
@@ -88,6 +90,12 @@ const emit = defineEmits([
   'wheel',
 ])
 
+const slots = defineSlots<{
+  default: () => any
+}>()
+
+const { logWarning } = useLogger()
+
 const canvas = ref<HTMLCanvasElement>()
 
 /*
@@ -99,10 +107,6 @@ const scene = shallowRef(new Scene())
 
 const { resume } = useRenderLoop()
 
-const slots = defineSlots<{
-  default(): any
-}>()
-
 const instance = getCurrentInstance()?.appContext.app
 extend(THREE)
 
@@ -110,7 +114,7 @@ const createInternalComponent = (context: TresContext) =>
   defineComponent({
     setup() {
       const ctx = getCurrentInstance()?.appContext
-      if (ctx) ctx.app = instance as App
+      if (ctx) { ctx.app = instance as App }
       provide('useTres', context)
       provide('extend', extend)
 
@@ -187,7 +191,7 @@ onMounted(() => {
   watch(
     () => props.camera,
     (newCamera, oldCamera) => {
-      if (newCamera) registerCamera(newCamera)
+      if (newCamera) { registerCamera(newCamera) }
       if (oldCamera) {
         oldCamera.removeFromParent()
         deregisterCamera(oldCamera)
@@ -199,11 +203,14 @@ onMounted(() => {
   )
 
   if (!camera.value) {
+    logWarning(
+      'No camera found. Creating a default perspective camera. '
+      + 'To have full control over a camera, please add one to the scene.',
+    )
     addDefaultCamera()
   }
 
-  if (import.meta.hot && context.value)
-    import.meta.hot.on('vite:afterUpdate', () => dispose(context.value as TresContext))
+  if (import.meta.hot && context.value) { import.meta.hot.on('vite:afterUpdate', () => dispose(context.value as TresContext)) }
 })
 </script>
 
@@ -224,5 +231,5 @@ onMounted(() => {
       touchAction: 'none',
       ...$attrs.style as Object,
     }"
-  />
+  ></canvas>
 </template>

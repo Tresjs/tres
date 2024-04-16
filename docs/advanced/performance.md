@@ -6,14 +6,13 @@ We are running WebGL on the browser, which can be quite expensive and it will de
 
 ## On-demand rendering <Badge type="tip" text="^4.0.0" />
 
-By default, Tres.js will render your scene on every frame. This is great for most applications, but if you are building a game or a complex application, you might want to control when the scene is rendered. 
+By default, Tres.js will render your scene on every frame. This is great for most applications, but if you are building a game or a complex application, you might want to control when the scene is rendered.
 
 Otherwise it might drain your device battery 🔋 🔜 🪫 and make your computer sound like an airplane 🛫.
 
 Ideally, you only want to **render the scene when necessary**, for example when the user interacts with the scene and the camera moves, or when objects in the scene are animated.
 
 You can do that by setting the `renderMode` prop to `on-demand` or `manual`:
-
 
 ### Mode `on-demand`
 
@@ -22,7 +21,6 @@ You can do that by setting the `renderMode` prop to `on-demand` or `manual`:
     <onDemandRendering />
   </div>
 </ClientOnly>
-
 
 ```vue
 <TresCanvas render-mode="on-demand">
@@ -60,7 +58,6 @@ setTimeout(() => {
 #### Manual Invalidation
 
 Since it is not really possible to observe all the possible changes in your application, you can also manually invalidate the frame by calling the `invalidate()` method from the [`useTresContext` composable](../api/composables.md#usetrescontext):
-
 
 ::: code-group
 
@@ -102,10 +99,9 @@ watch(boxRef.value, () => {
 
 :::
 
-### Mode `always` 
+### Mode `always`
 
 In this rendering mode, Tres will continously render the scene on every frame. This is the default mode and the easiest to use, but it's also the most resource expensive one.
-
 
 ### Mode `manual`
 
@@ -128,4 +124,3 @@ const { advance } = useTres()
 advance()
 </script>
 ```
-

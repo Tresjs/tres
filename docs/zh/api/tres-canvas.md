@@ -76,7 +76,7 @@ renderer.shadowMap.type = PCFSoftShadowMap
 | **camera** | 由渲染器指定相机。 | |
 | **clearColor** | 清除画布后渲染器显示颜色。 | `#000000` |
 | **context** | 将渲染器附加到现有的 [RenderingContext](https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext) | |
-| **depth** | 绘图缓冲区是否至少具有16位的[深度缓冲区](https://en.wikipedia.org/wiki/Z-buffering) 。 | `true` |
+| **depth** | 绘图缓冲区是否至少具有16位的[深度缓冲区](https://en.wikipedia.org/wiki/Z-buffering) 。| `true` |
 | **disableRender** | 禁用 `requestAnimationFrame` 上的渲染，这对于后期处理非常有用。 | `false` |
 | **failIfMajorPerformanceCaveat** | 在性能较低时，是否检测渲染器创建失败。详细信息请参阅[WebGL](https://registry.khronos.org/webgl/specs/latest/1.0/#5.2)规范。 | `false` |
 | **logarithmicDepthBuffer** | 是否使用深度缓冲区。如果在单个场景中处理巨大的比例差异，可能需要使用此选项。请注意，如果使用，此设置将使用gl_FragDepth，这将禁用[Early Fragment Test](https://www.khronos.org/opengl/wiki/Early_Fragment_Test)优化，可能会导致性能下降。 | `false` |
@@ -95,7 +95,6 @@ renderer.shadowMap.type = PCFSoftShadowMap
 
 ### 默认值
 Tres尽量少做主观判断。这就是为什么它几乎不设置 `TresCanvas` 组件的任何默认值的原因。它使用[three.js](https://threejs.org/)的默认值。唯一的例外是 `antialias` 属性，默认设置为 `true`。
-
 
 ## 公共属性
 

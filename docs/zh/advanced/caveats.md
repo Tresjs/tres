@@ -16,7 +16,6 @@
 
 虽然实现了最低限度的处置工作流程，但它并不完美。这意味着有时您必须重新加载页面才能正确看到变化，特别是当您使用 [模板引用](https://cn.vuejs.org/guide/essentials/template-refs.html) 访问实例时。
 
-
 ```vue
 <script setup lang="ts">
 const boxRef: Ref<TresInstance | null> = ref(null)
@@ -80,6 +79,7 @@ onLoop(({ _delta, elapsed }) => {
   position.x = Math.sin(elapsed * 0.1) * 3
 })
 </script>
+
 <template>
   <TresMesh :position="position" cast-shadow>
     <TresBoxGeometry :args="[1, 1, 1]" />
@@ -99,6 +99,7 @@ onLoop(({ _delta, elapsed }) => {
   boxRef.value.position.x = Math.sin(elapsed * 0.1) * 3
 })
 </script>
+
 <template>
   <TresMesh ref="boxRef" :position="position" cast-shadow>
     <TresBoxGeometry :args="[1, 1, 1]" />

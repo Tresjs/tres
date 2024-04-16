@@ -49,8 +49,7 @@ From `v4.x` on, the following pointer events are been added to the list:
 | pointer-move     | the pointer is moving above the object                                               | [Intersection](https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/types/three/src/core/Raycaster.d.ts#L16), [PointerEvent](https://developer.mozilla.org/en-US/docs/Web/API/PointerEvent) |
 | pointer-missed <Badge type="warning" text="4.0.0" />    | the pointer interaction is attempted but misses the object                           | [PointerEvent](https://developer.mozilla.org/en-US/docs/Web/API/PointerEvent)                                                                                                                         |
 
-
-## Event Propagation (Bubbling 🫧) <Badge type="warning" text="^4.0.0" />  
+## Event Propagation (Bubbling 🫧) <Badge type="warning" text="^4.0.0" />
 
 Propagation of events on 3D scenes works differently than in the DOM because objects can **occlude each other in 3D**. The `intersections` array contains all the objects that the raycaster intersects with, sorted by distance from the camera. The first object in the array is the closest one to the camera.
 
