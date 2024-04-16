@@ -1,9 +1,23 @@
 import { computed, shallowRef } from 'vue'
-import type { Event, Object3D } from 'three'
+import type { Object3D } from 'three'
 import type { TresContext } from '../useTresContextProvider'
 import { useRaycaster } from '../useRaycaster'
 import type { Intersects } from '../useRaycaster'
 import { hyphenate } from '../../utils'
+
+export interface TresEventManager {
+  /**
+   * Forces the event system to refire events with the previous mouse event
+   */
+  forceUpdate: () => void
+  /**
+   * pointer-missed events by definition are fired when the pointer missed every object in the scene
+   * So we need to track them separately
+   * Note: These are used in nodeOps
+   */
+  registerPointerMissedObject: (object: Object3D) => void
+  deregisterPointerMissedObject: (object: Object3D) => void
+}
 
 export function useTresEventManager(
   scene: THREE.Scene, 
@@ -22,19 +36,18 @@ export function useTresEventManager(
 
   function executeEventListeners(
     listeners: Function | Function[],
-    intersection,
     event,
   ) {
     // Components with multiple event listeners will have an array of functions
     if (Array.isArray(listeners)) {
       for (const listener of listeners) {
-        listener(intersection, event)
+        listener(event)
       }
     }
 
     // Single listener will be a function
     if (typeof listeners === 'function') {
-      listeners(intersection, event)
+      listeners(event)
     }
   }
 
@@ -46,31 +59,39 @@ export function useTresEventManager(
    * @param event - The event object
    * @param intersects - An array of intersections
    */
-  function propogateEvent(eventName: string, event, intersects: Intersects | undefined) {
+  function propogateEvent(eventName: string, event) {
+    // Array of objects we've already propogated to
     const duplicates = []
-    let stopPropagating = false
-    const stopPropagatingFn = () => (stopPropagating = true)
-    
+
+    // Flag that is set to true when the stopProgatingFn is called
+    const stopPropagatingFn = () => (event.stopPropagating = true)
+    event.stopPropagation = stopPropagatingFn
+
     // Loop through all intersected objects and call their event handler
-    for (const intersection of intersects) {
-      if (stopPropagating) return
-      intersection.stopPropagation = stopPropagatingFn
-      // Does stopProagation work for parents?
+    for (const intersection of event?.intersections) {
+      if (event.stopPropagating) return
+
+      // Add intersection data to event object
+      event = { ...event, ...intersection }
+
       const { object } = intersection
-      executeEventListeners(object[eventName], intersection, event)
+      event.eventObject = object
+      executeEventListeners(object[eventName], event)
       duplicates.push(object)
 
       // Propogate the event up the parent chain before moving on to the next intersected object
-      let parent = object.parent
-      while (parent !== null && !stopPropagating) {
-        // Parent is a duplicate, we've already propogated up this path
-        if (duplicates.includes(parent)) {
+      let parentObj = object.parent
+      while (parentObj !== null && !event.stopPropagating) {
+        // We've already been here, break the loop
+        if (duplicates.includes(parentObj)) {
           break
         }
-        parent.stopPropagation = stopPropagatingFn
-        executeEventListeners(parent[eventName], intersection, event)
-        duplicates.push(parent)
-        parent = parent.parent
+        
+        // Sets eventObject to object that registered the event listener
+        event.eventObject = parentObj
+        executeEventListeners(parentObj[eventName], event)
+        duplicates.push(parentObj)
+        parentObj = parentObj.parent
       }
 
       // Convert eventName to kebab case and emit event from TresCanvas
@@ -91,68 +112,60 @@ export function useTresEventManager(
     forceUpdate,
   } = useRaycaster(sceneChildren, context)
 
-  onPointerUp(({ event, intersects }) =>  
-    propogateEvent('onPointerUp', event, intersects),
-  )
-  onPointerDown(({ event, intersects }) =>
-    propogateEvent('onPointerDown', event, intersects),
-  )
-  onClick(({ event, intersects }) =>
-    propogateEvent('onClick', event, intersects),
-  )
-  onDblClick(({ event, intersects }) =>
-    propogateEvent('onDoubleClick', event, intersects),
-  )
-  onContextMenu(({ event, intersects }) =>
-    propogateEvent('onContextMenu', event, intersects),
-  )
-  onWheel(({ event, intersects }) =>
-    propogateEvent('onWheel', event, intersects),
-  )
+  onPointerUp(event => propogateEvent('onPointerUp', event))
+  onPointerDown(event => propogateEvent('onPointerDown', event))
+  onClick(event => propogateEvent('onClick', event))
+  onDblClick(event => propogateEvent('onDoubleClick', event))
+  onContextMenu(event => propogateEvent('onContextMenu', event))
+  onWheel(event => propogateEvent('onWheel', event))
 
-  let previouslyIntersectedObject: Object3D<Event> | null
+  let prevIntersections: Intersects = []
 
-  onPointerMove(({ intersects, event }) => {
-    const firstObject = intersects?.[0]?.object
+  onPointerMove(event => {
+    // Current intersections mapped as meshes
+    const hits = event.intersections.map(({ object }) => object)
 
-    if (
-      previouslyIntersectedObject
-      && previouslyIntersectedObject !== firstObject
-    ) {
-      propogateEvent('onPointerLeave', event, [
-        { object: previouslyIntersectedObject },
-      ])
-      propogateEvent('onPointerOut', event, [
-        { object: previouslyIntersectedObject },
-      ])
-    }
-
-    if (firstObject) {
-      if (previouslyIntersectedObject !== firstObject) {
-        propogateEvent('onPointerEnter', event, intersects)
-        propogateEvent('onPointerOver', event, intersects)
+    // Previously intersected mesh is no longer intersected, fire onPointerLeave
+    prevIntersections.forEach((hit) => {
+      if (
+        !hits.includes(hit)
+      ) {
+        propogateEvent('onPointerLeave', event)
+        propogateEvent('onPointerOut', event)
       }
-      propogateEvent('onPointerMove', event, intersects)
-    }
+    })
 
-    previouslyIntersectedObject = firstObject || null
+    // Newly intersected mesh is not in the previous intersections, fire onPointerEnter
+    event.intersections.forEach(({ object: hit}) => {
+      if (!prevIntersections.includes(hit)) {
+        propogateEvent('onPointerEnter', event)
+        propogateEvent('onPointerOver', event)
+      }
+    })
+
+    // Fire onPointerMove for all intersected objects
+    propogateEvent('onPointerMove', event)
+
+    // Update previous intersections
+    prevIntersections = hits
   })
 
-  onPointerMissed(({ event }) => {
+  onPointerMissed((event) => {
+    // Flag that is set to true when the stopProgatingFn is called
+    const stopPropagatingFn = () => (event.stopPropagating = true)
+    event.stopPropagation = stopPropagatingFn
 
     pointerMissedObjects.forEach((object: Object3D) => {
-      executeEventListeners(object['onPointerMissed'], [], event)
+      if (event.stopPropagating) return
+
+      // Set eventObject to object that registered the event
+      event.eventObject = object
+
+      executeEventListeners(object['onPointerMissed'], event)
     })
     // Emit pointer-missed from TresCanvas
     emit('pointer-missed', { event })
   })
-
-  if (import.meta.hot) {
-    import.meta.hot.on('vite:afterUpdate', () => {
-      // Using for debug, will remove before PR is merged
-      // console.log('events hmr: ', scene, context)
-    })
-  }
 
   /**
    * We need to track pointer missed objects separately

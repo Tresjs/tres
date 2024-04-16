@@ -11,6 +11,7 @@ import { extend } from '../../core/catalogue'
 import { useLogger } from '../useLogger'
 import type { TresScene } from '../../types'
 import type { EventProps } from '../usePointerEventHandler'
+import type { TresEventManager } from '../useTresEventManager'
 import useSizes, { type SizesType } from '../useSizes'
 
 export interface InternalState {
@@ -43,20 +44,6 @@ export interface PerformanceState {
     allocatedMem: number
     accumulator: number[]
   }
-}
-
-interface TresEventManager {
-  /**
-   * Forces the event system to refire events with the previous mouse event
-   */
-  forceUpdate: () => void
-  /**
-   * pointer-missed events by definition are fired when the pointer missed every object in the scene
-   * So we need to track them separately
-   * Note: These used in nodeOps
-   */
-  registerPointerMissedObject: (object: Object3D) => void
-  deregisterPointerMissedObject: (object: Object3D) => void
 }
 
 export interface TresContext {

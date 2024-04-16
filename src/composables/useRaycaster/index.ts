@@ -1,4 +1,4 @@
-import { Vector2 } from 'three'
+import { Vector2, Vector3 } from 'three'
 import type { Object3D, Intersection } from 'three'
 import type { Ref, ShallowRef } from 'vue'
 import { computed, onUnmounted, shallowRef } from 'vue'
@@ -31,6 +31,7 @@ export const useRaycaster = (
   const canvas = computed(() => ctx.renderer.value.domElement as HTMLCanvasElement)
 
   const { x, y } = usePointer({ target: canvas })
+  let delta = 0
 
   const { width, height, top, left } = useElementBounding(canvas)
 
@@ -73,12 +74,51 @@ export const useRaycaster = (
   const eventHookContextMenu = createEventHook<PointerClickEventPayload>()
   const eventHookWheel = createEventHook<WheelEventPayload>()
 
+  /*({
+    ...DomEvent                   // All the original event data
+    ...Intersection               // All of Three's intersection data - see note 2
+    intersections: Intersection[] // The first intersection of each intersected object
+    object: Object3D              // The object that was actually hit (added to event payload in TresEventManager)
+    eventObject: Object3D         // The object that registered the event (added to event payload in TresEventManager)
+    unprojectedPoint: Vector3     // Camera-unprojected point
+    ray: Ray                      // The ray that was used to strike the object
+    camera: Camera                // The camera that was used in the raycaster
+    sourceEvent: DomEvent         // A reference to the host event
+    delta: number                 // Distance between mouse down and mouse up event in pixels
+  }) => ...*/
+
+  // Mouse Event props aren't enumerable, so we can't be simple and use Object.assign or the spread operator
+  // Manually copies the mouse event props into a new object that we can spread in triggerEventHook
+  function copyMouseEventProperties(event: MouseEvent | PointerEvent | WheelEvent) {
+    const mouseEventProperties: any = {}
+
+    for (const property in event) {
+      // Copy all non-function properties
+      if (typeof property !== 'function')
+        mouseEventProperties[property] = event[property]
+    }
+    return mouseEventProperties
+  }
+
   const triggerEventHook = (eventHook: EventHook, event: PointerEvent | MouseEvent | WheelEvent) => {
-    eventHook.trigger({ event, intersects: intersects.value })
+    const eventProperties = copyMouseEventProperties(event)
+
+    eventHook.trigger({ 
+      ...eventProperties, 
+      intersections: intersects.value,
+      // The unprojectedPoint is wrong, math needs to be fixed
+      unprojectedPoint: new Vector3(event?.clientX ?? x.value, event?.clientY ?? y.value, 0).unproject(ctx.camera?.value),
+      ray: ctx.raycaster?.value.ray,
+      camera: ctx.camera?.value,
+      sourceEvent: event,
+      delta,
+      stopPropagating: false,
+    })
   }
 
   let previousPointerMoveEvent: PointerEvent | undefined = undefined
   const onPointerMove = (event: PointerEvent) => {
+
     // Update the raycast intersects
     getIntersects(event)
     triggerEventHook(eventHookPointerMove, event)
@@ -92,9 +132,18 @@ export const useRaycaster = (
 
   // a click event is fired whenever a pointerdown happened after pointerup on the same object
   let mouseDownObject: Object3D | undefined = undefined
+  let mouseDownPosition
+  let mouseUpPosition
 
   const onPointerDown = (event: PointerEvent) => {
     mouseDownObject = intersects.value[0]?.object
+
+    delta = 0
+    mouseDownPosition = new Vector2(
+      event?.clientX ?? x.value,
+      event?.clientY ?? y.value,
+    )
+
     triggerEventHook(eventHookPointerDown, event)
   }
 
@@ -110,7 +159,15 @@ export const useRaycaster = (
     }
 
     if (mouseDownObject === intersects.value[0]?.object) {
-      // We clicked on the object, update the count
+
+      mouseUpPosition = new Vector2(
+        event?.clientX ?? x.value,
+        event?.clientY ?? y.value,
+      )
+
+      // Compute the distance between the mouse down and mouse up events
+      delta = mouseDownPosition.distanceTo(mouseUpPosition)
+
       if (event.button === 0) {
         // Left click
         triggerEventHook(eventHookClick, event)
@@ -140,9 +197,9 @@ export const useRaycaster = (
     }
   }
 
-  const onPointerLeave = (event: PointerEvent) => eventHookPointerMove.trigger({ event, intersects: [] })
+  const onPointerLeave = (event: PointerEvent) => triggerEventHook(eventHookPointerMove, event)
 
-  const onWheel = (event: WheelEvent) => eventHookWheel.trigger({ event, intersects: intersects.value })
+  const onWheel = (event: WheelEvent) => triggerEventHook(eventHookWheel, event)
 
   canvas.value.addEventListener('pointerup', onPointerUp)
   canvas.value.addEventListener('pointerdown', onPointerDown)

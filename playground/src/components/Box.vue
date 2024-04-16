@@ -1,13 +1,14 @@
 
 <script setup lang="ts">
-import { ref, shallowRef, useAttrs } from 'vue'
+import { ref, shallowRef } from 'vue'
 import { useRenderLoop } from '@tresjs/core'
 import { Color } from 'three'
 
 const props = defineProps(['position', 'name'])
 
-const boxRef = shallowRef()
+// TODO: Once we have troika text in cientos, display the count over each box
 const count = ref(0)
+const boxRef = shallowRef()
 
 // Event Testing Colors
 const black = new Color('black')
@@ -25,10 +26,10 @@ onLoop(() => {
   boxRef.value?.material.color.lerp(black, 0.1)
 })
 
-// onClick flash the box green and update the counter
-function handleClick(color: Color) {
-  boxRef.value.material.color.set(color)
+// onClick flash the box a color and update the counter
+function handleClick(color: Color, ev) {
   count.value++
+  ev?.eventObject?.material.color.set(color)
   console.log(`Box ${boxRef.value.name} count=${count.value}`)
 }
 </script>
@@ -37,14 +38,11 @@ function handleClick(color: Color) {
   <TresMesh
     ref="boxRef"
     v-bind="props"
-    @click.self="handleClick(green)"
-    @pointer-missed="handleClick(blue)"
+    @click.self="ev => handleClick(green, ev)"
+    @pointer-missed="ev => handleClick(blue, ev)"
   >
     <TresBoxGeometry />
     <TresMeshStandardMaterial />
-    <!-- <Text fontSize={0.5} font="monospace" position-z={0.501}>
-        {count}
-      </Text> -->
     <slot />
   </TresMesh>
 </template>
