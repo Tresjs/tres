@@ -45,7 +45,7 @@ Tres comes with a few presets for the `TresCanvas` component. You can use them b
 
 ### Realistic
 
-The `realistic` preset makes easy to setup the renderer for more realistic 3D scenes.
+The `realistic` preset makes it easy to setup the renderer for more realistic 3D scenes.
 
 ```vue
 <template>

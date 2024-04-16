@@ -19,7 +19,7 @@ From <Badge text="^3.7.0" /> we are introducing the TresJS Devtools, a customize
 ### Features
 
 - **Scene Inspector**: Inspect the current scene and its components using a tree view similar to the Vue Devtools component inspector.
-- **Memory Allocation**: See how much memory is being by the components.
+- **Memory Allocation**: See how much memory is being consumed by the components.
 - **Object Inspector**: Inspect the properties of the selected object in the scene, including its children.
 - **Editable Properties**: And yes, you can edit the properties of the selected object and see the changes in real-time.
 
