@@ -207,7 +207,10 @@ function handleDeleteSceneNode(sceneNodeId: string) {
           <div @click="selectSceneNode(sceneNode.id) ">
             {{ sceneNode.type }} 
           </div>
-          <div @click="handleDeleteSceneNode(sceneNode.id)">
+          <div
+            v-if="sceneNode.type !== 'camera'"
+            @click="handleDeleteSceneNode(sceneNode.id)"
+          >
             x
           </div>
         </div>
