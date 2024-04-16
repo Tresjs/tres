@@ -140,7 +140,7 @@ Maintenant, voyons à quel point il peux être simple de faire la même chose av
 ```
 
 ::: Info :
-Comme vous l'aurez surement constaté, nous n'avons rien besoin d'importer, car **TresJS** genère automatiquement un **composant Vue basé sur l'objet Three que vous souhaitez en CamelCase avec le préfixe Tres**. Par exemple, si vous voulez une `AmbientLight`, vous pouvez utiliser le composant `<TresAmbientLight />`.
+Comme vous l'aurez surement constaté, nous n'avons rien besoin d'importer, car **TresJS** genère automatiquement un **composant Vue basé sur l'objet Three que vous souhaitez en PascalCase avec le préfixe Tres**. Par exemple, si vous voulez une `AmbientLight`, vous pouvez utiliser le composant `<TresAmbientLight />`.
 :::
 
 ```vue
