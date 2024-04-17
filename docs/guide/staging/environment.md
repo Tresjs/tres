@@ -69,6 +69,22 @@ You can use one of the available presets by passing the `preset` prop:
   <EnvironmentPresetsDemo/>
 </DocsDemo>
 
+## Lightformer
+
+You can incorporate `Lightformer` into the environment just like a slot.
+
+```html
+<Environment>
+  <Lightformer :intensity="0.75" :position="[0, 5, -9]" />
+  <Lightformer from="ring" :rotation-y="-Math.PI / 2" :scale="[10, 10, 1]"/>
+</Environment>
+```
+Lightformer inherits from mesh, and its extension parameters include:
+- `from`: 'circle' | 'ring' | 'rect' | any :other Mesh
+- `intensity`: number : the intensity of the light
+- `color`: the color of the light
+- `args`: the arguments of the Geometry, such as RingGeometry :args
+
 ## Props
 
 | Prop         | Description                                                          | Default                                                                          |
@@ -79,3 +95,7 @@ You can use one of the available presets by passing the `preset` prop:
 | `background` | If `true`, the environment map will be used as the scene background. | `false`                                                                          |
 | `blur`       | Blur factor between 0 and 1. (only works with three 0.146 and up)    | 0                                                                                |
 | `preset`     | Preset environment map.                                              | `undefined`                                                                      |
+| `resolution` | The resolution of the WebGLCubeRenderTarget.                         | 256                                                                              |
+| `near`       | The near of the CubeCamera.                                          | 1                                                                                | 
+| `far`        | The far of the CubeCamera.                                           | 1000                                                                             | 
+| `frames`     | The frames of the cubeCamera.update.                                 | Infinity                                                                         | 
