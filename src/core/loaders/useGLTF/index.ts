@@ -68,9 +68,8 @@ export async function useGLTF<T extends string | string[]>(
   },
   extendLoader?: (loader: GLTFLoader) => void,
 ): Promise<T extends string[] ? GLTFResult[] : GLTFResult> {
-  return await useLoader(
-    GLTFLoader,
-    path,
-    setExtensions(options, extendLoader),
-  )
+  const gltfModel = (await useLoader(GLTFLoader, path, setExtensions(options, extendLoader))) as unknown as GLTFResult
+  dracoLoader?.dispose()
+  dracoLoader = null
+  return gltfModel
 }

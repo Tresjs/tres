@@ -48,7 +48,8 @@
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx,.vue",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
-    "docs:preview": "vitepress preview docs"
+    "docs:preview": "vitepress preview docs",
+    "prepare": "node .husky/install.mjs" 
   },
   "peerDependencies": {
     "@tresjs/core": ">=3.2",
@@ -78,6 +79,7 @@
     "eslint": "^8.56.0",
     "eslint-plugin-vue": "^9.21.1",
     "gsap": "^3.12.5",
+    "husky": "^9.0.11",
     "kolorist": "^1.8.0",
     "pathe": "^1.1.2",
     "release-it": "^17.0.3",
