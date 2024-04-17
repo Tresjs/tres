@@ -29,7 +29,7 @@ export const useRaycaster = (
 ) => {
   // having a separate computed makes useElementBounding work
   const canvas = computed(() => ctx.renderer.value.domElement as HTMLCanvasElement)
-
+  const intersects: ShallowRef<Intersects[]> = shallowRef([])
   const { x, y } = usePointer({ target: canvas })
   let delta = 0
 
@@ -62,8 +62,6 @@ export const useRaycaster = (
 
     return getIntersectsByRelativePointerPosition(pointerPosition) || []
   }
-
-  const intersects: ShallowRef<Intersects[]> = shallowRef([])
 
   const eventHookClick = createEventHook<PointerClickEventPayload>()
   const eventHookDblClick = createEventHook<PointerClickEventPayload>()

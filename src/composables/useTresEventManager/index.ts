@@ -1,5 +1,5 @@
 import { computed, shallowRef } from 'vue'
-import type { Object3D } from 'three'
+import type { Object3D, Scene } from 'three'
 import type { TresContext } from '../useTresContextProvider'
 import { useRaycaster } from '../useRaycaster'
 import type { Intersects } from '../useRaycaster'
@@ -20,14 +20,15 @@ export interface TresEventManager {
 }
 
 export function useTresEventManager(
-  scene: THREE.Scene, 
-  context: TresContext, 
-  emit: (event: string, ...args: any[]) => void) {
-  const _scene = shallowRef<THREE.Scene>()
+  scene: Scene,
+  context: TresContext,
+  emit: (event: string, ...args: any[]) => void,
+) {
+  const _scene = shallowRef<Scene>()
   const _context = shallowRef<TresContext>()
 
-  if (scene) _scene.value = scene
-  if (context) _context.value = context
+  if (scene) { _scene.value = scene }
+  if (context) { _context.value = context }
 
   // TODO: Optimize to not hit test on the whole scene
   const sceneChildren = computed(() =>
@@ -56,8 +57,7 @@ export function useTresEventManager(
    *
    * Propogates an event to all intersected objects and their parents
    * @param eventName - The name of the event to propogate
-   * @param event - The event object
-   * @param intersects - An array of intersections
+   * @param event - The event object to propogate
    */
   function propogateEvent(eventName: string, event) {
     // Array of objects we've already propogated to
@@ -69,7 +69,7 @@ export function useTresEventManager(
 
     // Loop through all intersected objects and call their event handler
     for (const intersection of event?.intersections) {
-      if (event.stopPropagating) return
+      if (event.stopPropagating) { return }
 
       // Add intersection data to event object
       event = { ...event, ...intersection }
@@ -86,7 +86,7 @@ export function useTresEventManager(
         if (duplicates.includes(parentObj)) {
           break
         }
-        
+
         // Sets eventObject to object that registered the event listener
         event.eventObject = parentObj
         executeEventListeners(parentObj[eventName], event)
@@ -150,28 +150,28 @@ export function useTresEventManager(
     prevIntersections = hits
   })
 
+  /**
+   * We need to track pointer missed objects separately
+   * since they will not be a part of the raycaster intersection
+   */
+  const pointerMissedObjects: Object3D[] = []
   onPointerMissed((event) => {
     // Flag that is set to true when the stopProgatingFn is called
     const stopPropagatingFn = () => (event.stopPropagating = true)
     event.stopPropagation = stopPropagatingFn
 
     pointerMissedObjects.forEach((object: Object3D) => {
-      if (event.stopPropagating) return
+      if (event.stopPropagating) { return }
 
       // Set eventObject to object that registered the event
       event.eventObject = object
 
-      executeEventListeners(object['onPointerMissed'], event)
+      executeEventListeners(object.onPointerMissed, event)
     })
     // Emit pointer-missed from TresCanvas
     emit('pointer-missed', { event })
   })
 
-  /**
-   * We need to track pointer missed objects separately
-   * since they will not be a part of the raycaster intersection
-   */ 
-  const pointerMissedObjects: Object3D[] = []
   function registerPointerMissedObject(object: Object3D) {
     pointerMissedObjects.push(object)
   }
@@ -184,11 +184,11 @@ export function useTresEventManager(
   }
 
   // Attach methods to tres context
-  context.eventManager = {  
+  context.eventManager = {
     forceUpdate,
     registerPointerMissedObject,
     deregisterPointerMissedObject,
-  }   
-  
+  }
+
   return { forceUpdate, registerPointerMissedObject, deregisterPointerMissedObject }
 }

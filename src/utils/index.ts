@@ -40,7 +40,7 @@ export function kebabToCamel(str: string) {
   return str.replace(/-([a-z])/g, (_, c) => c.toUpperCase())
 }
 
-//CamelCase to kebab-case
+// CamelCase to kebab-case
 const hyphenateRE = /\B([A-Z])/g
 export function hyphenate(str: string) {
   return str.replace(hyphenateRE, '-$1').toLowerCase()

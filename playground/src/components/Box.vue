@@ -1,4 +1,3 @@
-
 <script setup lang="ts">
 import { ref, shallowRef } from 'vue'
 import { useRenderLoop } from '@tresjs/core'
@@ -13,12 +12,8 @@ const boxRef = shallowRef()
 // Event Testing Colors
 const black = new Color('black')
 const green = new Color('green')
-const red = new Color('red')
+
 const blue = new Color('blue')
-const yellow = new Color('yellow')
-const white = new Color('white')
-const purple = new Color('purple')
-const cyan = new Color('cyan')
 
 // Once the box has flashed green, lerp it back to black
 const { onLoop } = useRenderLoop()
@@ -30,6 +25,7 @@ onLoop(() => {
 function handleClick(color: Color, ev) {
   count.value++
   ev?.eventObject?.material.color.set(color)
+  // eslint-disable-next-line no-console
   console.log(`Box ${boxRef.value.name} count=${count.value}`)
 }
 </script>
@@ -43,6 +39,6 @@ function handleClick(color: Color, ev) {
   >
     <TresBoxGeometry />
     <TresMeshStandardMaterial />
-    <slot />
+    <slot></slot>
   </TresMesh>
 </template>

@@ -3,17 +3,10 @@ import { onUnmounted, ref } from 'vue'
 import {
   TresCanvas,
 } from '@tresjs/core'
-import { BasicShadowMap, BoxGeometry, Mesh, MeshBasicMaterial, NoToneMapping, SRGBColorSpace } from 'three'
+import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
 import { OrbitControls } from '@tresjs/cientos'
 import '@tresjs/leches/styles'
 import Box from '../../components/Box.vue'
-
-// Create a box geometry and a basic material
-const geometry = new BoxGeometry(1, 1, 1)
-const material = new MeshBasicMaterial({ color: 0x00FF00 })
-
-// Create a mesh with the geometry and material
-const meshWithMaterial = new Mesh(geometry, material)
 
 const gl = {
   clearColor: '#202020',
