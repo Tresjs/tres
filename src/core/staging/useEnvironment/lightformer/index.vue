@@ -1,4 +1,9 @@
 <script setup lang="ts">
+/* 
+** This section of code is inspired by the Lightformer component from the drei library:
+** https://github.com/pmndrs/drei/blob/master/src/core/Lightformer.tsx
+** The Lightformer component in drei provides functionality for creating light probes in a scene.
+*/
 import { defineProps, ref, watchEffect } from 'vue'
 import type { MeshBasicMaterial, Texture } from 'three'
 import { Color, DoubleSide } from 'three'
@@ -31,14 +36,14 @@ watchEffect(() => {
 <template>
   <TresMesh>
     <TresRingGeometry
-      v-if="props.from === 'circle'"
+      v-if="from === 'circle'"
       :args="[0, 1, 64]"
     />
     <TresRingGeometry
-      v-else-if="props.from === 'ring'"
+      v-else-if="from === 'ring'"
       :args="[0.5, 1, 64]"
     />
-    <TresPlaneGeometry v-else-if="props.from === 'rect'" />
+    <TresPlaneGeometry v-else-if="from === 'rect'" />
     <props.from
       v-else
       :args="props"
