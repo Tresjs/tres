@@ -9,15 +9,15 @@
 ::: code-group
 
 ```bash [npm]
-npm install @tresjs/core three 
+npm install @tresjs/core three
 ```
 
 ```bash [yarn]
-yarn add @tresjs/core three 
+yarn add @tresjs/core three
 ```
 
 ```bash [pnpm]
-pnpm add @tresjs/core three 
+pnpm add @tresjs/core three
 ```
 
 :::
@@ -44,7 +44,7 @@ pnpm add @types/three -D
 
 ## Vite
 
-If you are using Vite, you have add the following to your `vite.config.ts`:
+If you are using Vite, you just need to import and add the `templateCompilerOptions` from TresJS to your `vite.config.ts` inside of the vue plugin:
 
 ```ts
 import { templateCompilerOptions } from '@tresjs/core'
@@ -56,16 +56,16 @@ export default defineConfig({
       ...templateCompilerOptions
     }),
   ],
-}),
+})
 ```
 
-This is required to make the template compiler work with the custom renderer and not throw warnings on the console. For more info check [here](/guide/troubleshooting.html).
+This is required to make the template compiler work with the custom renderer so it does not throw warnings on the console. For more info check [here](/guide/troubleshooting.html).
 
 ## Try it online
 
-### Sandbox
+### Playground
 
-You can try TresJS online using the official [sandbox](https://play.tresjs.org/). Check it out:
+You can try TresJS online using the official [playground](https://play.tresjs.org/). Check it out:
 
 <iframe src="https://play.tresjs.org/" class="w-full rounded shadow-lg outline-none border-none aspect-4/3"></iframe>
 
@@ -75,23 +75,21 @@ We have a brand new [StackBlitz](https://stackblitz.com/) starter to try TresJS 
 
 ![](/stackblitz-starter.png)
 
-<StackBlitzEmbed projectId="tresjs-basic" />
+## Labs
 
-## Playground
+We also have a showcase lab of examples made with TresJS. Check it out [here](https://playground.tresjs.org/).
 
-We also have a playground where you can try TresJS online. Check it out [here](https://playground.tresjs.org/).
-
-![](/playground.png)
+![](/tresjs-lab.png)
 
 ## Motivation
 
-[ThreeJS](https://threejs.org/) is a wonderful library to create awesome **WebGL** 3D websites. Is also a constantly updated library that makes hard for wrapper maintainers like [TroisJS](https://troisjs.github.io/) to keep up with all the enhancements.
+[ThreeJS](https://threejs.org/) is a wonderful library to create awesome **WebGL** 3D websites. It's also a library, which is constantly updated, which makes it hard for wrapper maintainers like [TroisJS](https://troisjs.github.io/) to keep up with all the enhancements.
 
-React ecosystem has an impresive **custom render** solution called [React-three-fiber](https://docs.pmnd.rs/react-three-fiber) that allows you build your scenes declaratively with re-usable, self-contained components that react to state.
+The React ecosystem has an impressive **custom render** solution called [React-three-fiber](https://docs.pmnd.rs/react-three-fiber) that allows you build your scenes declaratively with re-usable, self-contained components that react to state.
 
-In my search for something similar in the VueJS ecosystem, I found this amazing library called [Lunchbox](https://github.com/breakfast-studio/lunchboxjs) which works with the same concept that R3F, it provides a [custom Vue3 Renderer](https://vuejs.org/api/custom-renderer.html). I'm also contributing to improve this library so it gets as mature and feature-rich as R3F.
+In my search for something similar in the VueJS ecosystem, I found this amazing library called [Lunchbox](https://github.com/breakfast-studio/lunchboxjs), which works with the same concept as R3F, it provides a [custom Vue3 Renderer](https://vuejs.org/api/custom-renderer.html). I'm also contributing to improve this library so it gets as mature and feature-rich as R3F.
 
-The only problem is, mixing compilers renderers in Vue 3 is something the Vue community is still working on - see [here](https://github.com/vuejs/vue-loader/pull/1645) for more information.
+The only issue with this is, mixing compilers renderers in Vue 3 is something the Vue community is still working on - see [here](https://github.com/vuejs/vue-loader/pull/1645) for more information.
 
 ```ts
 // Example Vite setup
@@ -111,4 +109,3 @@ lunchboxApp.mount('#lunchbox')
 ```
 
 So I was inspired by both libraries to create a Vue custom renderer for ThreeJS. That's **TresJS v2**.
-

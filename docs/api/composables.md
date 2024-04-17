@@ -13,13 +13,13 @@ The `useRenderLoop` composable is the core of **TresJS** animations. It allows y
 ```ts
 const { onLoop, resume } = useRenderLoop()
 
-onLoop(({ delta, elapsed, clock, dt }) => {
+onLoop(({ delta, elapsed, clock }) => {
   // I will run at every frame ~60FPS (depending of your monitor)
 })
 ```
 
 ::: warning
-Be mindfull of the performance implications of using this composable. It will run at every frame, so if you have a lot of logic in your callback, it might impact the performance of your app. Specially if you are updating reactive states or references.
+Be mindful of the performance implications of using this composable. It will run at every frame, so if you have a lot of logic in your callback, it might impact the performance of your app. Specially if you are updating reactive states or references.
 :::
 
 The `onLoop` callback receives an object with the following properties based on the [THREE clock](https://threejs.org/docs/?q=clock#api/en/core/Clock):
@@ -27,7 +27,7 @@ The `onLoop` callback receives an object with the following properties based on 
 - `delta`: The delta time between the current and the last frame. This is the time in seconds since the last frame.
 - `elapsed`: The elapsed time since the start of the render loop.
 
-This composable is based on `useRafFn` from [vueuse](https://vueuse.org/core/useRafFn/). Thanks to [@wheatjs](https://github.com/orgs/Tresjs/people/wheatjs) for the amazing contribution.
+This composable is based on `useRafFn` from [vueuse](https://vueuse.org/core/useRafFn/). Thanks to [@wheatjs](https://github.com/wheatjs) for the amazing contribution.
 
 ### Before and after render
 
@@ -148,6 +148,12 @@ Then you can bind the textures to the material.
 </template>
 ```
 
+`useTexture` by default takes the second argument 'manager' as LoadingManager. When omitted, it will automatically be added to `THREE.DefaultLoadingManager`. Of course, you can also add your own LoadingManager, like this:
+```ts
+const loadingManager = new LoadingManager()
+const texture = await useTexture({ map: 'path/to/texture.png' }, loadingManager)
+```
+
 Similar to above composable, the `useTexture` composable returns a promise, you can use it with `async/await` or `then/catch`. If you are using it on a component make sure you wrap it with a `Suspense` component.
 
 ## useSeek
@@ -196,11 +202,10 @@ This composable aims to provide access to the state model which contains multipl
 
 ```ts
 const { camera, renderer, camera, cameras } = useTresContext()
-
 ```
 
 ::: warning
-`useTresContext` can be only be used inside of a `TresCanvas` since `TresCanvas` acts as the provider for the context data. Use [the context exposed by TresCanvas](tres-canvas#exposed-public-properties) if you find yourself needing it in parent components of TresCanvas. 
+`useTresContext` can be only be used inside of a `TresCanvas` since `TresCanvas` acts as the provider for the context data. Use [the context exposed by TresCanvas](tres-canvas#exposed-public-properties) if you find yourself needing it in parent components of TresCanvas.
 :::
 
 ```vue
@@ -222,15 +227,14 @@ const context = useTresContext()
 ### Properties of context
 | Property | Description |
 | --- | --- |
-| **camera** | the currently active camera |
-| **cameras** | the cameras that exist in the scene |
-| **controls** | the controls of your scene |
-| **deregisterCamera** | a method to deregister a camera. This is only required if you manually create a camera. Cameras in the template are deregistered automatically. |
+| **camera** | The currently active camera |
+| **cameras** | The cameras that exist in the scene |
+| **controls** | The controls of your scene |
+| **deregisterCamera** | A method to deregister a camera. This is only required if you manually create a camera. Cameras in the template are deregistered automatically. |
 | **extend** | Extends the component catalogue. See [extending](/advanced/extending) |
-| **raycaster** | the global raycaster used for pointer events |
-| **registerCamera** | a method to register a camera. This is only required if you manually create a camera. Cameras in the template are registered automatically. |
-| **renderer** | the [WebGLRenderer](https://threejs.org/docs/#api/en/renderers/WebGLRenderer) of your scene |
-| **scene** | the [scene](https://threejs.org/docs/?q=sce#api/en/scenes/Scene). |
-| **setCameraActive** | a method to set a camera active |
-| **sizes** | contains width, height and aspect ratio of your canvas |
-
+| **raycaster** | The global raycaster used for pointer events |
+| **registerCamera** | A method to register a camera. This is only required if you manually create a camera. Cameras in the template are registered automatically. |
+| **renderer** | The [WebGLRenderer](https://threejs.org/docs/#api/en/renderers/WebGLRenderer) of your scene |
+| **scene** | The [scene](https://threejs.org/docs/?q=sce#api/en/scenes/Scene). |
+| **setCameraActive** | A method to set a camera active |
+| **sizes** | Contains width, height and aspect ratio of your canvas |

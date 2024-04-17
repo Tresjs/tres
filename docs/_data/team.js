@@ -22,6 +22,7 @@ export const core = [
       { icon: 'github', link: 'https://github.com/JaimeTorrealba' },
       { icon: 'twitter', link: 'https://twitter.com/jaimebboyjt' },
     ],
+    sponsor: 'https://github.com/sponsors/JaimeTorrealba',
   },
   {
     avatar: 'https://www.github.com/Tinoooo.png',

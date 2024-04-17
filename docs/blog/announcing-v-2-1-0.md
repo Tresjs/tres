@@ -90,8 +90,15 @@ This was highly requested by the community, so thanks to everyone that contribut
 ```vue
 <template>
   <TresCanvas shadows alpha>
-    <TresPerspectiveCamera :args="[45, 1, 0.1, 1000] />
-    <OrbitControls enable-damping :damping-factor="0.1" @start="onOrbitControlStart" />
+    <TresPerspectiveCamera
+      :args="[45, 1, 0.1, 1000]"
+    />
+    <OrbitControls
+      enable-damping
+      :damping-factor="
+        0.1"
+      @start="onOrbitControlStart"
+    />
   </TresCanvas>
 </template>
 ```

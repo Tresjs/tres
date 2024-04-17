@@ -1,3 +1,4 @@
+<!-- eslint-disable no-console -->
 <script setup lang="ts">
 import { useGLTF } from '@tresjs/cientos'
 import { useControls } from '@tresjs/leches'
@@ -9,7 +10,7 @@ const { nodes } = await useGLTF(
 
 const model = nodes.AkuAku
 
-/* useControls({
+useControls({
   button: {
     label: 'Manual dispose',
     type: 'button',
@@ -17,7 +18,7 @@ const model = nodes.AkuAku
       disposeModel()
     },
   },
-}) */
+})
 
 function disposeModel() {
   console.log('disposingModel')
@@ -27,7 +28,7 @@ function disposeModel() {
       if (child.material) {
         child.material.dispose()
       }
-        
+
       // Dispose of the geometry
       if (child.geometry) {
         child.geometry.dispose()

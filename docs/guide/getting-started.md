@@ -46,9 +46,8 @@ You can install TresJS as any other Vue plugin
 
 ```ts
 import { createApp } from 'vue'
-import App from './App.vue'
-
 import Tres from '@tresjs/core'
+import App from './App.vue'
 
 export const app = createApp(App)
 
@@ -62,6 +61,7 @@ Or you can use it directly in your component
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
 </script>
+
 <template>
   <TresCanvas>
     <!-- Your scene here -->
@@ -77,16 +77,17 @@ This is recommended for performance and bundle size reasons, tree-shaking will w
 
 Since v2 is a custom renderer, we need to let the `vue-compiler` of your app know that the components of Tres are ok to be included to avoid the `[Vue warn]: Failed to resolve component` warning.
 
-You just need to add this to your `vite.config.ts` inside of the vue plugin:
+You just need to import and add the `templateCompilerOptions` from TresJS to your `vite.config.ts` inside of the vue plugin:
 
 ```ts
+import { templateCompilerOptions } from '@tresjs/core'
+
 export default defineConfig({
-  plugins: [vue({
-    template: {
-      compilerOptions: {
-        isCustomElement: tag => tag.startsWith('Tres') && tag !== 'TresCanvas',
-      },
-    },
-  }),
+  plugins: [
+    vue({
+      // Other config
+      ...templateCompilerOptions
+    }),
+  ]
 })
 ```

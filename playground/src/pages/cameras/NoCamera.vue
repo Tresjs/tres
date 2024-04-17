@@ -20,7 +20,7 @@ const useOwnCamera = ref(false)
     <input
       v-model="useOwnCamera"
       type="checkbox"
-    >
+    />
     <div class="w-1/2 aspect-video">
       <TresCanvas
         v-bind="state"

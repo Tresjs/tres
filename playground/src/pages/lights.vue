@@ -19,7 +19,7 @@ const planeRef: Ref<TresObject | null> = ref(null)
 
 <template>
   <TresCanvas
-   
+
     v-bind="gl"
   >
     <TresPerspectiveCamera
@@ -28,7 +28,7 @@ const planeRef: Ref<TresObject | null> = ref(null)
       :position="[3, 3, 3]"
     />
     <OrbitControls />
-   
+
     <TresDirectionalLight
       v-light-helper
       v-always-look-at="[8, 16, 0]"

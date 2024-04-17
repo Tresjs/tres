@@ -10,7 +10,7 @@ This guide will help you to create your first Tres scene. 🍩
 
 ## Setting up the experience Canvas
 
-Before we can create a Scene, we need somewhere to display it. Using plain [ThreeJS](https://threejs.org/docs/index.html#manual/en/introduction/Creating-a-scene) we would need to create a `canvas` HTML element to mount the `WebglRenderer` and initialize the `scene`
+Before we can create a ThreeJS `Scene`, we need a space to display it. Using plain [ThreeJS](https://threejs.org/docs/index.html#manual/en/introduction/Creating-a-scene) we would need to create a `canvas` HTML element to mount the `WebglRenderer` and initialize the `Scene`.
 
 With **TresJS** you only need to import the default component `<TresCanvas />` and add it to the template of your Vue component.
 
@@ -30,7 +30,7 @@ import { TresCanvas } from '@tresjs/core'
 It's important that all components related to the scene live between the `<TresCanvas />` component. Otherwise, they will be not rendered.
 :::
 
-The `TresCanvas` component is going to do some setup work behind the scene:
+The `TresCanvas` component is going to do some setup work behind the scenes:
 
 - It creates a [**WebGLRenderer**](https://threejs.org/docs/index.html?q=webglrend#api/en/renderers/WebGLRenderer) that automatically updates every frame.
 - It sets the render loop to be called on every frame based on the browser refresh rate.
@@ -109,7 +109,7 @@ Then you can add a [**PerspectiveCamera**](https://threejs.org/docs/index.html?q
 ```
 
 ::: warning
-A common issue is that the camera default position is the origin of the scene (0,0,0), TresJS will automatically set the position of your camera to `[3,3,3]` if the prop `position`. If no camera is defined in you scene, a perspective camera is added automatically.`
+A common issue is that the camera default position is the origin of the scene (0,0,0). TresJS will automatically set the position of your camera to `[3,3,3]` if the prop `position` is not set by you. If no camera is defined in you scene, a perspective camera is added automatically.
 :::
 
 ## Adding a 🍩
@@ -125,7 +125,7 @@ scene.add(donut)
 
 A **Mesh** is a basic scene object in three.js, and it's used to hold the geometry and the material needed to represent a shape in 3D space.
 
-Now let's see how we can easily achieve the same with **TresJS**. To do that we are going to use `<TresMesh />` component, and between the default slots, we are going to pass a `<TresTorusGeometry />` and a `<TresMeshBasicMaterial />`.
+Now let's see how we can easily achieve the same with **TresJS**. To do that we are going to use the `<TresMesh />` component, and between the default slots, we are going to pass a `<TresTorusGeometry />` and a `<TresMeshBasicMaterial />` component.
 
 ```vue
 <template>
@@ -140,10 +140,8 @@ Now let's see how we can easily achieve the same with **TresJS**. To do that we 
 ```
 
 ::: info
-Notice that we don't need to import anything, that's because **TresJS** automatically generate a **Vue Component based on the Three Object you want to use in CamelCase with a Tres prefix**. For example, if you want to use an `AmbientLight` you would use `<TresAmbientLight />` component.
+Notice that we don't need to import anything, that's because **TresJS** automatically generate a **Vue Component based on the three objects you want to use in PascalCase with a Tres prefix**. For example, if you want to use an `AmbientLight` you would use the `<TresAmbientLight />` component.
 :::
-
-
 
 ```vue
 <script setup lang="ts">

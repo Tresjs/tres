@@ -1,5 +1,5 @@
-import { toValue, useElementSize, useFps, useMemory, useRafFn, useWindowSize, refDebounced } from '@vueuse/core'
-import { inject, provide, readonly, shallowRef, computed, ref, onUnmounted, watchEffect } from 'vue'
+import { useFps, useMemory, useRafFn } from '@vueuse/core'
+import { inject, onUnmounted, provide, readonly, ref, shallowRef } from 'vue'
 import type { Camera, EventDispatcher, Scene, WebGLRenderer } from 'three'
 import { Raycaster } from 'three'
 import type { ComputedRef, DeepReadonly, MaybeRef, MaybeRefOrGetter, Ref, ShallowRef } from 'vue'
@@ -8,10 +8,11 @@ import { useCamera } from '../useCamera'
 import type { UseRendererOptions } from '../useRenderer'
 import { useRenderer } from '../useRenderer'
 import { extend } from '../../core/catalogue'
+import useSizes, { type SizesType } from '../useSizes'
 
 export interface TresContext {
   scene: ShallowRef<Scene>
-  sizes: { height: Ref<number>; width: Ref<number>; aspectRatio: ComputedRef<number> }
+  sizes: SizesType
   extend: (objects: any) => void
   camera: ComputedRef<Camera | undefined>
   cameras: DeepReadonly<Ref<Camera[]>>
@@ -48,32 +49,8 @@ export function useTresContextProvider({
   disableRender: MaybeRefOrGetter<boolean>
   rendererOptions: UseRendererOptions
 }): TresContext {
+  const sizes = useSizes(windowSize, canvas)
 
-  const elementSize = computed(() =>
-    toValue(windowSize)
-      ? useWindowSize()
-      : useElementSize(toValue(canvas).parentElement),
-  )
-
-  const reactiveSize = shallowRef({
-    width: 0,
-    height: 0,
-  })
-  const debouncedReactiveSize = refDebounced(reactiveSize, 10)
-  const unWatchSize = watchEffect(() => {
-    reactiveSize.value = {
-      width: elementSize.value.width.value,
-      height: elementSize.value.height.value,
-    }
-  })
-
-  const aspectRatio = computed(() => debouncedReactiveSize.value.width / debouncedReactiveSize.value.height)
-
-  const sizes = {
-    height: computed(() => debouncedReactiveSize.value.height),
-    width: computed(() => debouncedReactiveSize.value.width),
-    aspectRatio,
-  }
   const localScene = shallowRef<Scene>(scene)
   const {
     camera,
@@ -90,7 +67,8 @@ export function useTresContextProvider({
       options: rendererOptions,
       contextParts: { sizes, camera },
       disableRender,
-    })
+    },
+  )
 
   const toProvide: TresContext = {
     sizes,
@@ -128,7 +106,6 @@ export function useTresContextProvider({
   let lastUpdateTime = performance.now()
 
   const updatePerformanceData = ({ timestamp }: { timestamp: number }) => {
-
     // Update WebGL Memory Usage (Placeholder for actual logic)
     // perf.memory.value = calculateMemoryUsage(gl)
     if (toProvide.scene.value) {
@@ -158,7 +135,6 @@ export function useTresContextProvider({
 
         toProvide.perf.memory.currentMem
         = toProvide.perf.memory.accumulator.reduce((a, b) => a + b, 0) / toProvide.perf.memory.accumulator.length
-
       }
     }
   }
@@ -167,8 +143,8 @@ export function useTresContextProvider({
   let accumulatedTime = 0
   const interval = 1 // Interval in milliseconds, e.g., 1000 ms = 1 second
 
-  const { pause, resume } = useRafFn(({ delta }) => {
-    if (!window.__TRES__DEVTOOLS__) return
+  const { pause } = useRafFn(({ delta }) => {
+    if (!window.__TRES__DEVTOOLS__) { return }
 
     updatePerformanceData({ timestamp: performance.now() })
 
@@ -185,7 +161,6 @@ export function useTresContextProvider({
   }, { immediate: true })
 
   onUnmounted(() => {
-    unWatchSize()
     pause()
   })
 
