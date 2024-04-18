@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { TresObject } from '@tresjs/core'
-import { TresCanvas, vLightHelper, vAlwaysLookAt, vDistanceTo, vLog, vRotate } from '@tresjs/core'
-import { BasicShadowMap, SRGBColorSpace, NoToneMapping } from 'three'
+import { TresCanvas, vAlwaysLookAt, vDistanceTo, vLightHelper, vLog, vRotate } from '@tresjs/core'
+import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
 
 import { OrbitControls } from '@tresjs/cientos'
 
@@ -54,7 +54,6 @@ const planeRef: Ref<TresObject | null> = ref(null)
       <TresMeshToonMaterial color="red" />
     </TresMesh>
     <TresMesh
-      
       :position="[2, 4, 0]"
       cast-shadow
     >

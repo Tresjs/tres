@@ -78,5 +78,3 @@ import { vRotate } from '@tresjs/core'
   </TresCanvas>
 </template>
 ```
-
-_Note default speed is 0.01_

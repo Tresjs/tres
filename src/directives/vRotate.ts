@@ -11,7 +11,7 @@ export const vRotate = {
     binding: {
       arg: 'x' | 'y' | 'z'
       value: number
-      modifiers: Partial<{ x: boolean; y: boolean; z: boolean }>
+      modifiers: Partial<{ x: boolean, y: boolean, z: boolean }>
     },
   ) => {
     if (el.isCamera) {
