@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import CameraControls from 'camera-controls'
-import { ref, watchEffect, onUnmounted, toRefs } from 'vue'
+import { ref, watchEffect, onUnmounted, toRefs, computed } from 'vue'
 import type {
   PerspectiveCamera,
   OrthographicCamera,
@@ -321,9 +321,8 @@ const props = withDefaults(defineProps<CameraControlsProps>(), {
   boundaryFriction: 0.0,
   restThreshold: 0.01,
   colliderMeshes: () => [],
-  // FIXME: set default values for mouseButtons and touches
-  // mouseButtons: {},
-  // touches: {}
+  mouseButtons: () => defaultMouseButtons,
+  touches: () => defaultTouches,
 })
 
 const emit = defineEmits(['change', 'start', 'end'])
@@ -354,7 +353,19 @@ const {
   boundaryFriction,
   restThreshold,
   colliderMeshes,
+  mouseButtons: mouseButtonsRef,
+  touches: touchesRef,
 } = toRefs(props)
+
+const mouseButtons = computed(() => ({
+  ...defaultMouseButtons,
+  ...mouseButtonsRef.value,
+}))
+
+const touches = computed(() => ({
+  ...defaultTouches,
+  ...touchesRef.value,
+}))
 
 // allow for tree shaking, only importing required classes
 const subsetOfTHREE = {
@@ -411,6 +422,21 @@ defineExpose({
 })
 </script>
 
+<script lang="ts">
+const defaultMouseButtons: CameraControls['mouseButtons'] = {
+  left: CameraControls.ACTION.ROTATE,
+  middle: CameraControls.ACTION.DOLLY,
+  right: CameraControls.ACTION.TRUCK,
+  wheel: CameraControls.ACTION.DOLLY,
+}
+
+const defaultTouches: CameraControls['touches'] = {
+  one: CameraControls.ACTION.TOUCH_ROTATE,
+  two: CameraControls.ACTION.TOUCH_DOLLY_TRUCK,
+  three: CameraControls.ACTION.TOUCH_TRUCK,
+}
+</script>
+
 <template>
   <TresCameraControls
     v-if="(camera || activeCamera) && (domElement || renderer)"
@@ -440,5 +466,7 @@ defineExpose({
     :rest-threshold="restThreshold"
     :collider-meshes="colliderMeshes"
     :args="[camera || activeCamera, domElement || renderer.domElement]"
+    :mouse-buttons="mouseButtons"
+    :touches="touches"
   />
 </template>
