@@ -30,4 +30,3 @@ Enjoy the new Devtools and let us know what you think! 🎉
 From `v4` it's possible to see the renderer information in the Devtools when inspecting the root object (Scene). This is useful to know what renderer is being used and its properties including the programs (shaders) and the capabilities of the renderer.
 
 ![](/devtools-v4.png)
-

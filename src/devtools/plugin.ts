@@ -6,7 +6,7 @@ import {
 } from '@vue/devtools-api'
 import { reactive } from 'vue'
 import type { Mesh, Object3D } from 'three'
-import { createHighlightMesh, editSceneObject, get } from '../utils'
+import { createHighlightMesh, editSceneObject } from '../utils'
 import { bytesToKB, calculateMemoryUsage } from '../utils/perf'
 import type { TresContext } from '../composables'
 import type { TresObject } from './../types'
@@ -93,8 +93,8 @@ const createNode = (object: TresObject): SceneGraphObject => {
 
 function buildGraph(object: TresObject, node: SceneGraphObject, filter: string = '') {
   object.children.forEach((child: TresObject) => {
-    if (child.type === 'HightlightMesh') return
-    if (filter && !child.type.includes(filter) && !child.name.includes(filter)) return
+    if (child.type === 'HightlightMesh') { return }
+    if (filter && !child.type.includes(filter) && !child.name.includes(filter)) { return }
 
     const childNode = createNode(child)
     node.children.push(childNode)
@@ -267,7 +267,7 @@ export function registerTresDevtools(app: DevtoolsApp, tres: TresContext) {
               triangles: tres.renderer.value.info.render.triangles,
               points: tres.renderer.value.info.render.points,
               lines: tres.renderer.value.info.render.lines,
-            },
+            }
             payload.state.programs = tres.renderer.value.info.programs?.map(program => ({
               key: program.name || program.type,
               value: {
