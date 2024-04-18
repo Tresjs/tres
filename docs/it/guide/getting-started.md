@@ -64,7 +64,7 @@ import { TresCanvas } from "@tresjs/core";
 
 <template>
   <TresCanvas>
-    <!-- Your scene here -->
+    <!-- Ecco la tua scena -->
   </TresCanvas>
 </template>
 ```
@@ -75,7 +75,7 @@ Questo è consigliato per motivi di prestazioni e dimensioni del bundle, il tree
 
 ## Vite
 
-Poiché la v2 è un renderer personalizzato, dobbiamo far sapere al `vue-compiler` della tua app che i componenti di Tres sono ok per essere inclusi per evitare l'avviso `[Vue warn]: Failed to resolve component`.
+Poiché la v2 è un renderer personalizzato, dobbiamo far sapere al `vue-compiler` della tua app che i componenti di Tres sono pronti per essere inclusi e per evitare l'avviso `[Vue warn]: Failed to resolve component`.
 
 Devi solo importare e aggiungere le `templateCompilerOptions` da TresJS al tuo `vite.config.ts` all'interno del plugin vue:
 
@@ -85,7 +85,7 @@ import { templateCompilerOptions } from "@tresjs/core";
 export default defineConfig({
   plugins: [
     vue({
-      // Other config
+      // Altre config
       ...templateCompilerOptions,
     }),
   ],

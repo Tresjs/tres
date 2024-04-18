@@ -1,4 +1,4 @@
-# Introduction
+# Introduzione
 
 <ClientOnly>
     <div style="aspect-ratio: 16/9; height: auto; margin: 2rem 0; border-radius: 8px; overflow:hidden;">
@@ -52,7 +52,7 @@ import { templateCompilerOptions } from "@tresjs/core";
 export default defineConfig({
   plugins: [
     vue({
-      // Other config
+      // Altre config
       ...templateCompilerOptions,
     }),
   ],
@@ -61,7 +61,7 @@ export default defineConfig({
 
 Questo è necessario per far funzionare il compilatore dei template con il renderer personalizzato in modo che non lanci avvisi sulla console. Per ulteriori informazioni, controlla [qui](/guide/troubleshooting.html).
 
-## Try it online
+## Prova online
 
 ### Playground
 
@@ -81,9 +81,9 @@ Abbiamo un nuovo starter di StackBlitz per provare TresJS online. Dai un'occhiat
 
 ![](/tresjs-lab.png)
 
-## Motivation
+## Motivazione
 
-[ThreeJS](https://threejs.org/) è una meravigliosa libreria per creare fantastici siti web 3D **WebGL**. È anche una libreria che viene costantemente aggiornata, il che rende difficile per i manutentori dei wrapper come [TroisJS](https://troisjs.github.io/) tenere il passo con tutti gli miglioramenti.
+[ThreeJS](https://threejs.org/) è una meravigliosa libreria nata per creare fantastici siti web 3D **WebGL**. È anche una libreria che viene costantemente aggiornata, il che rende difficile per i maintainers dei wrapper come [TroisJS](https://troisjs.github.io/) tenere il passo con tutti gli miglioramenti.
 
 L'ecosistema React ha una soluzione di **render personalizzato** impressionante chiamata [React-three-fiber](https://docs.pmnd.rs/react-three-fiber) che ti consente di costruire le tue scene in modo dichiarativo con componenti riutilizzabili e autocontenuti che reagiscono allo stato.
 
@@ -92,7 +92,7 @@ Nella mia ricerca di qualcosa di simile nell'ecosistema VueJS, ho trovato questa
 L'unico problema è che mescolare i renderer dei compilatori in Vue 3 è qualcosa su cui la comunità Vue sta ancora lavorando - vedi [qui](https://github.com/vuejs/vue-loader/pull/1645) per ulteriori informazioni.
 
 ```ts
-// Example Vite setup
+// Esempio Vite setup
 import { createApp } from "vue";
 import { createApp as createLunchboxApp } from "lunchboxjs";
 import App from "./App.vue";
@@ -104,7 +104,7 @@ app.mount("#app");
 
 // lunchbox app
 const lunchboxApp = createLunchboxApp(LunchboxApp);
-// assuming there's an element with ID `lunchbox` in your HTML app
+// assumendo ci sia un elemento con ID `lunchbox` nella tua app HTML
 lunchboxApp.mount("#lunchbox");
 ```
 
