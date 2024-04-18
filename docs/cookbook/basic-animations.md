@@ -24,7 +24,7 @@ To see a detailed explanation of how it works, please refer to the [useRenderLoo
 const { onLoop } = useRenderLoop()
 
 onLoop(({ delta, elapsed }) => {
-  // I will run at every frame ~ 60FPS (depending of your monitor)
+  // I will run at every frame ~ 60FPS (depending of your monitor)
 })
 ```
 

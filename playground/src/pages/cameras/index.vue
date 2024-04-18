@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
-import { BasicShadowMap, SRGBColorSpace, NoToneMapping, PerspectiveCamera, OrthographicCamera } from 'three'
+import { BasicShadowMap, NoToneMapping, OrthographicCamera, PerspectiveCamera, SRGBColorSpace } from 'three'
 import { TresLeches, useControls } from '@tresjs/leches'
 import '@tresjs/leches/styles'
 import { Box } from '@tresjs/cientos'
@@ -32,8 +32,7 @@ const { cameraType, manual } = useControls({
     }, {
       text: 'Orthographic',
       value: 'orthographic',
-    },
-    ],
+    }],
     value: state.cameraType,
   },
   manual: false,
@@ -57,6 +56,7 @@ const context = ref(null)
 
 watchEffect(() => {
   if (context.value) {
+    // eslint-disable-next-line no-console
     console.log(context.value)
   }
 })

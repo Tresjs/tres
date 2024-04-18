@@ -116,7 +116,7 @@ _The AmbientLight doesn't generate any type of shadow here_
     :position="[0, 2, 0]"
     :intensity="1"
   />
-  
+
   //...
 </template>
 ```

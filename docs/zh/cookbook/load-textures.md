@@ -64,7 +64,6 @@ const pbrTexture = await useTexture({
 })
 ```
 
-
 与前面的示例类似，我们可以通过 props 将所有纹理传递给材质：
 
 ```html

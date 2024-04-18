@@ -1,29 +1,9 @@
 <script setup lang="ts">
-import { TresCanvas, useRenderLoop } from '@tresjs/core'
-import { reactive, shallowRef, ref } from 'vue'
-import { BasicShadowMap, SRGBColorSpace, NoToneMapping } from 'three'
-import { OrbitControls } from '@tresjs/cientos'
-
-const state = reactive({
-  clearColor: '#82DBC5',
-  shadows: true,
-  alpha: false,
-  shadowMapType: BasicShadowMap,
-  outputColorSpace: SRGBColorSpace,
-  toneMapping: NoToneMapping,
-})
-
-const { onLoop } = useRenderLoop()
+import { TresCanvas } from '@tresjs/core'
+import { ref, shallowRef } from 'vue'
 
 const boxRef = shallowRef(null)
 const showBox = ref(true)
-
-/* onLoop(({ elapsed }) => {
-  if (boxRef.value) {
-    boxRef.value.rotation.y = elapsed
-    boxRef.value.rotation.z = elapsed
-  }
-}) */
 
 setInterval(() => {
   showBox.value = !showBox.value

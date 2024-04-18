@@ -102,7 +102,6 @@ import OrbitControls from './OrbitControls.vue'
 ```
 :::
 
-
 ## OrbitControls von `cientos`
 
 Jetzt wird es interessant. ✨

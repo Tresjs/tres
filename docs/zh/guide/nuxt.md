@@ -13,15 +13,15 @@
 ::: code-group
 
 ```bash [pnpm]
-pnpm add three @tresjs/nuxt 
+pnpm add three @tresjs/nuxt
 ```
 
 ```bash [npm]
-npm install three @tresjs/nuxt 
+npm install three @tresjs/nuxt
 ```
 
 ```bash [yarn]
-yarn add three @tresjs/nuxt 
+yarn add three @tresjs/nuxt
 ```
 
 :::
@@ -39,8 +39,8 @@ yarn add three @tresjs/nuxt
 
 ```js
 export default defineNuxtConfig({
-  modules: ["@tresjs/nuxt"],
-});
+  modules: ['@tresjs/nuxt'],
+})
 ```
 
 就这样！你现在可以在你的 Nuxt 应用中开始使用 `@tresjs/nuxt` ✨

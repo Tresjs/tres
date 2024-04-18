@@ -79,6 +79,7 @@ onLoop(({ _delta, elapsed }) => {
   position.x = Math.sin(elapsed * 0.1) * 3
 })
 </script>
+
 <template>
   <TresMesh :position="position" cast-shadow>
     <TresBoxGeometry :args="[1, 1, 1]" />
@@ -98,6 +99,7 @@ onLoop(({ _delta, elapsed }) => {
   boxRef.value.position.x = Math.sin(elapsed * 0.1) * 3
 })
 </script>
+
 <template>
   <TresMesh ref="boxRef" :position="position" cast-shadow>
     <TresBoxGeometry :args="[1, 1, 1]" />

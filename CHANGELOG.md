@@ -1,13 +1,32 @@
-
-
 ## [4.0.0-next.2](https://github.com/Tresjs/tres/compare/4.0.0-next.1...4.0.0-next.2) (2024-03-27)
+
+## [4.0.0-next.1](https://github.com/Tresjs/tres/compare/3.7.0...4.0.0-next.1) (2024-03-18)
+* correct type exporting issues ([#625](https://github.com/Tresjs/tres/issues/625)) ([8e52cf1](https://github.com/Tresjs/tres/commit/8e52cf1935d7b725b87c9a41e44ba61e33bd3e85))
+
+
+## [3.8.1](https://github.com/Tresjs/tres/compare/3.8.0...3.8.1) (2024-04-08)
 
 
 ### Bug Fixes
 
 * refactor nodeOps to return methods at the end of the function ([#602](https://github.com/Tresjs/tres/issues/602)) ([cd0c3bc](https://github.com/Tresjs/tres/commit/cd0c3bcd891f019cf91f30e5fdd547630332a065))
 
-## [4.0.0-next.1](https://github.com/Tresjs/tres/compare/3.7.0...4.0.0-next.1) (2024-03-18)
+
+## [3.8.0](https://github.com/Tresjs/tres/compare/3.7.0...3.8.0) (2024-04-03)
+
+
+### Features
+
+* allow custom loading manager to useTexture ([#585](https://github.com/Tresjs/tres/issues/585)) ([a04c802](https://github.com/Tresjs/tres/commit/a04c8022201c1dcccde8029d5d409e596c498526)), closes [#432](https://github.com/Tresjs/tres/issues/432)
+
+
+### Bug Fixes
+
+* explicitely add `@vue/devtools-api` dep to package.json ([#604](https://github.com/Tresjs/tres/issues/604)) ([98109af](https://github.com/Tresjs/tres/commit/98109af7d501da1ae5f817e7dc61c6d6ad902891))
+* **useLogger:** avoid string substitution in non-strings ([3e2233c](https://github.com/Tresjs/tres/commit/3e2233c61b507a6681a97733d03291db9a34eb89))
+* **useLogger:** remove '<empty string>' from log, allow any args and string substitution ([a482ebe](https://github.com/Tresjs/tres/commit/a482ebe3d3d82ae54ff8999fae1693cd218dbdbd))
+
+## [3.7.0](https://github.com/Tresjs/tres/compare/3.6.1...3.7.0) (2024-01-29)
 
 
 ### Features

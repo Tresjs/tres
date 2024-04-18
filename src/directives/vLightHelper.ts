@@ -1,12 +1,11 @@
-
 import type {
   Light,
 } from 'three'
-import { 
+import {
   DirectionalLightHelper,
+  HemisphereLightHelper,
   PointLightHelper,
   SpotLightHelper,
-  HemisphereLightHelper,
 } from 'three'
 import { RectAreaLightHelper } from 'three-stdlib'
 import { useLogger } from '../composables'
@@ -14,13 +13,13 @@ import type { TresObject } from '../types'
 
 const { logWarning } = useLogger()
 
-type LightHelper = typeof DirectionalLightHelper 
-| typeof PointLightHelper 
-| typeof SpotLightHelper 
-| typeof HemisphereLightHelper 
-| typeof RectAreaLightHelper
+type LightHelper = typeof DirectionalLightHelper
+  | typeof PointLightHelper
+  | typeof SpotLightHelper
+  | typeof HemisphereLightHelper
+  | typeof RectAreaLightHelper
 
-let currentHelper: LightHelper
+let CurrentHelper: LightHelper
 let currentInstance: TresObject
 
 const helpers: Record<Light['type'], LightHelper> = {
@@ -37,21 +36,22 @@ export const vLightHelper = {
       logWarning(`${el.type} is not a light`)
       return
     }
-    currentHelper = helpers[el.type]
-    el.parent.add(new currentHelper(el as never, 1, el.color.getHex()))
+    CurrentHelper = helpers[el.type]
+    el.parent.add(new CurrentHelper(el as never, 1, el.color.getHex()))
   },
   updated: (el: TresObject) => {
-    currentInstance = el.parent.children.find((child: TresObject) => child instanceof currentHelper)
-    if (currentInstance instanceof RectAreaLightHelper) return
+    currentInstance = el.parent.children.find((child: TresObject) => child instanceof CurrentHelper)
+    if (currentInstance instanceof RectAreaLightHelper) {
+      return
+    }
     currentInstance.update()
-
   },
   unmounted: (el: TresObject) => {
     if (!el.isLight) {
       logWarning(`${el.type} is not a light`)
       return
     }
-    currentInstance = el.parent.children.find((child: TresObject) => child instanceof currentHelper)
+    currentInstance = el.parent.children.find((child: TresObject) => child instanceof CurrentHelper)
 
     if (currentInstance && currentInstance.dispose) {
       currentInstance.dispose()
@@ -59,4 +59,3 @@ export const vLightHelper = {
     el.parent.remove(currentInstance)
   },
 }
-

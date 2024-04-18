@@ -1,42 +1,37 @@
-import { computed, watchEffect, onUnmounted, ref } from 'vue'
+import { computed, onUnmounted, ref, watchEffect } from 'vue'
 import type { OrthographicCamera } from 'three'
 import { Camera, PerspectiveCamera } from 'three'
 
 import type { TresScene } from '../../types'
 import type { TresContext } from '../useTresContextProvider'
 
-export const useCamera = ({ sizes, scene }: Pick<TresContext, 'sizes'> & { scene: TresScene }) => {
-
+export const useCamera = ({ sizes }: Pick<TresContext, 'sizes'> & { scene: TresScene }) => {
   // the computed does not trigger, when for example the camera position changes
   const cameras = ref<Camera[]>([])
   const camera = computed<Camera | undefined>(
     () => cameras.value[0],
   )
 
-  const registerCamera = (newCamera: Camera, active = false) => {
-    if (cameras.value.some(({ uuid }) => uuid === newCamera.uuid))
-      return
-
-    if (active)
-      setCameraActive(newCamera)
-    else
-      cameras.value.push(newCamera)
-
-  }
-
-  const deregisterCamera = (camera: Camera) => {
-    cameras.value = cameras.value.filter(({ uuid }) => uuid !== camera.uuid)
-  }
-
   const setCameraActive = (cameraOrUuid: string | Camera) => {
     const camera = cameraOrUuid instanceof Camera
       ? cameraOrUuid
       : cameras.value.find((camera: Camera) => camera.uuid === cameraOrUuid)
 
-    if (!camera) return
+    if (!camera) { return }
 
     const otherCameras = cameras.value.filter(({ uuid }) => uuid !== camera.uuid)
     cameras.value = [camera, ...otherCameras]
+  }
+
+  const registerCamera = (newCamera: Camera, active = false) => {
+    if (cameras.value.some(({ uuid }) => uuid === newCamera.uuid)) { return }
+
+    if (active) { setCameraActive(newCamera) }
+    else { cameras.value.push(newCamera) }
+  }
+
+  const deregisterCamera = (camera: Camera) => {
+    cameras.value = cameras.value.filter(({ uuid }) => uuid !== camera.uuid)
   }
 
   watchEffect(() => {
@@ -78,5 +73,6 @@ export const useCamera = ({ sizes, scene }: Pick<TresContext, 'sizes'> & { scene
 }
 
 function isOrthographicCamera(o: any): o is OrthographicCamera {
+  // eslint-disable-next-line no-prototype-builtins
   return o.hasOwnProperty('isOrthographicCamera') && o.isOrthographicCamera
 }

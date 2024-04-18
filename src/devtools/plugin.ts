@@ -1,5 +1,6 @@
 import type {
-  App as DevtoolsApp } from '@vue/devtools-api'
+  App as DevtoolsApp,
+} from '@vue/devtools-api'
 import {
   setupDevtoolsPlugin,
 } from '@vue/devtools-api'
@@ -72,7 +73,7 @@ const createNode = (object: TresObject): SceneGraphObject => {
       tooltip: 'Field of view',
     })
     node.tags.push({
-      // eslint-disable-next-line max-len
+
       label: `x: ${Math.round(object.position.x)} y: ${Math.round(object.position.y)} z: ${Math.round(object.position.z)}`,
       textColor: 0x9499A6,
       backgroundColor: 0xF8F9FA,
@@ -94,6 +95,7 @@ function buildGraph(object: TresObject, node: SceneGraphObject, filter: string =
   object.children.forEach((child: TresObject) => {
     if (child.type === 'HightlightMesh') return
     if (filter && !child.type.includes(filter) && !child.name.includes(filter)) return
+
     const childNode = createNode(child)
     node.children.push(childNode)
     buildGraph(child, childNode, filter)
@@ -120,7 +122,7 @@ export function registerTresDevtools(app: DevtoolsApp, tres: TresContext) {
     (api) => {
       if (typeof api.now !== 'function') {
         toastMessage(
-          // eslint-disable-next-line max-len
+
           'You seem to be using an outdated version of Vue Devtools. Are you still using the Beta release instead of the stable one? You can find the links at https://devtools.vuejs.org/guide/installation.html.',
         )
       }
@@ -151,12 +153,12 @@ export function registerTresDevtools(app: DevtoolsApp, tres: TresContext) {
       })
       let highlightMesh: Mesh | null = null
       let prevInstance: Object3D | null = null
-      
+
       api.on.getInspectorState((payload) => {
         if (payload.inspectorId === INSPECTOR_ID) {
           // Your logic here
           const [instance] = tres.scene.value.getObjectsByProperty('uuid', payload.nodeId)
-          if (!instance) return 
+          if (!instance) { return }
           if (prevInstance && highlightMesh && highlightMesh.parent) {
             prevInstance.remove(highlightMesh)
           }
@@ -164,7 +166,7 @@ export function registerTresDevtools(app: DevtoolsApp, tres: TresContext) {
           if (instance.isMesh) {
             const newHighlightMesh = createHighlightMesh(instance)
             instance.add(newHighlightMesh)
-  
+
             highlightMesh = newHighlightMesh
             prevInstance = instance
           }
@@ -248,7 +250,7 @@ export function registerTresDevtools(app: DevtoolsApp, tres: TresContext) {
                 key: 'matrixWorld',
                 value: instance.matrixWorld,
               },
-                
+
               {
                 key: 'visible',
                 editable: true,

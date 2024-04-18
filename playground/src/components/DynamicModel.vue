@@ -2,11 +2,10 @@
 import { useControls } from '@tresjs/leches'
 import { useGLTF } from '@tresjs/cientos'
 
-const { nodes } 
-  = await useGLTF('https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/blender-cube.glb', 
-    { draco: true })
+const { nodes }
+  = await useGLTF('https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/blender-cube.glb', { draco: true })
 
-const { scene: AkuAku, nodes: akukuNodes } = await useGLTF(
+const { scene: AkuAku } = await useGLTF(
   'https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/aku-aku/AkuAku.gltf',
   { draco: true },
 )

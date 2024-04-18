@@ -93,11 +93,13 @@ const fontOptions = {
 
 ```ts
 const matcapTexture = await useTexture(['https://raw.githubusercontent.com/Tresjs/assets/main/textures/matcaps/7.png'])
+```
 
-  <TresMesh>
-    <TresTextGeometry :args="['TresJS', { font, ...fontOptions }]" center />
-    <TresMeshNormalMaterial :matcap="matcapTexture" />
-  </TresMesh>
+```html
+<TresMesh>
+  <TresTextGeometry :args="['TresJS', { font, ...fontOptions }]" center />
+  <TresMeshNormalMaterial :matcap="matcapTexture" />
+</TresMesh>
 ```
 
 因此，最终代码如下所示：
@@ -184,7 +186,7 @@ const matcapTexture = await useTexture(['https://raw.githubusercontent.com/Tresj
 
 如果未提供选项，则默认值为：
 
-```js
+```
 size: 0.5,
 height: 0.2,
 curveSegments: 5,
