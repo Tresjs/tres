@@ -1,4 +1,4 @@
-# Installation
+# Installazione
 
 Scopri come installare TresJS
 
@@ -40,7 +40,7 @@ pnpm add @types/three -D
 
 :::
 
-## Getting started
+## Primi passi
 
 Puoi installare TresJS come qualsiasi altro plugin Vue
 
