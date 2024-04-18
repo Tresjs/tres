@@ -3,7 +3,7 @@ import type { DefaultTheme, LocaleSpecificConfig } from 'vitepress'
 export const deConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
   themeConfig: {
     editLink: {
-      pattern: 'https://github.com/tresjs/tres/edit/main/packages/docs/:path',
+      pattern: 'https://github.com/tresjs/tres/edit/main/docs/:path',
       text: 'Änderungen an dieser Seite vorschlagen',
     },
     sidebar: [
@@ -112,7 +112,7 @@ export const deConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
           { text: 'Versionen', link: 'https://github.com/Tresjs/tres/releases' },
           {
             text: 'Spielplatz',
-            link: 'https://playground.tresjs.org/',
+            link: 'https://play.tresjs.org/',
           },
           {
             text: 'Github',

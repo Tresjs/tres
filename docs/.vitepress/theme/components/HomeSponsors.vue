@@ -14,11 +14,11 @@ const { data } = useSponsor()
   <div class="action">
     <a
       class="sponsor"
-      href="https://github.com/sponsors/vitejs"
+      href="https://github.com/sponsors/tresjs"
       target="_blank"
       rel="noreferrer"
     >
-      Become a sponsor <i class="i-carbon-heart" />
+      Become a sponsor <i class="i-carbon-heart"></i>
     </a>
   </div>
 </template>

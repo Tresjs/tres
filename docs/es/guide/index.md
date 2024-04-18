@@ -9,15 +9,15 @@
 ::: code-group
 
 ```bash [npm]
-npm install @tresjs/core three 
+npm install @tresjs/core three
 ```
 
 ```bash [yarn]
-yarn add @tresjs/core three 
+yarn add @tresjs/core three
 ```
 
 ```bash [pnpm]
-pnpm add @tresjs/core three 
+pnpm add @tresjs/core three
 ```
 
 :::
@@ -56,16 +56,16 @@ export default defineConfig({
       ...templateCompilerOptions
     }),
   ],
-}),
+})
 ```
 
 Esto es necesario para que el compilador de plantillas funcione con el renderizador personalizado y no lance advertencias en la consola. Para obtener más información, consulta [aquí](/guide/troubleshooting.html).
 
 ## Pruébalo en línea
 
-### Sandbox
+### Playground
 
-Puedes probar TresJS en línea utilizando el [sandbox](https://play.tresjs.org/) oficial. ¡Échale un vistazo:
+Puedes probar TresJS en línea utilizando el [playground](https://play.tresjs.org/) oficial. ¡Échale un vistazo:
 
 <iframe src="https://play.tresjs.org/" class="w-full rounded shadow-lg outline-none border-none aspect-4/3"></iframe>
 
@@ -75,13 +75,11 @@ Tenemos un nuevo inicio de [StackBlitz](https://stackblitz.com/) para probar Tre
 
 ![](/stackblitz-starter.png)
 
-<StackBlitzEmbed projectId="tresjs-basic" />
+## Laboratorio
 
-## Playground
+También tenemos un laboratorio de ejemplos hechos con TresJS. Échale un vistazo [aquí](https://labs.tresjs.org/).
 
-También tenemos un playground donde puedes probar TresJS en línea. Échale un vistazo [aquí](https://playground.tresjs.org/).
-
-![](/playground.png)
+![](/tresjs-lab.png)
 
 ## Motivación
 
@@ -111,4 +109,3 @@ lunchboxApp.mount('#lunchbox')
 ```
 
 Así que me inspiré en ambas bibliotecas para crear un renderizador personalizado de Vue para ThreeJS. Eso es **TresJS v2**.
-

@@ -102,4 +102,3 @@ Tres intenta ser lo menos opinado posible. Es por eso que no establece casi ning
 | Propiedad | Descripción |
 | ---- | ---- |
 | context | ver [useTresContext](composables#usetrescontext) |
-

@@ -68,19 +68,19 @@ Für dieses Beispiel sehen unsere Uniforms so aus:
 ```ts
 import { Vector2 } from 'three'
 
-//...
+// ...
 const uniforms = {
   uTime: { value: 0 },
   uAmplitude: { value: new Vector2(0.1, 0.1) },
   uFrequency: { value: new Vector2(20, 5) },
 }
-//..
+// ..
 ```
 
 Unser Fragment-Shader sieht so aus:
 
 ```ts
-//...
+// ...
 const fragmentShader = `
 precision mediump float;
 varying vec2 vUv;
@@ -89,7 +89,7 @@ void main() {
     gl_FragColor = vec4(1.0, vUv.y, 0.5, 1.0);
 }
 `
-//..
+// ..
 ```
 
 Und schließlich unser `vertexShader`:
@@ -112,7 +112,7 @@ void main() {
     vUv = uv;
 }
 `
-//..
+// ..
 ```
 
 ## Animieren des Blobs
@@ -127,7 +127,7 @@ import { TresCanvas } from '@tresjs/core'
 import { OrbitControls } from '@tresjs/cientos'
 
 const blobRef = shallowRef(null)
-//...
+// ...
 </script>
 
 <template>
@@ -157,7 +157,7 @@ Nun können wir den `onLoop`-Callback nutzen, um `uTime` zu animieren.
  ```ts
 import { TresCanvas, useRenderLoop } from '@tresjs/core'
 
- //...
+ // ...
  const { onLoop } = useRenderLoop()
 
 onLoop(({ elapsed }) => {
@@ -165,7 +165,7 @@ onLoop(({ elapsed }) => {
      blobRef.value.material.uniforms.uTime.value = elapsed
    }
 })
- //...
+ // ...
 ```
 
 Somit haben unseren ersten grundlegenden Shader zum Laufen gebracht!

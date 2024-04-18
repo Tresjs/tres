@@ -44,7 +44,6 @@ pnpm add @types/three -D
 
 Du kannst TresJS wie jedes andere Vue-Plugin installieren.
 
-
 ```ts
 import { createApp } from 'vue'
 import Tres from '@tresjs/core'
@@ -74,7 +73,6 @@ import { TresCanvas } from '@tresjs/core'
 Aufgrund von Performance und Bundlegröße ist dieser Ansatz zu empfehlen, da durch das Tree-Shaking nur die tatsächlich verwendeten Komponenten importiert werden.
 :::
 
-
 ## Vite
 
 Da die Version 2 ein benutzerdefinierter Renderer ist, müssen wir dem `vue-compiler` deiner Anwendung mitteilen, die Tres-Komponenten miteinzubeziehen, um die Warnung `[Vue warn]: Failed to resolve component` zu vermeiden.
@@ -93,4 +91,3 @@ export default defineConfig({
   ]
 })
 ```
-

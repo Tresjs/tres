@@ -76,7 +76,7 @@ renderer.shadowMap.type = PCFSoftShadowMap
 | **camera** | A manual camera to be used by the renderer. | |
 | **clearColor** | The color the renderer will use to clear the canvas. | `#000000` |
 | **context** | This can be used to attach the renderer to an existing [RenderingContext](https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext) | |
-| **depth** | Whether the drawing buffer has a [depth buffer](https://en.wikipedia.org/wiki/Z-buffering) of at least 16 bits. | `true` |
+| **depth** | Whether the drawing buffer has a [depth buffer](https://en.wikipedia.org/wiki/Z-buffering) of at least 16 bits. | `true` |
 | **disableRender** | Disable render on requestAnimationFrame, useful for PostProcessing | `false` |
 | **failIfMajorPerformanceCaveat** | Whether the renderer creation will fail upon low performance is detected. See [WebGL spec](https://registry.khronos.org/webgl/specs/latest/1.0/#5.2) for details. | `false` |
 | **logarithmicDepthBuffer** | Whether to use a logarithmic depth buffer. It may be necessary to use this if dealing with huge differences in scale in a single scene. Note that this setting uses gl_FragDepth if available which disables the [Early Fragment Test](https://www.khronos.org/opengl/wiki/Early_Fragment_Test) optimization and can cause a decrease in performance. | `false` |

@@ -107,7 +107,6 @@ Wir können einfach das Boolean `cast-shadow` hinzufügen. Vue interpretiert es 
 
 _Umgebungslicht erzeugt hier keine Art von Schatten_
 
-
 ```vue{6}
 //...
 

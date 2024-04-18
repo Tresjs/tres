@@ -3,6 +3,7 @@ import { TresCanvas } from '@tresjs/core'
 import { OrbitControls } from '@tresjs/cientos'
 
 const log = (text: string) => {
+  // eslint-disable-next-line no-console
   console.log(text)
 }
 
@@ -36,6 +37,6 @@ const boxOneBlocksPointerEvents = ref(false)
       v-model="boxOneBlocksPointerEvents"
       type="checkbox"
       style="position: fixed; top:10px; left: 10px;"
-    >
+    />
   </div>
 </template>
