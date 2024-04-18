@@ -14,7 +14,7 @@ const { data } = useSponsor()
   <div class="action">
     <a
       class="sponsor"
-      href="https://github.com/sponsors/vitejs"
+      href="https://github.com/sponsors/tresjs"
       target="_blank"
       rel="noreferrer"
     >
