@@ -1,6 +1,6 @@
 # Migration Guide
 
-This guide is intended to help you migrate from v1 to the newest versions of TresJS 🤩✨.
+Questa guida è pensata per aiutarti a migrare dalla versione v1 alle più recenti versioni di TresJS 🤩✨.
 
 ::: code-group
 
@@ -22,7 +22,7 @@ yarn upgrade @tresjs/core
 
 ### Vue Custom Renderer
 
-**TresJS** is now a [Vue Custom Renderer](https://vuejs.org/api/custom-renderer.html#createrenderer) 🎉 that lives inside of a wrapper component called `TresCanvas` that is responsible for creating the `WebGLRenderer` and the `Scene` for you and creating a **new Vue App instance** to render the scene.
+TresJS è ora un [Vue Custom Renderer](https://vuejs.org/api/custom-renderer.html#createrenderer) 🎉 che risiede all'interno di un componente wrapper chiamato `TresCanvas`, il quale è responsabile della creazione del `WebGLRenderer` e della `Scena` per te e della creazione di una **nuova istanza di Vue App** per renderizzare la scena.
 
 ### Typescript support and Intellisense 🦾
 
@@ -38,7 +38,7 @@ The `TresPlugin` is now optional. You can use TresJS without it by importing the
 
 ```vue
 <script setup lang="ts">
-import { TresCanvas } from '@tresjs/core'
+import { TresCanvas } from "@tresjs/core";
 </script>
 
 <template>
@@ -94,23 +94,23 @@ Change this:
 
 ```ts {2,5,7}
 // Wrong ❌
-import { useCatalog } from '@tresjs/core'
-import { TextGeometry } from 'three/addons/geometries/TextGeometry'
+import { useCatalog } from "@tresjs/core";
+import { TextGeometry } from "three/addons/geometries/TextGeometry";
 
-const { extend } = useCatalog()
+const { extend } = useCatalog();
 
-extend({ TextGeometry })
+extend({ TextGeometry });
 ```
 
 To this:
 
 ```ts {2,6}
 // Correct ✅
-import { extend } from '@tresjs/core'
-import { TextGeometry } from 'three/addons/geometries/TextGeometry'
+import { extend } from "@tresjs/core";
+import { TextGeometry } from "three/addons/geometries/TextGeometry";
 
 // Add the element to the catalogue
-extend({ TextGeometry })
+extend({ TextGeometry });
 ```
 
 ### Model's ref value `getModel` is now deprecated
@@ -122,16 +122,16 @@ Change this:
 ```vue {7,9-12}
 // Wrong ❌
 <script setup lang="ts">
-import { useGLTF } from '@tresjs/cientos'
+import { useGLTF } from "@tresjs/cientos";
 
-const { scene, nodes, animations, materials } = await useGLTF('/models/AkuAku.gltf', { draco: true })
+const { scene, nodes, animations, materials } = await useGLTF("/models/AkuAku.gltf", { draco: true });
 
-const modelRef = ref()
+const modelRef = ref();
 
 watch(modelRef, ({ getModel }) => {
-  const model = getModel()
-  model.position.set(0, 0, 0)
-})
+  const model = getModel();
+  model.position.set(0, 0, 0);
+});
 </script>
 
 <template>
@@ -144,16 +144,16 @@ To this:
 ```vue {7,9-12}
 // Correct ✅
 <script setup lang="ts">
-import { useGLTF } from '@tresjs/cientos'
+import { useGLTF } from "@tresjs/cientos";
 
-const { scene, nodes, animations, materials } = await useGLTF('/models/AkuAku.gltf', { draco: true })
+const { scene, nodes, animations, materials } = await useGLTF("/models/AkuAku.gltf", { draco: true });
 
-const modelRef = ref()
+const modelRef = ref();
 
 watch(modelRef, (model) => {
   // Do something with the model
-  model.position.set(0, 0, 0)
-})
+  model.position.set(0, 0, 0);
+});
 </script>
 
 <template>
@@ -201,22 +201,22 @@ Change this:
 
 ```ts {2}
 // Wrong ❌
-import { useTres } from '@tresjs/core'
+import { useTres } from "@tresjs/core";
 
-const { state, setState } = useTres()
+const { state, setState } = useTres();
 
-console.log(state.scene)
+console.log(state.scene);
 ```
 
 To this:
 
 ```ts {2}
 // Correct ✅
-import { useTresContext } from '@tresjs/core'
+import { useTresContext } from "@tresjs/core";
 
-const { scene, renderer } = useTresContext()
+const { scene, renderer } = useTresContext();
 
-console.log(scene.value)
+console.log(scene.value);
 ```
 
 For more detailed information about the new context provider system, you can read the [API DOCS](/api/composables.md) section.

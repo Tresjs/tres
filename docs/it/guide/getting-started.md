@@ -1,6 +1,6 @@
 # Installation
 
-Learn how to install TresJS
+Scopri come installare TresJS
 
 ::: code-group
 
@@ -18,11 +18,11 @@ yarn add three @tresjs/core
 
 :::
 
-> Better use with Vue 3.x and composition API
+> Meglio usarlo con Vue 3.x e Composition API
 
 ## Typescript
 
-TresJS is written in Typescript and it's fully typed. If you are using Typescript, you will get the full benefit of the typings. Just make sure you install the types for three.
+TresJS è scritto in Typescript ed è completamente tipizzato. Se stai usando Typescript, otterrai tutti i vantaggi delle definizioni dei tipi. Assicurati solo di installare i tipi per Three.
 
 ::: code-group
 
@@ -42,24 +42,24 @@ pnpm add @types/three -D
 
 ## Getting started
 
-You can install TresJS as any other Vue plugin
+Puoi installare TresJS come qualsiasi altro plugin Vue
 
 ```ts
-import { createApp } from 'vue'
-import Tres from '@tresjs/core'
-import App from './App.vue'
+import { createApp } from "vue";
+import Tres from "@tresjs/core";
+import App from "./App.vue";
 
-export const app = createApp(App)
+export const app = createApp(App);
 
-app.use(Tres)
-app.mount('#app')
+app.use(Tres);
+app.mount("#app");
 ```
 
-Or you can use it directly in your component
+Oppure puoi usarlo direttamente nel tuo componente
 
 ```vue
 <script setup lang="ts">
-import { TresCanvas } from '@tresjs/core'
+import { TresCanvas } from "@tresjs/core";
 </script>
 
 <template>
@@ -70,24 +70,24 @@ import { TresCanvas } from '@tresjs/core'
 ```
 
 ::: tip
-This is recommended for performance and bundle size reasons, tree-shaking will work better and you will only import the components that you use.
+Questo è consigliato per motivi di prestazioni e dimensioni del bundle, il tree-shaking funzionerà meglio e importerai solo i componenti che effettivamente usi.
 :::
 
 ## Vite
 
-Since v2 is a custom renderer, we need to let the `vue-compiler` of your app know that the components of Tres are ok to be included to avoid the `[Vue warn]: Failed to resolve component` warning.
+Poiché la v2 è un renderer personalizzato, dobbiamo far sapere al `vue-compiler` della tua app che i componenti di Tres sono ok per essere inclusi per evitare l'avviso `[Vue warn]: Failed to resolve component`.
 
-You just need to import and add the `templateCompilerOptions` from TresJS to your `vite.config.ts` inside of the vue plugin:
+Devi solo importare e aggiungere le `templateCompilerOptions` da TresJS al tuo `vite.config.ts` all'interno del plugin vue:
 
 ```ts
-import { templateCompilerOptions } from '@tresjs/core'
+import { templateCompilerOptions } from "@tresjs/core";
 
 export default defineConfig({
   plugins: [
     vue({
       // Other config
-      ...templateCompilerOptions
+      ...templateCompilerOptions,
     }),
-  ]
-})
+  ],
+});
 ```
