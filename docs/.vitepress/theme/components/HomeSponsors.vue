@@ -36,6 +36,16 @@ import { VPHomeSponsors } from 'vitepress/theme'
     <li>
       <a
         class="sponsor"
+        href="https://github.com/sponsors/patak-dev"
+        target="_blank"
+        rel="noreferrer"
+      >
+        Patak <img class="w-5 h-5 rounded ml-2" src="https://avatars.githubusercontent.com/u/583075?v=4" alt="" />
+      </a>
+    </li>
+    <li>
+      <a
+        class="sponsor"
         href="https://github.com/sponsors/antfu"
         target="_blank"
         rel="noreferrer"
