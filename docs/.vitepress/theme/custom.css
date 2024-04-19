@@ -58,3 +58,7 @@
   color: var(--vp-button-alt-text);
   background-color: var(--vp-button-alt-bg);
 }
+
+.VPHomeSponsors {
+  margin-bottom: 0px !important
+}
