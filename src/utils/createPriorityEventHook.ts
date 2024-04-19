@@ -1,8 +1,11 @@
 import type { EventHookOff, IsAny } from '@vueuse/core'
 import { tryOnScopeDispose } from '@vueuse/core'
 
-// any extends void = true
-// so we need to check if T is any first
+// NOTE: Based on vueuse's createEventHook
+// https://github.com/vueuse/vueuse/blob/1558cd2b5b019abc1feda6d702caa1053a182903/packages/shared/createEventHook/index.ts#L19
+
+// NOTE: any extends void = true
+// So we need to check if T is any first
 type Callback<T> = IsAny<T> extends true
   ? (param: any) => void
   : (
@@ -11,21 +14,24 @@ type Callback<T> = IsAny<T> extends true
         : (param: T) => void
     )
 
-type PrioritizedEventHookOn<T> = (fn: Callback<T>, priority?: number) => { off: () => void }
-type PrioritizedEventHookTrigger<T = any> = (param?: T) => void
+type PriorityEventHookOn<T> = (fn: Callback<T>, priority?: number) => { off: () => void }
+type PriorityEventHookTrigger<T = any> = (param?: T) => void
 
-export interface PrioritizedEventHook<T = any> {
-  on: PrioritizedEventHookOn<T>
+export interface PriorityEventHook<T = any> {
+  on: PriorityEventHookOn<T>
   off: EventHookOff<T>
-  trigger: PrioritizedEventHookTrigger<T>
-  size: number
+  trigger: PriorityEventHookTrigger<T>
+  dispose: () => void
+  count: number
+  countPositive: number
 }
 
-export function createPrioritizedEventHook<T = any>(): PrioritizedEventHook<T> {
+export function createPriorityEventHook<T = any>(): PriorityEventHook<T> {
   const eventToPriority = new Map<Callback<T>, { priority: number, addI: number }>()
   const ascending = new Set<Callback<T>>()
   let ADD_COUNT = 0
   let dirty = false
+  let countPositive = 0
 
   const sort = () => {
     const sorted = Array.from(eventToPriority.entries())
@@ -38,11 +44,18 @@ export function createPrioritizedEventHook<T = any>(): PrioritizedEventHook<T> {
   }
 
   const off = (fn: Callback<T>) => {
+    const priority = eventToPriority.get(fn)?.priority ?? -1
+    if (priority > 0) {
+      countPositive--
+    }
     eventToPriority.delete(fn)
     ascending.delete(fn)
   }
 
   const on = (fn: Callback<T>, priority = 0) => {
+    if (priority > 0) {
+      countPositive++
+    }
     eventToPriority.set(fn, { priority, addI: ADD_COUNT++ })
     const offFn = () => off(fn)
     tryOnScopeDispose(offFn)
@@ -52,7 +65,7 @@ export function createPrioritizedEventHook<T = any>(): PrioritizedEventHook<T> {
     }
   }
 
-  const trigger: PrioritizedEventHookTrigger<T> = (...args) => {
+  const trigger: PriorityEventHookTrigger<T> = (...args) => {
     if (dirty) {
       sort()
       dirty = false
@@ -60,5 +73,10 @@ export function createPrioritizedEventHook<T = any>(): PrioritizedEventHook<T> {
     ascending.forEach(fn => fn(...(args as [T])))
   }
 
-  return { on, off, trigger, get size() { return eventToPriority.size } }
+  const dispose = () => {
+    eventToPriority.clear()
+    ascending.clear()
+  }
+
+  return { on, off, trigger, dispose, get count() { return eventToPriority.size }, get countPositive() { return countPositive } }
 }

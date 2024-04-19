@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { TresObject } from '@tresjs/core'
-import { TresCanvas, useRenderLoop, vAlwaysLookAt, vDistanceTo, vLightHelper, vLog } from '@tresjs/core'
+import { TresCanvas, vAlwaysLookAt, vDistanceTo, vLightHelper, vLog } from '@tresjs/core'
 import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
 
 import { OrbitControls } from '@tresjs/cientos'

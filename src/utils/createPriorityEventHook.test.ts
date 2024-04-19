@@ -1,20 +1,20 @@
-import { createPrioritizedEventHook } from './createPrioritizedEventHook'
+import { createPriorityEventHook } from './createPriorityEventHook'
 
-let hook = createPrioritizedEventHook()
+let hook = createPriorityEventHook()
 
 describe('createPrioritizableEventHook', () => {
   beforeEach(() => {
-    hook = createPrioritizedEventHook()
+    hook = createPriorityEventHook()
   })
 
-  describe('size', () => {
+  describe('count', () => {
     it('is initially 0', () => {
-      expect(hook.size).toBe(0)
+      expect(hook.count).toBe(0)
     })
     it('increases when hooks are added with on', () => {
       for (const i of getArray0ToN(10)) {
         hook.on(() => {})
-        expect(hook.size).toBe(i + 1)
+        expect(hook.count).toBe(i + 1)
       }
     })
     it('decreases when hooks are removed with off', () => {
@@ -23,11 +23,11 @@ describe('createPrioritizableEventHook', () => {
         fns.push(() => {})
         hook.on(fns[i])
       }
-      let size = hook.size
+      let count = hook.count
       for (const fn of fns) {
         hook.off(fn)
-        expect(hook.size).toBe(size - 1)
-        size--
+        expect(hook.count).toBe(count - 1)
+        count--
       }
     })
   })
@@ -121,7 +121,7 @@ describe('createPrioritizableEventHook', () => {
       hook.on(fn0)
       hook.on(fn1)
       hook.on(fn0)
-      expect(hook.size).toBe(2)
+      expect(hook.count).toBe(2)
     })
     it('adds an event only once, but this may change its priority', () => {
       let result = ''

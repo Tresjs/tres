@@ -12,6 +12,7 @@ import { useLogger } from '../useLogger'
 import type { TresScene } from '../../types'
 import type { EventProps } from '../usePointerEventHandler'
 import useSizes, { type SizesType } from '../useSizes'
+import { bindUseLoop, useLoop } from '../useRenderLoop'
 
 export interface InternalState {
   priority: Ref<number>
@@ -176,6 +177,31 @@ export function useTresContextProvider({
   }
 
   provide('useTres', ctx)
+
+  bindUseLoop({
+    tresContext: ctx,
+    defaultRenderFn: () => {
+      if (scene && camera.value && render.frames.value > 0) {
+        renderer.value.render(scene, camera.value)
+      }
+    },
+  })
+
+  useLoop(
+    () => {
+      emit('render', renderer.value)
+
+      // NOTE: Reset priority
+      render.priority.value = 0
+
+      if (render.mode.value === 'always') {
+        render.frames.value = 1
+      }
+      else {
+        render.frames.value = Math.max(0, render.frames.value - 1)
+      }
+    },
+  )
 
   // Add context to scene local state
   ctx.scene.value.__tres = {

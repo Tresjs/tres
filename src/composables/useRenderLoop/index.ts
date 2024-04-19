@@ -1,7 +1,9 @@
-import type { EventHookOn, Fn } from '@vueuse/core'
-import { createEventHook, useRafFn } from '@vueuse/core'
-import { type Ref, inject, provide } from 'vue'
-import { Clock } from 'three'
+// NOTE: Maintained for compatiblity with the v3 API
+// TODO: Deprecate and remove
+
+import type { Clock } from 'three'
+import type { EventHookOn, IsAny, type Pausable } from '@vueuse/core'
+import { getAndProvideUseLoop } from '../useLoop'
 
 export interface RenderLoop {
   delta: number
@@ -9,57 +11,28 @@ export interface RenderLoop {
   clock: Clock
 }
 
-export interface UseRenderLoopReturn {
+type Callback<T> = IsAny<T> extends true
+  ? (param: any) => void
+  : (
+      [T] extends [void]
+        ? () => void
+        : (param: T) => void
+    )
+
+export interface UseRenderLoopReturn extends Pausable {
   onBeforeLoop: EventHookOn<RenderLoop>
   onLoop: EventHookOn<RenderLoop>
   onAfterLoop: EventHookOn<RenderLoop>
-  pause: Fn
-  resume: Fn
-  isActive: Ref<boolean>
-}
-
-const INJECTION_KEY = Symbol('onRenderLoop')
-
-function getNewRenderLoop() {
-  const onBeforeLoop = createEventHook<RenderLoop>()
-  const onLoop = createEventHook<RenderLoop>()
-  const onAfterLoop = createEventHook<RenderLoop>()
-
-  const clock = new Clock()
-  let delta = 0
-  let elapsed = 0
-
-  onAfterLoop.on(() => {
-    delta = clock.getDelta()
-    elapsed = clock.getElapsedTime()
-  })
-
-  const { pause, resume, isActive } = useRafFn(
-    () => {
-      onBeforeLoop.trigger({ delta, elapsed, clock })
-      onLoop.trigger({ delta, elapsed, clock })
-      onAfterLoop.trigger({ delta, elapsed, clock })
-    },
-    { immediate: false },
-  )
-
-  const result = {
-    onBeforeLoop: onBeforeLoop.on,
-    onLoop: onLoop.on,
-    onAfterLoop: onAfterLoop.on,
-    pause,
-    resume,
-    isActive,
-  }
-
-  provide(INJECTION_KEY, result)
-  return result
 }
 
 export const useRenderLoop = () => {
-  const result = inject(INJECTION_KEY, getNewRenderLoop, true)
-  if (!result) {
-    return getNewRenderLoop()
-  }
-  return result
+  const result = getAndProvideUseLoop()
+  return {
+    onBeforeLoop: (fn: Callback<RenderLoop>) => result.onUpdate(fn, Number.NEGATIVE_INFINITY),
+    onLoop: (fn: Callback<RenderLoop>) => result.onUpdate(fn, 0),
+    onAfterLoop: (fn: Callback<RenderLoop>) => result.onAfter(fn, 0),
+    isActive: result.isActive,
+    pause: result.pause,
+    resume: result.resume,
+  } as UseRenderLoopReturn
 }

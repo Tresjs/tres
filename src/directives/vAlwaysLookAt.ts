@@ -13,7 +13,7 @@ export const vAlwaysLookAt = {
       logWarning(`v-always-look-at: problem with binding value: ${binding.value}`)
       return
     }
-    const {onLoop} = useRenderLoop()
+    const { onLoop } = useRenderLoop()
     onLoop(() => {
       el.lookAt(observer)
     })
