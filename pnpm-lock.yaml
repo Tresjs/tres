@@ -49,8 +49,8 @@ importers:
         specifier: ^3.3.2
         version: 3.4.0(rollup@4.9.5)
       '@tresjs/cientos':
-        specifier: 3.7.0
-        version: 3.7.0(@tresjs/core@3.6.0(three@0.160.0)(vue@3.4.13(typescript@5.3.3)))(three@0.160.0)(tweakpane@4.0.3)(vue@3.4.13(typescript@5.3.3))
+        specifier: 3.8.0
+        version: 3.8.0(@tresjs/core@3.6.0(three@0.160.0)(vue@3.4.13(typescript@5.3.3)))(three@0.160.0)(tweakpane@4.0.3)(vue@3.4.13(typescript@5.3.3))
       '@tresjs/core':
         specifier: 3.6.0
         version: 3.6.0(three@0.160.0)(vue@3.4.13(typescript@5.3.3))
@@ -1342,8 +1342,8 @@ packages:
     peerDependencies:
       tailwindcss: '>=3.0.0 || insiders'
 
-  '@tresjs/cientos@3.7.0':
-    resolution: {integrity: sha512-et5SNCgRZGb6/NU7CQbrn5E31wr9qq/I8v3YvX7TXWw+RmLmP6UBh4Ctr/dNNpsXwXnUr9oJ6KtFbJU2Gwmd5Q==}
+  '@tresjs/cientos@3.8.0':
+    resolution: {integrity: sha512-m3lyrBHrHkwkDG28B/vQQUeQ9FlG5C50bkULYEoQXrpIAM8toC11DpxY6VMMvbFc4qhZA5QdTZIlznJ8ZDopFQ==}
     peerDependencies:
       '@tresjs/core': '>=3.2'
       three: '>=0.133'
@@ -1791,9 +1791,6 @@ packages:
   '@vueuse/core@10.7.0':
     resolution: {integrity: sha512-4EUDESCHtwu44ZWK3Gc/hZUVhVo/ysvdtwocB5vcauSV4B7NiGY5972WnsojB3vRNdxvAt7kzJWE2h9h7C9d5w==}
 
-  '@vueuse/core@10.7.1':
-    resolution: {integrity: sha512-74mWHlaesJSWGp1ihg76vAnfVq9NTv1YT0SYhAQ6zwFNdBkkP+CKKJmVOEHcdSnLXCXYiL5e7MaewblfiYLP7g==}
-
   '@vueuse/core@10.9.0':
     resolution: {integrity: sha512-/1vjTol8SXnx6xewDEKfS0Ra//ncg4Hb0DaZiwKf7drgfMsKFExQ+FnnENcN6efPen+1kIzhLQoGSy0eDUVOMg==}
 
@@ -1852,9 +1849,6 @@ packages:
   '@vueuse/metadata@10.7.0':
     resolution: {integrity: sha512-GlaH7tKP2iBCZ3bHNZ6b0cl9g0CJK8lttkBNUX156gWvNYhTKEtbweWLm9rxCPIiwzYcr/5xML6T8ZUEt+DkvA==}
 
-  '@vueuse/metadata@10.7.1':
-    resolution: {integrity: sha512-jX8MbX5UX067DYVsbtrmKn6eG6KMcXxLRLlurGkZku5ZYT3vxgBjui2zajvUZ18QLIjrgBkFRsu7CqTAg18QFw==}
-
   '@vueuse/metadata@10.9.0':
     resolution: {integrity: sha512-iddNbg3yZM0X7qFY2sAotomgdHK7YJ6sKUvQqbvwnf7TmaVPxS4EJydcNsVejNdS8iWCtDk+fYXr7E32nyTnGA==}
 
@@ -1868,9 +1862,6 @@ packages:
 
   '@vueuse/shared@10.7.0':
     resolution: {integrity: sha512-kc00uV6CiaTdc3i1CDC4a3lBxzaBE9AgYNtFN87B5OOscqeWElj/uza8qVDmk7/U8JbqoONLbtqiLJ5LGRuqlw==}
-
-  '@vueuse/shared@10.7.1':
-    resolution: {integrity: sha512-v0jbRR31LSgRY/C5i5X279A/WQjD6/JsMzGa+eqt658oJ75IvQXAeONmwvEMrvJQKnRElq/frzBR7fhmWY5uLw==}
 
   '@vueuse/shared@10.9.0':
     resolution: {integrity: sha512-Uud2IWncmAfJvRaFYzv5OHDli+FbOzxiVEQdLCKQKLyhz94PIyFC3CHcH7EDMwIn8NPtD06+PNbC/PiO0LGLtw==}
@@ -2228,8 +2219,8 @@ packages:
     resolution: {integrity: sha512-Gmy6FhYlCY7uOElZUSbxo2UCDH8owEk996gkbrpsgGtrJLM3J7jGxl9Ic7Qwwj4ivOE5AWZWRMecDdF7hqGjFA==}
     engines: {node: '>=10'}
 
-  camera-controls@2.7.3:
-    resolution: {integrity: sha512-L4mxjBd3u8qiOLozdWrH2P8ZybSsDXBF7iyNyqNEFJhPUkovmuARWR8JTc1B/qlclOIg6FvZZA/0uAZMMim0mw==}
+  camera-controls@2.8.3:
+    resolution: {integrity: sha512-zFjqUR6onLkG+z1A6vAWfzovxZxWVSvp6e5t3lfZgfgPZtX3n74aykNAUaoRbq8Y3tOxadHkDjbfGDOP9hFf2w==}
     peerDependencies:
       three: '>=0.126.1'
 
@@ -5544,13 +5535,13 @@ packages:
       react:
         optional: true
 
-  three-stdlib@2.28.11:
-    resolution: {integrity: sha512-2zo5+N2pe91Y88F+pTDTgQYNnV7pTixF93GQis2TS/fGeOf2Qlw0aKhJbzvSq7w8YkhpKL8f1v3L95JImxCltQ==}
+  three-stdlib@2.28.5:
+    resolution: {integrity: sha512-JdLMhkpT+1ZWeQPyKQNW1zqUwISI2hsUljS6u3vB9lp5EvwsayaAzGnbVeR35895udOF+zxcTiQY3psk+qqlxg==}
     peerDependencies:
       three: '>=0.128.0'
 
-  three-stdlib@2.28.5:
-    resolution: {integrity: sha512-JdLMhkpT+1ZWeQPyKQNW1zqUwISI2hsUljS6u3vB9lp5EvwsayaAzGnbVeR35895udOF+zxcTiQY3psk+qqlxg==}
+  three-stdlib@2.29.6:
+    resolution: {integrity: sha512-nj9bHkzhhwfmqQcM/keC2RDb0bHhbw6bRXTy81ehzi8F1rtp6pJ5eS0/vl1Eg5RMFqXOMyxJ6sDHPoLU+IrVZg==}
     peerDependencies:
       three: '>=0.128.0'
 
@@ -7464,7 +7455,7 @@ snapshots:
       '@tailwindcss/container-queries': 0.1.1(tailwindcss@3.3.6)
       '@tailwindcss/forms': 0.5.7(tailwindcss@3.3.6)
       '@tailwindcss/typography': 0.5.10(tailwindcss@3.3.6)
-      '@vueuse/core': 10.7.1(vue@3.4.13(typescript@5.3.3))
+      '@vueuse/core': 10.9.0(vue@3.4.13(typescript@5.3.3))
       '@vueuse/integrations': 10.7.0(fuse.js@6.6.2)(vue@3.4.13(typescript@5.3.3))
       '@vueuse/math': 10.7.0(vue@3.4.13(typescript@5.3.3))
       defu: 6.1.3
@@ -7941,16 +7932,16 @@ snapshots:
       postcss-selector-parser: 6.0.10
       tailwindcss: 3.3.6
 
-  '@tresjs/cientos@3.7.0(@tresjs/core@3.6.0(three@0.160.0)(vue@3.4.13(typescript@5.3.3)))(three@0.160.0)(tweakpane@4.0.3)(vue@3.4.13(typescript@5.3.3))':
+  '@tresjs/cientos@3.8.0(@tresjs/core@3.6.0(three@0.160.0)(vue@3.4.13(typescript@5.3.3)))(three@0.160.0)(tweakpane@4.0.3)(vue@3.4.13(typescript@5.3.3))':
     dependencies:
       '@tresjs/core': 3.6.0(three@0.160.0)(vue@3.4.13(typescript@5.3.3))
-      '@vueuse/core': 10.7.1(vue@3.4.13(typescript@5.3.3))
-      camera-controls: 2.7.3(three@0.160.0)
+      '@vueuse/core': 10.9.0(vue@3.4.13(typescript@5.3.3))
+      camera-controls: 2.8.3(three@0.160.0)
       stats-gl: 2.0.1
       stats.js: 0.17.0
       three: 0.160.0
       three-custom-shader-material: 5.4.0(three@0.160.0)
-      three-stdlib: 2.28.11(three@0.160.0)
+      three-stdlib: 2.29.6(three@0.160.0)
       tweakpane: 4.0.3
       vue: 3.4.13(typescript@5.3.3)
     transitivePeerDependencies:
@@ -7961,7 +7952,7 @@ snapshots:
   '@tresjs/core@3.5.1(three@0.159.0)(vue@3.4.13(typescript@5.3.3))':
     dependencies:
       '@alvarosabu/utils': 3.1.1
-      '@vueuse/core': 10.7.1(vue@3.4.13(typescript@5.3.3))
+      '@vueuse/core': 10.9.0(vue@3.4.13(typescript@5.3.3))
       three: 0.159.0
       vue: 3.4.13(typescript@5.3.3)
     transitivePeerDependencies:
@@ -7979,7 +7970,7 @@ snapshots:
   '@tresjs/core@3.6.0-next.0(three@0.160.0)(vue@3.4.13(typescript@5.3.3))':
     dependencies:
       '@alvarosabu/utils': 3.1.1
-      '@vueuse/core': 10.7.1(vue@3.4.13(typescript@5.3.3))
+      '@vueuse/core': 10.9.0(vue@3.4.13(typescript@5.3.3))
       three: 0.160.0
       vue: 3.4.13(typescript@5.3.3)
     transitivePeerDependencies:
@@ -8736,16 +8727,6 @@ snapshots:
       - '@vue/composition-api'
       - vue
 
-  '@vueuse/core@10.7.1(vue@3.4.13(typescript@5.3.3))':
-    dependencies:
-      '@types/web-bluetooth': 0.0.20
-      '@vueuse/metadata': 10.7.1
-      '@vueuse/shared': 10.7.1(vue@3.4.13(typescript@5.3.3))
-      vue-demi: 0.14.6(vue@3.4.13(typescript@5.3.3))
-    transitivePeerDependencies:
-      - '@vue/composition-api'
-      - vue
-
   '@vueuse/core@10.9.0(vue@3.4.13(typescript@5.3.3))':
     dependencies:
       '@types/web-bluetooth': 0.0.20
@@ -8787,8 +8768,6 @@ snapshots:
 
   '@vueuse/metadata@10.7.0': {}
 
-  '@vueuse/metadata@10.7.1': {}
-
   '@vueuse/metadata@10.9.0': {}
 
   '@vueuse/nuxt@10.9.0(nuxt@3.9.1(@parcel/watcher@2.4.1)(@types/node@20.11.0)(encoding@0.1.13)(eslint@8.56.0)(optionator@0.9.3)(rollup@4.9.5)(terser@5.26.0)(typescript@5.3.3)(vite@5.0.11(@types/node@20.11.0)(terser@5.26.0)))(rollup@4.9.5)(vue@3.4.13(typescript@5.3.3))':
@@ -8813,13 +8792,6 @@ snapshots:
       - vue
 
   '@vueuse/shared@10.7.0(vue@3.4.13(typescript@5.3.3))':
-    dependencies:
-      vue-demi: 0.14.6(vue@3.4.13(typescript@5.3.3))
-    transitivePeerDependencies:
-      - '@vue/composition-api'
-      - vue
-
-  '@vueuse/shared@10.7.1(vue@3.4.13(typescript@5.3.3))':
     dependencies:
       vue-demi: 0.14.6(vue@3.4.13(typescript@5.3.3))
     transitivePeerDependencies:
@@ -9292,7 +9264,7 @@ snapshots:
 
   camelcase@6.3.0: {}
 
-  camera-controls@2.7.3(three@0.160.0):
+  camera-controls@2.8.3(three@0.160.0):
     dependencies:
       three: 0.160.0
 
@@ -13510,9 +13482,9 @@ snapshots:
       object-hash: 3.0.0
       three: 0.160.0
 
-  three-stdlib@2.28.11(three@0.160.0):
+  three-stdlib@2.28.5(three@0.160.0):
     dependencies:
-      '@types/draco3d': 1.4.9
+      '@types/draco3d': 1.4.8
       '@types/offscreencanvas': 2019.7.3
       '@types/webxr': 0.5.10
       draco3d: 1.5.6
@@ -13520,9 +13492,9 @@ snapshots:
       potpack: 1.0.2
       three: 0.160.0
 
-  three-stdlib@2.28.5(three@0.160.0):
+  three-stdlib@2.29.6(three@0.160.0):
     dependencies:
-      '@types/draco3d': 1.4.8
+      '@types/draco3d': 1.4.9
       '@types/offscreencanvas': 2019.7.3
       '@types/webxr': 0.5.10
       draco3d: 1.5.6
