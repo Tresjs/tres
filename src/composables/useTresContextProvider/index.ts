@@ -1,7 +1,7 @@
 import { useFps, useMemory, useRafFn } from '@vueuse/core'
 import { computed, inject, onUnmounted, provide, readonly, ref, shallowRef } from 'vue'
 import type { Camera, EventDispatcher, Object3D, WebGLRenderer } from 'three'
-import { Raycaster } from 'three'
+import { Clock, Raycaster } from 'three'
 import type { ComputedRef, DeepReadonly, MaybeRef, MaybeRefOrGetter, Ref, ShallowRef } from 'vue'
 import { calculateMemoryUsage } from '../../utils/perf'
 import { useCamera } from '../useCamera'
@@ -12,7 +12,8 @@ import { useLogger } from '../useLogger'
 import type { TresScene } from '../../types'
 import type { EventProps } from '../usePointerEventHandler'
 import useSizes, { type SizesType } from '../useSizes'
-import { bindUseLoop, useLoop } from '../useRenderLoop'
+import { bindUseLoop } from '../useLoop'
+import type { TresLoopCallbackArg } from '../useLoop'
 
 export interface InternalState {
   priority: Ref<number>
@@ -179,16 +180,17 @@ export function useTresContextProvider({
   provide('useTres', ctx)
 
   bindUseLoop({
-    tresContext: ctx,
-    defaultRenderFn: () => {
+    callbackArg: { tresContext: ctx, delta: 0, elapsed: 0, clock: new Clock() },
+    defaultRender: () => {
       if (scene && camera.value && render.frames.value > 0) {
         renderer.value.render(scene, camera.value)
       }
     },
-  })
-
-  useLoop(
-    () => {
+    onBeforeLoop: (callbackArg: TresLoopCallbackArg) => {
+      callbackArg.delta = callbackArg.clock.getDelta()
+      callbackArg.elapsed = callbackArg.clock.getElapsedTime()
+    },
+    onAfterLoop: () => {
       emit('render', renderer.value)
 
       // NOTE: Reset priority
@@ -201,7 +203,7 @@ export function useTresContextProvider({
         render.frames.value = Math.max(0, render.frames.value - 1)
       }
     },
-  )
+  })
 
   // Add context to scene local state
   ctx.scene.value.__tres = {

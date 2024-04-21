@@ -91,7 +91,7 @@ describe('createPrioritizableEventHook', () => {
         expect(result).toBe('0123456789')
       }
     })
-    it('adds events, sorted by priority then insert order', () => {
+    it('sorts events by priority then insert order', () => {
       const NUM_TESTS = 10
       for (let i = 0; i < NUM_TESTS; i++) {
         const insertOrder = {}
@@ -115,23 +115,44 @@ describe('createPrioritizableEventHook', () => {
         )
       }
     })
-    it('adds an event only once', () => {
-      const fn0 = () => { }
-      const fn1 = () => { }
-      hook.on(fn0)
-      hook.on(fn1)
-      hook.on(fn0)
-      expect(hook.count).toBe(2)
-    })
-    it('adds an event only once, but this may change its priority', () => {
-      let result = ''
-      const fn0 = () => { result += '0' }
-      const fn1 = () => { result += '1' }
-      hook.on(fn0)
-      hook.on(fn1)
-      hook.on(fn0, 10000)
-      hook.trigger()
-      expect(result).toBe('10')
+    describe('... with an event added twice', () => {
+      it('triggers once', () => {
+        let result = ''
+        const fn0 = () => { result += '0' }
+        hook.on(fn0)
+        hook.on(fn0, 1)
+        hook.on(fn0, 2)
+        hook.trigger()
+        expect(result).toBe('0')
+      })
+      it('is counted once', () => {
+        const fn0 = () => { }
+        const fn1 = () => { }
+        hook.on(fn0)
+        hook.on(fn1)
+        hook.on(fn0)
+        expect(hook.count).toBe(2)
+      })
+      it('uses latest insert order', () => {
+        let result = ''
+        const fn0 = () => { result += '0' }
+        const fn1 = () => { result += '1' }
+        hook.on(fn0)
+        hook.on(fn1)
+        hook.on(fn0)
+        hook.trigger()
+        expect(result).toBe('10')
+      })
+      it('uses latest priority', () => {
+        let result = ''
+        const fn0 = () => { result += '0' }
+        const fn1 = () => { result += '1' }
+        hook.on(fn0, 0)
+        hook.on(fn1, 1)
+        hook.on(fn0, 2)
+        hook.trigger()
+        expect(result).toBe('10')
+      })
     })
     it('returns an object with `off`', () => {
       let result = ''
