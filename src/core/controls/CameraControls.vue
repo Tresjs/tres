@@ -4,7 +4,9 @@ import { ref, watchEffect, onUnmounted, toRefs, computed } from 'vue'
 import type {
   PerspectiveCamera,
   OrthographicCamera,
-  Object3D } from 'three'
+  Object3D,
+  Camera,
+} from 'three'
 import {
   Box3,
   MathUtils,
@@ -19,6 +21,7 @@ import {
 } from 'three'
 import { useRenderLoop, useTresContext } from '@tresjs/core'
 import { useEventListener } from '@vueuse/core'
+import { isPerspectiveCamera, isOrthographicCamera } from '../../utils/types'
 
 export interface CameraControlsProps {
   /**
@@ -272,27 +275,38 @@ export interface CameraControlsProps {
   /**
    * User's mouse input config.
    *
+   * | Button to assign        | Options                                                        | Default                                                         |
+   * | ----------------------- | -------------------------------------------------------------- | --------------------------------------------------------------- |
+   * | `mouseButtons.left`     | `ROTATE` \| `TRUCK` \| `OFFSET` \| `DOLLY` \| `ZOOM` \| `NONE` | `ROTATE`                                                        |
+   * | `mouseButtons.right`    | `ROTATE` \| `TRUCK` \| `OFFSET` \| `DOLLY` \| `ZOOM` \| `NONE` | `TRUCK`                                                         |
+   * | `mouseButtons.wheel` ¹  | `ROTATE` \| `TRUCK` \| `OFFSET` \| `DOLLY` \| `ZOOM` \| `NONE` | `DOLLY` for Perspective camera, `ZOOM` for Orthographic camera. |
+   * | `mouseButtons.middle` ² | `ROTATE` \| `TRUCK` \| `OFFSET` \| `DOLLY` \| `ZOOM` \| `NONE` | `DOLLY`                                                         |
+   * 
+   * 1. Mouse wheel event for scroll "up/down", on mac "up/down/left/right".
+   * 2. Mouse wheel "button" click event.
+   *   
+   * > **_NOTE:_** `DOLLY` can't be set when camera is Orthographic.
+   * 
    * @default See description
    * @memberof CameraControlsProps
    */
-  mouseButtons?: {
-    left?: number
-    right?: number
-    wheel?: number
-    middle?: number
-  }
+  mouseButtons?: Partial<CameraControls['mouseButtons']>
 
   /**
    * User's touch input config.
-   *
+   * 
+   * | Fingers to assign | Options                                                                                                                                                                                                                                 | Default                                                                                |
+   * | ----------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
+   * | `touches.one`     | `TOUCH_ROTATE` \| `TOUCH_TRUCK` \| `TOUCH_OFFSET` \| `DOLLY` \| `ZOOM` \| `NONE`                                                                                                                                                        | `TOUCH_ROTATE`                                                                         |
+   * | `touches.two`     | `TOUCH_DOLLY_TRUCK` \| `TOUCH_DOLLY_OFFSET` \| `TOUCH_DOLLY_ROTATE` \| `TOUCH_ZOOM_TRUCK` \| `TOUCH_ZOOM_OFFSET` \| `TOUCH_ZOOM_ROTATE` \| `TOUCH_DOLLY` \| `TOUCH_ZOOM` \| `TOUCH_ROTATE` \| `TOUCH_TRUCK` \| `TOUCH_OFFSET` \| `NONE` | `TOUCH_DOLLY_TRUCK` for Perspective camera, `TOUCH_ZOOM_TRUCK` for Othographic camera. |
+   * | `touches.three`   | `TOUCH_DOLLY_TRUCK` \| `TOUCH_DOLLY_OFFSET` \| `TOUCH_DOLLY_ROTATE` \| `TOUCH_ZOOM_TRUCK` \| `TOUCH_ZOOM_OFFSET` \| `TOUCH_ZOOM_ROTATE` \| `TOUCH_ROTATE` \| `TOUCH_TRUCK` \| `TOUCH_OFFSET` \| `NONE`                                  | `TOUCH_TRUCK`                                                                          |
+   * 
+   * > **_NOTE:_** `TOUCH_DOLLY_TRUCK` and `TOUCH_DOLLY` can't be set when camera is Orthographic.
+   * 
    * @default See description
    * @memberof CameraControlsProps
    */
-  touches?: {
-    one?: number
-    two?: number
-    three?: number
-  }
+  touches?: Partial<CameraControls['touches']>
 }
 
 const props = withDefaults(defineProps<CameraControlsProps>(), {
@@ -321,8 +335,8 @@ const props = withDefaults(defineProps<CameraControlsProps>(), {
   boundaryFriction: 0.0,
   restThreshold: 0.01,
   colliderMeshes: () => [],
-  mouseButtons: () => defaultMouseButtons,
-  touches: () => defaultTouches,
+  mouseButtons: () => getMouseButtons(useTresContext().camera.value),
+  touches: () => getTouches(useTresContext().camera.value),
 })
 
 const emit = defineEmits(['change', 'start', 'end'])
@@ -357,16 +371,6 @@ const {
   touches: touchesRef,
 } = toRefs(props)
 
-const mouseButtons = computed(() => ({
-  ...defaultMouseButtons,
-  ...mouseButtonsRef.value,
-}))
-
-const touches = computed(() => ({
-  ...defaultTouches,
-  ...touchesRef.value,
-}))
-
 // allow for tree shaking, only importing required classes
 const subsetOfTHREE = {
   Box3,
@@ -385,6 +389,9 @@ const subsetOfTHREE = {
 CameraControls.install({ THREE: subsetOfTHREE })
 
 const { camera: activeCamera, renderer, extend, controls } = useTresContext()
+
+const mouseButtons = computed(() => getMouseButtons(activeCamera.value, mouseButtonsRef.value))
+const touches = computed(() => getTouches(activeCamera.value, touchesRef.value))
 
 const controlsRef = ref<CameraControls | null>(null)
 extend({ CameraControls })
@@ -423,18 +430,40 @@ defineExpose({
 </script>
 
 <script lang="ts">
-const defaultMouseButtons: CameraControls['mouseButtons'] = {
+const getMouseButtons = (
+  camera?: Camera,
+  mouseButtons?: Partial<CameraControls['mouseButtons']>,
+): CameraControls['mouseButtons'] => ({
   left: CameraControls.ACTION.ROTATE,
   middle: CameraControls.ACTION.DOLLY,
   right: CameraControls.ACTION.TRUCK,
-  wheel: CameraControls.ACTION.DOLLY,
-}
+  wheel: (
+    isPerspectiveCamera(camera)
+      ? CameraControls.ACTION.DOLLY
+      : isOrthographicCamera(camera)
+        ? CameraControls.ACTION.ZOOM
+        : CameraControls.ACTION.NONE
+  ),
+  ...mouseButtons,
+})
 
-const defaultTouches: CameraControls['touches'] = {
+const getTouches = (
+  camera?: Camera,
+  touches?: Partial<CameraControls['touches']>,
+): CameraControls['touches'] => ({
   one: CameraControls.ACTION.TOUCH_ROTATE,
-  two: CameraControls.ACTION.TOUCH_DOLLY_TRUCK,
+  two: (
+    isPerspectiveCamera(camera)
+      ? CameraControls.ACTION.TOUCH_DOLLY_TRUCK
+      : isOrthographicCamera(camera)
+        ? CameraControls.ACTION.TOUCH_ZOOM_TRUCK
+        : CameraControls.ACTION.NONE
+  ),
   three: CameraControls.ACTION.TOUCH_TRUCK,
-}
+  ...touches,
+})
+
+export { default as CameraControlsClass } from 'camera-controls'
 </script>
 
 <template>
