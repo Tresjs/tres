@@ -68,10 +68,12 @@ import { CameraControls, CameraControlsClass } from '@tresjs/cientos'
 </script>
 
 <template>
+  ...
   <CameraControls
-    :mouse-buttons="{ left: CameraControlsClass.ACTION.DOLLY, ... }"
-    :touches="{ one: CameraControlsClass.ACTION.TOUCH_TRUCK, ... }"
+    :mouse-buttons="{ left: CameraControlsClass.ACTION.DOLLY }"
+    :touches="{ one: CameraControlsClass.ACTION.TOUCH_TRUCK }"
   />
+  ...
 </template>
 ```
 
