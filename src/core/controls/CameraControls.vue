@@ -467,7 +467,7 @@ const getTouches = (
   ...touches,
 })
 
-export { default as CameraControlsClass } from 'camera-controls'
+export { default as BaseCameraControls } from 'camera-controls'
 </script>
 
 <template>

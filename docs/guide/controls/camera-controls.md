@@ -60,18 +60,18 @@ Certainly! Here's the properties of the object in raw markdown table format:
 
 ## User input config
 
-You can easily override the default user input config by defining `mouseButtons` and/or `touches` props that correspond to [`camera-controls` settings](https://github.com/yomotsu/camera-controls?#user-input-config). For ease of use, we're re-exporting the `CameraControls` class as `CameraControlsClass` which gives you access to the `ACTION` enum.
+You can easily override the default user input config by defining `mouseButtons` and/or `touches` props that correspond to [`camera-controls` settings](https://github.com/yomotsu/camera-controls?#user-input-config). For ease of use, we're re-exporting the `CameraControls` class as `BaseCameraControls` which gives you access to the `ACTION` enum.
 
 ```vue
 <script lang="ts" setup>
-import { CameraControls, CameraControlsClass } from '@tresjs/cientos'
+import { CameraControls, BaseCameraControls } from '@tresjs/cientos'
 </script>
 
 <template>
   ...
   <CameraControls
-    :mouse-buttons="{ left: CameraControlsClass.ACTION.DOLLY }"
-    :touches="{ one: CameraControlsClass.ACTION.TOUCH_TRUCK }"
+    :mouse-buttons="{ left: BaseCameraControls.ACTION.DOLLY }"
+    :touches="{ one: BaseCameraControls.ACTION.TOUCH_TRUCK }"
   />
   ...
 </template>
