@@ -22,7 +22,7 @@ import { VPHomeSponsors } from 'vitepress/theme'
   <div class="action">
     <p class="message">Consider supporting our friends</p>
   </div>
-  <ul class="action flex">
+  <ul class="action flex flex-wrap w-full sm:w-2/3 md:1/3 mx-auto">
     <li>
       <a
         class="sponsor"
