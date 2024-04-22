@@ -367,8 +367,6 @@ const {
   boundaryFriction,
   restThreshold,
   colliderMeshes,
-  mouseButtons: mouseButtonsRef,
-  touches: touchesRef,
 } = toRefs(props)
 
 // allow for tree shaking, only importing required classes
@@ -390,8 +388,14 @@ CameraControls.install({ THREE: subsetOfTHREE })
 
 const { camera: activeCamera, renderer, extend, controls } = useTresContext()
 
-const mouseButtons = computed(() => getMouseButtons(activeCamera.value, mouseButtonsRef.value))
-const touches = computed(() => getTouches(activeCamera.value, touchesRef.value))
+const mouseButtons = computed(() => getMouseButtons(
+  props.camera || activeCamera.value,
+  props.mouseButtons,
+))
+const touches = computed(() => getTouches(
+  props.camera || activeCamera.value,
+  props.touches,
+))
 
 const controlsRef = ref<CameraControls | null>(null)
 extend({ CameraControls })
