@@ -1,8 +1,8 @@
 # v-always-look-at 👀
 
-With the new directive v-always-look-at provided by **TresJS**, you can add easily command an [Object3D](https://threejs.org/docs/index.html?q=object#api/en/core/Object3D) to always look at a specific position, this could be passed as a Vector3 or an Array.
+Con la nuova direttiva v-always-look-at fornita da **TresJS**, è possibile aggiungere facilmente un comando [Object3D](https://threejs.org/docs/index.html"q=object#api/en/core/Object3D) per guardare sempre una posizione specifica, questo potrebbe essere passato come Vector3 o Array.
 
-## Usage
+## Utilizzo
 
 ```vue{3,9}
 <script setup lang="ts">
@@ -18,17 +18,18 @@ import { Box, vAlwaysLookAt } from '@tresjs/cientos'
   </TresCanvas>
 </template>
 ```
-No matter where the `Box` move will always look-at the position [0,0,0]
 
-### Why not use the in built method look-at?
+Non importa dove il `Box` si muoverà guarderà sempre alla posizione [0,0,0]
 
-You could ask, this is fine but I can use the `:look-at` method directly in the component, why should I need this?
+### Perché non usare il metodo integrato look-at?
 
-The answers is that with the method `:look-at` you will indicate to look at that position just once, when the instance is mounted, then if the object changes this will not get updated.
+Si potrebbe chiedere, questo va bene ma posso usare il metodo `:look-at` direttamente nel componente, perché dovrei averne bisogno?
 
-### You can look at other instance too!
+La risposta è che con il metodo `:look-at` indicherai di guardare quella posizione solo una volta, quando l'istanza è montata, quindi se l'oggetto cambia questo non verrà aggiornato.
 
-Another advantage is that you can look at an instance in movement, for example with the camera, like so:
+### Puoi guardare anche altre istanze!
+
+Un altro vantaggio è che puoi guardare un'istanza in movimento, ad esempio con la fotocamera, in questo modo:
 
 ```vue{4,6,20,23}
 <script setup lang="ts">
@@ -40,7 +41,7 @@ const sphereRef = shallowRef()
 
 const { onLoop } = useRenderLoop()
 
-// here we update the position of the sphere and the camera will always follow the object
+// qui aggiorniamo la posizione della sfera e la fotocamera seguirà sempre l'oggetto
 onLoop(({ elapsed }) => {
   if (sphereRef.value) {
     sphereRef.value.value.position.y = Math.sin(elapsed) * 1.5

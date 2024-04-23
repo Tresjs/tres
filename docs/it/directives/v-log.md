@@ -1,37 +1,34 @@
 # v-log
 
-### Problem
+### Problema
 
-When you have to log your instance you have to use the template reference and then log them:
+Quando hai bisogno di loggare la tua instanza hai bisogno di creare prima una reference:
 
 ```vue
 <script setup lang="ts">
-import { shallowRef, watch } from 'vue'
+import { shallowRef, watch } from "vue";
 
-const sphereRef = shallowRef()
+const sphereRef = shallowRef();
 
 watch(sphereRef, (value) => {
-  console.log(value) // Really for a log?!!! 😫
-})
+  console.log(value); // Davvero solo per un log?!!! 😫
+});
 </script>
 
 <template>
   <TresCanvas>
     <TresPerspectiveCamera :position="[0, 2, 5]" />
-    <Sphere
-      ref="sphereRef"
-      :scale="0.5"
-    />
+    <Sphere ref="sphereRef" :scale="0.5" />
     <OrbitControls />
   </TresCanvas>
 </template>
 ```
 
-Don't you think this is A LOT of code just for a simple log?
+Non trovi che sia troppo codice per un semplice log?
 
-## Usage
+## Utilizzo
 
-With the new directive v-log provided by **TresJS**, you can do this by just adding `v-log` to the instance.
+Con la nuova direttiva v-log fornita da **TresJS**, potete farlo semplicemente aggiungendo `v-log` all'istanza.
 
 ```vue{2,10,12}
 <script setup lang="ts">
@@ -43,11 +40,11 @@ import { OrbitControls, Sphere, vLog } from '@tresjs/cientos'
     <Sphere
       ref="sphereRef"
       :scale="0.5"
-      v-log:material  <!-- will print just the material 🎉 -->
+      v-log:material  <!-- mostrerà solo il materiale 🎉 -->
     />
     <OrbitControls v-log />
   </TresCanvas>
 </template>
 ```
 
-Note that you can pass a modifier with the name of a property, for example `v-log:material`, and it will directly log the `material` property 😍
+Nota che puoi passare un modificatore con il nome di una proprietà, per esempio `v-log:material`, e registrerà direttamente la proprietà `material` 😍

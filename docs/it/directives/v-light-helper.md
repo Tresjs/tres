@@ -1,14 +1,15 @@
 # v-light-helper 🔆
 
-With the new directive v-light-helper provided by **TresJS**, you can quickly add the respective helper to your lights with just one line of code 😍.
+Con la nuova direttiva v-light-helper fornita da \*TresJS\*\*, puoi aggiungere rapidamente il rispettivo helper alle tue luci con una sola riga di codice 😍.
 
-The following lights are supported:
-- DirectionalLight
+Sono supportate le seguenti luci:
+
+- Luce direzionale
 - PointLight
-- SpotLight
-- HemisphereLight
+- riflettori
+- Luce per l'illuminazione
 
-## Usage
+## Utilizzo
 
 ```vue{2,8,11,14,17}
 <script setup lang="ts">
