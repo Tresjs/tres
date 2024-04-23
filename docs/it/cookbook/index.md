@@ -1,5 +1,5 @@
-# Cookbook 🍳🧑‍🍳
+# Ricettario 🍳🧑‍🍳
 
-Discover guided recipes to help you get started with the basics of using Tres. Each recipe is designed to help you understand the core concepts of Tres and how to use them in your projects.
+Scopri le ricette guidate per iniziare a utilizzare Tres. Ogni ricetta è progettata per aiutarti a capire i concetti fondamentali di Tres e come usarli nei tuoi progetti.
 
 <Cookbook />

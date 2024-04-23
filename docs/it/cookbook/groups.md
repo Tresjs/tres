@@ -1,16 +1,16 @@
 ---
-title: Groups
-description: Learn how to group multiple objects in the scene.
+title: Gruppi
+description: Scopri come raggruppare più oggetti nella scena.
 author: alvarosabu
 thumbnail: /recipes/groups.png
 difficulty: 0
 ---
 
-# Group
+# Gruppo
 
-A `<TresGroup>` is an instance of the [THREE.Group](https://threejs.org/docs/#api/en/objects/Group) class which is almost the same as a [THREE.Object3D](https://threejs.org/docs/#api/en/objects/Object3D) but allows you to **group together multiple objects in the scene** so that they can be manipulated as a single unit (transform, rotation, etc).
+A `<TresGroup>` è un'istanza della classe [THREE.Group] (https://threejs.org/docs/#api/en/Objects/Group) che è quasi la stessa di una [THREE.Object3D](https:///threejs.org/docs/#api/en/objects/Object3D) ma permette di **raggruppare più oggetti nella scena** in modo che possano essere manipolati come una singola unità (trasformazione, rotazione, ecc.).
 
-## Usage
+## Utilizzo
 
 ```vue{13,22}
 <script setup lang="ts">

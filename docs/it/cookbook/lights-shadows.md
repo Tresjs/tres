@@ -1,6 +1,6 @@
 ---
-title: Lights and Shadows
-description: Learn how to add lights and shadows to your scene.
+title: Luci e ombre
+description: Scopri come aggiungere luci ed ombre alla tua scena.
 author: alvarosabu
 thumbnail: /recipes/lights-and-shadows.png
 difficulty: 0
@@ -24,41 +24,28 @@ I'm going to use [MeshToonMaterial](https://threejs.org/docs/index.html?q=toon#a
 
 ```vue
 <script setup lang="ts">
-import { TresCanvas } from '@tresjs/core'
-import { OrbitControls } from '@tresjs/cientos'
+import { TresCanvas } from "@tresjs/core";
+import { OrbitControls } from "@tresjs/cientos";
 </script>
 
 <template>
-  <TresCanvas
-    clear-color="#111"
-    window-size
-  >
+  <TresCanvas clear-color="#111" window-size>
     <OrbitControls />
     <TresPerspectiveCamera :position="[5, 7.5, 7.5]" />
 
-    <TresMesh
-      :position="[-2, 2, 0]"
-      :rotation="[0, Math.PI, 0]"
-    >
+    <TresMesh :position="[-2, 2, 0]" :rotation="[0, Math.PI, 0]">
       <TresConeGeometry :args="[1, 1.5, 3]" />
       <TresMeshToonMaterial color="#82DBC5" />
     </TresMesh>
-    <TresMesh
-      :position="[0, 0, 0]"
-    >
+    <TresMesh :position="[0, 0, 0]">
       <TresBoxGeometry :args="[1.5, 1.5, 1.5]" />
       <TresMeshToonMaterial color="#4F4F4F" />
     </TresMesh>
-    <TresMesh
-      :position="[2, -2, 0]"
-    >
+    <TresMesh :position="[2, -2, 0]">
       <TresSphereGeometry />
       <TresMeshToonMaterial color="#FBB03B" />
     </TresMesh>
-    <TresMesh
-      :position="[0, -3, 0]"
-      :rotation="[-Math.PI / 2, 0, 0]"
-    >
+    <TresMesh :position="[0, -3, 0]" :rotation="[-Math.PI / 2, 0, 0]">
       <TresPlaneGeometry :args="[10, 10, 10, 10]" />
       <TresMeshStandardMaterial color="#f7f7f7" />
     </TresMesh>
@@ -92,14 +79,11 @@ We could divide this into three steps:
 //...
 
 <template>
-  <TresCanvas
-    clear-color="#111"
-    shadows
-    window-size
-  />
+  <TresCanvas clear-color="#111" shadows window-size />
   //...
 </template>
 ```
+
 ### Set the light to cast shadows
 
 We can simply add the boolean `cast-shadow`, Vue understands this as a `prop` with a value of `true`.
@@ -111,15 +95,12 @@ _The AmbientLight doesn't generate any type of shadow here_
 
 <template>
   <TresAmbientLight :intensity="1" />
-  <TresDirectionalLight
-    cast-shadow
-    :position="[0, 2, 0]"
-    :intensity="1"
-  />
+  <TresDirectionalLight cast-shadow :position="[0, 2, 0]" :intensity="1" />
 
   //...
 </template>
 ```
+
 ### Set the objects to cast or receive shadows
 
 Similarly to the previous step, we set the mesh that we want to cast shadow (our sphere) with the `cast-shadow` prop, and set the object to receive shadow (our plane) with the `receive-shadow` prop.
@@ -128,18 +109,11 @@ Similarly to the previous step, we set the mesh that we want to cast shadow (our
 //...
 
 <template>
-  <TresMesh
-    cast-shadow
-    :position="[2, -2, 0]"
-  >
+  <TresMesh cast-shadow :position="[2, -2, 0]">
     <TresSphereGeometry />
     <TresMeshToonMaterial color="#FBB03B" />
   </TresMesh>
-  <TresMesh
-    receive-shadow
-    :position="[0, -3, 0]"
-    :rotation="[-Math.PI / 2, 0, 0]"
-  >
+  <TresMesh receive-shadow :position="[0, -3, 0]" :rotation="[-Math.PI / 2, 0, 0]">
     <TresPlaneGeometry :args="[10, 10, 10, 10]" />
     <TresMeshStandardMaterial color="#f7f7f7" />
   </TresMesh>
@@ -151,27 +125,23 @@ Now we have all the necessary steps to add shadows to our scene, and if we apply
 
 ```vue
 <script setup>
-import { shallowRef } from 'vue'
-import { TresCanvas, useRenderLoop } from '@tresjs/core'
+import { shallowRef } from "vue";
+import { TresCanvas, useRenderLoop } from "@tresjs/core";
 
-const boxRef = shallowRef()
+const boxRef = shallowRef();
 
-const { onLoop } = useRenderLoop()
+const { onLoop } = useRenderLoop();
 
 onLoop(() => {
   if (boxRef.value) {
-    boxRef.value.rotation.y += 0.01
+    boxRef.value.rotation.y += 0.01;
   }
-})
+});
 </script>
 
 <template>
   //...
-  <TresMesh
-    ref="boxRef"
-    cast-shadow
-    :position="[0, 0, 0]"
-  >
+  <TresMesh ref="boxRef" cast-shadow :position="[0, 0, 0]">
     <TresBoxGeometry :args="[1.5, 1.5, 1.5]" />
     <TresMeshToonMaterial color="#4F4F4F" />
   </TresMesh>
