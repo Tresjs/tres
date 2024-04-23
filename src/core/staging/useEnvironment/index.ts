@@ -2,7 +2,7 @@ import { useLoader, useTresContext } from '@tresjs/core'
 import type {
   CubeTexture,
   Texture,
-  WebGLCubeRenderTarget
+  WebGLCubeRenderTarget,
 } from 'three'
 import {
   CubeReflectionMapping,
@@ -32,7 +32,10 @@ import { environmentPresets } from './const'
 
 // eslint-disable-next-line max-len
 const PRESET_ROOT = 'https://raw.githubusercontent.com/Tresjs/assets/main/textures/hdr/'
-export async function useEnvironment(options: Partial<EnvironmentOptions>, fbo: Ref<WebGLCubeRenderTarget | undefined>): Promise<Texture | CubeTexture> {
+export async function useEnvironment(
+  options: Partial<EnvironmentOptions>, 
+  fbo: Ref<WebGLCubeRenderTarget | undefined>,
+): Promise<Texture | CubeTexture> {
   const { scene } = useTresContext()
 
   const {
@@ -83,7 +86,7 @@ export async function useEnvironment(options: Partial<EnvironmentOptions>, fbo: 
 
   watch(() => [background.value, texture.value], ([_background, _texture]) => {
     if (scene.value) {
-      let bTexture = fbo?.value? fbo.value.texture : _texture
+      const bTexture = fbo?.value ? fbo.value.texture : _texture
       scene.value.background = _background ? bTexture : undefined as unknown as Texture
     }
   }, {

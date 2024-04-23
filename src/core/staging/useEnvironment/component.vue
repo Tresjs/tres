@@ -25,7 +25,7 @@ defineExpose({ texture })
 
 const { extend, renderer, scene } = useTresContext()
 let slots = null as any
-let fbo = ref(null as null | WebGLCubeRenderTarget)
+const fbo = ref(null as null | WebGLCubeRenderTarget)
 let cubeCamera = null as null | CubeCamera
 
 const envSence = ref<EnvSence | null>(null)
@@ -50,7 +50,8 @@ const setTextureEnvAndBG = (fbo: WebGLCubeRenderTarget) => {
     if (props.background) {
       scene.value.background = fbo.texture
     }
-  } else {
+  }
+  else {
     scene.value.environment = useEnvironmentTexture.value
     if (props.background) {
       scene.value.background = useEnvironmentTexture.value
@@ -66,7 +67,7 @@ watch(useEnvironmentTexture, (value) => {
 watch(useSlots().default, (value) => {
   if (value) {
     slots = value
-    if (Array.isArray(slots)&&slots.length>0) {
+    if (Array.isArray(slots) && slots.length > 0) {
       if (typeof slots[0]?.type !== 'symbol') {
         extend({ EnvSence })
         fbo.value = new WebGLCubeRenderTarget(props.resolution)
@@ -85,7 +86,10 @@ texture.value = useEnvironmentTexture
 </script>
 
 <template>
-  <TresEnvSence v-if="fbo" ref="envSence">
+  <TresEnvSence
+    v-if="fbo"
+    ref="envSence"
+  >
     <slot />
   </TresEnvSence>
 </template>
