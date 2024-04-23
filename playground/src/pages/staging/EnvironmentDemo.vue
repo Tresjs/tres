@@ -42,7 +42,7 @@ const { background, blur, preset, lightformers } = useControls({
     ],
     value: 'sunset',
   },
-  lightformers: false
+  lightformers: false,
 })
 
 const environmentRef = ref(null)
@@ -89,12 +89,31 @@ const { progress, hasFinishLoading } = await useProgress()
       <Environment
         :background="background.value"
         :blur="blur.value"
-        :preset="preset.value">
+        :preset="preset.value"
+      >
         <TresGroup v-if="lightformers.value">
-          <Lightformer :intensity="0.75" :rotation-x="Math.PI / 2" :position="[0, 5, -9]" :scale="[10, 10, 1]" />
-          <Lightformer :intensity="4" :rotation-y="Math.PI / 2" :position="[-5, 1, -1]" :scale="[20, 0.1, 1]" />
-          <Lightformer :rotation-y="Math.PI / 2" :position="[-5, -1, -1]" :scale="[20, 0.5, 1]" />
-          <Lightformer :rotation-y="-Math.PI / 2" :position="[10, 1, 0]" :scale="[20, 11, 1]" />
+          <Lightformer
+            :intensity="0.75"
+            :rotation-x="Math.PI / 2"
+            :position="[0, 5, -9]"
+            :scale="[10, 10, 1]"
+          />
+          <Lightformer
+            :intensity="4"
+            :rotation-y="Math.PI / 2"
+            :position="[-5, 1, -1]"
+            :scale="[20, 0.1, 1]"
+          />
+          <Lightformer
+            :rotation-y="Math.PI / 2"
+            :position="[-5, -1, -1]"
+            :scale="[20, 0.5, 1]"
+          />
+          <Lightformer
+            :rotation-y="-Math.PI / 2"
+            :position="[10, 1, 0]"
+            :scale="[20, 11, 1]"
+          />
         </TresGroup>
       </Environment>
     </Suspense>
