@@ -30,6 +30,6 @@ watchEffect(() => {
 })
 ```
 
-GSAP has been a very popular animation library and you can find a lot of help and resources online, including [these demos on codepen](https://codepen.io/GreenSock).
+GSAP is a very popular animation library and you can find a lot of help and resources online, including [these demos on codepen](https://codepen.io/GreenSock).
 
 Of course there are lots of alternatives out there, and you should feel free to reach for _your_ favorite animation library!
