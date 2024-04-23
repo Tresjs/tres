@@ -2,11 +2,25 @@ import { defineConfig } from 'vite'
 import Unocss from 'unocss/vite'
 import svgLoader from 'vite-svg-loader'
 import Components from 'unplugin-vue-components/vite'
+import { presetIcons, presetUno } from 'unocss'
 
 export default defineConfig({
   plugins: [
     svgLoader(),
-    Unocss(),
+    Unocss({
+      presets: [
+        presetUno(),
+        presetIcons({
+          scale: 1.2,
+          warn: true,
+          extraProperties: {
+            'display': 'inline-block',
+            'vertical-align': 'middle',
+            // ...
+          },
+        }),
+      ],
+    }),
     Components({
       // allow auto load markdown components under `.vitepress/theme/components`
       dirs: ['.vitepress/theme/components'],
