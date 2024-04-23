@@ -12,7 +12,8 @@ The following lights are supported:
 
 ```vue{2,8,11,14,17}
 <script setup lang="ts">
-import { OrbitControls, Sphere, vLightHelper } from '@tresjs/cientos'
+import { vLightHelper } from '@tresjs/core'
+import { OrbitControls, Sphere,  } from '@tresjs/cientos'
 </script>
 <template>
   <TresCanvas >
