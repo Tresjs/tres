@@ -112,8 +112,8 @@ importers:
         specifier: ^0.7.1
         version: 0.7.1
       vite-plugin-dts:
-        specifier: 3.8.3
-        version: 3.8.3(typescript@5.4.5)(vite@5.2.9)
+        specifier: 3.9.0
+        version: 3.9.0(typescript@5.4.5)(vite@5.2.9)
       vite-plugin-inspect:
         specifier: ^0.8.1
         version: 0.8.3(vite@5.2.9)
@@ -3236,7 +3236,7 @@ packages:
       '@babel/parser': 7.24.1
       birpc: 0.2.17
       estree-walker: 2.0.2
-      magic-string: 0.30.8
+      magic-string: 0.30.10
       vite: 5.2.9
       vite-hot-client: 0.2.3(vite@5.2.9)
     dev: true
@@ -3285,7 +3285,7 @@ packages:
   /@vitest/snapshot@1.5.0:
     resolution: {integrity: sha512-qpv3fSEuNrhAO3FpH6YYRdaECnnRjg9VxbhdtPwPRnzSfHVXnNzzrpX4cJxqiwgRMo7uRMWDFBlsBq4Cr+rO3A==}
     dependencies:
-      magic-string: 0.30.9
+      magic-string: 0.30.10
       pathe: 1.1.2
       pretty-format: 29.7.0
     dev: true
@@ -6218,7 +6218,7 @@ packages:
     dependencies:
       foreground-child: 3.1.1
       jackspeak: 2.3.6
-      minimatch: 9.0.3
+      minimatch: 9.0.4
       minipass: 7.0.4
       path-scurry: 1.10.1
     dev: true
@@ -9516,7 +9516,7 @@ packages:
       estree-walker: 3.0.3
       fast-glob: 3.3.2
       local-pkg: 0.5.0
-      magic-string: 0.30.8
+      magic-string: 0.30.10
       mlly: 1.6.1
       pathe: 1.1.2
       pkg-types: 1.0.3
@@ -9819,8 +9819,8 @@ packages:
       vite: 5.2.9
     dev: true
 
-  /vite-plugin-dts@3.8.3(typescript@5.4.5)(vite@5.2.9):
-    resolution: {integrity: sha512-yRHiRosQw7MXdOhmcrVI+kRiB8YEShbSxnADNteK4eZGdEoyOkMHihvO5XOAVlOq8ng9sIqu8vVefDK1zcj3qw==}
+  /vite-plugin-dts@3.9.0(typescript@5.4.5)(vite@5.2.9):
+    resolution: {integrity: sha512-pwFIEYQ3LZvMafkEGvNnileb6af5JuyZsBfYQrTDYxdeGEy0OS4B4hCsLPo5YGnhK5k9EzyO6BXVO6y+Lt5T2A==}
     engines: {node: ^14.18.0 || >=16.0.0}
     peerDependencies:
       typescript: '*'
@@ -9834,7 +9834,7 @@ packages:
       '@vue/language-core': 1.8.27(typescript@5.4.5)
       debug: 4.3.4
       kolorist: 1.8.0
-      magic-string: 0.30.9
+      magic-string: 0.30.10
       typescript: 5.4.5
       vite: 5.2.9
       vue-tsc: 1.8.27(typescript@5.4.5)
@@ -9960,7 +9960,7 @@ packages:
       '@vue/babel-plugin-jsx': 1.2.2(@babel/core@7.24.3)
       '@vue/compiler-dom': 3.4.23
       kolorist: 1.8.0
-      magic-string: 0.30.8
+      magic-string: 0.30.10
       vite: 5.2.9
     transitivePeerDependencies:
       - supports-color
