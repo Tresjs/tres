@@ -124,3 +124,34 @@ const { advance } = useTres()
 advance()
 </script>
 ```
+
+## Dispose resources `dispose()` <Badge type="tip" text="^4.0.0" />
+
+When you are done with a resource, like a texture, geometry, or material, you should dispose of it to free up memory. This is especially important when you are creating and destroying resources frequently, like in a game.
+
+TresJS will automatically dispose of resources recursively when the component is unmounted, but you can also perform this manually by calling the `dispose()` directly from the package:
+
+::: warning
+To avoid errors and unwanted sideeffects, resources created programatically with the use of `primitives` need to be manually disposed.
+:::
+
+```html {2,12}
+<script setup lang="ts">
+  import { dispose } from '@tresjs/core'
+  import { useGLTF } from '@tresjs/cientos'
+
+  const { nodes } = await useGLTF(
+    'https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/blender-cube.glb',
+    { draco: true },
+  )
+  const model = nodes.Cube
+
+  onUnmounted(() => {
+    dispose(model)
+  })
+</script>
+
+<template>
+  <primitive :object="model" />
+</template>
+```

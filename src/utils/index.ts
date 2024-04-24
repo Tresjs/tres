@@ -1,5 +1,5 @@
-import { DoubleSide, MeshBasicMaterial, Vector3 } from 'three'
-import type { Mesh, Object3D, Scene } from 'three'
+import type { Material, Mesh, Object3D, Texture } from 'three'
+import { DoubleSide, MeshBasicMaterial, Scene, Vector3 } from 'three'
 import { HightlightMesh } from '../devtools/highlight'
 
 export function toSetMethodName(key: string) {
@@ -266,4 +266,47 @@ export function extractBindingPosition(binding: any): Vector3 {
   }
   if (Array.isArray(binding.value)) { observer = new Vector3(...observer) }
   return observer
+}
+
+function hasMap(material: Material): material is Material & { map: Texture | null } {
+  return 'map' in material
+}
+
+export function disposeMaterial(material: Material): void {
+  if (hasMap(material) && material.map) {
+    material.map.dispose()
+  }
+
+  material.dispose()
+}
+
+export function disposeObject3D(object: Object3D): void {
+  if (object.parent) {
+    object.removeFromParent?.()
+  }
+  delete object.__tres
+  // Clone the children array to safely iterate
+  const children = [...object.children]
+  children.forEach(child => disposeObject3D(child))
+
+  if (object instanceof Scene) {
+    // Optionally handle Scene-specific cleanup
+  }
+  else {
+    const mesh = object as Mesh
+    if (mesh.geometry) {
+      mesh.geometry.dispose()
+      delete mesh.geometry
+    }
+
+    if (Array.isArray(mesh.material)) {
+      mesh.material.forEach(material => disposeMaterial(material))
+      delete mesh.material
+    }
+    else if (mesh.material) {
+      disposeMaterial(mesh.material)
+      delete mesh.material
+    }
+    object.dispose?.()
+  }
 }

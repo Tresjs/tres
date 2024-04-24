@@ -70,7 +70,7 @@ const sphereExists = ref(true)
         @pointer-out="onPointerOut"
       >
         <TresSphereGeometry :args="[2, 32, 32]" />
-        <TresMeshToonMaterial color="teal" />
+        <TresMeshBasicMaterial color="teal" />
       </TresMesh>
     </TresGroup>
 
@@ -84,7 +84,7 @@ const sphereExists = ref(true)
       receive-shadow
     >
       <TresPlaneGeometry :args="[10, 10, 10, 10]" />
-      <TresMeshToonMaterial />
+      <TresMeshBasicMaterial />
     </TresMesh>
 
     <TresDirectionalLight

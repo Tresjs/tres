@@ -16,6 +16,7 @@ import {
   getCurrentInstance,
   h,
   onMounted,
+  onUnmounted,
   provide,
   ref,
   shallowRef,
@@ -33,10 +34,11 @@ import {
 } from '../composables'
 import { extend } from '../core/catalogue'
 import { nodeOps } from '../core/nodeOps'
+import { registerTresDevtools } from '../devtools'
+import { disposeObject3D } from '../utils/'
 
 import type { RendererPresetsType } from '../composables/useRenderer/const'
 import type { TresCamera, TresObject } from '../types/'
-import { registerTresDevtools } from '../devtools'
 
 export interface TresCanvasProps
   extends Omit<WebGLRendererParameters, 'canvas'> {
@@ -134,14 +136,34 @@ const mountCustomRenderer = (context: TresContext) => {
 }
 
 const dispose = (context: TresContext, force = false) => {
-  scene.value.children = []
+  disposeObject3D(context.scene.value)
+  if (force) {
+    context.renderer.value.dispose()
+    context.renderer.value.renderLists.dispose()
+    context.renderer.value.forceContextLoss()
+  }
+  scene.value.__tres = {
+    root: context,
+  }
+  mountCustomRenderer(context)
+  resume()
+  /* disposeObject3D(scene.value) */
+  /*  scene.value.children.forEach((child) => {
+    child.removeFromParent()
+    disposeObject3D(child)
+  })
+  context.scene.value.children.forEach((child) => {
+    child.removeFromParent()
+    disposeObject3D(child)
+  }) */
+  /* console.log('disposing', scene.value.children)
   if (force) {
     context.renderer.value.dispose()
     context.renderer.value.renderLists.dispose()
     context.renderer.value.forceContextLoss()
   }
   mountCustomRenderer(context)
-  resume()
+  resume() */
 }
 
 const disableRender = computed(() => props.disableRender)
@@ -210,7 +232,12 @@ onMounted(() => {
     addDefaultCamera()
   }
 
+  // HMR support
   if (import.meta.hot && context.value) { import.meta.hot.on('vite:afterUpdate', () => dispose(context.value as TresContext)) }
+})
+
+onUnmounted(() => {
+  dispose(context.value as TresContext)
 })
 </script>
 
