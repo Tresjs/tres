@@ -11,6 +11,7 @@ import { extend } from '../../core/catalogue'
 import { useLogger } from '../useLogger'
 import type { TresScene } from '../../types'
 import type { EventProps } from '../usePointerEventHandler'
+import type { TresEventManager } from '../useTresEventManager'
 import useSizes, { type SizesType } from '../useSizes'
 
 export interface InternalState {
@@ -68,6 +69,7 @@ export interface TresContext {
   registerCamera: (camera: Camera) => void
   setCameraActive: (cameraOrUuid: Camera | string) => void
   deregisterCamera: (camera: Camera) => void
+  eventManager: TresEventManager
   // Events
   // Temporaly add the methods to the context, this should be handled later by the EventManager state on the context https://github.com/Tresjs/tres/issues/515
   // When thats done maybe we can short the names of the methods since the parent will give the context.

@@ -3,7 +3,7 @@ import type { DefaultTheme, LocaleSpecificConfig } from 'vitepress'
 export const enConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
   themeConfig: {
     editLink: {
-      pattern: 'https://github.com/tresjs/tres/edit/main/packages/docs/:path',
+      pattern: 'https://github.com/tresjs/tres/edit/main/docs/:path',
       text: 'Suggest changes to this page',
     },
     sidebar: [
@@ -79,6 +79,7 @@ export const enConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
           { text: 'v-light-helper', link: '/directives/v-light-helper' },
           { text: 'v-always-look-at', link: '/directives/v-always-look-at' },
           { text: 'v-distance-to', link: '/directives/v-distance-to' },
+          { text: 'v-rotate', link: '/directives/v-rotate' },
         ],
       },
       {

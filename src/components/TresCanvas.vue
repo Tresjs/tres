@@ -28,9 +28,9 @@ import pkg from '../../package.json'
 import {
   type TresContext,
   useLogger,
-  usePointerEventHandler,
   useRenderLoop,
   useTresContextProvider,
+  useTresEventManager,
 } from '../composables'
 import { extend } from '../core/catalogue'
 import { nodeOps } from '../core/nodeOps'
@@ -74,7 +74,24 @@ const props = withDefaults(defineProps<TresCanvasProps>(), {
   renderMode: 'always',
 })
 
-const emit = defineEmits(['render'])
+// Define emits for Pointer events, pass `emit` into useTresEventManager so we can emit events off of TresCanvas
+// Not sure of this solution, but you have to have emits defined on the component to emit them in vue
+const emit = defineEmits([
+  'render',
+  'click',
+  'double-click',
+  'context-menu',
+  'pointer-move',
+  'pointer-up',
+  'pointer-down',
+  'pointer-enter',
+  'pointer-leave',
+  'pointer-over',
+  'pointer-out',
+  'pointer-missed',
+  'wheel',
+])
+
 const slots = defineSlots<{
   default: () => any
 }>()
@@ -167,7 +184,7 @@ onMounted(() => {
     emit,
   })
 
-  usePointerEventHandler(context.value)
+  useTresEventManager(scene.value, context.value, emit)
 
   const { registerCamera, camera, cameras, deregisterCamera } = context.value
 

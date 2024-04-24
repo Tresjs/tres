@@ -1,26 +1,109 @@
 <script setup lang="ts">
 import { VPHomeSponsors } from 'vitepress/theme'
-import { useSponsor } from '../composables/sponsor'
 
-const { data } = useSponsor()
+/* const { data } = useSponsor() */
 </script>
 
 <template>
   <VPHomeSponsors
-    v-if="data"
     message="TresJS is free and open source, made possible by wonderful sponsors."
-    :data="data"
+    :data="[]"
   />
   <div class="action">
     <a
       class="sponsor"
-      href="https://github.com/sponsors/vitejs"
+      href="https://github.com/sponsors/tresjs"
       target="_blank"
       rel="noreferrer"
     >
-      Become a sponsor <i class="i-carbon-heart"></i>
+      Become a sponsor
     </a>
   </div>
+  <div class="action">
+    <p class="message">Consider supporting our friends</p>
+  </div>
+  <ul class="action flex flex-wrap w-full sm:w-2/3 md:1/3 mx-auto">
+    <li>
+      <a
+        class="sponsor"
+        href="https://github.com/sponsors/vitejs"
+        target="_blank"
+        rel="noreferrer"
+      >
+        Vite <i class="i-logos-vitejs ml-2"></i>
+      </a>
+    </li>
+    <li>
+      <a
+        class="sponsor"
+        href="https://github.com/sponsors/patak-dev"
+        target="_blank"
+        rel="noreferrer"
+      >
+        Patak <img class="w-5 h-5 rounded ml-2" src="https://avatars.githubusercontent.com/u/583075?v=4" alt="" />
+      </a>
+    </li>
+    <li>
+      <a
+        class="sponsor"
+        href="https://github.com/sponsors/antfu"
+        target="_blank"
+        rel="noreferrer"
+      >
+        Anthony Fu <img class="w-5 h-5 rounded ml-2" src="https://avatars.githubusercontent.com/u/11247099?v=4" alt="" />
+      </a>
+    </li>
+    <li>
+      <a
+        class="sponsor"
+        href="https://github.com/sponsors/posva"
+        target="_blank"
+        rel="noreferrer"
+      >
+        posva <img class="w-5 h-5 rounded ml-2" src="https://avatars.githubusercontent.com/u/664177?v=4" alt="" />
+      </a>
+    </li>
+    <li>
+      <a
+        class="sponsor"
+        href="https://github.com/sponsors/johnsoncodehk"
+        target="_blank"
+        rel="noreferrer"
+      >
+        Johnson Chu <img class="w-5 h-5 rounded ml-2" src="https://avatars.githubusercontent.com/u/16279759?v=4" alt="" />
+      </a>
+    </li>
+    <li>
+      <a
+        class="sponsor"
+        href="https://github.com/sponsors/CodyJasonBennett"
+        target="_blank"
+        rel="noreferrer"
+      >
+        Cody Bennet <img class="w-5 h-5 rounded ml-2" src="https://avatars.githubusercontent.com/u/23324155?v=4" alt="" />
+      </a>
+    </li>
+    <li>
+      <a
+        class="sponsor"
+        href="https://github.com/sponsors/nuxt"
+        target="_blank"
+        rel="noreferrer"
+      >
+        Daniel Roe <img class="w-5 h-5 rounded ml-2" src="https://avatars.githubusercontent.com/u/23360933?s=160&v=4" alt="" />
+      </a>
+    </li>
+    <li>
+      <a
+        class="sponsor"
+        href="https://github.com/sponsors/danielroe"
+        target="_blank"
+        rel="noreferrer"
+      >
+        Nuxt <img class="w-5 h-5 rounded ml-2" src="https://avatars.githubusercontent.com/u/28706372?v=4" alt="" />
+      </a>
+    </li>
+  </ul>
 </template>
 
 <style scoped>
@@ -33,7 +116,9 @@ const { data } = useSponsor()
 
 .sponsor {
   /* .VPButton */
-  display: inline-block;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   border: 1px solid transparent;
   text-align: center;
   font-weight: 600;
