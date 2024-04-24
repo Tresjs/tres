@@ -14,7 +14,7 @@
   "devDependencies": {
     "@iconify-json/logos": "^1.1.42",
     "@iconify-json/mdi": "^1.1.66",
-    "unocss": "^0.58.0",
+    "unocss": "^0.59.4",
     "vite-svg-loader": "^5.1.0"
   }
 }
