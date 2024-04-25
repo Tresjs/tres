@@ -1,7 +1,7 @@
 import { useFps, useMemory, useRafFn } from '@vueuse/core'
-import { computed, inject, onUnmounted, provide, readonly, ref, shallowRef } from 'vue'
+import { computed, inject, onUnmounted, provide, readonly, ref, shallowRef, toValue } from 'vue'
 import type { Camera, EventDispatcher, Object3D, WebGLRenderer } from 'three'
-import { Raycaster } from 'three'
+import { Clock, Raycaster } from 'three'
 import type { ComputedRef, DeepReadonly, MaybeRef, MaybeRefOrGetter, Ref, ShallowRef } from 'vue'
 import { calculateMemoryUsage } from '../../utils/perf'
 import { useCamera } from '../useCamera'
@@ -12,6 +12,7 @@ import { useLogger } from '../useLogger'
 import type { TresScene } from '../../types'
 import type { EventProps } from '../usePointerEventHandler'
 import useSizes, { type SizesType } from '../useSizes'
+import { provideLoop } from '../useLoop'
 
 export interface InternalState {
   priority: Ref<number>
@@ -181,6 +182,36 @@ export function useTresContextProvider({
   ctx.scene.value.__tres = {
     root: ctx,
   }
+
+  // NOTE: Begin loop
+  interface CallbackArg { delta: number, elapsed: number, clock: Clock, context: typeof ctx }
+
+  const loop = provideLoop<CallbackArg>({
+    callbackArg: { delta: 0, elapsed: 0, clock: new Clock(), context: ctx },
+    onBeforeLoop: (arg: CallbackArg) => {
+      arg.delta = arg.clock.getDelta()
+      arg.elapsed = arg.clock.getElapsedTime()
+    },
+    onAfterLoop: () => {
+      render.priority.value = 0
+      if (toValue(rendererOptions.renderMode) === 'always') {
+        render.frames.value = 1
+      }
+      else {
+        render.frames.value = Math.max(0, render.frames.value - 1)
+      }
+    },
+    defaultRender: () => {
+      if (camera.value && !toValue(disableRender) && render.frames.value > 0) {
+        renderer.value.render(scene, camera.value)
+        emit('render', renderer.value)
+      }
+    },
+  })
+
+  loop.pausable.resume()
+  if (import.meta.hot) { import.meta.hot.on('vite:afterUpdate', () => loop.pausable.resume) }
+  // NOTE: End loop
 
   // Performance
   const updateInterval = 100 // Update interval in milliseconds
