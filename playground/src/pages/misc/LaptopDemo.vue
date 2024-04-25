@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
-import { BasicShadowMap, SRGBColorSpace, NoToneMapping } from 'three'
+import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
 
-import { OrbitControls, Html, useGLTF, Levioso, ContactShadows } from '@tresjs/cientos'
+import { ContactShadows, Html, Levioso, OrbitControls, useGLTF } from '@tresjs/cientos'
 
 const gl = {
   clearColor: '#241a1a',
@@ -13,11 +13,10 @@ const gl = {
   toneMapping: NoToneMapping,
 }
 
-const { nodes } 
-  = await useGLTF('https://vazxmixjsiawhamofees.supabase.co/storage/v1/object/public/models/macbook/model.gltf', 
-    { draco: true },
-  )
+const { nodes }
+  = await useGLTF('https://vazxmixjsiawhamofees.supabase.co/storage/v1/object/public/models/macbook/model.gltf', { draco: true })
 
+// eslint-disable-next-line no-console
 console.log(nodes)
 </script>
 
@@ -39,7 +38,7 @@ console.log(nodes)
             class="rounded-lg w-[1024px] h-[670px]"
             src="https://tresjs.org"
             frameborder="0"
-          />
+          ></iframe>
         </Html>
       </primitive>
     </Levioso>

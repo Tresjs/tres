@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
-import { Sparkles, OrbitControls, TorusKnot } from '@tresjs/cientos'
+import { OrbitControls, Sparkles, TorusKnot } from '@tresjs/cientos'
 </script>
 
 <template>

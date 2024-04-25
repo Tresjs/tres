@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { computed, useSlots, shallowRef, watchEffect, toRefs, toValue } from 'vue'
+import { computed, shallowRef, toRefs, toValue, useSlots, watchEffect } from 'vue'
 import type { TextGeometryParameters } from 'three-stdlib'
-import { TextGeometry, FontLoader } from 'three-stdlib'
+import { FontLoader, TextGeometry } from 'three-stdlib'
 import { useTresContext } from '@tresjs/core'
 
 export interface Glyph {
@@ -160,8 +160,8 @@ const loader = new FontLoader()
 const slots = useSlots()
 
 const localText = computed(() => {
-  if (text?.value) return text.value
-  else if (slots.default) return (slots.default()[0].children as string)?.trim()
+  if (text?.value) { return text.value }
+  else if (slots.default) { return (slots.default()[0].children as string)?.trim() }
   return needUpdates.value ? '' : 'TresJS'
 })
 
@@ -183,7 +183,6 @@ const localFont = await new Promise((resolve, reject) => {
     }
   }
   catch (error) {
-    // eslint-disable-next-line no-console
     reject(console.error('cientos', error))
   }
 })
@@ -221,6 +220,6 @@ watchEffect(() => {
       :args="[localText, textOptions]"
       :center="center"
     />
-    <slot />
+    <slot></slot>
   </TresMesh>
 </template>

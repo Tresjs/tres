@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
 import {
-  OrbitControls,
   MeshWobbleMaterial,
+  OrbitControls,
   Reflector,
   Stars,
 } from '@tresjs/cientos'

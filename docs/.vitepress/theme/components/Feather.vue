@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { useGLTF, Levioso } from '@tresjs/cientos'
+import { Levioso, useGLTF } from '@tresjs/cientos'
 import { shallowRef, watchEffect } from 'vue'
 
-const { scene: feather, nodes } = await useGLTF('/feather.glb')
+const { nodes } = await useGLTF('/feather.glb')
 
 /* const feather = computed(() => nodes.Sketchfab_model)
  */

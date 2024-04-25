@@ -11,8 +11,8 @@ export default class RandUtils {
 
   /**
    * Create a new seeded pseudorandom number generator.
-   * @param [seed=0] - the seed for the generator
-   * @param [getSeededRandomGenerator=getMulberry32] - a function that returns a pseudorandom number generator
+   * @param [seed] - the seed for the generator
+   * @param [getSeededRandomGenerator] - a function that returns a pseudorandom number generator
    * @constructor
    */
   constructor(seed = 0, getSeededRandomGenerator?: (seed: number) => () => number) {
@@ -119,12 +119,12 @@ export default class RandUtils {
    * The default pseudorandom generator.
    */
   private getMulberry32(seed = 0): () => number {
-    if (0 < seed && seed < 1) {
+    if (seed > 0 && seed < 1) {
       seed = Math.floor(seed * 2 ** 16)
     }
     return () => {
       // NOTE: Mulberry32 generator
-      seed += 0x6d2b79f5
+      seed += 0x6D2B79F5
       let t = seed
       t = Math.imul(t ^ (t >>> 15), t | 1)
       t ^= t + Math.imul(t ^ (t >>> 7), t | 61)

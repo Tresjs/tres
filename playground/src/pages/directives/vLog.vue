@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { reactive, shallowRef } from 'vue'
 import { TresCanvas, useRenderLoop } from '@tresjs/core'
-import { OrbitControls, Stars, Sphere, vLog } from '@tresjs/cientos'
-import { SRGBColorSpace, NoToneMapping } from 'three'
+import { OrbitControls, Sphere, Stars, vLog } from '@tresjs/cientos'
+import { NoToneMapping, SRGBColorSpace } from 'three'
 
 const gl = {
   clearColor: '#333',

@@ -24,7 +24,7 @@ const planeRef: Ref<PlaneGeometry | null> = ref(null)
 watch(
   () => [segments.value, floor.value, planeRef.value],
   ([segments, floor, planeRef]: [number, number, PlaneGeometry]) => {
-    if (!planeRef || segments === null) return
+    if (!planeRef || segments === null) { return }
     let i = 0
     const offset = segments / segments / 2
     const position = planeRef.attributes.position as BufferAttribute

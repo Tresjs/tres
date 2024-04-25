@@ -6,18 +6,18 @@ import {
   UnsignedByteType,
 } from 'three'
 import { clamp, mapLinear } from 'three/src/math/MathUtils'
-import type { Ref, MaybeRef } from 'vue'
-import { isRef, shallowRef, watch, triggerRef } from 'vue'
+import type { MaybeRef, Ref } from 'vue'
+import { isRef, shallowRef, triggerRef, watch } from 'vue'
 import { watchThrottled } from '@vueuse/core'
 import type {
-  GradientTresColor,
   GradientScalar,
+  GradientTresColor,
   GradientVectorFlexibleParams,
 } from './../../../utils/Gradient'
 import {
   normalizeColorGradient,
-  normalizeScalarGradient,
   normalizeFlexibleVector3Gradient,
+  normalizeScalarGradient,
 } from './../../../utils/Gradient'
 
 export type CanvasGradientRenderer<T> = (
@@ -150,7 +150,7 @@ class ShaderDataTexture {
       texture: textureRef,
       dispose: () => texture.dispose(),
       yFor: this.entries.reduce((obj, entry, i) => {
-        obj[entry.name] = (i + 0.5) / this.size 
+        obj[entry.name] = (i + 0.5) / this.size
         return obj
       }, {} as Record<string, number>),
     }

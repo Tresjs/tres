@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
-import { OrbitControls, Levioso, TorusKnot } from '@tresjs/cientos'
-import { BasicShadowMap, SRGBColorSpace, NoToneMapping } from 'three'
-import { shallowRef, shallowReactive } from 'vue'
+import { Levioso, OrbitControls, TorusKnot } from '@tresjs/cientos'
+import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
+import { shallowReactive, shallowRef } from 'vue'
 import { TresLeches, useControls } from '@tresjs/leches'
 import '@tresjs/leches/styles'
 

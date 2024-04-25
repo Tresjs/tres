@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-import { shallowRef, toRefs, onMounted, nextTick } from 'vue'
-import { useTresContext, useRenderLoop, useTexture } from '@tresjs/core'
+import { nextTick, onMounted, shallowRef, toRefs } from 'vue'
+import { useRenderLoop, useTexture, useTresContext } from '@tresjs/core'
 import type { TresColor, TresVector3 } from '@tresjs/core'
 import { Water } from 'three/addons/objects/Water.js'
-import { Vector3, RepeatWrapping, FrontSide } from 'three'
+import { FrontSide, RepeatWrapping, Vector3 } from 'three'
 import type { Texture } from 'three'
 import type { Sky } from 'three/addons/objects/Sky.js'
 
@@ -60,7 +60,7 @@ export interface OceanProps {
    */
   waterColor?: TresColor
   /**
-    * The distortion scale of the reflections.
+   * The distortion scale of the reflections.
    * @default 3.7
    * @type {number}
    * @memberof OceanProps
@@ -110,8 +110,8 @@ const props = withDefaults(defineProps<OceanProps>(), {
   textureHeight: 512,
   waterNormals: 'https://raw.githubusercontent.com/Tresjs/assets/main/textures/water-normals/Water_1_M_Normal.jpg',
   sunDirection: () => new Vector3(),
-  sunColor: 0xffffff,
-  waterColor: 0x001e0f,
+  sunColor: 0xFFFFFF,
+  waterColor: 0x001E0F,
   distortionScale: 3.7,
   size: 1,
   clipBias: 0.0,
@@ -119,18 +119,7 @@ const props = withDefaults(defineProps<OceanProps>(), {
   side: FrontSide,
 })
 
-const { textureWidth,
-  textureHeight,
-  waterNormals,
-  sunDirection,
-  sunColor,
-  waterColor,
-  distortionScale,
-  size,
-  clipBias,
-  alpha,
-  side,
-} = toRefs(props)
+const { textureWidth, textureHeight, waterNormals, sunDirection, sunColor, waterColor, distortionScale, size, clipBias, alpha, side } = toRefs(props)
 
 const { extend, scene } = useTresContext()
 
@@ -145,7 +134,7 @@ defineExpose({
 })
 
 scene.value.traverse((child) => {
-  if (child.hasOwnProperty('isSky')) {
+  if (Object.prototype.hasOwnProperty.call(child, 'isSky')) {
     sunRef.value = child as Sky
   }
 })

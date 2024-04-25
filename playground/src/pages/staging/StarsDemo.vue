@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { shallowRef, reactive } from 'vue'
+import { reactive, shallowRef } from 'vue'
 import { TresCanvas } from '@tresjs/core'
-import { OrbitControls, Stars, MouseParallax } from '@tresjs/cientos'
-import { SRGBColorSpace, NoToneMapping } from 'three'
+import { MouseParallax, OrbitControls, Stars } from '@tresjs/cientos'
+import { NoToneMapping, SRGBColorSpace } from 'three'
 import { TresLeches, useControls } from '@tresjs/leches'
 import '@tresjs/leches/styles'
 
@@ -20,25 +20,25 @@ const options = reactive({
 })
 
 const { radius, depth, count, size, 'size attenuation': sizeAttenuation } = useControls({
-  radius: {
+  'radius': {
     value: options.radius,
     step: 5,
     min: 0,
     max: 300,
   },
-  depth: {
+  'depth': {
     value: options.depth,
     step: 1,
     min: 0,
     max: 50,
   },
-  count: {
+  'count': {
     value: options.count,
     step: 100,
     min: 1000,
     max: 15000,
   },
-  size: {
+  'size': {
     value: options.size,
     step: 0.1,
     min: 0,

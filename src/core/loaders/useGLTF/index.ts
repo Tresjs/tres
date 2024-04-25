@@ -1,4 +1,4 @@
-import { GLTFLoader, DRACOLoader } from 'three-stdlib'
+import { DRACOLoader, GLTFLoader } from 'three-stdlib'
 import type { TresObject3D } from '@tresjs/core'
 import { useLoader } from '@tresjs/core'
 

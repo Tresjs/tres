@@ -1,7 +1,8 @@
+<!-- eslint-disable no-console -->
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
 import { BasicShadowMap, NoToneMapping } from 'three'
-import { PointerLockControls, KeyboardControls, Stats, Sky } from '@tresjs/cientos'
+import { KeyboardControls, PointerLockControls, Sky, Stats } from '@tresjs/cientos'
 
 const gl = {
   clearColor: '#82DBC5',
@@ -31,4 +32,3 @@ const hasChange = (state: any) => console.log('change', state)
     <TresAmbientLight :intensity="1" />
   </TresCanvas>
 </template>
-

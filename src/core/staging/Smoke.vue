@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { shallowRef, computed, toRefs } from 'vue'
+import { computed, shallowRef, toRefs } from 'vue'
 import type { TresColor } from '@tresjs/core'
-import { useTexture, useRenderLoop, useTresContext } from '@tresjs/core'
+import { useRenderLoop, useTexture, useTresContext } from '@tresjs/core'
 import type { Object3D, Texture } from 'three'
 
 export interface SmokeProps {
@@ -91,7 +91,7 @@ defineExpose({
   value: smokeRef,
 })
 
-const smoke = [...new Array(segments)].map((_, index) => ({
+const smoke = [...[segments]].map((_, index) => ({
   x: width.value / 2 - Math.random() * width.value,
   y: width.value / 2 - Math.random() * width.value,
   scale: 0.4 + Math.sin(((index + 1) / segments.value) * Math.PI) * ((0.2 + Math.random()) * 10),

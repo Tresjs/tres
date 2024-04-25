@@ -1,18 +1,12 @@
-import { onUnmounted, onMounted } from 'vue'
+import { onMounted, onUnmounted } from 'vue'
 import { Pane } from 'tweakpane'
 import { useRenderLoop } from '@tresjs/core'
 import { useLogger } from '../../../composables/useLogger'
 
-type TweakPane = Pane & { addBlade(blade: any): void; addInput(blade: any): void }
+type TweakPane = Pane & { addBlade: (blade: any) => void, addInput: (blade: any) => void }
 let pane: TweakPane
 
-export /**
- * Creates a TweakPane instance and returns it.
- *
- * @param {string} [selector='body']
- * @return {*}
- */
-const useTweakPane = (selector = 'body') => {
+export const useTweakPane = (selector = 'body') => {
   if (!pane) {
     pane = new Pane({
       container: document.querySelector(selector) as HTMLElement,
@@ -25,14 +19,13 @@ const useTweakPane = (selector = 'body') => {
 
   const { logWarning } = useLogger()
 
-  // eslint-disable-next-line max-len
   logWarning('useTweakPane is deprecated as of Cientos v3.7.0 and will no longer be part of this package. Please migrate to @tresjs/leches package https://github.com/Tresjs/leches or v-tweakpane https://github.com/vinayakkulkarni/v-tweakpane instead.')
   // eslint-enabled
 
   /**
-     * Disposes the TweakPane instance.
-     *
-     */
+   * Disposes the TweakPane instance.
+   *
+   */
   function disposeTweakPane() {
     if (pane) {
       pane.dispose()

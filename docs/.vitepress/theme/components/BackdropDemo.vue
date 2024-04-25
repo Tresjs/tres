@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
-import { PCFSoftShadowMap, SRGBColorSpace, NoToneMapping } from 'three'
+import { PCFSoftShadowMap, SRGBColorSpace } from 'three'
 
-import { useProgress, Backdrop, GLTFModel } from '@tresjs/cientos'
+import { Backdrop, GLTFModel, useProgress } from '@tresjs/cientos'
 import { ref, watch, watchEffect } from 'vue'
 
 const gl = {
@@ -23,20 +23,15 @@ watch(model, ({ value }) => {
   })
 })
 
-function onCameraChange(e) {
-  // eslint-disable-next-line no-console
-  console.log('camera changed', e)
-}
-
 const cameraRef = ref(null)
 
 watchEffect(() => {
   if (cameraRef.value) {
-    cameraRef.value.lookAt(0, 5, 0)
+    (cameraRef.value as THREE.Camera).lookAt(0, 5, 0)
   }
 })
 
-const { hasFinishLoading, progress, items } = await useProgress()
+const { hasFinishLoading, progress } = await useProgress()
 </script>
 
 <template>

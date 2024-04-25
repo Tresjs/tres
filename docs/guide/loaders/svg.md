@@ -4,7 +4,7 @@
   <SVGDemo />
 </DocsDemo>
 
-A wrapper around the `three` [SVGLoader](https://threejs.org/examples/?q=sv#webgl_loader_svg), this component allows you to easily load and display SVG elements in your **TresJS** scene. 
+A wrapper around the `three` [SVGLoader](https://threejs.org/examples/?q=sv#webgl_loader_svg), this component allows you to easily load and display SVG elements in your **TresJS** scene.
 
 ## Usage
 
@@ -53,11 +53,11 @@ Overlapping layers in an SVG may be drawn out of order, depending on viewing per
 
 **Use case: unscaled SVGs seen from the front**
 
-When this value is passed, the result is a 3D "stack" of mesh layers. A small space is added between each mesh layer in the "stack". 
+When this value is passed, the result is a 3D "stack" of mesh layers. A small space is added between each mesh layer in the "stack".
 
 Disadvantage: "Bottom" of the "stack" is visible; layers may z-fight.
 
-When seen from behind, the "bottom" of the mesh layer "stack" is visible. The space between the layers may be noticeable depending on viewing perspective and scale. The layers may [z-fight](https://en.wikipedia.org/wiki/Z-fighting), particularly if the SVG is scaled down. 
+When seen from behind, the "bottom" of the mesh layer "stack" is visible. The space between the layers may be noticeable depending on viewing perspective and scale. The layers may [z-fight](https://en.wikipedia.org/wiki/Z-fighting), particularly if the SVG is scaled down.
 
 ### `number`
 
@@ -70,7 +70,7 @@ Disadvantage: "Bottom" of the "stack" is visible.
 ## Troubleshooting
 
 ::: warning
-This is not a general-purpose SVG renderer. Many SVG features are unsupported. 
+This is not a general-purpose SVG renderer. Many SVG features are unsupported.
 :::
 
 Here are some things to try if you run into problems:

@@ -1,29 +1,31 @@
 <script setup lang="ts">
-import type { VNode, Ref } from 'vue'
-import { computed, createVNode, toRefs, render, watchEffect, ref, watch, useAttrs, isRef, onUnmounted } from 'vue'
+import type { Ref, VNode } from 'vue'
+import { computed, createVNode, isRef, onUnmounted, ref, render, toRefs, useAttrs, watch, watchEffect } from 'vue'
 import type {
+  OrthographicCamera,
   WebGLRenderer,
-  OrthographicCamera } from 'three'
+} from 'three'
 import {
   DoubleSide,
   PlaneGeometry,
   ShaderMaterial,
-  Vector3 } from 'three'
+  Vector3,
+} from 'three'
 import type { TresCamera, TresObject3D } from '@tresjs/core'
 import { useRenderLoop, useTresContext } from '@tresjs/core'
 
 import type { Mutable } from '@vueuse/core'
 import vertexShader from './shaders/vertex.glsl'
 import fragmentShader from './shaders/fragment.glsl'
-import { 
+import {
   calculatePosition,
+  epsilon,
+  getCameraCSSMatrix,
+  getObjectCSSMatrix,
   isObjectBehindCamera,
   isObjectVisible,
+  objectScale,
   objectZIndex,
-  getCameraCSSMatrix,
-  epsilon,
-  getObjectCSSMatrix,
-  objectScale, 
 } from './utils'
 
 export interface HTMLProps {
@@ -60,6 +62,8 @@ const props = withDefaults(defineProps<HTMLProps>(), {
 
 const emits = defineEmits(['onOcclude'])
 
+const slots = defineSlots()
+
 type PointerEventsProperties =
   | 'auto'
   | 'none'
@@ -74,8 +78,6 @@ type PointerEventsProperties =
   | 'inherit'
 
 const attrs = useAttrs()
-
-const slots = defineSlots()
 
 const groupRef = ref<TresObject3D>()
 const meshRef = ref<TresObject3D>()
@@ -182,7 +184,7 @@ watch(
           width: sizes.width.value,
           height: sizes.height.value,
         })
-        el.value.style.cssText 
+        el.value.style.cssText
         = `position:absolute;top:0;left:0;transform:translate3d(${vector[0]}px,${vector[1]}px,0);transform-origin:0 0;`
       }
 
@@ -193,11 +195,11 @@ watch(
       if (transform.value) {
         vnode.value = createVNode('div', { id: 'outer', style: styles.value }, [
           createVNode('div', { id: 'inner', style: transformInnerStyles.value }, [
-            createVNode('div', { 
+            createVNode('div', {
               key: meshRef.value?.uuid,
               id: scene?.value.uuid,
               class: attrs.class,
-              style: attrs.style, 
+              style: attrs.style,
             }, slots.default?.()),
           ]),
         ])
@@ -206,9 +208,8 @@ watch(
         vnode.value = createVNode('div', {
           key: meshRef.value?.uuid,
           id: scene?.value.uuid,
-          style: styles.value, 
-        },
-        slots.default?.())
+          style: styles.value,
+        }, slots.default?.())
       }
       render(vnode.value, el.value)
     }
@@ -379,7 +380,7 @@ onLoop(() => {
   }
 })
 
-//TODO: Check ShaderMaterial disposal
+// TODO: Check ShaderMaterial disposal
 const shaders = computed(() => ({
   vertexShader: transform.value
     ? undefined

@@ -2,7 +2,7 @@
 import { shallowRef, watch } from 'vue'
 import type { TresColor } from '@tresjs/core'
 import { TresCanvas, useRenderLoop } from '@tresjs/core'
-import { Levioso, Lensflare, Dodecahedron, OrbitControls } from '@tresjs/cientos'
+import { Dodecahedron, Lensflare, Levioso, OrbitControls } from '@tresjs/cientos'
 import { Color, MeshPhongMaterial } from 'three'
 import { TresLeches, useControls } from '@tresjs/leches'
 import '@tresjs/leches/styles'
@@ -48,24 +48,24 @@ const floatSpread = (range: number) => Math.random() * range - range * 0.5
 const ROCK_COUNT = 1000
 const ROCK_DISTANCE = 200
 const ROCK_SCALE = 3
-const rocks = new Array(ROCK_COUNT).fill(0).map((_, i) => ({
+const rocks = Array.from({ length: ROCK_COUNT }).fill(0).map((_, i) => ({
   position: [0, 0, 0].map(() => floatSpread(ROCK_DISTANCE)),
   rotation: [0, 0, 0].map(() => floatSpread(Math.PI * 2)),
   scale: [0, 0, 0].map(() => float(ROCK_SCALE, ROCK_SCALE * 2)),
   key: i,
 }))
 
-const rockMaterial = new MeshPhongMaterial({ color: 0x123141, specular: 0xffffff, shininess: 1000 })
+const rockMaterial = new MeshPhongMaterial({ color: 0x123141, specular: 0xFFFFFF, shininess: 1000 })
 
 const [seedRef, scaleRef] = useControls(
   {
     seed: { value: 847, min: 0, max: 2 ** 31, step: 1 },
     scale: { value: 1, min: 0, max: 2, step: 0.01 },
-  })
+  },
+)
 
 {
-  const [oversizeSize, oversizeSizeRand, oversizeNumElements,
-    oversizeNumElementsRand, oversizeColorA, oversizeColorB, oversizeColorC, oversizeSeed] = useControls(
+  const [oversizeSize, oversizeSizeRand, oversizeNumElements, oversizeNumElementsRand, oversizeColorA, oversizeColorB, oversizeColorC, oversizeSeed] = useControls(
     'Oversize',
     {
       size0: { value: 768, min: 0, max: 1024, step: 1 },
@@ -76,10 +76,10 @@ const [seedRef, scaleRef] = useControls(
       colorB0: '#ffffff',
       colorC0: '#ffffff',
       seed0: { value: 930104199, min: 0, max: 2 ** 31, step: 1 },
-    })
+    },
+  )
 
-  const [raysSize, raysSizeRand, raysNumElements, raysNumElementsRand,
-    raysColorA, raysColorB, raysColorC, raysSeed] = useControls(
+  const [raysSize, raysSizeRand, raysNumElements, raysNumElementsRand, raysColorA, raysColorB, raysColorC, raysSeed] = useControls(
     'Rays',
     {
       size1: { value: 180, min: 0, max: 512, step: 1 },
@@ -90,10 +90,10 @@ const [seedRef, scaleRef] = useControls(
       colorB1: '#ffffff',
       colorC1: '#808080',
       seed1: { value: 1021142105, min: 0, max: 2 ** 31, step: 1 },
-    })
+    },
+  )
 
-  const [bodySize, bodySizeRand, bodyNumElements, bodyNumElementsRand,
-    bodyColorA, bodyColorB, bodyColorC, bodySeed] = useControls(
+  const [bodySize, bodySizeRand, bodyNumElements, bodyNumElementsRand, bodyColorA, bodyColorB, bodyColorC, bodySeed] = useControls(
     'Body',
     {
       size2: { value: 180, min: 0, max: 512, step: 1 },
@@ -104,10 +104,10 @@ const [seedRef, scaleRef] = useControls(
       colorB2: '#ffffff',
       colorC2: '#808080',
       seed2: { value: 1248736959, min: 0, max: 2 ** 31, step: 1 },
-    })
+    },
+  )
 
-  const [frontSize, frontSizeRand, frontOffset, frontSpread, frontNumElements, frontNumElementsRand,
-    frontColorA, frontColorB, frontColorC, frontSeed] = useControls(
+  const [frontSize, frontSizeRand, frontOffset, frontSpread, frontNumElements, frontNumElementsRand, frontColorA, frontColorB, frontColorC, frontSeed] = useControls(
     'Front',
     {
       size3: { value: 20, min: 0, max: 512, step: 1 },
@@ -123,8 +123,7 @@ const [seedRef, scaleRef] = useControls(
     },
   )
 
-  const [backSize, backSizeRand, backOffset, backSpread, backNumElements, backNumElementsRand,
-    backColorA, backColorB, backColorC, backSeed] = useControls(
+  const [backSize, backSizeRand, backOffset, backSpread, backNumElements, backNumElementsRand, backColorA, backColorB, backColorC, backSeed] = useControls(
     'Back',
     {
       size4: { value: 180, min: 0, max: 512, step: 1 },
@@ -218,31 +217,53 @@ const [seedRef, scaleRef] = useControls(
   watch(() => [
     seedRef.value,
 
-    oversizeSize.value.value, oversizeSizeRand.value.value,
-    oversizeNumElements.value.value, oversizeNumElementsRand.value.value,
-    oversizeColorA.value.value, oversizeColorB.value.value, oversizeColorC.value.value,
+    oversizeSize.value.value,
+    oversizeSizeRand.value.value,
+    oversizeNumElements.value.value,
+    oversizeNumElementsRand.value.value,
+    oversizeColorA.value.value,
+    oversizeColorB.value.value,
+    oversizeColorC.value.value,
     oversizeSeed.value.value,
 
-    raysSize.value.value, raysSizeRand.value.value,
-    raysNumElements.value.value, raysNumElementsRand.value.value,
-    raysColorA.value.value, raysColorB.value.value, raysColorC.value.value,
+    raysSize.value.value,
+    raysSizeRand.value.value,
+    raysNumElements.value.value,
+    raysNumElementsRand.value.value,
+    raysColorA.value.value,
+    raysColorB.value.value,
+    raysColorC.value.value,
     raysSeed.value.value,
 
-    bodySize.value.value, bodySizeRand.value.value,
-    bodyNumElements.value.value, bodyNumElementsRand.value.value,
-    bodyColorA.value.value, bodyColorB.value.value, bodyColorC.value.value,
+    bodySize.value.value,
+    bodySizeRand.value.value,
+    bodyNumElements.value.value,
+    bodyNumElementsRand.value.value,
+    bodyColorA.value.value,
+    bodyColorB.value.value,
+    bodyColorC.value.value,
     bodySeed.value.value,
 
-    frontSize.value.value, frontSizeRand.value.value,
-    frontNumElements.value.value, frontNumElementsRand.value.value,
-    frontOffset.value.value, frontSpread.value.value,
-    frontColorA.value.value, frontColorB.value.value, frontColorC.value.value,
+    frontSize.value.value,
+    frontSizeRand.value.value,
+    frontNumElements.value.value,
+    frontNumElementsRand.value.value,
+    frontOffset.value.value,
+    frontSpread.value.value,
+    frontColorA.value.value,
+    frontColorB.value.value,
+    frontColorC.value.value,
     frontSeed.value.value,
 
-    backSize.value.value, backSizeRand.value.value,
-    backNumElements.value.value, backNumElementsRand.value.value,
-    backOffset.value.value, backSpread.value.value,
-    backColorA.value.value, backColorB.value.value, backColorC.value.value,
+    backSize.value.value,
+    backSizeRand.value.value,
+    backNumElements.value.value,
+    backNumElementsRand.value.value,
+    backOffset.value.value,
+    backSpread.value.value,
+    backColorA.value.value,
+    backColorB.value.value,
+    backColorC.value.value,
     backSeed.value.value,
   ], updateSeedProps)
 

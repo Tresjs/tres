@@ -1,10 +1,10 @@
 # Stats
 
-[stats.js](https://github.com/mrdoob/stats.js/) is a JavaScript performance monitor, made by [mrdoob](https://github.com/mrdoob). stats.js provides a simple info box that will help you monitor your code performance.
+[stats.js](https://github.com/mrdoob/stats.js/) is a JavaScript performance monitor, made by [mrdoob](https://github.com/mrdoob). stats.js provides a simple info box that will help you monitor your code performance.
 
-**Cientos** provides a component called `Stats` that creates a panel without effort or configuration in the top left corner where you'll be able to monitor your app.
+**Cientos** provides a component called `Stats` that creates a panel without effort or configuration in the top left corner where you'll be able to monitor your app.
 
-## Basic usage
+## Basic usage
 
 ```vue{3,8}
 <script setup lang="ts">

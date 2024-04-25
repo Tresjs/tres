@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
-import { OrbitControls, Smoke, Box } from '@tresjs/cientos'
-import { SRGBColorSpace, NoToneMapping } from 'three'
+import { Box, OrbitControls, Smoke } from '@tresjs/cientos'
+import { NoToneMapping, SRGBColorSpace } from 'three'
 
 const gl = {
   clearColor: '#333',
@@ -18,34 +18,34 @@ const gl = {
     <TresPerspectiveCamera :position="[0, 2, 5]" />
     <Suspense>
       <Smoke
-        :segments="4"  
+        :segments="4"
         :width="1"
         :position="[-4, -2, 0]"
       />
     </Suspense>
     <Suspense>
       <Smoke
-        :segments="4"  
+        :segments="4"
         :width="1"
         :position="[-4, 2, 0]"
       />
     </Suspense>
     <Suspense>
       <Smoke
-        :segments="4"  
+        :segments="4"
         :width="1"
       />
     </Suspense>
     <Suspense>
       <Smoke
-        :segments="4"  
+        :segments="4"
         :width="1"
         :position="[4, -2, 0]"
       />
     </Suspense>
     <Suspense>
       <Smoke
-        :segments="4"  
+        :segments="4"
         :width="1"
         :position="[4, 2, 0]"
       />

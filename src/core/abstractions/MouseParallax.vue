@@ -19,7 +19,7 @@ export interface MouseParallaxProps {
    * @default 2.5
    * @memberof MouseParallaxProps
    *
-   **/
+   */
   factor?: number
   /**
    * The factor to multiply the mouse movement by.
@@ -27,7 +27,7 @@ export interface MouseParallaxProps {
    * @default 2.5
    * @memberof MouseParallaxProps
    *
-   **/
+   */
   ease?: number
 }
 
@@ -52,7 +52,7 @@ const cursorY = computed(() => -(y.value / height.value - 0.5) * factor.value)
 const { onLoop } = useRenderLoop()
 
 onLoop(({ delta }) => {
-  if (disabled.value || !cameraGroupRef.value) return
+  if (disabled.value || !cameraGroupRef.value) { return }
   cameraGroupRef.value.position.x += (cursorX.value - cameraGroupRef.value.position.x) * ease.value * delta
   cameraGroupRef.value.position.y += (cursorY.value - cameraGroupRef.value.position.y) * ease.value * delta
 })

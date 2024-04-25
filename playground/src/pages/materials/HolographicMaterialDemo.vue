@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { ref, shallowRef, watch } from 'vue'
+import { shallowRef, watch } from 'vue'
 import { TresCanvas } from '@tresjs/core'
-import { OrbitControls, HolographicMaterial, Box, Sphere } from '@tresjs/cientos'
-import { BasicShadowMap, SRGBColorSpace, NoToneMapping, FrontSide } from 'three'
+import { HolographicMaterial, OrbitControls, Sphere } from '@tresjs/cientos'
+import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
 
 const gl = {
   clearColor: '#333',
@@ -15,6 +15,7 @@ const gl = {
 const holographicMaterialRef = shallowRef()
 
 watch(holographicMaterialRef, (value) => {
+  // eslint-disable-next-line no-console
   console.log('jaime ~ watch ~ value:', value)
 })
 </script>
@@ -32,7 +33,7 @@ watch(holographicMaterialRef, (value) => {
         :blink-fresnel-only="true"
         :hologram-brightness="0.17"
       />
-      <!-- 
+      <!--
         :fresnel-opacity="0.15"
         :scanline-size="6"
         :signal-speed="2.3"

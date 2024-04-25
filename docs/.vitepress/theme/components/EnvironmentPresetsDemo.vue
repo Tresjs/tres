@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
-import { BasicShadowMap, SRGBColorSpace, NoToneMapping } from 'three'
+import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
 
-import { OrbitControls, useProgress, Environment, TorusKnot } from '@tresjs/cientos'
+import { Environment, OrbitControls, TorusKnot, useProgress } from '@tresjs/cientos'
 import { TresLeches, useControls } from '@tresjs/leches'
 import '@tresjs/leches/styles'
-import { ref, watchEffect } from 'vue'
+import { ref } from 'vue'
 
 const gl = {
   clearColor: '#82DBC5',
@@ -16,7 +16,7 @@ const gl = {
   toneMapping: NoToneMapping,
 }
 
-const { background, blur, preset } = useControls({
+const { blur, preset } = useControls({
   background: true,
   blur: {
     value: 0,
@@ -62,7 +62,7 @@ const { progress, hasFinishLoading } = await useProgress()
     >
       <div class="w-200px">
         Loading... {{ progress }} %
-        <i class="i-ic-twotone-catching-pokemon animate-rotate-in" />
+        <i class="i-ic-twotone-catching-pokemon animate-rotate-in"></i>
       </div>
     </div>
   </Transition>

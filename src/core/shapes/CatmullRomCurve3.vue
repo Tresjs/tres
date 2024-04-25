@@ -51,17 +51,17 @@ const segmentedPoints = computed(() => getSegmentedPoints(curve.value, props.seg
 </script>
 
 <template>
-  <Line2 
+  <Line2
     :points="segmentedPoints"
     :vertex-colors="props.vertexColors"
     :color="props.color"
-    :lineWidth="props.lineWidth"
-    :alphaToCoverage="props.alphaToCoverage"
+    :line-width="props.lineWidth"
+    :alpha-to-coverage="props.alphaToCoverage"
     :dashed="props.dashed"
-    :dashSize="props.dashSize"
-    :dashScale="props.dashScale"
-    :dashOffset="props.dashOffset"
-    :gapSize="props.gapSize"
-    :worldUnits="props.worldUnits"
+    :dash-size="props.dashSize"
+    :dash-scale="props.dashScale"
+    :dash-offset="props.dashOffset"
+    :gap-size="props.gapSize"
+    :world-units="props.worldUnits"
   />
 </template>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Object3D } from 'three'
-import { SRGBColorSpace, BasicShadowMap, NoToneMapping } from 'three'
+import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
 import { reactive, ref, watchEffect } from 'vue'
 import { TresCanvas } from '@tresjs/core'
 import { GLTFModel, OrbitControls } from '@tresjs/cientos'

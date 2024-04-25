@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
-import { ScrollControls, Stars, Box } from '@tresjs/cientos'
+import { Box, ScrollControls, Stars } from '@tresjs/cientos'
 </script>
 
 <template>
@@ -14,7 +14,7 @@ import { ScrollControls, Stars, Box } from '@tresjs/cientos'
     <ScrollControls horizontal />
     <Box
       :scale="0.5"
-      :color="0xff00ff"
+      :color="0xFF00FF"
       :position="[-1, 1, 0]"
     />
   </TresCanvas>

@@ -25,4 +25,3 @@ features:
     title: Community-Driven
     details: Benefits from the active and growing Vue TresJS community.
 ---
-

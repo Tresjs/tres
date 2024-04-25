@@ -4,6 +4,8 @@ import { extractBindingPosition } from '../../utils/index'
 
 const { logWarning } = useLogger()
 
+let arrowHelper: ArrowHelper | null = null
+
 export const vDistanceTo = {
   updated: (el: any, binding: any) => {
     const observer = extractBindingPosition(binding)
@@ -17,8 +19,8 @@ export const vDistanceTo = {
     }
     const dir = observer.clone().sub(el.position)
     dir.normalize()
-    arrowHelper = new ArrowHelper( dir, el.position, el.position.distanceTo(observer) / 1.5, 0xffff00 )
-    el.parent.add( arrowHelper )
+    arrowHelper = new ArrowHelper(dir, el.position, el.position.distanceTo(observer) / 1.5, 0xFFFF00)
+    el.parent.add(arrowHelper)
     // eslint-disable-next-line no-console
     console.table([
       ['Distance:', el.position.distanceTo(observer)],
@@ -32,4 +34,3 @@ export const vDistanceTo = {
     el.parent.remove(arrowHelper)
   },
 }
-let arrowHelper: ArrowHelper | null = null

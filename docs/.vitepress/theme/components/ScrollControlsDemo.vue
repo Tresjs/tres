@@ -1,22 +1,12 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { TresCanvas, useRenderLoop } from '@tresjs/core'
-import { ScrollControls, Stars, Sphere, Box } from '@tresjs/cientos'
-import { SRGBColorSpace, NoToneMapping } from 'three'
+import { Box, ScrollControls, Stars } from '@tresjs/cientos'
 import { useControls } from '@tresjs/leches'
 import '@tresjs/leches/styles'
 
-const scRef = ref()
-const sphereRef = ref()
 const boxRef = ref()
 const progress = ref(0)
-
-const gl = {
-  clearColor: '#333',
-  alpha: true,
-  outputColorSpace: SRGBColorSpace,
-  toneMapping: NoToneMapping,
-}
 
 useControls('fpsgraph')
 useControls({
@@ -43,7 +33,7 @@ onLoop(() => {
     <ScrollControls />
     <Box
       :scale="0.5"
-      :color="0xff00ff"
+      :color="0xFF00FF"
       :position="[-1, 1, 0]"
     />
   </TresCanvas>

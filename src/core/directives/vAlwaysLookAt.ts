@@ -1,4 +1,4 @@
-import { useRenderLoop, useLogger } from '@tresjs/core'
+import { useLogger, useRenderLoop } from '@tresjs/core'
 import type { Object3D } from 'three'
 import { extractBindingPosition } from '../../utils/index'
 

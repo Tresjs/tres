@@ -35,7 +35,7 @@ export async function useVideoTexture(src: string | MediaStream, options?: Parti
    * @return {VideoTexture}  {VideoTexture}
    */
   const { logError } = useLogger()
-  if (!src) return logError('Error no path provided')
+  if (!src) { return logError('Error no path provided') }
 
   const { unsuspend, start, crossOrigin, muted, loop, ...rest } = {
     unsuspend: 'loadedmetadata',
@@ -59,13 +59,13 @@ export async function useVideoTexture(src: string | MediaStream, options?: Parti
       })
       const texture = new VideoTexture(video)
       video.addEventListener(unsuspend, () => resolve(texture))
-      video.addEventListener('error', () => reject())
+      video.addEventListener('error', () => reject(new Error('Error loading video')))
       return texture
     })
   }
   try {
     const texture = await loadTexture()
-    if (start && texture.image) texture.image.play()
+    if (start && texture.image) { texture.image.play() }
     return texture
   }
   catch {

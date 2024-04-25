@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { watch, ref, shallowRef } from 'vue'
-import { useRenderLoop, useLogger, useTresContext } from '@tresjs/core'
-import { useWindowScroll, useWindowSize, useScroll } from '@vueuse/core'
+import { ref, shallowRef, watch } from 'vue'
+import { useLogger, useRenderLoop, useTresContext } from '@tresjs/core'
+import { useScroll, useWindowScroll, useWindowSize } from '@vueuse/core'
 
 export interface ScrollControlsProps {
   /**
    * The scroll size.
    *
-   * @type {Number}
+   * @type {number}
    * @default 4
    * @memberof ScrollControlsProps
    */
@@ -15,7 +15,7 @@ export interface ScrollControlsProps {
   /**
    * The distance to move the camera.
    *
-   * @type {Number}
+   * @type {number}
    * @default 4
    * @memberof ScrollControlsProps
    */
@@ -23,7 +23,7 @@ export interface ScrollControlsProps {
   /**
    * The smooth factor of the scrolling.
    *
-   * @type {Number}
+   * @type {number}
    * @default 0.5
    * @memberof ScrollControlsProps
    */
@@ -31,7 +31,7 @@ export interface ScrollControlsProps {
   /**
    * Whether the scroll is horizontal or vertical.
    *
-   * @type {Boolean}
+   * @type {boolean}
    * @default false
    * @memberof ScrollControlsProps
    */
@@ -39,7 +39,7 @@ export interface ScrollControlsProps {
   /**
    * Whether to use the HTML scroll.
    *
-   * @type {Boolean}
+   * @type {boolean}
    * @default false
    * @memberof ScrollControlsProps
    */
@@ -67,8 +67,8 @@ const emit = defineEmits(['update:modelValue'])
 
 const { logWarning } = useLogger()
 
-if (props.smoothScroll < 0) logWarning('SmoothControl must be greater than zero')
-if (props.pages < 0) logWarning('Pages must be greater than zero')
+if (props.smoothScroll < 0) { logWarning('SmoothControl must be greater than zero') }
+if (props.pages < 0) { logWarning('Pages must be greater than zero') }
 
 const { camera, controls, renderer } = useTresContext()
 const wrapperRef = shallowRef()
@@ -105,7 +105,7 @@ const unWatch = watch(
 watch(
   isScrolling,
   (value) => {
-    if (controls.value) controls.value.enabled = !value
+    if (controls.value) { controls.value.enabled = !value }
   },
   {
     immediate: true,
@@ -113,7 +113,7 @@ watch(
 )
 
 watch(windowY, (value) => {
-  if (!isScrolling.value && !props.htmlScroll) return
+  if (!isScrolling.value && !props.htmlScroll) { return }
   progressScroll.value = (value / height.value / (scrollNodeY.value / height.value - 1))
   progress.value = -1 * progressScroll.value
   emit('update:modelValue', progressScroll.value)
@@ -201,6 +201,6 @@ onLoop(() => {
 
 <template>
   <TresGroup ref="wrapperRef">
-    <slot />
+    <slot></slot>
   </TresGroup>
 </template>

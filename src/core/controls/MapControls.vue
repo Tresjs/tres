@@ -2,7 +2,7 @@
 import { useTresContext } from '@tresjs/core'
 import type { Camera } from 'three'
 import { MapControls } from 'three-stdlib'
-import { ref, watch, onUnmounted } from 'vue'
+import { onUnmounted, ref, watch } from 'vue'
 
 export interface MapControlsProps {
   /**

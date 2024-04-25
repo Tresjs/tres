@@ -1,7 +1,4 @@
 <script setup lang="ts">
-import { useRouter } from 'vitepress'
-
-const router = useRouter()
 </script>
 
 <template>
@@ -11,7 +8,7 @@ const router = useRouter()
       style=" height: auto; margin: 2rem 0; border-radius: 8px; overflow:hidden;"
     >
       <Suspense>
-        <slot />
+        <slot></slot>
       </Suspense>
     </div>
   </ClientOnly>

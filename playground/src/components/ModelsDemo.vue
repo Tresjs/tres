@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useRenderLoop } from '@tresjs/core'
-import { useGLTF, GLTFModel, useFBX, FBXModel } from '@tresjs/cientos'
-import { NoToneMapping } from 'three'
+import { FBXModel, GLTFModel, useFBX, useGLTF } from '@tresjs/cientos'
 
 const modelPath = 'https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/aku-aku/AkuAku.gltf'
 const modelPathFbx = 'https://raw.githubusercontent.com/Tresjs/assets/main/models/fbx/low-poly-truck/Jeep_done.fbx'
@@ -16,11 +15,11 @@ const modelFbx = await useFBX(modelPathFbx)
 const akuAkuRef = ref(null)
 const jeepRef = ref(null)
 
-const gl = {
+/* const gl = {
   clearColor: '#333',
   alpha: true,
   toneMapping: NoToneMapping,
-}
+} */
 
 const { onLoop } = useRenderLoop()
 
