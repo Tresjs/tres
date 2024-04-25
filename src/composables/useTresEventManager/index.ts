@@ -1,9 +1,8 @@
 import { computed, shallowRef } from 'vue'
-import type { Scene } from 'three'
-import type { EmitEventFn, TresEvent, TresObject } from 'src/types'
+import type { Object3D, Object3DEventMap, Scene } from 'three'
+import type { EmitEventFn, EmitEventName, Intersection, TresEvent, TresObject } from 'src/types'
 import type { TresContext } from '../useTresContextProvider'
 import { useRaycaster } from '../useRaycaster'
-import type { Intersects } from '../useRaycaster'
 import { hyphenate } from '../../utils'
 
 export interface TresEventManager {
@@ -77,7 +76,7 @@ export function useTresEventManager(
 
       const { object } = intersection
       event.eventObject = object as TresObject
-      executeEventListeners(object[eventName], event)
+      executeEventListeners((object as Record<string, any>)[eventName], event)
       duplicates.push(object)
 
       // Propogate the event up the parent chain before moving on to the next intersected object
@@ -90,13 +89,13 @@ export function useTresEventManager(
 
         // Sets eventObject to object that registered the event listener
         event.eventObject = parentObj as TresObject
-        executeEventListeners(parentObj[eventName], event)
+        executeEventListeners((parentObj as Record<string, any>)[eventName], event)
         duplicates.push(parentObj)
         parentObj = parentObj.parent
       }
 
       // Convert eventName to kebab case and emit event from TresCanvas
-      const kebabEventName = hyphenate(eventName.slice(2))
+      const kebabEventName = hyphenate(eventName.slice(2)) as EmitEventName
       emit(kebabEventName, { intersection, event })
     }
   }
@@ -120,16 +119,16 @@ export function useTresEventManager(
   onContextMenu(event => propogateEvent('onContextMenu', event))
   onWheel(event => propogateEvent('onWheel', event))
 
-  let prevIntersections: Intersects = []
+  let prevIntersections: Intersection[] = []
 
   onPointerMove((event) => {
     // Current intersections mapped as meshes
     const hits = event.intersections.map(({ object }) => object)
 
     // Previously intersected mesh is no longer intersected, fire onPointerLeave
-    prevIntersections.forEach((hit) => {
+    prevIntersections.forEach((hit: Intersection) => {
       if (
-        !hits.includes(hit)
+        !hits.includes(hit as unknown as Object3D<Object3DEventMap>)
       ) {
         propogateEvent('onPointerLeave', event)
         propogateEvent('onPointerOut', event)
@@ -138,7 +137,7 @@ export function useTresEventManager(
 
     // Newly intersected mesh is not in the previous intersections, fire onPointerEnter
     event.intersections.forEach(({ object: hit }) => {
-      if (!prevIntersections.includes(hit)) {
+      if (!prevIntersections.includes(hit as unknown as Intersection)) {
         propogateEvent('onPointerEnter', event)
         propogateEvent('onPointerOver', event)
       }
@@ -148,7 +147,7 @@ export function useTresEventManager(
     propogateEvent('onPointerMove', event)
 
     // Update previous intersections
-    prevIntersections = hits
+    prevIntersections = hits as unknown as Intersection[]
   })
 
   /**

@@ -100,12 +100,14 @@ export interface IntersectionEvent<TSourceEvent> extends Intersection {
 
 export type ThreeEvent<TEvent> = IntersectionEvent<TEvent> & Properties<TEvent>
 export type DomEvent = PointerEvent | MouseEvent | WheelEvent
+
 export interface TresEvent {
   eventObject: TresObject
-  nativeEvent: DomEvent
+  event: DomEvent
   stopPropagation: () => void
   stopPropagating: boolean
   intersections: Intersection[]
+  intersects: Intersection[]
 }
 
 export interface Events {

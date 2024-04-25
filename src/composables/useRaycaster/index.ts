@@ -5,22 +5,8 @@ import { computed, onUnmounted, shallowRef } from 'vue'
 import type { EventHook } from '@vueuse/core'
 import { createEventHook, useElementBounding, usePointer } from '@vueuse/core'
 
+import type { DomEvent, TresCamera, TresEvent } from 'src/types'
 import type { TresContext } from '../useTresContextProvider'
-
-interface PointerMoveEventPayload {
-  intersects?: Intersection
-  event: PointerEvent
-}
-
-interface PointerClickEventPayload {
-  intersects: Intersection
-  event: PointerEvent
-}
-
-interface WheelEventPayload {
-  intersects: Intersection
-  event: WheelEvent
-}
 
 export const useRaycaster = (
   objects: Ref<Object3D[]>,
@@ -52,7 +38,7 @@ export const useRaycaster = (
     return intersects.value
   }
 
-  const getIntersects = (event?: PointerEvent | MouseEvent | WheelEvent) => {
+  const getIntersects = (event?: DomEvent) => {
     const pointerPosition = getRelativePointerPosition({
       x: event?.clientX ?? x.value,
       y: event?.clientY ?? y.value,
@@ -62,14 +48,14 @@ export const useRaycaster = (
     return getIntersectsByRelativePointerPosition(pointerPosition) || []
   }
 
-  const eventHookClick = createEventHook<PointerClickEventPayload>()
-  const eventHookDblClick = createEventHook<PointerClickEventPayload>()
-  const eventHookPointerMove = createEventHook<PointerMoveEventPayload>()
-  const eventHookPointerUp = createEventHook<PointerMoveEventPayload>()
-  const eventHookPointerDown = createEventHook<PointerMoveEventPayload>()
-  const eventHookPointerMissed = createEventHook<PointerClickEventPayload>()
-  const eventHookContextMenu = createEventHook<PointerClickEventPayload>()
-  const eventHookWheel = createEventHook<WheelEventPayload>()
+  const eventHookClick = createEventHook<TresEvent>()
+  const eventHookDblClick = createEventHook<TresEvent>()
+  const eventHookPointerMove = createEventHook<TresEvent>()
+  const eventHookPointerUp = createEventHook<TresEvent>()
+  const eventHookPointerDown = createEventHook<TresEvent>()
+  const eventHookPointerMissed = createEventHook<TresEvent>()
+  const eventHookContextMenu = createEventHook<TresEvent>()
+  const eventHookWheel = createEventHook<TresEvent>()
 
   /* ({
     ...DomEvent                   // All the original event data
@@ -91,19 +77,19 @@ export const useRaycaster = (
 
     for (const property in event) {
       // Copy all non-function properties
-      if (typeof property !== 'function') { mouseEventProperties[property] = event[property] }
+      if (typeof property !== 'function') { mouseEventProperties[property] = (event as Record<string, any>)[property] }
     }
     return mouseEventProperties
   }
 
   const triggerEventHook = (eventHook: EventHook, event: PointerEvent | MouseEvent | WheelEvent) => {
     const eventProperties = copyMouseEventProperties(event)
-
+    const unprojectedPoint = new Vector3(event?.clientX, event?.clientY, 0).unproject(ctx.camera?.value as TresCamera)
     eventHook.trigger({
       ...eventProperties,
       intersections: intersects.value,
       // The unprojectedPoint is wrong, math needs to be fixed
-      unprojectedPoint: new Vector3(event?.clientX, event?.clientY, 0).unproject(ctx.camera?.value),
+      unprojectedPoint,
       ray: ctx.raycaster?.value.ray,
       camera: ctx.camera?.value,
       sourceEvent: event,
@@ -126,8 +112,8 @@ export const useRaycaster = (
 
   // a click event is fired whenever a pointerdown happened after pointerup on the same object
   let mouseDownObject: Object3D | undefined
-  let mouseDownPosition: Object3D | undefined
-  let mouseUpPosition: Object3D | undefined
+  let mouseDownPosition: Vector2
+  let mouseUpPosition: Vector2
 
   const onPointerDown = (event: PointerEvent) => {
     mouseDownObject = intersects.value[0]?.object
@@ -159,7 +145,7 @@ export const useRaycaster = (
       )
 
       // Compute the distance between the mouse down and mouse up events
-      delta = mouseDownPosition.distanceTo(mouseUpPosition)
+      delta = mouseDownPosition?.distanceTo(mouseUpPosition)
 
       if (event.button === 0) {
         // Left click
@@ -213,14 +199,14 @@ export const useRaycaster = (
 
   return {
     intersects,
-    onClick: (fn: (value: PointerClickEventPayload) => void) => eventHookClick.on(fn).off,
-    onDblClick: (fn: (value: PointerClickEventPayload) => void) => eventHookDblClick.on(fn).off,
-    onContextMenu: (fn: (value: PointerClickEventPayload) => void) => eventHookContextMenu.on(fn).off,
-    onPointerMove: (fn: (value: PointerMoveEventPayload) => void) => eventHookPointerMove.on(fn).off,
-    onPointerUp: (fn: (value: PointerMoveEventPayload) => void) => eventHookPointerUp.on(fn).off,
-    onPointerDown: (fn: (value: PointerMoveEventPayload) => void) => eventHookPointerDown.on(fn).off,
-    onPointerMissed: (fn: (value: PointerClickEventPayload) => void) => eventHookPointerMissed.on(fn).off,
-    onWheel: (fn: (value: WheelEventPayload) => void) => eventHookWheel.on(fn).off,
+    onClick: (fn: (value: TresEvent) => void) => eventHookClick.on(fn).off,
+    onDblClick: (fn: (value: TresEvent) => void) => eventHookDblClick.on(fn).off,
+    onContextMenu: (fn: (value: TresEvent) => void) => eventHookContextMenu.on(fn).off,
+    onPointerMove: (fn: (value: TresEvent) => void) => eventHookPointerMove.on(fn).off,
+    onPointerUp: (fn: (value: TresEvent) => void) => eventHookPointerUp.on(fn).off,
+    onPointerDown: (fn: (value: TresEvent) => void) => eventHookPointerDown.on(fn).off,
+    onPointerMissed: (fn: (value: TresEvent) => void) => eventHookPointerMissed.on(fn).off,
+    onWheel: (fn: (value: TresEvent) => void) => eventHookWheel.on(fn).off,
     forceUpdate,
   }
 }

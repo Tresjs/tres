@@ -1,5 +1,6 @@
 import type { Intersection, Object3D, Object3DEventMap } from 'three'
 import { computed, reactive, ref } from 'vue'
+import type { TresObject } from 'src/types'
 import { uniqueBy } from '../../utils'
 import { useRaycaster } from '../useRaycaster'
 
@@ -27,26 +28,26 @@ export const usePointerEventHandler = (
 
   const blockingObjects = ref(new Set<Object3D>())
 
-  const registerBlockingObject = (object: Object3D) => {
-    blockingObjects.value.add(object)
+  const registerBlockingObject = (object: TresObject) => {
+    blockingObjects.value.add(object as Object3D)
   }
 
-  const deregisterBlockingObject = (object: Object3D) => {
-    blockingObjects.value.delete(object)
+  const deregisterBlockingObject = (object: TresObject) => {
+    blockingObjects.value.delete(object as Object3D)
   }
 
-  const deregisterObject = (object: Object3D) => {
-    Object.values(objectsWithEventListeners).forEach(map => map.delete(object))
+  const deregisterObject = (object: TresObject) => {
+    Object.values(objectsWithEventListeners).forEach(map => map.delete(object as Object3D))
     deregisterBlockingObject(object)
   }
 
-  const registerObject = (object: Object3D & EventProps) => {
+  const registerObject = (object: TresObject & EventProps) => {
     const { onClick, onPointerMove, onPointerEnter, onPointerLeave } = object
 
-    if (onClick) { objectsWithEventListeners.click.set(object, onClick) }
-    if (onPointerMove) { objectsWithEventListeners.pointerMove.set(object, onPointerMove) }
-    if (onPointerEnter) { objectsWithEventListeners.pointerEnter.set(object, onPointerEnter) }
-    if (onPointerLeave) { objectsWithEventListeners.pointerLeave.set(object, onPointerLeave) }
+    if (onClick) { objectsWithEventListeners.click.set(object as Object3D, onClick) }
+    if (onPointerMove) { objectsWithEventListeners.pointerMove.set(object as Object3D, onPointerMove) }
+    if (onPointerEnter) { objectsWithEventListeners.pointerEnter.set(object as Object3D, onPointerEnter) }
+    if (onPointerLeave) { objectsWithEventListeners.pointerLeave.set(object as Object3D, onPointerLeave) }
   }
 
   const objectsToWatch = computed(() =>
@@ -70,7 +71,7 @@ export const usePointerEventHandler = (
   const { onClick, onPointerMove } = useRaycaster(objectsToWatch, ctx)
 
   onClick(({ intersects, event }) => {
-    if (intersects.length) { objectsWithEventListeners.click.get(intersects[0].object)?.(intersects[0], event) }
+    if (intersects.length) { objectsWithEventListeners.click.get(intersects[0].object)?.(intersects[0], event as PointerEvent) }
   })
 
   let previouslyIntersectedObject: Object3D | null
@@ -80,12 +81,12 @@ export const usePointerEventHandler = (
 
     const { pointerLeave, pointerEnter, pointerMove } = objectsWithEventListeners
 
-    if (previouslyIntersectedObject && previouslyIntersectedObject !== firstObject) { pointerLeave.get(previouslyIntersectedObject)?.(previouslyIntersectedObject, event) }
+    if (previouslyIntersectedObject && previouslyIntersectedObject !== firstObject) { pointerLeave.get(previouslyIntersectedObject)?.(previouslyIntersectedObject, event as PointerEvent) }
 
     if (firstObject) {
-      if (previouslyIntersectedObject !== firstObject) { pointerEnter.get(firstObject)?.(intersects[0], event) }
+      if (previouslyIntersectedObject !== firstObject) { pointerEnter.get(firstObject)?.(intersects[0], event as PointerEvent) }
 
-      pointerMove.get(firstObject)?.(intersects[0], event)
+      pointerMove.get(firstObject)?.(intersects[0], event as PointerEvent)
     }
 
     previouslyIntersectedObject = firstObject || null
