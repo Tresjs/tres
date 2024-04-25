@@ -19,6 +19,9 @@ export type Args<T> = T extends ConstructorRepresentation ? ConstructorParameter
 export interface TresCatalogue {
   [name: string]: ConstructorRepresentation
 }
+
+export type EmitEventName = 'render' | 'click' | 'double-click' | 'context-menu' | 'pointer-move' | 'pointer-up' | 'pointer-down' | 'pointer-enter' | 'pointer-leave' | 'pointer-over' | 'pointer-out' | 'pointer-missed' | 'wheel'
+export type EmitEventFn = (event: EmitEventName, ...args: any[]) => void
 export type TresCamera = THREE.OrthographicCamera | THREE.PerspectiveCamera
 
 export interface InstanceProps<T = any, P = any> {
@@ -27,6 +30,7 @@ export interface InstanceProps<T = any, P = any> {
   visible?: boolean
   dispose?: null
   attach?: AttachType<T>
+  [prop: string]: any
 }
 
 interface TresBaseObject {
@@ -39,14 +43,14 @@ interface TresBaseObject {
 export interface LocalState {
   type: string
   // objects and parent are used when children are added with `attach` instead of being added to the Object3D scene graph
-  objects: TresObject3D[]
-  parent: TresObject3D | null
+  objects?: TresObject3D[]
+  parent?: TresObject3D | null
   primitive?: boolean
-  eventCount: number
-  handlers: Partial<EventHandlers>
-  memoizedProps: { [key: string]: any }
-  disposable: boolean
-  root: TresContext
+  eventCount?: number
+  handlers?: Partial<EventHandlers>
+  memoizedProps?: { [key: string]: any }
+  disposable?: boolean
+  root?: TresContext
 }
 
 // Custom type for geometry and material properties in Object3D
@@ -56,7 +60,7 @@ export interface TresObject3D extends THREE.Object3D<THREE.Object3DEventMap> {
 }
 
 export type TresObject =
-  TresBaseObject & (TresObject3D | THREE.BufferGeometry | THREE.Material | THREE.Fog) & { __tres: LocalState }
+  TresBaseObject & (TresObject3D | THREE.BufferGeometry | THREE.Material | THREE.Fog) & { __tres?: LocalState }
 
 export interface TresScene extends THREE.Scene {
   __tres: {
@@ -96,6 +100,13 @@ export interface IntersectionEvent<TSourceEvent> extends Intersection {
 
 export type ThreeEvent<TEvent> = IntersectionEvent<TEvent> & Properties<TEvent>
 export type DomEvent = PointerEvent | MouseEvent | WheelEvent
+export interface TresEvent {
+  eventObject: TresObject
+  nativeEvent: DomEvent
+  stopPropagation: () => void
+  stopPropagating: boolean
+  intersections: Intersection[]
+}
 
 export interface Events {
   onClick: EventListener
@@ -144,13 +155,20 @@ export type MathType<T extends MathRepresentation | THREE.Euler> = T extends THR
 
   : T extends VectorRepresentation | THREE.Layers | THREE.Euler ? T | Parameters<T['set']> | number | VectorCoordinates : T | Parameters<T['set']>
 
-export type TresVector2 = MathType<THREE.Vector2>
-export type TresVector3 = MathType<THREE.Vector3>
-export type TresVector4 = MathType<THREE.Vector4>
-export type TresColor = MathType<THREE.Color>
-export type TresLayers = MathType<THREE.Layers>
-export type TresQuaternion = MathType<THREE.Quaternion>
-export type TresEuler = MathType<THREE.Euler>
+type VectorLike<VectorClass extends THREE.Vector2 | THREE.Vector3 | THREE.Vector4> =
+  | VectorClass
+  | Parameters<VectorClass['set']>
+  | Readonly<Parameters<VectorClass['set']>>
+  | Parameters<VectorClass['setScalar']>[0]
+
+export type TresVector2 = VectorLike<THREE.Vector2>
+export type TresVector3 = VectorLike<THREE.Vector3>
+export type TresVector4 = VectorLike<THREE.Vector4>
+export type TresColor = ConstructorParameters<typeof THREE.Color> | THREE.Color | number | string // Parameters<T> will not work here because of multiple function signatures in three.js types
+export type TresColorArray = typeof THREE.Color | [color: THREE.ColorRepresentation]
+export type TresLayers = THREE.Layers | Parameters<THREE.Layers['set']>[0]
+export type TresQuaternion = THREE.Quaternion | Parameters<THREE.Quaternion['set']>
+export type TresEuler = THREE.Euler
 
 type WithMathProps<P> = { [K in keyof P]: P[K] extends MathRepresentation | THREE.Euler ? MathType<P[K]> : P[K] }
 

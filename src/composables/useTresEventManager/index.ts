@@ -1,5 +1,6 @@
 import { computed, shallowRef } from 'vue'
-import type { Object3D, Scene } from 'three'
+import type { Scene } from 'three'
+import type { EmitEventFn, TresEvent, TresObject } from 'src/types'
 import type { TresContext } from '../useTresContextProvider'
 import { useRaycaster } from '../useRaycaster'
 import type { Intersects } from '../useRaycaster'
@@ -15,14 +16,14 @@ export interface TresEventManager {
    * So we need to track them separately
    * Note: These are used in nodeOps
    */
-  registerPointerMissedObject: (object: Object3D) => void
-  deregisterPointerMissedObject: (object: Object3D) => void
+  registerPointerMissedObject: (object: TresObject) => void
+  deregisterPointerMissedObject: (object: TresObject) => void
 }
 
 export function useTresEventManager(
   scene: Scene,
   context: TresContext,
-  emit: (event: string, ...args: any[]) => void,
+  emit: EmitEventFn,
 ) {
   const _scene = shallowRef<Scene>()
   const _context = shallowRef<TresContext>()
@@ -37,7 +38,7 @@ export function useTresEventManager(
 
   function executeEventListeners(
     listeners: Function | Function[],
-    event,
+    event: TresEvent,
   ) {
     // Components with multiple event listeners will have an array of functions
     if (Array.isArray(listeners)) {
@@ -59,7 +60,7 @@ export function useTresEventManager(
    * @param eventName - The name of the event to propogate
    * @param event - The event object to propogate
    */
-  function propogateEvent(eventName: string, event) {
+  function propogateEvent(eventName: string, event: TresEvent) {
     // Array of objects we've already propogated to
     const duplicates = []
 
@@ -75,7 +76,7 @@ export function useTresEventManager(
       event = { ...event, ...intersection }
 
       const { object } = intersection
-      event.eventObject = object
+      event.eventObject = object as TresObject
       executeEventListeners(object[eventName], event)
       duplicates.push(object)
 
@@ -88,7 +89,7 @@ export function useTresEventManager(
         }
 
         // Sets eventObject to object that registered the event listener
-        event.eventObject = parentObj
+        event.eventObject = parentObj as TresObject
         executeEventListeners(parentObj[eventName], event)
         duplicates.push(parentObj)
         parentObj = parentObj.parent
@@ -154,13 +155,13 @@ export function useTresEventManager(
    * We need to track pointer missed objects separately
    * since they will not be a part of the raycaster intersection
    */
-  const pointerMissedObjects: Object3D[] = []
-  onPointerMissed((event) => {
+  const pointerMissedObjects: TresObject[] = []
+  onPointerMissed((event: TresEvent) => {
     // Flag that is set to true when the stopProgatingFn is called
     const stopPropagatingFn = () => (event.stopPropagating = true)
     event.stopPropagation = stopPropagatingFn
 
-    pointerMissedObjects.forEach((object: Object3D) => {
+    pointerMissedObjects.forEach((object: TresObject) => {
       if (event.stopPropagating) { return }
 
       // Set eventObject to object that registered the event
@@ -172,11 +173,11 @@ export function useTresEventManager(
     emit('pointer-missed', { event })
   })
 
-  function registerPointerMissedObject(object: Object3D) {
+  function registerPointerMissedObject(object: TresObject) {
     pointerMissedObjects.push(object)
   }
 
-  function deregisterPointerMissedObject(object: Object3D) {
+  function deregisterPointerMissedObject(object: TresObject) {
     const index = pointerMissedObjects.indexOf(object)
     if (index > -1) {
       pointerMissedObjects.splice(index, 1)

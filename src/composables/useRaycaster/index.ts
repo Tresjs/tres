@@ -1,5 +1,5 @@
 import { Vector2, Vector3 } from 'three'
-import type { Intersection, Object3D, Object3DEventMap } from 'three'
+import type { Intersection, Object3D } from 'three'
 import type { Ref, ShallowRef } from 'vue'
 import { computed, onUnmounted, shallowRef } from 'vue'
 import type { EventHook } from '@vueuse/core'
@@ -7,19 +7,18 @@ import { createEventHook, useElementBounding, usePointer } from '@vueuse/core'
 
 import type { TresContext } from '../useTresContextProvider'
 
-export type Intersects = Intersection<Object3D<Object3DEventMap>>[]
 interface PointerMoveEventPayload {
-  intersects?: Intersects
+  intersects?: Intersection
   event: PointerEvent
 }
 
 interface PointerClickEventPayload {
-  intersects: Intersects
+  intersects: Intersection
   event: PointerEvent
 }
 
 interface WheelEventPayload {
-  intersects: Intersects
+  intersects: Intersection
   event: WheelEvent
 }
 
@@ -29,7 +28,7 @@ export const useRaycaster = (
 ) => {
   // having a separate computed makes useElementBounding work
   const canvas = computed(() => ctx.renderer.value.domElement as HTMLCanvasElement)
-  const intersects: ShallowRef<Intersects[]> = shallowRef([])
+  const intersects: ShallowRef<Intersection[]> = shallowRef([])
   const { x, y } = usePointer({ target: canvas })
   let delta = 0
 
@@ -127,8 +126,8 @@ export const useRaycaster = (
 
   // a click event is fired whenever a pointerdown happened after pointerup on the same object
   let mouseDownObject: Object3D | undefined
-  let mouseDownPosition
-  let mouseUpPosition
+  let mouseDownPosition: Object3D | undefined
+  let mouseUpPosition: Object3D | undefined
 
   const onPointerDown = (event: PointerEvent) => {
     mouseDownObject = intersects.value[0]?.object
