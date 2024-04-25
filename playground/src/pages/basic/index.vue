@@ -16,11 +16,13 @@ const state = reactive({
 
 const sphereRef = ref()
 
-const { onLoop } = useRenderLoop()
+onMounted(() => {
+  const { onLoop } = useRenderLoop()
 
-onLoop(({ elapsed }) => {
-  if (!sphereRef.value) { return }
-  sphereRef.value.position.y += Math.sin(elapsed) * 0.01
+  onLoop(({ elapsed }) => {
+    if (!sphereRef.value) { return }
+    sphereRef.value.position.y += Math.sin(elapsed) * 0.01
+  })
 })
 
 function onPointerEnter(ev) {

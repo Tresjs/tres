@@ -1,32 +1,32 @@
 import { createPriorityEventHook } from './createPriorityEventHook'
 
-let hook = createPriorityEventHook()
+let updateHook = createPriorityEventHook()
 
 describe('createPrioritizableEventHook', () => {
   beforeEach(() => {
-    hook = createPriorityEventHook()
+    updateHook = createPriorityEventHook()
   })
 
   describe('count', () => {
     it('is initially 0', () => {
-      expect(hook.count).toBe(0)
+      expect(updateHook.count).toBe(0)
     })
     it('increases when hooks are added with on', () => {
       for (const i of getArray0ToN(10)) {
-        hook.on(() => {})
-        expect(hook.count).toBe(i + 1)
+        updateHook.on(() => {})
+        expect(updateHook.count).toBe(i + 1)
       }
     })
     it('decreases when hooks are removed with off', () => {
       const fns = []
       for (const i of getArray0ToN(10)) {
         fns.push(() => {})
-        hook.on(fns[i])
+        updateHook.on(fns[i])
       }
-      let count = hook.count
+      let count = updateHook.count
       for (const fn of fns) {
-        hook.off(fn)
-        expect(hook.count).toBe(count - 1)
+        updateHook.off(fn)
+        expect(updateHook.count).toBe(count - 1)
         count--
       }
     })
@@ -36,9 +36,9 @@ describe('createPrioritizableEventHook', () => {
       const s = 'abcdefg'
       let result = ''
       for (const letter of s.split('')) {
-        hook.on(() => (result += letter + letter))
+        updateHook.on(() => (result += letter + letter))
       }
-      hook.trigger()
+      updateHook.trigger()
       expect(result).toBe('aabbccddeeffgg')
     })
     it('adds events without priority at priority 0', () => {
@@ -46,13 +46,13 @@ describe('createPrioritizableEventHook', () => {
       for (const i of [-3, -2, -1, 0, 1, 2, 3]) {
         const priority = i % 2 ? i : 0
         if (priority === 0) {
-          hook.on(() => (result.push(i)))
+          updateHook.on(() => (result.push(i)))
         }
         else {
-          hook.on(() => (result.push(i)), priority)
+          updateHook.on(() => (result.push(i)), priority)
         }
       }
-      hook.trigger()
+      updateHook.trigger()
       expect(result).toStrictEqual([-3, -1, -2, 0, 2, 1, 3])
     })
     it('adds events with priority', () => {
@@ -61,9 +61,9 @@ describe('createPrioritizableEventHook', () => {
         let result = ''
         const arr = shuffle(getArray0ToN(10))
         for (const priority of arr) {
-          hook.on(() => (result += priority), priority)
+          updateHook.on(() => (result += priority), priority)
         }
-        hook.trigger()
+        updateHook.trigger()
         expect(result).toBe('0123456789')
       }
     })
@@ -73,9 +73,9 @@ describe('createPrioritizableEventHook', () => {
         let result = ''
         const arr = shuffle(getArray0ToN(10))
         for (const priority of arr) {
-          hook.on(() => (result += priority), -priority)
+          updateHook.on(() => (result += priority), -priority)
         }
-        hook.trigger()
+        updateHook.trigger()
         expect(result).toBe('9876543210')
       }
     })
@@ -85,9 +85,9 @@ describe('createPrioritizableEventHook', () => {
         let result = ''
         const arr = shuffle(getArray0ToN(10))
         for (const priority of arr) {
-          hook.on(() => (result += priority), priority - 4)
+          updateHook.on(() => (result += priority), priority - 4)
         }
-        hook.trigger()
+        updateHook.trigger()
         expect(result).toBe('0123456789')
       }
     })
@@ -107,9 +107,9 @@ describe('createPrioritizableEventHook', () => {
             insertOrder[priority]++
           }
           const msg = `${priority}.${insertOrder[priority]}`
-          hook.on(() => (result.push(msg)), priority)
+          updateHook.on(() => (result.push(msg)), priority)
         }
-        hook.trigger()
+        updateHook.trigger()
         expect(result).toStrictEqual(
           '0.0|0.1|0.2|1.0|1.1|1.2|2.0|2.1|2.2|3.0|3.1|3.2'.split('|'),
         )
@@ -119,38 +119,38 @@ describe('createPrioritizableEventHook', () => {
       it('triggers once', () => {
         let result = ''
         const fn0 = () => { result += '0' }
-        hook.on(fn0)
-        hook.on(fn0, 1)
-        hook.on(fn0, 2)
-        hook.trigger()
+        updateHook.on(fn0)
+        updateHook.on(fn0, 1)
+        updateHook.on(fn0, 2)
+        updateHook.trigger()
         expect(result).toBe('0')
       })
       it('is counted once', () => {
         const fn0 = () => { }
         const fn1 = () => { }
-        hook.on(fn0)
-        hook.on(fn1)
-        hook.on(fn0)
-        expect(hook.count).toBe(2)
+        updateHook.on(fn0)
+        updateHook.on(fn1)
+        updateHook.on(fn0)
+        expect(updateHook.count).toBe(2)
       })
       it('uses latest insert order', () => {
         let result = ''
         const fn0 = () => { result += '0' }
         const fn1 = () => { result += '1' }
-        hook.on(fn0)
-        hook.on(fn1)
-        hook.on(fn0)
-        hook.trigger()
+        updateHook.on(fn0)
+        updateHook.on(fn1)
+        updateHook.on(fn0)
+        updateHook.trigger()
         expect(result).toBe('10')
       })
       it('uses latest priority', () => {
         let result = ''
         const fn0 = () => { result += '0' }
         const fn1 = () => { result += '1' }
-        hook.on(fn0, 0)
-        hook.on(fn1, 1)
-        hook.on(fn0, 2)
-        hook.trigger()
+        updateHook.on(fn0, 0)
+        updateHook.on(fn1, 1)
+        updateHook.on(fn0, 2)
+        updateHook.trigger()
         expect(result).toBe('10')
       })
     })
@@ -158,19 +158,19 @@ describe('createPrioritizableEventHook', () => {
       let result = ''
       const fn0 = () => { result += '0' }
       const fn1 = () => { result += '1' }
-      const off0 = hook.on(fn0).off
-      const off1 = hook.on(fn1).off
-      hook.trigger()
+      const off0 = updateHook.on(fn0).off
+      const off1 = updateHook.on(fn1).off
+      updateHook.trigger()
       expect(result).toBe('01')
 
       result = ''
       off0()
-      hook.trigger()
+      updateHook.trigger()
       expect(result).toBe('1')
 
       result = ''
       off1()
-      hook.trigger()
+      updateHook.trigger()
       expect(result).toBe('')
     })
   })
@@ -180,22 +180,22 @@ describe('createPrioritizableEventHook', () => {
       let result = ''
       const fn0 = () => { result += '0' }
       const fn1 = () => { result += '1' }
-      hook.on(fn0)
-      hook.on(fn1)
-      hook.trigger()
+      updateHook.on(fn0)
+      updateHook.on(fn1)
+      updateHook.trigger()
       expect(result).toBe('01')
 
-      hook.off(fn0)
-      hook.trigger()
+      updateHook.off(fn0)
+      updateHook.trigger()
       expect(result).toBe('011')
 
-      hook.off(fn1)
-      hook.trigger()
+      updateHook.off(fn1)
+      updateHook.trigger()
       expect(result).toBe('011')
 
-      hook.on(fn0)
-      hook.off(fn0)
-      hook.trigger()
+      updateHook.on(fn0)
+      updateHook.off(fn0)
+      updateHook.trigger()
       expect(result).toBe('011')
     })
 
@@ -203,17 +203,17 @@ describe('createPrioritizableEventHook', () => {
       let result = ''
       const fn0 = () => { result += '0' }
       const fn1 = () => { result += '1' }
-      hook.on(fn0)
-      hook.on(fn1)
-      hook.trigger()
+      updateHook.on(fn0)
+      updateHook.on(fn1)
+      updateHook.trigger()
       expect(result).toBe('01')
 
-      hook.off(fn1)
-      hook.trigger()
+      updateHook.off(fn1)
+      updateHook.trigger()
       expect(result).toBe('010')
 
-      hook.off(fn1)
-      hook.trigger()
+      updateHook.off(fn1)
+      updateHook.trigger()
       expect(result).toBe('0100')
     })
   })
@@ -223,23 +223,23 @@ describe('createPrioritizableEventHook', () => {
       let result = ''
       const fn0 = () => { result += '0' }
       const fn1 = () => { result += '1' }
-      hook.on(fn0)
-      hook.on(fn1)
+      updateHook.on(fn0)
+      updateHook.on(fn1)
 
-      hook.trigger()
+      updateHook.trigger()
       expect(result).toBe('01')
     })
     it('calls added events with an argument', () => {
       let result = ''
       const fn0 = (i: number) => { result += `${i}` }
       const fn1 = (i: number) => { result += `${1 + i}` }
-      hook.on(fn0)
-      hook.on(fn1)
+      updateHook.on(fn0)
+      updateHook.on(fn1)
 
-      hook.trigger(2)
+      updateHook.trigger(2)
       expect(result).toBe('23')
 
-      hook.trigger(7)
+      updateHook.trigger(7)
       expect(result).toBe('2378')
     })
   })

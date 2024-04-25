@@ -30,6 +30,11 @@ export const basicRoutes = [
     component: () => import('../../pages/basic/Multiple.vue'),
   },
   {
+    path: '/basic/multiple-use-render-loop',
+    name: 'Multiple with useRenderLoop',
+    component: () => import('../../pages/basic/multipleUseRenderLoop/MultipleUseRenderLoop.vue'),
+  },
+  {
     path: '/basic/responsive',
     name: 'Responsiveness',
     component: () => import('../../pages/basic/Responsiveness.vue'),

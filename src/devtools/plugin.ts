@@ -91,14 +91,14 @@ const createNode = (object: TresObject): SceneGraphObject => {
   return node
 }
 
-function buildGraph(object: TresObject, node: SceneGraphObject) {
+function buildGraph(object: TresObject, node: SceneGraphObject, filter: string = '') {
   object.children.forEach((child: TresObject) => {
-    if (child.type === 'HightlightMesh') {
-      return
-    }
+    if (child.type === 'HightlightMesh') { return }
+    if (filter && !child.type.includes(filter) && !child.name.includes(filter)) { return }
+
     const childNode = createNode(child)
     node.children.push(childNode)
-    buildGraph(child, childNode)
+    buildGraph(child, childNode, filter)
   })
 }
 
@@ -146,33 +146,9 @@ export function registerTresDevtools(app: DevtoolsApp, tres: TresContext) {
         if (payload.inspectorId === INSPECTOR_ID) {
           // Your logic here
           const root = createNode(tres.scene.value)
-          buildGraph(tres.scene.value, root)
+          buildGraph(tres.scene.value, root, payload.filter)
           state.sceneGraph = root
           payload.rootNodes = [root]
-          /*  payload.rootNodes = [
-            {
-              id: 'root',
-              label: 'Root ',
-              children: [
-                {
-                  id: 'child',
-                  label: `Child ${payload.filter}`,
-                  tags: [
-                    {
-                      label: 'active',
-                      textColor: 0x000000,
-                      backgroundColor: 0xFF984F,
-                    },
-                    {
-                      label: 'test',
-                      textColor: 0xffffff,
-                      backgroundColor: 0x000000,
-                    },
-                  ],
-                },
-              ],
-            },
-          ] */
         }
       })
       let highlightMesh: Mesh | null = null
@@ -281,6 +257,26 @@ export function registerTresDevtools(app: DevtoolsApp, tres: TresContext) {
                 value: instance.visible,
               },
             ],
+          }
+
+          if (instance.isScene) {
+            payload.state.info = {
+              memory: calculateMemoryUsage(instance),
+              objects: instance.children.length,
+              calls: tres.renderer.value.info.render.calls,
+              triangles: tres.renderer.value.info.render.triangles,
+              points: tres.renderer.value.info.render.points,
+              lines: tres.renderer.value.info.render.lines,
+            }
+            payload.state.programs = tres.renderer.value.info.programs?.map(program => ({
+              key: program.name || program.type,
+              value: {
+                ...program,
+                vertexShader: program.vertexShader,
+                attributes: program.getAttributes(),
+                uniforms: program.getUniforms(),
+              },
+            }))
           }
         }
       })
