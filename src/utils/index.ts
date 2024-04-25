@@ -1,5 +1,6 @@
 import type { Material, Mesh, Object3D, Texture } from 'three'
 import { DoubleSide, MeshBasicMaterial, Scene, Vector3 } from 'three'
+import type { TresObject } from 'src/types'
 import { HightlightMesh } from '../devtools/highlight'
 
 export function toSetMethodName(key: string) {
@@ -244,7 +245,7 @@ export function stopHighlightAnimation(): void {
   }
 }
 
-export function createHighlightMesh(object: Object3D): Mesh {
+export function createHighlightMesh(object: TresObject): Mesh {
   const highlightMaterial = new MeshBasicMaterial({
     color: 0xA7E6D7, // Highlight color, e.g., yellow
     transparent: true,
@@ -280,7 +281,7 @@ export function disposeMaterial(material: Material): void {
   material.dispose()
 }
 
-export function disposeObject3D(object: Object3D): void {
+export function disposeObject3D(object: TresObject): void {
   if (object.parent) {
     object.removeFromParent?.()
   }
@@ -293,7 +294,7 @@ export function disposeObject3D(object: Object3D): void {
     // Optionally handle Scene-specific cleanup
   }
   else {
-    const mesh = object as Mesh
+    const mesh = object as unknown as Partial<Mesh>
     if (mesh.geometry) {
       mesh.geometry.dispose()
       delete mesh.geometry

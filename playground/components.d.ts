@@ -9,9 +9,6 @@ declare module 'vue' {
   export interface GlobalComponents {
     AkuAku: typeof import('./src/components/AkuAku.vue')['default']
     BlenderCube: typeof import('./src/components/BlenderCube.vue')['default']
-<<<<<<< HEAD
-    DynamicModel: typeof import('./src/components/DynamicModel.vue')['default']
-=======
     Box: typeof import('./src/components/Box.vue')['default']
     CameraOperator: typeof import('./src/components/CameraOperator.vue')['default']
     Cameras: typeof import('./src/components/Cameras.vue')['default']
@@ -23,7 +20,6 @@ declare module 'vue' {
     EventsPropogation: typeof import('./src/components/EventsPropogation.vue')['default']
     FBXModels: typeof import('./src/components/FBXModels.vue')['default']
     Gltf: typeof import('./src/components/gltf/index.vue')['default']
->>>>>>> v4
     GraphPane: typeof import('./src/components/GraphPane.vue')['default']
     LocalOrbitControls: typeof import('./src/components/LocalOrbitControls.vue')['default']
     RenderingLogger: typeof import('./src/components/RenderingLogger.vue')['default']

@@ -1,6 +1,6 @@
 import { useFps, useMemory, useRafFn } from '@vueuse/core'
 import { computed, inject, onUnmounted, provide, readonly, ref, shallowRef } from 'vue'
-import type { Camera, EventDispatcher, Object3D, WebGLRenderer } from 'three'
+import type { Camera, EventDispatcher, WebGLRenderer } from 'three'
 import { Raycaster } from 'three'
 import type { ComputedRef, DeepReadonly, MaybeRef, MaybeRefOrGetter, Ref, ShallowRef } from 'vue'
 import { calculateMemoryUsage } from '../../utils/perf'
@@ -9,7 +9,7 @@ import type { UseRendererOptions } from '../useRenderer'
 import { useRenderer } from '../useRenderer'
 import { extend } from '../../core/catalogue'
 import { useLogger } from '../useLogger'
-import type { TresScene } from '../../types'
+import type { EmitEventFn, TresObject, TresScene } from '../../types'
 import type { EventProps } from '../usePointerEventHandler'
 import type { TresEventManager } from '../useTresEventManager'
 import useSizes, { type SizesType } from '../useSizes'
@@ -69,14 +69,14 @@ export interface TresContext {
   registerCamera: (camera: Camera) => void
   setCameraActive: (cameraOrUuid: Camera | string) => void
   deregisterCamera: (camera: Camera) => void
-  eventManager: TresEventManager
+  eventManager?: TresEventManager
   // Events
   // Temporaly add the methods to the context, this should be handled later by the EventManager state on the context https://github.com/Tresjs/tres/issues/515
   // When thats done maybe we can short the names of the methods since the parent will give the context.
-  registerObjectAtPointerEventHandler: (object: Object3D & EventProps) => void
-  deregisterObjectAtPointerEventHandler: (object: Object3D) => void
-  registerBlockingObjectAtPointerEventHandler: (object: Object3D) => void
-  deregisterBlockingObjectAtPointerEventHandler: (object: Object3D) => void
+  registerObjectAtPointerEventHandler?: (object: TresObject & EventProps) => void
+  deregisterObjectAtPointerEventHandler?: (object: TresObject) => void
+  registerBlockingObjectAtPointerEventHandler?: (object: TresObject) => void
+  deregisterBlockingObjectAtPointerEventHandler?: (object: TresObject) => void
 }
 
 export function useTresContextProvider({
@@ -92,7 +92,8 @@ export function useTresContextProvider({
   windowSize: MaybeRefOrGetter<boolean>
   disableRender: MaybeRefOrGetter<boolean>
   rendererOptions: UseRendererOptions
-  emit: (event: string, ...args: any[]) => void
+  emit: EmitEventFn
+
 }): TresContext {
   const { logWarning } = useLogger()
 

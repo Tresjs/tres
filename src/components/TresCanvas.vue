@@ -38,7 +38,7 @@ import { registerTresDevtools } from '../devtools'
 import { disposeObject3D } from '../utils/'
 
 import type { RendererPresetsType } from '../composables/useRenderer/const'
-import type { TresCamera, TresObject } from '../types/'
+import type { TresCamera, TresObject, TresScene } from '../types/'
 
 export interface TresCanvasProps
   extends Omit<WebGLRendererParameters, 'canvas'> {
@@ -105,7 +105,7 @@ const canvas = ref<HTMLCanvasElement>()
  renderer uses it to mount the app nodes. This happens before `useTresContextProvider` is called.
  The custom renderer requires `scene` to be editable (not readonly).
 */
-const scene = shallowRef(new Scene())
+const scene = shallowRef<TresScene | Scene>(new Scene())
 
 const { resume } = useRenderLoop()
 
@@ -136,34 +136,17 @@ const mountCustomRenderer = (context: TresContext) => {
 }
 
 const dispose = (context: TresContext, force = false) => {
-  disposeObject3D(context.scene.value)
+  disposeObject3D(context.scene.value as unknown as TresObject)
   if (force) {
     context.renderer.value.dispose()
     context.renderer.value.renderLists.dispose()
     context.renderer.value.forceContextLoss()
   }
-  scene.value.__tres = {
+  (scene.value as TresScene).__tres = {
     root: context,
   }
   mountCustomRenderer(context)
   resume()
-  /* disposeObject3D(scene.value) */
-  /*  scene.value.children.forEach((child) => {
-    child.removeFromParent()
-    disposeObject3D(child)
-  })
-  context.scene.value.children.forEach((child) => {
-    child.removeFromParent()
-    disposeObject3D(child)
-  }) */
-  /* console.log('disposing', scene.value.children)
-  if (force) {
-    context.renderer.value.dispose()
-    context.renderer.value.renderLists.dispose()
-    context.renderer.value.forceContextLoss()
-  }
-  mountCustomRenderer(context)
-  resume() */
 }
 
 const disableRender = computed(() => props.disableRender)
@@ -176,7 +159,7 @@ onMounted(() => {
   const existingCanvas = canvas as Ref<HTMLCanvasElement>
 
   context.value = useTresContextProvider({
-    scene: scene.value,
+    scene: scene.value as TresScene,
     canvas: existingCanvas,
     windowSize: props.windowSize ?? false,
     disableRender: disableRender.value ?? false,
