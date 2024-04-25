@@ -10,7 +10,7 @@ import {
 
 import type { ColorSpace, Scene, ShadowMapType, ToneMapping, WebGLRendererParameters } from 'three'
 import { useLogger } from '../useLogger'
-import type { EmitEventFn, EmitEventName, TresColor } from '../../types'
+import type { EmitEventFn, TresColor } from '../../types'
 import { useRenderLoop } from '../useRenderLoop'
 import { normalizeColor } from '../../utils/normalize'
 
