@@ -4,4 +4,9 @@ export const perfRoutes = [
     name: 'On Demand',
     component: () => import('../../pages/perf/OnDemand.vue'),
   },
+  {
+    path: '/perf/memory',
+    name: 'Memory',
+    component: () => import('../../pages/perf/Memory.vue'),
+  },
 ]

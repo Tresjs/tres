@@ -5,7 +5,7 @@ import {
   setupDevtoolsPlugin,
 } from '@vue/devtools-api'
 import { reactive } from 'vue'
-import type { Mesh, Object3D } from 'three'
+import type { Mesh } from 'three'
 import { createHighlightMesh, editSceneObject } from '../utils'
 import { bytesToKB, calculateMemoryUsage } from '../utils/perf'
 import type { TresContext } from '../composables'
@@ -91,14 +91,14 @@ const createNode = (object: TresObject): SceneGraphObject => {
   return node
 }
 
-function buildGraph(object: TresObject, node: SceneGraphObject) {
+function buildGraph(object: TresObject, node: SceneGraphObject, filter: string = '') {
   object.children.forEach((child: TresObject) => {
-    if (child.type === 'HightlightMesh') {
-      return
-    }
+    if (child.type === 'HightlightMesh') { return }
+    if (filter && !child.type.includes(filter) && !child.name.includes(filter)) { return }
+
     const childNode = createNode(child)
     node.children.push(childNode)
-    buildGraph(child, childNode)
+    buildGraph(child, childNode, filter)
   })
 }
 
@@ -122,7 +122,6 @@ export function registerTresDevtools(app: DevtoolsApp, tres: TresContext) {
     (api) => {
       if (typeof api.now !== 'function') {
         toastMessage(
-
           'You seem to be using an outdated version of Vue Devtools. Are you still using the Beta release instead of the stable one? You can find the links at https://devtools.vuejs.org/guide/installation.html.',
         )
       }
@@ -145,43 +144,19 @@ export function registerTresDevtools(app: DevtoolsApp, tres: TresContext) {
       api.on.getInspectorTree((payload) => {
         if (payload.inspectorId === INSPECTOR_ID) {
           // Your logic here
-          const root = createNode(tres.scene.value)
-          buildGraph(tres.scene.value, root)
+          const root = createNode(tres.scene.value as unknown as TresObject)
+          buildGraph(tres.scene.value as unknown as TresObject, root, payload.filter)
           state.sceneGraph = root
           payload.rootNodes = [root]
-          /*  payload.rootNodes = [
-            {
-              id: 'root',
-              label: 'Root ',
-              children: [
-                {
-                  id: 'child',
-                  label: `Child ${payload.filter}`,
-                  tags: [
-                    {
-                      label: 'active',
-                      textColor: 0x000000,
-                      backgroundColor: 0xFF984F,
-                    },
-                    {
-                      label: 'test',
-                      textColor: 0xffffff,
-                      backgroundColor: 0x000000,
-                    },
-                  ],
-                },
-              ],
-            },
-          ] */
         }
       })
       let highlightMesh: Mesh | null = null
-      let prevInstance: Object3D | null = null
+      let prevInstance: TresObject | null = null
 
       api.on.getInspectorState((payload) => {
         if (payload.inspectorId === INSPECTOR_ID) {
           // Your logic here
-          const [instance] = tres.scene.value.getObjectsByProperty('uuid', payload.nodeId)
+          const [instance] = tres.scene.value.getObjectsByProperty('uuid', payload.nodeId) as TresObject[]
           if (!instance) { return }
           if (prevInstance && highlightMesh && highlightMesh.parent) {
             prevInstance.remove(highlightMesh)
@@ -281,6 +256,26 @@ export function registerTresDevtools(app: DevtoolsApp, tres: TresContext) {
                 value: instance.visible,
               },
             ],
+          }
+
+          if (instance.isScene) {
+            payload.state.info = {
+              memory: calculateMemoryUsage(instance),
+              objects: instance.children.length,
+              calls: tres.renderer.value.info.render.calls,
+              triangles: tres.renderer.value.info.render.triangles,
+              points: tres.renderer.value.info.render.points,
+              lines: tres.renderer.value.info.render.lines,
+            }
+            payload.state.programs = tres.renderer.value.info.programs?.map(program => ({
+              key: program.name,
+              value: {
+                ...program,
+                vertexShader: program.vertexShader,
+                attributes: program.getAttributes(),
+                uniforms: program.getUniforms(),
+              },
+            })) || []
           }
         }
       })
