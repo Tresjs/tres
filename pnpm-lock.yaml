@@ -82,8 +82,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0(rollup@4.14.3)(vue@3.4.23(typescript@5.3.3))
       postprocessing:
-        specifier: 6.35.3
-        version: 6.35.3(three@0.160.0)
+        specifier: 6.35.4
+        version: 6.35.4(three@0.160.0)
       vite-svg-loader:
         specifier: ^5.1.0
         version: 5.1.0(vue@3.4.23(typescript@5.3.3))
@@ -4931,11 +4931,11 @@ packages:
     resolution: {integrity: sha512-Wglpdk03BSfXkHoQa3b/oulrotAkwrlLDRSOb9D0bN86FdRyE9lppSp33aHNPgBa0JKCoB+drFLZkQoRRYae5A==}
     engines: {node: ^10 || ^12 || >=14}
 
-  postprocessing@6.35.3:
-    resolution: {integrity: sha512-PH0/gqVYpp+vZjmSAohG/xH0u9FpbjfCGsFMsmsZVd8XXSmqJUR7b5C9ZFE/iMrWhe+tiTOFN9WvcEdjLI8LYQ==}
+  postprocessing@6.35.4:
+    resolution: {integrity: sha512-U4Uk+wOHRbdlMV8zhn843K3bZyiWGKnWXWSsDXa8IW6NAiAP/YJtf6DHs4UFo1gLnNnRGpgJPc2Xxai9O/HoLg==}
     engines: {node: '>= 0.13.2'}
     peerDependencies:
-      three: '>= 0.152.0 < 0.164.0'
+      three: '>= 0.152.0 < 0.165.0'
 
   potpack@1.0.2:
     resolution: {integrity: sha512-choctRBIV9EMT9WGAZHn3V7t0Z2pMQyl0EZE6pFc/6ml3ssw7Dlf/oAOvFwjm1HVsqfQN8GfeFyJ+d8tRzqueQ==}
@@ -8376,7 +8376,7 @@ snapshots:
       '@tresjs/core': 3.9.0(three@0.160.0)(vue@3.4.23(typescript@5.3.3))
       '@unocss/core': 0.57.4
       '@vueuse/core': 10.6.1(vue@3.4.23(typescript@5.3.3))
-      postprocessing: 6.35.3(three@0.160.0)
+      postprocessing: 6.35.4(three@0.160.0)
       three: 0.160.0
       three-stdlib: 2.28.5(three@0.160.0)
       vue: 3.4.23(typescript@5.3.3)
@@ -13026,7 +13026,7 @@ snapshots:
       picocolors: 1.0.0
       source-map-js: 1.2.0
 
-  postprocessing@6.35.3(three@0.160.0):
+  postprocessing@6.35.4(three@0.160.0):
     dependencies:
       three: 0.160.0
 
