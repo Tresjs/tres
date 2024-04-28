@@ -2,7 +2,6 @@ import type { EventHookOn, Fn } from '@vueuse/core'
 import { createEventHook, useRafFn } from '@vueuse/core'
 import type { Ref } from 'vue'
 import { Clock } from 'three'
-import { useLogger } from '../useLogger'
 
 export interface RenderLoop {
   delta: number
@@ -42,9 +41,7 @@ onAfterLoop.on(() => {
 })
 
 export const useRenderLoop = (): UseRenderLoopReturn => {
-  const { logWarning } = useLogger()
   // TODO: add migration guide link here
-  logWarning('useRenderLoop is deprecated is gonna be deprecated on v5, please migrate to `useLoop` https://docs.tresjs.org/api/composables.html#useloop. Check the migration guide for more information. ')
   return {
     onBeforeLoop: onBeforeLoop.on,
     onLoop: onLoop.on,
