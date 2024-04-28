@@ -78,7 +78,7 @@ const dispose = () => {
 }
 
 defineExpose({
-  ref: positionalAudioRef,
+  root: positionalAudioRef,
   play: playAudio,
   stop: stopAudio,
   pause: pauseAudio,

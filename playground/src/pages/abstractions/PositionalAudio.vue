@@ -73,7 +73,7 @@ const onContinue = () => {
           :outer-gain=".2"
           :distance="2"
           helper
-          url="/positional-audio/sound.mp3"
+          url="https://raw.githubusercontent.com/Tresjs/assets/main/music/beat-1.mp3"
         />
       </Suspense>
     </Box>

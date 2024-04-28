@@ -19,7 +19,8 @@ const innerAngle = ref(195)
 const outerAngle = ref(260)
 const outerGain = ref(0.4)
 
-const model = await useGLTF('/positional-audio/pingpong.glb', { draco: true })
+// eslint-disable-next-line max-len
+const model = await useGLTF('https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/positional-audio/ping-pong.glb', { draco: true })
 
 const onBallBounce = () => {
   const iteration = tl.iteration() % 2
@@ -31,7 +32,7 @@ const onBallBounce = () => {
 
 watch([ballRef, ready], ([ball]) => {
   if (!ball?.value || !ready.value) return
-  
+
   ctx.add(() => {
     tl = gsap
       .timeline({ repeat: -1, yoyo: true, onRepeat: onBallBounce })
@@ -40,11 +41,11 @@ watch([ballRef, ready], ([ball]) => {
 })
 
 onMounted(() => {
-  ctx = gsap.context((self) => {}, ballRef?.value) 
+  ctx = gsap.context((self) => { }, ballRef?.value)
 })
 
 onUnmounted(() => {
-  ctx?.revert() 
+  ctx?.revert()
   positionalAudioRef?.value?.dispose()
 })
 </script>
@@ -92,7 +93,7 @@ onUnmounted(() => {
           :inner-angle="innerAngle"
           :outer-angle="outerAngle"
           :outer-gain="outerGain"
-          url="/positional-audio/ping.mp3"
+          url="https://raw.githubusercontent.com/Tresjs/assets/main/music/ping-pong.mp3"
         />
       </Suspense>
     </Sphere>
@@ -143,7 +144,8 @@ onUnmounted(() => {
   column-gap: 5px;
 }
 
-.ready button, .controls button {
+.ready button,
+.controls button {
   padding: 5px 10px;
   background: #1B1C1E;
   border: 1px solid #161618;

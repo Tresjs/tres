@@ -100,8 +100,8 @@ onUnmounted(() => {
           :outer-angle="outerAngle.value"
           :outer-gain="outerGain.value"
           :helper="helper.value"
-          url="/positional-audio/sound1.mp3"
-        />
+          url="https://raw.githubusercontent.com/Tresjs/assets/main/music/beat-1.mp3"
+        /> 
       </Suspense>
     </Box>
 
