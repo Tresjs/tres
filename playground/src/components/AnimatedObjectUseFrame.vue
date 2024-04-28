@@ -1,6 +1,6 @@
 <!-- eslint-disable no-console -->
 <script setup lang="ts">
-import { useFrame, useRender } from '@tresjs/core'
+import { useFrame } from '@tresjs/core'
 
 const sphereRef = ref()
 const { pause, isActive, resume } = useFrame((state) => {
