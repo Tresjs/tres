@@ -4,7 +4,7 @@ import TransformControls from './TransformControls.vue'
 import PointerLockControls from './PointerLockControls.vue'
 import MapControls from './MapControls.vue'
 import ScrollControls from './ScrollControls.vue'
-import CameraControls from './CameraControls.vue'
+import CameraControls, { BaseCameraControls } from './CameraControls.vue'
 
 export {
   OrbitControls,
@@ -14,4 +14,5 @@ export {
   KeyboardControls,
   ScrollControls,
   CameraControls,
+  BaseCameraControls,
 }

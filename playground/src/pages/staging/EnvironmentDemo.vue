@@ -2,7 +2,7 @@
 import { TresCanvas } from '@tresjs/core'
 import { BasicShadowMap, SRGBColorSpace, NoToneMapping } from 'three'
 
-import { OrbitControls, useProgress, Environment, TorusKnot } from '@tresjs/cientos'
+import { OrbitControls, useProgress, Environment, Lightformer, TorusKnot } from '@tresjs/cientos'
 import { TresLeches, useControls } from '@tresjs/leches'
 import '@tresjs/leches/styles'
 
@@ -17,7 +17,7 @@ const gl = {
   toneMapping: NoToneMapping,
 }
 
-const { background, blur, preset } = useControls({
+const { background, blur, preset, lightformers } = useControls({
   background: true,
   blur: {
     value: 0,
@@ -42,6 +42,7 @@ const { background, blur, preset } = useControls({
     ],
     value: 'sunset',
   },
+  lightformers: false,
 })
 
 const environmentRef = ref(null)
@@ -89,7 +90,32 @@ const { progress, hasFinishLoading } = await useProgress()
         :background="background.value"
         :blur="blur.value"
         :preset="preset.value"
-      />
+      >
+        <TresGroup v-if="lightformers.value">
+          <Lightformer
+            :intensity="0.75"
+            :rotation-x="Math.PI / 2"
+            :position="[0, 5, -9]"
+            :scale="[10, 10, 1]"
+          />
+          <Lightformer
+            :intensity="4"
+            :rotation-y="Math.PI / 2"
+            :position="[-5, 1, -1]"
+            :scale="[20, 0.1, 1]"
+          />
+          <Lightformer
+            :rotation-y="Math.PI / 2"
+            :position="[-5, -1, -1]"
+            :scale="[20, 0.5, 1]"
+          />
+          <Lightformer
+            :rotation-y="-Math.PI / 2"
+            :position="[10, 1, 0]"
+            :scale="[20, 11, 1]"
+          />
+        </TresGroup>
+      </Environment>
     </Suspense>
     <TorusKnot>
       <TresMeshStandardMaterial

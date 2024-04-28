@@ -1,4 +1,5 @@
 import Environment from './useEnvironment/component.vue'
+import Lightformer from './useEnvironment/lightformer/index.vue'
 import Backdrop from './Backdrop.vue'
 import ContactShadows from './ContactShadows.vue'
 import Precipitation from './Precipitation.vue'
@@ -18,4 +19,5 @@ export {
   Sparkles,
   Stars,
   Ocean,
+  Lightformer,
 }

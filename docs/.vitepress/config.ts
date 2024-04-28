@@ -99,6 +99,7 @@ export default defineConfig({
           { text: 'WobbleMaterial', link: '/guide/materials/wobble-material' },
           { text: 'MeshGlassMaterial', link: '/guide/materials/glass-material' },
           { text: 'CustomShaderMaterial', link: '/guide/materials/custom-shader-material' },
+          { text: 'HolographicMaterial', link: '/guide/materials/holographic-material' },
         ],
       },
       {

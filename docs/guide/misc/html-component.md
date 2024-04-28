@@ -61,5 +61,5 @@ You can achieve pretty cool results with the `Html` component by using iframes. 
 
 | Event               | Description                                                                                                               |
 |---------------------|---------------------------------------------------------------------------------------------------------------------------|
-| onOcculde           | Called when the occlusion state changes.                                                                                  |
+| onOcclude           | Called when the occlusion state changes.                                                                                  |
 
