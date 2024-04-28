@@ -16,6 +16,7 @@ import {
   getCurrentInstance,
   h,
   onMounted,
+  onUnmounted,
   provide,
   ref,
   shallowRef,
@@ -27,16 +28,16 @@ import pkg from '../../package.json'
 import {
   type TresContext,
   useLogger,
-  usePointerEventHandler,
-  /* useRenderLoop, */
   useTresContextProvider,
+  useTresEventManager,
 } from '../composables'
 import { extend } from '../core/catalogue'
 import { nodeOps } from '../core/nodeOps'
+import { registerTresDevtools } from '../devtools'
+import { disposeObject3D } from '../utils/'
 
 import type { RendererPresetsType } from '../composables/useRenderer/const'
-import type { TresCamera, TresObject } from '../types/'
-import { registerTresDevtools } from '../devtools'
+import type { TresCamera, TresObject, TresScene } from '../types/'
 
 export interface TresCanvasProps
   extends Omit<WebGLRendererParameters, 'canvas'> {
@@ -72,7 +73,24 @@ const props = withDefaults(defineProps<TresCanvasProps>(), {
   renderMode: 'always',
 })
 
-const emit = defineEmits(['render'])
+// Define emits for Pointer events, pass `emit` into useTresEventManager so we can emit events off of TresCanvas
+// Not sure of this solution, but you have to have emits defined on the component to emit them in vue
+const emit = defineEmits([
+  'render',
+  'click',
+  'double-click',
+  'context-menu',
+  'pointer-move',
+  'pointer-up',
+  'pointer-down',
+  'pointer-enter',
+  'pointer-leave',
+  'pointer-over',
+  'pointer-out',
+  'pointer-missed',
+  'wheel',
+])
+
 const slots = defineSlots<{
   default: () => any
 }>()
@@ -86,7 +104,7 @@ const canvas = ref<HTMLCanvasElement>()
  renderer uses it to mount the app nodes. This happens before `useTresContextProvider` is called.
  The custom renderer requires `scene` to be editable (not readonly).
 */
-const scene = shallowRef(new Scene())
+const scene = shallowRef<TresScene | Scene>(new Scene())
 
 /* const { resume } = useRenderLoop() */
 
@@ -117,11 +135,14 @@ const mountCustomRenderer = (context: TresContext) => {
 }
 
 const dispose = (context: TresContext, force = false) => {
-  scene.value.children = []
+  disposeObject3D(context.scene.value as unknown as TresObject)
   if (force) {
     context.renderer.value.dispose()
     context.renderer.value.renderLists.dispose()
     context.renderer.value.forceContextLoss()
+  }
+  (scene.value as TresScene).__tres = {
+    root: context,
   }
   mountCustomRenderer(context)
 /*   resume() */
@@ -132,11 +153,12 @@ const disableRender = computed(() => props.disableRender)
 const context = shallowRef<TresContext | null>(null)
 
 defineExpose({ context, dispose: () => dispose(context.value as TresContext, true) })
+
 onMounted(() => {
   const existingCanvas = canvas as Ref<HTMLCanvasElement>
 
   context.value = useTresContextProvider({
-    scene: scene.value,
+    scene: scene.value as TresScene,
     canvas: existingCanvas,
     windowSize: props.windowSize ?? false,
     disableRender: disableRender.value ?? false,
@@ -146,7 +168,7 @@ onMounted(() => {
 
   instance?.provide('useTres', context)
 
-  usePointerEventHandler(context.value)
+  useTresEventManager(scene.value, context.value, emit)
 
   const { registerCamera, camera, cameras, deregisterCamera } = context.value
 
@@ -194,7 +216,12 @@ onMounted(() => {
     addDefaultCamera()
   }
 
+  // HMR support
   if (import.meta.hot && context.value) { import.meta.hot.on('vite:afterUpdate', () => dispose(context.value as TresContext)) }
+})
+
+onUnmounted(() => {
+  dispose(context.value as TresContext)
 })
 </script>
 

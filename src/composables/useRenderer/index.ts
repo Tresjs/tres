@@ -10,7 +10,7 @@ import {
 
 import type { ColorSpace, Scene, ShadowMapType, ToneMapping, WebGLRendererParameters } from 'three'
 import { useLogger } from '../useLogger'
-import type { TresColor } from '../../types'
+import type { EmitEventFn, TresColor } from '../../types'
 import { normalizeColor } from '../../utils/normalize'
 
 import type { TresContext } from '../useTresContextProvider'
@@ -104,7 +104,7 @@ export function useRenderer(
     canvas: MaybeRef<HTMLCanvasElement>
     scene: Scene
     options: UseRendererOptions
-    emit: (event: string, ...args: any[]) => void
+    emit: EmitEventFn
     contextParts: Pick<TresContext, 'sizes' | 'camera' | 'render'> & { invalidate: () => void, advance: () => void }
     disableRender: MaybeRefOrGetter<boolean>
   },
