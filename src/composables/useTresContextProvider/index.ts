@@ -1,6 +1,6 @@
 import { useFps, useMemory, useRafFn } from '@vueuse/core'
 import { computed, inject, onUnmounted, provide, readonly, ref, shallowRef } from 'vue'
-import type { Camera, EventDispatcher, Object3D, WebGLRenderer } from 'three'
+import type { Camera, Clock, EventDispatcher, Object3D, WebGLRenderer } from 'three'
 import { Raycaster } from 'three'
 import type { ComputedRef, DeepReadonly, MaybeRef, MaybeRefOrGetter, Ref, ShallowRef } from 'vue'
 import { calculateMemoryUsage } from '../../utils/perf'

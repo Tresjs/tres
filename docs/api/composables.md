@@ -62,12 +62,12 @@ const context = useTresContext()
 | **advance** | a method to advance the render loop. This is only required if you set the `render-mode` prop to `manual`. |
 | **loop** | the renderer loop |
 
-### useLoop <Badge text="v4.0.0" />
+### useFrame <Badge text="v4.1.0" />
 
-This composable allows you to execute a callback on every rendered frame, similar to `useRenderLoop` but unique to each `TresCanvas` instance. However, this composable can only be used inside a `TresCanvas` component since it relies on the context provided by `TresCanvas`.
+This composable allows you to execute a callback on every rendered frame, similar to `useRenderLoop` but unique to each `TresCanvas` instance and with access to the [context](#usetrescontext).
 
 ::: warning
-`useLoop` can be only be used inside of a `TresCanvas` since this component acts as the provider for the context data.
+`useFrame` can be only be used inside of a `TresCanvas` since this component acts as the provider for the context data.
 :::
 
 ::: code-group
@@ -79,9 +79,7 @@ import AnimatedBox from './AnimatedBox.vue'
 </script>
 
 <template>
-  <TresCanvas
-    render-mode="manual"
-  >
+  <TresCanvas>
     <AnimatedBox />
   </TresCanvas>
 </template>
@@ -89,11 +87,11 @@ import AnimatedBox from './AnimatedBox.vue'
 
 ```vue [AnimatedBox.vue]
 <script setup>
-import { useLoop } from '@tresjs/core'
+import { useFrame } from '@tresjs/core'
 
 const boxRef = ref()
 
-useLoop(({ delta }) => {
+useFrame(({ delta }) => {
   boxRef.value.rotation.y += 0.01
 })
 </script>
@@ -112,27 +110,27 @@ Your callback function will be triggered just before a frame is rendered and it 
 
 #### Render priority
 
-The `useLoop` composable accepts a second argument `index` which is used to determine the order in which the loop functions are executed. The default value is `1` (see [below](#take-control-of-the-render-loop)) and the lower the value, the earlier the function will be executed.
+The `useFrame` composable accepts a second argument `index` which is used to determine the order in which the loop functions are executed. The default value is `0` which means the function will be executed after the renderer updates the scene. If you set the value to `-1`, the function will be executed before the renderer updates the scene.
 
 ```ts
-useLoop(() => {
+useFrame(() => {
   console.count('before renderer')
 }, -1)
 
-useLoop(() => {
+useFrame(() => {
   console.count('after renderer')
-}, 2)
+}, 1)
 ```
 
-#### Take control of the render-loop
+### `useRender` (Take control of the render loop)
 
-By default, the render-loop is automatically started when the component is mounted. However, you can take control of the render-loop by overwriting the main loop function setting the `index` value to `1` .
+By default, the render-loop is automatically started when the component is mounted. However, you can take control of the render-loop by using this composable.
 
 ```ts
-useLoop(({ ctx }) => {
+useRender(({ renderer, scene, camera }) => {
   // Takes over the render-loop, the user has the responsibility to render
-  ctx.renderer.value.render(ctx.scene.value, ctx.camera.value)
-}, 1)
+  renderer.value.render(scene.value, camera.value)
+})
 ```
 
 ## useLoader
@@ -259,13 +257,13 @@ watch(character, ({ model }) => {
 })
 ```
 
-## useRenderLoop <Badge type="warning" text="to be deprecated on V5" />
+## useRenderLoop
+
+The `useRenderLoop` composable can be use for animations that doesn't require access to the [context](#usetrescontext). It allows you to register a callback that will be called on native refresh rate.
 
 ::: warning
-This composable will be deprecated on V5. Use `useLoop` instead. [Read why](#useloop)
+ Since v4.1.0, `useRenderLoop` is no longer used internally to control the rendering, if you want to use conditional rendering, multiple canvases or need access to state please `useLoop` instead. [Read why](#useloop)
 :::
-
-The `useRenderLoop` composable is the core of **TresJS** animations. It allows you to register a callback that will be called on native refresh rate.
 
 ```ts
 const { onLoop, resume } = useRenderLoop()

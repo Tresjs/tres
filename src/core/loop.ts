@@ -9,6 +9,8 @@ export interface RendererLoop {
   onLoop: (callback: Fn, index: number) => void
   start: () => void
   stop: () => void
+  pause: () => void
+  resume: () => void
   isActive: Ref<boolean>
 }
 
@@ -57,6 +59,18 @@ export function createRenderLoop(): RendererLoop {
     }
   }
 
+  function pause() {
+    // Stops the clock but keeps the loop running
+    clock.stop()
+    isActive.value = false
+  }
+
+  function resume() {
+    // Resumes the clock and the loop
+    clock.start()
+    isActive.value = true
+  }
+
   function loop() {
     const delta = clock.getDelta()
     const elapsed = clock.getElapsedTime()
@@ -67,13 +81,12 @@ export function createRenderLoop(): RendererLoop {
       .sort((a, b) => a - b) // Ensure numerical order
       .forEach((index) => {
         subscribers.get(index).forEach((callback: LoopCallback) => {
+          if (index !== 1 && !isActive.value) { return }
           callback({ delta, elapsed, clock })
         })
       })
 
-    if (isActive.value) {
-      animationFrameId = requestAnimationFrame(loop)
-    }
+    animationFrameId = requestAnimationFrame(loop)
   }
 
   return {
@@ -81,6 +94,8 @@ export function createRenderLoop(): RendererLoop {
     loopId,
     start,
     stop,
+    pause,
+    resume,
     onLoop: (callback: LoopCallback, index = 0) => registerCallback(callback, index),
     isActive,
   }

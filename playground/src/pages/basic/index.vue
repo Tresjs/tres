@@ -67,7 +67,6 @@ const sphereExists = ref(true)
       <TresPlaneGeometry :args="[10, 10, 10, 10]" />
       <TresMeshToonMaterial />
     </TresMesh>
-    <TheSphere />
     <TresDirectionalLight
       :position="[0, 2, 4]"
       :intensity="1"

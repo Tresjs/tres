@@ -41,7 +41,6 @@ onAfterLoop.on(() => {
 })
 
 export const useRenderLoop = (): UseRenderLoopReturn => {
-  // TODO: add migration guide link here
   return {
     onBeforeLoop: onBeforeLoop.on,
     onLoop: onLoop.on,

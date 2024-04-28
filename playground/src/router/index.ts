@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { basicRoutes } from './routes/basic'
-import { cameraRoutes, eventsRoutes, miscRoutes, modelsRoutes, perfRoutes } from './routes'
+import { advancedRoutes, cameraRoutes, eventsRoutes, miscRoutes, modelsRoutes } from './routes'
 
 const routes = [
   {
@@ -9,7 +9,7 @@ const routes = [
     component: () => import('../pages/index.vue'),
   },
   ...basicRoutes,
-  ...perfRoutes,
+  ...advancedRoutes,
   ...eventsRoutes,
   ...cameraRoutes,
   ...modelsRoutes,
