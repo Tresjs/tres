@@ -74,7 +74,7 @@ If you are sure that there will be a user gesture before your `<PositionAudio>` 
 | `dispose()` | Dispose component — Deletion of the AudioListener in the camera, disconnection of the audio source and deletion of the PositionalAudioHelper (if it exists). |
 
 
-```typescript{1,6}
+```typescript{1,3,8}
 const positionalAudioRef = shallowRef(null)
 
 console.log(positionalAudioRef.value.root) // root properties
