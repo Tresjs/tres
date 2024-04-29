@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { TresCanvas, vAlwaysLookAt } from '@tresjs/core'
+import { TresCanvas } from '@tresjs/core'
 import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
 
 import { OrbitControls } from '@tresjs/cientos'
