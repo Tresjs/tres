@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onBeforeUnmount, ref, shallowRef, watch, toRefs, shallowReactive, onMounted } from 'vue'
+import { onBeforeUnmount, shallowRef, watch, toRefs, shallowReactive, onMounted } from 'vue'
 import { Box3, AudioLoader, AudioListener, type PositionalAudio } from 'three'
 import { useTresContext, useLoader } from '@tresjs/core'
 import { PositionalAudioHelper } from 'three/examples/jsm/helpers/PositionalAudioHelper'
