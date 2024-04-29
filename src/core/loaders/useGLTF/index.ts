@@ -55,9 +55,9 @@ function setExtensions(options: GLTFLoaderOptions, extendLoader?: (loader: GLTFL
  *
  * @export
  * @param {(string | string[])} path
- * @param {GLTFLoaderOptions} [options={
- *     draco: false,
- *   }]
+ * @param {GLTFLoaderOptions} [options]
+ *
+ *
  * @param {(loader: GLTFLoader) => void} [extendLoader]
  * @return {*}  {Promise<GLTFResult>}
  */

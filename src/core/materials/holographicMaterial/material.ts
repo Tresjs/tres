@@ -3,6 +3,7 @@
  */
 
 /**
+  // eslint-disable-next-line jsdoc/check-alignment
   MIT License
 
   Copyright (c) 2023 Anderson Mancini
