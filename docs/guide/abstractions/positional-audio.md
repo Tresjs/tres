@@ -17,7 +17,6 @@ The `<PositionalAudio>` component is very simple to set up and use, allowing you
 ```vue
 <script setup lang="ts">
 import { shallowRef, onUnmounted } from 'vue'
-import { TresCanvas } from '@tresjs/core'
 import { PositionalAudio, Box } from '@tresjs/cientos'
 
 const positionalAudioRef = shallowRef(null)
@@ -28,17 +27,17 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <Box :args="[1, 1, 1]">
-    <TresMeshNormalMaterial />
-    <Suspense>
-      <PositionalAudio
-        ref="positionalAudioRef"
-        loop
-        helper
-        url="https://raw.githubusercontent.com/Tresjs/assets/main/music/beat-1.mp3"
-      /> 
-    </Suspense>
-  </Box>
+  <TresCanvas>
+    <Box :args="[1, 1, 1]">
+      <TresMeshNormalMaterial />
+      <Suspense>
+        <PositionalAudio
+          ref="positionalAudioRef"
+          url="your-sound.mp3"
+        /> 
+      </Suspense>
+    </Box>
+  </TresCanvas>
 </template>
 ```
 
@@ -89,17 +88,19 @@ const handlerAudio = (action: string) => {
 }
 ```
 
-```vue{2-4,8}
+```vue{2-4,9}
 <template>
   <button @click="handlerAudio('play')">play</button>
   <button @click="handlerAudio('pause')">pause</button>
   <button @click="handlerAudio('stop')">stop</button>
 
-  <Suspense>
-    <PositionalAudio
-      ref="positionalAudioRef"
-    />
-  </Suspense>
+ <TresCanvas>
+   <Sphere>
+      <Suspense>
+        <PositionalAudio ref="positionalAudioRef" />
+      </Suspense>
+    </Sphere>
+  </TresCanvas>
 </template>
 ```
 
