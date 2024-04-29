@@ -1,9 +1,10 @@
+/* eslint-disable jsdoc/check-alignment */
 /**
  * Holographic material by Anderson Mancini - Dec 2023.
  */
 
 /**
-  // eslint-disable-next-line jsdoc/check-alignment
+
   MIT License
 
   Copyright (c) 2023 Anderson Mancini
