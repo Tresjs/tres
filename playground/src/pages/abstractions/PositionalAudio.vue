@@ -9,6 +9,7 @@ const gl = {
 }
 
 const ready = ref(false)
+const positionalAudioIsPlaying = ref(false)
 const positionalAudioRef = shallowRef(null)
 
 const handlerAudio = (action: string) => {
@@ -46,15 +47,23 @@ const onContinue = () => {
     v-if="ready"
     class="playground-positional-audio__controls"
   >
-    <button @click="handlerAudio('play')">
-      play
-    </button>
-    <button @click="handlerAudio('pause')">
-      pause
-    </button>
-    <button @click="handlerAudio('stop')">
-      stop
-    </button>
+    <div class="playground-positional-audio__controls-events">
+      <p>
+        @is-playing: {{ positionalAudioIsPlaying }}
+      </p>
+    </div>
+
+    <div class="playground-positional-audio__controls-methods">
+      <button @click="handlerAudio('play')">
+        play
+      </button>
+      <button @click="handlerAudio('pause')">
+        pause
+      </button>
+      <button @click="handlerAudio('stop')">
+        stop
+      </button>
+    </div>
   </div>
 
   <TresCanvas v-bind="gl">
@@ -74,6 +83,7 @@ const onContinue = () => {
           :distance="2"
           helper
           url="https://raw.githubusercontent.com/Tresjs/assets/main/music/beat-1.mp3"
+          @is-playing="(e) => positionalAudioIsPlaying = e"
         />
       </Suspense>
     </Box>
@@ -113,8 +123,17 @@ const onContinue = () => {
   position: fixed;
   z-index: 1;
   display: flex;
-  align-items: center;
+  flex-direction: column;
   justify-content: center;
+  backdrop-filter: blur(5px);
+  top: 25px;
+  left: 25px;
+  column-gap: 5px;
+}
+
+.playground-positional-audio__controls-methods, .playground-positional-audio__controls-events {
+  display: flex;
+  align-items: center;
   backdrop-filter: blur(5px);
   top: 25px;
   left: 25px;

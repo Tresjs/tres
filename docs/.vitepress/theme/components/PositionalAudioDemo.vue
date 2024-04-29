@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { ref, shallowRef, onUnmounted, watch, onMounted } from 'vue'
 import { TresCanvas } from '@tresjs/core'
-import { OrbitControls, PositionalAudio, Sphere, useGLTF, useProgress } from '@tresjs/cientos'
+import { OrbitControls, PositionalAudio, Sphere, useGLTF } from '@tresjs/cientos'
+import { TresLeches, useControls } from '@tresjs/leches'
 import { gsap } from 'gsap'
+import '@tresjs/leches/styles'
 
 const gl = {
   clearColor: '#FAFAFA',
@@ -10,14 +12,36 @@ const gl = {
   alpha: false,
 }
 
-let tl, ctx
+let tl: gsap.core.Timeline, ctx: gsap.Context
 
 const ready = ref(false)
 const positionalAudioRef = shallowRef(null)
 const ballRef = shallowRef(null)
-const innerAngle = ref(195)
-const outerAngle = ref(260)
-const outerGain = ref(0.4)
+
+const { helper, innerAngle, outerAngle, outerGain } = useControls({
+  helper: true,
+  innerAngle: {
+    label: 'innerAngle',
+    value: 195,
+    min: 0,
+    max: 360,
+    step: 1,
+  },
+  outerAngle: {
+    label: 'outerAngle',
+    value: 260,
+    min: 0,
+    max: 360,
+    step: 1,
+  },
+  outerGain: {
+    label: 'outerGain',
+    value: 0.3,
+    min: 0,
+    max: 1,
+    step: .01,
+  },
+})
 
 // eslint-disable-next-line max-len
 const model = await useGLTF('https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/positional-audio/ping-pong.glb', { draco: true })
@@ -29,6 +53,10 @@ const onBallBounce = () => {
     positionalAudioRef?.value?.play()
   }
 }
+
+watch(helper.value, () => {
+  innerAngle.value.visible = outerAngle.value.visible = outerGain.value.visible = helper.value.value
+})
 
 watch([ballRef, ready], ([ball]) => {
   if (!ball?.value || !ready.value) return
@@ -51,6 +79,8 @@ onUnmounted(() => {
 </script>
 
 <template>
+  <TresLeches class="important-left-initial important-right-2 important-w-220px" />
+
   <div
     v-if="!ready"
     class="ready"
@@ -72,7 +102,9 @@ onUnmounted(() => {
     </button>
   </div>
 
-  <TresCanvas v-bind="gl">
+  <TresCanvas
+    v-bind="gl"
+  >
     <TresPerspectiveCamera :position="[0, 0.5, 15]" />
     <OrbitControls make-default />
 
@@ -90,9 +122,10 @@ onUnmounted(() => {
         <PositionalAudio
           ref="positionalAudioRef"
           :ready
-          :inner-angle="innerAngle"
-          :outer-angle="outerAngle"
-          :outer-gain="outerGain"
+          :inner-angle="innerAngle.value"
+          :outer-angle="outerAngle.value"
+          :outer-gain="outerGain.value"
+          :helper="helper.value"
           url="https://raw.githubusercontent.com/Tresjs/assets/main/music/ping-pong.mp3"
         />
       </Suspense>

@@ -1,4 +1,4 @@
-# Positional Audio
+# PositionalAudio
 
 <DocsDemo>
   <PositionalAudioDemo />
@@ -42,10 +42,6 @@ onUnmounted(() => {
 </template>
 ```
 
-<DocsDemo>
-  <PositionalAudioDemoHelper />
-</DocsDemo>
-
 :::warning
 AudioContext is authorised when an user gesture has been made on the page. `:autoplay="true"` cannot be activated if no user gesture has been made previously (https://goo.gl/7K7WLu).
 If you are sure that there will be a user gesture before your `<PositionAudio>` component appears/is created, you can directly add `:ready="true"` and `autoplay="true"` for a direct launch.
@@ -67,3 +63,48 @@ If you are sure that there will be a user gesture before your `<PositionAudio>` 
 | **innerAngle**        | `number` —  A parameter for directional audio sources, this is an angle, inside of which there will be no volume reduction. |      `360`              |
 | **outerAngle**        | `number` —  A parameter for directional audio sources, this is an angle, outside of which the volume will be reduced to a constant value of `outerGain` prop. |      `0`              |
 | **outerGain**        | `number` —  A parameter for directional audio sources, this is the amount of volume reduction outside of the `outerAngle` prop. When the value is `0` no sound can be heard. |      `0`              |
+
+## Exposed properties
+
+| Event       | Description                                                      |
+| :---------- | :--------------------------------------------------------------- |
+| `root` | Root component — Inheritance of [PositionalAudio](https://threejs.org/docs/index.html?q=posi#api/en/audio/PositionalAudio).|
+| `play()` | Play audio — *Cannot be fired if audio is already running.* |
+| `pause()` | Pause audio — *Cannot be fired if audio is already paused.* |
+| `stop()` | Stop audio — *Cannot be fired if audio is already stopped.* |
+| `dispose()` | Dispose component — Deletion of the AudioListener in the camera, disconnection of the audio source and deletion of the PositionalAudioHelper (if it exists). |
+
+
+```typescript{1,6}
+const positionalAudioRef = shallowRef(null)
+
+const handlerAudio = (action: string) => {
+  if (!positionalAudioRef.value) return
+
+  const { play, pause, stop } = positionalAudioRef.value
+
+  if (action === 'play') play()
+  else if (action === 'pause') pause()
+  else if (action === 'stop') stop()
+}
+```
+
+```vue{2-4,8}
+<template>
+  <button @click="handlerAudio('play')">play</button>
+  <button @click="handlerAudio('pause')">pause</button>
+  <button @click="handlerAudio('stop')">stop</button>
+
+  <Suspense>
+    <PositionalAudio
+      ref="positionalAudioRef"
+    />
+  </Suspense>
+</template>
+```
+
+## Events
+
+| Event       | Description                                                      |
+| :---------- | :--------------------------------------------------------------- |
+| `is-playing` | Triggered when the audio changes its state (play, pause, or stop) <br> `@is-playing="(e) => yourIsPlayingRef = e"` |

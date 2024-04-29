@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onBeforeUnmount, onUnmounted, shallowRef, watch, toRefs, shallowReactive, onMounted } from 'vue'
+import { onBeforeUnmount, ref, shallowRef, watch, toRefs, shallowReactive, onMounted } from 'vue'
 import { Box3, AudioLoader, AudioListener, type PositionalAudio } from 'three'
 import { useTresContext, useLoader } from '@tresjs/core'
 import { PositionalAudioHelper } from 'three/examples/jsm/helpers/PositionalAudioHelper'
@@ -31,6 +31,8 @@ const props = withDefaults(defineProps<PositionalAudioProps>(), {
   outerGain: 0,
 })
 
+const emit = defineEmits(['isPlaying'])
+
 const { ready, url, distance, helper, loop, autoplay, innerAngle, outerAngle, outerGain } = toRefs(props)
 
 const { camera } = useTresContext()
@@ -44,18 +46,28 @@ const playAudio = () => {
   if (positionalAudioRef?.value?.isPlaying) return
   
   positionalAudioRef?.value?.play()
+  emit('isPlaying', positionalAudioRef?.value?.isPlaying)
 }
 
 const pauseAudio = () => {
   if (!positionalAudioRef?.value?.isPlaying) return
 
   positionalAudioRef.value.pause()
+  emit('isPlaying', positionalAudioRef?.value?.isPlaying)
 }
 
 const stopAudio = () => {
   if (!positionalAudioRef.value) return
 
   positionalAudioRef.value.stop()
+  emit('isPlaying', positionalAudioRef?.value?.isPlaying)
+}
+
+const dispose = () => {
+  camera?.value?.remove(listener)
+  
+  disposeAudio()
+  disposeHelper()
 }
 
 const disposeAudio = () => {
@@ -65,16 +77,9 @@ const disposeAudio = () => {
 
   const audio = positionalAudioRef.value
 
-  if (audio.source && (audio.source as any)._connected) {
+  if (audio.source) {
     audio.disconnect()
   }
-}
-
-const dispose = () => {
-  disposeAudio()
-  disposeHelper()
-
-  camera?.value?.remove(listener)
 }
 
 defineExpose({
@@ -119,15 +124,7 @@ onMounted(() => {
 })
 
 onBeforeUnmount(() => {
-  disposeAudio()
-
-  if (helper.value) {
-    disposeHelper()
-  }
-})
-
-onUnmounted(() => {
-  camera?.value?.remove(listener)
+  dispose()
 })
 
 const updatePositionalAudio = () => {
