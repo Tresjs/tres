@@ -4,4 +4,9 @@ export const miscRoutes = [
     name: 'Text 3D',
     component: () => import('../../pages/misc/Text3DDemo.vue'),
   },
+  {
+    path: '/misc/directives',
+    name: 'Directives',
+    component: () => import('../../pages/misc/Directives.vue'),
+  },
 ]

@@ -18,6 +18,7 @@ declare module 'vue' {
     DanielTest: typeof import('./src/components/DanielTest.vue')['default']
     DebugUI: typeof import('./src/components/DebugUI.vue')['default']
     DeleteMe: typeof import('./src/components/DeleteMe.vue')['default']
+    DirectiveSubComponent: typeof import('./src/components/DirectiveSubComponent.vue')['default']
     DynamicModel: typeof import('./src/components/DynamicModel.vue')['default']
     EventsPropogation: typeof import('./src/components/EventsPropogation.vue')['default']
     FBXModels: typeof import('./src/components/FBXModels.vue')['default']
