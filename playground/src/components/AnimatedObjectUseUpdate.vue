@@ -1,32 +1,40 @@
 <!-- eslint-disable no-console -->
 <script setup lang="ts">
-import { useFrame } from '@tresjs/core'
+import { useUpdate } from '@tresjs/core'
+import { useControls } from '@tresjs/leches'
 
 const sphereRef = ref()
-const { pause, isActive, resume } = useFrame((state) => {
+const { pause, resume } = useUpdate((state) => {
   if (!sphereRef.value) { return }
   sphereRef.value.position.y += Math.sin(state.elapsed) * 0.01
 })
 
-function onSphereClick() {
-  console.log('sphere clicked', { isActive })
+const { areUpdatesPaused } = useControls({
+  areUpdatesPaused: {
+    value: false,
+    type: 'boolean',
+    label: 'Pause Updates',
+  },
+})
 
-  if (isActive.value) {
+watchEffect(() => {
+  if (areUpdatesPaused.value) {
     pause()
   }
   else {
     resume()
   }
-}
-/* useFrame(() => {
+})
+
+/* useUpdate(() => {
   console.count('before renderer')
 }, -1)
 
-useFrame(() => {
+useUpdate(() => {
   console.log('this should be just before render')
-}, 1)
+})
 
-useFrame((state) => {
+useUpdate((state) => {
   if (!sphereRef.value) { return }
   console.count('after renderer')
   sphereRef.value.position.y += Math.sin(state.elapsed) * 0.01
@@ -39,7 +47,6 @@ useFrame((state) => {
     :position="[2, 2, 0]"
     name="sphere"
     cast-shadow
-    @click="onSphereClick"
   >
     <TresSphereGeometry />
     <TresMeshToonMaterial color="#FBB03B" />

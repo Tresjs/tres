@@ -11,13 +11,15 @@ export interface RendererLoop {
   stop: () => void
   pause: () => void
   resume: () => void
+  pauseRender: () => void
+  resumeRender: () => void
   isActive: Ref<boolean>
 }
 
 export function createRenderLoop(): RendererLoop {
   const clock = new Clock(false)
   const isActive = ref(false)
-
+  const isRenderPaused = ref(true)
   let animationFrameId: number
   const loopId = MathUtils.generateUUID()
 
@@ -71,10 +73,19 @@ export function createRenderLoop(): RendererLoop {
     isActive.value = true
   }
 
+  function pauseRender() {
+    pause()
+    isRenderPaused.value = false
+  }
+
+  function resumeRender() {
+    resume()
+    isRenderPaused.value = true
+  }
+
   function loop() {
     const delta = clock.getDelta()
     const elapsed = clock.getElapsedTime()
-    /* console.log('loop', animationFrameId) */
 
     // Sort and execute callbacks based on index
     Array.from(subscribers.keys())
@@ -82,7 +93,14 @@ export function createRenderLoop(): RendererLoop {
       .forEach((index) => {
         subscribers.get(index).forEach((callback: LoopCallback) => {
           if (index !== 1 && !isActive.value) { return }
-          callback({ delta, elapsed, clock })
+          if (index === 1) {
+            if (isRenderPaused.value) {
+              callback({ delta, elapsed, clock })
+            }
+          }
+          else {
+            callback({ delta, elapsed, clock })
+          }
         })
       })
 
@@ -96,6 +114,8 @@ export function createRenderLoop(): RendererLoop {
     stop,
     pause,
     resume,
+    pauseRender,
+    resumeRender,
     onLoop: (callback: LoopCallback, index = 0) => registerCallback(callback, index),
     isActive,
   }

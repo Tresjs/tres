@@ -1,9 +1,9 @@
 <!-- eslint-disable no-console -->
 <script setup lang="ts">
-import { useFrame } from '@tresjs/core'
+import { useUpdate } from '@tresjs/core'
 
 const sphereRef = ref()
-useFrame((state) => {
+useUpdate((state) => {
   if (!sphereRef.value) { return }
   sphereRef.value.position.y += Math.sin(state.elapsed) * 0.01
 })

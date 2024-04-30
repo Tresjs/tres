@@ -10,6 +10,8 @@ declare module 'vue' {
     AkuAku: typeof import('./src/components/AkuAku.vue')['default']
     AnimatedModel: typeof import('./src/components/AnimatedModel.vue')['default']
     AnimatedObjectUseFrame: typeof import('./src/components/AnimatedObjectUseFrame.vue')['default']
+    AnimatedObjectuseUpdate: typeof import('./src/components/AnimatedObjectuseUpdate.vue')['default']
+    AnimatedObjectUseUpdate: typeof import('./src/components/AnimatedObjectUseUpdate.vue')['default']
     BlenderCube: typeof import('./src/components/BlenderCube.vue')['default']
     Box: typeof import('./src/components/Box.vue')['default']
     CameraOperator: typeof import('./src/components/CameraOperator.vue')['default']

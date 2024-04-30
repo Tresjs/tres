@@ -1,7 +1,7 @@
 import { ref } from 'vue'
 import { Quaternion, Vector3 } from 'three'
 import type { TresObject } from '../types'
-import { useFrame, useLogger } from '../composables'
+import { useLogger, useUpdate } from '../composables'
 
 const { logWarning } = useLogger()
 
@@ -31,7 +31,7 @@ export const vRotate = {
     const quaternion = new Quaternion().setFromAxisAngle(new Vector3(x.value, y.value, z.value)
       .normalize(), radiansPerFrame)
 
-    useFrame(() => {
+    useUpdate(() => {
       el.applyQuaternion(quaternion)
     })
   },

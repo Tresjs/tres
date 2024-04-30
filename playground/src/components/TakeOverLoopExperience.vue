@@ -1,17 +1,34 @@
 <script setup lang="ts">
 import { useRender } from '@tresjs/core'
 import { OrbitControls } from '@tresjs/cientos'
+import { useControls } from '@tresjs/leches'
 
-useRender(({ renderer, scene, camera }) => {
-  /* console.log('this should replace the renderer', renderer.value) */
+const { pause, resume } = useRender(({ renderer, scene, camera }) => {
   renderer.value.render(scene.value, camera.value)
+})
+
+const { isRenderPaused } = useControls({
+  isRenderPaused: {
+    value: false,
+    type: 'boolean',
+    label: 'Pause Render',
+  },
+})
+
+watchEffect(() => {
+  if (isRenderPaused.value) {
+    pause()
+  }
+  else {
+    resume()
+  }
 })
 </script>
 
 <template>
   <TresPerspectiveCamera :position="[3, 3, 3]" />
   <OrbitControls />
-  <AnimatedObjectUseFrame />
-  <TresAmbientLight :intensity="1" />
+  <AnimatedObjectUseUpdate />
+  <TresAmbientLight :intensity="1" /> />
   <TresGridHelper />
 </template>

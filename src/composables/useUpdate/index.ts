@@ -1,9 +1,9 @@
 import type { Fn } from '@vueuse/core'
 import { useTresContext } from '../useTresContextProvider'
 
-export function useFrame(cb: (arg0: any) => void, index = 0) {
+export function useUpdate(cb: (arg0: any) => void, index = 0) {
   // We force users to use `useRender` to take over the main loop, so if anyone uses
-  // `useFrame` with index 1, we will automatically change it to index 2 so
+  // `useUpdate` with index 1, we will automatically change it to index 2 so
   // it doesn't interfere with the main loop
 
   const priority = index === 1 ? 2 : index

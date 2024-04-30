@@ -15,8 +15,8 @@ export function useRender(cb: (arg0: any) => void) {
   }
   loop.onLoop(wrappedCallback as Fn, 1)
   return {
-    pause: loop.pause,
-    resume: loop.resume,
+    pause: loop.pauseRender,
+    resume: loop.resumeRender,
     isActive: loop.isActive,
   }
 }

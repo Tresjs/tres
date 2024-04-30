@@ -1,3 +1,4 @@
+import type { Fn } from '@vueuse/core'
 import { useFps, useMemory, useRafFn } from '@vueuse/core'
 import { computed, inject, onUnmounted, provide, readonly, ref, shallowRef } from 'vue'
 import type { Camera, EventDispatcher, WebGLRenderer } from 'three'
@@ -60,6 +61,7 @@ export interface TresContext {
   perf: PerformanceState
   render: RenderState
   // Loop
+  subscribers: Map<number, Fn[]>
   loop: RendererLoop
   /**
    * Invalidates the current frame when renderMode === 'on-demand'
@@ -180,6 +182,7 @@ export function useTresContextProvider({
     registerCamera,
     setCameraActive,
     deregisterCamera,
+    subscribers: new Map(),
     loop: createRenderLoop(),
   }
 

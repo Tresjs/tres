@@ -62,12 +62,12 @@ const context = useTresContext()
 | **advance** | a method to advance the render loop. This is only required if you set the `render-mode` prop to `manual`. |
 | **loop** | the renderer loop |
 
-### useFrame <Badge text="v4.1.0" />
+### useUpdate <Badge text="v4.1.0" />
 
 This composable allows you to execute a callback on every rendered frame, similar to `useRenderLoop` but unique to each `TresCanvas` instance and with access to the [context](#usetrescontext).
 
 ::: warning
-`useFrame` can be only be used inside of a `TresCanvas` since this component acts as the provider for the context data.
+`useUpdate` can be only be used inside of a `TresCanvas` since this component acts as the provider for the context data.
 :::
 
 ::: code-group
@@ -87,11 +87,11 @@ import AnimatedBox from './AnimatedBox.vue'
 
 ```vue [AnimatedBox.vue]
 <script setup>
-import { useFrame } from '@tresjs/core'
+import { useUpdate } from '@tresjs/core'
 
 const boxRef = ref()
 
-useFrame(({ delta }) => {
+useUpdate(({ delta }) => {
   boxRef.value.rotation.y += 0.01
 })
 </script>
@@ -110,14 +110,14 @@ Your callback function will be triggered just before a frame is rendered and it 
 
 #### Render priority
 
-The `useFrame` composable accepts a second argument `index` which is used to determine the order in which the loop functions are executed. The default value is `0` which means the function will be executed after the renderer updates the scene. If you set the value to `-1`, the function will be executed before the renderer updates the scene.
+The `useUpdate` composable accepts a second argument `index` which is used to determine the order in which the loop functions are executed. The default value is `0` which means the function will be executed after the renderer updates the scene. If you set the value to `-1`, the function will be executed before the renderer updates the scene.
 
 ```ts
-useFrame(() => {
+useUpdate(() => {
   console.count('before renderer')
 }, -1)
 
-useFrame(() => {
+useUpdate(() => {
   console.count('after renderer')
 }, 1)
 ```
