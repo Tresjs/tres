@@ -5,6 +5,8 @@ import { BoxGeometry, Mesh, MeshBasicMaterial, Vector3, Box3 } from 'three'
 import RandUtils from '../../../../src/core/abstractions/Lensflare/RandUtils'
 
 function getPositions(seed: number, count = 40, radius = 10) {
+  // NOTE: Generate some randomish positions for 
+  // some child components of `<Fit />`
   const positions: Vector3[] = []
   const rng = new RandUtils(seed)
   const rand = () => rng.rand()
@@ -26,19 +28,9 @@ function getPositions(seed: number, count = 40, radius = 10) {
   return positions
 }
 
-const object = new Mesh(new BoxGeometry(), new MeshBasicMaterial({ wireframe: true }))
-const choices = [
-  { label: 'null', value: null },
-  { label: 'undefined', value: undefined },
-  { label: 'Number', value: 2 },
-  { label: 'Array', value: [5, 6, 7] },
-  { label: 'Vector3', value: new Vector3(3, 2, 1) }, 
-  { label: 'Box3', value: new Box3(new Vector3(-5, 0, -5), new Vector3(5, 10, 5)) }, 
-  { label: 'Object', value: object }, 
-]
-
-const choice = shallowRef(choices[1])
-
+// NOTE: Create some refs so we can scale, rotate, and twist
+// the container and `<Fit />` elements. We want to make sure
+// that it works in chains with the usual transforms.
 const [ sx0, sy0, sz0, rx0, ry0, rz0, x0, y0, z0, sx1, sy1, sz1, rx1,
   ry1, rz1, x1, y1, z1, sx2, sy2, sz2, rx2, ry2, rz2, x2, y2, z2,
   x3, y3 ] = Array.from({ length: 30 })
@@ -82,20 +74,38 @@ useRenderLoop().onLoop(({ delta, elapsed }) => {
   sy2.value = cos(elapsed * 0.77)
   sz2.value = cos(elapsed * 0.88)
 
-  sx0.value = 2
-  sy0.value = 2
-  sz0.value = 2
-  sx1.value = 1
-  sy1.value = 1
-  sz1.value = 1
-  sx2.value = 20
-  sy2.value = 30
-  sz2.value = 10
-
   fit0.value.update()
   fit1.value.update()
   fit2.value.update()
 })
+
+// NOTE: Make choices for `:into` options
+// radio buttons.
+const object = new Mesh(new BoxGeometry(), new MeshBasicMaterial({ wireframe: true }))
+const choices = [
+  { label: 'Turn off' },
+  { label: 'null', value: null },
+  { label: 'Default – fit into 1 x 1 x 1 box at world origin' },
+  { label: 'undefined', value: undefined },
+  { label: 'Scale' },
+  { label: 'Number', value: 1 },
+  { label: 'Number', value: 2 },
+  { label: 'Number', value: 3 },
+  { label: 'Array', value: [1, 1, 1] as [number, number, number] },
+  { label: 'Array', value: [1, 2, 3] as [number, number, number] },
+  { label: 'Array', value: [3, 2, 1] as [number, number, number] },
+  { label: 'Array', value: [5, 6, 7] as [number, number, number] },
+  { label: 'Array', value: [7, 7, 7] as [number, number, number] },
+  { label: 'Vector3', value: new Vector3(1, 1, 1) }, 
+  { label: 'Vector3', value: new Vector3(1, 2, 3) }, 
+  { label: 'Vector3', value: new Vector3(3, 2, 1) }, 
+  { label: 'Scale and position' },
+  { label: 'Box3(0,0,0, 1,1,1)', value: new Box3(new Vector3(0, 0, 0), new Vector3(1, 1, 1)) }, 
+  { label: 'Box3(-1,-1,-1, 1,1,1)', value: new Box3(new Vector3(-1, -1, -1), new Vector3(1, 1, 1)) }, 
+  { label: 'Box3(-5,0,-5, 5,10,5)', value: new Box3(new Vector3(-5, 0, -5), new Vector3(5, 10, 5)) }, 
+  { label: 'Object', value: object }, 
+]
+const choice = shallowRef(choices[1])
 </script>
 
 <template>
@@ -106,15 +116,20 @@ useRenderLoop().onLoop(({ delta, elapsed }) => {
       :key="i"
     >
       <div>
-        <input
-          :id="`id-${i}`"
-          :checked="c === choice"
-          type="radio" 
-          value="c.label"
-          name="choice"
-          @change="() => { choice = c; }"
-        >
-        <label :for="`id-${i}`">{{ `${c.label} - ${JSON.stringify(c.value)?.substring(0, 25)}` }}</label>
+        <div v-if="'value' in c">
+          <input
+            :id="`id-${i}`"
+            :checked="c === choice"
+            type="radio" 
+            value="c.label"
+            name="choice"
+            @change="() => { choice = c; }"
+          >
+          <label :for="`id-${i}`">{{ `${c.label} - ${JSON.stringify(c.value)?.substring(0, 25)}` }}</label>
+        </div>
+        <h2 v-else>
+          {{ c.label }}
+        </h2>
       </div>
     </template>
     <p>N.B.: <code>fit.update()</code> is called continuously in the update loop.</p>
@@ -140,7 +155,7 @@ useRenderLoop().onLoop(({ delta, elapsed }) => {
         <TresGroup
           :rotation="[rx2, ry2, rz2]"
           :position="[x2, y2, z2]"
-          :scale="[sx0, sy0, sz0]"
+          :scale="[sx2, sy2, sz2]"
         >
           <Fit
             ref="fit0"
@@ -193,7 +208,7 @@ useRenderLoop().onLoop(({ delta, elapsed }) => {
 .overlay {
   z-index:2;
   position: fixed;
-  width: 200px;
+  width: 240px;
   padding: 10px;
   margin: 5px;
   font-family: sans-serif;

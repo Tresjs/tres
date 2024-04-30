@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, shallowRef, watch } from 'vue'
+import { nextTick, onMounted, shallowRef, watch } from 'vue'
 import type { Object3D } from 'three'
 import { Box3, Group, Vector3 } from 'three'
 
@@ -9,12 +9,12 @@ export interface Props {
    * * omitted or explicitly `undefined`: position/scale children to fit into a 1 × 1 × 1 `Box3` at world origin.
    * * `null`: turn off `<Fit />`; reset scale/position of children.
    * * `number`: convert argument to `Vector3(number, number, number)`.
-   * * `number[]`: convert argument to `Vector3`.
+   * * `[number, number, number]`: convert argument to `Vector3`.
    * * `Vector3`: position/scale children to fit inside a `Box3` of size `Vector3` at target objects' cumulative center.
    * * `Box3`: position/scale children to fit inside `Box3`.
    * * `Object3D`: position/scale children to fit inside calculated `Box3`. [See `THREE.Box3.setFromObject`](https://threejs.org/docs/#api/en/math/Box3.setFromObject). `<Fit />` must not contain the `Object3D` and vice-versa.
    **/
-  into?: number | number[] | Vector3 | Box3 | Object3D | null
+  into?: number | [number, number, number] | Vector3 | Box3 | Object3D | null
   /** [See `precise` argument in `THREE.Box3.setFromObject`](https://threejs.org/docs/index.html?q=box3#api/en/math/Box3.setFromObject) */
   precise?: boolean
 }
@@ -33,13 +33,16 @@ interface IntoPropNormalized {
 }
 
 function fit(container: typeof props.into, precise: typeof props.precise) {
+  // NOTE: Reset transforms on this
+  // component's THREE.Groups
   middle.value.position.set(0, 0, 0)
   middle.value.updateMatrixWorld()
   inner.value.scale.set(1, 1, 1)
   inner.value.updateMatrixWorld()
 
   if (!inner.value.children.length || container === null) {
-    // NOTE: Nothing to do.
+    // NOTE: Nothing more to do.
+    // Return early to skip expensive measuring.
     return
   }
 
@@ -50,23 +53,31 @@ function fit(container: typeof props.into, precise: typeof props.precise) {
   const childBoxSize = childBox.getSize(new Vector3())
   const containerBoxSize = containerBox.getSize(new Vector3())
 
-  const { POSITIVE_INFINITY: INF } = Number
+  // NOTE: To fit in the container, we need to calculate
+  // which dimension has the smallest scale, then apply
+  // it uniformly to all dimensions.
   const scale = Math.min(
     containerBoxSize.x / childBoxSize.x,
     containerBoxSize.y / childBoxSize.y,
     containerBoxSize.z / childBoxSize.z,
   )
-  inner.value.scale.setScalar(scale === INF ? 1 : scale)
+  // NOTE: Handle possible prior division by 0 by checking for positive infinity.
+  inner.value.scale.setScalar(scale === Number.POSITIVE_INFINITY ? 1 : scale)
   inner.value.updateMatrixWorld()
 
-  const containerBoxCenter = middle.value.worldToLocal(containerBox.getCenter(new Vector3()))
   const childBoxCenter = middle.value.worldToLocal(childBox.getCenter(new Vector3()))
-  const newPosition = containerBoxCenter.sub(childBoxCenter.clone().multiplyScalar(scale))
-  const oldPosition = childBoxCenter.sub(childBoxCenter.clone().multiplyScalar(scale))
 
-  middle.value.position.x = use.position ? newPosition.x : oldPosition.x
-  middle.value.position.y = use.position ? newPosition.y : oldPosition.y
-  middle.value.position.z = use.position ? newPosition.z : oldPosition.z
+  if (use.position) {
+    // NOTE: Move the scaled children so that they occupy the container.
+    const containerBoxCenter = middle.value.worldToLocal(containerBox.getCenter(new Vector3()))
+    middle.value.position.copy(containerBoxCenter.sub(childBoxCenter.multiplyScalar(scale)))
+  } 
+  else {
+    // NOTE: Move the scaled children so that they appear to scale 
+    // relative to the center of their bounding box (and not the origin
+    // of the "inner" THREE.Group).
+    middle.value.position.copy(childBoxCenter.sub(childBoxCenter.multiplyScalar(scale)))
+  }
 }
 
 function normalizeContainer(container: typeof props.into, precise: typeof props.precise): IntoPropNormalized {
@@ -74,10 +85,6 @@ function normalizeContainer(container: typeof props.into, precise: typeof props.
     container = new Vector3(container, container, container)
   } 
   else if (Array.isArray(container)) {
-    // NOTE: Don't modify the user's array.
-    container = [... container]
-    if (container.length < 1) container.push(1)
-    while (container.length < 3) container.push(container[container.length - 1])
     container = new Vector3(... container)
   }
 
@@ -104,8 +111,11 @@ watch(() => [ props.into, props.precise ], () => fit(props.into, props.precise))
 onMounted(() => {
   fit(props.into, props.precise)
   // NOTE: Tres core doesn't appear to apply transformations (position, rotation, scale)
-  // immediately on newly created elements. So we'll `fit` again in a moment.
-  setTimeout(() => fit(props.into, props.precise), 5)
+  // immediately on newly created elements, so the child and container elements might
+  // not have their correct dimensions. So we'll `fit` again in a moment.
+  nextTick().then(() => { 
+    fit(props.into, props.precise)
+  })
 })
 
 defineExpose({ 
