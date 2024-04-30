@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { TresCanvas, useRenderLoop } from '@tresjs/core'
-import { Lensflare, Torus, OrbitControls } from '@tresjs/cientos'
-import { useControls, TresLeches } from '@tresjs/leches'
+import { Lensflare, OrbitControls, Torus } from '@tresjs/cientos'
+import { TresLeches, useControls } from '@tresjs/leches'
 import { shallowRef } from 'vue'
 import '@tresjs/leches/styles'
 

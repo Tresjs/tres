@@ -1,68 +1,75 @@
 <script lang="ts" setup>
-import type { Texture, ShaderMaterialParameters, Blending, BufferGeometry, IUniform } from 'three'
+import type { Blending, BufferGeometry, IUniform, ShaderMaterialParameters, Texture } from 'three'
 import {
-  REVISION, Points, ShaderMaterial, Uniform, AdditiveBlending, Vector3,
-  IcosahedronGeometry, Quaternion, Object3D,
+  AdditiveBlending,
+  IcosahedronGeometry,
+  Object3D,
+  Points,
+  Quaternion,
+  REVISION,
+  ShaderMaterial,
+  Uniform,
+  Vector3,
 } from 'three'
 import type { TresColor } from '@tresjs/core'
 import { useRenderLoop, useTexture, useTresContext } from '@tresjs/core'
 import type { Ref } from 'vue'
-import { onUnmounted, shallowRef, watch, onMounted, toRefs } from 'vue'
+import { onMounted, onUnmounted, shallowRef, toRefs, watch } from 'vue'
 import type { VectorFlexibleParams } from '@tresjs/core/dist/utils/normalize'
 import type { Gradient } from '../../../utils/Gradient'
 import ShaderDataBuilder from './ShaderDataBuilder'
 import useEmptyDataTexture from './useEmptyDataTexture'
 
 interface SparkleProps {
-  /** 
+  /**
    * Texture or image path for individual sparkles
    */
   map?: Texture | string
   /**
    * Vertices of the geometry will be used to emit sparkles. Geometry normals are used for sparkles' traveling direction and for responding to the directional light prop.
-   * 
-   * * If provided, the component will use the passed geometry.
-   * * If no geometry is provided, the component will try to make a copy of the parent object's geometry.
-   * * If no parent geometry exists, the component will create and use an IcosphereGeometry.
+   *
+   * If provided, the component will use the passed geometry.
+   * If no geometry is provided, the component will try to make a copy of the parent object's geometry.
+   * If no parent geometry exists, the component will create and use an IcosphereGeometry.
    */
   geometry?: Object3D | BufferGeometry
   /**
    * Particles "light up" when their normal "faces" the light. If no `directionalLight` is provided, the default "up" vector will be used.
    */
   directionalLight?: Object3D
-  /** 
+  /**
    * Particle lifetime in seconds
    */
   lifetimeSec?: number
-  /** 
+  /**
    * Particle cooldown in seconds – time between lifetime end and respawn
    */
   cooldownSec?: number
-  /** 
+  /**
    * Number from 0-1 indicating how closely the particle needs to be faced towards the light to "light up". (Lower == more flexible)
    */
   normalThreshold?: number
-  /** 
+  /**
    * Scale of the noise period (lower == more slowly cycling noise)
    */
   noiseScale?: number
-  /** 
+  /**
    * Noise coefficient applied to particle scale
    */
   scaleNoise?: number
-  /** 
+  /**
    * Noise coefficient applied to particle offset
    */
   offsetNoise?: number
-  /** 
+  /**
    * Noise coefficient applied to particle lifetime
    */
   lifetimeNoise?: number
-  /** 
+  /**
    * Particle scale multiplier
    */
   size?: number
-  /** 
+  /**
    * Opacity multiplier
    */
   alpha?: number
@@ -74,72 +81,72 @@ interface SparkleProps {
    * Surface distance multiplier
    */
   surfaceDistance?: number
-  /** 
+  /**
    * '*Sequence' props: specify how a particle changes as it "progresses". See also "mix*" props.
-   * 
+   *
    * Color sequence as particles progress
    */
   sequenceColor?: Gradient<TresColor>
-  /** 
+  /**
    * Opacity sequence as particles progress
    */
   sequenceAlpha?: Gradient<number>
-  /** 
+  /**
    * Distance sequence as particles progress
    */
   sequenceOffset?: Gradient<VectorFlexibleParams>
-  /** 
+  /**
    * Noise sequence as particles progress
    */
   sequenceNoise?: Gradient<VectorFlexibleParams>
-  /** 
+  /**
    * Size sequence as particles progress
    */
   sequenceSize?: Gradient<number>
-  /** 
+  /**
    * Distance from surface (along normal) as particles progress
    */
   sequenceSurfaceDistance?: Gradient<number>
   /**
    * 'mix*' props: A particle "progresses" with a mix of two factors:
-   * 
-   * * its normal "facing" the directionalLight 
-   * * its lifetime 
-   * 
+   *
+   * its normal "facing" the directionalLight
+   * its lifetime
+   *
    * 'mix*' props specify the relationship between the two factors.
-   * 
+   *
    * How is a particle's progress for color calculated? (0: normal, 1: particle lifetime)
    */
   mixColor?: number
-  /** 
+  /**
    * How is a particle's progress for alpha calculated? (0: normal, 1: particle lifetime)
    */
   mixAlpha?: number
-  /** 
+  /**
    * How is a particle's progress for offset calculated? (0: normal, 1: particle lifetime)
    */
   mixOffset?: number
-  /** 
+  /**
    * How is a particle's progress for size calculated? (0: normal, 1: particle lifetime)
    */
   mixSize?: number
-  /** 
+  /**
    * How is a particle's progress for surface distance calculated? (0: normal, 1: particle lifetime)
    */
   mixSurfaceDistance?: number
-  /** 
+  /**
    * How is a particle's progress for lifetime calculated? (0: normal, 1: particle lifetime)
    */
   mixNoise?: number
-  /** 
+  /**
    * Material blending
    */
   blending?: Blending
-  /** 
+  /**
    * Material transparency
    */
   transparent?: boolean
-  /** 
+  /**
    * Material depth write
    */
   depthWrite?: boolean
@@ -147,7 +154,7 @@ interface SparkleProps {
 
 const props = withDefaults(defineProps<SparkleProps>(), {
   map: 'https://raw.githubusercontent.com/Tresjs/assets/'
-    + 'e41a93c56ec7cb5ac2d241f309e23582a5fe1fc6/textures/sparkles/particle.png',
+  + 'e41a93c56ec7cb5ac2d241f309e23582a5fe1fc6/textures/sparkles/particle.png',
   geometry: undefined,
   directionalLight: undefined,
 
@@ -174,18 +181,18 @@ const props = withDefaults(defineProps<SparkleProps>(), {
   sequenceNoise: () => [0.1, 0.1, 0.1],
 
   mixColor: 0.5,
-  mixAlpha: 1.,
-  mixOffset: 1.,
-  mixSize: 0.,
-  mixSurfaceDistance: 1.,
-  mixNoise: 1.,
+  mixAlpha: 1.0,
+  mixOffset: 1.0,
+  mixSize: 0.0,
+  mixSurfaceDistance: 1.0,
+  mixNoise: 1.0,
 
   blending: AdditiveBlending,
   transparent: true,
   depthWrite: false,
 })
 
-const version = parseInt(REVISION.replace(/\D+/g, ''))
+const version = Number.parseInt(REVISION.replace(/\D+/g, ''))
 
 const refs = toRefs(props)
 const map: Texture = typeof props.map === 'string' ? useEmptyDataTexture() : props.map
@@ -261,15 +268,15 @@ const shaderMaterialParameters: ShaderMaterialParameters = {
       float lifetimeP = max(-0.0001, mix(-uCooldownRatio, 1. + cos(t) * lifetimeNoise, fract(t)));
       float surfaceDistance = texture2D(uInfoTexture, vec2(
         mix(normalP, lifetimeP, uMixSurfaceDistance),
-        ${yFor['sequenceSurfaceDistance']})).x * uSurfaceDistance;
+        ${yFor.sequenceSurfaceDistance})).x * uSurfaceDistance;
 
       vec4 modelPosition = modelMatrix * (vec4(position, 1.0) + vec4(normal * surfaceDistance, 0.0));
       vec3 noise = texture2D(uInfoTexture, vec2(
         mix(normalP, lifetimeP, uMixNoise),
-        ${yFor['sequenceNoise']})).xyz;
+        ${yFor.sequenceNoise})).xyz;
       vec3 offset = uOffset * (texture2D(uInfoTexture, vec2(
         mix(normalP, lifetimeP, uMixOffset),
-        ${yFor['sequenceOffset']})).xyz * 2.0 - vec3(1.0, 1.0, 1.0));
+        ${yFor.sequenceOffset})).xyz * 2.0 - vec3(1.0, 1.0, 1.0));
       modelPosition.x += cos(t * uNoiseScale * 10.0) * 0.2 * uOffsetNoise * noise.x + offset.x;
       modelPosition.y += sin(t * uNoiseScale * 10.0) * 0.2 * uOffsetNoise * noise.y + offset.y;
       modelPosition.z += cos(t * uNoiseScale * 10.0) * 0.2 * uOffsetNoise * noise.z + offset.z;
@@ -279,14 +286,14 @@ const shaderMaterialParameters: ShaderMaterialParameters = {
       gl_Position = projectionPostion;
 
       gl_PointSize = 2.
-      * texture2D(uInfoTexture, vec2(mix(normalP, lifetimeP, uMixSize), ${yFor['sequenceSize']})).x
+      * texture2D(uInfoTexture, vec2(mix(normalP, lifetimeP, uMixSize), ${yFor.sequenceSize})).x
       * mix(1., abs(sin(t * uNoiseScale + position.x * 13.9 + position.y * 73.1)), uScaleNoise)
       * uSize * (100.0 / -viewPosition.z) * uPixelRatio;
 
       if (gl_PointSize < 0.6 || lifetimeP < 0.0) { gl_Position = vec4(2, 2, 2, 1); }
 
-      vColor = texture2D(uInfoTexture, vec2(mix(normalP, lifetimeP, uMixColor), ${yFor['sequenceColor']}))
-      * texture2D(uInfoTexture, vec2(mix(normalP, lifetimeP, uMixAlpha), ${yFor['sequenceAlpha']})).x * uAlpha;
+      vColor = texture2D(uInfoTexture, vec2(mix(normalP, lifetimeP, uMixColor), ${yFor.sequenceColor}))
+      * texture2D(uInfoTexture, vec2(mix(normalP, lifetimeP, uMixAlpha), ${yFor.sequenceAlpha})).x * uAlpha;
     }`,
   fragmentShader: `
     varying vec4 vColor;
@@ -331,16 +338,12 @@ uniformsRefs.forEach(
   ),
 )
 
-watch([refs.noiseScale, refs.lifetimeSec],
-  () => {
-    // NOTE: Scale noise by lifetime so that scaling lifetime keeps same noise period
-    u.uNoiseScale.value = refs.noiseScale.value * refs.lifetimeSec.value
-  },
-  NOW)
+watch([refs.noiseScale, refs.lifetimeSec], () => {
+  // NOTE: Scale noise by lifetime so that scaling lifetime keeps same noise period
+  u.uNoiseScale.value = refs.noiseScale.value * refs.lifetimeSec.value
+}, NOW)
 
-watch([refs.lifetimeSec, refs.cooldownSec],
-  () => { u.uCooldownRatio.value = refs.cooldownSec.value / refs.lifetimeSec.value },
-  NOW)
+watch([refs.lifetimeSec, refs.cooldownSec], () => { u.uCooldownRatio.value = refs.cooldownSec.value / refs.lifetimeSec.value }, NOW)
 
 watch(refs.map, () => {
   if (typeof refs.map.value === 'string') {

@@ -10,7 +10,8 @@ import { useRenderLoop, useTresContext } from '@tresjs/core'
 import type {
   ColorRepresentation,
   Material,
-  Texture } from 'three'
+  Texture,
+} from 'three'
 import {
   Color,
   Mesh,
@@ -137,7 +138,7 @@ export interface ContactShadowsProps {
 
 const props = withDefaults(defineProps<ContactShadowsProps>(), {
   scale: 10,
-  frames: Infinity,
+  frames: Number.POSITIVE_INFINITY,
   opacity: 1,
   width: 1,
   height: 1,
@@ -167,10 +168,10 @@ const cameraH = computed(() => props.height * (Array.isArray(props.scale) ? prop
 watchEffect(() => {
   // the render target that will show the shadows in the plane texture and
   // the target that we will use to blur the first render target
-  if (renderTarget) renderTarget.dispose()
-  if (renderTargetBlur) renderTargetBlur.dispose()
-  if (planeGeometry) planeGeometry.dispose()
-  if (blurPlane) blurPlane.geometry.dispose()
+  if (renderTarget) { renderTarget.dispose() }
+  if (renderTargetBlur) { renderTargetBlur.dispose() }
+  if (planeGeometry) { planeGeometry.dispose() }
+  if (blurPlane) { blurPlane.geometry.dispose() }
   renderTarget = new WebGLRenderTarget(props.resolution, props.resolution)
   renderTargetBlur = new WebGLRenderTarget(props.resolution, props.resolution)
   renderTargetBlur.texture.generateMipmaps = renderTarget.texture.generateMipmaps = false
@@ -191,7 +192,7 @@ watchEffect(() => {
 
 watchEffect(() => {
   if (props.color) {
-    if (depthMaterial) depthMaterial.dispose()
+    if (depthMaterial) { depthMaterial.dispose() }
     depthMaterial = new MeshDepthMaterial()
     depthMaterial.depthTest = depthMaterial.depthWrite = false
 
@@ -226,7 +227,7 @@ verticalBlurMaterial.depthTest = horizontalBlurMaterial.depthTest = false
 // Blur the shadow
 
 function blurShadows(blur: number) {
-  if (!renderer.value || !shadowCamera.value) return
+  if (!renderer.value || !shadowCamera.value) { return }
 
   blurPlane.visible = true
   blurPlane.material = horizontalBlurMaterial
@@ -253,9 +254,9 @@ let initialBackground: Color | Texture | null
 let initialOverrideMaterial: Material | null
 
 onLoop(() => {
-  if (!shadowCamera.value || scene.value === undefined || renderer.value === undefined) return
+  if (!shadowCamera.value || scene.value === undefined || renderer.value === undefined) { return }
 
-  if (props.frames === Infinity || count < props.frames) {
+  if (props.frames === Number.POSITIVE_INFINITY || count < props.frames) {
     count++
 
     // Save the initial background and override material

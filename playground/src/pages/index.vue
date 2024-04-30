@@ -2,12 +2,12 @@
 import {
   abstractionsRoutes,
   controlsRoutes,
-  stagingRoutes,
+  directivesRoutes,
   loadersRoutes,
   materialsRoutes,
-  directivesRoutes,
-  shapesRoutes,
   miscRoutes,
+  shapesRoutes,
+  stagingRoutes,
 } from '../router/routes'
 
 const sections = [
@@ -27,7 +27,7 @@ const sections = [
     class="
   container mx-auto max-w-3xl
   font-sans text-xs color-gray
-  bg-white 
+  bg-white
   "
   >
     <div class="mx-4">
@@ -42,7 +42,7 @@ const sections = [
             src="/logo.svg"
             alt="Cientos logo"
             class="max-w-36 sm:max-w-xs align-baseline"
-          >
+          />
         </div>
         <div class="sm:w-2/3">
           <h1

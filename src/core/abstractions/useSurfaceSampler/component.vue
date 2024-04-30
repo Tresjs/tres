@@ -1,4 +1,3 @@
-<!-- eslint-disable max-len -->
 <script setup lang="ts">
 import { ref, watchEffect } from 'vue'
 import type { InstancedMesh, Mesh } from 'three'
@@ -12,7 +11,7 @@ const instancedRef = ref()
 const meshToSampleRef = ref()
 
 watchEffect(() => {
-  instancedRef.value = props.instanceMesh ?? samplerRef.value?.children.find((c: any ) => c.hasOwnProperty('instanceMatrix')) as InstancedMesh
+  instancedRef.value = props.instanceMesh ?? samplerRef.value?.children.find((c: any) => Object.prototype.hasOwnProperty.call(c, 'instanceMatrix')) as InstancedMesh
 
   meshToSampleRef.value = props.mesh ?? (samplerRef.value?.children.find((c: any) => c.type === 'Mesh') as Mesh)
 
@@ -26,6 +25,6 @@ defineExpose({
 
 <template>
   <TresGroup ref="samplerRef">
-    <slot />
+    <slot></slot>
   </TresGroup>
 </template>

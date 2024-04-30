@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
-import { OrbitControls, RoundedBox, Html } from '@tresjs/cientos'
+import { Html, OrbitControls, RoundedBox } from '@tresjs/cientos'
 </script>
 
 <template>
@@ -20,7 +20,7 @@ import { OrbitControls, RoundedBox, Html } from '@tresjs/cientos'
       :args="[1, 1, 1, 2, 1]"
     >
       <TresMeshBasicMaterial
-        :color="0x00ff00"
+        :color="0x00FF00"
         wireframe
       />
       <Html
@@ -39,7 +39,7 @@ import { OrbitControls, RoundedBox, Html } from '@tresjs/cientos'
       :position-x="-3"
     >
       <TresMeshBasicMaterial
-        :color="0x00ff00"
+        :color="0x00FF00"
         wireframe
       />
       <Html

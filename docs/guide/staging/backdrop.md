@@ -12,10 +12,11 @@ The `cientos` package provides a `<Backdrop />` component. It's just a curved pl
 <Backdrop />
 
 // Backdrop with a custom material
-<Backdrop  
-  :floor="1.5" 
-  :segments="20" 
-  receive-shadow>
+<Backdrop
+  :floor="1.5"
+  :segments="20"
+  receive-shadow
+>
     <TresMeshPhysicalMaterial color="orange" :roughness="1" />
 </Backdrop>
 ```

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { watchEffect, shallowRef, toRefs } from 'vue'
+import { shallowRef, toRefs, watchEffect } from 'vue'
 import type { TresColor } from '@tresjs/core'
 import { useRenderLoop } from '@tresjs/core'
 
@@ -116,7 +116,7 @@ export interface PrecipitationProps {
 const props = withDefaults(defineProps<PrecipitationProps>(), {
   size: 0.1,
   area: () => [10, 10, 20],
-  color: 0xffffff,
+  color: 0xFFFFFF,
   alphaTest: 0.01,
   opacity: 0.8,
   count: 5000,
@@ -183,10 +183,8 @@ onLoop(() => {
       positionArray[i * 3] += velocityX
       positionArray[i * 3 + 1] -= velocityY
 
-      if (positionArray[i * 3] <= -area.value[0] / 2 || positionArray[i * 3] >= area.value[0] / 2)
-        positionArray[i * 3] = positionArray[i * 3] * -1
-      if (positionArray[i * 3 + 1] <= -area.value[1] / 2 || positionArray[i * 3 + 1] >= area.value[1] / 2)
-        positionArray[i * 3 + 1] = positionArray[i * 3 + 1] * -1
+      if (positionArray[i * 3] <= -area.value[0] / 2 || positionArray[i * 3] >= area.value[0] / 2) { positionArray[i * 3] = positionArray[i * 3] * -1 }
+      if (positionArray[i * 3 + 1] <= -area.value[1] / 2 || positionArray[i * 3 + 1] >= area.value[1] / 2) { positionArray[i * 3 + 1] = positionArray[i * 3 + 1] * -1 }
     }
     geometryRef.value.attributes.position.needsUpdate = true
   }

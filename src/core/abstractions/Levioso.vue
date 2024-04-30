@@ -35,7 +35,7 @@ defineExpose({
   let elapsed = START_OFFSET
 
   onLoop(({ delta }) => {
-    if (!groupRef.value) return
+    if (!groupRef.value) { return }
 
     elapsed += delta * props.speed
     const theta = elapsed * PERIOD_SCALE
@@ -54,6 +54,6 @@ defineExpose({
     v-bind="$attrs"
     ref="groupRef"
   >
-    <slot />
+    <slot></slot>
   </TresGroup>
 </template>

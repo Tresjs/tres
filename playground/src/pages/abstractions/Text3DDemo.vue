@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { TresCanvas } from '@tresjs/core'
-import { Text3D, OrbitControls } from '@tresjs/cientos'
-import { BasicShadowMap, SRGBColorSpace, NoToneMapping } from 'three'
+import { OrbitControls, Text3D } from '@tresjs/cientos'
+import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
 
 const gl = {
   clearColor: '#82DBC5',
@@ -20,7 +20,7 @@ const reactiveText = ref('You can edit me')
 
 <template>
   <div class="input-center">
-    <input v-model="reactiveText">
+    <input v-model="reactiveText" />
   </div>
   <TresCanvas v-bind="gl">
     <TresPerspectiveCamera :position="[0, 0.5, 5]" />

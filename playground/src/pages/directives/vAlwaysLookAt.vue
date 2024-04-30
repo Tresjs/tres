@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { shallowRef } from 'vue'
 import { TresCanvas, useRenderLoop } from '@tresjs/core'
-import { Stars, Sphere, Box, vAlwaysLookAt } from '@tresjs/cientos'
-import { SRGBColorSpace, NoToneMapping, Vector3 } from 'three'
+import { Box, Sphere, Stars, vAlwaysLookAt } from '@tresjs/cientos'
+import { NoToneMapping, SRGBColorSpace, Vector3 } from 'three'
 
 const gl = {
   clearColor: '#333',
@@ -41,7 +41,7 @@ onLoop(({ elapsed }) => {
     <Box
       ref="box1Ref"
       v-always-look-at="[0, 0, 0]"
-      :color="0x00ff00"
+      :color="0x00FF00"
       :args="[1, 1, 0.1]"
       name="greenBox"
       :scale="1"
@@ -51,7 +51,7 @@ onLoop(({ elapsed }) => {
     <Box
       ref="box2Ref"
       v-always-look-at="new Vector3(0, 0, 0)"
-      :color="0xff0000"
+      :color="0xFF0000"
       :scale="1"
       :position="[-2, 1, -3]"
     />

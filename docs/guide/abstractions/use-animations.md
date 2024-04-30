@@ -11,11 +11,9 @@ import { useAnimations } from '@tresjs/cientos'
 
 const { scene: model, animations } = await useGLTF('/models/ugly-naked-bunny.gltf')
 
-// Animations [ { name: 'Greeting'}, { name: 'Idle' } ]
-
 const { actions, mixer } = useAnimations(animations, model)
 
-let currentAction = actions.Greeting
+const currentAction = actions.Greeting
 
 currentAction.play()
 ```

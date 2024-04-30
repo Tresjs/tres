@@ -59,65 +59,57 @@ You can extend, modify or just play with them
 ### Default shader
 
 ```js
-{
-	name:'ReflectorShader',
-	uniforms: {
-		color: {
-			value: null
-		},
-		tDiffuse: {
-			value: null
-		},
-		textureMatrix: {
-			value: null
-		}
-	},
-	vertexShader: /* glsl */`
-		uniform mat4 textureMatrix;
-		varying vec4 vUv;
+const shader = {
+  name: 'ReflectorShader',
+  uniforms: {
+    color: {
+      value: null
+    },
+    tDiffuse: {
+      value: null
+    },
+    textureMatrix: {
+      value: null
+    }
+  },
+  vertexShader: /* glsl */`
+  uniform mat4 textureMatrix;
+  varying vec4 vUv;
 
-		#include <common>
-		#include <logdepthbuf_pars_vertex>
+  #include <common>
+  #include <logdepthbuf_pars_vertex>
 
-		void main() {
+  void main() {
+    vUv = textureMatrix * vec4( position, 1.0 );
+    gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
 
-			vUv = textureMatrix * vec4( position, 1.0 );
+    #include <logdepthbuf_vertex>
 
-			gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+  }`,
+  fragmentShader: /* glsl */`
+  uniform vec3 color;
+  uniform sampler2D tDiffuse;
+  varying vec4 vUv;
 
-			#include <logdepthbuf_vertex>
+  #include <logdepthbuf_pars_fragment>
 
-		}`,
-	fragmentShader: /* glsl */`
-		uniform vec3 color;
-		uniform sampler2D tDiffuse;
-		varying vec4 vUv;
+  float blendOverlay( float base, float blend ) {
+    return( base < 0.5 ? ( 2.0 * base * blend ) : ( 1.0 - 2.0 * ( 1.0 - base ) * ( 1.0 - blend ) ) );
+  }
 
-		#include <logdepthbuf_pars_fragment>
+  vec3 blendOverlay( vec3 base, vec3 blend ) {
+    return vec3( blendOverlay( base.r, blend.r ), blendOverlay( base.g, blend.g ), blendOverlay( base.b, blend.b ) );
+  }
 
-		float blendOverlay( float base, float blend ) {
+  void main() {
+    #include <logdepthbuf_fragment>
 
-			return( base < 0.5 ? ( 2.0 * base * blend ) : ( 1.0 - 2.0 * ( 1.0 - base ) * ( 1.0 - blend ) ) );
+    vec4 base = texture2DProj( tDiffuse, vUv );
+    gl_FragColor = vec4( blendOverlay( base.rgb, color ), 1.0 );
 
-		}
-
-		vec3 blendOverlay( vec3 base, vec3 blend ) {
-
-			return vec3( blendOverlay( base.r, blend.r ), blendOverlay( base.g, blend.g ), blendOverlay( base.b, blend.b ) );
-
-		}
-
-		void main() {
-
-			#include <logdepthbuf_fragment>
-
-			vec4 base = texture2DProj( tDiffuse, vUv );
-			gl_FragColor = vec4( blendOverlay( base.rgb, color ), 1.0 );
-
-			#include <tonemapping_fragment>
-			#include <colorspace_fragment>
-
-		}`
+    #include <tonemapping_fragment>
+    #include <colorspace_fragment>
+  }`
 
 }
 ```

@@ -1,17 +1,18 @@
 import type { MaybeRef } from 'vue'
 import type {
-  GradientTresColor,
   GradientScalar,
+  GradientTresColor,
   GradientVectorFlexibleParams,
 } from './../../../utils/Gradient'
 import type {
+  CanvasGradientRenderer,
   ShaderDataEntry,
-  CanvasGradientRenderer } from './ShaderData'
+} from './ShaderData'
 import {
-  ShaderDataEntryTresColorGradient,
-  ShaderDataEntryScalarGradient,
-  ShaderDataEntryXyzGradient,
   ShaderData,
+  ShaderDataEntryScalarGradient,
+  ShaderDataEntryTresColorGradient,
+  ShaderDataEntryXyzGradient,
 } from './ShaderData'
 
 const rgbaSuffixes = ['r', 'rg', 'rgb', 'rgba'] as const

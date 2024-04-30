@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
-import { ScrollControls, Stars, Box } from '@tresjs/cientos'
+import { Box, ScrollControls, Stars } from '@tresjs/cientos'
 </script>
 
 <template>
@@ -11,14 +11,14 @@ import { ScrollControls, Stars, Box } from '@tresjs/cientos'
     <TresPerspectiveCamera :position="[0, 2, 5]" />
     <Stars :radius="1" />
     <TresGridHelper :args="[10, 10]" />
-    <ScrollControls 
-      :pages="20" 
+    <ScrollControls
+      :pages="20"
       :distance="20"
       :smooth-scroll="0.05"
     />
     <Box
       :scale="0.5"
-      :color="0xff00ff"
+      :color="0xFF00FF"
       :position="[-1, 1, 0]"
     />
   </TresCanvas>

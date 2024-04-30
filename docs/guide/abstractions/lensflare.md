@@ -25,8 +25,8 @@ import { Lensflare } from '@tresjs/cientos'
 
 ## Props
 
-<CientosPropsTable 
-component-path="src/core/abstractions/Lensflare/component.vue" 
+<CientosPropsTable
+component-path="src/core/abstractions/Lensflare/component.vue"
 :fields="['name', 'description', 'default']"
 :on-format-value="({valueFormatted, propName, fieldName, getFieldFormatted}) => {
   if (fieldName === 'description') {
@@ -185,7 +185,7 @@ Here's an example of precedence. Assume this is in our vue template.
 ```vue
 <Lensflare
   :elements="[
-    {size:512, texture='http://example.net/circle.png'}, 
+    {size:512, texture='http://example.net/circle.png'},
     {color:'yellow', distance:0.5}
   ]"
   :texture="http://example.net/ring.png"
@@ -202,24 +202,24 @@ Assume the random element generator produces this, based on `seed`:
 ```js
 [
   {
-    color: "white",
+    color: 'white',
     distance: 0,
     size: 1024,
-    texture: "http://example.net/rays.png",
+    texture: 'http://example.net/rays.png',
   },
   {
-    color: "white",
+    color: 'white',
     distance: 1,
     size: 512,
-    texture: "http://example.net/circle.png",
+    texture: 'http://example.net/circle.png',
   },
   {
-    color: "white",
+    color: 'white',
     distance: 2,
     size: 512,
-    texture: "http://example.net/circle.png",
+    texture: 'http://example.net/circle.png',
   },
-];
+]
 ```
 
 When random elements are mixed with `elements`, the final number of elements in the lensflare is determined by whichever is longer.
@@ -233,24 +233,24 @@ The resulting 3 lensflare elements will have the following properties, from the 
 ```js
 [
   {
-    color: "yellow", // from `elements`
+    color: 'yellow', // from `elements`
     distance: 0, // from random element generator
     size: 512, // from `elements`
-    texture: "http://example.net/circle.png", // from `elements`
+    texture: 'http://example.net/circle.png', // from `elements`
   },
   {
-    color: "red", // from component prop `color`
+    color: 'red', // from component prop `color`
     distance: 0.5, // from `elements`
     size: 256, // from component prop `size`
-    texture: "http://example.net/ring.png", // from component prop `texture`
+    texture: 'http://example.net/ring.png', // from component prop `texture`
   },
   {
-    color: "red", // from component prop `color`
+    color: 'red', // from component prop `color`
     distance: 2, // from random element generator
     size: 256, // from component prop `size`
-    texture: "http://example.net/ring.png", // from component prop `texture`
+    texture: 'http://example.net/ring.png', // from component prop `texture`
   },
-];
+]
 ```
 
 :::

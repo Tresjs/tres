@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import type { Ref } from 'vue'
-import { ref, useSlots, onUnmounted, watch, toRaw } from 'vue'
-import { WebGLCubeRenderTarget, CubeCamera, HalfFloatType } from 'three'
+import { onUnmounted, ref, toRaw, useSlots, watch } from 'vue'
+import { CubeCamera, HalfFloatType, WebGLCubeRenderTarget } from 'three'
 import type { CubeTexture, Texture } from 'three'
-import { useTresContext, useRenderLoop } from '@tresjs/core'
+import { useRenderLoop, useTresContext } from '@tresjs/core'
 import type { EnvironmentOptions } from './const'
 import EnvSence from './envSence'
 import { useEnvironment } from '.'
@@ -17,7 +17,7 @@ const props = withDefaults(defineProps<EnvironmentOptions>(), {
   resolution: 256,
   near: 1,
   far: 1000,
-  frames: Infinity,
+  frames: Number.POSITIVE_INFINITY,
 })
 
 const texture: Ref<Texture | CubeTexture | null> = ref(null)
@@ -37,7 +37,7 @@ const { onBeforeLoop } = useRenderLoop()
 let count = 1
 onBeforeLoop(() => {
   if (cubeCamera && envSence.value && fbo.value) {
-    if (props.frames === Infinity || count < props.frames) {
+    if (props.frames === Number.POSITIVE_INFINITY || count < props.frames) {
       cubeCamera.update(renderer.value, toRaw(envSence.value.virtualScene))
       count++
     }
@@ -58,7 +58,7 @@ const setTextureEnvAndBG = (fbo: WebGLCubeRenderTarget) => {
     }
   }
 }
-watch(useEnvironmentTexture, (value) => {
+watch(useEnvironmentTexture, () => {
   if (fbo.value) {
     setTextureEnvAndBG(fbo.value)
   }
@@ -90,6 +90,6 @@ texture.value = useEnvironmentTexture
     v-if="fbo"
     ref="envSence"
   >
-    <slot />
+    <slot></slot>
   </TresEnvSence>
 </template>

@@ -1,11 +1,11 @@
 import { ref } from 'vue'
 import {
-  Vector3,
   Color,
-  Object3D,
   InterleavedBuffer,
+  Object3D,
+  Vector3,
 } from 'three'
-import type { Mesh, InstancedMesh } from 'three'
+import type { InstancedMesh, Mesh } from 'three'
 import { MeshSurfaceSampler } from 'three-stdlib'
 
 export interface useSurfaceSamplerProps {
@@ -89,7 +89,7 @@ export const useSurfaceSampler = (
   const buffer = ref(new InterleavedBuffer(arr, 16))
 
   const updateBuffer = () => {
-    if (!mesh) return
+    if (!mesh) { return }
 
     const sampler = new MeshSurfaceSampler(mesh)
 
@@ -136,7 +136,7 @@ export const useSurfaceSampler = (
 
     buffer.value.needsUpdate = true
   }
-  
+
   updateBuffer()
 
   return { buffer }

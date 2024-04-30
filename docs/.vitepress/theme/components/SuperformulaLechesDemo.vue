@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { AmbientLight, Color, DirectionalLight, MeshPhongMaterial } from 'three'
+import { AmbientLight, DirectionalLight, MeshPhongMaterial } from 'three'
 import { TresCanvas } from '@tresjs/core'
 import { Superformula } from '@tresjs/cientos'
-import { useControls, TresLeches } from '@tresjs/leches'
+import { TresLeches, useControls } from '@tresjs/leches'
 import '@tresjs/leches/styles'
 
 const { numArmsA, numArmsB, expA1 } = useControls({
@@ -22,7 +22,7 @@ const ambientLight = new AmbientLight('pink', 1)
   <TresCanvas clear-color="#777">
     <primitive :object="directionalLight" />
     <primitive :object="ambientLight" />
-    <Superformula 
+    <Superformula
       :position="[1.5, 0.7, 0]"
       :width-segments="128"
       :height-segments="128"

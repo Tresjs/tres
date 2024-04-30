@@ -54,7 +54,7 @@ export const bodyOptional: SeedProps = {
   length: [2, 3],
 }
 
-export const [darkPurple, darkBlue] = [0x38235f, 0x02055a]
+export const [darkPurple, darkBlue] = [0x38235F, 0x02055A]
 
 export const front: SeedProps = {
   texture: [circleBlur, circle, ring, poly6, polyStroke6],

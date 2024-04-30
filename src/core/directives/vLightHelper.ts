@@ -1,40 +1,43 @@
 import { useLogger } from '@tresjs/core'
-import { DirectionalLightHelper, PointLightHelper, SpotLightHelper, HemisphereLightHelper } from 'three'
+import type { Light } from 'three'
+import { DirectionalLightHelper, HemisphereLightHelper, PointLightHelper, SpotLightHelper } from 'three'
 import { RectAreaLightHelper } from 'three-stdlib'
 
+type LightHelper = typeof DirectionalLightHelper | typeof PointLightHelper | typeof SpotLightHelper | typeof HemisphereLightHelper | typeof RectAreaLightHelper
 const { logWarning } = useLogger()
 
+let CurrentHelper: LightHelper
+let currentInstance: any
+
+const helpers: Record<string, LightHelper> = {
+  DirectionalLight: DirectionalLightHelper,
+  PointLight: PointLightHelper,
+  SpotLight: SpotLightHelper,
+  HemisphereLight: HemisphereLightHelper,
+  RectAreaLight: RectAreaLightHelper,
+}
+
 export const vLightHelper = {
-  mounted: (el: any) => {
+  mounted: (el: Light) => {
     if (!el.isLight) {
       logWarning(`${el.type} is not a light`)
       return
     }
-    currentHelper = helpers[el.type]
-    el.parent.add(new currentHelper(el))
+    CurrentHelper = helpers[el.type]
+    el?.parent?.add(new CurrentHelper(el as never, el.intensity))
   },
   updated: (el: any) => {
-    currentInstance = el.parent.children.find((child: any) => child instanceof currentHelper)
-    if (currentInstance instanceof RectAreaLightHelper) return
+    currentInstance = el.parent.children.find((child: any) => child instanceof CurrentHelper)
+    if (currentInstance instanceof RectAreaLightHelper) { return }
     currentInstance.update()
-
   },
   unmounted: (el: any) => {
     if (!el.isLight) {
       logWarning(`${el.type} is not a light`)
       return
     }
-    currentInstance = el.parent.children.find((child: any) => child instanceof currentHelper)
+    currentInstance = el.parent.children.find((child: any) => child instanceof CurrentHelper)
     currentInstance.dispose()
     el.parent.remove(currentInstance)
   },
-}
-let currentHelper: any
-let currentInstance: any
-const helpers = {
-  DirectionalLight: DirectionalLightHelper,
-  PointLight: PointLightHelper,
-  SpotLight: SpotLightHelper,
-  HemisphereLight: HemisphereLightHelper,
-  RectAreaLight: RectAreaLightHelper,
 }

@@ -6,6 +6,7 @@ import { OrbitControls, RoundedBox } from '@tresjs/cientos'
 const boxRef = shallowRef()
 
 watch(boxRef, (box) => {
+  // eslint-disable-next-line no-console
   console.log(box)
 })
 </script>
@@ -27,7 +28,7 @@ watch(boxRef, (box) => {
       ref="boxRef"
     >
       <TresMeshBasicMaterial
-        :color="0x00ff00"
+        :color="0x00FF00"
         wireframe
       />
     </RoundedBox>

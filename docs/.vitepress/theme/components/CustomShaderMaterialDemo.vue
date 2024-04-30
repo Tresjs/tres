@@ -5,7 +5,7 @@ import { TresLeches, useControls } from '@tresjs/leches'
 import '@tresjs/leches/styles'
 
 import { MeshBasicMaterial } from 'three'
-import { watch, onMounted, nextTick } from 'vue'
+import { nextTick, onMounted, watch } from 'vue'
 
 const { onLoop } = useRenderLoop()
 
@@ -98,7 +98,7 @@ watch([speed.value, amplitude.value, frequency.value], () => {
     </TresMesh>
   </TresCanvas>
 
-  <div class="debug-container" />
+  <div class="debug-container"></div>
 </template>
 
 <style scoped>

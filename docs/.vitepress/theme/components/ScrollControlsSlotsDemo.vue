@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { TresCanvas, useRenderLoop } from '@tresjs/core'
-import { ScrollControls, Stars, Sphere, Box } from '@tresjs/cientos'
+import { Box, ScrollControls, Sphere, Stars } from '@tresjs/cientos'
 
 const scRef = ref()
 const boxRef = ref()
@@ -37,7 +37,7 @@ onLoop(() => {
       <Box
         ref="boxRef"
         :scale="0.5"
-        :color="0xff00ff"
+        :color="0xFF00FF"
         :position="[-1, 1, 0]"
       />
     </ScrollControls>

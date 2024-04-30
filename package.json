@@ -34,8 +34,8 @@
   "module": "./dist/trescientos.js",
   "types": "./dist/index.d.ts",
   "files": [
-    "dist",
-    "*.d.ts"
+    "*.d.ts",
+    "dist"
   ],
   "publishConfig": {
     "access": "public"
@@ -45,11 +45,12 @@
     "playground": "cd playground && pnpm dev",
     "build": "vite build",
     "release": "release-it",
-    "lint": "eslint . --ext .js,.jsx,.ts,.tsx,.vue",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
     "docs:preview": "vitepress preview docs",
-    "prepare": "node .husky/install.mjs" 
+    "prepare": "node .husky/install.mjs"
   },
   "peerDependencies": {
     "@tresjs/core": ">=3.2",
@@ -69,7 +70,7 @@
   "devDependencies": {
     "@release-it/conventional-changelog": "^8.0.1",
     "@tresjs/core": "^3.2.1",
-    "@tresjs/eslint-config-vue": "^0.2.1",
+    "@tresjs/eslint-config": "^1.0.0",
     "@tweakpane/core": "^1.1.9",
     "@types/node": "^20.11.16",
     "@types/three": "^0.161.2",

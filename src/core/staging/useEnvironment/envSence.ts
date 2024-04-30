@@ -1,4 +1,4 @@
-import { Scene, Object3D, Mesh } from 'three'
+import { Mesh, Object3D, Scene } from 'three'
 
 class EnvSence extends Object3D {
   virtualScene = null as unknown as Scene
@@ -17,7 +17,7 @@ class EnvSence extends Object3D {
       if (object instanceof Mesh) {
         object.geometry.dispose()
         object.material.dispose()
-        if (object.material.map) object.material.map.dispose()
+        if (object.material.map) { object.material.map.dispose() }
         this.virtualScene.remove(object)
       }
     })

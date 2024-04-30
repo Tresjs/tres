@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { TresCanvas, useRenderLoop } from '@tresjs/core'
-import { OrbitControls, ContactShadows, Box, Plane, Icosahedron, Levioso } from '@tresjs/cientos'
-import { BasicShadowMap, SRGBColorSpace, NoToneMapping } from 'three'
+import { Box, ContactShadows, Icosahedron, OrbitControls, Plane } from '@tresjs/cientos'
+import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
 import { reactive, shallowRef } from 'vue'
 
 const gl = {

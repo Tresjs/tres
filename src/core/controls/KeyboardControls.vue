@@ -11,7 +11,7 @@ export interface KeyboardControlsProps {
    * @default '[w, W]'
    * @memberof KeyboardControlsProps
    *
-   **/
+   */
   forward?: string[] | string
   /**
    * Keys to go back.
@@ -19,7 +19,7 @@ export interface KeyboardControlsProps {
    * @default '[s, S]'
    * @memberof KeyboardControlsProps
    *
-   **/
+   */
   back?: string[] | string
   /**
    * Keys to go left.
@@ -27,7 +27,7 @@ export interface KeyboardControlsProps {
    * @default '[a, A]'
    * @memberof KeyboardControlsProps
    *
-   **/
+   */
   left?: string[] | string
   /**
    * Keys to go right.
@@ -35,7 +35,7 @@ export interface KeyboardControlsProps {
    * @default '[d, D]'
    * @memberof KeyboardControlsProps
    *
-   **/
+   */
   right?: string[] | string
   /**
    * Key to jump (only with PointerLockControls).
@@ -43,7 +43,7 @@ export interface KeyboardControlsProps {
    * @default 'space'
    * @memberof KeyboardControlsProps
    *
-   **/
+   */
   jump?: string[] | string
   /**
    * Default gravity number for jump.
@@ -51,7 +51,7 @@ export interface KeyboardControlsProps {
    * @default 9.8
    * @memberof KeyboardControlsProps
    *
-   **/
+   */
   gravity?: number
   /**
    * Speed movement.
@@ -59,7 +59,7 @@ export interface KeyboardControlsProps {
    * @default 0.1
    * @memberof KeyboardControlsProps
    *
-   **/
+   */
   moveSpeed?: number
   /**
    * Activate/deactivate headBobbing effect (only with PointerLockControls).
@@ -67,7 +67,7 @@ export interface KeyboardControlsProps {
    * @default false
    * @memberof KeyboardControlsProps
    *
-   **/
+   */
   headBobbing?: boolean
   /**
    * Indicates if the forward movement is in the Z axis or Y axis.
@@ -75,11 +75,11 @@ export interface KeyboardControlsProps {
    * @default false
    * @memberof KeyboardControlsProps
    *
-   **/
+   */
   is2D?: boolean
 }
 // TODO: remove disable once eslint is updated to support vue 3.3
-// eslint-disable-next-line vue/no-setup-props-destructure
+
 const props = withDefaults(defineProps<KeyboardControlsProps>(), {
   forward: () => ['w', 'W'],
   back: () => ['s', 'S'],
@@ -158,9 +158,9 @@ onKeyStroke(
   },
   { eventName: 'keyup' },
 )
-//JUMP BUTTON
+// JUMP BUTTON
 onKeyStroke(jump.value, () => {
-  if (!isJumping.value) initJumpTime.value = Date.now()
+  if (!isJumping.value) { initJumpTime.value = Date.now() }
   isJumping.value = true
 })
 
@@ -176,7 +176,7 @@ const getJumpDistance = (jumpTime: number) => initCameraPos + jumpSpeed * jumpTi
 const getJump = () => {
   if (isJumping.value) {
     const jumpDistance = getJumpDistance(getJumpTime())
-    if (jumpDistance <= initCameraPos) isJumping.value = false
+    if (jumpDistance <= initCameraPos) { isJumping.value = false }
     return jumpDistance
   }
   return 0
@@ -203,6 +203,6 @@ onLoop(({ elapsed }) => {
 
 <template>
   <TresGroup ref="wrapperRef">
-    <slot />
+    <slot></slot>
   </TresGroup>
 </template>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { shallowRef, computed, toRefs, watchEffect, ref } from 'vue'
-import { Vector3, Spherical } from 'three'
+import { computed, ref, shallowRef, toRefs, watchEffect } from 'vue'
+import { Spherical, Vector3 } from 'three'
 
 export interface StarsProps {
   /**

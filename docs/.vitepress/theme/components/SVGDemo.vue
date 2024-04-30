@@ -10,7 +10,7 @@ const svgURL = 'https://raw.githubusercontent.com/'
   <TresCanvas clear-color="#333">
     <OrbitControls />
     <Suspense>
-      <SVG 
+      <SVG
         :src="svgURL"
         :position="[-0.4, 1, 0]"
         :scale="0.01"

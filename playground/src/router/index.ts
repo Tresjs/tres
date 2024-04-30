@@ -2,12 +2,12 @@ import { createRouter, createWebHistory } from 'vue-router'
 import {
   abstractionsRoutes,
   controlsRoutes,
-  stagingRoutes,
+  directivesRoutes,
   loadersRoutes,
   materialsRoutes,
-  directivesRoutes,
-  shapesRoutes,
   miscRoutes,
+  shapesRoutes,
+  stagingRoutes,
 } from './routes'
 
 const routes = [

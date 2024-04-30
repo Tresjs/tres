@@ -2,12 +2,12 @@
 import { shallowRef, watch } from 'vue'
 import { TresCanvas } from '@tresjs/core'
 import {
-  OrbitControls,
   MeshWobbleMaterial,
+  OrbitControls,
   Reflector,
   Stars,
 } from '@tresjs/cientos'
-import { BasicShadowMap, SRGBColorSpace, NoToneMapping, PlaneGeometry } from 'three'
+import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
 
 const gl = {
   clearColor: '#111',
@@ -21,6 +21,7 @@ const gl = {
 const reflectorRef = shallowRef()
 
 watch(reflectorRef, (value) => {
+  // eslint-disable-next-line no-console
   console.log(value)
 })
 

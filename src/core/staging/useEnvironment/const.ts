@@ -34,32 +34,32 @@ export interface EnvironmentOptions {
    */
   preset?: EnvironmentPresetsType
   /**
-  * The resolution of the WebGLCubeRenderTarget.
-  *
-  * @type {number}
-  * @default 256
-  */
+   * The resolution of the WebGLCubeRenderTarget.
+   *
+   * @type {number}
+   * @default 256
+   */
   resolution?: number
   /**
-  * The near of the CubeCamera.
-  *
-  * @type {number}
-  * @default 1
-  */
+   * The near of the CubeCamera.
+   *
+   * @type {number}
+   * @default 1
+   */
   near?: number
   /**
-  * The far of the CubeCamera.
-  *
-  * @type {number}
-  * @default 1000
-  */
+   * The far of the CubeCamera.
+   *
+   * @type {number}
+   * @default 1000
+   */
   far?: number
   /**
-  * The frames of the cubeCamera.update.
-  *
-  * @type {number}
-  * @default Infinity
-  */
+   * The frames of the cubeCamera.update.
+   *
+   * @type {number}
+   * @default Infinity
+   */
   frames?: number
 }
 

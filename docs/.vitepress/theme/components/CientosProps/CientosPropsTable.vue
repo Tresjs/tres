@@ -84,13 +84,13 @@ function getPropFieldFormatted(componentProp: ComponentDoc, fieldName: string): 
 }
 
 function getPropFieldUnformatted(doc: ComponentDoc, fieldName: string) {
-  if ('description' === fieldName) {
+  if (fieldName === 'description') {
     return doc.description ?? ''
   }
-  else if ('default' === fieldName) {
+  else if (fieldName === 'default') {
     return doc.defaultValue ? getDefaultValue(doc.defaultValue) : ''
   }
-  else if ('type' === fieldName) {
+  else if (fieldName === 'type') {
     return getType(doc)
   }
   else {
@@ -105,10 +105,10 @@ function formatValue(valueUnformatted: string, fieldName: string, isHyphenate = 
     }
     return wrapInTag(['strong', 'nobr'], isHyphenate ? hyphenate(valueUnformatted) : valueUnformatted)
   }
-  if (fieldName === 'type') return valueUnformatted ? wrapInTag('code', valueUnformatted) : ''
-  if (fieldName === 'default') return valueUnformatted ? wrapInTag('code', valueUnformatted) : ''
-  if (fieldName === 'required') return (!valueUnformatted || valueUnformatted === 'false') ? 'No' : 'Yes'
-  if (fieldName === 'description') return valueUnformatted ? pToBr(valueUnformatted) : ''
+  if (fieldName === 'type') { return valueUnformatted ? wrapInTag('code', valueUnformatted) : '' }
+  if (fieldName === 'default') { return valueUnformatted ? wrapInTag('code', valueUnformatted) : '' }
+  if (fieldName === 'required') { return (!valueUnformatted || valueUnformatted === 'false') ? 'No' : 'Yes' }
+  if (fieldName === 'description') { return valueUnformatted ? pToBr(valueUnformatted) : '' }
   return valueUnformatted
 }
 
@@ -123,22 +123,22 @@ function getTypeHelper(typeObject: ComponentDoc) {
   }
   const name = typeObject.name
   const elements = ('elements' in typeObject) ? typeObject.elements : []
-  if ('Partial' === name) {
+  if (name === 'Partial') {
     return `${name}&lt;${elements.map(getTypeHelper).join(' ')}&gt;`
   }
-  else if ('Array' === name) {
+  else if (name === 'Array') {
     return `${elements.map(getTypeHelper).join(' ')}[]`
   }
-  else if ('union' === name) {
+  else if (name === 'union') {
     return elements.map(getTypeHelper).join(' | ')
   }
-  else if ('Record' === name) {
+  else if (name === 'Record') {
     return `${name}&lt;${elements.map(getTypeHelper).join(', ')}&gt;`
   }
-  else if ('WithElements' === name || typeObject.hasOwnProperty('elements')) {
+  else if (name === 'WithElements' || Object.prototype.hasOwnProperty.call(typeObject, 'elements')) {
     return `${name}&lt;${elements.map(getTypeHelper).join(' | ')}&gt;`
   }
-  else if ('TSTupleType' === name) {
+  else if (name === 'TSTupleType') {
     return 'TSTupleType'
   }
   else {
@@ -192,7 +192,7 @@ function unwrapFunctionString(maybeFn: string) {
 
 const componentProps = (() => {
   const data = cientosProps.data as Record<string, any>
-  if (!data.hasOwnProperty(props.componentPath)) {
+  if (!Object.prototype.hasOwnProperty.call(data, props.componentPath)) {
     const msg = `CientosPropsTable - could not find ${props.componentPath}`
     console.warn(msg)
     throw new Error(msg)
@@ -228,7 +228,7 @@ const componentProps = (() => {
           :key="`cell-${ii}`"
           :class="`col-${hyphenate(field)}`"
           v-html="getPropFieldFormatted(prop, field)"
-        />
+        ></td>
       </tr>
     </tbody>
   </table>

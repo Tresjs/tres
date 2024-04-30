@@ -10,7 +10,7 @@ import { templateCompilerOptions } from '@tresjs/core'
 
 import { resolve } from 'pathe'
 
-import { lightGreen, yellow, gray, bold } from 'kolorist'
+import { bold, gray, lightGreen, yellow } from 'kolorist'
 import glsl from 'vite-plugin-glsl'
 import pkg from './package.json'
 
@@ -61,8 +61,8 @@ export default defineConfig({
         // for externalized deps
         globals: {
           '@tresjs/core': 'TresjsCore',
-          three: 'Three',
-          vue: 'Vue',
+          'three': 'Three',
+          'vue': 'Vue',
         },
       },
     },

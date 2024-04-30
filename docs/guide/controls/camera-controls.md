@@ -64,7 +64,7 @@ You can easily override the default user input config by defining `mouseButtons`
 
 ```vue
 <script lang="ts" setup>
-import { CameraControls, BaseCameraControls } from '@tresjs/cientos'
+import { BaseCameraControls, CameraControls } from '@tresjs/cientos'
 </script>
 
 <template>
@@ -83,8 +83,8 @@ import { CameraControls, BaseCameraControls } from '@tresjs/cientos'
 | ----------------------- | -------------------------------------------------------------- | --------------------------------------------------------------- |
 | `mouseButtons.left`     | `ROTATE` \| `TRUCK` \| `OFFSET` \| `DOLLY` \| `ZOOM` \| `NONE` | `ROTATE`                                                        |
 | `mouseButtons.right`    | `ROTATE` \| `TRUCK` \| `OFFSET` \| `DOLLY` \| `ZOOM` \| `NONE` | `TRUCK`                                                         |
-| `mouseButtons.wheel` ¹  | `ROTATE` \| `TRUCK` \| `OFFSET` \| `DOLLY` \| `ZOOM` \| `NONE` | `DOLLY` for Perspective camera, `ZOOM` for Orthographic camera. |
-| `mouseButtons.middle` ² | `ROTATE` \| `TRUCK` \| `OFFSET` \| `DOLLY` \| `ZOOM` \| `NONE` | `DOLLY`                                                         |
+| `mouseButtons.wheel` ¹  | `ROTATE` \| `TRUCK` \| `OFFSET` \| `DOLLY` \| `ZOOM` \| `NONE` | `DOLLY` for Perspective camera, `ZOOM` for Orthographic camera. |
+| `mouseButtons.middle` ² | `ROTATE` \| `TRUCK` \| `OFFSET` \| `DOLLY` \| `ZOOM` \| `NONE` | `DOLLY`                                                         |
 
 1. Mouse wheel event for scroll "up/down", on mac "up/down/left/right".
 2. Mouse wheel "button" click event.

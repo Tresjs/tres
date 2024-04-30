@@ -62,7 +62,7 @@ export class MeshReflectorMaterial extends MeshStandardMaterial {
         uniform sampler2D distortionMap;
         uniform float distortion;
         uniform float cameraNear;
-			  uniform float cameraFar;
+        uniform float cameraFar;
         uniform bool hasBlur;
         uniform float mixBlur;
         uniform float mirror;
