@@ -49,4 +49,9 @@ export const abstractionsRoutes = [
     name: 'Sampler',
     component: () => import('../../pages/abstractions/Sampler.vue'),
   },
+  {
+    path: '/abstractions/positional-audio',
+    name: 'PositionalAudio',
+    component: () => import('../../pages/abstractions/PositionalAudio.vue'),
+  },
 ]
