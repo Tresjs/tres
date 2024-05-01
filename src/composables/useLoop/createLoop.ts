@@ -24,7 +24,6 @@ export function createLoop<CallbackArg>(loopBindArg: LoopBindArg<CallbackArg>) {
   const callbackArg = loopBindArg.callbackArg
   const updateHook = createPriorityEventHook<CallbackArg>()
   const renderTakeoverHook = createPriorityEventHook<CallbackArg>()
-  const __compat_v3_afterLoopEventHook = createPriorityEventHook<CallbackArg>()
 
   const trigger = () => {
     onBeforeLoop(callbackArg)
@@ -38,14 +37,12 @@ export function createLoop<CallbackArg>(loopBindArg: LoopBindArg<CallbackArg>) {
     else {
       defaultRender(callbackArg)
     }
-    __compat_v3_afterLoopEventHook.trigger(callbackArg)
     onAfterLoop(callbackArg)
   }
 
   const pausable: Pausable = loopBindArg.pausable ?? useRafFn(trigger)
 
   const loop = {
-    _compat_v3_afterLoopEventHook: createPriorityEventHook<CallbackArg>(),
     updateHook,
     renderTakeoverHook,
     pausable,
@@ -59,7 +56,6 @@ export function createLoop<CallbackArg>(loopBindArg: LoopBindArg<CallbackArg>) {
     loop.pausable.resume = () => {}
     loop.updateHook.dispose()
     loop.renderTakeoverHook.dispose()
-    loop._compat_v3_afterLoopEventHook.dispose()
     loop.trigger = () => {}
     return true
   }
