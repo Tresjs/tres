@@ -6,7 +6,7 @@ It offers simple information boxes to track code performance and serves as a mor
 In TresJS, you can effortlessly create a performance monitoring panel in the top left corner of your canvas by using the StatsGl component.
 Simply drop the StatsGl component into your TresCanvas for easy performance monitoring.
 
-## Basic usage
+## Basic usage
 
 ```vue{3,8}
 <script setup lang="ts">

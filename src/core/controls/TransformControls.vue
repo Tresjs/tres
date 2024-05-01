@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { ShallowRef } from 'vue'
-import { onUnmounted, shallowRef, watchEffect, toRefs } from 'vue'
-import type { Object3D, Camera, Event } from 'three'
+import { onUnmounted, shallowRef, toRefs, watchEffect } from 'vue'
+import type { Camera, Event, Object3D } from 'three'
 
 import { TransformControls } from 'three-stdlib'
 import { useEventListener } from '@vueuse/core'
@@ -46,7 +46,7 @@ const { controls, camera: activeCamera, renderer, extend } = useTresContext()
 extend({ TransformControls })
 
 const onDragingChange = (e: Event) => {
-  if (controls.value) controls.value.enabled = !e.value
+  if (controls.value) { controls.value.enabled = !e.value }
   emit('dragging', e.value)
 }
 

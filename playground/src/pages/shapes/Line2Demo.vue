@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { TresCanvas, useRenderLoop } from '@tresjs/core'
-import { OrbitControls, Line2 } from '@tresjs/cientos'
+import { Line2, OrbitControls } from '@tresjs/cientos'
 
 const NUM_POINTS = 10
-const points = ref(new Array(NUM_POINTS).fill(0).map((_, i) => [i * 0.1, 0, 0]))
+const points = ref(Array.from({ length: NUM_POINTS }).fill(0).map((_, i) => [i * 0.1, 0, 0]))
 const colors = ref([
   [1.0, 0.0, 0.0],
   [0.9, 0.1, 0.0],
@@ -53,7 +53,7 @@ useRenderLoop().onLoop(({ elapsed }) => {
   colors.value.unshift(c)
 
   dashed.value = Math.sin(elapsed * 0.5) < 0
-  dashScale.value = 5 + 5 * Math.sin(elapsed) 
+  dashScale.value = 5 + 5 * Math.sin(elapsed)
   lineWidth.value = 0.1 * (Math.sin(elapsed) + 1) + 0.1
 })
 </script>

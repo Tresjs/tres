@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { TresCanvas, useRenderLoop } from '@tresjs/core'
-import { OrbitControls, Fbo } from '@tresjs/cientos'
-import { SRGBColorSpace, ACESFilmicToneMapping } from 'three'
+import { Fbo, OrbitControls } from '@tresjs/cientos'
+import { ACESFilmicToneMapping, SRGBColorSpace } from 'three'
 import { TresLeches, useControls } from '@tresjs/leches'
 import '@tresjs/leches/styles'
 
@@ -77,7 +77,7 @@ watch(
       <TresBoxGeometry :args="[1, 1, 1]" />
       <TresMeshBasicMaterial
         ref="materialRef"
-        :color="0xff8833"
+        :color="0xFF8833"
         :map="fboRef?.value.texture ?? null"
       />
     </TresMesh>

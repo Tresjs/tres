@@ -23,7 +23,7 @@ The `<Superformula />` 3D plot is the product of 2 2D superformulas, referred to
 </td><td class="col-default"><code>[40,&nbsp;1.3,&nbsp;0.9]</code></td></tr><tr class="row-num-arms-b"><td class="col-name"><strong><nobr>numArmsB</nobr></strong></td><td class="col-description">For B, number of radial arms/ripples<br>
 </td><td class="col-default"><code>4</code></td></tr><tr class="row-exp-b1"><td class="col-name"><strong><nobr>expB</nobr></strong></td><td class="col-description">B's 3 exponents<br>
 </td><td class="col-default"><code>[40,&nbsp;1.3,&nbsp;0.9]</code></td></tr><tr class="row-color"><td class="col-name"><strong><nobr>color</nobr></strong></td><td class="col-description">If no material is provided, a color for the default material<br>
-</td><td class="col-default"><code>'white'</code></td></tr></tbody></table> 
+</td><td class="col-default"><code>'white'</code></td></tr></tbody></table>
 
 ## Slot
 

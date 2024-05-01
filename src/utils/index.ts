@@ -38,6 +38,6 @@ export function extractBindingPosition(binding: any): Vector3 {
   if (binding.value && binding.value?.value?.isMesh) {
     observer = binding.value.value.position
   }
-  if (Array.isArray(binding.value)) observer = new Vector3(...observer)
+  if (Array.isArray(binding.value)) { observer = new Vector3(...observer) }
   return observer
 }

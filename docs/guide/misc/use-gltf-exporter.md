@@ -1,8 +1,8 @@
 # useGLTFExporter
 
-[GLTFExporter](https://threejs.org/docs/index.html?q=expo#examples/en/exporters/GLTFExporter) is an addon in threeJs that allows you to download any object3D in a [GLTF](https://www.khronos.org/gltf) format. **TresJS** provides a composable that simplifies this process with just a few lines of code.
+[GLTFExporter](https://threejs.org/docs/index.html?q=expo#examples/en/exporters/GLTFExporter) is an addon in threeJs that allows you to download any object3D in a [GLTF](https://www.khronos.org/gltf) format. **TresJS** provides a composable that simplifies this process with just a few lines of code.
 
-## Basic usage
+## Basic usage
 
 ```vue{3,6,10,20}
 <script setup lang="ts">
@@ -48,7 +48,6 @@ const downloadBox = () => {
 _This may vary in your scene please first check what is in your `parent` property_
 
 Otherwise, you can access your scene using the [useTresContext](https://docs.tresjs.org/api/composables.html#usetrescontext)
-
 
 ## Arguments
 

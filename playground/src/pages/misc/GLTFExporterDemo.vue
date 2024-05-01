@@ -51,7 +51,7 @@ onLoop(({ elapsed }) => {
         :scale="10"
       >
         <TresBoxGeometry :args="[1, 1, 1]" />
-        <TresMeshStandardMaterial :color="0x00ff00" />
+        <TresMeshStandardMaterial :color="0x00FF00" />
       </TresMesh>
       <CameraControls :distance="75" />
       <TresDirectionalLight :position="[0, 10, 10]" />

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
-import { OrbitControls, Ocean, Sky } from '@tresjs/cientos'
-import { SRGBColorSpace, ACESFilmicToneMapping, Vector3 } from 'three'
+import { Ocean, OrbitControls, Sky } from '@tresjs/cientos'
+import { ACESFilmicToneMapping, SRGBColorSpace } from 'three'
 
 const gl = {
   clearColor: '#333',
@@ -26,7 +26,7 @@ const gl = {
     <TresMesh :position-y="1">
       <TresBoxGeometry :args="[1, 1, 1]" />
     </TresMesh>
-    <OrbitControls 
+    <OrbitControls
       :enable-pan="false"
       :enable-zoom="false"
       :max-polar-angle="Math.PI * 0.495"

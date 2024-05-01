@@ -1,39 +1,39 @@
 <script setup lang="ts">
 import { BufferAttribute, BufferGeometry } from 'three'
-import { shallowRef, watch, onUnmounted } from 'vue'
+import { onUnmounted, shallowRef, watch } from 'vue'
 import type { TresColor } from '@tresjs/core'
 
 export type Float3 = [number, number, number]
 
 export interface SuperFormulaProps {
   /**
-     * Number of horizontal mesh segments
-     */
+   * Number of horizontal mesh segments
+   */
   widthSegments?: number
   /**
-     * Number of vertical mesh segments
-     */
+   * Number of vertical mesh segments
+   */
   heightSegments?: number
   /**
-     * The 3D Superformula is the spherical product of 2 2D superformula curves: here called curves "A" and "B".
-     * Number of radial arms/ripples of A, corresponding to "m" [in this article.](https://en.wikipedia.org/wiki/Superformula)
-     */
+   * The 3D Superformula is the spherical product of 2 2D superformula curves: here called curves "A" and "B".
+   * Number of radial arms/ripples of A, corresponding to "m" [in this article.](https://en.wikipedia.org/wiki/Superformula)
+   */
   numArmsA?: number
   /**
-     * A's 3 exponents
-     */
+   * A's 3 exponents
+   */
   expA?: Float3
   /**
-     * For B, number of radial arms/ripples
-     */
+   * For B, number of radial arms/ripples
+   */
   numArmsB?: number
   /**
-     * B's 3 exponents
-     */
+   * B's 3 exponents
+   */
   expB?: Float3
   /**
-     * If no material is provided, a color for the default material
-     */
+   * If no material is provided, a color for the default material
+   */
   color?: TresColor
 }
 
@@ -55,8 +55,8 @@ const color = shallowRef(props.color)
 function makeGeometry(widthSegments: number, heightSegments: number) {
   const geometry = new BufferGeometry()
   const numPoints = widthSegments * heightSegments
-  const vertices = new Float32Array(new Array(3 * numPoints).fill(0))
-  const normals = new Float32Array(new Array(3 * numPoints).fill(0))
+  const vertices = new Float32Array(Array.from({ length: 3 * numPoints }).fill(0))
+  const normals = new Float32Array(Array.from({ length: 3 * numPoints }).fill(0))
   const indices: number[] = []
   for (let h = 0; h < heightSegments - 1; h++) {
     for (let w = 0; w < widthSegments - 1; w++) {
@@ -80,7 +80,7 @@ function makeGeometry(widthSegments: number, heightSegments: number) {
   return geometry
 }
 
-// Source: 
+// Source:
 // https://en.wikipedia.org/wiki/Superformula
 // NOTE: Superformula 2D
 function r(theta: number, numArms: number, exp1: number, exp2: number, exp3: number): number {
@@ -88,11 +88,7 @@ function r(theta: number, numArms: number, exp1: number, exp2: number, exp3: num
 }
 
 // NOTE: Superformula 3D
-function updateGeometry(geometry: BufferGeometry,
-  numArmsA: number, expA1: number, expA2: number, expA3: number,
-  numArmsB: number, expB1: number, expB2: number, expB3: number,
-  widthSegments: number, heightSegments: number,
-) {
+function updateGeometry(geometry: BufferGeometry, numArmsA: number, expA1: number, expA2: number, expA3: number, numArmsB: number, expB1: number, expB2: number, expB3: number, widthSegments: number, heightSegments: number) {
   const thetaStep = 2 * Math.PI / widthSegments
   const thetaStart = -Math.PI
   const phiStep = Math.PI / (heightSegments - 1)
@@ -132,14 +128,15 @@ watch(() => [props.widthSegments, props.heightSegments], () => {
 }, { immediate: true })
 
 watch(() => [
-  props.numArmsA, props.expA[0], props.expA[1], props.expA[2], 
-  props.numArmsB, props.expB[0], props.expB[1], props.expB[2],
-], 
-() => updateGeometry(geometry.value,
-  props.numArmsA, props.expA[0], props.expA[1], props.expA[2],
-  props.numArmsB, props.expB[0], props.expB[1], props.expB[2],
-  props.widthSegments, props.heightSegments,
-), { immediate: true })
+  props.numArmsA,
+  props.expA[0],
+  props.expA[1],
+  props.expA[2],
+  props.numArmsB,
+  props.expB[0],
+  props.expB[1],
+  props.expB[2],
+], () => updateGeometry(geometry.value, props.numArmsA, props.expA[0], props.expA[1], props.expA[2], props.numArmsB, props.expB[0], props.expB[1], props.expB[2], props.widthSegments, props.heightSegments), { immediate: true })
 
 onUnmounted(() => {
   if (geometry.value) {

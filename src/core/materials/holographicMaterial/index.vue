@@ -5,7 +5,7 @@ import type { TresColor } from '@tresjs/core'
 import { FrontSide } from 'three'
 import type { Side } from 'three'
 
-import HolographicMaterial from './material'
+import HolographicMaterial from './HolographicMaterialParameters'
 
 const props = withDefaults(
   defineProps<{
@@ -30,7 +30,7 @@ const props = withDefaults(
     hologramBrightness: 0.7,
     scanlineSize: 8.0,
     signalSpeed: 0.45,
-    hologramOpacity: 1.,
+    hologramOpacity: 1.0,
     hologramColor: '#00d5ff',
     side: FrontSide,
   },
@@ -54,16 +54,16 @@ onLoop(() => {
 <template>
   <TresHolographicMaterial
     ref="MeshHolographicMaterialClass"
-    :uniforms-fresnelAmount-value="props.fresnelAmount"
-    :uniforms-enableBlinking-value="props.enableBlinking"
-    :uniforms-fresnelOpacity-value="props.fresnelOpacity"
-    :uniforms-hologramBrightness-value="props.hologramBrightness"
-    :uniforms-scanlineSize-value="props.scanlineSize"
-    :uniforms-signalSpeed-value="props.signalSpeed"
-    :uniforms-hologramColor-value="props.hologramColor"
-    :uniforms-hologramOpacity-value="props.hologramOpacity"
-    :uniforms-blinkFresnelOnly-value="props.blinkFresnelOnly"
-    :enableAdditive="props.enableAdditive"
+    :uniforms-fresnel-amount-value="props.fresnelAmount"
+    :uniforms-enable-blinking-value="props.enableBlinking"
+    :uniforms-fresnel-opacity-value="props.fresnelOpacity"
+    :uniforms-hologram-brightness-value="props.hologramBrightness"
+    :uniforms-scanline-size-value="props.scanlineSize"
+    :uniforms-signal-speed-value="props.signalSpeed"
+    :uniforms-hologram-color-value="props.hologramColor"
+    :uniforms-hologram-opacity-value="props.hologramOpacity"
+    :uniforms-blink-fresnel-only-value="props.blinkFresnelOnly"
+    :enable-additive="props.enableAdditive"
     :side="props.side"
   />
 </template>

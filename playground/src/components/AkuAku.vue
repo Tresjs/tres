@@ -7,7 +7,6 @@ const { nodes } = await useGLTF(
 )
 
 const model = nodes.AkuAku
-const a = 0.5
 </script>
 
 <template>

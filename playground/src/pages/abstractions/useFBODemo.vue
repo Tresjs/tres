@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { TresCanvas, useRenderLoop } from '@tresjs/core'
 import { OrbitControls } from '@tresjs/cientos'
-import { SRGBColorSpace, ACESFilmicToneMapping } from 'three'
+import { ACESFilmicToneMapping, SRGBColorSpace } from 'three'
 
 const gl = {
   clearColor: '#82DBC5',

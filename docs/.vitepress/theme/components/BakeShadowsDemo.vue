@@ -30,7 +30,7 @@ onLoop(({ elapsed }) => {
       cast-shadow
     >
       <TresBoxGeometry />
-      <TresMeshStandardMaterial :color="0x00ff00" />
+      <TresMeshStandardMaterial :color="0x00FF00" />
     </TresMesh>
     <TresMesh
       receive-shadow
@@ -38,7 +38,7 @@ onLoop(({ elapsed }) => {
       :rotation-x="-Math.PI / 2"
     >
       <TresPlaneGeometry :args="[5, 5]" />
-      <TresMeshStandardMaterial :color="0xf7f7f7" />
+      <TresMeshStandardMaterial :color="0xF7F7F7" />
     </TresMesh>
     <TresDirectionalLight
       cast-shadow

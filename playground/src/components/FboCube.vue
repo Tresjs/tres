@@ -16,7 +16,7 @@ const fboTarget = useFBO({
     <TresBoxGeometry :args="[1, 1, 1]" />
 
     <TresMeshBasicMaterial
-      :color="0xff8833"
+      :color="0xFF8833"
       :map="fboTarget?.texture ?? null"
     />
   </TresMesh>

@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { TresCanvas, useRenderLoop } from '@tresjs/core'
-import { OrbitControls, CatmullRomCurve3 } from '@tresjs/cientos'
+import { CatmullRomCurve3, OrbitControls } from '@tresjs/cientos'
 
 const NUM_POINTS = 10
-const points = ref(new Array(NUM_POINTS).fill(0).map((_, i) => [i * 0.1, 0, 0]))
+const points = ref(Array.from({ length: NUM_POINTS }).fill(0).map((_, i) => [i * 0.1, 0, 0]))
 const colors = ref([
   [1.0, 0.0, 0.0],
   [0.9, 0.1, 0.0],
@@ -56,7 +56,7 @@ useRenderLoop().onLoop(({ elapsed }) => {
 
   dashed.value = Math.sin(elapsed * 0.5) < 0
   dashSize.value = 2 * (Math.sin(elapsed) + 1)
-  dashScaleRef.value = 25 + 25 * Math.sin(elapsed) 
+  dashScaleRef.value = 25 + 25 * Math.sin(elapsed)
   dashOffset.value = 1 * (Math.sin(elapsed) + 1)
 
   lineWidth.value = 0.1 * (Math.sin(elapsed) + 1) + 0.1

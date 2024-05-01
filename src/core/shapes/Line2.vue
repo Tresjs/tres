@@ -4,7 +4,7 @@ import { Vector2, Vector3 } from 'three'
 import { Line2 } from 'three/examples/jsm/lines/Line2'
 import { LineMaterial } from 'three/examples/jsm/lines/LineMaterial'
 import { LineGeometry } from 'three/examples/jsm/lines/LineGeometry'
-import { watch, onUnmounted, computed } from 'vue'
+import { computed, onUnmounted, watch } from 'vue'
 import type { TresColor } from '@tresjs/core'
 import { normalizeColor, useTresContext } from '@tresjs/core'
 
@@ -41,10 +41,10 @@ type PropsType = typeof props
 
 function getInterpolatedVertexColors(vertexColors: VertexColors | null, numPoints: number): Color[] {
   if (!vertexColors || vertexColors.length === 0) {
-    return new Array(numPoints).fill(normalizeColor(props.color))
+    return Array.from({ length: numPoints }).fill(normalizeColor(props.color)) as Color[]
   }
   if (vertexColors.length === 1) {
-    return new Array(numPoints).fill(normalizeColor(vertexColors[0]))
+    return Array.from({ length: numPoints }).fill(normalizeColor(vertexColors[0])) as Color[]
   }
   if (vertexColors.length === numPoints) {
     return vertexColors.map(normalizeColor)
@@ -52,7 +52,7 @@ function getInterpolatedVertexColors(vertexColors: VertexColors | null, numPoint
 
   const numSegments = numPoints - 1
   const mappedColors = vertexColors.map(normalizeColor)
-  if (closed) mappedColors.push(mappedColors[0].clone())
+  if (closed) { mappedColors.push(mappedColors[0].clone()) }
 
   const iColors: Color[] = [mappedColors[0]]
   const divisions = numSegments / (mappedColors.length - 1)
@@ -64,6 +64,26 @@ function getInterpolatedVertexColors(vertexColors: VertexColors | null, numPoint
   iColors.push(mappedColors[mappedColors.length - 1])
 
   return iColors
+}
+
+const lineMaterial = new LineMaterial()
+const lineGeometry = new LineGeometry()
+const line = new Line2(lineGeometry, lineMaterial)
+const sizes = useTresContext().sizes
+const hasVertexColors = computed(() => Array.isArray(props.vertexColors))
+
+function updateLineMaterial(material: LineMaterial, props: PropsType) {
+  material.color = normalizeColor(props.color)
+  material.linewidth = props.lineWidth
+  material.alphaToCoverage = props.alphaToCoverage
+  material.worldUnits = props.worldUnits
+  material.vertexColors = Array.isArray(props.vertexColors)
+  material.dashed = props.dashed
+  material.dashScale = props.dashScale
+  material.dashSize = props.dashSize
+  material.dashOffset = props.dashOffset
+  material.gapSize = props.gapSize
+  material.needsUpdate = true
 }
 
 function updateLineGeometry(geometry: LineGeometry, points: Points, vertexColors: VertexColors | null) {
@@ -89,25 +109,6 @@ function updateLineGeometry(geometry: LineGeometry, points: Points, vertexColors
   line.computeLineDistances()
 }
 
-function updateLineMaterial(material: LineMaterial, props: PropsType) {
-  material.color = normalizeColor(props.color)
-  material.linewidth = props.lineWidth
-  material.alphaToCoverage = props.alphaToCoverage
-  material.worldUnits = props.worldUnits
-  material.vertexColors = Array.isArray(props.vertexColors)
-  material.dashed = props.dashed
-  material.dashScale = props.dashScale
-  material.dashSize = props.dashSize
-  material.dashOffset = props.dashOffset
-  material.gapSize = props.gapSize
-  material.needsUpdate = true
-}
-
-const lineMaterial = new LineMaterial()
-const lineGeometry = new LineGeometry()
-const line = new Line2(lineGeometry, lineMaterial)
-const sizes = useTresContext().sizes
-const hasVertexColors = computed(() => Array.isArray(props.vertexColors))
 updateLineMaterial(lineMaterial, props)
 updateLineGeometry(lineGeometry, props.points, props.vertexColors)
 line.computeLineDistances()
@@ -128,9 +129,9 @@ watch(() => props.vertexColors, () => updateLineGeometry(lineGeometry, props.poi
 watch(() => props.points, () => updateLineGeometry(lineGeometry, props.points, props.vertexColors))
 watch([sizes.height, sizes.width], () => lineMaterial.resolution = new Vector2(sizes.width.value, sizes.height.value))
 
-onUnmounted(() => { 
-  lineGeometry.dispose() 
-  lineMaterial.dispose() 
+onUnmounted(() => {
+  lineGeometry.dispose()
+  lineMaterial.dispose()
 })
 </script>
 

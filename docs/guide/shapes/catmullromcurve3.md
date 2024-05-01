@@ -8,7 +8,6 @@ The `cientos` package provides a `<CatmullRomCurve3 />` component that allows yo
 
 `<CatmullRomCurve3 />` wraps [Three.js's `CatmullRomCurve3`](https://threejs.org/docs/index.html?q=catmu#api/en/extras/curves/CatmullRomCurve3) functionality, but applies it to Cientos' `<Line2 />` under the hood, meaning you can use [all the props from `<Line2 />`.](line2#props)
 
-
 ## Usage
 <<< @/.vitepress/theme/components/CatmullRomCurve3Demo.vue{3,8-13}
 

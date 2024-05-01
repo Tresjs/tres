@@ -30,10 +30,9 @@ import { environmentPresets } from './const'
  * @return {*}  {(Promise<Texture | CubeTexture>)}
  */
 
-// eslint-disable-next-line max-len
 const PRESET_ROOT = 'https://raw.githubusercontent.com/Tresjs/assets/main/textures/hdr/'
 export async function useEnvironment(
-  options: Partial<EnvironmentOptions>, 
+  options: Partial<EnvironmentOptions>,
   fbo: Ref<WebGLCubeRenderTarget | undefined>,
 ): Promise<Texture | CubeTexture> {
   const { scene } = useTresContext()
@@ -59,7 +58,7 @@ export async function useEnvironment(
           unref(loader),
           isCubeMap.value ? [unref(_files)] : unref(_files),
           (loader: any) => {
-            if (_path.value) loader.setPath(unref(_path))
+            if (_path.value) { loader.setPath(unref(_path)) }
             /* if (colorSpace) loader.colorSpace = colorSpace */
           },
         )
@@ -111,7 +110,7 @@ export async function useEnvironment(
           RGBELoader,
           _files,
           (loader: any) => {
-            if (_path) loader.setPath(_path)
+            if (_path) { loader.setPath(_path) }
             /* if (colorSpace) loader.colorSpace = colorSpace */
           },
         )
@@ -127,7 +126,6 @@ export async function useEnvironment(
     else if (value && !(value in environmentPresets)) {
       throw new Error(`Preset must be one of: ${Object.keys(environmentPresets).join(', ')}`)
     }
-
   }, {
     immediate: true,
   })

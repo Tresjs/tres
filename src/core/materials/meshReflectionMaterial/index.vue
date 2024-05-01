@@ -1,25 +1,26 @@
+<!-- eslint-disable vue/attribute-hyphenation -->
 <script setup lang="ts">
-import { shallowRef, onBeforeUnmount, watchEffect, toRefs, shallowReactive, computed, useAttrs } from 'vue'
+import { computed, onBeforeUnmount, shallowRef, toRefs, useAttrs, watchEffect } from 'vue'
 import { useRenderLoop, useTresContext } from '@tresjs/core'
 import type { TresObject } from '@tresjs/core'
 import type {
-  Texture,
-  MeshStandardMaterial,
-  TextureDataType,
   Mapping,
+  MeshStandardMaterial,
+  Texture,
+  TextureDataType,
 } from 'three'
 import {
-  Plane,
-  Vector3,
-  Vector4,
+  DepthFormat,
+  DepthTexture,
+  HalfFloatType,
+  LinearFilter,
   Matrix4,
   PerspectiveCamera,
-  LinearFilter,
-  WebGLRenderTarget,
-  DepthTexture,
-  DepthFormat,
+  Plane,
   UnsignedShortType,
-  HalfFloatType,
+  Vector3,
+  Vector4,
+  WebGLRenderTarget,
 } from 'three'
 import { BlurPass } from '../blurPass'
 
@@ -61,7 +62,7 @@ export interface MeshReflectorMaterialProps extends /* @vue-ignore */ MeshStanda
 
 /**
  * Finds the parent mesh using the specified material UUID.
- * 
+ *
  * @param {THREE.Scene} scene - The Three.js scene to search.
  * @param {string} materialUuid - The UUID of the material.
  * @returns {THREE.Mesh | undefined} - The mesh using the material, or undefined if not found.
@@ -78,68 +79,23 @@ function findMeshByMaterialUuid(scene: TresObject, materialUuid: string): TresOb
   return foundMesh as unknown as TresObject
 }
 
-function beforeRender(parent: TresObject) {
-  state.reflectorWorldPosition.setFromMatrixPosition(parent.matrixWorld)
-  state.cameraWorldPosition.setFromMatrixPosition(camera.value?.matrixWorld as Matrix4)
-  state.rotationMatrix.extractRotation(parent.matrixWorld)
-  state.normal.set(0, 0, 1)
-  state.normal.applyMatrix4(state.rotationMatrix)
-  state.reflectorWorldPosition.addScaledVector(state.normal, props.reflectorOffset)
-  state.view.subVectors(state.reflectorWorldPosition, state.cameraWorldPosition)
-
-  // Avoid rendering when reflector is facing away
-  if (state.view.dot(state.normal) > 0) return
-  state.view.reflect(state.normal).negate()
-  state.view.add(state.reflectorWorldPosition)
-  state.rotationMatrix.extractRotation(camera.value?.matrixWorld as Matrix4)
-  state.lookAtPosition.set(0, 0, -1)
-  state.lookAtPosition.applyMatrix4(state.rotationMatrix)
-  state.lookAtPosition.add(state.cameraWorldPosition)
-  state.target.subVectors(state.reflectorWorldPosition, state.lookAtPosition)
-  state.target.reflect(state.normal).negate()
-  state.target.add(state.reflectorWorldPosition)
-  state.virtualCamera.position.copy(state.view)
-  state.virtualCamera.up.set(0, 1, 0)
-  state.virtualCamera.up.applyMatrix4(state.rotationMatrix)
-  state.virtualCamera.up.reflect(state.normal)
-  state.virtualCamera.lookAt(state.target)
-  state.virtualCamera.far = (camera?.value as PerspectiveCamera).far
-  state.virtualCamera.updateMatrixWorld()
-  state.virtualCamera.projectionMatrix.copy((camera?.value as PerspectiveCamera).projectionMatrix)
-
-  // Update the texture matrix
-  state.textureMatrix.set(0.5, 0.0, 0.0, 0.5, 0.0, 0.5, 0.0, 0.5, 0.0, 0.0, 0.5, 0.5, 0.0, 0.0, 0.0, 1.0)
-  state.textureMatrix.multiply(state.virtualCamera.projectionMatrix)
-  state.textureMatrix.multiply(state.virtualCamera.matrixWorldInverse)
-  state.textureMatrix.multiply(parent.matrixWorld)
-  
-  // Now update projection matrix with new clip reflectorPlane, implementing code from: http://www.terathon.com/code/oblique.html
-  // Paper explaining this technique: http://www.terathon.com/lengyel/Lengyel-Oblique.pdf
-  state.reflectorPlane.setFromNormalAndCoplanarPoint(state.normal, state.reflectorWorldPosition)
-  state.reflectorPlane.applyMatrix4(state.virtualCamera.matrixWorldInverse)
-  state.clipPlane.set(
-    state.reflectorPlane.normal.x,
-    state.reflectorPlane.normal.y,
-    state.reflectorPlane.normal.z,
-    state.reflectorPlane.constant,
-  )
-  const projectionMatrix = state.virtualCamera.projectionMatrix
-  state.q.x = (Math.sign(state.clipPlane.x) + projectionMatrix.elements[8]) / projectionMatrix.elements[0]
-  state.q.y = (Math.sign(state.clipPlane.y) + projectionMatrix.elements[9]) / projectionMatrix.elements[5]
-  state.q.z = -1.0
-  state.q.w = (1.0 + projectionMatrix.elements[10]) / projectionMatrix.elements[14]
-  // Calculate the scaled reflectorPlane vector
-  state.clipPlane.multiplyScalar(2.0 / state.clipPlane.dot(state.q))
-  // Replacing the third row of the projection matrix
-  projectionMatrix.elements[2] = state.clipPlane.x
-  projectionMatrix.elements[6] = state.clipPlane.y
-  projectionMatrix.elements[10] = state.clipPlane.z + 1.0
-  projectionMatrix.elements[14] = state.clipPlane.w
-
+const state = {
+  reflectorPlane: new Plane(),
+  normal: new Vector3(),
+  reflectorWorldPosition: new Vector3(),
+  cameraWorldPosition: new Vector3(),
+  rotationMatrix: new Matrix4(),
+  lookAtPosition: new Vector3(0, 0, -1),
+  clipPlane: new Vector4(),
+  view: new Vector3(),
+  target: new Vector3(),
+  q: new Vector4(),
+  virtualCamera: new PerspectiveCamera(),
+  textureMatrix: new Matrix4(),
 }
 
-const { 
-  resolution, 
+const {
+  resolution,
   minDepthThreshold,
   maxDepthThreshold,
   depthScale,
@@ -171,36 +127,82 @@ const computedBlur = computed(() => {
 
 const hasBlur = computed(() => computedBlur.value[0] > 0 || computedBlur.value[1] > 0)
 
-const state = {
-  reflectorPlane: new Plane(),
-  normal: new Vector3(),
-  reflectorWorldPosition: new Vector3(),
-  cameraWorldPosition: new Vector3(),
-  rotationMatrix: new Matrix4(),
-  lookAtPosition: new Vector3(0, 0, -1),
-  clipPlane: new Vector4(),
-  view: new Vector3(),
-  target: new Vector3(),
-  q: new Vector4(),
-  virtualCamera: new PerspectiveCamera(),
-  textureMatrix: new Matrix4(),
+function beforeRender(parent: TresObject) {
+  state.reflectorWorldPosition.setFromMatrixPosition(parent.matrixWorld)
+  state.cameraWorldPosition.setFromMatrixPosition(camera.value?.matrixWorld as Matrix4)
+  state.rotationMatrix.extractRotation(parent.matrixWorld)
+  state.normal.set(0, 0, 1)
+  state.normal.applyMatrix4(state.rotationMatrix)
+  state.reflectorWorldPosition.addScaledVector(state.normal, props.reflectorOffset)
+  state.view.subVectors(state.reflectorWorldPosition, state.cameraWorldPosition)
+
+  // Avoid rendering when reflector is facing away
+  if (state.view.dot(state.normal) > 0) { return }
+  state.view.reflect(state.normal).negate()
+  state.view.add(state.reflectorWorldPosition)
+  state.rotationMatrix.extractRotation(camera.value?.matrixWorld as Matrix4)
+  state.lookAtPosition.set(0, 0, -1)
+  state.lookAtPosition.applyMatrix4(state.rotationMatrix)
+  state.lookAtPosition.add(state.cameraWorldPosition)
+  state.target.subVectors(state.reflectorWorldPosition, state.lookAtPosition)
+  state.target.reflect(state.normal).negate()
+  state.target.add(state.reflectorWorldPosition)
+  state.virtualCamera.position.copy(state.view)
+  state.virtualCamera.up.set(0, 1, 0)
+  state.virtualCamera.up.applyMatrix4(state.rotationMatrix)
+  state.virtualCamera.up.reflect(state.normal)
+  state.virtualCamera.lookAt(state.target)
+  state.virtualCamera.far = (camera?.value as PerspectiveCamera).far
+  state.virtualCamera.updateMatrixWorld()
+  state.virtualCamera.projectionMatrix.copy((camera?.value as PerspectiveCamera).projectionMatrix)
+
+  // Update the texture matrix
+  state.textureMatrix.set(0.5, 0.0, 0.0, 0.5, 0.0, 0.5, 0.0, 0.5, 0.0, 0.0, 0.5, 0.5, 0.0, 0.0, 0.0, 1.0)
+  state.textureMatrix.multiply(state.virtualCamera.projectionMatrix)
+  state.textureMatrix.multiply(state.virtualCamera.matrixWorldInverse)
+  state.textureMatrix.multiply(parent.matrixWorld)
+
+  // Now update projection matrix with new clip reflectorPlane, implementing code from: http://www.terathon.com/code/oblique.html
+  // Paper explaining this technique: http://www.terathon.com/lengyel/Lengyel-Oblique.pdf
+  state.reflectorPlane.setFromNormalAndCoplanarPoint(state.normal, state.reflectorWorldPosition)
+  state.reflectorPlane.applyMatrix4(state.virtualCamera.matrixWorldInverse)
+  state.clipPlane.set(
+    state.reflectorPlane.normal.x,
+    state.reflectorPlane.normal.y,
+    state.reflectorPlane.normal.z,
+    state.reflectorPlane.constant,
+  )
+  const projectionMatrix = state.virtualCamera.projectionMatrix
+  state.q.x = (Math.sign(state.clipPlane.x) + projectionMatrix.elements[8]) / projectionMatrix.elements[0]
+  state.q.y = (Math.sign(state.clipPlane.y) + projectionMatrix.elements[9]) / projectionMatrix.elements[5]
+  state.q.z = -1.0
+  state.q.w = (1.0 + projectionMatrix.elements[10]) / projectionMatrix.elements[14]
+  // Calculate the scaled reflectorPlane vector
+  state.clipPlane.multiplyScalar(2.0 / state.clipPlane.dot(state.q))
+  // Replacing the third row of the projection matrix
+  projectionMatrix.elements[2] = state.clipPlane.x
+  projectionMatrix.elements[6] = state.clipPlane.y
+  projectionMatrix.elements[10] = state.clipPlane.z + 1.0
+  projectionMatrix.elements[14] = state.clipPlane.w
 }
 
 watchEffect(() => {
   fbo.value?.texture.dispose()
-  
+
   const parameters = {
     minFilter: LinearFilter,
     magFilter: LinearFilter,
     type: HalfFloatType,
   }
   fbo.value = new WebGLRenderTarget(
-    resolution.value, resolution.value,
+    resolution.value,
+    resolution.value,
     {
       ...parameters,
       depthBuffer: true,
       depthTexture: new DepthTexture(
-        resolution.value, resolution.value,
+        resolution.value,
+        resolution.value,
         DepthFormat as TextureDataType,
         UnsignedShortType as Mapping,
       ),
@@ -208,7 +210,8 @@ watchEffect(() => {
   )
 
   outputFbo.value = new WebGLRenderTarget(
-    resolution.value, resolution.value,
+    resolution.value,
+    resolution.value,
     parameters,
   )
 
@@ -224,11 +227,11 @@ watchEffect(() => {
 
   reflectorParams.value = {
     mirror,
-    textureMatrix: state.textureMatrix,
+    'textureMatrix': state.textureMatrix,
     mixBlur,
-    tDiffuse: fbo.value.texture,
-    tDepth: fbo.value.depthTexture,
-    tDiffuseBlur: fbo.value.texture,
+    'tDiffuse': fbo.value.texture,
+    'tDepth': fbo.value.depthTexture,
+    'tDiffuseBlur': fbo.value.texture,
     hasBlur,
     mixStrength,
     minDepthThreshold,
@@ -236,7 +239,7 @@ watchEffect(() => {
     depthScale,
     depthToBlurRatioBias,
     distortion,
-    distortionMap: distortionMap.value,
+    'distortionMap': distortionMap.value,
     mixContrast,
     'defines-USE_BLUR': hasBlur.value ? '' : undefined,
     'defines-USE_DEPTH': depthScale.value > 0 ? '' : undefined,
@@ -249,19 +252,19 @@ const materialRef = shallowRef()
 const { onLoop } = useRenderLoop()
 
 onLoop(() => {
-  if (!materialRef.value || !renderer.value || !fbo.value || !camera.value) return
+  if (!materialRef.value || !renderer.value || !fbo.value || !camera.value) { return }
   const parent: TresObject = findMeshByMaterialUuid(scene.value as unknown as TresObject, materialRef.value.uuid)
-  if (!parent) return
-  
+  if (!parent) { return }
+
   parent.visible = false // Avoid re-rendering the reflected object
   const currentXrEnabled = renderer.value.xr.enabled
   const currentShadowAutoUpdate = renderer.value.shadowMap.autoUpdate
- 
+
   beforeRender(parent)
 
   renderer.value.shadowMap.autoUpdate = false
   renderer.value.setRenderTarget(fbo.value)
-  if (!renderer.value.autoClear) renderer.value.clear()
+  if (!renderer.value.autoClear) { renderer.value.clear() }
   renderer.value.render(scene.value, state.virtualCamera)
   blurpass?.value?.render(renderer.value, fbo.value, outputFbo.value)
 
@@ -270,7 +273,6 @@ onLoop(() => {
   renderer.value.shadowMap.autoUpdate = currentShadowAutoUpdate
   parent.visible = true
   renderer.value.setRenderTarget(null)
-
 })
 
 const attrs = useAttrs()
@@ -290,9 +292,9 @@ onBeforeUnmount(() => {
 <template>
   <TresMeshReflectorMaterial
     :key="
-      `key${ 
-        reflectorParams['defines-USE_BLUR'] 
-      }${reflectorParams['defines-USE_DEPTH'] 
+      `key${
+        reflectorParams['defines-USE_BLUR']
+      }${reflectorParams['defines-USE_DEPTH']
       }${reflectorParams['defines-USE_DISTORTION']}`
     "
     ref="materialRef"
@@ -309,7 +311,7 @@ onBeforeUnmount(() => {
     :depth-scale="depthScale"
     :depth-to-blur-ratio-bias="depthToBlurRatioBias"
     :distortion="distortion"
-    :distortionMap="distortionMap"
+    :distortion-map="distortionMap"
     :mix-contrast="mixContrast"
     :defines-USE_BLUR="hasBlur ? '' : undefined"
     :defines-USE_DEPTH="depthScale > 0 ? '' : undefined"

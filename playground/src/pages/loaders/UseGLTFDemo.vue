@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
-import { BasicShadowMap, SRGBColorSpace, NoToneMapping } from 'three'
+import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
 import { CameraControls } from '@tresjs/cientos'
 import ModelsDemo from '../../components/ModelsDemo.vue'
 
@@ -27,7 +27,7 @@ const gl = {
       receive-shadow
     >
       <TresPlaneGeometry :args="[40, 40]" />
-      <TresMeshStandardMaterial :color="0xf7f7f7" />
+      <TresMeshStandardMaterial :color="0xF7F7F7" />
     </TresMesh>
     <TresAmbientLight :intensity="1" />
     <TresDirectionalLight

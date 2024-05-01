@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
-import { Sky, OrbitControls, Ocean } from '@tresjs/cientos'
+import { Ocean, OrbitControls, Sky } from '@tresjs/cientos'
 </script>
 
 <template>
@@ -13,7 +13,7 @@ import { Sky, OrbitControls, Ocean } from '@tresjs/cientos'
     <TresMesh :position-y="1">
       <TresBoxGeometry :args="[1, 1, 1]" />
     </TresMesh>
-    <OrbitControls 
+    <OrbitControls
       :enable-pan="false"
       :enable-zoom="false"
       :max-polar-angle="Math.PI * 0.495"

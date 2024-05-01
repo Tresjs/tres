@@ -2,8 +2,8 @@
 import { shallowRef } from 'vue'
 import { TresCanvas } from '@tresjs/core'
 import { OrbitControls, Sphere, vDistanceTo } from '@tresjs/cientos'
-import { SRGBColorSpace, NoToneMapping } from 'three'
-import { useControls, TresLeches } from '@tresjs/leches'
+import { NoToneMapping, SRGBColorSpace } from 'three'
+import { TresLeches, useControls } from '@tresjs/leches'
 import '@tresjs/leches/styles'
 
 const gl = {

@@ -1,16 +1,13 @@
-import type {
-  WebGLRenderer,
-} from 'three'
 import {
-  Mesh,
-  BufferGeometry,
   BufferAttribute,
-  LinearFilter,
-  Scene,
-  WebGLRenderTarget,
+  BufferGeometry,
   Camera,
-  Vector2,
   HalfFloatType,
+  LinearFilter,
+  Mesh,
+  Scene,
+  Vector2,
+  WebGLRenderTarget,
 } from 'three'
 
 import { ConvolutionMaterial } from './convolutionMaterial'

@@ -75,13 +75,13 @@ You can incorporate `Lightformer` into the environment just like a slot.
 
 ```html
 <script setup>
-import { Enviroment, LightFormer } from '@tres/cientos'
+  import { Enviroment, LightFormer } from '@tres/cientos'
 </script>
 
 <template>
   <Environment>
     <Lightformer :intensity="0.75" :position="[0, 5, -9]" />
-    <Lightformer from="ring" :rotation-y="-Math.PI / 2" :scale="[10, 10, 1]"/>
+    <Lightformer from="ring" :rotation-y="-Math.PI / 2" :scale="[10, 10, 1]" />
   </Environment>
 </template>
 ```

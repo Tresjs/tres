@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { shallowRef } from 'vue'
-import { CameraControls, vLightHelper, BakeShadows } from '@tresjs/cientos'
+import { BakeShadows, CameraControls, vLightHelper } from '@tresjs/cientos'
 import { TresCanvas, useRenderLoop } from '@tresjs/core'
-import { NoToneMapping, SRGBColorSpace, Color } from 'three'
+import { Color, NoToneMapping, SRGBColorSpace } from 'three'
 
 const gl = {
   clearColor: '#82DBC5',
@@ -35,7 +35,7 @@ onLoop(({ elapsed }) => {
       cast-shadow
     >
       <TresBoxGeometry />
-      <TresMeshStandardMaterial :color="new Color(0x00ff00)" />
+      <TresMeshStandardMaterial :color="new Color(0x00FF00)" />
     </TresMesh>
     <TresMesh
       receive-shadow
@@ -43,7 +43,7 @@ onLoop(({ elapsed }) => {
       :rotation-x="-Math.PI / 2"
     >
       <TresPlaneGeometry :args="[5, 5]" />
-      <TresMeshStandardMaterial :color="new Color(0xf7f7f7)" />
+      <TresMeshStandardMaterial :color="new Color(0xF7F7F7)" />
     </TresMesh>
     <TresDirectionalLight
       v-light-helper

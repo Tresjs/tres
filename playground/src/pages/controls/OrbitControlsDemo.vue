@@ -1,7 +1,7 @@
 <!-- eslint-disable no-console -->
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
-import { BasicShadowMap, SRGBColorSpace, NoToneMapping } from 'three'
+import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
 import { OrbitControls } from '@tresjs/cientos'
 import { reactive } from 'vue'
 import { TresLeches, useControls } from '@tresjs/leches'
@@ -45,7 +45,7 @@ const {
   keyPanSpeed,
 } = useControls({
   'enable Damping': controlsState.enableDamping,
-  dampingFactor: {
+  'dampingFactor': {
     value: controlsState.dampingFactor,
     step: 0.01,
     min: 0,
@@ -53,7 +53,7 @@ const {
   },
   'enable Zoom': controlsState.enableZoom,
   'enable Pan': controlsState.enablePan,
-  keyPanSpeed: {
+  'keyPanSpeed': {
     value: controlsState.keyPanSpeed,
     step: 0.01,
     min: 0,
@@ -80,17 +80,20 @@ const {
     step: 0.01,
     min: 0,
     max: Math.PI,
-  }, minPolarAngle: {
+  },
+  minPolarAngle: {
     value: controlsState.minPolarAngle,
     step: 0.01,
     min: 0,
     max: Math.PI,
-  }, maxAzimuthAngle: {
+  },
+  maxAzimuthAngle: {
     value: controlsState.maxAzimuthAngle,
     step: 0.01,
     min: 0,
     max: 2 * Math.PI,
-  }, minAzimuthAngle: {
+  },
+  minAzimuthAngle: {
     value: controlsState.minPolarAngle,
     step: 0.01,
     min: 0,
@@ -117,7 +120,8 @@ const { DistancesMaxDistance, DistancesMinDistance } = useControls('Distances', 
     step: 0.01,
     min: 0,
     max: 100,
-  }, minDistance: {
+  },
+  minDistance: {
     value: controlsState.minDistance,
     step: 0.01,
     min: 0,

@@ -2,7 +2,7 @@
 import { ref, shallowReactive } from 'vue'
 import { TresCanvas } from '@tresjs/core'
 import { OrbitControls, Sampler, useTweakPane } from '@tresjs/cientos'
-import { SRGBColorSpace, ACESFilmicToneMapping } from 'three'
+import { ACESFilmicToneMapping, SRGBColorSpace } from 'three'
 import type { Mesh } from 'three'
 
 const gl = {

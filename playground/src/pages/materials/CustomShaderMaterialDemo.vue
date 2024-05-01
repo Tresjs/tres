@@ -2,14 +2,14 @@
 import { TresCanvas, useRenderLoop, useTexture } from '@tresjs/core'
 import {
   CustomShaderMaterial,
-  StatsGl,
   OrbitControls,
+  StatsGl,
 } from '@tresjs/cientos'
 import { TresLeches, useControls } from '@tresjs/leches'
 import '@tresjs/leches/styles'
 
 import { MeshMatcapMaterial } from 'three'
-import { onMounted, nextTick } from 'vue'
+import { nextTick, onMounted } from 'vue'
 
 const { onLoop } = useRenderLoop()
 

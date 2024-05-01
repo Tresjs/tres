@@ -1,11 +1,11 @@
 <script lang="ts" setup>
 import CameraControls from 'camera-controls'
-import { ref, watchEffect, onUnmounted, toRefs, computed } from 'vue'
+import { computed, onUnmounted, ref, toRefs, watchEffect } from 'vue'
 import type {
-  PerspectiveCamera,
-  OrthographicCamera,
-  Object3D,
   Camera,
+  Object3D,
+  OrthographicCamera,
+  PerspectiveCamera,
 } from 'three'
 import {
   Box3,
@@ -21,7 +21,7 @@ import {
 } from 'three'
 import { useRenderLoop, useTresContext } from '@tresjs/core'
 import { useEventListener } from '@vueuse/core'
-import { isPerspectiveCamera, isOrthographicCamera } from '../../utils/types'
+import { isOrthographicCamera, isPerspectiveCamera } from '../../utils/types'
 
 export interface CameraControlsProps {
   /**
@@ -281,12 +281,12 @@ export interface CameraControlsProps {
    * | `mouseButtons.right`    | `ROTATE` \| `TRUCK` \| `OFFSET` \| `DOLLY` \| `ZOOM` \| `NONE` | `TRUCK`                                                         |
    * | `mouseButtons.wheel` ¹  | `ROTATE` \| `TRUCK` \| `OFFSET` \| `DOLLY` \| `ZOOM` \| `NONE` | `DOLLY` for Perspective camera, `ZOOM` for Orthographic camera. |
    * | `mouseButtons.middle` ² | `ROTATE` \| `TRUCK` \| `OFFSET` \| `DOLLY` \| `ZOOM` \| `NONE` | `DOLLY`                                                         |
-   * 
+   *
    * 1. Mouse wheel event for scroll "up/down", on mac "up/down/left/right".
    * 2. Mouse wheel "button" click event.
-   *   
+   *
    * > **_NOTE:_** `DOLLY` can't be set when camera is Orthographic.
-   * 
+   *
    * @default See description
    * @memberof CameraControlsProps
    */
@@ -294,15 +294,15 @@ export interface CameraControlsProps {
 
   /**
    * User's touch input config.
-   * 
+   *
    * | Fingers to assign | Options                                                                                                                                                                                                                                 | Default                                                                                |
    * | ----------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
    * | `touches.one`     | `TOUCH_ROTATE` \| `TOUCH_TRUCK` \| `TOUCH_OFFSET` \| `DOLLY` \| `ZOOM` \| `NONE`                                                                                                                                                        | `TOUCH_ROTATE`                                                                         |
    * | `touches.two`     | `TOUCH_DOLLY_TRUCK` \| `TOUCH_DOLLY_OFFSET` \| `TOUCH_DOLLY_ROTATE` \| `TOUCH_ZOOM_TRUCK` \| `TOUCH_ZOOM_OFFSET` \| `TOUCH_ZOOM_ROTATE` \| `TOUCH_DOLLY` \| `TOUCH_ZOOM` \| `TOUCH_ROTATE` \| `TOUCH_TRUCK` \| `TOUCH_OFFSET` \| `NONE` | `TOUCH_DOLLY_TRUCK` for Perspective camera, `TOUCH_ZOOM_TRUCK` for Othographic camera. |
    * | `touches.three`   | `TOUCH_DOLLY_TRUCK` \| `TOUCH_DOLLY_OFFSET` \| `TOUCH_DOLLY_ROTATE` \| `TOUCH_ZOOM_TRUCK` \| `TOUCH_ZOOM_OFFSET` \| `TOUCH_ZOOM_ROTATE` \| `TOUCH_ROTATE` \| `TOUCH_TRUCK` \| `TOUCH_OFFSET` \| `NONE`                                  | `TOUCH_TRUCK`                                                                          |
-   * 
+   *
    * > **_NOTE:_** `TOUCH_DOLLY_TRUCK` and `TOUCH_DOLLY` can't be set when camera is Orthographic.
-   * 
+   *
    * @default See description
    * @memberof CameraControlsProps
    */
@@ -313,17 +313,17 @@ const props = withDefaults(defineProps<CameraControlsProps>(), {
   makeDefault: false,
   minPolarAngle: 0,
   maxPolarAngle: Math.PI,
-  minAzimuthAngle: -Infinity,
-  maxAzimuthAngle: Infinity,
+  minAzimuthAngle: Number.NEGATIVE_INFINITY,
+  maxAzimuthAngle: Number.POSITIVE_INFINITY,
   distance: () => useTresContext().camera.value!.position.z,
   minDistance: Number.EPSILON,
-  maxDistance: Infinity,
+  maxDistance: Number.POSITIVE_INFINITY,
   infinityDolly: false,
   minZoom: 0.01,
-  maxZoom: Infinity,
+  maxZoom: Number.POSITIVE_INFINITY,
   smoothTime: 0.25,
   draggingSmoothTime: 0.125,
-  maxSpeed: Infinity,
+  maxSpeed: Number.POSITIVE_INFINITY,
   azimuthRotateSpeed: 1.0,
   polarRotateSpeed: 1.0,
   dollySpeed: 1.0,
@@ -419,7 +419,7 @@ function addEventListeners() {
 const { onLoop } = useRenderLoop()
 
 onLoop(({ delta }) => {
-  if (controlsRef.value?.enabled) controlsRef.value?.update(delta)
+  if (controlsRef.value?.enabled) { controlsRef.value?.update(delta) }
 })
 
 onUnmounted(() => {

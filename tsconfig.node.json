@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
     "composite": true,
+    "baseUrl": ".",
     "module": "ESNext",
     "moduleResolution": "Node",
     "allowSyntheticDefaultImports": true

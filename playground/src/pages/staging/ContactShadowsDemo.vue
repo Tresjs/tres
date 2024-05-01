@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { TresCanvas, useRenderLoop } from '@tresjs/core'
-import { OrbitControls, ContactShadows, Box, Plane, Icosahedron } from '@tresjs/cientos'
-import { BasicShadowMap, SRGBColorSpace, NoToneMapping } from 'three'
+import { Box, ContactShadows, Icosahedron, OrbitControls, Plane } from '@tresjs/cientos'
+import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
 import { reactive, shallowRef } from 'vue'
 import { TresLeches, useControls } from '@tresjs/leches'
 import '@tresjs/leches/styles'
@@ -49,7 +49,7 @@ const { blur, opacity, resolution, color, helper } = useControls({
   helper: state.helper,
 })
 
-watch([blur.value, opacity.value, resolution.value, color.value, helper.value ], () => {
+watch([blur.value, opacity.value, resolution.value, color.value, helper.value], () => {
   state.blur = blur.value.value
   state.opacity = opacity.value.value
   state.resolution = resolution.value.value

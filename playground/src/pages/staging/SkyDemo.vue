@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
 import { OrbitControls, Sky } from '@tresjs/cientos'
-import { SRGBColorSpace, ACESFilmicToneMapping } from 'three'
+import { ACESFilmicToneMapping, SRGBColorSpace } from 'three'
 import { TresLeches, useControls } from '@tresjs/leches'
 import '@tresjs/leches/styles'
 
@@ -40,7 +40,7 @@ const [turbidity, rayleigh, mieCoefficient, mieDirectionalG, elevation, azimuth,
       :turbidity="turbidity.value.value"
       :distance="distance.value.value"
     />
-    <OrbitControls 
+    <OrbitControls
       :enable-pan="false"
       :enable-zoom="false"
     />

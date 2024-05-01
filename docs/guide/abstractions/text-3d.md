@@ -44,7 +44,7 @@ In addition, you can use the power of Vue to add reactivity, but you need to app
 
 ```vue
 <template>
-  <input v-model="myReactiveText">
+  <input v-model="myReactiveText" />
   <TresCanvas>
     <Suspense>
       <Text3D

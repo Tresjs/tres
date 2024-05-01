@@ -1,4 +1,4 @@
-import { GLTFLoader, DRACOLoader } from 'three-stdlib'
+import { DRACOLoader, GLTFLoader } from 'three-stdlib'
 import type { TresObject3D } from '@tresjs/core'
 import { useLoader } from '@tresjs/core'
 
@@ -55,9 +55,9 @@ function setExtensions(options: GLTFLoaderOptions, extendLoader?: (loader: GLTFL
  *
  * @export
  * @param {(string | string[])} path
- * @param {GLTFLoaderOptions} [options={
- *     draco: false,
- *   }]
+ * @param {GLTFLoaderOptions} [options]
+ *
+ *
  * @param {(loader: GLTFLoader) => void} [extendLoader]
  * @return {*}  {Promise<GLTFResult>}
  */

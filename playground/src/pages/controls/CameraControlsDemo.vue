@@ -3,7 +3,7 @@
 import { reactive, shallowRef } from 'vue'
 import { TresCanvas } from '@tresjs/core'
 import { CameraControls } from '@tresjs/cientos'
-import { MathUtils, BasicShadowMap, SRGBColorSpace, NoToneMapping } from 'three'
+import { BasicShadowMap, MathUtils, NoToneMapping, SRGBColorSpace } from 'three'
 import { TresLeches, useControls } from '@tresjs/leches'
 import '@tresjs/leches/styles'
 
@@ -65,7 +65,8 @@ watch([distance.value, minDistance.value, maxDistance.value], () => {
 })
 
 useControls(
-  'Dolly', {
+  'Dolly',
+  {
     dollyInc: {
       type: 'button',
       onClick: () => {
@@ -79,10 +80,13 @@ useControls(
         controlsRef?.value?.value?.dolly(-1, true)
       },
       label: 'Increment (-1)',
-    } })
+    },
+  },
+)
 
 useControls(
-  'Rotate', {
+  'Rotate',
+  {
     rotateTheta45: {
       type: 'button',
       label: 'Rotate theta 45°',
@@ -111,10 +115,12 @@ useControls(
         controlsRef?.value?.value?.rotate(0, 20 * MathUtils.DEG2RAD, true)
       },
     },
-  })
+  },
+)
 
 useControls(
-  'Move', {
+  'Move',
+  {
     fitToBoundingBox: {
       type: 'button',
       label: 'Fit to the bounding box of the mesh',
@@ -122,7 +128,8 @@ useControls(
         controlsRef?.value?.value?.fitToBox(boxMeshRef.value, true)
       },
     },
-  })
+  },
+)
 </script>
 
 <template>

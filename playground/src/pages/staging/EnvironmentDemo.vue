@@ -1,12 +1,13 @@
+<!-- eslint-disable no-console -->
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
-import { BasicShadowMap, SRGBColorSpace, NoToneMapping } from 'three'
+import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
 
-import { OrbitControls, useProgress, Environment, Lightformer, TorusKnot } from '@tresjs/cientos'
+import { Environment, Lightformer, OrbitControls, TorusKnot, useProgress } from '@tresjs/cientos'
 import { TresLeches, useControls } from '@tresjs/leches'
 import '@tresjs/leches/styles'
 
-const environmentFiles = ['/px.jpg', '/nx.jpg', '/py.jpg', '/ny.jpg', '/pz.jpg', '/nz.jpg']
+/* const environmentFiles = ['/px.jpg', '/nx.jpg', '/py.jpg', '/ny.jpg', '/pz.jpg', '/nz.jpg'] */
 
 const gl = {
   clearColor: '#82DBC5',
@@ -70,7 +71,7 @@ const { progress, hasFinishLoading } = await useProgress()
     >
       <div class="w-200px">
         Loading... {{ progress }} %
-        <i class="i-ic-twotone-catching-pokemon animate-rotate-in" />
+        <i class="i-ic-twotone-catching-pokemon animate-rotate-in"></i>
       </div>
     </div>
   </Transition>

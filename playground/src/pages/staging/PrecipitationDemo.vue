@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { shallowRef, reactive } from 'vue'
+import { reactive, shallowRef } from 'vue'
 import { TresCanvas } from '@tresjs/core'
 import { OrbitControls, Precipitation } from '@tresjs/cientos'
-import { SRGBColorSpace, NoToneMapping } from 'three'
+import { NoToneMapping, SRGBColorSpace } from 'three'
 import { TresLeches, useControls } from '@tresjs/leches'
 import '@tresjs/leches/styles'
 

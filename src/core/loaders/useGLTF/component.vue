@@ -11,7 +11,7 @@ export interface GLTFModelProps {
    * @required
    * @memberof GLTFModelProps
    *
-   **/
+   */
   path: string
   /**
    *
@@ -21,7 +21,7 @@ export interface GLTFModelProps {
    * @default false
    * @memberof GLTFModelProps
    *
-   **/
+   */
   draco?: boolean
   /**
    *
@@ -31,7 +31,7 @@ export interface GLTFModelProps {
    * @default false
    * @memberof GLTFModelProps
    *
-   **/
+   */
   castShadow?: boolean
   /**
    *
@@ -41,7 +41,7 @@ export interface GLTFModelProps {
    * @default false
    * @memberof GLTFModelProps
    *
-   **/
+   */
   receiveShadow?: boolean
   /**
    *
@@ -51,7 +51,7 @@ export interface GLTFModelProps {
    * @default 'https://www.gstatic.com/draco/versioned/decoders/1.4.1/'
    * @memberof GLTFModelProps
    *
-   **/
+   */
   decoderPath?: string
 }
 
@@ -80,7 +80,7 @@ const { scene: model } = await useGLTF(props.path as string, {
   draco: props.draco,
   decoderPath: props.decoderPath,
 })
-if ( props.castShadow || props.receiveShadow ) {
+if (props.castShadow || props.receiveShadow) {
   model.traverse((child) => {
     if (child.isMesh) {
       child.castShadow = props.castShadow

@@ -1,4 +1,4 @@
-import { onUnmounted, defineComponent } from 'vue'
+import { defineComponent, onUnmounted } from 'vue'
 import { useRenderLoop } from '@tresjs/core'
 import StatsImpl from 'stats.js'
 
@@ -12,7 +12,6 @@ export const Stats = defineComponent({
   },
 
   setup(props, { expose }) {
-
     const stats = new StatsImpl()
 
     expose({ stats })
@@ -25,7 +24,7 @@ export const Stats = defineComponent({
     resume()
     onBeforeLoop(() => stats.begin())
     onAfterLoop(() => stats.end())
-    
+
     onUnmounted(() => {
       node?.removeChild(stats.dom)
     })

@@ -8,7 +8,7 @@
 
 ## Usage
 
-You can use `<Stars />` component without passing any props, 
+You can use `<Stars />` component without passing any props,
 
 ```vue
 <template>

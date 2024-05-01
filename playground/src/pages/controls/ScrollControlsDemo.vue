@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { ref, watchEffect } from 'vue'
 import { TresCanvas, useRenderLoop } from '@tresjs/core'
-import { ScrollControls, Stars, Sphere, Box } from '@tresjs/cientos'
-import { SRGBColorSpace, NoToneMapping } from 'three'
+import { Box, ScrollControls, Sphere, Stars } from '@tresjs/cientos'
+import { NoToneMapping, SRGBColorSpace } from 'three'
 import { TresLeches, useControls } from '@tresjs/leches'
 import '@tresjs/leches/styles'
 
@@ -62,7 +62,7 @@ onLoop(() => {
       <Box
         ref="boxRef"
         :scale="0.5"
-        :color="0xff00ff"
+        :color="0xFF00FF"
         :position="[-1, 1, 0]"
       />
     </ScrollControls>

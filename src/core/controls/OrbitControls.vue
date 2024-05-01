@@ -2,7 +2,7 @@
 import type { Camera } from 'three'
 import { TOUCH } from 'three'
 import { OrbitControls } from 'three-stdlib'
-import { ref, watch, onUnmounted, toRefs } from 'vue'
+import { onUnmounted, ref, toRefs, watch } from 'vue'
 import type { TresVector3 } from '@tresjs/core'
 import { useRenderLoop, useTresContext } from '@tresjs/core'
 import { useEventListener } from '@vueuse/core'
@@ -238,14 +238,14 @@ const props = withDefaults(defineProps<OrbitControlsProps>(), {
   dampingFactor: 0.05,
   enablePan: true,
   keyPanSpeed: 7,
-  maxAzimuthAngle: Infinity,
-  minAzimuthAngle: -Infinity,
+  maxAzimuthAngle: Number.POSITIVE_INFINITY,
+  minAzimuthAngle: Number.NEGATIVE_INFINITY,
   maxPolarAngle: Math.PI,
   minPolarAngle: 0,
   minDistance: 0,
-  maxDistance: Infinity,
+  maxDistance: Number.POSITIVE_INFINITY,
   minZoom: 0,
-  maxZoom: Infinity,
+  maxZoom: Number.POSITIVE_INFINITY,
   enableZoom: true,
   zoomSpeed: 1,
   enableRotate: true,

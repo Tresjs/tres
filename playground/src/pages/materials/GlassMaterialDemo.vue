@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { ref, shallowRef, watch } from 'vue'
 import { TresCanvas } from '@tresjs/core'
-import { OrbitControls, MeshGlassMaterial, Box, Sphere } from '@tresjs/cientos'
-import { BasicShadowMap, SRGBColorSpace, NoToneMapping } from 'three'
+import { Box, MeshGlassMaterial, OrbitControls, Sphere } from '@tresjs/cientos'
+import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
 
 const gl = {
   clearColor: '#82DBC5',
@@ -42,7 +42,7 @@ watch(glassMaterialRef, (value) => {
     />
     <TresMesh :position="[0, 0, -1]">
       <TresPlaneGeometry :args="[3, 3]" />
-      <TresMeshBasicMaterial :color="0xff1111" />
+      <TresMeshBasicMaterial :color="0xFF1111" />
     </TresMesh>
     <TresGridHelper :args="[10, 10]" />
     <TresAmbientLight :intensity="1" />

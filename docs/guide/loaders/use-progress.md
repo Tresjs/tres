@@ -38,7 +38,7 @@ Then you can use the `progress` value to show a loading bar or a spinner:
       <Environment
         background
         :files="environmentFiles"
-        :path="'https://raw.githubusercontent.com/Tresjs/assets/main/textures/environmentMap'"
+        path="https://raw.githubusercontent.com/Tresjs/assets/main/textures/environmentMap"
       />
     </Suspense>
   </TresCanvas>

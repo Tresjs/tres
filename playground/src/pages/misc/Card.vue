@@ -4,6 +4,7 @@ defineProps({
 })
 
 onMounted(() => {
+  // eslint-disable-next-line no-console
   console.log('card mounted')
 })
 </script>
