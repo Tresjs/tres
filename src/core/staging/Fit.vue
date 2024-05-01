@@ -118,7 +118,9 @@ onMounted(() => {
   })
 })
 
+const outer = shallowRef()
 defineExpose({ 
+  instance: outer,
   fit: (
     into: typeof props.into = new Box3(new Vector3(-0.5, -0.5, -0.5), new Vector3(0.5, 0.5, 0.5)), 
     precise = false,
@@ -128,7 +130,7 @@ defineExpose({
 </script>
 
 <template>
-  <TresGroup>
+  <TresGroup ref="outer">
     <TresGroup ref="middle">
       <TresGroup ref="inner">
         <slot />
