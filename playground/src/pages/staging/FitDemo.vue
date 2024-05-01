@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { TresCanvas, useRenderLoop } from '@tresjs/core'
-import { OrbitControls, Fit } from '@tresjs/cientos'
-import { BoxGeometry, Mesh, MeshBasicMaterial, Vector3, Box3 } from 'three'
+import { Fit, OrbitControls } from '@tresjs/cientos'
+import { Box3, BoxGeometry, Mesh, MeshBasicMaterial, Vector3 } from 'three'
 import RandUtils from '../../../../src/core/abstractions/Lensflare/RandUtils'
 
 function getPositions(seed: number, count = 40, radius = 10) {
-  // NOTE: Generate some randomish positions for 
+  // NOTE: Generate some randomish positions for
   // some child components of `<Fit />`
   const positions: Vector3[] = []
   const rng = new RandUtils(seed)
@@ -31,16 +31,14 @@ function getPositions(seed: number, count = 40, radius = 10) {
 // NOTE: Create some refs so we can scale, rotate, and twist
 // the container and `<Fit />` elements. We want to make sure
 // that it works in chains with the usual transforms.
-const [ sx0, sy0, sz0, rx0, ry0, rz0, x0, y0, z0, sx1, sy1, sz1, rx1,
-  ry1, rz1, x1, y1, z1, sx2, sy2, sz2, rx2, ry2, rz2, x2, y2, z2,
-  x3, y3 ] = Array.from({ length: 30 })
+const [sx0, sy0, sz0, rx0, ry0, rz0, x0, y0, z0, sx1, sy1, sz1, rx1, ry1, rz1, x1, y1, z1, sx2, sy2, sz2, rx2, ry2, rz2, x2, y2, z2, x3, y3] = Array.from({ length: 30 })
   .fill(0)
   .map(_ => shallowRef(0))
 const fit0 = shallowRef({ fit: () => {} })
 const fit1 = shallowRef({ fit: () => {} })
 const fit2 = shallowRef({ fit: () => {} })
 const { sin, cos, PI } = Math
-useRenderLoop().onLoop(({ delta, elapsed }) => {
+useRenderLoop().onLoop(({ elapsed }) => {
   rx0.value = sin(elapsed * 0.05) * PI
   ry0.value = sin(elapsed * 0.11) * PI
   rz0.value = sin(elapsed * 0.22) * PI
@@ -63,7 +61,7 @@ useRenderLoop().onLoop(({ delta, elapsed }) => {
 
   x3.value = sin(elapsed)
   y3.value = cos(elapsed)
-  
+
   sx0.value = cos(elapsed * 0.22)
   sy0.value = cos(elapsed * 0.33)
   sz0.value = cos(elapsed * 0.33)
@@ -96,14 +94,14 @@ const choices = [
   { label: 'Array', value: [3, 2, 1] as [number, number, number] },
   { label: 'Array', value: [5, 6, 7] as [number, number, number] },
   { label: 'Array', value: [7, 7, 7] as [number, number, number] },
-  { label: 'Vector3', value: new Vector3(1, 1, 1) }, 
-  { label: 'Vector3', value: new Vector3(1, 2, 3) }, 
-  { label: 'Vector3', value: new Vector3(3, 2, 1) }, 
+  { label: 'Vector3', value: new Vector3(1, 1, 1) },
+  { label: 'Vector3', value: new Vector3(1, 2, 3) },
+  { label: 'Vector3', value: new Vector3(3, 2, 1) },
   { label: 'Scale and position' },
-  { label: 'Box3(0,0,0, 1,1,1)', value: new Box3(new Vector3(0, 0, 0), new Vector3(1, 1, 1)) }, 
-  { label: 'Box3(-1,-1,-1, 1,1,1)', value: new Box3(new Vector3(-1, -1, -1), new Vector3(1, 1, 1)) }, 
-  { label: 'Box3(-5,0,-5, 5,10,5)', value: new Box3(new Vector3(-5, 0, -5), new Vector3(5, 10, 5)) }, 
-  { label: 'Object', value: object }, 
+  { label: 'Box3(0,0,0, 1,1,1)', value: new Box3(new Vector3(0, 0, 0), new Vector3(1, 1, 1)) },
+  { label: 'Box3(-1,-1,-1, 1,1,1)', value: new Box3(new Vector3(-1, -1, -1), new Vector3(1, 1, 1)) },
+  { label: 'Box3(-5,0,-5, 5,10,5)', value: new Box3(new Vector3(-5, 0, -5), new Vector3(5, 10, 5)) },
+  { label: 'Object', value: object },
 ]
 const choice = shallowRef(choices[1])
 </script>
@@ -112,7 +110,7 @@ const choice = shallowRef(choices[1])
   <div class="overlay">
     <h2><code>:into</code> value</h2>
     <template
-      v-for="c, i of choices" 
+      v-for="c, i of choices"
       :key="i"
     >
       <div>
@@ -120,11 +118,11 @@ const choice = shallowRef(choices[1])
           <input
             :id="`id-${i}`"
             :checked="c === choice"
-            type="radio" 
+            type="radio"
             value="c.label"
             name="choice"
             @change="() => { choice = c; }"
-          >
+          />
           <label :for="`id-${i}`">{{ `${c.label} - ${JSON.stringify(c.value)?.substring(0, 25)}` }}</label>
         </div>
         <h2 v-else>
@@ -206,7 +204,7 @@ const choice = shallowRef(choices[1])
 
 <style scoped>
 .overlay {
-  z-index:2;
+  z-index: 2;
   position: fixed;
   width: 240px;
   padding: 10px;

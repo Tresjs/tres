@@ -4,7 +4,7 @@
   <FitDemo />
 </DocsDemo>
 
-`<Fit />` uniformly scales and positions its children as a group. By default, it fits its children into a <nobr>1 × 1 × 1 box</nobr> at the world origin. 
+`<Fit />` uniformly scales and positions its children as a group. By default, it fits its children into a <nobr>1 × 1 × 1 box</nobr> at the world origin.
 
 Alternatively, the children can be fit into a `Box3` or an `Object3D`.
 
