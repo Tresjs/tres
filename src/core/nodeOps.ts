@@ -272,6 +272,11 @@ export const nodeOps: () => RendererOptions<TresObject, TresObject | null> = () 
           if (Array.isArray(value)) { node[finalKey](...value) }
           else { node[finalKey](value) }
         }
+        // NOTE: Set on* callbacks
+        // Issue: https://github.com/Tresjs/tres/issues/360
+        if (finalKey.startsWith('on') && isFunction(value)) {
+          root[finalKey] = value
+        }
         return
       }
       if (!target?.set && !isFunction(target)) { root[finalKey] = value }
