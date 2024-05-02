@@ -6,13 +6,13 @@ import { Box3, Group, Vector3 } from 'three'
 export interface Props {
   /**
    * If `into` is:
-   * omitted or explicitly `undefined`: position/scale children to fit into a 1 × 1 × 1 `Box3` at world origin.
-   * `null`: turn off `<Fit />`; reset scale/position of children.
-   * `number`: convert argument to `Vector3(number, number, number)`.
-   * `[number, number, number]`: convert argument to `Vector3`.
-   * `Vector3`: position/scale children to fit inside a `Box3` of size `Vector3` at target objects' cumulative center.
-   * `Box3`: position/scale children to fit inside `Box3`.
-   * `Object3D`: position/scale children to fit inside calculated `Box3`. [See `THREE.Box3.setFromObject`](https://threejs.org/docs/#api/en/math/Box3.setFromObject). `<Fit />` must not contain the `Object3D` and vice-versa.
+   * - omitted or explicitly `undefined`: position/scale children to fit into a 1 × 1 × 1 `Box3` at world origin.
+   * - `null`: turn off `<Fit />`; reset scale/position of children.
+   * - `number`: convert argument to `Vector3(number, number, number)`.
+   * - `[number, number, number]`: convert argument to `Vector3`.
+   * - `Vector3`: position/scale children to fit inside a `Box3` of size `Vector3` at target objects' cumulative center.
+   * - `Box3`: position/scale children to fit inside `Box3`.
+   * - `Object3D`: position/scale children to fit inside calculated `Box3`. [See `THREE.Box3.setFromObject`](https://threejs.org/docs/#api/en/math/Box3.setFromObject). `<Fit />` must not contain the `Object3D` and vice-versa.
    */
   into?: number | [number, number, number] | Vector3 | Box3 | Object3D | null
   /** [See `precise` argument in `THREE.Box3.setFromObject`](https://threejs.org/docs/index.html?q=box3#api/en/math/Box3.setFromObject) */

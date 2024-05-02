@@ -28,9 +28,9 @@ interface SparkleProps {
   /**
    * Vertices of the geometry will be used to emit sparkles. Geometry normals are used for sparkles' traveling direction and for responding to the directional light prop.
    *
-   * If provided, the component will use the passed geometry.
-   * If no geometry is provided, the component will try to make a copy of the parent object's geometry.
-   * If no parent geometry exists, the component will create and use an IcosphereGeometry.
+   * - If provided, the component will use the passed geometry.
+   * - If no geometry is provided, the component will try to make a copy of the parent object's geometry.
+   * - If no parent geometry exists, the component will create and use an IcosphereGeometry.
    */
   geometry?: Object3D | BufferGeometry
   /**
