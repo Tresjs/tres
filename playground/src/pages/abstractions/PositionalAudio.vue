@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
-import { OrbitControls, PositionalAudio, Box } from '@tresjs/cientos'
+import { Box, OrbitControls, PositionalAudio } from '@tresjs/cientos'
 
 const gl = {
   clearColor: '#82DBC5',
@@ -13,7 +13,7 @@ const positionalAudioIsPlaying = ref(false)
 const positionalAudioRef = shallowRef(null)
 
 const handlerAudio = (action: string) => {
-  if (!positionalAudioRef.value) return
+  if (!positionalAudioRef.value) { return }
 
   const { play, pause, stop } = positionalAudioRef.value
 
@@ -112,7 +112,7 @@ const onContinue = () => {
   height: 100%;
   position: fixed;
   z-index: 1;
-  background-color: rgba(0, 0, 0, .75);
+  background-color: rgba(0, 0, 0, 0.75);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -131,7 +131,8 @@ const onContinue = () => {
   column-gap: 5px;
 }
 
-.playground-positional-audio__controls-methods, .playground-positional-audio__controls-events {
+.playground-positional-audio__controls-methods,
+.playground-positional-audio__controls-events {
   display: flex;
   align-items: center;
   backdrop-filter: blur(5px);
