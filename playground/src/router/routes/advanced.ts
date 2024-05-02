@@ -9,4 +9,9 @@ export const advancedRoutes = [
     name: 'Take Over loop',
     component: () => import('../../pages/advanced/TakeOverLoop.vue'),
   },
+  {
+    path: '/advanced/fbo',
+    name: 'FBO',
+    component: () => import('../../pages/advanced/FBO.vue'),
+  },
 ]

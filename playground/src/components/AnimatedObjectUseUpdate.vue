@@ -27,6 +27,14 @@ watchEffect(() => {
 })
 
 /* useUpdate(() => {
+  console.count('update loop 1')
+})
+
+useUpdate(() => {
+  console.count('update loop 2')
+}) */
+
+/* useUpdate(() => {
   console.count('before renderer')
 }, -1)
 
