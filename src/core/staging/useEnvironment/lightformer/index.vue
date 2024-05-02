@@ -4,7 +4,7 @@
 ** https://github.com/pmndrs/drei/blob/master/src/core/Lightformer.tsx
 ** The Lightformer component in drei provides functionality for creating light probes in a scene.
 */
-import { defineProps, ref, watchEffect } from 'vue'
+import { ref, watchEffect } from 'vue'
 import type { MeshBasicMaterial, Texture } from 'three'
 import { Color, DoubleSide } from 'three'
 
