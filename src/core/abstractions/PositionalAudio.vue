@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { onBeforeUnmount, shallowRef, watch, toRefs, shallowReactive, onMounted } from 'vue'
-import { Box3, AudioLoader, AudioListener, type PositionalAudio } from 'three'
-import { useTresContext, useLoader } from '@tresjs/core'
+import { onBeforeUnmount, onMounted, shallowReactive, shallowRef, toRefs, watch } from 'vue'
+import { AudioListener, AudioLoader, Box3, type PositionalAudio } from 'three'
+import { useLoader, useTresContext } from '@tresjs/core'
 import { PositionalAudioHelper } from 'three/examples/jsm/helpers/PositionalAudioHelper'
 
 // TODO: Add & Dynamize : setRolloffFactor 'FLOAT' from https://threejs.org/docs/index.html?q=posi#api/en/audio/PositionalAudio.setRolloffFactor
@@ -43,35 +43,28 @@ const buffer = shallowRef<AudioBuffer | null>(null)
 const listener = shallowReactive<AudioListener>(new AudioListener())
 
 const playAudio = () => {
-  if (positionalAudioRef?.value?.isPlaying) return
-  
+  if (positionalAudioRef?.value?.isPlaying) { return }
+
   positionalAudioRef?.value?.play()
   emit('isPlaying', positionalAudioRef?.value?.isPlaying)
 }
 
 const pauseAudio = () => {
-  if (!positionalAudioRef?.value?.isPlaying) return
+  if (!positionalAudioRef?.value?.isPlaying) { return }
 
   positionalAudioRef.value.pause()
   emit('isPlaying', positionalAudioRef?.value?.isPlaying)
 }
 
 const stopAudio = () => {
-  if (!positionalAudioRef.value) return
+  if (!positionalAudioRef.value) { return }
 
   positionalAudioRef.value.stop()
   emit('isPlaying', positionalAudioRef?.value?.isPlaying)
 }
 
-const dispose = () => {
-  camera?.value?.remove(listener)
-  
-  disposeAudio()
-  disposeHelper()
-}
-
 const disposeAudio = () => {
-  if (!positionalAudioRef?.value) return
+  if (!positionalAudioRef?.value) { return }
 
   stopAudio()
 
@@ -82,53 +75,15 @@ const disposeAudio = () => {
   }
 }
 
-defineExpose({
-  root: positionalAudioRef,
-  play: playAudio,
-  stop: stopAudio,
-  pause: pauseAudio,
-  dispose,
-})
+const disposeHelper = () => {
+  if (!positionalAudioRef?.value || !positionalAudioHelperRef?.value) { return }
 
-buffer.value = await useLoader(AudioLoader, url.value)
-
-watch(positionalAudioRef, () => {
-  if (!positionalAudioRef?.value) return
-
-  if (helper.value) createHelper()
-  if (ready.value && autoplay) playAudio()
-})
-
-watch(helper, () => {
-  if (helper.value) {
-    createHelper()
-  }
-  else {
-    disposeHelper()
-  }
-})
-
-watch(ready, () => {
-  if (ready.value) updatePositionalAudio()
-
-  if (autoplay.value && ready.value) playAudio()
-  if (!autoplay.value && ready.value) stopAudio()
-})
-
-watch([distance, loop, buffer, innerAngle, outerAngle, outerGain, autoplay], () => {
-  updatePositionalAudio()
-})
-
-onMounted(() => {
-  camera?.value?.add(listener)
-})
-
-onBeforeUnmount(() => {
-  dispose()
-})
+  positionalAudioHelperRef?.value?.dispose()
+  positionalAudioRef?.value?.remove(positionalAudioHelperRef?.value)
+}
 
 const updatePositionalAudio = () => {
-  if (!positionalAudioRef.value) return
+  if (!positionalAudioRef.value) { return }
 
   positionalAudioRef.value.setBuffer(buffer.value)
   positionalAudioRef.value.setRefDistance(distance.value)
@@ -161,12 +116,57 @@ const createHelper = () => {
   positionalAudioHelperRef.value.update()
 }
 
-const disposeHelper = () => {
-  if (!positionalAudioRef?.value || !positionalAudioHelperRef?.value) return
+const dispose = () => {
+  camera?.value?.remove(listener)
 
-  positionalAudioHelperRef?.value?.dispose()
-  positionalAudioRef?.value?.remove(positionalAudioHelperRef?.value)
+  disposeAudio()
+  disposeHelper()
 }
+
+defineExpose({
+  root: positionalAudioRef,
+  play: playAudio,
+  stop: stopAudio,
+  pause: pauseAudio,
+  dispose,
+})
+
+buffer.value = await useLoader(AudioLoader, url.value)
+
+watch(positionalAudioRef, () => {
+  if (!positionalAudioRef?.value) { return }
+
+  if (helper.value) { createHelper() }
+  if (ready.value && autoplay) { playAudio() }
+})
+
+watch(helper, () => {
+  if (helper.value) {
+    createHelper()
+  }
+  else {
+    disposeHelper()
+  }
+})
+
+watch(ready, () => {
+  if (ready.value) { updatePositionalAudio() }
+
+  if (autoplay.value && ready.value) { playAudio() }
+  if (!autoplay.value && ready.value) { stopAudio() }
+})
+
+watch([distance, loop, buffer, innerAngle, outerAngle, outerGain, autoplay], () => {
+  updatePositionalAudio()
+})
+
+onMounted(() => {
+  camera?.value?.add(listener)
+})
+
+onBeforeUnmount(() => {
+  dispose()
+})
 </script>
 
 <template>

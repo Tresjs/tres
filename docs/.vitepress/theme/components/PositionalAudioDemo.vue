@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, shallowRef, onUnmounted, watch, onMounted } from 'vue'
+import { onMounted, onUnmounted, ref, shallowRef, watch } from 'vue'
 import { TresCanvas } from '@tresjs/core'
 import { OrbitControls, PositionalAudio, Sphere, useGLTF } from '@tresjs/cientos'
 import { TresLeches, useControls } from '@tresjs/leches'
@@ -39,11 +39,10 @@ const { helper, innerAngle, outerAngle, outerGain } = useControls({
     value: 0.3,
     min: 0,
     max: 1,
-    step: .01,
+    step: 0.01,
   },
 })
 
-// eslint-disable-next-line max-len
 const model = await useGLTF('https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/positional-audio/ping-pong.glb', { draco: true })
 
 const onBallBounce = () => {
@@ -59,17 +58,17 @@ watch(helper.value, () => {
 })
 
 watch([ballRef, ready], ([ball]) => {
-  if (!ball?.value || !ready.value) return
+  if (!ball?.value || !ready.value) { return }
 
   ctx.add(() => {
     tl = gsap
       .timeline({ repeat: -1, yoyo: true, onRepeat: onBallBounce })
-      .to(ball.value.position, { y: 0, ease: 'power1.in', duration: .35 })
+      .to(ball.value.position, { y: 0, ease: 'power1.in', duration: 0.35 })
   })
 })
 
 onMounted(() => {
-  ctx = gsap.context((self) => { }, ballRef?.value)
+  ctx = gsap.context((_) => { }, ballRef?.value)
 })
 
 onUnmounted(() => {
@@ -158,7 +157,7 @@ onUnmounted(() => {
   height: 100%;
   position: absolute;
   z-index: 24;
-  background-color: rgba(0, 0, 0, .75);
+  background-color: rgba(0, 0, 0, 0.75);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -180,7 +179,7 @@ onUnmounted(() => {
 .ready button,
 .controls button {
   padding: 5px 10px;
-  background: #1B1C1E;
+  background: #1b1c1e;
   border: 1px solid #161618;
 }
 </style>
