@@ -30,8 +30,8 @@ watchEffect(() => {
     resume()
   }
 })
-const anotherLog = useThrottleFn(() => console.log('after render'), 3000)
-
+/* const anotherLog = useThrottleFn(() => console.log('after render'), 3000)
+ */
 /* useUpdate(() => {
   anotherLog()
 }, 1) */

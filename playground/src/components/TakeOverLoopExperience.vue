@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { useRender } from '@tresjs/core'
 import { OrbitControls } from '@tresjs/cientos'
 import { useControls } from '@tresjs/leches'
 

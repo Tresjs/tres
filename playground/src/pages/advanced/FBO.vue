@@ -3,10 +3,6 @@ import { TresCanvas } from '@tresjs/core'
 import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
 
 import { OrbitControls } from '@tresjs/cientos'
-import { ref, shallowRef } from 'vue'
-import { TresLeches, useControls } from '@tresjs/leches'
-import Fbo from '../../components/useFBO/component.vue'
-import { useFbo } from '../../components/useFBO'
 import '@tresjs/leches/styles'
 
 const gl = {

@@ -13,7 +13,7 @@ import { qrcode } from 'vite-plugin-qrcode'
 export default defineConfig({
   plugins: [
     glsl(),
-/*     VueDevTools(), */
+    /*     VueDevTools(), */
     vue({
       script: {
         propsDestructure: true,

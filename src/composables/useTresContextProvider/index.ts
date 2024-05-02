@@ -1,5 +1,5 @@
 import type { Fn } from '@vueuse/core'
-import { useFps, useMemory, useRafFn, useThrottleFn } from '@vueuse/core'
+import { useFps, useMemory, useRafFn } from '@vueuse/core'
 import { computed, inject, onUnmounted, provide, readonly, ref, shallowRef } from 'vue'
 import type { Camera, EventDispatcher, WebGLRenderer } from 'three'
 import { Raycaster } from 'three'
@@ -194,11 +194,11 @@ export function useTresContextProvider({
   }
 
   // The loop
-  const log = useThrottleFn(() => console.log('rendering'), 3000)
+  /*   const log = useThrottleFn(() => console.log('rendering'), 3000) */
 
   ctx.loop.onLoop(() => {
     if (camera.value && render.frames.value > 0) {
-      log()
+    /*   log() */
       renderer.value.render(scene, camera.value)
       emit('render', ctx.renderer.value)
     }
