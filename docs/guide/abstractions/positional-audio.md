@@ -16,8 +16,8 @@ The `<PositionalAudio>` component is very simple to set up and use, allowing you
 
 ```vue
 <script setup lang="ts">
-import { shallowRef, onUnmounted } from 'vue'
-import { PositionalAudio, Box } from '@tresjs/cientos'
+import { onUnmounted, shallowRef } from 'vue'
+import { Box, PositionalAudio } from '@tresjs/cientos'
 
 const positionalAudioRef = shallowRef(null)
 
@@ -34,7 +34,7 @@ onUnmounted(() => {
         <PositionalAudio
           ref="positionalAudioRef"
           url="your-sound.mp3"
-        /> 
+        />
       </Suspense>
     </Box>
   </TresCanvas>
@@ -72,7 +72,6 @@ If you are sure that there will be a user gesture before your `<PositionAudio>` 
 | `pause()` | Pause audio — *Cannot be fired if audio is already paused.* |
 | `stop()` | Stop audio — *Cannot be fired if audio is already stopped.* |
 | `dispose()` | Dispose component — Deletion of the AudioListener in the camera, disconnection of the audio source and deletion of the PositionalAudioHelper (if it exists). |
-
 
 ```typescript{1,3,8}
 const positionalAudioRef = shallowRef(null)
