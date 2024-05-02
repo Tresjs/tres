@@ -2,10 +2,15 @@
 <script setup lang="ts">
 import { useUpdate } from '@tresjs/core'
 import { useControls } from '@tresjs/leches'
+import { useThrottleFn } from '@vueuse/core'
 
 const sphereRef = ref()
+
+const log = useThrottleFn(() => console.log('updating sphere'), 3000)
+
 const { pause, resume } = useUpdate((state) => {
   if (!sphereRef.value) { return }
+  log()
   sphereRef.value.position.y += Math.sin(state.elapsed) * 0.01
 })
 
@@ -25,6 +30,11 @@ watchEffect(() => {
     resume()
   }
 })
+const anotherLog = useThrottleFn(() => console.log('after render'), 3000)
+
+/* useUpdate(() => {
+  anotherLog()
+}, 1) */
 
 /* useUpdate(() => {
   console.count('update loop 1')
@@ -52,7 +62,7 @@ useUpdate((state) => {
 <template>
   <TresMesh
     ref="sphereRef"
-    :position="[2, 2, 0]"
+    :position="[2, 0, 0]"
     name="sphere"
     cast-shadow
   >

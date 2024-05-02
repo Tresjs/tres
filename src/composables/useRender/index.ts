@@ -13,7 +13,7 @@ export function useRender(cb: (arg0: any) => void) {
   const wrappedCallback = (params: any) => {
     cb({ ...params, camera, scene, renderer, invalidate })
   }
-  loop.onLoop(wrappedCallback as Fn, 1)
+  loop.onLoop(wrappedCallback as Fn, 2)
   return {
     pause: loop.pauseRender,
     resume: loop.resumeRender,

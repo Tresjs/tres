@@ -7,13 +7,13 @@ import glsl from 'vite-plugin-glsl'
 import UnoCSS from 'unocss/vite'
 import { templateCompilerOptions } from '@tresjs/core'
 import { qrcode } from 'vite-plugin-qrcode'
-import VueDevTools from 'vite-plugin-vue-devtools'
+/* import VueDevTools from 'vite-plugin-vue-devtools' */
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
     glsl(),
-    VueDevTools(),
+/*     VueDevTools(), */
     vue({
       script: {
         propsDestructure: true,

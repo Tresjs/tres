@@ -3,9 +3,9 @@ import { useRender } from '@tresjs/core'
 import { OrbitControls } from '@tresjs/cientos'
 import { useControls } from '@tresjs/leches'
 
-const { pause, resume } = useRender(({ renderer, scene, camera }) => {
+/* const { pause, resume } = useRender(({ renderer, scene, camera }) => {
   renderer.value.render(scene.value, camera.value)
-})
+}) */
 
 const { isRenderPaused } = useControls({
   isRenderPaused: {

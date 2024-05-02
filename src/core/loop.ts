@@ -32,7 +32,7 @@ export function createRenderLoop(): RendererLoop {
   }) => void
 
   function registerCallback(callback: LoopCallback, index = 0) {
-    if (index === 1) {
+    if (index === 2) {
       // Take control over the main loop
       subscribers.set(index, [callback])
     }
@@ -92,8 +92,8 @@ export function createRenderLoop(): RendererLoop {
       .sort((a, b) => a - b) // Ensure numerical order
       .forEach((index) => {
         subscribers.get(index).forEach((callback: LoopCallback) => {
-          if (index !== 1 && !isActive.value) { return }
-          if (index === 1) {
+          if (index !== 2 && !isActive.value) { return }
+          if (index === 2) {
             if (isRenderPaused.value) {
               callback({ delta, elapsed, clock })
             }

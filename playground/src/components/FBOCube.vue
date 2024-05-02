@@ -9,6 +9,10 @@ const fboTarget = useFBO({
     samples: 1,
   },
 })
+
+watchEffect(() => {
+  console.log('Target', fboTarget.value)
+})
 </script>
 
 <template>
@@ -16,7 +20,7 @@ const fboTarget = useFBO({
     <TresBoxGeometry :args="[1, 1, 1]" />
     <TresMeshBasicMaterial
       :color="0xFF8833"
-      :map="fboTarget?.texture ?? null"
+      :map="fboTarget.texture ?? null"
     />
   </TresMesh>
 </template>

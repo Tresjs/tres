@@ -3,6 +3,7 @@ import type { Camera, WebGLRenderTargetOptions } from 'three'
 import { DepthTexture, FloatType, HalfFloatType, LinearFilter, WebGLRenderTarget } from 'three'
 import type { Ref } from 'vue'
 import { isReactive, onBeforeUnmount, reactive, ref, toRefs, watchEffect } from 'vue'
+import { useThrottleFn } from '@vueuse/core'
 
 export interface FboOptions {
   /*
@@ -46,8 +47,8 @@ export function useFBO(options: FboOptions) {
 
   const { height, width, settings, depth } = isReactive(options) ? toRefs(options) : toRefs(reactive(options))
 
-  const { onLoop } = useRenderLoop()
-  const { camera, renderer, scene, sizes } = useTresContext()
+  /*   const { onLoop } = useRenderLoop() */
+  const { camera, scene, sizes } = useTresContext()
 
   watchEffect(() => {
     target.value?.dispose()
@@ -67,31 +68,15 @@ export function useFBO(options: FboOptions) {
       )
     }
   })
+  const logBefore = useThrottleFn(() => console.log('FBO: just before render'), 3000)
 
-  useUpdate(() => {
+  useUpdate(({ renderer, scene, camera }) => {
+    logBefore()
     renderer.value.setRenderTarget(target.value)
     renderer.value.clear()
     renderer.value.render(scene.value, camera.value as Camera)
-  })
-
-  useUpdate(() => {
     renderer.value.setRenderTarget(null)
-  }, 2)
-
-  /* onLoop(() => {
-    renderer.value.setRenderTarget(target.value)
-    renderer.value.clear()
-    renderer.value.render(scene.value, camera.value as Camera)
-
-    renderer.value.setRenderTarget(null)
-  }) */
-  /* useRender(() => {
-    renderer.value.setRenderTarget(target.value)
-    renderer.value.clear()
-    renderer.value.render(scene.value, camera.value as Camera)
-
-    renderer.value.setRenderTarget(null)
-  }) */
+  }, 1)
 
   onBeforeUnmount(() => {
     target.value?.dispose()
