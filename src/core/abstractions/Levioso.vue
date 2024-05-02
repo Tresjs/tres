@@ -5,7 +5,7 @@ import { shallowRef } from 'vue'
 
 const props = withDefaults(
   defineProps<{
-    speed: number
+    speed?: number
     rotationFactor?: number
     floatFactor?: number
     range?: [number, number]
