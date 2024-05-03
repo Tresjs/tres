@@ -301,6 +301,27 @@ describe('nodeOps', () => {
       expect(node.defines[allCapsUnderscoresKey]).equals(allCapsUnderscoresValue)
     })
 
+    it('replaces "on*" methods on Object3D', () => {
+      // Issue: https://github.com/Tresjs/tres/issues/360
+      const { createElement, patchProp } = nodeOps
+      const object = createElement('TresObject3D', undefined, undefined, {})
+
+      const onAfterRender = () => {}
+      const onAfterShadow = () => {}
+      const onBeforeRender = () => {}
+      const onBeforeShadow = () => {}
+
+      patchProp(object, 'onAfterRender', null, onAfterRender)
+      patchProp(object, 'onAfterShadow', null, onAfterShadow)
+      patchProp(object, 'onBeforeRender', null, onBeforeRender)
+      patchProp(object, 'onBeforeShadow', null, onBeforeShadow)
+
+      expect(object.onAfterRender).toBe(onAfterRender)
+      expect(object.onAfterShadow).toBe(onAfterShadow)
+      expect(object.onBeforeRender).toBe(onBeforeRender)
+      expect(object.onBeforeShadow).toBe(onBeforeShadow)
+    })
+
     it('calls object methods', () => {
       const camera = nodeOps.createElement('TresPerspectiveCamera', undefined, undefined, {})
       const spy = vi.spyOn(camera, 'lookAt')

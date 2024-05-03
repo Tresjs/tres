@@ -35,6 +35,11 @@ export const basicRoutes = [
     component: () => import('../../pages/basic/Responsiveness.vue'),
   },
   {
+    path: '/basic/onCallbacks',
+    name: 'on... callbacks',
+    component: () => import('../../pages/basic/OnCallbacks.vue'),
+  },
+  {
     path: '/basic/pierced-props',
     name: 'Pierced Props',
     component: () => import('../../pages/basic/PiercedProps.vue'),
