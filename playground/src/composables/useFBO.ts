@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { useTresContext, useUpdate } from '@tresjs/core'
+import { useLoop, useTresContext } from '@tresjs/core'
 import type { Camera, WebGLRenderTargetOptions } from 'three'
 import { DepthTexture, FloatType, HalfFloatType, LinearFilter, WebGLRenderTarget } from 'three'
 import type { Ref } from 'vue'
@@ -70,14 +70,15 @@ export function useFBO(options: FboOptions) {
     }
   })
   const logBefore = useThrottleFn(() => console.log('FBO: just before render'), 3000)
+  const { onBeforeRender } = useLoop()
 
-  useUpdate(({ renderer, scene, camera }) => {
+  onBeforeRender(({ renderer, scene, camera }) => {
     logBefore()
-    renderer.value.setRenderTarget(target.value)
-    renderer.value.clear()
-    renderer.value.render(scene.value, camera.value as Camera)
-    renderer.value.setRenderTarget(null)
-  }, 1)
+    renderer.setRenderTarget(target.value)
+    renderer.clear()
+    renderer.render(scene, camera as Camera)
+    renderer.setRenderTarget(null)
+  }, Number.POSITIVE_INFINITY)
 
   onBeforeUnmount(() => {
     target.value?.dispose()

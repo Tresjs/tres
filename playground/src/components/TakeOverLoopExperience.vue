@@ -1,10 +1,13 @@
 <script setup lang="ts">
+import { useLoop } from '@tresjs/core'
+
 import { OrbitControls } from '@tresjs/cientos'
 import { useControls } from '@tresjs/leches'
 
-/* const { pause, resume } = useRender(({ renderer, scene, camera }) => {
-  renderer.value.render(scene.value, camera.value)
-}) */
+const { render, pause, resume } = useLoop()
+render(({ renderer, scene, camera }) => {
+  renderer.render(scene, camera)
+})
 
 const { isRenderPaused } = useControls({
   isRenderPaused: {

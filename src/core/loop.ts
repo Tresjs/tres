@@ -3,10 +3,22 @@ import { ref } from 'vue'
 import { Clock, MathUtils } from 'three'
 import type { Fn } from '@vueuse/core'
 
+export type LoopStage = 'before' | 'render' | 'after'
+export interface LoopCallbackParams {
+  delta: number
+  elapsed: number
+  clock: Clock
+}
+export interface LoopCallback {
+  (params: LoopCallbackParams): void
+}
+
 export interface RendererLoop {
-  subscribers: Map<number, Fn[]>
+  subscribersBefore: Map<number, Fn[]>
+  subscribersRender: Map<number, Fn[]>
+  subscribersAfter: Map<number, Fn[]>
   loopId: string
-  onLoop: (callback: Fn, index: number) => void
+  onLoop: (callback: LoopCallback, index: number, stage: LoopStage) => void
   start: () => void
   stop: () => void
   pause: () => void
@@ -19,29 +31,34 @@ export interface RendererLoop {
 export function createRenderLoop(): RendererLoop {
   const clock = new Clock(false)
   const isActive = ref(false)
-  const isRenderPaused = ref(true)
+  const isRenderPaused = ref(false)
   let animationFrameId: number
   const loopId = MathUtils.generateUUID()
 
-  const subscribers = new Map()
+  const subscribersBefore = new Map()
+  const subscribersRender = new Map()
+  const subscribersAfter = new Map()
 
-  type LoopCallback = (params: {
-    delta: number
-    elapsed: number
-    clock: Clock
-  }) => void
-
-  function registerCallback(callback: LoopCallback, index = 0) {
-    if (index === 2) {
-      // Take control over the main loop
-      subscribers.set(index, [callback])
+  function registerCallback(callback: LoopCallback, index = 0, stage: 'before' | 'render' | 'after') {
+    let targetMap
+    if (stage === 'before') {
+      targetMap = subscribersBefore
+    }
+    else if (stage === 'render') {
+      targetMap = subscribersRender
     }
     else {
-      // Standard behavior: accumulate callbacks at the given index
-      if (!subscribers.has(index)) {
-        subscribers.set(index, [])
+      targetMap = subscribersAfter
+    }
+
+    if (stage === 'render' && index === 0) {
+      targetMap.set(index, [callback])
+    }
+    else {
+      if (!targetMap.has(index)) {
+        targetMap.set(index, [])
       }
-      subscribers.get(index).push(callback)
+      targetMap.get(index).push(callback)
     }
   }
 
@@ -62,61 +79,58 @@ export function createRenderLoop(): RendererLoop {
   }
 
   function pause() {
-    // Stops the clock but keeps the loop running
     clock.stop()
     isActive.value = false
   }
 
   function resume() {
-    // Resumes the clock and the loop
     clock.start()
     isActive.value = true
   }
 
   function pauseRender() {
-    pause()
-    isRenderPaused.value = false
+    isRenderPaused.value = true
   }
 
   function resumeRender() {
-    resume()
-    isRenderPaused.value = true
+    isRenderPaused.value = false
   }
 
   function loop() {
     const delta = clock.getDelta()
     const elapsed = clock.getElapsedTime()
 
-    // Sort and execute callbacks based on index
-    Array.from(subscribers.keys())
-      .sort((a, b) => a - b) // Ensure numerical order
-      .forEach((index) => {
-        subscribers.get(index).forEach((callback: LoopCallback) => {
-          if (index !== 2 && !isActive.value) { return }
-          if (index === 2) {
-            if (isRenderPaused.value) {
-              callback({ delta, elapsed, clock })
-            }
-          }
-          else {
+    const executeCallbacks = (subscribers: Map<number, Fn[]>) => {
+      Array.from(subscribers.keys())
+        .sort((a, b) => a - b) // Ensure numerical order
+        .forEach((index) => {
+          subscribers?.get(index)?.forEach((callback: LoopCallback) => {
             callback({ delta, elapsed, clock })
-          }
+          })
         })
-      })
+    }
+
+    if (!isRenderPaused.value) {
+      executeCallbacks(subscribersBefore)
+      executeCallbacks(subscribersRender)
+      executeCallbacks(subscribersAfter)
+    }
 
     animationFrameId = requestAnimationFrame(loop)
   }
 
   return {
-    subscribers,
+    subscribersBefore,
+    subscribersRender,
+    subscribersAfter,
     loopId,
+    onLoop: (callback: LoopCallback, index = 0, stage: 'before' | 'render' | 'after') => registerCallback(callback, index, stage),
     start,
     stop,
     pause,
     resume,
     pauseRender,
     resumeRender,
-    onLoop: (callback: LoopCallback, index = 0) => registerCallback(callback, index),
     isActive,
   }
 }

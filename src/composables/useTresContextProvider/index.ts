@@ -212,7 +212,8 @@ export function useTresContextProvider({
     else {
       render.frames.value = Math.max(0, render.frames.value - 1)
     }
-  }, 2)
+  }, 0, 'render')
+
   ctx.loop.start()
 
   onUnmounted(() => {
