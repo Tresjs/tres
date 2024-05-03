@@ -59,6 +59,7 @@
   background-color: var(--vp-button-alt-bg);
 }
 
+
 .VPButton.medium.egghead-cta {
   border-color: var(--vp-c-border);
   position: relative;
@@ -100,4 +101,8 @@
     transform: scale(1.25, 2);
     opacity: 0;
   }
+}
+
+.VPHomeSponsors {
+  margin-bottom: 0px !important;
 }
