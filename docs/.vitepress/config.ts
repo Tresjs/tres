@@ -1,6 +1,6 @@
 import { defineConfig } from 'vitepress'
 import { resolve } from 'pathe'
-import componentList from '../component-list/componentList'
+import componentList from '../component-list/components'
 
 const whitelist = ['TresCanvas', 'TresLeches', 'TresScene']
 

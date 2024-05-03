@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import componentList, { icons } from '../../../../component-list/componentList'
+import componentList, { icons } from '../../../../component-list/components'
 </script>
 
 <template>
