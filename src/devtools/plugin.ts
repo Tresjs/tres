@@ -5,7 +5,7 @@ import {
   setupDevtoolsPlugin,
 } from '@vue/devtools-api'
 import { reactive } from 'vue'
-import type { Mesh, Object3D } from 'three'
+import type { Mesh } from 'three'
 import { createHighlightMesh, editSceneObject } from '../utils'
 import { bytesToKB, calculateMemoryUsage } from '../utils/perf'
 import type { TresContext } from '../composables'
@@ -122,7 +122,6 @@ export function registerTresDevtools(app: DevtoolsApp, tres: TresContext) {
     (api) => {
       if (typeof api.now !== 'function') {
         toastMessage(
-
           'You seem to be using an outdated version of Vue Devtools. Are you still using the Beta release instead of the stable one? You can find the links at https://devtools.vuejs.org/guide/installation.html.',
         )
       }
@@ -145,19 +144,19 @@ export function registerTresDevtools(app: DevtoolsApp, tres: TresContext) {
       api.on.getInspectorTree((payload) => {
         if (payload.inspectorId === INSPECTOR_ID) {
           // Your logic here
-          const root = createNode(tres.scene.value)
-          buildGraph(tres.scene.value, root, payload.filter)
+          const root = createNode(tres.scene.value as unknown as TresObject)
+          buildGraph(tres.scene.value as unknown as TresObject, root, payload.filter)
           state.sceneGraph = root
           payload.rootNodes = [root]
         }
       })
       let highlightMesh: Mesh | null = null
-      let prevInstance: Object3D | null = null
+      let prevInstance: TresObject | null = null
 
       api.on.getInspectorState((payload) => {
         if (payload.inspectorId === INSPECTOR_ID) {
           // Your logic here
-          const [instance] = tres.scene.value.getObjectsByProperty('uuid', payload.nodeId)
+          const [instance] = tres.scene.value.getObjectsByProperty('uuid', payload.nodeId) as TresObject[]
           if (!instance) { return }
           if (prevInstance && highlightMesh && highlightMesh.parent) {
             prevInstance.remove(highlightMesh)
@@ -269,14 +268,14 @@ export function registerTresDevtools(app: DevtoolsApp, tres: TresContext) {
               lines: tres.renderer.value.info.render.lines,
             }
             payload.state.programs = tres.renderer.value.info.programs?.map(program => ({
-              key: program.name || program.type,
+              key: program.name,
               value: {
                 ...program,
                 vertexShader: program.vertexShader,
                 attributes: program.getAttributes(),
                 uniforms: program.getUniforms(),
               },
-            }))
+            })) || []
           }
         }
       })

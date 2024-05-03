@@ -70,6 +70,11 @@ const routes = [
     component: () => import('./pages/raycaster/TheEvents.vue'),
   },
   {
+    path: '/raycaster/propagation',
+    name: 'Event Propogation',
+    component: () => import('./pages/raycaster/Propagation.vue'),
+  },
+  {
     path: '/misc/text-3d',
     name: 'Text3D',
     component: () => import('./pages/misc/Text3DDemo.vue'),

@@ -1,5 +1,6 @@
-import { DoubleSide, MeshBasicMaterial, Vector3 } from 'three'
-import type { Mesh, Object3D, Scene } from 'three'
+import type { Material, Mesh, Object3D, Texture } from 'three'
+import { DoubleSide, MeshBasicMaterial, Scene, Vector3 } from 'three'
+import type { TresObject } from 'src/types'
 import { HightlightMesh } from '../devtools/highlight'
 
 export function toSetMethodName(key: string) {
@@ -38,6 +39,12 @@ export function isDOMElement(obj: any): obj is HTMLElement {
 
 export function kebabToCamel(str: string) {
   return str.replace(/-([a-z])/g, (_, c) => c.toUpperCase())
+}
+
+// CamelCase to kebab-case
+const hyphenateRE = /\B([A-Z])/g
+export function hyphenate(str: string) {
+  return str.replace(hyphenateRE, '-$1').toLowerCase()
 }
 
 export function makeMap(str: string, expectsLowerCase?: boolean): (key: string) => boolean {
@@ -238,7 +245,7 @@ export function stopHighlightAnimation(): void {
   }
 }
 
-export function createHighlightMesh(object: Object3D): Mesh {
+export function createHighlightMesh(object: TresObject): Mesh {
   const highlightMaterial = new MeshBasicMaterial({
     color: 0xA7E6D7, // Highlight color, e.g., yellow
     transparent: true,
@@ -260,4 +267,47 @@ export function extractBindingPosition(binding: any): Vector3 {
   }
   if (Array.isArray(binding.value)) { observer = new Vector3(...observer) }
   return observer
+}
+
+function hasMap(material: Material): material is Material & { map: Texture | null } {
+  return 'map' in material
+}
+
+export function disposeMaterial(material: Material): void {
+  if (hasMap(material) && material.map) {
+    material.map.dispose()
+  }
+
+  material.dispose()
+}
+
+export function disposeObject3D(object: TresObject): void {
+  if (object.parent) {
+    object.removeFromParent?.()
+  }
+  delete object.__tres
+  // Clone the children array to safely iterate
+  const children = [...object.children]
+  children.forEach(child => disposeObject3D(child))
+
+  if (object instanceof Scene) {
+    // Optionally handle Scene-specific cleanup
+  }
+  else {
+    const mesh = object as unknown as Partial<Mesh>
+    if (mesh.geometry) {
+      mesh.geometry.dispose()
+      delete mesh.geometry
+    }
+
+    if (Array.isArray(mesh.material)) {
+      mesh.material.forEach(material => disposeMaterial(material))
+      delete mesh.material
+    }
+    else if (mesh.material) {
+      disposeMaterial(mesh.material)
+      delete mesh.material
+    }
+    object.dispose?.()
+  }
 }

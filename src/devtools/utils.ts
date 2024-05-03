@@ -25,3 +25,7 @@ export function toastMessage(
     console.log(tresMessage)
   }
 }
+
+function __VUE_DEVTOOLS_TOAST__(tresMessage: string, type: string | undefined) {
+  throw new Error(tresMessage + type)
+}

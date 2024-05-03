@@ -14,21 +14,28 @@ const state = reactive({
   toneMapping: NoToneMapping,
 })
 
+const canvasRef = ref()
 const sphereRef = ref()
 
 onMounted(() => {
   const { onLoop } = useRenderLoop()
 
-  onLoop(({ elapsed }) => {
-    if (!sphereRef.value) { return }
-    sphereRef.value.position.y += Math.sin(elapsed) * 0.01
-  })
+onLoop(({ elapsed }) => {
+  if (!sphereRef.value) { return }
+  sphereRef.value.position.y += Math.sin(elapsed) * 0.01
+
+  // Update events without needing the mouse to move
+  canvasRef.value?.context?.eventManager.forceUpdate()
 })
 
 function onPointerEnter(ev) {
   if (ev) {
     ev.object.material.color.set('#DFFF45')
   }
+}
+
+function onPointerOut(ev) {
+  ev.object.material.color.set('teal')
 }
 
 const sphereExists = ref(true)
@@ -39,7 +46,10 @@ const sphereExists = ref(true)
     v-model="sphereExists"
     type="checkbox"
   />
-  <TresCanvas v-bind="state">
+  <TresCanvas
+    ref="canvasRef"
+    v-bind="state"
+  >
     <TresPerspectiveCamera
       :position="[5, 5, 5]"
       :fov="45"
@@ -58,9 +68,10 @@ const sphereExists = ref(true)
         :position="[0, 4, 0]"
         cast-shadow
         @pointer-enter="onPointerEnter"
+        @pointer-out="onPointerOut"
       >
         <TresSphereGeometry :args="[2, 32, 32]" />
-        <TresMeshToonMaterial color="teal" />
+        <TresMeshBasicMaterial color="teal" />
       </TresMesh>
     </TresGroup>
 
@@ -74,7 +85,7 @@ const sphereExists = ref(true)
       receive-shadow
     >
       <TresPlaneGeometry :args="[10, 10, 10, 10]" />
-      <TresMeshToonMaterial />
+      <TresMeshBasicMaterial />
     </TresMesh>
 
     <TresDirectionalLight
