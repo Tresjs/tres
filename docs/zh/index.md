@@ -18,7 +18,9 @@ hero:
     - theme: alt
       text: 为什么是 Tres ?
       link: /zh/guide/#motivation
-
+    - theme: egghead-cta
+      text: Egghead.io Course
+      link: https://egghead.io/courses/create-interactive-3d-experiences-with-tresjs-004057c2
 features:
   - icon: 💡
     title: 声明式
