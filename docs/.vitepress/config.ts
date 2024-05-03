@@ -1,6 +1,6 @@
 import { defineConfig } from 'vitepress'
 import { resolve } from 'pathe'
-import componentList from '../guide/componentList'
+import componentList from '../component-list/componentList'
 
 const whitelist = ['TresCanvas', 'TresLeches', 'TresScene']
 
@@ -61,6 +61,7 @@ export default defineConfig({
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: 'Guide', link: '/guide/' },
+      { text: 'Components', link: '/component-list/' },
       { text: 'Examples', link: 'https://lab.tresjs.org/' },
     ],
 

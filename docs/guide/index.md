@@ -51,6 +51,3 @@ Now you can use the `OrbitControls` component in your scene.
 ::: warning
 Notice that you don't need to write the prefix `Tres` such as `<TresOrbitControl />` to use the component
 :::
-
-## Components
-<CientosComponentListGridView />

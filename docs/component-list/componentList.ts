@@ -120,3 +120,14 @@ export default [
     ],
   },
 ] as { text: string, items: { text: string, link: string }[] }[]
+
+export const icons = {
+  abstractions: '📦',
+  controls: '🕹️',
+  staging: '🎭',
+  loaders: '⏳',
+  materials: '👔',
+  directives: '📢',
+  shapes: '🔷',
+  misc: '🛠️',
+}
