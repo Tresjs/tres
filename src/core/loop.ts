@@ -110,11 +110,11 @@ export function createRenderLoop(): RendererLoop {
         })
     }
 
+    executeCallbacks(subscribersBefore)
     if (!isRenderPaused.value) {
-      executeCallbacks(subscribersBefore)
       executeCallbacks(subscribersRender)
-      executeCallbacks(subscribersAfter)
     }
+    executeCallbacks(subscribersAfter)
 
     animationFrameId = requestAnimationFrame(loop)
   }
