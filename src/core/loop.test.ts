@@ -36,7 +36,7 @@ describe('createRenderLoop', () => {
 
   it('should register a callback before render', () => {
     const callback = () => {}
-    renderLoop.register(callback, 0, 'before')
+    renderLoop.register(callback, 'before')
     expect(renderLoop.subscribersBefore.get(0)).toContain(callback)
   })
 
@@ -45,10 +45,10 @@ describe('createRenderLoop', () => {
     const callback2 = () => {}
     const callback3 = () => {}
     const callback4 = () => {}
-    renderLoop.register(callback1, -1, 'before')
-    renderLoop.register(callback2, 0, 'before')
-    renderLoop.register(callback3, 0, 'before')
-    renderLoop.register(callback4, 2, 'before')
+    renderLoop.register(callback1, 'before', -1)
+    renderLoop.register(callback2, 'before', 0)
+    renderLoop.register(callback3, 'before')
+    renderLoop.register(callback4, 'before', 2)
     expect(Array.from(renderLoop.subscribersBefore.keys())).toEqual([-1, 0, 2])
   })
 
@@ -58,10 +58,10 @@ describe('createRenderLoop', () => {
     const callback2 = () => { executionOrder += '0' }
     const callback3 = () => { executionOrder += '1' }
     const callback4 = () => { executionOrder += '2' }
-    renderLoop.register(callback1, -1, 'before')
-    renderLoop.register(callback2, 0, 'before')
-    renderLoop.register(callback3, 0, 'before')
-    renderLoop.register(callback4, 2, 'before')
+    renderLoop.register(callback1, 'before', -1)
+    renderLoop.register(callback2, 'before', 0)
+    renderLoop.register(callback3, 'before', 0)
+    renderLoop.register(callback4, 'before', 2)
 
     renderLoop.start()
     renderLoop.stop()
@@ -71,7 +71,7 @@ describe('createRenderLoop', () => {
 
   it('should register a callback for render', () => {
     const callback = () => {}
-    renderLoop.register(callback, 0, 'render')
+    renderLoop.register(callback, 'render')
     expect(renderLoop.subscribersRender.get(0)).toContain(callback)
   })
 
@@ -79,15 +79,15 @@ describe('createRenderLoop', () => {
     const originalRenderCallback = () => {}
     const takeOver = () => {}
 
-    renderLoop.register(originalRenderCallback, 0, 'render')
-    renderLoop.register(takeOver, 0, 'render')
+    renderLoop.register(originalRenderCallback, 'render')
+    renderLoop.register(takeOver, 'render')
 
     expect(renderLoop.subscribersRender.get(0)).toContain(takeOver)
   })
 
   it('should register a callback after render', () => {
     const callback = () => {}
-    renderLoop.register(callback, 0, 'after')
+    renderLoop.register(callback, 'after')
     expect(renderLoop.subscribersAfter.get(0)).toContain(callback)
   })
 
@@ -97,10 +97,10 @@ describe('createRenderLoop', () => {
     const callback2 = () => { executionOrder += '0' }
     const callback3 = () => { executionOrder += '1' }
     const callback4 = () => { executionOrder += '2' }
-    renderLoop.register(callback1, -1, 'after')
-    renderLoop.register(callback2, 0, 'after')
-    renderLoop.register(callback3, 0, 'after')
-    renderLoop.register(callback4, 2, 'after')
+    renderLoop.register(callback1, 'after', -1)
+    renderLoop.register(callback2, 'after', 0)
+    renderLoop.register(callback3, 'after', 0)
+    renderLoop.register(callback4, 'after', 2)
 
     renderLoop.start()
     renderLoop.stop()
@@ -114,10 +114,10 @@ describe('createRenderLoop', () => {
     const fboCb = () => { executionOrder.push('fbo') }
     const renderCb = () => { executionOrder.push('render') }
     const afterCb = () => { executionOrder.push('after') }
-    renderLoop.register(beforeCb, 0, 'before')
-    renderLoop.register(fboCb, Number.POSITIVE_INFINITY, 'before')
-    renderLoop.register(renderCb, 0, 'render')
-    renderLoop.register(afterCb, -1, 'after')
+    renderLoop.register(beforeCb, 'before')
+    renderLoop.register(fboCb, 'before', Number.POSITIVE_INFINITY)
+    renderLoop.register(renderCb, 'render')
+    renderLoop.register(afterCb, 'after', -1)
 
     renderLoop.start()
     renderLoop.stop()

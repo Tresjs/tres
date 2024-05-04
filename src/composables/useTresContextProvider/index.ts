@@ -212,7 +212,7 @@ export function useTresContextProvider({
     else {
       render.frames.value = Math.max(0, render.frames.value - 1)
     }
-  }, 0, 'render')
+  }, 'render')
 
   ctx.loop.start()
 
