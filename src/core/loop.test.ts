@@ -1,6 +1,5 @@
-import { ref } from 'vue'
-import { afterEach, assert, beforeEach, it } from 'vitest'
-import { LoopStage, createRenderLoop } from './loop'
+import { afterEach, beforeEach, it } from 'vitest'
+import { createRenderLoop } from './loop'
 
 let renderLoop
 

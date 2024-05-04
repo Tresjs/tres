@@ -10,6 +10,7 @@ const log = useThrottleFn(() => console.log('updating sphere'), 3000)
 const log2 = useThrottleFn(() => console.log('this should happen before updating the sphere'), 3000)
 
 const { onBeforeRender, pause, resume } = useLoop()
+
 onBeforeRender((state) => {
   if (!sphereRef.value) { return }
   log()
