@@ -18,7 +18,7 @@ export interface RendererLoop {
   subscribersRender: Map<number, Fn[]>
   subscribersAfter: Map<number, Fn[]>
   loopId: string
-  onLoop: (callback: LoopCallback, index: number, stage: LoopStage) => void
+  register: (callback: LoopCallback, index: number, stage: LoopStage) => void
   start: () => void
   stop: () => void
   pause: () => void
@@ -124,7 +124,7 @@ export function createRenderLoop(): RendererLoop {
     subscribersRender,
     subscribersAfter,
     loopId,
-    onLoop: (callback: LoopCallback, index = 0, stage: 'before' | 'render' | 'after') => registerCallback(callback, index, stage),
+    register: (callback: LoopCallback, index = 0, stage: 'before' | 'render' | 'after') => registerCallback(callback, index, stage),
     start,
     stop,
     pause,

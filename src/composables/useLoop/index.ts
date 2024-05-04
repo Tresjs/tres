@@ -34,21 +34,21 @@ export function useLoop() {
     const wrappedCallback = (params: LoopCallbackParams) => {
       cb({ ...params, camera: unref(camera) as TresCamera, scene: unref(scene), renderer: unref(renderer), raycaster: unref(raycaster), controls: unref(controls), invalidate, advance })
     }
-    loop.onLoop(wrappedCallback as LoopCallback, index, 'before')
+    loop.register(wrappedCallback as LoopCallback, index, 'before')
   }
 
   function render(cb: Fn) {
     const wrappedCallback = (params: LoopCallbackParams) => {
       cb({ ...params, camera: unref(camera) as TresCamera, scene: unref(scene), renderer: unref(renderer), raycaster: unref(raycaster), controls: unref(controls), invalidate, advance })
     }
-    loop.onLoop(wrappedCallback as LoopCallback, 0, 'render')
+    loop.register(wrappedCallback as LoopCallback, 0, 'render')
   }
 
   function onAfterRender(cb: Fn, index = 0) {
     const wrappedCallback = (params: LoopCallbackParams) => {
       cb({ ...params, camera: unref(camera) as TresCamera, scene: unref(scene), renderer: unref(renderer), raycaster: unref(raycaster), controls: unref(controls), invalidate, advance })
     }
-    loop.onLoop(wrappedCallback as LoopCallback, index, 'after')
+    loop.register(wrappedCallback as LoopCallback, index, 'after')
   }
 
   return {
