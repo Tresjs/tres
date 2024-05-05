@@ -1,16 +1,25 @@
 import { defineConfig } from 'vitepress'
 import { resolve } from 'pathe'
+import componentList from '../component-list/components'
 
-const whitelist = [
-  'TresCanvas',
-  'TresLeches',
-  'TresScene',
-]
+const whitelist = ['TresCanvas', 'TresLeches', 'TresScene']
+
+const collapsedSidebarCategories = new Set(['Materials', 'Shapes', 'Misc', 'Directives'])
+const sidebar = [
+  {
+    text: 'Guide',
+    items: [{ text: 'Introduction', link: '/guide/' }],
+  },
+  ...componentList,
+].map(
+  c => collapsedSidebarCategories.has(c.text) ? Object.assign(c, { collapsed: true }) : c,
+)
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   title: 'Cientos',
-  description: 'Collection of useful helpers and fully functional, ready-made abstractions for TresJS',
+  description:
+    'Collection of useful helpers and fully functional, ready-made abstractions for TresJS',
   head: [
     ['link', { rel: 'icon', type: 'image/svg', href: '/favicon.svg' }],
     ['meta', { name: 'theme-color', content: '#82DBC5' }],
@@ -23,17 +32,26 @@ export default defineConfig({
       'meta',
       {
         property: 'og:image',
-        content: 'https://repository-images.githubusercontent.com/571314349/10996566-7f70-473b-a8e5-4e56fc0ca850',
+        content:
+          'https://repository-images.githubusercontent.com/571314349/10996566-7f70-473b-a8e5-4e56fc0ca850',
       },
     ],
     [
       'meta',
       {
         property: 'twitter:image',
-        content: 'https://repository-images.githubusercontent.com/571314349/10996566-7f70-473b-a8e5-4e56fc0ca850',
+        content:
+          'https://repository-images.githubusercontent.com/571314349/10996566-7f70-473b-a8e5-4e56fc0ca850',
       },
     ],
-    ['script', { 'defer': 'true', 'data-site': 'OWBUVCJK', 'src': 'https://cdn.usefathom.com/script.js' }],
+    [
+      'script',
+      {
+        'defer': 'true',
+        'data-site': 'OWBUVCJK',
+        'src': 'https://cdn.usefathom.com/script.js',
+      },
+    ],
   ],
   themeConfig: {
     logo: '/logo.svg',
@@ -43,127 +61,11 @@ export default defineConfig({
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: 'Guide', link: '/guide/' },
+      { text: 'Components', link: '/component-list/' },
       { text: 'Examples', link: 'https://lab.tresjs.org/' },
     ],
 
-    sidebar: [
-      {
-        text: 'Guide',
-        items: [{ text: 'Introduction', link: '/guide/' }],
-      },
-      {
-        text: 'Abstractions',
-        items: [
-          { text: 'Text3D', link: '/guide/abstractions/text-3d' },
-          { text: 'Levioso (Float)', link: '/guide/abstractions/levioso' },
-          { text: 'useAnimations', link: '/guide/abstractions/use-animations' },
-          { text: 'MouseParallax', link: '/guide/abstractions/mouse-parallax' },
-          { text: 'Lensflare', link: '/guide/abstractions/lensflare' },
-          { text: 'Reflector', link: '/guide/abstractions/reflector' },
-          { text: 'GlobalAudio', link: '/guide/abstractions/global-audio' },
-          { text: 'Fbo', link: '/guide/abstractions/fbo' },
-          { text: 'useFBO', link: '/guide/abstractions/use-fbo' },
-          { text: 'useSurfaceSampler', link: '/guide/abstractions/use-surface-sampler' },
-          { text: 'Sampler', link: '/guide/abstractions/sampler' },
-          { text: 'PositionalAudio', link: '/guide/abstractions/positional-audio' },
-        ],
-      },
-      {
-        text: 'Controls',
-        items: [
-          { text: 'OrbitControls', link: '/guide/controls/orbit-controls' },
-          { text: 'CameraControls', link: '/guide/controls/camera-controls' },
-          { text: 'TransformControls', link: '/guide/controls/transform-controls' },
-          { text: 'PointerLockControls', link: '/guide/controls/pointer-lock-controls' },
-          { text: 'KeyboardControls', link: '/guide/controls/keyboard-controls' },
-          { text: 'ScrollControls', link: '/guide/controls/scroll-controls' },
-          { text: 'MapControls', link: '/guide/controls/map-controls' },
-        ],
-      },
-      {
-        text: 'Loaders',
-        items: [
-          { text: 'useProgress', link: '/guide/loaders/use-progress' },
-          { text: 'useGLTF', link: '/guide/loaders/use-gltf' },
-          { text: 'GLTFModel', link: '/guide/loaders/gltf-model' },
-          { text: 'useFBX', link: '/guide/loaders/use-fbx' },
-          { text: 'FBXModel', link: '/guide/loaders/fbx-model' },
-          { text: 'useVideoTexture', link: '/guide/loaders/use-video-texture' },
-          { text: 'SVG', link: '/guide/loaders/svg' },
-        ],
-      },
-      {
-        text: 'Materials',
-        collapsed: true,
-        items: [
-          { text: 'WobbleMaterial', link: '/guide/materials/wobble-material' },
-          { text: 'MeshGlassMaterial', link: '/guide/materials/glass-material' },
-          { text: 'CustomShaderMaterial', link: '/guide/materials/custom-shader-material' },
-          { text: 'HolographicMaterial', link: '/guide/materials/holographic-material' },
-        ],
-      },
-      {
-        text: 'Shapes',
-        collapsed: true,
-        items: [
-          { text: 'Box', link: '/guide/shapes/box' },
-          { text: 'CatmullRomCurve3', link: '/guide/shapes/catmullromcurve3' },
-          { text: 'Circle', link: '/guide/shapes/circle' },
-          { text: 'Cone', link: '/guide/shapes/cone' },
-          { text: 'Dodecahedron', link: '/guide/shapes/dodecahedron' },
-          { text: 'Icosahedron', link: '/guide/shapes/icosahedron' },
-          { text: 'Line2', link: '/guide/shapes/line2' },
-          { text: 'Octahedron', link: '/guide/shapes/octahedron' },
-          { text: 'Plane', link: '/guide/shapes/plane' },
-          { text: 'Ring', link: '/guide/shapes/ring' },
-          { text: 'RoundedBox', link: '/guide/shapes/rounded-box' },
-          { text: 'Sphere', link: '/guide/shapes/sphere' },
-          { text: 'Superformula', link: '/guide/shapes/superformula' },
-          { text: 'Tetrahedron', link: '/guide/shapes/tetrahedron' },
-          { text: 'Torus', link: '/guide/shapes/torus' },
-          { text: 'TorusKnot', link: '/guide/shapes/torus-knot' },
-          { text: 'Tube', link: '/guide/shapes/tube' },
-        ],
-      },
-      {
-        text: 'Staging',
-        items: [
-          { text: 'Backdrop', link: '/guide/staging/backdrop' },
-          { text: 'Environment', link: '/guide/staging/environment' },
-          { text: 'useEnvironment', link: '/guide/staging/use-environment' },
-          { text: 'Sky', link: '/guide/staging/sky' },
-          { text: 'Stars', link: '/guide/staging/stars' },
-          { text: 'Smoke', link: '/guide/staging/smoke' },
-          { text: 'Contact Shadows', link: '/guide/staging/contact-shadows' },
-          { text: 'Precipitation', link: '/guide/staging/precipitation' },
-          { text: 'Sparkles', link: '/guide/staging/sparkles' },
-          { text: 'Ocean', link: '/guide/staging/ocean' },
-          { text: 'Fit', link: '/guide/staging/fit' },
-        ],
-      },
-      {
-        text: 'Misc',
-        collapsed: true,
-        items: [
-          { text: 'useTweakpane', link: '/guide/misc/use-tweakpane' },
-          { text: 'Stats', link: '/guide/misc/stats' },
-          { text: 'Html', link: '/guide/misc/html-component' },
-          { text: 'StatsGl', link: '/guide/misc/stats-gl' },
-          { text: 'useGLTFExporter', link: '/guide/misc/use-gltf-exporter' },
-          { text: 'BakeShadows', link: '/guide/misc/bake-shadows' },
-        ],
-      },
-      {
-        text: 'Directives',
-        collapsed: true,
-        items: [
-          { text: 'v-log', link: '/guide/directives/v-log' },
-          { text: 'v-light-helper', link: '/guide/directives/v-light-helper' },
-          { text: 'v-always-look-at', link: '/guide/directives/v-always-look-at' },
-          { text: 'v-distance-to', link: '/guide/directives/v-distance-to' },
-        ],
-      },
-    ],
+    sidebar,
 
     socialLinks: [
       { icon: 'github', link: 'https://github.com/tresjs/cientos' },
@@ -191,7 +93,9 @@ export default defineConfig({
   vue: {
     template: {
       compilerOptions: {
-        isCustomElement: (tag: string) => (tag.startsWith('Tres') && !whitelist.includes(tag)) || tag === 'primitive',
+        isCustomElement: (tag: string) =>
+          (tag.startsWith('Tres') && !whitelist.includes(tag))
+          || tag === 'primitive',
       },
     },
   },
