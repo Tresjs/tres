@@ -188,7 +188,7 @@ resume() // This will resume the loop
 
 #### Pausing and resuming the render
 
-You can use `pause` and `resume` methods:
+You can use `pauseRender` and `resumeRender` methods:
 
 ```ts
 const { pauseRender, resumeRender } = useLoop()
