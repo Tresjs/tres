@@ -4,7 +4,7 @@ import { useLoop } from '@tresjs/core'
 import { OrbitControls } from '@tresjs/cientos'
 import { useControls } from '@tresjs/leches'
 
-const { render, pause, resume } = useLoop()
+const { render, pauseRender, resumeRender } = useLoop()
 render(({ renderer, scene, camera }) => {
   renderer.render(scene, camera)
 })
@@ -19,10 +19,10 @@ const { isRenderPaused } = useControls({
 
 watchEffect(() => {
   if (isRenderPaused.value) {
-    pause()
+    pauseRender()
   }
   else {
-    resume()
+    resumeRender()
   }
 })
 </script>

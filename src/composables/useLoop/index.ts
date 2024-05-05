@@ -54,6 +54,8 @@ export function useLoop() {
   return {
     pause: loop.pause,
     resume: loop.resume,
+    pauseRender: loop.pauseRender,
+    resumeRender: loop.resumeRender,
     isActive: loop.isActive,
     onBeforeRender,
     render,

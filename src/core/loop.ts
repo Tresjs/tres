@@ -26,6 +26,7 @@ export interface RendererLoop {
   pauseRender: () => void
   resumeRender: () => void
   isActive: Ref<boolean>
+  isRenderPaused: Ref<boolean>
 }
 
 export function createRenderLoop(): RendererLoop {
@@ -109,12 +110,17 @@ export function createRenderLoop(): RendererLoop {
           })
         })
     }
+    if (isActive.value) {
+      executeCallbacks(subscribersBefore)
+    }
 
-    executeCallbacks(subscribersBefore)
     if (!isRenderPaused.value) {
       executeCallbacks(subscribersRender)
     }
-    executeCallbacks(subscribersAfter)
+
+    if (isActive.value) {
+      executeCallbacks(subscribersAfter)
+    }
 
     animationFrameId = requestAnimationFrame(loop)
   }
@@ -131,6 +137,7 @@ export function createRenderLoop(): RendererLoop {
     resume,
     pauseRender,
     resumeRender,
+    isRenderPaused,
     isActive,
   }
 }

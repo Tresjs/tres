@@ -33,6 +33,14 @@ describe('createRenderLoop', () => {
     expect(renderLoop.isActive.value).toBe(true)
   })
 
+  it('should pause and resume the renderer', () => {
+    renderLoop.start()
+    renderLoop.pauseRender()
+    expect(renderLoop.isRenderPaused.value).toBe(true)
+    renderLoop.resumeRender()
+    expect(renderLoop.isRenderPaused.value).toBe(false)
+  })
+
   it('should register a callback before render', () => {
     const callback = () => {}
     renderLoop.register(callback, 'before')
