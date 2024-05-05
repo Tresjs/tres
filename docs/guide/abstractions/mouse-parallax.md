@@ -18,9 +18,9 @@ You only need to import it and add it to your template as `<MouseParallax />`. A
 
 ## Props
 
-| Prop         | Description                        | Default |
-| :----------- | :--------------------------------- | ------- |
-| **disabled** | Enable or disable the effect       | false   |
-| **factor**   | Increase the range of the parallax | 2.5     |
-| **ease**     | Increase the camera movement speed | 0.1     |
-| **local**    | Enable movements locally           | false   |
+| Prop         | Description                                                                 | Default |
+| :----------- | :-------------------------------------------------------------------------- | ------- |
+| **disabled** | Enable or disable the effect                                                | false   |
+| **factor**   | Increase the range of the parallax                                          | 2.5     |
+| **ease**     | Increase the camera movement speed                                          | 0.1     |
+| **local**    | Whether the mouse coordinates are calculated from the element or the window | false   |
