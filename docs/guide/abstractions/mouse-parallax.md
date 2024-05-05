@@ -12,12 +12,15 @@ You only need to import it and add it to your template as `<MouseParallax />`. A
 
 `factor` is a number to increase the movement range of the camera. `ease` is a number that smoothes the movement. You can also disable the effect with the `disabled` prop.
 
+`local` is a boolean that enables movement based on the position of the mouse on the element rather than the window.
+
 <<< @/.vitepress/theme/components/MouseParallaxDemo.vue{3,15-18}
 
 ## Props
 
-| Prop         | Description                                             | Default |
-| :----------- | :------------------------------------------------------ | ------- |
-| **disabled** | Enable or disable the effect                            | false   |
-| **factor**   | Increase the range of the parallax                      | 2.5     |
-| **ease**     | Increase the camera movement speed                      | 0.1     |
+| Prop         | Description                                                                 | Default |
+| :----------- | :-------------------------------------------------------------------------- | ------- |
+| **disabled** | Enable or disable the effect                                                | false   |
+| **factor**   | Increase the range of the parallax                                          | 2.5     |
+| **ease**     | Increase the camera movement speed                                          | 0.1     |
+| **local**    | Whether the mouse coordinates are calculated from the element or the window | false   |
