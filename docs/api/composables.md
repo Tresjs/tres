@@ -62,13 +62,17 @@ const context = useTresContext()
 | **advance** | a method to advance the render loop. This is only required if you set the `render-mode` prop to `manual`. |
 | **loop** | the renderer loop |
 
-### useUpdate <Badge text="v4.1.0" />
+### useLoop <Badge text="v4.1.0" />
 
 This composable allows you to execute a callback on every rendered frame, similar to `useRenderLoop` but unique to each `TresCanvas` instance and with access to the [context](#usetrescontext).
 
 ::: warning
-`useUpdate` can be only be used inside of a `TresCanvas` since this component acts as the provider for the context data.
+`useLoop` can be only be used inside of a `TresCanvas` since this component acts as the provider for the context data.
 :::
+
+#### Register update callbacks
+
+The user can register update callbacks (such as animations, fbo, etc) using the `onBeforeRender`
 
 ::: code-group
 
@@ -87,12 +91,14 @@ import AnimatedBox from './AnimatedBox.vue'
 
 ```vue [AnimatedBox.vue]
 <script setup>
-import { useUpdate } from '@tresjs/core'
+import { useLoop } from '@tresjs/core'
 
 const boxRef = ref()
 
-useUpdate(({ delta }) => {
-  boxRef.value.rotation.y += 0.01
+const { onBeforeRender } = useLoop()
+
+onBeforeRender(({ delta }) => {
+  boxRef.value.rotation.y += delta
 })
 </script>
 
@@ -108,29 +114,91 @@ useUpdate(({ delta }) => {
 
 Your callback function will be triggered just before a frame is rendered and it will be unmounted automatically when the component is destroyed.
 
-#### Render priority
+#### Take over the render loop
 
-The `useUpdate` composable accepts a second argument `index` which is used to determine the order in which the loop functions are executed. The default value is `0` which means the function will be executed after the renderer updates the scene. If you set the value to `-1`, the function will be executed before the renderer updates the scene.
+The user can take over the render loop callback by using the `render` method
 
 ```ts
-useUpdate(() => {
+const { render } = useLoop()
+
+render(({ renderer, scene, camera }) => {
+  renderer.render(scene, camera)
+})
+```
+
+::: warning
+Consider that if you take over the render loop, you will need to manually render the scene and take care of features like the conditional rendering yourself.
+:::
+
+#### Register after render callbacks (ex physics calculations)
+
+The user can also register after rendering callbacks using the `onAfterRender`
+
+```ts
+const { onAfterRender } = useLoop()
+
+onAfterRender(({ renderer }) => {
+  // Calculations
+})
+```
+
+#### Render priority
+
+Both useBeforeRender and useAfteRender provide an optional priority index. This indexes could be any from [Number.NEGATIVE_INFINITY, Number.NEGATIVE_INFINITY] being the default index 0. The lower the index, the earlier the callback will be executed.
+
+```ts
+onBeforeRender(() => {
   console.count('before renderer')
 }, -1)
 
-useUpdate(() => {
+onBeforeRender(() => {
   console.count('after renderer')
 }, 1)
 ```
 
-### `useRender` (Take control of the render loop)
+#### Params of the callback
 
-By default, the render-loop is automatically started when the component is mounted. However, you can take control of the render-loop by using this composable.
+All callbacks receive an object with the following properties:
+
+- `delta`: The delta time between the current and the last frame. This is the time in seconds since the last frame.
+- `elapsed`: The elapsed time since the start of the render loop.
+- `clock`: The [THREE clock](https://threejs.org/docs/?q=clock#api/en/core/Clock) instance.
+- `renderer`: The [WebGLRenderer](https://threejs.org/docs/#api/en/renderers/WebGLRenderer) of your scene.
+- `scene`: The [scene](https://threejs.org/docs/?q=sce#api/en/scenes/Scene) of your scene.
+- `camera`: The currently active camera.
+- `raycaster`: The global raycaster used for pointer events.
+- `controls`: The controls of your scene.
+- `invalidate`: A method to invalidate the render loop. This is only required if you set the `render-mode` prop to `on-demand`.
+- `advance`: A method to advance the render loop. This is only required if you set the `render-mode` prop to `manual`.
+
+#### Pausing and resuming the update loop
+
+You can use `pause` and `resume` methods:
 
 ```ts
-useRender(({ renderer, scene, camera }) => {
-  // Takes over the render-loop, the user has the responsibility to render
-  renderer.value.render(scene.value, camera.value)
+const { onBeforeRender, pause, resume } = useLoop()
+
+onBeforeRender(({ elapse }) => {
+  sphereRef.value.position.y += Math.sin(elapsed) * 0.01
 })
+
+pause() // This will pause the loop
+resume() // This will resume the loop
+```
+
+#### Pausing and resuming the render
+
+You can use `pause` and `resume` methods:
+
+```ts
+const { pauseRender, resumeRender } = useLoop()
+
+onBeforeRender(({ elapse }) => {
+  sphereRef.value.position.y += Math.sin(elapsed) * 0.01
+})
+
+pauseRender() // This will pause the renderer
+resumeRender() // This will resume the renderer
 ```
 
 ## useLoader
