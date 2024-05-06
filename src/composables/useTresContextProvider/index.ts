@@ -1,5 +1,5 @@
 import { useFps, useMemory, useRafFn } from '@vueuse/core'
-import { computed, inject, onUnmounted, provide, readonly, ref, shallowRef, toValue } from 'vue'
+import { computed, inject, nextTick, onUnmounted, provide, readonly, ref, shallowRef, toValue } from 'vue'
 import type { Camera, EventDispatcher, WebGLRenderer } from 'three'
 import { Clock, Raycaster } from 'three'
 import type { ComputedRef, DeepReadonly, MaybeRef, MaybeRefOrGetter, Ref, ShallowRef } from 'vue'
@@ -234,6 +234,14 @@ export function useTresContextProvider({
       }
     },
   })
+
+  nextTick(() => emit('ready', { useLoop: (fn?, priority?) => {
+    const off = fn ? loop.updateHook.on(fn, priority) : () => {}
+    return {
+      off,
+      ...loop.pausable,
+    }
+  } }))
 
   loop.pausable.resume()
   if (import.meta.hot) { import.meta.hot.on('vite:afterUpdate', () => loop.pausable.resume) }

@@ -1,10 +1,5 @@
 export const basicRoutes = [
   {
-    path: '/basic',
-    name: 'Basic',
-    component: () => import('../../pages/basic/index.vue'),
-  },
-  {
     path: '/basic/lights',
     name: 'Lights',
     component: () => import('../../pages/basic/Lights.vue'),
@@ -27,12 +22,7 @@ export const basicRoutes = [
   {
     path: '/basic/multiple',
     name: 'Multiple',
-    component: () => import('../../pages/basic/Multiple.vue'),
-  },
-  {
-    path: '/basic/multiple-use-render-loop',
-    name: 'Multiple with useRenderLoop',
-    component: () => import('../../pages/basic/multipleUseRenderLoop/MultipleUseRenderLoop.vue'),
+    component: () => import('../../pages/basic/multiple/index.vue'),
   },
   {
     path: '/basic/responsive',

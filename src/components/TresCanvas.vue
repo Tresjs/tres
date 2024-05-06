@@ -28,7 +28,6 @@ import pkg from '../../package.json'
 import {
   type TresContext,
   useLogger,
-  useRenderLoop,
   useTresContextProvider,
   useTresEventManager,
 } from '../composables'
@@ -77,6 +76,7 @@ const props = withDefaults(defineProps<TresCanvasProps>(), {
 // Define emits for Pointer events, pass `emit` into useTresEventManager so we can emit events off of TresCanvas
 // Not sure of this solution, but you have to have emits defined on the component to emit them in vue
 const emit = defineEmits([
+  'ready',
   'render',
   'click',
   'double-click',
@@ -106,8 +106,6 @@ const canvas = ref<HTMLCanvasElement>()
  The custom renderer requires `scene` to be editable (not readonly).
 */
 const scene = shallowRef<TresScene | Scene>(new Scene())
-
-const { resume } = useRenderLoop()
 
 const instance = getCurrentInstance()?.appContext.app
 extend(THREE)

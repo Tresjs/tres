@@ -1,16 +1,25 @@
 <script setup lang="ts">
-import { TresCanvas, useRenderLoop } from '@tresjs/core'
+import { TresCanvas } from '@tresjs/core'
 import { shallowRef } from 'vue'
 
 const boxRef = shallowRef({ position: { x: 0 } })
-const { onLoop, pause, resume, isActive } = useRenderLoop()
-onLoop(({ elapsed }) => {
-  boxRef.value.position.x = Math.sin(elapsed)
-})
+
+const pause = shallowRef(() => {})
+const resume = shallowRef(() => {})
+const isActive = shallowRef(shallowRef(false))
+
+const onTresReady = ({ useLoop }) => {
+  const api = useLoop(({ elapsed }) => {
+    boxRef.value.position.x = Math.sin(elapsed)
+  })
+  pause.value = () => { api.pause() }
+  resume.value = () => { api.resume() }
+  isActive.value = api.isActive
+}
 </script>
 
 <template>
-  <TresCanvas clear-color="#000">
+  <TresCanvas clear-color="#000" @ready="onTresReady">
     <TresPerspectiveCamera
       :position="[5, 5, 5]"
       :look-at="[0, 0, 0]"
@@ -35,6 +44,6 @@ onLoop(({ elapsed }) => {
     <TresAxesHelper />
     <TresGridHelper :args="[10, 10, 0x444444, 'teal']" />
   </TresCanvas>
-  <button v-if="isActive" @click="pause">Pause</button>
-  <button v-if="!isActive" @click="resume">Resume</button>
+  <button v-if="isActive.value" @click="pause">Pause</button>
+  <button v-if="!isActive.value" @click="resume">Resume</button>
 </template>

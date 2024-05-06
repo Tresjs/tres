@@ -1,18 +1,18 @@
 <script setup lang="ts">
-import { TresCanvas, useRenderLoop } from '@tresjs/core'
+import { TresCanvas } from '@tresjs/core'
 import { shallowRef } from 'vue'
 
 const boxRef = shallowRef({ position: { x: 0 } })
-useRenderLoop().onLoop(() => {})
 
-const { onLoop, pause, resume, isActive } = useRenderLoop()
-onLoop(({ elapsed }) => {
-  boxRef.value.position.x = Math.sin(elapsed)
-})
+const onTresReady = ({ useLoop }) => {
+  useLoop(({ elapsed }) => {
+    boxRef.value.position.x = Math.sin(elapsed)
+  })
+}
 </script>
 
 <template>
-  <TresCanvas clear-color="#fff">
+  <TresCanvas clear-color="#fff" @ready="onTresReady">
     <TresPerspectiveCamera
       :position="[5, 5, 5]"
       :look-at="[0, 0, 0]"

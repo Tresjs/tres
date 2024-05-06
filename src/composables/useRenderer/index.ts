@@ -11,7 +11,6 @@ import {
 import type { ColorSpace, ShadowMapType, ToneMapping, WebGLRendererParameters } from 'three'
 import { useLogger } from '../useLogger'
 import type { EmitEventFn, TresColor } from '../../types'
-import { useRenderLoop } from '../useRenderLoop'
 import { normalizeColor } from '../../utils/normalize'
 
 import type { TresContext } from '../useTresContextProvider'
