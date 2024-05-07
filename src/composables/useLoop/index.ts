@@ -2,10 +2,10 @@ import type { EventDispatcher, Raycaster, WebGLRenderer } from 'three'
 import { unref } from 'vue'
 import type { TresCamera, TresScene } from '../../types'
 import { useTresContext } from '../useTresContextProvider'
-import type { LoopCallback, LoopCallbackParams } from '../../core/loop'
+import type { LoopCallback } from '../../core/loop'
 import type { SizesType } from '../useSizes'
 
-export interface LoopParams extends LoopCallbackParams {
+export interface LoopParams extends LoopCallback {
   camera: TresCamera
   scene: TresScene
   renderer: WebGLRenderer
@@ -31,24 +31,24 @@ export function useLoop() {
   } = useTresContext()
 
   function onBeforeRender(cb: Fn, index = 0) {
-    const wrappedCallback = (params: LoopCallbackParams) => {
+    const wrappedCallback = (params: LoopCallback) => {
       cb({ ...params, camera: unref(camera) as TresCamera, scene: unref(scene), renderer: unref(renderer), raycaster: unref(raycaster), controls: unref(controls), invalidate, advance })
     }
-    loop.register(wrappedCallback as LoopCallback, 'before', index)
+    return loop.register(wrappedCallback, 'before', index)
   }
 
   function render(cb: Fn) {
-    const wrappedCallback = (params: LoopCallbackParams) => {
+    const wrappedCallback = (params: LoopCallback) => {
       cb({ ...params, camera: unref(camera) as TresCamera, scene: unref(scene), renderer: unref(renderer), raycaster: unref(raycaster), controls: unref(controls), invalidate, advance })
     }
-    loop.register(wrappedCallback as LoopCallback, 'render')
+    return loop.register(wrappedCallback, 'render')
   }
 
   function onAfterRender(cb: Fn, index = 0) {
-    const wrappedCallback = (params: LoopCallbackParams) => {
+    const wrappedCallback = (params: LoopCallback) => {
       cb({ ...params, camera: unref(camera) as TresCamera, scene: unref(scene), renderer: unref(renderer), raycaster: unref(raycaster), controls: unref(controls), invalidate, advance })
     }
-    loop.register(wrappedCallback as LoopCallback, 'after', index)
+    return loop.register(wrappedCallback, 'after', index)
   }
 
   return {

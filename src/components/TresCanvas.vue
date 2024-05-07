@@ -106,8 +106,6 @@ const canvas = ref<HTMLCanvasElement>()
 */
 const scene = shallowRef<TresScene | Scene>(new Scene())
 
-/* const { resume } = useRenderLoop() */
-
 const instance = getCurrentInstance()?.appContext.app
 extend(THREE)
 
@@ -145,7 +143,6 @@ const dispose = (context: TresContext, force = false) => {
     root: context,
   }
   mountCustomRenderer(context)
-/*   resume() */
 }
 
 const disableRender = computed(() => props.disableRender)

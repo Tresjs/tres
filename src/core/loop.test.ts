@@ -42,77 +42,63 @@ describe('createRenderLoop', () => {
   })
 
   it('should register a callback before render', () => {
-    const callback = () => {}
+    let result = ''
+    const callback = () => { result += '0' }
     renderLoop.register(callback, 'before')
-    expect(renderLoop.subscribersBefore.get(0)).toContain(callback)
+    renderLoop.start()
+    expect(result).toBe('0')
   })
 
   it('should register callbacks in order before render', () => {
-    const callback1 = () => {}
-    const callback2 = () => {}
-    const callback3 = () => {}
-    const callback4 = () => {}
+    const callbackIndexes = []
+    const callback1 = () => { callbackIndexes.push(-1) }
+    const callback2 = () => { callbackIndexes.push(0) }
+    const callback3 = () => { callbackIndexes.push(1) }
+    const callback4 = () => { callbackIndexes.push(2) }
+    renderLoop.register(callback2, 'before')
     renderLoop.register(callback1, 'before', -1)
-    renderLoop.register(callback2, 'before', 0)
     renderLoop.register(callback3, 'before')
     renderLoop.register(callback4, 'before', 2)
-    expect(Array.from(renderLoop.subscribersBefore.keys())).toEqual([-1, 0, 2])
-  })
-
-  it('should trigger callbacks before render in order', async () => {
-    let executionOrder = ''
-    const callback1 = () => { executionOrder += '-1' }
-    const callback2 = () => { executionOrder += '0' }
-    const callback3 = () => { executionOrder += '1' }
-    const callback4 = () => { executionOrder += '2' }
-    renderLoop.register(callback1, 'before', -1)
-    renderLoop.register(callback2, 'before', 0)
-    renderLoop.register(callback3, 'before', 0)
-    renderLoop.register(callback4, 'before', 2)
-
     renderLoop.start()
-    renderLoop.stop()
-
-    expect(executionOrder).toBe('-1012')
+    expect(callbackIndexes).toStrictEqual([-1, 0, 1, 2])
   })
 
   it('should register a callback for render', () => {
-    const callback = () => {}
+    let result = ''
+    const callback = () => { result += '0' }
     renderLoop.register(callback, 'render')
-    expect(renderLoop.subscribersRender.get(0)).toContain(callback)
+    renderLoop.start()
+    expect(result).toBe('0')
   })
 
   it('should take over the render loop', async () => {
-    const originalRenderCallback = () => {}
-    const takeOver = () => {}
+    let result = ''
+    const originalRenderCallback = () => { result = 'original' }
+    const takeOver = () => { result = 'takeover' }
 
     renderLoop.register(originalRenderCallback, 'render')
     renderLoop.register(takeOver, 'render')
 
-    expect(renderLoop.subscribersRender.get(0)).toContain(takeOver)
+    renderLoop.start()
+    expect(result).toBe('takeover')
+  })
+
+  it('does not register the same callback twice', () => {
+    let result = ''
+    const callback1 = () => { result += '1' }
+    renderLoop.register(callback1, 'before', 0)
+    renderLoop.register(callback1, 'before', 0)
+    renderLoop.start()
+    renderLoop.stop()
+    expect(result).toEqual('1')
   })
 
   it('should register a callback after render', () => {
-    const callback = () => {}
+    let result = ''
+    const callback = () => { result += '0' }
     renderLoop.register(callback, 'after')
-    expect(renderLoop.subscribersAfter.get(0)).toContain(callback)
-  })
-
-  it('should trigger callbacks after render in order', async () => {
-    let executionOrder = ''
-    const callback1 = () => { executionOrder += '-1' }
-    const callback2 = () => { executionOrder += '0' }
-    const callback3 = () => { executionOrder += '1' }
-    const callback4 = () => { executionOrder += '2' }
-    renderLoop.register(callback1, 'after', -1)
-    renderLoop.register(callback2, 'after', 0)
-    renderLoop.register(callback3, 'after', 0)
-    renderLoop.register(callback4, 'after', 2)
-
     renderLoop.start()
-    renderLoop.stop()
-
-    expect(executionOrder).toBe('-1012')
+    expect(result).toBe('0')
   })
 
   it('should render first all before render callbacks, then render callbacks, and finally after render callbacks', async () => {

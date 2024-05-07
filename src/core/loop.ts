@@ -1,24 +1,21 @@
 import type { Ref } from 'vue'
 import { ref } from 'vue'
 import { Clock, MathUtils } from 'three'
-import type { Fn } from '@vueuse/core'
+import { createEventHook } from '@vueuse/core'
+import type { Callback } from '../utils/createPriorityEventHook'
+import { createPriorityEventHook } from '../utils/createPriorityEventHook'
 
 export type LoopStage = 'before' | 'render' | 'after'
-export interface LoopCallbackParams {
+
+export interface LoopCallback {
   delta: number
   elapsed: number
   clock: Clock
 }
-export interface LoopCallback {
-  (params: LoopCallbackParams): void
-}
 
 export interface RendererLoop {
-  subscribersBefore: Map<number, Fn[]>
-  subscribersRender: Map<number, Fn[]>
-  subscribersAfter: Map<number, Fn[]>
   loopId: string
-  register: (callback: LoopCallback, stage: LoopStage, index?: number) => void
+  register: (callback: Callback<LoopCallback>, stage: LoopStage, index?: number) => void
   start: () => void
   stop: () => void
   pause: () => void
@@ -36,30 +33,22 @@ export function createRenderLoop(): RendererLoop {
   let animationFrameId: number
   const loopId = MathUtils.generateUUID()
 
-  const subscribersBefore = new Map()
-  const subscribersRender = new Map()
-  const subscribersAfter = new Map()
+  const subscribersBefore = createPriorityEventHook<LoopCallback>()
+  let subscriberRender = createEventHook<LoopCallback>()
+  const subscribersAfter = createPriorityEventHook<LoopCallback>()
 
-  function registerCallback(callback: LoopCallback, stage: 'before' | 'render' | 'after', index = 0) {
-    let targetMap
-    if (stage === 'before') {
-      targetMap = subscribersBefore
-    }
-    else if (stage === 'render') {
-      targetMap = subscribersRender
-    }
-    else {
-      targetMap = subscribersAfter
-    }
-
-    if (stage === 'render' && index === 0) {
-      targetMap.set(index, [callback])
-    }
-    else {
-      if (!targetMap.has(index)) {
-        targetMap.set(index, [])
-      }
-      targetMap.get(index).push(callback)
+  function registerCallback(callback: Callback<LoopCallback>, stage: 'before' | 'render' | 'after', index = 0) {
+    switch (stage) {
+      case 'before':
+        subscribersBefore.on(callback, index)
+        return subscribersBefore
+      case 'render':
+        subscriberRender = createEventHook<LoopCallback>()
+        subscriberRender.on(callback)
+        return subscriberRender
+      case 'after':
+        subscribersAfter.on(callback, index)
+        return subscribersAfter
     }
   }
 
@@ -101,36 +90,24 @@ export function createRenderLoop(): RendererLoop {
     const delta = clock.getDelta()
     const elapsed = clock.getElapsedTime()
 
-    const executeCallbacks = (subscribers: Map<number, Fn[]>) => {
-      Array.from(subscribers.keys())
-        .sort((a, b) => a - b) // Ensure numerical order
-        .forEach((index) => {
-          subscribers?.get(index)?.forEach((callback: LoopCallback) => {
-            callback({ delta, elapsed, clock })
-          })
-        })
-    }
     if (isActive.value) {
-      executeCallbacks(subscribersBefore)
+      subscribersBefore.trigger({ delta, elapsed, clock })
     }
 
     if (!isRenderPaused.value) {
-      executeCallbacks(subscribersRender)
+      subscriberRender.trigger({ delta, elapsed, clock })
     }
 
     if (isActive.value) {
-      executeCallbacks(subscribersAfter)
+      subscribersAfter.trigger({ delta, elapsed, clock })
     }
 
     animationFrameId = requestAnimationFrame(loop)
   }
 
   return {
-    subscribersBefore,
-    subscribersRender,
-    subscribersAfter,
     loopId,
-    register: (callback: LoopCallback, stage: 'before' | 'render' | 'after', index) => registerCallback(callback, stage, index),
+    register: (callback: Callback<LoopCallback>, stage: 'before' | 'render' | 'after', index) => registerCallback(callback, stage, index),
     start,
     stop,
     pause,

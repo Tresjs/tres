@@ -194,11 +194,9 @@ export function useTresContextProvider({
   }
 
   // The loop
-  /*   const log = useThrottleFn(() => console.log('rendering'), 3000) */
 
   ctx.loop.register(() => {
     if (camera.value && render.frames.value > 0) {
-    /*   log() */
       renderer.value.render(scene, camera.value)
       emit('render', ctx.renderer.value)
     }

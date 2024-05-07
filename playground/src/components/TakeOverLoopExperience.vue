@@ -5,6 +5,7 @@ import { OrbitControls } from '@tresjs/cientos'
 import { useControls } from '@tresjs/leches'
 
 const { render, pauseRender, resumeRender } = useLoop()
+
 render(({ renderer, scene, camera }) => {
   renderer.render(scene, camera)
 })
