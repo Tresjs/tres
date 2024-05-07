@@ -148,11 +148,11 @@ Both useBeforeRender and useAfteRender provide an optional priority index. This 
 
 ```ts
 onBeforeRender(() => {
-  console.count('before renderer')
+  console.count('triggered first')
 }, -1)
 
 onBeforeRender(() => {
-  console.count('after renderer')
+  console.count('triggered second')
 }, 1)
 ```
 
