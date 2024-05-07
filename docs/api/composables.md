@@ -132,7 +132,7 @@ Consider that if you take over the render loop, you will need to manually render
 
 #### Register after render callbacks (ex physics calculations)
 
-The user can also register after rendering callbacks using the `onAfterRender`
+You can also register callbacks which are invoked after rendring by using the `onAfterRender` method.
 
 ```ts
 const { onAfterRender } = useLoop()
