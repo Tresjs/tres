@@ -347,7 +347,7 @@ Be mindful of the performance implications of using this composable. It will run
 
 The `onLoop` callback receives an object with the following properties based on the [THREE clock](https://threejs.org/docs/?q=clock#api/en/core/Clock):
 
-- `delta`: The delta time between the current and the last frame. This is the time in seconds since the last frame.
+- `delta`: The delta time between the current and the last frame. This is the time in milliseconds since the last frame.
 - `elapsed`: The elapsed time since the start of the render loop.
 
 This composable is based on `useRafFn` from [vueuse](https://vueuse.org/core/useRafFn/). Thanks to [@wheatjs](https://github.com/wheatjs) for the amazing contribution.
