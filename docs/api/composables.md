@@ -327,7 +327,7 @@ watch(character, ({ model }) => {
 
 ## useRenderLoop
 
-The `useRenderLoop` composable can be use for animations that doesn't require access to the [context](#usetrescontext). It allows you to register a callback that will be called on native refresh rate.
+The `useRenderLoop` composable can be use for animations that don't require access to the [context](#usetrescontext). It allows you to register a callback that will be called on native refresh rate.
 
 ::: warning
  Since v4.1.0, `useRenderLoop` is no longer used internally to control the rendering, if you want to use conditional rendering, multiple canvases or need access to state please `useLoop` instead. [Read why](#useloop)
