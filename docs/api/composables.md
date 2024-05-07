@@ -116,7 +116,7 @@ Your callback function will be triggered just before a frame is rendered and it 
 
 #### Take over the render loop
 
-The user can take over the render loop callback by using the `render` method
+You can take over the render call by using the `render` method.
 
 ```ts
 const { render } = useLoop()
