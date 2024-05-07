@@ -112,7 +112,7 @@ onBeforeRender(({ delta }) => {
 
 :::
 
-Your callback function will be triggered just before a frame is rendered and it will be unmounted automatically when the component is destroyed.
+Your callback function will be triggered just before a frame is rendered and it will be deregistered automatically when the component is destroyed.
 
 #### Take over the render loop
 
