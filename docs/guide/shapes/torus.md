@@ -4,7 +4,7 @@
 
 The `cientos` package provides a `<Torus />` component that serves as a short-cut for a `TorusGeometry` and a `MeshBasicMaterial` with a `Mesh` object.
 
-```typescript
+```
 args: [
   radius: number,
   tube: number,

@@ -1,4 +1,3 @@
-/* eslint-disable jsdoc/check-alignment */
 /**
  * Holographic material by Anderson Mancini - Dec 2023.
  */

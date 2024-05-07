@@ -4,7 +4,7 @@
 
 The `cientos` package provides a `<Cone />` component that serves as a short-cut for a `ConeGeometry` and a `MeshBasicMaterial` with a `Mesh` object.
 
-```typescript
+```
 args: [
   radius: number,
   height: number,

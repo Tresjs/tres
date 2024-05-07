@@ -4,7 +4,7 @@
 
 The `cientos` package provides a `<Sphere />` component that serves as a short-cut for a `SphereGeometry` and a `MeshBasicMaterial` with a `Mesh` object.
 
-```typescript
+```
 args: [
   radius: number,
   widthSegments: number,

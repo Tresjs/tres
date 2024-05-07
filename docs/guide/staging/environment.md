@@ -83,7 +83,7 @@ You can incorporate `Lightformer` into the environment just like a slot.
     <Lightformer :intensity="0.75" :position="[0, 5, -9]" />
     <Lightformer from="ring" :rotation-y="-Math.PI / 2" :scale="[10, 10, 1]" />
   </Environment>
-</template>
+</template>
 ```
 
 ### Props for Lightformer

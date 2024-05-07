@@ -14,7 +14,7 @@
   "devDependencies": {
     "@tresjs/leches": "^0.14.0",
     "markdown-it": "^14.0.0",
-    "unocss": "^0.58.4",
+    "unocss": "^0.59.4",
     "vite-svg-loader": "^5.1.0",
     "vue-docgen-api": "^4.75.1"
   }

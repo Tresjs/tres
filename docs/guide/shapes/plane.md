@@ -4,7 +4,7 @@
 
 The `cientos` package provides a `<Plane />` component that serves as a short-cut for a `PlaneGeometry` and a `MeshBasicMaterial` with a `Mesh` object.
 
-```typescript
+```
 args: [width: number, height: number, widthSegments: number, heightSegments: number]
 ```
 

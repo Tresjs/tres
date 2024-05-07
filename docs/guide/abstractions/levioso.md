@@ -15,7 +15,7 @@ The `cientos` package provides a `<Levioso />` wrapper that makes its content â€
   <TorusKnot :position="[0, 4, 0]">
     <TresMeshNormalMaterial />
   </TorusKnot>
-</Levioso>
+</Levioso>
 ```
 
 ## Props

@@ -8,7 +8,7 @@ Reference: [TubeGeometry](https://threejs.org/docs/?q=tube#api/en/geometries/Tub
 
 ## Usage
 
-```typescript
+```
 <script>
 export default {
   setup() {
@@ -39,7 +39,7 @@ export default {
 
 ## Args
 
-```typescript
+```
 type CurveType = QuadraticBezierCurve3 | CubicBezierCurve3 | CatmullRomCurve3 | LineCurve3
 
 args: [

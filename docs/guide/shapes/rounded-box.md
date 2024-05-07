@@ -6,7 +6,7 @@
 
 The `cientos` package provides a `<RoundedBox />` component that serves as a short-cut for a `RoundedBoxGeometry` and a `MeshBasicMaterial` with a `Mesh` object.
 
-```typescript
+```
 args: [
   width: number, // default 1
   height: number, // default 1
