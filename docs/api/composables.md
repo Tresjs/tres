@@ -144,7 +144,7 @@ onAfterRender(({ renderer }) => {
 
 #### Render priority
 
-Both useBeforeRender and useAfteRender provide an optional priority index. This indexes could be any from [Number.NEGATIVE_INFINITY, Number.NEGATIVE_INFINITY] being the default index 0. The lower the index, the earlier the callback will be executed.
+Both useBeforeRender and useAfteRender provide an optional priority number. This number could be anything from `Number.NEGATIVE_INFINITY` to `Number.POSITIVE_INFINITY` being the 0 by default. The lower the number, the earlier the callback will be executed.
 
 ```ts
 onBeforeRender(() => {
