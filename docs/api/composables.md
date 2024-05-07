@@ -178,7 +178,7 @@ You can use `pause` and `resume` methods:
 ```ts
 const { onBeforeRender, pause, resume } = useLoop()
 
-onBeforeRender(({ elapse }) => {
+onBeforeRender(({ elapsed }) => {
   sphereRef.value.position.y += Math.sin(elapsed) * 0.01
 })
 
