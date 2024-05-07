@@ -49,8 +49,8 @@ importers:
         specifier: ^3.3.2
         version: 3.4.1(rollup@4.14.3)
       '@tresjs/cientos':
-        specifier: 3.8.0
-        version: 3.8.0(@tresjs/core@3.9.0(three@0.160.0)(vue@3.4.23(typescript@5.3.3)))(three@0.160.0)(tweakpane@4.0.3)(vue@3.4.23(typescript@5.3.3))
+        specifier: 3.9.0
+        version: 3.9.0(@tresjs/core@3.9.0(three@0.160.0)(vue@3.4.23(typescript@5.3.3)))(three@0.160.0)(tweakpane@4.0.3)(vue@3.4.23(typescript@5.3.3))
       '@tresjs/core':
         specifier: 3.9.0
         version: 3.9.0(three@0.160.0)(vue@3.4.23(typescript@5.3.3))
@@ -1276,8 +1276,8 @@ packages:
     peerDependencies:
       vue: ^2.7.0 || ^3.0.0
 
-  '@tresjs/cientos@3.8.0':
-    resolution: {integrity: sha512-m3lyrBHrHkwkDG28B/vQQUeQ9FlG5C50bkULYEoQXrpIAM8toC11DpxY6VMMvbFc4qhZA5QdTZIlznJ8ZDopFQ==}
+  '@tresjs/cientos@3.9.0':
+    resolution: {integrity: sha512-LAtMveKlecKvWh7TNWdwEs3nQUYMLqz9DZy0YhSZ6OVTfL2vevx2K4sH9744UME8OedUf4fkFFkX4OWQRHaDRQ==}
     peerDependencies:
       '@tresjs/core': '>=3.2'
       three: '>=0.133'
@@ -1384,6 +1384,9 @@ packages:
     peerDependencies:
       tweakpane: ^4.0.0
 
+  '@tweenjs/tween.js@23.1.2':
+    resolution: {integrity: sha512-kMCNaZCJugWI86xiEHaY338CU5JpD0B97p1j1IKNn/Zto8PgACjQx0UxbHjmOcLl/dDOBnItwD07KmCs75pxtQ==}
+
   '@types/debug@4.1.12':
     resolution: {integrity: sha512-vIChWdVG3LG1SMxEvI/AK+FWJthlrqlTu7fbrlywTkkaONwk/UAGaULXRlf8vkzFBLVm0zkMdCquhL5aOjhXPQ==}
 
@@ -1455,6 +1458,9 @@ packages:
 
   '@types/three@0.160.0':
     resolution: {integrity: sha512-jWlbUBovicUKaOYxzgkLlhkiEQJkhCVvg4W2IYD2trqD2om3VK4DGLpHH5zQHNr7RweZK/5re/4IVhbhvxbV9w==}
+
+  '@types/three@0.163.0':
+    resolution: {integrity: sha512-uIdDhsXRpQiBUkflBS/i1l3JX14fW6Ot9csed60nfbZNXHDTRsnV2xnTVwXcgbvTiboAR4IW+t+lTL5f1rqIqA==}
 
   '@types/unist@2.0.10':
     resolution: {integrity: sha512-IfYcSBWE3hLpBg8+X2SEa8LVkJdJEkT2Ese2aaLs3ptGdVtABxndrMaxuFlQ1qdFf9Q5rDvDpxI3WwgvKFAsQA==}
@@ -3069,6 +3075,9 @@ packages:
 
   fflate@0.6.10:
     resolution: {integrity: sha512-IQrh3lEPM93wVCEczc9SaAOvkmcoQn/G8Bo1e8ZPlY3X3bnAxWaBdvTdvM1hP62iZp0BXWDy4vTAy4fF0+Dlpg==}
+
+  fflate@0.8.2:
+    resolution: {integrity: sha512-cPJU47OaAoCbg0pBvzsgpTPhmhqI5eJjh/JIu8tPj5q+T7iLvW/JAYUqmE7KOB4R1ZyEhzBaIQpQpardBF5z8A==}
 
   file-entry-cache@6.0.1:
     resolution: {integrity: sha512-7Gps/XWymbLk2QLYK4NzpMOrYjMhdIxXuIvy2QBsLE6ljuodKvdkWs/cpyJJ3CVIVpH0Oi1Hvg1ovbMzLdFBBg==}
@@ -5342,8 +5351,8 @@ packages:
   standard-as-callback@2.1.0:
     resolution: {integrity: sha512-qoRRSyROncaz1z0mvYqIE4lCd9p2R90i6GxW3uZv5ucSu8tU7B5HXUP1gG8pVZsYNVaXjk8ClXHPttLyxAL48A==}
 
-  stats-gl@2.0.1:
-    resolution: {integrity: sha512-EhFm1AxoSBK3MflkFawZ4jmOX1dWu0nBAtCpvGxGsondEvCpsohbpRpM8pi8UAcxG5eRsDsCiRcxdH20j3Rp9A==}
+  stats-gl@2.2.8:
+    resolution: {integrity: sha512-94G5nZvduDmzxBS7K0lYnynYwreZpkknD8g5dZmU6mpwIhy3caCrjAm11Qm1cbyx7mqix7Fp00RkbsonzKWnoQ==}
 
   stats.js@0.17.0:
     resolution: {integrity: sha512-hNKz8phvYLPEcRkeG1rsGmV5ChMjKDAWU7/OJJdDErPBNChQXxCo3WZurGpnWc6gZhAzEPFad1aVgyOANH1sMw==}
@@ -5565,8 +5574,8 @@ packages:
     peerDependencies:
       three: '>=0.128.0'
 
-  three-stdlib@2.29.6:
-    resolution: {integrity: sha512-nj9bHkzhhwfmqQcM/keC2RDb0bHhbw6bRXTy81ehzi8F1rtp6pJ5eS0/vl1Eg5RMFqXOMyxJ6sDHPoLU+IrVZg==}
+  three-stdlib@2.29.11:
+    resolution: {integrity: sha512-vSyUavKCwOJQd2ch9IHhyJVx6eNG3y+z3/LulqHM7OLMy81OqnmIrvc2b4phKr/c1aVjHRNG2X7JOklfrDDcmQ==}
     peerDependencies:
       three: '>=0.128.0'
 
@@ -7903,16 +7912,16 @@ snapshots:
       '@tanstack/virtual-core': 3.4.0
       vue: 3.4.23(typescript@5.3.3)
 
-  '@tresjs/cientos@3.8.0(@tresjs/core@3.9.0(three@0.160.0)(vue@3.4.23(typescript@5.3.3)))(three@0.160.0)(tweakpane@4.0.3)(vue@3.4.23(typescript@5.3.3))':
+  '@tresjs/cientos@3.9.0(@tresjs/core@3.9.0(three@0.160.0)(vue@3.4.23(typescript@5.3.3)))(three@0.160.0)(tweakpane@4.0.3)(vue@3.4.23(typescript@5.3.3))':
     dependencies:
       '@tresjs/core': 3.9.0(three@0.160.0)(vue@3.4.23(typescript@5.3.3))
       '@vueuse/core': 10.9.0(vue@3.4.23(typescript@5.3.3))
       camera-controls: 2.8.3(three@0.160.0)
-      stats-gl: 2.0.1
+      stats-gl: 2.2.8
       stats.js: 0.17.0
       three: 0.160.0
       three-custom-shader-material: 5.4.0(three@0.160.0)
-      three-stdlib: 2.29.6(three@0.160.0)
+      three-stdlib: 2.29.11(three@0.160.0)
       tweakpane: 4.0.3
       vue: 3.4.23(typescript@5.3.3)
     transitivePeerDependencies:
@@ -8248,6 +8257,8 @@ snapshots:
     dependencies:
       tweakpane: 4.0.3
 
+  '@tweenjs/tween.js@23.1.2': {}
+
   '@types/debug@4.1.12':
     dependencies:
       '@types/ms': 0.7.34
@@ -8329,6 +8340,14 @@ snapshots:
       '@types/stats.js': 0.17.3
       '@types/webxr': 0.5.10
       fflate: 0.6.10
+      meshoptimizer: 0.18.1
+
+  '@types/three@0.163.0':
+    dependencies:
+      '@tweenjs/tween.js': 23.1.2
+      '@types/stats.js': 0.17.3
+      '@types/webxr': 0.5.10
+      fflate: 0.8.2
       meshoptimizer: 0.18.1
 
   '@types/unist@2.0.10': {}
@@ -10479,6 +10498,8 @@ snapshots:
       reusify: 1.0.4
 
   fflate@0.6.10: {}
+
+  fflate@0.8.2: {}
 
   file-entry-cache@6.0.1:
     dependencies:
@@ -13466,7 +13487,9 @@ snapshots:
 
   standard-as-callback@2.1.0: {}
 
-  stats-gl@2.0.1: {}
+  stats-gl@2.2.8:
+    dependencies:
+      '@types/three': 0.163.0
 
   stats.js@0.17.0: {}
 
@@ -13749,7 +13772,7 @@ snapshots:
       potpack: 1.0.2
       three: 0.160.0
 
-  three-stdlib@2.29.6(three@0.160.0):
+  three-stdlib@2.29.11(three@0.160.0):
     dependencies:
       '@types/draco3d': 1.4.9
       '@types/offscreencanvas': 2019.7.3
