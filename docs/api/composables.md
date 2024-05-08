@@ -160,7 +160,7 @@ onBeforeRender(() => {
 
 All callbacks receive an object with the following properties:
 
-- `delta`: The delta time between the current and the last frame. This is the time in seconds since the last frame.
+- `delta`: The delta time between the current and the last frame. This is the time in miliseconds since the last frame.
 - `elapsed`: The elapsed time since the start of the render loop.
 - `clock`: The [THREE clock](https://threejs.org/docs/?q=clock#api/en/core/Clock) instance.
 - `renderer`: The [WebGLRenderer](https://threejs.org/docs/#api/en/renderers/WebGLRenderer) of your scene.
@@ -199,6 +199,18 @@ onBeforeRender(({ elapse }) => {
 
 pauseRender() // This will pause the renderer
 resumeRender() // This will resume the renderer
+```
+
+#### Unregistering callbacks
+
+You can unregister a callback by calling the method `off` returned by the `onBeforeRender` or `onAfterRender` method.
+
+```ts
+const { onBeforeRender } = useLoop()
+
+const { off } = onBeforeRender(({ elapsed }) => {
+  sphereRef.value.position.y += Math.sin(elapsed) * 0.01
+})
 ```
 
 ## useLoader
