@@ -1,5 +1,5 @@
-import { readFile } from 'fs/promises'
-import { defineNuxtModule, addImports, addComponent, createResolver, resolvePath, addVitePlugin } from '@nuxt/kit'
+import { readFile } from 'node:fs/promises'
+import { addComponent, addImports, addVitePlugin, createResolver, defineNuxtModule, resolvePath } from '@nuxt/kit'
 import * as core from '@tresjs/core'
 import { templateCompilerOptions } from '@tresjs/core'
 import { readPackageJSON } from 'pkg-types'
@@ -60,10 +60,10 @@ export default defineNuxtModule<ModuleOptions>({
     const coreDeps = Object.keys({ ...pkg.dependencies, ...pkg.devDependencies }).filter(d => d.startsWith('@tresjs/'))
 
     for (const mod of new Set([...options.modules, ...coreDeps])) {
-      if (mod === '@tresjs/core' || mod === '@tresjs/nuxt') continue
+      if (mod === '@tresjs/core' || mod === '@tresjs/nuxt') { continue }
 
       const entry = await resolvePath(mod)
-      if (entry === mod) continue
+      if (entry === mod) { continue }
 
       const imports = findExportNames(await readFile(entry, 'utf8'))
 
@@ -103,10 +103,8 @@ export default defineNuxtModule<ModuleOptions>({
       }),
     ])
 
-    if (options.devtools)
-      setupDevToolsUI(nuxt, resolver)
+    if (options.devtools) { setupDevToolsUI(nuxt, resolver) }
 
-    if (options.glsl)
-      addVitePlugin(glsl())
+    if (options.glsl) { addVitePlugin(glsl()) }
   },
 })

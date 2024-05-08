@@ -26,6 +26,6 @@ defineProps<{
       -top-2
       left-2"
     >{{ title }}</span>
-    <slot />
+    <slot></slot>
   </div>
 </template>

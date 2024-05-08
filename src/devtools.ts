@@ -1,4 +1,4 @@
-import { existsSync } from 'fs'
+import { existsSync } from 'node:fs'
 import type { Nuxt } from 'nuxt/schema'
 import type { Resolver } from '@nuxt/kit'
 
@@ -8,7 +8,7 @@ const DEVTOOLS_UI_LOCAL_PORT = 3300
 export function setupDevToolsUI(nuxt: Nuxt, resolver: Resolver) {
   const clientPath = resolver.resolve('./client')
   const isProductionBuild = existsSync(clientPath)
-  
+
   // Serve production-built client (used when package is published)
   if (isProductionBuild) {
     nuxt.hook('vite:serverCreated', async (server) => {

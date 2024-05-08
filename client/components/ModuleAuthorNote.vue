@@ -17,7 +17,7 @@
       target="_blank"
     >
       nuxt/devtools
-    </NLink> repository.<br>
+    </NLink> repository.<br />
     The UI components are coming from <NLink
       href="https://github.com/nuxt/devtools/tree/main/packages/devtools-ui-kit"
       target="_blank"

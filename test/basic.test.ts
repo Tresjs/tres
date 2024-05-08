@@ -1,6 +1,6 @@
 import { fileURLToPath } from 'node:url'
-import { describe, it, expect } from 'vitest'
-import { setup, $fetch, createPage, url } from '@nuxt/test-utils'
+import { describe, expect, it } from 'vitest'
+import { $fetch, createPage, setup, url } from '@nuxt/test-utils'
 
 describe('ssr', async () => {
   await setup({

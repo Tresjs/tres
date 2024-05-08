@@ -7,8 +7,7 @@ const props = withDefaults(defineProps<{
   unit: string
   label: string
   color: string
-}>(),
-{
+}>(), {
   points: () => [],
   value: 0,
   unit: '',
@@ -16,7 +15,6 @@ const props = withDefaults(defineProps<{
   color: 'green',
 })
 
-const width = 160
 const height = 40
 const strokeWidth = 2
 
@@ -32,7 +30,7 @@ watchEffect(() => {
 const pointsF = computed(() => props.points.map(
   (point, index) =>
     `${index * strokeWidth},${height - (point * height / maxValue.value)}`,
-).join(' '))  
+).join(' '))
 </script>
 
 <template>
@@ -43,7 +41,7 @@ const pointsF = computed(() => props.points.map(
       p-1
       rounded
       text-right
-      text-xs 
+      text-xs
       outline-none
       border-none
       font-sans

@@ -11,7 +11,8 @@ const programs = computed(() => renderer.info.programs.map(
     icon: icons[item.type] || 'i-file-icons-vertexshader',
     uniforms: item.getUniforms(),
     attributes: item.getAttributes(),
-  })))
+  }),
+))
 </script>
 
 <template>

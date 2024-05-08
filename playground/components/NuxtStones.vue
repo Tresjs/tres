@@ -35,7 +35,7 @@ onLoop(({ elapsed }) => {
 })
 
 const ctx = useNuxtApp()
-//eslint-disable-next-line no-console
+// eslint-disable-next-line no-console
 console.log({ ctx, useFetch: await useFetch('api/url') })
 </script>
 
@@ -44,9 +44,9 @@ console.log({ ctx, useFetch: await useFetch('api/url') })
   <primitive :object="nodes.Logo" />
   <primitive :object="nodes.Stone" />
   <primitive :object="nodes.StoneCarved" />
-  <primitive 
-    v-for="stone in littleStones" 
-    :key="stone.id" 
-    :object="stone" 
+  <primitive
+    v-for="stone in littleStones"
+    :key="stone.id"
+    :object="stone"
   />
 </template>

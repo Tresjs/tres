@@ -16,14 +16,14 @@ const { scene, memory, fps } = useDevtoolsHook()
     >
       <div class="flex items-center gap-4">
         <img
-        
+
           src="/logo.svg"
           alt="tres logo"
-        >
+        />
         <h2 class="text-xl opacity-60 font-bold">
           TresJS DevTools
         </h2>
-      </div>  
+      </div>
       <div class="flex items-center gap-2">
         <UButton
           variant="ghost"
@@ -53,7 +53,7 @@ const { scene, memory, fps } = useDevtoolsHook()
         </UButton>
       </div>
     </header>
- 
+
     <div
       v-if="client && scene.objects > 0"
       class="flex flex-col gap-2"

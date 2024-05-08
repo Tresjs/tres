@@ -1,5 +1,5 @@
 import type { TresContext, TresObject } from '@tresjs/core'
-import type { Scene, WebGLRenderer } from 'three'
+import type { Scene } from 'three'
 import type { SceneGraphObject } from '../types'
 
 interface FPSState {
@@ -142,7 +142,6 @@ function createNode(object: TresObject) {
 }
 
 function getSceneGraph(scene: TresObject) {
-  
   function buildGraph(object: TresObject, node: SceneGraphObject) {
     object.children.forEach((child: TresObject) => {
       const childNode = createNode(child)
@@ -184,7 +183,7 @@ export function useDevtoolsHook(): DevtoolsHookReturn {
       Object.assign(gl.memory, context.perf.memory)
       gl.memory.accumulator = [...context.perf.memory.accumulator]
       scene.graph = getSceneGraph(context.scene.value as unknown as TresObject)
-      /* 
+      /*
       console.log('Devtools hook updated', context.renderer.value.info.render.triangles) */
     },
   }

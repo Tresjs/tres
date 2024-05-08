@@ -54,10 +54,9 @@ TresJS nuxt module comes with a devtools extension that allows you to inspect th
 
 To activate the devtools, you need to add the `devtools` option to the `tres` section of `nuxt.config.ts`.
 
-
 ```js
 export default defineNuxtConfig({
-  modules: ['@tresjs/nuxt', '@nuxt/devtools' ],
+  modules: ['@tresjs/nuxt', '@nuxt/devtools'],
   tres: {
     devtools: true,
   },
@@ -70,7 +69,7 @@ TresJS nuxt module comes with a vite plugin that allows you to import GLSL shade
 
 ```js
 export default defineNuxtConfig({
-  modules: ['@tresjs/nuxt', '@nuxt/devtools' ],
+  modules: ['@tresjs/nuxt', '@nuxt/devtools'],
   tres: {
     glsl: true,
   },
@@ -104,8 +103,6 @@ const uniforms = {
   </TresMesh>
 </template>
 ```
-
-
 
 ## Development
 

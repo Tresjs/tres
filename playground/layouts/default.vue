@@ -24,9 +24,9 @@
         </a>
       </div>
     </header>
-    <slot />
+    <slot></slot>
   </div>
-</template> 
+</template>
 
 <style>
 .menu {
