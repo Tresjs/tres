@@ -64,13 +64,12 @@ const texture = useLoader(TextureLoader, '/Rock035_2K_Color.jpg')
 
 <template>
   <TresMesh>
-    <TresSphereGeometry :args="[1,32,32]" />
+    <TresSphereGeometry :args="[1, 32, 32]" />
     <TresMeshStandardMaterial :map="texture" />
   </TresMesh>
 </template>
 ```
 :::
-
 
 ## Using `useTexture`
 
