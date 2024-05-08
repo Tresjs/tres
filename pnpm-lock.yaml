@@ -118,7 +118,7 @@ importers:
   docs:
     dependencies:
       '@tresjs/cientos':
-        specifier: workspace:^3.4.0
+        specifier: workspace:^
         version: link:..
     devDependencies:
       '@tresjs/leches':
