@@ -7,17 +7,15 @@
 `<Ocean />` is a wrapper for the [Three.js `Water` add-on](https://threejs.org/examples/?q=ocean#webgl_shaders_ocean).
 
 ::: warning
-<Ocean /> comes with a default texture, so it needs to be wrapped in a Suspense component.
+`<Ocean />` comes with a default texture, so it needs to be wrapped in a Suspense component.
 :::
 
 ## Usage
 
-<<< @/.vitepress/theme/components/OceanDemo.vue{3,11}
-
 ### SKY
 
-<Ocean /> works hand in hand with the Sky component, detecting the position of the sun and reflecting on the water.
-(<Sky /> is not required for making this component work.)
+`<Ocean />` works hand in hand with the Sky component, detecting the position of the sun and reflecting on the water.
+(`<Sky />` is not required for making this component work.)
 
 ### Fog
 
@@ -27,12 +25,12 @@ The `<Ocean />` component also reacts when there's [Fog](https://threejs.org/doc
 
 You can use custom geometry by adding it as a child.
 
-```
-    <Suspense>
-      <Ocean>
-        <TresCircleGeometry :args="[50, 16]" />
-      </Ocean>
-    </Suspense>
+```HTML
+<Suspense>
+  <Ocean>
+    <TresCircleGeometry :args="[50, 16]" />
+  </Ocean>
+</Suspense>
 ```
 
 ## Props

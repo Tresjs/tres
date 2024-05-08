@@ -25,25 +25,16 @@ import { Lensflare } from '@tresjs/cientos'
 
 ## Props
 
-<CientosPropsTable
-component-path="src/core/abstractions/Lensflare/component.vue"
-:fields="['name', 'description', 'default']"
-:on-format-value="({valueFormatted, propName, fieldName, getFieldFormatted}) => {
-  if (fieldName === 'description') {
-    return getFieldFormatted('type') + ' – ' + valueFormatted
-  }
-  if (fieldName === 'name') {
-    const seeMores = {
-    'elements': `<a href='#elements'>${valueFormatted}</a>`,
-    'seed': `<a href='#seed'>${valueFormatted}</a>`,
-    'seedProps': `<a href='#seedprops'>${valueFormatted}</a>`,
-    }
-    return seeMores.hasOwnProperty(propName) ? seeMores[propName] : valueFormatted
-  }
-}"
- />
-
-<CientosPropsList component-path="src/core/abstractions/Lensflare/component.vue" :fields="['name', 'description']" />
+| Name | Description | Default |
+| :--- | :---------- | :------ |
+| **scale** |  `number` – scale of the lensflare | `1.0` |
+| **elements** | `Partial&lt;LensflareElementProps&gt;[]` – array of lensflare element properties | `undefined` |
+| **seed** | `number` – random seed for generating random seeded elements | `undefined` |
+| **seedProps** | `SeedProps[]` – specifications for generating random seeded elements | `undefined` |
+| **color** | `TresColor` – default color of lensflare elements | `undefined` |
+| **distance** | `number` – default distance of lensflare elements from flare center | `undefined` |
+| **size** | `number` – default size of lensflare elements | `undefined` |
+| **texture** | `Texture string[]` – default texture of lensflare elements | `undefined` |
 
 ## `elements`
 
