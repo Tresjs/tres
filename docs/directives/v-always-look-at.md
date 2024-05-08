@@ -2,6 +2,10 @@
 
 With the new directive v-always-look-at provided by **TresJS**, you can add easily command an [Object3D](https://threejs.org/docs/index.html?q=object#api/en/core/Object3D) to always look at a specific position, this could be passed as a Vector3 or an Array.
 
+::: warning
+This directive can be only be used inside of a `TresCanvas` since this component acts as the provider for the context data and it uses `onLoop` under the hood.
+:::
+
 ## Usage
 
 ```vue{3,9}
