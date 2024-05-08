@@ -10,7 +10,7 @@ const blobRef = shallowRef<any>(null)
 const analyser = shallowRef();
 const audioStream = shallowRef();
 const dataArray = shallowRef();
-const showInfoDialog = shallowRef(true);
+const showInfoDialog = shallowRef(false);
 
 // lifecycle
 onMounted(async () => {
@@ -21,8 +21,11 @@ onMounted(async () => {
     showInfoDialog.value = access.state != "granted";
 
     audioStream.value = await navigator.mediaDevices.getUserMedia({ audio: true });
+    showInfoDialog.value = false;
     handleMicrophoneAccess()
+
   } catch (error) {
+    showInfoDialog.value = true;
     alert('Not able to accessing microphone');
   }
 })
