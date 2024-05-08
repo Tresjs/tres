@@ -3,7 +3,7 @@ import type { DefaultTheme, LocaleSpecificConfig } from 'vitepress'
 export const frConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
   themeConfig: {
     editLink: {
-      pattern: 'https://github.com/tresjs/tres/edit/main/packages/docs/:path',
+      pattern: 'https://github.com/tresjs/tres/edit/main/docs/:path',
       text: 'Suggérer un changement à cette page.',
     },
     sidebar: [
@@ -79,6 +79,7 @@ export const frConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
           { text: 'v-light-helper', link: '/fr/directives/v-light-helper' },
           { text: 'v-always-look-at', link: '/fr/directives/v-always-look-at' },
           { text: 'v-distance-to', link: '/fr/directives/v-distance-to' },
+          { text: 'v-rotate', link: '/directives/v-rotate' },
         ],
       },
       {
@@ -107,41 +108,39 @@ export const frConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
       { text: 'API', link: '/fr/api/tres-canvas' },
       /*       { text: 'API', link: '/api/' },
       { text: 'Config', link: '/config/' }, */
-      { text: 'Resources',
-        items: [
-          { text: 'Équipe', link: '/fr/team.md' },
-          { text: 'Versions', link: 'https://github.com/Tresjs/tres/releases' },
-          {
-            text: 'Playground',
-            link: 'https://playground.tresjs.org/',
-          },
-          {
-            text: 'Github',
-            link: 'https://github.com/Tresjs/tres/',
-          },
-          {
-            text: 'Problèmes',
-            link: 'https://github.com/Tresjs/tres/issues',
-          },
-          {
-            text: 'Ecosystème',
-            items: [
-              {
-                text: 'Cientos 💛',
-                link: 'https://cientos.tresjs.org/',
-              },
-              {
-                text: 'Module Nuxt',
-                link: 'https://github.com/Tresjs/nuxt',
-              },
-              {
-                text: 'TresLeches 🍰',
-                link: 'https://tresleches.tresjs.org/',
-              },
-            ],
-          },
-        ],
-      },  
+      { text: 'Resources', items: [
+        { text: 'Équipe', link: '/fr/team.md' },
+        { text: 'Versions', link: 'https://github.com/Tresjs/tres/releases' },
+        {
+          text: 'Playground',
+          link: 'https://play.tresjs.org/',
+        },
+        {
+          text: 'Github',
+          link: 'https://github.com/Tresjs/tres/',
+        },
+        {
+          text: 'Problèmes',
+          link: 'https://github.com/Tresjs/tres/issues',
+        },
+        {
+          text: 'Ecosystème',
+          items: [
+            {
+              text: 'Cientos 💛',
+              link: 'https://cientos.tresjs.org/',
+            },
+            {
+              text: 'Module Nuxt',
+              link: 'https://github.com/Tresjs/nuxt',
+            },
+            {
+              text: 'TresLeches 🍰',
+              link: 'https://tresleches.tresjs.org/',
+            },
+          ],
+        },
+      ] },
     ],
     search: {
       provider: 'local',

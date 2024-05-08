@@ -8,11 +8,10 @@ const props = defineProps<{
 const { setCameraActive } = useTresContext()
 
 watchEffect(() => {
-  if (props.activeCameraUuid)
-    setCameraActive(props.activeCameraUuid)
+  if (props.activeCameraUuid) { setCameraActive(props.activeCameraUuid) }
 })
 </script>
 
 <template>
-  <slot />
+  <slot></slot>
 </template>

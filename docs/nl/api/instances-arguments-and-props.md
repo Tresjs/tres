@@ -10,7 +10,7 @@ import { PerspectiveCamera } from 'three'
 const camera = new PerspectiveCamera(45, width / height, 1, 1000)
 ```
 
-Met **Tres** hoef je niets te importeren, omdat **Tres** automatisch een **Vue-component genereert op basis van de drie objecten die je in CamelCase wilt gebruiken met een Tres-voorvoegsel**. Als je bijvoorbeeld een `PerspectiveCamera` wilt gebruiken, gebruikt je de component '`<TresPerspectiveCamera />`.
+Met **Tres** hoef je niets te importeren, omdat **Tres** automatisch een **Vue-component genereert op basis van de drie objecten die je in PascalCase wilt gebruiken met een Tres-voorvoegsel**. Als je bijvoorbeeld een `PerspectiveCamera` wilt gebruiken, gebruikt je de component '`<TresPerspectiveCamera />`.
 
 ```vue
 <template>

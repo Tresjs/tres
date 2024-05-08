@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
-import { BasicShadowMap, SRGBColorSpace, NoToneMapping } from 'three'
+import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
 
 import { OrbitControls } from '@tresjs/cientos'
 
@@ -33,6 +33,7 @@ function onPointerLeave(ev) {
 
 function onPointerMove(ev) {
   if (ev) {
+    // eslint-disable-next-line no-console
     console.log(ev)
   }
 }
@@ -41,7 +42,7 @@ const visible = ref(true)
 </script>
 
 <template>
-  <button @click="visible = !visible" />
+  <button @click="visible = !visible"></button>
   <div v-if="visible">
     <TresCanvas
       window-size

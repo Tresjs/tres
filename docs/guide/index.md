@@ -56,7 +56,7 @@ export default defineConfig({
       ...templateCompilerOptions
     }),
   ],
-}),
+})
 ```
 
 This is required to make the template compiler work with the custom renderer so it does not throw warnings on the console. For more info check [here](/guide/troubleshooting.html).
@@ -75,10 +75,9 @@ We have a brand new [StackBlitz](https://stackblitz.com/) starter to try TresJS 
 
 ![](/stackblitz-starter.png)
 
-
 ## Labs
 
-We also have a showcase lab of examples made with TresJS. Check it out [here](https://playground.tresjs.org/).
+We also have a showcase lab of examples made with TresJS. Check it out [here](https://lab.tresjs.org/).
 
 ![](/tresjs-lab.png)
 

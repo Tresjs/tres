@@ -10,7 +10,7 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls'
 
 ## Étendre un élément dynamiquement
 
-Vous pouvez également l'ajouter dynamiquement dans vos composants :
+Vous pouvez également l'ajouter dynamiquement dans vos composants :
 
 ```vue {2,3,4,7,13,15}
 <script setup lang="ts">

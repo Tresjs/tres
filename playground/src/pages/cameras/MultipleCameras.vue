@@ -45,7 +45,7 @@ const camera3Exists = ref(false)
     <input
       v-model="camera3Exists"
       type="checkbox"
-    >
+    />
     <div class="w-1/2 aspect-video">
       <TresCanvas v-bind="state">
         <TheCameraOperator :active-camera-uuid="activeCameraUuid">

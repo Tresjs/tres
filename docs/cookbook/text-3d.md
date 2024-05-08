@@ -93,7 +93,9 @@ We can also pass a matcapTexture to add final details, using the TresMeshNormalM
 
 ```html
 <script setup lang="ts">
-const matcapTexture = await useTexture(['https://raw.githubusercontent.com/Tresjs/assets/main/textures/matcaps/7.png'])
+  const matcapTexture = await useTexture([
+    'https://raw.githubusercontent.com/Tresjs/assets/main/textures/matcaps/7.png',
+  ])
 </script>
 
 <template>
@@ -213,7 +215,7 @@ We can pass the options as props
 
 in case the options are not provided, the default values will be:
 
-```js
+```
 size: 0.5,
 height: 0.2,
 curveSegments: 5,

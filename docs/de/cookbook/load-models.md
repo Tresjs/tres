@@ -18,7 +18,6 @@ In dieser Anleitung konzentrieren wir uns auf das Laden von gLTF-Modellen (GL Tr
 
 Es gibt verschiedene Möglichkeiten, Modelle in TresJS zu laden.
 
-
 ::: warning
 Bitte beachte, dass wir in den vorherigen Beispielen das "top-level" `await` verwendet haben. Stelle sicher, dass du es mit einer [Suspense](https://vuejs.org/guide/built-ins/suspense.html#suspense)-Komponente umgibst.
 :::

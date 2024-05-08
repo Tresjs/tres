@@ -58,7 +58,7 @@ body {
 
 目前，没有原生的 Vue 支持来定义 `<template />` 中使用的渲染器，但有一个快速的解决方法可以删除警告
 
-在你的 `vite.config.ts` 中将以下配置添加到 `@vitejs/plugin-vue`： 
+在你的 `vite.config.ts` 中将以下配置添加到 `@vitejs/plugin-vue`：
 
 ```ts
 import { defineConfig } from 'vite'

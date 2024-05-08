@@ -58,14 +58,13 @@ Vous pouvez maintenant utiliser le composant `TresOrbitControls` dans votre scè
 
 Vous pouvez utiliser le composable [useTres](/api/composables#usetres) pour obtenir la caméra et le moteur de rendu.
 
-
 ```ts
 import { useTres } from '@tresjs/core'
 
 const { state } = useTres()
 ```
 
-Le code final ressemblerait donc à ceci :
+Le code final ressemblerait donc à ceci :
 
 ```vue
 <script setup lang="ts">

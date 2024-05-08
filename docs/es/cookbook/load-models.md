@@ -136,7 +136,6 @@ Entonces, es tan sencillo como agregar la escena a tu escena:
 
 ```html
 <primitive :object="model" />
-
 ```
 
 ## FBXModel

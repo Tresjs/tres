@@ -30,7 +30,10 @@ onLoop(({ _delta, elapsed }) => {
 
 <template>
   <TresMesh
-   ref="boxRef" :scale="1" cast-shadow>
+    ref="boxRef"
+    :scale="1"
+    cast-shadow
+  >
     <TresBoxGeometry :args="[1, 1, 1]" />
     <TresMeshStandardMaterial color="teal" />
   </TresMesh>
@@ -74,11 +77,11 @@ In tegenstelling tot `ref()` wordt de innerlijke waarde van een ondiepe ref opge
 
 ```vue
 <script setup lang="ts">
-const position = reactive({ x: 0, y: 0, z: 0 });
+const position = reactive({ x: 0, y: 0, z: 0 })
 
 onLoop(({ _delta, elapsed }) => {
-  position.x = Math.sin(elapsed * 0.1) * 3;
-});
+  position.x = Math.sin(elapsed * 0.1) * 3
+})
 </script>
 
 <template>
@@ -93,14 +96,14 @@ onLoop(({ _delta, elapsed }) => {
 
 ```vue
 <script setup lang="ts">
-const position = { x: 0, y: 0, z: 0 };
-const boxRef: ShallowRef<TresInstance | null> =
-  shallowRef(null);
+const position = { x: 0, y: 0, z: 0 }
+const boxRef: ShallowRef<TresInstance | null>
+  = shallowRef(null)
 
 onLoop(({ _delta, elapsed }) => {
-  boxRef.value.position.x =
-    Math.sin(elapsed * 0.1) * 3;
-});
+  boxRef.value.position.x
+    = Math.sin(elapsed * 0.1) * 3
+})
 </script>
 
 <template>

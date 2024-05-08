@@ -97,7 +97,6 @@ Alle Properties, die in der zugrundeliegenden Klasse eine `.set()`-Methode haben
 
 Um Transformations-Properties wie Position, Rotation und Skalierung anzugeben, gibt es eine Kurzform, die es dir erlaubt, direkt die Achse anzugeben, die du innerhalb der Eigenschaften setzen möchtest. Eine ähnliche Kurzform ist auch für die Farb-Property verfügbar.
 
-
 <!-- Wir haben die Farbsyntax von Vue zu HTML geändert, da Vue verschachtelte Komponenten nicht einfärbt -->
 ```html
 <TresMesh :position-x="1" :scale-y="2" :rotation-x="Math.PI * 2">

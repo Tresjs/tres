@@ -100,7 +100,6 @@ const { nodes } = await useGLTF('/models/AkuAku.gltf', { draco: true })
 ```
 :::
 
-
 ## Using `GLTFModel`
 
 The `GLTFModel` component is a wrapper around the `useGLTF` composable, which is available from the [@tresjs/cientos](https://github.com/Tresjs/tres/tree/main/packages/cientos) package.
@@ -158,4 +157,3 @@ import { OrbitControls, FBXModel } from '@tresjs/cientos'
   </TresCanvas>
 </template>
 ```
-

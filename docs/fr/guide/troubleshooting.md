@@ -85,4 +85,4 @@ Nous savons que même les meilleurs font parfois des erreurs, et nous avons beso
 Les tickets sans lien de reproduction seront fermés
 :::
 
-Notre équipe de développeurs amoureux des chats passera à l'action pour éliminer ces bugs embêtants et améliorer TresJS pour tout le monde. Ensemble, faisons de TresJS le miaulement de chat du rendu 3D dans Vue !
+Notre équipe de développeurs amoureux des chats passera à l'action pour éliminer ces bugs embêtants et améliorer TresJS pour tout le monde. Ensemble, faisons de TresJS le miaulement de chat du rendu 3D dans Vue !

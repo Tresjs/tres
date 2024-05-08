@@ -1,8 +1,8 @@
 import * as THREE from 'three'
-import { nodeOps } from './nodeOps'
-import { TresObject } from '../types'
-import { extend } from './catalogue'
 import { Mesh, Scene } from 'three'
+import type { TresObject } from '../types'
+import { nodeOps } from './nodeOps'
+import { extend } from './catalogue'
 
 describe('nodeOps', () => {
   beforeAll(() => {
