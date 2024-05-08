@@ -1,11 +1,3 @@
-<template>
-  <TresMesh ref="blobRef">
-    <TresIcosahedronGeometry :args="[4, 80]"></TresIcosahedronGeometry>
-    <TresShaderMaterial wireframe :uniforms="uniforms" :fragment-shader="fragmentShader"
-      :vertex-shader="vertexShader" />
-  </TresMesh>
-</template>
-
 <script lang="ts" setup>
 import * as THREE from 'three';
 
@@ -201,5 +193,13 @@ const fragmentShader = ref(`
 
 
 </script>
+
+<template>
+  <TresMesh ref="blobRef">
+    <TresIcosahedronGeometry :args="[4, 80]"></TresIcosahedronGeometry>
+    <TresShaderMaterial wireframe :uniforms="uniforms" :fragment-shader="fragmentShader"
+      :vertex-shader="vertexShader" />
+  </TresMesh>
+</template>
 
 <style></style>
