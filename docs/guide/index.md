@@ -77,7 +77,7 @@ We have a brand new [StackBlitz](https://stackblitz.com/) starter to try TresJS 
 
 ## Labs
 
-We also have a showcase lab of examples made with TresJS. Check it out [here](https://playground.tresjs.org/).
+We also have a showcase lab of examples made with TresJS. Check it out [here](https://lab.tresjs.org/).
 
 ![](/tresjs-lab.png)
 
