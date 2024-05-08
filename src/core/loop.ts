@@ -2,7 +2,7 @@ import type { Ref } from 'vue'
 import { ref } from 'vue'
 import { Clock, MathUtils } from 'three'
 import { createEventHook } from '@vueuse/core'
-import type { Callback } from '../utils/createPriorityEventHook'
+import type { Callback, PriorityEventHook } from '../utils/createPriorityEventHook'
 import { createPriorityEventHook } from '../utils/createPriorityEventHook'
 
 export type LoopStage = 'before' | 'render' | 'after'
@@ -15,7 +15,7 @@ export interface LoopCallback {
 
 export interface RendererLoop {
   loopId: string
-  register: (callback: Callback<LoopCallback>, stage: LoopStage, index?: number) => void
+  register: (callback: Callback<LoopCallback>, stage: LoopStage, index?: number) => PriorityEventHook<LoopCallback>
   start: () => void
   stop: () => void
   pause: () => void
