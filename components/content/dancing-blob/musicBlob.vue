@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import * as THREE from 'three';
+import { Vector2 } from 'three'
 
 // composables
 const { onLoop, resume } = useRenderLoop()
@@ -10,6 +10,7 @@ const analyser = shallowRef();
 const audioStream = shallowRef();
 const dataArray = shallowRef();
 
+// lifecycle
 onMounted(async () => {
   await nextTick();
 
@@ -21,12 +22,11 @@ onMounted(async () => {
   }
 })
 
-// animation loop
 onLoop(({ elapsed }) => {
   if (blobRef.value) {
-
     analyser.value?.getByteFrequencyData(dataArray.value);
 
+    // calc average frequency
     let sum = 0;
     for (let i = 0; i < dataArray.value?.length; i++) {
       sum += dataArray.value[i];
@@ -40,22 +40,15 @@ onLoop(({ elapsed }) => {
 // call resume to fix a bug on prod with the onLoop function
 resume();
 
-
+// handle the microphone connection
 const handleMicrophoneAccess = () => {
-  // Create audio context
   const audioContext = new (window.AudioContext)();
-
-  // Create media stream source
   const source = audioContext.createMediaStreamSource(audioStream.value);
 
-  // Create analyser node
   analyser.value = audioContext.createAnalyser();
-  analyser.value.fftSize = 2048; // Fourier transform size
-
-  // Connect source to analyser
+  analyser.value.fftSize = 2048;
   source.connect(analyser.value);
 
-  // Get frequency data
   const bufferLength = analyser.value.frequencyBinCount;
   dataArray.value = new Uint8Array(bufferLength);
 };
@@ -63,7 +56,7 @@ const handleMicrophoneAccess = () => {
 // shader
 // set props to pass into the shader
 const uniforms = ref({
-  u_resolution: { type: 'V2', value: new THREE.Vector2(window.innerWidth, window.innerHeight) },
+  u_resolution: { type: 'V2', value: new Vector2(window.innerWidth, window.innerHeight) },
   u_time: { type: 'f', value: 0.0 },
   u_frequency: { type: 'f', value: 0.0 }
 });
@@ -189,8 +182,6 @@ const fragmentShader = ref(`
         gl_FragColor = vec4(orange, 1.0);
       }
   `);
-
-
 
 </script>
 
