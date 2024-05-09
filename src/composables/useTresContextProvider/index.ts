@@ -61,7 +61,6 @@ export interface TresContext {
   perf: PerformanceState
   render: RenderState
   // Loop
-  subscribers: Map<number, Fn[]>
   loop: RendererLoop
   /**
    * Invalidates the current frame when renderMode === 'on-demand'
@@ -182,7 +181,6 @@ export function useTresContextProvider({
     registerCamera,
     setCameraActive,
     deregisterCamera,
-    subscribers: new Map(),
     loop: createRenderLoop(),
   }
 
