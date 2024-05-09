@@ -405,5 +405,5 @@ console.log(isActive.value) // false
 
 resume()
 
-console.log(isActive) // true
+console.log(isActive.value) // true
 ```
