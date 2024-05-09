@@ -14,7 +14,7 @@ import { useLogger } from '../useLogger'
 import type { EmitEventFn, TresColor } from '../../types'
 import { normalizeColor } from '../../utils/normalize'
 
-import { type TresContext, useTresContext } from '../useTresContextProvider'
+import type { TresContext } from '../useTresContextProvider'
 import { get, merge, set } from '../../utils'
 
 // Solution taken from Thretle that actually support different versions https://github.com/threlte/threlte/blob/5fa541179460f0dadc7dc17ae5e6854d1689379e/packages/core/src/lib/lib/useRenderer.ts

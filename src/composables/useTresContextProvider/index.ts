@@ -1,4 +1,3 @@
-import type { Fn } from '@vueuse/core'
 import { useFps, useMemory, useRafFn } from '@vueuse/core'
 import { computed, inject, onUnmounted, provide, readonly, ref, shallowRef } from 'vue'
 import type { Camera, EventDispatcher, WebGLRenderer } from 'three'
