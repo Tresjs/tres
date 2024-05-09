@@ -163,8 +163,6 @@ onMounted(() => {
     emit,
   })
 
-  instance?.provide('useTres', context)
-
   useTresEventManager(scene.value, context.value, emit)
 
   const { registerCamera, camera, cameras, deregisterCamera } = context.value
