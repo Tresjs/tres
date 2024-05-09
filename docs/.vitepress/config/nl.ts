@@ -78,6 +78,7 @@ export const nlConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
           { text: 'v-light-helper', link: '/nl/directives/v-light-helper' },
           { text: 'v-always-look-at', link: '/nl/directives/v-always-look-at' },
           { text: 'v-distance-to', link: '/nl/directives/v-distance-to' },
+          { text: 'v-rotate', link: '/directives/v-rotate' },
         ],
       },
       {

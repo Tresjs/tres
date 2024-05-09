@@ -6,8 +6,8 @@ With the new directive v-always-look-at provided by **TresJS**, you can add easi
 
 ```vue{3,9}
 <script setup lang="ts">
-import { TresCanvas } from '@tresjs/core'
-import { Box, vAlwaysLookAt } from '@tresjs/cientos'
+import { TresCanvas, vAlwaysLookAt } from '@tresjs/core'
+import { Box } from '@tresjs/cientos'
 </script>
 <template>
     <TresCanvas >
@@ -33,8 +33,8 @@ Another advantage is that you can look at an instance in movement, for example w
 ```vue{4,6,20,23}
 <script setup lang="ts">
 import { shallowRef } from 'vue'
-import { TresCanvas, useRenderLoop } from '@tresjs/core'
-import { Box, vAlwaysLookAt } from '@tresjs/cientos'
+import { TresCanvas, useRenderLoop, vAlwaysLookAt } from '@tresjs/core'
+import { Box } from '@tresjs/cientos'
 
 const sphereRef = shallowRef()
 

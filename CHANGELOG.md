@@ -1,5 +1,17 @@
 
 
+## [3.9.0](https://github.com/Tresjs/tres/compare/3.8.1...3.9.0) (2024-04-24)
+
+
+### Features
+
+* **app:** Add a new directive, v-rotate ([ccf5313](https://github.com/Tresjs/tres/commit/ccf53135a81c795bc08b343baaa823fa33bd064d))
+
+
+### Bug Fixes
+
+* **deps:** update dependency vue-router to v4.3.1 ([#650](https://github.com/Tresjs/tres/issues/650)) ([9bbb676](https://github.com/Tresjs/tres/commit/9bbb6768a5a7400bf163c06b3688505915bfd074))
+
 ## [3.8.1](https://github.com/Tresjs/tres/compare/3.8.0...3.8.1) (2024-04-08)
 
 
