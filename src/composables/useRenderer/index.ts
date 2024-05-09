@@ -8,12 +8,13 @@ import {
   useDevicePixelRatio,
 } from '@vueuse/core'
 
-import type { ColorSpace, Scene, ShadowMapType, ToneMapping, WebGLRendererParameters } from 'three'
+import type { Camera, ColorSpace, Scene, ShadowMapType, ToneMapping, WebGLRendererParameters } from 'three'
+import type { RendererLoop } from 'src/core/loop'
 import { useLogger } from '../useLogger'
 import type { EmitEventFn, TresColor } from '../../types'
 import { normalizeColor } from '../../utils/normalize'
 
-import type { TresContext } from '../useTresContextProvider'
+import { type TresContext, useTresContext } from '../useTresContextProvider'
 import { get, merge, set } from '../../utils'
 
 // Solution taken from Thretle that actually support different versions https://github.com/threlte/threlte/blob/5fa541179460f0dadc7dc17ae5e6854d1689379e/packages/core/src/lib/lib/useRenderer.ts
@@ -98,14 +99,16 @@ export function useRenderer(
   {
     canvas,
     options,
-    contextParts: { sizes, render, invalidate, advance },
+    scene,
+    emit,
+    contextParts: { camera, sizes, render, invalidate, advance, loop },
   }:
   {
     canvas: MaybeRef<HTMLCanvasElement>
     scene: Scene
     options: UseRendererOptions
     emit: EmitEventFn
-    contextParts: Pick<TresContext, 'sizes' | 'camera' | 'render'> & { invalidate: () => void, advance: () => void }
+    contextParts: Pick<TresContext, 'sizes' | 'camera' | 'render'> & { invalidate: () => void, advance: () => void, loop: RendererLoop }
     disableRender: MaybeRefOrGetter<boolean>
   },
 ) {
@@ -247,9 +250,31 @@ export function useRenderer(
     }
   })
 
+  // Register loop
+
+  loop.register(() => {
+    if (camera.value && render.frames.value > 0) {
+      renderer.value.render(scene, camera.value as Camera)
+      emit('render', renderer.value)
+    }
+
+    // Reset priority
+    render.priority.value = 0
+
+    if (render.mode.value === 'always') {
+      render.frames.value = 1
+    }
+    else {
+      render.frames.value = Math.max(0, render.frames.value - 1)
+    }
+  }, 'render')
+
+  loop.start()
+
   onUnmounted(() => {
     renderer.value.dispose()
     renderer.value.forceContextLoss()
+    loop.stop()
   })
 
   return {

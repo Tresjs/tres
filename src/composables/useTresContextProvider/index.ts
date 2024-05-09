@@ -141,6 +141,7 @@ export function useTresContextProvider({
       logWarning('`advance` can only be used when `renderMode` is set to `manual`')
     }
   }
+  const loop = createRenderLoop()
 
   const { renderer } = useRenderer(
     {
@@ -149,7 +150,7 @@ export function useTresContextProvider({
       options: rendererOptions,
       emit,
       // TODO: replace contextParts with full ctx at https://github.com/Tresjs/tres/issues/516
-      contextParts: { sizes, camera, render, invalidate, advance },
+      contextParts: { sizes, camera, render, invalidate, advance, loop },
       disableRender,
     },
   )
@@ -181,7 +182,7 @@ export function useTresContextProvider({
     registerCamera,
     setCameraActive,
     deregisterCamera,
-    loop: createRenderLoop(),
+    loop,
   }
 
   provide('useTres', ctx)
@@ -192,25 +193,6 @@ export function useTresContextProvider({
   }
 
   // The loop
-
-  ctx.loop.register(() => {
-    if (camera.value && render.frames.value > 0) {
-      renderer.value.render(scene, camera.value)
-      emit('render', ctx.renderer.value)
-    }
-
-    // Reset priority
-    render.priority.value = 0
-
-    if (render.mode.value === 'always') {
-      render.frames.value = 1
-    }
-    else {
-      render.frames.value = Math.max(0, render.frames.value - 1)
-    }
-  }, 'render')
-
-  ctx.loop.start()
 
   onUnmounted(() => {
     ctx.loop.stop()
