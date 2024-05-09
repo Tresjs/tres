@@ -401,7 +401,7 @@ Also you can get the active state of the render loop using the `isActive` proper
 ```ts
 const { resume, isActive } = useRenderLoop()
 
-console.log(isActive) // false
+console.log(isActive.value) // false
 
 resume()
 
