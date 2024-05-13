@@ -50,7 +50,7 @@ watchEffect(() => {
 
 watchEffect(() => {
   if (unregister.value) {
-    off(updateCallback)
+    off()
   }
 })
 /* const anotherLog = useThrottleFn(() => console.log('after render'), 3000)

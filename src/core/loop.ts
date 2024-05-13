@@ -1,8 +1,7 @@
 import type { Ref } from 'vue'
 import { ref } from 'vue'
 import { Clock, MathUtils } from 'three'
-import { EventHook, createEventHook } from '@vueuse/core'
-import type { Callback, PriorityEventHook } from '../utils/createPriorityEventHook'
+import type { Callback, PriorityEventHookOn } from '../utils/createPriorityEventHook'
 import { createPriorityEventHook } from '../utils/createPriorityEventHook'
 
 export type LoopStage = 'before' | 'render' | 'after'
@@ -15,7 +14,7 @@ export interface LoopCallback {
 
 export interface RendererLoop {
   loopId: string
-  register: (callback: Callback<LoopCallback>, stage: LoopStage, index?: number) => PriorityEventHook<LoopCallback>
+  register: (callback: Callback<LoopCallback>, stage: LoopStage, index?: number) => Partial<PriorityEventHookOn<LoopCallback>>
   start: () => void
   stop: () => void
   pause: () => void
@@ -32,34 +31,22 @@ export function createRenderLoop(): RendererLoop {
   const isRenderPaused = ref(false)
   let animationFrameId: number
   const loopId = MathUtils.generateUUID()
-  let renderCallbackBackup: Callback<LoopCallback> | null = null
+  let defaultRenderFn: Callback<LoopCallback> | null = null
   const subscribersBefore = createPriorityEventHook<LoopCallback>()
-  let subscriberRender = createEventHook<LoopCallback>()
+  const subscriberRender = createPriorityEventHook<LoopCallback>()
   const subscribersAfter = createPriorityEventHook<LoopCallback>()
 
-  function renderOff(callback: Callback<LoopCallback>) {
-    subscriberRender.off(callback)
-    if (renderCallbackBackup) {
-      subscriberRender.on(renderCallbackBackup)
-    }
-    renderCallbackBackup = null
-  }
-
-  function registerCallback(callback: Callback<LoopCallback>, stage: 'before' | 'render' | 'after', index = 0) {
+  function registerCallback(callback: Callback<LoopCallback>, stage: 'before' | 'render' | 'after', index = 0): Partial<PriorityEventHookOn<LoopCallback>> {
     switch (stage) {
       case 'before':
-        subscribersBefore.on(callback, index)
-        return subscribersBefore
+        return subscribersBefore.on(callback, index)
       case 'render':
-        subscriberRender = createEventHook<LoopCallback>()
-        subscriberRender.on(callback)
-        if (!renderCallbackBackup) {
-          renderCallbackBackup = callback
+        if (!defaultRenderFn) {
+          defaultRenderFn = callback
         }
-        return { off: renderOff }
+        return subscriberRender.on(callback)
       case 'after':
-        subscribersAfter.on(callback, index)
-        return subscribersAfter
+        return subscribersAfter.on(callback, index)
     }
   }
 
@@ -106,7 +93,14 @@ export function createRenderLoop(): RendererLoop {
     }
 
     if (!isRenderPaused.value) {
-      subscriberRender.trigger({ delta, elapsed, clock })
+      if (subscriberRender.count) {
+        subscriberRender.trigger({ delta, elapsed, clock })
+      }
+      else {
+        if (defaultRenderFn) {
+          defaultRenderFn({ delta, elapsed, clock }) // <-- keep the default render function separate
+        }
+      }
     }
 
     if (isActive.value) {
