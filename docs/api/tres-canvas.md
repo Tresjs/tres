@@ -91,6 +91,7 @@ renderer.shadowMap.type = PCFSoftShadowMap
 | **toneMapping** | Defines the tone mapping exposure used by the renderer. | `NoToneMapping` |
 | **toneMappingExposure** | Exposure level of tone mapping. | `1` |
 | **useLegacyLights** | Whether to use the legacy lighting mode or not | `true` |
+| **useWindowPointer** | Whether to use the window as the source of pointer events | `false` |
 | **windowSize** | Whether to use the window size as the canvas size or the parent element. | `false` |
 
 ### Defaults
