@@ -181,7 +181,7 @@ const matcapTexture = await useTexture(['https://raw.githubusercontent.com/Tresj
 我们可以将选项作为 props 传递
 
 ```html
-<Text3D :font="fontPath" :text="my 3d text" :size="0.8" />
+<Text3D :font="fontPath" text="my 3d text" :size="0.8" />
 ```
 
 如果未提供选项，则默认值为：
@@ -200,5 +200,5 @@ bevelSegments: 4,
 默认情况下，ThreeJS 中的文本从网格初始位置开始，因此为 [0,0,0]，文本将从那里开始，但我们只需传递标志“center”即可将其居中
 
 ```vue
-<Text3D :font="fontPath" :text="my 3d text" center />
+<Text3D :font="fontPath" text="my 3d text" center />
 ```

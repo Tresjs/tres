@@ -181,7 +181,7 @@ It just works. 💯 (Als er geen tekst is meegegeven dan zal de text TresJS zijn
 We kunnen de opties doorgeven als props
 
 ```html
-<Text3D :font="fontPath" :text="my 3d text" :size="0.8" />
+<Text3D :font="fontPath" text="my 3d text" :size="0.8" />
 ```
 
 als de opties niet zijn opgegeven, zijn de standaardwaarden:
@@ -200,5 +200,5 @@ bevelSegments: 4,
 Standaard begint tekst in ThreeJS op de beginpositie van de mesh, dus het is [0,0,0] en de tekst begint daar, maar we kunnen deze centreren door gewoon de flag "center" door te geven
 
 ```vue
-<Text3D :font="fontPath" :text="my 3d text" center />
+<Text3D :font="fontPath" text="my 3d text" center />
 ```
