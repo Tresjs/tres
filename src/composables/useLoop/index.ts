@@ -39,19 +39,22 @@ export function useLoop() {
   function onBeforeRender(cb: Fn, index = 0) {
     const wrappedCallback = wrapCallback(cb)
     const { off } = loop.register(wrappedCallback, 'before', index)
-    return { off }
+    const wrappedOff = (cb: Fn) => off(wrapCallback(cb))
+    return { off: wrappedOff }
   }
 
   function render(cb: Fn) {
     const wrappedCallback = wrapCallback(cb)
     const { off } = loop.register(wrappedCallback, 'render')
-    return { off }
+    const wrappedOff = (cb: Fn) => off(wrapCallback(cb))
+    return { off: wrappedOff }
   }
 
   function onAfterRender(cb: Fn, index = 0) {
     const wrappedCallback = wrapCallback(cb)
     const { off } = loop.register(wrappedCallback, 'after', index)
-    return { off }
+    const wrappedOff = (cb: Fn) => off(wrapCallback(cb))
+    return { off: wrappedOff }
   }
 
   return {

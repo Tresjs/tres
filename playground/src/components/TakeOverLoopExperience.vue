@@ -6,9 +6,11 @@ import { useControls } from '@tresjs/leches'
 
 const { render, pauseRender, resumeRender } = useLoop()
 
-render(({ renderer, scene, camera }) => {
+const takeOverCb = ({ renderer, scene, camera }) => {
+/*   console.log('Taking over the loop') */
   renderer.render(scene, camera)
-})
+}
+const { off } = render(takeOverCb)
 
 const { isRenderPaused } = useControls({
   isRenderPaused: {
@@ -16,6 +18,20 @@ const { isRenderPaused } = useControls({
     type: 'boolean',
     label: 'Pause Render',
   },
+})
+
+const { unregister } = useControls({
+  unregister: {
+    value: false,
+    type: 'boolean',
+    label: 'Unregister render callback',
+  },
+})
+
+watchEffect(() => {
+  if (unregister.value) {
+    off(takeOverCb)
+  }
 })
 
 watchEffect(() => {

@@ -1,7 +1,7 @@
 import type { Ref } from 'vue'
 import { ref } from 'vue'
 import { Clock, MathUtils } from 'three'
-import { createEventHook } from '@vueuse/core'
+import { EventHook, createEventHook } from '@vueuse/core'
 import type { Callback, PriorityEventHook } from '../utils/createPriorityEventHook'
 import { createPriorityEventHook } from '../utils/createPriorityEventHook'
 
@@ -32,10 +32,18 @@ export function createRenderLoop(): RendererLoop {
   const isRenderPaused = ref(false)
   let animationFrameId: number
   const loopId = MathUtils.generateUUID()
-
+  let renderCallbackBackup: Callback<LoopCallback> | null = null
   const subscribersBefore = createPriorityEventHook<LoopCallback>()
   let subscriberRender = createEventHook<LoopCallback>()
   const subscribersAfter = createPriorityEventHook<LoopCallback>()
+
+  function renderOff(callback: Callback<LoopCallback>) {
+    subscriberRender.off(callback)
+    if (renderCallbackBackup) {
+      subscriberRender.on(renderCallbackBackup)
+    }
+    renderCallbackBackup = null
+  }
 
   function registerCallback(callback: Callback<LoopCallback>, stage: 'before' | 'render' | 'after', index = 0) {
     switch (stage) {
@@ -45,7 +53,10 @@ export function createRenderLoop(): RendererLoop {
       case 'render':
         subscriberRender = createEventHook<LoopCallback>()
         subscriberRender.on(callback)
-        return subscriberRender
+        if (!renderCallbackBackup) {
+          renderCallbackBackup = callback
+        }
+        return { off: renderOff }
       case 'after':
         subscribersAfter.on(callback, index)
         return subscribersAfter

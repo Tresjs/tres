@@ -11,11 +11,13 @@ const log2 = useThrottleFn(() => console.log('this should happen before updating
 
 const { onBeforeRender, pause, resume } = useLoop()
 
-onBeforeRender((state) => {
+const updateCallback = (state) => {
   if (!sphereRef.value) { return }
   log()
   sphereRef.value.position.y += Math.sin(state.elapsed) * 0.01
-})
+}
+
+const { off } = onBeforeRender(updateCallback)
 
 onBeforeRender(() => {
   log2()
@@ -29,12 +31,26 @@ const { areUpdatesPaused } = useControls({
   },
 })
 
+const { unregister } = useControls({
+  unregister: {
+    value: false,
+    type: 'boolean',
+    label: 'Unregister update callback',
+  },
+})
+
 watchEffect(() => {
   if (areUpdatesPaused.value) {
     pause()
   }
   else {
     resume()
+  }
+})
+
+watchEffect(() => {
+  if (unregister.value) {
+    off(updateCallback)
   }
 })
 /* const anotherLog = useThrottleFn(() => console.log('after render'), 3000)
