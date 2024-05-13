@@ -77,7 +77,7 @@ Wir haben einen neuen [StackBlitz](https://stackblitz.com/) Startpunkt, um TresJ
 
 ## Labs
 
-Wir haben auch ein Showroom-Labor mit Beispielen, die mit TresJS erstellt wurden. Probiere es [hier](https://playground.tresjs.org/) aus.
+Wir haben auch ein Showroom-Labor mit Beispielen, die mit TresJS erstellt wurden. Probiere es [hier](https://lab.tresjs.org/) aus.
 
 ![](/tresjs-lab.png)
 
