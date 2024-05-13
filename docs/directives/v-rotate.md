@@ -1,4 +1,8 @@
-# v-rotate
+# v-rotate  <Badge type="warning" text="deprecated since v4" />
+
+::: warning
+This directive has been removed on the `v4` due incompatibility with the new renderer loop.
+:::
 
 ## Problem
 
