@@ -8,8 +8,7 @@ import {
   useDevicePixelRatio,
 } from '@vueuse/core'
 
-import type { Camera, ColorSpace, Scene, ShadowMapType, ToneMapping, WebGLRendererParameters } from 'three'
-import type { RendererLoop } from 'src/core/loop'
+import type { ColorSpace, Scene, ShadowMapType, ToneMapping, WebGLRendererParameters } from 'three'
 import { useLogger } from '../useLogger'
 import type { EmitEventFn, TresColor } from '../../types'
 import { normalizeColor } from '../../utils/normalize'
@@ -99,16 +98,14 @@ export function useRenderer(
   {
     canvas,
     options,
-    scene,
-    emit,
-    contextParts: { camera, sizes, render, invalidate, advance, loop },
+    contextParts: { sizes, render, invalidate, advance },
   }:
   {
     canvas: MaybeRef<HTMLCanvasElement>
     scene: Scene
     options: UseRendererOptions
     emit: EmitEventFn
-    contextParts: Pick<TresContext, 'sizes' | 'camera' | 'render'> & { invalidate: () => void, advance: () => void, loop: RendererLoop }
+    contextParts: Pick<TresContext, 'sizes' | 'camera' | 'render'> & { invalidate: () => void, advance: () => void }
     disableRender: MaybeRefOrGetter<boolean>
   },
 ) {
@@ -250,31 +247,9 @@ export function useRenderer(
     }
   })
 
-  // Register loop
-
-  loop.register(() => {
-    if (camera.value && render.frames.value > 0) {
-      renderer.value.render(scene, camera.value as Camera)
-      emit('render', renderer.value)
-    }
-
-    // Reset priority
-    render.priority.value = 0
-
-    if (render.mode.value === 'always') {
-      render.frames.value = 1
-    }
-    else {
-      render.frames.value = Math.max(0, render.frames.value - 1)
-    }
-  }, 'render')
-
-  loop.start()
-
   onUnmounted(() => {
     renderer.value.dispose()
     renderer.value.forceContextLoss()
-    loop.stop()
   })
 
   return {

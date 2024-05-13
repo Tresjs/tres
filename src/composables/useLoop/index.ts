@@ -30,28 +30,28 @@ export function useLoop() {
     advance,
   } = useTresContext()
 
-  function wrapCallback(cb: Fn) {
-    return (params: LoopCallback) => {
+  function onBeforeRender(cb: Fn, index = 0) {
+    const wrappedCallback = (params: LoopCallback) => {
       cb({ ...params, camera: unref(camera) as TresCamera, scene: unref(scene), renderer: unref(renderer), raycaster: unref(raycaster), controls: unref(controls), invalidate, advance })
     }
-  }
-
-  function onBeforeRender(cb: Fn, index = 0) {
-    const wrappedCallback = wrapCallback(cb)
     const { off } = loop.register(wrappedCallback, 'before', index)
     const wrappedOff = (cb: Fn) => off(wrapCallback(cb))
     return { off: wrappedOff }
   }
 
   function render(cb: Fn) {
-    const wrappedCallback = wrapCallback(cb)
+    const wrappedCallback = (params: LoopCallback) => {
+      cb({ ...params, camera: unref(camera) as TresCamera, scene: unref(scene), renderer: unref(renderer), raycaster: unref(raycaster), controls: unref(controls), invalidate, advance })
+    }
     const { off } = loop.register(wrappedCallback, 'render')
     const wrappedOff = (cb: Fn) => off(wrapCallback(cb))
     return { off: wrappedOff }
   }
 
   function onAfterRender(cb: Fn, index = 0) {
-    const wrappedCallback = wrapCallback(cb)
+    const wrappedCallback = (params: LoopCallback) => {
+      cb({ ...params, camera: unref(camera) as TresCamera, scene: unref(scene), renderer: unref(renderer), raycaster: unref(raycaster), controls: unref(controls), invalidate, advance })
+    }
     const { off } = loop.register(wrappedCallback, 'after', index)
     const wrappedOff = (cb: Fn) => off(wrapCallback(cb))
     return { off: wrappedOff }
