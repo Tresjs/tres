@@ -1,6 +1,7 @@
 import type { Ref } from 'vue'
 import { ref } from 'vue'
 import { Clock, MathUtils } from 'three'
+import type { Fn } from '@vueuse/core'
 import type { Callback, PriorityEventHookOn } from '../utils/createPriorityEventHook'
 import { createPriorityEventHook } from '../utils/createPriorityEventHook'
 
@@ -14,7 +15,7 @@ export interface LoopCallback {
 
 export interface RendererLoop {
   loopId: string
-  register: (callback: Callback<LoopCallback>, stage: LoopStage, index?: number) => Partial<PriorityEventHookOn<LoopCallback>>
+  register: (callback: Fn, stage: LoopStage, index?: number) => Partial<PriorityEventHookOn<LoopCallback>>
   start: () => void
   stop: () => void
   pause: () => void
@@ -23,6 +24,7 @@ export interface RendererLoop {
   resumeRender: () => void
   isActive: Ref<boolean>
   isRenderPaused: Ref<boolean>
+  setContext: (newContext: Record<string, any>) => void
 }
 
 export function createRenderLoop(): RendererLoop {
@@ -35,6 +37,13 @@ export function createRenderLoop(): RendererLoop {
   const subscribersBefore = createPriorityEventHook<LoopCallback>()
   const subscriberRender = createPriorityEventHook<LoopCallback>()
   const subscribersAfter = createPriorityEventHook<LoopCallback>()
+
+  // Context to be passed to callbacks
+  let context: Record<string, any> = {}
+
+  function setContext(newContext: Record<string, any>) {
+    context = newContext
+  }
 
   function registerCallback(callback: Callback<LoopCallback>, stage: 'before' | 'render' | 'after', index = 0): Partial<PriorityEventHookOn<LoopCallback>> {
     switch (stage) {
@@ -87,24 +96,25 @@ export function createRenderLoop(): RendererLoop {
   function loop() {
     const delta = clock.getDelta()
     const elapsed = clock.getElapsedTime()
+    const params = { delta, elapsed, clock, ...context }
 
     if (isActive.value) {
-      subscribersBefore.trigger({ delta, elapsed, clock })
+      subscribersBefore.trigger(params)
     }
 
     if (!isRenderPaused.value) {
       if (subscriberRender.count) {
-        subscriberRender.trigger({ delta, elapsed, clock })
+        subscriberRender.trigger(params)
       }
       else {
         if (defaultRenderFn) {
-          defaultRenderFn({ delta, elapsed, clock }) // <-- keep the default render function separate
+          defaultRenderFn(params) // <-- keep the default render function separate
         }
       }
     }
 
     if (isActive.value) {
-      subscribersAfter.trigger({ delta, elapsed, clock })
+      subscribersAfter.trigger(params)
     }
 
     animationFrameId = requestAnimationFrame(loop)
@@ -112,7 +122,7 @@ export function createRenderLoop(): RendererLoop {
 
   return {
     loopId,
-    register: (callback: Callback<LoopCallback>, stage: 'before' | 'render' | 'after', index) => registerCallback(callback, stage, index),
+    register: (callback: Fn, stage: 'before' | 'render' | 'after', index) => registerCallback(callback, stage, index),
     start,
     stop,
     pause,
@@ -121,5 +131,6 @@ export function createRenderLoop(): RendererLoop {
     resumeRender,
     isRenderPaused,
     isActive,
+    setContext,
   }
 }

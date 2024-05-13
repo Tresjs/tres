@@ -19,7 +19,6 @@ const gl = {
   <TresCanvas v-bind="gl">
     <TresPerspectiveCamera :position="[3, 3, 3]" />
     <OrbitControls />
-    <TresGridHelper />
     <!--  <Fbo
       ref="fboRef"
       v-bind="state"

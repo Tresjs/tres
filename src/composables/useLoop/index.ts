@@ -1,22 +1,7 @@
-import type { EventDispatcher, Raycaster, WebGLRenderer } from 'three'
 import { unref } from 'vue'
-import type { TresCamera, TresScene } from '../../types'
+import type { Fn } from '@vueuse/core'
+import type { TresCamera } from '../../types'
 import { useTresContext } from '../useTresContextProvider'
-import type { LoopCallback } from '../../core/loop'
-import type { SizesType } from '../useSizes'
-
-export interface LoopParams extends LoopCallback {
-  camera: TresCamera
-  scene: TresScene
-  renderer: WebGLRenderer
-  invalidate: () => void
-  advance: () => void
-  raycaster: Raycaster
-  controls: (EventDispatcher & { enabled: boolean })
-  sizes: SizesType
-}
-
-export type Fn = (params: LoopParams) => void
 
 export function useLoop() {
   const {
@@ -30,25 +15,27 @@ export function useLoop() {
     advance,
   } = useTresContext()
 
+  // Pass context to loop
+  loop.setContext({
+    camera: unref(camera) as TresCamera,
+    scene: unref(scene),
+    renderer: unref(renderer),
+    raycaster: unref(raycaster),
+    controls: unref(controls),
+    invalidate,
+    advance,
+  })
+
   function onBeforeRender(cb: Fn, index = 0) {
-    const wrappedCallback = (params: LoopCallback) => {
-      cb({ ...params, camera: unref(camera) as TresCamera, scene: unref(scene), renderer: unref(renderer), raycaster: unref(raycaster), controls: unref(controls), invalidate, advance })
-    }
-    return loop.register(wrappedCallback, 'before', index)
+    return loop.register(cb, 'before', index)
   }
 
   function render(cb: Fn) {
-    const wrappedCallback = (params: LoopCallback) => {
-      cb({ ...params, camera: unref(camera) as TresCamera, scene: unref(scene), renderer: unref(renderer), raycaster: unref(raycaster), controls: unref(controls), invalidate, advance })
-    }
-    return loop.register(wrappedCallback, 'render')
+    return loop.register(cb, 'render')
   }
 
   function onAfterRender(cb: Fn, index = 0) {
-    const wrappedCallback = (params: LoopCallback) => {
-      cb({ ...params, camera: unref(camera) as TresCamera, scene: unref(scene), renderer: unref(renderer), raycaster: unref(raycaster), controls: unref(controls), invalidate, advance })
-    }
-    return loop.register(wrappedCallback, 'after', index)
+    return loop.register(cb, 'after', index)
   }
 
   return {

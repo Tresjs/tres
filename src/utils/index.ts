@@ -308,6 +308,8 @@ export function disposeObject3D(object: TresObject): void {
       disposeMaterial(mesh.material)
       delete mesh.material
     }
-    object.dispose?.()
+    if (object) {
+      object.dispose?.()
+    }
   }
 }

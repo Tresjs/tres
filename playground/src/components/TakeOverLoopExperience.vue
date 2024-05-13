@@ -47,5 +47,4 @@ watchEffect(() => {
   <OrbitControls />
   <AnimatedObjectUseUpdate />
   <TresAmbientLight :intensity="1" /> />
-  <TresGridHelper />
 </template>
