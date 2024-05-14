@@ -53,6 +53,7 @@ export function createRenderLoop(): RendererLoop {
         if (!defaultRenderFn) {
           defaultRenderFn = callback
         }
+        subscriberRender.dispose()
         return subscriberRender.on(callback)
       case 'after':
         return subscribersAfter.on(callback, index)
