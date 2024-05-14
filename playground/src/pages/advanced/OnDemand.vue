@@ -33,5 +33,6 @@ function onRender() {
       :position="[0, 8, 4]"
       :intensity="0.7"
     />
+    <TheSphere />
   </TresCanvas>
 </template>

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
 import { reactive, ref } from 'vue'
-import { TresCanvas, useRenderLoop } from '@tresjs/core'
+import { TresCanvas } from '@tresjs/core'
 import { OrbitControls } from '@tresjs/cientos'
 
 const state = reactive({
@@ -86,7 +86,6 @@ const sphereExists = ref(true)
       <TresPlaneGeometry :args="[10, 10, 10, 10]" />
       <TresMeshBasicMaterial />
     </TresMesh>
-
     <TresDirectionalLight
       :position="[0, 2, 4]"
       :intensity="1"

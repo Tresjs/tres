@@ -40,11 +40,13 @@ onAfterLoop.on(() => {
   elapsed = clock.getElapsedTime()
 })
 
-export const useRenderLoop = (): UseRenderLoopReturn => ({
-  onBeforeLoop: onBeforeLoop.on,
-  onLoop: onLoop.on,
-  onAfterLoop: onAfterLoop.on,
-  pause,
-  resume,
-  isActive,
-})
+export const useRenderLoop = (): UseRenderLoopReturn => {
+  return {
+    onBeforeLoop: onBeforeLoop.on,
+    onLoop: onLoop.on,
+    onAfterLoop: onAfterLoop.on,
+    pause,
+    resume,
+    isActive,
+  }
+}

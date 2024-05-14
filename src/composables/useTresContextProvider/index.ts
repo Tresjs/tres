@@ -13,6 +13,8 @@ import type { EmitEventFn, TresObject, TresScene } from '../../types'
 import type { EventProps } from '../usePointerEventHandler'
 import type { TresEventManager } from '../useTresEventManager'
 import useSizes, { type SizesType } from '../useSizes'
+import type { RendererLoop } from '../../core/loop'
+import { createRenderLoop } from '../../core/loop'
 
 export interface InternalState {
   priority: Ref<number>
@@ -57,6 +59,8 @@ export interface TresContext {
   raycaster: ShallowRef<Raycaster>
   perf: PerformanceState
   render: RenderState
+  // Loop
+  loop: RendererLoop
   /**
    * Invalidates the current frame when renderMode === 'on-demand'
    */
@@ -176,6 +180,7 @@ export function useTresContextProvider({
     registerCamera,
     setCameraActive,
     deregisterCamera,
+    loop: createRenderLoop(),
   }
 
   provide('useTres', ctx)
@@ -184,6 +189,31 @@ export function useTresContextProvider({
   ctx.scene.value.__tres = {
     root: ctx,
   }
+
+  // The loop
+
+  ctx.loop.register(() => {
+    if (camera.value && render.frames.value > 0) {
+      renderer.value.render(scene, camera.value)
+      emit('render', ctx.renderer.value)
+    }
+
+    // Reset priority
+    render.priority.value = 0
+
+    if (render.mode.value === 'always') {
+      render.frames.value = 1
+    }
+    else {
+      render.frames.value = Math.max(0, render.frames.value - 1)
+    }
+  }, 'render')
+
+  ctx.loop.start()
+
+  onUnmounted(() => {
+    ctx.loop.stop()
+  })
 
   // Performance
   const updateInterval = 100 // Update interval in milliseconds

@@ -1,16 +1,16 @@
 <script setup lang="ts">
 import {
+  advancedRoutes,
   basicRoutes,
   cameraRoutes,
   eventsRoutes,
   miscRoutes,
   modelsRoutes,
-  perfRoutes,
 } from '../router/routes'
 
 const sections = [
   { icon: '📦', title: 'Basic', routes: basicRoutes },
-  { icon: '🏎️', title: 'Perf', routes: perfRoutes },
+  { icon: '🤓', title: 'Advanced', routes: advancedRoutes },
   { icon: '📣', title: 'Events', routes: eventsRoutes },
   { icon: '📷', title: 'Camera', routes: cameraRoutes },
   { icon: '🐇', title: 'Models', routes: modelsRoutes },
