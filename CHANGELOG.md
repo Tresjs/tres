@@ -1,5 +1,18 @@
 
 
+## [4.0.0-rc.1](https://github.com/Tresjs/tres/compare/4.0.0-rc.0...4.0.0-rc.1) (2024-05-15)
+
+
+### Features
+
+* 633 use loop  ([#673](https://github.com/Tresjs/tres/issues/673)) ([1b2fa70](https://github.com/Tresjs/tres/commit/1b2fa70e9999eb64395b3e7e9f2489ceab035a7a))
+
+
+### Bug Fixes
+
+* make on* callbacks settable ([#672](https://github.com/Tresjs/tres/issues/672)) ([ac152df](https://github.com/Tresjs/tres/commit/ac152dfa91c6ba347cbe0566fb4afbe19f50dd2b))
+* **utils:** reorder object disposal to avoid issue with Helper `dispose` methods ([#683](https://github.com/Tresjs/tres/issues/683)) ([e5a2cef](https://github.com/Tresjs/tres/commit/e5a2cef0e450196abaa6d18380a5aadbc9cd057d))
+
 ## [4.0.0-rc.0](https://github.com/Tresjs/tres/compare/3.9.0...4.0.0-rc.0) (2024-04-25)
 
 
