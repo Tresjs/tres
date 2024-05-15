@@ -295,6 +295,9 @@ export function disposeObject3D(object: TresObject): void {
   }
   else {
     const mesh = object as unknown as Partial<Mesh>
+    if (object) {
+      object.dispose?.()
+    }
     if (mesh.geometry) {
       mesh.geometry.dispose()
       delete mesh.geometry
@@ -307,9 +310,6 @@ export function disposeObject3D(object: TresObject): void {
     else if (mesh.material) {
       disposeMaterial(mesh.material)
       delete mesh.material
-    }
-    if (object) {
-      object.dispose?.()
     }
   }
 }
