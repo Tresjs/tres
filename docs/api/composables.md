@@ -62,7 +62,7 @@ const context = useTresContext()
 | **advance** | a method to advance the render loop. This is only required if you set the `render-mode` prop to `manual`. |
 | **loop** | the renderer loop |
 
-### useLoop <Badge text="v4.1.0" />
+### useLoop <Badge text="v4.0.0" />
 
 This composable allows you to execute a callback on every rendered frame, similar to `useRenderLoop` but unique to each `TresCanvas` instance and with access to the [context](#usetrescontext).
 
@@ -342,7 +342,7 @@ watch(character, ({ model }) => {
 The `useRenderLoop` composable can be use for animations that don't require access to the [context](#usetrescontext). It allows you to register a callback that will be called on native refresh rate.
 
 ::: warning
- Since v4.1.0, `useRenderLoop` is no longer used internally to control the rendering, if you want to use conditional rendering, multiple canvases or need access to state please `useLoop` instead. [Read why](#useloop)
+ Since v4.0.0, `useRenderLoop` is no longer used internally to control the rendering, if you want to use conditional rendering, multiple canvases or need access to state please `useLoop` instead. [Read why](#useloop)
 :::
 
 ```ts
