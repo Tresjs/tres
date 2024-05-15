@@ -37,10 +37,8 @@ const { scene } = await useLoader(GLTFLoader, '/models/AkuAku.gltf')
 
 然后，你可以将模型场景传递给 TresJS [`primitive`](/advanced/primitive) 组件以渲染它：
 
-```html{2}
-<TresCanvas>
-    <primitive :object="scene" />
-</TresCanvas>
+```html
+<primitive :object="scene" />
 ```
 
 > `<primitive />` 组件不是 Tres 源代码中的独立组件。相反，它是 Tres 核心功能的一部分。当你使用 `<primitive>` 时，它会被转换为 `createElement` 调用，该调用会根据提供的“object”道具创建适当的 three.js 对象。
@@ -67,11 +65,11 @@ const { scene, nodes, animations, materials } = await useGLTF('/models/AkuAku.gl
 
 或者，你可以使用 `nodes` 属性轻松选择模型中的对象
 
-```vue
-<script setup lang="ts">
-import { useGLTF } from '@tresjs/cientos'
+::: code-group
 
-const { scene, nodes, animations, materials } = await useGLTF('/models/AkuAku.gltf', { draco: true })
+```vue [App.vue]
+<script setup lang="ts">
+import Model from './Model.vue'
 </script>
 
 <template>
@@ -82,10 +80,25 @@ const { scene, nodes, animations, materials } = await useGLTF('/models/AkuAku.gl
   >
     <TresPerspectiveCamera :position="[11, 11, 11]" />
     <OrbitControls />
-    <primitive :object="nodes.MyModel" /> // 请注意，这里的 "MyModel" 只是一个占位符
+    <Suspense>
+      <Model />
+    </Suspense>
   </TresCanvas>
 </template>
 ```
+
+```vue [Model.vue]
+<script setup lang="ts">
+import { useGLTF } from '@tresjs/cientos'
+
+const { nodes } = await useGLTF('/models/AkuAku.gltf', { draco: true })
+</script>
+
+<template>
+  <primitive :object="node.AkuAku" />
+</template>
+```
+:::
 
 ## 使用 `GLTFModel`
 
@@ -121,10 +134,8 @@ const model = await useFBX('/models/AkuAku.fbx')
 
 然后，将场景添加到你的场景中非常简单：
 
-```html{2}
-<TresCanvas shadows alpha>
-    <primitive :object="scene" />
-</TresCanvas>
+```html
+<primitive :object="model" />
 ```
 
 ## FBXModel

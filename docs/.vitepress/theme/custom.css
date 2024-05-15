@@ -59,6 +59,49 @@
   background-color: var(--vp-button-alt-bg);
 }
 
+.VPButton.medium.egghead-cta {
+  border-color: var(--vp-c-border);
+  position: relative;
+}
+
+.VPButton.medium.egghead-cta:hover {
+  border-color: var(--vp-c-border);
+  color: var(--vp-button-brand-text);
+  background-color: var(--vp-c-brand-light);
+}
+
+.VPButton.medium.egghead-cta::before {
+  content: url('/egghead-icon.png');
+  display: inline-block;
+  transform: translateY(0.1rem);
+  margin-right: 0.5rem;
+}
+
+.VPButton.medium.egghead-cta:hover::after {
+  animation: none;
+}
+.VPButton.medium.egghead-cta::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /*  background-color: var( --vp-c-dark); */
+  border: 1px solid var(--vp-c-brand);
+  border-radius: 20px;
+  animation: ping 3s cubic-bezier(0, 0, 0.2, 1) infinite;
+  z-index: -1;
+}
+
+@keyframes ping {
+  15%,
+  to {
+    transform: scale(1.25, 2);
+    opacity: 0;
+  }
+}
+
 .VPHomeSponsors {
   margin-bottom: 0px !important;
 }
