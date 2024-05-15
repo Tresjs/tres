@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
 import { reactive, ref } from 'vue'
-import { TresCanvas } from '@tresjs/core'
+import { TresCanvas, useRenderLoop } from '@tresjs/core'
 import { OrbitControls } from '@tresjs/cientos'
 
 const state = reactive({
@@ -50,7 +50,7 @@ const sphereExists = ref(true)
     v-bind="state"
   >
     <TresPerspectiveCamera
-      :position="[5, 5, 5]"
+      :position="[11, 11, 11]"
       :fov="45"
       :near="0.1"
       :far="1000"

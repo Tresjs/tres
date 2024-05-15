@@ -1,5 +1,5 @@
 export * from './useCamera/'
-export * from './useRenderLoop/'
+export * from './useRenderLoop'
 export * from './useRenderer/'
 export * from './useLoader'
 export * from './useTexture'
