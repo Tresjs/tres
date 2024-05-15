@@ -1,9 +1,12 @@
 <!-- eslint-disable no-console -->
 <script setup lang="ts">
-import { useUpdate } from '@tresjs/core'
+import { useLoop } from '@tresjs/core'
 
 const sphereRef = ref()
-useUpdate((state) => {
+
+const { onBeforeRender } = useLoop()
+
+onBeforeRender((state) => {
   if (!sphereRef.value) { return }
   sphereRef.value.position.y += Math.sin(state.elapsed) * 0.01
 })
