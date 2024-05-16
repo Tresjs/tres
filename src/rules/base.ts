@@ -2,7 +2,7 @@ const baseConfig = [
 
   // General Rules
   {
-    name: 'alvarosabu:general',
+    name: 'tres:general',
     rules: {
       'curly': ['error', 'all'],
       'style/function-call-spacing': ['error', 'never'],
@@ -13,7 +13,7 @@ const baseConfig = [
 
   // Vue Rules
   {
-    name: 'alvarosabu:vue',
+    name: 'tres:vue',
     files: ['**/*.vue'],
     rules: {
       'vue/max-attributes-per-line': ['error', {
@@ -27,6 +27,7 @@ const baseConfig = [
           normal: 'never',
         },
       }],
+      'vue/attribute-hyphenation': 'off',
     },
   },
 ]
