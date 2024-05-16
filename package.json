@@ -38,18 +38,18 @@
     "watch": "tsup --format esm,cjs --watch"
   },
   "peerDependencies": {
-    "eslint": "8.x"
+    "eslint": "9.x"
   },
   "dependencies": {
-    "@antfu/eslint-config": "^2.8.0",
-    "eslint-plugin-format": "^0.1.0"
+    "@antfu/eslint-config": "^2.18.0",
+    "eslint-plugin-format": "^0.1.1"
   },
   "devDependencies": {
     "@release-it/conventional-changelog": "^8.0.1",
     "eslint": "npm:eslint-ts-patch@8.57.0-0",
-    "eslint-flat-config-viewer": "^0.1.11",
-    "eslint-ts-patch": "8.57.0-0",
-    "release-it": "^17.1.1",
+    "eslint-flat-config-viewer": "^0.1.20",
+    "eslint-ts-patch": "9.2.0-6",
+    "release-it": "^17.2.1",
     "tsup": "^8.0.2"
   }
 }
