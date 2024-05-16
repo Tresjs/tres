@@ -1,4 +1,4 @@
-import type { Awaitable, TypedFlatConfigItem, OptionsConfig } from '@antfu/eslint-config'
+import type { Awaitable, OptionsConfig, TypedFlatConfigItem } from '@antfu/eslint-config'
 import antfu from '@antfu/eslint-config'
 import antfuOptions from './rules/antfu'
 import base from './rules/base'
