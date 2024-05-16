@@ -54,16 +54,16 @@ onLoop(() => {
 <template>
   <TresHolographicMaterial
     ref="MeshHolographicMaterialClass"
-    :uniforms-fresnel-amount-value="props.fresnelAmount"
-    :uniforms-enable-blinking-value="props.enableBlinking"
-    :uniforms-fresnel-opacity-value="props.fresnelOpacity"
-    :uniforms-hologram-brightness-value="props.hologramBrightness"
-    :uniforms-scanline-size-value="props.scanlineSize"
-    :uniforms-signal-speed-value="props.signalSpeed"
-    :uniforms-hologram-color-value="props.hologramColor"
-    :uniforms-hologram-opacity-value="props.hologramOpacity"
-    :uniforms-blink-fresnel-only-value="props.blinkFresnelOnly"
-    :enable-additive="props.enableAdditive"
+    :uniforms-fresnelAmount-value="props.fresnelAmount"
+    :uniforms-enableBlinking-value="props.enableBlinking"
+    :uniforms-fresnelOpacity-value="props.fresnelOpacity"
+    :uniforms-hologramBrightness-value="props.hologramBrightness"
+    :uniforms-scanlineSize-value="props.scanlineSize"
+    :uniforms-signalSpeed-value="props.signalSpeed"
+    :uniforms-hologramColor-value="props.hologramColor"
+    :uniforms-hologramOpacity-value="props.hologramOpacity"
+    :uniforms-blinkFresnelOnly-value="props.blinkFresnelOnly"
+    :enableAdditive="props.enableAdditive"
     :side="props.side"
   />
 </template>

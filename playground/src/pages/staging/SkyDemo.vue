@@ -12,7 +12,7 @@ const gl = {
   toneMappingExposure: 1,
 }
 
-const [turbidity, rayleigh, mieCoefficient, mieDirectionalG, elevation, azimuth, distance, exposure] = useControls({
+const { turbidity, rayleigh, mieCoefficient, mieDirectionalG, elevation, azimuth, distance, exposure } = useControls({
   turbidity: { value: 3.4, min: 0, max: 20, step: 0.1 },
   rayleigh: { value: 3, min: 0, max: 4, step: 0.1 },
   mieCoefficient: { value: 0.005, min: 0, max: 0.1, step: 0.001 },
