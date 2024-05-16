@@ -1,13 +1,13 @@
-import type { Awaitable, FlatConfigItem, OptionsConfig, UserConfigItem } from '@antfu/eslint-config'
+import type { Awaitable, TypedFlatConfigItem, OptionsConfig } from '@antfu/eslint-config'
 import antfu from '@antfu/eslint-config'
 import antfuOptions from './rules/antfu'
 import base from './rules/base'
 import nuxt from './rules/nuxt'
 
 const tresLintConfig = (
-  options: OptionsConfig & FlatConfigItem = {},
-  ...configs: Awaitable<UserConfigItem | UserConfigItem[]>[]
-): Promise<UserConfigItem[]> => {
+  options: OptionsConfig & TypedFlatConfigItem = {},
+  ...configs: Awaitable<TypedFlatConfigItem | TypedFlatConfigItem[]>[]
+): Promise<TypedFlatConfigItem[]> => {
   return antfu(
     // @antfu/eslint-config options, must be the first argument
     {
@@ -15,7 +15,7 @@ const tresLintConfig = (
       ...options,
     },
     // Addtionals flat configs start from here
-    base as FlatConfigItem,
+    base as TypedFlatConfigItem,
     ...configs,
   )
 }
