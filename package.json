@@ -38,7 +38,7 @@
     "watch": "tsup --format esm,cjs --watch"
   },
   "peerDependencies": {
-    "eslint": "8.x"
+    "eslint": "9.x"
   },
   "dependencies": {
     "@antfu/eslint-config": "^2.18.0",
