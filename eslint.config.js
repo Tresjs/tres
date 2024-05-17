@@ -5,7 +5,6 @@ export default tresLintConfig({
 }, {
   rules: {
     'style/max-statements-per-line': 'off',
-    'vue/attribute-hyphenation': 'off',
     'jsdoc/check-alignment': 'off',
   },
 })
