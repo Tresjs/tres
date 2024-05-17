@@ -2,7 +2,12 @@ export const advancedRoutes = [
   {
     path: '/advanced/on-demand',
     name: 'On Demand',
-    component: () => import('../../pages/advanced/OnDemand.vue'),
+    component: () => import('../../pages/advanced/on-demand/index.vue'),
+  },
+  {
+    path: '/advanced/manual',
+    name: 'Manual rendering',
+    component: () => import('../../pages/advanced/manual/index.vue'),
   },
   {
     path: '/advanced/take-over-loop',
