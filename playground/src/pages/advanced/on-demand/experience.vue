@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { OrbitControls } from '@tresjs/cientos'
-import { useLoop, useTres } from '@tresjs/core'
+import { useTres } from '@tresjs/core'
+import { ref, watch } from 'vue'
 import BlenderCube from '../../../components/BlenderCube.vue'
 
 const { invalidate } = useTres()
