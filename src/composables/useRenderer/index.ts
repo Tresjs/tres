@@ -187,7 +187,7 @@ export function useRenderer(
     // Advance for the first time, setTimeout to make sure there is something to render
     setTimeout(() => {
       advance()
-    }, 1)
+    }, 100)
   }
 
   watchEffect(() => {
