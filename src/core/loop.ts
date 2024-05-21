@@ -1,8 +1,9 @@
 import type { Ref } from 'vue'
 import { ref, unref } from 'vue'
+import type { Camera, EventDispatcher, Raycaster, Scene, WebGLRenderer } from 'three'
 import { Clock, MathUtils } from 'three'
 import type { Fn } from '@vueuse/core'
-import type { Callback, PriorityEventHookOn } from '../utils/createPriorityEventHook'
+import type { Callback } from '../utils/createPriorityEventHook'
 import { createPriorityEventHook } from '../utils/createPriorityEventHook'
 
 export type LoopStage = 'before' | 'render' | 'after'
@@ -13,15 +14,29 @@ export interface LoopCallback {
   clock: Clock
 }
 
+export interface LoopCallbackWithCtx extends LoopCallback {
+  camera: Camera
+  scene: Scene
+  renderer: WebGLRenderer
+  raycaster: Raycaster
+  controls: Ref<(EventDispatcher<object> & {
+    enabled: boolean
+  }) | null>
+  invalidate: Fn
+  advance: Fn
+}
+
+export type LoopCallbackFn = (params: LoopCallbackWithCtx) => void
+
 export interface RendererLoop {
   loopId: string
-  register: (callback: Fn, stage: LoopStage, index?: number) => Partial<PriorityEventHookOn<LoopCallback>>
-  start: () => void
-  stop: () => void
-  pause: () => void
-  resume: () => void
-  pauseRender: () => void
-  resumeRender: () => void
+  register: (callback: LoopCallbackFn, stage: LoopStage, index?: number) => { off: Fn }
+  start: Fn
+  stop: Fn
+  pause: Fn
+  resume: Fn
+  pauseRender: Fn
+  resumeRender: Fn
   isActive: Ref<boolean>
   isRenderPaused: Ref<boolean>
   setContext: (newContext: Record<string, any>) => void
@@ -33,10 +48,10 @@ export function createRenderLoop(): RendererLoop {
   const isRenderPaused = ref(false)
   let animationFrameId: number
   const loopId = MathUtils.generateUUID()
-  let defaultRenderFn: Callback<LoopCallback> | null = null
-  const subscribersBefore = createPriorityEventHook<LoopCallback>()
-  const subscriberRender = createPriorityEventHook<LoopCallback>()
-  const subscribersAfter = createPriorityEventHook<LoopCallback>()
+  let defaultRenderFn: Callback<LoopCallbackWithCtx> | null = null
+  const subscribersBefore = createPriorityEventHook<LoopCallbackWithCtx>()
+  const subscriberRender = createPriorityEventHook<LoopCallbackWithCtx>()
+  const subscribersAfter = createPriorityEventHook<LoopCallbackWithCtx>()
 
   // Context to be passed to callbacks
   let context: Record<string, any> = {}
@@ -45,7 +60,7 @@ export function createRenderLoop(): RendererLoop {
     context = newContext
   }
 
-  function registerCallback(callback: Callback<LoopCallback>, stage: 'before' | 'render' | 'after', index = 0): Partial<PriorityEventHookOn<LoopCallback>> {
+  function registerCallback(callback: LoopCallbackFn, stage: 'before' | 'render' | 'after', index = 0): { off: Fn } {
     switch (stage) {
       case 'before':
         return subscribersBefore.on(callback, index)
@@ -132,7 +147,7 @@ export function createRenderLoop(): RendererLoop {
 
   return {
     loopId,
-    register: (callback: Fn, stage: 'before' | 'render' | 'after', index) => registerCallback(callback, stage, index),
+    register: (callback: LoopCallbackFn, stage: 'before' | 'render' | 'after', index) => registerCallback(callback, stage, index),
     start,
     stop,
     pause,

@@ -1,5 +1,5 @@
-import type { Fn } from '@vueuse/core'
 import { useTresContext } from '../useTresContextProvider'
+import type { LoopCallbackFn } from './../../core/loop'
 
 export function useLoop() {
   const {
@@ -24,15 +24,15 @@ export function useLoop() {
     advance,
   })
 
-  function onBeforeRender(cb: Fn, index = 0) {
+  function onBeforeRender(cb: LoopCallbackFn, index = 0) {
     return loop.register(cb, 'before', index)
   }
 
-  function render(cb: Fn) {
+  function render(cb: LoopCallbackFn) {
     return loop.register(cb, 'render')
   }
 
-  function onAfterRender(cb: Fn, index = 0) {
+  function onAfterRender(cb: LoopCallbackFn, index = 0) {
     return loop.register(cb, 'after', index)
   }
 
