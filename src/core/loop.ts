@@ -1,5 +1,5 @@
 import type { Ref } from 'vue'
-import { ref } from 'vue'
+import { ref, unref } from 'vue'
 import { Clock, MathUtils } from 'three'
 import type { Fn } from '@vueuse/core'
 import type { Callback, PriorityEventHookOn } from '../utils/createPriorityEventHook'
@@ -97,7 +97,16 @@ export function createRenderLoop(): RendererLoop {
   function loop() {
     const delta = clock.getDelta()
     const elapsed = clock.getElapsedTime()
-    const params = { delta, elapsed, clock, ...context }
+    const snapshotCtx = {
+      camera: unref(context.camera),
+      scene: unref(context.scene),
+      renderer: unref(context.renderer),
+      raycaster: unref(context.raycaster),
+      controls: unref(context.controls),
+      invalidate: context.invalidate,
+      advance: context.advance,
+    }
+    const params = { delta, elapsed, clock, ...snapshotCtx }
 
     if (isActive.value) {
       subscribersBefore.trigger(params)
