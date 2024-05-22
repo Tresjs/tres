@@ -97,7 +97,8 @@ export const esConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
             link: 'https://tresleches.tresjs.org/',
           },
           {
-            text: 'Post-procesamiento (Próximamente)',
+            text: 'Post-procesamiento',
+            link: 'https://post-processing.tresjs.org/',
           },
         ],
       },
