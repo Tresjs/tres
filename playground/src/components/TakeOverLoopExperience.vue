@@ -3,7 +3,6 @@ import { useLoop } from '@tresjs/core'
 
 import { OrbitControls } from '@tresjs/cientos'
 import { useControls } from '@tresjs/leches'
-import { set } from '@vueuse/core'
 
 const { render, pauseRender, resumeRender } = useLoop()
 
