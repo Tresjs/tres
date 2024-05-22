@@ -1,7 +1,5 @@
-import { unref } from 'vue'
-import type { Fn } from '@vueuse/core'
-import type { TresCamera } from '../../types'
 import { useTresContext } from '../useTresContextProvider'
+import type { LoopCallbackFn } from './../../core/loop'
 
 export function useLoop() {
   const {
@@ -17,24 +15,24 @@ export function useLoop() {
 
   // Pass context to loop
   loop.setContext({
-    camera: unref(camera) as TresCamera,
-    scene: unref(scene),
-    renderer: unref(renderer),
-    raycaster: unref(raycaster),
-    controls: unref(controls),
+    camera,
+    scene,
+    renderer,
+    raycaster,
+    controls,
     invalidate,
     advance,
   })
 
-  function onBeforeRender(cb: Fn, index = 0) {
+  function onBeforeRender(cb: LoopCallbackFn, index = 0) {
     return loop.register(cb, 'before', index)
   }
 
-  function render(cb: Fn) {
+  function render(cb: LoopCallbackFn) {
     return loop.register(cb, 'render')
   }
 
-  function onAfterRender(cb: Fn, index = 0) {
+  function onAfterRender(cb: LoopCallbackFn, index = 0) {
     return loop.register(cb, 'after', index)
   }
 

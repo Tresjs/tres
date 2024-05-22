@@ -19,6 +19,18 @@ const gl = {
 }
 
 useControls('fpsgraph')
+
+const modelsPositions = ref([
+  {
+    position: [0, 2, 2],
+  },
+  {
+    position: [0, 3, 5],
+  },
+  {
+    position: [0, 1, 1],
+  },
+])
 </script>
 
 <template>
@@ -35,7 +47,7 @@ useControls('fpsgraph')
     <OrbitControls />
 
     <Suspense>
-      <DynamicModel />
+      <DynamicModel v-for="model in modelsPositions" :key="model" :position="model.position" />
     </Suspense>
     <TresAxesHelper :args="[1]" />
     <TresDirectionalLight

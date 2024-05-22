@@ -1,19 +1,19 @@
 <!-- eslint-disable no-console -->
 <script setup lang="ts">
-import { useLoop } from '@tresjs/core'
+import { type LoopCallbackWithCtx, useLoop } from '@tresjs/core'
 import { useControls } from '@tresjs/leches'
 import { useThrottleFn } from '@vueuse/core'
 
 const sphereRef = ref()
 
-const log = useThrottleFn(() => console.log('updating sphere'), 3000)
+const log = useThrottleFn(state => console.log('updating sphere', state), 3000)
 const log2 = useThrottleFn(() => console.log('this should happen before updating the sphere'), 3000)
 
 const { onBeforeRender, pause, resume } = useLoop()
 
-const updateCallback = (state) => {
+const updateCallback = (state: LoopCallbackWithCtx) => {
   if (!sphereRef.value) { return }
-  log()
+  log(state)
   sphereRef.value.position.y += Math.sin(state.elapsed) * 0.01
 }
 

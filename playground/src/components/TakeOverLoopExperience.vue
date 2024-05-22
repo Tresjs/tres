@@ -40,11 +40,18 @@ watchEffect(() => {
     resumeRender()
   }
 })
+
+const showGrid = ref(true)
+
+setTimeout(() => {
+  showGrid.value = false
+}, 10000)
 </script>
 
 <template>
   <TresPerspectiveCamera :position="[3, 3, 3]" />
-  <OrbitControls />
+  <OrbitControls make-default />
   <AnimatedObjectUseUpdate />
-  <TresAmbientLight :intensity="1" /> />
+  <TresGridHelper v-if="showGrid" />
+  <TresAmbientLight :intensity="1" />
 </template>
