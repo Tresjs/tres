@@ -98,7 +98,8 @@ export const frConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
             link: 'https://tresleches.tresjs.org/',
           },
           {
-            text: 'Post-processing (Bientôt)',
+            text: 'Post-processing',
+            link: 'https://post-processing.tresjs.org/',
           },
         ],
       },
@@ -137,6 +138,10 @@ export const frConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
             {
               text: 'TresLeches 🍰',
               link: 'https://tresleches.tresjs.org/',
+            },
+            {
+              text: 'Post-processing',
+              link: 'https://post-processing.tresjs.org/',
             },
           ],
         },

@@ -96,7 +96,8 @@ export const zhConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
             link: 'https://tresleches.tresjs.org/',
           },
           {
-            text: 'Post-processing (Soon)',
+            text: 'Post-processing',
+            link: 'https://post-processing.tresjs.org/',
           },
         ],
       },
@@ -137,6 +138,10 @@ export const zhConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
               {
                 text: 'TresLeches 🍰',
                 link: 'https://tresleches.tresjs.org/',
+              },
+              {
+                text: 'Post-processing',
+                link: 'https://post-processing.tresjs.org/',
               },
             ],
           },
