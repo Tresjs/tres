@@ -1,5 +1,13 @@
 
 
+## [4.0.0-rc.2](https://github.com/Tresjs/tres/compare/4.0.0-rc.1...4.0.0-rc.2) (2024-05-24)
+
+
+### Bug Fixes
+
+* 686 useloop callback state missing controls ([#687](https://github.com/Tresjs/tres/issues/687)) ([a41f532](https://github.com/Tresjs/tres/commit/a41f532b0c8d717e4bc3ec11fa73bd58df871fa8))
+* manual rendering blank ([#685](https://github.com/Tresjs/tres/issues/685)) ([0720d18](https://github.com/Tresjs/tres/commit/0720d186e92ca9faa9e5f4e51a3269504bed2a09))
+
 ## [4.0.0-rc.1](https://github.com/Tresjs/tres/compare/4.0.0-rc.0...4.0.0-rc.1) (2024-05-15)
 
 
