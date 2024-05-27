@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { useControls } from '@tresjs/leches'
-
 import { Box, Icosahedron, Plane } from '@tresjs/cientos'
 import { useLoop } from '@tresjs/core'
 import ContactShadows from './ContactShadowsLocal.vue'
@@ -15,40 +13,6 @@ const state = reactive({
   color: '#0000ff',
   helper: true,
 })
-
-const { blur, opacity, resolution, color, helper } = useControls({
-  blur: {
-    value: state.blur,
-    step: 0.1,
-    min: 0,
-    max: 10,
-  },
-  opacity: {
-    value: state.opacity,
-    step: 0.1,
-    min: 0,
-    max: 1,
-  },
-  resolution: {
-    value: state.resolution,
-    step: 1,
-    min: 0,
-    max: 1024,
-  },
-  color: {
-    type: 'color',
-    value: state.color,
-  },
-  helper: state.helper,
-})
-
-/* watch([blur, opacity, resolution, color, helper], () => {
-  state.blur = blur
-  state.opacity = opacity
-  state.resolution = resolution
-  state.color = color
-  state.helper = helper
-}) */
 
 const { onBeforeRender } = useLoop()
 

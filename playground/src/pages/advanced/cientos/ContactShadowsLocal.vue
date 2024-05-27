@@ -1,3 +1,4 @@
+<!-- eslint-disable no-console -->
 <script setup lang="ts">
 // The author of the original code is @mrdoob https://twitter.com/mrdoob
 // https://threejs.org/examples/?q=con#webgl_shadow_contact
@@ -6,7 +7,7 @@
 // https://github.com/pmndrs/drei/blob/master/src/core/ContactShadows.tsx#L113
 
 import type { TresColor } from '@tresjs/core'
-import { useLoop, useRenderLoop, useTresContext } from '@tresjs/core'
+import { useLoop, useTresContext } from '@tresjs/core'
 import type {
   ColorRepresentation,
   Material,
