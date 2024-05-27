@@ -330,10 +330,10 @@ onBeforeRender(() => {
     </TresMesh>
     <primitive :object="blurPlane" />
 
-    <!--  <TresCameraHelper
+    <TresCameraHelper
       v-if="shadowCamera && helper"
       :args="[shadowCamera]"
-    /> -->
+    />
     <TresOrthographicCamera
       ref="shadowCamera"
       :position="[0, 0, 0]"

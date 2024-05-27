@@ -1,5 +1,5 @@
 import type { RendererOptions } from 'vue'
-import { BufferAttribute } from 'three'
+import { BufferAttribute, Color, Euler, Object3D, Vector3 } from 'three'
 import { isFunction } from '@alvarosabu/utils'
 import type { Camera } from 'three'
 import type { TresContext } from '../composables'
@@ -244,17 +244,14 @@ export const nodeOps: () => RendererOptions<TresObject, TresObject | null> = () 
           && !deepArrayEqual(prevArgs, args)
         ) {
           const newInstance = new catalogue.value[instanceName](...nextValue)
-
-          // Manually copy properties that are not read-only
-          for (const key in prevNode) {
-            if (Object.prototype.hasOwnProperty.call(prevNode, key) && !isReadOnly(prevNode, key)) {
-              newInstance[key] = prevNode[key]
+          Object.keys(newInstance).forEach((key) => {
+            if (!isReadOnly(prevNode, key)) {
+              prevNode[key] = newInstance[key]
             }
-          }
-          newInstance.position.copy(prevNode.position)
-          newInstance.rotation.copy(prevNode.rotation)
-          newInstance.scale.copy(prevNode.scale)
-          root = newInstance
+            else if (prevNode[key] && prevNode[key].set) {
+              prevNode[key].set(newInstance[key])
+            }
+          })
         }
         return
       }
