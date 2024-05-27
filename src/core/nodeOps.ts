@@ -13,6 +13,11 @@ function noop(fn: string): any {
   fn
 }
 
+function isReadOnly(obj, prop) {
+  const descriptor = Object.getOwnPropertyDescriptor(obj, prop)
+  return descriptor && descriptor.writable === false
+}
+
 const { logError } = useLogger()
 
 const supportedPointerEvents = [
@@ -238,10 +243,18 @@ export const nodeOps: () => RendererOptions<TresObject, TresObject | null> = () 
           && prevArgs.length
           && !deepArrayEqual(prevArgs, args)
         ) {
-          root = Object.assign(
-            prevNode,
-            new catalogue.value[instanceName](...nextValue),
-          )
+          const newInstance = new catalogue.value[instanceName](...nextValue)
+
+          // Manually copy properties that are not read-only
+          for (const key in prevNode) {
+            if (Object.prototype.hasOwnProperty.call(prevNode, key) && !isReadOnly(prevNode, key)) {
+              newInstance[key] = prevNode[key]
+            }
+          }
+          newInstance.position.copy(prevNode.position)
+          newInstance.rotation.copy(prevNode.rotation)
+          newInstance.scale.copy(prevNode.scale)
+          root = newInstance
         }
         return
       }
