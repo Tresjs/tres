@@ -1,5 +1,5 @@
 import type { RendererOptions } from 'vue'
-import { BufferAttribute, Color, Euler, Object3D, Vector3 } from 'three'
+import { BufferAttribute } from 'three'
 import { isFunction } from '@alvarosabu/utils'
 import type { Camera } from 'three'
 import type { TresContext } from '../composables'
