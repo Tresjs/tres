@@ -10,7 +10,7 @@ difficulty: 0
 
 This guide will help you get started with shared state in TresJS by building a simple scene with a cube that can be shared across component files.
 
-<SandboxDemo url="https://stackblitz.com/~/edit/tresjs-minimal-reproduction-qsdhpt?file=src/components/SubComponent.vue" />
+<StackBlitzEmbed project-id="tresjs-minimal-reproduction-rycc4j" />
 
 ## Creating a State Composable
 
