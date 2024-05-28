@@ -183,8 +183,8 @@ importers:
         specifier: ^0.2.3
         version: 0.2.3(vite@5.2.10)
       vite-plugin-vue-devtools:
-        specifier: 7.1.2
-        version: 7.1.2(vite@5.2.10)(vue@3.4.24)
+        specifier: 7.2.1
+        version: 7.2.1(vite@5.2.10)(vue@3.4.24)
       vue-tsc:
         specifier: ^2.0.14
         version: 2.0.14(typescript@5.4.5)
@@ -3044,11 +3044,11 @@ packages:
       - vue
     dev: true
 
-  /@vue/devtools-core@7.1.2(vite@5.2.10)(vue@3.4.24):
-    resolution: {integrity: sha512-yO2+xSnXkZPqSJAiWPigIwSdWQordROOg4nrLVA6ByJAzFowJmN6sAKysFtbhVg8Fb1e/DnI+1dJ4tp3zbvM7Q==}
+  /@vue/devtools-core@7.2.1(vite@5.2.10)(vue@3.4.24):
+    resolution: {integrity: sha512-OyWl455UnJIVgZ6lo5WQ79WbDMoXtSRwyNKp9WzCZ0HhuQywIk4qv59KtLRe75uVmtGBde4hXNaSyRm+x9bY6g==}
     dependencies:
-      '@vue/devtools-kit': 7.1.2(vue@3.4.24)
-      '@vue/devtools-shared': 7.1.2
+      '@vue/devtools-kit': 7.2.1(vue@3.4.24)
+      '@vue/devtools-shared': 7.2.1
       mitt: 3.0.1
       nanoid: 3.3.7
       pathe: 1.1.2
@@ -3071,8 +3071,27 @@ packages:
       vue: 3.4.24(typescript@5.4.5)
     dev: true
 
+  /@vue/devtools-kit@7.2.1(vue@3.4.24):
+    resolution: {integrity: sha512-Wak/fin1X0Q8LLIfCAHBrdaaB+R6IdpSXsDByPHbQ3BmkCP0/cIo/oEGp9i0U2+gEqD4L3V9RDjNf1S34DTzQQ==}
+    peerDependencies:
+      vue: ^3.0.0
+    dependencies:
+      '@vue/devtools-shared': 7.2.1
+      hookable: 5.5.3
+      mitt: 3.0.1
+      perfect-debounce: 1.0.0
+      speakingurl: 14.0.1
+      vue: 3.4.24(typescript@5.4.5)
+    dev: true
+
   /@vue/devtools-shared@7.1.2:
     resolution: {integrity: sha512-r9cUf93VMhKSsxF2/cBbf6Lm1nRBx+r1pRuji5CiAf3JIPYPOjeEqJ13OuwP1fauYh1tyBFcCxt3eJPvHT59gg==}
+    dependencies:
+      rfdc: 1.3.1
+    dev: true
+
+  /@vue/devtools-shared@7.2.1:
+    resolution: {integrity: sha512-PCJF4UknJmOal68+X9XHyVeQ+idv0LFujkTOIW30+GaMJqwFVN9LkQKX4gLqn61KkGMdJTzQ1bt7EJag3TI6AA==}
     dependencies:
       rfdc: 1.3.1
     dev: true
@@ -9191,20 +9210,20 @@ packages:
       - supports-color
     dev: true
 
-  /vite-plugin-vue-devtools@7.1.2(vite@5.2.10)(vue@3.4.24):
-    resolution: {integrity: sha512-TQm0sLGlAI9zEG6wZSzadBqzLOJ0VVUOvgRv2uqx/O1cEfH7UHuGkkGMFaeSQfbRWzD1OnOsJHsTMaUZB6m8iQ==}
+  /vite-plugin-vue-devtools@7.2.1(vite@5.2.10)(vue@3.4.24):
+    resolution: {integrity: sha512-4k7QNZz0nSojoePQoxnE5fIzi8RU1QJHc0TEg4golv2phZxhBGfjScZD2B8X6bcrRbUQ9CaRKN0dzBs1xtzzNg==}
     engines: {node: '>=v14.21.3'}
     peerDependencies:
       vite: ^3.1.0 || ^4.0.0-0 || ^5.0.0-0
     dependencies:
-      '@vue/devtools-core': 7.1.2(vite@5.2.10)(vue@3.4.24)
-      '@vue/devtools-kit': 7.1.2(vue@3.4.24)
-      '@vue/devtools-shared': 7.1.2
+      '@vue/devtools-core': 7.2.1(vite@5.2.10)(vue@3.4.24)
+      '@vue/devtools-kit': 7.2.1(vue@3.4.24)
+      '@vue/devtools-shared': 7.2.1
       execa: 8.0.1
       sirv: 2.0.4
       vite: 5.2.10
       vite-plugin-inspect: 0.8.4(vite@5.2.10)
-      vite-plugin-vue-inspector: 5.0.1(vite@5.2.10)
+      vite-plugin-vue-inspector: 5.1.2(vite@5.2.10)
     transitivePeerDependencies:
       - '@nuxt/kit'
       - rollup
@@ -9212,8 +9231,8 @@ packages:
       - vue
     dev: true
 
-  /vite-plugin-vue-inspector@5.0.1(vite@5.2.10):
-    resolution: {integrity: sha512-R93P8iFa6BPODhc/aOtO04A8FFMMyFIfm8ZVSmN+8vU1TgwsHya734APGpX4fVHSPX2aVwYyiezXBUYQ0Opsqw==}
+  /vite-plugin-vue-inspector@5.1.2(vite@5.2.10):
+    resolution: {integrity: sha512-M+yH2LlQtVNzJAljQM+61CqDXBvHim8dU5ImGaQuwlo13tMDHue5D7IC20YwDJuWDODiYc/cZBUYspVlyPf2vQ==}
     peerDependencies:
       vite: ^3.0.0-0 || ^4.0.0-0 || ^5.0.0-0
     dependencies:
