@@ -1,5 +1,12 @@
 
 
+## [4.0.0](https://github.com/Tresjs/tres/compare/3.9.0...4.0.0) (2024-05-30)
+
+
+### Features
+
+* release v4 ([#490](https://github.com/Tresjs/tres/issues/490)) ([1ba17ee](https://github.com/Tresjs/tres/commit/1ba17ee43c6954396118bd8298436af3e2a70510)), closes [#479](https://github.com/Tresjs/tres/issues/479) [#488](https://github.com/Tresjs/tres/issues/488) [#491](https://github.com/Tresjs/tres/issues/491) [#497](https://github.com/Tresjs/tres/issues/497) [#499](https://github.com/Tresjs/tres/issues/499) [#498](https://github.com/Tresjs/tres/issues/498) [#522](https://github.com/Tresjs/tres/issues/522) [#514](https://github.com/Tresjs/tres/issues/514) [#579](https://github.com/Tresjs/tres/issues/579) [#602](https://github.com/Tresjs/tres/issues/602) [#601](https://github.com/Tresjs/tres/issues/601) [#608](https://github.com/Tresjs/tres/issues/608) [#614](https://github.com/Tresjs/tres/issues/614) [#529](https://github.com/Tresjs/tres/issues/529)
+
 ## [4.0.0-rc.2](https://github.com/Tresjs/tres/compare/4.0.0-rc.1...4.0.0-rc.2) (2024-05-24)
 
 
