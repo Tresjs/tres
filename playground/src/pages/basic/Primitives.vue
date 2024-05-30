@@ -76,6 +76,9 @@ const primitiveRef = ref()
 
 useRenderLoop().onLoop(() => {
   if (primitiveRef.value) {
+    // This doesn't work
+    /* torusKnot.rotation.x += 0.01 */
+    // This does
     primitiveRef.value.rotation.x += 0.01
     primitiveRef.value.rotation.y += 0.01
   }
