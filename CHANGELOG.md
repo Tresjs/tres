@@ -1,5 +1,83 @@
 
 
+## [4.0.0-rc.2](https://github.com/Tresjs/tres/compare/4.0.0-rc.1...4.0.0-rc.2) (2024-05-24)
+
+
+### Bug Fixes
+
+* 686 useloop callback state missing controls ([#687](https://github.com/Tresjs/tres/issues/687)) ([a41f532](https://github.com/Tresjs/tres/commit/a41f532b0c8d717e4bc3ec11fa73bd58df871fa8))
+* manual rendering blank ([#685](https://github.com/Tresjs/tres/issues/685)) ([0720d18](https://github.com/Tresjs/tres/commit/0720d186e92ca9faa9e5f4e51a3269504bed2a09))
+
+## [4.0.0-rc.1](https://github.com/Tresjs/tres/compare/4.0.0-rc.0...4.0.0-rc.1) (2024-05-15)
+
+
+### Features
+
+* 633 use loop  ([#673](https://github.com/Tresjs/tres/issues/673)) ([1b2fa70](https://github.com/Tresjs/tres/commit/1b2fa70e9999eb64395b3e7e9f2489ceab035a7a))
+
+
+### Bug Fixes
+
+* make on* callbacks settable ([#672](https://github.com/Tresjs/tres/issues/672)) ([ac152df](https://github.com/Tresjs/tres/commit/ac152dfa91c6ba347cbe0566fb4afbe19f50dd2b))
+* **utils:** reorder object disposal to avoid issue with Helper `dispose` methods ([#683](https://github.com/Tresjs/tres/issues/683)) ([e5a2cef](https://github.com/Tresjs/tres/commit/e5a2cef0e450196abaa6d18380a5aadbc9cd057d))
+
+## [4.0.0-rc.0](https://github.com/Tresjs/tres/compare/3.9.0...4.0.0-rc.0) (2024-04-25)
+
+
+### ⚠ BREAKING CHANGES
+
+* **events:** pointerevents manager and state (#529)
+
+### Features
+
+* 499 better memory management ([#606](https://github.com/Tresjs/tres/issues/606)) ([e98ca6d](https://github.com/Tresjs/tres/commit/e98ca6dea15973b3a00e4b485199d9906eb772eb))
+* devtools renderer improvements ([#614](https://github.com/Tresjs/tres/issues/614)) ([cdf6b6f](https://github.com/Tresjs/tres/commit/cdf6b6fefbd58dbf1dfbe396f219ac6f7c6fc92d))
+* **events:** pointerevents manager and state ([#529](https://github.com/Tresjs/tres/issues/529)) ([b536ab1](https://github.com/Tresjs/tres/commit/b536ab19d1f4082c2db926e24d8c52f92949964b))
+
+
+### Bug Fixes
+
+* do not change pierced props case ([#608](https://github.com/Tresjs/tres/issues/608)) ([906f2e1](https://github.com/Tresjs/tres/commit/906f2e157aab7aa6daef5682c3282cf6e84fa891))
+
+## [4.0.0-next.2](https://github.com/Tresjs/tres/compare/3.9.0...4.0.0-rc.0) (2024-03-27)
+
+
+### Bug Fixes
+
+* refactor nodeOps to return methods at the end of the function ([#602](https://github.com/Tresjs/tres/issues/602)) ([cd0c3bc](https://github.com/Tresjs/tres/commit/cd0c3bcd891f019cf91f30e5fdd547630332a065))
+
+## [4.0.0-next.1](https://github.com/Tresjs/tres/compare/3.9.0...4.0.0-rc.0) (2024-03-18)
+
+
+### Features
+
+* 140 on demand rendering ([#497](https://github.com/Tresjs/tres/issues/497)) ([f688c64](https://github.com/Tresjs/tres/commit/f688c6447be887c4675a57ecabb5182d8b7d02cf))
+* 492 set tone mapping default to acesfilmictonemapping ([#498](https://github.com/Tresjs/tres/issues/498)) ([c4547f9](https://github.com/Tresjs/tres/commit/c4547f92615a43b7b56b34c0e1ee9f4b78a2230b))
+* 503 conditional rendering of primitives ([#514](https://github.com/Tresjs/tres/issues/514)) ([79d8a76](https://github.com/Tresjs/tres/commit/79d8a762da6b6e23771a20314f7902eff4635acf))
+* 516 localstate for custom renderer node instances instead of userdata ([#522](https://github.com/Tresjs/tres/issues/522)) ([08717ef](https://github.com/Tresjs/tres/commit/08717efd0f631c085340b1fea4eb6c154c63608b))
+* remove default camera warning ([#499](https://github.com/Tresjs/tres/issues/499)) ([8bbafde](https://github.com/Tresjs/tres/commit/8bbafde48a33753f0b6560da36a4d128aaa83cc6))
+* update to three `v160` and vue `v3.4` ([#488](https://github.com/Tresjs/tres/issues/488)) ([5fad3b8](https://github.com/Tresjs/tres/commit/5fad3b8095c09cfe758e2553da3df49b29b1ce1a))
+
+
+### Bug Fixes
+
+* `nodeOps` is now a function ([#579](https://github.com/Tresjs/tres/issues/579)) ([ddc229e](https://github.com/Tresjs/tres/commit/ddc229e6e492b9e7887add0fcc679a9ae4e47f5c))
+* camera aspect ([52dad5c](https://github.com/Tresjs/tres/commit/52dad5c98271f80f4d454bbcce1bb5844960f943))
+* **types:** added `Object3DEventMap` to `Object3D` generics for point event handling ([#491](https://github.com/Tresjs/tres/issues/491)) ([a63eb90](https://github.com/Tresjs/tres/commit/a63eb9099fcaf97b1c96abe5667ee71ca2fd611f))
+
+## [4.0.0-next.0](https://github.com/Tresjs/tres/compare/3.9.0...4.0.0-rc.0) (2023-12-22)
+
+
+### Features
+
+* 474 vue chrome devtools plugin ([#479](https://github.com/Tresjs/tres/issues/479)) ([224ab06](https://github.com/Tresjs/tres/commit/224ab06a4404e2ae5a0cbd2f43041961862b09fd))
+
+## [4.0.0-next.2](https://github.com/Tresjs/tres/compare/4.0.0-next.1...4.0.0-next.2) (2024-03-27)
+
+## [4.0.0-next.1](https://github.com/Tresjs/tres/compare/3.7.0...4.0.0-next.1) (2024-03-18)
+* correct type exporting issues ([#625](https://github.com/Tresjs/tres/issues/625)) ([8e52cf1](https://github.com/Tresjs/tres/commit/8e52cf1935d7b725b87c9a41e44ba61e33bd3e85))
+
+
 ## [3.9.0](https://github.com/Tresjs/tres/compare/3.8.1...3.9.0) (2024-04-24)
 
 
@@ -17,7 +95,8 @@
 
 ### Bug Fixes
 
-* correct type exporting issues ([#625](https://github.com/Tresjs/tres/issues/625)) ([8e52cf1](https://github.com/Tresjs/tres/commit/8e52cf1935d7b725b87c9a41e44ba61e33bd3e85))
+* refactor nodeOps to return methods at the end of the function ([#602](https://github.com/Tresjs/tres/issues/602)) ([cd0c3bc](https://github.com/Tresjs/tres/commit/cd0c3bcd891f019cf91f30e5fdd547630332a065))
+
 
 ## [3.8.0](https://github.com/Tresjs/tres/compare/3.7.0...3.8.0) (2024-04-03)
 
@@ -38,6 +117,31 @@
 
 ### Features
 
+* 140 on demand rendering ([#497](https://github.com/Tresjs/tres/issues/497)) ([f688c64](https://github.com/Tresjs/tres/commit/f688c6447be887c4675a57ecabb5182d8b7d02cf))
+* 492 set tone mapping default to acesfilmictonemapping ([#498](https://github.com/Tresjs/tres/issues/498)) ([c4547f9](https://github.com/Tresjs/tres/commit/c4547f92615a43b7b56b34c0e1ee9f4b78a2230b))
+* 503 conditional rendering of primitives ([#514](https://github.com/Tresjs/tres/issues/514)) ([79d8a76](https://github.com/Tresjs/tres/commit/79d8a762da6b6e23771a20314f7902eff4635acf))
+* 516 localstate for custom renderer node instances instead of userdata ([#522](https://github.com/Tresjs/tres/issues/522)) ([08717ef](https://github.com/Tresjs/tres/commit/08717efd0f631c085340b1fea4eb6c154c63608b))
+* remove default camera warning ([#499](https://github.com/Tresjs/tres/issues/499)) ([8bbafde](https://github.com/Tresjs/tres/commit/8bbafde48a33753f0b6560da36a4d128aaa83cc6))
+* update to three `v160` and vue `v3.4` ([#488](https://github.com/Tresjs/tres/issues/488)) ([5fad3b8](https://github.com/Tresjs/tres/commit/5fad3b8095c09cfe758e2553da3df49b29b1ce1a))
+
+
+### Bug Fixes
+
+* `nodeOps` is now a function ([#579](https://github.com/Tresjs/tres/issues/579)) ([ddc229e](https://github.com/Tresjs/tres/commit/ddc229e6e492b9e7887add0fcc679a9ae4e47f5c))
+* camera aspect ([52dad5c](https://github.com/Tresjs/tres/commit/52dad5c98271f80f4d454bbcce1bb5844960f943))
+* **types:** added `Object3DEventMap` to `Object3D` generics for point event handling ([#491](https://github.com/Tresjs/tres/issues/491)) ([a63eb90](https://github.com/Tresjs/tres/commit/a63eb9099fcaf97b1c96abe5667ee71ca2fd611f))
+
+## [4.0.0-next.0](https://github.com/Tresjs/tres/compare/3.7.0...4.0.0-next.1) (2023-12-22)
+
+
+### Features
+
+* 474 vue chrome devtools plugin ([#479](https://github.com/Tresjs/tres/issues/479)) ([224ab06](https://github.com/Tresjs/tres/commit/224ab06a4404e2ae5a0cbd2f43041961862b09fd))
+
+## [3.7.0](https://github.com/Tresjs/tres/compare/3.6.1...3.7.0) (2024-01-29)
+
+### Features
+  
 * 474 vue chrome devtools plugin ([#526](https://github.com/Tresjs/tres/issues/526)) ([0185bfa](https://github.com/Tresjs/tres/commit/0185bfa6f04faff5eabbc526616713ef7747ebeb))
 * 524 feat add directives to core ([#525](https://github.com/Tresjs/tres/issues/525)) ([5268e9f](https://github.com/Tresjs/tres/commit/5268e9f13bf65c61d5ddfe7153b71b335449b81d))
 

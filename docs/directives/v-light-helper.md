@@ -7,6 +7,7 @@ The following lights are supported:
 - PointLight
 - SpotLight
 - HemisphereLight
+- RectAreaLightHelper
 
 ## Usage
 

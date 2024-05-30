@@ -1,13 +1,13 @@
-import type { Event, Intersection, Object3D } from 'three'
-import type { TresScene } from 'src/types'
+import type { Intersection, Object3D, Object3DEventMap } from 'three'
 import { computed, reactive, ref } from 'vue'
+import type { TresObject } from 'src/types'
 import { uniqueBy } from '../../utils'
 import { useRaycaster } from '../useRaycaster'
 
 import type { TresContext } from '../useTresContextProvider'
 
-type CallbackFn = (intersection: Intersection<Object3D<Event>>, event: PointerEvent) => void
-type CallbackFnPointerLeave = (object: Object3D<Event>, event: PointerEvent) => void
+type CallbackFn = (intersection: Intersection<Object3D<Object3DEventMap>>, event: PointerEvent) => void
+type CallbackFnPointerLeave = (object: Object3D, event: PointerEvent) => void
 
 export interface EventProps {
   onClick?: CallbackFn
@@ -17,49 +17,38 @@ export interface EventProps {
 }
 
 export const usePointerEventHandler = (
-  { scene, contextParts }:
-  {
-    scene: TresScene
-    contextParts: Pick<TresContext, 'renderer' | 'camera' | 'raycaster'>
-  },
+  ctx: TresContext,
 ) => {
   const objectsWithEventListeners = reactive({
-    click: new Map<Object3D, CallbackFn>(),
-    pointerMove: new Map<Object3D, CallbackFn>(),
-    pointerEnter: new Map<Object3D, CallbackFn>(),
-    pointerLeave: new Map<Object3D, CallbackFnPointerLeave>(),
+    click: new Map<Object3D<Object3DEventMap>, CallbackFn>(),
+    pointerMove: new Map<Object3D<Object3DEventMap>, CallbackFn>(),
+    pointerEnter: new Map<Object3D<Object3DEventMap>, CallbackFn>(),
+    pointerLeave: new Map<Object3D<Object3DEventMap>, CallbackFnPointerLeave>(),
   })
 
   const blockingObjects = ref(new Set<Object3D>())
 
-  const registerBlockingObject = (object: Object3D) => {
-    blockingObjects.value.add(object)
+  const registerBlockingObject = (object: TresObject) => {
+    blockingObjects.value.add(object as Object3D)
   }
 
-  const deregisterBlockingObject = (object: Object3D) => {
-    blockingObjects.value.delete(object)
+  const deregisterBlockingObject = (object: TresObject) => {
+    blockingObjects.value.delete(object as Object3D)
   }
 
-  const deregisterObject = (object: Object3D) => {
-    Object.values(objectsWithEventListeners).forEach(map => map.delete(object))
+  const deregisterObject = (object: TresObject) => {
+    Object.values(objectsWithEventListeners).forEach(map => map.delete(object as Object3D))
     deregisterBlockingObject(object)
   }
 
-  const registerObject = (object: Object3D & EventProps) => {
+  const registerObject = (object: TresObject & EventProps) => {
     const { onClick, onPointerMove, onPointerEnter, onPointerLeave } = object
 
-    if (onClick) { objectsWithEventListeners.click.set(object, onClick) }
-    if (onPointerMove) { objectsWithEventListeners.pointerMove.set(object, onPointerMove) }
-    if (onPointerEnter) { objectsWithEventListeners.pointerEnter.set(object, onPointerEnter) }
-    if (onPointerLeave) { objectsWithEventListeners.pointerLeave.set(object, onPointerLeave) }
+    if (onClick) { objectsWithEventListeners.click.set(object as Object3D, onClick) }
+    if (onPointerMove) { objectsWithEventListeners.pointerMove.set(object as Object3D, onPointerMove) }
+    if (onPointerEnter) { objectsWithEventListeners.pointerEnter.set(object as Object3D, onPointerEnter) }
+    if (onPointerLeave) { objectsWithEventListeners.pointerLeave.set(object as Object3D, onPointerLeave) }
   }
-
-  // to make the registerObject available in the custom renderer (nodeOps), it is attached to the scene
-  scene.userData.tres__registerAtPointerEventHandler = registerObject
-  scene.userData.tres__deregisterAtPointerEventHandler = deregisterObject
-
-  scene.userData.tres__registerBlockingObjectAtPointerEventHandler = registerBlockingObject
-  scene.userData.tres__deregisterBlockingObjectAtPointerEventHandler = deregisterBlockingObject
 
   const objectsToWatch = computed(() =>
     uniqueBy(
@@ -73,25 +62,31 @@ export const usePointerEventHandler = (
     ),
   )
 
-  const { onClick, onPointerMove } = useRaycaster(objectsToWatch, contextParts)
+  // Temporaly add the methods to the context, this should be handled later by the EventManager state on the context https://github.com/Tresjs/tres/issues/515
+  ctx.registerObjectAtPointerEventHandler = registerObject
+  ctx.deregisterObjectAtPointerEventHandler = deregisterObject
+  ctx.registerBlockingObjectAtPointerEventHandler = registerBlockingObject
+  ctx.deregisterBlockingObjectAtPointerEventHandler = deregisterBlockingObject
+
+  const { onClick, onPointerMove } = useRaycaster(objectsToWatch, ctx)
 
   onClick(({ intersects, event }) => {
-    if (intersects.length) { objectsWithEventListeners.click.get(intersects[0].object)?.(intersects[0], event) }
+    if (intersects.length) { objectsWithEventListeners.click.get(intersects[0].object)?.(intersects[0], event as PointerEvent) }
   })
 
-  let previouslyIntersectedObject: Object3D<Event> | null
+  let previouslyIntersectedObject: Object3D | null
 
   onPointerMove(({ intersects, event }) => {
     const firstObject = intersects?.[0]?.object
 
     const { pointerLeave, pointerEnter, pointerMove } = objectsWithEventListeners
 
-    if (previouslyIntersectedObject && previouslyIntersectedObject !== firstObject) { pointerLeave.get(previouslyIntersectedObject)?.(previouslyIntersectedObject, event) }
+    if (previouslyIntersectedObject && previouslyIntersectedObject !== firstObject) { pointerLeave.get(previouslyIntersectedObject)?.(previouslyIntersectedObject, event as PointerEvent) }
 
     if (firstObject) {
-      if (previouslyIntersectedObject !== firstObject) { pointerEnter.get(firstObject)?.(intersects[0], event) }
+      if (previouslyIntersectedObject !== firstObject) { pointerEnter.get(firstObject)?.(intersects[0], event as PointerEvent) }
 
-      pointerMove.get(firstObject)?.(intersects[0], event)
+      pointerMove.get(firstObject)?.(intersects[0], event as PointerEvent)
     }
 
     previouslyIntersectedObject = firstObject || null
@@ -100,5 +95,7 @@ export const usePointerEventHandler = (
   return {
     registerObject,
     deregisterObject,
+    registerBlockingObject,
+    deregisterBlockingObject,
   }
 }

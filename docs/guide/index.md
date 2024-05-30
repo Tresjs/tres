@@ -87,25 +87,8 @@ We also have a showcase lab of examples made with TresJS. Check it out [here](ht
 
 The React ecosystem has an impressive **custom render** solution called [React-three-fiber](https://docs.pmnd.rs/react-three-fiber) that allows you build your scenes declaratively with re-usable, self-contained components that react to state.
 
-In my search for something similar in the VueJS ecosystem, I found this amazing library called [Lunchbox](https://github.com/breakfast-studio/lunchboxjs), which works with the same concept as R3F, it provides a [custom Vue3 Renderer](https://vuejs.org/api/custom-renderer.html). I'm also contributing to improve this library so it gets as mature and feature-rich as R3F.
+In my search for something similar in the VueJS ecosystem, I found this amazing library called [Lunchbox](https://github.com/breakfast-studio/lunchboxjs), which works with the same concept as R3F, it provides a [custom Vue3 Renderer](https://vuejs.org/api/custom-renderer.html).
 
-The only issue with this is, mixing compilers renderers in Vue 3 is something the Vue community is still working on - see [here](https://github.com/vuejs/vue-loader/pull/1645) for more information.
+But none of them was actively maintained or had the same level of abstraction as R3F.
 
-```ts
-// Example Vite setup
-import { createApp } from 'vue'
-import { createApp as createLunchboxApp } from 'lunchboxjs'
-import App from './App.vue'
-import LunchboxApp from './LunchboxApp.vue'
-
-// html app
-const app = createApp(App)
-app.mount('#app')
-
-// lunchbox app
-const lunchboxApp = createLunchboxApp(LunchboxApp)
-// assuming there's an element with ID `lunchbox` in your HTML app
-lunchboxApp.mount('#lunchbox')
-```
-
-So I was inspired by both libraries to create a Vue custom renderer for ThreeJS. That's **TresJS v2**.
+So I was inspired by both libraries to create a Vue custom renderer for ThreeJS. That's **TresJS**.

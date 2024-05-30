@@ -40,11 +40,22 @@ onAfterLoop.on(() => {
   elapsed = clock.getElapsedTime()
 })
 
-export const useRenderLoop = (): UseRenderLoopReturn => ({
-  onBeforeLoop: onBeforeLoop.on,
-  onLoop: onLoop.on,
-  onAfterLoop: onAfterLoop.on,
-  pause,
-  resume,
-  isActive,
-})
+let startedOnce = false
+export const useRenderLoop = (): UseRenderLoopReturn => {
+  if (!startedOnce) {
+    // NOTE: `useRenderLoop` is not started by default
+    // in order not to waste user resources. Instead, we'll
+    // start the loop the first time the user uses
+    // `useRenderLoop`.
+    startedOnce = true
+    resume()
+  }
+  return {
+    onBeforeLoop: onBeforeLoop.on,
+    onLoop: onLoop.on,
+    onAfterLoop: onAfterLoop.on,
+    pause,
+    resume,
+    isActive,
+  }
+}

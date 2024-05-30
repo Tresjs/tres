@@ -5,11 +5,11 @@
   "private": true,
   "scripts": {
     "dev": "vite --host",
-    "build": "vue-tsc && vite build",
+    "build": "vite build",
     "preview": "vite preview"
   },
   "dependencies": {
-    "@tresjs/cientos": "3.8.0",
+    "@tresjs/cientos": "3.9.0",
     "@tresjs/core": "workspace:^",
     "vue-router": "^4.3.2"
   },
@@ -19,7 +19,7 @@
     "unplugin-auto-import": "^0.17.2",
     "vite-plugin-glsl": "^1.2.1",
     "vite-plugin-qrcode": "^0.2.3",
-    "vite-plugin-vue-devtools": "7.1.2",
-    "vue-tsc": "^2.0.14"
+    "vite-plugin-vue-devtools": "7.2.1",
+    "vue-tsc": "^2.0.19"
   }
 }
