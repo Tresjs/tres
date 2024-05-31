@@ -19,4 +19,9 @@ export const advancedRoutes = [
     name: 'FBO',
     component: () => import('../../pages/advanced/FBO.vue'),
   },
+  {
+    path: '/advanced/cientos',
+    name: 'Cientos',
+    component: () => import('../../pages/advanced/cientos/index.vue'),
+  },
 ]

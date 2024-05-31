@@ -383,6 +383,18 @@ describe('nodeOps', () => {
         nodeOps.patchProp(geometry, 'args', args0, args1)
         expect(geometry.uuid).not.toBe(uuid)
       })
+      it('handles read-only properties', () => {
+        const camera1 = new THREE.OrthographicCamera()
+        camera1.position.set(1, 2, 3)
+        const camera2 = new THREE.OrthographicCamera()
+        camera2.position.set(4, 5, 6)
+        const args0 = [camera1]
+        const args1 = [camera2]
+        const cameraHelper = nodeOps.createElement('TresCameraHelper', undefined, undefined, { args: args0 })
+
+        nodeOps.patchProp(cameraHelper, 'args', args0, args1)
+        expect(cameraHelper.camera).toBe(args1[0])
+      })
     })
 
     describe('if property has a `set` method', () => {
