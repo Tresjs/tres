@@ -20,7 +20,7 @@ export interface TresCatalogue {
   [name: string]: ConstructorRepresentation
 }
 
-export type EmitEventName = 'render' | 'click' | 'double-click' | 'context-menu' | 'pointer-move' | 'pointer-up' | 'pointer-down' | 'pointer-enter' | 'pointer-leave' | 'pointer-over' | 'pointer-out' | 'pointer-missed' | 'wheel'
+export type EmitEventName = 'render' | 'ready' | 'click' | 'double-click' | 'context-menu' | 'pointer-move' | 'pointer-up' | 'pointer-down' | 'pointer-enter' | 'pointer-leave' | 'pointer-over' | 'pointer-out' | 'pointer-missed' | 'wheel'
 export type EmitEventFn = (event: EmitEventName, ...args: any[]) => void
 export type TresCamera = THREE.OrthographicCamera | THREE.PerspectiveCamera
 

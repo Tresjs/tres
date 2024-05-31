@@ -15,6 +15,7 @@ import type { TresEventManager } from '../useTresEventManager'
 import useSizes, { type SizesType } from '../useSizes'
 import type { RendererLoop } from '../../core/loop'
 import { createRenderLoop } from '../../core/loop'
+import { useTresReady } from '../useTresReady'
 
 export interface InternalState {
   priority: Ref<number>
@@ -209,9 +210,15 @@ export function useTresContextProvider({
     }
   }, 'render')
 
-  ctx.loop.start()
+  const { on: onTresReady, cancel: cancelTresReady } = useTresReady(ctx)!
+
+  onTresReady(() => {
+    emit('ready', ctx)
+    ctx.loop.start()
+  })
 
   onUnmounted(() => {
+    cancelTresReady()
     ctx.loop.stop()
   })
 
