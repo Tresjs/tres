@@ -1,10 +1,8 @@
 <script lang="ts" setup>
-import { TresCanvas, useRenderLoop } from '@tresjs/core'
+import { TresCanvas } from '@tresjs/core'
 import { Icosahedron, OrbitControls, StatsGl } from '@tresjs/cientos'
 import {
   AgXToneMapping,
-  Color,
-  MeshPhysicalMaterial,
   PCFSoftShadowMap,
   SRGBColorSpace,
 } from 'three'
