@@ -83,10 +83,10 @@
     "@typescript-eslint/eslint-plugin": "^7.11.0",
     "@typescript-eslint/parser": "^7.11.0",
     "@vitejs/plugin-vue": "^5.0.5",
-    "@vitest/browser": "file:vitest-browser-2.0.0-beta.3.tgz",
+    "@vitest/browser": "2.0.0-beta.5",
     "@vitest/coverage-c8": "^0.33.0",
     "@vitest/coverage-v8": "^1.6.0",
-    "@vitest/ui": "file:vitest-ui-2.0.0-beta.3.tgz",
+    "@vitest/ui": "2.0.0-beta.5",
     "@vue/test-utils": "^2.4.6",
     "eslint": "^9.4.0",
     "eslint-plugin-vue": "^9.26.0",
@@ -112,7 +112,7 @@
     "vite-plugin-require-transform": "^1.0.21",
     "vite-svg-loader": "^5.1.0",
     "vitepress": "1.2.2",
-    "vitest": "file:vitest-2.0.0-beta.3.tgz",
+    "vitest": "2.0.0-beta.5",
     "vue": "^3.4.27",
     "vue-demi": "^0.14.8"
   }
