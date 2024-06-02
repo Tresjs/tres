@@ -49,6 +49,9 @@ export default defineConfig({
     Inspect(),
   ],
   test: {
+    alias: {
+      '@tresjs/core': resolve(__dirname, 'src/index.ts'),
+    },
     // environment: 'jsdom',
     // globals: true,
     // threads: false,
