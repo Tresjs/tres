@@ -82,8 +82,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.1(rollup@4.14.3)(vue@3.4.23(typescript@5.4.5))
       postprocessing:
-        specifier: 6.35.4
-        version: 6.35.4(three@0.160.0)
+        specifier: 6.35.5
+        version: 6.35.5(three@0.160.0)
       vite-svg-loader:
         specifier: ^5.1.0
         version: 5.1.0(vue@3.4.23(typescript@5.4.5))
@@ -3352,13 +3352,16 @@ packages:
 
   glob@7.1.6:
     resolution: {integrity: sha512-LwaxwyZ72Lk7vZINtNNrywX0ZuLyStrdDtabefZKAY5ZGJhVtgdznluResxNmPitE0SAO+O26sWTHeKSI2wMBA==}
+    deprecated: Glob versions prior to v9 are no longer supported
 
   glob@7.2.3:
     resolution: {integrity: sha512-nFR0zLpU2YCaRxwoCJvL6UvCH2JFyFVIvwTLsIf21AuHlMskA1hhTdk+LlYJtOlYt9v6dvszD2BGRqBL+iQK9Q==}
+    deprecated: Glob versions prior to v9 are no longer supported
 
   glob@8.1.0:
     resolution: {integrity: sha512-r8hpEjiQEYlF2QU0df3dS+nxxSIreXQS1qRhMJM0Q5NDdR386C7jb7Hwwod8Fgiuex+k0GFjgft18yvxm5XoCQ==}
     engines: {node: '>=12'}
+    deprecated: Glob versions prior to v9 are no longer supported
 
   global-directory@4.0.1:
     resolution: {integrity: sha512-wHTUcDUoZ1H5/0iVqEudYW4/kAlN5cZ3j/bXn0Dpbizl9iaUVeWSHqiOjsgk6OW2bkLclbBjzewBz6weQ1zA2Q==}
@@ -4975,11 +4978,11 @@ packages:
     resolution: {integrity: sha512-Wglpdk03BSfXkHoQa3b/oulrotAkwrlLDRSOb9D0bN86FdRyE9lppSp33aHNPgBa0JKCoB+drFLZkQoRRYae5A==}
     engines: {node: ^10 || ^12 || >=14}
 
-  postprocessing@6.35.4:
-    resolution: {integrity: sha512-U4Uk+wOHRbdlMV8zhn843K3bZyiWGKnWXWSsDXa8IW6NAiAP/YJtf6DHs4UFo1gLnNnRGpgJPc2Xxai9O/HoLg==}
+  postprocessing@6.35.5:
+    resolution: {integrity: sha512-nO8pxbiQT7+u3qv/q4LL1x6tstZWuduDlkOLFWQm3vFFKHzAsRMxqwsGAktkHKMSGXVEwTBvT3TKPklNALQheg==}
     engines: {node: '>= 0.13.2'}
     peerDependencies:
-      three: '>= 0.152.0 < 0.165.0'
+      three: '>= 0.152.0 < 0.166.0'
 
   potpack@1.0.2:
     resolution: {integrity: sha512-choctRBIV9EMT9WGAZHn3V7t0Z2pMQyl0EZE6pFc/6ml3ssw7Dlf/oAOvFwjm1HVsqfQN8GfeFyJ+d8tRzqueQ==}
@@ -5210,6 +5213,7 @@ packages:
 
   rimraf@3.0.2:
     resolution: {integrity: sha512-JZkJMZkAGFFPP2YqXZXPbMlMBgsxzE8ILs4lMIX/2o0L9UBw9O/Y3o6wFw/i9YLapcUJWwqbi3kdxIPdC62TIA==}
+    deprecated: Rimraf versions prior to v4 are no longer supported
     hasBin: true
 
   rollup-plugin-visualizer@5.12.0:
@@ -8383,7 +8387,7 @@ snapshots:
       '@tresjs/core': 3.9.0(three@0.160.0)(vue@3.4.23(typescript@5.4.5))
       '@unocss/core': 0.57.4
       '@vueuse/core': 10.6.1(vue@3.4.23(typescript@5.4.5))
-      postprocessing: 6.35.4(three@0.160.0)
+      postprocessing: 6.35.5(three@0.160.0)
       three: 0.160.0
       three-stdlib: 2.28.5(three@0.160.0)
       vue: 3.4.23(typescript@5.4.5)
@@ -13210,7 +13214,7 @@ snapshots:
       picocolors: 1.0.0
       source-map-js: 1.2.0
 
-  postprocessing@6.35.4(three@0.160.0):
+  postprocessing@6.35.5(three@0.160.0):
     dependencies:
       three: 0.160.0
 

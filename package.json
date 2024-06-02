@@ -35,7 +35,7 @@
     "gsap": "^3.12.4",
     "nuxt": "^3.9.1",
     "nuxt-svgo": "^4.0.0",
-    "postprocessing": "6.35.4",
+    "postprocessing": "6.35.5",
     "vite-svg-loader": "^5.1.0"
   }
 }
