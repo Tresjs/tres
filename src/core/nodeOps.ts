@@ -223,7 +223,10 @@ export const nodeOps: () => RendererOptions<TresObject, TresObject | null> = () 
         else { delete node[key] }
         return
       }
-
+      // Has events
+      if (supportedPointerEvents.includes(prop)) {
+        node.__tres.eventCount += 1
+      }
       let finalKey = kebabToCamel(key)
       let target = root?.[finalKey]
 
@@ -268,6 +271,7 @@ export const nodeOps: () => RendererOptions<TresObject, TresObject | null> = () 
       // Set prop, prefer atomic methods if applicable
       if (isFunction(target)) {
         // don't call pointer event callback functions
+
         if (!supportedPointerEvents.includes(prop)) {
           if (Array.isArray(value)) { node[finalKey](...value) }
           else { node[finalKey](value) }
