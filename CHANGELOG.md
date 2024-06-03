@@ -1,5 +1,12 @@
 
 
+## [4.0.1](https://github.com/Tresjs/tres/compare/4.0.0...4.0.1) (2024-06-01)
+
+
+### Bug Fixes
+
+* augmenting types for tres components for the nuxt module ([#710](https://github.com/Tresjs/tres/issues/710)) ([c8a5b0d](https://github.com/Tresjs/tres/commit/c8a5b0dcf8ebd6bf4284126042e8a44eae3ca307))
+
 ## [4.0.0](https://github.com/Tresjs/tres/compare/3.9.0...4.0.0) (2024-05-30)
 
 
