@@ -1,7 +1,7 @@
 ---
 title: Shared State
 description: How to use a reactive composable to share your objects across component files.
-author: /
+author: whitespacecode
 thumbnail: /recipes/animations.png
 difficulty: 0
 ---
@@ -16,8 +16,15 @@ This guide will help you get started with shared state in TresJS by building a s
 
 First, we'll create a composable to store the objects.
 
-```ts
-//composables/state.ts
+### Setting the object to the state
+Next, we'll assign an object to the state and include it in a subcomponent where we can access and use it.
+
+### Using the object in other components
+With the mesh assigned to the reactive state, it's available throughout your project.
+
+::: code-group
+
+```ts [composables/state.ts]
 import { reactive, toRefs } from "vue";
 
 const state = reactive({
@@ -32,12 +39,7 @@ export function useState() {
 }
 ```
 
-## Setting the object to the state
-
-Next, we'll assign an object to the state and include it in a subcomponent where we can access and use it.
-
-```vue
-//Parent component
+```vue [App.vue]
 <script setup lang="ts">
 import { BoxGeometry, Mesh, MeshNormalMaterial } from 'three';
 
@@ -57,17 +59,11 @@ mesh.value = new Mesh(new BoxGeometry(), new MeshNormalMaterial());
 </template>
 ```
 
-## Using the object in other components
-
-With the mesh assigned to the reactive state, it's available throughout your project.
-
-```vue
-//Subcomponent.vue
+```vue [Subcomponent.vue]
 <script setup lang="ts">
 import { useState } from '../composables/state';
-const { mesh, ground } = useState();
+const { mesh } = useState();
 
-console.log('ground:', ground);
 </script>
 
 <template>
@@ -80,7 +76,6 @@ console.log('ground:', ground);
 You can also add TresMesh components to the reactive state. Here, we'll use a reference and assign it to the state when mounted.
 
 ```vue
-//Parent component
 <script setup lang="ts">
 import { BoxGeometry, Mesh, MeshNormalMaterial } from 'three';
 
@@ -107,6 +102,52 @@ onMounted(() => {
   </TresMesh>
 
   <SubComponent />
+</template>
+```
+
+## Using Pinia Store
+
+By using the same logic we can also use pinia.
+By using pinia we also have full access to actions and getters.
+
+::: code-group
+
+``` [model.ts]
+import { defineStore } from "pinia";
+
+export const useModelStore = defineStore('model', {
+    state: () => {
+        return {
+            exampleModel: null,
+        }
+    },
+    actions: {},
+});
+```
+
+```vue [App.vue]
+<script setup lang="ts">
+import { BoxGeometry, Mesh, MeshNormalMaterial } from 'three';
+import { useModelStore } from '../stores/model';
+
+const modelStore = useModelStore();
+
+//reference the object
+const exampleRef = ref(null);
+
+//assinging the object to the state when mounted
+onMounted(() => {
+  modelStore.exampleModel = exampleRef.value;
+});
+</script>
+
+<template>
+  <TresPerspectiveCamera />
+
+  <TresMesh ref="exampleRef" :position="[0, 0, 0]" cast-shadow>
+      <TresBoxGeometry :args="[1.5, 1.5, 1.5]" />
+      <TresMeshToonMaterial color="#4F4F4F" />
+  </TresMesh>
 </template>
 ```
 
