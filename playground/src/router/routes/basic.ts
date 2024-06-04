@@ -44,4 +44,9 @@ export const basicRoutes = [
     name: 'Pierced Props',
     component: () => import('../../pages/basic/PiercedProps.vue'),
   },
+  {
+    path: '/basic/v-if',
+    name: 'v-if',
+    component: () => import('../../pages/basic/vIf/index.vue'),
+  },
 ]
