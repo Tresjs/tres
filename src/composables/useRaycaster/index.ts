@@ -16,6 +16,7 @@ export const useRaycaster = (
   const canvas = computed(() => ctx.renderer.value.domElement as HTMLCanvasElement)
   const intersects: ShallowRef<Intersection[]> = shallowRef([])
   const { x, y } = usePointer({ target: canvas })
+  const objectWihtEvents = computed(() => objects.value.filter(obj => obj.__tres?.eventCount > 0))
   let delta = 0
 
   const { width, height, top, left } = useElementBounding(canvas)
@@ -34,7 +35,7 @@ export const useRaycaster = (
 
     ctx.raycaster.value.setFromCamera(new Vector2(x, y), ctx.camera.value)
 
-    intersects.value = ctx.raycaster.value.intersectObjects(objects.value, true)
+    intersects.value = ctx.raycaster.value.intersectObjects(objectWihtEvents.value, true)
     return intersects.value
   }
 

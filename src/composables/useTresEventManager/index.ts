@@ -125,15 +125,22 @@ export function useTresEventManager(
     // Current intersections mapped as meshes
     const hits = event.intersections.map(({ object }) => object)
 
+    // Keep Backup of new intersections incase we overwrite due to a pointer out or leave event
+    const newIntersections = event.intersections as unknown as Intersection[]
+
     // Previously intersected mesh is no longer intersected, fire onPointerLeave
-    prevIntersections.forEach((hit: Intersection) => {
+    prevIntersections.forEach(({ object: hit }) => {
       if (
         !hits.includes(hit as unknown as Object3D<Object3DEventMap>)
       ) {
+        event.intersections = prevIntersections
         propogateEvent('onPointerLeave', event)
         propogateEvent('onPointerOut', event)
       }
     })
+
+    // Reset intersections to newIntersections
+    event.intersections = newIntersections
 
     // Newly intersected mesh is not in the previous intersections, fire onPointerEnter
     event.intersections.forEach(({ object: hit }) => {
@@ -147,7 +154,7 @@ export function useTresEventManager(
     propogateEvent('onPointerMove', event)
 
     // Update previous intersections
-    prevIntersections = hits as unknown as Intersection[]
+    prevIntersections = event.intersections as unknown as Intersection[]
   })
 
   /**
