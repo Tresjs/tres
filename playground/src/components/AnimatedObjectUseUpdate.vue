@@ -53,33 +53,6 @@ watchEffect(() => {
     off()
   }
 })
-/* const anotherLog = useThrottleFn(() => console.log('after render'), 3000)
- */
-/* useUpdate(() => {
-  anotherLog()
-}, 1) */
-
-/* useUpdate(() => {
-  console.count('update loop 1')
-})
-
-useUpdate(() => {
-  console.count('update loop 2')
-}) */
-
-/* useUpdate(() => {
-  console.count('before renderer')
-}, -1)
-
-useUpdate(() => {
-  console.log('this should be just before render')
-})
-
-useUpdate((state) => {
-  if (!sphereRef.value) { return }
-  console.count('after renderer')
-  sphereRef.value.position.y += Math.sin(state.elapsed) * 0.01
-}, 2) */
 </script>
 
 <template>

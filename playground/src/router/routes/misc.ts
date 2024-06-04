@@ -2,11 +2,11 @@ export const miscRoutes = [
   {
     path: '/misc',
     name: 'Text 3D',
-    component: () => import('../../pages/misc/Text3DDemo.vue'),
+    component: () => import('../../pages/misc/text3D/index.vue'),
   },
   {
     path: '/misc/directives',
     name: 'Directives',
-    component: () => import('../../pages/misc/Directives.vue'),
+    component: () => import('../../pages/misc/directives/index.vue'),
   },
 ]

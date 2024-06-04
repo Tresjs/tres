@@ -18,6 +18,7 @@ declare module 'vue' {
     LocalOrbitControls: typeof import('./src/components/LocalOrbitControls.vue')['default']
     Overlay: typeof import('./src/components/Overlay.vue')['default']
     OverlayInfo: typeof import('./src/components/OverlayInfo.vue')['default']
+    PbrSphere: typeof import('./src/components/PbrSphere.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     TakeOverLoopExperience: typeof import('./src/components/TakeOverLoopExperience.vue')['default']

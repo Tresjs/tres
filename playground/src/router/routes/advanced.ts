@@ -10,13 +10,18 @@ export const advancedRoutes = [
     component: () => import('../../pages/advanced/manual/index.vue'),
   },
   {
-    path: '/advanced/take-over-loop',
-    name: 'Take Over loop',
-    component: () => import('../../pages/advanced/TakeOverLoop.vue'),
+    path: '/advanced/take-over-render',
+    name: 'Take Over render',
+    component: () => import('../../pages/advanced/takeOverRender/index.vue'),
   },
   {
     path: '/advanced/fbo',
     name: 'FBO',
-    component: () => import('../../pages/advanced/FBO.vue'),
+    component: () => import('../../pages/advanced/fbo/index.vue'),
+  },
+  {
+    path: '/advanced/suspense',
+    name: 'Suspense',
+    component: () => import('../../pages/advanced/suspense/index.vue'),
   },
 ]

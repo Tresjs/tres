@@ -6,7 +6,7 @@ import {
 import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
 import { OrbitControls } from '@tresjs/cientos'
 import '@tresjs/leches/styles'
-import Box from '../../components/Box.vue'
+import Box from './Box.vue'
 
 const gl = {
   clearColor: '#202020',

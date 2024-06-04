@@ -6,6 +6,7 @@ import {
   eventsRoutes,
   miscRoutes,
   modelsRoutes,
+  issuesRoutes,
 } from '../router/routes'
 
 const sections = [
@@ -15,6 +16,7 @@ const sections = [
   { icon: '📷', title: 'Camera', routes: cameraRoutes },
   { icon: '🐇', title: 'Models', routes: modelsRoutes },
   { icon: '🤪', title: 'Misc', routes: miscRoutes },
+  { icon: '🔬', title: 'Issues', routes: issuesRoutes },
 ]
 </script>
 
@@ -70,6 +72,7 @@ const sections = [
             {{ title }}
           </h2>
           <div
+            v-if="routes.length"
             v-for="route in routes"
             :key="route.name"
             class="link-wrapper"
@@ -80,6 +83,9 @@ const sections = [
             >
               <span>{{ route.name }} </span>
             </router-link>
+          </div>
+          <div v-else>
+            (empty)
           </div>
         </div>
       </div>
