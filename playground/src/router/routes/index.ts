@@ -1,10 +1,10 @@
-import { modelsRoutes } from "./models";
-import { cameraRoutes } from "./cameras";
-import { eventsRoutes } from "./events";
-import { basicRoutes } from "./basic";
-import { advancedRoutes } from "./advanced";
-import { miscRoutes } from "./misc";
-import { issuesRoutes } from "./issues";
+import { modelsRoutes } from './models'
+import { cameraRoutes } from './cameras'
+import { eventsRoutes } from './events'
+import { basicRoutes } from './basic'
+import { advancedRoutes } from './advanced'
+import { miscRoutes } from './misc'
+import { issuesRoutes } from './issues'
 
 const allRoutes = [
   ...basicRoutes,
@@ -14,7 +14,7 @@ const allRoutes = [
   ...modelsRoutes,
   ...miscRoutes,
   ...issuesRoutes,
-];
+]
 
 export {
   basicRoutes,
@@ -25,4 +25,4 @@ export {
   miscRoutes,
   issuesRoutes,
   allRoutes,
-};
+}

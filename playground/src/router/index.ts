@@ -7,7 +7,7 @@ const routes = [
     name: 'Home',
     component: () => import('../pages/index.vue'),
   },
-  ...allRoutes
+  ...allRoutes,
 ]
 export const router = createRouter({
   history: createWebHistory(),

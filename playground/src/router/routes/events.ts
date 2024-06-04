@@ -8,5 +8,5 @@ export const eventsRoutes = [
     path: '/events/fps-drops-repro',
     name: 'FSP Drops Reproduction',
     component: () => import('../../pages/events/FpsDropsReproduction.vue'),
-  }
+  },
 ]

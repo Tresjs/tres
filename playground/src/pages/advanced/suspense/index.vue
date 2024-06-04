@@ -1,43 +1,43 @@
 <script setup lang="ts">
-import { TresCanvas } from "@tresjs/core";
-import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from "three";
-import { Perf, TresLeches, useControls } from "@tresjs/leches";
-import "@tresjs/leches/styles";
-import { OrbitControls } from "@tresjs/cientos";
-import AsyncComponent from "./AsyncComponent.vue";
+import { TresCanvas } from '@tresjs/core'
+import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
+import { Perf, TresLeches, useControls } from '@tresjs/leches'
+import '@tresjs/leches/styles'
+import { OrbitControls } from '@tresjs/cientos'
+import AsyncComponent from './AsyncComponent.vue'
 
 const gl = {
-  clearColor: "#82DBC5",
+  clearColor: '#82DBC5',
   shadows: true,
   alpha: false,
   shadowMapType: BasicShadowMap,
   outputColorSpace: SRGBColorSpace,
   toneMapping: NoToneMapping,
-};
+}
 
 const { show } = useControls({
   show: true,
-});
+})
 
-const ctx = ref(null);
+const ctx = ref(null)
 
 watchEffect(() => {
   if (!ctx.value) {
-    return;
+    return
   }
   // eslint-disable-next-line no-console
-  console.log("ctx", ctx.value);
-});
+  console.log('ctx', ctx.value)
+})
 
 useControls({
   button: {
-    label: "Render dispose",
-    type: "button",
+    label: 'Render dispose',
+    type: 'button',
     onClick() {
-      ctx?.value?.dispose();
+      ctx?.value?.dispose()
     },
   },
-});
+})
 </script>
 
 <template>

@@ -2,7 +2,7 @@
 import { TresCanvas } from '@tresjs/core'
 import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
 import { OrbitControls } from '@tresjs/cientos'
-import DirectiveSubComponent from './DirectiveSubComponent.vue';
+import DirectiveSubComponent from './DirectiveSubComponent.vue'
 
 const gl = {
   clearColor: '#82DBC5',
