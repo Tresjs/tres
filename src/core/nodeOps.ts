@@ -42,7 +42,7 @@ export function invalidateInstance(instance: TresObject) {
   }
 }
 
-export const nodeOps: () => RendererOptions<TresObject, TresObject | null> = () => {
+export const nodeOps: (context: TresContext) => RendererOptions<TresObject, TresObject | null> = (context) => {
   let scene: TresScene | null = null
   function createElement(tag: string, _isSVG: undefined, _anchor: any, props: InstanceProps): TresObject | null {
     if (!props) { props = {} }
