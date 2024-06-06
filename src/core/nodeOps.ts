@@ -1,11 +1,10 @@
 import type { RendererOptions } from 'vue'
 import { BufferAttribute } from 'three'
-import { isFunction } from '@alvarosabu/utils'
-import type { Camera } from 'three'
 import type { TresContext } from '../composables'
 import { useLogger } from '../composables'
 import { deepArrayEqual, disposeObject3D, isHTMLTag, kebabToCamel } from '../utils'
-import type { InstanceProps, TresObject, TresObject3D, TresScene } from '../types'
+import type { InstanceProps, TresObject, TresObject3D } from '../types'
+import * as is from '../utils/is'
 import { catalogue } from './catalogue'
 
 function noop(fn: string): any {
@@ -43,7 +42,8 @@ export function invalidateInstance(instance: TresObject) {
 }
 
 export const nodeOps: (context: TresContext) => RendererOptions<TresObject, TresObject | null> = (context) => {
-  let scene: TresScene | null = null
+  const scene = context.scene.value
+
   function createElement(tag: string, _isSVG: undefined, _anchor: any, props: InstanceProps): TresObject | null {
     if (!props) { props = {} }
 
@@ -99,46 +99,34 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
 
     // determine whether the material was passed via prop to
     // prevent it's disposal when node is removed later in it's lifecycle
-
     if (instance.isObject3D && instance.__tres && (props?.material || props?.geometry)) {
       instance.__tres.disposable = false
     }
 
     return instance as TresObject
   }
+
   function insert(child: TresObject, parent: TresObject) {
     if (!child) { return }
 
-    if (parent && parent.isScene) {
-      scene = parent as unknown as TresScene
-    }
-
-    if (scene && child.__tres) {
-      child.__tres.root = scene.__tres.root as TresContext
+    if (child.__tres) {
+      child.__tres.root = context
     }
 
     const parentObject = parent || scene
 
-    if (child?.isObject3D) {
-      const { registerCamera } = child?.__tres?.root as TresContext
-      if (child?.isCamera) {
-        registerCamera(child as unknown as Camera)
-      }
+    context.registerCamera(child)
+    // NOTE: Track onPointerMissed objects separate from the scene
+    context.eventManager?.registerPointerMissedObject(child)
 
-      // Track onPointerMissed objects separate from the scene
-      if (child.onPointerMissed && child?.__tres?.root) {
-        child?.__tres?.root?.eventManager?.registerPointerMissedObject(child)
-      }
-    }
-
-    if (child?.isObject3D && parentObject?.isObject3D) {
+    if (is.object3D(child) && is.object3D(parentObject)) {
       parentObject.add(child)
       child.dispatchEvent({ type: 'added' })
     }
-    else if (child?.isFog) {
+    else if (is.fog(child)) {
       parentObject.fog = child
     }
-    else if (typeof child?.attach === 'string') {
+    else if (typeof child.attach === 'string') {
       child.__previousAttach = child[parentObject?.attach as string]
       if (parentObject) {
         parentObject[child.attach] = child
@@ -148,31 +136,21 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
 
   function remove(node: TresObject | null) {
     if (!node) { return }
-    const ctx = node.__tres
     // remove is only called on the node being removed and not on child nodes.
     node.parent = node.parent || scene
 
-    if (node.isObject3D) {
-      const deregisterCameraIfRequired = (object: TresObject) => {
-        const deregisterCamera = node?.__tres?.root?.deregisterCamera
-
-        if ((object as unknown as Camera).isCamera) { deregisterCamera?.(object as unknown as Camera) }
-      }
-
+    if (is.object3D(node)) {
       node.removeFromParent?.()
 
       // Remove nested child objects. Primitives should not have objects and children that are
       // attached to them declaratively ...
-
-      node.traverse((child: TresObject) => {
-        deregisterCameraIfRequired(child)
+      node.traverse((child) => {
+        context.deregisterCamera(child)
         // deregisterAtPointerEventHandlerIfRequired?.(child as TresObject)
-        if (child.onPointerMissed) {
-          ctx?.root?.eventManager?.deregisterPointerMissedObject(child)
-        }
+        context.eventManager?.deregisterPointerMissedObject(child)
       })
 
-      deregisterCameraIfRequired(node)
+      context.deregisterCamera(node)
       /*  deregisterAtPointerEventHandlerIfRequired?.(node as TresObject) */
       invalidateInstance(node as TresObject)
 
@@ -186,107 +164,108 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
       node.dispose?.()
     }
   }
+
   function patchProp(node: TresObject, prop: string, prevValue: any, nextValue: any) {
-    if (node) {
-      let root = node
-      let key = prop
-      if (node?.__tres?.primitive && key === 'object' && prevValue !== null) {
-        // If the prop 'object' is changed, we need to re-instance the object and swap the old one with the new one
-        const newInstance = createElement('primitive', undefined, undefined, {
-          object: nextValue,
-        })
-        for (const subkey in newInstance) {
-          if (subkey === 'uuid') { continue }
-          const target = node[subkey]
-          const value = newInstance[subkey]
-          if (!target?.set && !isFunction(target)) { node[subkey] = value }
-          else if (target.constructor === value.constructor && target?.copy) { target?.copy(value) }
-          else if (Array.isArray(value)) { target.set(...value) }
-          else if (!target.isColor && target.setScalar) { target.setScalar(value) }
-          else { target.set(value) }
-        }
-        if (newInstance?.__tres) {
-          newInstance.__tres.root = scene?.__tres.root
-        }
-        // This code is needed to handle the case where the prop 'object' type change from a group to a mesh or vice versa, otherwise the object will not be rendered correctly (models will be invisible)
-        if (newInstance?.isGroup) {
-          node.geometry = undefined
-          node.material = undefined
-        }
-        else {
-          delete node.isGroup
-        }
+    if (!node) { return }
+
+    let root = node
+    let key = prop
+    if (node.__tres?.primitive && key === 'object' && prevValue !== null) {
+      // If the prop 'object' is changed, we need to re-instance the object and swap the old one with the new one
+      const newInstance = createElement('primitive', undefined, undefined, {
+        object: nextValue,
+      })
+      for (const subkey in newInstance) {
+        if (subkey === 'uuid') { continue }
+        const target = node[subkey]
+        const value = newInstance[subkey]
+        if (!target?.set && !is.fun(target)) { node[subkey] = value }
+        else if (target.constructor === value.constructor && target?.copy) { target?.copy(value) }
+        else if (Array.isArray(value)) { target.set(...value) }
+        else if (!target.isColor && target.setScalar) { target.setScalar(value) }
+        else { target.set(value) }
       }
-
-      if (node?.isObject3D && key === 'blocks-pointer-events') {
-        if (nextValue || nextValue === '') { node[key] = nextValue }
-        else { delete node[key] }
-        return
+      if (newInstance?.__tres) {
+        newInstance.__tres.root = context
       }
-
-      let finalKey = kebabToCamel(key)
-      let target = root?.[finalKey]
-
-      if (key === 'args') {
-        const prevNode = node as TresObject3D
-        const prevArgs = prevValue ?? []
-        const args = nextValue ?? []
-        const instanceName = node?.__tres?.type || node.type
-
-        if (
-          instanceName
-          && prevArgs.length
-          && !deepArrayEqual(prevArgs, args)
-        ) {
-          root = Object.assign(
-            prevNode,
-            new catalogue.value[instanceName](...nextValue),
-          )
-        }
-        return
+      // This code is needed to handle the case where the prop 'object' type change from a group to a mesh or vice versa, otherwise the object will not be rendered correctly (models will be invisible)
+      if (newInstance?.isGroup) {
+        node.geometry = undefined
+        node.material = undefined
       }
-
-      if (root.type === 'BufferGeometry') {
-        if (key === 'args') { return }
-        root.setAttribute(
-          kebabToCamel(key),
-          new BufferAttribute(...(nextValue as ConstructorParameters<typeof BufferAttribute>)),
-        )
-        return
+      else {
+        delete node.isGroup
       }
-
-      // Traverse pierced props (e.g. foo-bar=value => foo.bar = value)
-      if (key.includes('-') && target === undefined) {
-        const chain = key.split('-')
-        target = chain.reduce((acc, key) => acc[kebabToCamel(key)], root)
-        key = chain.pop() as string
-        finalKey = key
-        if (!target?.set) { root = chain.reduce((acc, key) => acc[kebabToCamel(key)], root) }
-      }
-      let value = nextValue
-      if (value === '') { value = true }
-      // Set prop, prefer atomic methods if applicable
-      if (isFunction(target)) {
-        // don't call pointer event callback functions
-        if (!supportedPointerEvents.includes(prop)) {
-          if (Array.isArray(value)) { node[finalKey](...value) }
-          else { node[finalKey](value) }
-        }
-        // NOTE: Set on* callbacks
-        // Issue: https://github.com/Tresjs/tres/issues/360
-        if (finalKey.startsWith('on') && isFunction(value)) {
-          root[finalKey] = value
-        }
-        return
-      }
-      if (!target?.set && !isFunction(target)) { root[finalKey] = value }
-      else if (target.constructor === value.constructor && target?.copy) { target?.copy(value) }
-      else if (Array.isArray(value)) { target.set(...value) }
-      else if (!target.isColor && target.setScalar) { target.setScalar(value) }
-      else { target.set(value) }
-
-      invalidateInstance(node as TresObject)
     }
+
+    if (is.object3D(node) && key === 'blocks-pointer-events') {
+      if (nextValue || nextValue === '') { node[key] = nextValue }
+      else { delete node[key] }
+      return
+    }
+
+    let finalKey = kebabToCamel(key)
+    let target = root?.[finalKey]
+
+    if (key === 'args') {
+      const prevNode = node as TresObject3D
+      const prevArgs = prevValue ?? []
+      const args = nextValue ?? []
+      const instanceName = node.__tres?.type || node.type
+
+      if (
+        instanceName
+        && prevArgs.length
+        && !deepArrayEqual(prevArgs, args)
+      ) {
+        root = Object.assign(
+          prevNode,
+          new catalogue.value[instanceName](...nextValue),
+        )
+      }
+      return
+    }
+
+    if (root.type === 'BufferGeometry') {
+      if (key === 'args') { return }
+      root.setAttribute(
+        kebabToCamel(key),
+        new BufferAttribute(...(nextValue as ConstructorParameters<typeof BufferAttribute>)),
+      )
+      return
+    }
+
+    // Traverse pierced props (e.g. foo-bar=value => foo.bar = value)
+    if (key.includes('-') && target === undefined) {
+      const chain = key.split('-')
+      target = chain.reduce((acc, key) => acc[kebabToCamel(key)], root)
+      key = chain.pop() as string
+      finalKey = key
+      if (!target?.set) { root = chain.reduce((acc, key) => acc[kebabToCamel(key)], root) }
+    }
+    let value = nextValue
+    if (value === '') { value = true }
+    // Set prop, prefer atomic methods if applicable
+    if (is.fun(target)) {
+      // don't call pointer event callback functions
+      if (!supportedPointerEvents.includes(prop)) {
+        if (is.arr(value)) { node[finalKey](...value) }
+        else { node[finalKey](value) }
+      }
+      // NOTE: Set on* callbacks
+      // Issue: https://github.com/Tresjs/tres/issues/360
+      if (finalKey.startsWith('on') && is.fun(value)) {
+        root[finalKey] = value
+      }
+      return
+    }
+    if (!target?.set && !is.fun(target)) { root[finalKey] = value }
+    else if (target.constructor === value.constructor && target?.copy) { target?.copy(value) }
+    else if (is.arr(value)) { target.set(...value) }
+    else if (!target.isColor && target.setScalar) { target.setScalar(value) }
+    else { target.set(value) }
+
+    invalidateInstance(node as TresObject)
   }
 
   function parentNode(node: TresObject) {
