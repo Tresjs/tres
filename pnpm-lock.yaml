@@ -35,7 +35,7 @@ importers:
         version: 1.1.17
       '@iconify-json/logos':
         specifier: ^1.1.42
-        version: 1.1.42
+        version: 1.1.43
       '@nuxt/content':
         specifier: ^2.10.0
         version: 2.12.1(ioredis@5.4.1)(nuxt@3.11.2(@parcel/watcher@2.4.1)(@types/node@20.14.2)(@unocss/reset@0.59.4)(encoding@0.1.13)(eslint@8.56.0)(floating-vue@5.2.2(@nuxt/kit@3.11.2(rollup@4.14.3))(vue@3.4.23(typescript@5.4.5)))(fuse.js@6.6.2)(ioredis@5.4.1)(optionator@0.9.4)(rollup@4.14.3)(terser@5.31.0)(typescript@5.4.5)(unocss@0.59.4(@unocss/webpack@0.58.3(rollup@4.14.3)(webpack@5.89.0))(postcss@8.4.38)(rollup@4.14.3)(vite@5.2.9(@types/node@20.14.2)(terser@5.31.0)))(vite@5.2.9(@types/node@20.14.2)(terser@5.31.0)))(rollup@4.14.3)(vue@3.4.23(typescript@5.4.5))
@@ -625,8 +625,8 @@ packages:
   '@iconify-json/ic@1.1.17':
     resolution: {integrity: sha512-EvAjZzVESmN36zlyefylePUNaU2BQ3eRKVZ6KQSQ2bG01ppoZaiFZRri74VTyvp5Mlv2yn68ux1fgCoT+etGmA==}
 
-  '@iconify-json/logos@1.1.42':
-    resolution: {integrity: sha512-/f+frtPm3m3Z30oy8Pk+QqRDkbmAiIaWGPl5CmsCXm15MVfvw9a/V/gD7WzdyuSGAZcFuQaqbHXj92y/n+2ifg==}
+  '@iconify-json/logos@1.1.43':
+    resolution: {integrity: sha512-UtvL1yDHUr9dl1Tqihh6K9m5dmbYKOYyLf3i9aKhymSW76QjOCGjpgQc0PQ4GJCAdU1cAMu+WO61TgPxdonrlg==}
 
   '@iconify/collections@1.0.415':
     resolution: {integrity: sha512-QtTK7kvL6tJKlA7qKWHohf9nZiy7SBy6ZUiAdOrsS/3AfRTMLhlh0SOfoTeVTAq/uHowOHrrmOmklxpR3YQwCA==}
@@ -7008,7 +7008,7 @@ snapshots:
     dependencies:
       '@iconify/types': 2.0.0
 
-  '@iconify-json/logos@1.1.42':
+  '@iconify-json/logos@1.1.43':
     dependencies:
       '@iconify/types': 2.0.0
 
