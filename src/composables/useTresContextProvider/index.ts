@@ -70,9 +70,9 @@ export interface TresContext {
    */
   advance: () => void
   // Camera
-  registerCamera: (camera: Camera) => void
+  registerCamera: (maybeCamera: any) => void
   setCameraActive: (cameraOrUuid: Camera | string) => void
-  deregisterCamera: (camera: Camera) => void
+  deregisterCamera: (maybeCamera: any) => void
   eventManager?: TresEventManager
   // Events
   // Temporaly add the methods to the context, this should be handled later by the EventManager state on the context https://github.com/Tresjs/tres/issues/515

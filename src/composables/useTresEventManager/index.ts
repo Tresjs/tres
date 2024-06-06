@@ -4,6 +4,7 @@ import type { EmitEventFn, EmitEventName, Intersection, TresEvent, TresObject } 
 import type { TresContext } from '../useTresContextProvider'
 import { useRaycaster } from '../useRaycaster'
 import { hyphenate } from '../../utils'
+import * as is from '../../utils/is'
 
 export interface TresEventManager {
   /**
@@ -15,8 +16,8 @@ export interface TresEventManager {
    * So we need to track them separately
    * Note: These are used in nodeOps
    */
-  registerPointerMissedObject: (object: TresObject) => void
-  deregisterPointerMissedObject: (object: TresObject) => void
+  registerPointerMissedObject: (object: any) => void
+  deregisterPointerMissedObject: (object: any) => void
 }
 
 export function useTresEventManager(
@@ -172,14 +173,18 @@ export function useTresEventManager(
     emit('pointer-missed', { event })
   })
 
-  function registerPointerMissedObject(object: TresObject) {
-    pointerMissedObjects.push(object)
+  function registerPointerMissedObject(maybeTresObject: any) {
+    if (is.tresObject(maybeTresObject) && is.object3D(maybeTresObject) && maybeTresObject.onPointerMissed) {
+      pointerMissedObjects.push(maybeTresObject)
+    }
   }
 
-  function deregisterPointerMissedObject(object: TresObject) {
-    const index = pointerMissedObjects.indexOf(object)
-    if (index > -1) {
-      pointerMissedObjects.splice(index, 1)
+  function deregisterPointerMissedObject(maybeTresObject: any) {
+    if (is.tresObject(maybeTresObject) && is.object3D(maybeTresObject)) {
+      const index = pointerMissedObjects.indexOf(maybeTresObject)
+      if (index > -1) {
+        pointerMissedObjects.splice(index, 1)
+      }
     }
   }
 

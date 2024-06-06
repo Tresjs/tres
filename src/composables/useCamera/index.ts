@@ -4,6 +4,7 @@ import { Camera, PerspectiveCamera } from 'three'
 
 import type { TresScene } from '../../types'
 import type { TresContext } from '../useTresContextProvider'
+import { camera as isCamera } from '../../utils/is'
 
 export const useCamera = ({ sizes }: Pick<TresContext, 'sizes'> & { scene: TresScene }) => {
   // the computed does not trigger, when for example the camera position changes
@@ -23,15 +24,21 @@ export const useCamera = ({ sizes }: Pick<TresContext, 'sizes'> & { scene: TresS
     cameras.value = [camera, ...otherCameras]
   }
 
-  const registerCamera = (newCamera: Camera, active = false) => {
-    if (cameras.value.some(({ uuid }) => uuid === newCamera.uuid)) { return }
+  const registerCamera = (maybeCamera: any, active = false) => {
+    if (isCamera(maybeCamera)) {
+      const camera = maybeCamera
+      if (cameras.value.some(({ uuid }) => uuid === camera.uuid)) { return }
 
-    if (active) { setCameraActive(newCamera) }
-    else { cameras.value.push(newCamera) }
+      if (active) { setCameraActive(camera) }
+      else { cameras.value.push(camera) }
+    }
   }
 
-  const deregisterCamera = (camera: Camera) => {
-    cameras.value = cameras.value.filter(({ uuid }) => uuid !== camera.uuid)
+  const deregisterCamera = (maybeCamera: any) => {
+    if (isCamera(maybeCamera)) {
+      const camera = maybeCamera
+      cameras.value = cameras.value.filter(({ uuid }) => uuid !== camera.uuid)
+    }
   }
 
   watchEffect(() => {
