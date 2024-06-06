@@ -167,7 +167,7 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
 
   function patchProp(node: TresObject, prop: string, prevValue: any, nextValue: any) {
     if (!node) { return }
-
+    
     let root = node
     let key = prop
     if (node.__tres?.primitive && key === 'object' && prevValue !== null) {
@@ -203,7 +203,10 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
       else { delete node[key] }
       return
     }
-
+      // Has events
+      if (supportedPointerEvents.includes(prop)) {
+        node.__tres.eventCount += 1
+      }
     let finalKey = kebabToCamel(key)
     let target = root?.[finalKey]
 
@@ -248,6 +251,7 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
     // Set prop, prefer atomic methods if applicable
     if (is.fun(target)) {
       // don't call pointer event callback functions
+
       if (!supportedPointerEvents.includes(prop)) {
         if (is.arr(value)) { node[finalKey](...value) }
         else { node[finalKey](value) }

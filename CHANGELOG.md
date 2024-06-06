@@ -1,5 +1,14 @@
 
 
+## [4.0.2](https://github.com/Tresjs/tres/compare/4.0.1...4.0.2) (2024-06-05)
+
+
+### Bug Fixes
+
+* implement createComment and nextSibling node operations so that objects being v-if'd are not lost by Vue's runtime and incorrectly placed in the scene root ([814d678](https://github.com/Tresjs/tres/commit/814d678b62f7d9b4ed11149aaf56a45ea5c04dad))
+* intersect only objects with events registered. ([#714](https://github.com/Tresjs/tres/issues/714)) ([b320524](https://github.com/Tresjs/tres/commit/b3205245e3d0b9ceda7cd356bced004358b58856))
+* propogate events over previous intersections on pointerLeave and pointerOut ([66264fc](https://github.com/Tresjs/tres/commit/66264fc49cd21bbde7288256409ec5a688309946))
+
 ## [4.0.1](https://github.com/Tresjs/tres/compare/4.0.0...4.0.1) (2024-06-01)
 
 
