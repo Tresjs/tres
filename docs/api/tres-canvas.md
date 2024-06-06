@@ -77,12 +77,13 @@ renderer.shadowMap.type = PCFSoftShadowMap
 | **clearColor** | The color the renderer will use to clear the canvas. | `#000000` |
 | **context** | This can be used to attach the renderer to an existing [RenderingContext](https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext) | |
 | **depth** | Whether the drawing buffer has a [depth buffer](https://en.wikipedia.org/wiki/Z-buffering) of at least 16 bits. | `true` |
+| **renderMode** | Render mode, can be `always`, `on-demand` or `manual`. See [Performance](../advanced/performance)  | `always` |
 | **disableRender** | Disable render on requestAnimationFrame, useful for PostProcessing | `false` |
 | **failIfMajorPerformanceCaveat** | Whether the renderer creation will fail upon low performance is detected. See [WebGL spec](https://registry.khronos.org/webgl/specs/latest/1.0/#5.2) for details. | `false` |
 | **logarithmicDepthBuffer** | Whether to use a logarithmic depth buffer. It may be necessary to use this if dealing with huge differences in scale in a single scene. Note that this setting uses gl_FragDepth if available which disables the [Early Fragment Test](https://www.khronos.org/opengl/wiki/Early_Fragment_Test) optimization and can cause a decrease in performance. | `false` |
 | **outputColorSpace** | Defines the output encoding | `LinearEncoding` |
-| **powerPreference** | Provides a hint to the user agent indicating what configuration of GPU is suitable for this WebGL context. Can be "high-performance", "low-power" or "default". | `default` |
-| **precision** | Shader precision. Can be "highp", "mediump" or "lowp". | "highp" if supported by the device |
+| **powerPreference** | Provides a hint to the user agent indicating what configuration of GPU is suitable for this WebGL context. Can be `high-performance`, `low-power` or `default`. | `default` |
+| **precision** | Shader precision. Can be `highp`, `mediump` or `lowp`. | "highp" if supported by the device |
 | **premultipliedAlpha** | Whether the renderer will assume that colors have [premultiplied alpha](https://en.wikipedia.org/wiki/Glossary_of_computer_graphics#premultiplied_alpha). | `true` |
 | **preserveDrawingBuffer** | Whether to preserve the buffers until manually cleared or overwritten.. | `false` |
 | **shadows** | Enable shadows in the renderer | `false` |
