@@ -11,6 +11,7 @@ export default defineConfig({
   locales: {
     root: { label: 'English', lang: 'en-US', link: '/', ...enConfig },
     es: { label: 'Español', lang: 'es-ES', link: '/es/', ...esConfig },
+    ja: { label: '日本語', lang: 'ja-JP', link: '/ja/', ...esConfig }
     /* zh: { label: '简体中文', lang: 'zh-CN', link: '/zh/', ...zhConfig }, */
   },
 })
