@@ -24,7 +24,7 @@ export const useCamera = ({ sizes }: Pick<TresContext, 'sizes'> & { scene: TresS
     cameras.value = [camera, ...otherCameras]
   }
 
-  const registerCamera = (maybeCamera: any, active = false) => {
+  const registerCamera = (maybeCamera: unknown, active = false) => {
     if (isCamera(maybeCamera)) {
       const camera = maybeCamera
       if (cameras.value.some(({ uuid }) => uuid === camera.uuid)) { return }
@@ -34,7 +34,7 @@ export const useCamera = ({ sizes }: Pick<TresContext, 'sizes'> & { scene: TresS
     }
   }
 
-  const deregisterCamera = (maybeCamera: any) => {
+  const deregisterCamera = (maybeCamera: unknown) => {
     if (isCamera(maybeCamera)) {
       const camera = maybeCamera
       cameras.value = cameras.value.filter(({ uuid }) => uuid !== camera.uuid)

@@ -180,13 +180,13 @@ export function useTresEventManager(
     emit('pointer-missed', { event })
   })
 
-  function registerPointerMissedObject(maybeTresObject: any) {
+  function registerPointerMissedObject(maybeTresObject: unknown) {
     if (is.tresObject(maybeTresObject) && is.object3D(maybeTresObject) && maybeTresObject.onPointerMissed) {
       pointerMissedObjects.push(maybeTresObject)
     }
   }
 
-  function deregisterPointerMissedObject(maybeTresObject: any) {
+  function deregisterPointerMissedObject(maybeTresObject: unknown) {
     if (is.tresObject(maybeTresObject) && is.object3D(maybeTresObject)) {
       const index = pointerMissedObjects.indexOf(maybeTresObject)
       if (index > -1) {

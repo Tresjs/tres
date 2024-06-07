@@ -1,40 +1,40 @@
 import type { TresObject } from 'src/types'
 import type { BufferGeometry, Camera, Fog, Material, Object3D } from 'three'
 
-export function arr(a: any) {
-  return Array.isArray(a)
+export function arr(u: unknown) {
+  return Array.isArray(u)
 }
 
-export function fun(a: any): a is Function {
-  return typeof a === 'function'
+export function fun(u: unknown): u is Function {
+  return typeof u === 'function'
 }
 
-export function obj(a: any) {
-  return a === Object(a) && !arr(a) && !fun(a)
+export function obj(u: unknown): u is Record<string | number | symbol, unknown> {
+  return u === Object(u) && !arr(u) && !fun(u)
 }
 
-export function object3D(a: any): a is Object3D {
-  return obj(a) && 'isObject3D' in a && a.isObject3D
+export function object3D(u: unknown): u is Object3D {
+  return obj(u) && ('isObject3D' in u) && !!(u.isObject3D)
 }
 
-export function camera(a: any): a is Camera {
-  return obj(a) && 'isCamera' in a && a.isCamera
+export function camera(u: unknown): u is Camera {
+  return obj(u) && 'isCamera' in u && !!(u.isCamera)
 }
 
-export function bufferGeometry(a: any): a is BufferGeometry {
-  return obj(a) && 'isBufferGeometry' in a && a.isBufferGeometry
+export function bufferGeometry(u: unknown): u is BufferGeometry {
+  return obj(u) && 'isBufferGeometry' in u && !!(u.isBufferGeometry)
 }
 
-export function material(a: any): a is Material {
-  return obj(a) && 'isMaterial' in a && a.isMaterial
+export function material(u: unknown): u is Material {
+  return obj(u) && 'isMaterial' in u && !!(u.isMaterial)
 }
 
-export function fog(a: any): a is Fog {
-  return obj(a) && 'isFog' in a && a.isFog
+export function fog(u: unknown): u is Fog {
+  return obj(u) && 'isFog' in u && !!(u.isFog)
 }
 
-export function tresObject(a: any): a is TresObject {
+export function tresObject(u: unknown): u is TresObject {
   // NOTE: TresObject is currently defined as
   // TresObject3D | THREE.BufferGeometry | THREE.Material | THREE.Fog
-  return object3D(a) || bufferGeometry(a) || material(a) || fog(a)
+  return object3D(u) || bufferGeometry(u) || material(u) || fog(u)
 }
