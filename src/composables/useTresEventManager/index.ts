@@ -16,8 +16,8 @@ export interface TresEventManager {
    * So we need to track them separately
    * Note: These are used in nodeOps
    */
-  registerPointerMissedObject: (object: any) => void
-  deregisterPointerMissedObject: (object: any) => void
+  registerPointerMissedObject: (object: unknown) => void
+  deregisterPointerMissedObject: (object: unknown) => void
 }
 
 export function useTresEventManager(
