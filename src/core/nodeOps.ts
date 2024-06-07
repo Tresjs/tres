@@ -1,5 +1,5 @@
 import type { RendererOptions } from 'vue'
-import { BufferAttribute } from 'three'
+import { BufferAttribute, Object3D } from 'three'
 import type { TresContext } from '../composables'
 import { useLogger } from '../composables'
 import { deepArrayEqual, disposeObject3D, isHTMLTag, kebabToCamel } from '../utils'
@@ -272,8 +272,41 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
     invalidateInstance(node as TresObject)
   }
 
-  function parentNode(node: TresObject) {
+  function parentNode(node: TresObject): TresObject | null {
     return node?.parent || null
+  }
+
+  /**
+   * createComment
+   *
+   * Creates a comment object that can be used to represent a commented out string in a vue template
+   * Used by Vue's internal runtime as a placeholder for v-if'd elements
+   *
+   * @param comment Any commented out string contaiend in a vue template, typically this is `v-if`
+   * @returns TresObject
+   */
+  function createComment(comment: string): TresObject {
+    const commentObj = new Object3D() as TresObject
+
+    // Set name and type to comment
+    // TODO: Add a custom type for comments instead of reusing Object3D. Comments should be light weight and not exist in the scene graph
+    commentObj.name = comment
+    commentObj.__tres = { type: 'Comment' }
+
+    // Without this we have errors in other nodeOp functions that come across this object
+    commentObj.__tres.root = scene?.__tres.root as TresContext
+
+    return commentObj
+  }
+
+  // nextSibling - Returns the next sibling of a TresObject
+  function nextSibling(node: TresObject) {
+    if (!node) { return null }
+
+    const parent = node.parent || scene
+    const index = parent.children.indexOf(node)
+
+    return parent.children[index + 1] || null
   }
 
   return {
@@ -283,10 +316,10 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
     patchProp,
     parentNode,
     createText: () => noop('createText'),
-    createComment: () => noop('createComment'),
+    createComment,
     setText: () => noop('setText'),
     setElementText: () => noop('setElementText'),
-    nextSibling: () => noop('nextSibling'),
+    nextSibling,
     querySelector: () => noop('querySelector'),
     setScopeId: () => noop('setScopeId'),
     cloneNode: () => noop('cloneNode'),
