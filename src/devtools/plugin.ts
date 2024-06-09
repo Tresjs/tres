@@ -171,91 +171,13 @@ export function registerTresDevtools(app: DevtoolsApp, tres: TresContext) {
           }
 
           payload.state = {
-            object: [
-              {
-                key: 'uuid',
+            object: Object.entries(instance).map(([key, value]) => {
+              return {
+                key,
+                value,
                 editable: true,
-                value: instance.uuid,
-              },
-              {
-                key: 'name',
-                editable: true,
-                value: instance.name,
-              },
-              {
-                key: 'type',
-                editable: true,
-                value: instance.type,
-              },
-              {
-                key: 'position',
-                editable: true,
-                value: instance.position,
-              },
-              {
-                key: 'rotation',
-                editable: true,
-                value: instance.rotation,
-              },
-              {
-                key: 'scale',
-                editable: true,
-                value: instance.scale,
-              },
-              {
-                key: 'geometry',
-                value: instance.geometry,
-              },
-              {
-                key: 'material',
-                value: instance.material,
-              },
-              {
-                key: 'color',
-                editable: true,
-                value: instance.color,
-              },
-              {
-                key: 'intensity',
-                editable: true,
-                value: instance.intensity,
-              },
-              {
-                key: 'castShadow',
-                editable: true,
-                value: instance.castShadow,
-              },
-              {
-                key: 'receiveShadow',
-                editable: true,
-                value: instance.receiveShadow,
-              },
-              {
-                key: 'frustumCulled',
-                editable: true,
-                value: instance.frustumCulled,
-              },
-              {
-                key: 'matrixAutoUpdate',
-                editable: true,
-                value: instance.matrixAutoUpdate,
-              },
-              {
-                key: 'matrixWorldNeedsUpdate',
-                editable: true,
-                value: instance.matrixWorldNeedsUpdate,
-              },
-              {
-                key: 'matrixWorld',
-                value: instance.matrixWorld,
-              },
-
-              {
-                key: 'visible',
-                editable: true,
-                value: instance.visible,
-              },
-            ],
+              }
+            }).filter(({ key }) => key !== 'parent'),
           }
 
           if (instance.isScene) {
