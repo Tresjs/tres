@@ -1,5 +1,12 @@
 
 
+## [4.1.0-next.0](https://github.com/Tresjs/tres/compare/4.0.2...4.1.0-next.0) (2024-06-09)
+
+
+### Features
+
+* **devtools:** complete instance properties available ([77febc4](https://github.com/Tresjs/tres/commit/77febc44c07c6167869f0b0ebcfaaafe2c757972))
+
 ## [4.0.2](https://github.com/Tresjs/tres/compare/4.0.1...4.0.2) (2024-06-05)
 
 
