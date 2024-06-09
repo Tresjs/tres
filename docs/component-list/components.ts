@@ -68,6 +68,7 @@ export default [
       { text: 'CatmullRomCurve3', link: '/guide/shapes/catmullromcurve3' },
       { text: 'Circle', link: '/guide/shapes/circle' },
       { text: 'Cone', link: '/guide/shapes/cone' },
+	    { text: 'Cylinder', link: '/guide/shapes/cylinder' },
       { text: 'Dodecahedron', link: '/guide/shapes/dodecahedron' },
       { text: 'Icosahedron', link: '/guide/shapes/icosahedron' },
       { text: 'Line2', link: '/guide/shapes/line2' },
