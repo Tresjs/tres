@@ -1,7 +1,7 @@
 export const basicsRoutes = [
   {
-    path: '/basics/basic-setup',
-    name: 'Basic Setup',
-    component: () => import('../../pages/basics/BasicsDemo.vue'),
+    path: '/basics/rigid-body',
+    name: 'Rigid Body',
+    component: () => import('../../pages/basics/RigidBodyDemo.vue'),
   },
 ]

@@ -1,1 +1,0 @@
-<template>basics demo</template>
