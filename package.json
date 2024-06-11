@@ -3,7 +3,7 @@
   "type": "module",
   "version": "0.0.0",
   "private": true,
-  "packageManager": "pnpm@8.10.2",
+  "packageManager": "pnpm@9.1.4",
   "license": "MIT",
   "keywords": [
     "vue",
@@ -33,8 +33,8 @@
   "module": "./dist/tresrapier.js",
   "types": "./dist/index.d.ts",
   "files": [
-    "dist",
-    "*.d.ts"
+    "*.d.ts",
+    "dist"
   ],
   "publishConfig": {
     "access": "public"
@@ -44,41 +44,44 @@
     "playground": "cd playground && pnpm dev",
     "build": "vite build",
     "release": "release-it",
-    "lint": "eslint . --ext .js,.jsx,.ts,.tsx,.vue",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
-    "docs:preview": "vitepress preview docs"
+    "docs:preview": "vitepress preview docs",
+    "prepare": "husky"
   },
   "peerDependencies": {
-    "@tresjs/core": ">=3.5.0",
+    "@tresjs/core": ">=4.0.0",
     "three": ">=0.158.0",
     "vue": ">=3.3.8"
   },
   "dependencies": {
-    "@dimforge/rapier3d-compat": "^0.11.2",
-    "@tresjs/core": "^3.5.0",
-    "three": "^0.158.0",
-    "vue": "^3.3.8"
+    "@dimforge/rapier3d-compat": "^0.13.1",
+    "three": "^0.165.0",
+    "vue": "^3.4.27"
   },
   "devDependencies": {
-    "@release-it/conventional-changelog": "^8.0.0",
-    "@tresjs/eslint-config-vue": "^0.2.1",
-    "@types/node": "^20.9.0",
-    "@types/three": "^0.158.2",
-    "@vitejs/plugin-vue": "^4.4.1",
+    "@release-it/conventional-changelog": "^8.0.1",
+    "@tresjs/core": "^4.0.2",
+    "@tresjs/eslint-config": "^1.1.0",
+    "@types/node": "^20.14.2",
+    "@types/three": "^0.165.0",
+    "@vitejs/plugin-vue": "^5.0.5",
     "dts": "^0.1.1",
-    "eslint": "^8.53.0",
-    "eslint-plugin-vue": "^9.18.1",
+    "eslint": "^9.4.0",
+    "eslint-plugin-vue": "^9.26.0",
+    "husky": "^9.0.11",
     "kolorist": "^1.8.0",
-    "pathe": "^1.1.1",
-    "release-it": "^17.0.0",
+    "pathe": "^1.1.2",
+    "release-it": "^17.3.0",
     "rollup-plugin-analyzer": "^4.0.0",
-    "typescript": "^5.2.2",
-    "unocss": "^0.57.3",
-    "vite": "^4.5.0",
+    "typescript": "^5.4.5",
+    "unocss": "^0.60.4",
+    "vite": "^5.2.13",
     "vite-plugin-banner": "^0.7.1",
-    "vite-plugin-dts": "^3.6.3",
-    "vitepress": "1.0.0-rc.25",
-    "vue-tsc": "^1.8.22"
+    "vite-plugin-dts": "^3.9.1",
+    "vitepress": "1.2.3",
+    "vue-tsc": "^2.0.21"
   }
 }

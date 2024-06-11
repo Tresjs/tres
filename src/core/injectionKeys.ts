@@ -4,4 +4,4 @@ export interface RapierContext {
 
 }
 
-export const rapierInjectionKey: InjectionKey<ShallowRef<RapierContext | null>> = Symbol()
+export const rapierInjectionKey: InjectionKey<ShallowRef<RapierContext | null>> = Symbol('tresrapier')

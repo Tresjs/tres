@@ -1,10 +1,8 @@
 <script setup lang="ts">
-import { onMounted, nextTick, shallowRef, unref, watch } from 'vue'
-import type { RigidBody as RigidBodyType } from '@dimforge/rapier3d-compat'
-import { RigidBody, RigidBodyDesc, ColliderDesc } from '@dimforge/rapier3d-compat'
-import { Box3, Vector3, type Mesh } from 'three'
-import type { TresObject } from '@tresjs/core'
-import { useRenderLoop } from '@tresjs/core'
+import { shallowRef, watch } from 'vue'
+import { ColliderDesc, RigidBodyDesc } from '@dimforge/rapier3d-compat'
+import { Vector3 } from 'three'
+import { type TresObject, useLoop } from '@tresjs/core'
 import { useRapierContext } from '../composables/useRapier'
 
 const props = withDefaults(defineProps<{
@@ -22,7 +20,7 @@ const rigidBody = shallowRef<any>()
 const collider = shallowRef<any>()
 
 watch(rigidRef, (value) => {
-  if (!value) return
+  if (!value) { return }
   createRigidBody(value.children[0])
   createCollider(value.children[0])
 })
@@ -31,7 +29,7 @@ watch(rigidRef, (value) => {
 // Methods
 //
 function createRigidBody(object: TresObject) {
-  if (!object) return
+  if (!object) { return }
 
   const rigidBodyDesc = RigidBodyDesc[props.type]()
     .setTranslation(object.position.x, object.position.y, object.position.z)
@@ -51,7 +49,7 @@ function createRigidBody(object: TresObject) {
 }
 
 function createCollider(object: TresObject) {
-  if (!object) return
+  if (!object) { return }
 
   // Create a cuboid collider attached to the dynamic rigidBody.
   object.geometry.computeBoundingBox()
@@ -80,25 +78,25 @@ function createCollider(object: TresObject) {
   } */
   collider.value = world.createCollider(colliderDesc, rigidBody.value)
 
+  // eslint-disable-next-line no-console
   console.log('collider', collider.value)
 }
 
-const { onLoop } = useRenderLoop()
+const { onBeforeRender } = useLoop()
 
-onLoop(() => {
-  if (!rigidBody.value) return
+onBeforeRender(() => {
+  if (!rigidBody.value) { return }
 
   const position = rigidBody.value.translation()
   rigidRef.value.children[0].position.set(position.x, position.y, position.z)
 
   const rotation = rigidBody.value.rotation()
   rigidRef.value.children[0].quaternion.set(rotation.x, rotation.y, rotation.z, rotation.w)
-  
 })
 </script>
 
 <template>
   <TresGroup ref="rigidRef">
-    <slot />
+    <slot></slot>
   </TresGroup>
 </template>

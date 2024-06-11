@@ -51,11 +51,11 @@ export async function useRapierContextProvider() {
   }
 
   provide('useRapier', toProvide)
-  
+
   toProvide.rapier = await import('@dimforge/rapier3d-compat')
   await toProvide.rapier.init()
 
-  /* 
+  /*
    Initialize the world with gravity and timestep.
   */
   toProvide.world = new toProvide.rapier.World(GRAVITY)

@@ -17,7 +17,7 @@ const sections = [{ icon: '📦', title: 'Basics', routes: basicsRoutes }]
             src="/logo.svg"
             alt="Rapier logo"
             class="max-w-36 sm:max-w-xs align-baseline"
-          >
+          />
         </div>
         <div class="sm:w-2/3">
           <h1 class="text-5xl text-zinc-700 mb-3 sm:mx-none">
