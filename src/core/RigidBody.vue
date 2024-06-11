@@ -2,7 +2,7 @@
 import { shallowRef, watch } from 'vue'
 import { ColliderDesc, RigidBodyDesc } from '@dimforge/rapier3d-compat'
 import { Vector3 } from 'three'
-import { type TresObject, useRenderLoop } from '@tresjs/core'
+import { type TresObject, useLoop } from '@tresjs/core'
 import { useRapierContext } from '../composables/useRapier'
 
 const props = withDefaults(defineProps<{
@@ -82,9 +82,9 @@ function createCollider(object: TresObject) {
   console.log('collider', collider.value)
 }
 
-const { onLoop } = useRenderLoop()
+const { onBeforeRender } = useLoop()
 
-onLoop(() => {
+onBeforeRender(() => {
   if (!rigidBody.value) { return }
 
   const position = rigidBody.value.translation()

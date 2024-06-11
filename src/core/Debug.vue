@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useRenderLoop } from '@tresjs/core'
+import { useLoop } from '@tresjs/core'
 import type { LineSegments } from 'three'
 import { BufferAttribute } from 'three'
 import { ref } from 'vue'
@@ -8,9 +8,9 @@ import { useRapierContext } from '../composables/useRapier'
 const { world } = await useRapierContext()
 const lineSegmentsRef = ref<LineSegments | null>(null)
 
-const { onLoop } = useRenderLoop()
+const { onBeforeRender } = useLoop()
 
-onLoop(() => {
+onBeforeRender(() => {
   if (!world || !lineSegmentsRef.value) { return }
   world.step()
 
