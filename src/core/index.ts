@@ -3,5 +3,5 @@ import RigidBody from './RigidBody.vue'
 
 export {
   Physics,
-  RigidBody
+  RigidBody,
 }

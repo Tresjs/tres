@@ -11,7 +11,7 @@ const lineSegmentsRef = ref<LineSegments | null>(null)
 const { onLoop } = useRenderLoop()
 
 onLoop(() => {
-  if (!world || !lineSegmentsRef.value) return
+  if (!world || !lineSegmentsRef.value) { return }
   world.step()
 
   const buffers = world.debugRender()

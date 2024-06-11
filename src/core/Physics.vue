@@ -12,12 +12,10 @@ withDefaults(
 
 const { world } = await useRapierContextProvider()
 
-console.log('world', world)
-
 const { onLoop } = useRenderLoop()
 
 onLoop(() => {
-  if (!world) return
+  if (!world) { return }
   world.step()
 
   /* const position = world.bodies.get(0).translation()
@@ -27,5 +25,5 @@ onLoop(() => {
 
 <template>
   <Debug v-if="debug" />
-  <slot />
+  <slot></slot>
 </template>

@@ -7,7 +7,7 @@ export const routes = [
     name: 'Home',
     component: () => import('../pages/index.vue'),
   },
-  ...basicsRoutes
+  ...basicsRoutes,
 ]
 
 export const router = createRouter({
