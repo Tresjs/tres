@@ -2,17 +2,19 @@ import { beforeAll, describe, expect, it, vi } from 'vitest'
 import * as THREE from 'three'
 import type { Vector3 } from 'three'
 import { Mesh, Scene } from 'three'
+import type { TresContext } from 'src/composables'
+import { shallowRef } from 'vue'
 import type { TresObject } from '../types'
 import { nodeOps as getNodeOps } from './nodeOps'
 import { extend } from './catalogue'
 
-let nodeOps = getNodeOps()
+let nodeOps = getNodeOps(mockTresContext())
 const pool = []
 
 describe('nodeOps', () => {
   beforeAll(() => {
     extend(THREE)
-    nodeOps = getNodeOps()
+    nodeOps = getNodeOps(mockTresContext())
     const ce = nodeOps.createElement
     // NOTE: Overwrite createElement in order to push
     // all objects into a pool, later to be disposed.
@@ -457,4 +459,12 @@ function mockTresObjectRootInObject(obj) {
     deregisterBlockingObjectAtPointerEventHandler: () => {},
   }
   return obj
+}
+
+function mockTresContext() {
+  return {
+    scene: shallowRef(new Scene()),
+    registerCamera: () => {},
+    deregisterCamera: () => {},
+  } as unknown as TresContext
 }

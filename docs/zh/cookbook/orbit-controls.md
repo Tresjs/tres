@@ -47,8 +47,8 @@ extend({ OrbitControls })
   >
     <TresPerspectiveCamera :args="[45, 1, 0.1, 1000]" />
     <TresOrbitControls
-      v-if="state.renderer"
-      :args="[state.camera, state.renderer?.domElement]"
+      v-if="renderer"
+      :args="[camera, renderer?.domElement]"
     />
   </TresCanvas>
 </template>
@@ -61,7 +61,7 @@ extend({ OrbitControls })
 ```ts
 import { useTres } from '@tresjs/core'
 
-const { state } = useTres()
+const { camera, renderer } = useTres()
 ```
 
 因此，最终代码如下所示：
@@ -73,7 +73,7 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls'
 
 extend({ OrbitControls })
 
-const { state } = useTres()
+const { camera, renderer } = useTres()
 </script>
 
 <template>
@@ -83,8 +83,8 @@ const { state } = useTres()
   >
     <TresPerspectiveCamera :args="[45, 1, 0.1, 1000]" />
     <TresOrbitControls
-      v-if="state.renderer"
-      :args="[state.camera, state.renderer?.domElement]"
+      v-if="renderer"
+      :args="[camera, renderer?.domElement]"
     />
   </TresCanvas>
 </template>
