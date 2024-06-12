@@ -25,3 +25,4 @@ coverage
 *.sw?
 docs/.vitepress/dist/
 docs/.vitepress/cache/
+browser.json
