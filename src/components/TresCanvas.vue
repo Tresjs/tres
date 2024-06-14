@@ -126,9 +126,7 @@ const createInternalComponent = (context: TresContext) =>
 
 const mountCustomRenderer = (context: TresContext) => {
   const InternalComponent = createInternalComponent(context)
-
-  const { render } = createRenderer(nodeOps())
-
+  const { render } = createRenderer(nodeOps(context))
   render(h(InternalComponent), scene.value as unknown as TresObject)
 }
 
