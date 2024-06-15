@@ -3,5 +3,5 @@ import { vLightHelper } from '@tresjs/core'
 </script>
 
 <template>
-  <TresDirectionalLight v-light-helper :position="[3, 3, 3]" :intensity="1" />
+  <TresDirectionalLight v-light-helper :position="[-1, 1, 0]" :intensity="1" />
 </template>

@@ -2,6 +2,7 @@
 import { TresCanvas } from '@tresjs/core'
 import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
 import { TresLeches, useControls } from '@tresjs/leches'
+import TakeOverLoopExperience from './TakeOverRenderExperience.vue'
 import '@tresjs/leches/styles'
 
 const gl = {
