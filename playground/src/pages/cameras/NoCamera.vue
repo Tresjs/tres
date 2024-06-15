@@ -26,7 +26,6 @@ const useOwnCamera = ref(false)
         v-bind="state"
         :camera="useOwnCamera ? camera : undefined"
       >
-        <LocalOrbitControls />
         <TresAmbientLight :intensity="0.5" />
         <TresMesh :position="[0, 4, 0]">
           <TresBoxGeometry :args="[1, 1, 1]" />
@@ -34,7 +33,7 @@ const useOwnCamera = ref(false)
         </TresMesh>
 
         <Suspense>
-          <TestSphere />
+          <PbrSphere />
         </Suspense>
         <TresDirectionalLight
           :position="[0, 2, 4]"
