@@ -4,7 +4,7 @@ import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
 import { Perf, TresLeches, useControls } from '@tresjs/leches'
 import '@tresjs/leches/styles'
 import { OrbitControls } from '@tresjs/cientos'
-import AkuAku from './AkuAku.vue'
+import AsyncComponent from './AsyncComponent.vue'
 
 const gl = {
   clearColor: '#82DBC5',
@@ -15,14 +15,16 @@ const gl = {
   toneMapping: NoToneMapping,
 }
 
-const { sphere } = useControls({
-  sphere: true,
+const { show } = useControls({
+  show: true,
 })
 
 const ctx = ref(null)
 
 watchEffect(() => {
-  if (!ctx.value) { return }
+  if (!ctx.value) {
+    return
+  }
   // eslint-disable-next-line no-console
   console.log('ctx', ctx.value)
 })
@@ -35,29 +37,25 @@ useControls({
       ctx?.value?.dispose()
     },
   },
-
 })
 </script>
 
 <template>
   <TresLeches />
-  <TresCanvas
-    v-bind="gl"
-    ref="ctx"
-  >
+  <TresCanvas v-bind="gl" ref="ctx">
     <Perf />
     <TresPerspectiveCamera :position="[3, 3, 3]" />
     <OrbitControls />
     <Suspense>
-      <AkuAku v-if="sphere" />
+      <AsyncComponent v-if="show" />
     </Suspense>
-    <!--  <TresMesh
-      v-if="sphere.value"
-      :position="[0, 0, 0]"
-    >
-      <TresSphereGeometry />
-      <TresMeshStandardMaterial color="teal" />
-    </TresMesh> -->
     <TresAmbientLight :intensity="1" />
   </TresCanvas>
+  <OverlayInfo>
+    <h1>Suspense</h1>
+    <p>
+      Because the model in this page is loaded asynchronously behind the scenes
+      with <code>useGLTF</code>, it must be wrapped in a Suspense component.
+    </p>
+  </OverlayInfo>
 </template>

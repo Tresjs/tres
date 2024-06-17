@@ -42,10 +42,9 @@ onUnmounted(() => intervalId && clearInterval(intervalId))
         <TresMeshBasicMaterial color="red" />
       </TresMesh>
     </TresMesh>
-    <TresDirectionalLight :position="[0, 2, 4]" :intensity="1.2" cast-shadow />
   </TresCanvas>
   <OverlayInfo>
-    <h1>v-if</h1>
+    <h1>Issue #717: v-if</h1>
     <h2>Setup</h2>
     <p>
       In this scene, there is a Box with a <code>v-if</code>. Its <code>v-if</code> value is toggled on and off.

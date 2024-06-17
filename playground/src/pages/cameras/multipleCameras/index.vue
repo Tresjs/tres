@@ -2,7 +2,9 @@
 import type { Camera } from 'three'
 import { TresCanvas } from '@tresjs/core'
 import { TresLeches, useControls } from '@tresjs/leches'
+import { OrbitControls } from '@tresjs/cientos'
 import '@tresjs/leches/styles'
+import TheCameraOperator from './TheCameraOperator.vue'
 
 const state = reactive({
   clearColor: '#4f4f4f',
@@ -75,7 +77,7 @@ const camera3Exists = ref(false)
             :look-at="[0, 4, 0]"
           />
         </TheCameraOperator>
-        <LocalOrbitControls />
+        <OrbitControls />
         <TresAmbientLight :intensity="0.5" />
         <TresMesh :position="[0, 4, 0]">
           <TresBoxGeometry :args="[1, 1, 1]" />
@@ -83,7 +85,7 @@ const camera3Exists = ref(false)
         </TresMesh>
 
         <Suspense>
-          <TestSphere />
+          <PbrSphere />
         </Suspense>
         <TresDirectionalLight
           :position="[0, 2, 4]"

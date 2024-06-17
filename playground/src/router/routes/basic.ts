@@ -45,8 +45,8 @@ export const basicRoutes = [
     component: () => import('../../pages/basic/PiercedProps.vue'),
   },
   {
-    path: '/basic/v-if',
-    name: 'v-if',
-    component: () => import('../../pages/basic/vIf/index.vue'),
+    path: '/basic/ready',
+    name: '@ready',
+    component: () => import('../../pages/basic/ready/index.vue'),
   },
 ]

@@ -1,6 +1,6 @@
 <!-- eslint-disable no-console -->
 <script setup lang="ts">
-import { useFBO } from '../composables/useFBO'
+import { useFBO } from './useFBO'
 
 const fboTarget = useFBO({
   depth: true,

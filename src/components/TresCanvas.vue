@@ -89,6 +89,7 @@ const emit = defineEmits([
   'pointer-out',
   'pointer-missed',
   'wheel',
+  'ready',
 ])
 
 const slots = defineSlots<{
