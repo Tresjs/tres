@@ -9,7 +9,7 @@ import type { DomEvent, TresCamera, TresEvent } from 'src/types'
 import type { TresContext } from '../useTresContextProvider'
 
 export const useRaycaster = (
-  objectWithEvents: Ref<Object3D[]>,
+  objectsWithEvents: Ref<Object3D[]>,
   ctx: TresContext,
 ) => {
   // having a separate computed makes useElementBounding work
@@ -34,7 +34,7 @@ export const useRaycaster = (
 
     ctx.raycaster.value.setFromCamera(new Vector2(x, y), ctx.camera.value)
 
-    intersects.value = ctx.raycaster.value.intersectObjects(objectWithEvents.value, true)
+    intersects.value = ctx.raycaster.value.intersectObjects(objectsWithEvents.value, true)
     return intersects.value
   }
 
