@@ -88,14 +88,14 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
       else if (instance.isBufferGeometry) { instance.attach = 'geometry' }
     }
 
-    instance.__tres = {
+    instance = prepare(instance, {
       ...instance.__tres,
       type: name,
       memoizedProps: props,
       eventCount: 0,
       disposable: true,
       primitive: tag === 'primitive',
-    }
+    })
 
     // determine whether the material was passed via prop to
     // prevent it's disposal when node is removed later in it's lifecycle
@@ -108,10 +108,7 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
 
   function insert(child: TresObject, parent: TresObject) {
     if (!child) { return }
-
-    if (child.__tres) {
-      child.__tres.root = context
-    }
+    child = (child.__tres ? child : prepare(child, {})) as unknown as TresInstance
 
     const parentObject = parent || scene
 
@@ -324,5 +321,20 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
     setScopeId: () => noop('setScopeId'),
     cloneNode: () => noop('cloneNode'),
     insertStaticContent: () => noop('insertStaticContent'),
+  }
+
+  function prepare<T extends TresObject>(obj: T, state: Partial<LocalState>) {
+    const instance = obj as unknown as TresInstance
+    instance.__tres = {
+      type: 'unknown',
+      eventCount: 0,
+      root: context,
+      handlers: {},
+      memoizedProps: {},
+      objects: [],
+      parent: null,
+      ...state,
+    }
+    return instance
   }
 }
