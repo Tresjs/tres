@@ -42,15 +42,22 @@ interface TresBaseObject {
 
 export interface LocalState {
   type: string
-  // objects and parent are used when children are added with `attach` instead of being added to the Object3D scene graph
-  objects?: TresObject3D[]
-  parent?: TresObject3D | null
+  eventCount: number
+  root: TresContext
+  handlers: Partial<EventHandlers>
+  memoizedProps: { [key: string]: any }
+  // NOTE:
+  // LocalState holds information about the parent/child relationship
+  // in the Vue graph. If a child is `insert`ed into a parent using
+  // anything but THREE's `add`, it's put into the parent's `objects`.
+  // objects and parent are used when children are added with `attach`
+  // instead of being added to the Object3D scene graph
+  objects: TresObject[]
+  parent: TresObject | null
+  // NOTE: End graph info
+
   primitive?: boolean
-  eventCount?: number
-  handlers?: Partial<EventHandlers>
-  memoizedProps?: { [key: string]: any }
   disposable?: boolean
-  root?: TresContext
 }
 
 // Custom type for geometry and material properties in Object3D
@@ -61,6 +68,8 @@ export interface TresObject3D extends THREE.Object3D<THREE.Object3DEventMap> {
 
 export type TresObject =
   TresBaseObject & (TresObject3D | THREE.BufferGeometry | THREE.Material | THREE.Fog) & { __tres?: LocalState }
+
+export type TresInstance = TresObject & { __tres: LocalState }
 
 export interface TresScene extends THREE.Scene {
   __tres: {
