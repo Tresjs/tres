@@ -2,8 +2,8 @@ import type { RendererOptions } from 'vue'
 import { BufferAttribute, Object3D } from 'three'
 import type { TresContext } from '../composables'
 import { useLogger } from '../composables'
-import { deepArrayEqual, disposeObject3D, isHTMLTag, kebabToCamel } from '../utils'
-import type { InstanceProps, TresObject, TresObject3D } from '../types'
+import { deepArrayEqual, disposeObject3D, filterInPlace, isHTMLTag, kebabToCamel } from '../utils'
+import type { InstanceProps, LocalState, TresInstance, TresObject, TresObject3D } from '../types'
 import * as is from '../utils/is'
 import { catalogue } from './catalogue'
 
@@ -108,7 +108,7 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
 
   function insert(child: TresObject, parent: TresObject) {
     if (!child) { return }
-    child = (child.__tres ? child : prepare(child, {})) as unknown as TresInstance
+    const childInstance: TresInstance = (child.__tres ? child as TresInstance : prepare(child, {}))
 
     const parentObject = parent || scene
 
@@ -116,8 +116,10 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
     // NOTE: Track onPointerMissed objects separate from the scene
     context.eventManager?.registerPointerMissedObject(child)
 
+    let insertedWithAdd = false
     if (is.object3D(child) && is.object3D(parentObject)) {
       parentObject.add(child)
+      insertedWithAdd = true
       child.dispatchEvent({ type: 'added' })
     }
     else if (is.fog(child)) {
@@ -133,6 +135,14 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
         parentObject[child.attach] = child
       }
     }
+
+    // NOTE: Update __tres parent/objects graph
+    childInstance.__tres.parent = parentObject
+    if (parentObject.__tres?.objects && !insertedWithAdd) {
+      if (!parentObject.__tres.objects.includes(child)) {
+        parentObject.__tres.objects.push(child)
+      }
+    }
   }
 
   function remove(node: TresObject | null) {
@@ -143,6 +153,13 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
     // Figure out why `parent` is being set on `node` here
     // and remove/refactor.
     node.parent = node.parent || scene
+
+    // NOTE: Update __tres parent/objects graph
+    const parent = node.__tres?.parent || scene
+    if (node.__tres) { node.__tres.parent = null }
+    if (parent.__tres && 'objects' in parent.__tres) {
+      filterInPlace(parent.__tres.objects, obj => obj !== node)
+    }
 
     if (is.object3D(node)) {
       node.removeFromParent?.()
@@ -331,7 +348,7 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
     insertStaticContent: () => noop('insertStaticContent'),
   }
 
-  function prepare<T extends TresObject>(obj: T, state: Partial<LocalState>) {
+  function prepare<T extends TresObject>(obj: T, state: Partial<LocalState>): TresInstance {
     const instance = obj as unknown as TresInstance
     instance.__tres = {
       type: 'unknown',
