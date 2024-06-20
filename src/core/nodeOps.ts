@@ -121,6 +121,10 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
       child.dispatchEvent({ type: 'added' })
     }
     else if (is.fog(child)) {
+      // TODO
+      // Currently `material` and `geometry` are attached by
+      // setting `attach` in `createElement`.
+      // Do the same here to eliminate this branch.
       parentObject.fog = child
     }
     else if (typeof child.attach === 'string') {
@@ -134,6 +138,10 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
   function remove(node: TresObject | null) {
     if (!node) { return }
     // remove is only called on the node being removed and not on child nodes.
+
+    // TODO:
+    // Figure out why `parent` is being set on `node` here
+    // and remove/refactor.
     node.parent = node.parent || scene
 
     if (is.object3D(node)) {
