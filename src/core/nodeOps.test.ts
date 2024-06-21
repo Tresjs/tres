@@ -185,6 +185,50 @@ describe('nodeOps', () => {
       expect(parent.children.includes(child)).toBeTruthy()
     })
 
+    describe('primitive :object', () => {
+      describe('into mesh', () => {
+        it.skip('inserts a mesh :object', () => {
+          const parent = nodeOps.createElement('Mesh', undefined, undefined, {})
+          const object = new THREE.Mesh()
+          const primitive = nodeOps.createElement('primitive', undefined, undefined, { object })
+
+          expect(parent.material.uuid).not.toBe(object.uuid)
+          nodeOps.insert(primitive, parent)
+          expect(parent.material.uuid).toBe(object.uuid)
+        })
+
+        it.skip('inserts a material :object', () => {
+          const parent = nodeOps.createElement('Mesh', undefined, undefined, {})
+          const object = new THREE.MeshNormalMaterial()
+          const primitive = nodeOps.createElement('primitive', undefined, undefined, { object })
+
+          expect(parent.material.uuid).not.toBe(object.uuid)
+          nodeOps.insert(primitive, parent)
+          expect(parent.material.uuid).toBe(object.uuid)
+        })
+
+        it.skip('inserts a geometry :object', () => {
+          const parent = nodeOps.createElement('Mesh', undefined, undefined, {})
+          const object = new THREE.BoxGeometry()
+          const primitive = nodeOps.createElement('primitive', undefined, undefined, { object })
+
+          expect(parent.material.uuid).not.toBe(object.uuid)
+          nodeOps.insert(primitive, parent)
+          expect(parent.material.uuid).toBe(object.uuid)
+        })
+
+        it.skip('inserts a group :object', () => {
+          const parent = nodeOps.createElement('Mesh', undefined, undefined, {})
+          const object = new THREE.Group()
+          const primitive = nodeOps.createElement('primitive', undefined, undefined, { object })
+
+          expect(parent.material.uuid).not.toBe(object.uuid)
+          nodeOps.insert(primitive, parent)
+          expect(parent.material.uuid).toBe(object.uuid)
+        })
+      })
+    })
+
     it('does not insert a falsy child', () => {
       const parent = nodeOps.createElement('Object3D', undefined, undefined, {})
       for (const falsyChild of [undefined, null]) {
@@ -228,13 +272,25 @@ describe('nodeOps', () => {
       }
     })
 
-    it('calls dispose on materials', () => {
+    it('calls dispose on a material', () => {
       const parent = mockTresObjectRootInObject(nodeOps.createElement('Mesh', undefined, undefined, {}))
       const material = nodeOps.createElement('MeshNormalMaterial', undefined, undefined, {})
       const spy = vi.spyOn(material, 'dispose')
       nodeOps.insert(material, parent)
       nodeOps.remove(parent)
       expect(spy).toHaveBeenCalledOnce()
+    })
+
+    it('calls dispose on a material array', () => {
+      const parent = mockTresObjectRootInObject(nodeOps.createElement('Mesh', undefined, undefined, {}))
+      const material0 = new THREE.MeshNormalMaterial()
+      const material1 = new THREE.MeshNormalMaterial()
+      const spy0 = vi.spyOn(material0, 'dispose')
+      const spy1 = vi.spyOn(material1, 'dispose')
+      parent.material = [material0, material1]
+      nodeOps.remove(parent)
+      expect(spy0).toHaveBeenCalledOnce()
+      expect(spy1).toHaveBeenCalledOnce()
     })
 
     it('calls dispose on geometries', () => {
@@ -244,6 +300,220 @@ describe('nodeOps', () => {
       nodeOps.insert(geometry, parent)
       nodeOps.remove(parent)
       expect(spy).toHaveBeenCalledOnce()
+    })
+
+    it('calls dispose on every material/geometry in a TresMesh tree', () => {
+      const NUM_LEVEL = 5
+      const NUM_CHILD_PER_NODE = 3
+      const rootNode = mockTresObjectRootInObject(nodeOps.createElement('Mesh'))
+      const disposalSpies = []
+
+      createTreeIn(rootNode, (parent, childI, levelI) => {
+        if (levelI > NUM_LEVEL || childI >= NUM_CHILD_PER_NODE) {
+          return false
+        }
+        const { mesh, material, geometry } = createElementMesh(nodeOps)
+        nodeOps.insert(mesh, parent)
+        disposalSpies.push(vi.spyOn(geometry, 'dispose'))
+        disposalSpies.push(vi.spyOn(material, 'dispose'))
+        return mesh
+      })
+
+      nodeOps.remove(rootNode)
+      for (const spy of disposalSpies) {
+        expect(spy).toHaveBeenCalledOnce()
+      }
+    })
+
+    it('calls dispose on every material/geometry in a TresMesh/TresGroup tree', () => {
+      const NUM_LEVEL = 5
+      const NUM_CHILD_PER_NODE = 3
+      const rootNode = mockTresObjectRootInObject(nodeOps.createElement('Group'))
+      const disposalSpies = []
+
+      createTreeIn(rootNode, (parent, childI, levelI) => {
+        if (childI > NUM_CHILD_PER_NODE || levelI > NUM_LEVEL) {
+          return false
+        }
+        if (Math.random() > 0.3) {
+          const { mesh, material, geometry } = createElementMesh(nodeOps)
+          nodeOps.insert(mesh, parent)
+          disposalSpies.push(vi.spyOn(geometry, 'dispose'))
+          disposalSpies.push(vi.spyOn(material, 'dispose'))
+          return mesh
+        }
+        else {
+          const group = nodeOps.createElement('Group')
+          nodeOps.insert(group, parent)
+          return group
+        }
+      })
+
+      nodeOps.remove(rootNode)
+      for (const spy of disposalSpies) {
+        expect(spy).toHaveBeenCalledOnce()
+      }
+    })
+
+    it('does not dispose primitive material/geometries on remove(primitive)', () => {
+      const { primitive, material, geometry } = createElementPrimitiveMesh(nodeOps)
+      const spy0 = vi.spyOn(material, 'dispose')
+      const spy1 = vi.spyOn(geometry, 'dispose')
+
+      const group = nodeOps.createElement('Group')
+      nodeOps.insert(primitive, group)
+      nodeOps.remove(primitive)
+
+      expect(spy0).not.toBeCalled()
+      expect(spy1).not.toBeCalled()
+    })
+
+    it.skip('does not dispose primitive material/geometries on remove(ascestorOfPrimitive)', () => {
+      const { primitive, material, geometry } = createElementPrimitiveMesh(nodeOps)
+      const spy0 = vi.spyOn(material, 'dispose')
+      const spy1 = vi.spyOn(geometry, 'dispose')
+
+      const group = nodeOps.createElement('Group')
+      nodeOps.insert(primitive, group)
+      nodeOps.remove(group)
+
+      expect(spy0).not.toBeCalled()
+      expect(spy1).not.toBeCalled()
+    })
+
+    it.skip('does not call dispose on primitive materials/geometries in a tree of Mesh/Groups/Primitives created by nodeOps', () => {
+      const NUM_LEVEL = 5
+      const NUM_CHILD_PER_NODE = 3
+      const rootNode = mockTresObjectRootInObject(nodeOps.createElement('Group'))
+      const disposalSpies = []
+
+      createTreeIn(rootNode, (parent, childI, levelI) => {
+        if (childI > NUM_CHILD_PER_NODE || levelI > NUM_LEVEL) {
+          return false
+        }
+        if (Math.random() > 0.5) {
+          const { mesh } = createElementMesh(nodeOps)
+          nodeOps.insert(mesh, parent)
+          return mesh
+        }
+        else if (Math.random() > 0.5) {
+          const group = nodeOps.createElement('Group')
+          nodeOps.insert(group, parent)
+          return group
+        }
+        else {
+          const { primitive, material, geometry } = createElementPrimitiveMesh(nodeOps)
+          disposalSpies.push(vi.spyOn(geometry, 'dispose'))
+          disposalSpies.push(vi.spyOn(material, 'dispose'))
+          nodeOps.insert(primitive, parent)
+          return primitive
+        }
+      })
+
+      nodeOps.remove(rootNode)
+      for (const spy of disposalSpies) {
+        expect(spy).not.toHaveBeenCalled()
+      }
+    })
+
+    describe(':dispose="null"', () => {
+      it.skip('does not call dispose on any element in a subtree where the root :dispose==="null"', () => {
+        const NUM_LEVEL = 5
+        const NUM_CHILD_PER_NODE = 3
+        const rootNode = mockTresObjectRootInObject(nodeOps.createElement('Group'))
+        const disposalSpies = []
+        const nullDisposeObjects = new Set()
+
+        createTreeIn(rootNode, (parent, childI, levelI) => {
+          if (childI > NUM_CHILD_PER_NODE || levelI > NUM_LEVEL) {
+            return false
+          }
+          const { mesh, material, geometry } = createElementMesh(nodeOps)
+          if (nullDisposeObjects.has(parent)) {
+            nullDisposeObjects.add(mesh)
+            disposalSpies.push(vi.spyOn(geometry, 'dispose'))
+            disposalSpies.push(vi.spyOn(material, 'dispose'))
+          }
+          else if (levelI > 2 && Math.random() > 0.8) {
+            nodeOps.patchProp(mesh, 'dispose', undefined, null)
+            nullDisposeObjects.add(mesh)
+            disposalSpies.push(vi.spyOn(geometry, 'dispose'))
+            disposalSpies.push(vi.spyOn(material, 'dispose'))
+          }
+          nodeOps.insert(mesh, parent)
+          return mesh
+        })
+
+        nodeOps.remove(rootNode)
+        for (const spy of disposalSpies) {
+          expect(spy).not.toHaveBeenCalled()
+        }
+      })
+    })
+
+    describe('in the THREE parent-child graph', () => {
+      it('detaches mesh from mesh', () => {
+        const { mesh: parent } = createElementMesh(nodeOps)
+        const { mesh: child } = createElementMesh(nodeOps)
+        nodeOps.insert(child, parent)
+        expect(child.parent.uuid).toBe(parent.uuid)
+
+        nodeOps.remove(child)
+        expect(child.parent?.uuid).toBeFalsy()
+      })
+      it('detaches group from mesh', () => {
+        const { mesh: parent } = createElementMesh(nodeOps)
+        const child = nodeOps.createElement('Group')
+        nodeOps.insert(child, parent)
+        expect(child.parent.uuid).toBe(parent.uuid)
+
+        nodeOps.remove(child)
+        expect(child.parent?.uuid).toBeFalsy()
+      })
+      it('detaches mesh from group', () => {
+        const parent = nodeOps.createElement('Group')
+        const { mesh: child } = createElementMesh(nodeOps)
+        nodeOps.insert(child, parent)
+        expect(child.parent.uuid).toBe(parent.uuid)
+
+        nodeOps.remove(child)
+        expect(child.parent?.uuid).toBeFalsy()
+      })
+      it.skip('detaches mesh (in primitive :object) from mesh', () => {
+        const { mesh: parent } = createElementMesh(nodeOps)
+        const { primitive, mesh } = createElementPrimitiveMesh(nodeOps)
+        nodeOps.insert(primitive, parent)
+        expect(primitive.parent?.uuid).toBe(mesh.uuid)
+
+        nodeOps.remove(primitive)
+        expect(mesh.parent?.uuid).toBeFalsy()
+      })
+      it.skip('detaches mesh (in primitive :object) when mesh ancestor is removed', () => {
+        const { mesh: grandparent } = createElementMesh(nodeOps)
+        const { mesh: parent } = createElementMesh(nodeOps)
+        const { primitive, mesh: primitiveMesh } = createElementPrimitiveMesh(nodeOps)
+        nodeOps.insert(parent, grandparent)
+        nodeOps.insert(primitive, parent)
+        expect(primitiveMesh.parent?.uuid).toBe(parent.uuid)
+
+        nodeOps.remove(parent)
+        expect(primitiveMesh.parent?.uuid).toBeFalsy()
+      })
+      it('does not detach primitive :object descendants', () => {
+        const { mesh: parent } = createElementMesh(nodeOps)
+        const { primitive, mesh: primitiveMesh } = createElementPrimitiveMesh(nodeOps)
+        const grandChild0 = new THREE.Mesh()
+        const grandChild1 = new THREE.Group()
+        primitiveMesh.add(grandChild0, grandChild1)
+
+        nodeOps.insert(primitive, parent)
+        expect(grandChild0.parent.uuid).toBe(primitiveMesh.uuid)
+        expect(grandChild1.parent.uuid).toBe(primitiveMesh.uuid)
+
+        nodeOps.remove(primitive)
+        expect(grandChild0.parent.uuid).toBe(primitiveMesh.uuid)
+        expect(grandChild1.parent.uuid).toBe(primitiveMesh.uuid)
+      })
     })
   })
 
@@ -467,4 +737,45 @@ function mockTresContext() {
     registerCamera: () => {},
     deregisterCamera: () => {},
   } as unknown as TresContext
+}
+
+function createElementMesh(nodeOps: ReturnType<typeof getNodeOps>) {
+  const geometry = nodeOps.createElement('BoxGeometry')
+  const material = nodeOps.createElement('MeshNormalMaterial')
+  const mesh = nodeOps.createElement('Mesh')
+  nodeOps.insert(geometry, mesh)
+  nodeOps.insert(material, mesh)
+  return { mesh, geometry, material }
+}
+
+function createElementPrimitiveMesh(nodeOps: ReturnType<typeof getNodeOps>) {
+  const geometry = new THREE.BoxGeometry()
+  const material = new THREE.MeshNormalMaterial()
+  const mesh = new THREE.Mesh(geometry, material)
+  const primitive = nodeOps.createElement('primitive', undefined, undefined, { object: mesh })
+  return { primitive, mesh, geometry, material }
+}
+
+function createTreeIn<T>(root: T, insertCallback: (parent: T, childI: number, levelI: number) => T) {
+  let levelII = 0
+  const nextLevel = [root] as T[]
+  while (nextLevel.length) {
+    const currLevel = Array.from(nextLevel)
+    nextLevel.length = 0
+
+    while (currLevel.length) {
+      const parent = currLevel.shift()
+      let childI = 0
+      while (true) {
+        const child = insertCallback(parent, childI++, levelII)
+        if (child) {
+          nextLevel.push(child)
+        }
+        else {
+          break
+        }
+      }
+    }
+    levelII++
+  }
 }
