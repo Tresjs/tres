@@ -6,9 +6,9 @@ import { useControls } from '@tresjs/leches'
 
 const { render, pauseRender, resumeRender } = useLoop()
 
-const { off } = render(({ renderer, scene, camera }) => {
+/* const { off } = render(({ renderer, scene, camera }) => {
   renderer.render(scene, camera)
-})
+}) */
 
 const { isRenderPaused } = useControls({
   isRenderPaused: {
@@ -52,6 +52,6 @@ setTimeout(() => {
   <TresPerspectiveCamera :position="[3, 3, 3]" />
   <OrbitControls make-default />
   <AnimatedObjectUseUpdate />
-  <TresGridHelper v-if="showGrid" />
+  <TresGridHelper />
   <TresAmbientLight :intensity="1" />
 </template>

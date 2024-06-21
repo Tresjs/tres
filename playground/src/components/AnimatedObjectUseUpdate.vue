@@ -3,6 +3,7 @@
 import { type LoopCallbackWithCtx, useLoop } from '@tresjs/core'
 import { useControls } from '@tresjs/leches'
 import { useThrottleFn } from '@vueuse/core'
+import { onTresReady } from '../../../src'
 
 const sphereRef = ref()
 
@@ -39,13 +40,15 @@ const { unregister } = useControls({
   },
 })
 
-watchEffect(() => {
-  if (areUpdatesPaused.value) {
-    pause()
-  }
-  else {
-    resume()
-  }
+onTresReady(() => {
+  watchEffect(() => {
+    if (areUpdatesPaused.value) {
+      pause()
+    }
+    else {
+      resume()
+    }
+  })
 })
 
 watchEffect(() => {
