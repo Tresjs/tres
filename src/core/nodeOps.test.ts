@@ -466,7 +466,18 @@ describe('nodeOps', () => {
     })
 
     describe(':dispose="null"', () => {
-      it.skip('does not call dispose on any element in a subtree where the root :dispose==="null"', () => {
+      it('does not call dipose on geometry/material in a Mesh where :dispose==="null"', () => {
+        const { mesh: parent } = createElementMesh(nodeOps)
+        const { mesh, geometry, material } = createElementMesh(nodeOps)
+        const spy0 = vi.spyOn(geometry, 'dispose')
+        const spy1 = vi.spyOn(material, 'dispose')
+        nodeOps.patchProp(mesh, 'dispose', undefined, null)
+        nodeOps.insert(mesh, parent)
+        nodeOps.remove(mesh)
+        expect(spy0).not.toBeCalled()
+        expect(spy1).not.toBeCalled()
+      })
+      it('does not call dispose on any element in a subtree where the root :dispose==="null"', () => {
         const NUM_LEVEL = 5
         const NUM_CHILD_PER_NODE = 3
         const rootNode = mockTresObjectRootInObject(nodeOps.createElement('Group'))
