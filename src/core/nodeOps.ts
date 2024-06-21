@@ -2,7 +2,7 @@ import type { RendererOptions } from 'vue'
 import { BufferAttribute, Object3D } from 'three'
 import type { TresContext } from '../composables'
 import { useLogger } from '../composables'
-import { deepArrayEqual, disposeObject3D, filterInPlace, isHTMLTag, kebabToCamel } from '../utils'
+import { deepArrayEqual, filterInPlace, isHTMLTag, kebabToCamel } from '../utils'
 import type { InstanceProps, LocalState, TresInstance, TresObject, TresObject3D } from '../types'
 import * as is from '../utils/is'
 import { catalogue } from './catalogue'
@@ -145,9 +145,18 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
     }
   }
 
-  function remove(node: TresObject | null) {
+  function remove(node: TresObject | null, dispose?: boolean) {
     if (!node) { return }
-    // remove is only called on the node being removed and not on child nodes.
+
+    // NOTE: Derive value for `dispose`.
+    // We stop disposal of a node and its tree if any of these are true:
+    // 1) it is a <primitive :object="..." />
+    // 2) it has :dispose="null"
+    // 3) it was bailed out by a parent passing `remove(..., false)`
+    const isPrimitive = node.__tres?.primitive
+    const isDisposeNull = node.dispose === null
+    const isBailedOut = dispose === false
+    const shouldDispose = !(isPrimitive || isDisposeNull || isBailedOut)
 
     // TODO:
     // Figure out why `parent` is being set on `node` here
@@ -161,29 +170,41 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
       filterInPlace(parent.__tres.objects, obj => obj !== node)
     }
 
-    if (is.object3D(node)) {
-      node.removeFromParent?.()
+    node.removeFromParent?.()
 
-      // Remove nested child objects. Primitives should not have objects and children that are
-      // attached to them declaratively ...
-      node.traverse((child) => {
-        context.deregisterCamera(child)
-        // deregisterAtPointerEventHandlerIfRequired?.(child as TresObject)
-        context.eventManager?.deregisterPointerMissedObject(child)
-      })
+    // Remove nested child objects. Primitives should not have objects and children that are
+    // attached to them declaratively ...
+    node.traverse?.((child) => {
+      context.deregisterCamera(child)
+      // deregisterAtPointerEventHandlerIfRequired?.(child as TresObject)
+      context.eventManager?.deregisterPointerMissedObject(child)
+    })
 
-      context.deregisterCamera(node)
-      /*  deregisterAtPointerEventHandlerIfRequired?.(node as TresObject) */
-      invalidateInstance(node as TresObject)
+    context.deregisterCamera(node)
+    /*  deregisterAtPointerEventHandlerIfRequired?.(node as TresObject) */
+    invalidateInstance(node as TresObject)
 
-      // Dispose the object if it's disposable, primitives needs to be manually disposed by
-      // calling dispose from `@tresjs/core` package like this `dispose(model)`
-      const isPrimitive = node.__tres?.primitive
+    // TODO: support removing `attach`ed components
 
-      if (!isPrimitive && node.__tres?.disposable) {
-        disposeObject3D(node)
+    // NOTE: Recursively `remove` children and objects.
+    // Never on primitives:
+    // - removing children would alter the primitive :object.
+    // - primitives are not expected to have declarative children
+    //   and so should not have `objects`.
+    if (!isPrimitive) {
+      // NOTE: In recursive `remove`, the array elements will
+      // remove themselves from these arrays, resulting in
+      // skipped elements. Make shallow copies of the arrays.
+      if (node.children) {
+        [...node.children].forEach(child => remove(child, shouldDispose))
       }
-      node.dispose?.()
+      if (node.__tres && 'objects' in node.__tres) {
+        [...node.__tres.objects].forEach(obj => remove(obj, shouldDispose))
+      }
+    }
+
+    if (shouldDispose && node.dispose && !is.scene(node)) {
+      node.dispose()
     }
   }
 
