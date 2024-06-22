@@ -40,6 +40,7 @@ export interface RendererLoop {
   isActive: Ref<boolean>
   isRenderPaused: Ref<boolean>
   setContext: (newContext: Record<string, any>) => void
+  setReady: (isReady: boolean) => void
 }
 
 export function createRenderLoop(): RendererLoop {
@@ -52,6 +53,7 @@ export function createRenderLoop(): RendererLoop {
   const subscribersBefore = createPriorityEventHook<LoopCallbackWithCtx>()
   const subscriberRender = createPriorityEventHook<LoopCallbackWithCtx>()
   const subscribersAfter = createPriorityEventHook<LoopCallbackWithCtx>()
+  let isReady = true
 
   // Context to be passed to callbacks
   let context: Record<string, any> = {}
@@ -110,6 +112,10 @@ export function createRenderLoop(): RendererLoop {
   }
 
   function loop() {
+    if (!isReady) {
+      animationFrameId = requestAnimationFrame(loop)
+      return
+    }
     const delta = clock.getDelta()
     const elapsed = clock.getElapsedTime()
     const snapshotCtx = {
@@ -157,5 +163,6 @@ export function createRenderLoop(): RendererLoop {
     isRenderPaused,
     isActive,
     setContext,
+    setReady: (b: boolean) => isReady = b,
   }
 }
