@@ -3,14 +3,10 @@ import { BufferAttribute, Object3D } from 'three'
 import type { TresContext } from '../composables'
 import { useLogger } from '../composables'
 import { deepArrayEqual, filterInPlace, isHTMLTag, kebabToCamel } from '../utils'
-import type { InstanceProps, LocalState, TresInstance, TresObject, TresObject3D } from '../types'
+import type { InstanceProps, TresInstance, TresObject, TresObject3D } from '../types'
 import * as is from '../utils/is'
+import { invalidateInstance, noop, prepareTresInstance } from '../utils/nodeOpsUtils'
 import { catalogue } from './catalogue'
-
-function noop(fn: string): any {
-  // eslint-disable-next-line no-unused-expressions
-  fn
-}
 
 const { logError } = useLogger()
 
@@ -30,16 +26,6 @@ const supportedPointerEvents = [
   'onLostPointerCapture',
   'onWheel',
 ]
-
-export function invalidateInstance(instance: TresObject) {
-  const ctx = instance?.__tres?.root
-
-  if (!ctx) { return }
-
-  if (ctx.render && ctx.render.canBeInvalidated.value) {
-    ctx.invalidate()
-  }
-}
 
 export const nodeOps: (context: TresContext) => RendererOptions<TresObject, TresObject | null> = (context) => {
   const scene = context.scene.value
@@ -88,14 +74,14 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
       else if (instance.isBufferGeometry) { instance.attach = 'geometry' }
     }
 
-    instance = prepare(instance, {
+    instance = prepareTresInstance(instance, {
       ...instance.__tres,
       type: name,
       memoizedProps: props,
       eventCount: 0,
       disposable: true,
       primitive: tag === 'primitive',
-    })
+    }, context)
 
     // determine whether the material was passed via prop to
     // prevent it's disposal when node is removed later in it's lifecycle
@@ -108,7 +94,8 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
 
   function insert(child: TresObject, parent: TresObject) {
     if (!child) { return }
-    const childInstance: TresInstance = (child.__tres ? child as TresInstance : prepare(child, {}))
+    const childInstance: TresInstance = (child.__tres ? child as TresInstance : prepareTresInstance(child, {}, context))
+
     const parentObject = parent || scene
 
     context.registerCamera(child)
@@ -380,20 +367,5 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
     setScopeId: () => noop('setScopeId'),
     cloneNode: () => noop('cloneNode'),
     insertStaticContent: () => noop('insertStaticContent'),
-  }
-
-  function prepare<T extends TresObject>(obj: T, state: Partial<LocalState>): TresInstance {
-    const instance = obj as unknown as TresInstance
-    instance.__tres = {
-      type: 'unknown',
-      eventCount: 0,
-      root: context,
-      handlers: {},
-      memoizedProps: {},
-      objects: [],
-      parent: null,
-      ...state,
-    }
-    return instance
   }
 }
