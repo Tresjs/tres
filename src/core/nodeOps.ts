@@ -109,7 +109,6 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
   function insert(child: TresObject, parent: TresObject) {
     if (!child) { return }
     const childInstance: TresInstance = (child.__tres ? child as TresInstance : prepare(child, {}))
-
     const parentObject = parent || scene
 
     context.registerCamera(child)
@@ -130,6 +129,7 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
       parentObject.fog = child
     }
     else if (typeof child.attach === 'string') {
+      // TODO: support "pierced" `attach`
       child.__previousAttach = child[parentObject?.attach as string]
       if (parentObject) {
         parentObject[child.attach] = child
@@ -217,6 +217,8 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
     if (shouldDispose && node.dispose && !is.scene(node)) {
       node.dispose()
     }
+
+    delete node.__tres
   }
 
   function patchProp(node: TresObject, prop: string, prevValue: any, nextValue: any) {
