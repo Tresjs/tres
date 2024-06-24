@@ -40,11 +40,15 @@ export interface RendererLoop {
   isActive: Ref<boolean>
   isRenderPaused: Ref<boolean>
   setContext: (newContext: Record<string, any>) => void
+  setReady: (isReady: boolean) => void
 }
 
 export function createRenderLoop(): RendererLoop {
+  let isReady = true
+  let isStopped = true
+  let isPaused = false
   const clock = new Clock(false)
-  const isActive = ref(false)
+  const isActive = ref(clock.running)
   const isRenderPaused = ref(false)
   let animationFrameId: number
   const loopId = MathUtils.generateUUID()
@@ -52,6 +56,8 @@ export function createRenderLoop(): RendererLoop {
   const subscribersBefore = createPriorityEventHook<LoopCallbackWithCtx>()
   const subscriberRender = createPriorityEventHook<LoopCallbackWithCtx>()
   const subscribersAfter = createPriorityEventHook<LoopCallbackWithCtx>()
+
+  _syncState()
 
   // Context to be passed to callbacks
   let context: Record<string, any> = {}
@@ -76,29 +82,31 @@ export function createRenderLoop(): RendererLoop {
   }
 
   function start() {
-    if (!isActive.value) {
-      clock.start()
-      isActive.value = true
-      loop()
-    }
+    // NOTE: `loop()` produces side effects on each call.
+    // Those side effects are only desired if `isStopped` goes
+    // from `true` to `false` below.  So while we don't need
+    // a guard in `stop`, `resume`, and `pause`, we do need
+    // a guard here.
+    if (!isStopped) { return }
+    isStopped = false
+    _syncState()
+    loop()
   }
 
   function stop() {
-    if (isActive.value) {
-      clock.stop()
-      cancelAnimationFrame(animationFrameId)
-      isActive.value = false
-    }
-  }
-
-  function pause() {
-    clock.stop()
-    isActive.value = false
+    isStopped = true
+    _syncState()
+    cancelAnimationFrame(animationFrameId)
   }
 
   function resume() {
-    clock.start()
-    isActive.value = true
+    isPaused = false
+    _syncState()
+  }
+
+  function pause() {
+    isPaused = true
+    _syncState()
   }
 
   function pauseRender() {
@@ -110,6 +118,10 @@ export function createRenderLoop(): RendererLoop {
   }
 
   function loop() {
+    if (!isReady) {
+      animationFrameId = requestAnimationFrame(loop)
+      return
+    }
     const delta = clock.getDelta()
     const elapsed = clock.getElapsedTime()
     const snapshotCtx = {
@@ -145,6 +157,19 @@ export function createRenderLoop(): RendererLoop {
     animationFrameId = requestAnimationFrame(loop)
   }
 
+  function _syncState() {
+    const shouldClockBeRunning = !isStopped && !isPaused
+    if (clock.running !== shouldClockBeRunning) {
+      if (!clock.running) {
+        clock.start()
+      }
+      else {
+        clock.stop()
+      }
+    }
+    isActive.value = clock.running
+  }
+
   return {
     loopId,
     register: (callback: LoopCallbackFn, stage: 'before' | 'render' | 'after', index) => registerCallback(callback, stage, index),
@@ -157,5 +182,6 @@ export function createRenderLoop(): RendererLoop {
     isRenderPaused,
     isActive,
     setContext,
+    setReady: (b: boolean) => isReady = b,
   }
 }
