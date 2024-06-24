@@ -353,6 +353,19 @@ describe('nodeOps', () => {
       expect(spy).toHaveBeenCalledOnce()
     })
 
+    it('calls dispose on material/geometry in a TresMesh child of a TresMesh', () => {
+      const { mesh: grandparent } = createElementMesh(nodeOps)
+      const { mesh: parent } = createElementMesh(nodeOps)
+      const { mesh: child } = createElementMesh(nodeOps)
+      nodeOps.insert(parent, grandparent)
+      nodeOps.insert(child, parent)
+      const childMaterialDisposalSpy = vi.spyOn(child.material, 'dispose')
+      const childGeometryDisposalSpy = vi.spyOn(child.geometry, 'dispose')
+      nodeOps.remove(parent)
+      expect(childGeometryDisposalSpy).toHaveBeenCalledOnce()
+      expect(childMaterialDisposalSpy).toHaveBeenCalledOnce()
+    })
+
     it('calls dispose on every material/geometry in a TresMesh tree', () => {
       const NUM_LEVEL = 5
       const NUM_CHILD_PER_NODE = 3
@@ -419,7 +432,7 @@ describe('nodeOps', () => {
       expect(spy1).not.toBeCalled()
     })
 
-    it.skip('does not dispose primitive material/geometries on remove(ascestorOfPrimitive)', () => {
+    it('does not dispose primitive material/geometries on remove(ascestorOfPrimitive)', () => {
       const { primitive, material, geometry } = createElementPrimitiveMesh(nodeOps)
       const spy0 = vi.spyOn(material, 'dispose')
       const spy1 = vi.spyOn(geometry, 'dispose')
@@ -432,7 +445,7 @@ describe('nodeOps', () => {
       expect(spy1).not.toBeCalled()
     })
 
-    it.skip('does not call dispose on primitive materials/geometries in a tree of Mesh/Groups/Primitives created by nodeOps', () => {
+    it('does not call dispose on primitive materials/geometries in a tree of Mesh/Groups/Primitives created by nodeOps', () => {
       const NUM_LEVEL = 5
       const NUM_CHILD_PER_NODE = 3
       const rootNode = mockTresObjectRootInObject(nodeOps.createElement('Group'))
@@ -468,7 +481,7 @@ describe('nodeOps', () => {
     })
 
     describe(':dispose="null"', () => {
-      it('does not call dipose on geometry/material in a Mesh where :dispose==="null"', () => {
+      it('does not call dispose on geometry/material in a Mesh where :dispose==="null"', () => {
         const { mesh: parent } = createElementMesh(nodeOps)
         const { mesh, geometry, material } = createElementMesh(nodeOps)
         const spy0 = vi.spyOn(geometry, 'dispose')
@@ -476,6 +489,19 @@ describe('nodeOps', () => {
         nodeOps.patchProp(mesh, 'dispose', undefined, null)
         nodeOps.insert(mesh, parent)
         nodeOps.remove(mesh)
+        expect(spy0).not.toBeCalled()
+        expect(spy1).not.toBeCalled()
+      })
+      it('does not call dispose on child\'s geometry/material, for remove(<parent><child :dispose="null" /></parent>)', () => {
+        const { mesh: grandparent } = createElementMesh(nodeOps)
+        const { mesh: parent } = createElementMesh(nodeOps)
+        const { mesh: child, geometry, material } = createElementMesh(nodeOps)
+        const spy0 = vi.spyOn(geometry, 'dispose')
+        const spy1 = vi.spyOn(material, 'dispose')
+        nodeOps.patchProp(child, 'dispose', undefined, null)
+        nodeOps.insert(parent, grandparent)
+        nodeOps.insert(child, parent)
+        nodeOps.remove(parent)
         expect(spy0).not.toBeCalled()
         expect(spy1).not.toBeCalled()
       })
@@ -577,8 +603,8 @@ describe('nodeOps', () => {
         expect(grandChild1.parent.uuid).toBe(primitiveMesh.uuid)
       })
     })
-    describe('in the __tres parent-object graph', () => {
-      it('removes parent-object relationship when object is removed', () => {
+    describe('in the __tres parent-objects graph', () => {
+      it('removes parent-objects relationship when object is removed', () => {
         const parent = nodeOps.createElement('Mesh', undefined, undefined, {})
         const material = nodeOps.createElement('MeshNormalMaterial')
         const geometry = nodeOps.createElement('BoxGeometry')
@@ -591,17 +617,17 @@ describe('nodeOps', () => {
         expect(fog.__tres.parent).toBe(parent)
 
         nodeOps.remove(fog)
-        expect(fog.__tres.parent).toBe(null)
+        expect(fog.__tres?.parent).toBeFalsy()
         expect(parent.__tres.objects.length).toBe(2)
         expect(parent.__tres.objects.includes(fog)).toBe(false)
 
         nodeOps.remove(material)
-        expect(material.__tres.parent).toBe(null)
+        expect(material.__tres?.parent).toBeFalsy()
         expect(parent.__tres.objects.length).toBe(1)
         expect(parent.__tres.objects.includes(material)).toBe(false)
 
         nodeOps.remove(geometry)
-        expect(geometry.__tres.parent).toBe(null)
+        expect(geometry.__tres?.parent).toBeFalsy()
         expect(parent.__tres.objects.length).toBe(0)
         expect(parent.__tres.objects.includes(geometry)).toBe(false)
       })
