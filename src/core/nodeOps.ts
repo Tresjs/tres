@@ -146,6 +146,14 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
   }
 
   function remove(node: TresObject | null, dispose?: boolean) {
+    // NOTE: `remove` is initially called by Vue only on
+    // the root `node` of the tree to be removed. Vue does not
+    // pass a `dispose` argument.
+    // Where appropriate, we will recursively call `remove`
+    // on `children` and `__tres.objects`.
+    // We will derive and pass a value for `dispose`, allowing
+    // nodes to "bail out" of disposal for their subtree.
+
     if (!node) { return }
 
     // NOTE: Derive value for `dispose`.
@@ -163,23 +171,25 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
     // and remove/refactor.
     node.parent = node.parent || scene
 
-    // NOTE: Update __tres parent/objects graph
+    // NOTE: Remove `node` from __tres parent/objects graph
     const parent = node.__tres?.parent || scene
     if (node.__tres) { node.__tres.parent = null }
     if (parent.__tres && 'objects' in parent.__tres) {
       filterInPlace(parent.__tres.objects, obj => obj !== node)
     }
 
+    // NOTE: THREE.removeFromParent removes `node` from
+    // `parent.children`.
     node.removeFromParent?.()
 
-    // Remove nested child objects. Primitives should not have objects and children that are
-    // attached to them declaratively ...
+    // NOTE: Deregister `node` THREE.Object3D children
     node.traverse?.((child) => {
       context.deregisterCamera(child)
       // deregisterAtPointerEventHandlerIfRequired?.(child as TresObject)
       context.eventManager?.deregisterPointerMissedObject(child)
     })
 
+    // NOTE: Deregister `node`
     context.deregisterCamera(node)
     /*  deregisterAtPointerEventHandlerIfRequired?.(node as TresObject) */
     invalidateInstance(node as TresObject)
@@ -203,6 +213,7 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
       }
     }
 
+    // NOTE: Dispose `node`
     if (shouldDispose && node.dispose && !is.scene(node)) {
       node.dispose()
     }
