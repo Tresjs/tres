@@ -1,5 +1,12 @@
 
 
+## [3.0.0](https://github.com/tresjs/nuxt/compare/2.1.2...3.0.0) (2024-06-26)
+
+
+### Features
+
+* update to core v4 ([#104](https://github.com/tresjs/nuxt/issues/104)) ([2f885d6](https://github.com/tresjs/nuxt/commit/2f885d680847a2e8c3101b0435d9f5bfeb6ddee3))
+
 ## [3.0.0-beta.1](https://github.com/tresjs/nuxt/compare/3.0.0-beta.0...3.0.0-beta.1) (2024-06-06)
 
 
