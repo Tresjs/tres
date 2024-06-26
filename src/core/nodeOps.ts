@@ -2,15 +2,11 @@ import type { RendererOptions } from 'vue'
 import { BufferAttribute, Object3D } from 'three'
 import type { TresContext } from '../composables'
 import { useLogger } from '../composables'
-import { deepArrayEqual, disposeObject3D, isHTMLTag, kebabToCamel } from '../utils'
-import type { InstanceProps, TresObject, TresObject3D } from '../types'
+import { deepArrayEqual, disposeObject3D, filterInPlace, isHTMLTag, kebabToCamel } from '../utils'
+import type { InstanceProps, TresInstance, TresObject, TresObject3D } from '../types'
 import * as is from '../utils/is'
+import { invalidateInstance, noop, prepareTresInstance } from '../utils/nodeOpsUtils'
 import { catalogue } from './catalogue'
-
-function noop(fn: string): any {
-  // eslint-disable-next-line no-unused-expressions
-  fn
-}
 
 const { logError } = useLogger()
 
@@ -30,16 +26,6 @@ const supportedPointerEvents = [
   'onLostPointerCapture',
   'onWheel',
 ]
-
-export function invalidateInstance(instance: TresObject) {
-  const ctx = instance?.__tres?.root
-
-  if (!ctx) { return }
-
-  if (ctx.render && ctx.render.canBeInvalidated.value) {
-    ctx.invalidate()
-  }
-}
 
 export const nodeOps: (context: TresContext) => RendererOptions<TresObject, TresObject | null> = (context) => {
   const scene = context.scene.value
@@ -88,14 +74,14 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
       else if (instance.isBufferGeometry) { instance.attach = 'geometry' }
     }
 
-    instance.__tres = {
+    instance = prepareTresInstance(instance, {
       ...instance.__tres,
       type: name,
       memoizedProps: props,
       eventCount: 0,
       disposable: true,
       primitive: tag === 'primitive',
-    }
+    }, context)
 
     // determine whether the material was passed via prop to
     // prevent it's disposal when node is removed later in it's lifecycle
@@ -108,10 +94,7 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
 
   function insert(child: TresObject, parent: TresObject) {
     if (!child) { return }
-
-    if (child.__tres) {
-      child.__tres.root = context
-    }
+    const childInstance: TresInstance = (child.__tres ? child as TresInstance : prepareTresInstance(child, {}))
 
     const parentObject = parent || scene
 
@@ -119,11 +102,17 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
     // NOTE: Track onPointerMissed objects separate from the scene
     context.eventManager?.registerPointerMissedObject(child)
 
+    let insertedWithAdd = false
     if (is.object3D(child) && is.object3D(parentObject)) {
       parentObject.add(child)
+      insertedWithAdd = true
       child.dispatchEvent({ type: 'added' })
     }
     else if (is.fog(child)) {
+      // TODO
+      // Currently `material` and `geometry` are attached by
+      // setting `attach` in `createElement`.
+      // Do the same here to eliminate this branch.
       parentObject.fog = child
     }
     else if (typeof child.attach === 'string') {
@@ -132,12 +121,31 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
         parentObject[child.attach] = child
       }
     }
+
+    // NOTE: Update __tres parent/objects graph
+    childInstance.__tres.parent = parentObject
+    if (parentObject.__tres?.objects && !insertedWithAdd) {
+      if (!parentObject.__tres.objects.includes(child)) {
+        parentObject.__tres.objects.push(child)
+      }
+    }
   }
 
   function remove(node: TresObject | null) {
     if (!node) { return }
     // remove is only called on the node being removed and not on child nodes.
+
+    // TODO:
+    // Figure out why `parent` is being set on `node` here
+    // and remove/refactor.
     node.parent = node.parent || scene
+
+    // NOTE: Update __tres parent/objects graph
+    const parent = node.__tres?.parent || scene
+    if (node.__tres) { node.__tres.parent = null }
+    if (parent.__tres && 'objects' in parent.__tres) {
+      filterInPlace(parent.__tres.objects, obj => obj !== node)
+    }
 
     if (is.object3D(node)) {
       node.removeFromParent?.()
