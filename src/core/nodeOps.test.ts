@@ -255,6 +255,55 @@ describe('nodeOps', () => {
         expect(parent.children.length).toBe(0)
       }
     })
+
+    it('adds a material to parent.__tres.objects', () => {
+      const parent = nodeOps.createElement('Mesh', undefined, undefined, {})
+      const material = nodeOps.createElement('MeshNormalMaterial')
+      nodeOps.insert(material, parent)
+      expect(parent.__tres.objects.map(child => child.uuid)).toStrictEqual([material.uuid])
+    })
+
+    it('adds a geometry to parent.__tres.objects', () => {
+      const parent = nodeOps.createElement('Mesh', undefined, undefined, {})
+      const geometry = nodeOps.createElement('BoxGeometry')
+      nodeOps.insert(geometry, parent)
+      expect(parent.__tres.objects.map(child => child.uuid)).toStrictEqual([geometry.uuid])
+    })
+
+    it('adds a fog to parent.__tres.objects', () => {
+      const parent = nodeOps.createElement('Mesh', undefined, undefined, {})
+      const fog = nodeOps.createElement('Fog')
+      nodeOps.insert(fog, parent)
+      expect(parent.__tres.objects.map(child => child.uuid)).toStrictEqual([fog.uuid])
+    })
+
+    it('adds parent to child.__tres.parent', () => {
+      const parent = nodeOps.createElement('Mesh', undefined, undefined, {})
+      const material = nodeOps.createElement('MeshNormalMaterial')
+      const geometry = nodeOps.createElement('BoxGeometry')
+      const fog = nodeOps.createElement('Fog')
+      nodeOps.insert(material, parent)
+      nodeOps.insert(geometry, parent)
+      nodeOps.insert(fog, parent)
+      expect(material.__tres.parent).toBe(parent)
+      expect(geometry.__tres.parent).toBe(parent)
+      expect(fog.__tres.parent).toBe(parent)
+    })
+
+    it('adds non-Object3D children to parent.__tres.objects, but no more than once', () => {
+      const parent = nodeOps.createElement('Mesh', undefined, undefined, {})
+      const material = nodeOps.createElement('MeshNormalMaterial')
+      const geometry = nodeOps.createElement('BoxGeometry')
+      const fog = nodeOps.createElement('Fog')
+      nodeOps.insert(material, parent)
+      nodeOps.insert(geometry, parent)
+      nodeOps.insert(fog, parent)
+      expect(parent.__tres.objects.length).toBe(3)
+      const objectSet = new Set(parent.__tres.objects)
+      expect(objectSet.has(material)).toBe(true)
+      expect(objectSet.has(geometry)).toBe(true)
+      expect(objectSet.has(fog)).toBe(true)
+    })
   })
 
   describe('remove', () => {
@@ -513,6 +562,35 @@ describe('nodeOps', () => {
         nodeOps.remove(primitive)
         expect(grandChild0.parent.uuid).toBe(primitiveMesh.uuid)
         expect(grandChild1.parent.uuid).toBe(primitiveMesh.uuid)
+      })
+    })
+    describe('in the __tres parent-object graph', () => {
+      it('removes parent-object relationship when object is removed', () => {
+        const parent = nodeOps.createElement('Mesh', undefined, undefined, {})
+        const material = nodeOps.createElement('MeshNormalMaterial')
+        const geometry = nodeOps.createElement('BoxGeometry')
+        const fog = nodeOps.createElement('Fog')
+        nodeOps.insert(material, parent)
+        nodeOps.insert(geometry, parent)
+        nodeOps.insert(fog, parent)
+        expect(material.__tres.parent).toBe(parent)
+        expect(geometry.__tres.parent).toBe(parent)
+        expect(fog.__tres.parent).toBe(parent)
+
+        nodeOps.remove(fog)
+        expect(fog.__tres.parent).toBe(null)
+        expect(parent.__tres.objects.length).toBe(2)
+        expect(parent.__tres.objects.includes(fog)).toBe(false)
+
+        nodeOps.remove(material)
+        expect(material.__tres.parent).toBe(null)
+        expect(parent.__tres.objects.length).toBe(1)
+        expect(parent.__tres.objects.includes(material)).toBe(false)
+
+        nodeOps.remove(geometry)
+        expect(geometry.__tres.parent).toBe(null)
+        expect(parent.__tres.objects.length).toBe(0)
+        expect(parent.__tres.objects.includes(geometry)).toBe(false)
       })
     })
   })
