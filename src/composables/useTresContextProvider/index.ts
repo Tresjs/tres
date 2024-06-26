@@ -49,6 +49,11 @@ export interface PerformanceState {
   }
 }
 
+export interface XRState {
+  connect: () => void
+  disconnect: () => void
+}
+
 export interface TresContext {
   scene: ShallowRef<TresScene>
   sizes: SizesType
@@ -82,6 +87,8 @@ export interface TresContext {
   deregisterObjectAtPointerEventHandler?: (object: TresObject) => void
   registerBlockingObjectAtPointerEventHandler?: (object: TresObject) => void
   deregisterBlockingObjectAtPointerEventHandler?: (object: TresObject) => void
+  // XR
+  xr?: XRState | null
 }
 
 export function useTresContextProvider({
@@ -223,6 +230,41 @@ export function useTresContextProvider({
     cancelTresReady()
     ctx.loop.stop()
   })
+
+  // XR
+
+  if (!ctx.xr) {
+    const handleXRFrame = () => {
+      if (camera.value && render.frames.value > 0) {
+        renderer.value.render(scene, camera.value)
+      }
+    }
+
+    // Toggle render switching on session
+    const handleSessionChange = () => {
+      renderer.value.xr.enabled = renderer.value.xr.isPresenting
+      renderer.value.xr.setAnimationLoop(renderer.value.xr.isPresenting ? handleXRFrame : null)
+      if (!renderer.value.xr.isPresenting) { invalidate() }
+    }
+
+    // WebXR session manager
+    const xr = {
+      connect() {
+        renderer.value.xr.addEventListener('sessionstart', handleSessionChange)
+        renderer.value.xr.addEventListener('sessionend', handleSessionChange)
+      },
+      disconnect() {
+        renderer.value.xr.removeEventListener('sessionstart', handleSessionChange)
+        renderer.value.xr.removeEventListener('sessionend', handleSessionChange)
+      },
+    }
+    // Subscribe to WebXR session events
+    if (typeof renderer.value.xr?.addEventListener === 'function') {
+      xr.connect()
+    }
+
+    ctx.xr = xr
+  }
 
   // Performance
   const updateInterval = 100 // Update interval in milliseconds
