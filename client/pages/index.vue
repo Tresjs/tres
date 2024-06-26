@@ -20,7 +20,7 @@ const { scene, memory, fps } = useDevtoolsHook()
           src="/logo.svg"
           alt="tres logo"
         />
-        <h2 class="text-xl opacity-60 font-bold">
+        <h2 class="opacity-60 font-bold">
           TresJS DevTools
         </h2>
       </div>
@@ -41,16 +41,6 @@ const { scene, memory, fps } = useDevtoolsHook()
           target="_blank"
           to="https://github.com/Tresjs/nuxt"
         />
-        <UButton
-          variant="solid"
-          color="white"
-          size="sm"
-          target="_blank"
-          class="ml2"
-          to="https://github.com/Tresjs/nuxt/issues/new?labels=enhancement&template=feature_request.yml"
-        >
-          Request feature
-        </UButton>
       </div>
     </header>
 

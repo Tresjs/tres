@@ -4,11 +4,8 @@
 </script>
 
 <template>
-  <TresCanvas window-size>
+  <TresCanvas window-size render-mode="on-demand">
     <TresPerspectiveCamera />
-    <TresMesh>
-      <TresTorusGeometry :args="[1, 0.5, 16, 32]" />
-      <TresMeshBasicMaterial color="orange" />
-    </TresMesh>
+    <AnimatedDonnut color="orange" />
   </TresCanvas>
 </template>
