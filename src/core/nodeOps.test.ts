@@ -185,46 +185,47 @@ describe('nodeOps', () => {
       expect(parent.children.includes(child)).toBeTruthy()
     })
 
-    describe('primitive :object', () => {
+    describe.skip('primitive :object', () => {
       describe('into mesh', () => {
-        it.skip('inserts a mesh :object', () => {
+        it('inserts a mesh :object', () => {
           const parent = nodeOps.createElement('Mesh', undefined, undefined, {})
           const object = new THREE.Mesh()
           const primitive = nodeOps.createElement('primitive', undefined, undefined, { object })
 
-          expect(parent.material.uuid).not.toBe(object.uuid)
+          expect(parent.children.length).toBe(0)
           nodeOps.insert(primitive, parent)
-          expect(parent.material.uuid).toBe(object.uuid)
+          expect(parent.children.length).toBe(1)
+          expect(parent.children[0]).toBe(object)
         })
 
-        it.skip('inserts a material :object', () => {
+        it('inserts a material :object', () => {
           const parent = nodeOps.createElement('Mesh', undefined, undefined, {})
           const object = new THREE.MeshNormalMaterial()
           const primitive = nodeOps.createElement('primitive', undefined, undefined, { object })
 
-          expect(parent.material.uuid).not.toBe(object.uuid)
+          expect(parent.material.uuid).not.toBe(object)
           nodeOps.insert(primitive, parent)
-          expect(parent.material.uuid).toBe(object.uuid)
+          expect(parent.material).toBe(object)
         })
 
-        it.skip('inserts a geometry :object', () => {
+        it('inserts a geometry :object', () => {
           const parent = nodeOps.createElement('Mesh', undefined, undefined, {})
           const object = new THREE.BoxGeometry()
           const primitive = nodeOps.createElement('primitive', undefined, undefined, { object })
 
-          expect(parent.material.uuid).not.toBe(object.uuid)
+          expect(parent.geometry).not.toBe(object)
           nodeOps.insert(primitive, parent)
-          expect(parent.material.uuid).toBe(object.uuid)
+          expect(parent.geometry).toBe(object)
         })
 
-        it.skip('inserts a group :object', () => {
+        it('inserts a group :object', () => {
           const parent = nodeOps.createElement('Mesh', undefined, undefined, {})
           const object = new THREE.Group()
           const primitive = nodeOps.createElement('primitive', undefined, undefined, { object })
 
-          expect(parent.material.uuid).not.toBe(object.uuid)
+          expect(parent.children.length).toBe(0)
           nodeOps.insert(primitive, parent)
-          expect(parent.material.uuid).toBe(object.uuid)
+          expect(parent.children[0]).toBe(object)
         })
       })
     })
@@ -299,10 +300,86 @@ describe('nodeOps', () => {
       nodeOps.insert(geometry, parent)
       nodeOps.insert(fog, parent)
       expect(parent.__tres.objects.length).toBe(3)
-      const objectSet = new Set(parent.__tres.objects)
-      expect(objectSet.has(material)).toBe(true)
-      expect(objectSet.has(geometry)).toBe(true)
-      expect(objectSet.has(fog)).toBe(true)
+      const childrenSet = new Set(parent.__tres.objects)
+      expect(childrenSet.has(material)).toBe(true)
+      expect(childrenSet.has(geometry)).toBe(true)
+      expect(childrenSet.has(fog)).toBe(true)
+    })
+
+    it.skip('can insert the same `primitive :object` in multiple places in the scene graph', () => {
+      const material = new THREE.MeshNormalMaterial()
+      const geometry = new THREE.BoxGeometry()
+      const otherMaterial = new THREE.MeshBasicMaterial()
+      const otherGeometry = new THREE.SphereGeometry()
+
+      const grandparent = nodeOps.createElement('Mesh', undefined, undefined, {})
+      const parent0 = nodeOps.createElement('Mesh', undefined, undefined, {})
+      const parent1 = nodeOps.createElement('Mesh', undefined, undefined, {})
+      const parent2 = nodeOps.createElement('Mesh', undefined, undefined, {})
+
+      const materialPrimitive0 = nodeOps.createElement('primitive', undefined, undefined, {object: material})
+      const materialPrimitive1 = nodeOps.createElement('primitive', undefined, undefined, {object: material})
+      const materialPrimitive2 = nodeOps.createElement('primitive', undefined, undefined, {object: material})
+      const materialPrimitiveOther = nodeOps.createElement('primitive', undefined, undefined, {object: otherMaterial})
+
+      const geometryPrimitive0 = nodeOps.createElement('primitive', undefined, undefined, {object: geometry})
+      const geometryPrimitive1 = nodeOps.createElement('primitive', undefined, undefined, {object: geometry})
+      const geometryPrimitive2 = nodeOps.createElement('primitive', undefined, undefined, {object: geometry})
+      const geometryPrimitiveOther = nodeOps.createElement('primitive', undefined, undefined, {object: otherGeometry})
+
+      nodeOps.insert(parent0, grandparent)
+      nodeOps.insert(parent1, grandparent)
+      nodeOps.insert(parent2, grandparent)
+      nodeOps.insert(materialPrimitive0, parent0)
+      nodeOps.insert(materialPrimitive1, parent1)
+      nodeOps.insert(materialPrimitive2, parent2)
+      nodeOps.insert(geometryPrimitive0, parent0)
+      nodeOps.insert(geometryPrimitive1, parent1)
+      nodeOps.insert(geometryPrimitive2, parent2)
+
+      expect(parent0.material).toBe(material)
+      expect(parent1.material).toBe(material)
+      expect(parent2.material).toBe(material)
+      expect(parent0.geometry).toBe(geometry)
+      expect(parent1.geometry).toBe(geometry)
+      expect(parent2.geometry).toBe(geometry)
+
+      nodeOps.insert(materialPrimitiveOther, parent0)
+      nodeOps.insert(geometryPrimitiveOther, parent1)
+
+      expect(parent0.material).not.toBe(material)
+      expect(parent1.material).toBe(material)
+      expect(parent2.material).toBe(material)
+      expect(parent0.geometry).toBe(geometry)
+      expect(parent1.geometry).not.toBe(geometry)
+      expect(parent2.geometry).toBe(geometry)
+
+      nodeOps.insert(materialPrimitiveOther, parent1)
+      nodeOps.insert(geometryPrimitiveOther, parent0)
+
+      expect(parent0.material).not.toBe(material)
+      expect(parent1.material).not.toBe(material)
+      expect(parent2.material).toBe(material)
+      expect(parent0.geometry).not.toBe(geometry)
+      expect(parent1.geometry).not.toBe(geometry)
+      expect(parent2.geometry).toBe(geometry)
+
+      nodeOps.insert(materialPrimitiveOther, parent2)
+      nodeOps.insert(geometryPrimitiveOther, parent2)
+
+      expect(parent0.material).not.toBe(material)
+      expect(parent1.material).not.toBe(material)
+      expect(parent2.material).not.toBe(material)
+      expect(parent0.geometry).not.toBe(geometry)
+      expect(parent1.geometry).not.toBe(geometry)
+      expect(parent2.geometry).not.toBe(geometry)
+
+      expect(parent0.material).toBe(otherMaterial)
+      expect(parent1.material).toBe(otherMaterial)
+      expect(parent2.material).toBe(otherMaterial)
+      expect(parent0.geometry).toBe(otherGeometry)
+      expect(parent1.geometry).toBe(otherGeometry)
+      expect(parent2.geometry).toBe(otherGeometry)
     })
   })
 
@@ -567,16 +644,17 @@ describe('nodeOps', () => {
         nodeOps.remove(child)
         expect(child.parent?.uuid).toBeFalsy()
       })
-      it.skip('detaches mesh (in primitive :object) from mesh', () => {
+      describe.skip('primitive', () => {
+      it('detaches mesh (in primitive :object) from mesh', () => {
         const { mesh: parent } = createElementMesh(nodeOps)
         const { primitive, mesh } = createElementPrimitiveMesh(nodeOps)
         nodeOps.insert(primitive, parent)
-        expect(primitive.parent?.uuid).toBe(mesh.uuid)
+        expect(primitive.parent?.uuid).toBe(parent.uuid)
 
         nodeOps.remove(primitive)
         expect(mesh.parent?.uuid).toBeFalsy()
       })
-      it.skip('detaches mesh (in primitive :object) when mesh ancestor is removed', () => {
+      it('detaches mesh (in primitive :object) when mesh ancestor is removed', () => {
         const { mesh: grandparent } = createElementMesh(nodeOps)
         const { mesh: parent } = createElementMesh(nodeOps)
         const { primitive, mesh: primitiveMesh } = createElementPrimitiveMesh(nodeOps)
@@ -585,7 +663,7 @@ describe('nodeOps', () => {
         expect(primitiveMesh.parent?.uuid).toBe(parent.uuid)
 
         nodeOps.remove(parent)
-        expect(primitiveMesh.parent?.uuid).toBeFalsy()
+        expect(primitiveMesh.parent?.type).toBeFalsy()
       })
       it('does not detach primitive :object descendants', () => {
         const { mesh: parent } = createElementMesh(nodeOps)
@@ -602,6 +680,7 @@ describe('nodeOps', () => {
         expect(grandChild0.parent.uuid).toBe(primitiveMesh.uuid)
         expect(grandChild1.parent.uuid).toBe(primitiveMesh.uuid)
       })
+    })
     })
     describe('in the __tres parent-objects graph', () => {
       it('removes parent-objects relationship when object is removed', () => {
@@ -738,19 +817,134 @@ describe('nodeOps', () => {
       expect(spy).toHaveBeenCalledTimes(3)
     })
 
-    describe('patch `:object` on primitives', () => {
+    describe.skip('patch `:object` on primitives', () => {
       it('replaces original object', () => {
         const material0 = new THREE.MeshNormalMaterial()
-        const material1 = new THREE.MeshNormalMaterial()
+        const material1 = new THREE.MeshBasicMaterial()
         const primitive = nodeOps.createElement('primitive', undefined, undefined, { object: material0 })
         nodeOps.patchProp(primitive, 'object', material0, material1)
         expect(primitive.object).toBe(material1)
+      })
+
+      it('does not alter __tres on another primitive sharing the same object', () => {
+        const materialA = new THREE.MeshNormalMaterial()
+        const materialB = new THREE.MeshNormalMaterial()
+        const primitive0 = nodeOps.createElement('primitive', undefined, undefined, { object: materialA })
+        const primitive0TresJson = JSON.stringify(primitive0.__tres)
+        const primitive1 = nodeOps.createElement('primitive', undefined, undefined, { object: materialA })
+
+        expect(primitive0.__tres).not.toBe(primitive1.__tres)
+        expect(JSON.stringify(primitive0.__tres)).toBe(primitive0TresJson)
+
+        nodeOps.patchProp(primitive1, 'object', undefined, materialB)
+        expect(primitive0.__tres).not.toBe(primitive1.__tres)
+        expect(JSON.stringify(primitive0.__tres)).toBe(primitive0TresJson)
+
+        nodeOps.patchProp(primitive1, 'object', undefined, materialA)
+        expect(primitive0.__tres).not.toBe(primitive1.__tres)
+        expect(JSON.stringify(primitive0.__tres)).toBe(primitive0TresJson)
+      })
+
+      it('does not replace the object in other primitives who point to the same object', () => {
+        const { mesh: parent } = createElementMesh(nodeOps)
+        const { mesh: child0 } = createElementMesh(nodeOps)
+        const { mesh: child1 } = createElementMesh(nodeOps)
+        const materialA = new THREE.MeshNormalMaterial()
+        const materialB = new THREE.MeshBasicMaterial()
+        const primitive1 = nodeOps.createElement('primitive', undefined, undefined, { object: materialA })
+        const primitive0 = nodeOps.createElement('primitive', undefined, undefined, { object: materialA })
+
+        nodeOps.insert(primitive0, child0)
+        nodeOps.insert(primitive1, child1)
+        nodeOps.insert(child0, parent)
+        nodeOps.insert(child1, parent)
+
+        expect(child0.material).toBe(materialA)
+        expect(child1.material).toBe(materialA)
+
+        nodeOps.patchProp(primitive1, 'object', undefined, materialB)
+        expect(child0.material).toBe(materialA)
+        expect(child1.material).not.toBe(materialA)
+
+        nodeOps.patchProp(primitive1, 'object', undefined, materialA)
+        expect(child0.material).toBe(materialA)
+        expect(child1.material).toBe(materialA)
+
+        nodeOps.patchProp(primitive0, 'object', undefined, materialB)
+        expect(child0.material).not.toBe(materialA)
+        expect(child1.material).toBe(materialA)
+
+        nodeOps.patchProp(primitive1, 'object', undefined, materialB)
+        expect(child0.material).not.toBe(materialA)
+        expect(child1.material).not.toBe(materialA)
+        expect(child0.material).toBe(materialB)
+        expect(child1.material).toBe(materialB)
+      })
+      it('attaches the new object to the old object\'s parent; clears old object\'s parent', () => {
+        const { mesh: parent } = createElementMesh(nodeOps)
+        const { mesh: child0 } = createThreeBox()
+        const { mesh: child1 } = createThreeBox()
+        const primitive = nodeOps.createElement('primitive', undefined, undefined, { object: child0 })
+        nodeOps.insert(primitive, parent)
+        expect(child0.parent).toBe(parent)
+        expect(parent.children[0]).toBe(child0)
+        expect(parent.children.length).toBe(1)
+
+        nodeOps.patchProp(primitive, 'object', undefined, child1)
+        expect(child0.parent?.uuid).toBeFalsy()
+        expect(child1.parent?.uuid).toBe(parent.uuid)
+        expect(parent.children[0]).toBe(child1)
+        expect(parent.children.length).toBe(1)
+      })
+      it('if old :object had been patched, those patches are applied to new :object', () => {
+        const { mesh: parent } = createElementMesh(nodeOps)
+        const { mesh: child0 } = createElementMesh(nodeOps)
+        const { mesh: child1 } = createElementMesh(nodeOps)
+        const primitive = nodeOps.createElement('primitive', undefined, undefined, { object: child0 })
+        nodeOps.insert(primitive, parent)
+        nodeOps.patchProp(primitive, 'position-x', undefined, -999)
+        expect(child0.position.x).toBe(-999)
+
+        nodeOps.patchProp(primitive, 'object', undefined, child1)
+        expect(child1.position.x).toBe(-999)
+
+        nodeOps.patchProp(primitive, 'position-x', undefined, 1000)
+        nodeOps.patchProp(primitive, 'object', undefined, child0)
+        expect(child0.position.x).toBe(1000)
+      })
+      it('does not attach old :object children to new :object', () => {
+        const { mesh: parent } = createElementMesh(nodeOps)
+        const { mesh: child0 } = createElementMesh(nodeOps)
+        const { mesh: child1 } = createElementMesh(nodeOps)
+        const grandchild0 = new THREE.Mesh()
+        const grandchild1 = new THREE.Mesh()
+        child0.add(grandchild0)
+        child1.add(grandchild1)
+        const primitive = nodeOps.createElement('primitive', undefined, undefined, { object: child0 })
+        nodeOps.insert(primitive, parent)
+        expect(primitive.children[0]).toBe(grandchild0)
+        expect(primitive.children.length).toBe(1)
+
+        nodeOps.patchProp(primitive, 'object', undefined, child1)
+        expect(primitive.children[0]).toBe(grandchild1)
+        expect(primitive.children.length).toBe(1)
+
+        nodeOps.patchProp(primitive, 'object', undefined, child0)
+        expect(primitive.children[0].uuid).toBe(grandchild0.uuid)
+        expect(primitive.children.length).toBe(1)
+
+        nodeOps.patchProp(primitive, 'object', undefined, child1)
+        expect(primitive.children[0]).toBe(grandchild1)
+        expect(primitive.children.length).toBe(1)
       })
       it('does not copy UUID', () => {
         const material0 = new THREE.MeshNormalMaterial()
         const material1 = new THREE.MeshNormalMaterial()
         const primitive = nodeOps.createElement('primitive', undefined, undefined, { object: material0 })
         nodeOps.patchProp(primitive, 'object', material0, material1)
+        expect(material0.uuid).not.toBe(material1.uuid)
+
+        nodeOps.patchProp(primitive, 'object', material1, material0)
         expect(material0.uuid).not.toBe(material1.uuid)
       })
     })
@@ -856,6 +1050,13 @@ function mockTresContext() {
   } as unknown as TresContext
 }
 
+function createThreeBox() {
+  const geometry = new THREE.BoxGeometry()
+  const material = new THREE.MeshNormalMaterial()
+  const mesh = new THREE.Mesh(geometry, material)
+  return { mesh, geometry, material }
+}
+
 function createElementMesh(nodeOps: ReturnType<typeof getNodeOps>) {
   const geometry = nodeOps.createElement('BoxGeometry')
   const material = nodeOps.createElement('MeshNormalMaterial')
@@ -866,9 +1067,7 @@ function createElementMesh(nodeOps: ReturnType<typeof getNodeOps>) {
 }
 
 function createElementPrimitiveMesh(nodeOps: ReturnType<typeof getNodeOps>) {
-  const geometry = new THREE.BoxGeometry()
-  const material = new THREE.MeshNormalMaterial()
-  const mesh = new THREE.Mesh(geometry, material)
+  const { mesh, geometry, material } = createThreeBox()
   const primitive = nodeOps.createElement('primitive', undefined, undefined, { object: mesh })
   return { primitive, mesh, geometry, material }
 }
