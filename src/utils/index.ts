@@ -1,7 +1,9 @@
 import type { Material, Mesh, Object3D, Texture } from 'three'
 import { DoubleSide, MeshBasicMaterial, Scene, Vector3 } from 'three'
-import type { TresObject } from 'src/types'
+import type { AttachType, LocalState, TresInstance, TresObject } from 'src/types'
 import { HightlightMesh } from '../devtools/highlight'
+import type { TresContext } from '../composables/useTresContextProvider'
+import * as is from './is'
 
 export function toSetMethodName(key: string) {
   return `set${key[0].toUpperCase()}${key.slice(1)}`
@@ -329,4 +331,35 @@ export function filterInPlace<T>(array: T[], callbackFn: (element: T, index: num
   }
   array.length = i
   return array
+}
+
+export function prepareTresInstance<T extends TresObject>(obj: T, state: Partial<LocalState>, context: TresContext): TresInstance {
+  const instance = obj as unknown as TresInstance
+  instance.__tres = {
+    type: 'unknown',
+    eventCount: 0,
+    root: context,
+    handlers: {},
+    memoizedProps: {},
+    objects: [],
+    parent: null,
+    previousAttach: null,
+    ...state,
+  }
+  return instance
+}
+
+export function invalidateInstance(instance: TresObject) {
+  const ctx = instance?.__tres?.root
+
+  if (!ctx) { return }
+
+  if (ctx.render && ctx.render.canBeInvalidated.value) {
+    ctx.invalidate()
+  }
+}
+
+export function noop(fn: string): any {
+  // eslint-disable-next-line no-unused-expressions
+  fn
 }

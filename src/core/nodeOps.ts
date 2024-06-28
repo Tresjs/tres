@@ -2,10 +2,9 @@ import type { RendererOptions } from 'vue'
 import { BufferAttribute, Object3D } from 'three'
 import type { TresContext } from '../composables'
 import { useLogger } from '../composables'
-import { deepArrayEqual, filterInPlace, isHTMLTag, kebabToCamel } from '../utils'
+import { attach, deepArrayEqual, detach, filterInPlace, isHTMLTag, kebabToCamel, prepareTresInstance, noop, invalidateInstance } from '../utils'
 import type { InstanceProps, TresInstance, TresObject, TresObject3D } from '../types'
 import * as is from '../utils/is'
-import { invalidateInstance, noop, prepareTresInstance } from '../utils/nodeOpsUtils'
 import { catalogue } from './catalogue'
 
 const { logError } = useLogger()
