@@ -1,8 +1,16 @@
 import type { TresObject } from 'src/types'
 import type { BufferGeometry, Camera, Fog, Material, Object3D, Scene } from 'three'
 
+export function und(u: unknown) {
+  return typeof u === 'undefined'
+}
+
 export function arr(u: unknown) {
   return Array.isArray(u)
+}
+
+export function str(u: unknown): u is string {
+  return typeof u === 'string'
 }
 
 export function fun(u: unknown): u is Function {

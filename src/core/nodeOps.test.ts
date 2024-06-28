@@ -129,32 +129,6 @@ describe('nodeOps', () => {
     it('throws an error if tag does not exist in catalogue', () => {
       expect(() => { nodeOps.createElement('THIS_TAG_DOES_NOT_EXIST', undefined, undefined, {}) }).toThrow()
     })
-
-    it('adds material with "attach" property if instance is a material', () => {
-    // Setup
-      const tag = 'TresMeshStandardMaterial'
-      const props = { args: [] }
-
-      // Test
-      const instance = nodeOps.createElement(tag, undefined, undefined, props)
-
-      // Assert
-      expect(instance?.isMaterial).toBeTruthy()
-      expect(instance?.attach).toBe('material')
-    })
-
-    it('adds attach geometry property if instance is a geometry', () => {
-    // Setup
-      const tag = 'TresTorusGeometry'
-      const props = { args: [] }
-
-      // Test
-      const instance = nodeOps.createElement(tag, undefined, undefined, props)
-
-      // Assert
-      expect(instance?.isBufferGeometry).toBeTruthy()
-      expect(instance?.attach).toBe('geometry')
-    })
   })
 
   describe('insert', () => {
@@ -239,22 +213,179 @@ describe('nodeOps', () => {
       }
     })
 
-    it('inserts Fog as a property', () => {
-      const parent = nodeOps.createElement('Object3D', undefined, undefined, {})
-      const fog = nodeOps.createElement('Fog', undefined, undefined, {})
-      nodeOps.insert(fog, parent)
-      expect(parent.fog).toBe(fog)
-    })
+    describe('attach/detach', () => {
+      // NOTE: Special implementation case: `attach`/`detach`
+      //
+      // Objects that aren't added to the Scene using
+      // `THREE.Object3D`'s `add` will generally be inserted
+      // using `attach` and removed using `detach`.
+      //
+      // This way of inserting/removing has special challenges:
+      // - The user can specify how the object is `attach`/`detach`ed
+      // by setting the `attach` prop.
+      // - Before a new value is `attach`ed, the system must record
+      // the current value and restore it when the new value is
+      // `detach`ed.
+      it('if "attach" prop is provided, sets `parent[attach], even if the field does not exist on the parent`', () => {
+        const parent = nodeOps.createElement('Object3D', undefined, undefined, {})
+        for (const attach of ['material', 'foo', 'bar', 'baz']) {
+          const child = nodeOps.createElement('MeshNormalMaterial', undefined, undefined, { attach })
+          nodeOps.insert(child, parent)
+          expect(parent[attach]).toBe(child)
+          expect(parent.children.length).toBe(0)
+        }
+      })
 
-    it('if "attach" prop is provided, sets `parent[attach]`', () => {
-      const parent = nodeOps.createElement('Object3D', undefined, undefined, {})
-      for (const attach of ['material', 'foo', 'bar', 'baz']) {
-        const child = nodeOps.createElement('MeshNormalMaterial', undefined, undefined, {})
-        child.attach = attach
-        nodeOps.insert(child, parent)
-        expect(parent[attach]).toBe(child)
-        expect(parent.children.length).toBe(0)
-      }
+      it('can attach and detach a BufferGeometry', () => {
+        const parent = nodeOps.createElement('Mesh', undefined, undefined, {})
+        const previousAttach = parent.geometry
+        const geometry0 = nodeOps.createElement('BoxGeometry', undefined, undefined, {})
+        const geometry1 = nodeOps.createElement('BoxGeometry', undefined, undefined, {})
+
+        nodeOps.insert(geometry0, parent)
+        expect(parent.geometry).not.toBe(previousAttach)
+        expect(parent.geometry).toBe(geometry0)
+
+        nodeOps.remove(geometry0)
+        nodeOps.insert(geometry1, parent)
+        expect(parent.geometry).toBe(geometry1)
+
+        nodeOps.remove(geometry1)
+        expect(parent.geometry).toBe(previousAttach)
+      })
+
+      it('can attach and detach a material', () => {
+        const parent = nodeOps.createElement('Mesh', undefined, undefined, {})
+        const previousAttach = parent.material
+        const material0 = nodeOps.createElement('MeshNormalMaterial', undefined, undefined, {})
+        const material1 = nodeOps.createElement('MeshNormalMaterial', undefined, undefined, {})
+        nodeOps.insert(material0, parent)
+        expect(parent.material).toBe(material0)
+
+        nodeOps.remove(material0)
+        nodeOps.insert(material1, parent)
+        expect(parent.material).toBe(material1)
+
+        nodeOps.remove(material1)
+        expect(parent.material).toBe(previousAttach)
+      })
+
+      it('can attach and detach a material array', () => {
+        const parent = nodeOps.createElement('Mesh', undefined, undefined, {})
+        const previousMaterial = parent.material
+        const material0 = nodeOps.createElement('MeshNormalMaterial', undefined, undefined, { attach: 'material-0' })
+        const material1 = nodeOps.createElement('MeshNormalMaterial', undefined, undefined, { attach: 'material-1' })
+        const material2 = nodeOps.createElement('MeshNormalMaterial', undefined, undefined, { attach: 'material-2' })
+        nodeOps.insert(material0, parent)
+        expect(parent.material[0]).toStrictEqual(material0)
+        nodeOps.insert(material1, parent)
+        expect(parent.material[1]).toStrictEqual(material1)
+        nodeOps.insert(material2, parent)
+        expect(parent.material[2]).toStrictEqual(material2)
+
+        nodeOps.remove(material0)
+        expect(parent.material[0]).toBeUndefined()
+        expect(parent.material[1]).toBe(material1)
+        expect(parent.material[2]).toBe(material2)
+        nodeOps.remove(material2)
+        expect(parent.material[0]).toBeUndefined()
+        expect(parent.material[1]).toBe(material1)
+        expect(parent.material[2]).toBeUndefined()
+
+        nodeOps.patchProp(material1, 'attach', undefined, 'material-2')
+        expect(parent.material[0]).toBeUndefined()
+        expect(parent.material[1]).toBeUndefined()
+        expect(parent.material[2]).toBe(material1)
+
+        nodeOps.remove(material1)
+        expect(parent.material).toBe(previousMaterial)
+      })
+
+      it('can attach and detach fog', () => {
+        const parent = nodeOps.createElement('Mesh', undefined, undefined, {})
+        const fog = nodeOps.createElement('Fog', undefined, undefined, {})
+        nodeOps.insert(fog, parent)
+        expect(parent.fog).toBe(fog)
+        nodeOps.remove(fog)
+        expect('fog' in parent).toBe(false)
+      })
+
+      it('can attach and detach a "pierced" string', () => {
+        const parent = nodeOps.createElement('Mesh', undefined, undefined, {})
+        const material = nodeOps.createElement('MeshBasicMaterial', undefined, undefined, { color: 'red' })
+        const previousColor = material.color
+        const color = nodeOps.createElement('Color', undefined, undefined, { attach: 'material-color' })
+        nodeOps.insert(material, parent)
+        nodeOps.insert(color, parent)
+        expect(parent.material.color).toBe(color)
+        nodeOps.remove(color)
+        expect(parent.material.color).toBe(previousColor)
+
+        material.alphaMap = new THREE.Texture()
+        const previousAlphaMap = material.alphaMap
+        const alphaMap = nodeOps.createElement('Texture', undefined, undefined, { attach: 'material-alpha-map' })
+        nodeOps.insert(alphaMap, parent)
+        expect(parent.material.alphaMap).toBe(alphaMap)
+        nodeOps.remove(alphaMap)
+        expect(parent.material.alphaMap).toBe(previousAlphaMap)
+      })
+
+      it('attach can be patched', () => {
+        const parent = nodeOps.createElement('Mesh', undefined, undefined, {})
+        const previousMaterial = parent.material
+        const material = nodeOps.createElement('MeshBasicMaterial', undefined, undefined, { color: 'red', attach: 'material' })
+        nodeOps.insert(material, parent)
+        expect(parent.material).toBe(material)
+
+        nodeOps.patchProp(material, 'attach', undefined, 'foo')
+        expect(parent.foo).toBe(material)
+        expect(parent.material).toBe(previousMaterial)
+
+        nodeOps.patchProp(material, 'attach', undefined, 'material')
+        expect(parent.foo).toBeUndefined()
+        expect(parent.material).toBe(material)
+
+        nodeOps.patchProp(material, 'attach', undefined, 'bar')
+        expect(parent.bar).toBe(material)
+        expect(parent.material).toBe(previousMaterial)
+      })
+
+      it('can attach and detach a material array by patching `attach`', () => {
+        const parent = nodeOps.createElement('Mesh', undefined, undefined, {})
+        const previousMaterial = parent.material
+        const material0 = nodeOps.createElement('MeshNormalMaterial', undefined, undefined, { attach: 'material-0' })
+        const material1 = nodeOps.createElement('MeshNormalMaterial', undefined, undefined, { attach: 'material-1' })
+        const material2 = nodeOps.createElement('MeshNormalMaterial', undefined, undefined, { attach: 'material-2' })
+        nodeOps.insert(material0, parent)
+        nodeOps.insert(material1, parent)
+        nodeOps.insert(material2, parent)
+        expect(parent.material[0]).toBe(material0)
+        expect(parent.material[1]).toBe(material1)
+        expect(parent.material[2]).toBe(material2)
+
+        nodeOps.patchProp(material1, 'attach', undefined, 'material-0')
+        expect(parent.material[0]).toBe(material1)
+        expect(parent.material[1]).toBeUndefined()
+        expect(parent.material[2]).toBe(material2)
+
+        nodeOps.patchProp(material1, 'attach', undefined, 'material-2')
+        expect(parent.material[0]).toBe(material0)
+        expect(parent.material[1]).toBeUndefined()
+        expect(parent.material[2]).toBe(material1)
+
+        nodeOps.patchProp(material0, 'attach', undefined, 'foo')
+        expect(parent.material[0]).toBeUndefined()
+        expect(parent.material[1]).toBeUndefined()
+        expect(parent.material[2]).toBe(material1)
+
+        nodeOps.patchProp(material1, 'attach', undefined, 'foo')
+        expect(parent.material[0]).toBeUndefined()
+        expect(parent.material[1]).toBeUndefined()
+        expect(parent.material[2]).toBe(material2)
+
+        nodeOps.patchProp(material2, 'attach', undefined, 'foo')
+        expect(parent.material).toBe(previousMaterial)
+      })
     })
 
     it('adds a material to parent.__tres.objects', () => {
@@ -317,15 +448,15 @@ describe('nodeOps', () => {
       const parent1 = nodeOps.createElement('Mesh', undefined, undefined, {})
       const parent2 = nodeOps.createElement('Mesh', undefined, undefined, {})
 
-      const materialPrimitive0 = nodeOps.createElement('primitive', undefined, undefined, {object: material})
-      const materialPrimitive1 = nodeOps.createElement('primitive', undefined, undefined, {object: material})
-      const materialPrimitive2 = nodeOps.createElement('primitive', undefined, undefined, {object: material})
-      const materialPrimitiveOther = nodeOps.createElement('primitive', undefined, undefined, {object: otherMaterial})
+      const materialPrimitive0 = nodeOps.createElement('primitive', undefined, undefined, { object: material })
+      const materialPrimitive1 = nodeOps.createElement('primitive', undefined, undefined, { object: material })
+      const materialPrimitive2 = nodeOps.createElement('primitive', undefined, undefined, { object: material })
+      const materialPrimitiveOther = nodeOps.createElement('primitive', undefined, undefined, { object: otherMaterial })
 
-      const geometryPrimitive0 = nodeOps.createElement('primitive', undefined, undefined, {object: geometry})
-      const geometryPrimitive1 = nodeOps.createElement('primitive', undefined, undefined, {object: geometry})
-      const geometryPrimitive2 = nodeOps.createElement('primitive', undefined, undefined, {object: geometry})
-      const geometryPrimitiveOther = nodeOps.createElement('primitive', undefined, undefined, {object: otherGeometry})
+      const geometryPrimitive0 = nodeOps.createElement('primitive', undefined, undefined, { object: geometry })
+      const geometryPrimitive1 = nodeOps.createElement('primitive', undefined, undefined, { object: geometry })
+      const geometryPrimitive2 = nodeOps.createElement('primitive', undefined, undefined, { object: geometry })
+      const geometryPrimitiveOther = nodeOps.createElement('primitive', undefined, undefined, { object: otherGeometry })
 
       nodeOps.insert(parent0, grandparent)
       nodeOps.insert(parent1, grandparent)
@@ -645,42 +776,42 @@ describe('nodeOps', () => {
         expect(child.parent?.uuid).toBeFalsy()
       })
       describe.skip('primitive', () => {
-      it('detaches mesh (in primitive :object) from mesh', () => {
-        const { mesh: parent } = createElementMesh(nodeOps)
-        const { primitive, mesh } = createElementPrimitiveMesh(nodeOps)
-        nodeOps.insert(primitive, parent)
-        expect(primitive.parent?.uuid).toBe(parent.uuid)
+        it('detaches mesh (in primitive :object) from mesh', () => {
+          const { mesh: parent } = createElementMesh(nodeOps)
+          const { primitive, mesh } = createElementPrimitiveMesh(nodeOps)
+          nodeOps.insert(primitive, parent)
+          expect(primitive.parent?.uuid).toBe(parent.uuid)
 
-        nodeOps.remove(primitive)
-        expect(mesh.parent?.uuid).toBeFalsy()
+          nodeOps.remove(primitive)
+          expect(mesh.parent?.uuid).toBeFalsy()
+        })
+        it('detaches mesh (in primitive :object) when mesh ancestor is removed', () => {
+          const { mesh: grandparent } = createElementMesh(nodeOps)
+          const { mesh: parent } = createElementMesh(nodeOps)
+          const { primitive, mesh: primitiveMesh } = createElementPrimitiveMesh(nodeOps)
+          nodeOps.insert(parent, grandparent)
+          nodeOps.insert(primitive, parent)
+          expect(primitiveMesh.parent?.uuid).toBe(parent.uuid)
+
+          nodeOps.remove(parent)
+          expect(primitiveMesh.parent?.type).toBeFalsy()
+        })
+        it('does not detach primitive :object descendants', () => {
+          const { mesh: parent } = createElementMesh(nodeOps)
+          const { primitive, mesh: primitiveMesh } = createElementPrimitiveMesh(nodeOps)
+          const grandChild0 = new THREE.Mesh()
+          const grandChild1 = new THREE.Group()
+          primitiveMesh.add(grandChild0, grandChild1)
+
+          nodeOps.insert(primitive, parent)
+          expect(grandChild0.parent.uuid).toBe(primitiveMesh.uuid)
+          expect(grandChild1.parent.uuid).toBe(primitiveMesh.uuid)
+
+          nodeOps.remove(primitive)
+          expect(grandChild0.parent.uuid).toBe(primitiveMesh.uuid)
+          expect(grandChild1.parent.uuid).toBe(primitiveMesh.uuid)
+        })
       })
-      it('detaches mesh (in primitive :object) when mesh ancestor is removed', () => {
-        const { mesh: grandparent } = createElementMesh(nodeOps)
-        const { mesh: parent } = createElementMesh(nodeOps)
-        const { primitive, mesh: primitiveMesh } = createElementPrimitiveMesh(nodeOps)
-        nodeOps.insert(parent, grandparent)
-        nodeOps.insert(primitive, parent)
-        expect(primitiveMesh.parent?.uuid).toBe(parent.uuid)
-
-        nodeOps.remove(parent)
-        expect(primitiveMesh.parent?.type).toBeFalsy()
-      })
-      it('does not detach primitive :object descendants', () => {
-        const { mesh: parent } = createElementMesh(nodeOps)
-        const { primitive, mesh: primitiveMesh } = createElementPrimitiveMesh(nodeOps)
-        const grandChild0 = new THREE.Mesh()
-        const grandChild1 = new THREE.Group()
-        primitiveMesh.add(grandChild0, grandChild1)
-
-        nodeOps.insert(primitive, parent)
-        expect(grandChild0.parent.uuid).toBe(primitiveMesh.uuid)
-        expect(grandChild1.parent.uuid).toBe(primitiveMesh.uuid)
-
-        nodeOps.remove(primitive)
-        expect(grandChild0.parent.uuid).toBe(primitiveMesh.uuid)
-        expect(grandChild1.parent.uuid).toBe(primitiveMesh.uuid)
-      })
-    })
     })
     describe('in the __tres parent-objects graph', () => {
       it('removes parent-objects relationship when object is removed', () => {

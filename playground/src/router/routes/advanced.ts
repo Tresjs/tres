@@ -24,4 +24,9 @@ export const advancedRoutes = [
     name: 'Suspense',
     component: () => import('../../pages/advanced/suspense/index.vue'),
   },
+  {
+    path: '/advanced/multiple-materials',
+    name: 'Multiple materials',
+    component: () => import('../../pages/advanced/multipleMaterials/index.vue'),
+  },
 ]

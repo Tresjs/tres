@@ -38,13 +38,13 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
     if (tag === 'template') { return null }
     if (isHTMLTag(tag)) { return null }
     let name = tag.replace('Tres', '')
-    let instance: TresObject | null
+    let obj: TresObject | null
 
     if (tag === 'primitive') {
       if (props?.object === undefined) { logError('Tres primitives need a prop \'object\'') }
       const object = props.object as TresObject
       name = object.type
-      instance = Object.assign(object.clone(), { type: name }) as TresObject
+      obj = Object.assign(object.clone(), { type: name }) as TresObject
     }
     else {
       const target = catalogue.value[name]
@@ -54,79 +54,70 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
         )
       }
       // eslint-disable-next-line new-cap
-      instance = new target(...props.args) as TresObject
+      obj = new target(...props.args) as TresObject
     }
 
-    if (!instance) { return null }
+    if (!obj) { return null }
 
-    if (instance.isCamera) {
+    if (obj.isCamera) {
       if (!props?.position) {
-        instance.position.set(3, 3, 3)
+        obj.position.set(3, 3, 3)
       }
       if (!props?.lookAt) {
-        instance.lookAt(0, 0, 0)
+        obj.lookAt(0, 0, 0)
       }
     }
 
-    if (props?.attach === undefined) {
-      if (instance.isMaterial) { instance.attach = 'material' }
-      else if (instance.isBufferGeometry) { instance.attach = 'geometry' }
-    }
-
-    instance = prepareTresInstance(instance, {
-      ...instance.__tres,
+    const instance = prepareTresInstance(obj, {
+      ...obj.__tres,
       type: name,
       memoizedProps: props,
       eventCount: 0,
       disposable: true,
       primitive: tag === 'primitive',
+      attach: props.attach,
     }, context)
+
+    if (!instance.__tres.attach) {
+      if (instance.isMaterial) { instance.__tres.attach = 'material' }
+      else if (instance.isBufferGeometry) { instance.__tres.attach = 'geometry' }
+      else if (instance.isFog) { instance.__tres.attach = 'fog' }
+    }
 
     // determine whether the material was passed via prop to
     // prevent it's disposal when node is removed later in it's lifecycle
-    if (instance.isObject3D && instance.__tres && (props?.material || props?.geometry)) {
+    if (instance.isObject3D && (props?.material || props?.geometry)) {
       instance.__tres.disposable = false
     }
 
-    return instance as TresObject
+    return obj as TresObject
   }
 
   function insert(child: TresObject, parent: TresObject) {
     if (!child) { return }
+    parent = parent || scene
     const childInstance: TresInstance = (child.__tres ? child as TresInstance : prepareTresInstance(child, {}, context))
-
-    const parentObject = parent || scene
+    const parentInstance: TresInstance = (parent.__tres ? parent as TresInstance : prepareTresInstance(parent, {}, context))
 
     context.registerCamera(child)
     // NOTE: Track onPointerMissed objects separate from the scene
     context.eventManager?.registerPointerMissedObject(child)
 
     let insertedWithAdd = false
-    if (is.object3D(child) && is.object3D(parentObject)) {
-      parentObject.add(child)
+    if (childInstance.__tres.attach) {
+      attach(parentInstance, childInstance, childInstance.__tres.attach)
+    }
+    else if (is.object3D(child) && is.object3D(parentInstance)) {
+      parentInstance.add(child)
       insertedWithAdd = true
       child.dispatchEvent({ type: 'added' })
     }
-    else if (is.fog(child)) {
-      // TODO
-      // Currently `material` and `geometry` are attached by
-      // setting `attach` in `createElement`.
-      // Do the same here to eliminate this branch.
-      parentObject.fog = child
-    }
-    else if (typeof child.attach === 'string') {
-      // TODO: support "pierced" `attach`
-      child.__previousAttach = child[parentObject?.attach as string]
-      if (parentObject) {
-        parentObject[child.attach] = child
-      }
-    }
 
     // NOTE: Update __tres parent/objects graph
-    childInstance.__tres.parent = parentObject
-    if (parentObject.__tres?.objects && !insertedWithAdd) {
-      if (!parentObject.__tres.objects.includes(child)) {
-        parentObject.__tres.objects.push(child)
+    childInstance.__tres.parent = parentInstance
+    if (parentInstance.__tres?.objects && !insertedWithAdd) {
+      if (!parentInstance.__tres.objects.includes(child)) {
+        parentInstance.__tres.objects.push(child)
       }
     }
   }
@@ -166,7 +157,12 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
 
     // NOTE: THREE.removeFromParent removes `node` from
     // `parent.children`.
-    node.removeFromParent?.()
+    if (node.__tres?.attach) {
+      detach(parent, node, node.__tres.attach)
+    }
+    else {
+      node.removeFromParent?.()
+    }
 
     // NOTE: Deregister `node` THREE.Object3D children
     node.traverse?.((child) => {
@@ -212,6 +208,19 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
 
     let root = node
     let key = prop
+
+    if (prop === 'attach') {
+      // NOTE: `attach` is not a field on a TresObject.
+      // `nextValue` is a string representing how Tres
+      // should attach `node` to its parent – if the
+      // parent exists.
+      const maybeParent = node.__tres?.parent || node.parent
+      remove(node)
+      prepareTresInstance(node, { attach: nextValue }, context)
+      if (maybeParent) { insert(node, maybeParent) }
+      return
+    }
+
     if (node.__tres?.primitive && key === 'object' && prevValue !== null) {
       // If the prop 'object' is changed, we need to re-instance the object and swap the old one with the new one
       const newInstance = createElement('primitive', undefined, undefined, {
@@ -282,6 +291,9 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
 
     // Traverse pierced props (e.g. foo-bar=value => foo.bar = value)
     if (key.includes('-') && target === undefined) {
+      // TODO: A standalone function called `resolve` is
+      // available in /src/utils/index.ts. It's covered by tests.
+      // Refactor below to DRY.
       const chain = key.split('-')
       target = chain.reduce((acc, key) => acc[kebabToCamel(key)], root)
       key = chain.pop() as string
