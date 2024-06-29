@@ -181,7 +181,7 @@ Simplemente funciona. 💯 (si no se proporciona un texto, el texto será TresJS
 Podemos pasar las opciones como props
 
 ```html
-<Text3D :font="fontPath" :text="my 3d text" :size="0.8" />
+<Text3D :font="fontPath" text="my 3d text" :size="0.8" />
 ```
 
 en caso de que no se proporcionen las opciones, los valores predeterminados son:
@@ -202,5 +202,5 @@ en caso de que no se proporcionen las opciones, los valores predeterminados son:
 De forma predeterminada, el texto en ThreeJS comienza en la posición inicial de la malla, por lo que si es [0,0,0], el texto comenzará allí, pero podemos centrarlo simplemente pasando la bandera "center".
 
 ```vue
-<Text3D :font="fontPath" :text="my 3d text" center />
+<Text3D :font="fontPath" text="my 3d text" center />
 ```
