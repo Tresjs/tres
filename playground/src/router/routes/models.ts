@@ -7,6 +7,6 @@ export const modelsRoutes = [
   {
     path: '/models/rigged',
     name: 'Rigged Models',
-    component: () => import('../../pages/models/RiggedModel.vue'),
+    component: () => import('../../pages/models/RiggedModel/index.vue'),
   },
 ]
