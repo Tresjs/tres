@@ -2,9 +2,10 @@ import type { RendererOptions } from 'vue'
 import { BufferAttribute, Object3D } from 'three'
 import type { TresContext } from '../composables'
 import { useLogger } from '../composables'
-import { attach, deepArrayEqual, detach, filterInPlace, isHTMLTag, kebabToCamel, prepareTresInstance, noop, invalidateInstance } from '../utils'
+import { attach, deepArrayEqual, detach, filterInPlace, invalidateInstance, isHTMLTag, kebabToCamel, noop, prepareTresInstance } from '../utils'
 import type { InstanceProps, TresInstance, TresObject, TresObject3D } from '../types'
 import * as is from '../utils/is'
+import { invalidateInstance, noop, prepareTresInstance } from '../utils/nodeOpsUtils'
 import { catalogue } from './catalogue'
 
 const { logError } = useLogger()
@@ -118,6 +119,14 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
     if (parentInstance.__tres?.objects && !insertedWithAdd) {
       if (!parentInstance.__tres.objects.includes(child)) {
         parentInstance.__tres.objects.push(child)
+      }
+    }
+
+    // NOTE: Update __tres parent/objects graph
+    childInstance.__tres.parent = parentObject
+    if (parentObject.__tres?.objects && !insertedWithAdd) {
+      if (!parentObject.__tres.objects.includes(child)) {
+        parentObject.__tres.objects.push(child)
       }
     }
   }

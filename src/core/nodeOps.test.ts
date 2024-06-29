@@ -530,6 +530,7 @@ describe('nodeOps', () => {
     })
 
     it('calls dispose on a material', () => {
+    it('calls dispose on a material', () => {
       const parent = mockTresObjectRootInObject(nodeOps.createElement('Mesh', undefined, undefined, {}))
       const material = nodeOps.createElement('MeshNormalMaterial', undefined, undefined, {})
       const spy = vi.spyOn(material, 'dispose')

@@ -212,9 +212,11 @@ export function useTresContextProvider({
 
   const { on: onTresReady, cancel: cancelTresReady } = useTresReady(ctx)!
 
+  ctx.loop.setReady(false)
+  ctx.loop.start()
   onTresReady(() => {
     emit('ready', ctx)
-    ctx.loop.start()
+    ctx.loop.setReady(true)
   })
 
   onUnmounted(() => {
