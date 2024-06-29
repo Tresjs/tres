@@ -1,28 +1,18 @@
 {
-  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Attach by Process ID",
-      "processId": "${command:PickProcess}",
-      "request": "attach",
-      "skipFiles": ["<node_internals>/**"],
-      "type": "node"
-    },
-    {
-      "name": "Attach to vite",
-      "port": 5174,
-      "request": "attach",
-      "skipFiles": ["<node_internals>/**"],
-      "type": "node"
-    },
-    {
-      "name": "fe-server",
-      "type": "node",
+      "type": "chrome",
       "request": "launch",
-      "cwd": "${workspaceRoot}/packages/tres",
-      "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "dev", "--preserve-symlinks"]
+      "name": "Tres Debug mode",
+      "skipFiles": [
+        "<node_internals>/**",
+      ],
+      "resolveSourceMapLocations": [
+        "!**/node_modules/**"
+      ],
+      "url": "http://localhost:3000",
+      "webRoot": "${workspaceFolder}"
     }
   ]
 }
