@@ -1,6 +1,7 @@
 import type { Material, Mesh, Object3D, Texture } from 'three'
 import { DoubleSide, MeshBasicMaterial, Scene, Vector3 } from 'three'
-import type { AttachType, LocalState, TresInstance, TresObject } from 'src/types'
+import type { AttachType, LocalState, TresInstance, TresObject, TresPrimitive } from 'src/types'
+import type { nodeOps } from 'src/core/nodeOps'
 import { HightlightMesh } from '../devtools/highlight'
 import type { TresContext } from '../composables/useTresContextProvider'
 import * as is from './is'
@@ -385,7 +386,7 @@ export function attach(parent: TresInstance, child: TresInstance, type: AttachTy
 
     const { target, key } = resolve(parent, type)
     child.__tres.previousAttach = target[key]
-    target[key] = child
+    target[key] = unboxTresPrimitive(child)
   }
   else {
     child.__tres.previousAttach = type(parent, child)
@@ -410,9 +411,9 @@ export function detach(parent: any, child: TresInstance, type: AttachType) {
     if ('__tresDetach' in target) { target.__tresDetach() }
   }
   else {
-    child.__tres?.previousAttach?.(parent, child)
+    child.__tres.previousAttach?.(parent, child)
   }
-  delete child.__tres?.previousAttach
+  delete child.__tres.previousAttach
 }
 
 export function prepareTresInstance<T extends TresObject>(obj: T, state: Partial<LocalState>, context: TresContext): TresInstance {
@@ -444,4 +445,55 @@ export function invalidateInstance(instance: TresObject) {
 export function noop(fn: string): any {
   // eslint-disable-next-line no-unused-expressions
   fn
+}
+
+export function setPrimitiveObject(
+  newObject: TresObject,
+  primitive: TresPrimitive,
+  setTarget: (object: TresObject) => void,
+  nodeOpsFns: Pick<ReturnType<typeof nodeOps>, 'patchProp' | 'insert' | 'remove'>,
+  context: TresContext,
+) {
+  const oldObject = unboxTresPrimitive(primitive)
+  newObject = unboxTresPrimitive(newObject)
+  if (oldObject === newObject) { return true }
+
+  const newInstance: TresInstance = prepareTresInstance(newObject, primitive.__tres ?? {}, context)
+
+  // NOTE: `remove`ing `oldInstance` will modify `parent` and `memoizedProps`.
+  // Copy before removing.
+  const parent = primitive.parent ?? primitive.__tres.parent ?? null
+  const propsToPatch = { ...primitive.__tres.memoizedProps }
+  // NOTE: `object` is a reference to `oldObject` and not to be patched.
+  delete propsToPatch.object
+
+  nodeOpsFns.remove(primitive)
+  if (oldObject.parent) { oldObject.parent = null }
+  oldObject.__tres = {}
+
+  for (const [key, value] of Object.entries(propsToPatch)) {
+    nodeOpsFns.patchProp(newInstance, key, newInstance[key], value)
+  }
+
+  setTarget(newObject)
+  nodeOpsFns.insert(primitive, parent)
+
+  return true
+}
+
+export function unboxTresPrimitive<T>(maybePrimitive: T): T | TresInstance {
+  if (is.tresPrimitive(maybePrimitive)) {
+    // NOTE:
+    // `primitive` has-a THREE object. Multiple `primitive`s can have
+    // the same THREE object. We want to allow the same THREE object
+    // to be inserted in the graph in multiple places, where THREE supports
+    // that, e.g., materials and geometries.
+    // But __tres (`LocalState`) only allows for a single parent.
+    // So: copy `__tres` to the object when unboxing.
+    maybePrimitive.object.__tres = maybePrimitive.__tres
+    return maybePrimitive.object
+  }
+  else {
+    return maybePrimitive
+  }
 }

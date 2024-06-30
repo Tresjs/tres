@@ -1,10 +1,11 @@
-import type { RendererOptions } from 'vue'
+import { type RendererOptions, isRef } from 'vue'
 import { BufferAttribute, Object3D } from 'three'
 import type { TresContext } from '../composables'
 import { useLogger } from '../composables'
-import { attach, deepArrayEqual, detach, filterInPlace, invalidateInstance, isHTMLTag, kebabToCamel, noop, prepareTresInstance } from '../utils'
-import type { InstanceProps, TresInstance, TresObject, TresObject3D } from '../types'
+import { attach, deepArrayEqual, detach, filterInPlace, invalidateInstance, isHTMLTag, kebabToCamel, noop, prepareTresInstance, setPrimitiveObject, unboxTresPrimitive } from '../utils'
+import type { InstanceProps, LocalState, TresInstance, TresObject, TresObject3D, TresPrimitive } from '../types'
 import * as is from '../utils/is'
+import { createRetargetingProxy } from '../utils/primitive/createRetargetingProxy'
 import { catalogue } from './catalogue'
 
 const { logError } = useLogger()
@@ -41,10 +42,28 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
     let obj: TresObject | null
 
     if (tag === 'primitive') {
-      if (props?.object === undefined) { logError('Tres primitives need a prop \'object\'') }
-      const object = props.object as TresObject
-      name = object.type
-      obj = Object.assign(object.clone(), { type: name }) as TresObject
+      if (!is.obj(props.object) || isRef(props.object)) {
+        logError(
+          'Tres primitives need an \'object\' prop, whose value is an object or shallowRef<object>',
+        )
+      }
+      name = props.object.type
+      const __tres = {}
+      const primitive = createRetargetingProxy(
+        props.object,
+        {
+          object: t => t,
+          isPrimitive: () => true,
+          __tres: () => __tres,
+        },
+        {
+          object: (object: TresObject, _, primitive: TresPrimitive, setTarget: (nextObject: TresObject) => void) => {
+            setPrimitiveObject(object, primitive, setTarget, { patchProp, remove, insert }, context)
+          },
+          __tres: (t: LocalState) => { Object.assign(__tres, t) },
+        },
+      )
+      obj = primitive
     }
     else {
       const target = catalogue.value[name]
@@ -95,9 +114,11 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
 
   function insert(child: TresObject, parent: TresObject) {
     if (!child) { return }
+
     parent = parent || scene
     const childInstance: TresInstance = (child.__tres ? child as TresInstance : prepareTresInstance(child, {}, context))
     const parentInstance: TresInstance = (parent.__tres ? parent as TresInstance : prepareTresInstance(parent, {}, context))
+    child = unboxTresPrimitive(childInstance)
 
     context.registerCamera(child)
     // NOTE: Track onPointerMissed objects separate from the scene
@@ -115,10 +136,8 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
 
     // NOTE: Update __tres parent/objects graph
     childInstance.__tres.parent = parentInstance
-    if (parentInstance.__tres?.objects && !insertedWithAdd) {
-      if (!parentInstance.__tres.objects.includes(child)) {
-        parentInstance.__tres.objects.push(child)
-      }
+    if (parentInstance.__tres.objects && !parentInstance.__tres.objects.includes(child)) {
+      parentInstance.__tres.objects.push(child)
     }
   }
 
@@ -143,11 +162,6 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
     const isBailedOut = dispose === false
     const shouldDispose = !(isPrimitive || isDisposeNull || isBailedOut)
 
-    // TODO:
-    // Figure out why `parent` is being set on `node` here
-    // and remove/refactor.
-    node.parent = node.parent || scene
-
     // NOTE: Remove `node` from __tres parent/objects graph
     const parent = node.__tres?.parent || scene
     if (node.__tres) { node.__tres.parent = null }
@@ -158,10 +172,16 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
     // NOTE: THREE.removeFromParent removes `node` from
     // `parent.children`.
     if (node.__tres?.attach) {
-      detach(parent, node, node.__tres.attach)
+      detach(parent, node as TresInstance, node.__tres.attach)
     }
     else {
-      node.removeFromParent?.()
+      // NOTE: In case this is a primitive, we added the :object, not
+      // the primitive. So we "unbox" here to remove the :object.
+      node.parent?.remove?.(unboxTresPrimitive(node))
+      // NOTE: THREE doesn't set `node.parent` when removing `node`.
+      // We will do that here to properly maintain the parent/children
+      // graph as a source of truth.
+      node.parent = null
     }
 
     // NOTE: Deregister `node` THREE.Object3D children
@@ -176,22 +196,23 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
     /*  deregisterAtPointerEventHandlerIfRequired?.(node as TresObject) */
     invalidateInstance(node as TresObject)
 
-    // TODO: support removing `attach`ed components
+    // NOTE: Remove child objects that had been added declaratively.
+    if (node.__tres && 'objects' in node.__tres) {
+      // NOTE: In the recursive `remove` calls, the array elements
+      // will remove themselves from the array, resulting in skipped
+      // elements. Make a shallow copy of the array.
+      [...node.__tres.objects].forEach(obj => remove(obj, shouldDispose))
+    }
 
-    // NOTE: Recursively `remove` children and objects.
-    // Never on primitives:
-    // - removing children would alter the primitive :object.
-    // - primitives are not expected to have declarative children
-    //   and so should not have `objects`.
+    // NOTE: Remove remaining THREE children.
+    // Never on primitives: removing remaining THREE children would
+    // alter the user's `:object`.
     if (!isPrimitive) {
-      // NOTE: In recursive `remove`, the array elements will
-      // remove themselves from these arrays, resulting in
-      // skipped elements. Make shallow copies of the arrays.
+      // NOTE: In the recursive `remove` calls, the array elements
+      // will remove themselves from the array, resulting in skipped
+      // elements. Make a shallow copy of the array.
       if (node.children) {
         [...node.children].forEach(child => remove(child, shouldDispose))
-      }
-      if (node.__tres && 'objects' in node.__tres) {
-        [...node.__tres.objects].forEach(obj => remove(obj, shouldDispose))
       }
     }
 
@@ -209,6 +230,9 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
     let root = node
     let key = prop
 
+    // NOTE: Update memoizedProps with the new value
+    if (node.__tres) { node.__tres.memoizedProps[prop] = nextValue }
+
     if (prop === 'attach') {
       // NOTE: `attach` is not a field on a TresObject.
       // `nextValue` is a string representing how Tres
@@ -219,34 +243,6 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
       prepareTresInstance(node, { attach: nextValue }, context)
       if (maybeParent) { insert(node, maybeParent) }
       return
-    }
-
-    if (node.__tres?.primitive && key === 'object' && prevValue !== null) {
-      // If the prop 'object' is changed, we need to re-instance the object and swap the old one with the new one
-      const newInstance = createElement('primitive', undefined, undefined, {
-        object: nextValue,
-      })
-      for (const subkey in newInstance) {
-        if (subkey === 'uuid') { continue }
-        const target = node[subkey]
-        const value = newInstance[subkey]
-        if (!target?.set && !is.fun(target)) { node[subkey] = value }
-        else if (target.constructor === value.constructor && target?.copy) { target?.copy(value) }
-        else if (Array.isArray(value)) { target.set(...value) }
-        else if (!target.isColor && target.setScalar) { target.setScalar(value) }
-        else { target.set(value) }
-      }
-      if (newInstance?.__tres) {
-        newInstance.__tres.root = context
-      }
-      // This code is needed to handle the case where the prop 'object' type change from a group to a mesh or vice versa, otherwise the object will not be rendered correctly (models will be invisible)
-      if (newInstance?.isGroup) {
-        node.geometry = undefined
-        node.material = undefined
-      }
-      else {
-        delete node.isGroup
-      }
     }
 
     if (is.object3D(node) && key === 'blocks-pointer-events') {

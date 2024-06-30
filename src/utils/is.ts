@@ -1,4 +1,4 @@
-import type { TresObject } from 'src/types'
+import type { TresObject, TresPrimitive } from 'src/types'
 import type { BufferGeometry, Camera, Fog, Material, Object3D, Scene } from 'three'
 
 export function und(u: unknown) {
@@ -49,4 +49,8 @@ export function tresObject(u: unknown): u is TresObject {
   // NOTE: TresObject is currently defined as
   // TresObject3D | THREE.BufferGeometry | THREE.Material | THREE.Fog
   return object3D(u) || bufferGeometry(u) || material(u) || fog(u)
+}
+
+export function tresPrimitive(u: unknown): u is TresPrimitive {
+  return obj(u) && !!(u.isPrimitive)
 }

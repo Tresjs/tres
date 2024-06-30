@@ -71,6 +71,8 @@ export type TresObject =
 
 export type TresInstance = TresObject & { __tres: LocalState }
 
+export type TresPrimitive = TresInstance & { object: TresInstance, isPrimitive: true }
+
 export interface TresScene extends THREE.Scene {
   __tres: {
     root: TresContext

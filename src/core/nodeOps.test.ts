@@ -159,7 +159,7 @@ describe('nodeOps', () => {
       expect(parent.children.includes(child)).toBeTruthy()
     })
 
-    describe.skip('primitive :object', () => {
+    describe('primitive :object', () => {
       describe('into mesh', () => {
         it('inserts a mesh :object', () => {
           const parent = nodeOps.createElement('Mesh', undefined, undefined, {})
@@ -437,7 +437,7 @@ describe('nodeOps', () => {
       expect(childrenSet.has(fog)).toBe(true)
     })
 
-    it.skip('can insert the same `primitive :object` in multiple places in the scene graph', () => {
+    it('can insert the same `primitive :object` in multiple places in the scene graph', () => {
       const material = new THREE.MeshNormalMaterial()
       const geometry = new THREE.BoxGeometry()
       const otherMaterial = new THREE.MeshBasicMaterial()
@@ -538,18 +538,21 @@ describe('nodeOps', () => {
       expect(spy).toHaveBeenCalledOnce()
     })
 
-    it.skip('calls dispose on a material array', () => {
-      // TODO: Make this test pass.
-      // No way to add a material array via nodeOps currently.
+    it('calls dispose on an array of materials in a TresMesh', () => {
       const parent = mockTresObjectRootInObject(nodeOps.createElement('Mesh', undefined, undefined, {}))
-      const material0 = new THREE.MeshNormalMaterial()
-      const material1 = new THREE.MeshNormalMaterial()
+      const material0 = nodeOps.createElement('MeshNormalMaterial', undefined, undefined, { attach: 'material-0' })
+      const material1 = nodeOps.createElement('MeshNormalMaterial', undefined, undefined, { attach: 'material-1' })
+      const material2 = nodeOps.createElement('MeshNormalMaterial', undefined, undefined, { attach: 'material-2' })
       const spy0 = vi.spyOn(material0, 'dispose')
       const spy1 = vi.spyOn(material1, 'dispose')
-      parent.material = [material0, material1]
+      const spy2 = vi.spyOn(material2, 'dispose')
+      nodeOps.insert(material0, parent)
+      nodeOps.insert(material1, parent)
+      nodeOps.insert(material2, parent)
       nodeOps.remove(parent)
       expect(spy0).toHaveBeenCalledOnce()
       expect(spy1).toHaveBeenCalledOnce()
+      expect(spy2).toHaveBeenCalledOnce()
     })
 
     it('calls dispose on geometries', () => {
@@ -775,7 +778,7 @@ describe('nodeOps', () => {
         nodeOps.remove(child)
         expect(child.parent?.uuid).toBeFalsy()
       })
-      describe.skip('primitive', () => {
+      describe('primitive', () => {
         it('detaches mesh (in primitive :object) from mesh', () => {
           const { mesh: parent } = createElementMesh(nodeOps)
           const { primitive, mesh } = createElementPrimitiveMesh(nodeOps)
@@ -948,7 +951,7 @@ describe('nodeOps', () => {
       expect(spy).toHaveBeenCalledTimes(3)
     })
 
-    describe.skip('patch `:object` on primitives', () => {
+    describe('patch `:object` on primitives', () => {
       it('replaces original object', () => {
         const material0 = new THREE.MeshNormalMaterial()
         const material1 = new THREE.MeshBasicMaterial()
@@ -958,22 +961,33 @@ describe('nodeOps', () => {
       })
 
       it('does not alter __tres on another primitive sharing the same object', () => {
+        const doFreeze = (o: any) => {
+          // NOTE: o.root contains references to scene, etc.
+          // These will change simply by adding elements to the
+          // scene. So copy and remove root.
+          o = { ...o }
+          delete o.root
+          return JSON.parse(JSON.stringify(o))
+        }
+
         const materialA = new THREE.MeshNormalMaterial()
         const materialB = new THREE.MeshNormalMaterial()
         const primitive0 = nodeOps.createElement('primitive', undefined, undefined, { object: materialA })
-        const primitive0TresJson = JSON.stringify(primitive0.__tres)
+
+        const primitive0Tres = doFreeze(primitive0.__tres)
+        expect(doFreeze(primitive0.__tres)).toStrictEqual(primitive0Tres)
         const primitive1 = nodeOps.createElement('primitive', undefined, undefined, { object: materialA })
 
         expect(primitive0.__tres).not.toBe(primitive1.__tres)
-        expect(JSON.stringify(primitive0.__tres)).toBe(primitive0TresJson)
+        expect(doFreeze(primitive0.__tres)).toStrictEqual(primitive0Tres)
 
         nodeOps.patchProp(primitive1, 'object', undefined, materialB)
-        expect(primitive0.__tres).not.toBe(primitive1.__tres)
-        expect(JSON.stringify(primitive0.__tres)).toBe(primitive0TresJson)
+        expect(primitive0.__tres).not.toStrictEqual(primitive1.__tres)
+        expect(doFreeze(primitive0.__tres)).toStrictEqual(primitive0Tres)
 
         nodeOps.patchProp(primitive1, 'object', undefined, materialA)
         expect(primitive0.__tres).not.toBe(primitive1.__tres)
-        expect(JSON.stringify(primitive0.__tres)).toBe(primitive0TresJson)
+        expect(doFreeze(primitive0.__tres)).toStrictEqual(primitive0Tres)
       })
 
       it('does not replace the object in other primitives who point to the same object', () => {
@@ -1024,7 +1038,7 @@ describe('nodeOps', () => {
         nodeOps.patchProp(primitive, 'object', undefined, child1)
         expect(child0.parent?.uuid).toBeFalsy()
         expect(child1.parent?.uuid).toBe(parent.uuid)
-        expect(parent.children[0]).toBe(child1)
+        expect(parent.children[0].uuid).toBe(child1.uuid)
         expect(parent.children.length).toBe(1)
       })
       it('if old :object had been patched, those patches are applied to new :object', () => {
