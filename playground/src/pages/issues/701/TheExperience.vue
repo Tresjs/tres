@@ -280,7 +280,7 @@ onUnmounted(() => {
     </primitive>
   </primitive>
 
-  <primitive @click="pool[9].click" :position="pool[9].pos" :object="tOrF ? group : pool[9].meshTorus" />
+  <primitive :position="pool[9].pos" :object="tOrF ? group : pool[9].meshTorus" @click="pool[9].click" />
 
   <TresMesh :position="pool[12].pos">
     <TresBoxGeometry />
