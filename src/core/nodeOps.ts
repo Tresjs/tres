@@ -124,13 +124,11 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
     // NOTE: Track onPointerMissed objects separate from the scene
     context.eventManager?.registerPointerMissedObject(child)
 
-    let insertedWithAdd = false
     if (childInstance.__tres.attach) {
       attach(parentInstance, childInstance, childInstance.__tres.attach)
     }
     else if (is.object3D(child) && is.object3D(parentInstance)) {
       parentInstance.add(child)
-      insertedWithAdd = true
       child.dispatchEvent({ type: 'added' })
     }
 
