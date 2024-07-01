@@ -31,10 +31,10 @@ export function useTresEventManager(
   if (scene) { _scene.value = scene }
   if (context) { _context.value = context }
 
+  const hasEvents = object => object.__tres?.eventCount > 0
+  const hasChildrenWithEvents = object => object.children?.some(child => hasChildrenWithEvents(child)) || hasEvents(object)
   // TODO: Optimize to not hit test on the whole scene
-  const sceneChildren = computed(() =>
-    _scene.value ? _scene.value.children : [],
-  )
+  const objectsWithEvents = computed(() => _scene.value?.children?.filter(hasChildrenWithEvents) || [])
 
   function executeEventListeners(
     listeners: Function | Function[],
@@ -111,7 +111,7 @@ export function useTresEventManager(
     onPointerMissed,
     onWheel,
     forceUpdate,
-  } = useRaycaster(sceneChildren, context)
+  } = useRaycaster(objectsWithEvents, context)
 
   onPointerUp(event => propogateEvent('onPointerUp', event))
   onPointerDown(event => propogateEvent('onPointerDown', event))
