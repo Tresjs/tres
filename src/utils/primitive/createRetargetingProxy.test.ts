@@ -52,7 +52,7 @@ describe('createRetargetingProxy', () => {
     it('calls getter[\'foo\'] with target', () => {
       const spy = vi.fn(target => `bar${target.foo}`)
       const getters = { foo: spy }
-      const setters = { object: (_, newTarget, setTarget) => setTarget(newTarget) }
+      const setters = { object: (newTarget, _, __, setTarget) => setTarget(newTarget) }
       const target0 = { foo: 'baz' }
       const proxy = createRetargetingProxy(target0, getters, setters)
 
@@ -89,7 +89,7 @@ describe('createRetargetingProxy', () => {
     it('allows a setter to modify a passed value', () => {
       const target = { foo: 1, object: null }
       const proxy = createRetargetingProxy(target, {}, {
-        foo: (currentTarget, newValue) => {
+        foo: (newValue, currentTarget) => {
           currentTarget.foo = newValue + 1000
           return true
         },
@@ -103,7 +103,7 @@ describe('createRetargetingProxy', () => {
 
     it('allows a setter to update a value on the target', () => {
       const setters = {
-        foo: vi.fn((target, val) => {
+        foo: vi.fn((val, target) => {
           target.foo = val
           return true
         }),
@@ -118,7 +118,7 @@ describe('createRetargetingProxy', () => {
       const target0 = { foo: 'bar', object: null }
       const target1 = { foo: 'baz', object: null }
       const setters = {
-        object: (_, val, setTarget) => {
+        object: (val, _, __, setTarget) => {
           setTarget(val)
           return true
         },
@@ -140,7 +140,7 @@ describe('createRetargetingProxy', () => {
       const oldTarget = { foo: 1, object: null }
       const newTarget = { foo: 1 }
       const proxy = createRetargetingProxy(oldTarget, {}, {
-        object: (_, newValue, setTarget) => {
+        object: (newValue, _, __, setTarget) => {
           setTarget(newValue)
           return true
         },
@@ -158,7 +158,7 @@ describe('createRetargetingProxy', () => {
       const oldTarget = { foo: 1, object: null }
       const newTarget = { foo: 1 }
       const proxy = createRetargetingProxy(oldTarget, {}, {
-        object: (_, newValue, setTarget) => {
+        object: (newValue, _, __, setTarget) => {
           setTarget(newValue)
           return true
         },
