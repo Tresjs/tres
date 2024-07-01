@@ -9,4 +9,9 @@ export const issuesRoutes = [
     name: '#717: v-if',
     component: () => import('../../pages/issues/717/index.vue'),
   },
+  {
+    path: '/issues/749-attach-detach',
+    name: '#749: attach-detach',
+    component: () => import('../../pages/issues/749/index.vue'),
+  },
 ]
