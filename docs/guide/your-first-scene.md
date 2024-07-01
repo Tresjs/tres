@@ -157,6 +157,7 @@ import { TresCanvas } from '@tresjs/core'
       :position="[3, 3, 3]"
       :look-at="[0, 0, 0]"
     />
+    <OrbitControls />
     <TresMesh>
       <TresTorusGeometry :args="[1, 0.5, 16, 32]" />
       <TresMeshBasicMaterial color="orange" />
