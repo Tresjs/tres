@@ -25,3 +25,6 @@ coverage
 *.sw?
 docs/.vitepress/dist/
 docs/.vitepress/cache/
+
+.env
+.env.local
