@@ -46,10 +46,13 @@ export interface LocalState {
   memoizedProps: { [key: string]: any }
   // NOTE:
   // LocalState holds information about the parent/child relationship
-  // in the Vue graph. If a child is `insert`ed into a parent using
-  // anything but THREE's `add`, it's put into the parent's `objects`.
-  // objects and parent are used when children are added with `attach`
-  // instead of being added to the Object3D scene graph
+  // in the Vue graph. Note that this is distinct from THREE's
+  // Object3D.parent/children graph. parent/objects holds all
+  // <parent>
+  //   <object />
+  // </parent>
+  // relationships. This includes Object3D.parent/children
+  // added via tags. But it also includes materials and geometries.
   objects: TresObject[]
   parent: TresObject | null
   // NOTE: End graph info
