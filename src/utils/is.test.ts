@@ -2,6 +2,36 @@ import { BufferGeometry, Fog, MeshBasicMaterial, MeshNormalMaterial, Object3D, P
 import * as is from './is'
 
 describe('is', () => {
+  describe('is.und(a: any)', () => {
+    describe('true', () => {
+      it('undefined', () => {
+        assert(is.und(undefined))
+      })
+    })
+    describe('false', () => {
+      it('null', () => {
+        assert(!is.und(null))
+      })
+      it('number', () => {
+        assert(!is.und(0))
+        assert(!is.und(-1))
+        assert(!is.und(Math.PI))
+        assert(!is.und(Number.POSITIVE_INFINITY))
+        assert(!is.und(Number.NEGATIVE_INFINITY))
+        assert(!is.und(42))
+      })
+      it('string', () => {
+        assert(!is.und(''))
+        assert(!is.und('tresObject'))
+      })
+      it('function', () => {
+        assert(!is.und(() => {}))
+      })
+      it('array', () => {
+        assert(!is.und([]))
+      })
+    })
+  })
   describe('is.tresObject(a: any)', () => {
     describe('true', () => {
       it('object3D', () => {

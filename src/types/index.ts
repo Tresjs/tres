@@ -6,8 +6,8 @@ import type { TresContext } from '../composables/useTresContextProvider'
 // Based on React Three Fiber types by Pmndrs
 // https://github.com/pmndrs/react-three-fiber/blob/v9/packages/fiber/src/three-types.ts
 
-export type AttachFnType<O = any> = (parent: any, self: O) => () => void
-export type AttachType<O = any> = string | AttachFnType<O>
+export type AttachFnType = (parent: any, self: TresInstance) => () => void
+export type AttachType = string | AttachFnType
 
 export type ConstructorRepresentation = new (...args: any[]) => any
 export type NonFunctionKeys<P> = { [K in keyof P]-?: P[K] extends Function ? never : K }[keyof P]
@@ -29,12 +29,10 @@ export interface InstanceProps<T = any, P = any> {
   object?: T
   visible?: boolean
   dispose?: null
-  attach?: AttachType<T>
   [prop: string]: any
 }
 
 interface TresBaseObject {
-  attach?: string
   removeFromParent?: () => void
   dispose?: () => void
   [prop: string]: any // for arbitrary properties
@@ -58,6 +56,8 @@ export interface LocalState {
 
   primitive?: boolean
   disposable?: boolean
+  attach?: AttachType
+  previousAttach: any
 }
 
 // Custom type for geometry and material properties in Object3D
