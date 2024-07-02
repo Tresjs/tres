@@ -6,10 +6,14 @@ export default defineConfig({
     login: 'tresjs',
     type: 'organization',
   },
+  opencollective: {
+    slug: 'tresjs',
+  },
   // Rendering configs
   width: 800,
   renderer: 'tiers', // or 'circles'
   formats: ['json', 'svg', 'png'],
+  sponsorsAutoMerge: true,
   tiers: [
     // Past sponsors, currently only supports GitHub
     {
