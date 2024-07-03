@@ -94,6 +94,6 @@ pnpm run docs:build
 
 <p align="center">
   <a target="_blank" href="https://github.com/sponsors/tresjs">
-    <img alt="sponsors" src="./sponsorkit/sponsors.svg">
+    <img alt="sponsors" src="./sponsorkit/sponsors.png">
   </a>
 </p>
