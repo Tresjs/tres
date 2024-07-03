@@ -92,4 +92,8 @@ pnpm run docs:build
 
 ## Sponsors
 
-Be the first to support this project [here](https://github.com/sponsors/alvarosabu) ☺️
+<p align="center">
+  <a target="_blank" href="https://github.com/sponsors/tresjs">
+    <img alt="sponsors" src="./sponsorkit/sponsors.png">
+  </a>
+</p>
