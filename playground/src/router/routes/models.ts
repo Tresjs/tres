@@ -4,4 +4,9 @@ export const modelsRoutes = [
     name: 'Model Primitives',
     component: () => import('../../pages/models/PrimitivesModel.vue'),
   },
+  {
+    path: '/models/rigged',
+    name: 'Rigged Models',
+    component: () => import('../../pages/models/RiggedModel.vue'),
+  },
 ]

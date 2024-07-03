@@ -29,5 +29,6 @@ declare module 'vue' {
     TheCameraOperator: typeof import('./src/components/TheCameraOperator.vue')['default']
     TheExperience: typeof import('./src/components/TheExperience.vue')['default']
     TheSphere: typeof import('./src/components/TheSphere.vue')['default']
+    UgglyBunny: typeof import('./src/components/UgglyBunny.vue')['default']
   }
 }
