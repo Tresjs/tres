@@ -149,7 +149,7 @@ describe('dispose', () => {
     const childGeometrySpy = vi.spyOn(child.geometry, 'dispose')
     const childMaterialSpy = vi.spyOn(child.material, 'dispose')
 
-    utils.dispose(parent)
+    utils.disposeRecursive(parent)
 
     expect(parentGeometrySpy).toHaveBeenCalledOnce()
     expect(parentMaterialSpy).toHaveBeenCalledOnce()
@@ -173,8 +173,8 @@ describe('dispose', () => {
 
     const webGLSpy = vi.spyOn(mockWebGLRenderer, 'dispose')
 
-    utils.dispose(parent)
-    utils.dispose(mockWebGLRenderer)
+    utils.disposeRecursive(parent)
+    utils.disposeRecursive(mockWebGLRenderer)
 
     expect(webGLSpy).not.toBeCalled()
   })

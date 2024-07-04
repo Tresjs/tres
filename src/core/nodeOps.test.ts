@@ -5,6 +5,7 @@ import { Mesh, Scene } from 'three'
 import type { TresContext } from 'src/composables'
 import { shallowRef } from 'vue'
 import type { TresObject } from '../types'
+import { disposeRecursive } from '../utils'
 import { nodeOps as getNodeOps } from './nodeOps'
 import { extend } from './catalogue'
 
@@ -569,223 +570,339 @@ describe('nodeOps', () => {
       }
     })
 
-    it('calls dispose on a material', () => {
-      const parent = mockTresObjectRootInObject(nodeOps.createElement('Mesh', undefined, undefined, {}))
-      const material = nodeOps.createElement('MeshNormalMaterial', undefined, undefined, {})
-      const spy = vi.spyOn(material, 'dispose')
-      nodeOps.insert(material, parent)
-      nodeOps.remove(parent)
-      expect(spy).toHaveBeenCalledOnce()
-    })
-
-    it('calls dispose on an array of materials in a TresMesh', () => {
-      const parent = mockTresObjectRootInObject(nodeOps.createElement('Mesh', undefined, undefined, {}))
-      const material0 = nodeOps.createElement('MeshNormalMaterial', undefined, undefined, { attach: 'material-0' })
-      const material1 = nodeOps.createElement('MeshNormalMaterial', undefined, undefined, { attach: 'material-1' })
-      const material2 = nodeOps.createElement('MeshNormalMaterial', undefined, undefined, { attach: 'material-2' })
-      const spy0 = vi.spyOn(material0, 'dispose')
-      const spy1 = vi.spyOn(material1, 'dispose')
-      const spy2 = vi.spyOn(material2, 'dispose')
-      nodeOps.insert(material0, parent)
-      nodeOps.insert(material1, parent)
-      nodeOps.insert(material2, parent)
-      nodeOps.remove(parent)
-      expect(spy0).toHaveBeenCalledOnce()
-      expect(spy1).toHaveBeenCalledOnce()
-      expect(spy2).toHaveBeenCalledOnce()
-    })
-
-    it('calls dispose on geometries', () => {
-      const parent = mockTresObjectRootInObject(nodeOps.createElement('Mesh', undefined, undefined, {}))
-      const geometry = nodeOps.createElement('SphereGeometry', undefined, undefined, {})
-      const spy = vi.spyOn(geometry, 'dispose')
-      nodeOps.insert(geometry, parent)
-      nodeOps.remove(parent)
-      expect(spy).toHaveBeenCalledOnce()
-    })
-
-    it('calls dispose on material/geometry in a TresMesh child of a TresMesh', () => {
-      const { mesh: grandparent } = createElementMesh(nodeOps)
-      const { mesh: parent } = createElementMesh(nodeOps)
-      const { mesh: child } = createElementMesh(nodeOps)
-      nodeOps.insert(parent, grandparent)
-      nodeOps.insert(child, parent)
-      const childMaterialDisposalSpy = vi.spyOn(child.material, 'dispose')
-      const childGeometryDisposalSpy = vi.spyOn(child.geometry, 'dispose')
-      nodeOps.remove(parent)
-      expect(childGeometryDisposalSpy).toHaveBeenCalledOnce()
-      expect(childMaterialDisposalSpy).toHaveBeenCalledOnce()
-    })
-
-    it('calls dispose on every material/geometry in a TresMesh tree', () => {
-      const NUM_LEVEL = 5
-      const NUM_CHILD_PER_NODE = 3
-      const rootNode = mockTresObjectRootInObject(nodeOps.createElement('Mesh'))
-      const disposalSpies = []
-
-      createTreeIn(rootNode, (parent, childI, levelI) => {
-        if (levelI > NUM_LEVEL || childI >= NUM_CHILD_PER_NODE) {
-          return false
-        }
-        const { mesh, material, geometry } = createElementMesh(nodeOps)
-        nodeOps.insert(mesh, parent)
-        disposalSpies.push(vi.spyOn(geometry, 'dispose'))
-        disposalSpies.push(vi.spyOn(material, 'dispose'))
-        return mesh
-      })
-
-      nodeOps.remove(rootNode)
-      for (const spy of disposalSpies) {
-        expect(spy).toHaveBeenCalledOnce()
-      }
-    })
-
-    it('calls dispose on every material/geometry in a TresMesh/TresGroup tree', () => {
-      const NUM_LEVEL = 5
-      const NUM_CHILD_PER_NODE = 3
-      const rootNode = mockTresObjectRootInObject(nodeOps.createElement('Group'))
-      const disposalSpies = []
-
-      createTreeIn(rootNode, (parent, childI, levelI) => {
-        if (childI > NUM_CHILD_PER_NODE || levelI > NUM_LEVEL) {
-          return false
-        }
-        if (Math.random() > 0.3) {
-          const { mesh, material, geometry } = createElementMesh(nodeOps)
-          nodeOps.insert(mesh, parent)
-          disposalSpies.push(vi.spyOn(geometry, 'dispose'))
-          disposalSpies.push(vi.spyOn(material, 'dispose'))
-          return mesh
-        }
-        else {
-          const group = nodeOps.createElement('Group')
-          nodeOps.insert(group, parent)
-          return group
-        }
-      })
-
-      nodeOps.remove(rootNode)
-      for (const spy of disposalSpies) {
-        expect(spy).toHaveBeenCalledOnce()
-      }
-    })
-
-    it('does not dispose primitive material/geometries on remove(primitive)', () => {
-      const { primitive, material, geometry } = createElementPrimitiveMesh(nodeOps)
-      const spy0 = vi.spyOn(material, 'dispose')
-      const spy1 = vi.spyOn(geometry, 'dispose')
-
-      const group = nodeOps.createElement('Group')
-      nodeOps.insert(primitive, group)
-      nodeOps.remove(primitive)
-
-      expect(spy0).not.toBeCalled()
-      expect(spy1).not.toBeCalled()
-    })
-
-    it('does not dispose primitive material/geometries on remove(ascestorOfPrimitive)', () => {
-      const { primitive, material, geometry } = createElementPrimitiveMesh(nodeOps)
-      const spy0 = vi.spyOn(material, 'dispose')
-      const spy1 = vi.spyOn(geometry, 'dispose')
-
-      const group = nodeOps.createElement('Group')
-      nodeOps.insert(primitive, group)
-      nodeOps.remove(group)
-
-      expect(spy0).not.toBeCalled()
-      expect(spy1).not.toBeCalled()
-    })
-
-    it('does not call dispose on primitive materials/geometries in a tree of Mesh/Groups/Primitives created by nodeOps', () => {
-      const NUM_LEVEL = 5
-      const NUM_CHILD_PER_NODE = 3
-      const rootNode = mockTresObjectRootInObject(nodeOps.createElement('Group'))
-      const disposalSpies = []
-
-      createTreeIn(rootNode, (parent, childI, levelI) => {
-        if (childI > NUM_CHILD_PER_NODE || levelI > NUM_LEVEL) {
-          return false
-        }
-        if (Math.random() > 0.5) {
-          const { mesh } = createElementMesh(nodeOps)
-          nodeOps.insert(mesh, parent)
-          return mesh
-        }
-        else if (Math.random() > 0.5) {
-          const group = nodeOps.createElement('Group')
-          nodeOps.insert(group, parent)
-          return group
-        }
-        else {
-          const { primitive, material, geometry } = createElementPrimitiveMesh(nodeOps)
-          disposalSpies.push(vi.spyOn(geometry, 'dispose'))
-          disposalSpies.push(vi.spyOn(material, 'dispose'))
-          nodeOps.insert(primitive, parent)
-          return primitive
-        }
-      })
-
-      nodeOps.remove(rootNode)
-      for (const spy of disposalSpies) {
-        expect(spy).not.toHaveBeenCalled()
-      }
-    })
-
-    describe(':dispose="null"', () => {
-      it('does not call dispose on geometry/material in a Mesh where :dispose==="null"', () => {
-        const { mesh: parent } = createElementMesh(nodeOps)
-        const { mesh, geometry, material } = createElementMesh(nodeOps)
-        const spy0 = vi.spyOn(geometry, 'dispose')
-        const spy1 = vi.spyOn(material, 'dispose')
-        nodeOps.patchProp(mesh, 'dispose', undefined, null)
-        nodeOps.insert(mesh, parent)
-        nodeOps.remove(mesh)
-        expect(spy0).not.toBeCalled()
-        expect(spy1).not.toBeCalled()
-      })
-      it('does not call dispose on child\'s geometry/material, for remove(<parent><child :dispose="null" /></parent>)', () => {
-        const { mesh: grandparent } = createElementMesh(nodeOps)
-        const { mesh: parent } = createElementMesh(nodeOps)
-        const { mesh: child, geometry, material } = createElementMesh(nodeOps)
-        const spy0 = vi.spyOn(geometry, 'dispose')
-        const spy1 = vi.spyOn(material, 'dispose')
-        nodeOps.patchProp(child, 'dispose', undefined, null)
-        nodeOps.insert(parent, grandparent)
-        nodeOps.insert(child, parent)
-        nodeOps.remove(parent)
-        expect(spy0).not.toBeCalled()
-        expect(spy1).not.toBeCalled()
-      })
-      it('does not call dispose on any element in a subtree where the root :dispose==="null"', () => {
-        const NUM_LEVEL = 5
-        const NUM_CHILD_PER_NODE = 3
-        const rootNode = mockTresObjectRootInObject(nodeOps.createElement('Group'))
-        const disposalSpies = []
-        const nullDisposeObjects = new Set()
-
-        createTreeIn(rootNode, (parent, childI, levelI) => {
-          if (childI > NUM_CHILD_PER_NODE || levelI > NUM_LEVEL) {
-            return false
-          }
-          const { mesh, material, geometry } = createElementMesh(nodeOps)
-          if (nullDisposeObjects.has(parent)) {
-            nullDisposeObjects.add(mesh)
-            disposalSpies.push(vi.spyOn(geometry, 'dispose'))
-            disposalSpies.push(vi.spyOn(material, 'dispose'))
-          }
-          else if (levelI > 2 && Math.random() > 0.8) {
-            nodeOps.patchProp(mesh, 'dispose', undefined, null)
-            nullDisposeObjects.add(mesh)
-            disposalSpies.push(vi.spyOn(geometry, 'dispose'))
-            disposalSpies.push(vi.spyOn(material, 'dispose'))
-          }
-          nodeOps.insert(mesh, parent)
-          return mesh
+    describe('dispose', () => {
+      describe('default dispose', () => {
+        it('calls dispose on a material', () => {
+          const parent = mockTresObjectRootInObject(nodeOps.createElement('Mesh', undefined, undefined, {}))
+          const material = nodeOps.createElement('MeshNormalMaterial', undefined, undefined, {})
+          const spy = vi.spyOn(material, 'dispose')
+          nodeOps.insert(material, parent)
+          nodeOps.remove(parent)
+          expect(spy).toHaveBeenCalledOnce()
         })
 
-        nodeOps.remove(rootNode)
-        for (const spy of disposalSpies) {
+        it('calls dispose on an array of materials in a TresMesh', () => {
+          const parent = mockTresObjectRootInObject(nodeOps.createElement('Mesh', undefined, undefined, {}))
+          const material0 = nodeOps.createElement('MeshNormalMaterial', undefined, undefined, { attach: 'material-0' })
+          const material1 = nodeOps.createElement('MeshNormalMaterial', undefined, undefined, { attach: 'material-1' })
+          const material2 = nodeOps.createElement('MeshNormalMaterial', undefined, undefined, { attach: 'material-2' })
+          const spy0 = vi.spyOn(material0, 'dispose')
+          const spy1 = vi.spyOn(material1, 'dispose')
+          const spy2 = vi.spyOn(material2, 'dispose')
+          nodeOps.insert(material0, parent)
+          nodeOps.insert(material1, parent)
+          nodeOps.insert(material2, parent)
+          nodeOps.remove(parent)
+          expect(spy0).toHaveBeenCalledOnce()
+          expect(spy1).toHaveBeenCalledOnce()
+          expect(spy2).toHaveBeenCalledOnce()
+        })
+
+        it('calls dispose on geometries', () => {
+          const parent = mockTresObjectRootInObject(nodeOps.createElement('Mesh', undefined, undefined, {}))
+          const geometry = nodeOps.createElement('SphereGeometry', undefined, undefined, {})
+          const spy = vi.spyOn(geometry, 'dispose')
+          nodeOps.insert(geometry, parent)
+          nodeOps.remove(parent)
+          expect(spy).toHaveBeenCalledOnce()
+        })
+
+        it('calls dispose on material/geometry in a TresMesh child of a TresMesh', () => {
+          const { mesh: grandparent } = createElementMesh(nodeOps)
+          const { mesh: parent } = createElementMesh(nodeOps)
+          const { mesh: child } = createElementMesh(nodeOps)
+          nodeOps.insert(parent, grandparent)
+          nodeOps.insert(child, parent)
+          const childMaterialDisposalSpy = vi.spyOn(child.material, 'dispose')
+          const childGeometryDisposalSpy = vi.spyOn(child.geometry, 'dispose')
+          nodeOps.remove(parent)
+          expect(childGeometryDisposalSpy).toHaveBeenCalledOnce()
+          expect(childMaterialDisposalSpy).toHaveBeenCalledOnce()
+        })
+
+        it('calls dispose on every material/geometry in a TresMesh tree', () => {
+          const NUM_LEVEL = 5
+          const NUM_CHILD_PER_NODE = 3
+          const rootNode = mockTresObjectRootInObject(nodeOps.createElement('Mesh'))
+          const disposalSpies = []
+
+          createTreeIn(rootNode, (parent, childI, levelI) => {
+            if (levelI > NUM_LEVEL || childI >= NUM_CHILD_PER_NODE) {
+              return false
+            }
+            const { mesh, material, geometry } = createElementMesh(nodeOps)
+            nodeOps.insert(mesh, parent)
+            disposalSpies.push(vi.spyOn(geometry, 'dispose'))
+            disposalSpies.push(vi.spyOn(material, 'dispose'))
+            return mesh
+          })
+
+          nodeOps.remove(rootNode)
+          for (const spy of disposalSpies) {
+            expect(spy).toHaveBeenCalledOnce()
+          }
+        })
+
+        it('calls dispose on every material/geometry in a TresMesh/TresGroup tree', () => {
+          const NUM_LEVEL = 5
+          const NUM_CHILD_PER_NODE = 3
+          const rootNode = mockTresObjectRootInObject(nodeOps.createElement('Group'))
+          const disposalSpies = []
+
+          createTreeIn(rootNode, (parent, childI, levelI) => {
+            if (childI > NUM_CHILD_PER_NODE || levelI > NUM_LEVEL) {
+              return false
+            }
+            if (Math.random() > 0.3) {
+              const { mesh, material, geometry } = createElementMesh(nodeOps)
+              nodeOps.insert(mesh, parent)
+              disposalSpies.push(vi.spyOn(geometry, 'dispose'))
+              disposalSpies.push(vi.spyOn(material, 'dispose'))
+              return mesh
+            }
+            else {
+              const group = nodeOps.createElement('Group')
+              nodeOps.insert(group, parent)
+              return group
+            }
+          })
+
+          nodeOps.remove(rootNode)
+          for (const spy of disposalSpies) {
+            expect(spy).toHaveBeenCalledOnce()
+          }
+        })
+
+        it('does not dispose primitive material/geometries on remove(primitive)', () => {
+          const { primitive, material, geometry } = createElementPrimitiveMesh(nodeOps)
+          const spy0 = vi.spyOn(material, 'dispose')
+          const spy1 = vi.spyOn(geometry, 'dispose')
+
+          const group = nodeOps.createElement('Group')
+          nodeOps.insert(primitive, group)
+          nodeOps.remove(primitive)
+
+          expect(spy0).not.toBeCalled()
+          expect(spy1).not.toBeCalled()
+        })
+
+        it('does not dispose primitive material/geometries on remove(ascestorOfPrimitive)', () => {
+          const { primitive, material, geometry } = createElementPrimitiveMesh(nodeOps)
+          const spy0 = vi.spyOn(material, 'dispose')
+          const spy1 = vi.spyOn(geometry, 'dispose')
+
+          const group = nodeOps.createElement('Group')
+          nodeOps.insert(primitive, group)
+          nodeOps.remove(group)
+
+          expect(spy0).not.toBeCalled()
+          expect(spy1).not.toBeCalled()
+        })
+
+        it('does not call dispose on primitive materials/geometries in a tree of Mesh/Groups/Primitives created by nodeOps', () => {
+          const NUM_LEVEL = 5
+          const NUM_CHILD_PER_NODE = 3
+          const rootNode = mockTresObjectRootInObject(nodeOps.createElement('Group'))
+          const disposalSpies = []
+
+          createTreeIn(rootNode, (parent, childI, levelI) => {
+            if (childI > NUM_CHILD_PER_NODE || levelI > NUM_LEVEL) {
+              return false
+            }
+            if (Math.random() > 0.5) {
+              const { mesh } = createElementMesh(nodeOps)
+              nodeOps.insert(mesh, parent)
+              return mesh
+            }
+            else if (Math.random() > 0.5) {
+              const group = nodeOps.createElement('Group')
+              nodeOps.insert(group, parent)
+              return group
+            }
+            else {
+              const { primitive, material, geometry } = createElementPrimitiveMesh(nodeOps)
+              disposalSpies.push(vi.spyOn(geometry, 'dispose'))
+              disposalSpies.push(vi.spyOn(material, 'dispose'))
+              nodeOps.insert(primitive, parent)
+              return primitive
+            }
+          })
+
+          nodeOps.remove(rootNode)
+          for (const spy of disposalSpies) {
+            expect(spy).not.toHaveBeenCalled()
+          }
+        })
+      })
+
+      describe(':dispose="null" or :dispose="false"', () => {
+        it('does not call dispose on geometry/material in a Mesh where :dispose==="null" or "false"', () => {
+          for (const d of [false, null]) {
+            const { mesh: parent } = createElementMesh(nodeOps)
+            const { mesh, geometry, material } = createElementMesh(nodeOps)
+            const spy0 = vi.spyOn(geometry, 'dispose')
+            const spy1 = vi.spyOn(material, 'dispose')
+            nodeOps.patchProp(mesh, 'dispose', undefined, d)
+            nodeOps.insert(mesh, parent)
+            nodeOps.remove(mesh)
+            expect(spy0).not.toBeCalled()
+            expect(spy1).not.toBeCalled()
+          }
+        })
+        it('does not call dispose on child\'s geometry/material, for remove(<parent><child :dispose="null" /></parent>)', () => {
+          for (const d of [false, null]) {
+            const { mesh: grandparent } = createElementMesh(nodeOps)
+            const { mesh: parent } = createElementMesh(nodeOps)
+            const { mesh: child, geometry, material } = createElementMesh(nodeOps)
+            const spy0 = vi.spyOn(geometry, 'dispose')
+            const spy1 = vi.spyOn(material, 'dispose')
+            nodeOps.patchProp(child, 'dispose', undefined, d)
+            nodeOps.insert(parent, grandparent)
+            nodeOps.insert(child, parent)
+            nodeOps.remove(parent)
+            expect(spy0).not.toBeCalled()
+            expect(spy1).not.toBeCalled()
+          }
+        })
+        it('does not call dispose on any element in a subtree where the root :dispose==="null"', () => {
+          for (const d of [false, null]) {
+            const NUM_LEVEL = 5
+            const NUM_CHILD_PER_NODE = 3
+            const rootNode = mockTresObjectRootInObject(nodeOps.createElement('Group'))
+            const disposalSpies = []
+            const nullDisposeObjects = new Set()
+
+            createTreeIn(rootNode, (parent, childI, levelI) => {
+              if (childI > NUM_CHILD_PER_NODE || levelI > NUM_LEVEL) {
+                return false
+              }
+              const { mesh, material, geometry } = createElementMesh(nodeOps)
+              if (nullDisposeObjects.has(parent)) {
+                nullDisposeObjects.add(mesh)
+                disposalSpies.push(vi.spyOn(geometry, 'dispose'))
+                disposalSpies.push(vi.spyOn(material, 'dispose'))
+              }
+              else if (levelI > 2 && Math.random() > 0.8) {
+                nodeOps.patchProp(mesh, 'dispose', undefined, d)
+                nullDisposeObjects.add(mesh)
+                disposalSpies.push(vi.spyOn(geometry, 'dispose'))
+                disposalSpies.push(vi.spyOn(material, 'dispose'))
+              }
+              nodeOps.insert(mesh, parent)
+              return mesh
+            })
+
+            nodeOps.remove(rootNode)
+            for (const spy of disposalSpies) {
+              expect(spy).not.toHaveBeenCalled()
+            }
+          }
+        })
+      })
+
+      describe(':dispose="false"', () => {
+        it('calls no `dispose`s when removed', () => {
+          const { spies, m } = createSimpleMeshPrimitiveTree(nodeOps)
+          nodeOps.patchProp(m, 'dispose', undefined, false)
+          nodeOps.remove(m)
+
+          for (const spy of spies) {
+            expect(spy).not.toHaveBeenCalled()
+          }
+        })
+      })
+
+      describe(':dispose="fn"', () => {
+        it('calls `fn(node)`, for every declarative node and every THREE.child when tree is removed', () => {
+          const { nodes, m } = createSimpleMeshPrimitiveTree(nodeOps)
+          const spies = nodes.map((node) => {
+            const spy = vi.fn((n) => {
+              return n === node
+            })
+            node = Object.assign(node, { foo: spy })
+            return spy
+          })
+          const fn = (node: any) => node.foo?.(node)
+          nodeOps.patchProp(m, 'dispose', undefined, fn)
+          nodeOps.remove(m)
+
+          for (const spy of spies) {
+            expect(spy).toHaveBeenCalled()
+          }
+        })
+      })
+
+      describe('dispose="default"', () => {
+        it('resets a ancestor\'s :dispose="false"', () => {
+          const { spiesByKey: spies, m, m_m, m_p } = createSimpleMeshPrimitiveTree(nodeOps)
+          nodeOps.patchProp(m, 'dispose', undefined, false)
+          nodeOps.patchProp(m_m, 'dispose', undefined, 'default')
+          nodeOps.patchProp(m_p, 'dispose', undefined, 'default')
+          nodeOps.remove(m)
+
+          expect(spies.m.material).not.toBeCalled()
+          expect(spies.m.geometry).not.toBeCalled()
+
+          expect(spies.m_m.material).toBeCalled()
+          expect(spies.m_m.geometry).toBeCalled()
+
+          expect(spies.m_p.material).not.toBeCalled()
+          expect(spies.m_p.geometry).not.toBeCalled()
+
+          expect(spies.m_m_m.material).toBeCalled()
+          expect(spies.m_m_m.geometry).toBeCalled()
+          expect(spies.m_m_p.material).not.toBeCalled()
+          expect(spies.m_m_p.geometry).not.toBeCalled()
+
+          expect(spies.m_p_m.material).toBeCalled()
+          expect(spies.m_p_m.geometry).toBeCalled()
+          expect(spies.m_p_p.material).not.toBeCalled()
+          expect(spies.m_p_p.geometry).not.toBeCalled()
+        })
+        it('resets a :dispose="fn"', () => {
+          const { spiesByKey: spies, m, m_p_p } = createSimpleMeshPrimitiveTree(nodeOps)
+          nodeOps.patchProp(m, 'dispose', undefined, disposeRecursive)
+          // NOTE: `disposeRecursive` should dispose all
+          // children, geometries, materials, including in primitives.
+          nodeOps.patchProp(m_p_p, 'dispose', undefined, 'default')
+          nodeOps.remove(m)
+
+          expect(spies.m.material).toBeCalled()
+          expect(spies.m.geometry).toBeCalled()
+
+          expect(spies.m_m.material).toBeCalled()
+          expect(spies.m_m.geometry).toBeCalled()
+
+          expect(spies.m_p.material).toBeCalled()
+          expect(spies.m_p.geometry).toBeCalled()
+
+          expect(spies.m_m_m.material).toBeCalled()
+          expect(spies.m_m_m.geometry).toBeCalled()
+          expect(spies.m_m_p.material).toBeCalled()
+          expect(spies.m_m_p.geometry).toBeCalled()
+
+          expect(spies.m_p_m.material).toBeCalled()
+          expect(spies.m_p_m.geometry).toBeCalled()
+
+          expect(spies.m_p_p.material).not.toBeCalled()
+          expect(spies.m_p_p.geometry).not.toBeCalled()
+        })
+      })
+
+      it('disposes "nodeA" in <primitive ...><TresMesh name="nodeA" /></primitive>', () => {
+        const { primitive } = createElementPrimitiveMesh(nodeOps)
+        const { mesh } = createElementMesh(nodeOps)
+        nodeOps.insert(mesh, primitive)
+        const spies = [
+          vi.spyOn(mesh.material, 'dispose'),
+          vi.spyOn(mesh.geometry, 'dispose'),
+        ]
+        for (const spy of spies) {
           expect(spy).not.toHaveBeenCalled()
+        }
+        nodeOps.remove(primitive)
+        for (const spy of spies) {
+          expect(spy).toHaveBeenCalledOnce()
         }
       })
     })
@@ -1280,4 +1397,63 @@ function createTreeIn<T>(root: T, insertCallback: (parent: T, childI: number, le
     }
     levelII++
   }
+}
+
+function createSimpleMeshPrimitiveTree(nodeOps) {
+  // returns this tree's nodes
+  //                          mesh (m)
+  //         mesh (m_m)                     prim (m_p)
+  // mesh (m_m_m)  prim (m_m_p)     mesh (m_p_m)   prim (m_p_p)
+  // --------
+  // also returns a "disposalSpy" for each material and geometry
+  const { mesh: m } = createElementMesh(nodeOps)
+  const { mesh: m_m } = createElementMesh(nodeOps)
+  const { mesh: m_m_m } = createElementMesh(nodeOps)
+  const { mesh: m_p_m } = createElementMesh(nodeOps)
+  const { primitive: m_p } = createElementPrimitiveMesh(nodeOps)
+  const { primitive: m_m_p } = createElementPrimitiveMesh(nodeOps)
+  const { primitive: m_p_p } = createElementPrimitiveMesh(nodeOps)
+  nodeOps.insert(m_m, m)
+  nodeOps.insert(m_p, m)
+  nodeOps.insert(m_m_m, m_m)
+  nodeOps.insert(m_m_p, m_m)
+  nodeOps.insert(m_p_m, m_p)
+  nodeOps.insert(m_p_p, m_p)
+
+  // NOTE: add a THREE child to the primitives.
+  const m_p_c = new Mesh(new THREE.BoxGeometry(), new THREE.MeshNormalMaterial())
+  m_p.add(m_p_c)
+  const m_m_p_c = new Mesh(new THREE.BoxGeometry(), new THREE.MeshNormalMaterial())
+  m_m_p.add(m_m_p_c)
+  const m_p_p_c = new Mesh(new THREE.BoxGeometry(), new THREE.MeshNormalMaterial())
+  m_p_p.add(m_p_p_c)
+
+  // NOTE: add a THREE grandchild to a primitive.
+  const m_p_p_c_c = new Mesh(new THREE.BoxGeometry(), new THREE.MeshNormalMaterial())
+  m_p_p_c.add(m_p_p_c_c)
+
+  const nodesByKey = { m, m_m, m_m_m, m_m_p, m_p, m_p_c, m_p_m, m_p_p, m_m_p_c, m_p_p_c, m_p_p_c_c }
+  const nodes = []
+  const objects = []
+  const spiesByKey: Partial<Record<
+            keyof typeof nodesByKey,
+            { material: () => void, geometry: () => void }
+          >> = { }
+  const spies = []
+  const undisposed = new Set()
+  for (const [key, node] of Object.entries(nodesByKey)) {
+    const geometry = vi.spyOn(node.geometry, 'dispose')
+    const material = vi.spyOn(node.material, 'dispose')
+    objects.push(node.geometry, node.material)
+    spiesByKey[key] = { geometry, material }
+    spies.push(geometry)
+    spies.push(material)
+    nodes.push(node)
+    undisposed.add(node, node.geometry, node.material)
+    node.key = key
+    node.geometry.key = key + "_geo"
+    node.material.key = key + "_mat"
+  }
+  const result = Object.assign({ spiesByKey }, { spies }, { nodes }, nodesByKey, { nodesByKey }, { objects })
+  return result
 }

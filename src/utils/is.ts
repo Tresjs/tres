@@ -19,6 +19,10 @@ export function str(u: unknown): u is string {
   return typeof u === 'string'
 }
 
+export function bool(u: unknown): u is boolean {
+  return u === true || u === false
+}
+
 export function fun(u: unknown): u is Function {
   return typeof u === 'function'
 }

@@ -416,16 +416,26 @@ export function detach(parent: any, child: TresInstance, type: AttachType) {
   delete child.__tres.previousAttach
 }
 
+// NOTE: Disposes an object and deletes its property keys.
+// Does not dispose property values.
+export function disposeObject<TObj extends { dispose?: () => void, type?: string, [key: string]: any }>(obj: TObj) {
+  if (obj.dispose && !is.scene(obj)) { obj.dispose() }
+  for (const p in obj) {
+    ;(p as any).dispose?.()
+    delete obj[p]
+  }
+}
+
 // NOTE: This function is "dangerous". It recursively disposes an object
 // and all its properties and descendants except for Scene,
 // duck-typed TresContext, and duck-typed Renderer.
-// If there are shared resources on the object or its children, they will
+// If there are shared resources on the object or its descendents, they will
 // also be disposed.
-export function dispose<TObj extends { dispose?: () => void, type?: string, [key: string]: any }>(obj: TObj, disposed=new Set()) {
+export function disposeRecursive<TObj extends { dispose?: () => void, type?: string, [key: string]: any }>(obj: TObj, disposed=new Set()) {
   // NOTE: If an array, dispose of array elements.
   // Assumes that arrays do not have child objects.
   if (is.arr(obj)) {
-    for (const o of obj) { dispose(o, disposed) }
+    for (const o of obj) { disposeRecursive(o, disposed) }
     obj.length = 0
     return
   }
@@ -450,7 +460,7 @@ export function dispose<TObj extends { dispose?: () => void, type?: string, [key
 
   // NOTE: Recursively dispose and delete object keys/values.
   for (const p in obj) {
-    dispose(obj[p], disposed)
+    disposeRecursive(obj[p], disposed)
     delete obj[p]
   }
 }

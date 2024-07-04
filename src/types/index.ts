@@ -8,6 +8,7 @@ import type { TresContext } from '../composables/useTresContextProvider'
 
 export type AttachFnType = (parent: any, self: TresInstance) => () => void
 export type AttachType = string | AttachFnType
+export type DisposeType = ((self: TresInstance) => void) | boolean | 'default'
 
 export type ConstructorRepresentation = new (...args: any[]) => any
 export type NonFunctionKeys<P> = { [K in keyof P]-?: P[K] extends Function ? never : K }[keyof P]
@@ -28,13 +29,11 @@ export interface InstanceProps<T = any, P = any> {
   args?: Args<P>
   object?: T
   visible?: boolean
-  dispose?: null
   [prop: string]: any
 }
 
 interface TresBaseObject {
   removeFromParent?: () => void
-  dispose?: () => void
   [prop: string]: any // for arbitrary properties
 }
 
@@ -58,7 +57,7 @@ export interface LocalState {
   // NOTE: End graph info
 
   primitive?: boolean
-  disposable?: boolean
+  dispose?: DisposeType
   attach?: AttachType
   previousAttach: any
 }

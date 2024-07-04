@@ -2,8 +2,8 @@ import { type RendererOptions, isRef } from 'vue'
 import { BufferAttribute, Object3D } from 'three'
 import type { TresContext } from '../composables'
 import { useLogger } from '../composables'
-import { attach, deepArrayEqual, detach, filterInPlace, invalidateInstance, isHTMLTag, kebabToCamel, noop, prepareTresInstance, setPrimitiveObject, unboxTresPrimitive } from '../utils'
-import type { InstanceProps, LocalState, TresInstance, TresObject, TresObject3D, TresPrimitive } from '../types'
+import { attach, deepArrayEqual, detach, filterInPlace, invalidateInstance, isHTMLTag, kebabToCamel, noop, prepareTresInstance, setPrimitiveObject, disposeObject, unboxTresPrimitive } from '../utils'
+import type { DisposeType, InstanceProps, LocalState, TresInstance, TresObject, TresObject3D, TresPrimitive } from '../types'
 import * as is from '../utils/is'
 import { createRetargetingProxy } from '../utils/primitive/createRetargetingProxy'
 import { catalogue } from './catalogue'
@@ -92,7 +92,6 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
       type: name,
       memoizedProps: props,
       eventCount: 0,
-      disposable: true,
       primitive: tag === 'primitive',
       attach: props.attach,
     }, context)
@@ -101,12 +100,6 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
       if (instance.isMaterial) { instance.__tres.attach = 'material' }
       else if (instance.isBufferGeometry) { instance.__tres.attach = 'geometry' }
       else if (instance.isFog) { instance.__tres.attach = 'fog' }
-    }
-
-    // determine whether the material was passed via prop to
-    // prevent it's disposal when node is removed later in it's lifecycle
-    if (instance.isObject3D && (props?.material || props?.geometry)) {
-      instance.__tres.disposable = false
     }
 
     return obj as TresObject
@@ -139,26 +132,37 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
     }
   }
 
-  function remove(node: TresObject | null, dispose?: boolean) {
+  function remove(node: TresObject | null, dispose?: DisposeType) {
     // NOTE: `remove` is initially called by Vue only on
-    // the root `node` of the tree to be removed. Vue does not
-    // pass a `dispose` argument.
-    // Where appropriate, we will recursively call `remove`
-    // on `children` and `__tres.objects`.
-    // We will derive and pass a value for `dispose`, allowing
-    // nodes to "bail out" of disposal for their subtree.
+    // the root `node` of the tree to be removed. We will
+    // recursively call the function on children, if necessary.
+    // NOTE: Vue does not pass a `dispose` argument; it is
+    // used by the recursive calls.
 
     if (!node) { return }
 
-    // NOTE: Derive value for `dispose`.
-    // We stop disposal of a node and its tree if any of these are true:
-    // 1) it is a <primitive :object="..." />
-    // 2) it has :dispose="null"
-    // 3) it was bailed out by a parent passing `remove(..., false)`
+    // NOTE: Derive `dispose` value for this `remove` call and
+    // recursive remove calls.
+    dispose = is.und(dispose) ? 'default' : dispose
+    const userDispose = node.__tres?.dispose
+    if (!is.und(userDispose)) {
+      if (userDispose === null) {
+        // NOTE: Treat as `false` to act like R3F
+        dispose = false
+      }
+      else {
+        // NOTE: Otherwise, if the user has defined a `dispose`, use it
+        dispose = userDispose
+      }
+    }
+
+    // NOTE: Create a `shouldDispose` boolean for readable predicates below.
+    // 1) If `dispose` is "default", then:
+    //   - dispose declarative components, e.g., <TresMeshNormalMaterial />
+    //   - do *not* dispose primitives or their non-declarative children
+    // 2) Otherwise, follow `dispose`
     const isPrimitive = node.__tres?.primitive
-    const isDisposeNull = node.dispose === null
-    const isBailedOut = dispose === false
-    const shouldDispose = !(isPrimitive || isDisposeNull || isBailedOut)
+    const shouldDispose = dispose === 'default' ? !isPrimitive : !!(dispose)
 
     // NOTE: Remove `node` from __tres parent/objects graph
     const parent = node.__tres?.parent || scene
@@ -194,29 +198,35 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
     /*  deregisterAtPointerEventHandlerIfRequired?.(node as TresObject) */
     invalidateInstance(node as TresObject)
 
-    // NOTE: Remove child objects that had been added declaratively.
+    // NOTE: Remove (but not necessarily dispose)
+    // child objects that had been added declaratively.
     if (node.__tres && 'objects' in node.__tres) {
       // NOTE: In the recursive `remove` calls, the array elements
       // will remove themselves from the array, resulting in skipped
       // elements. Make a shallow copy of the array.
-      [...node.__tres.objects].forEach(obj => remove(obj, shouldDispose))
+      [...node.__tres.objects].forEach(obj => remove(obj, dispose))
     }
 
-    // NOTE: Remove remaining THREE children.
-    // Never on primitives: removing remaining THREE children would
-    // alter the user's `:object`.
-    if (!isPrimitive) {
+    // NOTE: Remove (but not necessarily dispose) remaining THREE children.
+    // On primitives, we do not remove THREE children unless disposing.
+    // Otherwise we would alter the user's `:object`.
+    if (shouldDispose) {
       // NOTE: In the recursive `remove` calls, the array elements
       // will remove themselves from the array, resulting in skipped
       // elements. Make a shallow copy of the array.
       if (node.children) {
-        [...node.children].forEach(child => remove(child, shouldDispose))
+        [...node.children].forEach(child => remove(child, dispose))
       }
     }
 
     // NOTE: Dispose `node`
-    if (shouldDispose && node.dispose && !is.scene(node)) {
-      node.dispose()
+    if (shouldDispose && !is.scene(node)) {
+      if (is.fun(dispose)) {
+        dispose(node)
+      }
+      else {
+        disposeObject(node)
+      }
     }
 
     delete node.__tres
@@ -240,6 +250,13 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
       remove(node)
       prepareTresInstance(node, { attach: nextValue }, context)
       if (maybeParent) { insert(node, maybeParent) }
+      return
+    }
+
+    if (prop === 'dispose') {
+      // NOTE: Add node.__tres, if necessary.
+      if (!node.__tres) { node = prepareTresInstance(node, {}, context) }
+      node.__tres!.dispose = nextValue
       return
     }
 
