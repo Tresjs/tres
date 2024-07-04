@@ -1,5 +1,6 @@
 import type { TresObject, TresPrimitive } from 'src/types'
-import type { BufferGeometry, Camera, Fog, Material, Object3D, Scene } from 'three'
+import type { BufferGeometry, Camera, Fog, Material, Object3D, Scene, WebGLRenderer } from 'three'
+import type { CSS2DRenderer, CSS3DRenderer, SVGRenderer } from 'three/examples/jsm/Addons.js'
 import type { TresContext } from '../composables/useTresContextProvider'
 
 export function und(u: unknown) {
@@ -8,6 +9,10 @@ export function und(u: unknown) {
 
 export function arr(u: unknown) {
   return Array.isArray(u)
+}
+
+export function typedArr(u: unknown) {
+  return !!(obj(u) && 'buffer' in u && u.buffer instanceof ArrayBuffer && u.BYTES_PER_ELEMENT)
 }
 
 export function str(u: unknown): u is string {
@@ -58,4 +63,11 @@ export function tresPrimitive(u: unknown): u is TresPrimitive {
 
 export function tresContext(u: unknown): u is TresContext {
   return obj(u) && 'isTresContext' in u && !!(u.isTresContext)
+}
+
+export function renderer(u: unknown): u is CSS2DRenderer | CSS3DRenderer | WebGLRenderer | SVGRenderer {
+  // NOTE: THREE has no `isRenderer`. We have to match on other fields.
+  // The fields the renderers have in common are getSize, setSize and render.
+  // WARNING: This approach may lead to false positives.
+  return obj(u) && 'getSize' in u && 'setSize' in u && 'render' in u
 }
