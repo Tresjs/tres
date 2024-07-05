@@ -1,8 +1,16 @@
 import type { TresObject } from 'src/types'
-import type { BufferGeometry, Camera, Fog, Material, Object3D } from 'three'
+import type { BufferGeometry, Camera, Fog, Material, Object3D, Scene } from 'three'
+
+export function und(u: unknown) {
+  return typeof u === 'undefined'
+}
 
 export function arr(u: unknown) {
   return Array.isArray(u)
+}
+
+export function str(u: unknown): u is string {
+  return typeof u === 'string'
 }
 
 export function fun(u: unknown): u is Function {
@@ -31,6 +39,10 @@ export function material(u: unknown): u is Material {
 
 export function fog(u: unknown): u is Fog {
   return obj(u) && 'isFog' in u && !!(u.isFog)
+}
+
+export function scene(u: unknown): u is Scene {
+  return obj(u) && 'isScene' in u && !!(u.isScene)
 }
 
 export function tresObject(u: unknown): u is TresObject {
