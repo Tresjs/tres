@@ -32,6 +32,6 @@ jobs:
         uses: EndBug/add-and-commit@v5
         with:
           message: "chore: update sponsors.svg"
-          add: "sponsors.*"
+          add: "sponsorkit/sponsors.*"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

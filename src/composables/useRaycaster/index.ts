@@ -9,14 +9,13 @@ import type { DomEvent, TresCamera, TresEvent } from 'src/types'
 import type { TresContext } from '../useTresContextProvider'
 
 export const useRaycaster = (
-  objects: Ref<Object3D[]>,
+  objectsWithEvents: Ref<Object3D[]>,
   ctx: TresContext,
 ) => {
   // having a separate computed makes useElementBounding work
   const canvas = computed(() => ctx.renderer.value.domElement as HTMLCanvasElement)
   const intersects: ShallowRef<Intersection[]> = shallowRef([])
   const { x, y } = usePointer({ target: canvas })
-  const objectWihtEvents = computed(() => objects.value.filter(obj => obj.__tres?.eventCount > 0))
   let delta = 0
 
   const { width, height, top, left } = useElementBounding(canvas)
@@ -35,7 +34,7 @@ export const useRaycaster = (
 
     ctx.raycaster.value.setFromCamera(new Vector2(x, y), ctx.camera.value)
 
-    intersects.value = ctx.raycaster.value.intersectObjects(objectWihtEvents.value, true)
+    intersects.value = ctx.raycaster.value.intersectObjects(objectsWithEvents.value, true)
     return intersects.value
   }
 
