@@ -13,7 +13,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: pnpm/action-setup@v3
+      - uses: pnpm/action-setup@v4
 
       - name: Set node
         uses: actions/setup-node@v4
@@ -32,6 +32,6 @@ jobs:
         uses: EndBug/add-and-commit@v5
         with:
           message: "chore: update sponsors.svg"
-          add: "sponsors.*"
+          add: "sponsorkit/sponsors.*"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

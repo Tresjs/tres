@@ -1,5 +1,18 @@
 
 
+## [4.1.0](https://github.com/Tresjs/tres/compare/4.0.2...4.1.0) (2024-07-05)
+
+
+### Features
+
+* add useTresReady ([#712](https://github.com/Tresjs/tres/issues/712)) ([15e3f07](https://github.com/Tresjs/tres/commit/15e3f0785e843df7a68e095c8ec35d8752623a05))
+
+
+### Bug Fixes
+
+* **deps:** update dependency @vueuse/core to v10.10.1 ([#735](https://github.com/Tresjs/tres/issues/735)) ([12e462d](https://github.com/Tresjs/tres/commit/12e462d2abb0205e416cadd5f9eab50afd501fd3))
+* group should recursive search for child elements ([#728](https://github.com/Tresjs/tres/issues/728)) ([#731](https://github.com/Tresjs/tres/issues/731)) ([f09367b](https://github.com/Tresjs/tres/commit/f09367b47b59c9b60eaafa318023187111ddb786))
+
 ## [4.0.2](https://github.com/Tresjs/tres/compare/4.0.1...4.0.2) (2024-06-05)
 
 

@@ -60,3 +60,78 @@ function shuffle(array: any[]) {
   }
   return array
 };
+
+describe('resolve', () => {
+  it('returns the first argument if it contains the key', () => {
+    const instance = { ab: 0 }
+    const { target, key } = utils.resolve(instance, 'ab')
+    expect(target).toBe(instance)
+    expect(key).toBe('ab')
+  })
+  it('splits the key by "-" and traverses the obj using the pieces', () => {
+    const instance = { ab: { cd: { ef: 0 } } }
+    const { target, key } = utils.resolve(instance, 'ab-cd-ef')
+    expect(target).toBe(instance.ab.cd)
+    expect(key).toBe('ef')
+  })
+  it('returns the current target holding the end of the key, and the end of the key', () => {
+    const instance = { ab: { cd: { ef: { gh: 0 } } } }
+    const { target, key } = utils.resolve(instance, 'ab-cd-ef')
+    expect(target).toBe(instance.ab.cd)
+    expect(key).toBe('ef')
+  })
+  it('joins pierced props as camelCase, non-greedily', () => {
+    {
+      const instance = { abCdEfGh: { ij: 0 } }
+      const { target, key } = utils.resolve(instance, 'ab-cd-ef-gh-ij')
+      expect(target).toBe(instance.abCdEfGh)
+      expect(key).toBe('ij')
+    }
+
+    {
+      const instance = {
+        abCdEfGh: { ij: 0 },
+        abCdEf: { gh: { ij: 0 } },
+      }
+      const { target, key } = utils.resolve(instance, 'ab-cd-ef-gh-ij')
+      expect(target).toBe(instance.abCdEf.gh)
+      expect(key).toBe('ij')
+    }
+
+    {
+      const instance = {
+        abCdEfGh: { ij: 0 },
+        abCd: { ef: { gh: { ij: 0 } }, efGh: { ij: 0 } },
+        abCdEf: { gh: { ij: 0 } },
+      }
+      const { target, key } = utils.resolve(instance, 'ab-cd-ef-gh-ij')
+      expect(target).toBe(instance.abCd.ef.gh)
+      expect(key).toBe('ij')
+    }
+
+    {
+      const instance = {
+        abCdEfGh: { ij: 0 },
+        abCdEf: { ghIj: 0 },
+        ab: { cdEfGhIj: 0 },
+        abCd: { ef: { gh: { ij: 0 } }, efGh: { ij: 0 } },
+      }
+      const { target, key } = utils.resolve(instance, 'ab-cd-ef-gh-ij')
+      expect(target).toBe(instance.ab)
+      expect(key).toBe('cdEfGhIj')
+    }
+  })
+
+  it('joins my-key-and-the-unfindable-suffix as andTheUnfindableSuffix, for key suffixes that do not exist', () => {
+    expect(utils.resolve({}, 'zz').key).toBe('zz')
+    expect(utils.resolve({}, 'ab-cd-ef-gh-ij').key).toBe('abCdEfGhIj')
+
+    const instance = { ab: { cd: { ef: { gh: { ij: 0 } } } } }
+    expect(utils.resolve(instance, 'ab-cd-ef-gh-ij-xx-yy-zz').key).toBe('xxYyZz')
+    expect(utils.resolve(instance, 'xx-yy-zz').key).toBe('xxYyZz')
+    expect(utils.resolve(instance, 'ab-xx-yy-zz').key).toBe('xxYyZz')
+    expect(utils.resolve(instance, 'ab-cd-zz').key).toBe('zz')
+    expect(utils.resolve(instance, 'ab-cd-xx-yy-zz').key).toBe('xxYyZz')
+    expect(utils.resolve(instance, 'ab-cd-xx-yy-zz').key).toBe('xxYyZz')
+  })
+})
