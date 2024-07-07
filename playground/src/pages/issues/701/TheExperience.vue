@@ -1,4 +1,3 @@
-<!-- eslint-disable no-console -->
 <script setup lang="ts">
 import { onUnmounted, shallowRef } from 'vue'
 import type { BufferGeometry, Camera, Material } from 'three'
@@ -95,7 +94,7 @@ const pool: {
   matBas: Material
   cam: Camera
 }[] = []
-const COUNT = 13
+const COUNT = 10
 for (let i = 0; i < COUNT; i++) {
   pool.push({
     click(...rest: unknown[]) {
@@ -117,18 +116,22 @@ for (let i = 0; i < COUNT; i++) {
         new SphereGeometry(0.5),
         new MeshNormalMaterial(),
       )
+      /*
       const child = new Mesh(new SphereGeometry(0.5), new MeshNormalMaterial())
       parent.add(child)
       child.position.set(1, 1, 1)
       child.scale.set(0.25, 0.25, 0.25)
+      */
       return parent
     })(),
     meshTorus: (() => {
       const parent = new Mesh(new TorusGeometry(0.5, 0.15), new MeshNormalMaterial())
+      /*
       const child = new Mesh(new TorusGeometry(0.5, 0.15), new MeshNormalMaterial())
       parent.add(child)
       child.position.set(1, 1, 1)
       child.scale.set(0.25, 0.25, 0.25)
+      */
       return parent
     })(),
     meshMoving: (() => {
@@ -179,21 +182,22 @@ onUnmounted(() => {
     dispose(entry)
   }
 })
-</script>
-
-<template>
-  <TresPerspectiveCamera :position="[0, 0, 30]" />
-
-  <TresGroup v-if="tOrF">
+/**
+ * 
+ * 
+  <TresGroup v-if="tOrF" :position="pool[0].pos">
     <primitive
       :object="pool[0].group"
-      :position="pool[0].pos"
     >
       <primitive :object="pool[0].mesh" @click="pool[0].click">
         <primitive :object="pool[0].geo" />
         <TresMeshNormalMaterial />
       </primitive>
     </primitive>
+    <TresMesh :position-y="1.25" :scale="0.25">
+      <TresMeshBasicMaterial color="white" />
+      <TresConeGeometry />
+    </TresMesh>
   </TresGroup>
 
   <primitive
@@ -206,6 +210,10 @@ onUnmounted(() => {
       <TresSphereGeometry :args="[0.5]" />
       <primitive :object="pool[1].mat" />
     </primitive>
+    <TresMesh :position-y="1.25" :scale="0.25">
+      <TresMeshBasicMaterial color="white" />
+      <TresConeGeometry />
+    </TresMesh>
   </primitive>
 
   <primitive
@@ -217,6 +225,10 @@ onUnmounted(() => {
       <primitive :object="pool[2].geo" />
       <primitive :object="pool[2].mat" />
     </TresMesh>
+    <TresMesh :position-y="1.25" :scale="0.25">
+      <TresMeshBasicMaterial color="white" />
+      <TresConeGeometry />
+    </TresMesh>
   </primitive>
 
   <primitive
@@ -225,6 +237,10 @@ onUnmounted(() => {
     @click="pool[3].click"
   >
     <primitive :object="tOrF ? pool[3].meshBox : pool[3].meshTorus" />
+    <TresMesh :position-y="1.25" :scale="0.25">
+      <TresMeshBasicMaterial color="white" />
+      <TresConeGeometry />
+    </TresMesh>
   </primitive>
 
   <primitive :object="pool[4].group">
@@ -234,6 +250,10 @@ onUnmounted(() => {
       :rotation-x="primitiveX"
       @click="pool[4].click"
     />
+    <TresMesh :position-y="1.25" :scale="0.25">
+      <TresMeshBasicMaterial color="white" />
+      <TresConeGeometry />
+    </TresMesh>
   </primitive>
 
   <primitive
@@ -245,6 +265,10 @@ onUnmounted(() => {
       :object="tOrF ? pool[5].meshMoving : pool[5].meshTorus"
       :rotation-x="primitiveX"
     />
+    <TresMesh :position-y="1.25" :scale="0.25">
+      <TresMeshBasicMaterial color="white" />
+      <TresConeGeometry />
+    </TresMesh>
   </primitive>
 
   <primitive
@@ -256,17 +280,24 @@ onUnmounted(() => {
       <primitive :object="tOrF ? pool[6].geo : pool[6].geoBox" />
       <primitive :object="pool[6].mat" />
     </primitive>
+    <TresMesh :position-y="1.25" :scale="0.25">
+      <TresMeshBasicMaterial color="white" />
+      <TresConeGeometry />
+    </TresMesh>
   </primitive>
 
-  <primitive :object="pool[7].group">
+  <primitive :object="pool[7].group" :position="pool[7].pos">
     <primitive
       :object="pool[7].mesh"
-      :position="pool[7].pos"
       @click="pool[7].click"
     >
       <primitive :object="pool[7].geo" />
       <primitive :object="tOrF ? pool[7].mat : pool[7].matBas" />
     </primitive>
+    <TresMesh :position-y="1.25" :scale="0.25">
+      <TresMeshBasicMaterial color="white" />
+      <TresConeGeometry />
+    </TresMesh>
   </primitive>
 
   <primitive
@@ -277,14 +308,25 @@ onUnmounted(() => {
     <primitive :object="pool[8].mesh">
       <primitive :object="tOrFSlow ? pool[8].geo : pool[8].geoBox" />
       <primitive :object="tOrF ? pool[8].mat : pool[8].matBas" />
+      <TresMesh :position-y="1.25" :scale="0.25">
+        <TresMeshBasicMaterial color="white" />
+        <TresConeGeometry />
+      </TresMesh>
     </primitive>
   </primitive>
 
-  <primitive :position="pool[9].pos" :object="tOrF ? group : pool[9].meshTorus" @click="pool[9].click" />
 
-  <TresMesh :position="pool[12].pos">
-    <TresBoxGeometry />
-    <TresMeshNormalMaterial v-if="tOrF" />
-    <TresMeshBasicMaterial v-else color="blue" />
-  </TresMesh>
+ */
+</script>
+
+<template>
+  <TresPerspectiveCamera :position="[0, 0, 30]" />
+
+  <primitive
+    :object="tOrF ? pool[9].meshSphere : pool[9].meshTorus">
+    <TresMesh :position-y="1.25" :scale="0.25">
+      <TresMeshBasicMaterial color="white" />
+      <TresConeGeometry />
+    </TresMesh>
+  </primitive>
 </template>

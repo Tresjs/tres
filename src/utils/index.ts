@@ -416,26 +416,16 @@ export function detach(parent: any, child: TresInstance, type: AttachType) {
   delete child.__tres.previousAttach
 }
 
-// NOTE: Disposes an object and deletes its property keys.
-// Does not dispose property values.
-export function disposeObject<TObj extends { dispose?: () => void, type?: string, [key: string]: any }>(obj: TObj) {
-  if (obj.dispose && !is.scene(obj)) { obj.dispose() }
-  for (const p in obj) {
-    ;(p as any).dispose?.()
-    delete obj[p]
-  }
-}
-
 // NOTE: This function is "dangerous". It recursively disposes an object
 // and all its properties and descendants except for Scene,
 // duck-typed TresContext, and duck-typed Renderer.
 // If there are shared resources on the object or its descendents, they will
 // also be disposed.
-export function disposeRecursive<TObj extends { dispose?: () => void, type?: string, [key: string]: any }>(obj: TObj, disposed=new Set()) {
+export function disposeRecursive<TObj extends { dispose?: () => void, type?: string, [key: string]: any }>(obj: TObj, disposed = new Set()) {
   // NOTE: If an array, dispose of array elements.
   // Assumes that arrays do not have child objects.
   if (is.arr(obj)) {
-    for (const o of obj) { disposeRecursive(o, disposed) }
+    for (const o of [...obj]) { disposeRecursive(o, disposed) }
     obj.length = 0
     return
   }
@@ -467,6 +457,7 @@ export function disposeRecursive<TObj extends { dispose?: () => void, type?: str
 
 export function prepareTresInstance<T extends TresObject>(obj: T, state: Partial<LocalState>, context: TresContext): TresInstance {
   const instance = obj as unknown as TresInstance
+
   instance.__tres = {
     type: 'unknown',
     eventCount: 0,
@@ -478,6 +469,13 @@ export function prepareTresInstance<T extends TresObject>(obj: T, state: Partial
     previousAttach: null,
     ...state,
   }
+
+  if (!instance.__tres.attach) {
+    if (instance.isMaterial) { instance.__tres.attach = 'material' }
+    else if (instance.isBufferGeometry) { instance.__tres.attach = 'geometry' }
+    else if (instance.isFog) { instance.__tres.attach = 'fog' }
+  }
+
   return instance
 }
 
@@ -503,6 +501,12 @@ export function setPrimitiveObject(
   nodeOpsFns: Pick<ReturnType<typeof nodeOps>, 'patchProp' | 'insert' | 'remove'>,
   context: TresContext,
 ) {
+  // NOTE: copy added/attached Vue children
+  // We need to insert `objects` into `newObject` later.
+  // In the meantime, `remove(primitive)` will alter
+  // the array, so make a copy.
+  const objectsToAttach = [...primitive.__tres.objects]
+
   const oldObject = unboxTresPrimitive(primitive)
   newObject = unboxTresPrimitive(newObject)
   if (oldObject === newObject) { return true }
@@ -516,9 +520,13 @@ export function setPrimitiveObject(
   // NOTE: `object` is a reference to `oldObject` and not to be patched.
   delete propsToPatch.object
 
+  // NOTE: remove added/attached Vue children
+  for (const obj of objectsToAttach) {
+    nodeOpsFns.remove(obj, 'detach-only')
+  }
+  oldObject.__tres.objects = []
+
   nodeOpsFns.remove(primitive)
-  if (oldObject.parent) { oldObject.parent = null }
-  oldObject.__tres = {}
 
   for (const [key, value] of Object.entries(propsToPatch)) {
     nodeOpsFns.patchProp(newInstance, key, newInstance[key], value)
@@ -526,6 +534,11 @@ export function setPrimitiveObject(
 
   setTarget(newObject)
   nodeOpsFns.insert(primitive, parent)
+
+  // NOTE: insert added/attached Vue children
+  for (const obj of objectsToAttach) {
+    nodeOpsFns.insert(obj, primitive)
+  }
 
   return true
 }

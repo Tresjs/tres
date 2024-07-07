@@ -1,6 +1,5 @@
-import { BoxGeometry, Mesh, MeshNormalMaterial, MeshStandardMaterial, Texture, WebGLRenderer } from 'three'
+import { BoxGeometry, Mesh, MeshNormalMaterial } from 'three'
 import * as utils from './index'
-import { CSS2DRenderer, SVGRenderer } from 'three/examples/jsm/Addons'
 
 describe('filterInPlace', () => {
   it('returns the passed array', () => {

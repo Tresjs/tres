@@ -8,7 +8,7 @@ import type { TresContext } from '../composables/useTresContextProvider'
 
 export type AttachFnType = (parent: any, self: TresInstance) => () => void
 export type AttachType = string | AttachFnType
-export type DisposeType = ((self: TresInstance) => void) | boolean | 'default'
+export type DisposeType = ((self: TresInstance) => void) | boolean | 'default' | 'shallow-detach-deregister'
 
 export type ConstructorRepresentation = new (...args: any[]) => any
 export type NonFunctionKeys<P> = { [K in keyof P]-?: P[K] extends Function ? never : K }[keyof P]

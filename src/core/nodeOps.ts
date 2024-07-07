@@ -2,7 +2,7 @@ import { type RendererOptions, isRef } from 'vue'
 import { BufferAttribute, Object3D } from 'three'
 import type { TresContext } from '../composables'
 import { useLogger } from '../composables'
-import { attach, deepArrayEqual, detach, filterInPlace, invalidateInstance, isHTMLTag, kebabToCamel, noop, prepareTresInstance, setPrimitiveObject, disposeObject, unboxTresPrimitive } from '../utils'
+import { attach, deepArrayEqual, detach, filterInPlace, invalidateInstance, isHTMLTag, kebabToCamel, noop, prepareTresInstance, setPrimitiveObject, unboxTresPrimitive } from '../utils'
 import type { DisposeType, InstanceProps, LocalState, TresInstance, TresObject, TresObject3D, TresPrimitive } from '../types'
 import * as is from '../utils/is'
 import { createRetargetingProxy } from '../utils/primitive/createRetargetingProxy'
@@ -96,22 +96,21 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
       attach: props.attach,
     }, context)
 
-    if (!instance.__tres.attach) {
-      if (instance.isMaterial) { instance.__tres.attach = 'material' }
-      else if (instance.isBufferGeometry) { instance.__tres.attach = 'geometry' }
-      else if (instance.isFog) { instance.__tres.attach = 'fog' }
-    }
-
     return obj as TresObject
   }
 
   function insert(child: TresObject, parent: TresObject) {
     if (!child) { return }
 
+    // TODO: Investigate and eventually remove `scene` fallback.
+    // According to the signature, `parent` should always be
+    // truthy. If it is not truthy, it may be due to a bug
+    // elsewhere in Tres.
     parent = parent || scene
     const childInstance: TresInstance = (child.__tres ? child as TresInstance : prepareTresInstance(child, {}, context))
     const parentInstance: TresInstance = (parent.__tres ? parent as TresInstance : prepareTresInstance(parent, {}, context))
     child = unboxTresPrimitive(childInstance)
+    parent = unboxTresPrimitive(parentInstance)
 
     context.registerCamera(child)
     // NOTE: Track onPointerMissed objects separate from the scene
@@ -127,8 +126,8 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
 
     // NOTE: Update __tres parent/objects graph
     childInstance.__tres.parent = parentInstance
-    if (parentInstance.__tres.objects && !parentInstance.__tres.objects.includes(child)) {
-      parentInstance.__tres.objects.push(child)
+    if (parentInstance.__tres.objects && !parentInstance.__tres.objects.includes(childInstance)) {
+      parentInstance.__tres.objects.push(childInstance)
     }
   }
 
@@ -193,6 +192,10 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
       context.eventManager?.deregisterPointerMissedObject(child)
     })
 
+    if (dispose === 'detach-only') {
+      return
+    }
+
     // NOTE: Deregister `node`
     context.deregisterCamera(node)
     /*  deregisterAtPointerEventHandlerIfRequired?.(node as TresObject) */
@@ -224,8 +227,13 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
       if (is.fun(dispose)) {
         dispose(node)
       }
-      else {
-        disposeObject(node)
+      else if (is.fun(node.dispose)) {
+        try {
+          node.dispose()
+        }
+        catch (e) {
+
+        }
       }
     }
 
@@ -338,7 +346,7 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
   }
 
   function parentNode(node: TresObject): TresObject | null {
-    return node?.parent || null
+    return node?.__tres?.parent || null
   }
 
   /**
@@ -351,27 +359,22 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
    * @returns TresObject
    */
   function createComment(comment: string): TresObject {
-    const commentObj = new Object3D() as TresObject
-
-    // Set name and type to comment
     // TODO: Add a custom type for comments instead of reusing Object3D. Comments should be light weight and not exist in the scene graph
+    const commentObj = prepareTresInstance(new Object3D(), { type: 'Comment' }, context)
     commentObj.name = comment
-    commentObj.__tres = { type: 'Comment' }
-
-    // Without this we have errors in other nodeOp functions that come across this object
-    commentObj.__tres.root = scene?.__tres.root as TresContext
-
     return commentObj
   }
 
   // nextSibling - Returns the next sibling of a TresObject
   function nextSibling(node: TresObject) {
-    if (!node) { return null }
+    const parent = parentNode(node)
+    const siblings = parent?.__tres?.objects || []
+    const index = siblings.indexOf(node)
 
-    const parent = node.parent || scene
-    const index = parent.children.indexOf(node)
+    // NOTE: If not found OR this is the last of the siblings ...
+    if (index < 0 || index >= siblings.length - 1) { return null }
 
-    return parent.children[index + 1] || null
+    return siblings[index + 1]
   }
 
   return {
