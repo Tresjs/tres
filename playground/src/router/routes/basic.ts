@@ -49,4 +49,9 @@ export const basicRoutes = [
     name: '@ready',
     component: () => import('../../pages/basic/ready/index.vue'),
   },
+  {
+    path: '/basic/textures',
+    name: 'Textures',
+    component: () => import('../../pages/basic/Textures.vue'),
+  },
 ]
