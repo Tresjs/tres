@@ -1,5 +1,12 @@
 
 
+## [3.0.1](https://github.com/tresjs/nuxt/compare/3.0.0...3.0.1) (2024-07-08)
+
+
+### Bug Fixes
+
+* **deps:** updated deps ([#109](https://github.com/tresjs/nuxt/issues/109)) ([e6f1e22](https://github.com/tresjs/nuxt/commit/e6f1e22595591c36e4abab0419b04de761a6a53b))
+
 ## [3.0.0](https://github.com/tresjs/nuxt/compare/2.1.2...3.0.0) (2024-06-26)
 
 
