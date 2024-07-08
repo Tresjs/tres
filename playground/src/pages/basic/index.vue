@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
+import { BasicShadowMap, MeshToonMaterial, NoToneMapping, SRGBColorSpace } from 'three'
 import { reactive, ref } from 'vue'
 import { TresCanvas, useRenderLoop } from '@tresjs/core'
 import { OrbitControls } from '@tresjs/cientos'
@@ -38,6 +38,10 @@ function onPointerOut(ev) {
 }
 
 const sphereExists = ref(true)
+
+const toonTealMaterial = new MeshToonMaterial({
+  color: 'teal',
+})
 </script>
 
 <template>
@@ -48,6 +52,7 @@ const sphereExists = ref(true)
   <TresCanvas
     ref="canvasRef"
     v-bind="state"
+    @render="onRender"
   >
     <TresPerspectiveCamera
       :position="[11, 11, 11]"
@@ -66,13 +71,25 @@ const sphereExists = ref(true)
         :user-data="{ debug: true }"
         :position="[0, 4, 0]"
         cast-shadow
+        :material="toonTealMaterial"
         @pointer-enter="onPointerEnter"
         @pointer-out="onPointerOut"
       >
         <TresSphereGeometry :args="[2, 32, 32]" />
-        <TresMeshBasicMaterial color="teal" />
+        <TresMeshStandardMaterial attach="attachedMaterial" />
       </TresMesh>
     </TresGroup>
+
+    <TresMesh
+      ref="sphereRef"
+      :position="[-4, 4, 0]"
+      cast-shadow
+      :material="toonTealMaterial"
+      @pointer-enter="onPointerEnter"
+      @pointer-out="onPointerOut"
+    >
+      <TresSphereGeometry :args="[2, 32, 32]" />
+    </TresMesh>
 
     <TresDirectionalLight
       :position="[0, 8, 4]"

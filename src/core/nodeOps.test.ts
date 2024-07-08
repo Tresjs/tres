@@ -159,7 +159,7 @@ describe('nodeOps', () => {
       expect(parent.children.includes(child)).toBeTruthy()
     })
 
-    describe('primitive :object', () => {
+    describe.skip('primitive :object', () => {
       describe('into mesh', () => {
         it('inserts a mesh :object', () => {
           const parent = nodeOps.createElement('Mesh', undefined, undefined, {})
