@@ -1410,7 +1410,7 @@ describe('nodeOps', () => {
       // NOTE: `add` creates a `THREE` parent/children relationship.
       // Since it does not add a Vue relationship, `parentNode`
       // does not and should not track it.
-      parent.add(child)
+      parent.add(child as THREE.Object3D)
       expect(nodeOps.parentNode(child)).not.toBe(parent)
 
       nodeOps.insert(child, parent)
