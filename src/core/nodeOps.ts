@@ -87,7 +87,7 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
       }
     }
 
-    const instance = prepareTresInstance(obj, {
+    obj = prepareTresInstance(obj, {
       ...obj.__tres,
       type: name,
       memoizedProps: props,

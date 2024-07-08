@@ -411,48 +411,9 @@ export function detach(parent: any, child: TresInstance, type: AttachType) {
     if ('__tresDetach' in target) { target.__tresDetach() }
   }
   else {
-    child.__tres.previousAttach?.(parent, child)
+    child.__tres?.previousAttach?.(parent, child)
   }
-  delete child.__tres.previousAttach
-}
-
-// NOTE: This function is "dangerous". It recursively disposes an object
-// and all its properties and descendants except for Scene,
-// duck-typed TresContext, and duck-typed Renderer.
-// If there are shared resources on the object or its descendents, they will
-// also be disposed.
-export function disposeRecursive<TObj extends { dispose?: () => void, type?: string, [key: string]: any }>(obj: TObj, disposed = new Set()) {
-  // NOTE: If an array, dispose of array elements.
-  // Assumes that arrays do not have child objects.
-  if (is.arr(obj)) {
-    for (const o of [...obj]) { disposeRecursive(o, disposed) }
-    obj.length = 0
-    return
-  }
-
-  // NOTE: Avoid recursing through non-objects and typed arrays.
-  // A typed array is a JS "object", but here is assumed not to
-  // have child objects.
-  if (!is.obj(obj) || is.typedArr(obj)) { return }
-
-  // NOTE: Don't dispose a Scene, a TresContext, or a Renderer.
-  // These links are shared among Tres objects.
-  // We'll break Tres if they are deleted before
-  // unmounting.
-  if (is.scene(obj) || is.tresContext(obj) || is.renderer(obj)) { return }
-
-  // NOTE: avoid infinite recursion
-  if (disposed.has(obj)) { return }
-  disposed.add(obj)
-
-  // NOTE: Call object's `dispose` method if it exists.
-  if (is.fun(obj.dispose)) { obj.dispose() }
-
-  // NOTE: Recursively dispose and delete object keys/values.
-  for (const p in obj) {
-    disposeRecursive(obj[p], disposed)
-    delete obj[p]
-  }
+  delete child.__tres?.previousAttach
 }
 
 export function prepareTresInstance<T extends TresObject>(obj: T, state: Partial<LocalState>, context: TresContext): TresInstance {

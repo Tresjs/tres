@@ -1,4 +1,3 @@
-import { BoxGeometry, Mesh, MeshNormalMaterial } from 'three'
 import * as utils from './index'
 
 describe('filterInPlace', () => {
@@ -134,47 +133,5 @@ describe('resolve', () => {
     expect(utils.resolve(instance, 'ab-cd-zz').key).toBe('zz')
     expect(utils.resolve(instance, 'ab-cd-xx-yy-zz').key).toBe('xxYyZz')
     expect(utils.resolve(instance, 'ab-cd-xx-yy-zz').key).toBe('xxYyZz')
-  })
-})
-
-describe('dispose', () => {
-  it('disposes materials and geometries', () => {
-    const parent = new Mesh(new BoxGeometry(), new MeshNormalMaterial())
-    const child = new Mesh(new BoxGeometry(), new MeshNormalMaterial())
-    parent.add(child)
-
-    const parentGeometrySpy = vi.spyOn(parent.geometry, 'dispose')
-    const parentMaterialSpy = vi.spyOn(parent.material, 'dispose')
-    const childGeometrySpy = vi.spyOn(child.geometry, 'dispose')
-    const childMaterialSpy = vi.spyOn(child.material, 'dispose')
-
-    utils.disposeRecursive(parent)
-
-    expect(parentGeometrySpy).toHaveBeenCalledOnce()
-    expect(parentMaterialSpy).toHaveBeenCalledOnce()
-    expect(childGeometrySpy).toHaveBeenCalledOnce()
-    expect(childMaterialSpy).toHaveBeenCalledOnce()
-  })
-
-  it('does not dispose a renderer', () => {
-    const mesh = new Mesh(new BoxGeometry(), new MeshNormalMaterial())
-    // NOTE: THREE Renderers do not tag themselves with something
-    // like `isRenderer`. So we have to rely on their common fields and
-    // make a guess.
-    // Aside from dispose, these are the fields renderers have in common.
-    const mockWebGLRenderer = {
-      getSize: () => {},
-      setSize: () => {},
-      render: () => {},
-      dispose: () => {},
-    }
-    const parent = Object.assign(mesh, { webGLRenderer: mockWebGLRenderer })
-
-    const webGLSpy = vi.spyOn(mockWebGLRenderer, 'dispose')
-
-    utils.disposeRecursive(parent)
-    utils.disposeRecursive(mockWebGLRenderer)
-
-    expect(webGLSpy).not.toBeCalled()
   })
 })

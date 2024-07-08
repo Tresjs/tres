@@ -29,11 +29,13 @@ export interface InstanceProps<T = any, P = any> {
   args?: Args<P>
   object?: T
   visible?: boolean
+  dispose?: null
   [prop: string]: any
 }
 
 interface TresBaseObject {
   removeFromParent?: () => void
+  dispose?: () => void
   [prop: string]: any // for arbitrary properties
 }
 
