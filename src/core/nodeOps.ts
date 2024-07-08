@@ -2,7 +2,7 @@ import { type RendererOptions, isRef } from 'vue'
 import { BufferAttribute, Object3D } from 'three'
 import type { TresContext } from '../composables'
 import { useLogger } from '../composables'
-import { attach, deepArrayEqual, detach, filterInPlace, invalidateInstance, isHTMLTag, kebabToCamel, noop, prepareTresInstance, setPrimitiveObject, unboxTresPrimitive } from '../utils'
+import { attach, deepArrayEqual, doRemoveDeregister, doRemoveDetach, invalidateInstance, isHTMLTag, kebabToCamel, noop, prepareTresInstance, setPrimitiveObject, unboxTresPrimitive } from '../utils'
 import type { DisposeType, InstanceProps, LocalState, TresInstance, TresObject, TresObject3D, TresPrimitive } from '../types'
 import * as is from '../utils/is'
 import { createRetargetingProxy } from '../utils/primitive/createRetargetingProxy'
@@ -131,6 +131,10 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
     }
   }
 
+  /**
+   * @param node – the node root to remove
+   * @param dispose – the disposal type
+   */
   function remove(node: TresObject | null, dispose?: DisposeType) {
     // NOTE: `remove` is initially called by Vue only on
     // the root `node` of the tree to be removed. We will
@@ -163,54 +167,23 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
     const isPrimitive = node.__tres?.primitive
     const shouldDispose = dispose === 'default' ? !isPrimitive : !!(dispose)
 
-    // NOTE: Remove `node` from __tres parent/objects graph
-    const parent = node.__tres?.parent || scene
-    if (node.__tres) { node.__tres.parent = null }
-    if (parent.__tres && 'objects' in parent.__tres) {
-      filterInPlace(parent.__tres.objects, obj => obj !== node)
-    }
+    // NOTE: This function has 5 stages:
+    // 1) Recursively remove `node`'s children
+    // 2) Detach `node` from its parent
+    // 3) Deregister `node` with `context` and invalidate
+    // 4) Dispose `node`
+    // 5) Remove `node`'s `LocalState`
 
-    // NOTE: THREE.removeFromParent removes `node` from
-    // `parent.children`.
-    if (node.__tres?.attach) {
-      detach(parent, node as TresInstance, node.__tres.attach)
-    }
-    else {
-      // NOTE: In case this is a primitive, we added the :object, not
-      // the primitive. So we "unbox" here to remove the :object.
-      node.parent?.remove?.(unboxTresPrimitive(node))
-      // NOTE: THREE doesn't set `node.parent` when removing `node`.
-      // We will do that here to properly maintain the parent/children
-      // graph as a source of truth.
-      node.parent = null
-    }
-
-    // NOTE: Deregister `node` THREE.Object3D children
-    node.traverse?.((child) => {
-      context.deregisterCamera(child)
-      // deregisterAtPointerEventHandlerIfRequired?.(child as TresObject)
-      context.eventManager?.deregisterPointerMissedObject(child)
-    })
-
-    if (dispose === 'detach-only') {
-      return
-    }
-
-    // NOTE: Deregister `node`
-    context.deregisterCamera(node)
-    /*  deregisterAtPointerEventHandlerIfRequired?.(node as TresObject) */
-    invalidateInstance(node as TresObject)
-
-    // NOTE: Remove (but not necessarily dispose)
-    // child objects that had been added declaratively.
+    // NOTE: 1) Recursively remove `node`'s children
+    // NOTE: Remove declarative children.
     if (node.__tres && 'objects' in node.__tres) {
-      // NOTE: In the recursive `remove` calls, the array elements
-      // will remove themselves from the array, resulting in skipped
-      // elements. Make a shallow copy of the array.
+    // NOTE: In the recursive `remove` calls, the array elements
+    // will remove themselves from the array, resulting in skipped
+    // elements. Make a shallow copy of the array.
       [...node.__tres.objects].forEach(obj => remove(obj, dispose))
     }
 
-    // NOTE: Remove (but not necessarily dispose) remaining THREE children.
+    // NOTE: Remove remaining THREE children.
     // On primitives, we do not remove THREE children unless disposing.
     // Otherwise we would alter the user's `:object`.
     if (shouldDispose) {
@@ -222,7 +195,13 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
       }
     }
 
-    // NOTE: Dispose `node`
+    // NOTE: 2) Detach `node` from its parent
+    doRemoveDetach(node, context)
+
+    // NOTE: 3) Deregister `node` THREE.Object3D children and invalidate `node`
+    doRemoveDeregister(node, context)
+
+    // NOTE: 4) Dispose `node`
     if (shouldDispose && !is.scene(node)) {
       if (is.fun(dispose)) {
         dispose(node)
@@ -232,12 +211,21 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
           node.dispose()
         }
         catch (e) {
-
+          // NOTE: We must try/catch here. We want to remove/dispose
+          // Vue/THREE children in bottom-up order. But THREE objects
+          // will e.g., call `this.material.dispose` without checking
+          // if the material exists, leading to an error.
+          // See issue #721:
+          // https://github.com/Tresjs/tres/issues/721
+          // Cannot read properties of undefined (reading 'dispose') - GridHelper
         }
       }
     }
 
-    delete node.__tres
+    // NOTE: 5) Remove `LocalState`
+    if ('__tres' in node) {
+      delete node.__tres
+    }
   }
 
   function patchProp(node: TresObject, prop: string, prevValue: any, nextValue: any) {

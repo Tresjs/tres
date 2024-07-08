@@ -520,9 +520,11 @@ export function setPrimitiveObject(
   // NOTE: `object` is a reference to `oldObject` and not to be patched.
   delete propsToPatch.object
 
-  // NOTE: remove added/attached Vue children
+  // NOTE: detach/deactivate added/attached Vue children, but don't
+  // otherwise alter them and don't recurse.
   for (const obj of objectsToAttach) {
-    nodeOpsFns.remove(obj, 'detach-only')
+    doRemoveDetach(obj, context)
+    doRemoveDeregister(obj, context)
   }
   oldObject.__tres.objects = []
 
@@ -558,4 +560,44 @@ export function unboxTresPrimitive<T>(maybePrimitive: T): T | TresInstance {
   else {
     return maybePrimitive
   }
+}
+
+export function doRemoveDetach(node: TresObject, context: TresContext) {
+  // NOTE: Remove `node` from its parent's __tres parent/objects graph
+  const parent = node.__tres?.parent || context.scene.value
+  if (node.__tres) { node.__tres.parent = null }
+  if (parent && parent.__tres && 'objects' in parent.__tres) {
+    filterInPlace(parent.__tres.objects, obj => obj !== node)
+  }
+
+  // NOTE: THREE.removeFromParent removes `node` from
+  // `parent.children`.
+  if (node.__tres?.attach) {
+    detach(parent, node as TresInstance, node.__tres.attach)
+  }
+  else {
+    // NOTE: In case this is a primitive, we added the :object, not
+    // the primitive. So we "unbox" here to remove the :object.
+    // If not a primitive, unboxing returns the argument.
+    node.parent?.remove?.(unboxTresPrimitive(node))
+    // NOTE: THREE doesn't set `node.parent` when removing `node`.
+    // We will do that here to properly maintain the parent/children
+    // graph as a source of truth.
+    node.parent = null
+  }
+}
+
+export function doRemoveDeregister(node: TresObject, context: TresContext) {
+  // TODO: Refactor as `context.deregister`?
+  // That would eliminate `context.deregisterCamera`.
+  node.traverse?.((child) => {
+    context.deregisterCamera(child)
+    // deregisterAtPointerEventHandlerIfRequired?.(child as TresObject)
+    context.eventManager?.deregisterPointerMissedObject(child)
+  })
+
+  // NOTE: Deregister `node`
+  context.deregisterCamera(node)
+  /*  deregisterAtPointerEventHandlerIfRequired?.(node as TresObject) */
+  invalidateInstance(node as TresObject)
 }
