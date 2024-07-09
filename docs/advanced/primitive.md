@@ -24,7 +24,7 @@ The `<primitive />` component is a versatile low-level component in TresJS that 
 
 ## Props
 
-- `object`: This prop expects a plain or reactive three.js [Object3D](https://threejs.org/docs/index.html?q=Object#api/en/core/Object3D) or any of its derived classes. It is the primary object that the `<primitive />` component will render. In the updated example, a `Mesh` object with an associated `Material` is passed to this prop.
+- `object`: This prop expects either a plain or a reactive three.js [Object3D](https://threejs.org/docs/index.html?q=Object#api/en/core/Object3D) (preferably a [shallowRef](https://vuejs.org/api/reactivity-advanced.html#shallowref)) or any of its derived classes. It is the primary object that the `<primitive />` component will render. In the updated example, a `Mesh` object with an associated `Material` is passed to this prop.
 
 ## Events
 
