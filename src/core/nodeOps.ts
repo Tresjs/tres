@@ -204,7 +204,7 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
     // NOTE: 4) Dispose `node`
     if (shouldDispose && !is.scene(node)) {
       if (is.fun(dispose)) {
-        dispose(node)
+        dispose(node as TresInstance)
       }
       else if (is.fun(node.dispose)) {
         try {
