@@ -262,7 +262,7 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
       return
     }
     // Has events
-    if (supportedPointerEvents.includes(prop)) {
+    if (supportedPointerEvents.includes(prop) && node.__tres) {
       node.__tres.eventCount += 1
     }
     let finalKey = kebabToCamel(key)
