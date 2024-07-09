@@ -1539,7 +1539,6 @@ function mockTresContext() {
     scene: shallowRef(new Scene()),
     registerCamera: () => {},
     deregisterCamera: () => {},
-    isTresContext: true,
   } as unknown as TresContext
 }
 

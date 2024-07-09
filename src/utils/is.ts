@@ -1,6 +1,5 @@
 import type { TresObject, TresPrimitive } from 'src/types'
 import type { BufferGeometry, Camera, Fog, Material, Object3D, Scene } from 'three'
-import type { TresContext } from '../composables/useTresContextProvider'
 
 export function und(u: unknown) {
   return typeof u === 'undefined'
@@ -58,8 +57,4 @@ export function tresObject(u: unknown): u is TresObject {
 
 export function tresPrimitive(u: unknown): u is TresPrimitive {
   return obj(u) && !!(u.isPrimitive)
-}
-
-export function tresContext(u: unknown): u is TresContext {
-  return obj(u) && 'isTresContext' in u && !!(u.isTresContext)
 }

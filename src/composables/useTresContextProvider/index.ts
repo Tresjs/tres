@@ -82,7 +82,6 @@ export interface TresContext {
   deregisterObjectAtPointerEventHandler?: (object: TresObject) => void
   registerBlockingObjectAtPointerEventHandler?: (object: TresObject) => void
   deregisterBlockingObjectAtPointerEventHandler?: (object: TresObject) => void
-  isTresContext: true
 }
 
 export function useTresContextProvider({
@@ -183,7 +182,6 @@ export function useTresContextProvider({
     setCameraActive,
     deregisterCamera,
     loop: createRenderLoop(),
-    isTresContext: true,
   }
 
   provide('useTres', ctx)
