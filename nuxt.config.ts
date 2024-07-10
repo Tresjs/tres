@@ -50,6 +50,9 @@ export default defineNuxtConfig({
     devtools: true,
     glsl: true,
   },
+  routeRules: {
+    '/': { prerender: true }
+  },
   unocss: {
     // presets
     theme: {
