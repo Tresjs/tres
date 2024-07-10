@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import Background from './Background.vue';
+import Background from './Background.vue'
 </script>
 
 <template>
@@ -9,17 +9,28 @@ import Background from './Background.vue';
       <h1>Hola</h1>
     </div>
     <div class="top-left">
-      <a href="https://tresjs.org" class="logo">
-        <img src="./logos/tres_logo_white.svg" alt="TresJS Logo" width="140" />
+      <a
+        href="https://tresjs.org"
+        class="logo"
+      >
+        <img
+          src="/logos/tres_logo_white.svg"
+          alt="TresJS Logo"
+          width="140"
+        >
       </a>
     </div>
     <div class="bottom-left">
       <div style="display:flex">
         <div style="padding-right:20px; padding-top:5px">
-          <img src="./logos/tres_shapes_stack_white.svg" width="25" alt="" />
+          <img
+            src="/logos/tres_shapes_stack_white.svg"
+            width="25"
+            alt=""
+          >
         </div>
         <div>
-          <a href="https://tresjs.org">TresJS is Vue.js + Three.js</a><br />
+          <a href="https://tresjs.org">TresJS is Vue.js + Three.js</a><br>
           <a href="/">See more experiments and examples</a>
         </div>
       </div>
