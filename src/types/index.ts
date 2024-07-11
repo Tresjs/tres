@@ -8,6 +8,7 @@ import type { TresContext } from '../composables/useTresContextProvider'
 
 export type AttachFnType = (parent: any, self: TresInstance) => () => void
 export type AttachType = string | AttachFnType
+export type DisposeType = ((self: TresInstance) => void) | boolean | 'default'
 
 export type ConstructorRepresentation = new (...args: any[]) => any
 export type NonFunctionKeys<P> = { [K in keyof P]-?: P[K] extends Function ? never : K }[keyof P]
@@ -46,16 +47,19 @@ export interface LocalState {
   memoizedProps: { [key: string]: any }
   // NOTE:
   // LocalState holds information about the parent/child relationship
-  // in the Vue graph. If a child is `insert`ed into a parent using
-  // anything but THREE's `add`, it's put into the parent's `objects`.
-  // objects and parent are used when children are added with `attach`
-  // instead of being added to the Object3D scene graph
+  // in the Vue graph. Note that this is distinct from THREE's
+  // Object3D.parent/children graph. parent/objects holds all
+  // <parent>
+  //   <object />
+  // </parent>
+  // relationships. This includes Object3D.parent/children
+  // added via tags. But it also includes materials and geometries.
   objects: TresObject[]
   parent: TresObject | null
   // NOTE: End graph info
 
   primitive?: boolean
-  disposable?: boolean
+  dispose?: DisposeType
   attach?: AttachType
   previousAttach: any
 }
@@ -70,6 +74,8 @@ export type TresObject =
   TresBaseObject & (TresObject3D | THREE.BufferGeometry | THREE.Material | THREE.Fog) & { __tres?: LocalState }
 
 export type TresInstance = TresObject & { __tres: LocalState }
+
+export type TresPrimitive = TresInstance & { object: TresInstance, isPrimitive: true }
 
 export interface TresScene extends THREE.Scene {
   __tres: {

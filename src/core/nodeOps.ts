@@ -1,10 +1,11 @@
-import type { RendererOptions } from 'vue'
+import { type RendererOptions, isRef } from 'vue'
 import { BufferAttribute, Object3D } from 'three'
 import type { TresContext } from '../composables'
 import { useLogger } from '../composables'
-import { attach, deepArrayEqual, detach, filterInPlace, invalidateInstance, isHTMLTag, kebabToCamel, noop, prepareTresInstance } from '../utils'
-import type { InstanceProps, TresInstance, TresObject, TresObject3D } from '../types'
+import { attach, deepArrayEqual, doRemoveDeregister, doRemoveDetach, invalidateInstance, isHTMLTag, kebabToCamel, noop, prepareTresInstance, setPrimitiveObject, unboxTresPrimitive } from '../utils'
+import type { DisposeType, InstanceProps, LocalState, TresInstance, TresObject, TresObject3D, TresPrimitive } from '../types'
 import * as is from '../utils/is'
+import { createRetargetingProxy } from '../utils/primitive/createRetargetingProxy'
 import { catalogue } from './catalogue'
 
 const { logError } = useLogger()
@@ -41,10 +42,28 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
     let obj: TresObject | null
 
     if (tag === 'primitive') {
-      if (props?.object === undefined) { logError('Tres primitives need a prop \'object\'') }
-      const object = props.object as TresObject
-      name = object.type
-      obj = Object.assign(object.clone(), { type: name }) as TresObject
+      if (!is.obj(props.object) || isRef(props.object)) {
+        logError(
+          'Tres primitives need an \'object\' prop, whose value is an object or shallowRef<object>',
+        )
+      }
+      name = props.object.type
+      const __tres = {}
+      const primitive = createRetargetingProxy(
+        props.object,
+        {
+          object: t => t,
+          isPrimitive: () => true,
+          __tres: () => __tres,
+        },
+        {
+          object: (object: TresObject, _, primitive: TresPrimitive, setTarget: (nextObject: TresObject) => void) => {
+            setPrimitiveObject(object, primitive, setTarget, { patchProp, remove, insert }, context)
+          },
+          __tres: (t: LocalState) => { Object.assign(__tres, t) },
+        },
+      )
+      obj = primitive
     }
     else {
       const target = catalogue.value[name]
@@ -68,139 +87,145 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
       }
     }
 
-    const instance = prepareTresInstance(obj, {
+    obj = prepareTresInstance(obj, {
       ...obj.__tres,
       type: name,
       memoizedProps: props,
       eventCount: 0,
-      disposable: true,
       primitive: tag === 'primitive',
       attach: props.attach,
     }, context)
-
-    if (!instance.__tres.attach) {
-      if (instance.isMaterial) { instance.__tres.attach = 'material' }
-      else if (instance.isBufferGeometry) { instance.__tres.attach = 'geometry' }
-      else if (instance.isFog) { instance.__tres.attach = 'fog' }
-    }
-
-    // determine whether the material was passed via prop to
-    // prevent it's disposal when node is removed later in it's lifecycle
-    if (instance.isObject3D && (props?.material || props?.geometry)) {
-      instance.__tres.disposable = false
-    }
 
     return obj as TresObject
   }
 
   function insert(child: TresObject, parent: TresObject) {
     if (!child) { return }
+
+    // TODO: Investigate and eventually remove `scene` fallback.
+    // According to the signature, `parent` should always be
+    // truthy. If it is not truthy, it may be due to a bug
+    // elsewhere in Tres.
     parent = parent || scene
     const childInstance: TresInstance = (child.__tres ? child as TresInstance : prepareTresInstance(child, {}, context))
     const parentInstance: TresInstance = (parent.__tres ? parent as TresInstance : prepareTresInstance(parent, {}, context))
+    child = unboxTresPrimitive(childInstance)
+    parent = unboxTresPrimitive(parentInstance)
 
     context.registerCamera(child)
     // NOTE: Track onPointerMissed objects separate from the scene
     context.eventManager?.registerPointerMissedObject(child)
 
-    let insertedWithAdd = false
     if (childInstance.__tres.attach) {
       attach(parentInstance, childInstance, childInstance.__tres.attach)
     }
     else if (is.object3D(child) && is.object3D(parentInstance)) {
       parentInstance.add(child)
-      insertedWithAdd = true
       child.dispatchEvent({ type: 'added' })
     }
 
     // NOTE: Update __tres parent/objects graph
     childInstance.__tres.parent = parentInstance
-    if (parentInstance.__tres?.objects && !insertedWithAdd) {
-      if (!parentInstance.__tres.objects.includes(child)) {
-        parentInstance.__tres.objects.push(child)
-      }
+    if (parentInstance.__tres.objects && !parentInstance.__tres.objects.includes(childInstance)) {
+      parentInstance.__tres.objects.push(childInstance)
     }
   }
 
-  function remove(node: TresObject | null, dispose?: boolean) {
+  /**
+   * @param node – the node root to remove
+   * @param dispose – the disposal type
+   */
+  function remove(node: TresObject | null, dispose?: DisposeType) {
     // NOTE: `remove` is initially called by Vue only on
-    // the root `node` of the tree to be removed. Vue does not
-    // pass a `dispose` argument.
-    // Where appropriate, we will recursively call `remove`
-    // on `children` and `__tres.objects`.
-    // We will derive and pass a value for `dispose`, allowing
-    // nodes to "bail out" of disposal for their subtree.
+    // the root `node` of the tree to be removed. We will
+    // recursively call the function on children, if necessary.
+    // NOTE: Vue does not pass a `dispose` argument; it is
+    // used by the recursive calls.
 
     if (!node) { return }
 
-    // NOTE: Derive value for `dispose`.
-    // We stop disposal of a node and its tree if any of these are true:
-    // 1) it is a <primitive :object="..." />
-    // 2) it has :dispose="null"
-    // 3) it was bailed out by a parent passing `remove(..., false)`
+    // NOTE: Derive `dispose` value for this `remove` call and
+    // recursive remove calls.
+    dispose = is.und(dispose) ? 'default' : dispose
+    const userDispose = node.__tres?.dispose
+    if (!is.und(userDispose)) {
+      if (userDispose === null) {
+        // NOTE: Treat as `false` to act like R3F
+        dispose = false
+      }
+      else {
+        // NOTE: Otherwise, if the user has defined a `dispose`, use it
+        dispose = userDispose
+      }
+    }
+
+    // NOTE: Create a `shouldDispose` boolean for readable predicates below.
+    // 1) If `dispose` is "default", then:
+    //   - dispose declarative components, e.g., <TresMeshNormalMaterial />
+    //   - do *not* dispose primitives or their non-declarative children
+    // 2) Otherwise, follow `dispose`
     const isPrimitive = node.__tres?.primitive
-    const isDisposeNull = node.dispose === null
-    const isBailedOut = dispose === false
-    const shouldDispose = !(isPrimitive || isDisposeNull || isBailedOut)
+    const shouldDispose = dispose === 'default' ? !isPrimitive : !!(dispose)
 
-    // TODO:
-    // Figure out why `parent` is being set on `node` here
-    // and remove/refactor.
-    node.parent = node.parent || scene
+    // NOTE: This function has 5 stages:
+    // 1) Recursively remove `node`'s children
+    // 2) Detach `node` from its parent
+    // 3) Deregister `node` with `context` and invalidate
+    // 4) Dispose `node`
+    // 5) Remove `node`'s `LocalState`
 
-    // NOTE: Remove `node` from __tres parent/objects graph
-    const parent = node.__tres?.parent || scene
-    if (node.__tres) { node.__tres.parent = null }
-    if (parent.__tres && 'objects' in parent.__tres) {
-      filterInPlace(parent.__tres.objects, obj => obj !== node)
+    // NOTE: 1) Recursively remove `node`'s children
+    // NOTE: Remove declarative children.
+    if (node.__tres && 'objects' in node.__tres) {
+    // NOTE: In the recursive `remove` calls, the array elements
+    // will remove themselves from the array, resulting in skipped
+    // elements. Make a shallow copy of the array.
+      [...node.__tres.objects].forEach(obj => remove(obj, dispose))
     }
 
-    // NOTE: THREE.removeFromParent removes `node` from
-    // `parent.children`.
-    if (node.__tres?.attach) {
-      detach(parent, node, node.__tres.attach)
-    }
-    else {
-      node.removeFromParent?.()
-    }
-
-    // NOTE: Deregister `node` THREE.Object3D children
-    node.traverse?.((child) => {
-      context.deregisterCamera(child)
-      // deregisterAtPointerEventHandlerIfRequired?.(child as TresObject)
-      context.eventManager?.deregisterPointerMissedObject(child)
-    })
-
-    // NOTE: Deregister `node`
-    context.deregisterCamera(node)
-    /*  deregisterAtPointerEventHandlerIfRequired?.(node as TresObject) */
-    invalidateInstance(node as TresObject)
-
-    // TODO: support removing `attach`ed components
-
-    // NOTE: Recursively `remove` children and objects.
-    // Never on primitives:
-    // - removing children would alter the primitive :object.
-    // - primitives are not expected to have declarative children
-    //   and so should not have `objects`.
-    if (!isPrimitive) {
-      // NOTE: In recursive `remove`, the array elements will
-      // remove themselves from these arrays, resulting in
-      // skipped elements. Make shallow copies of the arrays.
+    // NOTE: Remove remaining THREE children.
+    // On primitives, we do not remove THREE children unless disposing.
+    // Otherwise we would alter the user's `:object`.
+    if (shouldDispose) {
+      // NOTE: In the recursive `remove` calls, the array elements
+      // will remove themselves from the array, resulting in skipped
+      // elements. Make a shallow copy of the array.
       if (node.children) {
-        [...node.children].forEach(child => remove(child, shouldDispose))
-      }
-      if (node.__tres && 'objects' in node.__tres) {
-        [...node.__tres.objects].forEach(obj => remove(obj, shouldDispose))
+        [...node.children].forEach(child => remove(child, dispose))
       }
     }
 
-    // NOTE: Dispose `node`
-    if (shouldDispose && node.dispose && !is.scene(node)) {
-      node.dispose()
+    // NOTE: 2) Detach `node` from its parent
+    doRemoveDetach(node, context)
+
+    // NOTE: 3) Deregister `node` THREE.Object3D children and invalidate `node`
+    doRemoveDeregister(node, context)
+
+    // NOTE: 4) Dispose `node`
+    if (shouldDispose && !is.scene(node)) {
+      if (is.fun(dispose)) {
+        dispose(node as TresInstance)
+      }
+      else if (is.fun(node.dispose)) {
+        try {
+          node.dispose()
+        }
+        catch (e) {
+          // NOTE: We must try/catch here. We want to remove/dispose
+          // Vue/THREE children in bottom-up order. But THREE objects
+          // will e.g., call `this.material.dispose` without checking
+          // if the material exists, leading to an error.
+          // See issue #721:
+          // https://github.com/Tresjs/tres/issues/721
+          // Cannot read properties of undefined (reading 'dispose') - GridHelper
+        }
+      }
     }
 
-    delete node.__tres
+    // NOTE: 5) Remove `LocalState`
+    if ('__tres' in node) {
+      delete node.__tres
+    }
   }
 
   function patchProp(node: TresObject, prop: string, prevValue: any, nextValue: any) {
@@ -208,6 +233,9 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
 
     let root = node
     let key = prop
+
+    // NOTE: Update memoizedProps with the new value
+    if (node.__tres) { node.__tres.memoizedProps[prop] = nextValue }
 
     if (prop === 'attach') {
       // NOTE: `attach` is not a field on a TresObject.
@@ -221,32 +249,11 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
       return
     }
 
-    if (node.__tres?.primitive && key === 'object' && prevValue !== null) {
-      // If the prop 'object' is changed, we need to re-instance the object and swap the old one with the new one
-      const newInstance = createElement('primitive', undefined, undefined, {
-        object: nextValue,
-      })
-      for (const subkey in newInstance) {
-        if (subkey === 'uuid') { continue }
-        const target = node[subkey]
-        const value = newInstance[subkey]
-        if (!target?.set && !is.fun(target)) { node[subkey] = value }
-        else if (target.constructor === value.constructor && target?.copy) { target?.copy(value) }
-        else if (Array.isArray(value)) { target.set(...value) }
-        else if (!target.isColor && target.setScalar) { target.setScalar(value) }
-        else { target.set(value) }
-      }
-      if (newInstance?.__tres) {
-        newInstance.__tres.root = context
-      }
-      // This code is needed to handle the case where the prop 'object' type change from a group to a mesh or vice versa, otherwise the object will not be rendered correctly (models will be invisible)
-      if (newInstance?.isGroup) {
-        node.geometry = undefined
-        node.material = undefined
-      }
-      else {
-        delete node.isGroup
-      }
+    if (prop === 'dispose') {
+      // NOTE: Add node.__tres, if necessary.
+      if (!node.__tres) { node = prepareTresInstance(node, {}, context) }
+      node.__tres!.dispose = nextValue
+      return
     }
 
     if (is.object3D(node) && key === 'blocks-pointer-events') {
@@ -255,7 +262,7 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
       return
     }
     // Has events
-    if (supportedPointerEvents.includes(prop)) {
+    if (supportedPointerEvents.includes(prop) && node.__tres) {
       node.__tres.eventCount += 1
     }
     let finalKey = kebabToCamel(key)
@@ -327,7 +334,7 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
   }
 
   function parentNode(node: TresObject): TresObject | null {
-    return node?.parent || null
+    return node?.__tres?.parent || null
   }
 
   /**
@@ -340,27 +347,22 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
    * @returns TresObject
    */
   function createComment(comment: string): TresObject {
-    const commentObj = new Object3D() as TresObject
-
-    // Set name and type to comment
     // TODO: Add a custom type for comments instead of reusing Object3D. Comments should be light weight and not exist in the scene graph
+    const commentObj = prepareTresInstance(new Object3D(), { type: 'Comment' }, context)
     commentObj.name = comment
-    commentObj.__tres = { type: 'Comment' }
-
-    // Without this we have errors in other nodeOp functions that come across this object
-    commentObj.__tres.root = scene?.__tres.root as TresContext
-
     return commentObj
   }
 
   // nextSibling - Returns the next sibling of a TresObject
   function nextSibling(node: TresObject) {
-    if (!node) { return null }
+    const parent = parentNode(node)
+    const siblings = parent?.__tres?.objects || []
+    const index = siblings.indexOf(node)
 
-    const parent = node.parent || scene
-    const index = parent.children.indexOf(node)
+    // NOTE: If not found OR this is the last of the siblings ...
+    if (index < 0 || index >= siblings.length - 1) { return null }
 
-    return parent.children[index + 1] || null
+    return siblings[index + 1]
   }
 
   return {

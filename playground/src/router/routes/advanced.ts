@@ -34,4 +34,9 @@ export const advancedRoutes = [
     name: 'Device Pixel Ratio',
     component: () => import('../../pages/advanced/devicePixelRatio/index.vue'),
   },
+  {
+    path: '/advanced/disposal',
+    name: 'Disposal',
+    component: () => import('../../pages/advanced/disposal/index.vue'),
+  },
 ]
