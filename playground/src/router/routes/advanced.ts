@@ -29,4 +29,9 @@ export const advancedRoutes = [
     name: 'Material array',
     component: () => import('../../pages/advanced/materialArray/index.vue'),
   },
+  {
+    path: '/advanced/device-pixel-ratio',
+    name: 'Device Pixel Ratio',
+    component: () => import('../../pages/advanced/devicePixelRatio/index.vue'),
+  },
 ]
