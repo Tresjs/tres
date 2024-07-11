@@ -29,7 +29,6 @@ import {
   type TresContext,
   useLogger,
   useTresContextProvider,
-  useTresEventManager,
 } from '../composables'
 import { extend } from '../core/catalogue'
 import { nodeOps } from '../core/nodeOps'
