@@ -9,6 +9,10 @@ export function arr(u: unknown) {
   return Array.isArray(u)
 }
 
+export function num(u: unknown): u is number {
+  return typeof u === 'number'
+}
+
 export function str(u: unknown): u is string {
   return typeof u === 'string'
 }
