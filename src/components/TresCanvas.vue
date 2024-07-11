@@ -50,6 +50,7 @@ export interface TresCanvasProps
   outputColorSpace?: ColorSpace
   toneMappingExposure?: number
   renderMode?: 'always' | 'on-demand' | 'manual'
+  dpr?: number | [number, number]
 
   // required by useTresContextProvider
   camera?: TresCamera

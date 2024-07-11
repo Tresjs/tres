@@ -1,5 +1,5 @@
 import type { Material, Mesh, Object3D, Texture } from 'three'
-import { DoubleSide, MeshBasicMaterial, Scene, Vector3 } from 'three'
+import { DoubleSide, MathUtils, MeshBasicMaterial, Scene, Vector3 } from 'three'
 import type { AttachType, LocalState, TresInstance, TresObject } from 'src/types'
 import { HightlightMesh } from '../devtools/highlight'
 import type { TresContext } from '../composables/useTresContextProvider'
@@ -444,4 +444,24 @@ export function invalidateInstance(instance: TresObject) {
 export function noop(fn: string): any {
   // eslint-disable-next-line no-unused-expressions
   fn
+}
+
+export function setPixelRatio(renderer: { setPixelRatio?: (dpr: number) => void, getPixelRatio?: () => number }, systemDpr: number, userDpr?: number | [number, number]) {
+  // NOTE: Optional `setPixelRatio` allows this function to accept
+  // THREE renderers like SVGRenderer.
+  if (!is.fun(renderer.setPixelRatio)) { return }
+
+  let newDpr = 0
+
+  if (is.arr(userDpr) && userDpr.length >= 2) {
+    const [min, max] = userDpr
+    newDpr = MathUtils.clamp(systemDpr, min, max)
+  }
+  else if (is.num(userDpr)) { newDpr = userDpr }
+  else { newDpr = systemDpr }
+
+  // NOTE: Don't call `setPixelRatio` unless both:
+  // - the dpr value has changed
+  // - the renderer has `setPixelRatio`; this check allows us to pass any THREE renderer
+  if (newDpr !== renderer.getPixelRatio?.()) { renderer.setPixelRatio(newDpr) }
 }
