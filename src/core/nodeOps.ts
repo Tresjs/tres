@@ -112,6 +112,10 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
     child = unboxTresPrimitive(childInstance)
     parent = unboxTresPrimitive(parentInstance)
 
+    if (child.__tres && child.__tres?.eventCount > 0) {
+      context.eventManager?.registerObject(child)
+    }
+
     context.registerCamera(child)
     // NOTE: Track onPointerMissed objects separate from the scene
     context.eventManager?.registerPointerMissedObject(child)
@@ -143,6 +147,11 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
     // used by the recursive calls.
 
     if (!node) { return }
+
+    // Remove from event manager if necessary
+    if (node?.__tres && node.__tres?.eventCount > 0) {
+      context.eventManager?.deregisterObject(node)
+    }
 
     // NOTE: Derive `dispose` value for this `remove` call and
     // recursive remove calls.

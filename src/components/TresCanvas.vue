@@ -162,8 +162,6 @@ onMounted(() => {
     emit,
   })
 
-  useTresEventManager(scene.value, context.value, emit)
-
   const { registerCamera, camera, cameras, deregisterCamera } = context.value
 
   mountCustomRenderer(context.value)

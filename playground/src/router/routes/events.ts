@@ -9,4 +9,9 @@ export const eventsRoutes = [
     name: 'FSP Drops Reproduction',
     component: () => import('../../pages/events/FpsDropsReproduction.vue'),
   },
+  {
+    path: '/events/dynamic-objects',
+    name: 'Dynamic Objects',
+    component: () => import('../../pages/events/DynamicObjects.vue'),
+  },
 ]

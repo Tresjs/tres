@@ -11,7 +11,7 @@ import { extend } from '../../core/catalogue'
 import { useLogger } from '../useLogger'
 import type { EmitEventFn, TresObject, TresScene } from '../../types'
 import type { EventProps } from '../usePointerEventHandler'
-import type { TresEventManager } from '../useTresEventManager'
+import { type TresEventManager, useTresEventManager } from '../useTresEventManager'
 import useSizes, { type SizesType } from '../useSizes'
 import type { RendererLoop } from '../../core/loop'
 import { createRenderLoop } from '../../core/loop'
@@ -214,9 +214,11 @@ export function useTresContextProvider({
 
   ctx.loop.setReady(false)
   ctx.loop.start()
+
   onTresReady(() => {
     emit('ready', ctx)
     ctx.loop.setReady(true)
+    useTresEventManager(scene, ctx, emit)
   })
 
   onUnmounted(() => {
