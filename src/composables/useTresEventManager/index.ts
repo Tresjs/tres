@@ -36,7 +36,7 @@ export function useTresEventManager(
   const hasEvents = (object: TresInstance) => object.__tres?.eventCount > 0
   const hasChildrenWithEvents = (object: TresInstance) => object.children?.some((child: TresInstance) => hasChildrenWithEvents(child)) || hasEvents(object)
   // TODO: Optimize to not hit test on the whole scene
-  const objectsWithEvents = ref((_scene.value?.children as TresInstance[]).filter(hasChildrenWithEvents) || [])
+  const objectsWithEvents = shallowRef((_scene.value?.children as TresInstance[]).filter(hasChildrenWithEvents) || [])
 
   function executeEventListeners(
     listeners: Function | Function[],

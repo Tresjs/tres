@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { reactive } from 'vue'
 import { TresCanvas } from '@tresjs/core'
-import { Box, OrbitControls, Sphere } from '@tresjs/cientos'
+import { Box, OrbitControls, Sphere, StatsGl } from '@tresjs/cientos'
 
 const hotspots = reactive([
   {
@@ -37,6 +37,9 @@ const shrink = (event) => {
 
 <template>
   <TresCanvas>
+    <Suspense>
+      <StatsGl />
+    </Suspense>
     <OrbitControls />
     <TresPerspectiveCamera />
     <TresAmbientLight :args="['white', 0.5]" />
@@ -46,7 +49,7 @@ const shrink = (event) => {
     <Sphere
       v-for="(hotspot, index) in hotspots"
       :key="index"
-      :args="[0.5, 32, 32]"
+      :args="[0.5, 16, 16]"
       :position="hotspot.position"
       @click="console.log('click', index)"
       @pointer-enter="grow"
