@@ -10,7 +10,6 @@ import * as THREE from 'three'
 import type { App, Ref } from 'vue'
 import {
   Fragment,
-  computed,
   createRenderer,
   defineComponent,
   getCurrentInstance,
