@@ -1,5 +1,5 @@
 import { Vector2, Vector3 } from 'three'
-import type { Intersection, Object3D } from 'three'
+import type { Intersection, Object3D, Object3DEventMap } from 'three'
 import type { ShallowRef } from 'vue'
 import { computed, onUnmounted, shallowRef } from 'vue'
 import type { EventHook } from '@vueuse/core'
@@ -34,7 +34,7 @@ export const useRaycaster = (
 
     ctx.raycaster.value.setFromCamera(new Vector2(x, y), ctx.camera.value)
 
-    intersects.value = ctx.raycaster.value.intersectObjects(objectsWithEvents.value, true)
+    intersects.value = ctx.raycaster.value.intersectObjects(objectsWithEvents.value as Object3D<Object3DEventMap>[], true)
     return intersects.value
   }
 
