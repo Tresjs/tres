@@ -29,7 +29,6 @@ import {
   type TresContext,
   useLogger,
   useTresContextProvider,
-  useTresEventManager,
 } from '../composables'
 import { extend } from '../core/catalogue'
 import { nodeOps } from '../core/nodeOps'
@@ -162,8 +161,6 @@ onMounted(() => {
     rendererOptions: props,
     emit,
   })
-
-  useTresEventManager(scene.value, context.value, emit)
 
   const { registerCamera, camera, cameras, deregisterCamera } = context.value
 

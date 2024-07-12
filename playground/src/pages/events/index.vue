@@ -4,7 +4,7 @@ import type { ThreeEvent } from '@tresjs/core'
 import { TresCanvas } from '@tresjs/core'
 import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
 import { TresLeches, useControls } from '@tresjs/leches'
-import { OrbitControls } from '@tresjs/cientos'
+import { OrbitControls, StatsGl } from '@tresjs/cientos'
 import '@tresjs/leches/styles'
 
 const gl = {
@@ -64,6 +64,9 @@ function onPointerMissed(ev: ThreeEvent<MouseEvent>) {
     window-size
     v-bind="gl"
   >
+    <Suspense>
+      <StatsGl />
+    </Suspense>
     <TresPerspectiveCamera
       :position="[11, 11, 11]"
       :look-at="[0, 0, 0]"

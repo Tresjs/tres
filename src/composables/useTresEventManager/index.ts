@@ -1,6 +1,6 @@
-import { computed, shallowRef } from 'vue'
+import { shallowRef } from 'vue'
 import type { Object3D, Object3DEventMap, Scene } from 'three'
-import type { EmitEventFn, EmitEventName, Intersection, TresEvent, TresObject } from 'src/types'
+import type { EmitEventFn, EmitEventName, Intersection, TresEvent, TresInstance, TresObject } from 'src/types'
 import type { TresContext } from '../useTresContextProvider'
 import { useRaycaster } from '../useRaycaster'
 import { hyphenate } from '../../utils'
@@ -16,6 +16,8 @@ export interface TresEventManager {
    * So we need to track them separately
    * Note: These are used in nodeOps
    */
+  registerObject: (object: unknown) => void
+  deregisterObject: (object: unknown) => void
   registerPointerMissedObject: (object: unknown) => void
   deregisterPointerMissedObject: (object: unknown) => void
 }
@@ -31,10 +33,10 @@ export function useTresEventManager(
   if (scene) { _scene.value = scene }
   if (context) { _context.value = context }
 
-  const hasEvents = object => object.__tres?.eventCount > 0
-  const hasChildrenWithEvents = object => object.children?.some(child => hasChildrenWithEvents(child)) || hasEvents(object)
+  const hasEvents = (object: TresInstance) => object.__tres?.eventCount > 0
+  const hasChildrenWithEvents = (object: TresInstance) => object.children?.some((child: TresInstance) => hasChildrenWithEvents(child)) || hasEvents(object)
   // TODO: Optimize to not hit test on the whole scene
-  const objectsWithEvents = computed(() => _scene.value?.children?.filter(hasChildrenWithEvents) || [])
+  const objectsWithEvents = shallowRef((_scene.value?.children as TresInstance[]).filter(hasChildrenWithEvents) || [])
 
   function executeEventListeners(
     listeners: Function | Function[],
@@ -180,6 +182,21 @@ export function useTresEventManager(
     emit('pointer-missed', { event })
   })
 
+  function registerObject(maybeTresObject: unknown) {
+    if (is.tresObject(maybeTresObject) && is.object3D(maybeTresObject)) {
+      objectsWithEvents.value.push(maybeTresObject)
+    }
+  }
+
+  function deregisterObject(maybeTresObject: unknown) {
+    if (is.tresObject(maybeTresObject) && is.object3D(maybeTresObject)) {
+      const index = objectsWithEvents.value.indexOf(maybeTresObject)
+      if (index > -1) {
+        objectsWithEvents.value.splice(index, 1)
+      }
+    }
+  }
+
   function registerPointerMissedObject(maybeTresObject: unknown) {
     if (is.tresObject(maybeTresObject) && is.object3D(maybeTresObject) && maybeTresObject.onPointerMissed) {
       pointerMissedObjects.push(maybeTresObject)
@@ -198,9 +215,17 @@ export function useTresEventManager(
   // Attach methods to tres context
   context.eventManager = {
     forceUpdate,
+    registerObject,
+    deregisterObject,
     registerPointerMissedObject,
     deregisterPointerMissedObject,
   }
 
-  return { forceUpdate, registerPointerMissedObject, deregisterPointerMissedObject }
+  return {
+    forceUpdate,
+    registerObject,
+    deregisterObject,
+    registerPointerMissedObject,
+    deregisterPointerMissedObject,
+  }
 }
