@@ -30,6 +30,11 @@ export const advancedRoutes = [
     component: () => import('../../pages/advanced/materialArray/index.vue'),
   },
   {
+    path: '/advanced/device-pixel-ratio',
+    name: 'Device Pixel Ratio',
+    component: () => import('../../pages/advanced/devicePixelRatio/index.vue'),
+  },
+  {
     path: '/advanced/disposal',
     name: 'Disposal',
     component: () => import('../../pages/advanced/disposal/index.vue'),
