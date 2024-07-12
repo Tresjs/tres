@@ -1,15 +1,15 @@
 import { Vector2, Vector3 } from 'three'
 import type { Intersection, Object3D } from 'three'
-import type { Ref, ShallowRef } from 'vue'
+import type { ShallowRef } from 'vue'
 import { computed, onUnmounted, shallowRef } from 'vue'
 import type { EventHook } from '@vueuse/core'
 import { createEventHook, useElementBounding, usePointer } from '@vueuse/core'
 
-import type { DomEvent, TresCamera, TresEvent } from 'src/types'
+import type { DomEvent, TresCamera, TresEvent, TresInstance } from 'src/types'
 import type { TresContext } from '../useTresContextProvider'
 
 export const useRaycaster = (
-  objectsWithEvents: Ref<Object3D[]>,
+  objectsWithEvents: ShallowRef<TresInstance[]>,
   ctx: TresContext,
 ) => {
   // having a separate computed makes useElementBounding work

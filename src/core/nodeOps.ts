@@ -57,7 +57,7 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
           __tres: () => __tres,
         },
         {
-          object: (object: TresObject, _, primitive: TresPrimitive, setTarget: (nextObject: TresObject) => void) => {
+          object: (object: TresObject, _: unknown, primitive: TresPrimitive, setTarget: (nextObject: TresObject) => void) => {
             setPrimitiveObject(object, primitive, setTarget, { patchProp, remove, insert }, context)
           },
           __tres: (t: LocalState) => { Object.assign(__tres, t) },
