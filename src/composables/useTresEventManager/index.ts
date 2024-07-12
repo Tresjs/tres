@@ -184,13 +184,13 @@ export function useTresEventManager(
 
   function registerObject(maybeTresObject: unknown) {
     if (is.tresObject(maybeTresObject) && is.object3D(maybeTresObject)) {
-      objectsWithEvents.value.push(maybeTresObject)
+      objectsWithEvents.value.push(maybeTresObject as TresInstance)
     }
   }
 
   function deregisterObject(maybeTresObject: unknown) {
     if (is.tresObject(maybeTresObject) && is.object3D(maybeTresObject)) {
-      const index = objectsWithEvents.value.indexOf(maybeTresObject)
+      const index = objectsWithEvents.value.indexOf(maybeTresObject as TresInstance)
       if (index > -1) {
         objectsWithEvents.value.splice(index, 1)
       }

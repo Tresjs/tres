@@ -571,7 +571,7 @@ export function doRemoveDetach(node: TresObject, context: TresContext) {
 export function doRemoveDeregister(node: TresObject, context: TresContext) {
   // TODO: Refactor as `context.deregister`?
   // That would eliminate `context.deregisterCamera`.
-  node.traverse?.((child) => {
+  node.traverse?.((child: TresObject) => {
     context.deregisterCamera(child)
     // deregisterAtPointerEventHandlerIfRequired?.(child as TresObject)
     context.eventManager?.deregisterPointerMissedObject(child)

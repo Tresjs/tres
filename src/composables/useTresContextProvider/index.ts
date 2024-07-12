@@ -10,7 +10,7 @@ import { useRenderer } from '../useRenderer'
 import { extend } from '../../core/catalogue'
 import { useLogger } from '../useLogger'
 import type { EmitEventFn, TresObject, TresScene } from '../../types'
-import type { EventProps } from '../usePointerEventHandler'
+
 import { type TresEventManager, useTresEventManager } from '../useTresEventManager'
 import useSizes, { type SizesType } from '../useSizes'
 import type { RendererLoop } from '../../core/loop'
@@ -78,7 +78,7 @@ export interface TresContext {
   // Events
   // Temporaly add the methods to the context, this should be handled later by the EventManager state on the context https://github.com/Tresjs/tres/issues/515
   // When thats done maybe we can short the names of the methods since the parent will give the context.
-  registerObjectAtPointerEventHandler?: (object: TresObject & EventProps) => void
+  registerObjectAtPointerEventHandler?: (object: TresObject) => void
   deregisterObjectAtPointerEventHandler?: (object: TresObject) => void
   registerBlockingObjectAtPointerEventHandler?: (object: TresObject) => void
   deregisterBlockingObjectAtPointerEventHandler?: (object: TresObject) => void
