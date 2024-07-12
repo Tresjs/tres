@@ -150,7 +150,7 @@ importers:
         version: 1.1.42
       '@iconify-json/mdi':
         specifier: ^1.1.66
-        version: 1.1.66
+        version: 1.1.67
       unocss:
         specifier: ^0.60.3
         version: 0.60.3(postcss@8.4.39)(rollup@4.18.1)(vite@5.3.3(@types/node@20.14.10))
@@ -1057,8 +1057,8 @@ packages:
   '@iconify-json/logos@1.1.42':
     resolution: {integrity: sha512-/f+frtPm3m3Z30oy8Pk+QqRDkbmAiIaWGPl5CmsCXm15MVfvw9a/V/gD7WzdyuSGAZcFuQaqbHXj92y/n+2ifg==}
 
-  '@iconify-json/mdi@1.1.66':
-    resolution: {integrity: sha512-7KPF2RVUUWav/hXCM8Ti/smqu3cmgePJpiX9CSkldiL+80+eBRBeKlc4vPOc9jhAItlqIU1vKsbKoPP0JIfgbg==}
+  '@iconify-json/mdi@1.1.67':
+    resolution: {integrity: sha512-00nllHES8hyACwIfgySlQgAE6MKgpr2wsKfpifMiZWZ9aXC5l4Jb0lR3lJSWwXgOW6kzAOdzC3T+2VOfBBZ13A==}
 
   '@iconify/types@2.0.0':
     resolution: {integrity: sha512-+wluvCrRhXrhyOmRDJ3q8mux9JkKy5SJ/v8ol2tu4FVjyYvtEzkc/3pK15ET6RKg4b4w4BmTk1+gsCUhf21Ykg==}
@@ -6269,7 +6269,7 @@ snapshots:
     dependencies:
       '@iconify/types': 2.0.0
 
-  '@iconify-json/mdi@1.1.66':
+  '@iconify-json/mdi@1.1.67':
     dependencies:
       '@iconify/types': 2.0.0
 
