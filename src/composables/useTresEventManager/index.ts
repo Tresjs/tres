@@ -1,4 +1,4 @@
-import { ref, shallowRef } from 'vue'
+import { shallowRef } from 'vue'
 import type { Object3D, Object3DEventMap, Scene } from 'three'
 import type { EmitEventFn, EmitEventName, Intersection, TresEvent, TresInstance, TresObject } from 'src/types'
 import type { TresContext } from '../useTresContextProvider'
