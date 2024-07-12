@@ -55,6 +55,9 @@ export interface TresCanvasProps
   camera?: TresCamera
   preset?: RendererPresetsType
   windowSize?: boolean
+  /**
+   * @deprecated since version 4.2. Use `take-over render loop` approach instead. To be fully removed on v5. See https://docs.tresjs.org/api/composables.html#take-over-the-render-loop
+   */
   disableRender?: boolean
 }
 
@@ -65,6 +68,9 @@ const props = withDefaults(defineProps<TresCanvasProps>(), {
   stencil: undefined,
   antialias: undefined,
   windowSize: undefined,
+  /**
+   * @deprecated since version 4.2. Use `take-over render loop` approach instead. To be fully removed on v5. See https://docs.tresjs.org/api/composables.html#take-over-the-render-loop
+   */
   disableRender: undefined,
   useLegacyLights: undefined,
   preserveDrawingBuffer: undefined,
@@ -144,8 +150,6 @@ const dispose = (context: TresContext, force = false) => {
   mountCustomRenderer(context)
 }
 
-const disableRender = computed(() => props.disableRender)
-
 const context = shallowRef<TresContext | null>(null)
 
 defineExpose({ context, dispose: () => dispose(context.value as TresContext, true) })
@@ -157,7 +161,6 @@ onMounted(() => {
     scene: scene.value as TresScene,
     canvas: existingCanvas,
     windowSize: props.windowSize ?? false,
-    disableRender: disableRender.value ?? false,
     rendererOptions: props,
     emit,
   })

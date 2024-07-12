@@ -88,14 +88,12 @@ export function useTresContextProvider({
   scene,
   canvas,
   windowSize,
-  disableRender,
   rendererOptions,
   emit,
 }: {
   scene: TresScene
   canvas: MaybeRef<HTMLCanvasElement>
   windowSize: MaybeRefOrGetter<boolean>
-  disableRender: MaybeRefOrGetter<boolean>
   rendererOptions: UseRendererOptions
   emit: EmitEventFn
 
@@ -150,7 +148,6 @@ export function useTresContextProvider({
       emit,
       // TODO: replace contextParts with full ctx at https://github.com/Tresjs/tres/issues/516
       contextParts: { sizes, camera, render, invalidate, advance },
-      disableRender,
     },
   )
 
