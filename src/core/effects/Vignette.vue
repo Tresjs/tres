@@ -30,5 +30,3 @@ makePropWatchersUsingAllProps(
   () => new VignetteEffect(),
 )
 </script>
-
-<template></template>

@@ -1,22 +1,22 @@
 {
   "compilerOptions": {
     "target": "ESNext",
-    "baseUrl": ".",
+    "jsx": "preserve",
+    "lib": ["ESNext", "DOM"],
     "useDefineForClassFields": true,
+    "baseUrl": ".",
     "module": "ESNext",
     "moduleResolution": "bundler",
-    "strict": true,
-    "jsx": "preserve",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "esModuleInterop": true,
-    "lib": ["ESNext", "DOM"],
-    "skipLibCheck": true,
-    "noEmit": true,
     "paths": {
       "@tresjs/post-processing": ["../dist/"]
-    }
+    },
+    "resolveJsonModule": true,
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "skipLibCheck": true
   },
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "references": [{ "path": "./tsconfig.node.json" }],
+  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"]
 }

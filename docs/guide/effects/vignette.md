@@ -32,6 +32,5 @@ import { EffectComposer, Vignette } from '@tresjs/post-processing'
 | offset        | The offset value.                                           | 0.5                        |
 | darkness      | The darkness value.                                         | 0.5                        |
 
-
 ## Further Reading
 see [postprocessing docs](https://pmndrs.github.io/postprocessing/public/docs/class/src/effects/VignetteEffect.js~VignetteEffect.html)

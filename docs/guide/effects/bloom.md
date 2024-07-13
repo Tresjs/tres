@@ -10,7 +10,7 @@ Bloom is an effect that simulates the way that bright objects in the real world 
 
 ```vue
 <script setup lang="ts">
-import { EffectComposer, Bloom } from '@tresjs/post-processing'
+import { Bloom, EffectComposer } from '@tresjs/post-processing'
 </script>
 
 <template>
@@ -30,7 +30,7 @@ import { EffectComposer, Bloom } from '@tresjs/post-processing'
 
 | Prop                 | Description                                                                                          | Default                                                                                                                                        |
 | -------------------- | ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
-| `blendFunction`      | The blend function of this effect. This prop is not reactive.                                        |  [BlendFunction.SCREEN](https://github.com/pmndrs/postprocessing/blob/c3ce388be247916437a314f17748a75329d65df1/src/enums/BlendFunction.js#L40) |
+| `blendFunction`      | The blend function of this effect. This prop is not reactive.                                        | [BlendFunction.SCREEN](https://github.com/pmndrs/postprocessing/blob/c3ce388be247916437a314f17748a75329d65df1/src/enums/BlendFunction.js#L40) |
 | `intensity`          | The intensity of the bloom effect.                                                                   | `1`                                                                                                                                            |
 | `kernelSize`         | The kernel size.                                                                                     | `KernelSize.LARGE`                                                                                                                             |
 | `luminanceThreshold` | The luminance threshold. Raise this value to mask out darker elements in the scene. Range is [0, 1]. | `0.9`                                                                                                                                          |

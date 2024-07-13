@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { Color, BasicShadowMap, NoToneMapping } from 'three'
+import { BasicShadowMap, Color, NoToneMapping } from 'three'
 import { TresCanvas } from '@tresjs/core'
-import { OrbitControls, useTweakPane } from '@tresjs/cientos'
+import { OrbitControls } from '@tresjs/cientos'
 import { BlendFunction, KernelSize } from 'postprocessing'
-import { EffectComposer, Bloom } from '@tresjs/post-processing'
-import { onMounted, reactive, ref, watch } from 'vue'
+import { Bloom, EffectComposer } from '@tresjs/post-processing'
+import { onMounted, ref, watch } from 'vue'
 import { TresLeches, useControls } from '@tresjs/leches'
 import '@tresjs/leches/styles'
 
@@ -21,10 +21,12 @@ useControls('fpsgraph')
 const materialRef = ref()
 const {
   intensity,
-  blendFunction, 
+  blendFunction,
   resolution,
   kernelSize,
   mipmapBlur,
+  threshold,
+  smoothing,
 } = useControls({
   intensity: {
     value: 4.0,
@@ -53,9 +55,6 @@ const {
     value: KernelSize.VERY_SMALL,
   },
   mipmapBlur: true,
-})
-
-const { threshold, smoothing } = useControls('luminance', {
   threshold: {
     value: 0.2,
     min: 0,
@@ -80,7 +79,7 @@ onMounted(() => {
         step: 0.1,
       },
     })
-    
+
     watch(emissiveIntensity, (newValue) => {
       materialRef.value.emissiveIntensity = newValue
     })
@@ -92,7 +91,6 @@ onMounted(() => {
   <TresLeches />
   <TresCanvas
     v-bind="gl"
-    :disable-render="true"
   >
     <TresPerspectiveCamera
       :position="[5, 5, 5]"

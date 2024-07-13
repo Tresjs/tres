@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { normalizeColor, useTresContext } from '@tresjs/core'
 import { OutlineEffect } from 'postprocessing'
-import { watch, computed } from 'vue'
+import { computed, watch } from 'vue'
 import type { TresColor } from '@tresjs/core'
 import type { Object3D, Texture } from 'three'
 import type { BlendFunction, KernelSize } from 'postprocessing'
@@ -85,7 +85,7 @@ const params: OutlineEffectParameters = {
   hiddenEdgeColor: colorToNumber(props.hiddenEdgeColor),
   visibleEdgeColor: colorToNumber(props.visibleEdgeColor),
 }
-  
+
 const { pass, effect } = useEffect(() => new OutlineEffect(scene.value, camera.value, params))
 
 defineExpose({ pass, effect }) // to allow users to modify pass and effect via template ref
@@ -128,5 +128,3 @@ makePropWatchers(
   () => new OutlineEffect(),
 )
 </script>
-
-<template></template>

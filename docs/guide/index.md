@@ -33,7 +33,7 @@ pnpm add @tresjs/post-processing
 ## Basic Usage
 
 ```ts
-import { EffectComposer, DepthOfField, Bloom } from '@tresjs/post-processing'
+import { Bloom, DepthOfField, EffectComposer } from '@tresjs/post-processing'
 ```
 
 Now you can use the `EffectComposer` component in your scene.
@@ -45,7 +45,7 @@ Now you can use the `EffectComposer` component in your scene.
     <EffectComposer>
       <DepthOfField />
       <Bloom />
-    </EffectComposer
+    </EffectComposer>
   </TresCanvas>
 </template>
 ```

@@ -1,10 +1,10 @@
 import type { Ref, WatchOptions } from 'vue'
 import { watch } from 'vue'
-import { set, get } from './object'
+import { get, set } from './object'
 
 /**
  * Creates a prop watcher function that monitors changes to a property and updates a target object.
- * 
+ *
  * @template T - The type of the property being watched.
  * @template E - The type of the target object.
  * @param {() => T} propGetter - A function that retrieves the prop value to be watched.
@@ -17,23 +17,20 @@ export const makePropWatcher = <T, E>(
   propGetter: () => T,
   target: Ref<E>,
   propertyPath: string,
-  newPlainObjectFunction: () => E & { dispose?(): void },
+  newPlainObjectFunction: () => E & { dispose?: () => void },
   watchOptions: WatchOptions = {},
-) =>
-    watch(propGetter, (newValue) => {
-      if (!target.value) return
-      
-      if (newValue === undefined) {
-        const plainObject = newPlainObjectFunction()
+) => watch(propGetter, (newValue) => {
+    if (!target.value) { return }
 
-        set(target.value, propertyPath, get(plainObject, propertyPath))
+    if (newValue === undefined) {
+      const plainObject = newPlainObjectFunction()
 
-        plainObject.dispose?.()
-      }
-      else 
-        set(target.value, propertyPath, propGetter())
-    },
-    watchOptions)
+      set(target.value, propertyPath, get(plainObject, propertyPath))
+
+      plainObject.dispose?.()
+    }
+    else { set(target.value, propertyPath, propGetter()) }
+  }, watchOptions)
 
 /**
  * Creates multiple prop watchers for monitoring changes to multiple properties and updating a target object.
@@ -47,16 +44,18 @@ export const makePropWatcher = <T, E>(
 export const makePropWatchers = <E>(
   propGettersAndPropertyPaths: (string | (() => any))[][],
   target: Ref<E>,
-  newPlainObjectFunction: () => E & { dispose?(): void },
-) => 
-    propGettersAndPropertyPaths.map(([propGetterFn, path]) => makePropWatcher(
-      propGetterFn as () => any, target, path as string, newPlainObjectFunction,
-    ))
+  newPlainObjectFunction: () => E & { dispose?: () => void },
+) => propGettersAndPropertyPaths.map(([propGetterFn, path]) => makePropWatcher(
+    propGetterFn as () => any,
+    target,
+    path as string,
+    newPlainObjectFunction,
+  ))
 
 /**
  * Creates multiple prop watchers via the props object for monitoring changes to multiple properties and updating a target object.
  * Use this method in case the prop names match the names of the properties you want to set on your target object.
- * 
+ *
  * @param props - The props object. Usually created via defineProps.
  * @param {Ref<E>} target - A Ref representing the target object to be updated.
  * @param {() => E & { dispose?(): void }} newPlainObjectFunction - A function that creates a new plain object to retrieve the defaults from with an optional "dispose" method for cleanup.
@@ -64,10 +63,10 @@ export const makePropWatchers = <E>(
 export const makePropWatchersUsingAllProps = <E>(
   props: { [key: string]: any },
   target: Ref<E>,
-  newPlainObjectFunction: () => E & { dispose?(): void }) => 
-    Object.keys(props).map(key => makePropWatcher(
-      () => props[key],
-      target,
-      key,
-      newPlainObjectFunction,
-    ))
+  newPlainObjectFunction: () => E & { dispose?: () => void },
+) => Object.keys(props).map(key => makePropWatcher(
+    () => props[key],
+    target,
+    key,
+    newPlainObjectFunction,
+  ))

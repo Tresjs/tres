@@ -4,7 +4,7 @@ import type { Intersection, Object3D } from 'three'
 import { NoToneMapping } from 'three'
 import { TresCanvas } from '@tresjs/core'
 import { OrbitControls } from '@tresjs/cientos'
-import { Outline, EffectComposer } from '@tresjs/post-processing'
+import { EffectComposer, Outline } from '@tresjs/post-processing'
 import { KernelSize } from 'postprocessing'
 
 import { TresLeches, useControls } from '@tresjs/leches'
@@ -23,9 +23,8 @@ const { effectComposer } = useRouteDisposal()
 const outlinedObjects = ref<Object3D[]>([])
 
 const toggleMeshSelectionState = ({ object }: Intersection) => {
-  if (outlinedObjects.value.some(({ uuid }) => uuid === object.uuid))
-    outlinedObjects.value = outlinedObjects.value.filter(({ uuid }) => uuid !== object.uuid)
-  else outlinedObjects.value = [...outlinedObjects.value, object]
+  if (outlinedObjects.value.some(({ uuid }) => uuid === object.uuid)) { outlinedObjects.value = outlinedObjects.value.filter(({ uuid }) => uuid !== object.uuid) }
+  else { outlinedObjects.value = [...outlinedObjects.value, object] }
 }
 
 const { edgeStrength, pulseSpeed, visibleEdgeColor, blur, kernelSize } = useControls({
@@ -59,7 +58,6 @@ useRouteDisposal(effectComposer)
   <TresLeches />
   <TresCanvas
     v-bind="gl"
-    :disable-render="true"
   >
     <TresPerspectiveCamera
       :position="[1, 3, 3]"

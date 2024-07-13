@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 import { gsap } from 'gsap'
 import { TresCanvas } from '@tresjs/core'
-import { EffectComposer, DepthOfField } from '@tresjs/post-processing'
+import { DepthOfField, EffectComposer } from '@tresjs/post-processing'
 
 import { useRouteDisposal } from '../composables/useRouteDisposal'
 

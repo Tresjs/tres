@@ -2,7 +2,7 @@
 import { computed } from 'vue'
 import { TresCanvas } from '@tresjs/core'
 import { OrbitControls } from '@tresjs/cientos'
-import { EffectComposer, DepthOfField } from '@tresjs/post-processing'
+import { DepthOfField, EffectComposer } from '@tresjs/post-processing'
 
 import { TresLeches, useControls } from '@tresjs/leches'
 import '@tresjs/leches/styles'
@@ -43,7 +43,7 @@ const controls = useControls({
   },
 }) as { [key: string]: Ref<{ value: number }> }
 
-const effectParams = computed(() => 
+const effectParams = computed(() =>
   Object
     .entries(controls)
     .reduce(

@@ -1,29 +1,36 @@
-<script lang="ts" setup>
+<script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
 import { OrbitControls } from '@tresjs/cientos'
 import { EffectComposer, Pixelation } from '@tresjs/post-processing'
-import { TresLeches, useControls } from '@tresjs/leches'
-import '@tresjs/leches/styles'
+import { ref } from 'vue'
+import GraphPane from '../../components/GraphPane.vue'
+import { useState } from '../../composables/state'
 
-useControls('fpsgraph')
-const { granularity } = useControls({
-  granularity: {
-    value: 10,
-    min: 1,
-    max: 30,
-    step: 1,
-  },
-})
+const { renderingTimes } = useState()
+
+function onRender() {
+  renderingTimes.value = 1
+}
+
+const canvas = ref<InstanceType<typeof TresCanvas>>()
+
+function onControlChange() {
+  canvas.value?.context?.invalidate()
+}
 </script>
 
 <template>
-  <TresLeches />
-  <TresCanvas>
+  <GraphPane />
+  <TresCanvas
+    ref="canvas"
+    render-mode="on-demand"
+    clear-color="#c0ffee"
+  >
     <TresPerspectiveCamera
       :position="[5, 5, 5]"
       :look-at="[0, 0, 0]"
     />
-    <OrbitControls />
+    <OrbitControls @change="onControlChange" />
     <TresMesh
       :position="[-3.5, 1, 0]"
     >
@@ -43,8 +50,8 @@ const { granularity } = useControls({
 
     <TresGridHelper />
 
-    <EffectComposer>
-      <Pixelation :granularity="granularity" />
+    <EffectComposer @render="onRender">
+      <Pixelation :granularity="10" />
     </EffectComposer>
   </TresCanvas>
 </template>

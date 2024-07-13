@@ -21,5 +21,3 @@ makePropWatchersUsingAllProps(
   () => new PixelationEffect(),
 )
 </script>
-
-<template></template>

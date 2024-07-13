@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
-import { BasicShadowMap, SRGBColorSpace, NoToneMapping } from 'three'
+import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
 import { OrbitControls } from '@tresjs/cientos'
-import { EffectComposer, Vignette, DepthOfField } from '@tresjs/post-processing'
+import { DepthOfField, EffectComposer, Vignette } from '@tresjs/post-processing'
 
 import { useRouteDisposal } from '../composables/useRouteDisposal'
 

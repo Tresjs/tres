@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { BlendFunction } from 'postprocessing'
-import { Color, BasicShadowMap, SRGBColorSpace, NoToneMapping } from 'three'
+import { BasicShadowMap, Color, NoToneMapping, SRGBColorSpace } from 'three'
 import { reactive } from 'vue'
-import { EffectComposer, Bloom } from '@tresjs/post-processing'
+import { Bloom, EffectComposer } from '@tresjs/post-processing'
 
 const gl = {
   clearColor: '#82DBC5',
@@ -40,7 +40,7 @@ const bloomParams = reactive({
     <TresAmbientLight :intensity="1" />
     <Suspense>
       <EffectComposer>
-        <Bloom />
+        <Bloom v-bind="bloomParams" />
       </EffectComposer>
     </Suspense>
   </TresCanvas>

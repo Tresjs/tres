@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
-import { OrbitControls, useTweakPane } from '@tresjs/cientos'
+import { OrbitControls } from '@tresjs/cientos'
 import { EffectComposer, Glitch } from '@tresjs/post-processing'
-import { BasicShadowMap, NoToneMapping, SRGBColorSpace, Vector2 } from 'three'
-import { reactive } from 'vue'
+import { BasicShadowMap, NoToneMapping, Vector2 } from 'three'
 import { GlitchMode } from 'postprocessing'
 import { TresLeches, useControls } from '@tresjs/leches'
 import '@tresjs/leches/styles'
@@ -16,16 +15,7 @@ const gl = {
   toneMapping: NoToneMapping,
 }
 
-const { mode,
-  active,
-  ratio,
-  columns,
-  delay,
-  duration,
-  strength, 
-  chromaticAberrationOffset,
-  chromaticAberrationEnabled, 
-} = useControls({
+const { mode, active, ratio, columns, delay, duration, strength, chromaticAberrationOffset, chromaticAberrationEnabled } = useControls({
   delay: new Vector2(1.5, 3.5),
   duration: new Vector2(0.6, 1.0),
   strength: new Vector2(0.3, 1.0),
@@ -75,7 +65,6 @@ pane.addInput(glitchParams, 'dtSize', { min: 1, max: 64, step: 1 }) */
   <TresLeches />
   <TresCanvas
     v-bind="gl"
-    :disable-render="true"
   >
     <TresPerspectiveCamera
       :position="[5, 5, 5]"

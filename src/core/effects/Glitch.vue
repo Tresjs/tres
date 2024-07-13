@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { GlitchMode, GlitchEffect } from 'postprocessing'
+import { GlitchEffect, GlitchMode } from 'postprocessing'
 import { watchEffect } from 'vue'
 import type { BlendFunction } from 'postprocessing'
-import type { Vector2, Texture } from 'three'
+import type { Texture, Vector2 } from 'three'
 import { omit } from '../../util/object'
 import { useEffect } from '../composables/effect'
 import { makePropWatchersUsingAllProps } from '../../util/prop'
@@ -103,7 +103,7 @@ defineExpose({ pass, effect }) // to allow users to modify pass and effect via t
 
 watchEffect(() => {
   const getMode = () => {
-    if (props.mode !== undefined) return props.active === false ? GlitchMode.DISABLED : props.mode
+    if (props.mode !== undefined) { return props.active === false ? GlitchMode.DISABLED : props.mode }
     const plainEffectPass = new GlitchEffect()
 
     const defaultMode = plainEffectPass.mode
@@ -112,8 +112,7 @@ watchEffect(() => {
     return defaultMode
   }
 
-  if (effect.value)
-    effect.value.mode = getMode()
+  if (effect.value) { effect.value.mode = getMode() }
 })
 
 makePropWatchersUsingAllProps(
@@ -122,5 +121,3 @@ makePropWatchersUsingAllProps(
   () => new GlitchEffect(),
 )
 </script>
-
-<template></template>

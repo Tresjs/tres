@@ -28,7 +28,7 @@ export default defineConfig({
         content: '/og-banner.png',
       },
     ],
-    ['script', { defer: 'true', 'data-site': 'OWBUVCJK', src: 'https://cdn.usefathom.com/script.js' }],
+    ['script', { 'defer': 'true', 'data-site': 'OWBUVCJK', 'src': 'https://cdn.usefathom.com/script.js' }],
   ],
   themeConfig: {
     logo: '/logo.svg',

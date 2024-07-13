@@ -7,7 +7,7 @@ import analyze from 'rollup-plugin-analyzer'
 import { visualizer } from 'rollup-plugin-visualizer'
 import { resolve } from 'pathe'
 
-import { lightGreen, magenta, gray, bold } from 'kolorist'
+import { bold, gray, lightGreen, magenta } from 'kolorist'
 
 import pkg from './package.json'
 
@@ -68,9 +68,9 @@ export default defineConfig({
         // for externalized deps
         globals: {
           '@tresjs/core': 'TresjsCore',
-          three: 'Three',
-          vue: 'Vue',
-          postprocessing: 'Postprocessing',
+          'three': 'Three',
+          'vue': 'Vue',
+          'postprocessing': 'Postprocessing',
           '@vueuse/core': 'VueUseCore',
         },
       },

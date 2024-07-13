@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { Color } from 'three'
-import { reactive, ref } from 'vue'
+import { reactive } from 'vue'
 import { TresCanvas } from '@tresjs/core'
 import { BlendFunction } from 'postprocessing'
-import { EffectComposer, Bloom } from '@tresjs/post-processing'
+import { Bloom, EffectComposer } from '@tresjs/post-processing'
 
 import { useRouteDisposal } from '../composables/useRouteDisposal'
 

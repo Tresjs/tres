@@ -1,27 +1,27 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
+    "incremental": false,
     "target": "esnext",
+    "jsx": "preserve",
+    "lib": ["esnext", "dom"],
+    "baseUrl": ".",
     "module": "esnext",
     "moduleResolution": "node",
-    "strict": true,
-    "jsx": "preserve",
-    "sourceMap": true,
-    "resolveJsonModule": true,
-    "esModuleInterop": true,
-    "lib": ["esnext", "dom"],
-    "types": ["vite/client"],
-    "incremental": false,
-    "skipLibCheck": true,
-    "noUnusedLocals": false,
-    "strictNullChecks": true,
-    "forceConsistentCasingInFileNames": true,
-    "declaration": true,
     "paths": {
       "/@/*": ["src/*"]
-    }
+    },
+    "resolveJsonModule": true,
+    "types": ["vite/client"],
+    "strict": true,
+    "strictNullChecks": true,
+    "noUnusedLocals": false,
+    "declaration": true,
+    "sourceMap": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true
   },
+  "references": [{ "path": "./tsconfig.node.json" }],
   "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
-  "exclude": ["dist", "node_modules", "src/**/*.cy.ts", "src/**/*.test.ts"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "exclude": ["dist", "node_modules", "src/**/*.cy.ts", "src/**/*.test.ts"]
 }

@@ -26,5 +26,3 @@ makePropWatchersUsingAllProps(
   () => new NoiseEffect(),
 )
 </script>
-
-<template></template>

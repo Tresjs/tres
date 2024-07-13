@@ -4,7 +4,7 @@ import { ref } from 'vue'
 import { EffectComposer, Outline } from '@tresjs/post-processing'
 import { TresCanvas } from '@tresjs/core'
 import { OrbitControls } from '@tresjs/cientos'
-import type { Object3D, Intersection } from 'three'
+import type { Intersection, Object3D } from 'three'
 import { NoToneMapping } from 'three'
 
 import { TresLeches, useControls } from '@tresjs/leches'
@@ -14,14 +14,14 @@ const gl = {
   clearColor: '#4ADE80',
   toneMapping: NoToneMapping,
   disableRender: true,
+  multisampling: 8,
 }
 
 const outlinedObjects = ref<Object3D[]>([])
 
 const toggleMeshSelectionState = ({ object }: Intersection) => {
-  if (outlinedObjects.value.some(({ uuid }) => uuid === object.uuid))
-    outlinedObjects.value = outlinedObjects.value.filter(({ uuid }) => uuid !== object.uuid)
-  else outlinedObjects.value = [...outlinedObjects.value, object]
+  if (outlinedObjects.value.some(({ uuid }) => uuid === object.uuid)) { outlinedObjects.value = outlinedObjects.value.filter(({ uuid }) => uuid !== object.uuid) }
+  else { outlinedObjects.value = [...outlinedObjects.value, object] }
 }
 
 const { edgeStrength, pulseSpeed, visibleEdgeColor, blur, kernelSize } = useControls({
@@ -52,7 +52,6 @@ const { edgeStrength, pulseSpeed, visibleEdgeColor, blur, kernelSize } = useCont
   <TresLeches />
   <TresCanvas
     v-bind="gl"
-    :disable-render="true"
   >
     <TresPerspectiveCamera
       :position="[1, 3, 3]"

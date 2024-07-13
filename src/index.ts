@@ -9,9 +9,9 @@ import Noise from './core/effects/Noise.vue'
 
 import { useEffect } from './core/composables/effect.ts'
 
-export { 
+export {
   Bloom,
-  DepthOfField, 
+  DepthOfField,
   EffectComposer,
   Glitch,
   Noise,

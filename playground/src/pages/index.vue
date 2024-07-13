@@ -1,9 +1,18 @@
 <script setup lang="ts">
 import {
+  advancedRoutes,
   routes,
 } from '../router'
 
 const [_home, ...restRoutes] = routes
+
+const sections = [
+  {
+    icon: '🤓',
+    title: 'Advanced',
+    routes: advancedRoutes,
+  },
+]
 </script>
 
 <template>
@@ -11,7 +20,7 @@ const [_home, ...restRoutes] = routes
     class="
   container mx-auto max-w-3xl
   font-sans text-xs color-gray
-  bg-white 
+  bg-white
   "
   >
     <div class="mx-4">
@@ -26,7 +35,7 @@ const [_home, ...restRoutes] = routes
             src="/logo.svg"
             alt="Post-processing logo"
             class="max-w-36 sm:max-w-xs align-baseline"
-          >
+          />
         </div>
         <div class="sm:w-2/3">
           <h1
@@ -59,8 +68,8 @@ const [_home, ...restRoutes] = routes
             {{ name }}
           </h2>
         </router-link>
-        <!-- <div
-          v-for="{ title, routes, icon } in routes"
+        <div
+          v-for="{ title, routes: internalRoutes, icon } in sections"
           :key="title"
           class="
           p-4 my-4 leading-normal size-m weight-600 bg-zinc-50 rounded
@@ -74,7 +83,7 @@ const [_home, ...restRoutes] = routes
             {{ title }}
           </h2>
           <div
-            v-for="route in routes"
+            v-for="route in internalRoutes"
             :key="route.name"
             class="link-wrapper"
           >
@@ -85,7 +94,7 @@ const [_home, ...restRoutes] = routes
               <span>{{ route.name }} </span>
             </router-link>
           </div>
-        </div> -->
+        </div>
       </div>
     </div>
   </div>

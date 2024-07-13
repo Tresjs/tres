@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
-import { BasicShadowMap, SRGBColorSpace, NoToneMapping } from 'three'
+import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
 import { EffectComposer, Noise } from '@tresjs/post-processing'
 import { OrbitControls } from '@tresjs/cientos'
 import { TresLeches, useControls } from '@tresjs/leches'

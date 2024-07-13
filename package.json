@@ -1,8 +1,8 @@
 {
   "name": "@tresjs/post-processing",
   "type": "module",
-  "version": "0.7.1",
-  "packageManager": "pnpm@8.11.0",
+  "version": "1.0.0-next.0",
+  "packageManager": "pnpm@8.10.2",
   "description": "Post-processing library for TresJS",
   "author": "Alvaro Saburido <hola@alvarosaburido.dev> (https://github.com/alvarosabu/)",
   "license": "MIT",
@@ -25,8 +25,8 @@
   "main": "./dist/tres-postprocessing.js",
   "module": "./dist/tres-postprocessing.js",
   "files": [
-    "dist",
-    "*.d.ts"
+    "*.d.ts",
+    "dist"
   ],
   "publishConfig": {
     "access": "public"
@@ -37,32 +37,33 @@
     "build": "vite build",
     "preview": "vite preview",
     "release": "release-it",
-    "lint": "eslint . --ext .js,.jsx,.ts,.tsx,.vue",
-    "lint:fix": "pnpm run lint --fix",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
     "docs:preview": "vitepress preview docs"
   },
   "peerDependencies": {
+    "@tresjs/core": ">=4.0",
     "three": ">=0.133",
-    "vue": ">=3.3"
+    "vue": ">=3.4"
   },
   "dependencies": {
-    "@tresjs/core": "^3.5.1",
-    "@unocss/core": "^0.58.0",
     "@vueuse/core": "^10.6.1",
     "postprocessing": "^6.33.4",
     "three-stdlib": "^2.28.7"
   },
   "devDependencies": {
     "@release-it/conventional-changelog": "^8.0.1",
-    "@tresjs/eslint-config-vue": "^0.2.1",
+    "@tresjs/core": "^4.0.0-rc.1",
+    "@tresjs/eslint-config": "^1.1.0",
     "@types/three": "^0.159.0",
+    "@unocss/core": "^0.58.0",
     "@vitejs/plugin-vue": "^4.5.1",
+    "eslint": "^9.7.0",
     "gsap": "^3.12.3",
     "kolorist": "^1.8.0",
     "pathe": "^1.1.1",
-    "prettier": "^3.1.0",
     "release-it": "^17.0.0",
     "rollup-plugin-analyzer": "^4.0.0",
     "rollup-plugin-visualizer": "^5.10.0",
@@ -74,7 +75,7 @@
     "vite-plugin-dts": "3.6.4",
     "vite-svg-loader": "^5.1.0",
     "vitepress": "1.0.0-rc.31",
-    "vue": "^3.3.9",
+    "vue": "^3.4.27",
     "vue-tsc": "^1.8.24"
   }
 }

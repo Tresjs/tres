@@ -29,7 +29,18 @@ export const routes = [
   makeRoute('Vignette', '🕶️'),
 ]
 
+export const advancedRoutes = [
+  {
+    path: '/advanced/on-demand',
+    name: 'On-demand',
+    component: () => import('./pages/advanced/on-demand.vue'),
+  },
+]
+
 export const router = createRouter({
   history: createWebHistory(),
-  routes,
+  routes: [
+    ...routes,
+    ...advancedRoutes,
+  ],
 })

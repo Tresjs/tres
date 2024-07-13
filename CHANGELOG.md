@@ -1,5 +1,14 @@
 
 
+## [1.0.0-next.0](https://github.com/Tresjs/post-processing/compare/0.7.1...1.0.0-next.0) (2024-05-21)
+
+
+### Features
+
+* export useEffect composable ([#105](https://github.com/Tresjs/post-processing/issues/105)) ([b7810ba](https://github.com/Tresjs/post-processing/commit/b7810ba2864e70516c95b9866c2ea5d02a8f9b9d))
+* render emit and advance playgroudn for render modes ([5d256fc](https://github.com/Tresjs/post-processing/commit/5d256fcc5e40582e0f87c8cc1ec46fbd9a007435))
+* update to v4, `useLoop` and remove disable render ([544fb39](https://github.com/Tresjs/post-processing/commit/544fb39be3af7f71ddf994f14789215351cec569))
+
 ## [0.7.1](https://github.com/Tresjs/post-processing/compare/0.7.0...0.7.1) (2024-03-18)
 
 

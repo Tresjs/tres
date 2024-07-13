@@ -12,7 +12,7 @@ Noise is an effect that adds Gaussian noise to the scene. This can be used to si
 <script setup lang="ts">
 import { BlendFunction } from 'postprocessing'
 
-import { EffectComposer, Bloom } from '@tresjs/post-processing'
+import { Bloom, EffectComposer } from '@tresjs/post-processing'
 </script>
 
 <template>
@@ -29,9 +29,8 @@ import { EffectComposer, Bloom } from '@tresjs/post-processing'
 
 | Prop                 | Description                                                                                          | Default                                                                                                                                        |
 | -------------------- | ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
-| `blendFunction`      | The blend function of this effect. This prop is not reactive.                                        |  [BlendFunction.SCREEN](https://github.com/pmndrs/postprocessing/blob/c3ce388be247916437a314f17748a75329d65df1/src/enums/BlendFunction.js#L40) |
-| `premultiply`          | Indicates whether noise will be multiplied with the input colors prior to blending | `false`           | 
-
+| `blendFunction`      | The blend function of this effect. This prop is not reactive.                                        | [BlendFunction.SCREEN](https://github.com/pmndrs/postprocessing/blob/c3ce388be247916437a314f17748a75329d65df1/src/enums/BlendFunction.js#L40) |
+| `premultiply`          | Indicates whether noise will be multiplied with the input colors prior to blending | `false`           |
 
 ## Further Reading
 see [postprocessing docs](https://pmndrs.github.io/postprocessing/public/docs/class/src/effects/NoiseEffect.js~NoiseEffect.html)
