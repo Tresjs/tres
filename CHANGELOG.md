@@ -1,5 +1,20 @@
 
 
+## [4.2.0](https://github.com/Tresjs/tres/compare/4.1.0...4.2.0) (2024-07-14)
+
+
+### Features
+
+* (devtools) add userData to inspectable properties ([#740](https://github.com/Tresjs/tres/issues/740)) ([00bef33](https://github.com/Tresjs/tres/commit/00bef337f189b04ee3b77a4ce0afea63ce2973b2))
+* **TresCanvas:** add dpr prop ([#768](https://github.com/Tresjs/tres/issues/768)) ([8943cc3](https://github.com/Tresjs/tres/commit/8943cc3dac1571e4bc15fb75ad106908b109de43))
+
+
+### Bug Fixes
+
+* attach detach ([#749](https://github.com/Tresjs/tres/issues/749)) ([8c1c668](https://github.com/Tresjs/tres/commit/8c1c66827cf39dca1206bfbf0fe3549e03ad9608))
+* localstate for objects with events and manual register/unregister from nodeOps using ctx ([#767](https://github.com/Tresjs/tres/issues/767)) ([9a53e60](https://github.com/Tresjs/tres/commit/9a53e60bfb915492952399522d6c2d6a0ac7ed59))
+* **primitive:** implement as proxy to avoid breaking references  ([#764](https://github.com/Tresjs/tres/issues/764)) ([f637bf3](https://github.com/Tresjs/tres/commit/f637bf35373c4ba60f14b3464ede9427be8b8b58))
+
 ## [4.1.0](https://github.com/Tresjs/tres/compare/4.0.2...4.1.0) (2024-07-05)
 
 
