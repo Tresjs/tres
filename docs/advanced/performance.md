@@ -78,13 +78,16 @@ import Scene from './Scene.vue'
 
 ```vue [Scene.vue]
 <script setup>
+import { shallowRef, watch } from 'vue'
 import { useTres } from '@tresjs/core'
 
-const boxRef = ref()
+const boxRef = shallowRef(null)
 const { invalidate } = useTres()
 
-watch(boxRef.value, () => {
-  boxRef.value.position.x = 1
+watch(boxRef, () => {
+  if (boxRef.value?.position) {
+    boxRef.value.position.x = 1
+  }
   invalidate()
 })
 </script>

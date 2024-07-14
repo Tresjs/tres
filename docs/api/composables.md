@@ -91,9 +91,10 @@ import AnimatedBox from './AnimatedBox.vue'
 
 ```vue [AnimatedBox.vue]
 <script setup>
+import { shallowRef } from 'vue'
 import { useLoop } from '@tresjs/core'
 
-const boxRef = ref()
+const boxRef = shallowRef()
 
 const { onBeforeRender } = useLoop()
 
@@ -313,7 +314,7 @@ The seek function accepts three parameters:
 The `seek` and `seekByName` function traverses the object and returns the child object with the specified property and value. If no child with the given property and value is found, it returns null and logs a warning.
 
 ```ts
-const carRef = ref(null)
+const carRef = shallowRef(null)
 
 watch(carRef, ({ model }) => {
   if (model) {
@@ -328,7 +329,7 @@ watch(carRef, ({ model }) => {
 Similarly, the `seekAll` and `seekAllByName` functions return an array of child objects whose property includes the given value. If no matches are found, then they return an empty array and a warning is logged.
 
 ```ts
-const character = ref(null)
+const character = shallowRef(null)
 
 watch(character, ({ model }) => {
   if (model) {
