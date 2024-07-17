@@ -56,7 +56,7 @@ Another important caveheat of Tres was that it was not possible to reactively ch
 const color = ref('#ffffff')
 const intensity = ref(1)
 
-const lightRef = ref<THREE.DirectionalLight>()
+const lightRef = shallowRef<THREE.DirectionalLight>()
 
 watch([color, intensity], ([color, intensity]) => {
     // this will not work
