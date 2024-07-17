@@ -1,5 +1,12 @@
 
 
+## [4.2.1](https://github.com/Tresjs/tres/compare/4.2.0...4.2.1) (2024-07-17)
+
+
+### Bug Fixes
+
+* **types:** `useLoader` generics ([#781](https://github.com/Tresjs/tres/issues/781)) ([b51d679](https://github.com/Tresjs/tres/commit/b51d6792372922904cd9225c2ea2e5dfce6f68f8))
+
 ## [4.2.0](https://github.com/Tresjs/tres/compare/4.1.0...4.2.0) (2024-07-14)
 
 
