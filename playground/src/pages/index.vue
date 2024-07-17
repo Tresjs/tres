@@ -5,6 +5,7 @@ import {
   cameraRoutes,
   eventsRoutes,
   issuesRoutes,
+  loaderRoutes,
   miscRoutes,
   modelsRoutes,
 } from '../router/routes'
@@ -14,6 +15,7 @@ const sections = [
   { icon: '🤓', title: 'Advanced', routes: advancedRoutes },
   { icon: '📣', title: 'Events', routes: eventsRoutes },
   { icon: '📷', title: 'Camera', routes: cameraRoutes },
+  { icon: '🛜', title: 'Loaders', routes: loaderRoutes },
   { icon: '🐇', title: 'Models', routes: modelsRoutes },
   { icon: '🤪', title: 'Misc', routes: miscRoutes },
   { icon: '🔬', title: 'Issues', routes: issuesRoutes },

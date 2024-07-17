@@ -1,18 +1,20 @@
+import type { Loader, LoadingManager, Object3D } from 'three'
 import { isArray } from '@alvarosabu/utils'
-import type { Loader, Object3D } from 'three'
-import { useLogger } from '../useLogger'
+import type { TresObject } from '../../types'
+import { useLogger } from '..'
 
 export interface TresLoader<T> extends Loader {
   load: (
     url: string,
-    onLoad?: (result: T) => void,
+    onLoad: (result: T) => void,
     onProgress?: (event: ProgressEvent) => void,
-    onError?: (event: ErrorEvent) => void,
-  ) => unknown
+    onError?: (event: ErrorEvent) => void
+  ) => void
   loadAsync: (url: string, onProgress?: (event: ProgressEvent) => void) => Promise<T>
 }
 
-export type LoaderProto<T> = new (...args: any) => TresLoader<T extends unknown ? any : T>
+export type LoaderProto<T> = new (manager?: LoadingManager) => TresLoader<T>
+
 export type LoaderReturnType<T, L extends LoaderProto<T>> = T extends unknown
   ? Awaited<ReturnType<InstanceType<L>['loadAsync']>>
   : T
@@ -55,28 +57,27 @@ export type Extensions<T extends { prototype: LoaderProto<any> }> = (loader: T['
  * ```
  *
  * @export
- * @template T
- * @template U
- * @param {T} Loader
- * @param {U} url
- * @param {Extensions<T>} [extensions]
+ * @template LoaderProto<T>
+ * @template string | string[],
+ * @param {LoaderProto<T>} Loader
+ * @param {string | string[],} url
+ * @param {Extensions<TresLoader<T>>} [extensions]
  * @param {(event: ProgressEvent<EventTarget>) => void} [onProgress]
  * @param {(proto: TresLoader<T>) => void} [cb]
  * @return {*}
  */
-export async function useLoader<T extends LoaderProto<T>, U extends string | string[]>(
-  Loader: T,
-  url: U,
-  extensions?: Extensions<T>,
+export async function useLoader<T>(
+  Loader: LoaderProto<T>,
+  url: string | string[],
+  extensions?: (loader: TresLoader<T>) => void,
   onProgress?: (event: ProgressEvent<EventTarget>) => void,
   cb?: (proto: TresLoader<T>) => void,
-) {
+): Promise<T | T[]> {
   const { logError } = useLogger()
   const proto = new Loader()
   if (cb) {
     cb(proto)
   }
-
   if (extensions) {
     extensions(proto)
   }
@@ -88,7 +89,8 @@ export async function useLoader<T extends LoaderProto<T>, U extends string | str
       new Promise((resolve, reject) => {
         proto.load(
           path,
-          (data) => {
+          (result: T) => {
+            const data = result as unknown as TresObject
             if (data.scene) {
               Object.assign(data, trasverseObjects(data.scene))
             }
@@ -100,7 +102,5 @@ export async function useLoader<T extends LoaderProto<T>, U extends string | str
       }),
   )
 
-  return (isArray(url) ? await Promise.all(results) : await results[0]) as U extends any[]
-    ? LoaderReturnType<T, T>[]
-    : LoaderReturnType<T, T>
+  return (isArray(url) ? await Promise.all(results) : await results[0]) as T | T[]
 }

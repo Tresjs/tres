@@ -5,6 +5,7 @@ import { basicRoutes } from './basic'
 import { advancedRoutes } from './advanced'
 import { miscRoutes } from './misc'
 import { issuesRoutes } from './issues'
+import { loaderRoutes } from './loaders'
 
 const allRoutes = [
   ...basicRoutes,
@@ -14,6 +15,7 @@ const allRoutes = [
   ...modelsRoutes,
   ...miscRoutes,
   ...issuesRoutes,
+  ...loaderRoutes,
 ]
 
 export {
@@ -25,4 +27,5 @@ export {
   miscRoutes,
   issuesRoutes,
   allRoutes,
+  loaderRoutes,
 }
