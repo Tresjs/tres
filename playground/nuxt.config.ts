@@ -1,6 +1,7 @@
 export default defineNuxtConfig({
   ssr: true,
   modules: ['../src/module', '@nuxt/devtools'],
+
   // for testing purposes
   // imports: {
   //   autoImport: false,
@@ -11,6 +12,7 @@ export default defineNuxtConfig({
     devtools: true,
     glsl: true,
   },
+
   // for testing purposes: include some nuxt build tests
   nitro: {
     routeRules: {
@@ -18,4 +20,6 @@ export default defineNuxtConfig({
       '/page2': { prerender: true }, // <== server SSG page + payload
     },
   },
+
+  compatibilityDate: '2024-07-17',
 })
