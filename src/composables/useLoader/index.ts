@@ -58,10 +58,10 @@ export type Extensions<T extends { prototype: LoaderProto<any> }> = (loader: T['
  *
  * @export
  * @template LoaderProto<T>
- * @template U
- * @param {T} Loader
- * @param {U} url
- * @param {Extensions<LoaderProto<T>>} [extensions]
+ * @template string | string[],
+ * @param {LoaderProto<T>} Loader
+ * @param {string | string[],} url
+ * @param {Extensions<TresLoader<T>>} [extensions]
  * @param {(event: ProgressEvent<EventTarget>) => void} [onProgress]
  * @param {(proto: TresLoader<T>) => void} [cb]
  * @return {*}
