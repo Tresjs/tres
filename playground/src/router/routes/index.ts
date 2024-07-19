@@ -6,6 +6,7 @@ import { advancedRoutes } from './advanced'
 import { miscRoutes } from './misc'
 import { issuesRoutes } from './issues'
 import { loaderRoutes } from './loaders'
+import { webgpuRoutes } from './webgpu'
 
 const allRoutes = [
   ...basicRoutes,
@@ -16,6 +17,7 @@ const allRoutes = [
   ...miscRoutes,
   ...issuesRoutes,
   ...loaderRoutes,
+  ...webgpuRoutes
 ]
 
 export {
@@ -28,4 +30,5 @@ export {
   issuesRoutes,
   allRoutes,
   loaderRoutes,
+  webgpuRoutes
 }
