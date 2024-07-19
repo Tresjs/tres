@@ -17,7 +17,7 @@ const allRoutes = [
   ...miscRoutes,
   ...issuesRoutes,
   ...loaderRoutes,
-  ...webgpuRoutes
+  ...webgpuRoutes,
 ]
 
 export {
@@ -30,5 +30,5 @@ export {
   issuesRoutes,
   allRoutes,
   loaderRoutes,
-  webgpuRoutes
+  webgpuRoutes,
 }

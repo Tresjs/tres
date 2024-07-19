@@ -451,7 +451,6 @@ export function invalidateInstance(instance: TresObject) {
 }
 
 export function noop(fn: string): any {
-  // eslint-disable-next-line no-unused-expressions
   fn
 }
 
