@@ -1,17 +1,14 @@
 <script setup lang="ts">
-import {
-  BasicShadowMap,
-  NoToneMapping,
-  SRGBColorSpace,
-} from 'three'
+import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
 import { TresCanvas, useRenderLoop } from '@tresjs/core'
 import { OrbitControls } from '@tresjs/cientos'
-import { nextTick, onMounted } from 'vue'
+import { nextTick, onMounted, reactive } from 'vue'
 
 const state = reactive({
   clearColor: '#201919',
   shadows: false,
   alpha: false,
+  webGPU: true,
 
   shadowMapType: BasicShadowMap,
   outputColorSpace: SRGBColorSpace,
@@ -33,7 +30,7 @@ onMounted(async () => {
 
     <OrbitControls />
 
-    <TresAmbientLight :intensity="0.5" />
+    <TresAmbientLight :intensity="80" />
 
     <TresMesh>
       <TresBoxGeometry />

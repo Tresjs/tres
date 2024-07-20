@@ -1,4 +1,6 @@
 import { ACESFilmicToneMapping, Color, WebGLRenderer } from 'three'
+// import WebGPURenderer from 'three/examples/jsm/renderers/webgpu/WebGPURenderer'
+
 import { type MaybeRef, computed, onUnmounted, shallowRef, watch, watchEffect } from 'vue'
 
 import {
@@ -16,7 +18,7 @@ import { normalizeColor } from '../../utils/normalize'
 import type { TresContext } from '../useTresContextProvider'
 import { get, merge, set, setPixelRatio } from '../../utils'
 
-// Solution taken from Thretle that actually support different versions https://github.com/threlte/threlte/blob/5fa541179460f0dadc7dc17ae5e6854d1689379e/packages/core/src/lib/lib/useRenderer.ts
+// Solution taken from Threlte that actually support different versions https://github.com/threlte/threlte/blob/5fa541179460f0dadc7dc17ae5e6854d1689379e/packages/core/src/lib/lib/useRenderer.ts
 import { revision } from '../../core/revision'
 import { rendererPresets } from './const'
 import type { RendererPresetsType } from './const'
@@ -27,9 +29,17 @@ type TransformToMaybeRefOrGetter<T> = {
 
 export interface UseRendererOptions extends TransformToMaybeRefOrGetter<WebGLRendererParameters> {
   /**
+   * Enable the WebGPU renderer
+   *
+   * @default false
+   */
+  webGPU?: MaybeRefOrGetter<boolean>
+
+  /**
    * Enable shadows in the Renderer
    *
    * @default false
+   * @memberof UseRendererOptions
    */
   shadows?: MaybeRefOrGetter<boolean>
 
@@ -129,7 +139,11 @@ export function useRenderer(
     failIfMajorPerformanceCaveat: toValue(options.failIfMajorPerformanceCaveat),
   }))
 
-  const renderer = shallowRef<WebGLRenderer>(new WebGLRenderer(webGLRendererConstructorParameters.value))
+  const renderer = options.webGPU
+    ? shallowRef<WebGLRenderer>(new WebGLRenderer(webGLRendererConstructorParameters.value))
+    : shallowRef<WebGLRenderer>(new WebGLRenderer(webGLRendererConstructorParameters.value))
+
+  console.log(renderer.value, typeof WebGPURenderer)
 
   function invalidateOnDemand() {
     if (options.renderMode === 'on-demand') {
