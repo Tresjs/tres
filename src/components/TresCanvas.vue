@@ -41,6 +41,7 @@ import type { TresCamera, TresObject, TresScene } from '../types/'
 export interface TresCanvasProps
   extends Omit<WebGLRendererParameters, 'canvas'> {
   // required by for useRenderer
+  webGPU?: boolean
   shadows?: boolean
   clearColor?: string
   toneMapping?: ToneMapping
@@ -59,6 +60,7 @@ export interface TresCanvasProps
 }
 
 const props = withDefaults(defineProps<TresCanvasProps>(), {
+  webGPU: false,
   alpha: undefined,
   depth: undefined,
   shadows: undefined,
@@ -114,7 +116,9 @@ const createInternalComponent = (context: TresContext) =>
   defineComponent({
     setup() {
       const ctx = getCurrentInstance()?.appContext
-      if (ctx) { ctx.app = instance as App }
+      if (ctx) {
+        ctx.app = instance as App
+      }
       provide('useTres', context)
       provide('extend', extend)
 
@@ -138,7 +142,7 @@ const dispose = (context: TresContext, force = false) => {
     context.renderer.value.renderLists.dispose()
     context.renderer.value.forceContextLoss()
   }
-  (scene.value as TresScene).__tres = {
+  ;(scene.value as TresScene).__tres = {
     root: context,
   }
   mountCustomRenderer(context)
@@ -148,7 +152,10 @@ const disableRender = computed(() => props.disableRender)
 
 const context = shallowRef<TresContext | null>(null)
 
-defineExpose({ context, dispose: () => dispose(context.value as TresContext, true) })
+defineExpose({
+  context,
+  dispose: () => dispose(context.value as TresContext, true),
+})
 
 onMounted(() => {
   const existingCanvas = canvas as Ref<HTMLCanvasElement>
@@ -189,7 +196,9 @@ onMounted(() => {
   watch(
     () => props.camera,
     (newCamera, oldCamera) => {
-      if (newCamera) { registerCamera(newCamera) }
+      if (newCamera) {
+        registerCamera(newCamera)
+      }
       if (oldCamera) {
         oldCamera.removeFromParent()
         deregisterCamera(oldCamera)
@@ -209,7 +218,10 @@ onMounted(() => {
   }
 
   // HMR support
-  if (import.meta.hot && context.value) { import.meta.hot.on('vite:afterUpdate', () => dispose(context.value as TresContext)) }
+  if (import.meta.hot && context.value) {
+    import.meta.hot.on('vite:afterUpdate', () =>
+      dispose(context.value as TresContext))
+  }
 })
 
 onUnmounted(() => {
@@ -232,7 +244,7 @@ onUnmounted(() => {
       left: 0,
       pointerEvents: 'auto',
       touchAction: 'none',
-      ...$attrs.style as Object,
+      ...($attrs.style as Object),
     }"
   ></canvas>
 </template>
