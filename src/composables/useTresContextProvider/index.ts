@@ -8,7 +8,6 @@ import { useCamera } from '../useCamera'
 import type { UseRendererOptions } from '../useRenderer'
 import { useRenderer } from '../useRenderer'
 import { extend } from '../../core/catalogue'
-import { useLogger } from '../useLogger'
 import type { EmitEventFn, TresObject, TresScene } from '../../types'
 
 import { type TresEventManager, useTresEventManager } from '../useTresEventManager'
@@ -100,8 +99,6 @@ export function useTresContextProvider({
   emit: EmitEventFn
 
 }): TresContext {
-  const { logWarning } = useLogger()
-
   const localScene = shallowRef<TresScene>(scene)
   const sizes = useSizes(windowSize, canvas)
 
