@@ -128,17 +128,11 @@ export function useTresContextProvider({
     if (rendererOptions.renderMode === 'on-demand') {
       render.frames.value = Math.min(render.maxFrames, render.frames.value + frames)
     }
-    else {
-      logWarning('`invalidate` can only be used when `renderMode` is set to `on-demand`')
-    }
   }
 
   function advance() {
     if (rendererOptions.renderMode === 'manual') {
       render.frames.value = 1
-    }
-    else {
-      logWarning('`advance` can only be used when `renderMode` is set to `manual`')
     }
   }
 
