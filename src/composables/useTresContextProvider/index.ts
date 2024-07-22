@@ -8,7 +8,6 @@ import { useCamera } from '../useCamera'
 import type { UseRendererOptions } from '../useRenderer'
 import { useRenderer } from '../useRenderer'
 import { extend } from '../../core/catalogue'
-import { useLogger } from '../useLogger'
 import type { EmitEventFn, TresObject, TresScene } from '../../types'
 
 import { type TresEventManager, useTresEventManager } from '../useTresEventManager'
@@ -100,8 +99,6 @@ export function useTresContextProvider({
   emit: EmitEventFn
 
 }): TresContext {
-  const { logWarning } = useLogger()
-
   const localScene = shallowRef<TresScene>(scene)
   const sizes = useSizes(windowSize, canvas)
 
@@ -128,17 +125,11 @@ export function useTresContextProvider({
     if (rendererOptions.renderMode === 'on-demand') {
       render.frames.value = Math.min(render.maxFrames, render.frames.value + frames)
     }
-    else {
-      logWarning('`invalidate` can only be used when `renderMode` is set to `on-demand`')
-    }
   }
 
   function advance() {
     if (rendererOptions.renderMode === 'manual') {
       render.frames.value = 1
-    }
-    else {
-      logWarning('`advance` can only be used when `renderMode` is set to `manual`')
     }
   }
 
