@@ -182,7 +182,7 @@ Es funktioniert einfach. 💯 (wenn kein Text angegeben wird, wird der Text Tres
 Wir können die Optionen als Props übergeben
 
 ```html
-<Text3D :font="fontPath" :text="my 3d text" :size="0.8" />
+<Text3D :font="fontPath" text="my 3d text" :size="0.8" />
 ```
 
 falls die Optionen nicht bereitgestellt werden, sind die Standardwerte:
@@ -203,5 +203,5 @@ const fontOptions = {
 Der Text in Three.js beginnt standardmäßig an der Ausgangsposition des Meshs, also bei [0,0,0]. Um den Text zu zentrieren, können wir einfach das Flag "center" übergeben.
 
 ```vue
-<Text3D :font="fontPath" :text="my 3d text" center />
+<Text3D :font="fontPath" text="my 3d text" center />
 ```

@@ -210,7 +210,7 @@ import { Text3D } from '@tresjs/cientos'
 We can pass the options as props
 
 ```html
-<Text3D :font="fontPath" :text="my 3d text" :size="0.8" />
+<Text3D :font="fontPath" text="my 3d text" :size="0.8" />
 ```
 
 in case the options are not provided, the default values will be:
@@ -229,5 +229,5 @@ bevelSegments: 4,
 By default text in ThreeJS starts at the mesh initial position, so it's [0,0,0] and the text will start there but we can center it by just passing the flag "center"
 
 ```vue
-<Text3D :font="fontPath" :text="my 3d text" center />
+<Text3D :font="fontPath" text="my 3d text" center />
 ```
