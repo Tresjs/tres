@@ -6,6 +6,7 @@ import vue from '@vitejs/plugin-vue'
 import banner from 'vite-plugin-banner'
 import Inspect from 'vite-plugin-inspect'
 import dts from 'vite-plugin-dts'
+import topLevelAwait from 'vite-plugin-top-level-await'
 
 import copy from 'rollup-plugin-copy'
 
@@ -25,6 +26,12 @@ export default defineConfig({
     port: 5174,
   },
   plugins: [
+    topLevelAwait({
+      // The export name of top-level await promise for each chunk module
+      promiseExportName: '__tla',
+      // The function to generate import names of top-level await promise in each chunk module
+      promiseImportName: i => `__tla_${i}`,
+    }),
     vue({
       isProduction: false,
       template: {

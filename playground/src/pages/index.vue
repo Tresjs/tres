@@ -8,6 +8,7 @@ import {
   loaderRoutes,
   miscRoutes,
   modelsRoutes,
+  webgpuRoutes,
 } from '../router/routes'
 
 const sections = [
@@ -19,6 +20,7 @@ const sections = [
   { icon: '🐇', title: 'Models', routes: modelsRoutes },
   { icon: '🤪', title: 'Misc', routes: miscRoutes },
   { icon: '🔬', title: 'Issues', routes: issuesRoutes },
+  { icon: '🔮', title: 'WebGPU', routes: webgpuRoutes },
 ]
 </script>
 
@@ -72,11 +74,10 @@ const sections = [
               </router-link>
             </div>
           </div>
-          <div v-else>
-            (empty)
-          </div>
+          <div v-else>(empty)</div>
         </div>
       </div>
     </div>
   </div>
 </template>
+import { webgpuRoutes } from '../router/routes/webgpu';
