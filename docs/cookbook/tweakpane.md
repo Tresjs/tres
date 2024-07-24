@@ -1,8 +1,8 @@
 ---
 title: Tweakpane
 description: How to use tweakpane to control your scene
-author: dennissmuda
-thumbnail: /recipes/advanced-animations.png
+author: alvarosabu
+thumbnail: /recipes/tweakpane.png
 difficulty: 0
 ---
 
@@ -17,7 +17,13 @@ To make it easier to control the parameters of your scene, you can use [Tweakpan
 First, you need to install Tweakpane:
 
 ```bash
-npm install tweakpane
+pnpm add tweakpane
+```
+
+Additionally install type defs
+
+```bash
+$ pnpm add -D @tweakpane/core
 ```
 
 ## Usage
