@@ -70,6 +70,7 @@ export const enConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
           { text: 'Load Text', link: '/cookbook/text-3d' },
           { text: 'Lights & Shadows', link: '/cookbook/lights-shadows' },
           { text: 'Shaders', link: '/cookbook/shaders' },
+          { text: 'Tweakpane', link: '/cookbook/tweakpane' },
         ],
       },
       {
