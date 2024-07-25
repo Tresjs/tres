@@ -1,5 +1,12 @@
 
 
+## [4.2.2](https://github.com/Tresjs/tres/compare/4.2.1...4.2.2) (2024-07-24)
+
+
+### Bug Fixes
+
+* remove on demand invalidation warning ([#788](https://github.com/Tresjs/tres/issues/788)) ([eab74e6](https://github.com/Tresjs/tres/commit/eab74e6d0c8feb16ea18b2f096c87c7e3dbb1848))
+
 ## [4.2.1](https://github.com/Tresjs/tres/compare/4.2.0...4.2.1) (2024-07-17)
 
 
