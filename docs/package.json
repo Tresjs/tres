@@ -9,7 +9,8 @@
     "preview": "vitepress preview"
   },
   "dependencies": {
-    "@tresjs/core": "workspace:^"
+    "@tresjs/core": "workspace:^",
+    "tweakpane": "^4.0.4"
   },
   "devDependencies": {
     "@iconify-json/logos": "^1.1.43",
