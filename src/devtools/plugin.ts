@@ -5,8 +5,9 @@ import {
   setupDevtoolsPlugin,
 } from '@vue/devtools-api'
 import { reactive } from 'vue'
-import type { Mesh } from 'three'
+import { Color, type Mesh } from 'three'
 import { createHighlightMesh, editSceneObject } from '../utils'
+import * as is from '../utils/is'
 import { bytesToKB, calculateMemoryUsage } from '../utils/perf'
 import type { TresContext } from '../composables'
 import type { TresObject } from './../types'
@@ -51,14 +52,16 @@ const createNode = (object: TresObject): SceneGraphObject => {
   }
 
   if (object.type.includes('Light')) {
+    if (is.light(object)) {
+      node.tags.push({
+        label: `${object.intensity}`,
+        textColor: 0x9499A6,
+        backgroundColor: 0xF8F9FA,
+        tooltip: 'Intensity',
+      })
+    }
     node.tags.push({
-      label: `${object.intensity}`,
-      textColor: 0x9499A6,
-      backgroundColor: 0xF8F9FA,
-      tooltip: 'Intensity',
-    })
-    node.tags.push({
-      label: `#${object.color.getHexString()}`,
+      label: `#${new Color(object.color).getHexString()}`,
       textColor: 0x9499A6,
       backgroundColor: 0xF8F9FA,
       tooltip: 'Color',
@@ -173,6 +176,9 @@ export function registerTresDevtools(app: DevtoolsApp, tres: TresContext) {
           payload.state = {
             object: Object.entries(instance)
               .map(([key, value]) => {
+                if (key === 'children') {
+                  return { key, value: value.filter(child => child.type !== 'HightlightMesh') }
+                }
                 return { key, value, editable: true }
               })
               .filter(({ key }) => {

@@ -5,7 +5,7 @@ export function calculateMemoryUsage(object: TresObject | Scene) {
   let totalMemory = 0
 
   object.traverse((node: TresObject) => {
-    if (node.isMesh && node.geometry) {
+    if (node.isMesh && node.geometry && node.type !== 'HightlightMesh') {
       const geometry = node.geometry
       const verticesMemory = geometry.attributes.position.count * 3 * Float32Array.BYTES_PER_ELEMENT
       const facesMemory = geometry.index ? geometry.index.count * Uint32Array.BYTES_PER_ELEMENT : 0

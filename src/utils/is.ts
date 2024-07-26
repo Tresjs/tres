@@ -1,5 +1,5 @@
 import type { TresObject, TresPrimitive } from 'src/types'
-import type { BufferGeometry, Camera, Fog, Material, Object3D, Scene } from 'three'
+import type { BufferGeometry, Camera, Fog, Light, Material, Object3D, Scene } from 'three'
 
 export function und(u: unknown) {
   return typeof u === 'undefined'
@@ -43,6 +43,10 @@ export function bufferGeometry(u: unknown): u is BufferGeometry {
 
 export function material(u: unknown): u is Material {
   return obj(u) && 'isMaterial' in u && !!(u.isMaterial)
+}
+
+export function light(u: unknown): u is Light {
+  return obj(u) && 'isLight' in u && !!(u.isLight)
 }
 
 export function fog(u: unknown): u is Fog {
