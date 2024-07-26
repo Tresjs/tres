@@ -1,5 +1,12 @@
 
 
+## [4.2.3](https://github.com/Tresjs/tres/compare/4.2.2...4.2.3) (2024-07-26)
+
+
+### Bug Fixes
+
+* 792 directionallighthelpers breaks devtools ([#793](https://github.com/Tresjs/tres/issues/793)) ([426acee](https://github.com/Tresjs/tres/commit/426acee27e7fd62abf3803280c48e327597b1e94)), closes [#533](https://github.com/Tresjs/tres/issues/533)
+
 ## [4.2.2](https://github.com/Tresjs/tres/compare/4.2.1...4.2.2) (2024-07-24)
 
 
