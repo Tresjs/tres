@@ -176,6 +176,9 @@ export function registerTresDevtools(app: DevtoolsApp, tres: TresContext) {
           payload.state = {
             object: Object.entries(instance)
               .map(([key, value]) => {
+                if (key === 'children') {
+                  return { key, value: value.filter(child => child.type !== 'HightlightMesh') }
+                }
                 return { key, value, editable: true }
               })
               .filter(({ key }) => {
