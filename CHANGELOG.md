@@ -1,5 +1,13 @@
 
 
+## [1.0.0-next.1](https://github.com/Tresjs/post-processing/compare/0.7.1...1.0.0-next.1) (2024-07-26)
+
+
+### Features
+
+* export useEffect composable ([#105](https://github.com/Tresjs/post-processing/issues/105)) ([b7810ba](https://github.com/Tresjs/post-processing/commit/b7810ba2864e70516c95b9866c2ea5d02a8f9b9d))
+* update core to v4 ([#109](https://github.com/Tresjs/post-processing/issues/109)) ([f79cb28](https://github.com/Tresjs/post-processing/commit/f79cb288205f7be357557979e91ca392002edcac))
+
 ## [1.0.0-next.0](https://github.com/Tresjs/post-processing/compare/0.7.1...1.0.0-next.0) (2024-05-21)
 
 
