@@ -23,7 +23,7 @@ importers:
         version: 8.0.1(release-it@17.6.0(typescript@5.5.4))
       '@tresjs/core':
         specifier: ^4.0.2
-        version: 4.2.2(three@0.165.0)(vue@3.4.34(typescript@5.5.4))
+        version: 4.2.3(three@0.165.0)(vue@3.4.34(typescript@5.5.4))
       '@tresjs/eslint-config':
         specifier: ^1.1.0
         version: 1.1.0(@vue/compiler-sfc@3.4.34)(eslint@9.7.0)(typescript@5.5.4)
@@ -86,7 +86,7 @@ importers:
     dependencies:
       '@tresjs/cientos':
         specifier: ^3.9.0
-        version: 3.9.0(@tresjs/core@4.2.2(three@0.165.0)(vue@3.4.34(typescript@5.5.4)))(three@0.165.0)(tweakpane@4.0.3)(vue@3.4.34(typescript@5.5.4))
+        version: 3.9.0(@tresjs/core@4.2.3(three@0.165.0)(vue@3.4.34(typescript@5.5.4)))(three@0.165.0)(tweakpane@4.0.3)(vue@3.4.34(typescript@5.5.4))
       vue:
         specifier: ^3.4.27
         version: 3.4.34(typescript@5.5.4)
@@ -930,8 +930,8 @@ packages:
       tweakpane: '>=3.0.0'
       vue: '>=3.3'
 
-  '@tresjs/core@4.2.2':
-    resolution: {integrity: sha512-CpNrICgqg9jGCrNMjWv+W2mNWChzbukA7hPi9D16YaQDNEzUFuc0fFwGVA5wLEigtEWcEJfQvkYiyEQ1uGcyjg==}
+  '@tresjs/core@4.2.3':
+    resolution: {integrity: sha512-QZllV1XTfZMTvBeI0GkRWesI3WbsqvYXzkYjULArlxrESv8a4hZr4seCGpSWIaecNRFZoIaslkhCrSdxPos/1w==}
     peerDependencies:
       three: '>=0.133'
       vue: '>=3.4'
@@ -3793,8 +3793,8 @@ packages:
   vscode-uri@3.0.8:
     resolution: {integrity: sha512-AyFQ0EVmsOZOlAnxoFOGOq1SQDWAB7C6aqMGS23svWAllfOaxbuFvcT8D1i8z3Gyn8fraVeZNNmN6e9bxxXkKw==}
 
-  vue-demi@0.14.8:
-    resolution: {integrity: sha512-Uuqnk9YE9SsWeReYqK2alDI5YzciATE0r2SkA6iMAtuXvNTMNACJLJEXNXaEy94ECuBe4Sk6RzRU80kjdbIo1Q==}
+  vue-demi@0.14.10:
+    resolution: {integrity: sha512-nMZBOwuzabUO0nLgIcc6rycZEebF6eeUfaiQx9+WSk8e29IbLvPU9feI6tqW4kTo3hvoYAJkMh8n8D0fuISphg==}
     engines: {node: '>=12'}
     hasBin: true
     peerDependencies:
@@ -3804,8 +3804,8 @@ packages:
       '@vue/composition-api':
         optional: true
 
-  vue-demi@0.14.9:
-    resolution: {integrity: sha512-dC1TJMODGM8lxhP6wLToncaDPPNB3biVxxRDuNCYpuXwi70ou7NsGd97KVTJ2omepGId429JZt8oaZKeXbqxwg==}
+  vue-demi@0.14.8:
+    resolution: {integrity: sha512-Uuqnk9YE9SsWeReYqK2alDI5YzciATE0r2SkA6iMAtuXvNTMNACJLJEXNXaEy94ECuBe4Sk6RzRU80kjdbIo1Q==}
     engines: {node: '>=12'}
     hasBin: true
     peerDependencies:
@@ -4846,9 +4846,9 @@ snapshots:
 
   '@tootallnate/quickjs-emscripten@0.23.0': {}
 
-  '@tresjs/cientos@3.9.0(@tresjs/core@4.2.2(three@0.165.0)(vue@3.4.34(typescript@5.5.4)))(three@0.165.0)(tweakpane@4.0.3)(vue@3.4.34(typescript@5.5.4))':
+  '@tresjs/cientos@3.9.0(@tresjs/core@4.2.3(three@0.165.0)(vue@3.4.34(typescript@5.5.4)))(three@0.165.0)(tweakpane@4.0.3)(vue@3.4.34(typescript@5.5.4))':
     dependencies:
-      '@tresjs/core': 4.2.2(three@0.165.0)(vue@3.4.34(typescript@5.5.4))
+      '@tresjs/core': 4.2.3(three@0.165.0)(vue@3.4.34(typescript@5.5.4))
       '@vueuse/core': 10.10.1(vue@3.4.34(typescript@5.5.4))
       camera-controls: 2.8.4(three@0.165.0)
       stats-gl: 2.2.8
@@ -4863,7 +4863,7 @@ snapshots:
       - '@vue/composition-api'
       - react
 
-  '@tresjs/core@4.2.2(three@0.165.0)(vue@3.4.34(typescript@5.5.4))':
+  '@tresjs/core@4.2.3(three@0.165.0)(vue@3.4.34(typescript@5.5.4))':
     dependencies:
       '@alvarosabu/utils': 3.2.0
       '@vue/devtools-api': 6.6.3
@@ -5350,7 +5350,7 @@ snapshots:
       '@types/web-bluetooth': 0.0.20
       '@vueuse/metadata': 10.11.0
       '@vueuse/shared': 10.11.0(vue@3.4.34(typescript@5.5.4))
-      vue-demi: 0.14.9(vue@3.4.34(typescript@5.5.4))
+      vue-demi: 0.14.10(vue@3.4.34(typescript@5.5.4))
     transitivePeerDependencies:
       - '@vue/composition-api'
       - vue
@@ -5379,7 +5379,7 @@ snapshots:
 
   '@vueuse/shared@10.11.0(vue@3.4.34(typescript@5.5.4))':
     dependencies:
-      vue-demi: 0.14.9(vue@3.4.34(typescript@5.5.4))
+      vue-demi: 0.14.10(vue@3.4.34(typescript@5.5.4))
     transitivePeerDependencies:
       - '@vue/composition-api'
       - vue
@@ -7988,11 +7988,11 @@ snapshots:
 
   vscode-uri@3.0.8: {}
 
-  vue-demi@0.14.8(vue@3.4.34(typescript@5.5.4)):
+  vue-demi@0.14.10(vue@3.4.34(typescript@5.5.4)):
     dependencies:
       vue: 3.4.34(typescript@5.5.4)
 
-  vue-demi@0.14.9(vue@3.4.34(typescript@5.5.4)):
+  vue-demi@0.14.8(vue@3.4.34(typescript@5.5.4)):
     dependencies:
       vue: 3.4.34(typescript@5.5.4)
 
