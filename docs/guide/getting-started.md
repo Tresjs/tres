@@ -27,7 +27,7 @@ This package is on heavy WIP and it's not ready for production. Expect possible 
 ```html
 <script lang="ts" setup>
 import { useControls, TresLeches } from '@tresjs/leches'
-import '@tresjs/leches/style'
+import '@tresjs/leches/styles'
 
 useControls({
   awiwi: true,

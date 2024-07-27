@@ -5,7 +5,7 @@
 ```html
 <script lang="ts" setup>
 import { useControls, TresLeches } from '@tresjs/leches'
-import '@tresjs/leches/style'
+import '@tresjs/leches/styles'
 
 const control = useControls({
   awiwi: true,
@@ -60,7 +60,7 @@ Most commonly, you will want to use multiple controls at the same time. In this 
 ```html
 <script lang="ts" setup>
 import { useControls, TresLeches } from '@tresjs/leches'
-import '@tresjs/leches/style'
+import '@tresjs/leches/styles'
 
 const { awiwi, slider} = useControls({
   awiwi: true,
@@ -92,7 +92,7 @@ The control object has a `visible` property that can be used to hide the control
 ```html
 <script lang="ts" setup>
 import { useControls, TresLeches } from '@tresjs/leches'
-import '@tresjs/leches/style'
+import '@tresjs/leches/styles'
 
 const visibilityControl = useControls({
   isVisible: true
