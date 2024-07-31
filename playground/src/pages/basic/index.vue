@@ -52,7 +52,6 @@ const toonTealMaterial = new MeshToonMaterial({
   <TresCanvas
     ref="canvasRef"
     v-bind="state"
-    @render="onRender"
   >
     <TresPerspectiveCamera
       :position="[11, 11, 11]"
