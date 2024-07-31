@@ -186,6 +186,7 @@ export type TresColorArray = typeof THREE.Color | [color: THREE.ColorRepresentat
 export type TresLayers = THREE.Layers | Parameters<THREE.Layers['set']>[0]
 export type TresQuaternion = THREE.Quaternion | Parameters<THREE.Quaternion['set']>
 export type TresEuler = THREE.Euler
+export type TresControl = THREE.EventDispatcher & { enabled: boolean }
 
 type WithMathProps<P> = { [K in keyof P]: P[K] extends MathRepresentation | THREE.Euler ? MathType<P[K]> : P[K] }
 

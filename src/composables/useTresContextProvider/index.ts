@@ -1,6 +1,6 @@
 import { useFps, useMemory, useRafFn } from '@vueuse/core'
 import { computed, inject, onUnmounted, provide, readonly, ref, shallowRef } from 'vue'
-import type { Camera, EventDispatcher, WebGLRenderer } from 'three'
+import type { Camera, WebGLRenderer } from 'three'
 import { Raycaster } from 'three'
 import type { ComputedRef, DeepReadonly, MaybeRef, MaybeRefOrGetter, Ref, ShallowRef } from 'vue'
 import { calculateMemoryUsage } from '../../utils/perf'
@@ -8,7 +8,7 @@ import { useCamera } from '../useCamera'
 import type { UseRendererOptions } from '../useRenderer'
 import { useRenderer } from '../useRenderer'
 import { extend } from '../../core/catalogue'
-import type { EmitEventFn, TresObject, TresScene } from '../../types'
+import type { EmitEventFn, TresControl, TresObject, TresScene } from '../../types'
 
 import { type TresEventManager, useTresEventManager } from '../useTresEventManager'
 import useSizes, { type SizesType } from '../useSizes'
@@ -54,7 +54,7 @@ export interface TresContext {
   extend: (objects: any) => void
   camera: ComputedRef<Camera | undefined>
   cameras: DeepReadonly<Ref<Camera[]>>
-  controls: Ref<(EventDispatcher & { enabled: boolean }) | null>
+  controls: TresControl | null
   renderer: ShallowRef<WebGLRenderer>
   raycaster: ShallowRef<Raycaster>
   perf: PerformanceState
