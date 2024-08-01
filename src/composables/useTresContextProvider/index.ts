@@ -54,7 +54,7 @@ export interface TresContext {
   extend: (objects: any) => void
   camera: ComputedRef<Camera | undefined>
   cameras: DeepReadonly<Ref<Camera[]>>
-  controls: TresControl | null
+  controls: Ref<TresControl | null>
   renderer: ShallowRef<WebGLRenderer>
   raycaster: ShallowRef<Raycaster>
   perf: PerformanceState
