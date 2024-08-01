@@ -1,5 +1,12 @@
 
 
+## [4.2.5](https://github.com/Tresjs/tres/compare/4.2.4...4.2.5) (2024-08-01)
+
+
+### Bug Fixes
+
+* **types:** added Ref type to controls on ctx ([415de94](https://github.com/Tresjs/tres/commit/415de9461c39f46eed37c2a0663099dc4d3325e2))
+
 ## [4.2.4](https://github.com/Tresjs/tres/compare/4.2.3...4.2.4) (2024-08-01)
 
 
