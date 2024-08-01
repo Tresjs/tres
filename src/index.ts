@@ -34,3 +34,5 @@ export {
   templateCompilerOptions,
   dispose,
 }
+
+export type { VectorFlexibleParams } from './utils/normalize'
