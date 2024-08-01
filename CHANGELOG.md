@@ -1,5 +1,12 @@
 
 
+## [4.2.4](https://github.com/Tresjs/tres/compare/4.2.3...4.2.4) (2024-08-01)
+
+
+### Bug Fixes
+
+* typescript issues ([#794](https://github.com/Tresjs/tres/issues/794)) ([eecf608](https://github.com/Tresjs/tres/commit/eecf608ad1bfb7d4cbe64cf275a356a8dd383b73))
+
 ## [4.2.3](https://github.com/Tresjs/tres/compare/4.2.2...4.2.3) (2024-07-26)
 
 
