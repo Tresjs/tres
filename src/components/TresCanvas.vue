@@ -143,6 +143,12 @@ const dispose = (context: TresContext, force = false) => {
   }
 }
 
+const disableRender = computed(() => props.disableRender)
+
+const context = shallowRef<TresContext | null>(null)
+
+defineExpose({ context, dispose: () => dispose(context.value as TresContext, true) })
+
 const handleHMR = (context: TresContext) => {
   dispose(context)
   mountCustomRenderer(context)
@@ -152,12 +158,6 @@ const unmountCanvas = () => {
   dispose(context.value as TresContext)
   mountCustomRenderer(context.value as TresContext, true)
 }
-
-const disableRender = computed(() => props.disableRender)
-
-const context = shallowRef<TresContext | null>(null)
-
-defineExpose({ context, dispose: () => dispose(context.value as TresContext, true) })
 
 onMounted(() => {
   const existingCanvas = canvas as Ref<HTMLCanvasElement>

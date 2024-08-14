@@ -1,3 +1,4 @@
+<!-- eslint-disable no-console -->
 <script setup lang="ts">
 import { onMounted, onUnmounted } from 'vue'
 
