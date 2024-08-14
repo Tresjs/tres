@@ -110,7 +110,7 @@ const scene = shallowRef<TresScene | Scene>(new Scene())
 const instance = getCurrentInstance()?.appContext.app
 extend(THREE)
 
-const createInternalComponent = (context: TresContext) =>
+const createInternalComponent = (context: TresContext, empty = false) =>
   defineComponent({
     setup() {
       const ctx = getCurrentInstance()?.appContext
@@ -121,12 +121,12 @@ const createInternalComponent = (context: TresContext) =>
       if (typeof window !== 'undefined') {
         registerTresDevtools(ctx?.app, context)
       }
-      return () => h(Fragment, null, slots?.default ? slots.default() : [])
+      return () => h(Fragment, null, !empty ? slots.default() : [])
     },
   })
 
-const mountCustomRenderer = (context: TresContext) => {
-  const InternalComponent = createInternalComponent(context)
+const mountCustomRenderer = (context: TresContext, empty = false) => {
+  const InternalComponent = createInternalComponent(context, empty)
   const { render } = createRenderer(nodeOps(context))
   render(h(InternalComponent), scene.value as unknown as TresObject)
 }
@@ -141,7 +141,16 @@ const dispose = (context: TresContext, force = false) => {
   (scene.value as TresScene).__tres = {
     root: context,
   }
+}
+
+const handleHMR = (context: TresContext) => {
+  dispose(context)
   mountCustomRenderer(context)
+}
+
+const unmountCanvas = () => {
+  dispose(context.value as TresContext)
+  mountCustomRenderer(context.value as TresContext, true)
 }
 
 const disableRender = computed(() => props.disableRender)
@@ -209,12 +218,10 @@ onMounted(() => {
   }
 
   // HMR support
-  if (import.meta.hot && context.value) { import.meta.hot.on('vite:afterUpdate', () => dispose(context.value as TresContext)) }
+  if (import.meta.hot && context.value) { import.meta.hot.on('vite:afterUpdate', () => handleHMR(context.value as TresContext)) }
 })
 
-onUnmounted(() => {
-  dispose(context.value as TresContext)
-})
+onUnmounted(unmountCanvas)
 </script>
 
 <template>
