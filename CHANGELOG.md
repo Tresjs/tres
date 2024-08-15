@@ -1,5 +1,12 @@
 
 
+## [4.2.6](https://github.com/Tresjs/tres/compare/4.2.5...4.2.6) (2024-08-15)
+
+
+### Bug Fixes
+
+* 796 unmount the canvas component instant mount children again even if canvas is not mounted ([#799](https://github.com/Tresjs/tres/issues/799)) ([9a20b52](https://github.com/Tresjs/tres/commit/9a20b52b2c7efc712a22fa78f290f148ce566d35))
+
 ## [4.2.5](https://github.com/Tresjs/tres/compare/4.2.4...4.2.5) (2024-08-01)
 
 
