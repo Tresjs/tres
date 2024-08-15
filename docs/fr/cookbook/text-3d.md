@@ -181,7 +181,7 @@ Cela fonctionne tout simplement. 💯 (si aucun texte n'est fourni, le texte ser
 Nous pouvons passer les options comme une propriété:
 
 ```html
-<Text3D :font="fontPath" :text="my 3d text" :size="0.8" />
+<Text3D :font="fontPath" text="my 3d text" :size="0.8" />
 ```
 
 Dans le cas où les options ne sont pas fournies, les valeurs par défaut sont :
@@ -200,5 +200,5 @@ bevelSegments: 4,
 Par défaut, le texte dans ThreeJS commence à la position de départ du maillage, donc s'il vaut [0,0,0], le texte commencera là, mais nous pouvons le centrer en passant simplement la props "center".
 
 ```vue
-<Text3D :font="fontPath" :text="my 3d text" center />
+<Text3D :font="fontPath" text="my 3d text" center />
 ```
