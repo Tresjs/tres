@@ -19,4 +19,10 @@ export const issuesRoutes = [
     name: '#749: attach-detach',
     component: () => import('../../pages/issues/749/index.vue'),
   },
+  {
+    path: '/issues/796',
+    name: '#796: unmounted',
+    component: () => import('../../pages/issues/796/index.vue'),
+  },
+
 ]

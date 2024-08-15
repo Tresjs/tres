@@ -5,7 +5,7 @@ import { TresCanvas, useRenderLoop } from '@tresjs/core'
 import { OrbitControls } from '@tresjs/cientos'
 
 const state = reactive({
-  clearColor: '#201919',
+  clearColor: '#ffffff',
   shadows: true,
   alpha: false,
 
@@ -24,7 +24,7 @@ onLoop(({ elapsed }) => {
   sphereRef.value.position.y += Math.sin(elapsed) * 0.01
 
   // Update events without needing the mouse to move
-  canvasRef.value?.context?.eventManager.forceUpdate()
+  canvasRef.value?.context?.eventManager?.forceUpdate()
 })
 
 function onPointerEnter(ev) {
@@ -50,6 +50,7 @@ const toonTealMaterial = new MeshToonMaterial({
     type="checkbox"
   />
   <TresCanvas
+    v-if="sphereExists"
     ref="canvasRef"
     v-bind="state"
     @render="onRender"
