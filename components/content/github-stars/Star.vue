@@ -5,7 +5,7 @@ const { nodes } = await useGLTF('/models/star.glb', { draco: true })
 
 const model = nodes['star']
 
-const stars = Array.from({ length: 1000 }, () => ({
+const stars = Array.from({ length: 2000 }, () => ({
   position: [(Math.random() - 0.5) * 80, (Math.random() - 0.5) * 80, (Math.random() - 0.5) * 80],
   rotation: [(Math.random() - 0.5) * 10, (Math.random() - 0.5) * 10, (Math.random() - 0.5) * 10],
   scale: [1, 1, 2],
@@ -37,14 +37,6 @@ onLoop(({ delta }) => {
 
 <template>
   <TresGroup ref="starsRef">
-    <!-- <primitive
-      v-for="star in stars"
-      :key="star"
-      :position="star.position"
-      :rotation="star.rotation"
-      :scale="star.scale"
-      :object="model"
-    /> -->
     <primitive
       v-for="star in stars"
       :key="star"

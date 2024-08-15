@@ -36,7 +36,7 @@ const matcapTexture = await useTexture(['https://raw.githubusercontent.com/Tresj
       <Text3D
         font="https://raw.githubusercontent.com/Tresjs/assets/main/fonts/FiraCodeRegular.json"
         center
-        text="1k Github Stars"
+        text="2k Github Stars"
         :size="1"
         :height="0.2"
         :curve-segments="12"
