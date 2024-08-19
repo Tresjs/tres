@@ -9,7 +9,7 @@
 
 # TresJS `@tresjs/core`
 
-> Declarative ThreeJS using Vue Components
+> Declarative ThreeJS using Vue
 
 - 💡 Build 3D scene as they were Vue components
 - ⚡️ Powered by Vite
