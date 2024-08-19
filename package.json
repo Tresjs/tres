@@ -93,6 +93,7 @@
     "kolorist": "^1.8.0",
     "ohmyfetch": "^0.4.21",
     "pathe": "^1.1.2",
+    "pkg-pr-new": "^0.0.20",
     "release-it": "^17.5.0",
     "rollup-plugin-analyzer": "^4.0.0",
     "rollup-plugin-copy": "^3.5.0",
