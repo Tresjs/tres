@@ -6,6 +6,10 @@
   "description": "Declarative ThreeJS using Vue Components",
   "author": "Alvaro Saburido <hola@alvarosaburido.dev> (https://github.com/alvarosabu/)",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Tresjs/tres"
+  },
   "keywords": [
     "vue",
     "3d",
