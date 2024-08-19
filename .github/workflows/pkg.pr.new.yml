@@ -11,6 +11,12 @@ env:
   PNPM_CACHE_FOLDER: .pnpm-store
   HUSKY: 0 # Bypass husky commit hook for CI
 
+permissions: {}
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.number }}
+  cancel-in-progress: true
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -30,4 +36,4 @@ jobs:
         run: pnpm install
       - name: Build
         run: pnpm build
-      - run: pnpx pkg-pr-new publish
+      - run: pnpx pkg-pr-new publish --compact --pnpm
