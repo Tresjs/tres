@@ -1,5 +1,19 @@
 
 
+## [4.0.0](https://github.com/Tresjs/cientos/compare/3.9.0...4.0.0) (2024-08-20)
+
+
+### Features
+
+* Add cylinder component ([9e17559](https://github.com/Tresjs/cientos/commit/9e17559fc98066db79b02b7ea0c98ae3037ac906))
+* V4 ([#420](https://github.com/Tresjs/cientos/issues/420)) ([0cdd58e](https://github.com/Tresjs/cientos/commit/0cdd58ee0b8f1e086899a3efb7ad93575b117ccc)), closes [#425](https://github.com/Tresjs/cientos/issues/425) [#439](https://github.com/Tresjs/cientos/issues/439) [#435](https://github.com/Tresjs/cientos/issues/435) [#441](https://github.com/Tresjs/cientos/issues/441) [#436](https://github.com/Tresjs/cientos/issues/436) [#428](https://github.com/Tresjs/cientos/issues/428)
+
+
+### Bug Fixes
+
+* **SkyDemo:** value.value -> value ([82fe77b](https://github.com/Tresjs/cientos/commit/82fe77b4dc11fd23b47e40bc33a843dc69cf017f))
+* vue attrs hyphenation issues ([4f9b61b](https://github.com/Tresjs/cientos/commit/4f9b61b954a916d8f8880798f06c03b79092896b))
+
 ## [4.0.0-rc.2](https://github.com/Tresjs/cientos/compare/4.0.0-rc.1...4.0.0-rc.2) (2024-07-26)
 
 ## [4.0.0-rc.1](https://github.com/Tresjs/cientos/compare/4.0.0-rc.0...4.0.0-rc.1) (2024-07-25)
