@@ -11,22 +11,26 @@ It uses the composable [useEnvironment](/guide/staging/use-environment) under th
 ## Usage
 
 ```vue
-<Environment
-  :files="[
-    '/px.jpg',
-    '/nx.jpg',
-    '/py.jpg',
-    '/ny.jpg',
-    '/pz.jpg',
-    '/nz.jpg'
-]"
-/>
+<Suspense>
+  <Environment
+    :files="[
+      '/px.jpg',
+      '/nx.jpg',
+      '/py.jpg',
+      '/ny.jpg',
+      '/pz.jpg',
+      '/nz.jpg'
+  ]"
+  />
+</Suspense>
 ```
 
 You can also pass the `.hdr` file directly:
 
 ```vue
-<Environment files="/sunset.hdr" />
+<Suspense>
+   <Environment files="/sunset.hdr" />
+</Suspense>
 ```
 
 ![Environment](/cientos/envmaps.png)
@@ -39,17 +43,15 @@ You can access the model reference by pasing a `ref` to the `<Environment />` pr
 <script setup lang="ts">
 import { Environment } from '@tresjs/cientos'
 
-let envMap = null
+const environmentRef = shallowRef()
 
-const environmentTexture = shallowRef()
-
-watch(environmentTexture, ({ getTexture }) => {
-  envMap = getTexture()
+watch(environmentRef, texture => {
+  console.log(texture)
 })
 </script>
 
 <template>
-  <Environment ref="environmentTexture" />
+  <Environment ref="environmentRef" />
   <TresMesh>
     <TresSphereGeometry />
     <TresMeshStandardMaterial :env-map="envMap" />
@@ -89,24 +91,24 @@ You can incorporate `Lightformer` into the environment just like a slot.
 ### Props for Lightformer
 
 Lightformer inherits from mesh, and its extension parameters include:
-| Prop         | Description                                                          | Default                                                                          |
+| Prop | Description | Default |
 | :----------- | :------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
-| `from`       | 'circle' , 'ring' , 'rect' , any:other Mesh.The type of Lightformer  | `rect`                                                                           |
-| `intensity`  | number : the intensity of the light.                                 | 1                                                                                |
-| `color`      | the color of the light.                                              | `0xffffff`                                                                       |
-| `args`       | the arguments of the Geometry                                        | When using other geometries, set the corresponding arguments.                    |
+| `from` | 'circle' , 'ring' , 'rect' , any:other Mesh.The type of Lightformer | `rect` |
+| `intensity` | number : the intensity of the light. | 1 |
+| `color` | the color of the light. | `0xffffff` |
+| `args` | the arguments of the Geometry | When using other geometries, set the corresponding arguments. |
 
 ## Props
 
-| Prop         | Description                                                          | Default                                                                          |
-| :----------- | :------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
-| `files`      | Array of 6 urls to images, one for each side of the CubeTexture.     | `undefined`                                                                      |
-| `path`       | Path to the environment map files.                                   | `undefined`                                                                      |
-| `encoding`   | Encoding of the environment map.                                     | `SRGBColorSpace` for an array of files and `LinearEncoding` for a single texture |
-| `background` | If `true`, the environment map will be used as the scene background. | `false`                                                                          |
-| `blur`       | Blur factor between 0 and 1. (only works with three 0.146 and up)    | 0                                                                                |
-| `preset`     | Preset environment map.                                              | `undefined`                                                                      |
-| `resolution` | The resolution of the WebGLCubeRenderTarget.                         | 256                                                                              |
-| `near`       | The near of the CubeCamera.                                          | 1                                                                                |
-| `far`        | The far of the CubeCamera.                                           | 1000                                                                             |
-| `frames`     | The frames of the cubeCamera.update.                                 | Infinity                                                                         |
+| Prop         | Description                                                                 | Default                                                                          |
+| :----------- | :-------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| `files`      | Array of 6 urls to images, one for each side of the CubeTexture. or and HDR | `undefined`                                                                      |
+| `path`       | Path to the environment map files.                                          | `undefined`                                                                      |
+| `encoding`   | Encoding of the environment map.                                            | `SRGBColorSpace` for an array of files and `LinearEncoding` for a single texture |
+| `background` | If `true`, the environment map will be used as the scene background.        | `false`                                                                          |
+| `blur`       | Blur factor between 0 and 1. (only works with three 0.146 and up)           | 0                                                                                |
+| `preset`     | Preset environment map.                                                     | `undefined`                                                                      |
+| `resolution` | The resolution of the WebGLCubeRenderTarget.                                | 256                                                                              |
+| `near`       | The near of the CubeCamera.                                                 | 1                                                                                |
+| `far`        | The far of the CubeCamera.                                                  | 1000                                                                             |
+| `frames`     | The frames of the cubeCamera.update.                                        | Infinity                                                                         |

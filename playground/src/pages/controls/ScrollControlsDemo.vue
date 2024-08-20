@@ -31,8 +31,8 @@ useControls({
 const { onLoop } = useRenderLoop()
 onLoop(() => {
   if (boxRef.value) {
-    boxRef.value.value.rotation.x = progress.value * 10
-    boxRef.value.value.rotation.y = progress.value * 2
+    boxRef.value.instance.rotation.x = progress.value * 10
+    boxRef.value.instance.rotation.y = progress.value * 2
   }
 })
 </script>

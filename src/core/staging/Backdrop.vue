@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { BufferAttribute, PlaneGeometry } from 'three'
 import type { Ref } from 'vue'
-import { ref, toRefs, watch } from 'vue'
+import { ref, shallowRef, toRefs, watch } from 'vue'
 
 export interface BackdropProps {
   floor?: number
@@ -22,8 +22,8 @@ const { floor, segments, receiveShadow } = toRefs(props)
 const planeRef: Ref<PlaneGeometry | null> = ref(null)
 
 watch(
-  () => [segments.value, floor.value, planeRef.value],
-  ([segments, floor, planeRef]: [number, number, PlaneGeometry]) => {
+  [segments, floor, planeRef],
+  ([segments, floor, planeRef]) => {
     if (!planeRef || segments === null) { return }
     let i = 0
     const offset = segments / segments / 2
@@ -42,10 +42,16 @@ watch(
     planeRef.computeVertexNormals()
   },
 )
+
+const backdropRef = shallowRef()
+defineExpose({ instance: backdropRef })
 </script>
 
 <template>
-  <TresGroup v-bind="$attrs">
+  <TresGroup
+    ref="backdropRef"
+    v-bind="$attrs"
+  >
     <TresMesh
       :receive-shadow="receiveShadow"
       :rotation="[-Math.PI / 2, 0, Math.PI / 2]"

@@ -3,7 +3,7 @@ import { defineConfig } from 'vite'
 
 import banner from 'vite-plugin-banner'
 import dts from 'vite-plugin-dts'
-import analyze from 'rollup-plugin-analyzer'
+/* import analyze from 'rollup-plugin-analyzer' */
 
 /* import { visualizer } from 'rollup-plugin-visualizer' */
 import { templateCompilerOptions } from '@tresjs/core'
@@ -31,8 +31,9 @@ export default defineConfig({
     }),
     glsl(),
     banner({
-      content: `/**\n * name: ${pkg.name}\n * version: v${pkg.version
-        }\n * (c) ${new Date().getFullYear()}\n * description: ${pkg.description}\n * author: ${pkg.author}\n */`,
+      content: `/**\n * name: ${pkg.name}\n * version: v${
+        pkg.version
+      }\n * (c) ${new Date().getFullYear()}\n * description: ${pkg.description}\n * author: ${pkg.author}\n */`,
     }),
   ],
   build: {
@@ -47,14 +48,14 @@ export default defineConfig({
     },
     rollupOptions: {
       plugins: [
-        analyze(),
+        /*  analyze(), */
         /* visualizer({
           gzipSize: true,
           brotliSize: true,
           open: true,
         }), */
       ],
-      external: ['three', 'vue', '@tresjs/core', 'tweakpane', '@tweakpane/core', '@tweakpane/plugin-essentials'],
+      external: ['three', 'vue', '@tresjs/core'],
       output: {
         exports: 'named',
         // Provide global variables to use in the UMD build
@@ -68,6 +69,6 @@ export default defineConfig({
     },
   },
   optimizeDeps: {
-    exclude: ['three', 'vue', '@tresjs/core', 'tweakpane', '@tweakpane/core', '@tweakpane/plugin-essentials'],
+    exclude: ['three', 'vue', '@tresjs/core'],
   },
 })

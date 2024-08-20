@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import type { TresColor } from '@tresjs/core'
+import { type TresColor, useTresContext } from '@tresjs/core'
 import type { TorusGeometry } from 'three'
-import { shallowRef, toRefs } from 'vue'
+import { shallowRef, toRefs, watch } from 'vue'
 
 export interface TorusProps {
   /**
@@ -24,11 +24,13 @@ export interface TorusProps {
 
 const props = withDefaults(defineProps<TorusProps>(), { args: () => [1, 1, 16, 80], color: '#ffffff' })
 const { args, color } = toRefs(props)
+const { invalidate } = useTresContext()
+watch(args, () => invalidate())
 
 const torusRef = shallowRef()
 
 defineExpose({
-  value: torusRef,
+  instance: torusRef,
 })
 </script>
 

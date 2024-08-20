@@ -1,4 +1,4 @@
-import type { MeshStandardMaterialParameters, Shader } from 'three'
+import type { MeshStandardMaterialParameters } from 'three'
 import { MeshStandardMaterial } from 'three'
 
 // Borrowed from @pmdrs drei implementation https://github.com/pmndrs/drei/blob/master/src/core/MeshWobbleMaterial.tsx
@@ -17,7 +17,7 @@ export class WobbleMaterialImpl extends MeshStandardMaterial {
     this._factor = { value: 1 }
   }
 
-  onBeforeCompile(shader: Shader) {
+  onBeforeCompile(shader: { uniforms: { time?: Uniform<number>, factor?: Uniform<number> }, vertexShader: string }) {
     if (!shader.uniforms) { shader.uniforms = {} }
     shader.uniforms.time = this._time
     shader.uniforms.factor = this._factor

@@ -47,6 +47,7 @@ const gl = {
 <template>
   <TresCanvas
     v-bind="gl"
+    render-mode="on-demand"
   >
     <TresPerspectiveCamera :position="[0, 2, 10]" />
     <TresGridHelper :args="[10, 10]" />

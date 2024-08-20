@@ -7,11 +7,11 @@ const exampleAudio
   = 'https://raw.githubusercontent.com/Tresjs/assets/main/music/sunny-afternoon.mp3'
 
 const isPlaying = shallowRef(false)
-const sound = shallowRef(false)
+const soundRef = shallowRef()
 
-watch(sound, (value) => {
+watch(soundRef, (value) => {
   // eslint-disable-next-line no-console
-  console.log(value)
+  console.log(value.instance)
 })
 </script>
 
@@ -32,7 +32,7 @@ watch(sound, (value) => {
       :far="1000"
     />
     <GlobalAudio
-      ref="sound"
+      ref="soundRef"
       :src="exampleAudio"
       :volume="0.5"
       :loop="true"

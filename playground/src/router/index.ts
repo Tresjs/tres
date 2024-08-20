@@ -2,7 +2,6 @@ import { createRouter, createWebHistory } from 'vue-router'
 import {
   abstractionsRoutes,
   controlsRoutes,
-  directivesRoutes,
   loadersRoutes,
   materialsRoutes,
   miscRoutes,
@@ -22,7 +21,6 @@ const routes = [
   ...loadersRoutes,
   ...materialsRoutes,
   ...miscRoutes,
-  ...directivesRoutes,
   ...shapesRoutes,
   ...miscRoutes,
 ]

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useRenderLoop } from '@tresjs/core'
+import { useLoop } from '@tresjs/core'
 import { MathUtils } from 'three'
 import { shallowRef } from 'vue'
 
@@ -17,11 +17,10 @@ const props = withDefaults(
     range: () => [-0.1, 0.1],
   },
 )
-
 const groupRef = shallowRef()
 
 defineExpose({
-  value: groupRef,
+  instance: groupRef,
 })
 
 {
@@ -31,10 +30,10 @@ defineExpose({
   const AMPLITUDE_ROTATION_Z = 1 / 20
   const START_OFFSET = Math.random() * 10000
 
-  const { onLoop } = useRenderLoop()
+  const { onBeforeRender } = useLoop()
   let elapsed = START_OFFSET
 
-  onLoop(({ delta }) => {
+  onBeforeRender(({ delta, invalidate }) => {
     if (!groupRef.value) { return }
 
     elapsed += delta * props.speed
@@ -45,6 +44,8 @@ defineExpose({
     group.rotation.y = Math.sin(theta) * AMPLITUDE_ROTATION_Y * props.rotationFactor
     group.rotation.z = Math.sin(theta) * AMPLITUDE_ROTATION_Z * props.rotationFactor
     group.position.y = MathUtils.mapLinear(Math.sin(theta), -1, 1, props.range[0], props.range[1]) * props.floatFactor
+
+    invalidate()
   })
 }
 </script>

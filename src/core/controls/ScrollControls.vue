@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, shallowRef, watch } from 'vue'
-import { useLogger, useRenderLoop, useTresContext } from '@tresjs/core'
+import { useLogger, useLoop, useTresContext } from '@tresjs/core'
 import { useScroll, useWindowScroll, useWindowSize } from '@vueuse/core'
 
 export interface ScrollControlsProps {
@@ -70,7 +70,11 @@ const { logWarning } = useLogger()
 if (props.smoothScroll < 0) { logWarning('SmoothControl must be greater than zero') }
 if (props.pages < 0) { logWarning('Pages must be greater than zero') }
 
-const { camera, controls, renderer } = useTresContext()
+const { camera, controls, renderer, invalidate } = useTresContext()
+
+watch(props, () => {
+  invalidate()
+})
 const wrapperRef = shallowRef()
 const scrollContainer = document.createElement('div')
 
@@ -174,7 +178,9 @@ watch(
         canvas.style.width = '100%'
       }
       scrollContainer.appendChild(fill)
-      value.domElement.parentNode.style.position = 'relative'
+      if (value?.domElement.parentNode) {
+        (value.domElement.parentNode as HTMLElement).style.position = 'relative'
+      }
       value?.domElement?.parentNode?.appendChild(scrollContainer)
       scrollNodeY.value = props.horizontal ? width.value * props.pages : height.value * props.pages
     }
@@ -184,9 +190,9 @@ watch(
   },
 )
 
-const { onLoop } = useRenderLoop()
+const { onBeforeRender } = useLoop()
 
-onLoop(() => {
+onBeforeRender(({ invalidate }) => {
   if (camera.value?.position) {
     const delta
       = (progress.value * props.distance - camera.value.position[direction] + initCameraPos) * props.smoothScroll
@@ -195,7 +201,13 @@ onLoop(() => {
     if (wrapperRef.value.children.length > 0) {
       wrapperRef.value.position[direction] += delta
     }
+
+    invalidate()
   }
+})
+
+defineExpose({
+  instance: wrapperRef,
 })
 </script>
 

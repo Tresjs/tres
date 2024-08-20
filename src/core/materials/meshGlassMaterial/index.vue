@@ -10,7 +10,7 @@ const { extend } = useTresContext()
 
 extend({ MeshGlassMaterial })
 
-defineExpose({ MeshGlassMaterialClass })
+defineExpose({ instance: MeshGlassMaterialClass })
 </script>
 
 <template>

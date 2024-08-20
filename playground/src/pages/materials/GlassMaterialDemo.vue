@@ -18,8 +18,8 @@ const glassMaterialRef = shallowRef()
 const boxRef = shallowRef()
 
 watch(glassMaterialRef, (value) => {
-  boxRef.value.value.material.dispose()
-  boxRef.value.value.material = value.MeshGlassMaterialClass
+  boxRef.value.instance.material.dispose()
+  boxRef.value.instance.material = value.instance
 })
 </script>
 

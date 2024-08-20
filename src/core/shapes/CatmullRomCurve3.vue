@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { TresColor } from '@tresjs/core'
 import { CatmullRomCurve3, Vector3 } from 'three'
-import { computed } from 'vue'
+import { computed, shallowRef } from 'vue'
 import Line2 from './Line2.vue'
 
 type CurveType = 'centripetal' | 'chordal' | 'catmullrom'
@@ -48,10 +48,14 @@ function getSegmentedPoints(curve: CatmullRomCurve3, segments: number): Vector3[
 
 const curve = computed(() => getCatmullRomCurve(props.points, props.closed, props.curveType, props.tension))
 const segmentedPoints = computed(() => getSegmentedPoints(curve.value, props.segments))
+
+const lineRef = shallowRef()
+defineExpose({ instance: lineRef })
 </script>
 
 <template>
   <Line2
+    :ref="lineRef"
     :points="segmentedPoints"
     :vertex-colors="props.vertexColors"
     :color="props.color"

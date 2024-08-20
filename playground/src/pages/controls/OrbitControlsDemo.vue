@@ -6,6 +6,7 @@ import { OrbitControls } from '@tresjs/cientos'
 import { reactive } from 'vue'
 import { TresLeches, useControls } from '@tresjs/leches'
 import '@tresjs/leches/styles'
+import { useState } from '../../composables/state'
 
 const gl = {
   clearColor: '#82DBC5',
@@ -174,11 +175,18 @@ function onStart() {
 function onEnd() {
   /*   console.log('end') */
 }
+
+const { renderingTimes } = useState()
+
+function onRender() {
+  renderingTimes.value = 1
+}
 </script>
 
 <template>
   <TresLeches />
-  <TresCanvas v-bind="gl">
+  <GraphPane />
+  <TresCanvas v-bind="gl" @render="onRender">
     <TresPerspectiveCamera :position="[3, 3, 3]" />
     <OrbitControls
       v-bind="controlsState"

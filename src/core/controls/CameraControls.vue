@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import CameraControls from 'camera-controls'
-import { computed, onUnmounted, ref, toRefs, watchEffect } from 'vue'
+import { computed, onUnmounted, ref, toRefs, watch, watchEffect } from 'vue'
 import type {
   Camera,
   Object3D,
@@ -19,7 +19,8 @@ import {
   Vector3,
   Vector4,
 } from 'three'
-import { useRenderLoop, useTresContext } from '@tresjs/core'
+import type { TresControl } from '@tresjs/core'
+import { useLoop, useTresContext } from '@tresjs/core'
 import { useEventListener } from '@vueuse/core'
 import { isOrthographicCamera, isPerspectiveCamera } from '../../utils/types'
 
@@ -386,7 +387,11 @@ const subsetOfTHREE = {
 }
 CameraControls.install({ THREE: subsetOfTHREE })
 
-const { camera: activeCamera, renderer, extend, controls } = useTresContext()
+const { camera: activeCamera, renderer, extend, controls, invalidate } = useTresContext()
+
+watch(props, () => {
+  invalidate()
+})
 
 const mouseButtons = computed(() => getMouseButtons(
   props.camera || activeCamera.value,
@@ -397,7 +402,7 @@ const touches = computed(() => getTouches(
   props.touches,
 ))
 
-const controlsRef = ref<CameraControls | null>(null)
+const controlsRef = ref<TresControl & CameraControls | null>(null)
 extend({ CameraControls })
 
 watchEffect(() => {
@@ -411,15 +416,21 @@ watchEffect(() => {
 })
 
 function addEventListeners() {
-  useEventListener(controlsRef.value as any, 'update', () => emit('change', controlsRef.value))
+  useEventListener(controlsRef.value as any, 'update', () => {
+    emit('change', controlsRef.value)
+    invalidate()
+  })
   useEventListener(controlsRef.value as any, 'controlend', () => emit('end', controlsRef.value))
   useEventListener(controlsRef.value as any, 'controlstart', () => emit('start', controlsRef.value))
 }
 
-const { onLoop } = useRenderLoop()
+const { onBeforeRender } = useLoop()
 
-onLoop(({ delta }) => {
-  if (controlsRef.value?.enabled) { controlsRef.value?.update(delta) }
+onBeforeRender(({ delta, invalidate }) => {
+  if (controlsRef.value?.enabled) {
+    controlsRef.value?.update(delta)
+    invalidate()
+  }
 })
 
 onUnmounted(() => {
@@ -429,7 +440,7 @@ onUnmounted(() => {
 })
 
 defineExpose({
-  value: controlsRef,
+  instance: controlsRef,
 })
 </script>
 

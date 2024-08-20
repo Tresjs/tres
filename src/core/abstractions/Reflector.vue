@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import { shallowRef, toRefs } from 'vue'
+import { shallowRef, toRefs, watch } from 'vue'
 import { useTresContext } from '@tresjs/core'
 import type { TresColor } from '@tresjs/core'
-import { Reflector } from 'three/examples/jsm/objects/Reflector.js'
+import { Reflector } from 'three-stdlib'
 
 export interface ReflectorProps {
   /**
@@ -67,10 +67,12 @@ const props = withDefaults(defineProps<ReflectorProps>(), {
   textureHeight: 512,
   clipBias: 0,
   multisample: 4,
+  // @ts-expect-error: `ReflectorShader` is not present in imported type but is present here:
+  // https://github.com/mrdoob/three.js/blob/dev/examples/jsm/objects/Reflector.js#L32
   shader: Reflector.ReflectorShader,
 })
 
-const { extend } = useTresContext()
+const { extend, invalidate } = useTresContext()
 
 const reflectorRef = shallowRef<Reflector>()
 
@@ -79,8 +81,10 @@ extend({ Reflector })
 const { color, textureWidth, textureHeight, clipBias, multisample, shader }
   = toRefs(props)
 
+watch(props, () => invalidate())
+
 defineExpose({
-  reflectorRef,
+  instance: reflectorRef,
 })
 </script>
 

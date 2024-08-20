@@ -1,8 +1,8 @@
-import { useRenderLoop, useTresContext } from '@tresjs/core'
-import type { Camera, WebGLRenderTargetOptions } from 'three'
+import { useLoop, useTresContext } from '@tresjs/core'
+import type { Camera, RenderTargetOptions } from 'three'
 import { DepthTexture, FloatType, HalfFloatType, LinearFilter, WebGLRenderTarget } from 'three'
 import type { Ref } from 'vue'
-import { isReactive, onBeforeUnmount, reactive, ref, toRefs, watchEffect } from 'vue'
+import { isReactive, onBeforeUnmount, reactive, ref, toRefs, watch } from 'vue'
 
 export interface FboOptions {
   /*
@@ -35,21 +35,30 @@ export interface FboOptions {
    * See https://threejs.org/docs/#api/en/renderers/WebGLRenderTarget for more information.
    *
    * @default {}
-   * @type {WebGLRenderTargetOptions}
+   * @type {RenderTargetOptions}
    * @memberof FboProps
    */
-  settings?: WebGLRenderTargetOptions
+  settings?: RenderTargetOptions
+
+  /**
+   * Whether to automatically render the FBO on the default scene.
+   *
+   *  @default true
+   *  @type {boolean}
+   *  @memberof FboProps
+   */
+  autoRender?: boolean
 }
 
 export function useFBO(options: FboOptions) {
   const target: Ref<WebGLRenderTarget | null> = ref(null)
 
-  const { height, width, settings, depth } = isReactive(options) ? toRefs(options) : toRefs(reactive(options))
+  const { height, width, settings, depth, autoRender = ref(true) } = isReactive(options) ? toRefs(options) : toRefs(reactive(options))
 
-  const { onLoop } = useRenderLoop()
-  const { camera, renderer, scene, sizes } = useTresContext()
+  const { onBeforeRender } = useLoop()
+  const { camera, renderer, scene, sizes, invalidate } = useTresContext()
 
-  watchEffect(() => {
+  watch(() => [width?.value, sizes.width.value, height?.value, sizes.height.value], () => {
     target.value?.dispose()
 
     target.value = new WebGLRenderTarget(width?.value || sizes.width.value, height?.value || sizes.height.value, {
@@ -66,15 +75,19 @@ export function useFBO(options: FboOptions) {
         FloatType,
       )
     }
-  })
 
-  onLoop(() => {
-    renderer.value.setRenderTarget(target.value)
-    renderer.value.clear()
-    renderer.value.render(scene.value, camera.value as Camera)
+    invalidate()
+  }, { immediate: true })
 
-    renderer.value.setRenderTarget(null)
-  })
+  onBeforeRender(() => {
+    if (autoRender.value) {
+      renderer.value.setRenderTarget(target.value)
+      renderer.value.clear()
+      renderer.value.render(scene.value, camera.value as Camera)
+
+      renderer.value.setRenderTarget(null)
+    }
+  }, Number.POSITIVE_INFINITY)
 
   onBeforeUnmount(() => {
     target.value?.dispose()

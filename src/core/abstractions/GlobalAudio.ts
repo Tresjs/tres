@@ -74,7 +74,7 @@ export const GlobalAudio = defineComponent<AudioProps>({
     const sound = new Audio(listener)
     const audioLoader = new AudioLoader()
 
-    expose({ sound })
+    expose({ instance: sound })
 
     onUnmounted(() => {
       if (sound) {

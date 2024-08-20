@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import type { TresColor } from '@tresjs/core'
+import { type TresColor, useTresContext } from '@tresjs/core'
 import type { CircleGeometry } from 'three'
-import { shallowRef, toRefs } from 'vue'
+import { shallowRef, toRefs, watch } from 'vue'
 
 export interface CircleProps {
   /**
@@ -24,11 +24,13 @@ export interface CircleProps {
 
 const props = withDefaults(defineProps<CircleProps>(), { args: () => [1, 32, 0, Math.PI * 2], color: '#ffffff' })
 const { args, color } = toRefs(props)
+const { invalidate } = useTresContext()
+watch(args, () => invalidate())
 
 const circleRef = shallowRef()
 
 defineExpose({
-  value: circleRef,
+  instance: circleRef,
 })
 </script>
 

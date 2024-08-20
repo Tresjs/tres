@@ -17,7 +17,7 @@ export const abstractionsRoutes = [
   {
     path: '/abstractions/lensflare',
     name: 'Lensflare',
-    component: () => import('../../pages/abstractions/LensflareDemo.vue'),
+    component: () => import('../../pages/abstractions/lensflare/index.vue'),
   },
   {
     path: '/abstractions/reflector-mesh',
@@ -32,12 +32,12 @@ export const abstractionsRoutes = [
   {
     path: '/abstractions/fbo',
     name: 'Fbo',
-    component: () => import('../../pages/abstractions/FBODemo.vue'),
+    component: () => import('../../pages/abstractions/fbo/index.vue'),
   },
   {
     path: '/abstractions/use-fbo',
     name: 'useFbo',
-    component: () => import('../../pages/abstractions/useFBODemo.vue'),
+    component: () => import('../../pages/abstractions/fbo/useFBODemo.vue'),
   },
   {
     path: '/abstractions/use-surface-sampler',
@@ -52,6 +52,11 @@ export const abstractionsRoutes = [
   {
     path: '/abstractions/positional-audio',
     name: 'PositionalAudio',
-    component: () => import('../../pages/abstractions/PositionalAudio.vue'),
+    component: () => import('../../pages/abstractions/PositionalAudioDemo.vue'),
+  },
+  {
+    path: '/abstractions/animated-sprite',
+    name: 'AnimatedSprite',
+    component: () => import('../../pages/abstractions/AnimatedSpriteDemo.vue'),
   },
 ]

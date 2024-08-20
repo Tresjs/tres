@@ -11,11 +11,10 @@ import {
   Uniform,
   Vector3,
 } from 'three'
-import type { TresColor } from '@tresjs/core'
-import { useRenderLoop, useTexture, useTresContext } from '@tresjs/core'
+import type { TresColor, VectorFlexibleParams } from '@tresjs/core'
+import { useLoop, useTexture, useTresContext } from '@tresjs/core'
 import type { Ref } from 'vue'
 import { onMounted, onUnmounted, shallowRef, toRefs, watch } from 'vue'
-import type { VectorFlexibleParams } from '@tresjs/core/dist/utils/normalize'
 import type { Gradient } from '../../../utils/Gradient'
 import ShaderDataBuilder from './ShaderDataBuilder'
 import useEmptyDataTexture from './useEmptyDataTexture'
@@ -356,12 +355,13 @@ watch(refs.map, () => {
 
 const rotation = new Quaternion()
 const normal = new Vector3()
-useRenderLoop().onLoop(({ elapsed }) => {
+useLoop().onBeforeRender(({ elapsed, invalidate }) => {
   sparkles.getWorldQuaternion(rotation)
   normal.copy(props.directionalLight ? props.directionalLight.position : Object3D.DEFAULT_UP).normalize()
   normal.applyQuaternion(rotation.invert())
   mat.uniforms.uNormal.value = normal
   mat.uniforms.uTime.value = elapsed / (props.cooldownSec + props.lifetimeSec)
+  invalidate()
 })
 
 function isObject3D(o: any): o is Object3D {
@@ -400,11 +400,9 @@ onUnmounted(() => {
 })
 
 const sparkleRef = shallowRef()
+defineExpose({ instance: sparkles })
 </script>
 
 <template>
-  <primitive
-    ref="sparkleRef"
-    :object="sparkles"
-  />
+  <primitive ref="sparkleRef" :object="sparkles" />
 </template>

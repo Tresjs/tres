@@ -2,7 +2,6 @@
 import {
   abstractionsRoutes,
   controlsRoutes,
-  directivesRoutes,
   loadersRoutes,
   materialsRoutes,
   miscRoutes,
@@ -16,7 +15,6 @@ const sections = [
   { icon: '🎭', title: 'Staging', routes: stagingRoutes },
   { icon: '⏳', title: 'Loaders', routes: loadersRoutes },
   { icon: '👔', title: 'Materials', routes: materialsRoutes },
-  { icon: '📢', title: 'Directives', routes: directivesRoutes },
   { icon: '🔷', title: 'Shapes', routes: shapesRoutes },
   { icon: '🛠️', title: 'Misc', routes: miscRoutes },
 ]

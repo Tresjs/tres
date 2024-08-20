@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import type { ShallowRef } from 'vue'
-import { onUnmounted, shallowRef, toRefs, watchEffect } from 'vue'
+import { onUnmounted, shallowRef, toRefs, watch } from 'vue'
 import type { Camera, Event, Object3D } from 'three'
 
 import { TransformControls } from 'three-stdlib'
@@ -39,27 +38,56 @@ const emit = defineEmits(['dragging', 'change', 'mouseDown', 'mouseUp', 'objectC
 const { object, mode, enabled, axis, translationSnap, rotationSnap, scaleSnap, space, size, showX, showY, showZ }
   = toRefs(props)
 
-const controlsRef: ShallowRef<TransformControls | undefined> = shallowRef()
+const controlsRef = shallowRef<TransformControls | null>(null)
 
-const { controls, camera: activeCamera, renderer, extend } = useTresContext()
+const { controls, camera: activeCamera, renderer, extend, invalidate } = useTresContext()
+
+watch([object, mode, enabled, axis, translationSnap, rotationSnap, scaleSnap, space, size, showX, showY, showZ], () => {
+  invalidate()
+})
 
 extend({ TransformControls })
 
-const onDragingChange = (e: Event) => {
-  if (controls.value) { controls.value.enabled = !e.value }
+const onChange = () => {
+  invalidate()
+  emit('change')
+}
+
+interface DraggingEvent extends Event {
+  value: boolean
+}
+
+const onDragingChange = (e: DraggingEvent) => {
+  if (controls.value) { controls.value.enabled = !(e).value }
+  invalidate()
   emit('dragging', e.value)
 }
 
-function addEventListeners() {
-  useEventListener(controlsRef.value as any, 'change', () => emit('change'))
-  useEventListener(controlsRef.value as any, 'dragging-changed', onDragingChange)
-  useEventListener(controlsRef.value as any, 'mouseDown', () => emit('mouseDown'))
-  useEventListener(controlsRef.value as any, 'mouseUp', () => emit('mouseUp'))
-  useEventListener(controlsRef.value as any, 'objectChange', () => emit('objectChange'))
+const onMouseDown = () => {
+  invalidate()
+  emit('mouseDown')
 }
 
-watchEffect(() => {
-  if (controlsRef.value) {
+const onMouseUp = () => {
+  invalidate()
+  emit('mouseDown')
+}
+
+const onObjectChange = () => {
+  invalidate()
+  emit('objectChange')
+}
+
+function addEventListeners() {
+  useEventListener(controlsRef.value as any, 'change', onChange)
+  useEventListener(controlsRef.value as any, 'dragging-changed', onDragingChange)
+  useEventListener(controlsRef.value as any, 'mouseDown', onMouseDown)
+  useEventListener(controlsRef.value as any, 'mouseUp', onMouseUp)
+  useEventListener(controlsRef.value as any, 'objectChange', onObjectChange)
+}
+
+watch(controlsRef, (value) => {
+  if (value) {
     addEventListeners()
   }
 })
@@ -68,6 +96,10 @@ onUnmounted(() => {
   if (controlsRef.value) {
     controlsRef.value.dispose()
   }
+})
+
+defineExpose({
+  instance: controlsRef,
 })
 </script>
 

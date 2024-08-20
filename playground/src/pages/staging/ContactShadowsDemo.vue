@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { TresCanvas, useRenderLoop } from '@tresjs/core'
-import { Box, ContactShadows, Icosahedron, OrbitControls, Plane } from '@tresjs/cientos'
+import { TresCanvas } from '@tresjs/core'
+import { Box, ContactShadows, Icosahedron, OrbitControls, TorusKnot } from '@tresjs/cientos'
 import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
 import { reactive, shallowRef } from 'vue'
 import { TresLeches, useControls } from '@tresjs/leches'
 import '@tresjs/leches/styles'
 
 const gl = {
-  clearColor: '#fff',
+  clearColor: '#CCC',
   shadows: true,
   alpha: false,
   shadowMapType: BasicShadowMap,
@@ -16,20 +16,59 @@ const gl = {
 }
 
 const state = reactive({
-  blur: 3.5,
+  width: 1,
+  height: 1,
   opacity: 1,
+  blur: 3.5,
+  near: 0,
+  far: 10,
+  smooth: true,
   resolution: 512,
+  scale: 10,
+  tint: '#000000',
   color: '#0000ff',
-  helper: true,
+  depthWrite: false,
+  rotationX: 0,
 })
 
-const { blur, opacity, resolution, color, helper } = useControls({
+const { width, height, blur, far, smooth, opacity, resolution, scale, tint, color, depthWrite, rotationX } = useControls({
+  width: {
+    value: state.width,
+    step: 0.1,
+    min: 0.1,
+    max: 10,
+  },
+  height: {
+    value: state.height,
+    step: 0.1,
+    min: 0.1,
+    max: 10,
+  },
+  near: {
+    value: state.near,
+    step: 0.1,
+    min: 0,
+    max: 30,
+  },
+  far: {
+    value: state.far,
+    step: 0.1,
+    min: 0,
+    max: 30,
+  },
+  scale: {
+    value: state.scale,
+    step: 0.1,
+    min: 0.1,
+    max: 30,
+  },
   blur: {
     value: state.blur,
     step: 0.1,
     min: 0,
     max: 10,
   },
+  smooth: state.smooth,
   opacity: {
     value: state.opacity,
     step: 0.1,
@@ -42,71 +81,112 @@ const { blur, opacity, resolution, color, helper } = useControls({
     min: 0,
     max: 1024,
   },
+  tint: {
+    type: 'color',
+    value: state.tint,
+  },
   color: {
     type: 'color',
     value: state.color,
   },
-  helper: state.helper,
+  depthWrite: state.depthWrite,
+  rotationX: {
+    value: state.rotationX,
+    step: 0.1,
+    max: 9,
+  },
 })
 
-watch([blur.value, opacity.value, resolution.value, color.value, helper.value], () => {
+watch(() => [
+  width.value.value,
+  height.value.value,
+  blur.value.value,
+  far.value.value,
+  smooth.value.value,
+  opacity.value.value,
+  resolution.value.value,
+  scale.value.value,
+  color.value.value,
+  tint.value.value,
+  depthWrite.value.value,
+  rotationX.value.value,
+], () => {
+  state.width = width.value.value
+  state.height = height.value.value
   state.blur = blur.value.value
+  state.far = far.value.value
+  state.smooth = smooth.value.value
   state.opacity = opacity.value.value
   state.resolution = resolution.value.value
+  state.tint = tint.value.value
   state.color = color.value.value
-  state.helper = helper.value.value
+  state.scale = scale.value.value
+  state.depthWrite = depthWrite.value.value
+  state.rotationX = rotationX.value.value
 })
 
-const boxRef = shallowRef()
-const icoRef = shallowRef()
+const boxRef = shallowRef({ instance: { rotation: { x: 0, y: 0, z: 0 } } })
+const icoRef = shallowRef({ instance: { rotation: { x: 0, y: 0, z: 0 } } })
+const torusRef = shallowRef({ instance: { rotation: { x: 0, y: 0, z: 0 } } })
 
-const { onLoop } = useRenderLoop()
+const intervalId = setInterval(() => {
+  boxRef.value.instance.rotation.x += 0.01
+  boxRef.value.instance.rotation.z += 0.01
+  icoRef.value.instance.rotation.x += 0.01
+  icoRef.value.instance.rotation.z += 0.01
+  torusRef.value.instance.rotation.x += 0.01
+  torusRef.value.instance.rotation.z += 0.01
+}, 20)
 
-onLoop(() => {
-  if (boxRef.value) {
-    boxRef.value.value.rotation.y += 0.02
-    boxRef.value.value.rotation.x += 0.01
-  }
-  if (icoRef.value) {
-    icoRef.value.value.rotation.y += 0.02
-    icoRef.value.value.rotation.x += 0.01
-  }
-})
+onUnmounted(() => clearInterval(intervalId))
 </script>
 
 <template>
   <TresLeches />
   <TresCanvas v-bind="gl">
-    <TresPerspectiveCamera :position="[5, 5, 5]" />
+    <TresPerspectiveCamera :args="[50]" :position="[0.5, 1, 2]" />
 
     <OrbitControls />
     <Box
       ref="boxRef"
       :args="[0.4, 0.4, 0.4]"
-      :position="[0, 1, 0]"
+      :position="[
+        Math.cos((0 / 3) * 2 * Math.PI) * 0.5,
+        0.5,
+        Math.sin((0 / 3) * 2 * Math.PI) * 0.5,
+      ]"
     >
       <TresMeshNormalMaterial />
     </Box>
     <Icosahedron
       ref="icoRef"
       :args="[0.3]"
-      :position="[1, 1, 1]"
+      :position="[
+        Math.cos((1 / 3) * 2 * Math.PI) * 0.5,
+        0.5,
+        Math.sin((1 / 3) * 2 * Math.PI) * 0.5,
+      ]"
     >
       <TresMeshNormalMaterial />
     </Icosahedron>
-    <ContactShadows
-      :blur="state.blur"
-      :resolution="state.resolution"
-      :opacity="state.opacity"
-      :color="state.color"
-      :helper="state.helper"
-    />
-    <Plane
-      :args="[10, 10, 10]"
-      :position="[0, -0.02, 0]"
+
+    <TorusKnot
+      ref="torusRef"
+      :args="[0.4, 0.05, 256, 24, 1, 3]"
+      :position="[
+        Math.cos((2 / 3) * 2 * Math.PI) * 0.5,
+        0.5,
+        Math.sin((2 / 3) * 2 * Math.PI) * 0.5,
+      ]"
     >
-      <TresMeshBasicMaterial color="#ffffff" />
-    </Plane>
-    <TresAmbientLight :intensity="1" />
+      <TresMeshNormalMaterial />
+    </TorusKnot>
+    <TresGroup>
+      <ContactShadows v-bind="state" :position-y="0.0001" />
+      <!-- <TresMesh :rotation-x="-Math.PI / 2" :scale="10">
+        <TresPlaneGeometry />
+        <TresMeshBasicMaterial color="gray" />
+      </TresMesh> -->
+    </TresGroup>
   </TresCanvas>
 </template>

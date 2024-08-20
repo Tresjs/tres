@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { shallowRef } from 'vue'
+import { shallowRef, watch } from 'vue'
 import { useTresContext } from '@tresjs/core'
-
 import CustomShaderMaterial from 'three-custom-shader-material/vanilla'
+import type { Fn } from '@vueuse/core'
 
 interface CustomShaderMaterialProps {
-  baseMaterial: Function
+  baseMaterial: Fn
   vertexShader?: string
   fragmentShader?: string
   silent?: boolean
@@ -16,10 +16,11 @@ const props = defineProps<CustomShaderMaterialProps>()
 
 const customShaderMaterialClass = shallowRef(null)
 
-const { extend } = useTresContext()
+const { extend, invalidate } = useTresContext()
 extend({ CustomShaderMaterial })
+watch(props, () => invalidate())
 
-defineExpose({ value: customShaderMaterialClass })
+defineExpose({ instance: customShaderMaterialClass })
 </script>
 
 <template>

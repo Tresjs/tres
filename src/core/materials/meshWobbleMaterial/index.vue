@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { shallowRef } from 'vue'
-import { useRenderLoop, useTresContext } from '@tresjs/core'
+import { shallowRef, watch } from 'vue'
+import { useLoop, useTresContext } from '@tresjs/core'
 
 import { WobbleMaterialImpl as MeshWobbleMaterial } from './material'
 
@@ -17,16 +17,22 @@ const props = withDefaults(
 
 const materialRef = shallowRef()
 
-const { extend } = useTresContext()
+const { extend, invalidate } = useTresContext()
+
 extend({ MeshWobbleMaterial })
 
-const { onLoop } = useRenderLoop()
+watch(props, () => invalidate())
 
-onLoop(({ elapsed }) => {
+const { onBeforeRender } = useLoop()
+
+onBeforeRender(({ elapsed, invalidate }) => {
   if (materialRef.value) {
     materialRef.value.time = elapsed * props?.speed
+    invalidate()
   }
 })
+
+defineExpose({ instance: materialRef })
 </script>
 
 <template>

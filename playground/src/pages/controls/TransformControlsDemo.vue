@@ -5,6 +5,7 @@ import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
 import { OrbitControls, TransformControls } from '@tresjs/cientos'
 import { TresLeches, useControls } from '@tresjs/leches'
 import '@tresjs/leches/styles'
+import type { TransformControlsProps } from '../../../../src/core/controls/TransformControls.vue'
 
 const gl = {
   clearColor: '#82DBC5',
@@ -26,7 +27,7 @@ function changeObject(object: any) {
 
 const context = ref()
 
-const controlsState = reactive({
+const controlsState = reactive<Partial<TransformControlsProps>>({
   mode: 'translate',
   enabled: true,
   space: 'world',
@@ -36,6 +37,8 @@ const controlsState = reactive({
   showY: true,
   showZ: true,
 })
+
+useControls('fpsgraph')
 
 const { mode, enabled, space, axis, size, showX, showY, showZ } = useControls({
   mode: {
@@ -84,7 +87,7 @@ watch([mode.value, enabled.value, space.value, axis.value, size.value, showX.val
     v-bind="gl"
     ref="context"
   >
-    <TresPerspectiveCamera :position="[3, 3, 3]" />
+    <TresPerspectiveCamera :position="[11, 11, 11]" :look-at="[0, 0, 0]" />
     <OrbitControls make-default />
 
     <TresMesh

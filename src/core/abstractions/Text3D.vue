@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, shallowRef, toRefs, toValue, useSlots, watchEffect } from 'vue'
+import { computed, shallowRef, toRefs, toValue, useSlots, watch, watchEffect } from 'vue'
 import type { TextGeometryParameters } from 'three-stdlib'
 import { FontLoader, TextGeometry } from 'three-stdlib'
 import { useTresContext } from '@tresjs/core'
@@ -151,7 +151,9 @@ const {
   bevelSegments,
 } = toRefs(props)
 
-const { extend } = useTresContext()
+const { extend, invalidate } = useTresContext()
+
+watch(props, () => invalidate())
 
 extend({ TextGeometry })
 
@@ -168,7 +170,7 @@ const localText = computed(() => {
 const text3DRef = shallowRef()
 
 defineExpose({
-  value: text3DRef,
+  instance: text3DRef,
 })
 
 const localFont = await new Promise((resolve, reject) => {

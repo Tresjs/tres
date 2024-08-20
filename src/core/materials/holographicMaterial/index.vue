@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { shallowRef } from 'vue'
-import { useRenderLoop, useTresContext } from '@tresjs/core'
+import { useLoop, useTresContext } from '@tresjs/core'
 import type { TresColor } from '@tresjs/core'
 import { FrontSide } from 'three'
 import type { Side } from 'three'
@@ -44,10 +44,11 @@ extend({ HolographicMaterial })
 
 defineExpose({ root: MeshHolographicMaterialClass, constructor: HolographicMaterial })
 
-const { onLoop } = useRenderLoop()
+const { onBeforeRender } = useLoop()
 
-onLoop(() => {
+onBeforeRender(({ invalidate }) => {
   MeshHolographicMaterialClass.value?.update()
+  invalidate()
 })
 </script>
 

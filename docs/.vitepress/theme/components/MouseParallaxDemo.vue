@@ -14,7 +14,7 @@ import { MouseParallax, TorusKnot } from '@tresjs/cientos'
     </TorusKnot>
     <MouseParallax
       :factor="5"
-      :ease="3"
+      :ease="[3, 0.1]"
     />
   </TresCanvas>
 </template>

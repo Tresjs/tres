@@ -41,7 +41,7 @@ export interface LensflareProps {
   /**
    * default texture of lensflare elements
    */
-  texture?: Texture | string[]
+  texture?: Texture | string
 }
 
 const props = withDefaults(defineProps<LensflareProps>(), {
@@ -61,7 +61,7 @@ const userDefaultLensflareElementPropsRef
   = shallowRef<Partial<LensflareElementProps>>(filterLensflareElementProps(props))
 
 defineExpose({
-  value: lensflareRef,
+  instance: lensflareRef,
 })
 
 const textureLoader = new TextureLoader()

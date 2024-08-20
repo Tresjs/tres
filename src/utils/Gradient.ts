@@ -1,6 +1,5 @@
 import { Color } from 'three'
-import type { TresColor } from '@tresjs/core'
-import type { VectorFlexibleParams } from '@tresjs/core/dist/utils/normalize'
+import type { TresColor, VectorFlexibleParams } from '@tresjs/core'
 import { normalizeColor, normalizeVectorFlexibleParam } from '@tresjs/core'
 
 export type Gradient<T> = T | T[] | NormalizedGradient<T>

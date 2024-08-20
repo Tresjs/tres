@@ -1,6 +1,6 @@
 import type { AnimationAction, AnimationClip, Object3D, Scene } from 'three'
 import { AnimationMixer } from 'three'
-import { useRenderLoop } from '@tresjs/core'
+import { useLoop } from '@tresjs/core'
 import type { Ref } from 'vue'
 import { ref, shallowReactive } from 'vue'
 
@@ -28,9 +28,9 @@ export function useAnimations<T extends AnimationClip>(
     actions[animation.name] = action
   })
 
-  const { onLoop } = useRenderLoop()
+  const { onBeforeRender } = useLoop()
 
-  onLoop(({ delta }) => {
+  onBeforeRender(({ delta }) => {
     mixer.update(delta)
   })
 

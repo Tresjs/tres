@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { BufferAttribute, BufferGeometry } from 'three'
 import { onUnmounted, shallowRef, watch } from 'vue'
-import type { TresColor } from '@tresjs/core'
+import { type TresColor, useTresContext } from '@tresjs/core'
 
 export type Float3 = [number, number, number]
 
@@ -47,6 +47,8 @@ const props = withDefaults(defineProps<SuperFormulaProps>(), {
   color: 'white',
 })
 
+const { invalidate } = useTresContext()
+
 const { cos, sin, abs } = Math
 
 const geometry = shallowRef()
@@ -55,8 +57,8 @@ const color = shallowRef(props.color)
 function makeGeometry(widthSegments: number, heightSegments: number) {
   const geometry = new BufferGeometry()
   const numPoints = widthSegments * heightSegments
-  const vertices = new Float32Array(Array.from({ length: 3 * numPoints }).fill(0))
-  const normals = new Float32Array(Array.from({ length: 3 * numPoints }).fill(0))
+  const vertices = new Float32Array(Array.from({ length: 3 * numPoints }).fill(0) as number[])
+  const normals = new Float32Array(Array.from({ length: 3 * numPoints }).fill(0) as number[])
   const indices: number[] = []
   for (let h = 0; h < heightSegments - 1; h++) {
     for (let w = 0; w < widthSegments - 1; w++) {
@@ -125,6 +127,7 @@ watch(() => [props.widthSegments, props.heightSegments], () => {
     geometry.value.dispose()
   }
   geometry.value = makeGeometry(props.widthSegments, props.heightSegments)
+  invalidate()
 }, { immediate: true })
 
 watch(() => [
@@ -136,7 +139,10 @@ watch(() => [
   props.expB[0],
   props.expB[1],
   props.expB[2],
-], () => updateGeometry(geometry.value, props.numArmsA, props.expA[0], props.expA[1], props.expA[2], props.numArmsB, props.expB[0], props.expB[1], props.expB[2], props.widthSegments, props.heightSegments), { immediate: true })
+], () => {
+  updateGeometry(geometry.value, props.numArmsA, props.expA[0], props.expA[1], props.expA[2], props.numArmsB, props.expB[0], props.expB[1], props.expB[2], props.widthSegments, props.heightSegments)
+  invalidate()
+}, { immediate: true })
 
 onUnmounted(() => {
   if (geometry.value) {
@@ -147,7 +153,7 @@ onUnmounted(() => {
 const superformulaRef = shallowRef()
 
 defineExpose({
-  value: superformulaRef,
+  instance: superformulaRef,
 })
 </script>
 

@@ -4,7 +4,7 @@ import { TOUCH } from 'three'
 import { OrbitControls } from 'three-stdlib'
 import { onUnmounted, ref, toRefs, watch } from 'vue'
 import type { TresVector3 } from '@tresjs/core'
-import { useRenderLoop, useTresContext } from '@tresjs/core'
+import { useLoop, useTresContext } from '@tresjs/core'
 import { useEventListener } from '@vueuse/core'
 
 export interface OrbitControlsProps {
@@ -280,7 +280,7 @@ const {
   target,
 } = toRefs(props)
 
-const { camera: activeCamera, renderer, extend, controls } = useTresContext()
+const { camera: activeCamera, renderer, extend, controls, invalidate } = useTresContext()
 
 const controlsRef = ref<OrbitControls | null>(null)
 
@@ -297,16 +297,23 @@ watch(controlsRef, (value) => {
 })
 
 function addEventListeners() {
-  useEventListener(controlsRef.value as any, 'change', () => emit('change', controlsRef.value))
+  useEventListener(controlsRef.value as any, 'change', () => {
+    emit('change', controlsRef.value)
+    invalidate()
+  })
   useEventListener(controlsRef.value as any, 'start', () => emit('start', controlsRef.value))
   useEventListener(controlsRef.value as any, 'end', () => emit('end', controlsRef.value))
 }
 
-const { onLoop } = useRenderLoop()
+const { onBeforeRender } = useLoop()
 
-onLoop(() => {
+onBeforeRender(({ invalidate }) => {
   if (controlsRef.value && (enableDamping.value || autoRotate.value)) {
     controlsRef.value.update()
+
+    if (autoRotate.value) {
+      invalidate()
+    }
   }
 })
 
@@ -316,7 +323,7 @@ onUnmounted(() => {
   }
 })
 
-defineExpose({ value: controlsRef })
+defineExpose({ instance: controlsRef })
 </script>
 
 <template>

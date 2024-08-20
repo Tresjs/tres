@@ -3,7 +3,7 @@ import type { Ref } from 'vue'
 import { onUnmounted, ref, toRaw, useSlots, watch } from 'vue'
 import { CubeCamera, HalfFloatType, WebGLCubeRenderTarget } from 'three'
 import type { CubeTexture, Texture } from 'three'
-import { useRenderLoop, useTresContext } from '@tresjs/core'
+import { useLoop, useTresContext } from '@tresjs/core'
 import type { EnvironmentOptions } from './const'
 import EnvSence from './envSence'
 import { useEnvironment } from '.'
@@ -11,7 +11,7 @@ import { useEnvironment } from '.'
 const props = withDefaults(defineProps<EnvironmentOptions>(), {
   background: false,
   blur: 0,
-  files: [],
+  files: () => [],
   path: '',
   preset: undefined,
   resolution: 256,
@@ -25,26 +25,23 @@ defineExpose({ texture })
 
 const { extend, renderer, scene } = useTresContext()
 let slots = null as any
-const fbo = ref(null as null | WebGLCubeRenderTarget)
-let cubeCamera = null as null | CubeCamera
+const fbo = ref<WebGLCubeRenderTarget | null>(null)
+let cubeCamera: CubeCamera | null = null
 
 const envSence = ref<EnvSence | null>(null)
-onUnmounted(() => {
-  envSence.value?.destructor()
-  fbo.value?.dispose()
-})
-const { onBeforeLoop } = useRenderLoop()
+
+const { onBeforeRender } = useLoop()
 let count = 1
-onBeforeLoop(() => {
+onBeforeRender(() => {
   if (cubeCamera && envSence.value && fbo.value) {
     if (props.frames === Number.POSITIVE_INFINITY || count < props.frames) {
       cubeCamera.update(renderer.value, toRaw(envSence.value.virtualScene))
       count++
     }
   }
-})
-const useEnvironmentTexture = (await useEnvironment(props, fbo as any)).texture
-const setTextureEnvAndBG = (fbo: WebGLCubeRenderTarget) => {
+}, -1)
+const useEnvironmentTexture = await useEnvironment(props, fbo)
+const setTextureEnvAndBG = (fbo?: WebGLCubeRenderTarget) => {
   if (fbo) {
     scene.value.environment = fbo.texture
     if (props.background) {
@@ -64,7 +61,7 @@ watch(useEnvironmentTexture, () => {
   }
 }, { immediate: true, deep: true })
 
-watch(useSlots().default, (value) => {
+watch(() => useSlots().default, (value) => {
   if (value) {
     slots = value
     if (Array.isArray(slots) && slots.length > 0) {
@@ -82,7 +79,13 @@ watch(useSlots().default, (value) => {
   fbo.value = null
   setTextureEnvAndBG()
 }, { immediate: true, deep: true })
-texture.value = useEnvironmentTexture
+
+texture.value = useEnvironmentTexture.value
+
+onUnmounted(() => {
+  envSence.value?.destructor()
+  fbo.value?.dispose()
+})
 </script>
 
 <template>

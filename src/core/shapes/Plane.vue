@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import type { TresColor } from '@tresjs/core'
+import { type TresColor, useTresContext } from '@tresjs/core'
 import type { PlaneGeometry } from 'three'
-import { shallowRef, toRefs } from 'vue'
+import { shallowRef, toRefs, watch } from 'vue'
 
 export interface PlaneProps {
   /**
@@ -25,10 +25,13 @@ export interface PlaneProps {
 const props = withDefaults(defineProps<PlaneProps>(), { args: () => [1, 1], color: '#ffffff' })
 
 const { args, color } = toRefs(props)
+const { invalidate } = useTresContext()
+watch(args, () => invalidate())
+
 const planeRef = shallowRef()
 
 defineExpose({
-  value: planeRef,
+  instance: planeRef,
 })
 </script>
 

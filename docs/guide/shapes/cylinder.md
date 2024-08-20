@@ -4,7 +4,7 @@
 
 The `cientos` package provides a `<Cylinder />` component that serves as a short-cut for a `CylinderGeometry` and a `MeshBasicMaterial` with a `Mesh` object.
 
-``` 
+```
 args: [
   radiusTop: number,
   radiusBottom: number,

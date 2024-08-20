@@ -4,7 +4,7 @@ import { Vector2, Vector3 } from 'three'
 import { Line2 } from 'three/examples/jsm/lines/Line2'
 import { LineMaterial } from 'three/examples/jsm/lines/LineMaterial'
 import { LineGeometry } from 'three/examples/jsm/lines/LineGeometry'
-import { computed, onUnmounted, watch } from 'vue'
+import { computed, onUnmounted, shallowRef, watch } from 'vue'
 import type { TresColor } from '@tresjs/core'
 import { normalizeColor, useTresContext } from '@tresjs/core'
 
@@ -69,7 +69,7 @@ function getInterpolatedVertexColors(vertexColors: VertexColors | null, numPoint
 const lineMaterial = new LineMaterial()
 const lineGeometry = new LineGeometry()
 const line = new Line2(lineGeometry, lineMaterial)
-const sizes = useTresContext().sizes
+const { sizes, invalidate } = useTresContext()
 const hasVertexColors = computed(() => Array.isArray(props.vertexColors))
 
 function updateLineMaterial(material: LineMaterial, props: PropsType) {
@@ -123,18 +123,31 @@ watch(() => [
   props.dashScale,
   props.dashSize,
   props.dashOffset,
-], () => updateLineMaterial(lineMaterial, props))
-watch([props.points, props.vertexColors], () => updateLineGeometry(lineGeometry, props.points, props.vertexColors))
-watch(() => props.vertexColors, () => updateLineGeometry(lineGeometry, props.points, props.vertexColors))
-watch(() => props.points, () => updateLineGeometry(lineGeometry, props.points, props.vertexColors))
-watch([sizes.height, sizes.width], () => lineMaterial.resolution = new Vector2(sizes.width.value, sizes.height.value))
+], () => {
+  updateLineMaterial(lineMaterial, props)
+  invalidate()
+})
+watch(() => [props.points, props.vertexColors], () => {
+  updateLineGeometry(lineGeometry, props.points, props.vertexColors)
+  invalidate()
+})
+watch(() => [sizes.height, sizes.width], () => {
+  lineMaterial.resolution = new Vector2(sizes.width.value, sizes.height.value)
+  invalidate()
+})
 
 onUnmounted(() => {
   lineGeometry.dispose()
   lineMaterial.dispose()
 })
+
+const lineRef = shallowRef()
+defineExpose({ instance: lineRef })
 </script>
 
 <template>
-  <primitive :object="line" />
+  <primitive
+    :ref="lineRef"
+    :object="line"
+  />
 </template>

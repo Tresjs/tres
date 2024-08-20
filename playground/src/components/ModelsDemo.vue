@@ -25,10 +25,10 @@ const { onLoop } = useRenderLoop()
 
 onLoop(() => {
   if (akuAkuRef.value) {
-    akuAkuRef.value.value.rotation.y += 0.01
+    akuAkuRef.value.instance.rotation.y += 0.01
   }
   if (jeepRef.value) {
-    jeepRef.value.value.rotation.y -= 0.01
+    jeepRef.value.instance.rotation.y -= 0.01
   }
 })
 </script>

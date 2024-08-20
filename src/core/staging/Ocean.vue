@@ -1,11 +1,11 @@
 <script lang="ts" setup>
 import { nextTick, onMounted, shallowRef, toRefs } from 'vue'
-import { useRenderLoop, useTexture, useTresContext } from '@tresjs/core'
+import { useLoop, useTexture, useTresContext } from '@tresjs/core'
 import type { TresColor, TresVector3 } from '@tresjs/core'
-import { Water } from 'three/addons/objects/Water.js'
+import { Water } from 'three-stdlib'
 import { FrontSide, RepeatWrapping, Vector3 } from 'three'
 import type { Texture } from 'three'
-import type { Sky } from 'three/addons/objects/Sky.js'
+import type { Sky } from 'three-stdlib'
 
 export interface OceanProps {
   /**
@@ -130,7 +130,7 @@ const sunRef = shallowRef()
 const _fog = scene.value.fog !== undefined
 
 defineExpose({
-  root: waterRef,
+  instance: waterRef,
 })
 
 scene.value.traverse((child) => {
@@ -151,10 +151,11 @@ const { normalMap } = (await useTexture({ normalMap: waterNormals.value })) as {
 
 normalMap.wrapS = normalMap.wrapT = RepeatWrapping
 
-const { onLoop } = useRenderLoop()
+const { onBeforeRender } = useLoop()
 
-onLoop(({ delta }) => {
+onBeforeRender(({ delta, invalidate }) => {
   waterRef.value.material.uniforms.time.value += delta
+  invalidate()
 })
 </script>
 

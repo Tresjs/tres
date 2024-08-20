@@ -1,6 +1,6 @@
 import { defineComponent, onUnmounted } from 'vue'
 import StatsGlImpl from 'stats-gl'
-import { useRenderLoop, useTresContext } from '@tresjs/core'
+import { useLoop, useTresContext } from '@tresjs/core'
 
 export interface StatsGlProps {
   /*
@@ -79,7 +79,7 @@ export const StatsGl = defineComponent<StatsGlProps>({
     'mode',
   ] as unknown as undefined,
 
-  async setup(props, { expose }) {
+  setup(props, { expose }) {
     const statsGl = new StatsGlImpl({
       logsPerSecond: props.logsPerSecond,
       samplesLog: props.samplesLog,
@@ -90,7 +90,7 @@ export const StatsGl = defineComponent<StatsGlProps>({
       mode: props.mode,
     })
 
-    expose({ statsGl })
+    expose({ instance: statsGl })
 
     const node = document.body
     const statContainer = statsGl.dom || statsGl.container
@@ -98,14 +98,12 @@ export const StatsGl = defineComponent<StatsGlProps>({
     node?.appendChild(statContainer)
 
     const { renderer } = useTresContext()
-    const { onAfterLoop, resume } = useRenderLoop()
+
+    const { onAfterRender } = useLoop()
 
     statsGl.init(renderer.value)
 
-    resume()
-    onAfterLoop(() => {
-      statsGl.update()
-    })
+    onAfterRender(() => statsGl.update(), Number.POSITIVE_INFINITY)
 
     onUnmounted(() => {
       node?.removeChild(statContainer)

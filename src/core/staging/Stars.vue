@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { computed, ref, shallowRef, toRefs, watchEffect } from 'vue'
+import { computed, ref, shallowRef, toRefs, watch, watchEffect } from 'vue'
 import { Spherical, Vector3 } from 'three'
+import { useTresContext } from '@tresjs/core'
 
 export interface StarsProps {
   /**
@@ -85,6 +86,12 @@ const scale = ref()
 
 const { radius, depth, count, size, sizeAttenuation, transparent, alphaMap, alphaTest } = toRefs(props)
 
+const { invalidate } = useTresContext()
+
+watch(props, () => {
+  invalidate()
+})
+
 const setStars = () => {
   let circle = radius.value + depth.value
   const increment = computed(() => depth.value / count.value)
@@ -117,7 +124,7 @@ watchEffect(() => {
 const starsRef = shallowRef()
 
 defineExpose({
-  value: starsRef,
+  instance: starsRef,
 })
 </script>
 

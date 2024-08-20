@@ -3,6 +3,7 @@ import { onUnmounted, ref, watch } from 'vue'
 import { PointerLockControls } from 'three-stdlib'
 import type { Camera } from 'three'
 import { useEventListener } from '@vueuse/core'
+import type { TresControl } from '@tresjs/core'
 import { useTresContext } from '@tresjs/core'
 
 export interface PointerLockControlsProps {
@@ -48,9 +49,13 @@ const props = withDefaults(defineProps<PointerLockControlsProps>(), {
 
 const emit = defineEmits(['isLock', 'change'])
 
-const { camera: activeCamera, renderer, extend, controls } = useTresContext()
+const { camera: activeCamera, renderer, extend, controls, invalidate } = useTresContext()
 
-const controlsRef = ref<null | PointerLockControls>(null)
+watch(props, () => {
+  invalidate()
+})
+
+const controlsRef = ref<TresControl & PointerLockControls | null>(null)
 let triggerSelector: HTMLElement | undefined
 
 extend({ PointerLockControls })
@@ -69,11 +74,15 @@ watch(controlsRef, (value) => {
   const selector = document.getElementById(props.selector || '')
   triggerSelector = selector || renderer.value.domElement
 
-  useEventListener(controls.value as any, 'change', () => emit('change', controls.value))
+  useEventListener(controls.value as any, 'change', () => {
+    emit('change', controls.value)
+    invalidate()
+  })
   useEventListener(triggerSelector, 'click', () => {
-    controls.value?.lock()
-    controls.value?.addEventListener('lock', () => isLockEmitter(true))
-    controls.value?.addEventListener('unlock', () => isLockEmitter(false))
+    controlsRef.value?.lock()
+    controlsRef.value?.addEventListener('lock', () => isLockEmitter(true))
+    controlsRef.value?.addEventListener('unlock', () => isLockEmitter(false))
+    invalidate()
   })
 })
 
@@ -86,7 +95,7 @@ onUnmounted(() => {
 })
 
 defineExpose({
-  value: controls,
+  instance: controls,
 })
 </script>
 

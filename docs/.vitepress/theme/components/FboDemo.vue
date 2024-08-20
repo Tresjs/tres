@@ -55,7 +55,7 @@ onMounted(async () => {
 
       <TresMeshBasicMaterial
         :color="0xFFFFFF"
-        :map="fboRef?.value.texture ?? null"
+        :map="fboRef?.instance.texture ?? null"
       />
     </TresMesh>
 

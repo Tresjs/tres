@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import type { TresColor } from '@tresjs/core'
+import { type TresColor, useTresContext } from '@tresjs/core'
 import type { BoxGeometry } from 'three'
 
-import { shallowRef, toRefs } from 'vue'
+import { shallowRef, toRefs, watch } from 'vue'
 
 export interface BoxProps {
   /**
@@ -25,13 +25,15 @@ export interface BoxProps {
 }
 
 const props = withDefaults(defineProps<BoxProps>(), { args: () => [1, 1, 1], color: '#ffffff' })
+const { invalidate } = useTresContext()
 
 const { args, color } = toRefs(props)
+watch(args, () => invalidate())
 
 const boxRef = shallowRef()
 
 defineExpose({
-  value: boxRef,
+  instance: boxRef,
 })
 </script>
 

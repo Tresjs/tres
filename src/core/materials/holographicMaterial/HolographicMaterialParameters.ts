@@ -24,6 +24,7 @@ interface HolographicMaterialParameters {
   depthTest?: boolean
 }
 class HolographicMaterial extends ShaderMaterial {
+  clock: Clock
   /**
    * Create a HolographicMaterial.
    *

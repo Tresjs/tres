@@ -47,6 +47,6 @@ export const stagingRoutes = [
   {
     path: '/staging/fit',
     name: 'Fit',
-    component: () => import('../../pages/staging/FitDemo.vue'),
+    component: () => import('../../pages/staging/fit/index.vue'),
   },
 ]

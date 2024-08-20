@@ -22,7 +22,7 @@ export const miscRoutes = [
   {
     path: '/misc/bake-shadows',
     name: 'BakeShadows',
-    component: () => import('../../pages/misc/BakeShadows.vue'),
+    component: () => import('../../pages/misc/BakeShadowsDemo.vue'),
   },
   {
     path: '/misc/gltfExporter',

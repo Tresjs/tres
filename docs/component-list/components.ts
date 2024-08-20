@@ -68,7 +68,7 @@ export default [
       { text: 'CatmullRomCurve3', link: '/guide/shapes/catmullromcurve3' },
       { text: 'Circle', link: '/guide/shapes/circle' },
       { text: 'Cone', link: '/guide/shapes/cone' },
-	    { text: 'Cylinder', link: '/guide/shapes/cylinder' },
+      { text: 'Cylinder', link: '/guide/shapes/cylinder' },
       { text: 'Dodecahedron', link: '/guide/shapes/dodecahedron' },
       { text: 'Icosahedron', link: '/guide/shapes/icosahedron' },
       { text: 'Line2', link: '/guide/shapes/line2' },
@@ -93,7 +93,7 @@ export default [
       { text: 'Sky', link: '/guide/staging/sky' },
       { text: 'Stars', link: '/guide/staging/stars' },
       { text: 'Smoke', link: '/guide/staging/smoke' },
-      { text: 'Contact Shadows', link: '/guide/staging/contact-shadows' },
+      { text: 'ContactShadows', link: '/guide/staging/contact-shadows' },
       { text: 'Precipitation', link: '/guide/staging/precipitation' },
       { text: 'Sparkles', link: '/guide/staging/sparkles' },
       { text: 'Ocean', link: '/guide/staging/ocean' },
@@ -103,7 +103,6 @@ export default [
   {
     text: 'Misc',
     items: [
-      { text: 'useTweakpane', link: '/guide/misc/use-tweakpane' },
       { text: 'Stats', link: '/guide/misc/stats' },
       { text: 'Html', link: '/guide/misc/html-component' },
       { text: 'StatsGl', link: '/guide/misc/stats-gl' },
