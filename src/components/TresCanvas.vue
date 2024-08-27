@@ -107,16 +107,41 @@ const canvas = ref<HTMLCanvasElement>()
 */
 const scene = shallowRef<TresScene | Scene>(new Scene())
 
-const instance = getCurrentInstance()?.appContext.app
+const instance = getCurrentInstance()
 extend(THREE)
 
 const createInternalComponent = (context: TresContext, empty = false) =>
   defineComponent({
     setup() {
       const ctx = getCurrentInstance()?.appContext
-      if (ctx) { ctx.app = instance as App }
+      if (ctx) { ctx.app = instance?.appContext.app as App }
       provide('useTres', context)
       provide('extend', extend)
+
+      const provides = {}
+
+      // Helper function to recursively merge provides from parents
+      function mergeProvides(currentInstance: any) {
+        if (!currentInstance) { return }
+
+        // Extract provides from the current instance and merge them
+        if (currentInstance.provides) {
+          Object.assign(provides, currentInstance.provides)
+        }
+
+        // Recursively process the parent instance
+        if (currentInstance.parent) {
+          mergeProvides(currentInstance.parent)
+        }
+      }
+
+      // Start the recursion from the initial instance
+      if (instance?.parent) {
+        mergeProvides(instance.parent)
+
+        Object.entries(provides)
+          .forEach(([key, value]) => provide(key, value))
+      }
 
       if (typeof window !== 'undefined') {
         registerTresDevtools(ctx?.app, context)
