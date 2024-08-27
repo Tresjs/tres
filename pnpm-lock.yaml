@@ -41,7 +41,7 @@ importers:
         version: 2.13.2(ioredis@5.4.1)(magicast@0.3.4)(nuxt@3.12.4(@parcel/watcher@2.4.1)(@types/node@22.5.0)(encoding@0.1.13)(eslint@8.56.0)(ioredis@5.4.1)(magicast@0.3.4)(optionator@0.9.4)(rollup@4.20.0)(terser@5.31.6)(typescript@5.5.4)(vite@5.4.1(@types/node@22.5.0)(terser@5.31.6)))(rollup@4.20.0)(vue@3.4.38(typescript@5.5.4))
       '@nuxt/image':
         specifier: ^1.2.0
-        version: 1.7.0(ioredis@5.4.1)(rollup@4.20.0)
+        version: 1.7.1(ioredis@5.4.1)(magicast@0.3.4)(rollup@4.20.0)
       '@nuxt/image-edge':
         specifier: 1.2.0-28425033.0a5974b
         version: 1.2.0-28425033.0a5974b(rollup@4.20.0)
@@ -1159,8 +1159,8 @@ packages:
     resolution: {integrity: sha512-iSRnzoCMevbU/IJyveC0lzC9zKuwu4ipGBwXUWnfMVh1BoduIvRWGRQcuNJfEMpCzdKiDXo72OxQp/JKqieDlg==}
     engines: {node: ^14.16.0 || >=16.11.0}
 
-  '@nuxt/image@1.7.0':
-    resolution: {integrity: sha512-zSj32bLgbV9AvLkLX0pF52J5KBfSyj0eSIdpXCtTJATSZlqgcJigoCvmabC1nbcMIp0SZ29Bu9+acQpGTQKz+g==}
+  '@nuxt/image@1.7.1':
+    resolution: {integrity: sha512-vD3p9CmFO718sbBZCaizOvk3Uw/M9eE5cotWD9rlGoMOf3bUYnXuxP4mEwa/qgupoZ+X5MnasZoWbrj8y9nfKg==}
     engines: {node: ^14.16.0 || >=16.11.0}
 
   '@nuxt/kit@3.11.2':
@@ -2739,23 +2739,20 @@ packages:
   balanced-match@1.0.2:
     resolution: {integrity: sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==}
 
-  bare-events@2.2.2:
-    resolution: {integrity: sha512-h7z00dWdG0PYOQEvChhOSWvOfkIKsdZGkWr083FgN/HyoQuebSew/cgirYqh9SCuy/hRvxc5Vy6Fw8xAmYHLkQ==}
-
   bare-events@2.4.2:
     resolution: {integrity: sha512-qMKFd2qG/36aA4GwvKq8MxnPgCQAmBWmSyLWsJcbn8v03wvIPQ/hG1Ms8bPzndZxMDoHpxez5VOS+gC9Yi24/Q==}
 
-  bare-fs@2.3.0:
-    resolution: {integrity: sha512-TNFqa1B4N99pds2a5NYHR15o0ZpdNKbAeKTE/+G6ED/UeOavv8RY3dr/Fu99HW3zU3pXpo2kDNO8Sjsm2esfOw==}
+  bare-fs@2.3.1:
+    resolution: {integrity: sha512-W/Hfxc/6VehXlsgFtbB5B4xFcsCl+pAh30cYhoFyXErf6oGrwjh8SwiPAdHgpmWonKuYpZgGywN0SXt7dgsADA==}
 
-  bare-os@2.3.0:
-    resolution: {integrity: sha512-oPb8oMM1xZbhRQBngTgpcQ5gXw6kjOaRsSWsIeNyRxGed2w/ARyP7ScBYpWR1qfX2E5rS3gBw6OWcSQo+s+kUg==}
+  bare-os@2.4.0:
+    resolution: {integrity: sha512-v8DTT08AS/G0F9xrhyLtepoo9EJBJ85FRSMbu1pQUlAf6A8T0tEEQGMVObWeqpjhSPXsE0VGlluFBJu2fdoTNg==}
 
-  bare-path@2.1.2:
-    resolution: {integrity: sha512-o7KSt4prEphWUHa3QUwCxUI00R86VdjiuxmJK0iNVDHYPGo+HsDaVCnqCmPbf/MiW1ok8F4p3m8RTHlWk8K2ig==}
+  bare-path@2.1.3:
+    resolution: {integrity: sha512-lh/eITfU8hrj9Ru5quUp0Io1kJWIk1bTjzo7JH1P5dWmQ2EL4hFUlfI8FonAhSlgIfhn63p84CDY/x+PisgcXA==}
 
-  bare-stream@1.0.0:
-    resolution: {integrity: sha512-KhNUoDL40iP4gFaLSsoGE479t0jHijfYdIcxRn/XtezA2BaUD0NRf/JGRpsMq6dMNM+SrCrB0YSSo/5wBY4rOQ==}
+  bare-stream@2.2.0:
+    resolution: {integrity: sha512-+o9MG5bPRRBlkVSpfFlMag3n7wMaIZb4YZasU2+/96f+3HTQ4F9DKQeu3K/Sjz1W0umu6xvVq1ON0ipWdMlr3A==}
 
   base64-js@1.5.1:
     resolution: {integrity: sha512-AKpaYlHn8t4SVbOHCy+b5+KKgvR4vrsD8vbvrbiQJps7fKDTkjkDry6ji0rUJjC0kzbNePLwzxq8iypo41qeWA==}
@@ -3054,9 +3051,6 @@ packages:
 
   cookie-es@1.0.0:
     resolution: {integrity: sha512-mWYvfOLrfEc996hlKcdABeIiPHUPC6DM2QYZdGGOvhOTbA3tjm2eBwqlJpoFdjC89NI4Qt6h0Pu06Mp+1Pj5OQ==}
-
-  cookie-es@1.1.0:
-    resolution: {integrity: sha512-L2rLOcK0wzWSfSDA33YR+PUHDG10a8px7rUHKWbGLP4YfbsMed2KFUw5fczvDPbT98DDe3LEzviswl810apTEw==}
 
   cookie-es@1.2.2:
     resolution: {integrity: sha512-+W7VmiVINB+ywl1HGXJXmrqkOhpKrIiVZV6tQuV54ZyQC7MMuBt81Vc336GMLoHBq5hV/F9eXgt5Mnx0Rha5Fg==}
@@ -3922,9 +3916,6 @@ packages:
 
   h3@1.10.0:
     resolution: {integrity: sha512-Tw1kcIC+AeimwRmviiObaD5EB430Yt+lTgOxLJxNr96Vd/fGRu04EF7aKfOAcpwKCI+U2JlbxOLhycD86p3Ciw==}
-
-  h3@1.11.1:
-    resolution: {integrity: sha512-AbaH6IDnZN6nmbnJOH72y3c5Wwh9P97soSVdGSBbcDACRdkC0FEWf25pzx4f/NuOCK6quHmW18yF2Wx+G4Zi1A==}
 
   h3@1.12.0:
     resolution: {integrity: sha512-Zi/CcNeWBXDrFNlV0hUBJQR9F7a96RjMeAZweW/ZWkR9fuXrMcvKnSA63f/zZ9l0GgQOZDVHGvXivNN9PWOwhA==}
@@ -4847,8 +4838,8 @@ packages:
       xml2js:
         optional: true
 
-  node-abi@3.62.0:
-    resolution: {integrity: sha512-CPMcGa+y33xuL1E0TcNIu4YyaZCxnnvkVaEXrsosR3FxN+fV8xvb7Mzpb7IgKler10qeMkE6+Dp8qJhpzdq35g==}
+  node-abi@3.67.0:
+    resolution: {integrity: sha512-bLn/fU/ALVBE9wj+p4Y21ZJWYFjUXLXPi/IewyLZkx3ApxKDNBWCKdReeKOtD8dWpOdDCeMyLh6ZewzcLsG2Nw==}
     engines: {node: '>=10'}
 
   node-addon-api@6.1.0:
@@ -5816,6 +5807,9 @@ packages:
   streamx@2.18.0:
     resolution: {integrity: sha512-LLUC1TWdjVdn1weXGcSxyTR3T4+acB6tVGXT95y0nGbca4t4o/ng1wKAGTljm9VicuCVLvRlqFYXYy5GwgM7sQ==}
 
+  streamx@2.19.0:
+    resolution: {integrity: sha512-5z6CNR4gtkPbwlxyEqoDGDmWIzoNJqCBt4Eac1ICP9YaIT08ct712cFj0u1rx4F8luAuL+3Qc+RFIdI4OX00kg==}
+
   string-width@4.2.3:
     resolution: {integrity: sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==}
     engines: {node: '>=8'}
@@ -6161,9 +6155,6 @@ packages:
 
   ufo@1.3.2:
     resolution: {integrity: sha512-o+ORpgGwaYQXgqGDwd+hkS4PuZ3QnmqMMxRuajK/a38L6fTpcE5GPIfrf+L/KemFzfUpeUQc1rRS1iDBozvnFA==}
-
-  ufo@1.5.3:
-    resolution: {integrity: sha512-Y7HYmWaFwPUmkoQCUIAYpKqkOf+SbVj/2fJJZ4RJMCfZp0rTGwRbzQD+HghfnhKOjL9E01okqz+ncJskGYfBNw==}
 
   ufo@1.5.4:
     resolution: {integrity: sha512-UsUk3byDzKd04EyoZ7U4DOlxQaD14JUKQl6/P7wiX4FNvUfm3XL246n9W5AmqwW5RSFJ27NAuM0iLscAOYUiGQ==}
@@ -7972,18 +7963,18 @@ snapshots:
       - supports-color
       - uWebSockets.js
 
-  '@nuxt/image@1.7.0(ioredis@5.4.1)(rollup@4.20.0)':
+  '@nuxt/image@1.7.1(ioredis@5.4.1)(magicast@0.3.4)(rollup@4.20.0)':
     dependencies:
-      '@nuxt/kit': 3.11.2(rollup@4.20.0)
+      '@nuxt/kit': 3.13.0(magicast@0.3.4)(rollup@4.20.0)
       consola: 3.2.3
       defu: 6.1.4
-      h3: 1.11.1
-      image-meta: 0.2.0
+      h3: 1.12.0
+      image-meta: 0.2.1
       node-fetch-native: 1.6.4
       ohash: 1.1.3
       pathe: 1.1.2
       std-env: 3.7.0
-      ufo: 1.5.3
+      ufo: 1.5.4
     optionalDependencies:
       ipx: 2.1.0(ioredis@5.4.1)
     transitivePeerDependencies:
@@ -8000,6 +7991,7 @@ snapshots:
       - '@vercel/kv'
       - idb-keyval
       - ioredis
+      - magicast
       - rollup
       - supports-color
       - uWebSockets.js
@@ -8020,7 +8012,7 @@ snapshots:
       pkg-types: 1.1.3
       scule: 1.3.0
       semver: 7.6.3
-      ufo: 1.5.3
+      ufo: 1.5.4
       unctx: 2.3.1
       unimport: 3.7.1(rollup@4.20.0)
       untyped: 1.4.2
@@ -8116,7 +8108,7 @@ snapshots:
       pkg-types: 1.1.3
       scule: 1.3.0
       std-env: 3.7.0
-      ufo: 1.5.3
+      ufo: 1.5.4
       unimport: 3.7.1(rollup@4.20.0)
       untyped: 1.4.2
     transitivePeerDependencies:
@@ -10961,30 +10953,27 @@ snapshots:
 
   balanced-match@1.0.2: {}
 
-  bare-events@2.2.2:
-    optional: true
-
   bare-events@2.4.2:
     optional: true
 
-  bare-fs@2.3.0:
+  bare-fs@2.3.1:
     dependencies:
-      bare-events: 2.2.2
-      bare-path: 2.1.2
-      bare-stream: 1.0.0
+      bare-events: 2.4.2
+      bare-path: 2.1.3
+      bare-stream: 2.2.0
     optional: true
 
-  bare-os@2.3.0:
+  bare-os@2.4.0:
     optional: true
 
-  bare-path@2.1.2:
+  bare-path@2.1.3:
     dependencies:
-      bare-os: 2.3.0
+      bare-os: 2.4.0
     optional: true
 
-  bare-stream@1.0.0:
+  bare-stream@2.2.0:
     dependencies:
-      streamx: 2.18.0
+      streamx: 2.19.0
     optional: true
 
   base64-js@1.5.1: {}
@@ -11284,8 +11273,6 @@ snapshots:
   convert-source-map@2.0.0: {}
 
   cookie-es@1.0.0: {}
-
-  cookie-es@1.1.0: {}
 
   cookie-es@1.2.2: {}
 
@@ -12335,21 +12322,6 @@ snapshots:
       uncrypto: 0.1.3
       unenv: 1.9.0
 
-  h3@1.11.1:
-    dependencies:
-      cookie-es: 1.1.0
-      crossws: 0.2.4
-      defu: 6.1.4
-      destr: 2.0.3
-      iron-webcrypto: 1.2.1
-      ohash: 1.1.3
-      radix3: 1.1.2
-      ufo: 1.5.3
-      uncrypto: 0.1.3
-      unenv: 1.9.0
-    transitivePeerDependencies:
-      - uWebSockets.js
-
   h3@1.12.0:
     dependencies:
       cookie-es: 1.2.2
@@ -12609,14 +12581,14 @@ snapshots:
       defu: 6.1.4
       destr: 2.0.3
       etag: 1.8.1
-      h3: 1.11.1
-      image-meta: 0.2.0
+      h3: 1.12.0
+      image-meta: 0.2.1
       listhen: 1.7.2
       ofetch: 1.3.4
       pathe: 1.1.2
       sharp: 0.32.6
       svgo: 3.3.2
-      ufo: 1.5.3
+      ufo: 1.5.4
       unstorage: 1.10.2(ioredis@5.4.1)
       xss: 1.0.15
     transitivePeerDependencies:
@@ -12644,14 +12616,14 @@ snapshots:
       defu: 6.1.4
       destr: 2.0.2
       etag: 1.8.1
-      h3: 1.11.1
+      h3: 1.12.0
       image-meta: 0.2.0
       listhen: 1.7.2
       ofetch: 1.3.3
       pathe: 1.1.2
       sharp: 0.33.3
       svgo: 3.3.2
-      ufo: 1.5.3
+      ufo: 1.5.4
       unstorage: 1.10.1
       xss: 1.0.14
     transitivePeerDependencies:
@@ -13491,7 +13463,7 @@ snapshots:
       acorn: 8.11.3
       pathe: 1.1.2
       pkg-types: 1.1.3
-      ufo: 1.5.3
+      ufo: 1.5.4
 
   mlly@1.7.1:
     dependencies:
@@ -13618,7 +13590,7 @@ snapshots:
       - supports-color
       - uWebSockets.js
 
-  node-abi@3.62.0:
+  node-abi@3.67.0:
     dependencies:
       semver: 7.6.3
     optional: true
@@ -13856,7 +13828,7 @@ snapshots:
     dependencies:
       destr: 2.0.2
       node-fetch-native: 1.6.1
-      ufo: 1.5.3
+      ufo: 1.5.4
     optional: true
 
   ofetch@1.3.4:
@@ -14278,7 +14250,7 @@ snapshots:
       minimist: 1.2.8
       mkdirp-classic: 0.5.3
       napi-build-utils: 1.0.2
-      node-abi: 3.62.0
+      node-abi: 3.67.0
       pump: 3.0.0
       rc: 1.2.8
       simple-get: 4.0.1
@@ -14844,6 +14816,15 @@ snapshots:
     optionalDependencies:
       bare-events: 2.4.2
 
+  streamx@2.19.0:
+    dependencies:
+      fast-fifo: 1.3.2
+      queue-tick: 1.0.1
+      text-decoder: 1.1.1
+    optionalDependencies:
+      bare-events: 2.4.2
+    optional: true
+
   string-width@4.2.3:
     dependencies:
       emoji-regex: 8.0.0
@@ -15050,8 +15031,8 @@ snapshots:
       pump: 3.0.0
       tar-stream: 3.1.7
     optionalDependencies:
-      bare-fs: 2.3.0
-      bare-path: 2.1.2
+      bare-fs: 2.3.1
+      bare-path: 2.1.3
     optional: true
 
   tar-stream@2.2.0:
@@ -15254,8 +15235,6 @@ snapshots:
 
   ufo@1.3.2: {}
 
-  ufo@1.5.3: {}
-
   ufo@1.5.4: {}
 
   ultrahtml@1.5.3: {}
@@ -15318,7 +15297,7 @@ snapshots:
       consola: 3.2.3
       defu: 6.1.4
       mime: 3.0.0
-      node-fetch-native: 1.6.4
+      node-fetch-native: 1.6.1
       pathe: 1.1.2
 
   unhead@1.9.16:
@@ -15645,14 +15624,14 @@ snapshots:
       anymatch: 3.1.3
       chokidar: 3.6.0
       destr: 2.0.2
-      h3: 1.11.1
+      h3: 1.12.0
       ioredis: 5.3.2
       listhen: 1.7.2
       lru-cache: 10.2.1
       mri: 1.2.0
       node-fetch-native: 1.6.1
       ofetch: 1.3.3
-      ufo: 1.5.3
+      ufo: 1.5.4
     transitivePeerDependencies:
       - supports-color
       - uWebSockets.js
