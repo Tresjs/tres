@@ -10,7 +10,47 @@ This composable is based on the Drei [useVideoTexture](https://github.com/pmndrs
 
 ## Usage
 
-<<< @/.vitepress/theme/components/VideoTextureDemo.vue{4,8-9,20}
+::: code-group
+```vue [app.vue]
+<script setup lang="ts">
+import { TresCanvas } from '@tresjs/core'
+import { OrbitControls } from '@tresjs/cientos'
+import TheModel from './TheModel.vue'
+</script>
+
+<template>
+  <TresCanvas clear-color="#333">
+    <TresPerspectiveCamera
+      :position="[0, 5, 9]"
+      :look-at="[0, 1, 0]"
+    />
+    <OrbitControls />
+    <Suspense>
+      <TheModel />
+    </Suspense>
+    <TresGridHelper />
+    <TresAmbientLight />
+  </TresCanvas>
+</template>
+```
+```vue{3,8,13} [TheVideoTexture.vue]
+<script setup lang="ts">
+import { ref } from 'vue'
+import { Sphere, useVideoTexture } from '@tresjs/cientos'
+
+const videoPath = 'https://raw.githubusercontent.com/'
+  + 'Tresjs/assets/main/textures/video-textures/useVideoTexture.mp4'
+const texture = ref()
+texture.value = await useVideoTexture(videoPath, { loop: false })
+</script>
+
+<template>
+   <Sphere :position="[0, 2, 0]">
+      <TresMeshBasicMaterial :map="texture" />
+    </Sphere>
+</template>
+```
+:::
 
 ## Props
 
