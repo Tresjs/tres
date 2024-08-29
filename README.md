@@ -86,7 +86,7 @@ Every demo or experiment consist on two parts
 - A vue component containing the scene under `components/content`
 
 1. Create a `your-awesome-demo.md` file under `content/experiments` directory.
-2. Add [Frontmatter](https://content.nuxtjs.org/guide/writing/markdown#front-matter) to provide the meta-data of your experiment, this is crucial to get the cards on the home page nice and pretty. Remember to add the `slug` of your `author` to the correspondant field. Be sure to add `status: published`, otherwise the thumbnail won't show up during your tests.
+2. Add [Frontmatter](https://content.nuxtjs.org/guide/writing/markdown#front-matter) to provide the meta-data of your experiment, this is crucial to get the cards on the home page nice and pretty. Remember to add the `slug` of your `author` to the correspondant field.
 
 ```md
 ---
@@ -94,7 +94,6 @@ thumbnail: /lowpoly-planet.png
 title: Low Poly Planet
 slug: lowpoly-planet
 author: alvarosabu
-status: published
 description: Low Poly Planet exported from Blender
 tags: ['basic', 'cientos', 'useGLTF', 'blender']
 ---
@@ -117,7 +116,6 @@ thumbnail: /lowpoly-planet.png
 title: Low Poly Planet
 slug: lowpoly-planet
 author: alvarosabu
-status: published
 description: Low Poly Planet exported from Blender
 tags: ['basic', 'cientos', 'useGLTF', 'blender']
 ---
@@ -126,6 +124,12 @@ tags: ['basic', 'cientos', 'useGLTF', 'blender']
 ```
 
 5. Take a screenshot of your scene ot the `public` directory.
+
+### Broken Github demo links
+
+Note that the system will automatically add a link to your demo's source code on Github, so that visitors can see how you made your demo. 
+
+The link will be broken until your demo is merged into the main Lab branch.
 
 ## License
 

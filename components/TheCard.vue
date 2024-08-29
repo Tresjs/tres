@@ -1,7 +1,11 @@
 <script setup lang="ts">
+import TheCodeButton from './TheCodeButton.vue'
+
 defineProps<{
   title: string
   path: string
+  repoTitle: string
+  repoPath: string
   media: string
   description: string
   author: {
@@ -13,16 +17,25 @@ defineProps<{
 </script>
 
 <template>
-  <NuxtLink :to="path">
+  <div class="relative">
+    <NuxtLink :to="path">
+      <div class="absolute h-full w-full" />
+    </NuxtLink>
     <div class="shadow-lg rounded-lg overflow-hidden">
       <img
         class="aspect-video object-cover"
         :src="media"
       >
       <div class="p-4">
-        <h2 class="font-bold text-lg mb-2">
-          {{ title }}
-        </h2>
+        <div class="flex gap-2 mb-2">
+          <h2 class="grow font-bold text-lg">
+            {{ title }}
+          </h2>
+          <TheCodeButton
+            :to="repoPath"
+            :title="repoTitle"
+          />
+        </div>
         <p class="text-sm text-gray-400 mb-2 min-h-75px">
           {{ description }}
         </p>
@@ -46,5 +59,5 @@ defineProps<{
         </div>
       </footer>
     </div>
-  </NuxtLink>
+  </div>
 </template>

@@ -1,7 +1,9 @@
 <script lang="ts" setup>
-import { WebGLRenderer, Camera, Scene } from 'three'
+import type { WebGLRenderer, Scene } from 'three'
+import { Camera } from 'three'
 import { BloomEffect, ScanlineEffect, EffectComposer, RenderPass, EffectPass } from 'postprocessing'
 import { useWindowSize } from '@vueuse/core'
+
 let effectComposer: EffectComposer
 
 function setup(renderer: WebGLRenderer, scene: Scene, camera: Camera) {

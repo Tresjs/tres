@@ -27,10 +27,11 @@ function nextLetter() {
   }
 }
 
-watch(playing, p => {
+watch(playing, (p) => {
   if (p) {
     attributionLengthTarget = attribution.length
-  } else {
+  }
+  else {
     attributionLengthTarget = 0
   }
   nextLetter()
@@ -39,7 +40,13 @@ watch(playing, p => {
 
 <template>
   <div :class="`music-player ${typing ? 'typing' : ''}`">
-    <div @keypress="onClick" @click="onClick" class="music-player-button" tabindex="0" role="button">
+    <div
+      class="music-player-button"
+      tabindex="0"
+      role="button"
+      @keypress="onClick"
+      @click="onClick"
+    >
       <svg
         v-if="playing"
         xmlns="http://www.w3.org/2000/svg"
@@ -84,6 +91,7 @@ watch(playing, p => {
     <a href="https://freesound.org/people/vlad.zaichyk/sounds/495329/">{{ attributionDisplay }}</a>
   </div>
 </template>
+
 <style scoped>
 .music-player {
   display: flex;
@@ -94,8 +102,7 @@ watch(playing, p => {
   right: 0;
   bottom: 0;
   z-index: 10;
-  margin: 12px;
-  margin-right: 0;
+  margin: 12px 0 96px;
   padding-right: 12px;
   border: 1px solid #fff;
   border-right: 0;
