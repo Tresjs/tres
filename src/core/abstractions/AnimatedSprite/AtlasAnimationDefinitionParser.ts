@@ -226,7 +226,7 @@ function logDefinitionBadCharacter(
     'Cientos AnimationDefinitionParser: '
     + `Unexpected character while processing animation definition: expected ${expected}, got ${found}.
 ${definition}
-${Array(index + 1).join(' ')}^`,
+${Array.from({ length: index + 1 }).join(' ')}^`,
   )
 }
 
@@ -240,6 +240,6 @@ function logDefinitionSyntaxError(
     'Cientos AnimationDefinitionParser: '
     + `Syntax error while processing animation definition: expected ${expected}, got ${found}.
 ${definition}
-${Array(index + 1).join(' ')}^`,
+${Array.from({ length: index + 1 }).join(' ')}^`,
   )
 }

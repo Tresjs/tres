@@ -54,13 +54,11 @@ export async function useEnvironment(
   const isCubeMap = computed(() => Array.isArray((files as Ref<string[]>).value))
   const loader = computed(() => isCubeMap.value ? CubeTextureLoader as unknown as LoaderProto<CubeTexture | RGBELoader> : RGBELoader as unknown as LoaderProto<CubeTexture | RGBELoader>)
 
-  const result = ref()
-
   watch([files, path], async ([files, path]) => {
     if (!files) { return }
     if (files.length > 0 && !preset?.value) {
       try {
-        result.value = await useLoader<CubeTexture | RGBELoader>(
+        texture.value = await useLoader<CubeTexture | RGBELoader>(
           loader.value,
           isCubeMap.value ? [...unref(files)] : unref(files),
           (loader: any) => {
@@ -72,11 +70,8 @@ export async function useEnvironment(
       catch (error) {
         throw new Error(`Failed to load environment map: ${error}`)
       }
-      if (result.value) {
-        texture.value = isCubeMap.value ? result.value[0] : result.value
-        if (texture.value) {
-          texture.value.mapping = isCubeMap.value ? CubeReflectionMapping : EquirectangularReflectionMapping
-        }
+      if (texture.value) {
+        texture.value.mapping = isCubeMap.value ? CubeReflectionMapping : EquirectangularReflectionMapping
       }
     }
   }, {
@@ -116,7 +111,7 @@ export async function useEnvironment(
       const _files = environmentPresets[value as unknown as keyof typeof environmentPresets]
 
       try {
-        result.value = await useLoader<RGBELoader>(
+        texture.value = await useLoader<RGBELoader>(
           RGBELoader as unknown as LoaderProto<RGBELoader>,
           _files,
           (loader: TresLoader<RGBELoader>) => {
@@ -128,8 +123,7 @@ export async function useEnvironment(
       catch (error) {
         throw new Error(`Failed to load environment map: ${error}`)
       }
-      if (result.value) {
-        texture.value = result.value
+      if (texture.value) {
         if (texture.value) {
           texture.value.mapping = EquirectangularReflectionMapping
         }

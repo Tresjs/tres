@@ -6,7 +6,7 @@ import { ref, watch } from 'vue'
 import { TresLeches, useControls } from '@tresjs/leches'
 import '@tresjs/leches/styles'
 import { degToRad } from 'three/src/math/MathUtils.js'
-import type { Atlasish } from '../../../../src/core/abstractions/AnimatedSprite/Atlas'
+import type { Atlasish } from '../../../../../src/core/abstractions/AnimatedSprite/Atlas'
 import { useState } from '../../composables/state'
 
 const ASSETS_URL = 'https://raw.githubusercontent.com/andretchen0/tresjs_assets/'

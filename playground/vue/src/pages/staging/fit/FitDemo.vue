@@ -4,7 +4,7 @@ import { useLoop,
 } from '@tresjs/core'
 import { Fit, OrbitControls } from '@tresjs/cientos'
 import { Vector3 } from 'three'
-import RandUtils from '../../../../../src/core/abstractions/Lensflare/RandUtils'
+import RandUtils from '../../../../../../src/core/abstractions/Lensflare/RandUtils'
 
 defineProps<{
   choice: Ref<TresObject3D>

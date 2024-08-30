@@ -41,8 +41,8 @@
     "access": "public"
   },
   "scripts": {
-    "dev": "cd playground && pnpm dev",
-    "playground": "cd playground && pnpm dev",
+    "dev": "cd playground/vue && pnpm dev",
+    "dev:nuxt": "cd playground/nuxt && pnpm dev",
     "build": "vite build",
     "release": "release-it",
     "lint": "eslint .",
@@ -67,7 +67,7 @@
   },
   "devDependencies": {
     "@release-it/conventional-changelog": "^8.0.1",
-    "@tresjs/core": "4.2.7",
+    "@tresjs/core": "^4.2.8",
     "@tresjs/eslint-config": "^1.1.0",
     "@types/node": "^22.4.1",
     "@types/three": "^0.167.1",

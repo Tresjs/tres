@@ -7,7 +7,7 @@
     "module": "ESNext",
     "moduleResolution": "bundler",
     "paths": {
-      "@tresjs/cientos": ["../src/index.ts"]
+      "@tresjs/cientos": ["../../src/index.ts"]
     },
     "resolveJsonModule": true,
     "strict": true,
