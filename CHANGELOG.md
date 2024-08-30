@@ -1,5 +1,12 @@
 
 
+## [3.0.5](https://github.com/tresjs/nuxt/compare/3.0.4...3.0.5) (2024-08-30)
+
+
+### Bug Fixes
+
+* useEnvironment issue in nuxt ([dd0f3c4](https://github.com/tresjs/nuxt/commit/dd0f3c45fff3765ef77a7997ec3c1873b977cd44))
+
 ## [3.0.4](https://github.com/tresjs/nuxt/compare/3.0.3...3.0.4) (2024-08-29)
 
 ## [3.0.3](https://github.com/tresjs/nuxt/compare/3.0.2...3.0.3) (2024-08-15)
