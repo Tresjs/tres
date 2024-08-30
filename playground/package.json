@@ -7,6 +7,9 @@
     "build": "nuxi build",
     "generate": "nuxi generate"
   },
+  "dependencies": {
+    "@tresjs/core": "https://pkg.pr.new/@tresjs/core@807"
+  },
   "devDependencies": {
     "@nuxt/devtools": "1.4.1",
     "@tresjs/cientos": "^4.0.1",
@@ -15,8 +18,5 @@
     "nuxt": "^3.13.0",
     "postprocessing": "^6.36.0",
     "tweakpane": "^4.0.4"
-  },
-  "dependencies": {
-    "@tresjs/core": "https://pkg.pr.new/@tresjs/core@807"
   }
 }
