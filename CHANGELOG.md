@@ -1,5 +1,13 @@
 
 
+## [4.0.1](https://github.com/Tresjs/cientos/compare/4.0.0...4.0.1) (2024-08-30)
+
+
+### Bug Fixes
+
+* adapt to changes on useloader for Cube Textures ([#476](https://github.com/Tresjs/cientos/issues/476)) ([3641dc6](https://github.com/Tresjs/cientos/commit/3641dc6db3a663b5d28d2e7899f26faf244959ce))
+* **deps:** update dependency @tresjs/core to v4.2.7 ([#466](https://github.com/Tresjs/cientos/issues/466)) ([0596353](https://github.com/Tresjs/cientos/commit/0596353a1d4aed2b984fac58442530279375e1a9))
+
 ## [4.0.0](https://github.com/Tresjs/cientos/compare/3.9.0...4.0.0) (2024-08-20)
 
 
