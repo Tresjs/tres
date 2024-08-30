@@ -2,7 +2,7 @@
   "name": "@tresjs/eslint-config",
   "type": "module",
   "version": "1.1.0",
-  "packageManager": "pnpm@8.15.4",
+  "packageManager": "pnpm@9.9.0",
   "description": "Opinionated ESLint configuration for Tres.js ecosystem",
   "author": "Alvaro Saburido <hola@alvarosaburido.dev> (https://github.com/alvarosabu/)",
   "license": "MIT",
@@ -28,28 +28,28 @@
     "dist"
   ],
   "scripts": {
-    "lint": "eslint .",
+    "dev": "npx @eslint/config-inspector --config eslint.config.ts",
+    "lint": "eslint . --flag unstable_ts_config",
     "lint:fix": "eslint . --fix",
     "preview": "eslint-flat-config-viewer",
     "release": "release-it",
     "build": "tsup --format esm,cjs --clean --dts",
     "stub": "tsup --format esm",
-    "dev": "tsup --format esm,cjs --watch & eslint-flat-config-viewer",
     "watch": "tsup --format esm,cjs --watch"
   },
   "peerDependencies": {
     "eslint": "9.x"
   },
   "dependencies": {
-    "@antfu/eslint-config": "^2.18.0",
-    "eslint-plugin-format": "^0.1.1"
+    "@antfu/eslint-config": "^3.0.0",
+    "eslint-plugin-format": "^0.1.2"
   },
   "devDependencies": {
     "@release-it/conventional-changelog": "^8.0.1",
     "eslint": "npm:eslint-ts-patch@8.57.0-0",
     "eslint-flat-config-viewer": "^0.1.20",
-    "eslint-ts-patch": "9.2.0-6",
-    "release-it": "^17.2.1",
-    "tsup": "^8.0.2"
+    "eslint-ts-patch": "9.8.0-1",
+    "release-it": "^17.6.0",
+    "tsup": "^8.2.4"
   }
 }
