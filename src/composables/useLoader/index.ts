@@ -99,5 +99,5 @@ export async function useLoader<T>(
         reject(error)
       },
     )
-  }) as T | T[] 
+  }) as T | T[]
 }
