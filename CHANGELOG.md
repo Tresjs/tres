@@ -1,5 +1,12 @@
 
 
+## [4.0.2](https://github.com/Tresjs/cientos/compare/4.0.1...4.0.2) (2024-08-30)
+
+
+### Bug Fixes
+
+* **useGltf:** use-loader fix for gltf with textures ([#480](https://github.com/Tresjs/cientos/issues/480)) ([f1f983f](https://github.com/Tresjs/cientos/commit/f1f983f94cea8f4cd4bef451c768ff175ddd4f00))
+
 ## [4.0.1](https://github.com/Tresjs/cientos/compare/4.0.0...4.0.1) (2024-08-30)
 
 
