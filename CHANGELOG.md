@@ -1,5 +1,12 @@
 
 
+## [4.2.8](https://github.com/Tresjs/tres/compare/4.2.7...4.2.8) (2024-08-30)
+
+
+### Bug Fixes
+
+* use CubeTextureLoader correctly with array of files ([#807](https://github.com/Tresjs/tres/issues/807)) ([38f05b0](https://github.com/Tresjs/tres/commit/38f05b03d7d2b9934f8893a5f4858b09b7188782))
+
 ## [4.2.7](https://github.com/Tresjs/tres/compare/4.2.6...4.2.7) (2024-08-19)
 
 ## [4.2.6](https://github.com/Tresjs/tres/compare/4.2.5...4.2.6) (2024-08-15)
