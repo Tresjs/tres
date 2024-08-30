@@ -6,7 +6,12 @@ import { FBXModel, GLTFModel, useFBX, useGLTF } from '@tresjs/cientos'
 const modelPath = 'https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/aku-aku/AkuAku.gltf'
 const modelPathFbx = 'https://raw.githubusercontent.com/Tresjs/assets/main/models/fbx/low-poly-truck/Jeep_done.fbx'
 
+const pokeballPath = 'https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/realistic-pokeball/scene.gltf'
 const { scene: model } = await useGLTF(modelPath, {
+  draco: true,
+})
+
+const { scene: pokeball } = await useGLTF(pokeballPath, {
   draco: true,
 })
 
@@ -66,5 +71,8 @@ onLoop(() => {
         cast-shadow
       />
     </Suspense>
+    <primitive
+      :object="pokeball"
+    />
   </TresGroup>
 </template>

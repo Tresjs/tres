@@ -13,7 +13,7 @@ importers:
         version: 11.0.3(vue@3.4.38(typescript@5.5.4))
       camera-controls:
         specifier: ^2.9.0
-        version: 2.9.0(three@0.167.1)
+        version: 2.9.0(three@0.168.0)
       stats-gl:
         specifier: ^2.0.1
         version: 2.2.8
@@ -22,10 +22,10 @@ importers:
         version: 0.17.0
       three-custom-shader-material:
         specifier: ^5.4.0
-        version: 5.4.0(three@0.167.1)
+        version: 5.4.0(three@0.168.0)
       three-stdlib:
         specifier: ^2.32.2
-        version: 2.32.2(three@0.167.1)
+        version: 2.32.2(three@0.168.0)
       vue:
         specifier: '>=3.3'
         version: 3.4.38(typescript@5.5.4)
@@ -34,8 +34,8 @@ importers:
         specifier: ^8.0.1
         version: 8.0.1(release-it@17.6.0(typescript@5.5.4))
       '@tresjs/core':
-        specifier: ^4.2.8
-        version: 4.2.8(three@0.167.1)(vue@3.4.38(typescript@5.5.4))
+        specifier: ^4.2.9
+        version: 4.2.9(three@0.168.0)(vue@3.4.38(typescript@5.5.4))
       '@tresjs/eslint-config':
         specifier: ^1.1.0
         version: 1.2.0(@typescript-eslint/utils@8.3.0(eslint@9.9.1(jiti@1.21.6))(typescript@5.5.4))(@vue/compiler-sfc@3.4.38)(eslint@9.9.1(jiti@1.21.6))(typescript@5.5.4)
@@ -82,8 +82,8 @@ importers:
         specifier: ^5.12.0
         version: 5.12.0(rollup@4.21.2)
       three:
-        specifier: ^0.167.1
-        version: 0.167.1
+        specifier: ^0.168.0
+        version: 0.168.0
       typescript:
         specifier: ^5.5.4
         version: 5.5.4
@@ -106,8 +106,8 @@ importers:
         specifier: ^5.1.0
         version: 5.1.0(vue@3.4.38(typescript@5.5.4))
       vitepress:
-        specifier: 1.3.3
-        version: 1.3.3(@algolia/client-search@4.24.0)(@types/node@22.5.1)(postcss@8.4.41)(search-insights@2.17.0)(terser@5.31.6)(typescript@5.5.4)
+        specifier: 1.3.4
+        version: 1.3.4(@algolia/client-search@5.2.3)(@types/node@22.5.1)(postcss@8.4.41)(search-insights@2.17.0)(terser@5.31.6)(typescript@5.5.4)
 
   docs:
     dependencies:
@@ -123,7 +123,7 @@ importers:
         version: 14.1.0
       unocss:
         specifier: ^0.61.8
-        version: 0.61.9(@unocss/webpack@0.61.9(rollup@4.21.2))(postcss@8.4.41)(rollup@4.21.2)(vite@5.4.2(@types/node@22.5.1)(terser@5.31.6))
+        version: 0.61.9(@unocss/webpack@0.62.3(rollup@4.21.2))(postcss@8.4.41)(rollup@4.21.2)(vite@5.4.2(@types/node@22.5.1)(terser@5.31.6))
       vite-svg-loader:
         specifier: ^5.1.0
         version: 5.1.0(vue@3.4.38(typescript@5.5.4))
@@ -131,8 +131,8 @@ importers:
   playground/vue:
     dependencies:
       '@tresjs/core':
-        specifier: 4.2.8
-        version: 4.2.8(three@0.168.0)(vue@3.4.38(typescript@5.5.4))
+        specifier: 4.2.9
+        version: 4.2.9(three@0.168.0)(vue@3.4.38(typescript@5.5.4))
       vue-router:
         specifier: ^4.4.0
         version: 4.4.3(vue@3.4.38(typescript@5.5.4))
@@ -196,11 +196,19 @@ packages:
   '@algolia/client-common@4.24.0':
     resolution: {integrity: sha512-bc2ROsNL6w6rqpl5jj/UywlIYC21TwSSoFHKl01lYirGMW+9Eek6r02Tocg4gZ8HAw3iBvu6XQiM3BEbmEMoiA==}
 
+  '@algolia/client-common@5.2.3':
+    resolution: {integrity: sha512-zqfcbgjYR72Y/rx/+/6g5Li/eV33yhRq5mkGbU06JYBzvGq6viy0gZl1ckCFhLLifKzXZ4yzUQTw/KG6FV+smg==}
+    engines: {node: '>= 14.0.0'}
+
   '@algolia/client-personalization@4.24.0':
     resolution: {integrity: sha512-l5FRFm/yngztweU0HdUzz1rC4yoWCFo3IF+dVIVTfEPg906eZg5BOd1k0K6rZx5JzyyoP4LdmOikfkfGsKVE9w==}
 
   '@algolia/client-search@4.24.0':
     resolution: {integrity: sha512-uRW6EpNapmLAD0mW47OXqTP8eiIx5F6qN9/x/7HHO6owL3N1IXqydGwW5nhDFBrV+ldouro2W1VX3XlcUXEFCA==}
+
+  '@algolia/client-search@5.2.3':
+    resolution: {integrity: sha512-xXdCg8vpiwE8gqSyvjxq8V3qbFa+gHasY5epIz718IByWv3WKLLi/n4SMIfB/zRwXTLVWeGOH/UJSz5VCnAAqg==}
+    engines: {node: '>= 14.0.0'}
 
   '@algolia/logger-common@4.24.0':
     resolution: {integrity: sha512-LLUNjkahj9KtKYrQhFKCzMx0BY3RnNP4FEtO+sBybCjJ73E8jNdaKJ/Dd8A/VA4imVHP5tADZ8pn5B8Ga/wTMA==}
@@ -214,11 +222,19 @@ packages:
   '@algolia/requester-browser-xhr@4.24.0':
     resolution: {integrity: sha512-Z2NxZMb6+nVXSjF13YpjYTdvV3032YTBSGm2vnYvYPA6mMxzM3v5rsCiSspndn9rzIW4Qp1lPHBvuoKJV6jnAA==}
 
+  '@algolia/requester-browser-xhr@5.2.3':
+    resolution: {integrity: sha512-lezcE4E7ax7JkDGDKA/xAnyAY9p9LZ4AxzsyL0pksqUpOvn4U0msP553M2yJRfsxxdGDp15noCnPuRsh7u8dMg==}
+    engines: {node: '>= 14.0.0'}
+
   '@algolia/requester-common@4.24.0':
     resolution: {integrity: sha512-k3CXJ2OVnvgE3HMwcojpvY6d9kgKMPRxs/kVohrwF5WMr2fnqojnycZkxPoEg+bXm8fi5BBfFmOqgYztRtHsQA==}
 
   '@algolia/requester-node-http@4.24.0':
     resolution: {integrity: sha512-JF18yTjNOVYvU/L3UosRcvbPMGT9B+/GQWNWnenIImglzNVGpyzChkXLnrSf6uxwVNO6ESGu6oN8MqcGQcjQJw==}
+
+  '@algolia/requester-node-http@5.2.3':
+    resolution: {integrity: sha512-xTxsRnJqxG1dylIkxmflrHO9LJfJKjSHqEF5yGdRrtnqIEvb2hiQPCHm2XwqxMa3NBcf6lmydGfJqhPLnRJwtw==}
+    engines: {node: '>= 14.0.0'}
 
   '@algolia/transporter@4.24.0':
     resolution: {integrity: sha512-86nI7w6NzWxd1Zp9q3413dRshDqAzSbsQjhcDhPIatEFiZrL1/TjnHL8S7jVKFePlIMzDsZWXAXwXzcok9c5oA==}
@@ -1052,11 +1068,11 @@ packages:
   '@rushstack/ts-command-line@4.22.3':
     resolution: {integrity: sha512-edMpWB3QhFFZ4KtSzS8WNjBgR4PXPPOVrOHMbb7kNpmQ1UFS9HdVtjCXg1H5fG+xYAbeE+TMPcVPUyX2p84STA==}
 
-  '@shikijs/core@1.14.1':
-    resolution: {integrity: sha512-KyHIIpKNaT20FtFPFjCQB5WVSTpLR/n+jQXhWHWVUMm9MaOaG9BGOG0MSyt7yA4+Lm+4c9rTc03tt3nYzeYSfw==}
+  '@shikijs/core@1.15.0':
+    resolution: {integrity: sha512-wUcOmlcEN/ub8i4pcjnAABExIUo7xwhZTBa43CwHu5KO9e/zLJlXYYNjeE+5K7W8VHiVtvRC2wcuaXyd0yG8rg==}
 
-  '@shikijs/transformers@1.14.1':
-    resolution: {integrity: sha512-JJqL8QBVCJh3L61jqqEXgFq1cTycwjcGj7aSmqOEsbxnETM9hRlaB74QuXvY/fVJNjbNt8nvWo0VwAXKvMSLRg==}
+  '@shikijs/transformers@1.15.0':
+    resolution: {integrity: sha512-hJeTJGHZ6lCQKufYctiT+8HYrUnyfI67SXzMIB1rib7EUDZpwqfFLMqUfv8RST7qY359/ZWszrD6IzmTD8XV6w==}
 
   '@sindresorhus/is@5.6.0':
     resolution: {integrity: sha512-TV7t8GKYaJWsn00tFDqBw8+Uqmr8A0fRU1tvTQhyZzGv0sJCGRQL3JGMI3ucuKo3XIZdUP+Lx7/gh2t3lewy7g==}
@@ -1079,8 +1095,8 @@ packages:
   '@tootallnate/quickjs-emscripten@0.23.0':
     resolution: {integrity: sha512-C5Mc6rdnsaJDjO3UpGW/CQTHtCKaYlScZTly4JIu97Jxo/odCiH0ITnDXSJPTOrEKk/ycSZ0AOgTmkDtkOsvIA==}
 
-  '@tresjs/core@4.2.8':
-    resolution: {integrity: sha512-qmCfrlNhryXoRyuFI46yTC/P4ePvwgE4XQXuWZAEcqMRxo6XssMunzAFy9d4lBefb29qlr3gbOMDc0o5NQPCag==}
+  '@tresjs/core@4.2.9':
+    resolution: {integrity: sha512-e5RIRSlIOtrIHBZr4t/5bQ0v+egzDkojENaLOPELJ2TxwJAs33QJUfPTkPPVXc0gSDHzH47qFHqUCGIQ/LYG3w==}
     peerDependencies:
       three: '>=0.133'
       vue: '>=3.4'
@@ -1403,11 +1419,6 @@ packages:
     resolution: {integrity: sha512-RrqF6Go8s0BGpwRfkOiLuO+n3CUE/CXxGqb0ipbUARhmNWJlekE3YPfayqImSEnCcImpaPgtVGv6Y0u3kLGG/w==}
     peerDependencies:
       vite: ^2.9.0 || ^3.0.0-0 || ^4.0.0 || ^5.0.0-0
-
-  '@unocss/webpack@0.61.9':
-    resolution: {integrity: sha512-60YjNV3Aitqke/G25a4iMHrbZWyPfIpJniT8EXz/C/6Sb983rTxWr4Po7KbZGmzkywTy9O5n5H4MpfMLCtBhuw==}
-    peerDependencies:
-      webpack: ^4 || ^5
 
   '@unocss/webpack@0.62.3':
     resolution: {integrity: sha512-Emacl2uNau0pa7/wEFCQxAxwK3nkIa+Kp2CAcJdlwcaNBcqtowkTga0FOdq71YUENXv+aziK7mV6lrjdS/hgcA==}
@@ -3751,8 +3762,8 @@ packages:
     engines: {node: '>=4'}
     hasBin: true
 
-  shiki@1.14.1:
-    resolution: {integrity: sha512-FujAN40NEejeXdzPt+3sZ3F2dx1U24BY2XTY01+MG8mbxCiA2XukXdcbyMyLAHJ/1AUUnQd1tZlvIjefWWEJeA==}
+  shiki@1.15.0:
+    resolution: {integrity: sha512-XDRuSC/BSqD9bLXXIDs81oZvLO1n6lGvau10IJozNn/QJloF5A3GHfpvLegr0AzCh3hpVPpP7EPbfdJ9/wW0zQ==}
 
   signal-exit@3.0.7:
     resolution: {integrity: sha512-wnD2ZE+l+SPC/uoS0vXeE9L1+0wuaMqKlfz9AMUo38JsyLSBWSFcHR1Rri62LZc12vLr1gb3jl7iwQhgwpAbGQ==}
@@ -3972,9 +3983,6 @@ packages:
     resolution: {integrity: sha512-ZN25Na/Xg7APhGKwJ1zhGdhZDsDGGnnm1k5Z+9LLlnfsFye4jigvbN3eA/Ta8hQmBNmEHXoozpmpKK1x8dCePQ==}
     peerDependencies:
       three: '>=0.128.0'
-
-  three@0.167.1:
-    resolution: {integrity: sha512-gYTLJA/UQip6J/tJvl91YYqlZF47+D/kxiWrbTon35ZHlXEN0VOo+Qke2walF1/x92v55H6enomymg4Dak52kw==}
 
   three@0.168.0:
     resolution: {integrity: sha512-6m6jXtDwMJEK/GGMbAOTSAmxNdzKvvBzgd7q8bE/7Tr6m7PaBh5kKLrN7faWtlglXbzj7sVba48Idwx+NRsZXw==}
@@ -4272,8 +4280,8 @@ packages:
       terser:
         optional: true
 
-  vitepress@1.3.3:
-    resolution: {integrity: sha512-6UzEw/wZ41S/CATby7ea7UlffvRER/uekxgN6hbEvSys9ukmLOKsz87Ehq9yOx1Rwiw+Sj97yjpivP8w1sUmng==}
+  vitepress@1.3.4:
+    resolution: {integrity: sha512-I1/F6OW1xl3kW4PaIMC6snxjWgf3qfziq2aqsDoFc/Gt41WbcRv++z8zjw8qGRIJ+I4bUW7ZcKFDHHN/jkH9DQ==}
     hasBin: true
     peerDependencies:
       markdown-it-mathjax3: ^4
@@ -4437,32 +4445,32 @@ packages:
 
 snapshots:
 
-  '@algolia/autocomplete-core@1.9.3(@algolia/client-search@4.24.0)(algoliasearch@4.24.0)(search-insights@2.17.0)':
+  '@algolia/autocomplete-core@1.9.3(@algolia/client-search@5.2.3)(algoliasearch@4.24.0)(search-insights@2.17.0)':
     dependencies:
-      '@algolia/autocomplete-plugin-algolia-insights': 1.9.3(@algolia/client-search@4.24.0)(algoliasearch@4.24.0)(search-insights@2.17.0)
-      '@algolia/autocomplete-shared': 1.9.3(@algolia/client-search@4.24.0)(algoliasearch@4.24.0)
+      '@algolia/autocomplete-plugin-algolia-insights': 1.9.3(@algolia/client-search@5.2.3)(algoliasearch@4.24.0)(search-insights@2.17.0)
+      '@algolia/autocomplete-shared': 1.9.3(@algolia/client-search@5.2.3)(algoliasearch@4.24.0)
     transitivePeerDependencies:
       - '@algolia/client-search'
       - algoliasearch
       - search-insights
 
-  '@algolia/autocomplete-plugin-algolia-insights@1.9.3(@algolia/client-search@4.24.0)(algoliasearch@4.24.0)(search-insights@2.17.0)':
+  '@algolia/autocomplete-plugin-algolia-insights@1.9.3(@algolia/client-search@5.2.3)(algoliasearch@4.24.0)(search-insights@2.17.0)':
     dependencies:
-      '@algolia/autocomplete-shared': 1.9.3(@algolia/client-search@4.24.0)(algoliasearch@4.24.0)
+      '@algolia/autocomplete-shared': 1.9.3(@algolia/client-search@5.2.3)(algoliasearch@4.24.0)
       search-insights: 2.17.0
     transitivePeerDependencies:
       - '@algolia/client-search'
       - algoliasearch
 
-  '@algolia/autocomplete-preset-algolia@1.9.3(@algolia/client-search@4.24.0)(algoliasearch@4.24.0)':
+  '@algolia/autocomplete-preset-algolia@1.9.3(@algolia/client-search@5.2.3)(algoliasearch@4.24.0)':
     dependencies:
-      '@algolia/autocomplete-shared': 1.9.3(@algolia/client-search@4.24.0)(algoliasearch@4.24.0)
-      '@algolia/client-search': 4.24.0
+      '@algolia/autocomplete-shared': 1.9.3(@algolia/client-search@5.2.3)(algoliasearch@4.24.0)
+      '@algolia/client-search': 5.2.3
       algoliasearch: 4.24.0
 
-  '@algolia/autocomplete-shared@1.9.3(@algolia/client-search@4.24.0)(algoliasearch@4.24.0)':
+  '@algolia/autocomplete-shared@1.9.3(@algolia/client-search@5.2.3)(algoliasearch@4.24.0)':
     dependencies:
-      '@algolia/client-search': 4.24.0
+      '@algolia/client-search': 5.2.3
       algoliasearch: 4.24.0
 
   '@algolia/cache-browser-local-storage@4.24.0':
@@ -4493,6 +4501,8 @@ snapshots:
       '@algolia/requester-common': 4.24.0
       '@algolia/transporter': 4.24.0
 
+  '@algolia/client-common@5.2.3': {}
+
   '@algolia/client-personalization@4.24.0':
     dependencies:
       '@algolia/client-common': 4.24.0
@@ -4504,6 +4514,12 @@ snapshots:
       '@algolia/client-common': 4.24.0
       '@algolia/requester-common': 4.24.0
       '@algolia/transporter': 4.24.0
+
+  '@algolia/client-search@5.2.3':
+    dependencies:
+      '@algolia/client-common': 5.2.3
+      '@algolia/requester-browser-xhr': 5.2.3
+      '@algolia/requester-node-http': 5.2.3
 
   '@algolia/logger-common@4.24.0': {}
 
@@ -4529,11 +4545,19 @@ snapshots:
     dependencies:
       '@algolia/requester-common': 4.24.0
 
+  '@algolia/requester-browser-xhr@5.2.3':
+    dependencies:
+      '@algolia/client-common': 5.2.3
+
   '@algolia/requester-common@4.24.0': {}
 
   '@algolia/requester-node-http@4.24.0':
     dependencies:
       '@algolia/requester-common': 4.24.0
+
+  '@algolia/requester-node-http@5.2.3':
+    dependencies:
+      '@algolia/client-common': 5.2.3
 
   '@algolia/transporter@4.24.0':
     dependencies:
@@ -4818,9 +4842,9 @@ snapshots:
 
   '@docsearch/css@3.6.1': {}
 
-  '@docsearch/js@3.6.1(@algolia/client-search@4.24.0)(search-insights@2.17.0)':
+  '@docsearch/js@3.6.1(@algolia/client-search@5.2.3)(search-insights@2.17.0)':
     dependencies:
-      '@docsearch/react': 3.6.1(@algolia/client-search@4.24.0)(search-insights@2.17.0)
+      '@docsearch/react': 3.6.1(@algolia/client-search@5.2.3)(search-insights@2.17.0)
       preact: 10.23.2
     transitivePeerDependencies:
       - '@algolia/client-search'
@@ -4829,10 +4853,10 @@ snapshots:
       - react-dom
       - search-insights
 
-  '@docsearch/react@3.6.1(@algolia/client-search@4.24.0)(search-insights@2.17.0)':
+  '@docsearch/react@3.6.1(@algolia/client-search@5.2.3)(search-insights@2.17.0)':
     dependencies:
-      '@algolia/autocomplete-core': 1.9.3(@algolia/client-search@4.24.0)(algoliasearch@4.24.0)(search-insights@2.17.0)
-      '@algolia/autocomplete-preset-algolia': 1.9.3(@algolia/client-search@4.24.0)(algoliasearch@4.24.0)
+      '@algolia/autocomplete-core': 1.9.3(@algolia/client-search@5.2.3)(algoliasearch@4.24.0)(search-insights@2.17.0)
+      '@algolia/autocomplete-preset-algolia': 1.9.3(@algolia/client-search@5.2.3)(algoliasearch@4.24.0)
       '@docsearch/css': 3.6.1
       algoliasearch: 4.24.0
     optionalDependencies:
@@ -5361,13 +5385,13 @@ snapshots:
     transitivePeerDependencies:
       - '@types/node'
 
-  '@shikijs/core@1.14.1':
+  '@shikijs/core@1.15.0':
     dependencies:
       '@types/hast': 3.0.4
 
-  '@shikijs/transformers@1.14.1':
+  '@shikijs/transformers@1.15.0':
     dependencies:
-      shiki: 1.14.1
+      shiki: 1.15.0
 
   '@sindresorhus/is@5.6.0': {}
 
@@ -5392,17 +5416,7 @@ snapshots:
 
   '@tootallnate/quickjs-emscripten@0.23.0': {}
 
-  '@tresjs/core@4.2.8(three@0.167.1)(vue@3.4.38(typescript@5.5.4))':
-    dependencies:
-      '@alvarosabu/utils': 3.2.0
-      '@vue/devtools-api': 6.6.3
-      '@vueuse/core': 10.11.1(vue@3.4.38(typescript@5.5.4))
-      three: 0.167.1
-      vue: 3.4.38(typescript@5.5.4)
-    transitivePeerDependencies:
-      - '@vue/composition-api'
-
-  '@tresjs/core@4.2.8(three@0.168.0)(vue@3.4.38(typescript@5.5.4))':
+  '@tresjs/core@4.2.9(three@0.168.0)(vue@3.4.38(typescript@5.5.4))':
     dependencies:
       '@alvarosabu/utils': 3.2.0
       '@vue/devtools-api': 6.6.3
@@ -5927,22 +5941,6 @@ snapshots:
       - rollup
       - supports-color
 
-  '@unocss/webpack@0.61.9(rollup@4.21.2)':
-    dependencies:
-      '@ampproject/remapping': 2.3.0
-      '@rollup/pluginutils': 5.1.0(rollup@4.21.2)
-      '@unocss/config': 0.61.9
-      '@unocss/core': 0.61.9
-      chokidar: 3.6.0
-      fast-glob: 3.3.2
-      magic-string: 0.30.11
-      unplugin: 1.12.2
-      webpack-sources: 3.2.3
-    transitivePeerDependencies:
-      - rollup
-      - supports-color
-    optional: true
-
   '@unocss/webpack@0.62.3(rollup@4.21.2)':
     dependencies:
       '@ampproject/remapping': 2.3.0
@@ -6360,9 +6358,9 @@ snapshots:
 
   camelcase@7.0.1: {}
 
-  camera-controls@2.9.0(three@0.167.1):
+  camera-controls@2.9.0(three@0.168.0):
     dependencies:
-      three: 0.167.1
+      three: 0.168.0
 
   caniuse-lite@1.0.30001655: {}
 
@@ -8462,9 +8460,9 @@ snapshots:
       interpret: 1.4.0
       rechoir: 0.6.2
 
-  shiki@1.14.1:
+  shiki@1.15.0:
     dependencies:
-      '@shikijs/core': 1.14.1
+      '@shikijs/core': 1.15.0
       '@types/hast': 3.0.4
 
   signal-exit@3.0.7: {}
@@ -8663,15 +8661,15 @@ snapshots:
 
   text-table@0.2.0: {}
 
-  three-custom-shader-material@5.4.0(three@0.167.1):
+  three-custom-shader-material@5.4.0(three@0.168.0):
     dependencies:
       glsl-token-functions: 1.0.1
       glsl-token-string: 1.0.1
       glsl-tokenizer: 2.1.5
       object-hash: 3.0.0
-      three: 0.167.1
+      three: 0.168.0
 
-  three-stdlib@2.32.2(three@0.167.1):
+  three-stdlib@2.32.2(three@0.168.0):
     dependencies:
       '@types/draco3d': 1.4.10
       '@types/offscreencanvas': 2019.7.3
@@ -8679,9 +8677,7 @@ snapshots:
       draco3d: 1.5.7
       fflate: 0.6.10
       potpack: 1.0.2
-      three: 0.167.1
-
-  three@0.167.1: {}
+      three: 0.168.0
 
   three@0.168.0: {}
 
@@ -8820,7 +8816,7 @@ snapshots:
 
   universalify@2.0.1: {}
 
-  unocss@0.61.9(@unocss/webpack@0.61.9(rollup@4.21.2))(postcss@8.4.41)(rollup@4.21.2)(vite@5.4.2(@types/node@22.5.1)(terser@5.31.6)):
+  unocss@0.61.9(@unocss/webpack@0.62.3(rollup@4.21.2))(postcss@8.4.41)(rollup@4.21.2)(vite@5.4.2(@types/node@22.5.1)(terser@5.31.6)):
     dependencies:
       '@unocss/astro': 0.61.9(rollup@4.21.2)(vite@5.4.2(@types/node@22.5.1)(terser@5.31.6))
       '@unocss/cli': 0.61.9(rollup@4.21.2)
@@ -8843,7 +8839,7 @@ snapshots:
       '@unocss/transformer-variant-group': 0.61.9
       '@unocss/vite': 0.61.9(rollup@4.21.2)(vite@5.4.2(@types/node@22.5.1)(terser@5.31.6))
     optionalDependencies:
-      '@unocss/webpack': 0.61.9(rollup@4.21.2)
+      '@unocss/webpack': 0.62.3(rollup@4.21.2)
       vite: 5.4.2(@types/node@22.5.1)(terser@5.31.6)
     transitivePeerDependencies:
       - postcss
@@ -9023,12 +9019,12 @@ snapshots:
       fsevents: 2.3.3
       terser: 5.31.6
 
-  vitepress@1.3.3(@algolia/client-search@4.24.0)(@types/node@22.5.1)(postcss@8.4.41)(search-insights@2.17.0)(terser@5.31.6)(typescript@5.5.4):
+  vitepress@1.3.4(@algolia/client-search@5.2.3)(@types/node@22.5.1)(postcss@8.4.41)(search-insights@2.17.0)(terser@5.31.6)(typescript@5.5.4):
     dependencies:
       '@docsearch/css': 3.6.1
-      '@docsearch/js': 3.6.1(@algolia/client-search@4.24.0)(search-insights@2.17.0)
-      '@shikijs/core': 1.14.1
-      '@shikijs/transformers': 1.14.1
+      '@docsearch/js': 3.6.1(@algolia/client-search@5.2.3)(search-insights@2.17.0)
+      '@shikijs/core': 1.15.0
+      '@shikijs/transformers': 1.15.0
       '@types/markdown-it': 14.1.2
       '@vitejs/plugin-vue': 5.1.3(vite@5.4.2(@types/node@22.5.1)(terser@5.31.6))(vue@3.4.38(typescript@5.5.4))
       '@vue/devtools-api': 7.3.9
@@ -9038,7 +9034,7 @@ snapshots:
       focus-trap: 7.5.4
       mark.js: 8.11.1
       minisearch: 7.1.0
-      shiki: 1.14.1
+      shiki: 1.15.0
       vite: 5.4.2(@types/node@22.5.1)(terser@5.31.6)
       vue: 3.4.38(typescript@5.5.4)
     optionalDependencies:
