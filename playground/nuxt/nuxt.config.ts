@@ -4,6 +4,7 @@ import { resolve } from 'pathe'
 export default defineNuxtConfig({
   modules: ['@tresjs/nuxt'],
   devtools: { enabled: true },
+
   vite: {
     resolve: {
       alias: {
@@ -11,7 +12,10 @@ export default defineNuxtConfig({
       },
     },
   },
+
   tres: {
     glsl: true,
   },
+
+  compatibilityDate: '2024-08-30',
 })

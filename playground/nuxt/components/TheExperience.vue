@@ -1,5 +1,6 @@
 <script setup lang="ts">
-const environmentFiles = ['/px.jpg', '/nx.jpg', '/py.jpg', '/ny.jpg', '/pz.jpg', '/nz.jpg']
+
+
 
 </script>
 <template>
@@ -8,11 +9,7 @@ const environmentFiles = ['/px.jpg', '/nx.jpg', '/py.jpg', '/ny.jpg', '/pz.jpg',
     :look-at="[0, 0, 0]"
   />
   <Suspense>
-    <Environment
-      background
-      :files="environmentFiles"
-      path="https://raw.githubusercontent.com/Tresjs/assets/main/textures/environmentMap"
-    />
+    <EnvironmentLocal />
   </Suspense>
   <TresMesh :position="[0, 2, 0]">
     <TresBoxGeometry />
