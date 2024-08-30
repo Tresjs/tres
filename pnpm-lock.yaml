@@ -61,8 +61,8 @@ importers:
         specifier: 0.15.0-next.1
         version: 0.15.0-next.1(vite@5.4.1(@types/node@22.5.1)(terser@5.31.6))(vue@3.4.38(typescript@5.5.4))
       '@tresjs/nuxt':
-        specifier: 3.0.4
-        version: 3.0.4(focus-trap@7.5.4)(magicast@0.3.4)(postcss@8.4.41)(rollup@4.20.0)(three@0.160.0)(vite@5.4.1(@types/node@22.5.1)(terser@5.31.6))(vue@3.4.38(typescript@5.5.4))(webpack@5.89.0(esbuild@0.23.0))
+        specifier: 3.0.6
+        version: 3.0.6(focus-trap@7.5.4)(magicast@0.3.4)(postcss@8.4.41)(rollup@4.20.0)(three@0.160.0)(vite@5.4.1(@types/node@22.5.1)(terser@5.31.6))(vue@3.4.38(typescript@5.5.4))(webpack@5.89.0(esbuild@0.23.0))
       '@tweakpane/plugin-essentials':
         specifier: ^0.2.1
         version: 0.2.1(tweakpane@4.0.3)
@@ -929,9 +929,6 @@ packages:
   '@iconify/utils@2.1.14':
     resolution: {integrity: sha512-9pKIntkbLbjVVFxH32td21Am3AGGJfyI2KY2d8yDQxkZe4BBZtufJI8NgcamFn8B5QKLU9ai2VMo8OEov8jAtw==}
 
-  '@iconify/utils@2.1.30':
-    resolution: {integrity: sha512-bY0IO5xLOlbzJBnjWLxknp6Sss3yla03sVY9VeUz9nT6dbc+EGKlLfCt+6uytJnWm5CUvTF/BNotsLWF7kI61A==}
-
   '@iconify/utils@2.1.32':
     resolution: {integrity: sha512-LeifFZPPKu28O3AEDpYJNdEbvS4/ojAPyIW+pF/vUpJTYnbTiXUHkCh0bwgFRzKvdpb8H4Fbfd/742++MF4fPQ==}
 
@@ -1590,6 +1587,12 @@ packages:
       three: '>=0.133'
       vue: '>=3.4'
 
+  '@tresjs/core@4.2.9':
+    resolution: {integrity: sha512-e5RIRSlIOtrIHBZr4t/5bQ0v+egzDkojENaLOPELJ2TxwJAs33QJUfPTkPPVXc0gSDHzH47qFHqUCGIQ/LYG3w==}
+    peerDependencies:
+      three: '>=0.133'
+      vue: '>=3.4'
+
   '@tresjs/eslint-config-base@0.2.1':
     resolution: {integrity: sha512-9fkwDaNu4nLKujeERi5d1S7+ZdZpxBE+g/jUbM4ywhn/+5P7Qv8dXlo1vB05LteX5cTBnZxHQTFrJGK+sMcFdg==}
     peerDependencies:
@@ -1664,6 +1667,11 @@ packages:
 
   '@tresjs/nuxt@3.0.4':
     resolution: {integrity: sha512-snjP/bOTIGW1w3iIPH0SW36LM42ALJhDwb9Hsgy/iAORm5j1zAQ21Tn51Li+TpghLSJWV9v449yaol5Z7xtruw==}
+    peerDependencies:
+      three: '>=0.133'
+
+  '@tresjs/nuxt@3.0.6':
+    resolution: {integrity: sha512-VhVFSHDfZ5BbOq8vsZBNfe19QX9dMwbNp0t+Bx2TcqjNB1tHzpD4DLIFR4lHNOELvXeM1HoGmweyK/Dj4IMflQ==}
     peerDependencies:
       three: '>=0.133'
 
@@ -7594,18 +7602,6 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@iconify/utils@2.1.30':
-    dependencies:
-      '@antfu/install-pkg': 0.1.1
-      '@antfu/utils': 0.7.10
-      '@iconify/types': 2.0.0
-      debug: 4.3.6
-      kolorist: 1.8.0
-      local-pkg: 0.5.0
-      mlly: 1.7.1
-    transitivePeerDependencies:
-      - supports-color
-
   '@iconify/utils@2.1.32':
     dependencies:
       '@antfu/install-pkg': 0.4.1
@@ -7859,7 +7855,7 @@ snapshots:
 
   '@nuxt/devtools-kit@1.3.9(magicast@0.3.4)(rollup@4.20.0)(vite@5.4.1(@types/node@22.5.1)(terser@5.31.6))':
     dependencies:
-      '@nuxt/kit': 3.12.4(magicast@0.3.4)(rollup@4.20.0)
+      '@nuxt/kit': 3.13.0(magicast@0.3.4)(rollup@4.20.0)
       '@nuxt/schema': 3.12.4(rollup@4.20.0)
       execa: 7.2.0
       vite: 5.4.1(@types/node@22.5.1)(terser@5.31.6)
@@ -7887,7 +7883,7 @@ snapshots:
       global-directory: 4.0.1
       magicast: 0.3.4
       pathe: 1.1.2
-      pkg-types: 1.1.3
+      pkg-types: 1.2.0
       prompts: 2.4.2
       rc9: 2.1.2
       semver: 7.6.3
@@ -7942,7 +7938,7 @@ snapshots:
     dependencies:
       '@iconify/collections': 1.0.443
       '@iconify/types': 2.0.0
-      '@iconify/utils': 2.1.30
+      '@iconify/utils': 2.1.32
       '@iconify/vue': 4.1.3-beta.1(vue@3.4.38(typescript@5.5.4))
       '@nuxt/devtools-kit': 1.4.1(magicast@0.3.4)(rollup@4.20.0)(vite@5.4.1(@types/node@22.5.1)(terser@5.31.6))
       '@nuxt/kit': 3.13.0(magicast@0.3.4)(rollup@4.20.0)
@@ -8739,6 +8735,16 @@ snapshots:
     transitivePeerDependencies:
       - '@vue/composition-api'
 
+  '@tresjs/core@4.2.9(three@0.160.0)(vue@3.4.38(typescript@5.5.4))':
+    dependencies:
+      '@alvarosabu/utils': 3.2.0
+      '@vue/devtools-api': 6.6.3
+      '@vueuse/core': 10.11.0(vue@3.4.38(typescript@5.5.4))
+      three: 0.160.0
+      vue: 3.4.38(typescript@5.5.4)
+    transitivePeerDependencies:
+      - '@vue/composition-api'
+
   '@tresjs/eslint-config-base@0.2.1(@typescript-eslint/eslint-plugin@6.7.2(@typescript-eslint/parser@6.7.2(eslint@8.56.0)(typescript@5.5.4))(eslint@8.56.0)(typescript@5.5.4))(@typescript-eslint/parser@6.7.2(eslint@8.56.0)(typescript@5.5.4))(eslint@8.56.0)':
     dependencies:
       eslint: 8.56.0
@@ -9230,6 +9236,45 @@ snapshots:
       - vue
       - webpack
 
+  '@tresjs/nuxt@3.0.6(focus-trap@7.5.4)(magicast@0.3.4)(postcss@8.4.41)(rollup@4.20.0)(three@0.160.0)(vite@5.4.1(@types/node@22.5.1)(terser@5.31.6))(vue@3.4.38(typescript@5.5.4))(webpack@5.89.0(esbuild@0.23.0))':
+    dependencies:
+      '@nuxt/devtools-kit': 1.4.1(magicast@0.3.4)(rollup@4.20.0)(vite@5.4.1(@types/node@22.5.1)(terser@5.31.6))
+      '@nuxt/kit': 3.13.0(magicast@0.3.4)(rollup@4.20.0)
+      '@nuxt/ui': 2.18.4(focus-trap@7.5.4)(magicast@0.3.4)(rollup@4.20.0)(vite@5.4.1(@types/node@22.5.1)(terser@5.31.6))(vue@3.4.38(typescript@5.5.4))
+      '@tresjs/core': 4.2.9(three@0.160.0)(vue@3.4.38(typescript@5.5.4))
+      '@tresjs/nuxt': 3.0.4(focus-trap@7.5.4)(magicast@0.3.4)(postcss@8.4.41)(rollup@4.20.0)(three@0.160.0)(vite@5.4.1(@types/node@22.5.1)(terser@5.31.6))(vue@3.4.38(typescript@5.5.4))(webpack@5.89.0(esbuild@0.23.0))
+      '@types/three': 0.167.2
+      '@unocss/nuxt': 0.62.3(magicast@0.3.4)(postcss@8.4.41)(rollup@4.20.0)(vite@5.4.1(@types/node@22.5.1)(terser@5.31.6))(webpack@5.89.0(esbuild@0.23.0))
+      defu: 6.1.4
+      mlly: 1.7.1
+      pkg-types: 1.2.0
+      sirv: 2.0.4
+      three: 0.160.0
+      typescript: 5.5.4
+      vite-plugin-glsl: 1.3.0(rollup@4.20.0)(vite@5.4.1(@types/node@22.5.1)(terser@5.31.6))
+    transitivePeerDependencies:
+      - '@vue/composition-api'
+      - async-validator
+      - axios
+      - change-case
+      - drauu
+      - focus-trap
+      - idb-keyval
+      - jwt-decode
+      - magicast
+      - nprogress
+      - postcss
+      - qrcode
+      - rollup
+      - sortablejs
+      - supports-color
+      - ts-node
+      - uWebSockets.js
+      - universal-cookie
+      - vite
+      - vue
+      - webpack
+
   '@tresjs/post-processing@0.7.0(three@0.160.0)(vue@3.4.38(typescript@5.5.4))':
     dependencies:
       '@tresjs/core': 3.9.0(three@0.160.0)(vue@3.4.38(typescript@5.5.4))
@@ -9429,7 +9474,7 @@ snapshots:
     dependencies:
       '@typescript-eslint/typescript-estree': 6.7.2(typescript@5.5.4)
       '@typescript-eslint/utils': 6.7.2(eslint@8.56.0)(typescript@5.5.4)
-      debug: 4.3.5
+      debug: 4.3.6
       eslint: 8.56.0
       ts-api-utils: 1.0.3(typescript@5.5.4)
     optionalDependencies:
@@ -9940,7 +9985,7 @@ snapshots:
 
   '@unocss/preset-icons@0.58.9':
     dependencies:
-      '@iconify/utils': 2.1.30
+      '@iconify/utils': 2.1.32
       '@unocss/core': 0.58.9
       ofetch: 1.3.4
     transitivePeerDependencies:
@@ -9948,7 +9993,7 @@ snapshots:
 
   '@unocss/preset-icons@0.59.4':
     dependencies:
-      '@iconify/utils': 2.1.30
+      '@iconify/utils': 2.1.32
       '@unocss/core': 0.59.4
       ofetch: 1.3.4
     transitivePeerDependencies:
@@ -9956,7 +10001,7 @@ snapshots:
 
   '@unocss/preset-icons@0.61.5':
     dependencies:
-      '@iconify/utils': 2.1.30
+      '@iconify/utils': 2.1.32
       '@unocss/core': 0.61.5
       ofetch: 1.3.4
     transitivePeerDependencies:
@@ -14951,7 +14996,7 @@ snapshots:
 
   strip-literal@1.3.0:
     dependencies:
-      acorn: 8.12.0
+      acorn: 8.12.1
 
   strip-literal@2.1.0:
     dependencies:
