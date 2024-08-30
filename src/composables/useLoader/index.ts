@@ -81,11 +81,9 @@ export async function useLoader<T>(
     extensions(proto)
   }
 
-  const paths = (Array.isArray(url) ? url : [url]) as string[]
-
   return await new Promise((resolve, reject) => {
     proto.load(
-      paths,
+      url,
       (result: T) => {
         const data = result as unknown as TresObject
         if (data.scene) {
