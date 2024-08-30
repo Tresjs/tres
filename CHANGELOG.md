@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.0](https://github.com/tresjs/eslint-config/compare/1.1.0...1.2.0) (2024-08-30)
+
+
+### 🚀 Features
+
+* update to `@antfu/estlint-config` v3 ([56bb1b9](https://github.com/tresjs/eslint-config/commit/56bb1b9acb24806597f657ad132d76171d96a33b))
+
 ## [1.1.0](https://github.com/tresjs/eslint-config/compare/1.0.0...1.1.0) (2024-05-16)
 
 
