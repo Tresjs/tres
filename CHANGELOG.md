@@ -1,5 +1,12 @@
 
 
+## [3.0.6](https://github.com/tresjs/nuxt/compare/3.0.5...3.0.6) (2024-08-30)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @tresjs/core to v4.2.9 ([#126](https://github.com/tresjs/nuxt/issues/126)) ([29b8c9b](https://github.com/tresjs/nuxt/commit/29b8c9b558a36a83c2b55656e5efb77de5a1e99d))
+
 ## [3.0.5](https://github.com/tresjs/nuxt/compare/3.0.4...3.0.5) (2024-08-30)
 
 
