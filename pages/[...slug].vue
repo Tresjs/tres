@@ -4,7 +4,7 @@ definePageMeta({
 })
 const { path } = useRoute()
 const { data } = await useAsyncData(`content-${path}`, () => queryContent().where({ _path: path }).findOne())
-console.log(data)
+
 useHead({
   title: `${data?.value?.title} - Tres`,
   meta: [
