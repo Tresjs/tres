@@ -4,7 +4,7 @@ definePageMeta({
 })
 const { path } = useRoute()
 const { data } = await useAsyncData(`content-${path}`, () => queryContent().where({ _path: path }).findOne())
-
+console.log(data)
 useHead({
   title: `${data?.value?.title} - Tres`,
   meta: [
@@ -27,7 +27,7 @@ useHead({
     {
       hid: 'og:title',
       property: 'og:title',
-      content: `${data?.value?.title} TresJS by @${data?.value?.author}`,
+      content: `${data?.value?.title} made with TresJS by @${data?.value?.author}`,
     },
     {
       hid: 'og:type',
@@ -37,7 +37,7 @@ useHead({
     {
       hid: 'og:image',
       property: 'og:image',
-      content: data?.value?.thumbnail,
+      content: data?.value?.thumbnail ?? `/${data?.value?._path?.split('/').pop()}.png`,
     },
     {
       hid: 'og:image:alt',
@@ -60,7 +60,7 @@ useHead({
     {
       hid: 'twitter:image',
       name: 'twitter:image',
-      content: data?.value?.thumbnail,
+      content: data?.value?.thumbnail ?? `/${data?.value?._path?.split('/').pop()}.png`,
     },
     {
       hid: 'twitter:image:alt',
