@@ -10,9 +10,8 @@ const experiment = {
   portalColorEnd: '#ddc0ff',
 }
 
-const { pane } = useTweakPane()
 
-const portalCtrls = pane.addFolder({ title: 'Portal' })
+/* const portalCtrls = pane.addFolder({ title: 'Portal' })
 portalCtrls
   .addInput(experiment, 'portalColorStart', {
     label: 'color start',
@@ -32,7 +31,7 @@ portalCtrls
   })
   .on('change', ({ value }) => {
     portalLightMaterial.uniforms.uColorEnd.value.set(value)
-  })
+  }) */
 
 const { scene: portal } = await useGLTF(
   'https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/portal/portal.glb',

@@ -7,7 +7,6 @@ import { useMouse } from '@vueuse/core'
 const groupRef = ref<Group>()
 
 const gltf = await useGLTF('/models/legolangelo/david.glb')
-console.log(gltf)
 
 const david = gltf.nodes.David
 
@@ -25,40 +24,6 @@ const lego = legoNodes.LegoPiece
 const legoMaterial = new MeshPhongMaterial({ color: 'lightgray' })
 const legoInstancedMesh = new InstancedMesh(lego.geometry, legoMaterial, instanceCount)
 
-/* function pointInsideDavidMesh(point) {
-  const raycaster = new Raycaster()
-  const direction = new Vector3(1, 0, 0) // Arbitrary direction
-  const origin = point.clone()
-  raycaster.set(origin, direction)
-
-  const intersects = raycaster.intersectObject(david)
-
-  return intersects.length % 2 === 1
-}
-
-const dummy = new Object3D()
-let instanceIndex = 0
-
-david.geometry.computeBoundingBox()
-const boundingBox = david.geometry.boundingBox
-const legoSize = 1 // Adjust the size of the lego piece
-
-console.log(boundingBox)
-
-for (let x = boundingBox.min.x; x < boundingBox.max.x; x += legoSize) {
-  for (let y = boundingBox.min.y; y < boundingBox.max.y; y += legoSize) {
-    for (let z = boundingBox.min.z; z < boundingBox.max.z; z += legoSize) {
-      const point = new Vector3(x, y, z)
-      if (pointInsideDavidMesh(point)) {
-        dummy.position.copy(point)
-        dummy.updateMatrix()
-        legoInstancedMesh.setMatrixAt(instanceIndex++, dummy.matrix)
-      }
-    }
-  }
-}
-
-legoInstancedMesh.instanceMatrix.needsUpdate = true */
 
 useControls('fpsgraph')
 

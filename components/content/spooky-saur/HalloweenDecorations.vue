@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { Color, MeshStandardMaterial } from 'three'
 
-const { scene, materials } = await useGLTF('/models/halloween/halloween-decoration.glb', { draco: true })
-scene.traverse((child) => {
+const { scene } = await useGLTF('/models/halloween/halloween-decoration.glb', { draco: true })
+scene.traverse((child: TresObject) => {
   if (child.isMesh) {
     child.castShadow = true
     child.receiveShadow = true
@@ -23,9 +23,9 @@ const flameOffsets = flames.map(() => Math.random() * 2 * Math.PI)
 const flameSpeeds = flames.map(() => Math.random() * 0.2 + 0.9) // Random speeds between 0.9 and 1.1
 const flameRandoms = flames.map(() => Math.random() * Math.PI) // Additional randomness
 
-const { onLoop } = useRenderLoop()
+const { onBeforeRender } = useLoop()
 
-onLoop(({ elapsed }) => {
+onBeforeRender(({ elapsed }) => {
   flames.forEach((flame, index) => {
     const timeFactor = elapsed * flameSpeeds[index]
     

@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import type { Object3D, PerspectiveCamera } from 'three'
-import { SRGBColorSpace, NoToneMapping, DoubleSide, Vector3, PCFSoftShadowMap } from 'three'
-import { vLightHelper } from '@tresjs/cientos'
+import type { PerspectiveCamera } from 'three'
+import { SRGBColorSpace, NoToneMapping, DoubleSide, PCFSoftShadowMap } from 'three'
 
 const gl = {
   clearColor: '#A590FF',
@@ -12,39 +11,6 @@ const gl = {
   toneMapping: NoToneMapping,
 }
 
-useControls('fpsgraph')
-
-const { value: position } = useControls({
-  position: new Vector3(0, 1.5, -0.3),
-})
-
-const { value: intensity } = useControls({
-  intensity: { 
-    value: 5,
-    min: 0,
-    max: 100,
-    step: 1,
-  },
-})
-
-const { value: distance } = useControls({
-  distance: { 
-    value: 0,
-    min: -100,
-    max: 100,
-    step: 0.1,
-  },
-})
-
-const { value: decay } = useControls({
-  decay: { 
-    value: 100,
-    min: 0,
-    max: 1000,
-    step: 10,
-  },
-})
-
 const bloomParams = reactive({
   luminanceThreshold: 0.2,
   luminanceSmoothing: 0.3,
@@ -53,19 +19,7 @@ const bloomParams = reactive({
 })
 
 const cameraRef = ref<PerspectiveCamera | null>(null)
-const insideLightRef = ref<Object3D | null>(null)
 const fontPath = '/fonts/jetbrains-mono.json'
-
-const { onLoop } = useRenderLoop()
-
-onLoop(({ elapsed }) => {
-  if (insideLightRef.value) {
-    insideLightRef.value.intensity = Math.sin(elapsed) * 6 + 7
-  }
-  if (cameraRef.value) {
-    cameraRef.value.lookAt(0, 1, 0)
-  }
-})
 
 const { hasFinishLoading, progress } = await useProgress()
 </script>
@@ -91,11 +45,11 @@ const { hasFinishLoading, progress } = await useProgress()
   <TresCanvas v-bind="gl">
     <TresPerspectiveCamera
       ref="cameraRef"
-      :look-at="[0, 1, 0]"
+      :look-at="[0, 2, 0]"
       :position="[1, 1, 8]"
     />
     <OrbitControls
-      :max-distance="7"
+      :max-distance="10"
       :min-azimuth-angle="-Math.PI / 6"
       :max-azimuth-angle="Math.PI / 6"
       :min-polar-angle="0"
@@ -124,26 +78,7 @@ const { hasFinishLoading, progress } = await useProgress()
         <TresMeshStandardMaterial />
       </Text3D>
     </Suspense>
-    <TresPointLight
-      ref="insideLightRef"
-      color="#FF3F00"
-      :scale="[0.5, 0.5, 0.5]"
-      :intensity="intensity"
-      :position-x="position.x"
-      :position-y="position.y"
-      :position-z="position.z"
-      :distance="distance"
-      :decay="decay"
-      :shadow-mapSize-width="1024"
-      :shadow-mapSize-height="1024"
-      :shadow-camera-far="50"
-      :shadow-camera-left="-10"
-      :shadow-camera-right="10"
-      :shadow-camera-top="10"
-      :shadow-camera-bottom="-10"
-      :shadow-bias="-0.000001"
-      cast-shadow
-    />
+    <InsideLight />
     <TresFog
       :color="gl.clearColor"
       :near="2"

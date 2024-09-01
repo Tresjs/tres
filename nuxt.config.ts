@@ -35,6 +35,7 @@ export default defineNuxtConfig({
       ],
     },
   },
+
   modules: [
     '@tresjs/nuxt',
     '@unocss/nuxt',
@@ -44,15 +45,19 @@ export default defineNuxtConfig({
     '@nuxt/image',
     '@nuxt/devtools',
   ],
+
   css: ['/styles/main.css', '@unocss/reset/tailwind-compat.css', '@tresjs/leches/styles'],
   declare: ['*.glsl'],
+
   tres: {
     devtools: true,
     glsl: true,
   },
+
   routeRules: {
     '/': { prerender: true }
   },
+
   unocss: {
     // presets
     theme: {
@@ -124,6 +129,7 @@ export default defineNuxtConfig({
       transformerDirectives(),
     ],
   },
+
   content: {
     highlight: {
       theme: {
@@ -135,10 +141,14 @@ export default defineNuxtConfig({
       preload: ['bash', 'css', 'javascript', 'json', 'markdown', 'scss', 'vue', 'glsl'],
     },
   },
+
   vite: {
     plugins: [svgLoader()],
   },
+
   build: {
     transpile: ['fsevents', 'postprocessing'],
   },
+
+  compatibilityDate: '2024-08-29',
 })

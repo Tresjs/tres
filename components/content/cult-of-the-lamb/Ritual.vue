@@ -46,15 +46,17 @@ materials['Flame'].emissive = new Color('#C55B37')
 </script>
 
 <template>
-  <primitive :object="pentagram" />
-  <template v-for="symbol in symbols">
-    <Levioso>
-      <primitive :object="symbol" />
-    </Levioso>
-  </template>
-
-  <primitive
-    v-for="candle in candles"
-    :object="candle"
-  />
+  <TresGroup>
+    <primitive :object="pentagram" />
+    <template v-for="symbol in symbols">
+      <Levioso>
+        <primitive :object="symbol" />
+      </Levioso>
+    </template>
+  
+    <primitive
+      v-for="candle in candles"
+      :object="candle"
+    />
+  </TresGroup>
 </template>

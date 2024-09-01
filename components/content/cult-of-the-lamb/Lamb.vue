@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { LoopOnce } from 'three'
 
-const { nodes, animations } = await useGLTF('/models/cult-of-the-lamb/Lamb.glb', { draco: true })
-console.log(animations)
+const { scene, nodes, animations } = await useGLTF('/models/cult-of-the-lamb/lamb-v2.glb', { draco: true })
+
 const lamb = nodes['rig']
 
-const { actions, mixer } = useAnimations(animations, lamb)
+const { actions } = useAnimations(animations, lamb)
 
-const currentAction = ref(actions['rigAction'])
+const currentAction = ref(actions['elevate'])
 
 currentAction.value.clampWhenFinished = true
 currentAction.value.loop = LoopOnce
@@ -15,7 +15,9 @@ currentAction.value.play()
 </script>
 
 <template>
-  <Levioso>
-    <primitive :object="lamb" />
-  </Levioso>
+  <TresGroup>
+    <Levioso>
+      <primitive :object="scene" />
+    </Levioso>
+  </TresGroup>
 </template>

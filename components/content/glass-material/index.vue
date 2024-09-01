@@ -5,10 +5,7 @@ import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader'
 const gl = {
   clearColor: '#e4e4e4',
   shadows: true,
-  alpha: false,
-  shadowMapType: BasicShadowMap,
-  outputColorSpace: SRGBColorSpace,
-  toneMapping: NoToneMapping,
+  alpha: true,
 }
 
 const { map, normalMap } = await useTexture({
@@ -74,7 +71,7 @@ watch(useHDR.value, (value) => {
 </script>
 
 <template>
-  <TresLeches preset="realistic" />
+  <TresLeches/>
   <TresCanvas
     window-size
     v-bind="gl"
@@ -111,7 +108,7 @@ watch(useHDR.value, (value) => {
     </TresMesh>
     <TresDirectionalLight
       :position="[0, 2, 4]"
-      :intensity="1"
+      :intensity="0.5"
       cast-shadow
     />
     <TresAmbientLight :intensity="0.2" />

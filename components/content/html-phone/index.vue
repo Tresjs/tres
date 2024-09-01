@@ -2,6 +2,7 @@
 import { TresCanvas } from '@tresjs/core'
 import { BasicShadowMap, SRGBColorSpace, NoToneMapping, PerspectiveCamera } from 'three'
 import gsap from 'gsap'
+
 const gl = {
   shadows: true,
   alpha: true,
@@ -13,6 +14,7 @@ const gl = {
 const cameraRef = ref<PerspectiveCamera | null>(null)
 
 const onViewClicked = () => {
+  if(!cameraRef.value) return
   gsap.to(cameraRef.value.position, {
     duration: 1,
     x: 0,
@@ -20,6 +22,7 @@ const onViewClicked = () => {
     z: 3,
     ease: 'power2.inOut',
     onUpdate: () => {
+      if(cameraRef.value)
       cameraRef.value.lookAt(0, 3, 0)
     },
   })

@@ -1,16 +1,15 @@
 <script setup lang="ts">
-const { scene, materials } = await useGLTF('/models/halloween/pumpkin-ivysaur.glb', { draco: true })
+const { nodes, materials } = await useGLTF('/models/halloween/pumpkin-ivysaur.glb', { draco: true })
 
-scene.traverse((child) => {
+const pumpkinIvysaur = nodes['Scene']
+/* scene.traverse((child) => {
   if (child.isMesh) {
     child.castShadow = true
     child.receiveShadow = true
   }
-})
-/* const light = materials['InternalLight']
-light.emissiveIntensity = 10000 */
+}) */
 </script>
 
 <template>
-  <primitive :object="scene" />
+  <primitive :object="pumpkinIvysaur" />
 </template>

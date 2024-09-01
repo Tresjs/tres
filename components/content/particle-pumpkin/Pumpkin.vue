@@ -30,7 +30,7 @@ context.scene.value.add(new AmbientLight(0x404040));
 // add a box
 
 const logo = await useGLTF("/models/particle-pumpkin/pumpkin.glb");
-console.log(logo);
+
 // convert object3d to geometry
 
 logo.nodes.Pumpkin.geometry?.scale(0.025, 0.025, 0.025);

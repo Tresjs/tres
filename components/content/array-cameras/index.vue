@@ -79,7 +79,7 @@ useControls('fpsgraph')
       :position="[0, 2, 5]"
     />
     <Suspense>
-      <model />
+      <KnightRigged />
     </Suspense>
     <TresAmbientLight
       :color="0xffffff"

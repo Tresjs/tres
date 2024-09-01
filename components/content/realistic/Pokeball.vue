@@ -1,19 +1,9 @@
 <script setup lang="ts">
 import { shallowRef, watch } from 'vue'
 
-const gameboyRef = shallowRef()
-
-watch(gameboyRef, ({ model }) => {
-  if (model) {
-    model.scale.set(0.4, 0.4, 0.4)
-  }
-})
+const { scene } = await useGLTF('https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/realistic-pokeball/scene.gltf', { draco: true })
 </script>
 
 <template>
-  <GLTFModel
-    ref="gameboyRef"
-    path="https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/realistic-pokeball/scene.gltf"
-    draco
-  />
+  <primitive :object="scene" />
 </template>

@@ -1,5 +1,5 @@
 ---
-thumbnail: /github-1k-stars.png
+thumbnail: /github-stars.png
 title: 2000 🌟 on Github 
 slug: github-2k-stars
 author: alvarosabu

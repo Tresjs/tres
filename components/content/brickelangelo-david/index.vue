@@ -17,7 +17,6 @@ const gl = {
 }
 
 const lightRef = ref()
-const sphereLight = ref()
 
 watch([x, y], () => {
   // Normalize the mouse position to a range that's relevant for your scene
@@ -32,11 +31,10 @@ watch([x, y], () => {
 
 const cameraRef = ref()
 const cameraPosition = ref(new Vector3(-0.63, 2, 0.63))
-const cameraLookAt = ref(new Vector3(0, 0, 0))
 
 useControls({ cameraPosition })
 
-const { hasFinishLoading, progress, items } = await useProgress()
+const { hasFinishLoading, progress } = await useProgress()
 
 watch(hasFinishLoading, (hasFinishLoading) => {
   if (!cameraRef.value || hasFinishLoading) return

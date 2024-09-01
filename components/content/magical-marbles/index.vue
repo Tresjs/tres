@@ -190,7 +190,7 @@ onLoop(({ delta }) => {
 </script>
 
 <template>
-    <main ref="mainRef" class="magical-marbles">
+    <div ref="mainRef" class="magical-marbles">
         <NuxtLink class="magical-marbles__logo" to="/">
             <img src="/lab.svg" alt="TresJS Logo" />
         </NuxtLink>
@@ -226,7 +226,7 @@ onLoop(({ delta }) => {
                     :uniforms="uniforms" silent />
             </Sphere>
         </TresCanvas>
-    </main>
+    </div>
 </template>
 
 <style scoped>

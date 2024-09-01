@@ -2,8 +2,7 @@
 import { TresCanvas } from '@tresjs/core'
 import { BasicShadowMap, SRGBColorSpace, NoToneMapping } from 'three'
 
-import { OrbitControls } from '@tresjs/cientos'
-import { EffectComposer, Bloom } from '@tresjs/post-processing'
+/* import { EffectComposer, Bloom } from '@tresjs/post-processing' */
 import { BlendFunction } from 'postprocessing'
 
 const gl = {
@@ -19,7 +18,7 @@ const bloomParams = reactive({
   luminanceThreshold: 0.1,
   luminanceSmoothing: 0.3,
   mipmapBlur: true,
-  intensity: 0.3,
+  intensity: 0.4,
   radius: 0.5,
   disableRender: true,
   blendFunction: BlendFunction.ADD,
@@ -35,14 +34,16 @@ const bloomParams = reactive({
     <Suspense>
       <Lamb />
     </Suspense>
-    <Suspense>
-      <Ritual />
-    </Suspense>
+
     <TresAmbientLight :args="[0xffffff, 0.5]" />
+   
     <Suspense>
       <EffectComposer>
         <Bloom v-bind="bloomParams" />
       </EffectComposer>
+    </Suspense>
+    <Suspense>
+      <Ritual />
     </Suspense>
     <Backdrop  
       :floor="1.5" 

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 const environmentFiles = ['/px.jpg', '/nx.jpg', '/py.jpg', '/ny.jpg', '/pz.jpg', '/nz.jpg']
 const { hasFinishLoading, progress } = await useProgress()
+
 </script>
 
 <template>

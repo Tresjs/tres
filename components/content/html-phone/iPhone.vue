@@ -11,7 +11,7 @@ const bottomTab = seekByName(model, 'BottomTab')
 screen?.position.set(0, 0, 0.01)
 screen.material.transparent = true
 screen.material.opacity = 0.5
-console.log(nodes)
+
 
 bottomTab.material = new MeshStandardMaterial({
   color: new Color('#000000'),
