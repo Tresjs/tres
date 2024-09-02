@@ -14,11 +14,11 @@ Hot module replacement (HMR) is a feature that allows you to update your code wi
 
 Why? Because Tres builds the scene in a declarative way. This means that it creates the instance and add it to the scene when the component is mounted. The complexity comes to know when to remove the instance from the scene and when to add it again.
 
-Although a minimal disposal workflow is implemented, it is not perfect. This means that sometimes you will have to reload the page to see the changes correctly, specially when you are referencing an instances using [Template Refs](https://v3.vuejs.org/guide/component-template-refs.html)
+Although a minimal disposal workflow is implemented, it is not perfect. This means that sometimes you will have to reload the page to see the changes correctly, especially when you are referencing an instances using [Template Refs](https://v3.vuejs.org/guide/component-template-refs.html)
 
 ```vue
 <script setup lang="ts">
-const boxRef: Ref<TresInstance | null> = ref(null)
+const boxRef: ShallowRef<TresInstance | null> = shallowRef(null)
 
 onLoop(({ _delta, elapsed }) => {
   if (boxRef.value) {

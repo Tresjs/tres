@@ -1,15 +1,15 @@
 import { Vector2, Vector3 } from 'three'
-import type { Intersection, Object3D } from 'three'
-import type { Ref, ShallowRef } from 'vue'
+import type { Intersection, Object3D, Object3DEventMap } from 'three'
+import type { ShallowRef } from 'vue'
 import { computed, onUnmounted, shallowRef } from 'vue'
 import type { EventHook } from '@vueuse/core'
 import { createEventHook, useElementBounding, usePointer } from '@vueuse/core'
 
-import type { DomEvent, TresCamera, TresEvent } from 'src/types'
+import type { DomEvent, TresCamera, TresEvent, TresInstance } from 'src/types'
 import type { TresContext } from '../useTresContextProvider'
 
 export const useRaycaster = (
-  objectsWithEvents: Ref<Object3D[]>,
+  objectsWithEvents: ShallowRef<TresInstance[]>,
   ctx: TresContext,
 ) => {
   // having a separate computed makes useElementBounding work
@@ -34,7 +34,7 @@ export const useRaycaster = (
 
     ctx.raycaster.value.setFromCamera(new Vector2(x, y), ctx.camera.value)
 
-    intersects.value = ctx.raycaster.value.intersectObjects(objectsWithEvents.value, true)
+    intersects.value = ctx.raycaster.value.intersectObjects(objectsWithEvents.value as Object3D<Object3DEventMap>[], true)
     return intersects.value
   }
 

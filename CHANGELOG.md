@@ -1,5 +1,91 @@
 
 
+## [4.2.9](https://github.com/Tresjs/tres/compare/4.2.8...4.2.9) (2024-08-30)
+
+
+### Bug Fixes
+
+* **useLoader:** remove array related logic for loaders ([#808](https://github.com/Tresjs/tres/issues/808)) ([88cef1e](https://github.com/Tresjs/tres/commit/88cef1e0ab454f97c8e55c86ec48e53d326be59e))
+
+## [4.2.8](https://github.com/Tresjs/tres/compare/4.2.7...4.2.8) (2024-08-30)
+
+
+### Bug Fixes
+
+* use CubeTextureLoader correctly with array of files ([#807](https://github.com/Tresjs/tres/issues/807)) ([38f05b0](https://github.com/Tresjs/tres/commit/38f05b03d7d2b9934f8893a5f4858b09b7188782))
+
+## [4.2.7](https://github.com/Tresjs/tres/compare/4.2.6...4.2.7) (2024-08-19)
+
+## [4.2.6](https://github.com/Tresjs/tres/compare/4.2.5...4.2.6) (2024-08-15)
+
+
+### Bug Fixes
+
+* 796 unmount the canvas component instant mount children again even if canvas is not mounted ([#799](https://github.com/Tresjs/tres/issues/799)) ([9a20b52](https://github.com/Tresjs/tres/commit/9a20b52b2c7efc712a22fa78f290f148ce566d35))
+
+## [4.2.5](https://github.com/Tresjs/tres/compare/4.2.4...4.2.5) (2024-08-01)
+
+
+### Bug Fixes
+
+* **types:** added Ref type to controls on ctx ([415de94](https://github.com/Tresjs/tres/commit/415de9461c39f46eed37c2a0663099dc4d3325e2))
+
+## [4.2.4](https://github.com/Tresjs/tres/compare/4.2.3...4.2.4) (2024-08-01)
+
+
+### Bug Fixes
+
+* typescript issues ([#794](https://github.com/Tresjs/tres/issues/794)) ([eecf608](https://github.com/Tresjs/tres/commit/eecf608ad1bfb7d4cbe64cf275a356a8dd383b73))
+
+## [4.2.3](https://github.com/Tresjs/tres/compare/4.2.2...4.2.3) (2024-07-26)
+
+
+### Bug Fixes
+
+* 792 directionallighthelpers breaks devtools ([#793](https://github.com/Tresjs/tres/issues/793)) ([426acee](https://github.com/Tresjs/tres/commit/426acee27e7fd62abf3803280c48e327597b1e94)), closes [#533](https://github.com/Tresjs/tres/issues/533)
+
+## [4.2.2](https://github.com/Tresjs/tres/compare/4.2.1...4.2.2) (2024-07-24)
+
+
+### Bug Fixes
+
+* remove on demand invalidation warning ([#788](https://github.com/Tresjs/tres/issues/788)) ([eab74e6](https://github.com/Tresjs/tres/commit/eab74e6d0c8feb16ea18b2f096c87c7e3dbb1848))
+
+## [4.2.1](https://github.com/Tresjs/tres/compare/4.2.0...4.2.1) (2024-07-17)
+
+
+### Bug Fixes
+
+* **types:** `useLoader` generics ([#781](https://github.com/Tresjs/tres/issues/781)) ([b51d679](https://github.com/Tresjs/tres/commit/b51d6792372922904cd9225c2ea2e5dfce6f68f8))
+
+## [4.2.0](https://github.com/Tresjs/tres/compare/4.1.0...4.2.0) (2024-07-14)
+
+
+### Features
+
+* (devtools) add userData to inspectable properties ([#740](https://github.com/Tresjs/tres/issues/740)) ([00bef33](https://github.com/Tresjs/tres/commit/00bef337f189b04ee3b77a4ce0afea63ce2973b2))
+* **TresCanvas:** add dpr prop ([#768](https://github.com/Tresjs/tres/issues/768)) ([8943cc3](https://github.com/Tresjs/tres/commit/8943cc3dac1571e4bc15fb75ad106908b109de43))
+
+
+### Bug Fixes
+
+* attach detach ([#749](https://github.com/Tresjs/tres/issues/749)) ([8c1c668](https://github.com/Tresjs/tres/commit/8c1c66827cf39dca1206bfbf0fe3549e03ad9608))
+* localstate for objects with events and manual register/unregister from nodeOps using ctx ([#767](https://github.com/Tresjs/tres/issues/767)) ([9a53e60](https://github.com/Tresjs/tres/commit/9a53e60bfb915492952399522d6c2d6a0ac7ed59))
+* **primitive:** implement as proxy to avoid breaking references  ([#764](https://github.com/Tresjs/tres/issues/764)) ([f637bf3](https://github.com/Tresjs/tres/commit/f637bf35373c4ba60f14b3464ede9427be8b8b58))
+
+## [4.1.0](https://github.com/Tresjs/tres/compare/4.0.2...4.1.0) (2024-07-05)
+
+
+### Features
+
+* add useTresReady ([#712](https://github.com/Tresjs/tres/issues/712)) ([15e3f07](https://github.com/Tresjs/tres/commit/15e3f0785e843df7a68e095c8ec35d8752623a05))
+
+
+### Bug Fixes
+
+* **deps:** update dependency @vueuse/core to v10.10.1 ([#735](https://github.com/Tresjs/tres/issues/735)) ([12e462d](https://github.com/Tresjs/tres/commit/12e462d2abb0205e416cadd5f9eab50afd501fd3))
+* group should recursive search for child elements ([#728](https://github.com/Tresjs/tres/issues/728)) ([#731](https://github.com/Tresjs/tres/issues/731)) ([f09367b](https://github.com/Tresjs/tres/commit/f09367b47b59c9b60eaafa318023187111ddb786))
+
 ## [4.0.2](https://github.com/Tresjs/tres/compare/4.0.1...4.0.2) (2024-06-05)
 
 

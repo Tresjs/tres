@@ -5,8 +5,9 @@ import {
   setupDevtoolsPlugin,
 } from '@vue/devtools-api'
 import { reactive } from 'vue'
-import type { Mesh } from 'three'
+import { Color, type Mesh } from 'three'
 import { createHighlightMesh, editSceneObject } from '../utils'
+import * as is from '../utils/is'
 import { bytesToKB, calculateMemoryUsage } from '../utils/perf'
 import type { TresContext } from '../composables'
 import type { TresObject } from './../types'
@@ -51,14 +52,16 @@ const createNode = (object: TresObject): SceneGraphObject => {
   }
 
   if (object.type.includes('Light')) {
+    if (is.light(object)) {
+      node.tags.push({
+        label: `${object.intensity}`,
+        textColor: 0x9499A6,
+        backgroundColor: 0xF8F9FA,
+        tooltip: 'Intensity',
+      })
+    }
     node.tags.push({
-      label: `${object.intensity}`,
-      textColor: 0x9499A6,
-      backgroundColor: 0xF8F9FA,
-      tooltip: 'Intensity',
-    })
-    node.tags.push({
-      label: `#${object.color.getHexString()}`,
+      label: `#${new Color(object.color).getHexString()}`,
       textColor: 0x9499A6,
       backgroundColor: 0xF8F9FA,
       tooltip: 'Color',
@@ -171,91 +174,16 @@ export function registerTresDevtools(app: DevtoolsApp, tres: TresContext) {
           }
 
           payload.state = {
-            object: [
-              {
-                key: 'uuid',
-                editable: true,
-                value: instance.uuid,
-              },
-              {
-                key: 'name',
-                editable: true,
-                value: instance.name,
-              },
-              {
-                key: 'type',
-                editable: true,
-                value: instance.type,
-              },
-              {
-                key: 'position',
-                editable: true,
-                value: instance.position,
-              },
-              {
-                key: 'rotation',
-                editable: true,
-                value: instance.rotation,
-              },
-              {
-                key: 'scale',
-                editable: true,
-                value: instance.scale,
-              },
-              {
-                key: 'geometry',
-                value: instance.geometry,
-              },
-              {
-                key: 'material',
-                value: instance.material,
-              },
-              {
-                key: 'color',
-                editable: true,
-                value: instance.color,
-              },
-              {
-                key: 'intensity',
-                editable: true,
-                value: instance.intensity,
-              },
-              {
-                key: 'castShadow',
-                editable: true,
-                value: instance.castShadow,
-              },
-              {
-                key: 'receiveShadow',
-                editable: true,
-                value: instance.receiveShadow,
-              },
-              {
-                key: 'frustumCulled',
-                editable: true,
-                value: instance.frustumCulled,
-              },
-              {
-                key: 'matrixAutoUpdate',
-                editable: true,
-                value: instance.matrixAutoUpdate,
-              },
-              {
-                key: 'matrixWorldNeedsUpdate',
-                editable: true,
-                value: instance.matrixWorldNeedsUpdate,
-              },
-              {
-                key: 'matrixWorld',
-                value: instance.matrixWorld,
-              },
-
-              {
-                key: 'visible',
-                editable: true,
-                value: instance.visible,
-              },
-            ],
+            object: Object.entries(instance)
+              .map(([key, value]) => {
+                if (key === 'children') {
+                  return { key, value: value.filter((child: { type: string }) => child.type !== 'HightlightMesh') }
+                }
+                return { key, value, editable: true }
+              })
+              .filter(({ key }) => {
+                return key !== 'parent'
+              }),
           }
 
           if (instance.isScene) {

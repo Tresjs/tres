@@ -6,8 +6,9 @@ import type { TresContext } from '../composables/useTresContextProvider'
 // Based on React Three Fiber types by Pmndrs
 // https://github.com/pmndrs/react-three-fiber/blob/v9/packages/fiber/src/three-types.ts
 
-export type AttachFnType<O = any> = (parent: any, self: O) => () => void
-export type AttachType<O = any> = string | AttachFnType<O>
+export type AttachFnType = (parent: any, self: TresInstance) => () => void
+export type AttachType = string | AttachFnType
+export type DisposeType = ((self: TresInstance) => void) | boolean | 'default'
 
 export type ConstructorRepresentation = new (...args: any[]) => any
 export type NonFunctionKeys<P> = { [K in keyof P]-?: P[K] extends Function ? never : K }[keyof P]
@@ -29,12 +30,10 @@ export interface InstanceProps<T = any, P = any> {
   object?: T
   visible?: boolean
   dispose?: null
-  attach?: AttachType<T>
   [prop: string]: any
 }
 
 interface TresBaseObject {
-  attach?: string
   removeFromParent?: () => void
   dispose?: () => void
   [prop: string]: any // for arbitrary properties
@@ -48,16 +47,21 @@ export interface LocalState {
   memoizedProps: { [key: string]: any }
   // NOTE:
   // LocalState holds information about the parent/child relationship
-  // in the Vue graph. If a child is `insert`ed into a parent using
-  // anything but THREE's `add`, it's put into the parent's `objects`.
-  // objects and parent are used when children are added with `attach`
-  // instead of being added to the Object3D scene graph
+  // in the Vue graph. Note that this is distinct from THREE's
+  // Object3D.parent/children graph. parent/objects holds all
+  // <parent>
+  //   <object />
+  // </parent>
+  // relationships. This includes Object3D.parent/children
+  // added via tags. But it also includes materials and geometries.
   objects: TresObject[]
   parent: TresObject | null
   // NOTE: End graph info
 
   primitive?: boolean
-  disposable?: boolean
+  dispose?: DisposeType
+  attach?: AttachType
+  previousAttach: any
 }
 
 // Custom type for geometry and material properties in Object3D
@@ -70,6 +74,8 @@ export type TresObject =
   TresBaseObject & (TresObject3D | THREE.BufferGeometry | THREE.Material | THREE.Fog) & { __tres?: LocalState }
 
 export type TresInstance = TresObject & { __tres: LocalState }
+
+export type TresPrimitive = TresInstance & { object: TresInstance, isPrimitive: true }
 
 export interface TresScene extends THREE.Scene {
   __tres: {
@@ -180,6 +186,7 @@ export type TresColorArray = typeof THREE.Color | [color: THREE.ColorRepresentat
 export type TresLayers = THREE.Layers | Parameters<THREE.Layers['set']>[0]
 export type TresQuaternion = THREE.Quaternion | Parameters<THREE.Quaternion['set']>
 export type TresEuler = THREE.Euler
+export type TresControl = THREE.EventDispatcher & { enabled: boolean }
 
 type WithMathProps<P> = { [K in keyof P]: P[K] extends MathRepresentation | THREE.Euler ? MathType<P[K]> : P[K] }
 

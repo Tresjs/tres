@@ -1,6 +1,6 @@
 import { useFps, useMemory, useRafFn } from '@vueuse/core'
 import { computed, inject, onUnmounted, provide, readonly, ref, shallowRef } from 'vue'
-import type { Camera, EventDispatcher, WebGLRenderer } from 'three'
+import type { Camera, WebGLRenderer } from 'three'
 import { Raycaster } from 'three'
 import type { ComputedRef, DeepReadonly, MaybeRef, MaybeRefOrGetter, Ref, ShallowRef } from 'vue'
 import { calculateMemoryUsage } from '../../utils/perf'
@@ -8,10 +8,9 @@ import { useCamera } from '../useCamera'
 import type { UseRendererOptions } from '../useRenderer'
 import { useRenderer } from '../useRenderer'
 import { extend } from '../../core/catalogue'
-import { useLogger } from '../useLogger'
-import type { EmitEventFn, TresObject, TresScene } from '../../types'
-import type { EventProps } from '../usePointerEventHandler'
-import type { TresEventManager } from '../useTresEventManager'
+import type { EmitEventFn, TresControl, TresObject, TresScene } from '../../types'
+
+import { type TresEventManager, useTresEventManager } from '../useTresEventManager'
 import useSizes, { type SizesType } from '../useSizes'
 import type { RendererLoop } from '../../core/loop'
 import { createRenderLoop } from '../../core/loop'
@@ -55,7 +54,7 @@ export interface TresContext {
   extend: (objects: any) => void
   camera: ComputedRef<Camera | undefined>
   cameras: DeepReadonly<Ref<Camera[]>>
-  controls: Ref<(EventDispatcher & { enabled: boolean }) | null>
+  controls: Ref<TresControl | null>
   renderer: ShallowRef<WebGLRenderer>
   raycaster: ShallowRef<Raycaster>
   perf: PerformanceState
@@ -78,7 +77,7 @@ export interface TresContext {
   // Events
   // Temporaly add the methods to the context, this should be handled later by the EventManager state on the context https://github.com/Tresjs/tres/issues/515
   // When thats done maybe we can short the names of the methods since the parent will give the context.
-  registerObjectAtPointerEventHandler?: (object: TresObject & EventProps) => void
+  registerObjectAtPointerEventHandler?: (object: TresObject) => void
   deregisterObjectAtPointerEventHandler?: (object: TresObject) => void
   registerBlockingObjectAtPointerEventHandler?: (object: TresObject) => void
   deregisterBlockingObjectAtPointerEventHandler?: (object: TresObject) => void
@@ -100,8 +99,6 @@ export function useTresContextProvider({
   emit: EmitEventFn
 
 }): TresContext {
-  const { logWarning } = useLogger()
-
   const localScene = shallowRef<TresScene>(scene)
   const sizes = useSizes(windowSize, canvas)
 
@@ -128,17 +125,11 @@ export function useTresContextProvider({
     if (rendererOptions.renderMode === 'on-demand') {
       render.frames.value = Math.min(render.maxFrames, render.frames.value + frames)
     }
-    else {
-      logWarning('`invalidate` can only be used when `renderMode` is set to `on-demand`')
-    }
   }
 
   function advance() {
     if (rendererOptions.renderMode === 'manual') {
       render.frames.value = 1
-    }
-    else {
-      logWarning('`advance` can only be used when `renderMode` is set to `manual`')
     }
   }
 
@@ -214,9 +205,11 @@ export function useTresContextProvider({
 
   ctx.loop.setReady(false)
   ctx.loop.start()
+
   onTresReady(() => {
     emit('ready', ctx)
     ctx.loop.setReady(true)
+    useTresEventManager(scene, ctx, emit)
   })
 
   onUnmounted(() => {

@@ -29,7 +29,6 @@ import {
   type TresContext,
   useLogger,
   useTresContextProvider,
-  useTresEventManager,
 } from '../composables'
 import { extend } from '../core/catalogue'
 import { nodeOps } from '../core/nodeOps'
@@ -50,6 +49,7 @@ export interface TresCanvasProps
   outputColorSpace?: ColorSpace
   toneMappingExposure?: number
   renderMode?: 'always' | 'on-demand' | 'manual'
+  dpr?: number | [number, number]
 
   // required by useTresContextProvider
   camera?: TresCamera
@@ -110,7 +110,7 @@ const scene = shallowRef<TresScene | Scene>(new Scene())
 const instance = getCurrentInstance()?.appContext.app
 extend(THREE)
 
-const createInternalComponent = (context: TresContext) =>
+const createInternalComponent = (context: TresContext, empty = false) =>
   defineComponent({
     setup() {
       const ctx = getCurrentInstance()?.appContext
@@ -121,12 +121,12 @@ const createInternalComponent = (context: TresContext) =>
       if (typeof window !== 'undefined') {
         registerTresDevtools(ctx?.app, context)
       }
-      return () => h(Fragment, null, slots?.default ? slots.default() : [])
+      return () => h(Fragment, null, !empty ? slots.default() : [])
     },
   })
 
-const mountCustomRenderer = (context: TresContext) => {
-  const InternalComponent = createInternalComponent(context)
+const mountCustomRenderer = (context: TresContext, empty = false) => {
+  const InternalComponent = createInternalComponent(context, empty)
   const { render } = createRenderer(nodeOps(context))
   render(h(InternalComponent), scene.value as unknown as TresObject)
 }
@@ -141,7 +141,6 @@ const dispose = (context: TresContext, force = false) => {
   (scene.value as TresScene).__tres = {
     root: context,
   }
-  mountCustomRenderer(context)
 }
 
 const disableRender = computed(() => props.disableRender)
@@ -149,6 +148,16 @@ const disableRender = computed(() => props.disableRender)
 const context = shallowRef<TresContext | null>(null)
 
 defineExpose({ context, dispose: () => dispose(context.value as TresContext, true) })
+
+const handleHMR = (context: TresContext) => {
+  dispose(context)
+  mountCustomRenderer(context)
+}
+
+const unmountCanvas = () => {
+  dispose(context.value as TresContext)
+  mountCustomRenderer(context.value as TresContext, true)
+}
 
 onMounted(() => {
   const existingCanvas = canvas as Ref<HTMLCanvasElement>
@@ -161,8 +170,6 @@ onMounted(() => {
     rendererOptions: props,
     emit,
   })
-
-  useTresEventManager(scene.value, context.value, emit)
 
   const { registerCamera, camera, cameras, deregisterCamera } = context.value
 
@@ -211,12 +218,10 @@ onMounted(() => {
   }
 
   // HMR support
-  if (import.meta.hot && context.value) { import.meta.hot.on('vite:afterUpdate', () => dispose(context.value as TresContext)) }
+  if (import.meta.hot && context.value) { import.meta.hot.on('vite:afterUpdate', () => handleHMR(context.value as TresContext)) }
 })
 
-onUnmounted(() => {
-  dispose(context.value as TresContext)
-})
+onUnmounted(unmountCanvas)
 </script>
 
 <template>

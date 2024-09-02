@@ -14,7 +14,7 @@ import type { EmitEventFn, TresColor } from '../../types'
 import { normalizeColor } from '../../utils/normalize'
 
 import type { TresContext } from '../useTresContextProvider'
-import { get, merge, set } from '../../utils'
+import { get, merge, set, setPixelRatio } from '../../utils'
 
 // Solution taken from Thretle that actually support different versions https://github.com/threlte/threlte/blob/5fa541179460f0dadc7dc17ae5e6854d1689379e/packages/core/src/lib/lib/useRenderer.ts
 import { revision } from '../../core/revision'
@@ -92,6 +92,11 @@ export interface UseRendererOptions extends TransformToMaybeRefOrGetter<WebGLRen
   windowSize?: MaybeRefOrGetter<boolean | string>
   preset?: MaybeRefOrGetter<RendererPresetsType>
   renderMode?: MaybeRefOrGetter<'always' | 'on-demand' | 'manual'>
+  /**
+   * A `number` sets the renderer's device pixel ratio.
+   * `[number, number]` clamp's the renderer's device pixel ratio.
+   */
+  dpr?: MaybeRefOrGetter<number | [number, number]>
 }
 
 export function useRenderer(
@@ -151,10 +156,6 @@ export function useRenderer(
 
   const { pixelRatio } = useDevicePixelRatio()
 
-  watch(pixelRatio, () => {
-    renderer.value.setPixelRatio(pixelRatio.value)
-  })
-
   const { logError } = useLogger()
 
   const getThreeRendererDefaults = () => {
@@ -198,6 +199,8 @@ export function useRenderer(
 
       merge(renderer.value, rendererPresets[rendererPreset])
     }
+
+    setPixelRatio(renderer.value, pixelRatio.value, toValue(options.dpr))
 
     // Render mode
 

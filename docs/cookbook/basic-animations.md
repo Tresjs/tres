@@ -39,9 +39,9 @@ To animate the cube, we need to get a reference to it. We can do it by passing a
 
 ```vue [Scene.vue]
 <script setup>
-import { ref } from 'vue'
+import { shallowRef } from 'vue'
 
-const boxRef = ref()
+const boxRef = shallowRef()
 </script>
 
 <template>

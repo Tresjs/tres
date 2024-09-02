@@ -7,28 +7,7 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
-    AkuAku: typeof import('./src/components/AkuAku.vue')['default']
-    AnimatedObjectUseUpdate: typeof import('./src/components/AnimatedObjectUseUpdate.vue')['default']
-    BlenderCube: typeof import('./src/components/BlenderCube.vue')['default']
-    Box: typeof import('./src/components/Box.vue')['default']
-    DirectiveSubComponent: typeof import('./src/components/DirectiveSubComponent.vue')['default']
-    DynamicModel: typeof import('./src/components/DynamicModel.vue')['default']
-    FBOCube: typeof import('./src/components/FBOCube.vue')['default']
-    GraphPane: typeof import('./src/components/GraphPane.vue')['default']
-    LocalOrbitControls: typeof import('./src/components/LocalOrbitControls.vue')['default']
-    Overlay: typeof import('./src/components/Overlay.vue')['default']
-    OverlayInfo: typeof import('./src/components/OverlayInfo.vue')['default']
-    PbrSphere: typeof import('./src/components/PbrSphere.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    TakeOverLoopExperience: typeof import('./src/components/TakeOverLoopExperience.vue')['default']
-    TestResult: typeof import('./src/components/TestResult.vue')['default']
-    Tests: typeof import('./src/components/Tests.vue')['default']
-    TestSphere: typeof import('./src/components/TestSphere.vue')['default']
-    Text3D: typeof import('./src/components/Text3D.vue')['default']
-    TheCameraOperator: typeof import('./src/components/TheCameraOperator.vue')['default']
-    TheExperience: typeof import('./src/components/TheExperience.vue')['default']
-    TheSphere: typeof import('./src/components/TheSphere.vue')['default']
-    UgglyBunny: typeof import('./src/components/UgglyBunny.vue')['default']
   }
 }
