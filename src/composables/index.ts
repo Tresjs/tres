@@ -1,4 +1,4 @@
-import { UseTexture } from './useTexture/component'
+import UseTexture from './useTexture/component.vue'
 
 export * from './useCamera/'
 export * from './useRenderLoop'
