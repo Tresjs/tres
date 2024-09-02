@@ -1626,9 +1626,9 @@ function createSimpleMeshPrimitiveTree(nodeOps) {
   const nodes = []
   const objects = []
   const spiesByKey: Partial<Record<
-            keyof typeof nodesByKey,
-            { material: () => void, geometry: () => void }
-          >> = { }
+    keyof typeof nodesByKey,
+    { material: () => void, geometry: () => void }
+  >> = { }
   const spies = []
   const undisposed = new Set()
   for (const [key, node] of Object.entries(nodesByKey)) {

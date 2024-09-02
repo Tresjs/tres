@@ -1,6 +1,6 @@
 <script setup>
-import { TresCanvas, UseTexture } from '@tresjs/core'
 import { OrbitControls } from '@tresjs/cientos'
+import { TresCanvas, UseTexture } from '@tresjs/core'
 
 const path = 'https://raw.githubusercontent.com/Tresjs/assets/main/textures/black-rock/Rock035_2K_Displacement.jpg'
 </script>
