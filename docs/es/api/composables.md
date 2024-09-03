@@ -150,6 +150,25 @@ Luego puedes vincular las texturas al material.
 
 Similar al composable anterior, el composable `useTexture` devuelve una promesa, puedes usarlo con `async/await` o `then/catch`. Si lo estás utilizando en un componente, asegúrate de envolverlo con un componente `Suspense`.
 
+### UseTexture como componente
+
+Puedes usar `UseTexture` como componente, de la siguiente forma:
+
+```html
+<Suspense>
+  <UseTexture v-slot="{ textures }" map="path/to/texture.png">
+    <TresMesh>
+      <TresBoxGeometry />
+      <TresMeshStandardMaterial :map="textures.map" />
+    </TresMesh>
+  </UseTexture>
+</Suspense>
+```
+
+::: warning
+El componente `UseTexture` necesita estar envuelto por un `Suspense` para poder funcionar
+:::
+
 ## useSeek
 
 El composable `useSeek` proporciona utilidades para recorrer y navegar fácilmente a través de escenas y gráficos de objetos complejos de ThreeJS. Exporta 4 funciones que te permiten encontrar objetos secundarios basados en propiedades específicas.
