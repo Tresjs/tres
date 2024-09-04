@@ -1,3 +1,4 @@
+/* eslint-disable unicorn/consistent-function-scoping */
 import { beforeAll, describe, expect, it, vi } from 'vitest'
 import * as THREE from 'three'
 import type { Vector3 } from 'three'
@@ -867,7 +868,9 @@ describe('nodeOps', () => {
               try {
                 node.dispose()
               }
-              catch (e) {}
+              catch (e) {
+                console.error(e)
+              }
             }
             if (node.material) { node.material.dispose() }
             if (node.geometry) { node.geometry.dispose() }
@@ -1626,9 +1629,9 @@ function createSimpleMeshPrimitiveTree(nodeOps) {
   const nodes = []
   const objects = []
   const spiesByKey: Partial<Record<
-            keyof typeof nodesByKey,
-            { material: () => void, geometry: () => void }
-          >> = { }
+    keyof typeof nodesByKey,
+    { material: () => void, geometry: () => void }
+  >> = { }
   const spies = []
   const undisposed = new Set()
   for (const [key, node] of Object.entries(nodesByKey)) {

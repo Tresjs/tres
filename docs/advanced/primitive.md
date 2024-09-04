@@ -32,11 +32,7 @@ The same pointer events available on the TresJS components are available on the 
 
 ```html
 <template>
-  <primitive
-    :object="meshWithMaterial"
-    @click="onClick"
-    @pointermove="onPointerMove"
-  />
+  <primitive :object="meshWithMaterial" @click="onClick" @pointermove="onPointerMove" />
 </template>
 ```
 
