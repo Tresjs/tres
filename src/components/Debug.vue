@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import { useLoop } from '@tresjs/core'
-import type { LineSegments } from 'three'
-import { BufferAttribute } from 'three'
 import { ref } from 'vue'
+import { BufferAttribute, type LineSegments } from 'three'
+import { useLoop } from '@tresjs/core'
+
 import { useRapierContext } from '../composables/useRapier'
 
 const { world } = await useRapierContext()
-const lineSegmentsRef = ref<LineSegments | null>(null)
-
 const { onBeforeRender } = useLoop()
+
+const lineSegmentsRef = ref<LineSegments | null>(null)
 
 onBeforeRender(() => {
   if (!world || !lineSegmentsRef.value) { return }
@@ -27,10 +27,7 @@ onBeforeRender(() => {
 <template>
   <TresGroup>
     <TresLineSegments ref="lineSegmentsRef">
-      <TresLineBasicMaterial
-        color="#ff0000"
-        vertex-colors
-      />
+      <TresLineBasicMaterial color="#ff0000" vertex-colors />
       <TresBufferGeometry />
     </TresLineSegments>
   </TresGroup>

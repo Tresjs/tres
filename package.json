@@ -4,6 +4,8 @@
   "version": "0.0.0",
   "private": true,
   "packageManager": "pnpm@9.7.1",
+  "description": "TresJs physics support, powered by rapier",
+  "author": "Alvaro Saburido <hola@alvarosaburido.dev> (https://github.com/alvarosabu/)",
   "license": "MIT",
   "keywords": [
     "vue",

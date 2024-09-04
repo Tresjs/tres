@@ -1,25 +1,23 @@
 <script setup lang="ts">
 import { useLoop } from '@tresjs/core'
+
 import { useRapierContextProvider } from '../composables/useRapier'
+import type { PhysicsProps } from '../types/physics'
 import Debug from './Debug.vue'
 
 withDefaults(
-  defineProps<{ debug: boolean }>(),
+  defineProps<Partial<PhysicsProps>>(),
   {
     debug: false,
   },
 )
 
 const { world } = await useRapierContextProvider()
-
 const { onBeforeRender } = useLoop()
 
 onBeforeRender(() => {
   if (!world) { return }
   world.step()
-
-  /* const position = world.bodies.get(0).translation()
-  console.log('Rigid-body position: ', position.x, position.y, position.z) */
 })
 </script>
 
