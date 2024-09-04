@@ -1,3 +1,4 @@
+/* eslint-disable ts/method-signature-style */
 import type { DefineComponent, VNode, VNodeRef } from 'vue'
 
 import type * as THREE from 'three'
@@ -37,26 +38,6 @@ export interface InstanceProps<T = any, P = any> {
   object?: T
   visible?: boolean
   dispose?: null
-  /**
-   * The position of the object [x, y, z]
-   * @default [0, 0, 0]
-   * @example [1, 2, 3]
-   * @example new THREE.Vector3(1, 2, 3)
-   */
-  position?: TresVector3
-  /**
-   * The rotation of the object [x, y, z]
-   * @default [0, 0, 0]
-   * @example [0, Math.PI /2, 0]
-   */
-  rotation?: TresVector3
-  /**
-   * The scale of the object [x, y, z]
-   * @default [1, 1, 1]
-   * @example [1, 2, 3]
-   * @example new THREE.Vector3(1, 2, 3)
-   */
-  scale?: TresVector3
 }
 
 interface TresBaseObject {
@@ -181,10 +162,10 @@ export interface EventHandlers {
 }
 
 interface MathRepresentation {
-  set: (...args: number[] | [THREE.ColorRepresentation]) => any
+  set(...args: number[] | [THREE.ColorRepresentation]): any
 }
 interface VectorRepresentation extends MathRepresentation {
-  setScalar: (s: number) => any
+  setScalar(s: number): any
 }
 
 export interface VectorCoordinates {
@@ -228,7 +209,7 @@ export interface VueProps {
 }
 
 type ElementProps<T extends ConstructorRepresentation, P = InstanceType<T>> = Partial<
-  Overwrite<WithMathProps<P>, VueProps & EventProps<P>>
+  Overwrite<P, WithMathProps<P> & VueProps & EventProps<P>>
 >
 
 export type ThreeElement<T extends ConstructorRepresentation> = Mutable<
