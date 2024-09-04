@@ -195,14 +195,14 @@ interface RaycastableRepresentation {
 }
 type EventProps<P> = P extends RaycastableRepresentation ? Partial<EventHandlers> : unknown
 
-export interface VueProps<P> {
-  children?: VNode<P>[]
+export interface VueProps {
+  children?: VNode[]
   ref?: VNodeRef
   key?: string | number | symbol
 }
 
 type ElementProps<T extends ConstructorRepresentation, P = InstanceType<T>> = Partial<
-  Overwrite<WithMathProps<P>, VueProps<P> & EventProps<P>>
+  Overwrite<WithMathProps<P>, VueProps & EventProps<P>>
 >
 
 export type ThreeElement<T extends ConstructorRepresentation> = Mutable<
@@ -225,7 +225,7 @@ type TresComponents = {
 }
 
 declare module 'vue' {
-  export interface GlobalComponents extends TresComponents { }
+  interface GlobalComponents extends TresComponents { }
 }
 declare module '@vue/runtime-core' {
   interface GlobalComponents extends TresComponents { }
