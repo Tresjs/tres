@@ -24,7 +24,7 @@
   },
   "devDependencies": {
     "@nuxt/devtools": "latest",
-    "@tresjs/cientos": "^4.0.0",
+    "@tresjs/cientos": "^2.3.0",
     "@tresjs/core": "workspace:^",
     "@tresjs/nuxt": "3.0.4",
     "@tresjs/post-processing": "^0.7.1",
