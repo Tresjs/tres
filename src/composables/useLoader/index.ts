@@ -1,11 +1,10 @@
 import type { Loader, LoadingManager, Object3D } from 'three'
-import { isArray } from '@alvarosabu/utils'
 import type { TresObject } from '../../types'
 import { useLogger } from '..'
 
 export interface TresLoader<T> extends Loader {
   load: (
-    url: string,
+    url: string | string[],
     onLoad: (result: T) => void,
     onProgress?: (event: ProgressEvent) => void,
     onError?: (event: ErrorEvent) => void
@@ -82,25 +81,21 @@ export async function useLoader<T>(
     extensions(proto)
   }
 
-  const paths = (Array.isArray(url) ? url : [url]) as string[]
-
-  const results = paths.map(
-    path =>
-      new Promise((resolve, reject) => {
-        proto.load(
-          path,
-          (result: T) => {
-            const data = result as unknown as TresObject
-            if (data.scene) {
-              Object.assign(data, trasverseObjects(data.scene))
-            }
-            resolve(data)
-          },
-          onProgress,
-          (error: ErrorEvent) => reject(logError('[useLoader] - Failed to load resource', error as unknown as Error)),
-        )
-      }),
-  )
-
-  return (isArray(url) ? await Promise.all(results) : await results[0]) as T | T[]
+  return await new Promise((resolve, reject) => {
+    proto.load(
+      url,
+      (result: T) => {
+        const data = result as unknown as TresObject
+        if (data.scene) {
+          Object.assign(data, trasverseObjects(data.scene))
+        }
+        resolve(data as T | T[])
+      },
+      onProgress,
+      (error: ErrorEvent) => {
+        logError('[useLoader] - Failed to load resource', error as unknown as Error)
+        reject(error)
+      },
+    )
+  }) as T | T[]
 }
