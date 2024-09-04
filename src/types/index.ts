@@ -11,6 +11,7 @@ export type AttachType = string | AttachFnType
 export type DisposeType = ((self: TresInstance) => void) | boolean | 'default'
 
 export type ConstructorRepresentation = new (...args: any[]) => any
+// eslint-disable-next-line ts/no-unsafe-function-type
 export type NonFunctionKeys<P> = { [K in keyof P]-?: P[K] extends Function ? never : K }[keyof P]
 export type Overwrite<P, O> = Omit<P, NonFunctionKeys<O>> & O
 export type Properties<T> = Pick<T, NonFunctionKeys<T>>
