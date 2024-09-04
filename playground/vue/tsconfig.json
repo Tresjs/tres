@@ -7,7 +7,7 @@
     "module": "ESNext",
     "moduleResolution": "bundler",
     "paths": {
-      "@tresjs/core": ["../../dist"]
+      "@tresjs/core": ["../../src"]
     },
     "resolveJsonModule": true,
     "strict": true,

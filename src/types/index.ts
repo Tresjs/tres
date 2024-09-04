@@ -26,12 +26,37 @@ export type EmitEventName = 'render' | 'ready' | 'click' | 'double-click' | 'con
 export type EmitEventFn = (event: EmitEventName, ...args: any[]) => void
 export type TresCamera = THREE.OrthographicCamera | THREE.PerspectiveCamera
 
+/**
+ * Represents the properties of an instance.
+ *
+ * @template T - The type of the object.
+ * @template P - The type of the arguments.
+ */
 export interface InstanceProps<T = any, P = any> {
   args?: Args<P>
   object?: T
   visible?: boolean
   dispose?: null
-  [prop: string]: any
+  /**
+   * The position of the object [x, y, z]
+   * @default [0, 0, 0]
+   * @example [1, 2, 3]
+   * @example new THREE.Vector3(1, 2, 3)
+   */
+  position?: TresVector3
+  /**
+   * The rotation of the object [x, y, z]
+   * @default [0, 0, 0]
+   * @example [0, Math.PI /2, 0]
+   */
+  rotation?: TresVector3
+  /**
+   * The scale of the object [x, y, z]
+   * @default [1, 1, 1]
+   * @example [1, 2, 3]
+   * @example new THREE.Vector3(1, 2, 3)
+   */
+  scale?: TresVector3
 }
 
 interface TresBaseObject {
