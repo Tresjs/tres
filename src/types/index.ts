@@ -232,7 +232,7 @@ type TresComponents = {
 }
 
 declare module 'vue' {
-  interface GlobalComponents extends TresComponents { }
+  export interface GlobalComponents extends TresComponents { }
 }
 declare module '@vue/runtime-core' {
   interface GlobalComponents extends TresComponents { }
