@@ -53,10 +53,9 @@ const toonTealMaterial = new MeshToonMaterial({
     v-if="sphereExists"
     ref="canvasRef"
     v-bind="state"
-    @render="onRender"
   >
     <TresPerspectiveCamera
-      :position="[11, 11, 11]"
+      :position="[0, 8, 8]"
       :fov="45"
       :near="0.1"
       :far="1000"

@@ -1,3 +1,4 @@
+/* eslint-disable ts/method-signature-style */
 import type { DefineComponent, VNode, VNodeRef } from 'vue'
 
 import type * as THREE from 'three'
@@ -11,6 +12,7 @@ export type AttachType = string | AttachFnType
 export type DisposeType = ((self: TresInstance) => void) | boolean | 'default'
 
 export type ConstructorRepresentation = new (...args: any[]) => any
+// eslint-disable-next-line ts/no-unsafe-function-type
 export type NonFunctionKeys<P> = { [K in keyof P]-?: P[K] extends Function ? never : K }[keyof P]
 export type Overwrite<P, O> = Omit<P, NonFunctionKeys<O>> & O
 export type Properties<T> = Pick<T, NonFunctionKeys<T>>
@@ -25,12 +27,17 @@ export type EmitEventName = 'render' | 'ready' | 'click' | 'double-click' | 'con
 export type EmitEventFn = (event: EmitEventName, ...args: any[]) => void
 export type TresCamera = THREE.OrthographicCamera | THREE.PerspectiveCamera
 
+/**
+ * Represents the properties of an instance.
+ *
+ * @template T - The type of the object.
+ * @template P - The type of the arguments.
+ */
 export interface InstanceProps<T = any, P = any> {
   args?: Args<P>
   object?: T
   visible?: boolean
   dispose?: null
-  [prop: string]: any
 }
 
 interface TresBaseObject {
@@ -155,10 +162,10 @@ export interface EventHandlers {
 }
 
 interface MathRepresentation {
-  set: (...args: number[] | [THREE.ColorRepresentation]) => any
+  set(...args: number[] | [THREE.ColorRepresentation]): any
 }
 interface VectorRepresentation extends MathRepresentation {
-  setScalar: (s: number) => any
+  setScalar(s: number): any
 }
 
 export interface VectorCoordinates {
@@ -195,14 +202,14 @@ interface RaycastableRepresentation {
 }
 type EventProps<P> = P extends RaycastableRepresentation ? Partial<EventHandlers> : unknown
 
-export interface VueProps<P> {
-  children?: VNode<P>[]
+export interface VueProps {
+  children?: VNode[]
   ref?: VNodeRef
   key?: string | number | symbol
 }
 
 type ElementProps<T extends ConstructorRepresentation, P = InstanceType<T>> = Partial<
-  Overwrite<WithMathProps<P>, VueProps<P> & EventProps<P>>
+  Overwrite<P, WithMathProps<P> & VueProps & EventProps<P>>
 >
 
 export type ThreeElement<T extends ConstructorRepresentation> = Mutable<
