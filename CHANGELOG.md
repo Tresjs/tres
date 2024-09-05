@@ -1,5 +1,12 @@
 
 
+## [4.2.10](https://github.com/Tresjs/tres/compare/4.2.9...4.2.10) (2024-09-04)
+
+
+### Bug Fixes
+
+* 785 vscode intellisense autocompletion not getting tres components props ([#809](https://github.com/Tresjs/tres/issues/809)) ([66c7ab5](https://github.com/Tresjs/tres/commit/66c7ab5122e28714d73278b679df8169ac47f9f9))
+
 ## [4.2.9](https://github.com/Tresjs/tres/compare/4.2.8...4.2.9) (2024-08-30)
 
 

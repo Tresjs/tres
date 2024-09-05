@@ -1,3 +1,4 @@
+/* eslint-disable unicorn/consistent-function-scoping */
 import { beforeAll, describe, expect, it, vi } from 'vitest'
 import * as THREE from 'three'
 import type { Vector3 } from 'three'
@@ -867,7 +868,9 @@ describe('nodeOps', () => {
               try {
                 node.dispose()
               }
-              catch (e) {}
+              catch (e) {
+                console.error(e)
+              }
             }
             if (node.material) { node.material.dispose() }
             if (node.geometry) { node.geometry.dispose() }
