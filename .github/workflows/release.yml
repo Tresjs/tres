@@ -1,6 +1,7 @@
 name: Release & Publish to NPM
 
 on:
+  pull_request:
   push:
     branches: [main]
 
@@ -26,7 +27,7 @@ jobs:
       - name: Install dependencies
         run: pnpm install
       - name: Release
-        run: npx run release-it --ci
+        run: npx run release-it --ci --dry-run
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
