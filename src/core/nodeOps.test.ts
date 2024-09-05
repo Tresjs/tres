@@ -1,4 +1,3 @@
-/* eslint-disable unicorn/consistent-function-scoping */
 import { beforeAll, describe, expect, it, vi } from 'vitest'
 import * as THREE from 'three'
 import type { Vector3 } from 'three'
