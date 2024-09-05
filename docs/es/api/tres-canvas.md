@@ -88,7 +88,7 @@ renderer.shadowMap.type = PCFSoftShadowMap
 | **shadows** | Habilita las sombras en el renderizador. | `false` |
 | **shadowMapType** | Establece el tipo de mapa de sombras. | `PCFSoftShadowMap` |
 | **stencil** | Indica si el búfer de dibujo tiene un [búfer de stencil](https://en.wikipedia.org/wiki/Stencil_buffer) de al menos 8 bits. | `true` |
-| **toneMapping** | Define la exposición de mapeo de tonos utilizada por el renderizador. | `NoToneMapping` |
+| **toneMapping** | Define la exposición de mapeo de tonos utilizada por el renderizador. | `ACESFilmicToneMapping` |
 | **toneMappingExposure** | Nivel de exposición del mapeo de tonos. | `1` |
 | **useLegacyLights** | Indica si se debe utilizar el modo de iluminación heredado o no. | `true` |
 | **windowSize** | Indica si se debe utilizar el tamaño de la ventana como el tamaño del lienzo o el elemento padre. | `false` |
