@@ -27,7 +27,7 @@ jobs:
       - name: Install dependencies
         run: pnpm install
       - name: Release
-        run: npx run release-it --ci --dry-run
+        run: pnpm release --ci --dry-run
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
