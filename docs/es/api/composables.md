@@ -165,6 +165,19 @@ Puedes usar `UseTexture` como componente, de la siguiente forma:
 </Suspense>
 ```
 
+## Props
+
+| Prop | type |
+| ---- | --- |
+| **map?** | `String` |
+| **displacementMap?** | `String` |
+| **normalMap?** | `String` |
+| **roughnessMap?** | `String` |
+| **metalnessMap?** | `String` |
+| **aoMap?** | `String` |
+| **alphaMap?** | `String` |
+| **matcap?** | `String` |
+
 ::: warning
 El componente `UseTexture` necesita estar envuelto por un `Suspense` para poder funcionar
 :::

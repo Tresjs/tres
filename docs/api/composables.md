@@ -299,7 +299,7 @@ Similar to above composable, the `useTexture` composable returns a promise, you 
 
 ### UseTexture as component
 
-You can also use `UseTexture` as component like so:
+You can also use `UseTexture` (with uppercase) as component like so:
 
 ```html
 <Suspense>
@@ -311,6 +311,19 @@ You can also use `UseTexture` as component like so:
   </UseTexture>
 </Suspense>
 ```
+
+## Props
+
+| Prop | type |
+| ---- | --- |
+| **map?** | `String` |
+| **displacementMap?** | `String` |
+| **normalMap?** | `String` |
+| **roughnessMap?** | `String` |
+| **metalnessMap?** | `String` |
+| **aoMap?** | `String` |
+| **alphaMap?** | `String` |
+| **matcap?** | `String` |
 
 ::: warning
 The `UseTexture` component needs to be wrapped in a `Suspense` component in order to work
