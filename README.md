@@ -80,8 +80,8 @@ With this option enabled, you can import GLSL shaders as strings in your compone
 
 ```vue
 <script setup lang="ts">
-import vertexShader from './shaders/vertex.glsl'
 import fragmentShader from './shaders/fragment.glsl'
+import vertexShader from './shaders/vertex.glsl'
 
 const uniforms = {
   uTime: { value: 0 },

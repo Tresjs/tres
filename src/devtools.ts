@@ -1,6 +1,6 @@
 import { existsSync } from 'node:fs'
-import type { Nuxt } from 'nuxt/schema'
 import type { Resolver } from '@nuxt/kit'
+import type { Nuxt } from 'nuxt/schema'
 
 const DEVTOOLS_UI_ROUTE = '/__tres_nuxt_devtools'
 const DEVTOOLS_UI_LOCAL_PORT = 3300

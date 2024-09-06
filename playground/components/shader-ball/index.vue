@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { Vector2 } from 'three'
 
-import vertexShader from './shaders/vertex.glsl'
 import fragmentShader from './shaders/fragment.glsl'
+import vertexShader from './shaders/vertex.glsl'
 
 const blobRef: Ref<TresObject | null> = ref(null)
 const materialRef: Ref<TresObject | null> = ref(null)

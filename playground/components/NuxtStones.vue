@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import type { Texture } from 'three'
 import { MeshBasicMaterial } from 'three'
+import type { Texture } from 'three'
 
 const { nodes } = await useGLTF('/nuxt-stones/nuxt-stones.glb')
 const stonesTexture = await useTexture(['/nuxt-stones/RockBaked.png'])
