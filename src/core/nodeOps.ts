@@ -219,7 +219,7 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
         try {
           node.dispose()
         }
-        // eslint-disable-next-line unused-imports/no-unused-vars
+
         catch (e) {
           // NOTE: We must try/catch here. We want to remove/dispose
           // Vue/THREE children in bottom-up order. But THREE objects
@@ -343,7 +343,6 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
     invalidateInstance(node as TresObject)
   }
 
-  /* eslint-disable unicorn/consistent-function-scoping */
   function parentNode(node: TresObject): TresObject | null {
     return node?.__tres?.parent || null
   }

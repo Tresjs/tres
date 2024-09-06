@@ -1,4 +1,3 @@
-/* eslint-disable unicorn/consistent-function-scoping */
 /* eslint-disable no-console */
 export const isProd = import.meta.env.MODE === 'production'
 

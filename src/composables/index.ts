@@ -1,3 +1,5 @@
+import UseTexture from './useTexture/component.vue'
+
 export * from './useCamera/'
 export * from './useRenderLoop'
 export * from './useRenderer/'
@@ -10,3 +12,4 @@ export * from './useTresContextProvider'
 export * from './useLoop'
 export * from './useTresEventManager'
 export { onTresReady } from './useTresReady'
+export { UseTexture }

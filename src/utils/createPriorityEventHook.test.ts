@@ -1,4 +1,3 @@
-/* eslint-disable unicorn/consistent-function-scoping */
 import { createPriorityEventHook } from './createPriorityEventHook'
 
 let updateHook = createPriorityEventHook()

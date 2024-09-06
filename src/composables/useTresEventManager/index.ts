@@ -1,5 +1,3 @@
-/* eslint-disable ts/no-unsafe-function-type */
-/* eslint-disable unicorn/consistent-function-scoping */
 import { shallowRef } from 'vue'
 import type { Object3D, Object3DEventMap, Scene } from 'three'
 import type { EmitEventFn, EmitEventName, Intersection, TresEvent, TresInstance, TresObject } from 'src/types'
