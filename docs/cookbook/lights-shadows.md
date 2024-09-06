@@ -24,8 +24,8 @@ I'm going to use [MeshToonMaterial](https://threejs.org/docs/index.html?q=toon#a
 
 ```vue
 <script setup lang="ts">
-import { TresCanvas } from '@tresjs/core'
 import { OrbitControls } from '@tresjs/cientos'
+import { TresCanvas } from '@tresjs/core'
 </script>
 
 <template>
@@ -151,8 +151,8 @@ Now we have all the necessary steps to add shadows to our scene, and if we apply
 
 ```vue
 <script setup>
-import { shallowRef } from 'vue'
 import { TresCanvas, useRenderLoop } from '@tresjs/core'
+import { shallowRef } from 'vue'
 
 const boxRef = shallowRef()
 

@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { TresCanvas } from '@tresjs/core'
-import { BasicShadowMap, NoToneMapping, OrthographicCamera, PerspectiveCamera, SRGBColorSpace } from 'three'
-import { TresLeches, useControls } from '@tresjs/leches'
-import '@tresjs/leches/styles'
 import { Box } from '@tresjs/cientos'
+import { TresCanvas } from '@tresjs/core'
+import { TresLeches, useControls } from '@tresjs/leches'
+import { BasicShadowMap, NoToneMapping, OrthographicCamera, PerspectiveCamera, SRGBColorSpace } from 'three'
+import '@tresjs/leches/styles'
 
 const gl = {
   clearColor: '#82DBC5',

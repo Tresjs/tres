@@ -1,10 +1,10 @@
 import { shallowRef } from 'vue'
-import type { Object3D, Object3DEventMap, Scene } from 'three'
 import type { EmitEventFn, EmitEventName, Intersection, TresEvent, TresInstance, TresObject } from 'src/types'
-import type { TresContext } from '../useTresContextProvider'
-import { useRaycaster } from '../useRaycaster'
+import type { Object3D, Object3DEventMap, Scene } from 'three'
 import { hyphenate } from '../../utils'
 import * as is from '../../utils/is'
+import { useRaycaster } from '../useRaycaster'
+import type { TresContext } from '../useTresContextProvider'
 
 export interface TresEventManager {
   /**
@@ -22,6 +22,23 @@ export interface TresEventManager {
   deregisterPointerMissedObject: (object: unknown) => void
 }
 
+function executeEventListeners(
+  listeners: (event: TresEvent) => void | ((event: TresEvent) => void)[],
+  event: TresEvent,
+) {
+  // Components with multiple event listeners will have an array of functions
+  if (Array.isArray(listeners)) {
+    for (const listener of listeners) {
+      listener(event)
+    }
+  }
+
+  // Single listener will be a function
+  if (typeof listeners === 'function') {
+    listeners(event)
+  }
+}
+
 export function useTresEventManager(
   scene: Scene,
   context: TresContext,
@@ -37,23 +54,6 @@ export function useTresEventManager(
   const hasChildrenWithEvents = (object: TresInstance) => object.children?.some((child: TresInstance) => hasChildrenWithEvents(child)) || hasEvents(object)
   // TODO: Optimize to not hit test on the whole scene
   const objectsWithEvents = shallowRef((_scene.value?.children as TresInstance[]).filter(hasChildrenWithEvents) || [])
-
-  function executeEventListeners(
-    listeners: Function | Function[],
-    event: TresEvent,
-  ) {
-    // Components with multiple event listeners will have an array of functions
-    if (Array.isArray(listeners)) {
-      for (const listener of listeners) {
-        listener(event)
-      }
-    }
-
-    // Single listener will be a function
-    if (typeof listeners === 'function') {
-      listeners(event)
-    }
-  }
 
   /**
    * propogateEvent

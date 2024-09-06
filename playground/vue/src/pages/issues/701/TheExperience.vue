@@ -1,7 +1,6 @@
 <!-- eslint-disable no-console -->
 <script setup lang="ts">
-import { onUnmounted, shallowRef } from 'vue'
-import type { BufferGeometry, Camera, Material } from 'three'
+import { useLoop } from '@tresjs/core'
 import {
   BoxGeometry,
   Group,
@@ -12,7 +11,8 @@ import {
   SphereGeometry,
   TorusGeometry,
 } from 'three'
-import { useLoop } from '@tresjs/core'
+import { onUnmounted, shallowRef } from 'vue'
+import type { BufferGeometry, Camera, Material } from 'three'
 
 const box = (() => {
   const box = new Mesh(
@@ -82,7 +82,7 @@ const elapsed = shallowRef(0)
 
 const pool: {
 
-  click: Function
+  click: (...rest: unknown[]) => void
   pos: number[]
   group: Group
   mesh: Mesh

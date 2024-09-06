@@ -61,9 +61,9 @@ Actuellement, il n'est pas possible de définir nativement un autre moteur de re
 Dans votre `vite.config.ts`, ajoutez la configuration pour le plugin `@vitejs/plugin-vue`:
 
 ```ts
-import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue'
 import { templateCompilerOptions } from '@tresjs/core'
+import vue from '@vitejs/plugin-vue'
+import { defineConfig } from 'vite'
 
 export default defineConfig({
   plugins: [

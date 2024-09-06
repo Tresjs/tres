@@ -1,7 +1,7 @@
 <script setup lang="ts">
+import { OrbitControls } from '@tresjs/cientos'
 import { TresCanvas, useRenderLoop } from '@tresjs/core'
 import { ref } from 'vue'
-import { OrbitControls } from '@tresjs/cientos'
 
 const { onLoop } = useRenderLoop()
 

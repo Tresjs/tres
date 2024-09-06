@@ -1,8 +1,8 @@
 <script setup lang="ts">
+import { OrbitControls } from '@tresjs/cientos'
+import { TresCanvas, useRenderLoop } from '@tresjs/core'
 import { BasicShadowMap, MeshToonMaterial, NoToneMapping, SRGBColorSpace } from 'three'
 import { reactive, ref } from 'vue'
-import { TresCanvas, useRenderLoop } from '@tresjs/core'
-import { OrbitControls } from '@tresjs/cientos'
 
 const state = reactive({
   clearColor: '#ffffff',

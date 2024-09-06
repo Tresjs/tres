@@ -1,6 +1,5 @@
 name: Publish Any Commit
 on:
-  pull_request:
   push:
     branches:
       - '**'

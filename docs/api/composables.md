@@ -91,8 +91,8 @@ import AnimatedBox from './AnimatedBox.vue'
 
 ```vue [AnimatedBox.vue]
 <script setup>
-import { shallowRef } from 'vue'
 import { useLoop } from '@tresjs/core'
+import { shallowRef } from 'vue'
 
 const boxRef = shallowRef()
 

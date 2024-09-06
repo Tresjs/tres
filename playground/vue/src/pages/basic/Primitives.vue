@@ -1,20 +1,20 @@
 <!-- eslint-disable no-console -->
 <script setup lang="ts">
-import { ref, watchEffect } from 'vue'
+import { OrbitControls } from '@tresjs/cientos'
+import { TresCanvas, useRenderLoop } from '@tresjs/core'
+import { TresLeches, useControls } from '@tresjs/leches'
 import {
   BasicShadowMap,
   Group,
   Mesh,
   MeshToonMaterial,
   NoToneMapping,
-  SRGBColorSpace,
   SphereGeometry,
+  SRGBColorSpace,
   TorusGeometry,
   TorusKnotGeometry,
 } from 'three'
-import { TresCanvas, useRenderLoop } from '@tresjs/core'
-import { OrbitControls } from '@tresjs/cientos'
-import { TresLeches, useControls } from '@tresjs/leches'
+import { ref, watchEffect } from 'vue'
 import '@tresjs/leches/styles'
 
 const gl = {

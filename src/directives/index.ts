@@ -1,5 +1,5 @@
-import { vLog } from './vLog'
-import { vLightHelper } from './vLightHelper'
 import { vDistanceTo } from './vDistanceTo'
+import { vLightHelper } from './vLightHelper'
+import { vLog } from './vLog'
 
-export { vLog, vLightHelper, vDistanceTo }
+export { vDistanceTo, vLightHelper, vLog }

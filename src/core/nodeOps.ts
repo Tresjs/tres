@@ -1,12 +1,12 @@
-import { type RendererOptions, isRef } from 'vue'
 import { BufferAttribute, Object3D } from 'three'
-import type { TresContext } from '../composables'
+import { isRef, type RendererOptions } from 'vue'
 import { useLogger } from '../composables'
 import { attach, deepArrayEqual, doRemoveDeregister, doRemoveDetach, invalidateInstance, isHTMLTag, kebabToCamel, noop, prepareTresInstance, setPrimitiveObject, unboxTresPrimitive } from '../utils'
-import type { DisposeType, InstanceProps, LocalState, TresInstance, TresObject, TresObject3D, TresPrimitive } from '../types'
 import * as is from '../utils/is'
 import { createRetargetingProxy } from '../utils/primitive/createRetargetingProxy'
 import { catalogue } from './catalogue'
+import type { TresContext } from '../composables'
+import type { DisposeType, LocalState, TresInstance, TresObject, TresObject3D, TresPrimitive, WithMathProps } from '../types'
 
 const { logError } = useLogger()
 
@@ -30,9 +30,7 @@ const supportedPointerEvents = [
 export const nodeOps: (context: TresContext) => RendererOptions<TresObject, TresObject | null> = (context) => {
   const scene = context.scene.value
 
-  function createElement(tag: string, _isSVG: undefined, _anchor: any, props: InstanceProps): TresObject | null {
-    if (!props) { props = {} }
-
+  function createElement(tag: string, _isSVG: undefined, _anchor: any, props: Partial<WithMathProps<TresObject>> = {}): TresObject | null {
     if (!props.args) {
       props.args = []
     }
@@ -220,6 +218,7 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
           node.dispose()
         }
 
+        // eslint-disable-next-line unused-imports/no-unused-vars
         catch (e) {
           // NOTE: We must try/catch here. We want to remove/dispose
           // Vue/THREE children in bottom-up order. But THREE objects
@@ -343,6 +342,7 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
     invalidateInstance(node as TresObject)
   }
 
+  // eslint-disable-next-line unicorn/consistent-function-scoping
   function parentNode(node: TresObject): TresObject | null {
     return node?.__tres?.parent || null
   }

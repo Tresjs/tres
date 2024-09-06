@@ -93,8 +93,8 @@ Het enige probleem hiermee is dat het mixen van compilers-renderers in Vue 3 iet
 
 ```ts
 // Voorbeeld Vite setup
-import { createApp } from 'vue'
 import { createApp as createLunchboxApp } from 'lunchboxjs'
+import { createApp } from 'vue'
 import App from './App.vue'
 import LunchboxApp from './LunchboxApp.vue'
 

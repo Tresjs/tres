@@ -45,8 +45,8 @@ pnpm add @types/three -D
 You can install TresJS as any other Vue plugin
 
 ```ts
-import { createApp } from 'vue'
 import Tres from '@tresjs/core'
+import { createApp } from 'vue'
 import App from './App.vue'
 
 export const app = createApp(App)

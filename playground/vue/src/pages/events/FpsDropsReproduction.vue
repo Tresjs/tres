@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { TresCanvas } from '@tresjs/core'
 import { Icosahedron, OrbitControls, StatsGl } from '@tresjs/cientos'
+import { TresCanvas } from '@tresjs/core'
 import {
   AgXToneMapping,
   PCFSoftShadowMap,

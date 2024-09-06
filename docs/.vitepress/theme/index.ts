@@ -1,10 +1,10 @@
-import type { Theme } from 'vitepress'
 import VPTheme from 'vitepress/theme'
-
-import 'uno.css'
-import './custom.css'
+import type { Theme } from 'vitepress'
 
 import TresLayout from './TresLayout.vue'
+import './custom.css'
+
+import 'uno.css'
 
 /* const plausible = createPlausible({
   init: {
