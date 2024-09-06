@@ -12,6 +12,9 @@
       "infile": "CHANGELOG.md"
     }
   },
+  "npm": {
+    "publish": true
+  },
   "hooks": {
     "before:init": ["pnpm run lint", "pnpm test:ci"],
     "after:bump": "pnpm run build",

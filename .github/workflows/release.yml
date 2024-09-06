@@ -20,10 +20,14 @@ jobs:
         uses: pnpm/action-setup@v4
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
-      - name: git config
+      - name: Initialize Git User
         run: |
           git config user.name "${GITHUB_ACTOR}"
-          git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
+          git config user.email "alvaro.saburido@gmail.com"
+      - name: Initialise the NPM config
+          run: npm config set //registry.npmjs.org/:_authToken $NPM_TOKEN
+          env:
+            NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: Install dependencies
         run: pnpm install
       - name: Release
