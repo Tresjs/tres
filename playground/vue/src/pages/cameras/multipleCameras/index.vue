@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import type { Camera } from 'three'
+import { OrbitControls } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
 import { TresLeches, useControls } from '@tresjs/leches'
-import { OrbitControls } from '@tresjs/cientos'
-import '@tresjs/leches/styles'
+import type { Camera } from 'three'
 import TheCameraOperator from './TheCameraOperator.vue'
+import '@tresjs/leches/styles'
 
 const state = reactive({
   clearColor: '#4f4f4f',

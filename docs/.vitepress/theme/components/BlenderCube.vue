@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { useTresContext } from '@tresjs/core'
 import { useGLTF } from '@tresjs/cientos'
+import { useTresContext } from '@tresjs/core'
 
 const { nodes } = await useGLTF('https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/blender-cube.glb', { draco: true })
 const model = nodes.Cube

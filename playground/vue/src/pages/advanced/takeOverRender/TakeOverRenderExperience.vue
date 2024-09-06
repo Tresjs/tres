@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { useLoop } from '@tresjs/core'
-
 import { OrbitControls } from '@tresjs/cientos'
+
+import { useLoop } from '@tresjs/core'
 import { useControls } from '@tresjs/leches'
 
 const { render, pauseRender, resumeRender } = useLoop()

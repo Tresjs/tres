@@ -113,8 +113,8 @@ Es funktioniert einfach. 💯
 
 ```vue {3,12}
 <script setup lang="ts">
-import { TresCanvas } from '@tresjs/core'
 import { OrbitControls } from '@tresjs/cientos'
+import { TresCanvas } from '@tresjs/core'
 </script>
 
 <template>

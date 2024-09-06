@@ -1,10 +1,10 @@
 <!-- eslint-disable no-console -->
 <script setup lang="ts">
-import type { ThreeEvent } from '@tresjs/core'
-import { TresCanvas } from '@tresjs/core'
-import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
-import { TresLeches, useControls } from '@tresjs/leches'
 import { OrbitControls, StatsGl } from '@tresjs/cientos'
+import { TresCanvas } from '@tresjs/core'
+import { TresLeches, useControls } from '@tresjs/leches'
+import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
+import type { ThreeEvent } from '@tresjs/core'
 import '@tresjs/leches/styles'
 
 const gl = {

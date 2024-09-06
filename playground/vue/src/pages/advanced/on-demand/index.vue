@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
-import { useState } from '../../../composables/state'
 import GraphPane from '../../../components/GraphPane.vue'
+import { useState } from '../../../composables/state'
 import OnDemandExperience from './experience.vue'
 
 const { renderingTimes } = useState()

@@ -1,11 +1,11 @@
 import { defineConfig } from 'vitepress'
+import { deConfig } from './de'
 import { enConfig } from './en'
 import { esConfig } from './es'
 import { frConfig } from './fr'
-import { deConfig } from './de'
+import { nlConfig } from './nl'
 import { sharedConfig } from './shared'
 import { zhConfig } from './zh'
-import { nlConfig } from './nl'
 
 export default defineConfig({
   ...sharedConfig,

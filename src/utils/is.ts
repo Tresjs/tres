@@ -21,8 +21,7 @@ export function bool(u: unknown): u is boolean {
   return u === true || u === false
 }
 
-// eslint-disable-next-line ts/no-unsafe-function-type
-export function fun(u: unknown): u is Function {
+export function fun(u: unknown): u is (...args: any[]) => any {
   return typeof u === 'function'
 }
 

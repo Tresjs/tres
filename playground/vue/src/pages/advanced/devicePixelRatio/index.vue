@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { shallowRef } from 'vue'
 import { TresCanvas } from '@tresjs/core'
+import { shallowRef } from 'vue'
 import type { WebGLRenderer } from 'three'
 
 const rendererRef = shallowRef<WebGLRenderer | null>(null)

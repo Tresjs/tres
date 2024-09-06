@@ -1,13 +1,12 @@
-/* eslint-disable unicorn/consistent-function-scoping */
-import { beforeAll, describe, expect, it, vi } from 'vitest'
 import * as THREE from 'three'
-import type { Vector3 } from 'three'
 import { Mesh, Scene } from 'three'
-import type { TresContext } from 'src/composables'
+import { beforeAll, describe, expect, it, vi } from 'vitest'
 import { shallowRef } from 'vue'
-import type { TresObject } from '../types'
-import { nodeOps as getNodeOps } from './nodeOps'
+import type { TresContext } from 'src/composables'
+import type { Vector3 } from 'three'
 import { extend } from './catalogue'
+import { nodeOps as getNodeOps } from './nodeOps'
+import type { TresObject } from '../types'
 
 let nodeOps = getNodeOps(mockTresContext())
 const pool = []

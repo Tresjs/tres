@@ -93,8 +93,8 @@ El único problema es que mezclar compiladores y renderizadores en Vue 3 es algo
 
 ```ts
 // Example Vite setup
-import { createApp } from 'vue'
 import { createApp as createLunchboxApp } from 'lunchboxjs'
+import { createApp } from 'vue'
 import App from './App.vue'
 import LunchboxApp from './LunchboxApp.vue'
 
