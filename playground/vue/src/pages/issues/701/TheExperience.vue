@@ -81,7 +81,7 @@ const tOrFFast = shallowRef(false)
 const elapsed = shallowRef(0)
 
 const pool: {
-  // eslint-disable-next-line ts/no-unsafe-function-type
+
   click: Function
   pos: number[]
   group: Group
