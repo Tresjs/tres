@@ -1,11 +1,11 @@
+import { createEventHook, useElementBounding, usePointer } from '@vueuse/core'
 import { Vector2, Vector3 } from 'three'
-import type { Intersection, Object3D, Object3DEventMap } from 'three'
-import type { ShallowRef } from 'vue'
 import { computed, onUnmounted, shallowRef } from 'vue'
 import type { EventHook } from '@vueuse/core'
-import { createEventHook, useElementBounding, usePointer } from '@vueuse/core'
-
 import type { DomEvent, TresCamera, TresEvent, TresInstance } from 'src/types'
+import type { Intersection, Object3D, Object3DEventMap } from 'three'
+
+import type { ShallowRef } from 'vue'
 import type { TresContext } from '../useTresContextProvider'
 
 export const useRaycaster = (

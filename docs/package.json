@@ -13,9 +13,9 @@
     "tweakpane": "^4.0.4"
   },
   "devDependencies": {
-    "@iconify-json/logos": "^1.1.43",
-    "@iconify-json/mdi": "^1.1.67",
-    "unocss": "^0.61.3",
+    "@iconify-json/logos": "^1.2.0",
+    "@iconify-json/mdi": "^1.2.0",
+    "unocss": "^0.62.3",
     "vite-svg-loader": "^5.1.0"
   }
 }

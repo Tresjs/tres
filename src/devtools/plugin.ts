@@ -1,17 +1,17 @@
-import type {
-  App as DevtoolsApp,
-} from '@vue/devtools-api'
 import {
   setupDevtoolsPlugin,
 } from '@vue/devtools-api'
-import { reactive } from 'vue'
 import { Color, type Mesh } from 'three'
+import { reactive } from 'vue'
+import type {
+  App as DevtoolsApp,
+} from '@vue/devtools-api'
 import { createHighlightMesh, editSceneObject } from '../utils'
 import * as is from '../utils/is'
 import { bytesToKB, calculateMemoryUsage } from '../utils/perf'
 import type { TresContext } from '../composables'
-import type { TresObject } from './../types'
 import { toastMessage } from './utils'
+import type { TresObject } from './../types'
 
 export interface Tags {
   label: string
@@ -188,8 +188,8 @@ export function registerTresDevtools(app: DevtoolsApp, tres: TresContext) {
 
           if (instance.isScene) {
             payload.state.info = {
-              memory: calculateMemoryUsage(instance),
               objects: instance.children.length,
+              memory: calculateMemoryUsage(instance),
               calls: tres.renderer.value.info.render.calls,
               triangles: tres.renderer.value.info.render.triangles,
               points: tres.renderer.value.info.render.points,

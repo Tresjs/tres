@@ -1,11 +1,11 @@
-import { modelsRoutes } from './models'
+import { advancedRoutes } from './advanced'
+import { basicRoutes } from './basic'
 import { cameraRoutes } from './cameras'
 import { eventsRoutes } from './events'
-import { basicRoutes } from './basic'
-import { advancedRoutes } from './advanced'
-import { miscRoutes } from './misc'
 import { issuesRoutes } from './issues'
 import { loaderRoutes } from './loaders'
+import { miscRoutes } from './misc'
+import { modelsRoutes } from './models'
 
 const allRoutes = [
   ...basicRoutes,
@@ -19,13 +19,13 @@ const allRoutes = [
 ]
 
 export {
-  basicRoutes,
   advancedRoutes,
-  eventsRoutes,
-  cameraRoutes,
-  modelsRoutes,
-  miscRoutes,
-  issuesRoutes,
   allRoutes,
+  basicRoutes,
+  cameraRoutes,
+  eventsRoutes,
+  issuesRoutes,
   loaderRoutes,
+  miscRoutes,
+  modelsRoutes,
 }

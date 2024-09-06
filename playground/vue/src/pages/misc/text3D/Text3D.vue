@@ -1,7 +1,7 @@
 <script setup lang="ts">
+import { extend, useTexture } from '@tresjs/core'
 import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry'
 import { FontLoader } from 'three/examples/jsm/loaders/FontLoader'
-import { extend, useTexture } from '@tresjs/core'
 
 extend({ TextGeometry })
 

@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { BasicShadowMap, MeshPhongMaterial, NoToneMapping, SRGBColorSpace } from 'three'
-import { reactive } from 'vue'
 import { OrbitControls } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
 import { TresLeches, useControls } from '@tresjs/leches'
+import { BasicShadowMap, MeshPhongMaterial, NoToneMapping, SRGBColorSpace } from 'three'
+import { reactive } from 'vue'
 import '@tresjs/leches/styles'
 
 const state = reactive({

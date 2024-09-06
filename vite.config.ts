@@ -1,19 +1,19 @@
 /// <reference types="vitest" />
 
-import { defineConfig } from 'vite'
-
 import vue from '@vitejs/plugin-vue'
-import banner from 'vite-plugin-banner'
-import Inspect from 'vite-plugin-inspect'
-import dts from 'vite-plugin-dts'
 
 import copy from 'rollup-plugin-copy'
+import { defineConfig } from 'vite'
+import banner from 'vite-plugin-banner'
+import dts from 'vite-plugin-dts'
+
+import Inspect from 'vite-plugin-inspect'
 
 /* import analyze from 'rollup-plugin-analyzer'
  */ /* import { visualizer } from 'rollup-plugin-visualizer' */
-import { resolve } from 'pathe'
-
 import { bold, gray, lightGreen, yellow } from 'kolorist'
+
+import { resolve } from 'pathe'
 
 import pkg from './package.json'
 

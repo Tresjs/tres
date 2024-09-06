@@ -32,10 +32,10 @@ In this example, we will create a simple scene with a cube and use Tweakpane to 
 
 ```vue
 <script setup lang="ts">
-import { ref } from 'vue'
 import { TresCanvas } from '@tresjs/core'
-
 import { Pane } from 'tweakpane'
+
+import { ref } from 'vue'
 
 const state = reactive({
   clearColor: '#c0ffee',

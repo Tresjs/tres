@@ -1,7 +1,7 @@
 <!-- eslint-disable no-console -->
 <script setup lang="ts">
-import { shallowRef } from 'vue'
 import { useLoop } from '@tresjs/core'
+import { shallowRef } from 'vue'
 
 const tOrF = shallowRef(false)
 const tOrFSlow = shallowRef(false)

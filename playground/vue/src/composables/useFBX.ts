@@ -1,5 +1,5 @@
-import { FBXLoader } from 'three-stdlib'
 import { useLoader } from '@tresjs/core'
+import { FBXLoader } from 'three-stdlib'
 import type { Object3D } from 'three'
 
 /**

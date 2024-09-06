@@ -1,6 +1,6 @@
 <script setup>
-import { computed } from 'vue'
 import { useData } from 'vitepress'
+import { computed } from 'vue'
 import { data as recipes } from '../recipes.data.ts'
 
 const { lang } = useData()

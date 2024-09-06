@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import type { EmbedOptions } from '@stackblitz/sdk'
 import sdk from '@stackblitz/sdk'
 import { ref, watch } from 'vue'
+import type { EmbedOptions } from '@stackblitz/sdk'
 
 const props = withDefaults(
   defineProps<{

@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { ref, shallowRef } from 'vue'
 import { useRenderLoop } from '@tresjs/core'
 import { Color } from 'three'
+import { ref, shallowRef } from 'vue'
 
 const props = defineProps(['position', 'name'])
 

@@ -1,18 +1,11 @@
 <script setup lang="ts">
 import { PerspectiveCamera, Scene } from 'three'
-import type {
-  ColorSpace,
-  ShadowMapType,
-  ToneMapping,
-  WebGLRendererParameters,
-} from 'three'
 import * as THREE from 'three'
-import type { App, Ref } from 'vue'
 import {
-  Fragment,
   computed,
   createRenderer,
   defineComponent,
+  Fragment,
   getCurrentInstance,
   h,
   onMounted,
@@ -23,6 +16,13 @@ import {
   watch,
   watchEffect,
 } from 'vue'
+import type {
+  ColorSpace,
+  ShadowMapType,
+  ToneMapping,
+  WebGLRendererParameters,
+} from 'three'
+import type { App, Ref } from 'vue'
 import pkg from '../../package.json'
 
 import {

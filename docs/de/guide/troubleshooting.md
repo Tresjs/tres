@@ -61,9 +61,9 @@ Derzeit gibt es keine native Unterstützung von Vue, um den verwendeten Renderer
 Öffne `vite.config.ts` und füge die folgende Konfiguration zum `@vitejs/plugin-vue` hinzu um die Warnung aus der Konsole zu entfernen:
 
 ```ts
-import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue'
 import { templateCompilerOptions } from '@tresjs/core'
+import vue from '@vitejs/plugin-vue'
+import { defineConfig } from 'vite'
 
 export default defineConfig({
   plugins: [
