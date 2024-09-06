@@ -26,7 +26,7 @@ importers:
         version: 1.11.0
       '@tresjs/cientos':
         specifier: 4.0.2
-        version: 4.0.2(@tresjs/core@4.2.9(three@0.168.0)(vue@3.5.0(typescript@5.5.4)))(three@0.168.0)(vue@3.5.0(typescript@5.5.4))
+        version: 4.0.2(@tresjs/core@4.2.10(three@0.168.0)(vue@3.5.0(typescript@5.5.4)))(three@0.168.0)(vue@3.5.0(typescript@5.5.4))
       '@tresjs/eslint-config':
         specifier: ^1.1.0
         version: 1.2.0(@typescript-eslint/utils@8.4.0(eslint@9.9.1(jiti@1.21.6))(typescript@5.5.4))(@vue/compiler-sfc@3.5.0)(eslint@9.9.1(jiti@1.21.6))(typescript@5.5.4)(vitest@2.0.5(@types/node@22.5.3)(@vitest/ui@2.0.5)(jsdom@25.0.0)(terser@5.31.6))
@@ -168,7 +168,7 @@ importers:
         version: 1.4.1(rollup@4.21.2)(vite@5.4.3(@types/node@22.5.1)(terser@5.31.6))(webpack-sources@3.2.3)
       '@tresjs/cientos':
         specifier: ^4.0.0
-        version: 4.0.0(@tresjs/core@)(three@0.168.0)(vue@3.5.0(typescript@5.5.4))
+        version: 4.0.2(@tresjs/core@)(three@0.168.0)(vue@3.5.0(typescript@5.5.4))
       '@tresjs/core':
         specifier: workspace:^
         version: link:../..
@@ -1939,13 +1939,6 @@ packages:
   '@tootallnate/quickjs-emscripten@0.23.0':
     resolution: {integrity: sha512-C5Mc6rdnsaJDjO3UpGW/CQTHtCKaYlScZTly4JIu97Jxo/odCiH0ITnDXSJPTOrEKk/ycSZ0AOgTmkDtkOsvIA==}
 
-  '@tresjs/cientos@4.0.0':
-    resolution: {integrity: sha512-yT8WxPOiFlH/fkDDfUtmIE4Ci3JkBUaElGCo4/CFD6lqyM8qY1NAJSgIj4riXiaym2T1mpjCnfSIpACo4Zx7ig==}
-    peerDependencies:
-      '@tresjs/core': '>=4.2.1'
-      three: '>=0.133'
-      vue: '>=3.3'
-
   '@tresjs/cientos@4.0.2':
     resolution: {integrity: sha512-72Y+tHdysx+ZGv81c1kZixnLfc5bgMKKc2kacW6AQ2XSaRfDQ87ZRhQp78kHYgPNgx6SUd9mXGaub15brMGNFQ==}
     peerDependencies:
@@ -2001,6 +1994,12 @@ packages:
       three: '>=0.133'
       vue: '>=3.4'
 
+  '@tresjs/core@4.2.10':
+    resolution: {integrity: sha512-ZKS/G9s86t69TfPUdvAzQkcgqvsLhTGhSKI0BssT/+RZDU0ueFMDKW8g15rNjvs/OM0KEHEPl/W8g87H1YhAbw==}
+    peerDependencies:
+      three: '>=0.133'
+      vue: '>=3.4'
+
   '@tresjs/core@4.2.6':
     resolution: {integrity: sha512-z6Z49rr1vkzHR/yMf2ZA8UvWddYwBIQ6zinrSyacrt3UsayrETvjyZOUESqcX/Up3C8U7//fpA8rGSfL3G3YKw==}
     peerDependencies:
@@ -2009,12 +2008,6 @@ packages:
 
   '@tresjs/core@4.2.7':
     resolution: {integrity: sha512-xHDkR+TTtJjB5Bs4UGQ3NzdheAQ+DXfwyXRRfOxgB9FfV9PwM2K5rWrByLcZNF98uZ8tMoEsjE4pWAi9G0VdFw==}
-    peerDependencies:
-      three: '>=0.133'
-      vue: '>=3.4'
-
-  '@tresjs/core@4.2.9':
-    resolution: {integrity: sha512-e5RIRSlIOtrIHBZr4t/5bQ0v+egzDkojENaLOPELJ2TxwJAs33QJUfPTkPPVXc0gSDHzH47qFHqUCGIQ/LYG3w==}
     peerDependencies:
       three: '>=0.133'
       vue: '>=3.4'
@@ -2162,6 +2155,9 @@ packages:
 
   '@types/node@22.5.3':
     resolution: {integrity: sha512-njripolh85IA9SQGTAqbmnNZTdxv7X/4OYGPz8tgy5JDr8MP+uDBa921GpYEoDDnwm0Hmn5ZPeJgiiSTPoOzkQ==}
+
+  '@types/node@22.5.4':
+    resolution: {integrity: sha512-FDuKUJQm/ju9fT/SeX/6+gBzoPzlVCzfzmGkwKvRHQVxi4BntVbyIwf6a4Xn62mrvndLiml6z/UBXIdEVjQLXg==}
 
   '@types/normalize-package-data@2.4.4':
     resolution: {integrity: sha512-37i+OaWTh9qeK4LSHPsyRC7NahnGotNuZvjLSgcPzblpHB3rrCJxAOgI5gCdKm7coonsaX1Of0ILiTcnZjbfxA==}
@@ -9997,22 +9993,6 @@ snapshots:
 
   '@tootallnate/quickjs-emscripten@0.23.0': {}
 
-  '@tresjs/cientos@4.0.0(@tresjs/core@)(three@0.168.0)(vue@3.5.0(typescript@5.5.4))':
-    dependencies:
-      '@tresjs/core': 'link:'
-      '@vueuse/core': 11.0.3(vue@3.5.0(typescript@5.5.4))
-      camera-controls: 2.9.0(three@0.168.0)
-      stats-gl: 2.2.8
-      stats.js: 0.17.0
-      three: 0.168.0
-      three-custom-shader-material: 5.4.0(three@0.168.0)
-      three-stdlib: 2.32.2(three@0.168.0)
-      vue: 3.5.0(typescript@5.5.4)
-    transitivePeerDependencies:
-      - '@react-three/fiber'
-      - '@vue/composition-api'
-      - react
-
   '@tresjs/cientos@4.0.2(@tresjs/core@)(three@0.168.0)(vue@3.5.0(typescript@5.5.4))':
     dependencies:
       '@tresjs/core': 'link:'
@@ -10029,9 +10009,9 @@ snapshots:
       - '@vue/composition-api'
       - react
 
-  '@tresjs/cientos@4.0.2(@tresjs/core@4.2.9(three@0.168.0)(vue@3.5.0(typescript@5.5.4)))(three@0.168.0)(vue@3.5.0(typescript@5.5.4))':
+  '@tresjs/cientos@4.0.2(@tresjs/core@4.2.10(three@0.168.0)(vue@3.5.0(typescript@5.5.4)))(three@0.168.0)(vue@3.5.0(typescript@5.5.4))':
     dependencies:
-      '@tresjs/core': 4.2.9(three@0.168.0)(vue@3.5.0(typescript@5.5.4))
+      '@tresjs/core': 4.2.10(three@0.168.0)(vue@3.5.0(typescript@5.5.4))
       '@vueuse/core': 11.0.3(vue@3.5.0(typescript@5.5.4))
       camera-controls: 2.9.0(three@0.168.0)
       stats-gl: 2.2.8
@@ -10121,6 +10101,16 @@ snapshots:
     transitivePeerDependencies:
       - '@vue/composition-api'
 
+  '@tresjs/core@4.2.10(three@0.168.0)(vue@3.5.0(typescript@5.5.4))':
+    dependencies:
+      '@alvarosabu/utils': 3.2.0
+      '@vue/devtools-api': 6.6.3
+      '@vueuse/core': 10.11.1(vue@3.5.0(typescript@5.5.4))
+      three: 0.168.0
+      vue: 3.5.0(typescript@5.5.4)
+    transitivePeerDependencies:
+      - '@vue/composition-api'
+
   '@tresjs/core@4.2.6(three@0.168.0)(vue@3.5.0(typescript@5.5.4))':
     dependencies:
       '@alvarosabu/utils': 3.2.0
@@ -10132,16 +10122,6 @@ snapshots:
       - '@vue/composition-api'
 
   '@tresjs/core@4.2.7(three@0.168.0)(vue@3.5.0(typescript@5.5.4))':
-    dependencies:
-      '@alvarosabu/utils': 3.2.0
-      '@vue/devtools-api': 6.6.3
-      '@vueuse/core': 10.11.1(vue@3.5.0(typescript@5.5.4))
-      three: 0.168.0
-      vue: 3.5.0(typescript@5.5.4)
-    transitivePeerDependencies:
-      - '@vue/composition-api'
-
-  '@tresjs/core@4.2.9(three@0.168.0)(vue@3.5.0(typescript@5.5.4))':
     dependencies:
       '@alvarosabu/utils': 3.2.0
       '@vue/devtools-api': 6.6.3
@@ -10709,6 +10689,11 @@ snapshots:
       undici-types: 6.19.8
 
   '@types/node@22.5.3':
+    dependencies:
+      undici-types: 6.19.8
+    optional: true
+
+  '@types/node@22.5.4':
     dependencies:
       undici-types: 6.19.8
 
@@ -14732,7 +14717,7 @@ snapshots:
 
   jest-worker@27.5.1:
     dependencies:
-      '@types/node': 22.5.3
+      '@types/node': 22.5.4
       merge-stream: 2.0.0
       supports-color: 8.1.1
 
