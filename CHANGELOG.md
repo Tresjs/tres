@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.0](https://github.com/tresjs/eslint-config/compare/1.2.0...1.3.0) (2024-09-06)
+
+
+### 🚀 Features
+
+* perfectionist/sort-imports ([57f155b](https://github.com/tresjs/eslint-config/commit/57f155b8126d2f87a9a324bab436dfae71734022))
+
 ## [1.2.0](https://github.com/tresjs/eslint-config/compare/1.1.0...1.2.0) (2024-08-30)
 
 
