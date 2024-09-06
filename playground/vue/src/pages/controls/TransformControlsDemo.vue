@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { reactive, ref } from 'vue'
-import { TresCanvas } from '@tresjs/core'
-import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
 import { OrbitControls, TransformControls } from '@tresjs/cientos'
+import { TresCanvas } from '@tresjs/core'
 import { TresLeches, useControls } from '@tresjs/leches'
-import '@tresjs/leches/styles'
+import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
+import { reactive, ref } from 'vue'
 import type { TransformControlsProps } from '../../../../src/core/controls/TransformControls.vue'
+import '@tresjs/leches/styles'
 
 const gl = {
   clearColor: '#82DBC5',

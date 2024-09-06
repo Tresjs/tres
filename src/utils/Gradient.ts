@@ -1,6 +1,6 @@
+import { normalizeColor, normalizeVectorFlexibleParam } from '@tresjs/core'
 import { Color } from 'three'
 import type { TresColor, VectorFlexibleParams } from '@tresjs/core'
-import { normalizeColor, normalizeVectorFlexibleParam } from '@tresjs/core'
 
 export type Gradient<T> = T | T[] | NormalizedGradient<T>
 export type NormalizedGradient<T> = [number, T][]

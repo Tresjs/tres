@@ -25,7 +25,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import type { Material, WebGLRenderer } from 'three'
 import {
   BufferAttribute,
   BufferGeometry,
@@ -37,6 +36,7 @@ import {
   Vector2,
   WebGLRenderTarget,
 } from 'three'
+import type { Material, WebGLRenderer } from 'three'
 
 import { ConvolutionMaterial } from './ConvolutionMaterial'
 

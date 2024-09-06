@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { Color } from 'three'
-import { TresCanvas, useRenderLoop } from '@tresjs/core'
 import { OrbitControls, Superformula } from '@tresjs/cientos'
+import { TresCanvas, useRenderLoop } from '@tresjs/core'
+import { Color } from 'three'
 
 const numArmsA = shallowRef(1)
 const numArmsB = shallowRef(1)

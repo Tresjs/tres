@@ -1,7 +1,7 @@
 <script setup lang="ts">
+import { type TresColor, useTresContext } from '@tresjs/core'
 import { BufferAttribute, BufferGeometry } from 'three'
 import { onUnmounted, shallowRef, watch } from 'vue'
-import { type TresColor, useTresContext } from '@tresjs/core'
 
 export type Float3 = [number, number, number]
 

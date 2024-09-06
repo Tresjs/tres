@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { AmbientLight, DirectionalLight, MeshPhongMaterial } from 'three'
-import { TresCanvas } from '@tresjs/core'
 import { Superformula } from '@tresjs/cientos'
+import { TresCanvas } from '@tresjs/core'
 import { TresLeches, useControls } from '@tresjs/leches'
+import { AmbientLight, DirectionalLight, MeshPhongMaterial } from 'three'
 import '@tresjs/leches/styles'
 
 const { numArmsA, numArmsB, expA1 } = useControls({

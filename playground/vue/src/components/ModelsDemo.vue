@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { useRenderLoop } from '@tresjs/core'
 import { FBXModel, GLTFModel, useFBX, useGLTF } from '@tresjs/cientos'
+import { useRenderLoop } from '@tresjs/core'
+import { ref } from 'vue'
 
 const modelPath = 'https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/aku-aku/AkuAku.gltf'
 const modelPathFbx = 'https://raw.githubusercontent.com/Tresjs/assets/main/models/fbx/low-poly-truck/Jeep_done.fbx'

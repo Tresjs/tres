@@ -1,8 +1,8 @@
 <script setup lang="ts">
+import { useTresContext } from '@tresjs/core'
+import { Box3, Group, Vector3 } from 'three'
 import { nextTick, onMounted, shallowRef, watch } from 'vue'
 import type { Object3D } from 'three'
-import { Box3, Group, Vector3 } from 'three'
-import { useTresContext } from '@tresjs/core'
 
 export interface Props {
   /**

@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { TresCanvas } from '@tresjs/core'
 import { AnimatedSprite, Box, OrbitControls } from '@tresjs/cientos'
-import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
-import { ref, watch } from 'vue'
+import { TresCanvas } from '@tresjs/core'
 import { TresLeches, useControls } from '@tresjs/leches'
-import '@tresjs/leches/styles'
+import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
 import { degToRad } from 'three/src/math/MathUtils.js'
-import type { Atlasish } from '../../../../../src/core/abstractions/AnimatedSprite/Atlas'
+import { ref, watch } from 'vue'
 import { useState } from '../../composables/state'
+import type { Atlasish } from '../../../../../src/core/abstractions/AnimatedSprite/Atlas'
+import '@tresjs/leches/styles'
 
 const ASSETS_URL = 'https://raw.githubusercontent.com/andretchen0/tresjs_assets/'
   + '462ad0f669f78d2c5ed7007b5134b419f646efad/textures/animated-sprite/'

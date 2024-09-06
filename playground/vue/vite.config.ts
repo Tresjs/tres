@@ -1,11 +1,11 @@
-import { defineConfig } from 'vite'
+import { templateCompilerOptions } from '@tresjs/core'
 import vue from '@vitejs/plugin-vue'
+import { resolve } from 'pathe'
+import UnoCSS from 'unocss/vite'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
-import { resolve } from 'pathe'
+import { defineConfig } from 'vite'
 import glsl from 'vite-plugin-glsl'
-import UnoCSS from 'unocss/vite'
-import { templateCompilerOptions } from '@tresjs/core'
 import { qrcode } from 'vite-plugin-qrcode'
 
 // https://vitejs.dev/config/

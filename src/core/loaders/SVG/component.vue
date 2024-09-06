@@ -1,11 +1,11 @@
 <script setup lang="ts">
+import { useLoader } from '@tresjs/core'
+import { DoubleSide, ShapeGeometry, Vector2 } from 'three'
+import { SVGLoader } from 'three-stdlib'
 import { onUnmounted, shallowRef, toRefs, watch, watchEffect } from 'vue'
 import type { TresOptions } from '@tresjs/core'
-import { useLoader } from '@tresjs/core'
-import type { SVGResult, SVGResultPaths } from 'three-stdlib'
-import { SVGLoader } from 'three-stdlib'
 import type { BufferGeometry, MeshBasicMaterialParameters } from 'three'
-import { DoubleSide, ShapeGeometry, Vector2 } from 'three'
+import type { SVGResult, SVGResultPaths } from 'three-stdlib'
 
 interface SVGProps {
   /**

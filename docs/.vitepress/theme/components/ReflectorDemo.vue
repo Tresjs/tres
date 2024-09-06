@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { TresCanvas } from '@tresjs/core'
 import {
   MeshWobbleMaterial,
   OrbitControls,
   Reflector,
   Stars,
 } from '@tresjs/cientos'
+import { TresCanvas } from '@tresjs/core'
 </script>
 
 <template>

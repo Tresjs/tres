@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { shallowRef } from 'vue'
-import type { Points } from 'three'
 import { Stars } from '@tresjs/cientos'
 import { useLoop } from '@tresjs/core'
+import { shallowRef } from 'vue'
+import type { Points } from 'three'
 
 const star = shallowRef()
 

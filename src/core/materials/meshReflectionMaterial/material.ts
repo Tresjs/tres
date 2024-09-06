@@ -25,8 +25,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import type { Matrix4, Texture } from 'three'
 import { MeshStandardMaterial } from 'three'
+import type { Matrix4, Texture } from 'three'
 
 interface UninitializedUniform<Value> { value: Value | null }
 

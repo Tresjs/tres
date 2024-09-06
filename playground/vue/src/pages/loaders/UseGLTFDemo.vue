@@ -1,7 +1,7 @@
 <script setup lang="ts">
+import { CameraControls } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
 import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
-import { CameraControls } from '@tresjs/cientos'
 import ModelsDemo from '../../components/ModelsDemo.vue'
 
 const gl = {

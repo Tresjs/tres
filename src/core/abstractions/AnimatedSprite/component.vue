@@ -1,11 +1,11 @@
 <script setup lang="ts">
+import { normalizeVectorFlexibleParam, useLoop, useTresContext } from '@tresjs/core'
+import { DoubleSide } from 'three'
 import { onUnmounted, ref, shallowRef, watch } from 'vue'
 import type { TresVector2 } from '@tresjs/core'
-import { normalizeVectorFlexibleParam, useLoop, useTresContext } from '@tresjs/core'
 import type { Texture } from 'three'
-import { DoubleSide } from 'three'
-import type { Atlas, Atlasish } from './Atlas'
 import { getAtlasFrames, getNullAtlasFrame, getTextureAndAtlasAsync, setAtlasDefinitions } from './Atlas'
+import type { Atlas, Atlasish } from './Atlas'
 
 export interface AnimatedSpriteProps {
   /** URL of the image texture or an image dataURL. This prop is not reactive. */

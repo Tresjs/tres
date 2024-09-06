@@ -11,8 +11,8 @@ A composable that allows you to easily load glTF models into your **TresJS** sce
 ::: code-group
 ```vue [app.vue]
 <script setup lang="ts">
-import { TresCanvas } from '@tresjs/core'
 import { OrbitControls } from '@tresjs/cientos'
+import { TresCanvas } from '@tresjs/core'
 import TheModel from './TheModel.vue'
 </script>
 

@@ -1,20 +1,20 @@
-import type { LoaderProto, TresLoader } from '@tresjs/core'
 import { useLoader, useTresContext } from '@tresjs/core'
-import type {
-  CubeTexture,
-  Texture,
-  WebGLCubeRenderTarget,
-} from 'three'
 import {
   CubeReflectionMapping,
   CubeTextureLoader,
   EquirectangularReflectionMapping,
 } from 'three'
 import { RGBELoader } from 'three-stdlib'
-import type { Ref } from 'vue'
 import { computed, ref, toRefs, unref, watch } from 'vue'
-import type { EnvironmentOptions } from './const'
+import type { LoaderProto, TresLoader } from '@tresjs/core'
+import type {
+  CubeTexture,
+  Texture,
+  WebGLCubeRenderTarget,
+} from 'three'
+import type { Ref } from 'vue'
 import { environmentPresets } from './const'
+import type { EnvironmentOptions } from './const'
 
 /**
  * Component that loads an environment map and sets it as the scene's background and environment.

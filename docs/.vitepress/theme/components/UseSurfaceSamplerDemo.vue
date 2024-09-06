@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue'
-import { TresCanvas } from '@tresjs/core'
 import { OrbitControls, useSurfaceSampler } from '@tresjs/cientos'
+import { TresCanvas } from '@tresjs/core'
+import { ref, watch } from 'vue'
 
 const torusRef = ref()
 const instancesRef = ref()

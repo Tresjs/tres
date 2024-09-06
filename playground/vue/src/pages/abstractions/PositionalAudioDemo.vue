@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { TresCanvas } from '@tresjs/core'
 import { Box, OrbitControls, PositionalAudio } from '@tresjs/cientos'
+import { TresCanvas } from '@tresjs/core'
 import { useState } from '../../composables/state'
 
 const gl = {

@@ -1,6 +1,6 @@
 import { MathUtils } from 'three'
-import type { Texture } from 'three'
 import type { TresColor } from '@tresjs/core'
+import type { Texture } from 'three'
 import {
   easeInCubic,
   easeInOutCubic,
@@ -8,9 +8,9 @@ import {
   easeOutBounce,
   linear,
 } from '../../../utils/easing'
-import RandUtils from './RandUtils'
 import Lensflare from './component.vue'
 import { defaultLensflareElementProps, defaultSeedProps } from './constants'
+import RandUtils from './RandUtils'
 
 export { Lensflare }
 

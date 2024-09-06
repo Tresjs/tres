@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import type { TresColor } from '@tresjs/core'
 import { CatmullRomCurve3, Vector3 } from 'three'
 import { computed, shallowRef } from 'vue'
+import type { TresColor } from '@tresjs/core'
 import Line2 from './Line2.vue'
 
 type CurveType = 'centripetal' | 'chordal' | 'catmullrom'

@@ -1,8 +1,8 @@
 <!-- eslint-disable no-console -->
 <script setup lang="ts">
+import { PointerLockControls, Sky, StatsGl } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
 import { BasicShadowMap, NoToneMapping } from 'three'
-import { PointerLockControls, Sky, StatsGl } from '@tresjs/cientos'
 
 const gl = {
   clearColor: '#82DBC5',

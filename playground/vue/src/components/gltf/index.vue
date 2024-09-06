@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import type { Object3D } from 'three'
+import { GLTFModel, OrbitControls } from '@tresjs/cientos'
+import { TresCanvas } from '@tresjs/core'
 import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
 import { reactive, ref, watchEffect } from 'vue'
-import { TresCanvas } from '@tresjs/core'
-import { GLTFModel, OrbitControls } from '@tresjs/cientos'
+import type { Object3D } from 'three'
 
 /* import { OrbitControls, GLTFModel } from '@tresjs/cientos' */
 

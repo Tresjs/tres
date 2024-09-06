@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { Blending, BufferGeometry, IUniform, ShaderMaterialParameters, Texture } from 'three'
+import { useLoop, useTexture, useTresContext } from '@tresjs/core'
 import {
   AdditiveBlending,
   IcosahedronGeometry,
@@ -11,13 +11,13 @@ import {
   Uniform,
   Vector3,
 } from 'three'
-import type { TresColor, VectorFlexibleParams } from '@tresjs/core'
-import { useLoop, useTexture, useTresContext } from '@tresjs/core'
-import type { Ref } from 'vue'
 import { onMounted, onUnmounted, shallowRef, toRefs, watch } from 'vue'
-import type { Gradient } from '../../../utils/Gradient'
+import type { TresColor, VectorFlexibleParams } from '@tresjs/core'
+import type { Blending, BufferGeometry, IUniform, ShaderMaterialParameters, Texture } from 'three'
+import type { Ref } from 'vue'
 import ShaderDataBuilder from './ShaderDataBuilder'
 import useEmptyDataTexture from './useEmptyDataTexture'
+import type { Gradient } from '../../../utils/Gradient'
 
 interface SparkleProps {
   /**
@@ -196,12 +196,24 @@ const version = Number.parseInt(REVISION.replace(/\D+/g, ''))
 const refs = toRefs(props)
 const map: Texture = typeof props.map === 'string' ? useEmptyDataTexture() : props.map
 const { texture: infoTexture, yFor } = new ShaderDataBuilder(256)
-  .add.GradientTresColor(refs.sequenceColor).id('sequenceColor')
-  .add.Gradient01(refs.sequenceAlpha).id('sequenceAlpha')
-  .add.Gradient01(refs.sequenceSurfaceDistance).id('sequenceSurfaceDistance')
-  .add.Gradient01(refs.sequenceSize).id('sequenceSize')
-  .add.GradientXyz(refs.sequenceOffset, -1, 1).id('sequenceOffset')
-  .add.GradientXyz(refs.sequenceNoise, 0, 1).id('sequenceNoise')
+  .add
+  .GradientTresColor(refs.sequenceColor)
+  .id('sequenceColor')
+  .add
+  .Gradient01(refs.sequenceAlpha)
+  .id('sequenceAlpha')
+  .add
+  .Gradient01(refs.sequenceSurfaceDistance)
+  .id('sequenceSurfaceDistance')
+  .add
+  .Gradient01(refs.sequenceSize)
+  .id('sequenceSize')
+  .add
+  .GradientXyz(refs.sequenceOffset, -1, 1)
+  .id('sequenceOffset')
+  .add
+  .GradientXyz(refs.sequenceNoise, 0, 1)
+  .id('sequenceNoise')
   .build()
   .useTexture()
 

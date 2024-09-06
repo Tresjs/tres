@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { TresCanvas } from '@tresjs/core'
 import { AnimatedSprite } from '@tresjs/cientos'
+import { TresCanvas } from '@tresjs/core'
 import { ref } from 'vue'
 
 const ASSETS_URL = 'https://raw.githubusercontent.com/Tresjs/'

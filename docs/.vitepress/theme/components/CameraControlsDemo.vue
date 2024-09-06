@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { reactive } from 'vue'
-import { TresCanvas } from '@tresjs/core'
 import { Box, CameraControls } from '@tresjs/cientos'
+import { TresCanvas } from '@tresjs/core'
+import { reactive } from 'vue'
 
 const controlsState = reactive({
   minDistance: 0,

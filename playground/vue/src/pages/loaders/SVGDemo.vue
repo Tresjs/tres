@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { TresCanvas, useRenderLoop } from '@tresjs/core'
 import { OrbitControls, SVG } from '@tresjs/cientos'
+import { TresCanvas, useRenderLoop } from '@tresjs/core'
 import { NoToneMapping } from 'three'
 import { shallowRef } from 'vue'
 

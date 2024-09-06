@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import type { Ref } from 'vue'
-import { onUnmounted, ref, toRaw, useSlots, watch } from 'vue'
-import { CubeCamera, HalfFloatType, WebGLCubeRenderTarget } from 'three'
-import type { CubeTexture, Texture } from 'three'
 import { useLoop, useTresContext } from '@tresjs/core'
-import type { EnvironmentOptions } from './const'
-import EnvSence from './envSence'
+import { CubeCamera, HalfFloatType, WebGLCubeRenderTarget } from 'three'
+import { onUnmounted, ref, toRaw, useSlots, watch } from 'vue'
+import type { CubeTexture, Texture } from 'three'
+import type { Ref } from 'vue'
 import { useEnvironment } from '.'
+import EnvSence from './envSence'
+import type { EnvironmentOptions } from './const'
 
 const props = withDefaults(defineProps<EnvironmentOptions>(), {
   background: false,

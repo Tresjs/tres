@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { shallowRef } from 'vue'
 import { useTresContext } from '@tresjs/core'
+import { shallowRef } from 'vue'
 
 import MeshGlassMaterial from './material'
 

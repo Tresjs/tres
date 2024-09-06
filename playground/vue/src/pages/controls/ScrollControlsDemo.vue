@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { ref, watchEffect } from 'vue'
-import { TresCanvas, useRenderLoop } from '@tresjs/core'
 import { Box, ScrollControls, Sphere, Stars } from '@tresjs/cientos'
-import { NoToneMapping, SRGBColorSpace } from 'three'
+import { TresCanvas, useRenderLoop } from '@tresjs/core'
 import { TresLeches, useControls } from '@tresjs/leches'
+import { NoToneMapping, SRGBColorSpace } from 'three'
+import { ref, watchEffect } from 'vue'
 import '@tresjs/leches/styles'
 
 const scRef = ref()

@@ -1,10 +1,10 @@
 <!-- eslint-disable no-console -->
 <script setup lang="ts">
-import { reactive, shallowRef } from 'vue'
-import { TresCanvas } from '@tresjs/core'
 import { CameraControls } from '@tresjs/cientos'
-import { BasicShadowMap, MathUtils, NoToneMapping, SRGBColorSpace } from 'three'
+import { TresCanvas } from '@tresjs/core'
 import { TresLeches, useControls } from '@tresjs/leches'
+import { BasicShadowMap, MathUtils, NoToneMapping, SRGBColorSpace } from 'three'
+import { reactive, shallowRef } from 'vue'
 import '@tresjs/leches/styles'
 
 const gl = {

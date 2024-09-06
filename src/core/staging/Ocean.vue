@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-import { nextTick, onMounted, shallowRef, toRefs } from 'vue'
 import { useLoop, useTexture, useTresContext } from '@tresjs/core'
-import type { TresColor, TresVector3 } from '@tresjs/core'
-import { Water } from 'three-stdlib'
 import { FrontSide, RepeatWrapping, Vector3 } from 'three'
+import { Water } from 'three-stdlib'
+import { nextTick, onMounted, shallowRef, toRefs } from 'vue'
+import type { TresColor, TresVector3 } from '@tresjs/core'
 import type { Texture } from 'three'
 import type { Sky } from 'three-stdlib'
 

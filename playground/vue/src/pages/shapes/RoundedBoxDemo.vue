@@ -1,7 +1,7 @@
 <script setup>
-import { shallowRef, watch } from 'vue'
-import { TresCanvas } from '@tresjs/core'
 import { OrbitControls, RoundedBox } from '@tresjs/cientos'
+import { TresCanvas } from '@tresjs/core'
+import { shallowRef, watch } from 'vue'
 
 const boxRef = shallowRef()
 

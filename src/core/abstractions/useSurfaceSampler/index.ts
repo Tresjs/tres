@@ -1,12 +1,12 @@
-import { ref } from 'vue'
 import {
   Color,
   InterleavedBuffer,
   Object3D,
   Vector3,
 } from 'three'
-import type { InstancedMesh, Mesh } from 'three'
 import { MeshSurfaceSampler } from 'three-stdlib'
+import { ref } from 'vue'
+import type { InstancedMesh, Mesh } from 'three'
 
 export interface useSurfaceSamplerProps {
   /*

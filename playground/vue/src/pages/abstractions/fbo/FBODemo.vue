@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { useLoop } from '@tresjs/core'
 import { Fbo, OrbitControls, Stats } from '@tresjs/cientos'
+import { useLoop } from '@tresjs/core'
 import { useControls } from '@tresjs/leches'
 
 const fboRef = ref(null)

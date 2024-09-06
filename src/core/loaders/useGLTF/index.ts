@@ -1,7 +1,7 @@
 import { type TresLoader, type TresObject3D, useLoader } from '@tresjs/core'
-import type { AnimationClip, Material, Scene } from 'three'
-import { DRACOLoader } from 'three-stdlib'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
+import { DRACOLoader } from 'three-stdlib'
+import type { AnimationClip, Material, Scene } from 'three'
 import type { GLTF } from 'three-stdlib'
 
 export interface GLTFLoaderOptions {

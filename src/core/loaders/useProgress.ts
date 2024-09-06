@@ -1,6 +1,6 @@
 import { DefaultLoadingManager } from 'three'
-import type { Ref } from 'vue'
 import { ref } from 'vue'
+import type { Ref } from 'vue'
 import { useLogger } from '../../composables/useLogger'
 
 let saveLastTotalLoaded = 0

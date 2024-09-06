@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { TresCanvas } from '@tresjs/core'
-import { PCFSoftShadowMap, SRGBColorSpace } from 'three'
-
 import { Backdrop, GLTFModel, useProgress } from '@tresjs/cientos'
+import { TresCanvas } from '@tresjs/core'
+
+import { PCFSoftShadowMap, SRGBColorSpace } from 'three'
 import { ref, watch, watchEffect } from 'vue'
 
 const gl = {

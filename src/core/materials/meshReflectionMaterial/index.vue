@@ -1,14 +1,6 @@
 <!-- eslint-disable vue/attribute-hyphenation -->
 <script setup lang="ts">
-import { computed, onBeforeUnmount, shallowRef, watch } from 'vue'
 import { useLogger, useLoop, useTresContext } from '@tresjs/core'
-import type {
-  Camera,
-  Object3D,
-  Scene,
-  Texture,
-  WebGLRenderer,
-} from 'three'
 import {
   Color,
   DepthTexture,
@@ -24,7 +16,15 @@ import {
   Vector4,
   WebGLRenderTarget,
 } from 'three'
+import { computed, onBeforeUnmount, shallowRef, watch } from 'vue'
 import type { TresColor } from '@tresjs/core'
+import type {
+  Camera,
+  Object3D,
+  Scene,
+  Texture,
+  WebGLRenderer,
+} from 'three'
 import { BlurPass } from './BlurPass'
 import { MeshReflectionMaterial } from './material'
 

@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { TresCanvas } from '@tresjs/core'
 import { Box, ContactShadows, Icosahedron, OrbitControls, TorusKnot } from '@tresjs/cientos'
+import { TresCanvas } from '@tresjs/core'
+import { TresLeches, useControls } from '@tresjs/leches'
 import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
 import { reactive, shallowRef } from 'vue'
-import { TresLeches, useControls } from '@tresjs/leches'
 import '@tresjs/leches/styles'
 
 const gl = {

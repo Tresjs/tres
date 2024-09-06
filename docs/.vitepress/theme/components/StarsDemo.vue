@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { shallowRef } from 'vue'
-import { TresCanvas, useRenderLoop } from '@tresjs/core'
 import { OrbitControls, Stars } from '@tresjs/cientos'
+import { TresCanvas, useRenderLoop } from '@tresjs/core'
+import { shallowRef } from 'vue'
 
 const yRotation = shallowRef(0)
 useRenderLoop().onLoop(({ delta }) => {

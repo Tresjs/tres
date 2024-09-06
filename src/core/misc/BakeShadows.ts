@@ -1,5 +1,5 @@
-import { defineComponent, watchEffect } from 'vue'
 import { useTresContext } from '@tresjs/core'
+import { defineComponent, watchEffect } from 'vue'
 
 export const BakeShadows = defineComponent({
   name: 'BakeShadows',

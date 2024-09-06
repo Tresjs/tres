@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { shallowRef, watch } from 'vue'
 import { CameraControls, StatsGl } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
 import { NoToneMapping, SRGBColorSpace } from 'three'
+import { shallowRef, watch } from 'vue'
 import TestStars from '../../components/StarsForTest.vue'
 
 const gl = {

@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { shallowRef } from 'vue'
-import { TresCanvas, useTexture } from '@tresjs/core'
 import { MeshReflectionMaterial, OrbitControls } from '@tresjs/cientos'
+import { TresCanvas, useTexture } from '@tresjs/core'
 import { TresLeches, useControls } from '@tresjs/leches'
+import { shallowRef } from 'vue'
 import '@tresjs/leches/styles'
 
 useControls('fpsgraph')

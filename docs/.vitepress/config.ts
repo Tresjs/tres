@@ -1,5 +1,5 @@
-import { defineConfig } from 'vitepress'
 import { resolve } from 'pathe'
+import { defineConfig } from 'vitepress'
 
 const whitelist = ['TresCanvas', 'TresLeches', 'TresScene']
 

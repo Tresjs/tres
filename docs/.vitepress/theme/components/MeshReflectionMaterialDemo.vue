@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { TresCanvas, useTexture } from '@tresjs/core'
 import { MeshReflectionMaterial, SVG as MySVG, OrbitControls } from '@tresjs/cientos'
+import { TresCanvas, useTexture } from '@tresjs/core'
 
 const normalMapSrc = 'https://raw.githubusercontent.com/'
   + 'Tresjs/assets/main/textures/rock/normal.jpg'

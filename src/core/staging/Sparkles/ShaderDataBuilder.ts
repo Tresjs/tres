@@ -1,4 +1,10 @@
 import type { MaybeRef } from 'vue'
+import {
+  ShaderData,
+  ShaderDataEntryScalarGradient,
+  ShaderDataEntryTresColorGradient,
+  ShaderDataEntryXyzGradient,
+} from './ShaderData'
 import type {
   GradientScalar,
   GradientTresColor,
@@ -7,12 +13,6 @@ import type {
 import type {
   CanvasGradientRenderer,
   ShaderDataEntry,
-} from './ShaderData'
-import {
-  ShaderData,
-  ShaderDataEntryScalarGradient,
-  ShaderDataEntryTresColorGradient,
-  ShaderDataEntryXyzGradient,
 } from './ShaderData'
 
 type rgbaSuffixes = ['r', 'rg', 'rgb', 'rgba']

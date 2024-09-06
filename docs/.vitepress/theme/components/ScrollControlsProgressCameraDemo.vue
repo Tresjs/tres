@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { TresCanvas, useRenderLoop } from '@tresjs/core'
 import { Box, ScrollControls, Stars } from '@tresjs/cientos'
+import { TresCanvas, useRenderLoop } from '@tresjs/core'
+import { ref } from 'vue'
 
 const boxRef = ref()
 const progress = ref(0)

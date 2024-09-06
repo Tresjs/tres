@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { computed, ref, shallowRef, toRefs, watch, watchEffect } from 'vue'
-import { Spherical, Vector3 } from 'three'
 import { useTresContext } from '@tresjs/core'
+import { Spherical, Vector3 } from 'three'
+import { computed, ref, shallowRef, toRefs, watch, watchEffect } from 'vue'
 
 export interface StarsProps {
   /**

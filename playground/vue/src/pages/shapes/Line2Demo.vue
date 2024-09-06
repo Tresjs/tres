@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { TresCanvas, useRenderLoop } from '@tresjs/core'
 import { Line2, OrbitControls } from '@tresjs/cientos'
+import { TresCanvas, useRenderLoop } from '@tresjs/core'
 
 const NUM_POINTS = 10
 const points = ref(Array.from({ length: NUM_POINTS }).fill(0).map((_, i) => [i * 0.1, 0, 0]))

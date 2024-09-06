@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { QuadraticBezierCurve3, Vector3 } from 'three'
-import { TresCanvas } from '@tresjs/core'
 import { Box, CatmullRomCurve3, Circle, Cone, Cylinder, Dodecahedron, Icosahedron, Octahedron, OrbitControls, Plane, Ring, RoundedBox, Sphere, Superformula, Tetrahedron, Torus, TorusKnot, Tube } from '@tresjs/cientos'
+import { TresCanvas } from '@tresjs/core'
+import { QuadraticBezierCurve3, Vector3 } from 'three'
 import { onUnmounted } from 'vue'
 import OverlayInfo from '../../components/OverlayInfo.vue'
 

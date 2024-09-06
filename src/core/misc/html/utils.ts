@@ -1,6 +1,6 @@
+import { OrthographicCamera, PerspectiveCamera, Vector2, Vector3 } from 'three'
 import type { TresCamera, TresObject3D } from '@tresjs/core'
 import type { Matrix4, Raycaster } from 'three'
-import { OrthographicCamera, PerspectiveCamera, Vector2, Vector3 } from 'three'
 
 export const v1 = new Vector3(0, 0, 0)
 export const v2 = new Vector3(0, 0, 0)

@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { ref } from 'vue'
 import { OrbitControls, Sphere, useVideoTexture } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
 import { NoToneMapping, SRGBColorSpace } from 'three'
+import { ref } from 'vue'
 
 const gl = {
   clearColor: '#333',

@@ -16,8 +16,8 @@ The `<PositionalAudio>` component is very simple to set up and use, allowing you
 
 ```vue
 <script setup lang="ts">
-import { onUnmounted, shallowRef } from 'vue'
 import { Box, PositionalAudio } from '@tresjs/cientos'
+import { onUnmounted, shallowRef } from 'vue'
 
 const positionalAudioRef = shallowRef(null)
 

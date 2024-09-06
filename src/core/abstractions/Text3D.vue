@@ -1,8 +1,8 @@
 <script setup lang="ts">
+import { useTresContext } from '@tresjs/core'
+import { FontLoader, TextGeometry } from 'three-stdlib'
 import { computed, shallowRef, toRefs, toValue, useSlots, watch, watchEffect } from 'vue'
 import type { TextGeometryParameters } from 'three-stdlib'
-import { FontLoader, TextGeometry } from 'three-stdlib'
-import { useTresContext } from '@tresjs/core'
 
 export interface Glyph {
   _cachedOutline: string[]

@@ -1,7 +1,7 @@
 <script setup lang="ts">
+import { shallowRef, toRefs } from 'vue'
 import type { TresColor } from '@tresjs/core'
 import type { TetrahedronGeometry } from 'three'
-import { shallowRef, toRefs } from 'vue'
 
 export interface TetrahedronProps {
   /**

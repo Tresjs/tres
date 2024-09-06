@@ -1,6 +1,6 @@
-import { defineComponent, onUnmounted } from 'vue'
-import StatsGlImpl from 'stats-gl'
 import { useLoop, useTresContext } from '@tresjs/core'
+import StatsGlImpl from 'stats-gl'
+import { defineComponent, onUnmounted } from 'vue'
 
 export interface StatsGlProps {
   /*

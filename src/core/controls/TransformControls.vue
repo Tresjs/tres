@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { onUnmounted, shallowRef, toRefs, watch } from 'vue'
-import type { Camera, Event, Object3D } from 'three'
+import { useTresContext } from '@tresjs/core'
+import { useEventListener } from '@vueuse/core'
 
 import { TransformControls } from 'three-stdlib'
-import { useEventListener } from '@vueuse/core'
-import { useTresContext } from '@tresjs/core'
+import { onUnmounted, shallowRef, toRefs, watch } from 'vue'
+import type { Camera, Event, Object3D } from 'three'
 
 export interface TransformControlsProps {
   object: Object3D

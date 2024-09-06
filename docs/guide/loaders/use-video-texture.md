@@ -13,8 +13,8 @@ This composable is based on the Drei [useVideoTexture](https://github.com/pmndrs
 ::: code-group
 ```vue [app.vue]
 <script setup lang="ts">
-import { TresCanvas } from '@tresjs/core'
 import { OrbitControls } from '@tresjs/cientos'
+import { TresCanvas } from '@tresjs/core'
 import TheModel from './TheModel.vue'
 </script>
 

@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { onBeforeUnmount, onMounted, shallowReactive, shallowRef, toRefs, watch } from 'vue'
-import type { Material, Object3D, PositionalAudio } from 'three'
-import { AudioListener, AudioLoader, Box3 } from 'three'
-import type { LoaderProto } from '@tresjs/core'
 import { useLoader, useTresContext } from '@tresjs/core'
+import { AudioListener, AudioLoader, Box3 } from 'three'
 import { PositionalAudioHelper } from 'three/examples/jsm/helpers/PositionalAudioHelper'
+import { onBeforeUnmount, onMounted, shallowReactive, shallowRef, toRefs, watch } from 'vue'
+import type { LoaderProto } from '@tresjs/core'
+import type { Material, Object3D, PositionalAudio } from 'three'
 
 // TODO: Add & Dynamize : setRolloffFactor 'FLOAT' from https://threejs.org/docs/index.html?q=posi#api/en/audio/PositionalAudio.setRolloffFactor
 // TODO: Add & Dynamize : setMaxDistance 'FLOAT' from https://threejs.org/docs/index.html?q=posi#api/en/audio/PositionalAudio.setMaxDistance

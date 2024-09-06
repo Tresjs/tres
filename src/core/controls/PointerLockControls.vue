@@ -1,10 +1,10 @@
 <script lang="ts" setup>
-import { onUnmounted, ref, watch } from 'vue'
-import { PointerLockControls } from 'three-stdlib'
-import type { Camera } from 'three'
-import { useEventListener } from '@vueuse/core'
-import type { TresControl } from '@tresjs/core'
 import { useTresContext } from '@tresjs/core'
+import { useEventListener } from '@vueuse/core'
+import { PointerLockControls } from 'three-stdlib'
+import { onUnmounted, ref, watch } from 'vue'
+import type { TresControl } from '@tresjs/core'
+import type { Camera } from 'three'
 
 export interface PointerLockControlsProps {
   /**

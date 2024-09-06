@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
 import { TresLeches, useControls } from '@tresjs/leches'
-import '@tresjs/leches/styles'
 import Experiment from './LensflareDemo.vue'
+import '@tresjs/leches/styles'
 
 useControls('fpsgraph')
 </script>

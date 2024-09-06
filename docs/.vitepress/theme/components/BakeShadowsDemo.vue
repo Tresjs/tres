@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { shallowRef } from 'vue'
 import { BakeShadows } from '@tresjs/cientos'
 import { TresCanvas, useRenderLoop } from '@tresjs/core'
+import { shallowRef } from 'vue'
 
 const cubeRef = shallowRef()
 

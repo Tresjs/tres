@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { TresCanvas } from '@tresjs/core'
 import { Fit, OrbitControls } from '@tresjs/cientos'
+import { TresCanvas } from '@tresjs/core'
 import { BoxGeometry, MeshNormalMaterial } from 'three'
 
 const positions: number[][] = []

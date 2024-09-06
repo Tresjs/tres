@@ -1,7 +1,7 @@
-import { defineComponent, onUnmounted, watch } from 'vue'
-import { Audio, AudioListener, AudioLoader } from 'three'
-import { useEventListener } from '@vueuse/core'
 import { useTresContext } from '@tresjs/core'
+import { useEventListener } from '@vueuse/core'
+import { Audio, AudioListener, AudioLoader } from 'three'
+import { defineComponent, onUnmounted, watch } from 'vue'
 
 export interface AudioProps {
   /**

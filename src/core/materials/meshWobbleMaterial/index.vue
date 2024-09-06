@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { shallowRef, watch } from 'vue'
 import { useLoop, useTresContext } from '@tresjs/core'
+import { shallowRef, watch } from 'vue'
 
 import { WobbleMaterialImpl as MeshWobbleMaterial } from './material'
 

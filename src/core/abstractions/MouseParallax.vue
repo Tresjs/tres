@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { computed, ref, shallowRef, toRefs, watch } from 'vue'
-import type { Group, Object3D } from 'three'
 import { useLoop, useTresContext } from '@tresjs/core'
 import { useElementSize, useMouse, useWindowSize } from '@vueuse/core'
+import { computed, ref, shallowRef, toRefs, watch } from 'vue'
 import type { UseMouseOptions } from '@vueuse/core'
+import type { Group, Object3D } from 'three'
 
 export interface MouseParallaxProps {
   /**

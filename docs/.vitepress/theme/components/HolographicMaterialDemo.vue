@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { shallowRef, watch } from 'vue'
-import { TresCanvas } from '@tresjs/core'
 import { HolographicMaterial, Levioso, OrbitControls, useGLTF } from '@tresjs/cientos'
+import { TresCanvas } from '@tresjs/core'
+import { shallowRef, watch } from 'vue'
 
 const path = 'https://raw.githubusercontent.com/'
   + 'Tresjs/assets/main/models/gltf/aku-aku/AkuAku.gltf'

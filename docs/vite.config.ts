@@ -1,7 +1,7 @@
-import { defineConfig } from 'vite'
 import Unocss from 'unocss/vite'
-import svgLoader from 'vite-svg-loader'
 import Components from 'unplugin-vue-components/vite'
+import { defineConfig } from 'vite'
+import svgLoader from 'vite-svg-loader'
 
 export default defineConfig({
   plugins: [

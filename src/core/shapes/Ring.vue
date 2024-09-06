@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { type TresColor, useTresContext } from '@tresjs/core'
-import type { RingGeometry } from 'three'
 import { shallowRef, toRefs, watch } from 'vue'
+import type { RingGeometry } from 'three'
 
 export interface RingProps {
   /**

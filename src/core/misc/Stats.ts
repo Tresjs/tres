@@ -1,6 +1,6 @@
-import { defineComponent, onUnmounted } from 'vue'
 import { useLoop } from '@tresjs/core'
 import StatsImpl from 'stats.js'
+import { defineComponent, onUnmounted } from 'vue'
 
 export const Stats = defineComponent({
   name: 'Stats',

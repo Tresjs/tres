@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { shallowRef, watch } from 'vue'
-import { TresCanvas } from '@tresjs/core'
 import { GlobalAudio } from '@tresjs/cientos'
+import { TresCanvas } from '@tresjs/core'
+import { shallowRef, watch } from 'vue'
 
 const exampleAudio
   = 'https://raw.githubusercontent.com/Tresjs/assets/main/music/sunny-afternoon.mp3'

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { type TresColor, useTresContext } from '@tresjs/core'
-import type { DodecahedronGeometry } from 'three'
 import { shallowRef, toRefs, watch } from 'vue'
+import type { DodecahedronGeometry } from 'three'
 
 export interface DodecahedronProps {
   /**

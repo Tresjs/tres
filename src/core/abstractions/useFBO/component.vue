@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import type { FboOptions } from '.'
 import { useFBO } from '.'
+import type { FboOptions } from '.'
 
 const props = withDefaults(defineProps<FboOptions>(), {
   depth: false,

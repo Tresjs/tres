@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { shallowRef, watch } from 'vue'
-import { TresCanvas } from '@tresjs/core'
 import { HolographicMaterial, OrbitControls, Sphere } from '@tresjs/cientos'
+import { TresCanvas } from '@tresjs/core'
 import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
+import { shallowRef, watch } from 'vue'
 
 const gl = {
   clearColor: '#333',

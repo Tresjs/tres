@@ -1,7 +1,7 @@
 <script setup lang="ts">
+import { useLoop, useTexture, useTresContext } from '@tresjs/core'
 import { computed, shallowRef, toRefs } from 'vue'
 import type { TresColor } from '@tresjs/core'
-import { useLoop, useTexture, useTresContext } from '@tresjs/core'
 import type { Object3D, Texture } from 'three'
 
 export interface SmokeProps {

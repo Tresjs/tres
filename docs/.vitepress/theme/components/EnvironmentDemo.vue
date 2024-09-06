@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { TresCanvas } from '@tresjs/core'
-import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
-
 import { Environment, OrbitControls, Sphere, useProgress } from '@tresjs/cientos'
+import { TresCanvas } from '@tresjs/core'
+
 import { TresLeches, useControls } from '@tresjs/leches'
-import '@tresjs/leches/styles'
+import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
 import { ref } from 'vue'
+import '@tresjs/leches/styles'
 
 const environmentFiles = ['/px.jpg', '/nx.jpg', '/py.jpg', '/ny.jpg', '/pz.jpg', '/nz.jpg']
 

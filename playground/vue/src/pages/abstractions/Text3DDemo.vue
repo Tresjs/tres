@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { TresCanvas } from '@tresjs/core'
 import { OrbitControls, Text3D } from '@tresjs/cientos'
+import { TresCanvas } from '@tresjs/core'
 import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
+import { ref } from 'vue'
 
 const gl = {
   clearColor: '#82DBC5',

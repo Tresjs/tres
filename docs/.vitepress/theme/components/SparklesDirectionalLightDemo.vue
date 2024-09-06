@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { TresCanvas, useRenderLoop } from '@tresjs/core'
 import { OrbitControls, Sparkles, Sphere, Torus } from '@tresjs/cientos'
+import { TresCanvas, useRenderLoop } from '@tresjs/core'
 import { shallowRef } from 'vue'
 
 const lightRef = shallowRef()

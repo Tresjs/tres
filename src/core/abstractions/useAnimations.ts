@@ -1,8 +1,8 @@
-import type { AnimationAction, AnimationClip, Object3D, Scene } from 'three'
-import { AnimationMixer } from 'three'
 import { useLoop } from '@tresjs/core'
-import type { Ref } from 'vue'
+import { AnimationMixer } from 'three'
 import { ref, shallowReactive } from 'vue'
+import type { AnimationAction, AnimationClip, Object3D, Scene } from 'three'
+import type { Ref } from 'vue'
 
 /**
  * Creates an AnimationMixer and returns it.

@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import { shallowRef, toRefs, watch } from 'vue'
 import { useTresContext } from '@tresjs/core'
-import type { TresColor } from '@tresjs/core'
 import { Reflector } from 'three-stdlib'
+import { shallowRef, toRefs, watch } from 'vue'
+import type { TresColor } from '@tresjs/core'
 
 export interface ReflectorProps {
   /**

@@ -1,7 +1,7 @@
 <script setup lang="ts">
+import { MouseParallax, TorusKnot } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
 import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
-import { MouseParallax, TorusKnot } from '@tresjs/cientos'
 
 const gl = {
   clearColor: '#82DBC5',

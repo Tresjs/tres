@@ -8,9 +8,9 @@ import dts from 'vite-plugin-dts'
 /* import { visualizer } from 'rollup-plugin-visualizer' */
 import { templateCompilerOptions } from '@tresjs/core'
 
-import { resolve } from 'pathe'
-
 import { bold, gray, lightGreen, yellow } from 'kolorist'
+
+import { resolve } from 'pathe'
 import glsl from 'vite-plugin-glsl'
 import pkg from './package.json'
 

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { ref } from 'vue'
 import { useRafFn } from '@vueuse/core'
+import { ref } from 'vue'
 import { useState } from '../composables/state'
 
 const width = 160

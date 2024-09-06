@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { TresCanvas } from '@tresjs/core'
 import { OrbitControls, Sphere, useVideoTexture } from '@tresjs/cientos'
+import { TresCanvas } from '@tresjs/core'
+import { ref } from 'vue'
 
 const exampleVideo = 'https://raw.githubusercontent.com/'
   + 'Tresjs/assets/main/textures/video-textures/useVideoTexture.mp4'

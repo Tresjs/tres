@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { TresCanvas } from '@tresjs/core'
 import { OrbitControls, Sky } from '@tresjs/cientos'
-import { ACESFilmicToneMapping, SRGBColorSpace } from 'three'
+import { TresCanvas } from '@tresjs/core'
 import { TresLeches, useControls } from '@tresjs/leches'
+import { ACESFilmicToneMapping, SRGBColorSpace } from 'three'
 import '@tresjs/leches/styles'
 
 const gl = {

@@ -1,9 +1,9 @@
 <script setup lang="ts">
+import { useTresContext } from '@tresjs/core'
 // eslint-disable-file vue/attribute-hyphenation
 import { MathUtils, Vector3 } from 'three'
 import { Sky as SkyImpl } from 'three-stdlib'
 import { computed, shallowRef, watch } from 'vue'
-import { useTresContext } from '@tresjs/core'
 
 export interface SkyProps {
   /**

@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { TresCanvas, useRenderLoop } from '@tresjs/core'
 import { Sparkles, Sphere } from '@tresjs/cientos'
-import { shallowRef } from 'vue'
+import { TresCanvas, useRenderLoop } from '@tresjs/core'
 import { TresLeches, useControls } from '@tresjs/leches'
+import { shallowRef } from 'vue'
 import '@tresjs/leches/styles'
 
 const lightRef = shallowRef()

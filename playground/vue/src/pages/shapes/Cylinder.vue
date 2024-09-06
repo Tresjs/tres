@@ -1,6 +1,6 @@
 <script setup>
-import { TresCanvas } from '@tresjs/core'
 import { Cylinder, OrbitControls } from '@tresjs/cientos'
+import { TresCanvas } from '@tresjs/core'
 
 const { random: r, floor: fl, PI } = Math
 const choice = (arr) => {

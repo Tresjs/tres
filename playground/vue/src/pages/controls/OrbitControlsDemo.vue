@@ -1,12 +1,12 @@
 <!-- eslint-disable no-console -->
 <script setup lang="ts">
-import { TresCanvas } from '@tresjs/core'
-import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
 import { OrbitControls } from '@tresjs/cientos'
-import { reactive } from 'vue'
+import { TresCanvas } from '@tresjs/core'
 import { TresLeches, useControls } from '@tresjs/leches'
-import '@tresjs/leches/styles'
+import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
+import { reactive } from 'vue'
 import { useState } from '../../composables/state'
+import '@tresjs/leches/styles'
 
 const gl = {
   clearColor: '#82DBC5',

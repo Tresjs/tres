@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Color, DoubleSide } from 'three'
 /*
 ** This section of code is inspired by the Lightformer component from the drei library:
 ** https://github.com/pmndrs/drei/blob/master/src/core/Lightformer.tsx
@@ -6,7 +7,6 @@
 */
 import { ref, watchEffect } from 'vue'
 import type { MeshBasicMaterial, Texture } from 'three'
-import { Color, DoubleSide } from 'three'
 
 const props = withDefaults(defineProps<{
   args?: any[]

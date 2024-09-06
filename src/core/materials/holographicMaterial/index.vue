@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { shallowRef } from 'vue'
 import { useLoop, useTresContext } from '@tresjs/core'
-import type { TresColor } from '@tresjs/core'
 import { FrontSide } from 'three'
+import { shallowRef } from 'vue'
+import type { TresColor } from '@tresjs/core'
 import type { Side } from 'three'
 
 import HolographicMaterial from './HolographicMaterialParameters'

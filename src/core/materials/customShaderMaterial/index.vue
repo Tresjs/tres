@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { shallowRef, watch } from 'vue'
 import { useTresContext } from '@tresjs/core'
 import CustomShaderMaterial from 'three-custom-shader-material/vanilla'
+import { shallowRef, watch } from 'vue'
 import type { Fn } from '@vueuse/core'
 
 interface CustomShaderMaterialProps {

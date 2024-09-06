@@ -1,7 +1,7 @@
 <script setup lang="ts">
+import { ref, shallowRef, toRefs, watch } from 'vue'
 import type { BufferAttribute, PlaneGeometry } from 'three'
 import type { Ref } from 'vue'
-import { ref, shallowRef, toRefs, watch } from 'vue'
 
 export interface BackdropProps {
   floor?: number

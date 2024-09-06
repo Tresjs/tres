@@ -1,12 +1,7 @@
 <script lang="ts" setup>
+import { useLoop, useTresContext } from '@tresjs/core'
+import { useEventListener } from '@vueuse/core'
 import CameraControls from 'camera-controls'
-import { computed, onUnmounted, ref, toRefs, watch, watchEffect } from 'vue'
-import type {
-  Camera,
-  Object3D,
-  OrthographicCamera,
-  PerspectiveCamera,
-} from 'three'
 import {
   Box3,
   MathUtils,
@@ -19,9 +14,14 @@ import {
   Vector3,
   Vector4,
 } from 'three'
+import { computed, onUnmounted, ref, toRefs, watch, watchEffect } from 'vue'
 import type { TresControl } from '@tresjs/core'
-import { useLoop, useTresContext } from '@tresjs/core'
-import { useEventListener } from '@vueuse/core'
+import type {
+  Camera,
+  Object3D,
+  OrthographicCamera,
+  PerspectiveCamera,
+} from 'three'
 import { isOrthographicCamera, isPerspectiveCamera } from '../../utils/types'
 
 export interface CameraControlsProps {

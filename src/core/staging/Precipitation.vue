@@ -1,7 +1,7 @@
 <script setup lang="ts">
+import { useLoop } from '@tresjs/core'
 import { shallowRef, toRefs, watchEffect } from 'vue'
 import type { TresColor } from '@tresjs/core'
-import { useLoop } from '@tresjs/core'
 
 export interface PrecipitationProps {
   /**

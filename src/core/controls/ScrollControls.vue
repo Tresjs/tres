@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { ref, shallowRef, watch } from 'vue'
 import { useLogger, useLoop, useTresContext } from '@tresjs/core'
 import { useScroll, useWindowScroll, useWindowSize } from '@vueuse/core'
+import { ref, shallowRef, watch } from 'vue'
 
 export interface ScrollControlsProps {
   /**

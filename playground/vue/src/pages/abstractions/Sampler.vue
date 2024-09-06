@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { TresCanvas } from '@tresjs/core'
 import { OrbitControls, Sampler } from '@tresjs/cientos'
+import { TresCanvas } from '@tresjs/core'
 import { TresLeches, useControls } from '@tresjs/leches'
-import '@tresjs/leches/dist/style.css'
 import { ACESFilmicToneMapping, SRGBColorSpace } from 'three'
+import { ref } from 'vue'
 import type { Mesh } from 'three'
+import '@tresjs/leches/dist/style.css'
 
 const gl = {
   clearColor: '#82DBC5',

@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { reactive, shallowRef } from 'vue'
-import { TresCanvas } from '@tresjs/core'
 import { MouseParallax, OrbitControls, Stars } from '@tresjs/cientos'
-import { NoToneMapping, SRGBColorSpace } from 'three'
+import { TresCanvas } from '@tresjs/core'
 import { TresLeches, useControls } from '@tresjs/leches'
+import { NoToneMapping, SRGBColorSpace } from 'three'
+import { reactive, shallowRef } from 'vue'
 import '@tresjs/leches/styles'
 
 const gl = {

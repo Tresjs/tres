@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { TresCanvas } from '@tresjs/core'
 import { AnimatedSprite, Box, OrbitControls } from '@tresjs/cientos'
+import { TresCanvas } from '@tresjs/core'
 import { TresLeches, useControls } from '@tresjs/leches'
-import '@tresjs/leches/styles'
 import type { AtlasData } from '../../../../src/core/abstractions/AnimatedSprite/Atlas'
+import '@tresjs/leches/styles'
 
 const { centerX, centerY, fps, asSprite } = useControls({
   centerX: { value: 0.5, min: 0, max: 1, step: 0.1 },

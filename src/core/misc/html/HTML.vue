@@ -1,21 +1,21 @@
 <script setup lang="ts">
-import type { VNode } from 'vue'
-import { computed, createVNode, isRef, onUnmounted, ref, render, toRefs, useAttrs, watch, watchEffect } from 'vue'
-import type {
-  OrthographicCamera,
-} from 'three'
+import { useLoop, useTresContext } from '@tresjs/core'
 import {
   DoubleSide,
   PlaneGeometry,
   ShaderMaterial,
   Vector3,
 } from 'three'
+import { computed, createVNode, isRef, onUnmounted, ref, render, toRefs, useAttrs, watch, watchEffect } from 'vue'
 import type { TresCamera, TresObject, TresObject3D } from '@tresjs/core'
-import { useLoop, useTresContext } from '@tresjs/core'
-
 import type { Mutable } from '@vueuse/core'
-import vertexShader from './shaders/vertex.glsl'
+import type {
+  OrthographicCamera,
+} from 'three'
+
+import type { VNode } from 'vue'
 import fragmentShader from './shaders/fragment.glsl'
+import vertexShader from './shaders/vertex.glsl'
 import {
   calculatePosition,
   epsilon,

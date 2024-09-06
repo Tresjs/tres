@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { useTresContext } from '@tresjs/core'
-import type { TresColor } from '@tresjs/core'
-import type { BoxGeometry } from 'three'
 import { RoundedBoxGeometry } from 'three-stdlib'
-
 import { shallowRef, toRefs, watch } from 'vue'
+import type { TresColor } from '@tresjs/core'
+
+import type { BoxGeometry } from 'three'
 
 export interface BoxProps {
   /**

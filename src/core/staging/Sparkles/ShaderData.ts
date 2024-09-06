@@ -1,23 +1,23 @@
+import { watchThrottled } from '@vueuse/core'
 import {
   ClampToEdgeWrapping,
   DataTexture,
   RGBAFormat,
-  UVMapping,
   UnsignedByteType,
+  UVMapping,
 } from 'three'
 import { clamp, mapLinear } from 'three/src/math/MathUtils'
-import type { MaybeRef, Ref } from 'vue'
 import { isRef, shallowRef, triggerRef, watch } from 'vue'
-import { watchThrottled } from '@vueuse/core'
-import type {
-  GradientScalar,
-  GradientTresColor,
-  GradientVectorFlexibleParams,
-} from './../../../utils/Gradient'
+import type { MaybeRef, Ref } from 'vue'
 import {
   normalizeColorGradient,
   normalizeFlexibleVector3Gradient,
   normalizeScalarGradient,
+} from './../../../utils/Gradient'
+import type {
+  GradientScalar,
+  GradientTresColor,
+  GradientVectorFlexibleParams,
 } from './../../../utils/Gradient'
 
 export type CanvasGradientRenderer<T> = (

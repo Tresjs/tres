@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { TresCanvas, useRenderLoop } from '@tresjs/core'
 import { Fbo, OrbitControls } from '@tresjs/cientos'
+import { TresCanvas, useRenderLoop } from '@tresjs/core'
 import { ACESFilmicToneMapping, SRGBColorSpace } from 'three'
 import { nextTick, onMounted, ref, shallowReactive, shallowRef } from 'vue'
 

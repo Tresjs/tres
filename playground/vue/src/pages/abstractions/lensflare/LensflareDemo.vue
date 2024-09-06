@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { useLoop } from '@tresjs/core'
 import { Lensflare, OrbitControls, Torus } from '@tresjs/cientos'
+import { useLoop } from '@tresjs/core'
 import { useControls } from '@tresjs/leches'
 import { shallowRef } from 'vue'
 import '@tresjs/leches/styles'

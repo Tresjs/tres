@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import type { TresObject3D } from '@tresjs/core'
+import { Fit, OrbitControls } from '@tresjs/cientos'
 import { useLoop,
 } from '@tresjs/core'
-import { Fit, OrbitControls } from '@tresjs/cientos'
 import { Vector3 } from 'three'
+import type { TresObject3D } from '@tresjs/core'
 import RandUtils from '../../../../../../src/core/abstractions/Lensflare/RandUtils'
 
 defineProps<{
