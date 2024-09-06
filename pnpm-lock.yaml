@@ -83,7 +83,7 @@ importers:
         version: 8.0.1(release-it@17.6.0(typescript@5.5.4))
       '@tresjs/eslint-config':
         specifier: ^1.2.0
-        version: 1.2.0(@typescript-eslint/utils@8.4.0(eslint@9.9.1(jiti@1.21.6))(typescript@5.5.4))(@vue/compiler-sfc@3.5.3)(eslint@9.9.1(jiti@1.21.6))(typescript@5.5.4)(vitest@2.0.5(@types/node@22.5.4)(terser@5.31.6))
+        version: 1.3.0(@typescript-eslint/utils@8.4.0(eslint@9.9.1(jiti@1.21.6))(typescript@5.5.4))(@vue/compiler-sfc@3.5.3)(eslint@9.9.1(jiti@1.21.6))(typescript@5.5.4)(vitest@2.0.5(@types/node@22.5.4)(terser@5.31.6))
       '@types/node':
         specifier: ^22.5.4
         version: 22.5.4
@@ -1661,8 +1661,8 @@ packages:
       three: '>=0.133'
       vue: '>=3.4'
 
-  '@tresjs/eslint-config@1.2.0':
-    resolution: {integrity: sha512-x2Q+31Eask8VUMfEA6yD+Wc6ZeMgiBovCZkLTNWxRXuPe0/UxD42yFJHv01beOrY2Hlsn+o7StDbtecMroOHbA==}
+  '@tresjs/eslint-config@1.3.0':
+    resolution: {integrity: sha512-4O2wIrkyyXHZE7+0t0wswhQdkXFjYvChA38rBl8/aywJBxHx8s6mwkpFnytGcYkcOT3gE2yB0Oij9DFEwn4l6Q==}
     peerDependencies:
       eslint: 9.x
 
@@ -8487,7 +8487,7 @@ snapshots:
     transitivePeerDependencies:
       - '@vue/composition-api'
 
-  '@tresjs/eslint-config@1.2.0(@typescript-eslint/utils@8.4.0(eslint@9.9.1(jiti@1.21.6))(typescript@5.5.4))(@vue/compiler-sfc@3.5.3)(eslint@9.9.1(jiti@1.21.6))(typescript@5.5.4)(vitest@2.0.5(@types/node@22.5.4)(terser@5.31.6))':
+  '@tresjs/eslint-config@1.3.0(@typescript-eslint/utils@8.4.0(eslint@9.9.1(jiti@1.21.6))(typescript@5.5.4))(@vue/compiler-sfc@3.5.3)(eslint@9.9.1(jiti@1.21.6))(typescript@5.5.4)(vitest@2.0.5(@types/node@22.5.4)(terser@5.31.6))':
     dependencies:
       '@antfu/eslint-config': 3.3.2(@typescript-eslint/utils@8.4.0(eslint@9.9.1(jiti@1.21.6))(typescript@5.5.4))(@vue/compiler-sfc@3.5.3)(eslint-plugin-format@0.1.2(eslint@9.9.1(jiti@1.21.6)))(eslint@9.9.1(jiti@1.21.6))(typescript@5.5.4)(vitest@2.0.5(@types/node@22.5.4)(terser@5.31.6))
       eslint: 9.9.1(jiti@1.21.6)
