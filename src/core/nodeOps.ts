@@ -30,7 +30,9 @@ const supportedPointerEvents = [
 export const nodeOps: (context: TresContext) => RendererOptions<TresObject, TresObject | null> = (context) => {
   const scene = context.scene.value
 
-  function createElement(tag: string, _isSVG: undefined, _anchor: any, props: Partial<WithMathProps<TresObject>> = {}): TresObject | null {
+  function createElement(tag: string, _isSVG: undefined, _anchor: any, props: Partial<WithMathProps<TresObject>> | null): TresObject | null {
+    if (!props) { props = {} }
+
     if (!props.args) {
       props.args = []
     }
