@@ -221,7 +221,7 @@ The `useLoader` composable allows you to load assets using the [THREE.js loaders
 ```ts
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader'
 
-const { scene } = await useLoader(THREE.GLTFLoader, 'path/to/asset.gltf')
+const { scene } = await useLoader(GLTFLoader, 'path/to/asset.gltf')
 ```
 
 Since the `useLoader` composable returns a promise, you can use it with `async/await` or `then/catch`. If you are using it on a component make sure you wrap it with a `Suspense` component. See [Suspense](https://vuejs.org/guide/built-ins/suspense.html#suspense) for more information.
@@ -233,6 +233,33 @@ Since the `useLoader` composable returns a promise, you can use it with `async/a
   </Suspense>
 </template>
 ```
+
+### UseLoader as component
+
+You can also use `UseLoader` (with uppercase) as component like so:
+
+```vue
+<script setup lang="ts">
+import { UseLoader } from '@tresjs/core'
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader'
+</script>
+
+<Suspense>
+  <UseLoader v-slot="{ data }" :loader="GLTFLoader" url="path/to/asset.gltf">
+      <primitive :object="data.scene" />
+</Suspense>
+```
+
+### Props
+
+| Prop | type |
+| ---- | --- |
+| **loader** | `THREE.Loader` |
+| **url** | `String` |
+
+::: warning
+The `UseLoader` component needs to be wrapped in a `Suspense` component in order to work
+:::
 
 ## useTexture
 
@@ -312,7 +339,7 @@ You can also use `UseTexture` (with uppercase) as component like so:
 </Suspense>
 ```
 
-## Props
+### Props
 
 | Prop | type |
 | ---- | --- |

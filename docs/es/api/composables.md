@@ -93,6 +93,33 @@ Dado que el composable `useLoader` devuelve una promesa, puedes usarlo con `asyn
 </template>
 ```
 
+### UseLoader como component
+
+Puedes usar `UseLoader` como componente, de la siguiente forma:
+
+```vue
+<script setup lang="ts">
+import { UseLoader } from '@tresjs/core'
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader'
+</script>
+
+<Suspense>
+  <UseLoader v-slot="{ data }" :loader="GLTFLoader" url="path/to/asset.gltf">
+      <primitive :object="data.scene" />
+</Suspense>
+```
+
+### Props
+
+| Prop | type |
+| ---- | --- |
+| **loader** | `THREE.Loader` |
+| **url** | `String` |
+
+::: warning
+El componente `UseLoader` necesita estar envuelto por un `Suspense` para poder funcionar
+:::
+
 ## useTexture
 
 El composable `useTexture` te permite cargar texturas utilizando el [cargador de texturas de THREE.js](https://threejs.org/docs/#api/en/loaders/TextureLoader). Retorna una promesa con la(s) textura(s) cargada(s).
@@ -165,7 +192,7 @@ Puedes usar `UseTexture` como componente, de la siguiente forma:
 </Suspense>
 ```
 
-## Props
+### Props
 
 | Prop | type |
 | ---- | --- |
