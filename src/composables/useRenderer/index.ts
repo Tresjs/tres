@@ -6,7 +6,7 @@ import {
 } from '@vueuse/core'
 import { ACESFilmicToneMapping, Color, WebGLRenderer } from 'three'
 
-import { computed, type MaybeRef, onUnmounted, shallowRef, watch, watchEffect } from 'vue'
+import { type MaybeRef, computed, onUnmounted, shallowRef, watch, watchEffect } from 'vue'
 
 import type { ColorSpace, Scene, ShadowMapType, ToneMapping, WebGLRendererParameters } from 'three'
 // Solution taken from Thretle that actually support different versions https://github.com/threlte/threlte/blob/5fa541179460f0dadc7dc17ae5e6854d1689379e/packages/core/src/lib/lib/useRenderer.ts
@@ -15,10 +15,10 @@ import { get, merge, set, setPixelRatio } from '../../utils'
 import { normalizeColor } from '../../utils/normalize'
 
 import { useLogger } from '../useLogger'
-import { rendererPresets } from './const'
 
 import type { EmitEventFn, TresColor } from '../../types'
 import type { TresContext } from '../useTresContextProvider'
+import { rendererPresets } from './const'
 import type { RendererPresetsType } from './const'
 
 type TransformToMaybeRefOrGetter<T> = {

@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, it } from 'vitest'
-import { createRenderLoop } from './loop'
 import type { TresContext } from '../composables/useTresContextProvider'
+import { createRenderLoop } from './loop'
 
 let renderLoop
 

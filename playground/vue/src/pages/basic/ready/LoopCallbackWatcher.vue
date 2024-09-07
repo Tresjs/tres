@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useLoop } from '@tresjs/core'
-import { ref, type ShallowRef, shallowRef } from 'vue'
+import { type ShallowRef, ref, shallowRef } from 'vue'
 
 const isCalled = ref(false)
 

@@ -1,6 +1,6 @@
 import { Object3D } from 'three'
-import { useSeek } from '.'
 import { withSetup } from '../../utils/test-utils'
+import { useSeek } from '.'
 
 const [composable, app] = withSetup(() => useSeek())
 
