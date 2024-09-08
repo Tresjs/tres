@@ -9,8 +9,8 @@ import type {
 import { createHighlightMesh, editSceneObject } from '../utils'
 import * as is from '../utils/is'
 import { bytesToKB, calculateMemoryUsage } from '../utils/perf'
-import type { TresContext } from '../composables'
 import { toastMessage } from './utils'
+import type { TresContext } from '../composables'
 import type { TresObject } from './../types'
 
 export interface Tags {

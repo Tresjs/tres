@@ -1,6 +1,6 @@
 <script setup>
-import { TresCanvas, UseLoader } from '@tresjs/core'
 import { OrbitControls } from '@tresjs/cientos'
+import { TresCanvas, UseLoader } from '@tresjs/core'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 
 const url = 'https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/blender-cube.glb'

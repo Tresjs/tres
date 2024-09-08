@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { type TresContext, onTresReady } from '@tresjs/core'
-import { type ShallowRef, ref, shallowRef } from 'vue'
+import { onTresReady, type TresContext } from '@tresjs/core'
+import { ref, type ShallowRef, shallowRef } from 'vue'
 
 const isCalled = ref(false)
 

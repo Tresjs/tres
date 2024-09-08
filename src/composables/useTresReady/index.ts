@@ -1,6 +1,6 @@
 import { useTresContext } from '../useTresContextProvider'
-import type { TresContext } from '../useTresContextProvider'
 import { createReadyEventHook } from './createReadyEventHook'
+import type { TresContext } from '../useTresContextProvider'
 
 const ctxToUseTresReady = new WeakMap<
   TresContext,

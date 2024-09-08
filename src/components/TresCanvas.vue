@@ -2,10 +2,10 @@
 import { PerspectiveCamera, Scene } from 'three'
 import * as THREE from 'three'
 import {
-  Fragment,
   computed,
   createRenderer,
   defineComponent,
+  Fragment,
   getCurrentInstance,
   h,
   onMounted,

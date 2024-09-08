@@ -9,8 +9,8 @@ import {
   Mesh,
   MeshToonMaterial,
   NoToneMapping,
-  SRGBColorSpace,
   SphereGeometry,
+  SRGBColorSpace,
   TorusGeometry,
   TorusKnotGeometry,
 } from 'three'
