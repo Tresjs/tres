@@ -129,6 +129,13 @@ describe('nodeOps', () => {
     it('throws an error if tag does not exist in catalogue', () => {
       expect(() => { nodeOps.createElement('THIS_TAG_DOES_NOT_EXIST', undefined, undefined, {}) }).toThrow()
     })
+
+    it('does not throw an error if `props` is `null`', () => {
+      expect(() => { nodeOps.createElement('TresPerspectiveCamera', undefined, undefined, null) }).not.toThrow()
+      expect(() => { nodeOps.createElement('TresMesh', undefined, undefined, null) }).not.toThrow()
+      expect(() => { nodeOps.createElement('TresBoxGeometry', undefined, undefined, null) }).not.toThrow()
+      expect(() => { nodeOps.createElement('TresMeshNormalMaterial', undefined, undefined, null) }).not.toThrow()
+    })
   })
 
   describe('insert', () => {
