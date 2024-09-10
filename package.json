@@ -6,6 +6,10 @@
   "description": "Post-processing library for TresJS",
   "author": "Alvaro Saburido <hola@alvarosaburido.dev> (https://github.com/alvarosabu/)",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tresjs/post-processing.git"
+  },
   "keywords": [
     "vue",
     "3d",
