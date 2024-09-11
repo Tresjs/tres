@@ -126,7 +126,7 @@ const createInternalComponent = (context: TresContext, empty = false) =>
 
         // Extract provides from the current instance and merge them
         if (currentInstance.provides) {
-          Object.assign(provides, currentInstance.provides)
+          Object.assign({}, provides, currentInstance.provides)
         }
 
         // Recursively process the parent instance
