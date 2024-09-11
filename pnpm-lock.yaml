@@ -82,8 +82,8 @@ importers:
         specifier: ^4.0.4
         version: 4.0.5(magicast@0.3.5)(rollup@4.21.2)(vue@3.5.1(typescript@5.5.4))(webpack-sources@3.2.3)
       postprocessing:
-        specifier: 6.36.1
-        version: 6.36.1(three@0.168.0)
+        specifier: 6.36.2
+        version: 6.36.2(three@0.168.0)
       vite-svg-loader:
         specifier: ^5.1.0
         version: 5.1.0(vue@3.5.1(typescript@5.5.4))
@@ -4921,8 +4921,8 @@ packages:
     resolution: {integrity: sha512-7KTLTdzdZZYscUc65XmjFiB73vBhBfbPztCYdUNvlaso9PrzjzcmjqBPR0lNGkcVlcO4BjiO5rK/qNz+XAen1Q==}
     engines: {node: ^10 || ^12 || >=14}
 
-  postprocessing@6.36.1:
-    resolution: {integrity: sha512-V4THKWPZjRUC40OiTWhlzJCWyEkRYeAvMtYVdpi2pcQxAD2qTDm48UB2tZRTW+QdAw80P8Ut7IeKV6J1Gvac9w==}
+  postprocessing@6.36.2:
+    resolution: {integrity: sha512-a1qZjpm0Vrozat7YFtYOEvwElWz/ukhxoA+K7HzDVeor20vzacREMnJZL5GTj6TFVr7/ma3W0qD03Go0V5gQOA==}
     peerDependencies:
       three: '>= 0.157.0 < 0.169.0'
 
@@ -8375,7 +8375,7 @@ snapshots:
     dependencies:
       '@tresjs/core': 4.2.10(three@0.168.0)(vue@3.5.1(typescript@5.5.4))
       '@vueuse/core': 10.11.1(vue@3.5.1(typescript@5.5.4))
-      postprocessing: 6.36.1(three@0.168.0)
+      postprocessing: 6.36.2(three@0.168.0)
       three: 0.168.0
       three-stdlib: 2.32.2(three@0.168.0)
       vue: 3.5.1(typescript@5.5.4)
@@ -13113,7 +13113,7 @@ snapshots:
       picocolors: 1.1.0
       source-map-js: 1.2.0
 
-  postprocessing@6.36.1(three@0.168.0):
+  postprocessing@6.36.2(three@0.168.0):
     dependencies:
       three: 0.168.0
 
