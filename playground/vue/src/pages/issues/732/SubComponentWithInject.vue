@@ -3,6 +3,7 @@ import { inject } from 'vue'
 
 const awiwi = inject('useTres')
 
+// eslint-disable-next-line no-console
 console.log(awiwi)
 </script>
 
