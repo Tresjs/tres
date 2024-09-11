@@ -78,8 +78,8 @@ import Scene from './Scene.vue'
 
 ```vue [Scene.vue]
 <script setup>
-import { shallowRef, watch } from 'vue'
 import { useTres } from '@tresjs/core'
+import { shallowRef, watch } from 'vue'
 
 const boxRef = shallowRef(null)
 const { invalidate } = useTres()
@@ -143,10 +143,9 @@ To avoid errors and unwanted sideeffects, resources created programatically with
   import { dispose } from '@tresjs/core'
   import { useGLTF } from '@tresjs/cientos'
 
-  const { nodes } = await useGLTF(
-    'https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/blender-cube.glb',
-    { draco: true },
-  )
+  const { nodes } = await useGLTF('https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/blender-cube.glb', {
+    draco: true,
+  })
   const model = nodes.Cube
 
   onUnmounted(() => {

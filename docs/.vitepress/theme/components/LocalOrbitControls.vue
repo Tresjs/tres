@@ -1,10 +1,10 @@
 <script lang="ts" setup>
-import type { Camera } from 'three'
+import { extend, useRenderLoop, useTresContext } from '@tresjs/core'
+import { useEventListener } from '@vueuse/core'
 import { OrbitControls } from 'three-stdlib'
 import { onMounted, onUnmounted, shallowRef, unref } from 'vue'
 import type { TresVector3 } from '@tresjs/core'
-import { extend, useRenderLoop, useTresContext } from '@tresjs/core'
-import { useEventListener } from '@vueuse/core'
+import type { Camera } from 'three'
 
 export interface OrbitControlsProps {
   /**

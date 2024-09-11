@@ -29,8 +29,8 @@ Por último, para ayudarnos con la ubicación, agreguemos un plano simple, rotad
 
 ```vue
 <script setup lang="ts">
-import { TresCanvas } from '@tresjs/core'
 import { OrbitControls } from '@tresjs/cientos'
+import { TresCanvas } from '@tresjs/core'
 </script>
 
 <template>
@@ -122,9 +122,9 @@ Similar a lo que aprendimos en el ejemplo de [Animaciones básicas](/cookbook/ba
 
 ```vue
 <script setup lang="ts">
-import { shallowRef } from 'vue'
-import { TresCanvas } from '@tresjs/core'
 import { OrbitControls } from '@tresjs/cientos'
+import { TresCanvas } from '@tresjs/core'
+import { shallowRef } from 'vue'
 
 const blobRef = shallowRef(null)
 // ...

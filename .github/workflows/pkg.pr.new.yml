@@ -1,6 +1,5 @@
 name: Publish Any Commit
 on:
-  pull_request:
   push:
     branches:
       - '**'
@@ -25,7 +24,7 @@ jobs:
         node-version: [20]
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - run: corepack enable
       - uses: actions/setup-node@v4

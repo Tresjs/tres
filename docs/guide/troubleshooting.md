@@ -61,9 +61,9 @@ At this moment, there is no native Vue support to define the renderer used on th
 Got to your `vite.config.ts` and add the following configuration to the `@vitejs/plugin-vue`:
 
 ```ts
-import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue'
 import { templateCompilerOptions } from '@tresjs/core'
+import vue from '@vitejs/plugin-vue'
+import { defineConfig } from 'vite'
 
 export default defineConfig({
   plugins: [

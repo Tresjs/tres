@@ -1,5 +1,26 @@
 
 
+## [4.2.10](https://github.com/Tresjs/tres/compare/4.2.9...4.2.10) (2024-09-04)
+
+
+### Bug Fixes
+
+* 785 vscode intellisense autocompletion not getting tres components props ([#809](https://github.com/Tresjs/tres/issues/809)) ([66c7ab5](https://github.com/Tresjs/tres/commit/66c7ab5122e28714d73278b679df8169ac47f9f9))
+
+## [4.2.9](https://github.com/Tresjs/tres/compare/4.2.8...4.2.9) (2024-08-30)
+
+
+### Bug Fixes
+
+* **useLoader:** remove array related logic for loaders ([#808](https://github.com/Tresjs/tres/issues/808)) ([88cef1e](https://github.com/Tresjs/tres/commit/88cef1e0ab454f97c8e55c86ec48e53d326be59e))
+
+## [4.2.8](https://github.com/Tresjs/tres/compare/4.2.7...4.2.8) (2024-08-30)
+
+
+### Bug Fixes
+
+* use CubeTextureLoader correctly with array of files ([#807](https://github.com/Tresjs/tres/issues/807)) ([38f05b0](https://github.com/Tresjs/tres/commit/38f05b03d7d2b9934f8893a5f4858b09b7188782))
+
 ## [4.2.7](https://github.com/Tresjs/tres/compare/4.2.6...4.2.7) (2024-08-19)
 
 ## [4.2.6](https://github.com/Tresjs/tres/compare/4.2.5...4.2.6) (2024-08-15)

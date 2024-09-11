@@ -91,8 +91,8 @@ import AnimatedBox from './AnimatedBox.vue'
 
 ```vue [AnimatedBox.vue]
 <script setup>
-import { shallowRef } from 'vue'
 import { useLoop } from '@tresjs/core'
+import { shallowRef } from 'vue'
 
 const boxRef = shallowRef()
 
@@ -296,6 +296,38 @@ const texture = await useTexture({ map: 'path/to/texture.png' }, loadingManager)
 ```
 
 Similar to above composable, the `useTexture` composable returns a promise, you can use it with `async/await` or `then/catch`. If you are using it on a component make sure you wrap it with a `Suspense` component.
+
+### UseTexture as component
+
+You can also use `UseTexture` (with uppercase) as component like so:
+
+```html
+<Suspense>
+  <UseTexture v-slot="{ textures }" map="path/to/texture.png">
+    <TresMesh>
+      <TresBoxGeometry />
+      <TresMeshStandardMaterial :map="textures.map" />
+    </TresMesh>
+  </UseTexture>
+</Suspense>
+```
+
+## Props
+
+| Prop | type |
+| ---- | --- |
+| **map?** | `String` |
+| **displacementMap?** | `String` |
+| **normalMap?** | `String` |
+| **roughnessMap?** | `String` |
+| **metalnessMap?** | `String` |
+| **aoMap?** | `String` |
+| **alphaMap?** | `String` |
+| **matcap?** | `String` |
+
+::: warning
+The `UseTexture` component needs to be wrapped in a `Suspense` component in order to work
+:::
 
 ## useSeek
 

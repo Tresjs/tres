@@ -1,7 +1,7 @@
 <script setup>
 import Theme from 'vitepress/theme'
-import LoveVueThreeJS from './components/LoveVueThreeJS.vue'
 import HomeSponsors from './components/HomeSponsors.vue'
+import LoveVueThreeJS from './components/LoveVueThreeJS.vue'
 
 const { Layout } = Theme
 </script>

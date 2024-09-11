@@ -24,8 +24,8 @@ difficulty: 0
 
 ```vue
 <script setup lang="ts">
-import { TresCanvas } from '@tresjs/core'
 import { OrbitControls } from '@tresjs/cientos'
+import { TresCanvas } from '@tresjs/core'
 </script>
 
 <template>
@@ -153,8 +153,8 @@ _AmbientLight 在这里不会生成任何类型的阴影_
 
 ```vue
 <script setup>
-import { shallowRef } from 'vue'
 import { TresCanvas, useRenderLoop } from '@tresjs/core'
+import { shallowRef } from 'vue'
 
 const boxRef = shallowRef()
 

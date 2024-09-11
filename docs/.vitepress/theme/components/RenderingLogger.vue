@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { useTresContext } from '@tresjs/core'
 import { OrbitControls } from '@tresjs/cientos'
+import { useTresContext } from '@tresjs/core'
 import { onMounted } from 'vue'
 
 /* const { renderingTimes } = useState() */

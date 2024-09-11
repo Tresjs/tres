@@ -95,8 +95,8 @@ React 生态系统中有一个令人印象深刻的使用**自定义渲染器**�
 
 ```ts
 // Example Vite setup
-import { createApp } from 'vue'
 import { createApp as createLunchboxApp } from 'lunchboxjs'
+import { createApp } from 'vue'
 import App from './App.vue'
 import LunchboxApp from './LunchboxApp.vue'
 

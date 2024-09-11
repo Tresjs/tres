@@ -1,12 +1,12 @@
-import { beforeAll, describe, expect, it, vi } from 'vitest'
 import * as THREE from 'three'
-import type { Vector3 } from 'three'
 import { Mesh, Scene } from 'three'
-import type { TresContext } from 'src/composables'
+import { beforeAll, describe, expect, it, vi } from 'vitest'
 import { shallowRef } from 'vue'
-import type { TresObject } from '../types'
-import { nodeOps as getNodeOps } from './nodeOps'
+import type { TresContext } from 'src/composables'
+import type { Vector3 } from 'three'
 import { extend } from './catalogue'
+import { nodeOps as getNodeOps } from './nodeOps'
+import type { TresObject } from '../types'
 
 let nodeOps = getNodeOps(mockTresContext())
 const pool = []
@@ -128,6 +128,13 @@ describe('nodeOps', () => {
 
     it('throws an error if tag does not exist in catalogue', () => {
       expect(() => { nodeOps.createElement('THIS_TAG_DOES_NOT_EXIST', undefined, undefined, {}) }).toThrow()
+    })
+
+    it('does not throw an error if `props` is `null`', () => {
+      expect(() => { nodeOps.createElement('TresPerspectiveCamera', undefined, undefined, null) }).not.toThrow()
+      expect(() => { nodeOps.createElement('TresMesh', undefined, undefined, null) }).not.toThrow()
+      expect(() => { nodeOps.createElement('TresBoxGeometry', undefined, undefined, null) }).not.toThrow()
+      expect(() => { nodeOps.createElement('TresMeshNormalMaterial', undefined, undefined, null) }).not.toThrow()
     })
   })
 
@@ -867,7 +874,9 @@ describe('nodeOps', () => {
               try {
                 node.dispose()
               }
-              catch (e) {}
+              catch (e) {
+                console.error(e)
+              }
             }
             if (node.material) { node.material.dispose() }
             if (node.geometry) { node.geometry.dispose() }
@@ -1626,9 +1635,9 @@ function createSimpleMeshPrimitiveTree(nodeOps) {
   const nodes = []
   const objects = []
   const spiesByKey: Partial<Record<
-            keyof typeof nodesByKey,
-            { material: () => void, geometry: () => void }
-          >> = { }
+    keyof typeof nodesByKey,
+    { material: () => void, geometry: () => void }
+  >> = { }
   const spies = []
   const undisposed = new Set()
   for (const [key, node] of Object.entries(nodesByKey)) {

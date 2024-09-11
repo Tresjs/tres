@@ -88,7 +88,7 @@ renderer.shadowMap.type = PCFSoftShadowMap
 | **shadows** | Schakelt shadows in de renderer in | `false` |
 | **shadowMapType** | Zet de shadow map type | `PCFSoftShadowMap` |
 | **stencil** | Of de drawing buffer een [stencil buffer](https://en.wikipedia.org/wiki/Stencil_buffer) heeft van tenminste 8 bits. | `true` |
-| **toneMapping** | Definiërt de tone mapping exposure gebruikt door de renderer. | `NoToneMapping` |
+| **toneMapping** | Definiërt de tone mapping exposure gebruikt door de renderer. | `ACESFilmicToneMapping` |
 | **toneMappingExposure** | Exposure level van tone mapping. | `1` |
 | **useLegacyLights** | Of de legacy belichtingsmodus gebruikt moet worden of niet | `true` |
 | **windowSize** | Of de window grootte gebruikt moet worden als de canvas grootte of de parent element. | `false` |

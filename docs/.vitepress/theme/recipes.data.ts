@@ -22,7 +22,8 @@ export default createContentLoader('/**/cookbook/*.md', {
         thumbnail: frontmatter.thumbnail,
         difficulty: frontmatter.difficulty,
         excerpt: frontmatter.excerpt || frontmatter.description || excerpt,
-      })).filter(recipe => recipe.title)
+      }))
+      .filter(recipe => recipe.title)
       .sort((a, b) => b.title - a.title)
   },
 })

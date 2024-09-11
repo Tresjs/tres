@@ -88,7 +88,7 @@ renderer.shadowMap.type = PCFSoftShadowMap
 | **shadows** | Activez les ombres dans le moteur de rendu. | `false` |
 | **shadowMapType** | Définit le type de carte d'ombrage. | `PCFSoftShadowMap` |
 | **stencil** | Indique si le tampon de dessin possède un [tampon de pochoir](https://en.wikipedia.org/wiki/Stencil_buffer) de au moins 8 bits. | `true` |
-| **toneMapping** | Définit l’exposition du mappage de tons utilisée par le moteur de rendu. | `NoToneMapping` |
+| **toneMapping** | Définit l’exposition du mappage de tons utilisée par le moteur de rendu. | `ACESFilmicToneMapping` |
 | **toneMappingExposure** | Niveau d'exposition du mappage de tons. | `1` |
 | **useLegacyLights** | Indique s’il faut utiliser ou non le mode d’éclairage existant. | `true` |
 | **windowSize** | Indique s’il faut utiliser la taille de la fenêtre comme taille du canevas ou de l’élément parent. | `false` |

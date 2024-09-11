@@ -61,9 +61,9 @@ body {
 在你的 `vite.config.ts` 中将以下配置添加到 `@vitejs/plugin-vue`：
 
 ```ts
-import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue'
 import { templateCompilerOptions } from '@tresjs/core'
+import vue from '@vitejs/plugin-vue'
+import { defineConfig } from 'vite'
 
 export default defineConfig({
   plugins: [

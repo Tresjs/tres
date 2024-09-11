@@ -95,8 +95,8 @@ Le seul problème concerne le mélange des compilateurs et des moteurs de rendu 
 
 ```ts
 // Example Vite setup
-import { createApp } from 'vue'
 import { createApp as createLunchboxApp } from 'lunchboxjs'
+import { createApp } from 'vue'
 import App from './App.vue'
 import LunchboxApp from './LunchboxApp.vue'
 
