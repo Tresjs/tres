@@ -1,9 +1,9 @@
 // https://vitepress.dev/guide/custom-theme
-import 'uno.css'
 import Theme from 'vitepress/theme'
-import './style.css'
-
 import TresLayout from './TresLayout.vue'
+import 'uno.css'
+
+import './style.css'
 
 export default {
   ...Theme,

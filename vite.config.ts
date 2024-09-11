@@ -1,17 +1,16 @@
-import vue from '@vitejs/plugin-vue'
-import analyze from 'rollup-plugin-analyzer'
-import banner from 'vite-plugin-banner'
-import dts from 'vite-plugin-dts'
-import { defineConfig } from 'vite'
-import { resolve } from 'pathe'
-import { bold, gray, lightGreen, yellow } from 'kolorist'
-
 import { templateCompilerOptions } from '@tresjs/core'
+import vue from '@vitejs/plugin-vue'
+import { bold, gray, lightGreen, yellow } from 'kolorist'
+import { resolve } from 'pathe'
+import { defineConfig } from 'vite'
+import banner from 'vite-plugin-banner'
+
+import dts from 'vite-plugin-dts'
 
 import pkg from './package.json'
 
 // eslint-disable-next-line no-console
-console.log(`${lightGreen('▲')} ${gray('■')} ${yellow('⚔')} ${bold('Tres/cientos')} v${pkg.version}`)
+console.log(`${lightGreen('▲')} ${gray('■')} ${yellow('⚔')} ${bold('Tres/rapier')} v${pkg.version}`)
 
 export default defineConfig({
   resolve: {
@@ -45,7 +44,7 @@ export default defineConfig({
     },
     rollupOptions: {
       plugins: [
-        analyze(),
+        /*  analyze(), */
         // TODO: Should be removed if not used.
         /* visualizer({
           gzipSize: true,

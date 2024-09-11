@@ -2,8 +2,8 @@
 import { useLoop } from '@tresjs/core'
 
 import { useRapierContextProvider } from '../composables/useRapier'
-import type { PhysicsProps } from '../types/physics'
 import Debug from './Debug.vue'
+import type { PhysicsProps } from '../types/physics'
 
 withDefaults(
   defineProps<Partial<PhysicsProps>>(),

@@ -1,5 +1,5 @@
-import type { TresObject } from '@tresjs/core'
 import type { RigidBody, RigidBodyDesc, World } from '@dimforge/rapier3d-compat'
+import type { TresObject } from '@tresjs/core'
 import type { InstancedMesh } from 'three'
 
 import type { ColliderShape } from './collider'
