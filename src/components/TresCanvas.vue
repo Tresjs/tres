@@ -115,9 +115,6 @@ const createInternalComponent = (context: TresContext, empty = false) =>
     setup() {
       const ctx = getCurrentInstance()?.appContext
       if (ctx) { ctx.app = instance?.appContext.app as App }
-      provide('useTres', context)
-      provide('extend', extend)
-
       const provides = {}
 
       // Helper function to recursively merge provides from parents
@@ -126,7 +123,7 @@ const createInternalComponent = (context: TresContext, empty = false) =>
 
         // Extract provides from the current instance and merge them
         if (currentInstance.provides) {
-          Object.assign({}, provides, currentInstance.provides)
+          Object.assign(provides, currentInstance.provides)
         }
 
         // Recursively process the parent instance
@@ -140,8 +137,15 @@ const createInternalComponent = (context: TresContext, empty = false) =>
         mergeProvides(instance.parent)
 
         Object.entries(provides)
-          .forEach(([key, value]) => provide(key, value))
+          .forEach(([key, value]) => {
+            provide(key, value)
+            // eslint-disable-next-line no-console
+            console.log(`provide ${key}`, value)
+          })
       }
+
+      provide('useTres', context)
+      provide('extend', extend)
 
       if (typeof window !== 'undefined') {
         registerTresDevtools(ctx?.app, context)
