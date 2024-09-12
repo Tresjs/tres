@@ -23,7 +23,7 @@ export interface TresCatalogue {
   [name: string]: ConstructorRepresentation
 }
 
-export type EmitEventName = 'render' | 'ready' | 'click' | 'double-click' | 'context-menu' | 'pointer-move' | 'pointer-up' | 'pointer-down' | 'pointer-enter' | 'pointer-leave' | 'pointer-over' | 'pointer-out' | 'pointer-missed' | 'wheel'
+export type EmitEventName = 'render' | 'ready'
 export type EmitEventFn = (event: EmitEventName, ...args: any[]) => void
 export type TresCamera = THREE.OrthographicCamera | THREE.PerspectiveCamera
 
@@ -51,7 +51,7 @@ export interface LocalState {
   type: string
   eventCount: number
   root: TresContext
-  handlers: Partial<EventHandlers>
+  handlers: Record<string, { value: EventHandler<any>, called: number }>
   memoizedProps: { [key: string]: any }
   // NOTE:
   // LocalState holds information about the parent/child relationship
@@ -94,12 +94,12 @@ export interface TresScene extends THREE.Scene {
 // Events
 
 export interface Intersection extends THREE.Intersection {
-  /** The event source (the object which registered the handler) */
+  /** The event source (the object that registered the handler) */
   eventObject: TresObject
 }
 
 export interface IntersectionEvent<TSourceEvent> extends Intersection {
-  /** The event source (the object which registered the handler) */
+  /** The event source (the object that registered the handler) */
   eventObject: TresObject
   /** An array of intersections */
   intersections: Intersection[]
@@ -112,7 +112,7 @@ export interface IntersectionEvent<TSourceEvent> extends Intersection {
   /** The ray that pierced it */
   ray: THREE.Ray
   /** The camera that was used by the raycaster */
-  camera: TresCamera
+  camera: THREE.Camera
   /** stopPropagation will stop underlying handlers from firing */
   stopPropagation: () => void
   /** The original host event */
@@ -135,31 +135,33 @@ export interface TresEvent {
 
 export interface Events {
   onClick: EventListener
-  onContextMenu: EventListener
-  onDoubleClick: EventListener
+  onContextmenu: EventListener
+  onDoubleclick: EventListener
   onWheel: EventListener
-  onPointerDown: EventListener
-  onPointerUp: EventListener
-  onPointerLeave: EventListener
-  onPointerMove: EventListener
-  onPointerCancel: EventListener
-  onLostPointerCapture: EventListener
+  onPointerdown: EventListener
+  onPointerup: EventListener
+  onPointerleave: EventListener
+  onPointermove: EventListener
+  onPointercancel: EventListener
+  onLostpointercapture: EventListener
 }
 
+export type OneOrMany<T> = T | T[]
+export type EventHandler<T> = OneOrMany<(evt: ThreeEvent<T>) => void>
 export interface EventHandlers {
-  onClick?: (event: ThreeEvent<MouseEvent>) => void
-  onContextMenu?: (event: ThreeEvent<MouseEvent>) => void
-  onDoubleClick?: (event: ThreeEvent<MouseEvent>) => void
-  onPointerUp?: (event: ThreeEvent<PointerEvent>) => void
-  onPointerDown?: (event: ThreeEvent<PointerEvent>) => void
-  onPointerOver?: (event: ThreeEvent<PointerEvent>) => void
-  onPointerOut?: (event: ThreeEvent<PointerEvent>) => void
-  onPointerEnter?: (event: ThreeEvent<PointerEvent>) => void
-  onPointerLeave?: (event: ThreeEvent<PointerEvent>) => void
-  onPointerMove?: (event: ThreeEvent<PointerEvent>) => void
-  onPointerMissed?: (event: MouseEvent) => void
-  onPointerCancel?: (event: ThreeEvent<PointerEvent>) => void
-  onWheel?: (event: ThreeEvent<WheelEvent>) => void
+  onClick?: EventHandler<MouseEvent>
+  onDblclick?: EventHandler<MouseEvent>
+  onContextmenu?: EventHandler<MouseEvent>
+  onPointerup?: EventHandler<PointerEvent>
+  onPointerdown?: EventHandler<PointerEvent>
+  onPointerover?: EventHandler<PointerEvent>
+  onPointerout?: EventHandler<PointerEvent>
+  onPointerenter?: EventHandler<PointerEvent>
+  onPointerleave?: EventHandler<PointerEvent>
+  onPointermissed?: EventHandler<PointerEvent>
+  onPointermove?: EventHandler<PointerEvent>
+  onLostpointercapture?: EventHandler<PointerEvent>
+  onWheel?: EventHandler<WheelEvent>
 }
 
 interface MathRepresentation {

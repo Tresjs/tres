@@ -16,6 +16,7 @@ import {
   watch,
   watchEffect,
 } from 'vue'
+import type { EventManagerProps } from 'src/utils/createEventManager/createEventManager'
 import type {
   ColorSpace,
   ShadowMapType,
@@ -23,8 +24,8 @@ import type {
   WebGLRendererParameters,
 } from 'three'
 import type { App, Ref } from 'vue'
-import pkg from '../../package.json'
 
+import pkg from '../../package.json'
 import {
   type TresContext,
   useLogger,
@@ -33,14 +34,14 @@ import {
 import { extend } from '../core/catalogue'
 import { nodeOps } from '../core/nodeOps'
 import { registerTresDevtools } from '../devtools'
-import { disposeObject3D } from '../utils/'
 
+import { disposeObject3D } from '../utils/'
 import type { RendererPresetsType } from '../composables/useRenderer/const'
 import type { TresCamera, TresObject, TresScene } from '../types/'
 
 export interface TresCanvasProps
   extends Omit<WebGLRendererParameters, 'canvas'> {
-  // required by for useRenderer
+  // required by useRenderer
   shadows?: boolean
   clearColor?: string
   toneMapping?: ToneMapping
@@ -56,6 +57,11 @@ export interface TresCanvasProps
   preset?: RendererPresetsType
   windowSize?: boolean
   disableRender?: boolean
+
+  // NOTE: used by `eventManager`
+  eventsEnabled?: boolean
+  eventsTarget?: EventTarget
+  events?: EventManagerProps
 }
 
 const props = withDefaults(defineProps<TresCanvasProps>(), {
@@ -71,24 +77,14 @@ const props = withDefaults(defineProps<TresCanvasProps>(), {
   logarithmicDepthBuffer: undefined,
   failIfMajorPerformanceCaveat: undefined,
   renderMode: 'always',
+  eventsEnabled: true,
+  events: undefined,
 })
 
 // Define emits for Pointer events, pass `emit` into useTresEventManager so we can emit events off of TresCanvas
 // Not sure of this solution, but you have to have emits defined on the component to emit them in vue
 const emit = defineEmits([
   'render',
-  'click',
-  'double-click',
-  'context-menu',
-  'pointer-move',
-  'pointer-up',
-  'pointer-down',
-  'pointer-enter',
-  'pointer-leave',
-  'pointer-over',
-  'pointer-out',
-  'pointer-missed',
-  'wheel',
   'ready',
 ])
 
@@ -168,6 +164,7 @@ onMounted(() => {
     windowSize: props.windowSize ?? false,
     disableRender: disableRender.value ?? false,
     rendererOptions: props,
+    props,
     emit,
   })
 

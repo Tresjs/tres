@@ -10,23 +10,6 @@ import type { DisposeType, LocalState, TresInstance, TresObject, TresObject3D, T
 
 const { logError } = useLogger()
 
-const supportedPointerEvents = [
-  'onClick',
-  'onContextMenu',
-  'onPointerMove',
-  'onPointerEnter',
-  'onPointerLeave',
-  'onPointerOver',
-  'onPointerOut',
-  'onDoubleClick',
-  'onPointerDown',
-  'onPointerUp',
-  'onPointerCancel',
-  'onPointerMissed',
-  'onLostPointerCapture',
-  'onWheel',
-]
-
 export const nodeOps: (context: TresContext) => RendererOptions<TresObject, TresObject | null> = (context) => {
   const scene = context.scene.value
 
@@ -112,13 +95,9 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
     child = unboxTresPrimitive(childInstance)
     parent = unboxTresPrimitive(parentInstance)
 
-    if (child.__tres && child.__tres?.eventCount > 0) {
-      context.eventManager?.registerObject(child)
-    }
+    context.eventManager?.insert(child)
 
     context.registerCamera(child)
-    // NOTE: Track onPointerMissed objects separate from the scene
-    context.eventManager?.registerPointerMissedObject(child)
 
     if (childInstance.__tres.attach) {
       attach(parentInstance, childInstance, childInstance.__tres.attach)
@@ -148,9 +127,8 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
 
     if (!node) { return }
 
-    // Remove from event manager if necessary
-    if (node?.__tres && node.__tres?.eventCount > 0) {
-      context.eventManager?.deregisterObject(node)
+    if (dispose === undefined) {
+      context.eventManager?.remove(node)
     }
 
     // NOTE: Derive `dispose` value for this `remove` call and
@@ -272,10 +250,11 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
       else { delete node[key] }
       return
     }
-    // Has events
-    if (supportedPointerEvents.includes(prop) && node.__tres) {
-      node.__tres.eventCount += 1
+
+    if (context.eventManager?.patchProp(node, prop, prevValue, nextValue)) {
+      return
     }
+
     let finalKey = kebabToCamel(key)
     let target = root?.[finalKey]
 
@@ -322,12 +301,19 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
     if (value === '') { value = true }
     // Set prop, prefer atomic methods if applicable
     if (is.fun(target)) {
-      // don't call pointer event callback functions
+      // NOTE: Props piercing has led us to a function.
+      // This might be a function like `Object3D.lookAt`.
+      // Call the function.
+      if (is.arr(value)) { node[finalKey](...value) }
+      else { node[finalKey](value) }
 
-      if (!supportedPointerEvents.includes(prop)) {
-        if (is.arr(value)) { node[finalKey](...value) }
-        else { node[finalKey](value) }
-      }
+      // TODO:
+      // Above, we shouldn't call functions in cases
+      // where we set the callbacks in the code below.
+      // `:on-render="myOnRenderFn"`
+      // i.e.
+      // `Object3D.onRender(myOnRenderFn)`
+
       // NOTE: Set on* callbacks
       // Issue: https://github.com/Tresjs/tres/issues/360
       if (finalKey.startsWith('on') && is.fun(value)) {

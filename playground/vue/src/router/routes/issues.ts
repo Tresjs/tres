@@ -10,6 +10,11 @@ export const issuesRoutes = [
     component: () => import('../../pages/issues/701-cientos-v4/index.vue'),
   },
   {
+    path: '/events/711-fps-drops-repro',
+    name: '#711: FPS Drops Reproduction (events)',
+    component: () => import('../../pages/issues/711/index.vue'),
+  },
+  {
     path: '/issues/717vIf',
     name: '#717: v-if',
     component: () => import('../../pages/issues/717/index.vue'),
