@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
-import { inject, provide, reactive } from 'vue'
+import { provide, reactive } from 'vue'
 import ProvideBridge from '../../../components/ProvideBridge.vue'
 import SubComponentWithInject from './SubComponentWithInject.vue'
 import SubVueComponentWithInject from './SubVueComponentWithInject.vue'
