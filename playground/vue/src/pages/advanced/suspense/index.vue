@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { TresCanvas } from '@tresjs/core'
-import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
-import { Perf, TresLeches, useControls } from '@tresjs/leches'
-import '@tresjs/leches/styles'
 import { OrbitControls } from '@tresjs/cientos'
+import { TresCanvas } from '@tresjs/core'
+import { Perf, TresLeches, useControls } from '@tresjs/leches'
+import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
 import AsyncComponent from './AsyncComponent.vue'
+import '@tresjs/leches/styles'
 
 const gl = {
   clearColor: '#82DBC5',

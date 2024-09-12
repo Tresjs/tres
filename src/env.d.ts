@@ -9,8 +9,8 @@ declare module '*.vue' {
 
 interface Window {
   __TRES__DEVTOOLS__?: {
-    // eslint-disable-next-line ts/no-unsafe-function-type
-    cb: Function
+
+    cb: (...args: any[]) => void
     // You can add other properties of __TRES__DEVTOOLS__ here if needed
   }
 }

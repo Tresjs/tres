@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { onUnmounted, ref } from 'vue'
+import { OrbitControls } from '@tresjs/cientos'
 import {
   TresCanvas,
 } from '@tresjs/core'
 import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
-import { OrbitControls } from '@tresjs/cientos'
-import '@tresjs/leches/styles'
+import { onUnmounted, ref } from 'vue'
 import Box from './Box.vue'
+import '@tresjs/leches/styles'
 
 const gl = {
   clearColor: '#202020',

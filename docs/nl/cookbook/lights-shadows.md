@@ -25,8 +25,8 @@ Ik ga [MeshToonMaterial](https://threejs.org/docs/index.html?q=toon#api/en/mater
 
 ```vue
 <script setup lang="ts">
-import { TresCanvas } from '@tresjs/core'
 import { OrbitControls } from '@tresjs/cientos'
+import { TresCanvas } from '@tresjs/core'
 </script>
 
 <template>
@@ -152,8 +152,8 @@ Nu hebben we alle noodzakelijke stappen om schaduwen aan onze scène toe te voeg
 
 ```vue
 <script setup>
-import { shallowRef } from 'vue'
 import { TresCanvas, useRenderLoop } from '@tresjs/core'
+import { shallowRef } from 'vue'
 
 const boxRef = shallowRef()
 

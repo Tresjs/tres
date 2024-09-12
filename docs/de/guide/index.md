@@ -93,8 +93,8 @@ Das einzige Problem ist, dass die Kombination von Compilern und Renderern in Vue
 
 ```ts
 // Example Vite setup
-import { createApp } from 'vue'
 import { createApp as createLunchboxApp } from 'lunchboxjs'
+import { createApp } from 'vue'
 import App from './App.vue'
 import LunchboxApp from './LunchboxApp.vue'
 

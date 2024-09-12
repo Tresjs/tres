@@ -1,5 +1,5 @@
-import type { EventHook, EventHookOn, IsAny } from '@vueuse/core'
 import { createEventHook } from '@vueuse/core'
+import type { EventHook, EventHookOn, IsAny } from '@vueuse/core'
 
 type Callback<T> =
   IsAny<T> extends true

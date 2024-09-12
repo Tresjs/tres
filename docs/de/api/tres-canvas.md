@@ -88,7 +88,7 @@ renderer.shadowMap.type = PCFSoftShadowMap
 | **shadows** | Aktiviert Schatten im Renderer. | `false` |
 | **shadowMapType** | Legt den Typ der `shadowMap` fest. | `PCFSoftShadowMap` |
 | **stencil** | Gibt an, ob der Zeichenpuffer einen [Stencil-Puffer](https://en.wikipedia.org/wiki/Stencil_buffer) von mindestens 8 Bit hat. | `true` |
-| **toneMapping** | Definiert das Tone-Mapping-Verfahren, das vom Renderer verwendet wird. | `NoToneMapping` |
+| **toneMapping** | Definiert das Tone-Mapping-Verfahren, das vom Renderer verwendet wird. | `ACESFilmicToneMapping` |
 | **toneMappingExposure** | Belichtungslevel des Tone-Mappings. | `1` |
 | **useLegacyLights** | Gibt an, ob der Legacy-Beleuchtungsmodus verwendet werden soll oder nicht. | `true` |
 | **windowSize** | Gibt an, ob die Fenstergröße als Leinwandgröße oder die des Elternelements verwendet werden soll. | `false` |

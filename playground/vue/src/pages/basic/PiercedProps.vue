@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { shallowRef } from 'vue'
 import { TresCanvas, useRenderLoop } from '@tresjs/core'
+import { shallowRef } from 'vue'
 
 const x = shallowRef(1)
 const y = shallowRef(1)

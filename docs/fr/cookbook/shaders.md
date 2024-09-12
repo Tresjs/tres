@@ -29,8 +29,8 @@ Enfin, pour nous aider avec le placement, ajoutons un plan simple, tourné sur l
 
 ```vue
 <script setup lang="ts">
-import { TresCanvas } from '@tresjs/core'
 import { OrbitControls } from '@tresjs/cientos'
+import { TresCanvas } from '@tresjs/core'
 </script>
 
 <template>
@@ -122,9 +122,9 @@ Semblable à ce que nous avons appris dans l'exemple des [Animations de bases](/
 
 ```vue
 <script setup lang="ts">
-import { shallowRef } from 'vue'
-import { TresCanvas } from '@tresjs/core'
 import { OrbitControls } from '@tresjs/cientos'
+import { TresCanvas } from '@tresjs/core'
+import { shallowRef } from 'vue'
 
 const blobRef = shallowRef(null)
 // ...

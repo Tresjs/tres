@@ -1,7 +1,7 @@
 <script setup lang="ts">
+import { OrbitControls } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
 import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
-import { OrbitControls } from '@tresjs/cientos'
 import FBOCube from './FBOCube.vue'
 import '@tresjs/leches/styles'
 

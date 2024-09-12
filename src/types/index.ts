@@ -1,7 +1,7 @@
 /* eslint-disable ts/method-signature-style */
-import type { DefineComponent, VNode, VNodeRef } from 'vue'
-
 import type * as THREE from 'three'
+
+import type { DefineComponent, VNode, VNodeRef } from 'vue'
 import type { TresContext } from '../composables/useTresContextProvider'
 
 // Based on React Three Fiber types by Pmndrs
@@ -12,8 +12,8 @@ export type AttachType = string | AttachFnType
 export type DisposeType = ((self: TresInstance) => void) | boolean | 'default'
 
 export type ConstructorRepresentation = new (...args: any[]) => any
-// eslint-disable-next-line ts/no-unsafe-function-type
-export type NonFunctionKeys<P> = { [K in keyof P]-?: P[K] extends Function ? never : K }[keyof P]
+
+export type NonFunctionKeys<P> = { [K in keyof P]-?: P[K] extends (...args: any[]) => any ? never : K }[keyof P]
 export type Overwrite<P, O> = Omit<P, NonFunctionKeys<O>> & O
 export type Properties<T> = Pick<T, NonFunctionKeys<T>>
 export type Mutable<P> = { [K in keyof P]: P[K] | Readonly<P[K]> }
@@ -38,6 +38,7 @@ export interface InstanceProps<T = any, P = any> {
   object?: T
   visible?: boolean
   dispose?: null
+  attach?: AttachType
 }
 
 interface TresBaseObject {
@@ -195,7 +196,7 @@ export type TresQuaternion = THREE.Quaternion | Parameters<THREE.Quaternion['set
 export type TresEuler = THREE.Euler
 export type TresControl = THREE.EventDispatcher & { enabled: boolean }
 
-type WithMathProps<P> = { [K in keyof P]: P[K] extends MathRepresentation | THREE.Euler ? MathType<P[K]> : P[K] }
+export type WithMathProps<P> = { [K in keyof P]: P[K] extends MathRepresentation | THREE.Euler ? MathType<P[K]> : P[K] }
 
 interface RaycastableRepresentation {
   raycast: (raycaster: THREE.Raycaster, intersects: THREE.Intersection[]) => void
@@ -208,7 +209,7 @@ export interface VueProps {
   key?: string | number | symbol
 }
 
-type ElementProps<T extends ConstructorRepresentation, P = InstanceType<T>> = Partial<
+export type ElementProps<T extends ConstructorRepresentation, P = InstanceType<T>> = Partial<
   Overwrite<P, WithMathProps<P> & VueProps & EventProps<P>>
 >
 

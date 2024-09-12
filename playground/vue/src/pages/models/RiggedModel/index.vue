@@ -1,6 +1,6 @@
 <script setup>
-import { TresCanvas } from '@tresjs/core'
 import { OrbitControls } from '@tresjs/cientos'
+import { TresCanvas } from '@tresjs/core'
 import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
 
 import UgglyBunny from './UgglyBunny.vue'

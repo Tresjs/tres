@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { shallowRef } from 'vue'
 import { TresCanvas } from '@tresjs/core'
+import { shallowRef } from 'vue'
 import MyBox from './MyBox.vue'
 
 const boxRef = shallowRef()

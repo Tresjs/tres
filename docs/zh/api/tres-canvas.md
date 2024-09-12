@@ -88,7 +88,7 @@ renderer.shadowMap.type = PCFSoftShadowMap
 | **shadows** | 渲染器是否启用阴影。 | `false` |
 | **shadowMapType** | 设置阴影映射类型 | `PCFSoftShadowMap` |
 | **stencil** | 绘图缓冲区是否至少具有8位的 [模板缓冲区](https://en.wikipedia.org/wiki/Stencil_buffer) 。 | `true` |
-| **toneMapping** | 定义渲染器使用的色调映射曝光。 | `NoToneMapping` |
+| **toneMapping** | 定义渲染器使用的色调映射曝光。 | `ACESFilmicToneMapping` |
 | **toneMappingExposure** | 色调映射的曝光级别。 | `1` |
 | **useLegacyLights** | 是否使用传统照明模式 | `true` |
 | **windowSize** | 是否使用窗口大小作为画布大小，否则使用父元素大小。 | `false` |
