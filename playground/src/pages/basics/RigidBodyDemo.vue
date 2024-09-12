@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { OrbitControls } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
-import { Physics, RigidBody } from '@tresjs/rapier'
+import { InstanceRigidBody, Physics, RigidBody } from '@tresjs/rapier'
 import { ACESFilmicToneMapping, DynamicDrawUsage, Matrix4, MeshNormalMaterial, SRGBColorSpace, TorusKnotGeometry } from 'three'
 import { shallowRef, watch } from 'vue'
 import type { InstancedMesh } from 'three'
@@ -13,6 +13,13 @@ const gl = {
   outputColorSpace: SRGBColorSpace,
   toneMapping: ACESFilmicToneMapping,
 }
+
+const instanceRBRef = shallowRef<InstancedMesh>()
+
+watch(instanceRBRef, (IRB) => {
+  // eslint-disable-next-line no-console
+  console.log('jaime ~ IRB:', IRB)
+})
 
 const torusInstancedMesh = shallowRef<InstancedMesh>()
 
@@ -45,9 +52,9 @@ watch(torusInstancedMesh, (mesh) => {
 
     <Suspense>
       <Physics debug>
-        <RigidBody instanced collider="hull">
+        <InstanceRigidBody ref="instanceRBRef" collider="hull">
           <TresInstancedMesh ref="torusInstancedMesh" :args="[torusKnots, torusKnotsMaterial, 3]" />
-        </RigidBody>
+        </InstanceRigidBody>
 
         <RigidBody>
           <TresMesh :position="[0, 8, 0]">
