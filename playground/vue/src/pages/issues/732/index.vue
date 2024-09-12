@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
 import { provide, reactive } from 'vue'
-import ProvideBridge from '../../../components/ProvideBridge.vue'
 import SubComponentWithInject from './SubComponentWithInject.vue'
 import SubVueComponentWithInject from './SubVueComponentWithInject.vue'
 
@@ -23,9 +22,7 @@ function onClick() {
   <SubVueComponentWithInject />
   <TresCanvas clear-color="#82DBC5">
     <TresPerspectiveCamera :position="[11, 11, 11]" :look-at="[0, 0, 0]" />
-    <ProvideBridge :keys-values="{ myKey: obj }">
-      <SubComponentWithInject />
-    </ProvideBridge>
+    <SubComponentWithInject />
     <TresGridHelper />
     <TresAmbientLight :intensity="1" />
   </TresCanvas>

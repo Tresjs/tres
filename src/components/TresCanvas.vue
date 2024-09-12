@@ -139,8 +139,6 @@ const createInternalComponent = (context: TresContext, empty = false) =>
         Object.entries(provides)
           .forEach(([key, value]) => {
             provide(key, value)
-            // eslint-disable-next-line no-console
-            console.log(`provide ${key}`, value)
           })
       }
 
