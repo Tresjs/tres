@@ -3,6 +3,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { shallowRef } from 'vue'
 import { nodeOps as getNodeOps } from './../../core/nodeOps'
 import { createEventManager } from './createEventManager'
+import { eventsNoop } from './eventsNoop'
 import type { TresContext } from '../../composables/useTresContextProvider'
 import type { CreateEventManagerProps } from './createEventManager'
 
@@ -27,6 +28,35 @@ describe('createEventManager', () => {
   })
 
   describe('const eventManager = createEventManager(props, context)', () => {
+    describe('noop props', () => {
+      it('responds to all method calls without throwing', () => {
+        const canvas = document.createElement('canvas')
+        const eventManager = createEventManager(eventsNoop, context)
+        expect(() => eventManager.config).not.toThrow()
+        expect(() => {
+          eventManager.disconnect()
+          eventManager.connect(canvas as null)
+          eventManager.disconnect()
+        }).not.toThrow()
+        expect(() => {
+          eventManager.enabled = false
+          eventManager.enabled = true
+          eventManager.enabled = false
+        }).not.toThrow()
+        expect(() => {
+          eventManager.handle(new MouseEvent('click') as null)
+          eventManager.handle(new MouseEvent('contextmenu') as null)
+          eventManager.handle(new MouseEvent('dblclick') as null)
+        }).not.toThrow()
+        expect(() => eventManager.insert({})).not.toThrow()
+        expect(() => eventManager.isEventManager).not.toThrow()
+        expect(() => eventManager.patchProp({}, 'lookAt', undefined, [0, 1])).not.toThrow()
+        expect(() => eventManager.priority = 1).not.toThrow()
+        expect(() => eventManager.remove({})).not.toThrow()
+        expect(() => eventManager.target).not.toThrow()
+        expect(() => eventManager.test([{}])).not.toThrow()
+      })
+    })
     describe('props', () => {
       it('allows methods to be changed on the fly', () => {
         const eventManager = createEventManager(props, context)

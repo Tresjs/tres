@@ -62,6 +62,7 @@ function getInitialConfig(context: TresContext) {
 
     intersections: [] as ThreeIntersection[],
     hits: new Set<Object3D>(),
+    initialHits: new Set<Object3D>(),
     blockingObjects: new Set<Object3D>(),
 
     lastMoveEvent: getInitialEvent(),
@@ -263,11 +264,13 @@ function handleIntersections(incomingEvent: RaycastEvent, intersections: ThreeIn
   // to continue behind them, we'll stop processing intersections
   // after we see one containing a "blocking" object.
   const hits = new Set<Object3D>()
+  const initialHits = new Set<Object3D>()
   const eventIntersections = []
   let obj: TresObject | null = null
   let hasBlockingObject = false
   for (const intersection of intersections) {
     obj = intersection.object
+    initialHits.add(obj)
     if (hits.has(obj)) {
       continue
     }
@@ -333,17 +336,22 @@ function handleIntersections(incomingEvent: RaycastEvent, intersections: ThreeIn
       if (outgoingEvent.stopped) { break }
       if (hits.has(obj)) { continue }
       outgoingEvent.eventObject = obj
+      outgoingEvent.currentTarget = obj
+      // NOTE: All misses are "self" misses: `currentTarget` matches `target`
+      outgoingEvent.target = obj
       outgoingEvent.eventObject[DOM_TO_THREE['pointermissed' as DomEventName]]?.(outgoingEvent)
     }
   }
 
   // NOTE: Propagate `pointer{out,leave,over,enter}`
   if (incomingEvent.type === 'pointermove') {
+    // TODO: Test "self" here
     const hitsLeft = config.hits.difference(hits)
     if (hitsLeft.size) {
       bubbleIntersectionsIf('pointerout', outgoingEvent, config.intersections, (obj: Object3D) => { return hitsLeft.has(obj) })
       bubbleIntersectionsIf('pointerleave', outgoingEvent, config.intersections, (obj: Object3D) => { return hitsLeft.has(obj) })
     }
+    // TODO: Test "self" here
     const hitsEntered = hits.difference(config.hits)
     if (hitsEntered.size) {
       bubbleIntersectionsIf('pointerover', outgoingEvent, intersections, (obj: Object3D) => { return hitsEntered.has(obj) })
@@ -367,6 +375,9 @@ function handleIntersections(incomingEvent: RaycastEvent, intersections: ThreeIn
       // NOTE: An event "is-a" `Intersection`,
       // so copy intersection values to the event.
       Object.assign(outgoingEvent, intersection)
+
+      outgoingEvent.currentTarget = intersection.eventObject
+      outgoingEvent.target = intersection.object
 
       intersection.eventObject[DOM_TO_THREE[incomingEvent.type as DomEventName]]?.(outgoingEvent)
     }
@@ -392,6 +403,8 @@ function bubbleIntersectionsIf(domEventName: DomEventName, event: ThreeEventStub
       duplicates.add(object)
       if (cond(object)) {
         event.eventObject = object
+        event.currentTarget = object
+        event.target = object
         event.eventObject[DOM_TO_THREE[domEventName]]?.(event)
       }
 

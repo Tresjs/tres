@@ -132,28 +132,21 @@ describe('createEventManager', () => {
           const { g0, m2 } = objects
           const g0Spies = mock.add.eventsTo(g0)
           const m2Spies = mock.add.eventsTo(m2)
-          const { handle } = mock.context.eventManager
-
-          // NOTE: mockIntersection is already empty. Just making it explicit.
-          mock.set.mockIntersection([])
 
           // NOTE: Nothing "hit". No calls expected.
-          handle(mockEvt('wheel'))
+          mock.apply('wheel').to([])
           expect(g0Spies.onWheel).toBeCalledTimes(0)
           expect(m2Spies.onWheel).toBeCalledTimes(0)
 
-          mock.set.mockIntersection([g0])
-          handle(mockEvt('wheel'))
+          mock.apply('wheel').to([g0])
           expect(g0Spies.onWheel).toBeCalledTimes(1)
           expect(m2Spies.onWheel).toBeCalledTimes(0)
 
-          mock.set.mockIntersection([m2])
-          handle(mockEvt('wheel'))
+          mock.apply('wheel').to([m2])
           expect(g0Spies.onWheel).toBeCalledTimes(2)
           expect(m2Spies.onWheel).toBeCalledTimes(1)
 
-          mock.set.mockIntersection([])
-          handle(mockEvt('wheel'))
+          mock.apply('wheel').to([[]])
           expect(g0Spies.onWheel).toBeCalledTimes(2)
           expect(m2Spies.onWheel).toBeCalledTimes(1)
         })
@@ -166,7 +159,6 @@ describe('createEventManager', () => {
         ])('$threeEvent', ({ threeEvent }) => {
           it(`calls \`${threeEvent}\` methods on objects newly under pointer`, () => {
             const mock = mockTresUsingEventManagerProps()
-            const { handle } = mock.context.eventManager
 
             const { g0, g1, m1, m2, mNotIncluded } = mock.add.DAG('g0 -> m0 m1; m0 -> g1; g1 -> m2; m2 -> mNotIncluded')
             const g0Spies = mock.add.eventsTo(g0)
@@ -178,22 +170,18 @@ describe('createEventManager', () => {
             expect(g0Spies[threeEvent]).toBeCalledTimes(0)
             expect(g1Spies[threeEvent]).toBeCalledTimes(0)
             expect(mNotIncludedSpies[threeEvent]).toBeCalledTimes(0)
-            // debug
-            handle(mockEvt('pointermove'))
+
+            mock.apply('pointermove').to([m2])
             expect(g0Spies[threeEvent]).toBeCalledTimes(1)
             expect(g1Spies[threeEvent]).toBeCalledTimes(1)
             expect(mNotIncludedSpies[threeEvent]).toBeCalledTimes(0)
 
-            mock.set.mockIntersection([])
-
-            handle(mockEvt('pointermove'))
+            mock.apply('pointermove').to([])
             expect(g0Spies[threeEvent]).toBeCalledTimes(1)
             expect(g1Spies[threeEvent]).toBeCalledTimes(1)
             expect(mNotIncludedSpies[threeEvent]).toBeCalledTimes(0)
 
-            mock.set.mockIntersection(m1)
-
-            handle(mockEvt('pointermove'))
+            mock.apply('pointermove').to([m1])
             expect(g0Spies[threeEvent]).toBeCalledTimes(2)
             expect(g1Spies[threeEvent]).toBeCalledTimes(1)
             expect(mNotIncludedSpies[threeEvent]).toBeCalledTimes(0)
@@ -203,47 +191,32 @@ describe('createEventManager', () => {
             const { mUnderPointer, mAlternates } = mock.add.DAG('mUnderPointer; mAlternates')
             const mUnderPointerSpies = mock.add.eventsTo(mUnderPointer)
             mock.add.eventsTo(mAlternates)
-            const { handle } = mock.context.eventManager
 
             mock.set.mockIntersection(mUnderPointer)
-            handle(mockEvt('pointermove'))
-            handle(mockEvt('pointermove'))
-            handle(mockEvt('pointermove'))
+            mock.apply(['pointermove', 'pointermove', 'pointermove']).to([mUnderPointer])
             expect(mUnderPointerSpies[threeEvent]).toBeCalledTimes(1)
 
             mock.clear()
-            mock.set.mockIntersection([mUnderPointer, mAlternates])
-            handle(mockEvt('pointermove'))
-            handle(mockEvt('pointermove'))
-            handle(mockEvt('pointermove'))
+            mock.apply(['pointermove', 'pointermove', 'pointermove']).to([mUnderPointer, mAlternates])
             expect(mUnderPointerSpies[threeEvent]).toBeCalledTimes(0)
 
             mock.clear()
-            mock.set.mockIntersection(mUnderPointer)
-            handle(mockEvt('pointermove'))
-            handle(mockEvt('pointermove'))
-            handle(mockEvt('pointermove'))
+            mock.apply(['pointermove', 'pointermove', 'pointermove']).to([mUnderPointer])
             expect(mUnderPointerSpies[threeEvent]).toBeCalledTimes(0)
 
             mock.clear()
-            mock.set.mockIntersection([mAlternates, mUnderPointer])
-            handle(mockEvt('pointermove'))
-            handle(mockEvt('pointermove'))
-            handle(mockEvt('pointermove'))
+            mock.apply(['pointermove', 'pointermove', 'pointermove']).to([mAlternates, mUnderPointer])
             expect(mUnderPointerSpies[threeEvent]).toBeCalledTimes(0)
           })
           it(`does not call \`${threeEvent}\` methods on objects still under pointer via a different child`, () => {
             const mock = mockTresUsingEventManagerProps()
             const { gStaysUnderPointer, m0, m1 } = mock.add.DAG('gStaysUnderPointer -> m0 m1')
             const gStaysUnderPointerSpies = mock.add.eventsTo(gStaysUnderPointer)
-            const { handle } = mock.context.eventManager
 
-            mock.set.mockIntersection(m0)
-            handle(mockEvt('pointermove'))
+            mock.apply('pointermove').to([m0])
             expect(gStaysUnderPointerSpies[threeEvent]).toBeCalledTimes(1)
 
-            mock.set.mockIntersection(m1)
-            handle(mockEvt('pointermove'))
+            mock.apply('pointermove').to([m1])
             expect(gStaysUnderPointerSpies[threeEvent]).toBeCalledTimes(1)
           })
 
@@ -256,24 +229,20 @@ describe('createEventManager', () => {
             mock.nodeOps.patchProp(g, threeEvent, undefined, gSpy)
             mock.nodeOps.patchProp(m0, threeEvent, undefined, (e) => { e.stopPropagation(); m0Spy() })
             mock.nodeOps.patchProp(m1, threeEvent, undefined, (e) => { e.stopPropagation(); m1Spy() })
-            const { handle } = mock.context.eventManager
 
-            mock.set.mockIntersection(m0)
-            handle(mockEvt('pointermove'))
+            mock.apply('pointermove').to([m0])
             expect(gSpy).toBeCalledTimes(0)
             expect(m0Spy).toBeCalledTimes(1)
             expect(m1Spy).toBeCalledTimes(0)
 
             mock.clear()
-            mock.set.mockIntersection([m0, m1])
-            handle(mockEvt('pointermove'))
+            mock.apply('pointermove').to([m0, m1])
             expect(gSpy).toBeCalledTimes(0)
             expect(m0Spy).toBeCalledTimes(0)
             expect(m1Spy).toBeCalledTimes(1)
 
             mock.clear()
-            mock.set.mockIntersection([m0, m1])
-            handle(mockEvt('pointermove'))
+            mock.apply('pointermove').to([m0, m1])
             expect(gSpy).toBeCalledTimes(0)
             expect(m0Spy).toBeCalledTimes(0)
             expect(m1Spy).toBeCalledTimes(0)
@@ -287,13 +256,7 @@ describe('createEventManager', () => {
               mock.nodeOps.patchProp(m0, threeEvent, undefined, (e: ThreeEvent<PointerEvent>) => m0Event = e)
               mock.nodeOps.patchProp(g0, threeEvent, undefined, (e: ThreeEvent<PointerEvent>) => g0Event = e)
 
-              const { handle } = mock.context.eventManager
-
-              mock.set.mockIntersection([])
-              handle(mockEvt('pointermove'))
-
-              mock.set.mockIntersection(m0)
-              handle(mockEvt('pointermove'))
+              mock.apply('pointermove').to([[], [m0]])
 
               expect(m0Event.object).toBe(m0)
               expect(g0Event.object).toBe(m0)
@@ -304,85 +267,11 @@ describe('createEventManager', () => {
 
       describe.each(
         [
-          { domEvent: 'click', threeEvent: 'onClick', mockClickFn: () => mockEvt('click') },
-          { domEvent: 'contextmenu', threeEvent: 'onContextmenu', mockClickFn: () => mockEvt('contextmenu') },
-          { domEvent: 'dblclick', threeEvent: 'onDblclick', mockClickFn: () => mockEvt('dblclick') },
+          { domEvent: 'click' },
+          { domEvent: 'contextmenu' },
+          { domEvent: 'dblclick' },
         ],
-      )('$domEvent', ({ threeEvent, mockClickFn }) => {
-        it(`calls \`${threeEvent}\` methods on objects under pointer and ancestors`, () => {
-          const mock = mockTresUsingEventManagerProps()
-          const { g0, g1, m0, m2 } = mock.add.DAG('g0 -> m0 m1; m0 -> g1; g1 -> m2')
-          const g0Spies = mock.add.eventsTo(g0)
-          const g1Spies = mock.add.eventsTo(g1)
-          const m0Spies = mock.add.eventsTo(m0)
-          const m2Spies = mock.add.eventsTo(m2)
-
-          const { handle } = mock.context.eventManager
-          mock.add.toMockIntersection(m2)
-
-          expect(g0Spies[threeEvent]).toBeCalledTimes(0)
-          expect(g1Spies[threeEvent]).toBeCalledTimes(0)
-          expect(m0Spies[threeEvent]).toBeCalledTimes(0)
-          expect(m2Spies[threeEvent]).toBeCalledTimes(0)
-          handle(mockClickFn())
-          expect(g0Spies[threeEvent]).toBeCalledTimes(1)
-          expect(g1Spies[threeEvent]).toBeCalledTimes(1)
-          expect(m0Spies[threeEvent]).toBeCalledTimes(1)
-          expect(m2Spies[threeEvent]).toBeCalledTimes(1)
-        })
-        it(`calls \`${threeEvent}\` methods on hit objects and ancestors`, () => {
-          const mock = mockTresUsingEventManagerProps()
-          const { g0, m0, m1, m2 } = mock.add.DAG('g0 -> m0 m1; m0 -> g1; g1 -> m2')
-          const g0Spies = mock.add.eventsTo(g0)
-          const m0Spies = mock.add.eventsTo(m0)
-          const m1Spies = mock.add.eventsTo(m1)
-          const m2Spies = mock.add.eventsTo(m2)
-
-          mock.set.mockIntersection(m2)
-
-          const { handle } = mock.context.eventManager
-
-          expect(g0Spies[threeEvent]).toBeCalledTimes(0)
-          expect(m0Spies[threeEvent]).toBeCalledTimes(0)
-          expect(m2Spies[threeEvent]).toBeCalledTimes(0)
-          handle(mockClickFn())
-          expect(g0Spies[threeEvent]).toBeCalledTimes(1)
-          expect(m0Spies[threeEvent]).toBeCalledTimes(1)
-          expect(m2Spies[threeEvent]).toBeCalledTimes(1)
-
-          mock.clear()
-          mock.set.mockIntersection(m1)
-
-          expect(g0Spies[threeEvent]).toBeCalledTimes(0)
-          expect(m1Spies[threeEvent]).toBeCalledTimes(0)
-          handle(mockClickFn())
-          expect(g0Spies[threeEvent]).toBeCalledTimes(1)
-          expect(m1Spies[threeEvent]).toBeCalledTimes(1)
-        })
-        it(`calls \`${threeEvent}\` once per object per event`, () => {
-          const mock = mockTresUsingEventManagerProps()
-          const { m0, m1, m2 } = mock.add.DAG('m0 -> m1 m2')
-          const m0Spies = mock.add.eventsTo(m0)
-          mock.add.eventsTo(m1)
-          mock.add.eventsTo(m2)
-
-          // NOTE: This will result in 2 hits.
-          mock.set.mockIntersection([m1, m2])
-
-          const { handle } = mock.context.eventManager
-
-          expect(m0Spies[threeEvent]).toBeCalledTimes(0)
-          handle(mockClickFn())
-          expect(m0Spies[threeEvent]).toBeCalledTimes(1)
-
-          mock.clear()
-          // NOTE: This will result in 3 hits.
-          mock.set.mockIntersection([m0, m1, m2])
-
-          expect(m0Spies[threeEvent]).toBeCalledTimes(0)
-          handle(mockClickFn())
-          expect(m0Spies[threeEvent]).toBeCalledTimes(1)
-        })
+      )('$domEvent', ({ domEvent }) => {
         it('calls `pointermissed` on all elements in subtrees that were not hit', () => {
           const mock = mockTresUsingEventManagerProps()
           // NOTE: Names in DAG
@@ -407,13 +296,10 @@ describe('createEventManager', () => {
           expect(mACSpies.onPointermissed).toBeCalledTimes(0)
           expect(mABDESpies.onPointermissed).toBeCalledTimes(0)
 
-          const { handle } = mock.context.eventManager
-
           // NOTE: We're going to "hit" `mABDE`.
           // Acestors `mA`, `mABD` are also "hit".
           // `mAC` is "missed".
-          mock.set.mockIntersection(mABDE)
-          handle(mockClickFn())
+          mock.apply(domEvent).to([mABDE])
 
           expect(gASpies.onPointermissed).toBeCalledTimes(0)
           expect(mABSpies.onPointermissed).toBeCalledTimes(0)
@@ -421,26 +307,107 @@ describe('createEventManager', () => {
           expect(mABDESpies.onPointermissed).toBeCalledTimes(0)
 
           vi.clearAllMocks()
-          mock.set.mockIntersection(mAC)
-          handle(mockClickFn())
+          mock.apply(domEvent).to([mAC])
           expect(gASpies.onPointermissed).toBeCalledTimes(0)
           expect(mABSpies.onPointermissed).toBeCalledTimes(1)
           expect(mACSpies.onPointermissed).toBeCalledTimes(0)
           expect(mABDESpies.onPointermissed).toBeCalledTimes(1)
 
           vi.clearAllMocks()
-          mock.set.mockIntersection([])
-          handle(mockClickFn())
+          mock.apply(domEvent).to([])
           expect(gASpies.onPointermissed).toBeCalledTimes(1)
           expect(mABSpies.onPointermissed).toBeCalledTimes(1)
           expect(mACSpies.onPointermissed).toBeCalledTimes(1)
           expect(mABDESpies.onPointermissed).toBeCalledTimes(1)
         })
       })
+
+      describe.each(
+        [
+          { domEvent: 'click', threeEvent: 'onClick', mockClickFn: () => mockEvt('click') },
+          { domEvent: 'contextmenu', threeEvent: 'onContextmenu', mockClickFn: () => mockEvt('contextmenu') },
+          { domEvent: 'dblclick', threeEvent: 'onDblclick', mockClickFn: () => mockEvt('dblclick') },
+          { domEvent: 'pointerdown', threeEvent: 'onPointerdown', mockClickFn: () => mockEvt('pointerdown') },
+          { domEvent: 'pointerup', threeEvent: 'onPointerup', mockClickFn: () => mockEvt('pointerup') },
+        ],
+      )('$domEvent', ({ domEvent, threeEvent }) => {
+        it(`calls \`${threeEvent}\` methods on objects under pointer and ancestors`, () => {
+          const mock = mockTresUsingEventManagerProps()
+          const { g0, g1, m0, m2 } = mock.add.DAG('g0 -> m0 m1; m0 -> g1; g1 -> m2')
+          const g0Spies = mock.add.eventsTo(g0)
+          const g1Spies = mock.add.eventsTo(g1)
+          const m0Spies = mock.add.eventsTo(m0)
+          const m2Spies = mock.add.eventsTo(m2)
+
+          expect(g0Spies[threeEvent]).toBeCalledTimes(0)
+          expect(g1Spies[threeEvent]).toBeCalledTimes(0)
+          expect(m0Spies[threeEvent]).toBeCalledTimes(0)
+          expect(m2Spies[threeEvent]).toBeCalledTimes(0)
+          mock.apply(domEvent).to([m2])
+          expect(g0Spies[threeEvent]).toBeCalledTimes(1)
+          expect(g1Spies[threeEvent]).toBeCalledTimes(1)
+          expect(m0Spies[threeEvent]).toBeCalledTimes(1)
+          expect(m2Spies[threeEvent]).toBeCalledTimes(1)
+        })
+        it(`calls \`${threeEvent}\` methods on hit objects and ancestors`, () => {
+          const mock = mockTresUsingEventManagerProps()
+          const { g0, m0, m1, m2 } = mock.add.DAG('g0 -> m0 m1; m0 -> g1; g1 -> m2')
+          const g0Spies = mock.add.eventsTo(g0)
+          const m0Spies = mock.add.eventsTo(m0)
+          const m1Spies = mock.add.eventsTo(m1)
+          const m2Spies = mock.add.eventsTo(m2)
+
+          expect(g0Spies[threeEvent]).toBeCalledTimes(0)
+          expect(m0Spies[threeEvent]).toBeCalledTimes(0)
+          expect(m2Spies[threeEvent]).toBeCalledTimes(0)
+          mock.apply(domEvent).to([m2])
+          expect(g0Spies[threeEvent]).toBeCalledTimes(1)
+          expect(m0Spies[threeEvent]).toBeCalledTimes(1)
+          expect(m2Spies[threeEvent]).toBeCalledTimes(1)
+
+          mock.clear()
+
+          expect(g0Spies[threeEvent]).toBeCalledTimes(0)
+          expect(m1Spies[threeEvent]).toBeCalledTimes(0)
+          mock.apply(domEvent).to([m1])
+          expect(g0Spies[threeEvent]).toBeCalledTimes(1)
+          expect(m1Spies[threeEvent]).toBeCalledTimes(1)
+        })
+        it(`calls \`${threeEvent}\` once per object per event`, () => {
+          const mock = mockTresUsingEventManagerProps()
+          const { m0, m1, m2 } = mock.add.DAG('m0 -> m1 m2')
+          const m0Spies = mock.add.eventsTo(m0)
+          mock.add.eventsTo(m1)
+          mock.add.eventsTo(m2)
+
+          expect(m0Spies[threeEvent]).toBeCalledTimes(0)
+          mock.apply(domEvent).to([m1, m2])
+          expect(m0Spies[threeEvent]).toBeCalledTimes(1)
+
+          mock.clear()
+
+          expect(m0Spies[threeEvent]).toBeCalledTimes(0)
+          mock.apply(domEvent).to([m0, m1, m2])
+          expect(m0Spies[threeEvent]).toBeCalledTimes(1)
+        })
+        it('bubbles event to parents', () => {
+          const mock = mockTresUsingEventManagerProps()
+          const { gParent, mChild, mGrandchild } = mock.add.DAG('gParent -> mChild; mChild -> mGrandchild')
+          gParent.name = 'gParent'
+          mock.add.eventsTo(gParent)
+          mock.add.eventsTo(mGrandchild)
+
+          mock.apply(domEvent).to([mGrandchild])
+          expect(gParent[threeEvent]).toBeCalledTimes(1)
+
+          mock.clear()
+          mock.apply(domEvent).to([mChild])
+          expect(gParent[threeEvent]).toBeCalledTimes(1)
+        })
+      })
       describe(':blocking', () => {
         it('stops objects "behind" :blocking objects from receiving `click`, `wheel`, `pointermove`, when `true`', () => {
           const mock = mockTresUsingEventManagerProps()
-          const { handle } = mock.context.eventManager
           const { mFront, mBehind } = mock.add.DAG('mFront; mBehind')
           const mFrontSpies = mock.add.eventsTo(mFront)
           const mBehindSpies = mock.add.eventsTo(mBehind)
@@ -448,90 +415,82 @@ describe('createEventManager', () => {
           mock.nodeOps.patchProp(mFront, 'blocking', undefined, true)
           mock.set.mockIntersection([mFront, mBehind])
 
-          handle(mockEvt('wheel'))
+          mock.apply('wheel').to([mFront, mBehind])
           expect(mBehindSpies.onWheel).toBeCalledTimes(0)
           expect(mFrontSpies.onWheel).toBeCalledTimes(1)
 
-          handle(mockEvt('pointermove'))
+          mock.apply('pointermove').to([mFront, mBehind])
           expect(mBehindSpies.onPointermove).toBeCalledTimes(0)
           expect(mFrontSpies.onPointermove).toBeCalledTimes(1)
 
-          handle(mockEvt('click'))
+          mock.apply('click').to([mFront, mBehind])
           expect(mBehindSpies.onClick).toBeCalledTimes(0)
           expect(mFrontSpies.onClick).toBeCalledTimes(1)
         })
         it('bubbles events to parents (as normal) when `true`', () => {
           const mock = mockTresUsingEventManagerProps()
-          const { handle } = mock.context.eventManager
           const { g, mFront, mBehind } = mock.add.DAG('g -> mFront; mBehind')
           const gSpies = mock.add.eventsTo(g)
 
           mock.nodeOps.patchProp(mFront, 'blocking', undefined, true)
-          mock.set.mockIntersection([mFront, mBehind])
 
-          handle(mockEvt('wheel'))
+          mock.apply('wheel').to([mFront, mBehind])
           expect(gSpies.onWheel).toBeCalledTimes(1)
 
-          handle(mockEvt('pointermove'))
+          mock.apply('pointermove').to([mFront, mBehind])
           expect(gSpies.onPointermove).toBeCalledTimes(1)
 
-          handle(mockEvt('click'))
+          mock.apply('click').to([mFront, mBehind])
           expect(gSpies.onClick).toBeCalledTimes(1)
         })
         it('restores normal "non-solid" behavior when `false`', () => {
           const mock = mockTresUsingEventManagerProps()
-          const { handle } = mock.context.eventManager
           const { mFront, mBehind } = mock.add.DAG('mFront; mBehind')
           const mFrontSpies = mock.add.eventsTo(mFront)
           const mBehindSpies = mock.add.eventsTo(mBehind)
 
           mock.nodeOps.patchProp(mFront, 'blocking', undefined, true)
-          mock.set.mockIntersection([mFront, mBehind])
 
-          handle(mockEvt('wheel'))
+          mock.apply('wheel').to([mFront, mBehind])
           expect(mBehindSpies.onWheel).toBeCalledTimes(0)
           expect(mFrontSpies.onWheel).toBeCalledTimes(1)
 
-          handle(mockEvt('pointermove'))
+          mock.apply('pointermove').to([mFront, mBehind])
           expect(mBehindSpies.onPointermove).toBeCalledTimes(0)
           expect(mFrontSpies.onPointermove).toBeCalledTimes(1)
 
-          handle(mockEvt('click'))
+          mock.apply('click').to([mFront, mBehind])
           expect(mBehindSpies.onClick).toBeCalledTimes(0)
           expect(mFrontSpies.onClick).toBeCalledTimes(1)
 
           mock.nodeOps.patchProp(mFront, 'blocking', undefined, false)
 
           vi.clearAllMocks()
-          handle(mockEvt('wheel'))
+          mock.apply('wheel').to([mFront, mBehind])
           expect(mBehindSpies.onWheel).toBeCalledTimes(1)
           expect(mFrontSpies.onWheel).toBeCalledTimes(1)
 
-          handle(mockEvt('pointermove'))
+          mock.apply('pointermove').to([mFront, mBehind])
           expect(mBehindSpies.onPointermove).toBeCalledTimes(1)
           expect(mFrontSpies.onPointermove).toBeCalledTimes(1)
 
-          handle(mockEvt('click'))
+          mock.apply('click').to([mFront, mBehind])
           expect(mBehindSpies.onClick).toBeCalledTimes(1)
           expect(mFrontSpies.onClick).toBeCalledTimes(1)
         })
         it('calls @pointerleave on objects no longer receiving the pointer event after a new pointer event, even if they are still intersected', () => {
           const mock = mockTresUsingEventManagerProps()
-          const { handle } = mock.context.eventManager
           const { mFront, mBehind } = mock.add.DAG('mFront; mBehind')
           const mFrontSpies = mock.add.eventsTo(mFront)
           const mBehindSpies = mock.add.eventsTo(mBehind)
 
-          mock.set.mockIntersection(mBehind)
-          handle(mockEvt('pointermove'))
-
+          mock.apply('pointermove').to([mBehind])
+          expect(mBehindSpies.onPointerover).toBeCalledTimes(1)
           expect(mBehindSpies.onPointerleave).toBeCalledTimes(0)
           // NOTE: `mFrontStops` is ahead of `mBehind` and should
-          // get the event first.
+          // get the event, blocking `mBehind` and triggering a `pointerleave`.
           mock.nodeOps.patchProp(mFront, 'blocking', undefined, true)
-          mock.set.mockIntersection([mFront, mBehind])
-
-          handle(mockEvt('pointermove'))
+          mock.apply('pointermove').to([mFront, mBehind])
           expect(mBehindSpies.onPointerleave).toBeCalledTimes(1)
           expect(mFrontSpies.onPointerover).toBeCalledTimes(1)
         })
@@ -541,17 +500,12 @@ describe('createEventManager', () => {
           // NOTE: Vue behavior in the DOM.
           // https://play.vuejs.org/#eNp9U01v2zAM/SuELk6BwkGxnQI32Fb0sB22YN1RF81mbLWyKEhylsLwfx8lNx8t0l4Mi3yPenykRvHVuXI3oFiJKtReuwgB4+DW0urekY8wgsctTLD11EPB0EJaaWuyIUIfWrhN+UWxIW0jeoNqh9ChR1C2gbrD+gkSmAwWV4m5HWwdNVlwM4OGuLiCUVo44EpD7UIKTkjBlOkSq6cdXqalzPu8rG+BL0wsQyS38eRUqxJswby3BTPlULFazi6xP3yI2DujIvIJoOpu4MupqVspTgcpYBXis0GOjvBX1U8th21zR4b8Cgqj2y62Xj0XMEmxrhq9O9bK92ehp5Ivmo6Y1PQbyOzDehzzlKapWnLRdbXsbrLaM6V5Uq9uA8Xz07ZBh/yxsYQHru20bYEsQkMYwBKvCkchdgjEH18me84sEdciBvZyq9vyMZDlHcuuS1FT77RB/8sl04MUq3keKaeMoX8/ciz6Aa8P8bxKF+KPYZ9iUmw8BvSp6WMuKt8im5/S9w8/cc//x2RPzWAY/UHyN/IeDEnjDPvGI2PZZ7is9nt+KezOn3C/j2jDoakkNCGnjJeCX8/dB62f5H4qP2ce75yY/gPG30Vc
           const mock = mockTresUsingEventManagerProps()
-          const { handle } = mock.context.eventManager
           const { gListener, gStopper, mSource } = mock.add.DAG('gListener -> gStopper; gStopper -> mSource')
-
           const gListenerSpies = mock.add.eventsTo(gListener)
           mock.add.eventsTo(mSource)
           mock.nodeOps.patchProp(gStopper, 'onPointerout', undefined, (e) => { e.stopPropagation() })
 
-          mock.set.mockIntersection(mSource)
-          handle(mockEvt('pointermove'))
-          mock.set.mockIntersection([])
-          handle(mockEvt('pointermove'))
+          mock.apply('pointermove').to([[mSource], []])
 
           expect(gListenerSpies.onPointerleave).toBeCalledTimes(1)
           expect(gListenerSpies.onPointerout).not.toBeCalled()
@@ -560,17 +514,13 @@ describe('createEventManager', () => {
           // NOTE: Vue behavior in the DOM.
           // https://play.vuejs.org/#eNp9U01v2zAM/SuELk6BwkGxnQI32Fb0sB22YN1RF81mbLWyKEhylsLwfx8lNx8t0l4Mi3yPenykRvHVuXI3oFiJKtReuwgB4+DW0urekY8wgsctTLD11EPB0EJaaWuyIUIfWrhN+UWxIW0jeoNqh9ChR1C2gbrD+gkSmAwWV4m5HWwdNVlwM4OGuLiCUVo44EpD7UIKTkjBlOkSq6cdXqalzPu8rG+BL0wsQyS38eRUqxJswby3BTPlULFazi6xP3yI2DujIvIJoOpu4MupqVspTgcpYBXis0GOjvBX1U8th21zR4b8Cgqj2y62Xj0XMEmxrhq9O9bK92ehp5Ivmo6Y1PQbyOzDehzzlKapWnLRdbXsbrLaM6V5Uq9uA8Xz07ZBh/yxsYQHru20bYEsQkMYwBKvCkchdgjEH18me84sEdciBvZyq9vyMZDlHcuuS1FT77RB/8sl04MUq3keKaeMoX8/ciz6Aa8P8bxKF+KPYZ9iUmw8BvSp6WMuKt8im5/S9w8/cc//x2RPzWAY/UHyN/IeDEnjDPvGI2PZZ7is9nt+KezOn3C/j2jDoakkNCGnjJeCX8/dB62f5H4qP2ce75yY/gPG30Vc
           const mock = mockTresUsingEventManagerProps()
-          const { handle } = mock.context.eventManager
           const { gListener, gStopper, mSource } = mock.add.DAG('gListener -> gStopper; gStopper -> mSource')
 
           const gListenerSpies = mock.add.eventsTo(gListener)
           mock.add.eventsTo(mSource)
           mock.nodeOps.patchProp(gStopper, 'onPointerleave', undefined, (e) => { e.stopPropagation() })
 
-          mock.set.mockIntersection(mSource)
-          handle(mockEvt('pointermove'))
-          mock.set.mockIntersection([])
-          handle(mockEvt('pointermove'))
+          mock.apply('pointermove').to([[mSource], []])
 
           expect(gListenerSpies.onPointerout).toBeCalledTimes(1)
           expect(gListenerSpies.onPointerleave).not.toBeCalled()
@@ -580,15 +530,13 @@ describe('createEventManager', () => {
             const mock = mockTresUsingEventManagerProps()
             const { gListener, gStopper } = mock.add.DAG('gListener -> gStopper; gStopper -> mSource')
             const gListenerSpies = mock.add.eventsTo(gListener)
-            const { handle } = mock.context.eventManager
 
-            mock.set.mockIntersection([])
-            handle(mockEvt('click'))
+            mock.apply('click').to([])
             expect(gListenerSpies.onPointermissed).toBeCalledTimes(1)
 
             vi.clearAllMocks()
             mock.nodeOps.patchProp(gStopper, 'onPointermissed', undefined, e => e.stopPropagation())
-            handle(mockEvt('click'))
+            mock.apply('click').to([])
             expect(gListenerSpies.onPointermissed).toBeCalledTimes(0)
           })
 
@@ -596,25 +544,17 @@ describe('createEventManager', () => {
             const mock = mockTresUsingEventManagerProps()
             const { gListener, gStopper, mSource } = mock.add.DAG('gListener -> gStopper; gStopper -> mSource')
             const gListenerSpies = mock.add.eventsTo(gListener)
-            const { handle } = mock.context.eventManager
 
             mock.nodeOps.patchProp(gStopper, 'onPointerenter', undefined, e => e.stopPropagation())
             // NOTE: Cause a pointerenter
-            mock.set.mockIntersection([])
-            handle(mockEvt('pointermove'))
-            mock.set.mockIntersection([mSource])
-            handle(mockEvt('pointermove'))
-            //
+            mock.apply('pointermove').to([[], [mSource]])
             expect(gListenerSpies.onPointerenter).toBeCalledTimes(0)
 
             vi.clearAllMocks()
+
             mock.nodeOps.patchProp(gStopper, 'onPointerover', undefined, e => e.stopPropagation())
             // NOTE: Cause a pointerover
-            mock.set.mockIntersection([])
-            handle(mockEvt('pointermove'))
-            mock.set.mockIntersection([mSource])
-            handle(mockEvt('pointermove'))
-            //
+            mock.apply('pointermove').to([[], [mSource]])
             expect(gListenerSpies.onPointerover).toBeCalledTimes(0)
           })
 
@@ -622,25 +562,17 @@ describe('createEventManager', () => {
             const mock = mockTresUsingEventManagerProps()
             const { gListener, gStopper, mSource } = mock.add.DAG('gListener -> gStopper; gStopper -> mSource')
             const gListenerSpies = mock.add.eventsTo(gListener)
-            const { handle } = mock.context.eventManager
 
             mock.nodeOps.patchProp(gStopper, 'onPointerleave', undefined, e => e.stopPropagation())
             // NOTE: Cause a pointerleave
-            mock.set.mockIntersection([mSource])
-            handle(mockEvt('pointermove'))
-            mock.set.mockIntersection([])
-            handle(mockEvt('pointermove'))
-            //
+            mock.apply('pointermove').to([[mSource], []])
             expect(gListenerSpies.onPointerleave).toBeCalledTimes(0)
 
             vi.clearAllMocks()
+
             mock.nodeOps.patchProp(gStopper, 'onPointerout', undefined, e => e.stopPropagation())
             // NOTE: Cause a pointerout
-            mock.set.mockIntersection([mSource])
-            handle(mockEvt('pointermove'))
-            mock.set.mockIntersection([])
-            handle(mockEvt('pointermove'))
-            //
+            mock.apply('pointermove').to([[mSource], []])
             expect(gListenerSpies.onPointerout).toBeCalledTimes(0)
           })
         })
@@ -689,8 +621,6 @@ describe('createEventManager', () => {
           )
         }
 
-        const { handle } = mock.context.eventManager
-
         const mouseDownPosition = new THREE.Vector2(999, 1000)
         const { x, y } = mouseDownPosition
         const newPosition = new THREE.Vector2(0, 3)
@@ -701,6 +631,7 @@ describe('createEventManager', () => {
 
         triggeringEvent = mockEvt(incomingDomEvent, { offsetX: newPosition.x, offsetY: newPosition.y })
         distance = mouseDownPosition.distanceTo(newPosition)
+        const { handle } = mock.context.eventManager
         handle(mockEvt('pointerdown', { offsetX: x, offsetY: y }))
 
         mock.set.mockIntersection([objects.mIntersected0, objects.mIntersected1])
@@ -712,6 +643,16 @@ describe('createEventManager', () => {
           expect(events.gParent.eventObject).toBe(objects.gParent)
           expect(events.mIntersected0.eventObject).toBe(objects.mIntersected0)
           expect(events.mIntersected1.eventObject).toBe(objects.mIntersected1)
+        })
+        it('has an `currentTarget` field that is the same as the `eventObject` field', () => {
+          expect(events.gParent.eventObject).toBe(events.gParent.currentTarget)
+          expect(events.mIntersected0.eventObject).toBe(events.mIntersected0.eventObject)
+          expect(events.mIntersected1.eventObject).toBe(events.mIntersected1.eventObject)
+        })
+        it('has a `target` field containing the object that was initially "hit"', () => {
+          expect(events.gParent.target).toBe(objects.mIntersected0)
+          expect(events.mIntersected0.target).toBe(objects.mIntersected0)
+          expect(events.mIntersected1.target).toBe(objects.mIntersected1)
         })
         it('has an `intersections` field containing the intersections', () => {
           const expectedIntersections = [
@@ -790,6 +731,68 @@ describe('createEventManager', () => {
           }
         })
       })
+      describe('"self" events – `target` === `currentTarget`', () => {
+        describe('onPointermissed', () => {
+          it('is always a "self" event', () => {
+            const mock = mockTresUsingEventManagerProps()
+            const { g0, m0, m1 } = mock.add.DAG('g0 -> m0; m1')
+            const g0Spy = vi.fn()
+            const m0Spy = vi.fn()
+            const m1Spy = vi.fn()
+            mock.nodeOps.patchProp(g0, 'onPointermissed', undefined, (e) => { g0Spy(e.target === e.currentTarget && !!e.target) })
+            mock.nodeOps.patchProp(m0, 'onPointermissed', undefined, (e) => { m0Spy(e.target === e.currentTarget && !!e.target) })
+            mock.nodeOps.patchProp(m1, 'onPointermissed', undefined, (e) => { m1Spy(e.target === e.currentTarget && !!e.target) })
+
+            mock.apply('click').to([])
+
+            expect(g0Spy).toBeCalledWith(true)
+            expect(m0Spy).toBeCalledWith(true)
+            expect(m1Spy).toBeCalledWith(true)
+          })
+        })
+
+        describe('onPointerenter', () => {
+          // NOTE: See Vue's behavior in the DOM:
+          // https://play.vuejs.org/#eNqtVE1TwjAQ/SuZeEBnmIKDJ6yOH4MzelBGPeZS6VKDaZJJ0lKG4b+7SQXKCJWDPbS7+15edl/TLumt1lFZAB3S2E4M145YcIW+ZjLu1QUMMXGQa5E4wIyQOOVlCDC0OpHkRisuHRgBSQmRBTG9YnSipFUCIqGy044qECZNWueM0R+R42VynqYCDuscr8SlbGvIX+MGSLgliZgnC3wQRr0io41de37b7TjNtJHEvdq5VhPB3/42MdBaTDwss2vib53jlXZM3Ce0MTGA/21i3GscS0ytWwgfIk6WnponJuNySAZ9XV36wocyKZghOdcVwTF4Sk4e+n2EVuHAh/W0S53FMac8i2ZWSfw2gpifPddcgHnRjqMNjA7rbTyWCKHmT6HmTAHddX3yCZOvPfWZrXyN0bEBC6YERjeYw7bB1fDo7RkqjDdgrtJCILsFfAWcrfA91rS7QuILNw1e6PYx18o4LrN3O6ocSLseyjfqmavAZxR/EPcto2/bHUQXYR36SVff1aZvKg==
+          it('is always a "self" event', () => {
+            const mock = mockTresUsingEventManagerProps()
+            const { g0, g1, m0 } = mock.add.DAG('g0 -> g1; g1 -> m0')
+            const g0Spy = vi.fn()
+            const g1Spy = vi.fn()
+            const m0Spy = vi.fn()
+            mock.nodeOps.patchProp(g0, 'onPointerenter', undefined, (e) => { g0Spy(e.target === e.currentTarget && !!e.target) })
+            mock.nodeOps.patchProp(g1, 'onPointerenter', undefined, (e) => { g1Spy(e.target === e.currentTarget && !!e.target) })
+            mock.nodeOps.patchProp(m0, 'onPointerenter', undefined, (e) => { m0Spy(e.target === e.currentTarget && !!e.target) })
+
+            mock.apply('pointermove').to([m0])
+
+            expect(g0Spy).toBeCalledWith(true)
+            expect(g1Spy).toBeCalledWith(true)
+            expect(m0Spy).toBeCalledWith(true)
+          })
+        })
+
+        describe('onPointerleave', () => {
+          // NOTE: See Vue's behavior in the DOM:
+          // https://play.vuejs.org/#eNqtVE1TwjAQ/SuZeEBnmIKDJ6yOH4MzelBGPeZS6VKDaZJJ0lKG4b+7SQXKCJWDPbS7+15edl/TLumt1lFZAB3S2E4M145YcIW+ZjLu1QUMMXGQa5E4wIyQOOVlCDC0OpHkRisuHRgBSQmRBTG9YnSipFUCIqGy044qECZNWueM0R+R42VynqYCDuscr8SlbGvIX+MGSLgliZgnC3wQRr0io41de37b7TjNtJHEvdq5VhPB3/42MdBaTDwss2vib53jlXZM3Ce0MTGA/21i3GscS0ytWwgfIk6WnponJuNySAZ9XV36wocyKZghOdcVwTF4Sk4e+n2EVuHAh/W0S53FMac8i2ZWSfw2gpifPddcgHnRjqMNjA7rbTyWCKHmT6HmTAHddX3yCZOvPfWZrXyN0bEBC6YERjeYw7bB1fDo7RkqjDdgrtJCILsFfAWcrfA91rS7QuILNw1e6PYx18o4LrN3O6ocSLseyjfqmavAZxR/EPcto2/bHUQXYR36SVff1aZvKg==
+          it('is always a "self" event', () => {
+            const mock = mockTresUsingEventManagerProps()
+            const { g0, g1, m0 } = mock.add.DAG('g0 -> g1; g1 -> m0')
+            const g0Spy = vi.fn()
+            const g1Spy = vi.fn()
+            const m0Spy = vi.fn()
+            mock.nodeOps.patchProp(g0, 'onPointerleave', undefined, (e) => { g0Spy(e.target === e.currentTarget && !!e.target) })
+            mock.nodeOps.patchProp(g1, 'onPointerleave', undefined, (e) => { g1Spy(e.target === e.currentTarget && !!e.target) })
+            mock.nodeOps.patchProp(m0, 'onPointerleave', undefined, (e) => { m0Spy(e.target === e.currentTarget && !!e.target) })
+
+            mock.apply('pointermove').to([[m0], []])
+
+            expect(g0Spy).toBeCalledWith(true)
+            expect(g1Spy).toBeCalledWith(true)
+            expect(m0Spy).toBeCalledWith(true)
+          })
+        })
+      })
       describe(`onPointerout(event: TresEvent)`, () => {
         const mock = mockTresUsingEventManagerProps()
         const { g0, m0 } = mock.add.DAG('g0 -> m0')
@@ -799,16 +802,9 @@ describe('createEventManager', () => {
         let m0Event: ThreeEvent<PointerEvent> | null = null
         mock.nodeOps.patchProp(g0, 'onPointerout', undefined, (e) => { g0Spy++; g0Event = e })
         mock.nodeOps.patchProp(m0, 'onPointerout', undefined, (e) => { m0Spy++; m0Event = e })
-        const { handle } = mock.context.eventManager
 
-        mock.set.mockIntersection(m0)
-        handle(mockEvt('pointermove'))
-        mock.set.mockIntersection(m0)
-        handle(mockEvt('pointermove'))
-        mock.set.mockIntersection([])
-        handle(mockEvt('pointermove'))
-        mock.set.mockIntersection([])
-        handle(mockEvt('pointermove'))
+        // NOTE: Move pointer over m0 twice, then nothing twice.
+        mock.apply('pointermove').to([[m0], [m0], [], []])
 
         it('is called once for the same "out"', () => {
           expect(g0Spy).toBe(1)
@@ -836,16 +832,9 @@ describe('createEventManager', () => {
         let m0Event: ThreeEvent<PointerEvent> | null = null
         mock.nodeOps.patchProp(g0, 'onPointerleave', undefined, (e) => { g0Spy++; g0Event = e })
         mock.nodeOps.patchProp(m0, 'onPointerleave', undefined, (e) => { m0Spy++; m0Event = e })
-        const { handle } = mock.context.eventManager
 
-        mock.set.mockIntersection(m0)
-        handle(mockEvt('pointermove'))
-        mock.set.mockIntersection(m0)
-        handle(mockEvt('pointermove'))
-        mock.set.mockIntersection([])
-        handle(mockEvt('pointermove'))
-        mock.set.mockIntersection([])
-        handle(mockEvt('pointermove'))
+        // NOTE: Move pointer over m0 twice, then nothing twice.
+        mock.apply('pointermove').to([[m0], [m0], [], []])
 
         it('is called once for the same "leave"', () => {
           expect(g0Spy).toBe(1)
@@ -874,10 +863,9 @@ describe('createEventManager', () => {
           const mock = mockTresUsingEventManagerProps()
           const { m0 } = mock.add.DAG('m0')
           const m0Spies = mock.add.eventsTo(m0)
-          const { handle, remove } = mock.context.eventManager
+          const { remove } = mock.context.eventManager
 
-          mock.add.toMockIntersection(m0)
-          handle(mockEvt('pointermove'))
+          mock.apply('pointermove').to([m0])
 
           expect(m0Spies.onPointerenter).toBeCalledTimes(1)
           remove(m0)
@@ -886,7 +874,7 @@ describe('createEventManager', () => {
 
         it(`calls \`object.${DOM_TO_THREE[domEventName]}\` on objects in tree, if they are no longer under the pointer`, () => {
           const mock = mockTresUsingEventManagerProps()
-          const { handle, remove } = mock.context.eventManager
+          const { remove } = mock.context.eventManager
 
           const { g0, m0, m1, m2 } = mock.add.DAG('g0 -> m0 m1; m1 -> m2')
 
@@ -895,8 +883,7 @@ describe('createEventManager', () => {
           const m1Spies = mock.add.eventsTo(m1)
           const m2Spies = mock.add.eventsTo(m2)
 
-          mock.add.toMockIntersection([m0, m2])
-          handle(mockEvt('pointermove'))
+          mock.apply('pointermove').to([m0, m2])
 
           expect(g0Spies.onPointerenter).toBeCalledTimes(1)
           expect(m0Spies.onPointerenter).toBeCalledTimes(1)
@@ -1058,7 +1045,35 @@ function mockTresUsingEventManagerProps(props = eventsRaycast) {
     mockIntersection: () => mockIntersections,
   }
 
-  return { canvas, context, nodeOps, add, get, set, clear }
+  const apply = (eventOrEvents: (string | Record<string, any>) | (string | Record<string, any>)[]) => {
+    const events = (Array.isArray(eventOrEvents) ? eventOrEvents : [eventOrEvents])
+      .map(stringOrObject => typeof stringOrObject === 'string' ? mockEvt(stringOrObject) : stringOrObject)
+    return { to: (targetGroupOrGroups: Object3D[] | Object3D[][]) => {
+      if (targetGroupOrGroups.length === 0) {
+        for (const event of events) {
+          set.mockIntersection([])
+          context.eventManager.handle(event)
+        }
+      }
+      else if (!Array.isArray(targetGroupOrGroups[0])) {
+        const targetGroup = targetGroupOrGroups as Object3D[]
+        for (const event of events) {
+          set.mockIntersection(targetGroup)
+          context.eventManager.handle(event)
+        }
+      }
+      else {
+        const targetGroups = targetGroupOrGroups as Object3D[][]
+        for (const event of events) {
+          for (const targetGroup of targetGroups) {
+            set.mockIntersection(targetGroup)
+            context.eventManager.handle(event)
+          }
+        }
+      }
+    } }
+  }
+  return { canvas, context, nodeOps, add, get, set, clear, apply }
 }
 
 function mockEvt(type: PointerEvent['type'], options: Record<string, any> = {}) {

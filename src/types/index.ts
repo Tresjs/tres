@@ -51,7 +51,7 @@ export interface LocalState {
   type: string
   eventCount: number
   root: TresContext
-  handlers: Record<string, { value: EventHandler<any>, called: number }>
+  handlers: Record<string, { value: EventHandler<any> }>
   memoizedProps: { [key: string]: any }
   // NOTE:
   // LocalState holds information about the parent/child relationship
@@ -99,8 +99,12 @@ export interface Intersection extends THREE.Intersection {
 }
 
 export interface IntersectionEvent<TSourceEvent> extends Intersection {
-  /** The event source (the object that registered the handler) */
+  /** Alias for `currentTarget` */
   eventObject: TresObject
+  /** The event source (the object that registered the handler) – equivalent of DOM event.currentTarget */
+  currentTarget: TresObject
+  /** The "hit" object, where event bubbling began */
+  target: TresObject
   /** An array of intersections */
   intersections: Intersection[]
   /** vec3.set(pointer.x, pointer.y, 0).unproject(camera) */
