@@ -8,6 +8,7 @@ const baseConfig = [
       'style/function-call-spacing': ['error', 'never'],
       'node/prefer-global/process': 'off',
       'antfu/top-level-function': 'off',
+      'perfectionist/sort-imports': 'off',
     },
   },
 
