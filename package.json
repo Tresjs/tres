@@ -6,7 +6,10 @@
   "description": "Opinionated ESLint configuration for Tres.js ecosystem",
   "author": "Alvaro Saburido <hola@alvarosaburido.dev> (https://github.com/alvarosabu/)",
   "license": "MIT",
-  "repository": "tresjs/eslint-config",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tresjs/eslint-config.git"
+  },
   "keywords": [
     "eslint",
     "eslint-config",
