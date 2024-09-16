@@ -80,7 +80,7 @@ importers:
         version: 3.13.2(@parcel/watcher@2.4.1)(@types/node@22.5.5)(eslint@9.9.1(jiti@1.21.6))(ioredis@5.4.1)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.21.3)(terser@5.32.0)(typescript@5.5.4)(vite@5.4.5(@types/node@22.5.5)(terser@5.32.0))(webpack-sources@3.2.3)
       nuxt-svgo:
         specifier: ^4.0.4
-        version: 4.0.5(magicast@0.3.5)(rollup@4.21.3)(vue@3.5.5(typescript@5.5.4))(webpack-sources@3.2.3)
+        version: 4.0.6(magicast@0.3.5)(rollup@4.21.3)(vue@3.5.5(typescript@5.5.4))(webpack-sources@3.2.3)
       postprocessing:
         specifier: 6.36.2
         version: 6.36.2(three@0.168.0)
@@ -4535,8 +4535,8 @@ packages:
     engines: {node: ^16.10.0 || >=18.0.0}
     hasBin: true
 
-  nuxt-svgo@4.0.5:
-    resolution: {integrity: sha512-d8K5Ht6MRgPhOfx6NRYJg60JQUBTa9lyUtDPJF9EYaw34YYgQlbrbSTL/fRQaJUXIOKQzhKp1+r+Fsh8lJi8/w==}
+  nuxt-svgo@4.0.6:
+    resolution: {integrity: sha512-23piTK/Dv+6gqZBLf3TyZLc03CmZj9M191D/qol6dN/tc/pikFz1FOOBTe4LqXoRiE2ZbRB7/VypE+Y0kuwH1A==}
     peerDependencies:
       svgo-loader: ^4.0.0
       vue: '>=3.2.13'
@@ -12786,9 +12786,9 @@ snapshots:
     optionalDependencies:
       fsevents: 2.3.3
 
-  nuxt-svgo@4.0.5(magicast@0.3.5)(rollup@4.21.3)(vue@3.5.5(typescript@5.5.4))(webpack-sources@3.2.3):
+  nuxt-svgo@4.0.6(magicast@0.3.5)(rollup@4.21.3)(vue@3.5.5(typescript@5.5.4))(webpack-sources@3.2.3):
     dependencies:
-      '@nuxt/kit': 3.13.1(magicast@0.3.5)(rollup@4.21.3)(webpack-sources@3.2.3)
+      '@nuxt/kit': 3.13.2(magicast@0.3.5)(rollup@4.21.3)(webpack-sources@3.2.3)
       mini-svg-data-uri: 1.4.4
       svgo: 3.0.2
       vue: 3.5.5(typescript@5.5.4)
