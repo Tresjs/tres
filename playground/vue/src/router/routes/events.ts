@@ -21,8 +21,13 @@ export const eventsRoutes = [
   },
   {
     path: '/events/pointer-enter-leave',
-    name: 'PointerEnter/Leave',
+    name: 'Pointerenter/leave',
     component: () => import('../../pages/events/PointerEnterLeave.vue'),
+  },
+  {
+    path: '/events/pointer-over-out',
+    name: 'Pointerover/out comparison with Vue DOM',
+    component: () => import('../../pages/events/PointerOverOut.vue'),
   },
   {
     path: '/events/stop-propagation',

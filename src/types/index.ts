@@ -102,7 +102,7 @@ export interface IntersectionEvent<TSourceEvent> extends Intersection {
   eventObject: TresObject
   /** The event source (the object that registered the handler) – equivalent of DOM event.currentTarget */
   currentTarget: TresObject
-  /** The "hit" object, where event bubbling began */
+  /** The "hit" object, where event bubbling began. */
   target: TresObject
   /** An array of intersections */
   intersections: Intersection[]
@@ -131,9 +131,9 @@ export type DomEvent = PointerEvent | MouseEvent | WheelEvent
 
 export interface TresEvent {
   eventObject: TresObject
+  currentTarget: TresObject
+  target: TresObject
   event: DomEvent
-  stopPropagation: () => void
-  stopPropagating: boolean
   intersections: Intersection[]
   intersects: Intersection[]
 }
@@ -145,7 +145,10 @@ export interface Events {
   onWheel: EventListener
   onPointerdown: EventListener
   onPointerup: EventListener
+  onPointerenter: EventListener
   onPointerleave: EventListener
+  onPointerover: EventListener
+  onPointerout: EventListener
   onPointermove: EventListener
   onPointercancel: EventListener
   onLostpointercapture: EventListener
