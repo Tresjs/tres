@@ -2,9 +2,8 @@ import { Raycaster, Vector2, Vector3 } from 'three'
 import type { Object3D, Intersection as ThreeIntersection } from 'three'
 import { prepareTresInstance } from '..'
 import * as is from '../is'
-import { DOM_EVENT_NAMES, DOM_TO_PASSIVE, DOM_TO_THREE, type DomEventName, type DomEventTarget, POINTER_EVENT_NAMES } from './const'
+import { DOM_EVENT_NAMES, DOM_TO_PASSIVE, DOM_TO_THREE, type DomEventName, type DomEventTarget, POINTER_EVENT_NAMES, THREE_EVENT_NAMES } from './const'
 import { deprecatedEventsToNewEvents } from './deprecatedEvents'
-import { isVueEventName, patchEvent } from './eventModifiers'
 import type { TresContext } from '../../composables'
 import type { EventHandlers, IntersectionEvent, Properties, ThreeEvent, TresInstance, TresObject } from '../../types'
 import type { CreateEventManagerProps } from './createEventManager'
@@ -172,6 +171,8 @@ function insert(_instance: TresObject, config: Config) {
   config.isEventsDirty = true
 }
 
+const patchPropDomEventRE = new RegExp(`${THREE_EVENT_NAMES.join('|')}`)
+
 function patchProp(instance: TresObject, propName: string, prevValue: any, nextValue: any, config: Config) {
   if (!is.object3D(instance)) { return false }
 
@@ -188,13 +189,15 @@ function patchProp(instance: TresObject, propName: string, prevValue: any, nextV
     return true
   }
 
-  if (!isVueEventName(deprecatedEventsToNewEvents(propName))) {
+  if (!patchPropDomEventRE.test(deprecatedEventsToNewEvents(propName))) {
     return false
   }
 
   if (!instance.__tres) { prepareTresInstance(instance, {}, config.context) }
   (instance as TresInstance).__tres.eventCount = 1
-  patchEvent(instance as TresInstance, deprecatedEventsToNewEvents(propName), prevValue, nextValue)
+
+  instance[propName] = is.arr(nextValue) ? (event: ThreeEvent<unknown>) => nextValue.forEach(fn => fn(event)) : nextValue
+
   config.isEventsDirty = true
 
   return true
@@ -323,7 +326,8 @@ function handleIntersections(incomingEvent: RaycastEvent, intersections: ThreeIn
     },
   )
 
-  outgoingEvent.stopPropagation = () => { outgoingEvent.stopped = true }
+  outgoingEvent.stopPropagation = () => { outgoingEvent.stopped = true; incomingEvent.stopPropagation() }
+  outgoingEvent.preventDefault = () => { incomingEvent.preventDefault() }
 
   // NOTE:
   // 3) Propagate the events to handlers.
@@ -345,18 +349,29 @@ function handleIntersections(incomingEvent: RaycastEvent, intersections: ThreeIn
 
   // NOTE: Propagate `pointer{out,leave,over,enter}`
   if (incomingEvent.type === 'pointermove') {
-    // TODO: Test "self" here
+    /**
+     * Events mouseenter/mouseleave are like mouseover/mouseout. 
+     * They trigger when the mouse pointer enters/leaves the element.
+     *
+     * But there are two important differences:
+     *
+     * - Transitions inside the element, to/from descendants, are not counted.
+     * - Events mouseenter/mouseleave do not bubble.
+     *
+     * https://javascript.info/mousemove-mouseover-mouseout-mouseenter-mouseleave#events-mouseenter-and-mouseleave
+     */
     const hitsLeft = config.hits.difference(hits)
     if (hitsLeft.size) {
-      bubbleIntersectionsIf('pointerout', outgoingEvent, config.intersections, (obj: Object3D) => { return hitsLeft.has(obj) })
       bubbleIntersectionsIf('pointerleave', outgoingEvent, config.intersections, (obj: Object3D) => { return hitsLeft.has(obj) })
     }
-    // TODO: Test "self" here
     const hitsEntered = hits.difference(config.hits)
     if (hitsEntered.size) {
-      bubbleIntersectionsIf('pointerover', outgoingEvent, intersections, (obj: Object3D) => { return hitsEntered.has(obj) })
       bubbleIntersectionsIf('pointerenter', outgoingEvent, intersections, (obj: Object3D) => { return hitsEntered.has(obj) })
     }
+
+    // TODO: These need to be bubbled
+    bubbleIntersectionsIf('pointerout', outgoingEvent, config.intersections, (obj: Object3D) => { return hitsLeft.has(obj) })
+    bubbleIntersectionsIf('pointerover', outgoingEvent, intersections, (obj: Object3D) => { return hitsEntered.has(obj) })
   }
 
   // NOTE: Propagate `incomingEvent.type`, e.g.:

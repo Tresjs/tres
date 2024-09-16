@@ -51,7 +51,6 @@ export interface LocalState {
   type: string
   eventCount: number
   root: TresContext
-  handlers: Record<string, { value: EventHandler<any> }>
   memoizedProps: { [key: string]: any }
   // NOTE:
   // LocalState holds information about the parent/child relationship
@@ -119,6 +118,8 @@ export interface IntersectionEvent<TSourceEvent> extends Intersection {
   camera: THREE.Camera
   /** stopPropagation will stop underlying handlers from firing */
   stopPropagation: () => void
+  /** Cancel the default behavior of the event. (Not useful for Tres, but Vue calls this method internally; causing a throw if it's not present.) */
+  preventDefault: () => void
   /** The original host event */
   nativeEvent: TSourceEvent
   /** If the event was stopped by calling stopPropagation */

@@ -50,6 +50,16 @@ export const eventsRoutes = [
     component: () => import('../../pages/events/Blocking.vue'),
   },
   {
+    path: '/events/event-modifier-self',
+    name: 'Event Modifier: "self"',
+    component: () => import('../../pages/events/EventModifierSelf.vue'),
+  },
+  {
+    path: '/events/event-modifier-stop',
+    name: 'Event Modifier: "stop"',
+    component: () => import('../../pages/events/EventModifierStop.vue'),
+  },
+  {
     path: '/events/deprecated-event-names',
     name: 'Deprecated Event Names',
     component: () => import('../../pages/events/DeprecatedEventNames.vue'),

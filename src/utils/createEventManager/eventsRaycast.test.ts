@@ -639,6 +639,16 @@ describe('createEventManager', () => {
         intersection1 = mock.get.mockIntersection()[1]
 
         handle(mockEvt(incomingDomEvent, { offsetX: newPosition.x, offsetY: newPosition.y }))
+        it('has a `stopPropagation` field that is a function', () => {
+          expect(typeof events.gParent.stopPropagation).toBe('function')
+          expect(typeof events.mIntersected0.stopPropagation).toBe('function')
+          expect(typeof events.mIntersected1.stopPropagation).toBe('function')
+        })
+        it('has a `preventDefault` field that is a function', () => {
+          expect(typeof events.gParent.preventDefault).toBe('function')
+          expect(typeof events.mIntersected0.preventDefault).toBe('function')
+          expect(typeof events.mIntersected1.preventDefault).toBe('function')
+        })
         it('has an `eventObject` field containing the Object3D receiving the event', () => {
           expect(events.gParent.eventObject).toBe(objects.gParent)
           expect(events.mIntersected0.eventObject).toBe(objects.mIntersected0)
@@ -681,7 +691,15 @@ describe('createEventManager', () => {
         it('is a `{ ...domEvent }`', () => {
           for (const event of Object.values(events)) {
             for (const key in triggeringEvent) {
-              expect(event[key]).toBe(triggeringEvent[key])
+              if (typeof triggeringEvent[key] === 'function') {
+                // NOTE: Method fields are not copied onto new event.
+                // They are distinct functions that forward to original methods.
+                // Just ensure that event[key] is also a function.
+                expect(typeof event[key]).toBe(typeof triggeringEvent[key])
+              }
+              else {
+                expect(triggeringEvent[key]).toBe(event[key])
+              }
             }
           }
         })
@@ -1077,5 +1095,5 @@ function mockTresUsingEventManagerProps(props = eventsRaycast) {
 }
 
 function mockEvt(type: PointerEvent['type'], options: Record<string, any> = {}) {
-  return { type, ...options } as PointerEvent
+  return { type, ...options, stopPropagation: () => {}, preventDefault: () => {} } as PointerEvent
 }
