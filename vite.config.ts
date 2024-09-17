@@ -44,9 +44,13 @@ export default defineConfig({
     Inspect(),
   ],
   test: {
-    environment: 'jsdom',
+    exclude: ['docs/*', 'playground/*', 'dist/*', 'node_modules/*'],
     globals: true,
-    threads: false,
+    environment: 'jsdom',
+    coverage: {
+      reporter: ['text', 'json', 'html'],
+      exclude: ['node_modules', 'dist', 'docs', 'playground', 'src/**/*.d.ts', 'src/**/*.test.ts'],
+    },
   },
   build: {
     lib: {
