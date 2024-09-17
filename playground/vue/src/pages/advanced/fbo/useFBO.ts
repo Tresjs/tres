@@ -1,10 +1,10 @@
+import type { Camera, WebGLRenderTargetOptions } from 'three'
+import type { Ref } from 'vue'
 /* eslint-disable no-console */
 import { useLoop, useTresContext } from '@tresjs/core'
 import { useThrottleFn } from '@vueuse/core'
 import { DepthTexture, FloatType, HalfFloatType, LinearFilter, WebGLRenderTarget } from 'three'
 import { isReactive, onBeforeUnmount, reactive, ref, toRefs, watchEffect } from 'vue'
-import type { Camera, WebGLRenderTargetOptions } from 'three'
-import type { Ref } from 'vue'
 
 export interface FboOptions {
   /*
