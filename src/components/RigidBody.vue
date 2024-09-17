@@ -1,12 +1,13 @@
 <script setup lang="ts">
-import { type TresObject, useLoop } from '@tresjs/core'
+import { useLoop } from '@tresjs/core'
 import { Object3D } from 'three'
 import { nextTick, onUnmounted, onUpdated, provide, shallowRef, watch } from 'vue'
+import type { ShallowRef } from 'vue'
 
 import { useRapierContext } from '../composables'
-import { createColliderPropsFromObject, createRigidBody } from '../utils'
+import { createColliderPropsFromObject, createRigidBody } from '../core'
 import { BaseCollider } from './colliders'
-import type { ColliderProps, RigidBodyContext, RigidBodyProps } from '../types'
+import type { ColliderProps, ExposedRigidBody, RigidBodyContext, RigidBodyProps } from '../types'
 
 const props = withDefaults(defineProps<Partial<RigidBodyProps>>(), {
   type: 'dynamic',
@@ -16,7 +17,7 @@ const props = withDefaults(defineProps<Partial<RigidBodyProps>>(), {
 const { onBeforeRender } = useLoop()
 const { world } = useRapierContext()
 
-const bodyGroup = shallowRef<TresObject>()
+const bodyGroup = shallowRef<RigidBodyContext['group']>()
 const bodyContext = shallowRef<RigidBodyContext>()
 const instance = shallowRef<RigidBodyContext['rigidBody']>()
 const instanceDesc = shallowRef<RigidBodyContext['rigidBodyDesc']>()
@@ -29,7 +30,7 @@ defineExpose({
   rigidBodyDesc: instanceDesc,
   context: bodyContext,
   group: bodyGroup,
-})
+} satisfies { [K in keyof ExposedRigidBody]: ShallowRef<ExposedRigidBody[K] | undefined> })
 
 watch(bodyGroup, async (group) => {
   await nextTick()

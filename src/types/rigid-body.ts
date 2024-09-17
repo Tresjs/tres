@@ -22,6 +22,17 @@ export interface RigidBodyProps {
   collider: ColliderShape | false
 }
 
+export interface ExposedRigidBody {
+  /**  @description Context {@link RigidBodyDesc}. */
+  instance: RigidBodyContext['rigidBody']
+  /**  @description Context {@link RigidBody}. */
+  rigidBodyDesc: RigidBodyContext['rigidBodyDesc']
+  /** @description Context {@Link TresObject3D} group. */
+  group: RigidBodyContext['group']
+  /** @description Context {@Link RigidBodyContext}. */
+  context: RigidBodyContext
+}
+
 export interface InstancedRigidBodyProps extends RigidBodyProps {
   /**  @description Set the `RigidBody` collider shape. */
   collider: ColliderShape

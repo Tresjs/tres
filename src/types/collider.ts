@@ -6,6 +6,8 @@ import type {
 } from '@dimforge/rapier3d-compat'
 import type { TresObject3D } from '@tresjs/core'
 
+import type { RigidBodyColliderContext } from './rigid-body'
+
 /** @description Tres Rapier supported Collider shapes. */
 export type ColliderShape =
   | 'cuboid'
@@ -45,6 +47,13 @@ export interface ColliderProps {
 
   /** @description {@link Collider} scale */
   scale?: [x: number, y: number, z: number] | [radiusScale: number]
+}
+
+export interface ExposedCollider {
+  /**  @description Context {@link RigidBodyDesc}. */
+  instance: RigidBodyColliderContext['collider']
+  /**  @description Context {@link RigidBody}. */
+  colliderDesc: RigidBodyColliderContext['colliderDesc']
 }
 
 export interface CreateColliderDescProps extends ColliderProps {

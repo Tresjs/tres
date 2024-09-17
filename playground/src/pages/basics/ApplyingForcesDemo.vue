@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { OrbitControls } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
-import { Physics, RigidBody } from '@tresjs/rapier'
+import { type ExposedRigidBody, Physics, RigidBody } from '@tresjs/rapier'
 import { ACESFilmicToneMapping, SRGBColorSpace } from 'three'
 import { shallowRef } from 'vue'
 
@@ -13,13 +13,11 @@ const gl = {
   toneMapping: ACESFilmicToneMapping,
 }
 
-const rigidCubeRef = shallowRef<any>(null)
-const rigidSphereRef = shallowRef<any>(null)
+const rigidCubeRef = shallowRef<ExposedRigidBody>(null)
+const rigidSphereRef = shallowRef<ExposedRigidBody>(null)
 
 const jumpCube = () => {
-  if (!rigidCubeRef.value) {
-    return
-  }
+  if (!rigidCubeRef.value) { return }
 
   rigidCubeRef.value.rigidBodyDesc.mass = 5
   rigidCubeRef.value.instance.applyImpulse({ x: 0, y: 15, z: 0 }, true)

@@ -2,8 +2,8 @@
 import { inject, nextTick, onUnmounted, type ShallowRef, shallowRef, watch } from 'vue'
 
 import { useRapierContext } from '../../composables'
-import { createCollider } from '../../utils/collider'
-import type { ColliderProps, CreateColliderReturnType, RigidBodyContext } from '../../types'
+import { createCollider } from '../../core/collider'
+import type { ColliderProps, CreateColliderReturnType, ExposedCollider, RigidBodyContext } from '../../types'
 
 const props = withDefaults(defineProps<Partial<ColliderProps>>(), {
   shape: 'cuboid',
@@ -15,12 +15,12 @@ const { world } = useRapierContext()
 const bodyContext = inject<ShallowRef<RigidBodyContext>>('bodyContext') ?? shallowRef<RigidBodyContext>()
 const colliderInfos = shallowRef<CreateColliderReturnType>()
 const instance = shallowRef<CreateColliderReturnType['collider']>()
-const instanceDesc = shallowRef<CreateColliderReturnType['colliderDesc']>()
+const colliderDesc = shallowRef<CreateColliderReturnType['colliderDesc']>()
 
 defineExpose({
   instance,
-  colliderDesc: instanceDesc,
-})
+  colliderDesc,
+} satisfies { [K in keyof ExposedCollider]: ShallowRef<ExposedCollider[K] | undefined> })
 
 watch(bodyContext, async (state) => {
   await nextTick()
@@ -43,7 +43,7 @@ watch(bodyContext, async (state) => {
   }
 
   instance.value = infos.collider
-  instanceDesc.value = infos.colliderDesc
+  colliderDesc.value = infos.colliderDesc
   colliderInfos.value = infos
 
   state.colliders.push(infos)
