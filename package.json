@@ -63,8 +63,7 @@
     "docs:build": "vitepress build docs",
     "docs:serve": "vitepress serve docs",
     "docs:preview": "vitepress preview docs",
-    "docs:contributors": "esno scripts/update-contributors.ts",
-    "prepare": "node .husky/install.mjs"
+    "docs:contributors": "esno scripts/update-contributors.ts"
   },
   "peerDependencies": {
     "three": ">=0.133",
