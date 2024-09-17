@@ -1,8 +1,8 @@
 <script setup lang="ts">
+import type { LoaderProto } from '@tresjs/core'
 import { useLoader, useTresContext } from '@tresjs/core'
 import { CubeReflectionMapping, type CubeTexture, CubeTextureLoader, EquirectangularReflectionMapping, type Texture } from 'three'
 import { RGBELoader } from 'three-stdlib'
-import type { LoaderProto } from '@tresjs/core'
 
 /* const files = ref(['/px.jpg', '/nx.jpg', '/py.jpg', '/ny.jpg', '/pz.jpg', '/nz.jpg']) */
 const files = ref('venice/venice_sunset_1k.hdr')

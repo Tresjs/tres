@@ -1,7 +1,7 @@
-import { createEventHook, useRafFn } from '@vueuse/core'
-import { Clock } from 'three'
 import type { EventHookOn, Fn } from '@vueuse/core'
 import type { Ref } from 'vue'
+import { createEventHook, useRafFn } from '@vueuse/core'
+import { Clock } from 'three'
 
 export interface RenderLoop {
   delta: number
