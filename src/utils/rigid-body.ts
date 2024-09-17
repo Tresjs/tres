@@ -4,7 +4,7 @@ import type {
   CreateRigidBodyDescProps,
   CreateRigidBodyProps,
   CreateRigidBodyReturnType,
-} from '../types/rigid-body'
+} from '../types'
 
 /**
  * @description Create a {@link RigidBodyDesc} based on the given
@@ -57,7 +57,7 @@ export const createRigidBody = (props: CreateRigidBodyProps): CreateRigidBodyRet
 
   if (!rigidBodyDesc) {
     throw new Error(
-      `Invalid #ColliderDesc properties detected. Unable to create the rigid-body for #${object?.uuid ?? 'object'}`,
+      `Invalid #RigidBodyDesc properties detected. Unable to create the rigid-body for object #${object?.uuid ?? 'object'}`,
     )
   }
 
@@ -66,6 +66,5 @@ export const createRigidBody = (props: CreateRigidBodyProps): CreateRigidBodyRet
   return {
     rigidBody,
     rigidBodyDesc,
-    object,
   }
 }

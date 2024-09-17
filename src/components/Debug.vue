@@ -5,14 +5,13 @@ import { ref } from 'vue'
 
 import { useRapierContext } from '../composables/useRapier'
 
-const { world } = await useRapierContext()
+const { world } = useRapierContext()
 const { onBeforeRender } = useLoop()
 
 const lineSegmentsRef = ref<LineSegments | null>(null)
 
 onBeforeRender(() => {
   if (!world || !lineSegmentsRef.value) { return }
-  world.step()
 
   const buffers = world.debugRender()
 

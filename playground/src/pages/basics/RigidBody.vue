@@ -3,7 +3,6 @@ import { OrbitControls } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
 import { Physics, RigidBody } from '@tresjs/rapier'
 import { ACESFilmicToneMapping, SRGBColorSpace } from 'three'
-import { shallowRef } from 'vue'
 
 const gl = {
   clearColor: '#82DBC5',
@@ -11,27 +10,6 @@ const gl = {
   alpha: false,
   outputColorSpace: SRGBColorSpace,
   toneMapping: ACESFilmicToneMapping,
-}
-
-const rigidCubeRef = shallowRef<any>(null)
-const rigidSphereRef = shallowRef<any>(null)
-
-const jumpCube = () => {
-  if (!rigidCubeRef.value) {
-    return
-  }
-
-  rigidCubeRef.value.rigidBodyDesc.mass = 5
-  rigidCubeRef.value.instance.applyImpulse({ x: 0, y: 15, z: 0 }, true)
-}
-
-const windSphere = () => {
-  if (!rigidSphereRef.value) {
-    return
-  }
-
-  rigidSphereRef.value.rigidBodyDesc.mass = 5
-  rigidSphereRef.value.instance.applyImpulse({ x: 5, y: 0, z: 0 }, true)
 }
 </script>
 
@@ -42,16 +20,9 @@ const windSphere = () => {
 
     <Suspense>
       <Physics debug>
-        <RigidBody ref="rigidCubeRef">
-          <TresMesh :position="[0, 5, 0]" @click="jumpCube">
-            <TresBoxGeometry />
-            <TresMeshNormalMaterial />
-          </TresMesh>
-        </RigidBody>
-
-        <RigidBody ref="rigidSphereRef" collider="ball">
-          <TresMesh :position="[Math.random() * 2, Math.random() * 2 + 8, Math.random() * 2]" @click="windSphere">
-            <TresSphereGeometry />
+        <RigidBody>
+          <TresMesh :position="[0, 8, 0]">
+            <TresTorusGeometry />
             <TresMeshNormalMaterial />
           </TresMesh>
         </RigidBody>

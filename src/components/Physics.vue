@@ -1,18 +1,13 @@
 <script setup lang="ts">
 import { useLoop } from '@tresjs/core'
 import { Vector3 } from 'three'
-
 import { watch } from 'vue'
-import type { TresVector3, VectorCoordinates } from '@tresjs/core'
+import type { VectorCoordinates } from '@tresjs/core'
 import { useRapierContextProvider } from '../composables/useRapier'
-// import type { PhysicsProps } from '../types/physics'
+
 import { GRAVITY } from '../constants/physics'
 import Debug from './Debug.vue'
-
-export interface PhysicsProps {
-  debug: boolean
-  gravity: TresVector3 | VectorCoordinates
-}
+import type { PhysicsProps } from '../types'
 
 const props = withDefaults(
   defineProps<Partial<PhysicsProps>>(),
@@ -22,10 +17,10 @@ const props = withDefaults(
   },
 )
 
-const { world } = await useRapierContextProvider()
+const { world, isPaused } = await useRapierContextProvider()
 
-const setGravity = (gravity: TresVector3) => {
-  // If gravity is somethign like [0, -9.8, 0]
+const setGravity = (gravity: PhysicsProps['gravity']) => {
+  // If gravity is something like [0, -9.8, 0]
   if (Array.isArray(gravity)) {
     world.gravity.x = gravity[0]
     world.gravity.y = gravity[1]
@@ -46,7 +41,11 @@ watch(() => props.gravity, (gravity) => {
 const { onBeforeRender } = useLoop()
 
 onBeforeRender(() => {
-  if (!world) { return }
+  if (!world || isPaused) { return }
+  if (typeof props.timestep === 'number') {
+    world.timestep = props.timestep
+  }
+
   world.step()
 })
 </script>
