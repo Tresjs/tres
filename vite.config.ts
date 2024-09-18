@@ -1,13 +1,14 @@
 /// <reference types="vitest" />
 
 import vue from '@vitejs/plugin-vue'
-
 import copy from 'rollup-plugin-copy'
+
 import { defineConfig } from 'vite'
 import banner from 'vite-plugin-banner'
 import dts from 'vite-plugin-dts'
-
 import Inspect from 'vite-plugin-inspect'
+
+import { coverageConfigDefaults } from 'vitest/config'
 
 /* import analyze from 'rollup-plugin-analyzer'
  */ /* import { visualizer } from 'rollup-plugin-visualizer' */
@@ -44,12 +45,16 @@ export default defineConfig({
     Inspect(),
   ],
   test: {
-    exclude: ['docs/*', 'playground/*', 'dist/*', 'node_modules/*'],
-    globals: true,
     environment: 'jsdom',
+    globals: true,
     coverage: {
-      reporter: ['text', 'json', 'html'],
-      exclude: ['node_modules', 'dist', 'docs', 'playground', 'src/**/*.d.ts', 'src/**/*.test.ts'],
+      provider: 'v8',
+      exclude: [
+        ...coverageConfigDefaults.exclude,
+        'playground/**',
+        'docs/**',
+        '**/sponsorkit**/**',
+      ],
     },
   },
   build: {
