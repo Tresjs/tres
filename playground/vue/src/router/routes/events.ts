@@ -40,6 +40,11 @@ export const eventsRoutes = [
     component: () => import('../../pages/events/RemoveInteractivity.vue'),
   },
   {
+    path: '/events/on-canvas-leave',
+    name: 'On canvas leave',
+    component: () => import('../../pages/events/OnCanvasLeave.vue'),
+  },
+  {
     path: '/events/connect',
     name: 'Connect (add/remove event listeners)',
     component: () => import('../../pages/events/Connect.vue'),
@@ -55,14 +60,9 @@ export const eventsRoutes = [
     component: () => import('../../pages/events/Blocking.vue'),
   },
   {
-    path: '/events/event-modifier-self',
-    name: 'Event Modifier: "self"',
-    component: () => import('../../pages/events/EventModifierSelf.vue'),
-  },
-  {
-    path: '/events/event-modifier-stop',
-    name: 'Event Modifier: "stop"',
-    component: () => import('../../pages/events/EventModifierStop.vue'),
+    path: '/events/event-modifiers',
+    name: 'Vue Event Modifiers',
+    component: () => import('../../pages/events/EventModifiers.vue'),
   },
   {
     path: '/events/deprecated-event-names',

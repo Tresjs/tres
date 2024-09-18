@@ -1,9 +1,9 @@
 <!-- eslint-disable no-console -->
 <script setup lang="ts">
+import type { ThreeEvent, TresContext } from '@tresjs/core'
 import { OrbitControls } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
 import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
-import type { ThreeEvent, TresContext } from '@tresjs/core'
 
 const gl = {
   clearColor: '#202020',

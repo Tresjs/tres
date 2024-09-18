@@ -1,3 +1,5 @@
+import type { TresContext } from '../composables'
+import type { DisposeType, LocalState, TresInstance, TresObject, TresObject3D, TresPrimitive, WithMathProps } from '../types'
 import { BufferAttribute, Object3D } from 'three'
 import { isRef, type RendererOptions } from 'vue'
 import { useLogger } from '../composables'
@@ -5,8 +7,6 @@ import { attach, deepArrayEqual, doRemoveDeregister, doRemoveDetach, invalidateI
 import * as is from '../utils/is'
 import { createRetargetingProxy } from '../utils/primitive/createRetargetingProxy'
 import { catalogue } from './catalogue'
-import type { TresContext } from '../composables'
-import type { DisposeType, LocalState, TresInstance, TresObject, TresObject3D, TresPrimitive, WithMathProps } from '../types'
 
 const { logError } = useLogger()
 
@@ -330,7 +330,6 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
     invalidateInstance(node as TresObject)
   }
 
-  // eslint-disable-next-line unicorn/consistent-function-scoping
   function parentNode(node: TresObject): TresObject | null {
     return node?.__tres?.parent || null
   }

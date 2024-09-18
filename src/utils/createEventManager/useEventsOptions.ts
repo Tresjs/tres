@@ -1,7 +1,7 @@
-import { toValue, watchEffect } from 'vue'
 import type { TresContext } from 'src/composables/useTresContextProvider'
 import type { EmitEventFn } from 'src/types'
 import type { MaybeRefOrGetter } from 'vue'
+import { toValue, watchEffect } from 'vue'
 import * as is from '../is'
 import { createEventManager, type EventManager, type EventManagerProps } from './createEventManager'
 import { eventsNoop } from './eventsNoop'

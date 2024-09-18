@@ -1,12 +1,12 @@
-import { Raycaster, Vector2, Vector3 } from 'three'
 import type { Object3D, Intersection as ThreeIntersection } from 'three'
+import { isProd, useLogger, type TresContext } from '../../composables'
+import type { EventHandlers, IntersectionEvent, Properties, ThreeEvent, TresCamera, TresInstance, TresObject } from '../../types'
+import type { CreateEventManagerProps } from './createEventManager'
+import { Raycaster, Vector2, Vector3 } from 'three'
 import { prepareTresInstance } from '..'
 import * as is from '../is'
 import { DOM_EVENT_NAMES, DOM_TO_PASSIVE, DOM_TO_THREE, type DomEventName, type DomEventTarget, POINTER_EVENT_NAMES, THREE_EVENT_NAMES } from './const'
 import { deprecatedEventsToNewEvents } from './deprecatedEvents'
-import type { TresContext } from '../../composables'
-import type { EventHandlers, IntersectionEvent, Properties, ThreeEvent, TresInstance, TresObject } from '../../types'
-import type { CreateEventManagerProps } from './createEventManager'
 
 // NOTE:
 // This file consists of type definitions and functions
@@ -23,7 +23,7 @@ import type { CreateEventManagerProps } from './createEventManager'
 // future modifications simpler if Event type changes.
 type RaycastEvent = MouseEvent | PointerEvent | WheelEvent
 type RaycastEventTarget = DomEventTarget
-type ThreeEventStub<DomEvent> = Omit<ThreeEvent<DomEvent>, 'eventObject' | 'object' | 'currentTarget' | 'target' | 'distance' | 'point'> & Partial<IntersectionEvent<DomEvent>>
+type ThreeEventStub<DomEvent> = Omit<ThreeEvent<DomEvent>, 'eventObject' | 'object' | 'currentTarget' | 'target' | 'distance' | 'point'> & Partial<IntersectionEvent<DomEvent>> & { currentTarget: TresObject | null | undefined }
 type Object3DWithEvents = Object3D & EventHandlers
 
 function getInitialEvent() {
@@ -60,9 +60,9 @@ function getInitialConfig(context: TresContext) {
     objectsWithEvents: [] as Object3D[],
 
     priorIntersections: [] as ThreeIntersection[],
+    priorInitialHits: new Set<Object3D>(),
     priorHits: new Set<Object3D>(),
-    // TODO: Use or remove
-    initialHits: new Set<Object3D>(),
+
     blockingObjects: new Set<Object3D>(),
 
     lastMoveEvent: getInitialEvent(),
@@ -79,16 +79,20 @@ function getLastEvent(config: Config) {
   return config.lastMoveEvent
 }
 
-function connect(target: RaycastEventTarget, eventManagerHandler: (ev: RaycastEvent) => void) {
+function connect(target: RaycastEventTarget, eventManagerHandler: (ev: RaycastEvent) => void, config: Config) {
   for (const domEventName of POINTER_EVENT_NAMES) {
     target.addEventListener(domEventName, eventManagerHandler, { passive: DOM_TO_PASSIVE[domEventName] })
   }
+
+  const leave = (pointerEvent: PointerEvent) => handleIntersections(pointerEvent, [], config)
+  target.addEventListener('pointerleave', leave, { passive: DOM_TO_PASSIVE.pointerleave })
 
   return {
     disconnect: () => {
       for (const domEventName of POINTER_EVENT_NAMES) {
         target.removeEventListener(domEventName, eventManagerHandler)
       }
+      target.removeEventListener('pointerleave', leave)
     },
   }
 }
@@ -173,6 +177,8 @@ function insert(_instance: TresObject, config: Config) {
 }
 
 const patchPropDomEventRE = new RegExp(`${THREE_EVENT_NAMES.join('|')}`)
+const patchPropDomEventWithUnsupportedModifiersRE = new RegExp(`(${THREE_EVENT_NAMES.join('|')})(Capture|Passive|Once)+`)
+let sentUnsupportedEventModifiersWarning = false
 
 function patchProp(instance: TresObject, propName: string, prevValue: any, nextValue: any, config: Config) {
   if (!is.object3D(instance)) { return false }
@@ -190,7 +196,16 @@ function patchProp(instance: TresObject, propName: string, prevValue: any, nextV
     return true
   }
 
-  if (!patchPropDomEventRE.test(deprecatedEventsToNewEvents(propName))) {
+  if (!isProd) {
+    if (patchPropDomEventWithUnsupportedModifiersRE.test(propName)) {
+      if (!sentUnsupportedEventModifiersWarning) {
+        sentUnsupportedEventModifiersWarning = true
+        useLogger().logWarning(`${propName} contains currently unsupported event modifiers. Handlers will not be called. Please remove. (No further warnings will be logged for event modifiers.)`)
+      }
+    }
+  }
+
+  if (!patchPropDomEventRE.test(propName)) {
     return false
   }
 
@@ -204,15 +219,15 @@ function patchProp(instance: TresObject, propName: string, prevValue: any, nextV
   return true
 }
 
-function remove(_instance: TresObject, config: Config) {
-  if (!_instance.isObject3D) { return }
+function remove(instance: TresObject, config: Config) {
+  if (!instance.isObject3D) { return }
 
   // NOTE: This function will typically be called with an object
   // that's about to be removed. We will only get the top-level
   // object and not the descendants.
   // Grab the object and all descendants.
-  const instanceAndDescendants = new Set()
-  const children = [_instance]
+  const instanceAndDescendants = new Set<Object3D>()
+  const children = [instance as Object3D]
 
   while (children.length) {
     const child = children.pop()
@@ -237,16 +252,20 @@ function remove(_instance: TresObject, config: Config) {
   handleIntersections(getLastEvent(config), intersections, config)
 
   // NOTE: Remove the remaining traces of the object and descendants
-  config.priorHits = config.priorHits.difference(instanceAndDescendants)
+  for (const instance of instanceAndDescendants) {
+    config.priorHits.delete(instance)
+  }
   config.isEventsDirty = true
 }
 
 function handleIntersections(incomingEvent: RaycastEvent, intersections: ThreeIntersection[], config: Config) {
   // NOTE: STRUCTURE OF THIS FUNCTION BODY
-  // 1) Gather `hits`. This set includes all "hit" meshes and their ancestors.
-  // 2) Create an outgoing event "stub" with the fields common to all events
-  // handlers will receive.
-  // 3) Propagate the events to handlers.
+  // 1) Gather `hits`, `hitsEntered` and `hitsLeft`.
+  // The `hits` Set typically includes all `intersections`
+  // objects and their ancestors.
+  // 2) Create an outgoing event "stub" with the fields
+  // common to all events handlers will receive.
+  // 3) Call event handlers
 
   // NOTE:
   // 1) Gather `hits`
@@ -268,6 +287,9 @@ function handleIntersections(incomingEvent: RaycastEvent, intersections: ThreeIn
   // to continue behind them, we'll stop processing intersections
   // after we see one containing a "blocking" object.
   const hits = new Set<Object3D>()
+  const hitsLeft = config.priorHits
+  const hitsEntered = new Set<Object3D>()
+
   const initialHits = new Set<Object3D>()
   const filteredIntersections = []
   const eventIntersections = []
@@ -287,7 +309,15 @@ function handleIntersections(incomingEvent: RaycastEvent, intersections: ThreeIn
       if (obj.__tres?.eventCount) {
         eventIntersections.push({ ...intersection, eventObject: obj })
       }
-      hits.add(obj)
+      if (!hits.has(obj)) {
+        hits.add(obj)
+        if (hitsLeft.has(obj)) {
+          hitsLeft.delete(obj)
+        }
+        else {
+          hitsEntered.add(obj)
+        }
+      }
       obj = obj.parent
     }
     if (hasBlockingObject) {
@@ -322,13 +352,12 @@ function handleIntersections(incomingEvent: RaycastEvent, intersections: ThreeIn
       pointer: config.pointer,
       delta: distance,
       ray: config.raycaster.ray,
-      camera: config.raycaster.camera,
+      camera: config.raycaster.camera as TresCamera,
       nativeEvent: incomingEvent,
       // NOTE: If the user has e.g. `@click.prevent`, Vue will
-      // call `preventDefault` internally without checking whether
-      // it exists and is a function. This will throw unless we
-      // add it to the outgoing event.
-      preventDefault: incomingEvent.preventDefault,
+      // call `preventDefault` on this event. That will throw
+      // if the method doesn't exist. So add it.
+      preventDefault: () => incomingEvent.preventDefault(),
       stopped: false,
       stopPropagation: () => {},
     },
@@ -339,12 +368,11 @@ function handleIntersections(incomingEvent: RaycastEvent, intersections: ThreeIn
   // NOTE:
   // 3) Propagate the events to handlers.
   //
-  // NOTE: Propagate `pointermissed`.
-  // Propagated first so other user handlers can clean up the effects.
+  // NOTE: Call `pointermissed`.
+  // `pointermissed` is not bubbled and cannot be stopped with `stopPropagation`.
   if (incomingEvent.type === 'click' || incomingEvent.type === 'dblclick' || incomingEvent.type === 'contextmenu') {
     outgoingEvent.stopped = false
     for (const obj of config.objectsWithEvents) {
-      if (outgoingEvent.stopped) { break }
       if (hits.has(obj)) { continue }
       outgoingEvent.eventObject = obj
       outgoingEvent.currentTarget = obj
@@ -354,26 +382,15 @@ function handleIntersections(incomingEvent: RaycastEvent, intersections: ThreeIn
     }
   }
 
-  const hitsLeft = config.priorHits.difference(hits)
-  const hitsEntered = hits.difference(config.priorHits)
-
   // NOTE: Call `pointer{leave,enter}`
-  /**
-   * Events mouseenter/mouseleave are like mouseover/mouseout.
-   * They trigger when the mouse pointer enters/leaves the element.
-   *
-   * But there are two important differences:
-   *
-   * - Transitions inside the element, to/from descendants, are not counted.
-   * - Events mouseenter/mouseleave do not bubble.
-   *
-   * https://javascript.info/mousemove-mouseover-mouseout-mouseenter-mouseleave#events-mouseenter-and-mouseleave
-   */
   if (hitsLeft.size) {
     // NOTE: Propagate `pointerleave`
-    // TODO: Should use config.initialHits, not config.priorIntersections
+    // `pointerleave` is not bubbled and cannot be stopped with `stopPropagation`.
+    // TODO: Should use config.priorHits, not config.priorIntersections
     callIntersectionObjectsIf('pointerleave', outgoingEvent, config.priorIntersections, (obj: Object3D) => { return hitsLeft.has(obj) })
+  }
 
+  {
     // NOTE: Bubble `pointerout`
     // NOTE: Should use config.initialHits, not config.priorIntersections
     const duplicates = new Set()
@@ -382,7 +399,7 @@ function handleIntersections(incomingEvent: RaycastEvent, intersections: ThreeIn
       if (outgoingEvent.stopped) { break }
 
       let object: TresObject | null = intersection.object
-      if (hits.has(object) || duplicates.has(object)) { continue }
+      if (initialHits.has(object) || duplicates.has(object)) { continue }
 
       // NOTE: An event "is-a" `Intersection`,
       // so copy intersection values to the event.
@@ -402,26 +419,28 @@ function handleIntersections(incomingEvent: RaycastEvent, intersections: ThreeIn
   if (hitsEntered.size) {
     // TODO: Should use config.initialHits, not intersections
     callIntersectionObjectsIf('pointerenter', outgoingEvent, intersections, (obj: Object3D) => { return hitsEntered.has(obj) })
+  }
 
+  {
     // NOTE: Bubble pointerover
+    const duplicates = new Set()
     outgoingEvent.stopped = false
-    const seenUUIDs: Record<string, boolean> = {}
     for (const intersection of filteredIntersections) {
       if (outgoingEvent.stopped) { break }
 
       let object: TresObject | null = intersection.object
-      if (config.priorHits.has(object) || object.uuid in seenUUIDs) { continue }
+      if (config.priorInitialHits.has(object) || duplicates.has(object)) { continue }
 
       // NOTE: An event "is-a" `Intersection`,
       // so copy intersection values to the event.
       Object.assign(outgoingEvent, intersection)
       outgoingEvent.target = object
 
-      while (object && !outgoingEvent.stopped && !(object.uuid in seenUUIDs)) {
+      while (object && !outgoingEvent.stopped && !duplicates.has(object)) {
         outgoingEvent.eventObject = object
         outgoingEvent.currentTarget = object
         object.onPointerover?.(outgoingEvent)
-        seenUUIDs[object.uuid] = true
+        duplicates.add(object)
         object = object.parent
       }
     }
@@ -453,26 +472,44 @@ function handleIntersections(incomingEvent: RaycastEvent, intersections: ThreeIn
   }
 
   config.priorIntersections = filteredIntersections
+  config.priorInitialHits = initialHits
   config.priorHits = hits
+  // NOTE:
+  // Like DOM events, we set this to null after we're done with the event.
+  // We reuse events for multiple handlers, changing `currentTarget` and
+  // other fields. This keeps us from creating new objects and copying
+  // values for every handler call.
+  // Users wanting to use an event at a later time should copy the event.
+  // @ts-expect-error – not typed for null; doing so would be a pain for users.
+  outgoingEvent.currentTarget = null
+  // @ts-expect-error – same
+  outgoingEvent.eventObject = null
+  // @ts-expect-error – same
+  outgoingEvent.target = null
+  // @ts-expect-error – same
+  outgoingEvent.object = null
 }
 
 function callIntersectionObjectsIf(domEventName: DomEventName, event: ThreeEventStub<MouseEvent>, intersections: ThreeIntersection[], cond: (a: any) => boolean) {
   const duplicates = new Set()
-
   event.stopped = false
 
-  for (const intersection of intersections) {
-    if (event.stopped) { break }
+  // NOTE: The events handled here are not "bubbled"
+  // They cannot be stopped with `stopPropagation`.
 
+  for (const intersection of intersections) {
     // NOTE: An event "is-a" `Intersection`,
     // so copy intersection values to the event.
     Object.assign(event, intersection)
     let object: Object3DWithEvents | null = intersection.object
-    while (object && !duplicates.has(object) && !event.stopped) {
+    while (object && !duplicates.has(object)) {
       duplicates.add(object)
       if (cond(object)) {
+        // NOTE: Non-bubbled events are "self" events
+        // so all the following fields are "self"
         event.eventObject = object
         event.currentTarget = object
+        event.object = object
         event.target = object
         event.eventObject[DOM_TO_THREE[domEventName]]?.(event)
       }

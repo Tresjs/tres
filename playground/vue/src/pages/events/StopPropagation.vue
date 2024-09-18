@@ -1,8 +1,8 @@
 <!-- eslint-disable no-console -->
 <script setup lang="ts">
+import type { ThreeEvent } from '@tresjs/core'
 import { OrbitControls } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
-import type { ThreeEvent } from '@tresjs/core'
 import '@tresjs/leches/styles'
 
 const msgs0 = ref(['Mouse over cube'])

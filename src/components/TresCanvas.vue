@@ -1,5 +1,16 @@
 <script setup lang="ts">
+import type { EventManagerProps } from 'src/utils/createEventManager/createEventManager'
+import type {
+  ColorSpace,
+  ShadowMapType,
+  ToneMapping,
+  WebGLRendererParameters,
+} from 'three'
+import type { App, Ref } from 'vue'
+import type { RendererPresetsType } from '../composables/useRenderer/const'
+import type { TresCamera, TresObject, TresScene } from '../types/'
 import { PerspectiveCamera, Scene } from 'three'
+
 import * as THREE from 'three'
 import {
   computed,
@@ -16,15 +27,6 @@ import {
   watch,
   watchEffect,
 } from 'vue'
-import type { EventManagerProps } from 'src/utils/createEventManager/createEventManager'
-import type {
-  ColorSpace,
-  ShadowMapType,
-  ToneMapping,
-  WebGLRendererParameters,
-} from 'three'
-import type { App, Ref } from 'vue'
-
 import pkg from '../../package.json'
 import {
   type TresContext,
@@ -32,12 +34,10 @@ import {
   useTresContextProvider,
 } from '../composables'
 import { extend } from '../core/catalogue'
+
 import { nodeOps } from '../core/nodeOps'
 import { registerTresDevtools } from '../devtools'
-
 import { disposeObject3D } from '../utils/'
-import type { RendererPresetsType } from '../composables/useRenderer/const'
-import type { TresCamera, TresObject, TresScene } from '../types/'
 
 export interface TresCanvasProps
   extends Omit<WebGLRendererParameters, 'canvas'> {
