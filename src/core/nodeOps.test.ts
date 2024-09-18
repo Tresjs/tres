@@ -1,12 +1,12 @@
+import type { TresContext } from 'src/composables'
+import type { Vector3 } from 'three'
+import type { TresObject } from '../types'
 import * as THREE from 'three'
 import { Mesh, Scene } from 'three'
 import { beforeAll, describe, expect, it, vi } from 'vitest'
 import { shallowRef } from 'vue'
-import type { TresContext } from 'src/composables'
-import type { Vector3 } from 'three'
 import { extend } from './catalogue'
 import { nodeOps as getNodeOps } from './nodeOps'
-import type { TresObject } from '../types'
 
 let nodeOps = getNodeOps(mockTresContext())
 const pool = []

@@ -1,5 +1,6 @@
 <!-- eslint-disable no-console -->
 <script setup lang="ts">
+import type { BufferGeometry, Camera, Material } from 'three'
 import { useLoop } from '@tresjs/core'
 import {
   BoxGeometry,
@@ -12,7 +13,6 @@ import {
   TorusGeometry,
 } from 'three'
 import { onUnmounted, shallowRef } from 'vue'
-import type { BufferGeometry, Camera, Material } from 'three'
 
 const box = (() => {
   const box = new Mesh(
