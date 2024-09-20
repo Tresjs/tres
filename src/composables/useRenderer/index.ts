@@ -19,7 +19,6 @@ import { get, merge, set, setPixelRatio } from '../../utils'
 
 import { normalizeColor } from '../../utils/normalize'
 import { useLogger } from '../useLogger'
-import { rendererPresets } from './const'
 
 type TransformToMaybeRefOrGetter<T> = {
   [K in keyof T]: MaybeRefOrGetter<T[K]> | MaybeRefOrGetter<T[K]>;
