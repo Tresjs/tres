@@ -93,7 +93,7 @@ Dado que el composable `useLoader` devuelve una promesa, puedes usarlo con `asyn
 </template>
 ```
 
-### UseLoader como component
+### UseLoader como componente
 
 Puedes usar `UseLoader` como componente, de la siguiente forma:
 
