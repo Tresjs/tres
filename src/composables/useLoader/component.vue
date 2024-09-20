@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { reactive } from 'vue'
 import type { Loader } from 'three'
+import { reactive } from 'vue'
 import { useLoader } from './index'
 
 const props = defineProps<{
