@@ -1,5 +1,5 @@
-import { Color, Vector3 } from 'three'
 import type { ColorRepresentation } from 'three'
+import { Color, Vector3 } from 'three'
 
 export type SizeFlexibleParams =
   | number[]

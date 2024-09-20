@@ -1,5 +1,5 @@
-import { TextureLoader } from 'three'
 import type { LoadingManager, Texture } from 'three'
+import { TextureLoader } from 'three'
 import { isArray } from '../../utils'
 
 export interface PBRMaterialOptions {
