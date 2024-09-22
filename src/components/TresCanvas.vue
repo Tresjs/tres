@@ -12,7 +12,6 @@ import { PerspectiveCamera, Scene } from 'three'
 import * as THREE from 'three'
 
 import {
-  computed,
   createRenderer,
   defineComponent,
   Fragment,
