@@ -110,7 +110,6 @@ export function useRenderer(
     options: UseRendererOptions
     emit: EmitEventFn
     contextParts: Pick<TresContext, 'sizes' | 'camera' | 'render'> & { invalidate: () => void, advance: () => void }
-    disableRender: MaybeRefOrGetter<boolean>
   },
 ) {
   const webGLRendererConstructorParameters = computed<WebGLRendererParameters>(() => ({

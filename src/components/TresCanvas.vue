@@ -55,7 +55,6 @@ export interface TresCanvasProps
   camera?: TresCamera
   preset?: RendererPresetsType
   windowSize?: boolean
-  disableRender?: boolean
 }
 
 const props = withDefaults(defineProps<TresCanvasProps>(), {
@@ -65,7 +64,6 @@ const props = withDefaults(defineProps<TresCanvasProps>(), {
   stencil: undefined,
   antialias: undefined,
   windowSize: undefined,
-  disableRender: undefined,
   useLegacyLights: undefined,
   preserveDrawingBuffer: undefined,
   logarithmicDepthBuffer: undefined,
@@ -143,8 +141,6 @@ const dispose = (context: TresContext, force = false) => {
   }
 }
 
-const disableRender = computed(() => props.disableRender)
-
 const context = shallowRef<TresContext | null>(null)
 
 defineExpose({ context, dispose: () => dispose(context.value as TresContext, true) })
@@ -166,7 +162,6 @@ onMounted(() => {
     scene: scene.value as TresScene,
     canvas: existingCanvas,
     windowSize: props.windowSize ?? false,
-    disableRender: disableRender.value ?? false,
     rendererOptions: props,
     emit,
   })
