@@ -62,7 +62,7 @@
   "peerDependencies": {
     "@tresjs/core": ">=4.0.0",
     "three": ">=0.158.0",
-    "vue": ">=3.3.8"
+    "vue": ">=3.4.0"
   },
   "dependencies": {
     "@dimforge/rapier3d-compat": "^0.14.0"

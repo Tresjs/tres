@@ -1,6 +1,7 @@
 import type { Collider, ColliderDesc, RigidBody, RigidBodyDesc, World } from '@dimforge/rapier3d-compat'
-import type { TresObject3D } from '@tresjs/core'
+import type { TresObject3D, TresVector3, VectorCoordinates } from '@tresjs/core'
 
+import type { enableBolean } from './boolean'
 import type { ColliderShape } from './collider'
 
 /** @description Tres Rapier supported `RigidBody` types. */
@@ -19,7 +20,62 @@ export interface RigidBodyProps {
    *
    * Pass `false` to disable the auto colliders.
    */
-  collider: ColliderShape | false
+  collider?: ColliderShape | false
+  /**
+   * @description Set the gravity of the`RigidBody`.
+   * @default 1
+   */
+  gravityScale?: number
+  /**
+   * @description add extra mass to the`RigidBody`.
+   * @default 1
+   */
+  additionalMass?: number
+  /**
+   * @description Set the gravity of the`RigidBody`.
+   * @default { x: 0, y: 0, z: 0 }
+   */
+  linvel?: TresVector3 | VectorCoordinates
+  /**
+   * @description Set the gravity of the`RigidBody`.
+   * @default { x: 0, y: 0, z: 0 }
+   */
+  angvel?: TresVector3 | VectorCoordinates
+  /**
+   * @description Set the linear damping of the`RigidBody`.
+   * @default 1
+   */
+  linearDamping?: number
+  /**
+   * @description Set the angular damping of the`RigidBody`.
+   * @default 1
+   */
+  angularDamping?: number
+  /**
+   * @description Set the dominance group of the`RigidBody`.
+   * @default 1
+   */
+  dominanceGroup?: number
+  /**
+   * @description Set the dominance group of the`RigidBody`.
+   * @default { x: true, y: true, z: true }
+   */
+  enabledRotations?: enableBolean
+  /**
+   * @description Set the dominance group of the`RigidBody`.
+   * @default { x: true, y: true, z: true }
+   */
+  enableTranslations?: enableBolean
+  /**
+   * @description Locks the translations of the `RigidBody`.
+   * @default false
+   */
+  lockTranslations?: boolean
+  /**
+   * @description Locks the rotations of the `RigidBody`.
+   * @default false
+   */
+  lockRotations?: boolean
 }
 
 export interface ExposedRigidBody {

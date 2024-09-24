@@ -24,4 +24,9 @@ export const basicsRoutes = [
     name: 'Gravity',
     component: () => import('../../pages/basics/GravityDemo.vue'),
   },
+  {
+    path: '/basics/props',
+    name: 'Props',
+    component: () => import('../../pages/basics/RigidBodyProps.vue'),
+  },
 ]
