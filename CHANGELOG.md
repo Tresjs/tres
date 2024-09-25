@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.3.2](https://github.com/Tresjs/eslint-config/compare/1.3.1...1.3.2) (2024-09-25)
+
+
+### 🩹 Bug Fixes
+
+* only accept new minor versions ([eddbf2b](https://github.com/Tresjs/eslint-config/commit/eddbf2b958a9d0661c1151035b4ece85955aab43))
+* turn-off import rule ([cc08478](https://github.com/Tresjs/eslint-config/commit/cc08478cc36b41d6ce54dca7b737fb8b2d113d84))
+
 ## [1.3.1](https://github.com/tresjs/eslint-config/compare/1.3.0...1.3.1) (2024-09-13)
 
 
