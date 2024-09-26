@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import { BlendFunction, VignetteEffect, VignetteTechnique } from 'postprocessing'
-import { useEffect } from '../composables/effect'
-import { makePropWatchersUsingAllProps } from '../../util/prop'
 import { omit } from '../../util/object'
+import { makePropWatchersUsingAllProps } from '../../util/prop'
+import { useEffect } from './composables/useEffect'
 
 export interface VignetteProps {
   /**
@@ -22,7 +22,7 @@ const props = withDefaults(defineProps<VignetteProps>(), {
 })
 
 const { pass, effect } = useEffect(() => new VignetteEffect(props))
-defineExpose({ pass, effect }) // to allow users to modify pass and effect via template ref
+defineExpose({ pass, effect })
 
 makePropWatchersUsingAllProps(
   omit(props, ['blendFunction']),

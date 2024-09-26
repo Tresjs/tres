@@ -1,6 +1,6 @@
-import { defineConfig } from 'vitepress'
-import { resolve } from 'pathe'
 import { templateCompilerOptions } from '@tresjs/core'
+import { resolve } from 'pathe'
+import { defineConfig } from 'vitepress'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({

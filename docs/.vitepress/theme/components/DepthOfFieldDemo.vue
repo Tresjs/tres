@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import { ref } from 'vue'
-import { gsap } from 'gsap'
 import { TresCanvas } from '@tresjs/core'
 import { DepthOfField, EffectComposer } from '@tresjs/post-processing'
+import { gsap } from 'gsap'
+import { ref } from 'vue'
 
 import { useRouteDisposal } from '../composables/useRouteDisposal'
 

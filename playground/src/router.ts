@@ -2,45 +2,51 @@ import type { RouteRecordRaw } from 'vue-router'
 import { createRouter, createWebHistory } from 'vue-router'
 import { kebabCase } from './util/string'
 
-const makeRoute = (name: string, icon: string): RouteRecordRaw => {
+const makeRoute = (name: string, icon: string, isThreeEffect: boolean = true): RouteRecordRaw => {
   const nameInKebab = kebabCase(name)
+  const folder = isThreeEffect ? 'three' : 'postprocessing'
 
   return {
-    path: `/${nameInKebab}`,
-    name,
+    path: `/${folder}/${nameInKebab}`,
+    name: `${folder}-${nameInKebab}`,
     meta: {
       icon,
+      name,
     },
-    component: () => import(`./pages/${nameInKebab}.vue`),
+    component: () => import(`./pages/${folder}/${nameInKebab}.vue`),
   }
 }
-export const routes = [
-  {
-    path: '/',
-    name: 'Home',
-    component: () => import('./pages/index.vue'),
-  },
-  makeRoute('Outline', '🔲'),
-  makeRoute('Glitch', '📺'),
-  makeRoute('Depth of Field', '📷'),
+
+const home: RouteRecordRaw = {
+  path: '/',
+  name: 'Home',
+  component: () => import('./pages/index.vue'),
+}
+
+export const threeRoutes = [
   makeRoute('Pixelation', '👾'),
-  makeRoute('Bloom', '🌼'),
-  makeRoute('Noise', '📟'),
-  makeRoute('Vignette', '🕶️'),
+  makeRoute('Glitch', '📺'),
+  makeRoute('SMAA', '📐'),
+  makeRoute('Halftone', '🎨'),
+  makeRoute('Unreal Bloom', '🌼'),
 ]
 
-export const advancedRoutes = [
-  {
-    path: '/advanced/on-demand',
-    name: 'On-demand',
-    component: () => import('./pages/advanced/on-demand.vue'),
-  },
+export const postProcessingRoutes = [
+  makeRoute('Outline', '🔲', false),
+  makeRoute('Glitch', '📺', false),
+  makeRoute('Depth of Field', '📷', false),
+  makeRoute('Pixelation', '👾', false),
+  makeRoute('Bloom', '🌼', false),
+  makeRoute('Noise', '📟', false),
+  makeRoute('Vignette', '🕶️', false),
+  makeRoute('On-demand', '🔄', false),
 ]
 
 export const router = createRouter({
   history: createWebHistory(),
   routes: [
-    ...routes,
-    ...advancedRoutes,
+    home,
+    ...threeRoutes,
+    ...postProcessingRoutes,
   ],
 })

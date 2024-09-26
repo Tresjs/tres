@@ -1,8 +1,9 @@
 <script lang="ts" setup>
+import { useLoop } from '@tresjs/core'
 import { BlendFunction, NoiseEffect } from 'postprocessing'
-import { useEffect } from '../composables/effect'
-import { makePropWatchersUsingAllProps } from '../../util/prop'
 import { omit } from '../../util/object'
+import { makePropWatchersUsingAllProps } from '../../util/prop'
+import { useEffect } from './composables/useEffect'
 
 export interface NoiseProps {
   /**
@@ -18,7 +19,10 @@ const props = withDefaults(defineProps<NoiseProps>(), {
 })
 
 const { pass, effect } = useEffect(() => new NoiseEffect(props))
-defineExpose({ pass, effect }) // to allow users to modify pass and effect via template ref
+defineExpose({ pass, effect })
+
+const { onBeforeRender } = useLoop()
+onBeforeRender(({ invalidate }) => invalidate())
 
 makePropWatchersUsingAllProps(
   omit(props, ['blendFunction']),

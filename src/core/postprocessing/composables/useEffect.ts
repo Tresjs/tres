@@ -1,13 +1,17 @@
 import type { Effect } from 'postprocessing'
+import type { ShallowRef } from 'vue'
+import { useTresContext } from '@tresjs/core'
 import { EffectPass } from 'postprocessing'
 import { inject, onUnmounted, shallowRef, watchEffect } from 'vue'
-import { useTresContext } from '@tresjs/core'
-import { effectComposerInjectionKey } from '../injectionKeys'
+import { effectComposerInjectionKey } from '../EffectComposer.vue'
 
-export const useEffect = <T extends Effect>(newEffectFunction: () => T) => {
+export const useEffect = <T extends Effect>(newEffectFunction: () => T): {
+  pass: ShallowRef<EffectPass | null>
+  effect: ShallowRef<T | null>
+} => {
   const composer = inject(effectComposerInjectionKey)
-  const pass = shallowRef<EffectPass | null>(null)
-  const effect = shallowRef<T | null>(null)
+  const pass = shallowRef<EffectPass | null>(null) as ShallowRef<EffectPass | null>
+  const effect = shallowRef<T | null>(null) as ShallowRef<T | null>
 
   const { scene, camera } = useTresContext()
 

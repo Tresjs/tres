@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { TresCanvas } from '@tresjs/core'
-import { OrbitControls, useTweakPane } from '@tresjs/cientos'
-import { reactive, ref } from 'vue'
-import { EffectComposer, Outline } from '@tresjs/post-processing'
 import type { Intersection, Object3D } from 'three'
+import { OrbitControls, useTweakPane } from '@tresjs/cientos'
+import { TresCanvas } from '@tresjs/core'
+import { EffectComposer, Outline } from '@tresjs/post-processing'
 import { BasicShadowMap, NoToneMapping } from 'three'
+import { reactive, ref } from 'vue'
 
 const gl = {
   alpha: false,

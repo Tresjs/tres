@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { Color } from 'three'
-import { TresCanvas } from '@tresjs/core'
 import { Text3D } from '@tresjs/cientos'
-
+import { TresCanvas } from '@tresjs/core'
 import { EffectComposer, Glitch } from '@tresjs/post-processing'
+
+import { Color } from 'three'
 
 import { useRouteDisposal } from '../composables/useRouteDisposal'
 

@@ -1,16 +1,16 @@
 <script lang="ts" setup>
-import { ref } from 'vue'
 import type { Intersection, Object3D } from 'three'
-import { NoToneMapping } from 'three'
-import { TresCanvas } from '@tresjs/core'
 import { OrbitControls } from '@tresjs/cientos'
+import { TresCanvas } from '@tresjs/core'
+import { TresLeches, useControls } from '@tresjs/leches'
 import { EffectComposer, Outline } from '@tresjs/post-processing'
 import { KernelSize } from 'postprocessing'
+import { NoToneMapping } from 'three'
 
-import { TresLeches, useControls } from '@tresjs/leches'
-import '@tresjs/leches/styles'
-
+import { ref } from 'vue'
 import { useRouteDisposal } from '../composables/useRouteDisposal'
+
+import '@tresjs/leches/styles'
 
 const gl = {
   clearColor: '#121212',

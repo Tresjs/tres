@@ -54,8 +54,7 @@
   },
   "dependencies": {
     "@vueuse/core": "^10.11.0",
-    "postprocessing": "^6.36.0",
-    "three-stdlib": "^2.30.5"
+    "postprocessing": "^6.36.0"
   },
   "devDependencies": {
     "@release-it/conventional-changelog": "^8.0.1",

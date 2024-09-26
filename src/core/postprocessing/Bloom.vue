@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { BloomEffect } from 'postprocessing'
 import type { BlendFunction, KernelSize } from 'postprocessing'
-import { useEffect } from '../composables/effect'
+import { BloomEffect } from 'postprocessing'
 import { makePropWatchers } from '../../util/prop'
+import { useEffect } from './composables/useEffect'
 
 export interface BloomProps {
   /**
@@ -67,7 +67,7 @@ const props = withDefaults(
 
 const { pass, effect } = useEffect(() => new BloomEffect(props))
 
-defineExpose({ pass, effect }) // to allow users to modify pass and effect via template ref
+defineExpose({ pass, effect })
 
 makePropWatchers(
   [

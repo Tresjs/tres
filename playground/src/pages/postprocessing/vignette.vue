@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { TresCanvas } from '@tresjs/core'
-import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
 import { OrbitControls } from '@tresjs/cientos'
-import { DepthOfField, EffectComposer, Vignette } from '@tresjs/post-processing'
+import { TresCanvas } from '@tresjs/core'
 import { TresLeches, useControls } from '@tresjs/leches'
+import { DepthOfField, EffectComposer, Vignette } from '@tresjs/post-processing'
+import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
 import BlenderCube from '../components/BlenderCube.vue'
 import '@tresjs/leches/styles'
 

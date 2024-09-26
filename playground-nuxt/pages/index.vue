@@ -1,8 +1,8 @@
 <script setup lang="ts">
+import { Bloom, EffectComposer } from '@tresjs/post-processing'
 import { BlendFunction } from 'postprocessing'
 import { BasicShadowMap, Color, NoToneMapping, SRGBColorSpace } from 'three'
 import { reactive } from 'vue'
-import { Bloom, EffectComposer } from '@tresjs/post-processing'
 
 const gl = {
   clearColor: '#82DBC5',

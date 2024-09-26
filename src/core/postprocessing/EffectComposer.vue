@@ -1,17 +1,18 @@
-<script setup lang="ts">
-import { HalfFloatType } from 'three'
-import type { TresObject } from '@tresjs/core'
+<script lang="ts">
+import type { EffectComposer } from 'postprocessing'
+import type { InjectionKey, ShallowRef } from 'vue'
 import { useLoop, useTresContext } from '@tresjs/core'
 import { DepthDownsamplingPass, EffectComposer as EffectComposerImpl, NormalPass, RenderPass } from 'postprocessing'
 
-import { isWebGL2Available } from 'three-stdlib'
-import type { ShallowRef } from 'vue'
+import { HalfFloatType } from 'three'
+
+import WEBGL from 'three/examples/jsm/capabilities/WebGL.js'
 import { computed, onUnmounted, provide, shallowRef, watch } from 'vue'
-import { effectComposerInjectionKey } from './injectionKeys'
+
+export const effectComposerInjectionKey: InjectionKey<ShallowRef<EffectComposer | null>> = Symbol('effectComposer')
 
 export interface EffectComposerProps {
   enabled?: boolean
-  children?: TresObject[]
   depthBuffer?: boolean
   disableNormalPass?: boolean
   stencilBuffer?: boolean
@@ -20,7 +21,9 @@ export interface EffectComposerProps {
   multisampling?: number
   frameBufferType?: number
 }
+</script>
 
+<script setup lang="ts">
 const props = withDefaults(defineProps<EffectComposerProps>(), {
   enabled: true,
   autoClear: true,
@@ -48,7 +51,7 @@ const setNormalPass = () => {
   normalPass = new NormalPass(scene.value, camera.value)
   normalPass.enabled = false
   effectComposer.value.addPass(normalPass)
-  if (props.resolutionScale !== undefined && isWebGL2Available()) {
+  if (props.resolutionScale !== undefined && WEBGL.isWebGL2Available()) {
     downSamplingPass = new DepthDownsamplingPass({
       normalBuffer: normalPass.texture,
       resolutionScale: props.resolutionScale,
@@ -64,7 +67,7 @@ const effectComposerParams = computed(() => {
     depthBuffer: props.depthBuffer !== undefined ? props.depthBuffer : plainEffectComposer.inputBuffer.depthBuffer,
     stencilBuffer:
       props.stencilBuffer !== undefined ? props.stencilBuffer : plainEffectComposer.inputBuffer.stencilBuffer,
-    multisampling: isWebGL2Available()
+    multisampling: WEBGL.isWebGL2Available()
       ? props.multisampling !== undefined
         ? props.multisampling
         : plainEffectComposer.multisampling
@@ -79,6 +82,7 @@ const effectComposerParams = computed(() => {
 const initEffectComposer = () => {
   if (!renderer.value && !scene.value && !camera.value) { return }
 
+  effectComposer.value?.dispose()
   effectComposer.value = new EffectComposerImpl(renderer.value, effectComposerParams.value)
   effectComposer.value.addPass(new RenderPass(scene.value, camera.value))
 
@@ -87,6 +91,7 @@ const initEffectComposer = () => {
 
 watch([renderer, scene, camera, () => props.disableNormalPass], () => {
   if (!sizes.width.value || !sizes.height.value) { return }
+
   initEffectComposer()
 })
 
@@ -111,15 +116,9 @@ render(() => {
     renderer.value.autoClear = currentAutoClear
   }
 
-  // Reset priority
-  renderCtx.priority.value = 0
-
-  if (renderCtx.mode.value === 'always') {
-    renderCtx.frames.value = 1
-  }
-  else {
-    renderCtx.frames.value = Math.max(0, renderCtx.frames.value - 1)
-  }
+  renderCtx.frames.value = renderCtx.mode.value === 'always'
+    ? 1
+    : Math.max(0, renderCtx.frames.value - 1)
 })
 
 onUnmounted(() => {

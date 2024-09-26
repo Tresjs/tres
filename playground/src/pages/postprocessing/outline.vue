@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { KernelSize } from 'postprocessing'
-import { ref } from 'vue'
-import { EffectComposer, Outline } from '@tresjs/post-processing'
-import { TresCanvas } from '@tresjs/core'
-import { OrbitControls } from '@tresjs/cientos'
 import type { Intersection, Object3D } from 'three'
+import { OrbitControls } from '@tresjs/cientos'
+import { TresCanvas } from '@tresjs/core'
+import { TresLeches, useControls } from '@tresjs/leches'
+import { EffectComposer, Outline } from '@tresjs/post-processing'
+import { KernelSize } from 'postprocessing'
 import { NoToneMapping } from 'three'
 
-import { TresLeches, useControls } from '@tresjs/leches'
+import { ref } from 'vue'
 import '@tresjs/leches/styles'
 
 const gl = {
@@ -52,6 +52,7 @@ const { edgeStrength, pulseSpeed, visibleEdgeColor, blur, kernelSize } = useCont
   <TresLeches />
   <TresCanvas
     v-bind="gl"
+    render-mode="on-demand"
   >
     <TresPerspectiveCamera
       :position="[1, 3, 3]"

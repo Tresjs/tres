@@ -1,12 +1,12 @@
 <script lang="ts" setup>
+import type { TresColor } from '@tresjs/core'
+import type { BlendFunction, KernelSize } from 'postprocessing'
+import type { Object3D, Texture } from 'three'
 import { normalizeColor, useTresContext } from '@tresjs/core'
 import { OutlineEffect } from 'postprocessing'
 import { computed, watch } from 'vue'
-import type { TresColor } from '@tresjs/core'
-import type { Object3D, Texture } from 'three'
-import type { BlendFunction, KernelSize } from 'postprocessing'
-import { useEffect } from '../composables/effect'
 import { makePropWatchers } from '../../util/prop'
+import { useEffect } from './composables/useEffect'
 
 export interface OutlineProps {
   /**
@@ -88,7 +88,7 @@ const params: OutlineEffectParameters = {
 
 const { pass, effect } = useEffect(() => new OutlineEffect(scene.value, camera.value, params))
 
-defineExpose({ pass, effect }) // to allow users to modify pass and effect via template ref
+defineExpose({ pass, effect })
 
 watch(
   [() => props.outlinedObjects, effect], // watchEffect is intentionally not used here as it would result in an endless loop

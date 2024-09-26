@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { BasicShadowMap, Color, NoToneMapping } from 'three'
-import { TresCanvas } from '@tresjs/core'
 import { OrbitControls } from '@tresjs/cientos'
-import { BlendFunction, KernelSize } from 'postprocessing'
-import { Bloom, EffectComposer } from '@tresjs/post-processing'
-import { onMounted, ref, watch } from 'vue'
+import { TresCanvas } from '@tresjs/core'
 import { TresLeches, useControls } from '@tresjs/leches'
+import { Bloom, EffectComposer } from '@tresjs/post-processing'
+import { BlendFunction, KernelSize } from 'postprocessing'
+import { BasicShadowMap, Color, NoToneMapping } from 'three'
+import { onMounted, ref, watch } from 'vue'
 import '@tresjs/leches/styles'
 
 const gl = {

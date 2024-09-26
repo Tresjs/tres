@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { TresCanvas } from '@tresjs/core'
-import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
-import { EffectComposer, Noise } from '@tresjs/post-processing'
 import { OrbitControls } from '@tresjs/cientos'
+import { TresCanvas } from '@tresjs/core'
+import { EffectComposer, Noise } from '@tresjs/post-processing'
 import { BlendFunction } from 'postprocessing'
+import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
 
 import { useRouteDisposal } from '../composables/useRouteDisposal'
 

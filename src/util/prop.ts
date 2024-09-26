@@ -20,17 +20,17 @@ export const makePropWatcher = <T, E>(
   newPlainObjectFunction: () => E & { dispose?: () => void },
   watchOptions: WatchOptions = {},
 ) => watch(propGetter, (newValue) => {
-    if (!target.value) { return }
+  if (!target.value) { return }
 
-    if (newValue === undefined) {
-      const plainObject = newPlainObjectFunction()
+  if (newValue === undefined) {
+    const plainObject = newPlainObjectFunction()
 
-      set(target.value, propertyPath, get(plainObject, propertyPath))
+    set(target.value, propertyPath, get(plainObject, propertyPath))
 
-      plainObject.dispose?.()
-    }
-    else { set(target.value, propertyPath, propGetter()) }
-  }, watchOptions)
+    plainObject.dispose?.()
+  }
+  else { set(target.value, propertyPath, propGetter()) }
+}, watchOptions)
 
 /**
  * Creates multiple prop watchers for monitoring changes to multiple properties and updating a target object.
@@ -46,11 +46,11 @@ export const makePropWatchers = <E>(
   target: Ref<E>,
   newPlainObjectFunction: () => E & { dispose?: () => void },
 ) => propGettersAndPropertyPaths.map(([propGetterFn, path]) => makePropWatcher(
-    propGetterFn as () => any,
-    target,
-    path as string,
-    newPlainObjectFunction,
-  ))
+  propGetterFn as () => any,
+  target,
+  path as string,
+  newPlainObjectFunction,
+))
 
 /**
  * Creates multiple prop watchers via the props object for monitoring changes to multiple properties and updating a target object.
@@ -65,8 +65,8 @@ export const makePropWatchersUsingAllProps = <E>(
   target: Ref<E>,
   newPlainObjectFunction: () => E & { dispose?: () => void },
 ) => Object.keys(props).map(key => makePropWatcher(
-    () => props[key],
-    target,
-    key,
-    newPlainObjectFunction,
-  ))
+  () => props[key],
+  target,
+  key,
+  newPlainObjectFunction,
+))

@@ -3,7 +3,7 @@ import type { BlendFunction } from 'postprocessing'
 import { useTresContext } from '@tresjs/core'
 import { DepthOfFieldEffect } from 'postprocessing'
 import { makePropWatchers } from '../../util/prop'
-import { useEffect } from '../composables/effect'
+import { useEffect } from './composables/useEffect'
 
 export interface DepthOfFieldProps {
   /**
@@ -45,7 +45,7 @@ const props = defineProps<DepthOfFieldProps>()
 const { camera } = useTresContext()
 
 const { pass, effect } = useEffect(() => new DepthOfFieldEffect(camera.value, props))
-defineExpose({ pass, effect }) // to allow users to modify pass and effect via template ref
+defineExpose({ pass, effect })
 
 makePropWatchers(
   [
