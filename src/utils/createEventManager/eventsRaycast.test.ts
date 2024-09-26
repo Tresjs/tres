@@ -1689,7 +1689,7 @@ describe('eventsRaycast', () => {
         expect(getLast('pointermove').on(m).intersections[0].eventObject.name).toBe('p')
         expect(getLast('pointermove').on(m).intersections[1].eventObject.name).toBe('m')
       })
-      it.only('calls object\'s event handlers, if they exist, even if the object is not hit', () => {
+      it('calls object\'s event handlers, if they exist, even if the object is not hit', () => {
         const mock = mockTresUsingEventManagerProps()
         const { g, m } = mock.add.DAG('g -> m')
         mock.add.eventsTo(g)

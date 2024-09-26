@@ -69,7 +69,7 @@ function getInitialConfig(context: TresContext) {
 
     lastMoveEvent: getInitialEvent(),
 
-    pointerToCapturedIntersections: new Map() as Map<number, Set<ThreeIntersection>>,
+    pointerToCapturedEvents: new Map() as Map<number, Set<ThreeEvent<PointerEvent>>>,
     pointerToCapturedObjects: new Map() as Map<number, Set<TresObject>>,
     capturableEvent: undefined as ThreeEvent<PointerEvent> | undefined,
   }
@@ -222,7 +222,7 @@ function patchProp(instance: TresObject, propName: string, prevValue: any, nextV
 
   instance.setPointerCapture = (pointerId: number) => setPointerCapture(pointerId, instance, config)
   instance.releasePointerCapture = (pointerId: number) => releasePointerCapture(pointerId, instance, config)
-  instance.hasPointerCapture = (pointerId: number) => hasPointerCapture(pointerId, instance, config) ?? false
+  instance.hasPointerCapture = (pointerId: number) => hasPointerCapture(pointerId, instance, config)
 
   config.isEventsDirty = true
 
@@ -238,15 +238,15 @@ function setPointerCapture(pointerId: number, instance: TresObject, config: Conf
     return
   }
 
-  if (!config.pointerToCapturedIntersections.has(pointerId)) {
-    config.pointerToCapturedIntersections.set(pointerId, new Set())
+  if (!config.pointerToCapturedEvents.has(pointerId)) {
+    config.pointerToCapturedEvents.set(pointerId, new Set())
   }
 
   if (!config.pointerToCapturedObjects.has(pointerId)) {
     config.pointerToCapturedObjects.set(pointerId, new Set())
   }
 
-  config.pointerToCapturedIntersections.get(pointerId)!.add({ ...config.capturableEvent })
+  config.pointerToCapturedEvents.get(pointerId)!.add({ ...config.capturableEvent })
   config.pointerToCapturedObjects.get(pointerId)!.add(instance)
 
   // NOTE: call `setPointerCapture` on the actual
@@ -258,19 +258,19 @@ function setPointerCapture(pointerId: number, instance: TresObject, config: Conf
 }
 
 function releasePointerCapture(pointerId: number, instance: TresObject, config: Config) {
-  let removedIntersection: ThreeIntersection | null = null
+  let removedEvent = null as ThreeEvent<PointerEvent> | null
 
   // NOTE: Delete the event
-  if (config.pointerToCapturedIntersections.has(pointerId)) {
-    const capturedIntersectionsForPointer = config.pointerToCapturedIntersections.get(pointerId)!
-    for (const intersection of capturedIntersectionsForPointer) {
-      if (intersection.object === instance) {
-        capturedIntersectionsForPointer.delete(intersection)
-        removedIntersection = intersection
+  if (config.pointerToCapturedEvents.has(pointerId)) {
+    const capturedEventsForPointer = config.pointerToCapturedEvents.get(pointerId)!
+    for (const event of capturedEventsForPointer) {
+      if (event.eventObject === instance) {
+        capturedEventsForPointer.delete(event)
+        removedEvent = event
       }
     }
-    if (capturedIntersectionsForPointer.size === 0) {
-      config.pointerToCapturedIntersections.delete(pointerId)
+    if (capturedEventsForPointer.size === 0) {
+      config.pointerToCapturedEvents.delete(pointerId)
     }
   }
 
@@ -284,27 +284,18 @@ function releasePointerCapture(pointerId: number, instance: TresObject, config: 
     }
 
     if (instance && 'onLostpointercapture' in instance && is.fun(instance.onLostpointercapture)) {
-      const object = removedIntersection!.object
-      instance.onLostpointercapture(
-        Object.assign(
-          removedIntersection!,
-          {
-            type: 'lostpointercapture',
-            eventObject: object,
-            currentTarget: object,
-            target: object,
-            stopPropagation: () => {},
-            preventDefault: () => {},
-            stopped: false,
-          },
-        ),
-      )
+      const event = { ...removedEvent }
+      for (const fieldToRemove of ['stopPropagation', 'preventDefault']) {
+        delete event[fieldToRemove]
+      }
+      event.type = 'lostpointercapture'
+      instance.onLostpointercapture(event)
     }
   }
 
   // NOTE: If no objects are still capturing, release the DOM element
   if (!config.pointerToCapturedObjects.get(pointerId)) {
-    const maybeDomElement = removedIntersection?.nativeEvent?.currentTarget
+    const maybeDomElement = removedEvent?.nativeEvent?.currentTarget
     if (maybeDomElement && 'releasePointerCapture' in maybeDomElement && is.fun(maybeDomElement.releasePointerCapture)) {
       maybeDomElement.releasePointerCapture(pointerId)
     }
@@ -356,7 +347,7 @@ function remove(instance: TresObject, config: Config) {
   handleIntersections(getLastEvent(config), intersections, config)
 
   // NOTE: Remove the remaining traces of the object and descendants
-  config.priorHits.delete(instance as Object3D)
+  config.priorHits.delete(instance)
 
   config.isEventsDirty = true
 }
@@ -369,26 +360,41 @@ function handleIntersections(incomingEvent: RaycastEvent, intersections: ThreeIn
   // objects and their ancestors.
   // 2) Create an outgoing event "stub" with the fields
   // common to all events handlers will receive.
-  // 3) Call event handlers.
-  // 4) Release the pointer, if necessary.
-  // 5) `null` the event.
-  // 6) Save data for next event.
+  // 3) Call event handlers
+  // 4) Release the pointer, if necessary
+  // 5) `null` the event
 
   // NOTE:
-  // 0) Add capturing objects' intersections if pointer is captured.
-  const HAS_POINTER_CAPTURE = ('pointerId' in incomingEvent && config.pointerToCapturedIntersections.has(incomingEvent.pointerId))
-  if (HAS_POINTER_CAPTURE) {
-    // NOTE: We want to preserve intersections order and only add
-    // capturing objects' intersections if they aren't already
-    // present. So check if `intersections` already has the capturing
-    // object. And push it if not.
-    const objectsInIntersections = new Set(intersections.map(intr => intr.object))
-    for (const intersection of config.pointerToCapturedIntersections.get(incomingEvent.pointerId)!) {
-      if (!objectsInIntersections.has(intersection.object)) {
-        intersections.push(intersection)
+  // 0) Add captured intersections if pointer is captured.
+  if ('pointerId' in incomingEvent && config.pointerToCapturedEvents.has(incomingEvent.pointerId)) {
+    for (const intersection of config.pointerToCapturedEvents.get(incomingEvent.pointerId)!) {
+      intersections.unshift({
+        // TODO: add rest of intersection
+        eventObject: intersection.currentTarget,
+        object: intersection.currentTarget,
+      })
+    }
+  }
+
+  /*
+  // NOTE:
+  // If there are objects with pointer capture that weren't
+  // hit by the raycaster, add them so that their event
+  // handlers are called.
+  if (HAS_CAPTURED_POINTER) {
+    for (const capturingObject of config.pointerToCapturedObjects.get(incomingEvent.pointerId)!) {
+      if (!hits.has(capturingObject as Object3D)) {
+        hits.add(capturingObject as Object3D)
+        eventIntersections.push({
+          eventObject: capturingObject,
+          object: capturingObject,
+          currentTarget: capturingObject,
+          target: capturingObject,
+        })
       }
     }
   }
+  */
 
   // NOTE:
   // 1) Gather `hits`
@@ -414,7 +420,6 @@ function handleIntersections(incomingEvent: RaycastEvent, intersections: ThreeIn
   const hitsEntered = new Set<Object3D>()
 
   const initialHits = new Set<Object3D>()
-
   const filteredIntersections = []
   const eventIntersections = []
 
@@ -490,12 +495,7 @@ function handleIntersections(incomingEvent: RaycastEvent, intersections: ThreeIn
     },
   )
 
-  // NOTE: If a pointer is captured, we *must* fire
-  // the captured objects' events. So disallow
-  // stopping propagation for Tres events.
-  outgoingEvent.stopPropagation = HAS_POINTER_CAPTURE
-    ? () => { incomingEvent.stopPropagation() }
-    : () => { outgoingEvent.stopped = true; incomingEvent.stopPropagation() }
+  outgoingEvent.stopPropagation = () => { outgoingEvent.stopped = true; incomingEvent.stopPropagation() }
 
   if (incomingEvent.type.startsWith('pointer') && !(incomingEvent.type === 'pointerup' || incomingEvent.type === 'pointercancel')) {
     config.capturableEvent = outgoingEvent as ThreeEvent<PointerEvent>
@@ -503,17 +503,20 @@ function handleIntersections(incomingEvent: RaycastEvent, intersections: ThreeIn
 
   // NOTE:
   // 3) Propagate the events to handlers.
+  //
+
+  // NOTE: If this pointer is captured,
+  // `pointer{missed,enter,leave,over,out}` are not called.
 
   // NOTE: Call `pointermissed`.
   // `pointermissed` is not bubbled and cannot be stopped with `stopPropagation`.
-  if (incomingEvent.type === 'pointerup') {
+  if (incomingEvent.type === 'click' || incomingEvent.type === 'dblclick' || incomingEvent.type === 'contextmenu') {
     outgoingEvent.stopped = false
     for (const obj of config.objectsWithEvents) {
       if (hits.has(obj)) { continue }
       outgoingEvent.eventObject = obj
-      outgoingEvent.object = obj
-      // NOTE: All misses are "self" misses: `currentTarget` matches `target`
       outgoingEvent.currentTarget = obj
+      // NOTE: All misses are "self" misses: `currentTarget` matches `target`
       outgoingEvent.target = obj
       outgoingEvent.eventObject[DOM_TO_THREE['pointermissed' as DomEventName]]?.(outgoingEvent)
     }
@@ -523,61 +526,62 @@ function handleIntersections(incomingEvent: RaycastEvent, intersections: ThreeIn
   if (hitsLeft.size) {
     // NOTE: Propagate `pointerleave`
     // `pointerleave` is not bubbled and cannot be stopped with `stopPropagation`.
+    // TODO: Should use config.priorHits, not config.priorIntersections
     callIntersectionObjectsIf('pointerleave', outgoingEvent, config.priorIntersections, (obj: Object3D) => { return hitsLeft.has(obj) })
+  }
 
-    {
+  {
     // NOTE: Bubble `pointerout`
-    // `pointerout` is bubbled and can be stopped with `stopPropagation`.
-      const duplicates = new Set()
-      outgoingEvent.stopped = false
-      for (const intersection of config.priorIntersections) {
-        if (outgoingEvent.stopped) { break }
+    // NOTE: Should use config.initialHits, not config.priorIntersections
+    const duplicates = new Set()
+    outgoingEvent.stopped = false
+    for (const intersection of config.priorIntersections) {
+      if (outgoingEvent.stopped) { break }
 
-        let object: TresObject | null = intersection.object
-        if (initialHits.has(object) || duplicates.has(object)) { continue }
+      let object: TresObject | null = intersection.object
+      if (initialHits.has(object) || duplicates.has(object)) { continue }
 
-        // NOTE: An event "is-a" `Intersection`,
-        // so copy intersection values to the event.
-        Object.assign(outgoingEvent, intersection)
-        outgoingEvent.target = object
+      // NOTE: An event "is-a" `Intersection`,
+      // so copy intersection values to the event.
+      Object.assign(outgoingEvent, intersection)
+      outgoingEvent.target = object
 
-        while (object && !outgoingEvent.stopped && !duplicates.has(object)) {
-          outgoingEvent.eventObject = object
-          outgoingEvent.currentTarget = object
-          object.onPointerout?.(outgoingEvent)
-          duplicates.add(object)
-          object = object.parent
-        }
+      while (object && !outgoingEvent.stopped && !duplicates.has(object)) {
+        outgoingEvent.eventObject = object
+        outgoingEvent.currentTarget = object
+        object.onPointerout?.(outgoingEvent)
+        duplicates.add(object)
+        object = object.parent
       }
     }
   }
 
   if (hitsEntered.size) {
+    // TODO: Should use config.initialHits, not intersections
     callIntersectionObjectsIf('pointerenter', outgoingEvent, intersections, (obj: Object3D) => { return hitsEntered.has(obj) })
+  }
 
-    {
+  {
     // NOTE: Bubble pointerover
-    // `pointerover` is bubbled and can be stopped with `stopPropagation`.
-      const duplicates = new Set()
-      outgoingEvent.stopped = false
-      for (const intersection of filteredIntersections) {
-        if (outgoingEvent.stopped) { break }
+    const duplicates = new Set()
+    outgoingEvent.stopped = false
+    for (const intersection of filteredIntersections) {
+      if (outgoingEvent.stopped) { break }
 
-        let object: TresObject | null = intersection.object
-        if (config.priorInitialHits.has(object) || duplicates.has(object)) { continue }
+      let object: TresObject | null = intersection.object
+      if (config.priorInitialHits.has(object) || duplicates.has(object)) { continue }
 
-        // NOTE: An event "is-a" `Intersection`,
-        // so copy intersection values to the event.
-        Object.assign(outgoingEvent, intersection)
-        outgoingEvent.target = object
+      // NOTE: An event "is-a" `Intersection`,
+      // so copy intersection values to the event.
+      Object.assign(outgoingEvent, intersection)
+      outgoingEvent.target = object
 
-        while (object && !outgoingEvent.stopped && !duplicates.has(object)) {
-          outgoingEvent.eventObject = object
-          outgoingEvent.currentTarget = object
-          object.onPointerover?.(outgoingEvent)
-          duplicates.add(object)
-          object = object.parent
-        }
+      while (object && !outgoingEvent.stopped && !duplicates.has(object)) {
+        outgoingEvent.eventObject = object
+        outgoingEvent.currentTarget = object
+        object.onPointerover?.(outgoingEvent)
+        duplicates.add(object)
+        object = object.parent
       }
     }
   }
@@ -607,12 +611,16 @@ function handleIntersections(incomingEvent: RaycastEvent, intersections: ThreeIn
     }
   }
 
+  config.priorIntersections = filteredIntersections
+  config.priorInitialHits = initialHits
+  config.priorHits = hits
+
   // NOTE: 4) Release the pointer, if necessary
   if ((incomingEvent.type === 'pointerup' || incomingEvent.type === 'pointercancel')
     && config.pointerToCapturedObjects.has((incomingEvent as PointerEvent).pointerId)) {
     const pointerId = (incomingEvent as PointerEvent).pointerId
     for (const object of config.pointerToCapturedObjects.get(pointerId)!) {
-      releasePointerCapture(pointerId, object, config)
+      releasePointerCapture(pointerId, object, config, outgoingEvent)
     }
   }
 
@@ -635,11 +643,6 @@ function handleIntersections(incomingEvent: RaycastEvent, intersections: ThreeIn
   outgoingEvent.target = null
   // @ts-expect-error – same
   outgoingEvent.object = null
-
-  // NOTE: 6) Save data for next event
-  config.priorIntersections = filteredIntersections
-  config.priorInitialHits = initialHits
-  config.priorHits = hits
 }
 
 function callIntersectionObjectsIf(domEventName: DomEventName, event: ThreeEventStub<MouseEvent>, intersections: ThreeIntersection[], cond: (a: any) => boolean) {
