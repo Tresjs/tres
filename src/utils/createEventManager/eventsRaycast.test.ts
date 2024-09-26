@@ -1,13 +1,13 @@
-import type { TresContext } from 'src/composables/useTresContextProvider'
-import type { ThreeEvent } from 'src/types'
-import type { Object3D } from 'three'
 import { BoxGeometry, MeshBasicMaterial, Scene, Vector3 } from 'three'
 import * as THREE from 'three'
 import { describe, expect, it, vi } from 'vitest'
 import { shallowRef } from 'vue'
+import type { TresContext } from 'src/composables/useTresContextProvider'
+import type { ThreeEvent, TresObject } from 'src/types'
+import type { Object3D } from 'three'
 import catalogue from '../../core/catalogue'
 import { nodeOps as getNodeOps } from '../../core/nodeOps'
-import { DOM_TO_THREE, type ThreeEventName } from './const'
+import { DOM_TO_THREE, type DomEventName, type ThreeEventName } from './const'
 import { createEventManager } from './createEventManager'
 import { eventsRaycast } from './eventsRaycast'
 
@@ -18,7 +18,7 @@ const clear = () => { vi.clearAllMocks(); mockIntersections.length = 0 }
 // `domEvent` is the type of the Tres handler to be triggered
 // `nativeEvent` is the canvas event that triggers the Tres handler
 // `call` triggers the Tres handler when run
-const DOM_NATIVE_CALL = [{
+const DOM_NATIVE_CALL: { domEvent: DomEventName, nativeEvent: PointerEvent | MouseEvent, call: (mock, nativeEvent, objects) => void }[] = [{
   domEvent: 'click',
   nativeEvent: new MouseEvent('click'),
   call: (mock, nativeEvent, objs) => { mock.apply(nativeEvent).to(objs) },
@@ -259,11 +259,14 @@ describe('eventsRaycast', () => {
         mock.nodeOps.patchProp(m, DOM_TO_THREE[domEvent], null, (e: ThreeEvent<any>) => { event = { ...e } })
         call(mock, nativeEvent, [m])
 
-        expect(typeof event.stopPropagation).toBe('function')
-        expect(typeof event.preventDefault).toBe('function')
         expect(event.eventObject).toBe(m)
         expect(event.eventObject).toBe(event.currentTarget)
         expect(event.target.uuid).toBe(m.uuid)
+        expect(typeof event.stopPropagation).toBe('function')
+        expect(typeof event.preventDefault).toBe('function')
+        expect(typeof event.eventObject.setPointerCapture).toBe('function')
+        expect(typeof event.eventObject.hasPointerCapture).toBe('function')
+        expect(typeof event.eventObject.releasePointerCapture).toBe('function')
 
         expect(event).toHaveProperty('intersections')
         expect(Array.isArray(event.intersections)).toBe(true)
@@ -488,7 +491,7 @@ describe('eventsRaycast', () => {
         { domEvent: 'dblclick' },
         { domEvent: 'pointerdown' },
         { domEvent: 'pointerup' },
-      ],
+      ] as { domEvent: DomEventName }[],
     )('$domEvent on the DOM element', ({ domEvent }) => {
       const threeEvent = DOM_TO_THREE[domEvent]
       it(`calls \`${threeEvent}\` methods on objects under pointer and ancestors`, () => {
@@ -572,7 +575,7 @@ describe('eventsRaycast', () => {
           { domEvent: 'click' },
           { domEvent: 'contextmenu' },
           { domEvent: 'dblclick' },
-        ],
+        ] as { domEvent: DomEventName }[],
       )('$domEvent', ({ domEvent }) => {
         it('calls `pointermissed` on all elements in subtrees that were not hit', () => {
           const mock = mockTresUsingEventManagerProps()
@@ -714,7 +717,8 @@ describe('eventsRaycast', () => {
         { domEventName: 'pointerdown', threeEventName: 'onPointerdown' },
         { domEventName: 'pointermove', threeEventName: 'onPointermove' },
         { domEventName: 'wheel', threeEventName: 'onWheel' },
-      ])('stops $domEventName', ({ domEventName, threeEventName }) => {
+      ] as { domEventName: DomEventName, threeEventName: ThreeEventName }[],
+      )('stops $domEventName', ({ domEventName, threeEventName }) => {
         const mock = mockTresUsingEventManagerProps()
         const { gListener, gStopper, mSource } = mock.add.DAG('gListener -> gStopper; gStopper -> mSource')
         const gListenerSpies = mock.add.eventsTo(gListener)
@@ -1621,6 +1625,373 @@ describe('eventsRaycast', () => {
       })
     })
   })
+  describe('{set,release,lost}pointercapture', () => {
+    const POINTER_ID = mockEvt('pointerdown').pointerId
+    describe('object.setPointerCapture(pointerId) in event handler', () => {
+      it('calls `setPointerCapture(pointerId)` on `eventManager`\'s DOM Element', () => {
+        const mock = mockTresUsingEventManagerProps()
+        const { m } = mock.add.DAG('m')
+        mock.nodeOps.patchProp(m, 'onPointerdown', undefined, (e) => {
+          e.eventObject.setPointerCapture(e.pointerId)
+        })
+
+        expect(mock.canvas.hasPointerCapture(POINTER_ID)).toBe(false)
+        mock.apply('pointerdown').to([m])
+        expect(mock.canvas.hasPointerCapture(POINTER_ID)).toBe(true)
+      })
+    })
+    describe('when a pointer is captured', () => {
+      it('adds captured object intersections to the front of `event.intersections`', () => {
+        const mock = mockTresUsingEventManagerProps()
+        const { m, n, o, p } = mock.add.DAG('m; n; o; p')
+        mock.add.eventsTo(m)
+        mock.add.eventsTo(n)
+        mock.add.eventsTo(o)
+        mock.add.eventsTo(p)
+        mock.nodeOps.patchProp(m, 'onPointerdown', undefined, (e) => {
+          e.eventObject.setPointerCapture(e.pointerId)
+        })
+        mock.nodeOps.patchProp(p, 'onPointermove', undefined, (e) => {
+          e.eventObject.setPointerCapture(e.pointerId)
+        })
+
+        mock.apply('pointerdown').to([m])
+        mock.apply('pointermove').to([n])
+        expect(getLast('pointermove').on(n).intersections.length).toBe(2)
+        expect(getLast('pointermove').on(n).intersections[0].eventObject).toBe(m)
+
+        mock.apply('pointermove').to([n, o])
+        expect(getLast('pointermove').on(n).intersections.length).toBe(3)
+        expect(getLast('pointermove').on(n).intersections[0].eventObject).toBe(m)
+
+        // NOTE: This adds p to pointer capture
+        mock.apply('pointermove').to([n, p])
+        expect(getLast('pointermove').on(n).intersections[0].eventObject.name).toBe('m')
+        expect(getLast('pointermove').on(n).intersections[1].eventObject.name).toBe('n')
+        expect(getLast('pointermove').on(n).intersections[2].eventObject.name).toBe('p')
+
+        mock.apply('pointermove').to([n, o, m, p])
+        expect(getLast('pointermove').on(n).intersections.length).toBe(4)
+        expect(getLast('pointermove').on(n).intersections[0].eventObject.name).toBe('p')
+        expect(getLast('pointermove').on(n).intersections[1].eventObject.name).toBe('m')
+        expect(getLast('pointermove').on(n).intersections[2].eventObject.name).toBe('n')
+        expect(getLast('pointermove').on(n).intersections[3].eventObject.name).toBe('o')
+
+        mock.apply('pointermove').to([n, o])
+        expect(getLast('pointermove').on(n).intersections.length).toBe(4)
+        expect(getLast('pointermove').on(n).intersections[0].eventObject.name).toBe('p')
+        expect(getLast('pointermove').on(n).intersections[1].eventObject.name).toBe('m')
+        expect(getLast('pointermove').on(n).intersections[2].eventObject.name).toBe('n')
+        expect(getLast('pointermove').on(n).intersections[3].eventObject.name).toBe('o')
+
+        mock.apply('pointermove').to([])
+        expect(getLast('pointermove').on(m).intersections.length).toBe(2)
+        expect(getLast('pointermove').on(m).intersections[0].eventObject.name).toBe('p')
+        expect(getLast('pointermove').on(m).intersections[1].eventObject.name).toBe('m')
+      })
+      it.only('calls object\'s event handlers, if they exist, even if the object is not hit', () => {
+        const mock = mockTresUsingEventManagerProps()
+        const { g, m } = mock.add.DAG('g -> m')
+        mock.add.eventsTo(g)
+        mock.add.eventsTo(m)
+        mock.nodeOps.patchProp(m, 'onPointerdown', undefined, (e) => {
+          e.eventObject.setPointerCapture(e.pointerId)
+        })
+
+        mock.apply('pointerdown').to([m])
+
+        expect(getLast('pointermove').on(g)).toBeNull()
+        expect(getLast('pointermove').on(m)).toBeNull()
+        mock.apply('pointermove').to([])
+        expect(getLast('pointermove').on(g)).not.toBeNull()
+        expect(getLast('pointermove').on(m)).not.toBeNull()
+      })
+      it('calls pointer{over,out,enter,leave}', () => {
+        const mock = mockTresUsingEventManagerProps()
+        const { g, m, n, o } = mock.add.DAG('g -> m; n; o')
+        mock.add.eventsTo(g)
+        mock.add.eventsTo(m)
+        mock.add.eventsTo(n)
+        mock.add.eventsTo(o)
+        mock.nodeOps.patchProp(m, 'onPointerdown', undefined, (e) => {
+          e.eventObject.setPointerCapture(e.pointerId)
+        })
+
+        mock.apply('pointerdown').to([m])
+      })
+    })
+    describe('object.releasePointerCapture(pointerId)', () => {
+      it('calls `releasePointerCapture(pointerId)` on `eventManager`\'s DOM Element if there are no remaining captures', () => {
+        const mock = mockTresUsingEventManagerProps()
+        const { m, n } = mock.add.DAG('m; n')
+        mock.nodeOps.patchProp(m, 'onPointerdown', undefined, (e) => {
+          e.eventObject.setPointerCapture(e.pointerId)
+        })
+        mock.nodeOps.patchProp(m, 'onPointermove', undefined, (e) => {
+          e.eventObject.releasePointerCapture(e.pointerId)
+        })
+
+        let COUNT_UNTIL_RELEASE = 5
+        mock.nodeOps.patchProp(n, 'onPointerdown', undefined, (e) => {
+          e.eventObject.setPointerCapture(e.pointerId)
+        })
+        mock.nodeOps.patchProp(n, 'onPointermove', undefined, (e) => {
+          if (COUNT_UNTIL_RELEASE-- <= 0) {
+            e.eventObject.releasePointerCapture(e.pointerId)
+          }
+        })
+
+        mock.apply('pointerdown').to([m, n])
+        expect(mock.canvas.hasPointerCapture(POINTER_ID)).toBe(true)
+
+        mock.apply('pointermove').to([m, n])
+        expect(mock.canvas.hasPointerCapture(POINTER_ID)).toBe(true)
+
+        mock.apply('pointermove').to([m, n])
+        mock.apply('pointermove').to([m, n])
+        mock.apply('pointermove').to([m, n])
+        mock.apply('pointermove').to([m, n])
+        mock.apply('pointermove').to([m, n])
+        expect(mock.canvas.hasPointerCapture(POINTER_ID)).toBe(false)
+      })
+      it('does not call `releasePointerCapture(pointerId)` on `eventManager`\'s DOM Element if there are remaining captures', () => {
+        const mock = mockTresUsingEventManagerProps()
+        interface PointerCapture {
+          setPointerCapture: (id: number) => void
+          releasePointerCapture: (id: number) => void
+          hasPointerCapture: (id: number) => void
+        }
+        const { m, n } = mock.add.DAG('m; n') as Record<string, TresObject & Object3D & PointerCapture>
+
+        let OBJECTS_TO_CAPTURE = [m, n] as (Object3D & { setPointerCapture?: (id: number) => void })[]
+        let OBJECTS_TO_RELEASE = [] as (Object3D & { releasePointerCapture?: (id: number) => void })[]
+
+        const down = (e) => {
+          e.eventObject.setPointerCapture(e.pointerId)
+        }
+
+        const move = (e) => {
+          for (const o of OBJECTS_TO_CAPTURE) {
+            o.setPointerCapture(e.pointerId)
+          }
+          for (const o of OBJECTS_TO_RELEASE) {
+            o.releasePointerCapture(e.pointerId)
+          }
+        }
+
+        mock.nodeOps.patchProp(m, 'onPointerdown', undefined, down)
+        mock.nodeOps.patchProp(n, 'onPointerdown', undefined, down)
+        mock.nodeOps.patchProp(m, 'onPointermove', undefined, move)
+        mock.nodeOps.patchProp(n, 'onPointermove', undefined, move)
+
+        mock.apply('pointerdown').to([m, n])
+        expect(mock.canvas.hasPointerCapture(POINTER_ID)).toBe(true)
+        expect(m.hasPointerCapture(POINTER_ID)).toBe(true)
+        expect(n.hasPointerCapture(POINTER_ID)).toBe(true)
+        expect(mock.canvas.hasPointerCapture(POINTER_ID)).toBe(true)
+
+        mock.apply('pointermove').to([])
+        expect(m.hasPointerCapture(POINTER_ID)).toBe(true)
+        expect(n.hasPointerCapture(POINTER_ID)).toBe(true)
+        expect(mock.canvas.hasPointerCapture(POINTER_ID)).toBe(true)
+
+        OBJECTS_TO_RELEASE = [m]
+        OBJECTS_TO_CAPTURE = [n]
+        mock.apply('pointermove').to([])
+        expect(m.hasPointerCapture(POINTER_ID)).toBe(false)
+        expect(n.hasPointerCapture(POINTER_ID)).toBe(true)
+        expect(mock.canvas.hasPointerCapture(POINTER_ID)).toBe(true)
+
+        OBJECTS_TO_RELEASE = [m]
+        OBJECTS_TO_CAPTURE = []
+        mock.apply('pointermove').to([])
+        expect(m.hasPointerCapture(POINTER_ID)).toBe(false)
+        expect(n.hasPointerCapture(POINTER_ID)).toBe(true)
+        expect(mock.canvas.hasPointerCapture(POINTER_ID)).toBe(true)
+
+        OBJECTS_TO_RELEASE = [n]
+        OBJECTS_TO_CAPTURE = [m]
+        mock.apply('pointermove').to([])
+        expect(m.hasPointerCapture(POINTER_ID)).toBe(true)
+        expect(n.hasPointerCapture(POINTER_ID)).toBe(false)
+        expect(mock.canvas.hasPointerCapture(POINTER_ID)).toBe(true)
+
+        OBJECTS_TO_RELEASE = [m]
+        OBJECTS_TO_CAPTURE = [n]
+        mock.apply('pointermove').to([n])
+        expect(mock.context.eventManager.config.pointerToCapturedObjects.get(POINTER_ID).size).toBe(1)
+        expect(m.hasPointerCapture(POINTER_ID)).toBe(false)
+        expect(n.hasPointerCapture(POINTER_ID)).toBe(true)
+        expect(mock.canvas.hasPointerCapture(POINTER_ID)).toBe(true)
+
+        OBJECTS_TO_RELEASE = []
+        OBJECTS_TO_CAPTURE = [m]
+        mock.apply('pointermove').to([])
+        expect(m.hasPointerCapture(POINTER_ID)).toBe(true)
+        expect(n.hasPointerCapture(POINTER_ID)).toBe(true)
+        expect(mock.canvas.hasPointerCapture(POINTER_ID)).toBe(true)
+
+        OBJECTS_TO_RELEASE = [m]
+        OBJECTS_TO_CAPTURE = [n]
+        mock.apply('pointermove').to([])
+        expect(m.hasPointerCapture(POINTER_ID)).toBe(false)
+        expect(n.hasPointerCapture(POINTER_ID)).toBe(true)
+        expect(mock.canvas.hasPointerCapture(POINTER_ID)).toBe(true)
+
+        OBJECTS_TO_RELEASE = [n]
+        OBJECTS_TO_CAPTURE = []
+        mock.apply('pointermove').to([])
+        expect(mock.canvas.hasPointerCapture(POINTER_ID)).toBe(false)
+      })
+      describe('pointerup', () => {
+        it('releases a single pointer capture', () => {
+          const mock = mockTresUsingEventManagerProps()
+          const { m } = mock.add.DAG('m')
+          mock.nodeOps.patchProp(m, 'onPointerdown', undefined, (e) => {
+            e.eventObject.setPointerCapture(e.pointerId)
+          })
+
+          mock.apply('pointerdown').to([m])
+          expect(mock.canvas.hasPointerCapture(POINTER_ID)).toBe(true)
+          mock.apply('pointerup').to([])
+          expect(mock.canvas.hasPointerCapture(POINTER_ID)).toBe(false)
+        })
+        it('releases all pointer captures for a pointerId', () => {
+          const mock = mockTresUsingEventManagerProps()
+          const { m, n, o, p } = mock.add.DAG('m; n; o; p')
+          function down(e) { e.eventObject.setPointerCapture(e.pointerId) }
+          mock.nodeOps.patchProp(m, 'onPointerdown', undefined, down)
+          mock.nodeOps.patchProp(n, 'onPointerdown', undefined, down)
+          mock.nodeOps.patchProp(o, 'onPointerdown', undefined, down)
+          mock.nodeOps.patchProp(p, 'onPointerdown', undefined, down)
+
+          const POINTER_ID_A = 10
+          const eventA = mockEvt('pointerdown', { pointerId: POINTER_ID_A, currentTarget: mock.canvas }) as any
+          mock.apply(eventA).to([m, n, o, p])
+          expect(mock.canvas.hasPointerCapture(eventA.pointerId)).toBe(true)
+
+          const POINTER_ID_B = 99
+          const eventB = mockEvt('pointerdown', { pointerId: POINTER_ID_B, currentTarget: mock.canvas }) as any
+          mock.apply(eventB).to([m])
+          expect(mock.canvas.hasPointerCapture(eventB.pointerId)).toBe(true)
+
+          eventB.type = 'pointerup'
+          mock.apply(eventB).to([])
+          expect(mock.canvas.hasPointerCapture(eventB.pointerId)).toBe(false)
+
+          expect(mock.canvas.hasPointerCapture(eventA.pointerId)).toBe(true)
+          eventA.type = 'pointerup'
+          mock.apply(eventA).to([m, n, o, p])
+          expect(mock.canvas.hasPointerCapture(eventA.pointerId)).toBe(false)
+        })
+      })
+      describe('pointercancel', () => {
+        it('releases a single pointer capture', () => {
+          const mock = mockTresUsingEventManagerProps()
+          const { m } = mock.add.DAG('m')
+          mock.nodeOps.patchProp(m, 'onPointerdown', undefined, (e) => {
+            e.eventObject.setPointerCapture(e.pointerId)
+          })
+
+          mock.apply('pointerdown').to([m])
+          expect(mock.canvas.hasPointerCapture(POINTER_ID)).toBe(true)
+          mock.apply('pointercancel').to([])
+          expect(mock.canvas.hasPointerCapture(POINTER_ID)).toBe(false)
+        })
+        it('releases all pointer captures', () => {
+          const mock = mockTresUsingEventManagerProps()
+          const { m, n, o, p } = mock.add.DAG('m; n; o; p')
+          function down(e) { e.eventObject.setPointerCapture(e.pointerId) }
+          mock.nodeOps.patchProp(m, 'onPointerdown', undefined, down)
+          mock.nodeOps.patchProp(n, 'onPointerdown', undefined, down)
+          mock.nodeOps.patchProp(o, 'onPointerdown', undefined, down)
+          mock.nodeOps.patchProp(p, 'onPointerdown', undefined, down)
+
+          const POINTER_ID_A = 10
+          const eventA = mockEvt('pointerdown', { pointerId: POINTER_ID_A, currentTarget: mock.canvas }) as any
+          mock.apply(eventA).to([m, n, o, p])
+          expect(mock.canvas.hasPointerCapture(eventA.pointerId)).toBe(true)
+
+          const POINTER_ID_B = 99
+          const eventB = mockEvt('pointerdown', { pointerId: POINTER_ID_B, currentTarget: mock.canvas }) as any
+          mock.apply(eventB).to([m])
+          expect(mock.canvas.hasPointerCapture(eventB.pointerId)).toBe(true)
+
+          eventB.type = 'pointercancel'
+          mock.apply(eventB).to([])
+          expect(mock.canvas.hasPointerCapture(eventB.pointerId)).toBe(false)
+
+          expect(mock.canvas.hasPointerCapture(eventA.pointerId)).toBe(true)
+          eventA.type = 'pointercancel'
+          mock.apply(eventA).to([m, n, o, p])
+          expect(mock.canvas.hasPointerCapture(eventA.pointerId)).toBe(false)
+        })
+      })
+    })
+    describe('lostpointercapture', () => {
+      it('exists', () => {
+        const mock = mockTresUsingEventManagerProps()
+        const { m } = mock.add.DAG('m')
+        mock.add.eventsTo(m)
+        expect('onLostpointercapture' in m).toBe(true)
+      })
+      it('is called when releasing the pointer via `e.target.releasePointerCapture`', () => {
+        const mock = mockTresUsingEventManagerProps()
+        const { m } = mock.add.DAG('m')
+        mock.add.eventsTo(m)
+        mock.nodeOps.patchProp(m, 'onPointerdown', undefined, (e) => {
+          e.eventObject.setPointerCapture(e.pointerId)
+          e.target.releasePointerCapture(e.pointerId)
+        })
+        mock.apply('pointerdown').to([m])
+        expect(getLast('lostpointercapture').on(m)).toBeDefined()
+      })
+      it('is called when releasing the pointer via `pointercancel`', () => {
+        const mock = mockTresUsingEventManagerProps()
+        const { m } = mock.add.DAG('m')
+        mock.add.eventsTo(m)
+        mock.nodeOps.patchProp(m, 'onPointerdown', undefined, (e) => {
+          e.eventObject.setPointerCapture(e.pointerId)
+        })
+
+        mock.apply('pointerdown').to([m])
+        expect(getLast('lostpointercapture').on(m)).toBeNull()
+        mock.apply('pointercancel').to([])
+        expect(getLast('lostpointercapture').on(m)).not.toBeNull()
+      })
+      it('is called with expected event object fields', () => {
+        const mock = mockTresUsingEventManagerProps()
+        const { m } = mock.add.DAG('m')
+        mock.add.eventsTo(m)
+        mock.nodeOps.patchProp(m, 'onPointerdown', undefined, (e) => {
+          e.eventObject.setPointerCapture(e.pointerId)
+        })
+        let event = null
+        mock.nodeOps.patchProp(m, 'onLostpointercapture', undefined, (e) => {
+          event = { ...e }
+        })
+        mock.apply('pointerdown').to([m])
+        expect(getLast('lostpointercapture').on(m)).toBeNull()
+        mock.apply('pointercancel').to([])
+
+        expect(event.type).toBe('lostpointercapture')
+        expect(event.target.uuid).toBe(m.uuid)
+      })
+      it('is not called on objects that don\'t have the pointer capture', () => {
+        const mock = mockTresUsingEventManagerProps()
+        const { m, n } = mock.add.DAG('m; n')
+        mock.add.eventsTo(m, n)
+        mock.nodeOps.patchProp(m, 'onPointerdown', undefined, (e) => {
+          e.eventObject.setPointerCapture(e.pointerId)
+        })
+
+        mock.apply('pointerdown').to([m])
+        expect(getLast('lostpointercapture').on(n)).toBeNull()
+        mock.apply('pointercancel').to([])
+        expect(getLast('lostpointercapture').on(n)).toBeNull()
+      })
+    })
+  })
 })
 
 function mockTresUsingEventManagerProps(props = eventsRaycast) {
@@ -1650,6 +2021,7 @@ function mockTresUsingEventManagerProps(props = eventsRaycast) {
   }
 
   const canvasEvents = { }
+  const canvasPointerCapture: Set<number> = new Set()
   const canvas = {
     addEventListener: (eventName, fn) => {
       canvasEvents[eventName] = fn
@@ -1657,6 +2029,11 @@ function mockTresUsingEventManagerProps(props = eventsRaycast) {
     removeEventListener: (eventName) => {
       delete canvasEvents[eventName]
     },
+    setPointerCapture: (pointerId: number) => {
+      canvasPointerCapture.add(pointerId)
+    },
+    releasePointerCapture: (pointerId: number) => { canvasPointerCapture.delete(pointerId) },
+    hasPointerCapture: (pointerId: number) => canvasPointerCapture.has(pointerId),
     _call: (eventName, pointer) => {
       if (eventName in canvasEvents) {
         canvasEvents[eventName](pointer)
@@ -1771,9 +2148,9 @@ function mockTresUsingEventManagerProps(props = eventsRaycast) {
     mockIntersection: () => mockIntersections,
   }
 
-  const apply = (eventOrEvents: (string | Record<string, any>) | (string | Record<string, any>)[]) => {
+  const apply = (eventOrEvents: (DomEventName | Record<string, any>) | (string | Record<string, any>)[]) => {
     const events = (Array.isArray(eventOrEvents) ? eventOrEvents : [eventOrEvents])
-      .map(stringOrObject => typeof stringOrObject === 'string' ? mockEvt(stringOrObject) : stringOrObject)
+      .map(stringOrObject => typeof stringOrObject === 'string' ? mockEvt(stringOrObject, { target: canvas, currentTarget: canvas }) : stringOrObject)
     return { to: (intersectedGroupOrGroups: Object3D[] | Object3D[][]) => {
       if (intersectedGroupOrGroups.length === 0) {
         // NOTE: We have no groups of objects.
@@ -1812,13 +2189,14 @@ function mockTresUsingEventManagerProps(props = eventsRaycast) {
       }
     } }
   }
+
   return { canvas, context, nodeOps, add, get, set, clear, apply }
 }
 
 function mockEvt(type: PointerEvent['type'], options: Record<string, any> = {}) {
-  return { type, ...options, stopPropagation: () => {}, preventDefault: () => {} } as PointerEvent
+  return { type, pointerId: 42, ...options, stopPropagation: () => {}, preventDefault: () => {} } as PointerEvent
 }
 
-function getLast(domEventName: string) {
+function getLast(domEventName: DomEventName) {
   return { on: (obj: Object3D) => obj.userData[DOM_TO_THREE[domEventName]] ?? null }
 }

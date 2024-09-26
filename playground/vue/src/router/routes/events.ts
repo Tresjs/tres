@@ -65,6 +65,11 @@ export const eventsRoutes = [
     component: () => import('../../pages/events/EventModifiers.vue'),
   },
   {
+    path: '/events/pointer-capture',
+    name: 'Pointer Capture',
+    component: () => import('../../pages/events/PointerCapture.vue'),
+  },
+  {
     path: '/events/deprecated-event-names',
     name: 'Deprecated Event Names',
     component: () => import('../../pages/events/DeprecatedEventNames.vue'),
