@@ -76,6 +76,29 @@ export interface RigidBodyProps {
    * @default false
    */
   lockRotations?: boolean
+
+  // AUTOMATIC COLLIDERS
+
+  /**
+   * @description The friction coefficient of this collider.
+   * @default 0.5
+   */
+  friction?: number
+  /**
+   * @description mass.
+   * @default 1
+   */
+  mass?: number
+  /**
+   * @description Restitution controls how elastic (aka. bouncy) a contact is.
+   * @default 0
+   */
+  restitution?: number
+  /**
+   * @description The collider density. If non-zero the collider's mass and angular inertia will be added.
+   * @default 1.0
+   */
+  density?: number
 }
 
 export interface ExposedRigidBody {

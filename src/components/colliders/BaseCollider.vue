@@ -3,11 +3,16 @@ import { inject, nextTick, onUnmounted, type ShallowRef, shallowRef, watch } fro
 
 import { useRapierContext } from '../../composables'
 import { createCollider } from '../../core/collider'
+import { makePropsWatcherCL } from '../../utils/props'
 import type { ColliderProps, CreateColliderReturnType, ExposedCollider, RigidBodyContext } from '../../types'
 
 const props = withDefaults(defineProps<Partial<ColliderProps>>(), {
   shape: 'cuboid',
   args: () => [1, 1, 1],
+  friction: 0.5,
+  mass: 1,
+  restitution: 0,
+  density: 1,
 })
 
 const { world } = useRapierContext()
@@ -48,6 +53,8 @@ watch(bodyContext, async (state) => {
 
   state.colliders.push(infos)
 }, { immediate: true })
+
+makePropsWatcherCL(props, ['friction', 'restitution', 'density', 'mass'], colliderInfos)
 
 onUnmounted(() => {
   if (!bodyContext.value || !colliderInfos.value?.collider) { return }

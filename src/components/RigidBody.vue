@@ -24,6 +24,12 @@ const props = withDefaults(defineProps<Partial<RigidBodyProps>>(), {
   enabledTranslations: () => ({ x: true, y: true, z: true }),
   lockTranslations: false,
   lockRotations: false,
+  // Automatic collider props
+  friction: 0.5,
+  mass: 1,
+  restitution: 0,
+  density: 1,
+
 })
 const { onBeforeRender } = useLoop()
 const { world } = useRapierContext()
@@ -132,6 +138,10 @@ onUnmounted(() => {
       :shape="_props.shape"
       :args="_props.args"
       :object="_props.object"
+      :friction="props.friction"
+      :mass="props.mass"
+      :restitution="props.restitution"
+      :density="props.density"
     />
     <slot v-once></slot>
   </TresGroup>

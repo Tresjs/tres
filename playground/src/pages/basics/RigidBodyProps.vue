@@ -2,7 +2,7 @@
 import { OrbitControls } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
 import { TresLeches, useControls } from '@tresjs/leches'
-import { type ExposedRigidBody, Physics, RigidBody } from '@tresjs/rapier'
+import { BallCollider, type ExposedRigidBody, Physics, RigidBody } from '@tresjs/rapier'
 import { ACESFilmicToneMapping, SRGBColorSpace } from 'three'
 import { shallowRef } from 'vue'
 import '@tresjs/leches/styles'
@@ -28,15 +28,18 @@ const rotate = () => {
   rigidBoxRef.value.instance.applyTorqueImpulse({ x: 3, y: 5, z: 0 }, true)
 }
 
-const { gravityScale, linearDamping, angularDamping, lockT, linvelX } = useControls({
+const { gravityScale, linearDamping, angularDamping, lockT, linvelX, friction, mass, density, restitution } = useControls({
   gravityScale: { value: 2.5, min: -10, max: 10, step: 1 },
   linearDamping: { value: 0, min: -10, max: 10, step: 1 },
   angularDamping: { value: 0, min: -10, max: 10, step: 1 },
   linvelX: { value: 0, min: -10, max: 10, step: 1 },
-  lockT: true,
+  lockT: false,
+  // colliders
+  friction: { value: 0, min: 0, max: 10, step: 1 },
+  mass: { value: 1, min: 0, max: 10, step: 1 },
+  density: { value: 1, min: 0, max: 10, step: 1 },
+  restitution: { value: 1, min: 0, max: 10, step: 1 },
 })
-
-// TODO test locks and enabledTranslations, check docs
 </script>
 
 <template>
@@ -55,6 +58,11 @@ const { gravityScale, linearDamping, angularDamping, lockT, linvelX } = useContr
           :angularDamping="angularDamping.value"
           :enabledTranslations="{ x: true, y: true, z: true }"
           :lockTranslations="lockT.value"
+          :linvelX="linvelX.value"
+          :friction="friction.value"
+          :mass="mass.value"
+          :density="density.value"
+          :restitution="restitution.value"
         >
           <TresMesh :position="[4, 8, 0]" @click="jump">
             <TresTorusGeometry />
@@ -63,10 +71,7 @@ const { gravityScale, linearDamping, angularDamping, lockT, linvelX } = useContr
         </RigidBody>
 
         <RigidBody>
-          <TresMesh :position="[0, 8, 0]">
-            <TresTorusGeometry />
-            <TresMeshNormalMaterial />
-          </TresMesh>
+          <BallCollider :restitution="2" :args="[1, 1, 1]" :position="[2, 10, 2]" />
         </RigidBody>
 
         <!-- BOX -->
