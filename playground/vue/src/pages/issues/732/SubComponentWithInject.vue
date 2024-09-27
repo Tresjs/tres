@@ -5,9 +5,9 @@ const awiwi = inject('awiwi')
 const bululu = inject('bululu')
 const vRoute = inject('v-route')
 // eslint-disable-next-line no-console
-watchEffect(() => console.log('tres:awiwi', awiwi.a))
+watchEffect(() => console.log('tres:awiwi', awiwi?.a))
 // eslint-disable-next-line no-console
-watchEffect(() => console.log('tres:bululu', bululu.value))
+watchEffect(() => console.log('tres:bululu', bululu?.value))
 // eslint-disable-next-line no-console
 watchEffect(() => console.log('tres:v-route', vRoute))
 // eslint-disable-next-line no-console
