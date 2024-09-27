@@ -5,8 +5,6 @@ import { TresCanvas } from '@tresjs/core'
 import { MeshBasicMaterial, MeshPhongMaterial, Plane, Vector3 } from 'three'
 import type { ThreeEvent } from '@tresjs/core'
 
-const r = (radius: number) => radius * 2 * (Math.random() - 0.5)
-
 const RADIUS = 20
 const COUNT = 250
 const MATERIALS = ['red', 'orange', 'yellow', 'green', 'blue', 'purple'].map(s => new MeshPhongMaterial({ color: s }))
@@ -16,9 +14,9 @@ const positions: Vector3[] = []
 
 for (let i = 0; i < COUNT; i++) {
   positions.push(new Vector3(
-    Math.cos(i * 0.03) * RADIUS + r(10),
-    Math.sin(i * 0.17) * RADIUS,
-    Math.sin(i * 0.07 + 1.2) * RADIUS + r(5),
+    Math.cos(i * 0.3) * RADIUS,
+    Math.sin(i * 0.3) * RADIUS,
+    Math.sin(i * 0.07 + 1.2) * RADIUS,
   ))
 }
 

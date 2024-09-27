@@ -427,15 +427,15 @@ function handleIntersections(incomingEvent: RaycastEvent, intersections: ThreeIn
     }
   }
 
+  const filteredIntersections = []
   for (let i = 0; i < intersections.length; i++) {
     const intersection = intersections[i]
     let obj: Object3D | null = intersection.object
     initialHits.add(obj)
     if (hits.has(obj)) {
-      intersections.splice(i, 1)
-      i--
       continue
     }
+    filteredIntersections.push(intersection)
 
     while (obj) {
       if ((obj as TresObject).__tres?.eventCount) {
@@ -466,6 +466,7 @@ function handleIntersections(incomingEvent: RaycastEvent, intersections: ThreeIn
       obj = obj.parent
     }
   }
+  intersections = filteredIntersections
 
   // NOTE:
   // 2) Create the outgoing event "stub".

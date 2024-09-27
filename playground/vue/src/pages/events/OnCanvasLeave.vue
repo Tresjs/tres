@@ -1,19 +1,10 @@
 <script setup lang="ts">
-import type { ThreeEvent } from '@tresjs/core'
-import { OrbitControls } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
 import { ref } from 'vue'
-
-function enter(ev: ThreeEvent<PointerEvent>) {
-  ev.eventObject.material.color.set('#00F')
-}
+import type { ThreeEvent } from '@tresjs/core'
 
 function over(ev: ThreeEvent<PointerEvent>) {
   ev.eventObject.material.color.set('#00F')
-}
-
-function leave(ev: ThreeEvent<PointerEvent>) {
-  ev.eventObject.material.color.set(ev.eventObject.color)
 }
 
 function out(ev: ThreeEvent<PointerEvent>) {

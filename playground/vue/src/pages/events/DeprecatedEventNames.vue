@@ -1,17 +1,15 @@
 <!-- eslint-disable no-console -->
 <script setup lang="ts">
-import type { ThreeEvent } from '@tresjs/core'
 import { OrbitControls } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
+import type { ThreeEvent } from '@tresjs/core'
 import '@tresjs/leches/styles'
 
 function onClick(ev: ThreeEvent<MouseEvent>) {
-  console.log('click', ev)
   ev.eventObject.material.color.set('#008080')
 }
 
 function onDoubleClick(ev: ThreeEvent<MouseEvent>) {
-  console.log('double-click', ev)
   ev.eventObject.material.color.set('#FFD700')
 }
 
@@ -28,12 +26,10 @@ function onPointerMove(ev: ThreeEvent<MouseEvent>) {
 }
 
 function onContextMenu(ev: ThreeEvent<MouseEvent>) {
-  console.log('context-menu', ev)
   ev.eventObject.material.color.set('#FF4500')
 }
 
 function onPointerMissed(ev: ThreeEvent<MouseEvent>) {
-  console.log('pointer-missed', ev)
   ev.eventObject.material.color.set('#000')
 }
 </script>
@@ -52,6 +48,9 @@ function onPointerMissed(ev: ThreeEvent<MouseEvent>) {
     <p>Now Tres has adopted the Vue naming convention for supported events.</p>
     <p>Old-style hyphenated events will still respond, though they will generate a console warning in dev mode the first time they're encountered in a scene.</p>
     <p>The developper should take care not to mix hyphenated and non-hyphenated event names.</p>
+    <h2>NOTE</h2>
+    <p>Vue event modifiers do not work with deprecated event names, e.g.:</p>
+    <p><code>@pointer-down.stop="..."</code></p>
   </OverlayInfo>
   <TresCanvas
     window-size

@@ -1,8 +1,8 @@
 <!-- eslint-disable no-console -->
 <script setup lang="ts">
-import type { ThreeEvent } from '@tresjs/core'
 import { OrbitControls } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
+import type { ThreeEvent } from '@tresjs/core'
 import '@tresjs/leches/styles'
 
 const msgs0 = ref(['Mouse over cube'])
@@ -12,7 +12,7 @@ const MAX_NUM_MSGS = 10
 
 const getColor = (i: number) => i % 5 === 0 ? 'gray' : 'black'
 
-let [n0, n1, n2] = [0, 0, 0]
+let [n0, n1, n2, n3] = [0, 0, 0, 0]
 
 const unshiftMsg0 = (...msg: string[]) => {
   n0++
@@ -30,8 +30,16 @@ const unshiftMsg1 = (...msg: string[]) => {
   }
 }
 
-const unshiftMsgError = (...msg: string[]) => {
+const unshiftMsg2 = (...msg: string[]) => {
   n2++
+  msgs2.value.unshift(msg.join(', '))
+  while (msgs2.value.length > MAX_NUM_MSGS) {
+    msgs2.value.pop()
+  }
+}
+
+const unshiftMsgError = (...msg: string[]) => {
+  n3++
   msgs2.value.unshift(msg.join(', '))
   while (msgs2.value.length > MAX_NUM_MSGS) {
     msgs2.value.pop()
@@ -50,6 +58,10 @@ function fnStopEventModifier(e: ThreeEvent<any>, handlerName: string) {
 function fnError(e: ThreeEvent<any>, handlerName: string) {
   unshiftMsgError('❌ NOT STOPPED', handlerName, `${e.object?.name ?? 'none'} => ${e.eventObject.name}`)
 }
+
+function fnOkNotBubbled(e: ThreeEvent<any>, handlerName: string) {
+  unshiftMsg2('✅ heard, not bubbled', handlerName)
+}
 </script>
 
 <template>
@@ -66,11 +78,11 @@ function fnError(e: ThreeEvent<any>, handlerName: string) {
       <li>- TresMesh "Emitter with event modifier `.stop`"</li>
     </ul>
     <p>
-      Interacting with either Mesh causes events to be fired. But the events are stopped before propagating to "Listener".
+      Interacting with either Mesh causes events to be fired. But the events should be stopped (if they are bubbled) before propagating to "Listener".
     </p>
     <hr />
-    <h3>Errors (from listener)</h3>
-    <p v-if="!n2">✅ No errors yet.</p>
+    <h3>Event messages from listener</h3>
+    <p v-if="!n3">✅ No errors yet.</p>
     <ul><li v-for="msg, i of msgs2" :key="i" :style="{ color: getColor(n2 - i) }">{{ msg }}</li></ul>
     <hr />
     <h3>`.stop` event modifier Messages (from sphere events)</h3>
@@ -96,14 +108,14 @@ function fnError(e: ThreeEvent<any>, handlerName: string) {
       @click="(e) => fnError(e, '@click')"
       @contextmenu="(e) => fnError(e, '@contextmenu')"
       @dblclick="(e) => fnError(e, '@dblclick')"
-      @pointerenter="(e) => fnError(e, '@pointerenter')"
-      @pointerleave="(e) => fnError(e, '@pointerleave')"
+      @pointerenter="(e) => fnOkNotBubbled(e, '@pointerenter')"
+      @pointerleave="(e) => fnOkNotBubbled(e, '@pointerleave')"
       @pointerover="(e) => fnError(e, '@pointerover')"
       @pointerout="(e) => fnError(e, '@pointerout')"
       @pointermove="(e) => fnError(e, '@pointermove')"
       @pointerdown="(e) => fnError(e, '@pointerdown')"
       @pointerup="(e) => fnError(e, '@pointerup')"
-      @pointermissed="(e) => fnError(e, '@pointermissed')"
+      @pointermissed="(e) => fnOkNotBubbled(e, '@pointermissed')"
       @wheel="(e) => fnError(e, '@wheel')"
     >
       <TresMesh

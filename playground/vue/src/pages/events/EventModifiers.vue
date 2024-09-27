@@ -1,9 +1,9 @@
 <!-- eslint-disable no-console -->
 <script setup lang="ts">
-import type { ThreeEvent } from '@tresjs/core/types'
 import { Box, Cylinder, Sphere } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
 import { Color } from 'three'
+import type { ThreeEvent } from '@tresjs/core/types'
 
 const COLORS = 'red|orange|yellow|green|blue|purple'.split('|')
 

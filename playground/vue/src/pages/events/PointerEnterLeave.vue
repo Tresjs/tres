@@ -1,9 +1,9 @@
 <!-- eslint-disable no-console -->
 <script setup lang="ts">
-import type { ThreeEvent } from '@tresjs/core'
 import { Box, OrbitControls } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
 import { BasicShadowMap, BoxGeometry, MeshToonMaterial, NoToneMapping, SRGBColorSpace } from 'three'
+import type { ThreeEvent } from '@tresjs/core'
 import '@tresjs/leches/styles'
 
 const gl = {

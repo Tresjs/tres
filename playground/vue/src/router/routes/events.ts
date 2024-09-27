@@ -27,11 +27,11 @@ export const eventsRoutes = [
   {
     path: '/events/pointer-over-out',
     name: 'Pointerover/out comparison with Vue DOM',
-    component: () => import('../../pages/events/PointerOverOut.vue'),
+    component: () => import('../../pages/events/PointerEnterLeaveOverOutComparison.vue'),
   },
   {
     path: '/events/stop-propagation',
-    name: 'PointerEnter/StopPropagation',
+    name: 'StopPropagation',
     component: () => import('../../pages/events/StopPropagation.vue'),
   },
   {
