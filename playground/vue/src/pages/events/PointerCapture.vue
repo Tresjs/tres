@@ -7,15 +7,19 @@ import type { ThreeEvent } from '@tresjs/core'
 
 const r = (radius: number) => radius * 2 * (Math.random() - 0.5)
 
-const RADIUS = 50
-const COUNT = 100
+const RADIUS = 20
+const COUNT = 250
 const MATERIALS = ['red', 'orange', 'yellow', 'green', 'blue', 'purple'].map(s => new MeshPhongMaterial({ color: s }))
 const DRAG_MATERIAL = new MeshBasicMaterial({ color: 'white' })
 
 const positions: Vector3[] = []
 
 for (let i = 0; i < COUNT; i++) {
-  positions.push(new Vector3(r(RADIUS), r(RADIUS * 0.5), r(RADIUS)))
+  positions.push(new Vector3(
+    Math.cos(i * 0.03) * RADIUS + r(10),
+    Math.sin(i * 0.17) * RADIUS,
+    Math.sin(i * 0.07 + 1.2) * RADIUS + r(5),
+  ))
 }
 
 const isDragging = ref(false)
@@ -60,7 +64,7 @@ function onDragStop(e: ThreeEvent<any>) {
   <TresCanvas window-size clear-color="gray">
     <OrbitControls :enabled="!isDragging" />
     <TresPerspectiveCamera
-      :position="[0, 75, 75]"
+      :position="[0, 5, 55]"
       :look-at="[0, 0, 0]"
     />
     <TresGroup>
@@ -69,7 +73,6 @@ function onDragStop(e: ThreeEvent<any>) {
         :key="i"
         :position="pos"
         :material="MATERIALS[i % 6]"
-        :scale="2"
         @pointerdown="onDragStart"
         @pointermove="onDrag"
         @lostpointercapture="onDragStop"

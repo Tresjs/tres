@@ -1641,7 +1641,7 @@ describe('eventsRaycast', () => {
       })
     })
     describe('when a pointer is captured', () => {
-      it('adds captured object intersections to the front of `event.intersections`', () => {
+      it('adds the captured object intersection to the end of `event.intersections` if it was not otherwise hit', () => {
         const mock = mockTresUsingEventManagerProps()
         const { m, n, o, p } = mock.add.DAG('m; n; o; p')
         mock.add.eventsTo(m)
@@ -1657,37 +1657,20 @@ describe('eventsRaycast', () => {
 
         mock.apply('pointerdown').to([m])
         mock.apply('pointermove').to([n])
-        expect(getLast('pointermove').on(n).intersections.length).toBe(2)
-        expect(getLast('pointermove').on(n).intersections[0].eventObject).toBe(m)
+        expect(getLast('pointermove').on(n).intersections.map(intr => intr.eventObject.name).join('')).toBe('nm')
 
         mock.apply('pointermove').to([n, o])
-        expect(getLast('pointermove').on(n).intersections.length).toBe(3)
-        expect(getLast('pointermove').on(n).intersections[0].eventObject).toBe(m)
+        expect(getLast('pointermove').on(n).intersections.map(intr => intr.eventObject.name).join('')).toBe('nom')
 
         // NOTE: This adds p to pointer capture
         mock.apply('pointermove').to([n, p])
-        expect(getLast('pointermove').on(n).intersections[0].eventObject.name).toBe('m')
-        expect(getLast('pointermove').on(n).intersections[1].eventObject.name).toBe('n')
-        expect(getLast('pointermove').on(n).intersections[2].eventObject.name).toBe('p')
+        expect(getLast('pointermove').on(n).intersections.map(intr => intr.eventObject.name).join('')).toBe('npm')
 
         mock.apply('pointermove').to([n, o, m, p])
-        expect(getLast('pointermove').on(n).intersections.length).toBe(4)
-        expect(getLast('pointermove').on(n).intersections[0].eventObject.name).toBe('p')
-        expect(getLast('pointermove').on(n).intersections[1].eventObject.name).toBe('m')
-        expect(getLast('pointermove').on(n).intersections[2].eventObject.name).toBe('n')
-        expect(getLast('pointermove').on(n).intersections[3].eventObject.name).toBe('o')
+        expect(getLast('pointermove').on(n).intersections.map(intr => intr.eventObject.name).join('')).toBe('nomp')
 
-        mock.apply('pointermove').to([n, o])
-        expect(getLast('pointermove').on(n).intersections.length).toBe(4)
-        expect(getLast('pointermove').on(n).intersections[0].eventObject.name).toBe('p')
-        expect(getLast('pointermove').on(n).intersections[1].eventObject.name).toBe('m')
-        expect(getLast('pointermove').on(n).intersections[2].eventObject.name).toBe('n')
-        expect(getLast('pointermove').on(n).intersections[3].eventObject.name).toBe('o')
-
-        mock.apply('pointermove').to([])
-        expect(getLast('pointermove').on(m).intersections.length).toBe(2)
-        expect(getLast('pointermove').on(m).intersections[0].eventObject.name).toBe('p')
-        expect(getLast('pointermove').on(m).intersections[1].eventObject.name).toBe('m')
+        mock.apply('pointermove').to([o])
+        expect(getLast('pointermove').on(o).intersections.map(intr => intr.eventObject.name).join('')).toBe('omp')
       })
       it('calls object\'s event handlers, if they exist, even if the object is not hit', () => {
         const mock = mockTresUsingEventManagerProps()
@@ -1705,6 +1688,72 @@ describe('eventsRaycast', () => {
         mock.apply('pointermove').to([])
         expect(getLast('pointermove').on(g)).not.toBeNull()
         expect(getLast('pointermove').on(m)).not.toBeNull()
+      })
+      it('calls object\'s event handlers, if they exist, even if `stopPropagation` is called', () => {
+        const mock = mockTresUsingEventManagerProps()
+        const { m, n, o } = mock.add.DAG('m; n; o')
+        mock.add.eventsTo(m)
+        mock.add.eventsTo(n)
+        mock.nodeOps.patchProp(m, 'onPointerdown', undefined, (e) => {
+          e.eventObject.setPointerCapture(e.pointerId)
+        })
+        mock.nodeOps.patchProp(n, 'onPointerdown', undefined, (e) => {
+          e.eventObject.setPointerCapture(e.pointerId)
+        })
+        mock.nodeOps.patchProp(o, 'onPointermove', undefined, (e) => {
+          e.stopPropagation()
+        })
+
+        mock.apply('pointerdown').to([m, n])
+
+        expect(getLast('pointermove').on(m)).toBeNull()
+        expect(getLast('pointermove').on(n)).toBeNull()
+        mock.apply('pointermove').to([o])
+        expect(getLast('pointermove').on(m)).not.toBeNull()
+        expect(getLast('pointermove').on(n)).not.toBeNull()
+      })
+      it('calls object\'s event handlers, if they exist, even if objects are `:blocking`', () => {
+        const mock = mockTresUsingEventManagerProps()
+        const { g, m, n, o } = mock.add.DAG('g -> m; g -> n; g -> o')
+        mock.add.eventsTo(m)
+        mock.add.eventsTo(n)
+        mock.nodeOps.patchProp(g, 'blocking', undefined, true)
+
+        const capture = e => e.eventObject.setPointerCapture(e.pointerId)
+        mock.nodeOps.patchProp(m, 'onPointerdown', undefined, capture)
+        mock.nodeOps.patchProp(n, 'onPointerdown', undefined, capture)
+
+        mock.apply('pointerdown').to([m, n])
+
+        expect(getLast('pointermove').on(m)).toBeNull()
+        expect(getLast('pointermove').on(n)).toBeNull()
+        mock.apply('pointermove').to([o])
+        expect(getLast('pointermove').on(m)).not.toBeNull()
+        expect(getLast('pointermove').on(n)).not.toBeNull()
+      })
+      it('bubbles events from captured objects', () => {
+        const mock = mockTresUsingEventManagerProps()
+        const { m, n, o } = mock.add.DAG('m -> n; n -> o')
+        mock.add.eventsTo(m)
+        mock.add.eventsTo(n)
+        mock.add.eventsTo(o)
+        mock.nodeOps.patchProp(o, 'onPointerdown', undefined, (e) => {
+          e.eventObject.setPointerCapture(e.pointerId)
+        })
+
+        mock.apply('pointerdown').to([o])
+
+        expect(getLast('pointermove').on(m)).toBeNull()
+        expect(getLast('pointermove').on(n)).toBeNull()
+        mock.apply('pointermove').to([])
+        expect(getLast('pointermove').on(m)).not.toBeNull()
+        expect(getLast('pointermove').on(n)).not.toBeNull()
+
+        expect(getLast('contextmenu').on(m)).toBeNull()
+        expect(getLast('contextmenu').on(n)).toBeNull()
+        mock.apply('contextmenu').to([])
+        expect(getLast('contextmenu').on(m)).not.toBeNull()
+        expect(getLast('contextmenu').on(n)).not.toBeNull()
       })
       it('calls pointer{over,out,enter,leave}', () => {
         const mock = mockTresUsingEventManagerProps()
@@ -1959,7 +2008,7 @@ describe('eventsRaycast', () => {
         mock.apply('pointercancel').to([])
         expect(getLast('lostpointercapture').on(m)).not.toBeNull()
       })
-      it('is called with expected event object fields', () => {
+      it('is called with an object having the expected fields', () => {
         const mock = mockTresUsingEventManagerProps()
         const { m } = mock.add.DAG('m')
         mock.add.eventsTo(m)
@@ -1975,12 +2024,16 @@ describe('eventsRaycast', () => {
         mock.apply('pointercancel').to([])
 
         expect(event.type).toBe('lostpointercapture')
-        expect(event.target.uuid).toBe(m.uuid)
+        expect(event.eventObject).toBe(m)
+        expect(event.object).toBe(m)
+        expect(event.currentTarget).toBe(m)
+        expect(event.target).toBe(m)
       })
       it('is not called on objects that don\'t have the pointer capture', () => {
         const mock = mockTresUsingEventManagerProps()
         const { m, n } = mock.add.DAG('m; n')
-        mock.add.eventsTo(m, n)
+        mock.add.eventsTo(m)
+        mock.add.eventsTo(n)
         mock.nodeOps.patchProp(m, 'onPointerdown', undefined, (e) => {
           e.eventObject.setPointerCapture(e.pointerId)
         })

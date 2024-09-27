@@ -359,16 +359,17 @@ function handleIntersections(incomingEvent: RaycastEvent, intersections: ThreeIn
   // The `hits` Set typically includes all `intersections`
   // objects and their ancestors.
   // 2) Create an outgoing event "stub" with the fields
-  // common to all events handlers will receive.
-  // 3) Call event handlers
-  // 4) Release the pointer, if necessary
-  // 5) `null` the event
+  // common to all events handlers.
+  // 3) Call event handlers.
+  // 4) Release the pointer, if necessary.
+  // 5) `null` the event.
 
   // NOTE:
   // 0) Add captured intersections if pointer is captured.
-  if ('pointerId' in incomingEvent && config.pointerToCapturedEvents.has(incomingEvent.pointerId)) {
+  const HAS_CAPTURED_POINTER = ('pointerId' in incomingEvent && config.pointerToCapturedEvents.has(incomingEvent.pointerId))
+  if (HAS_CAPTURED_POINTER) {
     for (const intersection of config.pointerToCapturedEvents.get(incomingEvent.pointerId)!) {
-      intersections.unshift({
+      intersections.push({
         // TODO: add rest of intersection
         eventObject: intersection.currentTarget,
         object: intersection.currentTarget,
@@ -495,8 +496,16 @@ function handleIntersections(incomingEvent: RaycastEvent, intersections: ThreeIn
     },
   )
 
-  outgoingEvent.stopPropagation = () => { outgoingEvent.stopped = true; incomingEvent.stopPropagation() }
+  // NOTE: If the pointer is captured, we must deliver
+  // pointer events to capturing objects. So we will
+  // turn off `stopPropagation` for Tres events.
+  outgoingEvent.stopPropagation = HAS_CAPTURED_POINTER
+    ? () => { incomingEvent.stopPropagation() }
+    : () => { outgoingEvent.stopped = true; incomingEvent.stopPropagation() }
 
+  // NOTE: Set the `capturableEvent`. If this is left
+  // as falsy, it does not allow capturing within
+  // event handlers.
   if (incomingEvent.type.startsWith('pointer') && !(incomingEvent.type === 'pointerup' || incomingEvent.type === 'pointercancel')) {
     config.capturableEvent = outgoingEvent as ThreeEvent<PointerEvent>
   }
