@@ -72,19 +72,7 @@ const DOM_NATIVE_CALL: { domEvent: DomEventName, nativeEvent: PointerEvent | Mou
   },
 }, {
   domEvent: 'pointermissed',
-  nativeEvent: mockEvt('click'),
-  call: (mock, nativeEvent, _objs) => {
-    mock.apply(nativeEvent).to([])
-  },
-}, {
-  domEvent: 'pointermissed',
-  nativeEvent: mockEvt('contextmenu'),
-  call: (mock, nativeEvent, _objs) => {
-    mock.apply(nativeEvent).to([])
-  },
-}, {
-  domEvent: 'pointermissed',
-  nativeEvent: mockEvt('dblclick'),
+  nativeEvent: mockEvt('pointerup'),
   call: (mock, nativeEvent, _objs) => {
     mock.apply(nativeEvent).to([])
   },
@@ -570,61 +558,53 @@ describe('eventsRaycast', () => {
     })
 
     describe('pointermissed', () => {
-      describe.each(
-        [
-          { domEvent: 'click' },
-          { domEvent: 'contextmenu' },
-          { domEvent: 'dblclick' },
-        ] as { domEvent: DomEventName }[],
-      )('$domEvent', ({ domEvent }) => {
-        it('calls `pointermissed` on all elements in subtrees that were not hit', () => {
-          const mock = mockTresUsingEventManagerProps()
-          // NOTE: Names in DAG
-          //
-          // Prefixes denote type:
-          // `g` is a `TresGroup`
-          // `m` is a `TresMesh`
-          //
-          // Suffixes denote descendence:
-          // Parent -> child -> grandchild -> etc.
-          // A -> AB -> ABD -> ABDE
-          // A -> AC
-          const { gA, mAB, mAC, mABDE } = mock.add.DAG('gA -> mAB mAC; mAB -> gABD; gABD -> mABDE')
+      it('calls `pointermissed` on all elements in subtrees that were not hit', () => {
+        const mock = mockTresUsingEventManagerProps()
+        // NOTE: Names in DAG
+        //
+        // Prefixes denote type:
+        // `g` is a `TresGroup`
+        // `m` is a `TresMesh`
+        //
+        // Suffixes denote descendence:
+        // Parent -> child -> grandchild -> etc.
+        // A -> AB -> ABD -> ABDE
+        // A -> AC
+        const { gA, mAB, mAC, mABDE } = mock.add.DAG('gA -> mAB mAC; mAB -> gABD; gABD -> mABDE')
 
-          const gASpies = mock.add.eventsTo(gA)
-          const mABSpies = mock.add.eventsTo(mAB)
-          const mACSpies = mock.add.eventsTo(mAC)
-          const mABDESpies = mock.add.eventsTo(mABDE)
+        const gASpies = mock.add.eventsTo(gA)
+        const mABSpies = mock.add.eventsTo(mAB)
+        const mACSpies = mock.add.eventsTo(mAC)
+        const mABDESpies = mock.add.eventsTo(mABDE)
 
-          expect(gASpies.onPointermissed).toBeCalledTimes(0)
-          expect(mABSpies.onPointermissed).toBeCalledTimes(0)
-          expect(mACSpies.onPointermissed).toBeCalledTimes(0)
-          expect(mABDESpies.onPointermissed).toBeCalledTimes(0)
+        expect(gASpies.onPointermissed).toBeCalledTimes(0)
+        expect(mABSpies.onPointermissed).toBeCalledTimes(0)
+        expect(mACSpies.onPointermissed).toBeCalledTimes(0)
+        expect(mABDESpies.onPointermissed).toBeCalledTimes(0)
 
-          // NOTE: We're going to "hit" `mABDE`.
-          // Ancestors `mA`, `mABD` are also "hit".
-          // `mAC` is "missed".
-          mock.apply(domEvent).to([mABDE])
+        // NOTE: We're going to "hit" `mABDE`.
+        // Ancestors `mA`, `mABD` are also "hit".
+        // `mAC` is "missed".
+        mock.apply('pointerup').to([mABDE])
 
-          expect(gASpies.onPointermissed).toBeCalledTimes(0)
-          expect(mABSpies.onPointermissed).toBeCalledTimes(0)
-          expect(mACSpies.onPointermissed).toBeCalledTimes(1)
-          expect(mABDESpies.onPointermissed).toBeCalledTimes(0)
+        expect(gASpies.onPointermissed).toBeCalledTimes(0)
+        expect(mABSpies.onPointermissed).toBeCalledTimes(0)
+        expect(mACSpies.onPointermissed).toBeCalledTimes(1)
+        expect(mABDESpies.onPointermissed).toBeCalledTimes(0)
 
-          vi.clearAllMocks()
-          mock.apply(domEvent).to([mAC])
-          expect(gASpies.onPointermissed).toBeCalledTimes(0)
-          expect(mABSpies.onPointermissed).toBeCalledTimes(1)
-          expect(mACSpies.onPointermissed).toBeCalledTimes(0)
-          expect(mABDESpies.onPointermissed).toBeCalledTimes(1)
+        vi.clearAllMocks()
+        mock.apply('pointerup').to([mAC])
+        expect(gASpies.onPointermissed).toBeCalledTimes(0)
+        expect(mABSpies.onPointermissed).toBeCalledTimes(1)
+        expect(mACSpies.onPointermissed).toBeCalledTimes(0)
+        expect(mABDESpies.onPointermissed).toBeCalledTimes(1)
 
-          vi.clearAllMocks()
-          mock.apply(domEvent).to([])
-          expect(gASpies.onPointermissed).toBeCalledTimes(1)
-          expect(mABSpies.onPointermissed).toBeCalledTimes(1)
-          expect(mACSpies.onPointermissed).toBeCalledTimes(1)
-          expect(mABDESpies.onPointermissed).toBeCalledTimes(1)
-        })
+        vi.clearAllMocks()
+        mock.apply('pointerup').to([])
+        expect(gASpies.onPointermissed).toBeCalledTimes(1)
+        expect(mABSpies.onPointermissed).toBeCalledTimes(1)
+        expect(mACSpies.onPointermissed).toBeCalledTimes(1)
+        expect(mABDESpies.onPointermissed).toBeCalledTimes(1)
       })
     })
     describe('wheel (DOM)', () => {
@@ -769,7 +749,7 @@ describe('eventsRaycast', () => {
         // NOTE: Stop propagation and check that handler is called anyway.
         mock.nodeOps.patchProp(gStopper, 'onPointermissed', undefined, e => e.stopPropagation())
         vi.clearAllMocks()
-        mock.apply('click').to([])
+        mock.apply('pointerup').to([])
         expect(gListenerSpies.onPointermissed).toBeCalled()
       })
     })
@@ -1870,7 +1850,6 @@ describe('eventsRaycast', () => {
         OBJECTS_TO_RELEASE = [m]
         OBJECTS_TO_CAPTURE = [n]
         mock.apply('pointermove').to([n])
-        expect(mock.context.eventManager.config.pointerToCapturedObjects.get(POINTER_ID).size).toBe(1)
         expect(m.hasPointerCapture(POINTER_ID)).toBe(false)
         expect(n.hasPointerCapture(POINTER_ID)).toBe(true)
         expect(mock.canvas.hasPointerCapture(POINTER_ID)).toBe(true)
