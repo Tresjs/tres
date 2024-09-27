@@ -40,14 +40,13 @@ type RaycastProps = CreateEventManagerProps<
 >
 type Config = ReturnType<typeof getInitialConfig>
 
-export interface PointerCaptureTarget {
+interface PointerCaptureTarget {
   event: ThreeEvent<PointerEvent>
   target: Element
 }
 
 function getInitialConfig(context: TresContext) {
   return {
-    DEBUG: [],
     context,
 
     isEventsDirty: true,
@@ -285,9 +284,6 @@ function releasePointerCapture(pointerId: number, instance: TresObject, config: 
 
     if (instance && 'onLostpointercapture' in instance && is.fun(instance.onLostpointercapture)) {
       const event = { ...removedEvent }
-      for (const fieldToRemove of ['stopPropagation', 'preventDefault']) {
-        delete event[fieldToRemove]
-      }
       event.type = 'lostpointercapture'
       instance.onLostpointercapture(event)
     }
@@ -303,7 +299,7 @@ function releasePointerCapture(pointerId: number, instance: TresObject, config: 
 }
 
 function hasPointerCapture(pointerId: number, instance: TresObject, config: Config) {
-  return config.pointerToCapturedObjects.get(pointerId)?.has(instance)
+  return !!(config.pointerToCapturedObjects.get(pointerId)?.has(instance))
 }
 
 function remove(instance: TresObject, config: Config) {
@@ -347,14 +343,13 @@ function remove(instance: TresObject, config: Config) {
   handleIntersections(getLastEvent(config), intersections, config)
 
   // NOTE: Remove the remaining traces of the object and descendants
-  config.priorHits.delete(instance)
+  config.priorHits.delete(instance as Object3D)
 
   config.isEventsDirty = true
 }
 
 function handleIntersections(incomingEvent: RaycastEvent, intersections: ThreeIntersection[], config: Config) {
   // NOTE: STRUCTURE OF THIS FUNCTION BODY
-  // 0) Add captured intersections if pointer is captured.
   // 1) Gather `hits`, `hitsEntered` and `hitsLeft`.
   // The `hits` Set typically includes all `intersections`
   // objects and their ancestors.
@@ -364,38 +359,7 @@ function handleIntersections(incomingEvent: RaycastEvent, intersections: ThreeIn
   // 4) Release the pointer, if necessary.
   // 5) `null` the event.
 
-  // NOTE:
-  // 0) Add captured intersections if pointer is captured.
   const HAS_CAPTURED_POINTER = ('pointerId' in incomingEvent && config.pointerToCapturedEvents.has(incomingEvent.pointerId))
-  if (HAS_CAPTURED_POINTER) {
-    for (const intersection of config.pointerToCapturedEvents.get(incomingEvent.pointerId)!) {
-      intersections.push({
-        // TODO: add rest of intersection
-        eventObject: intersection.currentTarget,
-        object: intersection.currentTarget,
-      })
-    }
-  }
-
-  /*
-  // NOTE:
-  // If there are objects with pointer capture that weren't
-  // hit by the raycaster, add them so that their event
-  // handlers are called.
-  if (HAS_CAPTURED_POINTER) {
-    for (const capturingObject of config.pointerToCapturedObjects.get(incomingEvent.pointerId)!) {
-      if (!hits.has(capturingObject as Object3D)) {
-        hits.add(capturingObject as Object3D)
-        eventIntersections.push({
-          eventObject: capturingObject,
-          object: capturingObject,
-          currentTarget: capturingObject,
-          target: capturingObject,
-        })
-      }
-    }
-  }
-  */
 
   // NOTE:
   // 1) Gather `hits`
@@ -407,37 +371,76 @@ function handleIntersections(incomingEvent: RaycastEvent, intersections: ThreeIn
   // and THREE.Intersections: [childA, parentB]
   // bubble/`hits` order is: [childA, parentA, gparent, parentB]
   //
-  // `event.intersections` order is (showing `intersection.eventObject`):
-  // [childA, parentA, gparent, parentB, gparent]
-  // (assuming all objects have events attached)
-  //
   // Blocking
   // We will also watch for "blocking" (solid) objects.
   // To pretend that "blocking" objects don't allow raycasting
   // to continue behind them, we'll stop processing intersections
   // after we see one containing a "blocking" object.
+
+  /**
+   * @description Holds all objects that were hit by the
+   * raycaster ray *and* their ancestors. If the pointer is
+   * captured, also includes capturing objects and their
+   * ancestors.
+   */
   const hits = new Set<Object3D>()
+
+  /**
+   * @description Holds all objects that were hit directly
+   * by the raycaster ray *but not* their ancestors (unless
+   * the ancestors were also directly hit by the ray). If
+   * the pointer is captured, also includes capturing objects.
+   */
+  const initialHits = new Set<Object3D>()
+
+  /**
+   * @description Holds all objects that were previously "hit"
+   * but are no longer "hit".
+   */
   const hitsLeft = config.priorHits
+
+  /**
+   * @description Holds all objects that were not previously
+   * "hit" are now "hit".
+   */
   const hitsEntered = new Set<Object3D>()
 
-  const initialHits = new Set<Object3D>()
-  const filteredIntersections = []
-  const eventIntersections = []
+  /**
+   * @description Outgoing `event.intersections` value.
+   * Includes incoming intersections (unless filtered out)
+   * and their ancestors. Also includes capturing objects
+   * and ancestors if the pointer is captured.
+   * @example graph: `gparent => parentA, parentB ; parentA => childA`
+   * intersections: `[childA, parentB]`
+   * eventIntersections: `[childA, parentA, gparent, parentB, gparent]`
+   * // (assuming all objects have events attached)
+   */
+  const eventIntersections: (ThreeIntersection & { eventObject: TresObject })[] = []
 
-  let obj: TresObject | null = null
-  let hasBlockingObject = false
-  for (const intersection of intersections) {
-    obj = intersection.object
+  const capturingIntersectionsStartI = intersections.length
+
+  if (HAS_CAPTURED_POINTER) {
+    for (const event of config.pointerToCapturedEvents.get(incomingEvent.pointerId)!) {
+      intersections.push({
+        // TODO: add rest of intersection
+        eventObject: event.currentTarget as Object3D,
+        object: event.currentTarget as Object3D,
+      })
+    }
+  }
+
+  for (let i = 0; i < intersections.length; i++) {
+    const intersection = intersections[i]
+    let obj: Object3D | null = intersection.object
     initialHits.add(obj)
     if (hits.has(obj)) {
+      intersections.splice(i, 1)
+      i--
       continue
     }
-    filteredIntersections.push(intersection)
+
     while (obj) {
-      if (config.blockingObjects.has(obj)) {
-        hasBlockingObject = true
-      }
-      if (obj.__tres?.eventCount) {
+      if ((obj as TresObject).__tres?.eventCount) {
         eventIntersections.push({ ...intersection, eventObject: obj })
       }
       if (!hits.has(obj)) {
@@ -449,14 +452,19 @@ function handleIntersections(incomingEvent: RaycastEvent, intersections: ThreeIn
           hitsEntered.add(obj)
         }
       }
+      if (config.blockingObjects.has(obj)) {
+        // NOTE: This is a blocking object.
+        // We pretend that this object is solid by *not*
+        // processing any more new intersections after it.
+        // Except ...
+        // we *must* process capturing intersections,
+        // if there are any. They must hear the event.
+        // So ...
+        // if necessary, move `i` forward to
+        // the start of the capturing intersections.
+        i = Math.max(i, capturingIntersectionsStartI - 1)
+      }
       obj = obj.parent
-    }
-    if (hasBlockingObject) {
-      // NOTE: We've found a blocking object.
-      // We pretend it's "solid" and doesn't allow
-      // raycaster rays to continue "behind it".
-      // So we'll stop adding intersections.
-      break
     }
   }
 
@@ -464,6 +472,7 @@ function handleIntersections(incomingEvent: RaycastEvent, intersections: ThreeIn
   // 2) Create the outgoing event "stub".
   // This includes fields that all subsequent
   // event handler calls will need.
+
   const distance = (incomingEvent.type === 'click' || incomingEvent.type === 'contextmenu' || incomingEvent.type === 'dblclick' || incomingEvent.type === 'pointerup')
     ? Math.sqrt(((incomingEvent.offsetX - config.pointerDownPosition.x) ** 2) + ((incomingEvent.offsetY - config.pointerDownPosition.y) ** 2))
     : 0
@@ -535,13 +544,11 @@ function handleIntersections(incomingEvent: RaycastEvent, intersections: ThreeIn
   if (hitsLeft.size) {
     // NOTE: Propagate `pointerleave`
     // `pointerleave` is not bubbled and cannot be stopped with `stopPropagation`.
-    // TODO: Should use config.priorHits, not config.priorIntersections
     callIntersectionObjectsIf('pointerleave', outgoingEvent, config.priorIntersections, (obj: Object3D) => { return hitsLeft.has(obj) })
   }
 
   {
     // NOTE: Bubble `pointerout`
-    // NOTE: Should use config.initialHits, not config.priorIntersections
     const duplicates = new Set()
     outgoingEvent.stopped = false
     for (const intersection of config.priorIntersections) {
@@ -566,7 +573,6 @@ function handleIntersections(incomingEvent: RaycastEvent, intersections: ThreeIn
   }
 
   if (hitsEntered.size) {
-    // TODO: Should use config.initialHits, not intersections
     callIntersectionObjectsIf('pointerenter', outgoingEvent, intersections, (obj: Object3D) => { return hitsEntered.has(obj) })
   }
 
@@ -574,7 +580,7 @@ function handleIntersections(incomingEvent: RaycastEvent, intersections: ThreeIn
     // NOTE: Bubble pointerover
     const duplicates = new Set()
     outgoingEvent.stopped = false
-    for (const intersection of filteredIntersections) {
+    for (const intersection of intersections) {
       if (outgoingEvent.stopped) { break }
 
       let object: TresObject | null = intersection.object
@@ -620,7 +626,7 @@ function handleIntersections(incomingEvent: RaycastEvent, intersections: ThreeIn
     }
   }
 
-  config.priorIntersections = filteredIntersections
+  config.priorIntersections = intersections
   config.priorInitialHits = initialHits
   config.priorHits = hits
 
@@ -629,7 +635,7 @@ function handleIntersections(incomingEvent: RaycastEvent, intersections: ThreeIn
     && config.pointerToCapturedObjects.has((incomingEvent as PointerEvent).pointerId)) {
     const pointerId = (incomingEvent as PointerEvent).pointerId
     for (const object of config.pointerToCapturedObjects.get(pointerId)!) {
-      releasePointerCapture(pointerId, object, config, outgoingEvent)
+      releasePointerCapture(pointerId, object, config)
     }
   }
 

@@ -1719,11 +1719,13 @@ describe('eventsRaycast', () => {
         mock.add.eventsTo(n)
         mock.nodeOps.patchProp(g, 'blocking', undefined, true)
 
-        const capture = e => e.eventObject.setPointerCapture(e.pointerId)
+        const capture = (e) => { e.eventObject.setPointerCapture(e.pointerId) }
         mock.nodeOps.patchProp(m, 'onPointerdown', undefined, capture)
         mock.nodeOps.patchProp(n, 'onPointerdown', undefined, capture)
 
-        mock.apply('pointerdown').to([m, n])
+        // NOTE: m and n capture pointer here.
+        mock.apply('pointerdown').to([m])
+        mock.apply('pointerdown').to([n])
 
         expect(getLast('pointermove').on(m)).toBeNull()
         expect(getLast('pointermove').on(n)).toBeNull()
@@ -2031,7 +2033,8 @@ describe('eventsRaycast', () => {
       })
       it('is not called on objects that don\'t have the pointer capture', () => {
         const mock = mockTresUsingEventManagerProps()
-        const { m, n } = mock.add.DAG('m; n')
+        const { g, m, n } = mock.add.DAG('g -> m; n')
+        mock.add.eventsTo(g)
         mock.add.eventsTo(m)
         mock.add.eventsTo(n)
         mock.nodeOps.patchProp(m, 'onPointerdown', undefined, (e) => {
@@ -2040,8 +2043,10 @@ describe('eventsRaycast', () => {
 
         mock.apply('pointerdown').to([m])
         expect(getLast('lostpointercapture').on(n)).toBeNull()
+        expect(getLast('lostpointercapture').on(g)).toBeNull()
         mock.apply('pointercancel').to([])
         expect(getLast('lostpointercapture').on(n)).toBeNull()
+        expect(getLast('lostpointercapture').on(g)).toBeNull()
       })
     })
   })
