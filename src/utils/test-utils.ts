@@ -1,5 +1,5 @@
-import { createApp } from 'vue'
 import type { Fn } from '@vueuse/core'
+import { createApp } from 'vue'
 
 export function withSetup(composable: Fn) {
   let result

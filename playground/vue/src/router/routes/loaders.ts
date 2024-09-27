@@ -9,4 +9,9 @@ export const loaderRoutes = [
     name: 'FBX Loader',
     component: () => import('../../pages/loaders/fbx-loader/index.vue'),
   },
+  {
+    path: '/loader/component',
+    name: 'Loader Component',
+    component: () => import('../../pages/loaders/componentDemo.vue'),
+  },
 ]
