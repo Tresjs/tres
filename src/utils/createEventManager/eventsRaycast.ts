@@ -132,7 +132,7 @@ function getIntersectionsPool(_event: RaycastEvent, config: Config) {
   // of hit-tested objects.
 
   if (config.isEventsDirty) {
-    function getIntersectionsPoolRecurHelper(object: Object3DWithEvents, hasEvents: boolean) {
+    function getIntersectionsPoolRecurHelper(object: Object3D, hasEvents: boolean) {
       // NOTE: We don't need to check for events if we're in a tree that `hasEvents`.
       if (!hasEvents) {
         for (const domEventName of DOM_EVENT_NAMES) {
@@ -172,7 +172,7 @@ function getIntersectionsPool(_event: RaycastEvent, config: Config) {
   return config.objectsWithEvents
 }
 
-function getIntersections(pool: Object3DWithEvents[], config: Config) {
+function getIntersections(pool: Object3D[], config: Config) {
   return config.raycaster.intersectObjects(pool, false)
 }
 
@@ -685,7 +685,7 @@ function callIntersectionObjectsIf(domEventName: DomEventName, event: ThreeEvent
     // NOTE: An event "is-a" `Intersection`,
     // so copy intersection values to the event.
     Object.assign(event, intersection)
-    let object: Object3DWithEvents | null = intersection.object
+    let object: Object3D | null = intersection.object
     while (object && !duplicates.has(object)) {
       duplicates.add(object)
       if (cond(object)) {
