@@ -29,9 +29,11 @@ jobs:
           SPONSORKIT_GITHUB_LOGIN: alvarosabu
 
       - name: Commit
-        uses: EndBug/add-and-commit@v5
+        uses: EndBug/add-and-commit@v9
         with:
-          message: "chore: update sponsors.svg"
-          add: "sponsorkit/sponsors.*"
+          author_name: GitHub Actions
+          author_email: 41898282+github-actions[bot]@users.noreply.github.com
+          message: 'chore: update sponsors.svg '
+          add: "sponsors.*"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

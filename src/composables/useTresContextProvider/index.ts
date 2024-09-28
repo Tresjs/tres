@@ -1,20 +1,21 @@
+import type { Camera, WebGLRenderer } from 'three'
+import type { ComputedRef, DeepReadonly, MaybeRef, MaybeRefOrGetter, Ref, ShallowRef } from 'vue'
+import type { RendererLoop } from '../../core/loop'
+import type { EmitEventFn, TresControl, TresObject, TresScene } from '../../types'
+import type { UseRendererOptions } from '../useRenderer'
 import { useFps, useMemory, useRafFn } from '@vueuse/core'
 import { Raycaster } from 'three'
 import { computed, inject, onUnmounted, provide, readonly, ref, shallowRef } from 'vue'
-import type { Camera, WebGLRenderer } from 'three'
-import type { ComputedRef, DeepReadonly, MaybeRef, MaybeRefOrGetter, Ref, ShallowRef } from 'vue'
 import { extend } from '../../core/catalogue'
 import { createRenderLoop } from '../../core/loop'
 import { type EventManager, useEventsOptions } from '../../utils/createEventManager'
 import { calculateMemoryUsage } from '../../utils/perf'
+
 import { useCamera } from '../useCamera'
 import { useRenderer } from '../useRenderer'
 import useSizes, { type SizesType } from '../useSizes'
-
+import { type TresEventManager, useTresEventManager } from '../useTresEventManager'
 import { useTresReady } from '../useTresReady'
-import type { RendererLoop } from '../../core/loop'
-import type { EmitEventFn, TresControl, TresObject, TresScene } from '../../types'
-import type { UseRendererOptions } from '../useRenderer'
 
 export interface InternalState {
   priority: Ref<number>
@@ -85,7 +86,6 @@ export function useTresContextProvider({
   scene,
   canvas,
   windowSize,
-  disableRender,
   rendererOptions,
   props,
   emit,
@@ -93,7 +93,6 @@ export function useTresContextProvider({
   scene: TresScene
   canvas: MaybeRef<HTMLCanvasElement>
   windowSize: MaybeRefOrGetter<boolean>
-  disableRender: MaybeRefOrGetter<boolean>
   rendererOptions: UseRendererOptions
   props: any
   emit: EmitEventFn
@@ -141,7 +140,6 @@ export function useTresContextProvider({
       emit,
       // TODO: replace contextParts with full ctx at https://github.com/Tresjs/tres/issues/516
       contextParts: { sizes, camera, render, invalidate, advance },
-      disableRender,
     },
   )
 

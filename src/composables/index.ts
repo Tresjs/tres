@@ -1,3 +1,4 @@
+import UseLoader from './useLoader/component.vue'
 import UseTexture from './useTexture/component.vue'
 
 export * from './useCamera/'
@@ -10,4 +11,4 @@ export * from './useSeek'
 export * from './useTexture'
 export * from './useTresContextProvider'
 export { onTresReady } from './useTresReady'
-export { UseTexture }
+export { UseLoader, UseTexture }

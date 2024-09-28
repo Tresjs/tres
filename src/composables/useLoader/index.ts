@@ -1,6 +1,6 @@
 import type { Loader, LoadingManager, Object3D } from 'three'
-import { useLogger } from '..'
 import type { TresObject } from '../../types'
+import { useLogger } from '..'
 
 export interface TresLoader<T> extends Loader {
   load: (

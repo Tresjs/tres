@@ -1,8 +1,17 @@
 <script setup lang="ts">
+import type {
+  ColorSpace,
+  ShadowMapType,
+  ToneMapping,
+  WebGLRendererParameters,
+} from 'three'
+import type { App, Ref } from 'vue'
+import type { RendererPresetsType } from '../composables/useRenderer/const'
+import type { TresCamera, TresObject, TresScene } from '../types/'
 import { PerspectiveCamera, Scene } from 'three'
 import * as THREE from 'three'
+
 import {
-  computed,
   createRenderer,
   defineComponent,
   Fragment,
@@ -16,15 +25,6 @@ import {
   watch,
   watchEffect,
 } from 'vue'
-import type { EventManagerProps } from 'src/utils/createEventManager/createEventManager'
-import type {
-  ColorSpace,
-  ShadowMapType,
-  ToneMapping,
-  WebGLRendererParameters,
-} from 'three'
-import type { App, Ref } from 'vue'
-
 import pkg from '../../package.json'
 import {
   type TresContext,
@@ -33,11 +33,10 @@ import {
 } from '../composables'
 import { extend } from '../core/catalogue'
 import { nodeOps } from '../core/nodeOps'
+
 import { registerTresDevtools } from '../devtools'
 
 import { disposeObject3D } from '../utils/'
-import type { RendererPresetsType } from '../composables/useRenderer/const'
-import type { TresCamera, TresObject, TresScene } from '../types/'
 
 export interface TresCanvasProps
   extends Omit<WebGLRendererParameters, 'canvas'> {
@@ -56,12 +55,6 @@ export interface TresCanvasProps
   camera?: TresCamera
   preset?: RendererPresetsType
   windowSize?: boolean
-  disableRender?: boolean
-
-  // NOTE: used by `eventManager`
-  eventsEnabled?: boolean
-  eventsTarget?: EventTarget
-  events?: EventManagerProps
 }
 
 const props = withDefaults(defineProps<TresCanvasProps>(), {
@@ -71,7 +64,6 @@ const props = withDefaults(defineProps<TresCanvasProps>(), {
   stencil: undefined,
   antialias: undefined,
   windowSize: undefined,
-  disableRender: undefined,
   useLegacyLights: undefined,
   preserveDrawingBuffer: undefined,
   logarithmicDepthBuffer: undefined,
@@ -139,8 +131,6 @@ const dispose = (context: TresContext, force = false) => {
   }
 }
 
-const disableRender = computed(() => props.disableRender)
-
 const context = shallowRef<TresContext | null>(null)
 
 defineExpose({ context, dispose: () => dispose(context.value as TresContext, true) })
@@ -162,7 +152,6 @@ onMounted(() => {
     scene: scene.value as TresScene,
     canvas: existingCanvas,
     windowSize: props.windowSize ?? false,
-    disableRender: disableRender.value ?? false,
     rendererOptions: props,
     props,
     emit,
