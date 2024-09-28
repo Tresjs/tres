@@ -1,12 +1,12 @@
-import { Raycaster, Vector2, Vector3 } from 'three'
 import type { Object3D, Intersection as ThreeIntersection } from 'three'
+import type { EventHandlers, IntersectionEvent, PointerCaptureTarget, Properties, ThreeEvent, TresCamera, TresInstance, TresObject } from '../../types'
+import type { CreateEventManagerProps } from './createEventManager'
+import { Raycaster, Vector2, Vector3 } from 'three'
 import { prepareTresInstance } from '..'
 import { isProd, type TresContext, useLogger } from '../../composables'
 import * as is from '../is'
 import { DOM_EVENT_NAMES, DOM_TO_PASSIVE, DOM_TO_THREE, type DomEventName, type DomEventTarget, POINTER_EVENT_NAMES, THREE_EVENT_NAMES } from './const'
 import { deprecatedEventsToNewEvents } from './deprecatedEvents'
-import type { EventHandlers, IntersectionEvent, Properties, ThreeEvent, TresCamera, TresInstance, TresObject } from '../../types'
-import type { CreateEventManagerProps } from './createEventManager'
 
 // NOTE:
 // This file consists of type definitions and functions
@@ -20,7 +20,7 @@ import type { CreateEventManagerProps } from './createEventManager'
 type RaycastEvent = MouseEvent | PointerEvent | WheelEvent
 type RaycastEventTarget = DomEventTarget
 type ThreeEventStub<DomEvent> = Omit<ThreeEvent<DomEvent>, 'eventObject' | 'object' | 'currentTarget' | 'target' | 'distance' | 'point'> & Partial<IntersectionEvent<DomEvent>>
-type Object3DWithEvents = Object3D & EventHandlers
+type Object3DWithEvents = Object3D & EventHandlers & PointerCaptureTarget
 
 function getInitialEvent() {
   // NOTE: Unit tests will without this check
@@ -330,6 +330,20 @@ function remove(instance: TresObject, config: Config) {
   // So rehandle the saved event, but without instance and its descendants
   // in `intersections`.
   handleIntersections(getLastEvent(config), intersections, config)
+
+  for (const instance of instanceAndDescendants) {
+    // NOTE: Remove all methods from the object.
+    // This is required for primitive objects, so that they
+    // don't keep events from a previous `<primitive />`
+    for (const threeEventName of THREE_EVENT_NAMES) {
+      delete (instance as Object3DWithEvents)[threeEventName]
+    }
+
+    // NOTE: Remove `PointerCaptureTarget` methods.
+    if ('setPointerCapture' in instance) { delete instance.setPointerCapture }
+    if ('releasePointerCapture' in instance) { delete instance.releasePointerCapture }
+    if ('hasPointerCapture' in instance) { delete instance.hasPointerCapture }
+  }
 
   // NOTE: Remove the remaining traces of the object and descendants
   config.priorHits.delete(instance as Object3D)

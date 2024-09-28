@@ -1,7 +1,7 @@
 <script setup lang="ts">
+import type { ThreeEvent } from '@tresjs/core'
 import { OrbitControls } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
-import type { ThreeEvent } from '@tresjs/core'
 
 function onClick(ev: ThreeEvent<MouseEvent>) {
   ev.eventObject.material?.color.set('#008080')

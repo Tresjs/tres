@@ -14,7 +14,6 @@ import { calculateMemoryUsage } from '../../utils/perf'
 import { useCamera } from '../useCamera'
 import { useRenderer } from '../useRenderer'
 import useSizes, { type SizesType } from '../useSizes'
-import { type TresEventManager, useTresEventManager } from '../useTresEventManager'
 import { useTresReady } from '../useTresReady'
 
 export interface InternalState {

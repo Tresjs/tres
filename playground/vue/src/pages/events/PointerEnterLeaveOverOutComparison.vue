@@ -22,9 +22,7 @@ const tresNumLeave = ref(0)
 <template>
   <div class="container">
     <h1><code>pointer{enter,leave,over,out}</code></h1>
-    <h2>DOM vs. Tres pointer comparison</h2>
-    <p>Below, both setups have identical pointer events attached only to the gray elements.</p>
-    <p>Pointer events are counted when handled and are expected to yield the same counts for the same actions on both sides.</p>
+    <h2>Vue/DOM vs. Tres pointer comparison</h2>
 
     <div class="test-subject test-vue">
       <h2>DOM/Vue</h2>
@@ -47,7 +45,7 @@ const tresNumLeave = ref(0)
 
     <div class="test-subject">
       <h2>Tres (with <code>:blocking</code>)</h2>
-      <p>Event counts here should mirror Vue event counts</p>
+      <p>Event counts here should mirror Vue event counts for identical actions.</p>
       pointerover: {{ tresBlockingNumOver }}<br />
       pointerout: {{ tresBlockingNumOut }}<br />
       pointerenter: {{ tresBlockingNumEnter }}<br />

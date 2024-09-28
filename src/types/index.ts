@@ -75,14 +75,6 @@ export interface LocalState {
 export interface TresObject3D extends THREE.Object3D<THREE.Object3DEventMap> {
   geometry?: THREE.BufferGeometry & TresBaseObject
   material?: THREE.Material & TresBaseObject
-  // NOTE: Below are "fake" DOM Element methods that allow objects
-  // to communicate with Tres' `EventManager` about the pointer.
-  // Marked as optional to avoid interfering with existing types.
-  // TODO: Make non-optional?
-  // See: https://developer.mozilla.org/en-US/docs/Web/API/Element/setPointerCapture
-  setPointerCapture?: (pointerId: number) => void
-  releasePointerCapture?: (pointerId: number) => void
-  hasPointerCapture?: (pointerId: number) => boolean
 }
 
 export type TresObject =
@@ -178,6 +170,15 @@ export interface EventHandlers {
   onPointermove?: EventHandler<PointerEvent>
   onLostpointercapture?: EventHandler<PointerEvent>
   onWheel?: EventHandler<WheelEvent>
+}
+
+export interface PointerCaptureTarget {
+  // NOTE: Below are "fake" DOM Element methods that allow objects
+  // to communicate with Tres' `EventManager` about pointer capture.
+  // See: https://developer.mozilla.org/en-US/docs/Web/API/Element/setPointerCapture
+  setPointerCapture: (pointerId: number) => void
+  releasePointerCapture: (pointerId: number) => void
+  hasPointerCapture: (pointerId: number) => boolean
 }
 
 interface MathRepresentation {

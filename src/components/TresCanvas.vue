@@ -8,9 +8,10 @@ import type {
 import type { App, Ref } from 'vue'
 import type { RendererPresetsType } from '../composables/useRenderer/const'
 import type { TresCamera, TresObject, TresScene } from '../types/'
+import type { EventManagerProps } from '../utils/createEventManager/createEventManager'
 import { PerspectiveCamera, Scene } from 'three'
-import * as THREE from 'three'
 
+import * as THREE from 'three'
 import {
   createRenderer,
   defineComponent,
@@ -25,7 +26,6 @@ import {
   watch,
   watchEffect,
 } from 'vue'
-import type { EventManagerProps } from '../utils/createEventManager/createEventManager'
 import pkg from '../../package.json'
 import {
   type TresContext,

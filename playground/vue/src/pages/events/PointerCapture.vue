@@ -1,9 +1,9 @@
 <!-- eslint-disable no-console -->
 <script setup lang="ts">
+import type { ThreeEvent } from '@tresjs/core'
 import { OrbitControls } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
 import { MeshBasicMaterial, MeshPhongMaterial, Plane, Vector3 } from 'three'
-import type { ThreeEvent } from '@tresjs/core'
 
 const RADIUS = 20
 const COUNT = 250

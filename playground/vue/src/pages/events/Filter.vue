@@ -1,10 +1,10 @@
 <!-- eslint-disable no-console -->
 <script setup lang="ts">
+import type { ThreeEvent, TresObject } from '@tresjs/core'
+import type { Intersection, Object3D } from 'three'
 import { OrbitControls } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
 import { BasicShadowMap, Color, NoToneMapping, SRGBColorSpace } from 'three'
-import type { ThreeEvent, TresObject } from '@tresjs/core'
-import type { Intersection, Object3D } from 'three'
 
 const gl = {
   clearColor: '#202020',
