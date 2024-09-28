@@ -1,6 +1,6 @@
-import type { TresContext } from 'src/composables/useTresContextProvider'
 import { describe, expect, it, vi } from 'vitest'
 import { computed, ref, shallowRef } from 'vue'
+import type { TresContext } from 'src/composables/useTresContextProvider'
 import { raycastProps } from '.'
 import { createEventManager } from './createEventManager'
 import { eventsRaycast } from './eventsRaycast'

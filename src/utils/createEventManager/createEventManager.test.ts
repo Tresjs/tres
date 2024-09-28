@@ -1,11 +1,11 @@
-import type { TresContext } from '../../composables/useTresContextProvider'
-import type { CreateEventManagerProps } from './createEventManager'
 import { Scene } from 'three'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { shallowRef } from 'vue'
 import { nodeOps as getNodeOps } from './../../core/nodeOps'
 import { createEventManager } from './createEventManager'
 import { eventsNoop } from './eventsNoop'
+import type { TresContext } from '../../composables/useTresContextProvider'
+import type { CreateEventManagerProps } from './createEventManager'
 
 let t = mockTresInstance()
 let context = t.context

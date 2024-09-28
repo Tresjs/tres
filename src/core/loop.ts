@@ -1,10 +1,10 @@
+import { Clock, MathUtils } from 'three'
+import { ref, unref } from 'vue'
 import type { Fn } from '@vueuse/core'
 import type { Camera, EventDispatcher, Raycaster, Scene, WebGLRenderer } from 'three'
 import type { Ref } from 'vue'
-import type { Callback } from '../utils/createPriorityEventHook'
-import { Clock, MathUtils } from 'three'
-import { ref, unref } from 'vue'
 import { createPriorityEventHook } from '../utils/createPriorityEventHook'
+import type { Callback } from '../utils/createPriorityEventHook'
 
 export type LoopStage = 'before' | 'render' | 'after'
 

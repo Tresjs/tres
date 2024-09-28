@@ -1,17 +1,17 @@
-import type {
-  App as DevtoolsApp,
-} from '@vue/devtools-api'
-import type { TresContext } from '../composables'
-import type { TresObject } from './../types'
 import {
   setupDevtoolsPlugin,
 } from '@vue/devtools-api'
 import { Color, type Mesh } from 'three'
 import { reactive } from 'vue'
+import type {
+  App as DevtoolsApp,
+} from '@vue/devtools-api'
 import { createHighlightMesh, editSceneObject } from '../utils'
 import * as is from '../utils/is'
 import { bytesToKB, calculateMemoryUsage } from '../utils/perf'
 import { toastMessage } from './utils'
+import type { TresContext } from '../composables'
+import type { TresObject } from './../types'
 
 export interface Tags {
   label: string

@@ -1,20 +1,20 @@
-import type { Camera, WebGLRenderer } from 'three'
-import type { ComputedRef, DeepReadonly, MaybeRef, MaybeRefOrGetter, Ref, ShallowRef } from 'vue'
-import type { RendererLoop } from '../../core/loop'
-import type { EmitEventFn, TresControl, TresObject, TresScene } from '../../types'
-import type { UseRendererOptions } from '../useRenderer'
 import { useFps, useMemory, useRafFn } from '@vueuse/core'
 import { Raycaster } from 'three'
 import { computed, inject, onUnmounted, provide, readonly, ref, shallowRef } from 'vue'
+import type { Camera, WebGLRenderer } from 'three'
+import type { ComputedRef, DeepReadonly, MaybeRef, MaybeRefOrGetter, Ref, ShallowRef } from 'vue'
 import { extend } from '../../core/catalogue'
 import { createRenderLoop } from '../../core/loop'
 import { type EventManager, useEventsOptions } from '../../utils/createEventManager'
 import { calculateMemoryUsage } from '../../utils/perf'
-
 import { useCamera } from '../useCamera'
 import { useRenderer } from '../useRenderer'
 import useSizes, { type SizesType } from '../useSizes'
+
 import { useTresReady } from '../useTresReady'
+import type { RendererLoop } from '../../core/loop'
+import type { EmitEventFn, TresControl, TresObject, TresScene } from '../../types'
+import type { UseRendererOptions } from '../useRenderer'
 
 export interface InternalState {
   priority: Ref<number>

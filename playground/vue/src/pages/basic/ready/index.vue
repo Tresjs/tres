@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import type { TresContext } from '@tresjs/core'
-import type { ShallowRef } from 'vue'
 import { TresCanvas } from '@tresjs/core'
 import { ref } from 'vue'
+import type { TresContext } from '@tresjs/core'
+import type { ShallowRef } from 'vue'
 import LoopCallbackWatcher from './LoopCallbackWatcher.vue'
 import OnTresReadyWatcher from './OnTresReadyWatcher.vue'
 

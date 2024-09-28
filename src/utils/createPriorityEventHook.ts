@@ -1,5 +1,5 @@
-import type { EventHookOff, IsAny } from '@vueuse/core'
 import { tryOnScopeDispose } from '@vueuse/core'
+import type { EventHookOff, IsAny } from '@vueuse/core'
 
 // NOTE: Based on vueuse's createEventHook
 // https://github.com/vueuse/vueuse/blob/1558cd2b5b019abc1feda6d702caa1053a182903/packages/shared/createEventHook/index.ts

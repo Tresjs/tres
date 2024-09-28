@@ -1,10 +1,10 @@
-import type { OrthographicCamera } from 'three'
-import type { TresScene } from '../../types'
-import type { TresContext } from '../useTresContextProvider'
-
 import { Camera, PerspectiveCamera } from 'three'
 import { computed, onUnmounted, ref, watchEffect } from 'vue'
+import type { OrthographicCamera } from 'three'
+
 import { camera as isCamera } from '../../utils/is'
+import type { TresScene } from '../../types'
+import type { TresContext } from '../useTresContextProvider'
 
 export const useCamera = ({ sizes }: Pick<TresContext, 'sizes'> & { scene: TresScene }) => {
   // the computed does not trigger, when for example the camera position changes

@@ -1,5 +1,5 @@
-import type { Theme } from 'vitepress'
 import VPTheme from 'vitepress/theme'
+import type { Theme } from 'vitepress'
 
 import TresLayout from './TresLayout.vue'
 import './custom.css'
