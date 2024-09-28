@@ -42,9 +42,9 @@ export function useEventsOptions(props: UseEventsOptions, context: TresContext, 
     }
     else if (is.obj(props.events)) {
       // NOTE: User set `:events` to `Partial<EventManagerProps>`.
-      // Fill in `:events` with defaults. But don't lose the reference
-      // to the user's object – instead, pass it to `createEventManager`
-      // so the user can still modify the values.
+      // Fill in `:events` with defaults. Don't break the user's
+      // reference to the object – they may want to modify the object
+      // values later. Pass their object to `createEventManager`.
       for (const [key, value] of Object.entries(eventsDefault)) {
         if (!(key in props.events)) {
           props.events[key as keyof typeof props.events] = value

@@ -25,6 +25,7 @@ import {
   watch,
   watchEffect,
 } from 'vue'
+import type { EventManagerProps } from '../utils/createEventManager/createEventManager'
 import pkg from '../../package.json'
 import {
   type TresContext,
@@ -55,6 +56,11 @@ export interface TresCanvasProps
   camera?: TresCamera
   preset?: RendererPresetsType
   windowSize?: boolean
+  // NOTE: used by `eventManager`
+
+  eventsEnabled?: boolean
+  eventsTarget?: EventTarget
+  events?: EventManagerProps
 }
 
 const props = withDefaults(defineProps<TresCanvasProps>(), {
