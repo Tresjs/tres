@@ -191,8 +191,7 @@ function patchProp(instance: TresObject, propName: string, prevValue: any, nextV
 
   if (propName === 'blocking') {
     if (nextValue) {
-      config.blockingObjects.add(instance as Object3D);
-      (instance as TresInstance).__tres.eventCount = 1
+      config.blockingObjects.add(instance as Object3D)
     }
     else {
       config.blockingObjects.delete(instance as Object3D)
