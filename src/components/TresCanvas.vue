@@ -56,7 +56,7 @@ export interface TresCanvasProps
   windowSize?: boolean
 
   // Misc opt-out flags
-  disableProvideBridge?: boolean
+  enableProvideBridge?: boolean
 }
 
 const props = withDefaults(defineProps<TresCanvasProps>(), {
@@ -71,7 +71,7 @@ const props = withDefaults(defineProps<TresCanvasProps>(), {
   logarithmicDepthBuffer: undefined,
   failIfMajorPerformanceCaveat: undefined,
   renderMode: 'always',
-  disableProvideBridge: false,
+  enableProvideBridge: true,
 })
 
 // Define emits for Pointer events, pass `emit` into useTresEventManager so we can emit events off of TresCanvas
@@ -133,7 +133,7 @@ const createInternalComponent = (context: TresContext, empty = false) =>
       }
 
       // Start the recursion from the initial instance
-      if (instance?.parent && !props.disableProvideBridge) {
+      if (instance?.parent && props.enableProvideBridge) {
         mergeProvides(instance.parent)
 
         Object.entries(provides)

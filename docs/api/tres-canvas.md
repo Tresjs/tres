@@ -92,7 +92,7 @@ renderer.shadowMap.type = PCFSoftShadowMap
 | **toneMappingExposure** | Exposure level of tone mapping. | `1` |
 | **useLegacyLights** | Whether to use the legacy lighting mode or not | `true` |
 | **windowSize** | Whether to use the window size as the canvas size or the parent element. | `false` |
-| **disableProvideBridge** | Disable the provide/inject bridge between Vue context and TresCanvas. | `false` |
+| **enableProvideBridge** | Disable the provide/inject bridge between Vue context and TresCanvas. | `false` |
 
 ### Defaults
 
