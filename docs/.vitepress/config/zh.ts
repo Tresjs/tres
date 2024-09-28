@@ -97,7 +97,7 @@ export const zhConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
           },
           {
             text: 'Post-processing',
-            link: 'https://post-processing.tresjs.org/'
+            link: 'https://post-processing.tresjs.org/',
           },
         ],
       },
