@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { TresCanvas } from '@tresjs/core'
 import { provide, reactive } from 'vue'
-import SubComponentWithInject from './SubComponentWithInject.vue'
+
+import ProvideInjectExperience from './ProvideInjectExperience.vue'
 import SubVueComponentWithInject from './SubVueComponentWithInject.vue'
 
 const obj = reactive({
@@ -10,7 +10,7 @@ const obj = reactive({
 const bululu = ref(1)
 provide('awiwi', obj)
 provide('bululu', bululu)
-
+provide('test', '❌ Precendence is incorrect')
 function onClick() {
   obj.a++
   bululu.value++
@@ -20,10 +20,5 @@ function onClick() {
 <template>
   <button @click="onClick">Click me </button>
   <SubVueComponentWithInject />
-  <TresCanvas clear-color="#82DBC5">
-    <TresPerspectiveCamera :position="[11, 11, 11]" :look-at="[0, 0, 0]" />
-    <SubComponentWithInject />
-    <TresGridHelper />
-    <TresAmbientLight :intensity="1" />
-  </TresCanvas>
+  <ProvideInjectExperience />
 </template>
