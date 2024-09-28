@@ -22,6 +22,13 @@ const gl = {
 </script>
 
 <template>
+  <OverlayInfo>
+    <h1>FPS Drops Reproduction</h1>
+    <h2>Issue</h2>
+    <p><a href="https://github.com/Tresjs/tres/issues/711">#711: V4 drops fps</a></p>
+    <h2>Setup</h2>
+    <p>This scene contains a geometry with lots of vertices. The containing Mesh does not have any attached events – and neither do its ancestors. It should not be hit-tested.</p>
+  </OverlayInfo>
   <TresCanvas clear-color="#ccc" v-bind="gl" window-size preset="realistic">
     <StatsGl />
     <TresPerspectiveCamera :position="[0, 0, 15]" :args="[45, 1, 0.1, 1000]" />

@@ -8,9 +8,10 @@ import type {
 import type { App, Ref } from 'vue'
 import type { RendererPresetsType } from '../composables/useRenderer/const'
 import type { TresCamera, TresObject, TresScene } from '../types/'
+import type { EventManagerProps } from '../utils/createEventManager/createEventManager'
 import { PerspectiveCamera, Scene } from 'three'
-import * as THREE from 'three'
 
+import * as THREE from 'three'
 import {
   createRenderer,
   defineComponent,
@@ -35,11 +36,12 @@ import { extend } from '../core/catalogue'
 import { nodeOps } from '../core/nodeOps'
 
 import { registerTresDevtools } from '../devtools'
+
 import { disposeObject3D } from '../utils/'
 
 export interface TresCanvasProps
   extends Omit<WebGLRendererParameters, 'canvas'> {
-  // required by for useRenderer
+  // required by useRenderer
   shadows?: boolean
   clearColor?: string
   toneMapping?: ToneMapping
@@ -54,6 +56,11 @@ export interface TresCanvasProps
   camera?: TresCamera
   preset?: RendererPresetsType
   windowSize?: boolean
+  // NOTE: used by `eventManager`
+
+  eventsEnabled?: boolean
+  eventsTarget?: EventTarget
+  events?: EventManagerProps
 }
 
 const props = withDefaults(defineProps<TresCanvasProps>(), {
@@ -68,24 +75,14 @@ const props = withDefaults(defineProps<TresCanvasProps>(), {
   logarithmicDepthBuffer: undefined,
   failIfMajorPerformanceCaveat: undefined,
   renderMode: 'always',
+  eventsEnabled: true,
+  events: undefined,
 })
 
 // Define emits for Pointer events, pass `emit` into useTresEventManager so we can emit events off of TresCanvas
 // Not sure of this solution, but you have to have emits defined on the component to emit them in vue
 const emit = defineEmits([
   'render',
-  'click',
-  'double-click',
-  'context-menu',
-  'pointer-move',
-  'pointer-up',
-  'pointer-down',
-  'pointer-enter',
-  'pointer-leave',
-  'pointer-over',
-  'pointer-out',
-  'pointer-missed',
-  'wheel',
   'ready',
 ])
 
@@ -162,6 +159,7 @@ onMounted(() => {
     canvas: existingCanvas,
     windowSize: props.windowSize ?? false,
     rendererOptions: props,
+    props,
     emit,
   })
 

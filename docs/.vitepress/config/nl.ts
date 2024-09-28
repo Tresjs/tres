@@ -98,7 +98,7 @@ export const nlConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
           },
           {
             text: 'Nabewerking',
-            link: 'https://post-processing.tresjs.org/'
+            link: 'https://post-processing.tresjs.org/',
           },
         ],
       },

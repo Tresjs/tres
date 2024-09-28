@@ -6,8 +6,9 @@ import copy from 'rollup-plugin-copy'
 import { defineConfig } from 'vite'
 import banner from 'vite-plugin-banner'
 import dts from 'vite-plugin-dts'
-
 import Inspect from 'vite-plugin-inspect'
+
+import { coverageConfigDefaults } from 'vitest/config'
 
 /* import analyze from 'rollup-plugin-analyzer'
  */ /* import { visualizer } from 'rollup-plugin-visualizer' */
@@ -46,7 +47,15 @@ export default defineConfig({
   test: {
     environment: 'jsdom',
     globals: true,
-    threads: false,
+    coverage: {
+      provider: 'v8',
+      exclude: [
+        ...coverageConfigDefaults.exclude,
+        'playground/**',
+        'docs/**',
+        '**/sponsorkit**/**',
+      ],
+    },
   },
   build: {
     lib: {

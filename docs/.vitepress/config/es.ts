@@ -99,7 +99,7 @@ export const esConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
           },
           {
             text: 'Post-procesamiento',
-            link: 'https://post-processing.tresjs.org/'
+            link: 'https://post-processing.tresjs.org/',
           },
         ],
       },
