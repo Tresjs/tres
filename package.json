@@ -53,8 +53,7 @@
     "lint:fix": "eslint . --fix",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
-    "docs:preview": "vitepress preview docs",
-    "prepare": "node .husky/install.mjs"
+    "docs:preview": "vitepress preview docs"
   },
   "peerDependencies": {
     "@tresjs/core": ">=4.2.1",
@@ -72,7 +71,7 @@
   "devDependencies": {
     "@release-it/conventional-changelog": "^8.0.1",
     "@tresjs/core": "^4.2.10",
-    "@tresjs/eslint-config": "^1.3.0",
+    "@tresjs/eslint-config": "^1.3.2",
     "@types/node": "^22.5.4",
     "@types/three": "^0.168.0",
     "@typescript-eslint/eslint-plugin": "^8.4.0",
@@ -81,7 +80,6 @@
     "eslint": "^9.9.0",
     "eslint-plugin-vue": "^9.28.0",
     "gsap": "^3.12.5",
-    "husky": "^9.1.4",
     "kolorist": "^1.8.0",
     "pathe": "^1.1.2",
     "release-it": "^17.6.0",

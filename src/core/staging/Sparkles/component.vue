@@ -153,7 +153,7 @@ interface SparkleProps {
 
 const props = withDefaults(defineProps<SparkleProps>(), {
   map: 'https://raw.githubusercontent.com/Tresjs/assets/'
-  + 'e41a93c56ec7cb5ac2d241f309e23582a5fe1fc6/textures/sparkles/particle.png',
+    + 'e41a93c56ec7cb5ac2d241f309e23582a5fe1fc6/textures/sparkles/particle.png',
   geometry: undefined,
   directionalLight: undefined,
 
