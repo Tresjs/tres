@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import type { Loader } from 'three'
+import type { LoaderProto } from './index'
 import { reactive } from 'vue'
 import { useLoader } from './index'
 
 const props = defineProps<{
-  loader: Loader
+  loader: LoaderProto<unknown>
   url: string | string[]
 }>()
 
