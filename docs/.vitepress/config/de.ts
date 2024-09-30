@@ -98,7 +98,7 @@ export const deConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
           },
           {
             text: 'Nachbearbeitung',
-            link: 'https://post-processing.tresjs.org/'
+            link: 'https://post-processing.tresjs.org/',
           },
         ],
       },
