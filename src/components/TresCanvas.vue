@@ -54,6 +54,9 @@ export interface TresCanvasProps
   camera?: TresCamera
   preset?: RendererPresetsType
   windowSize?: boolean
+
+  // Misc opt-out flags
+  enableProvideBridge?: boolean
 }
 
 const props = withDefaults(defineProps<TresCanvasProps>(), {
@@ -68,6 +71,7 @@ const props = withDefaults(defineProps<TresCanvasProps>(), {
   logarithmicDepthBuffer: undefined,
   failIfMajorPerformanceCaveat: undefined,
   renderMode: 'always',
+  enableProvideBridge: true,
 })
 
 // Define emits for Pointer events, pass `emit` into useTresEventManager so we can emit events off of TresCanvas
@@ -104,14 +108,40 @@ const canvas = ref<HTMLCanvasElement>()
 */
 const scene = shallowRef<TresScene | Scene>(new Scene())
 
-const instance = getCurrentInstance()?.appContext.app
+const instance = getCurrentInstance()
 extend(THREE)
 
 const createInternalComponent = (context: TresContext, empty = false) =>
   defineComponent({
     setup() {
       const ctx = getCurrentInstance()?.appContext
-      if (ctx) { ctx.app = instance as App }
+      if (ctx) { ctx.app = instance?.appContext.app as App }
+      const provides = {}
+
+      // Helper function to recursively merge provides from parents
+      function mergeProvides(currentInstance: any) {
+        if (!currentInstance) { return }
+
+        // Recursively process the parent instance
+        if (currentInstance.parent) {
+          mergeProvides(currentInstance.parent)
+        }
+        // Extract provides from the current instance and merge them
+        if (currentInstance.provides) {
+          Object.assign(provides, currentInstance.provides)
+        }
+      }
+
+      // Start the recursion from the initial instance
+      if (instance?.parent && props.enableProvideBridge) {
+        mergeProvides(instance.parent)
+
+        Object.entries(provides)
+          .forEach(([key, value]) => {
+            provide(key, value)
+          })
+      }
+
       provide('useTres', context)
       provide('extend', extend)
 

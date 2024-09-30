@@ -55,7 +55,7 @@ const toonTealMaterial = new MeshToonMaterial({
     v-bind="state"
   >
     <TresPerspectiveCamera
-      :position="[0, 8, 8]"
+      :position="{ x: 0, y: 8, z: 8 }"
       :fov="45"
       :near="0.1"
       :far="1000"
