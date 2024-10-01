@@ -1,14 +1,21 @@
 const baseConfig = [
-
   // General Rules
   {
     name: 'tres:general',
+    ignores: [
+      '**/dist/**',
+      'sponsorkit/**',
+      'node_modules/**',
+      'coverage/**',
+      '**/public/**'
+    ],
     rules: {
       'curly': ['error', 'all'],
       'style/function-call-spacing': ['error', 'never'],
       'node/prefer-global/process': 'off',
       'antfu/top-level-function': 'off',
       'perfectionist/sort-imports': 'off',
+      'style/max-statements-per-line': 'off',
     },
   },
 
