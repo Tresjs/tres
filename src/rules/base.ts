@@ -1,5 +1,4 @@
 const baseConfig = [
-
   // General Rules
   {
     name: 'tres:general',
@@ -9,6 +8,8 @@ const baseConfig = [
       'node/prefer-global/process': 'off',
       'antfu/top-level-function': 'off',
       'perfectionist/sort-imports': 'off',
+      'style/max-statements-per-line': 'off',
+      'jsdoc/check-alignment': 'off',
     },
   },
 
