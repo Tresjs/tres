@@ -7,7 +7,7 @@ const baseConfig = [
       'sponsorkit/**',
       'node_modules/**',
       'coverage/**',
-      '**/public/**'
+      '**/public/**',
     ],
     rules: {
       'curly': ['error', 'all'],
