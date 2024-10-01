@@ -29,8 +29,8 @@
     "@tresjs/nuxt": "3.0.4",
     "@tresjs/post-processing": "^0.7.1",
     "@types/node": "^22.5.1",
-    "@types/three": "^0.167.2",
+    "@types/three": "^0.169.0",
     "nuxt": "^3.5.2",
-    "three": "^0.168.0"
+    "three": "^0.169.0"
   }
 }
