@@ -9,6 +9,7 @@ const baseConfig = [
       'antfu/top-level-function': 'off',
       'perfectionist/sort-imports': 'off',
       'style/max-statements-per-line': 'off',
+      'jsdoc/check-alignment': 'off',
     },
   },
 
