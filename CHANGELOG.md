@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.4.0](https://github.com/Tresjs/eslint-config/compare/1.3.2...1.4.0) (2024-10-01)
+
+
+### 🚀 Features
+
+* added ignores and turn off `style/max-statements-per-line` rule ([a87f92d](https://github.com/Tresjs/eslint-config/commit/a87f92d2c5d6665552d92346be62a52748b9840e))
+* moved ignores to antfu config ([d033c2e](https://github.com/Tresjs/eslint-config/commit/d033c2e73b9c1ab74eedf366ed5dadaa8dcf4717))
+
 ## [1.3.2](https://github.com/Tresjs/eslint-config/compare/1.3.1...1.3.2) (2024-09-25)
 
 
