@@ -1,5 +1,13 @@
 
 
+## [4.0.3](https://github.com/Tresjs/cientos/compare/4.0.2...4.0.3) (2024-10-04)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @tresjs/core to v4.2.10 ([#479](https://github.com/Tresjs/cientos/issues/479)) ([fb3026a](https://github.com/Tresjs/cientos/commit/fb3026aa2f54b2f388f1a074714ac46b10f3af81))
+* discrepancy between param enableDamping in OrbitControl ([#486](https://github.com/Tresjs/cientos/issues/486)) ([97a224c](https://github.com/Tresjs/cientos/commit/97a224c32e5aedf472c77e43dd6c426fc09a1f45))
+
 ## [4.0.2](https://github.com/Tresjs/cientos/compare/4.0.1...4.0.2) (2024-08-30)
 
 
