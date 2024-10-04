@@ -116,7 +116,7 @@ const createInternalComponent = (context: TresContext, empty = false) =>
     setup() {
       const ctx = getCurrentInstance()?.appContext
       if (ctx) { ctx.app = instance?.appContext.app as App }
-      const provides = {}
+      const provides: { [key: string | symbol]: unknown } = {}
 
       // Helper function to recursively merge provides from parents
       function mergeProvides(currentInstance: any) {
@@ -136,9 +136,9 @@ const createInternalComponent = (context: TresContext, empty = false) =>
       if (instance?.parent && props.enableProvideBridge) {
         mergeProvides(instance.parent)
 
-        Object.entries(provides)
-          .forEach(([key, value]) => {
-            provide(key, value)
+        Reflect.ownKeys(provides)
+          .forEach((key) => {
+            provide(key, provides[key])
           })
       }
 
