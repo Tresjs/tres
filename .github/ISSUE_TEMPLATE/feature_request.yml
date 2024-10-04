@@ -1,6 +1,6 @@
-name: "New feature proposal \U0001FA90"
+name: New feature proposal 🪐
 description: Propose a new feature to be added to Cientos
-labels: ["enhancement"]
+labels: [enhancement]
 body:
   - type: markdown
     attributes:
@@ -10,7 +10,7 @@ body:
     id: feature-description
     attributes:
       label: Description
-      description: "Clear and concise description of the problem. Please make the reason and usecases as detailed as possible. If you intend to submit a PR for this issue, tell us in the description. Thanks!"
+      description: 'Clear and concise description of the problem. Please make the reason and usecases as detailed as possible. If you intend to submit a PR for this issue, tell us in the description. Thanks!'
       placeholder: As a developer using TresJS I want [goal / wish] so that [benefit].
     validations:
       required: true
@@ -18,7 +18,7 @@ body:
     id: suggested-solution
     attributes:
       label: Suggested solution
-      description: "In module [xy] we could provide following implementation..."
+      description: 'In module [xy] we could provide following implementation...'
     validations:
       required: true
   - type: textarea
