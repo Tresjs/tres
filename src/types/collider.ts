@@ -1,4 +1,5 @@
 import type {
+  ActiveCollisionTypes,
   Collider,
   ColliderDesc,
   RigidBody,
@@ -67,6 +68,21 @@ export interface ColliderProps {
    * @default 1.0
    */
   density?: number
+  /**
+   * @description Enables collisions event.
+   * @default false
+   */
+  activeCollision?: boolean
+  /**
+   * @description To set the collision type.
+   * @default ActiveCollisionTypes.DEFAULT
+   */
+  activeCollisionTypes?: ActiveCollisionTypes.DEFAULT
+  /**
+   * @description To set the collision group.
+   * @default undefined
+   */
+  collisionGroups?: undefined | number
 }
 
 export interface ExposedCollider {

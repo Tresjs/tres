@@ -29,4 +29,9 @@ export const basicsRoutes = [
     name: 'Props',
     component: () => import('../../pages/basics/RigidBodyProps.vue'),
   },
+  {
+    path: '/basics/collision',
+    name: 'Collision',
+    component: () => import('../../pages/basics/CollisionDemo.vue'),
+  },
 ]

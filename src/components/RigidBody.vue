@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { ActiveCollisionTypes } from '@dimforge/rapier3d-compat'
 import { useLoop } from '@tresjs/core'
 import { Object3D } from 'three'
 import { nextTick, onUnmounted, onUpdated, provide, shallowRef, watch } from 'vue'
@@ -24,12 +25,15 @@ const props = withDefaults(defineProps<Partial<RigidBodyProps>>(), {
   enabledTranslations: () => ({ x: true, y: true, z: true }),
   lockTranslations: false,
   lockRotations: false,
+  enableCcd: false,
   // Automatic collider props
   friction: 0.5,
   mass: 1,
   restitution: 0,
   density: 1,
-
+  activeCollision: false,
+  activeCollisionTypes: ActiveCollisionTypes.DEFAULT,
+  collisionGroups: undefined, // this is not working
 })
 const { onBeforeRender } = useLoop()
 const { world } = useRapierContext()
@@ -101,6 +105,10 @@ watch([() => props.lockRotations, instance], ([_lockRotations, _]) => {
   if (!instance.value) { return }
   instance.value.lockRotations(_lockRotations, true)
 })
+watch([() => props.enableCcd, instance], ([_enableCcd, _]) => {
+  if (!instance.value) { return }
+  instance.value.enableCcd(_enableCcd)
+})
 
 onBeforeRender(() => {
   const context = bodyContext.value
@@ -142,6 +150,9 @@ onUnmounted(() => {
       :mass="props.mass"
       :restitution="props.restitution"
       :density="props.density"
+      :activeCollision="props.activeCollision"
+      :activeCollisionTypes="activeCollisionTypes"
+      :collisionGroups="collisionGroups"
     />
     <slot v-once></slot>
   </TresGroup>

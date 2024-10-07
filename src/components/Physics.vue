@@ -1,11 +1,13 @@
 <script setup lang="ts">
-import { useLoop } from '@tresjs/core'
+import { EventQueue } from '@dimforge/rapier3d-compat'
+import { useLoop, useTresContext } from '@tresjs/core'
 import { Vector3 } from 'three'
 import { watch } from 'vue'
 import type { VectorCoordinates } from '@tresjs/core'
 import { useRapierContextProvider } from '../composables/useRapier'
-
 import { GRAVITY } from '../constants/physics'
+
+import { collisionEmisor, get3DGroupFromSource, getSourceFromColliderHandle } from '../utils'
 import Debug from './Debug.vue'
 import type { PhysicsProps } from '../types'
 
@@ -34,6 +36,9 @@ const setGravity = (gravity: PhysicsProps['gravity']) => {
   }
 }
 
+const eventQueue = new EventQueue(true)
+const { scene } = useTresContext()
+
 watch(() => props.gravity, (gravity) => {
   setGravity(gravity)
 }, { immediate: true })
@@ -46,7 +51,20 @@ onBeforeRender(() => {
     world.timestep = props.timestep
   }
 
-  world.step()
+  world.step(eventQueue)
+  eventQueue.drainCollisionEvents((handle1, handle2, started) => {
+    const source1 = getSourceFromColliderHandle(world, handle1)
+    const source2 = getSourceFromColliderHandle(world, handle2)
+    const group1 = get3DGroupFromSource(source1, scene)
+    const group2 = get3DGroupFromSource(source2, scene)
+    if (group1 && group2) {
+      collisionEmisor(
+        { object: group1, context: source1 },
+        { object: group2, context: source2 },
+        started,
+      )
+    }
+  })
 })
 </script>
 

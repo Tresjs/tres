@@ -1,4 +1,4 @@
-import type { Collider, ColliderDesc, RigidBody, RigidBodyDesc, World } from '@dimforge/rapier3d-compat'
+import type { ActiveCollisionTypes, Collider, ColliderDesc, RigidBody, RigidBodyDesc, World } from '@dimforge/rapier3d-compat'
 import type { TresObject3D, TresVector3, VectorCoordinates } from '@tresjs/core'
 
 import type { enableBolean } from './boolean'
@@ -76,6 +76,11 @@ export interface RigidBodyProps {
    * @default false
    */
   lockRotations?: boolean
+  /**
+   * @description Enables continuous collisions detection.
+   * @default false
+   */
+  enableCcd?: boolean
 
   // AUTOMATIC COLLIDERS
 
@@ -99,6 +104,22 @@ export interface RigidBodyProps {
    * @default 1.0
    */
   density?: number
+  /**
+   * @description Enables collisions event.
+   * @default false
+   */
+  activeCollision?: boolean
+  /**
+   * @description To set the collision type.
+   * @default ActiveCollisionTypes.DEFAULT
+   */
+  activeCollisionTypes?: ActiveCollisionTypes.DEFAULT
+  /**
+   * @description To set the collision group.
+   * @default undefined
+   */
+  collisionGroups?: undefined | number
+
 }
 
 export interface ExposedRigidBody {
