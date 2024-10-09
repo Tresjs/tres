@@ -1,18 +1,26 @@
 import { watch } from 'vue'
 import type { RigidBody } from '@dimforge/rapier3d-compat'
 import type { ShallowRef } from 'vue'
-import type { CallableProps, ColliderProps, CreateColliderReturnType, Methods, RigidBodyContext, RigidBodyProps } from '../types'
+import type {
+  CallableProps,
+  ColliderProps,
+  CreateColliderReturnType,
+  Methods,
+  RigidBodyContext,
+  RigidBodyProps,
+} from '../types'
 
 export const makePropWatcherRB = <
   K extends keyof RigidBodyProps,
 >(
   props: RigidBodyProps,
   toWatch: K,
-  instance: ShallowRef<RigidBodyContext['rigidBody']>,
+  instance: ShallowRef<RigidBodyContext['rigidBody'] | undefined>,
   onSet: `set${Capitalize<keyof RigidBodyProps>}`,
 ) => watch([() => props[toWatch], instance], ([newValue, _]) => {
   if (!instance.value) { return }
-  ((instance.value[onSet as keyof Methods<RigidBody>]) as CallableProps<RigidBody>[keyof CallableProps<RigidBody>])?.(newValue, true)
+  // TODO: we should give users the possibility to set the wakeUp parameter.
+  ((instance.value[onSet as keyof Methods<RigidBody>]) as CallableProps<RigidBody>[keyof CallableProps<RigidBody>])?.(...(Array.isArray(newValue) ? (newValue as boolean[]) : [newValue]), true)
 })
 
 export const makePropsWatcherRB = <
@@ -20,7 +28,7 @@ export const makePropsWatcherRB = <
 >(
   props: RigidBodyProps,
   watchers: K[],
-  instance: ShallowRef<RigidBodyContext['rigidBody']>,
+  instance: ShallowRef<RigidBodyContext['rigidBody'] | undefined>,
 ) => watchers.forEach((_) => {
   const watcher = _ as string
   // Uppercase only for the first letter in the watcher

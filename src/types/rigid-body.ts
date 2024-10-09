@@ -1,7 +1,6 @@
 import type { ActiveCollisionTypes, Collider, ColliderDesc, RigidBody, RigidBodyDesc, World } from '@dimforge/rapier3d-compat'
 import type { TresObject3D, TresVector3, VectorCoordinates } from '@tresjs/core'
 
-import type { enableBolean } from './boolean'
 import type { ColliderShape } from './collider'
 
 /** @description Tres Rapier supported `RigidBody` types. */
@@ -58,14 +57,14 @@ export interface RigidBodyProps {
   dominanceGroup?: number
   /**
    * @description Set the dominance group of the`RigidBody`.
-   * @default { x: true, y: true, z: true }
+   * @default [true,true,true]
    */
-  enabledRotations?: enableBolean
+  enabledRotations?: [x: boolean, y: boolean, z: boolean]
   /**
    * @description Set the dominance group of the`RigidBody`.
-   * @default { x: true, y: true, z: true }
+   * @default [true,true,true]
    */
-  enableTranslations?: enableBolean
+  enabledTranslations?: [x: boolean, y: boolean, z: boolean]
   /**
    * @description Locks the translations of the `RigidBody`.
    * @default false
