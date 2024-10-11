@@ -23,7 +23,13 @@ yarn add @tresjs/rapier
 
 ## Basic Usage
 
-```vue{4,13,14,19-20,25,26}
+We need mainly 3 elements
+
+1. An existing scene
+2. The `Physics` component who act as a wrapper
+3. At least one `RigidBody`
+
+```vue{4,13-26}
 <script setup lang="ts" >
 import { TresCanvas } from '@tresjs/core'
 import { OrbitControls } from '@tresjs/cientos'
@@ -31,7 +37,7 @@ import { Physics, RigidBody } from '@tresjs/rapier'
 </script>
 
 <template>
-  <TresCanvas window-size>
+  <TresCanvas v-bind="gl" window-size>
     <TresPerspectiveCamera :position="[11, 11, 11]" :look-at="[0, 0, 0]" />
     <OrbitControls />
 
@@ -55,6 +61,6 @@ import { Physics, RigidBody } from '@tresjs/rapier'
 </template>
 ```
 
-:::warning
-This library is under heavy development and it's not ready for production
-:::
+Under the hood the `Physics` components is creating a new world (the one the physics exist). Please check the [Physics docs](/components/physics) for more info.
+
+Then we use the `RigidBody` for creating and "bound" our existing mesh into the two worlds (the physics world and our 3D world) after this applied the corresponded force. Please check the [RigidBody docs](/components/rigid-body) for more info.
