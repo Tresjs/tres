@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { GlitchThree } from '@tresjs/post-processing'
+import { Glitch } from '@tresjs/post-processing/three'
 import { ref } from 'vue'
 import BasicScene from '../../components/BasicScene.vue'
 
@@ -13,7 +13,7 @@ const goWild = ref(false)
   </div>
   <BasicScene>
     <template #effects>
-      <GlitchThree :go-wild="goWild" />
+      <Glitch :go-wild="goWild" />
     </template>
   </BasicScene>
 </template>

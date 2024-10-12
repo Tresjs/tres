@@ -26,7 +26,7 @@ const { pass } = useEffect(() => new UnrealBloomPass(
   props.radius,
   props.strength,
   props.threshold,
-))
+), props)
 
 defineExpose({ pass })
 

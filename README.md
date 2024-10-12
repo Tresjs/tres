@@ -57,10 +57,6 @@ And then to run the development server on http://localhost:5173
 pnpm run playground
 ```
 
-### Test
-
-TODO...
-
 ### Docs
 
 To run de docs in dev mode

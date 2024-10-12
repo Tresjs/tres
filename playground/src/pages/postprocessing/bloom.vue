@@ -2,7 +2,7 @@
 import { OrbitControls } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
 import { TresLeches, useControls } from '@tresjs/leches'
-import { Bloom, EffectComposer } from '@tresjs/post-processing'
+import { Bloom, EffectComposer } from '@tresjs/post-processing/pmndrs'
 import { BlendFunction, KernelSize } from 'postprocessing'
 import { BasicShadowMap, Color, NoToneMapping } from 'three'
 import { onMounted, ref, watch } from 'vue'

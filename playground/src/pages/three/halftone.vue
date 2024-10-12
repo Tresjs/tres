@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { HalftoneThree } from '@tresjs/post-processing'
+import { Halftone } from '@tresjs/post-processing/three'
 import { ref } from 'vue'
 import BasicScene from '../../components/BasicScene.vue'
 
@@ -16,7 +16,7 @@ const shape = ref(1)
   </div>
   <BasicScene>
     <template #effects>
-      <HalftoneThree :radius="enabled ? radius : undefined" :shape="shape" />
+      <Halftone :radius="enabled ? radius : undefined" :shape="shape" />
     </template>
   </BasicScene>
 </template>

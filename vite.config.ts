@@ -1,3 +1,4 @@
+import { templateCompilerOptions } from '@tresjs/core'
 import vue from '@vitejs/plugin-vue'
 import { bold, gray, lightGreen, magenta } from 'kolorist'
 import { resolve } from 'pathe'
@@ -6,9 +7,9 @@ import { visualizer } from 'rollup-plugin-visualizer'
 import { defineConfig } from 'vite'
 import banner from 'vite-plugin-banner'
 import dts from 'vite-plugin-dts'
-
 import pkg from './package.json'
 
+// eslint-disable-next-line no-console
 console.log(`${lightGreen('▲')} ${gray('■')} ${magenta('𝗫')} ${bold('Tres/post-processing')} v${pkg.version}`)
 
 // https://vitejs.dev/config/
@@ -20,16 +21,7 @@ export default defineConfig({
     dedupe: ['@tresjs/core', '@vueuse/core'],
   },
   plugins: [
-    vue({
-      script: {
-        propsDestructure: true,
-      },
-      template: {
-        compilerOptions: {
-          isCustomElement: tag => tag.startsWith('Tres') && tag !== 'TresCanvas',
-        },
-      },
-    }),
+    vue(templateCompilerOptions),
     dts({
       insertTypesEntry: true,
     }),
@@ -40,14 +32,16 @@ export default defineConfig({
     }),
   ],
   build: {
-    lib: {
-      entry: resolve(__dirname, 'src/index.ts'),
-      name: 'tres-postprocessing',
-      fileName: 'tres-postprocessing',
-    },
     copyPublicDir: false,
     watch: {
       include: [resolve(__dirname, 'src')],
+    },
+    lib: {
+      entry: {
+        three: resolve(__dirname, 'src/core/three/index.ts'),
+        pmndrs: resolve(__dirname, 'src/core/pmndrs/index.ts'),
+      },
+      formats: ['es'],
     },
     rollupOptions: {
       plugins: [
@@ -60,9 +54,9 @@ export default defineConfig({
       ],
       external: ['three', 'vue', '@tresjs/core', 'postprocessing', '@vueuse/core'],
       output: {
+        entryFileNames: '[name].js',
         exports: 'named',
-        // Provide global variables to use in the UMD build
-        // for externalized deps
+        format: 'es',
         globals: {
           '@tresjs/core': 'TresjsCore',
           'three': 'Three',

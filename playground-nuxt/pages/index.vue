@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Bloom, EffectComposer } from '@tresjs/post-processing'
+import { Bloom, EffectComposer } from '@tresjs/post-processing/pmndrs'
 import { BlendFunction } from 'postprocessing'
 import { BasicShadowMap, Color, NoToneMapping, SRGBColorSpace } from 'three'
 import { reactive } from 'vue'

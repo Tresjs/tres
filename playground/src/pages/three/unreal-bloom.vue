@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { UnrealBloomThree } from '@tresjs/post-processing'
+import { UnrealBloom } from '@tresjs/post-processing/three'
 import { ref } from 'vue'
 import BasicScene from '../../components/BasicScene.vue'
 
@@ -19,7 +19,7 @@ const threshold = ref(0.1)
   </div>
   <BasicScene>
     <template #effects>
-      <UnrealBloomThree v-if="enabled" :radius="radius" :strength="strength" :threshold="threshold" />
+      <UnrealBloom v-if="enabled" :radius="radius" :strength="strength" :threshold="threshold" />
     </template>
   </BasicScene>
 </template>

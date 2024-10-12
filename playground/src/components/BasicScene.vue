@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { OrbitControls } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
-import { EffectComposerThree } from '@tresjs/post-processing'
+import { EffectComposer } from '@tresjs/post-processing/three'
 
 defineProps<{
   wireframe?: boolean
@@ -33,8 +33,8 @@ defineProps<{
     </TresMesh>
 
     <TresGridHelper />
-    <EffectComposerThree>
+    <EffectComposer>
       <slot name="effects"></slot>
-    </EffectComposerThree>
+    </EffectComposer>
   </TresCanvas>
 </template>

@@ -2,9 +2,9 @@
 import { OrbitControls } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
 import { TresLeches, useControls } from '@tresjs/leches'
-import { DepthOfField, EffectComposer, Vignette } from '@tresjs/post-processing'
+import { DepthOfField, EffectComposer, Vignette } from '@tresjs/post-processing/pmndrs'
 import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
-import BlenderCube from '../components/BlenderCube.vue'
+import BlenderCube from '../../components/BlenderCube.vue'
 import '@tresjs/leches/styles'
 
 const gl = {

@@ -1,21 +1,31 @@
 import type { Pass } from 'three/examples/jsm/postprocessing/Pass.js'
-import type { ShallowRef } from 'vue'
+import type { Reactive, ShallowRef } from 'vue'
 import { useTresContext } from '@tresjs/core'
-import { inject, onUnmounted, shallowRef, watchEffect } from 'vue'
+import { inject, nextTick, onUnmounted, shallowRef, watch, watchEffect } from 'vue'
 import { effectComposerInjectionKey } from '../EffectComposer.vue'
 
-export const useEffect = <T extends Pass>(newPassFunction: () => T): { pass: ShallowRef<T> } => {
+/**
+ * @param newPassFunction - A function that returns a new pass instance.
+ * @param passDependencies - A reactive object that the pass depends on (usually props). Changes to this object will trigger re-rendering.
+ */
+export const useEffect = <T extends Pass>(
+  newPassFunction: () => T,
+  passDependencies?: Reactive<object>,
+): { pass: ShallowRef<T> } => {
   const composer = inject(effectComposerInjectionKey)
 
   const pass = shallowRef<T>(newPassFunction()) as ShallowRef<T>
-  const { sizes } = useTresContext()
+  const { sizes, invalidate } = useTresContext()
 
-  let unwatch = () => {} // seperate declaration prevents error in HMR
-  unwatch = watchEffect(() => {
+  if (passDependencies) {
+    watch(passDependencies, () => invalidate())
+  }
+
+  const unwatch = watchEffect(() => {
     if (!composer?.value || !sizes.height.value || !sizes.width.value) { return }
 
     composer.value.addPass(pass.value)
-    unwatch()
+    nextTick(() => unwatch())
   })
 
   onUnmounted(() => {

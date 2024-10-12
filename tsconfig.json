@@ -21,6 +21,7 @@
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true
   },
+
   "references": [{ "path": "./tsconfig.node.json" }],
   "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
   "exclude": ["dist", "node_modules", "src/**/*.cy.ts", "src/**/*.test.ts"]

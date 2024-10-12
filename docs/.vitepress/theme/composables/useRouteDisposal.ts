@@ -1,4 +1,4 @@
-import type { EffectComposer } from '@tresjs/post-processing'
+import type { EffectComposer } from '@tresjs/post-processing/pmndrs'
 import { useRouter } from 'vitepress'
 import { ref, watch } from 'vue'
 

@@ -2,7 +2,7 @@
 import { OrbitControls } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
 import { TresLeches, useControls } from '@tresjs/leches'
-import { EffectComposer, Pixelation } from '@tresjs/post-processing'
+import { EffectComposer, Pixelation } from '@tresjs/post-processing/pmndrs'
 import '@tresjs/leches/styles'
 
 useControls('fpsgraph')
@@ -18,7 +18,7 @@ const { granularity } = useControls({
 
 <template>
   <TresLeches />
-  <TresCanvas>
+  <TresCanvas render-mode="on-demand">
     <TresPerspectiveCamera
       :position="[5, 5, 5]"
       :look-at="[0, 0, 0]"

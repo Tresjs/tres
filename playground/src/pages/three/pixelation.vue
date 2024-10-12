@@ -1,12 +1,12 @@
 <script lang="ts" setup>
-import { PixelationThree } from '@tresjs/post-processing'
+import { Pixelation } from '@tresjs/post-processing/three'
 import BasicScene from '../../components/BasicScene.vue'
 </script>
 
 <template>
   <BasicScene>
     <template #effects>
-      <PixelationThree :pixel-size="16" />
+      <Pixelation :pixel-size="16" />
     </template>
   </BasicScene>
 </template>

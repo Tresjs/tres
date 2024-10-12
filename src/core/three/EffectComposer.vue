@@ -1,11 +1,11 @@
 <script lang="ts">
 import { useLoop, useTresContext } from '@tresjs/core'
 import { useDevicePixelRatio } from '@vueuse/core'
-import { EffectComposer as EffectComposerThreejs } from 'three/examples/jsm/postprocessing/EffectComposer.js'
+import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js'
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js'
 import { type InjectionKey, onUnmounted, provide, type ShallowRef, shallowRef, watchEffect } from 'vue'
 
-export const effectComposerInjectionKey: InjectionKey<ShallowRef<EffectComposerThreejs | null>> = Symbol('effectComposerThree')
+export const effectComposerInjectionKey: InjectionKey<ShallowRef<EffectComposer | null>> = Symbol('effectComposerThree')
 </script>
 
 <script lang="ts" setup>
@@ -16,7 +16,7 @@ const props = withDefaults(defineProps<{
   enabled: true,
 })
 
-const effectComposer: ShallowRef<EffectComposerThreejs | null> = shallowRef(null)
+const effectComposer: ShallowRef<EffectComposer | null> = shallowRef(null)
 provide(effectComposerInjectionKey, effectComposer)
 
 defineExpose({ composer: effectComposer })
@@ -25,7 +25,7 @@ const { renderer, sizes, scene, camera, render: renderCtx } = useTresContext()
 
 const initEffectComposer = () => {
   effectComposer.value?.dispose()
-  effectComposer.value = new EffectComposerThreejs(renderer.value)
+  effectComposer.value = new EffectComposer(renderer.value)
 }
 watchEffect(initEffectComposer)
 

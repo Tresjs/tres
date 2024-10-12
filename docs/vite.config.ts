@@ -1,4 +1,3 @@
-import { templateCompilerOptions } from '@tresjs/core'
 import Unocss from 'unocss/vite'
 import Components from 'unplugin-vue-components/vite'
 import { defineConfig } from 'vite'
@@ -17,7 +16,4 @@ export default defineConfig({
       dts: 'components.d.ts',
     }),
   ],
-  vue: {
-    ...templateCompilerOptions,
-  },
 })

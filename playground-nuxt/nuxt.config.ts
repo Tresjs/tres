@@ -9,7 +9,8 @@ export default defineNuxtConfig({
   vite: {
     resolve: {
       alias: {
-        '@tresjs/post-processing': resolve(__dirname, '../src/'),
+        '@tresjs/post-processing/pmndrs': resolve(__dirname, '../src/core/pmndrs'),
+        '@tresjs/post-processing/three': resolve(__dirname, '../src/core/three'),
       },
       dedupe: ['three', '@tresjs/core', '@vueuse/core'],
     },

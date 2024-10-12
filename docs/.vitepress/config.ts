@@ -47,15 +47,26 @@ export default defineConfig({
         items: [{ text: 'Introduction', link: '/guide/' }],
       },
       {
-        text: 'Effects',
+        text: 'Pmndrs',
         items: [
-          { text: 'Bloom', link: '/guide/effects/bloom' },
-          { text: 'Depth of Field', link: '/guide/effects/depth-of-field' },
-          { text: 'Glitch', link: '/guide/effects/glitch' },
-          { text: 'Noise', link: '/guide/effects/noise' },
-          { text: 'Outline', link: '/guide/effects/outline' },
-          { text: 'Pixelation', link: '/guide/effects/pixelation' },
-          { text: 'Vignette', link: '/guide/effects/vignette' },
+          { text: 'Bloom', link: '/guide/pmndrs/bloom' },
+          { text: 'Depth of Field', link: '/guide/pmndrs/depth-of-field' },
+          { text: 'Glitch', link: '/guide/pmndrs/glitch' },
+          { text: 'Noise', link: '/guide/pmndrs/noise' },
+          { text: 'Outline', link: '/guide/pmndrs/outline' },
+          { text: 'Pixelation', link: '/guide/pmndrs/pixelation' },
+          { text: 'Vignette', link: '/guide/pmndrs/vignette' },
+        ],
+      },
+      {
+        text: 'Three',
+        items: [
+          { text: 'Glitch', link: '/guide/three/glitch' },
+          { text: 'Halftone', link: '/guide/three/halftone' },
+          { text: 'Output', link: '/guide/three/output' },
+          { text: 'Pixelation', link: '/guide/three/pixelation' },
+          { text: 'SMAA', link: '/guide/three/smaa' },
+          { text: 'Unreal Bloom', link: '/guide/three/unreal-bloom' },
         ],
       },
     ],
@@ -78,9 +89,10 @@ export default defineConfig({
     },
     resolve: {
       alias: {
-        '@tresjs/post-processing': resolve(__dirname, '../../dist/tres-postprocessing.js'),
+        '@tresjs/post-processing/three': resolve(__dirname, '../../src/core/three'),
+        '@tresjs/post-processing/pmndrs': resolve(__dirname, '../../src/core/pmndrs'),
       },
-      dedupe: ['three'],
+      dedupe: ['three', '@tresjs/core'],
     },
   },
   vue: {

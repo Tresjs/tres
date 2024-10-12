@@ -2,7 +2,7 @@
 import { OrbitControls } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
 import { TresLeches, useControls } from '@tresjs/leches'
-import { EffectComposer, Glitch } from '@tresjs/post-processing'
+import { EffectComposer, Glitch } from '@tresjs/post-processing/pmndrs'
 import { GlitchMode } from 'postprocessing'
 import { BasicShadowMap, NoToneMapping, Vector2 } from 'three'
 import '@tresjs/leches/styles'

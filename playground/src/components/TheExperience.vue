@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
-import { EffectComposer, Glitch } from '@tresjs/post-processing'
+import { EffectComposer, Glitch } from '@tresjs/post-processing/pmndrs'
 import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
 
 const gl = {

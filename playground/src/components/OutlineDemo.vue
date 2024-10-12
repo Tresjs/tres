@@ -2,7 +2,7 @@
 import type { Intersection, Object3D } from 'three'
 import { OrbitControls, useTweakPane } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
-import { EffectComposer, Outline } from '@tresjs/post-processing'
+import { EffectComposer, Outline } from '@tresjs/post-processing/pmndrs'
 import { BasicShadowMap, NoToneMapping } from 'three'
 import { reactive, ref } from 'vue'
 
@@ -11,7 +11,6 @@ const gl = {
   shadows: true,
   clearColor: '#4ADE80',
   toneMapping: NoToneMapping,
-  disableRender: true,
   shadowMapType: BasicShadowMap,
 }
 
