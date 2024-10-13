@@ -1,5 +1,11 @@
 
 
+## [4.3.1](https://github.com/Tresjs/tres/compare/4.3.0...4.3.1) (2024-10-13)
+
+### Bug Fixes
+
+* 849 support Symbol keys in provide/inject ([#850](https://github.com/Tresjs/tres/issues/850)) ([35125ce](https://github.com/Tresjs/tres/commit/35125cecda55333bac542ed473bcddd2f7925c2b))
+
 ## [4.3.0](https://github.com/Tresjs/tres/compare/4.2.10...4.3.0) (2024-09-30)
 
 
