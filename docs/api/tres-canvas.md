@@ -78,7 +78,6 @@ renderer.shadowMap.type = PCFSoftShadowMap
 | **context** | This can be used to attach the renderer to an existing [RenderingContext](https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext) | |
 | **depth** | Whether the drawing buffer has a [depth buffer](https://en.wikipedia.org/wiki/Z-buffering) of at least 16 bits. | `true` |
 | **renderMode** | Render mode, can be `always`, `on-demand` or `manual`. See [Performance](../advanced/performance)  | `always` |
-| **disableRender** | Disable render on requestAnimationFrame, useful for PostProcessing | `false` |
 | **failIfMajorPerformanceCaveat** | Whether the renderer creation will fail upon low performance is detected. See [WebGL spec](https://registry.khronos.org/webgl/specs/latest/1.0/#5.2) for details. | `false` |
 | **logarithmicDepthBuffer** | Whether to use a logarithmic depth buffer. It may be necessary to use this if dealing with huge differences in scale in a single scene. Note that this setting uses gl_FragDepth if available which disables the [Early Fragment Test](https://www.khronos.org/opengl/wiki/Early_Fragment_Test) optimization and can cause a decrease in performance. | `false` |
 | **outputColorSpace** | Defines the output encoding | `LinearEncoding` |
@@ -93,6 +92,7 @@ renderer.shadowMap.type = PCFSoftShadowMap
 | **toneMappingExposure** | Exposure level of tone mapping. | `1` |
 | **useLegacyLights** | Whether to use the legacy lighting mode or not | `true` |
 | **windowSize** | Whether to use the window size as the canvas size or the parent element. | `false` |
+| **enableProvideBridge** | Enables the provide/inject bridge between Vue context and TresCanvas. | `true` |
 
 ### Defaults
 

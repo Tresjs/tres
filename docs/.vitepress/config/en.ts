@@ -98,7 +98,8 @@ export const enConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
             link: 'https://tresleches.tresjs.org/',
           },
           {
-            text: 'Post-processing (Soon)',
+            text: 'Post-processing',
+            link: 'https://post-processing.tresjs.org/',
           },
         ],
       },

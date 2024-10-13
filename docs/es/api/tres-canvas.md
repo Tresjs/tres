@@ -77,7 +77,6 @@ renderer.shadowMap.type = PCFSoftShadowMap
 | **clearColor** | El color que el renderizador utilizará para borrar el lienzo. | `#000000` |
 | **context** | Esto se puede usar para adjuntar el renderizador a un [RenderingContext](https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext) existente. | |
 | **depth** | Indica si el búfer de dibujo tiene un [búfer de profundidad](https://en.wikipedia.org/wiki/Z-buffering) de al menos 16 bits. | `true` |
-| **disableRender** | Desactiva el renderizado en requestAnimationFrame, útil para PostProcessing. | `false` |
 | **failIfMajorPerformanceCaveat** | Indica si la creación del renderizador fallará si se detecta un bajo rendimiento. Consulta la [especificación de WebGL](https://registry.khronos.org/webgl/specs/latest/1.0/#5.2) para más detalles. | `false` |
 | **logarithmicDepthBuffer** | Indica si se debe utilizar un búfer de profundidad logarítmico. Puede ser necesario utilizar esto si se manejan diferencias enormes de escala en una sola escena. Ten en cuenta que esta configuración utiliza gl_FragDepth si está disponible, lo cual deshabilita la optimización [Early Fragment Test](https://www.khronos.org/opengl/wiki/Early_Fragment_Test) y puede causar una disminución en el rendimiento. | `false` |
 | **outputColorSpace** | Define la codificación de salida. | `LinearEncoding` |

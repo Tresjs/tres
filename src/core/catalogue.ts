@@ -1,6 +1,6 @@
-import { ref } from 'vue'
 import type { Ref } from 'vue'
 import type { TresCatalogue } from '../types'
+import { ref } from 'vue'
 
 export const catalogue: Ref<TresCatalogue> = ref({})
 

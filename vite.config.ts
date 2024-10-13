@@ -9,11 +9,12 @@ import dts from 'vite-plugin-dts'
 
 import Inspect from 'vite-plugin-inspect'
 
-/* import analyze from 'rollup-plugin-analyzer'
- */ /* import { visualizer } from 'rollup-plugin-visualizer' */
-import { bold, gray, lightGreen, yellow } from 'kolorist'
+/* import analyze from 'rollup-plugin-analyzer' */
 
+import { bold, gray, lightGreen, yellow } from 'kolorist'
 import { resolve } from 'pathe'
+
+/* ß */
 
 import pkg from './package.json'
 
@@ -64,7 +65,7 @@ export default defineConfig({
           targets: [{ src: 'src/types/tres-components.d.ts', dest: 'dist/types' }],
         }),
         /*   analyze(), */
-        /*    visualizer({
+        /* visualizer({
           open: true,
           gzipSize: true,
           brotliSize: true,

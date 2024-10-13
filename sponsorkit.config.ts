@@ -37,8 +37,13 @@ export default defineConfig({
       preset: tierPresets.large,
     },
     {
-      title: 'Gold Sponsors',
+      title: 'Bronze Sponsors',
       monthlyDollars: 100,
+      preset: tierPresets.xl,
+    },
+    {
+      title: 'Silver Sponsors',
+      monthlyDollars: 200,
       preset: tierPresets.xl,
     },
   ],

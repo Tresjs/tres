@@ -1,8 +1,17 @@
 <script setup lang="ts">
+import type {
+  ColorSpace,
+  ShadowMapType,
+  ToneMapping,
+  WebGLRendererParameters,
+} from 'three'
+import type { App, Ref } from 'vue'
+import type { RendererPresetsType } from '../composables/useRenderer/const'
+import type { TresCamera, TresObject, TresScene } from '../types/'
 import { PerspectiveCamera, Scene } from 'three'
 import * as THREE from 'three'
+
 import {
-  computed,
   createRenderer,
   defineComponent,
   Fragment,
@@ -16,15 +25,7 @@ import {
   watch,
   watchEffect,
 } from 'vue'
-import type {
-  ColorSpace,
-  ShadowMapType,
-  ToneMapping,
-  WebGLRendererParameters,
-} from 'three'
-import type { App, Ref } from 'vue'
 import pkg from '../../package.json'
-
 import {
   type TresContext,
   useLogger,
@@ -32,11 +33,9 @@ import {
 } from '../composables'
 import { extend } from '../core/catalogue'
 import { nodeOps } from '../core/nodeOps'
+
 import { registerTresDevtools } from '../devtools'
 import { disposeObject3D } from '../utils/'
-
-import type { RendererPresetsType } from '../composables/useRenderer/const'
-import type { TresCamera, TresObject, TresScene } from '../types/'
 
 export interface TresCanvasProps
   extends Omit<WebGLRendererParameters, 'canvas'> {
@@ -55,7 +54,9 @@ export interface TresCanvasProps
   camera?: TresCamera
   preset?: RendererPresetsType
   windowSize?: boolean
-  disableRender?: boolean
+
+  // Misc opt-out flags
+  enableProvideBridge?: boolean
 }
 
 const props = withDefaults(defineProps<TresCanvasProps>(), {
@@ -65,12 +66,12 @@ const props = withDefaults(defineProps<TresCanvasProps>(), {
   stencil: undefined,
   antialias: undefined,
   windowSize: undefined,
-  disableRender: undefined,
   useLegacyLights: undefined,
   preserveDrawingBuffer: undefined,
   logarithmicDepthBuffer: undefined,
   failIfMajorPerformanceCaveat: undefined,
   renderMode: 'always',
+  enableProvideBridge: true,
 })
 
 // Define emits for Pointer events, pass `emit` into useTresEventManager so we can emit events off of TresCanvas
@@ -107,14 +108,40 @@ const canvas = ref<HTMLCanvasElement>()
 */
 const scene = shallowRef<TresScene | Scene>(new Scene())
 
-const instance = getCurrentInstance()?.appContext.app
+const instance = getCurrentInstance()
 extend(THREE)
 
 const createInternalComponent = (context: TresContext, empty = false) =>
   defineComponent({
     setup() {
       const ctx = getCurrentInstance()?.appContext
-      if (ctx) { ctx.app = instance as App }
+      if (ctx) { ctx.app = instance?.appContext.app as App }
+      const provides: { [key: string | symbol]: unknown } = {}
+
+      // Helper function to recursively merge provides from parents
+      function mergeProvides(currentInstance: any) {
+        if (!currentInstance) { return }
+
+        // Recursively process the parent instance
+        if (currentInstance.parent) {
+          mergeProvides(currentInstance.parent)
+        }
+        // Extract provides from the current instance and merge them
+        if (currentInstance.provides) {
+          Object.assign(provides, currentInstance.provides)
+        }
+      }
+
+      // Start the recursion from the initial instance
+      if (instance?.parent && props.enableProvideBridge) {
+        mergeProvides(instance.parent)
+
+        Reflect.ownKeys(provides)
+          .forEach((key) => {
+            provide(key, provides[key])
+          })
+      }
+
       provide('useTres', context)
       provide('extend', extend)
 
@@ -143,8 +170,6 @@ const dispose = (context: TresContext, force = false) => {
   }
 }
 
-const disableRender = computed(() => props.disableRender)
-
 const context = shallowRef<TresContext | null>(null)
 
 defineExpose({ context, dispose: () => dispose(context.value as TresContext, true) })
@@ -166,7 +191,6 @@ onMounted(() => {
     scene: scene.value as TresScene,
     canvas: existingCanvas,
     windowSize: props.windowSize ?? false,
-    disableRender: disableRender.value ?? false,
     rendererOptions: props,
     emit,
   })
