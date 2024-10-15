@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts">
 import type { BlendFunction, KernelSize } from 'postprocessing'
 import { BloomEffect } from 'postprocessing'
 import { makePropWatchers } from '../../util/prop'
@@ -57,7 +57,9 @@ export interface BloomProps {
    */
   mipmapBlur?: boolean
 }
+</script>
 
+<script setup lang="ts">
 const props = withDefaults(
   defineProps<BloomProps>(),
   {

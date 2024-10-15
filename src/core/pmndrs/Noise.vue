@@ -1,4 +1,4 @@
-<script lang="ts" setup>
+<script lang="ts">
 import { useLoop } from '@tresjs/core'
 import { BlendFunction, NoiseEffect } from 'postprocessing'
 import { omit } from '../../util/object'
@@ -12,7 +12,9 @@ export interface NoiseProps {
   premultiply?: boolean
   blendFunction?: BlendFunction
 }
+</script>
 
+<script lang="ts" setup>
 const props = withDefaults(defineProps<NoiseProps>(), {
   premultiply: false,
   blendFunction: BlendFunction.SCREEN,

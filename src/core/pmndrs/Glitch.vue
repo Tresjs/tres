@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts">
 import type { BlendFunction } from 'postprocessing'
 import type { Texture, Vector2 } from 'three'
 import { useLoop } from '@tresjs/core'
@@ -52,7 +52,9 @@ export interface GlitchProps {
    */
   dtSize?: number
 }
+</script>
 
+<script setup lang="ts">
 const props = defineProps<GlitchProps>()
 
 const { pass, effect } = useEffect(() => new GlitchEffect(props), props)

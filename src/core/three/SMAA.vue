@@ -1,14 +1,18 @@
-<script lang="ts" setup>
+<script lang="ts">
 import { useTresContext } from '@tresjs/core'
 import { useDevicePixelRatio } from '@vueuse/core'
 import { SMAAPass } from 'three/examples/jsm/postprocessing/SMAAPass.js'
 import { computed, watchEffect } from 'vue'
 import { useEffect } from './composables/useEffect'
 
-const props = defineProps<{
+export interface SMAAProps {
   width?: number
   height?: number
-}>()
+}
+</script>
+
+<script lang="ts" setup>
+const props = defineProps<SMAAProps>()
 
 const { sizes } = useTresContext()
 const { pixelRatio } = useDevicePixelRatio() // the renderers pixel ratio is not used because it is not reactive

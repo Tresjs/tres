@@ -13,7 +13,7 @@ export enum HalftoneShape {
   Square = 4,
 }
 
-interface HalftonePassProps {
+export interface HalftoneProps {
   shape?: HalftoneShape
   radius?: number
   rotateR?: number
@@ -27,7 +27,7 @@ interface HalftonePassProps {
 </script>
 
 <script lang="ts" setup>
-const props = defineProps<HalftonePassProps>()
+const props = defineProps<HalftoneProps>()
 const { sizes } = useTresContext()
 
 const shakedProps = computed(() =>

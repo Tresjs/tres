@@ -1,4 +1,4 @@
-<script lang="ts" setup>
+<script lang="ts">
 import type { BlendFunction } from 'postprocessing'
 import { useTresContext } from '@tresjs/core'
 import { DepthOfFieldEffect } from 'postprocessing'
@@ -40,7 +40,9 @@ export interface DepthOfFieldProps {
   resolutionX?: number
   resolutionY?: number
 }
+</script>
 
+<script lang="ts" setup>
 const props = defineProps<DepthOfFieldProps>()
 const { camera } = useTresContext()
 

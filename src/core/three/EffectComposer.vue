@@ -6,15 +6,18 @@ import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js'
 import { type InjectionKey, onUnmounted, provide, type ShallowRef, shallowRef, watchEffect } from 'vue'
 
 export const effectComposerInjectionKey: InjectionKey<ShallowRef<EffectComposer | null>> = Symbol('effectComposerThree')
+
+export interface EffectComposerProps {
+  enabled?: boolean
+  withoutRenderPass?: boolean
+}
 </script>
 
 <script lang="ts" setup>
-const props = withDefaults(defineProps<{
-  enabled?: boolean
-  withoutRenderPass?: boolean
-}>(), {
-  enabled: true,
-})
+const props = withDefaults(
+  defineProps<EffectComposerProps>(),
+  { enabled: true },
+)
 
 const effectComposer: ShallowRef<EffectComposer | null> = shallowRef(null)
 provide(effectComposerInjectionKey, effectComposer)

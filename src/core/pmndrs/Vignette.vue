@@ -1,4 +1,4 @@
-<script lang="ts" setup>
+<script lang="ts">
 import { BlendFunction, VignetteEffect, VignetteTechnique } from 'postprocessing'
 import { omit } from '../../util/object'
 import { makePropWatchersUsingAllProps } from '../../util/prop'
@@ -13,7 +13,9 @@ export interface VignetteProps {
   offset: number
   darkness: number
 }
+</script>
 
+<script lang="ts" setup>
 const props = withDefaults(defineProps<VignetteProps>(), {
   technique: VignetteTechnique.DEFAULT,
   blendFunction: BlendFunction.NORMAL,
