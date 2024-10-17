@@ -43,7 +43,8 @@ export const enConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
 
         items: [
           { text: 'Extending', link: '/advanced/extending' },
-          { text: 'Primitive', link: '/advanced/primitive' },
+          { text: 'Primitives', link: '/advanced/primitive' },
+          { text: 'Scaling Performance 🚀', link: '/advanced/performance' },
           {
             text: 'Caveats',
             link: '/advanced/caveats',
@@ -62,12 +63,14 @@ export const enConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
         items: [
           { text: 'Orbit Controls', link: '/cookbook/orbit-controls' },
           { text: 'Basic Animations', link: '/cookbook/basic-animations' },
+          { text: 'Advanced Animations', link: '/cookbook/advanced-animations' },
           { text: 'Groups', link: '/cookbook/groups' },
           { text: 'Load Textures', link: '/cookbook/load-textures' },
           { text: 'Load Models', link: '/cookbook/load-models' },
           { text: 'Load Text', link: '/cookbook/text-3d' },
           { text: 'Lights & Shadows', link: '/cookbook/lights-shadows' },
           { text: 'Shaders', link: '/cookbook/shaders' },
+          { text: 'Tweakpane', link: '/cookbook/tweakpane' },
         ],
       },
       {
@@ -76,9 +79,7 @@ export const enConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
         items: [
           { text: 'v-log', link: '/directives/v-log' },
           { text: 'v-light-helper', link: '/directives/v-light-helper' },
-          { text: 'v-always-look-at', link: '/directives/v-always-look-at' },
           { text: 'v-distance-to', link: '/directives/v-distance-to' },
-          { text: 'v-rotate', link: '/directives/v-rotate' },
         ],
       },
       {
@@ -97,7 +98,8 @@ export const enConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
             link: 'https://tresleches.tresjs.org/',
           },
           {
-            text: 'Post-processing (Soon)',
+            text: 'Post-processing',
+            link: 'https://post-processing.tresjs.org/',
           },
         ],
       },
@@ -107,39 +109,42 @@ export const enConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
       { text: 'API', link: '/api/tres-canvas' },
       /*       { text: 'API', link: '/api/' },
       { text: 'Config', link: '/config/' }, */
-      { text: 'Resources', items: [
-        { text: 'Team', link: '/team' },
-        { text: 'Releases', link: 'https://github.com/Tresjs/tres/releases' },
-        {
-          text: 'Playground',
-          link: 'https://play.tresjs.org/',
-        },
-        {
-          text: 'Github',
-          link: 'https://github.com/Tresjs/tres/',
-        },
-        {
-          text: 'Issues',
-          link: 'https://github.com/Tresjs/tres/issues',
-        },
-        {
-          text: 'Ecosystem',
-          items: [
-            {
-              text: 'Cientos 💛',
-              link: 'https://cientos.tresjs.org/',
-            },
-            {
-              text: 'Nuxt module',
-              link: 'https://github.com/Tresjs/nuxt',
-            },
-            {
-              text: 'TresLeches 🍰',
-              link: 'https://tresleches.tresjs.org/',
-            },
-          ],
-        },
-      ] },
+      {
+        text: 'Resources',
+        items: [
+          { text: 'Team', link: '/team' },
+          { text: 'Releases', link: 'https://github.com/Tresjs/tres/releases' },
+          {
+            text: 'Playground',
+            link: 'https://play.tresjs.org/',
+          },
+          {
+            text: 'Github',
+            link: 'https://github.com/Tresjs/tres/',
+          },
+          {
+            text: 'Issues',
+            link: 'https://github.com/Tresjs/tres/issues',
+          },
+          {
+            text: 'Ecosystem',
+            items: [
+              {
+                text: 'Cientos 💛',
+                link: 'https://cientos.tresjs.org/',
+              },
+              {
+                text: 'Nuxt module',
+                link: 'https://github.com/Tresjs/nuxt',
+              },
+              {
+                text: 'TresLeches 🍰',
+                link: 'https://tresleches.tresjs.org/',
+              },
+            ],
+          },
+        ],
+      },
     ],
   },
 }

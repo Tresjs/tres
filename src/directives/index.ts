@@ -1,7 +1,5 @@
-import { vLog } from './vLog'
-import { vLightHelper } from './vLightHelper'
-import { vAlwaysLookAt } from './vAlwaysLookAt'
 import { vDistanceTo } from './vDistanceTo'
-import { vRotate } from './vRotate'
+import { vLightHelper } from './vLightHelper'
+import { vLog } from './vLog'
 
-export { vLog, vLightHelper, vAlwaysLookAt, vDistanceTo, vRotate }
+export { vDistanceTo, vLightHelper, vLog }

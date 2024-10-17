@@ -1,4 +1,8 @@
-# v-rotate
+# v-rotate  <Badge type="warning" text="deprecated since v4" />
+
+::: warning
+This directive has been removed on the `v4` due incompatibility with the new renderer loop.
+:::
 
 ## Problem
 
@@ -6,8 +10,8 @@ When you want to simply add rotation to your mesh, you have to use the template 
 
 ```vue
 <script setup lang="ts">
-import { shallowRef, watch } from 'vue'
 import { useRenderLoop } from '@tresjs/core'
+import { shallowRef, watch } from 'vue'
 
 const boxRef = shallowRef()
 

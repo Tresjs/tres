@@ -14,7 +14,7 @@ A `<TresGroup>` is an instance of the [THREE.Group](https://threejs.org/docs/#ap
 
 ```vue{13,22}
 <script setup lang="ts">
-const groupRef = ref()
+const groupRef = shallowRef()
 const { onLoop } = useRenderLoop()
 
 onLoop(() => {

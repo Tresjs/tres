@@ -58,7 +58,7 @@ Da [OrbitControls](https://threejs.org/docs/index.html?q=orbit#examples/en/contr
 ```ts
 import { useTres } from '@tresjs/core'
 
-const { state } = useTres()
+const { camera, renderer } = useTres()
 ```
 
 Dann würde der finale Code etwa so aussehen:
@@ -100,6 +100,7 @@ import OrbitControls from './OrbitControls.vue'
   </TresCanvas>
 </template>
 ```
+
 :::
 
 ## OrbitControls von `cientos`
@@ -112,8 +113,8 @@ Es funktioniert einfach. 💯
 
 ```vue {3,12}
 <script setup lang="ts">
-import { TresCanvas } from '@tresjs/core'
 import { OrbitControls } from '@tresjs/cientos'
+import { TresCanvas } from '@tresjs/core'
 </script>
 
 <template>

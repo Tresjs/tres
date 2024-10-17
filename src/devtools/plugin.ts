@@ -1,15 +1,16 @@
 import type {
   App as DevtoolsApp,
 } from '@vue/devtools-api'
+import type { TresContext } from '../composables'
+import type { TresObject } from './../types'
 import {
   setupDevtoolsPlugin,
 } from '@vue/devtools-api'
+import { Color, type Mesh } from 'three'
 import { reactive } from 'vue'
-import type { Mesh, Object3D } from 'three'
 import { createHighlightMesh, editSceneObject } from '../utils'
+import * as is from '../utils/is'
 import { bytesToKB, calculateMemoryUsage } from '../utils/perf'
-import type { TresContext } from '../composables'
-import type { TresObject } from './../types'
 import { toastMessage } from './utils'
 
 export interface Tags {
@@ -51,14 +52,16 @@ const createNode = (object: TresObject): SceneGraphObject => {
   }
 
   if (object.type.includes('Light')) {
+    if (is.light(object)) {
+      node.tags.push({
+        label: `${object.intensity}`,
+        textColor: 0x9499A6,
+        backgroundColor: 0xF8F9FA,
+        tooltip: 'Intensity',
+      })
+    }
     node.tags.push({
-      label: `${object.intensity}`,
-      textColor: 0x9499A6,
-      backgroundColor: 0xF8F9FA,
-      tooltip: 'Intensity',
-    })
-    node.tags.push({
-      label: `#${object.color.getHexString()}`,
+      label: `#${new Color(object.color).getHexString()}`,
       textColor: 0x9499A6,
       backgroundColor: 0xF8F9FA,
       tooltip: 'Color',
@@ -91,14 +94,14 @@ const createNode = (object: TresObject): SceneGraphObject => {
   return node
 }
 
-function buildGraph(object: TresObject, node: SceneGraphObject) {
+function buildGraph(object: TresObject, node: SceneGraphObject, filter: string = '') {
   object.children.forEach((child: TresObject) => {
-    if (child.type === 'HightlightMesh') {
-      return
-    }
+    if (child.type === 'HightlightMesh') { return }
+    if (filter && !child.type.includes(filter) && !child.name.includes(filter)) { return }
+
     const childNode = createNode(child)
     node.children.push(childNode)
-    buildGraph(child, childNode)
+    buildGraph(child, childNode, filter)
   })
 }
 
@@ -122,7 +125,6 @@ export function registerTresDevtools(app: DevtoolsApp, tres: TresContext) {
     (api) => {
       if (typeof api.now !== 'function') {
         toastMessage(
-
           'You seem to be using an outdated version of Vue Devtools. Are you still using the Beta release instead of the stable one? You can find the links at https://devtools.vuejs.org/guide/installation.html.',
         )
       }
@@ -145,43 +147,19 @@ export function registerTresDevtools(app: DevtoolsApp, tres: TresContext) {
       api.on.getInspectorTree((payload) => {
         if (payload.inspectorId === INSPECTOR_ID) {
           // Your logic here
-          const root = createNode(tres.scene.value)
-          buildGraph(tres.scene.value, root)
+          const root = createNode(tres.scene.value as unknown as TresObject)
+          buildGraph(tres.scene.value as unknown as TresObject, root, payload.filter)
           state.sceneGraph = root
           payload.rootNodes = [root]
-          /*  payload.rootNodes = [
-            {
-              id: 'root',
-              label: 'Root ',
-              children: [
-                {
-                  id: 'child',
-                  label: `Child ${payload.filter}`,
-                  tags: [
-                    {
-                      label: 'active',
-                      textColor: 0x000000,
-                      backgroundColor: 0xFF984F,
-                    },
-                    {
-                      label: 'test',
-                      textColor: 0xffffff,
-                      backgroundColor: 0x000000,
-                    },
-                  ],
-                },
-              ],
-            },
-          ] */
         }
       })
       let highlightMesh: Mesh | null = null
-      let prevInstance: Object3D | null = null
+      let prevInstance: TresObject | null = null
 
       api.on.getInspectorState((payload) => {
         if (payload.inspectorId === INSPECTOR_ID) {
           // Your logic here
-          const [instance] = tres.scene.value.getObjectsByProperty('uuid', payload.nodeId)
+          const [instance] = tres.scene.value.getObjectsByProperty('uuid', payload.nodeId) as TresObject[]
           if (!instance) { return }
           if (prevInstance && highlightMesh && highlightMesh.parent) {
             prevInstance.remove(highlightMesh)
@@ -196,91 +174,36 @@ export function registerTresDevtools(app: DevtoolsApp, tres: TresContext) {
           }
 
           payload.state = {
-            object: [
-              {
-                key: 'uuid',
-                editable: true,
-                value: instance.uuid,
-              },
-              {
-                key: 'name',
-                editable: true,
-                value: instance.name,
-              },
-              {
-                key: 'type',
-                editable: true,
-                value: instance.type,
-              },
-              {
-                key: 'position',
-                editable: true,
-                value: instance.position,
-              },
-              {
-                key: 'rotation',
-                editable: true,
-                value: instance.rotation,
-              },
-              {
-                key: 'scale',
-                editable: true,
-                value: instance.scale,
-              },
-              {
-                key: 'geometry',
-                value: instance.geometry,
-              },
-              {
-                key: 'material',
-                value: instance.material,
-              },
-              {
-                key: 'color',
-                editable: true,
-                value: instance.color,
-              },
-              {
-                key: 'intensity',
-                editable: true,
-                value: instance.intensity,
-              },
-              {
-                key: 'castShadow',
-                editable: true,
-                value: instance.castShadow,
-              },
-              {
-                key: 'receiveShadow',
-                editable: true,
-                value: instance.receiveShadow,
-              },
-              {
-                key: 'frustumCulled',
-                editable: true,
-                value: instance.frustumCulled,
-              },
-              {
-                key: 'matrixAutoUpdate',
-                editable: true,
-                value: instance.matrixAutoUpdate,
-              },
-              {
-                key: 'matrixWorldNeedsUpdate',
-                editable: true,
-                value: instance.matrixWorldNeedsUpdate,
-              },
-              {
-                key: 'matrixWorld',
-                value: instance.matrixWorld,
-              },
+            object: Object.entries(instance)
+              .map(([key, value]) => {
+                if (key === 'children') {
+                  return { key, value: value.filter((child: { type: string }) => child.type !== 'HightlightMesh') }
+                }
+                return { key, value, editable: true }
+              })
+              .filter(({ key }) => {
+                return key !== 'parent'
+              }),
+          }
 
-              {
-                key: 'visible',
-                editable: true,
-                value: instance.visible,
+          if (instance.isScene) {
+            payload.state.info = {
+              objects: instance.children.length,
+              memory: calculateMemoryUsage(instance),
+              calls: tres.renderer.value.info.render.calls,
+              triangles: tres.renderer.value.info.render.triangles,
+              points: tres.renderer.value.info.render.points,
+              lines: tres.renderer.value.info.render.lines,
+            }
+            payload.state.programs = tres.renderer.value.info.programs?.map(program => ({
+              key: program.name,
+              value: {
+                ...program,
+                vertexShader: program.vertexShader,
+                attributes: program.getAttributes(),
+                uniforms: program.getUniforms(),
               },
-            ],
+            })) || []
           }
         }
       })

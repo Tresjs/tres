@@ -77,7 +77,6 @@ renderer.shadowMap.type = PCFSoftShadowMap
 | **clearColor** | La couleur que le moteur de rendu utilisera pour effacer le canevas. | `#000000` |
 | **context** | Ceci peut être utilisé pour attacher le moteur de rendu à un [RenderingContext](https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext) existente. | |
 | **depth** | Indique si le tampon de dessin a une [profondeur du tampon](https://en.wikipedia.org/wiki/Z-buffering) de au moins 16 bits. | `true` |
-| **disableRender** | Désactive le rendu sur requestAnimationFrame, utile pour le post-traitement. | `false` |
 | **failIfMajorPerformanceCaveat** | Indique si la création du moteur de rendu échouera si de mauvaises performances sont détectées. Voir la [spécification WebGL](https://registry.khronos.org/webgl/specs/latest/1.0/#5.2) para más detalles. | `false` |
 | **logarithmicDepthBuffer** | Indique s’il faut utiliser un tampon de profondeur logarithmique. Il peut être nécessaire de l'utiliser s'il s'agit de différences d'échelle énormes dans une seule scène. Notez que ce paramètre utilise gl_FragDepth s'il est disponible, ce qui désactive l'optimisation [Early Fragment Test](https://www.khronos.org/opengl/wiki/Early_Fragment_Test) et peut entraîner une baisse des performances. | `false` |
 | **outputColorSpace** | Définit l'encodage de sortie. | `LinearEncoding` |
@@ -88,7 +87,7 @@ renderer.shadowMap.type = PCFSoftShadowMap
 | **shadows** | Activez les ombres dans le moteur de rendu. | `false` |
 | **shadowMapType** | Définit le type de carte d'ombrage. | `PCFSoftShadowMap` |
 | **stencil** | Indique si le tampon de dessin possède un [tampon de pochoir](https://en.wikipedia.org/wiki/Stencil_buffer) de au moins 8 bits. | `true` |
-| **toneMapping** | Définit l’exposition du mappage de tons utilisée par le moteur de rendu. | `NoToneMapping` |
+| **toneMapping** | Définit l’exposition du mappage de tons utilisée par le moteur de rendu. | `ACESFilmicToneMapping` |
 | **toneMappingExposure** | Niveau d'exposition du mappage de tons. | `1` |
 | **useLegacyLights** | Indique s’il faut utiliser ou non le mode d’éclairage existant. | `true` |
 | **windowSize** | Indique s’il faut utiliser la taille de la fenêtre comme taille du canevas ou de l’élément parent. | `false` |

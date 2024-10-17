@@ -95,7 +95,7 @@ const { nodes } = await useGLTF('/models/AkuAku.gltf', { draco: true })
 </script>
 
 <template>
-  <primitive :object="node.AkuAku" />
+  <primitive :object="nodes.AkuAku" />
 </template>
 ```
 :::

@@ -1,19 +1,20 @@
 /// <reference types="vitest" />
 
-import { defineConfig } from 'vite'
-
 import vue from '@vitejs/plugin-vue'
-import banner from 'vite-plugin-banner'
-import Inspect from 'vite-plugin-inspect'
-import dts from 'vite-plugin-dts'
 
 import copy from 'rollup-plugin-copy'
+import { defineConfig } from 'vite'
+import banner from 'vite-plugin-banner'
+import dts from 'vite-plugin-dts'
 
-/* import analyze from 'rollup-plugin-analyzer'
- */ /* import { visualizer } from 'rollup-plugin-visualizer' */
-import { resolve } from 'pathe'
+import Inspect from 'vite-plugin-inspect'
+
+/* import analyze from 'rollup-plugin-analyzer' */
 
 import { bold, gray, lightGreen, yellow } from 'kolorist'
+import { resolve } from 'pathe'
+
+/* ß */
 
 import pkg from './package.json'
 
@@ -64,7 +65,7 @@ export default defineConfig({
           targets: [{ src: 'src/types/tres-components.d.ts', dest: 'dist/types' }],
         }),
         /*   analyze(), */
-        /*    visualizer({
+        /* visualizer({
           open: true,
           gzipSize: true,
           brotliSize: true,

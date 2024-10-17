@@ -1,4 +1,8 @@
-# v-always-look-at 👀
+# v-always-look-at 👀 <Badge type="warning" text="deprecated since v4" />
+
+::: warning
+This directive has been removed on the `v4` due incompatibility with the new renderer loop.
+:::
 
 With the new directive v-always-look-at provided by **TresJS**, you can add easily command an [Object3D](https://threejs.org/docs/index.html?q=object#api/en/core/Object3D) to always look at a specific position, this could be passed as a Vector3 or an Array.
 

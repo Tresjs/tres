@@ -77,7 +77,6 @@ renderer.shadowMap.type = PCFSoftShadowMap
 | **clearColor** | 清除画布后渲染器显示颜色。 | `#000000` |
 | **context** | 将渲染器附加到现有的 [RenderingContext](https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext) | |
 | **depth** | 绘图缓冲区是否至少具有16位的[深度缓冲区](https://en.wikipedia.org/wiki/Z-buffering) 。| `true` |
-| **disableRender** | 禁用 `requestAnimationFrame` 上的渲染，这对于后期处理非常有用。 | `false` |
 | **failIfMajorPerformanceCaveat** | 在性能较低时，是否检测渲染器创建失败。详细信息请参阅[WebGL](https://registry.khronos.org/webgl/specs/latest/1.0/#5.2)规范。 | `false` |
 | **logarithmicDepthBuffer** | 是否使用深度缓冲区。如果在单个场景中处理巨大的比例差异，可能需要使用此选项。请注意，如果使用，此设置将使用gl_FragDepth，这将禁用[Early Fragment Test](https://www.khronos.org/opengl/wiki/Early_Fragment_Test)优化，可能会导致性能下降。 | `false` |
 | **outputColorSpace** | 定义输出编码 | `LinearEncoding` |
@@ -88,7 +87,7 @@ renderer.shadowMap.type = PCFSoftShadowMap
 | **shadows** | 渲染器是否启用阴影。 | `false` |
 | **shadowMapType** | 设置阴影映射类型 | `PCFSoftShadowMap` |
 | **stencil** | 绘图缓冲区是否至少具有8位的 [模板缓冲区](https://en.wikipedia.org/wiki/Stencil_buffer) 。 | `true` |
-| **toneMapping** | 定义渲染器使用的色调映射曝光。 | `NoToneMapping` |
+| **toneMapping** | 定义渲染器使用的色调映射曝光。 | `ACESFilmicToneMapping` |
 | **toneMappingExposure** | 色调映射的曝光级别。 | `1` |
 | **useLegacyLights** | 是否使用传统照明模式 | `true` |
 | **windowSize** | 是否使用窗口大小作为画布大小，否则使用父元素大小。 | `false` |
