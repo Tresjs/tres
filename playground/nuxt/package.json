@@ -26,7 +26,7 @@
     "@nuxt/devtools": "latest",
     "@tresjs/cientos": "^4.0.0",
     "@tresjs/core": "workspace:^",
-    "@tresjs/nuxt": "3.0.4",
+    "@tresjs/nuxt": "3.0.7",
     "@tresjs/post-processing": "^0.7.1",
     "@types/node": "^22.5.1",
     "@types/three": "^0.169.0",
