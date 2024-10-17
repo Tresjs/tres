@@ -19,7 +19,7 @@
     "unplugin-auto-import": "^0.18.3",
     "vite-plugin-glsl": "^1.2.1",
     "vite-plugin-qrcode": "^0.2.3",
-    "vite-plugin-vue-devtools": "7.4.6",
+    "vite-plugin-vue-devtools": "7.5.2",
     "vue-tsc": "^2.1.6"
   }
 }
