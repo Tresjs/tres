@@ -80,7 +80,7 @@ import { VPHomeSponsors } from 'vitepress/theme'
         target="_blank"
         rel="noreferrer"
       >
-        Cody Bennet <img class="w-5 h-5 rounded ml-2" src="https://avatars.githubusercontent.com/u/23324155?v=4" alt="" />
+        Cody Bennett <img class="w-5 h-5 rounded ml-2" src="https://avatars.githubusercontent.com/u/23324155?v=4" alt="" />
       </a>
     </li>
     <li>
