@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { BasicShadowMap, SRGBColorSpace, NoToneMapping } from 'three'
-import { ScrollControls } from '@tresjs/cientos';
+import { ScrollControls } from '@tresjs/cientos'
+
 const gl = {
   clearColor: '#0F4866',
   shadows: true,
@@ -38,7 +39,6 @@ const { hasFinishLoading } = await useProgress()
 </script>
 
 <template>
-  
   <Transition
     name="fade-overlay"
     enter-active-class="opacity-1 transition-opacity duration-200"

@@ -31,7 +31,7 @@ const options = reactive({
   envMapIntensity: 1.5,
 })
 
-const {transmission, thickness, roughness, envMapIntensity, useHDR} = useControls({
+const { transmission, thickness, roughness, envMapIntensity, useHDR } = useControls({
   transmission: {
     value: 1,
     min: 0,
@@ -71,7 +71,7 @@ watch(useHDR.value, (value) => {
 </script>
 
 <template>
-  <TresLeches/>
+  <TresLeches />
   <TresCanvas
     window-size
     v-bind="gl"

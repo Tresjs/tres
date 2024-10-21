@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
-import { BasicShadowMap, SRGBColorSpace, NoToneMapping, PerspectiveCamera } from 'three'
+import type { PerspectiveCamera } from 'three'
+import { BasicShadowMap, SRGBColorSpace, NoToneMapping } from 'three'
 import gsap from 'gsap'
 
 const gl = {
@@ -14,7 +15,7 @@ const gl = {
 const cameraRef = ref<PerspectiveCamera | null>(null)
 
 const onViewClicked = () => {
-  if(!cameraRef.value) return
+  if (!cameraRef.value) return
   gsap.to(cameraRef.value.position, {
     duration: 1,
     x: 0,
@@ -22,8 +23,8 @@ const onViewClicked = () => {
     z: 3,
     ease: 'power2.inOut',
     onUpdate: () => {
-      if(cameraRef.value)
-      cameraRef.value.lookAt(0, 3, 0)
+      if (cameraRef.value)
+        cameraRef.value.lookAt(0, 3, 0)
     },
   })
 }
@@ -33,9 +34,15 @@ const { hasFinishLoading, progress } = await useProgress()
 
 <template>
   <div class="hero absolute z-30 prose p-24">
-    <h2 class="text-6xl opacity-0 animate-fade-in animate-delay-1s animate-forwards transition-all ease-in-out">iTres</h2>
-    <p class="text-2xl opacity-0 animate-fade-in animate-delay-2s animate-forwards transition-all ease-in-out">New fancy phone, mind-blowing. Head turning. </p>
-    <p class="opacity-0 animate-fade-in animate-delay-4s animate-forwards transition-all ease-in-out">Only $2999.99</p>
+    <h2 class="text-6xl opacity-0 animate-fade-in animate-delay-1s animate-forwards transition-all ease-in-out">
+      iTres
+    </h2>
+    <p class="text-2xl opacity-0 animate-fade-in animate-delay-2s animate-forwards transition-all ease-in-out">
+      New fancy phone, mind-blowing. Head turning.
+    </p>
+    <p class="opacity-0 animate-fade-in animate-delay-4s animate-forwards transition-all ease-in-out">
+      Only $2999.99
+    </p>
   </div>
   <Transition
     name="fade-overlay"
@@ -48,7 +55,7 @@ const { hasFinishLoading, progress } = await useProgress()
     >
       <div class="w-200px text-black text-center">
         <p class="animate-tada">
-         🤳 
+          🤳 
         </p>
         Loading... {{ progress }} %
       </div>

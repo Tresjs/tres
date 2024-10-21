@@ -89,7 +89,8 @@ function getLines(mesh: Mesh) {
           vis.push(rowOffset + col + point + (point < 2 ? 0 : COLS_PER_CHUNK - 1))
         }
       }
-    } else {
+    }
+    else {
       for (let col = COLS_PER_CHUNK - 1; col >= 0; col--) {
         for (let point = 3; point >= 0; point--) {
           vis.push(rowOffset + col + point + (point < 2 ? 0 : COLS_PER_CHUNK - 1))
@@ -106,9 +107,7 @@ function getLines(mesh: Mesh) {
   return new Line2(lineGeometry, lineMaterial)
 }
 
-const rangeSplit = (n: number) => {
-  return n * (Math.random() - 0.5)
-}
+const rangeSplit = (n: number) => n * (Math.random() - 0.5)
 
 function getDust() {
   const geometry = new BufferGeometry()

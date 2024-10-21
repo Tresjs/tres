@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { Html, useGLTF } from '@tresjs/cientos'
 import { Color, MeshStandardMaterial } from 'three'
+
+const emit = defineEmits(['view-clicked'])
 const { nodes } = await useGLTF('/models/iphone/iphonex.glb', { draco: true })
 const model = nodes['iphonex']
 const back = nodes['iphonexback']
@@ -12,13 +14,11 @@ screen?.position.set(0, 0, 0.01)
 screen.material.transparent = true
 screen.material.opacity = 0.5
 
-
 bottomTab.material = new MeshStandardMaterial({
   color: new Color('#000000'),
   emissive: new Color('#000000'),
 })
 
-const emit = defineEmits(['view-clicked'])
 const closeUp = ref(false)
 function onViewClose() {
   closeUp.value = true
@@ -27,11 +27,23 @@ function onViewClose() {
 </script>
 
 <template>
-  <Levioso :speed="closeUp ? 0: 1" :rotationFactor="closeUp ? 0: 1">
-    <TresGroup :position="[0, 1, 0]" ref="">
+  <Levioso
+    :speed="closeUp ? 0 : 1"
+    :rotation-factor="closeUp ? 0 : 1"
+  >
+    <TresGroup
+      ref=""
+      :position="[0, 1, 0]"
+    >
       <primitive :object="model">
-        <Html :distance-factor="1.39" transform :position="[1, 0, 0.2]" :occlude="[back]" v-if="!closeUp">
-          <button @click="onViewClose" 
+        <Html
+          v-if="!closeUp"
+          :distance-factor="1.39"
+          transform
+          :position="[1, 0, 0.2]"
+          :occlude="[back]"
+        >
+          <button
             class="
               p-6
               flex
@@ -43,8 +55,9 @@ function onViewClose() {
               transition-colors
               duration-200
               ease-in-out
-              "
-            > 
+              " 
+            @click="onViewClose"
+          > 
             <i class="i-carbon-view" />
           </button>
         </Html>
@@ -62,7 +75,6 @@ function onViewClose() {
             frameborder="0"
           />
         </Html>
-        
       </primitive>
       <primitive :object="back" />
     </TresGroup>

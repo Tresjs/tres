@@ -24,7 +24,6 @@ const lego = legoNodes.LegoPiece
 const legoMaterial = new MeshPhongMaterial({ color: 'lightgray' })
 const legoInstancedMesh = new InstancedMesh(lego.geometry, legoMaterial, instanceCount)
 
-
 useControls('fpsgraph')
 
 const sampler = new MeshSurfaceSampler(david)

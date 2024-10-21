@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import { SRGBColorSpace, CineonToneMapping } from 'three'
-import { PALETTE } from './components/palette'
 import { ImprovedNoise } from 'three/examples/jsm/math/ImprovedNoise'
 import { clamp } from 'three/src/math/MathUtils'
+import { PALETTE } from './components/palette'
 
 const gl = {
   clearColor: PALETTE[0],
@@ -31,7 +31,8 @@ function fract(a: number) {
 function pingpong(a: number, b: number) {
   if (b == 0.0) {
     return 0.0
-  } else {
+  }
+  else {
     return Math.abs(fract((a - b) / (b * 2.0)) * b * 2.0 - b)
   }
 }
@@ -62,14 +63,30 @@ useRenderLoop().onLoop(({ elapsed }) => {
 
 <template>
   <MusicPlayer />
-  <TresCanvas v-bind="gl" :disable-render="false">
+  <TresCanvas
+    v-bind="gl"
+    :disable-render="false"
+  >
     <Postprocessing />
 
     <TresPerspectiveCamera :position="[x, y, z]">
-      <TresPointLight :intensity="1000" :position="[0, 3, 0]" :color="PALETTE[6]" />
-      <Mountain :color="PALETTE[8]" :position="[0, 0, -500]" :scale="[24, 24, 12]" />
+      <TresPointLight
+        :intensity="1000"
+        :position="[0, 3, 0]"
+        :color="PALETTE[6]"
+      />
+      <Mountain
+        :color="PALETTE[8]"
+        :position="[0, 0, -500]"
+        :scale="[24, 24, 12]"
+      />
 
-      <Sun :scale="100" :color-a="PALETTE[3]" :color-b="PALETTE[7]" :position="[0, 133, -600]" />
+      <Sun
+        :scale="100"
+        :color-a="PALETTE[3]"
+        :color-b="PALETTE[7]"
+        :position="[0, 133, -600]"
+      />
 
       <Grid
         :scale="2660"
@@ -86,9 +103,20 @@ useRenderLoop().onLoop(({ elapsed }) => {
       />
       <Stars :scale="5" />
     </TresPerspectiveCamera>
-    <TresAmbientLight :color="PALETTE[3]" :intensity="40 * (1 - dayProgress)" />
-    <TresDirectionalLight :intensity="20 + 80 * dayProgress" :position="[0, 70, -400]" :color="PALETTE[3]" />
-    <TresDirectionalLight :intensity="100 * dayProgress" :position="[200, 0, 100]" :color="PALETTE[1]" />
+    <TresAmbientLight
+      :color="PALETTE[3]"
+      :intensity="40 * (1 - dayProgress)"
+    />
+    <TresDirectionalLight
+      :intensity="20 + 80 * dayProgress"
+      :position="[0, 70, -400]"
+      :color="PALETTE[3]"
+    />
+    <TresDirectionalLight
+      :intensity="100 * dayProgress"
+      :position="[200, 0, 100]"
+      :color="PALETTE[1]"
+    />
 
     <Terrain
       :terrain-gen-fn="terrainGen"
@@ -100,6 +128,12 @@ useRenderLoop().onLoop(({ elapsed }) => {
       :speed="SPEED"
       :shininess="dayProgress"
     />
-    <GradientSky :color-sky="PALETTE[3]" :color-ground="PALETTE[5]" :size="1000" :offset="0.3" :scale="2" />
+    <GradientSky
+      :color-sky="PALETTE[3]"
+      :color-ground="PALETTE[5]"
+      :size="1000"
+      :offset="0.3"
+      :scale="2"
+    />
   </TresCanvas>
 </template>

@@ -10,7 +10,6 @@ const experiment = {
   portalColorEnd: '#ddc0ff',
 }
 
-
 /* const portalCtrls = pane.addFolder({ title: 'Portal' })
 portalCtrls
   .addInput(experiment, 'portalColorStart', {

@@ -4,7 +4,7 @@ import { Line2 } from 'three/examples/jsm/lines/Line2'
 import { LineGeometry } from 'three/examples/jsm/lines/LineGeometry'
 import { LineMaterial } from 'three/examples/jsm/lines/LineMaterial'
 
-type ColFill = {
+interface ColFill {
   colNum: number
   color: string
 }
@@ -32,7 +32,7 @@ const OPACITY = 0.2
 const lineGeometry = new LineGeometry()
 const numDivisions = props.numDivisions
 const linePositions: number[] = []
-let i = 0
+const i = 0
 for (let row = 0; row < numDivisions; row++) {
   linePositions.push(row % 2 ? 0.5 : -0.5)
   linePositions.push(row / numDivisions - 0.5)
@@ -59,14 +59,14 @@ for (let col = 0; col < numDivisions; col++) {
 lineGeometry.setPositions(linePositions)
 
 // the material for the grid lines
-let lineMaterial = new LineMaterial({
+const lineMaterial = new LineMaterial({
   color: new Color(props.color).getHex(),
   linewidth: 0.001,
   alphaToCoverage: false,
   blending: AdditiveBlending,
 })
 
-let grid = new Line2(lineGeometry, lineMaterial)
+const grid = new Line2(lineGeometry, lineMaterial)
 
 const matDefault = new MeshBasicMaterial({ color: new Color(props.fill), opacity: OPACITY, blending: AdditiveBlending })
 const geo = new PlaneGeometry(1, 1, 1, 1)

@@ -5,7 +5,9 @@
     <div
       class="bg-[#282A36]/70 shadow-3xl m-2 md:m-10 px-5 py-3 sm:py-5 rounded-3xl backdrop-blur-sm flex-col flex gap-1.5 sm:gap-3 w-full max-w-md"
     >
-      <h1 class="text-2xl md:text-3xl font-bold">Halloween Pumpkin</h1>
+      <h1 class="text-2xl md:text-3xl font-bold">
+        Halloween Pumpkin
+      </h1>
       <p class="w-full md:w-[48ch] text-sm md:text-base">
         A 3D pumpkin made with Tres.js, a 3D library for Vue.js. This is a
         Halloween-themed demo for the Tres.js library that demonstrates
@@ -83,8 +85,13 @@
         target="_blank"
         class="flex gap-1.5 items-center text-[#A4FFFF] hover:underline text-xs md:text-sm"
       >
-        <p class="text-center mt-2">Created by Drew Ronsman</p>
-        <img class="w-6 md:w-8 translate-y-0.5" src="/dronsman-logo.svg" />
+        <p class="text-center mt-2">
+          Created by Drew Ronsman
+        </p>
+        <img
+          class="w-6 md:w-8 translate-y-0.5"
+          src="/dronsman-logo.svg"
+        >
       </NuxtLink>
     </div>
   </div>

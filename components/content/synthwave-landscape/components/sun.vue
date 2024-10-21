@@ -50,7 +50,10 @@ const uniforms = {
     <slot />
     <TresMesh :render-order="0">
       <TresSphereGeometry :args="[1, 64, 64]" />
-      <TresShaderMaterial :vertex-shader="vertexShader" :fragment-shader="fragmentShader" />
+      <TresShaderMaterial
+        :vertex-shader="vertexShader"
+        :fragment-shader="fragmentShader"
+      />
     </TresMesh>
   </TresGroup>
 </template>
