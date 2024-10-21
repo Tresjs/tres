@@ -10,9 +10,10 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
-    "@tresjs/cientos": "^3.5.1",
-    "@tresjs/nuxt": "^1.2.2",
-    "@types/three": "^0.152.1"
+    "@tresjs/cientos": "^4.0.3",
+    "@tresjs/nuxt": "^3.0.7",
+    "@tresjs/post-processing": "^0.7.1",
+    "@types/three": "^0.169.0"
   },
   "devDependencies": {
     "@nuxt/devtools": "latest",

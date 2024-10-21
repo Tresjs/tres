@@ -15,4 +15,5 @@ export default defineNuxtConfig({
       dedupe: ['three', '@tresjs/core', '@vueuse/core'],
     },
   },
+  compatibilityDate: '2024-10-13',
 })
