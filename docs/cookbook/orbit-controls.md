@@ -25,14 +25,14 @@ For more information about extending your TresJS catalog, refer to the [extendin
 To use `OrbitControls` you need to import it from the `three/addons/controls/OrbitControls` module.
 
 ```js
-import { OrbitControls } from 'three/addons/controls/OrbitControls'
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 ```
 
 Then you need to extend the catalogue of components using the `extend` method.
 
 ```js
 import { extend } from '@tresjs/core'
-import { OrbitControls } from 'three/addons/controls/OrbitControls'
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 
 extend({ OrbitControls })
 ```
@@ -70,7 +70,7 @@ So the final code would be something like this:
 ```vue [OrbitControls.vue]
 <script setup lang="ts">
 import { extend, useTresContext } from '@tresjs/core'
-import { OrbitControls } from 'three/addons/controls/OrbitControls'
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 
 extend({ OrbitControls })
 
