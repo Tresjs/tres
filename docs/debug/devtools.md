@@ -10,7 +10,7 @@ One of our goals with TresJS is to offer **the best DX (Developer Experience)** 
 
 ## Introducing the Devtools
 
-From <Badge text="^3.7.0" /> we are introducing the TresJS Devtools, a customized inspector tab for the [Official Vue Chrome Devtools](https://devtools.vuejs.org/guide/installation.html) that allows you to inspect your TresJS scenes and components.
+From <Badge text="^3.7.0" /> we are introducing the TresJS Devtools, a customized inspector tab for the [Official Vue Chrome Devtools](https://devtools.vuejs.org/getting-started/installation) that allows you to inspect your TresJS scenes and components.
 
 ![TresJS Devtools](/vue-chrome-devtools.png)
 
