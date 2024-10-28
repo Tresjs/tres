@@ -111,7 +111,7 @@
     "vite-plugin-inspect": "^0.8.7",
     "vite-plugin-require-transform": "^1.0.21",
     "vite-svg-loader": "^5.1.0",
-    "vitepress": "1.4.0",
+    "vitepress": "1.4.1",
     "vitest": "^2.1.2",
     "vue": "3.5.12",
     "vue-demi": "^0.14.10"
