@@ -51,7 +51,7 @@ defineProps<{
       </div>
       <footer class="flex px-4 pb-4 gap-4">
         <div class="flex items-center">
-          <NuxtImg
+          <img
             :src="author.avatar"
             class="border-2 border-gray-200 w-8 h-8 mr-4 rounded-full"
           />
