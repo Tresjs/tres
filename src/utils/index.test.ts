@@ -134,6 +134,78 @@ describe('resolve', () => {
     expect(utils.resolve(instance, 'ab-cd-xx-yy-zz').key).toBe('xxYyZz')
     expect(utils.resolve(instance, 'ab-cd-xx-yy-zz').key).toBe('xxYyZz')
   })
+
+  it('finds camelCase fields if camelCase is passed', () => {
+    const instance = { aBcDe: { fGhIj: { kLm: 0 } } }
+
+    // NOTE: This is the usual case. No camel case. Only kebab.
+    let result = utils.resolve(instance, 'a-bc-de-f-gh-ij-k-lm')
+    expect(result.target).toBe(instance.aBcDe.fGhIj)
+    expect(result.key).toBe('kLm')
+
+    result = utils.resolve(instance, 'aBcDe-fGhIj-kLm')
+    expect(result.target).toBe(instance.aBcDe.fGhIj)
+    expect(result.key).toBe('kLm')
+
+    result = utils.resolve(instance, 'a-bcDe-fGhIj-kLm')
+    expect(result.target).toBe(instance.aBcDe.fGhIj)
+    expect(result.key).toBe('kLm')
+
+    result = utils.resolve(instance, 'aBc-de-f-gh-ij-k-lm')
+    expect(result.target).toBe(instance.aBcDe.fGhIj)
+    expect(result.key).toBe('kLm')
+  })
+
+  describe('array indices', () => {
+    it('traverses arrays if indices exist', () => {
+      const instance = { ab: { cd: [{}, {}, { ef: { gh: { ij: 0, kl: [{}, { xx: {} }] } } }] } }
+
+      let result = utils.resolve(instance, 'ab-cd-0-ef-gh-ij-xx-yy-zz')
+      expect(result.target).toBe(instance.ab.cd[0])
+      expect(result.key).toBe('efGhIjXxYyZz')
+
+      result = utils.resolve(instance, 'ab-cd-1-ef-gh-ij-xx-yy-zz')
+      expect(result.target).toBe(instance.ab.cd[1])
+      expect(result.key).toBe('efGhIjXxYyZz')
+
+      result = utils.resolve(instance, 'ab-cd-2-ef-gh-ij-xx-yy-zz')
+      expect(result.target).toBe(instance.ab.cd[2].ef.gh.ij)
+      expect(result.key).toBe('xxYyZz')
+
+      result = utils.resolve(instance, 'ab-cd-2-ef-gh-kl-0-xx-yy-zz')
+      expect(result.target).toBe(instance.ab.cd[2].ef.gh.kl[0])
+      expect(result.key).toBe('xxYyZz')
+
+      result = utils.resolve(instance, 'ab-cd-2-ef-gh-kl-1-xx-yy-zz')
+      expect(result.target).toBe(instance.ab.cd[2].ef.gh.kl[1].xx)
+      expect(result.key).toBe('yyZz')
+    })
+
+    it('adds non-existant array indices to the key', () => {
+      const instance = { ab: { cd: [{}, {}, { ef: { gh: { ij: 0, kl: [{}, { xx: {} }] } } }] } }
+
+      let result = utils.resolve(instance, 'ab-cd-2-ef-gh-kl-2-xx-yy-zz')
+      expect(result.target).toBe(instance.ab.cd[2].ef.gh.kl)
+      expect(result.key).toBe('2XxYyZz')
+
+      result = utils.resolve(instance, 'ab-cd-2-ef-gh-iiii-2-xx-yy-zz')
+      expect(result.target).toBe(instance.ab.cd[2].ef.gh)
+      expect(result.key).toBe('iiii2XxYyZz')
+
+      result = utils.resolve(instance, 'ab-cd-3-ef-gh')
+      expect(result.target).toBe(instance.ab.cd)
+      expect(result.key).toBe('3EfGh')
+
+      result = utils.resolve(instance, 'ab-cd-2-ef-gh-kl-2')
+      expect(result.target).toBe(instance.ab.cd[2].ef.gh.kl)
+      expect(result.key).toBe('2')
+
+      // NOTE: This leads to ambiguity.
+      result = utils.resolve(instance, '0-1-12-24')
+      expect(result.target).toBe(instance)
+      expect(result.key).toBe('011224')
+    })
+  })
 })
 
 describe('setPixelRatio', () => {
