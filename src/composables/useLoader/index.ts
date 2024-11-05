@@ -25,7 +25,7 @@ export type LoaderReturnType<T, L extends LoaderProto<T>> = T extends unknown
  * @param {Object3D} object
  * @return { [key: string]: any }
  */
-export function trasverseObjects(object: Object3D) {
+export function traverseObjects(object: Object3D) {
   const data: { [key: string]: any } = { nodes: {}, materials: {} }
   if (object) {
     object.traverse((obj: any) => {
@@ -87,7 +87,7 @@ export async function useLoader<T>(
       (result: T) => {
         const data = result as unknown as TresObject
         if (data.scene) {
-          Object.assign(data, trasverseObjects(data.scene))
+          Object.assign(data, traverseObjects(data.scene))
         }
         resolve(data as T | T[])
       },

@@ -80,7 +80,17 @@ import { VPHomeSponsors } from 'vitepress/theme'
         target="_blank"
         rel="noreferrer"
       >
-        Cody Bennet <img class="w-5 h-5 rounded ml-2" src="https://avatars.githubusercontent.com/u/23324155?v=4" alt="" />
+        Cody Bennett <img class="w-5 h-5 rounded ml-2" src="https://avatars.githubusercontent.com/u/23324155?v=4" alt="" />
+      </a>
+    </li>
+    <li>
+      <a
+        class="sponsor"
+        href="https://github.com/sponsors/danielroe "
+        target="_blank"
+        rel="noreferrer"
+      >
+        Daniel Roe <img class="w-5 h-5 rounded ml-2" src="https://avatars.githubusercontent.com/u/28706372?v=4" alt="" />
       </a>
     </li>
     <li>
@@ -90,17 +100,7 @@ import { VPHomeSponsors } from 'vitepress/theme'
         target="_blank"
         rel="noreferrer"
       >
-        Daniel Roe <img class="w-5 h-5 rounded ml-2" src="https://avatars.githubusercontent.com/u/23360933?s=160&v=4" alt="" />
-      </a>
-    </li>
-    <li>
-      <a
-        class="sponsor"
-        href="https://github.com/sponsors/danielroe"
-        target="_blank"
-        rel="noreferrer"
-      >
-        Nuxt <img class="w-5 h-5 rounded ml-2" src="https://avatars.githubusercontent.com/u/28706372?v=4" alt="" />
+        Nuxt <img class="w-5 h-5 rounded ml-2" src="https://avatars.githubusercontent.com/u/23360933?s=160&v=4" alt="" />
       </a>
     </li>
   </ul>

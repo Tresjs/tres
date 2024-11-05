@@ -9,17 +9,17 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@tresjs/cientos": "4.0.2",
+    "@tresjs/cientos": "4.0.3",
     "@tresjs/core": "workspace:^",
-    "vue-router": "^4.4.3"
+    "vue-router": "^4.4.5"
   },
   "devDependencies": {
     "@tresjs/leches": "0.15.0-next.3",
     "@tweakpane/plugin-essentials": "^0.2.0",
-    "unplugin-auto-import": "^0.18.2",
+    "unplugin-auto-import": "^0.18.3",
     "vite-plugin-glsl": "^1.2.1",
     "vite-plugin-qrcode": "^0.2.3",
-    "vite-plugin-vue-devtools": "7.4.3",
-    "vue-tsc": "^2.1.4"
+    "vite-plugin-vue-devtools": "7.4.6",
+    "vue-tsc": "^2.1.6"
   }
 }
