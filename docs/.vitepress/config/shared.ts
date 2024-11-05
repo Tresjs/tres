@@ -1,5 +1,5 @@
-import { defineConfig } from 'vitepress'
 import { resolve } from 'pathe'
+import { defineConfig } from 'vitepress'
 
 export const sharedConfig = defineConfig({
   title: 'TresJS',

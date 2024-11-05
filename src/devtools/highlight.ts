@@ -3,7 +3,7 @@ import * as THREE from 'three'
 export class HightlightMesh extends THREE.Mesh {
   type = 'HightlightMesh'
   createTime: number
-  constructor(...args: THREE.Mesh['args']) {
+  constructor(...args: any[]) {
     super(...args)
     this.createTime = Date.now()
   }

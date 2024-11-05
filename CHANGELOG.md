@@ -1,5 +1,229 @@
 
 
+## [4.3.1](https://github.com/Tresjs/tres/compare/4.3.0...4.3.1) (2024-10-13)
+
+### Bug Fixes
+
+* 849 support Symbol keys in provide/inject ([#850](https://github.com/Tresjs/tres/issues/850)) ([35125ce](https://github.com/Tresjs/tres/commit/35125cecda55333bac542ed473bcddd2f7925c2b))
+
+## [4.3.0](https://github.com/Tresjs/tres/compare/4.2.10...4.3.0) (2024-09-30)
+
+
+### Features
+
+* add UseLoader component ([471bd0d](https://github.com/Tresjs/tres/commit/471bd0d16fe496a0e5e6a71a62c93093c73ce834))
+* **app:** 680 UseTexture composable as component ([#757](https://github.com/Tresjs/tres/issues/757)) ([f01a897](https://github.com/Tresjs/tres/commit/f01a897bcc9352e6a4cb1ac03e204f08b51f6b6c))
+* pass all provides down to custom renderer ([#806](https://github.com/Tresjs/tres/issues/806)) ([b4a3866](https://github.com/Tresjs/tres/commit/b4a3866f69e0c19339d7746a392f9d92569234d8))
+
+
+### Bug Fixes
+
+* eslint ([2ccd6c4](https://github.com/Tresjs/tres/commit/2ccd6c4104dd358e1a600a1e688d9a2c119611ab))
+* lint ([f71eb37](https://github.com/Tresjs/tres/commit/f71eb37648e806f4ce0a97de0d58c6bde8e43252))
+* lint ([8f18558](https://github.com/Tresjs/tres/commit/8f18558087136d7fbc68394d1069bf4a46d76fb9))
+* rollback to v6 of `@vue/devtools-api` ([#846](https://github.com/Tresjs/tres/issues/846)) ([fd3b599](https://github.com/Tresjs/tres/commit/fd3b59975f63d13ba79c824252563debc048b9d2))
+* type for useloader component props ([a4bd590](https://github.com/Tresjs/tres/commit/a4bd590776825b74188dc601b64caf59d33c7284))
+
+
+### Reverts
+
+* **nodeOps:** add check for null props ([#829](https://github.com/Tresjs/tres/issues/829)) ([04b001b](https://github.com/Tresjs/tres/commit/04b001b8edadf1ec03ce1351af1334a0746fbb3e))
+* **useRenderer:** add rendererPresets import ([#839](https://github.com/Tresjs/tres/issues/839)) ([f944647](https://github.com/Tresjs/tres/commit/f944647ad4d363b80def0e61e9cdd106e03b7e94))
+
+## [4.2.10](https://github.com/Tresjs/tres/compare/4.2.9...4.2.10) (2024-09-04)
+
+
+### Bug Fixes
+
+* 785 vscode intellisense autocompletion not getting tres components props ([#809](https://github.com/Tresjs/tres/issues/809)) ([66c7ab5](https://github.com/Tresjs/tres/commit/66c7ab5122e28714d73278b679df8169ac47f9f9))
+
+## [4.2.9](https://github.com/Tresjs/tres/compare/4.2.8...4.2.9) (2024-08-30)
+
+
+### Bug Fixes
+
+* **useLoader:** remove array related logic for loaders ([#808](https://github.com/Tresjs/tres/issues/808)) ([88cef1e](https://github.com/Tresjs/tres/commit/88cef1e0ab454f97c8e55c86ec48e53d326be59e))
+
+## [4.2.8](https://github.com/Tresjs/tres/compare/4.2.7...4.2.8) (2024-08-30)
+
+
+### Bug Fixes
+
+* use CubeTextureLoader correctly with array of files ([#807](https://github.com/Tresjs/tres/issues/807)) ([38f05b0](https://github.com/Tresjs/tres/commit/38f05b03d7d2b9934f8893a5f4858b09b7188782))
+
+## [4.2.7](https://github.com/Tresjs/tres/compare/4.2.6...4.2.7) (2024-08-19)
+
+## [4.2.6](https://github.com/Tresjs/tres/compare/4.2.5...4.2.6) (2024-08-15)
+
+
+### Bug Fixes
+
+* 796 unmount the canvas component instant mount children again even if canvas is not mounted ([#799](https://github.com/Tresjs/tres/issues/799)) ([9a20b52](https://github.com/Tresjs/tres/commit/9a20b52b2c7efc712a22fa78f290f148ce566d35))
+
+## [4.2.5](https://github.com/Tresjs/tres/compare/4.2.4...4.2.5) (2024-08-01)
+
+
+### Bug Fixes
+
+* **types:** added Ref type to controls on ctx ([415de94](https://github.com/Tresjs/tres/commit/415de9461c39f46eed37c2a0663099dc4d3325e2))
+
+## [4.2.4](https://github.com/Tresjs/tres/compare/4.2.3...4.2.4) (2024-08-01)
+
+
+### Bug Fixes
+
+* typescript issues ([#794](https://github.com/Tresjs/tres/issues/794)) ([eecf608](https://github.com/Tresjs/tres/commit/eecf608ad1bfb7d4cbe64cf275a356a8dd383b73))
+
+## [4.2.3](https://github.com/Tresjs/tres/compare/4.2.2...4.2.3) (2024-07-26)
+
+
+### Bug Fixes
+
+* 792 directionallighthelpers breaks devtools ([#793](https://github.com/Tresjs/tres/issues/793)) ([426acee](https://github.com/Tresjs/tres/commit/426acee27e7fd62abf3803280c48e327597b1e94)), closes [#533](https://github.com/Tresjs/tres/issues/533)
+
+## [4.2.2](https://github.com/Tresjs/tres/compare/4.2.1...4.2.2) (2024-07-24)
+
+
+### Bug Fixes
+
+* remove on demand invalidation warning ([#788](https://github.com/Tresjs/tres/issues/788)) ([eab74e6](https://github.com/Tresjs/tres/commit/eab74e6d0c8feb16ea18b2f096c87c7e3dbb1848))
+
+## [4.2.1](https://github.com/Tresjs/tres/compare/4.2.0...4.2.1) (2024-07-17)
+
+
+### Bug Fixes
+
+* **types:** `useLoader` generics ([#781](https://github.com/Tresjs/tres/issues/781)) ([b51d679](https://github.com/Tresjs/tres/commit/b51d6792372922904cd9225c2ea2e5dfce6f68f8))
+
+## [4.2.0](https://github.com/Tresjs/tres/compare/4.1.0...4.2.0) (2024-07-14)
+
+
+### Features
+
+* (devtools) add userData to inspectable properties ([#740](https://github.com/Tresjs/tres/issues/740)) ([00bef33](https://github.com/Tresjs/tres/commit/00bef337f189b04ee3b77a4ce0afea63ce2973b2))
+* **TresCanvas:** add dpr prop ([#768](https://github.com/Tresjs/tres/issues/768)) ([8943cc3](https://github.com/Tresjs/tres/commit/8943cc3dac1571e4bc15fb75ad106908b109de43))
+
+
+### Bug Fixes
+
+* attach detach ([#749](https://github.com/Tresjs/tres/issues/749)) ([8c1c668](https://github.com/Tresjs/tres/commit/8c1c66827cf39dca1206bfbf0fe3549e03ad9608))
+* localstate for objects with events and manual register/unregister from nodeOps using ctx ([#767](https://github.com/Tresjs/tres/issues/767)) ([9a53e60](https://github.com/Tresjs/tres/commit/9a53e60bfb915492952399522d6c2d6a0ac7ed59))
+* **primitive:** implement as proxy to avoid breaking references  ([#764](https://github.com/Tresjs/tres/issues/764)) ([f637bf3](https://github.com/Tresjs/tres/commit/f637bf35373c4ba60f14b3464ede9427be8b8b58))
+
+## [4.1.0](https://github.com/Tresjs/tres/compare/4.0.2...4.1.0) (2024-07-05)
+
+
+### Features
+
+* add useTresReady ([#712](https://github.com/Tresjs/tres/issues/712)) ([15e3f07](https://github.com/Tresjs/tres/commit/15e3f0785e843df7a68e095c8ec35d8752623a05))
+
+
+### Bug Fixes
+
+* **deps:** update dependency @vueuse/core to v10.10.1 ([#735](https://github.com/Tresjs/tres/issues/735)) ([12e462d](https://github.com/Tresjs/tres/commit/12e462d2abb0205e416cadd5f9eab50afd501fd3))
+* group should recursive search for child elements ([#728](https://github.com/Tresjs/tres/issues/728)) ([#731](https://github.com/Tresjs/tres/issues/731)) ([f09367b](https://github.com/Tresjs/tres/commit/f09367b47b59c9b60eaafa318023187111ddb786))
+
+## [4.0.2](https://github.com/Tresjs/tres/compare/4.0.1...4.0.2) (2024-06-05)
+
+
+### Bug Fixes
+
+* implement createComment and nextSibling node operations so that objects being v-if'd are not lost by Vue's runtime and incorrectly placed in the scene root ([814d678](https://github.com/Tresjs/tres/commit/814d678b62f7d9b4ed11149aaf56a45ea5c04dad))
+* intersect only objects with events registered. ([#714](https://github.com/Tresjs/tres/issues/714)) ([b320524](https://github.com/Tresjs/tres/commit/b3205245e3d0b9ceda7cd356bced004358b58856))
+* propogate events over previous intersections on pointerLeave and pointerOut ([66264fc](https://github.com/Tresjs/tres/commit/66264fc49cd21bbde7288256409ec5a688309946))
+
+## [4.0.1](https://github.com/Tresjs/tres/compare/4.0.0...4.0.1) (2024-06-01)
+
+
+### Bug Fixes
+
+* augmenting types for tres components for the nuxt module ([#710](https://github.com/Tresjs/tres/issues/710)) ([c8a5b0d](https://github.com/Tresjs/tres/commit/c8a5b0dcf8ebd6bf4284126042e8a44eae3ca307))
+
+## [4.0.0](https://github.com/Tresjs/tres/compare/3.9.0...4.0.0) (2024-05-30)
+
+
+### Features
+
+* release v4 ([#490](https://github.com/Tresjs/tres/issues/490)) ([1ba17ee](https://github.com/Tresjs/tres/commit/1ba17ee43c6954396118bd8298436af3e2a70510)), closes [#479](https://github.com/Tresjs/tres/issues/479) [#488](https://github.com/Tresjs/tres/issues/488) [#491](https://github.com/Tresjs/tres/issues/491) [#497](https://github.com/Tresjs/tres/issues/497) [#499](https://github.com/Tresjs/tres/issues/499) [#498](https://github.com/Tresjs/tres/issues/498) [#522](https://github.com/Tresjs/tres/issues/522) [#514](https://github.com/Tresjs/tres/issues/514) [#579](https://github.com/Tresjs/tres/issues/579) [#602](https://github.com/Tresjs/tres/issues/602) [#601](https://github.com/Tresjs/tres/issues/601) [#608](https://github.com/Tresjs/tres/issues/608) [#614](https://github.com/Tresjs/tres/issues/614) [#529](https://github.com/Tresjs/tres/issues/529)
+
+## [4.0.0-rc.2](https://github.com/Tresjs/tres/compare/4.0.0-rc.1...4.0.0-rc.2) (2024-05-24)
+
+
+### Bug Fixes
+
+* 686 useloop callback state missing controls ([#687](https://github.com/Tresjs/tres/issues/687)) ([a41f532](https://github.com/Tresjs/tres/commit/a41f532b0c8d717e4bc3ec11fa73bd58df871fa8))
+* manual rendering blank ([#685](https://github.com/Tresjs/tres/issues/685)) ([0720d18](https://github.com/Tresjs/tres/commit/0720d186e92ca9faa9e5f4e51a3269504bed2a09))
+
+## [4.0.0-rc.1](https://github.com/Tresjs/tres/compare/4.0.0-rc.0...4.0.0-rc.1) (2024-05-15)
+
+
+### Features
+
+* 633 use loop  ([#673](https://github.com/Tresjs/tres/issues/673)) ([1b2fa70](https://github.com/Tresjs/tres/commit/1b2fa70e9999eb64395b3e7e9f2489ceab035a7a))
+
+
+### Bug Fixes
+
+* make on* callbacks settable ([#672](https://github.com/Tresjs/tres/issues/672)) ([ac152df](https://github.com/Tresjs/tres/commit/ac152dfa91c6ba347cbe0566fb4afbe19f50dd2b))
+* **utils:** reorder object disposal to avoid issue with Helper `dispose` methods ([#683](https://github.com/Tresjs/tres/issues/683)) ([e5a2cef](https://github.com/Tresjs/tres/commit/e5a2cef0e450196abaa6d18380a5aadbc9cd057d))
+
+## [4.0.0-rc.0](https://github.com/Tresjs/tres/compare/3.9.0...4.0.0-rc.0) (2024-04-25)
+
+
+### ⚠ BREAKING CHANGES
+
+* **events:** pointerevents manager and state (#529)
+
+### Features
+
+* 499 better memory management ([#606](https://github.com/Tresjs/tres/issues/606)) ([e98ca6d](https://github.com/Tresjs/tres/commit/e98ca6dea15973b3a00e4b485199d9906eb772eb))
+* devtools renderer improvements ([#614](https://github.com/Tresjs/tres/issues/614)) ([cdf6b6f](https://github.com/Tresjs/tres/commit/cdf6b6fefbd58dbf1dfbe396f219ac6f7c6fc92d))
+* **events:** pointerevents manager and state ([#529](https://github.com/Tresjs/tres/issues/529)) ([b536ab1](https://github.com/Tresjs/tres/commit/b536ab19d1f4082c2db926e24d8c52f92949964b))
+
+
+### Bug Fixes
+
+* do not change pierced props case ([#608](https://github.com/Tresjs/tres/issues/608)) ([906f2e1](https://github.com/Tresjs/tres/commit/906f2e157aab7aa6daef5682c3282cf6e84fa891))
+
+## [4.0.0-next.2](https://github.com/Tresjs/tres/compare/3.9.0...4.0.0-rc.0) (2024-03-27)
+
+
+### Bug Fixes
+
+* refactor nodeOps to return methods at the end of the function ([#602](https://github.com/Tresjs/tres/issues/602)) ([cd0c3bc](https://github.com/Tresjs/tres/commit/cd0c3bcd891f019cf91f30e5fdd547630332a065))
+
+## [4.0.0-next.1](https://github.com/Tresjs/tres/compare/3.9.0...4.0.0-rc.0) (2024-03-18)
+
+
+### Features
+
+* 140 on demand rendering ([#497](https://github.com/Tresjs/tres/issues/497)) ([f688c64](https://github.com/Tresjs/tres/commit/f688c6447be887c4675a57ecabb5182d8b7d02cf))
+* 492 set tone mapping default to acesfilmictonemapping ([#498](https://github.com/Tresjs/tres/issues/498)) ([c4547f9](https://github.com/Tresjs/tres/commit/c4547f92615a43b7b56b34c0e1ee9f4b78a2230b))
+* 503 conditional rendering of primitives ([#514](https://github.com/Tresjs/tres/issues/514)) ([79d8a76](https://github.com/Tresjs/tres/commit/79d8a762da6b6e23771a20314f7902eff4635acf))
+* 516 localstate for custom renderer node instances instead of userdata ([#522](https://github.com/Tresjs/tres/issues/522)) ([08717ef](https://github.com/Tresjs/tres/commit/08717efd0f631c085340b1fea4eb6c154c63608b))
+* remove default camera warning ([#499](https://github.com/Tresjs/tres/issues/499)) ([8bbafde](https://github.com/Tresjs/tres/commit/8bbafde48a33753f0b6560da36a4d128aaa83cc6))
+* update to three `v160` and vue `v3.4` ([#488](https://github.com/Tresjs/tres/issues/488)) ([5fad3b8](https://github.com/Tresjs/tres/commit/5fad3b8095c09cfe758e2553da3df49b29b1ce1a))
+
+
+### Bug Fixes
+
+* `nodeOps` is now a function ([#579](https://github.com/Tresjs/tres/issues/579)) ([ddc229e](https://github.com/Tresjs/tres/commit/ddc229e6e492b9e7887add0fcc679a9ae4e47f5c))
+* camera aspect ([52dad5c](https://github.com/Tresjs/tres/commit/52dad5c98271f80f4d454bbcce1bb5844960f943))
+* **types:** added `Object3DEventMap` to `Object3D` generics for point event handling ([#491](https://github.com/Tresjs/tres/issues/491)) ([a63eb90](https://github.com/Tresjs/tres/commit/a63eb9099fcaf97b1c96abe5667ee71ca2fd611f))
+
+## [4.0.0-next.0](https://github.com/Tresjs/tres/compare/3.9.0...4.0.0-rc.0) (2023-12-22)
+
+
+### Features
+
+* 474 vue chrome devtools plugin ([#479](https://github.com/Tresjs/tres/issues/479)) ([224ab06](https://github.com/Tresjs/tres/commit/224ab06a4404e2ae5a0cbd2f43041961862b09fd))
+
+## [4.0.0-next.2](https://github.com/Tresjs/tres/compare/4.0.0-next.1...4.0.0-next.2) (2024-03-27)
+
+## [4.0.0-next.1](https://github.com/Tresjs/tres/compare/3.7.0...4.0.0-next.1) (2024-03-18)
+* correct type exporting issues ([#625](https://github.com/Tresjs/tres/issues/625)) ([8e52cf1](https://github.com/Tresjs/tres/commit/8e52cf1935d7b725b87c9a41e44ba61e33bd3e85))
+
+
 ## [3.9.0](https://github.com/Tresjs/tres/compare/3.8.1...3.9.0) (2024-04-24)
 
 
@@ -17,7 +241,8 @@
 
 ### Bug Fixes
 
-* correct type exporting issues ([#625](https://github.com/Tresjs/tres/issues/625)) ([8e52cf1](https://github.com/Tresjs/tres/commit/8e52cf1935d7b725b87c9a41e44ba61e33bd3e85))
+* refactor nodeOps to return methods at the end of the function ([#602](https://github.com/Tresjs/tres/issues/602)) ([cd0c3bc](https://github.com/Tresjs/tres/commit/cd0c3bcd891f019cf91f30e5fdd547630332a065))
+
 
 ## [3.8.0](https://github.com/Tresjs/tres/compare/3.7.0...3.8.0) (2024-04-03)
 
@@ -38,6 +263,31 @@
 
 ### Features
 
+* 140 on demand rendering ([#497](https://github.com/Tresjs/tres/issues/497)) ([f688c64](https://github.com/Tresjs/tres/commit/f688c6447be887c4675a57ecabb5182d8b7d02cf))
+* 492 set tone mapping default to acesfilmictonemapping ([#498](https://github.com/Tresjs/tres/issues/498)) ([c4547f9](https://github.com/Tresjs/tres/commit/c4547f92615a43b7b56b34c0e1ee9f4b78a2230b))
+* 503 conditional rendering of primitives ([#514](https://github.com/Tresjs/tres/issues/514)) ([79d8a76](https://github.com/Tresjs/tres/commit/79d8a762da6b6e23771a20314f7902eff4635acf))
+* 516 localstate for custom renderer node instances instead of userdata ([#522](https://github.com/Tresjs/tres/issues/522)) ([08717ef](https://github.com/Tresjs/tres/commit/08717efd0f631c085340b1fea4eb6c154c63608b))
+* remove default camera warning ([#499](https://github.com/Tresjs/tres/issues/499)) ([8bbafde](https://github.com/Tresjs/tres/commit/8bbafde48a33753f0b6560da36a4d128aaa83cc6))
+* update to three `v160` and vue `v3.4` ([#488](https://github.com/Tresjs/tres/issues/488)) ([5fad3b8](https://github.com/Tresjs/tres/commit/5fad3b8095c09cfe758e2553da3df49b29b1ce1a))
+
+
+### Bug Fixes
+
+* `nodeOps` is now a function ([#579](https://github.com/Tresjs/tres/issues/579)) ([ddc229e](https://github.com/Tresjs/tres/commit/ddc229e6e492b9e7887add0fcc679a9ae4e47f5c))
+* camera aspect ([52dad5c](https://github.com/Tresjs/tres/commit/52dad5c98271f80f4d454bbcce1bb5844960f943))
+* **types:** added `Object3DEventMap` to `Object3D` generics for point event handling ([#491](https://github.com/Tresjs/tres/issues/491)) ([a63eb90](https://github.com/Tresjs/tres/commit/a63eb9099fcaf97b1c96abe5667ee71ca2fd611f))
+
+## [4.0.0-next.0](https://github.com/Tresjs/tres/compare/3.7.0...4.0.0-next.1) (2023-12-22)
+
+
+### Features
+
+* 474 vue chrome devtools plugin ([#479](https://github.com/Tresjs/tres/issues/479)) ([224ab06](https://github.com/Tresjs/tres/commit/224ab06a4404e2ae5a0cbd2f43041961862b09fd))
+
+## [3.7.0](https://github.com/Tresjs/tres/compare/3.6.1...3.7.0) (2024-01-29)
+
+### Features
+  
 * 474 vue chrome devtools plugin ([#526](https://github.com/Tresjs/tres/issues/526)) ([0185bfa](https://github.com/Tresjs/tres/commit/0185bfa6f04faff5eabbc526616713ef7747ebeb))
 * 524 feat add directives to core ([#525](https://github.com/Tresjs/tres/issues/525)) ([5268e9f](https://github.com/Tresjs/tres/commit/5268e9f13bf65c61d5ddfe7153b71b335449b81d))
 

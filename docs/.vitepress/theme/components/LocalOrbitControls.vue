@@ -1,10 +1,10 @@
 <script lang="ts" setup>
-import type { Camera } from 'three'
-import { OrbitControls } from 'three-stdlib'
-import { onMounted, onUnmounted, ref, unref } from 'vue'
 import type { TresVector3 } from '@tresjs/core'
+import type { Camera } from 'three'
 import { extend, useRenderLoop, useTresContext } from '@tresjs/core'
 import { useEventListener } from '@vueuse/core'
+import { OrbitControls } from 'three-stdlib'
+import { onMounted, onUnmounted, shallowRef, unref } from 'vue'
 
 export interface OrbitControlsProps {
   /**
@@ -257,7 +257,7 @@ const emit = defineEmits(['change', 'start', 'end'])
 
 const { renderer, camera: activeCamera } = useTresContext()
 
-const controls = ref<OrbitControls | null>(null)
+const controls = shallowRef<OrbitControls | null>(null)
 
 extend({ OrbitControls })
 

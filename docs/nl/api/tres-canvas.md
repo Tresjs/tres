@@ -77,7 +77,6 @@ renderer.shadowMap.type = PCFSoftShadowMap
 | **clearColor** | De kleur die de renderer gebruikt om het canvas leeg te maken. | `#000000` |
 | **context** | Dit kan worden gebruikt om de renderer aan een bestaand [RenderingContext](https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext) te koppelen | |
 | **depth** | Of de drawing buffer een [depth buffer](https://en.wikipedia.org/wiki/Z-buffering) heeft van tenminste 16 bits. | `true` |
-| **disableRender** | Blokkeer render op requestAnimationFrame, handig voor PostProcessing | `false` |
 | **failIfMajorPerformanceCaveat** | Er wordt gedetecteerd of het maken van de renderer zal mislukken bij lage prestaties. Zie [WebGL spec](https://registry.khronos.org/webgl/specs/latest/1.0/#5.2) for details. | `false` |
 | **logarithmicDepthBuffer** | Of de logarithmic depth buffer gebruikt moet worden. Het kan zijn dat dit noodzakelijk is als je te maken hebt met flinke verschillen in scale in een enkele scene. Merk op dat deze setting gebruik maakt van gl_FragDepth wanneer deze beschikbaar is en deze schakelt [Early Fragment Test](https://www.khronos.org/opengl/wiki/Early_Fragment_Test) uit en kan een verlies in prestaties veroorzaken. | `false` |
 | **outputColorSpace** | Definieert de uitvoercodering | `LinearEncoding` |
@@ -88,7 +87,7 @@ renderer.shadowMap.type = PCFSoftShadowMap
 | **shadows** | Schakelt shadows in de renderer in | `false` |
 | **shadowMapType** | Zet de shadow map type | `PCFSoftShadowMap` |
 | **stencil** | Of de drawing buffer een [stencil buffer](https://en.wikipedia.org/wiki/Stencil_buffer) heeft van tenminste 8 bits. | `true` |
-| **toneMapping** | Definiërt de tone mapping exposure gebruikt door de renderer. | `NoToneMapping` |
+| **toneMapping** | Definiërt de tone mapping exposure gebruikt door de renderer. | `ACESFilmicToneMapping` |
 | **toneMappingExposure** | Exposure level van tone mapping. | `1` |
 | **useLegacyLights** | Of de legacy belichtingsmodus gebruikt moet worden of niet | `true` |
 | **windowSize** | Of de window grootte gebruikt moet worden als de canvas grootte of de parent element. | `false` |

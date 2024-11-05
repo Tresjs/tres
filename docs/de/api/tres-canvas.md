@@ -77,7 +77,6 @@ renderer.shadowMap.type = PCFSoftShadowMap
 | **clearColor** | Die Farbe, die der Renderer verwendet, um die Leinwand zu löschen. | `#000000` |
 | **context** | Kann verwendet werden, um den Renderer an einen vorhandenen [RenderingContext](https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext) anzuhängen. | |
 | **depth** | Gibt an, ob der Zeichenpuffer einen [Tiefenpuffer](https://en.wikipedia.org/wiki/Z-buffering) von mindestens 16 Bit hat. | `true` |
-| **disableRender** | Deaktiviert das Rendering in requestAnimationFrame, nützlich für PostProcessing. | `false` |
 | **failIfMajorPerformanceCaveat** | Gibt an, ob die Erstellung des Renderers fehlschlagen soll, wenn eine geringe Performance festgestellt wird. Siehe die [WebGL-Spezifikation](https://registry.khronos.org/webgl/specs/latest/1.0/#5.2) für weitere Details. | `false` |
 | **logarithmicDepthBuffer** | Gibt an, ob ein logarithmischer Tiefenpuffer verwendet werden soll. Dies kann notwendig sein, wenn in einer einzigen Szene enorme Skalendifferenzen gehandhabt werden müssen. Beachte, dass diese Einstellung gl_FragDepth verwendet, wenn verfügbar, was die Optimierung [Early Fragment Test](https://www.khronos.org/opengl/wiki/Early_Fragment_Test) deaktiviert und zu einer Performancesverminderung führen kann. | `false` |
 | **outputColorSpace** | Definiert die Ausgabekodierung. | `LinearEncoding` |
@@ -88,7 +87,7 @@ renderer.shadowMap.type = PCFSoftShadowMap
 | **shadows** | Aktiviert Schatten im Renderer. | `false` |
 | **shadowMapType** | Legt den Typ der `shadowMap` fest. | `PCFSoftShadowMap` |
 | **stencil** | Gibt an, ob der Zeichenpuffer einen [Stencil-Puffer](https://en.wikipedia.org/wiki/Stencil_buffer) von mindestens 8 Bit hat. | `true` |
-| **toneMapping** | Definiert das Tone-Mapping-Verfahren, das vom Renderer verwendet wird. | `NoToneMapping` |
+| **toneMapping** | Definiert das Tone-Mapping-Verfahren, das vom Renderer verwendet wird. | `ACESFilmicToneMapping` |
 | **toneMappingExposure** | Belichtungslevel des Tone-Mappings. | `1` |
 | **useLegacyLights** | Gibt an, ob der Legacy-Beleuchtungsmodus verwendet werden soll oder nicht. | `true` |
 | **windowSize** | Gibt an, ob die Fenstergröße als Leinwandgröße oder die des Elternelements verwendet werden soll. | `false` |

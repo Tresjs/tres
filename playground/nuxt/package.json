@@ -1,0 +1,36 @@
+{
+  "name": "@tresjs/nuxt-starter",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "Quick Nuxt starter template for TresJS",
+  "author": "Alvaro Saburido <hola@alvarosaburido.dev> (https://github.com/alvarosabu/)",
+  "license": "MIT",
+  "keywords": [
+    "vue",
+    "tresjs",
+    "webgl",
+    "vite",
+    "3d",
+    "threejs",
+    "three",
+    "threejs-vue"
+  ],
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "devDependencies": {
+    "@nuxt/devtools": "latest",
+    "@tresjs/cientos": "^4.0.0",
+    "@tresjs/core": "workspace:^",
+    "@tresjs/nuxt": "3.0.4",
+    "@tresjs/post-processing": "^0.7.1",
+    "@types/node": "^22.5.1",
+    "@types/three": "^0.169.0",
+    "nuxt": "^3.5.2",
+    "three": "^0.169.0"
+  }
+}

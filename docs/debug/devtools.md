@@ -10,7 +10,7 @@ One of our goals with TresJS is to offer **the best DX (Developer Experience)** 
 
 ## Introducing the Devtools
 
-From <Badge text="^3.7.0" /> we are introducing the TresJS Devtools, a customized inspector tab for the [Official Vue Chrome Devtools](https://devtools.vuejs.org/guide/installation.html) that allows you to inspect your TresJS scenes and components.
+From <Badge text="^3.7.0" /> we are introducing the TresJS Devtools, a customized inspector tab for the [Official Vue Chrome Devtools](https://devtools.vuejs.org/getting-started/installation) that allows you to inspect your TresJS scenes and components.
 
 ![TresJS Devtools](/vue-chrome-devtools.png)
 
@@ -24,3 +24,9 @@ From <Badge text="^3.7.0" /> we are introducing the TresJS Devtools, a customize
 ![](/devtools-scene-inspector.png)
 
 Enjoy the new Devtools and let us know what you think! 🎉
+
+## Renderer info <Badge text="^4.0.0" />
+
+From `v4` it's possible to see the renderer information in the Devtools when inspecting the root object (Scene). This is useful to know what renderer is being used and its properties including the programs (shaders) and the capabilities of the renderer.
+
+![](/devtools-v4.png)

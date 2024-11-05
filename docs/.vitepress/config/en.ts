@@ -43,7 +43,8 @@ export const enConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
 
         items: [
           { text: 'Extending', link: '/advanced/extending' },
-          { text: 'Primitive', link: '/advanced/primitive' },
+          { text: 'Primitives', link: '/advanced/primitive' },
+          { text: 'Scaling Performance 🚀', link: '/advanced/performance' },
           {
             text: 'Caveats',
             link: '/advanced/caveats',
@@ -69,6 +70,7 @@ export const enConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
           { text: 'Load Text', link: '/cookbook/text-3d' },
           { text: 'Lights & Shadows', link: '/cookbook/lights-shadows' },
           { text: 'Shaders', link: '/cookbook/shaders' },
+          { text: 'Tweakpane', link: '/cookbook/tweakpane' },
         ],
       },
       {
@@ -77,9 +79,7 @@ export const enConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
         items: [
           { text: 'v-log', link: '/directives/v-log' },
           { text: 'v-light-helper', link: '/directives/v-light-helper' },
-          { text: 'v-always-look-at', link: '/directives/v-always-look-at' },
           { text: 'v-distance-to', link: '/directives/v-distance-to' },
-          { text: 'v-rotate', link: '/directives/v-rotate' },
         ],
       },
       {
@@ -98,7 +98,8 @@ export const enConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
             link: 'https://tresleches.tresjs.org/',
           },
           {
-            text: 'Post-processing (Soon)',
+            text: 'Post-processing',
+            link: 'https://post-processing.tresjs.org/',
           },
         ],
       },

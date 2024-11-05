@@ -21,8 +21,8 @@ Om ons ten slotte te helpen met de locatie, voegen we een eenvoudig vlak toe, ge
 
 ```vue
 <script setup lang="ts">
-import { TresCanvas } from '@tresjs/core'
 import { OrbitControls } from '@tresjs/cientos'
+import { TresCanvas } from '@tresjs/core'
 </script>
 
 <template>
@@ -114,9 +114,9 @@ Vergelijkbaar met wat we leren in het voorbeeld van [Basic Animations](/nl/cookb
 
 ```vue
 <script setup lang="ts">
-import { shallowRef } from 'vue'
-import { TresCanvas } from '@tresjs/core'
 import { OrbitControls } from '@tresjs/cientos'
+import { TresCanvas } from '@tresjs/core'
+import { shallowRef } from 'vue'
 
 const blobRef = shallowRef(null)
 // ...

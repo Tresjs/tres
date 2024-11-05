@@ -1,25 +1,25 @@
-import { Color, WebGLRenderer } from 'three'
-import { type MaybeRef, computed, onUnmounted, shallowRef, watch, watchEffect } from 'vue'
+import type { ColorSpace, Scene, ShadowMapType, ToneMapping, WebGLRendererParameters } from 'three'
+import type { EmitEventFn, TresColor } from '../../types'
+
+import type { TresContext } from '../useTresContextProvider'
+
+import type { RendererPresetsType } from './const'
 import {
   type MaybeRefOrGetter,
   toValue,
   unrefElement,
   useDevicePixelRatio,
 } from '@vueuse/core'
-
-import type { ColorSpace, Scene, ShadowMapType, ToneMapping, WebGLRendererParameters } from 'three'
-import { useLogger } from '../useLogger'
-import type { TresColor } from '../../types'
-import { useRenderLoop } from '../useRenderLoop'
-import { normalizeColor } from '../../utils/normalize'
-
-import type { TresContext } from '../useTresContextProvider'
-import { get, merge, set } from '../../utils'
+import { ACESFilmicToneMapping, Color, WebGLRenderer } from 'three'
+import { computed, type MaybeRef, onUnmounted, shallowRef, watch, watchEffect } from 'vue'
 
 // Solution taken from Thretle that actually support different versions https://github.com/threlte/threlte/blob/5fa541179460f0dadc7dc17ae5e6854d1689379e/packages/core/src/lib/lib/useRenderer.ts
 import { revision } from '../../core/revision'
+import { get, merge, set, setPixelRatio } from '../../utils'
+
+import { normalizeColor } from '../../utils/normalize'
+import { useLogger } from '../useLogger'
 import { rendererPresets } from './const'
-import type { RendererPresetsType } from './const'
 
 type TransformToMaybeRefOrGetter<T> = {
   [K in keyof T]: MaybeRefOrGetter<T[K]> | MaybeRefOrGetter<T[K]>;
@@ -72,7 +72,7 @@ export interface UseRendererOptions extends TransformToMaybeRefOrGetter<WebGLRen
    * CineonToneMapping, ACESFilmicToneMapping,
    * CustomToneMapping
    *
-   * @default NoToneMapping
+   * @default ACESFilmicToneMapping
    */
   toneMapping?: MaybeRefOrGetter<ToneMapping>
 
@@ -91,33 +91,35 @@ export interface UseRendererOptions extends TransformToMaybeRefOrGetter<WebGLRen
   clearColor?: MaybeRefOrGetter<TresColor>
   windowSize?: MaybeRefOrGetter<boolean | string>
   preset?: MaybeRefOrGetter<RendererPresetsType>
+  renderMode?: MaybeRefOrGetter<'always' | 'on-demand' | 'manual'>
+  /**
+   * A `number` sets the renderer's device pixel ratio.
+   * `[number, number]` clamp's the renderer's device pixel ratio.
+   */
+  dpr?: MaybeRefOrGetter<number | [number, number]>
 }
 
 export function useRenderer(
   {
-    scene,
     canvas,
     options,
-    disableRender,
-    contextParts: { sizes, camera },
+    contextParts: { sizes, render, invalidate, advance },
   }:
   {
     canvas: MaybeRef<HTMLCanvasElement>
     scene: Scene
     options: UseRendererOptions
-    contextParts: Pick<TresContext, 'sizes' | 'camera'>
-    disableRender: MaybeRefOrGetter<boolean>
+    emit: EmitEventFn
+    contextParts: Pick<TresContext, 'sizes' | 'camera' | 'render'> & { invalidate: () => void, advance: () => void }
   },
 ) {
   const webGLRendererConstructorParameters = computed<WebGLRendererParameters>(() => ({
-    alpha: toValue(options.alpha),
+    alpha: toValue(options.alpha) ?? true,
     depth: toValue(options.depth),
     canvas: unrefElement(canvas),
     context: toValue(options.context),
     stencil: toValue(options.stencil),
-    antialias: toValue(options.antialias) === undefined // an opinionated default of tres
-      ? true
-      : toValue(options.antialias),
+    antialias: toValue(options.antialias) ?? true,
     precision: toValue(options.precision),
     powerPreference: toValue(options.powerPreference),
     premultipliedAlpha: toValue(options.premultipliedAlpha),
@@ -128,22 +130,30 @@ export function useRenderer(
 
   const renderer = shallowRef<WebGLRenderer>(new WebGLRenderer(webGLRendererConstructorParameters.value))
 
+  function invalidateOnDemand() {
+    if (options.renderMode === 'on-demand') {
+      invalidate()
+    }
+  }
   // since the properties set via the constructor can't be updated dynamically,
   // the renderer is recreated once they change
   watch(webGLRendererConstructorParameters, () => {
     renderer.value.dispose()
     renderer.value = new WebGLRenderer(webGLRendererConstructorParameters.value)
+
+    invalidateOnDemand()
   })
 
-  watchEffect(() => {
+  watch([sizes.width, sizes.height], () => {
     renderer.value.setSize(sizes.width.value, sizes.height.value)
+    invalidateOnDemand()
+  }, {
+    immediate: true,
   })
+
+  watch(() => options.clearColor, invalidateOnDemand)
 
   const { pixelRatio } = useDevicePixelRatio()
-
-  watchEffect(() => {
-    renderer.value.setPixelRatio(pixelRatio.value)
-  })
 
   const { logError } = useLogger()
 
@@ -166,6 +176,20 @@ export function useRenderer(
 
   const threeDefaults = getThreeRendererDefaults()
 
+  const renderMode = toValue(options.renderMode)
+
+  if (renderMode === 'on-demand') {
+    // Invalidate for the first time
+    invalidate()
+  }
+
+  if (renderMode === 'manual') {
+    // Advance for the first time, setTimeout to make sure there is something to render
+    setTimeout(() => {
+      advance()
+    }, 100)
+  }
+
   watchEffect(() => {
     const rendererPreset = toValue(options.preset)
 
@@ -173,6 +197,15 @@ export function useRenderer(
       if (!(rendererPreset in rendererPresets)) { logError(`Renderer Preset must be one of these: ${Object.keys(rendererPresets).join(', ')}`) }
 
       merge(renderer.value, rendererPresets[rendererPreset])
+    }
+
+    setPixelRatio(renderer.value, pixelRatio.value, toValue(options.dpr))
+
+    // Render mode
+
+    if (renderMode === 'always') {
+      // If the render mode is 'always', ensure there's always a frame pending
+      render.frames.value = Math.max(1, render.frames.value)
     }
 
     const getValue = <T>(option: MaybeRefOrGetter<T>, pathInThree: string): T | undefined => {
@@ -197,7 +230,7 @@ export function useRenderer(
       set(renderer.value, pathInThree, getValue(option, pathInThree))
 
     setValueOrDefault(options.shadows, 'shadowMap.enabled')
-    setValueOrDefault(options.toneMapping, 'toneMapping')
+    setValueOrDefault(options.toneMapping ?? ACESFilmicToneMapping, 'toneMapping')
     setValueOrDefault(options.shadowMapType, 'shadowMap.type')
 
     if (revision < 150) { setValueOrDefault(!options.useLegacyLights, 'physicallyCorrectLights') }
@@ -216,21 +249,10 @@ export function useRenderer(
     }
   })
 
-  const { pause, resume, onLoop } = useRenderLoop()
-
-  onLoop(() => {
-    if (camera.value && !toValue(disableRender)) { renderer.value.render(scene, camera.value) }
-  })
-
-  resume()
-
   onUnmounted(() => {
-    pause() // TODO should the render loop pause itself if there is no more renderer? 🤔 What if there is another renderer which needs the loop?
     renderer.value.dispose()
     renderer.value.forceContextLoss()
   })
-
-  if (import.meta.hot) { import.meta.hot.on('vite:afterUpdate', resume) }
 
   return {
     renderer,

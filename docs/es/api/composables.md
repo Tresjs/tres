@@ -93,6 +93,33 @@ Dado que el composable `useLoader` devuelve una promesa, puedes usarlo con `asyn
 </template>
 ```
 
+### UseLoader como componente
+
+Puedes usar `UseLoader` como componente, de la siguiente forma:
+
+```vue
+<script setup lang="ts">
+import { UseLoader } from '@tresjs/core'
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader'
+</script>
+
+<Suspense>
+  <UseLoader v-slot="{ data }" :loader="GLTFLoader" url="path/to/asset.gltf">
+      <primitive :object="data.scene" />
+</Suspense>
+```
+
+### Props
+
+| Prop | type |
+| ---- | --- |
+| **loader** | `THREE.Loader` |
+| **url** | `String` |
+
+::: warning
+El componente `UseLoader` necesita estar envuelto por un `Suspense` para poder funcionar
+:::
+
 ## useTexture
 
 El composable `useTexture` te permite cargar texturas utilizando el [cargador de texturas de THREE.js](https://threejs.org/docs/#api/en/loaders/TextureLoader). Retorna una promesa con la(s) textura(s) cargada(s).
@@ -149,6 +176,38 @@ Luego puedes vincular las texturas al material.
 ```
 
 Similar al composable anterior, el composable `useTexture` devuelve una promesa, puedes usarlo con `async/await` o `then/catch`. Si lo estás utilizando en un componente, asegúrate de envolverlo con un componente `Suspense`.
+
+### UseTexture como componente
+
+Puedes usar `UseTexture` como componente, de la siguiente forma:
+
+```html
+<Suspense>
+  <UseTexture v-slot="{ textures }" map="path/to/texture.png">
+    <TresMesh>
+      <TresBoxGeometry />
+      <TresMeshStandardMaterial :map="textures.map" />
+    </TresMesh>
+  </UseTexture>
+</Suspense>
+```
+
+### Props
+
+| Prop | type |
+| ---- | --- |
+| **map?** | `String` |
+| **displacementMap?** | `String` |
+| **normalMap?** | `String` |
+| **roughnessMap?** | `String` |
+| **metalnessMap?** | `String` |
+| **aoMap?** | `String` |
+| **alphaMap?** | `String` |
+| **matcap?** | `String` |
+
+::: warning
+El componente `UseTexture` necesita estar envuelto por un `Suspense` para poder funcionar
+:::
 
 ## useSeek
 

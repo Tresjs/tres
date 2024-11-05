@@ -1,16 +1,19 @@
-import type { DefineComponent, VNode, VNodeRef } from 'vue'
-
+/* eslint-disable ts/method-signature-style */
 import type * as THREE from 'three'
-import type { EventProps as PointerEventHandlerEventProps } from '../composables/usePointerEventHandler'
+
+import type { DefineComponent, VNode, VNodeRef } from 'vue'
+import type { TresContext } from '../composables/useTresContextProvider'
 
 // Based on React Three Fiber types by Pmndrs
 // https://github.com/pmndrs/react-three-fiber/blob/v9/packages/fiber/src/three-types.ts
 
-export type AttachFnType<O = any> = (parent: any, self: O) => () => void
-export type AttachType<O = any> = string | AttachFnType<O>
+export type AttachFnType = (parent: any, self: TresInstance) => () => void
+export type AttachType = string | AttachFnType
+export type DisposeType = ((self: TresInstance) => void) | boolean | 'default'
 
 export type ConstructorRepresentation = new (...args: any[]) => any
-export type NonFunctionKeys<P> = { [K in keyof P]-?: P[K] extends Function ? never : K }[keyof P]
+
+export type NonFunctionKeys<P> = { [K in keyof P]-?: P[K] extends (...args: any[]) => any ? never : K }[keyof P]
 export type Overwrite<P, O> = Omit<P, NonFunctionKeys<O>> & O
 export type Properties<T> = Pick<T, NonFunctionKeys<T>>
 export type Mutable<P> = { [K in keyof P]: P[K] | Readonly<P[K]> }
@@ -19,46 +22,72 @@ export type Args<T> = T extends ConstructorRepresentation ? ConstructorParameter
 export interface TresCatalogue {
   [name: string]: ConstructorRepresentation
 }
+
+export type EmitEventName = 'render' | 'ready' | 'click' | 'double-click' | 'context-menu' | 'pointer-move' | 'pointer-up' | 'pointer-down' | 'pointer-enter' | 'pointer-leave' | 'pointer-over' | 'pointer-out' | 'pointer-missed' | 'wheel'
+export type EmitEventFn = (event: EmitEventName, ...args: any[]) => void
 export type TresCamera = THREE.OrthographicCamera | THREE.PerspectiveCamera
 
+/**
+ * Represents the properties of an instance.
+ *
+ * @template T - The type of the object.
+ * @template P - The type of the arguments.
+ */
 export interface InstanceProps<T = any, P = any> {
   args?: Args<P>
   object?: T
   visible?: boolean
   dispose?: null
-  attach?: AttachType<T>
+  attach?: AttachType
 }
 
 interface TresBaseObject {
-  attach?: string
   removeFromParent?: () => void
   dispose?: () => void
   [prop: string]: any // for arbitrary properties
 }
 
-// Custom type for geometry and material properties in Object3D
-export interface TresObject3D extends THREE.Object3D {
-  geometry?: THREE.BufferGeometry & TresBaseObject
-  material?: THREE.Material & TresBaseObject
-  userData: {
-    tres__materialViaProp: boolean
-    tres__geometryViaProp: boolean
-    [key: string]: any
-  }
+export interface LocalState {
+  type: string
+  eventCount: number
+  root: TresContext
+  handlers: Partial<EventHandlers>
+  memoizedProps: { [key: string]: any }
+  // NOTE:
+  // LocalState holds information about the parent/child relationship
+  // in the Vue graph. Note that this is distinct from THREE's
+  // Object3D.parent/children graph. parent/objects holds all
+  // <parent>
+  //   <object />
+  // </parent>
+  // relationships. This includes Object3D.parent/children
+  // added via tags. But it also includes materials and geometries.
+  objects: TresObject[]
+  parent: TresObject | null
+  // NOTE: End graph info
+
+  primitive?: boolean
+  dispose?: DisposeType
+  attach?: AttachType
+  previousAttach: any
 }
 
-export type TresObject = TresBaseObject & (TresObject3D | THREE.BufferGeometry | THREE.Material | THREE.Fog)
+// Custom type for geometry and material properties in Object3D
+export interface TresObject3D extends THREE.Object3D<THREE.Object3DEventMap> {
+  geometry?: THREE.BufferGeometry & TresBaseObject
+  material?: THREE.Material & TresBaseObject
+}
+
+export type TresObject =
+  TresBaseObject & (TresObject3D | THREE.BufferGeometry | THREE.Material | THREE.Fog) & { __tres?: LocalState }
+
+export type TresInstance = TresObject & { __tres: LocalState }
+
+export type TresPrimitive = TresInstance & { object: TresInstance, isPrimitive: true }
 
 export interface TresScene extends THREE.Scene {
-  userData: {
-    // keys are prefixed with tres__ to avoid name collisions
-    tres__registerCamera?: (newCamera: THREE.Camera, active?: boolean) => void
-    tres__deregisterCamera?: (camera: THREE.Camera) => void
-    tres__registerAtPointerEventHandler?: (object: THREE.Object3D & PointerEventHandlerEventProps) => void
-    tres__deregisterAtPointerEventHandler?: (object: THREE.Object3D) => void
-    tres__registerBlockingObjectAtPointerEventHandler?: (object: THREE.Object3D) => void
-    tres__deregisterBlockingObjectAtPointerEventHandler?: (object: THREE.Object3D) => void
-    [key: string]: any
+  __tres: {
+    root: TresContext
   }
 }
 
@@ -95,6 +124,15 @@ export interface IntersectionEvent<TSourceEvent> extends Intersection {
 export type ThreeEvent<TEvent> = IntersectionEvent<TEvent> & Properties<TEvent>
 export type DomEvent = PointerEvent | MouseEvent | WheelEvent
 
+export interface TresEvent {
+  eventObject: TresObject
+  event: DomEvent
+  stopPropagation: () => void
+  stopPropagating: boolean
+  intersections: Intersection[]
+  intersects: Intersection[]
+}
+
 export interface Events {
   onClick: EventListener
   onContextMenu: EventListener
@@ -125,10 +163,10 @@ export interface EventHandlers {
 }
 
 interface MathRepresentation {
-  set: (...args: number[] | [THREE.ColorRepresentation]) => any
+  set(...args: number[] | [THREE.ColorRepresentation]): any
 }
 interface VectorRepresentation extends MathRepresentation {
-  setScalar: (s: number) => any
+  setScalar(s: number): any
 }
 
 export interface VectorCoordinates {
@@ -142,29 +180,37 @@ export type MathType<T extends MathRepresentation | THREE.Euler> = T extends THR
 
   : T extends VectorRepresentation | THREE.Layers | THREE.Euler ? T | Parameters<T['set']> | number | VectorCoordinates : T | Parameters<T['set']>
 
-export type TresVector2 = MathType<THREE.Vector2>
-export type TresVector3 = MathType<THREE.Vector3>
-export type TresVector4 = MathType<THREE.Vector4>
-export type TresColor = MathType<THREE.Color>
-export type TresLayers = MathType<THREE.Layers>
-export type TresQuaternion = MathType<THREE.Quaternion>
-export type TresEuler = MathType<THREE.Euler>
+type VectorLike<VectorClass extends THREE.Vector2 | THREE.Vector3 | THREE.Vector4> =
+  | VectorClass
+  | Parameters<VectorClass['set']>
+  | Readonly<Parameters<VectorClass['set']>>
+  | Parameters<VectorClass['setScalar']>[0]
 
-type WithMathProps<P> = { [K in keyof P]: P[K] extends MathRepresentation | THREE.Euler ? MathType<P[K]> : P[K] }
+export type TresVector2 = VectorLike<THREE.Vector2>
+export type TresVector3 = VectorLike<THREE.Vector3>
+export type TresVector4 = VectorLike<THREE.Vector4>
+export type TresColor = ConstructorParameters<typeof THREE.Color> | THREE.Color | number | string // Parameters<T> will not work here because of multiple function signatures in three.js types
+export type TresColorArray = typeof THREE.Color | [color: THREE.ColorRepresentation]
+export type TresLayers = THREE.Layers | Parameters<THREE.Layers['set']>[0]
+export type TresQuaternion = THREE.Quaternion | Parameters<THREE.Quaternion['set']>
+export type TresEuler = THREE.Euler
+export type TresControl = THREE.EventDispatcher & { enabled: boolean }
+
+export type WithMathProps<P> = { [K in keyof P]: P[K] extends MathRepresentation | THREE.Euler ? MathType<P[K]> : P[K] }
 
 interface RaycastableRepresentation {
   raycast: (raycaster: THREE.Raycaster, intersects: THREE.Intersection[]) => void
 }
 type EventProps<P> = P extends RaycastableRepresentation ? Partial<EventHandlers> : unknown
 
-export interface VueProps<P> {
-  children?: VNode<P>[]
+export interface VueProps {
+  children?: VNode[]
   ref?: VNodeRef
   key?: string | number | symbol
 }
 
-type ElementProps<T extends ConstructorRepresentation, P = InstanceType<T>> = Partial<
-  Overwrite<WithMathProps<P>, VueProps<P> & EventProps<P>>
+export type ElementProps<T extends ConstructorRepresentation, P = InstanceType<T>> = Partial<
+  Overwrite<P, WithMathProps<P> & VueProps & EventProps<P>>
 >
 
 export type ThreeElement<T extends ConstructorRepresentation> = Mutable<
@@ -188,4 +234,10 @@ type TresComponents = {
 
 declare module 'vue' {
   export interface GlobalComponents extends TresComponents { }
+}
+declare module '@vue/runtime-core' {
+  interface GlobalComponents extends TresComponents { }
+}
+declare module '@vue/runtime-dom' {
+  interface GlobalComponents extends TresComponents {}
 }

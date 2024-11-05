@@ -1,13 +1,15 @@
 import type { App } from 'vue'
 import TresCanvas from './components/TresCanvas.vue'
+import { disposeObject3D as dispose } from './utils'
 import { normalizeColor, normalizeVectorFlexibleParam } from './utils/normalize'
 import templateCompilerOptions from './utils/template-compiler-options'
 
+export * from './components'
 export * from './composables'
 export * from './core/catalogue'
-export * from './components'
-export * from './types'
+export * from './core/loop'
 export * from './directives'
+export * from './types'
 
 export interface TresOptions {
   extends?: Record<string, unknown>
@@ -27,7 +29,10 @@ const plugin: TresPlugin = {
 export default plugin
 
 export {
+  dispose,
   normalizeColor,
   normalizeVectorFlexibleParam,
   templateCompilerOptions,
 }
+
+export type { VectorFlexibleParams } from './utils/normalize'
