@@ -1,77 +1,67 @@
 <script lang="ts" setup>
 import { TresCanvas } from '@tresjs/core'
+import { Backdrop } from '@tresjs/cientos'
 import { DepthOfField, EffectComposer } from '@tresjs/post-processing/pmndrs'
-import { gsap } from 'gsap'
-import { ref } from 'vue'
+import '@tresjs/leches/styles'
 
+import Ducky from '../Ducky.vue'
 import { useRouteDisposal } from '../../composables/useRouteDisposal'
-
-const dofEffect = ref<InstanceType<typeof DepthOfField> | null>(null)
-
-const toggleFocusDistance = () => {
-  gsap.to(dofEffect.value?.effect.circleOfConfusionMaterial, {
-    focusDistance: dofEffect.value?.effect.circleOfConfusionMaterial.focusDistance === 0.0012 ? 0.003 : 0.0012,
-    duration: 0.5,
-    ease: 'power2',
-  })
-}
 
 // Need to dispose of the effect composer when the route changes because Vitepress doesnt unmount the components
 const { effectComposer } = useRouteDisposal()
+
+const effectParams = ref({
+  focusDistance: 0.001,
+  bokehScale: 5.9,
+  focusRange: 0.011,
+})
 </script>
 
 <template>
-  <button
-    class="
-      absolute
-      rounded
-      px-2 py-1
-      bg-white/15
-      top-2.5
-      right-2
-      z-10
-      ring-1
-      ring-inset
-      ring-gray-400/50
-      hover:bg-gray-400/40
-      active:bg-gray-400/50
-      font-semibold
-      transition-colors
-    "
-    @click="toggleFocusDistance"
-  >
-    toggle focus
-  </button>
-  <TresCanvas>
+  <TresCanvas clear-color="#ff9cce" shadows>
     <TresPerspectiveCamera
-      :rotation="[-0.89, 1.28, 0.87]"
-      :position="[5.55, 1.57, 1.02]"
+      :position="[0, 1, 3]"
+      :look-at="[0, 0.75, 2]"
     />
-    <TresMesh :position="[-2, 1, 0]">
-      <TresBoxGeometry
-        :width="3"
-        :height="3"
-        :depth="3"
+    <Backdrop
+      :floor="1.5"
+      :scale="[100, 30, 30]"
+      :position="[0, 0, -50]"
+      receive-shadow
+    >
+      <TresMeshPhysicalMaterial
+        :roughness="1"
+        color="#ff9cce"
+        :side="2"
       />
-      <TresMeshNormalMaterial />
-    </TresMesh>
-    <TresMesh :position="[3, 1, 0]">
-      <TresBoxGeometry
-        :width="3"
-        :height="3"
-        :depth="3"
-      />
-      <TresMeshNormalMaterial />
-    </TresMesh>
-    <TresGridHelper />
+    </Backdrop>
+    <TresGroup
+      :position="[-5, 0.5, -10]"
+      :scale="0.5"
+    >
+      <Suspense>
+        <Ducky />
+      </Suspense>
+    </TresGroup>
+    <TresGroup
+      :position="[0, 0.5, 0]"
+      :scale="0.5"
+    >
+      <Suspense>
+        <BlenderCube />
+      </Suspense>
+    </TresGroup>
+    <TresAmbientLight />
+    <TresDirectionalLight
+      :position="[5, 5, 5]"
+      cast-shadow
+    />
+
     <EffectComposer ref="effectComposer">
       <DepthOfField
-        ref="dofEffect"
-        :focus-distance="0.0012"
-        :world-focus-distance="2"
-        :world-focus-range="1"
-        :bokeh-scale="8"
-        :focus-range="0.005"
+        :bokeh-scale="effectParams.bokehScale"
+        :focus-distance="effectParams.focusDistance"
+        :focus-range="effectParams.focusRange"
       />
     </EffectComposer>
   </TresCanvas>

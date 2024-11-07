@@ -1,23 +1,25 @@
 <script lang="ts" setup>
 import type { Ref } from 'vue'
-import { OrbitControls } from '@tresjs/cientos'
+import { Backdrop, OrbitControls } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
 import { TresLeches, useControls } from '@tresjs/leches'
 
 import { DepthOfField, EffectComposer } from '@tresjs/post-processing/pmndrs'
 import { computed } from 'vue'
+import BlenderCube from '../../components/BlenderCube.vue'
 
 import '@tresjs/leches/styles'
+import Ducky from '../../components/Ducky.vue'
 
 useControls('fpsgraph')
 const controls = useControls({
   focusDistance: {
     value: 0.001,
     min: 0,
-    max: 0.1,
+    max: 0.01,
     step: 0.0001,
   },
-  worldFocusDistance: {
+  /* worldFocusDistance: {
     value: 3.8,
     min: 0,
     max: 10,
@@ -28,15 +30,15 @@ const controls = useControls({
     min: 0,
     max: 1,
     step: 0.001,
-  },
+  }, */
   bokehScale: {
-    value: 10,
+    value: 5.9,
     min: 1,
     max: 15,
     step: 0.01,
   },
   focusRange: {
-    value: 0.0018,
+    value: 0.011,
     min: 0,
     max: 1,
     step: 0.001,
@@ -55,30 +57,51 @@ const effectParams = computed(() =>
 
 <template>
   <TresLeches />
-  <TresCanvas>
+  <TresCanvas clear-color="#ff9cce" shadows>
     <TresPerspectiveCamera
-      :position="[5, 2, 1]"
+      :position="[0, 1, 5]"
       :look-at="[0, 1, 2]"
     />
     <OrbitControls />
-    <template
-      v-for="i in 5"
-      :key="i"
+    <Backdrop
+      :floor="1.5"
+      :scale="[100, 30, 30]"
+      :position="[0, 0, -50]"
+      receive-shadow
     >
-      <TresMesh :position="[i * 1.1 - 2.8, 1, 0]">
-        <TresBoxGeometry
-          :width="4"
-          :height="4"
-          :depth="4"
-        />
-        <TresMeshNormalMaterial />
-      </TresMesh>
-    </template>
-    <TresGridHelper />
+      <TresMeshPhysicalMaterial
+        :roughness="1"
+        color="#ff9cce"
+        :side="2"
+      />
+    </Backdrop>
+    <TresGroup
+      :position="[-5, 0.5, -10]"
+      :scale="0.5"
+    >
+      <Suspense>
+        <Ducky />
+      </Suspense>
+    </TresGroup>
+    <TresGroup
+      :position="[0, 0.5, 0]"
+      :scale="0.5"
+    >
+      <Suspense>
+        <BlenderCube />
+      </Suspense>
+    </TresGroup>
+    <TresAmbientLight />
+    <TresDirectionalLight
+      :position="[5, 5, 5]"
+      cast-shadow
+    />
 
     <EffectComposer>
       <DepthOfField
-        v-bind="effectParams"
+        :bokeh-scale="effectParams.bokehScale"
+        :focus-distance="effectParams.focusDistance"
+        :focus-range="effectParams.focusRange"
       />
     </EffectComposer>
   </TresCanvas>

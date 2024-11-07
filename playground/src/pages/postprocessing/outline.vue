@@ -27,7 +27,7 @@ const { edgeStrength, pulseSpeed, visibleEdgeColor, blur, kernelSize } = useCont
   edgeStrength: {
     value: 2000,
     min: 0,
-    max: 3000,
+    max: 5000,
     step: 10,
   },
   pulseSpeed: {
