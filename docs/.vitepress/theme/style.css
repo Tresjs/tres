@@ -61,3 +61,7 @@
 .VPNavBarTitle .logo {
   height: 16px !important;
 }
+
+img {
+  border-radius: 8px;
+}

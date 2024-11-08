@@ -1,8 +1,10 @@
 # Post-processing
 
-![Post-processing banner](/banner.png)
+> Apply post-processing effects to your 3D scenes with ease.
 
-> Post-processing, in simple terms, consist in applying visual effects to your 3D scenes after they have been rendered. It allows you to add beautiful effects such as depth-of-field, bloom, motion blur, and many more. These effects can greatly enhance the overall look and feel of your projects, making them more immersive and visually captivating.
+![Post-processing banner](/tres-post-processing-banner.png)
+
+Post-processing, in simple terms, consist in applying visual effects to your 3D scenes after they have been rendered. It allows you to add beautiful effects such as depth-of-field, bloom, motion blur, and many more.
 
 The `post-processing` package leverages both the excellent work done by the pmndrs [postprocessing](https://github.com/pmndrs/postprocessing) package and native [Three.js post-processing effects](https://threejs.org/examples/?q=postprocessing#webgl_postprocessing). Providing you with an easy-to-use, Vue-centric solution that makes the developer experience (DX) smoother and more delightful.
 
