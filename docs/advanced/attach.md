@@ -113,7 +113,7 @@ This will attach `bar` at `foo.ab.cd.ef`:
 
 ### Usage
 
-As a concrete example, you can used "pierced" `attach` to add custom `BufferAttribute`s:
+As a concrete example, you can use "pierced" `attach` to add custom `BufferAttribute`s:
 
 ```vue
 <script setup lang="ts">
