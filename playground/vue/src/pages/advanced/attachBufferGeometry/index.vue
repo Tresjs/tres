@@ -39,7 +39,7 @@ const positions = new Float32Array([
     <h1><code>attach</code>: BufferGeometry</h1>
     <h2>Setup</h2>
     <p>
-      In this scene, there is a Mesh with a BufferGeometry, created with JSX. The BufferGeometry has a JSX BufferAttribute, attached to the BufferGeometry's <code>attributes.position</code> using <code>attach</code>.
+      In this scene, there is a Mesh, BufferGeometry, and a BufferAttribute. All are created in <code>&lt;template&gt;</code>. The BufferAttribute is attached to the BufferGeometry's <code>attributes.position</code> using the <code>attach</code> prop.
     </p>
     <h2>Preview</h2>
     <img :src="previewDataUri" />

@@ -14,7 +14,7 @@ The `attach` prop is not required for many common cases. For instance:
 
 ## Background
 
-Tres tries to automatically determine where to insert child tag into its parent. For example, in this code, Tres will:
+Tres tries to automatically determine where to insert a child tag into its parent. For example, in this code, Tres will:
 
 * automatically insert the geometry into `parent.geometry`
 * automatically insert the material into `parent.material`
@@ -97,7 +97,7 @@ You can deeply attach a child to a parent by "piercing" – i.e., using a kebab-
 
 First, here are a few simple pseudocode examples. This will attach `bar` at `foo.ab.cd`:
 
-```html
+```vue
 <foo>
   <bar attach="ab-cd" />
 </foo>
@@ -105,7 +105,7 @@ First, here are a few simple pseudocode examples. This will attach `bar` at `foo
 
 This will attach `bar` at `foo.ab.cd.ef`:
 
-```html
+```vue
 <foo>
   <bar attach="ab-cd-ef" />
 </foo>
