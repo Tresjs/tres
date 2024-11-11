@@ -21,9 +21,9 @@ const previewDataUri = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPoAAAD6CA
     <h1><code>attach</code>: Post-processing</h1>
     <h2>Setup</h2>
     <p>
-      In this scene, there is a Box with a MeshNormalMaterial. The scene also includes a THREE EffectComposer and post-processing passes created in <code>&lt;template&gt;</code>. 
+      In this scene, there is a Box with a MeshNormalMaterial. The scene also includes a THREE EffectComposer and post-processing passes created in <code>&lt;template&gt;</code>.
     </p>
-    <p> 
+    <p>
       The passes are inserted into <code>EffectComposer.passes</code> using the <code>attach</code> prop.
     </p>
     <h2>Preview</h2>
