@@ -24,21 +24,6 @@ With the mesh assigned to the reactive state, it's available throughout your pro
 
 ::: code-group
 
-```ts [composables/state.ts]
-import { reactive, toRefs } from "vue";
-
-const state = reactive({
-    mesh: null,
-    //you can add more objects here
-})
-
-export function useState() {
-    return {
-        ...toRefs(state)
-    }
-}
-```
-
 ```vue [App.vue]
 <script setup lang="ts">
 import { BoxGeometry, Mesh, MeshNormalMaterial } from 'three';
@@ -70,6 +55,22 @@ const { mesh } = useState();
   <primitive v-if="mesh" :object="mesh" />
 </template>
 ```
+
+```ts [composables/state.ts]
+import { reactive, toRefs } from "vue";
+
+const state = reactive({
+    mesh: null,
+    //you can add more objects here
+})
+
+export function useState() {
+    return {
+        ...toRefs(state)
+    }
+}
+```
+:::
 
 ## Using TresMesh components
 
@@ -150,5 +151,7 @@ onMounted(() => {
   </TresMesh>
 </template>
 ```
+
+:::
 
 With these steps, you can easily manage and share objects across different components in your Vue 3 project using a reactive composable.
