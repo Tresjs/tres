@@ -108,12 +108,12 @@ onMounted(() => {
 
 ## Using Pinia Store
 
-By using the same logic we can also use pinia.
+By using the same logic we can also use Pinia.
 By using pinia we also have full access to actions and getters.
 
 ::: code-group
 
-``` [model.ts]
+```ts [model.ts]
 import { defineStore } from "pinia";
 
 export const useModelStore = defineStore('model', {
