@@ -2,7 +2,7 @@
   "name": "@tresjs/cientos",
   "type": "module",
   "version": "4.0.3",
-  "packageManager": "pnpm@9.12.0",
+  "packageManager": "pnpm@9.13.0",
   "description": "Collection of useful helpers and fully functional, ready-made abstractions for Tres",
   "author": "Alvaro Saburido <hola@alvarosaburido.dev> (https://github.com/alvarosabu/)",
   "license": "MIT",
