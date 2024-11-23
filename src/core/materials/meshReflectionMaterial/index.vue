@@ -314,12 +314,6 @@ watch(() => [
   })
 }, { immediate: true })
 
-watch(materialRef, () => {
-  if (materialRef.value) {
-    materialRef.value.onBeforeRender = onBeforeRender
-  }
-})
-
 // NOTE: Begin #615 warning
 // The Tres core doesn't currently swap mesh materials when a
 // material component recompiles.
