@@ -1,5 +1,17 @@
 
 
+## [1.0.0](https://github.com/Tresjs/post-processing/compare/1.0.0-next.1...1.0.0) (2024-11-26)
+
+### Features
+
+* native threejs effects ([#121](https://github.com/Tresjs/post-processing/issues/121)) ([cd24a57](https://github.com/Tresjs/post-processing/commit/cd24a57cb73d52e13efb9687ade8cd2799738ffa))
+* prop types exposure ([#136](https://github.com/Tresjs/post-processing/issues/136)) ([bd6ff06](https://github.com/Tresjs/post-processing/commit/bd6ff0614f2798acc1bb6553b6b3be5910b38735))
+* sub modules for pmndrs and native components ([#123](https://github.com/Tresjs/post-processing/issues/123)) ([c8df59f](https://github.com/Tresjs/post-processing/commit/c8df59f0fdfdf0d9ba90dba6de30f458fdb7cff4))
+
+### Bug Fixes
+
+* 67 depth of field and outline effect ([#138](https://github.com/Tresjs/post-processing/issues/138)) ([3112305](https://github.com/Tresjs/post-processing/commit/3112305e8b517f1cf5497ef942e1db2cf4b25a0b))
+
 ## [1.0.0-next.1](https://github.com/Tresjs/post-processing/compare/0.7.1...1.0.0-next.1) (2024-07-26)
 
 
