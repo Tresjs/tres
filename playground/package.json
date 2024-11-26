@@ -10,13 +10,13 @@
   },
   "dependencies": {
     "@tresjs/cientos": "^4.0.2",
-    "@tresjs/core": "4.2.10",
-    "vue-router": "^4.3.2"
+    "@tresjs/core": "4.3.1",
+    "vue-router": "^4.5.0"
   },
   "devDependencies": {
     "@tresjs/leches": "^0.14.0",
-    "@types/three": "^0.164.0",
-    "unplugin-auto-import": "^0.17.6",
+    "@types/three": "^0.170.0",
+    "unplugin-auto-import": "^0.18.5",
     "unplugin-vue-components": "^0.27.0",
     "vite-plugin-qrcode": "^0.2.3"
   }
