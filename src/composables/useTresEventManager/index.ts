@@ -146,8 +146,14 @@ export function useTresEventManager(
     event.intersections = newIntersections
 
     // Newly intersected mesh is not in the previous intersections, fire onPointerEnter
+
+    
+    const prevIntersectionsObjects =  prevIntersections.map(({ object }) => object)
+
     event.intersections.forEach(({ object: hit }) => {
-      if (!prevIntersections.includes(hit as unknown as Intersection)) {
+
+      // hello, here should be objects can be compare the newly added execution of enter
+      if (!prevIntersectionsObjects.includes(hit as unknown as Intersection)) {
         propogateEvent('onPointerEnter', event)
         propogateEvent('onPointerOver', event)
       }
