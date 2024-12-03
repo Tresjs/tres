@@ -24,4 +24,9 @@ export const materialsRoutes = [
     name: 'HolographicMaterial',
     component: () => import('../../pages/materials/HolographicMaterialDemo.vue'),
   },
+  {
+    path: '/materials/discard-material',
+    name: 'MeshDiscardMaterial',
+    component: () => import('../../pages/materials/MeshDiscardMaterialDemo.vue'),
+  },
 ]
