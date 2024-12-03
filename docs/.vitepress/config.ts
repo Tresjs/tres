@@ -76,6 +76,7 @@ export default defineConfig({
           { text: 'useSurfaceSampler', link: '/guide/abstractions/use-surface-sampler' },
           { text: 'Sampler', link: '/guide/abstractions/sampler' },
           { text: 'AnimatedSprite', link: '/guide/abstractions/animated-sprite' },
+          { text: 'Billboard', link: '/guide/abstractions/billboard' },
         ],
       },
       {
