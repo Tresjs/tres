@@ -65,6 +65,11 @@ export const abstractionsRoutes = [
     component: () => import('../../pages/abstractions/AnimatedSpriteDemo.vue'),
   },
   {
+    path: '/abstractions/screen-space',
+    name: 'ScreenSpace',
+    component: () => import('../../pages/abstractions/ScreenSpaceDemo.vue'),
+  },
+  {
     path: '/abstractions/outline',
     name: 'Outline',
     component: () => import('../../pages/abstractions/OutlineDemo.vue'),

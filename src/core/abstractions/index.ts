@@ -8,6 +8,7 @@ import MouseParallax from './MouseParallax.vue'
 import Outline from './Outline/component.vue'
 import PositionalAudio from './PositionalAudio.vue'
 import Reflector from './Reflector.vue'
+import ScreenSpace from './ScreenSpace.vue'
 import Text3D from './Text3D.vue'
 import { useAnimations } from './useAnimations'
 import Fbo from './useFBO/component.vue'
@@ -31,6 +32,7 @@ export {
   PositionalAudio,
   Reflector,
   Sampler,
+  ScreenSpace,
   Text3D,
   useAnimations,
 }
