@@ -75,6 +75,8 @@ export default defineConfig({
           { text: 'useFBO', link: '/guide/abstractions/use-fbo' },
           { text: 'useSurfaceSampler', link: '/guide/abstractions/use-surface-sampler' },
           { text: 'Sampler', link: '/guide/abstractions/sampler' },
+          { text: 'Edges', link: '/guide/abstractions/edges' },
+          { text: 'PositionalAudio', link: '/guide/abstractions/positional-audio' },
           { text: 'AnimatedSprite', link: '/guide/abstractions/animated-sprite' },
           { text: 'Billboard', link: '/guide/abstractions/billboard' },
         ],
