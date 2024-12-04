@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { TresCanvas, useSeek } from '@tresjs/core'
+import { TresCanvas } from '@tresjs/core'
 import { Box, ContactShadows, Edges, OrbitControls } from '@tresjs/cientos'
 import { MOUSE, TOUCH } from 'three'
 

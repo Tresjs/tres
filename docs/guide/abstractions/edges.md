@@ -4,7 +4,7 @@
   <EdgesDemo />
 </DocsDemo>
 
-The `cientos` package provides an abstraction of [EdgesGeometry](https://threejs.org/docs/#api/en/geometries/EdgesGeometry) from Three.js, `<Edges>` is specifically designed for rendering visible edges of objects in a scene graph. This enhances the visual quality by highlighting contours and providing a stylized appearance which contributes to the artistic aspect of 3D visualizations.
+The `cientos` package provides an abstraction of [EdgesGeometry](https://threejs.org/docs/#api/en/geometries/EdgesGeometry) from Three.js, `<Edges>` is specifically designed for rendering visible edges of objects in a scene graph. This enhances the visual quality by highlighting contours and providing a stylized appearance which contributes to the artistic aspect of 3D visualizations.
 
 ## Usage
 

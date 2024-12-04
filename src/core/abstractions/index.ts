@@ -17,8 +17,8 @@ export * from './useFBO/'
 export * from './useSurfaceSampler'
 export {
   AnimatedSprite,
-  Edges,
   Billboard,
+  Edges,
   Fbo,
   GlobalAudio,
   Lensflare,
