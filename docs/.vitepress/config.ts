@@ -78,6 +78,7 @@ export default defineConfig({
           { text: 'Edges', link: '/guide/abstractions/edges' },
           { text: 'PositionalAudio', link: '/guide/abstractions/positional-audio' },
           { text: 'AnimatedSprite', link: '/guide/abstractions/animated-sprite' },
+          { text: 'Image', link: '/guide/abstractions/image' },
           { text: 'Billboard', link: '/guide/abstractions/billboard' },
         ],
       },

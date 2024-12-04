@@ -1,6 +1,7 @@
 import AnimatedSprite from './AnimatedSprite/component.vue'
 import Billboard from './Billboard.vue'
 import { GlobalAudio } from './GlobalAudio'
+import Image from './Image/component.vue'
 import Lensflare from './Lensflare/component.vue'
 import Levioso from './Levioso.vue'
 import MouseParallax from './MouseParallax.vue'
@@ -21,6 +22,7 @@ export {
   Edges,
   Fbo,
   GlobalAudio,
+  Image,
   Lensflare,
   Levioso,
   MouseParallax,
