@@ -1,6 +1,7 @@
 import AnimatedSprite from './AnimatedSprite/component.vue'
 import Billboard from './Billboard.vue'
 import { GlobalAudio } from './GlobalAudio'
+import GradientTexture from './GradientTexture.vue'
 import Image from './Image/component.vue'
 import Lensflare from './Lensflare/component.vue'
 import Levioso from './Levioso.vue'
@@ -25,6 +26,7 @@ export {
   Edges,
   Fbo,
   GlobalAudio,
+  GradientTexture,
   Image,
   Lensflare,
   Levioso,
