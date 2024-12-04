@@ -22,22 +22,23 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import * as THREE from 'three'
+import type { Color, CubeTexture, Matrix3, Matrix4, Quaternion, Texture, Vector2, Vector3, Vector4 } from 'three'
+import { MathUtils, ShaderMaterial, UniformsUtils } from 'three'
 
 export function shaderMaterial(
   uniforms: {
     [name: string]:
-      | THREE.CubeTexture
-      | THREE.Texture
+      | CubeTexture
+      | Texture
       | Int32Array
       | Float32Array
-      | THREE.Matrix4
-      | THREE.Matrix3
-      | THREE.Quaternion
-      | THREE.Vector4
-      | THREE.Vector3
-      | THREE.Vector2
-      | THREE.Color
+      | Matrix4
+      | Matrix3
+      | Quaternion
+      | Vector4
+      | Vector3
+      | Vector2
+      | Color
       | number
       | boolean
       | Array<any>
@@ -45,16 +46,16 @@ export function shaderMaterial(
   },
   vertexShader: string,
   fragmentShader: string,
-  onInit?: (material?: THREE.ShaderMaterial) => void,
+  onInit?: (material?: ShaderMaterial) => void,
 ) {
-  const material = class extends THREE.ShaderMaterial {
+  const material = class extends ShaderMaterial {
     public key: string = ''
     constructor(parameters = {}) {
       const entries = Object.entries(uniforms)
       // Create unforms and shaders
       super({
         uniforms: entries.reduce((acc, [name, value]) => {
-          const uniform = THREE.UniformsUtils.clone({ [name]: { value } })
+          const uniform = UniformsUtils.clone({ [name]: { value } })
           return {
             ...acc,
             ...uniform,
@@ -76,7 +77,7 @@ export function shaderMaterial(
       // Call onInit
       if (onInit) { onInit(this) }
     }
-  } as unknown as typeof THREE.ShaderMaterial & { key: string }
-  material.key = THREE.MathUtils.generateUUID()
+  } as unknown as typeof ShaderMaterial & { key: string }
+  material.key = MathUtils.generateUUID()
   return material
 }

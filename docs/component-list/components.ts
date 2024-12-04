@@ -17,6 +17,7 @@ export default [
       },
       { text: 'Sampler', link: '/guide/abstractions/sampler' },
       { text: 'PositionalAudio', link: '/guide/abstractions/positional-audio' },
+      { text: 'Outline', link: '/guide/abstractions/outline' },
       { text: 'Image', link: '/guide/abstractions/image' },
       { text: 'Billboard', link: '/guide/abstractions/billboard' },
     ],

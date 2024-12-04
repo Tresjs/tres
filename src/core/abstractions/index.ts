@@ -5,6 +5,7 @@ import Image from './Image/component.vue'
 import Lensflare from './Lensflare/component.vue'
 import Levioso from './Levioso.vue'
 import MouseParallax from './MouseParallax.vue'
+import Outline from './Outline/component.vue'
 import PositionalAudio from './PositionalAudio.vue'
 import Reflector from './Reflector.vue'
 import Text3D from './Text3D.vue'
@@ -26,6 +27,7 @@ export {
   Lensflare,
   Levioso,
   MouseParallax,
+  Outline,
   PositionalAudio,
   Reflector,
   Sampler,
