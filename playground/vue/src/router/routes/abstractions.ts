@@ -84,4 +84,9 @@ export const abstractionsRoutes = [
     name: 'Billboard',
     component: () => import('../../pages/abstractions/BillboardDemo.vue'),
   },
+  {
+    path: '/abstractions/screen-sizer',
+    name: 'ScreenSizer',
+    component: () => import('../../pages/abstractions/ScreenSizerDemo.vue'),
+  },
 ]

@@ -13,6 +13,7 @@ import Text3D from './Text3D.vue'
 import { useAnimations } from './useAnimations'
 import Fbo from './useFBO/component.vue'
 import Sampler from './useSurfaceSampler/component.vue'
+import ScreenSizer from './ScreenSizer.vue'
 import Edges from './Edges.vue'
 
 export * from '../staging/useEnvironment'
@@ -32,6 +33,7 @@ export {
   PositionalAudio,
   Reflector,
   Sampler,
+  ScreenSizer,
   ScreenSpace,
   Text3D,
   useAnimations,
