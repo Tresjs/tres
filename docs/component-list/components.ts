@@ -108,6 +108,7 @@ export default [
       { text: 'Sparkles', link: '/guide/staging/sparkles' },
       { text: 'Ocean', link: '/guide/staging/ocean' },
       { text: 'Fit', link: '/guide/staging/fit' },
+      { text: 'Grid', link: '/guide/staging/grid' },
     ],
   },
   {
