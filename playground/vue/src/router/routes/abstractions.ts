@@ -65,6 +65,11 @@ export const abstractionsRoutes = [
     component: () => import('../../pages/abstractions/AnimatedSpriteDemo.vue'),
   },
   {
+    path: '/abstractions/cube-camera',
+    name: 'CubeCamera',
+    component: () => import('../../pages/abstractions/CubeCameraDemo.vue'),
+  },
+  {
     path: '/abstractions/gradient-texture',
     name: 'GradientTexture',
     component: () => import('../../pages/abstractions/GradientTextureDemo.vue'),

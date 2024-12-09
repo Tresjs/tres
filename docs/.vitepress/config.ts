@@ -78,6 +78,7 @@ export default defineConfig({
           { text: 'Edges', link: '/guide/abstractions/edges' },
           { text: 'PositionalAudio', link: '/guide/abstractions/positional-audio' },
           { text: 'AnimatedSprite', link: '/guide/abstractions/animated-sprite' },
+          { text: 'CubeCamera', link: '/guide/abstractions/cube-camera' },
           { text: 'ScreenSizer', link: '/guide/abstractions/screen-sizer' },
           { text: 'ScreenSpace', link: '/guide/abstractions/screen-space' },
           { text: 'Outline', link: '/guide/abstractions/outline' },

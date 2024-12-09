@@ -1,4 +1,5 @@
 import AnimatedSprite from './AnimatedSprite/component.vue'
+import CubeCamera from './CubeCamera/component.vue'
 import Billboard from './Billboard.vue'
 import { GlobalAudio } from './GlobalAudio'
 import GradientTexture from './GradientTexture.vue'
@@ -23,6 +24,7 @@ export * from './useSurfaceSampler'
 export {
   AnimatedSprite,
   Billboard,
+  CubeCamera,
   Edges,
   Fbo,
   GlobalAudio,

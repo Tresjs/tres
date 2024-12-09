@@ -17,6 +17,7 @@ export default [
       },
       { text: 'Sampler', link: '/guide/abstractions/sampler' },
       { text: 'PositionalAudio', link: '/guide/abstractions/positional-audio' },
+      { text: 'CubeCamera', link: '/guide/abstractions/cube-camera' },
       { text: 'GradientTexture', link: '/guide/abstractions/gradient-texture' },
       { text: 'ScreenSpace', link: '/guide/abstractions/screen-space' },
       { text: 'Outline', link: '/guide/abstractions/outline' },
