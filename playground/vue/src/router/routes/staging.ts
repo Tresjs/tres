@@ -50,6 +50,11 @@ export const stagingRoutes = [
     component: () => import('../../pages/staging/fit/index.vue'),
   },
   {
+    path: '/staging/soft-shadows',
+    name: 'SoftShadows',
+    component: () => import('../../pages/staging/SoftShadowsDemo.vue'),
+  },
+  {
     path: '/staging/grid',
     name: 'Grid',
     component: () => import('../../pages/staging/GridDemo.vue'),
