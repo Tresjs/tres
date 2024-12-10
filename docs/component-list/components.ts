@@ -108,6 +108,7 @@ export default [
       { text: 'Sparkles', link: '/guide/staging/sparkles' },
       { text: 'Ocean', link: '/guide/staging/ocean' },
       { text: 'Fit', link: '/guide/staging/fit' },
+      { text: 'Align', link: '/guide/staging/align' },
       { text: 'SoftShadows', link: '/guide/staging/soft-shadows' },
       { text: 'Grid', link: '/guide/staging/grid' },
     ],

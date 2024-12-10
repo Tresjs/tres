@@ -1,3 +1,4 @@
+import Align from './Align.vue'
 import Backdrop from './Backdrop.vue'
 import ContactShadows from './ContactShadows.vue'
 import Fit from './Fit.vue'
@@ -13,6 +14,7 @@ import Environment from './useEnvironment/component.vue'
 import Lightformer from './useEnvironment/lightformer/index.vue'
 
 export {
+  Align,
   Backdrop,
   ContactShadows,
   Environment,
