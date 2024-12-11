@@ -6,6 +6,7 @@ import GradientTexture from './GradientTexture.vue'
 import Image from './Image/component.vue'
 import Lensflare from './Lensflare/component.vue'
 import Levioso from './Levioso.vue'
+import Mask from './Mask/component.vue'
 import MouseParallax from './MouseParallax.vue'
 import Outline from './Outline/component.vue'
 import PositionalAudio from './PositionalAudio.vue'
@@ -13,6 +14,7 @@ import Reflector from './Reflector.vue'
 import ScreenSpace from './ScreenSpace.vue'
 import Text3D from './Text3D.vue'
 import { useAnimations } from './useAnimations'
+import { useMask } from './Mask/useMask'
 import Fbo from './useFBO/component.vue'
 import Sampler from './useSurfaceSampler/component.vue'
 import ScreenSizer from './ScreenSizer.vue'
@@ -32,6 +34,7 @@ export {
   Image,
   Lensflare,
   Levioso,
+  Mask,
   MouseParallax,
   Outline,
   PositionalAudio,
@@ -41,4 +44,5 @@ export {
   ScreenSpace,
   Text3D,
   useAnimations,
+  useMask,
 }
