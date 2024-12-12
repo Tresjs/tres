@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { ActiveCollisionTypes, ActiveEvents } from '@dimforge/rapier3d-compat'
-
 import { inject, nextTick, onUnmounted, type ShallowRef, shallowRef, watch } from 'vue'
+
 import { useRapierContext } from '../../composables'
 import { createCollider } from '../../core/collider'
-import { makePropsWatcherCL } from '../../utils/props'
+import { makePropsWatcherCL } from '../../utils'
 import type { ColliderProps, CreateColliderReturnType, ExposedCollider, RigidBodyContext } from '../../types'
 
 const props = withDefaults(defineProps<Partial<ColliderProps>>(), {
@@ -17,6 +17,7 @@ const props = withDefaults(defineProps<Partial<ColliderProps>>(), {
   activeCollision: false,
   activeCollisionTypes: ActiveCollisionTypes.DEFAULT,
   collisionGroups: undefined,
+  sensor: false,
 })
 
 const { world } = useRapierContext()
@@ -59,7 +60,19 @@ watch(bodyContext, async (state) => {
 }, { immediate: true })
 
 // TODO: collisionGroups
-makePropsWatcherCL(props, ['friction', 'restitution', 'density', 'mass', 'activeCollisionTypes'], colliderInfos)
+makePropsWatcherCL(
+  props,
+  [
+    'friction',
+    'restitution',
+    'density',
+    'mass',
+    'activeCollisionTypes',
+    'activeCollision',
+    'sensor',
+  ],
+  colliderInfos,
+)
 
 watch([() => props.collisionGroups, colliderInfos], ([_collisionGroups, _]) => {
   if (!colliderInfos.value?.collider || !_collisionGroups) { return }
@@ -86,5 +99,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <slot></slot>
+  <TresObject3D>
+    <slot></slot>
+  </TresObject3D>
 </template>

@@ -1,7 +1,13 @@
-import type { ActiveCollisionTypes, Collider, ColliderDesc, RigidBody, RigidBodyDesc, World } from '@dimforge/rapier3d-compat'
+import type {
+  Collider,
+  ColliderDesc,
+  RigidBody,
+  RigidBodyDesc,
+  World,
+} from '@dimforge/rapier3d-compat'
 import type { TresObject3D, TresVector3, VectorCoordinates } from '@tresjs/core'
 
-import type { ColliderShape } from './collider'
+import type { ColliderProps, ColliderShape } from './collider'
 
 /** @description Tres Rapier supported `RigidBody` types. */
 export type RigidBodyType =
@@ -10,7 +16,17 @@ export type RigidBodyType =
   | 'kinematicVelocity'
   | 'fixed'
 
-export interface RigidBodyProps {
+export interface RigidBodyProps
+  extends Pick<ColliderProps,
+    // AUTOMATIC COLLIDERS PROPS
+    'friction' |
+    'mass' |
+    'restitution' |
+    'density' |
+    'activeCollision' |
+    'activeCollisionTypes' |
+    'collisionGroups' |
+    'sensor' > {
   /** @description Set the `RigidBody` type. */
   type: RigidBodyType
 
@@ -80,44 +96,6 @@ export interface RigidBodyProps {
    * @default false
    */
   enableCcd?: boolean
-
-  // AUTOMATIC COLLIDERS
-
-  /**
-   * @description The friction coefficient of this collider.
-   * @default 0.5
-   */
-  friction?: number
-  /**
-   * @description mass.
-   * @default 1
-   */
-  mass?: number
-  /**
-   * @description Restitution controls how elastic (aka. bouncy) a contact is.
-   * @default 0
-   */
-  restitution?: number
-  /**
-   * @description The collider density. If non-zero the collider's mass and angular inertia will be added.
-   * @default 1.0
-   */
-  density?: number
-  /**
-   * @description Enables collisions event.
-   * @default false
-   */
-  activeCollision?: boolean
-  /**
-   * @description To set the collision type.
-   * @default ActiveCollisionTypes.DEFAULT
-   */
-  activeCollisionTypes?: ActiveCollisionTypes.DEFAULT
-  /**
-   * @description To set the collision group.
-   * @default undefined
-   */
-  collisionGroups?: undefined | number
 
 }
 

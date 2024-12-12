@@ -1,14 +1,14 @@
 import type { Collider, RigidBody } from '@dimforge/rapier3d-compat'
-import type { Object3D } from 'three'
+import type { TresVNodeObject } from './object'
 
 export interface CollisionSource {
   collider: Collider
   rigidBody: RigidBody | undefined
 };
 
-export interface sourceTarget {
-  object: Object3D
+export interface SourceTarget {
+  object: TresVNodeObject
   context: CollisionSource
 }
 
-export type collisionType = 'enter' | 'exit'
+export type CollisionType = 'enter' | 'exit'

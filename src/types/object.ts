@@ -1,3 +1,19 @@
+import type { TresObject } from '@tresjs/core'
+import type { SetupContext, VNode } from 'vue'
+
+/** @description approximate {@link VNode} representation. */
+export type TresVNode = Omit<VNode, 'children'> & {
+  __vnode: VNode & {
+    children: Array<TresVNode>
+    ctx: SetupContext
+  }
+  children: Array<TresVNode>
+  ctx: SetupContext
+}
+
+/** @description approximate {@link TresObject} representation. */
+export type TresVNodeObject = TresObject & { __vnode: TresVNode }
+
 /** @description Utility type to exclude properties with the type `never` */
 export type NonNever<T extends object> = {
   [K in keyof T as T[K] extends never ? never : K]: T[K];
@@ -8,4 +24,5 @@ export type Methods<T extends object> = NonNever<{
   [K in keyof T]: T[K] extends (...args: any[]) => any ? T[K] : never;
 }>
 
+/** @description Utility picking methods/functions withing object. */
 export type CallableProps<T extends object = object> = Record<keyof Methods<T>, (...args: any[]) => unknown>

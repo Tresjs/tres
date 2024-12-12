@@ -11,7 +11,7 @@ const { onBeforeRender } = useLoop()
 const lineSegmentsRef = ref<LineSegments | null>(null)
 
 onBeforeRender(() => {
-  if (!world || !lineSegmentsRef.value) { return }
+  if (!world || !lineSegmentsRef.value?.geometry?.boundingSphere) { return }
 
   const buffers = world.debugRender()
 

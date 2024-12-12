@@ -1,7 +1,7 @@
 import type { ColliderHandle, World } from '@dimforge/rapier3d-compat'
 import type { Scene } from 'three'
 import type { Ref } from 'vue'
-import type { CollisionSource, collisionType, sourceTarget } from '../types/collision'
+import type { CollisionSource, CollisionType, SourceTarget, TresVNodeObject } from '../types'
 
 export const getSourceFromColliderHandle = (world: World, handle: ColliderHandle) => {
   const collider = world.getCollider(handle)
@@ -20,16 +20,16 @@ export const getSourceFromColliderHandle = (world: World, handle: ColliderHandle
 
 export const get3DGroupFromSource = (source: CollisionSource, scene: Ref<Scene>) => {
   const uuid = (source.rigidBody?.userData as { uuid?: string })?.uuid
-  const currentRigidBodyNode = scene.value.getObjectByProperty('uuid', uuid)
+  const currentRigidBodyNode = scene.value.getObjectByProperty('uuid', uuid) as TresVNodeObject
 
   return currentRigidBodyNode
 }
 
 export const collisionEmisor = (
-  source: sourceTarget,
-  target: sourceTarget,
+  source: SourceTarget,
+  target: SourceTarget,
   started: boolean,
 ) => {
-  const collisionType: collisionType = started ? 'enter' : 'exit';
-  (source.object as any)?.__vnode?.ctx?.emit?.(`collision-${collisionType}`, { source, target })
+  const CollisionType: CollisionType = started ? 'enter' : 'exit'
+  source.object?.__vnode?.ctx?.emit?.(`collision-${CollisionType}`, { source, target })
 }

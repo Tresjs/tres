@@ -34,4 +34,9 @@ export const basicsRoutes = [
     name: 'Collision',
     component: () => import('../../pages/basics/CollisionDemo.vue'),
   },
+  {
+    path: '/basics/sensor',
+    name: 'Sensor',
+    component: () => import('../../pages/basics/SensorDemo.vue'),
+  },
 ]

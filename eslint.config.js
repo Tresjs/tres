@@ -1,7 +1,7 @@
 import { tresLintConfig } from '@tresjs/eslint-config'
 
 export default tresLintConfig({
-  ignores: ['dist', 'node_modules', 'public', '.github', 'docs/blog'],
+  ignores: ['**/node_modules/**', 'public', 'README.md', 'docs/blog'],
 }, {
   rules: {
     'style/max-statements-per-line': 'off',

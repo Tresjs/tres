@@ -22,7 +22,7 @@ export type ColliderShape =
 
 export interface ColliderProps {
   /** @description Set the {@link Collider} shape. */
-  shape: ColliderShape
+  shape?: ColliderShape
 
   /**
    * @description Shape based {@link TresObject3D}.
@@ -83,6 +83,11 @@ export interface ColliderProps {
    * @default undefined
    */
   collisionGroups?: undefined | number
+  /**
+   * @description Whether this collider is a sensor.
+   * @default undefined
+   */
+  sensor?: boolean
 }
 
 export interface ExposedCollider {

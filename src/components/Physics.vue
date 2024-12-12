@@ -4,10 +4,15 @@ import { useLoop, useTresContext } from '@tresjs/core'
 import { Vector3 } from 'three'
 import { watch } from 'vue'
 import type { VectorCoordinates } from '@tresjs/core'
-import { useRapierContextProvider } from '../composables/useRapier'
-import { GRAVITY } from '../constants/physics'
+import { useRapierContextProvider } from '../composables'
+import { GRAVITY } from '../constants'
 
-import { collisionEmisor, get3DGroupFromSource, getSourceFromColliderHandle } from '../utils'
+import {
+  collisionEmisor,
+  emitIntersection,
+  get3DGroupFromSource,
+  getSourceFromColliderHandle,
+} from '../utils'
 import Debug from './Debug.vue'
 import type { PhysicsProps } from '../types'
 
@@ -57,13 +62,22 @@ onBeforeRender(() => {
     const source2 = getSourceFromColliderHandle(world, handle2)
     const group1 = get3DGroupFromSource(source1, scene)
     const group2 = get3DGroupFromSource(source2, scene)
-    if (group1 && group2) {
-      collisionEmisor(
-        { object: group1, context: source1 },
-        { object: group2, context: source2 },
-        started,
-      )
+
+    if (!group1 || !group2) {
+      return
     }
+
+    collisionEmisor(
+      { object: group1, context: source1 },
+      { object: group2, context: source2 },
+      started,
+    )
+
+    emitIntersection(
+      { object: group2, context: source2 },
+      { object: group1, context: source1 },
+      started && world.intersectionPair(source1.collider, source2.collider),
+    )
   })
 })
 </script>
