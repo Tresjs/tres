@@ -75,16 +75,16 @@ export default defineConfig({
           { text: 'useFBO', link: '/guide/abstractions/use-fbo' },
           { text: 'useSurfaceSampler', link: '/guide/abstractions/use-surface-sampler' },
           { text: 'Sampler', link: '/guide/abstractions/sampler' },
-          { text: 'Edges', link: '/guide/abstractions/edges' },
+          /* { text: 'Edges', link: '/guide/abstractions/edges' }, */
           { text: 'PositionalAudio', link: '/guide/abstractions/positional-audio' },
           { text: 'AnimatedSprite', link: '/guide/abstractions/animated-sprite' },
-          { text: 'Mask', link: '/guide/abstractions/mask' },
+          /*           { text: 'Mask', link: '/guide/abstractions/mask' },
           { text: 'CubeCamera', link: '/guide/abstractions/cube-camera' },
           { text: 'ScreenSizer', link: '/guide/abstractions/screen-sizer' },
           { text: 'ScreenSpace', link: '/guide/abstractions/screen-space' },
           { text: 'Outline', link: '/guide/abstractions/outline' },
           { text: 'Image', link: '/guide/abstractions/image' },
-          { text: 'Billboard', link: '/guide/abstractions/billboard' },
+          { text: 'Billboard', link: '/guide/abstractions/billboard' }, */
         ],
       },
       {
@@ -119,7 +119,7 @@ export default defineConfig({
           { text: 'MeshGlassMaterial', link: '/guide/materials/glass-material' },
           { text: 'CustomShaderMaterial', link: '/guide/materials/custom-shader-material' },
           { text: 'MeshReflectionMaterial', link: '/guide/materials/mesh-reflection-material' },
-          { text: 'MeshDiscardMaterial', link: '/guide/materials/mesh-discard-material' },
+          /*           { text: 'MeshDiscardMaterial', link: '/guide/materials/mesh-discard-material' }, */
         ],
       },
       {
@@ -159,9 +159,9 @@ export default defineConfig({
           { text: 'Precipitation', link: '/guide/staging/precipitation' },
           { text: 'Sparkles', link: '/guide/staging/sparkles' },
           { text: 'Ocean', link: '/guide/staging/ocean' },
-          { text: 'Align', link: '/guide/staging/align' },
+          /*           { text: 'Align', link: '/guide/staging/align' },
           { text: 'SoftShadows', link: '/guide/staging/soft-shadows' },
-          { text: 'Grid', link: '/guide/staging/grid' },
+          { text: 'Grid', link: '/guide/staging/grid' }, */
         ],
       },
       {
