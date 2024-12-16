@@ -1,5 +1,6 @@
 import { resolve } from 'pathe'
 import { defineConfig } from 'vitepress'
+import { groupIconMdPlugin } from 'vitepress-plugin-group-icons'
 
 export const sharedConfig = defineConfig({
   title: 'TresJS',
@@ -89,6 +90,11 @@ export const sharedConfig = defineConfig({
       compilerOptions: {
         isCustomElement: tag => tag.startsWith('Tres') && tag !== 'TresCanvas',
       },
+    },
+  },
+  markdown: {
+    config: (md) => {
+      md.use(groupIconMdPlugin)
     },
   },
 })

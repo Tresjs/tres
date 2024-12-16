@@ -60,7 +60,7 @@ En este momento, no hay soporte nativo de Vue para definir el renderizador utili
 
 Ve a tu archivo `vite.config.ts` y agrega la siguiente configuración al `@vitejs/plugin-vue`:
 
-```ts
+```ts [vite.config.ts]
 import { templateCompilerOptions } from '@tresjs/core'
 import vue from '@vitejs/plugin-vue'
 import { defineConfig } from 'vite'

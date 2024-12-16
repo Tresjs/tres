@@ -79,7 +79,7 @@ import { TresCanvas } from '@tresjs/core'
 
 您只需将此添加到 vue 插件中的 `vite.config.ts`：
 
-```ts
+```ts [vite.config.ts]
 import { templateCompilerOptions } from '@tresjs/core'
 
 export default defineConfig({

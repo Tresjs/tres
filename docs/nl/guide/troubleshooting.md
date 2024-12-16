@@ -60,7 +60,7 @@ Op dit moment is er geen native Vue-ondersteuning om de renderer te definiëren 
 
 Ga naar je `vite.config.ts` en voeg de volgende configuratie toe aan `@vitejs/plugin-vue`:
 
-```ts
+```ts [vite.config.ts]
 import { templateCompilerOptions } from '@tresjs/core'
 import vue from '@vitejs/plugin-vue'
 import { defineConfig } from 'vite'
