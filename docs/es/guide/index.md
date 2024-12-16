@@ -46,7 +46,7 @@ pnpm add @types/three -D
 
 Si estás utilizando Vite, debes agregar lo siguiente a tu `vite.config.ts`:
 
-```ts
+```ts [vite.config.ts]
 import { templateCompilerOptions } from '@tresjs/core'
 
 export default defineConfig({
