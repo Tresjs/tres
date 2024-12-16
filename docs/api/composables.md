@@ -247,6 +247,7 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader'
 <Suspense>
   <UseLoader v-slot="{ data }" :loader="GLTFLoader" url="path/to/asset.gltf">
       <primitive :object="data.scene" />
+  </UseLoader>
 </Suspense>
 ```
 
