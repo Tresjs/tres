@@ -57,23 +57,23 @@ watch(helper.value, () => {
   innerAngle.value.visible = outerAngle.value.visible = outerGain.value.visible = helper.value.value
 })
 
-watch([ballRef, ready], ([ball]) => {
-  if (!ball?.value || !ready.value) { return }
+watch([ready], () => {
+  if (!ballRef?.value || !ready.value) { return }
 
   ctx.add(() => {
     tl = gsap
       .timeline({ repeat: -1, yoyo: true, onRepeat: onBallBounce })
-      .to(ball.value.position, { y: 0, ease: 'power1.in', duration: 0.35 })
+      .to(ballRef.value.instance.position, { y: 0, ease: 'power1.in', duration: 0.35 })
   })
 })
 
 onMounted(() => {
-  ctx = gsap.context((_) => { }, ballRef?.value)
+  ctx = gsap.context(() => { })
 })
 
 onUnmounted(() => {
-  ctx?.revert()
   positionalAudioRef?.value?.dispose()
+  ctx?.revert()
 })
 </script>
 

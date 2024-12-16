@@ -67,7 +67,7 @@ If you are sure that there will be a user gesture before your `<PositionAudio>` 
 
 | Event       | Description                                                      |
 | :---------- | :--------------------------------------------------------------- |
-| `root` | Root reference — Inheritance of [PositionalAudio](https://threejs.org/docs/index.html?q=posi#api/en/audio/PositionalAudio).|
+| `instance` | Instance reference — Inheritance of [PositionalAudio](https://threejs.org/docs/index.html?q=posi#api/en/audio/PositionalAudio).|
 | `play()` | Play audio — *Cannot be fired if audio is already running.* |
 | `pause()` | Pause audio — *Cannot be fired if audio is already paused.* |
 | `stop()` | Stop audio — *Cannot be fired if audio is already stopped.* |
@@ -76,7 +76,7 @@ If you are sure that there will be a user gesture before your `<PositionAudio>` 
 ```typescript{1,3,8}
 const positionalAudioRef = shallowRef(null)
 
-console.log(positionalAudioRef.value.root) // root properties
+console.log(positionalAudioRef.value.instance) // instance properties
 
 const handlerAudio = (action: string) => {
   if (!positionalAudioRef.value) return
