@@ -37,7 +37,7 @@ yarn add three @tresjs/nuxt
 
 将 `@tresjs/nuxt` 添加到 `nuxt.config.ts` 的 `module` 部分
 
-```js
+```js [nuxt.config.ts]
 export default defineNuxtConfig({
   modules: ['@tresjs/nuxt'],
 })

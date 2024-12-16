@@ -60,7 +60,7 @@ Actuellement, il n'est pas possible de définir nativement un autre moteur de re
 
 Dans votre `vite.config.ts`, ajoutez la configuration pour le plugin `@vitejs/plugin-vue`:
 
-```ts
+```ts [vite.config.ts]
 import { templateCompilerOptions } from '@tresjs/core'
 import vue from '@vitejs/plugin-vue'
 import { defineConfig } from 'vite'

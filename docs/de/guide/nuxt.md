@@ -37,7 +37,7 @@ yarn add three @tresjs/nuxt
 
 Füge `@tresjs/nuxt` zum Abschnitt `modules` in `nuxt.config.ts` hinzu.
 
-```js
+```js [nuxt.config.ts]
 export default defineNuxtConfig({
   modules: ['@tresjs/nuxt'],
 })
