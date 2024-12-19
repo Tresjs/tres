@@ -24,7 +24,7 @@ export interface SceneGraphObject {
   material?: Material
   geometry?: BufferGeometry
   children: SceneGraphObject[]
-  [key: string]: any
+  [key: string]: unknown
 }
 
 export interface MemoryUsageData {

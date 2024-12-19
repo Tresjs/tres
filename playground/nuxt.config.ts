@@ -1,17 +1,8 @@
 export default defineNuxtConfig({
-  ssr: true,
   modules: ['../src/module', '@nuxt/devtools'],
+  ssr: true,
 
-  // for testing purposes
-  // imports: {
-  //   autoImport: false,
-  // },
-  tres: {
-    // for testing purposes, and so we test both deduplication + auto-detection capabilities
-    modules: ['@tresjs/cientos'],
-    devtools: true,
-    glsl: true,
-  },
+  compatibilityDate: '2024-07-17',
 
   // for testing purposes: include some nuxt build tests
   nitro: {
@@ -21,5 +12,14 @@ export default defineNuxtConfig({
     },
   },
 
-  compatibilityDate: '2024-07-17',
+  // for testing purposes
+  // imports: {
+  //   autoImport: false,
+  // },
+  tres: {
+    // for testing purposes, and so we test both deduplication + auto-detection capabilities
+    // modules: ['@tresjs/cientos'],
+    devtools: true,
+    glsl: true,
+  },
 })

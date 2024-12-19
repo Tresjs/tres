@@ -26,7 +26,7 @@ function roundNumber(num: number) {
       <span
         v-if="depth > 0"
         class="h-1 border-b border-gray-300 w-4"
-      ></span>
+      />
       <div class="flex gap-2 items-center -mb2.5">
         <Icon :name="item.icon" />
         <!-- <i :class="item.icon" /> -->{{ item.type }} <UBadge
@@ -43,7 +43,7 @@ function roundNumber(num: number) {
             <span
               class="w4 h4 rounded-full mr-2 border border-gray-200"
               :style="{ backgroundColor: `#${item.color}` }"
-            ></span>
+            />
             #{{ item.color }}
           </UBadge>
           <UBadge
@@ -110,7 +110,7 @@ function roundNumber(num: number) {
               color="gray"
               variant="soft"
             >
-              <i class="i-iconoir-box-3d-three-points mr2"></i>
+              <i class="i-iconoir-box-3d-three-points mr2" />
               <a
                 :href="`https://threejs.org/docs/#api/en/geometries/${item.geometry.type}`"
                 target="_blank"
@@ -129,7 +129,7 @@ function roundNumber(num: number) {
               color="gray"
               variant="soft"
             >
-              <i class="i-iconoir-select-face-3d mr2"></i>
+              <i class="i-iconoir-select-face-3d mr2" />
               <a
                 :href="`https://threejs.org/docs/#api/en/materials/${item.material.type}`"
                 target="_blank"
@@ -145,7 +145,7 @@ function roundNumber(num: number) {
               <span
                 class="w4 h4 rounded-full mr-2 border border-gray-200"
                 :style="{ backgroundColor: `#${item.material.color.getHexString()}` }"
-              ></span>
+              />
               #{{ item.material.color.getHexString() }}
             </UBadge>
           </div>
@@ -164,7 +164,7 @@ function roundNumber(num: number) {
                 <span
                   class="w4 h4 rounded-full mr-2 border border-gray-200"
                   :style="{ backgroundColor: `#${item.color}` }"
-                ></span>
+                />
                 #{{ item.color }}
               </UBadge>
             </UTooltip>
@@ -191,7 +191,7 @@ function roundNumber(num: number) {
             >
               <i
                 class="i-iconoir-axes mr1"
-              ></i>
+              />
             </UTooltip>
 
             <UTooltip
@@ -229,7 +229,7 @@ function roundNumber(num: number) {
             <UTooltip
               text="Rotation"
             >
-              <i class="i-carbon-rotate-clockwise mr-1"></i>
+              <i class="i-carbon-rotate-clockwise mr-1" />
             </UTooltip>
 
             <UTooltip
@@ -270,7 +270,7 @@ function roundNumber(num: number) {
             <UTooltip
               text="Scale"
             >
-              <i class="i-iconoir-ellipse-3d-three-points mr-1"></i>
+              <i class="i-iconoir-ellipse-3d-three-points mr-1" />
             </UTooltip>
 
             <UTooltip

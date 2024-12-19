@@ -4,8 +4,12 @@
 </script>
 
 <template>
-  <TresCanvas window-size render-mode="on-demand">
+  <TresCanvas
+    window-size
+    render-mode="on-demand"
+  >
     <TresPerspectiveCamera />
     <AnimatedDonnut color="orange" />
+    <OrbitControls />
   </TresCanvas>
 </template>

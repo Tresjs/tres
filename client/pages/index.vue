@@ -19,7 +19,7 @@ const { scene, memory, fps } = useDevtoolsHook()
 
           src="/logo.svg"
           alt="tres logo"
-        />
+        >
         <h2 class="opacity-60 font-bold">
           TresJS DevTools
         </h2>

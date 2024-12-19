@@ -35,7 +35,7 @@ onLoop(({ elapsed }) => {
 })
 
 const ctx = useNuxtApp()
-// eslint-disable-next-line no-console
+
 console.log({ ctx, useFetch: await useFetch('api/url') })
 </script>
 

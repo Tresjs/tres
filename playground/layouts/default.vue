@@ -24,7 +24,7 @@
         </a>
       </div>
     </header>
-    <slot></slot>
+    <slot />
   </div>
 </template>
 

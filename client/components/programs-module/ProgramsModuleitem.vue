@@ -22,9 +22,9 @@ const isExpanded = ref(false)
       <span
         v-if="depth > 0"
         class="h-1 border-b border-gray-300 w-4"
-      ></span>
+      />
       <div class="flex gap-2 items-center -mb2.5">
-        <i :class="item.icon"></i>
+        <i :class="item.icon" />
         <!-- <Icon :name="item.icon" /> -->
         <!-- <i :class="item.icon" /> -->{{ item.type }} <UBadge
           v-if="item.name "

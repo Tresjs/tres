@@ -4,6 +4,6 @@ import { TresCanvas as CoreTresCanvas } from '@tresjs/core'
 
 <template>
   <CoreTresCanvas>
-    <slot></slot>
+    <slot />
   </CoreTresCanvas>
 </template>

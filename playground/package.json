@@ -8,15 +8,14 @@
     "generate": "nuxi generate"
   },
   "dependencies": {
-    "@tresjs/core": "https://pkg.pr.new/@tresjs/core@807"
+    "@tresjs/cientos": "^4.0.3",
+    "@tresjs/core": "^4.3.1"
   },
   "devDependencies": {
-    "@nuxt/devtools": "1.4.1",
-    "@tresjs/cientos": "^4.0.1",
-    "@tresjs/post-processing": "^0.7.1",
-    "@types/three": "^0.167.2",
-    "nuxt": "^3.13.0",
-    "postprocessing": "^6.36.0",
-    "tweakpane": "^4.0.4"
+    "@nuxt/devtools": "1.6.4",
+    "@types/three": "^0.171.0",
+    "nuxt": "^3.14.1592",
+    "postprocessing": "^6.36.4",
+    "tweakpane": "^4.0.5"
   }
 }

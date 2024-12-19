@@ -60,10 +60,14 @@ export default defineNuxtModule<ModuleOptions>({
     const coreDeps = Object.keys({ ...pkg.dependencies, ...pkg.devDependencies }).filter(d => d.startsWith('@tresjs/'))
 
     for (const mod of new Set([...options.modules, ...coreDeps])) {
-      if (mod === '@tresjs/core' || mod === '@tresjs/nuxt') { continue }
+      if (mod === '@tresjs/core' || mod === '@tresjs/nuxt') {
+        continue
+      }
 
       const entry = await resolvePath(mod)
-      if (entry === mod) { continue }
+      if (entry === mod) {
+        continue
+      }
 
       const imports = findExportNames(await readFile(entry, 'utf8'))
 
@@ -103,8 +107,12 @@ export default defineNuxtModule<ModuleOptions>({
       }),
     ])
 
-    if (options.devtools) { setupDevToolsUI(nuxt, resolver) }
+    if (options.devtools) {
+      setupDevToolsUI(nuxt, resolver)
+    }
 
-    if (options.glsl) { addVitePlugin(glsl()) }
+    if (options.glsl) {
+      addVitePlugin(glsl())
+    }
   },
 })
