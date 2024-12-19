@@ -12,7 +12,7 @@ async function patchRootDts() {
 }
 
 /**
- * Fix node10 issue:
+ * Fix node16 issue: https://www.typescriptlang.org/tsconfig/#allowArbitraryExtensions
  * - node10 and bundler will check for d.vue.ts and vue.d.ts file when importing a vue file in a dts
  * - node16 will check only for d.vue.ts file, this function will just copy/paste the content of vue.d.ts to d.vue.ts
  *
