@@ -23,7 +23,7 @@ export function createRetargetingProxy<T extends Record<string | number | symbol
     },
     set(_: any, prop: K, val: T[K]) {
       if (setters[prop]) {
-        setters[prop](val, _target, proxy, setTarget)
+        setters[prop]?.(val, _target, proxy, setTarget)
       }
       else {
         _target[prop] = val

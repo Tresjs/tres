@@ -1,7 +1,7 @@
 import type {
   Light,
 } from 'three'
-import type { TresObject } from '../types'
+import type { TresObject } from '../types/index.js'
 import {
   DirectionalLightHelper,
   HemisphereLightHelper,
@@ -9,7 +9,7 @@ import {
   SpotLightHelper,
 } from 'three'
 import { RectAreaLightHelper } from 'three-stdlib'
-import { useLogger } from '../composables'
+import { useLogger } from '../composables/index.js'
 
 const { logWarning } = useLogger()
 

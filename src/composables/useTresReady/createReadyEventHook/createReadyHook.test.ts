@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { createReadyEventHook } from './index'
+import { createReadyEventHook } from './index.js'
 
 describe('createReadyEventHook', () => {
   beforeEach(() => {

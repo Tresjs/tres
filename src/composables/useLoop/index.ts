@@ -1,5 +1,5 @@
-import type { LoopCallbackFn } from './../../core/loop'
-import { useTresContext } from '../useTresContextProvider'
+import type { LoopCallbackFn } from './../../core/loop.js'
+import { useTresContext } from '../useTresContextProvider/index.js'
 
 export function useLoop() {
   const {

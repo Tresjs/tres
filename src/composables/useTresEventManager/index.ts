@@ -1,10 +1,10 @@
-import type { EmitEventFn, EmitEventName, Intersection, TresEvent, TresInstance, TresObject } from 'src/types'
+import type { EmitEventFn, EmitEventName, Intersection, TresEvent, TresInstance, TresObject } from '../../types/index.js'
 import type { Object3D, Object3DEventMap, Scene } from 'three'
-import type { TresContext } from '../useTresContextProvider'
+import type { TresContext } from '../useTresContextProvider/index.js'
 import { shallowRef } from 'vue'
-import { hyphenate } from '../../utils'
-import * as is from '../../utils/is'
-import { useRaycaster } from '../useRaycaster'
+import { hyphenate } from '../../utils/index.js'
+import * as is from '../../utils/is.js'
+import { useRaycaster } from '../useRaycaster/index.js'
 
 export interface TresEventManager {
   /**

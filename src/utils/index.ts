@@ -1,10 +1,10 @@
-import type { nodeOps } from 'src/core/nodeOps'
-import type { AttachType, LocalState, TresInstance, TresObject, TresPrimitive } from 'src/types'
+import type { nodeOps } from '../core/nodeOps.js'
+import type { AttachType, LocalState, TresInstance, TresObject, TresPrimitive } from '../types/index.js'
 import type { Material, Mesh, Object3D, Texture } from 'three'
-import type { TresContext } from '../composables/useTresContextProvider'
+import type { TresContext } from '../composables/useTresContextProvider/index.js'
 import { DoubleSide, MathUtils, MeshBasicMaterial, Scene, Vector3 } from 'three'
-import { HightlightMesh } from '../devtools/highlight'
-import * as is from './is'
+import { HightlightMesh } from '../devtools/highlight.js'
+import * as is from './is.js'
 
 export function toSetMethodName(key: string) {
   return `set${key[0].toUpperCase()}${key.slice(1)}`

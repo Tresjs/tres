@@ -1,5 +1,5 @@
 import type { Scene } from 'three'
-import type { TresObject } from './../types'
+import type { TresObject } from '../types/index.js'
 
 export function calculateMemoryUsage(object: TresObject | Scene) {
   let totalMemory = 0

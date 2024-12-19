@@ -51,7 +51,7 @@
   "scripts": {
     "dev": "cd playground/vue && npm run dev",
     "dev:nuxt": "cd playground/nuxt && npm run dev",
-    "build": "vite build",
+    "build": "vite build && node ./scripts/postbuild.mjs",
     "test": "vitest",
     "test:ci": "vitest run",
     "test:ui": "vitest --ui --coverage.enabled=true",

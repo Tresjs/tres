@@ -1,5 +1,5 @@
 import type { Object3D, Scene } from 'three'
-import { useLogger } from '../useLogger'
+import { useLogger } from '../useLogger.js'
 
 /**
  * Seek composable return type

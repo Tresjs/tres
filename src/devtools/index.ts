@@ -1,1 +1,1 @@
-export { registerTresDevtools } from './plugin'
+export { registerTresDevtools } from './plugin.js'

@@ -6,8 +6,8 @@ import type {
   WebGLRendererParameters,
 } from 'three'
 import type { App, Ref } from 'vue'
-import type { RendererPresetsType } from '../composables/useRenderer/const'
-import type { TresCamera, TresObject, TresScene } from '../types/'
+import type { RendererPresetsType } from '../composables/useRenderer/const.js'
+import type { TresCamera, TresObject, TresScene } from '../types/index.js'
 import { PerspectiveCamera, Scene } from 'three'
 import * as THREE from 'three'
 
@@ -30,12 +30,12 @@ import {
   type TresContext,
   useLogger,
   useTresContextProvider,
-} from '../composables'
-import { extend } from '../core/catalogue'
-import { nodeOps } from '../core/nodeOps'
+} from '../composables/index.js'
+import { extend } from '../core/catalogue.js'
+import { nodeOps } from '../core/nodeOps.js'
 
-import { registerTresDevtools } from '../devtools'
-import { disposeObject3D } from '../utils/'
+import { registerTresDevtools } from '../devtools/index.js'
+import { disposeObject3D } from '../utils/index.js'
 
 export interface TresCanvasProps
   extends Omit<WebGLRendererParameters, 'canvas'> {

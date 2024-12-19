@@ -1,9 +1,9 @@
 import type { ColorSpace, Scene, ShadowMapType, ToneMapping, WebGLRendererParameters } from 'three'
-import type { EmitEventFn, TresColor } from '../../types'
+import type { EmitEventFn, TresColor } from '../../types/index.js'
 
-import type { TresContext } from '../useTresContextProvider'
+import type { TresContext } from '../useTresContextProvider/index.js'
 
-import type { RendererPresetsType } from './const'
+import type { RendererPresetsType } from './const.js'
 import {
   type MaybeRefOrGetter,
   toValue,

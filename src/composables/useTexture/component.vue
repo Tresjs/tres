@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import type { PBRUseTextureMap } from './index'
+import type { PBRUseTextureMap } from './index.js'
 import { reactive } from 'vue'
-import { useTexture } from './index'
+import { useTexture } from './index.js'
 
 const props = defineProps<PBRUseTextureMap>()
 

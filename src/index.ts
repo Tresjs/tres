@@ -1,15 +1,15 @@
 import type { App } from 'vue'
 import TresCanvas from './components/TresCanvas.vue'
-import { disposeObject3D as dispose } from './utils'
-import { normalizeColor, normalizeVectorFlexibleParam } from './utils/normalize'
-import templateCompilerOptions from './utils/template-compiler-options'
+import { disposeObject3D as dispose } from './utils/index.js'
+import { normalizeColor, normalizeVectorFlexibleParam } from './utils/normalize.js'
+import templateCompilerOptions from './utils/template-compiler-options.js'
 
-export * from './components'
-export * from './composables'
-export * from './core/catalogue'
-export * from './core/loop'
-export * from './directives'
-export * from './types'
+export * from './components/index.js'
+export * from './composables/index.js'
+export * from './core/catalogue.js'
+export * from './core/loop.js'
+export * from './directives/index.js'
+export * from './types/index.js'
 
 export interface TresOptions {
   extends?: Record<string, unknown>
@@ -35,4 +35,4 @@ export {
   templateCompilerOptions,
 }
 
-export type { VectorFlexibleParams } from './utils/normalize'
+export type { VectorFlexibleParams } from './utils/normalize.js'

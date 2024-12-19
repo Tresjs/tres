@@ -2,7 +2,7 @@
 import type * as THREE from 'three'
 
 import type { DefineComponent, VNode, VNodeRef } from 'vue'
-import type { TresContext } from '../composables/useTresContextProvider'
+import type { TresContext } from '../composables/useTresContextProvider/index.js'
 
 // Based on React Three Fiber types by Pmndrs
 // https://github.com/pmndrs/react-three-fiber/blob/v9/packages/fiber/src/three-types.ts

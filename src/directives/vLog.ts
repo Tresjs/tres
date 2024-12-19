@@ -1,4 +1,4 @@
-import type { TresObject } from '../types'
+import type { TresObject } from '../types/index.js'
 
 export const vLog = {
   mounted: (el: TresObject, binding: { arg: string }) => {

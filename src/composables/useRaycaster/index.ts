@@ -1,8 +1,8 @@
 import type { EventHook } from '@vueuse/core'
-import type { DomEvent, TresCamera, TresEvent, TresInstance } from 'src/types'
+import type { DomEvent, TresCamera, TresEvent, TresInstance } from 'src/types/index.js'
 import type { Intersection, Object3D, Object3DEventMap } from 'three'
 import type { ShallowRef } from 'vue'
-import type { TresContext } from '../useTresContextProvider'
+import type { TresContext } from '../useTresContextProvider/index.js'
 import { createEventHook, useElementBounding, usePointer } from '@vueuse/core'
 
 import { Vector2, Vector3 } from 'three'

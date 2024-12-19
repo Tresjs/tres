@@ -1,4 +1,4 @@
-import type { TresObject, TresPrimitive } from 'src/types'
+import type { TresObject, TresPrimitive } from '../types/index.js'
 import type { BufferGeometry, Camera, Fog, Light, Material, Object3D, Scene } from 'three'
 
 export function und(u: unknown) {

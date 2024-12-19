@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import type { LoaderProto } from './index'
+import type { LoaderProto } from './index.js'
 import { reactive } from 'vue'
-import { useLoader } from './index'
+import { useLoader } from './index.js'
 
 const props = defineProps<{
   loader: LoaderProto<unknown>
