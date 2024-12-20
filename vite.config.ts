@@ -14,8 +14,6 @@ import Inspect from 'vite-plugin-inspect'
 import { bold, gray, lightGreen, yellow } from 'kolorist'
 import { resolve } from 'pathe'
 
-/* ß */
-
 import pkg from './package.json'
 
 // eslint-disable-next-line no-console
@@ -42,7 +40,7 @@ export default defineConfig({
         pkg.version
       }\n * (c) ${new Date().getFullYear()}\n * description: ${pkg.description}\n * author: ${pkg.author}\n */`,
     }),
-    Inspect(),
+    // Inspect(),
   ],
   test: {
     environment: 'jsdom',
