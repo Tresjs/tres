@@ -73,7 +73,7 @@
     "@vueuse/core": "^12.0.0"
   },
   "devDependencies": {
-    "@arethetypeswrong/cli": "0.17.2",
+    "@arethetypeswrong/cli": "^0.17.2",
     "@release-it/conventional-changelog": "^9.0.3",
     "@stackblitz/sdk": "^1.11.0",
     "@tresjs/cientos": "4.0.3",
