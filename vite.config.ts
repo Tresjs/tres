@@ -7,8 +7,6 @@ import { defineConfig } from 'vite'
 import banner from 'vite-plugin-banner'
 import dts from 'vite-plugin-dts'
 
-import Inspect from 'vite-plugin-inspect'
-
 /* import analyze from 'rollup-plugin-analyzer' */
 
 import { bold, gray, lightGreen, yellow } from 'kolorist'
