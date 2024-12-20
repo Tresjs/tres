@@ -1,1 +1,1 @@
-export * from './dist/src/types/index.js'
+export * from './dist/types.js'

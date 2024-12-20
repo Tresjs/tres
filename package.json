@@ -20,27 +20,30 @@
   "sideEffects": false,
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
+      "types": "./dist/tres.d.ts",
       "import": "./dist/tres.js",
-      "require": "./dist/tres.umd.cjs"
+      "require": "./dist/tres.cjs"
     },
     "./components": {
-      "types": "./dist/src/components/index.d.ts"
+      "types": "./dist/components.d.ts",
+      "default": "./dist/components.js"
     },
     "./composables": {
-      "types": "./dist/src/composables/index.d.ts"
+      "types": "./dist/composables.d.ts",
+      "default": "./dist/composables.js"
     },
     "./types": {
-      "types": "./dist/src/types/index.d.ts"
+      "types": "./dist/types.d.ts"
     },
     "./utils": {
-      "types": "./dist/src/utils/index.d.ts"
+      "types": "./dist/utils.d.ts",
+      "default": "./dist/utils.js"
     },
     "./*": "./*"
   },
-  "main": "./dist/tres.js",
+  "main": "./dist/tres.cjs",
   "module": "./dist/tres.js",
-  "types": "./dist/index.d.ts",
+  "types": "./dist/tres.d.ts",
   "files": [
     "*.d.ts",
     "dist"
@@ -61,7 +64,7 @@
     "docs:serve": "vitepress serve docs",
     "docs:preview": "vitepress preview docs",
     "docs:contributors": "esno scripts/update-contributors.ts",
-    "test:attw": "attw --pack --ignore-rules cjs-resolves-to-esm"
+    "test:attw": "attw --pack --ignore-rules false-esm --ignore-rules cjs-resolves-to-esm"
   },
   "peerDependencies": {
     "three": ">=0.133",
