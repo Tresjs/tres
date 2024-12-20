@@ -4,6 +4,7 @@
     "baseUrl": ".",
     "module": "ESNext",
     "moduleResolution": "Node",
+    "resolveJsonModule": true,
     "types": ["vitest/globals"],
     "allowSyntheticDefaultImports": true
   },
