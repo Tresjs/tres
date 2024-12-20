@@ -3,6 +3,7 @@
   "extends": [
     "config:base"
   ],
+  "ignoreDeps": ["@arethetypeswrong/cli", "typescript"],
   "packageRules": [
     {
       "matchUpdateTypes": ["minor", "patch"],
