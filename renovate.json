@@ -3,7 +3,6 @@
   "extends": [
     "config:base"
   ],
-  "ignoreDeps": ["@arethetypeswrong/cli"],
   "packageRules": [
     {
       "matchUpdateTypes": ["minor", "patch"],
