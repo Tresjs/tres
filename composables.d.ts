@@ -1,1 +1,1 @@
-export * from './dist/src/composables/index.js'
+export * from './dist/composables.js'
