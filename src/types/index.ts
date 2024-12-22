@@ -198,10 +198,10 @@ export type TresControl = THREE.EventDispatcher & { enabled: boolean }
 
 export type WithMathProps<P> = { [K in keyof P]: P[K] extends MathRepresentation | THREE.Euler ? MathType<P[K]> : P[K] }
 
-interface RaycastableRepresentation {
+export interface RaycastableRepresentation {
   raycast: (raycaster: THREE.Raycaster, intersects: THREE.Intersection[]) => void
 }
-type EventProps<P> = P extends RaycastableRepresentation ? Partial<EventHandlers> : unknown
+export type EventProps<P> = P extends RaycastableRepresentation ? Partial<EventHandlers> : unknown
 
 export interface VueProps {
   children?: VNode[]
@@ -217,8 +217,8 @@ export type ThreeElement<T extends ConstructorRepresentation> = Mutable<
   Overwrite<ElementProps<T>, Omit<InstanceProps<InstanceType<T>, T>, 'object'>>
 >
 
-type ThreeExports = typeof THREE
-type ThreeInstancesImpl = {
+export type ThreeExports = typeof THREE
+export type ThreeInstancesImpl = {
   [K in keyof ThreeExports as Uncapitalize<K>]: ThreeExports[K] extends ConstructorRepresentation
     ? ThreeElement<ThreeExports[K]>
     : never
@@ -228,7 +228,7 @@ export interface ThreeInstances extends ThreeInstancesImpl {
   primitive: Omit<ThreeElement<any>, 'args'> & { object: object }
 }
 
-type TresComponents = {
+export type TresComponents = {
   [K in keyof ThreeInstances as `Tres${Capitalize<string & K>}`]: DefineComponent<ThreeInstances[K]>
 }
 
@@ -239,5 +239,5 @@ declare module '@vue/runtime-core' {
   interface GlobalComponents extends TresComponents { }
 }
 declare module '@vue/runtime-dom' {
-  interface GlobalComponents extends TresComponents {}
+  interface GlobalComponents extends TresComponents { }
 }
