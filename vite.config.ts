@@ -48,14 +48,9 @@ export default defineConfig({
   },
   build: {
     lib: {
-      entry: {
-        tres: resolve(__dirname, 'src/index.ts'),
-        components: resolve(__dirname, 'src/components/index.ts'),
-        composables: resolve(__dirname, 'src/composables/index.ts'),
-        types: resolve(__dirname, 'src/types/index.ts'),
-        utils: resolve(__dirname, 'src/utils/index.ts'),
-      },
+      entry: resolve(__dirname, 'src/index.ts'),
       name: 'tres',
+      fileName: 'tres',
     },
     watch: {
       include: [resolve(__dirname, 'src')],

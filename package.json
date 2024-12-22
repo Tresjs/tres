@@ -24,21 +24,6 @@
       "import": "./dist/tres.js",
       "require": "./dist/tres.cjs"
     },
-    "./components": {
-      "types": "./dist/components.d.ts",
-      "default": "./dist/components.js"
-    },
-    "./composables": {
-      "types": "./dist/composables.d.ts",
-      "default": "./dist/composables.js"
-    },
-    "./types": {
-      "types": "./dist/types.d.ts"
-    },
-    "./utils": {
-      "types": "./dist/utils.d.ts",
-      "default": "./dist/utils.js"
-    },
     "./*": "./*"
   },
   "main": "./dist/tres.cjs",
