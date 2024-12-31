@@ -15,12 +15,12 @@ const { hasFinishLoading, progress } = await useProgress()
     >
       <div class="w-200px">
         Loading... {{ progress }} %
-        <i class="i-ic-twotone-catching-pokemon animate-rotate-in" />
+        <i class="animate-rotate-in" />
       </div>
     </div>
   </Transition>
   <TresCanvas preset="realistic">
-    <TresPerspectiveCamera :position="[11, 11, 11]" />
+    <TresPerspectiveCamera :position="[3, 3, 5]" />
     <OrbitControls />
     <Suspense>
       <Environment
@@ -30,7 +30,7 @@ const { hasFinishLoading, progress } = await useProgress()
       />
     </Suspense>
     <Suspense>
-      <Pokeball />
+      <DamagedHelmet />
     </Suspense>
 
     <TresDirectionalLight

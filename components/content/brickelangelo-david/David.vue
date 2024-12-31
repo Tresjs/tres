@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import type { Group } from 'three'
-import { InstancedMesh, MeshPhongMaterial, Raycaster, Vector3, Object3D } from 'three'
+import { InstancedMesh, MeshPhongMaterial, Vector3, Object3D } from 'three'
 import { MeshSurfaceSampler } from 'three/addons/math/MeshSurfaceSampler.js'
 import { useMouse } from '@vueuse/core'
 
 const groupRef = ref<Group>()
 
-const gltf = await useGLTF('/models/legolangelo/david.glb')
+const gltf = await useGLTF('/models/brickelangelo/david.glb')
 
 const david = gltf.nodes.David
 
@@ -17,12 +17,12 @@ watch([x, y], () => {
   groupRef.value.rotation.y = -x.value * 0.0001
 })
 
-const { nodes: legoNodes } = await useGLTF('/models/legolangelo/lego.glb')
+const { nodes: brickNodes } = await useGLTF('/models/brickelangelo/brick.glb')
 
-const lego = legoNodes.LegoPiece
+const brick = brickNodes.LegoPiece
 
-const legoMaterial = new MeshPhongMaterial({ color: 'lightgray' })
-const legoInstancedMesh = new InstancedMesh(lego.geometry, legoMaterial, instanceCount)
+const brickMaterial = new MeshPhongMaterial({ color: 'lightgray' })
+const brickInstancedMesh = new InstancedMesh(brick.geometry, brickMaterial, instanceCount)
 
 useControls('fpsgraph')
 
@@ -32,30 +32,30 @@ const sampler = new MeshSurfaceSampler(david)
 
 const instanceCount = 75000 // or whatever count you want
 const dummy = new Object3D()
-const legoSize = 0.03 // Define according to the size of your LEGO piece
+const brickSize = 0.03 // Define according to the size of your brick piece
 
 for (let i = 0; i < instanceCount; i++) {
   const sampledPoint = new Vector3()
   sampler.sample(sampledPoint)
 
   const alignedPoint = new Vector3(
-    Math.round(sampledPoint.x / legoSize) * legoSize,
-    Math.round(sampledPoint.y / legoSize) * legoSize,
-    Math.round(sampledPoint.z / legoSize) * legoSize,
+    Math.round(sampledPoint.x / brickSize) * brickSize,
+    Math.round(sampledPoint.y / brickSize) * brickSize,
+    Math.round(sampledPoint.z / brickSize) * brickSize,
   )
 
   dummy.position.copy(alignedPoint)
-  dummy.scale.set(legoSize, legoSize, legoSize)
+  dummy.scale.set(brickSize, brickSize, brickSize)
   dummy.updateMatrix()
-  legoInstancedMesh.setMatrixAt(i, dummy.matrix)
+  brickInstancedMesh.setMatrixAt(i, dummy.matrix)
 }
 
-legoInstancedMesh.instanceMatrix.needsUpdate = true
+brickInstancedMesh.instanceMatrix.needsUpdate = true
 </script>
 
 <template>
   <TresGroup ref="groupRef">
-    <primitive :object="legoInstancedMesh" />
+    <primitive :object="brickInstancedMesh" />
   </TresGroup>
   <!-- <primitive :object="david" /> -->
 </template>

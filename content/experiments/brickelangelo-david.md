@@ -1,6 +1,6 @@
 ---
 author: alvarosabu
-description: Lego ThreeJS Journey challenge
+description: Bricks ThreeJS Journey challenge
 tags: ['basic', 'cientos', 'MeshSurfaceSampler']
 ---
 
