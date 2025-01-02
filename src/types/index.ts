@@ -233,11 +233,17 @@ type TresComponents = {
 }
 
 declare module 'vue' {
-  export interface GlobalComponents extends TresComponents { }
+  export interface GlobalComponents extends TresComponents {
+    primitive: DefineComponent<TresPrimitive>
+  }
 }
 declare module '@vue/runtime-core' {
-  interface GlobalComponents extends TresComponents { }
+  interface GlobalComponents extends TresComponents {
+    primitive: DefineComponent<TresPrimitive>
+  }
 }
 declare module '@vue/runtime-dom' {
-  interface GlobalComponents extends TresComponents {}
+  interface GlobalComponents extends TresComponents {
+    primitive: DefineComponent<TresPrimitive>
+  }
 }
