@@ -70,14 +70,14 @@ watch(props, () => {
 const sidewardMove = ref(0)
 const forwardMove = ref(0)
 
-const { w, s, a, d, Up, Down, Left, Right } = useMagicKeys()
+const { KeyW, KeyA, KeyS, KeyD, Up, Down, Left, Right } = useMagicKeys()
 
 watchEffect(() => {
-  if (a.value || Left.value) { sidewardMove.value = -moveSpeed.value }
-  else if (d.value || Right.value) { sidewardMove.value = moveSpeed.value }
+  if (KeyA.value || Left.value) { sidewardMove.value = -moveSpeed.value }
+  else if (KeyD.value || Right.value) { sidewardMove.value = moveSpeed.value }
   else { sidewardMove.value = 0 }
-  if (w.value || Up.value) { forwardMove.value = moveSpeed.value }
-  else if (s.value || Down.value) { forwardMove.value = -moveSpeed.value }
+  if (KeyW.value || Up.value) { forwardMove.value = moveSpeed.value }
+  else if (KeyS.value || Down.value) { forwardMove.value = -moveSpeed.value }
   else { forwardMove.value = 0 }
 })
 

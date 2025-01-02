@@ -1,18 +1,19 @@
 # KeyboardControls
 
-KeyboardControls is a special type of controller that allows you to move through the scene using your keyboard, is based on the Unreal Engine Controls.
-
 <DocsDemo>
   <KeyboardControlsDemo />
 </DocsDemo>
 
+`<KeyboardControls />` is a simple keyboard controller for the camera. The camera's movements are bound to:
+
+* WASD on QWERTY keyboards or equivalent keys on non-QWERTY keyboards
+* Arrow keys
+
 ::: info
-:memo: KeyboardControls uses `PointerLockControls` under the hood, meaning you can use [all the props from `<PointerLockControls />`](pointer-lock-controls#props) as well as it events.
+`<KeyboardControls />` uses `<PointerLockControls />` under the hood. You can use [`<PointerLockControls />` props and events](pointer-lock-controls#props).
 :::
 
 ## Usage
-
-You can use the ASDW or the arrows keys to move and your mouse to explore your scene.
 
 ```vue{3,10}
 <script setup lang="ts">
@@ -31,18 +32,18 @@ import { KeyboardControls, Box } from '@tresjs/cientos'
 ```
 
 ::: warning
-Is really important that the Perspective camera is set first in the canvas. Otherwise might break.
+You must add a `<TresPerspectiveCamera />` to your scene before adding `<KeyboardControls />`.
 :::
 
 ## Props
 
-| Prop                    | Description                          | Default |
-| :---------------------- | :----------------------------------- | ------- |
-| **moveSpeed**           | Speed movement.                      | 0.2     |
-| **makeDefault** | If `true`, the controls will be set as the default controls for the scene.                | `true`     |
-| **camera**      | The camera to control.                                                                    | `undefined` |
-| **domElement**  | The dom element to listen to.                                                             | `undefined` |
-| **selector**    | Accept an id element as string, if it is set, the new element will be used as the trigger | `undefined` |
+| Prop            | Description                          | Default |
+| :-------------- | :----------------------------------- | ------- |
+| **moveSpeed**   | Speed movement.                      | 0.2     |
+| **makeDefault** | If `true`, the controls will be set as the default controls for the scene.          | `true`     |
+| **camera**      | The camera to control.                                                              | `undefined` |
+| **domElement**  | The DOM element to listen to.                                                       | `undefined` |
+| **selector**    | Accept an id element as string. If set, the new element will be used as the trigger | `undefined` |
 
 ## Events
 
@@ -52,5 +53,5 @@ Is really important that the Perspective camera is set first in the canvas. Othe
 
 | Event      | Description                                                      |
 | :--------- | :--------------------------------------------------------------- |
-| **isLock** | Return `true` if "lock", `false` if "unlock" events are trigger. |
+| **isLock** | Return `true` if "lock", `false` if "unlock" events are triggered. |
 | **change** | Dispatched when the control changes.                             |
