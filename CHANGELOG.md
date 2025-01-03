@@ -1,5 +1,17 @@
 
 
+## [4.3.2](https://github.com/Tresjs/tres/compare/4.3.1...4.3.2) (2025-01-03)
+
+### Features
+
+* extend GlobalComponents interface to include 'primitive' component type ([#896](https://github.com/Tresjs/tres/issues/896)) ([b78a6ff](https://github.com/Tresjs/tres/commit/b78a6ffabc4542dcc08d430e34c3dd2d5a9adaeb))
+* update deps 20 12 24 ([#887](https://github.com/Tresjs/tres/issues/887)) ([d377750](https://github.com/Tresjs/tres/commit/d377750b01ee27d70fc29b5faedf6257b22ebfdf))
+
+### Bug Fixes
+
+* Add missing </UseLoader> closing tag. ([#881](https://github.com/Tresjs/tres/issues/881)) ([e16ea32](https://github.com/Tresjs/tres/commit/e16ea3248674adf80131a7a493c10b583a6e25a8))
+* **function typo:** fix typo in function name in composable ([#858](https://github.com/Tresjs/tres/issues/858)) ([c186232](https://github.com/Tresjs/tres/commit/c186232f180f8caa9a39a0a2ae4b1c6b30725e46))
+
 ## [4.3.1](https://github.com/Tresjs/tres/compare/4.3.0...4.3.1) (2024-10-13)
 
 ### Bug Fixes
