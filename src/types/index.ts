@@ -237,13 +237,3 @@ declare module 'vue' {
     primitive: DefineComponent<TresPrimitive>
   }
 }
-declare module '@vue/runtime-core' {
-  interface GlobalComponents extends TresComponents {
-    primitive: DefineComponent<TresPrimitive>
-  }
-}
-declare module '@vue/runtime-dom' {
-  interface GlobalComponents extends TresComponents {
-    primitive: DefineComponent<TresPrimitive>
-  }
-}
