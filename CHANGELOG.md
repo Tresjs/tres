@@ -1,4 +1,22 @@
+# Changelog
 
+## [2.0.0](https://github.com/Tresjs/post-processing/compare/1.0.0...2.0.0) (2025-01-03)
+
+### ⚠ BREAKING CHANGES
+
+* Consolidated post-processing effects under a unified namespace (`@tresjs/post-processing`). Pmndrs `EffectComposer` is now `EffectComposerPmndrs`, same for all the effects and composables under `src/core/pmndrs`  to avoid name collisions
+
+* chore: remove nuxt playground
+
+* docs: updated docs to breaking changes
+
+* chore: update deps and tsconfig for docs
+
+* fix: adjusted aliases in vite config
+
+### Bug Fixes
+
+* unified-exports-suffix-pmndrs-effects ([#154](https://github.com/Tresjs/post-processing/issues/154)) ([3a2ec97](https://github.com/Tresjs/post-processing/commit/3a2ec97e04fdf4523865092ef63b0d8935574266))
 
 ## [1.0.0](https://github.com/Tresjs/post-processing/compare/1.0.0-next.1...1.0.0) (2024-11-26)
 
