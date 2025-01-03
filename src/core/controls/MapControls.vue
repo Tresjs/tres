@@ -2,7 +2,7 @@
 import { useLoop, useTresContext } from '@tresjs/core'
 import { useEventListener } from '@vueuse/core'
 import { MapControls } from 'three-stdlib'
-import { onUnmounted, ref, toRefs, watch } from 'vue'
+import { onUnmounted, shallowRef, toRefs, watch } from 'vue'
 import type { TresVector3 } from '@tresjs/core'
 import type { Camera } from 'three'
 
@@ -281,7 +281,7 @@ watch(props, () => {
   invalidate()
 })
 
-const controlsRef = ref<MapControls | null>(null)
+const controlsRef = shallowRef<MapControls | null>(null)
 
 extend({ MapControls })
 

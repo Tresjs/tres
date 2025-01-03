@@ -14,7 +14,7 @@ import {
   Vector3,
   Vector4,
 } from 'three'
-import { computed, onUnmounted, ref, toRefs, watch, watchEffect } from 'vue'
+import { computed, onUnmounted, shallowRef, toRefs, watch, watchEffect } from 'vue'
 import type { TresControl } from '@tresjs/core'
 import type {
   Camera,
@@ -402,7 +402,7 @@ const touches = computed(() => getTouches(
   props.touches,
 ))
 
-const controlsRef = ref<TresControl & CameraControls | null>(null)
+const controlsRef = shallowRef<TresControl & CameraControls | null>(null)
 extend({ CameraControls })
 
 watchEffect(() => {
