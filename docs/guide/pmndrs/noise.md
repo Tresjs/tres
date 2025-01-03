@@ -10,18 +10,18 @@ Noise is an effect that adds Gaussian noise to the scene. This can be used to si
 
 ```vue
 <script setup lang="ts">
-import { Bloom, EffectComposer } from '@tresjs/post-processing/pmndrs'
+import { BloomPmndrs, EffectComposerPmndrs } from '@tresjs/post-processing'
 
 import { BlendFunction } from 'postprocessing'
 </script>
 
 <template>
-  <EffectComposer>
-    <Noise
+  <EffectComposerPmndrs>
+    <NoisePmndrs
       premultiply
       :blend-function="BlendFunction.SCREEN"
     />
-  </EffectComposer>
+  </EffectComposerPmndrs>
 </template>
 ```
 

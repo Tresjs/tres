@@ -10,7 +10,7 @@ Unreal Bloom is an effect that simulates the bloom effect seen in many modern vi
 
 ```vue
 <script setup lang="ts">
-import { EffectComposer, UnrealBloom } from '@tresjs/post-processing/three'
+import { EffectComposer, UnrealBloom } from '@tresjs/post-processing'
 </script>
 
 <template>

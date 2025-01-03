@@ -6,9 +6,9 @@ import { GlitchEffect, GlitchMode } from 'postprocessing'
 import { watchEffect } from 'vue'
 import { omit } from '../../util/object'
 import { makePropWatchersUsingAllProps } from '../../util/prop'
-import { useEffect } from './composables/useEffect'
+import { useEffectPmndrs } from './composables/useEffectPmndrs'
 
-export interface GlitchProps {
+export interface GlitchPmndrsProps {
   blendFunction?: BlendFunction
   /**
    *  The minimum and maximum delay between glitch activations in seconds.
@@ -55,9 +55,9 @@ export interface GlitchProps {
 </script>
 
 <script setup lang="ts">
-const props = defineProps<GlitchProps>()
+const props = defineProps<GlitchPmndrsProps>()
 
-const { pass, effect } = useEffect(() => new GlitchEffect(props), props)
+const { pass, effect } = useEffectPmndrs(() => new GlitchEffect(props), props)
 defineExpose({ pass, effect })
 
 const { onBeforeRender } = useLoop()

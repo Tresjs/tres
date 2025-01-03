@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { OrbitControls } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
-import { EffectComposer, Pixelation } from '@tresjs/post-processing/pmndrs'
+import { EffectComposerPmndrs, PixelationPmndrs } from '@tresjs/post-processing'
 import { ref } from 'vue'
 import GraphPane from '../../components/GraphPane.vue'
 import { useState } from '../../composables/state'
@@ -50,8 +50,8 @@ function onControlChange() {
 
     <TresGridHelper />
 
-    <EffectComposer @render="onRender">
-      <Pixelation :granularity="10" />
-    </EffectComposer>
+    <EffectComposerPmndrs @render="onRender">
+      <PixelationPmndrs :granularity="10" />
+    </EffectComposerPmndrs>
   </TresCanvas>
 </template>

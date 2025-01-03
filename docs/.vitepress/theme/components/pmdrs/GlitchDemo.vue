@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Text3D } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
-import { EffectComposer, Glitch } from '@tresjs/post-processing/pmndrs'
+import { EffectComposerPmndrs, GlitchPmndrs } from '@tresjs/post-processing'
 
 import { Color } from 'three'
 
@@ -44,9 +44,9 @@ const { effectComposer } = useRouteDisposal()
       :intensity="1"
     />
     <Suspense>
-      <EffectComposer ref="effectComposer">
-        <Glitch />
-      </EffectComposer>
+      <EffectComposerPmndrs ref="effectComposer">
+        <GlitchPmndrs />
+      </EffectComposerPmndrs>
     </Suspense>
   </TresCanvas>
 </template>

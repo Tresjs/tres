@@ -12,13 +12,13 @@ This photographic technique allows photographers and filmmakers to draw attentio
 
 ```vue
 <script setup lang="ts">
-import { DepthOfField, EffectComposer } from '@tresjs/post-processing/pmndrs'
+import { DepthOfFieldPmndrs, EffectComposerPmndrs } from '@tresjs/post-processing'
 </script>
 
 <template>
-  <EffectComposer>
-    <DepthOfField />
-  </EffectComposer>
+  <EffectComposerPmndrs>
+    <DepthOfFieldPmndrs />
+  </EffectComposerPmndrs>
 </template>
 ```
 

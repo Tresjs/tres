@@ -37,11 +37,9 @@ export default defineConfig({
       include: [resolve(__dirname, 'src')],
     },
     lib: {
-      entry: {
-        three: resolve(__dirname, 'src/core/three/index.ts'),
-        pmndrs: resolve(__dirname, 'src/core/pmndrs/index.ts'),
-      },
-      formats: ['es'],
+      entry: resolve(__dirname, 'src/index.ts'),
+      name: 'tres-post-processing',
+      fileName: 'tres-post-processing',
     },
     rollupOptions: {
       plugins: [
@@ -54,9 +52,6 @@ export default defineConfig({
       ],
       external: ['three', 'vue', '@tresjs/core', 'postprocessing', '@vueuse/core'],
       output: {
-        entryFileNames: '[name].js',
-        exports: 'named',
-        format: 'es',
         globals: {
           '@tresjs/core': 'TresjsCore',
           'three': 'Three',

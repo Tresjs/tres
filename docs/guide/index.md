@@ -34,13 +34,13 @@ pnpm add @tresjs/post-processing
 
 ## Basic Usage
 
-You can import post-processing effects from both pmndrs and native Three.js.
+You can import post-processing effects from both pmndrs and native Three.js. All effects are now available under the unified `@tresjs/post-processing` namespace.
 
 ### Using native Three.js effects
 
 ```html
 <script setup lang="ts">
-  import { EffectComposer, UnrealBloom, Glitch } from '@tresjs/post-processing/three'
+  import { EffectComposer, UnrealBloom, Glitch } from '@tresjs/post-processing'
 </script>
 
 <template>
@@ -54,20 +54,22 @@ You can import post-processing effects from both pmndrs and native Three.js.
 </template>
 ```
 
-### Using pmndrs effects
+### Using Pmndrs effects
+
+You can also use Pmndrs `postprocessing` effects, but you need to use the `EffectComposerPmndrs` component instead of `EffectComposer` and suffix the effects with `Pmndrs`.
 
 ```html
 <script setup lang="ts">
-  import { EffectComposer, Bloom, Glitch } from '@tresjs/post-processing/pmndrs'
+  import { EffectComposerPmndrs, BloomPmndrs, GlitchPmndrs } from '@tresjs/post-processing'
 </script>
 
 <template>
   <TresCanvas shadows alpha>
     <TresPerspectiveCamera :args="[45," 1, 0.1, 1000] />
-    <EffectComposer>
-      <Bloom />
-      <Glitch />
-    </EffectComposer>
+    <EffectComposerPmndrs>
+      <BloomPmndrs />
+      <GlitchPmndrs />
+    </EffectComposerPmndrs>
   </TresCanvas>
 </template>
 ```

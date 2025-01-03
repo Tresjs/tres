@@ -3,9 +3,9 @@ import { useLoop } from '@tresjs/core'
 import { BlendFunction, NoiseEffect } from 'postprocessing'
 import { omit } from '../../util/object'
 import { makePropWatchersUsingAllProps } from '../../util/prop'
-import { useEffect } from './composables/useEffect'
+import { useEffectPmndrs } from './composables/useEffectPmndrs'
 
-export interface NoiseProps {
+export interface NoisePmndrsProps {
   /**
    * Whether the noise should be multiplied with the input color.
    */
@@ -15,12 +15,12 @@ export interface NoiseProps {
 </script>
 
 <script lang="ts" setup>
-const props = withDefaults(defineProps<NoiseProps>(), {
+const props = withDefaults(defineProps<NoisePmndrsProps>(), {
   premultiply: false,
   blendFunction: BlendFunction.SCREEN,
 })
 
-const { pass, effect } = useEffect(() => new NoiseEffect(props), props)
+const { pass, effect } = useEffectPmndrs(() => new NoiseEffect(props), props)
 defineExpose({ pass, effect })
 
 const { onBeforeRender } = useLoop()

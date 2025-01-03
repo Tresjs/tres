@@ -2,7 +2,7 @@
 import { OrbitControls } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
 import { TresLeches, useControls } from '@tresjs/leches'
-import { EffectComposer, Glitch } from '@tresjs/post-processing/pmndrs'
+import { EffectComposerPmndrs, GlitchPmndrs } from '@tresjs/post-processing'
 import { GlitchMode } from 'postprocessing'
 import { BasicShadowMap, NoToneMapping, Vector2 } from 'three'
 import '@tresjs/leches/styles'
@@ -79,8 +79,8 @@ pane.addInput(glitchParams, 'dtSize', { min: 1, max: 64, step: 1 }) */
     <TresGridHelper />
     <TresAmbientLight :intensity="1" />
     <Suspense>
-      <EffectComposer>
-        <Glitch
+      <EffectComposerPmndrs>
+        <GlitchPmndrs
           :delay="delay.value"
           :duration="duration.value"
           :strength="strength.value"
@@ -91,7 +91,7 @@ pane.addInput(glitchParams, 'dtSize', { min: 1, max: 64, step: 1 }) */
           :chromatic-aberration-offset="chromaticAberrationOffset.value"
           :chromatic-aberration-enabled="chromaticAberrationEnabled.value"
         />
-      </EffectComposer>
+      </EffectComposerPmndrs>
     </Suspense>
   </TresCanvas>
 </template>

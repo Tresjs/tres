@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { OrbitControls } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
-import { EffectComposer, Pixelation } from '@tresjs/post-processing/pmndrs'
+import { EffectComposerPmndrs, PixelationPmndrs } from '@tresjs/post-processing'
 
 import { useRouteDisposal } from '../../composables/useRouteDisposal'
 
@@ -46,9 +46,9 @@ const { effectComposer } = useRouteDisposal()
     />
 
     <Suspense>
-      <EffectComposer ref="effectComposer">
-        <Pixelation :granularity="8" />
-      </EffectComposer>
+      <EffectComposerPmndrs ref="effectComposer">
+        <PixelationPmndrs :granularity="8" />
+      </EffectComposerPmndrs>
     </Suspense>
   </TresCanvas>
 </template>

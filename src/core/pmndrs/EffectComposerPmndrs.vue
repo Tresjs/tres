@@ -10,9 +10,9 @@ import WEBGL from 'three/examples/jsm/capabilities/WebGL.js'
 
 import { computed, onUnmounted, provide, shallowRef, watch } from 'vue'
 
-export const effectComposerInjectionKey: InjectionKey<ShallowRef<EffectComposer | null>> = Symbol('effectComposer')
+export const effectComposerInjectionKey: InjectionKey<ShallowRef<EffectComposer | null>> = Symbol('effectComposerPmndrs')
 
-export interface EffectComposerProps {
+export interface EffectComposerPmndrsProps {
   enabled?: boolean
   depthBuffer?: boolean
   disableNormalPass?: boolean
@@ -25,7 +25,7 @@ export interface EffectComposerProps {
 </script>
 
 <script setup lang="ts">
-const props = withDefaults(defineProps<EffectComposerProps>(), {
+const props = withDefaults(defineProps<EffectComposerPmndrsProps>(), {
   enabled: true,
   autoClear: true,
   frameBufferType: HalfFloatType,

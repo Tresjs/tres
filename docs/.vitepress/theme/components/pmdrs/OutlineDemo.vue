@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { OrbitControls } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
-import { EffectComposer, Outline } from '@tresjs/post-processing/pmndrs'
+import { EffectComposerPmndrs, OutlinePmndrs } from '@tresjs/post-processing'
 import type { Intersection, Object3D } from 'three'
 import { NoToneMapping } from 'three'
 import { ref } from 'vue'
@@ -58,16 +58,15 @@ const toggleMeshSelectionState = ({ object }: Intersection) => {
       :intensity="1"
     />
     <Suspense>
-      <EffectComposer ref="effectComposer">
-        <Outline
+      <EffectComposerPmndrs ref="effectComposer">
+        <OutlinePmndrs
           :outlined-objects="outlinedObjects"
-
           :edge-strength="200000"
           :pulse-speed="2"
           visible-edge-color="#ffff00"
           :kernel-size="3"
         />
-      </EffectComposer>
+      </EffectComposerPmndrs>
     </Suspense>
   </TresCanvas>
 </template>

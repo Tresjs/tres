@@ -6,9 +6,9 @@ import { normalizeColor, useTresContext } from '@tresjs/core'
 import { OutlineEffect } from 'postprocessing'
 import { computed, watch } from 'vue'
 import { makePropWatchers } from '../../util/prop'
-import { useEffect } from './composables/useEffect'
+import { useEffectPmndrs } from './composables/useEffectPmndrs'
 
-export interface OutlineProps {
+export interface OutlinePmndrsProps {
   /**
    * The objects in the scene which should have an outline.
    */
@@ -51,7 +51,7 @@ export interface OutlineProps {
 }
 
 const props = withDefaults(
-  defineProps<OutlineProps>(),
+  defineProps<OutlinePmndrsProps>(),
   {
     blur: undefined,
     xRay: undefined,
@@ -86,7 +86,7 @@ const params: OutlineEffectParameters = {
   visibleEdgeColor: colorToNumber(props.visibleEdgeColor),
 }
 
-const { pass, effect } = useEffect(() => new OutlineEffect(scene.value, camera.value, params), props)
+const { pass, effect } = useEffectPmndrs(() => new OutlineEffect(scene.value, camera.value, params), props)
 
 defineExpose({ pass, effect })
 

@@ -24,13 +24,10 @@
     "Tino Koch (https://github.com/Tinoooo)"
   ],
   "exports": {
-    "./three": {
-      "types": "./dist/three.d.ts",
-      "import": "./dist/three.js"
-    },
-    "./pmndrs": {
-      "types": "./dist/pmndrs.d.ts",
-      "import": "./dist/pmndrs.js"
+    ".": {
+      "types": "./dist/tres-post-processing.d.ts",
+      "import": "./dist/tres-post-processing.js",
+      "require": "./dist/tres-post-processing.cjs"
     },
     "./*": "./*"
   },
@@ -59,32 +56,32 @@
     "vue": ">=3.4"
   },
   "dependencies": {
-    "@vueuse/core": "^11.3.0",
-    "postprocessing": "^6.36.4"
+    "@vueuse/core": "^12.2.0",
+    "postprocessing": "^6.36.5"
   },
   "devDependencies": {
-    "@release-it/conventional-changelog": "^9.0.3",
+    "@release-it/conventional-changelog": "^9.0.4",
     "@tresjs/core": "^4.3.1",
     "@tresjs/eslint-config": "^1.4.0",
-    "@types/three": "^0.170.0",
-    "@unocss/core": "^0.64.1",
+    "@types/three": "^0.171.0",
+    "@unocss/core": "^0.65.3",
     "@vitejs/plugin-vue": "^5.2.1",
-    "eslint": "^9.15.0",
+    "eslint": "^9.17.0",
     "gsap": "^3.12.5",
     "kolorist": "^1.8.0",
     "pathe": "^1.1.2",
-    "release-it": "^17.10.0",
+    "release-it": "^17.11.0",
     "rollup-plugin-analyzer": "^4.0.0",
-    "rollup-plugin-visualizer": "^5.12.0",
-    "three": "^0.170.0",
+    "rollup-plugin-visualizer": "^5.13.1",
+    "three": "^0.172.0",
     "typescript": "^5.7.2",
-    "unocss": "^0.64.1",
-    "vite": "^6.0.0",
+    "unocss": "^0.65.3",
+    "vite": "^6.0.6",
     "vite-plugin-banner": "^0.8.0",
-    "vite-plugin-dts": "4.3.0",
+    "vite-plugin-dts": "4.4.0",
     "vite-svg-loader": "^5.1.0",
     "vitepress": "1.5.0",
     "vue": "^3.5.13",
-    "vue-tsc": "^2.1.10"
+    "vue-tsc": "^2.2.0"
   }
 }

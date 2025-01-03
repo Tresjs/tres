@@ -3,9 +3,9 @@ import type { Reactive, ShallowRef } from 'vue'
 import { useTresContext } from '@tresjs/core'
 import { EffectPass } from 'postprocessing'
 import { inject, nextTick, onUnmounted, shallowRef, watch, watchEffect } from 'vue'
-import { effectComposerInjectionKey } from '../EffectComposer.vue'
+import { effectComposerInjectionKey } from '../EffectComposerPmndrs.vue'
 
-export const useEffect = <T extends Effect>(
+export const useEffectPmndrs = <T extends Effect>(
   newEffectFunction: () => T,
   passDependencies: Reactive<object>,
 ): {

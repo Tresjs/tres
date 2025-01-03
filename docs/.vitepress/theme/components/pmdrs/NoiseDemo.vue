@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { OrbitControls } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
-import { EffectComposer, Noise } from '@tresjs/post-processing/pmndrs'
+import { EffectComposerPmndrs, NoisePmndrs } from '@tresjs/post-processing'
 import { BlendFunction } from 'postprocessing'
 import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
 
@@ -27,12 +27,12 @@ const { effectComposer } = useRouteDisposal()
     <TresGridHelper />
     <TresAmbientLight :intensity="1" />
     <Suspense>
-      <EffectComposer ref="effectComposer">
-        <Noise
+      <EffectComposerPmndrs ref="effectComposer">
+        <NoisePmndrs
           premultiply
           :blend-function="BlendFunction.SCREEN"
         />
-      </EffectComposer>
+      </EffectComposerPmndrs>
     </Suspense>
   </TresCanvas>
 </template>

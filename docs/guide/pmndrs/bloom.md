@@ -10,19 +10,19 @@ Bloom is an effect that simulates the way that bright objects in the real world 
 
 ```vue
 <script setup lang="ts">
-import { Bloom, EffectComposer } from '@tresjs/post-processing/pmndrs'
+import { BloomPmndrs, EffectComposerPmndrs } from '@tresjs/post-processing'
 </script>
 
 <template>
-  <EffectComposer>
-    <Bloom
+  <EffectComposerPmndrs>
+    <BloomPmndrs
       :radius="0.85"
       :intensity="4.0"
       :luminance-threshold="0.1"
       :luminance-smoothing="0.3"
       mipmap-blur
     />
-  </EffectComposer>
+  </EffectComposerPmndrs>
 </template>
 ```
 

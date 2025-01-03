@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { OrbitControls } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
-import { DepthOfField, EffectComposer, Vignette } from '@tresjs/post-processing/pmndrs'
+import { DepthOfFieldPmndrs, EffectComposerPmndrs, VignettePmndrs } from '@tresjs/post-processing'
 import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
 
 import { useRouteDisposal } from '../../composables/useRouteDisposal'
@@ -29,10 +29,10 @@ const { effectComposer } = useRouteDisposal()
     <Suspense>
       <BlenderCube />
     </Suspense>
-    <EffectComposer ref="effectComposer">
-      <DepthOfField :focus-distance="0" :focal-length="0.02" :bokeh-scale="2" />
-      <Vignette :darkness="0.9" :offset="0.3" />
-    </EffectComposer>
+    <EffectComposerPmndrs ref="effectComposer">
+      <DepthOfFieldPmndrs :focus-distance="0" :focal-length="0.02" :bokeh-scale="2" />
+      <VignettePmndrs :darkness="0.9" :offset="0.3" />
+    </EffectComposerPmndrs>
     <TresAmbientLight :intensity="1" />
   </TresCanvas>
 </template>

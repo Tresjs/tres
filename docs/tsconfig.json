@@ -4,7 +4,10 @@
     "jsx": "preserve",
     "lib": ["DOM", "ESNext"],
     "module": "esnext",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
+    "paths": {
+      "@tresjs/post-processing": ["../../src"]
+    },
     "resolveJsonModule": true,
     "types": ["vite/client"],
     "strict": true,

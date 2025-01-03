@@ -16,7 +16,7 @@ This effect may potentially cause epileptic seizures in people with photosensiti
 
 ```vue
 <script setup lang="ts">
-import { EffectComposer, Glitch } from '@tresjs/post-processing/three'
+import { EffectComposer, Glitch } from '@tresjs/post-processing'
 </script>
 
 <template>

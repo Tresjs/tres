@@ -10,13 +10,13 @@ Pixelation is an effect that pixelates the scene.
 
 ```vue
 <script setup lang="ts">
-import { EffectComposer, Pixelation } from '@tresjs/post-processing/pmndrs'
+import { EffectComposerPmndrs, PixelationPmndrs } from '@tresjs/post-processing'
 </script>
 
 <template>
-  <EffectComposer>
-    <Pixelation />
-  </EffectComposer>
+  <EffectComposerPmndrs>
+    <PixelationPmndrs />
+  </EffectComposerPmndrs>
 </template>
 ```
 

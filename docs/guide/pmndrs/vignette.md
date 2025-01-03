@@ -10,16 +10,16 @@ Vignette is an effect that darkens the edges of the scene to make the center pop
 
 ```vue
 <script setup lang="ts">
-import { EffectComposer, Vignette } from '@tresjs/post-processing/pmndrs'
+import { EffectComposerPmndrs, VignettePmndrs } from '@tresjs/post-processing'
 </script>
 
 <template>
-  <EffectComposer>
-    <Vignette
+  <EffectComposerPmndrs>
+    <VignettePmndrs
       :darkness="0.9"
       :offset="0.2"
     />
-  </EffectComposer>
+  </EffectComposerPmndrs>
 </template>
 ```
 

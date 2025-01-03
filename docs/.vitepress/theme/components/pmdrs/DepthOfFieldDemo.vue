@@ -1,7 +1,8 @@
 <script lang="ts" setup>
+import { ref } from 'vue'
 import { TresCanvas } from '@tresjs/core'
 import { Backdrop } from '@tresjs/cientos'
-import { DepthOfField, EffectComposer } from '@tresjs/post-processing/pmndrs'
+import { DepthOfFieldPmndrs, EffectComposerPmndrs } from '@tresjs/post-processing'
 import '@tresjs/leches/styles'
 
 import Ducky from '../Ducky.vue'
@@ -57,12 +58,12 @@ const effectParams = ref({
       cast-shadow
     />
 
-    <EffectComposer ref="effectComposer">
-      <DepthOfField
+    <EffectComposerPmndrs ref="effectComposer">
+      <DepthOfFieldPmndrs
         :bokeh-scale="effectParams.bokehScale"
         :focus-distance="effectParams.focusDistance"
         :focus-range="effectParams.focusRange"
       />
-    </EffectComposer>
+    </EffectComposerPmndrs>
   </TresCanvas>
 </template>

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { Pixelation } from '@tresjs/post-processing/three'
+import { Pixelation } from '@tresjs/post-processing'
 import BasicScene from '../../components/BasicScene.vue'
 </script>
 

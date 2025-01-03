@@ -3,7 +3,7 @@ import type { Intersection, Object3D } from 'three'
 import { OrbitControls } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
 import { TresLeches, useControls } from '@tresjs/leches'
-import { EffectComposer, Outline } from '@tresjs/post-processing/pmndrs'
+import { EffectComposerPmndrs, OutlinePmndrs } from '@tresjs/post-processing'
 import { KernelSize } from 'postprocessing'
 import { NoToneMapping } from 'three'
 
@@ -77,8 +77,8 @@ const { edgeStrength, pulseSpeed, visibleEdgeColor, blur, kernelSize } = useCont
     <TresGridHelper />
     <TresAmbientLight :intensity="1" />
     <Suspense>
-      <EffectComposer>
-        <Outline
+      <EffectComposerPmndrs>
+        <OutlinePmndrs
           :outlined-objects="outlinedObjects"
           :blur="blur.value"
           :edge-strength="edgeStrength.value"
@@ -86,7 +86,7 @@ const { edgeStrength, pulseSpeed, visibleEdgeColor, blur, kernelSize } = useCont
           :visible-edge-color="visibleEdgeColor.value"
           :kernel-size="kernelSize.value"
         />
-      </EffectComposer>
+      </EffectComposerPmndrs>
     </Suspense>
   </TresCanvas>
 </template>

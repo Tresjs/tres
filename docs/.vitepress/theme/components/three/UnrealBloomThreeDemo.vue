@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
-import { EffectComposer, UnrealBloom } from '@tresjs/post-processing/three'
+import { EffectComposer, UnrealBloom } from '@tresjs/post-processing'
 import { Color } from 'three'
 import { reactive } from 'vue'
 

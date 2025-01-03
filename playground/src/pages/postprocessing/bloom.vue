@@ -2,7 +2,7 @@
 import { OrbitControls } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
 import { TresLeches, useControls } from '@tresjs/leches'
-import { Bloom, EffectComposer } from '@tresjs/post-processing/pmndrs'
+import { BloomPmndrs, EffectComposerPmndrs } from '@tresjs/post-processing'
 import { BlendFunction, KernelSize } from 'postprocessing'
 import { BasicShadowMap, Color, NoToneMapping } from 'three'
 import { onMounted, ref, watch } from 'vue'
@@ -125,8 +125,8 @@ onMounted(() => {
       :intensity="2"
     />
     <Suspense>
-      <EffectComposer :depth-buffer="true">
-        <Bloom
+      <EffectComposerPmndrs :depth-buffer="true">
+        <BloomPmndrs
           :luminance-threshold="threshold.value"
           :luminance-smoothing="smoothing.value"
           :intensity="intensity.value"
@@ -135,7 +135,7 @@ onMounted(() => {
           :resolution="resolution.value"
           :mipmap-blur="mipmapBlur.value"
         />
-      </EffectComposer>
+      </EffectComposerPmndrs>
     </Suspense>
   </TresCanvas>
 </template>

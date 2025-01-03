@@ -4,7 +4,7 @@ import { Backdrop, OrbitControls } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
 import { TresLeches, useControls } from '@tresjs/leches'
 
-import { DepthOfField, EffectComposer } from '@tresjs/post-processing/pmndrs'
+import { DepthOfFieldPmndrs, EffectComposerPmndrs } from '@tresjs/post-processing'
 import { computed } from 'vue'
 import BlenderCube from '../../components/BlenderCube.vue'
 
@@ -97,12 +97,12 @@ const effectParams = computed(() =>
       cast-shadow
     />
 
-    <EffectComposer>
-      <DepthOfField
+    <EffectComposerPmndrs>
+      <DepthOfFieldPmndrs
         :bokeh-scale="effectParams.bokehScale"
         :focus-distance="effectParams.focusDistance"
         :focus-range="effectParams.focusRange"
       />
-    </EffectComposer>
+    </EffectComposerPmndrs>
   </TresCanvas>
 </template>

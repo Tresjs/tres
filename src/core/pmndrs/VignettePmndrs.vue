@@ -2,9 +2,9 @@
 import { BlendFunction, VignetteEffect, VignetteTechnique } from 'postprocessing'
 import { omit } from '../../util/object'
 import { makePropWatchersUsingAllProps } from '../../util/prop'
-import { useEffect } from './composables/useEffect'
+import { useEffectPmndrs } from './composables/useEffectPmndrs'
 
-export interface VignetteProps {
+export interface VignettePmndrsProps {
   /**
    * Whether the noise should be multiplied with the input color.
    */
@@ -16,14 +16,14 @@ export interface VignetteProps {
 </script>
 
 <script lang="ts" setup>
-const props = withDefaults(defineProps<VignetteProps>(), {
+const props = withDefaults(defineProps<VignettePmndrsProps>(), {
   technique: VignetteTechnique.DEFAULT,
   blendFunction: BlendFunction.NORMAL,
   offset: 0.5,
   darkness: 0.5,
 })
 
-const { pass, effect } = useEffect(() => new VignetteEffect(props), props)
+const { pass, effect } = useEffectPmndrs(() => new VignetteEffect(props), props)
 defineExpose({ pass, effect })
 
 makePropWatchersUsingAllProps(

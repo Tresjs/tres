@@ -2,7 +2,7 @@
 import { OrbitControls } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
 import { TresLeches, useControls } from '@tresjs/leches'
-import { DepthOfField, EffectComposer, Vignette } from '@tresjs/post-processing/pmndrs'
+import { DepthOfFieldPmndrs, EffectComposerPmndrs, VignettePmndrs } from '@tresjs/post-processing'
 import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
 import BlenderCube from '../../components/BlenderCube.vue'
 import '@tresjs/leches/styles'
@@ -40,17 +40,17 @@ const { darkness, offset } = useControls({
     <Suspense>
       <BlenderCube />
     </Suspense>
-    <EffectComposer>
-      <DepthOfField
+    <EffectComposerPmndrs>
+      <DepthOfFieldPmndrs
         :focus-distance="0"
         :focal-length="0.02"
         :bokeh-scale="2"
       />
-      <Vignette
+      <VignettePmndrs
         :darkness="darkness.value"
         :offset="offset.value"
       />
-    </EffectComposer>
+    </EffectComposerPmndrs>
     <TresAmbientLight :intensity="1" />
   </TresCanvas>
 </template>

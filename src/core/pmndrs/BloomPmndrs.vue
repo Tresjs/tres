@@ -2,14 +2,14 @@
 import type { BlendFunction, KernelSize } from 'postprocessing'
 import { BloomEffect } from 'postprocessing'
 import { makePropWatchers } from '../../util/prop'
-import { useEffect } from './composables/useEffect'
+import { useEffectPmndrs } from './composables/useEffectPmndrs'
 
-export interface BloomProps {
+export interface BloomPmndrsProps {
   /**
    * The blend function of this effect. This prop is not reactive.
    * @default BlendFunction.SCREEN
    * @type {BlendFunction}
-   * @memberof BloomProps
+   * @memberof BloomPmndrsProps
   */
   blendFunction?: BlendFunction
   /**
@@ -26,7 +26,7 @@ export interface BloomProps {
    * @default KernelSize.LARGE
    *
    * @type {KernelSize}
-   * @memberof BloomProps
+   * @memberof BloomPmndrsProps
    */
   kernelSize?: KernelSize
   /**
@@ -35,7 +35,7 @@ export interface BloomProps {
    * @default 0.9
    *
    * @type {number}
-   * @memberof BloomProps
+   * @memberof BloomPmndrsProps
    */
   luminanceThreshold?: number
   /**
@@ -44,7 +44,7 @@ export interface BloomProps {
    * @default 0.025
    *
    * @type {number}
-   * @memberof BloomProps
+   * @memberof BloomPmndrsProps
    */
   luminanceSmoothing?: number
   /**
@@ -53,7 +53,7 @@ export interface BloomProps {
    * @default false
    *
    * @type {boolean}
-   * @memberof BloomProps
+   * @memberof BloomPmndrsProps
    */
   mipmapBlur?: boolean
 }
@@ -61,13 +61,13 @@ export interface BloomProps {
 
 <script setup lang="ts">
 const props = withDefaults(
-  defineProps<BloomProps>(),
+  defineProps<BloomPmndrsProps>(),
   {
     mipmapBlur: undefined,
   },
 )
 
-const { pass, effect } = useEffect(() => new BloomEffect(props), props)
+const { pass, effect } = useEffectPmndrs(() => new BloomEffect(props), props)
 
 defineExpose({ pass, effect })
 

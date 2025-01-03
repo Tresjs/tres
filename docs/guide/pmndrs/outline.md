@@ -10,13 +10,13 @@ Outline is an effect that applies an outline to objects in your scene. This effe
 
 ```vue
 <script setup lang="ts">
-import { EffectComposer, Outline } from '@tresjs/post-processing/pmndrs'
+import { EffectComposerPmndrs, OutlinePmndrs } from '@tresjs/post-processing'
 </script>
 
 <template>
-  <EffectComposer>
-    <Outline />
-  </EffectComposer>
+  <EffectComposerPmndrs>
+    <OutlinePmndrs />
+  </EffectComposerPmndrs>
 </template>
 ```
 

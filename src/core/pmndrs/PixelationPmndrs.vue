@@ -1,9 +1,9 @@
 <script lang="ts">
 import { PixelationEffect } from 'postprocessing'
 import { makePropWatchersUsingAllProps } from '../../util/prop'
-import { useEffect } from './composables/useEffect'
+import { useEffectPmndrs } from './composables/useEffectPmndrs'
 
-export interface PixelationProps {
+export interface PixelationPmndrsProps {
   /**
    * The pixel granularity.
    */
@@ -12,9 +12,9 @@ export interface PixelationProps {
 </script>
 
 <script lang="ts" setup>
-const props = defineProps<PixelationProps>()
+const props = defineProps<PixelationPmndrsProps>()
 
-const { pass, effect } = useEffect(() => new PixelationEffect(props.granularity), props)
+const { pass, effect } = useEffectPmndrs(() => new PixelationEffect(props.granularity), props)
 defineExpose({ pass, effect })
 
 makePropWatchersUsingAllProps(

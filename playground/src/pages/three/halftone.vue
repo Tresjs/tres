@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { Halftone } from '@tresjs/post-processing/three'
+import { Halftone } from '@tresjs/post-processing'
 import { ref } from 'vue'
 import BasicScene from '../../components/BasicScene.vue'
 

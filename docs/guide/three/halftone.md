@@ -10,7 +10,7 @@ Halftone is an effect that simulates the halftone printing technique, which uses
 
 ```vue
 <script setup lang="ts">
-import { EffectComposer, Halftone } from '@tresjs/post-processing/three'
+import { EffectComposer, Halftone } from '@tresjs/post-processing'
 </script>
 
 <template>

@@ -33,8 +33,7 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
-      '@tresjs/post-processing/three': resolve(__dirname, '../src/core/three'),
-      '@tresjs/post-processing/pmndrs': resolve(__dirname, '../src/core/pmndrs'),
+      '@tresjs/post-processing': resolve(__dirname, '../src/index.ts'),
     },
     dedupe: ['three', '@tresjs/core'],
   },

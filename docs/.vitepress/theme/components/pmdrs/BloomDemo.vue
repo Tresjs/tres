@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
-import { Bloom, EffectComposer } from '@tresjs/post-processing/pmndrs'
+import { BloomPmndrs, EffectComposerPmndrs } from '@tresjs/post-processing'
 import { BlendFunction } from 'postprocessing'
 import { Color } from 'three'
 import { reactive } from 'vue'
@@ -48,9 +48,9 @@ const { effectComposer } = useRouteDisposal()
       :intensity="1"
     />
     <Suspense>
-      <EffectComposer ref="effectComposer">
-        <Bloom v-bind="bloomParams" />
-      </EffectComposer>
+      <EffectComposerPmndrs ref="effectComposer">
+        <BloomPmndrs v-bind="bloomParams" />
+      </EffectComposerPmndrs>
     </Suspense>
   </TresCanvas>
 </template>

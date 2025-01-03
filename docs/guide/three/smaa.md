@@ -10,7 +10,7 @@ SMAA (Subpixel Morphological Antialiasing) is an antialiasing technique that aim
 
 ```vue
 <script setup lang="ts">
-import { EffectComposer, SMAA } from '@tresjs/post-processing/three'
+import { EffectComposer, SMAA } from '@tresjs/post-processing'
 </script>
 
 <template>
