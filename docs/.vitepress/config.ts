@@ -56,6 +56,7 @@ export default defineConfig({
           { text: 'Scanline', link: '/guide/pmndrs/scanline' },
           { text: 'Pixelation', link: '/guide/pmndrs/pixelation' },
           { text: 'Vignette', link: '/guide/pmndrs/vignette' },
+          { text: 'Hue & Saturation', link: '/guide/pmndrs/hue-saturation' },
         ],
       },
       {

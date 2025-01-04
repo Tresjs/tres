@@ -15,6 +15,8 @@ declare module 'vue' {
     GlitchDemo: typeof import('./.vitepress/theme/components/pmdrs/GlitchDemo.vue')['default']
     GlitchThreeDemo: typeof import('./.vitepress/theme/components/three/GlitchThreeDemo.vue')['default']
     HalftoneThreeDemo: typeof import('./.vitepress/theme/components/three/HalftoneThreeDemo.vue')['default']
+    HueSaturation: typeof import('./.vitepress/theme/components/pmdrs/HueSaturationDemo.vue')['default']
+    HueSaturationDemo: typeof import('./.vitepress/theme/components/pmdrs/HueSaturationDemo.vue')['default']
     LoveVueThreeJS: typeof import('./.vitepress/theme/components/LoveVueThreeJS.vue')['default']
     NoiseDemo: typeof import('./.vitepress/theme/components/pmdrs/NoiseDemo.vue')['default']
     OutlineDemo: typeof import('./.vitepress/theme/components/pmdrs/OutlineDemo.vue')['default']

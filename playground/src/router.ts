@@ -35,6 +35,7 @@ export const postProcessingRoutes = [
   makeRoute('Outline', '🔲', false),
   makeRoute('Glitch', '📺', false),
   makeRoute('Depth of Field', '📷', false),
+  makeRoute('Hue & Saturation', '📷', false),
   makeRoute('Pixelation', '👾', false),
   makeRoute('Bloom', '🌼', false),
   makeRoute('Noise', '📟', false),
