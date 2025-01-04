@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ContactShadows, Environment, OrbitControls } from '@tresjs/cientos'
+import { ContactShadows, OrbitControls } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
 import { TresLeches, useControls } from '@tresjs/leches'
 import { NoToneMapping, Vector2 } from 'three'
