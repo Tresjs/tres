@@ -9,6 +9,7 @@ import NoisePmndrs, { type NoisePmndrsProps } from './NoisePmndrs.vue'
 import OutlinePmndrs, { type OutlinePmndrsProps } from './OutlinePmndrs.vue'
 import PixelationPmndrs, { type PixelationPmndrsProps } from './PixelationPmndrs.vue'
 import VignettePmndrs, { type VignettePmndrsProps } from './VignettePmndrs.vue'
+import ChromaticAberrationPmndrs, { type ChromaticAberrationPmndrsProps } from './ChromaticAberration.vue'
 import HueSaturationPmndrs, { type HueSaturationPmndrsProps } from './HueSaturationPmndrs.vue'
 import ScanlinePmndrs, { type ScanlinePmndrsProps } from './ScanlinePmndrs.vue'
 
@@ -22,6 +23,7 @@ export {
   PixelationPmndrs,
   useEffectPmndrs,
   VignettePmndrs,
+  ChromaticAberrationPmndrs,
   HueSaturationPmndrs,
   ScanlinePmndrs,
   BloomPmndrsProps,
@@ -32,6 +34,7 @@ export {
   OutlinePmndrsProps,
   PixelationPmndrsProps,
   VignettePmndrsProps,
+  ChromaticAberrationPmndrsProps,
   HueSaturationPmndrsProps,
   ScanlinePmndrsProps,
 }

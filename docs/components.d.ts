@@ -9,6 +9,7 @@ declare module 'vue' {
   export interface GlobalComponents {
     BlenderCube: typeof import('./.vitepress/theme/components/BlenderCube.vue')['default']
     BloomDemo: typeof import('./.vitepress/theme/components/pmdrs/BloomDemo.vue')['default']
+    ChromaticAberrationDemo: typeof import('./.vitepress/theme/components/pmdrs/ChromaticAberrationDemo.vue')['default']
     DepthOfFieldDemo: typeof import('./.vitepress/theme/components/pmdrs/DepthOfFieldDemo.vue')['default']
     DocsDemo: typeof import('./.vitepress/theme/components/DocsDemo.vue')['default']
     Ducky: typeof import('./.vitepress/theme/components/Ducky.vue')['default']
@@ -24,6 +25,7 @@ declare module 'vue' {
     PixelationThreeDemo: typeof import('./.vitepress/theme/components/three/PixelationThreeDemo.vue')['default']
     ScanlineDemo: typeof import('./.vitepress/theme/components/pmdrs/ScanlineDemo.vue')['default']
     SMAAThreeDemo: typeof import('./.vitepress/theme/components/three/SMAAThreeDemo.vue')['default']
+    ToneMappingDemo: typeof import('./.vitepress/theme/components/pmdrs/ToneMappingDemo.vue')['default']
     UnrealBloomThreeDemo: typeof import('./.vitepress/theme/components/three/UnrealBloomThreeDemo.vue')['default']
     VignetteDemo: typeof import('./.vitepress/theme/components/pmdrs/VignetteDemo.vue')['default']
   }
