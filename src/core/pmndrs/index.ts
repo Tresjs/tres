@@ -9,6 +9,7 @@ import NoisePmndrs, { type NoisePmndrsProps } from './NoisePmndrs.vue'
 import OutlinePmndrs, { type OutlinePmndrsProps } from './OutlinePmndrs.vue'
 import PixelationPmndrs, { type PixelationPmndrsProps } from './PixelationPmndrs.vue'
 import VignettePmndrs, { type VignettePmndrsProps } from './VignettePmndrs.vue'
+import ScanlinePmndrs, { type ScanlinePmndrsProps } from './ScanlinePmndrs.vue'
 
 export {
   BloomPmndrs,
@@ -20,6 +21,7 @@ export {
   PixelationPmndrs,
   useEffectPmndrs,
   VignettePmndrs,
+  ScanlinePmndrs,
 
   BloomPmndrsProps,
   DepthOfFieldPmndrsProps,
@@ -29,4 +31,5 @@ export {
   OutlinePmndrsProps,
   PixelationPmndrsProps,
   VignettePmndrsProps,
+  ScanlinePmndrsProps,
 }
