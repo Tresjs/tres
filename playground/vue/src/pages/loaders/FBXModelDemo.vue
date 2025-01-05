@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import { OrbitControls } from '@tresjs/cientos'
+import { FBXModel, OrbitControls } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
 import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
-import BlenderCube from '../../components/gltf/BlenderCube.vue'
 
 const gl = {
   clearColor: '#82DBC5',
@@ -19,12 +18,17 @@ const gl = {
     <TresPerspectiveCamera :position="[5.3, 2.45, 9.3]" :look-at="[0, 0, 0]" />
     <OrbitControls />
     <Suspense>
-      <TresGroup :position="[0, 1, 0]">
-        <BlenderCube />
-      </TresGroup>
+      <FBXModel
+        scale="0.01"
+        :position="[0, -1.6, 0]"
+        :rotation-y="-Math.PI * 0.5"
+        cast-shadow
+        path="https://raw.githubusercontent.com/Tresjs/assets/main/models/fbx/low-poly-truck/Jeep_done.fbx"
+      />
     </Suspense>
     <TresMesh
       :rotate-x="Math.PI * -0.5"
+      :position-y="-2"
       receive-shadow
     >
       <TresPlaneGeometry :args="[40, 40]" />

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { TresColor } from '@tresjs/core'
 import { normalizeColor, useTres } from '@tresjs/core'
-import type { BufferGeometry, Group } from 'three'
+import type { BufferGeometry, Group, Material, ShaderMaterial } from 'three'
 import { BackSide, InstancedMesh, Mesh, SkinnedMesh, Vector2 } from 'three'
 import { onMounted, onUnmounted, shallowRef, watch } from 'vue'
 import OutlineMaterialImpl from './OutlineMaterialImpl'
@@ -29,6 +29,13 @@ interface OutlineProps {
   renderOrder?: number
 }
 
+interface OutlineMaterial extends ShaderMaterial {
+  thickness?: number
+  screenspace?: boolean
+  size?: Vector2
+  color?: TresColor
+}
+
 const props = withDefaults(defineProps<OutlineProps>(), {
   color: 'black',
   opacity: 1,
@@ -46,7 +53,7 @@ const groupRef = shallowRef()
 
 defineExpose({ instance: groupRef })
 
-const material = new OutlineMaterialImpl({ ...props })
+const material = new OutlineMaterialImpl({ ...props }) as OutlineMaterial
 const contextSize = new Vector2(1, 1)
 let oldAngle = 0
 let oldGeometry: BufferGeometry | null = null
@@ -73,7 +80,7 @@ function updateMesh(group: Group) {
       group.add(mesh)
     }
     else if (parent.isInstancedMesh) {
-      mesh = new InstancedMesh(parent.geometry, material, parent.count)
+      mesh = new InstancedMesh(parent.geometry, material as Material, parent.count)
       mesh.instanceMatrix = parent.instanceMatrix
       group.add(mesh)
     }

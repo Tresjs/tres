@@ -1,8 +1,5 @@
-import { MeshStandardMaterial } from 'three'
-import { Color } from 'three/src/math/Color.js'
-import * as MathUtils from 'three/src/math/MathUtils'
-import { Vector2 } from 'three/src/math/Vector2.js'
 import type { MeshStandardMaterialParameters } from 'three'
+import { Color, MathUtils, MeshStandardMaterial, Vector2 } from 'three'
 
 class MeshGlassMaterial extends MeshStandardMaterial {
   isMeshPhysicalMaterial: boolean
@@ -33,8 +30,6 @@ class MeshGlassMaterial extends MeshStandardMaterial {
       STANDARD: '',
       PHYSICAL: '',
     }
-
-    this.type = 'MeshPhysicalMaterial'
 
     this.clearcoatMap = null
     this.clearcoatRoughness = 0.0

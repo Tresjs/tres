@@ -1,9 +1,7 @@
 <script setup lang="ts">
 import { normalizeColor, useTresContext } from '@tresjs/core'
 import { Vector2, Vector3 } from 'three'
-import { Line2 } from 'three/examples/jsm/lines/Line2'
-import { LineGeometry } from 'three/examples/jsm/lines/LineGeometry'
-import { LineMaterial } from 'three/examples/jsm/lines/LineMaterial'
+import { Line2, LineGeometry, LineMaterial } from 'three-stdlib'
 import { computed, onUnmounted, shallowRef, watch } from 'vue'
 import type { TresColor } from '@tresjs/core'
 import type { Color } from 'three'

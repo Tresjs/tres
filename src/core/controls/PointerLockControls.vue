@@ -2,9 +2,17 @@
 import { useTresContext } from '@tresjs/core'
 import { useEventListener } from '@vueuse/core'
 import { PointerLockControls } from 'three-stdlib'
-import { onUnmounted, ref, watch } from 'vue'
-import type { TresControl } from '@tresjs/core'
-import type { Camera } from 'three'
+import { onUnmounted, shallowRef, watch } from 'vue'
+import type { Camera, EventDispatcher } from 'three'
+
+// Define the event types for PointerLockControls
+interface PointerLockControlsEvents {
+  lock: () => void
+  unlock: () => void
+}
+
+// Extend the PointerLockControls type to include enabled property
+type ExtendedPointerLockControls = PointerLockControls & EventDispatcher<PointerLockControlsEvents> & { enabled: boolean }
 
 export interface PointerLockControlsProps {
   /**
@@ -55,7 +63,7 @@ watch(props, () => {
   invalidate()
 })
 
-const controlsRef = ref<TresControl & PointerLockControls | null>(null)
+const controlsRef = shallowRef<ExtendedPointerLockControls | null>(null)
 let triggerSelector: HTMLElement | undefined
 
 extend({ PointerLockControls })
@@ -74,23 +82,22 @@ watch(controlsRef, (value) => {
   const selector = document.getElementById(props.selector || '')
   triggerSelector = selector || renderer.value.domElement
 
-  useEventListener(controls.value as any, 'change', () => {
-    emit('change', controls.value)
-    invalidate()
-  })
   useEventListener(triggerSelector, 'click', () => {
-    controlsRef.value?.lock()
-    controlsRef.value?.addEventListener('lock', () => isLockEmitter(true))
-    controlsRef.value?.addEventListener('unlock', () => isLockEmitter(false))
-    invalidate()
+    if (controlsRef.value) {
+      controlsRef.value.lock()
+      controlsRef.value.addEventListener('lock', () => isLockEmitter(true))
+      controlsRef.value.addEventListener('unlock', () => isLockEmitter(false))
+      invalidate()
+    }
   })
 })
 
 onUnmounted(() => {
-  controls.value?.removeEventListener('lock', () => isLockEmitter(true))
-  controls.value?.removeEventListener('unlock', () => isLockEmitter(false))
-  if (controlsRef.value) {
-    controlsRef.value.dispose()
+  const controls = controlsRef.value
+  if (controls) {
+    controls.removeEventListener('lock', () => isLockEmitter(true))
+    controls.removeEventListener('unlock', () => isLockEmitter(false))
+    controls.dispose()
   }
 })
 

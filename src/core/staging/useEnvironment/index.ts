@@ -6,7 +6,7 @@ import {
 } from 'three'
 import { RGBELoader } from 'three-stdlib'
 import { computed, ref, toRefs, unref, watch } from 'vue'
-import type { LoaderProto, TresLoader } from '@tresjs/core'
+import type { LoaderProto } from '@tresjs/core'
 import type {
   CubeTexture,
   Texture,
@@ -16,22 +16,22 @@ import type { Ref } from 'vue'
 import { environmentPresets } from './const'
 import type { EnvironmentOptions } from './const'
 
+const PRESET_ROOT = 'https://raw.githubusercontent.com/Tresjs/assets/main/textures/hdr/'
+
 /**
  * Component that loads an environment map and sets it as the scene's background and environment.
  *
  * @export
- * @param {Partial<EnvironmentOptions>} {
+ * @param {Partial<EnvironmentOptions>} options - The options for the environment map
  *   files = ['/px.png', '/nx.png', '/py.png', '/ny.png', '/pz.png', '/nz.png'],
  *   blur = 0,
  *   background = false,
  *   path = undefined,
  *   preset = undefined,
  *   colorSpace = undefined,
- * }
- * @return {*}  {(Promise<Ref<Texture | CubeTexture | undefined>>)}
+ * @param {Ref<WebGLCubeRenderTarget | null>} fbo - The framebuffer object
+ * @return {Promise<Ref<Texture | CubeTexture | null>>} The loaded texture
  */
-
-const PRESET_ROOT = 'https://raw.githubusercontent.com/Tresjs/assets/main/textures/hdr/'
 export async function useEnvironment(
   options: Partial<EnvironmentOptions>,
   fbo: Ref<WebGLCubeRenderTarget | null>,
@@ -52,20 +52,20 @@ export async function useEnvironment(
 
   const texture: Ref<Texture | CubeTexture | null> = ref(null)
   const isCubeMap = computed(() => Array.isArray((files as Ref<string[]>).value))
-  const loader = computed(() => isCubeMap.value ? CubeTextureLoader as unknown as LoaderProto<CubeTexture | RGBELoader> : RGBELoader as unknown as LoaderProto<CubeTexture | RGBELoader>)
+  const loader = computed(() => isCubeMap.value ? CubeTextureLoader : RGBELoader)
 
   watch([files, path], async ([files, path]) => {
     if (!files) { return }
     if (files.length > 0 && !preset?.value) {
       try {
-        texture.value = await useLoader<CubeTexture | RGBELoader>(
-          loader.value,
+        const result = await useLoader(
+          loader.value as unknown as LoaderProto<Texture | CubeTexture>,
           isCubeMap.value ? [...unref(files)] : unref(files),
           (loader: any) => {
             if (path) { loader.setPath(unref(path)) }
-            /* if (colorSpace) loader.colorSpace = colorSpace */
           },
         )
+        texture.value = Array.isArray(result) ? result[0] : result
       }
       catch (error) {
         throw new Error(`Failed to load environment map: ${error}`)
@@ -111,22 +111,20 @@ export async function useEnvironment(
       const _files = environmentPresets[value as unknown as keyof typeof environmentPresets]
 
       try {
-        texture.value = await useLoader<RGBELoader>(
-          RGBELoader as unknown as LoaderProto<RGBELoader>,
+        const result = await useLoader(
+          RGBELoader as unknown as LoaderProto<Texture>,
           _files,
-          (loader: TresLoader<RGBELoader>) => {
+          (loader) => {
             if (_path) { loader.setPath(_path) }
-            /* if (colorSpace) loader.colorSpace = colorSpace */
           },
         )
+        texture.value = Array.isArray(result) ? result[0] : result
       }
       catch (error) {
         throw new Error(`Failed to load environment map: ${error}`)
       }
       if (texture.value) {
-        if (texture.value) {
-          texture.value.mapping = EquirectangularReflectionMapping
-        }
+        texture.value.mapping = EquirectangularReflectionMapping
       }
       invalidate()
     }

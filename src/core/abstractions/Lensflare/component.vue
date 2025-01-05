@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { normalizeColor } from '@tresjs/core'
 import { TextureLoader } from 'three'
-import { Lensflare } from 'three/examples/jsm/objects/Lensflare'
+import { Lensflare } from 'three-stdlib'
 import { onMounted, onUnmounted, shallowRef, watch } from 'vue'
 import type { TresColor } from '@tresjs/core'
 import type { Texture } from 'three'
-import type { LensflareElement } from 'three/examples/jsm/objects/Lensflare'
+import type { LensflareElement } from 'three-stdlib'
 import { partialLensflarePropsArrayToLensflarePropsArray as fillInProps, filterLensflareElementProps } from '.'
 import type { LensflareElementProps, SeedProps } from '.'
 

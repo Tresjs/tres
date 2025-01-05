@@ -3,9 +3,25 @@ import { useLoader } from '@tresjs/core'
 import { DoubleSide, ShapeGeometry, Vector2 } from 'three'
 import { SVGLoader } from 'three-stdlib'
 import { onUnmounted, shallowRef, toRefs, watch, watchEffect } from 'vue'
-import type { TresOptions } from '@tresjs/core'
+import type { LoaderProto, TresOptions } from '@tresjs/core'
 import type { BufferGeometry, MeshBasicMaterialParameters } from 'three'
 import type { SVGResult, SVGResultPaths } from 'three-stdlib'
+
+const props = withDefaults(defineProps<SVGProps>(), { skipStrokes: false, skipFills: false, depth: 'renderOrder' })
+
+// Create a wrapper around SVGLoader to make it compatible with TresJS loader interface
+class TresSVGLoader extends SVGLoader {
+  load(
+    url: string | string[],
+    onLoad: (result: SVGResult) => void,
+    onProgress?: (event: ProgressEvent<EventTarget>) => void,
+    onError?: (event: ErrorEvent) => void,
+  ): void {
+    // If url is an array, only use the first URL
+    const singleUrl = Array.isArray(url) ? url[0] : url
+    super.load(singleUrl, onLoad, onProgress, onError)
+  }
+}
 
 interface SVGProps {
   /**
@@ -98,8 +114,6 @@ interface SVGProps {
   depth?: 'renderOrder' | 'flat' | 'offsetZ' | number
 }
 
-const props = withDefaults(defineProps<SVGProps>(), { skipStrokes: false, skipFills: false, depth: 'renderOrder' })
-
 interface SVGLayer { geometry: BufferGeometry, material: MeshBasicMaterialParameters, isStroke: boolean }
 
 const { src, skipStrokes, skipFills, fillMaterial, strokeMaterial, fillMeshProps, strokeMeshProps, depth } = toRefs(props)
@@ -114,8 +128,8 @@ watch([skipFills, skipStrokes, fillMaterial, strokeMaterial, paths], updateLayer
 
 async function useSVG(src: string) {
   const srcStr = !src.startsWith('<svg') ? src : encodeURI(`data:image/svg+xml;utf8,${src}`)
-  return useLoader(SVGLoader, srcStr) as Promise<SVGResult>
-};
+  return useLoader(TresSVGLoader as unknown as LoaderProto<SVGResult>, srcStr) as Promise<SVGResult>
+}
 
 onUnmounted(dispose)
 

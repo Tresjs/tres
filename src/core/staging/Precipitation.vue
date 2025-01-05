@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { useLoop } from '@tresjs/core'
+import { useLoop, useTexture } from '@tresjs/core'
 import { shallowRef, toRefs, watchEffect } from 'vue'
 import type { TresColor } from '@tresjs/core'
+import type { Texture } from 'three'
 
 export interface PrecipitationProps {
   /**
@@ -32,24 +33,24 @@ export interface PrecipitationProps {
   /**
    * Color texture of the drops.
    *
-   * @type {string}
-   * @memberof StarsProps
+   * @type {Texture}
+   * @memberof PrecipitationProps
    * @default null
    */
-  map?: null
+  map?: string | Texture | null
   /**
    * texture of the alphaMap Drops.
    *
-   * @type {string}
-   * @memberof StarsProps
+   * @type {Texture}
+   * @memberof PrecipitationProps
    * @default null
    */
-  alphaMap?: string
+  alphaMap?: string | Texture | null
   /**
    * enables the WebGL to know when not to render the pixel.
    *
    * @type {number}
-   * @memberof StarsProps
+   * @memberof PrecipitationProps
    * @default 0.01
    */
   alphaTest?: number
@@ -57,7 +58,7 @@ export interface PrecipitationProps {
    * Set the opacity of the drops.
    *
    * @type {number}
-   * @memberof StarsProps
+   * @memberof PrecipitationProps
    * @default 0.8
    */
   opacity?: number
@@ -65,7 +66,7 @@ export interface PrecipitationProps {
    * number of drops.
    *
    * @type {number}
-   * @memberof StarsProps
+   * @memberof PrecipitationProps
    * @default 5000
    */
   count?: number
@@ -73,7 +74,7 @@ export interface PrecipitationProps {
    * Speed of drops.
    *
    * @type {number}
-   * @memberof StarsProps
+   * @memberof PrecipitationProps
    * @default 5000
    */
   speed?: number
@@ -82,7 +83,7 @@ export interface PrecipitationProps {
    *
    * @default 0.5
    * @type {number}
-   * @memberof ContactShadowsProps
+   * @memberof PrecipitationProps
    *
    */
   randomness?: number
@@ -91,7 +92,7 @@ export interface PrecipitationProps {
    *
    * @default false
    * @type {boolean}
-   * @memberof ContactShadowsProps
+   * @memberof PrecipitationProps
    *
    */
   depthWrite?: boolean
@@ -99,7 +100,7 @@ export interface PrecipitationProps {
    * show transparency on the drops texture.
    *
    * @type {boolean}
-   * @memberof StarsProps
+   * @memberof PrecipitationProps
    * @default true
    */
   transparent?: boolean
@@ -107,7 +108,7 @@ export interface PrecipitationProps {
    * keep the same size regardless distance.
    *
    * @type {boolean}
-   * @memberof StarsProps
+   * @memberof PrecipitationProps
    * @default true
    */
   sizeAttenuation?: boolean
@@ -131,8 +132,8 @@ const {
   size,
   area,
   color,
-  alphaMap,
-  map,
+  alphaMap: alphaMapUrl,
+  map: mapUrl,
   opacity,
   alphaTest,
   depthWrite,
@@ -171,6 +172,38 @@ watchEffect(() => {
   setPosition()
 })
 
+// Load textures if URLs are provided
+const alphaMapTexture = shallowRef<Texture | null>(null)
+const mapTexture = shallowRef<Texture | null>(null)
+
+watchEffect(async () => {
+  /* if (alphaMapUrl.value) {
+    const textures = await useTexture({ alphaMap: alphaMapUrl.value })
+    alphaMapTexture.value = textures.alphaMap
+  }
+  if (mapUrl.value) {
+    const textures = await useTexture({ map: mapUrl.value })
+    mapTexture.value = textures.map
+  } */
+  watchEffect(async () => {
+    if (typeof alphaMapUrl.value === 'string') {
+      const resolvedTexture = await useTexture({ alphaMap: alphaMapUrl.value })
+      alphaMapTexture.value = resolvedTexture.alphaMap
+    }
+    else {
+      alphaMapTexture.value = alphaMapUrl.value ?? null
+    }
+
+    if (typeof mapUrl.value === 'string') {
+      const resolvedTexture = await useTexture({ map: mapUrl.value })
+      mapTexture.value = resolvedTexture.map
+    }
+    else {
+      mapTexture.value = mapUrl.value ?? null
+    }
+  })
+})
+
 const { onBeforeRender } = useLoop()
 
 onBeforeRender(({ invalidate }) => {
@@ -201,8 +234,8 @@ defineExpose({ instance: pointsRef })
     <TresPointsMaterial
       :size="size"
       :color="color"
-      :alpha-map="alphaMap"
-      :map="map"
+      :alpha-map="alphaMapTexture"
+      :map="mapTexture"
       :opacity="opacity"
       :alpha-test="alphaTest"
       :depth-write="depthWrite"

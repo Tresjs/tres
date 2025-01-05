@@ -2,11 +2,11 @@ import { watchThrottled } from '@vueuse/core'
 import {
   ClampToEdgeWrapping,
   DataTexture,
+  MathUtils,
   RGBAFormat,
   UnsignedByteType,
   UVMapping,
 } from 'three'
-import { clamp, mapLinear } from 'three/src/math/MathUtils'
 import { isRef, shallowRef, triggerRef, watch } from 'vue'
 import type { MaybeRef, Ref } from 'vue'
 import {
@@ -199,7 +199,7 @@ function clampedMapLinear(
   minOut: number,
   maxOut: number,
 ) {
-  return mapLinear(clamp(v, minIn, maxIn), minIn, maxIn, minOut, maxOut)
+  return MathUtils.mapLinear(MathUtils.clamp(v, minIn, maxIn), minIn, maxIn, minOut, maxOut)
 }
 
 function GradientTresColorRenderToCanvasGradient(

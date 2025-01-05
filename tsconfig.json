@@ -6,16 +6,20 @@
     "lib": ["esnext", "dom"],
     "baseUrl": ".",
     "module": "esnext",
-    "moduleResolution": "node",
+
+    /* Bundler mode */
+    "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "types": ["vite/client", "node"],
+    "allowImportingTsExtensions": true,
+
+    /* Linting */
     "strict": true,
-    "strictNullChecks": true,
+    "noFallthroughCasesInSwitch": true,
     "noUnusedLocals": true,
-    "declaration": true,
-    "sourceMap": true,
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
+    "noUnusedParameters": true,
+    "noEmit": true,
+    "isolatedModules": true,
     "skipLibCheck": true
   },
   "references": [{ "path": "./tsconfig.node.json" }],
