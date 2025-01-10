@@ -12,6 +12,7 @@ import VignettePmndrs, { type VignettePmndrsProps } from './VignettePmndrs.vue'
 import ChromaticAberrationPmndrs, { type ChromaticAberrationPmndrsProps } from './ChromaticAberrationPmndrs.vue'
 import HueSaturationPmndrs, { type HueSaturationPmndrsProps } from './HueSaturationPmndrs.vue'
 import ScanlinePmndrs, { type ScanlinePmndrsProps } from './ScanlinePmndrs.vue'
+import DotScreenPmndrs, { type DotScreenPmndrsProps } from './DotScreenPmndrs.vue'
 import SepiaPmndrs, { type SepiaPmndrsProps } from './SepiaPmndrs.vue'
 
 export {
@@ -27,6 +28,7 @@ export {
   ChromaticAberrationPmndrs,
   HueSaturationPmndrs,
   ScanlinePmndrs,
+  DotScreenPmndrs,
   SepiaPmndrs,
 
   BloomPmndrsProps,
@@ -40,5 +42,6 @@ export {
   ChromaticAberrationPmndrsProps,
   HueSaturationPmndrsProps,
   ScanlinePmndrsProps,
+  DotScreenPmndrsProps,
   SepiaPmndrsProps,
 }
