@@ -40,6 +40,7 @@ export const postProcessingRoutes = [
   makeRoute('Bloom', '🌼', false),
   makeRoute('Noise', '📟', false),
   makeRoute('Chromatic Aberration', '🌈', false),
+  makeRoute('Sepia', '🌅', false),
   makeRoute('Scanline', '📺', false),
   makeRoute('Vignette', '🕶️', false),
   makeRoute('On-demand', '🔄', false),
