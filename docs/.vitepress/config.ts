@@ -53,6 +53,7 @@ export default defineConfig({
           { text: 'Glitch', link: '/guide/pmndrs/glitch' },
           { text: 'Noise', link: '/guide/pmndrs/noise' },
           { text: 'Outline', link: '/guide/pmndrs/outline' },
+          { text: 'Tone Mapping', link: '/guide/pmndrs/tone-mapping' },
           { text: 'Chromatic Aberration', link: '/guide/pmndrs/chromatic-aberration' },
           { text: 'Sepia', link: '/guide/pmndrs/sepia' },
           { text: 'Scanline', link: '/guide/pmndrs/scanline' },

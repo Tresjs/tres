@@ -9,7 +9,6 @@ declare module 'vue' {
   export interface GlobalComponents {
     BasicScene: typeof import('./src/components/BasicScene.vue')['default']
     BlenderCube: typeof import('./src/components/BlenderCube.vue')['default']
-    copy: typeof import('./src/components/UnrealBloom copy.vue')['default']
     Ducky: typeof import('./src/components/Ducky.vue')['default']
     EffectListItem: typeof import('./src/components/EffectListItem.vue')['default']
     GlitchDemo: typeof import('./src/components/GlitchDemo.vue')['default']
