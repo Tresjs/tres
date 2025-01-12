@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-import type { BlendFunction } from 'postprocessing'
 import { ChromaticAberrationEffect } from 'postprocessing'
-import { Vector2 } from 'three'
 import { makePropWatchers } from '../../util/prop'
 import { useEffectPmndrs } from './composables/useEffectPmndrs'
+import type { Vector2 } from 'three'
+import type { BlendFunction } from 'postprocessing'
 
 export interface ChromaticAberrationPmndrsProps {
   /**
@@ -30,13 +30,21 @@ export interface ChromaticAberrationPmndrsProps {
 const props = withDefaults(
   defineProps<ChromaticAberrationPmndrsProps>(),
   {
-    offset: () => new Vector2(0.01, 0.01),
-    radialModulation: false,
-    modulationOffset: 0.15,
+    radialModulation: undefined,
   },
 )
 
-const { pass, effect } = useEffectPmndrs(() => new ChromaticAberrationEffect(props), props)
+const plainEffect = new ChromaticAberrationEffect()
+
+const { pass, effect } = useEffectPmndrs(() => new ChromaticAberrationEffect({
+  ...props,
+  // Unfortunately, these defaults must be set this way as the type in postprocessing is not correct.
+  // The arguments are optional in the actual constructor, but not in the type.
+  radialModulation: props.radialModulation ?? plainEffect.radialModulation,
+  modulationOffset: props.modulationOffset ?? plainEffect.modulationOffset,
+}), props)
+
+plainEffect.dispose()
 
 defineExpose({ pass, effect })
 

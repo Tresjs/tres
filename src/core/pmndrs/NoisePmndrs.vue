@@ -1,6 +1,7 @@
 <script lang="ts">
 import { useLoop } from '@tresjs/core'
-import { BlendFunction, NoiseEffect } from 'postprocessing'
+import type { BlendFunction } from 'postprocessing'
+import { NoiseEffect } from 'postprocessing'
 import { omit } from '../../util/object'
 import { makePropWatchersUsingAllProps } from '../../util/prop'
 import { useEffectPmndrs } from './composables/useEffectPmndrs'
@@ -16,8 +17,7 @@ export interface NoisePmndrsProps {
 
 <script lang="ts" setup>
 const props = withDefaults(defineProps<NoisePmndrsProps>(), {
-  premultiply: false,
-  blendFunction: BlendFunction.SCREEN,
+  premultiply: undefined,
 })
 
 const { pass, effect } = useEffectPmndrs(() => new NoiseEffect(props), props)

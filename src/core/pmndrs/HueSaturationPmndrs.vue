@@ -23,13 +23,7 @@ export interface HueSaturationPmndrsProps {
   blendFunction?: BlendFunction
 }
 
-const props = withDefaults(
-  defineProps<HueSaturationPmndrsProps>(),
-  {
-    saturation: 0.0,
-    hue: 0.0,
-  },
-)
+const props = defineProps<HueSaturationPmndrsProps>()
 
 const { pass, effect } = useEffectPmndrs(() => new HueSaturationEffect(props), props)
 

@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { watch } from 'vue'
 import type { BlendFunction } from 'postprocessing'
 import { ScanlineEffect } from 'postprocessing'
 import { makePropWatchers } from '../../util/prop'
@@ -26,14 +27,7 @@ export interface ScanlinePmndrsProps {
   opacity?: number
 }
 
-const props = withDefaults(
-  defineProps<ScanlinePmndrsProps>(),
-  {
-    density: 1.25,
-    opacity: 1.0,
-    scrollSpeed: 0.0,
-  },
-)
+const props = defineProps<ScanlinePmndrsProps>()
 
 const { pass, effect } = useEffectPmndrs(() => new ScanlineEffect(props), props)
 
@@ -42,11 +36,27 @@ defineExpose({ pass, effect })
 makePropWatchers(
   [
     [() => props.blendFunction, 'blendMode.blendFunction'],
-    [() => props.opacity, 'blendMode.opacity.value'],
     [() => props.density, 'density'],
     [() => props.scrollSpeed, 'scrollSpeed'],
   ],
   effect,
   () => new ScanlineEffect(),
+)
+
+watch(
+  [() => props.opacity],
+  () => {
+    if (props.opacity !== undefined) {
+      effect.value?.blendMode.setOpacity(props.opacity)
+    }
+    else {
+      const plainEffect = new ScanlineEffect()
+      effect.value?.blendMode.setOpacity(plainEffect.blendMode.getOpacity())
+      plainEffect.dispose()
+    }
+  },
+  {
+    immediate: true,
+  },
 )
 </script>
