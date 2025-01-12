@@ -57,6 +57,7 @@ export default defineConfig({
           { text: 'Chromatic Aberration', link: '/guide/pmndrs/chromatic-aberration' },
           { text: 'Sepia', link: '/guide/pmndrs/sepia' },
           { text: 'Scanline', link: '/guide/pmndrs/scanline' },
+          { text: 'Shock Wave', link: '/guide/pmndrs/shock-wave' },
           { text: 'Pixelation', link: '/guide/pmndrs/pixelation' },
           { text: 'Vignette', link: '/guide/pmndrs/vignette' },
           { text: 'Barrel blur', link: '/guide/pmndrs/barrel-blur' },

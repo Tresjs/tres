@@ -26,6 +26,7 @@ declare module 'vue' {
     PixelationDemo: typeof import('./.vitepress/theme/components/pmdrs/PixelationDemo.vue')['default']
     PixelationThreeDemo: typeof import('./.vitepress/theme/components/three/PixelationThreeDemo.vue')['default']
     ScanlineDemo: typeof import('./.vitepress/theme/components/pmdrs/ScanlineDemo.vue')['default']
+    ShockWaveDemo: typeof import('./.vitepress/theme/components/pmdrs/ShockWaveDemo.vue')['default']
     SepiaDemo: typeof import('./.vitepress/theme/components/pmdrs/SepiaDemo.vue')['default']
     SMAAThreeDemo: typeof import('./.vitepress/theme/components/three/SMAAThreeDemo.vue')['default']
     TiltShiftDemo: typeof import('./.vitepress/theme/components/pmdrs/TiltShiftDemo.vue')['default']
