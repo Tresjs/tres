@@ -14,6 +14,7 @@ import ToneMappingPmndrs, { type ToneMappingPmndrsProps } from './ToneMappingPmn
 import ChromaticAberrationPmndrs, { type ChromaticAberrationPmndrsProps } from './ChromaticAberrationPmndrs.vue'
 import HueSaturationPmndrs, { type HueSaturationPmndrsProps } from './HueSaturationPmndrs.vue'
 import ScanlinePmndrs, { type ScanlinePmndrsProps } from './ScanlinePmndrs.vue'
+import ColorAveragePmndrs, { type ColorAveragePmndrsProps } from './ColorAveragePmndrs.vue'
 import LensDistortionPmndrs, { type LensDistortionPmndrsProps } from './LensDistortionPmndrs.vue'
 import ShockWavePmndrs, { type ShockWavePmndrsProps } from './ShockWavePmndrs.vue'
 import DepthPickingPassPmndrs, { type DepthPickingPassPmndrsProps } from './DepthPickingPassPmndrs.vue'
@@ -38,6 +39,7 @@ export {
   ChromaticAberrationPmndrs,
   HueSaturationPmndrs,
   ScanlinePmndrs,
+  ColorAveragePmndrs,
   LensDistortionPmndrs,
   ShockWavePmndrs,
   DepthPickingPassPmndrs,
@@ -58,6 +60,7 @@ export {
   ChromaticAberrationPmndrsProps,
   HueSaturationPmndrsProps,
   ScanlinePmndrsProps,
+  ColorAveragePmndrsProps,
   LensDistortionPmndrsProps,
   ShockWavePmndrsProps,
   DepthPickingPassPmndrsProps,
