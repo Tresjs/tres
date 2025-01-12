@@ -21,7 +21,6 @@ export interface HueSaturationPmndrsProps {
    * The blend function. Defines how the effect blends with the original scene.
    */
   blendFunction?: BlendFunction
-
 }
 
 const props = withDefaults(

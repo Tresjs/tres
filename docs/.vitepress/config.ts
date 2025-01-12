@@ -61,6 +61,7 @@ export default defineConfig({
           { text: 'Vignette', link: '/guide/pmndrs/vignette' },
           { text: 'Barrel blur', link: '/guide/pmndrs/barrel-blur' },
           { text: 'Hue & Saturation', link: '/guide/pmndrs/hue-saturation' },
+          { text: 'Tilt Shift', link: '/guide/pmndrs/tilt-shift' },
           { text: 'Dot Screen', link: '/guide/pmndrs/dot-screen' },
         ],
       },
