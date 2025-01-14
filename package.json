@@ -2,7 +2,7 @@
   "name": "@tresjs/nuxt",
   "type": "module",
   "version": "3.0.7",
-  "packageManager": "pnpm@9.15.0",
+  "packageManager": "pnpm@9.15.4",
   "description": "TresJS integration for Nuxt.",
   "author": "Daniel Roe (https://github.com/danielroe/)",
   "license": "MIT",
