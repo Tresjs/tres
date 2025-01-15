@@ -15,7 +15,6 @@ import { bold, gray, lightGreen, magenta } from 'kolorist'
 
 import pkg from './package.json'
 
-function noop() {}
 // eslint-disable-next-line no-console
 console.log(`${lightGreen('▲')} ${gray('■')} ${magenta('🍰')} ${bold('Tres/leches')} v${pkg.version}`)
 
