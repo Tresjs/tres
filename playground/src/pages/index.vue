@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { Vector3, Vector2 } from 'three'
+import { Vector3 } from 'three'
 import { TresCanvas } from '@tresjs/core'
 import { OrbitControls } from '@tresjs/cientos'
 
 import { TresLeches, useControls } from '@tresjs/leches'
 
 /* import '@tresjs/leches/style.css' */
-import { reactive, ref, watchEffect } from 'vue'
+import { reactive, ref } from 'vue'
 
 const gl = reactive({
   clearColor: '#82DBC5',

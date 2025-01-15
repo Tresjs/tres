@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
-import { BasicShadowMap, SRGBColorSpace, NoToneMapping } from 'three'
+import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
 
 import { OrbitControls, Sphere } from '@tresjs/cientos'
 
@@ -18,6 +18,7 @@ useControls({
   reset: {
     type: 'button',
     onClick: () => {
+      // eslint-disable-next-line no-console
       console.log('Reset')
     },
     icon: 'i-carbon-reset',
@@ -28,6 +29,7 @@ useControls({
     type: 'button',
     variant: 'secondary',
     onClick: () => {
+      // eslint-disable-next-line no-console
       console.log('accept')
     },
     icon: 'i-carbon-checkmark',

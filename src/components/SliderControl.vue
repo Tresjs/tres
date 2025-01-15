@@ -77,7 +77,7 @@ watch(mouse.x, (newValue) => {
       :max="control.max"
       :step="control.step"
       @input="onChange"
-    >
+    />
     <input
       :value="control.value"
       class="
@@ -101,7 +101,7 @@ watch(mouse.x, (newValue) => {
       @input="onChange"
       @mousedown="onInputMouseDown"
       @mouseup="onInputMouseUp"
-    >
+    />
   </div>
 </template>
 

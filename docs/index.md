@@ -20,4 +20,3 @@ features:
   - title: 🔥
     details: Sexy by default
 ---
-

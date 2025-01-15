@@ -26,14 +26,14 @@ function onChange(event: Event) {
       :class="{ 'important-tl-outline-gray-200': control.value === '#ffffff' }"
       type="color"
       @input="onChange"
-    >
+    />
     <input
       :id="control.uniqueKey"
       tabindex="0"
       :aria-label="label"
       :value="control.value"
       class="
-        tl-p-2 
+        tl-p-2
         tl-w-2/3
         tl-rounded
         tl-text-right
@@ -45,7 +45,7 @@ function onChange(event: Event) {
       "
       type="text"
       @input="onChange"
-    >
+    />
   </div>
 </template>
 

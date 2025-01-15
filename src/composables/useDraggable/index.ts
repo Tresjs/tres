@@ -3,13 +3,13 @@ import { isClient, toRefs, toValue } from '@vueuse/shared'
 import { useEventListener, useWindowSize } from '@vueuse/core'
 import { computed, ref, watch } from 'vue'
 
-export const defaultWindow = /*#__PURE__*/ isClient ? window : undefined
+export const defaultWindow = /* #__PURE__ */ isClient ? window : undefined
 
 export interface Position {
   x: number
   y: number
 }
-  
+
 export interface RenderableComponent {
   /**
      * The element that the component should be rendered as
@@ -18,7 +18,7 @@ export interface RenderableComponent {
      */
   as?: object | string
 }
-  
+
 export type PointerType = 'mouse' | 'touch' | 'pen'
 
 export interface UseDraggableOptions {
@@ -128,11 +128,11 @@ export function useDraggable(
 
   const { width } = useWindowSize()
   let initialWindowWidth = width.value // Store the initial window width outside the function
-  
+
   const position = ref<Position>(
     toValue(initialValue) ?? { x: 0, y: 0 },
   )
-  
+
   watch(width, () => {
     const difference = width.value - initialWindowWidth // Calculate the difference
     position.value.x += difference // Adjust the element's x position
@@ -142,44 +142,34 @@ export function useDraggable(
   const pressedDelta = ref<Position>()
 
   const filterEvent = (e: PointerEvent) => {
-    if (pointerTypes)
-      return pointerTypes.includes(e.pointerType as PointerType)
+    if (pointerTypes) { return pointerTypes.includes(e.pointerType as PointerType) }
     return true
   }
 
   const handleEvent = (e: PointerEvent) => {
-    if (toValue(preventDefault))
-      e.preventDefault()
-    if (toValue(stopPropagation))
-      e.stopPropagation()
+    if (toValue(preventDefault)) { e.preventDefault() }
+    if (toValue(stopPropagation)) { e.stopPropagation() }
   }
 
   const start = (e: PointerEvent) => {
-    if (!filterEvent(e))
-      return
-    if (toValue(exact) && e.target !== toValue(target))
-      return
+    if (!filterEvent(e)) { return }
+    if (toValue(exact) && e.target !== toValue(target)) { return }
     const rect = toValue(target)!.getBoundingClientRect()
     const pos = {
       x: e.clientX - rect.left,
       y: e.clientY - rect.top,
     }
-    if (onStart?.(pos, e) === false)
-      return
+    if (onStart?.(pos, e) === false) { return }
     pressedDelta.value = pos
     handleEvent(e)
   }
   const move = (e: PointerEvent) => {
-    if (!filterEvent(e))
-      return
-    if (!pressedDelta.value)
-      return
+    if (!filterEvent(e)) { return }
+    if (!pressedDelta.value) { return }
 
     let { x, y } = position.value
-    if (axis === 'x' || axis === 'both')
-      x = e.clientX - pressedDelta.value.x
-    if (axis === 'y' || axis === 'both')
-      y = e.clientY - pressedDelta.value.y
+    if (axis === 'x' || axis === 'both') { x = e.clientX - pressedDelta.value.x }
+    if (axis === 'y' || axis === 'both') { y = e.clientY - pressedDelta.value.y }
     position.value = {
       x,
       y,
@@ -188,10 +178,8 @@ export function useDraggable(
     handleEvent(e)
   }
   const end = (e: PointerEvent) => {
-    if (!filterEvent(e))
-      return
-    if (!pressedDelta.value)
-      return
+    if (!filterEvent(e)) { return }
+    if (!pressedDelta.value) { return }
     pressedDelta.value = undefined
     onEnd?.(position.value, e)
     handleEvent(e)

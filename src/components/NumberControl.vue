@@ -86,6 +86,6 @@ watch(mouse.x, (newValue) => {
       @input="onChange"
       @mousedown="onInputMouseDown"
       @mouseup="onInputMouseUp"
-    >
+    />
   </div>
 </template>

@@ -19,7 +19,7 @@ export interface UseDraggableProps extends UseDraggableOptions, RenderableCompon
   storageType?: 'local' | 'session'
 }
 
-export const UseDraggable = /*#__PURE__*/ defineComponent<UseDraggableProps>({
+export const UseDraggable = /* #__PURE__ */ defineComponent<UseDraggableProps>({
   name: 'UseDraggable',
   props: [
     'storageKey',
@@ -51,8 +51,7 @@ export const UseDraggable = /*#__PURE__*/ defineComponent<UseDraggableProps>({
     const initialValue = storageValue || props.initialValue || { x: 0, y: 0 }
     const onEnd = (position: Position, event: PointerEvent) => {
       props.onEnd?.(position, event)
-      if (!storageValue)
-        return
+      if (!storageValue) { return }
       storageValue.value.x = position.x
       storageValue.value.y = position.y
     }
@@ -65,8 +64,7 @@ export const UseDraggable = /*#__PURE__*/ defineComponent<UseDraggableProps>({
     }))
 
     return () => {
-      if (slots.default)
-        return h(props.as || 'div', { ref: target, style: `touch-action:none;${data.style}` }, slots.default(data))
+      if (slots.default) { return h(props.as || 'div', { ref: target, style: `touch-action:none;${data.style}` }, slots.default(data)) }
     }
   },
 })

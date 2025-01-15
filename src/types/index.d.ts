@@ -15,16 +15,14 @@ export type SchemaOrFn<S extends Schema = Schema> = S | (() => S)
   options?: Array<{ text: string; value: string }>
 } */
 
-
 // Define the Control type
 export interface Control {
-  label: Ref<string>;
-  name: Ref<string>;
-  type: Ref<string>;
-  value: Ref<unknown>;
-  visible: Ref<boolean>;
-  icon: Ref<string>;
-  options?: Array<{ text: string; value: string }>
-  [key: string]: Ref<any> | Ref<boolean>;
+  label: Ref<string>
+  name: Ref<string>
+  type: Ref<string>
+  value: Ref<unknown>
+  visible: Ref<boolean>
+  icon: Ref<string>
+  options?: Array<{ text: string, value: string }>
+  [key: string]: Ref<any> | Ref<boolean>
 }
-

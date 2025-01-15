@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { TresLeches, useControls } from '@tresjs/leches'
-import { ref, watch } from 'vue'
+import { ref } from 'vue'
 
 const value = ref('Click a button')
-const size = ref('sm')
+// const size = ref('sm')
 const uuid = 'button-sizes'
 useControls({
   sm: {

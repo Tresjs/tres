@@ -45,7 +45,7 @@ const toggle = () => {
       @click="toggle"
     >
       <span>{{ label }}</span>
-      <i :class="isOpen ? 'i-ic:baseline-keyboard-arrow-up' : 'i-ic:baseline-keyboard-arrow-down'" />
+      <i :class="isOpen ? 'i-ic:baseline-keyboard-arrow-up' : 'i-ic:baseline-keyboard-arrow-down'"></i>
     </button>
 
     <Transition

@@ -16,7 +16,7 @@ defineProps<{
     <i
       v-if="control.icon"
       :class="control.icon"
-    />
+    ></i>
     <template v-else>{{ label }}</template>
   </label>
 </template>

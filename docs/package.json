@@ -13,7 +13,7 @@
     "three": "^0.158.0"
   },
   "devDependencies": {
-    "@iconify-json/carbon": "^1.1.23",
+    "@iconify-json/carbon": "^1.2.5",
     "unocss": "^0.57.7"
   }
 }

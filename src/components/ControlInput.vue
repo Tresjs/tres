@@ -70,7 +70,7 @@ function onChange(value: string) {
       :class="control.value.size === 'tl-block' ? 'tl-flex' : 'tl-inline-flex'"
     >
       <ButtonControl
-   
+
         :label="control.label"
         :control="control"
       />

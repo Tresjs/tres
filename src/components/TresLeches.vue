@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Ref } from 'vue'
-import { ref, toRefs, unref, computed } from 'vue'
+import { computed, ref, toRefs, unref } from 'vue'
 import { useWindowSize } from '@vueuse/core'
 import { UseDraggable } from '../composables/useDraggable/component'
 import { useControlsProvider } from '../composables/useControls'
@@ -73,11 +73,11 @@ const groupedControls = computed(() => {
             tl-text-xs"
         >🍰</i>
         <div>
-          <i class="i-ic-baseline-drag-indicator" /><i class="i-ic-baseline-drag-indicator" /><i
+          <i class="i-ic-baseline-drag-indicator"></i><i class="i-ic-baseline-drag-indicator"></i><i
             class="i-ic-baseline-drag-indicator"
-          />
+          ></i>
         </div>
-        <div />
+        <div></div>
       </header>
       <template
         v-for="(group, folderName) of groupedControls"
@@ -89,11 +89,11 @@ const groupedControls = computed(() => {
           :controls="group"
         />
         <template v-if="folderName === 'default'">
-          <ControlInput 
-            v-for="control in group"  
-            :key="control.label" 
-            :control="control" 
-            @change="newValue => onChange(control.key, newValue)" 
+          <ControlInput
+            v-for="control in group"
+            :key="control.label"
+            :control="control"
+            @change="newValue => onChange(control.key, newValue)"
           />
         </template>
       </template>

@@ -1,4 +1,4 @@
-name: "\U0001F41E Bug report"
+name: 🐞 Bug report
 description: Report an issue with TresJS ▲ ■ ● or any of it's packages
 labels: [pending triage]
 body:
@@ -6,7 +6,7 @@ body:
     attributes:
       value: |
         Thanks for taking the time to fill out this bug report!
-- type: textarea
+  - type: textarea
     id: bug-description
     attributes:
       label: Describe the bug

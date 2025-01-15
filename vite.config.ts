@@ -10,13 +10,11 @@ import analyze from 'rollup-plugin-analyzer'
 import { visualizer } from 'rollup-plugin-visualizer'
 import { resolve } from 'pathe'
 import UnoCSS from 'unocss/vite'
-import { presetUno, presetIcons, presetWebFonts, transformerDirectives } from 'unocss'
-import { lightGreen, magenta, gray, bold } from 'kolorist'
-import cssInjectedByJsPlugin from 'vite-plugin-css-injected-by-js'
+import { presetIcons, presetUno, presetWebFonts, transformerDirectives } from 'unocss'
+import { bold, gray, lightGreen, magenta } from 'kolorist'
 
 import pkg from './package.json'
 
-function noop() {}
 // eslint-disable-next-line no-console
 console.log(`${lightGreen('▲')} ${gray('■')} ${magenta('🍰')} ${bold('Tres/leches')} v${pkg.version}`)
 
@@ -43,7 +41,7 @@ export default defineConfig({
           scale: 1.2,
           warn: true,
           extraProperties: {
-            display: 'inline-block',
+            'display': 'inline-block',
             'vertical-align': 'middle',
             // ...
           },
@@ -60,42 +58,6 @@ export default defineConfig({
     /*  cssInjectedByJsPlugin(), */
 
   ],
-  test: {
-    environment: process.env.BROWSER_TEST ? 'node' : 'jsdom',
-    globals: true,
-    threads: false,
-    alias: {
-      '/@': resolve(__dirname, './src'),
-    },
-    isolate: !process.env.BROWSER_TEST,
-    browser: {
-      enabled: !!process.env.BROWSER_TEST,
-
-      // @ts-expect-error ignore, we don't have the type here in vitest
-      enableUI: true,
-      name: 'chrome',
-      headless: !!process.env.HEADLESS,
-      provider: 'webdriverio',
-    },
-    reporters: process.env.BROWSER_TEST
-      ? [
-          'json',
-          {
-            onInit: noop,
-            onPathsCollected: noop,
-            onCollected: noop,
-            onFinished: noop,
-            onTaskUpdate: noop,
-            onTestRemoved: noop,
-            onWatcherStart: noop,
-            onWatcherRerun: noop,
-            onServerRestart: noop,
-            onUserConsoleLog: noop,
-          },
-          'default',
-        ]
-      : undefined,
-  },
   build: {
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
@@ -121,7 +83,7 @@ export default defineConfig({
         // for externalized deps
         globals: {
           '@vueuse/core': 'VueUseCore',
-          vue: 'Vue',
+          'vue': 'Vue',
         },
       },
     },
