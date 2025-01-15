@@ -10,9 +10,8 @@ import analyze from 'rollup-plugin-analyzer'
 import { visualizer } from 'rollup-plugin-visualizer'
 import { resolve } from 'pathe'
 import UnoCSS from 'unocss/vite'
-import { presetUno, presetIcons, presetWebFonts, transformerDirectives } from 'unocss'
-import { lightGreen, magenta, gray, bold } from 'kolorist'
-import cssInjectedByJsPlugin from 'vite-plugin-css-injected-by-js'
+import { presetIcons, presetUno, presetWebFonts, transformerDirectives } from 'unocss'
+import { bold, gray, lightGreen, magenta } from 'kolorist'
 
 import pkg from './package.json'
 
@@ -43,7 +42,7 @@ export default defineConfig({
           scale: 1.2,
           warn: true,
           extraProperties: {
-            display: 'inline-block',
+            'display': 'inline-block',
             'vertical-align': 'middle',
             // ...
           },
@@ -121,7 +120,7 @@ export default defineConfig({
         // for externalized deps
         globals: {
           '@vueuse/core': 'VueUseCore',
-          vue: 'Vue',
+          'vue': 'Vue',
         },
       },
     },

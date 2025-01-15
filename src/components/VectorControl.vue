@@ -30,7 +30,7 @@ watch(shiftKeyState, (newValue) => {
 watch(altKeyState, (newValue) => {
   step.value = newValue ? 0.1 : 1
 })
-  
+
 const onInputFocus = ($index: number) => {
   focused.value = $index
 }
@@ -43,7 +43,6 @@ const onInputMouseDown = (event: MouseEvent, $index: number) => {
   index.value = $index
   initialMouseX.value = event.clientX
   isMouseDown.value = true
-
 }
 
 const onInputMouseUp = (_event: MouseEvent, $index: number) => {
@@ -73,7 +72,7 @@ function onChange(event: Event, $index: number) {
   const { target } = event
   index.value = $index
 
-  value[isVector.value ? labels.value[index.value] : index.value] = parseFloat((target as HTMLInputElement).value)
+  value[isVector.value ? labels.value[index.value] : index.value] = Number.parseFloat((target as HTMLInputElement).value)
   emit('change', value)
 }
 
@@ -120,11 +119,11 @@ watch(mouse.x, (newValue) => {
         v-for="(_subcontrol, $index) in vector"
         :key="label + $index"
         class="tl-flex tl-items-center tl-bg-gray-100 tl-rounded"
-        :class="{ 
+        :class="{
           'tl-w-2/5': focused === $index,
-          'tl-w-1/3': isVector3(control.value), 
-          'tl-w-1/2': isVector2(control.value), 
-        }" 
+          'tl-w-1/3': isVector3(control.value),
+          'tl-w-1/2': isVector2(control.value),
+        }"
       >
         <span
           v-if="labels[$index] && isVector"
@@ -132,7 +131,7 @@ watch(mouse.x, (newValue) => {
         >{{
           labels[$index]
         }}</span>
-        
+
         <input
           :id="`${control.uniqueKey}-${labels[$index]}`"
           type="number"
@@ -155,8 +154,8 @@ watch(mouse.x, (newValue) => {
           @mousedown="onInputMouseDown($event, $index)"
           @mouseup="onInputMouseUp($event, $index)"
           @focus="onInputFocus($index)"
-          @blur="onInputBlur"         
-        >
+          @blur="onInputBlur"
+        />
       </div>
     </div>
   </div>

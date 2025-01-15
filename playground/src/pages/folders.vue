@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
-import { BasicShadowMap, SRGBColorSpace, NoToneMapping, Vector3, Vector2 } from 'three'
+import { BasicShadowMap, NoToneMapping, SRGBColorSpace, Vector3 } from 'three'
 
 import { OrbitControls, Sphere } from '@tresjs/cientos'
 
@@ -21,6 +21,7 @@ useControls('camera', {
     type: 'button',
     variant: 'secondary',
     onClick: () => {
+      // eslint-disable-next-line no-console
       console.log('accept')
     },
     icon: 'i-carbon-checkmark',

@@ -8,7 +8,7 @@
  *
  * Each colors have exact same color scale system with 3 levels of solid
  * colors with different brightness, and 1 soft color.
- * 
+ *
  * - `XXX-1`: The most solid color used mainly for colored text. It must
  *   satisfy the contrast ratio against when used on top of `XXX-soft`.
  *
@@ -43,14 +43,14 @@
  *   in custom container, badges, etc.
  * -------------------------------------------------------------------------- */
 
- :root {
+:root {
   --vp-c-dark-1: #181818;
   --vp-c-dark-2: #0f0f0f;
   --vp-c-dark-3: #080808;
   --vp-c-dark-soft: rgba(#080808, 0.14);
- }
+}
 
- :root {
+:root {
   --vp-c-default-1: var(--vp-c-gray-1);
   --vp-c-default-2: var(--vp-c-gray-2);
   --vp-c-default-3: var(--vp-c-gray-3);
@@ -104,8 +104,7 @@
   --vp-button-brand-active-text: var(--vp-c-white);
   --vp-button-brand-active-bg: var(--vp-c-dark-2);
 
-/*   border: 1px solid var(--vp-button-brand-border); */
-
+  /*   border: 1px solid var(--vp-button-brand-border); */
 }
 
 .VPButton {
@@ -145,4 +144,3 @@
 .DocSearch {
   --docsearch-primary-color: var(--vp-c-brand-1) !important;
 }
-

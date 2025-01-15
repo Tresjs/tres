@@ -4,13 +4,12 @@
 
 ```html
 <script lang="ts" setup>
-import { useControls, TresLeches } from '@tresjs/leches'
-import '@tresjs/leches/styles'
+  import { useControls, TresLeches } from '@tresjs/leches'
+  import '@tresjs/leches/styles'
 
-const control = useControls({
-  awiwi: true,
-})
-
+  const control = useControls({
+    awiwi: true,
+  })
 </script>
 
 <template>
@@ -56,26 +55,24 @@ watchEffect(() => {
 
 Most commonly, you will want to use multiple controls at the same time. In this case, the `useControls` composable is going to return an object with the controls. The returned controls are objects with ref properties (exactly as when you use only one control) meaning that you can deconstruct them without loosing reactivity.
 
-
 ```html
 <script lang="ts" setup>
-import { useControls, TresLeches } from '@tresjs/leches'
-import '@tresjs/leches/styles'
+  import { useControls, TresLeches } from '@tresjs/leches'
+  import '@tresjs/leches/styles'
 
-const { awiwi, slider} = useControls({
-  awiwi: true,
-  slider: {
-    value: 0.5,
-    min: 0,
-    max: 1,
-    step: 0.01,
-  }
-})
+  const { awiwi, slider } = useControls({
+    awiwi: true,
+    slider: {
+      value: 0.5,
+      min: 0,
+      max: 1,
+      step: 0.01,
+    },
+  })
 
-watchEffect(() => {
-  console.log(awiwi.value.value)
-})
-
+  watchEffect(() => {
+    console.log(awiwi.value.value)
+  })
 </script>
 
 <template>
@@ -91,26 +88,25 @@ The control object has a `visible` property that can be used to hide the control
 
 ```html
 <script lang="ts" setup>
-import { useControls, TresLeches } from '@tresjs/leches'
-import '@tresjs/leches/styles'
+  import { useControls, TresLeches } from '@tresjs/leches'
+  import '@tresjs/leches/styles'
 
-const visibilityControl = useControls({
-  isVisible: true
-})
+  const visibilityControl = useControls({
+    isVisible: true,
+  })
 
-const { visible } = useControls({
-  slider: {
-    value: 0.5,
-    min: 0,
-    max: 1,
-    step: 0.01,
-  }
-})
+  const { visible } = useControls({
+    slider: {
+      value: 0.5,
+      min: 0,
+      max: 1,
+      step: 0.01,
+    },
+  })
 
-watchEffect(() => {
-  visible.value = visibilityControl.value.value
-})
-
+  watchEffect(() => {
+    visible.value = visibilityControl.value.value
+  })
 </script>
 ```
 
@@ -124,7 +120,6 @@ This packages uses [Unocss Icons preset](https://unocss.dev/presets/icons) under
 
 To do that you would need to install locally `unocss` and the collection of icons that you want to use `@iconify-json/[the-collection-you-want]` (ex: `@iconify-json/mdi`).
 
-
 ```ts
 // uno.config.ts
 import { defineConfig, presetIcons } from 'unocss'
@@ -133,7 +128,7 @@ export default defineConfig({
   presets: [
     presetIcons({
       extraProperties: {
-        display: 'inline-block',
+        'display': 'inline-block',
         'vertical-align': 'middle',
         // ...
       },
@@ -147,18 +142,21 @@ export default defineConfig({
 
 ```html
 <script setup lang="ts">
-import { TresLeches, useControls } from '@tresjs/leches'
-import { Vector3 } from 'three'
+  import { TresLeches, useControls } from '@tresjs/leches'
+  import { Vector3 } from 'three'
 
-const uuid = 'icon'
-const { value } = useControls({
-  message: {
-    value: new Vector3(0, 0, 0),
-    icon: 'i-carbon-camera',
-  },
-}, {
-  uuid,
-})
+  const uuid = 'icon'
+  const { value } = useControls(
+    {
+      message: {
+        value: new Vector3(0, 0, 0),
+        icon: 'i-carbon-camera',
+      },
+    },
+    {
+      uuid,
+    },
+  )
 </script>
 ```
 

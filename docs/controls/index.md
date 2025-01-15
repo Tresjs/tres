@@ -4,7 +4,6 @@
 
 For boolean parameters, checkbox field component will be provided.
 
-
 ```ts
 const { value } = useControls({
   awiwi: true,
@@ -20,7 +19,7 @@ For string parameters, text field component will be provided by default
 ```ts
 const { value } = useControls({
   message: 'I`m a pretty penguin',
-}
+})
 ```
 
 <TextDemo/>
@@ -49,7 +48,7 @@ const { value } = useControls({
 
 <ColorDemo/>
 
-## Range 
+## Range
 
 You can specify a range of number by `min` and `max`. If you specify both of them, slider control will be created.
 

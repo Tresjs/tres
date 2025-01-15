@@ -40,6 +40,6 @@ function onChange(event: Event) {
       :aria-label="label"
       placeholder="Enter value here..."
       @change="onChange"
-    >
+    />
   </div>
 </template>

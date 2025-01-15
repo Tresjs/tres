@@ -30,7 +30,7 @@ function onKeydown(event: KeyboardEvent) {
       class="tl-hidden"
       type="checkbox"
       @input="onChange"
-    >
+    />
     <label
       :for="control.uniqueKey"
       class="tl-inline-flex tl-items-center tl-cursor-pointer"
@@ -40,23 +40,23 @@ function onKeydown(event: KeyboardEvent) {
         role="checkbox"
         :aria-checked="control.value.toString()"
         :class="{ 'tl-bg-dark-500': control.value, 'tl-bg-gray-200': !control.value }"
-        class="tl-w-4 
-          tl-h-4 
-          tl-flex 
-          tl-justify-center 
-          tl-items-center 
-          tl-rounded 
-          tl-border 
-          tl-border-gray-300 
-          tl-mr-2 
-          tl-transition-colors 
+        class="tl-w-4
+          tl-h-4
+          tl-flex
+          tl-justify-center
+          tl-items-center
+          tl-rounded
+          tl-border
+          tl-border-gray-300
+          tl-mr-2
+          tl-transition-colors
           tl-duration-200"
         @keydown="onKeydown"
       >
         <i
           v-show="control.value"
           class="i-ic:baseline-check tl-text-light"
-        /></span>
+        ></i></span>
     </label>
   </div>
 </template>

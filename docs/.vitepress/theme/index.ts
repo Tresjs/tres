@@ -9,7 +9,5 @@ import 'uno.css'
 export default {
   extends: Theme,
   Layout: TreslechesLayout,
-  enhanceApp({ app, router, siteData }) {
-    // ...
-  },
+
 }

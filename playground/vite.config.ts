@@ -2,9 +2,8 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
-import { resolve } from 'pathe'
 import UnoCSS from 'unocss/vite'
-import { presetUno, presetIcons, presetWebFonts, presetTypography, transformerDirectives } from 'unocss'
+import { presetIcons, presetTypography, presetUno, presetWebFonts, transformerDirectives } from 'unocss'
 import { templateCompilerOptions } from '@tresjs/core'
 import { qrcode } from 'vite-plugin-qrcode'
 
@@ -36,26 +35,26 @@ export default defineConfig({
           scale: 1.2,
           warn: true,
           extraProperties: {
-            display: 'inline-block',
+            'display': 'inline-block',
             'vertical-align': 'middle',
             // ...
           },
         }),
         presetTypography({
           cssExtend: {
-            blockquote: {
-              padding: '1rem',
+            'blockquote': {
+              'padding': '1rem',
               'border-radius': '0.5rem',
-              background: '#efefef',
+              'background': '#efefef',
             },
-            pre: {
+            'pre': {
               background: '#333e50 !important',
             },
-            img: {
-              margin: '2rem auto',
+            'img': {
+              'margin': '2rem auto',
               'border-radius': '0.5rem',
             },
-            code: {
+            'code': {
               'font-family': 'DM Mono',
               'font-size': '0.875rem',
             },

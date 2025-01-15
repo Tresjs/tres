@@ -22,7 +22,7 @@ const classes = computed(() => {
   >
     <i
       :class="[control.value.icon, control.value.label ? 'mr-1' : '']"
-    />
+    ></i>
     {{ control.value.label }}
   </button>
 </template>

@@ -1,6 +1,6 @@
-import { isRef, reactive } from 'vue'
-import { afterEach, describe, it, expect } from 'vitest'
-import { useControls, dispose } from '/@/composables/useControls'
+import { isRef } from 'vue'
+import { afterEach, describe, expect, it } from 'vitest'
+import { dispose, useControls } from '/@/composables/useControls'
 
 describe('useControls', () => {
   afterEach(() => {
@@ -23,11 +23,11 @@ describe('useControls', () => {
       expect(isRef(visible)).toBe(true)
     })
     it('should set the initial control label', () => {
-      const { label } = useControls({ 
+      const { label } = useControls({
         test: {
           label: 'Awiwi',
           value: true,
-        } 
+        },
       })
       expect(label.value).toBe('Awiwi')
     })
@@ -42,7 +42,7 @@ describe('useControls', () => {
       } })
       expect(visible.value).toBeFalsy()
     })
-  /*   it('should return refs of all properties', () => {
+    /*   it('should return refs of all properties', () => {
       const { value } = useControls({ test: true })
       expect(isRef(value)).toBe(true)
     })
@@ -55,8 +55,6 @@ describe('useControls', () => {
       expect(obj.value).toBe('awiwi')
       expect(obj.type).toBe('string')
     }) */
-
-
   })
 
   describe('when pass multiple controls', () => {

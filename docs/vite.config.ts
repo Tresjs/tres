@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite'
 import Unocss from 'unocss/vite'
 import Components from 'unplugin-vue-components/vite'
-import { presetUno, presetIcons } from 'unocss'
+import { presetIcons, presetUno } from 'unocss'
 
 export default defineConfig({
   plugins: [
@@ -12,7 +12,7 @@ export default defineConfig({
           scale: 1.2,
           warn: true,
           extraProperties: {
-            display: 'inline-block',
+            'display': 'inline-block',
             'vertical-align': 'middle',
             // ...
           },

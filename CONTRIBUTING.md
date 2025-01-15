@@ -72,6 +72,6 @@ Before opening a pull request, make sure to run `pnpm lint` to make sure the cod
   - Create a `fix/{issue-number}-fix-test-in-core` branch for this bug fix.
   - If you are resolving a special issue, add `(fix #xxx[,#xxx])` (#xxx is the issue id) in your PR title for a better release log, e.g. `update entities encoding/decoding (fix #3899)`.
 
-## Keep core small
+## Keep core small
 
 The core package should be as small as possible, it should only contain the core functionality of the library. If you are adding a new feature, please consider adding it as a plugin instead, for example, if you want to add support for [Effect Composer](https://threejs.org/examples/?q=compo#webgl_postprocessing_effectcomposer) you should create a new package called `@tresjs/postprocessing` and add it as a plugin. If it's a smaller scope you can always add it to `cientos` package.
