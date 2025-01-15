@@ -22,7 +22,7 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/tresleches.js"
     },
-    "./styles": "./dist/style.css",
+    "./styles": "./dist/tresleches.css",
     "./*": "./*"
   },
   "main": "./dist/tresleches.js",
@@ -36,10 +36,10 @@
     "access": "public"
   },
   "scripts": {
-    "dev": "cd playground && npm run dev",
+    "dev": "cd playground && pnpm run dev",
     "build": "vite build",
     "preview": "vite preview",
-    "playground": "cd playground && npm run dev",
+    "playground": "cd playground && pnpm run dev",
     "test": "vitest",
     "test:ci": "vitest run",
     "test:ui": "vitest --ui",
