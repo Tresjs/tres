@@ -1,4 +1,11 @@
+# Changelog
 
+## [0.14.1](https://github.com/Tresjs/leches/compare/0.14.0...0.14.1) (2025-01-15)
+
+### Bug Fixes
+
+* **ControlInput:** replace root element ([9bff2a9](https://github.com/Tresjs/leches/commit/9bff2a96ac64184282400ce8b656ea595da1ed65))
+* update package.json for script and style path adjustments ([1373ec4](https://github.com/Tresjs/leches/commit/1373ec4977f6b7dfef63823357108480772009ac))
 
 ## [0.14.0](https://github.com/Tresjs/leches/compare/0.14.0-next.0...0.14.0) (2023-11-30)
 
