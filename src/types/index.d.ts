@@ -1,28 +1,23 @@
-export type Schema = Record<string, any>
-export type SchemaOrFn<S extends Schema = Schema> = S | (() => S)
+import type { Ref } from 'vue'
 
-/* export type Control = {
-  label: string
-  value?: any
-  type: string
-  visible?: boolean
-  min?: number
-  max?: number
-  step?: number
-  icon?: string
-  controls?: Control[]
-  ref?: Record<string, any>
-  options?: Array<{ text: string; value: string }>
-} */
+export interface SelectOption {
+  text: string
+  value: string | number
+}
 
-// Define the Control type
 export interface Control {
+  key: Ref<string>
   label: Ref<string>
   name: Ref<string>
   type: Ref<string>
-  value: Ref<unknown>
+  value: Ref<any>
   visible: Ref<boolean>
-  icon: Ref<string>
-  options?: Array<{ text: string, value: string }>
-  [key: string]: Ref<any> | Ref<boolean>
+  icon?: Ref<string>
+  uniqueKey: Ref<string>
+  folder?: Ref<string>
+  options?: Ref<SelectOption[]>
+  min?: Ref<number>
+  max?: Ref<number>
+  step?: Ref<number>
+  [key: string]: any
 }

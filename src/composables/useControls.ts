@@ -1,5 +1,5 @@
 import { isReactive, isRef, provide, reactive, ref, type Ref, toRefs } from 'vue'
-import type { Control } from '../types'
+import type { Control, SelectOption } from '../types'
 
 export const CONTROLS_CONTEXT_KEY = Symbol('CONTROLS_CONTEXT_KEY')
 const DEFAULT_UUID = 'default'
@@ -121,15 +121,15 @@ export const useControls = (
       const control = createControl(key, reactiveValue, controlType, folderName)
 
       if (controlType === 'select') {
-        control.options = ref(controlOptions.options.map((option: string | { text: string, value: any }) => {
-          if (typeof option === 'object' && option.text && option.value) {
-            return option
-          }
-          else {
-            return {
-              text: option,
-              value: option,
+        control.options = ref<SelectOption[]>(controlOptions.options.map((option: string | SelectOption) => {
+          if (typeof option === 'object') {
+            if ('text' in option && 'value' in option) {
+              return option as SelectOption
             }
+          }
+          return {
+            text: String(option),
+            value: option,
           }
         }))
       }
@@ -141,7 +141,9 @@ export const useControls = (
       }
 
       control.label.value = controlOptions.label || key
-      control.icon.value = controlOptions.icon
+      if (control.icon?.value) {
+        control.icon.value = controlOptions.icon
+      }
       control.visible.value = controlOptions.visible !== undefined ? controlOptions.visible : true
       control.uniqueKey.value = uniqueKey
       controls[uniqueKey] = control
