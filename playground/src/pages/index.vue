@@ -1,68 +1,66 @@
 <script setup lang="ts">
-import { Vector3 } from 'three'
-import { TresCanvas } from '@tresjs/core'
-import { OrbitControls } from '@tresjs/cientos'
+import {
+  advancedRoutes,
+  basicRoutes,
+} from '../router/routes'
 
-import { TresLeches, useControls } from '@tresjs/leches'
-
-/* import '@tresjs/leches/style.css' */
-import { reactive, ref } from 'vue'
-
-const gl = reactive({
-  clearColor: '#82DBC5',
-})
-
-const cameraRef = ref()
-const boxRef = ref()
-useControls('fpsgraph')
-
-const { wireframe, camPos, position, rotation } = useControls({
-  wireframe: false,
-  camPos: new Vector3(4, 4, 4),
-  position: new Vector3(0, 1, 2),
-  rotation: {
-    value: new Vector3(5, 5, 5),
-  },
-  select: {
-    value: 'option1',
-    options: ['option1', 'option2', 'option3'],
-    icon: 'i-carbon-checkmark',
-  },
-  range: {
-    value: 1,
-    min: 0,
-    max: 10,
-    step: 0.1,
-  },
-})
+const sections = [
+  { icon: '📦', title: 'Basic', routes: basicRoutes },
+  { icon: '🤓', title: 'Advanced', routes: advancedRoutes },
+]
 </script>
 
 <template>
-  <TresLeches />
-  <TresCanvas v-bind="gl">
-    <TresPerspectiveCamera
-      ref="cameraRef"
-      :position="[camPos.value.x, camPos.value.y, camPos.value.z]"
-      :look-at="[1, 2, 0]"
-    />
-    <TresMesh
-      ref="boxRef"
-      :position="[position.value.x, position.value.y, position.value.z]"
-      :rotation="[rotation.value.x, rotation.value.y, rotation.value.z]"
-      :scale="[2, 2, 2]"
-    >
-      <TresBoxGeometry />
-      <TresMeshNormalMaterial
-        color="teal"
-        :wireframe="wireframe.value"
-      />
-    </TresMesh>
-    <TresGridHelper />
-    <TresAmbientLight :intensity="1" />
-    <TresDirectionalLight
-      :position="[3, 3, 3]"
-      :intensity="1"
-    />
-    <OrbitControls />
-  </TresCanvas>
+  <div
+    class="container mx-auto max-w-3xl font-sans text-xs color-gray bg-white"
+  >
+    <div class="mx-4">
+      <div
+        class="mt-24 mb-12 text-center align-baseline items-center gap-6 sm:mt-16 sm:mb-6 sm:text-left sm:flex sm:flex-row-reverse sm:justify-left"
+      >
+        <div>
+          🍰
+        </div>
+        <div class="sm:w-2/3">
+          <h1
+            class="w-auto max-w-75 mx-auto text-5xl text-zinc-700 mb-3 sm:mx-none sm:w-1/2 sm:max-w-72"
+          >
+            <span class="text-tres-primary">TresJS Leches</span> Playground
+          </h1>
+          <p class="text-lg">Testing zone for TresJS/leches</p>
+        </div>
+      </div>
+      <div
+        class="text-center sm:text-left sm:grid sm:grid-cols-2 md:grid-cols-3 gap-4"
+      >
+        <div
+          v-for="{ title, routes, icon } in sections"
+          :key="title"
+          class="p-4 my-4 leading-normal size-m weight-600 bg-zinc-50 rounded sm:my-0"
+        >
+          <div
+            class="inline-block p-2 p-x-3 m-b-3 text-2xl bg-zinc-200 rounded"
+          >
+            {{ icon }}
+          </div>
+          <h2 class="text-sm p-0 m-0 mb-1.5 font-semibold text-zinc-600">
+            {{ title }}
+          </h2>
+          <div v-if="routes.length">
+            <div v-for="route in routes" :key="route.name" class="link-wrapper">
+              <router-link
+                class="no-underline text-zinc-700 visited:text-zinc-400 hover:text-cientos-blue"
+                :to="route.path"
+              >
+                <span>{{ route.name }} </span>
+              </router-link>
+            </div>
+          </div>
+          <div v-else>
+            (empty)
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
