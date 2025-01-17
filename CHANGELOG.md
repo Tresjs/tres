@@ -1,4 +1,34 @@
+# Changelog
 
+## [4.1.0](https://github.com/Tresjs/cientos/compare/4.0.3...4.1.0) (2025-01-17)
+
+### Features
+
+* **Align:** add component, demo, docs ([#544](https://github.com/Tresjs/cientos/issues/544)) ([e3ee52c](https://github.com/Tresjs/cientos/commit/e3ee52c97c769935e7144c6ca423427cf93447a3))
+* **Billboard:** add component, playground, docs ([#527](https://github.com/Tresjs/cientos/issues/527)) ([418e6ae](https://github.com/Tresjs/cientos/commit/418e6ae0d1d06fb689a5e583ff200d2f4de54848))
+* **CubeCamera:** add component, demo, docs ([#537](https://github.com/Tresjs/cientos/issues/537)) ([02ed01c](https://github.com/Tresjs/cientos/commit/02ed01ca14d1f154c888ed9eeb7e95d63ad225a1))
+* edges ([#390](https://github.com/Tresjs/cientos/issues/390)) ([60c200d](https://github.com/Tresjs/cientos/commit/60c200d19d7f82781632576c22e3b15ea118ac5c))
+* **gradientTexture:** add component, demo, docs ([#531](https://github.com/Tresjs/cientos/issues/531)) ([58d0fdb](https://github.com/Tresjs/cientos/commit/58d0fdb582e0c9ca464648ece256094cda1f427f))
+* **Grid:** add component, demo, docs ([#540](https://github.com/Tresjs/cientos/issues/540)) ([096ab5d](https://github.com/Tresjs/cientos/commit/096ab5d76b5dc9760528765fc2aebbf548affb9a))
+* **Image:** add component, playground, docs ([#529](https://github.com/Tresjs/cientos/issues/529)) ([ad916a2](https://github.com/Tresjs/cientos/commit/ad916a2e58f1fdb4409c5ab9fcdfa9cabff418b3))
+* **Mask:** add component, demo, docs ([#552](https://github.com/Tresjs/cientos/issues/552)) ([0fb8952](https://github.com/Tresjs/cientos/commit/0fb895295f00f46e118b0e8b740834379a1d53d3))
+* **MeshDiscardMaterial:** add component, playground, docs ([#525](https://github.com/Tresjs/cientos/issues/525)) ([7a23019](https://github.com/Tresjs/cientos/commit/7a23019c0cefb9c16954c7224369614748da06b9))
+* **Outline:** add component, demo, docs ([#532](https://github.com/Tresjs/cientos/issues/532)) ([5bae4de](https://github.com/Tresjs/cientos/commit/5bae4de1005cda00d7ad6ecbb25a96e64441b78f))
+* **ScreenSizer:** add component, playground, docs ([#535](https://github.com/Tresjs/cientos/issues/535)) ([ee5af96](https://github.com/Tresjs/cientos/commit/ee5af96cebb12487fa519ce638624bdd375d37be))
+* **ScreenSpace:** add component, demo, docs ([#536](https://github.com/Tresjs/cientos/issues/536)) ([e43f112](https://github.com/Tresjs/cientos/commit/e43f1122248fbd35d00b590fe165c5ac57246d25))
+* **SoftShadows:** add component, demo, docs ([#541](https://github.com/Tresjs/cientos/issues/541)) ([e71cdad](https://github.com/Tresjs/cientos/commit/e71cdad6c9b9b0a9a65c9fce838498b373711875))
+
+### Bug Fixes
+
+* 581 environment lightformers are not working ([#584](https://github.com/Tresjs/cientos/issues/584)) ([653a5df](https://github.com/Tresjs/cientos/commit/653a5df0468c984f307e4b3efd4bdccbaaceef6d))
+* build dts error TS7056 ([#521](https://github.com/Tresjs/cientos/issues/521)) ([c16c6e5](https://github.com/Tresjs/cientos/commit/c16c6e594f4a0662739343181ad8103644f8514d))
+* **deps:** update dependency @tresjs/core to v4.3.0 ([#503](https://github.com/Tresjs/cientos/issues/503)) ([83fa2bf](https://github.com/Tresjs/cientos/commit/83fa2bf1c61e8d62cccd1772fccc251c3109c984))
+* **deps:** update dependency vue-router to v4.4.5 ([#488](https://github.com/Tresjs/cientos/issues/488)) ([0840b88](https://github.com/Tresjs/cientos/commit/0840b885dd960eeeb10077d15f606a2644412474))
+* instance properties and fix demo ([#561](https://github.com/Tresjs/cientos/issues/561)) ([f0fb337](https://github.com/Tresjs/cientos/commit/f0fb337d3f3900485708839898bba797f8a6f7ab))
+* **KeyboardControls:** support non-qwerty keyboards ([#573](https://github.com/Tresjs/cientos/issues/573)) ([#574](https://github.com/Tresjs/cientos/issues/574)) ([efdde6d](https://github.com/Tresjs/cientos/commit/efdde6de32f32cbe0a8b69f7df0a701b4fc333a6))
+* **MeshReflectionMaterial:** remove unneeded material.onBeforeRender ([#534](https://github.com/Tresjs/cientos/issues/534)) ([f622324](https://github.com/Tresjs/cientos/commit/f6223249e3d5a95e7aa76a782125a535d4dd69df))
+* typescript build issues ([#578](https://github.com/Tresjs/cientos/issues/578)) ([09584be](https://github.com/Tresjs/cientos/commit/09584be48705d24a4eaf89655ac78138fc95108d))
+* update core version with patch ([#508](https://github.com/Tresjs/cientos/issues/508)) ([cbae8ee](https://github.com/Tresjs/cientos/commit/cbae8ee2caac2d125bff4e944986babe734680af))
 
 ## [4.0.3](https://github.com/Tresjs/cientos/compare/4.0.2...4.0.3) (2024-10-04)
 
