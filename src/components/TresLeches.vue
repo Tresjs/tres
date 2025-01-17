@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import type { Ref } from 'vue'
-import { computed, ref, toRefs, unref } from 'vue'
+import { computed, onUnmounted, ref, toRefs, unref } from 'vue'
 import { useWindowSize } from '@vueuse/core'
 import { UseDraggable } from '../composables/useDraggable/component'
-import { useControlsProvider } from '../composables/useControls'
+import { dispose, useControlsProvider } from '../composables/useControls'
 import type { Control } from '../types'
 import Folder from './Folder.vue'
 
@@ -24,6 +24,11 @@ const handle = ref<HTMLElement | null>(null)
 const controls = useControlsProvider(uuid?.value)
 
 defineExpose(controls)
+
+// Add cleanup when component is unmounted
+onUnmounted(() => {
+  dispose(uuid?.value)
+})
 
 function onChange(key: Ref<string>, value: string) {
   controls[unref(key)].value = value as any

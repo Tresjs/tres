@@ -1,4 +1,4 @@
-import { isReactive, isRef, provide, reactive, ref, toRefs } from 'vue'
+import { isReactive, isRef, provide, reactive, ref, type Ref, toRefs } from 'vue'
 import type { Control } from '../types'
 
 export const CONTROLS_CONTEXT_KEY = Symbol('CONTROLS_CONTEXT_KEY')
