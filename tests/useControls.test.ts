@@ -1,6 +1,8 @@
-import { isRef } from 'vue'
+import { isRef, nextTick } from 'vue'
 import { afterEach, describe, expect, it } from 'vitest'
-import { dispose, useControls } from '/@/composables/useControls'
+import { dispose, useControls, useControlsProvider } from '/@/composables/useControls'
+import { mount } from '@vue/test-utils'
+import { TresLeches } from '/@/'
 
 describe('useControls', () => {
   afterEach(() => {
@@ -67,6 +69,25 @@ describe('useControls', () => {
       })
       expect(isRef(test)).toBe(true)
       expect(test.value).toBe(1)
+    })
+  })
+
+  describe('cleanup', () => {
+    it('should dispose controls when TresLeches component is unmounted', async () => {
+      // First mount TresLeches and create some controls
+      const wrapper = mount(TresLeches)
+      useControls({ test: true })
+
+      // Verify controls exist in the store
+      const controls = useControlsProvider()
+      expect(Object.keys(controls)).toHaveLength(1)
+
+      // Unmount TresLeches
+      wrapper.unmount()
+      await nextTick()
+
+      // Verify controls were disposed
+      expect(Object.keys(controls)).toHaveLength(0)
     })
   })
 })
