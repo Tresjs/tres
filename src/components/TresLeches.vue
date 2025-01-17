@@ -23,6 +23,8 @@ const handle = ref<HTMLElement | null>(null)
 
 const controls = useControlsProvider(uuid?.value)
 
+defineExpose(controls)
+
 function onChange(key: Ref<string>, value: string) {
   controls[unref(key)].value = value as any
   controls[unref(key)][unref(key)] = value as any
