@@ -72,8 +72,9 @@ export const useControls = (
   folderNameOrParams: string | { [key: string]: any },
   paramsOrOptions?: { [key: string]: any } | { uuid?: string },
   options?: { uuid?: string },
-): Control | ToRefs<{ [key: string]: Control }> => {
+): { [key: string]: Ref<any> } => {
   const result: { [key: string]: Control } = {}
+  const values: { [key: string]: Ref<any> } = {}
 
   const folderName = typeof folderNameOrParams === 'string' ? folderNameOrParams : null
   const controlsParams = folderName ? paramsOrOptions as { [key: string]: any } : folderNameOrParams
@@ -89,7 +90,8 @@ export const useControls = (
     const control = createControl('fpsgraph', null, 'fpsgraph', null)
     controlsStore[uuid].fpsgraph = control
     result.fpsgraph = control
-    return toRefs(reactive(result))
+    values.fpsgraph = control.value
+    return values
   }
 
   const controls = controlsStore[uuid]
@@ -145,6 +147,7 @@ export const useControls = (
       control.uniqueKey.value = uniqueKey
       controls[uniqueKey] = control
       result[uniqueKey] = control
+      values[key] = reactiveValue
       continue
     }
 
@@ -153,6 +156,7 @@ export const useControls = (
       const control = createControl(key, value, (value.value as any).type || inferType(value.value), folderName)
       controls[uniqueKey] = control
       result[uniqueKey] = control
+      values[key] = value
       continue
     }
 
@@ -165,13 +169,15 @@ export const useControls = (
     }
 
     // For non-ref values
-    const control = createControl(key, value, value.type || inferType(value), folderName)
+    const refValue = ref(value)
+    const control = createControl(key, refValue, value.type || inferType(value), folderName)
 
     // Update the internal state
     controls[uniqueKey] = control
     result[uniqueKey] = control
+    values[key] = refValue
     control.uniqueKey.value = uniqueKey
   }
 
-  return Object.keys(result).length > 1 ? toRefs(reactive(result)) : Object.values(result)[0]
+  return values
 }
