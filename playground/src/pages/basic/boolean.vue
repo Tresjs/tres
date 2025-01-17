@@ -4,7 +4,7 @@ import { OrbitControls } from '@tresjs/cientos'
 
 import { TresLeches, useControls } from '@tresjs/leches'
 
-import { reactive, ref, watch } from 'vue'
+import { reactive } from 'vue'
 
 const gl = reactive({
   clearColor: '#82DBC5',

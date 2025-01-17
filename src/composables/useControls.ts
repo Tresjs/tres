@@ -1,4 +1,3 @@
-import type { ToRefs } from 'vue'
 import { isReactive, isRef, provide, reactive, ref, toRefs } from 'vue'
 import type { Control } from '../types'
 
