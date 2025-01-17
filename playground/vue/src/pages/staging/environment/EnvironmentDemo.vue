@@ -1,8 +1,8 @@
 <!-- eslint-disable no-console -->
 <script setup lang="ts">
-import { Environment, Lightformer, OrbitControls, TorusKnot, useProgress } from '@tresjs/cientos'
+import { Environment, Lightformer, OrbitControls, Sphere, useProgress } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
-
+import Lightformers from './Lightformers.vue'
 import { TresLeches, useControls } from '@tresjs/leches'
 import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
 import '@tresjs/leches/styles'
@@ -18,7 +18,7 @@ const gl = {
   toneMapping: NoToneMapping,
 }
 
-const { background, blur, preset, lightformers } = useControls({
+const { background, blur, preset } = useControls({
   background: true,
   blur: {
     value: 0,
@@ -43,7 +43,6 @@ const { background, blur, preset, lightformers } = useControls({
     ],
     value: 'sunset',
   },
-  lightformers: false,
 })
 
 const environmentRef = ref(null)
@@ -91,40 +90,24 @@ const { progress, hasFinishLoading } = await useProgress()
         :background="background.value"
         :blur="blur.value"
         :preset="preset.value"
+        :frames="Infinity"
       >
-        <TresGroup v-if="lightformers.value">
-          <Lightformer
-            :intensity="0.75"
-            :rotation-x="Math.PI / 2"
-            :position="[0, 5, -9]"
-            :scale="[10, 10, 1]"
-          />
-          <Lightformer
-            :intensity="4"
-            :rotation-y="Math.PI / 2"
-            :position="[-5, 1, -1]"
-            :scale="[20, 0.1, 1]"
-          />
-          <Lightformer
-            :rotation-y="Math.PI / 2"
-            :position="[-5, -1, -1]"
-            :scale="[20, 0.5, 1]"
-          />
-          <Lightformer
-            :rotation-y="-Math.PI / 2"
-            :position="[10, 1, 0]"
-            :scale="[20, 11, 1]"
-          />
-        </TresGroup>
+        <Lightformer
+          :intensity="0.75"
+          :rotation-x="Math.PI / 2"
+          :position="[0, 5, -9]"
+          :scale="[10, 10, 1]"
+        />
+        <Lightformers />
       </Environment>
     </Suspense>
-    <TorusKnot>
+    <Sphere>
       <TresMeshStandardMaterial
         color="yellow"
         :roughness="0"
         :metalness="0.5"
       />
-    </TorusKnot>
+    </Sphere>
     <TresGridHelper />
     <TresAmbientLight :intensity="1" />
   </TresCanvas>

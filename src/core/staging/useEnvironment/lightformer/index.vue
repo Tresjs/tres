@@ -10,14 +10,14 @@ import type { MeshBasicMaterial, Texture } from 'three'
 
 const props = withDefaults(defineProps<{
   args?: any[]
-  from?: 'circle' | 'ring' | 'rect' | any
+  form?: 'circle' | 'ring' | 'rect' | any
   toneMapped?: boolean
   map?: Texture
   intensity?: number
   color?: any
 }>(), {
   args: null as any,
-  from: 'rect',
+  form: 'rect',
   toneMapped: false,
   map: null as any,
   intensity: 1,
@@ -25,28 +25,35 @@ const props = withDefaults(defineProps<{
 })
 
 const material = ref<MeshBasicMaterial>()
+const mesh = ref()
+
 watchEffect(() => {
   if (material.value) {
+    // Reset color before applying intensity to avoid accumulation
+    material.value.color.copy(new Color(props.color))
     material.value.color.multiplyScalar(props.intensity)
     material.value.needsUpdate = true
   }
 })
+
+// Expose mesh for parent components
+defineExpose({ mesh })
 </script>
 
 <template>
-  <TresMesh>
+  <TresMesh ref="mesh">
     <TresRingGeometry
-      v-if="from === 'circle'"
+      v-if="form === 'circle'"
       :args="[0, 1, 64]"
     />
     <TresRingGeometry
-      v-else-if="from === 'ring'"
+      v-else-if="form === 'ring'"
       :args="[0.5, 1, 64]"
     />
-    <TresPlaneGeometry v-else-if="from === 'rect'" />
-    <props.from
+    <TresPlaneGeometry v-else-if="form === 'rect'" />
+    <props.form
       v-else
-      :args="props"
+      :args="args"
     />
 
     <TresMeshBasicMaterial

@@ -17,7 +17,7 @@ export const stagingRoutes = [
   {
     path: '/staging/environment',
     name: 'Environment',
-    component: () => import('../../pages/staging/EnvironmentDemo.vue'),
+    component: () => import('../../pages/staging/environment/EnvironmentDemo.vue'),
   },
   {
     path: '/staging/backdrop',
