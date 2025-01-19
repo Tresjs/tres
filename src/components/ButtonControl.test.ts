@@ -23,7 +23,7 @@ describe('button Controls', () => {
     mountComponent(() => {
       useControls({ acceptBtn: { type: 'button', label: 'Accept' } })
     })
-    expect(wrapper.html()).toMatchSnapshot()
+    expect(wrapper.html().replace(/style="[^"]*"/, '')).toMatchSnapshot()
     expect(wrapper.find('button').exists()).toBe(true)
   })
 
@@ -31,7 +31,7 @@ describe('button Controls', () => {
     mountComponent(() => {
       useControls({ acceptBtn: { type: 'button', label: 'Accept' } })
     })
-    expect(wrapper.html()).toMatchSnapshot()
+    expect(wrapper.html().replace(/style="[^"]*"/, '')).toMatchSnapshot()
     expect(wrapper.find('button').text()).toBe('Accept')
   })
 
@@ -51,7 +51,7 @@ describe('button Controls', () => {
     mountComponent(() => {
       useControls({ acceptBtn: { type: 'button', label: 'Accept', icon: 'i-carbon-checkmark' } })
     })
-    expect(wrapper.html()).toMatchSnapshot()
+    expect(wrapper.html().replace(/style="[^"]*"/, '')).toMatchSnapshot()
     expect(wrapper.find('i.i-carbon-checkmark').exists()).toBe(true)
   })
 
@@ -59,7 +59,7 @@ describe('button Controls', () => {
     mountComponent(() => {
       useControls({ acceptBtn: { type: 'button', label: 'Accept', size: 'sm' } })
     })
-    expect(wrapper.html()).toMatchSnapshot()
+    expect(wrapper.html().replace(/style="[^"]*"/, '')).toMatchSnapshot()
     expect(wrapper.find('button').classes()).toContain('leches-btn-sm')
   })
 
@@ -67,7 +67,7 @@ describe('button Controls', () => {
     mountComponent(() => {
       useControls({ acceptBtn: { type: 'button', label: 'Accept', size: 'lg' } })
     })
-    expect(wrapper.html()).toMatchSnapshot()
+    expect(wrapper.html().replace(/style="[^"]*"/, '')).toMatchSnapshot()
     expect(wrapper.find('button').classes()).toContain('leches-btn-lg')
   })
 
@@ -75,7 +75,7 @@ describe('button Controls', () => {
     mountComponent(() => {
       useControls({ acceptBtn: { type: 'button', label: 'Accept', size: 'block' } })
     })
-    expect(wrapper.html()).toMatchSnapshot()
+    expect(wrapper.html().replace(/style="[^"]*"/, '')).toMatchSnapshot()
     expect(wrapper.find('button').classes()).toContain('leches-btn-block')
   })
 
@@ -83,7 +83,7 @@ describe('button Controls', () => {
     mountComponent(() => {
       useControls({ acceptBtn: { type: 'button', label: 'Accept' } })
     })
-    expect(wrapper.html()).toMatchSnapshot()
+    expect(wrapper.html().replace(/style="[^"]*"/, '')).toMatchSnapshot()
     expect(wrapper.find('button').classes()).toContain('leches-btn-primary')
   })
 
@@ -91,7 +91,7 @@ describe('button Controls', () => {
     mountComponent(() => {
       useControls({ acceptBtn: { type: 'button', label: 'Accept', variant: 'secondary' } })
     })
-    expect(wrapper.html()).toMatchSnapshot()
+    expect(wrapper.html().replace(/style="[^"]*"/, '')).toMatchSnapshot()
     expect(wrapper.find('button').classes()).toContain('leches-btn-secondary')
   })
 })

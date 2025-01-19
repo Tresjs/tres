@@ -3,6 +3,9 @@
     "composite": true,
     "module": "ESNext",
     "moduleResolution": "bundler",
+    "paths": {
+      "/@/*": ["./src/*"]
+    },
     "allowSyntheticDefaultImports": true,
     "skipLibCheck": true
   },

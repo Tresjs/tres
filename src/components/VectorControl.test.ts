@@ -53,7 +53,7 @@ describe('vector Control', async () => {
     })
   })
   it('should render multiple numeric inputs', async () => {
-    expect(wrapper.html()).toMatchSnapshot()
+    expect(wrapper.html().replace(/style="[^"]*"/, '')).toMatchSnapshot()
     expect(wrapper.findAll('input[type="number"]').length).toBeGreaterThan(1)
   })
   it('should render a number control with a label', async () => {

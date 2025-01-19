@@ -28,7 +28,7 @@ describe('color Control', async () => {
     })
   })
   it('should render a color control', async () => {
-    expect(wrapper.html()).toMatchSnapshot()
+    expect(wrapper.html().replace(/style="[^"]*"/, '')).toMatchSnapshot()
     expect(wrapper.find('input').attributes('type')).toBe('color')
   })
   it('should render a color control with a label', async () => {

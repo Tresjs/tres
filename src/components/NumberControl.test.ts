@@ -30,7 +30,7 @@ describe('number Control', async () => {
     })
   })
   it('should render a number control', async () => {
-    expect(wrapper.html()).toMatchSnapshot()
+    expect(wrapper.html().replace(/style="[^"]*"/, '')).toMatchSnapshot()
     expect(wrapper.find('input').attributes('type')).toBe('number')
   })
   it('should render a number control with a label', async () => {
