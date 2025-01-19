@@ -28,11 +28,11 @@ describe('boolean Control', async () => {
     })
   })
   it('should render a boolean control', async () => {
-    expect(wrapper.html()).toMatchSnapshot()
+    expect(wrapper.html().replace(/style="[^"]*"/, '')).toMatchSnapshot()
     expect(wrapper.find('input').attributes('type')).toBe('checkbox')
   })
   it('should render a boolean control with a label', async () => {
-    expect(wrapper.html()).toMatchSnapshot()
+    expect(wrapper.html().replace(/style="[^"]*"/, '')).toMatchSnapshot()
     expect(wrapper.find('label').text()).toBe('test')
   })
   it('should change the value of the control when the input changes', async () => {

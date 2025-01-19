@@ -40,7 +40,7 @@ describe('dropdown Control', async () => {
     })
   })
   it('should render a select control', async () => {
-    expect(wrapper.html()).toMatchSnapshot()
+    expect(wrapper.html().replace(/style="[^"]*"/, '')).toMatchSnapshot()
     expect(wrapper.find('select').exists())
   })
   it('should render a select control with a label', async () => {

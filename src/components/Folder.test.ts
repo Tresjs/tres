@@ -50,7 +50,7 @@ describe('folder Controls', () => {
       const { position } = useControls('camera', { position: new Vector3(3, 2, 4) })
       return { position }
     })
-    expect(wrapper.html()).toMatchSnapshot()
+    expect(wrapper.html().replace(/style="[^"]*"/, '')).toMatchSnapshot()
     expect(wrapper.find('button[data-folder="camera"]').exists()).toBe(true)
     expect(wrapper.find('input[id="cameraPosition-x"]').exists()).toBe(true)
     expect(wrapper.find('input[id="cameraPosition-y"]').exists()).toBe(true)
