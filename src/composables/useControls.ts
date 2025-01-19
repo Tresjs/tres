@@ -49,7 +49,7 @@ const createControl = (key: string, value: any, type: string, folderName: string
     type: ref(type),
     value: ref(value),
     visible: ref(true),
-    icon: ref(),
+    icon: ref(''),
     uniqueKey: ref(key),
     [key]: ref(value),
   }
@@ -141,9 +141,7 @@ export const useControls = (
       }
 
       control.label.value = controlOptions.label || key
-      if (control.icon?.value) {
-        control.icon.value = controlOptions.icon
-      }
+      control.icon.value = controlOptions.icon || ''
       control.visible.value = controlOptions.visible !== undefined ? controlOptions.visible : true
       control.uniqueKey.value = uniqueKey
       controls[uniqueKey] = control

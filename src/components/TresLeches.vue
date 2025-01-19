@@ -1,25 +1,35 @@
 <script setup lang="ts">
 import type { Ref } from 'vue'
-import { computed, onUnmounted, ref, toRefs, unref } from 'vue'
-import { useWindowSize } from '@vueuse/core'
-import { UseDraggable } from '../composables/useDraggable/component'
+import { computed, onUnmounted, ref, toRefs, unref, watch } from 'vue'
+import { useDraggable, useWindowSize } from '@vueuse/core'
 import { dispose, useControlsProvider } from '../composables/useControls'
 import type { Control } from '../types'
 import Folder from './Folder.vue'
-
+import { useMotion } from '@vueuse/motion'
 import ControlInput from './ControlInput.vue'
 
-const props = defineProps<{
+const props = withDefaults(defineProps<{
   uuid?: string
-}>()
+  collapsed?: boolean
+}>(), {
+  uuid: 'default',
+  collapsed: false,
+})
 
-const { uuid } = toRefs(props)
+const { uuid, collapsed } = toRefs(props)
+
+const isCollapsed = ref(collapsed.value)
+const isHover = ref(false)
 
 const { width } = useWindowSize()
 
 const DEFAULT_WIDTH = 280
+const DEFAULT_HEIGHT = 340
 
-const handle = ref<HTMLElement | null>(null)
+const panelWidth = ref(DEFAULT_WIDTH)
+const panelHeight = ref(DEFAULT_HEIGHT)
+const isResizing = ref(false)
+const resizeEdge = ref<'right' | 'left' | 'bottom' | 'corner' | 'corner-left' | null>(null)
 
 const controls = useControlsProvider(uuid?.value)
 
@@ -50,26 +60,124 @@ const groupedControls = computed(() => {
 
   return groups
 })
+
+const paneRef = ref<HTMLElement | null>(null)
+const handleRef = ref<HTMLElement | null>(null)
+
+const { style, position: dragPosition } = useDraggable(paneRef, {
+  handle: handleRef,
+  initialValue: {
+    x: width.value - 40,
+    y: 10,
+  },
+})
+
+const { apply } = useMotion(paneRef, {
+  initial: {
+    opacity: 0,
+    y: 100,
+    width: 28,
+    height: 28,
+    right: '16px',
+    left: 'auto',
+  },
+  enter: {
+    opacity: 1,
+    y: 0,
+    width: 28,
+    height: 28,
+    right: '16px',
+    left: 'auto',
+  },
+  leave: {
+    opacity: 0,
+    y: 100,
+    width: 28,
+    height: 28,
+    right: '16px',
+    left: 'auto',
+  },
+})
+
+function startResize(edge: 'right' | 'left' | 'bottom' | 'corner' | 'corner-left', e: MouseEvent) {
+  isResizing.value = true
+  resizeEdge.value = edge
+  e.preventDefault()
+  e.stopPropagation()
+
+  const startX = e.clientX
+  const startY = e.clientY
+  const startWidth = panelWidth.value
+  const startHeight = panelHeight.value
+  const startDragX = dragPosition.value.x
+
+  function onMouseMove(e: MouseEvent) {
+    if (!isResizing.value || !paneRef.value) { return }
+
+    if (resizeEdge.value === 'right' || resizeEdge.value === 'corner') {
+      const deltaX = e.clientX - startX
+      panelWidth.value = Math.max(280, startWidth + deltaX)
+      paneRef.value.style.maxWidth = `${panelWidth.value}px`
+    }
+
+    if (resizeEdge.value === 'left' || resizeEdge.value === 'corner-left') {
+      const deltaX = startX - e.clientX
+      const newWidth = Math.max(280, startWidth + deltaX)
+      dragPosition.value.x = startDragX - deltaX
+      panelWidth.value = newWidth
+      paneRef.value.style.maxWidth = `${panelWidth.value}px`
+    }
+
+    if (resizeEdge.value === 'bottom' || resizeEdge.value === 'corner' || resizeEdge.value === 'corner-left') {
+      const deltaY = e.clientY - startY
+      panelHeight.value = Math.max(280, startHeight + deltaY)
+      paneRef.value.style.maxHeight = `${panelHeight.value}px`
+    }
+  }
+
+  function onMouseUp() {
+    isResizing.value = false
+    resizeEdge.value = null
+    document.removeEventListener('mousemove', onMouseMove)
+    document.removeEventListener('mouseup', onMouseUp)
+  }
+
+  document.addEventListener('mousemove', onMouseMove)
+  document.addEventListener('mouseup', onMouseUp)
+}
+
+watch(isCollapsed, async (value) => {
+  if (!value) {
+    await apply({
+      width: panelWidth.value,
+      height: panelHeight.value,
+      right: '16px',
+      left: 'auto',
+    })
+    return
+  }
+  await apply('enter')
+}, { immediate: true })
 </script>
 
 <template>
-  <UseDraggable
-    :id="uuid"
-    :initial-value="{ x: width - DEFAULT_WIDTH - 40, y: 10 }"
-    class="tl-absolute tl-select-none tl-z-24 tl-w-280px tl-font-sans tl-text-xs"
-    :class="$attrs.class"
-    :handle="handle"
+  <div
+    :id="`tres-leches-pane-${uuid}`"
+    ref="paneRef"
+    class="tl-fixed tl-top-4 tl-z-24 tl-bg-white tl-shadow-xl tl-p-1 tl-font-sans tl-text-xs tl-overflow-hidden"
+    :class="[$attrs.class, isCollapsed ? 'tl-rounded-full' : 'tl-rounded-lg']"
+    :style="[style, { width: `${panelWidth}px`, height: `${panelHeight}px`, right: '16px', left: 'auto' }]"
   >
-    <div
-      tabindex="0"
-      class="tl-bg-white tl-shadow-xl tl-rounded tl-border-4 tl-border-solid tl-border-black"
-    >
-      <header
-        ref="handle"
-        class="tl-relative tl-cursor-grabbing tl-p-4 tl-flex tl-justify-between tl-text-gray-200 tl-relative"
-      >
-        <i
-          class="tl-h-4
+    <header class="tl-flex tl-justify-between tl-items-center tl-text-gray-200 tl-text-xs">
+      <div v-show="!isCollapsed" class="w-1/3"></div>
+      <div v-show="!isCollapsed" ref="handleRef" class="tl-cursor-grabbing">
+        <i class="i-ic-baseline-drag-indicator"></i><i class="i-ic-baseline-drag-indicator"></i><i
+          class="i-ic-baseline-drag-indicator"
+        ></i>
+      </div>
+      <div></div>
+      <i
+        class="tl-h-4
             tl-w-4
             tl-p-1.5
             tl-flex
@@ -77,15 +185,14 @@ const groupedControls = computed(() => {
             tl-line-height-0
             tl-rounded-full
             tl-bg-gray-100
-            tl-text-xs"
-        >🍰</i>
-        <div>
-          <i class="i-ic-baseline-drag-indicator"></i><i class="i-ic-baseline-drag-indicator"></i><i
-            class="i-ic-baseline-drag-indicator"
-          ></i>
-        </div>
-        <div></div>
-      </header>
+            tl-text-xs
+            tl-cursor-pointer"
+        @click="isCollapsed = !isCollapsed"
+        @mouseenter="isHover = true"
+        @mouseleave="isHover = false"
+      >🍰</i>
+    </header>
+    <div v-if="!isCollapsed" class="mt-2">
       <template
         v-for="(group, folderName) of groupedControls"
         :key="folderName"
@@ -105,5 +212,31 @@ const groupedControls = computed(() => {
         </template>
       </template>
     </div>
-  </UseDraggable>
+    <!-- Resize handles -->
+    <!-- <span
+      v-if="!isCollapsed"
+      class="tl-absolute tl-right-0 tl-top-0 tl-bottom-0 tl-w-2 hover:tl-w-4 tl-transition-all tl-cursor-ew-resize tl-z-10"
+      @mousedown="e => startResize('right', e)"
+    ></span> -->
+    <span
+      v-if="!isCollapsed"
+      class="tl-absolute tl-left-0 tl-right-0 tl-bottom-0 tl-h-2 hover:tl-h-4 tl-transition-all tl-cursor-ns-resize tl-z-10"
+      @mousedown="e => startResize('bottom', e)"
+    ></span>
+    <!-- <span
+      v-if="!isCollapsed"
+      class="tl-absolute tl-right-0 tl-bottom-0 tl-w-4 tl-h-4 hover:tl-w-6 hover:tl-h-6 tl-transition-all tl-cursor-nwse-resize tl-z-10"
+      @mousedown="e => startResize('corner', e)"
+    ></span> -->
+    <span
+      v-if="!isCollapsed"
+      class="tl-absolute tl-left-0 tl-top-0 tl-bottom-0 tl-w-2 hover:tl-w-4 tl-transition-all tl-cursor-ew-resize tl-z-10"
+      @mousedown="e => startResize('left', e)"
+    ></span>
+    <span
+      v-if="!isCollapsed"
+      class="tl-absolute tl-left-0 tl-bottom-0 tl-w-4 tl-h-4 hover:tl-w-6 hover:tl-h-6 tl-transition-all tl-cursor-nesw-resize tl-z-10"
+      @mousedown="e => startResize('corner-left', e)"
+    ></span>
+  </div>
 </template>
