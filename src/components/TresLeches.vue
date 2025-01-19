@@ -162,11 +162,11 @@ watch(isCollapsed, async (value) => {
   <div
     :id="`tres-leches-pane-${uuid}`"
     ref="paneRef"
-    class="tl-fixed tl-top-4 tl-z-24 tl-bg-white tl-shadow-xl tl-p-1 tl-font-sans tl-text-xs tl-overflow-hidden"
+    class="tl-fixed tl-top-4 tl-z-24 tl-bg-white tl-shadow-xl tl-p-1 tl-font-sans tl-text-xs tl-flex tl-flex-col"
     :class="[$attrs.class, isCollapsed ? 'tl-rounded-full' : 'tl-rounded-lg']"
     :style="[style, { width: `${panelWidth}px`, height: `${panelHeight}px`, right: '16px', left: 'auto' }]"
   >
-    <header class="tl-flex tl-justify-between tl-items-center tl-text-gray-200 tl-text-xs">
+    <header class="tl-flex tl-justify-between tl-items-center tl-text-gray-200 tl-text-xs tl-flex-none">
       <div v-show="!isCollapsed" class="w-1/3"></div>
       <div v-show="!isCollapsed" ref="handleRef" class="tl-cursor-grabbing">
         <i class="i-ic-baseline-drag-indicator"></i><i class="i-ic-baseline-drag-indicator"></i><i
@@ -190,7 +190,7 @@ watch(isCollapsed, async (value) => {
         @mouseleave="isHover = false"
       >🍰</i>
     </header>
-    <div v-if="!isCollapsed" class="mt-2">
+    <div v-if="!isCollapsed" class="tl-flex-1 tl-overflow-y-auto tl-overflow-x-hidden tl-my-4 tl-scrollbar tl-scrollbar-rounded tl-scrollbar-w-4px tl-scrollbar-radius-2 tl-scrollbar-track-radius-4 tl-scrollbar-thumb-radius-4">
       <template
         v-for="(group, folderName) of groupedControls"
         :key="folderName"

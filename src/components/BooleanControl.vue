@@ -22,7 +22,7 @@ function onKeydown(event: KeyboardEvent) {
 </script>
 
 <template>
-  <div class="tl-flex tl-px-4 tl-justify-start tl-gap-2 tl-items-center tl-mb-2 tl-min-h-32px">
+  <div class="tl-flex tl-px-4 tl-justify-start tl-items-center tl-mb-2 tl-min-h-32px">
     <label class="tl-text-gray-500 tl-w-1/3">{{ label }}</label>
     <input
       :id="control.uniqueKey"
@@ -48,6 +48,7 @@ function onKeydown(event: KeyboardEvent) {
           tl-rounded
           tl-border
           tl-border-gray-300
+          tl-text-white
           tl-mr-2
           tl-transition-colors
           tl-duration-200"

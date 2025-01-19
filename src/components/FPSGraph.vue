@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { onMounted, onUnmounted, ref } from 'vue'
 import { useFps, useRafFn } from '@vueuse/core'
 import type { LechesControl } from '../types'
 
@@ -7,8 +7,10 @@ defineProps<{
   label: string
   control: LechesControl
 }>()
-const width = 160
-const height = 40
+
+const containerRef = ref<HTMLElement | null>(null)
+const width = ref(160)
+const height = ref(40)
 const strokeWidth = 2
 const updateInterval = 100 // Update interval in milliseconds
 const topOffset = 20 // Offset from the top
@@ -16,9 +18,32 @@ const fps = useFps({ every: updateInterval })
 
 const points = ref('')
 const frameTimes = ref([])
-const maxFrames = ref(width / strokeWidth)
+const maxFrames = ref(width.value / strokeWidth)
 
 let lastUpdateTime = performance.now()
+let resizeObserver: ResizeObserver | null = null
+
+onMounted(() => {
+  if (containerRef.value) {
+    resizeObserver = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        width.value = entry.contentRect.width
+        maxFrames.value = Math.floor(width.value / strokeWidth)
+        // Trim frame times if needed after resize
+        if (frameTimes.value.length > maxFrames.value) {
+          frameTimes.value = frameTimes.value.slice(-maxFrames.value)
+        }
+      }
+    })
+    resizeObserver.observe(containerRef.value)
+  }
+})
+
+onUnmounted(() => {
+  if (resizeObserver) {
+    resizeObserver.disconnect()
+  }
+})
 
 useRafFn(({ timestamp }) => {
   if (timestamp - lastUpdateTime >= updateInterval) {
@@ -34,7 +59,7 @@ useRafFn(({ timestamp }) => {
       .map(
         (fps, index) =>
           `${index * strokeWidth},${
-            height + topOffset - strokeWidth / 2 - (fps * (height + topOffset - strokeWidth)) / 120
+            height.value + topOffset - strokeWidth / 2 - (fps * (height.value + topOffset - strokeWidth)) / 120
           }`,
       )
       .join(' ')
@@ -43,20 +68,20 @@ useRafFn(({ timestamp }) => {
 </script>
 
 <template>
-  <div class="tl-flex tl-px-4 tl-justify-between tl-gap-4 tl-items-center tl-mb-2">
+  <div class="tl-flex tl-px-4 tl-items-center tl-mb-2">
     <label class="tl-text-gray-500 tl-w-1/3">{{ label }}</label>
 
     <div
+      ref="containerRef"
       class="
         tl-relative
         tl-w-2/3
-        tl-p-1
+        tl-py-1
         tl-rounded
         tl-text-right
         tl-text-xs
         tl-text-gray-400
         tl-bg-gray-100
-        tl-focus:border-gray-200
         tl-outline-none
         tl-border-none
         tl-font-sans
