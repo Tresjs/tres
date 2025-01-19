@@ -5,7 +5,7 @@ export const CONTROLS_CONTEXT_KEY = Symbol('CONTROLS_CONTEXT_KEY')
 const DEFAULT_UUID = 'default'
 
 // Internal state
-const controlsStore: { [uuid: string]: { [key: string]: Control } } = reactive({})
+const controlsStore: { [uuid: string]: Record<string, Control> } = reactive({})
 
 export function useControlsProvider(uuid: string = DEFAULT_UUID) {
   provide(CONTROLS_CONTEXT_KEY, controlsStore)
@@ -41,21 +41,20 @@ const inferType = (value: any): string => {
   return 'unknown'
 }
 
-const createControl = (key: string, value: any, type: string, folderName: string | null): Control => {
-  const control: Control = {
-    key: ref(key),
-    label: ref(key),
-    name: ref(key),
-    type: ref(type),
-    value: ref(value),
-    visible: ref(true),
-    icon: ref(''),
-    uniqueKey: ref(key),
-    [key]: ref(value),
-  }
+const createControl = <T>(key: string, value: T, type: string, folderName: string | null) => {
+  const control = reactive<Control<T>>({
+    key,
+    label: key,
+    name: key,
+    type,
+    value,
+    visible: true,
+    icon: '',
+    uniqueKey: key,
+  })
 
   if (folderName) {
-    control.folder = ref(folderName)
+    control.folder = folderName
   }
 
   return control
@@ -89,7 +88,7 @@ export const useControls = (
     const control = createControl('fpsgraph', null, 'fpsgraph', null)
     controlsStore[uuid].fpsgraph = control
     result.fpsgraph = control
-    values.fpsgraph = control.value
+    values.fpsgraph = ref(control.value)
     return values
   }
 
@@ -121,7 +120,7 @@ export const useControls = (
       const control = createControl(key, reactiveValue, controlType, folderName)
 
       if (controlType === 'select') {
-        control.options = ref<SelectOption[]>(controlOptions.options.map((option: string | SelectOption) => {
+        control.options = (controlOptions.options.map((option: string | SelectOption) => {
           if (typeof option === 'object') {
             if ('text' in option && 'value' in option) {
               return option as SelectOption
@@ -135,15 +134,15 @@ export const useControls = (
       }
 
       if (controlType === 'range') {
-        control.min = ref(controlOptions.min || 0)
-        control.max = ref(controlOptions.max || 1)
-        control.step = ref(controlOptions.step || 0.1)
+        control.min = controlOptions.min || 0
+        control.max = controlOptions.max || 1
+        control.step = controlOptions.step || 0.1
       }
 
-      control.label.value = controlOptions.label || key
-      control.icon.value = controlOptions.icon || ''
-      control.visible.value = controlOptions.visible !== undefined ? controlOptions.visible : true
-      control.uniqueKey.value = uniqueKey
+      control.label = controlOptions.label || key
+      control.icon = controlOptions.icon || ''
+      control.visible = controlOptions.visible !== undefined ? controlOptions.visible : true
+      control.uniqueKey = uniqueKey
       controls[uniqueKey] = control
       result[uniqueKey] = control
       values[key] = reactiveValue
@@ -175,7 +174,7 @@ export const useControls = (
     controls[uniqueKey] = control
     result[uniqueKey] = control
     values[key] = refValue
-    control.uniqueKey.value = uniqueKey
+    control.uniqueKey = uniqueKey
   }
 
   return values
