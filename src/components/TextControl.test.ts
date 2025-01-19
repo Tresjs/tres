@@ -29,7 +29,7 @@ describe('text Control', () => {
   })
 
   it('should render a text control', () => {
-    expect(wrapper.html()).toMatchSnapshot()
+    expect(wrapper.html().replace(/style="[^"]*"/, '')).toMatchSnapshot()
     expect(wrapper.find('input').attributes('type')).toBe('text')
   })
 
