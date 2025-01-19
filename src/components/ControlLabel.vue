@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import type { Control } from '../types'
+import type { LechesControl } from '../types'
 
 defineProps<{
   label: string
-  control: Control
+  control: LechesControl
 }>()
 </script>
 

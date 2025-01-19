@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import type { Control } from '../types'
+import type { LechesControl } from '../types'
 
 const props = defineProps<{
   label: string
-  control: Control
+  control: LechesControl
 }>()
 
 const classes = computed(() => {

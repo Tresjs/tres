@@ -2,7 +2,7 @@
 import { computed, onUnmounted, ref, toRefs, watch } from 'vue'
 import { useDraggable, useWindowSize } from '@vueuse/core'
 import { dispose, useControlsProvider } from '../composables/useControls'
-import type { Control } from '../types'
+import type { LechesControl } from '../types'
 import Folder from './Folder.vue'
 import { useMotion } from '@vueuse/motion'
 import ControlInput from './ControlInput.vue'
@@ -44,7 +44,7 @@ function onChange(key: string, value: string) {
 }
 
 const groupedControls = computed(() => {
-  const groups: { [folder: string]: Control[] } = {}
+  const groups: { [folder: string]: LechesControl[] } = {}
 
   for (const key in controls) {
     const control = controls[key]

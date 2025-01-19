@@ -1,11 +1,11 @@
 import { isReactive, isRef, provide, reactive, ref, type Ref, toRefs } from 'vue'
-import type { Control, SelectOption } from '../types'
+import type { LechesControl, LechesSelectOption } from '../types'
 
 export const CONTROLS_CONTEXT_KEY = Symbol('CONTROLS_CONTEXT_KEY')
 const DEFAULT_UUID = 'default'
 
 // Internal state
-const controlsStore: { [uuid: string]: Record<string, Control> } = reactive({})
+const controlsStore: { [uuid: string]: Record<string, LechesControl> } = reactive({})
 
 export function useControlsProvider(uuid: string = DEFAULT_UUID) {
   provide(CONTROLS_CONTEXT_KEY, controlsStore)
@@ -42,7 +42,7 @@ const inferType = (value: any): string => {
 }
 
 const createControl = <T>(key: string, value: T, type: string, folderName: string | null) => {
-  const control = reactive<Control<T>>({
+  const control = reactive<LechesControl<T>>({
     key,
     label: key,
     name: key,
@@ -71,7 +71,7 @@ export const useControls = (
   paramsOrOptions?: { [key: string]: any } | { uuid?: string },
   options?: { uuid?: string },
 ): { [key: string]: Ref<any> } => {
-  const result: { [key: string]: Control } = {}
+  const result: { [key: string]: LechesControl } = {}
   const values: { [key: string]: Ref<any> } = {}
 
   const folderName = typeof folderNameOrParams === 'string' ? folderNameOrParams : null
@@ -120,10 +120,10 @@ export const useControls = (
       const control = createControl(key, reactiveValue, controlType, folderName)
 
       if (controlType === 'select') {
-        control.options = (controlOptions.options.map((option: string | SelectOption) => {
+        control.options = (controlOptions.options.map((option: string | LechesSelectOption) => {
           if (typeof option === 'object') {
             if ('text' in option && 'value' in option) {
-              return option as SelectOption
+              return option as LechesSelectOption
             }
           }
           return {

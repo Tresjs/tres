@@ -1,9 +1,9 @@
-export interface SelectOption {
+export interface LechesSelectOption {
   text: string
   value: string | number
 }
 
-export interface Control<T = any> {
+export interface LechesControl<T = any> {
   key: string
   label: string
   name: string
@@ -13,7 +13,7 @@ export interface Control<T = any> {
   icon?: string
   uniqueKey: string
   folder?: string
-  options?: SelectOption[]
+  options?: LechesSelectOption[]
   min?: number
   max?: number
   step?: number

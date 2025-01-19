@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import type { Control } from '../types'
+import type { LechesControl } from '../types'
 import ControlLabel from './ControlLabel.vue'
 
 defineProps<{
   label: string
-  control: Control
+  control: LechesControl
 }>()
 
 const emit = defineEmits(['change'])

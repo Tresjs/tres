@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import type { Control } from '../types'
+import type { LechesControl } from '../types'
 import ControlInput from './ControlInput.vue'
 
 defineProps<{
-  controls: Control[]
+  controls: LechesControl[]
   label: string | number
 }>()
 
-function onChange(value: string, control: Control) {
+function onChange(value: string, control: LechesControl) {
   control.value = value as any
 }
 
