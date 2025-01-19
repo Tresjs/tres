@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import type { Ref } from 'vue'
-import { computed, onUnmounted, ref, toRefs, unref, watch } from 'vue'
+import { computed, onUnmounted, ref, toRefs, watch } from 'vue'
 import { useDraggable, useWindowSize } from '@vueuse/core'
 import { dispose, useControlsProvider } from '../composables/useControls'
-import type { Control } from '../types'
+import type { LechesControl } from '../types'
 import Folder from './Folder.vue'
 import { useMotion } from '@vueuse/motion'
 import ControlInput from './ControlInput.vue'
@@ -40,13 +39,12 @@ onUnmounted(() => {
   dispose(uuid?.value)
 })
 
-function onChange(key: Ref<string>, value: string) {
-  controls[unref(key)].value = value as any
-  controls[unref(key)][unref(key)] = value as any
+function onChange(key: string, value: string) {
+  controls[key].value = value
 }
 
 const groupedControls = computed(() => {
-  const groups: { [folder: string]: Control[] } = {}
+  const groups: { [folder: string]: LechesControl[] } = {}
 
   for (const key in controls) {
     const control = controls[key]

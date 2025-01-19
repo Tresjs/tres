@@ -6,7 +6,7 @@ import { OrbitControls } from '@tresjs/cientos'
 import { TresLeches, useControls } from '@tresjs/leches'
 
 /* import '@tresjs/leches/style.css' */
-import { reactive, ref } from 'vue'
+import { reactive, ref, watch } from 'vue'
 
 const gl = reactive({
   clearColor: '#82DBC5',
@@ -16,7 +16,9 @@ const cameraRef = ref()
 const boxRef = ref()
 useControls('fpsgraph')
 
-const { wireframe, camPos, position, rotation } = useControls({
+const label = ref('Range')
+
+const { wireframe, camPos, position, rotation, select } = useControls({
   wireframe: false,
   camPos: new Vector3(4, 4, 4),
   position: new Vector3(0, 1, 2),
@@ -29,11 +31,21 @@ const { wireframe, camPos, position, rotation } = useControls({
     icon: 'i-carbon-checkmark',
   },
   range: {
+    label,
     value: 1,
     min: 0,
     max: 10,
     step: 0.1,
   },
+})
+
+watch(wireframe, (value) => {
+  label.value = value ? 'Wireframe' : 'Solid'
+})
+
+watch(select, (value) => {
+  // eslint-disable-next-line no-console
+  console.log('select', value)
 })
 </script>
 

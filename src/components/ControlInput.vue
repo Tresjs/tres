@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Control } from '../types'
+import type { LechesControl } from '../types'
 import NumberControl from './NumberControl.vue'
 import TextControl from './TextControl.vue'
 import BooleanControl from './BooleanControl.vue'
@@ -11,7 +11,7 @@ import SelectControl from './SelectControl.vue'
 import ButtonControl from './ButtonControl.vue'
 
 defineProps<{
-  control: Control
+  control: LechesControl
 }>()
 
 const emit = defineEmits(['change'])

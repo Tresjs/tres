@@ -1,11 +1,11 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { useFps, useRafFn } from '@vueuse/core'
-import type { Control } from '../types'
+import type { LechesControl } from '../types'
 
 defineProps<{
   label: string
-  control: Control
+  control: LechesControl
 }>()
 const width = 160
 const height = 40
