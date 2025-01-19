@@ -16,6 +16,6 @@ describe('tresLeches', async () => {
       },
     })
     expect(wrapper.html()).toMatchSnapshot()
-    expect(wrapper.find('div').attributes('id')).toBe('test')
+    expect(wrapper.find('div').attributes('id')).toBe('tres-leches-pane-test')
   })
 })
