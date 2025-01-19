@@ -14,6 +14,7 @@ import { presetIcons, presetUno, presetWebFonts, transformerDirectives } from 'u
 import { bold, gray, lightGreen, magenta } from 'kolorist'
 
 import pkg from './package.json'
+import { presetScrollbar } from 'unocss-preset-scrollbar'
 
 // eslint-disable-next-line no-console
 console.log(`${lightGreen('▲')} ${gray('■')} ${magenta('🍰')} ${bold('Tres/leches')} v${pkg.version}`)
@@ -46,7 +47,9 @@ export default defineConfig({
             // ...
           },
         }),
-
+        presetScrollbar({
+          prefix: 'tl-',
+        }),
         presetWebFonts({
           fonts: {
             sans: 'Roboto Mono',

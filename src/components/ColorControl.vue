@@ -15,7 +15,7 @@ function onChange(event: Event) {
 </script>
 
 <template>
-  <div class="tl-flex tl-px-4 tl-justify-between tl-gap-4 tl-items-center tl-mb-2">
+  <div class="tl-flex tl-px-4 tl-justify-between  tl-items-center tl-mb-2">
     <label class="tl-text-gray-500 tl-w-1/3">{{ label }}</label>
     <input
       :id="control.uniqueKey"

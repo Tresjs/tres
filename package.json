@@ -61,7 +61,8 @@
   "dependencies": {
     "@unocss/core": "^65.4.2",
     "@vueuse/components": "^12.4.0",
-    "@vueuse/motion": "^2.2.6"
+    "@vueuse/motion": "^2.2.6",
+    "unocss-preset-scrollbar": "^0.3.1"
   },
   "devDependencies": {
     "@histoire/plugin-vue": "^0.17.17",
