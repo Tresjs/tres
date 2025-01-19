@@ -27,7 +27,7 @@ exports[`boolean Control > should render a boolean control 1`] = `
 `;
 
 exports[`boolean Control > should render a boolean control with a label 1`] = `
-"<div id="tres-leches-pane-default" class="tl-fixed tl-top-4 tl-z-24 tl-bg-white tl-shadow-xl tl-p-1 tl-font-sans tl-text-xs tl-overflow-hidden tl-rounded-lg" style="top: 10px; width: 50.22918434759495px; height: 55.52184728749853px; right: 16px; opacity: 0.0661876399999998; transform: translate3d(0px,91.72287800901454px,0px);">
+"<div id="tres-leches-pane-default" class="tl-fixed tl-top-4 tl-z-24 tl-bg-white tl-shadow-xl tl-p-1 tl-font-sans tl-text-xs tl-overflow-hidden tl-rounded-lg" style="top: 10px; width: 49.80034602063071px; height: 54.99090459697135px; right: 16px; opacity: 0.06547027999999992; transform: translate3d(0px,91.88521159949505px,0px);">
   <header class="tl-flex tl-justify-between tl-items-center tl-text-gray-200 tl-text-xs">
     <div class="w-1/3"></div>
     <div class="tl-cursor-grabbing"><i class="i-ic-baseline-drag-indicator"></i><i class="i-ic-baseline-drag-indicator"></i><i class="i-ic-baseline-drag-indicator"></i></div>
