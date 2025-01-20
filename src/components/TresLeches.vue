@@ -213,6 +213,7 @@ onMounted(() => {
           @mouseleave="isHover = false"
         >🍰</i>
       </header>
+
       <div v-if="!isCollapsed" class="tl-flex-1 tl-relative tl-overflow-hidden tl-my-4">
         <!-- Gradient overlays moved outside scrollable area -->
         <div
@@ -223,7 +224,6 @@ onMounted(() => {
           class="tl-pointer-events-none tl-absolute tl-left-0 tl-right-0 tl-bottom-0 tl-h-8 tl-bg-gradient-linear tl-bg-gradient-to-t tl-from-white dark:tl-from-dark-200 tl-to-transparent tl-z-20 tl-opacity-0 tl-transition-opacity duration-200"
           :class="{ '!tl-opacity-100': showBottomGradient }"
         ></div>
-
         <div
           ref="scrollContainer"
           class="tl-h-full tl-overflow-y-auto tl-overflow-x-hidden tl-scrollbar tl-scrollbar-rounded tl-scrollbar-w-4px tl-scrollbar-radius-2 tl-scrollbar-track-radius-4 tl-scrollbar-thumb-radius-4 tl-scrollbar-track-color-gray-100 dark:tl-scrollbar-track-color-dark-300 tl-scrollbar-thumb-color-gray-300 dark:tl-scrollbar-thumb-color-gray-400"

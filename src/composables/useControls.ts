@@ -5,7 +5,9 @@ export const CONTROLS_CONTEXT_KEY = Symbol('CONTROLS_CONTEXT_KEY')
 const DEFAULT_UUID = 'default'
 
 // Internal state
-const controlsStore: { [uuid: string]: Record<string, LechesControl> } = reactive({})
+const controlsStore: { [uuid: string]: Record<string, LechesControl> } = reactive({
+  default: {},
+})
 
 export function useControlsProvider(uuid: string = DEFAULT_UUID) {
   provide(CONTROLS_CONTEXT_KEY, controlsStore)
