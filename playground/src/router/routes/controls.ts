@@ -34,4 +34,9 @@ export const controlsRoutes = [
     name: 'Text Control',
     component: () => import('../../pages/controls/TextControlDemo.vue'),
   },
+  {
+    path: '/controls/button',
+    name: 'Button Control',
+    component: () => import('../../pages/controls/ButtonControlDemo.vue'),
+  },
 ]

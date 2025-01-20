@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onUnmounted, ref, toRefs, watch } from 'vue'
+import { computed, onMounted, onUnmounted, ref, toRefs, watch } from 'vue'
 import { useDark, useDraggable, useWindowSize } from '@vueuse/core'
 import { dispose, useControlsProvider } from '../composables/useControls'
 import type { LechesControl } from '../types'
@@ -19,6 +19,9 @@ const { uuid, collapsed } = toRefs(props)
 
 const isCollapsed = ref(collapsed.value)
 const isHover = ref(false)
+const scrollContainer = ref<HTMLElement | null>(null)
+const showTopGradient = ref(false)
+const showBottomGradient = ref(false)
 
 const { width } = useWindowSize()
 
@@ -162,6 +165,18 @@ useDark({
   valueDark: 'dark',
   valueLight: 'light',
 })
+
+const handleScroll = () => {
+  if (!scrollContainer.value) { return }
+
+  const { scrollTop, scrollHeight, clientHeight } = scrollContainer.value
+  showTopGradient.value = scrollTop > 20
+  showBottomGradient.value = scrollHeight - scrollTop - clientHeight > 20
+}
+
+onMounted(() => {
+  handleScroll()
+})
 </script>
 
 <template>
@@ -198,25 +213,41 @@ useDark({
           @mouseleave="isHover = false"
         >🍰</i>
       </header>
-      <div v-if="!isCollapsed" class="tl-flex-1 tl-overflow-y-auto tl-overflow-x-hidden tl-my-4 tl-scrollbar tl-scrollbar-rounded tl-scrollbar-w-4px tl-scrollbar-radius-2 tl-scrollbar-track-radius-4 tl-scrollbar-thumb-radius-4">
-        <template
-          v-for="(group, folderName) of groupedControls"
-          :key="folderName"
+      <div v-if="!isCollapsed" class="tl-flex-1 tl-relative tl-overflow-hidden tl-my-4">
+        <!-- Gradient overlays moved outside scrollable area -->
+        <div
+          class="tl-pointer-events-none tl-absolute tl-left-0 tl-right-0 tl-top-0 tl-h-8 tl-bg-gradient-linear tl-bg-gradient-to-b tl-from-white dark:tl-from-dark-200 tl-to-transparent tl-z-20 tl-opacity-0 tl-transition-opacity duration-200"
+          :class="{ '!tl-opacity-100': showTopGradient }"
+        ></div>
+        <div
+          class="tl-pointer-events-none tl-absolute tl-left-0 tl-right-0 tl-bottom-0 tl-h-8 tl-bg-gradient-linear tl-bg-gradient-to-t tl-from-white dark:tl-from-dark-200 tl-to-transparent tl-z-20 tl-opacity-0 tl-transition-opacity duration-200"
+          :class="{ '!tl-opacity-100': showBottomGradient }"
+        ></div>
+
+        <div
+          ref="scrollContainer"
+          class="tl-h-full tl-overflow-y-auto tl-overflow-x-hidden tl-scrollbar tl-scrollbar-rounded tl-scrollbar-w-4px tl-scrollbar-radius-2 tl-scrollbar-track-radius-4 tl-scrollbar-thumb-radius-4 tl-scrollbar-track-color-gray-100 dark:tl-scrollbar-track-color-dark-300 tl-scrollbar-thumb-color-gray-300 dark:tl-scrollbar-thumb-color-gray-400"
+          @scroll="handleScroll"
         >
-          <Folder
-            v-if="folderName !== 'default'"
-            :label="folderName"
-            :controls="group"
-          />
-          <template v-if="folderName === 'default'">
-            <ControlInput
-              v-for="control in group"
-              :key="control.label"
-              :control="control"
-              @change="newValue => onChange(control.key, newValue)"
+          <template
+            v-for="(group, folderName) of groupedControls"
+            :key="folderName"
+          >
+            <Folder
+              v-if="folderName !== 'default'"
+              :label="folderName"
+              :controls="group"
             />
+            <template v-if="folderName === 'default'">
+              <ControlInput
+                v-for="control in group"
+                :key="control.label"
+                :control="control"
+                @change="newValue => onChange(control.key, newValue)"
+              />
+            </template>
           </template>
-        </template>
+        </div>
       </div>
       <!-- Resize handles -->
       <!-- <span

@@ -66,11 +66,9 @@ function onChange(value: string) {
     />
     <div
       v-else-if="control.type === 'button'"
-      class="tl-p-2"
-      :class="control.value.size === 'tl-block' ? 'tl-flex' : 'tl-inline-flex'"
+      class="tl-py-2 tl-px-4 tl-flex tl-justify-end"
     >
       <ButtonControl
-
         :label="control.label"
         :control="control"
       />

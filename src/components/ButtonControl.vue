@@ -47,21 +47,21 @@ const classes = computed(() => {
 }
 
 .leches-btn-block {
-  @apply px-4 py-2 text-base w-full justify-center;
+  @apply px-4 py-2 text-sm w-full justify-center;
 }
 
 .leches-btn-primary {
   @apply bg-gray-100 text-gray-700 dark:bg-dark-400 dark:text-gray-400;
 }
 .leches-btn-primary:hover {
-  @apply bg-gray-200 dark:bg-dark-200;
+  @apply bg-gray-200 dark:bg-dark-600;
 }
 
 .leches-btn-secondary {
-  @apply bg-dark-700 text-light-100 dark:bg-dark-300 dark:text-gray-400;
+  @apply bg-dark-700 text-light-100 dark:bg-gray-100 dark:text-gray-700;
 }
 
 .leches-btn-secondary:hover {
-  @apply bg-dark-600;
+  @apply bg-dark-600 dark:bg-gray-300;
 }
 </style>

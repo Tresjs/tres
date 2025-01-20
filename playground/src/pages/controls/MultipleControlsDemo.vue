@@ -40,6 +40,17 @@ const { wireframe, camPos, position, rotation, select } = useControls({
   },
   number: 1,
   text: 'Hello',
+  accept: {
+    label: 'Accept',
+    type: 'button',
+    variant: 'secondary',
+    onClick: () => {
+      // eslint-disable-next-line no-console
+      console.log('accept')
+    },
+    icon: 'i-carbon-checkmark',
+    size: 'block',
+  },
 })
 
 watch(wireframe, (value) => {

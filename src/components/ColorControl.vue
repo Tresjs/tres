@@ -18,7 +18,7 @@ function onChange(event: Event) {
 <template>
   <div class="tl-flex tl-px-4  tl-items-center tl-mb-2">
     <ControlLabel :label="label" :control="control" />
-    <div class="tl-w-2/3 tl-flex tl-items-center">
+    <div class="tl-w-2/3 tl-flex tl-justify-between tl-items-center">
       <input
         :id="control.uniqueKey"
         tabindex="0"
@@ -36,7 +36,7 @@ function onChange(event: Event) {
         :value="control.value"
         class="
         tl-p-2
-        tl-w-2/3
+        tl-w-1/2
         tl-rounded
         tl-text-right
         tl-text-xs
