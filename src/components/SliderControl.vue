@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
-import { useMouse } from '@vueuse/core'
+import { useDark, useMouse } from '@vueuse/core'
 import type { LechesControl } from '../types'
 import ControlLabel from './ControlLabel.vue'
 
@@ -16,11 +16,13 @@ function onChange(event: Event) {
   emit('change', (target as HTMLInputElement).valueAsNumber)
 }
 
+const isDark = useDark()
+
 const sliderFilledStyle = computed(() => ({
-  backgroundImage: `linear-gradient(to right, #333 0% ${
+  backgroundImage: `linear-gradient(to right, ${isDark ? '#9ca3af' : '#e2e2e2'} 0% ${
     (100 * ((props.control.value as number) - (props.control.min || 0)))
     / ((props.control.max || 100) - (props.control.min || 0))
-  }%, #e2e2e2 0%)`,
+  }%, ${isDark ? '#2d2d2d' : '#2d2d2d'} 0%)`,
 }))
 
 const mouse = useMouse()
@@ -71,7 +73,7 @@ watch(mouse.x, (newValue) => {
     <div class="tl-relative tl-w-2/3 tl-flex tl-justify-between tl-items-center tl-gap-0.5">
       <input
         :value="control.value"
-        class="tl-w-1/2 tl-h-0.75 tl-bg-dark-200 tl-rounded-full tl-appearance-none"
+        class="tl-w-1/2 tl-h-0.75 tl-bg-dark-200 dark:tl-bg-dark-400 tl-rounded-full tl-appearance-none"
         :style="sliderFilledStyle"
         type="range"
         :min="control.min"
@@ -89,8 +91,9 @@ watch(mouse.x, (newValue) => {
           tl-text-xs
           tl-text-gray-400
           tl-bg-gray-100
+          dark:tl-bg-dark-300
+          dark:tl-text-gray-400
           tl-focus:border-gray-200
-          tl-outline-none
           tl-border-none
           tl-font-sans
         "
@@ -116,10 +119,12 @@ input[type='range'] {
 }
 
 input[type='range']::-webkit-slider-thumb {
-  @apply h-4 w-3 border-2 bg-dark-200 rounded-sm cursor-pointer appearance-none shadow-lg;
+  @apply h-4 w-3 border-2 bg-dark-200 dark:bg-gray-400 rounded-sm cursor-pointer appearance-none shadow-lg;
 }
 
-input[type='range']::-moz-range-thumb {
-  @apply h-4 w-3 border-2 bg-dark-200 rounded-sm cursor-pointer appearance-none shadow-lg;
+/***** Chrome, Safari, Opera, and Edge Chromium *****/
+input[type='range']::-webkit-slider-runnable-track,
+input[type='range']::-moz-range-track {
+  @apply h-4 w-3 border-2 bg-dark-200 dark:bg-gray-400 rounded-sm  shadow-lg;
 }
 </style>

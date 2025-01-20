@@ -15,7 +15,7 @@ function onChange(event: Event) {
 </script>
 
 <template>
-  <div class="tl-flex tl-px-4 tl-justify-start  tl-items-center tl-mb-2 tl-min-h-32px">
+  <div class="tl-flex tl-px-4 tl-justify-start tl-items-center tl-mb-2 tl-min-h-32px">
     <ControlLabel
       :label="label"
       :control="control"
@@ -31,8 +31,9 @@ function onChange(event: Event) {
         tl-text-xs
         tl-text-gray-400
         tl-bg-gray-100
+        dark:tl-bg-dark-300
+        dark:tl-text-gray-400
         focus:tl-border-gray-200
-        tl-outline-none
         tl-border-none
         tl-font-sans
       "

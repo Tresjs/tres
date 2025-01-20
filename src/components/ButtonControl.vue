@@ -29,39 +29,39 @@ const classes = computed(() => {
 
 <style scoped>
 .leches-btn {
-  @apply tl-rounded-md tl-cursor-pointer tl-border-none tl-flex tl-items-center;
-  @apply tl-font-bold;
-  @apply tl-transition-all tl-duration-200;
+  @apply rounded-md cursor-pointer border-none flex items-center;
+  @apply font-bold;
+  @apply transition-all duration-200;
 }
 
 .leches-btn-sm {
-  @apply tl-text-xs tl-px-2.5 tl-py-2;
+  @apply text-xs px-2.5 py-2;
 }
 
 .leches-btn-md {
-  @apply tl-text-sm tl-px-3 tl-py-2;
+  @apply text-sm px-3 py-2;
 }
 
 .leches-btn-lg {
-  @apply tl-text-base tl-px-4 tl-py-2;
+  @apply text-base px-4 py-2;
 }
 
 .leches-btn-block {
-  @apply tl-px-4 tl-py-2 tl-text-base tl-w-full tl-justify-center;
+  @apply px-4 py-2 text-sm w-full justify-center;
 }
 
 .leches-btn-primary {
-  @apply tl-bg-gray-100 tl-text-gray-700;
+  @apply bg-gray-100 text-gray-700 dark:bg-dark-400 dark:text-gray-400;
 }
 .leches-btn-primary:hover {
-  @apply tl-bg-gray-200;
+  @apply bg-gray-200 dark:bg-dark-600;
 }
 
 .leches-btn-secondary {
-  @apply tl-bg-dark-700 tl-text-light-100;
+  @apply bg-dark-700 text-light-100 dark:bg-gray-100 dark:text-gray-700;
 }
 
 .leches-btn-secondary:hover {
-  @apply tl-bg-dark-600;
+  @apply bg-dark-600 dark:bg-gray-300;
 }
 </style>

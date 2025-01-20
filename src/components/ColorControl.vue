@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { LechesControl } from '../types'
+import ControlLabel from './ControlLabel.vue'
 
 defineProps<{
   label: string
@@ -15,37 +16,41 @@ function onChange(event: Event) {
 </script>
 
 <template>
-  <div class="tl-flex tl-px-4 tl-justify-between  tl-items-center tl-mb-2">
-    <label class="tl-text-gray-500 tl-w-1/3">{{ label }}</label>
-    <input
-      :id="control.uniqueKey"
-      tabindex="0"
-      :value="control.value"
-      :aria-label="label"
-      class="focus:tl-outline-none focus:tl-ring-2 focus:tl-ring-blue-600"
-      :class="{ 'important-tl-outline-gray-200': control.value === '#ffffff' }"
-      type="color"
-      @input="onChange"
-    />
-    <input
-      :id="control.uniqueKey"
-      tabindex="0"
-      :aria-label="label"
-      :value="control.value"
-      class="
+  <div class="tl-flex tl-px-4  tl-items-center tl-mb-2">
+    <ControlLabel :label="label" :control="control" />
+    <div class="tl-w-2/3 tl-flex tl-justify-between tl-items-center">
+      <input
+        :id="control.uniqueKey"
+        tabindex="0"
+        :value="control.value"
+        :aria-label="label"
+        class="focus:tl-outline-none focus:tl-ring-2 focus:tl-ring-blue-600"
+        :class="{ 'important-tl-outline-gray-200': control.value === '#ffffff' }"
+        type="color"
+        @input="onChange"
+      />
+      <input
+        :id="control.uniqueKey"
+        tabindex="0"
+        :aria-label="label"
+        :value="control.value"
+        class="
         tl-p-2
-        tl-w-2/3
+        tl-w-1/2
         tl-rounded
         tl-text-right
         tl-text-xs
         tl-text-gray-400
+        dark:tl-text-gray-400
         tl-bg-gray-100
+        dark:tl-bg-dark-300
         tl-border-none
         tl-font-sans
       "
-      type="text"
-      @input="onChange"
-    />
+        type="text"
+        @input="onChange"
+      />
+    </div>
   </div>
 </template>
 

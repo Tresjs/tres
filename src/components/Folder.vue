@@ -30,8 +30,10 @@ const toggle = () => {
         tl-py-2
         tl-px-4
         tl-bg-gray-100
+        dark:tl-bg-dark-300
         tl-border-none
         tl-text-gray-400
+        dark:tl-text-gray-400
         tl-font-bold
         tl-text-xs
         tl-font-sans
@@ -55,7 +57,7 @@ const toggle = () => {
     >
       <div
         v-show="isOpen"
-        class="tl-bg-white tl-rounded-b tl-pt-4"
+        class="tl-bg-white dark:tl-bg-dark-300 tl-rounded-b tl-pt-4"
         role="menu"
       >
         <template
