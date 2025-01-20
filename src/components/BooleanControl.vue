@@ -53,6 +53,11 @@ function onKeydown(event: KeyboardEvent) {
           tl-border
           tl-border-gray-300
           tl-text-white
+          tl-outline-none
+          tl-border-none
+          focus:tl-border-gray-200
+          focus:tl-ring
+          focus:tl-ring-gray-200
           tl-mr-2
           tl-transition-colors
           tl-duration-200"

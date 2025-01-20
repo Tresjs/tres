@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
-import { useDark, useMouse, useToggle } from '@vueuse/core'
+import { useDark, useMouse } from '@vueuse/core'
 import type { LechesControl } from '../types'
 import ControlLabel from './ControlLabel.vue'
 
@@ -87,20 +87,7 @@ watch(mouse.x, (newValue) => {
       />
       <input
         :value="control.value"
-        class="
-          tl-p-2
-          tl-w-1/4
-          tl-rounded
-          tl-text-right
-          tl-text-xs
-          tl-text-gray-400
-          tl-bg-gray-100
-          dark:tl-bg-dark-300
-          dark:tl-text-gray-400
-          tl-focus:border-gray-200
-          tl-border-none
-          tl-font-sans
-        "
+        class="tl-leches-input tl-w-1/4"
         :class="{ 'tl-cursor-ew-resize': isMouseDown }"
         type="number"
         :min="control.min"

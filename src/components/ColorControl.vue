@@ -24,7 +24,7 @@ function onChange(event: Event) {
         tabindex="0"
         :value="control.value"
         :aria-label="label"
-        class="focus:tl-outline-none focus:tl-ring-2 focus:tl-ring-blue-600"
+        class="leches-color focus:tl-outline-none focus:tl-ring-2 focus:tl-ring-blue-600"
         :class="{ 'important-tl-outline-gray-200': control.value === '#ffffff' }"
         type="color"
         @input="onChange"
@@ -34,19 +34,7 @@ function onChange(event: Event) {
         tabindex="0"
         :aria-label="label"
         :value="control.value"
-        class="
-        tl-p-2
-        tl-w-1/2
-        tl-rounded
-        tl-text-right
-        tl-text-xs
-        tl-text-gray-400
-        dark:tl-text-gray-400
-        tl-bg-gray-100
-        dark:tl-bg-dark-300
-        tl-border-none
-        tl-font-sans
-      "
+        class="tl-leches-input tl-w-1/2"
         type="text"
         @input="onChange"
       />
@@ -55,16 +43,15 @@ function onChange(event: Event) {
 </template>
 
 <style focus>
-input[type='color'] {
-  @apply tl-appearance-none tl-p-0 tl-bg-transparent tl-rounded-sm tl-outline-none tl-border-none tl-box-border;
-  cursor: pointer;
+.leches-color {
+  @apply tl-appearance-none tl-p-0 tl-bg-transparent tl-rounded-sm tl-outline-none tl-border-none tl-box-border tl-cursor-pointer;
 }
 
-input[type='color']::-webkit-color-swatch-wrapper {
+.leches-color::-webkit-color-swatch-wrapper {
   @apply tl-p-0 tl-border-none;
 }
 
-input[type='color']::-webkit-color-swatch {
+.leches-color::-webkit-color-swatch {
   @apply tl-p-0 tl-h-30px -tl-mt-0.5 tl-w-30px tl-rounded-sm tl-border-none;
 }
 </style>

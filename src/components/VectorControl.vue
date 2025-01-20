@@ -118,7 +118,7 @@ watch(mouse.x, (newValue) => {
       <div
         v-for="(_subcontrol, $index) in vector"
         :key="label + $index"
-        class="tl-flex tl-items-center tl-bg-gray-100 dark:tl-bg-dark-300 tl-rounded"
+        class="tl-flex tl-items-center tl-bg-gray-100 dark:tl-bg-dark-300 tl-rounded tl-border-none tl-outline-none tl-focus:tl-border-gray-200 tl-focus:tl-ring tl-focus:tl-ring-gray-200"
         :class="{
           'tl-w-2/5': focused === $index,
           'tl-w-1/3': isVector3(control.value),

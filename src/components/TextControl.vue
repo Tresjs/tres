@@ -26,19 +26,7 @@ function onChange(event: Event) {
       :value="control.value"
       type="text"
       tabindex="0"
-      class="
-        tl-p-2
-        tl-w-2/3
-        tl-rounded
-        tl-text-left
-        tl-text-xs
-        tl-text-gray-400
-        tl-bg-gray-100
-        dark:tl-bg-dark-300
-        dark:tl-text-gray-400
-        focus:tl-border-gray-200
-        tl-border-none
-        tl-font-sans"
+      class="tl-leches-input tl-w-2/3"
       :aria-label="label"
       placeholder="Enter value here..."
       @change="onChange"
