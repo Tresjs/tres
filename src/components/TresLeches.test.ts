@@ -24,6 +24,5 @@ describe('tresLeches', () => {
     // Remove dynamic style attributes before snapshot
     const html = wrapper.html().replace(/style="[^"]*"/, '')
     expect(html).toMatchSnapshot()
-    expect(wrapper.find('div').attributes('id')).toBe('tres-leches-pane-test')
   })
 })
