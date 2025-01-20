@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
-import { useDark, useMouse } from '@vueuse/core'
+import { useDark, useMouse, useToggle } from '@vueuse/core'
 import type { LechesControl } from '../types'
 import ControlLabel from './ControlLabel.vue'
 
@@ -18,12 +18,16 @@ function onChange(event: Event) {
 
 const isDark = useDark()
 
-const sliderFilledStyle = computed(() => ({
-  backgroundImage: `linear-gradient(to right, ${isDark ? '#9ca3af' : '#e2e2e2'} 0% ${
-    (100 * ((props.control.value as number) - (props.control.min || 0)))
-    / ((props.control.max || 100) - (props.control.min || 0))
-  }%, ${isDark ? '#2d2d2d' : '#2d2d2d'} 0%)`,
-}))
+const sliderFilledStyle = computed(() => {
+  const colorStart = isDark.value ? '#9ca3af' : '#2d2d2d'
+  const colorEnd = isDark.value ? '#2d2d2d' : '#9ca3af'
+  return {
+    backgroundImage: `linear-gradient(to right, ${colorStart} 0% ${
+      (100 * ((props.control.value as number) - (props.control.min || 0)))
+      / ((props.control.max || 100) - (props.control.min || 0))
+    }%, ${colorEnd} 0%)`,
+  }
+})
 
 const mouse = useMouse()
 const initialMouseX = ref(0)
@@ -73,7 +77,7 @@ watch(mouse.x, (newValue) => {
     <div class="tl-relative tl-w-2/3 tl-flex tl-justify-between tl-items-center tl-gap-0.5">
       <input
         :value="control.value"
-        class="tl-w-1/2 tl-h-0.75 tl-bg-dark-200 dark:tl-bg-dark-400 tl-rounded-full tl-appearance-none"
+        class="leches-range tl-w-1/2 tl-h-0.75 tl-bg-dark-200 dark:tl-bg-yellow tl-rounded-full tl-appearance-none"
         :style="sliderFilledStyle"
         type="range"
         :min="control.min"
@@ -110,21 +114,44 @@ watch(mouse.x, (newValue) => {
   </div>
 </template>
 
-<style scoped>
-input[type='range'] {
+<style>
+:root {
+  --tl-border-color: #2d2d2d;
+  --tl-thumb-bg: #2d2d2d;
+}
+
+.dark {
+  --tl-border-color: #9ca3af;
+  --tl-thumb-bg: #9ca3af;
+}
+
+.leches-range {
   outline: none;
   appearance: none;
+  background: transparent;
+
   -webkit-appearance: none;
   -moz-appearance: none;
 }
 
-input[type='range']::-webkit-slider-thumb {
-  @apply h-4 w-3 border-2 bg-dark-200 dark:bg-gray-400 rounded-sm cursor-pointer appearance-none shadow-lg;
+.leches-range::-webkit-slider-thumb {
+  height: 1rem;
+  width: 0.75rem;
+  border: 2px solid var(--tl-border-color);
+  --un-bg-opacity: 1;
+  background-color: var(--tl-thumb-bg);
+  border-radius: 0.125rem;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+  --un-shadow: var(--un-shadow-inset) 0 10px 15px -3px var(--un-shadow-color, rgb(0 0 0 / 0.1)),
+    var(--un-shadow-inset) 0 4px 6px -4px var(--un-shadow-color, rgb(0 0 0 / 0.1));
+  box-shadow: var(--un-ring-offset-shadow), var(--un-ring-shadow), var(--un-shadow);
 }
 
 /***** Chrome, Safari, Opera, and Edge Chromium *****/
-input[type='range']::-webkit-slider-runnable-track,
-input[type='range']::-moz-range-track {
-  @apply h-4 w-3 border-2 bg-dark-200 dark:bg-gray-400 rounded-sm  shadow-lg;
+.leches-range::-webkit-slider-runnable-track,
+.leches-range::-moz-range-track {
+  appearance: none;
 }
 </style>

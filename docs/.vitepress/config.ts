@@ -66,8 +66,8 @@ export default defineConfig({
     },
     resolve: {
       alias: {
-        '@tresjs/leches': resolve(__dirname, '../../dist/tresleches.js'),
-        '@leches/styles': resolve(__dirname, '../../dist/style.css'),
+        '@tresjs/leches': resolve(__dirname, '../../src'),
+        '@leches/styles': resolve(__dirname, '../../dist/tresleches.css'),
       },
       dedupe: ['@tresjs/cientos', 'three'],
     },
