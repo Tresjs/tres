@@ -73,8 +73,9 @@ watch(mouse.x, (newValue) => {
         tl-text-xs
         tl-text-gray-400
         tl-bg-gray-100
+        dark:tl-bg-dark-300
+        dark:tl-text-gray-400
         tl-focus:border-gray-200
-        tl-outline-none
         tl-border-none
         tl-font-sans
       "

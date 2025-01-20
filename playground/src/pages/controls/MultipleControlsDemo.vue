@@ -19,6 +19,7 @@ useControls('fpsgraph')
 const label = ref('Range')
 
 const { wireframe, camPos, position, rotation, select } = useControls({
+  clearColor: '#82DBC5',
   wireframe: false,
   camPos: new Vector3(4, 4, 4),
   position: new Vector3(0, 1, 2),
@@ -37,6 +38,8 @@ const { wireframe, camPos, position, rotation, select } = useControls({
     max: 10,
     step: 0.1,
   },
+  number: 1,
+  text: 'Hello',
 })
 
 watch(wireframe, (value) => {

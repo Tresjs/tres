@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { LechesControl } from '../types'
+import ControlLabel from './ControlLabel.vue'
 
 const props = defineProps<{
   label: string
@@ -23,7 +24,10 @@ function onKeydown(event: KeyboardEvent) {
 
 <template>
   <div class="tl-flex tl-px-4 tl-justify-start tl-items-center tl-mb-2 tl-min-h-32px">
-    <label class="tl-text-gray-500 tl-w-1/3">{{ label }}</label>
+    <ControlLabel
+      :label="label"
+      :control="control"
+    />
     <input
       :id="control.uniqueKey"
       :checked="control.value"
@@ -39,7 +43,7 @@ function onKeydown(event: KeyboardEvent) {
         tabindex="0"
         role="checkbox"
         :aria-checked="control.value.toString()"
-        :class="{ 'tl-bg-dark-500': control.value, 'tl-bg-gray-200': !control.value }"
+        :class="{ 'tl-bg-dark-500 dark:tl-bg-gray-400': control.value, 'tl-bg-gray-200 dark:tl-bg-dark-400': !control.value }"
         class="tl-w-4
           tl-h-4
           tl-flex
@@ -56,7 +60,7 @@ function onKeydown(event: KeyboardEvent) {
       >
         <i
           v-show="control.value"
-          class="i-ic:baseline-check tl-text-light"
+          class="i-ic:baseline-check tl-text-light dark:tl-text-dark"
         ></i></span>
     </label>
   </div>

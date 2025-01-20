@@ -1,7 +1,8 @@
 <script lang="ts" setup>
 import { onMounted, onUnmounted, ref } from 'vue'
-import { useFps, useRafFn } from '@vueuse/core'
+import { useDark, useFps, useRafFn } from '@vueuse/core'
 import type { LechesControl } from '../types'
+import ControlLabel from './ControlLabel.vue'
 
 defineProps<{
   label: string
@@ -65,12 +66,16 @@ useRafFn(({ timestamp }) => {
       .join(' ')
   }
 })
+
+const isDark = useDark()
 </script>
 
 <template>
   <div class="tl-flex tl-px-4 tl-items-center tl-mb-2">
-    <label class="tl-text-gray-500 tl-w-1/3">{{ label }}</label>
-
+    <ControlLabel
+      :label="label"
+      :control="control"
+    />
     <div
       ref="containerRef"
       class="
@@ -82,6 +87,8 @@ useRafFn(({ timestamp }) => {
         tl-text-xs
         tl-text-gray-400
         tl-bg-gray-100
+        dark:tl-bg-dark-300
+        dark:tl-text-gray-400
         tl-outline-none
         tl-border-none
         tl-font-sans
@@ -94,12 +101,12 @@ useRafFn(({ timestamp }) => {
         :width="width"
         :height="height"
         xmlns="http://www.w3.org/2000/svg"
-        class="tl-bg-gray-100"
+        class="tl-bg-gray-100 dark:tl-bg-dark-300"
       >
         <polyline
           :points="points"
           fill="none"
-          stroke="lightgray"
+          :stroke="isDark ? 'darkgray' : 'lightgray'"
           :stroke-width="strokeWidth"
           stroke-linecap="round"
           stroke-linejoin="round"
