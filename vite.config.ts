@@ -52,7 +52,7 @@ export default defineConfig({
           open: true,
         }), */
       ],
-      external: ['three', 'vue', '@tresjs/core'],
+      external: ['three', 'vue', '@tresjs/core', '@dimforge/rapier3d-compat'],
       output: {
         exports: 'named',
         // Provide global variables to use in the UMD build
@@ -61,11 +61,12 @@ export default defineConfig({
           '@tresjs/core': 'TresjsCore',
           'three': 'Three',
           'vue': 'Vue',
+          '@dimforge/rapier3d-compat': 'Rapier3dCompat',
         },
       },
     },
   },
   optimizeDeps: {
-    exclude: ['three', 'vue', '@tresjs/core'],
+    exclude: ['three', 'vue', '@tresjs/core', '@dimforge/rapier3d-compat'],
   },
 })
