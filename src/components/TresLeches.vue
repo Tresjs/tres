@@ -1,21 +1,25 @@
 <script setup lang="ts">
 import { computed, onMounted, onUnmounted, ref, toRefs, watch } from 'vue'
-import { useDark, useDraggable, useWindowSize } from '@vueuse/core'
+import { useDraggable } from '../composables/useDraggable'
+import { useDark, useWindowSize } from '@vueuse/core'
 import { dispose, useControlsProvider } from '../composables/useControls'
 import type { LechesControl } from '../types'
 import Folder from './Folder.vue'
 import { useMotion } from '@vueuse/motion'
 import ControlInput from './ControlInput.vue'
 
+import iconUrl from '../assets/tresleches-icon.svg?url'
+
 const props = withDefaults(defineProps<{
   uuid?: string
   collapsed?: boolean
+  float?: boolean
 }>(), {
   uuid: 'default',
   collapsed: false,
+  float: true,
 })
-
-const { uuid, collapsed } = toRefs(props)
+const { uuid, collapsed, float } = toRefs(props)
 
 const isCollapsed = ref(collapsed.value)
 const isHover = ref(false)
@@ -24,12 +28,16 @@ const showTopGradient = ref(false)
 const showBottomGradient = ref(false)
 
 const { width } = useWindowSize()
+const { height: windowHeight } = useWindowSize()
 
 const DEFAULT_WIDTH = 300
-const DEFAULT_HEIGHT = 340
+const MIN_HEIGHT = 100 // Minimum height for the panel
+const MAX_HEIGHT = 600 // Maximum height for the panel
+const CONTROL_HEIGHT = 40 // Approximate height per control
+const MARGIN_FROM_BOTTOM = 40 // Margin to keep from bottom of viewport
 
 const panelWidth = ref(DEFAULT_WIDTH)
-const panelHeight = ref(DEFAULT_HEIGHT)
+const manualHeight = ref<number | null>(null) // Track manual height override
 const isResizing = ref(false)
 const resizeEdge = ref<'right' | 'left' | 'bottom' | 'corner' | 'corner-left' | null>(null)
 
@@ -62,6 +70,29 @@ const groupedControls = computed(() => {
   return groups
 })
 
+const panelHeight = computed(() => {
+  if (isCollapsed.value) { return 28 } // Height when collapsed
+
+  // If manually resized, use that height within constraints
+  if (manualHeight.value !== null) {
+    const maxAllowedHeight = float.value ? windowHeight.value - MARGIN_FROM_BOTTOM : MAX_HEIGHT
+    return Math.min(maxAllowedHeight, Math.max(MIN_HEIGHT, manualHeight.value))
+  }
+
+  // Calculate total controls including those in folders
+  let totalControls = 0
+  for (const folderName in groupedControls.value) {
+    totalControls += groupedControls.value[folderName].length
+    // Add height for folder header if it's not the default folder
+    if (folderName !== 'default') { totalControls += 1 }
+  }
+
+  // Calculate height: header (32px) + controls + padding
+  const calculatedHeight = 32 + (totalControls * CONTROL_HEIGHT) + 32
+  const maxAllowedHeight = float.value ? windowHeight.value - MARGIN_FROM_BOTTOM : MAX_HEIGHT
+  return Math.min(maxAllowedHeight, Math.max(MIN_HEIGHT, calculatedHeight))
+})
+
 const paneRef = ref<HTMLElement | null>(null)
 const handleRef = ref<HTMLElement | null>(null)
 
@@ -79,7 +110,7 @@ const { apply } = useMotion(paneRef, {
     y: 100,
     width: 28,
     height: 28,
-    right: '16px',
+    right: '1rem',
     left: 'auto',
   },
   enter: {
@@ -87,7 +118,7 @@ const { apply } = useMotion(paneRef, {
     y: 0,
     width: 28,
     height: 28,
-    right: '16px',
+    right: '1rem',
     left: 'auto',
   },
   leave: {
@@ -95,7 +126,7 @@ const { apply } = useMotion(paneRef, {
     y: 100,
     width: 28,
     height: 28,
-    right: '16px',
+    right: '1rem',
     left: 'auto',
   },
 })
@@ -109,7 +140,7 @@ function startResize(edge: 'right' | 'left' | 'bottom' | 'corner' | 'corner-left
   const startX = e.clientX
   const startY = e.clientY
   const startWidth = panelWidth.value
-  const startHeight = panelHeight.value
+  const startHeight = manualHeight.value ?? panelHeight.value
   const startDragX = dragPosition.value.x
 
   function onMouseMove(e: MouseEvent) {
@@ -131,8 +162,9 @@ function startResize(edge: 'right' | 'left' | 'bottom' | 'corner' | 'corner-left
 
     if (resizeEdge.value === 'bottom' || resizeEdge.value === 'corner' || resizeEdge.value === 'corner-left') {
       const deltaY = e.clientY - startY
-      panelHeight.value = Math.max(280, startHeight + deltaY)
-      paneRef.value.style.maxHeight = `${panelHeight.value}px`
+      const maxAllowedHeight = float.value ? windowHeight.value - MARGIN_FROM_BOTTOM : MAX_HEIGHT
+      manualHeight.value = Math.min(maxAllowedHeight, Math.max(MIN_HEIGHT, startHeight + deltaY))
+      paneRef.value.style.maxHeight = `${manualHeight.value}px`
     }
   }
 
@@ -152,7 +184,7 @@ watch(isCollapsed, async (value) => {
     await apply({
       width: panelWidth.value,
       height: panelHeight.value,
-      right: '16px',
+      right: '1rem',
       left: 'auto',
     })
     return
@@ -184,19 +216,24 @@ onMounted(() => {
     <div
       :id="`tres-leches-pane-${uuid}`"
       ref="paneRef"
-      class="tl-fixed tl-top-4 tl-z-24 tl-bg-white dark:tl-bg-dark-200 tl-shadow-xl tl-p-1 tl-font-sans tl-text-xs tl-flex tl-flex-col"
-      :class="[$attrs.class, isCollapsed ? 'tl-rounded-full' : 'tl-rounded-lg']"
-      :style="[style, { width: `${panelWidth}px`, height: `${panelHeight}px`, right: '16px', left: 'auto' }]"
+      class="tl-top-4 tl-z-24 tl-bg-white dark:tl-bg-dark-200 tl-shadow-xl tl-p-1 tl-font-sans tl-text-xs tl-flex tl-flex-col"
+      :class="[
+        $attrs.class,
+        isCollapsed ? 'tl-rounded-full' : 'tl-rounded-lg',
+        float ? 'tl-absolute' : 'tl-relative',
+      ]"
+      :style="[float ? style : null, { width: `${panelWidth}px`, height: `${panelHeight}px`, right: '16px', left: 'auto' }]"
     >
       <header class="tl-flex tl-justify-between tl-items-center tl-text-gray-200 dark:tl-text-gray-600 tl-text-xs tl-flex-none">
         <div v-show="!isCollapsed" class="w-1/3"></div>
-        <div v-show="!isCollapsed" ref="handleRef" class="tl-cursor-grabbing">
+        <div v-if="!isCollapsed && float" ref="handleRef" class="tl-cursor-grabbing">
           <i class="i-ic-baseline-drag-indicator"></i><i class="i-ic-baseline-drag-indicator"></i><i
             class="i-ic-baseline-drag-indicator"
           ></i>
         </div>
+        <div v-else-if="!isCollapsed" class="tl-flex-1"></div>
         <div></div>
-        <i
+        <div
           class="tl-h-4
               tl-w-4
               tl-p-1.5
@@ -207,13 +244,15 @@ onMounted(() => {
               tl-bg-gray-100
               dark:tl-bg-dark-300
               tl-text-xs
-              tl-cursor-pointer"
+              tl-cursor-pointer
+              "
           @click="isCollapsed = !isCollapsed"
           @mouseenter="isHover = true"
           @mouseleave="isHover = false"
-        >🍰</i>
+        >
+          <img :src="iconUrl" alt="TresLechesIcon" class="tl-w-4 tl-h-4" />
+        </div>
       </header>
-
       <div v-if="!isCollapsed" class="tl-flex-1 tl-relative tl-overflow-hidden tl-my-4">
         <!-- Gradient overlays moved outside scrollable area -->
         <div

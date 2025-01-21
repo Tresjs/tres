@@ -2,7 +2,7 @@
 
 exports[`button Controls > should render a block size button 1`] = `
 "<div class="tresleches-container">
-  <div id="tres-leches-pane-default" class="tl-fixed tl-top-4 tl-z-24 tl-bg-white dark:tl-bg-dark-200 tl-shadow-xl tl-p-1 tl-font-sans tl-text-xs tl-flex tl-flex-col tl-rounded-lg" >
+  <div id="tres-leches-pane-default" class="tl-absolute tl-top-4 tl-z-24 tl-bg-white dark:tl-bg-dark-200 tl-shadow-xl tl-p-1 tl-font-sans tl-text-xs tl-flex tl-flex-col tl-rounded-lg" >
     <header class="tl-flex tl-justify-between tl-items-center tl-text-gray-200 dark:tl-text-gray-600 tl-text-xs tl-flex-none">
       <div class="w-1/3"></div>
       <div class="tl-cursor-grabbing"><i class="i-ic-baseline-drag-indicator"></i><i class="i-ic-baseline-drag-indicator"></i><i class="i-ic-baseline-drag-indicator"></i></div>
@@ -15,7 +15,7 @@ exports[`button Controls > should render a block size button 1`] = `
       <div class="tl-h-full tl-overflow-y-auto tl-overflow-x-hidden tl-scrollbar tl-scrollbar-rounded tl-scrollbar-w-4px tl-scrollbar-radius-2 tl-scrollbar-track-radius-4 tl-scrollbar-thumb-radius-4 tl-scrollbar-track-color-gray-100 dark:tl-scrollbar-track-color-dark-300 tl-scrollbar-thumb-color-gray-300 dark:tl-scrollbar-thumb-color-gray-400">
         <!--v-if-->
         <div>
-          <div class="tl-py-2 tl-px-4 tl-flex tl-justify-end"><button data-v-9a5f9367="" class="leches-btn leches-btn-primary leches-btn-block"><i data-v-9a5f9367="" class="mr-1"></i> Accept</button></div>
+          <div class="tl-py-2 tl-px-4 tl-flex tl-justify-end"><button class="leches-btn leches-btn-primary leches-btn-block"><i class="mr-1"></i> Accept</button></div>
         </div>
       </div>
     </div><!-- Resize handles -->
@@ -35,7 +35,7 @@ exports[`button Controls > should render a block size button 1`] = `
 
 exports[`button Controls > should render a button 1`] = `
 "<div class="tresleches-container">
-  <div id="tres-leches-pane-default" class="tl-fixed tl-top-4 tl-z-24 tl-bg-white dark:tl-bg-dark-200 tl-shadow-xl tl-p-1 tl-font-sans tl-text-xs tl-flex tl-flex-col tl-rounded-lg" >
+  <div id="tres-leches-pane-default" class="tl-absolute tl-top-4 tl-z-24 tl-bg-white dark:tl-bg-dark-200 tl-shadow-xl tl-p-1 tl-font-sans tl-text-xs tl-flex tl-flex-col tl-rounded-lg" >
     <header class="tl-flex tl-justify-between tl-items-center tl-text-gray-200 dark:tl-text-gray-600 tl-text-xs tl-flex-none">
       <div class="w-1/3"></div>
       <div class="tl-cursor-grabbing"><i class="i-ic-baseline-drag-indicator"></i><i class="i-ic-baseline-drag-indicator"></i><i class="i-ic-baseline-drag-indicator"></i></div>
@@ -48,7 +48,7 @@ exports[`button Controls > should render a button 1`] = `
       <div class="tl-h-full tl-overflow-y-auto tl-overflow-x-hidden tl-scrollbar tl-scrollbar-rounded tl-scrollbar-w-4px tl-scrollbar-radius-2 tl-scrollbar-track-radius-4 tl-scrollbar-thumb-radius-4 tl-scrollbar-track-color-gray-100 dark:tl-scrollbar-track-color-dark-300 tl-scrollbar-thumb-color-gray-300 dark:tl-scrollbar-thumb-color-gray-400">
         <!--v-if-->
         <div>
-          <div class="tl-py-2 tl-px-4 tl-flex tl-justify-end"><button data-v-9a5f9367="" class="leches-btn leches-btn-primary leches-btn-sm"><i data-v-9a5f9367="" class="mr-1"></i> Accept</button></div>
+          <div class="tl-py-2 tl-px-4 tl-flex tl-justify-end"><button class="leches-btn leches-btn-primary leches-btn-sm"><i class="mr-1"></i> Accept</button></div>
         </div>
       </div>
     </div><!-- Resize handles -->
@@ -68,7 +68,7 @@ exports[`button Controls > should render a button 1`] = `
 
 exports[`button Controls > should render a button with a label 1`] = `
 "<div class="tresleches-container">
-  <div id="tres-leches-pane-default" class="tl-fixed tl-top-4 tl-z-24 tl-bg-white dark:tl-bg-dark-200 tl-shadow-xl tl-p-1 tl-font-sans tl-text-xs tl-flex tl-flex-col tl-rounded-lg" >
+  <div id="tres-leches-pane-default" class="tl-absolute tl-top-4 tl-z-24 tl-bg-white dark:tl-bg-dark-200 tl-shadow-xl tl-p-1 tl-font-sans tl-text-xs tl-flex tl-flex-col tl-rounded-lg" >
     <header class="tl-flex tl-justify-between tl-items-center tl-text-gray-200 dark:tl-text-gray-600 tl-text-xs tl-flex-none">
       <div class="w-1/3"></div>
       <div class="tl-cursor-grabbing"><i class="i-ic-baseline-drag-indicator"></i><i class="i-ic-baseline-drag-indicator"></i><i class="i-ic-baseline-drag-indicator"></i></div>
@@ -81,7 +81,7 @@ exports[`button Controls > should render a button with a label 1`] = `
       <div class="tl-h-full tl-overflow-y-auto tl-overflow-x-hidden tl-scrollbar tl-scrollbar-rounded tl-scrollbar-w-4px tl-scrollbar-radius-2 tl-scrollbar-track-radius-4 tl-scrollbar-thumb-radius-4 tl-scrollbar-track-color-gray-100 dark:tl-scrollbar-track-color-dark-300 tl-scrollbar-thumb-color-gray-300 dark:tl-scrollbar-thumb-color-gray-400">
         <!--v-if-->
         <div>
-          <div class="tl-py-2 tl-px-4 tl-flex tl-justify-end"><button data-v-9a5f9367="" class="leches-btn leches-btn-primary leches-btn-sm"><i data-v-9a5f9367="" class="mr-1"></i> Accept</button></div>
+          <div class="tl-py-2 tl-px-4 tl-flex tl-justify-end"><button class="leches-btn leches-btn-primary leches-btn-sm"><i class="mr-1"></i> Accept</button></div>
         </div>
       </div>
     </div><!-- Resize handles -->
@@ -101,7 +101,7 @@ exports[`button Controls > should render a button with a label 1`] = `
 
 exports[`button Controls > should render a large button 1`] = `
 "<div class="tresleches-container">
-  <div id="tres-leches-pane-default" class="tl-fixed tl-top-4 tl-z-24 tl-bg-white dark:tl-bg-dark-200 tl-shadow-xl tl-p-1 tl-font-sans tl-text-xs tl-flex tl-flex-col tl-rounded-lg" >
+  <div id="tres-leches-pane-default" class="tl-absolute tl-top-4 tl-z-24 tl-bg-white dark:tl-bg-dark-200 tl-shadow-xl tl-p-1 tl-font-sans tl-text-xs tl-flex tl-flex-col tl-rounded-lg" >
     <header class="tl-flex tl-justify-between tl-items-center tl-text-gray-200 dark:tl-text-gray-600 tl-text-xs tl-flex-none">
       <div class="w-1/3"></div>
       <div class="tl-cursor-grabbing"><i class="i-ic-baseline-drag-indicator"></i><i class="i-ic-baseline-drag-indicator"></i><i class="i-ic-baseline-drag-indicator"></i></div>
@@ -114,7 +114,7 @@ exports[`button Controls > should render a large button 1`] = `
       <div class="tl-h-full tl-overflow-y-auto tl-overflow-x-hidden tl-scrollbar tl-scrollbar-rounded tl-scrollbar-w-4px tl-scrollbar-radius-2 tl-scrollbar-track-radius-4 tl-scrollbar-thumb-radius-4 tl-scrollbar-track-color-gray-100 dark:tl-scrollbar-track-color-dark-300 tl-scrollbar-thumb-color-gray-300 dark:tl-scrollbar-thumb-color-gray-400">
         <!--v-if-->
         <div>
-          <div class="tl-py-2 tl-px-4 tl-flex tl-justify-end"><button data-v-9a5f9367="" class="leches-btn leches-btn-primary leches-btn-lg"><i data-v-9a5f9367="" class="mr-1"></i> Accept</button></div>
+          <div class="tl-py-2 tl-px-4 tl-flex tl-justify-end"><button class="leches-btn leches-btn-primary leches-btn-lg"><i class="mr-1"></i> Accept</button></div>
         </div>
       </div>
     </div><!-- Resize handles -->
@@ -134,7 +134,7 @@ exports[`button Controls > should render a large button 1`] = `
 
 exports[`button Controls > should render a primary button variant by default 1`] = `
 "<div class="tresleches-container">
-  <div id="tres-leches-pane-default" class="tl-fixed tl-top-4 tl-z-24 tl-bg-white dark:tl-bg-dark-200 tl-shadow-xl tl-p-1 tl-font-sans tl-text-xs tl-flex tl-flex-col tl-rounded-lg" >
+  <div id="tres-leches-pane-default" class="tl-absolute tl-top-4 tl-z-24 tl-bg-white dark:tl-bg-dark-200 tl-shadow-xl tl-p-1 tl-font-sans tl-text-xs tl-flex tl-flex-col tl-rounded-lg" >
     <header class="tl-flex tl-justify-between tl-items-center tl-text-gray-200 dark:tl-text-gray-600 tl-text-xs tl-flex-none">
       <div class="w-1/3"></div>
       <div class="tl-cursor-grabbing"><i class="i-ic-baseline-drag-indicator"></i><i class="i-ic-baseline-drag-indicator"></i><i class="i-ic-baseline-drag-indicator"></i></div>
@@ -147,7 +147,7 @@ exports[`button Controls > should render a primary button variant by default 1`]
       <div class="tl-h-full tl-overflow-y-auto tl-overflow-x-hidden tl-scrollbar tl-scrollbar-rounded tl-scrollbar-w-4px tl-scrollbar-radius-2 tl-scrollbar-track-radius-4 tl-scrollbar-thumb-radius-4 tl-scrollbar-track-color-gray-100 dark:tl-scrollbar-track-color-dark-300 tl-scrollbar-thumb-color-gray-300 dark:tl-scrollbar-thumb-color-gray-400">
         <!--v-if-->
         <div>
-          <div class="tl-py-2 tl-px-4 tl-flex tl-justify-end"><button data-v-9a5f9367="" class="leches-btn leches-btn-primary leches-btn-sm"><i data-v-9a5f9367="" class="mr-1"></i> Accept</button></div>
+          <div class="tl-py-2 tl-px-4 tl-flex tl-justify-end"><button class="leches-btn leches-btn-primary leches-btn-sm"><i class="mr-1"></i> Accept</button></div>
         </div>
       </div>
     </div><!-- Resize handles -->
@@ -167,7 +167,7 @@ exports[`button Controls > should render a primary button variant by default 1`]
 
 exports[`button Controls > should render a secondary button variant 1`] = `
 "<div class="tresleches-container">
-  <div id="tres-leches-pane-default" class="tl-fixed tl-top-4 tl-z-24 tl-bg-white dark:tl-bg-dark-200 tl-shadow-xl tl-p-1 tl-font-sans tl-text-xs tl-flex tl-flex-col tl-rounded-lg" >
+  <div id="tres-leches-pane-default" class="tl-absolute tl-top-4 tl-z-24 tl-bg-white dark:tl-bg-dark-200 tl-shadow-xl tl-p-1 tl-font-sans tl-text-xs tl-flex tl-flex-col tl-rounded-lg" >
     <header class="tl-flex tl-justify-between tl-items-center tl-text-gray-200 dark:tl-text-gray-600 tl-text-xs tl-flex-none">
       <div class="w-1/3"></div>
       <div class="tl-cursor-grabbing"><i class="i-ic-baseline-drag-indicator"></i><i class="i-ic-baseline-drag-indicator"></i><i class="i-ic-baseline-drag-indicator"></i></div>
@@ -180,7 +180,7 @@ exports[`button Controls > should render a secondary button variant 1`] = `
       <div class="tl-h-full tl-overflow-y-auto tl-overflow-x-hidden tl-scrollbar tl-scrollbar-rounded tl-scrollbar-w-4px tl-scrollbar-radius-2 tl-scrollbar-track-radius-4 tl-scrollbar-thumb-radius-4 tl-scrollbar-track-color-gray-100 dark:tl-scrollbar-track-color-dark-300 tl-scrollbar-thumb-color-gray-300 dark:tl-scrollbar-thumb-color-gray-400">
         <!--v-if-->
         <div>
-          <div class="tl-py-2 tl-px-4 tl-flex tl-justify-end"><button data-v-9a5f9367="" class="leches-btn leches-btn-secondary leches-btn-sm"><i data-v-9a5f9367="" class="mr-1"></i> Accept</button></div>
+          <div class="tl-py-2 tl-px-4 tl-flex tl-justify-end"><button class="leches-btn leches-btn-secondary leches-btn-sm"><i class="mr-1"></i> Accept</button></div>
         </div>
       </div>
     </div><!-- Resize handles -->
@@ -200,7 +200,7 @@ exports[`button Controls > should render a secondary button variant 1`] = `
 
 exports[`button Controls > should render a small button 1`] = `
 "<div class="tresleches-container">
-  <div id="tres-leches-pane-default" class="tl-fixed tl-top-4 tl-z-24 tl-bg-white dark:tl-bg-dark-200 tl-shadow-xl tl-p-1 tl-font-sans tl-text-xs tl-flex tl-flex-col tl-rounded-lg" >
+  <div id="tres-leches-pane-default" class="tl-absolute tl-top-4 tl-z-24 tl-bg-white dark:tl-bg-dark-200 tl-shadow-xl tl-p-1 tl-font-sans tl-text-xs tl-flex tl-flex-col tl-rounded-lg" >
     <header class="tl-flex tl-justify-between tl-items-center tl-text-gray-200 dark:tl-text-gray-600 tl-text-xs tl-flex-none">
       <div class="w-1/3"></div>
       <div class="tl-cursor-grabbing"><i class="i-ic-baseline-drag-indicator"></i><i class="i-ic-baseline-drag-indicator"></i><i class="i-ic-baseline-drag-indicator"></i></div>
@@ -213,7 +213,7 @@ exports[`button Controls > should render a small button 1`] = `
       <div class="tl-h-full tl-overflow-y-auto tl-overflow-x-hidden tl-scrollbar tl-scrollbar-rounded tl-scrollbar-w-4px tl-scrollbar-radius-2 tl-scrollbar-track-radius-4 tl-scrollbar-thumb-radius-4 tl-scrollbar-track-color-gray-100 dark:tl-scrollbar-track-color-dark-300 tl-scrollbar-thumb-color-gray-300 dark:tl-scrollbar-thumb-color-gray-400">
         <!--v-if-->
         <div>
-          <div class="tl-py-2 tl-px-4 tl-flex tl-justify-end"><button data-v-9a5f9367="" class="leches-btn leches-btn-primary leches-btn-sm"><i data-v-9a5f9367="" class="mr-1"></i> Accept</button></div>
+          <div class="tl-py-2 tl-px-4 tl-flex tl-justify-end"><button class="leches-btn leches-btn-primary leches-btn-sm"><i class="mr-1"></i> Accept</button></div>
         </div>
       </div>
     </div><!-- Resize handles -->
@@ -233,7 +233,7 @@ exports[`button Controls > should render a small button 1`] = `
 
 exports[`button Controls > should render an icon on the button 1`] = `
 "<div class="tresleches-container">
-  <div id="tres-leches-pane-default" class="tl-fixed tl-top-4 tl-z-24 tl-bg-white dark:tl-bg-dark-200 tl-shadow-xl tl-p-1 tl-font-sans tl-text-xs tl-flex tl-flex-col tl-rounded-lg" >
+  <div id="tres-leches-pane-default" class="tl-absolute tl-top-4 tl-z-24 tl-bg-white dark:tl-bg-dark-200 tl-shadow-xl tl-p-1 tl-font-sans tl-text-xs tl-flex tl-flex-col tl-rounded-lg" >
     <header class="tl-flex tl-justify-between tl-items-center tl-text-gray-200 dark:tl-text-gray-600 tl-text-xs tl-flex-none">
       <div class="w-1/3"></div>
       <div class="tl-cursor-grabbing"><i class="i-ic-baseline-drag-indicator"></i><i class="i-ic-baseline-drag-indicator"></i><i class="i-ic-baseline-drag-indicator"></i></div>
@@ -246,7 +246,7 @@ exports[`button Controls > should render an icon on the button 1`] = `
       <div class="tl-h-full tl-overflow-y-auto tl-overflow-x-hidden tl-scrollbar tl-scrollbar-rounded tl-scrollbar-w-4px tl-scrollbar-radius-2 tl-scrollbar-track-radius-4 tl-scrollbar-thumb-radius-4 tl-scrollbar-track-color-gray-100 dark:tl-scrollbar-track-color-dark-300 tl-scrollbar-thumb-color-gray-300 dark:tl-scrollbar-thumb-color-gray-400">
         <!--v-if-->
         <div>
-          <div class="tl-py-2 tl-px-4 tl-flex tl-justify-end"><button data-v-9a5f9367="" class="leches-btn leches-btn-primary leches-btn-sm"><i data-v-9a5f9367="" class="i-carbon-checkmark mr-1"></i> Accept</button></div>
+          <div class="tl-py-2 tl-px-4 tl-flex tl-justify-end"><button class="leches-btn leches-btn-primary leches-btn-sm"><i class="i-carbon-checkmark mr-1"></i> Accept</button></div>
         </div>
       </div>
     </div><!-- Resize handles -->

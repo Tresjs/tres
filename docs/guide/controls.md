@@ -82,36 +82,6 @@ Most commonly, you will want to use multiple controls at the same time. In this 
 
 <MultipleControlDemo />
 
-## Visibility
-
-The control object has a `visible` property that can be used to hide the control from the UI.
-
-```html
-<script lang="ts" setup>
-  import { useControls, TresLeches } from '@tresjs/leches'
-  import '@tresjs/leches/styles'
-
-  const visibilityControl = useControls({
-    isVisible: true,
-  })
-
-  const { visible } = useControls({
-    slider: {
-      value: 0.5,
-      min: 0,
-      max: 1,
-      step: 0.01,
-    },
-  })
-
-  watchEffect(() => {
-    visible.value = visibilityControl.value.value
-  })
-</script>
-```
-
-<VisibilityDemo />
-
 ## Icons
 
 The control object has an `icon` property that can be used to set an icon instead of the label.

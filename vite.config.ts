@@ -6,6 +6,7 @@ import vue from '@vitejs/plugin-vue'
 
 import banner from 'vite-plugin-banner'
 import dts from 'vite-plugin-dts'
+import svgLoader from 'vite-svg-loader'
 import analyze from 'rollup-plugin-analyzer'
 import { visualizer } from 'rollup-plugin-visualizer'
 import { resolve } from 'pathe'
@@ -23,6 +24,7 @@ console.log(`${lightGreen('▲')} ${gray('■')} ${magenta('🍰')} ${bold('Tres
 export default defineConfig({
   plugins: [
     vue(),
+    svgLoader(),
     dts({
       insertTypesEntry: true,
     }),
@@ -49,6 +51,7 @@ export default defineConfig({
             'vertical-align': 'middle',
             // ...
           },
+
         }),
         presetScrollbar({
           prefix: 'tl-',

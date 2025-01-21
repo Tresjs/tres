@@ -19,11 +19,8 @@ const controls = useControls({
     <div class="p-4">
       <pre class="bg-dark p-8 rounded text-white">{{ controls }}</pre>
     </div>
-    <div class="relative w-280px min-h-200px">
-      <TresLeches
-        class="important-left-0 -important-top-8"
-        :uuid="uuid"
-      />
-    </div>
+    <TresLeches
+      :uuid="uuid"
+    />
   </div>
 </template>

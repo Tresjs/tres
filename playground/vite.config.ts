@@ -7,6 +7,7 @@ import { presetIcons, presetTypography, presetUno, presetWebFonts, transformerDi
 import { templateCompilerOptions } from '@tresjs/core'
 import { qrcode } from 'vite-plugin-qrcode'
 import { resolve } from 'node:path'
+import svgLoader from 'vite-svg-loader'
 // https://vitejs.dev/config/
 export default defineConfig({
 
@@ -17,6 +18,7 @@ export default defineConfig({
       },
       ...templateCompilerOptions,
     }),
+    // svgLoader(),
     AutoImport({
       dts: true,
       eslintrc: {
