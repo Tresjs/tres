@@ -15,7 +15,7 @@ const controls = useControls({
 </script>
 
 <template>
-  <div class="w-full min-h-300px bg-gray-200 mb-8 relative grid grid-cols-2 gap-16 items-center">
+  <div class="w-full min-h-300px bg-gray-200 dark:bg-dark-800 mb-8 relative grid grid-cols-2 gap-16 items-center">
     <div class="p-4">
       <pre class="bg-dark p-8 rounded text-white">{{ controls }}</pre>
     </div>

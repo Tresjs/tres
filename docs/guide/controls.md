@@ -22,7 +22,7 @@
 When a single control is passed, the `useControls` composable is going to return an object with the control. The returned control is an object with ref properties meaning that you can deconstruct it without loosing reactivity.
 
 ```ts
-const { value: awiwi } = useControls({
+const { awiwi } = useControls({
   awiwi: true,
 })
 
@@ -71,7 +71,7 @@ Most commonly, you will want to use multiple controls at the same time. In this 
   })
 
   watchEffect(() => {
-    console.log(awiwi.value.value)
+    console.log(awiwi.value)
   })
 </script>
 

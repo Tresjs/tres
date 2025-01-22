@@ -14,9 +14,7 @@ useControls({
 </script>
 
 <template>
-  <div class="w-full h-300px bg-gray-200 mb-8 relative flex justify-center items-center">
-    <div class="relative w-280px min-h-200px">
-      <TresLeches />
-    </div>
+  <div class="w-full h-300px bg-gray-200 dark:bg-dark-800 mb-8 relative flex justify-center items-center">
+    <TresLeches />
   </div>
 </template>

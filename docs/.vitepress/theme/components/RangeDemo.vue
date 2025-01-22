@@ -18,17 +18,15 @@ const computedPlanets = computed(() => Array.from({ length: planets.value }, (_,
 </script>
 
 <template>
-  <div class="w-full h-300px bg-gray-200 mb-8 relative grid grid-cols-2 gap-16 items-center">
+  <div class="w-full h-300px bg-gray-200 dark:bg-dark-800 mb-8 relative grid grid-cols-2 gap-16 items-center">
     <div class="p-4 flex gap-4 flex-wrap text-xl">
       <i
         v-for="planet in computedPlanets"
         :key="planet"
       >🪐</i>
     </div>
-    <div class="relative w-280px min-h-200px">
-      <TresLeches
-        :uuid="uuid"
-      />
-    </div>
+    <TresLeches
+      :uuid="uuid"
+    />
   </div>
 </template>

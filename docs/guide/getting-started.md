@@ -1,6 +1,6 @@
 # Installation
 
-Learn how to install `@trejs/leches`
+Learn how to install `@tresjs/leches`
 
 ::: code-group
 
