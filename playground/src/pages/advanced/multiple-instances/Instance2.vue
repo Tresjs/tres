@@ -3,7 +3,7 @@ import { TresLeches, useControls } from '@tresjs/leches'
 
 const uuid = 'instance2'
 const control = useControls({
-  other: true,
+  awiwi: true,
 }, {
   uuid,
 })

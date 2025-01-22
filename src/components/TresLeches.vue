@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, onMounted, onUnmounted, ref, toRefs, watch } from 'vue'
 import { useDraggable } from '../composables/useDraggable'
-import { useDark, useWindowSize } from '@vueuse/core'
+import { useWindowSize } from '@vueuse/core'
 import { dispose, useControlsProvider } from '../composables/useControls'
 import type { LechesControl } from '../types'
 import Folder from './Folder.vue'
@@ -192,12 +192,6 @@ watch(isCollapsed, async (value) => {
   await apply('enter')
 }, { immediate: true })
 
-useDark({
-  selector: `.tresleches-container`,
-  valueDark: 'dark',
-  valueLight: 'light',
-})
-
 const handleScroll = () => {
   if (!scrollContainer.value) { return }
 
@@ -226,31 +220,27 @@ onMounted(() => {
     >
       <header class="tl-flex tl-justify-between tl-items-center tl-text-gray-200 dark:tl-text-gray-600 tl-text-xs tl-flex-none">
         <div v-show="!isCollapsed" class="w-1/3"></div>
-        <div v-if="!isCollapsed && float" ref="handleRef" class="tl-cursor-grabbing">
+        <div v-if="!isCollapsed && float" ref="handleRef" class="tl-cursor-grabbing w-1/3">
           <i class="i-ic-baseline-drag-indicator"></i><i class="i-ic-baseline-drag-indicator"></i><i
             class="i-ic-baseline-drag-indicator"
           ></i>
         </div>
-        <div v-else-if="!isCollapsed" class="tl-flex-1"></div>
-        <div></div>
-        <div
-          class="tl-h-4
-              tl-w-4
+        <div class="tl-flex tl-justify-end">
+          <img
+            :src="iconUrl"
+            alt="TresLechesIcon"
+            class="
               tl-p-1.5
-              tl-flex
-              tl-items-center
-              tl-line-height-0
+              tl-w-4 tl-h-4
               tl-rounded-full
               tl-bg-gray-100
               dark:tl-bg-dark-300
-              tl-text-xs
               tl-cursor-pointer
               "
-          @click="isCollapsed = !isCollapsed"
-          @mouseenter="isHover = true"
-          @mouseleave="isHover = false"
-        >
-          <img :src="iconUrl" alt="TresLechesIcon" class="tl-w-4 tl-h-4" />
+            @click="isCollapsed = !isCollapsed"
+            @mouseenter="isHover = true"
+            @mouseleave="isHover = false"
+          />
         </div>
       </header>
       <div v-if="!isCollapsed" class="tl-flex-1 tl-relative tl-overflow-hidden tl-my-4">
