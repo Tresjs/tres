@@ -138,6 +138,10 @@ export const nlConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
               text: 'TresLeches 🍰',
               link: 'https://tresleches.tresjs.org/',
             },
+            {
+              text: 'Nabewerking',
+              link: 'https://post-processing.tresjs.org/',
+            },
           ],
         },
       ] },
