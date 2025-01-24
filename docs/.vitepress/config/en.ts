@@ -142,6 +142,10 @@ export const enConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
                 text: 'TresLeches 🍰',
                 link: 'https://tresleches.tresjs.org/',
               },
+              {
+                text: 'Post-processing',
+                link: 'https://post-processing.tresjs.org/',
+              },
             ],
           },
         ],
