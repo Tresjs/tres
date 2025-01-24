@@ -65,7 +65,7 @@ watch(mouse.x, (newValue) => {
     <input
       :id="control.uniqueKey"
       :value="control.value"
-      class="tl-leches-input tl-w-1/3"
+      class="tl-leches-input tl-w-2/3"
       type="number"
       :class="{ 'tl-cursor-ew-resize': isMouseDown }"
       :min="control.min"

@@ -34,6 +34,7 @@ const DEFAULT_WIDTH = 300
 const MIN_HEIGHT = 100 // Minimum height for the panel
 const MAX_HEIGHT = 600 // Maximum height for the panel
 const CONTROL_HEIGHT = 40 // Approximate height per control
+const FPS_GRAPH_EXTRA_HEIGHT = 12 // Extra padding needed for FPS graph
 const MARGIN_FROM_BOTTOM = 40 // Margin to keep from bottom of viewport
 
 const panelWidth = ref(DEFAULT_WIDTH)
@@ -81,14 +82,20 @@ const panelHeight = computed(() => {
 
   // Calculate total controls including those in folders
   let totalControls = 0
+  let hasFPSGraph = false
   for (const folderName in groupedControls.value) {
-    totalControls += groupedControls.value[folderName].length
+    const controls = groupedControls.value[folderName]
+    totalControls += controls.length
     // Add height for folder header if it's not the default folder
     if (folderName !== 'default') { totalControls += 1 }
+    // Check if there's an FPS graph control
+    if (controls.some(control => control.type === 'fpsgraph')) {
+      hasFPSGraph = true
+    }
   }
 
-  // Calculate height: header (32px) + controls + padding
-  const calculatedHeight = 32 + (totalControls * CONTROL_HEIGHT) + 32
+  // Calculate height: header (32px) + controls + padding + extra for FPS if present
+  const calculatedHeight = 32 + (totalControls * CONTROL_HEIGHT) + 32 + (hasFPSGraph ? FPS_GRAPH_EXTRA_HEIGHT : 0)
   const maxAllowedHeight = float.value ? windowHeight.value - MARGIN_FROM_BOTTOM : MAX_HEIGHT
   return Math.min(maxAllowedHeight, Math.max(MIN_HEIGHT, calculatedHeight))
 })
@@ -131,6 +138,14 @@ const { apply } = useMotion(paneRef, {
   },
 })
 
+const handleScroll = () => {
+  if (!scrollContainer.value) { return }
+
+  const { scrollTop, scrollHeight, clientHeight } = scrollContainer.value
+  showTopGradient.value = scrollTop > 20
+  showBottomGradient.value = scrollHeight - scrollTop - clientHeight > 20
+}
+
 function startResize(edge: 'right' | 'left' | 'bottom' | 'corner' | 'corner-left', e: MouseEvent) {
   isResizing.value = true
   resizeEdge.value = edge
@@ -165,12 +180,16 @@ function startResize(edge: 'right' | 'left' | 'bottom' | 'corner' | 'corner-left
       const maxAllowedHeight = float.value ? windowHeight.value - MARGIN_FROM_BOTTOM : MAX_HEIGHT
       manualHeight.value = Math.min(maxAllowedHeight, Math.max(MIN_HEIGHT, startHeight + deltaY))
       paneRef.value.style.maxHeight = `${manualHeight.value}px`
+      // Update gradients after resize
+      handleScroll()
     }
   }
 
   function onMouseUp() {
     isResizing.value = false
     resizeEdge.value = null
+    // Update gradients one final time after resize
+    handleScroll()
     document.removeEventListener('mousemove', onMouseMove)
     document.removeEventListener('mouseup', onMouseUp)
   }
@@ -192,14 +211,6 @@ watch(isCollapsed, async (value) => {
   await apply('enter')
 }, { immediate: true })
 
-const handleScroll = () => {
-  if (!scrollContainer.value) { return }
-
-  const { scrollTop, scrollHeight, clientHeight } = scrollContainer.value
-  showTopGradient.value = scrollTop > 20
-  showBottomGradient.value = scrollHeight - scrollTop - clientHeight > 20
-}
-
 onMounted(() => {
   handleScroll()
 })
@@ -210,10 +221,9 @@ onMounted(() => {
     <div
       :id="`tres-leches-pane-${uuid}`"
       ref="paneRef"
-      class="tl-top-4 tl-z-24 tl-bg-white dark:tl-bg-dark-200 tl-shadow-xl tl-p-1 tl-font-sans tl-text-xs tl-flex tl-flex-col"
+      class="tl-top-4 tl-z-24 tl-bg-white dark:tl-bg-dark-200 tl-shadow-xl tl-p-1 tl-font-sans tl-text-xs tl-flex tl-flex-col tl-rounded-lg"
       :class="[
         $attrs.class,
-        isCollapsed ? 'tl-rounded-full' : 'tl-rounded-lg',
         float ? 'tl-absolute' : 'tl-relative',
       ]"
       :style="[float ? style : null, { width: `${panelWidth}px`, height: `${panelHeight}px`, right: '16px', left: 'auto' }]"
@@ -243,7 +253,7 @@ onMounted(() => {
           />
         </div>
       </header>
-      <div v-if="!isCollapsed" class="tl-flex-1 tl-relative tl-overflow-hidden tl-my-4">
+      <div v-show="!isCollapsed" class="tl-flex-1 tl-relative tl-overflow-hidden tl-my-4">
         <!-- Gradient overlays moved outside scrollable area -->
         <div
           class="tl-pointer-events-none tl-absolute tl-left-0 tl-right-0 tl-top-0 tl-h-8 tl-bg-gradient-linear tl-bg-gradient-to-b tl-from-white dark:tl-from-dark-200 tl-to-transparent tl-z-20 tl-opacity-0 tl-transition-opacity duration-200"
