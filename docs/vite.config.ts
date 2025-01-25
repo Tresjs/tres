@@ -2,6 +2,7 @@ import { defineConfig } from 'vite'
 import Unocss from 'unocss/vite'
 import Components from 'unplugin-vue-components/vite'
 import { presetIcons, presetUno } from 'unocss'
+import { groupIconVitePlugin } from 'vitepress-plugin-group-icons'
 
 export default defineConfig({
   plugins: [
@@ -27,5 +28,6 @@ export default defineConfig({
       include: [/\.vue$/, /\.vue\?vue/, /\.md$/],
       dts: 'components.d.ts',
     }),
+    groupIconVitePlugin(),
   ],
 })

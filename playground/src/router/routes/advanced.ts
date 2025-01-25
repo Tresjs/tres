@@ -9,4 +9,9 @@ export const advancedRoutes = [
     name: 'Multiple Instances',
     component: () => import('../../pages/advanced/multiple-instances/MultipleInstances.vue'),
   },
+  {
+    path: '/advanced/stacked',
+    name: 'Stacked',
+    component: () => import('../../pages/advanced/stacked.vue'),
+  },
 ]
