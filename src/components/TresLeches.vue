@@ -38,7 +38,7 @@ const COLLAPSED_SIZE = 36
 const MIN_HEIGHT = 100 // Minimum height for the panel
 const MAX_HEIGHT = 600 // Maximum height for the panel
 const CONTROL_HEIGHT = 46 // Approximate height per control
-const FPS_GRAPH_EXTRA_HEIGHT = 12 // Extra padding needed for FPS graph
+const FPS_GRAPH_EXTRA_HEIGHT = 20 // Extra padding needed for FPS graph
 const MARGIN_FROM_BOTTOM = 42 // Margin to keep from bottom of viewport
 
 const panelWidth = ref(DEFAULT_WIDTH)
