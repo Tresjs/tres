@@ -2,7 +2,7 @@
 
 exports[`folder Controls > should render controls within a folder 1`] = `
 "<div class="tresleches-container">
-  <div id="tres-leches-pane-default" class="tl-z-24 tl-bg-white dark:tl-bg-dark-200 tl-shadow-xl tl-p-1 tl-font-sans tl-text-xs tl-flex tl-flex-col tl-rounded-lg tl-relative" >
+  <div id="tres-leches-pane-default" class="tl-box-border tl-z-24 tl-bg-white dark:tl-bg-dark-200 tl-shadow-xl tl-p-1 tl-font-sans tl-text-xs tl-flex tl-flex-col tl-rounded-lg tl-relative" >
     <header class="tl-flex tl-justify-between tl-items-center tl-text-gray-200 dark:tl-text-gray-600 tl-text-xs">
       <!--v-if-->
       <!--v-if-->
