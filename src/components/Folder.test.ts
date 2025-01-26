@@ -47,8 +47,8 @@ describe('folder Controls', () => {
 
   it('should render controls within a folder', () => {
     mountComponent(() => {
-      const { position } = useControls('camera', { position: new Vector3(3, 2, 4) })
-      return { position }
+      const { cameraPosition } = useControls('camera', { position: new Vector3(3, 2, 4) })
+      return { cameraPosition }
     })
     expect(wrapper.html().replace(/style="[^"]*"/, '')).toMatchSnapshot()
     expect(wrapper.find('button[data-folder="camera"]').exists()).toBe(true)
@@ -59,8 +59,8 @@ describe('folder Controls', () => {
 
   it('should have unique keys for controls in different folders', () => {
     mountComponent(() => {
-      const { position: cameraPosition } = useControls('camera', { position: new Vector3(3, 2, 4) })
-      const { position: lightPosition } = useControls('light', { position: new Vector3(4, 4, 4) })
+      const { cameraPosition } = useControls('camera', { position: new Vector3(3, 2, 4) })
+      const { lightPosition } = useControls('light', { position: new Vector3(4, 4, 4) })
       return { controls: [cameraPosition, lightPosition], label: 'camera' }
     })
     const cameraInput = wrapper.find('input#default-cameraPosition-x')
