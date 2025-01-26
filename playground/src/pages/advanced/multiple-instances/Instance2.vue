@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { TresLeches, useControls } from '@tresjs/leches'
 
-const uuid = 'single'
+const uuid = 'instance2'
 const control = useControls({
   awiwi: true,
 }, {
@@ -10,12 +10,15 @@ const control = useControls({
 </script>
 
 <template>
-  <div class="leches-demo-layout">
-    <div class="p-4">
-      <pre class="leches-demo-preview text-xs">{{ control }}</pre>
-    </div>
+  <div class="relative w-1/2 h-480px bg-gray-200">
     <TresLeches
       :uuid="uuid"
     />
+    <div class="font-sans p-4">
+      <h1>
+        Instance 2
+      </h1>
+      <pre>{{ control }}</pre>
+    </div>
   </div>
 </template>

@@ -111,7 +111,10 @@ export const useControls = (
 
     // If the control is part of a folder, prefix the key with the folder name
     if (folderName) {
-      uniqueKey = `${folderName}${key.charAt(0).toUpperCase() + key.slice(1)}`
+      uniqueKey = `${uuid}-${folderName}${key.charAt(0).toUpperCase() + key.slice(1)}`
+    }
+    else {
+      uniqueKey = `${uuid}-${key}`
     }
 
     // If the value is an object with control options
@@ -145,8 +148,8 @@ export const useControls = (
       control.icon = controlOptions.icon || ''
       control.visible = controlOptions.visible !== undefined ? controlOptions.visible : true
       control.uniqueKey = uniqueKey
-      controls[uniqueKey] = control
-      result[uniqueKey] = control
+      controls[key] = control
+      result[key] = control
       values[key] = reactiveValue
       continue
     }
@@ -154,8 +157,8 @@ export const useControls = (
     // If the value is a ref, use it directly
     if (isRef(value)) {
       const control = createControl(key, value, (value.value as any).type || inferType(value.value), folderName)
-      controls[uniqueKey] = control
-      result[uniqueKey] = control
+      controls[key] = control
+      result[key] = control
       values[key] = value
       continue
     }
@@ -173,8 +176,8 @@ export const useControls = (
     const control = createControl(key, refValue, value.type || inferType(value), folderName)
 
     // Update the internal state
-    controls[uniqueKey] = control
-    result[uniqueKey] = control
+    controls[key] = control
+    result[key] = control
     values[key] = refValue
     control.uniqueKey = uniqueKey
   }

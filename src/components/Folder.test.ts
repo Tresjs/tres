@@ -52,9 +52,9 @@ describe('folder Controls', () => {
     })
     expect(wrapper.html().replace(/style="[^"]*"/, '')).toMatchSnapshot()
     expect(wrapper.find('button[data-folder="camera"]').exists()).toBe(true)
-    expect(wrapper.find('input[id="cameraPosition-x"]').exists()).toBe(true)
-    expect(wrapper.find('input[id="cameraPosition-y"]').exists()).toBe(true)
-    expect(wrapper.find('input[id="cameraPosition-z"]').exists()).toBe(true)
+    expect(wrapper.find('input[id="default-cameraPosition-x"]').exists()).toBe(true)
+    expect(wrapper.find('input[id="default-cameraPosition-y"]').exists()).toBe(true)
+    expect(wrapper.find('input[id="default-cameraPosition-z"]').exists()).toBe(true)
   })
 
   it('should have unique keys for controls in different folders', () => {
@@ -63,8 +63,8 @@ describe('folder Controls', () => {
       const { position: lightPosition } = useControls('light', { position: new Vector3(4, 4, 4) })
       return { controls: [cameraPosition, lightPosition], label: 'camera' }
     })
-    const cameraInput = wrapper.find('input[id="cameraPosition-x"]')
-    const lightInput = wrapper.find('input[id="lightPosition-x"]')
+    const cameraInput = wrapper.find('input[id="default-cameraPosition-x"]')
+    const lightInput = wrapper.find('input[id="default-lightPosition-x"]')
 
     expect(cameraInput.exists()).toBe(true)
     expect(lightInput.exists()).toBe(true)
