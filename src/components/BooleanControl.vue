@@ -43,7 +43,7 @@ function onKeydown(event: KeyboardEvent) {
         tabindex="0"
         role="checkbox"
         :aria-checked="control.value.toString()"
-        :class="{ 'tl-bg-dark-500 dark:tl-bg-gray-400': control.value, 'tl-bg-gray-200 dark:tl-bg-dark-400': !control.value }"
+        :class="{ 'tl-bg-dark-500 dark:tl-bg-gray-400': control.value, 'tl-bg-gray-100 dark:tl-bg-dark-300': !control.value }"
         class="tl-w-4
           tl-h-4
           tl-flex
@@ -56,7 +56,7 @@ function onKeydown(event: KeyboardEvent) {
           tl-outline-none
           tl-border-none
           focus:tl-border-gray-200
-          focus:tl-ring
+          focus:tl-ring-2
           focus:tl-ring-gray-200
           tl-mr-2
           tl-transition-colors

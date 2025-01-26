@@ -12,7 +12,6 @@ const gl = reactive({
 
 const { wireframe } = useControls({
   wireframe: false,
-  other: true,
 })
 </script>
 

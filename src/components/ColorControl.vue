@@ -24,7 +24,11 @@ function onChange(event: Event) {
         tabindex="0"
         :value="control.value"
         :aria-label="label"
-        class="leches-color focus:tl-outline-none focus:tl-ring-2 focus:tl-ring-blue-600"
+        class="leches-color
+        focus:tl-outline-none
+        focus:tl-ring-2
+        focus:tl-ring-gray-100
+        "
         :class="{ 'important-tl-outline-gray-200': control.value === '#ffffff' }"
         type="color"
         @input="onChange"

@@ -36,7 +36,7 @@ export default defineConfig({
     UnoCSS({
       /* options */
       shortcuts: {
-        'tl-leches-input': 'tl-p-2 tl-rounded tl-text-left tl-text-xs tl-text-gray-400 tl-bg-gray-100 dark:tl-bg-dark-300 dark:tl-text-gray-400 tl-outline-none tl-border-none focus:tl-border-gray-200 focus:tl-ring focus:tl-ring-gray-200 tl-font-sans',
+        'tl-leches-input': 'tl-p-2 tl-rounded tl-text-left tl-text-xs tl-text-gray-400 tl-bg-gray-100 dark:tl-bg-dark-300 dark:tl-text-gray-400 tl-outline-none tl-border-none focus:tl-ring-2 focus:tl-border-gray-200 focus:tl-ring focus:tl-ring-gray-200 tl-font-sans',
       },
       presets: [
         presetUno({
