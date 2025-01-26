@@ -49,11 +49,11 @@ describe('useControls', () => {
 
   describe('when pass a folder', () => {
     it('should return refs for controls in the folder', () => {
-      const { a, b } = useControls('folder', { a: 'awiwi', b: 1 })
-      expect(isRef(a)).toBe(true)
-      expect(isRef(b)).toBe(true)
-      expect(a.value).toBe('awiwi')
-      expect(b.value).toBe(1)
+      const { folderA, folderB } = useControls('folder', { a: 'awiwi', b: 1 })
+      expect(isRef(folderA)).toBe(true)
+      expect(isRef(folderB)).toBe(true)
+      expect(folderA.value).toBe('awiwi')
+      expect(folderB.value).toBe(1)
     })
   })
 

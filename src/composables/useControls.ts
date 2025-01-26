@@ -1,4 +1,4 @@
-import { isReactive, isRef, provide, reactive, ref, type Ref, toRefs } from 'vue'
+import { capitalize, isReactive, isRef, provide, reactive, ref, type Ref, toRefs } from 'vue'
 import type { LechesControl, LechesSelectOption } from '../types'
 
 export const CONTROLS_CONTEXT_KEY = Symbol('CONTROLS_CONTEXT_KEY')
@@ -57,6 +57,7 @@ const createControl = <T>(key: string, value: T, type: string, folderName: strin
 
   if (folderName) {
     control.folder = folderName
+    control.label = control.label.replace(folderName.replace(/[\u{1F300}-\u{1F9FF}]/gu, '').trim(), '').toLowerCase()
   }
 
   return control
@@ -100,10 +101,10 @@ export const useControls = (
   const isParamsReactive = isReactive(controlsParams)
   const reactiveRefs = isParamsReactive ? toRefs(controlsParams as { [key: string]: any }) : {}
 
-  for (const key in controlsParams as any) {
+  for (let key in controlsParams as any) {
     let value = (controlsParams as any)[key]
     let uniqueKey = key
-
+    const label = `${key}`
     // If controlsParams is reactive, use the reactive ref directly
     if (isParamsReactive && reactiveRefs[key]) {
       value = reactiveRefs[key]
@@ -111,7 +112,8 @@ export const useControls = (
 
     // If the control is part of a folder, prefix the key with the folder name
     if (folderName) {
-      uniqueKey = `${uuid}-${folderName}${key.charAt(0).toUpperCase() + key.slice(1)}`
+      key = `${folderName.replace(/[\u{1F300}-\u{1F9FF}]/gu, '').trim()}${capitalize(key)}`
+      uniqueKey = `${uuid}-${key}`
     }
     else {
       uniqueKey = `${uuid}-${key}`
@@ -144,7 +146,7 @@ export const useControls = (
         control.step = controlOptions.step || 0.1
       }
 
-      control.label = controlOptions.label || key
+      control.label = controlOptions.label || label
       control.icon = controlOptions.icon || ''
       control.visible = controlOptions.visible !== undefined ? controlOptions.visible : true
       control.uniqueKey = uniqueKey

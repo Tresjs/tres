@@ -15,26 +15,13 @@ const gl = {
   toneMapping: NoToneMapping,
 }
 
-useControls('camera', {
-  accept: {
-    label: 'Accept',
-    type: 'button',
-    variant: 'secondary',
-    onClick: () => {
-      // eslint-disable-next-line no-console
-      console.log('accept')
-    },
-    icon: 'i-carbon-checkmark',
-    size: 'sm',
-  },
-  position: new Vector3(3, 2, 3),
-
-  /*  delay: new Vector2(1.5, 3.5), */
+const { cameraPosition } = useControls('🎥 camera', {
+  position: new Vector3(7, 7, 7),
 })
 
-/* const { position: lightPosition } = useControls('light', {
+const { lightPosition } = useControls('💡 light', {
   position: new Vector3(3, 3, 3),
-}) */
+})
 </script>
 
 <template>
@@ -42,16 +29,16 @@ useControls('camera', {
   <TresCanvas
     v-bind="gl"
   >
-    <TresPerspectiveCamera />
+    <TresPerspectiveCamera :position="[cameraPosition.x, cameraPosition.y, cameraPosition.z]" />
     <OrbitControls />
     <TresGridHelper />
-    <Sphere>
+    <Sphere :position="[0, 2, 0]">
       <TresMeshToonMaterial />
     </Sphere>
-    <!-- <TresDirectionalLight
-      :args="[0xffffff, 1]"
+    <TresDirectionalLight
+      :args="[0xFFFFFF, 1]"
       :position-x="lightPosition.x"
-    /> -->
+    />
     <TresAmbientLight :intensity="1" />
   </TresCanvas>
 </template>
