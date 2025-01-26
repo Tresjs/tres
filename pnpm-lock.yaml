@@ -83,7 +83,7 @@ importers:
         version: 3.15.3(@parcel/watcher@2.5.0)(@types/node@22.10.10)(db0@0.2.1)(eslint@9.17.0(jiti@2.4.2))(ioredis@5.4.2)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.32.0)(terser@5.37.0)(tsx@4.19.2)(typescript@5.7.2)(vite@6.0.11(@types/node@22.10.10)(jiti@2.4.2)(terser@5.37.0)(tsx@4.19.2)(yaml@2.7.0))(yaml@2.7.0)
       nuxt-svgo:
         specifier: ^4.0.9
-        version: 4.0.12(magicast@0.3.5)(rollup@4.32.0)(vue@3.5.13(typescript@5.7.2))
+        version: 4.0.13(magicast@0.3.5)(rollup@4.32.0)(vue@3.5.13(typescript@5.7.2))
       postprocessing:
         specifier: 6.36.6
         version: 6.36.6(three@0.171.0)
@@ -4667,8 +4667,8 @@ packages:
   nth-check@2.1.1:
     resolution: {integrity: sha512-lqjrjmaOoAnWfMmBPL+XNnynZh2+swxiX3WUE0s4yEHI6m+AwrK2UZOimIRl3X/4QctVqS8AiZjFqyOGrMXb/w==}
 
-  nuxt-svgo@4.0.12:
-    resolution: {integrity: sha512-dZIgPy+jf9LQWumZ37au2eV2AIYU63ZXmGW7K9Sqy8dw1hEVrTLnporx2m4KCOxRNBT6PimCvAifYiuzJERBYQ==}
+  nuxt-svgo@4.0.13:
+    resolution: {integrity: sha512-Bk6nZuK4Dsa0vJtDTtuXfb1DWzGpbVB5o4VlyCoEdmIJ1Z8eWVXnuT41aPpl1g6z/9YWf9Mu35EHepvIwvxD2Q==}
     peerDependencies:
       svgo-loader: ^4.0.0
       vue: '>=3.2.13'
@@ -13196,7 +13196,7 @@ snapshots:
     dependencies:
       boolbase: 1.0.0
 
-  nuxt-svgo@4.0.12(magicast@0.3.5)(rollup@4.32.0)(vue@3.5.13(typescript@5.7.2)):
+  nuxt-svgo@4.0.13(magicast@0.3.5)(rollup@4.32.0)(vue@3.5.13(typescript@5.7.2)):
     dependencies:
       '@nuxt/kit': 3.15.3(magicast@0.3.5)(rollup@4.32.0)
       mini-svg-data-uri: 1.4.4
