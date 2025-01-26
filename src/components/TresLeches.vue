@@ -1,38 +1,52 @@
 <script setup lang="ts">
 import { computed, onMounted, onUnmounted, ref, toRefs, watch } from 'vue'
-import { useDark, useDraggable, useWindowSize } from '@vueuse/core'
+import { useDraggable } from '../composables/useDraggable'
+import { useWindowSize } from '@vueuse/core'
 import { dispose, useControlsProvider } from '../composables/useControls'
 import type { LechesControl } from '../types'
 import Folder from './Folder.vue'
 import { useMotion } from '@vueuse/motion'
 import ControlInput from './ControlInput.vue'
 
+import iconUrl from '../assets/tresleches-icon.svg?url'
+
 const props = withDefaults(defineProps<{
   uuid?: string
   collapsed?: boolean
+  float?: boolean
 }>(), {
   uuid: 'default',
   collapsed: false,
+  float: true,
 })
+const { uuid, collapsed, float } = toRefs(props)
 
-const { uuid, collapsed } = toRefs(props)
-
+// Panel
 const isCollapsed = ref(collapsed.value)
-const isHover = ref(false)
+const isCollapsedAndNotFloat = computed(() => {
+  return isCollapsed.value && !float.value
+})
 const scrollContainer = ref<HTMLElement | null>(null)
 const showTopGradient = ref(false)
 const showBottomGradient = ref(false)
 
 const { width } = useWindowSize()
+const { height: windowHeight } = useWindowSize()
 
 const DEFAULT_WIDTH = 300
-const DEFAULT_HEIGHT = 340
+const COLLAPSED_SIZE = 36
+const MIN_HEIGHT = 100 // Minimum height for the panel
+const MAX_HEIGHT = 600 // Maximum height for the panel
+const CONTROL_HEIGHT = 40 // Approximate height per control
+const FPS_GRAPH_EXTRA_HEIGHT = 12 // Extra padding needed for FPS graph
+const MARGIN_FROM_BOTTOM = 40 // Margin to keep from bottom of viewport
 
 const panelWidth = ref(DEFAULT_WIDTH)
-const panelHeight = ref(DEFAULT_HEIGHT)
+const manualHeight = ref<number | null>(null) // Track manual height override
 const isResizing = ref(false)
 const resizeEdge = ref<'right' | 'left' | 'bottom' | 'corner' | 'corner-left' | null>(null)
 
+// Controls
 const controls = useControlsProvider(uuid?.value)
 
 defineExpose(controls)
@@ -62,6 +76,35 @@ const groupedControls = computed(() => {
   return groups
 })
 
+const panelHeight = computed(() => {
+  if (isCollapsedAndNotFloat.value) { return 28 } // Height when collapsed
+
+  // If manually resized, use that height within constraints
+  if (manualHeight.value !== null) {
+    const maxAllowedHeight = float.value ? windowHeight.value - MARGIN_FROM_BOTTOM : MAX_HEIGHT
+    return Math.min(maxAllowedHeight, Math.max(MIN_HEIGHT, manualHeight.value))
+  }
+
+  // Calculate total controls including those in folders
+  let totalControls = 0
+  let hasFPSGraph = false
+  for (const folderName in groupedControls.value) {
+    const controls = groupedControls.value[folderName]
+    totalControls += controls.length
+    // Add height for folder header if it's not the default folder
+    if (folderName !== 'default') { totalControls += 1 }
+    // Check if there's an FPS graph control
+    if (controls.some(control => control.type === 'fpsgraph')) {
+      hasFPSGraph = true
+    }
+  }
+
+  // Calculate height: header (32px) + controls + padding + extra for FPS if present
+  const calculatedHeight = 32 + (totalControls * CONTROL_HEIGHT) + 32 + (hasFPSGraph ? FPS_GRAPH_EXTRA_HEIGHT : 0)
+  const maxAllowedHeight = float.value ? windowHeight.value - MARGIN_FROM_BOTTOM : MAX_HEIGHT
+  return Math.min(maxAllowedHeight, Math.max(MIN_HEIGHT, calculatedHeight))
+})
+
 const paneRef = ref<HTMLElement | null>(null)
 const handleRef = ref<HTMLElement | null>(null)
 
@@ -73,32 +116,54 @@ const { style, position: dragPosition } = useDraggable(paneRef, {
   },
 })
 
+const panelStyle = computed(() => {
+  if (float.value) {
+    return [
+      style.value,
+      { width: `${panelWidth.value}px`, height: `${panelHeight.value}px`, right: '16px', left: 'auto' },
+    ]
+  }
+  else {
+    return [
+      { width: 'auto', height: 'auto' },
+    ]
+  }
+})
+
 const { apply } = useMotion(paneRef, {
   initial: {
     opacity: 0,
     y: 100,
-    width: 28,
-    height: 28,
-    right: '16px',
+    width: COLLAPSED_SIZE,
+    height: COLLAPSED_SIZE,
+    right: '1rem',
     left: 'auto',
   },
   enter: {
     opacity: 1,
     y: 0,
-    width: 28,
-    height: 28,
-    right: '16px',
+    width: COLLAPSED_SIZE,
+    height: COLLAPSED_SIZE,
+    right: '1rem',
     left: 'auto',
   },
   leave: {
     opacity: 0,
     y: 100,
-    width: 28,
-    height: 28,
-    right: '16px',
+    width: COLLAPSED_SIZE,
+    height: COLLAPSED_SIZE,
+    right: '1rem',
     left: 'auto',
   },
 })
+
+const handleScroll = () => {
+  if (!scrollContainer.value) { return }
+
+  const { scrollTop, scrollHeight, clientHeight } = scrollContainer.value
+  showTopGradient.value = scrollTop > 20
+  showBottomGradient.value = scrollHeight - scrollTop - clientHeight > 20
+}
 
 function startResize(edge: 'right' | 'left' | 'bottom' | 'corner' | 'corner-left', e: MouseEvent) {
   isResizing.value = true
@@ -109,7 +174,7 @@ function startResize(edge: 'right' | 'left' | 'bottom' | 'corner' | 'corner-left
   const startX = e.clientX
   const startY = e.clientY
   const startWidth = panelWidth.value
-  const startHeight = panelHeight.value
+  const startHeight = manualHeight.value ?? panelHeight.value
   const startDragX = dragPosition.value.x
 
   function onMouseMove(e: MouseEvent) {
@@ -131,14 +196,19 @@ function startResize(edge: 'right' | 'left' | 'bottom' | 'corner' | 'corner-left
 
     if (resizeEdge.value === 'bottom' || resizeEdge.value === 'corner' || resizeEdge.value === 'corner-left') {
       const deltaY = e.clientY - startY
-      panelHeight.value = Math.max(280, startHeight + deltaY)
-      paneRef.value.style.maxHeight = `${panelHeight.value}px`
+      const maxAllowedHeight = float.value ? windowHeight.value - MARGIN_FROM_BOTTOM : MAX_HEIGHT
+      manualHeight.value = Math.min(maxAllowedHeight, Math.max(MIN_HEIGHT, startHeight + deltaY))
+      paneRef.value.style.maxHeight = `${manualHeight.value}px`
+      // Update gradients after resize
+      handleScroll()
     }
   }
 
   function onMouseUp() {
     isResizing.value = false
     resizeEdge.value = null
+    // Update gradients one final time after resize
+    handleScroll()
     document.removeEventListener('mousemove', onMouseMove)
     document.removeEventListener('mouseup', onMouseUp)
   }
@@ -147,32 +217,24 @@ function startResize(edge: 'right' | 'left' | 'bottom' | 'corner' | 'corner-left
   document.addEventListener('mouseup', onMouseUp)
 }
 
+function toggleCollapsed() {
+  if (float.value) {
+    isCollapsed.value = !isCollapsed.value
+  }
+}
+
 watch(isCollapsed, async (value) => {
   if (!value) {
     await apply({
-      width: panelWidth.value,
-      height: panelHeight.value,
-      right: '16px',
-      left: 'auto',
+      width: float.value ? panelWidth.value : 'none',
+      height: float.value ? panelHeight.value : 'none',
+      right: float.value ? '1rem' : 'auto',
+      left: float.value ? 'auto' : '0',
     })
     return
   }
   await apply('enter')
 }, { immediate: true })
-
-useDark({
-  selector: `.tresleches-container`,
-  valueDark: 'dark',
-  valueLight: 'light',
-})
-
-const handleScroll = () => {
-  if (!scrollContainer.value) { return }
-
-  const { scrollTop, scrollHeight, clientHeight } = scrollContainer.value
-  showTopGradient.value = scrollTop > 20
-  showBottomGradient.value = scrollHeight - scrollTop - clientHeight > 20
-}
 
 onMounted(() => {
   handleScroll()
@@ -184,37 +246,44 @@ onMounted(() => {
     <div
       :id="`tres-leches-pane-${uuid}`"
       ref="paneRef"
-      class="tl-fixed tl-top-4 tl-z-24 tl-bg-white dark:tl-bg-dark-200 tl-shadow-xl tl-p-1 tl-font-sans tl-text-xs tl-flex tl-flex-col"
-      :class="[$attrs.class, isCollapsed ? 'tl-rounded-full' : 'tl-rounded-lg']"
-      :style="[style, { width: `${panelWidth}px`, height: `${panelHeight}px`, right: '16px', left: 'auto' }]"
+      class=" tl-z-24 tl-bg-white dark:tl-bg-dark-200 tl-shadow-xl tl-p-1 tl-font-sans tl-text-xs tl-flex tl-flex-col tl-rounded-lg"
+      :class="[
+        $attrs.class,
+        float ? 'tl-absolute tl-top-4' : 'tl-relative',
+      ]"
+      :style="panelStyle"
     >
-      <header class="tl-flex tl-justify-between tl-items-center tl-text-gray-200 dark:tl-text-gray-600 tl-text-xs tl-flex-none">
-        <div v-show="!isCollapsed" class="w-1/3"></div>
-        <div v-show="!isCollapsed" ref="handleRef" class="tl-cursor-grabbing">
+      <header class="tl-flex tl-justify-between tl-items-center tl-text-gray-200 dark:tl-text-gray-600 tl-text-xs">
+        <div v-if="!isCollapsed && float" class="w-1/3"></div>
+        <div v-if="!isCollapsed && float" ref="handleRef" class="tl-cursor-grabbing w-1/3">
           <i class="i-ic-baseline-drag-indicator"></i><i class="i-ic-baseline-drag-indicator"></i><i
             class="i-ic-baseline-drag-indicator"
           ></i>
         </div>
-        <div></div>
-        <i
-          class="tl-h-4
-              tl-w-4
+        <div class="tl-flex tl-justify-end">
+          <button
+            class="tl-rounded-full
+              tl-inline-flex tl-justify-center tl-items-center
               tl-p-1.5
-              tl-flex
-              tl-items-center
-              tl-line-height-0
-              tl-rounded-full
               tl-bg-gray-100
               dark:tl-bg-dark-300
-              tl-text-xs
+              tl-outline-none
+              tl-border-none
               tl-cursor-pointer"
-          @click="isCollapsed = !isCollapsed"
-          @mouseenter="isHover = true"
-          @mouseleave="isHover = false"
-        >🍰</i>
+          >
+            <img
+              :src="iconUrl"
+              alt="TresLechesIcon"
+              class="
+              tl-w-4 tl-h-4 tl-block"
+              :width="16"
+              :height="16"
+              @click="toggleCollapsed"
+            />
+          </button>
+        </div>
       </header>
-
-      <div v-if="!isCollapsed" class="tl-flex-1 tl-relative tl-overflow-hidden tl-my-4">
+      <div v-show="!isCollapsed" class="tl-flex-1 tl-relative tl-overflow-hidden tl-my-4">
         <!-- Gradient overlays moved outside scrollable area -->
         <div
           class="tl-pointer-events-none tl-absolute tl-left-0 tl-right-0 tl-top-0 tl-h-8 tl-bg-gradient-linear tl-bg-gradient-to-b tl-from-white dark:tl-from-dark-200 tl-to-transparent tl-z-20 tl-opacity-0 tl-transition-opacity duration-200"

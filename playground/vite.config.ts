@@ -17,6 +17,7 @@ export default defineConfig({
       },
       ...templateCompilerOptions,
     }),
+    // svgLoader(),
     AutoImport({
       dts: true,
       eslintrc: {

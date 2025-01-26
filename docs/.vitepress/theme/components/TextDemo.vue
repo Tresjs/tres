@@ -2,7 +2,7 @@
 import { TresLeches, useControls } from '@tresjs/leches'
 
 const uuid = 'str'
-const { value } = useControls({
+const { message } = useControls({
   message: 'I`m a pretty penguin',
 }, {
   uuid,
@@ -10,15 +10,12 @@ const { value } = useControls({
 </script>
 
 <template>
-  <div class="w-full h-300px bg-gray-200 mb-8 relative grid grid-cols-2 gap-16 items-center">
+  <div class="leches-demo-layout">
     <div class="p-4">
-      <pre class="bg-dark p-8 rounded text-white">{{ value }}</pre>
+      <pre class="leches-demo-preview">{{ message }}</pre>
     </div>
-    <div class="relative w-280px min-h-200px">
-      <TresLeches
-        class="important-left-0 -important-top-8"
-        :uuid="uuid"
-      />
-    </div>
+    <TresLeches
+      :uuid="uuid"
+    />
   </div>
 </template>

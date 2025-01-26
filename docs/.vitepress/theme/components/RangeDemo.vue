@@ -3,7 +3,7 @@ import { TresLeches, useControls } from '@tresjs/leches'
 import { computed } from 'vue'
 
 const uuid = 'range'
-const { value } = useControls({
+const { planets } = useControls({
   planets: {
     value: 8,
     min: 1,
@@ -14,22 +14,19 @@ const { value } = useControls({
   uuid,
 })
 
-const planets = computed(() => Array.from({ length: value.value }, (_, i) => i + 1))
+const computedPlanets = computed(() => Array.from({ length: planets.value }, (_, i) => i + 1))
 </script>
 
 <template>
-  <div class="w-full h-300px bg-gray-200 mb-8 relative grid grid-cols-2 gap-16 items-center">
+  <div class="leches-demo-layout">
     <div class="p-4 flex gap-4 flex-wrap text-xl">
       <i
-        v-for="planet in planets"
+        v-for="planet in computedPlanets"
         :key="planet"
       >🪐</i>
     </div>
-    <div class="relative w-280px min-h-200px">
-      <TresLeches
-        class="important-left-0 -important-top-8"
-        :uuid="uuid"
-      />
-    </div>
+    <TresLeches
+      :uuid="uuid"
+    />
   </div>
 </template>

@@ -6,11 +6,8 @@ import { OrbitControls } from '@tresjs/cientos'
 import { TresLeches, useControls } from '@tresjs/leches'
 
 /* import '@tresjs/leches/style.css' */
-import { reactive, ref, watch } from 'vue'
-
-const gl = reactive({
-  clearColor: '#82DBC5',
-})
+import { ref, watch } from 'vue'
+import { useDark, useToggle } from '@vueuse/core'
 
 const cameraRef = ref()
 const boxRef = ref()
@@ -18,10 +15,11 @@ useControls('fpsgraph')
 
 const label = ref('Range')
 
-const { wireframe, camPos, position, rotation, select } = useControls({
+const isDark = useDark()
+const toggleDark = useToggle(isDark)
+const { clearColor, wireframe, position, rotation, select } = useControls({
   clearColor: '#82DBC5',
   wireframe: false,
-  camPos: new Vector3(4, 4, 4),
   position: new Vector3(0, 1, 2),
   rotation: {
     value: new Vector3(5, 5, 5),
@@ -41,14 +39,13 @@ const { wireframe, camPos, position, rotation, select } = useControls({
   number: 1,
   text: 'Hello',
   accept: {
-    label: 'Accept',
+    label: isDark.value ? 'Light' : 'Dark',
     type: 'button',
     variant: 'secondary',
     onClick: () => {
-      // eslint-disable-next-line no-console
-      console.log('accept')
+      toggleDark()
     },
-    icon: 'i-carbon-checkmark',
+    icon: isDark.value ? 'i-carbon-sun' : 'i-carbon-moon',
     size: 'block',
   },
 })
@@ -65,10 +62,10 @@ watch(select, (value) => {
 
 <template>
   <TresLeches />
-  <TresCanvas v-bind="gl">
+  <TresCanvas :clear-color="clearColor">
     <TresPerspectiveCamera
       ref="cameraRef"
-      :position="[camPos.x, camPos.y, camPos.z]"
+      :position="[7, 7, 7]"
       :look-at="[1, 2, 0]"
     />
     <TresMesh
