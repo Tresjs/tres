@@ -46,20 +46,6 @@ const manualHeight = ref<number | null>(null) // Track manual height override
 const isResizing = ref(false)
 const resizeEdge = ref<'right' | 'left' | 'bottom' | 'corner' | 'corner-left' | null>(null)
 
-const panelStyle = computed(() => {
-  if (float.value) {
-    return [
-      style.value,
-      { width: `${panelWidth.value}px`, height: `${panelHeight.value}px`, right: '16px', left: 'auto' },
-    ]
-  }
-  else {
-    return [
-      { width: 'auto', height: 'auto' },
-    ]
-  }
-})
-
 // Controls
 const controls = useControlsProvider(uuid?.value)
 
@@ -128,6 +114,20 @@ const { style, position: dragPosition } = useDraggable(paneRef, {
     x: width.value - 40,
     y: 10,
   },
+})
+
+const panelStyle = computed(() => {
+  if (float.value) {
+    return [
+      style.value,
+      { width: `${panelWidth.value}px`, height: `${panelHeight.value}px`, right: '16px', left: 'auto' },
+    ]
+  }
+  else {
+    return [
+      { width: 'auto', height: 'auto' },
+    ]
+  }
 })
 
 const { apply } = useMotion(paneRef, {

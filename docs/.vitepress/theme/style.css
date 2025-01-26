@@ -43,7 +43,6 @@
  *   in custom container, badges, etc.
  * -------------------------------------------------------------------------- */
 
-
 :root {
   --vp-c-dark-1: #181818;
   --vp-c-dark-2: #0f0f0f;
@@ -78,7 +77,6 @@
   --vp-c-danger-soft: var(--vp-c-red-soft);
 }
 
-
 /**
  * Component: Button
  * -------------------------------------------------------------------------- */
@@ -104,7 +102,6 @@
   --vp-brand-text: var(--vp-c-dark-1);
   --vp-button-brand-text: var(--vp-c-dark-1);
 }
-
 
 .VPButton.outline {
   --vp-button-brand-border: var(--vp-c-brand-3);
@@ -155,4 +152,3 @@
 .DocSearch {
   --docsearch-primary-color: var(--vp-c-brand-1) !important;
 }
-
