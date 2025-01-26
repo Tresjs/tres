@@ -15,13 +15,8 @@ exports[`color Control > should render a color control 1`] = `
       <div class="tl-h-full tl-overflow-y-auto tl-overflow-x-hidden tl-scrollbar tl-scrollbar-rounded tl-scrollbar-w-4px tl-scrollbar-radius-2 tl-scrollbar-track-radius-4 tl-scrollbar-thumb-radius-4 tl-scrollbar-track-color-gray-100 dark:tl-scrollbar-track-color-dark-300 tl-scrollbar-thumb-color-gray-300 dark:tl-scrollbar-thumb-color-gray-400">
         <!--v-if-->
         <div>
-<<<<<<< HEAD
-          <div class="tl-flex tl-px-4 tl-items-center tl-mb-2"><label for="colorValue" title="colorValue" class="tl-text-gray-500 dark:tl-text-gray-400 tl-w-1/3 tl-truncate">colorValue</label>
-            <div class="tl-w-2/3 tl-flex tl-justify-between tl-items-center"><input id="colorValue" tabindex="0" aria-label="colorValue" class="leches-color focus:tl-outline-none focus:tl-ring-2 focus:tl-ring-blue-600" type="color" value="#008080"><input id="colorValue" tabindex="0" aria-label="colorValue" class="tl-leches-input tl-w-1/2" type="text" value="#008080"></div>
-=======
           <div class="tl-flex tl-px-4 tl-items-center tl-mb-2"><label for="default-colorValue" title="colorValue" class="tl-text-gray-500 dark:tl-text-gray-400 tl-w-1/3 tl-truncate">colorValue</label>
             <div class="tl-w-2/3 tl-flex tl-justify-between tl-items-center"><input id="default-colorValue" tabindex="0" aria-label="colorValue" class="leches-color focus:tl-outline-none focus:tl-ring-2 focus:tl-ring-blue-600" type="color" value="#008080"><input id="default-colorValue" tabindex="0" aria-label="colorValue" class="tl-leches-input tl-w-1/2" type="text" value="#008080"></div>
->>>>>>> 708856485451ca3d91abaef983737d117effbcc5
           </div>
         </div>
       </div>
