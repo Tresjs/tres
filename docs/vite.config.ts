@@ -7,6 +7,10 @@ import { groupIconVitePlugin } from 'vitepress-plugin-group-icons'
 export default defineConfig({
   plugins: [
     Unocss({
+      shortcuts: {
+        'leches-demo-layout': 'w-full h-300px bg-gray-200 dark:bg-dark-800 mb-8 relative grid grid-cols-2 gap-16 items-center',
+        'leches-demo-preview': 'bg-dark p-8 rounded text-white text-xs',
+      },
       presets: [
         presetUno(),
         presetIcons({

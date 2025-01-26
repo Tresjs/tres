@@ -12,6 +12,7 @@ declare module 'vue' {
     ButtonSizesDemo: typeof import('./.vitepress/theme/components/ButtonSizesDemo.vue')['default']
     ButtonVariantDemo: typeof import('./.vitepress/theme/components/ButtonVariantDemo.vue')['default']
     ColorDemo: typeof import('./.vitepress/theme/components/ColorDemo.vue')['default']
+    DemoLayout: typeof import('./.vitepress/theme/components/DemoLayout.vue')['default']
     FolderDemo: typeof import('./.vitepress/theme/components/FolderDemo.vue')['default']
     FPSDemo: typeof import('./.vitepress/theme/components/FPSDemo.vue')['default']
     GettingStartedDemo: typeof import('./.vitepress/theme/components/GettingStartedDemo.vue')['default']

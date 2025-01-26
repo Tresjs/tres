@@ -28,8 +28,8 @@ const cameraControls = useControls('Camera', {
     class="w-full h-500px bg-gray-200 dark:bg-dark-800 mb-8 relative grid grid-cols-2 gap-16 items-center"
   >
     <div class="p-4 text-xs">
-      <pre class="bg-dark p-8 rounded text-white"> {{ canvasControls }}</pre>
-      <pre class="bg-dark p-8 rounded text-white"> {{ cameraControls }}</pre>
+      <pre class="leches-demo-preview"> {{ canvasControls }}</pre>
+      <pre class="leches-demo-preview"> {{ cameraControls }}</pre>
     </div>
     <TresLeches
       :uuid="uuid"

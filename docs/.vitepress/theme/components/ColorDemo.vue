@@ -11,11 +11,11 @@ const { color } = useControls({
 
 <template>
   <div
-    class="w-full h-300px bg-gray-200 dark:bg-dark-800 mb-8 relative grid grid-cols-2 gap-16 items-center"
+    class="leches-demo-layout"
     :style="{ backgroundColor: color }"
   >
     <div class="p-4">
-      <pre class="bg-dark p-8 rounded text-white">{{ color }}</pre>
+      <pre class="leches-demo-preview">{{ color }}</pre>
     </div>
     <TresLeches
       :uuid="uuid"
