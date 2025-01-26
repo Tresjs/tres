@@ -16,7 +16,7 @@ function onChange(event: Event) {
 </script>
 
 <template>
-  <div class="tl-flex tl-px-4  tl-items-center tl-mb-2">
+  <div class="tl-flex tl-px-4 tl-gap-2 tl-items-center tl-mb-2">
     <ControlLabel :label="label" :control="control" />
     <div class="tl-w-2/3 tl-flex tl-justify-between tl-items-center">
       <input

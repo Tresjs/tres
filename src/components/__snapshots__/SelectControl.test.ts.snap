@@ -15,7 +15,7 @@ exports[`dropdown Control > should render a select control 1`] = `
       <div class="tl-h-full tl-overflow-y-auto tl-overflow-x-hidden tl-scrollbar tl-scrollbar-rounded tl-scrollbar-w-4px tl-scrollbar-radius-2 tl-scrollbar-track-radius-4 tl-scrollbar-thumb-radius-4 tl-scrollbar-track-color-gray-100 dark:tl-scrollbar-track-color-dark-300 tl-scrollbar-thumb-color-gray-300 dark:tl-scrollbar-thumb-color-gray-400">
         <!--v-if-->
         <div>
-          <div class="tl-flex tl-px-4 tl-justify-start tl-items-center tl-mb-2 tl-min-h-32px"><label for="default-game" title="Games" class="tl-text-gray-500 dark:tl-text-gray-400 tl-w-1/3 tl-truncate">Games</label><select id="default-game" class="tl-leches-input tl-w-2/3" value="crash-bandicoot">
+          <div class="tl-flex tl-px-4 tl-gap-2 tl-justify-start tl-items-center tl-mb-2 tl-min-h-32px"><label for="default-game" title="Games" class="tl-text-gray-500 dark:tl-text-gray-400 tl-w-1/3 tl-truncate">Games</label><select id="default-game" class="tl-leches-input tl-w-2/3" value="crash-bandicoot">
               <option value="crash-bandicoot">Crash Bandicoot</option>
               <option value="spyro-the-dragon">Spyro The Dragon</option>
               <option value="metal-gear-solid">Metal Gear Solid</option>

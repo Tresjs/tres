@@ -69,7 +69,7 @@ watch(mouse.x, (newValue) => {
 </script>
 
 <template>
-  <div class="tl-px-4 tl-relative tl-flex tl-justify-between tl-items-center tl-mb-2">
+  <div class="tl-px-4 tl-relative tl-flex tl-gap-2 tl-justify-between tl-items-center tl-mb-2">
     <ControlLabel
       :label="label"
       :control="control"

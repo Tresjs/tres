@@ -20,6 +20,7 @@ const toggleDark = useToggle(isDark)
 const { clearColor, wireframe, position, rotation, select } = useControls({
   clearColor: '#82DBC5',
   wireframe: false,
+  extremelyLongBoolean: false,
   position: new Vector3(0, 1, 2),
   rotation: {
     value: new Vector3(5, 5, 5),

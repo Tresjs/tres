@@ -107,7 +107,7 @@ watch(mouse.x, (newValue) => {
 
 <template>
   <div
-    class="tl-flex tl-px-4 tl-justify-between tl-items-center tl-mb-2"
+    class="tl-flex tl-px-4 tl-gap-2 tl-justify-between tl-items-center tl-mb-2"
     @mouseup="onControlMouseUp()"
   >
     <ControlLabel
