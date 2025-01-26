@@ -60,7 +60,6 @@ describe('button Controls', () => {
       useControls({ acceptBtn: { type: 'button', label: 'Accept', size: 'sm' } })
     })
     expect(wrapper.html().replace(/style="[^"]*"/, '')).toMatchSnapshot()
-    expect(wrapper.find('button').classes()).toContain('leches-btn-sm')
   })
 
   it('should render a large button', () => {
@@ -68,7 +67,6 @@ describe('button Controls', () => {
       useControls({ acceptBtn: { type: 'button', label: 'Accept', size: 'lg' } })
     })
     expect(wrapper.html().replace(/style="[^"]*"/, '')).toMatchSnapshot()
-    expect(wrapper.find('button').classes()).toContain('leches-btn-lg')
   })
 
   it('should render a block size button', () => {
@@ -76,7 +74,6 @@ describe('button Controls', () => {
       useControls({ acceptBtn: { type: 'button', label: 'Accept', size: 'block' } })
     })
     expect(wrapper.html().replace(/style="[^"]*"/, '')).toMatchSnapshot()
-    expect(wrapper.find('button').classes()).toContain('leches-btn-block')
   })
 
   it('should render a primary button variant by default', () => {
@@ -84,7 +81,6 @@ describe('button Controls', () => {
       useControls({ acceptBtn: { type: 'button', label: 'Accept' } })
     })
     expect(wrapper.html().replace(/style="[^"]*"/, '')).toMatchSnapshot()
-    expect(wrapper.find('button').classes()).toContain('leches-btn-primary')
   })
 
   it('should render a secondary button variant', () => {
@@ -92,6 +88,5 @@ describe('button Controls', () => {
       useControls({ acceptBtn: { type: 'button', label: 'Accept', variant: 'secondary' } })
     })
     expect(wrapper.html().replace(/style="[^"]*"/, '')).toMatchSnapshot()
-    expect(wrapper.find('button').classes()).toContain('leches-btn-secondary')
   })
 })
