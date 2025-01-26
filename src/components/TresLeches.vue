@@ -37,9 +37,9 @@ const DEFAULT_WIDTH = 300
 const COLLAPSED_SIZE = 36
 const MIN_HEIGHT = 100 // Minimum height for the panel
 const MAX_HEIGHT = 600 // Maximum height for the panel
-const CONTROL_HEIGHT = 40 // Approximate height per control
+const CONTROL_HEIGHT = 46 // Approximate height per control
 const FPS_GRAPH_EXTRA_HEIGHT = 12 // Extra padding needed for FPS graph
-const MARGIN_FROM_BOTTOM = 40 // Margin to keep from bottom of viewport
+const MARGIN_FROM_BOTTOM = 42 // Margin to keep from bottom of viewport
 
 const panelWidth = ref(DEFAULT_WIDTH)
 const manualHeight = ref<number | null>(null) // Track manual height override
@@ -77,7 +77,7 @@ const groupedControls = computed(() => {
 })
 
 const panelHeight = computed(() => {
-  if (isCollapsedAndNotFloat.value) { return 28 } // Height when collapsed
+  if (isCollapsedAndNotFloat.value) { return COLLAPSED_SIZE } // Height when collapsed
 
   // If manually resized, use that height within constraints
   if (manualHeight.value !== null) {
