@@ -17,6 +17,7 @@ const classes = computed(() => {
 
 <template>
   <button
+    :id="`${control.uniqueKey}`"
     :class="classes"
     @click="control.value.onClick"
   >

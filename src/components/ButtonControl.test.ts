@@ -9,7 +9,7 @@ describe('button Controls', () => {
   let component
   const mountComponent = (setup) => {
     component = defineComponent({
-      template: `<TresLeches />`,
+      template: `<TresLeches :float="false" />`,
       components: { TresLeches, ButtonControl },
       setup,
     })
@@ -24,15 +24,16 @@ describe('button Controls', () => {
       useControls({ acceptBtn: { type: 'button', label: 'Accept' } })
     })
     expect(wrapper.html().replace(/style="[^"]*"/, '')).toMatchSnapshot()
-    expect(wrapper.find('button').exists()).toBe(true)
+    expect(wrapper.find('button#default-acceptBtn').exists()).toBe(true)
   })
 
-  it('should render a button with a label', () => {
+  it('should render a button with a label', async () => {
     mountComponent(() => {
       useControls({ acceptBtn: { type: 'button', label: 'Accept' } })
     })
     expect(wrapper.html().replace(/style="[^"]*"/, '')).toMatchSnapshot()
-    expect(wrapper.find('button').text()).toBe('Accept')
+    const button = wrapper.find('button#default-acceptBtn')
+    expect(button.text()).toBe('Accept')
   })
 
   it('should render a clickable button', async () => {
@@ -42,7 +43,7 @@ describe('button Controls', () => {
       return { isClicked }
     })
 
-    const button = wrapper.find('button')
+    const button = wrapper.find('button#default-acceptBtn')
     await button.trigger('click')
     expect(wrapper.vm.isClicked).toBe(true)
   })
