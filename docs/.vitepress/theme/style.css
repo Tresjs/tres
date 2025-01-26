@@ -43,6 +43,7 @@
  *   in custom container, badges, etc.
  * -------------------------------------------------------------------------- */
 
+
 :root {
   --vp-c-dark-1: #181818;
   --vp-c-dark-2: #0f0f0f;
@@ -96,7 +97,7 @@
 
 .dark {
   --vp-home-hero-name-color: var(--vp-c-white);
-  --vp-code-color: var(--vp-c-gray-1);
+  --vp-code-color: var(--vp-c-light-1);
   --vp-c-brand-1: var(--vp-c-white);
   --vp-c-brand-2: var(--vp-c-white);
   --vp-c-brand-3: var(--vp-c-white);

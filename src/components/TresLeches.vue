@@ -21,8 +21,11 @@ const props = withDefaults(defineProps<{
 })
 const { uuid, collapsed, float } = toRefs(props)
 
+// Panel
 const isCollapsed = ref(collapsed.value)
-const isHover = ref(false)
+const isCollapsedAndNotFloat = computed(() => {
+  return isCollapsed.value && !float.value
+})
 const scrollContainer = ref<HTMLElement | null>(null)
 const showTopGradient = ref(false)
 const showBottomGradient = ref(false)
@@ -31,6 +34,7 @@ const { width } = useWindowSize()
 const { height: windowHeight } = useWindowSize()
 
 const DEFAULT_WIDTH = 300
+const COLLAPSED_SIZE = 36
 const MIN_HEIGHT = 100 // Minimum height for the panel
 const MAX_HEIGHT = 600 // Maximum height for the panel
 const CONTROL_HEIGHT = 40 // Approximate height per control
@@ -42,6 +46,21 @@ const manualHeight = ref<number | null>(null) // Track manual height override
 const isResizing = ref(false)
 const resizeEdge = ref<'right' | 'left' | 'bottom' | 'corner' | 'corner-left' | null>(null)
 
+const panelStyle = computed(() => {
+  if (float.value) {
+    return [
+      style.value,
+      { width: `${panelWidth.value}px`, height: `${panelHeight.value}px`, right: '16px', left: 'auto' },
+    ]
+  }
+  else {
+    return [
+      { width: 'auto', height: 'auto' },
+    ]
+  }
+})
+
+// Controls
 const controls = useControlsProvider(uuid?.value)
 
 defineExpose(controls)
@@ -72,7 +91,7 @@ const groupedControls = computed(() => {
 })
 
 const panelHeight = computed(() => {
-  if (isCollapsed.value) { return 28 } // Height when collapsed
+  if (isCollapsedAndNotFloat.value) { return 28 } // Height when collapsed
 
   // If manually resized, use that height within constraints
   if (manualHeight.value !== null) {
@@ -115,24 +134,24 @@ const { apply } = useMotion(paneRef, {
   initial: {
     opacity: 0,
     y: 100,
-    width: 28,
-    height: 28,
+    width: COLLAPSED_SIZE,
+    height: COLLAPSED_SIZE,
     right: '1rem',
     left: 'auto',
   },
   enter: {
     opacity: 1,
     y: 0,
-    width: 28,
-    height: 28,
+    width: COLLAPSED_SIZE,
+    height: COLLAPSED_SIZE,
     right: '1rem',
     left: 'auto',
   },
   leave: {
     opacity: 0,
     y: 100,
-    width: 28,
-    height: 28,
+    width: COLLAPSED_SIZE,
+    height: COLLAPSED_SIZE,
     right: '1rem',
     left: 'auto',
   },
@@ -198,13 +217,19 @@ function startResize(edge: 'right' | 'left' | 'bottom' | 'corner' | 'corner-left
   document.addEventListener('mouseup', onMouseUp)
 }
 
+function toggleCollapsed() {
+  if (float.value) {
+    isCollapsed.value = !isCollapsed.value
+  }
+}
+
 watch(isCollapsed, async (value) => {
   if (!value) {
     await apply({
-      width: panelWidth.value,
-      height: panelHeight.value,
-      right: '1rem',
-      left: 'auto',
+      width: float.value ? panelWidth.value : 'none',
+      height: float.value ? panelHeight.value : 'none',
+      right: float.value ? '1rem' : 'auto',
+      left: float.value ? 'auto' : '0',
     })
     return
   }
@@ -221,36 +246,41 @@ onMounted(() => {
     <div
       :id="`tres-leches-pane-${uuid}`"
       ref="paneRef"
-      class="tl-top-4 tl-z-24 tl-bg-white dark:tl-bg-dark-200 tl-shadow-xl tl-p-1 tl-font-sans tl-text-xs tl-flex tl-flex-col tl-rounded-lg"
+      class=" tl-z-24 tl-bg-white dark:tl-bg-dark-200 tl-shadow-xl tl-p-1 tl-font-sans tl-text-xs tl-flex tl-flex-col tl-rounded-lg"
       :class="[
         $attrs.class,
-        float ? 'tl-absolute' : 'tl-relative',
+        float ? 'tl-absolute tl-top-4' : 'tl-relative',
       ]"
-      :style="[float ? style : null, { width: `${panelWidth}px`, height: `${panelHeight}px`, right: '16px', left: 'auto' }]"
+      :style="panelStyle"
     >
-      <header class="tl-flex tl-justify-between tl-items-center tl-text-gray-200 dark:tl-text-gray-600 tl-text-xs tl-flex-none">
-        <div v-show="!isCollapsed" class="w-1/3"></div>
+      <header class="tl-flex tl-justify-between tl-items-center tl-text-gray-200 dark:tl-text-gray-600 tl-text-xs">
+        <div v-if="!isCollapsed && float" class="w-1/3"></div>
         <div v-if="!isCollapsed && float" ref="handleRef" class="tl-cursor-grabbing w-1/3">
           <i class="i-ic-baseline-drag-indicator"></i><i class="i-ic-baseline-drag-indicator"></i><i
             class="i-ic-baseline-drag-indicator"
           ></i>
         </div>
         <div class="tl-flex tl-justify-end">
-          <img
-            :src="iconUrl"
-            alt="TresLechesIcon"
-            class="
+          <button
+            class="tl-rounded-full
+              tl-inline-flex tl-justify-center tl-items-center
               tl-p-1.5
-              tl-w-4 tl-h-4
-              tl-rounded-full
               tl-bg-gray-100
               dark:tl-bg-dark-300
-              tl-cursor-pointer
-              "
-            @click="isCollapsed = !isCollapsed"
-            @mouseenter="isHover = true"
-            @mouseleave="isHover = false"
-          />
+              tl-outline-none
+              tl-border-none
+              tl-cursor-pointer"
+          >
+            <img
+              :src="iconUrl"
+              alt="TresLechesIcon"
+              class="
+              tl-w-4 tl-h-4 tl-block"
+              :width="16"
+              :height="16"
+              @click="toggleCollapsed"
+            />
+          </button>
         </div>
       </header>
       <div v-show="!isCollapsed" class="tl-flex-1 tl-relative tl-overflow-hidden tl-my-4">

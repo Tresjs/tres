@@ -31,12 +31,12 @@ const controls2 = useControls({
 <template>
   <div class="w-full min-h-300px bg-gray-200 p-4 dark:bg-dark-800 mb-8 relative grid grid-cols-2 gap-8 items-center">
     <div class="relative">
-      <h3 class="text-sm font-bold mb-2">Instance 1</h3>
+      <h3 class="text-sm font-bold !mb-4">Instance 1</h3>
       <TresLeches :uuid="uuid1" :float="false" />
       <pre class="bg-dark p-4 rounded text-white text-xs">{{ controls1 }}</pre>
     </div>
     <div class="relative">
-      <h3 class="text-sm font-bold mb-2">Instance 2</h3>
+      <h3 class="text-sm font-bold !mb-4">Instance 2</h3>
       <TresLeches :uuid="uuid2" :float="false" />
       <pre class="bg-dark p-4 rounded text-white text-xs">{{ controls2 }}</pre>
     </div>

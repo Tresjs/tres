@@ -6,7 +6,7 @@ When working with multiple TresLeches instances in the same page, you need to us
 
 ## Basic Usage
 
-To create multiple instances, provide a unique `uuid` when initializing the controls and pass it to the corresponding TresLeches component:
+To create multiple instances, provide a unique `uuid` when initializing the controls and pass it as a prop to the corresponding TresLeches component:
 
 ```vue
 <script setup lang="ts">

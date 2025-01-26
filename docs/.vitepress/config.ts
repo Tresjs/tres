@@ -48,6 +48,7 @@ export default defineConfig({
         link: '/advanced',
         items: [
           { text: 'Multiple Instances', link: '/advanced/multiple-instances' },
+          { text: 'Stacked mode', link: '/advanced/stacked' },
         ],
       },
       {

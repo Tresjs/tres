@@ -9,13 +9,9 @@ declare module 'vue' {
   export interface GlobalComponents {
     BooleanDemo: typeof import('./.vitepress/theme/components/BooleanDemo.vue')['default']
     ButtonDemo: typeof import('./.vitepress/theme/components/ButtonDemo.vue')['default']
-    ButtonSecondary: typeof import('./.vitepress/theme/components/ButtonSecondary.vue')['default']
-    ButtonSizes: typeof import('./.vitepress/theme/components/ButtonSizes.vue')['default']
     ButtonSizesDemo: typeof import('./.vitepress/theme/components/ButtonSizesDemo.vue')['default']
-    ButtonVariant: typeof import('./.vitepress/theme/components/ButtonVariant.vue')['default']
     ButtonVariantDemo: typeof import('./.vitepress/theme/components/ButtonVariantDemo.vue')['default']
     ColorDemo: typeof import('./.vitepress/theme/components/ColorDemo.vue')['default']
-    copy: typeof import('./.vitepress/theme/components/TextDemo copy.vue')['default']
     FolderDemo: typeof import('./.vitepress/theme/components/FolderDemo.vue')['default']
     FPSDemo: typeof import('./.vitepress/theme/components/FPSDemo.vue')['default']
     GettingStartedDemo: typeof import('./.vitepress/theme/components/GettingStartedDemo.vue')['default']
@@ -25,13 +21,11 @@ declare module 'vue' {
     MultipleInstancesDemo: typeof import('./.vitepress/theme/components/MultipleInstancesDemo.vue')['default']
     NumberDemo: typeof import('./.vitepress/theme/components/NumberDemo.vue')['default']
     RangeDemo: typeof import('./.vitepress/theme/components/RangeDemo.vue')['default']
-    RouterLink: typeof import('vue-router')['RouterLink']
-    RouterView: typeof import('vue-router')['RouterView']
     SelectDemo: typeof import('./.vitepress/theme/components/SelectDemo.vue')['default']
     SingleControlDemo: typeof import('./.vitepress/theme/components/SingleControlDemo.vue')['default']
+    StackedDemo: typeof import('./.vitepress/theme/components/StackedDemo.vue')['default']
     Test: typeof import('./.vitepress/theme/components/Test.vue')['default']
     TextDemo: typeof import('./.vitepress/theme/components/TextDemo.vue')['default']
     Vector3Demo: typeof import('./.vitepress/theme/components/Vector3Demo.vue')['default']
-    VisibilityDemo: typeof import('./.vitepress/theme/components/VisibilityDemo.vue')['default']
   }
 }
