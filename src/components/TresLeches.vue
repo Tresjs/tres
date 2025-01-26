@@ -33,7 +33,7 @@ const showBottomGradient = ref(false)
 const { width } = useWindowSize()
 const { height: windowHeight } = useWindowSize()
 
-const DEFAULT_WIDTH = 300
+const DEFAULT_WIDTH = 320
 const COLLAPSED_SIZE = 36
 const MIN_HEIGHT = 100 // Minimum height for the panel
 const MAX_HEIGHT = 600 // Maximum height for the panel
