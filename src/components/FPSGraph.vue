@@ -71,7 +71,7 @@ const isDark = useDark()
 </script>
 
 <template>
-  <div class="tl-flex tl-px-4 tl-gap-2 tl-items-center tl-mb-2">
+  <div class="tl-flex tl-px-4 tl-gap-1 tl-items-center tl-mb-2">
     <ControlLabel
       :label="label"
       :control="control"

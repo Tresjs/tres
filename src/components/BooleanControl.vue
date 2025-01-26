@@ -23,7 +23,7 @@ function onKeydown(event: KeyboardEvent) {
 </script>
 
 <template>
-  <div class="tl-flex tl-px-4 tl-gap-2 tl-justify-start tl-items-center tl-mb-2 tl-min-h-32px">
+  <div class="tl-flex tl-px-4 tl-gap-1 tl-justify-start tl-items-center tl-mb-2 tl-min-h-32px">
     <ControlLabel
       :label="label"
       :control="control"
