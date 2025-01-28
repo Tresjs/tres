@@ -1,12 +1,22 @@
 <script lang="ts" setup>
 import type { DepthPackingStrategies } from 'three'
+import type { DepthCopyMode } from 'postprocessing'
 import { DepthPickingPass } from 'postprocessing'
 import { inject, nextTick, onUnmounted, watchEffect } from 'vue'
 import { effectComposerInjectionKey } from './EffectComposerPmndrs.vue'
 
 export interface DepthPickingPassPmndrsProps {
+  /**
+   * The depth packing strategy.
+   * Default: RGBADepthPacking
+   */
   depthPacking?: DepthPackingStrategies
-  mode?: number
+
+  /**
+   * The depth copy mode.
+   * Default: DepthCopyMode.SINGLE
+   */
+  mode?: DepthCopyMode
 }
 
 const props = defineProps<DepthPickingPassPmndrsProps>()
@@ -21,10 +31,10 @@ const unwatch = watchEffect(() => {
 })
 
 onUnmounted(() => {
-  if (!composer?.value || !pass.value) { return }
+  if (!composer?.value || !pass) { return }
 
-  composer?.value?.removePass(pass.value)
-  pass.value.dispose()
+  composer?.value?.removePass(pass)
+  pass.dispose()
 })
 
 defineExpose({ pass })

@@ -18,7 +18,7 @@ const props = defineProps<LinocutPmndrsProps>()
 const { pass, effect } = useEffectPmndrs(
   () => new LinocutEffect({
     ...props,
-    center: Array.isArray(props.center) ? new Vector2().fromArray(props.center) : props.center,
+    center: props.center instanceof Vector2 ? [props.center.x, props.center.y] : props.center,
   }),
   props,
 )

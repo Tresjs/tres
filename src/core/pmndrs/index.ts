@@ -18,7 +18,6 @@ import KuwaharaPmndrs, { type KuwaharaPmndrsProps } from './KuwaharaPmndrs.vue'
 import ColorAveragePmndrs, { type ColorAveragePmndrsProps } from './ColorAveragePmndrs.vue'
 import LensDistortionPmndrs, { type LensDistortionPmndrsProps } from './LensDistortionPmndrs.vue'
 import ShockWavePmndrs, { type ShockWavePmndrsProps } from './ShockWavePmndrs.vue'
-import DepthPickingPassPmndrs, { type DepthPickingPassPmndrsProps } from './DepthPickingPassPmndrs.vue'
 import TiltShiftPmndrs, { type TiltShiftPmndrsProps } from './TiltShiftPmndrs.vue'
 import DotScreenPmndrs, { type DotScreenPmndrsProps } from './DotScreenPmndrs.vue'
 import SepiaPmndrs, { type SepiaPmndrsProps } from './SepiaPmndrs.vue'
@@ -43,7 +42,6 @@ export {
   ColorAveragePmndrs,
   LensDistortionPmndrs,
   ShockWavePmndrs,
-  DepthPickingPassPmndrs,
   TiltShiftPmndrs,
   DotScreenPmndrs,
   SepiaPmndrs,
@@ -65,7 +63,6 @@ export {
   ColorAveragePmndrsProps,
   LensDistortionPmndrsProps,
   ShockWavePmndrsProps,
-  DepthPickingPassPmndrsProps,
   TiltShiftPmndrsProps,
   DotScreenPmndrsProps,
   SepiaPmndrsProps,
