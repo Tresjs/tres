@@ -20,6 +20,11 @@ export const eventsRoutes = [
     component: () => import('../../pages/events/PointerEnterLeaveOverOutComparison.vue'),
   },
   {
+    path: '/events/pointer-enter-leave-discord-bug',
+    name: 'Pointerleave Discord bug',
+    component: () => import('../../pages/events/PointerLeaveDiscordBug.vue'),
+  },
+  {
     path: '/events/blocking',
     name: 'Blocking (solid objects)',
     component: () => import('../../pages/events/Blocking.vue'),
