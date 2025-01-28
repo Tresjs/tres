@@ -1,8 +1,6 @@
 <script setup lang="ts">
-import { BasicShadowMap, NoToneMapping } from 'three'
-import { reactive } from 'vue'
-import { TresCanvas } from '@tresjs/core'
 import { OrbitControls } from '@tresjs/cientos'
+import { TresCanvas } from '@tresjs/core'
 
 function onClick(ev) {
   if (ev) {
@@ -21,7 +19,6 @@ function onPointerEnter(ev) {
 function onPointerLeave(ev) {
   if (ev) {
     ev.stopPropagation?.()
-    console.log('leave')
     ev.object.material.color.set('#efefef')
   }
 }
