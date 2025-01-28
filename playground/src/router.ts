@@ -44,6 +44,7 @@ export const postProcessingRoutes = [
   makeRoute('Bloom', '🌼', false),
   makeRoute('Noise', '📟', false),
   makeRoute('Chromatic Aberration', '🌈', false),
+  makeRoute('Linocut', '🪵', false),
   makeRoute('Color Average', '🎞️', false),
   makeRoute('Lens Distortion', '🔍', false),
   makeRoute('Sepia', '🌅', false),

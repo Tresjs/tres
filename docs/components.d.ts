@@ -23,6 +23,7 @@ declare module 'vue' {
     HueSaturationDemo: typeof import('./.vitepress/theme/components/pmdrs/HueSaturationDemo.vue')['default']
     KuwaharaDemo: typeof import('./.vitepress/theme/components/pmdrs/KuwaharaDemo.vue')['default']
     LensDistortionDemo: typeof import('./.vitepress/theme/components/pmdrs/LensDistortionDemo.vue')['default']
+    LinocutDemo: typeof import('./.vitepress/theme/components/pmdrs/LinocutDemo.vue')['default']
     LoveVueThreeJS: typeof import('./.vitepress/theme/components/LoveVueThreeJS.vue')['default']
     NoiseDemo: typeof import('./.vitepress/theme/components/pmdrs/NoiseDemo.vue')['default']
     OutlineDemo: typeof import('./.vitepress/theme/components/pmdrs/OutlineDemo.vue')['default']

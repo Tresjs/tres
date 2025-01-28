@@ -51,6 +51,7 @@ export default defineConfig({
           { text: 'Barrel blur', link: '/guide/pmndrs/barrel-blur' },
           { text: 'Bloom', link: '/guide/pmndrs/bloom' },
           { text: 'Chromatic Aberration', link: '/guide/pmndrs/chromatic-aberration' },
+          { text: 'Linocut', link: '/guide/pmndrs/linocut' },
           { text: 'Sepia', link: '/guide/pmndrs/sepia' },
           { text: 'Vignette', link: '/guide/pmndrs/vignette' },
           { text: 'Hue & Saturation', link: '/guide/pmndrs/hue-saturation' },
