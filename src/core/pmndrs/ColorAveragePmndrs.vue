@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { BlendFunction } from 'postprocessing'
 import { ColorAverageEffect } from 'postprocessing'
-import { makePropWatcher, makePropWatchers } from '../../util/prop'
+import { makePropWatcher } from '../../util/prop'
 import { useEffectPmndrs } from './composables/useEffectPmndrs'
 import { watch } from 'vue'
 

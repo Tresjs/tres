@@ -35,9 +35,9 @@ export {
   VignettePmndrs,
   BarrelBlurPmndrs,
   HueSaturationPmndrs,
-  ScanlinePmndrs,
   ToneMappingPmndrs,
   ChromaticAberrationPmndrs,
+  ScanlinePmndrs,
   KuwaharaPmndrs,
   ColorAveragePmndrs,
   LensDistortionPmndrs,
@@ -46,7 +46,6 @@ export {
   TiltShiftPmndrs,
   DotScreenPmndrs,
   SepiaPmndrs,
-
   BloomPmndrsProps,
   DepthOfFieldPmndrsProps,
   EffectComposerPmndrsProps,

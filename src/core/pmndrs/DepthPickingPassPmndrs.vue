@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { DepthPackingStrategies } from 'three'
 import { DepthPickingPass } from 'postprocessing'
-import { inject, nextTick, onUnmounted } from 'vue'
+import { inject, nextTick, onUnmounted, watchEffect } from 'vue'
 import { effectComposerInjectionKey } from './EffectComposerPmndrs.vue'
 
 export interface DepthPickingPassPmndrsProps {
