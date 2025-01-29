@@ -1,5 +1,29 @@
 # Changelog
 
+## [2.1.0](https://github.com/Tresjs/post-processing/compare/2.0.0...2.1.0) (2025-01-29)
+
+### Features
+
+* add barrel blur effect ([#159](https://github.com/Tresjs/post-processing/issues/159)) ([84cc46a](https://github.com/Tresjs/post-processing/commit/84cc46a2dc8f2955e7744745b7670e0035ce3c8c))
+* add chromatic aberration effect ([#149](https://github.com/Tresjs/post-processing/issues/149)) ([8fc0321](https://github.com/Tresjs/post-processing/commit/8fc0321a1c9e60b92bc48734373e67dfbd143fe2))
+* add hue & saturation ([#151](https://github.com/Tresjs/post-processing/issues/151)) ([f5a699f](https://github.com/Tresjs/post-processing/commit/f5a699fe1588a04b8bf237f915d27a953d70b287))
+* add scanline ([#150](https://github.com/Tresjs/post-processing/issues/150)) ([f3da309](https://github.com/Tresjs/post-processing/commit/f3da309ea2a01a84c2b79da617e9a82723912556))
+* add sepia effect ([#161](https://github.com/Tresjs/post-processing/issues/161)) ([2137673](https://github.com/Tresjs/post-processing/commit/21376730450e8a74cfc0f8e9f311939de668af30))
+* add shock wave ([#164](https://github.com/Tresjs/post-processing/issues/164)) ([6fa0e3c](https://github.com/Tresjs/post-processing/commit/6fa0e3ca6cf7d1719ca49345b5e57b3ce532b35a))
+* add tonemapping effect ([#148](https://github.com/Tresjs/post-processing/issues/148)) ([db77fc6](https://github.com/Tresjs/post-processing/commit/db77fc69d0ac8dd0ee517801ede18f9b87287fe7))
+* color average ([#166](https://github.com/Tresjs/post-processing/issues/166)) ([03f4986](https://github.com/Tresjs/post-processing/commit/03f49865ecf4c7042468488e3206852729022569))
+* dot screen effect ([#167](https://github.com/Tresjs/post-processing/issues/167)) ([a0e957c](https://github.com/Tresjs/post-processing/commit/a0e957c60aa33b72b7f29e78f7f939173af31a69))
+* kuwahara ([#172](https://github.com/Tresjs/post-processing/issues/172)) ([29927aa](https://github.com/Tresjs/post-processing/commit/29927aaa6702ffad5304e91c4b97f35356e96a5b))
+* lens distortion effect ([#162](https://github.com/Tresjs/post-processing/issues/162)) ([0ee8267](https://github.com/Tresjs/post-processing/commit/0ee82678687e175cc9835532162c3a9eba3ca6af))
+* linotcut ([#170](https://github.com/Tresjs/post-processing/issues/170)) ([bfb64ef](https://github.com/Tresjs/post-processing/commit/bfb64ef5851f41a27ced367dd639be3575a270eb))
+* tilt shift effect ([#160](https://github.com/Tresjs/post-processing/issues/160)) ([ab9c8a0](https://github.com/Tresjs/post-processing/commit/ab9c8a006ed3353e87672500e2bc0032ad08112e))
+
+### Bug Fixes
+
+* fix effect name ([#165](https://github.com/Tresjs/post-processing/issues/165)) ([5df6957](https://github.com/Tresjs/post-processing/commit/5df6957fdbe244d2baf3887a45be6d92485a50f5))
+* modify config doc and emojis ([#174](https://github.com/Tresjs/post-processing/issues/174)) ([64ef99e](https://github.com/Tresjs/post-processing/commit/64ef99ed35ae2f935b5e815841e3baedbd994074))
+* typescript-build-issues related to DepthPicking and Linocut ([#175](https://github.com/Tresjs/post-processing/issues/175)) ([a2d90b0](https://github.com/Tresjs/post-processing/commit/a2d90b0f72cd5ef3d818dba87711891ea30894ad))
+
 ## [2.0.0](https://github.com/Tresjs/post-processing/compare/1.0.0...2.0.0) (2025-01-03)
 
 ### ⚠ BREAKING CHANGES
