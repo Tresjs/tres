@@ -2,8 +2,6 @@ import { templateCompilerOptions } from '@tresjs/core'
 import vue from '@vitejs/plugin-vue'
 import { bold, gray, lightGreen, magenta } from 'kolorist'
 import { resolve } from 'pathe'
-import analyze from 'rollup-plugin-analyzer'
-import { visualizer } from 'rollup-plugin-visualizer'
 import { defineConfig } from 'vite'
 import banner from 'vite-plugin-banner'
 import dts from 'vite-plugin-dts'
@@ -43,12 +41,12 @@ export default defineConfig({
     },
     rollupOptions: {
       plugins: [
-        analyze(),
+        /* analyze(),
         visualizer({
           gzipSize: true,
           brotliSize: true,
           open: false,
-        }),
+        }), */
       ],
       external: ['three', 'vue', '@tresjs/core', 'postprocessing', '@vueuse/core'],
       output: {
