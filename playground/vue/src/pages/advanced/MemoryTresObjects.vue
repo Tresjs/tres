@@ -1,0 +1,45 @@
+<script setup lang="ts">
+import { TresCanvas } from '@tresjs/core'
+
+const show = ref(false)
+const toggleCount = ref(0)
+const toggleMax = 1000
+const numObjectsMax = 2000
+const r = ref(null)
+let intervalId: ReturnType<typeof setInterval>
+intervalId = setInterval(() => {
+  if (toggleCount.value < toggleMax) {
+    // NOTE: Make sure that objects are mounted by
+    // checking `!!r.value`.
+    if (r.value) {
+      show.value = false
+      toggleCount.value++
+    }
+    else {
+      show.value = true
+    }
+  }
+  else {
+    clearInterval(intervalId)
+  }
+}, 1000 / 120)
+</script>
+
+<template>
+  <OverlayInfo>
+    <h1>Memory test: Tres Objects</h1>
+    <h2>Setup</h2>
+    <p>This page will successively create and remove a TresCanvas containing a number of objects.</p>
+    <p>Number of TresCanvases created: {{ toggleCount }} / {{ toggleMax }}</p>
+    <p>Number of Objects per TresCanvas: {{ numObjectsMax }}</p>
+  </OverlayInfo>
+  <div v-if="show" style="width: 90%; height: 90%; border: 1px solid #F00">
+    <TresCanvas clear-color="black">
+      <TresGroup ref="r" />
+      <TresMesh v-for="_, i of Array.from({ length: numObjectsMax })" :key="i">
+        <TresMeshBasicMaterial />
+        <TresBoxGeometry />
+      </TresMesh>
+    </TresCanvas>
+  </div>
+</template>
