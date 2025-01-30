@@ -1,11 +1,15 @@
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
 
-const show = ref(false)
-const toggleCount = ref(0)
 const toggleMax = 1000
 const numObjectsMax = 2000
+const startTimeMS = Date.now()
+
+const toggleCount = ref(0)
+const show = ref(false)
+const msg = ref('Test is running.')
 const r = ref(null)
+
 let intervalId: ReturnType<typeof setInterval>
 // eslint-disable-next-line prefer-const
 intervalId = setInterval(() => {
@@ -22,8 +26,12 @@ intervalId = setInterval(() => {
   }
   else {
     clearInterval(intervalId)
+    const elapsedSec = (Date.now() - startTimeMS) / 1000
+    msg.value = `Test completed in ${elapsedSec} seconds.`
   }
 }, 1000 / 120)
+
+onUnmounted(() => clearInterval(intervalId))
 </script>
 
 <template>
@@ -31,6 +39,8 @@ intervalId = setInterval(() => {
     <h1>Memory test: Tres Objects</h1>
     <h2>Setup</h2>
     <p>This page will successively create and remove a TresCanvas containing a number of objects.</p>
+    <h2>Status</h2>
+    <p>{{ msg }}</p>
     <p>Number of TresCanvases created: {{ toggleCount }} / {{ toggleMax }}</p>
     <p>Number of Objects per TresCanvas: {{ numObjectsMax }}</p>
   </OverlayInfo>
