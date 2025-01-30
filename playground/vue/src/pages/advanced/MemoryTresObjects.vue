@@ -7,6 +7,7 @@ const toggleMax = 1000
 const numObjectsMax = 2000
 const r = ref(null)
 let intervalId: ReturnType<typeof setInterval>
+// eslint-disable-next-line prefer-const
 intervalId = setInterval(() => {
   if (toggleCount.value < toggleMax) {
     // NOTE: Make sure that objects are mounted by
