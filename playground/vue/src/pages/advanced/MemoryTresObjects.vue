@@ -9,27 +9,40 @@ const toggleCount = ref(0)
 const show = ref(false)
 const msg = ref('Test is running.')
 const r = ref(null)
+const isPaused = ref(true)
 
 let intervalId: ReturnType<typeof setInterval>
-// eslint-disable-next-line prefer-const
-intervalId = setInterval(() => {
-  if (toggleCount.value < toggleMax) {
-    // NOTE: Make sure that objects are mounted by
-    // checking `!!r.value`.
-    if (r.value) {
-      show.value = false
-      toggleCount.value++
+
+const startInterval = () => {
+  intervalId = setInterval(() => {
+    if (toggleCount.value < toggleMax) {
+      // NOTE: Make sure that objects are mounted by
+      // checking `!!r.value`.
+      if (r.value) {
+        show.value = false
+        toggleCount.value++
+      }
+      else {
+        show.value = true
+      }
     }
     else {
-      show.value = true
+      clearInterval(intervalId)
+      const elapsedSec = (Date.now() - startTimeMS) / 1000
+      msg.value = `Test completed in ${elapsedSec} seconds.`
     }
+  }, 1000 / 120)
+}
+
+const togglePause = () => {
+  isPaused.value = !isPaused.value
+  if (!isPaused.value) {
+    startInterval()
   }
   else {
     clearInterval(intervalId)
-    const elapsedSec = (Date.now() - startTimeMS) / 1000
-    msg.value = `Test completed in ${elapsedSec} seconds.`
   }
-}, 1000 / 120)
+}
 
 onUnmounted(() => clearInterval(intervalId))
 </script>
@@ -43,6 +56,9 @@ onUnmounted(() => clearInterval(intervalId))
     <p>{{ msg }}</p>
     <p>Number of TresCanvases created: {{ toggleCount }} / {{ toggleMax }}</p>
     <p>Number of Objects per TresCanvas: {{ numObjectsMax }}</p>
+    <button style="padding: 8px 16px; margin-top: 10px;" @click="togglePause">
+      {{ isPaused ? 'Start Test' : 'Pause Test' }}
+    </button>
   </OverlayInfo>
   <div v-if="show" style="width: 90%; height: 90%; border: 1px solid #F00">
     <TresCanvas clear-color="black">
