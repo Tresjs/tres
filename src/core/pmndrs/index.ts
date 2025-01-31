@@ -22,6 +22,7 @@ import TiltShiftPmndrs, { type TiltShiftPmndrsProps } from './TiltShiftPmndrs.vu
 import DotScreenPmndrs, { type DotScreenPmndrsProps } from './DotScreenPmndrs.vue'
 import SepiaPmndrs, { type SepiaPmndrsProps } from './SepiaPmndrs.vue'
 import LinocutPmndrs, { type LinocutPmndrsProps } from './LinocutPmndrs.vue'
+import DepthPickingPassPmndrs, { type DepthPickingPassPmndrsProps } from './DepthPickingPassPmndrs.vue'
 
 export {
   BloomPmndrs,
@@ -46,6 +47,7 @@ export {
   DotScreenPmndrs,
   SepiaPmndrs,
   LinocutPmndrs,
+  DepthPickingPassPmndrs,
   BloomPmndrsProps,
   DepthOfFieldPmndrsProps,
   EffectComposerPmndrsProps,
@@ -67,4 +69,5 @@ export {
   DotScreenPmndrsProps,
   SepiaPmndrsProps,
   LinocutPmndrsProps,
+  DepthPickingPassPmndrsProps,
 }

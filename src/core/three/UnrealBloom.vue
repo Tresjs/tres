@@ -32,21 +32,21 @@ defineExpose({ pass })
 
 watchEffect(() => {
   pass.value.radius = props.radius
-  ?? pass.value.getCompositeMaterial().uniforms.bloomRadius?.value
-  ?? 0.1
+    ?? pass.value.getCompositeMaterial().uniforms.bloomRadius?.value
+    ?? 0.1
 })
 
 watchEffect(() => {
   pass.value.strength
   = props.strength
-  ?? pass.value.getCompositeMaterial().uniforms.bloomStrength?.value
-  ?? 1
+    ?? pass.value.getCompositeMaterial().uniforms.bloomStrength?.value
+    ?? 1
 })
 
 watchEffect(() => {
   pass.value.threshold
   = props.threshold
-  ?? LuminosityHighPassShader.uniforms.luminosityThreshold?.value
-  ?? 1
+    ?? LuminosityHighPassShader.uniforms.luminosityThreshold?.value
+    ?? 1
 })
 </script>
