@@ -49,4 +49,9 @@ export const advancedRoutes = [
     name: 'Disposal',
     component: () => import('../../pages/advanced/disposal/index.vue'),
   },
+  {
+    path: '/advanced/memory-tres-objects',
+    name: 'Memory Test: Tres Objects',
+    component: () => import('../../pages/advanced/MemoryTresObjects.vue'),
+  },
 ]
