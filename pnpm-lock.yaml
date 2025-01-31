@@ -19,7 +19,7 @@ importers:
         version: 0.171.0
       three-custom-shader-material:
         specifier: ^6.2.1
-        version: 6.2.1(three@0.171.0)
+        version: 6.3.0(three@0.171.0)
       unist-util-stringify-position:
         specifier: ^4.0.0
         version: 4.0.0
@@ -5808,8 +5808,8 @@ packages:
       react:
         optional: true
 
-  three-custom-shader-material@6.2.1:
-    resolution: {integrity: sha512-lzWeJklQ8C1qt51VlVC4QRuw0OZ+QSkqfVrdhT14jpvSGVAl3IWQ0H203YdZsFRFhAf/L/QWuO7GYT41drzrAA==}
+  three-custom-shader-material@6.3.0:
+    resolution: {integrity: sha512-5hd5IpAxybyJmrUBZ7tiVW67ESGzMcYv4im6Hs9m9Zgmwj3gHkbPhniqg2Mu69WrtaMialV9gxxFnGP91Yl1vA==}
     peerDependencies:
       '@react-three/fiber': '>=8.0'
       react: '>=18.0'
@@ -14672,7 +14672,7 @@ snapshots:
       object-hash: 3.0.0
       three: 0.171.0
 
-  three-custom-shader-material@6.2.1(three@0.171.0):
+  three-custom-shader-material@6.3.0(three@0.171.0):
     dependencies:
       three: 0.171.0
 
