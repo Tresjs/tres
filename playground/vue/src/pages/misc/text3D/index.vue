@@ -16,8 +16,9 @@ const gl = {
   toneMapping: NoToneMapping,
 }
 
-const { isVisible } = useControls({
+const { isVisible, text } = useControls({
   isVisible: true,
+  text: 'TresJS',
 })
 </script>
 
@@ -27,7 +28,7 @@ const { isVisible } = useControls({
     <TresPerspectiveCamera :position="[3, 3, 3]" />
     <OrbitControls />
     <Suspense>
-      <Text3D v-if="isVisible" />
+      <Text3D v-if="isVisible" :text="text" />
     </Suspense>
     <TresAmbientLight :intensity="1" />
   </TresCanvas>

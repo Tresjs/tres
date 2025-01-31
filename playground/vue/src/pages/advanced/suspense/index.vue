@@ -1,35 +1,14 @@
 <script setup lang="ts">
 import { OrbitControls } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
-import { Perf, TresLeches, useControls } from '@tresjs/leches'
-import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
+import { TresLeches, useControls } from '@tresjs/leches'
 import AsyncComponent from './AsyncComponent.vue'
 import '@tresjs/leches/styles'
 
-const gl = {
-  clearColor: '#82DBC5',
-  shadows: true,
-  alpha: false,
-  shadowMapType: BasicShadowMap,
-  outputColorSpace: SRGBColorSpace,
-  toneMapping: NoToneMapping,
-}
+const ctx = ref(null)
 
 const { show } = useControls({
   show: true,
-})
-
-const ctx = ref(null)
-
-watchEffect(() => {
-  if (!ctx.value) {
-    return
-  }
-  // eslint-disable-next-line no-console
-  console.log('ctx', ctx.value)
-})
-
-useControls({
   button: {
     label: 'Render dispose',
     type: 'button',
@@ -38,13 +17,20 @@ useControls({
     },
   },
 })
+
+watchEffect(() => {
+  if (!ctx.value) {
+    return
+  }
+  // eslint-disable-next-line no-console
+  console.log('ctx', ctx.value)
+})
 </script>
 
 <template>
   <TresLeches />
-  <TresCanvas v-bind="gl" ref="ctx">
-    <Perf />
-    <TresPerspectiveCamera :position="[3, 3, 3]" />
+  <TresCanvas ref="ctx" clear-color="#82DBC5">
+    <TresPerspectiveCamera :position="[7, 7, 7]" />
     <OrbitControls />
     <Suspense>
       <AsyncComponent v-if="show" />
