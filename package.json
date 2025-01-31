@@ -73,7 +73,7 @@
     "release-it": "^18.1.2",
     "rollup-plugin-analyzer": "^4.0.0",
     "rollup-plugin-visualizer": "^5.14.0",
-    "three": "^0.172.0",
+    "three": "^0.173.0",
     "typescript": "^5.7.3",
     "unocss": "^65.4.3",
     "vite": "^6.0.11",
