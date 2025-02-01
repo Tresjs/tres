@@ -51,11 +51,11 @@ export const vLightHelper = {
       logWarning(`${el.type} is not a light`)
       return
     }
-    currentInstance = el.parent.children.find((child: TresObject) => child instanceof CurrentHelper)
-
     if (currentInstance && currentInstance.dispose) {
       currentInstance.dispose()
     }
-    el.parent.remove(currentInstance)
+    if (el.parent) {
+      el.parent.remove(currentInstance)
+    }
   },
 }
