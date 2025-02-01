@@ -12,7 +12,7 @@ const msg = ref('Click Start Test to begin.')
 const r = ref(null)
 const isStarted = ref(false)
 
-let rafId: number
+let intervalId: ReturnType<typeof setInterval>
 
 const startTest = () => {
   isStarted.value = true
@@ -20,7 +20,7 @@ const startTest = () => {
   msg.value = 'Test is running...'
   show.value = true // Start by showing the canvas
 
-  const tick = () => {
+  intervalId = setInterval(() => {
     if (toggleCount.value < toggleMax) {
       if (r.value && show.value) {
         show.value = false
@@ -29,20 +29,18 @@ const startTest = () => {
       else if (!show.value) {
         show.value = true
       }
-      rafId = requestAnimationFrame(tick)
     }
     else {
+      clearInterval(intervalId)
       const elapsedSec = (Date.now() - startTimeMS.value) / 1000
       msg.value = `Test completed in ${elapsedSec} seconds.`
     }
-  }
-
-  rafId = requestAnimationFrame(tick)
+  }, 1000 / 120)
 }
 
 onUnmounted(() => {
-  if (rafId) {
-    cancelAnimationFrame(rafId)
+  if (intervalId) {
+    clearInterval(intervalId)
   }
 })
 </script>
