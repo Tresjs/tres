@@ -157,6 +157,7 @@ export function useRenderer(
 
   const { logError } = useLogger()
 
+  // TODO: This is a hack to get the defaults of the renderer. We should find a better way to do this.
   const getThreeRendererDefaults = () => {
     const plainRenderer = new WebGLRenderer()
 
@@ -170,6 +171,7 @@ export function useRenderer(
       outputColorSpace: plainRenderer.outputColorSpace,
     }
     plainRenderer.dispose()
+    plainRenderer.forceContextLoss()
 
     return defaults
   }

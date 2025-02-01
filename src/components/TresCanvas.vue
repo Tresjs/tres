@@ -164,6 +164,13 @@ const dispose = (context: TresContext, force = false) => {
     context.renderer.value.dispose()
     context.renderer.value.renderLists.dispose()
     context.renderer.value.forceContextLoss()
+
+    // Clear WebGL context
+    const gl = context.renderer.value.getContext()
+    if (gl) {
+      const loseContext = gl.getExtension('WEBGL_lose_context')
+      loseContext?.loseContext()
+    }
   }
   (scene.value as TresScene).__tres = {
     root: context,
@@ -234,10 +241,6 @@ onMounted(() => {
   )
 
   if (!camera.value) {
-    logWarning(
-      'No camera found. Creating a default perspective camera. '
-      + 'To have full control over a camera, please add one to the scene.',
-    )
     addDefaultCamera()
   }
 

@@ -1,63 +1,66 @@
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
+import { onUnmounted, ref } from 'vue'
 
-const toggleMax = 1000
+const toggleMax = 400
 const numObjectsMax = 2000
-const startTimeMS = Date.now()
+const startTimeMS = ref(0)
 
 const toggleCount = ref(0)
 const show = ref(false)
-const msg = ref('Test is running.')
+const msg = ref('Click Start Test to begin.')
 const r = ref(null)
-const isPaused = ref(true)
+const isStarted = ref(false)
 
-let intervalId: ReturnType<typeof setInterval>
+let rafId: number
 
-const startInterval = () => {
-  intervalId = setInterval(() => {
+const startTest = () => {
+  isStarted.value = true
+  startTimeMS.value = Date.now()
+  msg.value = 'Test is running...'
+  show.value = true // Start by showing the canvas
+
+  const tick = () => {
     if (toggleCount.value < toggleMax) {
-      // NOTE: Make sure that objects are mounted by
-      // checking `!!r.value`.
-      if (r.value) {
+      if (r.value && show.value) {
         show.value = false
         toggleCount.value++
       }
-      else {
+      else if (!show.value) {
         show.value = true
       }
+      rafId = requestAnimationFrame(tick)
     }
     else {
-      clearInterval(intervalId)
-      const elapsedSec = (Date.now() - startTimeMS) / 1000
+      const elapsedSec = (Date.now() - startTimeMS.value) / 1000
       msg.value = `Test completed in ${elapsedSec} seconds.`
     }
-  }, 1000 / 120)
+  }
+
+  rafId = requestAnimationFrame(tick)
 }
 
-const togglePause = () => {
-  isPaused.value = !isPaused.value
-  if (!isPaused.value) {
-    startInterval()
+onUnmounted(() => {
+  if (rafId) {
+    cancelAnimationFrame(rafId)
   }
-  else {
-    clearInterval(intervalId)
-  }
-}
-
-onUnmounted(() => clearInterval(intervalId))
+})
 </script>
 
 <template>
   <OverlayInfo>
     <h1>Memory test: Tres Objects</h1>
     <h2>Setup</h2>
-    <p>This page will successively create and remove a TresCanvas containing a number of objects.</p>
+    <p>This test will create and remove {{ toggleMax }} TresCanvas instances with {{ numObjectsMax }} objects each.</p>
     <h2>Status</h2>
     <p>{{ msg }}</p>
     <p>Number of TresCanvases created: {{ toggleCount }} / {{ toggleMax }}</p>
-    <p>Number of Objects per TresCanvas: {{ numObjectsMax }}</p>
-    <button style="padding: 8px 16px; margin-top: 10px;" @click="togglePause">
-      {{ isPaused ? 'Start Test' : 'Pause Test' }}
+    <button
+      v-if="!isStarted"
+      style="padding: 8px 16px; margin-top: 10px;"
+      @click="startTest"
+    >
+      Start Test
     </button>
   </OverlayInfo>
   <div v-if="show" style="width: 90%; height: 90%; border: 1px solid #F00">

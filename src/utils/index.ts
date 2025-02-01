@@ -1,8 +1,8 @@
 import type { nodeOps } from 'src/core/nodeOps'
 import type { AttachType, LocalState, TresInstance, TresObject, TresPrimitive } from 'src/types'
-import type { Material, Mesh, Object3D, Texture } from 'three'
+import type { Material, Object3D, Texture } from 'three'
+import { BufferAttribute, BufferGeometry, DoubleSide, InterleavedBufferAttribute, Light, Line, MathUtils, Mesh, MeshBasicMaterial, Points, Scene, Vector3 } from 'three'
 import type { TresContext } from '../composables/useTresContextProvider'
-import { DoubleSide, MathUtils, MeshBasicMaterial, Scene, Vector3 } from 'three'
 import { HightlightMesh } from '../devtools/highlight'
 import * as is from './is'
 
@@ -279,41 +279,78 @@ function hasMap(material: Material): material is Material & { map: Texture | nul
 export function disposeMaterial(material: Material): void {
   if (hasMap(material) && material.map) {
     material.map.dispose()
+    // material.map = null
   }
 
   material.dispose()
 }
 
 export function disposeObject3D(object: TresObject): void {
-  if (object.parent) {
-    object.removeFromParent?.()
-  }
-  delete object.__tres
   // Clone the children array to safely iterate
   const children = [...object.children]
   children.forEach(child => disposeObject3D(child))
 
-  if (object instanceof Scene) {
-    // Optionally handle Scene-specific cleanup
+  // Remove the object from its parent
+  if (object.parent) {
+    object.removeFromParent?.()
   }
-  else {
-    const mesh = object as unknown as Partial<Mesh>
-    if (object) {
-      object.dispose?.()
-    }
-    if (mesh.geometry) {
-      mesh.geometry.dispose()
-      delete mesh.geometry
-    }
 
-    if (Array.isArray(mesh.material)) {
-      mesh.material.forEach(material => disposeMaterial(material))
-      delete mesh.material
+  if (object instanceof Mesh || object instanceof Points || object instanceof Line) {
+    if (object.geometry) {
+      object.geometry.dispose()
+      // object.geometry = null
     }
-    else if (mesh.material) {
-      disposeMaterial(mesh.material)
-      delete mesh.material
+    if (object.material) {
+      disposeMaterial(object.material)
+      // object.material = null
     }
+  }
+
+  // Handle lights
+  if (object instanceof Light) {
+    if (object.shadow?.map) {
+      object.shadow.map.dispose()
+    }
+  }
+
+  // Clean up any custom properties
+  if (object.userData) {
+    // Clear any custom user data that might hold references
+    object.userData = {}
+  }
+
+  // Clear any animations
+  if (object.animations) {
+    object.animations = []
+  }
+
+  // Clear buffers if present
+  if (object instanceof BufferGeometry) {
+    Object.values(object.attributes).forEach((attribute: BufferAttribute | InterleavedBufferAttribute) => {
+      if (attribute instanceof BufferAttribute && attribute.array) {
+        attribute.array = new Float32Array(0)
+      }
+      else if (attribute instanceof InterleavedBufferAttribute && attribute.data?.array) {
+        attribute.data.array = new Float32Array(0)
+      }
+    })
+    object.attributes = {}
+  }
+
+  if (object instanceof Scene) {
+    object.background = null
+    object.environment = null
+
+    if (object.fog) {
+      object.fog = null
+    }
+  }
+
+  // Remove tres state
+  delete object.__tres
+
+  if (object.clear) {
+    object.clear()
   }
 }
 
