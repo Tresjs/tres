@@ -51,7 +51,7 @@ export const advancedRoutes = [
   },
   {
     path: '/advanced/memory-tres-objects',
-    name: 'Memory Test: Tres Objects',
-    component: () => import('../../pages/advanced/MemoryTresObjects.vue'),
+    name: 'Memory Test: Tres Canvases/Objects',
+    component: () => import('../../pages/advanced/MemoryTresCanvasesObjects.vue'),
   },
 ]
