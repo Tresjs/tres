@@ -158,16 +158,18 @@ const mountCustomRenderer = (context: TresContext, empty = false) => {
 const dispose = (context: TresContext, force = false) => {
   disposeObject3D(context.scene.value as unknown as TresObject)
   if (force) {
-    context.renderer.value.dispose()
-    context.renderer.value.renderLists.dispose()
-    context.renderer.value.forceContextLoss()
-
-    // Clear WebGL context
-    const gl = context.renderer.value.getContext()
+    // Clear WebGL context first
+    const gl = context.renderer.value?.getContext()
     if (gl) {
       const loseContext = gl.getExtension('WEBGL_lose_context')
       loseContext?.loseContext()
     }
+
+    // Then dispose renderer
+    context.renderer.value?.dispose()
+    context.renderer.value?.renderLists.dispose()
+    context.renderer.value?.forceContextLoss()
+    context.renderer.value = null
   }
   (scene.value as TresScene).__tres = {
     root: context,

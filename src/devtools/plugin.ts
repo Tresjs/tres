@@ -186,7 +186,7 @@ export function registerTresDevtools(app: DevtoolsApp, tres: TresContext) {
               }),
           }
 
-          if (instance.isScene) {
+          if (instance.isScene && tres.renderer.value) {
             payload.state.info = {
               objects: instance.children.length,
               memory: calculateMemoryUsage(instance),

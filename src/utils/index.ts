@@ -1,7 +1,7 @@
 import type { nodeOps } from 'src/core/nodeOps'
 import type { AttachType, LocalState, TresInstance, TresObject, TresPrimitive } from 'src/types'
 import type { Material, Object3D, Texture } from 'three'
-import { BufferAttribute, BufferGeometry, DoubleSide, InterleavedBufferAttribute, Light, Line, MathUtils, Mesh, MeshBasicMaterial, Points, Scene, Vector3 } from 'three'
+import { BufferAttribute, BufferGeometry, DoubleSide, InterleavedBufferAttribute, Line, MathUtils, Mesh, MeshBasicMaterial, Points, Scene, Vector3 } from 'three'
 import type { TresContext } from '../composables/useTresContextProvider'
 import { HightlightMesh } from '../devtools/highlight'
 import * as is from './is'
@@ -285,7 +285,8 @@ export function disposeMaterial(material: Material): void {
   material.dispose()
 }
 
-export function disposeObject3D(object: TresObject): void {
+export function disposeObject3D(object: TresObject | null): void {
+  if (!object) { return }
   // Clone the children array to safely iterate
   const children = [...object.children]
   children.forEach(child => disposeObject3D(child))
@@ -303,13 +304,6 @@ export function disposeObject3D(object: TresObject): void {
     if (object.material) {
       disposeMaterial(object.material)
       // object.material = null
-    }
-  }
-
-  // Handle lights
-  if (object instanceof Light) {
-    if (object.shadow?.map) {
-      object.shadow.map.dispose()
     }
   }
 
@@ -336,6 +330,10 @@ export function disposeObject3D(object: TresObject): void {
     })
     object.attributes = {}
   }
+  // Remove tres state if it exists
+  if ('__tres' in object) {
+    delete object.__tres
+  }
 
   if (object instanceof Scene) {
     object.background = null
@@ -344,13 +342,8 @@ export function disposeObject3D(object: TresObject): void {
     if (object.fog) {
       object.fog = null
     }
-  }
 
-  // Remove tres state
-  delete object.__tres
-
-  if (object.clear) {
-    object.clear()
+    object = null
   }
 }
 
