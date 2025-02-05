@@ -234,10 +234,6 @@ onMounted(() => {
   )
 
   if (!camera.value) {
-    logWarning(
-      'No camera found. Creating a default perspective camera. '
-      + 'To have full control over a camera, please add one to the scene.',
-    )
     addDefaultCamera()
   }
 
