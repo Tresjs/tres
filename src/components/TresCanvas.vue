@@ -28,7 +28,6 @@ import {
 import pkg from '../../package.json'
 import {
   type TresContext,
-  useLogger,
   useTresContextProvider,
 } from '../composables'
 import { extend } from '../core/catalogue'
@@ -96,8 +95,6 @@ const emit = defineEmits([
 const slots = defineSlots<{
   default: () => any
 }>()
-
-const { logWarning } = useLogger()
 
 const canvas = ref<HTMLCanvasElement>()
 
