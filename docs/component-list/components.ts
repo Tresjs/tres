@@ -17,13 +17,13 @@ export default [
       },
       { text: 'Sampler', link: '/guide/abstractions/sampler' },
       { text: 'PositionalAudio', link: '/guide/abstractions/positional-audio' },
-      /*       { text: 'Mask', link: '/guide/abstractions/mask' },
+      { text: 'Mask', link: '/guide/abstractions/mask' },
       { text: 'CubeCamera', link: '/guide/abstractions/cube-camera' },
       { text: 'GradientTexture', link: '/guide/abstractions/gradient-texture' },
       { text: 'ScreenSpace', link: '/guide/abstractions/screen-space' },
       { text: 'Outline', link: '/guide/abstractions/outline' },
       { text: 'Image', link: '/guide/abstractions/image' },
-      { text: 'Billboard', link: '/guide/abstractions/billboard' }, */
+      { text: 'Billboard', link: '/guide/abstractions/billboard' },
     ],
   },
   {
@@ -109,9 +109,9 @@ export default [
       { text: 'Sparkles', link: '/guide/staging/sparkles' },
       { text: 'Ocean', link: '/guide/staging/ocean' },
       { text: 'Fit', link: '/guide/staging/fit' },
-      /* { text: 'Align', link: '/guide/staging/align' },
+      { text: 'Align', link: '/guide/staging/align' },
       { text: 'SoftShadows', link: '/guide/staging/soft-shadows' },
-      { text: 'Grid', link: '/guide/staging/grid' }, */
+      { text: 'Grid', link: '/guide/staging/grid' },
     ],
   },
   {
@@ -122,15 +122,6 @@ export default [
       { text: 'StatsGl', link: '/guide/misc/stats-gl' },
       { text: 'useGLTFExporter', link: '/guide/misc/use-gltf-exporter' },
       { text: 'BakeShadows', link: '/guide/misc/bake-shadows' },
-    ],
-  },
-  {
-    text: 'Directives',
-    items: [
-      { text: 'v-log', link: '/guide/directives/v-log' },
-      { text: 'v-light-helper', link: '/guide/directives/v-light-helper' },
-      { text: 'v-always-look-at', link: '/guide/directives/v-always-look-at' },
-      { text: 'v-distance-to', link: '/guide/directives/v-distance-to' },
     ],
   },
 ] as { text: string, items: { text: string, link: string }[] }[]
