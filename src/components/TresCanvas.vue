@@ -169,7 +169,6 @@ const dispose = (context: TresContext, force = false) => {
     context.renderer.value?.dispose()
     context.renderer.value?.renderLists.dispose()
     context.renderer.value?.forceContextLoss()
-    context.renderer.value = null
   }
   (scene.value as TresScene).__tres = {
     root: context,
