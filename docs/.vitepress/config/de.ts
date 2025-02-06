@@ -76,9 +76,7 @@ export const deConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
         items: [
           { text: 'v-log', link: '/de/directives/v-log' },
           { text: 'v-light-helper', link: '/de/directives/v-light-helper' },
-          { text: 'v-always-look-at', link: '/de/directives/v-always-look-at' },
           { text: 'v-distance-to', link: '/de/directives/v-distance-to' },
-          { text: 'v-rotate', link: '/directives/v-rotate' },
         ],
       },
       {
