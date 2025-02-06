@@ -3,6 +3,10 @@ import { extend, useTexture } from '@tresjs/core'
 import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry'
 import { FontLoader } from 'three/examples/jsm/loaders/FontLoader'
 
+const props = defineProps<{
+  text: string
+}>()
+
 extend({ TextGeometry })
 
 const fontPath = 'https://raw.githubusercontent.com/Tresjs/assets/main/fonts/FiraCodeRegular.json'
@@ -12,7 +16,7 @@ const fontOptions = {
   height: 0.2,
   curveSegments: 5,
   bevelEnabled: true,
-  bevelThickness: 0.05,
+  bevelThickness: 0.02,
   bevelSize: 0.02,
   bevelOffset: 0,
   bevelSegments: 4,
@@ -37,7 +41,7 @@ const matcapTexture = await useTexture(['https://raw.githubusercontent.com/Tresj
 <template>
   <TresMesh>
     <TresTextGeometry
-      :args="['TresJS', { font, ...fontOptions }]"
+      :args="[props.text, { font, ...fontOptions }]"
       center
     />
     <TresMeshNormalMaterial :matcap="matcapTexture" />

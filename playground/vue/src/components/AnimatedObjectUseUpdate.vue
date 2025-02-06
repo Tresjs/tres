@@ -23,15 +23,12 @@ onBeforeRender(() => {
   log2()
 }, -1)
 
-const { areUpdatesPaused } = useControls({
+const { areUpdatesPaused, unregister } = useControls({
   areUpdatesPaused: {
     value: false,
     type: 'boolean',
     label: 'Pause Updates',
   },
-})
-
-const { unregister } = useControls({
   unregister: {
     value: false,
     type: 'boolean',

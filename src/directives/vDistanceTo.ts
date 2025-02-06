@@ -33,6 +33,8 @@ export const vDistanceTo = {
   },
   unmounted: (el: TresObject) => {
     arrowHelper?.dispose()
-    el.parent.remove(arrowHelper)
+    if (el.parent) {
+      el.parent.remove(arrowHelper)
+    }
   },
 }

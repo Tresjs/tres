@@ -28,11 +28,8 @@ const gl = {
 const canvas = ref()
 const meshRef = ref()
 
-const { knot } = useControls({
+const { knot, isVisible } = useControls({
   knot: true,
-})
-
-const { isVisible } = useControls({
   isVisible: true,
 })
 
