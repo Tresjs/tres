@@ -294,7 +294,7 @@ export function disposeObject3D(object: TresObject): void {
   children.forEach(child => disposeObject3D(child))
 
   if (object instanceof Scene) {
-    // Optionally handle Scene-specific cleanup
+    // TODO: Handle Scene-specific cleanup
   }
   else {
     const mesh = object as unknown as Partial<Mesh>
@@ -303,16 +303,13 @@ export function disposeObject3D(object: TresObject): void {
     }
     if (mesh.geometry) {
       mesh.geometry.dispose()
-      delete mesh.geometry
     }
 
     if (Array.isArray(mesh.material)) {
       mesh.material.forEach(material => disposeMaterial(material))
-      delete mesh.material
     }
     else if (mesh.material) {
       disposeMaterial(mesh.material)
-      delete mesh.material
     }
   }
 }
