@@ -77,9 +77,7 @@ export const frConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
         items: [
           { text: 'v-log', link: '/fr/directives/v-log' },
           { text: 'v-light-helper', link: '/fr/directives/v-light-helper' },
-          { text: 'v-always-look-at', link: '/fr/directives/v-always-look-at' },
           { text: 'v-distance-to', link: '/fr/directives/v-distance-to' },
-          { text: 'v-rotate', link: '/directives/v-rotate' },
         ],
       },
       {
