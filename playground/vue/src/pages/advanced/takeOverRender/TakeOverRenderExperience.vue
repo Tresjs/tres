@@ -10,15 +10,12 @@ const { off } = render(({ renderer, scene, camera }) => {
   renderer.render(scene, camera)
 })
 
-const { isRenderPaused } = useControls({
+const { isRenderPaused, unregisterRender } = useControls({
   isRenderPaused: {
     value: false,
     type: 'boolean',
     label: 'Pause Render',
   },
-})
-
-const { unregisterRender } = useControls({
   unregisterRender: {
     value: false,
     type: 'boolean',

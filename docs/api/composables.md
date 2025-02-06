@@ -244,10 +244,13 @@ import { UseLoader } from '@tresjs/core'
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader'
 </script>
 
-<Suspense>
-  <UseLoader v-slot="{ data }" :loader="GLTFLoader" url="path/to/asset.gltf">
+<template>
+  <Suspense>
+    <UseLoader v-slot="{ data }" :loader="GLTFLoader" url="path/to/asset.gltf">
       <primitive :object="data.scene" />
-</Suspense>
+    </UseLoader>
+  </Suspense>
+</template>
 ```
 
 ### Props

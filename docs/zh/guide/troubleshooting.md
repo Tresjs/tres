@@ -60,7 +60,7 @@ body {
 
 在你的 `vite.config.ts` 中将以下配置添加到 `@vitejs/plugin-vue`：
 
-```ts
+```ts [vite.config.ts]
 import { templateCompilerOptions } from '@tresjs/core'
 import vue from '@vitejs/plugin-vue'
 import { defineConfig } from 'vite'
