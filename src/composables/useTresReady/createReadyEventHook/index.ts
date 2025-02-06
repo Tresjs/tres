@@ -81,6 +81,7 @@ export function createReadyEventHook<T>(
     on: onOrCall,
     off: hook.off,
     trigger: hook.trigger,
+    clear: hook.clear,
     cancel,
   }
 }
