@@ -56,6 +56,8 @@ export const vLightHelper = {
     if (currentInstance && currentInstance.dispose) {
       currentInstance.dispose()
     }
-    el.parent.remove(currentInstance)
+    if (el.parent) {
+      el.parent.remove(currentInstance)
+    }
   },
 }
