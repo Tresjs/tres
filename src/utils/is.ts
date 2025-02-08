@@ -30,31 +30,31 @@ export function obj(u: unknown): u is Record<string | number | symbol, unknown> 
 }
 
 export function object3D(u: unknown): u is Object3D {
-  return obj(u) && ('isObject3D' in u) && !!(u.isObject3D)
+  return obj(u) && !!(u.isObject3D)
 }
 
 export function camera(u: unknown): u is Camera {
-  return obj(u) && 'isCamera' in u && !!(u.isCamera)
+  return obj(u) && !!(u.isCamera)
 }
 
 export function bufferGeometry(u: unknown): u is BufferGeometry {
-  return obj(u) && 'isBufferGeometry' in u && !!(u.isBufferGeometry)
+  return obj(u) && !!(u.isBufferGeometry)
 }
 
 export function material(u: unknown): u is Material {
-  return obj(u) && 'isMaterial' in u && !!(u.isMaterial)
+  return obj(u) && !!(u.isMaterial)
 }
 
 export function light(u: unknown): u is Light {
-  return obj(u) && 'isLight' in u && !!(u.isLight)
+  return obj(u) && !!(u.isLight)
 }
 
 export function fog(u: unknown): u is Fog {
-  return obj(u) && 'isFog' in u && !!(u.isFog)
+  return obj(u) && !!(u.isFog)
 }
 
 export function scene(u: unknown): u is Scene {
-  return obj(u) && 'isScene' in u && !!(u.isScene)
+  return obj(u) && !!(u.isScene)
 }
 
 export function tresObject(u: unknown): u is TresObject {
