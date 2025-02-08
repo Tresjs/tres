@@ -79,7 +79,7 @@ Depuis que v2 es un moteur de rendu personnalisé, il nous faut informer le `vue
 
 Vous devez seulement ajouter ceci à votre `vite.config.ts` dans le plugin Vue:
 
-```ts
+```ts [vite.config.ts]
 import { templateCompilerOptions } from '@tresjs/core'
 
 export default defineConfig({

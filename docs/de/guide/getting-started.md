@@ -79,7 +79,7 @@ Da die Version 2 ein benutzerdefinierter Renderer ist, müssen wir dem `vue-comp
 
 Du musst lediglich Folgendes zu deiner `vite.config.ts`-Datei innerhalb des Vue-Plugins hinzufügen:
 
-```ts
+```ts [vite.config.ts]
 import { templateCompilerOptions } from '@tresjs/core'
 
 export default defineConfig({

@@ -79,7 +79,7 @@ Since v2 is a custom renderer, we need to let the `vue-compiler` of your app kno
 
 You just need to import and add the `templateCompilerOptions` from TresJS to your `vite.config.ts` inside of the vue plugin:
 
-```ts
+```ts [vite.config.ts]
 import { templateCompilerOptions } from '@tresjs/core'
 
 export default defineConfig({

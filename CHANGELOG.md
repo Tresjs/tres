@@ -1,5 +1,47 @@
 
 
+## [4.3.2](https://github.com/Tresjs/tres/compare/4.3.1...4.3.2) (2025-01-03)
+
+### Features
+
+* extend GlobalComponents interface to include 'primitive' component type ([#896](https://github.com/Tresjs/tres/issues/896)) ([b78a6ff](https://github.com/Tresjs/tres/commit/b78a6ffabc4542dcc08d430e34c3dd2d5a9adaeb))
+* update deps 20 12 24 ([#887](https://github.com/Tresjs/tres/issues/887)) ([d377750](https://github.com/Tresjs/tres/commit/d377750b01ee27d70fc29b5faedf6257b22ebfdf))
+
+### Bug Fixes
+
+* Add missing </UseLoader> closing tag. ([#881](https://github.com/Tresjs/tres/issues/881)) ([e16ea32](https://github.com/Tresjs/tres/commit/e16ea3248674adf80131a7a493c10b583a6e25a8))
+* **function typo:** fix typo in function name in composable ([#858](https://github.com/Tresjs/tres/issues/858)) ([c186232](https://github.com/Tresjs/tres/commit/c186232f180f8caa9a39a0a2ae4b1c6b30725e46))
+
+## [4.3.1](https://github.com/Tresjs/tres/compare/4.3.0...4.3.1) (2024-10-13)
+
+### Bug Fixes
+
+* 849 support Symbol keys in provide/inject ([#850](https://github.com/Tresjs/tres/issues/850)) ([35125ce](https://github.com/Tresjs/tres/commit/35125cecda55333bac542ed473bcddd2f7925c2b))
+
+## [4.3.0](https://github.com/Tresjs/tres/compare/4.2.10...4.3.0) (2024-09-30)
+
+
+### Features
+
+* add UseLoader component ([471bd0d](https://github.com/Tresjs/tres/commit/471bd0d16fe496a0e5e6a71a62c93093c73ce834))
+* **app:** 680 UseTexture composable as component ([#757](https://github.com/Tresjs/tres/issues/757)) ([f01a897](https://github.com/Tresjs/tres/commit/f01a897bcc9352e6a4cb1ac03e204f08b51f6b6c))
+* pass all provides down to custom renderer ([#806](https://github.com/Tresjs/tres/issues/806)) ([b4a3866](https://github.com/Tresjs/tres/commit/b4a3866f69e0c19339d7746a392f9d92569234d8))
+
+
+### Bug Fixes
+
+* eslint ([2ccd6c4](https://github.com/Tresjs/tres/commit/2ccd6c4104dd358e1a600a1e688d9a2c119611ab))
+* lint ([f71eb37](https://github.com/Tresjs/tres/commit/f71eb37648e806f4ce0a97de0d58c6bde8e43252))
+* lint ([8f18558](https://github.com/Tresjs/tres/commit/8f18558087136d7fbc68394d1069bf4a46d76fb9))
+* rollback to v6 of `@vue/devtools-api` ([#846](https://github.com/Tresjs/tres/issues/846)) ([fd3b599](https://github.com/Tresjs/tres/commit/fd3b59975f63d13ba79c824252563debc048b9d2))
+* type for useloader component props ([a4bd590](https://github.com/Tresjs/tres/commit/a4bd590776825b74188dc601b64caf59d33c7284))
+
+
+### Reverts
+
+* **nodeOps:** add check for null props ([#829](https://github.com/Tresjs/tres/issues/829)) ([04b001b](https://github.com/Tresjs/tres/commit/04b001b8edadf1ec03ce1351af1334a0746fbb3e))
+* **useRenderer:** add rendererPresets import ([#839](https://github.com/Tresjs/tres/issues/839)) ([f944647](https://github.com/Tresjs/tres/commit/f944647ad4d363b80def0e61e9cdd106e03b7e94))
+
 ## [4.2.10](https://github.com/Tresjs/tres/compare/4.2.9...4.2.10) (2024-09-04)
 
 

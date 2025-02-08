@@ -29,7 +29,6 @@ import {
 import pkg from '../../package.json'
 import {
   type TresContext,
-  useLogger,
   useTresContextProvider,
 } from '../composables'
 import { extend } from '../core/catalogue'
@@ -61,6 +60,9 @@ export interface TresCanvasProps
   eventsEnabled?: boolean
   eventsTarget?: EventTarget
   events?: EventManagerProps
+
+  // Misc opt-out flags
+  enableProvideBridge?: boolean
 }
 
 const props = withDefaults(defineProps<TresCanvasProps>(), {
@@ -77,6 +79,7 @@ const props = withDefaults(defineProps<TresCanvasProps>(), {
   renderMode: 'always',
   eventsEnabled: true,
   events: undefined,
+  enableProvideBridge: true,
 })
 
 // Define emits for Pointer events, pass `emit` into useTresEventManager so we can emit events off of TresCanvas
@@ -90,8 +93,6 @@ const slots = defineSlots<{
   default: () => any
 }>()
 
-const { logWarning } = useLogger()
-
 const canvas = ref<HTMLCanvasElement>()
 
 /*
@@ -101,14 +102,40 @@ const canvas = ref<HTMLCanvasElement>()
 */
 const scene = shallowRef<TresScene | Scene>(new Scene())
 
-const instance = getCurrentInstance()?.appContext.app
+const instance = getCurrentInstance()
 extend(THREE)
 
 const createInternalComponent = (context: TresContext, empty = false) =>
   defineComponent({
     setup() {
       const ctx = getCurrentInstance()?.appContext
-      if (ctx) { ctx.app = instance as App }
+      if (ctx) { ctx.app = instance?.appContext.app as App }
+      const provides: { [key: string | symbol]: unknown } = {}
+
+      // Helper function to recursively merge provides from parents
+      function mergeProvides(currentInstance: any) {
+        if (!currentInstance) { return }
+
+        // Recursively process the parent instance
+        if (currentInstance.parent) {
+          mergeProvides(currentInstance.parent)
+        }
+        // Extract provides from the current instance and merge them
+        if (currentInstance.provides) {
+          Object.assign(provides, currentInstance.provides)
+        }
+      }
+
+      // Start the recursion from the initial instance
+      if (instance?.parent && props.enableProvideBridge) {
+        mergeProvides(instance.parent)
+
+        Reflect.ownKeys(provides)
+          .forEach((key) => {
+            provide(key, provides[key])
+          })
+      }
+
       provide('useTres', context)
       provide('extend', extend)
 
@@ -202,10 +229,6 @@ onMounted(() => {
   )
 
   if (!camera.value) {
-    logWarning(
-      'No camera found. Creating a default perspective camera. '
-      + 'To have full control over a camera, please add one to the scene.',
-    )
     addDefaultCamera()
   }
 

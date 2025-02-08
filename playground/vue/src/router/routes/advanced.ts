@@ -25,9 +25,19 @@ export const advancedRoutes = [
     component: () => import('../../pages/advanced/suspense/index.vue'),
   },
   {
-    path: '/advanced/material-array',
-    name: 'Material array',
-    component: () => import('../../pages/advanced/materialArray/index.vue'),
+    path: '/advanced/attach-material-array',
+    name: 'attach: Material array',
+    component: () => import('../../pages/advanced/attachMaterialArray/index.vue'),
+  },
+  {
+    path: '/advanced/attach-buffer-geometry',
+    name: 'attach: BufferGeometry',
+    component: () => import('../../pages/advanced/attachBufferGeometry/index.vue'),
+  },
+  {
+    path: '/advanced/attach-post-processing',
+    name: 'attach: Post-processing',
+    component: () => import('../../pages/advanced/attachPostProcessing/index.vue'),
   },
   {
     path: '/advanced/device-pixel-ratio',
@@ -38,5 +48,10 @@ export const advancedRoutes = [
     path: '/advanced/disposal',
     name: 'Disposal',
     component: () => import('../../pages/advanced/disposal/index.vue'),
+  },
+  {
+    path: '/advanced/memory-tres-objects',
+    name: 'Memory Test: Tres Objects',
+    component: () => import('../../pages/advanced/MemoryTresObjects.vue'),
   },
 ]

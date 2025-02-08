@@ -79,7 +79,7 @@ Dado que la versión 2 es un renderizador personalizado, necesitamos informar al
 
 Solo necesitas agregar esto a tu archivo `vite.config.ts` dentro del plugin de Vue:
 
-```ts
+```ts [vite.config.ts]
 import { templateCompilerOptions } from '@tresjs/core'
 
 export default defineConfig({

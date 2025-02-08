@@ -29,5 +29,9 @@ export const issuesRoutes = [
     name: '#796: unmounted',
     component: () => import('../../pages/issues/796/index.vue'),
   },
-
+  {
+    path: '/issues/732',
+    name: '#732: provide/inject',
+    component: () => import('../../pages/issues/732/index.vue'),
+  },
 ]

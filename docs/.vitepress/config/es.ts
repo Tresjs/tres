@@ -77,9 +77,7 @@ export const esConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
         items: [
           { text: 'v-log', link: '/es/directives/v-log' },
           { text: 'v-light-helper', link: '/es/directives/v-light-helper' },
-          { text: 'v-always-look-at', link: '/es/directives/v-always-look-at' },
           { text: 'v-distance-to', link: '/es/directives/v-distance-to' },
-          { text: 'v-rotate', link: '/directives/v-rotate' },
         ],
       },
       {
@@ -140,6 +138,10 @@ export const esConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
               {
                 text: 'TresLeches 🍰',
                 link: 'https://tresleches.tresjs.org/',
+              },
+              {
+                text: 'Post-procesamiento',
+                link: 'https://post-processing.tresjs.org/',
               },
             ],
           },

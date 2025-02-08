@@ -46,7 +46,7 @@ pnpm add @types/three -D
 
 Als je Vite gebruikt, dan hoef je alleen `templateCompilerOptions` toe te voegen en te importeren van TresJS asan je `vite.config.ts`in de vue plugin:
 
-```ts
+```ts [vite.config.ts]
 import { templateCompilerOptions } from '@tresjs/core'
 
 export default defineConfig({

@@ -461,7 +461,7 @@ export function setPixelRatio(renderer: { setPixelRatio?: (dpr: number) => void,
 
   let newDpr = 0
 
-  if (is.arr(userDpr) && userDpr.length >= 2) {
+  if (userDpr && is.arr(userDpr) && userDpr.length >= 2) {
     const [min, max] = userDpr
     newDpr = MathUtils.clamp(systemDpr, min, max)
   }

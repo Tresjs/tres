@@ -75,9 +75,7 @@ export const zhConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
         items: [
           { text: 'v-log', link: '/zh/directives/v-log' },
           { text: 'v-light-helper', link: '/zh/directives/v-light-helper' },
-          { text: 'v-always-look-at', link: '/zh/directives/v-always-look-at' },
           { text: 'v-distance-to', link: '/zh/directives/v-distance-to' },
-          { text: 'v-rotate', link: '/directives/v-rotate' },
         ],
       },
       {
@@ -138,6 +136,10 @@ export const zhConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
               {
                 text: 'TresLeches 🍰',
                 link: 'https://tresleches.tresjs.org/',
+              },
+              {
+                text: 'Post-processing',
+                link: 'https://post-processing.tresjs.org/',
               },
             ],
           },
