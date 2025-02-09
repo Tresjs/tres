@@ -1,11 +1,11 @@
 import type { TresObject, TresPrimitive } from 'src/types'
 import type { BufferGeometry, Camera, Fog, Light, Material, Object3D, Scene } from 'three'
 
-export function und(u: unknown) {
+export function und(u: unknown): u is undefined {
   return typeof u === 'undefined'
 }
 
-export function arr(u: unknown) {
+export function arr(u: unknown): u is Array<unknown> {
   return Array.isArray(u)
 }
 
