@@ -123,7 +123,7 @@ export function createRenderLoop(): RendererLoop {
       return
     }
     const delta = clock.getDelta()
-    const elapsed = clock.getElapsedTime()
+    const elapsed = clock.elapsedTime
     const snapshotCtx = {
       camera: unref(context.camera),
       scene: unref(context.scene),
