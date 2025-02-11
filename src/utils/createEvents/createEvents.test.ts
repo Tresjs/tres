@@ -364,7 +364,7 @@ function mockEventsPropsAndSpies(context?: TresContext) {
   const initialConfig = { context, enabled: true, priority: 0, lastEvent: new MouseEvent('mousemove') }
   let lastEvent = new MouseEvent('mousemove')
   const props: CreateEventsProps<{ context: typeof context }, typeof context, MouseEvent, number, number, HTMLCanvasElement> = {
-    getInitialConfig: (_ctx: typeof context, _emit) => initialConfig,
+    getInitialConfig: (_ctx: typeof context) => initialConfig,
     getInitialEvent: () => new MouseEvent('mousemove'),
     connect: (target: EventTarget, handle, _config: typeof initialConfig) => {
       connectSpy()
