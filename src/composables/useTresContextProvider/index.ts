@@ -8,13 +8,14 @@ import { Raycaster } from 'three'
 import { computed, inject, onUnmounted, provide, readonly, ref, shallowRef } from 'vue'
 import { extend } from '../../core/catalogue'
 import { createRenderLoop } from '../../core/loop'
-import { type EventManager, useEventsOptions } from '../../utils/createEventManager'
+import { type Events, useEventsOptions as withEventsProps } from '../../utils/createEvents'
 import { calculateMemoryUsage } from '../../utils/perf'
 
 import { useCamera } from '../useCamera'
 import { useRenderer } from '../useRenderer'
 import useSizes, { type SizesType } from '../useSizes'
 import { useTresReady } from '../useTresReady'
+import TresCanvas, { type TresCanvasProps } from 'src/components/TresCanvas.vue'
 
 export interface InternalState {
   priority: Ref<number>
@@ -49,7 +50,7 @@ export interface PerformanceState {
 }
 
 export interface TresContext {
-  eventManager: EventManager
+  events: Events
   scene: ShallowRef<TresScene>
   sizes: SizesType
   extend: (objects: any) => void
@@ -75,10 +76,10 @@ export interface TresContext {
   setCameraActive: (cameraOrUuid: Camera | string) => void
   deregisterCamera: (maybeCamera: unknown) => void
   parentContext?: TresContext
-  // Events
-  // Temporaly add the methods to the context, this should be handled later by the EventManager state on the context https://github.com/Tresjs/tres/issues/515
-  // When thats done maybe we can short the names of the methods since the parent will give the context.
-  events?: { enabled: MaybeRefOrGetter<boolean> }
+  // The TresCanvas' emit.
+  emit: EmitEventFn
+  // The user's TresCanvas' props.
+  props: TresCanvasProps
 }
 
 export function useTresContextProvider({
@@ -93,7 +94,7 @@ export function useTresContextProvider({
   canvas: MaybeRef<HTMLCanvasElement>
   windowSize: MaybeRefOrGetter<boolean>
   rendererOptions: UseRendererOptions
-  props: any
+  props: TresCanvasProps
   emit: EmitEventFn
 
 }): TresContext {
@@ -142,7 +143,7 @@ export function useTresContextProvider({
     },
   )
 
-  const partialContext: Omit<TresContext, 'eventManager'> & { eventManager?: EventManager } = {
+  const partialContext: Omit<TresContext, 'events'> & { events?: Events } = {
     sizes,
     scene: localScene,
     camera,
@@ -170,9 +171,11 @@ export function useTresContextProvider({
     setCameraActive,
     deregisterCamera,
     loop: createRenderLoop(),
+    props,
+    emit,
   }
 
-  partialContext.eventManager = useEventsOptions(props, partialContext as TresContext, emit).eventManager
+  partialContext.events = withEventsProps(partialContext as TresContext).events
   const ctx = partialContext as TresContext
 
   provide('useTres', ctx)

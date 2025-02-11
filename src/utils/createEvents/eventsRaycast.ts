@@ -1,6 +1,6 @@
 import type { Object3D, Intersection as ThreeIntersection } from 'three'
 import type { EventHandlers, IntersectionEvent, PointerCaptureTarget, Properties, ThreeEvent, TresCamera, TresInstance, TresObject } from '../../types'
-import type { CreateEventManagerProps } from './createEventManager'
+import type { CreateEventsProps } from './createEvents'
 import { Raycaster, Vector2, Vector3 } from 'three'
 import { prepareTresInstance } from '..'
 import { isProd, type TresContext, useLogger } from '../../composables'
@@ -10,9 +10,9 @@ import { deprecatedEventsToNewEvents } from './deprecatedEvents'
 
 // NOTE:
 // This file consists of type definitions and functions
-// used by `./createEventManager`.
+// used by `./createEvents`.
 //
-// In particular, see `handle` in `./createEventManager` to
+// In particular, see `handle` in `./createEvents` to
 // see the call order of the functions here.
 
 // NOTE: Aliasing these and grouping here to make
@@ -30,7 +30,7 @@ function getInitialEvent() {
   return new MouseEvent('mousemove')
 }
 
-type RaycastProps = CreateEventManagerProps<
+type RaycastProps = CreateEventsProps<
   Config,
   TresContext,
   RaycastEvent,
@@ -83,9 +83,9 @@ function getLastEvent(config: Config) {
   return config.lastMoveEvent
 }
 
-function connect(target: RaycastEventTarget, eventManagerHandler: (ev: RaycastEvent) => void, config: Config) {
+function connect(target: RaycastEventTarget, eventsHandler: (ev: RaycastEvent) => void, config: Config) {
   for (const domEventName of POINTER_EVENT_NAMES) {
-    target.addEventListener(domEventName, eventManagerHandler, { passive: DOM_TO_PASSIVE[domEventName] })
+    target.addEventListener(domEventName, eventsHandler, { passive: DOM_TO_PASSIVE[domEventName] })
   }
 
   const leave = (pointerEvent: PointerEvent) => handleIntersections(pointerEvent, [], config)
@@ -94,7 +94,7 @@ function connect(target: RaycastEventTarget, eventManagerHandler: (ev: RaycastEv
   return {
     disconnect: () => {
       for (const domEventName of POINTER_EVENT_NAMES) {
-        target.removeEventListener(domEventName, eventManagerHandler)
+        target.removeEventListener(domEventName, eventsHandler)
       }
       target.removeEventListener('pointerleave', leave)
     },

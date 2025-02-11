@@ -174,7 +174,7 @@ export interface EventHandlers {
 
 export interface PointerCaptureTarget {
   // NOTE: Below are "fake" DOM Element methods that allow objects
-  // to communicate with Tres' `EventManager` about pointer capture.
+  // to communicate with Tres' `Events` about pointer capture.
   // See: https://developer.mozilla.org/en-US/docs/Web/API/Element/setPointerCapture
   setPointerCapture: (pointerId: number) => void
   releasePointerCapture: (pointerId: number) => void

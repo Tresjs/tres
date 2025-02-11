@@ -1,18 +1,18 @@
 import type { TresContext } from '../../composables/useTresContextProvider'
-import type { CreateEventManagerProps } from './createEventManager'
+import type { CreateEventsProps } from './createEvents'
 import { Scene } from 'three'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { shallowRef } from 'vue'
 import { nodeOps as getNodeOps } from './../../core/nodeOps'
-import { createEventManager } from './createEventManager'
+import { createEvents } from './createEvents'
 import { eventsNoop } from './eventsNoop'
 
 let t = mockTresInstance()
 let context = t.context
 let { canvas, spies: canvasSpies } = mockCanvasAndListeners()
-let { props, spies: propsSpies } = mockEventManagerPropsAndSpies(context)
+let { props, spies: propsSpies } = mockEventsPropsAndSpies(context)
 
-describe('createEventManager', () => {
+describe('createEvents', () => {
   beforeEach(() => {
     t = mockTresInstance()
     context = t.context
@@ -21,46 +21,46 @@ describe('createEventManager', () => {
     canvas = c.canvas
     canvasSpies = c.spies
 
-    const p = mockEventManagerPropsAndSpies(context)
+    const p = mockEventsPropsAndSpies(context)
     props = p.props
     propsSpies = p.spies
     vi.clearAllMocks()
   })
 
-  describe('const eventManager = createEventManager(props, context)', () => {
+  describe('const events = createEvents(props, context)', () => {
     describe('noop props', () => {
       it('responds to all method calls without throwing', () => {
         const canvas = document.createElement('canvas')
-        const eventManager = createEventManager(eventsNoop, context)
-        expect(() => eventManager.config).not.toThrow()
+        const events = createEvents(eventsNoop, context)
+        expect(() => events.config).not.toThrow()
         expect(() => {
-          eventManager.disconnect()
-          eventManager.connect(canvas as null)
-          eventManager.disconnect()
+          events.disconnect()
+          events.connect(canvas as null)
+          events.disconnect()
         }).not.toThrow()
         expect(() => {
-          eventManager.enabled = false
-          eventManager.enabled = true
-          eventManager.enabled = false
+          events.enabled = false
+          events.enabled = true
+          events.enabled = false
         }).not.toThrow()
         expect(() => {
-          eventManager.handle(new MouseEvent('click') as null)
-          eventManager.handle(new MouseEvent('contextmenu') as null)
-          eventManager.handle(new MouseEvent('dblclick') as null)
+          events.handle(new MouseEvent('click') as null)
+          events.handle(new MouseEvent('contextmenu') as null)
+          events.handle(new MouseEvent('dblclick') as null)
         }).not.toThrow()
-        expect(() => eventManager.insert({})).not.toThrow()
-        expect(() => eventManager.isEventManager).not.toThrow()
-        expect(() => eventManager.patchProp({}, 'lookAt', undefined, [0, 1])).not.toThrow()
-        expect(() => eventManager.priority = 1).not.toThrow()
-        expect(() => eventManager.remove({})).not.toThrow()
-        expect(() => eventManager.target).not.toThrow()
-        expect(() => eventManager.test([{}])).not.toThrow()
+        expect(() => events.insert({})).not.toThrow()
+        expect(() => events.isEvents).not.toThrow()
+        expect(() => events.patchProp({}, 'lookAt', undefined, [0, 1])).not.toThrow()
+        expect(() => events.priority = 1).not.toThrow()
+        expect(() => events.remove({})).not.toThrow()
+        expect(() => events.target).not.toThrow()
+        expect(() => events.test([{}])).not.toThrow()
       })
     })
     describe('props', () => {
       it('allows methods to be changed on the fly', () => {
-        const eventManager = createEventManager(props, context)
-        const { handle } = eventManager
+        const events = createEvents(props, context)
+        const { handle } = events
 
         props.getIntersections = () => [1, 2, 3, 4]
         expect(handle(new MouseEvent('click'))).toStrictEqual([1, 2, 3, 4])
@@ -94,16 +94,16 @@ describe('createEventManager', () => {
         expect(handleIntersectionsSpy).toBeCalledTimes(1)
       })
     })
-    describe('eventManager.connect(eventTarget)', () => {
+    describe('events.connect(eventTarget)', () => {
       it('calls `props.connect` if not connected', () => {
-        const { connect } = createEventManager(props, context)
+        const { connect } = createEvents(props, context)
         connect(canvas)
         expect(propsSpies.connect).toBeCalled()
         expect(canvasSpies.addEventListener).toBeCalled()
       })
       it('`disconnect`s if connected to different target', () => {
         const { canvas: otherCanvas } = mockCanvasAndListeners()
-        const { connect } = createEventManager(props, context)
+        const { connect } = createEvents(props, context)
 
         connect(canvas)
         expect(propsSpies.connect).toBeCalled()
@@ -116,7 +116,7 @@ describe('createEventManager', () => {
       })
       it('calls `props.connect().disconnect` if already connected', () => {
         const otherCanvas = mockCanvasAndListeners().canvas
-        const { connect } = createEventManager(props, context)
+        const { connect } = createEvents(props, context)
 
         connect(canvas)
         expect(propsSpies.disconnect).not.toBeCalled()
@@ -124,7 +124,7 @@ describe('createEventManager', () => {
         expect(propsSpies.disconnect).toBeCalled()
       })
       it('does nothing if already connected to `target`', () => {
-        const { connect } = createEventManager(props, context)
+        const { connect } = createEvents(props, context)
         connect(canvas)
         expect(propsSpies.connect).toBeCalled()
         expect(propsSpies.disconnect).not.toBeCalled()
@@ -135,15 +135,15 @@ describe('createEventManager', () => {
         expect(propsSpies.disconnect).not.toBeCalled()
       })
     })
-    describe('eventManager.disconnect()', () => {
+    describe('events.disconnect()', () => {
       it('calls `props.connect().disconnect`', () => {
-        const { connect, disconnect } = createEventManager(props, context)
+        const { connect, disconnect } = createEvents(props, context)
         connect(canvas)
         disconnect()
         expect(propsSpies.disconnect).toBeCalled()
       })
       it('... but only if `connect`ed', () => {
-        const { connect, disconnect } = createEventManager(props, context)
+        const { connect, disconnect } = createEvents(props, context)
         disconnect()
         expect(propsSpies.disconnect).not.toBeCalled()
 
@@ -161,10 +161,10 @@ describe('createEventManager', () => {
         expect(propsSpies.disconnect).toBeCalledTimes(2)
       })
     })
-    describe('eventManager.test(pool, event)', () => {
+    describe('events.test(pool, event)', () => {
       it('returns `[]` if `!isSetup`', () => {
         props.isSetUp = () => false
-        const { test } = createEventManager(props, context)
+        const { test } = createEvents(props, context)
         const result = test([])
         expect(result).toStrictEqual([])
       })
@@ -173,17 +173,17 @@ describe('createEventManager', () => {
           isSetup: () => true,
           getIntersections: () => 'BBB',
         })
-        const { test } = createEventManager(props, context)
+        const { test } = createEvents(props, context)
         const result = test([])
         expect(result).toStrictEqual('BBB')
       })
     })
-    describe('eventManager.handle(event)', () => {
+    describe('events.handle(event)', () => {
       it('returns result of `props.getIntersections()`', () => {
         Object.assign(props, {
           getIntersections: () => 999,
         })
-        const { handle } = createEventManager(props, context)
+        const { handle } = createEvents(props, context)
         const result = handle(new MouseEvent('click'))
         expect(result).toStrictEqual(999)
       })
@@ -204,8 +204,8 @@ describe('createEventManager', () => {
             tearDown: fail,
           })
 
-          const eventManager = createEventManager(props, context)
-          const { handle } = eventManager
+          const events = createEvents(props, context)
+          const { handle } = events
           handle(new MouseEvent('click'))
           expect(succeeded).toBe(true)
           expect(failed).toBe(false)
@@ -228,8 +228,8 @@ describe('createEventManager', () => {
           { isSetUp: () => true },
           methods,
         )
-        const eventManager = createEventManager(myProps, context)
-        const { handle } = eventManager
+        const events = createEvents(myProps, context)
+        const { handle } = events
         handle(new MouseEvent('click'))
 
         for (let i = 0; i < EXPECTED_METHOD_CALL_ORDER.length; i++) {
@@ -252,16 +252,16 @@ describe('createEventManager', () => {
             handleIntersections: fail,
             tearDown: fail,
           })
-          const eventManager = createEventManager(props, context)
-          eventManager.enabled = false
-          eventManager.handle(new MouseEvent('click'))
+          const events = createEvents(props, context)
+          events.enabled = false
+          events.handle(new MouseEvent('click'))
           expect(failed).toStrictEqual(false)
         })
         it('returns `[]`', () => {
-          const eventManager = createEventManager(props, context)
+          const events = createEvents(props, context)
 
-          eventManager.enabled = false
-          const result1 = eventManager.handle(new MouseEvent('click'))
+          events.enabled = false
+          const result1 = events.handle(new MouseEvent('click'))
           expect(result1).toStrictEqual([])
         })
       })
@@ -273,7 +273,7 @@ describe('createEventManager', () => {
               getIntersections: () => { result.push(2); return [101, 102, 103, 104] },
               filter: (obj) => { obj = obj.filter(n => n % 2 === 1); return obj },
             })
-            const { handle } = createEventManager(props, context)
+            const { handle } = createEvents(props, context)
             const handleResult = handle(new MouseEvent('click'))
             expect(handleResult).toStrictEqual([101, 103])
           })
@@ -284,7 +284,7 @@ describe('createEventManager', () => {
             Object.assign(props, {
               getIntersections: () => { result.push(2); return [101, 102, 103, 104] },
             })
-            const { handle } = createEventManager(props, context)
+            const { handle } = createEvents(props, context)
 
             props.filter = undefined
             const handleResult = handle(new MouseEvent('click'))
@@ -293,12 +293,12 @@ describe('createEventManager', () => {
         })
       })
     })
-    describe('eventManager.remove', () => {
+    describe('events.remove', () => {
       it('forwards to `props.remove`', () => {
         const spy = vi.spyOn(props, 'remove')
-        const eventManager = createEventManager(props, context)
-        eventManager.enabled = false
-        eventManager.remove(2)
+        const events = createEvents(props, context)
+        events.enabled = false
+        events.remove(2)
         expect(spy).toBeCalledTimes(1)
       })
     })
@@ -308,7 +308,7 @@ describe('createEventManager', () => {
 function mockTresContext() {
   return {
     scene: shallowRef(new Scene()),
-    eventManager: null,
+    events: null,
     registerCamera: () => {},
     deregisterCamera: () => {},
   } as unknown as TresContext
@@ -354,7 +354,7 @@ function mockTresInstance() {
   }
 }
 
-function mockEventManagerPropsAndSpies(context?: TresContext) {
+function mockEventsPropsAndSpies(context?: TresContext) {
   const connectSpy = vi.fn()
   const disconnectSpy = vi.fn()
   let _isSetUp = false
@@ -363,7 +363,7 @@ function mockEventManagerPropsAndSpies(context?: TresContext) {
   context = context ?? mockTresContext()
   const initialConfig = { context, enabled: true, priority: 0, lastEvent: new MouseEvent('mousemove') }
   let lastEvent = new MouseEvent('mousemove')
-  const props: CreateEventManagerProps<{ context: typeof context }, typeof context, MouseEvent, number, number, HTMLCanvasElement> = {
+  const props: CreateEventsProps<{ context: typeof context }, typeof context, MouseEvent, number, number, HTMLCanvasElement> = {
     getInitialConfig: (_ctx: typeof context, _emit) => initialConfig,
     getInitialEvent: () => new MouseEvent('mousemove'),
     connect: (target: EventTarget, handle, _config: typeof initialConfig) => {

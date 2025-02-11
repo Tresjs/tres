@@ -36,7 +36,7 @@ setInterval(() => {
 
 <template>
   <OverlayInfo>
-    <h1><code>eventManager.remove</code></h1>
+    <h1><code>context.events.remove</code></h1>
     <p>When an object is removed from the scene, it should trigger <code>@pointer{out,leave}</code> events, if necessary.</p>
     <h2>Setup</h2>
     <p>A few boxes are added/removed from the scene. Their events "bubble up" to the larger parent box.</p>

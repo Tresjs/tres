@@ -88,7 +88,7 @@ function onChangeEventsEnabled(b: boolean) {
   </TresCanvas>
   <OverlayInfo>
     <h1><code>eventsTarget</code></h1>
-    <p>The <code>eventsManager</code> connects to <code>context.renderer.value.domElement</code> by default. But users can override this by setting <code>:events-target</code> on <code>TresCanvas</code>.</p>
+    <p>The <code>Events</code> system connects to <code>context.renderer.value.domElement</code> by default. But users can override this by setting <code>:events-target</code> on <code>TresCanvas</code>.</p>
     <h2>Select an <code>:events-target</code> to <code>connect</code> to.</h2>
     <div v-for="id of ['undefined', 'blue', 'red']" :key="id">
       <input :id="id" :checked="id === eventsTargetIdRef" type="radio" name="target" @change="() => onChangeEventTargetId(id)" />
@@ -98,12 +98,12 @@ function onChangeEventsEnabled(b: boolean) {
     <p>The on-screen objects should still respond to pointer events.</p>
     <hr />
     <h1><code>eventsEnabled</code></h1>
-    <p>Events are enabled by default but can be turned off by setting <code>:events-enabled="false"</code> on <code>TresCanvas</code></p>
+    <p>The <code>Events</code> system is enabled by default but can be turned off by setting <code>:events-enabled="false"</code> on <code>TresCanvas</code></p>
     <input id="enabled" type="checkbox" checked @change="(e) => onChangeEventsEnabled((e.target as null | HTMLFormElement)?.checked ?? false)" />
     <label for="enabled">Enable events</label>
     <hr />
     <h2>NOTE</h2>
-    <p>Tres controls like <code>OrbitControls</code> are unaffected by <code>eventManager</code> settings.</p>
+    <p>Tres controls like <code>OrbitControls</code> are unaffected by <code>context.events</code> settings.</p>
     <p>Additional steps must be taken to update them appropriately, in the case of changing the event target or disabling events.</p>
   </OverlayInfo>
 </template>

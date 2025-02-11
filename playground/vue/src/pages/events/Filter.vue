@@ -81,7 +81,7 @@ function distSqToCam(intersection: Intersection<Object3D>) {
 <template>
   <OverlayInfo>
     <h1><code>filter</code></h1>
-    <p>context.eventManager has a settable <code>filter</code> function. It allows you to sort and filter intersections before they are handled, possibly sorting intersections to process important "hits" earlier.</p>
+    <p>context.events has a settable <code>filter</code> function. It allows you to sort and filter intersections before they are handled, possibly sorting intersections to process important "hits" earlier.</p>
     <p>The filter can be set by passing a filter function on <code>TresCanvas</code> like:</p>
     <code>&lt;TresCanvas :events="{filter: {{ filterFnIdRef }}}" /&gt;</code>
     <hr />

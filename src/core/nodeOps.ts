@@ -95,7 +95,7 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
     child = unboxTresPrimitive(childInstance)
     parent = unboxTresPrimitive(parentInstance)
 
-    context.eventManager?.insert(child)
+    context.events?.insert(child)
 
     context.registerCamera(child)
 
@@ -128,7 +128,7 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
     if (!node) { return }
 
     if (dispose === undefined) {
-      context.eventManager?.remove(node)
+      context.events?.remove(node)
     }
 
     // NOTE: Derive `dispose` value for this `remove` call and
@@ -251,7 +251,7 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
       return
     }
 
-    if (context.eventManager?.patchProp(node, prop, prevValue, nextValue)) {
+    if (context.events?.patchProp(node, prop, prevValue, nextValue)) {
       return
     }
 

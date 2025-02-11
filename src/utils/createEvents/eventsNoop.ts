@@ -1,11 +1,11 @@
 // NOTE:
 // This file consists of functions
-// used by `./createEventManager`.
+// used by `./createEvents`.
 //
-// In this case, it causes `eventManager` to
+// In this case, it causes `events` to
 // attach no events and do nothing.
 
-import type { CreateEventManagerProps } from './createEventManager'
+import type { CreateEventsProps } from './createEvents'
 
 function getInitialEvent() { return null }
 function getInitialConfig() { return {} }
@@ -22,7 +22,7 @@ function remove() { }
 function patchProp() { return false }
 function handleIntersections() { }
 
-export const eventsNoop: CreateEventManagerProps<any, any, null, null, any, null> = {
+export const eventsNoop: CreateEventsProps<any, any, null, null, any, null> = {
   connect,
   isSetUp,
   setUp,

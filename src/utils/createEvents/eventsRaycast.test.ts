@@ -8,7 +8,7 @@ import { shallowRef } from 'vue'
 import catalogue from '../../core/catalogue'
 import { nodeOps as getNodeOps } from '../../core/nodeOps'
 import { DOM_TO_THREE, type DomEventName, type ThreeEventName } from './const'
-import { createEventManager } from './createEventManager'
+import { createEvents } from './createEvents'
 import { eventsRaycast } from './eventsRaycast'
 
 const mockIntersections: THREE.Intersection<Object3D>[] = []
@@ -87,14 +87,14 @@ const DOM_NATIVE_CALL: { domEvent: DomEventName, nativeEvent: PointerEvent | Mou
 describe('eventsRaycast', () => {
   describe('eventsRaycast.getIntersectionsPool', () => {
     it('returns `[]` if no objects have events', () => {
-      const mock = mockTresUsingEventManagerProps()
+      const mock = mockTresUsingEventsProps()
       mock.add.DAG('g0 -> m0 m1; g2 -> m2')
-      const { config } = mock.context.eventManager
+      const { config } = mock.context.events
       expect(eventsRaycast.getIntersectionsPool(mockEvt('pointermove'), config)).toStrictEqual([])
     })
     it('returns an array including the object with events and all of its descendants', () => {
-      const mock = mockTresUsingEventManagerProps()
-      const { config } = mock.context.eventManager
+      const mock = mockTresUsingEventsProps()
+      const { config } = mock.context.events
       const { g0, m0, m1, mm0, g2, m2 } = mock.add.DAG('g0 -> m0 m1; m1 -> mm0; g2 -> m2')
 
       let pool = eventsRaycast.getIntersectionsPool(mockEvt('pointermove'), config)
@@ -140,8 +140,8 @@ describe('eventsRaycast', () => {
       expect(pool.includes(m2)).toBe(true)
     })
     it('updates when called after `nodeOps.patchProp` patches an event', () => {
-      const mock = mockTresUsingEventManagerProps()
-      const { config } = mock.context.eventManager
+      const mock = mockTresUsingEventsProps()
+      const { config } = mock.context.events
       const { g0, m0, m1, g2, m2 } = mock.add.DAG('g0 -> m0 m1; g2 -> m2')
 
       mock.nodeOps.patchProp(m0, 'onPointermove', undefined, () => {})
@@ -170,8 +170,8 @@ describe('eventsRaycast', () => {
       expect(pool.includes(m2)).toBe(true)
     })
     it('updates when called after `nodeOps.remove`', () => {
-      const mock = mockTresUsingEventManagerProps()
-      const { config } = mock.context.eventManager
+      const mock = mockTresUsingEventsProps()
+      const { config } = mock.context.events
       const { g0, m0, m1, g2, m2 } = mock.add.DAG('g0 -> m0 m1; g2 -> m2')
 
       mock.add.eventsTo(g0)
@@ -208,30 +208,30 @@ describe('eventsRaycast', () => {
     })
   })
 
-  describe('eventManager.test(pool: Iterable<Object3D>, event: MouseEvent | PointerEvent)', () => {
+  describe('events.test(pool: Iterable<Object3D>, event: MouseEvent | PointerEvent)', () => {
     it('returns `[]` if not `isSetUp()`', () => {
-      const mock = mockTresUsingEventManagerProps()
+      const mock = mockTresUsingEventsProps()
       const objects = mock.add.DAG('g0 -> m0')
       eventsRaycast.isSetUp = () => false
-      const { test } = mock.context.eventManager
+      const { test } = mock.context.events
       expect(test([objects.g0, objects.m0])).toStrictEqual([])
     })
     it('returns `raycaster.intersectObjects(objects)` if `isSetup()`', () => {
-      const mock = mockTresUsingEventManagerProps()
+      const mock = mockTresUsingEventsProps()
       const objects = mock.add.DAG('g0 -> m0 m1; m0 -> g1; g1 -> m2')
       eventsRaycast.isSetUp = () => true
-      mock.context.eventManager.config.raycaster.intersectObjects = objects => objects.map(object => ({ object }))
+      mock.context.events.config.raycaster.intersectObjects = objects => objects.map(object => ({ object }))
 
-      const { test } = mock.context.eventManager
+      const { test } = mock.context.events
       const pool = [objects.g0, objects.m0]
-      expect(test(pool)).toStrictEqual(mock.context.eventManager.config.raycaster.intersectObjects(pool))
+      expect(test(pool)).toStrictEqual(mock.context.events.config.raycaster.intersectObjects(pool))
     })
   })
 
   describe('eventsRaycast.handleIntersections(incomingEvent, intersections, config)', () => {
     describe('map: native event => "@" event handlers', () => {
       it.each(DOM_NATIVE_CALL)('$nativeEvent.type => $domEvent', ({ domEvent, nativeEvent, call }) => {
-        const mock = mockTresUsingEventManagerProps()
+        const mock = mockTresUsingEventsProps()
         const { m } = mock.add.DAG('m')
         let event: ThreeEvent<any> | null = null
         mock.nodeOps.patchProp(m, DOM_TO_THREE[domEvent], null, (e: ThreeEvent<any>) => { event = { ...e } })
@@ -241,7 +241,7 @@ describe('eventsRaycast', () => {
     })
     describe('handler `event`', () => {
       it.each(DOM_NATIVE_CALL)('is expected type in Tres\' $domEvent following DOM $nativeEvent.type', ({ domEvent, nativeEvent, call }) => {
-        const mock = mockTresUsingEventManagerProps()
+        const mock = mockTresUsingEventsProps()
         const { m } = mock.add.DAG('m')
         let event: ThreeEvent<any> | null = null
         mock.nodeOps.patchProp(m, DOM_TO_THREE[domEvent], null, (e: ThreeEvent<any>) => { event = { ...e } })
@@ -304,7 +304,7 @@ describe('eventsRaycast', () => {
         expect(event).toHaveProperty('pointer')
         expect(event.pointer.isVector2).toBe(true)
 
-        expect(event.ray).toBe(mock.context.eventManager.config.raycaster.ray)
+        expect(event.ray).toBe(mock.context.events.config.raycaster.ray)
         expect(event.camera).toBe(mock.context.camera.value)
         expect(event).toHaveProperty('unprojectedPoint')
         expect(event.unprojectedPoint.isVector3).toBe(true)
@@ -315,7 +315,7 @@ describe('eventsRaycast', () => {
         describe('event.delta [sic]', () => {
           describe('if last event is a `click`, `contextmenu`, `dblclick`, or `pointerup`', () => {
             it('is the distance between prior `pointerdown` and the pointer position', () => {
-              const mock = mockTresUsingEventManagerProps()
+              const mock = mockTresUsingEventsProps()
               const { m } = mock.add.DAG('m')
               let lastEvent: ThreeEvent<any> | null = null
               mock.nodeOps.patchProp(m, 'onClick', undefined, (e: ThreeEvent<any>) => lastEvent = { ...e })
@@ -352,7 +352,7 @@ describe('eventsRaycast', () => {
           })
           describe('if last event is a not `click`, `contextmenu`, `dblclick`, or `pointerup`', () => {
             it('is `0`', () => {
-              const mock = mockTresUsingEventManagerProps()
+              const mock = mockTresUsingEventsProps()
               const { m } = mock.add.DAG('m')
               let lastEvent: ThreeEvent<any> | null = null
               for (const key of ['onPointerdown', 'onPointerup', 'onPointermove', 'wheel']) {
@@ -372,7 +372,7 @@ describe('eventsRaycast', () => {
         })
         describe('event.intersections', () => {
           it('is a THREE.Intersection[]', () => {
-            const mock = mockTresUsingEventManagerProps()
+            const mock = mockTresUsingEventsProps()
             const { m } = mock.add.DAG('m')
             mock.add.eventsTo(m)
             mock.apply('click').to([m])
@@ -387,7 +387,7 @@ describe('eventsRaycast', () => {
           })
 
           it('orders intersections by distance', () => {
-            const mock = mockTresUsingEventManagerProps()
+            const mock = mockTresUsingEventsProps()
             const { m0, m1, m2 } = mock.add.DAG('m0; m1; m2')
             mock.add.eventsTo(m0)
             mock.add.eventsTo(m1)
@@ -407,7 +407,7 @@ describe('eventsRaycast', () => {
           })
 
           it('orders intersections as [hit0, ...ancestors, hit1, ...ancestors, hit2 ...]', () => {
-            const mock = mockTresUsingEventManagerProps()
+            const mock = mockTresUsingEventsProps()
             const objects = mock.add.DAG('g -> m0; g -> m1; m0 -> m0a; m0 -> m0b; m1 -> m1a; m2 -> m2a; m2 -> m2b; m2b -> m2ba')
             const { g, m0a, m1a, m2a, m2ba } = objects
             for (const obj of Object.values(objects)) { mock.add.eventsTo(obj) }
@@ -437,7 +437,7 @@ describe('eventsRaycast', () => {
           })
 
           it('does not include objects without events on self', () => {
-            const mock = mockTresUsingEventManagerProps()
+            const mock = mockTresUsingEventsProps()
             const { m0, m1, m2, mNoEvents } = mock.add.DAG('m0 -> m1; m1 -> m2; mNoEvents')
             mock.add.eventsTo(m0)
             mock.add.eventsTo(m2)
@@ -450,7 +450,7 @@ describe('eventsRaycast', () => {
         describe('after handler is called', () => {
           describe('event.eventObject', () => {
             it('is `null`', () => {
-              const mock = mockTresUsingEventManagerProps()
+              const mock = mockTresUsingEventsProps()
               const { m } = mock.add.DAG('m')
               let event: any = {}
               mock.nodeOps.patchProp(m, 'onClick', undefined, (e) => { event = e })
@@ -460,7 +460,7 @@ describe('eventsRaycast', () => {
           })
           describe('event.currentTarget', () => {
             it('is `null`', () => {
-              const mock = mockTresUsingEventManagerProps()
+              const mock = mockTresUsingEventsProps()
               const { m } = mock.add.DAG('m')
               let event: any = {}
               mock.nodeOps.patchProp(m, 'onClick', undefined, (e) => { event = e })
@@ -483,7 +483,7 @@ describe('eventsRaycast', () => {
     )('$domEvent on the DOM element', ({ domEvent }) => {
       const threeEvent = DOM_TO_THREE[domEvent]
       it(`calls \`${threeEvent}\` methods on objects under pointer and ancestors`, () => {
-        const mock = mockTresUsingEventManagerProps()
+        const mock = mockTresUsingEventsProps()
         const { g0, g1, m0, m2 } = mock.add.DAG('g0 -> m0 m1; m0 -> g1; g1 -> m2')
         const g0Spies = mock.add.eventsTo(g0)
         const g1Spies = mock.add.eventsTo(g1)
@@ -501,7 +501,7 @@ describe('eventsRaycast', () => {
         expect(m2Spies[threeEvent]).toBeCalledTimes(1)
       })
       it(`calls \`${threeEvent}\` methods on hit objects and ancestors`, () => {
-        const mock = mockTresUsingEventManagerProps()
+        const mock = mockTresUsingEventsProps()
         const { g0, m0, m1, m2 } = mock.add.DAG('g0 -> m0 m1; m0 -> g1; g1 -> m2')
         const g0Spies = mock.add.eventsTo(g0)
         const m0Spies = mock.add.eventsTo(m0)
@@ -525,7 +525,7 @@ describe('eventsRaycast', () => {
         expect(m1Spies[threeEvent]).toBeCalledTimes(1)
       })
       it(`calls \`${threeEvent}\` once per object per event`, () => {
-        const mock = mockTresUsingEventManagerProps()
+        const mock = mockTresUsingEventsProps()
         const { m0, m1, m2 } = mock.add.DAG('m0 -> m1 m2')
         const m0Spies = mock.add.eventsTo(m0)
         mock.add.eventsTo(m1)
@@ -542,7 +542,7 @@ describe('eventsRaycast', () => {
         expect(m0Spies[threeEvent]).toBeCalledTimes(1)
       })
       it('bubbles event to parents', () => {
-        const mock = mockTresUsingEventManagerProps()
+        const mock = mockTresUsingEventsProps()
         const { gParent, mChild, mGrandchild } = mock.add.DAG('gParent -> mChild; mChild -> mGrandchild')
         gParent.name = 'gParent'
         mock.add.eventsTo(gParent)
@@ -559,7 +559,7 @@ describe('eventsRaycast', () => {
 
     describe('pointermissed', () => {
       it('calls `pointermissed` on all elements in subtrees that were not hit', () => {
-        const mock = mockTresUsingEventManagerProps()
+        const mock = mockTresUsingEventsProps()
         // NOTE: Names in DAG
         //
         // Prefixes denote type:
@@ -609,7 +609,7 @@ describe('eventsRaycast', () => {
     })
     describe('wheel (DOM)', () => {
       it('calls `wheel` handlers on "hit" objects', () => {
-        const mock = mockTresUsingEventManagerProps()
+        const mock = mockTresUsingEventsProps()
         const objects = mock.add.DAG('g0 -> m0 m1; m0 -> g1; g1 -> m2')
         const { g0, m2 } = objects
         const g0Spies = mock.add.eventsTo(g0)
@@ -643,7 +643,7 @@ describe('eventsRaycast', () => {
         // on a child – set as the event `target`. Then the event is
         // sent "up" to ancestors.
         const threeEvent = DOM_TO_THREE[domEvent]
-        const mock = mockTresUsingEventManagerProps()
+        const mock = mockTresUsingEventsProps()
         const { gParent, mChild, mGrandchild } = mock.add.DAG('gParent -> mChild; mChild -> mGrandchild')
 
         mock.add.eventsTo(gParent)
@@ -668,7 +668,7 @@ describe('eventsRaycast', () => {
         // Events that are not "bubbled" are always "self" events:
         // `event.currentTarget === event.target`
         const threeEvent = DOM_TO_THREE[domEvent]
-        const mock = mockTresUsingEventManagerProps()
+        const mock = mockTresUsingEventsProps()
         const { gParent, mChild, mGrandchild } = mock.add.DAG('gParent -> mChild; mChild -> mGrandchild')
         mock.add.eventsTo(gParent)
         mock.add.eventsTo(mChild)
@@ -699,7 +699,7 @@ describe('eventsRaycast', () => {
         { domEventName: 'wheel', threeEventName: 'onWheel' },
       ] as { domEventName: DomEventName, threeEventName: ThreeEventName }[],
       )('stops $domEventName', ({ domEventName, threeEventName }) => {
-        const mock = mockTresUsingEventManagerProps()
+        const mock = mockTresUsingEventsProps()
         const { gListener, gStopper, mSource } = mock.add.DAG('gListener -> gStopper; gStopper -> mSource')
         const gListenerSpies = mock.add.eventsTo(gListener)
 
@@ -713,7 +713,7 @@ describe('eventsRaycast', () => {
         { domEventName: 'pointerover', threeEventName: 'onPointerover' },
         { domEventName: 'pointerout', threeEventName: 'onPointerout' },
       ])('stops $domEventName', ({ threeEventName }) => {
-        const mock = mockTresUsingEventManagerProps()
+        const mock = mockTresUsingEventsProps()
         const { gListener, gStopper, mSource } = mock.add.DAG('gListener -> gStopper; gStopper -> mSource')
         const gListenerSpies = mock.add.eventsTo(gListener)
 
@@ -729,7 +729,7 @@ describe('eventsRaycast', () => {
         { domEventName: 'pointerenter', threeEventName: 'onPointerenter' },
         { domEventName: 'pointerleave', threeEventName: 'onPointerleave' },
       ])('does not stop $domEventName (because it is not propagated)', ({ threeEventName }) => {
-        const mock = mockTresUsingEventManagerProps()
+        const mock = mockTresUsingEventsProps()
         const { gListener, gStopper, mSource } = mock.add.DAG('gListener -> gStopper; gStopper -> mSource')
         const gListenerSpies = mock.add.eventsTo(gListener)
 
@@ -742,7 +742,7 @@ describe('eventsRaycast', () => {
         expect(gListenerSpies[threeEventName]).toBeCalled()
       })
       it('does not stop propagation for \'pointermissed\' (because it is not propagated)', () => {
-        const mock = mockTresUsingEventManagerProps()
+        const mock = mockTresUsingEventsProps()
         const { gListener, gStopper } = mock.add.DAG('gListener -> gStopper; gStopper -> mSource')
         const gListenerSpies = mock.add.eventsTo(gListener)
 
@@ -758,7 +758,7 @@ describe('eventsRaycast', () => {
   describe('tres event handlers: handler-specific problems', () => {
     describe('pointerenter', () => {
       it('is called on objects newly under pointer', () => {
-        const mock = mockTresUsingEventManagerProps()
+        const mock = mockTresUsingEventsProps()
 
         const { g0, g1, m1, m2, mNotIncluded } = mock.add.DAG('g0 -> m0 m1; m0 -> g1; g1 -> m2; m2 -> mNotIncluded')
         const g0Spies = mock.add.eventsTo(g0)
@@ -788,7 +788,7 @@ describe('eventsRaycast', () => {
       })
 
       it('is not called on objects still directly under pointer', () => {
-        const mock = mockTresUsingEventManagerProps()
+        const mock = mockTresUsingEventsProps()
         const { mUnderPointer, mAlternates } = mock.add.DAG('mUnderPointer; mAlternates')
         const mUnderPointerSpies = mock.add.eventsTo(mUnderPointer)
         mock.add.eventsTo(mAlternates)
@@ -811,7 +811,7 @@ describe('eventsRaycast', () => {
       })
 
       it('is not called on objects still under pointer via a different child', () => {
-        const mock = mockTresUsingEventManagerProps()
+        const mock = mockTresUsingEventsProps()
         const { gStaysUnderPointer, m0, m1 } = mock.add.DAG('gStaysUnderPointer -> m0 m1')
         const gStaysUnderPointerSpies = mock.add.eventsTo(gStaysUnderPointer)
 
@@ -823,7 +823,7 @@ describe('eventsRaycast', () => {
       })
 
       describe('pointerenter event', () => {
-        const mock = mockTresUsingEventManagerProps()
+        const mock = mockTresUsingEventsProps()
         const { g0, m0 } = mock.add.DAG('g0 -> m0')
         let m0Event: ThreeEvent<PointerEvent> | null = null
         let g0Event: ThreeEvent<PointerEvent> | null = null
@@ -844,7 +844,7 @@ describe('eventsRaycast', () => {
 
     describe('pointerover', () => {
       it('is called on objects newly under pointer', () => {
-        const mock = mockTresUsingEventManagerProps()
+        const mock = mockTresUsingEventsProps()
 
         const { g0, g1, m1, m2, mNotIncluded } = mock.add.DAG('g0 -> m0 m1; m0 -> g1; g1 -> m2; m2 -> mNotIncluded')
         const g0Spies = mock.add.eventsTo(g0)
@@ -874,7 +874,7 @@ describe('eventsRaycast', () => {
       })
 
       it('is called when pointer goes "deeper" into an object\'s descendants', () => {
-        const mock = mockTresUsingEventManagerProps()
+        const mock = mockTresUsingEventsProps()
 
         const { g0, g1, m0, m1, m2 } = mock.add.DAG('g0 -> m0 m1; m0 -> g1; g1 -> m2')
         const g0Spies = mock.add.eventsTo(g0)
@@ -900,7 +900,7 @@ describe('eventsRaycast', () => {
       })
 
       it('is called on objects still under pointer via a different child', () => {
-        const mock = mockTresUsingEventManagerProps()
+        const mock = mockTresUsingEventsProps()
         const { gStaysUnderPointer, m0, m1 } = mock.add.DAG('gStaysUnderPointer -> m0 m1')
         const gStaysUnderPointerSpies = mock.add.eventsTo(gStaysUnderPointer)
 
@@ -929,7 +929,7 @@ describe('eventsRaycast', () => {
       })
 
       describe(`with group -> mesh`, () => {
-        const mock = mockTresUsingEventManagerProps()
+        const mock = mockTresUsingEventsProps()
         const { g0, m0 } = mock.add.DAG('g0 -> m0')
         const g0Spy = mock.add.eventsTo(g0).onPointerover
         const m0Spy = mock.add.eventsTo(m0).onPointerover
@@ -993,7 +993,7 @@ describe('eventsRaycast', () => {
 
       describe(`with mesh -> mesh`, () => {
         it('is called once for the same "over"', () => {
-          const mock = mockTresUsingEventManagerProps()
+          const mock = mockTresUsingEventsProps()
           const { m0, m1 } = mock.add.DAG('m0 -> m1')
           const m0Spy = vi.fn()
           const m1Spy = vi.fn()
@@ -1014,7 +1014,7 @@ describe('eventsRaycast', () => {
       })
 
       it('is bubbled every time there is a `pointerover` on a child, even if ancestor is still hit', () => {
-        const mock = mockTresUsingEventManagerProps()
+        const mock = mockTresUsingEventsProps()
         const { m0, m1 } = mock.add.DAG('m0 -> m1')
         const m0Spy = vi.fn()
         const m1Spy = vi.fn()
@@ -1054,7 +1054,7 @@ describe('eventsRaycast', () => {
       })
       describe('pointerover event', () => {
         it('has an `object` field containing the intersected object', () => {
-          const mock = mockTresUsingEventManagerProps()
+          const mock = mockTresUsingEventsProps()
           const { g0, m0 } = mock.add.DAG('g0 -> m0')
           let m0Event: ThreeEvent<PointerEvent> | null = null
           let g0Event: ThreeEvent<PointerEvent> | null = null
@@ -1070,7 +1070,7 @@ describe('eventsRaycast', () => {
     })
 
     describe(`onPointerout(event: TresEvent)`, () => {
-      const mock = mockTresUsingEventManagerProps()
+      const mock = mockTresUsingEventsProps()
       const { g0, m0 } = mock.add.DAG('g0 -> m0')
       let g0Spy = 0
       let m0Spy = 0
@@ -1115,7 +1115,7 @@ describe('eventsRaycast', () => {
       })
 
       it('is called on ancestors when a descendant is left', () => {
-        const mock = mockTresUsingEventManagerProps()
+        const mock = mockTresUsingEventsProps()
 
         const { g0, g1, m0, m1, m2 } = mock.add.DAG('g0 -> m0 m1; m0 -> g1; g1 -> m2')
         const g0Spies = mock.add.eventsTo(g0)
@@ -1151,7 +1151,7 @@ describe('eventsRaycast', () => {
     })
 
     describe(`onPointerleave(event: TresEvent)`, () => {
-      const mock = mockTresUsingEventManagerProps()
+      const mock = mockTresUsingEventsProps()
       const { g0, m0 } = mock.add.DAG('g0 -> m0')
       let g0Spy = 0
       let m0Spy = 0
@@ -1222,7 +1222,7 @@ describe('eventsRaycast', () => {
         // - 5 `pointer{out,over}` calls
         // - 1 `pointer{enter,leave}` calls
 
-        const mock = mockTresUsingEventManagerProps()
+        const mock = mockTresUsingEventsProps()
         const { outer, middle, inner } = mock.add.DAG('outer -> middle; middle -> inner')
         const outerSpies = mock.add.eventsTo(outer)
         mock.nodeOps.patchProp(outer, 'blocking', undefined, true)
@@ -1315,7 +1315,7 @@ describe('eventsRaycast', () => {
         // - 3 `pointer{out,over}` calls
         // - 1 `pointer{enter,leave}` calls
 
-        const mock = mockTresUsingEventManagerProps()
+        const mock = mockTresUsingEventsProps()
         const { outer, middle, inner } = mock.add.DAG('outer -> middle; middle -> inner')
         const outerSpies = mock.add.eventsTo(outer)
 
@@ -1375,7 +1375,7 @@ describe('eventsRaycast', () => {
   describe('special cases', () => {
     describe(':blocking="true"', () => {
       it('stops objects "behind" :blocking objects from receiving `click`, `wheel`, `pointermove`, when `true`', () => {
-        const mock = mockTresUsingEventManagerProps()
+        const mock = mockTresUsingEventsProps()
         const { mFront, mBehind } = mock.add.DAG('mFront; mBehind')
         const mFrontSpies = mock.add.eventsTo(mFront)
         const mBehindSpies = mock.add.eventsTo(mBehind)
@@ -1395,7 +1395,7 @@ describe('eventsRaycast', () => {
         expect(mFrontSpies.onClick).toBeCalledTimes(1)
       })
       it('bubbles events to parents (as normal) when `true`', () => {
-        const mock = mockTresUsingEventManagerProps()
+        const mock = mockTresUsingEventsProps()
         const { g, mFront, mBehind } = mock.add.DAG('g -> mFront; mBehind')
         const gSpies = mock.add.eventsTo(g)
 
@@ -1411,7 +1411,7 @@ describe('eventsRaycast', () => {
         expect(gSpies.onClick).toBeCalledTimes(1)
       })
       it('restores normal "non-blocking" behavior when `false`', () => {
-        const mock = mockTresUsingEventManagerProps()
+        const mock = mockTresUsingEventsProps()
         const { mFront, mBehind } = mock.add.DAG('mFront; mBehind')
         const mFrontSpies = mock.add.eventsTo(mFront)
         const mBehindSpies = mock.add.eventsTo(mBehind)
@@ -1446,7 +1446,7 @@ describe('eventsRaycast', () => {
         expect(mFrontSpies.onClick).toBeCalledTimes(1)
       })
       it('calls @pointerleave on objects no longer receiving the pointer event after a new pointer event, even if they are still intersected', () => {
-        const mock = mockTresUsingEventManagerProps()
+        const mock = mockTresUsingEventsProps()
         const { mFront, mBehind } = mock.add.DAG('mFront; mBehind')
         const mFrontSpies = mock.add.eventsTo(mFront)
         const mBehindSpies = mock.add.eventsTo(mBehind)
@@ -1465,10 +1465,10 @@ describe('eventsRaycast', () => {
     describe('when removing an object', () => {
       describe('pointerout', () => {
         it('is called if the object removed was under the pointer', () => {
-          const mock = mockTresUsingEventManagerProps()
+          const mock = mockTresUsingEventsProps()
           const { m0 } = mock.add.DAG('m0')
           const m0Spies = mock.add.eventsTo(m0)
-          const { remove } = mock.context.eventManager
+          const { remove } = mock.context.events
 
           mock.apply('pointerout').to([m0])
 
@@ -1478,8 +1478,8 @@ describe('eventsRaycast', () => {
         })
 
         it('bubbles to ancestors', () => {
-          const mock = mockTresUsingEventManagerProps()
-          const { remove } = mock.context.eventManager
+          const mock = mockTresUsingEventsProps()
+          const { remove } = mock.context.events
 
           const { g0, m0, m1, m2 } = mock.add.DAG('g0 -> m0 m1; m1 -> m2')
 
@@ -1513,10 +1513,10 @@ describe('eventsRaycast', () => {
       })
       describe('pointerleave', () => {
         it('is called if the object removed was under the pointer', () => {
-          const mock = mockTresUsingEventManagerProps()
+          const mock = mockTresUsingEventsProps()
           const { m0 } = mock.add.DAG('m0')
           const m0Spies = mock.add.eventsTo(m0)
-          const { remove } = mock.context.eventManager
+          const { remove } = mock.context.events
 
           mock.apply('pointermove').to([m0])
 
@@ -1526,8 +1526,8 @@ describe('eventsRaycast', () => {
         })
 
         it('is called on ancestors, if they are no longer under the pointer', () => {
-          const mock = mockTresUsingEventManagerProps()
-          const { remove } = mock.context.eventManager
+          const mock = mockTresUsingEventsProps()
+          const { remove } = mock.context.events
 
           const { g0, m0, m1, m2 } = mock.add.DAG('g0 -> m0 m1; m1 -> m2')
 
@@ -1563,23 +1563,23 @@ describe('eventsRaycast', () => {
     describe('when `pointerleave`s domElement', () => {
       describe('intersections', () => {
         it('are dropped', () => {
-          const mock = mockTresUsingEventManagerProps()
+          const mock = mockTresUsingEventsProps()
           const { g, m2 } = mock.add.DAG('g -> m0 m1; m1 -> m2')
           mock.add.eventsTo(g)
-          mock.context.eventManager.connect(mock.canvas)
+          mock.context.events.connect(mock.canvas)
 
           mock.apply('pointermove').to([m2])
-          expect(mock.context.eventManager.config.priorIntersections.length).toBe(1)
+          expect(mock.context.events.config.priorIntersections.length).toBe(1)
           mock.canvas._call('pointerleave', mockEvt('pointerleave'))
-          expect(mock.context.eventManager.config.priorIntersections.length).toBe(0)
+          expect(mock.context.events.config.priorIntersections.length).toBe(0)
         })
       })
       describe('pointerleave', () => {
         it('is called where appropiate', () => {
-          const mock = mockTresUsingEventManagerProps()
+          const mock = mockTresUsingEventsProps()
           const { g, m2 } = mock.add.DAG('g -> m0 m1; m1 -> m2')
           mock.add.eventsTo(g)
-          mock.context.eventManager.connect(mock.canvas)
+          mock.context.events.connect(mock.canvas)
 
           mock.apply('pointermove').to([m2])
           expect(getLast('pointerleave').on(g)).toBeNull()
@@ -1591,10 +1591,10 @@ describe('eventsRaycast', () => {
       })
       describe('pointerout', () => {
         it('is called where appropiate', () => {
-          const mock = mockTresUsingEventManagerProps()
+          const mock = mockTresUsingEventsProps()
           const { g, m2 } = mock.add.DAG('g -> m0 m1; m1 -> m2')
           mock.add.eventsTo(g)
-          mock.context.eventManager.connect(mock.canvas)
+          mock.context.events.connect(mock.canvas)
 
           mock.apply('pointermove').to([m2])
           expect(getLast('pointerleave').on(g)).toBeNull()
@@ -1608,8 +1608,8 @@ describe('eventsRaycast', () => {
   describe('{set,release,lost}pointercapture', () => {
     const POINTER_ID = mockEvt('pointerdown').pointerId
     describe('object.setPointerCapture(pointerId) in event handler', () => {
-      it('calls `setPointerCapture(pointerId)` on `eventManager`\'s DOM Element', () => {
-        const mock = mockTresUsingEventManagerProps()
+      it('calls `setPointerCapture(pointerId)` on `events`\'s DOM Element', () => {
+        const mock = mockTresUsingEventsProps()
         const { m } = mock.add.DAG('m')
         mock.nodeOps.patchProp(m, 'onPointerdown', undefined, (e) => {
           e.eventObject.setPointerCapture(e.pointerId)
@@ -1622,7 +1622,7 @@ describe('eventsRaycast', () => {
     })
     describe('when a pointer is captured', () => {
       it('adds the captured object intersection to the end of `event.intersections` if it was not otherwise hit', () => {
-        const mock = mockTresUsingEventManagerProps()
+        const mock = mockTresUsingEventsProps()
         const { m, n, o, p } = mock.add.DAG('m; n; o; p')
         mock.add.eventsTo(m)
         mock.add.eventsTo(n)
@@ -1653,7 +1653,7 @@ describe('eventsRaycast', () => {
         expect(getLast('pointermove').on(o).intersections.map(intr => intr.eventObject.name).join('')).toBe('omp')
       })
       it('calls object\'s event handlers, if they exist, even if the object is not hit', () => {
-        const mock = mockTresUsingEventManagerProps()
+        const mock = mockTresUsingEventsProps()
         const { g, m } = mock.add.DAG('g -> m')
         mock.add.eventsTo(g)
         mock.add.eventsTo(m)
@@ -1670,7 +1670,7 @@ describe('eventsRaycast', () => {
         expect(getLast('pointermove').on(m)).not.toBeNull()
       })
       it('calls object\'s event handlers, if they exist, even if `stopPropagation` is called', () => {
-        const mock = mockTresUsingEventManagerProps()
+        const mock = mockTresUsingEventsProps()
         const { m, n, o } = mock.add.DAG('m; n; o')
         mock.add.eventsTo(m)
         mock.add.eventsTo(n)
@@ -1693,7 +1693,7 @@ describe('eventsRaycast', () => {
         expect(getLast('pointermove').on(n)).not.toBeNull()
       })
       it('calls object\'s event handlers, if they exist, even if objects are `:blocking`', () => {
-        const mock = mockTresUsingEventManagerProps()
+        const mock = mockTresUsingEventsProps()
         const { g, m, n, o } = mock.add.DAG('g -> m; g -> n; g -> o')
         mock.add.eventsTo(m)
         mock.add.eventsTo(n)
@@ -1714,7 +1714,7 @@ describe('eventsRaycast', () => {
         expect(getLast('pointermove').on(n)).not.toBeNull()
       })
       it('bubbles events from captured objects', () => {
-        const mock = mockTresUsingEventManagerProps()
+        const mock = mockTresUsingEventsProps()
         const { m, n, o } = mock.add.DAG('m -> n; n -> o')
         mock.add.eventsTo(m)
         mock.add.eventsTo(n)
@@ -1738,7 +1738,7 @@ describe('eventsRaycast', () => {
         expect(getLast('contextmenu').on(n)).not.toBeNull()
       })
       it('calls pointer{over,out,enter,leave}', () => {
-        const mock = mockTresUsingEventManagerProps()
+        const mock = mockTresUsingEventsProps()
         const { g, m, n, o } = mock.add.DAG('g -> m; n; o')
         mock.add.eventsTo(g)
         mock.add.eventsTo(m)
@@ -1752,8 +1752,8 @@ describe('eventsRaycast', () => {
       })
     })
     describe('object.releasePointerCapture(pointerId)', () => {
-      it('calls `releasePointerCapture(pointerId)` on `eventManager`\'s DOM Element if there are no remaining captures', () => {
-        const mock = mockTresUsingEventManagerProps()
+      it('calls `releasePointerCapture(pointerId)` on `events`\'s DOM Element if there are no remaining captures', () => {
+        const mock = mockTresUsingEventsProps()
         const { m, n } = mock.add.DAG('m; n')
         mock.nodeOps.patchProp(m, 'onPointerdown', undefined, (e) => {
           e.eventObject.setPointerCapture(e.pointerId)
@@ -1785,8 +1785,8 @@ describe('eventsRaycast', () => {
         mock.apply('pointermove').to([m, n])
         expect(mock.canvas.hasPointerCapture(POINTER_ID)).toBe(false)
       })
-      it('does not call `releasePointerCapture(pointerId)` on `eventManager`\'s DOM Element if there are remaining captures', () => {
-        const mock = mockTresUsingEventManagerProps()
+      it('does not call `releasePointerCapture(pointerId)` on `events`\'s DOM Element if there are remaining captures', () => {
+        const mock = mockTresUsingEventsProps()
         interface PointerCapture {
           setPointerCapture: (id: number) => void
           releasePointerCapture: (id: number) => void
@@ -1875,7 +1875,7 @@ describe('eventsRaycast', () => {
       })
       describe('pointerup', () => {
         it('releases a single pointer capture', () => {
-          const mock = mockTresUsingEventManagerProps()
+          const mock = mockTresUsingEventsProps()
           const { m } = mock.add.DAG('m')
           mock.nodeOps.patchProp(m, 'onPointerdown', undefined, (e) => {
             e.eventObject.setPointerCapture(e.pointerId)
@@ -1887,7 +1887,7 @@ describe('eventsRaycast', () => {
           expect(mock.canvas.hasPointerCapture(POINTER_ID)).toBe(false)
         })
         it('releases all pointer captures for a pointerId', () => {
-          const mock = mockTresUsingEventManagerProps()
+          const mock = mockTresUsingEventsProps()
           const { m, n, o, p } = mock.add.DAG('m; n; o; p')
           function down(e) { e.eventObject.setPointerCapture(e.pointerId) }
           mock.nodeOps.patchProp(m, 'onPointerdown', undefined, down)
@@ -1917,7 +1917,7 @@ describe('eventsRaycast', () => {
       })
       describe('pointercancel', () => {
         it('releases a single pointer capture', () => {
-          const mock = mockTresUsingEventManagerProps()
+          const mock = mockTresUsingEventsProps()
           const { m } = mock.add.DAG('m')
           mock.nodeOps.patchProp(m, 'onPointerdown', undefined, (e) => {
             e.eventObject.setPointerCapture(e.pointerId)
@@ -1929,7 +1929,7 @@ describe('eventsRaycast', () => {
           expect(mock.canvas.hasPointerCapture(POINTER_ID)).toBe(false)
         })
         it('releases all pointer captures', () => {
-          const mock = mockTresUsingEventManagerProps()
+          const mock = mockTresUsingEventsProps()
           const { m, n, o, p } = mock.add.DAG('m; n; o; p')
           function down(e) { e.eventObject.setPointerCapture(e.pointerId) }
           mock.nodeOps.patchProp(m, 'onPointerdown', undefined, down)
@@ -1960,13 +1960,13 @@ describe('eventsRaycast', () => {
     })
     describe('lostpointercapture', () => {
       it('exists', () => {
-        const mock = mockTresUsingEventManagerProps()
+        const mock = mockTresUsingEventsProps()
         const { m } = mock.add.DAG('m')
         mock.add.eventsTo(m)
         expect('onLostpointercapture' in m).toBe(true)
       })
       it('is called when releasing the pointer via `e.target.releasePointerCapture`', () => {
-        const mock = mockTresUsingEventManagerProps()
+        const mock = mockTresUsingEventsProps()
         const { m } = mock.add.DAG('m')
         mock.add.eventsTo(m)
         mock.nodeOps.patchProp(m, 'onPointerdown', undefined, (e) => {
@@ -1977,7 +1977,7 @@ describe('eventsRaycast', () => {
         expect(getLast('lostpointercapture').on(m)).toBeDefined()
       })
       it('is called when releasing the pointer via `pointercancel`', () => {
-        const mock = mockTresUsingEventManagerProps()
+        const mock = mockTresUsingEventsProps()
         const { m } = mock.add.DAG('m')
         mock.add.eventsTo(m)
         mock.nodeOps.patchProp(m, 'onPointerdown', undefined, (e) => {
@@ -1990,7 +1990,7 @@ describe('eventsRaycast', () => {
         expect(getLast('lostpointercapture').on(m)).not.toBeNull()
       })
       it('is called with an object having the expected fields', () => {
-        const mock = mockTresUsingEventManagerProps()
+        const mock = mockTresUsingEventsProps()
         const { m } = mock.add.DAG('m')
         mock.add.eventsTo(m)
         mock.nodeOps.patchProp(m, 'onPointerdown', undefined, (e) => {
@@ -2011,7 +2011,7 @@ describe('eventsRaycast', () => {
         expect(event.target).toBe(m)
       })
       it('is not called on objects that don\'t have the pointer capture', () => {
-        const mock = mockTresUsingEventManagerProps()
+        const mock = mockTresUsingEventsProps()
         const { g, m, n } = mock.add.DAG('g -> m; n')
         mock.add.eventsTo(g)
         mock.add.eventsTo(m)
@@ -2031,11 +2031,11 @@ describe('eventsRaycast', () => {
   })
 })
 
-function mockTresUsingEventManagerProps(props = eventsRaycast) {
+function mockTresUsingEventsProps(props = eventsRaycast) {
   function mockTresContext() {
     const context = {
       scene: shallowRef(new Scene()),
-      eventManager: null,
+      events: null,
       registerCamera: () => {},
       deregisterCamera: () => {},
       extend: catalogue.extend,
@@ -2043,8 +2043,8 @@ function mockTresUsingEventManagerProps(props = eventsRaycast) {
       camera: { value: new THREE.PerspectiveCamera() },
     } as unknown as TresContext
 
-    context.eventManager = createEventManager(props, context, () => {})
-    context.eventManager.config.raycaster.intersectObjects = (pool: any[]) => {
+    context.events = createEvents(props, context, () => {})
+    context.events.config.raycaster.intersectObjects = (pool: any[]) => {
       // NOTE:
       // We are not testing raycast "hits", but we do want to test `pool`,
       // which comes from `raycastProps.ts`.
@@ -2194,7 +2194,7 @@ function mockTresUsingEventManagerProps(props = eventsRaycast) {
         // Interpret this as an empty intersetion.
         for (const event of events) {
           set.mockIntersection([])
-          context.eventManager.handle(event)
+          context.events.handle(event)
         }
       }
       else if (!Array.isArray(intersectedGroupOrGroups[0])) {
@@ -2204,7 +2204,7 @@ function mockTresUsingEventManagerProps(props = eventsRaycast) {
         const targetGroup = intersectedGroupOrGroups as Object3D[]
         for (const event of events) {
           set.mockIntersection(targetGroup)
-          context.eventManager.handle(event)
+          context.events.handle(event)
         }
       }
       else {
@@ -2220,7 +2220,7 @@ function mockTresUsingEventManagerProps(props = eventsRaycast) {
         for (const intersectedGroup of intersectedGroups) {
           for (const event of events) {
             set.mockIntersection(intersectedGroup)
-            context.eventManager.handle(event)
+            context.events.handle(event)
           }
         }
       }

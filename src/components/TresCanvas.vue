@@ -5,10 +5,10 @@ import type {
   ToneMapping,
   WebGLRendererParameters,
 } from 'three'
-import type { App, Ref } from 'vue'
+import type { App, MaybeRef, MaybeRefOrGetter, Ref } from 'vue'
 import type { RendererPresetsType } from '../composables/useRenderer/const'
 import type { TresCamera, TresObject, TresScene } from '../types/'
-import type { EventManagerProps } from '../utils/createEventManager/createEventManager'
+import type { EventsProps } from '../utils/createEvents/createEvents'
 import { PerspectiveCamera, Scene } from 'three'
 
 import * as THREE from 'three'
@@ -55,11 +55,11 @@ export interface TresCanvasProps
   camera?: TresCamera
   preset?: RendererPresetsType
   windowSize?: boolean
-  // NOTE: used by `eventManager`
+  // NOTE: used by `events`
 
-  eventsEnabled?: boolean
-  eventsTarget?: EventTarget
-  events?: EventManagerProps
+  eventsEnabled?: MaybeRefOrGetter<boolean>
+  eventsTarget?: MaybeRefOrGetter<EventTarget | null>
+  events?: Partial<EventsProps>
 
   // Misc opt-out flags
   enableProvideBridge?: boolean
@@ -82,7 +82,7 @@ const props = withDefaults(defineProps<TresCanvasProps>(), {
   enableProvideBridge: true,
 })
 
-// Define emits for Pointer events, pass `emit` into useTresEventManager so we can emit events off of TresCanvas
+// Define emits for Pointer events, pass `emit` into useTresEvents so we can emit events off of TresCanvas
 // Not sure of this solution, but you have to have emits defined on the component to emit them in vue
 const emit = defineEmits([
   'render',

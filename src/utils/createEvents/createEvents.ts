@@ -1,9 +1,9 @@
 import type { EmitEventFn, EmitEventName } from '../../types'
 
-export type EventManager = CreateEventManagerReturn<any, any, any, any>
-export type EventManagerProps = CreateEventManagerProps<any, any, any, any, any, any>
+export type Events = CreateEventsReturn<any, any, any, any>
+export type EventsProps = CreateEventsProps<any, any, any, any, any, any>
 
-export interface CreateEventManagerReturn<TEvent, TIntersection, TObj, TTarget> {
+export interface CreateEventsReturn<TEvent, TIntersection, TObj, TTarget> {
   connect: (target: TTarget) => void
   disconnect: () => void
   handle: (event: TEvent) => TIntersection[]
@@ -16,10 +16,10 @@ export interface CreateEventManagerReturn<TEvent, TIntersection, TObj, TTarget> 
   enabled: boolean
   target: TTarget | undefined
   priority: number
-  isEventManager: true
+  isEvents: true
 }
 
-export interface CreateEventManagerProps<
+export interface CreateEventsProps<
   TConfig,
   TCtx,
   TEvt,
@@ -52,11 +52,11 @@ export interface CreateEventManagerProps<
   getLastEvent: (config: TConfig) => TEvt
 }
 
-export function createEventManager<TConfig, TCtx, TEvent, TIntersection, TObj, TTarget>(
-  props: CreateEventManagerProps<TConfig, TCtx, TEvent, TIntersection, TObj, TTarget>,
+export function createEvents<TConfig, TCtx, TEvent, TIntersection, TObj, TTarget>(
+  props: CreateEventsProps<TConfig, TCtx, TEvent, TIntersection, TObj, TTarget>,
   context: TCtx,
   emit: EmitEventFn = (_event: EmitEventName, _args: any) => {},
-): CreateEventManagerReturn<TEvent, TIntersection, TObj, TTarget> {
+): CreateEventsReturn<TEvent, TIntersection, TObj, TTarget> {
   const config = props.getInitialConfig(context, emit)
   let enabled = true
   let priority = 1
@@ -64,7 +64,7 @@ export function createEventManager<TConfig, TCtx, TEvent, TIntersection, TObj, T
   let lastIntersections = []
   let propsDisconnect = () => {}
 
-  const handle: CreateEventManagerReturn<TEvent, TIntersection, TObj, TTarget>['handle'] = (event) => {
+  const handle: CreateEventsReturn<TEvent, TIntersection, TObj, TTarget>['handle'] = (event) => {
     if (!enabled) {
       return []
     }
@@ -141,6 +141,6 @@ export function createEventManager<TConfig, TCtx, TEvent, TIntersection, TObj, T
     set priority(n: number) { priority = n },
     get priority() { return priority },
     get target() { return target },
-    isEventManager: true,
+    isEvents: true,
   }
 }

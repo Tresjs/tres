@@ -46,16 +46,16 @@ function onWheel(ev: ThreeEvent<MouseEvent>) {
   ev.eventObject.material.color.set('#FFFF00')
 }
 
-const defaultConnecter = (target: EventTarget, eventManagerHandler: EventListener) => {
+const defaultConnecter = (target: EventTarget, eventHandler: EventListener) => {
   const POINTER_EVENT_NAMES = ['wheel', 'click', 'pointermove', 'pointerup', 'pointerdown', 'contextmenu', 'dblclick']
   for (const domEventName of POINTER_EVENT_NAMES) {
-    target.addEventListener(domEventName, eventManagerHandler)
+    target.addEventListener(domEventName, eventHandler)
   }
 
   return {
     disconnect: () => {
       for (const domEventName of POINTER_EVENT_NAMES) {
-        target.removeEventListener(domEventName, eventManagerHandler)
+        target.removeEventListener(domEventName, eventHandler)
       }
     },
   }
@@ -87,30 +87,30 @@ const eventsFns = {
 type DisconnectFn = () => void
 type ConnectFn = (target: HTMLElement) => void
 
-let eventManager: {
+let events: {
   connect: ConnectFn
   disconnect: DisconnectFn
   target: HTMLElement
 } | null = null
 
 function onChangeConnecterId(id: keyof typeof CONNECTERS) {
-  if (!eventManager) { return }
-  const target = eventManager.target
-  eventManager.disconnect()
+  if (!events) { return }
+  const target = events.target
+  events.disconnect()
   connecterIdRef.value = id
   eventsFns.connect = CONNECTERS[connecterIdRef.value]
-  eventManager.connect(target)
+  events.connect(target)
 }
 
 function ready(ctx: TresContext) {
-  eventManager = ctx.eventManager
+  events = ctx.events
 }
 </script>
 
 <template>
   <OverlayInfo>
     <h1><code>connect</code></h1>
-    <p>By default, <code>eventManager</code> will listen for DOM events emitted from the canvas. But if you don't need some of those events – particularly <code>pointermove</code>, you can get extra performance by not listening for them.</p>
+    <p>By default, the <code>Events</code> system will listen for DOM events emitted from the canvas. But if you don't need some of those events – particularly <code>pointermove</code>, you can get extra performance by not listening for them.</p>
     <p>:events has a settable <code>connect</code> function.</p>
     <code>&lt;TresCanvas :events="{connect: ...}" /&gt;</code>
     <hr />
@@ -123,7 +123,7 @@ function ready(ctx: TresContext) {
     <hr />
     <h2>NOTE</h2>
     <p>The <code>:events</code> prop is not reactive. But if you have a reference to it, you can redefine functions, which will then be called at some later point during the lifecycle.</p>
-    <p><code>connect</code> is not designed to be changed on the fly. To do so, as we have done here, you will have to get a handle on <code>context.eventManager</code> and call <code>disconnect</code>, then <code>connect</code>.</p>
+    <p><code>connect</code> is not designed to be changed on the fly. To do so, as we have done here, you will have to get a handle on <code>context.events</code> and call <code>disconnect</code>, then <code>connect</code>.</p>
   </OverlayInfo>
   <TresCanvas
     window-size
