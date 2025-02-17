@@ -1,3 +1,5 @@
+import { addDeprecatedMethods } from './deprecatedMethods'
+
 export type Events = CreateEventsReturn<any, any, any, any>
 export type EventsProps = CreateEventsProps<any, any, any, any, any, any>
 
@@ -142,7 +144,7 @@ export function createEvents<TConfig, TCtx, TEvent, TIntersection, TObj, TSource
     return props.patchProp(instanceOrObj, propName, prevValue, nextValue, config)
   }
 
-  return {
+  const result = {
     connect,
     disconnect,
     handle,
@@ -159,4 +161,6 @@ export function createEvents<TConfig, TCtx, TEvent, TIntersection, TObj, TSource
     get target() { return source },
     isEvents: true,
   }
+
+  return addDeprecatedMethods(result)
 }
