@@ -5,12 +5,13 @@ import type {
   ToneMapping,
   WebGLRendererParameters,
 } from 'three'
-import type { App, Ref } from 'vue'
+import type { App, MaybeRefOrGetter, Ref } from 'vue'
 import type { RendererPresetsType } from '../composables/useRenderer/const'
-import type { TresCamera, TresObject, TresScene } from '../types/'
+import type { Renderer, TresCamera, TresObject, TresScene } from '../types/'
+import type { EventsProps } from '../utils/createEvents/createEvents'
 import { PerspectiveCamera, Scene } from 'three'
-import * as THREE from 'three'
 
+import * as THREE from 'three'
 import {
   createRenderer,
   defineComponent,
@@ -26,6 +27,7 @@ import {
   watchEffect,
 } from 'vue'
 import pkg from '../../package.json'
+import * as is from '../utils/is'
 import {
   type TresContext,
   useTresContextProvider,
@@ -34,11 +36,13 @@ import { extend } from '../core/catalogue'
 import { nodeOps } from '../core/nodeOps'
 
 import { registerTresDevtools } from '../devtools'
+
 import { disposeObject3D } from '../utils/'
 
 export interface TresCanvasProps
   extends Omit<WebGLRendererParameters, 'canvas'> {
-  // required by for useRenderer
+  renderer?: Renderer | ((ctx: TresContext) => Renderer) | ((ctx: TresContext) => Promise<Renderer>)
+  // required by useRenderer
   shadows?: boolean
   clearColor?: string
   toneMapping?: ToneMapping
@@ -53,6 +57,11 @@ export interface TresCanvasProps
   camera?: TresCamera
   preset?: RendererPresetsType
   windowSize?: boolean
+  // NOTE: used by `events`
+
+  eventsEnabled?: MaybeRefOrGetter<boolean>
+  eventsTarget?: MaybeRefOrGetter<EventTarget | null>
+  events?: Partial<EventsProps>
 
   // Misc opt-out flags
   enableProvideBridge?: boolean
@@ -70,25 +79,15 @@ const props = withDefaults(defineProps<TresCanvasProps>(), {
   logarithmicDepthBuffer: undefined,
   failIfMajorPerformanceCaveat: undefined,
   renderMode: 'always',
+  eventsEnabled: true,
+  events: undefined,
   enableProvideBridge: true,
 })
 
-// Define emits for Pointer events, pass `emit` into useTresEventManager so we can emit events off of TresCanvas
+// Define emits for Pointer events, pass `emit` into useTresEvents so we can emit events off of TresCanvas
 // Not sure of this solution, but you have to have emits defined on the component to emit them in vue
 const emit = defineEmits([
   'render',
-  'click',
-  'double-click',
-  'context-menu',
-  'pointer-move',
-  'pointer-up',
-  'pointer-down',
-  'pointer-enter',
-  'pointer-leave',
-  'pointer-over',
-  'pointer-out',
-  'pointer-missed',
-  'wheel',
   'ready',
 ])
 
@@ -157,10 +156,10 @@ const mountCustomRenderer = (context: TresContext, empty = false) => {
 
 const dispose = (context: TresContext, force = false) => {
   disposeObject3D(context.scene.value as unknown as TresObject)
+  const r = context.renderer.value
+  'dispose' in r && is.fun(r.dispose) && r.dispose()
   if (force) {
-    context.renderer.value.dispose()
-    context.renderer.value.renderLists.dispose()
-    context.renderer.value.forceContextLoss()
+    'forceContextLoss' in r && is.fun(r.forceContextLoss) && r.forceContextLoss()
   }
   (scene.value as TresScene).__tres = {
     root: context,
@@ -181,14 +180,12 @@ const unmountCanvas = () => {
   mountCustomRenderer(context.value as TresContext, true)
 }
 
-onMounted(() => {
-  const existingCanvas = canvas as Ref<HTMLCanvasElement>
-
-  context.value = useTresContextProvider({
+onMounted(async () => {
+  context.value = await useTresContextProvider({
     scene: scene.value as TresScene,
-    canvas: existingCanvas,
+    canvas: canvas as Ref<HTMLCanvasElement>,
     windowSize: props.windowSize ?? false,
-    rendererOptions: props,
+    props,
     emit,
   })
 

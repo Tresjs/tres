@@ -87,7 +87,7 @@ onLoop(({ elapsed }) => {
   sphereRef.value.scale.set(scale2, scale2, scale2)
 
   // NOTE: Update events without needing the mouse to move
-  canvasRef.value?.context?.eventManager?.forceUpdate()
+  canvasRef.value?.context?.events?.forceUpdate()
 })
 </script>
 

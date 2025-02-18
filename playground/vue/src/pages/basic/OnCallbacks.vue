@@ -36,7 +36,11 @@ const materialOnBeforeCompile = () => { materialNumOnBeforeCompiles.value++ }
       <li># onBeforeCompile calls: {{ materialNumOnBeforeCompiles }}</li>
     </ul>
   </div>
-  <TresCanvas>
+
+  <TresCanvas
+    :output-color-space="undefined"
+    @ready="({ renderer }) => console.log(renderer.value.outputColorSpace)"
+  >
     <TresMesh
       :position="[1, 0, 0]"
       :scale="0.5"

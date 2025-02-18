@@ -1,20 +1,18 @@
-import type { Camera, WebGLRenderer } from 'three'
-import type { ComputedRef, DeepReadonly, MaybeRef, MaybeRefOrGetter, Ref, ShallowRef } from 'vue'
+import type { Camera } from 'three'
+import type { ComputedRef, DeepReadonly, MaybeRefOrGetter, Ref, ShallowRef } from 'vue'
 import type { RendererLoop } from '../../core/loop'
-import type { EmitEventFn, TresControl, TresObject, TresScene } from '../../types'
-import type { UseRendererOptions } from '../useRenderer'
-import { useFps, useMemory, useRafFn } from '@vueuse/core'
+import type { EmitEventFn, Renderer, TresControl, TresScene } from '../../types'
 import { Raycaster } from 'three'
 import { computed, inject, onUnmounted, provide, readonly, ref, shallowRef } from 'vue'
 import { extend } from '../../core/catalogue'
 import { createRenderLoop } from '../../core/loop'
-import { calculateMemoryUsage } from '../../utils/perf'
+import { type Events, useEventsOptions as withEventsProps } from '../../utils/createEvents'
 
 import { useCamera } from '../useCamera'
-import { useRenderer } from '../useRenderer'
 import useSizes, { type SizesType } from '../useSizes'
-import { type TresEventManager, useTresEventManager } from '../useTresEventManager'
 import { useTresReady } from '../useTresReady'
+import { withRendererProps } from '../../utils/createRenderer/withRendererProps'
+import type { TresCanvasProps } from 'src/components/TresCanvas.vue'
 
 export interface InternalState {
   priority: Ref<number>
@@ -49,13 +47,15 @@ export interface PerformanceState {
 }
 
 export interface TresContext {
+  canvas: ShallowRef<HTMLCanvasElement>
+  events: Events
   scene: ShallowRef<TresScene>
   sizes: SizesType
   extend: (objects: any) => void
   camera: ComputedRef<Camera | undefined>
   cameras: DeepReadonly<Ref<Camera[]>>
   controls: Ref<TresControl | null>
-  renderer: ShallowRef<WebGLRenderer>
+  renderer: ShallowRef<Renderer>
   raycaster: ShallowRef<Raycaster>
   perf: PerformanceState
   render: RenderState
@@ -73,30 +73,26 @@ export interface TresContext {
   registerCamera: (maybeCamera: unknown) => void
   setCameraActive: (cameraOrUuid: Camera | string) => void
   deregisterCamera: (maybeCamera: unknown) => void
-  eventManager?: TresEventManager
-  // Events
-  // Temporaly add the methods to the context, this should be handled later by the EventManager state on the context https://github.com/Tresjs/tres/issues/515
-  // When thats done maybe we can short the names of the methods since the parent will give the context.
-  registerObjectAtPointerEventHandler?: (object: TresObject) => void
-  deregisterObjectAtPointerEventHandler?: (object: TresObject) => void
-  registerBlockingObjectAtPointerEventHandler?: (object: TresObject) => void
-  deregisterBlockingObjectAtPointerEventHandler?: (object: TresObject) => void
+  parentContext?: TresContext
+  // The TresCanvas' emit.
+  emit: EmitEventFn
+  // The user's TresCanvas' props.
+  props: TresCanvasProps
 }
 
-export function useTresContextProvider({
+export async function useTresContextProvider({
   scene,
   canvas,
   windowSize,
-  rendererOptions,
+  props,
   emit,
 }: {
   scene: TresScene
-  canvas: MaybeRef<HTMLCanvasElement>
+  canvas: ShallowRef<HTMLCanvasElement>
   windowSize: MaybeRefOrGetter<boolean>
-  rendererOptions: UseRendererOptions
+  props: TresCanvasProps
   emit: EmitEventFn
-
-}): TresContext {
+}): Promise<TresContext> {
   const localScene = shallowRef<TresScene>(scene)
   const sizes = useSizes(windowSize, canvas)
 
@@ -111,7 +107,7 @@ export function useTresContextProvider({
   // Render state
 
   const render: RenderState = {
-    mode: ref(rendererOptions.renderMode || 'always') as Ref<'always' | 'on-demand' | 'manual'>,
+    mode: ref(props.renderMode || 'always') as Ref<'always' | 'on-demand' | 'manual'>,
     priority: ref(0),
     frames: ref(0),
     maxFrames: 60,
@@ -120,34 +116,22 @@ export function useTresContextProvider({
 
   function invalidate(frames = 1) {
     // Increase the frame count, ensuring not to exceed a maximum if desired
-    if (rendererOptions.renderMode === 'on-demand') {
+    if (props.renderMode === 'on-demand') {
       render.frames.value = Math.min(render.maxFrames, render.frames.value + frames)
     }
   }
 
   function advance() {
-    if (rendererOptions.renderMode === 'manual') {
+    if (props.renderMode === 'manual') {
       render.frames.value = 1
     }
   }
 
-  const { renderer } = useRenderer(
-    {
-      scene,
-      canvas,
-      options: rendererOptions,
-      emit,
-      // TODO: replace contextParts with full ctx at https://github.com/Tresjs/tres/issues/516
-      contextParts: { sizes, camera, render, invalidate, advance },
-    },
-  )
-
-  const ctx: TresContext = {
+  const ctx = {
     sizes,
     scene: localScene,
     camera,
     cameras: readonly(cameras),
-    renderer,
     raycaster: shallowRef(new Raycaster()),
     controls: ref(null),
     perf: {
@@ -163,6 +147,8 @@ export function useTresContextProvider({
       },
     },
     render,
+    renderer: shallowRef(null as unknown as Renderer),
+    events: null as unknown as Events,
     advance,
     extend,
     invalidate,
@@ -170,9 +156,16 @@ export function useTresContextProvider({
     setCameraActive,
     deregisterCamera,
     loop: createRenderLoop(),
+    props,
+    emit,
+    canvas,
   }
 
   provide('useTres', ctx)
+
+  const r = (await withRendererProps(ctx as TresContext))
+  ctx.renderer = r.renderer
+  ctx.events = withEventsProps(ctx as TresContext).events
 
   // Add context to scene local state
   ctx.scene.value.__tres = {
@@ -180,10 +173,9 @@ export function useTresContextProvider({
   }
 
   // The loop
-
   ctx.loop.register(() => {
     if (camera.value && render.frames.value > 0) {
-      renderer.value.render(scene, camera.value)
+      ctx.renderer.value.render(scene, camera.value)
       emit('render', ctx.renderer.value)
     }
 
@@ -204,80 +196,13 @@ export function useTresContextProvider({
   ctx.loop.start()
 
   onTresReady(() => {
-    emit('ready', ctx)
     ctx.loop.setReady(true)
-    useTresEventManager(scene, ctx, emit)
+    emit('ready', ctx)
   })
 
   onUnmounted(() => {
     cancelTresReady()
     ctx.loop.stop()
-  })
-
-  // Performance
-  const updateInterval = 100 // Update interval in milliseconds
-  const fps = useFps({ every: updateInterval })
-  const { isSupported, memory } = useMemory({ interval: updateInterval })
-  const maxFrames = 160
-  let lastUpdateTime = performance.now()
-
-  const updatePerformanceData = ({ timestamp }: { timestamp: number }) => {
-    // Update WebGL Memory Usage (Placeholder for actual logic)
-    // perf.memory.value = calculateMemoryUsage(gl)
-    if (ctx.scene.value) {
-      ctx.perf.memory.allocatedMem = calculateMemoryUsage(ctx.scene.value as unknown as TresObject)
-    }
-
-    // Update memory usage
-    if (timestamp - lastUpdateTime >= updateInterval) {
-      lastUpdateTime = timestamp
-
-      // Update FPS
-      ctx.perf.fps.accumulator.push(fps.value as never)
-
-      if (ctx.perf.fps.accumulator.length > maxFrames) {
-        ctx.perf.fps.accumulator.shift()
-      }
-
-      ctx.perf.fps.value = fps.value
-
-      // Update memory
-      if (isSupported.value && memory.value) {
-        ctx.perf.memory.accumulator.push(memory.value.usedJSHeapSize / 1024 / 1024 as never)
-
-        if (ctx.perf.memory.accumulator.length > maxFrames) {
-          ctx.perf.memory.accumulator.shift()
-        }
-
-        ctx.perf.memory.currentMem
-        = ctx.perf.memory.accumulator.reduce((a, b) => a + b, 0) / ctx.perf.memory.accumulator.length
-      }
-    }
-  }
-
-  // Devtools
-  let accumulatedTime = 0
-  const interval = 1 // Interval in milliseconds, e.g., 1000 ms = 1 second
-
-  const { pause } = useRafFn(({ delta }) => {
-    if (!window.__TRES__DEVTOOLS__) { return }
-
-    updatePerformanceData({ timestamp: performance.now() })
-
-    // Accumulate the delta time
-    accumulatedTime += delta
-
-    // Check if the accumulated time is greater than or equal to the interval
-    if (accumulatedTime >= interval) {
-      window.__TRES__DEVTOOLS__.cb(ctx)
-
-      // Reset the accumulated time
-      accumulatedTime = 0
-    }
-  }, { immediate: true })
-
-  onUnmounted(() => {
-    pause()
   })
 
   return ctx
