@@ -2043,7 +2043,7 @@ function mockTresUsingEventsProps(props = eventsRaycast) {
       camera: { value: new THREE.PerspectiveCamera() },
     } as unknown as TresContext
 
-    context.events = createEvents(props, context, () => {})
+    context.events = createEvents(props, context)
     context.events.config.raycaster.intersectObjects = (pool: any[]) => {
       // NOTE:
       // We are not testing raycast "hits", but we do want to test `pool`,

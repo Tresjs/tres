@@ -1,9 +1,9 @@
 import type { Camera } from 'three'
-import type { ComputedRef, DeepReadonly, MaybeRef, MaybeRefOrGetter, Ref, ShallowRef } from 'vue'
+import type { ComputedRef, DeepReadonly, MaybeRefOrGetter, Ref, ShallowRef } from 'vue'
 import type { RendererLoop } from '../../core/loop'
 import type { EmitEventFn, Renderer, TresControl, TresScene } from '../../types'
 import { Raycaster } from 'three'
-import { computed, inject, onUnmounted, provide, readonly, ref, shallowRef, toValue } from 'vue'
+import { computed, inject, onUnmounted, provide, readonly, ref, shallowRef } from 'vue'
 import { extend } from '../../core/catalogue'
 import { createRenderLoop } from '../../core/loop'
 import { type Events, useEventsOptions as withEventsProps } from '../../utils/createEvents'
@@ -47,6 +47,7 @@ export interface PerformanceState {
 }
 
 export interface TresContext {
+  canvas: ShallowRef<HTMLCanvasElement>
   events: Events
   scene: ShallowRef<TresScene>
   sizes: SizesType
@@ -87,11 +88,10 @@ export async function useTresContextProvider({
   emit,
 }: {
   scene: TresScene
-  canvas: MaybeRef<HTMLCanvasElement>
+  canvas: ShallowRef<HTMLCanvasElement>
   windowSize: MaybeRefOrGetter<boolean>
   props: TresCanvasProps
   emit: EmitEventFn
-
 }): Promise<TresContext> {
   const localScene = shallowRef<TresScene>(scene)
   const sizes = useSizes(windowSize, canvas)
@@ -158,11 +158,12 @@ export async function useTresContextProvider({
     loop: createRenderLoop(),
     props,
     emit,
+    canvas,
   }
 
   provide('useTres', ctx)
 
-  const r = (await withRendererProps(ctx as TresContext, { canvas: toValue(canvas) }))
+  const r = (await withRendererProps(ctx as TresContext))
   ctx.renderer = r.renderer
   ctx.events = withEventsProps(ctx as TresContext).events
 

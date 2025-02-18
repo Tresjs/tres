@@ -24,7 +24,6 @@ import { rendererPresets } from './const'
 type TransformToMaybeRefOrGetter<T> = {
   [K in keyof T]: MaybeRefOrGetter<T[K]> | MaybeRefOrGetter<T[K]>;
 }
-
 export interface UseRendererOptions extends TransformToMaybeRefOrGetter<WebGLRendererParameters> {
   /**
    * Enable shadows in the Renderer

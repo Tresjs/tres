@@ -27,6 +27,7 @@ import {
   watchEffect,
 } from 'vue'
 import pkg from '../../package.json'
+import * as is from '../utils/is'
 import {
   type TresContext,
   useTresContextProvider,
@@ -155,9 +156,10 @@ const mountCustomRenderer = (context: TresContext, empty = false) => {
 
 const dispose = (context: TresContext, force = false) => {
   disposeObject3D(context.scene.value as unknown as TresObject)
+  const r = context.renderer.value
+  'dispose' in r && is.fun(r.dispose) && r.dispose()
   if (force) {
-    context.renderer.value.dispose();
-    (context.renderer.value as Record<string, any>).forceContextLoss?.()
+    'forceContextLoss' in r && is.fun(r.forceContextLoss) && r.forceContextLoss()
   }
   (scene.value as TresScene).__tres = {
     root: context,
@@ -179,11 +181,9 @@ const unmountCanvas = () => {
 }
 
 onMounted(async () => {
-  const existingCanvas = canvas as Ref<HTMLCanvasElement>
-
   context.value = await useTresContextProvider({
     scene: scene.value as TresScene,
-    canvas: existingCanvas,
+    canvas: canvas as Ref<HTMLCanvasElement>,
     windowSize: props.windowSize ?? false,
     props,
     emit,

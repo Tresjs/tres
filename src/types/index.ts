@@ -26,7 +26,7 @@ export interface TresCatalogue {
 export type EmitEventName = 'render' | 'ready'
 export type EmitEventFn = (event: EmitEventName, ...args: any[]) => void
 export type TresCamera = THREE.OrthographicCamera | THREE.PerspectiveCamera
-export interface Renderer { render: (scene: THREE.Scene, camera: THREE.Camera) => any }
+export type Renderer = { render: (scene: THREE.Scene, camera: THREE.Camera) => any } & Record<string | number | symbol, any>
 
 /**
  * Represents the properties of an instance.

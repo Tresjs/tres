@@ -7,16 +7,16 @@ import * as is from '../is'
 import { normalizeColor } from '../normalize'
 import type { Renderer } from '../../types'
 
-export async function withRendererProps(context: TresContext, rendererParameters: Record<string, unknown> = {}): Promise<{ renderer: ShallowRef<Renderer>, stop: () => void }> {
+export async function withRendererProps(context: TresContext): Promise<{ renderer: ShallowRef<Renderer>, stop: () => void }> {
   const renderer = shallowRef({ render: () => {}, dispose: () => {} } as Renderer)
   const defaults = shallowRef({} as Record<string, any>)
 
   const stopRenderer = watch(() => context.props.renderer, () => {
-    renderer.value.dispose?.()
-    renderer.value.forceContextLoss?.()
+    'dispose' in renderer.value && is.fun(renderer.value.dispose) && renderer.value.dispose()
+    'forceContextLoss' in renderer.value && is.fun(renderer.value.forceContextLoss) && renderer.value.forceContextLoss()
     renderer.value = { render: () => {}, dispose: () => {} }
 
-    createRenderer(context, rendererParameters).then((r) => {
+    createRenderer(context).then((r) => {
       defaults.value = Object.entries(r).filter(([_, v]) => !is.obj(v) && !is.fun(v) && !is.arr(v)).reduce((defaults, [k, v]) => { defaults[k] = v; return defaults }, {} as Record<string, any>)
       if (r.shadowMap) {
         defaults.value.shadowMap = Object.entries(r.shadowMap).filter(([_, v]) => !is.obj(v) && !is.fun(v) && !is.arr(v)).reduce((shadowMap, [k, v]) => { shadowMap[k] = v; return shadowMap }, {} as Record<string, any>)
