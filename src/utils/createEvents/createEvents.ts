@@ -162,5 +162,8 @@ export function createEvents<TConfig, TCtx, TEvent, TIntersection, TObj, TSource
     isEvents: true,
   }
 
-  return addDeprecatedMethods(result)
+  // NOTE: Returning `result` directly doesn't require a type assertion.
+  // But otherwise, `isEvents` is typed as `boolean`, when the type requires `true`.
+  // So we need the assertion.
+  return addDeprecatedMethods(result) as CreateEventsReturn<TEvent, TIntersection, TObj, TSource>
 }

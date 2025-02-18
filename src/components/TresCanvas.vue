@@ -5,9 +5,9 @@ import type {
   ToneMapping,
   WebGLRendererParameters,
 } from 'three'
-import type { App, MaybeRef, MaybeRefOrGetter, Ref } from 'vue'
+import type { App, MaybeRefOrGetter, Ref } from 'vue'
 import type { RendererPresetsType } from '../composables/useRenderer/const'
-import type { TresCamera, TresObject, TresScene } from '../types/'
+import type { Renderer, TresCamera, TresObject, TresScene } from '../types/'
 import type { EventsProps } from '../utils/createEvents/createEvents'
 import { PerspectiveCamera, Scene } from 'three'
 
@@ -40,6 +40,7 @@ import { disposeObject3D } from '../utils/'
 
 export interface TresCanvasProps
   extends Omit<WebGLRendererParameters, 'canvas'> {
+  renderer?: Renderer | ((ctx: TresContext) => Renderer) | ((ctx: TresContext) => Promise<Renderer>)
   // required by useRenderer
   shadows?: boolean
   clearColor?: string
@@ -155,9 +156,8 @@ const mountCustomRenderer = (context: TresContext, empty = false) => {
 const dispose = (context: TresContext, force = false) => {
   disposeObject3D(context.scene.value as unknown as TresObject)
   if (force) {
-    context.renderer.value.dispose()
-    context.renderer.value.renderLists.dispose()
-    context.renderer.value.forceContextLoss()
+    context.renderer.value.dispose();
+    (context.renderer.value as Record<string, any>).forceContextLoss?.()
   }
   (scene.value as TresScene).__tres = {
     root: context,
@@ -178,14 +178,13 @@ const unmountCanvas = () => {
   mountCustomRenderer(context.value as TresContext, true)
 }
 
-onMounted(() => {
+onMounted(async () => {
   const existingCanvas = canvas as Ref<HTMLCanvasElement>
 
-  context.value = useTresContextProvider({
+  context.value = await useTresContextProvider({
     scene: scene.value as TresScene,
     canvas: existingCanvas,
     windowSize: props.windowSize ?? false,
-    rendererOptions: props,
     props,
     emit,
   })

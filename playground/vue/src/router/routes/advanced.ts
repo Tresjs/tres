@@ -50,6 +50,11 @@ export const advancedRoutes = [
     component: () => import('../../pages/advanced/disposal/index.vue'),
   },
   {
+    path: '/advanced/webgpu',
+    name: 'WebGPU',
+    component: () => import('../../pages/advanced/WebGPU.vue'),
+  },
+  {
     path: '/advanced/memory-tres-objects',
     name: 'Memory Test: Tres Objects',
     component: () => import('../../pages/advanced/MemoryTresObjects.vue'),

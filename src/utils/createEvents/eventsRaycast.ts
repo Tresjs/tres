@@ -23,11 +23,7 @@ type ThreeEventStub<DomEvent> = Omit<ThreeEvent<DomEvent>, 'eventObject' | 'obje
 type Object3DWithEvents = Object3D & EventHandlers & PointerCaptureTarget
 
 function getInitialEvent() {
-  // NOTE: Unit tests will without this check
-  if (typeof PointerEvent !== 'undefined') {
-    return new PointerEvent('pointermove')
-  }
-  return new MouseEvent('mousemove')
+  return { type: 'pointermove', offsetX: 0, offsetY: 0, target: null } as PointerEvent
 }
 
 type RaycastProps = CreateEventsProps<
@@ -75,7 +71,9 @@ function getInitialConfig(context: TresContext) {
 
 function stashLastEvent(evt: Event, config: Config) {
   if (evt.type === 'pointermove') {
-    config.lastMoveEvent = evt as PointerEvent
+    // NOTE: We need to copy the event, but events can't be spread.
+    // Concretely, we only use a few fields from stashed events, so copy them explicitly.
+    config.lastMoveEvent = { type: 'pointermove', offsetX: (evt as PointerEvent).offsetX, offsetY: (evt as PointerEvent).offsetY, target: evt.target } as PointerEvent
   }
 }
 
@@ -184,7 +182,7 @@ const patchPropDomEventRE = new RegExp(`${THREE_EVENT_NAMES.join('|')}`)
 const patchPropDomEventWithUnsupportedModifiersRE = new RegExp(`(${THREE_EVENT_NAMES.join('|')})(Capture|Passive|Once)+`)
 let sentUnsupportedEventModifiersWarning = false
 
-function patchProp(instance: TresObject, propName: string, prevValue: any, nextValue: any, config: Config) {
+function patchProp(instance: TresObject, propName: string, _prevValue: any, nextValue: any, config: Config) {
   if (!is.object3D(instance)) { return false }
 
   propName = deprecatedEventsToNewEvents(propName)
@@ -530,7 +528,7 @@ function handleIntersections(incomingEvent: RaycastEvent, intersections: ThreeIn
   // NOTE: Set the `capturableEvent`. If this is left
   // as falsy, it does not allow capturing within
   // event handlers.
-  if (incomingEvent.type.startsWith('pointer') && !(incomingEvent.type === 'pointerup' || incomingEvent.type === 'pointercancel')) {
+  if (incomingEvent.type?.startsWith('pointer') && !(incomingEvent.type === 'pointerup' || incomingEvent.type === 'pointercancel')) {
     config.capturableEvent = outgoingEvent as ThreeEvent<PointerEvent>
   }
 
