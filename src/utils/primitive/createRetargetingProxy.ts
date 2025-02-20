@@ -1,7 +1,7 @@
 export function createRetargetingProxy<T extends Record<string | number | symbol, any>, K extends keyof T & string & symbol>(
   target: T,
   getters = {} as Record<string | number | symbol, (t: T) => unknown>,
-  setters = {} as Partial<Record<K, (val: T[K], t: T, proxy: T, setTarget: (newTarget: T) => void) => boolean>>,
+  setters = {} as Record<K, (val: T[K], t: T, proxy: T, setTarget: (newTarget: T) => void) => boolean>,
 ) {
   let _target = target
 
