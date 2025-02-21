@@ -19,6 +19,7 @@ exports[`color Control > should render a color control 1`] = `
             <div class="tl-w-2/3 tl-flex tl-justify-between tl-items-center"><input id="default-colorValue" tabindex="0" aria-label="colorValue" class="leches-color focus:tl-outline-none focus:tl-ring-2 focus:tl-ring-gray-100" type="color" value="#008080"><input id="default-colorValue" tabindex="0" aria-label="colorValue" class="tl-leches-input tl-w-1/2" type="text" value="#008080"></div>
           </div>
         </div>
+        <div class="tl-p-4"></div>
       </div>
     </div><!-- Resize handles -->
     <!-- <span

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, nextTick, onMounted, onUnmounted, ref, toRefs, watch } from 'vue'
 import { useDraggable } from '../composables/useDraggable'
-import { refDebounced, useElementBounding, useWindowSize } from '@vueuse/core'
+import { useWindowSize } from '@vueuse/core'
 import { dispose, useControlsProvider } from '../composables/useControls'
 import type { LechesControl } from '../types'
 import Folder from './Folder.vue'

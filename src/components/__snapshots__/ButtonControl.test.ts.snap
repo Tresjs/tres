@@ -17,6 +17,7 @@ exports[`button Controls > should render a block size button 1`] = `
         <div>
           <div class="tl-py-2 tl-px-4 tl-flex tl-justify-end"><button id="default-acceptBtn" class="leches-btn leches-btn-primary leches-btn-block"><i class="mr-1"></i> Accept</button></div>
         </div>
+        <div class="tl-p-4"></div>
       </div>
     </div><!-- Resize handles -->
     <!-- <span
@@ -50,6 +51,7 @@ exports[`button Controls > should render a button 1`] = `
         <div>
           <div class="tl-py-2 tl-px-4 tl-flex tl-justify-end"><button id="default-acceptBtn" class="leches-btn leches-btn-primary leches-btn-sm"><i class="mr-1"></i> Accept</button></div>
         </div>
+        <div class="tl-p-4"></div>
       </div>
     </div><!-- Resize handles -->
     <!-- <span
@@ -83,6 +85,7 @@ exports[`button Controls > should render a button with a label 1`] = `
         <div>
           <div class="tl-py-2 tl-px-4 tl-flex tl-justify-end"><button id="default-acceptBtn" class="leches-btn leches-btn-primary leches-btn-sm"><i class="mr-1"></i> Accept</button></div>
         </div>
+        <div class="tl-p-4"></div>
       </div>
     </div><!-- Resize handles -->
     <!-- <span
@@ -116,6 +119,7 @@ exports[`button Controls > should render a large button 1`] = `
         <div>
           <div class="tl-py-2 tl-px-4 tl-flex tl-justify-end"><button id="default-acceptBtn" class="leches-btn leches-btn-primary leches-btn-lg"><i class="mr-1"></i> Accept</button></div>
         </div>
+        <div class="tl-p-4"></div>
       </div>
     </div><!-- Resize handles -->
     <!-- <span
@@ -149,6 +153,7 @@ exports[`button Controls > should render a primary button variant by default 1`]
         <div>
           <div class="tl-py-2 tl-px-4 tl-flex tl-justify-end"><button id="default-acceptBtn" class="leches-btn leches-btn-primary leches-btn-sm"><i class="mr-1"></i> Accept</button></div>
         </div>
+        <div class="tl-p-4"></div>
       </div>
     </div><!-- Resize handles -->
     <!-- <span
@@ -182,6 +187,7 @@ exports[`button Controls > should render a secondary button variant 1`] = `
         <div>
           <div class="tl-py-2 tl-px-4 tl-flex tl-justify-end"><button id="default-acceptBtn" class="leches-btn leches-btn-secondary leches-btn-sm"><i class="mr-1"></i> Accept</button></div>
         </div>
+        <div class="tl-p-4"></div>
       </div>
     </div><!-- Resize handles -->
     <!-- <span
@@ -215,6 +221,7 @@ exports[`button Controls > should render a small button 1`] = `
         <div>
           <div class="tl-py-2 tl-px-4 tl-flex tl-justify-end"><button id="default-acceptBtn" class="leches-btn leches-btn-primary leches-btn-sm"><i class="mr-1"></i> Accept</button></div>
         </div>
+        <div class="tl-p-4"></div>
       </div>
     </div><!-- Resize handles -->
     <!-- <span
@@ -248,6 +255,7 @@ exports[`button Controls > should render an icon on the button 1`] = `
         <div>
           <div class="tl-py-2 tl-px-4 tl-flex tl-justify-end"><button id="default-acceptBtn" class="leches-btn leches-btn-primary leches-btn-sm"><i class="i-carbon-checkmark mr-1"></i> Accept</button></div>
         </div>
+        <div class="tl-p-4"></div>
       </div>
     </div><!-- Resize handles -->
     <!-- <span
