@@ -1,4 +1,5 @@
 <script setup lang="ts">
+/* eslint-disable no-console */
 import { OrbitControls } from '@tresjs/cientos'
 import {
   TresCanvas,
@@ -24,6 +25,7 @@ const handlePointerEnter = (e: PointerEvent) => {
 const handlePointerLeave = (e: PointerEvent) => {
   console.log('pointer-leave', e)
 }
+/* eslint-enable no-console */
 </script>
 
 <template>

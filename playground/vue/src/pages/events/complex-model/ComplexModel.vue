@@ -1,4 +1,5 @@
 <script setup lang="ts">
+/* eslint-disable no-console */
 import { useGLTF } from '@tresjs/cientos'
 
 const { nodes } = await useGLTF('/models/cyber_samurai/scene.gltf', { draco: true })
@@ -16,6 +17,7 @@ const handlePointerEnter = (e: PointerEvent) => {
 const handlePointerLeave = (e: PointerEvent) => {
   console.log('pointer-leave', e)
 }
+/* eslint-enable no-console */
 </script>
 
 <template>
