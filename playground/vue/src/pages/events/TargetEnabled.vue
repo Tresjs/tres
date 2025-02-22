@@ -118,11 +118,13 @@ function onChangeEventsEnabled(b: boolean) {
   z-index: 1;
 }
 .checkered.red {
-  background-image: linear-gradient(45deg, #000 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #000 75%),
+  background-image:
+    linear-gradient(45deg, #000 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #000 75%),
     linear-gradient(45deg, transparent 75%, #000 75%), linear-gradient(45deg, #000 25%, #f00 25%);
 }
 .checkered.blue {
-  background-image: linear-gradient(45deg, #00f 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #00f 75%),
+  background-image:
+    linear-gradient(45deg, #00f 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #00f 75%),
     linear-gradient(45deg, transparent 75%, #00f 75%), linear-gradient(45deg, #00f 25%, #000 25%);
 }
 .checkered {
