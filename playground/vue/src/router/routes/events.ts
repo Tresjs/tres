@@ -79,4 +79,14 @@ export const eventsRoutes = [
     name: 'No Events',
     component: () => import('../../pages/events/NoEvents.vue'),
   },
+  {
+    path: '/events/complex-model',
+    name: 'Complex Model',
+    component: () => import('../../pages/events/complex-model/index.vue'),
+  },
+  {
+    path: '/events/groups',
+    name: 'Groups',
+    component: () => import('../../pages/events/groups/index.vue'),
+  },
 ]
