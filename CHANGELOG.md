@@ -1,5 +1,13 @@
 
 
+## [3.0.8](https://github.com/Tresjs/nuxt/compare/3.0.7...3.0.8) (2025-02-25)
+
+### Bug Fixes
+
+* **deps:** update dependency @tresjs/nuxt to v3.0.7 ([#106](https://github.com/Tresjs/nuxt/issues/106)) ([8a73538](https://github.com/Tresjs/nuxt/commit/8a735385edffdeda2fb12fa2cbe51376008ae39f))
+* **deps:** update dependency typescript to v5.6.2 ([#136](https://github.com/Tresjs/nuxt/issues/136)) ([a32ec04](https://github.com/Tresjs/nuxt/commit/a32ec043fe65e1fb396a42a206eb32b3cb6df6a3))
+* update repository URLs to use Tresjs capitalization ([#160](https://github.com/Tresjs/nuxt/issues/160)) ([0b39f37](https://github.com/Tresjs/nuxt/commit/0b39f370c5a4983574588f3224b16c64a926f63a))
+
 ## [3.0.7](https://github.com/tresjs/nuxt/compare/3.0.6...3.0.7) (2024-09-06)
 
 
