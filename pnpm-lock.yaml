@@ -26,7 +26,7 @@ importers:
     devDependencies:
       '@iconify-json/carbon':
         specifier: ^1.2.5
-        version: 1.2.7
+        version: 1.2.8
       '@iconify-json/game-icons':
         specifier: ^1.2.1
         version: 1.2.1
@@ -649,8 +649,8 @@ packages:
     resolution: {integrity: sha512-xeO57FpIu4p1Ri3Jq/EXq4ClRm86dVF2z/+kvFnyqVYRavTZmaFaUBbWCOuuTh0o/g7DSsk6kc2vrS4Vl5oPOQ==}
     engines: {node: '>=18.18'}
 
-  '@iconify-json/carbon@1.2.7':
-    resolution: {integrity: sha512-nqEjicnNdb3CnY21MsTr9DfU8JBkP9C8hup1bCe4zvpLKjcU9YRmYChUbqZYBP4P+BL5NdrprTSN+B7qJg3H3Q==}
+  '@iconify-json/carbon@1.2.8':
+    resolution: {integrity: sha512-6xh4YiFBz6qoSnB3XMe23WvjTJroDFXB17J1MbiT7nATFe+70+em1acRXr8hgP/gYpwFMHFc4IvjA/IPTPnTzg==}
 
   '@iconify-json/game-icons@1.2.1':
     resolution: {integrity: sha512-JrKwJT+xmee87QRGIoUdR59fxMzqykS9NUnG7P0XVeznKwr3WkAw5IVWSQVQDLcN6+X3mdMFme3Hbhh6f0qTDw==}
@@ -6454,7 +6454,7 @@ snapshots:
 
   '@humanwhocodes/retry@0.4.2': {}
 
-  '@iconify-json/carbon@1.2.7':
+  '@iconify-json/carbon@1.2.8':
     dependencies:
       '@iconify/types': 2.0.0
 
