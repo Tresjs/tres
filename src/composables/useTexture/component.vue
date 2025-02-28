@@ -1,13 +1,42 @@
 <script setup lang="ts">
-import type { PBRUseTextureMap } from './index'
 import { reactive } from 'vue'
-import { useTexture } from './index'
+import type { LoadingManager, Texture } from 'three'
+import { useTexture, type UseTextureReturn } from './index'
 
-const props = defineProps<PBRUseTextureMap>()
+interface Props {
+  /**
+   * Path or array of paths to texture(s)
+   */
+  path: string | string[]
+  /**
+   * Optional THREE.js LoadingManager
+   */
+  manager?: LoadingManager
+}
 
-const data = await reactive(useTexture(props))
+interface Emits {
+  (e: 'loaded'): void
+  (e: 'error', error: Error): void
+}
+
+const props = defineProps<Props>()
+const emit = defineEmits<Emits>()
+
+// Type guard to handle the union type
+const textureData = Array.isArray(props.path)
+  ? reactive<UseTextureReturn<Texture[]>>(useTexture(props.path, props.manager))
+  : reactive<UseTextureReturn<Texture>>(useTexture(props.path, props.manager))
+
+// Handle loading state
+textureData.promise
+  .then(() => emit('loaded'))
+  .catch(err => emit('error', err))
 </script>
 
 <template>
-  <slot :textures="data"></slot>
+  <slot
+    :data="textureData.data"
+    :is-loading="textureData.isLoading"
+    :error="textureData.error"
+  ></slot>
 </template>

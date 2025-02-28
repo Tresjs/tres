@@ -23,6 +23,18 @@
       "cwd": "${workspaceRoot}/packages/tres",
       "runtimeExecutable": "npm",
       "runtimeArgs": ["run", "dev", "--preserve-symlinks"]
-    }
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug Vitest Tests",
+      "program": "${workspaceFolder}/node_modules/vitest/vitest.mjs",
+      "args": ["run"],
+      "autoAttachChildProcesses": true,
+      "smartStep": true,
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "skipFiles": ["<node_internals>/**"]
+    },
   ]
 }
