@@ -54,12 +54,12 @@ export interface UseTextureReturn<T> {
  * @param path - Path or paths to texture(s)
  * @param manager - Optional THREE.js LoadingManager
  */
-export function useTexture(path: string, manager?: LoadingManager): UseTextureReturn<Texture>
-export function useTexture(paths: string[], manager?: LoadingManager): UseTextureReturn<Texture[]>
+export function useTexture(path: string, manager?: LoadingManager): UseTextureReturn<Texture> & Promise<UseTextureReturn<Texture>>
+export function useTexture(paths: string[], manager?: LoadingManager): UseTextureReturn<Texture[]> & Promise<UseTextureReturn<Texture[]>>
 export function useTexture(
   paths: string | string[],
   manager?: LoadingManager,
-): UseTextureReturn<Texture | Texture[]> {
+): UseTextureReturn<Texture | Texture[]> & Promise<UseTextureReturn<Texture | Texture[]>> {
   const data = shallowRef<Texture | Texture[] | null>(null)
   const isLoading = ref(true)
   const error = ref<Error | null>(null)
@@ -113,12 +113,13 @@ export function useTexture(
     }
   }) as UseTextureReturn<Texture | Texture[]>['load']
 
+  // Make the return value awaitable
   const returnValue = {
     data,
     isLoading,
     error,
     load,
-  } as UseTextureReturn<Texture | Texture[]>
+  } as UseTextureReturn<Texture | Texture[]> & Promise<UseTextureReturn<Texture | Texture[]>>
 
   // Initial load
   if (typeof paths === 'string') {
