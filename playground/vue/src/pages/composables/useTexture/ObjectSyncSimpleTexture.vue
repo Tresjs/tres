@@ -3,7 +3,7 @@
 import { Html } from '@tresjs/cientos'
 import { useTexture } from '@tresjs/core'
 
-const { data: texture, isLoading, error } = useTexture('https://raw.githubusercontent.com/Tresjs/assets/main/textures/black-rock/Rock035_2K_Color.jpg')
+const { data: texture, isLoading } = useTexture('https://raw.githubusercontent.com/Tresjs/assets/main/textures/black-rock/Rock035_2K_Color.jpg')
 
 watch(texture, (newVal) => {
   console.log('Simple texture sync', newVal)
