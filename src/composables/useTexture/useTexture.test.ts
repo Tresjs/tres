@@ -1,7 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { LoadingManager, Texture, TextureLoader } from 'three'
 import { useTexture } from '.'
-import { nextTick } from 'vue'
 
 const flushPromises = () => new Promise(resolve => setTimeout(resolve, 0))
 
