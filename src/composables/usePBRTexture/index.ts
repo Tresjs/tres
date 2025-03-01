@@ -1,9 +1,9 @@
 import type { Ref, ShallowRef } from 'vue'
 import { shallowRef } from 'vue'
-import type { Texture } from 'three'
+import type { LoadingManager, Texture } from 'three'
 import { useTexture } from '../useTexture'
 
-export interface PBRTextureOptions {
+export interface PBRTexturePaths {
   /**
    * Base color or albedo texture path
    */
@@ -80,9 +80,13 @@ export interface PBRTextureResult {
  * <TresMeshStandardMaterial v-bind="textures.value" />
  * ```
  *
- * @param options - Object containing paths to PBR textures
+ * @param paths - Object containing paths to PBR textures
+ * @param manager - Optional THREE.js LoadingManager for tracking load progress
  */
-export function usePBRTexture(options: PBRTextureOptions): PBRTextureResult & Promise<PBRTextureResult> {
+export function usePBRTexture(
+  paths: PBRTexturePaths,
+  manager?: LoadingManager,
+): PBRTextureResult & Promise<PBRTextureResult> {
   const data: ShallowRef<PBRTextures> = shallowRef({
     map: null,
     normalMap: null,
@@ -96,12 +100,12 @@ export function usePBRTexture(options: PBRTextureOptions): PBRTextureResult & Pr
   const error = shallowRef<Error | null>(null)
 
   // Filter out undefined paths and create a map of texture types
-  const textureEntries = Object.entries(options).filter(([_, path]) => path !== undefined)
+  const textureEntries = Object.entries(paths).filter(([_, path]) => path !== undefined)
 
   // Load all textures concurrently using useTexture
   const loadPromises = textureEntries.map(async ([type, path]) => {
     try {
-      const { data: texture } = useTexture(path)
+      const { data: texture } = useTexture(path, manager)
       // Update the textures ref when each texture loads
       data.value[type as keyof PBRTextures] = texture.value
     }

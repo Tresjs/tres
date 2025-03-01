@@ -23,11 +23,16 @@ The composable can be used in two ways: with or without `await`.
 import { usePBRTexture } from '@tresjs/core'
 
 // Wait for all textures to fully load
-const { data: textures } = await usePBRTexture({
-  map: 'textures/wood/albedo.jpg',
-  normalMap: 'textures/wood/normal.jpg',
-  roughnessMap: 'textures/wood/roughness.jpg'
-})
+const { data: textures } = await usePBRTexture(
+  // Texture paths
+  {
+    map: 'textures/wood/albedo.jpg',
+    normalMap: 'textures/wood/normal.jpg',
+    roughnessMap: 'textures/wood/roughness.jpg'
+  },
+  // Optional loading manager
+  loadingManager
+)
 
 // All textures are fully loaded and ready to use
 console.log(textures.value.map) // Texture object with loaded image
@@ -40,11 +45,14 @@ import { usePBRTexture } from '@tresjs/core'
 import { watch } from 'vue'
 
 // Textures will start loading immediately
-const { data: textures, isLoading } = usePBRTexture({
-  map: 'textures/wood/albedo.jpg',
-  normalMap: 'textures/wood/normal.jpg',
-  roughnessMap: 'textures/wood/roughness.jpg'
-})
+const { data: textures, isLoading } = usePBRTexture(
+  // Texture paths
+  {
+    map: 'textures/wood/albedo.jpg',
+    normalMap: 'textures/wood/normal.jpg',
+    roughnessMap: 'textures/wood/roughness.jpg'
+  }
+)
 
 // Watch for loading completion
 watch(isLoading, (loading) => {
@@ -62,11 +70,14 @@ The textures can be directly bound to a TresMeshStandardMaterial. When using wit
 <script setup>
 import { usePBRTexture } from '@tresjs/core'
 
-const { data: textures, isLoading } = usePBRTexture({
-  map: 'textures/wood/albedo.jpg',
-  normalMap: 'textures/wood/normal.jpg',
-  roughnessMap: 'textures/wood/roughness.jpg'
-})
+const { data: textures, isLoading } = usePBRTexture(
+  // Texture paths
+  {
+    map: 'textures/wood/albedo.jpg',
+    normalMap: 'textures/wood/normal.jpg',
+    roughnessMap: 'textures/wood/roughness.jpg'
+  }
+)
 </script>
 
 <template>
@@ -83,11 +94,14 @@ const { data: textures, isLoading } = usePBRTexture({
 
 ```vue
 <script setup>
-const { data: textures, isLoading, error } = usePBRTexture({
-  map: 'textures/metal/albedo.jpg',
-  normalMap: 'textures/metal/normal.jpg',
-  roughnessMap: 'textures/metal/roughness.jpg'
-})
+const { data: textures, isLoading, error } = usePBRTexture(
+  // Texture paths
+  {
+    map: 'textures/metal/albedo.jpg',
+    normalMap: 'textures/metal/normal.jpg',
+    roughnessMap: 'textures/metal/roughness.jpg'
+  }
+)
 </script>
 
 <template>
@@ -118,11 +132,14 @@ When using with Suspense, you must use the await pattern:
 ```vue
 <!-- PBRMaterial.vue -->
 <script setup>
-const { data: textures } = await usePBRTexture({
-  map: 'textures/metal/albedo.jpg',
-  normalMap: 'textures/metal/normal.jpg',
-  // ...other textures
-})
+const { data: textures } = await usePBRTexture(
+  // Texture paths
+  {
+    map: 'textures/metal/albedo.jpg',
+    normalMap: 'textures/metal/normal.jpg',
+    roughnessMap: 'textures/metal/roughness.jpg'
+  }
+)
 </script>
 
 <template>
@@ -134,7 +151,9 @@ const { data: textures } = await usePBRTexture({
 
 ### Options
 
-The `usePBRTexture` composable accepts an options object with the following properties:
+The `usePBRTexture` composable accepts the following parameters:
+
+#### Paths Object
 
 | Property | Type | Description |
 | --- | --- | --- |
@@ -146,7 +165,11 @@ The `usePBRTexture` composable accepts an options object with the following prop
 | `displacementMap` | `string` | Path to the height/displacement map texture |
 | `emissiveMap` | `string` | Path to the emissive map texture |
 
-All properties are optional, allowing you to load only the textures you need.
+#### Loading Manager
+
+| Parameter | Type | Description |
+| --- | --- | --- |
+| `manager` | `LoadingManager` | Optional THREE.js LoadingManager for tracking load progress |
 
 ### Returns
 
@@ -182,3 +205,29 @@ The `data` object contains the following properties:
 - Compatible with Vue's Suspense feature for loading states
 - When using without await, textures will start loading immediately but might not be fully loaded
 - Always check `isLoading` when using without await to ensure textures are ready
+
+## Component Usage
+
+```vue
+<script setup>
+const paths = {
+  map: 'textures/wood/albedo.jpg',
+  normalMap: 'textures/wood/normal.jpg',
+  roughnessMap: 'textures/wood/roughness.jpg'
+}
+</script>
+
+<template>
+  <PBRTexture
+    :paths="paths"
+    @loaded="onTexturesLoaded"
+    @error="onError"
+  />
+</template>
+
+### Props
+
+| Name | Type | Description |
+| --- | --- | --- |
+| `paths` | `PBRTexturePaths` | Object containing paths to PBR textures |
+| `manager` | `LoadingManager` | Optional THREE.js LoadingManager |

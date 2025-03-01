@@ -5,6 +5,7 @@ import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
 import { OrbitControls } from '@tresjs/cientos'
 import ObjectSyncPBRTexture from './ObjectSyncPBRTexture.vue'
 import ObjectAsyncPBRTexture from './ObjectAsyncPBRTexture.vue'
+import ObjectUsePBRTextureComponent from './ObjectUsePBRTextureComponent.vue'
 
 const gl = {
   clearColor: '#82DBC5',
@@ -25,6 +26,9 @@ const gl = {
     <ObjectSyncPBRTexture />
     <Suspense>
       <ObjectAsyncPBRTexture />
+    </Suspense>
+    <Suspense>
+      <ObjectUsePBRTextureComponent />
     </Suspense>
   </TresCanvas>
 </template>
