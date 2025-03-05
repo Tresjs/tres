@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.1.1](https://github.com/Tresjs/cientos/compare/4.1.0...4.1.1) (2025-03-05)
+
+### Bug Fixes
+
+* remove will-change that makes Html components blurry ([#602](https://github.com/Tresjs/cientos/issues/602)) ([2b50296](https://github.com/Tresjs/cientos/commit/2b50296e5d4b141d072319872be6988aec984c61))
+* update html on camera dolly zoom ([#600](https://github.com/Tresjs/cientos/issues/600)) ([e5628f2](https://github.com/Tresjs/cientos/commit/e5628f2073cc7d7f6fbb15bcabe4571dae92f1df))
+
 ## [4.1.0](https://github.com/Tresjs/cientos/compare/4.0.3...4.1.0) (2025-01-17)
 
 ### Features
