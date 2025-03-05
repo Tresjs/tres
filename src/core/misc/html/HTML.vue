@@ -116,7 +116,6 @@ const styles = computed(() => {
       transformStyle: 'preserve-3d',
       pointerEvents: 'none',
       zIndex: 2,
-      willChange: 'transform',
     }
   }
   else {
@@ -131,7 +130,6 @@ const styles = computed(() => {
       }),
       zIndex: 2,
       ...Object.assign({}, attrs.style),
-      willChange: 'transform',
     }
   }
 })
@@ -284,7 +282,6 @@ onBeforeRender(({ invalidate }) => {
         : zIndexRange.value
 
       el.value.style.zIndex = `${objectZIndex(groupRef.value, camera.value as TresCamera, zRange)}`
-      el.value.style.willChange = 'transform'
       if (transform.value) {
         const [widthHalf, heightHalf] = [
           (sizes.width.value) / 2,
@@ -307,12 +304,10 @@ onBeforeRender(({ invalidate }) => {
         el.value.style.perspective = isOrthographicCamera ? '' : `${fov}px`
 
         if (vnode.value?.el && vnode.value?.children && Array.isArray(vnode.value.children)) {
-          vnode.value.el.style.willChange = 'transform'
           vnode.value.el.style.transform = `${cameraTransform}${cameraMatrix}translate(${widthHalf}px,${heightHalf}px)`
 
           const firstChild = vnode.value.children[0] as VNode
           if (firstChild && firstChild.el) {
-            firstChild.el.style.willChange = 'transform'
             firstChild.el.style.transform = getObjectCSSMatrix(
               matrix,
               1 / ((distanceFactor?.value || 10) / 400),
