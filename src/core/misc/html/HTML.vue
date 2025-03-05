@@ -101,7 +101,7 @@ const { renderer, scene, camera, raycaster, sizes } = useTresContext()
 
 const el = computed(() => document.createElement(as.value))
 
-const previousPosition = ref([0, 0])
+const previousPosition = ref([0, 0, 0])
 const previousZoom = ref(0)
 const vnode = ref<VNode>()
 
@@ -241,6 +241,7 @@ onBeforeRender(({ invalidate }) => {
       || Math.abs(previousZoom.value - (camera.value as TresCamera).zoom) > eps.value
       || Math.abs(previousPosition.value[0] - vector[0]) > eps.value
       || Math.abs(previousPosition.value[1] - vector[1]) > eps.value
+      || Math.abs(previousPosition.value[2] - vector[2]) > eps.value
     ) {
       const isBehindCamera = isObjectBehindCamera(groupRef.value, camera.value as TresCamera)
       let raytraceTarget: null | undefined | boolean | TresObject3D[] = false

@@ -14,6 +14,7 @@ export function calculatePosition(instance: TresObject3D, camera: TresCamera, si
   return [
     (Number.isNaN(objectPos.x) ? 0 : objectPos.x) * widthHalf + widthHalf,
     -(objectPos.y * heightHalf) + heightHalf,
+    objectPos.z,
   ]
 }
 
