@@ -74,6 +74,9 @@ const { showHtml } = useControls({
       ref="torusRef"
       :position="[7, 1, 1]"
     >
+      <Html :position="[0.5, 1, 0]">
+        <Card :active="isActive" />
+      </Html>
       <TresTorusGeometry />
       <TresMeshNormalMaterial />
     </TresMesh>
