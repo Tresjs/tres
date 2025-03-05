@@ -76,7 +76,7 @@ The elements that you pass as a slot will be affected by the scroll effect, and 
 | :--------------- | :------------------------------------------------------- | ------- |
 | **pages**        | The length of the scroll (not available with htmlScroll) | `4`     |
 | **distance**     | The distance to move the objects                         | `4`     |
-| **smoothScroll** | The smooth factor of the scrolling.                      | `0.5`   |
+| **smoothScroll** | The smooth factor of the scrolling.                      | `0.1`   |
 | **horizontal**   | Whether the scroll is horizontal or vertical.            | `false` |
 | **htmlScroll**   | Whether to use the native HTML scroll.                   | `false` |
 

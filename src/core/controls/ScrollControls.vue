@@ -24,7 +24,7 @@ export interface ScrollControlsProps {
    * The smooth factor of the scrolling.
    *
    * @type {number}
-   * @default 0.5
+   * @default 0.1
    * @memberof ScrollControlsProps
    */
   smoothScroll?: number
