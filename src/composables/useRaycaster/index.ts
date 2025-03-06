@@ -133,20 +133,20 @@ export const useRaycaster = (
   const onPointerUp = (event: MouseEvent) => {
     if (!(event instanceof PointerEvent)) { return } // prevents triggering twice on mobile devices
 
+    mouseUpPosition = new Vector2(
+      event?.clientX ?? x.value,
+      event?.clientY ?? y.value,
+    )
+
+    // Compute the distance between the mouse down and mouse up events
+    delta = mouseDownPosition?.distanceTo(mouseUpPosition)
+
     // We missed every object, trigger the pointer missed event
     if (intersects.value.length === 0) {
       triggerEventHook(eventHookPointerMissed, event)
     }
 
     if (mouseDownObject === intersects.value[0]?.object) {
-      mouseUpPosition = new Vector2(
-        event?.clientX ?? x.value,
-        event?.clientY ?? y.value,
-      )
-
-      // Compute the distance between the mouse down and mouse up events
-      delta = mouseDownPosition?.distanceTo(mouseUpPosition)
-
       if (event.button === 0) {
         // Left click
         triggerEventHook(eventHookClick, event)
