@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { useLoop, useTresContext } from '@tresjs/core'
 import { useEventListener } from '@vueuse/core'
-import { TOUCH } from 'three'
+import { MOUSE, TOUCH } from 'three'
 import { OrbitControls } from 'three-stdlib'
 import { onUnmounted, shallowRef, toRefs, watch } from 'vue'
 import type { TresVector3 } from '@tresjs/core'
@@ -228,6 +228,22 @@ export interface OrbitControlsProps {
    * @see https://threejs.org/docs/#examples/en/controls/OrbitControls.rotateSpeed
    */
   rotateSpeed?: number
+  /**
+   * This object contains references to the mouse actions used by the controls.
+   * LEFT: Rotate around the target
+   * MIDDLE: Zoom the camera
+   * RIGHT: Pan the camera
+   *
+   * @default { LEFT: MOUSE.ROTATE, MIDDLE: MOUSE.DOLLY, RIGHT: MOUSE.PAN }
+   * @type {{ LEFT?: number, MIDDLE?: number, RIGHT?: number }}
+   * @memberof OrbitControlsProps
+   * @see https://threejs.org/docs/#examples/en/controls/OrbitControls.mouseButtons
+   */
+  mouseButtons?: {
+    LEFT?: number
+    MIDDLE?: number
+    RIGHT?: number
+  }
 }
 
 const props = withDefaults(defineProps<OrbitControlsProps>(), {
@@ -252,6 +268,7 @@ const props = withDefaults(defineProps<OrbitControlsProps>(), {
   touches: () => ({ ONE: TOUCH.ROTATE, TWO: TOUCH.DOLLY_PAN }),
   rotateSpeed: 1,
   target: () => [0, 0, 0],
+  mouseButtons: () => ({ LEFT: MOUSE.ROTATE, MIDDLE: MOUSE.DOLLY, RIGHT: MOUSE.PAN }),
 })
 
 const emit = defineEmits(['change', 'start', 'end'])
@@ -278,6 +295,7 @@ const {
   touches,
   rotateSpeed,
   target,
+  mouseButtons,
 } = toRefs(props)
 
 const { camera: activeCamera, renderer, extend, controls, invalidate } = useTresContext()
@@ -351,6 +369,7 @@ defineExpose({ instance: controlsRef })
     :zoom-speed="zoomSpeed"
     :enable-rotate="enableRotate"
     :rotate-speed="rotateSpeed"
+    :mouse-buttons="mouseButtons"
     :args="[camera || activeCamera, domElement || renderer.domElement]"
   />
 </template>

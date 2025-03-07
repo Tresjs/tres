@@ -3,7 +3,7 @@
 import { OrbitControls } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
 import { TresLeches, useControls } from '@tresjs/leches'
-import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
+import { BasicShadowMap, MOUSE, NoToneMapping, SRGBColorSpace } from 'three'
 import { reactive } from 'vue'
 import { useState } from '../../composables/state'
 import '@tresjs/leches/styles'
@@ -36,6 +36,11 @@ const controlsState = reactive({
   zoomSpeed: 1,
   enableRotate: true,
   rotateSpeed: 1,
+  mouseButtons: {
+    LEFT: MOUSE.ROTATE,
+    MIDDLE: MOUSE.DOLLY,
+    RIGHT: MOUSE.PAN,
+  },
 })
 
 const {
