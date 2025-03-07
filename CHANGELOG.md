@@ -1,5 +1,11 @@
 # Changelog
 
+## [4.2.0](https://github.com/Tresjs/cientos/compare/4.1.1...4.2.0) (2025-03-07)
+
+### Features
+
+* **OrbitControls:** add mouseButtons prop to customize mouse interactions ([#603](https://github.com/Tresjs/cientos/issues/603)) ([5a7c2ca](https://github.com/Tresjs/cientos/commit/5a7c2cacb67db61a2fe54ed485703735ba167e5f))
+
 ## [4.1.1](https://github.com/Tresjs/cientos/compare/4.1.0...4.1.1) (2025-03-05)
 
 ### Bug Fixes
