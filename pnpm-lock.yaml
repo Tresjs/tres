@@ -52,8 +52,8 @@ importers:
         specifier: ^3.4.4
         version: 3.5.2(magicast@0.3.5)(rollup@4.32.1)
       '@tresjs/cientos':
-        specifier: 4.1.1
-        version: 4.1.1(@tresjs/core@4.3.3(three@0.171.0)(typescript@5.7.2)(vue@3.5.13(typescript@5.7.2)))(three@0.171.0)(typescript@5.7.2)(vue@3.5.13(typescript@5.7.2))
+        specifier: 4.2.0
+        version: 4.2.0(@tresjs/core@4.3.3(three@0.171.0)(typescript@5.7.2)(vue@3.5.13(typescript@5.7.2)))(three@0.171.0)(typescript@5.7.2)(vue@3.5.13(typescript@5.7.2))
       '@tresjs/core':
         specifier: 4.3.3
         version: 4.3.3(three@0.171.0)(typescript@5.7.2)(vue@3.5.13(typescript@5.7.2))
@@ -1230,8 +1230,8 @@ packages:
     peerDependencies:
       vue: ^2.7.0 || ^3.0.0
 
-  '@tresjs/cientos@4.1.1':
-    resolution: {integrity: sha512-UrimJI9dwFp8EkqxnADf775YHY4/vI2xh4L74JnDVDEvm1LMHUsblpOliWZjB6Yf1NGU0JHiZsvNro3mdym9UQ==}
+  '@tresjs/cientos@4.2.0':
+    resolution: {integrity: sha512-jc7Mo5ydelbYjV1cY70WoVVtD4g2IV0iucHibhoTOlZI8/Q1ppyK5QaIcdUBa3wkDkPIK8F/PG3fJ5O95WtnRA==}
     peerDependencies:
       '@tresjs/core': '>=4.2.1'
       three: '>=0.133'
@@ -6895,7 +6895,7 @@ snapshots:
       '@tailwindcss/container-queries': 0.1.1(tailwindcss@3.4.17)
       '@tailwindcss/forms': 0.5.10(tailwindcss@3.4.17)
       '@tailwindcss/typography': 0.5.16(tailwindcss@3.4.17)
-      '@vueuse/core': 12.5.0(typescript@5.7.2)
+      '@vueuse/core': 12.7.0(typescript@5.7.2)
       '@vueuse/integrations': 12.7.0(change-case@5.4.4)(fuse.js@7.0.0)(typescript@5.7.2)
       '@vueuse/math': 12.7.0(typescript@5.7.2)
       defu: 6.1.4
@@ -7398,7 +7398,7 @@ snapshots:
       '@tanstack/virtual-core': 3.10.6
       vue: 3.5.13(typescript@5.7.2)
 
-  '@tresjs/cientos@4.1.1(@tresjs/core@4.3.3(three@0.171.0)(typescript@5.7.2)(vue@3.5.13(typescript@5.7.2)))(three@0.171.0)(typescript@5.7.2)(vue@3.5.13(typescript@5.7.2))':
+  '@tresjs/cientos@4.2.0(@tresjs/core@4.3.3(three@0.171.0)(typescript@5.7.2)(vue@3.5.13(typescript@5.7.2)))(three@0.171.0)(typescript@5.7.2)(vue@3.5.13(typescript@5.7.2))':
     dependencies:
       '@tresjs/core': 4.3.3(three@0.171.0)(typescript@5.7.2)(vue@3.5.13(typescript@5.7.2))
       '@vueuse/core': 12.7.0(typescript@5.7.2)
