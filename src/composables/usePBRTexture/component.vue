@@ -1,27 +1,25 @@
 <script setup lang="ts">
 import { reactive } from 'vue'
-import type { LoadingManager, Texture } from 'three'
-import { useTexture, type UseTextureReturn } from './index'
+import type { LoadingManager } from 'three'
+import { type PBRTexturePaths, type PBRTextureResult, usePBRTexture } from '.'
 
 const props = defineProps<{
   /**
-   * Path or array of paths to texture(s)
+   * PBR texture options containing paths to textures
    */
-  path: string | string[]
+  paths: PBRTexturePaths
   /**
    * Optional THREE.js LoadingManager
    */
   manager?: LoadingManager
 }>()
+
 const emit = defineEmits<{
   (e: 'loaded'): void
   (e: 'error', error: Error): void
 }>()
 
-// Type guard to handle the union type
-const textureData = Array.isArray(props.path)
-  ? reactive<UseTextureReturn<Texture[]>>(useTexture(props.path, props.manager))
-  : reactive<UseTextureReturn<Texture>>(useTexture(props.path, props.manager))
+const textureData = reactive<PBRTextureResult>(usePBRTexture(props.paths, props.manager))
 
 // Handle loading state
 textureData.promise
