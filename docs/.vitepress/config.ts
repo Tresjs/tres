@@ -52,6 +52,7 @@ export default defineConfig({
           { text: 'Fish Eye', link: '/guide/pmndrs/fish-eye' },
           { text: 'Bloom', link: '/guide/pmndrs/bloom' },
           { text: 'Chromatic Aberration', link: '/guide/pmndrs/chromatic-aberration' },
+          { text: 'Color Depth', link: '/guide/pmndrs/color-depth' },
           { text: 'Linocut', link: '/guide/pmndrs/linocut' },
           { text: 'Sepia', link: '/guide/pmndrs/sepia' },
           { text: 'Brightness Contrast', link: '/guide/pmndrs/brightness-contrast' },

@@ -13,6 +13,7 @@ declare module 'vue' {
     BrightnessContrastDemo: typeof import('./.vitepress/theme/components/pmdrs/BrightnessContrastDemo.vue')['default']
     ChromaticAberrationDemo: typeof import('./.vitepress/theme/components/pmdrs/ChromaticAberrationDemo.vue')['default']
     ColorAverageDemo: typeof import('./.vitepress/theme/components/pmdrs/ColorAverageDemo.vue')['default']
+    ColorDepthDemo: typeof import('./.vitepress/theme/components/pmdrs/ColorDepthDemo.vue')['default']
     copy: typeof import('./.vitepress/theme/components/DocsDemoGUI.vue')['default']
     DepthOfFieldDemo: typeof import('./.vitepress/theme/components/pmdrs/DepthOfFieldDemo.vue')['default']
     DocsDemo: typeof import('./.vitepress/theme/components/DocsDemo.vue')['default']
