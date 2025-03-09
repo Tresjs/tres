@@ -28,30 +28,32 @@ const { saturation, hue, blendFunction } = useControls({
 </script>
 
 <template>
-  <TresLeches style="left: initial;right:10px; top:10px;" />
+  <div class="aspect-16/9">
+    <TresCanvas
+      v-bind="gl"
+    >
+      <TresPerspectiveCamera
+        :position="[5, 5, 5]"
+        :look-at="[0, 0, 0]"
+      />
+      <OrbitControls auto-rotate />
 
-  <TresCanvas
-    v-bind="gl"
-  >
-    <TresPerspectiveCamera
-      :position="[5, 5, 5]"
-      :look-at="[0, 0, 0]"
-    />
-    <OrbitControls auto-rotate />
+      <TresMesh :position="[0, 1, 0]">
+        <TresBoxGeometry :args="[2, 2, 2]" />
+        <TresMeshPhysicalMaterial color="white" />
+      </TresMesh>
 
-    <TresMesh :position="[0, 1, 0]">
-      <TresBoxGeometry :args="[2, 2, 2]" />
-      <TresMeshPhysicalMaterial color="white" />
-    </TresMesh>
+      <Suspense>
+        <Environment background :blur=".25" preset="modern" />
+      </Suspense>
 
-    <Suspense>
-      <Environment background :blur=".25" preset="modern" />
-    </Suspense>
+      <Suspense>
+        <EffectComposerPmndrs>
+          <HueSaturationPmndrs :blendFunction="Number(blendFunction)" :hue="hue" :saturation="saturation" />
+        </EffectComposerPmndrs>
+      </Suspense>
+    </TresCanvas>
+  </div>
 
-    <Suspense>
-      <EffectComposerPmndrs>
-        <HueSaturationPmndrs :blendFunction="Number(blendFunction.value)" :hue="hue.value" :saturation="saturation.value" />
-      </EffectComposerPmndrs>
-    </Suspense>
-  </TresCanvas>
+  <TresLeches :float="false" />
 </template>

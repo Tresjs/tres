@@ -1,8 +1,8 @@
 # Kuwahara (Watercolor Painting)
 
-<DocsDemo>
+<DocsDemoGUI>
   <KuwaharaDemo />
-</DocsDemo>
+</DocsDemoGUI>
 
 The `Kuwahara` effect is part of the [`postprocessing`](https://pmndrs.github.io/postprocessing/public/docs/class/src/effects/KuwaharaEffect.js~KuwaharaEffect.html) package. It allows you to apply a Kuwahara filter to your scene, providing a painterly effect.
 

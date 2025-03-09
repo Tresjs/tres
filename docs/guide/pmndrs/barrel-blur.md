@@ -1,8 +1,8 @@
 # Barrel Blur
 
-<DocsDemo>
+<DocsDemoGUI>
   <BarrelBlurDemo />
-</DocsDemo>
+</DocsDemoGUI>
 
 The `Barrel Blur` is a custom effect that applies a barrel distortion with chromatic aberration blur, providing a unique visual effect.
 

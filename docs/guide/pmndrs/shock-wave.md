@@ -1,8 +1,8 @@
 # Shock Wave
 
-<DocsDemo>
+<DocsDemoGUI>
   <ShockWaveDemo />
-</DocsDemo>
+</DocsDemoGUI>
 
 <details>
   <summary>Demo code</summary>

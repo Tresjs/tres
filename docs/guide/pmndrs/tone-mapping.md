@@ -1,8 +1,8 @@
 # ToneMapping
 
-<DocsDemo>
+<DocsDemoGUI>
   <ToneMappingDemo />
-</DocsDemo>
+</DocsDemoGUI>
 
 The `ToneMapping` effect from the [`postprocessing`](https://pmndrs.github.io/postprocessing/public/docs/class/src/effects/ToneMappingEffect.js~ToneMappingEffect.html) package provides an abstraction for various tone mapping algorithms to improve the visual rendering of HDR (high dynamic range) content. Tone mapping is used to map high-range brightness values to a range that is displayable on standard screens. This effect contributes significantly to the visual quality of your scene by controlling luminance and color balance.
 

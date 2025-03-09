@@ -1,8 +1,8 @@
 # Sepia
 
-<DocsDemo>
+<DocsDemoGUI>
   <SepiaDemo />
-</DocsDemo>
+</DocsDemoGUI>
 
 The `Sepia` effect is part of the [`postprocessing`](https://pmndrs.github.io/postprocessing/public/docs/class/src/effects/SepiaEffect.js~SepiaEffect.html) package. It applies a sepia tone to the scene, giving it a warm, antique appearance. This effect can enhance the visual appeal of your scene by adding a vintage or stylized touch.
 

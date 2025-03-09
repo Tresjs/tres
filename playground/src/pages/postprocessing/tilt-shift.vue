@@ -74,15 +74,15 @@ const { blendFunction, offset, rotation, focusArea, feather, kernelSize, resolut
     <Suspense>
       <EffectComposerPmndrs>
         <TiltShiftPmndrs
-          :blendFunction="Number(blendFunction.value)"
-          :offset="offset.value"
-          :rotation="rotation.value"
-          :focusArea="focusArea.value"
-          :feather="feather.value"
-          :kernelSize="Number(kernelSize.value)"
-          :resolutionScale="resolutionScale.value"
-          :resolutionX="resolutionX.value"
-          :resolutionY="resolutionY.value"
+          :blendFunction="Number(blendFunction)"
+          :offset="offset"
+          :rotation="rotation"
+          :focusArea="focusArea"
+          :feather="feather"
+          :kernelSize="Number(kernelSize)"
+          :resolutionScale="resolutionScale"
+          :resolutionX="resolutionX"
+          :resolutionY="resolutionY"
         />
       </EffectComposerPmndrs>
     </Suspense>

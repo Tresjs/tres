@@ -81,15 +81,15 @@ pane.addInput(glitchParams, 'dtSize', { min: 1, max: 64, step: 1 }) */
     <Suspense>
       <EffectComposerPmndrs>
         <GlitchPmndrs
-          :delay="delay.value"
-          :duration="duration.value"
-          :strength="strength.value"
-          :mode="mode.value"
-          :active="active.value"
-          :ratio="ratio.value"
-          :columns="columns.value"
-          :chromatic-aberration-offset="chromaticAberrationOffset.value"
-          :chromatic-aberration-enabled="chromaticAberrationEnabled.value"
+          :delay="delay"
+          :duration="duration"
+          :strength="strength"
+          :mode="mode"
+          :active="active"
+          :ratio="ratio"
+          :columns="columns"
+          :chromatic-aberration-offset="chromaticAberrationOffset"
+          :chromatic-aberration-enabled="chromaticAberrationEnabled"
         />
       </EffectComposerPmndrs>
     </Suspense>

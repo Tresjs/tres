@@ -27,35 +27,37 @@ const { intensity, blendFunction } = useControls({
 </script>
 
 <template>
-  <TresLeches style="left: initial;right:10px; top:10px;" />
+  <div class="aspect-16/9">
+    <TresCanvas
+      v-bind="gl"
+    >
+      <TresPerspectiveCamera
+        :position="[5, 5, 5]"
+        :look-at="[0, 0, 0]"
+      />
+      <OrbitControls auto-rotate />
 
-  <TresCanvas
-    v-bind="gl"
-  >
-    <TresPerspectiveCamera
-      :position="[5, 5, 5]"
-      :look-at="[0, 0, 0]"
-    />
-    <OrbitControls auto-rotate />
+      <TresMesh :position="[0, .5, 0]">
+        <TresBoxGeometry :args="[2, 2, 2]" />
+        <TresMeshPhysicalMaterial color="black" :roughness=".25" />
+      </TresMesh>
 
-    <TresMesh :position="[0, .5, 0]">
-      <TresBoxGeometry :args="[2, 2, 2]" />
-      <TresMeshPhysicalMaterial color="black" :roughness=".25" />
-    </TresMesh>
+      <ContactShadows
+        :opacity="1"
+        :position-y="-.5"
+      />
 
-    <ContactShadows
-      :opacity="1"
-      :position-y="-.5"
-    />
+      <Suspense>
+        <Environment background :blur=".5" preset="snow" />
+      </Suspense>
 
-    <Suspense>
-      <Environment background :blur=".5" preset="snow" />
-    </Suspense>
+      <Suspense>
+        <EffectComposerPmndrs>
+          <SepiaPmndrs :intensity="intensity" :blendFunction="Number(blendFunction)" />
+        </EffectComposerPmndrs>
+      </Suspense>
+    </TresCanvas>
+  </div>
 
-    <Suspense>
-      <EffectComposerPmndrs>
-        <SepiaPmndrs :intensity="intensity.value" :blendFunction="Number(blendFunction.value)" />
-      </EffectComposerPmndrs>
-    </Suspense>
-  </TresCanvas>
+  <TresLeches :float="false" />
 </template>

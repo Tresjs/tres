@@ -47,8 +47,8 @@ const { darkness, offset } = useControls({
         :bokeh-scale="2"
       />
       <VignettePmndrs
-        :darkness="darkness.value"
-        :offset="offset.value"
+        :darkness="darkness"
+        :offset="offset"
       />
     </EffectComposerPmndrs>
     <TresAmbientLight :intensity="1" />

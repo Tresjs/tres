@@ -15,11 +15,11 @@ const gl = {
   outputColorSpace: SRGBColorSpace,
   toneMapping: NoToneMapping,
 }
-const { value: premultiply } = useControls({
+const { premultiply } = useControls({
   premultiply: true,
 })
 
-const { value: blendFunction } = useControls({
+const { blendFunction } = useControls({
   blendFunction: {
     options: Object.keys(BlendFunction).map(key => ({
       text: key,
@@ -41,7 +41,7 @@ const { value: blendFunction } = useControls({
       <EffectComposerPmndrs :depth-buffer="true">
         <NoisePmndrs
           :premultiply="premultiply"
-          :blend-function="blendFunction"
+          :blend-function="Number(blendFunction)"
         />
       </EffectComposerPmndrs>
     </Suspense>

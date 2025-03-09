@@ -29,35 +29,36 @@ const { amount, offsetX, offsetY, blendFunction } = useControls({
 </script>
 
 <template>
-  <TresLeches style="left: initial;right:10px; top:10px;" />
-
-  <TresCanvas
-    v-bind="gl"
-  >
-    <TresPerspectiveCamera
-      :position="[5, 5, 5]"
-      :look-at="[0, 0, 0]"
-    />
-    <OrbitControls auto-rotate />
-
-    <Suspense>
-      <Environment preset="shangai" />
-    </Suspense>
-
-    <RoundedBox :args="[2, 2, 2, 2, 0.25]">
-      <TresMeshPhysicalMaterial
-        color="white"
-        :metalness=".9"
-        :roughness=".5"
-        :clearcoat="1.0"
-        :clearcoatRoughness="0.1"
+  <div class="aspect-16/9">
+    <TresCanvas
+      v-bind="gl"
+    >
+      <TresPerspectiveCamera
+        :position="[5, 5, 5]"
+        :look-at="[0, 0, 0]"
       />
-    </RoundedBox>
+      <OrbitControls auto-rotate />
 
-    <Suspense>
-      <EffectComposerPmndrs>
-        <BarrelBlurPmndrs :amount="amount.value" :offset="[offsetX.value, offsetY.value]" :blendFunction="Number(blendFunction.value)" />
-      </EffectComposerPmndrs>
-    </Suspense>
-  </TresCanvas>
+      <Suspense>
+        <Environment preset="shangai" />
+      </Suspense>
+
+      <RoundedBox :args="[2, 2, 2, 2, 0.25]">
+        <TresMeshPhysicalMaterial
+          color="white"
+          :metalness=".9"
+          :roughness=".5"
+          :clearcoat="1.0"
+          :clearcoatRoughness="0.1"
+        />
+      </RoundedBox>
+
+      <Suspense>
+        <EffectComposerPmndrs>
+          <BarrelBlurPmndrs :amount="amount" :offset="[offsetX, offsetY]" :blendFunction="Number(blendFunction)" />
+        </EffectComposerPmndrs>
+      </Suspense>
+    </TresCanvas>
+  </div>
+  <TresLeches :float="false" />
 </template>

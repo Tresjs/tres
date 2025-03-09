@@ -39,41 +39,42 @@ const { blendFunction, offset, rotation, focusArea, feather } = useControls({
 </script>
 
 <template>
-  <TresLeches style="left: initial;right:10px; top:10px;" />
+  <div class="aspect-16/9">
+    <TresCanvas v-bind="gl">
+      <TresPerspectiveCamera :position="[0, 4, 8]" />
+      <OrbitControls auto-rotate />
 
-  <TresCanvas v-bind="gl">
-    <TresPerspectiveCamera :position="[0, 4, 8]" />
-    <OrbitControls auto-rotate />
+      <template v-for="index in 50" :key="index">
+        <TresMesh :position="[(index % 10) * 3 - 13.5, 0, Math.floor(index / 10) * 3 - 7.5]" :scale="[2, Math.random() * 5 + 2, 2]">
+          <TresBoxGeometry :args="[1, 1, 1]" />
+          <TresMeshPhysicalMaterial
+            :color="colors[index % colors.length]"
+            :roughness="0.35"
+            :metalness="0.5"
+            :clearcoat="0.3"
+            :clearcoatRoughness="0.25"
+          />
+        </TresMesh>
+      </template>
 
-    <template v-for="index in 50" :key="index">
-      <TresMesh :position="[(index % 10) * 3 - 13.5, 0, Math.floor(index / 10) * 3 - 7.5]" :scale="[2, Math.random() * 5 + 2, 2]">
-        <TresBoxGeometry :args="[1, 1, 1]" />
-        <TresMeshPhysicalMaterial
-          :color="colors[index % colors.length]"
-          :roughness="0.35"
-          :metalness="0.5"
-          :clearcoat="0.3"
-          :clearcoatRoughness="0.25"
-        />
-      </TresMesh>
-    </template>
+      <Suspense>
+        <Environment background :blur=".35" preset="snow" />
+      </Suspense>
 
-    <Suspense>
-      <Environment background :blur=".35" preset="snow" />
-    </Suspense>
+      <Suspense>
+        <EffectComposerPmndrs>
+          <TiltShiftPmndrs
+            :blendFunction="Number(blendFunction)"
+            :offset="offset"
+            :rotation="rotation"
+            :focusArea="focusArea"
+            :feather="feather"
+          />
+        </EffectComposerPmndrs>
+      </Suspense>
 
-    <Suspense>
-      <EffectComposerPmndrs>
-        <TiltShiftPmndrs
-          :blendFunction="Number(blendFunction.value)"
-          :offset="offset.value"
-          :rotation="rotation.value"
-          :focusArea="focusArea.value"
-          :feather="feather.value"
-        />
-      </EffectComposerPmndrs>
-    </Suspense>
-
-    <TresGridHelper :position="[0, -3.5, 0]" :args="[30, 15]" />
-  </TresCanvas>
+      <TresGridHelper :position="[0, -3.5, 0]" :args="[30, 15]" />
+    </TresCanvas>
+  </div>
+  <TresLeches :float="false" />
 </template>

@@ -1,8 +1,8 @@
 # Lens Distortion
 
-<DocsDemo>
+<DocsDemoGUI>
   <LensDistortionDemo />
-</DocsDemo>
+</DocsDemoGUI>
 
 The `LensDistortion` effect is part of the [`postprocessing`](https://pmndrs.github.io/postprocessing/public/docs/class/src/effects/LensDistortionEffect.js~LensDistortionEffect.html) package. It allows you to apply a lens distortion effect to your scene, providing flexibility for creating realistic camera effects.
 

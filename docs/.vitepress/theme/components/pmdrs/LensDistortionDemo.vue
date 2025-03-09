@@ -28,41 +28,43 @@ pbrTexture.map.colorSpace = SRGBColorSpace
 </script>
 
 <template>
-  <TresLeches style="left: initial;right:10px; top:10px;" />
+  <div class="aspect-16/9">
+    <TresCanvas
+      v-bind="gl"
+    >
+      <TresPerspectiveCamera
+        :position="[-2, 1, 5]"
+      />
+      <OrbitControls auto-rotate />
 
-  <TresCanvas
-    v-bind="gl"
-  >
-    <TresPerspectiveCamera
-      :position="[-2, 1, 5]"
-    />
-    <OrbitControls auto-rotate />
+      <TresMesh :position="[0, 2, 0]">
+        <TresBoxGeometry :args="[8, 8, 8]" />
+        <TresMeshStandardMaterial :side="BackSide" :map="pbrTexture.map" :normal-map="pbrTexture.normalMap" />
+      </TresMesh>
 
-    <TresMesh :position="[0, 2, 0]">
-      <TresBoxGeometry :args="[8, 8, 8]" />
-      <TresMeshStandardMaterial :side="BackSide" :map="pbrTexture.map" :normal-map="pbrTexture.normalMap" />
-    </TresMesh>
+      <TresMesh :position="[0, 0, 0]">
+        <TresBoxGeometry :args="[1.65, 1.65, 1.65]" />
+        <TresMeshNormalMaterial />
+      </TresMesh>
 
-    <TresMesh :position="[0, 0, 0]">
-      <TresBoxGeometry :args="[1.65, 1.65, 1.65]" />
-      <TresMeshNormalMaterial />
-    </TresMesh>
+      <TresAmbientLight :intensity="2" />
 
-    <TresAmbientLight :intensity="2" />
+      <Suspense>
+        <Environment background :blur=".25" preset="snow" />
+      </Suspense>
 
-    <Suspense>
-      <Environment background :blur=".25" preset="snow" />
-    </Suspense>
+      <Suspense>
+        <EffectComposerPmndrs>
+          <LensDistortionPmndrs
+            :distortion="distortion"
+            :principalPoint="principalPoint"
+            :focalLength="focalLength"
+            :skew="skew"
+          />
+        </EffectComposerPmndrs>
+      </Suspense>
+    </TresCanvas>
+  </div>
 
-    <Suspense>
-      <EffectComposerPmndrs>
-        <LensDistortionPmndrs
-          :distortion="distortion.value"
-          :principalPoint="principalPoint.value"
-          :focalLength="focalLength.value"
-          :skew="skew.value"
-        />
-      </EffectComposerPmndrs>
-    </Suspense>
-  </TresCanvas>
+  <TresLeches :float="false" />
 </template>

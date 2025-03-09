@@ -1,8 +1,8 @@
 # Chromatic Aberration
 
-<DocsDemo>
+<DocsDemoGUI>
   <ChromaticAberrationDemo />
-</DocsDemo>
+</DocsDemoGUI>
 
 The `ChromaticAberration` effect is part of the [`postprocessing`](https://pmndrs.github.io/postprocessing/public/docs/class/src/effects/ChromaticAberrationEffect.js~ChromaticAberrationEffect.html) package. It simulates the dispersion of light as it passes through a lens, creating subtle or dramatic color fringing effects at the edges of objects. This effect can enhance the visual appeal of your scene by adding a realistic lens effect or a stylized touch.
 

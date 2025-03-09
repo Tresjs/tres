@@ -1,8 +1,8 @@
 # Hue & Saturation
 
-<DocsDemo>
+<DocsDemoGUI>
   <HueSaturationDemo />
-</DocsDemo>
+</DocsDemoGUI>
 
 The `HueSaturation` effect is part of the [`postprocessing`](https://pmndrs.github.io/postprocessing/public/docs/class/src/effects/HueSaturationEffect.js~HueSaturationEffect.html) package. It allows you to adjust the hue and saturation of your scene, providing flexibility for color grading and artistic effects.
 

@@ -80,11 +80,11 @@ const { edgeStrength, pulseSpeed, visibleEdgeColor, blur, kernelSize } = useCont
       <EffectComposerPmndrs>
         <OutlinePmndrs
           :outlined-objects="outlinedObjects"
-          :blur="blur.value"
-          :edge-strength="edgeStrength.value"
-          :pulse-speed="pulseSpeed.value"
-          :visible-edge-color="visibleEdgeColor.value"
-          :kernel-size="kernelSize.value"
+          :blur="blur"
+          :edge-strength="edgeStrength"
+          :pulse-speed="pulseSpeed"
+          :visible-edge-color="visibleEdgeColor"
+          :kernel-size="kernelSize"
         />
       </EffectComposerPmndrs>
     </Suspense>

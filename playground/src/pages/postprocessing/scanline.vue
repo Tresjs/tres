@@ -55,7 +55,7 @@ const { blendFunction, opacity, density, scrollSpeed } = useControls({
 
     <Suspense>
       <EffectComposerPmndrs>
-        <ScanlinePmndrs :density="density.value" :opacity="opacity.value" :scrollSpeed="scrollSpeed.value" :blendFunction="Number(blendFunction.value)" />
+        <ScanlinePmndrs :density="density" :opacity="opacity" :scrollSpeed="scrollSpeed" :blendFunction="Number(blendFunction)" />
       </EffectComposerPmndrs>
     </Suspense>
   </TresCanvas>

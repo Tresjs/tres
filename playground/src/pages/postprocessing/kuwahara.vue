@@ -51,7 +51,7 @@ const { radius, blendFunction, sectorCount } = useControls({
 
     <Suspense>
       <EffectComposerPmndrs>
-        <KuwaharaPmndrs :blendFunction="Number(blendFunction.value)" :radius="radius.value" :sectorCount="sectorCount.value" />
+        <KuwaharaPmndrs :blendFunction="Number(blendFunction)" :radius="radius" :sectorCount="sectorCount" />
       </EffectComposerPmndrs>
     </Suspense>
   </TresCanvas>

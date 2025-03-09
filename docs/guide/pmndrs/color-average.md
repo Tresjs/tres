@@ -1,8 +1,8 @@
 # Color Average
 
-<DocsDemo>
+<DocsDemoGUI>
   <ColorAverageDemo />
-</DocsDemo>
+</DocsDemoGUI>
 
 The `ColorAverage` effect is part of the [`postprocessing`](https://pmndrs.github.io/postprocessing/public/docs/class/src/effects/ColorAverageEffect.js~ColorAverageEffect.html) package. It averages the colors of the scene, creating a unique visual effect. This effect can be used to achieve a variety of artistic styles.
 

@@ -32,42 +32,43 @@ const { blendFunction, scale, noiseScale, centerX, centerY, rotation } = useCont
 </script>
 
 <template>
-  <TresLeches style="left: initial;right:10px; top:10px;" />
+  <div class="aspect-16/9">
+    <TresCanvas
+      v-bind="gl"
+    >
+      <TresPerspectiveCamera
+        :position="[0, 6.5, 6.5]"
+      />
+      <OrbitControls auto-rotate />
 
-  <TresCanvas
-    v-bind="gl"
-  >
-    <TresPerspectiveCamera
-      :position="[0, 6.5, 6.5]"
-    />
-    <OrbitControls auto-rotate />
+      <TresMesh>
+        <TresBoxGeometry :args="[2, 2, 2]" />
+        <TresMeshStandardMaterial color="yellow" />
+      </TresMesh>
 
-    <TresMesh>
-      <TresBoxGeometry :args="[2, 2, 2]" />
-      <TresMeshStandardMaterial color="yellow" />
-    </TresMesh>
+      <Suspense>
+        <Environment :blur=".25" preset="snow" />
+      </Suspense>
 
-    <Suspense>
-      <Environment :blur=".25" preset="snow" />
-    </Suspense>
+      <ContactShadows
+        :opacity=".65"
+        :position-y="-1"
+        :scale="35"
+        :blur="1"
+      />
 
-    <ContactShadows
-      :opacity=".65"
-      :position-y="-1"
-      :scale="35"
-      :blur="1"
-    />
-
-    <Suspense>
-      <EffectComposerPmndrs>
-        <LinocutPmndrs
-          :scale="scale.value"
-          :noiseScale="noiseScale.value"
-          :center="[centerX.value, centerY.value]"
-          :rotation="rotation.value"
-          :blendFunction="Number(blendFunction.value)"
-        />
-      </EffectComposerPmndrs>
-    </Suspense>
-  </TresCanvas>
+      <Suspense>
+        <EffectComposerPmndrs>
+          <LinocutPmndrs
+            :scale="scale"
+            :noiseScale="noiseScale"
+            :center="[centerX, centerY]"
+            :rotation="rotation"
+            :blendFunction="Number(blendFunction)"
+          />
+        </EffectComposerPmndrs>
+      </Suspense>
+    </TresCanvas>
+  </div>
+  <TresLeches :float="false" />
 </template>

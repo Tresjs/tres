@@ -29,41 +29,42 @@ const { blendFunction, opacity, density, scrollSpeed } = useControls({
 </script>
 
 <template>
-  <TresLeches style="left: initial;right:10px; top:10px;" />
+  <div class="aspect-16/9">
+    <TresCanvas
+      v-bind="gl"
+    >
+      <TresPerspectiveCamera
+        :position="[6.5, 3, 6.5]"
+        :look-at="[0, 0, 0]"
+      />
+      <OrbitControls auto-rotate :auto-rotate-speed=".5" />
 
-  <TresCanvas
-    v-bind="gl"
-  >
-    <TresPerspectiveCamera
-      :position="[6.5, 3, 6.5]"
-      :look-at="[0, 0, 0]"
-    />
-    <OrbitControls auto-rotate :auto-rotate-speed=".5" />
+      <Suspense>
+        <Environment :blur="1" preset="snow" />
+      </Suspense>
 
-    <Suspense>
-      <Environment :blur="1" preset="snow" />
-    </Suspense>
+      <TresAmbientLight />
 
-    <TresAmbientLight />
+      <TresGroup :rotation-y="MathUtils.degToRad(5)" :rotation-x="MathUtils.degToRad(100)">
+        <Sphere :args="[2, 32, 16]">
+          <TresMeshPhysicalMaterial color="#FC7BAC" :side="DoubleSide" :transmission=".5" />
+        </Sphere>
 
-    <TresGroup :rotation-y="MathUtils.degToRad(5)" :rotation-x="MathUtils.degToRad(100)">
-      <Sphere :args="[2, 32, 16]">
-        <TresMeshPhysicalMaterial color="#FC7BAC" :side="DoubleSide" :transmission=".5" />
-      </Sphere>
+        <Levioso :speed="2.5" :rotationFactor="1" :floatFactor=".5">
+          <Ring :args="[4.25, 2.5, 32]" :scale-y="-1" :position-z="-.25">
+            <TresMeshPhysicalMaterial color="#ffffff" :side="DoubleSide" :transmission=".25" />
+          </Ring>
+        </Levioso>
+      </TresGroup>
 
-      <Levioso :speed="2.5" :rotationFactor="1" :floatFactor=".5">
-        <Ring :args="[4.25, 2.5, 32]" :scale-y="-1" :position-z="-.25">
-          <TresMeshPhysicalMaterial color="#ffffff" :side="DoubleSide" :transmission=".25" />
-        </Ring>
-      </Levioso>
-    </TresGroup>
+      <Stars />
 
-    <Stars />
-
-    <Suspense>
-      <EffectComposerPmndrs>
-        <ScanlinePmndrs :density="density.value" :opacity="opacity.value" :scrollSpeed="scrollSpeed.value" :blendFunction="Number(blendFunction.value)" />
-      </EffectComposerPmndrs>
-    </Suspense>
-  </TresCanvas>
+      <Suspense>
+        <EffectComposerPmndrs>
+          <ScanlinePmndrs :density="density" :opacity="opacity" :scrollSpeed="scrollSpeed" :blendFunction="Number(blendFunction)" />
+        </EffectComposerPmndrs>
+      </Suspense>
+    </TresCanvas>
+  </div>
+  <TresLeches :float="false" />
 </template>

@@ -31,32 +31,34 @@ const { scene } = await useGLTF('https://raw.githubusercontent.com/Tresjs/assets
 </script>
 
 <template>
-  <TresLeches style="left: initial;right:10px; top:10px;" />
+  <div class="aspect-16/9">
+    <TresCanvas
+      v-bind="gl"
+    >
+      <TresPerspectiveCamera
+        :position="[0, 1, 7.5]"
+        :look-at="[0, 0, 0]"
+      />
+      <OrbitControls />
 
-  <TresCanvas
-    v-bind="gl"
-  >
-    <TresPerspectiveCamera
-      :position="[0, 1, 7.5]"
-      :look-at="[0, 0, 0]"
-    />
-    <OrbitControls />
+      <primitive :scale="2" :rotation-x="Math.PI / -5" :rotation-y="Math.PI" :position-y=".25" :position-z="0.5" :object="scene" />
 
-    <primitive :scale="2" :rotation-x="Math.PI / -5" :rotation-y="Math.PI" :position-y=".25" :position-z="0.5" :object="scene" />
+      <ContactShadows
+        :opacity="1"
+        :position-y="-1.5"
+      />
 
-    <ContactShadows
-      :opacity="1"
-      :position-y="-1.5"
-    />
+      <Suspense>
+        <Environment preset="modern" />
+      </Suspense>
 
-    <Suspense>
-      <Environment preset="modern" />
-    </Suspense>
+      <Suspense>
+        <EffectComposerPmndrs>
+          <DotScreenPmndrs :blendFunction="Number(blendFunction)" :angle="angle" :scale="scale" />
+        </EffectComposerPmndrs>
+      </Suspense>
+    </TresCanvas>
+  </div>
 
-    <Suspense>
-      <EffectComposerPmndrs>
-        <DotScreenPmndrs :blendFunction="Number(blendFunction.value)" :angle="angle.value" :scale="scale.value" />
-      </EffectComposerPmndrs>
-    </Suspense>
-  </TresCanvas>
+  <TresLeches :float="false" />
 </template>

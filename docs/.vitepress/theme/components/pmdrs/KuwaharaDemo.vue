@@ -28,52 +28,53 @@ const { enabled, radius, sectorCount } = useControls({
   sectorCount: { value: 4, min: 1, max: 8, step: 1 },
 })
 
-watch(enabled.value, () => {
-  effectProps.blendFunction = enabled.value.value ? BlendFunction.NORMAL : BlendFunction.SKIP
+watch(enabled, () => {
+  effectProps.blendFunction = enabled.value ? BlendFunction.NORMAL : BlendFunction.SKIP
 })
 </script>
 
 <template>
-  <TresLeches style="left: initial;right:10px; top:10px;" />
+  <div class="aspect-16/9">
+    <TresCanvas
+      v-bind="gl"
+    >
+      <TresPerspectiveCamera
+        :position="[0, 6.5, 15]"
+      />
 
-  <TresCanvas
-    v-bind="gl"
-  >
-    <TresPerspectiveCamera
-      :position="[0, 6.5, 15]"
-    />
+      <OrbitControls />
 
-    <OrbitControls />
+      <TresAmbientLight :intensity="1" />
 
-    <TresAmbientLight :intensity="1" />
+      <TresDirectionalLight />
 
-    <TresDirectionalLight />
+      <primitive :position-x="-3" :position-y="-3.5" :scale="5" :object="scenePlantJar" />
+      <primitive :position-x="4" :scale="20" :object="sceneWatermelon" />
 
-    <primitive :position-x="-3" :position-y="-3.5" :scale="5" :object="scenePlantJar" />
-    <primitive :position-x="4" :scale="20" :object="sceneWatermelon" />
+      <ContactShadows
+        :opacity=".25"
+        :position-y="-3.85"
+        :scale="20"
+        :blur=".65"
+      />
 
-    <ContactShadows
-      :opacity=".25"
-      :position-y="-3.85"
-      :scale="20"
-      :blur=".65"
-    />
+      <ContactShadows
+        :opacity=".5"
+        :position-y="-3.85"
+        :scale="20"
+        :blur=".65"
+      />
 
-    <ContactShadows
-      :opacity=".5"
-      :position-y="-3.85"
-      :scale="20"
-      :blur=".65"
-    />
+      <Suspense>
+        <Environment :blur="0.2" preset="snow" />
+      </Suspense>
 
-    <Suspense>
-      <Environment :blur="0.2" preset="snow" />
-    </Suspense>
-
-    <Suspense>
-      <EffectComposerPmndrs>
-        <KuwaharaPmndrs :blendFunction="effectProps.blendFunction" :radius="radius.value" :sectorCount="sectorCount.value" />
-      </EffectComposerPmndrs>
-    </Suspense>
-  </TresCanvas>
+      <Suspense>
+        <EffectComposerPmndrs>
+          <KuwaharaPmndrs :blendFunction="effectProps.blendFunction" :radius="radius" :sectorCount="sectorCount" />
+        </EffectComposerPmndrs>
+      </Suspense>
+    </TresCanvas>
+  </div>
+  <TresLeches :float="false" />
 </template>

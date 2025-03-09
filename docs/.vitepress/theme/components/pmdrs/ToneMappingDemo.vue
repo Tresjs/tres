@@ -41,33 +41,34 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <TresLeches style="left: initial;right:10px; top:10px;" />
+  <div class="aspect-16/9">
+    <TresCanvas
+      v-bind="gl"
+      :toneMappingExposure="toneMappingExposure"
+    >
+      <TresPerspectiveCamera
+        :position="[6.5, 6.5, 6.5]"
+        :look-at="[0, 1, 0]"
+      />
+      <OrbitControls />
 
-  <TresCanvas
-    v-bind="gl"
-    :toneMappingExposure="toneMappingExposure.value"
-  >
-    <TresPerspectiveCamera
-      :position="[6.5, 6.5, 6.5]"
-      :look-at="[0, 1, 0]"
-    />
-    <OrbitControls />
+      <primitive ref="modelRef" :object="model" :position-y="-.5" :scale=".25" />
 
-    <primitive ref="modelRef" :object="model" :position-y="-.5" :scale=".25" />
+      <Suspense>
+        <Environment background :blur=".35" preset="dawn" />
+      </Suspense>
 
-    <Suspense>
-      <Environment background :blur=".35" preset="dawn" />
-    </Suspense>
+      <ContactShadows
+        :opacity=".5"
+        :position-y="-3.25"
+      />
 
-    <ContactShadows
-      :opacity=".5"
-      :position-y="-3.25"
-    />
-
-    <Suspense>
-      <EffectComposerPmndrs>
-        <ToneMappingPmndrs :mode="Number(mode.value)" />
-      </EffectComposerPmndrs>
-    </Suspense>
-  </TresCanvas>
+      <Suspense>
+        <EffectComposerPmndrs>
+          <ToneMappingPmndrs :mode="Number(mode)" />
+        </EffectComposerPmndrs>
+      </Suspense>
+    </TresCanvas>
+  </div>
+  <TresLeches :float="false" />
 </template>

@@ -59,7 +59,7 @@ const { blendFunction, opacity } = useControls({
 
     <Suspense>
       <EffectComposerPmndrs>
-        <ColorAveragePmndrs :blendFunction="Number(blendFunction.value)" :opacity="opacity.value" />
+        <ColorAveragePmndrs :blendFunction="Number(blendFunction)" :opacity="opacity" />
       </EffectComposerPmndrs>
     </Suspense>
   </TresCanvas>

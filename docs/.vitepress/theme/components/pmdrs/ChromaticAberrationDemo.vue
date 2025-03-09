@@ -8,6 +8,8 @@ import { ChromaticAberrationPmndrs, EffectComposerPmndrs } from '@tresjs/post-pr
 
 import '@tresjs/leches/styles'
 
+// TODO: Adapt watchEffect to useControls for visibility of modulationOffset
+
 const gl = {
   clearColor: '#ffffff',
   toneMapping: NoToneMapping,
@@ -24,57 +26,58 @@ const { offsetX, offsetY, radialModulation, modulationOffset } = useControls({
 })
 
 watchEffect(() => {
-  modulationOffset.value.visible = radialModulation.value.value
+  // modulationOffset.value.visible = radialModulation.value.value
 })
 </script>
 
 <template>
-  <TresLeches style="left: initial;right:10px; top:10px;" />
-
-  <TresCanvas
-    v-bind="gl"
-  >
-    <TresPerspectiveCamera
-      :position="[5, 5, 5]"
-      :look-at="[0, 0, 0]"
-    />
-    <OrbitControls auto-rotate />
-
-    <template
-      v-for="i in 4"
-      :key="i"
+  <div class="aspect-16/9">
+    <TresCanvas
+      v-bind="gl"
     >
-      <TresMesh
-        :position="[((i - 1) - (4 - 1) / 2) * 1.5, 0, 0]"
+      <TresPerspectiveCamera
+        :position="[5, 5, 5]"
+        :look-at="[0, 0, 0]"
+      />
+      <OrbitControls auto-rotate />
+
+      <template
+        v-for="i in 4"
+        :key="i"
       >
-        <TresBoxGeometry
-          :width="4"
-          :height="4"
-          :depth="4"
-        />
-        <TresMeshStandardMaterial color="#1C1C1E" />
-      </TresMesh>
-    </template>
+        <TresMesh
+          :position="[((i - 1) - (4 - 1) / 2) * 1.5, 0, 0]"
+        >
+          <TresBoxGeometry
+            :width="4"
+            :height="4"
+            :depth="4"
+          />
+          <TresMeshStandardMaterial color="#1C1C1E" />
+        </TresMesh>
+      </template>
 
-    <TresAmbientLight color="#ffffff" />
+      <TresAmbientLight color="#ffffff" />
 
-    <TresDirectionalLight />
+      <TresDirectionalLight />
 
-    <ContactShadows
-      :opacity="1"
-      :position-y="-.5"
-      :scale="20"
-      :blur=".85"
-    />
+      <ContactShadows
+        :opacity="1"
+        :position-y="-.5"
+        :scale="20"
+        :blur=".85"
+      />
 
-    <Suspense>
-      <EffectComposerPmndrs>
-        <ChromaticAberrationPmndrs ref="chromaticAberrationRef" :offset="new Vector2(offsetX.value, offsetY.value)" :radial-modulation="radialModulation.value" :modulation-offset="modulationOffset.value" />
-      </EffectComposerPmndrs>
-    </Suspense>
+      <Suspense>
+        <EffectComposerPmndrs>
+          <ChromaticAberrationPmndrs ref="chromaticAberrationRef" :offset="new Vector2(offsetX, offsetY)" :radial-modulation="radialModulation" :modulation-offset="modulationOffset" />
+        </EffectComposerPmndrs>
+      </Suspense>
 
-    <Suspense>
-      <Environment :intensity="2" :blur="0" preset="snow" />
-    </Suspense>
-  </TresCanvas>
+      <Suspense>
+        <Environment :intensity="2" :blur="0" preset="snow" />
+      </Suspense>
+    </TresCanvas>
+  </div>
+  <TresLeches :float="false" />
 </template>

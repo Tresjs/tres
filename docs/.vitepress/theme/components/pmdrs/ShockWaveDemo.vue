@@ -5,7 +5,7 @@ import { TresLeches, useControls } from '@tresjs/leches'
 import { NoToneMapping, Shape, Vector3 } from 'three'
 import { computed, onUnmounted, reactive, ref, shallowRef } from 'vue'
 import { DepthPickingPassPmndrs, EffectComposerPmndrs, ShockWavePmndrs } from '@tresjs/post-processing'
-import { useElementBounding, useMouse, useParentElement } from '@vueuse/core'
+import { useElementBounding, useMouse } from '@vueuse/core'
 import { gsap } from 'gsap'
 
 import '@tresjs/leches/styles'
@@ -18,6 +18,7 @@ const gl = {
 
 const shockWaveEffectRef = shallowRef(null)
 const elCanvasRef = ref(null)
+const mainRef = ref(null)
 const depthPickingPassRef = ref(null)
 const meshHeartRef = ref(null)
 const mousePosition = ref(new Vector3())
@@ -40,9 +41,8 @@ function createHeartShape(scale: number) {
 
 const heartShapeFront = createHeartShape(0.35)
 
-const parentEl = useParentElement()
-const { x, y } = useMouse({ target: parentEl })
-const { width, height, left, top } = useElementBounding(parentEl)
+const { x, y } = useMouse({ target: mainRef })
+const { width, height, left, top } = useElementBounding(mainRef)
 
 const extrudeSettings = reactive({
   depth: 0.1,
@@ -141,8 +141,8 @@ function getActiveDuration() {
   // Note that the speed affects how quickly the shock wave radius increases over time, but not the total duration of the emit explode.
 
   // Retrieve the values dynamically
-  const radiusMax = maxRadius.value.value
-  const wave = waveSize.value.value
+  const radiusMax = maxRadius.value
+  const wave = waveSize.value
 
   // Duration formula: 2 * maxRadius + 3 * waveSize
   const duration = 2 * radiusMax + 3 * wave
@@ -157,49 +157,50 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <TresLeches style="left: initial;right:10px; top:10px;" />
-
-  <p class="doc-shock-wave-instructions text-xs font-semibold text-zinc-600">Click on the heart to distribute love</p>
-
-  <TresCanvas
-    ref="elCanvasRef"
-    v-bind="gl"
-  >
-    <TresPerspectiveCamera
-      :position="[0, 0, 10]"
-    />
-
-    <OrbitControls make-default auto-rotate />
-
-    <TresMesh ref="meshHeartRef" :position-y="2" @click="triggerShockWave">
-      <TresExtrudeGeometry :args="[heartShapeFront, extrudeSettings]" />
-      <TresMeshPhysicalMaterial
-        v-bind="materialProps"
+  <div ref="mainRef" class="aspect-16/9 relative">
+    <TresCanvas
+      ref="elCanvasRef"
+      v-bind="gl"
+    >
+      <TresPerspectiveCamera
+        :position="[0, 0, 10]"
       />
-    </TresMesh>
 
-    <TresDirectionalLight
-      :position="[5, 5, 7.5]"
-      :intensity="2"
-    />
+      <OrbitControls make-default auto-rotate />
 
-    <ContactShadows
-      :opacity="1"
-      :position-y="-2.75"
-      :blur=".5"
-    />
+      <TresMesh ref="meshHeartRef" :position-y="2" @click="triggerShockWave">
+        <TresExtrudeGeometry :args="[heartShapeFront, extrudeSettings]" />
+        <TresMeshPhysicalMaterial
+          v-bind="materialProps"
+        />
+      </TresMesh>
 
-    <Suspense>
-      <Environment preset="night" />
-    </Suspense>
+      <TresDirectionalLight
+        :position="[5, 5, 7.5]"
+        :intensity="2"
+      />
 
-    <Suspense>
-      <EffectComposerPmndrs>
-        <DepthPickingPassPmndrs ref="depthPickingPassRef" />
-        <ShockWavePmndrs ref="shockWaveEffectRef" :position="mousePosition" :amplitude="amplitude.value" :waveSize="waveSize.value" :speed="speed.value" :maxRadius="maxRadius.value" />
-      </EffectComposerPmndrs>
-    </Suspense>
-  </TresCanvas>
+      <ContactShadows
+        :opacity="1"
+        :position-y="-2.75"
+        :blur=".5"
+      />
+
+      <Suspense>
+        <Environment preset="night" />
+      </Suspense>
+
+      <Suspense>
+        <EffectComposerPmndrs>
+          <DepthPickingPassPmndrs ref="depthPickingPassRef" />
+          <ShockWavePmndrs ref="shockWaveEffectRef" :position="mousePosition" :amplitude="amplitude" :waveSize="waveSize" :speed="speed" :maxRadius="maxRadius" />
+        </EffectComposerPmndrs>
+      </Suspense>
+    </TresCanvas>
+    <p class="doc-shock-wave-instructions text-xs font-semibold text-zinc-600">Click on the heart to distribute love</p>
+  </div>
+
+  <TresLeches :float="false" />
 </template>
 
 <style scoped>

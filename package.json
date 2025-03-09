@@ -63,6 +63,7 @@
     "@release-it/conventional-changelog": "^10.0.0",
     "@tresjs/core": "^4.3.2",
     "@tresjs/eslint-config": "^1.4.0",
+    "@tresjs/leches": "https://pkg.pr.new/@tresjs/leches@9ad0cd3",
     "@types/three": "^0.172.0",
     "@unocss/core": "^65.4.3",
     "@vitejs/plugin-vue": "^5.2.1",

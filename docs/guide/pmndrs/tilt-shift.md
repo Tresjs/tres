@@ -1,8 +1,8 @@
 # Tilt Shift
 
-<DocsDemo>
+<DocsDemoGUI>
   <TiltShiftDemo />
-</DocsDemo>
+</DocsDemoGUI>
 
 The `TiltShift` effect is part of the [`postprocessing`](https://pmndrs.github.io/postprocessing/public/docs/class/src/effects/TiltShiftEffect.js~TiltShiftEffect.html) package. It allows you to create a tilt-shift effect, simulating a shallow depth of field.
 

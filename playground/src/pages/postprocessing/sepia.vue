@@ -54,7 +54,7 @@ const { intensity, blendFunction } = useControls({
 
     <Suspense>
       <EffectComposerPmndrs>
-        <SepiaPmndrs :intensity="intensity.value" :blendFunction="Number(blendFunction.value)" />
+        <SepiaPmndrs :intensity="intensity" :blendFunction="Number(blendFunction)" />
       </EffectComposerPmndrs>
     </Suspense>
   </TresCanvas>

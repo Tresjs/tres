@@ -127,13 +127,13 @@ onMounted(() => {
     <Suspense>
       <EffectComposerPmndrs :depth-buffer="true">
         <BloomPmndrs
-          :luminance-threshold="threshold.value"
-          :luminance-smoothing="smoothing.value"
-          :intensity="intensity.value"
-          :blend-function="blendFunction.value"
-          :kernel-size="kernelSize.value"
-          :resolution="resolution.value"
-          :mipmap-blur="mipmapBlur.value"
+          :luminance-threshold="threshold"
+          :luminance-smoothing="smoothing"
+          :intensity="intensity"
+          :blend-function="blendFunction"
+          :kernel-size="kernelSize"
+          :resolution="resolution"
+          :mipmap-blur="mipmapBlur"
         />
       </EffectComposerPmndrs>
     </Suspense>

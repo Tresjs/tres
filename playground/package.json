@@ -15,7 +15,6 @@
     "vue-router": "^4.5.0"
   },
   "devDependencies": {
-    "@tresjs/leches": "^0.14.1",
     "@types/three": "^0.172.0",
     "unplugin-auto-import": "^19.0.0",
     "unplugin-vue-components": "^28.0.0",

@@ -49,7 +49,7 @@ const { saturation, hue, blendFunction } = useControls({
 
     <Suspense>
       <EffectComposerPmndrs>
-        <HueSaturationPmndrs :blendFunction="Number(blendFunction.value)" :hue="hue.value" :saturation="saturation.value" />
+        <HueSaturationPmndrs :blendFunction="Number(blendFunction)" :hue="hue" :saturation="saturation" />
       </EffectComposerPmndrs>
     </Suspense>
   </TresCanvas>

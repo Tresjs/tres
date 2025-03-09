@@ -49,7 +49,7 @@ const effectParams = computed(() =>
   Object
     .entries(controls)
     .reduce(
-      (acc, [key, value]) => ({ ...acc, [key]: value.value.value })
+      (acc, [key, value]) => ({ ...acc, [key]: value.value })
       , {},
     ),
 )

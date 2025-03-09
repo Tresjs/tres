@@ -43,10 +43,10 @@ const { distortion, principalPoint, focalLength, skew } = useControls({
     <Suspense>
       <EffectComposerPmndrs>
         <LensDistortionPmndrs
-          :distortion="distortion.value"
-          :principalPoint="principalPoint.value"
-          :focalLength="focalLength.value"
-          :skew="skew.value"
+          :distortion="distortion"
+          :principalPoint="principalPoint"
+          :focalLength="focalLength"
+          :skew="skew"
         />
       </EffectComposerPmndrs>
     </Suspense>

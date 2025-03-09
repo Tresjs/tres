@@ -1,8 +1,8 @@
 # Dot Screen
 
-<DocsDemo>
+<DocsDemoGUI>
   <DotScreenDemo />
-</DocsDemo>
+</DocsDemoGUI>
 
 The `DotScreen` effect is part of the [`postprocessing`](https://pmndrs.github.io/postprocessing/public/docs/class/src/effects/DotScreenEffect.js~DotScreenEffect.html) package. It allows you to create a dot screen effect, providing flexibility for artistic effects.
 

@@ -1,8 +1,8 @@
 # Linocut
 
-<DocsDemo>
+<DocsDemoGUI>
   <LinocutDemo />
-</DocsDemo>
+</DocsDemoGUI>
 
 The `Linocut` effect is a custom shader effect inspired by traditional linocut and woodcut printmaking. It transforms the scene into a high-contrast black-and-white composition, featuring bold lines and intricate patterns that replicate the handcrafted aesthetic of relief printing techniques.
 

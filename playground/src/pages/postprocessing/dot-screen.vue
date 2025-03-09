@@ -49,7 +49,7 @@ const { angle, scale, blendFunction } = useControls({
 
     <Suspense>
       <EffectComposerPmndrs>
-        <DotScreenPmndrs :blendFunction="Number(blendFunction.value)" :angle="angle.value" :scale="scale.value" />
+        <DotScreenPmndrs :blendFunction="Number(blendFunction)" :angle="angle" :scale="scale" />
       </EffectComposerPmndrs>
     </Suspense>
   </TresCanvas>

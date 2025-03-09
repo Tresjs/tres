@@ -1,8 +1,8 @@
 # Scanline
 
-<DocsDemo>
+<DocsDemoGUI>
   <ScanlineDemo />
-</DocsDemo>
+</DocsDemoGUI>
 
 The `Scanline` effect is part of the [`postprocessing`](https://pmndrs.github.io/postprocessing/public/docs/class/src/effects/ScanlineEffect.js~ScanlineEffect.html) package. It simulates scanlines reminiscent of old CRT displays, creating a nostalgic or stylized visual effect for your scene. This effect can enhance the retro aesthetic of your project or add a unique visual touch.
 
