@@ -22,6 +22,7 @@ declare module 'vue' {
     FishEyeDemo: typeof import('./.vitepress/theme/components/pmdrs/FishEyeDemo.vue')['default']
     GlitchDemo: typeof import('./.vitepress/theme/components/pmdrs/GlitchDemo.vue')['default']
     GlitchThreeDemo: typeof import('./.vitepress/theme/components/three/GlitchThreeDemo.vue')['default']
+    GridDemo: typeof import('./.vitepress/theme/components/pmdrs/GridDemo.vue')['default']
     HalftoneThreeDemo: typeof import('./.vitepress/theme/components/three/HalftoneThreeDemo.vue')['default']
     HueSaturation: typeof import('./.vitepress/theme/components/pmdrs/HueSaturationDemo.vue')['default']
     HueSaturationDemo: typeof import('./.vitepress/theme/components/pmdrs/HueSaturationDemo.vue')['default']
