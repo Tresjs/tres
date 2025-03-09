@@ -72,7 +72,7 @@ export default defineConfig({
           { text: 'Shock Wave', link: '/guide/pmndrs/shock-wave' },
           { text: 'Tilt Shift', link: '/guide/pmndrs/tilt-shift' },
           { text: 'Tone Mapping', link: '/guide/pmndrs/tone-mapping' },
-        ],
+        ].sort((a, b) => a.text.localeCompare(b.text)),
       },
       {
         text: 'Three',
@@ -83,7 +83,7 @@ export default defineConfig({
           { text: 'Pixelation', link: '/guide/three/pixelation' },
           { text: 'SMAA', link: '/guide/three/smaa' },
           { text: 'Unreal Bloom', link: '/guide/three/unreal-bloom' },
-        ],
+        ].sort((a, b) => a.text.localeCompare(b.text)),
       },
     ],
 
