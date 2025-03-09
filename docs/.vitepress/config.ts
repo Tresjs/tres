@@ -53,6 +53,7 @@ export default defineConfig({
           { text: 'Chromatic Aberration', link: '/guide/pmndrs/chromatic-aberration' },
           { text: 'Linocut', link: '/guide/pmndrs/linocut' },
           { text: 'Sepia', link: '/guide/pmndrs/sepia' },
+          { text: 'Brightness Contrast', link: '/guide/pmndrs/brightness-contrast' },
           { text: 'Vignette', link: '/guide/pmndrs/vignette' },
           { text: 'Hue & Saturation', link: '/guide/pmndrs/hue-saturation' },
           { text: 'Lens Distortion', link: '/guide/pmndrs/lens-distortion' },
