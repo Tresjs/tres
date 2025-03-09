@@ -11,7 +11,10 @@ import { useRouteDisposal } from '../../composables/useRouteDisposal'
 const gl = {
   clearColor: '#121212',
   toneMapping: NoToneMapping,
-  multisampling: 8,
+}
+
+const glComposer = {
+  multisampling: 4,
 }
 
 const { effectComposer } = useRouteDisposal()
@@ -58,7 +61,7 @@ const toggleMeshSelectionState = ({ object }: Intersection) => {
       :intensity="1"
     />
     <Suspense>
-      <EffectComposerPmndrs ref="effectComposer">
+      <EffectComposerPmndrs ref="effectComposer" v-bind="glComposer">
         <OutlinePmndrs
           :outlined-objects="outlinedObjects"
           :edge-strength="200000"

@@ -9,7 +9,10 @@ import '@tresjs/leches/styles'
 
 const gl = {
   toneMapping: NoToneMapping,
-  multisampling: 8,
+}
+
+const glComposer = {
+  multisampling: 4,
 }
 
 const { distortion, principalPoint, focalLength, skew } = useControls({
@@ -41,7 +44,7 @@ const { distortion, principalPoint, focalLength, skew } = useControls({
     </Suspense>
 
     <Suspense>
-      <EffectComposerPmndrs>
+      <EffectComposerPmndrs v-bind="glComposer">
         <LensDistortionPmndrs
           :distortion="distortion"
           :principalPoint="principalPoint"

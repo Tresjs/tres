@@ -4,22 +4,28 @@
   <LensDistortionDemo />
 </DocsDemoGUI>
 
+<details>
+  <summary>Demo code</summary>
+
+  <<< @/.vitepress/theme/components/pmdrs/LensDistortionDemo.vue{0}
+</details>
+
 The `LensDistortion` effect is part of the [`postprocessing`](https://pmndrs.github.io/postprocessing/public/docs/class/src/effects/LensDistortionEffect.js~LensDistortionEffect.html) package. It allows you to apply a lens distortion effect to your scene, providing flexibility for creating realistic camera effects.
 
 ## Usage
 
 The `<LensDistortionPmndrs>` component is straightforward to use and provides customizable options to fine-tune the distortion effect of your visuals.
 
-```vue{3,12-17,52-56}
+```vue{2,12-17,24-28}
 <script setup lang="ts">
-import { Vector2 } from 'three'
 import { EffectComposerPmndrs, LensDistortionPmndrs } from '@tresjs/post-processing'
-import { Environment, OrbitControls } from '@tresjs/cientos'
-import { TresCanvas, useTexture } from '@tresjs/core'
+import { Vector2 } from 'three'
+import { TresCanvas } from '@tresjs/core'
+import { NoToneMapping } from 'three'
 
 const gl = {
+  clearColor: '#0ff000',
   toneMapping: NoToneMapping,
-  multisampling: 8,
 }
 
 const effectProps = {
@@ -28,39 +34,11 @@ const effectProps = {
   focalLength: new Vector2(0.5, 0.5),
   skew: 0,
 }
-
-const pbrTexture = await useTexture({
-  map: '/lens-distortion/room-map.png',
-  normalMap: '/lens-distortion/room-normal.png',
-})
-
-pbrTexture.map.colorSpace = SRGBColorSpace
 </script>
 
 <template>
-   <TresCanvas
-    v-bind="gl"
-  >
-    <TresPerspectiveCamera
-      :position="[-2, 1, 5]"
-    />
-    <OrbitControls auto-rotate />
-
-    <TresMesh :position="[0, 2, 0]">
-      <TresBoxGeometry :args="[8, 8, 8]" />
-      <TresMeshStandardMaterial :side="BackSide" :map="pbrTexture.map" :normal-map="pbrTexture.normalMap" />
-    </TresMesh>
-
-    <TresMesh :position="[0, 0, 0]">
-      <TresBoxGeometry :args="[1.65, 1.65, 1.65]" />
-      <TresMeshNormalMaterial />
-    </TresMesh>
-
-    <TresAmbientLight :intensity="2" />
-
-    <Suspense>
-      <Environment background :blur=".25" preset="snow" />
-    </Suspense>
+   <TresCanvas v-bind="gl">
+    <TresPerspectiveCamera :position="[5, 5, 5]" />
 
     <Suspense>
       <EffectComposerPmndrs>

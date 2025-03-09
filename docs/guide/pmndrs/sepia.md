@@ -4,47 +4,32 @@
   <SepiaDemo />
 </DocsDemoGUI>
 
+<details>
+  <summary>Demo code</summary>
+
+  <<< @/.vitepress/theme/components/pmdrs/SepiaDemo.vue{0}
+</details>
+
 The `Sepia` effect is part of the [`postprocessing`](https://pmndrs.github.io/postprocessing/public/docs/class/src/effects/SepiaEffect.js~SepiaEffect.html) package. It applies a sepia tone to the scene, giving it a warm, antique appearance. This effect can enhance the visual appeal of your scene by adding a vintage or stylized touch.
 
 ## Usage
 
 The `<SepiaPmndrs>` component is easy to use and provides customizable options to suit different visual styles.
 
-```vue{2,36-40}
+```vue{3,15-19}
 <script setup lang="ts">
-import { EffectComposerPmndrs, SepiaPmndrs } from '@tresjs/post-processing/pmndrs'
+import { TresCanvas } from '@tresjs/core'
+import { EffectComposerPmndrs, SepiaPmndrs } from '@tresjs/post-processing'
+import { NoToneMapping } from 'three'
 
 const gl = {
   toneMapping: NoToneMapping,
-  multisampling: 8,
 }
-
 </script>
 
 <template>
-  <TresCanvas
-    v-bind="gl"
-  >
-    <TresPerspectiveCamera
-      :position="[5, 5, 5]"
-      :look-at="[0, 0, 0]"
-    />
-
-    <OrbitControls auto-rotate />
-
-    <TresMesh :position="[0, .5, 0]">
-      <TresBoxGeometry :args="[2, 2, 2]" />
-      <TresMeshPhysicalMaterial color="black" :roughness=".25" />
-    </TresMesh>
-
-    <ContactShadows
-      :opacity="1"
-      :position-y="-.5"
-    />
-
-    <Suspense>
-      <Environment background :blur=".5" preset="snow" />
-    </Suspense>
+  <TresCanvas v-bind="gl" >
+    <TresPerspectiveCamera :position="[5, 5, 5]" />
 
     <Suspense>
       <EffectComposerPmndrs>

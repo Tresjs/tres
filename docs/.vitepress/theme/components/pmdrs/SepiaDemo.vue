@@ -11,7 +11,10 @@ import '@tresjs/leches/styles'
 const gl = {
   clearColor: '#ffffff',
   toneMapping: NoToneMapping,
-  multisampling: 8,
+}
+
+const glComposer = {
+  multisampling: 4,
 }
 
 const { intensity, blendFunction } = useControls({
@@ -19,7 +22,7 @@ const { intensity, blendFunction } = useControls({
   blendFunction: {
     options: Object.keys(BlendFunction).map(key => ({
       text: key,
-      value: BlendFunction[key],
+      value: BlendFunction[key as keyof typeof BlendFunction],
     })),
     value: BlendFunction.NORMAL,
   },
@@ -52,7 +55,7 @@ const { intensity, blendFunction } = useControls({
       </Suspense>
 
       <Suspense>
-        <EffectComposerPmndrs>
+        <EffectComposerPmndrs v-bind="glComposer">
           <SepiaPmndrs :intensity="intensity" :blendFunction="Number(blendFunction)" />
         </EffectComposerPmndrs>
       </Suspense>

@@ -10,7 +10,10 @@ import '@tresjs/leches/styles'
 
 const gl = {
   toneMapping: NoToneMapping,
-  multisampling: 8,
+}
+
+const glComposer = {
+  multisampling: 4,
 }
 
 const { saturation, hue, blendFunction } = useControls({
@@ -19,7 +22,7 @@ const { saturation, hue, blendFunction } = useControls({
   blendFunction: {
     options: Object.keys(BlendFunction).map(key => ({
       text: key,
-      value: BlendFunction[key],
+      value: BlendFunction[key as keyof typeof BlendFunction],
     })),
     value: BlendFunction.SRC,
   },
@@ -48,7 +51,7 @@ const { saturation, hue, blendFunction } = useControls({
     </Suspense>
 
     <Suspense>
-      <EffectComposerPmndrs>
+      <EffectComposerPmndrs v-bind="glComposer">
         <HueSaturationPmndrs :blendFunction="Number(blendFunction)" :hue="hue" :saturation="saturation" />
       </EffectComposerPmndrs>
     </Suspense>

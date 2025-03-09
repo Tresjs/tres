@@ -38,18 +38,21 @@ You can import post-processing effects from both pmndrs and native Three.js. All
 
 ### Using native Three.js effects
 
-```html
+```vue{2,9-14}
 <script setup lang="ts">
-  import { EffectComposer, UnrealBloom, Glitch } from '@tresjs/post-processing'
+import { EffectComposer, Glitch, UnrealBloom } from '@tresjs/post-processing'
 </script>
 
 <template>
   <TresCanvas shadows alpha>
-    <TresPerspectiveCamera :args="[45," 1, 0.1, 1000] />
-    <EffectComposer>
-      <UnrealBloom />
-      <Glitch />
-    </EffectComposer>
+    <TresPerspectiveCamera :args="[45, 1, 0.1, 1000]" />
+
+    <Suspense>
+      <EffectComposer>
+        <UnrealBloom />
+        <Glitch />
+      </EffectComposer>
+    </Suspense>
   </TresCanvas>
 </template>
 ```
@@ -58,18 +61,21 @@ You can import post-processing effects from both pmndrs and native Three.js. All
 
 You can also use Pmndrs `postprocessing` effects, but you need to use the `EffectComposerPmndrs` component instead of `EffectComposer` and suffix the effects with `Pmndrs`.
 
-```html
+```vue{2,9-14}
 <script setup lang="ts">
-  import { EffectComposerPmndrs, BloomPmndrs, GlitchPmndrs } from '@tresjs/post-processing'
+import { BloomPmndrs, EffectComposerPmndrs, GlitchPmndrs } from '@tresjs/post-processing'
 </script>
 
 <template>
   <TresCanvas shadows alpha>
-    <TresPerspectiveCamera :args="[45," 1, 0.1, 1000] />
-    <EffectComposerPmndrs>
-      <BloomPmndrs />
-      <GlitchPmndrs />
-    </EffectComposerPmndrs>
+    <TresPerspectiveCamera :args="[45, 1, 0.1, 1000]" />
+
+    <Suspense>
+      <EffectComposerPmndrs>
+        <BloomPmndrs />
+        <GlitchPmndrs />
+      </EffectComposerPmndrs>
+    </Suspense>
   </TresCanvas>
 </template>
 ```

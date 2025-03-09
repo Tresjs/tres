@@ -11,7 +11,10 @@ import '@tresjs/leches/styles'
 const gl = {
   clearColor: '#4f4f4f',
   toneMapping: NoToneMapping,
-  multisampling: 8,
+}
+
+const glComposer = {
+  multisampling: 4,
 }
 
 const { amount, offsetX, offsetY, blendFunction } = useControls({
@@ -21,7 +24,7 @@ const { amount, offsetX, offsetY, blendFunction } = useControls({
   blendFunction: {
     options: Object.keys(BlendFunction).map(key => ({
       text: key,
-      value: BlendFunction[key],
+      value: BlendFunction[key as keyof typeof BlendFunction],
     })),
     value: BlendFunction.OVERLAY,
   },
@@ -54,7 +57,7 @@ const { amount, offsetX, offsetY, blendFunction } = useControls({
       </RoundedBox>
 
       <Suspense>
-        <EffectComposerPmndrs>
+        <EffectComposerPmndrs v-bind="glComposer">
           <BarrelBlurPmndrs :amount="amount" :offset="[offsetX, offsetY]" :blendFunction="Number(blendFunction)" />
         </EffectComposerPmndrs>
       </Suspense>

@@ -14,8 +14,11 @@ import '@tresjs/leches/styles'
 const gl = {
   clearColor: '#ffffff',
   toneMapping: NoToneMapping,
-  multisampling: 8,
   envMapIntensity: 10,
+}
+
+const glComposer = {
+  multisampling: 4,
 }
 
 const { offsetX, offsetY, radialModulation, modulationOffset, blendFunction } = useControls({
@@ -26,7 +29,7 @@ const { offsetX, offsetY, radialModulation, modulationOffset, blendFunction } = 
   blendFunction: {
     options: Object.keys(BlendFunction).map(key => ({
       text: key,
-      value: BlendFunction[key],
+      value: BlendFunction[key as keyof typeof BlendFunction],
     })),
     value: BlendFunction.SRC,
   },
@@ -60,7 +63,7 @@ watchEffect(() => {
     />
 
     <Suspense>
-      <EffectComposerPmndrs>
+      <EffectComposerPmndrs v-bind="glComposer">
         <ChromaticAberrationPmndrs :offset="new Vector2(offsetX, offsetY)" :radial-modulation="radialModulation" :modulation-offset="modulationOffset" :blendFunction="Number(blendFunction)" />
       </EffectComposerPmndrs>
     </Suspense>

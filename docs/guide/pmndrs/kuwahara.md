@@ -4,6 +4,12 @@
   <KuwaharaDemo />
 </DocsDemoGUI>
 
+<details>
+  <summary>Demo code</summary>
+
+  <<< @/.vitepress/theme/components/pmdrs/KuwaharaDemo.vue{0}
+</details>
+
 The `Kuwahara` effect is part of the [`postprocessing`](https://pmndrs.github.io/postprocessing/public/docs/class/src/effects/KuwaharaEffect.js~KuwaharaEffect.html) package. It allows you to apply a Kuwahara filter to your scene, providing a painterly effect.
 
 The Kuwahara effect smooths out an image while keeping the edges sharp. It splits the image into small parts, checks each part for differences, and uses the part with the least differences. This makes the image look like a painting, reducing noise but keeping important details.
@@ -12,37 +18,30 @@ The Kuwahara effect smooths out an image while keeping the edges sharp. It split
 
 The `<KuwaharaPmndrs>` component is straightforward to use and provides customizable options to fine-tune the Kuwahara effect.
 
-```vue{2,5-9,26-32}
+```vue{3,11-14,21-25}
 <script setup lang="ts">
+import { TresCanvas } from '@tresjs/core'
 import { EffectComposerPmndrs, KuwaharaPmndrs } from '@tresjs/post-processing'
-import { BlendFunction } from 'postprocessing'
+import { NoToneMapping } from 'three'
+
+const gl = {
+  clearColor: '#0ff000',
+  toneMapping: NoToneMapping,
+}
 
 const effectProps = reactive({
   radius: 1,
-  blendFunction: BlendFunction.NORMAL,
   sectorCount: 4,
 })
 </script>
 
 <template>
-  <TresCanvas>
-    <TresPerspectiveCamera
-      :position="[5, 5, 5]"
-      :look-at="[0, 0, 0]"
-    />
-
-    <OrbitControls auto-rotate />
-
-    <TresMesh :position="[0, 1, 0]">
-      <TresBoxGeometry :args="[2, 2, 2]" />
-      <TresMeshPhysicalMaterial color="green" />
-    </TresMesh>
+  <TresCanvas v-bind="gl">
+    <TresPerspectiveCamera :position="[5, 5, 5]" />
 
     <Suspense>
       <EffectComposerPmndrs>
-        <KuwaharaPmndrs
-          v-bind="effectProps"
-        />
+        <KuwaharaPmndrs v-bind="effectProps" />
       </EffectComposerPmndrs>
     </Suspense>
   </TresCanvas>

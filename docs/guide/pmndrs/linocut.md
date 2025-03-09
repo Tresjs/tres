@@ -4,22 +4,27 @@
   <LinocutDemo />
 </DocsDemoGUI>
 
+<details>
+  <summary>Demo code</summary>
+
+  <<< @/.vitepress/theme/components/pmdrs/LinocutDemo.vue{0}
+</details>
+
 The `Linocut` effect is a custom shader effect inspired by traditional linocut and woodcut printmaking. It transforms the scene into a high-contrast black-and-white composition, featuring bold lines and intricate patterns that replicate the handcrafted aesthetic of relief printing techniques.
 
 ## Usage
 
 The `<LinocutPmndrs>` component is straightforward to use and provides customizable options to fine-tune the linocut effect.
 
-```vue{4,12-18,38-42}
+```vue{3,11-16,23-27}
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
-import { Environment, OrbitControls } from '@tresjs/cientos'
 import { EffectComposerPmndrs, LinocutPmndrs } from '@tresjs/post-processing'
+import { NoToneMapping } from 'three'
 
 const gl = {
   clearColor: '#4f4f4f',
   toneMapping: NoToneMapping,
-  multisampling: 8,
 }
 
 const effectProps = reactive({
@@ -27,26 +32,12 @@ const effectProps = reactive({
   noiseScale: 0.0,
   center: [0.5, 0.5],
   rotation: 0.0,
-  blendFunction: BlendFunction.NORMAL,
 })
 </script>
 
 <template>
   <TresCanvas v-bind="gl">
-    <TresPerspectiveCamera
-      :position="[0, 6.5, 6.5]"
-      :look-at="[0, 0, 0]"
-    />
-    <OrbitControls auto-rotate />
-
-    <Suspense>
-      <Environment preset="shangai" />
-    </Suspense>
-
-    <TresMesh>
-      <TresBoxGeometry :args="[2, 2, 2]" />
-      <TresMeshStandardMaterial color="yellow" />
-    </TresMesh>
+    <TresPerspectiveCamera :position="[5, 5, 5]" />
 
     <Suspense>
       <EffectComposerPmndrs>

@@ -10,7 +10,10 @@ import '@tresjs/leches/styles'
 
 const gl = {
   toneMapping: NoToneMapping,
-  multisampling: 8,
+}
+
+const glComposer = {
+  multisampling: 4,
 }
 
 const colors = [
@@ -27,7 +30,7 @@ const { blendFunction, offset, rotation, focusArea, feather } = useControls({
   blendFunction: {
     options: Object.keys(BlendFunction).map(key => ({
       text: key,
-      value: BlendFunction[key],
+      value: BlendFunction[key as keyof typeof BlendFunction],
     })),
     value: BlendFunction.NORMAL,
   },
@@ -62,7 +65,7 @@ const { blendFunction, offset, rotation, focusArea, feather } = useControls({
       </Suspense>
 
       <Suspense>
-        <EffectComposerPmndrs>
+        <EffectComposerPmndrs v-bind="glComposer">
           <TiltShiftPmndrs
             :blendFunction="Number(blendFunction)"
             :offset="offset"

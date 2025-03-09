@@ -4,22 +4,27 @@
   <BarrelBlurDemo />
 </DocsDemoGUI>
 
+<details>
+  <summary>Demo code</summary>
+
+  <<< @/.vitepress/theme/components/pmdrs/BarrelBlurDemo.vue{0}
+</details>
+
 The `Barrel Blur` is a custom effect that applies a barrel distortion with chromatic aberration blur, providing a unique visual effect.
 
 ## Usage
 
 The `<BarrelBlurPmndrs>` component is straightforward to use and provides customizable options to fine-tune the barrel blur effect.
 
-```vue{4,12-15,40-44}
+```vue{3,11-14,21-25}
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
-import { Environment, OrbitControls, RoundedBox } from '@tresjs/cientos'
 import { EffectComposerPmndrs, BarrelBlurPmndrs } from '@tresjs/post-processing'
+import { NoToneMapping } from 'three'
 
 const gl = {
   clearColor: '#4f4f4f',
   toneMapping: NoToneMapping,
-  multisampling: 8,
 }
 
 const effectProps = {
@@ -30,25 +35,7 @@ const effectProps = {
 
 <template>
   <TresCanvas v-bind="gl">
-    <TresPerspectiveCamera
-      :position="[5, 5, 5]"
-      :look-at="[0, 0, 0]"
-    />
-    <OrbitControls auto-rotate />
-
-    <Suspense>
-      <Environment preset="shangai" />
-    </Suspense>
-
-    <RoundedBox :args="[2, 2, 2, 2, 0.25]">
-      <TresMeshPhysicalMaterial
-        color="white"
-        :metalness=".9"
-        :roughness=".5"
-        :clearcoat="1.0"
-        :clearcoatRoughness="0.1"
-      />
-    </RoundedBox>
+    <TresPerspectiveCamera :position="[5, 5, 5]"/>
 
     <Suspense>
       <EffectComposerPmndrs>

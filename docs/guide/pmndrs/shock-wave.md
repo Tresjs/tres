@@ -26,25 +26,23 @@ You can use various Tres.js events such as `click`, `pointer-enter`, etc., to tr
 
 Here is an example of how to use events to trigger the shockwave effect:
 
-```vue{2,3,13-15,17-18,20-21,23-24,26-28,30-36,45,50-58}
+```vue{2,46-54}
 <script setup lang="ts">
 import { EffectComposerPmndrs, ShockWavePmndrs } from '@tresjs/post-processing'
 import { useMouse, useWindowSize } from '@vueuse/core'
 import { NoToneMapping, Vector3 } from 'three'
-import { computed, ref } from 'vue'
 import { TresCanvas } from '@tresjs/core'
 
 const gl = {
   toneMapping: NoToneMapping,
-  multisampling: 8,
 }
 
 const effectProps = {
   speed: 0.2,
 }
 
-const position = ref(new Vector3(0, 0, 0))
 const shockWaveEffectRef = ref(null)
+const mousePosition = ref(new Vector3(0,0,0))
 
 const { x, y } = useMouse()
 const { width, height } = useWindowSize()
@@ -67,10 +65,8 @@ function triggerShockWave() {
 
 <template>
   <TresCanvas v-bind="gl">
-    <TresPerspectiveCamera
-      :position="[5, 5, 5]"
-      :look-at="[0, 0, 0]"
-    />
+    <TresPerspectiveCamera :position="[5, 5, 5]" />
+
     <TresMesh @click="triggerShockWave">
       <TresBoxGeometry />
       <TresMeshStandardMaterial color="#1C1C1E" />
@@ -80,7 +76,7 @@ function triggerShockWave() {
       <EffectComposerPmndrs>
         <ShockWavePmndrs
           ref="shockWaveEffectRef"
-          :position="position"
+          :position="mousePosition"
           v-bind="effectProps"
         />
       </EffectComposerPmndrs>
@@ -95,24 +91,28 @@ The `DepthPickingPassPmndrs` component reads depth information from the scene. T
 
 In the example above, `DepthPickingPassPmndrs` determines the depth of the point where the shockwave effect should originate, allowing accurate interaction with 3D objects.
 
-```vue{2,3,13-15,17-20,22-23,25-26,28-37,39-45,51,58,63-72}
+```vue{2,64-73}
 <script setup lang="ts">
 import { DepthPickingPassPmndrs, EffectComposerPmndrs, ShockWavePmndrs } from '@tresjs/post-processing'
 import { useMouse, useWindowSize } from '@vueuse/core'
 import { NoToneMapping, Vector3 } from 'three'
-import { computed, ref } from 'vue'
 import { TresCanvas } from '@tresjs/core'
+
+/**
+ * The camera value is retrieved via a ref here (elCanvasRef) because using
+ * https://docs.tresjs.org/api/composables.html#usetrescontext
+ * is not possible at the same level as <TresCanvas>.
+ */
 
 const gl = {
   toneMapping: NoToneMapping,
-  multisampling: 8,
 }
 
 const effectProps = {
   speed: 0.2,
 }
 
-const position = ref(new Vector3(0, 0, 0))
+const mousePosition = ref(new Vector3(0, 0, 0))
 const depthPickingPassRef = ref(null)
 const shockWaveEffectRef = ref(null)
 const elCanvasRef = ref(null)
@@ -131,7 +131,7 @@ async function updateMousePosition() {
   ndcPosition.z = await depthPickingPassRef.value.pass.readDepth(ndcPosition)
   ndcPosition.z = ndcPosition.z * 2.0 - 1.0
 
-  position.value.copy(ndcPosition.unproject(elCanvasRef.value.context.camera.value))
+  mousePosition.value.copy(ndcPosition.unproject(elCanvasRef.value.context.camera.value))
 }
 
 function triggerShockWave() {
@@ -148,10 +148,7 @@ function triggerShockWave() {
     v-bind="gl"
     ref="elCanvasRef"
   >
-    <TresPerspectiveCamera
-      :position="[5, 5, 5]"
-      :look-at="[0, 0, 0]"
-    />
+    <TresPerspectiveCamera :position="[5, 5, 5]" />
 
     <TresMesh @click="triggerShockWave">
       <TresBoxGeometry />
@@ -163,7 +160,7 @@ function triggerShockWave() {
         <DepthPickingPassPmndrs ref="depthPickingPassRef" />
         <ShockWavePmndrs
           ref="shockWaveEffectRef"
-          :position="position"
+          :position="mousePosition"
           v-bind="effectProps"
         />
       </EffectComposerPmndrs>
@@ -185,4 +182,4 @@ For more details about DepthPickingPass, see the [documentation](https://pmndrs.
 | maxRadius         | The max radius of the shockwave.                                                                              | `1.0`                     |
 
 ## Further Reading
-see [postprocessing docs](https://pmndrs.github.io/postprocessing/public/docs/class/src/effects/ShockWaveEffect.js~ShockWaveEffect.html)
+For more details, see the [ShockWave documentation](https://pmndrs.github.io/postprocessing/public/docs/class/src/effects/ShockWaveEffect.js~ShockWaveEffect.html)

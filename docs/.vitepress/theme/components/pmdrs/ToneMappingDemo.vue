@@ -12,7 +12,10 @@ import '@tresjs/leches/styles'
 const gl = {
   toneMappingExposure: 1,
   toneMapping: NoToneMapping,
-  multisampling: 8,
+}
+
+const glComposer = {
+  multisampling: 4,
 }
 
 const modelRef = shallowRef(null)
@@ -29,7 +32,7 @@ const { toneMappingExposure, mode } = useControls({
   mode: {
     options: Object.keys(ToneMappingMode).map(key => ({
       text: key,
-      value: ToneMappingMode[key],
+      value: ToneMappingMode[key as keyof typeof ToneMappingMode],
     })),
     value: ToneMappingMode.AGX,
   },
@@ -64,7 +67,7 @@ onUnmounted(() => {
       />
 
       <Suspense>
-        <EffectComposerPmndrs>
+        <EffectComposerPmndrs v-bind="glComposer">
           <ToneMappingPmndrs :mode="Number(mode)" />
         </EffectComposerPmndrs>
       </Suspense>

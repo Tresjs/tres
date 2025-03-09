@@ -13,7 +13,10 @@ import '@tresjs/leches/styles'
 const gl = {
   clearColor: '#ffffff',
   toneMapping: NoToneMapping,
-  multisampling: 8,
+}
+
+const glComposer = {
+  multisampling: 4,
 }
 
 const chromaticAberrationRef = shallowRef(null)
@@ -69,15 +72,16 @@ watchEffect(() => {
       />
 
       <Suspense>
-        <EffectComposerPmndrs>
-          <ChromaticAberrationPmndrs ref="chromaticAberrationRef" :offset="new Vector2(offsetX, offsetY)" :radial-modulation="radialModulation" :modulation-offset="modulationOffset" />
-        </EffectComposerPmndrs>
+        <Environment :intensity="2" :blur="0" preset="snow" />
       </Suspense>
 
       <Suspense>
-        <Environment :intensity="2" :blur="0" preset="snow" />
+        <EffectComposerPmndrs v-bind="glComposer">
+          <ChromaticAberrationPmndrs ref="chromaticAberrationRef" :offset="new Vector2(offsetX, offsetY)" :radial-modulation="radialModulation" :modulation-offset="modulationOffset" />
+        </EffectComposerPmndrs>
       </Suspense>
     </TresCanvas>
   </div>
+
   <TresLeches :float="false" />
 </template>

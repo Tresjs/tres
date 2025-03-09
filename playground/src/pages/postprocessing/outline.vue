@@ -13,7 +13,10 @@ import '@tresjs/leches/styles'
 const gl = {
   clearColor: '#4ADE80',
   toneMapping: NoToneMapping,
-  multisampling: 8,
+}
+
+const glComposer = {
+  multisampling: 4,
 }
 
 const outlinedObjects = ref<Object3D[]>([])
@@ -77,7 +80,7 @@ const { edgeStrength, pulseSpeed, visibleEdgeColor, blur, kernelSize } = useCont
     <TresGridHelper />
     <TresAmbientLight :intensity="1" />
     <Suspense>
-      <EffectComposerPmndrs>
+      <EffectComposerPmndrs v-bind="glComposer">
         <OutlinePmndrs
           :outlined-objects="outlinedObjects"
           :blur="blur"
