@@ -48,6 +48,7 @@ export const postProcessingRoutes = [
   makeRoute('Color Average', '🎞️', false),
   makeRoute('Lens Distortion', '🌐', false),
   makeRoute('Sepia', '🌅', false),
+  makeRoute('God Rays', '🌞', false),
   makeRoute('Scanline', '📽️', false),
   makeRoute('Color Depth', '🔳', false),
   makeRoute('Grid', '#️⃣', false),

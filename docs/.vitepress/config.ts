@@ -55,6 +55,7 @@ export default defineConfig({
           { text: 'Color Depth', link: '/guide/pmndrs/color-depth' },
           { text: 'Linocut', link: '/guide/pmndrs/linocut' },
           { text: 'Sepia', link: '/guide/pmndrs/sepia' },
+          { text: 'God Rays', link: '/guide/pmndrs/god-rays' },
           { text: 'Brightness Contrast', link: '/guide/pmndrs/brightness-contrast' },
           { text: 'Vignette', link: '/guide/pmndrs/vignette' },
           { text: 'Hue & Saturation', link: '/guide/pmndrs/hue-saturation' },
