@@ -1,5 +1,21 @@
 # Changelog
 
+## [2.2.0](https://github.com/Tresjs/post-processing/compare/2.1.0...2.2.0) (2025-03-10)
+
+### Features
+
+* brightness contrast ([#184](https://github.com/Tresjs/post-processing/issues/184)) ([0df3394](https://github.com/Tresjs/post-processing/commit/0df339452b6fa01979e24619cfa139c86d37cae2))
+* color depth ([#186](https://github.com/Tresjs/post-processing/issues/186)) ([c09851c](https://github.com/Tresjs/post-processing/commit/c09851cee7c82d0fac0748e9dfc82794d6146eaf))
+* fish-eye ([#182](https://github.com/Tresjs/post-processing/issues/182)) ([826d832](https://github.com/Tresjs/post-processing/commit/826d83257a0c7ec88858ea5af7b42d40a060dc80))
+* god rays ([#187](https://github.com/Tresjs/post-processing/issues/187)) ([eafe305](https://github.com/Tresjs/post-processing/commit/eafe305fe4a1b9fcd0867e1e7b7826ec79af1471))
+* grid ([#185](https://github.com/Tresjs/post-processing/issues/185)) ([212312e](https://github.com/Tresjs/post-processing/commit/212312e31efb8c658e8a2de924a51afb8a9a5d9e))
+
+### Bug Fixes
+
+* add exported member depth picking pass pmndrs ([#179](https://github.com/Tresjs/post-processing/issues/179)) ([6f3d459](https://github.com/Tresjs/post-processing/commit/6f3d459a24145eb853f1e635248c214ac79c2c6d))
+* delete multisampling used in TresCanvas props ([#188](https://github.com/Tresjs/post-processing/issues/188)) ([507b517](https://github.com/Tresjs/post-processing/commit/507b5174719abec891e55b44fe4b8cdf476e8b39)), closes [#189](https://github.com/Tresjs/post-processing/issues/189)
+* sorted navigation entries ([#190](https://github.com/Tresjs/post-processing/issues/190)) ([cf4aad2](https://github.com/Tresjs/post-processing/commit/cf4aad21be4e562a07d9d912585585c23d35b93f))
+
 ## [2.1.0](https://github.com/Tresjs/post-processing/compare/2.0.0...2.1.0) (2025-01-29)
 
 ### Features
