@@ -184,7 +184,7 @@ importers:
         version: 19.1.1(@nuxt/kit@3.15.4(magicast@0.3.5))(@vueuse/core@12.8.2(typescript@5.7.3))
       vite-plugin-glsl:
         specifier: ^1.3.1
-        version: 1.3.1(rollup@4.34.8)(vite@6.1.1(@types/node@22.13.5)(jiti@2.4.2)(tsx@4.19.3)(yaml@2.7.0))
+        version: 1.3.3(rollup@4.34.8)(vite@6.1.1(@types/node@22.13.5)(jiti@2.4.2)(tsx@4.19.3)(yaml@2.7.0))
       vite-plugin-qrcode:
         specifier: ^0.2.4
         version: 0.2.4(vite@6.1.1(@types/node@22.13.5)(jiti@2.4.2)(tsx@4.19.3)(yaml@2.7.0))
@@ -5220,9 +5220,9 @@ packages:
       vite:
         optional: true
 
-  vite-plugin-glsl@1.3.1:
-    resolution: {integrity: sha512-iClII8Idb9X0m6nS0YI2cWWXbBuT5EKKw5kXSAuRu4RJsNe4oypxKXE7jx0XMoyqij2s8WL0ZLfou801mpkREg==}
-    engines: {node: '>= 16.15.1', npm: '>= 8.11.0'}
+  vite-plugin-glsl@1.3.3:
+    resolution: {integrity: sha512-ZN1PjwPN9MTqt75SAZHcNr9A4IFtxFxZsPwApVuhhnSSeDPk6ezD8LUmcoTQtZwerNT3vWiwv3+zSspT+8yInQ==}
+    engines: {node: '>= 20.17.0', npm: '>= 10.8.3'}
     peerDependencies:
       vite: ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0
 
@@ -11236,7 +11236,7 @@ snapshots:
       - rollup
       - supports-color
 
-  vite-plugin-glsl@1.3.1(rollup@4.34.8)(vite@6.1.1(@types/node@22.13.5)(jiti@2.4.2)(tsx@4.19.3)(yaml@2.7.0)):
+  vite-plugin-glsl@1.3.3(rollup@4.34.8)(vite@6.1.1(@types/node@22.13.5)(jiti@2.4.2)(tsx@4.19.3)(yaml@2.7.0)):
     dependencies:
       '@rollup/pluginutils': 5.1.4(rollup@4.34.8)
       vite: 6.1.1(@types/node@22.13.5)(jiti@2.4.2)(tsx@4.19.3)(yaml@2.7.0)
