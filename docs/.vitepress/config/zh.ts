@@ -124,7 +124,7 @@ export const zhConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
           },
           {
             text: '贡献',
-            link: 'https://github.com/Tresjs/tres/blob/main/CONTRIBUTING.md',
+            link: 'https://github.com/Tresjs/.github/blob/main/CONTRIBUTING.md',
           },
           {
             text: '生态系统',

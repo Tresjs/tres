@@ -129,7 +129,7 @@ export const enConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
           },
           {
             text: 'Contributing',
-            link: 'https://github.com/Tresjs/tres/blob/main/CONTRIBUTING.md',
+            link: 'https://github.com/Tresjs/.github/blob/main/CONTRIBUTING.md',
           },
           {
             text: 'Ecosystem',

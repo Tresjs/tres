@@ -123,7 +123,7 @@ export const nlConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
         },
         {
           text: 'Bijdragen',
-          link: 'https://github.com/Tresjs/tres/blob/main/CONTRIBUTING.md',
+          link: 'https://github.com/Tresjs/.github/blob/main/CONTRIBUTING.md',
         },
         {
           text: 'Ecosysteem',
