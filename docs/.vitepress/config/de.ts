@@ -124,6 +124,10 @@ export const deConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
             link: 'https://github.com/Tresjs/tres/issues',
           },
           {
+            text: 'Beitragen',
+            link: 'https://github.com/Tresjs/tres/blob/main/CONTRIBUTING.md',
+          },
+          {
             text: 'Ökosystem',
             items: [
               {

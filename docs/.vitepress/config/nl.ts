@@ -122,6 +122,10 @@ export const nlConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
           link: 'https://github.com/Tresjs/tres/issues',
         },
         {
+          text: 'Bijdragen',
+          link: 'https://github.com/Tresjs/tres/blob/main/CONTRIBUTING.md',
+        },
+        {
           text: 'Ecosysteem',
           items: [
             {
