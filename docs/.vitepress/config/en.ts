@@ -104,6 +104,12 @@ export const enConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
           },
         ],
       },
+      {
+        text: 'Contributing',
+        items: [
+          { text: 'Contribute', link: '/contribute/contributing' },
+        ],
+      },
     ],
     nav: [
       { text: 'Guide', link: '/guide/' },
