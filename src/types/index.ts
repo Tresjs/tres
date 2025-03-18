@@ -1,5 +1,6 @@
 export * from './collider'
 export * from './collision'
+export * from './joint'
 export * from './object'
 export * from './physics'
 export * from './rapier'

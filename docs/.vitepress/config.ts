@@ -66,6 +66,7 @@ export default defineConfig({
           { text: 'Physics', link: '/components/physics' },
           { text: 'RigidBody', link: '/components/rigid-body' },
           { text: 'Collider', link: '/components/collider' },
+          { text: 'Joint', link: '/components/joint' },
         ],
       },
       {
