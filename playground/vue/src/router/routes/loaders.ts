@@ -14,4 +14,9 @@ export const loaderRoutes = [
     name: 'Loader Component',
     component: () => import('../../pages/loaders/componentDemo.vue'),
   },
+  {
+    path: '/loaders/multiple-models',
+    name: 'Multiple Models',
+    component: () => import('../../pages/loaders/multiple-models/index.vue'),
+  },
 ]

@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { OrbitControls } from '@tresjs/cientos'
-import BlenderCube from './BlenderCube.vue'
-import Suzanne from './Suzanne.vue'
+import { useLoader } from '@tresjs/core'
+import { type GLTF, GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
+
+const { data } = useLoader<GLTF>(GLTFLoader, 'models/scene.glb')
 </script>
 
 <template>
