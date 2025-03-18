@@ -12,8 +12,8 @@ const url = 'https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/bl
     <OrbitControls />
     <Suspense>
       <UseLoader v-slot="{ data }" :loader="GLTFLoader" :url="url">
-        <primitive :object="data.scene" />
-      </useloader>
+        <primitive v-if="data?.scene" :object="data.scene" />
+      </UseLoader>
     </Suspense>
     <TresDirectionalLight :position="[0, 10, 0]" :intensity="1" />
     <TresAmbientLight :intensity="0.5" />

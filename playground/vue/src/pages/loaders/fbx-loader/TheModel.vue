@@ -1,10 +1,14 @@
 <script setup lang="ts">
-import { useFBX } from '../../../composables/useFBX'
+import { useLoader } from '@tresjs/core'
+import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader.js'
+import type { Group } from 'three'
 
-const scene = await useFBX('https://raw.githubusercontent.com/Tresjs/assets/main/models/fbx/low-poly-truck/Jeep_done.fbx')
-scene.scale.set(0.01, 0.01, 0.01)
+const { data } = await useLoader<Group>(
+  FBXLoader,
+  'https://raw.githubusercontent.com/Tresjs/assets/main/models/fbx/low-poly-truck/Jeep_done.fbx',
+)
 </script>
 
 <template>
-  <primitive :object="scene" />
+  <primitive v-if="data" :object="data" :scale="0.01" />
 </template>
