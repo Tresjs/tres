@@ -1,4 +1,5 @@
 <script setup lang="ts">
+/* eslint-disable no-console */
 import { OrbitControls } from '@tresjs/cientos'
 import { useLoader } from '@tresjs/core'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
@@ -11,6 +12,7 @@ const { data } = useLoader(GLTFLoader, [
 watch(data, (newData) => {
   console.log(newData)
 })
+/* eslint-enable no-console */
 </script>
 
 <template>

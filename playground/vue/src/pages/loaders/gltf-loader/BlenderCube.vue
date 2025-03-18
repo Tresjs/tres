@@ -2,8 +2,6 @@
 import { type TresGLTF, useLoader } from '@tresjs/core'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
-import type { GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js'
-import type { LoaderProto } from 'three/examples/jsm/loaders/LoaderProto.js'
 
 // Initialize DRACOLoader
 const dracoLoader = new DRACOLoader()

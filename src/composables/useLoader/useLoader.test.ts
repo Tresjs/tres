@@ -1,8 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { useLoader } from '.'
-import type { LoaderProto, TresLoader } from '@tresjs/core'
-import type { LoadingManager, Object3D } from 'three'
-import type { GLTF } from 'three/examples/jsm/loaders/GLTFLoader'
+import type { LoaderProto } from '@tresjs/core'
 
 // Create a mock Object3D-like structure
 class MockObject3D {

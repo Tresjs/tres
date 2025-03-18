@@ -174,7 +174,7 @@ const url = 'https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/bl
 
 <template>
   <UseLoader
-    v-slot="{ data, isLoading, error }"
+    v-slot="{ data }"
     :loader="GLTFLoader"
     :url="url"
     @loaded="onLoaded"

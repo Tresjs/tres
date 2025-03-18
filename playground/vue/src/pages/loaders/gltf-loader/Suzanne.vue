@@ -1,9 +1,10 @@
 <script setup lang="ts">
+/* eslint-disable no-console */
 import { useLoader } from '@tresjs/core'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
 import type { GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js'
-import type { LoaderProto, TresLoader } from '@tresjs/core'
+import type { LoaderProto } from '@tresjs/core'
 
 // Initialize DRACOLoader
 const dracoLoader = new DRACOLoader()
@@ -31,6 +32,7 @@ watch(isLoading, (newIsLoading) => {
 watch(data, (newData) => {
   console.log('data', newData)
 })
+/* eslint-enable no-console */
 </script>
 
 <template>
