@@ -61,7 +61,7 @@ export const makePropWatchers = <E>(
  * @param {() => E & { dispose?(): void }} newPlainObjectFunction - A function that creates a new plain object to retrieve the defaults from with an optional "dispose" method for cleanup.
  */
 export const makePropWatchersUsingAllProps = <E>(
-  props: { [key: string]: any },
+  props: { [key: PropertyKey]: any },
   target: Ref<E>,
   newPlainObjectFunction: () => E & { dispose?: () => void },
 ) => Object.keys(props).map(key => makePropWatcher(

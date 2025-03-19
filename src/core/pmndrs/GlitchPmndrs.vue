@@ -5,7 +5,7 @@ import { useLoop } from '@tresjs/core'
 import { GlitchEffect, GlitchMode } from 'postprocessing'
 import { watchEffect } from 'vue'
 import { omit } from '../../util/object'
-import { makePropWatchersUsingAllProps } from '../../util/prop'
+import { makePropWatcher, makePropWatchersUsingAllProps } from '../../util/prop'
 import { useEffectPmndrs } from './composables/useEffectPmndrs'
 
 export interface GlitchPmndrsProps {
@@ -57,7 +57,7 @@ export interface GlitchPmndrsProps {
 <script setup lang="ts">
 const props = defineProps<GlitchPmndrsProps>()
 
-const { pass, effect } = useEffectPmndrs(() => new GlitchEffect(props), props)
+const { pass, effect } = useEffectPmndrs(() => new GlitchEffect(props), props, ['dtSize'])
 defineExpose({ pass, effect })
 
 const { onBeforeRender } = useLoop()
@@ -77,8 +77,15 @@ watchEffect(() => {
   if (effect.value) { effect.value.mode = getMode() }
 })
 
+makePropWatcher(
+  () => props.blendFunction,
+  effect,
+  'blendMode.blendFunction',
+  () => new GlitchEffect(),
+)
+
 makePropWatchersUsingAllProps(
-  omit(props, ['active', 'mode', 'blendFunction']),
+  omit(props, ['active', 'blendFunction']),
   effect,
   () => new GlitchEffect(),
 )

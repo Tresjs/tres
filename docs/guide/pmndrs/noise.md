@@ -29,7 +29,7 @@ import { BlendFunction } from 'postprocessing'
 
 | Prop                 | Description                                                                                          | Default                                                                                                                                        |
 | -------------------- | ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
-| `blendFunction`      | The blend function of this effect. This prop is not reactive.                                        | [BlendFunction.SCREEN](https://github.com/pmndrs/postprocessing/blob/c3ce388be247916437a314f17748a75329d65df1/src/enums/BlendFunction.js#L40) |
+| `blendFunction`      | The blend function of this effect.                                        | [BlendFunction.SCREEN](https://github.com/pmndrs/postprocessing/blob/c3ce388be247916437a314f17748a75329d65df1/src/enums/BlendFunction.js#L40) |
 | `premultiply`          | Indicates whether noise will be multiplied with the input colors prior to blending | `false`           |
 
 ## Further Reading

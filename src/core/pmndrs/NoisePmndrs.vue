@@ -2,8 +2,7 @@
 import { useLoop } from '@tresjs/core'
 import type { BlendFunction } from 'postprocessing'
 import { NoiseEffect } from 'postprocessing'
-import { omit } from '../../util/object'
-import { makePropWatchersUsingAllProps } from '../../util/prop'
+import { makePropWatchers } from '../../util/prop'
 import { useEffectPmndrs } from './composables/useEffectPmndrs'
 
 export interface NoisePmndrsProps {
@@ -26,8 +25,11 @@ defineExpose({ pass, effect })
 const { onBeforeRender } = useLoop()
 onBeforeRender(({ invalidate }) => invalidate())
 
-makePropWatchersUsingAllProps(
-  omit(props, ['blendFunction']),
+makePropWatchers(
+  [
+    [() => props.blendFunction, 'blendMode.blendFunction'],
+    [() => props.premultiply, 'premultiply'],
+  ],
   effect,
   () => new NoiseEffect(),
 )

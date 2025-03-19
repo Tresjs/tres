@@ -26,7 +26,7 @@ import { DepthOfFieldPmndrs, EffectComposerPmndrs } from '@tresjs/post-processin
 
 | Prop            | Description                                                   | Default                                                                                                                                        |
 | --------------- | ------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
-| `blendFunction` | The blend function of this effect. This prop is not reactive. | [BlendFunction.SCREEN](https://github.com/pmndrs/postprocessing/blob/c3ce388be247916437a314f17748a75329d65df1/src/enums/BlendFunction.js#L40) |
+| `blendFunction` | The blend function of this effect. | [BlendFunction.SCREEN](https://github.com/pmndrs/postprocessing/blob/c3ce388be247916437a314f17748a75329d65df1/src/enums/BlendFunction.js#L40) |
 | `worldFocusDistance` | The focus distance in world units. | 0.3 |
 | `worldFocusRange` | The focus range in world units. | depends on camera |
 | `focusDistance` | The normalized focus distance. Range is [0.0, 1.0]. | depends on camera |

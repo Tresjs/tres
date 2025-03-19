@@ -25,12 +25,12 @@ import { EffectComposerPmndrs, VignettePmndrs } from '@tresjs/post-processing'
 
 ## Props
 
-| Prop          | Description                                                 | Default                    |
-| ------------- | ----------------------------------------------------------- | -------------------------- |
+| Prop          | Description                                                  | Default                    |
+| ------------- | ------------------------------------------------------------ | -------------------------- |
 | technique     | Whether the noise should be multiplied with the input color. | VignetteTechnique.DEFAULT |
-| blendFunction | The blend function to use. This prop is not reactive. | BlendFunction.NORMAL       |
-| offset        | The offset value.                                           | 0.5                        |
-| darkness      | The darkness value.                                         | 0.5                        |
+| blendFunction | The blend function to use.                                   | BlendFunction.NORMAL       |
+| offset        | The offset value.                                            | 0.5                        |
+| darkness      | The darkness value.                                          | 0.5                        |
 
 ## Further Reading
 see [postprocessing docs](https://pmndrs.github.io/postprocessing/public/docs/class/src/effects/VignetteEffect.js~VignetteEffect.html)

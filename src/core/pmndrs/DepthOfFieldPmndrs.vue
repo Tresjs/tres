@@ -7,7 +7,7 @@ import { useEffectPmndrs } from './composables/useEffectPmndrs'
 
 export interface DepthOfFieldPmndrsProps {
   /**
-   * The blend function of this effect. This prop is not reactive.
+   * The blend function of this effect.
    */
   blendFunction?: BlendFunction
 
@@ -51,7 +51,7 @@ defineExpose({ pass, effect })
 
 makePropWatchers(
   [
-    // blendFunction is not updated, because it has no setter in BloomEffect
+    [() => props.blendFunction, 'blendMode.blendFunction'],
     [() => props.worldFocusDistance, 'circleOfConfusionMaterial.worldFocusDistance'],
     [() => props.focusDistance, 'circleOfConfusionMaterial.focusDistance'],
     [() => props.worldFocusRange, 'circleOfConfusionMaterial.worldFocusRange'],

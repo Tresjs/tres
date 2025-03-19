@@ -1,8 +1,7 @@
 <script lang="ts">
 import type { BlendFunction, VignetteTechnique } from 'postprocessing'
 import { VignetteEffect } from 'postprocessing'
-import { omit } from '../../util/object'
-import { makePropWatchersUsingAllProps } from '../../util/prop'
+import { makePropWatchers } from '../../util/prop'
 import { useEffectPmndrs } from './composables/useEffectPmndrs'
 
 export interface VignettePmndrsProps {
@@ -22,8 +21,13 @@ const props = defineProps<VignettePmndrsProps>()
 const { pass, effect } = useEffectPmndrs(() => new VignetteEffect(props), props)
 defineExpose({ pass, effect })
 
-makePropWatchersUsingAllProps(
-  omit(props, ['blendFunction']),
+makePropWatchers(
+  [
+    [() => props.blendFunction, 'blendMode.blendFunction'],
+    [() => props.offset, 'offset'],
+    [() => props.darkness, 'darkness'],
+    [() => props.technique, 'technique'],
+  ],
   effect,
   () => new VignetteEffect(),
 )

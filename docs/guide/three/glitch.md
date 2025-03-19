@@ -28,9 +28,9 @@ import { EffectComposer, Glitch } from '@tresjs/post-processing'
 
 ## Props
 
-| Prop    | Description                                                                                                        | Default |
-|---------|--------------------------------------------------------------------------------------------------------------------|---------|
-| `dtSize` | The size of the generated noise map. Will be ignored if a perturbation map is provided. This prop is not reactive. | `64`    |
+| Prop     | Description                                                                             | Default |
+|----------|-----------------------------------------------------------------------------------------|---------|
+| `dtSize` | The size of the generated noise map. Will be ignored if a perturbation map is provided. | `64`    |
 | `goWild` | If true, the glitch effect will be more wild 🤪  | `false`
 
 ## Further Reading
