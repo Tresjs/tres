@@ -3,7 +3,6 @@ import UseTexture from './useTexture/component.vue'
 
 export * from './useCamera/'
 export * from './useLoader'
-export * from './useLogger'
 export * from './useLoop'
 export * from './useRaycaster'
 export * from './useRenderer/'
