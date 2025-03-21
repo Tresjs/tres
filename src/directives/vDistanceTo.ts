@@ -1,10 +1,8 @@
 import type { Ref } from 'vue'
 import type { TresObject } from '../types'
 import { ArrowHelper } from 'three'
-import { useLogger } from '../composables'
+import { logWarning } from '../utils/logger'
 import { extractBindingPosition } from '../utils'
-
-const { logWarning } = useLogger()
 
 let arrowHelper: ArrowHelper | null = null
 

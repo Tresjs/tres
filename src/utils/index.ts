@@ -6,6 +6,7 @@ import { DoubleSide, MathUtils, MeshBasicMaterial, Scene, Vector3 } from 'three'
 import { HightlightMesh } from '../devtools/highlight'
 import * as is from './is'
 
+export * from './logger'
 export function toSetMethodName(key: string) {
   return `set${key[0].toUpperCase()}${key.slice(1)}`
 }
