@@ -10,6 +10,7 @@ export * from './core/catalogue'
 export * from './core/loop'
 export * from './directives'
 export * from './types'
+export * from './utils/logger'
 
 export interface TresOptions {
   extends?: Record<string, unknown>
