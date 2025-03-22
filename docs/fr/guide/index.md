@@ -79,7 +79,7 @@ Nous avons un nouveau starter [StackBlitz](https://stackblitz.com/) afin d'essay
 
 ## Labs
 
-Nous avons également un laboratoire de démonstration d'exemples réalisés avec TresJS. Consultez-le [ici](https://play.tresjs.org/).
+Nous avons un laboratoire de démonstration d'exemples créés avec TresJS. Consultez-le [ici](https://play.tresjs.org/).
 
 ![](/tresjs-lab.png)
 
