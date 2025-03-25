@@ -18,6 +18,8 @@ const props = withDefaults(defineProps<EnvironmentOptions>(), {
   near: 1,
   far: 1000,
   frames: Number.POSITIVE_INFINITY,
+  backgroundIntensity: 1,
+  environmentIntensity: 1,
 })
 
 const texture: Ref<Texture | CubeTexture | null> = ref(null)

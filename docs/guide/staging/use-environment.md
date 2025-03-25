@@ -62,3 +62,7 @@ const texture = await useEnvironment({
 | **background** | `boolean`  | `false`                                                                          | If `true` the texture will be used as the scene background.                 |
 | **blur**       | `number`   | `0`                                                                              | Blur factor between 0 and 1. (only works with three 0.146 and up)           |
 | **preset**     | `string`   | `undefined`                                                                      | Preset environment map.                                                     |
+| **backgroundIntensity** | `number` | `1` | Intensity of the background. |
+| **environmentIntensity** | `number` | `1` | Intensity of the environment. |
+| **backgroundRotation** | `VectorFlexibleParams` | `[0, 0, 0]` | Rotation of the background. |
+| **environmentRotation** | `VectorFlexibleParams` | `[0, 0, 0]` | Rotation of the environment. |

@@ -1,3 +1,5 @@
+import type { VectorFlexibleParams } from '@tresjs/core'
+
 export interface EnvironmentOptions {
   /**
    * If true, the environment will be set as the scene's background.
@@ -61,6 +63,42 @@ export interface EnvironmentOptions {
    * @default Infinity
    */
   frames?: number
+  /**
+   * The intensity of the background.
+   *
+   * @type {number}
+   * @default 1
+   */
+  backgroundIntensity?: number
+  /**
+   * The rotation of the background.
+   *
+   * @type {VectorFlexibleParams}
+   * @default [0, 0, 0]
+   */
+  backgroundRotation?: VectorFlexibleParams
+  /**
+   * The intensity of the environment.
+   *
+   * @type {number}
+   * @default 1
+   */
+  environmentIntensity?: number
+  /**
+   * The rotation of the environment.
+   *
+   * @type {VectorFlexibleParams}
+   * @default [0, 0, 0]
+   */
+  environmentRotation?: VectorFlexibleParams
+  /**
+   * If true, the environment rotation will be synced with the background rotation.
+   * This means when backgroundRotation changes, environmentRotation will be updated to match.
+   *
+   * @type {boolean}
+   * @default false
+   */
+  syncMaterials?: boolean
 }
 
 export const environmentPresets = {

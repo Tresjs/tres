@@ -4,7 +4,7 @@ import { Environment, Lightformer, OrbitControls, Sphere, useProgress } from '@t
 import { TresCanvas } from '@tresjs/core'
 import Lightformers from './Lightformers.vue'
 import { TresLeches, useControls } from '@tresjs/leches'
-import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
+import { BasicShadowMap, NoToneMapping, SRGBColorSpace, Vector3 } from 'three'
 import '@tresjs/leches/styles'
 
 /* const environmentFiles = ['/px.jpg', '/nx.jpg', '/py.jpg', '/ny.jpg', '/pz.jpg', '/nz.jpg'] */
@@ -18,7 +18,7 @@ const gl = {
   toneMapping: NoToneMapping,
 }
 
-const { background, blur, preset } = useControls({
+const { background, blur, preset, backgroundIntensity, environmentIntensity, backgroundRotation, environmentRotation, syncMaterials } = useControls({
   background: true,
   blur: {
     value: 0,
@@ -43,6 +43,25 @@ const { background, blur, preset } = useControls({
     ],
     value: 'sunset',
   },
+  backgroundIntensity: {
+    value: 1,
+    min: 0,
+    max: 1,
+    step: 0.1,
+  },
+  environmentIntensity: {
+    value: 1,
+    min: 0,
+    max: 1,
+    step: 0.1,
+  },
+  backgroundRotation: {
+    value: new Vector3(0, 0, 0),
+  },
+  environmentRotation: {
+    value: new Vector3(0, 0, 0),
+  },
+  syncMaterials: false,
 })
 
 const environmentRef = ref(null)
@@ -91,6 +110,11 @@ const { progress, hasFinishLoading } = await useProgress()
         :blur="blur.value"
         :preset="preset.value"
         :frames="Infinity"
+        :background-intensity="backgroundIntensity.value"
+        :environment-intensity="environmentIntensity.value"
+        :background-rotation="[backgroundRotation.value.x, backgroundRotation.value.y, backgroundRotation.value.z]"
+        :environment-rotation="[environmentRotation.value.x, environmentRotation.value.y, environmentRotation.value.z]"
+        :sync-materials="syncMaterials.value"
       >
         <Lightformer
           :intensity="0.75"
