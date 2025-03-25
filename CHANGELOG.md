@@ -1,5 +1,11 @@
 # Changelog
 
+## [4.3.0](https://github.com/Tresjs/cientos/compare/4.2.0...4.3.0) (2025-03-25)
+
+### Features
+
+* **environment:** enhance environment and background props ([#590](https://github.com/Tresjs/cientos/issues/590)) ([7e96136](https://github.com/Tresjs/cientos/commit/7e96136ad4f9da046ad14eb31a69a7ff67649010))
+
 ## [4.2.0](https://github.com/Tresjs/cientos/compare/4.1.1...4.2.0) (2025-03-07)
 
 ### Features
