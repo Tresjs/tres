@@ -1,4 +1,12 @@
+# Changelog
 
+## [4.3.3](https://github.com/Tresjs/tres/compare/4.3.2...4.3.3) (2025-02-06)
+
+### Bug Fixes
+
+* remove camera warning log on default camera creation ([#916](https://github.com/Tresjs/tres/issues/916)) ([5d490b4](https://github.com/Tresjs/tres/commit/5d490b4989ed68ff81569398d5b1fe8f09cddea0))
+* safely remove helpers in vDistanceTo and vLightHelper directives ([#919](https://github.com/Tresjs/tres/issues/919)) ([f512b1a](https://github.com/Tresjs/tres/commit/f512b1a129f3740337c813f3a9cd79355356e043))
+* typescript build issues utils ([#924](https://github.com/Tresjs/tres/issues/924)) ([e9b7bf9](https://github.com/Tresjs/tres/commit/e9b7bf97f7561aaa7dba9eae46954278a04ab017))
 
 ## [4.3.2](https://github.com/Tresjs/tres/compare/4.3.1...4.3.2) (2025-01-03)
 

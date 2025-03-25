@@ -187,23 +187,29 @@ export function registerTresDevtools(app: DevtoolsApp, tres: TresContext) {
           }
 
           if (instance.isScene) {
-            payload.state.info = {
-              objects: instance.children.length,
-              memory: calculateMemoryUsage(instance),
-              calls: tres.renderer.value.info.render.calls,
-              triangles: tres.renderer.value.info.render.triangles,
-              points: tres.renderer.value.info.render.points,
-              lines: tres.renderer.value.info.render.lines,
+            payload.state = {
+              ...payload.state,
+              state: [
+                {
+                  key: 'Scene Info',
+                  value: {
+                    objects: instance.children.length,
+                    memory: calculateMemoryUsage(instance),
+                    calls: tres.renderer.value.info.render.calls,
+                    triangles: tres.renderer.value.info.render.triangles,
+                    points: tres.renderer.value.info.render.points,
+                    lines: tres.renderer.value.info.render.lines,
+                  },
+                },
+                {
+                  key: 'Programs',
+                  value: tres.renderer.value.info.programs?.map(program => ({
+                    ...program,
+                    programName: program.name,
+                  })) || [],
+                },
+              ],
             }
-            payload.state.programs = tres.renderer.value.info.programs?.map(program => ({
-              key: program.name,
-              value: {
-                ...program,
-                vertexShader: program.vertexShader,
-                attributes: program.getAttributes(),
-                uniforms: program.getUniforms(),
-              },
-            })) || []
           }
         }
       })

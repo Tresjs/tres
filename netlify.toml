@@ -3,4 +3,5 @@ publish = "docs/.vitepress/dist"
 command = "pnpm run build && pnpm docs:build"
 
 [build.environment]
-NODE_VERSION = "18"
+COREPACK_INTEGRITY_KEYS = "0"
+NODE_VERSION = "20"
