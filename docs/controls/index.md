@@ -152,3 +152,20 @@ useControls({
 ```
 
 <ButtonSizesDemo/>
+
+## Graph
+
+For visualizing numeric values over time, you can use the graph control type. This will create a real-time graph that updates as the value changes.
+
+```ts
+const renderTimes = ref(0)
+
+useControls({
+  renderTimes: {
+    value: renderTimes.value,
+    type: 'graph'
+  }
+})
+```
+
+<GraphDemo/>

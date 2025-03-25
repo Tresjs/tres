@@ -39,4 +39,9 @@ export const controlsRoutes = [
     name: 'Button Control',
     component: () => import('../../pages/controls/ButtonControlDemo.vue'),
   },
+  {
+    path: '/controls/graph',
+    name: 'Graph Control',
+    component: () => import('../../pages/controls/GraphDemo.vue'),
+  },
 ]

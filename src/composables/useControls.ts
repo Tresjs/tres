@@ -38,6 +38,9 @@ const inferType = (value: any): string => {
     && Array.isArray(value.options)) {
     return 'select'
   }
+  if (value.type === 'graph') {
+    return 'graph'
+  }
 
   // Add more types as needed
   return 'unknown'
@@ -150,6 +153,12 @@ export const useControls = (
       control.icon = controlOptions.icon || ''
       control.visible = controlOptions.visible !== undefined ? controlOptions.visible : true
       control.uniqueKey = uniqueKey
+
+      // Pass through onUpdate callback if provided
+      if (controlOptions.onUpdate) {
+        control.onUpdate = controlOptions.onUpdate
+      }
+
       controls[key] = control
       result[key] = control
       values[key] = reactiveValue

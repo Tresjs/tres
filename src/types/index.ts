@@ -17,4 +17,5 @@ export interface LechesControl<T = any> {
   min?: number
   max?: number
   step?: number
+  onUpdate?: (values: any[]) => void
 }
