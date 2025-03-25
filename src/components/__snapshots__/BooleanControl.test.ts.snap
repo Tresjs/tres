@@ -17,6 +17,7 @@ exports[`boolean Control > should render a boolean control 1`] = `
         <div>
           <div class="tl-flex tl-px-4 tl-gap-1 tl-justify-start tl-items-center tl-mb-2 tl-min-h-32px"><label for="default-test" title="test" class="tl-text-gray-500 dark:tl-text-gray-400 tl-w-1/3 tl-truncate">test</label><input id="default-test" checked="" class="tl-hidden" type="checkbox"><label for="default-test" class="tl-inline-flex tl-items-center tl-cursor-pointer"><span tabindex="0" role="checkbox" aria-checked="true" class="tl-bg-dark-500 dark:tl-bg-gray-400 tl-w-4 tl-h-4 tl-flex tl-justify-center tl-items-center tl-rounded tl-border tl-border-gray-300 tl-text-white tl-outline-none tl-border-none focus:tl-border-gray-200 focus:tl-ring-2 focus:tl-ring-gray-200 tl-mr-2 tl-transition-colors tl-duration-200"><i class="i-ic:baseline-check tl-text-light dark:tl-text-dark"></i></span></label></div>
         </div>
+        <div class="tl-p-4"></div>
       </div>
     </div><!-- Resize handles -->
     <!-- <span
@@ -50,6 +51,7 @@ exports[`boolean Control > should render a boolean control with a label 1`] = `
         <div>
           <div class="tl-flex tl-px-4 tl-gap-1 tl-justify-start tl-items-center tl-mb-2 tl-min-h-32px"><label for="default-test" title="test" class="tl-text-gray-500 dark:tl-text-gray-400 tl-w-1/3 tl-truncate">test</label><input id="default-test" checked="" class="tl-hidden" type="checkbox"><label for="default-test" class="tl-inline-flex tl-items-center tl-cursor-pointer"><span tabindex="0" role="checkbox" aria-checked="true" class="tl-bg-dark-500 dark:tl-bg-gray-400 tl-w-4 tl-h-4 tl-flex tl-justify-center tl-items-center tl-rounded tl-border tl-border-gray-300 tl-text-white tl-outline-none tl-border-none focus:tl-border-gray-200 focus:tl-ring-2 focus:tl-ring-gray-200 tl-mr-2 tl-transition-colors tl-duration-200"><i class="i-ic:baseline-check tl-text-light dark:tl-text-dark"></i></span></label></div>
         </div>
+        <div class="tl-p-4"></div>
       </div>
     </div><!-- Resize handles -->
     <!-- <span

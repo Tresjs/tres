@@ -21,6 +21,7 @@ exports[`dropdown Control > should render a select control 1`] = `
               <option value="metal-gear-solid">Metal Gear Solid</option>
             </select></div>
         </div>
+        <div class="tl-p-4"></div>
       </div>
     </div><!-- Resize handles -->
     <!-- <span

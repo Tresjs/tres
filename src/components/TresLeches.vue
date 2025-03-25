@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, onUnmounted, ref, toRefs, watch } from 'vue'
+import { computed, nextTick, onMounted, onUnmounted, ref, toRefs, watch } from 'vue'
 import { useDraggable } from '../composables/useDraggable'
 import { useWindowSize } from '@vueuse/core'
 import { dispose, useControlsProvider } from '../composables/useControls'
@@ -29,9 +29,12 @@ const isCollapsedAndNotFloat = computed(() => {
 const scrollContainer = ref<HTMLElement | null>(null)
 const showTopGradient = ref(false)
 const showBottomGradient = ref(false)
-
+const slotContainer = ref<HTMLElement | null>(null)
 const { width } = useWindowSize()
 const { height: windowHeight } = useWindowSize()
+const isInitialized = ref(false)
+const isResizing = ref(false)
+const manualHeight = ref<number | null>(null) // Track manual height override
 
 const DEFAULT_WIDTH = 320
 const COLLAPSED_SIZE = 36
@@ -42,8 +45,6 @@ const FPS_GRAPH_EXTRA_HEIGHT = 20 // Extra padding needed for FPS graph
 const MARGIN_FROM_BOTTOM = 42 // Margin to keep from bottom of viewport
 
 const panelWidth = ref(DEFAULT_WIDTH)
-const manualHeight = ref<number | null>(null) // Track manual height override
-const isResizing = ref(false)
 const resizeEdge = ref<'right' | 'left' | 'bottom' | 'corner' | 'corner-left' | null>(null)
 
 // Controls
@@ -223,11 +224,23 @@ function toggleCollapsed() {
   }
 }
 
+// Initialize panel after slot content is rendered
+onMounted(async () => {
+  handleScroll()
+
+  // Wait for slot content to be rendered
+  await nextTick()
+
+  isInitialized.value = true
+})
+
+// Update animation when panel state changes
 watch(isCollapsed, async (value) => {
   if (!value) {
+    await nextTick() // Wait for slot to be visible
     await apply({
       width: float.value ? panelWidth.value : 'none',
-      height: float.value ? panelHeight.value : 'none',
+      height: float.value ? (manualHeight.value || panelHeight.value) : 'none',
       right: float.value ? '1rem' : 'auto',
       left: float.value ? 'auto' : '0',
     })
@@ -235,10 +248,6 @@ watch(isCollapsed, async (value) => {
   }
   await apply('enter')
 }, { immediate: true })
-
-onMounted(() => {
-  handleScroll()
-})
 </script>
 
 <template>
@@ -316,6 +325,9 @@ onMounted(() => {
               />
             </template>
           </template>
+          <div ref="slotContainer" class="tl-p-4">
+            <slot></slot>
+          </div>
         </div>
       </div>
       <!-- Resize handles -->

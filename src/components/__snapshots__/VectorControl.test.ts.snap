@@ -23,6 +23,7 @@ exports[`vector Control > should render multiple numeric inputs 1`] = `
             </div>
           </div>
         </div>
+        <div class="tl-p-4"></div>
       </div>
     </div><!-- Resize handles -->
     <!-- <span

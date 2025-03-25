@@ -14,4 +14,9 @@ export const advancedRoutes = [
     name: 'Stacked',
     component: () => import('../../pages/advanced/StackedDemo.vue'),
   },
+  {
+    path: '/advanced/slot-content',
+    name: 'Slot Content',
+    component: () => import('../../pages/advanced/SlotContentDemo.vue'),
+  },
 ]

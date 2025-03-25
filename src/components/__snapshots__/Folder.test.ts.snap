@@ -31,6 +31,7 @@ exports[`folder Controls > should render controls within a folder 1`] = `
           </div>
         </div>
         <!--v-if-->
+        <div class="tl-p-4"></div>
       </div>
     </div><!-- Resize handles -->
     <!-- <span
