@@ -1,5 +1,11 @@
 # Changelog
 
+## [2.3.0](https://github.com/Tresjs/post-processing/compare/2.2.0...2.3.0) (2025-03-26)
+
+### Features
+
+* **postprocessing:** re-instance effect on prop changes without set ([#193](https://github.com/Tresjs/post-processing/issues/193)) ([2104f16](https://github.com/Tresjs/post-processing/commit/2104f162cd621c4f7cb2d9ff7a92e7784fd843fa))
+
 ## [2.2.0](https://github.com/Tresjs/post-processing/compare/2.1.0...2.2.0) (2025-03-10)
 
 ### Features
