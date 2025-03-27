@@ -9,6 +9,7 @@ import VectorControl from './VectorControl.vue'
 import FPSGraph from './FPSGraph.vue'
 import SelectControl from './SelectControl.vue'
 import ButtonControl from './ButtonControl.vue'
+import GraphControl from './GraphControl.vue'
 
 defineProps<{
   control: LechesControl
@@ -49,6 +50,11 @@ function onChange(value: string) {
     />
     <FPSGraph
       v-else-if="control.type === 'fpsgraph'"
+      :label="control.label"
+      :control="control"
+    />
+    <GraphControl
+      v-else-if="control.type === 'graph'"
       :label="control.label"
       :control="control"
     />
