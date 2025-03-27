@@ -158,11 +158,11 @@ useControls({
 For visualizing numeric values over time, you can use the graph control type. This will create a real-time graph that updates as the value changes.
 
 ```ts
-const renderTimes = ref(0)
+const { wave } = useSineWave()
 
 useControls({
   renderTimes: {
-    value: renderTimes.value,
+    value: wave,
     type: 'graph'
   }
 })

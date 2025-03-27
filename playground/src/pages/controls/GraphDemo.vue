@@ -6,7 +6,7 @@ import { TresLeches, useControls } from '@tresjs/leches'
 
 const renderTimes = ref(0)
 
-useControls({
+/* useControls({
   renderTimes: {
     value: renderTimes,
     type: 'graph',
@@ -15,7 +15,7 @@ useControls({
       renderTimes.value = 0
     },
   },
-})
+}) */
 
 const wave = ref(0)
 

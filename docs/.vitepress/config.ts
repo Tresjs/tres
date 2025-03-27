@@ -41,6 +41,7 @@ export default defineConfig({
           { text: 'Select', link: '/controls/index.html#select' },
           { text: 'Vector', link: '/controls/index.html#vector' },
           { text: 'Button', link: '/controls/index.html#button' },
+          { text: 'Graph', link: '/controls/index.html#graph' },
         ],
       },
       {
