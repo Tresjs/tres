@@ -1,15 +1,12 @@
 <script setup lang="ts">
-import type {
-  ColorSpace,
-  ShadowMapType,
-  ToneMapping,
-  WebGLRendererParameters,
-} from 'three'
-import type { App, Ref } from 'vue'
-import type { RendererPresetsType } from '../composables/useRenderer/const'
-import type { TresCamera, TresObject, TresScene } from '../types/'
-import { PerspectiveCamera, Scene } from 'three'
+import type { App, MaybeRefOrGetter, Ref } from 'vue'
+import type { TresObject, TresScene } from '../types/'
+import { ACESFilmicToneMapping, PCFSoftShadowMap, PerspectiveCamera, Scene } from 'three'
 import * as THREE from 'three'
+import type { TresContext } from '../composables'
+import { useTresContextProvider } from '../composables'
+import type { TransformToMaybeRefOrGetter, TresCamera, TresRenderer } from '../types'
+import type { ColorSpace, ShadowMapType, ToneMapping, WebGLRendererParameters } from 'three'
 
 import {
   createRenderer,
@@ -26,44 +23,18 @@ import {
   watchEffect,
 } from 'vue'
 import pkg from '../../package.json'
-import {
-  type TresContext,
-  useTresContextProvider,
-} from '../composables'
 import { extend } from '../core/catalogue'
 import { nodeOps } from '../core/nodeOps'
 
 import { registerTresDevtools } from '../devtools'
 import { disposeObject3D } from '../utils/'
 
-export interface TresCanvasProps
-  extends Omit<WebGLRendererParameters, 'canvas'> {
-  // required by for useRenderer
-  shadows?: boolean
-  clearColor?: string
-  toneMapping?: ToneMapping
-  shadowMapType?: ShadowMapType
-  useLegacyLights?: boolean
-  outputColorSpace?: ColorSpace
-  toneMappingExposure?: number
-  renderMode?: 'always' | 'on-demand' | 'manual'
-  dpr?: number | [number, number]
-
-  // required by useTresContextProvider
-  camera?: TresCamera
-  preset?: RendererPresetsType
-  windowSize?: boolean
-
-  // Misc opt-out flags
-  enableProvideBridge?: boolean
-}
-
 const props = withDefaults(defineProps<TresCanvasProps>(), {
   alpha: undefined,
   depth: undefined,
   shadows: undefined,
   stencil: undefined,
-  antialias: undefined,
+  antialias: true,
   windowSize: undefined,
   useLegacyLights: undefined,
   preserveDrawingBuffer: undefined,
@@ -71,6 +42,8 @@ const props = withDefaults(defineProps<TresCanvasProps>(), {
   failIfMajorPerformanceCaveat: undefined,
   renderMode: 'always',
   enableProvideBridge: true,
+  toneMapping: ACESFilmicToneMapping,
+  shadowMapType: PCFSoftShadowMap,
 })
 
 // Define emits for Pointer events, pass `emit` into useTresEventManager so we can emit events off of TresCanvas
@@ -181,10 +154,10 @@ const unmountCanvas = () => {
   mountCustomRenderer(context.value as TresContext, true)
 }
 
-onMounted(() => {
+onMounted(async () => {
   const existingCanvas = canvas as Ref<HTMLCanvasElement>
 
-  context.value = useTresContextProvider({
+  context.value = await useTresContextProvider({
     scene: scene.value as TresScene,
     canvas: existingCanvas,
     windowSize: props.windowSize ?? false,
@@ -239,6 +212,174 @@ onMounted(() => {
 })
 
 onUnmounted(unmountCanvas)
+</script>
+
+<script lang="ts">
+export type WebGLRendererProps = TransformToMaybeRefOrGetter<Omit<WebGLRendererParameters, 'canvas'>>
+
+export interface TresCanvasProps extends /* @vue-ignore */ WebGLRendererProps {
+  /**
+   * WebGL Context options (Readonly because they are passed to the renderer constructor)
+   * They can't be changed after the renderer is created because they are passed to the canvas context
+   */
+  /**
+   * Enables antialiasing, smoothing out edges of 3D objects.
+   * Uses MSAA (Multisample Anti-Aliasing) when available.
+   * @readonly
+   * @default true (Opinionated default by TresJS)
+   */
+  antialias?: MaybeRefOrGetter<boolean>
+
+  /**
+   * Enables stencil buffer with 8 bits.
+   * Required for stencil-based operations like shadow volumes or post-processing effects.
+   * @readonly
+   * @default true
+   */
+  stencil?: MaybeRefOrGetter<boolean>
+
+  /**
+   * Enables depth buffer with at least 16 bits.
+   * Required for proper 3D rendering and depth testing.
+   * @readonly
+   * @default true
+   */
+  depth?: MaybeRefOrGetter<boolean>
+
+  /**
+   * Enables logarithmic depth buffer. Useful for scenes with large differences in scale.
+   * Helps prevent z-fighting in scenes with objects very close and very far from the camera.
+   * @readonly
+   * @default false
+   */
+  logarithmicDepthBuffer?: MaybeRefOrGetter<boolean>
+
+  /**
+   * Preserves the buffers until manually cleared or overwritten.
+   * Needed for screenshots or when reading pixels from the canvas.
+   * Warning: This may impact performance.
+   * @readonly
+   * @default false
+   */
+  preserveDrawingBuffer?: MaybeRefOrGetter<boolean>
+
+  /**
+   * Power preference for the renderer.
+    * Power preference for the renderer.
+    * - `default`: Automatically chooses the most suitable power setting.
+    * - `high-performance`: Prioritizes rendering performance.
+    * - `low-power`: Tries to reduce power usage.
+   * @see {@link https://threejs.org/docs/#api/en/renderers/WebGLRenderer}
+   * @default 'default'
+   */
+  powerPreference?: MaybeRefOrGetter<WebGLPowerPreference>
+
+  /**
+   * WebGL options with set methods
+   * @see {@link https://threejs.org/docs/#api/en/renderers/WebGLRenderer}
+   */
+
+  /**
+   * Clear color for the canvas
+   *
+   */
+  clearColor?: MaybeRefOrGetter<string>
+
+  /**
+   * Whether to enable alpha blending
+   * @default false
+   */
+  alpha?: MaybeRefOrGetter<boolean>
+  /**
+   * Enable shadow rendering in the scene
+   * @default false
+   */
+  shadows?: MaybeRefOrGetter<boolean>
+
+  /**
+   * Tone mapping technique to use for the scene
+   * - `NoToneMapping`: No tone mapping is applied.
+   * - `LinearToneMapping`: Linear tone mapping.
+   * - `ReinhardToneMapping`: Reinhard tone mapping.
+   * - `CineonToneMapping`: Cineon tone mapping.
+   * - `ACESFilmicToneMapping`: ACES Filmic tone mapping.
+   * - `AgXToneMapping`: AgX tone mapping.
+   * - `NeutralToneMapping`: Neutral tone mapping.
+   * @see {@link https://threejs.org/docs/#api/en/constants/Renderer}
+   * @default ACESFilmicToneMapping (Opinionated default by TresJS)
+   */
+  toneMapping?: MaybeRefOrGetter<ToneMapping | number>
+
+  /**
+   * Type of shadow map to use for shadow calculations
+   * - `BasicShadowMap`: Basic shadow map.
+   * - `PCFShadowMap`: Percentage-Closer Filtering shadow map.
+   * - `PCFSoftShadowMap`: Percentage-Closer Filtering soft shadow map.
+   * - `VSMShadowMap`: Variance shadow map.
+   * @see {@link https://threejs.org/docs/#api/en/constants/Renderer}
+   * @default PCFSoftShadowMap (Opinionated default by TresJS)
+   */
+  shadowMapType?: MaybeRefOrGetter<ShadowMapType | number>
+
+  /**
+   * Whether to use legacy lights system instead of the new one
+   * @deprecated Use `useLegacyLights: false` for the new lighting system
+   */
+  useLegacyLights?: boolean
+
+  /**
+   * Color space for the output render
+   * @see {@link https://threejs.org/docs/#api/en/constants/Renderer}
+   */
+  outputColorSpace?: MaybeRefOrGetter<ColorSpace>
+
+  /**
+   * Exposure level of tone mapping
+   * @default 1
+   */
+  toneMappingExposure?: MaybeRefOrGetter<number>
+
+  /**
+   * Rendering mode for the canvas
+   * - 'always': Renders every frame
+   * - 'on-demand': Renders only when changes are detected
+   * - 'manual': Renders only when explicitly called
+   * @default 'always'
+   */
+  renderMode?: MaybeRefOrGetter<'always' | 'on-demand' | 'manual'>
+
+  /**
+   * Device Pixel Ratio for the renderer
+   * Can be a single number or a tuple defining a range [min, max]
+   */
+  dpr?: MaybeRefOrGetter<number | [number, number]>
+
+  /**
+   * Custom WebGL renderer instance
+   * Allows using a pre-configured renderer instead of creating a new one
+   */
+  renderer?: (ctx: TresContext) => Promise<TresRenderer>
+
+  /**
+   * Custom camera instance to use as main camera
+   * If not provided, a default PerspectiveCamera will be created
+   */
+  camera?: TresCamera
+
+  /**
+   * Whether the canvas should be sized to the window
+   * When true, canvas will be fixed positioned and full viewport size
+   * @default false
+   */
+  windowSize?: MaybeRefOrGetter<boolean>
+
+  /**
+   * Whether to enable the provide/inject bridge between Vue and TresJS
+   * When true, Vue's provide/inject will work across the TresJS boundary
+   * @default true
+   */
+  enableProvideBridge?: MaybeRefOrGetter<boolean>
+}
 </script>
 
 <template>

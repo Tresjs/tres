@@ -1,8 +1,24 @@
 /* eslint-disable ts/method-signature-style */
 import type * as THREE from 'three'
 
-import type { DefineComponent, VNode, VNodeRef } from 'vue'
+import type { DefineComponent, MaybeRefOrGetter, VNode, VNodeRef } from 'vue'
 import type { TresContext } from '../composables/useTresContextProvider'
+import type { Camera, Scene, WebGLRenderer } from 'three'
+import type { CSS2DRenderer, CSS3DRenderer, SVGRenderer } from 'three-stdlib'
+import type { WebGPURenderer } from 'three/webgpu'
+
+export interface BaseRenderer {
+  render: (scene: Scene, camera: Camera) => void
+  setSize: (width: number, height: number) => void
+  dispose: () => void
+}
+
+// Union type of all possible renderers
+export type TresRenderer = WebGLRenderer | WebGPURenderer | CSS2DRenderer | CSS3DRenderer | SVGRenderer
+
+export type TransformToMaybeRefOrGetter<T> = {
+  [K in keyof T]: MaybeRefOrGetter<T[K]>
+}
 
 // Based on React Three Fiber types by Pmndrs
 // https://github.com/pmndrs/react-three-fiber/blob/v9/packages/fiber/src/three-types.ts
@@ -26,6 +42,7 @@ export interface TresCatalogue {
 export type EmitEventName = 'render' | 'ready' | 'click' | 'double-click' | 'context-menu' | 'pointer-move' | 'pointer-up' | 'pointer-down' | 'pointer-enter' | 'pointer-leave' | 'pointer-over' | 'pointer-out' | 'pointer-missed' | 'wheel'
 export type EmitEventFn = (event: EmitEventName, ...args: any[]) => void
 export type TresCamera = THREE.OrthographicCamera | THREE.PerspectiveCamera
+export type Renderer = { render: (scene: THREE.Scene, camera: THREE.Camera) => void, setSize: (width: number, height: number) => void } & Record<string | number | symbol, any>
 
 /**
  * Represents the properties of an instance.

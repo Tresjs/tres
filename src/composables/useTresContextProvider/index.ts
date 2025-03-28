@@ -1,20 +1,21 @@
-import type { Camera, WebGLRenderer } from 'three'
-import type { ComputedRef, DeepReadonly, MaybeRef, MaybeRefOrGetter, Ref, ShallowRef } from 'vue'
+import type { Camera } from 'three'
+import { Raycaster, WebGLRenderer } from 'three'
+import type { ComputedRef, DeepReadonly, MaybeRefOrGetter, Ref, ShallowRef } from 'vue'
 import type { RendererLoop } from '../../core/loop'
-import type { EmitEventFn, TresControl, TresObject, TresScene } from '../../types'
-import type { UseRendererOptions } from '../useRenderer'
+import type { EmitEventFn, Renderer, TresControl, TresObject, TresScene } from '../../types'
 import { useFps, useMemory, useRafFn } from '@vueuse/core'
-import { Raycaster } from 'three'
 import { computed, inject, onUnmounted, provide, readonly, ref, shallowRef } from 'vue'
 import { extend } from '../../core/catalogue'
 import { createRenderLoop } from '../../core/loop'
 import { calculateMemoryUsage } from '../../utils/perf'
 
 import { useCamera } from '../useCamera'
-import { useRenderer } from '../useRenderer'
 import useSizes, { type SizesType } from '../useSizes'
 import { type TresEventManager, useTresEventManager } from '../useTresEventManager'
 import { useTresReady } from '../useTresReady'
+import { createRenderer } from '../../core/createRenderer'
+import { setupWebGLRenderer } from '../../core/setupRenderer'
+import type { TresCanvasProps } from '../../components/TresCanvas.vue'
 
 export interface InternalState {
   priority: Ref<number>
@@ -55,7 +56,8 @@ export interface TresContext {
   camera: ComputedRef<Camera | undefined>
   cameras: DeepReadonly<Ref<Camera[]>>
   controls: Ref<TresControl | null>
-  renderer: ShallowRef<WebGLRenderer>
+  renderer: ShallowRef<Renderer>
+  canvas: Ref<HTMLCanvasElement>
   raycaster: ShallowRef<Raycaster>
   perf: PerformanceState
   render: RenderState
@@ -83,7 +85,7 @@ export interface TresContext {
   deregisterBlockingObjectAtPointerEventHandler?: (object: TresObject) => void
 }
 
-export function useTresContextProvider({
+export async function useTresContextProvider({
   scene,
   canvas,
   windowSize,
@@ -91,12 +93,12 @@ export function useTresContextProvider({
   emit,
 }: {
   scene: TresScene
-  canvas: MaybeRef<HTMLCanvasElement>
+  canvas: Ref<HTMLCanvasElement>
   windowSize: MaybeRefOrGetter<boolean>
-  rendererOptions: UseRendererOptions
+  rendererOptions: TresCanvasProps
   emit: EmitEventFn
 
-}): TresContext {
+}): Promise<TresContext> {
   const localScene = shallowRef<TresScene>(scene)
   const sizes = useSizes(windowSize, canvas)
 
@@ -131,24 +133,14 @@ export function useTresContextProvider({
     }
   }
 
-  const { renderer } = useRenderer(
-    {
-      scene,
-      canvas,
-      options: rendererOptions,
-      emit,
-      // TODO: replace contextParts with full ctx at https://github.com/Tresjs/tres/issues/516
-      contextParts: { sizes, camera, render, invalidate, advance },
-    },
-  )
-
   const ctx: TresContext = {
     sizes,
     scene: localScene,
     camera,
     cameras: readonly(cameras),
-    renderer,
+    renderer: shallowRef(null as unknown as Renderer),
     raycaster: shallowRef(new Raycaster()),
+    canvas,
     controls: ref(null),
     perf: {
       maxFrames: 160,
@@ -174,6 +166,14 @@ export function useTresContextProvider({
 
   provide('useTres', ctx)
 
+  // Renderer
+  const renderer = await createRenderer(ctx, rendererOptions)
+  // Only setup the renderer with Canvas props if it is a WebGLRenderer
+  if (renderer instanceof WebGLRenderer) {
+    setupWebGLRenderer(renderer, rendererOptions, ctx)
+  }
+  ctx.renderer.value = renderer
+
   // Add context to scene local state
   ctx.scene.value.__tres = {
     root: ctx,
@@ -183,7 +183,7 @@ export function useTresContextProvider({
 
   ctx.loop.register(() => {
     if (camera.value && render.frames.value > 0) {
-      renderer.value.render(scene, camera.value)
+      ctx.renderer.value.render(scene, camera.value)
       emit('render', ctx.renderer.value)
     }
 
@@ -210,6 +210,8 @@ export function useTresContextProvider({
   })
 
   onUnmounted(() => {
+    ctx.renderer.value.dispose()
+    ctx.renderer.value.forceContextLoss()
     cancelTresReady()
     ctx.loop.stop()
   })
