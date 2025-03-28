@@ -27,7 +27,7 @@ export const core = [
   {
     avatar: 'https://www.github.com/Tinoooo.png',
     name: 'Tino Koch',
-    title: 'Senior Developer',
+    title: 'Frontend Engineer',
     desc: 'A passionate creative-developer',
     links: [
       { icon: 'github', link: 'https://github.com/Tinoooo' },
