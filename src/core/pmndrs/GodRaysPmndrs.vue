@@ -4,8 +4,9 @@ import { GodRaysEffect } from 'postprocessing'
 import { makePropWatchers } from '../../util/prop'
 import { useEffectPmndrs } from './composables/useEffectPmndrs'
 import { useTresContext } from '@tresjs/core'
-import { toRaw, watch } from 'vue'
-import type { Mesh, Points } from 'three'
+import { computed, toRaw, watch } from 'vue'
+import type { Points } from 'three'
+import { Mesh, MeshBasicMaterial, SphereGeometry } from 'three'
 
 export interface GodRaysPmndrsProps {
   /**
@@ -16,7 +17,7 @@ export interface GodRaysPmndrsProps {
   /**
    * The light source. Must not write depth and has to be flagged as transparent.
    */
-  lightSource?: Mesh | Points
+  lightSource?: Mesh | Points | null
 
   /**
    * The opacity of the God Rays.
@@ -83,8 +84,15 @@ const props = defineProps<GodRaysPmndrsProps>()
 
 const { camera } = useTresContext()
 
+const resolvedLightSource = computed(() =>
+  props.lightSource ?? new Mesh(
+    new SphereGeometry(0.00001),
+    new MeshBasicMaterial({ visible: false }),
+  ),
+)
+
 const { pass, effect } = useEffectPmndrs(
-  () => new GodRaysEffect(camera.value, toRaw(props.lightSource), props),
+  () => new GodRaysEffect(camera.value, resolvedLightSource.value, props),
   props,
 )
 
@@ -102,11 +110,21 @@ makePropWatchers(
     [() => props.resolutionScale, 'resolution.scale'],
     [() => props.resolutionX, 'resolution.width'],
     [() => props.resolutionY, 'resolution.height'],
-    [() => props.kernelSize, 'kernelSize'],
-    [() => props.blur, 'blur'],
+    [() => props.kernelSize, 'blurPass.kernelSize'],
+    [() => props.blur, 'blurPass.enabled'],
   ],
   effect,
   () => new GodRaysEffect(),
+)
+
+watch(
+  [() => props.lightSource, effect],
+  () => {
+    if (effect.value) {
+      effect.value.lightSource = toRaw(resolvedLightSource.value)
+    }
+  },
+  { immediate: true },
 )
 
 watch(
@@ -116,7 +134,10 @@ watch(
       effect.value?.blendMode.setOpacity(props.opacity)
     }
     else {
-      const plainEffect = new GodRaysEffect(camera.value, toRaw(props.lightSource))
+      const plainEffect = new GodRaysEffect(
+        camera.value,
+        toRaw(resolvedLightSource.value),
+      )
       effect.value?.blendMode.setOpacity(plainEffect.blendMode.getOpacity())
       plainEffect.dispose()
     }

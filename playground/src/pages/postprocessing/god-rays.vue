@@ -5,6 +5,7 @@ import { TresLeches, useControls } from '@tresjs/leches'
 import { NoToneMapping } from 'three'
 import { BlendFunction, KernelSize, Resolution } from 'postprocessing'
 import { EffectComposerPmndrs, GodRaysPmndrs } from '@tresjs/post-processing'
+import { shallowRef } from 'vue'
 
 import '@tresjs/leches/styles'
 
@@ -14,8 +15,7 @@ const gl = {
   multisampling: 8,
 }
 
-const boxMeshRef = ref(null)
-const sphereMeshRef = ref(null)
+const sphereMeshRef = shallowRef(null)
 
 const { blur, kernelSize, resolutionX, resolutionY, resolutionScale, opacity, blendFunction, density, decay, weight, exposure, samples, clampMax } = useControls({
   blendFunction: {
@@ -69,7 +69,7 @@ const { blur, kernelSize, resolutionX, resolutionY, resolutionScale, opacity, bl
       <TresMeshBasicMaterial color="#FFDDAA" />
     </TresMesh>
 
-    <TresMesh ref="boxMeshRef" :position="[0, .5, 0]">
+    <TresMesh :position="[0, .5, 0]">
       <TresBoxGeometry :args="[2, 2, 2]" />
       <TresMeshBasicMaterial color="white" />
     </TresMesh>
