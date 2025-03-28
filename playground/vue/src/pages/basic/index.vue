@@ -39,11 +39,19 @@ const formattedToneMapping = computed(() => {
 const formattedShadowMapType = computed(() => {
   return Number(shadowMapType.value)
 })
+
+const ctxRef = ref(null)
+
+watch(() => ctxRef.value?.context, (ctx) => {
+  console.log(ctx)
+  // Do something with the context
+})
 </script>
 
 <template>
   <TresLeches />
   <TresCanvas
+    ref="ctxRef"
     :shadows="shadows"
     :shadow-map-type="formattedShadowMapType"
     :clear-color="clearColor"

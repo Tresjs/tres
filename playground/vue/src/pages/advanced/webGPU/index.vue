@@ -8,6 +8,11 @@ import HologramCube from './HologramCube.vue'
 const createWebGPURenderer = async (ctx: TresContext) => {
   const renderer = new WebGPURenderer({
     canvas: ctx.canvas.value,
+    // WebGPU specific configuration
+    alpha: true,
+    antialias: true,
+    // Note: Tone mapping in WebGPU is handled through the render pipeline
+    // and shader configuration, not through renderer properties
   })
   // Initialize WebGPU context
   await renderer.init()
