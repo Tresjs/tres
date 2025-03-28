@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { useGLTF } from '@tresjs/cientos'
-import { dispose, useRenderer } from '@tresjs/core'
-import { useControls } from '@tresjs/leches'
+import { dispose } from '@tresjs/core'
 
 const { nodes } = await useGLTF('https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/blender-cube.glb', { draco: true })
 const model = nodes.Cube
