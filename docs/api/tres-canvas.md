@@ -126,7 +126,7 @@ watch(() => ctxRef.value?.context, (ctx) => {
 | context | see [useTresContext](composables#usetrescontext) |
 | dispose | dispose the renderer |
 
-## WebGPU 
+## WebGPU
 
 WebGPU support was introduced in ThreeJS version `0.160.0`. While is still heavily experimental and not fully compatible with all ThreeJS features, we have enable a prop `renderer` that streamlines a function that returns a promise with a WebGPU renderer instance.
 
@@ -138,12 +138,6 @@ When using a custom renderer (especially WebGPU), please note that:
 :::
 
 ```vue
-<template>
-  <TresCanvas :renderer="createWebGPURenderer">
-    <!-- Your scene goes here -->
-  </TresCanvas>
-</template>
-
 <script setup>
 import { WebGPURenderer } from 'three/webgpu'
 
@@ -157,6 +151,12 @@ const createWebGPURenderer = async (ctx) => {
   return renderer
 }
 </script>
+
+<template>
+  <TresCanvas :renderer="createWebGPURenderer">
+    <!-- Your scene goes here -->
+  </TresCanvas>
+</template>
 ```
 
 The `createWebGPURenderer` will return the context so you have access to the canvas, camera, scene, sizes etc.
@@ -169,7 +169,7 @@ const createWebGPURenderer = async (ctx) => {
   })
   await renderer.init()
 
-   // Watch size changes
+  // Watch size changes
   watch([ctx.sizes.width, ctx.sizes.height], () => {
     renderer.setSize(ctx.sizes.width.value, ctx.sizes.height.value)
   }, {

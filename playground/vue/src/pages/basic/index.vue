@@ -43,6 +43,7 @@ const formattedShadowMapType = computed(() => {
 const ctxRef = ref(null)
 
 watch(() => ctxRef.value?.context, (ctx) => {
+  // eslint-disable-next-line no-console
   console.log(ctx)
   // Do something with the context
 })
