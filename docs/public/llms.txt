@@ -1,0 +1,19 @@
+# TresJS Docs > TresJS is an open source framework that makes 3D development in Vue intuitive and powerful. Create performant and production-grade 3D experiences with confidence.
+
+## Documentation Sets
+- [TresJS Docs](https://tresjs.org/llms-full.txt): The complete TresJS documentation and blog posts written in Markdown.
+
+## Docs
+- [Introduction](https://tresjs.org/guide/): TresJS's goal is to make 3D development intuitive and performant with a great Developer Experience in mind.
+- [Getting Started](https://tresjs.org/guide/getting-started): Get started with TresJS quickly with our online starters or start locally with your terminal.
+- [Configuration](https://tresjs.org/guide/configuration): TresJS is configured with sensible defaults to make you productive.
+- [Components](https://tresjs.org/guide/components): TresJS provides several component layers to implement 3D scenes in your application.
+- [Assets](https://tresjs.org/guide/assets): Learn how to handle 3D assets in your TresJS application.
+- [Styling](https://tresjs.org/guide/styling): Learn how to style your TresJS application.
+- [Composables](https://tresjs.org/guide/composables): TresJS provides powerful composables for working with Three.js in Vue.
+- [Performance](https://tresjs.org/guide/performance): Optimize your 3D scenes for better performance.
+- [Ecosystem](https://tresjs.org/guide/ecosystem): Discover the TresJS ecosystem and available packages.
+- [Advanced](https://tresjs.org/guide/advanced): Learn advanced concepts and techniques.
+- [Debug](https://tresjs.org/guide/debug): Tools and techniques for debugging your 3D scenes.
+- [API Reference](https://tresjs.org/api/): Complete API documentation for TresJS.
+- [Cookbook](https://tresjs.org/cookbook/): Collection of common patterns and solutions. 

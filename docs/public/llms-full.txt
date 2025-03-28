@@ -1,0 +1,56 @@
+# TresJS Documentation
+
+## Introduction
+TresJS is an open source framework that makes 3D development in Vue intuitive and powerful. Create performant and production-grade 3D experiences with confidence.
+
+## Core Concepts
+- [Getting Started](https://tresjs.org/guide/getting-started): Learn the basics of TresJS and how to set up your first 3D scene.
+- [Configuration](https://tresjs.org/guide/configuration): Configure TresJS for your project needs.
+- [Components](https://tresjs.org/guide/components): Understand how to use TresJS components to build 3D scenes.
+- [Composables](https://tresjs.org/guide/composables): Use Vue composables for Three.js functionality.
+- [Assets](https://tresjs.org/guide/assets): Handle 3D models, textures, and other assets.
+- [Styling](https://tresjs.org/guide/styling): Style your 3D scenes and components.
+- [Performance](https://tresjs.org/guide/performance): Optimize your 3D scenes for better performance.
+
+## Advanced Topics
+- [Advanced](https://tresjs.org/guide/advanced): Deep dive into advanced TresJS concepts.
+- [Debug](https://tresjs.org/guide/debug): Tools and techniques for debugging.
+- [Ecosystem](https://tresjs.org/guide/ecosystem): Explore the TresJS ecosystem and available packages.
+
+## API Reference
+- [API Documentation](https://tresjs.org/api/): Complete API reference for TresJS.
+- [Components API](https://tresjs.org/api/components): Documentation for all TresJS components.
+- [Composables API](https://tresjs.org/api/composables): Documentation for all TresJS composables.
+
+## Resources
+- [Cookbook](https://tresjs.org/cookbook/): Common patterns and solutions.
+- [Examples](https://tresjs.org/examples/): Collection of example scenes and use cases.
+- [Community](https://tresjs.org/community/): Join the TresJS community.
+
+## Tutorials
+- [Egghead.io Course](https://egghead.io/courses/create-interactive-3d-experiences-with-tresjs-004057c2): Learn TresJS through video tutorials.
+- [Interactive Tutorials](https://tresjs.org/tutorials/): Step-by-step interactive tutorials.
+
+## Best Practices
+- [Performance Optimization](https://tresjs.org/guide/performance): Tips for optimizing your 3D scenes.
+- [Asset Management](https://tresjs.org/guide/assets): Best practices for managing 3D assets.
+- [Component Design](https://tresjs.org/guide/components): Guidelines for creating reusable components.
+
+## Deployment
+- [Build & Deploy](https://tresjs.org/guide/deployment): Learn how to build and deploy your TresJS applications.
+- [Hosting](https://tresjs.org/guide/hosting): Recommended hosting solutions for TresJS apps.
+
+## Contributing
+- [Contributing Guide](https://tresjs.org/contributing/): How to contribute to TresJS.
+- [Code of Conduct](https://tresjs.org/code-of-conduct/): Community guidelines.
+- [Development Guide](https://tresjs.org/development/): Guide for TresJS development.
+
+## Support
+- [FAQ](https://tresjs.org/faq/): Frequently asked questions.
+- [Troubleshooting](https://tresjs.org/troubleshooting/): Common issues and solutions.
+- [Discord](https://discord.gg/tresjs): Join our Discord community for support.
+
+## Blog
+- [Latest Updates](https://tresjs.org/blog/): Stay updated with TresJS news and updates.
+- [Release Notes](https://tresjs.org/releases/): Detailed information about each release.
+- [Case Studies](https://tresjs.org/case-studies/): Real-world examples of TresJS in action. 
