@@ -45,7 +45,7 @@ export const maintainers = [
     desc: 'A passionate creative-developer',
     links: [
       { icon: 'github', link: 'https://github.com/damienmontastier' },
-      { icon: 'twitter', link: 'https://twitter.com/jaimebboyjt' },
+      { icon: 'twitter', link: 'https://twitter.com/dammontastier' },
     ],
   },
 ]
