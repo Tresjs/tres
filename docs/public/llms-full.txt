@@ -1,56 +1,370 @@
 # TresJS Documentation
 
 ## Introduction
-TresJS is an open source framework that makes 3D development in Vue intuitive and powerful. Create performant and production-grade 3D experiences with confidence.
+TresJS is a free and [open-source framework](https://github.com/tresjs/tres) that makes 3D development in Vue intuitive and powerful using declarative approach. Create performant and production-grade 3D experiences with confidence.
 
 ## Core Concepts
-- [Getting Started](https://tresjs.org/guide/getting-started): Learn the basics of TresJS and how to set up your first 3D scene.
-- [Configuration](https://tresjs.org/guide/configuration): Configure TresJS for your project needs.
-- [Components](https://tresjs.org/guide/components): Understand how to use TresJS components to build 3D scenes.
-- [Composables](https://tresjs.org/guide/composables): Use Vue composables for Three.js functionality.
-- [Assets](https://tresjs.org/guide/assets): Handle 3D models, textures, and other assets.
-- [Styling](https://tresjs.org/guide/styling): Style your 3D scenes and components.
-- [Performance](https://tresjs.org/guide/performance): Optimize your 3D scenes for better performance.
+TresJS brings the power of Three.js to the Vue ecosystem, making it accessible and easy to use. Here's what makes TresJS special:
 
-## Advanced Topics
-- [Advanced](https://tresjs.org/guide/advanced): Deep dive into advanced TresJS concepts.
-- [Debug](https://tresjs.org/guide/debug): Tools and techniques for debugging.
-- [Ecosystem](https://tresjs.org/guide/ecosystem): Explore the TresJS ecosystem and available packages.
+- **Declarative Components:** Build 3D scenes using Vue components, making it familiar and intuitive for Vue developers.
+- **Powered by Vite:** Enjoy fast development with Hot Module Replacement (HMR) that stays fast regardless of app size.
+- **Keeps up to date:** Access all the latest Three.js features right away.
+- **Ecosystem:** Extend core functionality with packages like `cientos` and `postprocessing`, or add your own.
+
+## Getting Started
+
+### Play Online
+If you just want to try TresJS in your browser without setting up a project, you can use our online playground:
+
+::card-group
+  :::card
+  ---
+  icon: i-simple-icons-stackblitz
+  target: _blank
+  title: Open on StackBlitz
+  to: https://play.tresjs.org
+  ---
+  :::
+::
+
+### New Project
+
+#### Prerequisites
+- **Node.js** - [`18.x`](https://nodejs.org/en) or newer (we recommend the [active LTS release](https://github.com/nodejs/release#release-schedule))
+- **Text editor** - We recommend [Visual Studio Code](https://code.visualstudio.com) with the [official Vue extension](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (previously known as Volar)
+- **Terminal** - In order to run TresJS commands
+
+::note
+Additional notes for an optimal setup:
+
+- **Node.js**: Make sure to use an even numbered version (18, 20, etc)
+- **Performance**: For optimal performance, use a modern browser with WebGL 2.0 support
+::
+
+#### Installation
+Open a terminal and use the following command to create a new TresJS project:
+
+::code-group{sync="pm"}
+```bash [npm]
+npm create tres@latest <project-name>
+```
+
+```bash [yarn]
+yarn create tres <project-name>
+```
+
+```bash [pnpm]
+pnpm create tres <project-name>
+```
+::
+
+::tip
+Alternatively, you can add TresJS to an existing Vue project by installing the required dependencies:
+
+```bash
+npm install @tresjs/core three @types/three
+```
+
+Or if you're using Nuxt, you can use our official module:
+
+```bash
+npm install @tresjs/nuxt
+```
+::
+
+#### Your First Scene
+After installation, create your first 3D scene. Here's a basic example:
+
+```vue
+<script setup>
+import { TresCanvas } from '@tresjs/core'
+</script>
+
+<template>
+  <TresCanvas>
+    <TresPerspectiveCamera />
+    <TresMesh>
+      <TresBoxGeometry :args="[1, 1, 1]" />
+      <TresMeshStandardMaterial color="orange" />
+    </TresMesh>
+  </TresCanvas>
+</template>
+```
+
+::tip
+The `TresCanvas` component is the main container for your 3D scene. It automatically sets up the WebGL renderer and scene management.
+::
+
+#### Adding Interactivity
+TresJS makes it easy to add interactivity to your 3D scenes:
+
+```vue
+<script setup>
+import { TresCanvas } from '@tresjs/core'
+import { OrbitControls } from '@tresjs/cientos'
+
+const onPointerOver = () => {
+  console.log('Mouse over the cube!')
+}
+</script>
+
+<template>
+  <TresCanvas>
+    <TresPerspectiveCamera />
+    <OrbitControls />
+    <TresMesh @pointer-over="onPointerOver">
+      <TresBoxGeometry :args="[1, 1, 1]" />
+      <TresMeshStandardMaterial color="orange" />
+    </TresMesh>
+  </TresCanvas>
+</template>
+```
+
+::note
+The `OrbitControls` component is part of our ecosystem package `cientos`. You'll need to install it separately:
+
+```bash
+npm install @tresjs/cientos
+```
+::
+
+### Your First Scene
+Create your first 3D scene with TresJS. Learn about:
+- Setting up the canvas
+- Adding basic shapes
+- Working with materials
+- Adding lights and shadows
+
+### Nuxt Integration
+TresJS works seamlessly with Nuxt, offering:
+- Automatic component registration
+- SSR compatibility
+- Easy configuration
+- Performance optimizations
 
 ## API Reference
-- [API Documentation](https://tresjs.org/api/): Complete API reference for TresJS.
-- [Components API](https://tresjs.org/api/components): Documentation for all TresJS components.
-- [Composables API](https://tresjs.org/api/composables): Documentation for all TresJS composables.
+The TresJS API is designed to be intuitive and powerful:
+
+### TresCanvas
+The main component for rendering 3D scenes. Learn about:
+- Scene setup and configuration
+- Camera management
+- Renderer options
+- Performance settings
+
+### Instances, Arguments and Props
+Understanding how TresJS handles Three.js objects:
+- Component props mapping
+- Instance management
+- Argument handling
+- Type safety
+
+### Composables
+Vue composables for Three.js functionality:
+- Scene management
+- Camera controls
+- Animation helpers
+- Event handling
+
+### Events
+Handle interactions in your 3D scenes:
+- Mouse events
+- Touch events
+- Custom events
+- Event delegation
+
+## Advanced Topics
+Take your TresJS skills to the next level:
+
+### Extending
+Learn how to extend TresJS with custom components:
+- Component creation
+- Props handling
+- Lifecycle hooks
+- Three.js integration
+
+### Primitives
+Work with primitive objects:
+- Geometry creation
+- Material management
+- Object manipulation
+- Performance considerations
+
+### Performance
+Optimize your 3D scenes:
+- Render optimization
+- Memory management
+- Asset loading
+- Scene complexity
+
+### Attach
+Attach objects to your scene:
+- Object hierarchy
+- Transform management
+- Parent-child relationships
+- Dynamic updates
+
+### Caveats
+Important considerations and limitations:
+- Browser compatibility
+- Performance trade-offs
+- Common pitfalls
+- Best practices
+
+## Debug
+Tools and techniques for debugging your TresJS applications:
+
+### Devtools
+Use Vue DevTools with TresJS:
+- Scene inspection
+- Component debugging
+- State management
+- Performance profiling
+
+## Cookbook
+Common patterns and solutions for TresJS development:
+
+### Orbit Controls
+Add camera controls to your scene:
+- Camera setup
+- Control configuration
+- Event handling
+- Custom behaviors
+
+### Animations
+Create engaging animations:
+- Basic animations
+- Advanced techniques
+- Performance optimization
+- Animation management
+
+### Asset Management
+Handle 3D assets effectively:
+- Texture loading
+- Model importing
+- Resource management
+- Loading optimization
+
+### Lighting and Materials
+Master lighting and materials:
+- Light setup
+- Material creation
+- Shadow configuration
+- PBR materials
+
+### Shaders
+Create custom shaders:
+- Shader basics
+- Custom effects
+- Performance considerations
+- Debugging tools
+
+## Directives
+Vue directives for TresJS development:
+
+### v-log
+Debug directive for logging:
+- Scene debugging
+- Performance monitoring
+- State tracking
+- Error handling
+
+### v-light-helper
+Helper for light visualization:
+- Light debugging
+- Scene setup
+- Performance optimization
+- Development tools
+
+### v-distance-to
+Calculate distances between objects:
+- Distance measurement
+- Collision detection
+- Object relationships
+- Performance considerations
+
+## Ecosystem
+Extend TresJS with powerful ecosystem packages:
+
+### Cientos 💛
+Collection of useful components and utilities:
+- Camera controls
+- Loaders
+- Helpers
+- Performance tools
+
+### Nuxt Module
+Official Nuxt module for TresJS:
+- Easy integration
+- Automatic setup
+- Performance optimizations
+- SSR support
+
+### TresLeches 🍰
+State management for TresJS:
+- Scene state
+- Component state
+- Performance optimization
+- State persistence
+
+### Post-processing
+Add post-processing effects:
+- Effects setup
+- Performance considerations
+- Custom effects
+- Effect management
 
 ## Resources
-- [Cookbook](https://tresjs.org/cookbook/): Common patterns and solutions.
-- [Examples](https://tresjs.org/examples/): Collection of example scenes and use cases.
-- [Community](https://tresjs.org/community/): Join the TresJS community.
+Additional resources for TresJS development:
+
+### Team
+Meet the TresJS team and learn about:
+- Project history
+- Team members
+- Contribution guidelines
+- Community involvement
+
+### Playground
+Try TresJS in the browser:
+- Interactive examples
+- Code snippets
+- Performance demos
+- Learning resources
+
+### GitHub
+Access the source code and contribute:
+- Repository
+- Issues
+- Pull requests
+- Documentation
+
+### Discord
+Join our Discord community:
+- Support
+- Discussions
+- Showcase
+- Collaboration
 
 ## Tutorials
 - [Egghead.io Course](https://egghead.io/courses/create-interactive-3d-experiences-with-tresjs-004057c2): Learn TresJS through video tutorials.
-- [Interactive Tutorials](https://tresjs.org/tutorials/): Step-by-step interactive tutorials.
+- [Interactive Tutorials](https://docs.tresjs.org/tutorials/): Step-by-step interactive tutorials.
 
 ## Best Practices
-- [Performance Optimization](https://tresjs.org/guide/performance): Tips for optimizing your 3D scenes.
-- [Asset Management](https://tresjs.org/guide/assets): Best practices for managing 3D assets.
-- [Component Design](https://tresjs.org/guide/components): Guidelines for creating reusable components.
-
-## Deployment
-- [Build & Deploy](https://tresjs.org/guide/deployment): Learn how to build and deploy your TresJS applications.
-- [Hosting](https://tresjs.org/guide/hosting): Recommended hosting solutions for TresJS apps.
+- [Performance Optimization](https://docs.tresjs.org/guide/performance): Tips for optimizing your 3D scenes.
+- [Asset Management](https://docs.tresjs.org/guide/assets): Best practices for managing 3D assets.
+- [Component Design](https://docs.tresjs.org/guide/components): Guidelines for creating reusable components.
 
 ## Contributing
-- [Contributing Guide](https://tresjs.org/contributing/): How to contribute to TresJS.
-- [Code of Conduct](https://tresjs.org/code-of-conduct/): Community guidelines.
-- [Development Guide](https://tresjs.org/development/): Guide for TresJS development.
+- [Contributing Guide](https://docs.tresjs.org/contributing/): How to contribute to TresJS.
+- [Code of Conduct](https://docs.tresjs.org/code-of-conduct/): Community guidelines.
+- [Development Guide](https://docs.tresjs.org/development/): Guide for TresJS development.
 
 ## Support
-- [FAQ](https://tresjs.org/faq/): Frequently asked questions.
-- [Troubleshooting](https://tresjs.org/troubleshooting/): Common issues and solutions.
+- [FAQ](https://docs.tresjs.org/faq/): Frequently asked questions.
+- [Troubleshooting](https://docs.tresjs.org/troubleshooting/): Common issues and solutions.
 - [Discord](https://discord.gg/tresjs): Join our Discord community for support.
 
 ## Blog
-- [Latest Updates](https://tresjs.org/blog/): Stay updated with TresJS news and updates.
-- [Release Notes](https://tresjs.org/releases/): Detailed information about each release.
-- [Case Studies](https://tresjs.org/case-studies/): Real-world examples of TresJS in action. 
+- [Latest Updates](https://docs.tresjs.org/blog/): Stay updated with TresJS news and updates.
+- [Release Notes](https://docs.tresjs.org/releases/): Detailed information about each release.
+- [Case Studies](https://docs.tresjs.org/case-studies/): Real-world examples of TresJS in action. 
