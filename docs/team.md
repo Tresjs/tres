@@ -34,7 +34,7 @@ import { core, maintainers, alumni } from './_data/team'
         </template>
       </VPTeamPageSection> 
   <VPTeamPageSection>
-    <template #title>Team Emeriti</template>
+    <template #title>Alumni</template>
     <template #lead>
       Here we honor some no-longer-active team members who have made valuable
       contributions in the past.
