@@ -9,9 +9,10 @@ import {
 import { Color, type Mesh } from 'three'
 import { reactive } from 'vue'
 import { createHighlightMesh, editSceneObject } from '../utils'
-import * as is from '../utils/is'
 import { bytesToKB, calculateMemoryUsage } from '../utils/perf'
 import { toastMessage } from './utils'
+
+import { isLight } from '../utils/is'
 
 export interface Tags {
   label: string
@@ -52,7 +53,7 @@ const createNode = (object: TresObject): SceneGraphObject => {
   }
 
   if (object.type.includes('Light')) {
-    if (is.light(object)) {
+    if (isLight(object)) {
       node.tags.push({
         label: `${object.intensity}`,
         textColor: 0x9499A6,

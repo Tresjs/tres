@@ -4,7 +4,7 @@ import type { Material, Mesh, Object3D, Texture } from 'three'
 import type { TresContext } from '../composables/useTresContextProvider'
 import { DoubleSide, MathUtils, MeshBasicMaterial, Scene, Vector3 } from 'three'
 import { HightlightMesh } from '../devtools/highlight'
-import * as is from './is'
+import { isFunction, isNumber, isString, isTresPrimitive, isUndefined } from './is'
 
 export * from './logger'
 export function toSetMethodName(key: string) {
@@ -162,11 +162,6 @@ export function deepArrayEqual(arr1: any[], arr2: any[]): boolean {
 
   return true
 }
-
-/**
- * TypeSafe version of Array.isArray
- */
-export const isArray = Array.isArray as (a: any) => a is any[] | readonly any[]
 
 export function editSceneObject(scene: Scene, objectUuid: string, propertyPath: string[], value: any): void {
   // Function to recursively find the object by UUID
@@ -361,7 +356,7 @@ function joinAsCamelCase(...strings: string[]): string {
 const INDEX_REGEX = /-\d+$/
 
 export function attach(parent: TresInstance, child: TresInstance, type: AttachType) {
-  if (is.str(type)) {
+  if (isString(type)) {
     // NOTE: If attaching into an array (foo-0), create one
     if (INDEX_REGEX.test(type)) {
       const typeWithoutTrailingIndex = type.replace(INDEX_REGEX, '')
@@ -374,7 +369,7 @@ export function attach(parent: TresInstance, child: TresInstance, type: AttachTy
         const previousAttach = target[key]
         const augmentedArray: any[] & { __tresDetach?: () => void } = []
         augmentedArray.__tresDetach = () => {
-          if (augmentedArray.every(v => is.und(v))) {
+          if (augmentedArray.every(v => isUndefined(v))) {
             target[key] = previousAttach
           }
         }
@@ -392,7 +387,7 @@ export function attach(parent: TresInstance, child: TresInstance, type: AttachTy
 }
 
 export function detach(parent: any, child: TresInstance, type: AttachType) {
-  if (is.str(type)) {
+  if (isString(type)) {
     const { target, key } = resolve(parent, type)
     const previous = child.__tres.previousAttach
     // When the previous value was undefined, it means the value was never set to begin with
@@ -456,15 +451,15 @@ export function noop(fn: string): any {
 export function setPixelRatio(renderer: { setPixelRatio?: (dpr: number) => void, getPixelRatio?: () => number }, systemDpr: number, userDpr?: number | [number, number]) {
   // NOTE: Optional `setPixelRatio` allows this function to accept
   // THREE renderers like SVGRenderer.
-  if (!is.fun(renderer.setPixelRatio)) { return }
+  if (!isFunction(renderer.setPixelRatio)) { return }
 
   let newDpr = 0
 
-  if (userDpr && is.arr(userDpr) && userDpr.length >= 2) {
+  if (userDpr && Array.isArray(userDpr) && userDpr.length >= 2) {
     const [min, max] = userDpr
     newDpr = MathUtils.clamp(systemDpr, min, max)
   }
-  else if (is.num(userDpr)) { newDpr = userDpr }
+  else if (isNumber(userDpr)) { newDpr = userDpr }
   else { newDpr = systemDpr }
 
   // NOTE: Don't call `setPixelRatio` unless both:
@@ -525,7 +520,7 @@ export function setPrimitiveObject(
 }
 
 export function unboxTresPrimitive<T>(maybePrimitive: T): T | TresInstance {
-  if (is.tresPrimitive(maybePrimitive)) {
+  if (isTresPrimitive(maybePrimitive)) {
     // NOTE:
     // `primitive` has-a THREE object. Multiple `primitive`s can have
     // the same THREE object. We want to allow the same THREE object
@@ -533,8 +528,9 @@ export function unboxTresPrimitive<T>(maybePrimitive: T): T | TresInstance {
     // that, e.g., materials and geometries.
     // But __tres (`LocalState`) only allows for a single parent.
     // So: copy `__tres` to the object when unboxing.
-    maybePrimitive.object.__tres = maybePrimitive.__tres
-    return maybePrimitive.object
+    const primitive = maybePrimitive as unknown as TresPrimitive
+    primitive.object.__tres = primitive.__tres
+    return primitive.object
   }
   else {
     return maybePrimitive
