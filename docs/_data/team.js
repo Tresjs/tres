@@ -18,7 +18,6 @@ export const core = [
     avatar: 'https://github.com/garrlker.png',
     name: 'Garrett Walker',
     title: 'Frontend Engineer',
-    desc: 'A passionate creative-developer',
     links: [
       { icon: 'github', link: 'https://github.com/garrlker' },
       { icon: 'twitter', link: 'https://twitter.com/garrlker' },
@@ -28,7 +27,6 @@ export const core = [
     avatar: 'https://www.github.com/Tinoooo.png',
     name: 'Tino Koch',
     title: 'Frontend Engineer',
-    desc: 'A passionate creative-developer',
     links: [
       { icon: 'github', link: 'https://github.com/Tinoooo' },
       { icon: 'twitter', link: 'https://twitter.com/@ichbintino' },
@@ -42,10 +40,10 @@ export const maintainers = [
     avatar: 'https://www.github.com/damienmontastier.png',
     name: 'Damien Montastier',
     title: 'Freelance Frontend Developer',
-    desc: 'A passionate creative-developer',
     links: [
       { icon: 'github', link: 'https://github.com/damienmontastier' },
       { icon: 'twitter', link: 'https://twitter.com/dammontastier' },
+      { icon: 'bluesky', link: 'https://bsky.app/profile/dammontastier.bsky.social' },
     ],
   },
 ]
@@ -54,17 +52,16 @@ export const alumni = [
     avatar: 'https://www.github.com/JaimeTorrealba.png',
     name: 'Jaime Torrealba',
     title: 'Frontend Engineer',
-    desc: 'A passionate creative-developer',
     links: [
       { icon: 'github', link: 'https://github.com/JaimeTorrealba' },
       { icon: 'twitter', link: 'https://twitter.com/jaimebboyjt' },
     ],
+    sponsor: 'https://github.com/sponsors/JaimeTorrealba',
   },
   {
     avatar: 'https://www.github.com/andretchen0.png',
     name: 'Andretchen0',
     title: 'Frontend Engineer',
-    desc: 'A passionate creative-developer',
     links: [
       { icon: 'github', link: 'https://github.com/andretchen0' },
     ],
