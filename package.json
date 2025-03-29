@@ -90,6 +90,7 @@
     "eslint-plugin-vue": "^9.32.0",
     "esno": "^4.8.0",
     "gsap": "^3.12.7",
+    "happy-dom": "^17.4.4",
     "jsdom": "^26.0.0",
     "kolorist": "^1.8.0",
     "ohmyfetch": "^0.4.21",
