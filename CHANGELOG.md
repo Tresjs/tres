@@ -1,5 +1,11 @@
 # Changelog
 
+## [2.3.1](https://github.com/Tresjs/post-processing/compare/2.3.0...2.3.1) (2025-03-29)
+
+### Bug Fixes
+
+* god rays async light source ([#194](https://github.com/Tresjs/post-processing/issues/194)) ([7c5bfe0](https://github.com/Tresjs/post-processing/commit/7c5bfe0344d21d63a468a5553b5bdd39d7dd8388))
+
 ## [2.3.0](https://github.com/Tresjs/post-processing/compare/2.2.0...2.3.0) (2025-03-26)
 
 ### Features
