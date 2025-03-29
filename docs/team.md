@@ -29,10 +29,10 @@ import { core, maintainers, alumni } from './_data/team'
   </VPTeamPageSection> 
   <VPTeamPageSection>
     <template #title>Maintainers</template>
-        <template #members>
-          <VPTeamMembers :members="maintainers" />
-        </template>
-      </VPTeamPageSection> 
+    <template #members>
+      <VPTeamMembers :members="maintainers" />
+    </template>
+  </VPTeamPageSection> 
   <VPTeamPageSection>
     <template #title>Alumni</template>
     <template #lead>
