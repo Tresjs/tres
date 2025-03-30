@@ -28,6 +28,7 @@ import ColorDepthPmndrs, { type ColorDepthPmndrsProps } from './ColorDepthPmndrs
 import GridPmndrs, { type GridPmndrsProps } from './GridPmndrs.vue'
 import FishEyePmndrs, { type FishEyePmndrsProps } from './FishEyePmndrs.vue'
 import BrightnessContrastPmndrs, { type BrightnessContrastPmndrsProps } from './BrightnessContrastPmndrs.vue'
+import FXAAPmndrs, { type FXAAPmndrsProps } from './FXAAPmndrs.vue'
 
 export {
   BloomPmndrs,
@@ -58,6 +59,7 @@ export {
   GridPmndrs,
   FishEyePmndrs,
   BrightnessContrastPmndrs,
+  FXAAPmndrs,
   BloomPmndrsProps,
   DepthOfFieldPmndrsProps,
   EffectComposerPmndrsProps,
@@ -85,4 +87,5 @@ export {
   GridPmndrsProps,
   FishEyePmndrsProps,
   BrightnessContrastPmndrsProps,
+  FXAAPmndrsProps,
 }

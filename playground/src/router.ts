@@ -52,6 +52,7 @@ export const postProcessingRoutes = [
   makeRoute('Scanline', '📽️', false),
   makeRoute('Color Depth', '🔳', false),
   makeRoute('Grid', '#️⃣', false),
+  makeRoute('FXAA', '📐', false),
   makeRoute('Shock Wave', '🌊', false),
   makeRoute('Brightness Contrast', '🔆', false),
   makeRoute('Vignette', '🕶️', false),

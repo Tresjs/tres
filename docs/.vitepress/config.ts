@@ -61,6 +61,7 @@ export default defineConfig({
           { text: 'Hue & Saturation', link: '/guide/pmndrs/hue-saturation' },
           { text: 'Lens Distortion', link: '/guide/pmndrs/lens-distortion' },
           { text: 'Grid', link: '/guide/pmndrs/grid' },
+          { text: 'FXAA', link: '/guide/pmndrs/fxaa' },
           { text: 'Kuwahara', link: '/guide/pmndrs/kuwahara' },
           { text: 'Color Average', link: '/guide/pmndrs/color-average' },
           { text: 'Depth of Field', link: '/guide/pmndrs/depth-of-field' },

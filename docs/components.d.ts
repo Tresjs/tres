@@ -21,6 +21,7 @@ declare module 'vue' {
     DotScreenDemo: typeof import('./.vitepress/theme/components/pmdrs/DotScreenDemo.vue')['default']
     Ducky: typeof import('./.vitepress/theme/components/Ducky.vue')['default']
     FishEyeDemo: typeof import('./.vitepress/theme/components/pmdrs/FishEyeDemo.vue')['default']
+    FXAADemo: typeof import('./.vitepress/theme/components/pmdrs/FXAADemo.vue')['default']
     GlitchDemo: typeof import('./.vitepress/theme/components/pmdrs/GlitchDemo.vue')['default']
     GlitchThreeDemo: typeof import('./.vitepress/theme/components/three/GlitchThreeDemo.vue')['default']
     GodRaysDemo: typeof import('./.vitepress/theme/components/pmdrs/GodRaysDemo.vue')['default']
