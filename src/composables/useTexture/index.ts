@@ -91,11 +91,11 @@ export function useTexture2<T extends string | string[], Shallow extends boolean
     },
   )
 
-  if (Array.isArray(path)) {
-    return path.map(path => makeComposable(path)) as T extends string ? never : UseAsyncStateReturn<Texture, [], true>[]
+  if (typeof path === 'string') {
+    return makeComposable(path) as T extends string ? UseAsyncStateReturn<Texture, [], true> : never
   }
 
-  return makeComposable(path) as T extends string ? UseAsyncStateReturn<Texture, [], true> : never
+  return path.map(path => makeComposable(path)) as T extends string ? never : UseAsyncStateReturn<Texture, [], true>[]
 }
 
 export function useTexture(path: string, manager?: LoadingManager): UseTextureReturn<Texture> & Promise<UseTextureReturn<Texture>>

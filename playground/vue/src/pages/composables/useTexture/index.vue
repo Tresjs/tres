@@ -48,7 +48,7 @@ const gl = {
         </TresMesh>
       </template>
     </Suspense>
-    <ObjectUseTextureComponent />
+    <ObjectUseTextureComponent @loaded="console.log('👍👍👍👍loaded!')" @error="console.log('👎👎👎👎error!')" />
     <ObjectSyncLoadSimpleTexture />
     <ObjectSyncLoadMultipleTexture />
   </TresCanvas>
