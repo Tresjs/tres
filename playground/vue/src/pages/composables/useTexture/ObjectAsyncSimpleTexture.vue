@@ -9,6 +9,13 @@ watch(texture, (newVal) => {
   console.log('Simple texture async', newVal)
 }, { immediate: true })
 
+const promise = new Promise((resolve) => {
+  setTimeout(() => {
+    resolve(texture.value)
+  }, 1000)
+})
+
+await promise
 // eslint-enable no-console
 </script>
 

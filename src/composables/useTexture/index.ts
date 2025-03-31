@@ -1,7 +1,7 @@
 import { ref, type Ref, shallowRef } from 'vue'
 import type { LoadingManager, Texture } from 'three'
 import { TextureLoader } from 'three'
-import type { UseAsyncStateReturn } from '@vueuse/core'
+import type { UseAsyncStateOptions, UseAsyncStateReturn } from '@vueuse/core'
 import { useAsyncState } from '@vueuse/core'
 
 export interface UseTextureReturn<T> {
@@ -30,6 +30,8 @@ export interface UseTextureReturn<T> {
   }
 }
 
+// TODO update jsdoc
+
 /**
  * Vue composable for loading textures with THREE.js
  * Can be used with or without await/Suspense
@@ -57,8 +59,21 @@ export interface UseTextureReturn<T> {
  * @param manager - Optional THREE.js LoadingManager
  */
 
-export function useTexture2<T extends string | string[]>(path: T, manager?: LoadingManager):
-T extends string ? UseAsyncStateReturn<Texture, [], true> : UseAsyncStateReturn<Texture, [], true>[] {
+export function useTexture2<T extends string | string[], Shallow extends boolean>(
+  path: T,
+  {
+    manager,
+    asyncOptions,
+  }: {
+    manager?: LoadingManager
+    asyncOptions?: UseAsyncStateOptions<Shallow, Texture | null>
+  } = {},
+):
+  T extends string ?
+    UseAsyncStateReturn<Texture | null, [], Shallow> :
+    UseAsyncStateReturn<Texture | null, [], Shallow>[] {
+  const immediate = asyncOptions?.immediate ?? true
+
   const textureLoader = new TextureLoader(manager)
 
   const makeComposable = (path: string) => useAsyncState(
@@ -71,8 +86,8 @@ T extends string ? UseAsyncStateReturn<Texture, [], true> : UseAsyncStateReturn<
       )),
     null,
     {
-      // TODO make argument
-      immediate: true,
+      ...asyncOptions,
+      immediate,
     },
   )
 

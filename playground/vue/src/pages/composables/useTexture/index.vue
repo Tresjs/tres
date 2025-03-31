@@ -25,14 +25,29 @@ const gl = {
   <TresCanvas v-bind="gl">
     <TresPerspectiveCamera :position="[8, 8, 8]" />
     <OrbitControls />
+
     <TresGridHelper :args="[100, 100]" />
     <TresAmbientLight :intensity="1" />
     <ObjectSyncSimpleTexture />
     <ObjectSyncMultipleTexture />
     <Suspense>
       <ObjectAsyncSimpleTexture />
+      <template #fallback>
+        <TresMesh>
+          <TresBoxGeometry />
+          <TresMeshBasicMaterial color="green" />
+        </TresMesh>
+      </template>
     </Suspense>
-    <ObjectAsyncMultipleTexture />
+    <Suspense>
+      <ObjectAsyncMultipleTexture />
+      <template #fallback>
+        <TresMesh>
+          <TresBoxGeometry />
+          <TresMeshBasicMaterial color="red" />
+        </TresMesh>
+      </template>
+    </Suspense>
     <ObjectUseTextureComponent />
     <ObjectSyncLoadSimpleTexture />
     <ObjectSyncLoadMultipleTexture />
