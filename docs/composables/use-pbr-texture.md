@@ -116,7 +116,7 @@ const { data: textures, isLoading, error } = usePBRTexture(
 
 ### With Suspense
 
-When using with Suspense, you must use the await pattern:
+When using Suspense, you must use the await pattern:
 
 ```vue
 <template>
