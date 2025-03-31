@@ -32,9 +32,7 @@ const gl = {
     <Suspense>
       <ObjectAsyncSimpleTexture />
     </Suspense>
-    <Suspense>
-      <ObjectAsyncMultipleTexture />
-    </Suspense>
+    <ObjectAsyncMultipleTexture />
     <ObjectUseTextureComponent />
     <ObjectSyncLoadSimpleTexture />
     <ObjectSyncLoadMultipleTexture />

@@ -1,6 +1,8 @@
 import { ref, type Ref, shallowRef } from 'vue'
 import type { LoadingManager, Texture } from 'three'
 import { TextureLoader } from 'three'
+import type { UseAsyncStateReturn } from '@vueuse/core'
+import { useAsyncState } from '@vueuse/core'
 
 export interface UseTextureReturn<T> {
   /**
@@ -54,6 +56,33 @@ export interface UseTextureReturn<T> {
  * @param path - Path or paths to texture(s)
  * @param manager - Optional THREE.js LoadingManager
  */
+
+export function useTexture2<T extends string | string[]>(path: T, manager?: LoadingManager):
+T extends string ? UseAsyncStateReturn<Texture, [], true> : UseAsyncStateReturn<Texture, [], true>[] {
+  const textureLoader = new TextureLoader(manager)
+
+  const makeComposable = (path: string) => useAsyncState(
+    () =>
+      new Promise<Texture>((resolve, reject) => textureLoader.load(
+        path,
+        loadedTexture => resolve(loadedTexture),
+        undefined,
+        err => reject(err),
+      )),
+    null,
+    {
+      // TODO make argument
+      immediate: true,
+    },
+  )
+
+  if (Array.isArray(path)) {
+    return path.map(path => makeComposable(path)) as T extends string ? never : UseAsyncStateReturn<Texture, [], true>[]
+  }
+
+  return makeComposable(path) as T extends string ? UseAsyncStateReturn<Texture, [], true> : never
+}
+
 export function useTexture(path: string, manager?: LoadingManager): UseTextureReturn<Texture> & Promise<UseTextureReturn<Texture>>
 export function useTexture(paths: string[], manager?: LoadingManager): UseTextureReturn<Texture[]> & Promise<UseTextureReturn<Texture[]>>
 export function useTexture(
