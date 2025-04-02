@@ -16,10 +16,6 @@ Three-dimensional (3D) textures are images that contain multiple layers of data,
 
 There are two ways of loading 3D textures in TresJS:
 
-::: warning
-Please note that in the examples below use top level `await`. Make sure to wrap such code with a Vue's [Suspense](https://vuejs.org/guide/built-ins/suspense.html#suspense) component.
-:::
-
 ## Using `useLoader`
 
 The `useLoader` composable allows you to pass any type of three.js loader and a URL to load the resource from. It returns a `Promise` with the loaded resource.
@@ -30,7 +26,7 @@ For a detailed explanation of how to use `useLoader`, check out the [useLoader](
 import { useLoader } from '@tresjs/core'
 import { TextureLoader } from 'three'
 
-const texture = useLoader(TextureLoader, '/Rock035_2K_Color.jpg')
+const { state: texture } = useLoader(TextureLoader, '/Rock035_2K_Color.jpg')
 ```
 
 Then you can pass the texture to a material:
@@ -47,9 +43,7 @@ import TexturedSphere from './TexturedSphere.vue'
     shadows
     alpha
   >
-    <Suspense>
-      <TexturedSphere />
-    </Suspense>
+    <TexturedSphere />
   </TresCanvas>
 </template>
 ```
@@ -59,7 +53,7 @@ import TexturedSphere from './TexturedSphere.vue'
 import { useLoader } from '@tresjs/core'
 import { TextureLoader } from 'three'
 
-const texture = useLoader(TextureLoader, '/Rock035_2K_Color.jpg')
+const { state: texture, isLoading } = useLoader(TextureLoader, '/Rock035_2K_Color.jpg')
 </script>
 
 <template>
@@ -73,35 +67,88 @@ const texture = useLoader(TextureLoader, '/Rock035_2K_Color.jpg')
 
 ## Using `useTexture`
 
-A more convenient way of loading textures is using the `useTexture` composable. It accepts both an array of URLs or a single object with the texture paths mapped.
+A more convenient way of loading textures is using the `useTexture` composable. It provides reactive state management and supports both single textures and arrays of textures.
 
 To learn more about `useTexture`, check out the [useTexture](/api/composables#use-texture) documentation.
+
+### Loading a Single Texture
 
 ```ts
 import { useTexture } from '@tresjs/core'
 
-const pbrTexture = await useTexture({
-  map: '/textures/black-rock/Rock035_2K_Displacement.jpg',
-  displacementMap: '/textures/black-rock/Rock035_2K_Displacement.jpg',
-  roughnessMap: '/textures/black-rock/Rock035_2K_Roughness.jpg',
-  normalMap: '/textures/black-rock/Rock035_2K_NormalDX.jpg',
-  aoMap: '/textures/black-rock/Rock035_2K_AmbientOcclusion.jpg',
-  metalnessMap: '/textures/black-rock/myMetalnessTexture.jpg',
-  matcap: '/textures/black-rock/myMatcapTexture.jpg',
-  alphaMap: '/textures/black-rock/myAlphaMapTexture.jpg'
-})
+const { state: texture, isLoading } = useTexture('/textures/black-rock/Rock035_2K_Color.jpg')
 ```
-Similar to the previous example, we can pass all the textures to a material via props:
 
-```html
-<TresMesh>
-  <TresSphereGeometry :args="[1,32,32]" />
-  <TresMeshStandardMaterial
-    :map="pbrTexture.map"
-    :displacementMap="pbrTexture.displacementMap"
-    :roughnessMap="pbrTexture.roughnessMap"
-    :normalMap="pbrTexture.normalMap"
-    :aoMap="pbrTexture.ambientOcclusionMap"
-  />
-</TresMesh>
+### Loading Multiple Textures
+
+```ts
+import { useTexture } from '@tresjs/core'
+
+const [albedo, normal, roughness] = useTexture([
+  '/textures/black-rock/Rock035_2K_Color.jpg',
+  '/textures/black-rock/Rock035_2K_NormalDX.jpg',
+  '/textures/black-rock/Rock035_2K_Roughness.jpg'
+])
+```
+
+Then you can use the textures in your material:
+
+```vue
+<template>
+  <TresMesh>
+    <TresSphereGeometry :args="[1, 32, 32]" />
+    <TresMeshStandardMaterial
+      :map="albedo.state.value"
+      :normal-map="normal.state.value"
+      :roughness-map="roughness.state.value"
+    />
+    <Html transform position-y="1.5">
+      <span class="text-xs bg-white p-2 rounded-md">
+        {{ albedo.isLoading.value ? 'Loading...' : 'Loaded' }}
+      </span>
+    </Html>
+  </TresMesh>
+</template>
+```
+
+### Reactive Texture Loading
+
+The composable supports reactive paths, allowing you to change textures dynamically:
+
+```ts
+const texturePath = ref('/textures/black-rock/Rock035_2K_Color.jpg')
+const { state: texture, isLoading } = useTexture(texturePath)
+
+// Later, change the texture
+texturePath.value = '/textures/hexagonal-rock/Rocks_Hexagons_002_basecolor.jpg'
+```
+
+### Using the UseTexture Component
+
+For a more declarative approach, you can use the `UseTexture` component:
+
+```vue
+<script setup lang="ts">
+import { UseTexture } from '@tresjs/core'
+
+const paths = [
+  '/textures/black-rock/Rock035_2K_Color.jpg',
+  '/textures/black-rock/Rock035_2K_NormalDX.jpg',
+  '/textures/black-rock/Rock035_2K_Roughness.jpg'
+]
+</script>
+
+<template>
+  <UseTexture v-slot="{ state: textures, isLoading }" :path="paths">
+    <TresMesh>
+      <TresSphereGeometry :args="[1, 32, 32]" />
+      <TresMeshStandardMaterial
+        v-if="!isLoading"
+        :map="textures[0]"
+        :normal-map="textures[1]"
+        :roughness-map="textures[2]"
+      />
+    </TresMesh>
+  </UseTexture>
+</template>
 ```

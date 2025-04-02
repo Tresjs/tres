@@ -1,15 +1,22 @@
 # useTexture
 
-The `useTexture` composable allows you to load textures using the [THREE.js texture loader](https://threejs.org/docs/#api/en/loaders/TextureLoader). This composable provides a convenient way to load single or multiple textures with built-in loading state management.
+The `useTexture` composable allows you to load textures using the [THREE.js texture loader](https://threejs.org/docs/#api/en/loaders/TextureLoader). Built on top of VueUse's [useAsyncState](https://vueuse.org/core/useAsyncState/#useasyncstate), it provides a reactive way to load single or multiple textures with built-in loading state management.
 
 ## Features
 
 - 🔄 Reactive texture loading
-- 🔢 Support for single or multiple textures
+- 🗺️ Support for single or multiple textures
 - ⏳ Loading state tracking
 - ❌ Error handling
-- ⏱️ Async/await support with Suspense
 - 🔄 Manual reload capability
+
+## Implementation Details
+
+The composable is built on top of VueUse's `useAsyncState` to provide:
+- Automatic state management for loading, error, and data states
+- Reactive updates when texture paths change
+- Type-safe return values based on input type
+- Efficient handling of complex THREE.js objects
 
 ## Basic Usage
 
@@ -20,32 +27,23 @@ import { useTexture } from '@tresjs/core'
 ### Loading a Single Texture
 
 ```ts
-const { data: texture } = useTexture('path/to/texture.png')
+const { state: texture, isLoading } = useTexture('path/to/texture.png')
 ```
 
 ### Loading Multiple Textures
 
 ```ts
-const { data: textures } = useTexture([
+const [texture1, texture2] = useTexture([
   'path/to/albedo.png',
-  'path/to/normal.png',
-  'path/to/roughness.png'
+  'path/to/normal.png'
 ])
 
 // Access individual textures
-const [albedo, normal, roughness] = textures.value
+const albedo = texture1.state.value
+const normal = texture2.state.value
 ```
 
 ## Advanced Usage
-
-### With Async/Await and Suspense
-
-The composable can be awaited directly, making it compatible with Vue's Suspense component:
-
-```ts
-// In an async setup function
-const { data: texture } = await useTexture('path/to/texture.png')
-```
 
 ### Using a Custom Loading Manager
 
@@ -59,7 +57,7 @@ manager.onProgress = (url, loaded, total) => {
   console.log(`Loading ${url}: ${loaded} of ${total} files.`)
 }
 
-const { data: texture } = useTexture('path/to/texture.png', manager)
+const { state: texture } = useTexture('path/to/texture.png', { manager })
 ```
 
 ### Handling Loading States
@@ -67,7 +65,7 @@ const { data: texture } = useTexture('path/to/texture.png', manager)
 The composable provides reactive references for tracking loading state:
 
 ```ts
-const { data: texture, isLoading, error } = useTexture('path/to/texture.png')
+const { state: texture, isLoading, error } = useTexture('path/to/texture.png')
 
 watch(isLoading, (value) => {
   if (value) {
@@ -85,16 +83,29 @@ watch(error, (value) => {
 ### Manual Loading
 
 ```ts
-const { data: texture, load } = useTexture('path/to/initial-texture.png')
+const { state: texture, execute } = useTexture('path/to/initial-texture.png')
 
 // Later, load a different texture
-const newTexture = await load('path/to/new-texture.png')
+execute(0, 'path/to/new-texture.png')
+```
 
-// Or load multiple textures
-const newTextures = await load([
-  'path/to/texture1.png',
-  'path/to/texture2.png'
-])
+### Reactive Path Handling
+
+The composable fully supports reactive paths using refs:
+
+```ts
+const texturePath = ref('https://example.com/texture1.png')
+const { state: texture, isLoading } = useTexture(texturePath)
+
+// Change the texture path and the composable will automatically reload
+texturePath.value = 'https://example.com/texture2.png'
+
+// You can also use computed paths
+const texturePath = computed(() => {
+  return isDarkMode.value
+    ? 'https://example.com/dark-texture.png'
+    : 'https://example.com/light-texture.png'
+})
 ```
 
 ## Common Use Cases
@@ -102,7 +113,7 @@ const newTextures = await load([
 ### Material Textures
 
 ```ts
-const { data: textures } = useTexture([
+const [albedo, normal, roughness, ao] = useTexture([
   'textures/wood/albedo.jpg',
   'textures/wood/normal.jpg',
   'textures/wood/roughness.jpg',
@@ -111,15 +122,13 @@ const { data: textures } = useTexture([
 
 // In your setup function
 const material = computed(() => {
-  if (!textures.value) { return null }
-
-  const [albedo, normal, roughness, ao] = textures.value
+  if (!albedo.state.value) { return null }
 
   return {
-    map: albedo,
-    normalMap: normal,
-    roughnessMap: roughness,
-    aoMap: ao
+    map: albedo.state.value,
+    normalMap: normal.state.value,
+    roughnessMap: roughness.state.value,
+    aoMap: ao.state.value
   }
 })
 ```
@@ -127,7 +136,7 @@ const material = computed(() => {
 ### Environment Maps
 
 ```ts
-const { data: envMap } = useTexture('textures/environment.hdr')
+const { state: envMap } = useTexture('textures/environment.hdr')
 
 // Use with a scene or material
 const scene = computed(() => {
@@ -144,7 +153,7 @@ const scene = computed(() => {
 ### Texture Atlas
 
 ```ts
-const { data: atlas } = useTexture('textures/sprite-atlas.png')
+const { state: atlas } = useTexture('textures/sprite-atlas.png')
 
 // Configure texture for sprite use
 watchEffect(() => {
@@ -162,23 +171,16 @@ watchEffect(() => {
 | Parameter | Type | Description |
 | --- | --- | --- |
 | `path` | `string \| string[]` | Path or array of paths to texture file(s) |
-| `manager` | `LoadingManager` | Optional THREE.js LoadingManager |
+| `options` | `{ manager?: LoadingManager, asyncOptions?: UseAsyncStateOptions }` | Optional configuration options |
 
 ### Returns
 
 | Property | Type | Description |
 | --- | --- | --- |
-| `data` | `Ref<Texture \| Texture[] \| null>` | The loaded texture(s) |
+| `state` | `Ref<Texture \| null>` | The loaded texture |
 | `isLoading` | `Ref<boolean>` | Whether the texture is currently loading |
-| `error` | `Ref<Error \| null>` | Any error that occurred during loading |
-| `promise` | `Promise<Texture \| Texture[]>` | Promise that resolves when the texture is loaded |
-| `load` | `Function` | Method to manually load texture(s) |
-
-## Notes
-
-- Textures are loaded both synchronously and asynchronously. The initial texture object is created immediately, but the actual image data loads asynchronously.
-- The composable uses `shallowRef` for better performance when dealing with complex THREE.js objects.
-- Error handling is built-in, with detailed error messages available in the `error` ref.
+| `error` | `Ref<Error \| undefined>` | Any error that occurred during loading |
+| `execute` | `Function` | Method to manually load texture |
 
 ## Component Usage
 
@@ -195,7 +197,7 @@ const paths = [
 </script>
 
 <template>
-  <UseTexture v-slot="{ data: texture }" :path="paths">
+  <UseTexture v-slot="{ state: texture }" :path="paths">
     <TresMesh :position="[-3, 1, 0]">
       <TresSphereGeometry :args="[1, 32, 32]" />
       <TresMeshStandardMaterial
@@ -214,4 +216,4 @@ The component provides the loaded texture(s) through its default slot prop. This
 - You need to ensure a mesh and its textures are loaded together
 - You prefer a more declarative template-based approach
 
-The slot provides the same properties as the composable (`data`, `isLoading`, `error`).
+The slot provides the same properties as the composable (`state`, `isLoading`, `error`).

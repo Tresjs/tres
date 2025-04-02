@@ -9,7 +9,7 @@ const paths = [
 </script>
 
 <template>
-  <UseTexture v-slot="{ data: texture }" :path="paths">
+  <UseTexture v-slot="states" :path="paths">
     <TresMesh :position="[-3, 1, 0]">
       <Html transform position-y="1.5">
         <span class="text-xs bg-white p-2 rounded-md">
@@ -17,7 +17,7 @@ const paths = [
         </span>
       </Html>
       <TresSphereGeometry :args="[1, 32, 32]" />
-      <TresMeshStandardMaterial v-if="texture" :map="texture[0]" :displacement-map="texture[1]" :displacement-scale="0.1" />
+      <TresMeshStandardMaterial v-if="states[0].state.value && states[1].state.value" :map="states[0].state.value" :displacement-map="states[1].state.value" :displacement-scale="0.1" />
     </TresMesh>
   </UseTexture>
 </template>

@@ -1,6 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { LoadingManager, Texture, TextureLoader } from 'three'
+import { Texture, TextureLoader } from 'three'
 import { useTexture } from '.'
+import { ref } from 'vue'
 
 const flushPromises = () => new Promise(resolve => setTimeout(resolve, 0))
 
@@ -26,31 +27,21 @@ describe('useTexture', () => {
   })
 
   describe('single texture', () => {
-    it('should return texture synchronously', () => {
-      const { data, isLoading, error } = useTexture(mockTextureUrl)
+    it('should load a single texture', async () => {
+      const { state, error } = useTexture(mockTextureUrl)
 
-      expect(data.value).toBe(mockTexture)
-      expect(isLoading.value).toBe(true)
-      expect(error.value).toBe(null)
-    })
-
-    it('should update loading state when texture loads', async () => {
-      const { data, isLoading, error } = useTexture(mockTextureUrl)
-
-      expect(data.value).toBe(mockTexture)
+      expect(state.value).toBeDefined()
+      expect(state.value).toBeInstanceOf(Texture)
       await flushPromises()
-      expect(isLoading.value).toBe(false)
-      expect(error.value).toBe(null)
+      expect(error.value).toBeUndefined()
     })
 
-    it('should work with async/await', async () => {
-      const { data, isLoading, error } = await useTexture(mockTextureUrl)
+    it('should update loading state when texture image loads', async () => {
+      const { isLoading } = useTexture(mockTextureUrl)
 
-      expect(data.value).toBe(mockTexture)
       expect(isLoading.value).toBe(true)
       await flushPromises()
       expect(isLoading.value).toBe(false)
-      expect(error.value).toBe(null)
     })
 
     it('should handle loading errors', async () => {
@@ -60,89 +51,54 @@ describe('useTexture', () => {
         return mockTexture
       })
 
-      const { isLoading, error, promise } = useTexture(mockTextureUrl)
-
-      // Catch the promise rejection to prevent unhandled rejection
-      await promise.catch(() => {
-        // Expected to reject
-      })
+      const { isLoading, error } = useTexture(mockTextureUrl)
 
       await flushPromises()
 
       expect(error.value).toBeTruthy()
-      expect(error.value?.message).toContain('Failed to load texture')
+      expect((error.value as Error).message).toContain('Failed to load texture')
       expect(isLoading.value).toBe(false)
     })
 
-    it('should use provided loading manager', () => {
-      const loadingManager = new LoadingManager()
+    describe('multiple textures', () => {
+      it('should load multiple textures', async () => {
+        const [texture1, texture2] = useTexture(mockMultipleUrls)
 
-      // Just verify that the function works with a loading manager
-      const { data } = useTexture(mockTextureUrl, loadingManager)
-
-      expect(data.value).toBe(mockTexture)
-    })
-  })
-
-  describe('multiple textures', () => {
-    it('should return array of textures synchronously', () => {
-      const { data, isLoading, error } = useTexture(mockMultipleUrls)
-
-      expect(Array.isArray(data.value)).toBe(true)
-      expect(data.value).toHaveLength(2)
-      expect(isLoading.value).toBe(true)
-      expect(error.value).toBe(null)
-    })
-
-    it('should update loading state when all textures load', async () => {
-      const { data, isLoading, error } = useTexture(mockMultipleUrls)
-
-      expect(Array.isArray(data.value)).toBe(true)
-      expect(data.value).toHaveLength(2)
-      await flushPromises()
-      expect(isLoading.value).toBe(false)
-      expect(error.value).toBe(null)
-    })
-
-    it('should work with async/await', async () => {
-      const { data, isLoading, error } = await useTexture(mockMultipleUrls)
-
-      expect(Array.isArray(data.value)).toBe(true)
-      expect(data.value).toHaveLength(2)
-      expect(isLoading.value).toBe(true)
-      await flushPromises()
-      expect(isLoading.value).toBe(false)
-      expect(error.value).toBe(null)
-    })
-
-    it('should handle loading errors in array', async () => {
-      const mockError = new Error('Failed to load texture')
-      vi.spyOn(TextureLoader.prototype, 'load').mockImplementation((_, __, ___, onError) => {
-        if (onError) { onError(mockError) }
-        return mockTexture
+        expect(texture1.state.value).toBeInstanceOf(Texture)
+        expect(texture2.state.value).toBeInstanceOf(Texture)
+        expect(texture1.isLoading.value).toBe(true)
+        await flushPromises()
+        expect(texture1.isLoading.value).toBe(false)
+        expect(texture1.error.value).toBeUndefined()
       })
-
-      const { isLoading, error, promise } = useTexture(mockMultipleUrls)
-
-      // Catch the promise rejection to prevent unhandled rejection
-      await promise.catch(() => {
-        // Expected to reject
-      })
-
-      await flushPromises()
-
-      expect(error.value).toBeTruthy()
-      expect(error.value?.message).toContain('Failed to load texture')
-      expect(isLoading.value).toBe(false)
     })
-  })
 
-  describe('load method', () => {
-    it('should allow loading additional textures', async () => {
-      const { load } = useTexture(mockTextureUrl)
-      const additionalTexture = await load('additional-texture.png')
+    describe('reactive texture loading', () => {
+      it('should update texture when path changes', async () => {
+        const texturePath = ref(mockTextureUrl)
+        const { state, isLoading } = useTexture(texturePath)
 
-      expect(additionalTexture).toBe(mockTexture)
+        texturePath.value = 'https://example.com/new-texture.png'
+
+        // Initial texture
+        expect(state.value).toBeInstanceOf(Texture)
+        await flushPromises()
+        expect(isLoading.value).toBe(false)
+
+        // Change texture path
+        const newTexture = new Texture()
+        const newTextureUrl = 'https://example.com/new-texture.png'
+        vi.spyOn(TextureLoader.prototype, 'load').mockImplementation((_, onLoad) => {
+          if (onLoad) { setTimeout(() => onLoad(newTexture), 0) }
+          return newTexture
+        })
+
+        texturePath.value = newTextureUrl
+        await flushPromises()
+        expect(isLoading.value).toBe(false)
+        // Check the second call (index 1) to load
+        expect(TextureLoader.prototype.load).toHaveBeenNthCalledWith(2, newTextureUrl, expect.any(Function), undefined, expect.any(Function))
+      })
     })
   })
 })

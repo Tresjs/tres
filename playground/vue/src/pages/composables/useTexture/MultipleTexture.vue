@@ -1,35 +1,38 @@
 <script setup lang="ts">
-/* eslint-disable no-console */
 import { Html } from '@tresjs/cientos'
 import { useTexture } from '@tresjs/core'
+import { ref } from 'vue'
 
-const { data: texture, load } = useTexture([
+const texturePath = ref([
   'https://raw.githubusercontent.com/Tresjs/assets/main/textures/black-rock/Rock035_2K_Color.jpg',
   'https://raw.githubusercontent.com/Tresjs/assets/main/textures/black-rock/Rock035_2K_Displacement.jpg',
 ])
+const [texture, displacement] = useTexture(texturePath)
 
-watch(texture, (newVal) => {
-  console.log('Load mutiple', newVal)
-}, { immediate: true })
+const { state: textureState, isLoading: textureIsLoading } = texture
+const { state: displacementState, isLoading: displacementIsLoading } = displacement
 
+const isLoading = computed(() => textureIsLoading.value || displacementIsLoading.value)
+
+// Change the texture path after 2 seconds
 setTimeout(() => {
-  load([
+  texturePath.value = [
     'https://raw.githubusercontent.com/Tresjs/assets/main/textures/hexagonal-rock/Rocks_Hexagons_002_basecolor.jpg',
     'https://raw.githubusercontent.com/Tresjs/assets/main/textures/hexagonal-rock/Rocks_Hexagons_002_normal.jpg',
-  ])
+  ]
 }, 2000)
 
 // eslint-enable no-console
 </script>
 
 <template>
-  <TresMesh :position="[-9, 1, 0]">
+  <TresMesh :position="[4, 1, 0]">
     <Html transform position-y="1.5">
       <span class="text-xs bg-white p-2 rounded-md">
-        Load multiple
+        Multiple {{ isLoading ? 'Loading...' : 'Loaded' }}
       </span>
     </Html>
     <TresSphereGeometry :args="[1, 32, 32]" />
-    <TresMeshStandardMaterial :map="texture[0]" :displacement-map="texture[1]" :displacement-scale="0.1" />
+    <TresMeshStandardMaterial v-if="!isLoading" :map="textureState" :displacement-map="displacementState" :displacement-scale="0.1" />
   </TresMesh>
 </template>
