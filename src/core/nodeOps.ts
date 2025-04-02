@@ -2,13 +2,11 @@ import type { TresContext } from '../composables'
 import type { DisposeType, LocalState, TresInstance, TresObject, TresObject3D, TresPrimitive, WithMathProps } from '../types'
 import { BufferAttribute, Object3D } from 'three'
 import { isRef, type RendererOptions } from 'vue'
-import { useLogger } from '../composables'
 import { attach, deepArrayEqual, doRemoveDeregister, doRemoveDetach, invalidateInstance, isHTMLTag, kebabToCamel, noop, prepareTresInstance, setPrimitiveObject, unboxTresPrimitive } from '../utils'
-import * as is from '../utils/is'
+import { logError } from '../utils/logger'
+import { isArray, isFunction, isObject, isObject3D, isScene, isUndefined } from '../utils/is'
 import { createRetargetingProxy } from '../utils/primitive/createRetargetingProxy'
 import { catalogue } from './catalogue'
-
-const { logError } = useLogger()
 
 const supportedPointerEvents = [
   'onClick',
@@ -42,7 +40,7 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
     let obj: TresObject | null
 
     if (tag === 'primitive') {
-      if (!is.obj(props.object) || isRef(props.object)) {
+      if (!isObject(props.object) || isRef(props.object)) {
         logError(
           'Tres primitives need an \'object\' prop, whose value is an object or shallowRef<object>',
         )
@@ -123,7 +121,7 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
     if (childInstance.__tres.attach) {
       attach(parentInstance, childInstance, childInstance.__tres.attach)
     }
-    else if (is.object3D(child) && is.object3D(parentInstance)) {
+    else if (isObject3D(child) && isObject3D(parentInstance)) {
       parentInstance.add(child)
       child.dispatchEvent({ type: 'added' })
     }
@@ -155,9 +153,9 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
 
     // NOTE: Derive `dispose` value for this `remove` call and
     // recursive remove calls.
-    dispose = is.und(dispose) ? 'default' : dispose
+    dispose = isUndefined(dispose) ? 'default' : dispose
     const userDispose = node.__tres?.dispose
-    if (!is.und(userDispose)) {
+    if (!isUndefined(userDispose)) {
       if (userDispose === null) {
         // NOTE: Treat as `false` to act like R3F
         dispose = false
@@ -211,11 +209,11 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
     doRemoveDeregister(node, context)
 
     // NOTE: 4) Dispose `node`
-    if (shouldDispose && !is.scene(node)) {
-      if (is.fun(dispose)) {
+    if (shouldDispose && !isScene(node)) {
+      if (isFunction(dispose)) {
         dispose(node as TresInstance)
       }
-      else if (is.fun(node.dispose)) {
+      else if (isFunction(node.dispose)) {
         try {
           node.dispose()
         }
@@ -267,7 +265,7 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
       return
     }
 
-    if (is.object3D(node) && key === 'blocks-pointer-events') {
+    if (isObject3D(node) && key === 'blocks-pointer-events') {
       if (nextValue || nextValue === '') { node[key] = nextValue }
       else { delete node[key] }
       return
@@ -321,23 +319,23 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
     let value = nextValue
     if (value === '') { value = true }
     // Set prop, prefer atomic methods if applicable
-    if (is.fun(target)) {
+    if (isFunction(target)) {
       // don't call pointer event callback functions
 
       if (!supportedPointerEvents.includes(prop)) {
-        if (is.arr(value)) { node[finalKey](...value) }
+        if (isArray(value)) { node[finalKey](...value) }
         else { node[finalKey](value) }
       }
       // NOTE: Set on* callbacks
       // Issue: https://github.com/Tresjs/tres/issues/360
-      if (finalKey.startsWith('on') && is.fun(value)) {
+      if (finalKey.startsWith('on') && isFunction(value)) {
         root[finalKey] = value
       }
       return
     }
-    if (!target?.set && !is.fun(target)) { root[finalKey] = value }
+    if (!target?.set && !isFunction(target)) { root[finalKey] = value }
     else if (target.constructor === value.constructor && target?.copy) { target?.copy(value) }
-    else if (is.arr(value)) { target.set(...value) }
+    else if (isArray(value)) { target.set(...value) }
     else if (!target.isColor && target.setScalar) { target.setScalar(value) }
     else { target.set(value) }
 

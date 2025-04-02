@@ -1,6 +1,6 @@
 import type { Loader, LoadingManager, Object3D } from 'three'
 import type { TresObject } from '../../types'
-import { useLogger } from '..'
+import { logError } from '../../utils/logger'
 
 export interface TresLoader<T> extends Loader {
   load: (
@@ -72,7 +72,6 @@ export async function useLoader<T>(
   onProgress?: (event: ProgressEvent<EventTarget>) => void,
   cb?: (proto: TresLoader<T>) => void,
 ): Promise<T | T[]> {
-  const { logError } = useLogger()
   const proto = new Loader()
   if (cb) {
     cb(proto)

@@ -4,7 +4,6 @@ import UsePBRTexture from './usePBRTexture/component.vue'
 
 export * from './useCamera/'
 export * from './useLoader'
-export * from './useLogger'
 export * from './useLoop'
 export * from './usePBRTexture'
 export * from './useRaycaster'
