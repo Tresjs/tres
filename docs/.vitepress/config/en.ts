@@ -42,7 +42,6 @@ export const enConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
         link: '/api/composables',
         items: [
           { text: 'useTexture', link: '/composables/use-texture' },
-          { text: 'usePBRTexture', link: '/composables/use-pbr-texture' },
         ],
       },
       {
