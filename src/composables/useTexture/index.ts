@@ -7,6 +7,16 @@ import { onUnmounted, toValue, watch } from 'vue'
  */
 export type TexturePath = string | string[]
 
+/**
+ * Safely disposes of a texture if it exists
+ * @param texture - The texture to dispose
+ */
+function disposeTexture(texture: Texture | null | undefined): void {
+  if (texture) {
+    texture.dispose()
+  }
+}
+
 export function useTexture<T extends MaybeRef<TexturePath>, Shallow extends boolean>(
   path: T,
   {
@@ -51,6 +61,8 @@ export function useTexture<T extends MaybeRef<TexturePath>, Shallow extends bool
   const unsub = watch(() => toValue(path), (newPath) => {
     if (newPath) {
       if (typeof newPath === 'string' && singleResult) {
+        // Dispose of the old texture before loading the new one
+        disposeTexture(singleResult.state.value)
         // Handle single path update
         singleResult.execute(0, newPath)
       }
@@ -58,6 +70,8 @@ export function useTexture<T extends MaybeRef<TexturePath>, Shallow extends bool
         // Handle array of paths update
         newPath.forEach((path, index) => {
           if (arrayResult && index < arrayResult.length) {
+            // Dispose of the old texture before loading the new one
+            disposeTexture(arrayResult[index].state.value)
             arrayResult[index].execute(0, path)
           }
         })
@@ -67,6 +81,13 @@ export function useTexture<T extends MaybeRef<TexturePath>, Shallow extends bool
 
   onUnmounted(() => {
     unsub()
+    // Dispose of all textures on unmount
+    if (singleResult) {
+      disposeTexture(singleResult.state.value)
+    }
+    if (arrayResult) {
+      arrayResult.forEach(result => disposeTexture(result.state.value))
+    }
   })
 
   // Return the appropriate result based on the input type

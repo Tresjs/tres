@@ -19,7 +19,7 @@ watch(isLoading, (newVal) => {
 
 watch(texture, (newVal) => {
   console.log('Outside useTexture texture', newVal)
-}, { immediate: true })
+})
 
 /* eslint-enable no-console */
 </script>
