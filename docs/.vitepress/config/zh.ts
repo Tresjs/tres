@@ -123,6 +123,10 @@ export const zhConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
             link: 'https://github.com/Tresjs/tres/issues',
           },
           {
+            text: '贡献',
+            link: 'https://github.com/Tresjs/.github/blob/main/CONTRIBUTING.md',
+          },
+          {
             text: '生态系统',
             items: [
               {

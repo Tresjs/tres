@@ -123,6 +123,10 @@ export const frConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
           link: 'https://github.com/Tresjs/tres/issues',
         },
         {
+          text: 'Contribuer',
+          link: 'https://github.com/Tresjs/.github/blob/main/CONTRIBUTING.md',
+        },
+        {
           text: 'Ecosystème',
           items: [
             {
