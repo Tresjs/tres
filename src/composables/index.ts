@@ -2,6 +2,7 @@ import UseLoader from './useLoader/component.vue'
 import UseTexture from './useTexture/component.vue'
 
 export * from './useCamera/'
+export * from './useGraph'
 export * from './useLoader'
 export * from './useLogger'
 export * from './useLoop'
