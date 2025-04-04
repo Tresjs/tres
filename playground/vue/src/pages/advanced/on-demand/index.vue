@@ -18,6 +18,8 @@ function onRender() {
     clear-color="#82DBC5"
     @render="onRender"
   >
-    <OnDemandExperience />
+    <Suspense>
+      <OnDemandExperience />
+    </Suspense>
   </TresCanvas>
 </template>
