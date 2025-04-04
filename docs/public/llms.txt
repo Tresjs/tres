@@ -1,0 +1,45 @@
+# TresJS Docs > TresJS is an open source framework that makes 3D development in Vue intuitive and powerful. Create performant and production-grade 3D experiences with confidence.
+
+## Documentation Sets
+- [TresJS Docs](https://docs.tresjs.org/llms-full.txt): The complete TresJS documentation and blog posts written in Markdown.
+
+## Docs
+- [Introduction](https://docs.tresjs.org/guide/): TresJS's goal is to make 3D development intuitive and performant with a great Developer Experience in mind.
+- [Getting Started](https://docs.tresjs.org/guide/getting-started): Get started with TresJS quickly with our online starters or start locally with your terminal.
+- [Your first Scene](https://docs.tresjs.org/guide/your-first-scene): Learn how to create your first 3D scene with TresJS.
+- [Nuxt](https://docs.tresjs.org/guide/nuxt): Learn how to use TresJS with Nuxt.
+- [Troubleshooting](https://docs.tresjs.org/guide/troubleshooting): Common issues and solutions.
+- [Migration Guide](https://docs.tresjs.org/guide/migration-guide): Migrate from TresJS v1 to v2.
+
+## API
+- [TresCanvas](https://docs.tresjs.org/api/tres-canvas): The main component for rendering 3D scenes.
+- [Instances, arguments and props](https://docs.tresjs.org/api/instances-arguments-and-props): Learn how to work with Three.js instances.
+- [Composables](https://docs.tresjs.org/api/composables): Vue composables for Three.js functionality.
+- [Events](https://docs.tresjs.org/api/events): Handle events in your 3D scenes.
+
+## Advanced
+- [Extending](https://docs.tresjs.org/advanced/extending): Extend TresJS with custom components.
+- [Primitives](https://docs.tresjs.org/advanced/primitive): Work with primitive objects.
+- [Performance](https://docs.tresjs.org/advanced/performance): Optimize your 3D scenes.
+- [Attach](https://docs.tresjs.org/advanced/attach): Attach objects to your scene.
+- [Caveats](https://docs.tresjs.org/advanced/caveats): Important considerations and limitations.
+
+## Debug
+- [Devtools](https://docs.tresjs.org/debug/devtools): Use Vue DevTools with TresJS.
+
+## Cookbook
+- [Orbit Controls](https://docs.tresjs.org/cookbook/orbit-controls): Add camera controls to your scene.
+- [Basic Animations](https://docs.tresjs.org/cookbook/basic-animations): Create simple animations.
+- [Advanced Animations](https://docs.tresjs.org/cookbook/advanced-animations): Complex animation techniques.
+- [Groups](https://docs.tresjs.org/cookbook/groups): Work with object groups.
+- [Load Textures](https://docs.tresjs.org/cookbook/load-textures): Load and apply textures.
+- [Load Models](https://docs.tresjs.org/cookbook/load-models): Import 3D models.
+- [Load Text](https://docs.tresjs.org/cookbook/text-3d): Add 3D text to your scene.
+- [Lights & Shadows](https://docs.tresjs.org/cookbook/lights-shadows): Work with lighting and shadows.
+- [Shaders](https://docs.tresjs.org/cookbook/shaders): Create custom shaders.
+- [Tweakpane](https://docs.tresjs.org/cookbook/tweakpane): Add interactive controls.
+
+## Directives
+- [v-log](https://docs.tresjs.org/directives/v-log): Debug directive for logging.
+- [v-light-helper](https://docs.tresjs.org/directives/v-light-helper): Helper for light visualization.
+- [v-distance-to](https://docs.tresjs.org/directives/v-distance-to): Calculate distances between objects. 
