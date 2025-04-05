@@ -18,7 +18,7 @@ import { revision } from '../../core/revision'
 import { get, merge, set, setPixelRatio } from '../../utils'
 
 import { normalizeColor } from '../../utils/normalize'
-import { useLogger } from '../useLogger'
+import { logError } from '../../utils/logger'
 import { rendererPresets } from './const'
 
 type TransformToMaybeRefOrGetter<T> = {
@@ -154,8 +154,6 @@ export function useRenderer(
   watch(() => options.clearColor, invalidateOnDemand)
 
   const { pixelRatio } = useDevicePixelRatio()
-
-  const { logError } = useLogger()
 
   const getThreeRendererDefaults = () => {
     const plainRenderer = new WebGLRenderer()
