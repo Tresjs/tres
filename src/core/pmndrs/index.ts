@@ -30,6 +30,7 @@ import FishEyePmndrs, { type FishEyePmndrsProps } from './FishEyePmndrs.vue'
 import BrightnessContrastPmndrs, { type BrightnessContrastPmndrsProps } from './BrightnessContrastPmndrs.vue'
 import SMAAPmndrs, { type SMAAPmndrsProps } from './SMAAPmndrs.vue'
 import FXAAPmndrs, { type FXAAPmndrsProps } from './FXAAPmndrs.vue'
+import TexturePmndrs, { type TexturePmndrsProps } from './TexturePmndrs.vue'
 import ASCIIPmndrs, { type ASCIIPmndrsProps } from './ASCIIPmndrs.vue'
 
 export {
@@ -63,6 +64,7 @@ export {
   BrightnessContrastPmndrs,
   SMAAPmndrs,
   FXAAPmndrs,
+  TexturePmndrs,
   ASCIIPmndrs,
   BloomPmndrsProps,
   DepthOfFieldPmndrsProps,
@@ -93,5 +95,6 @@ export {
   BrightnessContrastPmndrsProps,
   SMAAPmndrsProps,
   FXAAPmndrsProps,
+  TexturePmndrsProps,
   ASCIIPmndrsProps,
 }

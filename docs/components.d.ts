@@ -43,6 +43,7 @@ declare module 'vue' {
     ShockWaveDemo: typeof import('./.vitepress/theme/components/pmdrs/ShockWaveDemo.vue')['default']
     SMAADemo: typeof import('./.vitepress/theme/components/pmdrs/SMAADemo.vue')['default']
     SMAAThreeDemo: typeof import('./.vitepress/theme/components/three/SMAAThreeDemo.vue')['default']
+    TextureDemo: typeof import('./.vitepress/theme/components/pmdrs/TextureDemo.vue')['default']
     TiltShiftDemo: typeof import('./.vitepress/theme/components/pmdrs/TiltShiftDemo.vue')['default']
     ToneMappingDemo: typeof import('./.vitepress/theme/components/pmdrs/ToneMappingDemo.vue')['default']
     UnrealBloomThreeDemo: typeof import('./.vitepress/theme/components/three/UnrealBloomThreeDemo.vue')['default']

@@ -61,6 +61,7 @@ export default defineConfig({
           { text: 'Hue & Saturation', link: '/guide/pmndrs/hue-saturation' },
           { text: 'Lens Distortion', link: '/guide/pmndrs/lens-distortion' },
           { text: 'Grid', link: '/guide/pmndrs/grid' },
+          { text: 'Texture', link: '/guide/pmndrs/texture' },
           { text: 'ASCII', link: '/guide/pmndrs/ascii' },
           { text: 'FXAA', link: '/guide/pmndrs/fxaa' },
           { text: 'SMAA', link: '/guide/pmndrs/smaa' },
