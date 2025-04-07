@@ -7,6 +7,7 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    ASCIIDemo: typeof import('./.vitepress/theme/components/pmdrs/ASCIIDemo.vue')['default']
     BarrelBlurDemo: typeof import('./.vitepress/theme/components/pmdrs/BarrelBlurDemo.vue')['default']
     BlenderCube: typeof import('./.vitepress/theme/components/BlenderCube.vue')['default']
     BloomDemo: typeof import('./.vitepress/theme/components/pmdrs/BloomDemo.vue')['default']

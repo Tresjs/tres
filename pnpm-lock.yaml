@@ -12,8 +12,8 @@ importers:
         specifier: ^12.5.0
         version: 12.5.0(typescript@5.7.3)
       postprocessing:
-        specifier: ^6.36.6
-        version: 6.36.6(three@0.173.0)
+        specifier: ^6.37.2
+        version: 6.37.2(three@0.173.0)
     devDependencies:
       '@release-it/conventional-changelog':
         specifier: ^10.0.0
@@ -3565,10 +3565,10 @@ packages:
     resolution: {integrity: sha512-6oz2beyjc5VMn/KV1pPw8fliQkhBXrVn1Z3TVyqZxU8kZpzEKhBdmCFqI6ZbmGtamQvQGuU1sgPTk8ZrXDD7jQ==}
     engines: {node: ^10 || ^12 || >=14}
 
-  postprocessing@6.36.6:
-    resolution: {integrity: sha512-mjJjoXbC97XMV6iQVhOZYNjD5X93o3+/zpYm9oRmsyjP3LjfwedT8PgusECTk+s5DZeZoJ8vA9htdWuH8JH+mQ==}
+  postprocessing@6.37.2:
+    resolution: {integrity: sha512-Xm3n1Usgk2eBkufb1ssYDNGb3EXmV2wdQQIRGAWD9yppOYwsHpb8/w/+Opvnx6uEOFyt3US1dFbET5DTSyrRiA==}
     peerDependencies:
-      three: '>= 0.157.0 < 0.173.0'
+      three: '>= 0.157.0 < 0.176.0'
 
   potpack@1.0.2:
     resolution: {integrity: sha512-choctRBIV9EMT9WGAZHn3V7t0Z2pMQyl0EZE6pFc/6ml3ssw7Dlf/oAOvFwjm1HVsqfQN8GfeFyJ+d8tRzqueQ==}
@@ -8373,7 +8373,7 @@ snapshots:
       picocolors: 1.1.1
       source-map-js: 1.2.1
 
-  postprocessing@6.36.6(three@0.173.0):
+  postprocessing@6.37.2(three@0.173.0):
     dependencies:
       three: 0.173.0
 

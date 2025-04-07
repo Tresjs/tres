@@ -58,7 +58,7 @@
   },
   "dependencies": {
     "@vueuse/core": "^12.5.0",
-    "postprocessing": "^6.36.6"
+    "postprocessing": "^6.37.2"
   },
   "devDependencies": {
     "@release-it/conventional-changelog": "^10.0.0",
