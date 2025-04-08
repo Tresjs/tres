@@ -35,16 +35,15 @@ The `useGraph` composable is particularly useful when working with complex 3D mo
 
 ```vue
 <script setup lang="ts">
-import { useGraph } from '@tresjs/core'
+import { useGraph, useLoader } from '@tresjs/core'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
-import { useLoader } from '@tresjs/core'
 
 const { scene } = await useLoader(GLTFLoader, '/path/to/model.gltf')
 const { nodes, materials } = useGraph(scene)
 
 // Access objects by name
-const carBody = nodes['carBody']
-const paintMaterial = materials['paint']
+const carBody = nodes.carBody
+const paintMaterial = materials.paint
 </script>
 ```
 

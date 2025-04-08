@@ -8,7 +8,5 @@ import TheModel from './TheModel.vue'
   <OrbitControls />
   <TresGridHelper />
   <TresAmbientLight :intensity="1" />
-  <Suspense>
-    <TheModel />
-  </Suspense>
+  <TheModel />
 </template>

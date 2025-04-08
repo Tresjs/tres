@@ -1,9 +1,10 @@
-import type { Material, Mesh, Object3D } from 'three'
+import type { Material, Mesh, Object3D, Scene } from 'three'
 
 export interface TresObjectMap {
   nodes: { [name: string]: Object3D }
   materials: { [name: string]: Material }
   meshes: { [name: string]: Mesh }
+  scene?: Scene
 }
 
 export function buildGraph(object: Object3D): TresObjectMap {

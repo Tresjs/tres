@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { OrbitControls } from '@tresjs/cientos'
 import BlenderCube from './BlenderCube.vue'
-import Suzanne from './Suzanne.vue'
 </script>
 
 <template>
@@ -9,8 +8,5 @@ import Suzanne from './Suzanne.vue'
   <OrbitControls />
   <TresGridHelper />
   <TresAmbientLight :intensity="1" />
-  <Suspense>
-    <BlenderCube />
-  </Suspense>
-  <Suzanne />
+  <BlenderCube />
 </template>
