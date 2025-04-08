@@ -51,7 +51,7 @@ const rendererPropertyHandlers: Record<string, PropertyHandler<ColorRepresentati
     immediate: true,
   },
   alpha: {
-    set: (renderer, value) => renderer.setClearAlpha(value as boolean ? 1 : 0),
+    set: (renderer, value) => renderer.setClearAlpha(value as boolean ? 0 : 1),
     immediate: true,
   },
 }
