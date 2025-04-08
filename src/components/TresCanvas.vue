@@ -273,6 +273,14 @@ export interface TresCanvasProps extends /* @vue-ignore */ WebGLRendererProps {
    * @default 'default'
    */
   powerPreference?: MaybeRefOrGetter<WebGLPowerPreference>
+  /**
+     * Whether to create the WebGL context with an alpha buffer.
+     * This is a WebGL context option that must be set during context creation and cannot be changed later.
+     * When true, the canvas can be transparent, showing content behind it.
+     * @readonly
+     * @default false
+     */
+  alpha?: MaybeRefOrGetter<boolean>
 
   /**
    * WebGL options with set methods
@@ -281,15 +289,17 @@ export interface TresCanvasProps extends /* @vue-ignore */ WebGLRendererProps {
 
   /**
    * Clear color for the canvas
-   *
+   * Can include alpha value (e.g. '#00808000' for fully transparent teal)
    */
   clearColor?: MaybeRefOrGetter<string>
 
   /**
-   * Whether to enable alpha blending
-   * @default false
+   * The opacity of the clear color (0-1)
+   * Controls the transparency of the clear color
+   * @default 1
    */
-  alpha?: MaybeRefOrGetter<boolean>
+  clearAlpha?: MaybeRefOrGetter<number>
+
   /**
    * Enable shadow rendering in the scene
    * @default false

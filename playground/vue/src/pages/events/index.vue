@@ -4,16 +4,11 @@ import type { ThreeEvent } from '@tresjs/core'
 import { OrbitControls, StatsGl } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
 import { TresLeches, useControls } from '@tresjs/leches'
-import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
 import '@tresjs/leches/styles'
 
 const gl = {
   clearColor: '#202020',
   shadows: true,
-  alpha: false,
-  shadowMapType: BasicShadowMap,
-  outputColorSpace: SRGBColorSpace,
-  toneMapping: NoToneMapping,
 }
 
 const { stopPropagation } = useControls({

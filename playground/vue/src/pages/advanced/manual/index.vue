@@ -21,9 +21,15 @@ useControls({
   },
 })
 
-const { clearColor, alpha, antialias, toneMapping, shadows, shadowMapType } = useControls({
+const { clearColor, clearAlpha, antialias, toneMapping, shadows, shadowMapType } = useControls({
   clearColor: '#82DBC5',
-  alpha: true,
+  clearAlpha: {
+    value: 1,
+    min: 0,
+    max: 1,
+    step: 0.01,
+    label: 'Clear Alpha',
+  },
   toneMapping: {
     value: ACESFilmicToneMapping,
     options: [
@@ -64,7 +70,7 @@ const formattedShadowMapType = computed(() => {
     :shadows="shadows"
     :shadow-map-type="formattedShadowMapType"
     :clear-color="clearColor"
-    :alpha="alpha"
+    :clear-alpha="clearAlpha"
     :antialias="antialias"
     :tone-mapping="formattedToneMapping"
     @render="onRender"

@@ -2,16 +2,12 @@
 import { Box } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
 import { TresLeches, useControls } from '@tresjs/leches'
-import { BasicShadowMap, NoToneMapping, OrthographicCamera, PerspectiveCamera, SRGBColorSpace } from 'three'
+import { OrthographicCamera, PerspectiveCamera } from 'three'
 import '@tresjs/leches/styles'
 
 const gl = {
   clearColor: '#82DBC5',
   shadows: true,
-  alpha: false,
-  shadowMapType: BasicShadowMap,
-  outputColorSpace: SRGBColorSpace,
-  toneMapping: NoToneMapping,
 }
 type Cam = (PerspectiveCamera | OrthographicCamera) & { manual?: boolean }
 

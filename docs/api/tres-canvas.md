@@ -46,7 +46,7 @@ These props are passed to the WebGLRenderer constructor and cannot be changed af
 
 | Prop | Description | Default |
 | ---- | ---- | --- |
-| **alpha** | Controls the default clear alpha value. When set to true, the value is 0. Otherwise it's 1. | `false` |
+| **alpha** | Whether to create the WebGL context with an alpha buffer. This is a WebGL context option that must be set during context creation and cannot be changed later. When true, the canvas can be transparent, showing content behind it. | `false` |
 | **antialias** | Whether to perform antialiasing. | `true` |
 | **depth** | Whether the drawing buffer has a [depth buffer](https://en.wikipedia.org/wiki/Z-buffering) of at least 16 bits. | `true` |
 | **failIfMajorPerformanceCaveat** | Whether the renderer creation will fail upon low performance is detected. See [WebGL spec](https://registry.khronos.org/webgl/specs/latest/1.0/#5.2) for details. | `false` |
@@ -62,7 +62,8 @@ These props can be modified after renderer creation using the renderer's setter 
 
 | Prop | Description | Default |
 | ---- | ---- | --- |
-| **clearColor** | The color the renderer will use to clear the canvas. | `#000000` |
+| **clearColor** | The color the renderer will use to clear the canvas. Can include alpha value (e.g. '#00808000' for fully transparent teal). | `#000000` |
+| **clearAlpha** | The opacity of the clear color (0-1). Controls the transparency of the clear color. | `1` |
 | **outputColorSpace** | Defines the output encoding | `LinearEncoding` |
 | **shadows** | Enable shadows in the renderer | `false` |
 | **shadowMapType** | Set the shadow map type | `PCFSoftShadowMap` |
@@ -165,7 +166,6 @@ The `createWebGPURenderer` will return the context so you have access to the can
 const createWebGPURenderer = async (ctx) => {
   const renderer = new WebGPURenderer({
     canvas: ctx.canvas.value,
-
   })
   await renderer.init()
 

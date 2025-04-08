@@ -3,7 +3,6 @@ import { OrbitControls } from '@tresjs/cientos'
 import {
   TresCanvas,
 } from '@tresjs/core'
-import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
 import { onUnmounted, ref } from 'vue'
 import Box from './Box.vue'
 import '@tresjs/leches/styles'
@@ -11,10 +10,6 @@ import '@tresjs/leches/styles'
 const gl = {
   clearColor: '#202020',
   shadows: true,
-  alpha: false,
-  shadowMapType: BasicShadowMap,
-  outputColorSpace: SRGBColorSpace,
-  toneMapping: NoToneMapping,
 }
 
 const showBox = ref(true)

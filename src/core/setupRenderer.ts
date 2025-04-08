@@ -45,13 +45,25 @@ const directProperties: Record<string, DirectProperty> = {
 }
 
 // Properties that use setter methods
-const rendererPropertyHandlers: Record<string, PropertyHandler<ColorRepresentation | boolean>> = {
+const rendererPropertyHandlers: Record<string, PropertyHandler<ColorRepresentation | boolean | number>> = {
   clearColor: {
-    set: (renderer, value) => renderer.setClearColor(value as ColorRepresentation),
+    set: (renderer, value) => {
+      // Check if the color string includes alpha (8 characters hex)
+      if (typeof value === 'string' && value.length === 9 && value.startsWith('#')) {
+        // Extract alpha from the last 2 characters
+        const alpha = Number.parseInt(value.slice(7, 9), 16) / 255
+        renderer.setClearAlpha(alpha)
+        // Set color without alpha
+        renderer.setClearColor(value.slice(0, 7))
+      }
+      else {
+        renderer.setClearColor(value as ColorRepresentation)
+      }
+    },
     immediate: true,
   },
-  alpha: {
-    set: (renderer, value) => renderer.setClearAlpha(value as boolean ? 0 : 1),
+  clearAlpha: {
+    set: (renderer, value) => renderer.setClearAlpha(value as number),
     immediate: true,
   },
 }

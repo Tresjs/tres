@@ -20,10 +20,6 @@ import '@tresjs/leches/styles'
 const gl = {
   clearColor: '#82DBC5',
   shadows: true,
-  alpha: false,
-  shadowMapType: BasicShadowMap,
-  outputColorSpace: SRGBColorSpace,
-  toneMapping: NoToneMapping,
 }
 const canvas = ref()
 const meshRef = ref()

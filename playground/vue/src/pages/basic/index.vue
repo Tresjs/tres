@@ -5,9 +5,15 @@ import { TresLeches, useControls } from '@tresjs/leches'
 import { OrbitControls } from '@tresjs/cientos'
 import '@tresjs/leches/styles'
 
-const { clearColor, alpha, antialias, toneMapping, shadows, shadowMapType } = useControls({
+const { clearColor, clearAlpha, alpha, toneMapping, shadows, shadowMapType } = useControls({
   clearColor: '#82DBC5',
-  alpha: true,
+  clearAlpha: {
+    value: 1,
+    min: 0,
+    max: 1,
+    step: 0.01,
+    label: 'Clear Alpha',
+  },
   toneMapping: {
     value: ACESFilmicToneMapping,
     options: [
@@ -56,8 +62,7 @@ watch(() => ctxRef.value?.context, (ctx) => {
     :shadows="shadows"
     :shadow-map-type="formattedShadowMapType"
     :clear-color="clearColor"
-    :alpha="alpha"
-    :antialias="antialias"
+    :clear-alpha="clearAlpha"
     :tone-mapping="formattedToneMapping"
   >
     <TresPerspectiveCamera :position="[5, 5, 5]" />
