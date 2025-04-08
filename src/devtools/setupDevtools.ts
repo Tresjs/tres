@@ -1,5 +1,5 @@
 import { useFps, useMemory, useRafFn } from '@vueuse/core'
-import { calculateMemoryUsage } from '../utils/perf'
+import { boundedPush, calculateMemoryUsage } from '../utils/perf'
 import type { TresContext } from '../composables'
 import type { TresObject } from '../types'
 import { onUnmounted } from 'vue'
@@ -30,21 +30,13 @@ export function setupDevtools(ctx: TresContext) {
       lastUpdateTime = timestamp
 
       // Update FPS
-      ctx.perf.fps.accumulator.push(fps.value as never)
-
-      if (ctx.perf.fps.accumulator.length > maxFrames) {
-        ctx.perf.fps.accumulator.shift()
-      }
+      boundedPush(ctx.perf.fps.accumulator, fps.value as never, maxFrames)
 
       ctx.perf.fps.value = fps.value
 
       // Update memory
       if (isSupported.value && memory.value?.usedJSHeapSize) {
-        ctx.perf.memory.accumulator.push(memory.value.usedJSHeapSize / 1024 / 1024 as never)
-
-        if (ctx.perf.memory.accumulator.length > maxFrames) {
-          ctx.perf.memory.accumulator.shift()
-        }
+        boundedPush(ctx.perf.memory.accumulator, memory.value.usedJSHeapSize / 1024 / 1024 as never, maxFrames)
 
         if (ctx.perf.memory.accumulator.length > 0) {
           ctx.perf.memory.currentMem
