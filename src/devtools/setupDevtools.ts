@@ -39,7 +39,7 @@ export function setupDevtools(ctx: TresContext) {
       ctx.perf.fps.value = fps.value
 
       // Update memory
-      if (isSupported.value && memory.value) {
+if (isSupported.value && memory.value?.usedJSHeapSize) {
         ctx.perf.memory.accumulator.push(memory.value.usedJSHeapSize / 1024 / 1024 as never)
 
         if (ctx.perf.memory.accumulator.length > maxFrames) {
