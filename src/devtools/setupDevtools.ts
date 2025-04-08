@@ -46,8 +46,10 @@ if (isSupported.value && memory.value?.usedJSHeapSize) {
           ctx.perf.memory.accumulator.shift()
         }
 
-        ctx.perf.memory.currentMem
+if (ctx.perf.memory.accumulator.length > 0) {
+  ctx.perf.memory.currentMem
         = ctx.perf.memory.accumulator.reduce((a, b) => a + b, 0) / ctx.perf.memory.accumulator.length
+}
       }
     }
   }
