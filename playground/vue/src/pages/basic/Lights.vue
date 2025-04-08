@@ -1,17 +1,11 @@
 <script setup lang="ts">
 import type { TresObject } from '@tresjs/core'
 import { OrbitControls } from '@tresjs/cientos'
-import { TresCanvas, vDistanceTo, vLightHelper, vLog } from '@tresjs/core'
-
-import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
+import { TresCanvas, vLightHelper } from '@tresjs/core'
 
 const gl = {
   clearColor: '#82DBC5',
   shadows: true,
-  alpha: false,
-  shadowMapType: BasicShadowMap,
-  outputColorSpace: SRGBColorSpace,
-  toneMapping: NoToneMapping,
 }
 
 const planeRef: Ref<TresObject | null> = ref(null)
@@ -19,12 +13,10 @@ const planeRef: Ref<TresObject | null> = ref(null)
 
 <template>
   <TresCanvas
-
     v-bind="gl"
   >
     <TresPerspectiveCamera
-      v-distance-to="planeRef"
-      :position="[3, 3, 3]"
+      :position="[8, 8, 8]"
     />
     <OrbitControls />
 
@@ -37,7 +29,6 @@ const planeRef: Ref<TresObject | null> = ref(null)
     />
     <TresMesh
       ref="planeRef"
-      v-log:material
       :rotation="[-Math.PI / 2, 0, 0]"
       receive-shadow
     >
