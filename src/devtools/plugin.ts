@@ -112,6 +112,7 @@ const INSPECTOR_ID = 'tres:inspector'
 const state = reactive({
   sceneGraph: null as SceneGraphObject | null,
 })
+
 export function registerTresDevtools(app: DevtoolsApp, tres: TresContext) {
   setupDevtoolsPlugin(
     {
