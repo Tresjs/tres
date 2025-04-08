@@ -39,17 +39,17 @@ export function setupDevtools(ctx: TresContext) {
       ctx.perf.fps.value = fps.value
 
       // Update memory
-if (isSupported.value && memory.value?.usedJSHeapSize) {
+      if (isSupported.value && memory.value?.usedJSHeapSize) {
         ctx.perf.memory.accumulator.push(memory.value.usedJSHeapSize / 1024 / 1024 as never)
 
         if (ctx.perf.memory.accumulator.length > maxFrames) {
           ctx.perf.memory.accumulator.shift()
         }
 
-if (ctx.perf.memory.accumulator.length > 0) {
-  ctx.perf.memory.currentMem
+        if (ctx.perf.memory.accumulator.length > 0) {
+          ctx.perf.memory.currentMem
         = ctx.perf.memory.accumulator.reduce((a, b) => a + b, 0) / ctx.perf.memory.accumulator.length
-}
+        }
       }
     }
   }
