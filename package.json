@@ -70,7 +70,7 @@
   },
   "dependencies": {
     "@alvarosabu/utils": "^3.2.0",
-    "@vue/devtools-api": "^6.6.3",
+    "@vue/devtools-api": "^7.7.2",
     "@vueuse/core": "^12.5.0"
   },
   "devDependencies": {
