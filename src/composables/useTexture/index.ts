@@ -1,161 +1,97 @@
-import type { LoadingManager, Texture } from 'three'
-import { TextureLoader } from 'three'
-import { isArray } from '../../utils/is'
+import { type MaybeRef, useAsyncState, type UseAsyncStateOptions, type UseAsyncStateReturn } from '@vueuse/core'
+import { type LoadingManager, Texture, TextureLoader } from 'three'
+import { onUnmounted, toValue, watch } from 'vue'
 
-export interface PBRMaterialOptions {
-  /**
-   * List of texture maps to load.
-   *
-   * @type {string[]}
-   * @memberof PBRMaterialOptions
-   */
-  maps: string[]
-  /**
-   * Path to the texture maps.
-   *
-   * @type {('png' | 'jpg')}
-   * @memberof PBRMaterialOptions
-   */
-  ext: 'png' | 'jpg'
+/**
+ * Type representing a texture path or multiple texture paths
+ */
+export type TexturePath = string | string[]
+
+/**
+ * Safely disposes of a texture if it exists
+ * @param texture - The texture to dispose
+ */
+function disposeTexture(texture: Texture | null | undefined): void {
+  if (texture) {
+    texture.dispose()
+  }
 }
 
-export interface PBRTextureMaps {
-  [key: string]: Texture | null
-}
-
-/**
- * Map of textures to load that can be passed to `useTexture()`.
- */
-export interface PBRUseTextureMap {
-  map?: string
-  displacementMap?: string
-  normalMap?: string
-  roughnessMap?: string
-  metalnessMap?: string
-  aoMap?: string
-  alphaMap?: string
-  matcap?: string
-}
-
-/**
- * Loads a single texture.
- *
- * ```ts
- * import { useTexture } from 'tres'
- *
- * const matcapTexture = await useTexture(['path/to/texture.png'])
- * ```
- * Then you can use the texture in your material.
- *
- * ```vue
- * <TresMeshMatcapMaterial :matcap="matcapTexture" />
- * ```
- * @see https://tresjs.org/examples/load-textures.html
- * @export
- * @param paths
- * @return A promise of the resulting texture
- */
-export async function useTexture(paths: readonly [string]): Promise<Texture>
-/**
- * Loads multiple textures.
- *
- * ```ts
- * import { useTexture } from 'tres'
- *
- * const [texture1, texture2] = await useTexture([
- *  'path/to/texture1.png',
- *  'path/to/texture2.png',
- * ])
- * ```
- * Then you can use the texture in your material.
- *
- * ```vue
- * <TresMeshStandardMaterial map="texture1" />
- * ```
- * @see https://tresjs.org/examples/load-textures.html
- * @export
- * @param paths
- * @return A promise of the resulting textures
- */
-export async function useTexture<T extends string[]>(
-  paths: [...T]
-): Promise<{ [K in keyof T]: Texture }>
-/**
- * Loads a PBR texture map.
- *
- * ```ts
- * import { useTexture } from 'tres'
- *
- * const pbrTexture = await useTexture({
- *  map: 'path/to/texture.png',
- *  displacementMap: 'path/to/displacement-map.png',
- *  roughnessMap: 'path/to/roughness-map.png',
- *  normalMap: 'path/to/normal-map.png',
- *  ambientOcclusionMap: 'path/to/ambient-occlusion-map.png',
- * })
- * ```
- * Then you can use the texture in your material.
- *
- * ```vue
- * <TresMeshStandardMaterial v-bind="pbrTexture" />
- * ```
- * @see https://tresjs.org/examples/load-textures.html
- * @export
- * @param paths
- * @return A promise of the resulting pbr texture map
- */
-export async function useTexture<TextureMap extends PBRUseTextureMap>(
-  paths: TextureMap
-): Promise<{
-  [K in keyof Required<PBRUseTextureMap>]: K extends keyof TextureMap
-    ? Texture
-    : null
-}>
-
-export async function useTexture(
-  paths: readonly [string] | string[] | PBRUseTextureMap,
-  manager?: LoadingManager,
-): Promise<Texture | Texture[] | PBRTextureMaps> {
+export function useTexture<T extends MaybeRef<TexturePath>, Shallow extends boolean>(
+  path: T,
+  {
+    manager,
+    asyncOptions,
+  }: {
+    manager?: LoadingManager
+    asyncOptions?: UseAsyncStateOptions<Shallow, Texture | null>
+  } = {},
+):
+  T extends MaybeRef<string> ?
+    UseAsyncStateReturn<Texture | null, [TexturePath], Shallow> :
+    UseAsyncStateReturn<Texture | null, [TexturePath], Shallow>[] {
+  const immediate = asyncOptions?.immediate ?? true
   const textureLoader = new TextureLoader(manager)
 
-  /**
-   * Load a texture.
-   *
-   * @param {string} url
-   * @return {*}  {Promise<Texture>}
-   */
-  const loadTexture = (url: string): Promise<Texture> => new Promise((resolve, reject) => {
-    textureLoader.load(
-      url,
-      texture => resolve(texture),
-      () => null,
-      () => {
-        reject(new Error('[useTextures] - Failed to load texture'))
-      },
-    )
-  })
+  const loadTexture = (initialPath?: string) => useAsyncState(
+    (path: string) =>
+      textureLoader.loadAsync(path || initialPath || ''),
+    new Texture(),
+    {
+      ...asyncOptions,
+      immediate,
+    },
+  )
 
-  if (isArray(paths)) {
-    const textures = await Promise.all((paths as Array<string>).map(path => loadTexture(path)))
-    if ((paths as Array<string>).length > 1) {
-      return textures
-    }
-    else {
-      return textures[0]
-    }
+  const initialPath = toValue(path)
+
+  // Create a type-safe result variable
+  let singleResult: UseAsyncStateReturn<Texture | null, [TexturePath], Shallow> | undefined
+  let arrayResult: UseAsyncStateReturn<Texture | null, [TexturePath], Shallow>[] | undefined
+
+  if (typeof initialPath === 'string') {
+    singleResult = loadTexture(initialPath) as UseAsyncStateReturn<Texture | null, [TexturePath], Shallow>
   }
   else {
-    const { map, displacementMap, normalMap, roughnessMap, metalnessMap, aoMap, alphaMap, matcap,
-    } = paths as { [key: string]: string }
-    return {
-      map: map ? await loadTexture(map) : null,
-      displacementMap: displacementMap ? await loadTexture(displacementMap) : null,
-      normalMap: normalMap ? await loadTexture(normalMap) : null,
-      roughnessMap: roughnessMap ? await loadTexture(roughnessMap) : null,
-      metalnessMap: metalnessMap ? await loadTexture(metalnessMap) : null,
-      aoMap: aoMap ? await loadTexture(aoMap) : null,
-      alphaMap: alphaMap ? await loadTexture(alphaMap) : null,
-      matcap: matcap ? await loadTexture(matcap) : null,
-    }
+    arrayResult = (initialPath as string[]).map(path =>
+      loadTexture(path),
+    ) as UseAsyncStateReturn<Texture | null, [TexturePath], Shallow>[]
   }
+
+  const unsub = watch(() => toValue(path), (newPath) => {
+    if (newPath) {
+      if (typeof newPath === 'string' && singleResult) {
+        // Dispose of the old texture before loading the new one
+        disposeTexture(singleResult.state.value)
+        // Handle single path update
+        singleResult.execute(0, newPath)
+      }
+      else if (Array.isArray(newPath) && arrayResult) {
+        // Handle array of paths update
+        newPath.forEach((path, index) => {
+          if (arrayResult && index < arrayResult.length) {
+            // Dispose of the old texture before loading the new one
+            disposeTexture(arrayResult[index].state.value)
+            arrayResult[index].execute(0, path)
+          }
+        })
+      }
+    }
+  })
+
+  onUnmounted(() => {
+    unsub()
+    // Dispose of all textures on unmount
+    if (singleResult) {
+      disposeTexture(singleResult.state.value)
+    }
+    if (arrayResult) {
+      arrayResult.forEach(result => disposeTexture(result.state.value))
+    }
+  })
+
+  // Return the appropriate result based on the input type
+  return (singleResult || arrayResult) as T extends MaybeRef<string> ?
+    UseAsyncStateReturn<Texture | null, [TexturePath], Shallow> :
+    UseAsyncStateReturn<Texture | null, [TexturePath], Shallow>[]
 }

@@ -3,6 +3,7 @@ import {
   advancedRoutes,
   basicRoutes,
   cameraRoutes,
+  composablesRoutes,
   eventsRoutes,
   issuesRoutes,
   loaderRoutes,
@@ -12,6 +13,7 @@ import {
 
 const sections = [
   { icon: '📦', title: 'Basic', routes: basicRoutes },
+  { icon: '🎼', title: 'Composables', routes: composablesRoutes },
   { icon: '🤓', title: 'Advanced', routes: advancedRoutes },
   { icon: '📣', title: 'Events', routes: eventsRoutes },
   { icon: '📷', title: 'Camera', routes: cameraRoutes },
