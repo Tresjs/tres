@@ -1,5 +1,5 @@
 import type { Object3D, Scene } from 'three'
-import { useLogger } from '../useLogger'
+import { logWarning } from '../../utils/logger'
 
 /**
  * Seek composable return type
@@ -21,8 +21,6 @@ export interface UseSeekReturn {
  * @return {*}  {UseSeekReturn}
  */
 export function useSeek(): UseSeekReturn {
-  const { logWarning } = useLogger()
-
   /**
    * Returns a child object of the parent given a property
    *
