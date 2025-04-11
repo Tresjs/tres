@@ -8,7 +8,7 @@ difficulty: 0
 
 # Tweakpane
 
-To make it easier to control the parameters of your scene, you can use [Tweakpane](https://cocopon.github.io/tweakpane/). In this guide, we will show you how to use Tweakpane to control the parameters of your scene.
+To make it easier to control the parameters of your scene, you can use [Tweakpane](https://tweakpane.github.io/docs/). In this guide, we will show you how to use Tweakpane to control the parameters of your scene.
 
 <StackBlitzEmbed project-id="tweakpane" />
 

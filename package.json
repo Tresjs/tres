@@ -2,7 +2,7 @@
   "name": "@tresjs/core",
   "type": "module",
   "version": "4.3.3",
-  "packageManager": "pnpm@9.15.5",
+  "packageManager": "pnpm@10.6.3",
   "description": "Declarative ThreeJS using Vue Components",
   "author": "Alvaro Saburido <hola@alvarosaburido.dev> (https://github.com/alvarosabu/)",
   "license": "MIT",
@@ -21,8 +21,7 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/tres.js",
-      "require": "./dist/tres.umd.cjs"
+      "import": "./dist/tres.js"
     },
     "./components": {
       "types": "./dist/src/components/index.d.ts"
@@ -71,7 +70,7 @@
   },
   "dependencies": {
     "@alvarosabu/utils": "^3.2.0",
-    "@vue/devtools-api": "^6.6.3",
+    "@vue/devtools-api": "^7.7.2",
     "@vueuse/core": "^12.5.0"
   },
   "devDependencies": {

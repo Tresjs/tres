@@ -1,68 +1,301 @@
 import type { TresObject, TresPrimitive } from 'src/types'
 import type { BufferGeometry, Camera, Fog, Light, Material, Object3D, Scene } from 'three'
 
-export function und(u: unknown): u is undefined {
-  return typeof u === 'undefined'
+/**
+ * Type guard to check if a value is undefined
+ * @param value - The value to check
+ * @returns True if the value is undefined, false otherwise
+ * @example
+ * ```ts
+ * const value = undefined
+ * if (isUndefined(value)) {
+ *   // TypeScript knows value is undefined here
+ * }
+ * ```
+ */
+export function isUndefined(value: unknown): value is undefined {
+  return typeof value === 'undefined'
 }
 
-export function arr(u: unknown): u is Array<unknown> {
-  return Array.isArray(u)
+/**
+ * Type guard to check if a value is an array
+ * @param value - The value to check
+ * @returns True if the value is an array, false otherwise
+ * @example
+ * ```ts
+ * const value = [1, 2, 3]
+ * if (isArray(value)) {
+ *   // TypeScript knows value is Array<unknown> here
+ *   value.length // OK
+ *   value.map(x => x) // OK
+ * }
+ * ```
+ */
+export function isArray(value: unknown): value is Array<unknown> {
+  return Array.isArray(value)
 }
 
-export function num(u: unknown): u is number {
-  return typeof u === 'number'
+/**
+ * Type guard to check if a value is a number
+ * @param value - The value to check
+ * @returns True if the value is a number (including NaN and Infinity), false otherwise
+ * @example
+ * ```ts
+ * const value = 42
+ * if (isNumber(value)) {
+ *   // TypeScript knows value is number here
+ *   value.toFixed(2) // OK
+ *   value * 2 // OK
+ * }
+ * ```
+ */
+export function isNumber(value: unknown): value is number {
+  return typeof value === 'number'
 }
 
-export function str(u: unknown): u is string {
-  return typeof u === 'string'
+/**
+ * Type guard to check if a value is a string
+ * @param value - The value to check
+ * @returns True if the value is a string, false otherwise
+ * @example
+ * ```ts
+ * const value = "hello"
+ * if (isString(value)) {
+ *   // TypeScript knows value is string here
+ *   value.length // OK
+ *   value.toUpperCase() // OK
+ * }
+ * ```
+ */
+export function isString(value: unknown): value is string {
+  return typeof value === 'string'
 }
 
-export function bool(u: unknown): u is boolean {
-  return u === true || u === false
+/**
+ * Type guard to check if a value is a boolean
+ * @param value - The value to check
+ * @returns True if the value is strictly true or false, false otherwise
+ * @example
+ * ```ts
+ * const value = true
+ * if (isBoolean(value)) {
+ *   // TypeScript knows value is boolean here
+ *   !value // OK
+ *   value && true // OK
+ * }
+ * ```
+ */
+export function isBoolean(value: unknown): value is boolean {
+  return value === true || value === false
 }
 
-export function fun(u: unknown): u is (...args: any[]) => any {
-  return typeof u === 'function'
+/**
+ * Type guard to check if a value is a function
+ * @param value - The value to check
+ * @returns True if the value is a callable function, false otherwise
+ * @example
+ * ```ts
+ * const value = () => {}
+ * if (isFunction(value)) {
+ *   // TypeScript knows value is (...args: any[]) => any here
+ *   value() // OK
+ *   value.call(null) // OK
+ * }
+ * ```
+ */
+export function isFunction(value: unknown): value is (...args: any[]) => any {
+  return typeof value === 'function'
 }
 
-export function obj(u: unknown): u is Record<string | number | symbol, unknown> {
-  return u === Object(u) && !arr(u) && !fun(u)
+/**
+ * Type guard to check if a value is a plain object
+ * @param value - The value to check
+ * @returns True if the value is a plain object (not null, array, or function), false otherwise
+ * @example
+ * ```ts
+ * const value = { key: 'value' }
+ * if (isObject(value)) {
+ *   // TypeScript knows value is Record<string | number | symbol, unknown> here
+ *   Object.keys(value) // OK
+ *   value.key // OK
+ * }
+ * ```
+ */
+export function isObject(value: unknown): value is Record<string | number | symbol, unknown> {
+  return value === Object(value) && !isArray(value) && !isFunction(value)
 }
 
-export function object3D(u: unknown): u is Object3D {
-  return obj(u) && !!(u.isObject3D)
+/**
+ * Type guard to check if a value is a Three.js Object3D
+ * @param value - The value to check
+ * @returns True if the value is a Three.js Object3D instance, false otherwise
+ * @example
+ * ```ts
+ * const value = new THREE.Object3D()
+ * if (isObject3D(value)) {
+ *   // TypeScript knows value is Object3D here
+ *   value.position // OK
+ *   value.rotation // OK
+ *   value.scale // OK
+ * }
+ * ```
+ */
+export function isObject3D(value: unknown): value is Object3D {
+  return isObject(value) && !!(value.isObject3D)
 }
 
-export function camera(u: unknown): u is Camera {
-  return obj(u) && !!(u.isCamera)
+/**
+ * Type guard to check if a value is a Three.js Camera
+ * @param value - The value to check
+ * @returns True if the value is a Three.js Camera instance, false otherwise
+ * @example
+ * ```ts
+ * const value = new THREE.PerspectiveCamera()
+ * if (isCamera(value)) {
+ *   // TypeScript knows value is Camera here
+ *   value.fov // OK
+ *   value.near // OK
+ *   value.far // OK
+ * }
+ * ```
+ */
+export function isCamera(value: unknown): value is Camera {
+  return isObject(value) && !!(value.isCamera)
 }
 
-export function bufferGeometry(u: unknown): u is BufferGeometry {
-  return obj(u) && !!(u.isBufferGeometry)
+/**
+ * Type guard to check if a value is a Three.js BufferGeometry
+ * @param value - The value to check
+ * @returns True if the value is a Three.js BufferGeometry instance, false otherwise
+ * @example
+ * ```ts
+ * const value = new THREE.BufferGeometry()
+ * if (isBufferGeometry(value)) {
+ *   // TypeScript knows value is BufferGeometry here
+ *   value.attributes // OK
+ *   value.index // OK
+ *   value.computeVertexNormals() // OK
+ * }
+ * ```
+ */
+export function isBufferGeometry(value: unknown): value is BufferGeometry {
+  return isObject(value) && !!(value.isBufferGeometry)
 }
 
-export function material(u: unknown): u is Material {
-  return obj(u) && !!(u.isMaterial)
+/**
+ * Type guard to check if a value is a Three.js Material
+ * @param value - The value to check
+ * @returns True if the value is a Three.js Material instance, false otherwise
+ * @example
+ * ```ts
+ * const value = new THREE.MeshStandardMaterial()
+ * if (isMaterial(value)) {
+ *   // TypeScript knows value is Material here
+ *   value.color // OK
+ *   value.metalness // OK
+ *   value.roughness // OK
+ * }
+ * ```
+ */
+export function isMaterial(value: unknown): value is Material {
+  return isObject(value) && !!(value.isMaterial)
 }
 
-export function light(u: unknown): u is Light {
-  return obj(u) && !!(u.isLight)
+/**
+ * Type guard to check if a value is a Three.js Light
+ * @param value - The value to check
+ * @returns True if the value is a Three.js Light instance, false otherwise
+ * @example
+ * ```ts
+ * const value = new THREE.DirectionalLight()
+ * if (isLight(value)) {
+ *   // TypeScript knows value is Light here
+ *   value.intensity // OK
+ *   value.color // OK
+ *   value.position // OK
+ * }
+ * ```
+ */
+export function isLight(value: unknown): value is Light {
+  return isObject(value) && !!(value.isLight)
 }
 
-export function fog(u: unknown): u is Fog {
-  return obj(u) && !!(u.isFog)
+/**
+ * Type guard to check if a value is a Three.js Fog
+ * @param value - The value to check
+ * @returns True if the value is a Three.js Fog instance, false otherwise
+ * @example
+ * ```ts
+ * const value = new THREE.Fog(0x000000, 1, 1000)
+ * if (isFog(value)) {
+ *   // TypeScript knows value is Fog here
+ *   value.color // OK
+ *   value.near // OK
+ *   value.far // OK
+ * }
+ * ```
+ */
+export function isFog(value: unknown): value is Fog {
+  return isObject(value) && !!(value.isFog)
 }
 
-export function scene(u: unknown): u is Scene {
-  return obj(u) && !!(u.isScene)
+/**
+ * Type guard to check if a value is a Three.js Scene
+ * @param value - The value to check
+ * @returns True if the value is a Three.js Scene instance, false otherwise
+ * @example
+ * ```ts
+ * const value = new THREE.Scene()
+ * if (isScene(value)) {
+ *   // TypeScript knows value is Scene here
+ *   value.children // OK
+ *   value.add(new THREE.Object3D()) // OK
+ *   value.remove(new THREE.Object3D()) // OK
+ * }
+ * ```
+ */
+export function isScene(value: unknown): value is Scene {
+  return isObject(value) && !!(value.isScene)
 }
 
-export function tresObject(u: unknown): u is TresObject {
+/**
+ * Type guard to check if a value is a TresObject
+ * @param value - The value to check
+ * @returns True if the value is a TresObject (Object3D | BufferGeometry | Material | Fog), false otherwise
+ * @example
+ * ```ts
+ * const value = new THREE.Mesh()
+ * if (isTresObject(value)) {
+ *   // TypeScript knows value is TresObject here
+ *   // You can use common properties and methods shared by all TresObjects
+ * }
+ * ```
+ * @remarks
+ * TresObject is a union type that represents the core Three.js objects that can be used in TresJS.
+ * This includes Object3D, BufferGeometry, Material, and Fog instances.
+ */
+export function isTresObject(value: unknown): value is TresObject {
   // NOTE: TresObject is currently defined as
   // TresObject3D | THREE.BufferGeometry | THREE.Material | THREE.Fog
-  return object3D(u) || bufferGeometry(u) || material(u) || fog(u)
+  return isObject3D(value) || isBufferGeometry(value) || isMaterial(value) || isFog(value)
 }
 
-export function tresPrimitive(u: unknown): u is TresPrimitive {
-  return obj(u) && !!(u.isPrimitive)
+/**
+ * Type guard to check if a value is a TresPrimitive
+ * @param value - The value to check
+ * @returns True if the value is a TresPrimitive instance, false otherwise
+ * @example
+ * ```ts
+ * const value = { isPrimitive: true }
+ * if (isTresPrimitive(value)) {
+ *   // TypeScript knows value is TresPrimitive here
+ *   // You can use properties and methods specific to TresPrimitives
+ * }
+ * ```
+ * @remarks
+ * TresPrimitive is a special type in TresJS that represents primitive objects
+ * that can be used directly in the scene without needing to be wrapped in a Three.js object.
+ */
+export function isTresPrimitive(value: unknown): value is TresPrimitive {
+  return isObject(value) && !!(value.isPrimitive)
 }

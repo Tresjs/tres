@@ -16,6 +16,8 @@ const gl = {
   toneMapping: NoToneMapping,
 }
 
+useControls('fpsgraph')
+
 const { stopPropagation } = useControls({
   stopPropagation: false,
 })

@@ -3,8 +3,8 @@ import type { Object3D, Object3DEventMap, Scene } from 'three'
 import type { TresContext } from '../useTresContextProvider'
 import { shallowRef } from 'vue'
 import { hyphenate } from '../../utils'
-import * as is from '../../utils/is'
 import { useRaycaster } from '../useRaycaster'
+import { isObject3D, isTresObject } from '../../utils/is'
 
 export interface TresEventManager {
   /**
@@ -183,13 +183,13 @@ export function useTresEventManager(
   })
 
   function registerObject(maybeTresObject: unknown) {
-    if (is.tresObject(maybeTresObject) && is.object3D(maybeTresObject)) {
+    if (isTresObject(maybeTresObject) && isObject3D(maybeTresObject)) {
       objectsWithEvents.value.push(maybeTresObject as TresInstance)
     }
   }
 
   function deregisterObject(maybeTresObject: unknown) {
-    if (is.tresObject(maybeTresObject) && is.object3D(maybeTresObject)) {
+    if (isTresObject(maybeTresObject) && isObject3D(maybeTresObject)) {
       const index = objectsWithEvents.value.indexOf(maybeTresObject as TresInstance)
       if (index > -1) {
         objectsWithEvents.value.splice(index, 1)
@@ -198,13 +198,13 @@ export function useTresEventManager(
   }
 
   function registerPointerMissedObject(maybeTresObject: unknown) {
-    if (is.tresObject(maybeTresObject) && is.object3D(maybeTresObject) && maybeTresObject.onPointerMissed) {
+    if (isTresObject(maybeTresObject) && isObject3D(maybeTresObject) && maybeTresObject.onPointerMissed) {
       pointerMissedObjects.push(maybeTresObject)
     }
   }
 
   function deregisterPointerMissedObject(maybeTresObject: unknown) {
-    if (is.tresObject(maybeTresObject) && is.object3D(maybeTresObject)) {
+    if (isTresObject(maybeTresObject) && isObject3D(maybeTresObject)) {
       const index = pointerMissedObjects.indexOf(maybeTresObject)
       if (index > -1) {
         pointerMissedObjects.splice(index, 1)
