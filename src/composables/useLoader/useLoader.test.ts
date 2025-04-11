@@ -3,7 +3,7 @@ import { useLoader } from '.'
 import type { LoaderProto, TresLoaderOptions } from '@tresjs/core'
 import type { GLTF } from 'three/examples/jsm/loaders/GLTFLoader'
 import type { UseAsyncStateReturn } from '@vueuse/core'
-import { nextTick, ref, watch } from 'vue'
+import { ref, watch } from 'vue'
 
 // Create a mock Material class
 class MockMaterial {
