@@ -26,13 +26,13 @@ import { core, maintainers, alumni } from './_data/team'
     <template #members>
       <VPTeamMembers :members="core" />
     </template>
-  </VPTeamPageSection> 
+  </VPTeamPageSection>
   <VPTeamPageSection>
     <template #title>Maintainers</template>
     <template #members>
       <VPTeamMembers :members="maintainers" />
     </template>
-  </VPTeamPageSection> 
+  </VPTeamPageSection>
   <VPTeamPageSection>
     <template #title>Alumni</template>
     <template #lead>
@@ -42,5 +42,5 @@ import { core, maintainers, alumni } from './_data/team'
     <template #members>
       <VPTeamMembers size="small" :members="alumni" />
     </template>
-  </VPTeamPageSection> 
+  </VPTeamPageSection>
 </VPTeamPage>

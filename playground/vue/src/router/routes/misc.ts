@@ -9,4 +9,9 @@ export const miscRoutes = [
     name: 'Directives',
     component: () => import('../../pages/misc/directives/index.vue'),
   },
+  {
+    path: '/misc/graph',
+    name: 'useGraph',
+    component: () => import('../../pages/misc/use-graph/index.vue'),
+  },
 ]
