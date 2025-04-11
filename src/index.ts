@@ -31,7 +31,6 @@ const plugin: TresPlugin = {
 export default plugin
 
 export {
-  buildGraph,
   dispose,
   normalizeColor,
   normalizeVectorFlexibleParam,
