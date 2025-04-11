@@ -3,10 +3,8 @@ import { useAsyncState } from '@vueuse/core'
 import type { Loader, LoadingManager } from 'three'
 import type { MaybeRef } from 'vue'
 import { onUnmounted, toValue, watch } from 'vue'
-import { useGraph } from '../useGraph'
+
 import type { TresObject } from '../../../types'
-import type { TresObjectMap } from '../../utils/graph'
-import type { GLTF } from 'three/examples/jsm/loaders/GLTFLoader'
 
 import { disposeObject3D } from '../../utils/'
 
@@ -15,8 +13,6 @@ export interface LoaderMethods {
   setMeshoptDecoder: (meshoptDecoder: any) => void
   setKTX2Loader: (ktx2Loader: any) => void
 }
-
-export type TresGLTF = GLTF & TresObjectMap
 
 export type TresLoader<T> = Loader & Partial<LoaderMethods> & {
   load: (
@@ -30,33 +26,35 @@ export type TresLoader<T> = Loader & Partial<LoaderMethods> & {
 
 export type LoaderProto<T> = new (manager?: LoadingManager) => TresLoader<T>
 
-/**
- * Type representing a model path or multiple model paths
- */
-export type ModelPath = string | string[]
-
-export interface TresLoaderOptions<T extends TresObjectMap, Shallow extends boolean> {
+export interface TresLoaderOptions<T, Shallow extends boolean> {
   manager?: LoadingManager
   extensions?: (loader: TresLoader<T>) => void
   asyncOptions?: UseAsyncStateOptions<Shallow, any | null>
 }
 
-export function useLoader<T extends TresObjectMap, G extends MaybeRef<ModelPath>, Shallow extends boolean = false>(
+/**
+ * Vue composable for loading 3D models using Three.js loaders
+ * @param Loader - The Three.js loader constructor
+ * @param path - The path to the model file
+ * @param options - Optional configuration for the loader
+ * @returns UseAsyncState composable with the loaded model
+ */
+export function useLoader<T, Shallow extends boolean = false>(
   Loader: LoaderProto<T>,
-  path: G,
+  path: MaybeRef<string>,
   options?: TresLoaderOptions<T, Shallow>,
-): G extends MaybeRef<string> ? UseAsyncStateReturn<T, [ModelPath], Shallow> : UseAsyncStateReturn<T, [ModelPath], Shallow>[] {
+): UseAsyncStateReturn<T, [string], Shallow> {
   const proto = new Loader(options?.manager)
 
-  const loadModel = (initialPath?: string) => useAsyncState(
-    (path: string) => new Promise((resolve, reject) => {
+  if (options?.extensions) {
+    options.extensions(proto)
+  }
+
+  const initialPath = toValue(path)
+  const result = useAsyncState(
+    (path?: string) => new Promise((resolve, reject) => {
       proto.load(path || initialPath || '', (result: T) => {
-        const loadedData = result as unknown as TresObject
-        if (loadedData.scene) {
-          const graph = useGraph(loadedData.scene)
-          Object.assign(loadedData, graph.value)
-        }
-        resolve(result)
+        resolve(result as unknown as TresObject)
       }, undefined, (err: unknown) => {
         reject(err)
       })
@@ -68,67 +66,26 @@ export function useLoader<T extends TresObjectMap, G extends MaybeRef<ModelPath>
     },
   )
 
-  const initialPath = toValue(path)
-  // Create a type-safe result variable
-  let singleResult: UseAsyncStateReturn<T | null, [ModelPath], Shallow> | undefined
-  let arrayResult: UseAsyncStateReturn<T | null, [ModelPath], Shallow>[] | undefined
-
-  if (options?.extensions) {
-    options.extensions(proto)
-  }
-
-  if (typeof initialPath === 'string') {
-    singleResult = loadModel(initialPath) as UseAsyncStateReturn<T | null, [ModelPath], Shallow>
-  }
-  else {
-    arrayResult = initialPath.map(loadModel) as UseAsyncStateReturn<T | null, [ModelPath], Shallow>[]
-  }
-
+  // Watch for path changes and reload the model
   const unsub = watch(() => toValue(path), (newPath) => {
     if (newPath) {
-      if (typeof newPath === 'string' && singleResult) {
-        // Safely dispose the scene if it exists
-        const value = singleResult.state.value
-        if (value && 'scene' in value && value.scene) {
-          disposeObject3D(value.scene as unknown as TresObject)
-        }
-        singleResult.execute(0, newPath)
-      }
-      else if (Array.isArray(newPath) && arrayResult) {
-        newPath.forEach((path, index) => {
-          // Safely dispose the scene if it exists
-          const value = arrayResult[index].state.value
-          if (value && 'scene' in value && value.scene) {
-            disposeObject3D(value.scene as unknown as TresObject)
-          }
-          arrayResult[index].execute(0, path)
-        })
-      }
-    }
-  })
-
-  onUnmounted(() => {
-    unsub()
-    if (singleResult) {
+      const value = result.state.value
       // Safely dispose the scene if it exists
-      const value = singleResult.state.value
-      if (value && 'scene' in value && value.scene) {
+      if (value && typeof value === 'object' && 'scene' in value && value.scene) {
         disposeObject3D(value.scene as unknown as TresObject)
       }
-    }
-    if (arrayResult) {
-      arrayResult.forEach((result) => {
-        // Safely dispose the scene if it exists
-        const value = result.state.value
-        if (value && 'scene' in value && value.scene) {
-          disposeObject3D(value.scene as unknown as TresObject)
-        }
-      })
+      result.execute(0, newPath)
     }
   })
 
-  // Return the appropriate result based on the input type
-  return (singleResult || arrayResult) as G extends MaybeRef<string> ?
-    UseAsyncStateReturn<T, [ModelPath], Shallow> :
-    UseAsyncStateReturn<T, [ModelPath], Shallow>[]
+  // Cleanup on component unmount
+  onUnmounted(() => {
+    unsub()
+    const value = result.state.value
+    if (value && typeof value === 'object' && 'scene' in value && value.scene) {
+      disposeObject3D(value.scene as unknown as TresObject)
+    }
+  })
+
+  return result as UseAsyncStateReturn<T, [string], Shallow>
 }

@@ -1,6 +1,6 @@
 # useLoader
 
-  The `useLoader` composable provides a unified way to load external resources like models in TresJS using any [Three.js loader](https://threejs.org/docs/#api/en/loaders/Loader). It handles both single and multiple resources, provides loading states, and properly manages resource disposal.
+The `useLoader` composable provides a unified way to load external resources like models and textures in TresJS using any [Three.js loader](https://threejs.org/docs/#api/en/loaders/Loader). It handles loading states and properly manages resource disposal.
 
 ## Basic Usage
 
@@ -8,21 +8,31 @@
 import { useLoader } from '@tresjs/core'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 
-// Single model
-const gltf = useLoader(GLTFLoader, '/path/to/model.gltf')
+const { state, isLoading } = useLoader(GLTFLoader, '/path/to/model.gltf')
+```
 
-// Multiple models
-const models = useLoader(GLTFLoader, [
+For multiple models, you can create multiple loader instances:
+
+```ts
+const models = [
   '/path/to/model1.gltf',
   '/path/to/model2.gltf'
-])
+].map(path => useLoader(GLTFLoader, path))
+```
+
+You can also use the `useLoader` composable to load textures:
+
+```ts
+import { useLoader } from '@tresjs/core'
+import { TextureLoader } from 'three'
+
+const { state: texture } = useLoader(TextureLoader, '/path/to/texture.jpg')
 ```
 
 ## Features
 
 - 🔄 Reactive loading states
 - 🎯 Type-safe loader handling
-- 📦 Support for single or multiple resources
 - 🧹 Automatic resource cleanup
 - 🔌 Extensible loader configuration
 - 🎮 Progress tracking support
@@ -31,8 +41,7 @@ const models = useLoader(GLTFLoader, [
 
 ### Type Parameters
 
-- `T extends TresObjectMap`: The type of the loaded resource
-- `G extends MaybeRef<ModelPath>`: The type of the path (string or string[])
+- `T extends TresObjectMap`: The type of the loaded resource (use `TresGLTF` for GLTF models)
 - `Shallow extends boolean = false`: Whether to use shallow reactive state
 
 ### Arguments
@@ -40,7 +49,7 @@ const models = useLoader(GLTFLoader, [
 | Name | Type | Description |
 |------|------|-------------|
 | `Loader` | `LoaderProto<T>` | The Three.js loader constructor to use |
-| `path` | `G` | Path or array of paths to the resource(s) |
+| `path` | `MaybeRef<string>` | Path to the resource |
 | `options?` | `TresLoaderOptions<T, Shallow>` | Optional configuration |
 
 ### Options
@@ -55,56 +64,29 @@ interface TresLoaderOptions<T extends TresObjectMap, Shallow extends boolean> {
 
 ### Returns
 
-The return type depends on whether you're loading a single resource or multiple resources:
-
-- Single resource: `UseAsyncStateReturn<T, [ModelPath], Shallow>`
-- Multiple resources: `UseAsyncStateReturn<T, [ModelPath], Shallow>[]`
-
-Each state object contains:
+Returns a `UseAsyncStateReturn` object containing:
 - `state`: The loaded resource
-- `isReady`: Whether the resource has finished loading
+- `isLoading`: Whether the resource is currently loading
 - `error`: Any error that occurred during loading
 - `execute`: Function to reload the resource
 
 ## Component Usage
 
-TresJS provides a component wrapper for the `useLoader` composable:
+You can use the `UseLoader` component to load a resource and use it in your template directly.
 
 ```vue
 <script setup lang="ts">
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
+
+const url = 'https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/blender-cube.glb'
 </script>
 
 <template>
-  <TresLoader
-    :loader="GLTFLoader"
-    path="/path/to/model.gltf"
-    @loaded="onLoaded"
-    @error="onError"
-  >
-    <template #default="{ state, isReady, error }">
-      <div v-if="!isReady">Loading...</div>
-      <div v-else-if="error">Error loading model</div>
-      <primitive v-else :object="state.scene" />
-    </template>
-  </TresLoader>
+  <UseLoader v-slot="{ state }" :loader="GLTFLoader" :path="url">
+    <primitive v-if="state?.scene" :object="state.scene" />
+  </UseLoader>
 </template>
 ```
-
-### Component Props
-
-| Name | Type | Description |
-|------|------|-------------|
-| `loader` | `LoaderProto<T>` | The Three.js loader constructor |
-| `path` | `string \| string[]` | Path or array of paths to resource(s) |
-| `manager?` | `LoadingManager` | Optional THREE.js LoadingManager |
-
-### Component Events
-
-| Name | Type | Description |
-|------|------|-------------|
-| `loaded` | `(result: T \| T[]) => void` | Emitted when resource(s) load successfully |
-| `error` | `(error: unknown \| unknown[]) => void` | Emitted when loading fails |
 
 ## Advanced Examples
 
@@ -114,29 +96,14 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 import { useLoader } from '@tresjs/core'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 import { LoadingManager } from 'three'
+import type { TresGLTF } from '@tresjs/core'
 
 const manager = new LoadingManager()
 manager.onProgress = (url, loaded, total) => {
   console.log(`Loading file: ${url}. Loaded ${loaded} of ${total} files.`)
 }
 
-const gltf = useLoader(GLTFLoader, '/path/to/model.gltf', { manager })
-```
-
-### With DRACO Compression
-
-```ts
-import { useLoader } from '@tresjs/core'
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
-import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader'
-
-const gltf = useLoader(GLTFLoader, '/model.gltf', {
-  extensions: (loader) => {
-    const dracoLoader = new DRACOLoader()
-    dracoLoader.setDecoderPath('/draco/')
-    loader.setDRACOLoader(dracoLoader)
-  }
-})
+const { state } = useLoader<TresGLTF>(GLTFLoader, '/path/to/model.gltf', { manager })
 ```
 
 ### Loading Multiple Resources
@@ -145,14 +112,14 @@ const gltf = useLoader(GLTFLoader, '/model.gltf', {
 import { useLoader } from '@tresjs/core'
 import { TextureLoader } from 'three'
 
-const textures = useLoader(TextureLoader, [
-  '/texture1.jpg',
-  '/texture2.jpg'
-])
+const models = [
+  '/path/to/model1.gltf',
+  '/path/to/model2.gltf'
+].map(path => useLoader(GLTFLoader, path))
 
-// Check if all textures are loaded
+// Check if all models are loaded
 const allLoaded = computed(() =>
-  textures.every(({ isReady }) => isReady.value)
+  models.every(({ isLoading }) => !isLoading.value)
 )
 ```
 
@@ -169,17 +136,20 @@ watch(error, (err) => {
 })
 ```
 
-3. **Loading States**: Use the `isReady` state to show loading indicators:
+3. **Loading States**: Use the `isLoading` state to show loading indicators:
 ```vue
 <template>
-  <div v-if="!isReady">Loading...</div>
-  <primitive v-else :object="state.scene" />
+  <primitive v-if="!isLoading" :object="state.scene" />
 </template>
 ```
 
-4. **Type Safety**: Leverage TypeScript for better type inference:
+4. **Type Safety**: Always use proper types for better type inference:
 ```ts
+// For GLTF models
 useLoader<GLTF>(GLTFLoader, '/model.gltf')
+
+// For textures
+useLoader<Texture>(TextureLoader, '/texture.jpg')
 ```
 
 5. **Progress Tracking**: Use a loading manager for detailed progress tracking:

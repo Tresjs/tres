@@ -1,8 +1,8 @@
-<script setup lang="ts" generic="T extends TresObjectMap, G extends string | string[]">
+<script setup lang="ts" generic="T extends TresObjectMap">
 import type { LoadingManager } from 'three'
 import type { LoaderProto } from './index'
 import { useLoader } from './index'
-import { computed, defineEmits, defineProps } from 'vue'
+import { defineEmits, defineProps } from 'vue'
 import { whenever } from '@vueuse/core'
 import type { TresObjectMap } from '../../utils/graph'
 
@@ -12,9 +12,9 @@ const props = defineProps<{
    */
   loader: LoaderProto<T>
   /**
-   * Path or array of paths to resource(s)
+   * Path to resource
    */
-  path: G
+  path: string
   /**
    * Optional THREE.js LoadingManager
    */
@@ -22,40 +22,25 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits<{
-  loaded: [result: G extends string ? T : T[]]
-  error: [error: G extends string ? unknown : unknown[]]
+  loaded: [result: T]
+  error: [error: unknown]
 }>()
 
-const state = useLoader(props.loader, props.path, { manager: props.manager })
+const { state, isLoading, error } = useLoader(props.loader, props.path, { manager: props.manager })
 
-// Type guard to check if we're dealing with an array of results
-const isMultiple = (x: ReturnType<typeof useLoader<T, G>> | ReturnType<typeof useLoader<T, G>>[]): x is ReturnType<typeof useLoader<T, G>>[] => Array.isArray(x)
-
-const errorOrErrors = computed(() =>
-  (isMultiple(state) ? state.map(({ error }) => error.value) : state.error.value),
-)
-
-const hasError = computed(() =>
-  isMultiple(state) ? state.some(({ error }) => error.value) : !!state.error.value,
-)
-
-whenever(hasError, () => {
-  emit('error', errorOrErrors.value as unknown as G extends string ? unknown : unknown[])
+whenever(error, (err) => {
+  if (err) { emit('error', err) }
 })
 
-const isReady = computed(() => {
-  return isMultiple(state) ? state.every(({ isReady }) => isReady.value) : !!state.isReady
-})
-
-const dataOrDataArray = computed(() =>
-  isMultiple(state) ? state.map(({ state }) => state.value) : state.state.value,
-)
-
-whenever(isReady, () => {
-  emit('loaded', dataOrDataArray.value as unknown as G extends string ? T : T[])
+whenever(state, (value) => {
+  if (value) { emit('loaded', value as T) }
 })
 </script>
 
 <template>
-  <slot v-bind="state"></slot>
+  <slot
+    :state="state"
+    :is-loading="isLoading"
+    :error="error"
+  ></slot>
 </template>

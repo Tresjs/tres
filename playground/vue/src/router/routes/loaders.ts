@@ -10,6 +10,11 @@ export const loaderRoutes = [
     component: () => import('../../pages/loaders/fbx-loader/index.vue'),
   },
   {
+    path: '/loaders/texture',
+    name: 'Texture Loader',
+    component: () => import('../../pages/loaders/texture-loader/index.vue'),
+  },
+  {
     path: '/loader/component',
     name: 'Loader Component',
     component: () => import('../../pages/loaders/componentDemo.vue'),

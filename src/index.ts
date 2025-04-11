@@ -3,6 +3,7 @@ import TresCanvas from './components/TresCanvas.vue'
 import { disposeObject3D as dispose } from './utils'
 import { normalizeColor, normalizeVectorFlexibleParam } from './utils/normalize'
 import templateCompilerOptions from './utils/template-compiler-options'
+import { buildGraph } from './utils/graph'
 
 export * from './components'
 export * from './composables'
@@ -29,6 +30,7 @@ const plugin: TresPlugin = {
 export default plugin
 
 export {
+  buildGraph,
   dispose,
   normalizeColor,
   normalizeVectorFlexibleParam,

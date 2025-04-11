@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { OrbitControls } from '@tresjs/cientos'
-import BlenderCube from './BlenderCube.vue'
+import TheModel from './TheModel.vue'
 </script>
 
 <template>
-  <TresPerspectiveCamera :position="[3, 3, 3]" />
+  <TresPerspectiveCamera :position="[8, 8, 8]" />
   <OrbitControls />
   <TresGridHelper />
   <TresAmbientLight :intensity="1" />
-  <BlenderCube />
+  <TheModel />
 </template>

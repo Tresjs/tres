@@ -38,12 +38,13 @@ The `useGraph` composable is particularly useful when working with complex 3D mo
 import { useGraph, useLoader } from '@tresjs/core'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 
-const { scene } = await useLoader(GLTFLoader, '/path/to/model.gltf')
-const { nodes, materials } = useGraph(scene)
+const { state: model } = await useLoader(GLTFLoader, '/path/to/model.gltf')
+const graph = useGraph(computed(() => model.value?.scene))
 
-// Access objects by name
-const carBody = nodes.carBody
-const paintMaterial = materials.paint
+watch(graph, ({ nodes, materials }) => {
+  const carBody = nodes.carBody
+  const paintMaterial = materials.paint
+})
 </script>
 ```
 
