@@ -2,7 +2,7 @@ import type { UseAsyncStateOptions, UseAsyncStateReturn } from '@vueuse/core'
 import { useAsyncState } from '@vueuse/core'
 import type { Loader, LoadingManager } from 'three'
 import type { MaybeRef } from 'vue'
-import { onUnmounted, toValue, watch } from 'vue'
+import { onUnmounted, reactive, toValue, watch } from 'vue'
 
 import type { TresObject } from '../../../types'
 
@@ -33,6 +33,31 @@ export interface TresLoaderOptions<T, Shallow extends boolean> {
 }
 
 /**
+ * Return type for the useLoader composable
+ * @template T - The type of the loaded asset (e.g., GLTF, Texture, etc.)
+ * @template Shallow - Whether to use shallow reactivity for better performance
+ * @extends {UseAsyncStateReturn<T, [string], Shallow>} - Extends VueUse's useAsyncState return type
+ */
+export type UseLoaderReturn<T, Shallow extends boolean> = UseAsyncStateReturn<T, [string], Shallow> & {
+  /**
+   * Loads a new asset from the given path
+   * @param path - The URL or path to the asset to load
+   */
+  load: (path: string) => void
+  /**
+   * Progress of the loading process
+   * @property loaded - The number of bytes loaded
+   * @property total - The total number of bytes to load
+   * @property percentage - The percentage of the loading process
+   */
+  progress: {
+    loaded: number
+    total: number
+    percentage: number
+  }
+}
+
+/**
  * Vue composable for loading 3D models using Three.js loaders
  * @param Loader - The Three.js loader constructor
  * @param path - The path to the model file
@@ -43,9 +68,13 @@ export function useLoader<T, Shallow extends boolean = false>(
   Loader: LoaderProto<T>,
   path: MaybeRef<string>,
   options?: TresLoaderOptions<T, Shallow>,
-): UseAsyncStateReturn<T, [string], Shallow> {
+): UseLoaderReturn<T, Shallow> {
   const proto = new Loader(options?.manager)
-
+  const progress = reactive({
+    loaded: 0,
+    total: 0,
+    percentage: 0,
+  })
   if (options?.extensions) {
     options.extensions(proto)
   }
@@ -55,7 +84,11 @@ export function useLoader<T, Shallow extends boolean = false>(
     (path?: string) => new Promise((resolve, reject) => {
       proto.load(path || initialPath || '', (result: T) => {
         resolve(result as unknown as TresObject)
-      }, undefined, (err: unknown) => {
+      }, (event: ProgressEvent<EventTarget>) => {
+        progress.loaded = event.loaded
+        progress.total = event.total
+        progress.percentage = ((progress.loaded / progress.total) * 100)
+      }, (err: unknown) => {
         reject(err)
       })
     }),
@@ -87,5 +120,11 @@ export function useLoader<T, Shallow extends boolean = false>(
     }
   })
 
-  return result as UseAsyncStateReturn<T, [string], Shallow>
+  return {
+    ...result,
+    load: (path: string) => {
+      result.execute(0, path)
+    },
+    progress,
+  } as UseLoaderReturn<T, Shallow>
 }

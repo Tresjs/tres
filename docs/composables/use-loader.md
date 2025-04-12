@@ -64,11 +64,16 @@ interface TresLoaderOptions<T extends TresObjectMap, Shallow extends boolean> {
 
 ### Returns
 
-Returns a `UseAsyncStateReturn` object containing:
+Returns a `UseLoaderReturn` object containing:
 - `state`: The loaded resource
 - `isLoading`: Whether the resource is currently loading
 - `error`: Any error that occurred during loading
 - `execute`: Function to reload the resource
+- `load`: Function to load a new resource from a given path
+- `progress`: Object containing loading progress information:
+  - `loaded`: Number of bytes loaded
+  - `total`: Total number of bytes to load
+  - `percentage`: Loading progress as a percentage (0-100)
 
 ## Component Usage
 
@@ -121,6 +126,12 @@ const models = [
 const allLoaded = computed(() =>
   models.every(({ isLoading }) => !isLoading.value)
 )
+
+// Track loading progress
+const totalProgress = computed(() => {
+  const progress = models.reduce((acc, { progress }) => acc + progress.percentage, 0)
+  return progress / models.length
+})
 ```
 
 ## Best Practices
@@ -152,11 +163,20 @@ useLoader<GLTF>(GLTFLoader, '/model.gltf')
 useLoader<Texture>(TextureLoader, '/texture.jpg')
 ```
 
-5. **Progress Tracking**: Use a loading manager for detailed progress tracking:
+5. **Progress Tracking**: Use the built-in progress tracking to show loading progress:
 ```ts
-const manager = new LoadingManager()
-manager.onProgress = (url, loaded, total) => {
-  const progress = (loaded / total) * 100
-  console.log(`Loading: ${progress.toFixed(2)}%`)
-}
+const { progress } = useLoader(GLTFLoader, '/model.gltf')
+
+// Watch for progress updates
+watch(progress, ({ percentage }) => {
+  console.log(`Loading: ${percentage.toFixed(2)}%`)
+})
+```
+
+6. **Dynamic Loading**: Use the `load` method to change the loaded resource:
+```ts
+const { load, state } = useLoader(GLTFLoader, '/initial-model.gltf')
+
+// Later in your code, load a different model
+load('/new-model.gltf')
 ```

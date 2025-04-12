@@ -18,13 +18,7 @@ dracoLoader.setDecoderPath('https://www.gstatic.com/draco/versioned/decoders/1.5
 
 const modelPath = ref('https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/blender-cube.glb')
 
-const manager = new LoadingManager()
-manager.onProgress = (url, loaded, total) => {
-  const progress = (loaded / total) * 100
-  state.progress = progress
-}
-
-const { state: model, isLoading } = useLoader(
+const { state: model, isLoading, _load, progress } = useLoader(
   GLTFLoader,
   modelPath,
   {
@@ -33,7 +27,6 @@ const { state: model, isLoading } = useLoader(
         loader.setDRACOLoader(dracoLoader)
       }
     },
-    manager,
   },
 )
 const scene = computed(() => model.value?.scene)
@@ -44,7 +37,7 @@ watch(graph, (newGraph) => {
 })
 
 /* setTimeout(() => {
-  execute(0, 'https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/low-poly/cloud.gltf')
+  load('https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/low-poly/cloud.gltf')
 }, 2000) */
 
 watch(isLoading, (newIsLoading) => {
@@ -61,6 +54,11 @@ watch(model, (newModel) => {
   }, 1000)
 })
 
+watch(progress, (newProgress) => {
+  console.log('progress', newProgress)
+  state.progress = newProgress.percentage
+}, { immediate: true })
+
 const modelRef = ref<Mesh>()
 
 const { onBeforeRender } = useLoop()
@@ -75,5 +73,5 @@ onBeforeRender(({ elapsed }) => {
 </script>
 
 <template>
-  <primitive v-if="graph?.nodes.Cube" ref="modelRef" :position="[0, 2, 0]" :object="graph.nodes.Cube" />
+  <primitive v-if="model?.scene" ref="modelRef" :position="[0, 2, 0]" :object="model.scene" />
 </template>
