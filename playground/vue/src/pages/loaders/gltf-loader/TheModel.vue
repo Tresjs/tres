@@ -4,7 +4,7 @@ import { useGraph, useLoader, useLoop } from '@tresjs/core'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
 import { inject, ref, watch } from 'vue'
-import { LoadingManager, type Mesh } from 'three'
+import type { Mesh } from 'three'
 
 const state = inject<{
   hasFinishLoading: boolean
