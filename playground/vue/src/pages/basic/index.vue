@@ -5,7 +5,7 @@ import { TresLeches, useControls } from '@tresjs/leches'
 import { OrbitControls } from '@tresjs/cientos'
 import '@tresjs/leches/styles'
 
-const { clearColor, clearAlpha, alpha, toneMapping, shadows, shadowMapType } = useControls({
+const { clearColor, clearAlpha, toneMapping, shadows, shadowMapType } = useControls({
   clearColor: '#82DBC5',
   clearAlpha: {
     value: 1,

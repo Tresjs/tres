@@ -2,11 +2,7 @@
 import { OrbitControls } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
 import { TresLeches, useControls } from '@tresjs/leches'
-import {
-  BasicShadowMap,
-  NoToneMapping,
-  SRGBColorSpace,
-} from 'three'
+
 import '@tresjs/leches/styles'
 
 const gl = {
