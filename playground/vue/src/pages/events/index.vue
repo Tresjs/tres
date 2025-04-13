@@ -11,6 +11,8 @@ const gl = {
   shadows: true,
 }
 
+useControls('fpsgraph')
+
 const { stopPropagation } = useControls({
   stopPropagation: false,
 })

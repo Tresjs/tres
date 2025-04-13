@@ -1,9 +1,8 @@
 <script setup lang="ts">
 /* eslint-disable no-console */
-import { LoadingManager } from 'three'
-
+import { OrbitControls } from '@tresjs/cientos'
 import { useLoader } from '@tresjs/core'
-import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader.js'
+import { LoadingManager, TextureLoader } from 'three'
 
 const state = inject<{
   hasFinishLoading: boolean
@@ -16,9 +15,9 @@ manager.onProgress = (url, loaded, total) => {
   state.progress = progress
 }
 
-const { state: model, isLoading } = useLoader(
-  FBXLoader,
-  'https://raw.githubusercontent.com/Tresjs/assets/main/models/fbx/low-poly-truck/Jeep_done.fbx',
+const { state: texture, isLoading } = useLoader(
+  TextureLoader,
+  'https://raw.githubusercontent.com/Tresjs/assets/main/textures/black-rock/Rock035_2K_Color.jpg',
   {
     manager,
   },
@@ -31,15 +30,21 @@ watch(isLoading, (newIsLoading) => {
   }
 })
 
-watch(model, (newModel) => {
-  console.log('model', newModel)
+watch(texture, (newTexture) => {
+  console.log('texture', newTexture)
   setTimeout(() => {
     state.hasFinishLoading = true
   }, 1000)
 })
-/* eslint-enable no-console */
 </script>
 
 <template>
-  <primitive v-if="model" :object="model" :scale="0.01" />
+  <TresPerspectiveCamera :position="[3, 3, 3]" />
+  <OrbitControls />
+  <TresGridHelper />
+  <TresAmbientLight :intensity="1" />
+  <TresMesh>
+    <TresBoxGeometry />
+    <TresMeshStandardMaterial :map="texture" />
+  </TresMesh>
 </template>

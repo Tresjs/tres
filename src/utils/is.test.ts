@@ -1,6 +1,6 @@
 import type { Camera, Light, Material, Object3D } from 'three'
 import { AmbientLight, BufferGeometry, DirectionalLight, Fog, Group, Mesh, MeshBasicMaterial, MeshNormalMaterial, OrthographicCamera, PerspectiveCamera, PointLight, Scene } from 'three'
-import * as is from './is'
+import { isArray, isBoolean, isBufferGeometry, isCamera, isFog, isFunction, isLight, isMaterial, isNumber, isObject, isObject3D, isScene, isString, isTresObject, isUndefined } from './is'
 
 const NUMBERS: Record<string, number> = {
   '0': 0,
@@ -89,27 +89,26 @@ const BUFFER_GEOMETRIES: Record<string, BufferGeometry> = {
 
 const OBJECTS = Object.assign({}, { '{}': {}, '{ a: "a" }': { a: 'a' } }, FOGS, MATERIALS, OBJECT3DS, BUFFER_GEOMETRIES)
 
-// NOTE: See definition in is.ts
 const TRES_OBJECTS = Object.assign({}, MATERIALS, OBJECT3DS, BUFFER_GEOMETRIES, FOGS)
 
 const ALL = Object.assign({}, NUMBERS, BOOLEANS, STRINGS, NULL, UNDEFINED, ARRAYS, FUNCTIONS, OBJECTS)
 
 describe('is', () => {
-  describe('is.und(a: any)', () => { test(is.und, UNDEFINED) })
-  describe('is.arr(a: any)', () => { test(is.arr, ARRAYS) })
-  describe('is.num(a: any)', () => { test(is.num, NUMBERS) })
-  describe('is.str(a: any)', () => { test(is.str, STRINGS) })
-  describe('is.bool(a: any)', () => { test(is.bool, BOOLEANS) })
-  describe('is.fun(a: any)', () => { test(is.fun, FUNCTIONS) })
-  describe('is.obj(a: any)', () => { test(is.obj, OBJECTS) })
-  describe('is.object3D(a: any)', () => { test(is.object3D, OBJECT3DS) })
-  describe('is.camera(a: any)', () => { test(is.camera, CAMERAS) })
-  describe('is.bufferGeometry(a: any)', () => { test(is.bufferGeometry, BUFFER_GEOMETRIES) })
-  describe('is.material(a: any)', () => { test(is.material, MATERIALS) })
-  describe('is.light(a: any)', () => { test(is.light, LIGHTS) })
-  describe('is.fog(a: any)', () => { test(is.fog, FOGS) })
-  describe('is.scene(a: any)', () => { test(is.scene, SCENES) })
-  describe('is.tresObject(a: any)', () => { test(is.tresObject, TRES_OBJECTS) })
+  describe('isUndefined(a: any)', () => { test(isUndefined, UNDEFINED) })
+  describe('isArray(a: any)', () => { test(isArray, ARRAYS) })
+  describe('isNumber(a: any)', () => { test(isNumber, NUMBERS) })
+  describe('isString(a: any)', () => { test(isString, STRINGS) })
+  describe('isBoolean(a: any)', () => { test(isBoolean, BOOLEANS) })
+  describe('isFunction(a: any)', () => { test(isFunction, FUNCTIONS) })
+  describe('isObject(a: any)', () => { test(isObject, OBJECTS) })
+  describe('isObject3D(a: any)', () => { test(isObject3D, OBJECT3DS) })
+  describe('isCamera(a: any)', () => { test(isCamera, CAMERAS) })
+  describe('isBufferGeometry(a: any)', () => { test(isBufferGeometry, BUFFER_GEOMETRIES) })
+  describe('isMaterial(a: any)', () => { test(isMaterial, MATERIALS) })
+  describe('isLight(a: any)', () => { test(isLight, LIGHTS) })
+  describe('isFog(a: any)', () => { test(isFog, FOGS) })
+  describe('isScene(a: any)', () => { test(isScene, SCENES) })
+  describe('isTresObject(a: any)', () => { test(isTresObject, TRES_OBJECTS) })
 })
 
 /**

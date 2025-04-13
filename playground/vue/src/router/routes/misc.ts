@@ -14,4 +14,9 @@ export const miscRoutes = [
     name: 'Brownian Distribution',
     component: () => import('../../pages/misc/BrownianDistribution.vue'),
   },
+  {
+    path: '/misc/graph',
+    name: 'useGraph',
+    component: () => import('../../pages/misc/use-graph/index.vue'),
+  },
 ]

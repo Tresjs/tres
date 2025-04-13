@@ -21,6 +21,11 @@ export function calculateMemoryUsage(object: TresObject | Scene) {
   return totalMemory // In bytes
 }
 
+export function boundedPush<T>(arr: T[], value: T, max: number) {
+  arr.push(value)
+  if (arr.length > max) { arr.shift() }
+}
+
 export function bytesToKB(bytes: number): string {
   return (bytes / 1024).toFixed(2)
 }
