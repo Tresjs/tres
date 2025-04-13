@@ -16,7 +16,7 @@ The `ChromaticAberration` effect is part of the [`postprocessing`](https://pmndr
 
 The `<ChromaticAberrationPmndrs>` component is easy to use and provides customizable options to suit different visual styles.
 
-```vue{2,10-14,21-25}
+```vue{2,10-14,23-27}
 <script setup lang="ts">
 import { EffectComposerPmndrs, ChromaticAberrationPmndrs } from '@tresjs/post-processing'
 import { Vector2 } from 'three'
@@ -36,6 +36,8 @@ const effectProps = {
 <template>
   <TresCanvas v-bind="gl">
     <TresPerspectiveCamera :position="[5, 5, 5]" />
+
+    <!-- Your scene -->
 
     <Suspense>
       <EffectComposerPmndrs>
@@ -60,4 +62,4 @@ The `modulationOffset` property is functional only when `radialModulation` is en
 :::
 
 ## Further Reading
-For more details, see the [ChromaticAberration documentation](https://pmndrs.github.io/postprocessing/public/docs/class/src/effects/ChromaticAberrationEffect.js~ChromaticAberrationEffect.html)
+For more details, see the [ChromaticAberrationEffect documentation](https://pmndrs.github.io/postprocessing/public/docs/class/src/effects/ChromaticAberrationEffect.js~ChromaticAberrationEffect.html)

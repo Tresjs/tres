@@ -8,20 +8,27 @@ Noise is an effect that adds Gaussian noise to the scene. This can be used to si
 
 ## Usage
 
-```vue
+```vue{2,12-19}
 <script setup lang="ts">
 import { BloomPmndrs, EffectComposerPmndrs } from '@tresjs/post-processing'
-
 import { BlendFunction } from 'postprocessing'
 </script>
 
 <template>
-  <EffectComposerPmndrs>
-    <NoisePmndrs
-      premultiply
-      :blend-function="BlendFunction.SCREEN"
-    />
-  </EffectComposerPmndrs>
+  <TresCanvas>
+    <TresPerspectiveCamera :position="[5, 5, 5]" />
+
+    <!-- Your scene -->
+
+    <Suspense>
+      <EffectComposerPmndrs>
+        <NoisePmndrs
+          premultiply
+          :blend-function="BlendFunction.SCREEN"
+        />
+      </EffectComposerPmndrs>
+    </Suspense>
+  </TresCanvas>
 </template>
 ```
 
@@ -33,4 +40,4 @@ import { BlendFunction } from 'postprocessing'
 | `premultiply`          | Indicates whether noise will be multiplied with the input colors prior to blending | `false`           |
 
 ## Further Reading
-see [postprocessing docs](https://pmndrs.github.io/postprocessing/public/docs/class/src/effects/NoiseEffect.js~NoiseEffect.html)
+For more details, see the [NoiseEffect documentation](https://pmndrs.github.io/postprocessing/public/docs/class/src/effects/NoiseEffect.js~NoiseEffect.html)

@@ -8,18 +8,26 @@ Vignette is an effect that darkens the edges of the scene to make the center pop
 
 ## Usage
 
-```vue
+```vue{2,11-18}
 <script setup lang="ts">
 import { EffectComposerPmndrs, VignettePmndrs } from '@tresjs/post-processing'
 </script>
 
 <template>
-  <EffectComposerPmndrs>
-    <VignettePmndrs
-      :darkness="0.9"
-      :offset="0.2"
-    />
-  </EffectComposerPmndrs>
+  <TresCanvas>
+    <TresPerspectiveCamera :position="[5, 5, 5]" />
+
+    <!-- Your scene -->
+
+    <Suspense>
+      <EffectComposerPmndrs>
+        <VignettePmndrs
+          :darkness="0.9"
+          :offset="0.2"
+        />
+      </EffectComposerPmndrs>
+    </Suspense>
+  </TresCanvas>
 </template>
 ```
 
@@ -33,4 +41,4 @@ import { EffectComposerPmndrs, VignettePmndrs } from '@tresjs/post-processing'
 | darkness      | The darkness value.                                          | 0.5                        |
 
 ## Further Reading
-see [postprocessing docs](https://pmndrs.github.io/postprocessing/public/docs/class/src/effects/VignetteEffect.js~VignetteEffect.html)
+For more details, see the [VignetteEffect documentation](https://pmndrs.github.io/postprocessing/public/docs/class/src/effects/VignetteEffect.js~VignetteEffect.html)

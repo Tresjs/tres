@@ -16,49 +16,42 @@ The `GodRays` effect is part of the [`postprocessing`](https://pmndrs.github.io/
 
 The `<GodRaysPmndrs>` component is easy to use and provides customizable options to suit different visual styles.
 
-```vue{5,17-21,40-44}
+```vue{4,13-17,30-37}
 <script setup lang="ts">
-import { OrbitControls } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
 import { NoToneMapping } from 'three'
 import { EffectComposerPmndrs, GodRaysPmndrs } from '@tresjs/post-processing'
 
-import '@tresjs/leches/styles'
-
 const gl = {
   clearColor: 'blue',
   toneMapping: NoToneMapping,
-  multisampling: 8,
 }
 
 const sphereMeshRef = ref(null)
 
-const effectProps = reactive({
+const effectProps = {
   opacity: .8,
   exposure: .8,
   resolutionScale: 0.65
-})
+}
 </script>
 
 <template>
   <TresCanvas v-bind="gl">
-    <TresPerspectiveCamera :position="[0, 5, 20]" />
+    <TresPerspectiveCamera :position="[5, 5, 5]" />
 
-    <OrbitControls auto-rotate />
-
+    <!-- The lightSource (in this case a Sphere) -->
     <TresMesh ref="sphereMeshRef" :position="[-10, 8, 0]">
       <TresSphereGeometry :args="[2, 32, 32]" />
       <TresMeshBasicMaterial color="#FFDDAA" :transparent="true" />
     </TresMesh>
 
-    <TresMesh :position="[0, .5, 0]">
-      <TresBoxGeometry :args="[2, 2, 2]" />
-      <TresMeshBasicMaterial color="white" />
-    </TresMesh>
-
     <Suspense>
       <EffectComposerPmndrs>
-        <GodRaysPmndrs :lightSource="sphereMeshRef" v-bind="effectProps" />
+        <GodRaysPmndrs
+          v-bind="effectProps"
+          :lightSource="sphereMeshRef"
+        />
       </EffectComposerPmndrs>
     </Suspense>
   </TresCanvas>
@@ -85,4 +78,4 @@ const effectProps = reactive({
 | clampMax          | An upper bound for the saturation of the overall effect.                                                      | `1.0`                     |
 
 ## Further Reading
-For more details, see the [GodRays documentation](https://pmndrs.github.io/postprocessing/public/docs/class/src/effects/GodRaysEffect.js~GodRaysEffect.html)
+For more details, see the [GodRaysEffect documentation](https://pmndrs.github.io/postprocessing/public/docs/class/src/effects/GodRaysEffect.js~GodRaysEffect.html)

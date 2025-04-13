@@ -114,7 +114,7 @@ const onChange = (e: { object: PerspectiveCamera }) => {
       </TresMesh>
 
       <Suspense>
-        <EffectComposerPmndrs :multisampling="0">
+        <EffectComposerPmndrs>
           <FXAAPmndrs
             :blendFunction="Number(blendFunction)"
             :opacity="opacity"

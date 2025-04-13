@@ -16,7 +16,7 @@ The `ColorAverage` effect is part of the [`postprocessing`](https://pmndrs.githu
 
 The `<ColorAveragePmndrs>` component is easy to use and provides customizable options to suit different visual styles.
 
-```vue{4,11-13,20-24}
+```vue{4,11-13,22-26}
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
 import { NoToneMapping } from 'three'
@@ -27,14 +27,16 @@ const gl = {
   toneMapping: NoToneMapping,
 }
 
-const effectProps = reactive({
+const effectProps = {
   opacity: 0.5
-})
+}
 </script>
 
 <template>
   <TresCanvas v-bind="gl">
     <TresPerspectiveCamera :position="[5, 5, 5]"/>
+
+    <!-- Your scene -->
 
     <Suspense>
       <EffectComposerPmndrs>
@@ -53,4 +55,4 @@ const effectProps = reactive({
 | opacity           | Sets the opacity of the color average effect.                                                                 | `1`                       |
 
 ## Further Reading
-For more details, see the [ColorAverage documentation](https://pmndrs.github.io/postprocessing/public/docs/class/src/effects/ColorAverageEffect.js~ColorAverageEffect.html)
+For more details, see the [ColorAverageEffect documentation](https://pmndrs.github.io/postprocessing/public/docs/class/src/effects/ColorAverageEffect.js~ColorAverageEffect.html)

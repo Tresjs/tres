@@ -17,13 +17,12 @@ It adjusts the brightness and contrast of your scene.
 
 The `<BrightnessContrastPmndrs>` component is easy to use and provides customizable options to suit different visual styles.
 
-```vue{2,9-13,27-31}
+```vue{2,8-12,21-25}
 <script setup lang="ts">
 import { EffectComposerPmndrs, BrightnessContrastPmndrs } from '@tresjs/post-processing/pmndrs'
 
 const gl = {
   toneMapping: NoToneMapping,
-  multisampling: 8,
 }
 
 const effectProps = {
@@ -34,15 +33,10 @@ const effectProps = {
 </script>
 
 <template>
-  <TresCanvas
-    v-bind="gl"
-  >
+  <TresCanvas v-bind="gl">
     <TresPerspectiveCamera />
 
-    <TresMesh :position="[0, .5, 0]">
-      <TresBoxGeometry :args="[2, 2, 2]" />
-      <TresMeshPhysicalMaterial color="black" :roughness=".25" />
-    </TresMesh>
+    <!-- Your scene -->
 
     <Suspense>
       <EffectComposerPmndrs>
@@ -62,4 +56,4 @@ const effectProps = {
 | contrast      | The contrast factor, where 0 means no change. <br> Range: `[-1.0, 1.0]`                   | `0`                         |
 
 ## Further Reading
-For more details, see the [BrightnessContrast documentation](https://pmndrs.github.io/postprocessing/public/docs/class/src/effects/BrightnessContrastEffect.js~BrightnessContrastEffect.html)
+For more details, see the [BrightnessContrastEffect documentation](https://pmndrs.github.io/postprocessing/public/docs/class/src/effects/BrightnessContrastEffect.js~BrightnessContrastEffect.html)

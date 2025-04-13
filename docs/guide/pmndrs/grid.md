@@ -17,13 +17,12 @@ It renders a grid that can be scaled or adjusted to achieve a variety of visual 
 
 The `<GridPmndrs>` component is easy to use and provides customizable options to suit different visual styles.
 
-```vue{2,9-13,25-29}
+```vue{2,8-12,21-25}
 <script setup lang="ts">
 import { EffectComposerPmndrs, GridPmndrs } from '@tresjs/post-processing/pmndrs'
 
 const gl = {
   toneMapping: NoToneMapping,
-  multisampling: 8,
 }
 
 const effectProps = {
@@ -37,10 +36,7 @@ const effectProps = {
   <TresCanvas v-bind="gl">
     <TresPerspectiveCamera />
 
-    <TresMesh :position="[0, .5, 0]">
-      <TresBoxGeometry :args="[2, 2, 2]" />
-      <TresMeshToonMaterial color="black" />
-    </TresMesh>
+    <!-- Your scene -->
 
     <Suspense>
       <EffectComposerPmndrs>

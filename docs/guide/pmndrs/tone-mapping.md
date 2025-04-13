@@ -20,7 +20,7 @@ If the colors in your scene look incorrect after adding the EffectComposer, it m
 
 The `<ToneMappingPmndrs>` component is easy to set up and comes with multiple tone mapping modes to suit different visual requirements. Below is an example of how to use it in a Vue application.
 
-```vue{3,5,7-10,12-14,21-25}
+```vue{3,5,7-10,12-14,23-27}
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
 import { EffectComposerPmndrs, ToneMappingPmndrs } from '@tresjs/post-processing'
@@ -40,6 +40,8 @@ const effectProps = {
 <template>
   <TresCanvas v-bind="gl">
     <TresPerspectiveCamera :position="[5, 5, 5]" />
+
+    <!-- Your scene -->
 
     <Suspense>
       <EffectComposerPmndrs>
@@ -63,4 +65,4 @@ const effectProps = {
 | whitePoint        | White point for tone mapping, used to balance luminance values. Only applicable to `ToneMappingMode.REINHARD2`               | `4.0`                                                                                             |
 
 ## Further Reading
-For more details, see the [Tone Mapping documentation](https://pmndrs.github.io/postprocessing/public/docs/class/src/effects/ToneMappingEffect.js~ToneMappingEffect.html)
+For more details, see the [ToneMappingEffect documentation](https://pmndrs.github.io/postprocessing/public/docs/class/src/effects/ToneMappingEffect.js~ToneMappingEffect.html)

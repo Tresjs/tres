@@ -182,4 +182,4 @@ For more details about DepthPickingPass, see the [documentation](https://pmndrs.
 | maxRadius         | The max radius of the shockwave.                                                                              | `1.0`                     |
 
 ## Further Reading
-For more details, see the [ShockWave documentation](https://pmndrs.github.io/postprocessing/public/docs/class/src/effects/ShockWaveEffect.js~ShockWaveEffect.html)
+For more details, see the [ShockWaveEffect documentation](https://pmndrs.github.io/postprocessing/public/docs/class/src/effects/ShockWaveEffect.js~ShockWaveEffect.html)

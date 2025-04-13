@@ -11,8 +11,6 @@ import '@tresjs/leches/styles'
 const gl = {
   clearColor: '#ffffff',
   toneMapping: NoToneMapping,
-  multisampling: 8,
-  envMapIntensity: 10,
 }
 
 // Note: The variables [lensSX, lensSY], [lensFX, lensFY] are not used as vectors in useControls because the 'step' key is not yet available.

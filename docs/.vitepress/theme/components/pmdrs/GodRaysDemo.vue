@@ -6,15 +6,16 @@ import type { Mesh } from 'three'
 import { BackSide, NoToneMapping } from 'three'
 import { BlendFunction, KernelSize } from 'postprocessing'
 import { EffectComposerPmndrs, GodRaysPmndrs } from '@tresjs/post-processing'
-import { ref, watch } from 'vue'
+import { onUnmounted, ref, watch } from 'vue'
 import { gsap } from 'gsap'
 
 import '@tresjs/leches/styles'
 
 const gl = {
   toneMapping: NoToneMapping,
-  multisampling: 8,
 }
+
+let tween: gsap.core.Tween | null = null
 
 const sphereMeshRef = ref<Mesh | null>(null)
 
@@ -22,14 +23,8 @@ const pbrTexture = await useTexture({
   map: '/lens-distortion/room-map.png',
 })
 
-const { blur, kernelSize, resolutionScale, opacity, blendFunction, density, decay, weight, exposure, samples, clampMax } = useControls({
-  blendFunction: {
-    options: Object.keys(BlendFunction).map(key => ({
-      text: key,
-      value: BlendFunction[key as keyof typeof BlendFunction],
-    })),
-    value: BlendFunction.SCREEN,
-  },
+const { freezeAnimationLightSource, blur, kernelSize, resolutionScale, opacity, blendFunction, density, decay, weight, exposure, samples, clampMax } = useControls({
+  freezeAnimationLightSource: { value: false, label: 'pauseLightSource', type: 'boolean' },
   kernelSize: {
     options: Object.keys(KernelSize).map(key => ({
       text: key,
@@ -46,6 +41,13 @@ const { blur, kernelSize, resolutionScale, opacity, blendFunction, density, deca
   clampMax: { value: 1.0, step: 0.1, max: 1.0 },
   resolutionScale: { value: 0.5, step: 0.1, min: 0.1, max: 1.0 },
   blur: true,
+  blendFunction: {
+    options: Object.keys(BlendFunction).map(key => ({
+      text: key,
+      value: BlendFunction[key as keyof typeof BlendFunction],
+    })),
+    value: BlendFunction.SCREEN,
+  },
 })
 
 const torusMeshes = [
@@ -57,13 +59,29 @@ const torusMeshes = [
 watch(sphereMeshRef, () => {
   if (!sphereMeshRef.value) { return }
 
-  gsap.to(sphereMeshRef.value.position, {
+  tween = gsap.to(sphereMeshRef.value.position, {
     x: 20,
     duration: 3,
     repeat: -1,
     yoyo: true,
+    paused: freezeAnimationLightSource.value,
     ease: 'sine.inOut',
   })
+})
+
+watch(freezeAnimationLightSource, () => {
+  if (!sphereMeshRef.value) { return }
+
+  if (freezeAnimationLightSource.value) {
+    tween?.pause()
+  }
+  else {
+    tween?.resume()
+  }
+})
+
+onUnmounted(() => {
+  tween?.revert()
 })
 </script>
 

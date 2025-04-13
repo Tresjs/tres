@@ -16,7 +16,7 @@ The `Sepia` effect is part of the [`postprocessing`](https://pmndrs.github.io/po
 
 The `<SepiaPmndrs>` component is easy to use and provides customizable options to suit different visual styles.
 
-```vue{3,15-19}
+```vue{3,17-21}
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
 import { EffectComposerPmndrs, SepiaPmndrs } from '@tresjs/post-processing'
@@ -30,6 +30,8 @@ const gl = {
 <template>
   <TresCanvas v-bind="gl" >
     <TresPerspectiveCamera :position="[5, 5, 5]" />
+
+    <!-- Your scene -->
 
     <Suspense>
       <EffectComposerPmndrs>
@@ -48,4 +50,4 @@ const gl = {
 | intensity         | The intensity of the sepia effect.                                                                            | `1.0`                     |
 
 ## Further Reading
-For more details, see the [Sepia documentation](https://pmndrs.github.io/postprocessing/public/docs/class/src/effects/SepiaEffect.js~SepiaEffect.html)
+For more details, see the [SepiaEffect documentation](https://pmndrs.github.io/postprocessing/public/docs/class/src/effects/SepiaEffect.js~SepiaEffect.html)

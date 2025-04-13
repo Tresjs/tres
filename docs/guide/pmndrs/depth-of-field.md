@@ -10,15 +10,23 @@ This photographic technique allows photographers and filmmakers to draw attentio
 
 ## Usage
 
-```vue
+```vue{2,11-15}
 <script setup lang="ts">
 import { DepthOfFieldPmndrs, EffectComposerPmndrs } from '@tresjs/post-processing'
 </script>
 
 <template>
-  <EffectComposerPmndrs>
-    <DepthOfFieldPmndrs />
-  </EffectComposerPmndrs>
+  <TresCanvas>
+    <TresPerspectiveCamera :position="[5, 5, 5]" />
+
+    <!-- Your scene -->
+
+    <Suspense>
+      <EffectComposerPmndrs>
+        <DepthOfFieldPmndrs :focus-range="0.5" />
+      </EffectComposerPmndrs>
+    </Suspense>
+  </TresCanvas>
 </template>
 ```
 
@@ -34,4 +42,4 @@ import { DepthOfFieldPmndrs, EffectComposerPmndrs } from '@tresjs/post-processin
 | `bokehScale` | The scale of the bokeh blur. | 1.0 |
 
 ## Further Reading
-see [postprocessing docs](https://pmndrs.github.io/postprocessing/public/docs/class/src/effects/DepthOfFieldEffect.js~DepthOfFieldEffect.html)
+For more details, see the [DepthOfFieldEffect documentation](https://pmndrs.github.io/postprocessing/public/docs/class/src/effects/DepthOfFieldEffect.js~DepthOfFieldEffect.html)

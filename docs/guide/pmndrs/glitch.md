@@ -14,15 +14,23 @@ This effect may potentially cause epileptic seizures in people with photosensiti
 
 ## Usage
 
-```vue
+```vue{2,11-15}
 <script setup lang="ts">
 import { EffectComposerPmndrs, GlitchPmndrs } from '@tresjs/post-processing'
 </script>
 
 <template>
-  <EffectComposerPmndrs>
-    <GlitchPmndrs />
-  </EffectComposerPmndrs>
+  <TresCanvas>
+    <TresPerspectiveCamera :position="[5, 5, 5]" />
+
+    <!-- Your scene -->
+
+    <Suspense>
+      <EffectComposerPmndrs>
+        <GlitchPmndrs />
+      </EffectComposerPmndrs>
+    </Suspense>
+  </TresCanvas>
 </template>
 ```
 
@@ -43,4 +51,4 @@ import { EffectComposerPmndrs, GlitchPmndrs } from '@tresjs/post-processing'
 | `dtSize`                    | The size of the generated noise map. Will be ignored if a perturbation map is provided.                            | `64`                                                                                                                                           |
 
 ## Further Reading
-see [postprocessing docs](https://pmndrs.github.io/postprocessing/public/docs/class/src/effects/GlitchEffect.js~GlitchEffect.html)
+For more details, see the [GlitchEffect documentation](https://pmndrs.github.io/postprocessing/public/docs/class/src/effects/GlitchEffect.js~GlitchEffect.html)

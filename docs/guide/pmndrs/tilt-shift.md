@@ -16,7 +16,7 @@ The `TiltShift` effect is part of the [`postprocessing`](https://pmndrs.github.i
 
 The `<TiltShiftPmndrs>` component is straightforward to use and provides customizable options to fine-tune the tilt-shift effect.
 
-```vue{3,11-14,21-25}
+```vue{3,11-14,23-27}
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
 import { EffectComposerPmndrs, TiltShiftPmndrs } from '@tresjs/post-processing'
@@ -36,6 +36,8 @@ const effectProps = {
 <template>
    <TresCanvas v-bind="gl">
     <TresPerspectiveCamera :position="[5, 5, 5]" />
+
+    <!-- Your scene -->
 
     <Suspense>
       <EffectComposerPmndrs>
@@ -62,4 +64,4 @@ const effectProps = {
 
 ## Further Reading
 
-For more details, see the [TiltShift documentation](https://pmndrs.github.io/postprocessing/public/docs/class/src/effects/TiltShiftEffect.js~TiltShiftEffect.html).
+For more details, see the [TiltShiftEffect documentation](https://pmndrs.github.io/postprocessing/public/docs/class/src/effects/TiltShiftEffect.js~TiltShiftEffect.html).

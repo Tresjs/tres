@@ -16,7 +16,7 @@ The `FishEye` is a custom effect simulates the wide-angle distortion of a fish-e
 
 The `<FishEyePmndrs>` component is straightforward to use and provides customizable options to fine-tune the fish-eye effect.
 
-```vue{3,12-17,29-33}
+```vue{3,11-16,25-29}
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
 import { EffectComposerPmndrs, FishEyePmndrs } from '@tresjs/post-processing'
@@ -25,14 +25,13 @@ import { BlendFunction } from 'postprocessing'
 const gl = {
   clearColor: '#4f4f4f',
   toneMapping: NoToneMapping,
-  multisampling: 8,
 }
 
 const effectProps = {
   blendFunction: BlendFunction.NORMAL,
-  lensS: [1.0, 1.0],
-  lensF: [0.0, 1.0],
-  scale: 1.0,
+  lensS: [1.0, 0.65],
+  lensF: [0.25, 1.0],
+  scale: 0.85,
 }
 </script>
 
@@ -40,10 +39,7 @@ const effectProps = {
   <TresCanvas v-bind="gl">
     <TresPerspectiveCamera :position="[5, 5, 5]" />
 
-    <TresMesh>
-      <TresSphereGeometry :args="[5, 32, 32]" />
-      <TresMeshPhysicalMaterial :metalness="0.5" :roughness="0.25" />
-    </TresMesh>
+    <!-- Your scene -->
 
     <Suspense>
       <EffectComposerPmndrs>

@@ -11,7 +11,6 @@ import '@tresjs/leches/styles'
 const gl = {
   clearColor: '#ffffff',
   toneMapping: NoToneMapping,
-  envMapIntensity: 10,
 }
 
 const glComposer = {

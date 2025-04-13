@@ -11,7 +11,6 @@ import '@tresjs/leches/styles'
 const gl = {
   clearColor: '#ffffff',
   toneMapping: NoToneMapping,
-  multisampling: 8,
 }
 
 const { brightness, contrast, blendFunction } = useControls({

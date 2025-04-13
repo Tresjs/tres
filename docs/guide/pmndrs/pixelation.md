@@ -8,15 +8,23 @@ Pixelation is an effect that pixelates the scene.
 
 ## Usage
 
-```vue
+```vue{2,11-15}
 <script setup lang="ts">
 import { EffectComposerPmndrs, PixelationPmndrs } from '@tresjs/post-processing'
 </script>
 
 <template>
-  <EffectComposerPmndrs>
-    <PixelationPmndrs />
-  </EffectComposerPmndrs>
+  <TresCanvas>
+    <TresPerspectiveCamera :position="[5, 5, 5]" />
+
+    <!-- Your scene -->
+
+    <Suspense>
+      <EffectComposerPmndrs>
+        <PixelationPmndrs :granularity="15" />
+      </EffectComposerPmndrs>
+    </Suspense>
+  </TresCanvas>
 </template>
 ```
 
@@ -27,4 +35,4 @@ import { EffectComposerPmndrs, PixelationPmndrs } from '@tresjs/post-processing'
 | granularity | The granularity of the pixels. | 30      |
 
 ## Further Reading
-see [postprocessing docs](https://pmndrs.github.io/postprocessing/public/docs/class/src/effects/PixelationEffect.js~PixelationEffect.html)
+For more details, see the [PixelationEffect documentation](https://pmndrs.github.io/postprocessing/public/docs/class/src/effects/PixelationEffect.js~PixelationEffect.html)

@@ -8,15 +8,23 @@ Outline is an effect that applies an outline to objects in your scene. This effe
 
 ## Usage
 
-```vue
+```vue{2,11-15}
 <script setup lang="ts">
 import { EffectComposerPmndrs, OutlinePmndrs } from '@tresjs/post-processing'
 </script>
 
 <template>
-  <EffectComposerPmndrs>
-    <OutlinePmndrs />
-  </EffectComposerPmndrs>
+  <TresCanvas>
+    <TresPerspectiveCamera :position="[5, 5, 5]" />
+
+    <!-- Your scene -->
+
+    <Suspense>
+      <EffectComposerPmndrs>
+        <OutlinePmndrs />
+      </EffectComposerPmndrs>
+    </Suspense>
+  </TresCanvas>
 </template>
 ```
 
@@ -41,4 +49,4 @@ import { EffectComposerPmndrs, OutlinePmndrs } from '@tresjs/post-processing'
 | visibleEdgeColor | The color of visible edges.                                                                 | 0xffffff                                                                                                                                      |
 
 ## Further Reading
-see [postprocessing docs](https://pmndrs.github.io/postprocessing/public/docs/class/src/effects/OutlineEffect.js~OutlineEffect.html)
+For more details, see the [OutlineEffect documentation](https://pmndrs.github.io/postprocessing/public/docs/class/src/effects/OutlineEffect.js~OutlineEffect.html)

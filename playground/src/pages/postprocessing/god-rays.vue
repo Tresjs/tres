@@ -12,7 +12,6 @@ import '@tresjs/leches/styles'
 const gl = {
   clearColor: 'blue',
   toneMapping: NoToneMapping,
-  multisampling: 8,
 }
 
 const sphereMeshRef = shallowRef(null)
