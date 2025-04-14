@@ -1,5 +1,5 @@
 import { WebGLRenderer } from 'three'
-import type { TresRendererSetupContext } from '../composables'
+import type { TresRendererSetupContext } from '../composables/useRenderer'
 import type { TresRenderer } from '../types'
 import type { TresCanvasProps } from '../components/TresCanvas.vue'
 import { toValue } from 'vue'

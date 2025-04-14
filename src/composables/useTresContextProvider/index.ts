@@ -84,11 +84,6 @@ export interface TresContext {
   deregisterBlockingObjectAtPointerEventHandler?: (object: TresObject) => void
 }
 
-export type TresRendererSetupContext = Pick<
-  TresContext,
-  'sizes' | 'scene' | 'camera' | 'canvas' | 'invalidate' | 'advance'
->
-
 export async function useTresContextProvider({
   scene,
   canvas,
@@ -113,30 +108,29 @@ export async function useTresContextProvider({
     setCameraActive,
   } = useCamera({ sizes, scene })
 
-  // Render state
-
-  const render: RenderState = {
+  const renderState: RenderState = { // TODO rename // TODO make separate
     mode: ref(rendererOptions.renderMode || 'always') as Ref<'always' | 'on-demand' | 'manual'>,
     priority: ref(0),
     frames: ref(0),
-    maxFrames: 60,
-    canBeInvalidated: computed(() => render.mode.value === 'on-demand' && render.frames.value === 0),
+    maxFrames: 60, // TODO add issue for prop
+    canBeInvalidated: computed(() => renderState.mode.value === 'on-demand' && renderState.frames.value === 0),
   }
 
   function invalidate(frames = 1) {
     // Increase the frame count, ensuring not to exceed a maximum if desired
     if (rendererOptions.renderMode === 'on-demand') {
-      render.frames.value = Math.min(render.maxFrames, render.frames.value + frames)
+      renderState.frames.value = Math.min(renderState.maxFrames, renderState.frames.value + frames)
     }
   }
 
   function advance() {
     if (rendererOptions.renderMode === 'manual') {
-      render.frames.value = 1
+      renderState.frames.value = 1
     }
   }
 
-  // Renderer
+  const loop = createRenderLoop()
+
   const renderer = await useRenderer({
     contextParts: {
       sizes,
@@ -145,8 +139,11 @@ export async function useTresContextProvider({
       canvas,
       advance,
       invalidate,
+      loop,
     },
     options: rendererOptions,
+    emit,
+    renderState,
   })
 
   const ctx: TresContext = {
@@ -170,13 +167,13 @@ export async function useTresContextProvider({
         accumulator: [],
       },
     },
-    render,
+    render: renderState,
     advance,
     invalidate,
     registerCamera,
     setCameraActive,
     deregisterCamera,
-    loop: createRenderLoop(),
+    loop,
   }
 
   provide('useTres', ctx)
@@ -185,25 +182,6 @@ export async function useTresContextProvider({
   ctx.scene.value.__tres = {
     root: ctx,
   }
-
-  // The loop
-
-  ctx.loop.register(() => {
-    if (ctx.renderer.value && camera.value && render.frames.value > 0) {
-      ctx.renderer.value.render(scene, camera.value)
-      emit('render', ctx.renderer.value)
-    }
-
-    // Reset priority
-    render.priority.value = 0
-
-    if (render.mode.value === 'always') {
-      render.frames.value = 1
-    }
-    else {
-      render.frames.value = Math.max(0, render.frames.value - 1)
-    }
-  }, 'render')
 
   const { on: onTresReady, cancel: cancelTresReady } = useTresReady(ctx)!
 
