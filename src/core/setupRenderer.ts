@@ -70,7 +70,7 @@ const rendererPropertyHandlers: Record<string, PropertyHandler<ColorRepresentati
 }
 
 // Modified setup function to handle both types of properties
-export function setupWebGLRenderer( // TODO object format?
+export function setupWebGLRenderer( // TODO object format? // TODO name like comosable
   initialRenderer: WebGLRenderer,
   options: TresCanvasProps,
   ctx: TresPartialContext,

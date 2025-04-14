@@ -19,7 +19,7 @@ const createWebGPURenderer = async (ctx: TresRendererSetupContext) => {
   renderer.setClearColor('#000000')
 
   // Watch size changes
-  watch([ctx.sizes.width, ctx.sizes.height], () => {
+  watch([ctx.sizes.width, ctx.sizes.height], () => { // TODO should we do this for the users
     renderer.setSize(ctx.sizes.width.value, ctx.sizes.height.value)
   }, {
     immediate: true,
