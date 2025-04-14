@@ -271,6 +271,7 @@ export interface TresCanvasProps extends /* @vue-ignore */ WebGLRendererProps {
     * - `low-power`: Tries to reduce power usage.
    * @see {@link https://threejs.org/docs/#api/en/renderers/WebGLRenderer}
    * @default 'default'
+   * @readonly
    */
   powerPreference?: MaybeRefOrGetter<WebGLPowerPreference>
   /**
@@ -318,7 +319,7 @@ export interface TresCanvasProps extends /* @vue-ignore */ WebGLRendererProps {
    * @see {@link https://threejs.org/docs/#api/en/constants/Renderer}
    * @default ACESFilmicToneMapping (Opinionated default by TresJS)
    */
-  toneMapping?: MaybeRefOrGetter<ToneMapping | number>
+  toneMapping?: MaybeRefOrGetter<ToneMapping>
 
   /**
    * Type of shadow map to use for shadow calculations

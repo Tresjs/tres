@@ -1,11 +1,12 @@
-import type { TresContext, TresPartialContext } from '../composables/useTresContextProvider'
 import type { ColorRepresentation, Object3D, WebGLRenderer } from 'three'
-import { watch } from 'vue'
+import type { UnwrapRef, WatchHandle, WatchOptions } from 'vue'
+import { toValue, watch } from 'vue'
 import { useDevicePixelRatio } from '@vueuse/core'
 import { setPixelRatio } from '../utils'
 
-import { Mesh } from 'three'
+import { ACESFilmicToneMapping, Mesh } from 'three'
 import type { TresCanvasProps } from '../components/TresCanvas.vue'
+import type { TresRendererSetupContext } from 'src/composables/useRenderer'
 
 interface PropertyHandler<T = unknown> {
   set: (renderer: WebGLRenderer, value: T) => void
@@ -15,6 +16,62 @@ interface PropertyHandler<T = unknown> {
 interface DirectProperty {
   key: keyof WebGLRenderer | 'shadowMap.enabled' | 'shadowMap.type' | 'physicallyCorrectLights'
   immediate?: boolean
+}
+
+type NamesOfPropsThatCannotChange = keyof Pick<
+  TresCanvasProps,
+  'antialias' |
+  'camera' | // this is handled in useCameras // TODO camera should be handled
+  'stencil' |
+  'logarithmicDepthBuffer' |
+  'preserveDrawingBuffer' |
+  'powerPreference' |
+  'alpha' |
+  'renderer'
+>
+type NamesOfPropsThatCanChange = keyof Omit<
+  TresCanvasProps,
+  NamesOfPropsThatCannotChange
+>
+
+// const propsToWatch: {
+//   [K in NamesOfPropsThatCanChange]: {
+//     getter: (props: TresCanvasProps) => TresCanvasProps[K] // TODO check if there is a better type than any
+//     setter: (renderer: WebGLRenderer, value: TresCanvasProps[K]) => void
+//     watchOptions: WatchOptions
+//   }
+// } = {
+//   clearAlpha: {
+//     getter: ({ clearAlpha }) => clearAlpha,
+//     setter: (renderer, value) => renderer.setClearAlpha(value),
+//     watchOptions: { immediate: true },
+//   },
+// }
+
+// TODO test by using basic playground
+
+const propsToWatch = {
+  clearAlpha: {
+    getter: ({ clearAlpha }) => clearAlpha,
+    setter: (renderer, value) => {
+      renderer.setClearAlpha(toValue(value))
+    },
+    defaultValue: 1,
+    watchOptions: { immediate: true },
+  },
+  toneMapping: {
+    getter: ({ toneMapping }) => toneMapping,
+    setter: (renderer, value) => renderer.toneMapping = toValue(value),
+    watchOptions: { immediate: true },
+    defaultValue: ACESFilmicToneMapping, // TODO move to common place, this is opinionated
+  },
+} satisfies {
+  [K in NamesOfPropsThatCanChange]: {
+    getter: (props: TresCanvasProps) => TresCanvasProps[K] // TODO check if there is a better type than any
+    setter: (renderer: WebGLRenderer, value: Exclude<UnwrapRef<TresCanvasProps[K]>, undefined>) => void
+    watchOptions: WatchOptions
+    defaultValue: Exclude<UnwrapRef<TresCanvasProps[K]>, undefined>
+  }
 }
 
 // Properties that can be set directly on the renderer
@@ -73,12 +130,12 @@ const rendererPropertyHandlers: Record<string, PropertyHandler<ColorRepresentati
 export function setupWebGLRenderer( // TODO object format? // TODO name like comosable
   initialRenderer: WebGLRenderer,
   options: TresCanvasProps,
-  ctx: TresPartialContext,
+  ctx: TresRendererSetupContext,
 ) {
   const { pixelRatio } = useDevicePixelRatio()
   const { invalidate } = ctx
 
-  function invalidateOnDemand() {
+  function invalidateIfOnDemandMode() {
     if (options.renderMode === 'on-demand') {
       invalidate()
     }
@@ -87,16 +144,30 @@ export function setupWebGLRenderer( // TODO object format? // TODO name like com
   // Watch DPR changes
   watch(() => options.dpr, (value) => {
     if (!value) { return }
-    invalidateOnDemand()
+    invalidateIfOnDemandMode()
     setPixelRatio(initialRenderer, pixelRatio.value, value as number)
   })
 
   // Watch size changes
   watch([ctx.sizes.width, ctx.sizes.height], () => {
     initialRenderer.setSize(ctx.sizes.width.value, ctx.sizes.height.value)
-    invalidateOnDemand()
+    invalidateIfOnDemandMode()
   }, {
     immediate: true,
+  })
+
+  Object.values(propsToWatch).forEach(({ getter, setter, watchOptions, defaultValue }) => {
+    watch(
+      () => getter(options),
+      (value) => {
+        if (value === undefined) {
+          setter(initialRenderer, defaultValue)
+        }
+        setter(initialRenderer, value)
+        invalidateIfOnDemandMode()
+      },
+      watchOptions,
+    )
   })
 
   // Watch properties that need setter methods
@@ -106,7 +177,7 @@ export function setupWebGLRenderer( // TODO object format? // TODO name like com
       (value) => {
         if (value === undefined) { return }
         handler.set(initialRenderer, value)
-        invalidateOnDemand()
+        invalidateIfOnDemandMode()
       },
       { immediate: handler.immediate },
     )
@@ -154,7 +225,7 @@ export function setupWebGLRenderer( // TODO object format? // TODO name like com
             ;(initialRenderer as unknown as Record<string, unknown>)[rendererKey] = value
           }
         }
-        invalidateOnDemand()
+        invalidateIfOnDemandMode()
       },
       { immediate: prop.immediate },
     )
