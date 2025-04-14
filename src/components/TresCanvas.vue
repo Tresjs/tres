@@ -292,7 +292,7 @@ export interface TresCanvasProps extends /* @vue-ignore */ WebGLRendererProps {
    * Clear color for the canvas
    * Can include alpha value (e.g. '#00808000' for fully transparent teal)
    */
-  clearColor?: MaybeRefOrGetter<string>
+  clearColor?: MaybeRefOrGetter<string> // TODO this should also accept the other parts of ColorRepresentation
 
   /**
    * The opacity of the clear color (0-1)
@@ -330,7 +330,7 @@ export interface TresCanvasProps extends /* @vue-ignore */ WebGLRendererProps {
    * @see {@link https://threejs.org/docs/#api/en/constants/Renderer}
    * @default PCFSoftShadowMap (Opinionated default by TresJS)
    */
-  shadowMapType?: MaybeRefOrGetter<ShadowMapType | number>
+  shadowMapType?: MaybeRefOrGetter<ShadowMapType>
 
   /**
    * Whether to use legacy lights system instead of the new one

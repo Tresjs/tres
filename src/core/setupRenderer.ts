@@ -1,6 +1,6 @@
-import type { ColorRepresentation, Object3D, WebGLRenderer } from 'three'
-import type { UnwrapRef, WatchHandle, WatchOptions } from 'vue'
-import { toValue, watch } from 'vue'
+import type { ColorRepresentation, Object3D, ToneMapping, WebGLRenderer } from 'three'
+import type { MaybeRefOrGetter, UnwrapRef, WatchHandle, WatchOptions } from 'vue'
+import { computed, toValue, watch } from 'vue'
 import { useDevicePixelRatio } from '@vueuse/core'
 import { setPixelRatio } from '../utils'
 
@@ -29,50 +29,13 @@ type NamesOfPropsThatCannotChange = keyof Pick<
   'alpha' |
   'renderer'
 >
+
 type NamesOfPropsThatCanChange = keyof Omit<
   TresCanvasProps,
   NamesOfPropsThatCannotChange
 >
 
-// const propsToWatch: {
-//   [K in NamesOfPropsThatCanChange]: {
-//     getter: (props: TresCanvasProps) => TresCanvasProps[K] // TODO check if there is a better type than any
-//     setter: (renderer: WebGLRenderer, value: TresCanvasProps[K]) => void
-//     watchOptions: WatchOptions
-//   }
-// } = {
-//   clearAlpha: {
-//     getter: ({ clearAlpha }) => clearAlpha,
-//     setter: (renderer, value) => renderer.setClearAlpha(value),
-//     watchOptions: { immediate: true },
-//   },
-// }
-
 // TODO test by using basic playground
-
-const propsToWatch = {
-  clearAlpha: {
-    getter: ({ clearAlpha }) => clearAlpha,
-    setter: (renderer, value) => {
-      renderer.setClearAlpha(toValue(value))
-    },
-    defaultValue: 1,
-    watchOptions: { immediate: true },
-  },
-  toneMapping: {
-    getter: ({ toneMapping }) => toneMapping,
-    setter: (renderer, value) => renderer.toneMapping = toValue(value),
-    watchOptions: { immediate: true },
-    defaultValue: ACESFilmicToneMapping, // TODO move to common place, this is opinionated
-  },
-} satisfies {
-  [K in NamesOfPropsThatCanChange]: {
-    getter: (props: TresCanvasProps) => TresCanvasProps[K] // TODO check if there is a better type than any
-    setter: (renderer: WebGLRenderer, value: Exclude<UnwrapRef<TresCanvasProps[K]>, undefined>) => void
-    watchOptions: WatchOptions
-    defaultValue: Exclude<UnwrapRef<TresCanvasProps[K]>, undefined>
-  }
-}
 
 // Properties that can be set directly on the renderer
 const directProperties: Record<string, DirectProperty> = {
@@ -156,19 +119,80 @@ export function setupWebGLRenderer( // TODO object format? // TODO name like com
     immediate: true,
   })
 
-  Object.values(propsToWatch).forEach(({ getter, setter, watchOptions, defaultValue }) => {
+  const createWatcher = <T>({
+    getFromProps,
+    setOnRenderer,
+    immediate,
+    defaultValue,
+  }: {
+    getFromProps: (props: TresCanvasProps) => T | undefined // TODO check if there is a better type than any
+    setOnRenderer: (renderer: WebGLRenderer, value: T) => void
+    immediate?: boolean
+    defaultValue: T
+  }) =>
     watch(
-      () => getter(options),
+      () => getFromProps(options),
       (value) => {
-        if (value === undefined) {
-          setter(initialRenderer, defaultValue)
-        }
-        setter(initialRenderer, value)
+        setOnRenderer(
+          initialRenderer,
+          value === undefined
+            ? defaultValue
+            : value,
+        )
         invalidateIfOnDemandMode()
       },
-      watchOptions,
+      { immediate },
     )
+
+  const clearColorAndAlpha = computed(() => {
+    const clearColor = toValue(options.clearColor)
+    const clearAlpha = toValue(options.clearAlpha)
+
+    const isClearColorWithAlpha = typeof clearColor === 'string' && clearColor.length === 9 && clearColor.startsWith('#')
+
+    if (isClearColorWithAlpha && clearAlpha !== undefined) {
+      throw new Error('clearColor and clearAlpha cannot both be set')
+    }
+
+    if (isClearColorWithAlpha) {
+      return {
+        alpha: Number.parseInt(clearColor.slice(7, 9), 16) / 255,
+        color: clearColor.slice(0, 7),
+      }
+    }
+
+    return {
+      alpha: clearAlpha,
+      color: clearColor,
+    }
   })
+
+  const x: Record<NamesOfPropsThatCanChange, ReturnType<typeof createWatcher>> = {
+    toneMapping: createWatcher<ToneMapping>({
+      getFromProps: ({ toneMapping }) => toValue(toneMapping),
+      setOnRenderer: (renderer, value) => renderer.toneMapping = value,
+      immediate: true,
+      defaultValue: ACESFilmicToneMapping,
+    }),
+    shadows: createWatcher({
+      getFromProps: ({ shadows }) => toValue(shadows),
+      setOnRenderer: (renderer, value) => renderer.shadowMap.enabled = value,
+      immediate: true,
+      defaultValue: false,
+    }),
+    clearColor: createWatcher({
+      getFromProps: () => clearColorAndAlpha.value.color, // TODO name getFromProps doesn't fit anymore
+      setOnRenderer: (renderer, value) => renderer.setClearColor(value),
+      immediate: true,
+      defaultValue: '#000000',
+    }),
+    clearAlpha: createWatcher({
+      getFromProps: () => clearColorAndAlpha.value.alpha,
+      setOnRenderer: (renderer, value) => renderer.setClearAlpha(value),
+      immediate: true,
+      defaultValue: 1,
+    }),
+  }
 
   // Watch properties that need setter methods
   Object.entries(rendererPropertyHandlers).forEach(([key, handler]) => {
