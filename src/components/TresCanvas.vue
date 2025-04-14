@@ -3,7 +3,7 @@ import type { App, MaybeRefOrGetter, Ref } from 'vue'
 import type { TresObject, TresScene } from '../types/'
 import { ACESFilmicToneMapping, PCFSoftShadowMap, PerspectiveCamera, Scene } from 'three'
 import * as THREE from 'three'
-import type { TresContext } from '../composables'
+import type { TresContext, TresRendererSetupContext } from '../composables'
 import { useTresContextProvider } from '../composables'
 import type { TransformToMaybeRefOrGetter, TresCamera, TresRenderer } from '../types'
 import type { ColorSpace, ShadowMapType, ToneMapping, WebGLRendererParameters } from 'three'
@@ -69,7 +69,7 @@ const slots = defineSlots<{
   default: () => any
 }>()
 
-const canvas = ref<HTMLCanvasElement>()
+const canvasRef = ref<HTMLCanvasElement>()
 
 /*
  `scene` is defined here and not in `useTresContextProvider` because the custom
@@ -130,7 +130,7 @@ const mountCustomRenderer = (context: TresContext, empty = false) => {
 
 const dispose = (context: TresContext, force = false) => {
   disposeObject3D(context.scene.value as unknown as TresObject)
-  if (force) {
+  if (force && context.renderer.value) {
     context.renderer.value.dispose()
     context.renderer.value.renderLists.dispose()
     context.renderer.value.forceContextLoss()
@@ -155,7 +155,7 @@ const unmountCanvas = () => {
 }
 
 onMounted(async () => {
-  const existingCanvas = canvas as Ref<HTMLCanvasElement>
+  const existingCanvas = canvasRef.value as Ref<HTMLCanvasElement>
 
   context.value = await useTresContextProvider({
     scene: scene.value as TresScene,
@@ -368,7 +368,7 @@ export interface TresCanvasProps extends /* @vue-ignore */ WebGLRendererProps {
    * Custom WebGL renderer instance
    * Allows using a pre-configured renderer instead of creating a new one
    */
-  renderer?: (ctx: TresContext) => Promise<TresRenderer>
+  renderer?: (ctx: TresRendererSetupContext) => Promise<TresRenderer>
 
   /**
    * Custom camera instance to use as main camera
@@ -394,7 +394,7 @@ export interface TresCanvasProps extends /* @vue-ignore */ WebGLRendererProps {
 
 <template>
   <canvas
-    ref="canvas"
+    ref="canvasRef"
     :data-scene="scene.uuid"
     :class="$attrs.class"
     :data-tres="`tresjs ${pkg.version}`"

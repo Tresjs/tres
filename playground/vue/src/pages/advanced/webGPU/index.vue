@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
 import { WebGPURenderer } from 'three/webgpu'
-import type { TresContext } from '@tresjs/core'
+import type { TresRendererSetupContext } from '@tresjs/core'
 import { OrbitControls } from '@tresjs/cientos'
 import HologramCube from './HologramCube.vue'
 
-const createWebGPURenderer = async (ctx: TresContext) => {
+const createWebGPURenderer = async (ctx: TresRendererSetupContext) => {
   const renderer = new WebGPURenderer({
-    canvas: ctx.canvas.value,
+    canvas: toValue(ctx.canvas),
     // WebGPU specific configuration
     alpha: true,
     antialias: true,
@@ -24,7 +24,6 @@ const createWebGPURenderer = async (ctx: TresContext) => {
   }, {
     immediate: true,
   })
-
   return renderer
 }
 </script>

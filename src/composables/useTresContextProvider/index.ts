@@ -1,6 +1,6 @@
 import type { Camera } from 'three'
 import { Raycaster, WebGLRenderer } from 'three'
-import type { ComputedRef, DeepReadonly, MaybeRefOrGetter, Ref, ShallowRef } from 'vue'
+import type { ComputedRef, DeepReadonly, MaybeRef, MaybeRefOrGetter, Ref, ShallowRef } from 'vue'
 import type { RendererLoop } from '../../core/loop'
 import type { EmitEventFn, Renderer, TresControl, TresObject, TresScene } from '../../types'
 
@@ -52,11 +52,10 @@ export interface PerformanceState {
 export interface TresContext {
   scene: ShallowRef<TresScene>
   sizes: SizesType
-  extend: (objects: any) => void
   camera: ComputedRef<Camera | undefined>
   cameras: DeepReadonly<Ref<Camera[]>>
   controls: Ref<TresControl | null>
-  renderer: ShallowRef<Renderer>
+  renderer: ShallowRef<Renderer | null>
   canvas: Ref<HTMLCanvasElement>
   raycaster: ShallowRef<Raycaster>
   perf: PerformanceState
@@ -85,6 +84,11 @@ export interface TresContext {
   deregisterBlockingObjectAtPointerEventHandler?: (object: TresObject) => void
 }
 
+export type TresRendererSetupContext = Pick<
+  TresContext,
+  'sizes' | 'scene' | 'camera' | 'renderer' | 'canvas' | 'invalidate' | 'advance'
+>
+
 export async function useTresContextProvider({
   scene,
   canvas,
@@ -93,7 +97,7 @@ export async function useTresContextProvider({
   emit,
 }: {
   scene: TresScene
-  canvas: Ref<HTMLCanvasElement>
+  canvas: MaybeRef<HTMLCanvasElement>
   windowSize: MaybeRefOrGetter<boolean>
   rendererOptions: TresCanvasProps
   emit: EmitEventFn
@@ -138,7 +142,7 @@ export async function useTresContextProvider({
     scene: localScene,
     camera,
     cameras: readonly(cameras),
-    renderer: shallowRef(null as unknown as Renderer),
+    renderer: shallowRef(null),
     raycaster: shallowRef(new Raycaster()),
     canvas,
     controls: ref(null),
@@ -167,10 +171,16 @@ export async function useTresContextProvider({
   provide('useTres', ctx)
 
   // Renderer
-  const renderer = await createRenderer(ctx, rendererOptions)
+  const renderer = await createRenderer({
+    sizes,
+    scene: localScene,
+    camera,
+  }, rendererOptions)
   // Only setup the renderer with Canvas props if it is a WebGLRenderer
   if (renderer instanceof WebGLRenderer) {
-    setupWebGLRenderer(renderer, rendererOptions, ctx)
+    setupWebGLRenderer(renderer, rendererOptions, {
+
+    })
   }
   ctx.renderer.value = renderer
 
@@ -182,7 +192,7 @@ export async function useTresContextProvider({
   // The loop
 
   ctx.loop.register(() => {
-    if (camera.value && render.frames.value > 0) {
+    if (ctx.renderer.value && camera.value && render.frames.value > 0) {
       ctx.renderer.value.render(scene, camera.value)
       emit('render', ctx.renderer.value)
     }
@@ -210,8 +220,10 @@ export async function useTresContextProvider({
   })
 
   onUnmounted(() => {
-    ctx.renderer.value.dispose()
-    ctx.renderer.value.forceContextLoss()
+    if (ctx.renderer.value) {
+      ctx.renderer.value.dispose()
+      ctx.renderer.value.forceContextLoss()
+    }
     cancelTresReady()
     ctx.loop.stop()
   })

@@ -1,10 +1,11 @@
-import type { TresContext } from 'src/composables/useTresContextProvider'
+import type { TresContext, TresPartialContext } from '../composables/useTresContextProvider'
 import type { ColorRepresentation, Object3D, WebGLRenderer } from 'three'
 import { watch } from 'vue'
 import { useDevicePixelRatio } from '@vueuse/core'
 import { setPixelRatio } from '../utils'
 
 import { Mesh } from 'three'
+import type { TresCanvasProps } from '../components/TresCanvas.vue'
 
 interface PropertyHandler<T = unknown> {
   set: (renderer: WebGLRenderer, value: T) => void
@@ -71,8 +72,8 @@ const rendererPropertyHandlers: Record<string, PropertyHandler<ColorRepresentati
 // Modified setup function to handle both types of properties
 export function setupWebGLRenderer(
   initialRenderer: WebGLRenderer,
-  options: Record<string, any>,
-  ctx: TresContext,
+  options: TresCanvasProps,
+  ctx: TresPartialContext,
 ) {
   const { pixelRatio } = useDevicePixelRatio()
   const { invalidate } = ctx

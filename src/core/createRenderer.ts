@@ -1,8 +1,9 @@
 import { WebGLRenderer } from 'three'
-import * as is from '../utils/is'
 import type { TresContext } from '../composables'
 import type { TresRenderer } from '../types'
 import type { TresCanvasProps } from '../components/TresCanvas.vue'
+import { toValue } from 'vue'
+import { isObject } from '../utils/is'
 
 export async function createRenderer(ctx: TresContext, options: TresCanvasProps): Promise<TresRenderer> {
   if (options.renderer) {
@@ -14,8 +15,8 @@ export async function createRenderer(ctx: TresContext, options: TresCanvasProps)
   }
 
   const rendererConstructorArgs = {
-    ...(is.obj(options) ? options : {}),
-    canvas: ctx.canvas.value,
+    ...(isObject(options) ? options : {}),
+    canvas: toValue(ctx.canvas),
   }
   const renderer = new WebGLRenderer(rendererConstructorArgs)
 
