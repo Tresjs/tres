@@ -5,7 +5,10 @@ import type { TresCanvasProps } from '../components/TresCanvas.vue'
 import { toValue } from 'vue'
 import { isObject } from '../utils/is'
 
-export async function createRenderer(ctx: TresRendererSetupContext, options: TresCanvasProps): Promise<TresRenderer> {
+export async function createRenderer(
+  ctx: TresRendererSetupContext,
+  options: TresCanvasProps, // TODO could be less maybe?
+): Promise<TresRenderer> {
   if (options.renderer) {
     const fnOrRenderer = options.renderer
     if (typeof fnOrRenderer === 'function') {
