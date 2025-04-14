@@ -155,7 +155,7 @@ const unmountCanvas = () => {
 }
 
 onMounted(async () => {
-  const existingCanvas = canvasRef.value as Ref<HTMLCanvasElement>
+  const existingCanvas = canvasRef as Ref<HTMLCanvasElement>
 
   context.value = await useTresContextProvider({
     scene: scene.value as TresScene,
