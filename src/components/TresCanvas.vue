@@ -217,6 +217,7 @@ onUnmounted(unmountCanvas)
 <script lang="ts">
 export type WebGLRendererProps = TransformToMaybeRefOrGetter<Omit<WebGLRendererParameters, 'canvas'>>
 
+// TODO move following type. Props shouldn't be defined by passing a ref.
 export interface TresCanvasProps extends /* @vue-ignore */ WebGLRendererProps {
   /**
    * WebGL Context options (Readonly because they are passed to the renderer constructor)

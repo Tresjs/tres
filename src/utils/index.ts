@@ -448,6 +448,7 @@ export function noop(fn: string): any {
   fn
 }
 
+// TODO move following function?
 export function setPixelRatio(renderer: { setPixelRatio?: (dpr: number) => void, getPixelRatio?: () => number }, systemDpr: number, userDpr?: number | [number, number]) {
   // NOTE: Optional `setPixelRatio` allows this function to accept
   // THREE renderers like SVGRenderer.
