@@ -368,7 +368,7 @@ export interface TresCanvasProps extends /* @vue-ignore */ WebGLRendererProps {
    * Custom WebGL renderer instance
    * Allows using a pre-configured renderer instead of creating a new one
    */
-  renderer?: (ctx: TresRendererSetupContext) => Promise<TresRenderer>
+  renderer?: (ctx: TresRendererSetupContext) => Promise<TresRenderer> | TresRenderer
 
   /**
    * Custom camera instance to use as main camera

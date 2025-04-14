@@ -55,7 +55,7 @@ export interface TresContext {
   camera: ComputedRef<Camera | undefined>
   cameras: DeepReadonly<Ref<Camera[]>>
   controls: Ref<TresControl | null>
-  renderer: ShallowRef<Renderer | null>
+  renderer: ShallowRef<Renderer>
   canvas: Ref<HTMLCanvasElement>
   raycaster: ShallowRef<Raycaster>
   perf: PerformanceState
@@ -86,7 +86,7 @@ export interface TresContext {
 
 export type TresRendererSetupContext = Pick<
   TresContext,
-  'sizes' | 'scene' | 'camera' | 'renderer' | 'canvas' | 'invalidate' | 'advance'
+  'sizes' | 'scene' | 'camera' | 'canvas' | 'invalidate' | 'advance'
 >
 
 export async function useTresContextProvider({
@@ -97,11 +97,10 @@ export async function useTresContextProvider({
   emit,
 }: {
   scene: TresScene
-  canvas: MaybeRef<HTMLCanvasElement>
+  canvas: Ref<HTMLCanvasElement>
   windowSize: MaybeRefOrGetter<boolean>
   rendererOptions: TresCanvasProps
   emit: EmitEventFn
-
 }): Promise<TresContext> {
   const localScene = shallowRef<TresScene>(scene)
   const sizes = useSizes(windowSize, canvas)
@@ -137,12 +136,29 @@ export async function useTresContextProvider({
     }
   }
 
+  // Renderer
+  const renderer = await createRenderer({
+    sizes,
+    scene: localScene,
+    camera,
+    canvas,
+    invalidate,
+    advance,
+  }, rendererOptions)
+
+  // Only setup the renderer with Canvas props if it is a WebGLRenderer
+  if (renderer instanceof WebGLRenderer) {
+    setupWebGLRenderer(renderer, rendererOptions, {
+
+    })
+  }
+
   const ctx: TresContext = {
     sizes,
     scene: localScene,
     camera,
     cameras: readonly(cameras),
-    renderer: shallowRef(null),
+    renderer: shallowRef(renderer),
     raycaster: shallowRef(new Raycaster()),
     canvas,
     controls: ref(null),
@@ -160,7 +176,6 @@ export async function useTresContextProvider({
     },
     render,
     advance,
-    extend,
     invalidate,
     registerCamera,
     setCameraActive,
@@ -169,20 +184,6 @@ export async function useTresContextProvider({
   }
 
   provide('useTres', ctx)
-
-  // Renderer
-  const renderer = await createRenderer({
-    sizes,
-    scene: localScene,
-    camera,
-  }, rendererOptions)
-  // Only setup the renderer with Canvas props if it is a WebGLRenderer
-  if (renderer instanceof WebGLRenderer) {
-    setupWebGLRenderer(renderer, rendererOptions, {
-
-    })
-  }
-  ctx.renderer.value = renderer
 
   // Add context to scene local state
   ctx.scene.value.__tres = {

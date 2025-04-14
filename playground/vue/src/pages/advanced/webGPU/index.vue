@@ -24,6 +24,7 @@ const createWebGPURenderer = async (ctx: TresRendererSetupContext) => {
   }, {
     immediate: true,
   })
+
   return renderer
 }
 </script>
