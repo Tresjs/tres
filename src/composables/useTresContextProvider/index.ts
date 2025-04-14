@@ -1,5 +1,5 @@
 import type { Camera } from 'three'
-import { Raycaster, WebGLRenderer } from 'three'
+import { Raycaster } from 'three'
 import type { ComputedRef, DeepReadonly, MaybeRefOrGetter, Ref, ShallowRef } from 'vue'
 import type { RendererLoop } from '../../core/loop'
 import type { EmitEventFn, Renderer, TresControl, TresObject, TresScene } from '../../types'
@@ -11,8 +11,6 @@ import { useCamera } from '../useCamera'
 import useSizes, { type SizesType } from '../useSizes'
 import { type TresEventManager, useTresEventManager } from '../useTresEventManager'
 import { useTresReady } from '../useTresReady'
-import { createRenderer } from '../../core/createRenderer'
-import { setupWebGLRenderer } from '../../core/setupRenderer'
 import type { TresCanvasProps } from '../../components/TresCanvas.vue'
 import { setupDevtools } from '../../devtools/setupDevtools'
 import { useRenderer } from '../useRenderer'
@@ -85,17 +83,17 @@ export interface TresContext {
 }
 
 export async function useTresContextProvider({
+  emit,
   scene,
   canvas,
   windowSize,
   rendererOptions,
-  emit,
 }: {
+  emit: EmitEventFn
   scene: TresScene
   canvas: Ref<HTMLCanvasElement>
   windowSize: MaybeRefOrGetter<boolean>
   rendererOptions: TresCanvasProps
-  emit: EmitEventFn
 }): Promise<TresContext> {
   const localScene = shallowRef<TresScene>(scene)
   const sizes = useSizes(windowSize, canvas)
