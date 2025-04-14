@@ -10,6 +10,11 @@ export const miscRoutes = [
     component: () => import('../../pages/misc/directives/index.vue'),
   },
   {
+    path: '/misc/brownian-distribution',
+    name: 'Brownian Distribution',
+    component: () => import('../../pages/misc/BrownianDistribution.vue'),
+  },
+  {
     path: '/misc/graph',
     name: 'useGraph',
     component: () => import('../../pages/misc/use-graph/index.vue'),
