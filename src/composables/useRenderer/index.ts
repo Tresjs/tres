@@ -11,7 +11,7 @@ import {
   useDevicePixelRatio,
 } from '@vueuse/core'
 import { ACESFilmicToneMapping, Color, WebGLRenderer } from 'three'
-import { computed, type MaybeRef, onUnmounted, shallowRef, watch, watchEffect } from 'vue'
+import { computed, type MaybeRef, onUnmounted, ref, shallowRef, unref, watch, watchEffect } from 'vue'
 
 // Solution taken from Thretle that actually support different versions https://github.com/threlte/threlte/blob/5fa541179460f0dadc7dc17ae5e6854d1689379e/packages/core/src/lib/lib/useRenderer.ts
 import { revision } from '../../core/revision'
@@ -91,7 +91,7 @@ export interface UseRendererOptions extends TransformToMaybeRefOrGetter<WebGLRen
   clearColor?: MaybeRefOrGetter<TresColor>
   windowSize?: MaybeRefOrGetter<boolean | string>
   preset?: MaybeRefOrGetter<RendererPresetsType>
-  renderMode?: MaybeRefOrGetter<'always' | 'on-demand' | 'manual'>
+  renderMode?: MaybeRefOrGetter<RenderMode>
   /**
    * A `number` sets the renderer's device pixel ratio.
    * `[number, number]` clamp's the renderer's device pixel ratio.
@@ -99,18 +99,25 @@ export interface UseRendererOptions extends TransformToMaybeRefOrGetter<WebGLRen
   dpr?: MaybeRefOrGetter<number | [number, number]>
 }
 
+/**
+ * If set to 'on-demand', the scene will only be rendered when the current frame is invalidated
+ * If set to 'manual', the scene will only be rendered when advance() is called
+ * If set to 'always', the scene will be rendered every frame
+ */
+export type RenderMode = 'always' | 'on-demand' | 'manual'
+
 export function useRenderer(
   {
+    scene,
     canvas,
     options,
-    contextParts: { sizes, render, invalidate, advance },
+    contextParts: { sizes, loop, camera },
   }:
   {
-    canvas: MaybeRef<HTMLCanvasElement>
     scene: Scene
+    canvas: MaybeRef<HTMLCanvasElement>
     options: UseRendererOptions
-    emit: EmitEventFn
-    contextParts: Pick<TresContext, 'sizes' | 'camera' | 'render'> & { invalidate: () => void, advance: () => void }
+    contextParts: Pick<TresContext, 'sizes' | 'camera' | 'loop'>
   },
 ) {
   const webGLRendererConstructorParameters = computed<WebGLRendererParameters>(() => ({
@@ -130,11 +137,59 @@ export function useRenderer(
 
   const renderer = shallowRef<WebGLRenderer>(new WebGLRenderer(webGLRendererConstructorParameters.value))
 
-  function invalidateOnDemand() {
-    if (options.renderMode === 'on-demand') {
+  const mode = ref<RenderMode>(toValue(options.renderMode) || 'always')
+  const priority = ref(0)
+  const frames = ref(0) // TODO rename // TODO does this even need reactivity?
+  const maxFrames = 60
+  const canBeInvalidated = computed(() => mode.value === 'on-demand' && frames.value === 0) // TODO why  "=== 0" // TODO was this public before?
+
+  /**
+   * Invalidates the current frame when in on-demand render mode.
+   */
+  const invalidate = (amountOfFramesToInvalidate = 1) => {
+    // TODO The docs show this is called in manual mode. Why?
+    // Increase the frame count, ensuring not to exceed a maximum if desired
+    if (mode.value !== 'on-demand') { // TODO why was frames.value === 0 not checked here?
+      throw new Error('invalidate can only be called in on-demand render mode.')
+    }
+
+    frames.value = Math.min(maxFrames, frames.value + amountOfFramesToInvalidate)
+  }
+
+  /**
+   * Advances one frame when in manual render mode.
+   */
+  const advance = () => {
+    if (mode.value !== 'manual') {
+      throw new Error('advance can only be called in manual render mode.')
+    }
+
+    frames.value = 1
+  }
+
+  const invalidateOnDemand = () => {
+    if (mode.value === 'on-demand') {
       invalidate()
     }
   }
+
+  loop.register(() => {
+    if (camera.value && frames.value > 0) {
+      renderer.value.render(scene, camera.value)
+      // emit('render', renderer.value) // TODO restore
+    }
+
+    // Reset priority
+    priority.value = 0
+
+    if (mode.value === 'always') {
+      frames.value = 1
+    }
+    else {
+      frames.value = Math.max(0, frames.value - 1)
+    }
+  }, 'render')
+
   // since the properties set via the constructor can't be updated dynamically,
   // the renderer is recreated once they change
   watch(webGLRendererConstructorParameters, () => {
@@ -203,7 +258,7 @@ export function useRenderer(
 
     if (renderMode === 'always') {
       // If the render mode is 'always', ensure there's always a frame pending
-      render.frames.value = Math.max(1, render.frames.value)
+      frames.value = Math.max(1, frames.value)
     }
 
     const getValue = <T>(option: MaybeRefOrGetter<T>, pathInThree: string): T | undefined => {
@@ -254,6 +309,7 @@ export function useRenderer(
 
   return {
     renderer,
+    // TODO return frames and so on, but think about making them readonly
   }
 }
 
