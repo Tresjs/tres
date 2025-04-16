@@ -135,6 +135,9 @@ importers:
       vue-demi:
         specifier: ^0.14.10
         version: 0.14.10(vue@3.5.13(typescript@5.7.3))
+      vue-tsc:
+        specifier: ^2.2.0
+        version: 2.2.2(typescript@5.7.3)
 
   docs:
     dependencies:

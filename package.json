@@ -58,6 +58,7 @@
     "coverage": "vitest run --coverage",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
+    "typecheck": "vue-tsc --noEmit",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
     "docs:serve": "vitepress serve docs",
@@ -112,6 +113,7 @@
     "vitepress": "1.6.3",
     "vitest": "3.0.5",
     "vue": "3.5.13",
-    "vue-demi": "^0.14.10"
+    "vue-demi": "^0.14.10",
+    "vue-tsc": "^2.2.0"
   }
 }
