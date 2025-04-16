@@ -19,7 +19,7 @@ export type PriorityEventHookTrigger<T = any> = (param?: T) => void
 
 export interface PriorityEventHook<T = any> {
   on: PriorityEventHookOn<T>
-  off: EventHookOff<T>
+  off: (fn: Callback<T>) => void
   trigger: PriorityEventHookTrigger<T>
   dispose: () => void
   count: number
