@@ -438,8 +438,8 @@ export function invalidateInstance(instance: TresObject) {
 
   if (!ctx) { return }
 
-  if (ctx.render && ctx.render.canBeInvalidated.value) {
-    ctx.invalidate()
+  if (ctx.renderer.canBeInvalidated.value) {
+    ctx.renderer.invalidate()
   }
 }
 

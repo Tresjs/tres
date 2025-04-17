@@ -158,9 +158,9 @@ const mountCustomRenderer = (context: TresContext, empty = false) => {
 const dispose = (context: TresContext, force = false) => {
   disposeObject3D(context.scene.value as unknown as TresObject)
   if (force) {
-    context.renderer.instance.dispose()
-    context.renderer.instance.renderLists.dispose()
-    context.renderer.instance.forceContextLoss()
+    context.renderer.instance.value.dispose()
+    context.renderer.instance.value.renderLists.dispose()
+    context.renderer.instance.value.forceContextLoss()
   }
   (scene.value as TresScene).__tres = {
     root: context,

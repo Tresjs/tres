@@ -11,7 +11,7 @@ import {
   useDevicePixelRatio,
 } from '@vueuse/core'
 import { ACESFilmicToneMapping, Color, WebGLRenderer } from 'three'
-import { computed, type MaybeRef, onUnmounted, readonly, ref, shallowRef, toValue, watch, watchEffect } from 'vue'
+import { computed, type MaybeRef, onUnmounted, ref, shallowRef, toValue, watch, watchEffect } from 'vue'
 
 // Solution taken from Thretle that actually support different versions https://github.com/threlte/threlte/blob/5fa541179460f0dadc7dc17ae5e6854d1689379e/packages/core/src/lib/lib/useRenderer.ts
 import { revision } from '../../core/revision'
@@ -106,6 +106,7 @@ export interface UseRendererOptions extends TransformToMaybeRefOrGetter<WebGLRen
  */
 export type RenderMode = 'always' | 'on-demand' | 'manual'
 
+// TODO update docs
 export function useRenderer(
   {
     scene,

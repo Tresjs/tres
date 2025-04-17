@@ -9,8 +9,6 @@ export function useLoop() {
     loop,
     raycaster,
     controls,
-    invalidate,
-    advance,
   } = useTresContext()
 
   // Pass context to loop
@@ -20,8 +18,6 @@ export function useLoop() {
     renderer,
     raycaster,
     controls,
-    invalidate,
-    advance,
   })
 
   function onBeforeRender(cb: LoopCallbackFn, index = 0) {
