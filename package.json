@@ -58,6 +58,7 @@
     "coverage": "vitest run --coverage",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
+    "typecheck": "vue-tsc --noEmit",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
     "docs:serve": "vitepress serve docs",
@@ -76,7 +77,7 @@
   "devDependencies": {
     "@release-it/conventional-changelog": "^10.0.0",
     "@stackblitz/sdk": "^1.11.0",
-    "@tresjs/cientos": "4.1.0",
+    "@tresjs/cientos": "https://pkg.pr.new/@tresjs/cientos@13943b0",
     "@tresjs/eslint-config": "^1.4.0",
     "@types/three": "^0.173.0",
     "@typescript-eslint/eslint-plugin": "^8.23.0",
@@ -112,6 +113,7 @@
     "vitepress": "1.6.3",
     "vitest": "3.0.5",
     "vue": "3.5.13",
-    "vue-demi": "^0.14.10"
+    "vue-demi": "^0.14.10",
+    "vue-tsc": "^2.2.0"
   }
 }
