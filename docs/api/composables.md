@@ -359,7 +359,11 @@ You can also use `UseTexture` (with uppercase) as component like so:
 The `UseTexture` component needs to be wrapped in a `Suspense` component in order to work
 :::
 
-## useSeek
+## useSeek <Badge text="deprecated" />
+
+::: danger
+This composable is deprecated from v5.0.0.
+:::
 
 The `useSeek` composable provides utilities to easily traverse and navigate through complex ThreeJS scenes and object children graphs. It exports 4 functions which allow you to find child objects based on specific properties.
 
