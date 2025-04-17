@@ -135,24 +135,24 @@ export function useRenderer(
     failIfMajorPerformanceCaveat: toValue(options.failIfMajorPerformanceCaveat),
   }))
 
-  const instance = shallowRef<WebGLRenderer>(new WebGLRenderer(webGLRendererConstructorParameters.value)) // TODO rename
+  const instance = shallowRef<WebGLRenderer>(new WebGLRenderer(webGLRendererConstructorParameters.value))
 
-  const amountOfFramesToRender = ref(0) // TODO does this even need reactivity?
+  const amountOfFramesToRender = ref(0)
   const maxFrames = 60
-  const canBeInvalidated = computed(() => toValue(options.renderMode) === 'on-demand' && amountOfFramesToRender.value === 0) // TODO why  "=== 0" // TODO was this public before?
+  const canBeInvalidated = computed(() => toValue(options.renderMode) === 'on-demand' && amountOfFramesToRender.value === 0)
 
   /**
    * Invalidates the current frame when in on-demand render mode.
    */
   const invalidate = (amountOfFramesToInvalidate = 1) => {
-    // TODO The docs show this is called in manual mode. Why?
-    if (toValue(options.renderMode) !== 'on-demand') {
-      throw new Error('invalidate can only be called in on-demand render mode.')
+    // TODO The docs show this is called in manual mode. Fix docs!
+    if (!canBeInvalidated.value) {
+      if (toValue(options.renderMode) !== 'on-demand') { throw new Error('invalidate can only be called in on-demand render mode.') }
+
+      return
     }
 
-    if (canBeInvalidated.value) {
-      amountOfFramesToRender.value = Math.min(maxFrames, amountOfFramesToRender.value + amountOfFramesToInvalidate)
-    }
+    amountOfFramesToRender.value = Math.min(maxFrames, amountOfFramesToRender.value + amountOfFramesToInvalidate)
   }
 
   /**
@@ -227,14 +227,12 @@ export function useRenderer(
 
   const threeDefaults = getThreeRendererDefaults()
 
-  const renderMode = toValue(options.renderMode)
-
-  if (renderMode === 'on-demand') {
+  if (toValue(options.renderMode) === 'on-demand') {
     // Invalidate for the first time
     invalidate()
   }
 
-  if (renderMode === 'manual') {
+  if (toValue(options.renderMode) === 'manual') {
     // Advance for the first time, setTimeout to make sure there is something to render
     setTimeout(() => {
       advance()
@@ -242,6 +240,7 @@ export function useRenderer(
   }
 
   watchEffect(() => {
+    // TODO
     const rendererPreset = toValue(options.preset)
 
     if (rendererPreset) {
@@ -254,7 +253,7 @@ export function useRenderer(
 
     // Render mode
 
-    if (renderMode === 'always') {
+    if (isModeAlways.value) {
       // If the render mode is 'always', ensure there's always a frame pending
       amountOfFramesToRender.value = Math.max(1, amountOfFramesToRender.value)
     }
@@ -311,7 +310,6 @@ export function useRenderer(
     advance,
     onRender,
     invalidate,
-
     canBeInvalidated,
   }
 }

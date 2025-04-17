@@ -1,4 +1,4 @@
-import type { Camera, WebGLRenderer } from 'three'
+import type { Camera } from 'three'
 import type { ComputedRef, DeepReadonly, MaybeRef, MaybeRefOrGetter, Ref, ShallowRef } from 'vue'
 import type { RendererLoop } from '../../core/loop'
 import type { EmitEventFn, TresControl, TresObject, TresScene } from '../../types'
