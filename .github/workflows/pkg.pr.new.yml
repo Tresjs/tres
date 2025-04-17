@@ -4,8 +4,7 @@ on:
     tags:
       - '!**'
   workflow_run:
-    # eslint-disable-next-line yaml/plain-scalar
-    workflows: ['Run linter and typecheck']
+    workflows: [CI]
     branches:
       - '**'
     types:
