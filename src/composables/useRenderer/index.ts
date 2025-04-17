@@ -90,7 +90,7 @@ export interface UseRendererOptions extends TransformToMaybeRefOrGetter<WebGLRen
   clearColor?: MaybeRefOrGetter<TresColor>
   windowSize?: MaybeRefOrGetter<boolean | string>
   preset?: MaybeRefOrGetter<RendererPresetsType>
-  renderMode?: MaybeRefOrGetter<RenderMode>
+  renderMode?: MaybeRef<RenderMode>
   /**
    * A `number` sets the renderer's device pixel ratio.
    * `[number, number]` clamp's the renderer's device pixel ratio.
@@ -136,17 +136,16 @@ export function useRenderer(
 
   const renderer = shallowRef<WebGLRenderer>(new WebGLRenderer(webGLRendererConstructorParameters.value)) // TODO rename
 
-  const mode = ref<RenderMode>(toValue(options.renderMode) || 'always')
   const amountOfFramesToRender = ref(0) // TODO does this even need reactivity?
   const maxFrames = 60
-  const canBeInvalidated = computed(() => mode.value === 'on-demand' && amountOfFramesToRender.value === 0) // TODO why  "=== 0" // TODO was this public before?
+  const canBeInvalidated = computed(() => toValue(options.renderMode) === 'on-demand' && amountOfFramesToRender.value === 0) // TODO why  "=== 0" // TODO was this public before?
 
   /**
    * Invalidates the current frame when in on-demand render mode.
    */
   const invalidate = (amountOfFramesToInvalidate = 1) => {
     // TODO The docs show this is called in manual mode. Why?
-    if (mode.value !== 'on-demand') {
+    if (toValue(options.renderMode) !== 'on-demand') {
       throw new Error('invalidate can only be called in on-demand render mode.')
     }
 
@@ -159,7 +158,7 @@ export function useRenderer(
    * Advances one frame when in manual render mode.
    */
   const advance = () => {
-    if (mode.value !== 'manual') {
+    if (toValue(options.renderMode) !== 'manual') {
       throw new Error('advance can only be called in manual render mode.')
     }
 
@@ -167,12 +166,12 @@ export function useRenderer(
   }
 
   const invalidateOnDemand = () => {
-    if (mode.value === 'on-demand') {
+    if (toValue(options.renderMode) === 'on-demand') {
       invalidate()
     }
   }
 
-  const isModeAlways = computed(() => mode.value === 'always')
+  const isModeAlways = computed(() => toValue(options.renderMode) === 'always')
 
   loop.register(() => {
     if (camera.value && amountOfFramesToRender.value) {
