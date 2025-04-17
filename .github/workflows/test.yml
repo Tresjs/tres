@@ -1,6 +1,9 @@
 name: Run Tests
-on: [push]
-
+on:
+  workflow_run:
+    workflows: ["Run linter and typecheck"]
+    types:
+      - completed
 env:
   PNPM_CACHE_FOLDER: .pnpm-store
   HUSKY: 0 # Bypass husky commit hook for CI
