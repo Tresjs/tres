@@ -240,7 +240,6 @@ export function useRenderer(
   }
 
   watchEffect(() => {
-    // TODO
     const rendererPreset = toValue(options.preset)
 
     if (rendererPreset) {
@@ -305,7 +304,7 @@ export function useRenderer(
   })
 
   return {
-    instance: readonly(instance),
+    instance,
 
     advance,
     onRender,
