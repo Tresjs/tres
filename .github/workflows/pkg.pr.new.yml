@@ -1,10 +1,12 @@
 name: Publish Any Commit
 on:
   push:
-    branches:
-      - '**'
     tags:
       - '!**'
+  workflow_run:
+    workflows: [Run linter and typecheck]
+    types:
+      - completed
 
 env:
   PNPM_CACHE_FOLDER: .pnpm-store
