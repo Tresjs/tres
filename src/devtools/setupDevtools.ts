@@ -4,7 +4,7 @@ import type { TresContext } from '../composables'
 import type { TresObject } from '../types'
 import { onUnmounted } from 'vue'
 
-export function setupDevtools(ctx: TresContext) {
+export function setupTresDevtools(ctx: TresContext) {
   if (!ctx) { return }
 
   // Performance

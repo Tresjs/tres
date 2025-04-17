@@ -33,8 +33,8 @@ import {
 import { extend } from '../core/catalogue'
 import { nodeOps } from '../core/nodeOps'
 
-import { registerTresDevtools } from '../devtools'
 import { disposeObject3D } from '../utils/'
+import { registerTresDevtools } from '../devtools'
 
 export interface TresCanvasProps
   extends Omit<WebGLRendererParameters, 'canvas'> {

@@ -213,8 +213,6 @@ export function useTresContextProvider({
     ctx.loop.stop()
   })
 
-  setupDevtools(ctx)
-
   return ctx
 }
 
