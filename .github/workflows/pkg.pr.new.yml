@@ -3,10 +3,6 @@ on:
   push:
     tags:
       - '!**'
-  workflow_run:
-    workflows: [CI]
-    types:
-      - completed
     branches:
       - '**'
 
