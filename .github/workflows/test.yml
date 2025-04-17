@@ -1,7 +1,7 @@
 name: Run Tests
 on:
   workflow_run:
-    workflows: ["Run linter and typecheck"]
+    workflows: [Run linter and typecheck]
     types:
       - completed
 env:
