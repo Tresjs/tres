@@ -10,7 +10,7 @@ import {
   useDevicePixelRatio,
 } from '@vueuse/core'
 import { ACESFilmicToneMapping, Color, WebGLRenderer } from 'three'
-import { computed, type MaybeRef, onUnmounted, ref, shallowRef, toValue, watch, watchEffect } from 'vue'
+import { computed, type MaybeRef, onUnmounted, readonly, ref, shallowRef, toValue, watch, watchEffect } from 'vue'
 
 // Solution taken from Thretle that actually support different versions https://github.com/threlte/threlte/blob/5fa541179460f0dadc7dc17ae5e6854d1689379e/packages/core/src/lib/lib/useRenderer.ts
 import { revision } from '../../core/revision'
@@ -134,7 +134,7 @@ export function useRenderer(
     failIfMajorPerformanceCaveat: toValue(options.failIfMajorPerformanceCaveat),
   }))
 
-  const renderer = shallowRef<WebGLRenderer>(new WebGLRenderer(webGLRendererConstructorParameters.value)) // TODO rename
+  const instance = shallowRef<WebGLRenderer>(new WebGLRenderer(webGLRendererConstructorParameters.value)) // TODO rename
 
   const amountOfFramesToRender = ref(0) // TODO does this even need reactivity?
   const maxFrames = 60
@@ -175,7 +175,7 @@ export function useRenderer(
 
   loop.register(() => {
     if (camera.value && amountOfFramesToRender.value) {
-      renderer.value.render(scene, camera.value)
+      instance.value.render(scene, camera.value)
       // emit('render', renderer.value) // TODO restore
     }
 
@@ -187,14 +187,14 @@ export function useRenderer(
   // since the properties set via the constructor can't be updated dynamically,
   // the renderer is recreated once they change
   watch(webGLRendererConstructorParameters, () => {
-    renderer.value.dispose()
-    renderer.value = new WebGLRenderer(webGLRendererConstructorParameters.value)
+    instance.value.dispose()
+    instance.value = new WebGLRenderer(webGLRendererConstructorParameters.value)
 
     invalidateOnDemand()
   })
 
   watch([sizes.width, sizes.height], () => {
-    renderer.value.setSize(sizes.width.value, sizes.height.value)
+    instance.value.setSize(sizes.width.value, sizes.height.value)
     invalidateOnDemand()
   }, {
     immediate: true,
@@ -243,10 +243,10 @@ export function useRenderer(
     if (rendererPreset) {
       if (!(rendererPreset in rendererPresets)) { logError(`Renderer Preset must be one of these: ${Object.keys(rendererPresets).join(', ')}`) }
 
-      merge(renderer.value, rendererPresets[rendererPreset])
+      merge(instance.value, rendererPresets[rendererPreset])
     }
 
-    setPixelRatio(renderer.value, pixelRatio.value, toValue(options.dpr))
+    setPixelRatio(instance.value, pixelRatio.value, toValue(options.dpr))
 
     // Render mode
 
@@ -274,7 +274,7 @@ export function useRenderer(
     }
 
     const setValueOrDefault = <T>(option: MaybeRefOrGetter<T>, pathInThree: string) =>
-      set(renderer.value, pathInThree, getValue(option, pathInThree))
+      set(instance.value, pathInThree, getValue(option, pathInThree))
 
     setValueOrDefault(options.shadows, 'shadowMap.enabled')
     setValueOrDefault(options.toneMapping ?? ACESFilmicToneMapping, 'toneMapping')
@@ -288,7 +288,7 @@ export function useRenderer(
     const clearColor = getValue(options.clearColor, 'clearColor')
 
     if (clearColor) {
-      renderer.value.setClearColor(
+      instance.value.setClearColor(
         clearColor
           ? normalizeColor(clearColor)
           : new Color(0x000000), // default clear color is not easily/efficiently retrievable from three
@@ -297,12 +297,12 @@ export function useRenderer(
   })
 
   onUnmounted(() => {
-    renderer.value.dispose()
-    renderer.value.forceContextLoss()
+    instance.value.dispose()
+    instance.value.forceContextLoss()
   })
 
   return {
-    renderer,
+    instance: readonly(instance),
 
     advance,
     invalidate,
