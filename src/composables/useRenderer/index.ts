@@ -1,17 +1,16 @@
 import type { ColorSpace, Scene, ShadowMapType, ToneMapping, WebGLRendererParameters } from 'three'
-import type { EmitEventFn, TresColor } from '../../types'
+import type { TresColor } from '../../types'
 
 import type { TresContext } from '../useTresContextProvider'
 
 import type { RendererPresetsType } from './const'
 import {
   type MaybeRefOrGetter,
-  toValue,
   unrefElement,
   useDevicePixelRatio,
 } from '@vueuse/core'
 import { ACESFilmicToneMapping, Color, WebGLRenderer } from 'three'
-import { computed, type MaybeRef, onUnmounted, ref, shallowRef, unref, watch, watchEffect } from 'vue'
+import { computed, type MaybeRef, onUnmounted, ref, shallowRef, toValue, watch, watchEffect } from 'vue'
 
 // Solution taken from Thretle that actually support different versions https://github.com/threlte/threlte/blob/5fa541179460f0dadc7dc17ae5e6854d1689379e/packages/core/src/lib/lib/useRenderer.ts
 import { revision } from '../../core/revision'
@@ -135,25 +134,25 @@ export function useRenderer(
     failIfMajorPerformanceCaveat: toValue(options.failIfMajorPerformanceCaveat),
   }))
 
-  const renderer = shallowRef<WebGLRenderer>(new WebGLRenderer(webGLRendererConstructorParameters.value))
+  const renderer = shallowRef<WebGLRenderer>(new WebGLRenderer(webGLRendererConstructorParameters.value)) // TODO rename
 
   const mode = ref<RenderMode>(toValue(options.renderMode) || 'always')
-  const priority = ref(0)
-  const frames = ref(0) // TODO rename // TODO does this even need reactivity?
+  const amountOfFramesToRender = ref(0) // TODO does this even need reactivity?
   const maxFrames = 60
-  const canBeInvalidated = computed(() => mode.value === 'on-demand' && frames.value === 0) // TODO why  "=== 0" // TODO was this public before?
+  const canBeInvalidated = computed(() => mode.value === 'on-demand' && amountOfFramesToRender.value === 0) // TODO why  "=== 0" // TODO was this public before?
 
   /**
    * Invalidates the current frame when in on-demand render mode.
    */
   const invalidate = (amountOfFramesToInvalidate = 1) => {
     // TODO The docs show this is called in manual mode. Why?
-    // Increase the frame count, ensuring not to exceed a maximum if desired
-    if (mode.value !== 'on-demand') { // TODO why was frames.value === 0 not checked here?
+    if (mode.value !== 'on-demand') {
       throw new Error('invalidate can only be called in on-demand render mode.')
     }
 
-    frames.value = Math.min(maxFrames, frames.value + amountOfFramesToInvalidate)
+    if (canBeInvalidated.value) {
+      amountOfFramesToRender.value = Math.min(maxFrames, amountOfFramesToRender.value + amountOfFramesToInvalidate)
+    }
   }
 
   /**
@@ -164,7 +163,7 @@ export function useRenderer(
       throw new Error('advance can only be called in manual render mode.')
     }
 
-    frames.value = 1
+    amountOfFramesToRender.value = 1
   }
 
   const invalidateOnDemand = () => {
@@ -173,21 +172,17 @@ export function useRenderer(
     }
   }
 
+  const isModeAlways = computed(() => mode.value === 'always')
+
   loop.register(() => {
-    if (camera.value && frames.value > 0) {
+    if (camera.value && amountOfFramesToRender.value) {
       renderer.value.render(scene, camera.value)
       // emit('render', renderer.value) // TODO restore
     }
 
-    // Reset priority
-    priority.value = 0
-
-    if (mode.value === 'always') {
-      frames.value = 1
-    }
-    else {
-      frames.value = Math.max(0, frames.value - 1)
-    }
+    amountOfFramesToRender.value = isModeAlways.value
+      ? 1
+      : Math.max(0, amountOfFramesToRender.value - 1)
   }, 'render')
 
   // since the properties set via the constructor can't be updated dynamically,
@@ -258,7 +253,7 @@ export function useRenderer(
 
     if (renderMode === 'always') {
       // If the render mode is 'always', ensure there's always a frame pending
-      frames.value = Math.max(1, frames.value)
+      amountOfFramesToRender.value = Math.max(1, amountOfFramesToRender.value)
     }
 
     const getValue = <T>(option: MaybeRefOrGetter<T>, pathInThree: string): T | undefined => {
@@ -309,7 +304,10 @@ export function useRenderer(
 
   return {
     renderer,
-    // TODO return frames and so on, but think about making them readonly
+
+    advance,
+    invalidate,
+    canBeInvalidated,
   }
 }
 

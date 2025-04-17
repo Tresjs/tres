@@ -15,12 +15,6 @@ import { type TresEventManager, useTresEventManager } from '../useTresEventManag
 import { useTresReady } from '../useTresReady'
 import { setupDevtools } from '../../devtools/setupDevtools'
 
-export interface InternalState {
-  priority: Ref<number>
-  frames: Ref<number>
-  maxFrames: number
-}
-
 export interface PerformanceState {
   maxFrames: number
   fps: {
@@ -59,6 +53,8 @@ export interface TresContext {
   registerBlockingObjectAtPointerEventHandler?: (object: TresObject) => void
   deregisterBlockingObjectAtPointerEventHandler?: (object: TresObject) => void
 }
+
+// TODO list breaking changes!
 
 export function useTresContextProvider({
   scene,
