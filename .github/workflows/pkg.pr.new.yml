@@ -3,12 +3,8 @@ on:
   push:
     tags:
       - '!**'
-  workflow_run:
-    workflows: [CI]
     branches:
       - '**'
-    types:
-      - completed
 
 env:
   PNPM_CACHE_FOLDER: .pnpm-store
