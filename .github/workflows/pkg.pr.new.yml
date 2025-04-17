@@ -5,6 +5,8 @@ on:
       - '!**'
   workflow_run:
     workflows: [Run linter and typecheck]
+    branches:
+      - '**'
     types:
       - completed
 
