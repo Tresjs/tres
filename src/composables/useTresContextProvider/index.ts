@@ -13,7 +13,6 @@ import { useRenderer } from '../useRenderer'
 import useSizes, { type SizesType } from '../useSizes'
 import { type TresEventManager, useTresEventManager } from '../useTresEventManager'
 import { useTresReady } from '../useTresReady'
-import { setupDevtools } from '../../devtools/setupDevtools'
 
 export interface InternalState {
   priority: Ref<number>
@@ -212,8 +211,6 @@ export function useTresContextProvider({
     cancelTresReady()
     ctx.loop.stop()
   })
-
-  setupDevtools(ctx)
 
   return ctx
 }
