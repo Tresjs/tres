@@ -5,6 +5,7 @@ import type { TresContext } from '../useTresContextProvider'
 
 import type { RendererPresetsType } from './const'
 import {
+  createEventHook,
   type MaybeRefOrGetter,
   unrefElement,
   useDevicePixelRatio,
@@ -173,10 +174,13 @@ export function useRenderer(
 
   const isModeAlways = computed(() => toValue(options.renderMode) === 'always')
 
+  const onRender = createEventHook<WebGLRenderer>()
+
   loop.register(() => {
     if (camera.value && amountOfFramesToRender.value) {
       instance.value.render(scene, camera.value)
-      // emit('render', renderer.value) // TODO restore
+
+      onRender.trigger(instance.value)
     }
 
     amountOfFramesToRender.value = isModeAlways.value
@@ -305,7 +309,9 @@ export function useRenderer(
     instance: readonly(instance),
 
     advance,
+    onRender,
     invalidate,
+
     canBeInvalidated,
   }
 }

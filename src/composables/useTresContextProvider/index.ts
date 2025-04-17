@@ -67,7 +67,7 @@ export function useTresContextProvider({
   canvas: MaybeRef<HTMLCanvasElement>
   windowSize: MaybeRefOrGetter<boolean>
   rendererOptions: UseRendererOptions
-  emit: EmitEventFn // TODO remove this. Composables shouldn't emit anything.
+  emit: EmitEventFn
 }): TresContext {
   const localScene = shallowRef<TresScene>(scene)
   const sizes = useSizes(windowSize, canvas)
