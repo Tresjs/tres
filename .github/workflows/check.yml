@@ -1,4 +1,4 @@
-name: Run typecheck
+name: Run linter and typecheck
 on: [push]
 
 env:
@@ -6,8 +6,8 @@ env:
   HUSKY: 0 # Bypass husky commit hook for CI
 
 jobs:
-  typecheck:
-    name: Typecheck
+  check:
+    name: Lint and typecheck
     runs-on: ubuntu-24.04
     strategy:
       matrix:
@@ -24,5 +24,7 @@ jobs:
           cache: pnpm
       - name: Install dependencies
         run: pnpm install
+      - name: Run linter
+        run: pnpm run lint
       - name: Run typecheck
         run: pnpm run typecheck
