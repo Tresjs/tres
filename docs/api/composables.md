@@ -123,7 +123,7 @@ You can take over the render call by using the `render` method.
 const { render } = useLoop()
 
 render(({ renderer, scene, camera }) => {
-  renderer.render(scene, camera)
+  renderer.instance.value.render(scene, camera)
 })
 ```
 

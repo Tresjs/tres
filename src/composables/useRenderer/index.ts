@@ -25,6 +25,13 @@ type TransformToMaybeRefOrGetter<T> = {
   [K in keyof T]: MaybeRefOrGetter<T[K]> | MaybeRefOrGetter<T[K]>;
 }
 
+/**
+ * If set to 'on-demand', the scene will only be rendered when the current frame is invalidated
+ * If set to 'manual', the scene will only be rendered when advance() is called
+ * If set to 'always', the scene will be rendered every frame
+ */
+export type RenderMode = 'always' | 'on-demand' | 'manual'
+
 export interface UseRendererOptions extends TransformToMaybeRefOrGetter<WebGLRendererParameters> {
   /**
    * Enable shadows in the Renderer
@@ -98,13 +105,6 @@ export interface UseRendererOptions extends TransformToMaybeRefOrGetter<WebGLRen
    */
   dpr?: MaybeRefOrGetter<number | [number, number]>
 }
-
-/**
- * If set to 'on-demand', the scene will only be rendered when the current frame is invalidated
- * If set to 'manual', the scene will only be rendered when advance() is called
- * If set to 'always', the scene will be rendered every frame
- */
-export type RenderMode = 'always' | 'on-demand' | 'manual'
 
 // TODO update docs
 export function useRenderer(

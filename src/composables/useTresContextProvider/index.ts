@@ -2,7 +2,7 @@ import type { Camera } from 'three'
 import type { ComputedRef, DeepReadonly, MaybeRef, MaybeRefOrGetter, Ref, ShallowRef } from 'vue'
 import type { RendererLoop } from '../../core/loop'
 import type { EmitEventFn, TresControl, TresObject, TresScene } from '../../types'
-import type { UseRendererOptions } from '../useRenderer'
+import type { UseRendererOptions, UseRendererReturn } from '../useRenderer'
 import { Raycaster } from 'three'
 import { inject, onUnmounted, provide, readonly, ref, shallowRef } from 'vue'
 import { extend } from '../../core/catalogue'
@@ -35,7 +35,7 @@ export interface TresContext {
   camera: ComputedRef<Camera | undefined>
   cameras: DeepReadonly<Ref<Camera[]>>
   controls: Ref<TresControl | null>
-  renderer: ReturnType<typeof useRenderer>
+  renderer: UseRendererReturn
   raycaster: ShallowRef<Raycaster>
   perf: PerformanceState
   // Loop

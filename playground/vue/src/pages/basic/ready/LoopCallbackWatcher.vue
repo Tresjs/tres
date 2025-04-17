@@ -48,7 +48,7 @@ useLoop().onBeforeRender(({ elapsed: _elapsed, renderer }) => {
 
 useLoop().render(({ elapsed: _elapsed, renderer, scene, camera }) => {
   captureCallback(renderer, _elapsed)
-  renderer.render(scene, camera)
+  renderer.instance.value.render(scene, camera)
 })
 
 useLoop().onAfterRender(({ elapsed: _elapsed, renderer }) => {
