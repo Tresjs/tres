@@ -24,8 +24,7 @@ jobs:
           cache: pnpm
       - name: Install dependencies
         run: pnpm install
-      - name: Run linter
-        run: pnpm run lint
       - name: Run typecheck
         run: pnpm run typecheck
-      - name: Run tests
+      - name: Run linter
+        run: pnpm run lint
