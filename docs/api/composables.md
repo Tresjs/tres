@@ -47,19 +47,17 @@ const context = useTresContext()
 ### Properties of context
 | Property | Description |
 | --- | --- |
-| **camera** | The currently active camera |
-| **cameras** | The cameras that exist in the scene |
-| **controls** | The controls of your scene |
+| **camera** | the currently active camera |
+| **cameras** | the cameras that exist in the scene |
+| **controls** | the controls of your scene |
 | **deregisterCamera** | A method to deregister a camera. This is only required if you manually create a camera. Cameras in the template are deregistered automatically. |
-| **extend** | Extends the component catalogue. See [extending](/advanced/extending) |
+| **extend** | Extends the component catalogue. See [extending](/advanced/extending). |
 | **raycaster** | the global raycaster used for pointer events |
-| **registerCamera** | a method to register a camera. This is only required if you manually create a camera. Cameras in the template are registered automatically. |
-| **renderer** | the [WebGLRenderer](https://threejs.org/docs/#api/en/renderers/WebGLRenderer) of your scene |
-| **scene** | the [scene](https://threejs.org/docs/?q=sce#api/en/scenes/Scene). |
+| **registerCamera** | A method to register a camera. This is only required if you manually create a camera. Cameras in the template are registered automatically. |
+| **renderer** | Contains the [WebGLRenderer](https://threejs.org/docs/#api/en/renderers/WebGLRenderer) instance of your scene, a method the invalidate the render loop (only required if you set the `render-mode` prop to `on-demand`), a computed that indicates whether invalidating is possible and a method to advance the render loop (only required if you set the `render-mode` prop to `manual`). |
+| **scene** | the [scene](https://threejs.org/docs/?q=sce#api/en/scenes/Scene) |
 | **setCameraActive** | a method to set a camera active |
 | **sizes** | contains width, height and aspect ratio of your canvas |
-| **invalidate** | a method to invalidate the render loop. This is only required if you set the `render-mode` prop to `on-demand`. |
-| **advance** | a method to advance the render loop. This is only required if you set the `render-mode` prop to `manual`. |
 | **loop** | the renderer loop |
 
 ### useLoop <Badge text="v4.0.0" />
@@ -123,7 +121,7 @@ You can take over the render call by using the `render` method.
 const { render } = useLoop()
 
 render(({ renderer, scene, camera }) => {
-  renderer.render(scene, camera)
+  renderer.instance.value.render(scene, camera)
 })
 ```
 

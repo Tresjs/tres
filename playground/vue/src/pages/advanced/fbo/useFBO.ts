@@ -74,10 +74,10 @@ export function useFBO(options: FboOptions) {
 
   onBeforeRender(({ renderer, scene, camera }) => {
     logBefore()
-    renderer.setRenderTarget(target.value)
-    renderer.clear()
-    renderer.render(scene, camera as Camera)
-    renderer.setRenderTarget(null)
+    renderer.instance.value.setRenderTarget(target.value)
+    renderer.instance.value.clear()
+    renderer.instance.value.render(scene, camera as Camera)
+    renderer.instance.value.setRenderTarget(null)
   }, Number.POSITIVE_INFINITY)
 
   onBeforeUnmount(() => {

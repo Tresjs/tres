@@ -436,10 +436,10 @@ export function prepareTresInstance<T extends TresObject>(obj: T, state: Partial
 export function invalidateInstance(instance: TresObject) {
   const ctx = instance?.__tres?.root
 
-  if (!ctx) { return }
+  if (!ctx?.renderer) { return }
 
-  if (ctx.render && ctx.render.canBeInvalidated.value) {
-    ctx.invalidate()
+  if (ctx.renderer.canBeInvalidated.value) {
+    ctx.renderer.invalidate()
   }
 }
 
