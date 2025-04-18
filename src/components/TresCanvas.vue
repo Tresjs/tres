@@ -235,7 +235,7 @@ onMounted(() => {
   }
 
   renderer.onRender.on((renderer) => {
-    emit('render', renderer) // TODO test this
+    emit('render', renderer)
   })
 
   // HMR support
