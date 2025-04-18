@@ -69,7 +69,7 @@ import Scene from './Scene.vue'
 
 <template>
   <TresCanvas
-    render-mode="manual"
+    render-mode="on-demand"
   >
     <Scene />
   </TresCanvas>

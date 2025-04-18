@@ -54,8 +54,6 @@ export interface TresContext {
   deregisterBlockingObjectAtPointerEventHandler?: (object: TresObject) => void
 }
 
-// TODO list breaking changes!
-
 export function useTresContextProvider({
   scene,
   canvas,

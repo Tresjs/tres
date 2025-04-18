@@ -106,7 +106,6 @@ export interface UseRendererOptions extends TransformToMaybeRefOrGetter<WebGLRen
   dpr?: MaybeRefOrGetter<number | [number, number]>
 }
 
-// TODO update docs
 export function useRenderer(
   {
     scene,
@@ -146,7 +145,6 @@ export function useRenderer(
    * Invalidates the current frame when in on-demand render mode.
    */
   const invalidate = (amountOfFramesToInvalidate = 1) => {
-    // TODO The docs show this is called in manual mode. Fix docs!
     if (!canBeInvalidated.value) {
       if (toValue(options.renderMode) !== 'on-demand') { throw new Error('invalidate can only be called in on-demand render mode.') }
 
