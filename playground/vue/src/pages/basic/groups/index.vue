@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { useControls } from '@tresjs/leches'
 </script>
 
 <template>
