@@ -57,7 +57,7 @@ setTimeout(() => {
 
 #### Manual Invalidation
 
-Since it is not really possible to observe all the possible changes in your application, you can also manually invalidate the frame by calling the `invalidate()` method from the [`useTresContext` composable](../api/composables.md#usetrescontext):
+Since it is not really possible to observe all the possible changes in your application, you can also manually invalidate the frame by calling the `invalidate()` method from `renderer` provided by the [`useTresContext` composable](../api/composables.md#usetrescontext):
 
 ::: code-group
 
@@ -82,13 +82,13 @@ import { useTres } from '@tresjs/core'
 import { shallowRef, watch } from 'vue'
 
 const boxRef = shallowRef(null)
-const { invalidate } = useTres()
+const { renderer } = useTres()
 
 watch(boxRef, () => {
   if (boxRef.value?.position) {
     boxRef.value.position.x = 1
   }
-  invalidate()
+  renderer.invalidate()
 })
 </script>
 
@@ -116,15 +116,15 @@ If you want to have full control of when the scene is rendered, you can set the 
 </TresCanvas>
 ```
 
-In this mode, Tres will not render the scene automatically. You will need to call the `advance()` method from the [`useTresContext` composable](../api/composables.md#usetrescontext) to render the scene:
+In this mode, Tres will not render the scene automatically. You will need to call the `advance()` method from `renderer` provided by the [`useTresContext` composable](../api/composables.md#usetrescontext) to render the scene:
 
 ```vue
 <script setup>
 import { useTres } from '@tresjs/core'
 
-const { advance } = useTres()
+const { renderer } = useTres()
 
-advance()
+renderer.advance()
 </script>
 ```
 
