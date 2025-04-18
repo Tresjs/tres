@@ -12,7 +12,7 @@ export const basicRoutes = [
   {
     path: '/basic/groups',
     name: 'Groups',
-    component: () => import('../../pages/basic/Groups.vue'),
+    component: () => import('../../pages/basic/groups/index.vue'),
   },
   {
     path: '/basic/conditional',
