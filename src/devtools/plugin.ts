@@ -10,6 +10,7 @@ import { bytesToKB, calculateMemoryUsage } from '../utils/perf'
 import { toastMessage } from './utils'
 
 import { isLight } from '../utils/is'
+import { setupTresDevtools } from './setupDevtools'
 
 export interface Tags {
   label: string
@@ -81,14 +82,6 @@ const createNode = (object: TresObject): SceneGraphObject => {
       tooltip: 'Position',
     })
   }
-  /* if (object.position) {
-    node.tags.push({
-      label: `x: ${object.position.x} y: ${object.position.y} z: ${object.position.z}`,
-      textColor: 0x9499A6,
-      backgroundColor: 0xF8F9FA,
-      tooltip: 'Position',
-    })
-  } */
   return node
 }
 
@@ -111,6 +104,7 @@ const state = reactive({
 })
 
 export function registerTresDevtools(app: any, tres: TresContext) {
+  setupTresDevtools(tres)
   setupDevtoolsPlugin(
     {
       id: 'dev.esm.tres',

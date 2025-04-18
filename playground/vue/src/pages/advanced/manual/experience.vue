@@ -15,9 +15,8 @@ onMounted(() => {
     :position="[5, 5, 5]"
     :look-at="[0, 0, 0]"
   />
-  <Suspense>
-    <BlenderCube />
-  </Suspense>
+  <BlenderCube />
+
   <TresGridHelper />
   <OrbitControls @change="renderer.advance" />
   <TresAmbientLight :intensity="1" />
