@@ -1,19 +1,30 @@
 <script setup lang="ts">
+import { ref } from 'vue'
 import { TresCanvas } from '@tresjs/core'
-import { useState } from '../composables/state'
 import BlenderCube from './BlenderCube.vue'
-import GraphPane from './GraphPane.vue'
+import { TresLeches, useControls } from '@tresjs/leches'
 import RenderingLogger from './RenderingLogger.vue'
 
-const { renderingTimes } = useState()
+const renderTimes = ref(0)
+
+useControls({
+  renderTimes: {
+    value: renderTimes,
+    type: 'graph',
+    label: 'Render Times (ms)',
+    onUpdate: () => {
+      renderTimes.value = 0
+    },
+  },
+})
 
 function onRender() {
-  renderingTimes.value = 1
+  renderTimes.value = 1
 }
 </script>
 
 <template>
-  <GraphPane />
+  <TresLeches />
   <TresCanvas
     render-mode="on-demand"
     clear-color="#82DBC5"
