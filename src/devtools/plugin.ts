@@ -1,6 +1,3 @@
-import type {
-  App as DevtoolsApp,
-} from '@vue/devtools-api'
 import type { TresContext } from '../composables'
 import type { TresObject } from './../types'
 import {
@@ -9,9 +6,11 @@ import {
 import { Color, type Mesh } from 'three'
 import { reactive } from 'vue'
 import { createHighlightMesh, editSceneObject } from '../utils'
-import * as is from '../utils/is'
 import { bytesToKB, calculateMemoryUsage } from '../utils/perf'
 import { toastMessage } from './utils'
+
+import { isLight } from '../utils/is'
+import { setupTresDevtools } from './setupDevtools'
 
 export interface Tags {
   label: string
@@ -52,7 +51,7 @@ const createNode = (object: TresObject): SceneGraphObject => {
   }
 
   if (object.type.includes('Light')) {
-    if (is.light(object)) {
+    if (isLight(object)) {
       node.tags.push({
         label: `${object.intensity}`,
         textColor: 0x9499A6,
@@ -83,14 +82,6 @@ const createNode = (object: TresObject): SceneGraphObject => {
       tooltip: 'Position',
     })
   }
-  /* if (object.position) {
-    node.tags.push({
-      label: `x: ${object.position.x} y: ${object.position.y} z: ${object.position.z}`,
-      textColor: 0x9499A6,
-      backgroundColor: 0xF8F9FA,
-      tooltip: 'Position',
-    })
-  } */
   return node
 }
 
@@ -111,14 +102,16 @@ const INSPECTOR_ID = 'tres:inspector'
 const state = reactive({
   sceneGraph: null as SceneGraphObject | null,
 })
-export function registerTresDevtools(app: DevtoolsApp, tres: TresContext) {
+
+export function registerTresDevtools(app: any, tres: TresContext) {
+  setupTresDevtools(tres)
   setupDevtoolsPlugin(
     {
       id: 'dev.esm.tres',
       label: 'TresJS 🪐',
       logo: 'https://raw.githubusercontent.com/Tresjs/tres/main/public/favicon.svg',
       packageName: 'tresjs',
-      homepage: 'https://tresjs.org',
+      homepage: 'https://docs.tresjs.org',
       componentStateTypes,
       app,
     },

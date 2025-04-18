@@ -1,14 +1,24 @@
-name: Run Tests
-on: [push]
+name: CI
+on:
+  push:
+    branches:
+      - main
+      - next
+
+  pull_request:
+    branches:
+      - main
+      - next
+
+  merge_group: {}
 
 env:
   PNPM_CACHE_FOLDER: .pnpm-store
   HUSKY: 0 # Bypass husky commit hook for CI
 
 jobs:
-  test:
-    name: Unit Test
-    runs-on: ubuntu-24.04
+  ci:
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         node-version: [20]
@@ -24,5 +34,9 @@ jobs:
           cache: pnpm
       - name: Install dependencies
         run: pnpm install
-      - name: Run Unit Tests
+      - name: Typecheck
+        run: pnpm run typecheck
+      - name: Lint
+        run: pnpm run lint
+      - name: Unit tests
         run: pnpm run test

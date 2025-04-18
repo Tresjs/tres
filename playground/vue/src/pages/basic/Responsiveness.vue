@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import TheBasic from '../basic/index.vue'
+import TheBasic from '../misc/BrownianDistribution.vue'
 </script>
 
 <template>
