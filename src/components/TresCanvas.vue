@@ -244,6 +244,10 @@ onMounted(() => {
     )
   })
 
+  context.value.onReady(() => {
+    if (context.value) { emit('ready', context.value) }
+  })
+
   // HMR support
   if (import.meta.hot && context.value) { import.meta.hot.on('vite:afterUpdate', () => handleHMR(context.value as TresContext)) }
 })

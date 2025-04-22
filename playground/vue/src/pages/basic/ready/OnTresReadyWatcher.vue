@@ -24,7 +24,7 @@ const captureCallback = (ctx: TresContext) => {
   if (!isCalled.value) {
     isCalled.value = true
     const isCtxOk = !!(ctx && 'renderer' in ctx && 'scene' in ctx)
-    const renderer = ctx.renderer.value
+    const renderer = ctx.renderer.instance.value
     const isRendererOk = !!renderer
     const domElement = renderer?.domElement
     const isDomElementOk = !!(domElement) && domElement.width > 0 && domElement.height > 0

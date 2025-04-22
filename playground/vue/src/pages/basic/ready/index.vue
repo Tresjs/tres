@@ -16,9 +16,11 @@ const onReadyMessages = shallowRef([
 ]) as ShallowRef<TestResult[]>
 
 let numOnReadyCalls = 0
+
 const onReady = function (ctx: TresContext) {
   numOnReadyCalls++
-  const renderer = ctx.renderer.value
+
+  const renderer = ctx.renderer.instance.value
   const domElement = renderer?.domElement
   const isPassedCanvas = domElement.width > 0 && domElement.width > 0
   const isPassedCtx = !!renderer && 'camera' in ctx && !!(ctx.camera.value)
