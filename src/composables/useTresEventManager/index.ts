@@ -8,10 +8,10 @@ import { isObject3D, isTresObject } from '../../utils/is'
 import type { EventHookOff } from '@vueuse/core'
 import { createEventHook } from '@vueuse/core'
 
-interface BlaEvent { type: EmitEventName, event: TresEvent, intersection?: Intersection } // TODO rename
+interface TresPointerEvent { type: EmitEventName, event: TresEvent, intersection?: Intersection }
 
 export interface TresEventManager {
-  onEvent: EventHookOff<BlaEvent>
+  onEvent: EventHookOff<TresPointerEvent>
   /**
    * Forces the event system to refire events with the previous mouse event
    */
@@ -58,7 +58,7 @@ export function useTresEventManager(
   // TODO: Optimize to not hit test on the whole scene
   const objectsWithEvents = shallowRef((_scene.value?.children as TresInstance[]).filter(hasChildrenWithEvents) || [])
 
-  const eventHook = createEventHook<BlaEvent>()
+  const eventHook = createEventHook<TresPointerEvent>()
 
   /**
    * propogateEvent
@@ -80,7 +80,7 @@ export function useTresEventManager(
       if (event.stopPropagating) { return }
 
       // Add intersection data to event object
-      event = { ...event, ...intersection } // TODO why is this mixed?
+      event = { ...event, ...intersection }
 
       const { object } = intersection
       event.eventObject = object as TresObject
@@ -105,7 +105,7 @@ export function useTresEventManager(
       // Convert eventName to kebab case and emit event from TresCanvas
       const kebabEventName = hyphenate(eventName.slice(2)) as EmitEventName
 
-      eventHook.trigger({ type: kebabEventName, event, intersection }) // TODO find out why intersection is here twice (in event and individually)
+      eventHook.trigger({ type: kebabEventName, event, intersection })
     }
   }
 
