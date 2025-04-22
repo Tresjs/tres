@@ -189,7 +189,6 @@ onMounted(() => {
     canvas: existingCanvas,
     windowSize: props.windowSize ?? false,
     rendererOptions: props,
-    emit,
   })
 
   const { registerCamera, camera, cameras, deregisterCamera, renderer } = context.value
@@ -238,7 +237,7 @@ onMounted(() => {
     emit('render', renderer)
   })
 
-  context.value?.eventManager?.onEvent(({ type, event, intersection }) => {
+  context.value.eventManager?.onEvent(({ type, event, intersection }) => {
     emit(type, { event, intersection })
   })
 
