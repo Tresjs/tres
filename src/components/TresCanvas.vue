@@ -77,13 +77,7 @@ const props = withDefaults(defineProps<TresCanvasProps>(), {
 const emit = defineEmits<{
   ready: [context: TresContext]
   render: [renderer: WebGLRenderer]
-} & PointerEmits>()
 
-const slots = defineSlots<{
-  default: () => any
-}>()
-
-interface PointerEmits {
   click: [event: TresPointerEvent]
   doubleClick: [event: TresPointerEvent]
   contextMenu: [event: TresPointerEvent]
@@ -96,7 +90,12 @@ interface PointerEmits {
   pointerOut: [event: TresPointerEvent]
   pointerMissed: [event: TresPointerEvent]
   wheel: [event: TresPointerEvent]
-}
+}>()
+
+const slots = defineSlots<{
+  default: () => any
+}>()
+
 const canvas = ref<HTMLCanvasElement>()
 
 /*
