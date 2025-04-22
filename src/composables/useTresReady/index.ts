@@ -27,7 +27,7 @@ export function useTresReady(ctx?: TresContext) {
       return true
     }
     else {
-      const renderer = ctx.renderer.value
+      const renderer = ctx.renderer.instance.value
       const domElement = renderer?.domElement || { width: 0, height: 0 }
       return !!(renderer && domElement.width > 0 && domElement.height > 0)
     }

@@ -158,9 +158,9 @@ const mountCustomRenderer = (context: TresContext, empty = false) => {
 const dispose = (context: TresContext, force = false) => {
   disposeObject3D(context.scene.value as unknown as TresObject)
   if (force) {
-    context.renderer.value.dispose()
-    context.renderer.value.renderLists.dispose()
-    context.renderer.value.forceContextLoss()
+    context.renderer.instance.value.dispose()
+    context.renderer.instance.value.renderLists.dispose()
+    context.renderer.instance.value.forceContextLoss()
   }
   (scene.value as TresScene).__tres = {
     root: context,
@@ -192,7 +192,7 @@ onMounted(() => {
     emit,
   })
 
-  const { registerCamera, camera, cameras, deregisterCamera } = context.value
+  const { registerCamera, camera, cameras, deregisterCamera, renderer } = context.value
 
   mountCustomRenderer(context.value)
 
@@ -233,6 +233,10 @@ onMounted(() => {
   if (!camera.value) {
     addDefaultCamera()
   }
+
+  renderer.onRender.on((renderer) => {
+    emit('render', renderer)
+  })
 
   // HMR support
   if (import.meta.hot && context.value) { import.meta.hot.on('vite:afterUpdate', () => handleHMR(context.value as TresContext)) }

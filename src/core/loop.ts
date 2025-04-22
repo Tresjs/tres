@@ -22,8 +22,6 @@ export interface LoopCallbackWithCtx extends LoopCallback {
   controls: Ref<(EventDispatcher<object> & {
     enabled: boolean
   }) | null>
-  invalidate: Fn
-  advance: Fn
 }
 
 export type LoopCallbackFn = (params: LoopCallbackWithCtx) => void

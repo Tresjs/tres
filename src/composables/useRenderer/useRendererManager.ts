@@ -1,17 +1,17 @@
 import type { ColorSpace, Scene, ShadowMapType, ToneMapping, WebGLRendererParameters } from 'three'
-import type { EmitEventFn, TresColor } from '../../types'
+import type { TresColor } from '../../types'
 
 import type { TresContext } from '../useTresContextProvider'
 
 import type { RendererPresetsType } from './const'
 import {
+  createEventHook,
   type MaybeRefOrGetter,
-  toValue,
   unrefElement,
   useDevicePixelRatio,
 } from '@vueuse/core'
 import { ACESFilmicToneMapping, Color, WebGLRenderer } from 'three'
-import { computed, type MaybeRef, onUnmounted, shallowRef, watch, watchEffect } from 'vue'
+import { computed, type MaybeRef, onUnmounted, ref, shallowRef, toValue, watch, watchEffect } from 'vue'
 
 // Solution taken from Thretle that actually support different versions https://github.com/threlte/threlte/blob/5fa541179460f0dadc7dc17ae5e6854d1689379e/packages/core/src/lib/lib/useRenderer.ts
 import { revision } from '../../core/revision'
@@ -24,6 +24,13 @@ import { rendererPresets } from './const'
 type TransformToMaybeRefOrGetter<T> = {
   [K in keyof T]: MaybeRefOrGetter<T[K]> | MaybeRefOrGetter<T[K]>;
 }
+
+/**
+ * If set to 'on-demand', the scene will only be rendered when the current frame is invalidated
+ * If set to 'manual', the scene will only be rendered when advance() is called
+ * If set to 'always', the scene will be rendered every frame
+ */
+export type RenderMode = 'always' | 'on-demand' | 'manual'
 
 export interface UseRendererOptions extends TransformToMaybeRefOrGetter<WebGLRendererParameters> {
   /**
@@ -91,7 +98,7 @@ export interface UseRendererOptions extends TransformToMaybeRefOrGetter<WebGLRen
   clearColor?: MaybeRefOrGetter<TresColor>
   windowSize?: MaybeRefOrGetter<boolean | string>
   preset?: MaybeRefOrGetter<RendererPresetsType>
-  renderMode?: MaybeRefOrGetter<'always' | 'on-demand' | 'manual'>
+  renderMode?: MaybeRef<RenderMode>
   /**
    * A `number` sets the renderer's device pixel ratio.
    * `[number, number]` clamp's the renderer's device pixel ratio.
@@ -99,18 +106,18 @@ export interface UseRendererOptions extends TransformToMaybeRefOrGetter<WebGLRen
   dpr?: MaybeRefOrGetter<number | [number, number]>
 }
 
-export function useRenderer(
+export function useRendererManager(
   {
+    scene,
     canvas,
     options,
-    contextParts: { sizes, render, invalidate, advance },
+    contextParts: { sizes, loop, camera },
   }:
   {
-    canvas: MaybeRef<HTMLCanvasElement>
     scene: Scene
+    canvas: MaybeRef<HTMLCanvasElement>
     options: UseRendererOptions
-    emit: EmitEventFn
-    contextParts: Pick<TresContext, 'sizes' | 'camera' | 'render'> & { invalidate: () => void, advance: () => void }
+    contextParts: Pick<TresContext, 'sizes' | 'camera' | 'loop'>
   },
 ) {
   const webGLRendererConstructorParameters = computed<WebGLRendererParameters>(() => ({
@@ -128,24 +135,69 @@ export function useRenderer(
     failIfMajorPerformanceCaveat: toValue(options.failIfMajorPerformanceCaveat),
   }))
 
-  const renderer = shallowRef<WebGLRenderer>(new WebGLRenderer(webGLRendererConstructorParameters.value))
+  const instance = shallowRef<WebGLRenderer>(new WebGLRenderer(webGLRendererConstructorParameters.value))
 
-  function invalidateOnDemand() {
-    if (options.renderMode === 'on-demand') {
+  const amountOfFramesToRender = ref(0)
+  const maxFrames = 60
+  const canBeInvalidated = computed(() => toValue(options.renderMode) === 'on-demand' && amountOfFramesToRender.value === 0)
+
+  /**
+   * Invalidates the current frame when in on-demand render mode.
+   */
+  const invalidate = (amountOfFramesToInvalidate = 1) => {
+    if (!canBeInvalidated.value) {
+      if (toValue(options.renderMode) !== 'on-demand') { throw new Error('invalidate can only be called in on-demand render mode.') }
+
+      return
+    }
+
+    amountOfFramesToRender.value = Math.min(maxFrames, amountOfFramesToRender.value + amountOfFramesToInvalidate)
+  }
+
+  /**
+   * Advances one frame when in manual render mode.
+   */
+  const advance = () => {
+    if (toValue(options.renderMode) !== 'manual') {
+      throw new Error('advance can only be called in manual render mode.')
+    }
+
+    amountOfFramesToRender.value = 1
+  }
+
+  const invalidateOnDemand = () => {
+    if (toValue(options.renderMode) === 'on-demand') {
       invalidate()
     }
   }
+
+  const isModeAlways = computed(() => toValue(options.renderMode) === 'always')
+
+  const onRender = createEventHook<WebGLRenderer>()
+
+  loop.register(() => {
+    if (camera.value && amountOfFramesToRender.value) {
+      instance.value.render(scene, camera.value)
+
+      onRender.trigger(instance.value)
+    }
+
+    amountOfFramesToRender.value = isModeAlways.value
+      ? 1
+      : Math.max(0, amountOfFramesToRender.value - 1)
+  }, 'render')
+
   // since the properties set via the constructor can't be updated dynamically,
   // the renderer is recreated once they change
   watch(webGLRendererConstructorParameters, () => {
-    renderer.value.dispose()
-    renderer.value = new WebGLRenderer(webGLRendererConstructorParameters.value)
+    instance.value.dispose()
+    instance.value = new WebGLRenderer(webGLRendererConstructorParameters.value)
 
     invalidateOnDemand()
   })
 
   watch([sizes.width, sizes.height], () => {
-    renderer.value.setSize(sizes.width.value, sizes.height.value)
+    instance.value.setSize(sizes.width.value, sizes.height.value)
     invalidateOnDemand()
   }, {
     immediate: true,
@@ -174,14 +226,12 @@ export function useRenderer(
 
   const threeDefaults = getThreeRendererDefaults()
 
-  const renderMode = toValue(options.renderMode)
-
-  if (renderMode === 'on-demand') {
+  if (toValue(options.renderMode) === 'on-demand') {
     // Invalidate for the first time
     invalidate()
   }
 
-  if (renderMode === 'manual') {
+  if (toValue(options.renderMode) === 'manual') {
     // Advance for the first time, setTimeout to make sure there is something to render
     setTimeout(() => {
       advance()
@@ -194,16 +244,16 @@ export function useRenderer(
     if (rendererPreset) {
       if (!(rendererPreset in rendererPresets)) { logError(`Renderer Preset must be one of these: ${Object.keys(rendererPresets).join(', ')}`) }
 
-      merge(renderer.value, rendererPresets[rendererPreset])
+      merge(instance.value, rendererPresets[rendererPreset])
     }
 
-    setPixelRatio(renderer.value, pixelRatio.value, toValue(options.dpr))
+    setPixelRatio(instance.value, pixelRatio.value, toValue(options.dpr))
 
     // Render mode
 
-    if (renderMode === 'always') {
+    if (isModeAlways.value) {
       // If the render mode is 'always', ensure there's always a frame pending
-      render.frames.value = Math.max(1, render.frames.value)
+      amountOfFramesToRender.value = Math.max(1, amountOfFramesToRender.value)
     }
 
     const getValue = <T>(option: MaybeRefOrGetter<T>, pathInThree: string): T | undefined => {
@@ -225,7 +275,7 @@ export function useRenderer(
     }
 
     const setValueOrDefault = <T>(option: MaybeRefOrGetter<T>, pathInThree: string) =>
-      set(renderer.value, pathInThree, getValue(option, pathInThree))
+      set(instance.value, pathInThree, getValue(option, pathInThree))
 
     setValueOrDefault(options.shadows, 'shadowMap.enabled')
     setValueOrDefault(options.toneMapping ?? ACESFilmicToneMapping, 'toneMapping')
@@ -239,7 +289,7 @@ export function useRenderer(
     const clearColor = getValue(options.clearColor, 'clearColor')
 
     if (clearColor) {
-      renderer.value.setClearColor(
+      instance.value.setClearColor(
         clearColor
           ? normalizeColor(clearColor)
           : new Color(0x000000), // default clear color is not easily/efficiently retrievable from three
@@ -248,13 +298,18 @@ export function useRenderer(
   })
 
   onUnmounted(() => {
-    renderer.value.dispose()
-    renderer.value.forceContextLoss()
+    instance.value.dispose()
+    instance.value.forceContextLoss()
   })
 
   return {
-    renderer,
+    instance,
+
+    advance,
+    onRender,
+    invalidate,
+    canBeInvalidated,
   }
 }
 
-export type UseRendererReturn = ReturnType<typeof useRenderer>
+export type UseRendererManagerReturn = ReturnType<typeof useRendererManager>

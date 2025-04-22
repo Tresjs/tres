@@ -7,7 +7,7 @@ import { useControls } from '@tresjs/leches'
 const { render, pauseRender, resumeRender } = useLoop()
 
 const { off } = render(({ renderer, scene, camera }) => {
-  renderer.render(scene, camera)
+  renderer.instance.value.render(scene, camera)
 })
 
 const { isRenderPaused, unregisterRender } = useControls({
