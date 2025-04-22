@@ -125,7 +125,7 @@ export function createRenderLoop(): RendererLoop {
     const snapshotCtx = {
       camera: unref(context.camera),
       scene: unref(context.scene),
-      renderer: unref(context.renderer.instance),
+      renderer: unref(context.renderer),
       raycaster: unref(context.raycaster),
       controls: unref(context.controls),
       invalidate: context.invalidate,
