@@ -23,8 +23,10 @@ export interface TresCatalogue {
   [name: string]: ConstructorRepresentation
 }
 
-export type EmitEventName = 'render' | 'ready' | 'click' | 'double-click' | 'context-menu' | 'pointer-move' | 'pointer-up' | 'pointer-down' | 'pointer-enter' | 'pointer-leave' | 'pointer-over' | 'pointer-out' | 'pointer-missed' | 'wheel'
-export type EmitEventFn = (event: EmitEventName, ...args: any[]) => void
+export const pointerEventTypes = ['click', 'double-click', 'context-menu', 'pointer-move', 'pointer-up', 'pointer-down', 'pointer-enter', 'pointer-leave', 'pointer-over', 'pointer-out', 'pointer-missed', 'wheel'] as const
+export type PointerEventType = typeof pointerEventTypes[number]
+export interface TresPointerEvent { type: PointerEventType, event: TresEvent, intersection?: Intersection }
+
 export type TresCamera = THREE.OrthographicCamera | THREE.PerspectiveCamera
 
 /**

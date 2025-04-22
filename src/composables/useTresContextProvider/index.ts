@@ -1,7 +1,7 @@
 import type { Camera } from 'three'
 import type { ComputedRef, DeepReadonly, MaybeRef, MaybeRefOrGetter, Ref, ShallowRef } from 'vue'
 import type { RendererLoop } from '../../core/loop'
-import type { EmitEventFn, TresControl, TresObject, TresScene } from '../../types'
+import type { TresControl, TresObject, TresScene } from '../../types'
 import type { UseRendererManagerReturn, UseRendererOptions } from '../useRenderer/useRendererManager'
 import { Raycaster } from 'three'
 import { inject, onUnmounted, provide, readonly, ref, shallowRef } from 'vue'
@@ -13,6 +13,7 @@ import { useRendererManager } from '../useRenderer/useRendererManager'
 import useSizes, { type SizesType } from '../useSizes'
 import { type TresEventManager, useTresEventManager } from '../useTresEventManager'
 import { useTresReady } from '../useTresReady'
+import { createEventHook, type EventHookOff } from '@vueuse/core'
 
 export interface PerformanceState {
   maxFrames: number
@@ -51,6 +52,7 @@ export interface TresContext {
   deregisterObjectAtPointerEventHandler?: (object: TresObject) => void
   registerBlockingObjectAtPointerEventHandler?: (object: TresObject) => void
   deregisterBlockingObjectAtPointerEventHandler?: (object: TresObject) => void
+  onReady: EventHookOff<TresContext> // TODO #980 consider removing this
 }
 
 export function useTresContextProvider({
@@ -58,13 +60,11 @@ export function useTresContextProvider({
   canvas,
   windowSize,
   rendererOptions,
-  emit,
 }: {
   scene: TresScene
   canvas: MaybeRef<HTMLCanvasElement>
   windowSize: MaybeRefOrGetter<boolean>
   rendererOptions: UseRendererOptions
-  emit: EmitEventFn
 }): TresContext {
   const localScene = shallowRef<TresScene>(scene)
   const sizes = useSizes(windowSize, canvas)
@@ -87,6 +87,8 @@ export function useTresContextProvider({
       contextParts: { sizes, camera, loop },
     },
   )
+
+  const readyEventHook = createEventHook<TresContext>() // TODO #980 consider removing this
 
   const ctx: TresContext = {
     sizes,
@@ -113,6 +115,7 @@ export function useTresContextProvider({
     setCameraActive,
     deregisterCamera,
     loop,
+    onReady: readyEventHook.on,
   }
 
   provide('useTres', ctx)
@@ -128,9 +131,9 @@ export function useTresContextProvider({
   ctx.loop.start()
 
   onTresReady(() => {
-    emit('ready', ctx)
+    readyEventHook.trigger(ctx)
     ctx.loop.setReady(true)
-    useTresEventManager(scene, ctx, emit)
+    useTresEventManager(scene, ctx)
   })
 
   onUnmounted(() => {
