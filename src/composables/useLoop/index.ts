@@ -15,7 +15,7 @@ export function useLoop() {
   loop.setContext({
     camera,
     scene,
-    renderer,
+    renderer: renderer.instance,
     raycaster,
     controls,
   })

@@ -1,11 +1,10 @@
 import type { Fn } from '@vueuse/core'
-import type { Camera, EventDispatcher, Raycaster, Scene } from 'three'
+import type { Camera, EventDispatcher, Raycaster, Scene, WebGLRenderer } from 'three'
 import type { Ref } from 'vue'
 import type { Callback } from '../utils/createPriorityEventHook'
 import { Clock, MathUtils } from 'three'
 import { ref, unref } from 'vue'
 import { createPriorityEventHook } from '../utils/createPriorityEventHook'
-import type { TresContext } from 'src/composables'
 
 export type LoopStage = 'before' | 'render' | 'after'
 
@@ -18,7 +17,7 @@ export interface LoopCallback {
 export interface LoopCallbackWithCtx extends LoopCallback {
   camera: Camera
   scene: Scene
-  renderer: TresContext['renderer']
+  renderer: WebGLRenderer
   raycaster: Raycaster
   controls: Ref<(EventDispatcher<object> & {
     enabled: boolean
@@ -126,7 +125,7 @@ export function createRenderLoop(): RendererLoop {
     const snapshotCtx = {
       camera: unref(context.camera),
       scene: unref(context.scene),
-      renderer: unref(context.renderer),
+      renderer: unref(context.renderer.instance),
       raycaster: unref(context.raycaster),
       controls: unref(context.controls),
       invalidate: context.invalidate,
