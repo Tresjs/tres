@@ -3,11 +3,12 @@ import type {
   ColorSpace,
   ShadowMapType,
   ToneMapping,
+  WebGLRenderer,
   WebGLRendererParameters,
 } from 'three'
 import type { App, Ref } from 'vue'
 import type { RendererPresetsType } from '../composables/useRenderer/const'
-import type { TresCamera, TresObject, TresScene } from '../types/'
+import type { TresCamera, TresObject, TresPointerEvent, TresScene } from '../types/'
 import { PerspectiveCamera, Scene } from 'three'
 import * as THREE from 'three'
 
@@ -33,7 +34,7 @@ import {
 import { extend } from '../core/catalogue'
 import { nodeOps } from '../core/nodeOps'
 
-import { disposeObject3D } from '../utils/'
+import { disposeObject3D, kebabToCamel } from '../utils/'
 import { registerTresDevtools } from '../devtools'
 
 export interface TresCanvasProps
@@ -73,29 +74,29 @@ const props = withDefaults(defineProps<TresCanvasProps>(), {
   enableProvideBridge: true,
 })
 
-// Define emits for Pointer events, pass `emit` into useTresEventManager so we can emit events off of TresCanvas
-// Not sure of this solution, but you have to have emits defined on the component to emit them in vue
-const emit = defineEmits([ // TODO these should be typed
-  'render',
-  'click',
-  'double-click',
-  'context-menu',
-  'pointer-move',
-  'pointer-up',
-  'pointer-down',
-  'pointer-enter',
-  'pointer-leave',
-  'pointer-over',
-  'pointer-out',
-  'pointer-missed',
-  'wheel',
-  'ready',
-])
+const emit = defineEmits<{
+  ready: [context: TresContext]
+  render: [renderer: WebGLRenderer]
+} & PointerEmits>()
 
 const slots = defineSlots<{
   default: () => any
 }>()
 
+interface PointerEmits {
+  click: [event: TresPointerEvent]
+  doubleClick: [event: TresPointerEvent]
+  contextMenu: [event: TresPointerEvent]
+  pointerMove: [event: TresPointerEvent]
+  pointerUp: [event: TresPointerEvent]
+  pointerDown: [event: TresPointerEvent]
+  pointerEnter: [event: TresPointerEvent]
+  pointerLeave: [event: TresPointerEvent]
+  pointerOver: [event: TresPointerEvent]
+  pointerOut: [event: TresPointerEvent]
+  pointerMissed: [event: TresPointerEvent]
+  wheel: [event: TresPointerEvent]
+}
 const canvas = ref<HTMLCanvasElement>()
 
 /*
@@ -238,7 +239,10 @@ onMounted(() => {
   })
 
   context.value.eventManager?.onEvent(({ type, event, intersection }) => {
-    emit(type, { event, intersection })
+    emit(
+      kebabToCamel(type) as any, // typescript doesn't know that kebabToCamel(type) is a valid key of PointerEmits
+      { type, event, intersection },
+    )
   })
 
   // HMR support

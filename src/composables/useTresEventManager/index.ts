@@ -1,4 +1,4 @@
-import type { EmitEventName, Intersection, TresEvent, TresInstance, TresObject } from 'src/types'
+import type { Intersection, PointerEventType, TresEvent, TresInstance, TresObject, TresPointerEvent } from 'src/types'
 import type { Object3D, Object3DEventMap, Scene } from 'three'
 import type { TresContext } from '../useTresContextProvider'
 import { shallowRef } from 'vue'
@@ -7,8 +7,6 @@ import { useRaycaster } from '../useRaycaster'
 import { isObject3D, isTresObject } from '../../utils/is'
 import type { EventHookOff } from '@vueuse/core'
 import { createEventHook } from '@vueuse/core'
-
-interface TresPointerEvent { type: EmitEventName, event: TresEvent, intersection?: Intersection }
 
 export interface TresEventManager {
   onEvent: EventHookOff<TresPointerEvent>
@@ -103,7 +101,7 @@ export function useTresEventManager(
       }
 
       // Convert eventName to kebab case and emit event from TresCanvas
-      const kebabEventName = hyphenate(eventName.slice(2)) as EmitEventName
+      const kebabEventName = hyphenate(eventName.slice(2)) as PointerEventType
 
       eventHook.trigger({ type: kebabEventName, event, intersection })
     }
