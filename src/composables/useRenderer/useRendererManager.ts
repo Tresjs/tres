@@ -106,7 +106,7 @@ export interface UseRendererOptions extends TransformToMaybeRefOrGetter<WebGLRen
   dpr?: MaybeRefOrGetter<number | [number, number]>
 }
 
-export function useRenderer(
+export function useRendererManager(
   {
     scene,
     canvas,
@@ -312,4 +312,4 @@ export function useRenderer(
   }
 }
 
-export type UseRendererReturn = ReturnType<typeof useRenderer>
+export type UseRendererManagerReturn = ReturnType<typeof useRendererManager>

@@ -2,14 +2,14 @@ import type { Camera } from 'three'
 import type { ComputedRef, DeepReadonly, MaybeRef, MaybeRefOrGetter, Ref, ShallowRef } from 'vue'
 import type { RendererLoop } from '../../core/loop'
 import type { TresControl, TresObject, TresScene } from '../../types'
-import type { UseRendererOptions, UseRendererReturn } from '../useRenderer'
+import type { UseRendererManagerReturn, UseRendererOptions } from '../useRenderer/useRendererManager'
 import { Raycaster } from 'three'
 import { inject, onUnmounted, provide, readonly, ref, shallowRef } from 'vue'
 import { extend } from '../../core/catalogue'
 import { createRenderLoop } from '../../core/loop'
 
 import { useCamera } from '../useCamera'
-import { useRenderer } from '../useRenderer'
+import { useRendererManager } from '../useRenderer/useRendererManager'
 import useSizes, { type SizesType } from '../useSizes'
 import { type TresEventManager, useTresEventManager } from '../useTresEventManager'
 import { useTresReady } from '../useTresReady'
@@ -35,7 +35,7 @@ export interface TresContext {
   camera: ComputedRef<Camera | undefined>
   cameras: DeepReadonly<Ref<Camera[]>>
   controls: Ref<TresControl | null>
-  renderer: UseRendererReturn
+  renderer: UseRendererManagerReturn
   raycaster: ShallowRef<Raycaster>
   perf: PerformanceState
   // Loop
@@ -79,7 +79,7 @@ export function useTresContextProvider({
 
   const loop = createRenderLoop()
 
-  const renderer = useRenderer(
+  const renderer = useRendererManager(
     {
       scene,
       canvas,
