@@ -1,12 +1,17 @@
-import type { EmitEventFn, EmitEventName, Intersection, TresEvent, TresInstance, TresObject } from 'src/types'
+import type { EmitEventName, Intersection, TresEvent, TresInstance, TresObject } from 'src/types'
 import type { Object3D, Object3DEventMap, Scene } from 'three'
 import type { TresContext } from '../useTresContextProvider'
 import { shallowRef } from 'vue'
 import { hyphenate } from '../../utils'
 import { useRaycaster } from '../useRaycaster'
 import { isObject3D, isTresObject } from '../../utils/is'
+import type { EventHookOff } from '@vueuse/core'
+import { createEventHook } from '@vueuse/core'
+
+interface BlaEvent { type: EmitEventName, event: TresEvent, intersection?: Intersection } // TODO rename
 
 export interface TresEventManager {
+  onEvent: EventHookOff<BlaEvent>
   /**
    * Forces the event system to refire events with the previous mouse event
    */
@@ -21,7 +26,6 @@ export interface TresEventManager {
   registerPointerMissedObject: (object: unknown) => void
   deregisterPointerMissedObject: (object: unknown) => void
 }
-
 function executeEventListeners(
   listeners: (event: TresEvent) => void | ((event: TresEvent) => void)[],
   event: TresEvent,
@@ -42,7 +46,6 @@ function executeEventListeners(
 export function useTresEventManager(
   scene: Scene,
   context: TresContext,
-  emit: EmitEventFn,
 ) {
   const _scene = shallowRef<Scene>()
   const _context = shallowRef<TresContext>()
@@ -54,6 +57,8 @@ export function useTresEventManager(
   const hasChildrenWithEvents = (object: TresInstance) => object.children?.some((child: TresInstance) => hasChildrenWithEvents(child)) || hasEvents(object)
   // TODO: Optimize to not hit test on the whole scene
   const objectsWithEvents = shallowRef((_scene.value?.children as TresInstance[]).filter(hasChildrenWithEvents) || [])
+
+  const eventHook = createEventHook<BlaEvent>()
 
   /**
    * propogateEvent
@@ -75,7 +80,7 @@ export function useTresEventManager(
       if (event.stopPropagating) { return }
 
       // Add intersection data to event object
-      event = { ...event, ...intersection }
+      event = { ...event, ...intersection } // TODO why is this mixed?
 
       const { object } = intersection
       event.eventObject = object as TresObject
@@ -99,7 +104,8 @@ export function useTresEventManager(
 
       // Convert eventName to kebab case and emit event from TresCanvas
       const kebabEventName = hyphenate(eventName.slice(2)) as EmitEventName
-      emit(kebabEventName, { intersection, event })
+
+      eventHook.trigger({ type: kebabEventName, event, intersection }) // TODO find out why intersection is here twice (in event and individually)
     }
   }
 
@@ -178,8 +184,8 @@ export function useTresEventManager(
 
       executeEventListeners(object.onPointerMissed, event)
     })
-    // Emit pointer-missed from TresCanvas
-    emit('pointer-missed', { event })
+
+    eventHook.trigger({ type: 'pointer-missed', event })
   })
 
   function registerObject(maybeTresObject: unknown) {
@@ -214,6 +220,7 @@ export function useTresEventManager(
 
   // Attach methods to tres context
   context.eventManager = {
+    onEvent: eventHook.on,
     forceUpdate,
     registerObject,
     deregisterObject,
@@ -222,6 +229,7 @@ export function useTresEventManager(
   }
 
   return {
+    onEvent: eventHook.on,
     forceUpdate,
     registerObject,
     deregisterObject,

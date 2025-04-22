@@ -2,7 +2,6 @@
 import type { LoadingManager } from 'three'
 import type { LoaderProto } from './index'
 import { useLoader } from './index'
-import { defineEmits, defineProps } from 'vue'
 import { whenever } from '@vueuse/core'
 import type { TresObjectMap } from '../../utils/graph'
 

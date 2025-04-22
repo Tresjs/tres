@@ -130,7 +130,7 @@ export function useTresContextProvider({
   onTresReady(() => {
     emit('ready', ctx)
     ctx.loop.setReady(true)
-    useTresEventManager(scene, ctx, emit)
+    useTresEventManager(scene, ctx)
   })
 
   onUnmounted(() => {

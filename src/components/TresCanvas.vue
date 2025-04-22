@@ -75,7 +75,7 @@ const props = withDefaults(defineProps<TresCanvasProps>(), {
 
 // Define emits for Pointer events, pass `emit` into useTresEventManager so we can emit events off of TresCanvas
 // Not sure of this solution, but you have to have emits defined on the component to emit them in vue
-const emit = defineEmits([
+const emit = defineEmits([ // TODO these should be typed
   'render',
   'click',
   'double-click',
@@ -236,6 +236,10 @@ onMounted(() => {
 
   renderer.onRender.on((renderer) => {
     emit('render', renderer)
+  })
+
+  context.value?.eventManager?.onEvent(({ type, event, intersection }) => {
+    emit(type, { event, intersection })
   })
 
   // HMR support
