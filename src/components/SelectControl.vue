@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import type { LechesControl } from '../types'
+import type { LechesControl, LechesSelectOption } from '../types'
 import ControlLabel from './ControlLabel.vue'
 
-defineProps<{
+const props = defineProps<{
   label: string
   control: LechesControl
 }>()
@@ -10,7 +10,15 @@ defineProps<{
 const emit = defineEmits(['change'])
 
 function onChange(event: Event) {
-  emit('change', (event.target as HTMLSelectElement).value)
+  const selectedValue = (event.target as HTMLSelectElement).value
+
+  // Find the matching option to preserve the original type
+  const selectedOption = props.control.options?.find((option: LechesSelectOption) =>
+    String(option.value) === selectedValue,
+  )
+
+  // Use the original value with its correct type
+  emit('change', selectedOption?.value ?? selectedValue)
 }
 </script>
 
@@ -22,14 +30,14 @@ function onChange(event: Event) {
     />
     <select
       :id="control.uniqueKey"
-      :value="control.value"
+      :value="String(control.value)"
       class="tl-leches-input tl-w-2/3"
       @change="onChange"
     >
       <option
         v-for="option in control.options"
-        :key="option.value"
-        :value="option.value"
+        :key="String(option.value)"
+        :value="String(option.value)"
       >
         {{ option.text }}
       </option>

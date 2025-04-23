@@ -17,15 +17,11 @@ const { toneMapping } = useControls({
     ],
   },
 })
-
-const formattedToneMapping = computed(() => {
-  return Number(toneMapping.value)
-})
 </script>
 
 <template>
   <TresLeches />
-  <TresCanvas clear-color="#82DBC5" :tone-mapping="formattedToneMapping">
+  <TresCanvas clear-color="#82DBC5" :tone-mapping="toneMapping">
     <TresPerspectiveCamera :position="[4, 4, 4]" />
     <Suspense>
       <Environment preset="sunset" :background="true" />
