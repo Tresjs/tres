@@ -29,7 +29,6 @@ const isCollapsedAndNotFloat = computed(() => {
 const scrollContainer = ref<HTMLElement | null>(null)
 const showTopGradient = ref(false)
 const showBottomGradient = ref(false)
-const slotContainer = ref<HTMLElement | null>(null)
 const { width } = useWindowSize()
 const { height: windowHeight } = useWindowSize()
 const isInitialized = ref(false)
@@ -38,11 +37,10 @@ const manualHeight = ref<number | null>(null) // Track manual height override
 
 const DEFAULT_WIDTH = 320
 const COLLAPSED_SIZE = 36
-const MIN_HEIGHT = 100 // Minimum height for the panel
+const MIN_HEIGHT = 160 // Minimum height for the panel
 const MAX_HEIGHT = 600 // Maximum height for the panel
-const CONTROL_HEIGHT = 46 // Approximate height per control
+const CONTROL_HEIGHT = 44 // Approximate height per control
 const FPS_GRAPH_EXTRA_HEIGHT = 20 // Extra padding needed for FPS graph
-const MARGIN_FROM_BOTTOM = 42 // Margin to keep from bottom of viewport
 
 const panelWidth = ref(DEFAULT_WIDTH)
 const resizeEdge = ref<'right' | 'left' | 'bottom' | 'corner' | 'corner-left' | null>(null)
@@ -77,33 +75,38 @@ const groupedControls = computed(() => {
   return groups
 })
 
-const panelHeight = computed(() => {
-  if (isCollapsedAndNotFloat.value) { return COLLAPSED_SIZE } // Height when collapsed
+const panelHeight = computed({
+  get: () => {
+    if (isCollapsedAndNotFloat.value) { return COLLAPSED_SIZE } // Height when collapsed
 
-  // If manually resized, use that height within constraints
-  if (manualHeight.value !== null) {
-    const maxAllowedHeight = float.value ? windowHeight.value - MARGIN_FROM_BOTTOM : MAX_HEIGHT
-    return Math.min(maxAllowedHeight, Math.max(MIN_HEIGHT, manualHeight.value))
-  }
-
-  // Calculate total controls including those in folders
-  let totalControls = 0
-  let hasFPSGraph = false
-  for (const folderName in groupedControls.value) {
-    const controls = groupedControls.value[folderName]
-    totalControls += controls.length
-    // Add height for folder header if it's not the default folder
-    if (folderName !== 'default') { totalControls += 1 }
-    // Check if there's an FPS graph control
-    if (controls.some(control => control.type === 'fpsgraph')) {
-      hasFPSGraph = true
+    // If manually resized, use that height within constraints
+    if (manualHeight.value !== null) {
+      const maxAllowedHeight = float.value ? windowHeight.value : MAX_HEIGHT
+      return Math.min(maxAllowedHeight, Math.max(MIN_HEIGHT, manualHeight.value))
     }
-  }
 
-  // Calculate height: header (32px) + controls + padding + extra for FPS if present
-  const calculatedHeight = 32 + (totalControls * CONTROL_HEIGHT) + 32 + (hasFPSGraph ? FPS_GRAPH_EXTRA_HEIGHT : 0)
-  const maxAllowedHeight = float.value ? windowHeight.value - MARGIN_FROM_BOTTOM : MAX_HEIGHT
-  return Math.min(maxAllowedHeight, Math.max(MIN_HEIGHT, calculatedHeight))
+    // Calculate total controls including those in folders
+    let totalControls = 0
+    let hasFPSGraph = false
+    for (const folderName in groupedControls.value) {
+      const controls = groupedControls.value[folderName]
+      totalControls += controls.length
+      // Add height for folder header if it's not the default folder
+      if (folderName !== 'default') { totalControls += 1 }
+      // Check if there's an FPS graph control
+      if (controls.some(control => control.type === 'fpsgraph')) {
+        hasFPSGraph = true
+      }
+    }
+
+    // Calculate height: header (32px) + controls + padding + extra for FPS if present
+    const calculatedHeight = 32 + (totalControls * CONTROL_HEIGHT) + (hasFPSGraph ? FPS_GRAPH_EXTRA_HEIGHT : 0)
+    const maxAllowedHeight = float.value ? windowHeight.value : MAX_HEIGHT
+    return Math.min(maxAllowedHeight, Math.max(MIN_HEIGHT, calculatedHeight))
+  },
+  set: (value) => {
+    manualHeight.value = value
+  },
 })
 
 const paneRef = ref<HTMLElement | null>(null)
@@ -197,7 +200,7 @@ function startResize(edge: 'right' | 'left' | 'bottom' | 'corner' | 'corner-left
 
     if (resizeEdge.value === 'bottom' || resizeEdge.value === 'corner' || resizeEdge.value === 'corner-left') {
       const deltaY = e.clientY - startY
-      const maxAllowedHeight = float.value ? windowHeight.value - MARGIN_FROM_BOTTOM : MAX_HEIGHT
+      const maxAllowedHeight = float.value ? windowHeight.value : MAX_HEIGHT
       manualHeight.value = Math.min(maxAllowedHeight, Math.max(MIN_HEIGHT, startHeight + deltaY))
       paneRef.value.style.maxHeight = `${manualHeight.value}px`
       // Update gradients after resize
@@ -248,6 +251,14 @@ watch(isCollapsed, async (value) => {
   }
   await apply('enter')
 }, { immediate: true })
+
+function onFolderOpen(value: boolean) {
+  panelHeight.value = panelHeight.value + (44 * (value ? 1 : -1))
+  if (manualHeight.value && paneRef.value) {
+    manualHeight.value = manualHeight.value + (44 * (value ? 1 : -1))
+    paneRef.value.style.maxHeight = `${manualHeight.value}px`
+  }
+}
 </script>
 
 <template>
@@ -315,6 +326,7 @@ watch(isCollapsed, async (value) => {
               v-if="folderName !== 'default'"
               :label="folderName"
               :controls="group"
+              @open="onFolderOpen"
             />
             <template v-if="folderName === 'default'">
               <ControlInput
@@ -325,9 +337,7 @@ watch(isCollapsed, async (value) => {
               />
             </template>
           </template>
-          <div ref="slotContainer" class="tl-p-4">
-            <slot></slot>
-          </div>
+          <slot></slot>
         </div>
       </div>
       <!-- Resize handles -->

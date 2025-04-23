@@ -8,6 +8,8 @@ defineProps<{
   label: string | number
 }>()
 
+const emit = defineEmits(['open'])
+
 function onChange(value: string, control: LechesControl) {
   control.value = value as any
 }
@@ -16,6 +18,7 @@ const isOpen = ref(false)
 
 const toggle = () => {
   isOpen.value = !isOpen.value
+  emit('open', isOpen.value)
 }
 </script>
 
