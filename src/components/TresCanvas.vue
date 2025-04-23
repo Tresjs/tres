@@ -36,6 +36,7 @@ import { nodeOps } from '../core/nodeOps'
 
 import { disposeObject3D, kebabToCamel } from '../utils/'
 import { registerTresDevtools } from '../devtools'
+import { whenever } from '@vueuse/core'
 
 export interface TresCanvasProps
   extends Omit<WebGLRendererParameters, 'canvas'> {
@@ -244,13 +245,13 @@ onMounted(() => {
     )
   })
 
-  context.value.onReady(() => {
-    if (context.value) { emit('ready', context.value) }
-  })
-
   // HMR support
   if (import.meta.hot && context.value) { import.meta.hot.on('vite:afterUpdate', () => handleHMR(context.value as TresContext)) }
 })
+
+whenever(() => context.value?.renderer.isReady, () => {
+  if (context.value) { emit('ready', context.value) }
+}, { once: true })
 
 onUnmounted(unmountCanvas)
 </script>
