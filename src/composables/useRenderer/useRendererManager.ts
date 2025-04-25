@@ -20,7 +20,7 @@ import { get, merge, set, setPixelRatio } from '../../utils'
 import { normalizeColor } from '../../utils/normalize'
 import { logError } from '../../utils/logger'
 import { rendererPresets } from './const'
-import { useRenderLoop2 } from '../useRenderLoop2'
+import { useRenderLoop } from '../useRenderLoop'
 
 type TransformToMaybeRefOrGetter<T> = {
   [K in keyof T]: MaybeRefOrGetter<T[K]> | MaybeRefOrGetter<T[K]>;
@@ -176,7 +176,7 @@ export function useRendererManager(
 
   const onRender = createEventHook<WebGLRenderer>()
 
-  const { onLoop, resume } = useRenderLoop2({ loopId: scene.uuid, options: { immediate: false } })
+  const { onLoop, resume } = useRenderLoop({ loopId: scene.uuid, options: { immediate: false } })
 
   resume() // TODO resume when ready (take from other branch)
 

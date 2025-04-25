@@ -1,62 +1,57 @@
-// TODO delete file
-import type { EventHookOn, Fn } from '@vueuse/core'
-import type { Ref } from 'vue'
+import type { UseRafFnOptions } from '@vueuse/core'
 import { createEventHook, useRafFn } from '@vueuse/core'
 import { Clock } from 'three'
 
-interface RenderLoop {
+export interface RenderLoop {
   delta: number
   elapsed: number
   clock: Clock
 }
 
-export interface UseRenderLoopReturn {
-  onBeforeLoop: EventHookOn<RenderLoop>
-  onLoop: EventHookOn<RenderLoop>
-  onAfterLoop: EventHookOn<RenderLoop>
-  pause: Fn
-  resume: Fn
-  isActive: Ref<boolean>
-}
+const clocksPerSceneUuid = new Map<string, Clock>()
 
-const onBeforeLoop = createEventHook<RenderLoop>()
-const onLoop = createEventHook<RenderLoop>()
-const onAfterLoop = createEventHook<RenderLoop>()
+const getRandomString = () => crypto?.randomUUID // check if method is available in browser
+  ? crypto.randomUUID()
+  : Math.random().toString()
 
-const clock = new Clock()
-let delta = 0
-let elapsed = 0
+export const useRenderLoop = ({
+  loopId = getRandomString(),
+  options,
+}: {
+  loopId?: string
+  options?: UseRafFnOptions
+} = {}) => {
+  const onBeforeLoop = createEventHook<RenderLoop>()
+  const onLoop = createEventHook<RenderLoop>()
+  const onAfterLoop = createEventHook<RenderLoop>()
 
-const { pause, resume, isActive } = useRafFn(
-  () => {
-    onBeforeLoop.trigger({ delta, elapsed, clock })
-    onLoop.trigger({ delta, elapsed, clock })
-    onAfterLoop.trigger({ delta, elapsed, clock })
-  },
-  { immediate: false },
-)
-
-onAfterLoop.on(() => {
-  delta = clock.getDelta()
-  elapsed = clock.getElapsedTime()
-})
-
-let startedOnce = false
-export const useRenderLoop = (): UseRenderLoopReturn => {
-  if (!startedOnce) {
-    // NOTE: `useRenderLoop` is not started by default
-    // in order not to waste user resources. Instead, we'll
-    // start the loop the first time the user uses
-    // `useRenderLoop`.
-    startedOnce = true
-    resume()
+  if (!clocksPerSceneUuid.has(loopId)) {
+    clocksPerSceneUuid.set(loopId, new Clock())
   }
+
+  const clock = clocksPerSceneUuid.get(loopId)!
+
+  let delta = 0
+  let elapsed = 0
+
+  onAfterLoop.on(() => {
+    delta = clock.getDelta()
+    elapsed = clock.getElapsedTime()
+  })
+
+  const pausable = useRafFn(
+    () => {
+      onBeforeLoop.trigger({ delta, elapsed, clock })
+      onLoop.trigger({ delta, elapsed, clock })
+      onAfterLoop.trigger({ delta, elapsed, clock })
+    },
+    options,
+  )
+
   return {
     onBeforeLoop: onBeforeLoop.on,
     onLoop: onLoop.on,
     onAfterLoop: onAfterLoop.on,
-    pause,
-    resume,
-    isActive,
+    ...pausable,
   }
 }
