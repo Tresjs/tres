@@ -20,6 +20,7 @@ import { get, merge, set, setPixelRatio } from '../../utils'
 import { normalizeColor } from '../../utils/normalize'
 import { logError } from '../../utils/logger'
 import { rendererPresets } from './const'
+import { useRenderLoop2 } from '../useRenderLoop2'
 
 type TransformToMaybeRefOrGetter<T> = {
   [K in keyof T]: MaybeRefOrGetter<T[K]> | MaybeRefOrGetter<T[K]>;
@@ -111,13 +112,13 @@ export function useRendererManager(
     scene,
     canvas,
     options,
-    contextParts: { sizes, loop, camera },
+    contextParts: { sizes, camera },
   }:
   {
     scene: Scene
     canvas: MaybeRef<HTMLCanvasElement>
     options: UseRendererOptions
-    contextParts: Pick<TresContext, 'sizes' | 'camera' | 'loop'>
+    contextParts: Pick<TresContext, 'sizes' | 'camera'>
   },
 ) {
   const webGLRendererConstructorParameters = computed<WebGLRendererParameters>(() => ({
@@ -175,7 +176,11 @@ export function useRendererManager(
 
   const onRender = createEventHook<WebGLRenderer>()
 
-  loop.register(() => {
+  const { onLoop, resume } = useRenderLoop2({ loopId: scene.uuid, options: { immediate: false } })
+
+  resume() // TODO resume when ready (take from other branch)
+
+  onLoop(() => {
     if (camera.value && amountOfFramesToRender.value) {
       instance.value.render(scene, camera.value)
 
@@ -185,7 +190,7 @@ export function useRendererManager(
     amountOfFramesToRender.value = isModeAlways.value
       ? 1
       : Math.max(0, amountOfFramesToRender.value - 1)
-  }, 'render')
+  })
 
   // since the properties set via the constructor can't be updated dynamically,
   // the renderer is recreated once they change
