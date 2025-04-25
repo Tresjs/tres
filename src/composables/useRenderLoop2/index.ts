@@ -10,8 +10,12 @@ export interface RenderLoop {
 
 const clocksPerSceneUuid = new Map<string, Clock>()
 
+const getRandomString = () => crypto?.randomUUID // check if method is available in browser
+  ? crypto.randomUUID()
+  : Math.random().toString()
+
 export const useRenderLoop2 = ({
-  loopId = Math.random().toString(),
+  loopId = getRandomString(),
   options,
 }: {
   loopId?: string
