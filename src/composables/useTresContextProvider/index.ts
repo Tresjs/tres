@@ -12,8 +12,7 @@ import { useCamera } from '../useCamera'
 import { useRendererManager } from '../useRenderer/useRendererManager'
 import useSizes, { type SizesType } from '../useSizes'
 import { type TresEventManager, useTresEventManager } from '../useTresEventManager'
-import { useTresReady } from '../useTresReady'
-import { createEventHook, type EventHookOff } from '@vueuse/core'
+import { whenever } from '@vueuse/core'
 
 export interface PerformanceState {
   maxFrames: number
@@ -52,7 +51,6 @@ export interface TresContext {
   deregisterObjectAtPointerEventHandler?: (object: TresObject) => void
   registerBlockingObjectAtPointerEventHandler?: (object: TresObject) => void
   deregisterBlockingObjectAtPointerEventHandler?: (object: TresObject) => void
-  onReady: EventHookOff<TresContext> // TODO #980 consider removing this
 }
 
 export function useTresContextProvider({
@@ -88,8 +86,6 @@ export function useTresContextProvider({
     },
   )
 
-  const readyEventHook = createEventHook<TresContext>() // TODO #980 consider removing this
-
   const ctx: TresContext = {
     sizes,
     scene: localScene,
@@ -115,7 +111,6 @@ export function useTresContextProvider({
     setCameraActive,
     deregisterCamera,
     loop,
-    onReady: readyEventHook.on,
   }
 
   provide('useTres', ctx)
@@ -125,19 +120,19 @@ export function useTresContextProvider({
     root: ctx,
   }
 
-  const { on: onTresReady, cancel: cancelTresReady } = useTresReady(ctx)!
-
   ctx.loop.setReady(false)
   ctx.loop.start()
 
-  onTresReady(() => {
-    readyEventHook.trigger(ctx)
+  whenever(renderer.isReady, () => { // TODO #994 This does not belong here, see https://github.com/Tresjs/tres/issues/595
     ctx.loop.setReady(true)
-    useTresEventManager(scene, ctx)
+  }, {
+    once: true,
+    immediate: true,
   })
 
+  useTresEventManager(scene, ctx)
+
   onUnmounted(() => {
-    cancelTresReady()
     ctx.loop.stop()
   })
 

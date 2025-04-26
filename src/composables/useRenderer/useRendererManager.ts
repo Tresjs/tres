@@ -11,7 +11,7 @@ import {
   useDevicePixelRatio,
 } from '@vueuse/core'
 import { ACESFilmicToneMapping, Color, WebGLRenderer } from 'three'
-import { computed, type MaybeRef, onUnmounted, ref, shallowRef, toValue, watch, watchEffect } from 'vue'
+import { computed, type MaybeRef, onUnmounted, readonly, ref, shallowRef, toValue, triggerRef, watch, watchEffect } from 'vue'
 
 // Solution taken from Thretle that actually support different versions https://github.com/threlte/threlte/blob/5fa541179460f0dadc7dc17ae5e6854d1689379e/packages/core/src/lib/lib/useRenderer.ts
 import { revision } from '../../core/revision'
@@ -196,9 +196,15 @@ export function useRendererManager(
     invalidateOnDemand()
   })
 
+  const isReady = computed(() =>
+    !!(instance.value.domElement.width && instance.value.domElement.height),
+  )
+
   watch([sizes.width, sizes.height], () => {
     instance.value.setSize(sizes.width.value, sizes.height.value)
     invalidateOnDemand()
+
+    triggerRef(instance)
   }, {
     immediate: true,
   })
@@ -305,6 +311,7 @@ export function useRendererManager(
   return {
     instance,
 
+    isReady: readonly(isReady),
     advance,
     onRender,
     invalidate,

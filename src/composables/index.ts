@@ -11,5 +11,4 @@ export * from './useRenderLoop'
 export * from './useTexture'
 export * from './useTresContextProvider'
 export * from './useTresEventManager'
-export { onTresReady } from './useTresReady'
 export { UseLoader, UseTexture }
