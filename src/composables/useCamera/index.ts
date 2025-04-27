@@ -107,10 +107,7 @@ export const useCameraManager = ({ sizes }: UseCameraParams): UseCameraReturn =>
    */
   watchEffect(() => {
     if (sizes.aspectRatio.value) {
-      cameras.value.forEach((camera: TresCamera & { manual?: boolean }) => {
-        // Skip if camera is marked as manual by the user
-        if (camera.manual) { return }
-
+      cameras.value.forEach((camera: TresCamera) => {
         // Update perspective camera
         if (isPerspectiveCamera(camera)) {
           camera.aspect = sizes.aspectRatio.value
