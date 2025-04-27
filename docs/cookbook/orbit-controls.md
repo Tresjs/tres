@@ -80,7 +80,7 @@ const { camera, renderer } = useTresContext()
 <template>
   <TresOrbitControls
     v-if="renderer"
-    :args="[camera, renderer?.domElement]"
+    :args="[camera, renderer.instance.domElement]"
   />
 </template>
 ```

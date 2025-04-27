@@ -1,38 +1,20 @@
-import type { WebGLRenderer } from 'three'
-import type { ComputedRef, MaybeRef, MaybeRefOrGetter, Ref, ShallowRef } from 'vue'
-import type { RendererLoop } from '../../core/loop'
-import type { EmitEventFn, TresControl, TresObject, TresScene } from '../../types'
-import type { UseRendererOptions } from '../useRenderer'
 import { Raycaster } from 'three'
-import { computed, inject, onUnmounted, provide, ref, shallowRef } from 'vue'
+import type { MaybeRef, MaybeRefOrGetter, Ref, ShallowRef } from 'vue'
+import { whenever } from '@vueuse/core'
+
+import type { RendererLoop } from '../../core/loop'
+import type { TresControl, TresObject, TresScene } from '../../types'
+import type { UseRendererManagerReturn, UseRendererOptions } from '../useRenderer/useRendererManager'
+import { inject, onUnmounted, provide, ref, shallowRef } from 'vue'
 import { extend } from '../../core/catalogue'
 import { createRenderLoop } from '../../core/loop'
 
 import type { UseCameraReturn } from '../useCamera/'
-import { useCamera } from '../useCamera/'
-import { useRenderer } from '../useRenderer'
+
+import { useCameraManager } from '../useCamera'
+import { useRendererManager } from '../useRenderer/useRendererManager'
 import useSizes, { type SizesType } from '../useSizes'
 import { type TresEventManager, useTresEventManager } from '../useTresEventManager'
-import { useTresReady } from '../useTresReady'
-
-export interface InternalState {
-  priority: Ref<number>
-  frames: Ref<number>
-  maxFrames: number
-}
-
-export interface RenderState {
-  /**
-   * If set to 'on-demand', the scene will only be rendered when the current frame is invalidated
-   * If set to 'manual', the scene will only be rendered when advance() is called
-   * If set to 'always', the scene will be rendered every frame
-   */
-  mode: Ref<'always' | 'on-demand' | 'manual'>
-  priority: Ref<number>
-  frames: Ref<number>
-  maxFrames: number
-  canBeInvalidated: ComputedRef<boolean>
-}
 
 export interface PerformanceState {
   maxFrames: number
@@ -53,20 +35,11 @@ export interface TresContext {
   extend: (objects: any) => void
   camera: UseCameraReturn
   controls: Ref<TresControl | null>
-  renderer: ShallowRef<WebGLRenderer>
+  renderer: UseRendererManagerReturn
   raycaster: ShallowRef<Raycaster>
   perf: PerformanceState
-  render: RenderState
   // Loop
   loop: RendererLoop
-  /**
-   * Invalidates the current frame when renderMode === 'on-demand'
-   */
-  invalidate: () => void
-  /**
-   * Advance one frame when renderMode === 'manual'
-   */
-  advance: () => void
   eventManager?: TresEventManager
   // Events
   // Temporaly add the methods to the context, this should be handled later by the EventManager state on the context https://github.com/Tresjs/tres/issues/515
@@ -82,51 +55,25 @@ export function useTresContextProvider({
   canvas,
   windowSize,
   rendererOptions,
-  emit,
 }: {
   scene: TresScene
   canvas: MaybeRef<HTMLCanvasElement>
   windowSize: MaybeRefOrGetter<boolean>
   rendererOptions: UseRendererOptions
-  emit: EmitEventFn
-
 }): TresContext {
   const localScene = shallowRef<TresScene>(scene)
   const sizes = useSizes(windowSize, canvas)
 
-  const camera = useCamera({ sizes })
+  const camera = useCameraManager({ sizes })
 
-  // Render state
+  const loop = createRenderLoop()
 
-  const render: RenderState = {
-    mode: ref(rendererOptions.renderMode || 'always') as Ref<'always' | 'on-demand' | 'manual'>,
-    priority: ref(0),
-    frames: ref(0),
-    maxFrames: 60,
-    canBeInvalidated: computed(() => render.mode.value === 'on-demand' && render.frames.value === 0),
-  }
-
-  function invalidate(frames = 1) {
-    // Increase the frame count, ensuring not to exceed a maximum if desired
-    if (rendererOptions.renderMode === 'on-demand') {
-      render.frames.value = Math.min(render.maxFrames, render.frames.value + frames)
-    }
-  }
-
-  function advance() {
-    if (rendererOptions.renderMode === 'manual') {
-      render.frames.value = 1
-    }
-  }
-
-  const { renderer } = useRenderer(
+  const renderer = useRendererManager(
     {
       scene,
       canvas,
       options: rendererOptions,
-      emit,
-      // TODO: replace contextParts with full ctx at https://github.com/Tresjs/tres/issues/516
-      contextParts: { sizes, render, invalidate, advance },
+      contextParts: { sizes, camera, loop },
     },
   )
 
@@ -149,11 +96,8 @@ export function useTresContextProvider({
         accumulator: [],
       },
     },
-    render,
-    advance,
     extend,
-    invalidate,
-    loop: createRenderLoop(),
+    loop,
   }
 
   provide('useTres', ctx)
@@ -163,38 +107,19 @@ export function useTresContextProvider({
     root: ctx,
   }
 
-  // The loop
-
-  ctx.loop.register(() => {
-    if (camera.activeCamera.value && render.frames.value > 0) {
-      renderer.value.render(scene, camera.activeCamera.value)
-      emit('render', ctx.renderer.value)
-    }
-
-    // Reset priority
-    render.priority.value = 0
-
-    if (render.mode.value === 'always') {
-      render.frames.value = 1
-    }
-    else {
-      render.frames.value = Math.max(0, render.frames.value - 1)
-    }
-  }, 'render')
-
-  const { on: onTresReady, cancel: cancelTresReady } = useTresReady(ctx)!
-
   ctx.loop.setReady(false)
   ctx.loop.start()
 
-  onTresReady(() => {
-    emit('ready', ctx)
+  whenever(renderer.isReady, () => { // TODO #994 This does not belong here, see https://github.com/Tresjs/tres/issues/595
     ctx.loop.setReady(true)
-    useTresEventManager(scene, ctx, emit)
+  }, {
+    once: true,
+    immediate: true,
   })
 
+  useTresEventManager(scene, ctx)
+
   onUnmounted(() => {
-    cancelTresReady()
     ctx.loop.stop()
   })
 

@@ -13,7 +13,7 @@ export const useRaycaster = (
   ctx: TresContext,
 ) => {
   // having a separate computed makes useElementBounding work
-  const canvas = computed(() => ctx.renderer.value.domElement as HTMLCanvasElement)
+  const canvas = computed(() => ctx.renderer.instance.value.domElement as HTMLCanvasElement)
   const intersects: ShallowRef<Intersection[]> = shallowRef([])
   const { x, y } = usePointer({ target: canvas })
   let delta = 0

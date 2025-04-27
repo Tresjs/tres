@@ -48,7 +48,7 @@ interface UseCameraParams {
  * @param params.sizes - The sizes object containing window dimensions
  * @returns The camera management functions and state
  */
-export const useCamera = ({ sizes }: UseCameraParams): UseCameraReturn => {
+export const useCameraManager = ({ sizes }: UseCameraParams): UseCameraReturn => {
   // Store all registered cameras
   const cameras = ref<TresCamera[]>([])
   // Store the UUID of the active camera
