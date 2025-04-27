@@ -1,14 +1,15 @@
-import type { Camera, WebGLRenderer } from 'three'
-import type { ComputedRef, DeepReadonly, MaybeRef, MaybeRefOrGetter, Ref, ShallowRef } from 'vue'
+import type { WebGLRenderer } from 'three'
+import type { ComputedRef, MaybeRef, MaybeRefOrGetter, Ref, ShallowRef } from 'vue'
 import type { RendererLoop } from '../../core/loop'
 import type { EmitEventFn, TresControl, TresObject, TresScene } from '../../types'
 import type { UseRendererOptions } from '../useRenderer'
 import { Raycaster } from 'three'
-import { computed, inject, onUnmounted, provide, readonly, ref, shallowRef } from 'vue'
+import { computed, inject, onUnmounted, provide, ref, shallowRef } from 'vue'
 import { extend } from '../../core/catalogue'
 import { createRenderLoop } from '../../core/loop'
 
-import { useCamera } from '../useCamera'
+import type { UseCameraReturn } from '../useCamera/'
+import { useCamera } from '../useCamera/'
 import { useRenderer } from '../useRenderer'
 import useSizes, { type SizesType } from '../useSizes'
 import { type TresEventManager, useTresEventManager } from '../useTresEventManager'
@@ -50,8 +51,7 @@ export interface TresContext {
   scene: ShallowRef<TresScene>
   sizes: SizesType
   extend: (objects: any) => void
-  camera: ComputedRef<Camera | undefined>
-  cameras: DeepReadonly<Ref<Camera[]>>
+  camera: UseCameraReturn
   controls: Ref<TresControl | null>
   renderer: ShallowRef<WebGLRenderer>
   raycaster: ShallowRef<Raycaster>
@@ -67,10 +67,6 @@ export interface TresContext {
    * Advance one frame when renderMode === 'manual'
    */
   advance: () => void
-  // Camera
-  registerCamera: (maybeCamera: unknown) => void
-  setCameraActive: (cameraOrUuid: Camera | string) => void
-  deregisterCamera: (maybeCamera: unknown) => void
   eventManager?: TresEventManager
   // Events
   // Temporaly add the methods to the context, this should be handled later by the EventManager state on the context https://github.com/Tresjs/tres/issues/515
@@ -98,13 +94,7 @@ export function useTresContextProvider({
   const localScene = shallowRef<TresScene>(scene)
   const sizes = useSizes(windowSize, canvas)
 
-  const {
-    camera,
-    cameras,
-    registerCamera,
-    deregisterCamera,
-    setCameraActive,
-  } = useCamera({ sizes, scene })
+  const camera = useCamera({ sizes })
 
   // Render state
 
@@ -136,7 +126,7 @@ export function useTresContextProvider({
       options: rendererOptions,
       emit,
       // TODO: replace contextParts with full ctx at https://github.com/Tresjs/tres/issues/516
-      contextParts: { sizes, camera, render, invalidate, advance },
+      contextParts: { sizes, render, invalidate, advance },
     },
   )
 
@@ -144,7 +134,6 @@ export function useTresContextProvider({
     sizes,
     scene: localScene,
     camera,
-    cameras: readonly(cameras),
     renderer,
     raycaster: shallowRef(new Raycaster()),
     controls: ref(null),
@@ -164,9 +153,6 @@ export function useTresContextProvider({
     advance,
     extend,
     invalidate,
-    registerCamera,
-    setCameraActive,
-    deregisterCamera,
     loop: createRenderLoop(),
   }
 
@@ -180,8 +166,8 @@ export function useTresContextProvider({
   // The loop
 
   ctx.loop.register(() => {
-    if (camera.value && render.frames.value > 0) {
-      renderer.value.render(scene, camera.value)
+    if (camera.activeCamera.value && render.frames.value > 0) {
+      renderer.value.render(scene, camera.activeCamera.value)
       emit('render', ctx.renderer.value)
     }
 

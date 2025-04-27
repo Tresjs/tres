@@ -1546,8 +1546,10 @@ function mockTresObjectRootInObject(obj) {
 function mockTresContext() {
   return {
     scene: shallowRef(new Scene()),
-    registerCamera: () => {},
-    deregisterCamera: () => {},
+    camera: {
+      registerCamera: () => {},
+      deregisterCamera: () => {},
+    },
   } as unknown as TresContext
 }
 

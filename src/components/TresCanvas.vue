@@ -5,7 +5,7 @@ import type {
   ToneMapping,
   WebGLRendererParameters,
 } from 'three'
-import type { App, Ref } from 'vue'
+import type { App, MaybeRef, Ref } from 'vue'
 import type { RendererPresetsType } from '../composables/useRenderer/const'
 import type { TresCamera, TresObject, TresScene } from '../types/'
 import { PerspectiveCamera, Scene } from 'three'
@@ -22,6 +22,7 @@ import {
   provide,
   ref,
   shallowRef,
+  toValue,
   watch,
   watchEffect,
 } from 'vue'
@@ -50,7 +51,7 @@ export interface TresCanvasProps
   dpr?: number | [number, number]
 
   // required by useTresContextProvider
-  camera?: TresCamera
+  camera?: MaybeRef<TresCamera>
   preset?: RendererPresetsType
   windowSize?: boolean
 
@@ -192,7 +193,8 @@ onMounted(() => {
     emit,
   })
 
-  const { registerCamera, camera, cameras, deregisterCamera } = context.value
+  const { camera } = context.value
+  const { registerCamera, cameras, activeCamera, deregisterCamera } = camera
 
   mountCustomRenderer(context.value)
 
@@ -219,10 +221,12 @@ onMounted(() => {
   watch(
     () => props.camera,
     (newCamera, oldCamera) => {
-      if (newCamera) { registerCamera(newCamera) }
+      if (newCamera) {
+        registerCamera(toValue(newCamera), true)
+      }
       if (oldCamera) {
-        oldCamera.removeFromParent()
-        deregisterCamera(oldCamera)
+        toValue(oldCamera).removeFromParent()
+        deregisterCamera(toValue(oldCamera))
       }
     },
     {
@@ -230,7 +234,7 @@ onMounted(() => {
     },
   )
 
-  if (!camera.value) {
+  if (!activeCamera.value) {
     addDefaultCamera()
   }
 

@@ -30,9 +30,9 @@ export const useRaycaster = (
   }
 
   const getIntersectsByRelativePointerPosition = ({ x, y }: { x: number, y: number }) => {
-    if (!ctx.camera.value) { return }
+    if (!ctx.camera.activeCamera.value) { return }
 
-    ctx.raycaster.value.setFromCamera(new Vector2(x, y), ctx.camera.value)
+    ctx.raycaster.value.setFromCamera(new Vector2(x, y), ctx.camera.activeCamera.value)
 
     intersects.value = ctx.raycaster.value.intersectObjects(objectsWithEvents.value as Object3D<Object3DEventMap>[], true)
     return intersects.value
@@ -84,14 +84,14 @@ export const useRaycaster = (
 
   const triggerEventHook = (eventHook: EventHook, event: PointerEvent | MouseEvent | WheelEvent) => {
     const eventProperties = copyMouseEventProperties(event)
-    const unprojectedPoint = new Vector3(event?.clientX, event?.clientY, 0).unproject(ctx.camera?.value as TresCamera)
+    const unprojectedPoint = new Vector3(event?.clientX, event?.clientY, 0).unproject(ctx.camera.activeCamera.value as TresCamera)
     eventHook.trigger({
       ...eventProperties,
       intersections: intersects.value,
       // The unprojectedPoint is wrong, math needs to be fixed
       unprojectedPoint,
       ray: ctx.raycaster?.value.ray,
-      camera: ctx.camera?.value,
+      camera: ctx.camera.activeCamera.value,
       sourceEvent: event,
       delta,
       stopPropagating: false,

@@ -110,7 +110,7 @@ export function useRenderer(
     scene: Scene
     options: UseRendererOptions
     emit: EmitEventFn
-    contextParts: Pick<TresContext, 'sizes' | 'camera' | 'render'> & { invalidate: () => void, advance: () => void }
+    contextParts: Pick<TresContext, 'sizes' | 'render'> & { invalidate: () => void, advance: () => void }
   },
 ) {
   const webGLRendererConstructorParameters = computed<WebGLRendererParameters>(() => ({

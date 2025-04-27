@@ -1,5 +1,5 @@
 import type { TresObject, TresPrimitive } from 'src/types'
-import type { BufferGeometry, Camera, Fog, Light, Material, Object3D, Scene } from 'three'
+import type { BufferGeometry, Camera, Fog, Light, Material, Object3D, OrthographicCamera, PerspectiveCamera, Scene } from 'three'
 
 /**
  * Type guard to check if a value is undefined
@@ -161,6 +161,24 @@ export function isObject3D(value: unknown): value is Object3D {
  */
 export function isCamera(value: unknown): value is Camera {
   return isObject(value) && !!(value.isCamera)
+}
+
+/**
+ * Type guard to check if a value is a Three.js OrthographicCamera
+ * @param value - The value to check
+ * @returns True if the value is a Three.js OrthographicCamera instance, false otherwise
+ */
+export function isOrthographicCamera(value: unknown): value is OrthographicCamera {
+  return isObject(value) && !!(value.isOrthographicCamera)
+}
+
+/**
+ * Type guard to check if a value is a Three.js PerspectiveCamera
+ * @param value - The value to check
+ * @returns True if the value is a Three.js PerspectiveCamera instance, false otherwise
+ */
+export function isPerspectiveCamera(value: unknown): value is PerspectiveCamera {
+  return isObject(value) && !!(value.isPerspectiveCamera)
 }
 
 /**
