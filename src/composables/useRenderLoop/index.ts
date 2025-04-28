@@ -1,8 +1,7 @@
-import type { UseRafFnOptions } from '@vueuse/core'
 import { createEventHook, useRafFn } from '@vueuse/core'
 import { Clock } from 'three'
 
-export interface RenderLoop {
+export interface ClockState {
   delta: number
   elapsed: number
   clock: Clock
@@ -14,16 +13,10 @@ const getRandomString = () => crypto?.randomUUID // check if method is available
   ? crypto.randomUUID()
   : Math.random().toString()
 
-export const useRenderLoop = ({
-  loopId = getRandomString(),
-  options,
-}: {
-  loopId?: string
-  options?: UseRafFnOptions
-} = {}) => {
-  const onBeforeLoop = createEventHook<RenderLoop>()
-  const onLoop = createEventHook<RenderLoop>()
-  const onAfterLoop = createEventHook<RenderLoop>()
+export const useRenderLoop = (loopId = getRandomString()) => {
+  const onBeforeLoop = createEventHook<ClockState>()
+  const onLoop = createEventHook<ClockState>()
+  const onAfterLoop = createEventHook<ClockState>()
 
   if (!clocksPerSceneUuid.has(loopId)) {
     clocksPerSceneUuid.set(loopId, new Clock())
@@ -45,7 +38,7 @@ export const useRenderLoop = ({
       onLoop.trigger({ delta, elapsed, clock })
       onAfterLoop.trigger({ delta, elapsed, clock })
     },
-    options,
+    { immediate: false },
   )
 
   return {

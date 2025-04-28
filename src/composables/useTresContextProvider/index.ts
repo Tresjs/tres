@@ -1,12 +1,10 @@
 import type { Camera } from 'three'
 import type { ComputedRef, DeepReadonly, MaybeRef, MaybeRefOrGetter, Ref, ShallowRef } from 'vue'
-import type { RendererLoop } from '../../core/loop'
 import type { TresControl, TresObject, TresScene } from '../../types'
 import type { UseRendererManagerReturn, UseRendererOptions } from '../useRenderer/useRendererManager'
 import { Raycaster } from 'three'
 import { inject, onUnmounted, provide, readonly, ref, shallowRef } from 'vue'
 import { extend } from '../../core/catalogue'
-import { createRenderLoop } from '../../core/loop'
 
 import { useCamera } from '../useCamera'
 import { useRendererManager } from '../useRenderer/useRendererManager'
@@ -34,12 +32,10 @@ export interface TresContext {
   extend: (objects: any) => void
   camera: ComputedRef<Camera | undefined>
   cameras: DeepReadonly<Ref<Camera[]>>
-  controls: Ref<TresControl | null>
+  controls: Ref<TresControl | null> // TODO check why this is here.
   renderer: UseRendererManagerReturn
   raycaster: ShallowRef<Raycaster>
   perf: PerformanceState
-  // Loop
-  loop: RendererLoop
   // Camera
   registerCamera: (maybeCamera: unknown) => void
   setCameraActive: (cameraOrUuid: Camera | string) => void
@@ -77,8 +73,6 @@ export function useTresContextProvider({
     setCameraActive,
   } = useCamera({ sizes, scene })
 
-  const loop = createRenderLoop()
-
   const renderer = useRendererManager(
     {
       scene,
@@ -114,7 +108,6 @@ export function useTresContextProvider({
     registerCamera,
     setCameraActive,
     deregisterCamera,
-    loop,
     onReady: readyEventHook.on,
   }
 
@@ -127,18 +120,13 @@ export function useTresContextProvider({
 
   const { on: onTresReady, cancel: cancelTresReady } = useTresReady(ctx)!
 
-  ctx.loop.setReady(false)
-  ctx.loop.start()
-
   onTresReady(() => {
     readyEventHook.trigger(ctx)
-    ctx.loop.setReady(true)
     useTresEventManager(scene, ctx)
   })
 
   onUnmounted(() => {
     cancelTresReady()
-    ctx.loop.stop()
   })
 
   return ctx

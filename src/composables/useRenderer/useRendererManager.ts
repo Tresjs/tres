@@ -176,7 +176,7 @@ export function useRendererManager(
 
   const onRender = createEventHook<WebGLRenderer>()
 
-  const { onLoop, resume } = useRenderLoop({ loopId: scene.uuid, options: { immediate: false } })
+  const { onLoop, resume } = useRenderLoop(scene.uuid)
 
   resume() // TODO resume when ready (take from other branch)
 

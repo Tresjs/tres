@@ -5,16 +5,11 @@ import type { Callback } from '../utils/createPriorityEventHook'
 import { Clock, MathUtils } from 'three'
 import { ref, unref } from 'vue'
 import { createPriorityEventHook } from '../utils/createPriorityEventHook'
+import type { ClockState } from 'src/composables/useRenderLoop'
 
 export type LoopStage = 'before' | 'render' | 'after'
 
-export interface LoopCallback {
-  delta: number
-  elapsed: number
-  clock: Clock
-}
-
-export interface LoopCallbackWithCtx extends LoopCallback {
+export interface LoopCallbackWithCtx extends ClockState {
   camera: Camera
   scene: Scene
   renderer: WebGLRenderer
