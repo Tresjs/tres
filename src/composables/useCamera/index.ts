@@ -81,7 +81,6 @@ export const useCameraManager = ({ sizes }: UseCameraParams): UseCameraReturn =>
    */
   const registerCamera = (camera: TresCamera, active = false): void => {
     // Skip if camera is already registered
-    // Skip if camera is already registered
     if (cameras.value.some(({ uuid }) => uuid === camera.uuid)) { return }
     cameras.value.push(camera)
     if (active) {
