@@ -63,15 +63,13 @@ export const useCameraManager = ({ sizes }: UseCameraParams): UseCameraReturn =>
    * Set the active camera
    * @param cameraOrUuid - The camera or its UUID to set as active
    */
-  const setActiveCamera = (cameraOrUuid: string | TresCamera): void => {
-    const camera = cameras.value.find((camera: TresCamera) => camera.uuid === cameraOrUuid)
+  const setActiveCamera = (cameraOrUuid: string | Camera) => {
+    const uuid = typeof cameraOrUuid === 'string' ? cameraOrUuid : cameraOrUuid.uuid
+    const cameraExists = cameras.value.some((camera: TresCamera) => camera.uuid === uuid)
 
-    if (!camera) { return }
-
-    // Move the active camera to the beginning of the array
-    const otherCameras = cameras.value.filter(({ uuid }) => uuid !== camera.uuid)
-    cameras.value = [camera, ...otherCameras]
-    activeCameraUuid.value = camera.uuid
+    if (!cameraExists) {
+      activeCameraUuid.value = uuid
+    }
   }
 
   /**
