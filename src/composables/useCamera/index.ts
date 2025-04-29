@@ -135,11 +135,6 @@ export const useCameraManager = ({ sizes }: UseCameraParams): UseCameraReturn =>
     }
   })
 
-  // Clean up on unmount
-  onUnmounted(() => {
-    cameras.value = []
-    activeCameraUuid.value = null
-  })
 
   return {
     activeCamera,
