@@ -114,7 +114,7 @@ export interface IntersectionEvent<TSourceEvent> extends Intersection {
   /** The ray that pierced it */
   ray: THREE.Ray
   /** The camera that was used by the raycaster */
-  camera: TresCamera
+  camera: THREE.Camera
   /** stopPropagation will stop underlying handlers from firing */
   stopPropagation: () => void
   /** The original host event */

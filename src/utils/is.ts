@@ -1,5 +1,5 @@
-import type { TresObject, TresPrimitive } from 'src/types'
-import type { BufferGeometry, Camera, Fog, Light, Material, Object3D, OrthographicCamera, PerspectiveCamera, Scene } from 'three'
+import type { TresCamera, TresInstance, TresObject, TresPrimitive } from 'src/types'
+import type { BufferGeometry, Fog, Light, Material, Object3D, OrthographicCamera, PerspectiveCamera, Scene } from 'three'
 
 /**
  * Type guard to check if a value is undefined
@@ -159,7 +159,7 @@ export function isObject3D(value: unknown): value is Object3D {
  * }
  * ```
  */
-export function isCamera(value: unknown): value is Camera {
+export function isCamera(value: unknown): value is TresCamera {
   return isObject(value) && !!(value.isCamera)
 }
 
@@ -316,4 +316,21 @@ export function isTresObject(value: unknown): value is TresObject {
  */
 export function isTresPrimitive(value: unknown): value is TresPrimitive {
   return isObject(value) && !!(value.isPrimitive)
+}
+
+/**
+ * Type guard to check if a value is a TresInstance (has __tres property)
+ * @param value - The value to check
+ * @returns True if the value is a TresInstance (has __tres property), false otherwise
+ * @example
+ * ```ts
+ * const value = new THREE.Mesh()
+ * if (isTresInstance(value)) {
+ *   // TypeScript knows value is TresInstance here
+ *   // You can safely access value.__tres
+ * }
+ * ```
+ */
+export function isTresInstance(value: unknown): value is TresInstance {
+  return isTresObject(value) && '__tres' in value
 }

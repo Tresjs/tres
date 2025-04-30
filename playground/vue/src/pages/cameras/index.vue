@@ -1,16 +1,19 @@
 <script setup lang="ts">
 import { Box } from '@tresjs/cientos'
-import type { TresCamera } from '@tresjs/core'
 import { TresCanvas } from '@tresjs/core'
 import { TresLeches, useControls } from '@tresjs/leches'
 import { OrthographicCamera, PerspectiveCamera } from 'three'
 import '@tresjs/leches/styles'
+import { useWindowSize } from '@vueuse/core'
 
 const perspectiveCamera = new PerspectiveCamera(75, 1, 0.1, 1000)
+const { width, height } = useWindowSize()
+const aspect = computed(() => width.value / height.value)
+
 const frustumSize = 10
 const orthographicCamera = new OrthographicCamera(
-  -frustumSize,
-  frustumSize,
+  -frustumSize * aspect.value,
+  frustumSize * aspect.value,
   frustumSize,
   -frustumSize,
   0.1,
@@ -21,8 +24,6 @@ perspectiveCamera.position.set(8, 8, 8)
 perspectiveCamera.lookAt(0, 0, 0)
 orthographicCamera.position.set(8, 8, 8)
 orthographicCamera.lookAt(0, 0, 0)
-
-const currentCamera = ref<TresCamera>(perspectiveCamera)
 
 const { cameraType } = useControls({
   cameraType: {
@@ -37,14 +38,9 @@ const { cameraType } = useControls({
   },
 })
 
-watch(cameraType, (newCameraType) => {
-  if (newCameraType === 'perspective') {
-    currentCamera.value = perspectiveCamera
-  }
-  else {
-    currentCamera.value = orthographicCamera
-  }
-}, { immediate: true })
+const currentCamera = computed(() => {
+  return cameraType.value === 'perspective' ? perspectiveCamera : orthographicCamera
+})
 </script>
 
 <template>

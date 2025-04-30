@@ -1,10 +1,10 @@
 import type { TresContext } from '../composables'
-import type { DisposeType, LocalState, TresCamera, TresInstance, TresObject, TresObject3D, TresPrimitive, WithMathProps } from '../types'
+import type { DisposeType, LocalState, TresInstance, TresObject, TresObject3D, TresPrimitive, WithMathProps } from '../types'
 import { BufferAttribute, Object3D } from 'three'
 import { isRef, type RendererOptions } from 'vue'
 import { attach, deepArrayEqual, doRemoveDeregister, doRemoveDetach, invalidateInstance, isHTMLTag, kebabToCamel, noop, prepareTresInstance, setPrimitiveObject, unboxTresPrimitive } from '../utils'
 import { logError } from '../utils/logger'
-import { isArray, isCamera, isFunction, isObject, isObject3D, isScene, isUndefined } from '../utils/is'
+import { isArray, isCamera, isFunction, isObject, isObject3D, isScene, isTresInstance, isUndefined } from '../utils/is'
 import { createRetargetingProxy } from '../utils/primitive/createRetargetingProxy'
 import { catalogue } from './catalogue'
 
@@ -77,7 +77,7 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
     if (!obj) { return null }
 
     // Opinionated default to avoid user issue not seeing anything if camera is on origin
-    if (obj.isCamera) {
+    if (isCamera(obj)) {
       if (!props?.position) {
         obj.position.set(3, 3, 3)
       }
@@ -87,7 +87,7 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
     }
 
     obj = prepareTresInstance(obj, {
-      ...obj.__tres,
+      ...(isTresInstance(obj) ? obj.__tres : {}),
       type: name,
       memoizedProps: props,
       eventCount: 0,
@@ -116,7 +116,7 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
     }
 
     if (isCamera(child)) {
-      context.camera?.registerCamera(child as TresCamera)
+      context.camera?.registerCamera(child)
       context.camera?.setActiveCamera(child.uuid)
     }
     // NOTE: Track onPointerMissed objects separate from the scene
@@ -343,7 +343,7 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
     else if (!target.isColor && target.setScalar) { target.setScalar(value) }
     else { target.set(value) }
 
-    if (node.isCamera) {
+    if (isCamera(node)) {
       node.updateProjectionMatrix()
     }
 

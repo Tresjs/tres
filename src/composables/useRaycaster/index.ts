@@ -1,12 +1,11 @@
-import type { EventHook } from '@vueuse/core'
-import type { DomEvent, TresCamera, TresEvent, TresInstance } from 'src/types'
-import type { Intersection, Object3D, Object3DEventMap } from 'three'
-import type { ShallowRef } from 'vue'
-import type { TresContext } from '../useTresContextProvider'
 import { createEventHook, useElementBounding, usePointer } from '@vueuse/core'
-
 import { Vector2, Vector3 } from 'three'
 import { computed, onUnmounted, shallowRef } from 'vue'
+import type { EventHook } from '@vueuse/core'
+import type { Intersection, Object3D, Object3DEventMap } from 'three'
+import type { ShallowRef } from 'vue'
+import type { DomEvent, TresEvent, TresInstance } from '../../types'
+import type { TresContext } from '../useTresContextProvider'
 
 export const useRaycaster = (
   objectsWithEvents: ShallowRef<TresInstance[]>,
@@ -84,7 +83,8 @@ export const useRaycaster = (
 
   const triggerEventHook = (eventHook: EventHook, event: PointerEvent | MouseEvent | WheelEvent) => {
     const eventProperties = copyMouseEventProperties(event)
-    const unprojectedPoint = new Vector3(event?.clientX, event?.clientY, 0).unproject(ctx.camera.activeCamera.value as TresCamera)
+    if (!ctx.camera.activeCamera.value) { return }
+    const unprojectedPoint = new Vector3(event?.clientX, event?.clientY, 0).unproject(ctx.camera.activeCamera.value)
     eventHook.trigger({
       ...eventProperties,
       intersections: intersects.value,

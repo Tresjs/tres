@@ -1,9 +1,9 @@
 import type { TresContext } from '../useTresContextProvider'
 
 import type { ComputedRef, Ref } from 'vue'
-import { computed, onUnmounted, ref, watchEffect } from 'vue'
+import { computed, ref, watchEffect } from 'vue'
 import { isOrthographicCamera, isPerspectiveCamera } from '../../utils/is'
-import type { TresCamera } from '../../types'
+import type { Camera } from 'three'
 
 /**
  * Interface for the return value of the useCamera composable
@@ -12,27 +12,27 @@ export interface UseCameraReturn {
   /**
    * The active camera
    */
-  activeCamera: ComputedRef<TresCamera | undefined>
+  activeCamera: ComputedRef<Camera | undefined>
   /**
    * The list of cameras
    */
-  cameras: Ref<TresCamera[]>
+  cameras: Ref<Camera[]>
   /**
    * Register a camera
    * @param camera - The camera to register
    * @param active - Whether to set the camera as active
    */
-  registerCamera: (camera: TresCamera, active?: boolean) => void
+  registerCamera: (camera: Camera, active?: boolean) => void
   /**
    * Deregister a camera
    * @param camera - The camera to deregister
    */
-  deregisterCamera: (camera: TresCamera) => void
+  deregisterCamera: (camera: Camera) => void
   /**
    * Set the active camera
    * @param cameraOrUuid - The camera or its UUID to set as active
    */
-  setActiveCamera: (cameraOrUuid: string | TresCamera) => void
+  setActiveCamera: (cameraOrUuid: string | Camera) => void
 }
 
 /**
@@ -50,12 +50,12 @@ interface UseCameraParams {
  */
 export const useCameraManager = ({ sizes }: UseCameraParams): UseCameraReturn => {
   // Store all registered cameras
-  const cameras = ref<TresCamera[]>([])
+  const cameras = ref<Camera[]>([])
   // Store the UUID of the active camera
   const activeCameraUuid = ref<string | null>(null)
 
   // Computed property that returns the active camera
-  const activeCamera = computed<TresCamera | undefined>(
+  const activeCamera = computed<Camera | undefined>(
     () => cameras.value.find(camera => camera.uuid === activeCameraUuid.value),
   )
 
@@ -65,9 +65,9 @@ export const useCameraManager = ({ sizes }: UseCameraParams): UseCameraReturn =>
    */
   const setActiveCamera = (cameraOrUuid: string | Camera) => {
     const uuid = typeof cameraOrUuid === 'string' ? cameraOrUuid : cameraOrUuid.uuid
-    const cameraExists = cameras.value.some((camera: TresCamera) => camera.uuid === uuid)
+    const cameraExists = cameras.value.some((camera: Camera) => camera.uuid === uuid)
 
-    if (!cameraExists) {
+    if (cameraExists) {
       activeCameraUuid.value = uuid
     }
   }
@@ -77,8 +77,7 @@ export const useCameraManager = ({ sizes }: UseCameraParams): UseCameraReturn =>
    * @param camera - The camera to register
    * @param active - Whether to set the camera as active
    */
-  const registerCamera = (camera: TresCamera, active = false): void => {
-    // Skip if camera is already registered
+  const registerCamera = (camera: Camera, active = false): void => {
     if (cameras.value.some(({ uuid }) => uuid === camera.uuid)) { return }
     cameras.value.push(camera)
     if (active) {
@@ -90,7 +89,7 @@ export const useCameraManager = ({ sizes }: UseCameraParams): UseCameraReturn =>
    * Deregister a camera
    * @param camera - The camera to deregister
    */
-  const deregisterCamera = (camera: TresCamera): void => {
+  const deregisterCamera = (camera: Camera): void => {
     cameras.value = cameras.value.filter(({ uuid }) => uuid !== camera.uuid)
 
     // If the deregistered camera was active, clear the active camera
@@ -104,15 +103,14 @@ export const useCameraManager = ({ sizes }: UseCameraParams): UseCameraReturn =>
    */
   watchEffect(() => {
     if (sizes.aspectRatio.value) {
-      cameras.value.forEach((camera: TresCamera) => {
+      cameras.value.forEach((camera: Camera) => {
         // Update perspective camera
         if (isPerspectiveCamera(camera)) {
           camera.aspect = sizes.aspectRatio.value
           camera.updateProjectionMatrix()
         }
         // Update orthographic camera
-        else if (isOrthographicCamera(camera)) {
-          // Use a fixed frustum size for better visualization
+        /* else if (isOrthographicCamera(camera)) {
           const frustumSize = 10
           const aspect = sizes.aspectRatio.value
 
@@ -121,17 +119,11 @@ export const useCameraManager = ({ sizes }: UseCameraParams): UseCameraReturn =>
           camera.top = frustumSize / 2
           camera.bottom = frustumSize / -2
 
-          // Ensure the camera is at a good position to see the scene
-          if (!camera.position.z) {
-            camera.position.z = 10
-          }
-
           camera.updateProjectionMatrix()
-        }
+        } */
       })
     }
   })
-
 
   return {
     activeCamera,

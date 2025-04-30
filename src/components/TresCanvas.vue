@@ -1,14 +1,15 @@
 <script setup lang="ts">
 import type {
+  Camera,
   ColorSpace,
   ShadowMapType,
   ToneMapping,
   WebGLRenderer,
   WebGLRendererParameters,
 } from 'three'
-import type { App, MaybeRef, Ref } from 'vue'
+import type { App, Ref } from 'vue'
 import type { RendererPresetsType } from '../composables/useRenderer/const'
-import type { TresCamera, TresObject, TresPointerEvent, TresScene } from '../types/'
+import type { TresObject, TresPointerEvent, TresScene } from '../types/'
 import { PerspectiveCamera, Scene } from 'three'
 import * as THREE from 'three'
 
@@ -53,7 +54,7 @@ export interface TresCanvasProps
   dpr?: number | [number, number]
 
   // required by useTresContextProvider
-  camera?: MaybeRef<TresCamera>
+  camera?: Camera
   preset?: RendererPresetsType
   windowSize?: boolean
 
