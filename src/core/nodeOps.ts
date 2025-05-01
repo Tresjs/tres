@@ -242,7 +242,7 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
   function patchProp(node: TresObject, prop: string, prevValue: any, nextValue: any) {
     if (!node) { return }
 
-    let root = node
+    let root: Record<string, unknown> = node
     let key = prop
 
     // NOTE: Update memoizedProps with the new value
@@ -277,7 +277,7 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
       node.__tres.eventCount += 1
     }
     let finalKey = kebabToCamel(key)
-    let target = root?.[finalKey]
+    let target = root?.[finalKey] as Record<string, unknown>
 
     if (key === 'args') {
       const prevNode = node as TresObject3D
@@ -300,7 +300,7 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
 
     if (root.type === 'BufferGeometry') {
       if (key === 'args') { return }
-      root.setAttribute(
+      (root as TresObject).setAttribute(
         kebabToCamel(key),
         new BufferAttribute(...(nextValue as ConstructorParameters<typeof BufferAttribute>)),
       )
@@ -312,11 +312,12 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
       // TODO: A standalone function called `resolve` is
       // available in /src/utils/index.ts. It's covered by tests.
       // Refactor below to DRY.
-      const chain = key.split('-')
-      target = chain.reduce((acc, key) => acc[kebabToCamel(key)], root)
-      key = chain.pop() as string
-      finalKey = key
-      if (!target?.set) { root = chain.reduce((acc, key) => acc[kebabToCamel(key)], root) }
+      target = root
+      for (const part of key.split('-')) {
+        finalKey = key = kebabToCamel(part)
+        root = target as any
+        target = target?.[key] as Record<string, unknown>
+      }
     }
     let value = nextValue
     if (value === '') { value = true }
@@ -335,11 +336,45 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
       }
       return
     }
-    if (!target?.set && !is.fun(target)) { root[finalKey] = value }
-    else if (target.constructor === value.constructor && target?.copy) { target?.copy(value) }
-    else if (is.arr(value)) { target.set(...value) }
-    else if (!target.isColor && target.setScalar) { target.setScalar(value) }
-    else { target.set(value) }
+
+    // Layers must be written to the mask property
+    if (is.layers(target) && is.layers(value)) {
+      target.mask = value.mask
+    }
+    // Set colors if valid color representation for automatic conversion (copy)
+    else if (is.color(target) && is.colorRepresentation(value)) {
+      target.set(value)
+    }
+    // Copy if properties match signatures and implement math interface (likely read-only)
+    else if (
+      is.copyable(target) && is.classInstance(value) && target.constructor === value.constructor
+    ) {
+      target.copy(value)
+    }
+    // Set array types
+    else if (is.vectorLike(target) && Array.isArray(value)) {
+      if ('fromArray' in target && typeof target.fromArray === 'function') {
+        target.fromArray(value)
+      }
+      else {
+        target.set(...value)
+      }
+    }
+    // Set literal types
+    else if (is.vectorLike(target) && typeof value === 'number') {
+      // Allow setting array scalars
+      if ('setScalar' in target && typeof target.setScalar === 'function') {
+        target.setScalar(value)
+      }
+      // Otherwise just set single value
+      else {
+        target.set(value)
+      }
+    }
+    // Else, just overwrite the value
+    else {
+      root[key] = value
+    }
 
     invalidateInstance(node as TresObject)
   }
