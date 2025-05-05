@@ -19,7 +19,7 @@ export const useRenderLoop = (loopId = getRandomString()) => {
   const onAfterLoop = createEventHook<ClockState>()
 
   if (!clocksPerSceneUuid.has(loopId)) {
-    clocksPerSceneUuid.set(loopId, new Clock())
+    clocksPerSceneUuid.set(loopId, new Clock()) // TODO this creates a memory leak. Fix this.
   }
 
   const clock = clocksPerSceneUuid.get(loopId)!
