@@ -292,10 +292,31 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
         && prevArgs.length
         && !deepArrayEqual(prevArgs, args)
       ) {
-        root = Object.assign(
-          prevNode,
-          new catalogue.value[instanceName](...nextValue),
-        )
+        // Create a new instance
+        const newInstance = new catalogue.value[instanceName](...nextValue)
+
+        // Get all property descriptors of the new instance
+        const descriptors = Object.getOwnPropertyDescriptors(newInstance)
+
+        // Only copy properties that are not readonly
+        Object.entries(descriptors).forEach(([key, descriptor]) => {
+          if (!descriptor.writable && !descriptor.set) {
+            return // Skip readonly properties
+          }
+
+          // Copy the value from new instance to previous node
+          if (key in prevNode) {
+            try {
+              (prevNode as unknown as Record<string, unknown>)[key] = newInstance[key]
+            }
+            catch (e) {
+              // Skip if property can't be set
+              console.warn(`Could not set property ${key} on ${instanceName}:`, e)
+            }
+          }
+        })
+
+        root = prevNode
       }
       return
     }

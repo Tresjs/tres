@@ -12,13 +12,15 @@ const aspect = computed(() => width.value / height.value)
 
 const frustumSize = 10
 const orthographicCamera = new OrthographicCamera(
-  -frustumSize * aspect.value,
-  frustumSize * aspect.value,
-  frustumSize,
-  -frustumSize,
+  -frustumSize * aspect.value / 2,
+  frustumSize * aspect.value / 2,
+  frustumSize / 2,
+  -frustumSize / 2,
   0.1,
   1000,
 )
+
+orthographicCamera.zoom = 100
 
 perspectiveCamera.position.set(8, 8, 8)
 perspectiveCamera.lookAt(0, 0, 0)

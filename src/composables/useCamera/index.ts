@@ -2,16 +2,14 @@ import type { TresContext } from '../useTresContextProvider'
 
 import type { ComputedRef, Ref } from 'vue'
 import { computed, ref, watchEffect } from 'vue'
-import { isOrthographicCamera, isPerspectiveCamera } from '../../utils/is'
+import { isPerspectiveCamera } from '../../utils/is'
 import type { Camera } from 'three'
 
 /**
  * Interface for the return value of the useCamera composable
  */
 export interface UseCameraReturn {
-  /**
-   * The active camera
-   */
+
   activeCamera: ComputedRef<Camera | undefined>
   /**
    * The list of cameras
@@ -104,23 +102,10 @@ export const useCameraManager = ({ sizes }: UseCameraParams): UseCameraReturn =>
   watchEffect(() => {
     if (sizes.aspectRatio.value) {
       cameras.value.forEach((camera: Camera) => {
-        // Update perspective camera
         if (isPerspectiveCamera(camera)) {
           camera.aspect = sizes.aspectRatio.value
           camera.updateProjectionMatrix()
         }
-        // Update orthographic camera
-        /* else if (isOrthographicCamera(camera)) {
-          const frustumSize = 10
-          const aspect = sizes.aspectRatio.value
-
-          camera.left = frustumSize * aspect / -2
-          camera.right = frustumSize * aspect / 2
-          camera.top = frustumSize / 2
-          camera.bottom = frustumSize / -2
-
-          camera.updateProjectionMatrix()
-        } */
       })
     }
   })

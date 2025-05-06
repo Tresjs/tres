@@ -3,37 +3,23 @@ import { TresCanvas } from '@tresjs/core'
 import type { OrthographicCamera } from 'three'
 import { Vector3 } from 'three'
 import { TresLeches, useControls } from '@tresjs/leches'
+import { useWindowSize } from '@vueuse/core'
 
-const { left, right, top, bottom, zoom, position, lookAt, near, far } = useControls({
+const { width, height } = useWindowSize()
+const aspect = computed(() => width.value / height.value)
+
+const { zoom, position, lookAt, near, far, frustum } = useControls({
   position: new Vector3(1, 1, 1),
   lookAt: new Vector3(0, 0, 0),
-  top: {
-    value: 500,
-    min: -1000,
-    max: 1000,
-    step: 1,
-  },
-  bottom: {
-    value: -500,
-    min: -1000,
-    max: 1000,
-    step: 1,
-  },
-  left: {
-    value: -500,
-    min: -1000,
-    max: 1000,
-    step: 1,
-  },
-  right: {
-    value: 500,
-    min: -100,
-    max: 1000,
-    step: 1,
+  frustum: {
+    value: 10,
+    min: 0,
+    max: 100,
+    step: 10,
   },
   zoom: {
     value: 1,
-    min: 1,
+    min: -100,
     max: 100,
     step: 1,
   },
@@ -52,7 +38,7 @@ const { left, right, top, bottom, zoom, position, lookAt, near, far } = useContr
 })
 const cameraRef = ref<OrthographicCamera>()
 
-watch([left, right, top, bottom, zoom, near, far], () => {
+watch([zoom, near, far, frustum], () => {
   cameraRef.value?.updateProjectionMatrix()
 })
 </script>
@@ -64,7 +50,10 @@ watch([left, right, top, bottom, zoom, near, far], () => {
       ref="cameraRef"
       :position="[position.x, position.y, position.z]"
       :look-at="[lookAt.x, lookAt.y, lookAt.z]"
-      :args="[left, right, top, bottom, near, far]"
+      :args="[-frustum * aspect, frustum * aspect, frustum, -frustum, 0.1, 1000]"
+      :zoom="zoom"
+      :near="near"
+      :far="far"
     />
     <TresGridHelper />
     <TresMesh position-y="1">
