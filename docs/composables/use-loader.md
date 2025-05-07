@@ -24,7 +24,7 @@ You can also use the `useLoader` composable to load textures:
 
 ```ts
 import { useLoader } from '@tresjs/core'
-import { TextureLoader, Texture } from 'three'
+import { Texture, TextureLoader } from 'three'
 
 const { state: texture } = useLoader(TextureLoader, '/path/to/texture.jpg', {
   initialValue: new Texture(), // Provide an initial texture while loading
@@ -112,7 +112,7 @@ manager.onProgress = (url, loaded, total) => {
   console.log(`Loading file: ${url}. Loaded ${loaded} of ${total} files.`)
 }
 
-const { state } = useLoader<TresGLTF>(GLTFLoader, '/path/to/model.gltf', { 
+const { state } = useLoader<TresGLTF>(GLTFLoader, '/path/to/model.gltf', {
   manager,
 })
 ```
