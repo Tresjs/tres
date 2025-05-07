@@ -92,7 +92,7 @@ export function useLoader<T, Shallow extends boolean = false>(
         reject(err)
       })
     }),
-    options?.initialValue,
+    options?.initialValue ?? null,
     {
       ...options?.asyncOptions,
       immediate: options?.asyncOptions?.immediate ?? true,
