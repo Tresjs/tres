@@ -2,7 +2,7 @@
 /* eslint-disable no-console */
 import { OrbitControls } from '@tresjs/cientos'
 import { useLoader } from '@tresjs/core'
-import { LoadingManager, TextureLoader } from 'three'
+import { LoadingManager, Texture, TextureLoader } from 'three'
 
 const state = inject<{
   hasFinishLoading: boolean
@@ -20,6 +20,7 @@ const { state: texture, isLoading } = useLoader(
   'https://raw.githubusercontent.com/Tresjs/assets/main/textures/black-rock/Rock035_2K_Color.jpg',
   {
     manager,
+    initialValue: new Texture(),
   },
 )
 
