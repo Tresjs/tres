@@ -28,6 +28,7 @@ export type LoaderProto<T> = new (manager?: LoadingManager) => TresLoader<T>
 export interface TresLoaderOptions<T, Shallow extends boolean> {
   manager?: LoadingManager
   extensions?: (loader: TresLoader<T>) => void
+  initialValue?: T
   asyncOptions?: UseAsyncStateOptions<Shallow, any | null>
 }
 
@@ -91,7 +92,7 @@ export function useLoader<T, Shallow extends boolean = false>(
         reject(err)
       })
     }),
-    null,
+    options?.initialValue,
     {
       ...options?.asyncOptions,
       immediate: options?.asyncOptions?.immediate ?? true,
