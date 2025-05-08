@@ -262,7 +262,11 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader'
 The `UseLoader` component needs to be wrapped in a `Suspense` component in order to work
 :::
 
-## useTexture
+## ~~useTexture~~ <Badge text="< v5.0.0" />
+
+::: warning
+This composable has been refactored and moved to the `@tresjs/cientos` package. Please refer to the [cientos documentation](https://cientos.tresjs.org/guide/loaders/useTexture) for more information.
+:::
 
 The `useTexture` composable allows you to load textures using the [THREE.js texture loader](https://threejs.org/docs/#api/en/loaders/TextureLoader). It returns a promise with the loaded texture(s).
 
