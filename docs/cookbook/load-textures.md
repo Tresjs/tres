@@ -84,8 +84,6 @@ const { state: texture, isLoading } = useLoader(
 To avoid using v-if on the material, you can set a default texture as the initial value of the `state` property.
 :::
 
-
-
 ## Using `useTexture`
 
 A more convenient way of loading textures is using the `useTexture` and `useTextures` composables from the `@tresjs/cientos` package.
@@ -101,8 +99,6 @@ Similar to the previous example, we can pass all the textures to a material via 
 ```html
 <TresMesh>
   <TresSphereGeometry :args="[1,32,32]" />
-  <TresMeshStandardMaterial
-    :map="texture"
-  />
+  <TresMeshStandardMaterial :map="texture" />
 </TresMesh>
 ```
