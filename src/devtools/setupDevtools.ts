@@ -7,6 +7,19 @@ import { onUnmounted } from 'vue'
 export function setupTresDevtools(ctx: TresContext) {
   if (!ctx) { return }
 
+  const performanceState: PerformanceState = {
+    maxFrames: 160,
+    fps: {
+      value: 0,
+      accumulator: [],
+    },
+    memory: {
+      currentMem: 0,
+      allocatedMem: 0,
+      accumulator: [],
+    },
+  }
+
   // Performance
   const updateInterval = 100 // Update interval in milliseconds
   const fps = useFps({ every: updateInterval })
@@ -22,7 +35,7 @@ export function setupTresDevtools(ctx: TresContext) {
     // Update WebGL Memory Usage (Placeholder for actual logic)
     // perf.memory.value = calculateMemoryUsage(gl)
     if (ctx.scene.value) {
-      ctx.perf.memory.allocatedMem = calculateMemoryUsage(ctx.scene.value as unknown as TresObject)
+      performanceState.memory.allocatedMem = calculateMemoryUsage(ctx.scene.value as unknown as TresObject)
     }
 
     // Update memory usage
@@ -30,17 +43,17 @@ export function setupTresDevtools(ctx: TresContext) {
       lastUpdateTime = timestamp
 
       // Update FPS
-      boundedPush(ctx.perf.fps.accumulator, fps.value as never, maxFrames)
+      boundedPush(performanceState.fps.accumulator, fps.value as never, maxFrames)
 
-      ctx.perf.fps.value = fps.value
+      performanceState.fps.value = fps.value
 
       // Update memory
       if (isSupported.value && memory.value?.usedJSHeapSize) {
-        boundedPush(ctx.perf.memory.accumulator, memory.value.usedJSHeapSize / 1024 / 1024 as never, maxFrames)
+        boundedPush(performanceState.memory.accumulator, memory.value.usedJSHeapSize / 1024 / 1024 as never, maxFrames)
 
-        if (ctx.perf.memory.accumulator.length > 0) {
-          ctx.perf.memory.currentMem
-        = ctx.perf.memory.accumulator.reduce((a, b) => a + b, 0) / ctx.perf.memory.accumulator.length
+        if (performanceState.memory.accumulator.length > 0) {
+          performanceState.memory.currentMem
+        = performanceState.memory.accumulator.reduce((a, b) => a + b, 0) / performanceState.memory.accumulator.length
         }
       }
     }
@@ -56,7 +69,10 @@ export function setupTresDevtools(ctx: TresContext) {
 
     // Check if the accumulated time is greater than or equal to the interval
     if (accumulatedTime >= interval) {
-      window.__TRES__DEVTOOLS__.cb(ctx)
+      window.__TRES__DEVTOOLS__.cb({
+        context: ctx,
+        performance: performanceState,
+      })
 
       // Reset the accumulated time
       accumulatedTime = 0
