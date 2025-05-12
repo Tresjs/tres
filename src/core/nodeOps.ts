@@ -315,7 +315,7 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
       target = root
       for (const part of key.split('-')) {
         finalKey = key = kebabToCamel(part)
-        root = target as any
+        root = target
         target = target?.[key] as Record<string, unknown>
       }
     }
