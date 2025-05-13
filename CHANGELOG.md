@@ -1,5 +1,16 @@
 # Changelog
 
+## [4.3.4](https://github.com/Tresjs/tres/compare/4.3.3...4.3.4) (2025-05-13)
+
+### Bug Fixes
+
+* **patchProp:** harden props inference ([#1006](https://github.com/Tresjs/tres/issues/1006)) ([6cdf28b](https://github.com/Tresjs/tres/commit/6cdf28b73a246b935f0b58a8b759a0aa1b925ff6))
+* revert improve type safety in retargeting proxy setter ([#930](https://github.com/Tresjs/tres/issues/930)) ([0a95764](https://github.com/Tresjs/tres/commit/0a95764ac47b93d58fd0668327658fe4aae53783))
+
+### Reverts
+
+* Revert "fix: improve typing pixel ratio handling in setPixelRatio utility" (#929) ([9e76010](https://github.com/Tresjs/tres/commit/9e76010d46e1b70a6af6f1cb3eb07a4b888873fc)), closes [#929](https://github.com/Tresjs/tres/issues/929)
+
 ## [4.3.3](https://github.com/Tresjs/tres/compare/4.3.2...4.3.3) (2025-02-06)
 
 ### Bug Fixes

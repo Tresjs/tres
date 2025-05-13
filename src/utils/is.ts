@@ -1,5 +1,6 @@
 import type { TresObject, TresPrimitive } from 'src/types'
-import type { BufferGeometry, Camera, Fog, Light, Material, Object3D, Scene } from 'three'
+import type { BufferGeometry, Camera, Color, ColorRepresentation, Fog, Light, Material, Object3D, Scene } from 'three'
+import { Layers } from 'three'
 
 export function und(u: unknown): u is undefined {
   return typeof u === 'undefined'
@@ -31,6 +32,33 @@ export function obj(u: unknown): u is Record<string | number | symbol, unknown> 
 
 export function object3D(u: unknown): u is Object3D {
   return obj(u) && !!(u.isObject3D)
+}
+
+export function color(u: unknown): u is Color {
+  return obj(u) && !!(u.isColor)
+}
+
+export function colorRepresentation(u: unknown): u is ColorRepresentation {
+  return u != null && (typeof u === 'string' || typeof u === 'number' || color(u))
+}
+
+interface VectorLike { set: (...args: any[]) => void, constructor?: (...args: any[]) => any }
+export function vectorLike(u: unknown): u is VectorLike {
+  return u !== null && typeof u === 'object' && 'set' in u && typeof u.set === 'function'
+}
+
+interface Copyable { copy: (...args: any[]) => void, constructor?: (...args: any[]) => any }
+export function copyable(u: unknown): u is Copyable {
+  return vectorLike(u) && 'copy' in u && typeof u.copy === 'function'
+}
+
+interface ClassInstance { constructor?: (...args: any[]) => any }
+export function classInstance(object: unknown): object is ClassInstance {
+  return !!(object as any)?.constructor
+}
+
+export function layers(u: unknown): u is Layers {
+  return u instanceof Layers // three does not implement .isLayers
 }
 
 export function camera(u: unknown): u is Camera {
