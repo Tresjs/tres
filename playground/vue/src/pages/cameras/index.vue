@@ -2,9 +2,7 @@
 import { Box } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
 import { TresLeches, useControls } from '@tresjs/leches'
-import { OrthographicCamera, PerspectiveCamera } from 'three'
 import '@tresjs/leches/styles'
-import { useWindowSize } from '@vueuse/core'
 
 const { cameraType } = useControls({
   cameraType: {
