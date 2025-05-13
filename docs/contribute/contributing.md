@@ -1,5 +1,3 @@
-# Contributing to TresJS
-
 <script setup lang="ts">
 import { data } from './contribution.data.js'
 
