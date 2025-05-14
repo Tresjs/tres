@@ -104,6 +104,12 @@ export const enConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
           },
         ],
       },
+      {
+        text: 'Contributing',
+        items: [
+          { text: 'Contribute', link: '/contribute/contributing' },
+        ],
+      },
     ],
     nav: [
       { text: 'Guide', link: '/guide/' },
@@ -126,6 +132,10 @@ export const enConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
           {
             text: 'Issues',
             link: 'https://github.com/Tresjs/tres/issues',
+          },
+          {
+            text: 'Contributing',
+            link: 'https://github.com/Tresjs/.github/blob/main/CONTRIBUTING.md',
           },
           {
             text: 'Ecosystem',
