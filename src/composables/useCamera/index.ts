@@ -2,7 +2,7 @@ import type { TresContext } from '../useTresContextProvider'
 
 import type { ComputedRef, Ref } from 'vue'
 import { computed, ref, watchEffect } from 'vue'
-import { isPerspectiveCamera } from '../../utils/is'
+import { isCamera, isPerspectiveCamera } from '../../utils/is'
 import type { Camera } from 'three'
 
 /**
@@ -47,27 +47,22 @@ interface UseCameraParams {
  * @returns The camera management functions and state
  */
 export const useCameraManager = ({ sizes }: UseCameraParams): UseCameraReturn => {
-  // Store all registered cameras
   const cameras = ref<Camera[]>([])
-  // Store the UUID of the active camera
-  const activeCameraUuid = ref<string | null>(null)
-
-  // Computed property that returns the active camera
-  const activeCamera = computed<Camera | undefined>(
-    () => cameras.value.find(camera => camera.uuid === activeCameraUuid.value),
-  )
+  const activeCamera = computed<Camera | undefined>(() => cameras.value[0]) // the first camera is used to make sure there is always one camera active
 
   /**
    * Set the active camera
    * @param cameraOrUuid - The camera or its UUID to set as active
    */
   const setActiveCamera = (cameraOrUuid: string | Camera) => {
-    const uuid = typeof cameraOrUuid === 'string' ? cameraOrUuid : cameraOrUuid.uuid
-    const cameraExists = cameras.value.some((camera: Camera) => camera.uuid === uuid)
+    const camera = isCamera(cameraOrUuid)
+      ? cameraOrUuid
+      : cameras.value.find((camera: Camera) => camera.uuid === cameraOrUuid)
 
-    if (cameraExists) {
-      activeCameraUuid.value = uuid
-    }
+    if (!camera) { return }
+
+    const otherCameras = cameras.value.filter(({ uuid }) => uuid !== camera.uuid)
+    cameras.value = [camera, ...otherCameras]
   }
 
   /**
@@ -78,6 +73,7 @@ export const useCameraManager = ({ sizes }: UseCameraParams): UseCameraReturn =>
   const registerCamera = (camera: Camera, active = false): void => {
     if (cameras.value.some(({ uuid }) => uuid === camera.uuid)) { return }
     cameras.value.push(camera)
+
     if (active) {
       setActiveCamera(camera.uuid)
     }
@@ -89,11 +85,6 @@ export const useCameraManager = ({ sizes }: UseCameraParams): UseCameraReturn =>
    */
   const deregisterCamera = (camera: Camera): void => {
     cameras.value = cameras.value.filter(({ uuid }) => uuid !== camera.uuid)
-
-    // If the deregistered camera was active, clear the active camera
-    if (activeCameraUuid.value === camera.uuid) {
-      activeCameraUuid.value = null
-    }
   }
 
   /**
