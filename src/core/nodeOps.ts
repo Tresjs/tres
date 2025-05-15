@@ -373,7 +373,7 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
     }
     // Else, just overwrite the value
     else {
-      root[key] = value
+      root[finalKey] = value
     }
 
     invalidateInstance(node as TresObject)

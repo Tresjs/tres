@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { TresCanvas, useRenderLoop } from '@tresjs/core'
+import { TresLeches, useControls } from '@tresjs/leches'
+import '@tresjs/leches/styles'
 import { shallowRef } from 'vue'
+import LocalOrbitControls from '../../components/LocalOrbitControls.vue'
 
 const x = shallowRef(1)
 const y = shallowRef(1)
@@ -29,9 +32,13 @@ const labels = [
 /* const PI2 = Math.PI * 2 */
 
 useRenderLoop().onLoop(({ elapsed }) => {
-  const i = Math.floor(elapsed % refs.length)
+  /* const i = Math.floor(elapsed % refs.length)
   refs[i].value = Math.cos(elapsed * Math.PI * 2)
-  label.value = `${labels[i]} ${Math.trunc(refs[i].value * 10) / 10}`
+  label.value = `${labels[i]} ${Math.trunc(refs[i].value * 10) / 10}` */
+})
+
+const { enableZoom } = useControls({
+  enableZoom: false,
 })
 </script>
 
@@ -40,6 +47,7 @@ useRenderLoop().onLoop(({ elapsed }) => {
     <p>Demonstrate pierced props</p>
     {{ label }}
   </div>
+  <TresLeches />
   <TresCanvas>
     <TresMesh
       :position-x="x"
@@ -55,6 +63,7 @@ useRenderLoop().onLoop(({ elapsed }) => {
       <TresBoxGeometry />
       <TresMeshNormalMaterial />
     </TresMesh>
+    <LocalOrbitControls :enable-zoom="enableZoom" />
   </TresCanvas>
 </template>
 
