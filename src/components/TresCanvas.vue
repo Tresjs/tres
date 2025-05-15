@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type {
+  Camera,
   ColorSpace,
   ShadowMapType,
   ToneMapping,
@@ -8,7 +9,7 @@ import type {
 } from 'three'
 import type { App, Ref } from 'vue'
 import type { RendererPresetsType } from '../composables/useRenderer/const'
-import type { TresCamera, TresObject, TresPointerEvent, TresScene } from '../types/'
+import type { TresObject, TresPointerEvent, TresScene } from '../types/'
 import { PerspectiveCamera, Scene } from 'three'
 import * as THREE from 'three'
 
@@ -23,6 +24,7 @@ import {
   provide,
   ref,
   shallowRef,
+  toValue,
   watch,
   watchEffect,
 } from 'vue'
@@ -52,7 +54,7 @@ export interface TresCanvasProps
   dpr?: number | [number, number]
 
   // required by useTresContextProvider
-  camera?: TresCamera
+  camera?: Camera
   preset?: RendererPresetsType
   windowSize?: boolean
 
@@ -192,7 +194,8 @@ onMounted(() => {
     rendererOptions: props,
   })
 
-  const { registerCamera, camera, cameras, deregisterCamera, renderer } = context.value
+  const { camera, renderer } = context.value
+  const { registerCamera, cameras, activeCamera, deregisterCamera } = camera
 
   mountCustomRenderer(context.value)
 
@@ -219,10 +222,12 @@ onMounted(() => {
   watch(
     () => props.camera,
     (newCamera, oldCamera) => {
-      if (newCamera) { registerCamera(newCamera) }
+      if (newCamera) {
+        registerCamera(toValue(newCamera), true)
+      }
       if (oldCamera) {
-        oldCamera.removeFromParent()
-        deregisterCamera(oldCamera)
+        toValue(oldCamera).removeFromParent()
+        deregisterCamera(toValue(oldCamera))
       }
     },
     {
@@ -230,7 +235,7 @@ onMounted(() => {
     },
   )
 
-  if (!camera.value) {
+  if (!activeCamera.value) {
     addDefaultCamera()
   }
 

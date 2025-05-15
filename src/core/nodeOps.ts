@@ -4,7 +4,7 @@ import { BufferAttribute, Object3D } from 'three'
 import { isRef, type RendererOptions } from 'vue'
 import { attach, deepArrayEqual, doRemoveDeregister, doRemoveDetach, invalidateInstance, isHTMLTag, kebabToCamel, noop, prepareTresInstance, setPrimitiveObject, unboxTresPrimitive } from '../utils'
 import { logError } from '../utils/logger'
-import { isArray, isFunction, isObject, isObject3D, isScene, isUndefined } from '../utils/is'
+import { isArray, isCamera, isFunction, isObject, isObject3D, isScene, isTresInstance, isUndefined } from '../utils/is'
 import { createRetargetingProxy } from '../utils/primitive/createRetargetingProxy'
 import { catalogue } from './catalogue'
 
@@ -76,7 +76,8 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
 
     if (!obj) { return null }
 
-    if (obj.isCamera) {
+    // Opinionated default to avoid user issue not seeing anything if camera is on origin
+    if (isCamera(obj)) {
       if (!props?.position) {
         obj.position.set(3, 3, 3)
       }
@@ -86,7 +87,7 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
     }
 
     obj = prepareTresInstance(obj, {
-      ...obj.__tres,
+      ...(isTresInstance(obj) ? obj.__tres : {}),
       type: name,
       memoizedProps: props,
       eventCount: 0,
@@ -114,7 +115,9 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
       context.eventManager?.registerObject(child)
     }
 
-    context.registerCamera(child)
+    if (isCamera(child)) {
+      context.camera?.registerCamera(child)
+    }
     // NOTE: Track onPointerMissed objects separate from the scene
     context.eventManager?.registerPointerMissedObject(child)
 
@@ -288,10 +291,31 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
         && prevArgs.length
         && !deepArrayEqual(prevArgs, args)
       ) {
-        root = Object.assign(
-          prevNode,
-          new catalogue.value[instanceName](...nextValue),
-        )
+        // Create a new instance
+        const newInstance = new catalogue.value[instanceName](...nextValue)
+
+        // Get all property descriptors of the new instance
+        const descriptors = Object.getOwnPropertyDescriptors(newInstance)
+
+        // Only copy properties that are not readonly
+        Object.entries(descriptors).forEach(([key, descriptor]) => {
+          if (!descriptor.writable && !descriptor.set) {
+            return // Skip readonly properties
+          }
+
+          // Copy the value from new instance to previous node
+          if (key in prevNode) {
+            try {
+              (prevNode as unknown as Record<string, unknown>)[key] = newInstance[key]
+            }
+            catch (e) {
+              // Skip if property can't be set
+              console.warn(`Could not set property ${key} on ${instanceName}:`, e)
+            }
+          }
+        })
+
+        root = prevNode
       }
       return
     }
@@ -338,6 +362,10 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
     else if (isArray(value)) { target.set(...value) }
     else if (!target.isColor && target.setScalar) { target.setScalar(value) }
     else { target.set(value) }
+
+    if (isCamera(node)) {
+      node.updateProjectionMatrix()
+    }
 
     invalidateInstance(node as TresObject)
   }
