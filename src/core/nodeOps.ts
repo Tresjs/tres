@@ -117,7 +117,6 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
 
     if (isCamera(child)) {
       context.camera?.registerCamera(child)
-      context.camera?.setActiveCamera(child.uuid)
     }
     // NOTE: Track onPointerMissed objects separate from the scene
     context.eventManager?.registerPointerMissedObject(child)
