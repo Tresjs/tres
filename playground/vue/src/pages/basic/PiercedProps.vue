@@ -32,9 +32,9 @@ const labels = [
 /* const PI2 = Math.PI * 2 */
 
 useRenderLoop().onLoop(({ elapsed }) => {
-  /* const i = Math.floor(elapsed % refs.length)
+  const i = Math.floor(elapsed % refs.length)
   refs[i].value = Math.cos(elapsed * Math.PI * 2)
-  label.value = `${labels[i]} ${Math.trunc(refs[i].value * 10) / 10}` */
+  label.value = `${labels[i]} ${Math.trunc(refs[i].value * 10) / 10}`
 })
 
 const { enableZoom } = useControls({
