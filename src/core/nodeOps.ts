@@ -4,7 +4,7 @@ import { BufferAttribute, Object3D } from 'three'
 import { isRef, type RendererOptions } from 'vue'
 import { attach, deepArrayEqual, doRemoveDeregister, doRemoveDetach, invalidateInstance, isHTMLTag, kebabToCamel, noop, prepareTresInstance, setPrimitiveObject, unboxTresPrimitive } from '../utils'
 import { logError } from '../utils/logger'
-import { isArray, isCamera, isFunction, isObject, isObject3D, isScene, isTresInstance, isUndefined } from '../utils/is'
+import { isArray, isCamera, isClassInstance, isColor, isColorRepresentation, isCopyable, isFunction, isLayers, isObject, isObject3D, isScene, isTresInstance, isUndefined, isVectorLike } from '../utils/is'
 import { createRetargetingProxy } from '../utils/primitive/createRetargetingProxy'
 import { catalogue } from './catalogue'
 
@@ -243,7 +243,7 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
   function patchProp(node: TresObject, prop: string, prevValue: any, nextValue: any) {
     if (!node) { return }
 
-    let root = node
+    let root: Record<string, unknown> = node
     let key = prop
 
     // NOTE: Update memoizedProps with the new value
@@ -278,7 +278,7 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
       node.__tres.eventCount += 1
     }
     let finalKey = kebabToCamel(key)
-    let target = root?.[finalKey]
+    let target = root?.[finalKey] as Record<string, unknown>
 
     if (key === 'args') {
       const prevNode = node as TresObject3D
@@ -315,14 +315,14 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
           }
         })
 
-        root = prevNode
+        root = prevNode as TresObject
       }
       return
     }
 
     if (root.type === 'BufferGeometry') {
       if (key === 'args') { return }
-      root.setAttribute(
+      (root as TresObject).setAttribute(
         kebabToCamel(key),
         new BufferAttribute(...(nextValue as ConstructorParameters<typeof BufferAttribute>)),
       )
@@ -334,11 +334,12 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
       // TODO: A standalone function called `resolve` is
       // available in /src/utils/index.ts. It's covered by tests.
       // Refactor below to DRY.
-      const chain = key.split('-')
-      target = chain.reduce((acc, key) => acc[kebabToCamel(key)], root)
-      key = chain.pop() as string
-      finalKey = key
-      if (!target?.set) { root = chain.reduce((acc, key) => acc[kebabToCamel(key)], root) }
+      target = root
+      for (const part of key.split('-')) {
+        finalKey = key = kebabToCamel(part)
+        root = target
+        target = target?.[key] as Record<string, unknown>
+      }
     }
     let value = nextValue
     if (value === '') { value = true }
@@ -357,11 +358,45 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
       }
       return
     }
-    if (!target?.set && !isFunction(target)) { root[finalKey] = value }
-    else if (target.constructor === value.constructor && target?.copy) { target?.copy(value) }
-    else if (isArray(value)) { target.set(...value) }
-    else if (!target.isColor && target.setScalar) { target.setScalar(value) }
-    else { target.set(value) }
+
+    // Layers must be written to the mask property
+    if (isLayers(target) && isLayers(value)) {
+      target.mask = value.mask
+    }
+    // Set colors if valid color representation for automatic conversion (copy)
+    else if (isColor(target) && isColorRepresentation(value)) {
+      target.set(value)
+    }
+    // Copy if properties match signatures and implement math interface (likely read-only)
+    else if (
+      isCopyable(target) && isClassInstance(value) && target.constructor === value.constructor
+    ) {
+      target.copy(value)
+    }
+    // Set array types
+    else if (isVectorLike(target) && Array.isArray(value)) {
+      if ('fromArray' in target && typeof target.fromArray === 'function') {
+        target.fromArray(value)
+      }
+      else {
+        target.set(...value)
+      }
+    }
+    // Set literal types
+    else if (isVectorLike(target) && typeof value === 'number') {
+      // Allow setting array scalars
+      if ('setScalar' in target && typeof target.setScalar === 'function') {
+        target.setScalar(value)
+      }
+      // Otherwise just set single value
+      else {
+        target.set(value)
+      }
+    }
+    // Else, just overwrite the value
+    else {
+      root[finalKey] = value
+    }
 
     if (isCamera(node)) {
       node.updateProjectionMatrix()

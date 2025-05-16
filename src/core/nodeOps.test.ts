@@ -1343,7 +1343,7 @@ describe('nodeOps', () => {
         const s = v => JSON.stringify(v)
         const camera = nodeOps.createElement('TresPerspectiveCamera', undefined, undefined, {})
         const result = []
-        camera.position.set = (x, y, z) => result.push({ x, y, z })
+        camera.position.fromArray = ([x, y, z]: THREE.Vector3Tuple) => result.push({ x, y, z })
         nodeOps.patchProp(camera, 'position', undefined, [0, 0, 0])
         nodeOps.patchProp(camera, 'position', undefined, [1, 2, 3])
         nodeOps.patchProp(camera, 'position', undefined, [4, 5, 6])

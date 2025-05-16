@@ -1,5 +1,6 @@
 import type { TresCamera, TresInstance, TresObject, TresPrimitive } from 'src/types'
-import type { BufferGeometry, Fog, Light, Material, Object3D, OrthographicCamera, PerspectiveCamera, Scene } from 'three'
+import type { BufferGeometry, Color, ColorRepresentation, Fog, Light, Material, Object3D, OrthographicCamera, PerspectiveCamera, Scene } from 'three'
+import { Layers } from 'three'
 
 /**
  * Type guard to check if a value is undefined
@@ -161,6 +162,33 @@ export function isObject3D(value: unknown): value is Object3D {
  */
 export function isCamera(value: unknown): value is TresCamera {
   return isObject(value) && !!(value.isCamera)
+}
+
+export function isColor(value: unknown): value is Color {
+  return isObject(value) && !!(value.isColor)
+}
+
+export function isColorRepresentation(value: unknown): value is ColorRepresentation {
+  return value != null && (typeof value === 'string' || typeof value === 'number' || isColor(value))
+}
+
+interface VectorLike { set: (...args: any[]) => void, constructor?: (...args: any[]) => any }
+export function isVectorLike(value: unknown): value is VectorLike {
+  return value !== null && typeof value === 'object' && 'set' in value && typeof value.set === 'function'
+}
+
+interface Copyable { copy: (...args: any[]) => void, constructor?: (...args: any[]) => any }
+export function isCopyable(value: unknown): value is Copyable {
+  return isVectorLike(value) && 'copy' in value && typeof value.copy === 'function'
+}
+
+interface ClassInstance { constructor?: (...args: any[]) => any }
+export function isClassInstance(object: unknown): object is ClassInstance {
+  return !!(object)?.constructor
+}
+
+export function isLayers(value: unknown): value is Layers {
+  return value instanceof Layers // three does not implement .isLayers
 }
 
 /**
