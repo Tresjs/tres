@@ -12,6 +12,7 @@ declare module 'vue' {
     BlenderCube: typeof import('./src/components/BlenderCube.vue')['default']
     DynamicModel: typeof import('./src/components/DynamicModel.vue')['default']
     GraphPane: typeof import('./src/components/GraphPane.vue')['default']
+    LocalOrbitControls: typeof import('./src/components/LocalOrbitControls.vue')['default']
     OverlayInfo: typeof import('./src/components/OverlayInfo.vue')['default']
     PbrSphere: typeof import('./src/components/PbrSphere.vue')['default']
     ProvideBridge: typeof import('./src/components/ProvideBridge.vue')['default']

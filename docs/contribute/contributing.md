@@ -10,5 +10,4 @@ onMounted(async () => {
 })
 </script>
 
-
 <div v-html="content" class="remote-markdown"></div>
