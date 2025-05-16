@@ -2,13 +2,11 @@ import type { TresContext } from '../composables'
 import type { DisposeType, LocalState, TresInstance, TresObject, TresObject3D, TresPrimitive, WithMathProps } from '../types'
 import { BufferAttribute, Object3D } from 'three'
 import { isRef, type RendererOptions } from 'vue'
-import { useLogger } from '../composables'
 import { attach, deepArrayEqual, doRemoveDeregister, doRemoveDetach, invalidateInstance, isHTMLTag, kebabToCamel, noop, prepareTresInstance, setPrimitiveObject, unboxTresPrimitive } from '../utils'
-import * as is from '../utils/is'
+import { logError } from '../utils/logger'
+import { isArray, isCamera, isClassInstance, isColor, isColorRepresentation, isCopyable, isFunction, isLayers, isObject, isObject3D, isScene, isTresInstance, isUndefined, isVectorLike } from '../utils/is'
 import { createRetargetingProxy } from '../utils/primitive/createRetargetingProxy'
 import { catalogue } from './catalogue'
-
-const { logError } = useLogger()
 
 const supportedPointerEvents = [
   'onClick',
@@ -42,7 +40,7 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
     let obj: TresObject | null
 
     if (tag === 'primitive') {
-      if (!is.obj(props.object) || isRef(props.object)) {
+      if (!isObject(props.object) || isRef(props.object)) {
         logError(
           'Tres primitives need an \'object\' prop, whose value is an object or shallowRef<object>',
         )
@@ -78,7 +76,8 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
 
     if (!obj) { return null }
 
-    if (obj.isCamera) {
+    // Opinionated default to avoid user issue not seeing anything if camera is on origin
+    if (isCamera(obj)) {
       if (!props?.position) {
         obj.position.set(3, 3, 3)
       }
@@ -88,7 +87,7 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
     }
 
     obj = prepareTresInstance(obj, {
-      ...obj.__tres,
+      ...(isTresInstance(obj) ? obj.__tres : {}),
       type: name,
       memoizedProps: props,
       eventCount: 0,
@@ -116,14 +115,16 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
       context.eventManager?.registerObject(child)
     }
 
-    context.registerCamera(child)
+    if (isCamera(child)) {
+      context.camera?.registerCamera(child)
+    }
     // NOTE: Track onPointerMissed objects separate from the scene
     context.eventManager?.registerPointerMissedObject(child)
 
     if (childInstance.__tres.attach) {
       attach(parentInstance, childInstance, childInstance.__tres.attach)
     }
-    else if (is.object3D(child) && is.object3D(parentInstance)) {
+    else if (isObject3D(child) && isObject3D(parentInstance)) {
       parentInstance.add(child)
       child.dispatchEvent({ type: 'added' })
     }
@@ -155,9 +156,9 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
 
     // NOTE: Derive `dispose` value for this `remove` call and
     // recursive remove calls.
-    dispose = is.und(dispose) ? 'default' : dispose
+    dispose = isUndefined(dispose) ? 'default' : dispose
     const userDispose = node.__tres?.dispose
-    if (!is.und(userDispose)) {
+    if (!isUndefined(userDispose)) {
       if (userDispose === null) {
         // NOTE: Treat as `false` to act like R3F
         dispose = false
@@ -211,11 +212,11 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
     doRemoveDeregister(node, context)
 
     // NOTE: 4) Dispose `node`
-    if (shouldDispose && !is.scene(node)) {
-      if (is.fun(dispose)) {
+    if (shouldDispose && !isScene(node)) {
+      if (isFunction(dispose)) {
         dispose(node as TresInstance)
       }
-      else if (is.fun(node.dispose)) {
+      else if (isFunction(node.dispose)) {
         try {
           node.dispose()
         }
@@ -267,7 +268,7 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
       return
     }
 
-    if (is.object3D(node) && key === 'blocks-pointer-events') {
+    if (isObject3D(node) && key === 'blocks-pointer-events') {
       if (nextValue || nextValue === '') { node[key] = nextValue }
       else { delete node[key] }
       return
@@ -290,10 +291,31 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
         && prevArgs.length
         && !deepArrayEqual(prevArgs, args)
       ) {
-        root = Object.assign(
-          prevNode,
-          new catalogue.value[instanceName](...nextValue),
-        )
+        // Create a new instance
+        const newInstance = new catalogue.value[instanceName](...nextValue)
+
+        // Get all property descriptors of the new instance
+        const descriptors = Object.getOwnPropertyDescriptors(newInstance)
+
+        // Only copy properties that are not readonly
+        Object.entries(descriptors).forEach(([key, descriptor]) => {
+          if (!descriptor.writable && !descriptor.set) {
+            return // Skip readonly properties
+          }
+
+          // Copy the value from new instance to previous node
+          if (key in prevNode) {
+            try {
+              (prevNode as unknown as Record<string, unknown>)[key] = newInstance[key]
+            }
+            catch (e) {
+              // Skip if property can't be set
+              console.warn(`Could not set property ${key} on ${instanceName}:`, e)
+            }
+          }
+        })
+
+        root = prevNode as TresObject
       }
       return
     }
@@ -322,37 +344,37 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
     let value = nextValue
     if (value === '') { value = true }
     // Set prop, prefer atomic methods if applicable
-    if (is.fun(target)) {
+    if (isFunction(target)) {
       // don't call pointer event callback functions
 
       if (!supportedPointerEvents.includes(prop)) {
-        if (is.arr(value)) { node[finalKey](...value) }
+        if (isArray(value)) { node[finalKey](...value) }
         else { node[finalKey](value) }
       }
       // NOTE: Set on* callbacks
       // Issue: https://github.com/Tresjs/tres/issues/360
-      if (finalKey.startsWith('on') && is.fun(value)) {
+      if (finalKey.startsWith('on') && isFunction(value)) {
         root[finalKey] = value
       }
       return
     }
 
     // Layers must be written to the mask property
-    if (is.layers(target) && is.layers(value)) {
+    if (isLayers(target) && isLayers(value)) {
       target.mask = value.mask
     }
     // Set colors if valid color representation for automatic conversion (copy)
-    else if (is.color(target) && is.colorRepresentation(value)) {
+    else if (isColor(target) && isColorRepresentation(value)) {
       target.set(value)
     }
     // Copy if properties match signatures and implement math interface (likely read-only)
     else if (
-      is.copyable(target) && is.classInstance(value) && target.constructor === value.constructor
+      isCopyable(target) && isClassInstance(value) && target.constructor === value.constructor
     ) {
       target.copy(value)
     }
     // Set array types
-    else if (is.vectorLike(target) && Array.isArray(value)) {
+    else if (isVectorLike(target) && Array.isArray(value)) {
       if ('fromArray' in target && typeof target.fromArray === 'function') {
         target.fromArray(value)
       }
@@ -361,7 +383,7 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
       }
     }
     // Set literal types
-    else if (is.vectorLike(target) && typeof value === 'number') {
+    else if (isVectorLike(target) && typeof value === 'number') {
       // Allow setting array scalars
       if ('setScalar' in target && typeof target.setScalar === 'function') {
         target.setScalar(value)
@@ -374,6 +396,10 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
     // Else, just overwrite the value
     else {
       root[finalKey] = value
+    }
+
+    if (isCamera(node)) {
+      node.updateProjectionMatrix()
     }
 
     invalidateInstance(node as TresObject)

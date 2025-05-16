@@ -4,17 +4,17 @@ import { useTres } from '@tresjs/core'
 import { ref, watch } from 'vue'
 import BlenderCube from '../../../components/BlenderCube.vue'
 
-const { invalidate } = useTres()
+const { renderer } = useTres()
 
 const blenderCubeRef = ref()
 
 watch(blenderCubeRef, (prev, next) => {
   if (!next) { return }
-  invalidate()
+  renderer.invalidate()
 })
 
 function onControlChange() {
-  invalidate()
+  renderer.invalidate()
 }
 </script>
 

@@ -1,29 +1,16 @@
 <script setup lang="ts">
 import { useGLTF } from '@tresjs/cientos'
-import { dispose } from '@tresjs/core'
-import { useControls } from '@tresjs/leches'
 
-const { nodes } = await useGLTF('https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/blender-cube.glb', { draco: true })
-const model = nodes.Cube
+const { nodes } = useGLTF('https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/blender-cube.glb', { draco: true })
+const model = computed(() => nodes.value.BlenderCube)
 
-model.position.set(0, 1, 0)
-
-useControls({
-  disposeBtn: {
-    label: 'Dispose',
-    type: 'button',
-    onClick: () => {
-      dispose(model)
-    },
-    size: 'sm',
-  },
-})
-
-onUnmounted(() => {
-  dispose(model)
+defineExpose({
+  model,
 })
 </script>
 
 <template>
-  <primitive :object="model" />
+  <TresGroup :position="[0, 1, 0]">
+    <primitive v-if="model" :object="model" />
+  </TresGroup>
 </template>

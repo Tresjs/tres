@@ -1,16 +1,45 @@
-<script setup lang="ts">
+<script setup lang="ts" generic="T extends TresObjectMap">
+import type { LoadingManager } from 'three'
 import type { LoaderProto } from './index'
-import { reactive } from 'vue'
 import { useLoader } from './index'
+import { whenever } from '@vueuse/core'
+import type { TresObjectMap } from '../../utils/graph'
 
 const props = defineProps<{
-  loader: LoaderProto<unknown>
-  url: string | string[]
+  /**
+   * The THREE.js loader to use
+   */
+  loader: LoaderProto<T>
+  /**
+   * Path to resource
+   */
+  path: string
+  /**
+   * Optional THREE.js LoadingManager
+   */
+  manager?: LoadingManager
 }>()
 
-const data = await reactive(useLoader(props.loader, props.url))
+const emit = defineEmits<{
+  loaded: [result: T]
+  error: [error: unknown]
+}>()
+
+const { state, isLoading, error } = useLoader(props.loader, props.path, { manager: props.manager })
+
+whenever(error, (err) => {
+  if (err) { emit('error', err) }
+})
+
+whenever(state, (value) => {
+  if (value) { emit('loaded', value as T) }
+})
 </script>
 
 <template>
-  <slot :data="data"></slot>
+  <slot
+    :state="state"
+    :is-loading="isLoading"
+    :error="error"
+  ></slot>
 </template>
