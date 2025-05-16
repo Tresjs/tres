@@ -1,5 +1,11 @@
 # Changelog
 
+## [4.3.5](https://github.com/Tresjs/tres/compare/4.3.4...4.3.5) (2025-05-16)
+
+### Bug Fixes
+
+* make sure key is camelCase when reached else on conditional ([#1011](https://github.com/Tresjs/tres/issues/1011)) ([2902d05](https://github.com/Tresjs/tres/commit/2902d05c600b0e2b02738d0ab5af292b4d75cc35))
+
 ## [4.3.4](https://github.com/Tresjs/tres/compare/4.3.3...4.3.4) (2025-05-13)
 
 ### Bug Fixes
