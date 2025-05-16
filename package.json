@@ -70,10 +70,10 @@
   },
   "devDependencies": {
     "@release-it/conventional-changelog": "^10.0.0",
-    "@tresjs/core": "^4.3.1",
+    "@tresjs/core": "^4.3.5",
     "@tresjs/eslint-config": "^1.4.0",
     "@types/node": "^22.10.1",
-    "@types/three": "^0.172.0",
+    "@types/three": "^0.176.0",
     "@typescript-eslint/eslint-plugin": "^8.17.0",
     "@typescript-eslint/parser": "^8.17.0",
     "@vitejs/plugin-vue": "^5.2.1",
