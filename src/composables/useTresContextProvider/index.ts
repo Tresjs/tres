@@ -8,12 +8,12 @@ import { Raycaster } from 'three'
 import { computed, inject, onUnmounted, provide, readonly, ref, shallowRef } from 'vue'
 import { extend } from '../../core/catalogue'
 import { createRenderLoop } from '../../core/loop'
+import { type EventManager, useEventsOptions } from '../../utils/createEventManager'
 import { calculateMemoryUsage } from '../../utils/perf'
 
 import { useCamera } from '../useCamera'
 import { useRenderer } from '../useRenderer'
 import useSizes, { type SizesType } from '../useSizes'
-import { type TresEventManager, useTresEventManager } from '../useTresEventManager'
 import { useTresReady } from '../useTresReady'
 
 export interface InternalState {
@@ -49,6 +49,7 @@ export interface PerformanceState {
 }
 
 export interface TresContext {
+  eventManager: EventManager
   scene: ShallowRef<TresScene>
   sizes: SizesType
   extend: (objects: any) => void
@@ -73,14 +74,11 @@ export interface TresContext {
   registerCamera: (maybeCamera: unknown) => void
   setCameraActive: (cameraOrUuid: Camera | string) => void
   deregisterCamera: (maybeCamera: unknown) => void
-  eventManager?: TresEventManager
+  parentContext?: TresContext
   // Events
   // Temporaly add the methods to the context, this should be handled later by the EventManager state on the context https://github.com/Tresjs/tres/issues/515
   // When thats done maybe we can short the names of the methods since the parent will give the context.
-  registerObjectAtPointerEventHandler?: (object: TresObject) => void
-  deregisterObjectAtPointerEventHandler?: (object: TresObject) => void
-  registerBlockingObjectAtPointerEventHandler?: (object: TresObject) => void
-  deregisterBlockingObjectAtPointerEventHandler?: (object: TresObject) => void
+  events?: { enabled: MaybeRefOrGetter<boolean> }
 }
 
 export function useTresContextProvider({
@@ -88,12 +86,14 @@ export function useTresContextProvider({
   canvas,
   windowSize,
   rendererOptions,
+  props,
   emit,
 }: {
   scene: TresScene
   canvas: MaybeRef<HTMLCanvasElement>
   windowSize: MaybeRefOrGetter<boolean>
   rendererOptions: UseRendererOptions
+  props: any
   emit: EmitEventFn
 
 }): TresContext {
@@ -142,7 +142,7 @@ export function useTresContextProvider({
     },
   )
 
-  const ctx: TresContext = {
+  const partialContext: Omit<TresContext, 'eventManager'> & { eventManager?: EventManager } = {
     sizes,
     scene: localScene,
     camera,
@@ -171,6 +171,9 @@ export function useTresContextProvider({
     deregisterCamera,
     loop: createRenderLoop(),
   }
+
+  partialContext.eventManager = useEventsOptions(props, partialContext as TresContext, emit).eventManager
+  const ctx = partialContext as TresContext
 
   provide('useTres', ctx)
 
@@ -204,9 +207,8 @@ export function useTresContextProvider({
   ctx.loop.start()
 
   onTresReady(() => {
-    emit('ready', ctx)
     ctx.loop.setReady(true)
-    useTresEventManager(scene, ctx, emit)
+    emit('ready', ctx)
   })
 
   onUnmounted(() => {

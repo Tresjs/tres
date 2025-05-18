@@ -23,7 +23,7 @@ export interface TresCatalogue {
   [name: string]: ConstructorRepresentation
 }
 
-export type EmitEventName = 'render' | 'ready' | 'click' | 'double-click' | 'context-menu' | 'pointer-move' | 'pointer-up' | 'pointer-down' | 'pointer-enter' | 'pointer-leave' | 'pointer-over' | 'pointer-out' | 'pointer-missed' | 'wheel'
+export type EmitEventName = 'render' | 'ready'
 export type EmitEventFn = (event: EmitEventName, ...args: any[]) => void
 export type TresCamera = THREE.OrthographicCamera | THREE.PerspectiveCamera
 
@@ -51,7 +51,6 @@ export interface LocalState {
   type: string
   eventCount: number
   root: TresContext
-  handlers: Partial<EventHandlers>
   memoizedProps: { [key: string]: any }
   // NOTE:
   // LocalState holds information about the parent/child relationship
@@ -94,13 +93,17 @@ export interface TresScene extends THREE.Scene {
 // Events
 
 export interface Intersection extends THREE.Intersection {
-  /** The event source (the object which registered the handler) */
+  /** The event source (the object that registered the handler) */
   eventObject: TresObject
 }
 
 export interface IntersectionEvent<TSourceEvent> extends Intersection {
-  /** The event source (the object which registered the handler) */
+  /** Alias for `currentTarget` */
   eventObject: TresObject
+  /** The event source (the object that registered the handler) – equivalent of DOM event.currentTarget */
+  currentTarget: TresObject
+  /** The "hit" object, where event bubbling began. */
+  target: TresObject
   /** An array of intersections */
   intersections: Intersection[]
   /** vec3.set(pointer.x, pointer.y, 0).unproject(camera) */
@@ -109,12 +112,14 @@ export interface IntersectionEvent<TSourceEvent> extends Intersection {
   pointer: THREE.Vector2
   /** Delta between first click and this event */
   delta: number
-  /** The ray that pierced it */
+  /** The ray that pierced `eventObject` */
   ray: THREE.Ray
   /** The camera that was used by the raycaster */
-  camera: TresCamera
+  camera: THREE.Camera
   /** stopPropagation will stop underlying handlers from firing */
   stopPropagation: () => void
+  /** Cancel the default behavior of the event. (Not useful for Tres, but Vue calls this method internally; causing a throw if it's not present.) */
+  preventDefault: () => void
   /** The original host event */
   nativeEvent: TSourceEvent
   /** If the event was stopped by calling stopPropagation */
@@ -126,40 +131,54 @@ export type DomEvent = PointerEvent | MouseEvent | WheelEvent
 
 export interface TresEvent {
   eventObject: TresObject
+  currentTarget: TresObject
+  target: TresObject
   event: DomEvent
-  stopPropagation: () => void
-  stopPropagating: boolean
   intersections: Intersection[]
   intersects: Intersection[]
 }
 
 export interface Events {
   onClick: EventListener
-  onContextMenu: EventListener
-  onDoubleClick: EventListener
+  onContextmenu: EventListener
+  onDoubleclick: EventListener
   onWheel: EventListener
-  onPointerDown: EventListener
-  onPointerUp: EventListener
-  onPointerLeave: EventListener
-  onPointerMove: EventListener
-  onPointerCancel: EventListener
-  onLostPointerCapture: EventListener
+  onPointerdown: EventListener
+  onPointerup: EventListener
+  onPointerenter: EventListener
+  onPointerleave: EventListener
+  onPointerover: EventListener
+  onPointerout: EventListener
+  onPointermove: EventListener
+  onPointercancel: EventListener
+  onLostpointercapture: EventListener
 }
 
+export type OneOrMany<T> = T | T[]
+export type EventHandler<T> = OneOrMany<(evt: ThreeEvent<T>) => void>
 export interface EventHandlers {
-  onClick?: (event: ThreeEvent<MouseEvent>) => void
-  onContextMenu?: (event: ThreeEvent<MouseEvent>) => void
-  onDoubleClick?: (event: ThreeEvent<MouseEvent>) => void
-  onPointerUp?: (event: ThreeEvent<PointerEvent>) => void
-  onPointerDown?: (event: ThreeEvent<PointerEvent>) => void
-  onPointerOver?: (event: ThreeEvent<PointerEvent>) => void
-  onPointerOut?: (event: ThreeEvent<PointerEvent>) => void
-  onPointerEnter?: (event: ThreeEvent<PointerEvent>) => void
-  onPointerLeave?: (event: ThreeEvent<PointerEvent>) => void
-  onPointerMove?: (event: ThreeEvent<PointerEvent>) => void
-  onPointerMissed?: (event: MouseEvent) => void
-  onPointerCancel?: (event: ThreeEvent<PointerEvent>) => void
-  onWheel?: (event: ThreeEvent<WheelEvent>) => void
+  onClick?: EventHandler<MouseEvent>
+  onDblclick?: EventHandler<MouseEvent>
+  onContextmenu?: EventHandler<MouseEvent>
+  onPointerup?: EventHandler<PointerEvent>
+  onPointerdown?: EventHandler<PointerEvent>
+  onPointerover?: EventHandler<PointerEvent>
+  onPointerout?: EventHandler<PointerEvent>
+  onPointerenter?: EventHandler<PointerEvent>
+  onPointerleave?: EventHandler<PointerEvent>
+  onPointermissed?: EventHandler<PointerEvent>
+  onPointermove?: EventHandler<PointerEvent>
+  onLostpointercapture?: EventHandler<PointerEvent>
+  onWheel?: EventHandler<WheelEvent>
+}
+
+export interface PointerCaptureTarget {
+  // NOTE: Below are "fake" DOM Element methods that allow objects
+  // to communicate with Tres' `EventManager` about pointer capture.
+  // See: https://developer.mozilla.org/en-US/docs/Web/API/Element/setPointerCapture
+  setPointerCapture: (pointerId: number) => void
+  releasePointerCapture: (pointerId: number) => void
+  hasPointerCapture: (pointerId: number) => boolean
 }
 
 interface MathRepresentation {
