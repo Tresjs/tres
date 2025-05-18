@@ -8,6 +8,9 @@
 
     /* Bundler mode */
     "moduleResolution": "bundler",
+    "paths": {
+      "@tresjs/rapier": ["../src/index.ts"]
+    },
     "resolveJsonModule": true,
     "allowImportingTsExtensions": true,
 
