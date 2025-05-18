@@ -15,7 +15,7 @@ import type { ShallowRef } from 'vue'
 import { useRapierContext } from '../composables'
 import { createColliderPropsFromObject, createRigidBody } from '../core'
 import { makePropsWatcherRB } from '../utils/props'
-import { BaseCollider } from './colliders'
+import { Collider } from './colliders'
 import type {
   ColliderProps,
   ExposedRigidBody,
@@ -164,7 +164,7 @@ onUnmounted(() => {
 
 <template>
   <TresGroup ref="bodyGroup">
-    <BaseCollider
+    <Collider
       v-for="(_props, id) in autoColliderProps"
       :key="id"
       :shape="_props.shape"
