@@ -18,12 +18,12 @@ const {
 } = defineProps<JointProps>()
 const { world, rapier } = useRapier()
 
-const joins = shallowRef<ImpulseJoint>()
+const joints = shallowRef<ImpulseJoint>()
 
 const dispose = () => {
-  if (joins.value) {
-    world.removeImpulseJoint(joins.value, wakeUpOnChanges)
-    joins.value = undefined
+  if (joints.value) {
+    world.removeImpulseJoint(joints.value, wakeUpOnChanges)
+    joints.value = undefined
   }
 }
 
@@ -174,7 +174,7 @@ const setup = (bodies: JointProps['bodies'], params: JointProps['params']) => {
     throw new Error(`Unsupported joint type. If you think this is a bug or the "${type}" type should be implemented, please open an issue.`)
   }
 
-  joins.value = world.createImpulseJoint(jointParams, bodies[0], bodies[1], wakeUpOnChanges)
+  joints.value = world.createImpulseJoint(jointParams, bodies[0], bodies[1], wakeUpOnChanges)
 }
 
 onUpdated(() => setup(bodies, params))
@@ -184,7 +184,7 @@ onUnmounted(() => {
 })
 
 defineExpose({
-  joins,
+  joints,
 })
 </script>
 

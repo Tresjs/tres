@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { OrbitControls } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
-// eslint-disable-next-line ts/ban-ts-comment
-// @ts-ignore
 import { CuboidCollider, Physics, RigidBody } from '@tresjs/rapier'
 import { ACESFilmicToneMapping, MeshNormalMaterial, SRGBColorSpace } from 'three'
 import { onMounted, shallowRef } from 'vue'
@@ -19,9 +17,7 @@ const gl = {
 const bodyContextRef = shallowRef()
 const ballRef = shallowRef<Mesh>()
 
-const onIntersection1Enter = (ev) => {
-  // eslint-disable-next-line no-console
-  console.log('Intersection 1 enter', ev)
+const onIntersection1Enter = () => {
   if (ballRef.value?.material instanceof MeshNormalMaterial) {
     ballRef.value.material.visible = false
   }

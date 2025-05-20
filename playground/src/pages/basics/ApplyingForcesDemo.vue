@@ -13,8 +13,8 @@ const gl = {
   toneMapping: ACESFilmicToneMapping,
 }
 
-const rigidCubeRef = shallowRef<ExposedRigidBody>(null)
-const rigidSphereRef = shallowRef<ExposedRigidBody>(null)
+const rigidCubeRef = shallowRef<ExposedRigidBody | null>(null)
+const rigidSphereRef = shallowRef<ExposedRigidBody | null>(null)
 
 const jumpCube = () => {
   if (!rigidCubeRef.value) { return }

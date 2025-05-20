@@ -15,8 +15,8 @@ const gl = {
   toneMapping: ACESFilmicToneMapping,
 }
 
-const rigidTorusRef = shallowRef<ExposedRigidBody>(null)
-const rigidBoxRef = shallowRef<ExposedRigidBody>(null)
+const rigidTorusRef = shallowRef<ExposedRigidBody>()
+const rigidBoxRef = shallowRef<ExposedRigidBody>()
 
 const jump = () => {
   if (!rigidTorusRef.value) { return }
@@ -56,7 +56,7 @@ const { gravityScale, linearDamping, angularDamping, lockT, linvelX, friction, m
           :gravityScale="gravityScale.value"
           :linearDamping="linearDamping.value"
           :angularDamping="angularDamping.value"
-          :enabledTranslations="{ x: true, y: true, z: true }"
+          :enabledTranslations="[true, true, true]"
           :lockTranslations="lockT.value"
           :linvelX="linvelX.value"
           :friction="friction.value"
@@ -80,7 +80,7 @@ const { gravityScale, linearDamping, angularDamping, lockT, linvelX, friction, m
           ref="rigidBoxRef"
           :gravityScale="-0.01"
           :additionalMass="50"
-          :enabledRotations="{ x: true, y: false, z: true }"
+          :enabledRotations="[true, true, true]"
           :linvel="{ x: linvelX.value, y: 0, z: 0 }"
         >
           <TresMesh :position="[4, 2, 5]" @click="rotate">

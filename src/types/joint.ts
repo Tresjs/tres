@@ -9,7 +9,7 @@ export interface JointProps {
   type: JointType
 
   /** @description  Bodies to connect with the joint. */
-  bodies?: [RigidBody, RigidBody]
+  bodies?: [RigidBody | null | undefined, RigidBody | null | undefined]
 
   /** @description {@link JointData} parameters. */
   params?: (number | number[])[]
