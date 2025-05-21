@@ -4,7 +4,7 @@ import {
   setupDevtoolsPlugin,
 } from '@vue/devtools-api'
 import { Color, type Mesh } from 'three'
-import { reactive } from 'vue'
+import { isRef, reactive } from 'vue'
 import { createHighlightMesh, editSceneObject } from '../utils'
 import { bytesToKB, calculateMemoryUsage } from '../utils/perf'
 import { toastMessage } from './utils'
@@ -26,9 +26,16 @@ export interface SceneGraphObject {
   tags: Tags[]
 }
 
+const componentStateTypes: string[] = []
+const INSPECTOR_ID = 'tres:inspector'
+
+const state = reactive({
+  sceneGraph: null as SceneGraphObject | null,
+})
+
 const createNode = (object: TresObject): SceneGraphObject => {
   const node: SceneGraphObject = {
-    id: object.uuid,
+    id: `scene-${object.uuid}`,
     label: object.type,
     children: [],
     tags: [],
@@ -85,6 +92,15 @@ const createNode = (object: TresObject): SceneGraphObject => {
   return node
 }
 
+function createContextNode(key: string, uuid: string): SceneGraphObject {
+  return {
+    id: `context-${key}-${uuid}`,
+    label: key,
+    children: [],
+    tags: [],
+  }
+}
+
 function buildGraph(object: TresObject, node: SceneGraphObject, filter: string = '') {
   object.children.forEach((child: TresObject) => {
     if (child.type === 'HightlightMesh') { return }
@@ -96,12 +112,89 @@ function buildGraph(object: TresObject, node: SceneGraphObject, filter: string =
   })
 }
 
-const componentStateTypes: string[] = []
-const INSPECTOR_ID = 'tres:inspector'
+function buildContextGraph(
+  object: any,
+  node: SceneGraphObject,
+  visited = new WeakSet(),
+  depth = 0,
+  maxDepth = 4,
+  contextUuid?: string,
+) {
+  // Prevent infinite recursion
+  if (depth >= maxDepth || !object || visited.has(object)) {
+    return
+  }
 
-const state = reactive({
-  sceneGraph: null as SceneGraphObject | null,
-})
+  // Generate UUID only on the first call (for TresContext)
+  const uuid = depth === 0 ? (object.uuid || Math.random().toString(36).slice(2, 11)) : contextUuid
+
+  visited.add(object)
+
+  Object.entries(object).forEach(([key, value]) => {
+    // Skip internal Vue properties and functions
+    if (key.startsWith('_') || typeof value === 'function') {
+      return
+    }
+
+    const childNode = createContextNode(key, uuid!)
+
+    if (key === 'scene') {
+      return
+    }
+
+    // Handle Vue refs
+    if (isRef(value)) {
+      childNode.tags.push({
+        label: `Ref<${typeof value.value}>`,
+        textColor: 0x42B883,
+        backgroundColor: 0xF0FCF3,
+      })
+      // If ref value is an object, continue recursion with its value
+      if (value.value && typeof value.value === 'object') {
+        buildContextGraph(value.value, childNode, visited, depth + 1, maxDepth, uuid)
+      }
+      else {
+        // For primitive ref values, show them in the label
+        childNode.label = `${key}: ${JSON.stringify(value.value)}`
+      }
+    }
+    // Handle regular objects (but avoid circular references)
+    else if (value && typeof value === 'object' && !Array.isArray(value)) {
+      // Check if object has enumerable properties
+      const hasProperties = Object.keys(value).length > 0
+      if (hasProperties) {
+        if (visited.has(value)) {
+          childNode.tags.push({
+            label: 'Circular',
+            textColor: 0xFF0000,
+            backgroundColor: 0xFFF0F0,
+          })
+        }
+        else {
+          buildContextGraph(value, childNode, visited, depth + 1, maxDepth, uuid)
+        }
+      }
+      else {
+        childNode.label = `${key}: {}`
+      }
+    }
+    // Handle arrays
+    else if (Array.isArray(value)) {
+      childNode.label = `${key}: Array(${value.length})`
+      childNode.tags.push({
+        label: `length: ${value.length}`,
+        textColor: 0x9499A6,
+        backgroundColor: 0xF8F9FA,
+      })
+    }
+    // Handle primitive values
+    else {
+      childNode.label = `${key}: ${JSON.stringify(value)}`
+    }
+
+    node.children.push(childNode)
+  })
+}
 
 export function registerTresDevtools(app: any, tres: TresContext) {
   setupTresDevtools(tres)
@@ -139,11 +232,19 @@ export function registerTresDevtools(app: any, tres: TresContext) {
 
       api.on.getInspectorTree((payload) => {
         if (payload.inspectorId === INSPECTOR_ID) {
-          // Your logic here
+          // Scene Graph
           const root = createNode(tres.scene.value as unknown as TresObject)
           buildGraph(tres.scene.value as unknown as TresObject, root, payload.filter)
           state.sceneGraph = root
-          payload.rootNodes = [root]
+          // Context Graph
+          const rootContext = {
+            id: 'context-root',
+            label: 'Context',
+            children: [],
+            tags: [],
+          }
+          buildContextGraph(tres, rootContext)
+          payload.rootNodes = [root, rootContext]
         }
       })
       let highlightMesh: Mesh | null = null
@@ -151,57 +252,59 @@ export function registerTresDevtools(app: any, tres: TresContext) {
 
       api.on.getInspectorState((payload) => {
         if (payload.inspectorId === INSPECTOR_ID) {
+          if (payload.nodeId.includes('scene')) {
           // Your logic here
-          const [instance] = tres.scene.value.getObjectsByProperty('uuid', payload.nodeId) as TresObject[]
-          if (!instance) { return }
-          if (prevInstance && highlightMesh && highlightMesh.parent) {
-            prevInstance.remove(highlightMesh)
-          }
+            const [instance] = tres.scene.value.getObjectsByProperty('uuid', payload.nodeId.split('scene-')[1]) as TresObject[]
+            if (!instance) { return }
+            if (prevInstance && highlightMesh && highlightMesh.parent) {
+              prevInstance.remove(highlightMesh)
+            }
 
-          if (instance.isMesh) {
-            const newHighlightMesh = createHighlightMesh(instance)
-            instance.add(newHighlightMesh)
+            if (instance.isMesh) {
+              const newHighlightMesh = createHighlightMesh(instance)
+              instance.add(newHighlightMesh)
 
-            highlightMesh = newHighlightMesh
-            prevInstance = instance
-          }
+              highlightMesh = newHighlightMesh
+              prevInstance = instance
+            }
 
-          payload.state = {
-            object: Object.entries(instance)
-              .map(([key, value]) => {
-                if (key === 'children') {
-                  return { key, value: value.filter((child: { type: string }) => child.type !== 'HightlightMesh') }
-                }
-                return { key, value, editable: true }
-              })
-              .filter(({ key }) => {
-                return key !== 'parent'
-              }),
-          }
-
-          if (instance.isScene) {
             payload.state = {
-              ...payload.state,
-              state: [
-                {
-                  key: 'Scene Info',
-                  value: {
-                    objects: instance.children.length,
-                    memory: calculateMemoryUsage(instance),
-                    calls: tres.renderer.instance.value.info.render.calls,
-                    triangles: tres.renderer.instance.value.info.render.triangles,
-                    points: tres.renderer.instance.value.info.render.points,
-                    lines: tres.renderer.instance.value.info.render.lines,
+              object: Object.entries(instance)
+                .map(([key, value]) => {
+                  if (key === 'children') {
+                    return { key, value: value.filter((child: { type: string }) => child.type !== 'HightlightMesh') }
+                  }
+                  return { key, value, editable: true }
+                })
+                .filter(({ key }) => {
+                  return key !== 'parent'
+                }),
+            }
+
+            if (instance.isScene) {
+              payload.state = {
+                ...payload.state,
+                state: [
+                  {
+                    key: 'Scene Info',
+                    value: {
+                      objects: instance.children.length,
+                      memory: calculateMemoryUsage(instance),
+                      calls: tres.renderer.instance.value.info.render.calls,
+                      triangles: tres.renderer.instance.value.info.render.triangles,
+                      points: tres.renderer.instance.value.info.render.points,
+                      lines: tres.renderer.instance.value.info.render.lines,
+                    },
                   },
-                },
-                {
-                  key: 'Programs',
-                  value: tres.renderer.instance.value.info.programs?.map(program => ({
-                    ...program,
-                    programName: program.name,
-                  })) || [],
-                },
-              ],
+                  {
+                    key: 'Programs',
+                    value: tres.renderer.instance.value.info.programs?.map(program => ({
+                      ...program,
+                      programName: program.name,
+                    })) || [],
+                  },
+                ],
+              }
             }
           }
         }
