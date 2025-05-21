@@ -256,9 +256,14 @@ export function registerTresDevtools(app: any, tres: TresContext) {
       api.on.getInspectorState((payload) => {
         if (payload.inspectorId === INSPECTOR_ID) {
           if (payload.nodeId.includes('scene')) {
-            // Existing scene handling logic
-            const [instance] = tres.scene.value.getObjectsByProperty('uuid', payload.nodeId.split('scene-')[1]) as TresObject[]
+            // Extract UUID from scene-uuid format
+            const match = payload.nodeId.match(/^scene-(.+)$/)
+            const uuid = match ? match[1] : null
+            if (!uuid) { return }
+
+            const [instance] = tres.scene.value.getObjectsByProperty('uuid', uuid) as TresObject[]
             if (!instance) { return }
+
             if (prevInstance && highlightMesh && highlightMesh.parent) {
               prevInstance.remove(highlightMesh)
             }
@@ -324,7 +329,7 @@ export function registerTresDevtools(app: any, tres: TresContext) {
                   .map(([key, value]) => ({
                     key,
                     value: isRef(value) ? value.value : value,
-                    editable: true,
+                    editable: false,
                   })),
               }
               return
@@ -347,7 +352,7 @@ export function registerTresDevtools(app: any, tres: TresContext) {
                       return {
                         key,
                         value: val.value,
-                        editable: true,
+                        editable: false,
                       }
                     }
                     if (typeof val === 'function') {
@@ -367,7 +372,7 @@ export function registerTresDevtools(app: any, tres: TresContext) {
                     return {
                       key,
                       value: val,
-                      editable: true,
+                      editable: false,
                     }
                   }),
               }
@@ -378,7 +383,15 @@ export function registerTresDevtools(app: any, tres: TresContext) {
 
       api.on.editInspectorState((payload) => {
         if (payload.inspectorId === INSPECTOR_ID) {
-          editSceneObject(tres.scene.value, payload.nodeId, payload.path, payload.state.value)
+          if (payload.nodeId.includes('scene')) {
+            // Extract UUID from scene-uuid format
+            const match = payload.nodeId.match(/^scene-(.+)$/)
+            const uuid = match ? match[1] : null
+            if (!uuid) { return }
+
+            // Handle scene object editing
+            editSceneObject(tres.scene.value, uuid, payload.path, payload.state.value)
+          }
         }
       })
     },
