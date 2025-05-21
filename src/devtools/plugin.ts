@@ -92,9 +92,10 @@ const createNode = (object: TresObject): SceneGraphObject => {
   return node
 }
 
-function createContextNode(key: string, uuid: string): SceneGraphObject {
+function createContextNode(key: string, uuid: string, parentKey = ''): SceneGraphObject {
+  const chainedKey = parentKey ? `${parentKey}.${key}` : key
   return {
-    id: `context-${key}-${uuid}`,
+    id: `context-${uuid}-${chainedKey}`,
     label: key,
     children: [],
     tags: [],
@@ -119,6 +120,7 @@ function buildContextGraph(
   depth = 0,
   maxDepth = 4,
   contextUuid?: string,
+  parentKey = '',
 ) {
   // Prevent infinite recursion
   if (depth >= maxDepth || !object || visited.has(object)) {
@@ -136,7 +138,8 @@ function buildContextGraph(
       return
     }
 
-    const childNode = createContextNode(key, uuid!)
+    const chainedKey = parentKey ? `${parentKey}.${key}` : key
+    const childNode = createContextNode(key, uuid!, parentKey)
 
     if (key === 'scene') {
       return
@@ -151,7 +154,7 @@ function buildContextGraph(
       })
       // If ref value is an object, continue recursion with its value
       if (value.value && typeof value.value === 'object') {
-        buildContextGraph(value.value, childNode, visited, depth + 1, maxDepth, uuid)
+        buildContextGraph(value.value, childNode, visited, depth + 1, maxDepth, uuid, chainedKey)
       }
       else {
         // For primitive ref values, show them in the label
@@ -171,7 +174,7 @@ function buildContextGraph(
           })
         }
         else {
-          buildContextGraph(value, childNode, visited, depth + 1, maxDepth, uuid)
+          buildContextGraph(value, childNode, visited, depth + 1, maxDepth, uuid, chainedKey)
         }
       }
       else {
@@ -253,7 +256,7 @@ export function registerTresDevtools(app: any, tres: TresContext) {
       api.on.getInspectorState((payload) => {
         if (payload.inspectorId === INSPECTOR_ID) {
           if (payload.nodeId.includes('scene')) {
-          // Your logic here
+            // Existing scene handling logic
             const [instance] = tres.scene.value.getObjectsByProperty('uuid', payload.nodeId.split('scene-')[1]) as TresObject[]
             if (!instance) { return }
             if (prevInstance && highlightMesh && highlightMesh.parent) {
@@ -304,6 +307,69 @@ export function registerTresDevtools(app: any, tres: TresContext) {
                     })) || [],
                   },
                 ],
+              }
+            }
+          }
+          else if (payload.nodeId.includes('context')) {
+            // Format is: context-uuid-chainedKey
+            // Use regex to match: 'context-' followed by UUID (which may contain dashes) followed by '-' and the chainedKey
+            const match = payload.nodeId.match(/^context-([^-]+(?:-[^-]+)*)-(.+)$/)
+            const chainedKey = match ? match[2] : 'context'
+
+            if (!chainedKey || chainedKey === 'context') {
+              // Root context node
+              payload.state = {
+                object: Object.entries(tres)
+                  .filter(([key]) => !key.startsWith('_') && key !== 'parent')
+                  .map(([key, value]) => ({
+                    key,
+                    value: isRef(value) ? value.value : value,
+                    editable: true,
+                  })),
+              }
+              return
+            }
+
+            // Traverse the object path
+            const parts = chainedKey.split('.')
+            let value = tres as Record<string, any>
+            for (const part of parts) {
+              if (!value || typeof value !== 'object') { break }
+              value = isRef(value[part]) ? value[part].value : value[part]
+            }
+
+            if (value !== undefined) {
+              payload.state = {
+                object: Object.entries(value)
+                  .filter(([key]) => !key.startsWith('_') && key !== 'parent')
+                  .map(([key, val]) => {
+                    if (isRef(val)) {
+                      return {
+                        key,
+                        value: val.value,
+                        editable: true,
+                      }
+                    }
+                    if (typeof val === 'function') {
+                      return {
+                        key,
+                        value: 'ƒ()',
+                        editable: false,
+                      }
+                    }
+                    if (val && typeof val === 'object') {
+                      return {
+                        key,
+                        value: Array.isArray(val) ? `Array(${val.length})` : 'Object',
+                        editable: false,
+                      }
+                    }
+                    return {
+                      key,
+                      value: val,
+                      editable: true,
+                    }
+                  }),
               }
             }
           }
