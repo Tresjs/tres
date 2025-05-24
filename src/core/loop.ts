@@ -22,8 +22,6 @@ export interface LoopCallbackWithCtx extends LoopCallback {
   controls: Ref<(EventDispatcher<object> & {
     enabled: boolean
   }) | null>
-  invalidate: Fn
-  advance: Fn
 }
 
 export type LoopCallbackFn = (params: LoopCallbackWithCtx) => void
@@ -125,7 +123,7 @@ export function createRenderLoop(): RendererLoop {
     const delta = clock.getDelta()
     const elapsed = clock.getElapsedTime()
     const snapshotCtx = {
-      camera: unref(context.camera),
+      camera: unref(context.camera?.activeCamera),
       scene: unref(context.scene),
       renderer: unref(context.renderer),
       raycaster: unref(context.raycaster),

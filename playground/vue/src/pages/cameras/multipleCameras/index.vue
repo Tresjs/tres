@@ -1,16 +1,9 @@
 <script setup lang="ts">
 import type { Camera } from 'three'
-import { OrbitControls } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
 import { TresLeches, useControls } from '@tresjs/leches'
 import TheCameraOperator from './TheCameraOperator.vue'
 import '@tresjs/leches/styles'
-
-const state = reactive({
-  clearColor: '#4f4f4f',
-  shadows: true,
-  alpha: false,
-})
 
 useControls('fpsgraph')
 
@@ -18,81 +11,76 @@ const camera1 = shallowRef<Camera>()
 const camera2 = shallowRef<Camera>()
 const camera3 = shallowRef<Camera>()
 
-const activeCameraUuid = ref<string>()
+const cameraUuidList = computed(() => [
+  camera1.value?.uuid,
+  camera2.value?.uuid,
+  camera3.value?.uuid,
+])
 
-watchEffect(() => {
-  activeCameraUuid.value = camera1.value?.uuid
+const { cameras: activeCameraIndex } = useControls({
+  cameras: {
+    value: 0,
+    options: [
+      {
+        text: 'Camera 1',
+        value: 0,
+      },
+      {
+        text: 'Camera 2',
+        value: 1,
+      },
+      {
+        text: 'Camera 3',
+        value: 2,
+      },
+    ],
+  },
 })
 
-const camera3Exists = ref(false)
+const activeCameraUuid = computed(() => cameraUuidList.value[activeCameraIndex.value])
 </script>
 
 <template>
-  <div>
+  <TresLeches>
     {{ activeCameraUuid }}
-    <select v-model="activeCameraUuid">
-      <option :value="camera1?.uuid">
-        cam 1
-      </option>
-      <option :value="camera2?.uuid">
-        cam 2
-      </option>
-      <option
-        v-if="camera3Exists"
-        :value="camera3?.uuid"
-      >
-        cam 3
-      </option>
-    </select>
-    <input
-      v-model="camera3Exists"
-      type="checkbox"
-    />
-    <div class="w-1/2 aspect-video">
-      <TresCanvas v-bind="state">
-        <TheCameraOperator :active-camera-uuid="activeCameraUuid">
-          <TresPerspectiveCamera
-            ref="camera1"
-            :position="[5, 5, 5]"
-            :fov="45"
-            :near="0.1"
-            :far="1000"
-            :look-at="[0, 4, 0]"
-          />
-          <TresPerspectiveCamera
-            ref="camera2"
-            :position="[15, 5, 5]"
-            :fov="45"
-            :near="0.1"
-            :far="1000"
-            :look-at="[0, 4, 0]"
-          />
-          <TresPerspectiveCamera
-            v-if="camera3Exists"
-            ref="camera3"
-            :position="[-15, 8, 5]"
-            :fov="25"
-            :near="0.1"
-            :far="1000"
-            :look-at="[0, 4, 0]"
-          />
-        </TheCameraOperator>
-        <OrbitControls />
-        <TresAmbientLight :intensity="0.5" />
-        <TresMesh :position="[0, 4, 0]">
-          <TresBoxGeometry :args="[1, 1, 1]" />
-          <TresMeshToonMaterial color="cyan" />
-        </TresMesh>
+  </TresLeches>
 
-        <Suspense>
-          <PbrSphere />
-        </Suspense>
-        <TresDirectionalLight
-          :position="[0, 2, 4]"
-          :intensity="1"
-        />
-      </TresCanvas>
-    </div>
-    <TresLeches />
-  </div>
+  <TresCanvas clear-color="#4f4f4f">
+    <TheCameraOperator :active-camera-uuid="activeCameraUuid">
+      <TresPerspectiveCamera
+        ref="camera1"
+        :position="[5, 5, 5]"
+        :fov="45"
+        :near="0.1"
+        :far="1000"
+        :look-at="[0, 4, 0]"
+      />
+      <TresPerspectiveCamera
+        ref="camera2"
+        :position="[15, 5, 5]"
+        :fov="45"
+        :near="0.1"
+        :far="1000"
+        :look-at="[0, 4, 0]"
+      />
+      <TresPerspectiveCamera
+        ref="camera3"
+        :position="[-15, 8, 5]"
+        :fov="25"
+        :near="0.1"
+        :far="1000"
+        :look-at="[0, 4, 0]"
+      />
+    </TheCameraOperator>
+    <TresAmbientLight :intensity="0.5" />
+    <TresMesh :position="[0, 4, 0]">
+      <TresBoxGeometry :args="[1, 1, 1]" />
+      <TresMeshToonMaterial color="cyan" />
+    </TresMesh>
+
+    <TresDirectionalLight
+      :position="[0, 2, 4]"
+      :intensity="1"
+    />
+  </TresCanvas>
 </template>

@@ -23,8 +23,10 @@ export interface TresCatalogue {
   [name: string]: ConstructorRepresentation
 }
 
-export type EmitEventName = 'render' | 'ready' | 'click' | 'double-click' | 'context-menu' | 'pointer-move' | 'pointer-up' | 'pointer-down' | 'pointer-enter' | 'pointer-leave' | 'pointer-over' | 'pointer-out' | 'pointer-missed' | 'wheel'
-export type EmitEventFn = (event: EmitEventName, ...args: any[]) => void
+export const pointerEventTypes = ['click', 'double-click', 'context-menu', 'pointer-move', 'pointer-up', 'pointer-down', 'pointer-enter', 'pointer-leave', 'pointer-over', 'pointer-out', 'pointer-missed', 'wheel'] as const
+export type PointerEventType = typeof pointerEventTypes[number]
+export interface TresPointerEvent { type: PointerEventType, event: TresEvent, intersection?: Intersection }
+
 export type TresCamera = THREE.OrthographicCamera | THREE.PerspectiveCamera
 
 /**
@@ -112,7 +114,7 @@ export interface IntersectionEvent<TSourceEvent> extends Intersection {
   /** The ray that pierced it */
   ray: THREE.Ray
   /** The camera that was used by the raycaster */
-  camera: TresCamera
+  camera: THREE.Camera
   /** stopPropagation will stop underlying handlers from firing */
   stopPropagation: () => void
   /** The original host event */
