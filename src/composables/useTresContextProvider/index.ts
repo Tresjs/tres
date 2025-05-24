@@ -1,4 +1,4 @@
-import { Raycaster } from 'three'
+import { MathUtils, Raycaster } from 'three'
 import type { MaybeRef, MaybeRefOrGetter, Ref, ShallowRef } from 'vue'
 import { whenever } from '@vueuse/core'
 
@@ -30,6 +30,7 @@ export interface PerformanceState {
 }
 
 export interface TresContext {
+  uuid: string
   scene: ShallowRef<TresScene>
   sizes: SizesType
   extend: (objects: any) => void
@@ -78,6 +79,7 @@ export function useTresContextProvider({
   )
 
   const ctx: TresContext = {
+    uuid: MathUtils.generateUUID(),
     sizes,
     scene: localScene,
     camera,
