@@ -20,6 +20,14 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
       props.args = []
     }
     if (isHTMLTag(tag)) { return null }
+    // support kebab-case tags
+    if (tag.includes('-')) {
+      tag = kebabToCamel(tag)
+      const firstLetter = tag.charAt(0)
+      const upperFirstLetter = firstLetter.toUpperCase()
+      const restOfString = tag.slice(1)
+      tag = upperFirstLetter + restOfString
+    }
     let name = tag.replace('Tres', '')
     let obj: TresObject | null
 
