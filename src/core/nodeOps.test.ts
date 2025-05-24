@@ -136,6 +136,34 @@ describe('nodeOps', () => {
       expect(() => { nodeOps.createElement('TresBoxGeometry', undefined, undefined, null) }).not.toThrow()
       expect(() => { nodeOps.createElement('TresMeshNormalMaterial', undefined, undefined, null) }).not.toThrow()
     })
+
+    it('creates an instance with given tag using kebab-case notation', async () => {
+      // Setup
+      const tag = 'tres-mesh'
+      const props = { args: [] }
+
+      // Test
+      const instance = nodeOps.createElement(tag, undefined, undefined, props)
+
+      // Assert
+      expect(instance?.isObject3D).toBeTruthy()
+      expect(instance).toBeInstanceOf(Mesh)
+    })
+
+    it('creates an instance with given tag using kebab-case notation and props ', async () => {
+      // Setup
+      const tag = 'tres-torus-geometry'
+      const props = { args: [10, 3, 16, 100] }
+
+      // Test
+      const instance = nodeOps.createElement(tag, undefined, undefined, props)
+
+      // Assert
+      expect(instance?.parameters.radius).toBe(10)
+      expect(instance?.parameters.tube).toBe(3)
+      expect(instance?.parameters.radialSegments).toBe(16)
+      expect(instance?.parameters.tubularSegments).toBe(100)
+    })
   })
 
   describe('insert', () => {
