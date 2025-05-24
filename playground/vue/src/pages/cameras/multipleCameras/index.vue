@@ -78,9 +78,6 @@ const activeCameraUuid = computed(() => cameraUuidList.value[activeCameraIndex.v
       <TresMeshToonMaterial color="cyan" />
     </TresMesh>
 
-    <Suspense>
-      <PbrSphere />
-    </Suspense>
     <TresDirectionalLight
       :position="[0, 2, 4]"
       :intensity="1"
