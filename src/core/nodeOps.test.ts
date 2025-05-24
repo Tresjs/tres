@@ -136,6 +136,19 @@ describe('nodeOps', () => {
       expect(() => { nodeOps.createElement('TresBoxGeometry', undefined, undefined, null) }).not.toThrow()
       expect(() => { nodeOps.createElement('TresMeshNormalMaterial', undefined, undefined, null) }).not.toThrow()
     })
+
+    it('creates an instance with given tag when input is kebab-case', async () => {
+      // Setup
+      const tag = 'tres-mesh'
+      const props = { args: [] }
+
+      // Test
+      const instance = nodeOps.createElement(tag, undefined, undefined, props)
+
+      // Assert
+      expect(instance?.isObject3D).toBeTruthy()
+      expect(instance).toBeInstanceOf(Mesh)
+    })
   })
 
   describe('insert', () => {
