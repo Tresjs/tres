@@ -36,6 +36,7 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
     }
     if (tag === 'template') { return null }
     if (isHTMLTag(tag)) { return null }
+    // support kebab-case tags
     if (tag.includes('-')) {
       tag = kebabToCamel(tag)
       const firstLetter = tag.charAt(0)
