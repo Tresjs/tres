@@ -13,9 +13,9 @@ const programs = computed(() => renderer.info.programs.map(
     ...item,
     // @ts-expect-error there is a complex relationship between gl and tresjs types
     icon: icons[item.type] || 'i-file-icons-vertexshader',
-    // @ts-expect-error xxxx
+    // @ts-expect-error for some reason getUniforms is not typed
     uniforms: item.getUniforms(),
-    // @ts-expect-error xxxx
+    // @ts-expect-error for some reason getAttributes is not typed
     attributes: item.getAttributes(),
   }),
 ))
