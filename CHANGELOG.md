@@ -1,4 +1,18 @@
+# Changelog
 
+## [4.0.0](https://github.com/Tresjs/nuxt/compare/3.0.8...4.0.0) (2025-05-25)
+
+### ⚠ BREAKING CHANGES
+
+* update Nuxt to support version ^3.16.0 (#164)
+
+### Features
+
+* update Nuxt to support version ^3.16.0 ([#164](https://github.com/Tresjs/nuxt/issues/164)) ([7858a68](https://github.com/Tresjs/nuxt/commit/7858a68ad3a9b54d013ecae6d8e7ae82bb28b9b8))
+
+### Bug Fixes
+
+* update TypeScript error comments in ProgramsModule.vue for clarity ([3e58130](https://github.com/Tresjs/nuxt/commit/3e58130dfb94b44a1f12323bf432c7cf93bc6220))
 
 ## [3.0.8](https://github.com/Tresjs/nuxt/compare/3.0.7...3.0.8) (2025-02-25)
 
