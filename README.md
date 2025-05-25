@@ -107,27 +107,35 @@ const uniforms = {
 ## Development
 
 ```bash
-# Install dependencies
-npm install
+# Install dependencies at the root of the project
+pnpm install
+
+# Install dependencies on the playground
+cd playground
+pnpm install
+
+# Install dependencies on the client (devtools)
+cd client
+pnpm install
 
 # Generate type stubs
-npm run dev:prepare
+pnpm run dev:prepare
 
 # Develop with the playground
-npm run dev
+pnpm run dev
 
 # Build the playground
-npm run dev:build
+pnpm run dev:build
 
 # Run ESLint
-npm run lint
+pnpm run lint
 
 # Run Vitest
-npm run test
-npm run test:watch
+pnpm run test
+pnpm run test:watch
 
 # Release new version
-npm run release
+pnpm run release
 ```
 
 <!-- Badges -->
