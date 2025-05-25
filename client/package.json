@@ -1,5 +1,14 @@
 {
   "name": "tres-nuxt-module",
   "type": "module",
-  "private": true
+  "private": true,
+  "devDependencies": {
+    "@nuxt/devtools-ui-kit": "^2.4.1",
+    "@nuxt/icon": "^1.10.2",
+    "@nuxt/ui": "^2.20.0",
+    "@unocss/nuxt": "^66.1.2"
+  },
+  "dependencies": {
+    "vue": "^3.5.14"
+  }
 }

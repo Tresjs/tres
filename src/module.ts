@@ -6,6 +6,7 @@ import { defu } from 'defu'
 import { findExportNames } from 'mlly'
 import { readPackageJSON } from 'pkg-types'
 import glsl from 'vite-plugin-glsl'
+import { version } from '../package.json'
 import { setupDevToolsUI } from './devtools'
 
 export interface ModuleOptions {
@@ -18,6 +19,10 @@ export default defineNuxtModule<ModuleOptions>({
   meta: {
     name: '@tresjs/nuxt',
     configKey: 'tres',
+    compatibility: {
+      nuxt: '>=3.16.0',
+    },
+    version,
   },
   defaults: {
     modules: [],

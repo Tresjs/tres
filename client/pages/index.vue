@@ -1,6 +1,7 @@
 <!-- eslint-disable max-len -->
 <script setup lang="ts">
 import { useDevtoolsClient } from '@nuxt/devtools-kit/iframe-client'
+import { useDevtoolsHook } from '../composables/useDevtoolsHook'
 
 const client = useDevtoolsClient()
 
@@ -60,11 +61,15 @@ const { scene, memory, fps } = useDevtoolsHook()
         text="Performance"
       >
         <template #actions>
-          <NBadge n="green">
+          <NBadge
+            n="green"
+            class="text-[#15803D] dark:text-[#34E676]"
+          >
             FPS: {{ fps.value }}
           </NBadge>
           <NBadge
             n="yellow"
+            class="text-[#827717] dark:text-[#EAB306]"
           >
             Memory: {{ Math.round(memory?.currentMem) }}MB
           </NBadge>

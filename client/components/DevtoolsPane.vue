@@ -20,7 +20,8 @@ defineProps<{
       bg-white
       text-xs
       dark:bg-[#151515]
-      text-gray-400
+      dark:text-gray-400
+      text-gray-500
       px-2
       rounded
       -top-2

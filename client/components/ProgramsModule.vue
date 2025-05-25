@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { useDevtoolsHook } from '../composables/useDevtoolsHook'
+import { computed } from '#imports'
+
 const { renderer } = useDevtoolsHook()
 
 const icons: Record<string, string> = {
@@ -8,8 +11,11 @@ const icons: Record<string, string> = {
 const programs = computed(() => renderer.info.programs.map(
   item => ({
     ...item,
+    // @ts-expect-error there is a complex relationship between gl and tresjs types
     icon: icons[item.type] || 'i-file-icons-vertexshader',
+    // @ts-expect-error xxxx
     uniforms: item.getUniforms(),
+    // @ts-expect-error xxxx
     attributes: item.getAttributes(),
   }),
 ))

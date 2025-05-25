@@ -10,7 +10,7 @@ describe('ssr', async () => {
 
   it('renders a client-only component', async () => {
     const html = await $fetch('/')
-    expect(html).toContain('<div style="height:100vh;"><span></span></div>')
+    expect(html).toContain('<span window-size render-mode="on-demand"></span>')
   })
 
   it('has no errors on the client', async () => {

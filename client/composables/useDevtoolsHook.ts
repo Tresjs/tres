@@ -1,15 +1,17 @@
 import type { TresContext, TresObject } from '@tresjs/core'
 import type { Scene } from 'three'
-import type { SceneGraphObject } from '../types'
+import type { SceneGraphObject, ProgramObject } from '../types'
+import { reactive } from '#imports'
+import type { UnwrapNestedRefs } from '#imports'
 
-interface FPSState {
+export interface FPSState {
   value: number
   accumulator: number[]
   lastLoggedTime: number
   logInterval: number
 }
 
-interface MemoryState {
+export interface MemoryState {
   currentMem: number
   averageMem: number
   maxMemory: number
@@ -19,7 +21,13 @@ interface MemoryState {
   logInterval: number
 }
 
-interface RendererState {
+export interface RendererType {
+  fps: UnwrapNestedRefs<FPSState>
+  memory: UnwrapNestedRefs<MemoryState>
+  renderer: UnwrapNestedRefs<RendererState>
+}
+
+export interface RendererState {
   info: {
     render: {
       frame: number
@@ -36,7 +44,7 @@ interface RendererState {
   }
 }
 
-interface DevtoolsHookReturn {
+export interface DevtoolsHookReturn {
   scene: {
     objects: number
     graph: Record<string, unknown>
@@ -89,7 +97,7 @@ const gl = {
       programs: [],
     },
   }),
-}
+} satisfies RendererType
 
 const icons: Record<string, string> = {
   scene: 'i-carbon-web-services-container',
@@ -177,7 +185,7 @@ export function useDevtoolsHook(): DevtoolsHookReturn {
       scene.objects = countObjectsInScene(context.scene.value)
       Object.assign(gl.renderer.info.render, context.renderer.value.info.render)
       Object.assign(gl.renderer.info.memory, context.renderer.value.info.memory)
-      gl.renderer.info.programs = [...context.renderer.value.info.programs as WebGLProgram[]]
+      gl.renderer.info.programs = [...(context.renderer.value.info.programs || []) as unknown as ProgramObject[]]
       Object.assign(gl.fps, context.perf.fps)
       gl.fps.accumulator = [...context.perf.fps.accumulator]
       Object.assign(gl.memory, context.perf.memory)

@@ -1,18 +1,22 @@
 <script setup lang="ts">
-import { computed, ref, watchEffect } from 'vue'
+import { computed, ref, watchEffect } from '#imports'
 
 const props = withDefaults(defineProps<{
-  points: Array<number> // Array of y-values
-  value: number
-  unit: string
-  label: string
-  color: string
+  points?: Array<number> // Array of y-values
+  value?: number
+  unit?: string
+  label?: string
+  color?: 'green' | 'yellow'
 }>(), {
   points: () => [],
   value: 0,
   unit: '',
   label: '',
   color: 'green',
+})
+
+const textColor = computed(() => { // ''
+  return props.color === 'yellow' ? 'text-[#827717] dark:text-[#EAB306]' : 'text-[#15803D] dark:text-[#34E676]'
 })
 
 const height = 40
@@ -47,7 +51,10 @@ const pointsF = computed(() => props.points.map(
       font-sans
     "
   >
-    <div class="absolute bottom-0.5 right-0.5 font-mono text-xs">
+    <div
+      class="absolute bottom-0.5 right-1 font-mono text-xs"
+      :class="textColor"
+    >
       {{ Math.round(value) }} {{ unit }}
     </div>
     <svg
@@ -58,10 +65,10 @@ const pointsF = computed(() => props.points.map(
       <polyline
         :points="pointsF"
         fill="none"
-        :stroke="color"
         :stroke-width="strokeWidth"
         stroke-linecap="round"
         stroke-linejoin="round"
+        :class="color"
       />
     </svg>
   </div>
@@ -73,7 +80,16 @@ const pointsF = computed(() => props.points.map(
   color: rgba(var(--nui-c-context), 1);
 }
 
-.graph polyline {
-  stroke: rgba(var(--nui-c-context), 1);
+.graph polyline.green {
+  stroke: #15803d;
+}
+.graph polyline.yellow {
+  stroke: #827717;
+}
+.dark .graph polyline.green {
+  stroke: #34E676;
+}
+.dark .graph polyline.yellow {
+  stroke: #EAB306;
 }
 </style>
