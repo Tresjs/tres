@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.4.0](https://github.com/Tresjs/post-processing/compare/2.3.1...2.4.0) (2025-05-26)
+
+### Features
+
+* ASCII ([#200](https://github.com/Tresjs/post-processing/issues/200)) ([c5dba7c](https://github.com/Tresjs/post-processing/commit/c5dba7c615f7dc7d985658193ca2794a329b122d))
+* FXAA ([#197](https://github.com/Tresjs/post-processing/issues/197)) ([fba8b58](https://github.com/Tresjs/post-processing/commit/fba8b58dc4e7d9bb380e0931e700b0723deb7f7c))
+* SMAA ([#199](https://github.com/Tresjs/post-processing/issues/199)) ([0a89733](https://github.com/Tresjs/post-processing/commit/0a89733d567b6502a0fef38bda8432ea66b2fb76))
+* texture ([#202](https://github.com/Tresjs/post-processing/issues/202)) ([07a9ff5](https://github.com/Tresjs/post-processing/commit/07a9ff51dfb142eb0386f52471fb5905d900754f))
+
+### Bug Fixes
+
+* big clean demo — docs —  bad using multisampling ([#201](https://github.com/Tresjs/post-processing/issues/201)) ([38002a6](https://github.com/Tresjs/post-processing/commit/38002a6a58b955da9235130af217c251d569d79e))
+
 ## [2.3.1](https://github.com/Tresjs/post-processing/compare/2.3.0...2.3.1) (2025-03-29)
 
 ### Bug Fixes
