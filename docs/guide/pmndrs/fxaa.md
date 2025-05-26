@@ -23,7 +23,7 @@ When using the `<EffectComposerPmndrs>` pipeline, enabling native antialiasing w
 
 ```vue{2,12-14,23-27}
 <script setup lang="ts">
-import { EffectComposerPmndrs, FXAAPmndrs } from '@tresjs/post-processing/pmndrs'
+import { EffectComposerPmndrs, FXAAPmndrs } from '@tresjs/post-processing'
 
 const gl = {
   toneMapping: NoToneMapping,

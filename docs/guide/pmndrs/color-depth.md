@@ -19,7 +19,7 @@ The `<ColorDepthPmndrs>` component is easy to use and provides customizable opti
 
 ```vue{2,8-12,21-25}
 <script setup lang="ts">
-import { EffectComposerPmndrs, ColorDepthPmndrs } from '@tresjs/post-processing/pmndrs'
+import { EffectComposerPmndrs, ColorDepthPmndrs } from '@tresjs/post-processing'
 
 const gl = {
   toneMapping: NoToneMapping,

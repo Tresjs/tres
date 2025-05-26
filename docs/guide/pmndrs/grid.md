@@ -19,7 +19,7 @@ The `<GridPmndrs>` component is easy to use and provides customizable options to
 
 ```vue{2,8-12,21-25}
 <script setup lang="ts">
-import { EffectComposerPmndrs, GridPmndrs } from '@tresjs/post-processing/pmndrs'
+import { EffectComposerPmndrs, GridPmndrs } from '@tresjs/post-processing'
 
 const gl = {
   toneMapping: NoToneMapping,

@@ -26,7 +26,7 @@ When using the `<EffectComposerPmndrs>` pipeline, enabling native antialiasing w
 
 ```vue{2-3,13-15,24-28}
 <script setup lang="ts">
-import { EffectComposerPmndrs, SMAAPmndrs } from '@tresjs/post-processing/pmndrs'
+import { EffectComposerPmndrs, SMAAPmndrs } from '@tresjs/post-processing'
 import type { SMAAPreset } from 'postprocessing'
 
 const gl = {

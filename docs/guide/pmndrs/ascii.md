@@ -19,7 +19,7 @@ The `<ASCIIPmndrs>` component is straightforward to integrate and offers a varie
 
 ```vue{2,12-17,29-33}
 <script setup lang="ts">
-import { EffectComposerPmndrs, ASCIIPmndrs } from '@tresjs/post-processing/pmndrs'
+import { EffectComposerPmndrs, ASCIIPmndrs } from '@tresjs/post-processing'
 
 const gl = {
   toneMapping: NoToneMapping,

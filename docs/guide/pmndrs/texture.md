@@ -24,7 +24,7 @@ If you need to adjust properties such as **rotation**, **repeat**, or **other at
 
 ```vue{2,16-20,41-45}
 <script setup lang="ts">
-import { EffectComposerPmndrs, TexturePmndrs } from '@tresjs/post-processing/pmndrs'
+import { EffectComposerPmndrs, TexturePmndrs } from '@tresjs/post-processing'
 import { TresCanvas, useTexture } from '@tresjs/core'
 import { NoToneMapping, RepeatWrapping, SRGBColorSpace } from 'three'
 import { BlendFunction, ColorChannel } from 'postprocessing'
