@@ -37,7 +37,7 @@ const { pause, resume, isActive } = useRafFn(
 
 onAfterLoop.on(() => {
   delta = clock.getDelta()
-  elapsed = clock.getElapsedTime()
+  elapsed = clock.elapsedTime
 })
 
 let startedOnce = false
