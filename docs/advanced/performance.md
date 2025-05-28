@@ -82,13 +82,13 @@ import { useTres } from '@tresjs/core'
 import { shallowRef, watch } from 'vue'
 
 const boxRef = shallowRef(null)
-const { renderer } = useTres()
+const { invalidate } = useTres()
 
 watch(boxRef, () => {
   if (boxRef.value?.position) {
     boxRef.value.position.x = 1
   }
-  renderer.invalidate()
+  invalidate()
 })
 </script>
 

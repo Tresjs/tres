@@ -7,6 +7,7 @@ export * from './useLoop'
 export * from './useRaycaster'
 export * from './useRenderer/useRendererManager'
 export * from './useRenderLoop'
+export * from './useTres'
 
 export * from './useTresContextProvider'
 export * from './useTresEventManager'

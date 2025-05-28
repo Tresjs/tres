@@ -310,12 +310,12 @@ export function useRendererManager(
 
   return {
     instance,
-
     isReady: readonly(isReady),
     advance,
     onRender,
     invalidate,
     canBeInvalidated,
+    amountOfFramesToRender,
   }
 }
 
