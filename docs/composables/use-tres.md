@@ -23,8 +23,7 @@ import SubComponent from './SubComponent.vue'
 </script>
 
 <template>
-  <TresCanvas
-  >
+  <TresCanvas>
     <SubComponent />
   </TresCanvas>
 </template>
