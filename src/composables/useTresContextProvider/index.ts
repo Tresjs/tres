@@ -1,4 +1,4 @@
-import { MathUtils, Raycaster } from 'three'
+import { Raycaster } from 'three'
 import type { MaybeRef, MaybeRefOrGetter, Ref, ShallowRef } from 'vue'
 import { whenever } from '@vueuse/core'
 
