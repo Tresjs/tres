@@ -9,9 +9,7 @@ import {
   SpotLightHelper,
 } from 'three'
 import { RectAreaLightHelper } from 'three-stdlib'
-import { useLogger } from '../composables'
-
-const { logWarning } = useLogger()
+import { logWarning } from '../utils/logger'
 
 type LightHelper = typeof DirectionalLightHelper
   | typeof PointLightHelper

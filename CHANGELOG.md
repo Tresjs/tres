@@ -1,5 +1,75 @@
 # Changelog
 
+## [5.0.0-next.0](https://github.com/Tresjs/tres/compare/4.3.3...5.0.0-next.0) (2025-04-12)
+
+### ⚠ BREAKING CHANGES
+
+* **loader:** useLoader no longer returns the plain obj, it now returns and object with reactive data (resource|s), isLoading, error) and a load method, can be used both sync and async (suspense)
+
+- Added `useLoader` composable for loading resources with THREE.js, supporting single and multiple resource loading, loading state tracking, and error handling.
+- Created comprehensive documentation for `useLoader`, detailing its features, usage examples, and API reference.
+- Updated various playground components to utilize the new `useLoader` composable for loading GLTF and FBX models.
+- Added new demo pages for loading multiple models and using the `UseLoader` component in templates.
+
+* chore(loader): simplify useLoader implementation and clean up imports
+
+- Updated the `UseLoader` component in documentation to remove unnecessary destructuring of the slot props.
+- Cleaned up imports in `BlenderCube.vue`, `Suzanne.vue`, and `TheExperience.vue` by removing unused types.
+- Added eslint-disable comments for console logging in `Suzanne.vue` and `TheExperience.vue` to improve code readability while debugging.
+
+* feat: useGraph to generate named object material collections
+
+* feat: useAsyncState for useLoader
+
+- Added documentation for the `useLoader` composable, detailing its features, usage examples, and API reference.
+- Updated the navigation in the VitePress configuration to include a link to the new `useLoader` documentation.
+- Enhanced the `useLoader` composable to support better type safety and resource management.
+- Removed the `Suzanne.vue` component as part of the cleanup process.
+
+* feat: enhance useLoader and useGraph composables
+
+- Updated the `useLoader` composable to improve type safety and support loading textures alongside models.
+- Refactored the `useGraph` composable to accept both Object3D and TresObject types, enhancing its flexibility.
+- Added new examples and documentation for loading multiple models and textures, including progress tracking.
+- Cleaned up and organized playground components to demonstrate the new features effectively.
+
+* refactor(useLoader.test): clean up imports by removing unused `nextTick` import
+
+- Removed the unused `nextTick` import from the `useLoader.test.ts` file to streamline the code and improve readability.
+
+* docs: remove trailing spaces in team.md for consistency
+
+- Cleaned up trailing spaces in the `team.md` file to improve code consistency and readability.
+
+* fix(graph): export also types from graph utils
+
+* refactor(index.ts): remove unused export of buildGraph
+
+- Removed the unused `buildGraph` export from `index.ts` to streamline the code and improve maintainability.
+
+* feat: enhance resources loading with progress tracking
+
+- Enhanced the `useLoader` composable to return progress information, allowing for better user feedback during model loading.
+- Updated `TheModel.vue` to utilize the new progress tracking feature from the `useLoader` composable.
+- Removed the unused `LoadingManager` and integrated progress updates directly into the component's state.
+- Updated docs
+
+* feat: added tests to load and progress
+* Tres is now ESM only
+
+- Removed UMD build configuration from package.json and adjusted exports to only include ES module.
+- Updated vite.config.ts to specify the output format as ES, enhancing compatibility with modern module systems.
+
+### Features
+
+* 974-createsetup-devtools ([#975](https://github.com/Tresjs/tres/issues/975)) ([1d83f7b](https://github.com/Tresjs/tres/commit/1d83f7b96e0f0c6b20a3c42a03599f86211e051f))
+* **deps:** update @vue/devtools-api and @tresjs/cientos dependencies ([#977](https://github.com/Tresjs/tres/issues/977)) ([4793f6b](https://github.com/Tresjs/tres/commit/4793f6b0cabd0a233e9008bd3b45fcef6c133945))
+* **loader:** refactor useLoader to a true composable ([#959](https://github.com/Tresjs/tres/issues/959)) ([430837f](https://github.com/Tresjs/tres/commit/430837f1aeeddb4f17620efb13975c23e0f67d6c))
+* update package.json and vite.config.ts for build configuration ([#960](https://github.com/Tresjs/tres/issues/960)) ([96a96f4](https://github.com/Tresjs/tres/commit/96a96f48a4b0097c34b2edb36babf745e97a9a6f))
+
+### Bug Fixes
+
+* export logger utility from utils in index.ts ([#966](https://github.com/Tresjs/tres/issues/966)) ([bb0b9e2](https://github.com/Tresjs/tres/commit/bb0b9e2f3843d2bd27cd46cfe982f433dca013b4))
 ## [4.3.5](https://github.com/Tresjs/tres/compare/4.3.4...4.3.5) (2025-05-16)
 
 ### Bug Fixes

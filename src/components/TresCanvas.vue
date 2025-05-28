@@ -1,13 +1,15 @@
 <script setup lang="ts">
 import type {
+  Camera,
   ColorSpace,
   ShadowMapType,
   ToneMapping,
+  WebGLRenderer,
   WebGLRendererParameters,
 } from 'three'
 import type { App, Ref } from 'vue'
 import type { RendererPresetsType } from '../composables/useRenderer/const'
-import type { TresCamera, TresObject, TresScene } from '../types/'
+import type { TresObject, TresPointerEvent, TresScene } from '../types/'
 import { PerspectiveCamera, Scene } from 'three'
 import * as THREE from 'three'
 
@@ -22,6 +24,7 @@ import {
   provide,
   ref,
   shallowRef,
+  toValue,
   watch,
   watchEffect,
 } from 'vue'
@@ -33,8 +36,9 @@ import {
 import { extend } from '../core/catalogue'
 import { nodeOps } from '../core/nodeOps'
 
+import { disposeObject3D, kebabToCamel } from '../utils/'
 import { registerTresDevtools } from '../devtools'
-import { disposeObject3D } from '../utils/'
+import { whenever } from '@vueuse/core'
 
 export interface TresCanvasProps
   extends Omit<WebGLRendererParameters, 'canvas'> {
@@ -50,7 +54,7 @@ export interface TresCanvasProps
   dpr?: number | [number, number]
 
   // required by useTresContextProvider
-  camera?: TresCamera
+  camera?: Camera
   preset?: RendererPresetsType
   windowSize?: boolean
 
@@ -73,24 +77,23 @@ const props = withDefaults(defineProps<TresCanvasProps>(), {
   enableProvideBridge: true,
 })
 
-// Define emits for Pointer events, pass `emit` into useTresEventManager so we can emit events off of TresCanvas
-// Not sure of this solution, but you have to have emits defined on the component to emit them in vue
-const emit = defineEmits([
-  'render',
-  'click',
-  'double-click',
-  'context-menu',
-  'pointer-move',
-  'pointer-up',
-  'pointer-down',
-  'pointer-enter',
-  'pointer-leave',
-  'pointer-over',
-  'pointer-out',
-  'pointer-missed',
-  'wheel',
-  'ready',
-])
+const emit = defineEmits<{
+  ready: [context: TresContext]
+  render: [renderer: WebGLRenderer]
+
+  click: [event: TresPointerEvent]
+  doubleClick: [event: TresPointerEvent]
+  contextMenu: [event: TresPointerEvent]
+  pointerMove: [event: TresPointerEvent]
+  pointerUp: [event: TresPointerEvent]
+  pointerDown: [event: TresPointerEvent]
+  pointerEnter: [event: TresPointerEvent]
+  pointerLeave: [event: TresPointerEvent]
+  pointerOver: [event: TresPointerEvent]
+  pointerOut: [event: TresPointerEvent]
+  pointerMissed: [event: TresPointerEvent]
+  wheel: [event: TresPointerEvent]
+}>()
 
 const slots = defineSlots<{
   default: () => any
@@ -158,9 +161,9 @@ const mountCustomRenderer = (context: TresContext, empty = false) => {
 const dispose = (context: TresContext, force = false) => {
   disposeObject3D(context.scene.value as unknown as TresObject)
   if (force) {
-    context.renderer.value.dispose()
-    context.renderer.value.renderLists.dispose()
-    context.renderer.value.forceContextLoss()
+    context.renderer.instance.value.dispose()
+    context.renderer.instance.value.renderLists.dispose()
+    context.renderer.instance.value.forceContextLoss()
   }
   (scene.value as TresScene).__tres = {
     root: context,
@@ -189,10 +192,10 @@ onMounted(() => {
     canvas: existingCanvas,
     windowSize: props.windowSize ?? false,
     rendererOptions: props,
-    emit,
   })
 
-  const { registerCamera, camera, cameras, deregisterCamera } = context.value
+  const { camera, renderer } = context.value
+  const { registerCamera, cameras, activeCamera, deregisterCamera } = camera
 
   mountCustomRenderer(context.value)
 
@@ -219,10 +222,12 @@ onMounted(() => {
   watch(
     () => props.camera,
     (newCamera, oldCamera) => {
-      if (newCamera) { registerCamera(newCamera) }
+      if (newCamera) {
+        registerCamera(toValue(newCamera), true)
+      }
       if (oldCamera) {
-        oldCamera.removeFromParent()
-        deregisterCamera(oldCamera)
+        toValue(oldCamera).removeFromParent()
+        deregisterCamera(toValue(oldCamera))
       }
     },
     {
@@ -230,13 +235,28 @@ onMounted(() => {
     },
   )
 
-  if (!camera.value) {
+  if (!activeCamera.value) {
     addDefaultCamera()
   }
+
+  renderer.onRender.on((renderer) => {
+    emit('render', renderer)
+  })
+
+  context.value.eventManager?.onEvent(({ type, event, intersection }) => {
+    emit(
+      kebabToCamel(type) as any, // typescript doesn't know that kebabToCamel(type) is a valid key of PointerEmits
+      { type, event, intersection },
+    )
+  })
 
   // HMR support
   if (import.meta.hot && context.value) { import.meta.hot.on('vite:afterUpdate', () => handleHMR(context.value as TresContext)) }
 })
+
+whenever(() => context.value?.renderer.isReady, () => {
+  if (context.value) { emit('ready', context.value) }
+}, { once: true })
 
 onUnmounted(unmountCanvas)
 </script>

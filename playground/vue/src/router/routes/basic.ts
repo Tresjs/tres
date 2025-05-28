@@ -12,7 +12,7 @@ export const basicRoutes = [
   {
     path: '/basic/groups',
     name: 'Groups',
-    component: () => import('../../pages/basic/Groups.vue'),
+    component: () => import('../../pages/basic/groups/index.vue'),
   },
   {
     path: '/basic/conditional',
@@ -43,15 +43,5 @@ export const basicRoutes = [
     path: '/basic/pierced-props',
     name: 'Pierced Props',
     component: () => import('../../pages/basic/PiercedProps.vue'),
-  },
-  {
-    path: '/basic/ready',
-    name: '@ready',
-    component: () => import('../../pages/basic/ready/index.vue'),
-  },
-  {
-    path: '/basic/textures',
-    name: 'Textures',
-    component: () => import('../../pages/basic/Textures.vue'),
   },
 ]

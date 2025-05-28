@@ -170,7 +170,7 @@ useLoop().render(() => {
 <template>
   <TresEffectComposer
     ref="composer"
-    :args="[renderer]"
+    :args="[renderer.instance]"
     :set-size="[sizes.width.value, sizes.height.value]"
   >
     <TresRenderPass
