@@ -135,5 +135,3 @@ export function useTresContext(): TresContext {
 
   return context as TresContext
 }
-
-export const useTres = useTresContext
