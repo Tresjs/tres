@@ -27,9 +27,7 @@ const { isVisible, text } = useControls({
   <TresCanvas v-bind="gl">
     <TresPerspectiveCamera :position="[3, 3, 3]" />
     <OrbitControls />
-    <Suspense>
-      <Text3D v-if="isVisible" :text="text" />
-    </Suspense>
+    <Text3D v-if="isVisible" :text="text" />
     <TresAmbientLight :intensity="1" />
   </TresCanvas>
 </template>

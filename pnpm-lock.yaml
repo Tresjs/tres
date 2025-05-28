@@ -25,8 +25,8 @@ importers:
         specifier: ^1.11.0
         version: 1.11.0
       '@tresjs/cientos':
-        specifier: https://pkg.pr.new/@tresjs/cientos@13943b0
-        version: https://pkg.pr.new/@tresjs/cientos@13943b0(@tresjs/core@5.0.0-next.0(three@0.173.0)(typescript@5.7.3)(vue@3.5.13(typescript@5.7.3)))(@types/three@0.173.0)(three@0.173.0)(typescript@5.7.3)(vue@3.5.13(typescript@5.7.3))
+        specifier: https://pkg.pr.new/@tresjs/cientos@14afe95
+        version: https://pkg.pr.new/@tresjs/cientos@14afe95(@tresjs/core@5.0.0-next.0(three@0.173.0)(typescript@5.7.3)(vue@3.5.13(typescript@5.7.3)))(@types/three@0.173.0)(three@0.173.0)(typescript@5.7.3)(vue@3.5.13(typescript@5.7.3))
       '@tresjs/eslint-config':
         specifier: ^1.4.0
         version: 1.4.0(@typescript-eslint/utils@8.24.1(eslint@9.21.0(jiti@2.4.2))(typescript@5.7.3))(@vue/compiler-sfc@3.5.13)(eslint@9.21.0(jiti@2.4.2))(typescript@5.7.3)(vitest@3.0.5)
@@ -1659,9 +1659,9 @@ packages:
   '@tootallnate/quickjs-emscripten@0.23.0':
     resolution: {integrity: sha512-C5Mc6rdnsaJDjO3UpGW/CQTHtCKaYlScZTly4JIu97Jxo/odCiH0ITnDXSJPTOrEKk/ycSZ0AOgTmkDtkOsvIA==}
 
-  '@tresjs/cientos@https://pkg.pr.new/@tresjs/cientos@13943b0':
-    resolution: {tarball: https://pkg.pr.new/@tresjs/cientos@13943b0}
-    version: 4.2.0
+  '@tresjs/cientos@https://pkg.pr.new/@tresjs/cientos@14afe95':
+    resolution: {tarball: https://pkg.pr.new/@tresjs/cientos@14afe95}
+    version: 4.3.1
     peerDependencies:
       '@tresjs/core': '>=4.2.1'
       three: '>=0.133'
@@ -6952,7 +6952,7 @@ snapshots:
 
   '@tootallnate/quickjs-emscripten@0.23.0': {}
 
-  '@tresjs/cientos@https://pkg.pr.new/@tresjs/cientos@13943b0(@tresjs/core@5.0.0-next.0(three@0.173.0)(typescript@5.7.3)(vue@3.5.13(typescript@5.7.3)))(@types/three@0.173.0)(three@0.173.0)(typescript@5.7.3)(vue@3.5.13(typescript@5.7.3))':
+  '@tresjs/cientos@https://pkg.pr.new/@tresjs/cientos@14afe95(@tresjs/core@5.0.0-next.0(three@0.173.0)(typescript@5.7.3)(vue@3.5.13(typescript@5.7.3)))(@types/three@0.173.0)(three@0.173.0)(typescript@5.7.3)(vue@3.5.13(typescript@5.7.3))':
     dependencies:
       '@tresjs/core': 5.0.0-next.0(three@0.173.0)(typescript@5.7.3)(vue@3.5.13(typescript@5.7.3))
       '@vueuse/core': 12.8.2(typescript@5.7.3)

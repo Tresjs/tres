@@ -176,8 +176,8 @@ export function useRendererManager(
   const onRender = createEventHook<WebGLRenderer>()
 
   loop.register(() => {
-    if (camera.value && amountOfFramesToRender.value) {
-      instance.value.render(scene, camera.value)
+    if (camera.activeCamera.value && amountOfFramesToRender.value) {
+      instance.value.render(scene, camera.activeCamera.value)
 
       onRender.trigger(instance.value)
     }

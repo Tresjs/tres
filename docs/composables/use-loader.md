@@ -24,9 +24,11 @@ You can also use the `useLoader` composable to load textures:
 
 ```ts
 import { useLoader } from '@tresjs/core'
-import { TextureLoader } from 'three'
+import { Texture, TextureLoader } from 'three'
 
-const { state: texture } = useLoader(TextureLoader, '/path/to/texture.jpg')
+const { state: texture } = useLoader(TextureLoader, '/path/to/texture.jpg', {
+  initialValue: new Texture(), // Provide an initial texture while loading
+})
 ```
 
 ## Features
@@ -36,6 +38,7 @@ const { state: texture } = useLoader(TextureLoader, '/path/to/texture.jpg')
 - 🧹 Automatic resource cleanup
 - 🔌 Extensible loader configuration
 - 🎮 Progress tracking support
+- 🎨 Initial value support for better UX
 
 ## API
 
@@ -58,6 +61,7 @@ const { state: texture } = useLoader(TextureLoader, '/path/to/texture.jpg')
 interface TresLoaderOptions<T extends TresObjectMap, Shallow extends boolean> {
   manager?: LoadingManager
   extensions?: (loader: TresLoader<T>) => void
+  initialValue?: T // Initial value to use while the resource is loading
   asyncOptions?: UseAsyncStateOptions<Shallow, any | null>
 }
 ```
@@ -95,7 +99,7 @@ const url = 'https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/bl
 
 ## Advanced Examples
 
-### Using a Loading Manager
+### Using a Loading Manager with Initial Value
 
 ```ts
 import { useLoader } from '@tresjs/core'
@@ -108,7 +112,9 @@ manager.onProgress = (url, loaded, total) => {
   console.log(`Loading file: ${url}. Loaded ${loaded} of ${total} files.`)
 }
 
-const { state } = useLoader<TresGLTF>(GLTFLoader, '/path/to/model.gltf', { manager })
+const { state } = useLoader<TresGLTF>(GLTFLoader, '/path/to/model.gltf', {
+  manager,
+})
 ```
 
 ### Loading Multiple Resources
@@ -179,4 +185,12 @@ const { load, state } = useLoader(GLTFLoader, '/initial-model.gltf')
 
 // Later in your code, load a different model
 load('/new-model.gltf')
+```
+
+7. **Initial Values**: Provide initial values for better user experience while resources are loading (Useful to avoid having a null map and relying on v-if)
+```ts
+// For textures
+const { state: texture } = useLoader(TextureLoader, '/texture.jpg', {
+  initialValue: new Texture(), // Show a default texture while loading
+})
 ```

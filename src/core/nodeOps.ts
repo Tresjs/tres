@@ -4,7 +4,7 @@ import { BufferAttribute, Object3D } from 'three'
 import { isRef, type RendererOptions } from 'vue'
 import { attach, deepArrayEqual, doRemoveDeregister, doRemoveDetach, invalidateInstance, isHTMLTag, kebabToCamel, noop, prepareTresInstance, setPrimitiveObject, unboxTresPrimitive } from '../utils'
 import { logError } from '../utils/logger'
-import { isArray, isFunction, isObject, isObject3D, isScene, isUndefined } from '../utils/is'
+import { isArray, isCamera, isClassInstance, isColor, isColorRepresentation, isCopyable, isFunction, isLayers, isObject, isObject3D, isScene, isTresInstance, isUndefined, isVectorLike } from '../utils/is'
 import { createRetargetingProxy } from '../utils/primitive/createRetargetingProxy'
 import { catalogue } from './catalogue'
 
@@ -76,7 +76,8 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
 
     if (!obj) { return null }
 
-    if (obj.isCamera) {
+    // Opinionated default to avoid user issue not seeing anything if camera is on origin
+    if (isCamera(obj)) {
       if (!props?.position) {
         obj.position.set(3, 3, 3)
       }
@@ -86,7 +87,7 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
     }
 
     obj = prepareTresInstance(obj, {
-      ...obj.__tres,
+      ...(isTresInstance(obj) ? obj.__tres : {}),
       type: name,
       memoizedProps: props,
       eventCount: 0,
@@ -114,7 +115,9 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
       context.eventManager?.registerObject(child)
     }
 
-    context.registerCamera(child)
+    if (isCamera(child)) {
+      context.camera?.registerCamera(child)
+    }
     // NOTE: Track onPointerMissed objects separate from the scene
     context.eventManager?.registerPointerMissedObject(child)
 
@@ -240,7 +243,7 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
   function patchProp(node: TresObject, prop: string, prevValue: any, nextValue: any) {
     if (!node) { return }
 
-    let root = node
+    let root: Record<string, unknown> = node
     let key = prop
 
     // NOTE: Update memoizedProps with the new value
@@ -275,7 +278,7 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
       node.__tres.eventCount += 1
     }
     let finalKey = kebabToCamel(key)
-    let target = root?.[finalKey]
+    let target = root?.[finalKey] as Record<string, unknown>
 
     if (key === 'args') {
       const prevNode = node as TresObject3D
@@ -288,17 +291,38 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
         && prevArgs.length
         && !deepArrayEqual(prevArgs, args)
       ) {
-        root = Object.assign(
-          prevNode,
-          new catalogue.value[instanceName](...nextValue),
-        )
+        // Create a new instance
+        const newInstance = new catalogue.value[instanceName](...nextValue)
+
+        // Get all property descriptors of the new instance
+        const descriptors = Object.getOwnPropertyDescriptors(newInstance)
+
+        // Only copy properties that are not readonly
+        Object.entries(descriptors).forEach(([key, descriptor]) => {
+          if (!descriptor.writable && !descriptor.set) {
+            return // Skip readonly properties
+          }
+
+          // Copy the value from new instance to previous node
+          if (key in prevNode) {
+            try {
+              (prevNode as unknown as Record<string, unknown>)[key] = newInstance[key]
+            }
+            catch (e) {
+              // Skip if property can't be set
+              console.warn(`Could not set property ${key} on ${instanceName}:`, e)
+            }
+          }
+        })
+
+        root = prevNode as TresObject
       }
       return
     }
 
     if (root.type === 'BufferGeometry') {
       if (key === 'args') { return }
-      root.setAttribute(
+      (root as TresObject).setAttribute(
         kebabToCamel(key),
         new BufferAttribute(...(nextValue as ConstructorParameters<typeof BufferAttribute>)),
       )
@@ -310,11 +334,12 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
       // TODO: A standalone function called `resolve` is
       // available in /src/utils/index.ts. It's covered by tests.
       // Refactor below to DRY.
-      const chain = key.split('-')
-      target = chain.reduce((acc, key) => acc[kebabToCamel(key)], root)
-      key = chain.pop() as string
-      finalKey = key
-      if (!target?.set) { root = chain.reduce((acc, key) => acc[kebabToCamel(key)], root) }
+      target = root
+      for (const part of key.split('-')) {
+        finalKey = key = kebabToCamel(part)
+        root = target
+        target = target?.[key] as Record<string, unknown>
+      }
     }
     let value = nextValue
     if (value === '') { value = true }
@@ -333,11 +358,49 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
       }
       return
     }
-    if (!target?.set && !isFunction(target)) { root[finalKey] = value }
-    else if (target.constructor === value.constructor && target?.copy) { target?.copy(value) }
-    else if (isArray(value)) { target.set(...value) }
-    else if (!target.isColor && target.setScalar) { target.setScalar(value) }
-    else { target.set(value) }
+
+    // Layers must be written to the mask property
+    if (isLayers(target) && isLayers(value)) {
+      target.mask = value.mask
+    }
+    // Set colors if valid color representation for automatic conversion (copy)
+    else if (isColor(target) && isColorRepresentation(value)) {
+      target.set(value)
+    }
+    // Copy if properties match signatures and implement math interface (likely read-only)
+    else if (
+      isCopyable(target) && isClassInstance(value) && target.constructor === value.constructor
+    ) {
+      target.copy(value)
+    }
+    // Set array types
+    else if (isVectorLike(target) && Array.isArray(value)) {
+      if ('fromArray' in target && typeof target.fromArray === 'function') {
+        target.fromArray(value)
+      }
+      else {
+        target.set(...value)
+      }
+    }
+    // Set literal types
+    else if (isVectorLike(target) && typeof value === 'number') {
+      // Allow setting array scalars
+      if ('setScalar' in target && typeof target.setScalar === 'function') {
+        target.setScalar(value)
+      }
+      // Otherwise just set single value
+      else {
+        target.set(value)
+      }
+    }
+    // Else, just overwrite the value
+    else {
+      root[finalKey] = value
+    }
+
+    if (isCamera(node)) {
+      node.updateProjectionMatrix()
+    }
 
     invalidateInstance(node as TresObject)
   }

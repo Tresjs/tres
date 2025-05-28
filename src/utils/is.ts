@@ -1,5 +1,6 @@
-import type { TresObject, TresPrimitive } from 'src/types'
-import type { BufferGeometry, Camera, Fog, Light, Material, Object3D, Scene } from 'three'
+import type { TresCamera, TresInstance, TresObject, TresPrimitive } from 'src/types'
+import type { BufferGeometry, Color, ColorRepresentation, Fog, Light, Material, Object3D, OrthographicCamera, PerspectiveCamera, Scene } from 'three'
+import { Layers } from 'three'
 
 /**
  * Type guard to check if a value is undefined
@@ -159,8 +160,53 @@ export function isObject3D(value: unknown): value is Object3D {
  * }
  * ```
  */
-export function isCamera(value: unknown): value is Camera {
+export function isCamera(value: unknown): value is TresCamera {
   return isObject(value) && !!(value.isCamera)
+}
+
+export function isColor(value: unknown): value is Color {
+  return isObject(value) && !!(value.isColor)
+}
+
+export function isColorRepresentation(value: unknown): value is ColorRepresentation {
+  return value != null && (typeof value === 'string' || typeof value === 'number' || isColor(value))
+}
+
+interface VectorLike { set: (...args: any[]) => void, constructor?: (...args: any[]) => any }
+export function isVectorLike(value: unknown): value is VectorLike {
+  return value !== null && typeof value === 'object' && 'set' in value && typeof value.set === 'function'
+}
+
+interface Copyable { copy: (...args: any[]) => void, constructor?: (...args: any[]) => any }
+export function isCopyable(value: unknown): value is Copyable {
+  return isVectorLike(value) && 'copy' in value && typeof value.copy === 'function'
+}
+
+interface ClassInstance { constructor?: (...args: any[]) => any }
+export function isClassInstance(object: unknown): object is ClassInstance {
+  return !!(object)?.constructor
+}
+
+export function isLayers(value: unknown): value is Layers {
+  return value instanceof Layers // three does not implement .isLayers
+}
+
+/**
+ * Type guard to check if a value is a Three.js OrthographicCamera
+ * @param value - The value to check
+ * @returns True if the value is a Three.js OrthographicCamera instance, false otherwise
+ */
+export function isOrthographicCamera(value: unknown): value is OrthographicCamera {
+  return isObject(value) && !!(value.isOrthographicCamera)
+}
+
+/**
+ * Type guard to check if a value is a Three.js PerspectiveCamera
+ * @param value - The value to check
+ * @returns True if the value is a Three.js PerspectiveCamera instance, false otherwise
+ */
+export function isPerspectiveCamera(value: unknown): value is PerspectiveCamera {
+  return isObject(value) && !!(value.isPerspectiveCamera)
 }
 
 /**
@@ -298,4 +344,21 @@ export function isTresObject(value: unknown): value is TresObject {
  */
 export function isTresPrimitive(value: unknown): value is TresPrimitive {
   return isObject(value) && !!(value.isPrimitive)
+}
+
+/**
+ * Type guard to check if a value is a TresInstance (has __tres property)
+ * @param value - The value to check
+ * @returns True if the value is a TresInstance (has __tres property), false otherwise
+ * @example
+ * ```ts
+ * const value = new THREE.Mesh()
+ * if (isTresInstance(value)) {
+ *   // TypeScript knows value is TresInstance here
+ *   // You can safely access value.__tres
+ * }
+ * ```
+ */
+export function isTresInstance(value: unknown): value is TresInstance {
+  return isTresObject(value) && '__tres' in value
 }

@@ -1,34 +1,31 @@
-import type { Camera } from 'three'
-import type { ComputedRef, DeepReadonly, MaybeRef, MaybeRefOrGetter, Ref, ShallowRef } from 'vue'
+import { Raycaster } from 'three'
+import type { MaybeRef, MaybeRefOrGetter, Ref, ShallowRef } from 'vue'
+import { whenever } from '@vueuse/core'
+
 import type { RendererLoop } from '../../core/loop'
 import type { TresControl, TresObject, TresScene } from '../../types'
 import type { UseRendererManagerReturn, UseRendererOptions } from '../useRenderer/useRendererManager'
-import { Raycaster } from 'three'
-import { inject, onUnmounted, provide, readonly, ref, shallowRef } from 'vue'
+import { inject, onUnmounted, provide, ref, shallowRef } from 'vue'
 import { extend } from '../../core/catalogue'
 import { createRenderLoop } from '../../core/loop'
 
-import { useCamera } from '../useCamera'
+import type { UseCameraReturn } from '../useCamera/'
+
+import { useCameraManager } from '../useCamera'
 import { useRendererManager } from '../useRenderer/useRendererManager'
 import useSizes, { type SizesType } from '../useSizes'
 import { type TresEventManager, useTresEventManager } from '../useTresEventManager'
-import { whenever } from '@vueuse/core'
 
 export interface TresContext {
   scene: ShallowRef<TresScene>
   sizes: SizesType
   extend: (objects: any) => void
-  camera: ComputedRef<Camera | undefined>
-  cameras: DeepReadonly<Ref<Camera[]>>
+  camera: UseCameraReturn
   controls: Ref<TresControl | null>
   renderer: UseRendererManagerReturn
   raycaster: ShallowRef<Raycaster>
   // Loop
   loop: RendererLoop
-  // Camera
-  registerCamera: (maybeCamera: unknown) => void
-  setCameraActive: (cameraOrUuid: Camera | string) => void
-  deregisterCamera: (maybeCamera: unknown) => void
   eventManager?: TresEventManager
   // Events
   // Temporaly add the methods to the context, this should be handled later by the EventManager state on the context https://github.com/Tresjs/tres/issues/515
@@ -53,13 +50,7 @@ export function useTresContextProvider({
   const localScene = shallowRef<TresScene>(scene)
   const sizes = useSizes(windowSize, canvas)
 
-  const {
-    camera,
-    cameras,
-    registerCamera,
-    deregisterCamera,
-    setCameraActive,
-  } = useCamera({ sizes, scene })
+  const camera = useCameraManager({ sizes })
 
   const loop = createRenderLoop()
 
@@ -76,14 +67,10 @@ export function useTresContextProvider({
     sizes,
     scene: localScene,
     camera,
-    cameras: readonly(cameras),
     renderer,
     raycaster: shallowRef(new Raycaster()),
     controls: ref(null),
     extend,
-    registerCamera,
-    setCameraActive,
-    deregisterCamera,
     loop,
   }
 

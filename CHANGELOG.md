@@ -70,6 +70,17 @@
 ### Bug Fixes
 
 * export logger utility from utils in index.ts ([#966](https://github.com/Tresjs/tres/issues/966)) ([bb0b9e2](https://github.com/Tresjs/tres/commit/bb0b9e2f3843d2bd27cd46cfe982f433dca013b4))
+## [4.3.5](https://github.com/Tresjs/tres/compare/4.3.4...4.3.5) (2025-05-16)
+
+### Bug Fixes
+
+* make sure key is camelCase when reached else on conditional ([#1011](https://github.com/Tresjs/tres/issues/1011)) ([2902d05](https://github.com/Tresjs/tres/commit/2902d05c600b0e2b02738d0ab5af292b4d75cc35))
+
+## [4.3.4](https://github.com/Tresjs/tres/compare/4.3.3...4.3.4) (2025-05-13)
+
+### Bug Fixes
+
+* **patchProp:** harden props inference ([#1006](https://github.com/Tresjs/tres/issues/1006)) ([6cdf28b](https://github.com/Tresjs/tres/commit/6cdf28b73a246b935f0b58a8b759a0aa1b925ff6))
 * revert improve type safety in retargeting proxy setter ([#930](https://github.com/Tresjs/tres/issues/930)) ([0a95764](https://github.com/Tresjs/tres/commit/0a95764ac47b93d58fd0668327658fe4aae53783))
 
 ### Reverts

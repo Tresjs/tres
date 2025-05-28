@@ -77,7 +77,7 @@
   "devDependencies": {
     "@release-it/conventional-changelog": "^10.0.0",
     "@stackblitz/sdk": "^1.11.0",
-    "@tresjs/cientos": "https://pkg.pr.new/@tresjs/cientos@13943b0",
+    "@tresjs/cientos": "https://pkg.pr.new/@tresjs/cientos@14afe95",
     "@tresjs/eslint-config": "^1.4.0",
     "@types/three": "^0.173.0",
     "@typescript-eslint/eslint-plugin": "^8.23.0",
