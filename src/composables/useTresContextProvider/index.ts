@@ -30,7 +30,6 @@ export interface PerformanceState {
 }
 
 export interface TresContext {
-  uuid: string
   scene: ShallowRef<TresScene>
   sizes: SizesType
   extend: (objects: any) => void
@@ -79,7 +78,6 @@ export function useTresContextProvider({
   )
 
   const ctx: TresContext = {
-    uuid: MathUtils.generateUUID(),
     sizes,
     scene: localScene,
     camera,
