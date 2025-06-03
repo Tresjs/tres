@@ -16,19 +16,6 @@ import { useRendererManager } from '../useRenderer/useRendererManager'
 import useSizes, { type SizesType } from '../useSizes'
 import { type TresEventManager, useTresEventManager } from '../useTresEventManager'
 
-export interface PerformanceState {
-  maxFrames: number
-  fps: {
-    value: number
-    accumulator: number[]
-  }
-  memory: {
-    currentMem: number
-    allocatedMem: number
-    accumulator: number[]
-  }
-}
-
 export interface TresContext {
   uuid: string
   scene: ShallowRef<TresScene>
@@ -38,7 +25,6 @@ export interface TresContext {
   controls: Ref<TresControl | null>
   renderer: UseRendererManagerReturn
   raycaster: ShallowRef<Raycaster>
-  perf: PerformanceState
   // Loop
   loop: RendererLoop
   eventManager?: TresEventManager
@@ -86,18 +72,6 @@ export function useTresContextProvider({
     renderer,
     raycaster: shallowRef(new Raycaster()),
     controls: ref(null),
-    perf: {
-      maxFrames: 160,
-      fps: {
-        value: 0,
-        accumulator: [],
-      },
-      memory: {
-        currentMem: 0,
-        allocatedMem: 0,
-        accumulator: [],
-      },
-    },
     extend,
     loop,
   }
