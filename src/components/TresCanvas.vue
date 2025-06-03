@@ -51,6 +51,8 @@ const props = withDefaults(defineProps<TresCanvasProps>(), {
   logarithmicDepthBuffer: undefined,
   failIfMajorPerformanceCaveat: undefined,
   renderMode: 'always',
+  clearColor: '#000000',
+  clearAlpha: 1,
   enableProvideBridge: true,
   toneMapping: ACESFilmicToneMapping,
   shadowMapType: PCFSoftShadowMap,
@@ -264,6 +266,13 @@ export interface TresCanvasProps {
   depth?: boolean
 
   /**
+   * Sets the shader precision of the renderer.
+   * @see {@link https://threejs.org/docs/#api/en/renderers/WebGLRenderer}
+   * @default 'highp'
+   */
+  precision?: 'highp' | 'mediump' | 'lowp'
+
+  /**
    * Enables logarithmic depth buffer. Useful for scenes with large differences in scale.
    * Helps prevent z-fighting in scenes with objects very close and very far from the camera.
    * @readonly
@@ -297,6 +306,18 @@ export interface TresCanvasProps {
      * @default false
      */
   alpha?: boolean
+  /**
+   * Whether to premultiply the alpha of the canvas.
+   * @see {@link https://threejs.org/docs/#api/en/renderers/WebGLRenderer}
+   * @default true
+   */
+  premultipliedAlpha?: boolean
+  /**
+   * Whether to fail if the major performance caveat is detected.
+   * @see {@link https://threejs.org/docs/#api/en/renderers/WebGLRenderer}
+   * @default false
+   */
+  failIfMajorPerformanceCaveat?: boolean
   /**
    * WebGL options with set methods
    * @see {@link https://threejs.org/docs/#api/en/renderers/WebGLRenderer}

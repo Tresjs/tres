@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
-import { ACESFilmicToneMapping, AgXToneMapping, BasicShadowMap, CineonToneMapping, LinearToneMapping, NeutralToneMapping, NoToneMapping, OrthographicCamera, PCFShadowMap, PCFSoftShadowMap, PerspectiveCamera, ReinhardToneMapping, VSMShadowMap } from 'three'
+import type { ShadowMapType, ToneMapping } from 'three'
+import { ACESFilmicToneMapping, AgXToneMapping, BasicShadowMap, CineonToneMapping, LinearToneMapping, NeutralToneMapping, NoToneMapping, PCFShadowMap, PCFSoftShadowMap, ReinhardToneMapping, VSMShadowMap } from 'three'
 import { OrbitControls } from '@tresjs/cientos'
 import { TresLeches, useControls } from '@tresjs/leches'
 import '@tresjs/leches/styles'
@@ -37,6 +38,14 @@ const { clearColor, clearAlpha, toneMapping, shadows, shadowMapType } = useContr
     ],
   },
 })
+
+const formattedToneMapping = computed(() => {
+  return Number(toneMapping.value) as ToneMapping
+})
+
+const formattedShadowMapType = computed(() => {
+  return Number(shadowMapType.value) as ShadowMapType
+})
 </script>
 
 <template>
@@ -44,17 +53,26 @@ const { clearColor, clearAlpha, toneMapping, shadows, shadowMapType } = useContr
   <TresCanvas
     :clear-color="clearColor"
     :clear-alpha="clearAlpha"
-    :tone-mapping="toneMapping"
+    :tone-mapping="formattedToneMapping"
     :shadows="shadows"
-    :shadow-map-type="shadowMapType"
+    :shadow-map-type="formattedShadowMapType"
   >
-    <TresPerspectiveCamera :position="[8, 8, 8]" />
+    <TresPerspectiveCamera :position="[5, 5, 5]" />
     <OrbitControls />
-    <TresGridHelper />
-    <TresMesh position-y="1">
+    <TresMesh :position="[0, 1, 0]" cast-shadow>
       <TresBoxGeometry />
-      <TresMeshNormalMaterial />
+      <TresMeshStandardMaterial color="teal" :opacity="0.5" transparent />
     </TresMesh>
+
+    <TresMesh
+      :rotation="[-Math.PI / 2, 0, 0]"
+      receive-shadow
+    >
+      <TresPlaneGeometry :args="[10, 10, 10, 10]" />
+      <TresMeshToonMaterial />
+    </TresMesh>
+    <!-- Add lighting to see the edges better -->
+    <TresDirectionalLight :position="[1, 1, -1]" cast-shadow :intensity="2" />
     <TresAmbientLight :intensity="1" />
   </TresCanvas>
 </template>
