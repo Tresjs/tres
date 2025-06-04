@@ -4,7 +4,7 @@ import type { Loader, LoadingManager } from 'three'
 import type { MaybeRef } from 'vue'
 import { onUnmounted, reactive, toValue, watch } from 'vue'
 
-import type { TresObject } from '../../../types'
+import type { TresObject } from '../../types'
 
 import { disposeObject3D } from '../../utils/'
 

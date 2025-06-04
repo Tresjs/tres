@@ -202,7 +202,7 @@ export function registerTresDevtools(app: any, tres: TresContext) {
                 },
                 {
                   key: 'Programs',
-                  value: tres.renderer.value.info.programs?.map(program => ({
+                  value: tres.renderer.value.info.programs?.map((program: any) => ({
                     ...program,
                     programName: program.name,
                   })) || [],

@@ -1,10 +1,10 @@
 import type { TresCanvasProps } from 'src/components/TresCanvas.vue'
-import { createRenderer } from 'src/core/createRenderer'
+import { createRenderer } from '../../core/createRenderer'
 import { WebGLRenderer } from 'three'
-import { setupWebGLRenderer } from 'src/core/setupRenderer'
+import { setupWebGLRenderer } from '../../core/setupRenderer'
 import { onUnmounted } from 'vue'
 import type { RenderState, TresContext } from '../useTresContextProvider'
-import type { EmitEventFn } from 'types'
+import type { EmitEventFn } from '../../types'
 
 export type TresRendererSetupContext = Pick< // TODO make this public
   TresContext,
