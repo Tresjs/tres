@@ -28,6 +28,8 @@ type NamesOfPropsThatCanChange = keyof Omit<
   NamesOfPropsThatCannotChange
 >
 
+const empty = (t: any) => t
+
 // TODO test by using basic playground
 
 // Modified setup function to handle both types of properties
@@ -108,7 +110,7 @@ export function setupWebGLRenderer( // TODO object format? // TODO name like com
       }
     })
 
-  const x: Record<NamesOfPropsThatCanChange, ReturnType<typeof createWatcher>> = {
+  const x: Record<string extends NamesOfPropsThatCanChange ? NamesOfPropsThatCanChange : never, ReturnType<typeof createWatcher>> = {
     toneMapping: createWatcher<ToneMapping>({
       getFromProps: ({ toneMapping }) => toValue(toneMapping),
       setOnRenderer: (renderer, value) => renderer.toneMapping = value,
@@ -163,6 +165,8 @@ export function setupWebGLRenderer( // TODO object format? // TODO name like com
       defaultValue: PCFSoftShadowMap,
     }),
   }
+
+  empty(x)
 
   return initialRenderer
 }

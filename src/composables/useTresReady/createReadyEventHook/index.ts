@@ -72,7 +72,7 @@ export function createReadyEventHook<T>(
       return hook.on(callback)
     }
     else {
-      triggerSingleCallback(callback, triggerParams)
+      triggerSingleCallback(callback as Callback<T>, triggerParams)
       return { off: () => {} }
     }
   }

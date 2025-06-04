@@ -48,8 +48,8 @@
     "access": "public"
   },
   "scripts": {
-    "dev": "pnpm --filter='./playground/vue' dev",
-    "dev:nuxt": "pnpm --filter='./playground/nuxt' dev",
+    "dev": "pnpm --filter=\"./playground/vue\" dev",
+    "dev:nuxt": "pnpm --filter=\"./playground/nuxt\" dev",
     "build": "vite build",
     "test": "vitest",
     "test:ci": "vitest run",

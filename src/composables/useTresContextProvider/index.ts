@@ -6,7 +6,7 @@ import type { EmitEventFn, Renderer, TresControl, TresObject, TresScene } from '
 
 import { computed, inject, onUnmounted, provide, readonly, ref, shallowRef } from 'vue'
 import { createRenderLoop } from '../../core/loop'
-
+import { extend } from '../../core/catalogue'
 import { useCamera } from '../useCamera'
 import useSizes, { type SizesType } from '../useSizes'
 import { type TresEventManager, useTresEventManager } from '../useTresEventManager'
@@ -58,6 +58,7 @@ export interface TresContext {
   raycaster: ShallowRef<Raycaster>
   perf: PerformanceState
   render: RenderState
+  extend: typeof extend
   // Loop
   loop: RendererLoop
   /**
@@ -152,6 +153,7 @@ export async function useTresContextProvider({
     renderer: shallowRef(renderer),
     raycaster: shallowRef(new Raycaster()),
     canvas,
+    extend,
     controls: ref(null),
     perf: {
       maxFrames: 160,

@@ -69,5 +69,5 @@ export function createPriorityEventHook<T>(): PriorityEventHook<T> {
     ascending.clear()
   }
 
-  return { on, off, trigger, dispose, get count() { return eventToPriority.size } }
+  return { on, off: off as EventHookOff<T>, trigger, dispose, get count() { return eventToPriority.size } }
 }
