@@ -3,7 +3,7 @@ import type { MaybeRef, MaybeRefOrGetter, Ref, ShallowRef } from 'vue'
 import { whenever } from '@vueuse/core'
 
 import type { RendererLoop } from '../../core/loop'
-import type { TresControl, TresObject, TresScene } from '../../types'
+import type { TresControl, TresScene } from '../../types'
 import type { UseRendererManagerReturn, UseRendererOptions } from '../useRenderer/useRendererManager'
 import { inject, onUnmounted, provide, ref, shallowRef } from 'vue'
 import { extend } from '../../core/catalogue'

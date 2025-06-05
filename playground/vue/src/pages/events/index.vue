@@ -38,7 +38,7 @@ function onPointerLeave(ev: ThreeEvent<MouseEvent>) {
   ev.object.material.color.set('#efefef')
 }
 
-function onPointerMove(ev: ThreeEvent<MouseEvent>) {
+function onPointerMove(_ev: ThreeEvent<MouseEvent>) {
   // console.log('pointer-move', ev)
 }
 
