@@ -4,6 +4,19 @@ import type { TresContext } from '../composables'
 import type { TresObject } from '../types'
 import { onUnmounted } from 'vue'
 
+export interface PerformanceState {
+  maxFrames: number
+  fps: {
+    value: number
+    accumulator: number[]
+  }
+  memory: {
+    currentMem: number
+    allocatedMem: number
+    accumulator: number[]
+  }
+}
+
 export function setupTresDevtools(ctx: TresContext) {
   if (!ctx) { return }
 
