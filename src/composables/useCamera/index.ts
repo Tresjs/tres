@@ -3,34 +3,34 @@ import type { TresContext } from '../useTresContextProvider'
 import type { ComputedRef, Ref } from 'vue'
 import { computed, ref, watchEffect } from 'vue'
 import { isCamera, isPerspectiveCamera } from '../../utils/is'
-import type { Camera } from 'three'
+import type { TresCamera } from '../../types'
 
 /**
  * Interface for the return value of the useCamera composable
  */
 export interface UseCameraReturn {
 
-  activeCamera: ComputedRef<Camera | undefined>
+  activeCamera: ComputedRef<TresCamera>
   /**
    * The list of cameras
    */
-  cameras: Ref<Camera[]>
+  cameras: Ref<TresCamera[]>
   /**
    * Register a camera
    * @param camera - The camera to register
    * @param active - Whether to set the camera as active
    */
-  registerCamera: (camera: Camera, active?: boolean) => void
+  registerCamera: (camera: TresCamera, active?: boolean) => void
   /**
    * Deregister a camera
    * @param camera - The camera to deregister
    */
-  deregisterCamera: (camera: Camera) => void
+  deregisterCamera: (camera: TresCamera) => void
   /**
    * Set the active camera
    * @param cameraOrUuid - The camera or its UUID to set as active
    */
-  setActiveCamera: (cameraOrUuid: string | Camera) => void
+  setActiveCamera: (cameraOrUuid: string | TresCamera) => void
 }
 
 /**
@@ -47,17 +47,17 @@ interface UseCameraParams {
  * @returns The camera management functions and state
  */
 export const useCameraManager = ({ sizes }: UseCameraParams): UseCameraReturn => {
-  const cameras = ref<Camera[]>([])
-  const activeCamera = computed<Camera | undefined>(() => cameras.value[0]) // the first camera is used to make sure there is always one camera active
+  const cameras = ref<TresCamera[]>([])
+  const activeCamera = computed<TresCamera>(() => cameras.value[0]) // the first camera is used to make sure there is always one camera active
 
   /**
    * Set the active camera
    * @param cameraOrUuid - The camera or its UUID to set as active
    */
-  const setActiveCamera = (cameraOrUuid: string | Camera) => {
+  const setActiveCamera = (cameraOrUuid: string | TresCamera) => {
     const camera = isCamera(cameraOrUuid)
       ? cameraOrUuid
-      : cameras.value.find((camera: Camera) => camera.uuid === cameraOrUuid)
+      : cameras.value.find((camera: TresCamera) => camera.uuid === cameraOrUuid)
 
     if (!camera) { return }
 
@@ -70,7 +70,7 @@ export const useCameraManager = ({ sizes }: UseCameraParams): UseCameraReturn =>
    * @param camera - The camera to register
    * @param active - Whether to set the camera as active
    */
-  const registerCamera = (camera: Camera, active = false): void => {
+  const registerCamera = (camera: TresCamera, active = false): void => {
     if (cameras.value.some(({ uuid }) => uuid === camera.uuid)) { return }
     cameras.value.push(camera)
 
@@ -83,7 +83,7 @@ export const useCameraManager = ({ sizes }: UseCameraParams): UseCameraReturn =>
    * Deregister a camera
    * @param camera - The camera to deregister
    */
-  const deregisterCamera = (camera: Camera): void => {
+  const deregisterCamera = (camera: TresCamera): void => {
     cameras.value = cameras.value.filter(({ uuid }) => uuid !== camera.uuid)
   }
 
@@ -92,7 +92,7 @@ export const useCameraManager = ({ sizes }: UseCameraParams): UseCameraReturn =>
    */
   watchEffect(() => {
     if (sizes.aspectRatio.value) {
-      cameras.value.forEach((camera: Camera) => {
+      cameras.value.forEach((camera: TresCamera) => {
         if (isPerspectiveCamera(camera)) {
           camera.aspect = sizes.aspectRatio.value
           camera.updateProjectionMatrix()

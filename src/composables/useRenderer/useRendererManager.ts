@@ -111,13 +111,13 @@ export function useRendererManager(
     scene,
     canvas,
     options,
-    contextParts: { sizes, loop, camera },
+    contextParts: { sizes, loop, camera, events },
   }:
   {
     scene: Scene
     canvas: MaybeRef<HTMLCanvasElement>
     options: UseRendererOptions
-    contextParts: Pick<TresContext, 'sizes' | 'camera' | 'loop'>
+    contextParts: Pick<TresContext, 'sizes' | 'camera' | 'loop' | 'events'>
   },
 ) {
   const webGLRendererConstructorParameters = computed<WebGLRendererParameters>(() => ({
@@ -181,6 +181,8 @@ export function useRendererManager(
 
       onRender.trigger(instance.value)
     }
+
+    events.update()
 
     amountOfFramesToRender.value = isModeAlways.value
       ? 1

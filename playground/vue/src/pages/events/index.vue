@@ -1,7 +1,7 @@
 <!-- eslint-disable no-console -->
 <script setup lang="ts">
 import type { ThreeEvent } from '@tresjs/core'
-import { OrbitControls, StatsGl } from '@tresjs/cientos'
+import { OrbitControls } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
 import { TresLeches, useControls } from '@tresjs/leches'
 import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
@@ -18,45 +18,37 @@ const gl = {
 
 useControls('fpsgraph')
 
-const { stopPropagation } = useControls({
-  stopPropagation: false,
-})
-
 function onClick(ev: ThreeEvent<MouseEvent>) {
   console.log('click', ev)
-  if (stopPropagation.value) { ev.stopPropagation() }
   ev.object.material.color.set('#008080')
 }
 
 function onDoubleClick(ev: ThreeEvent<MouseEvent>) {
   console.log('double-click', ev)
-  if (stopPropagation.value) { ev.stopPropagation() }
   ev.object.material.color.set('#FFD700')
 }
 
 function onPointerEnter(ev: ThreeEvent<MouseEvent>) {
-  if (stopPropagation.value) { ev.stopPropagation() }
+  console.log('pointer-enter', ev)
   ev.object.material.color.set('#CCFF03')
 }
 
 function onPointerLeave(ev: ThreeEvent<MouseEvent>) {
-  if (stopPropagation.value) { ev.stopPropagation() }
-  /*  ev.object.material.color.set('#efefef') */
+  console.log('pointer-leave', ev)
+  ev.object.material.color.set('#efefef')
 }
 
 function onPointerMove(ev: ThreeEvent<MouseEvent>) {
-  if (stopPropagation.value) { ev.stopPropagation() }
+  // console.log('pointer-move', ev)
 }
 
 function onContextMenu(ev: ThreeEvent<MouseEvent>) {
   console.log('context-menu', ev)
-  if (stopPropagation.value) { ev.stopPropagation() }
   ev.object.material.color.set('#FF4500')
 }
 
 function onPointerMissed(ev: ThreeEvent<MouseEvent>) {
   console.log('pointer-missed', ev)
-  if (stopPropagation.value) { ev.stopPropagation() }
 }
 </script>
 
@@ -66,9 +58,6 @@ function onPointerMissed(ev: ThreeEvent<MouseEvent>) {
     window-size
     v-bind="gl"
   >
-    <Suspense>
-      <StatsGl />
-    </Suspense>
     <TresPerspectiveCamera
       :position="[11, 11, 11]"
       :look-at="[0, 0, 0]"
