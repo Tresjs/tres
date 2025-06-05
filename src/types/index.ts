@@ -53,7 +53,7 @@ export interface LocalState {
   type: string
   eventCount: number
   root: TresContext
-  handlers: Record<PointerEventType, EventListener>
+  handlers: Record<PointerEventType | string, EventListener>
   memoizedProps: { [key: string]: any }
   // NOTE:
   // LocalState holds information about the parent/child relationship

@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type {
-  Camera,
   ColorSpace,
   ShadowMapType,
   ToneMapping,
@@ -9,7 +8,7 @@ import type {
 } from 'three'
 import type { App, Ref } from 'vue'
 import type { RendererPresetsType } from '../composables/useRenderer/const'
-import type { TresObject, TresPointerEvent, TresScene } from '../types/'
+import type { TresCamera, TresObject, TresPointerEvent, TresScene } from '../types/'
 import { PerspectiveCamera, Scene } from 'three'
 import * as THREE from 'three'
 
@@ -36,7 +35,7 @@ import {
 import { extend } from '../core/catalogue'
 import { nodeOps } from '../core/nodeOps'
 
-import { disposeObject3D, kebabToCamel } from '../utils/'
+import { disposeObject3D } from '../utils/'
 import { registerTresDevtools } from '../devtools'
 import { whenever } from '@vueuse/core'
 
@@ -54,7 +53,7 @@ export interface TresCanvasProps
   dpr?: number | [number, number]
 
   // required by useTresContextProvider
-  camera?: Camera
+  camera?: TresCamera
   preset?: RendererPresetsType
   windowSize?: boolean
 
@@ -241,13 +240,6 @@ onMounted(() => {
 
   renderer.onRender.on((renderer) => {
     emit('render', renderer)
-  })
-
-  context.value.eventManager?.onEvent(({ type, event, intersection }) => {
-    emit(
-      kebabToCamel(type) as any, // typescript doesn't know that kebabToCamel(type) is a valid key of PointerEmits
-      { type, event, intersection },
-    )
   })
 
   // HMR support

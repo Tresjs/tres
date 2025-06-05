@@ -55,7 +55,8 @@ export function useEventManager({
     Object.entries(object.__tres?.handlers ?? {}).forEach(([event, handler]) => {
       object.addEventListener(pointerEventsMap[event as keyof typeof pointerEventsMap], handler)
       if (event === 'onPointerMissed') {
-        voidObject.addEventListener('click', handler)
+        // @ts-expect-error - TODO: fix this eventually when I understand the types better
+        voidObject.addEventListener(pointerEventsMap.onClick, handler)
       }
     })
   }
