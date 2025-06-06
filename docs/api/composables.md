@@ -47,19 +47,17 @@ const context = useTresContext()
 ### Properties of context
 | Property | Description |
 | --- | --- |
-| **camera** | The currently active camera |
-| **cameras** | The cameras that exist in the scene |
-| **controls** | The controls of your scene |
+| **camera** | the currently active camera |
+| **cameras** | the cameras that exist in the scene |
+| **controls** | the controls of your scene |
 | **deregisterCamera** | A method to deregister a camera. This is only required if you manually create a camera. Cameras in the template are deregistered automatically. |
-| **extend** | Extends the component catalogue. See [extending](/advanced/extending) |
+| **extend** | Extends the component catalogue. See [extending](/advanced/extending). |
 | **raycaster** | the global raycaster used for pointer events |
-| **registerCamera** | a method to register a camera. This is only required if you manually create a camera. Cameras in the template are registered automatically. |
-| **renderer** | the [WebGLRenderer](https://threejs.org/docs/#api/en/renderers/WebGLRenderer) of your scene |
-| **scene** | the [scene](https://threejs.org/docs/?q=sce#api/en/scenes/Scene). |
+| **registerCamera** | A method to register a camera. This is only required if you manually create a camera. Cameras in the template are registered automatically. |
+| **renderer** | Contains the [WebGLRenderer](https://threejs.org/docs/#api/en/renderers/WebGLRenderer) instance of your scene, a method the invalidate the render loop (only required if you set the `render-mode` prop to `on-demand`), a computed that indicates whether invalidating is possible and a method to advance the render loop (only required if you set the `render-mode` prop to `manual`). |
+| **scene** | the [scene](https://threejs.org/docs/?q=sce#api/en/scenes/Scene) |
 | **setCameraActive** | a method to set a camera active |
 | **sizes** | contains width, height and aspect ratio of your canvas |
-| **invalidate** | a method to invalidate the render loop. This is only required if you set the `render-mode` prop to `on-demand`. |
-| **advance** | a method to advance the render loop. This is only required if you set the `render-mode` prop to `manual`. |
 | **loop** | the renderer loop |
 
 ### useLoop <Badge text="v4.0.0" />
@@ -123,7 +121,7 @@ You can take over the render call by using the `render` method.
 const { render } = useLoop()
 
 render(({ renderer, scene, camera }) => {
-  renderer.render(scene, camera)
+  renderer.instance.value.render(scene, camera)
 })
 ```
 
@@ -264,102 +262,11 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader'
 The `UseLoader` component needs to be wrapped in a `Suspense` component in order to work
 :::
 
-## useTexture
+## useSeek <Badge text="deprecated" />
 
-The `useTexture` composable allows you to load textures using the [THREE.js texture loader](https://threejs.org/docs/#api/en/loaders/TextureLoader). It returns a promise with the loaded texture(s).
-
-```ts
-const texture = await useTexture(['path/to/texture.png'])
-```
-
-**useTexture** also accepts an object with the following properties:
-
-- `map`: a basic texture that is applied to the surface of an object
-- `displacementMap`: a texture that is used to add bumps or indentations to the object's surface
-- `normalMap`: a texture that is used to add surface detail to and variations in shading to the object
-- `roughnessMap`: a texture that is used to add roughness or a matte finish to the object's surface
-- `metalnessMap`: a texture that is used to add a metallic effect to the object's surface
-- `aoMap`: a texture that is used to add ambient occlusion (shading in areas where light is blocked by other objects) to the object.
-- `alphaMap`: a texture that is used to add alpha (the black part render as transparent) to the object. It's necessary to set :trasparent="true" on the material to use this map
-- `matcap`: this textures encodes the material color and shading.
-
-In that case it will return an object with the loaded textures.
-
-```ts
-const { map, displacementMap, normalMap, roughnessMap, metalnessMap, aoMap, alphaMap, matcap } = await useTexture({
-  map: 'path/to/albedo.png',
-  displacementMap: 'path/to/height.png',
-  normalMap: 'path/to/normal.png',
-  roughnessMap: 'path/to/roughness.png',
-  metalnessMap: 'path/to/metalness.png',
-  aoMap: 'path/to/ambien-occlusion.png',
-  alphaMap: 'path/to/alpha.png',
-  matcap: 'path/to/matcap.png',
-})
-```
-
-Then you can bind the textures to the material.
-
-```vue
-<template>
-  <TresCanvas>
-    <TresMesh>
-      <TresSphereGeometry />
-      <TresMeshStandardMaterial
-        :map="map"
-        :displacement-map="displacementMap"
-        :normal-map="normalMap"
-        :roughness-map="roughnessMap"
-        :metalness-map="metalnessMap"
-        :ao-map="aoMap"
-        :alpha-map="alphaMap"
-      />
-    </TresMesh>
-  </TresCanvas>
-</template>
-```
-
-`useTexture` by default takes the second argument 'manager' as LoadingManager. When omitted, it will automatically be added to `THREE.DefaultLoadingManager`. Of course, you can also add your own LoadingManager, like this:
-```ts
-const loadingManager = new LoadingManager()
-const texture = await useTexture({ map: 'path/to/texture.png' }, loadingManager)
-```
-
-Similar to above composable, the `useTexture` composable returns a promise, you can use it with `async/await` or `then/catch`. If you are using it on a component make sure you wrap it with a `Suspense` component.
-
-### UseTexture as component
-
-You can also use `UseTexture` (with uppercase) as component like so:
-
-```html
-<Suspense>
-  <UseTexture v-slot="{ textures }" map="path/to/texture.png">
-    <TresMesh>
-      <TresBoxGeometry />
-      <TresMeshStandardMaterial :map="textures.map" />
-    </TresMesh>
-  </UseTexture>
-</Suspense>
-```
-
-### Props
-
-| Prop | type |
-| ---- | --- |
-| **map?** | `String` |
-| **displacementMap?** | `String` |
-| **normalMap?** | `String` |
-| **roughnessMap?** | `String` |
-| **metalnessMap?** | `String` |
-| **aoMap?** | `String` |
-| **alphaMap?** | `String` |
-| **matcap?** | `String` |
-
-::: warning
-The `UseTexture` component needs to be wrapped in a `Suspense` component in order to work
+::: danger
+This composable is deprecated as of version 5.0.0.
 :::
-
-## useSeek
 
 The `useSeek` composable provides utilities to easily traverse and navigate through complex ThreeJS scenes and object children graphs. It exports 4 functions which allow you to find child objects based on specific properties.
 
