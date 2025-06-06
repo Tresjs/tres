@@ -4,7 +4,7 @@ import { whenever } from '@vueuse/core'
 
 import type { RendererLoop } from '../../core/loop'
 import type { TresControl, TresObject, TresScene } from '../../types'
-import type { UseRendererManagerReturn, UseRendererOptions } from '../useRenderer/useRendererManager'
+import type { UseRendererManagerReturn } from '../useRenderer/useRendererManager'
 import { inject, onUnmounted, provide, ref, shallowRef } from 'vue'
 import { extend } from '../../core/catalogue'
 import { createRenderLoop } from '../../core/loop'
@@ -15,6 +15,7 @@ import { useCameraManager } from '../useCamera'
 import { useRendererManager } from '../useRenderer/useRendererManager'
 import useSizes, { type SizesType } from '../useSizes'
 import { type TresEventManager, useTresEventManager } from '../useTresEventManager'
+import type { TresCanvasProps } from 'src/components/TresCanvas.vue'
 
 export interface TresContext {
   scene: ShallowRef<TresScene>
@@ -45,7 +46,7 @@ export function useTresContextProvider({
   scene: TresScene
   canvas: MaybeRef<HTMLCanvasElement>
   windowSize: MaybeRefOrGetter<boolean>
-  rendererOptions: UseRendererOptions
+  rendererOptions: TresCanvasProps
 }): TresContext {
   const localScene = shallowRef<TresScene>(scene)
   const sizes = useSizes(windowSize, canvas)
