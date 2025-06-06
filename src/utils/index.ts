@@ -414,7 +414,6 @@ export function prepareTresInstance<T extends TresObject>(obj: T, state: Partial
 
   instance.__tres = {
     type: 'unknown',
-    eventCount: 0,
     root: context,
     handlers: {},
     memoizedProps: {},

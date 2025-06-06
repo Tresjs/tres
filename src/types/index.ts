@@ -51,7 +51,6 @@ interface TresBaseObject {
 
 export interface LocalState {
   type: string
-  eventCount: number
   root: TresContext
   handlers: Record<PointerEventType | string, EventListener>
   memoizedProps: { [key: string]: any }

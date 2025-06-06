@@ -51,24 +51,27 @@ export function useEventManager({
   const { update } = forwardHtmlEvents(toValue(canvas), () => toValue(camera), scene)
   const voidObject = getVoidObject(scene) as Object3D<Object3DEventMap & PointerEventsMap>
 
-  function addEventListener(object: TresObject) {
-    Object.entries(object.__tres?.handlers ?? {}).forEach(([event, handler]) => {
-      object.addEventListener(pointerEventsMap[event as keyof typeof pointerEventsMap], handler)
-      if (event === 'onPointerMissed') {
-        // @ts-expect-error - TODO: fix this eventually when I understand the types better
-        voidObject.addEventListener(pointerEventsMap.onClick, handler)
-      }
-    })
+  const registerPointerMissed = (handler: any /* TODO remove any */) => { // TODO rename
+    voidObject.addEventListener(pointerEventsMap.onClick, handler)
   }
 
-  function deregisterObject(object: TresObject) {
-    Object.entries(object.__tres?.handlers ?? {}).forEach(([event, handler]) => {
-      object.removeEventListener(pointerEventsMap[event as keyof typeof pointerEventsMap], handler)
-    })
-  }
+  // function addEventListener(object: TresObject) {
+  //   Object.entries(object.__tres?.handlers ?? {}).forEach(([event, handler]) => {
+  //     object.addEventListener(pointerEventsMap[event as keyof typeof pointerEventsMap], handler)
+  //     if (event === 'onPointerMissed') {
+  //       // @ts-expect-error - TODO: fix this eventually when I understand the types better
+  //       voidObject.addEventListener(pointerEventsMap.onClick, handler)
+  //     }
+  //   })
+  // }
+
+  // function deregisterObject(object: TresObject) {
+  //   Object.entries(object.__tres?.handlers ?? {}).forEach(([event, handler]) => {
+  //     object.removeEventListener(pointerEventsMap[event as keyof typeof pointerEventsMap], handler)
+  //   })
+  // }
   return {
-    addEventListener,
-    deregisterObject,
+    registerPointerMissed,
     update,
   }
 }

@@ -7,7 +7,7 @@ import { logError } from '../utils/logger'
 import { isArray, isCamera, isClassInstance, isColor, isColorRepresentation, isCopyable, isFunction, isLayers, isObject, isObject3D, isScene, isTresInstance, isUndefined, isVectorLike } from '../utils/is'
 import { createRetargetingProxy } from '../utils/primitive/createRetargetingProxy'
 import { catalogue } from './catalogue'
-import { supportedPointerEvents } from '../composables/useEventManager'
+import { pointerEventsMap, supportedPointerEvents } from '../composables/useEventManager'
 
 export const nodeOps: (context: TresContext) => RendererOptions<TresObject, TresObject | null> = (context) => {
   const scene = context.scene.value
@@ -74,7 +74,6 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
       ...(isTresInstance(obj) ? obj.__tres : {}),
       type: name,
       memoizedProps: props,
-      eventCount: 0,
       primitive: tag === 'primitive',
       attach: props.attach,
     }, context)
@@ -94,10 +93,6 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
     const parentInstance: TresInstance = (parent.__tres ? parent as TresInstance : prepareTresInstance(parent, {}, context))
     child = unboxTresPrimitive(childInstance)
     parent = unboxTresPrimitive(parentInstance)
-
-    if (child.__tres && child.__tres?.eventCount > 0) {
-      context.events?.addEventListener(child)
-    }
 
     if (isCamera(child)) {
       context.camera?.registerCamera(child)
@@ -132,11 +127,6 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
     // used by the recursive calls.
 
     if (!node) { return }
-
-    // Remove from event manager if necessary
-    if (node?.__tres && node.__tres?.eventCount > 0) {
-      context.events?.deregisterObject(node)
-    }
 
     // NOTE: Derive `dispose` value for this `remove` call and
     // recursive remove calls.
@@ -259,8 +249,7 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
     }
     // Has events
     if (supportedPointerEvents.includes(prop) && node.__tres) {
-      node.__tres.eventCount += 1
-      node.__tres.handlers[prop] = nextValue
+      node.addEventListener(pointerEventsMap[prop], nextValue)
     }
     let finalKey = kebabToCamel(key)
     let target = root?.[finalKey] as Record<string, unknown>
