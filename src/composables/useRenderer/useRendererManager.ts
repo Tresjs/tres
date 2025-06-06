@@ -182,7 +182,7 @@ export function useRendererManager(
       onRender.trigger(instance.value)
     }
 
-    events.update()
+    events.update() // TODO move
 
     amountOfFramesToRender.value = isModeAlways.value
       ? 1

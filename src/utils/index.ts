@@ -568,14 +568,10 @@ export function doRemoveDeregister(node: TresObject, context: TresContext) {
     if (isCamera(child)) {
       context.camera.deregisterCamera(child)
     }
-    // deregisterAtPointerEventHandlerIfRequired?.(child as TresObject)
-    context.events?.deregisterObject(child)
   })
 
-  // NOTE: Deregister `node`
   if (isCamera(node)) {
     context.camera.deregisterCamera(node)
   }
-  /*  deregisterAtPointerEventHandlerIfRequired?.(node as TresObject) */
   invalidateInstance(node as TresObject)
 }

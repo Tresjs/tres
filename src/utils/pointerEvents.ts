@@ -1,6 +1,10 @@
 import type { Events } from 'vue'
 
-export const supportedPointerEvents: (Extract<keyof Events, 'onClick'
+// Custom Tres events that aren't part of Vue's Events type
+type CustomTresEvents = 'onPointermissed' | 'onLostpointercapture'
+
+// All supported pointer events (Vue Events + custom Tres events)
+type SupportedPointerEvents = Extract<keyof Events, 'onClick'
   | 'onContextmenu'
   | 'onPointermove'
   | 'onPointerenter'
@@ -11,9 +15,9 @@ export const supportedPointerEvents: (Extract<keyof Events, 'onClick'
   | 'onPointerdown'
   | 'onPointerup'
   | 'onPointercancel'
-  | 'onPointermissed'
-  | 'onLostpointercapture'
-  | 'onWheel'> | 'onPointermissed' | 'onLostpointercapture')[] = [
+  | 'onWheel'> | CustomTresEvents
+
+export const supportedPointerEvents = [
   'onClick',
   'onContextmenu',
   'onPointermove',
@@ -28,7 +32,7 @@ export const supportedPointerEvents: (Extract<keyof Events, 'onClick'
   'onPointermissed',
   'onLostpointercapture',
   'onWheel',
-] as const
+] as const satisfies readonly SupportedPointerEvents[]
 // TODO add breaking change info concerning support old style (lowercase + onDoubleClick (long form))
 // TODO update docs
 
