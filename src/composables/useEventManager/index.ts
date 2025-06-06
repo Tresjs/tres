@@ -17,8 +17,8 @@ export function useEventManager({
   const { update } = forwardHtmlEvents(toValue(canvas), () => toValue(camera), scene)
   const voidObject = getVoidObject(scene) as Object3D<Object3DEventMap & PointerEventsMap>
 
-  const registerPointerMissed = (handler: any /* TODO remove any */) => { // TODO rename
-    voidObject.addEventListener('click', handler)
+  const registerPointerMissed = (cb: () => void) => { // TODO rename
+    voidObject.addEventListener('click', cb)
   }
 
   return {

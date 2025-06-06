@@ -248,7 +248,7 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
       return
     }
     // Has events
-    if (isSupportedPointerEvent(prop) && node.__tres) {
+    if (isSupportedPointerEvent(prop) && isFunction(nextValue)) {
       if (prop === 'onPointermissed') {
         context.events?.registerPointerMissed(nextValue)
       }
