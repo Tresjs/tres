@@ -126,7 +126,7 @@ const createInternalComponent = (context: TresContext, empty = false) =>
       provide('useTres', context)
       provide('extend', extend)
 
-      if (typeof window !== 'undefined') {
+      if (typeof window !== 'undefined' && ctx?.app) {
         registerTresDevtools(ctx?.app, context)
       }
       return () => h(Fragment, null, !empty ? slots.default() : [])
