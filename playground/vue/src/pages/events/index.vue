@@ -50,6 +50,13 @@ function onContextMenu(ev: ThreeEvent<MouseEvent>) {
 function onPointerMissed(ev: ThreeEvent<MouseEvent>) {
   console.log('pointer-missed', ev)
 }
+
+const toggle = ref(false)
+
+setInterval(() => {
+  toggle.value = !toggle.value
+  console.log(toggle.value)
+}, 3000)
 </script>
 
 <template>
@@ -63,7 +70,20 @@ function onPointerMissed(ev: ThreeEvent<MouseEvent>) {
       :look-at="[0, 0, 0]"
     />
     <OrbitControls />
-    <template v-for="x in [-2.5, 0, 2.5]">
+    <TresMesh
+      :position="[0, 0, 0]"
+      @click="onClick"
+      @doubleclick="onDoubleClick"
+      @pointerenter="onPointerEnter"
+      @pointerleave="onPointerLeave"
+      @pointermove="onPointerMove"
+      @contextmenu="onContextMenu"
+      @pointermissed="onPointerMissed"
+    >
+      <TresBoxGeometry :args="[1, 1, 1]" />
+      <TresMeshToonMaterial color="#efefef" />
+    </TresMesh>
+    <!-- <template v-for="x in [-2.5, 0, 2.5]">
       <template v-for="y in [-2.5, 0, 2.5]">
         <TresMesh
           v-for="z in [-2.5, 0, 2.5]"
@@ -81,7 +101,7 @@ function onPointerMissed(ev: ThreeEvent<MouseEvent>) {
           <TresMeshToonMaterial color="#efefef" />
         </TresMesh>
       </template>
-    </template>
+    </template> -->
     <TresDirectionalLight :intensity="1" />
     <TresAmbientLight :intensity="1" />
   </TresCanvas>

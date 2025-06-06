@@ -7,7 +7,7 @@ import { logError } from '../utils/logger'
 import { isArray, isCamera, isClassInstance, isColor, isColorRepresentation, isCopyable, isFunction, isLayers, isObject, isObject3D, isScene, isTresInstance, isUndefined, isVectorLike } from '../utils/is'
 import { createRetargetingProxy } from '../utils/primitive/createRetargetingProxy'
 import { catalogue } from './catalogue'
-import { pointerEventsMap, supportedPointerEvents } from '../composables/useEventManager'
+import { isSupportedPointerEvent, pointerEventsMapVueToThree } from '../utils/pointerEvents'
 
 export const nodeOps: (context: TresContext) => RendererOptions<TresObject, TresObject | null> = (context) => {
   const scene = context.scene.value
@@ -248,8 +248,11 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
       return
     }
     // Has events
-    if (supportedPointerEvents.includes(prop) && node.__tres) {
-      node.addEventListener(pointerEventsMap[prop], nextValue)
+    if (isSupportedPointerEvent(prop) && node.__tres) {
+      if (prop === 'onPointermissed') {
+        context.events?.registerPointerMissed(nextValue)
+      }
+      node.addEventListener(pointerEventsMapVueToThree[prop], nextValue)
     }
     let finalKey = kebabToCamel(key)
     let target = root?.[finalKey] as Record<string, unknown>
@@ -321,7 +324,7 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
     if (isFunction(target)) {
       // don't call pointer event callback functions
 
-      if (!supportedPointerEvents.includes(prop)) {
+      if (!isSupportedPointerEvent(prop)) {
         if (isArray(value)) { node[finalKey](...value) }
         else { node[finalKey](value) }
       }
