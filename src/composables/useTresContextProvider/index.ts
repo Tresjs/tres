@@ -1,9 +1,8 @@
-import { Raycaster } from 'three'
 import type { MaybeRef, MaybeRefOrGetter, Ref, ShallowRef } from 'vue'
 import { whenever } from '@vueuse/core'
 
 import type { RendererLoop } from '../../core/loop'
-import type { TresControl, TresObject, TresScene } from '../../types'
+import type { TresControl, TresScene } from '../../types'
 import type { UseRendererManagerReturn, UseRendererOptions } from '../useRenderer/useRendererManager'
 import { inject, onUnmounted, provide, ref, shallowRef } from 'vue'
 import { extend } from '../../core/catalogue'
@@ -14,7 +13,7 @@ import type { UseCameraReturn } from '../useCamera/'
 import { useCameraManager } from '../useCamera'
 import { useRendererManager } from '../useRenderer/useRendererManager'
 import useSizes, { type SizesType } from '../useSizes'
-import { type TresEventManager, useTresEventManager } from '../useTresEventManager'
+import { useEventManager } from '../useEventManager'
 
 export interface TresContext {
   scene: ShallowRef<TresScene>
@@ -23,17 +22,9 @@ export interface TresContext {
   camera: UseCameraReturn
   controls: Ref<TresControl | null>
   renderer: UseRendererManagerReturn
-  raycaster: ShallowRef<Raycaster>
   // Loop
   loop: RendererLoop
-  eventManager?: TresEventManager
-  // Events
-  // Temporaly add the methods to the context, this should be handled later by the EventManager state on the context https://github.com/Tresjs/tres/issues/515
-  // When thats done maybe we can short the names of the methods since the parent will give the context.
-  registerObjectAtPointerEventHandler?: (object: TresObject) => void
-  deregisterObjectAtPointerEventHandler?: (object: TresObject) => void
-  registerBlockingObjectAtPointerEventHandler?: (object: TresObject) => void
-  deregisterBlockingObjectAtPointerEventHandler?: (object: TresObject) => void
+  events: ReturnType<typeof useEventManager>
 }
 
 export function useTresContextProvider({
@@ -54,12 +45,18 @@ export function useTresContextProvider({
 
   const loop = createRenderLoop()
 
+  const events = useEventManager({
+    scene,
+    canvas,
+    camera: camera.activeCamera,
+  })
+
   const renderer = useRendererManager(
     {
       scene,
       canvas,
       options: rendererOptions,
-      contextParts: { sizes, camera, loop },
+      contextParts: { sizes, camera, loop, events },
     },
   )
 
@@ -68,10 +65,10 @@ export function useTresContextProvider({
     scene: localScene,
     camera,
     renderer,
-    raycaster: shallowRef(new Raycaster()),
     controls: ref(null),
     extend,
     loop,
+    events,
   }
 
   provide('useTres', ctx)
@@ -90,8 +87,6 @@ export function useTresContextProvider({
     once: true,
     immediate: true,
   })
-
-  useTresEventManager(scene, ctx)
 
   onUnmounted(() => {
     ctx.loop.stop()

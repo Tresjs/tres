@@ -7,23 +7,7 @@ import { logError } from '../utils/logger'
 import { isArray, isCamera, isClassInstance, isColor, isColorRepresentation, isCopyable, isFunction, isLayers, isObject, isObject3D, isScene, isTresInstance, isUndefined, isVectorLike } from '../utils/is'
 import { createRetargetingProxy } from '../utils/primitive/createRetargetingProxy'
 import { catalogue } from './catalogue'
-
-const supportedPointerEvents = [
-  'onClick',
-  'onContextMenu',
-  'onPointerMove',
-  'onPointerEnter',
-  'onPointerLeave',
-  'onPointerOver',
-  'onPointerOut',
-  'onDoubleClick',
-  'onPointerDown',
-  'onPointerUp',
-  'onPointerCancel',
-  'onPointerMissed',
-  'onLostPointerCapture',
-  'onWheel',
-]
+import { supportedPointerEvents } from '../composables/useEventManager'
 
 export const nodeOps: (context: TresContext) => RendererOptions<TresObject, TresObject | null> = (context) => {
   const scene = context.scene.value
@@ -112,14 +96,14 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
     parent = unboxTresPrimitive(parentInstance)
 
     if (child.__tres && child.__tres?.eventCount > 0) {
-      context.eventManager?.registerObject(child)
+      context.events?.addEventListener(child)
     }
 
     if (isCamera(child)) {
       context.camera?.registerCamera(child)
     }
     // NOTE: Track onPointerMissed objects separate from the scene
-    context.eventManager?.registerPointerMissedObject(child)
+    // context.events?.registerPointerMissedObject(child)
 
     if (childInstance.__tres.attach) {
       attach(parentInstance, childInstance, childInstance.__tres.attach)
@@ -151,7 +135,7 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
 
     // Remove from event manager if necessary
     if (node?.__tres && node.__tres?.eventCount > 0) {
-      context.eventManager?.deregisterObject(node)
+      context.events?.deregisterObject(node)
     }
 
     // NOTE: Derive `dispose` value for this `remove` call and
@@ -276,6 +260,7 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
     // Has events
     if (supportedPointerEvents.includes(prop) && node.__tres) {
       node.__tres.eventCount += 1
+      node.__tres.handlers[prop] = nextValue
     }
     let finalKey = kebabToCamel(key)
     let target = root?.[finalKey] as Record<string, unknown>
