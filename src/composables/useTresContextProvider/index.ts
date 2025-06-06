@@ -1,4 +1,3 @@
-import { MathUtils, Raycaster } from 'three'
 import type { MaybeRef, MaybeRefOrGetter, Ref, ShallowRef } from 'vue'
 import { whenever } from '@vueuse/core'
 
@@ -17,14 +16,12 @@ import useSizes, { type SizesType } from '../useSizes'
 import { useEventManager } from '../useEventManager'
 
 export interface TresContext {
-  uuid: string
   scene: ShallowRef<TresScene>
   sizes: SizesType
   extend: (objects: any) => void
   camera: UseCameraReturn
   controls: Ref<TresControl | null>
   renderer: UseRendererManagerReturn
-  raycaster: ShallowRef<Raycaster>
   // Loop
   loop: RendererLoop
   events: ReturnType<typeof useEventManager>
@@ -64,12 +61,10 @@ export function useTresContextProvider({
   )
 
   const ctx: TresContext = {
-    uuid: MathUtils.generateUUID(),
     sizes,
     scene: localScene,
     camera,
     renderer,
-    raycaster: shallowRef(new Raycaster()),
     controls: ref(null),
     extend,
     loop,
