@@ -146,8 +146,6 @@ export function useRendererManager(
    */
   const invalidate = (amountOfFramesToInvalidate = 1) => {
     if (!canBeInvalidated.value) {
-      if (toValue(options.renderMode) !== 'on-demand') { throw new Error('invalidate can only be called in on-demand render mode.') }
-
       return
     }
 
