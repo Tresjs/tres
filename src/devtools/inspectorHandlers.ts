@@ -132,7 +132,7 @@ export function buildContextGraph(
   }
 
   // Generate UUID only on the first call (for TresContext)
-  const uuid = depth === 0 ? (object.uuid || Math.random().toString(36).slice(2, 11)) : contextUuid
+  const uuid = depth === 0 ? (object?.scene?.value?.uuid || Math.random().toString(36).slice(2, 11)) : contextUuid
 
   visited.add(object)
 
