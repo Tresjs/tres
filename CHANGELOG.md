@@ -343,6 +343,8 @@ Co-authored-by: Tino Koch <17991193+Tinoooo@users.noreply.github.com>
 ### Bug Fixes
 
 * export logger utility from utils in index.ts ([#966](https://github.com/Tresjs/tres/issues/966)) ([bb0b9e2](https://github.com/Tresjs/tres/commit/bb0b9e2f3843d2bd27cd46cfe982f433dca013b4))
+## [4.3.6](https://github.com/Tresjs/tres/compare/4.3.5...4.3.6) (2025-06-06)
+
 ## [4.3.5](https://github.com/Tresjs/tres/compare/4.3.4...4.3.5) (2025-05-16)
 
 ### Bug Fixes
