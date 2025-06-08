@@ -1,28 +1,30 @@
 import type { PointerEventsMap } from '@pmndrs/pointer-events'
 import { forwardHtmlEvents, getVoidObject } from '@pmndrs/pointer-events'
-import type { TresCamera, TresScene } from '../../types'
-import { toValue } from 'vue'
-import type { ComputedRef, MaybeRef } from 'vue'
+import { onUnmounted, toValue } from 'vue'
+import type { MaybeRef } from 'vue'
 import type { Object3D, Object3DEventMap } from 'three'
+import type { TresContext } from '../useTresContextProvider'
 
 export function useEventManager({
-  scene,
   canvas,
-  camera,
+  contextParts: { scene, camera, loop },
 }: {
-  scene: TresScene
   canvas: MaybeRef<HTMLCanvasElement>
-  camera: ComputedRef<TresCamera>
+  contextParts: Pick<TresContext, 'scene' | 'camera' | 'loop' >
 }) {
-  const { update } = forwardHtmlEvents(toValue(canvas), () => toValue(camera), scene)
-  const voidObject = getVoidObject(scene) as Object3D<Object3DEventMap & PointerEventsMap>
+  // TODO check if camera switching must be handled
+  const { update } = forwardHtmlEvents(toValue(canvas), () => toValue(camera.activeCamera), scene.value)
+  const voidObject = getVoidObject(scene.value) as Object3D<Object3DEventMap & PointerEventsMap>
 
   const registerPointerMissed = (cb: () => void) => { // TODO rename
-    voidObject.addEventListener('click', cb)
+    voidObject.addEventListener('click', cb) // TODO check if unregistering is there
   }
+
+  const { off } = loop.register(update, 'before')
+
+  onUnmounted(off)
 
   return {
     registerPointerMissed,
-    update,
   }
 }
