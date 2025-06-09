@@ -17,6 +17,7 @@ export function useEventManager({
   const voidObject = getVoidObject(scene.value) as Object3D<Object3DEventMap & PointerEventsMap>
 
   const registerPointerMissed = (cb: () => void) => { // TODO rename
+    // TODO check if this is a memory leak
     voidObject.addEventListener('click', cb) // TODO check if unregistering is there
   }
 
