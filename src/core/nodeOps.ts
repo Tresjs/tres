@@ -255,9 +255,9 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
         if (!node.__tres) { node = prepareTresInstance(node, {}, context) }
         node.__tres!.offPointerMissed?.()
         node.__tres!.offPointerMissed = context.events?.onPointerMissed(
-          // nextValue is intentionally not passed directly to create a clone of the function.
-          // Multiple objects can have the same listener, but they need to be triggered separately.
-          // If nextValue is passed, the method would be called only once when the pointer miss event triggers.
+          // We wrap nextValue in a new function to ensure each object gets its own event handler instance.
+          // This prevents shared event handlers between objects, which would cause the handler to only fire once
+          // for the first object that triggered it, rather than for each object individually.
           event => nextValue(event),
         ).off
       }
