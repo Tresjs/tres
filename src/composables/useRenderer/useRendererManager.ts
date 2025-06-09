@@ -312,7 +312,7 @@ export function useRendererManager(
     instance,
     isReady: readonly(isReady),
     advance,
-    onRender,
+    onRender, // TODO rename
     invalidate,
     canBeInvalidated,
     amountOfFramesToRender,

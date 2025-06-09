@@ -52,7 +52,6 @@ interface TresBaseObject {
 export interface LocalState {
   type: string
   root: TresContext
-  handlers: Record<PointerEventType | string, EventListener>
   memoizedProps: { [key: string]: any }
   // NOTE:
   // LocalState holds information about the parent/child relationship
@@ -71,6 +70,7 @@ export interface LocalState {
   dispose?: DisposeType
   attach?: AttachType
   previousAttach: any
+  offPointerMissed?: () => void
 }
 
 // Custom type for geometry and material properties in Object3D

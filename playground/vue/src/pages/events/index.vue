@@ -55,7 +55,6 @@ const toggle = ref(false)
 
 setInterval(() => {
   toggle.value = !toggle.value
-  console.log(toggle.value)
 }, 3000)
 </script>
 
@@ -71,6 +70,7 @@ setInterval(() => {
     />
     <OrbitControls />
     <TresMesh
+      v-if="toggle"
       :position="[0, 0, 0]"
       @click="onClick"
       @doubleclick="onDoubleClick"

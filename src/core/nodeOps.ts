@@ -210,6 +210,7 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
 
     // NOTE: 5) Remove `LocalState`
     if ('__tres' in node) {
+      node.__tres?.offPointerMissed?.()
       delete node.__tres
     }
   }
@@ -250,9 +251,14 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
     // Has events
     if (isSupportedPointerEvent(prop) && isFunction(nextValue)) {
       if (prop === 'onPointermissed') {
-        context.events?.registerPointerMissed(nextValue)
+        // NOTE: Add node.__tres, if necessary.
+        if (!node.__tres) { node = prepareTresInstance(node, {}, context) }
+        node.__tres!.offPointerMissed?.()
+        node.__tres!.offPointerMissed = context.events?.onPointerMissed(nextValue).off
       }
-      node.addEventListener(pointerEventsMapVueToThree[prop], nextValue)
+      else {
+        node.addEventListener(pointerEventsMapVueToThree[prop], nextValue)
+      }
     }
     let finalKey = kebabToCamel(key)
     let target = root?.[finalKey] as Record<string, unknown>

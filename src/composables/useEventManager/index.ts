@@ -1,9 +1,10 @@
-import type { PointerEventsMap } from '@pmndrs/pointer-events'
+import type { PointerEvent, PointerEventsMap } from '@pmndrs/pointer-events'
+import type { Event, Object3D, Object3DEventMap } from 'three'
 import { forwardHtmlEvents, getVoidObject } from '@pmndrs/pointer-events'
 import { onUnmounted, toValue } from 'vue'
 import type { MaybeRef } from 'vue'
-import type { Object3D, Object3DEventMap } from 'three'
 import type { TresContext } from '../useTresContextProvider'
+import { createEventHook } from '@vueuse/core'
 
 export function useEventManager({
   canvas,
@@ -12,20 +13,18 @@ export function useEventManager({
   canvas: MaybeRef<HTMLCanvasElement>
   contextParts: Pick<TresContext, 'scene' | 'camera' | 'loop' >
 }) {
-  // TODO check if camera switching must be handled
-  const { update } = forwardHtmlEvents(toValue(canvas), () => toValue(camera.activeCamera), scene.value)
-  const voidObject = getVoidObject(scene.value) as Object3D<Object3DEventMap & PointerEventsMap>
+  const { update, destroy } = forwardHtmlEvents(toValue(canvas), () => toValue(camera.activeCamera), scene.value)
+  onUnmounted(destroy)
 
-  const registerPointerMissed = (cb: () => void) => { // TODO rename
-    // TODO check if this is a memory leak
-    voidObject.addEventListener('click', cb) // TODO check if unregistering is there
-  }
+  const voidObject = getVoidObject(scene.value) as Object3D<Object3DEventMap & PointerEventsMap>
+  const pointerMissedEventHook = createEventHook<PointerEvent<MouseEvent> & Event<'click', Object3D<Object3DEventMap & PointerEventsMap>>>()
+
+  voidObject.addEventListener('click', pointerMissedEventHook.trigger)
 
   const { off } = loop.register(update, 'before')
-
   onUnmounted(off)
 
   return {
-    registerPointerMissed,
+    onPointerMissed: pointerMissedEventHook.on,
   }
 }
