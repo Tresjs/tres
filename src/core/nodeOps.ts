@@ -97,8 +97,6 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
     if (isCamera(child)) {
       context.camera?.registerCamera(child)
     }
-    // NOTE: Track onPointerMissed objects separate from the scene
-    // context.events?.registerPointerMissedObject(child)
 
     if (childInstance.__tres.attach) {
       attach(parentInstance, childInstance, childInstance.__tres.attach)
@@ -208,7 +206,7 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
       }
     }
 
-    // NOTE: 5) Remove `LocalState`
+    // NOTE: 5) Remove `LocalState` and remove pointer missed event handler
     if ('__tres' in node) {
       node.__tres?.offPointerMissed?.()
       delete node.__tres

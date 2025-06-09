@@ -33,12 +33,10 @@ export const supportedPointerEvents = [
   'onLostpointercapture',
   'onWheel',
 ] as const satisfies readonly SupportedPointerEvents[]
-// TODO add breaking change info concerning support old style (lowercase + onDoubleClick (long form))
-// TODO update docs
 
 export type PointerEvent = typeof supportedPointerEvents[number]
 
-export const pointerEventsMapVueToThree: Record<PointerEvent, string> = { // TODO move
+export const pointerEventsMapVueToThree: Record<PointerEvent, string> = {
   onClick: 'click',
   onContextmenu: 'contextmenu',
   onPointermove: 'pointermove',
