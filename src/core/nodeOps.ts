@@ -254,7 +254,12 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
         // NOTE: Add node.__tres, if necessary.
         if (!node.__tres) { node = prepareTresInstance(node, {}, context) }
         node.__tres!.offPointerMissed?.()
-        node.__tres!.offPointerMissed = context.events?.onPointerMissed(nextValue).off
+        node.__tres!.offPointerMissed = context.events?.onPointerMissed(
+          // nextValue is intentionally not passed directly to create a clone of the function.
+          // Multiple objects can have the same listener, but they need to be triggered separately.
+          // If nextValue is passed, the method would be called only once when the pointer miss event triggers.
+          event => nextValue(event),
+        ).off
       }
       else {
         node.addEventListener(pointerEventsMapVueToThree[prop], nextValue)
