@@ -16,47 +16,37 @@ const gl = {
   toneMapping: NoToneMapping,
 }
 
-useControls('fpsgraph')
-
-const { stopPropagation } = useControls({
-  stopPropagation: false,
-})
-
 function onClick(ev: ThreeEvent<MouseEvent>) {
   console.log('click', ev)
-  if (stopPropagation.value) { ev.stopPropagation() }
   ev.object.material.color.set('#008080')
 }
 
 function onDoubleClick(ev: ThreeEvent<MouseEvent>) {
-  console.log('double-click', ev)
-  if (stopPropagation.value) { ev.stopPropagation() }
+  console.log('doubleclick', ev)
   ev.object.material.color.set('#FFD700')
 }
 
 function onPointerEnter(ev: ThreeEvent<MouseEvent>) {
-  if (stopPropagation.value) { ev.stopPropagation() }
+  console.log('pointerenter', ev)
   ev.object.material.color.set('#CCFF03')
 }
 
 function onPointerLeave(ev: ThreeEvent<MouseEvent>) {
-  if (stopPropagation.value) { ev.stopPropagation() }
-  /*  ev.object.material.color.set('#efefef') */
+  console.log('pointerleave', ev)
+  ev.object.material.color.set('#efefef')
 }
 
 function onPointerMove(ev: ThreeEvent<MouseEvent>) {
-  if (stopPropagation.value) { ev.stopPropagation() }
+  // console.log('pointer-move', ev)
 }
 
 function onContextMenu(ev: ThreeEvent<MouseEvent>) {
-  console.log('context-menu', ev)
-  if (stopPropagation.value) { ev.stopPropagation() }
+  console.log('contextmenu', ev)
   ev.object.material.color.set('#FF4500')
 }
 
 function onPointerMissed(ev: ThreeEvent<MouseEvent>) {
-  console.log('pointer-missed', ev)
-  if (stopPropagation.value) { ev.stopPropagation() }
+  console.log('pointermissed', ev)
 }
 </script>
 
@@ -71,12 +61,13 @@ function onPointerMissed(ev: ThreeEvent<MouseEvent>) {
       :look-at="[0, 0, 0]"
     />
     <OrbitControls />
-    <template v-for="x in [-2.5, 0, 2.5]">
-      <template v-for="y in [-2.5, 0, 2.5]">
+    <template v-for="(x, xIndex) in [-2.5, 0, 2.5]">
+      <template v-for="(y, yIndex) in [-2.5, 0, 2.5]">
         <TresMesh
-          v-for="z in [-2.5, 0, 2.5]"
+          v-for="(z, zIndex) in [-2.5, 0, 2.5]"
           :key="`${[x, y, z]}`"
           :position="[x, y, z]"
+          :name="`box-${[xIndex, yIndex, zIndex].join('-')}`"
           @click="onClick"
           @doubleclick="onDoubleClick"
           @pointerenter="onPointerEnter"
