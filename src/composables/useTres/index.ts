@@ -37,7 +37,7 @@ export interface TresPartialContext extends Omit<TresContext, 'renderer' | 'came
 }
 
 export function useTres(): TresPartialContext {
-  const { scene, renderer, camera, sizes, controls, loop, extend, eventManager } = useTresContext()
+  const { scene, renderer, camera, sizes, controls, loop, extend, events } = useTresContext()
 
   return {
     scene,
@@ -47,7 +47,7 @@ export function useTres(): TresPartialContext {
     controls,
     loop,
     extend,
-    eventManager,
+    events,
     invalidate: () => renderer.invalidate(),
     advance: () => renderer.advance(),
   }

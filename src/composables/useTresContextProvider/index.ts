@@ -23,7 +23,7 @@ export interface TresContext {
   controls: Ref<TresControl | null>
   renderer: UseRendererManagerReturn
   loop: RendererLoop
-  eventManager: ReturnType<typeof useEventManager>
+  events: ReturnType<typeof useEventManager>
 }
 
 export function useTresContextProvider({
@@ -53,7 +53,7 @@ export function useTresContextProvider({
     },
   )
 
-  const eventManager = useEventManager({
+  const events = useEventManager({
     canvas,
     contextParts: { scene: localScene, camera, loop },
   })
@@ -66,7 +66,7 @@ export function useTresContextProvider({
     controls: ref(null),
     extend,
     loop,
-    eventManager,
+    events,
   }
 
   provide('useTres', ctx)

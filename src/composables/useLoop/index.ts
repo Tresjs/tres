@@ -8,7 +8,7 @@ export function useLoop() {
     renderer,
     loop,
     controls,
-    eventManager,
+    events,
   } = useTresContext()
 
   // Pass context to loop
@@ -17,7 +17,7 @@ export function useLoop() {
     scene,
     renderer: renderer.instance,
     controls,
-    eventManager,
+    events,
   })
 
   function onBeforeRender(cb: LoopCallbackFn, index = 0) {
