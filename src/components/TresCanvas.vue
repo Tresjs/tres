@@ -7,8 +7,9 @@ import type {
   WebGLRendererParameters,
 } from 'three'
 import type { App, Ref } from 'vue'
+import type { PointerEvent } from '@pmndrs/pointer-events'
 import type { RendererPresetsType } from '../composables/useRenderer/const'
-import type { TresCamera, TresObject, TresPointerEvent, TresScene } from '../types/'
+import type { TresCamera, TresObject, TresScene } from '../types/'
 import { PerspectiveCamera, Scene } from 'three'
 import * as THREE from 'three'
 
@@ -38,6 +39,7 @@ import { nodeOps } from '../core/nodeOps'
 import { disposeObject3D } from '../utils/'
 import { registerTresDevtools } from '../devtools'
 import { whenever } from '@vueuse/core'
+import type { TresPointerEvent } from '../utils/pointerEvents'
 
 export interface TresCanvasProps
   extends Omit<WebGLRendererParameters, 'canvas'> {
@@ -80,18 +82,10 @@ const emit = defineEmits<{
   ready: [context: TresContext]
   render: [renderer: WebGLRenderer]
 
-  click: [event: TresPointerEvent]
-  doubleClick: [event: TresPointerEvent]
-  contextMenu: [event: TresPointerEvent]
-  pointerMove: [event: TresPointerEvent]
-  pointerUp: [event: TresPointerEvent]
-  pointerDown: [event: TresPointerEvent]
-  pointerEnter: [event: TresPointerEvent]
-  pointerLeave: [event: TresPointerEvent]
-  pointerOver: [event: TresPointerEvent]
-  pointerOut: [event: TresPointerEvent]
-  pointerMissed: [event: TresPointerEvent]
-  wheel: [event: TresPointerEvent]
+  pointermissed: [event: PointerEvent<MouseEvent>]
+} & {
+  // all pointer events are supported because they bubble up
+  [key in TresPointerEvent]: [event: PointerEvent<MouseEvent>]
 }>()
 
 const slots = defineSlots<{
@@ -217,6 +211,10 @@ onMounted(() => {
       }
     })
   }
+
+  context.value.events.onPointerMissed((event) => {
+    emit('pointermissed', event)
+  })
 
   watch(
     () => props.camera,

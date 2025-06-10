@@ -16,8 +16,10 @@ export function useEventManager({
   const { update, destroy } = forwardHtmlEvents(toValue(canvas), () => toValue(camera.activeCamera), scene.value)
   onUnmounted(destroy)
 
-  const voidObject = getVoidObject(scene.value) as Object3D<Object3DEventMap & PointerEventsMap>
-  const pointerMissedEventHook = createEventHook<PointerEvent<MouseEvent> & Event<'click', Object3D<Object3DEventMap & PointerEventsMap>>>()
+  type VoidObject = Object3D<Object3DEventMap & PointerEventsMap>
+
+  const voidObject = getVoidObject(scene.value) as VoidObject
+  const pointerMissedEventHook = createEventHook<PointerEvent<MouseEvent> & Event<'click', VoidObject>>()
 
   voidObject.addEventListener('click', pointerMissedEventHook.trigger)
 

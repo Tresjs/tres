@@ -23,10 +23,6 @@ export interface TresCatalogue {
   [name: string]: ConstructorRepresentation
 }
 
-export const pointerEventTypes = ['click', 'double-click', 'context-menu', 'pointer-move', 'pointer-up', 'pointer-down', 'pointer-enter', 'pointer-leave', 'pointer-over', 'pointer-out', 'pointer-missed', 'wheel'] as const
-export type PointerEventType = typeof pointerEventTypes[number]
-export interface TresPointerEvent { type: PointerEventType, event: TresEvent, intersection?: Intersection }
-
 export type TresCamera = THREE.OrthographicCamera | THREE.PerspectiveCamera
 
 /**
@@ -146,7 +142,7 @@ export interface Events {
   onLostPointerCapture: EventListener
 }
 
-export interface EventHandlers {
+export interface EventHandlers { // TODO remove!
   onClick?: (event: ThreeEvent<MouseEvent>) => void
   onContextMenu?: (event: ThreeEvent<MouseEvent>) => void
   onDoubleClick?: (event: ThreeEvent<MouseEvent>) => void

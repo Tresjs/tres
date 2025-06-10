@@ -1,7 +1,7 @@
 import type { Events } from 'vue'
 
 // Custom Tres events that aren't part of Vue's Events type
-type CustomTresEvents = 'onPointermissed' | 'onLostpointercapture'
+type CustomTresEvents = 'onLostpointercapture'
 
 // All supported pointer events (Vue Events + custom Tres events)
 type SupportedPointerEvents = Extract<keyof Events, 'onClick'
@@ -29,14 +29,15 @@ export const supportedPointerEvents = [
   'onPointerdown',
   'onPointerup',
   'onPointercancel',
-  'onPointermissed',
   'onLostpointercapture',
   'onWheel',
 ] as const satisfies readonly SupportedPointerEvents[]
 
-export type PointerEvent = typeof supportedPointerEvents[number]
+export type SupportedVuePointerEvent = typeof supportedPointerEvents[number]
 
-export const pointerEventsMapVueToThree: Record<PointerEvent, string> = {
+export type TresPointerEvent = 'click' | 'contextmenu' | 'pointermove' | 'pointerenter' | 'pointerleave' | 'pointerover' | 'pointerout' | 'dblclick' | 'pointerdown' | 'pointerup' | 'pointercancel' | 'lostpointercapture' | 'wheel'
+
+export const pointerEventsMapVueToThree: Record<SupportedVuePointerEvent, TresPointerEvent> = {
   onClick: 'click',
   onContextmenu: 'contextmenu',
   onPointermove: 'pointermove',
@@ -48,10 +49,9 @@ export const pointerEventsMapVueToThree: Record<PointerEvent, string> = {
   onPointerdown: 'pointerdown',
   onPointerup: 'pointerup',
   onPointercancel: 'pointercancel',
-  onPointermissed: 'pointermissed',
   onLostpointercapture: 'lostpointercapture',
   onWheel: 'wheel',
 }
 
-export const isSupportedPointerEvent = (event: string): event is PointerEvent =>
-  supportedPointerEvents.includes(event as PointerEvent)
+export const isSupportedPointerEvent = (event: string): event is SupportedVuePointerEvent =>
+  supportedPointerEvents.includes(event as SupportedVuePointerEvent)
