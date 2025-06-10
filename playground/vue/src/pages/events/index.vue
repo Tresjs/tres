@@ -35,6 +35,7 @@ function onPointerLeave(ev: TresPointerEvent) {
   ev.object.material.color.set('#efefef')
 }
 
+// eslint-disable-next-line unused-imports/no-unused-vars
 function onPointerMove(ev: TresPointerEvent) {
   // console.log('pointer-move', ev)
 }
