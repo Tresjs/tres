@@ -14,7 +14,9 @@ export function useEventManager({
   contextParts: Pick<TresContext, 'scene' | 'camera' | 'loop' >
 }) {
   const { update, destroy } = forwardHtmlEvents(toValue(canvas), () => toValue(camera.activeCamera), scene.value)
+  const { off } = loop.register(update, 'before')
   onUnmounted(destroy)
+  onUnmounted(off)
 
   type VoidObject = Object3D<Object3DEventMap & PointerEventsMap>
 
@@ -22,9 +24,6 @@ export function useEventManager({
   const pointerMissedEventHook = createEventHook<PointerEvent<MouseEvent> & Event<'click', VoidObject>>()
 
   voidObject.addEventListener('click', pointerMissedEventHook.trigger)
-
-  const { off } = loop.register(update, 'before')
-  onUnmounted(off)
 
   return {
     onPointerMissed: pointerMissedEventHook.on,
