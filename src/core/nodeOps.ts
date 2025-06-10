@@ -206,9 +206,8 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
       }
     }
 
-    // NOTE: 5) Remove `LocalState` and remove pointer missed event handler
+    // NOTE: 5) Remove `LocalState`
     if ('__tres' in node) {
-      node.__tres?.offPointerMissed?.()
       delete node.__tres
     }
   }
@@ -241,27 +240,9 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
       return
     }
 
-    if (isObject3D(node) && key === 'blocks-pointer-events') {
-      if (nextValue || nextValue === '') { node[key] = nextValue }
-      else { delete node[key] }
-      return
-    }
     // Has events
     if (isSupportedPointerEvent(prop) && isFunction(nextValue)) {
-      if (prop === 'onPointermissed') {
-        // NOTE: Add node.__tres, if necessary.
-        if (!node.__tres) { node = prepareTresInstance(node, {}, context) }
-        node.__tres!.offPointerMissed?.()
-        node.__tres!.offPointerMissed = context.events.onPointerMissed(
-          // We wrap nextValue in a new function to ensure each object gets its own event handler instance.
-          // This prevents shared event handlers between objects, which would cause the handler to only fire once
-          // for the first object that triggered it, rather than for each object individually.
-          event => nextValue(event),
-        ).off
-      }
-      else {
-        node.addEventListener(pointerEventsMapVueToThree[prop], nextValue)
-      }
+      node.addEventListener(pointerEventsMapVueToThree[prop], nextValue)
     }
     let finalKey = kebabToCamel(key)
     let target = root?.[finalKey] as Record<string, unknown>

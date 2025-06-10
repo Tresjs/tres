@@ -70,7 +70,6 @@ export interface LocalState {
   dispose?: DisposeType
   attach?: AttachType
   previousAttach: any
-  offPointerMissed?: () => void
 }
 
 // Custom type for geometry and material properties in Object3D
