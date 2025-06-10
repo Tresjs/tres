@@ -188,15 +188,6 @@ export function useRendererManager(
     forceMaterialUpdate()
   }, watchersOptions)
 
-  watchEffect(() => {
-    // Render mode
-
-    if (isModeAlways.value) {
-      // If the render mode is 'always', ensure there's always a frame pending
-      frames.value = Math.max(1, frames.value)
-    }
-  })
-
   onUnmounted(() => {
     instance.value.dispose()
     instance.value.forceContextLoss()
