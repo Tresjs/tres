@@ -154,39 +154,47 @@ export function useRendererManager(
     }
   })
 
-  const watchersOptions = {
-    immediate: true,
-  }
-
   // Watchers for updatable renderer options at runtime
-  watch(() => clearColorAndAlpha.value, (value) => {
+  watchEffect(() => {
+    const value = clearColorAndAlpha.value
     if (value.color === undefined || value.alpha === undefined) { return }
     instance.value.setClearColor(value.color, value.alpha)
-  }, watchersOptions)
+  })
 
-  watch(() => options.toneMapping, (value) => {
+  watchEffect(() => {
+    const value = options.toneMapping
     if (value) {
       instance.value.toneMapping = value
     }
-  }, watchersOptions)
+  })
 
-  watch(() => options.toneMappingExposure, (value) => {
+  watchEffect(() => {
+    const value = options.toneMappingExposure
     if (value) {
       instance.value.toneMappingExposure = value
     }
-  }, watchersOptions)
+  })
 
-  watch(() => options.outputColorSpace, (value) => {
+  watchEffect(() => {
+    const value = options.outputColorSpace
     if (value) {
       instance.value.outputColorSpace = value
     }
-  }, watchersOptions)
+  })
 
-  watch(() => options.shadows, (value) => {
+  watchEffect(() => {
+    const value = options.shadows
     if (value === undefined) { return }
     instance.value.shadowMap.enabled = value
     forceMaterialUpdate()
-  }, watchersOptions)
+  })
+
+  watchEffect(() => {
+    const value = options.shadowMapType
+    if (value === undefined) { return }
+    instance.value.shadowMap.type = value
+    forceMaterialUpdate()
+  })
 
   onUnmounted(() => {
     instance.value.dispose()
