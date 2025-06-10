@@ -1,4 +1,5 @@
 import type { Events } from 'vue'
+import type { PointerEvent } from '@pmndrs/pointer-events'
 
 // Custom Tres events that aren't part of Vue's Events type
 type CustomTresEvents = 'onLostpointercapture'
@@ -35,9 +36,9 @@ export const supportedPointerEvents = [
 
 export type SupportedVuePointerEvent = typeof supportedPointerEvents[number]
 
-export type TresPointerEvent = 'click' | 'contextmenu' | 'pointermove' | 'pointerenter' | 'pointerleave' | 'pointerover' | 'pointerout' | 'dblclick' | 'pointerdown' | 'pointerup' | 'pointercancel' | 'lostpointercapture' | 'wheel'
+export type TresPointerEventName = 'click' | 'contextmenu' | 'pointermove' | 'pointerenter' | 'pointerleave' | 'pointerover' | 'pointerout' | 'dblclick' | 'pointerdown' | 'pointerup' | 'pointercancel' | 'lostpointercapture' | 'wheel'
 
-export const pointerEventsMapVueToThree: Record<SupportedVuePointerEvent, TresPointerEvent> = {
+export const pointerEventsMapVueToThree: Record<SupportedVuePointerEvent, TresPointerEventName> = {
   onClick: 'click',
   onContextmenu: 'contextmenu',
   onPointermove: 'pointermove',
@@ -55,3 +56,8 @@ export const pointerEventsMapVueToThree: Record<SupportedVuePointerEvent, TresPo
 
 export const isSupportedPointerEvent = (event: string): event is SupportedVuePointerEvent =>
   supportedPointerEvents.includes(event as SupportedVuePointerEvent)
+
+export type TresPointerEvent = PointerEvent<MouseEvent>
+export type PointerEventHandlers = {
+  [key in SupportedVuePointerEvent]: (event: TresPointerEvent) => void
+}

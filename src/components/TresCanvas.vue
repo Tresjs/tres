@@ -39,7 +39,7 @@ import { nodeOps } from '../core/nodeOps'
 import { disposeObject3D } from '../utils/'
 import { registerTresDevtools } from '../devtools'
 import { whenever } from '@vueuse/core'
-import type { TresPointerEvent } from '../utils/pointerEvents'
+import type { TresPointerEventName } from '../utils/pointerEvents'
 
 export interface TresCanvasProps
   extends Omit<WebGLRendererParameters, 'canvas'> {
@@ -85,7 +85,7 @@ const emit = defineEmits<{
   pointermissed: [event: PointerEvent<MouseEvent>]
 } & {
   // all pointer events are supported because they bubble up
-  [key in TresPointerEvent]: [event: PointerEvent<MouseEvent>]
+  [key in TresPointerEventName]: [event: PointerEvent<MouseEvent>]
 }>()
 
 const slots = defineSlots<{

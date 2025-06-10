@@ -1,9 +1,8 @@
 <!-- eslint-disable no-console -->
 <script setup lang="ts">
-import type { ThreeEvent } from '@tresjs/core'
 import { OrbitControls } from '@tresjs/cientos'
-import { TresCanvas } from '@tresjs/core'
-import { TresLeches, useControls } from '@tresjs/leches'
+import { TresCanvas, type TresPointerEvent } from '@tresjs/core'
+import { TresLeches } from '@tresjs/leches'
 import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
 import '@tresjs/leches/styles'
 
@@ -16,36 +15,36 @@ const gl = {
   toneMapping: NoToneMapping,
 }
 
-function onClick(ev: ThreeEvent<MouseEvent>) {
+function onClick(ev: TresPointerEvent) {
   console.log('click', ev)
   ev.object.material.color.set('#008080')
 }
 
-function onDoubleClick(ev: ThreeEvent<MouseEvent>) {
+function onDoubleClick(ev: TresPointerEvent) {
   console.log('doubleclick', ev)
   ev.object.material.color.set('#FFD700')
 }
 
-function onPointerEnter(ev: ThreeEvent<MouseEvent>) {
+function onPointerEnter(ev: TresPointerEvent) {
   console.log('pointerenter', ev)
   ev.object.material.color.set('#CCFF03')
 }
 
-function onPointerLeave(ev: ThreeEvent<MouseEvent>) {
+function onPointerLeave(ev: TresPointerEvent) {
   console.log('pointerleave', ev)
   ev.object.material.color.set('#efefef')
 }
 
-function onPointerMove(ev: ThreeEvent<MouseEvent>) {
+function onPointerMove(ev: TresPointerEvent) {
   // console.log('pointer-move', ev)
 }
 
-function onContextMenu(ev: ThreeEvent<MouseEvent>) {
+function onContextMenu(ev: TresPointerEvent) {
   console.log('contextmenu', ev)
   ev.object.material.color.set('#FF4500')
 }
 
-function onPointerMissed(ev: ThreeEvent<MouseEvent>) {
+function onPointerMissed(ev: TresPointerEvent) {
   console.log('pointermissed', ev)
 }
 </script>
@@ -55,6 +54,7 @@ function onPointerMissed(ev: ThreeEvent<MouseEvent>) {
   <TresCanvas
     window-size
     v-bind="gl"
+    @pointermissed="onPointerMissed"
   >
     <TresPerspectiveCamera
       :position="[11, 11, 11]"
@@ -69,12 +69,11 @@ function onPointerMissed(ev: ThreeEvent<MouseEvent>) {
           :position="[x, y, z]"
           :name="`box-${[xIndex, yIndex, zIndex].join('-')}`"
           @click="onClick"
-          @doubleclick="onDoubleClick"
+          @dblclick="onDoubleClick"
           @pointerenter="onPointerEnter"
           @pointerleave="onPointerLeave"
           @pointermove="onPointerMove"
           @contextmenu="onContextMenu"
-          @pointermissed="onPointerMissed"
         >
           <TresBoxGeometry :args="[1, 1, 1]" />
           <TresMeshToonMaterial color="#efefef" />
