@@ -58,8 +58,6 @@ export function useRendererManager(
    */
   const invalidate = (amountOfFramesToInvalidate = 1) => {
     if (!canBeInvalidated.value) {
-      if (toValue(options.renderMode) !== 'on-demand') { throw new Error('invalidate can only be called in on-demand render mode.') }
-
       return
     }
 
@@ -85,13 +83,13 @@ export function useRendererManager(
 
   const isModeAlways = computed(() => toValue(options.renderMode) === 'always')
 
-  const onRender = createEventHook<WebGLRenderer>()
+  const renderEventHook = createEventHook<WebGLRenderer>()
 
   loop.register(() => {
     if (camera.activeCamera.value && frames.value) {
       instance.value.render(scene, camera.activeCamera.value)
 
-      onRender.trigger(instance.value)
+      renderEventHook.trigger(instance.value)
     }
 
     frames.value = isModeAlways.value
@@ -205,7 +203,7 @@ export function useRendererManager(
     instance,
     isReady: readonly(isReady),
     advance,
-    onRender,
+    onRender: renderEventHook.on,
     invalidate,
     canBeInvalidated,
     frames,

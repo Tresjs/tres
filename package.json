@@ -1,7 +1,7 @@
 {
   "name": "@tresjs/core",
   "type": "module",
-  "version": "5.0.0-next.0",
+  "version": "5.0.0-next.1",
   "packageManager": "pnpm@10.6.3",
   "description": "Declarative ThreeJS using Vue Components",
   "author": "Alvaro Saburido <hola@alvarosaburido.dev> (https://github.com/alvarosabu/)",
@@ -71,13 +71,14 @@
   },
   "dependencies": {
     "@alvarosabu/utils": "^3.2.0",
+    "@pmndrs/pointer-events": "^6.6.17",
     "@vue/devtools-api": "^7.7.2",
     "@vueuse/core": "^12.5.0"
   },
   "devDependencies": {
     "@release-it/conventional-changelog": "^10.0.0",
     "@stackblitz/sdk": "^1.11.0",
-    "@tresjs/cientos": "https://pkg.pr.new/@tresjs/cientos@14afe95",
+    "@tresjs/cientos": "5.0.0-next.0",
     "@tresjs/eslint-config": "^1.4.0",
     "@types/three": "^0.173.0",
     "@typescript-eslint/eslint-plugin": "^8.23.0",

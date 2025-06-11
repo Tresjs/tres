@@ -7,23 +7,7 @@ import { logError } from '../utils/logger'
 import { isArray, isCamera, isClassInstance, isColor, isColorRepresentation, isCopyable, isFunction, isLayers, isObject, isObject3D, isScene, isTresInstance, isUndefined, isVectorLike } from '../utils/is'
 import { createRetargetingProxy } from '../utils/primitive/createRetargetingProxy'
 import { catalogue } from './catalogue'
-
-const supportedPointerEvents = [
-  'onClick',
-  'onContextMenu',
-  'onPointerMove',
-  'onPointerEnter',
-  'onPointerLeave',
-  'onPointerOver',
-  'onPointerOut',
-  'onDoubleClick',
-  'onPointerDown',
-  'onPointerUp',
-  'onPointerCancel',
-  'onPointerMissed',
-  'onLostPointerCapture',
-  'onWheel',
-]
+import { isSupportedPointerEvent, pointerEventsMapVueToThree } from '../utils/pointerEvents'
 
 export const nodeOps: (context: TresContext) => RendererOptions<TresObject, TresObject | null> = (context) => {
   const scene = context.scene.value
@@ -90,7 +74,6 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
       ...(isTresInstance(obj) ? obj.__tres : {}),
       type: name,
       memoizedProps: props,
-      eventCount: 0,
       primitive: tag === 'primitive',
       attach: props.attach,
     }, context)
@@ -111,15 +94,9 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
     child = unboxTresPrimitive(childInstance)
     parent = unboxTresPrimitive(parentInstance)
 
-    if (child.__tres && child.__tres?.eventCount > 0) {
-      context.eventManager?.registerObject(child)
-    }
-
     if (isCamera(child)) {
       context.camera?.registerCamera(child)
     }
-    // NOTE: Track onPointerMissed objects separate from the scene
-    context.eventManager?.registerPointerMissedObject(child)
 
     if (childInstance.__tres.attach) {
       attach(parentInstance, childInstance, childInstance.__tres.attach)
@@ -148,11 +125,6 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
     // used by the recursive calls.
 
     if (!node) { return }
-
-    // Remove from event manager if necessary
-    if (node?.__tres && node.__tres?.eventCount > 0) {
-      context.eventManager?.deregisterObject(node)
-    }
 
     // NOTE: Derive `dispose` value for this `remove` call and
     // recursive remove calls.
@@ -268,14 +240,9 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
       return
     }
 
-    if (isObject3D(node) && key === 'blocks-pointer-events') {
-      if (nextValue || nextValue === '') { node[key] = nextValue }
-      else { delete node[key] }
-      return
-    }
     // Has events
-    if (supportedPointerEvents.includes(prop) && node.__tres) {
-      node.__tres.eventCount += 1
+    if (isSupportedPointerEvent(prop) && isFunction(nextValue)) {
+      node.addEventListener(pointerEventsMapVueToThree[prop], nextValue)
     }
     let finalKey = kebabToCamel(key)
     let target = root?.[finalKey] as Record<string, unknown>
@@ -347,7 +314,7 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
     if (isFunction(target)) {
       // don't call pointer event callback functions
 
-      if (!supportedPointerEvents.includes(prop)) {
+      if (!isSupportedPointerEvent(prop)) {
         if (isArray(value)) { node[finalKey](...value) }
         else { node[finalKey](value) }
       }
