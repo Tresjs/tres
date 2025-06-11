@@ -8,7 +8,7 @@ import {
   useDevicePixelRatio,
 } from '@vueuse/core'
 import { Material, Mesh, WebGLRenderer } from 'three'
-import { computed, type MaybeRef, onUnmounted, readonly, ref, toValue, watch, watchEffect } from 'vue'
+import { computed, type MaybeRef, onUnmounted, type Reactive, readonly, ref, toValue, watch, watchEffect } from 'vue'
 
 // Solution taken from Thretle that actually support different versions https://github.com/threlte/threlte/blob/5fa541179460f0dadc7dc17ae5e6854d1689379e/packages/core/src/lib/lib/useRenderer.ts
 import { setPixelRatio } from '../../utils'
@@ -33,7 +33,7 @@ export function useRendererManager(
   {
     scene: Scene
     canvas: MaybeRef<HTMLCanvasElement>
-    options: TresCanvasProps
+    options: Reactive<TresCanvasProps>
     contextParts: Pick<TresContext, 'sizes' | 'camera' | 'loop'>
   },
 ) {
