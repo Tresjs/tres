@@ -2,7 +2,7 @@ import type { MaybeRef, MaybeRefOrGetter, Ref, ShallowRef } from 'vue'
 
 import type { RendererLoop } from '../../core/loop'
 import type { TresControl, TresScene } from '../../types'
-import type { UseRendererManagerReturn } from '../useRenderer/useRendererManager'
+import type { RendererOptions, UseRendererManagerReturn } from '../useRenderer/useRendererManager'
 import { inject, onUnmounted, provide, ref, shallowRef } from 'vue'
 import { extend } from '../../core/catalogue'
 import { createRenderLoop } from '../../core/loop'
@@ -48,7 +48,7 @@ export function useTresContextProvider({
     {
       scene,
       canvas,
-      options: rendererOptions,
+      options: rendererOptions as RendererOptions,
       contextParts: { sizes, camera, loop },
     },
   )
