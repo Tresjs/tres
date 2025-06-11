@@ -8,7 +8,7 @@ import {
   useDevicePixelRatio,
 } from '@vueuse/core'
 import { Material, Mesh, WebGLRenderer } from 'three'
-import { computed, type MaybeRef, onUnmounted, readonly, ref, shallowRef, toValue, triggerRef, watch, watchEffect } from 'vue'
+import { computed, type MaybeRef, onUnmounted, type Reactive, readonly, ref, toValue, watch, watchEffect } from 'vue'
 
 // Solution taken from Thretle that actually support different versions https://github.com/threlte/threlte/blob/5fa541179460f0dadc7dc17ae5e6854d1689379e/packages/core/src/lib/lib/useRenderer.ts
 import { setPixelRatio } from '../../utils'
@@ -33,14 +33,14 @@ export function useRendererManager(
   {
     scene: Scene
     canvas: MaybeRef<HTMLCanvasElement>
-    options: TresCanvasProps
+    options: Reactive<TresCanvasProps>
     contextParts: Pick<TresContext, 'sizes' | 'camera' | 'loop'>
   },
 ) {
-  const instance = shallowRef<WebGLRenderer>(new WebGLRenderer({
+  const renderer = new WebGLRenderer({
     ...options,
     canvas: unrefElement(canvas),
-  }))
+  })
 
   const frames = ref(0)
   const maxFrames = 60
@@ -87,9 +87,9 @@ export function useRendererManager(
 
   loop.register(() => {
     if (camera.activeCamera.value && frames.value) {
-      instance.value.render(scene, camera.activeCamera.value)
+      renderer.render(scene, camera.activeCamera.value)
 
-      renderEventHook.trigger(instance.value)
+      renderEventHook.trigger(renderer)
     }
 
     frames.value = isModeAlways.value
@@ -98,15 +98,22 @@ export function useRendererManager(
   }, 'render')
 
   const isReady = computed(() =>
-    !!(instance.value.domElement.width && instance.value.domElement.height),
+    !!(renderer.domElement.width && renderer.domElement.height),
   )
+
+  const readyEventHook = createEventHook<WebGLRenderer>()
+  let hasTriggeredReady = false
 
   // Watch the sizes and invalidate the renderer when they change
   watch([sizes.width, sizes.height], () => {
-    instance.value.setSize(sizes.width.value, sizes.height.value)
-    invalidateOnDemand()
+    renderer.setSize(sizes.width.value, sizes.height.value)
 
-    triggerRef(instance)
+    if (!hasTriggeredReady && renderer.domElement.width && renderer.domElement.height) {
+      readyEventHook.trigger(renderer)
+      hasTriggeredReady = true
+    }
+
+    invalidateOnDemand()
   }, {
     immediate: true,
   })
@@ -114,7 +121,7 @@ export function useRendererManager(
   const { pixelRatio } = useDevicePixelRatio()
 
   watchEffect(() => {
-    setPixelRatio(instance.value, pixelRatio.value, toValue(options.dpr))
+    setPixelRatio(renderer, pixelRatio.value, toValue(options.dpr))
   })
 
   if (toValue(options.renderMode) === 'on-demand') {
@@ -156,54 +163,55 @@ export function useRendererManager(
   watchEffect(() => {
     const value = clearColorAndAlpha.value
     if (value.color === undefined || value.alpha === undefined) { return }
-    instance.value.setClearColor(value.color, value.alpha)
+    renderer.setClearColor(value.color, value.alpha)
   })
 
   watchEffect(() => {
     const value = options.toneMapping
     if (value) {
-      instance.value.toneMapping = value
+      renderer.toneMapping = value
     }
   })
 
   watchEffect(() => {
     const value = options.toneMappingExposure
     if (value) {
-      instance.value.toneMappingExposure = value
+      renderer.toneMappingExposure = value
     }
   })
 
   watchEffect(() => {
     const value = options.outputColorSpace
     if (value) {
-      instance.value.outputColorSpace = value
+      renderer.outputColorSpace = value
     }
   })
 
   watchEffect(() => {
     const value = options.shadows
     if (value === undefined) { return }
-    instance.value.shadowMap.enabled = value
+    renderer.shadowMap.enabled = value
     forceMaterialUpdate()
   })
 
   watchEffect(() => {
     const value = options.shadowMapType
     if (value === undefined) { return }
-    instance.value.shadowMap.type = value
+    renderer.shadowMap.type = value
     forceMaterialUpdate()
   })
 
   onUnmounted(() => {
-    instance.value.dispose()
-    instance.value.forceContextLoss()
+    renderer.dispose()
+    renderer.forceContextLoss()
   })
 
   return {
-    instance,
+    instance: renderer,
     isReady: readonly(isReady),
     advance,
     onRender: renderEventHook.on,
+    onReady: readyEventHook.on,
     invalidate,
     canBeInvalidated,
     frames,
