@@ -108,7 +108,7 @@ export function useRendererManager(
   watch([sizes.width, sizes.height], () => {
     renderer.setSize(sizes.width.value, sizes.height.value)
 
-    if (renderer.domElement.width && renderer.domElement.height && !hasTriggeredReady) {
+    if (!hasTriggeredReady && renderer.domElement.width && renderer.domElement.height) {
       readyEventHook.trigger(renderer)
       hasTriggeredReady = true
     }
