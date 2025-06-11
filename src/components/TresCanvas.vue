@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type {
-  Camera,
   ColorRepresentation,
   ColorSpace,
   ShadowMapType,
@@ -38,7 +37,6 @@ import { nodeOps } from '../core/nodeOps'
 
 import { disposeObject3D } from '../utils/'
 import { registerTresDevtools } from '../devtools'
-import { whenever } from '@vueuse/core'
 import type { TresPointerEventName } from '../utils/pointerEvents'
 
 const props = withDefaults(defineProps<TresCanvasProps>(), {
@@ -63,7 +61,6 @@ const props = withDefaults(defineProps<TresCanvasProps>(), {
 const emit = defineEmits<{
   ready: [context: TresContext]
   render: [renderer: WebGLRenderer]
-
   pointermissed: [event: PointerEvent<MouseEvent>]
 } & {
   // all pointer events are supported because they bubble up
@@ -136,9 +133,9 @@ const mountCustomRenderer = (context: TresContext, empty = false) => {
 const dispose = (context: TresContext, force = false) => {
   disposeObject3D(context.scene.value as unknown as TresObject)
   if (force) {
-    context.renderer.instance.value.dispose()
-    context.renderer.instance.value.renderLists.dispose()
-    context.renderer.instance.value.forceContextLoss()
+    context.renderer.instance.dispose()
+    context.renderer.instance.renderLists.dispose()
+    context.renderer.instance.forceContextLoss()
   }
   (scene.value as TresScene).__tres = {
     root: context,
@@ -222,13 +219,13 @@ onMounted(() => {
     emit('render', renderer)
   })
 
+  renderer.onReady(() => {
+    emit('ready', context.value!)
+  })
+
   // HMR support
   if (import.meta.hot && context.value) { import.meta.hot.on('vite:afterUpdate', () => handleHMR(context.value as TresContext)) }
 })
-
-whenever(() => context.value?.renderer.isReady, () => {
-  if (context.value) { emit('ready', context.value) }
-}, { once: true })
 
 onUnmounted(unmountCanvas)
 </script>
