@@ -1,4 +1,4 @@
-import { type ComputedRef, toValue } from 'vue'
+import type { ComputedRef } from 'vue'
 import type { TresContext } from '../useTresContextProvider'
 import { useTresContext } from '../useTresContextProvider'
 import type { Camera, WebGLRenderer } from 'three'
@@ -41,7 +41,7 @@ export function useTres(): TresPartialContext {
 
   return {
     scene,
-    renderer: toValue(renderer.instance),
+    renderer: renderer.instance,
     camera: camera.activeCamera,
     sizes,
     controls,

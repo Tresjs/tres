@@ -1,9 +1,8 @@
 import type { MaybeRef, MaybeRefOrGetter, Ref, ShallowRef } from 'vue'
-import { whenever } from '@vueuse/core'
 
 import type { RendererLoop } from '../../core/loop'
 import type { TresControl, TresScene } from '../../types'
-import type { UseRendererManagerReturn, UseRendererOptions } from '../useRenderer/useRendererManager'
+import type { RendererOptions, UseRendererManagerReturn } from '../useRenderer/useRendererManager'
 import { inject, onUnmounted, provide, ref, shallowRef } from 'vue'
 import { extend } from '../../core/catalogue'
 import { createRenderLoop } from '../../core/loop'
@@ -13,6 +12,7 @@ import type { UseCameraReturn } from '../useCamera/'
 import { useCameraManager } from '../useCamera'
 import { useRendererManager } from '../useRenderer/useRendererManager'
 import useSizes, { type SizesType } from '../useSizes'
+import type { TresCanvasProps } from '../../components/TresCanvas.vue'
 import { useEventManager } from '../useEventManager'
 
 export interface TresContext {
@@ -35,7 +35,7 @@ export function useTresContextProvider({
   scene: TresScene
   canvas: MaybeRef<HTMLCanvasElement>
   windowSize: MaybeRefOrGetter<boolean>
-  rendererOptions: UseRendererOptions
+  rendererOptions: TresCanvasProps
 }): TresContext {
   const localScene = shallowRef<TresScene>(scene)
   const sizes = useSizes(windowSize, canvas)
@@ -48,7 +48,7 @@ export function useTresContextProvider({
     {
       scene,
       canvas,
-      options: rendererOptions,
+      options: rendererOptions as RendererOptions,
       contextParts: { sizes, camera, loop },
     },
   )
@@ -79,11 +79,8 @@ export function useTresContextProvider({
   ctx.loop.setReady(false)
   ctx.loop.start()
 
-  whenever(renderer.isReady, () => { // TODO #994 This does not belong here, see https://github.com/Tresjs/tres/issues/595
+  renderer.onReady(() => {
     ctx.loop.setReady(true)
-  }, {
-    once: true,
-    immediate: true,
   })
 
   onUnmounted(() => {
