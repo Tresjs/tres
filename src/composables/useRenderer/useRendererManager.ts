@@ -171,13 +171,13 @@ export function useRendererManager(
 
   const isModeAlways = computed(() => toValue(options.renderMode) === 'always')
 
-  const onRender = createEventHook<WebGLRenderer>()
+  const renderEventHook = createEventHook<WebGLRenderer>()
 
   loop.register(() => {
     if (camera.activeCamera.value && amountOfFramesToRender.value) {
       instance.value.render(scene, camera.activeCamera.value)
 
-      onRender.trigger(instance.value)
+      renderEventHook.trigger(instance.value)
     }
 
     amountOfFramesToRender.value = isModeAlways.value
@@ -310,7 +310,7 @@ export function useRendererManager(
     instance,
     isReady: readonly(isReady),
     advance,
-    onRender,
+    onRender: renderEventHook.on,
     invalidate,
     canBeInvalidated,
     amountOfFramesToRender,

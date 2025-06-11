@@ -414,9 +414,7 @@ export function prepareTresInstance<T extends TresObject>(obj: T, state: Partial
 
   instance.__tres = {
     type: 'unknown',
-    eventCount: 0,
     root: context,
-    handlers: {},
     memoizedProps: {},
     objects: [],
     parent: null,
@@ -569,14 +567,10 @@ export function doRemoveDeregister(node: TresObject, context: TresContext) {
     if (isCamera(child)) {
       context.camera.deregisterCamera(child)
     }
-    // deregisterAtPointerEventHandlerIfRequired?.(child as TresObject)
-    context.eventManager?.deregisterPointerMissedObject(child)
   })
 
-  // NOTE: Deregister `node`
   if (isCamera(node)) {
     context.camera.deregisterCamera(node)
   }
-  /*  deregisterAtPointerEventHandlerIfRequired?.(node as TresObject) */
   invalidateInstance(node as TresObject)
 }

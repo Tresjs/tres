@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type {
-  Camera,
   ColorSpace,
   ShadowMapType,
   ToneMapping,
@@ -8,8 +7,9 @@ import type {
   WebGLRendererParameters,
 } from 'three'
 import type { App, Ref } from 'vue'
+import type { PointerEvent } from '@pmndrs/pointer-events'
 import type { RendererPresetsType } from '../composables/useRenderer/const'
-import type { TresObject, TresPointerEvent, TresScene } from '../types/'
+import type { TresCamera, TresObject, TresScene } from '../types/'
 import { PerspectiveCamera, Scene } from 'three'
 import * as THREE from 'three'
 
@@ -36,9 +36,10 @@ import {
 import { extend } from '../core/catalogue'
 import { nodeOps } from '../core/nodeOps'
 
-import { disposeObject3D, kebabToCamel } from '../utils/'
+import { disposeObject3D } from '../utils/'
 import { registerTresDevtools } from '../devtools'
 import { whenever } from '@vueuse/core'
+import type { TresPointerEventName } from '../utils/pointerEvents'
 
 export interface TresCanvasProps
   extends Omit<WebGLRendererParameters, 'canvas'> {
@@ -54,7 +55,7 @@ export interface TresCanvasProps
   dpr?: number | [number, number]
 
   // required by useTresContextProvider
-  camera?: Camera
+  camera?: TresCamera
   preset?: RendererPresetsType
   windowSize?: boolean
 
@@ -81,18 +82,10 @@ const emit = defineEmits<{
   ready: [context: TresContext]
   render: [renderer: WebGLRenderer]
 
-  click: [event: TresPointerEvent]
-  doubleClick: [event: TresPointerEvent]
-  contextMenu: [event: TresPointerEvent]
-  pointerMove: [event: TresPointerEvent]
-  pointerUp: [event: TresPointerEvent]
-  pointerDown: [event: TresPointerEvent]
-  pointerEnter: [event: TresPointerEvent]
-  pointerLeave: [event: TresPointerEvent]
-  pointerOver: [event: TresPointerEvent]
-  pointerOut: [event: TresPointerEvent]
-  pointerMissed: [event: TresPointerEvent]
-  wheel: [event: TresPointerEvent]
+  pointermissed: [event: PointerEvent<MouseEvent>]
+} & {
+  // all pointer events are supported because they bubble up
+  [key in TresPointerEventName]: [event: PointerEvent<MouseEvent>]
 }>()
 
 const slots = defineSlots<{
@@ -219,6 +212,10 @@ onMounted(() => {
     })
   }
 
+  context.value.events.onPointerMissed((event) => {
+    emit('pointermissed', event)
+  })
+
   watch(
     () => props.camera,
     (newCamera, oldCamera) => {
@@ -239,15 +236,8 @@ onMounted(() => {
     addDefaultCamera()
   }
 
-  renderer.onRender.on((renderer) => {
+  renderer.onRender((renderer) => {
     emit('render', renderer)
-  })
-
-  context.value.eventManager?.onEvent(({ type, event, intersection }) => {
-    emit(
-      kebabToCamel(type) as any, // typescript doesn't know that kebabToCamel(type) is a valid key of PointerEmits
-      { type, event, intersection },
-    )
   })
 
   // HMR support
