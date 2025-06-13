@@ -47,7 +47,7 @@ export function useTresContextProvider({
     {
       scene: localScene,
       canvas,
-      options: rendererOptions as RendererOptions,
+      options: rendererOptions,
       contextParts: { sizes, camera, loop },
     },
   )
