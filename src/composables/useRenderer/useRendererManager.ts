@@ -29,7 +29,7 @@ import { isFunction, isObject } from '../../utils/is'
  */
 export type RenderMode = 'always' | 'on-demand' | 'manual'
 
-export type TresRenderer = WebGLRenderer | Renderer // TODO any renderer maybe?
+export type TresRenderer = WebGLRenderer | Renderer
 
 export interface RendererOptions {
   /**
