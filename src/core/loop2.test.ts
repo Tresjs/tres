@@ -1,35 +1,64 @@
-import { afterEach, beforeEach, it } from 'vitest'
-import { createRenderLoop } from './loop'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import { useCreateRenderLoop } from './loop'
+import { useRafFn } from '@vueuse/core'
 
-let renderLoop
+let renderLoop: ReturnType<typeof useCreateRenderLoop>
 
-describe('createRenderLoop', () => {
+describe('useCreateRenderLoop', () => {
   beforeEach(() => {
-    renderLoop = createRenderLoop()
+    renderLoop = useCreateRenderLoop()
   })
   afterEach(() => {
     renderLoop.stop()
   })
 
   it('should start and stop the loop', () => {
-    // Spy
+    vi.useFakeTimers()
     const requestAnimationFrameSpy = vi.spyOn(window, 'requestAnimationFrame')
-    requestAnimationFrameSpy.mockImplementation((_callback: FrameRequestCallback) => {
-      return 0 // Return a number as a placeholder
-    })
+    requestAnimationFrameSpy.mockImplementation((_callback: FrameRequestCallback) => 0)
+    expect(renderLoop.isActive.value).toBe(false)
 
     renderLoop.start()
+    expect(renderLoop.isActive.value).toBe(true)
+
     expect(requestAnimationFrameSpy).toHaveBeenCalled()
     requestAnimationFrameSpy.mockClear()
     renderLoop.stop()
+    expect(renderLoop.isActive.value).toBe(false)
     expect(requestAnimationFrameSpy).not.toHaveBeenCalled()
+
+    requestAnimationFrameSpy.mockReset()
   })
 
-  it('should pause and resume the loop', () => {
+  //   it('deleteme', () => {
+  //     vi.useFakeTimers()
+  //     let frameRendered = false
+
+  //     requestAnimationFrame(() => {
+  //       frameRendered = true
+  //     })
+
+  //     vi.advanceTimersToNextFrame()
+
+  //     expect(frameRendered).toBe(true)
+  //   })
+
+  it('should call registered callbacks in the right order', async () => {
+    vi.useFakeTimers()
+
+    let toTest = ''
+    const beforeRender = () => { toTest += '0' }
+    const render = () => { toTest += '1' }
+    const afterRender = () => { toTest += '2' }
+
+    renderLoop.onBeforeRender(beforeRender, 0)
+    renderLoop.onRender(render)
+    renderLoop.onAfterRender(afterRender, 0)
+
     renderLoop.start()
-    renderLoop.pause()
-    expect(renderLoop.isActive.value).toBe(false)
-    renderLoop.resume()
-    expect(renderLoop.isActive.value).toBe(true)
+    vi.advanceTimersToNextFrame()
+
+    expect(toTest).toBe('012')
+    vi.useRealTimers()
   })
 })

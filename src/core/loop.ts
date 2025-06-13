@@ -4,7 +4,7 @@ import { createPriorityEventHook } from '../utils/createPriorityEventHook'
 interface TODO {
 }
 
-export const createRenderLoop = () => {
+export const useCreateRenderLoop = () => { // TODO think about name
   const eventHooks = {
     beforeRender: createPriorityEventHook<TODO>(),
     render: createPriorityEventHook<TODO>(),
@@ -12,11 +12,8 @@ export const createRenderLoop = () => {
   }
 
   const { pause, resume, isActive } = useRafFn(() => {
-    console.log('before render')
     eventHooks.beforeRender.trigger({})
-    console.log('render')
     eventHooks.render.trigger({})
-    console.log('after render')
     eventHooks.afterRender.trigger({})
   }, {
     immediate: false,
@@ -26,10 +23,8 @@ export const createRenderLoop = () => {
     start: resume,
     stop: pause,
     isActive,
-    pause, // TODO check if these are required -> start, stop should be enough
-    resume, // TODO check if these are required -> start, stop should be enough
     onBeforeRender: eventHooks.beforeRender.on,
-    onRender: eventHooks.render,
+    onRender: eventHooks.render.on,
     onAfterRender: eventHooks.afterRender.on,
   }
 }
