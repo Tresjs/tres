@@ -11,7 +11,7 @@ import {
 import { Material, Mesh, WebGLRenderer } from 'three'
 import { computed, onUnmounted, readonly, ref, toValue, watch, watchEffect } from 'vue'
 import type { MaybeRef, ShallowRef } from 'vue'
-import { WebGPURenderer } from 'three/webgpu'
+import type { Renderer } from 'three/webgpu'
 
 // Solution taken from Thretle that actually support different versions https://github.com/threlte/threlte/blob/5fa541179460f0dadc7dc17ae5e6854d1689379e/packages/core/src/lib/lib/useRenderer.ts
 import { setPixelRatio } from '../../utils'
@@ -19,7 +19,8 @@ import { setPixelRatio } from '../../utils'
 import { logWarning } from '../../utils/logger'
 import type { SizesType } from '../useSizes'
 import type { UseCameraReturn } from '../useCamera'
-import type { TresScene } from 'src/types'
+import type { TresScene } from '../../types'
+import { isFunction, isObject } from '../../utils/is'
 
 /**
  * If set to 'on-demand', the scene will only be rendered when the current frame is invalidated
@@ -28,7 +29,7 @@ import type { TresScene } from 'src/types'
  */
 export type RenderMode = 'always' | 'on-demand' | 'manual'
 
-export type TresRenderer = WebGLRenderer | WebGPURenderer
+export type TresRenderer = WebGLRenderer | Renderer // TODO any renderer maybe?
 
 export interface RendererOptions {
   /**
@@ -206,23 +207,24 @@ export function useRendererManager(
     contextParts: { sizes, loop, camera },
   }: UseRendererOptions,
 ) {
-  let renderer: TresRenderer
+  const getRenderer = () => {
+    if (isFunction(options.renderer)) {
+      return options.renderer({
+        sizes,
+        scene,
+        camera,
+        loop,
+        canvas,
+      })
+    }
 
-  if (options.renderer && typeof options.renderer === 'function') {
-    renderer = options.renderer({
-      sizes,
-      scene,
-      camera,
-      loop,
-      canvas,
-    })
-  }
-  else {
-    renderer = new WebGLRenderer({
+    return new WebGLRenderer({
       ...options,
       canvas: unrefElement(canvas),
     })
   }
+
+  const renderer = getRenderer()
 
   const frames = ref(0)
   const maxFrames = 60
@@ -267,10 +269,17 @@ export function useRendererManager(
 
   const renderEventHook = createEventHook<TresRenderer>()
 
-  if (renderer instanceof WebGPURenderer) {
+  // be aware that the WebGLRenderer does not extend from Renderer
+  const isRenderer = (value: unknown): value is Renderer =>
+    isObject(value) && 'isRenderer' in value && Boolean(value.isRenderer)
+
+  const readyEventHook = createEventHook<TresRenderer>()
+  let hasTriggeredReady = false
+
+  if (isRenderer(renderer)) {
     // Initialize the WebGPU context
     renderer.init()
-    loop.setReady(true)
+    readyEventHook.trigger(renderer)
   }
 
   loop.register(() => {
@@ -285,12 +294,9 @@ export function useRendererManager(
       : Math.max(0, frames.value - 1)
   }, 'render')
 
-  const isReady = computed(() =>
+  const isReady = computed(() => // TODO check if this can be removed
     !!(renderer.domElement.width && renderer.domElement.height),
   )
-
-  const readyEventHook = createEventHook<TresRenderer>()
-  let hasTriggeredReady = false
 
   // Watch the sizes and invalidate the renderer when they change
   watch([sizes.width, sizes.height], () => {
