@@ -1,10 +1,8 @@
-import { Raycaster } from 'three'
 import type { MaybeRef, MaybeRefOrGetter, Ref, ShallowRef } from 'vue'
-import { whenever } from '@vueuse/core'
 
 import type { RendererLoop } from '../../core/loop'
-import type { TresControl, TresObject, TresScene } from '../../types'
-import type { UseRendererManagerReturn, UseRendererOptions } from '../useRenderer/useRendererManager'
+import type { TresControl, TresScene } from '../../types'
+import type { RendererOptions, UseRendererManagerReturn } from '../useRenderer/useRendererManager'
 import { inject, onUnmounted, provide, ref, shallowRef } from 'vue'
 import { extend } from '../../core/catalogue'
 import { createRenderLoop } from '../../core/loop'
@@ -14,20 +12,8 @@ import type { UseCameraReturn } from '../useCamera/'
 import { useCameraManager } from '../useCamera'
 import { useRendererManager } from '../useRenderer/useRendererManager'
 import useSizes, { type SizesType } from '../useSizes'
-import { type TresEventManager, useTresEventManager } from '../useTresEventManager'
-
-export interface PerformanceState {
-  maxFrames: number
-  fps: {
-    value: number
-    accumulator: number[]
-  }
-  memory: {
-    currentMem: number
-    allocatedMem: number
-    accumulator: number[]
-  }
-}
+import type { TresCanvasProps } from '../../components/TresCanvas.vue'
+import { useEventManager } from '../useEventManager'
 
 export interface TresContext {
   scene: ShallowRef<TresScene>
@@ -36,18 +22,8 @@ export interface TresContext {
   camera: UseCameraReturn
   controls: Ref<TresControl | null>
   renderer: UseRendererManagerReturn
-  raycaster: ShallowRef<Raycaster>
-  perf: PerformanceState
-  // Loop
   loop: RendererLoop
-  eventManager?: TresEventManager
-  // Events
-  // Temporaly add the methods to the context, this should be handled later by the EventManager state on the context https://github.com/Tresjs/tres/issues/515
-  // When thats done maybe we can short the names of the methods since the parent will give the context.
-  registerObjectAtPointerEventHandler?: (object: TresObject) => void
-  deregisterObjectAtPointerEventHandler?: (object: TresObject) => void
-  registerBlockingObjectAtPointerEventHandler?: (object: TresObject) => void
-  deregisterBlockingObjectAtPointerEventHandler?: (object: TresObject) => void
+  events: ReturnType<typeof useEventManager>
 }
 
 export function useTresContextProvider({
@@ -59,7 +35,7 @@ export function useTresContextProvider({
   scene: TresScene
   canvas: MaybeRef<HTMLCanvasElement>
   windowSize: MaybeRefOrGetter<boolean>
-  rendererOptions: UseRendererOptions
+  rendererOptions: TresCanvasProps
 }): TresContext {
   const localScene = shallowRef<TresScene>(scene)
   const sizes = useSizes(windowSize, canvas)
@@ -72,32 +48,25 @@ export function useTresContextProvider({
     {
       scene,
       canvas,
-      options: rendererOptions,
+      options: rendererOptions as RendererOptions,
       contextParts: { sizes, camera, loop },
     },
   )
+
+  const events = useEventManager({
+    canvas,
+    contextParts: { scene: localScene, camera, loop },
+  })
 
   const ctx: TresContext = {
     sizes,
     scene: localScene,
     camera,
     renderer,
-    raycaster: shallowRef(new Raycaster()),
     controls: ref(null),
-    perf: {
-      maxFrames: 160,
-      fps: {
-        value: 0,
-        accumulator: [],
-      },
-      memory: {
-        currentMem: 0,
-        allocatedMem: 0,
-        accumulator: [],
-      },
-    },
     extend,
     loop,
+    events,
   }
 
   provide('useTres', ctx)
@@ -110,14 +79,9 @@ export function useTresContextProvider({
   ctx.loop.setReady(false)
   ctx.loop.start()
 
-  whenever(renderer.isReady, () => { // TODO #994 This does not belong here, see https://github.com/Tresjs/tres/issues/595
+  renderer.onReady(() => {
     ctx.loop.setReady(true)
-  }, {
-    once: true,
-    immediate: true,
   })
-
-  useTresEventManager(scene, ctx)
 
   onUnmounted(() => {
     ctx.loop.stop()
@@ -135,5 +99,3 @@ export function useTresContext(): TresContext {
 
   return context as TresContext
 }
-
-export const useTres = useTresContext

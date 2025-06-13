@@ -15,17 +15,6 @@ extend({ TextGeometry })
 
 const fontPath = 'https://raw.githubusercontent.com/Tresjs/assets/main/fonts/FiraCodeRegular.json'
 
-const fontOptions = {
-  size: 0.5,
-  height: 0.2,
-  curveSegments: 5,
-  bevelEnabled: true,
-  bevelThickness: 0.02,
-  bevelSize: 0.02,
-  bevelOffset: 0,
-  bevelSegments: 4,
-}
-
 const { state: font } = useLoader(FontLoader, fontPath)
 
 const { state: matcapTexture } = useTexture('https://raw.githubusercontent.com/Tresjs/assets/main/textures/matcaps/7.png')

@@ -1,29 +1,19 @@
-import type { ColorSpace, Scene, ShadowMapType, ToneMapping, WebGLRendererParameters } from 'three'
-import type { TresColor } from '../../types'
+import type { ColorRepresentation, ColorSpace, Object3D, Scene, ShadowMapType, ToneMapping } from 'three'
 
 import type { TresContext } from '../useTresContextProvider'
 
-import type { RendererPresetsType } from './const'
 import {
   createEventHook,
-  type MaybeRefOrGetter,
   unrefElement,
   useDevicePixelRatio,
 } from '@vueuse/core'
-import { ACESFilmicToneMapping, Color, WebGLRenderer } from 'three'
-import { computed, type MaybeRef, onUnmounted, readonly, ref, shallowRef, toValue, triggerRef, watch, watchEffect } from 'vue'
+import { Material, Mesh, WebGLRenderer } from 'three'
+import { computed, type MaybeRef, onUnmounted, type Reactive, readonly, ref, toValue, watch, watchEffect } from 'vue'
 
 // Solution taken from Thretle that actually support different versions https://github.com/threlte/threlte/blob/5fa541179460f0dadc7dc17ae5e6854d1689379e/packages/core/src/lib/lib/useRenderer.ts
-import { revision } from '../../core/revision'
-import { get, merge, set, setPixelRatio } from '../../utils'
+import { setPixelRatio } from '../../utils'
 
-import { normalizeColor } from '../../utils/normalize'
-import { logError } from '../../utils/logger'
-import { rendererPresets } from './const'
-
-type TransformToMaybeRefOrGetter<T> = {
-  [K in keyof T]: MaybeRefOrGetter<T[K]> | MaybeRefOrGetter<T[K]>;
-}
+import { logWarning } from '../../utils/logger'
 
 /**
  * If set to 'on-demand', the scene will only be rendered when the current frame is invalidated
@@ -32,78 +22,164 @@ type TransformToMaybeRefOrGetter<T> = {
  */
 export type RenderMode = 'always' | 'on-demand' | 'manual'
 
-export interface UseRendererOptions extends TransformToMaybeRefOrGetter<WebGLRendererParameters> {
+export interface RendererOptions {
   /**
-   * Enable shadows in the Renderer
-   *
+   * WebGL Context options (Readonly because they are passed to the renderer constructor)
+   * They can't be changed after the renderer is created because they are passed to the canvas context
+   */
+  antialias?: boolean
+  /**
+   * Enables stencil buffer with 8 bits.
+   * Required for stencil-based operations like shadow volumes or post-processing effects.
+   * @readonly
+   * @default true
+   */
+  stencil?: boolean
+
+  /**
+   * Enables depth buffer with at least 16 bits.
+   * Required for proper 3D rendering and depth testing.
+   * @readonly
+   * @default true
+   */
+  depth?: boolean
+
+  /**
+   * Sets the shader precision of the renderer.
+   * @see {@link https://threejs.org/docs/#api/en/renderers/WebGLRenderer}
+   * @default 'highp'
+   */
+  precision?: 'highp' | 'mediump' | 'lowp'
+
+  /**
+   * Enables logarithmic depth buffer. Useful for scenes with large differences in scale.
+   * Helps prevent z-fighting in scenes with objects very close and very far from the camera.
+   * @readonly
    * @default false
    */
-  shadows?: MaybeRefOrGetter<boolean>
-
+  logarithmicDepthBuffer?: boolean
   /**
-   * Set the shadow map type
-   * Can be PCFShadowMap, PCFSoftShadowMap, BasicShadowMap, VSMShadowMap
-   * [see](https://threejs.org/docs/?q=we#api/en/constants/Renderer)
-   *
-   * @default PCFSoftShadowMap
-   */
-  shadowMapType?: MaybeRefOrGetter<ShadowMapType>
-
-  /**
-   * Whether to use physically correct lighting mode.
-   * See the [lights / physical example](https://threejs.org/examples/#webgl_lights_physical).
-   *
+   * Preserves the buffers until manually cleared or overwritten.
+   * Needed for screenshots or when reading pixels from the canvas.
+   * Warning: This may impact performance.
+   * @readonly
    * @default false
-   * @deprecated Use {@link WebGLRenderer.useLegacyLights useLegacyLights} instead.
    */
-  physicallyCorrectLights?: MaybeRefOrGetter<boolean>
+  preserveDrawingBuffer?: boolean
   /**
-   * Whether to use legacy lighting mode.
-   *
-   * @type {MaybeRefOrGetter<boolean>}
-   * @memberof UseRendererOptions
+   * Power preference for the renderer.
+    * Power preference for the renderer.
+    * - `default`: Automatically chooses the most suitable power setting.
+    * - `high-performance`: Prioritizes rendering performance.
+    * - `low-power`: Tries to reduce power usage.
+   * @see {@link https://threejs.org/docs/#api/en/renderers/WebGLRenderer}
+   * @default 'default'
+   * @readonly
    */
-  useLegacyLights?: MaybeRefOrGetter<boolean>
+  powerPreference?: WebGLPowerPreference
   /**
-   * Defines the output encoding of the renderer.
-   * Can be LinearSRGBColorSpace, SRGBColorSpace
-   *
-   * @default LinearSRGBColorSpace
+     * Whether to create the WebGL context with an alpha buffer.
+     * This is a WebGL context option that must be set during context creation and cannot be changed later.
+     * When true, the canvas can be transparent, showing content behind it.
+     * @readonly
+     * @default false
+     */
+  alpha?: boolean
+  /**
+   * Whether to premultiply the alpha of the canvas.
+   * @see {@link https://threejs.org/docs/#api/en/renderers/WebGLRenderer}
+   * @default true
    */
-  outputColorSpace?: MaybeRefOrGetter<ColorSpace>
-
+  premultipliedAlpha?: boolean
   /**
-   * Defines the tone mapping used by the renderer.
-   * Can be NoToneMapping, LinearToneMapping,
-   * ReinhardToneMapping, Uncharted2ToneMapping,
-   * CineonToneMapping, ACESFilmicToneMapping,
-   * CustomToneMapping
-   *
-   * @default ACESFilmicToneMapping
+   * Whether to fail if the major performance caveat is detected.
+   * @see {@link https://threejs.org/docs/#api/en/renderers/WebGLRenderer}
+   * @default false
    */
-  toneMapping?: MaybeRefOrGetter<ToneMapping>
-
+  failIfMajorPerformanceCaveat?: boolean
   /**
-   * Defines the tone mapping exposure used by the renderer.
-   *
+   * WebGL options with set methods
+   * @see {@link https://threejs.org/docs/#api/en/renderers/WebGLRenderer}
+   */
+  /**
+   * Clear color for the canvas
+   * Can include alpha value (e.g. '#00808000' for fully transparent teal)
+   */
+  clearColor?: ColorRepresentation
+  /**
+   * The opacity of the clear color (0-1)
+   * Controls the transparency of the clear color
    * @default 1
    */
-  toneMappingExposure?: MaybeRefOrGetter<number>
+  clearAlpha?: number
+  /**
+   * Enable shadow rendering in the scene
+   * @default false
+   */
+  shadows?: boolean
+  /**
+   * Tone mapping technique to use for the scene
+   * - `NoToneMapping`: No tone mapping is applied.
+   * - `LinearToneMapping`: Linear tone mapping.
+   * - `ReinhardToneMapping`: Reinhard tone mapping.
+   * - `CineonToneMapping`: Cineon tone mapping.
+   * - `ACESFilmicToneMapping`: ACES Filmic tone mapping.
+   * - `AgXToneMapping`: AgX tone mapping.
+   * - `NeutralToneMapping`: Neutral tone mapping.
+   * @see {@link https://threejs.org/docs/#api/en/constants/Renderer}
+   * @default ACESFilmicToneMapping (Opinionated default by TresJS)
+   */
+  toneMapping?: ToneMapping
+  /**
+   * Type of shadow map to use for shadow calculations
+   * - `BasicShadowMap`: Basic shadow map.
+   * - `PCFShadowMap`: Percentage-Closer Filtering shadow map.
+   * - `PCFSoftShadowMap`: Percentage-Closer Filtering soft shadow map.
+   * - `VSMShadowMap`: Variance shadow map.
+   * @see {@link https://threejs.org/docs/#api/en/constants/Renderer}
+   * @default PCFSoftShadowMap (Opinionated default by TresJS)
+   */
+  shadowMapType?: ShadowMapType
+  /**
+   * Whether to use legacy lights system instead of the new one
+   * @deprecated Use `useLegacyLights: false` for the new lighting system
+   */
+  useLegacyLights?: boolean
+  /**
+   * Color space for the output render
+   * @see {@link https://threejs.org/docs/#api/en/constants/Renderer}
+   */
+  outputColorSpace?: ColorSpace
+  /**
+   * Exposure level of tone mapping
+   * @default 1
+   */
+  toneMappingExposure?: number
+  /**
+   * Rendering mode for the canvas
+   * - 'always': Renders every frame
+   * - 'on-demand': Renders only when changes are detected
+   * - 'manual': Renders only when explicitly called
+   * @default 'always'
+   */
+  renderMode?: 'always' | 'on-demand' | 'manual'
+  /**
+   * Device Pixel Ratio for the renderer
+   * Can be a single number or a tuple defining a range [min, max]
+   */
+  dpr?: number | [number, number]
+  /**
+   * Custom WebGL renderer instance
+   * Allows using a pre-configured renderer instead of creating a new one
+   */
+  // renderer?: (ctx: TresRendererSetupContext) => Promise<TresRenderer> | TresRenderers
+}
 
-  /**
-   * The color value to use when clearing the canvas.
-   *
-   * @default 0x000000
-   */
-  clearColor?: MaybeRefOrGetter<TresColor>
-  windowSize?: MaybeRefOrGetter<boolean | string>
-  preset?: MaybeRefOrGetter<RendererPresetsType>
-  renderMode?: MaybeRef<RenderMode>
-  /**
-   * A `number` sets the renderer's device pixel ratio.
-   * `[number, number]` clamp's the renderer's device pixel ratio.
-   */
-  dpr?: MaybeRefOrGetter<number | [number, number]>
+export interface UseRendererOptions {
+  scene: Scene
+  canvas: MaybeRef<HTMLCanvasElement>
+  options: RendererOptions
+  contextParts: Pick<TresContext, 'sizes' | 'camera' | 'loop'>
 }
 
 export function useRendererManager(
@@ -116,42 +192,35 @@ export function useRendererManager(
   {
     scene: Scene
     canvas: MaybeRef<HTMLCanvasElement>
-    options: UseRendererOptions
+    options: Reactive<RendererOptions>
     contextParts: Pick<TresContext, 'sizes' | 'camera' | 'loop'>
   },
 ) {
-  const webGLRendererConstructorParameters = computed<WebGLRendererParameters>(() => ({
-    alpha: toValue(options.alpha) ?? true,
-    depth: toValue(options.depth),
+  const renderer = new WebGLRenderer({
+    ...options,
     canvas: unrefElement(canvas),
-    context: toValue(options.context),
-    stencil: toValue(options.stencil),
-    antialias: toValue(options.antialias) ?? true,
-    precision: toValue(options.precision),
-    powerPreference: toValue(options.powerPreference),
-    premultipliedAlpha: toValue(options.premultipliedAlpha),
-    preserveDrawingBuffer: toValue(options.preserveDrawingBuffer),
-    logarithmicDepthBuffer: toValue(options.logarithmicDepthBuffer),
-    failIfMajorPerformanceCaveat: toValue(options.failIfMajorPerformanceCaveat),
-  }))
+  })
 
-  const instance = shallowRef<WebGLRenderer>(new WebGLRenderer(webGLRendererConstructorParameters.value))
-
-  const amountOfFramesToRender = ref(0)
+  const frames = ref(0)
   const maxFrames = 60
-  const canBeInvalidated = computed(() => toValue(options.renderMode) === 'on-demand' && amountOfFramesToRender.value === 0)
+  const canBeInvalidated = computed(() => toValue(options.renderMode) === 'on-demand' && frames.value === 0)
+
+  const forceMaterialUpdate = () =>
+    scene.traverse((child: Object3D) => {
+      if (child instanceof Mesh && child.material instanceof Material) {
+        child.material.needsUpdate = true
+      }
+    })
 
   /**
    * Invalidates the current frame when in on-demand render mode.
    */
   const invalidate = (amountOfFramesToInvalidate = 1) => {
     if (!canBeInvalidated.value) {
-      if (toValue(options.renderMode) !== 'on-demand') { throw new Error('invalidate can only be called in on-demand render mode.') }
-
       return
     }
 
-    amountOfFramesToRender.value = Math.min(maxFrames, amountOfFramesToRender.value + amountOfFramesToInvalidate)
+    frames.value = Math.min(maxFrames, frames.value + amountOfFramesToInvalidate)
   }
 
   /**
@@ -162,7 +231,7 @@ export function useRendererManager(
       throw new Error('advance can only be called in manual render mode.')
     }
 
-    amountOfFramesToRender.value = 1
+    frames.value = 1
   }
 
   const invalidateOnDemand = () => {
@@ -173,64 +242,46 @@ export function useRendererManager(
 
   const isModeAlways = computed(() => toValue(options.renderMode) === 'always')
 
-  const onRender = createEventHook<WebGLRenderer>()
+  const renderEventHook = createEventHook<WebGLRenderer>()
 
   loop.register(() => {
-    if (camera.activeCamera.value && amountOfFramesToRender.value) {
-      instance.value.render(scene, camera.activeCamera.value)
+    if (camera.activeCamera.value && frames.value) {
+      renderer.render(scene, camera.activeCamera.value)
 
-      onRender.trigger(instance.value)
+      renderEventHook.trigger(renderer)
     }
 
-    amountOfFramesToRender.value = isModeAlways.value
+    frames.value = isModeAlways.value
       ? 1
-      : Math.max(0, amountOfFramesToRender.value - 1)
+      : Math.max(0, frames.value - 1)
   }, 'render')
 
-  // since the properties set via the constructor can't be updated dynamically,
-  // the renderer is recreated once they change
-  watch(webGLRendererConstructorParameters, () => {
-    instance.value.dispose()
-    instance.value = new WebGLRenderer(webGLRendererConstructorParameters.value)
-
-    invalidateOnDemand()
-  })
-
   const isReady = computed(() =>
-    !!(instance.value.domElement.width && instance.value.domElement.height),
+    !!(renderer.domElement.width && renderer.domElement.height),
   )
 
-  watch([sizes.width, sizes.height], () => {
-    instance.value.setSize(sizes.width.value, sizes.height.value)
-    invalidateOnDemand()
+  const readyEventHook = createEventHook<WebGLRenderer>()
+  let hasTriggeredReady = false
 
-    triggerRef(instance)
+  // Watch the sizes and invalidate the renderer when they change
+  watch([sizes.width, sizes.height], () => {
+    renderer.setSize(sizes.width.value, sizes.height.value)
+
+    if (!hasTriggeredReady && renderer.domElement.width && renderer.domElement.height) {
+      readyEventHook.trigger(renderer)
+      hasTriggeredReady = true
+    }
+
+    invalidateOnDemand()
   }, {
     immediate: true,
   })
 
-  watch(() => options.clearColor, invalidateOnDemand)
-
   const { pixelRatio } = useDevicePixelRatio()
 
-  const getThreeRendererDefaults = () => {
-    const plainRenderer = new WebGLRenderer()
-
-    const defaults = {
-      shadowMap: {
-        enabled: plainRenderer.shadowMap.enabled,
-        type: plainRenderer.shadowMap.type,
-      },
-      toneMapping: plainRenderer.toneMapping,
-      toneMappingExposure: plainRenderer.toneMappingExposure,
-      outputColorSpace: plainRenderer.outputColorSpace,
-    }
-    plainRenderer.dispose()
-
-    return defaults
-  }
-
-  const threeDefaults = getThreeRendererDefaults()
+  watchEffect(() => {
+    setPixelRatio(renderer, pixelRatio.value, toValue(options.dpr))
+  })
 
   if (toValue(options.renderMode) === 'on-demand') {
     // Invalidate for the first time
@@ -244,78 +295,85 @@ export function useRendererManager(
     }, 100)
   }
 
-  watchEffect(() => {
-    const rendererPreset = toValue(options.preset)
+  const clearColorAndAlpha = computed(() => {
+    const clearColor = toValue(options.clearColor)
+    const clearAlpha = toValue(options.clearAlpha)
 
-    if (rendererPreset) {
-      if (!(rendererPreset in rendererPresets)) { logError(`Renderer Preset must be one of these: ${Object.keys(rendererPresets).join(', ')}`) }
+    const isClearColorWithAlpha = typeof clearColor === 'string' && clearColor.length === 9 && clearColor.startsWith('#')
 
-      merge(instance.value, rendererPresets[rendererPreset])
+    if (isClearColorWithAlpha && clearAlpha !== undefined) {
+      logWarning(`clearColor with alpha (e.g. ${clearColor}) and clearAlpha cannot both be set, using clearColor as source of truth`)
     }
 
-    setPixelRatio(instance.value, pixelRatio.value, toValue(options.dpr))
-
-    // Render mode
-
-    if (isModeAlways.value) {
-      // If the render mode is 'always', ensure there's always a frame pending
-      amountOfFramesToRender.value = Math.max(1, amountOfFramesToRender.value)
-    }
-
-    const getValue = <T>(option: MaybeRefOrGetter<T>, pathInThree: string): T | undefined => {
-      const value = toValue(option)
-
-      const getValueFromPreset = () => {
-        if (!rendererPreset) { return }
-
-        return get(rendererPresets[rendererPreset], pathInThree)
+    if (isClearColorWithAlpha) {
+      return {
+        alpha: Number.parseInt(clearColor.slice(7, 9), 16) / 255,
+        color: clearColor.slice(0, 7),
       }
-
-      if (value !== undefined) { return value }
-
-      const valueInPreset = getValueFromPreset() as T
-
-      if (valueInPreset !== undefined) { return valueInPreset }
-
-      return get(threeDefaults, pathInThree)
     }
 
-    const setValueOrDefault = <T>(option: MaybeRefOrGetter<T>, pathInThree: string) =>
-      set(instance.value, pathInThree, getValue(option, pathInThree))
-
-    setValueOrDefault(options.shadows, 'shadowMap.enabled')
-    setValueOrDefault(options.toneMapping ?? ACESFilmicToneMapping, 'toneMapping')
-    setValueOrDefault(options.shadowMapType, 'shadowMap.type')
-
-    if (revision < 150) { setValueOrDefault(!options.useLegacyLights, 'physicallyCorrectLights') }
-
-    setValueOrDefault(options.outputColorSpace, 'outputColorSpace')
-    setValueOrDefault(options.toneMappingExposure, 'toneMappingExposure')
-
-    const clearColor = getValue(options.clearColor, 'clearColor')
-
-    if (clearColor) {
-      instance.value.setClearColor(
-        clearColor
-          ? normalizeColor(clearColor)
-          : new Color(0x000000), // default clear color is not easily/efficiently retrievable from three
-      )
+    return {
+      alpha: clearAlpha,
+      color: clearColor,
     }
+  })
+
+  // Watchers for updatable renderer options at runtime
+  watchEffect(() => {
+    const value = clearColorAndAlpha.value
+    if (value.color === undefined || value.alpha === undefined) { return }
+    renderer.setClearColor(value.color, value.alpha)
+  })
+
+  watchEffect(() => {
+    const value = options.toneMapping
+    if (value) {
+      renderer.toneMapping = value
+    }
+  })
+
+  watchEffect(() => {
+    const value = options.toneMappingExposure
+    if (value) {
+      renderer.toneMappingExposure = value
+    }
+  })
+
+  watchEffect(() => {
+    const value = options.outputColorSpace
+    if (value) {
+      renderer.outputColorSpace = value
+    }
+  })
+
+  watchEffect(() => {
+    const value = options.shadows
+    if (value === undefined) { return }
+    renderer.shadowMap.enabled = value
+    forceMaterialUpdate()
+  })
+
+  watchEffect(() => {
+    const value = options.shadowMapType
+    if (value === undefined) { return }
+    renderer.shadowMap.type = value
+    forceMaterialUpdate()
   })
 
   onUnmounted(() => {
-    instance.value.dispose()
-    instance.value.forceContextLoss()
+    renderer.dispose()
+    renderer.forceContextLoss()
   })
 
   return {
-    instance,
-
+    instance: renderer,
     isReady: readonly(isReady),
     advance,
-    onRender,
+    onRender: renderEventHook.on,
+    onReady: readyEventHook.on,
     invalidate,
     canBeInvalidated,
+    frames,
   }
 }
 

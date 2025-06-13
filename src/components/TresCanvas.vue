@@ -1,16 +1,11 @@
 <script setup lang="ts">
 import type {
-  Camera,
-  ColorSpace,
-  ShadowMapType,
-  ToneMapping,
   WebGLRenderer,
-  WebGLRendererParameters,
 } from 'three'
 import type { App, Ref } from 'vue'
-import type { RendererPresetsType } from '../composables/useRenderer/const'
-import type { TresObject, TresPointerEvent, TresScene } from '../types/'
-import { PerspectiveCamera, Scene } from 'three'
+import type { TresCamera, TresObject, TresScene } from '../types/'
+import { ACESFilmicToneMapping, PCFSoftShadowMap, PerspectiveCamera, Scene } from 'three'
+import type { PointerEvent } from '@pmndrs/pointer-events'
 import * as THREE from 'three'
 
 import {
@@ -29,77 +24,48 @@ import {
   watchEffect,
 } from 'vue'
 import pkg from '../../package.json'
-import {
-  type TresContext,
-  useTresContextProvider,
-} from '../composables'
+import type { RendererOptions, TresContext } from '../composables'
+import { useTresContextProvider } from '../composables'
 import { extend } from '../core/catalogue'
 import { nodeOps } from '../core/nodeOps'
 
-import { disposeObject3D, kebabToCamel } from '../utils/'
+import { disposeObject3D } from '../utils/'
 import { registerTresDevtools } from '../devtools'
-import { whenever } from '@vueuse/core'
-
-export interface TresCanvasProps
-  extends Omit<WebGLRendererParameters, 'canvas'> {
-  // required by for useRenderer
-  shadows?: boolean
-  clearColor?: string
-  toneMapping?: ToneMapping
-  shadowMapType?: ShadowMapType
-  useLegacyLights?: boolean
-  outputColorSpace?: ColorSpace
-  toneMappingExposure?: number
-  renderMode?: 'always' | 'on-demand' | 'manual'
-  dpr?: number | [number, number]
-
-  // required by useTresContextProvider
-  camera?: Camera
-  preset?: RendererPresetsType
-  windowSize?: boolean
-
-  // Misc opt-out flags
-  enableProvideBridge?: boolean
-}
+import type { TresPointerEventName } from '../utils/pointerEvents'
 
 const props = withDefaults(defineProps<TresCanvasProps>(), {
   alpha: undefined,
   depth: undefined,
   shadows: undefined,
   stencil: undefined,
-  antialias: undefined,
+  antialias: true,
   windowSize: undefined,
   useLegacyLights: undefined,
   preserveDrawingBuffer: undefined,
   logarithmicDepthBuffer: undefined,
   failIfMajorPerformanceCaveat: undefined,
   renderMode: 'always',
+  clearColor: '#000000',
+  clearAlpha: 1,
   enableProvideBridge: true,
+  toneMapping: ACESFilmicToneMapping,
+  shadowMapType: PCFSoftShadowMap,
 })
 
 const emit = defineEmits<{
   ready: [context: TresContext]
   render: [renderer: WebGLRenderer]
-
-  click: [event: TresPointerEvent]
-  doubleClick: [event: TresPointerEvent]
-  contextMenu: [event: TresPointerEvent]
-  pointerMove: [event: TresPointerEvent]
-  pointerUp: [event: TresPointerEvent]
-  pointerDown: [event: TresPointerEvent]
-  pointerEnter: [event: TresPointerEvent]
-  pointerLeave: [event: TresPointerEvent]
-  pointerOver: [event: TresPointerEvent]
-  pointerOut: [event: TresPointerEvent]
-  pointerMissed: [event: TresPointerEvent]
-  wheel: [event: TresPointerEvent]
+  pointermissed: [event: PointerEvent<MouseEvent>]
+} & {
+  // all pointer events are supported because they bubble up
+  [key in TresPointerEventName]: [event: PointerEvent<MouseEvent>]
 }>()
 
 const slots = defineSlots<{
   default: () => any
 }>()
 
-const canvas = ref<HTMLCanvasElement>()
+const canvasRef = ref<HTMLCanvasElement>()
 
 /*
  `scene` is defined here and not in `useTresContextProvider` because the custom
@@ -145,7 +111,7 @@ const createInternalComponent = (context: TresContext, empty = false) =>
       provide('useTres', context)
       provide('extend', extend)
 
-      if (typeof window !== 'undefined') {
+      if (typeof window !== 'undefined' && ctx?.app) {
         registerTresDevtools(ctx?.app, context)
       }
       return () => h(Fragment, null, !empty ? slots.default() : [])
@@ -161,9 +127,9 @@ const mountCustomRenderer = (context: TresContext, empty = false) => {
 const dispose = (context: TresContext, force = false) => {
   disposeObject3D(context.scene.value as unknown as TresObject)
   if (force) {
-    context.renderer.instance.value.dispose()
-    context.renderer.instance.value.renderLists.dispose()
-    context.renderer.instance.value.forceContextLoss()
+    context.renderer.instance.dispose()
+    context.renderer.instance.renderLists.dispose()
+    context.renderer.instance.forceContextLoss()
   }
   (scene.value as TresScene).__tres = {
     root: context,
@@ -185,7 +151,7 @@ const unmountCanvas = () => {
 }
 
 onMounted(() => {
-  const existingCanvas = canvas as Ref<HTMLCanvasElement>
+  const existingCanvas = canvasRef as Ref<HTMLCanvasElement>
 
   context.value = useTresContextProvider({
     scene: scene.value as TresScene,
@@ -219,6 +185,10 @@ onMounted(() => {
     })
   }
 
+  context.value.events.onPointerMissed((event) => {
+    emit('pointermissed', event)
+  })
+
   watch(
     () => props.camera,
     (newCamera, oldCamera) => {
@@ -239,31 +209,46 @@ onMounted(() => {
     addDefaultCamera()
   }
 
-  renderer.onRender.on((renderer) => {
+  renderer.onRender((renderer) => {
     emit('render', renderer)
   })
 
-  context.value.eventManager?.onEvent(({ type, event, intersection }) => {
-    emit(
-      kebabToCamel(type) as any, // typescript doesn't know that kebabToCamel(type) is a valid key of PointerEmits
-      { type, event, intersection },
-    )
+  renderer.onReady(() => {
+    emit('ready', context.value!)
   })
 
   // HMR support
   if (import.meta.hot && context.value) { import.meta.hot.on('vite:afterUpdate', () => handleHMR(context.value as TresContext)) }
 })
 
-whenever(() => context.value?.renderer.isReady, () => {
-  if (context.value) { emit('ready', context.value) }
-}, { once: true })
-
 onUnmounted(unmountCanvas)
+</script>
+
+<script lang="ts">
+export interface TresCanvasProps extends RendererOptions {
+  /**
+   * Custom camera instance to use as main camera
+   * If not provided, a default PerspectiveCamera will be created
+   */
+  camera?: TresCamera
+  /**
+   * Whether the canvas should be sized to the window
+   * When true, canvas will be fixed positioned and full viewport size
+   * @default false
+   */
+  windowSize?: boolean
+  /**
+   * Whether to enable the provide/inject bridge between Vue and TresJS
+   * When true, Vue's provide/inject will work across the TresJS boundary
+   * @default true
+   */
+  enableProvideBridge?: boolean
+}
 </script>
 
 <template>
   <canvas
-    ref="canvas"
+    ref="canvasRef"
     :data-scene="scene.uuid"
     :class="$attrs.class"
     :data-tres="`tresjs ${pkg.version}`"
