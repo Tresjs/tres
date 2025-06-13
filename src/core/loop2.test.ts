@@ -30,35 +30,29 @@ describe('useCreateRenderLoop', () => {
     requestAnimationFrameSpy.mockReset()
   })
 
-  //   it('deleteme', () => {
-  //     vi.useFakeTimers()
-  //     let frameRendered = false
-
-  //     requestAnimationFrame(() => {
-  //       frameRendered = true
-  //     })
-
-  //     vi.advanceTimersToNextFrame()
-
-  //     expect(frameRendered).toBe(true)
-  //   })
-
   it('should call registered callbacks in the right order', async () => {
     vi.useFakeTimers()
 
     let toTest = ''
-    const beforeRender = () => { toTest += '0' }
-    const render = () => { toTest += '1' }
-    const afterRender = () => { toTest += '2' }
 
-    renderLoop.onBeforeRender(beforeRender, 0)
-    renderLoop.onRender(render)
-    renderLoop.onAfterRender(afterRender, 0)
+    const add = (num: number) => () => { toTest += num }
+
+    renderLoop.onBeforeRender(add(0), -1)
+    renderLoop.onBeforeRender(add(1), 0)
+    renderLoop.onBeforeRender(add(2), 1)
+
+    renderLoop.onRender(add(3), -1)
+    renderLoop.onRender(add(4), 0)
+    renderLoop.onRender(add(5), 1)
+
+    renderLoop.onAfterRender(add(6), -1)
+    renderLoop.onAfterRender(add(7), 0)
+    renderLoop.onAfterRender(add(8), 1)
 
     renderLoop.start()
     vi.advanceTimersToNextFrame()
 
-    expect(toTest).toBe('012')
+    expect(toTest).toBe('012345678')
     vi.useRealTimers()
   })
 })
