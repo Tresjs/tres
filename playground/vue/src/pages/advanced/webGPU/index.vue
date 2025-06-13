@@ -4,7 +4,7 @@ import { WebGPURenderer } from 'three/webgpu'
 import type { ShadowMapType, ToneMapping } from 'three'
 import type { TresRendererSetupContext } from '@tresjs/core'
 import { ACESFilmicToneMapping, AgXToneMapping, BasicShadowMap, CineonToneMapping, LinearToneMapping, NeutralToneMapping, NoToneMapping, PCFShadowMap, PCFSoftShadowMap, ReinhardToneMapping, VSMShadowMap } from 'three'
-import { OrbitControls } from '@tresjs/cientos'
+// import { OrbitControls } from '@tresjs/cientos'
 import { TresLeches, useControls } from '@tresjs/leches'
 import '@tresjs/leches/styles'
 
@@ -73,7 +73,7 @@ const formattedShadowMapType = computed(() => {
     <Suspense>
       <HologramCube />
     </Suspense>
-    <OrbitControls />
+    <!-- <OrbitControls /> -->
     <TresAmbientLight :intensity="1" />
   </TresCanvas>
 </template>

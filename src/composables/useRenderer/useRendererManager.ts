@@ -9,7 +9,7 @@ import {
   useDevicePixelRatio,
 } from '@vueuse/core'
 import { Material, Mesh, WebGLRenderer } from 'three'
-import { computed, onUnmounted, readonly, ref, toValue, watch, watchEffect } from 'vue'
+import { computed, onUnmounted, ref, toValue, watch, watchEffect } from 'vue'
 import type { MaybeRef, ShallowRef } from 'vue'
 import type { Renderer } from 'three/webgpu'
 
@@ -294,10 +294,6 @@ export function useRendererManager(
       : Math.max(0, frames.value - 1)
   }, 'render')
 
-  const isReady = computed(() => // TODO check if this can be removed
-    !!(renderer.domElement.width && renderer.domElement.height),
-  )
-
   // Watch the sizes and invalidate the renderer when they change
   watch([sizes.width, sizes.height], () => {
     renderer.setSize(sizes.width.value, sizes.height.value)
@@ -404,7 +400,6 @@ export function useRendererManager(
 
   return {
     instance: renderer,
-    isReady: readonly(isReady),
     advance,
     onRender: renderEventHook.on,
     onReady: readyEventHook.on,
