@@ -37,8 +37,8 @@ export interface TresPartialContext extends Omit<TresContext, 'renderer' | 'came
   advance: () => void
 }
 
-export async function useTres(): Promise<TresPartialContext> {
-  const { scene, renderer, camera, sizes, controls, loop, extend, events } = await useTresContext()
+export function useTres(): TresPartialContext {
+  const { scene, renderer, camera, sizes, controls, loop, extend, events } = useTresContext()
 
   return {
     scene,
