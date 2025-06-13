@@ -1,4 +1,5 @@
-import type { ColorRepresentation, ColorSpace, Object3D, Scene, ShadowMapType, ToneMapping } from 'three'
+import type { RendererLoop } from './../../core/loop'
+import type { ColorRepresentation, ColorSpace, Object3D, ShadowMapType, ToneMapping } from 'three'
 
 import type { TresContext } from '../useTresContextProvider'
 
@@ -8,12 +9,17 @@ import {
   useDevicePixelRatio,
 } from '@vueuse/core'
 import { Material, Mesh, WebGLRenderer } from 'three'
-import { computed, type MaybeRef, onUnmounted, type Reactive, readonly, ref, toValue, watch, watchEffect } from 'vue'
+import { computed, onUnmounted, readonly, ref, toValue, watch, watchEffect } from 'vue'
+import type { MaybeRef, ShallowRef } from 'vue'
+import { WebGPURenderer } from 'three/webgpu'
 
 // Solution taken from Thretle that actually support different versions https://github.com/threlte/threlte/blob/5fa541179460f0dadc7dc17ae5e6854d1689379e/packages/core/src/lib/lib/useRenderer.ts
 import { setPixelRatio } from '../../utils'
 
 import { logWarning } from '../../utils/logger'
+import type { SizesType } from '../useSizes'
+import type { UseCameraReturn } from '../useCamera'
+import type { TresScene } from 'src/types'
 
 /**
  * If set to 'on-demand', the scene will only be rendered when the current frame is invalidated
@@ -21,6 +27,8 @@ import { logWarning } from '../../utils/logger'
  * If set to 'always', the scene will be rendered every frame
  */
 export type RenderMode = 'always' | 'on-demand' | 'manual'
+
+export type TresRenderer = WebGLRenderer | WebGPURenderer
 
 export interface RendererOptions {
   /**
@@ -172,11 +180,19 @@ export interface RendererOptions {
    * Custom WebGL renderer instance
    * Allows using a pre-configured renderer instead of creating a new one
    */
-  // renderer?: (ctx: TresRendererSetupContext) => Promise<TresRenderer> | TresRenderers
+  renderer?: (ctx: TresRendererSetupContext) => TresRenderer
+}
+
+export interface TresRendererSetupContext {
+  sizes: SizesType
+  scene: ShallowRef<TresScene>
+  camera: UseCameraReturn
+  loop: RendererLoop
+  canvas: MaybeRef<HTMLCanvasElement>
 }
 
 export interface UseRendererOptions {
-  scene: Scene
+  scene: ShallowRef<TresScene>
   canvas: MaybeRef<HTMLCanvasElement>
   options: RendererOptions
   contextParts: Pick<TresContext, 'sizes' | 'camera' | 'loop'>
@@ -188,25 +204,32 @@ export function useRendererManager(
     canvas,
     options,
     contextParts: { sizes, loop, camera },
-  }:
-  {
-    scene: Scene
-    canvas: MaybeRef<HTMLCanvasElement>
-    options: Reactive<RendererOptions>
-    contextParts: Pick<TresContext, 'sizes' | 'camera' | 'loop'>
-  },
+  }: UseRendererOptions,
 ) {
-  const renderer = new WebGLRenderer({
-    ...options,
-    canvas: unrefElement(canvas),
-  })
+  let renderer: TresRenderer
+
+  if (options.renderer && typeof options.renderer === 'function') {
+    renderer = options.renderer({
+      sizes,
+      scene,
+      camera,
+      loop,
+      canvas,
+    })
+  }
+  else {
+    renderer = new WebGLRenderer({
+      ...options,
+      canvas: unrefElement(canvas),
+    })
+  }
 
   const frames = ref(0)
   const maxFrames = 60
   const canBeInvalidated = computed(() => toValue(options.renderMode) === 'on-demand' && frames.value === 0)
 
   const forceMaterialUpdate = () =>
-    scene.traverse((child: Object3D) => {
+    scene.value.traverse((child: Object3D) => {
       if (child instanceof Mesh && child.material instanceof Material) {
         child.material.needsUpdate = true
       }
@@ -242,11 +265,17 @@ export function useRendererManager(
 
   const isModeAlways = computed(() => toValue(options.renderMode) === 'always')
 
-  const renderEventHook = createEventHook<WebGLRenderer>()
+  const renderEventHook = createEventHook<TresRenderer>()
+
+  if (renderer instanceof WebGPURenderer) {
+    // Initialize the WebGPU context
+    renderer.init()
+    loop.setReady(true)
+  }
 
   loop.register(() => {
     if (camera.activeCamera.value && frames.value) {
-      renderer.render(scene, camera.activeCamera.value)
+      renderer.render(scene.value, camera.activeCamera.value)
 
       renderEventHook.trigger(renderer)
     }
@@ -260,7 +289,7 @@ export function useRendererManager(
     !!(renderer.domElement.width && renderer.domElement.height),
   )
 
-  const readyEventHook = createEventHook<WebGLRenderer>()
+  const readyEventHook = createEventHook<TresRenderer>()
   let hasTriggeredReady = false
 
   // Watch the sizes and invalidate the renderer when they change
@@ -362,7 +391,9 @@ export function useRendererManager(
 
   onUnmounted(() => {
     renderer.dispose()
-    renderer.forceContextLoss()
+    if ('forceContextLoss' in renderer) {
+      renderer.forceContextLoss()
+    }
   })
 
   return {

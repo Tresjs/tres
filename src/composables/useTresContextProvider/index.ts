@@ -37,7 +37,7 @@ export function useTresContextProvider({
   windowSize: MaybeRefOrGetter<boolean>
   rendererOptions: TresCanvasProps
 }): TresContext {
-  const localScene = shallowRef<TresScene>(scene)
+  const localScene = shallowRef(scene)
   const sizes = useSizes(windowSize, canvas)
 
   const camera = useCameraManager({ sizes })
@@ -46,7 +46,7 @@ export function useTresContextProvider({
 
   const renderer = useRendererManager(
     {
-      scene,
+      scene: localScene,
       canvas,
       options: rendererOptions as RendererOptions,
       contextParts: { sizes, camera, loop },
@@ -79,7 +79,7 @@ export function useTresContextProvider({
   ctx.loop.setReady(false)
   ctx.loop.start()
 
-  renderer.onReady(() => {
+  renderer.onReady?.(() => {
     ctx.loop.setReady(true)
   })
 
