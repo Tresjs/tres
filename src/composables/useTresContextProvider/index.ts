@@ -12,7 +12,6 @@ import type { UseCameraReturn } from '../useCamera/'
 import { useCameraManager } from '../useCamera'
 import { useRendererManager } from '../useRenderer/useRendererManager'
 import useSizes, { type SizesType } from '../useSizes'
-import type { TresCanvasProps } from '../../components/TresCanvas.vue'
 import { useEventManager } from '../useEventManager'
 
 export interface TresContext {
@@ -35,7 +34,7 @@ export function useTresContextProvider({
   scene: TresScene
   canvas: MaybeRef<HTMLCanvasElement>
   windowSize: MaybeRefOrGetter<boolean>
-  rendererOptions: TresCanvasProps
+  rendererOptions: RendererOptions
 }): TresContext {
   const localScene = shallowRef(scene)
   const sizes = useSizes(windowSize, canvas)
@@ -48,7 +47,7 @@ export function useTresContextProvider({
     {
       scene: localScene,
       canvas,
-      options: rendererOptions as RendererOptions,
+      options: rendererOptions,
       contextParts: { sizes, camera, loop },
     },
   )
@@ -79,7 +78,7 @@ export function useTresContextProvider({
   ctx.loop.setReady(false)
   ctx.loop.start()
 
-  renderer.onReady?.(() => {
+  renderer.onReady(() => {
     ctx.loop.setReady(true)
   })
 
