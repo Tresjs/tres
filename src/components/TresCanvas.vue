@@ -1,10 +1,13 @@
 <script setup lang="ts">
-import type {
+import {
+  ACESFilmicToneMapping,
+  PCFSoftShadowMap,
+  PerspectiveCamera,
+  Scene,
   WebGLRenderer,
 } from 'three'
 import type { App, Ref } from 'vue'
 import type { TresCamera, TresObject, TresScene } from '../types/'
-import { ACESFilmicToneMapping, PCFSoftShadowMap, PerspectiveCamera, Scene } from 'three'
 import type { PointerEvent } from '@pmndrs/pointer-events'
 import * as THREE from 'three'
 
@@ -24,7 +27,7 @@ import {
   watchEffect,
 } from 'vue'
 import pkg from '../../package.json'
-import type { RendererOptions, TresContext } from '../composables'
+import type { RendererOptions, TresContext, TresRenderer } from '../composables'
 import { useTresContextProvider } from '../composables'
 import { extend } from '../core/catalogue'
 import { nodeOps } from '../core/nodeOps'
@@ -54,7 +57,7 @@ const props = withDefaults(defineProps<TresCanvasProps>(), {
 
 const emit = defineEmits<{
   ready: [context: TresContext]
-  render: [renderer: WebGLRenderer]
+  render: [renderer: TresRenderer]
   pointermissed: [event: PointerEvent<MouseEvent>]
 } & {
   // all pointer events are supported because they bubble up
@@ -128,8 +131,10 @@ const dispose = (context: TresContext, force = false) => {
   disposeObject3D(context.scene.value as unknown as TresObject)
   if (force) {
     context.renderer.instance.dispose()
-    context.renderer.instance.renderLists.dispose()
-    context.renderer.instance.forceContextLoss()
+    if (context.renderer.instance instanceof WebGLRenderer) {
+      context.renderer.instance.renderLists.dispose()
+      context.renderer.instance.forceContextLoss()
+    }
   }
   (scene.value as TresScene).__tres = {
     root: context,
