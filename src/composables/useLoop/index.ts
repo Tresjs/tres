@@ -7,21 +7,17 @@ export function useLoop() {
     scene,
     renderer,
     loop,
-    raycaster,
     controls,
-    invalidate,
-    advance,
+    events,
   } = useTresContext()
 
   // Pass context to loop
   loop.setContext({
     camera,
     scene,
-    renderer,
-    raycaster,
+    renderer: renderer.instance,
     controls,
-    invalidate,
-    advance,
+    events,
   })
 
   function onBeforeRender(cb: LoopCallbackFn, index = 0) {

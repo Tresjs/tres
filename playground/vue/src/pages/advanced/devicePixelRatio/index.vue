@@ -10,7 +10,7 @@ const currDprRef = shallowRef(-1)
 const dpr = shallowRef<number | [number, number]>([minDpr, maxDpr])
 
 const onReady = ({ renderer }) => {
-  rendererRef.value = renderer.value
+  rendererRef.value = renderer.instance
 }
 
 const isRendererDprClamped = (renderer: WebGLRenderer) => {
