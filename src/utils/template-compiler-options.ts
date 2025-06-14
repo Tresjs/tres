@@ -2,6 +2,7 @@ const whitelist = [
   'TresCanvas',
   'TresLeches',
   'TresScene',
+  'TresErrorBoundary',
 ]
 
 const templateCompilerOptions = {

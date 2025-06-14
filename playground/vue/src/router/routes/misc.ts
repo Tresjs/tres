@@ -19,4 +19,9 @@ export const miscRoutes = [
     name: 'Brownian Distribution',
     component: () => import('../../pages/misc/BrownianDistribution.vue'),
   },
+  {
+    path: '/misc/error-boundary',
+    name: 'Error Boundary',
+    component: () => import('../../pages/misc/error-boundary/index.vue'),
+  },
 ]

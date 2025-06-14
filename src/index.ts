@@ -1,5 +1,6 @@
 import type { App } from 'vue'
 import TresCanvas from './components/TresCanvas.vue'
+import TresErrorBoundary from './components/TresErrorBoundary.vue'
 import { disposeObject3D as dispose } from './utils'
 import { normalizeColor, normalizeVectorFlexibleParam } from './utils/normalize'
 import templateCompilerOptions from './utils/template-compiler-options'
@@ -25,6 +26,7 @@ const plugin: TresPlugin = {
   install(app: App) {
     // Register core components
     app.component('TresCanvas', TresCanvas)
+    app.component('TresErrorBoundary', TresErrorBoundary)
   },
 }
 

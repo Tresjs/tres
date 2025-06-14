@@ -153,6 +153,8 @@ const unmountCanvas = () => {
 onMounted(() => {
   const existingCanvas = canvasRef as Ref<HTMLCanvasElement>
 
+  throw new Error('test')
+
   context.value = useTresContextProvider({
     scene: scene.value as TresScene,
     canvas: existingCanvas,

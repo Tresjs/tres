@@ -1,6 +1,7 @@
 /// <reference types="vitest" />
 
 import vue from '@vitejs/plugin-vue'
+import Icons from 'unplugin-icons/vite'
 
 import copy from 'rollup-plugin-copy'
 import { defineConfig } from 'vite'
@@ -26,7 +27,7 @@ export default defineConfig({
       isProduction: false,
       template: {
         compilerOptions: {
-          isCustomElement: tag => tag.startsWith('Tres') && tag !== 'TresCanvas',
+          isCustomElement: tag => tag.startsWith('Tres') && tag !== 'TresCanvas' && tag !== 'TresErrorBoundary',
         },
       },
     }),
@@ -37,6 +38,9 @@ export default defineConfig({
       content: `/**\n * name: ${pkg.name}\n * version: v${
         pkg.version
       }\n * (c) ${new Date().getFullYear()}\n * description: ${pkg.description}\n * author: ${pkg.author}\n */`,
+    }),
+    Icons({
+
     }),
     // Inspect(),
   ],
