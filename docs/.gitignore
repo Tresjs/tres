@@ -1,0 +1,40 @@
+# Nuxt dev/build outputs
+.output
+.data
+.nuxt
+.nitro
+.cache
+dist
+
+# Node dependencies
+node_modules
+
+# Logs
+logs
+*.log
+
+# Misc
+.DS_Store
+.fleet
+.idea
+.eslintcache
+
+# Local env files
+.env
+.env.*
+!.env.example
+
+# Template
+template/pnpm-lock.yaml
+
+# npm pack
+*.tgz
+
+# Temp files
+.tmp
+.profile
+*.0x
+
+#VSC
+.history
+.wrangler
