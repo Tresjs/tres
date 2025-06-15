@@ -1,20 +1,17 @@
 import { useRafFn } from '@vueuse/core'
 import { createPriorityEventHook } from '../utils/createPriorityEventHook'
 
-interface TODO {
-}
-
-export const useCreateRenderLoop = () => { // TODO think about name
+export const useCreateRenderLoop = <T>(getHookContext?: () => T) => { // TODO think about name
   const eventHooks = {
-    beforeRender: createPriorityEventHook<TODO>(),
-    render: createPriorityEventHook<TODO>(),
-    afterRender: createPriorityEventHook<TODO>(),
+    beforeRender: createPriorityEventHook<T>(),
+    render: createPriorityEventHook<T>(),
+    afterRender: createPriorityEventHook<T>(),
   }
 
   const { pause, resume, isActive } = useRafFn(() => {
-    eventHooks.beforeRender.trigger({})
-    eventHooks.render.trigger({})
-    eventHooks.afterRender.trigger({})
+    eventHooks.beforeRender.trigger(getHookContext?.() ?? undefined)
+    eventHooks.render.trigger(getHookContext?.() ?? undefined)
+    eventHooks.afterRender.trigger(getHookContext?.() ?? undefined)
   }, {
     immediate: false,
   })

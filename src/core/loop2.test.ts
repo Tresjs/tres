@@ -55,4 +55,28 @@ describe('useCreateRenderLoop', () => {
     expect(toTest).toBe('012345678')
     vi.useRealTimers()
   })
+
+  it('should return the right context in the callbacks', async () => {
+    vi.useFakeTimers()
+
+    const x = 0
+
+    const renderLoopWithContext = useCreateRenderLoop(() => x)
+
+    renderLoopWithContext.start()
+
+    const beforeRender = vi.fn(ctx =>
+      expect(ctx).toBe(x),
+    )
+
+    renderLoopWithContext.onBeforeRender(beforeRender)
+
+    vi.advanceTimersToNextFrame()
+
+    await vi.waitFor(() => {
+      expect(beforeRender).toHaveBeenCalled()
+    })
+
+    vi.useRealTimers()
+  })
 })
