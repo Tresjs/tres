@@ -26,7 +26,7 @@ export default defineConfig({
       isProduction: false,
       template: {
         compilerOptions: {
-          isCustomElement: tag => tag.startsWith('Tres') && tag !== 'TresCanvas',
+          isCustomElement: tag => (tag.startsWith('Tres') || tag.startsWith('Tres'))  && tag !== 'TresCanvas',
         },
       },
     }),
