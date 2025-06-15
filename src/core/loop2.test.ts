@@ -6,7 +6,7 @@ let renderLoop: ReturnType<typeof useCreateRenderLoop>
 
 describe('useCreateRenderLoop', () => {
   beforeEach(() => {
-    renderLoop = useCreateRenderLoop()
+    renderLoop = useCreateRenderLoop(() => undefined)
   })
   afterEach(() => {
     renderLoop.stop()

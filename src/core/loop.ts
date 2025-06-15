@@ -1,26 +1,47 @@
 import { useRafFn } from '@vueuse/core'
 import { createPriorityEventHook } from '../utils/createPriorityEventHook'
+import { Clock } from 'three'
 
-export const useCreateRenderLoop = <T>(getHookContext?: () => T) => { // TODO think about name
-  type HookContext = typeof getHookContext extends undefined ? [T] : undefined
+export const useCreateRenderLoop = <T>(getHookContext: () => T) => { // TODO think about name
+  type HookContextWithClock = [T, { delta: number, elapsed: number }]
+
+  const clock = new Clock()
 
   const eventHooks = {
-    beforeRender: createPriorityEventHook<HookContext>(),
-    render: createPriorityEventHook<HookContext>(),
-    afterRender: createPriorityEventHook<HookContext>(),
+    beforeRender: createPriorityEventHook<HookContextWithClock>(),
+    render: createPriorityEventHook<HookContextWithClock>(),
+    afterRender: createPriorityEventHook<HookContextWithClock>(),
   }
 
   const { pause, resume, isActive } = useRafFn(() => {
-    eventHooks.beforeRender.trigger(getHookContext?.() ?? undefined)
-    eventHooks.render.trigger(getHookContext?.() ?? undefined)
-    eventHooks.afterRender.trigger(getHookContext?.() ?? undefined)
+    const getContextWithClock = (): HookContextWithClock => [
+      getHookContext(),
+      {
+        delta: clock.getDelta(),
+        elapsed: clock.getElapsedTime(),
+      },
+    ]
+
+    eventHooks.beforeRender.trigger(...getContextWithClock())
+    eventHooks.render.trigger(...getContextWithClock())
+    eventHooks.afterRender.trigger(...getContextWithClock())
   }, {
     immediate: false,
   })
 
+  const start = () => {
+    clock.start()
+    resume()
+  }
+
+  const stop = () => {
+    clock.stop()
+    pause()
+  }
+
   return {
-    start: resume,
-    stop: pause,
+    start,
+    stop, // TODO does it even make sense to stop?
     isActive,
     onBeforeRender: eventHooks.beforeRender.on,
     onRender: eventHooks.render.on,
