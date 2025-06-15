@@ -8,12 +8,13 @@ import {
   useDevicePixelRatio,
 } from '@vueuse/core'
 import { Material, Mesh, WebGLRenderer } from 'three'
-import { computed, type MaybeRef, onUnmounted, type Reactive, readonly, ref, toValue, watch, watchEffect } from 'vue'
+import { computed, type MaybeRef, onUnmounted, type Reactive, ref, toValue, watch, watchEffect } from 'vue'
 
 // Solution taken from Thretle that actually support different versions https://github.com/threlte/threlte/blob/5fa541179460f0dadc7dc17ae5e6854d1689379e/packages/core/src/lib/lib/useRenderer.ts
 import { setPixelRatio } from '../../utils'
 
 import { logWarning } from '../../utils/logger'
+import { useCreateRenderLoop } from '../../core/loop'
 
 /**
  * If set to 'on-demand', the scene will only be rendered when the current frame is invalidated
@@ -179,7 +180,7 @@ export interface UseRendererOptions {
   scene: Scene
   canvas: MaybeRef<HTMLCanvasElement>
   options: RendererOptions
-  contextParts: Pick<TresContext, 'sizes' | 'camera' | 'loop'>
+  contextParts: Pick<TresContext, 'sizes' | 'camera'>
 }
 
 export function useRendererManager(
@@ -187,13 +188,13 @@ export function useRendererManager(
     scene,
     canvas,
     options,
-    contextParts: { sizes, loop, camera },
+    contextParts: { sizes, camera },
   }:
   {
     scene: Scene
     canvas: MaybeRef<HTMLCanvasElement>
     options: Reactive<RendererOptions>
-    contextParts: Pick<TresContext, 'sizes' | 'camera' | 'loop'>
+    contextParts: Pick<TresContext, 'sizes' | 'camera'>
   },
 ) {
   const renderer = new WebGLRenderer({
@@ -244,7 +245,7 @@ export function useRendererManager(
 
   const renderEventHook = createEventHook<WebGLRenderer>()
 
-  loop.register(() => {
+  const loop = useCreateRenderLoop(() => {
     if (camera.activeCamera.value && frames.value) {
       renderer.render(scene, camera.activeCamera.value)
 
@@ -254,14 +255,11 @@ export function useRendererManager(
     frames.value = isModeAlways.value
       ? 1
       : Math.max(0, frames.value - 1)
-  }, 'render')
-
-  const isReady = computed(() =>
-    !!(renderer.domElement.width && renderer.domElement.height),
-  )
+  })
 
   const readyEventHook = createEventHook<WebGLRenderer>()
   let hasTriggeredReady = false
+  readyEventHook.on(loop.start)
 
   // Watch the sizes and invalidate the renderer when they change
   watch([sizes.width, sizes.height], () => {
@@ -366,8 +364,8 @@ export function useRendererManager(
   })
 
   return {
+    loop,
     instance: renderer,
-    isReady: readonly(isReady),
     advance,
     onRender: renderEventHook.on,
     onReady: readyEventHook.on,

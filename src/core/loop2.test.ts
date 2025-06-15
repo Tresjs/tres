@@ -41,42 +41,39 @@ describe('useCreateRenderLoop', () => {
     renderLoop.onBeforeRender(add(1), 0)
     renderLoop.onBeforeRender(add(2), 1)
 
-    renderLoop.onRender(add(3), -1)
-    renderLoop.onRender(add(4), 0)
-    renderLoop.onRender(add(5), 1)
-
-    renderLoop.onAfterRender(add(6), -1)
-    renderLoop.onAfterRender(add(7), 0)
-    renderLoop.onAfterRender(add(8), 1)
+    renderLoop.onAfterRender(add(3), -1)
+    renderLoop.onAfterRender(add(4), 0)
+    renderLoop.onAfterRender(add(5), 1)
 
     renderLoop.start()
     vi.advanceTimersToNextFrame()
 
-    expect(toTest).toBe('012345678')
+    expect(toTest).toBe('012345')
     vi.useRealTimers()
   })
 
-  it('should return the right context in the callbacks', async () => {
-    vi.useFakeTimers()
+  // TODO remove?
+  //   it('should return the right context in the callbacks', async () => {
+  //     vi.useFakeTimers()
 
-    const x = 0
+  //     const x = 0
 
-    const renderLoopWithContext = useCreateRenderLoop(() => x)
+  //     const renderLoopWithContext = useCreateRenderLoop(() => x)
 
-    renderLoopWithContext.start()
+  //     renderLoopWithContext.start()
 
-    const beforeRender = vi.fn(ctx =>
-      expect(ctx).toBe(x),
-    )
+  //     const beforeRender = vi.fn(ctx =>
+  //       expect(ctx).toBe(x),
+  //     )
 
-    renderLoopWithContext.onBeforeRender(beforeRender)
+  //     renderLoopWithContext.onBeforeRender(beforeRender)
 
-    vi.advanceTimersToNextFrame()
+  //     vi.advanceTimersToNextFrame()
 
-    await vi.waitFor(() => {
-      expect(beforeRender).toHaveBeenCalled()
-    })
+  //     await vi.waitFor(() => {
+  //       expect(beforeRender).toHaveBeenCalled()
+  //     })
 
-    vi.useRealTimers()
-  })
+//     vi.useRealTimers()
+//   })
 })

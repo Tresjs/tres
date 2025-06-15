@@ -1,11 +1,9 @@
 import type { MaybeRef, MaybeRefOrGetter, Ref, ShallowRef } from 'vue'
 
-import type { RendererLoop } from '../../core/loop'
 import type { TresControl, TresScene } from '../../types'
 import type { RendererOptions, UseRendererManagerReturn } from '../useRenderer/useRendererManager'
-import { inject, onUnmounted, provide, ref, shallowRef } from 'vue'
+import { inject, provide, ref, shallowRef } from 'vue'
 import { extend } from '../../core/catalogue'
-import { createRenderLoop } from '../../core/loop'
 
 import type { UseCameraReturn } from '../useCamera/'
 
@@ -22,7 +20,7 @@ export interface TresContext {
   camera: UseCameraReturn
   controls: Ref<TresControl | null>
   renderer: UseRendererManagerReturn
-  loop: RendererLoop
+  // loop: RendererLoop // TODO
   events: ReturnType<typeof useEventManager>
 }
 
@@ -42,20 +40,18 @@ export function useTresContextProvider({
 
   const camera = useCameraManager({ sizes })
 
-  const loop = createRenderLoop()
-
   const renderer = useRendererManager(
     {
       scene,
       canvas,
       options: rendererOptions as RendererOptions,
-      contextParts: { sizes, camera, loop },
+      contextParts: { sizes, camera },
     },
   )
 
   const events = useEventManager({
     canvas,
-    contextParts: { scene: localScene, camera, loop },
+    contextParts: { scene: localScene, camera, renderer },
   })
 
   const ctx: TresContext = {
@@ -65,7 +61,7 @@ export function useTresContextProvider({
     renderer,
     controls: ref(null),
     extend,
-    loop,
+    // loop, //TODO
     events,
   }
 
@@ -76,16 +72,17 @@ export function useTresContextProvider({
     root: ctx,
   }
 
-  ctx.loop.setReady(false)
-  ctx.loop.start()
+  // TODO remove
+  // ctx.loop.setReady(false)
+  // ctx.loop.start()
 
-  renderer.onReady(() => {
-    ctx.loop.setReady(true)
-  })
+  // renderer.onReady(() => {
+  //   ctx.loop.setReady(true)
+  // })
 
-  onUnmounted(() => {
-    ctx.loop.stop()
-  })
+  // onUnmounted(() => {
+  //   ctx.loop.stop()
+  // })
 
   return ctx
 }

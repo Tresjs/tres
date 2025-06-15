@@ -8,13 +8,13 @@ import { createEventHook } from '@vueuse/core'
 
 export function useEventManager({
   canvas,
-  contextParts: { scene, camera, loop },
+  contextParts: { scene, camera, renderer },
 }: {
   canvas: MaybeRef<HTMLCanvasElement>
-  contextParts: Pick<TresContext, 'scene' | 'camera' | 'loop' >
+  contextParts: Pick<TresContext, 'scene' | 'camera' | 'renderer' >
 }) {
   const { update, destroy } = forwardHtmlEvents(toValue(canvas), () => toValue(camera.activeCamera), scene.value)
-  const { off } = loop.register(update, 'before')
+  const { off } = renderer.loop.onBeforeRender(update)
   onUnmounted(destroy)
   onUnmounted(off)
 
