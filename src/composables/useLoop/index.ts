@@ -1,45 +1,46 @@
-import type { LoopCallbackFn } from './../../core/loop'
+import { createPriorityEventHook } from '../../utils/createPriorityEventHook'
+import type { TresContext } from '../useTresContextProvider'
 import { useTresContext } from '../useTresContextProvider'
+import type { RenderLoopContext } from '../useRenderLoop'
 
-export function useLoop() {
-  const {
-    camera,
-    scene,
-    renderer,
-    loop,
-    controls,
-    events,
-  } = useTresContext()
+type ContextParts = Pick<TresContext, 'camera' | 'scene' | 'controls' | 'events' | 'renderer'>
+export type LoopContext = RenderLoopContext & ContextParts
 
-  // Pass context to loop
-  loop.setContext({
-    camera,
-    scene,
-    renderer: renderer.instance,
-    controls,
-    events,
+// TODO write explanation
+export const useLoop = () => {
+  const tresContext = useTresContext()
+
+  const tresContextParts: ContextParts = {
+    camera: tresContext.camera,
+    scene: tresContext.scene,
+    renderer: tresContext.renderer,
+    controls: tresContext.controls,
+    events: tresContext.events,
+  }
+
+  const eventHookBeforeRender = createPriorityEventHook<LoopContext>()
+  const eventHookAfterRender = createPriorityEventHook<LoopContext>()
+
+  const rendererManager = tresContext.renderer
+
+  rendererManager.loop.onBeforeRender((loopContext) => {
+    eventHookBeforeRender.trigger({ ...tresContextParts, ...loopContext })
   })
 
-  function onBeforeRender(cb: LoopCallbackFn, index = 0) {
-    return loop.register(cb, 'before', index)
-  }
+  rendererManager.loop.onAfterRender((loopContext) => {
+    eventHookAfterRender.trigger({ ...tresContextParts, ...loopContext })
+  })
 
-  function render(cb: LoopCallbackFn) {
-    return loop.register(cb, 'render')
-  }
-
-  function onAfterRender(cb: LoopCallbackFn, index = 0) {
-    return loop.register(cb, 'after', index)
+  const render = (fn: () => void) => {
+    rendererManager.loop.replaceRenderFunction(fn)
   }
 
   return {
-    pause: loop.pause,
-    resume: loop.resume,
-    pauseRender: loop.pauseRender,
-    resumeRender: loop.resumeRender,
-    isActive: loop.isActive,
-    onBeforeRender,
-    render,
-    onAfterRender,
+    stop: rendererManager.loop.stop,
+    start: rendererManager.loop.start,
+    isActive: rendererManager.loop.isActive,
+    onBeforeRender: eventHookBeforeRender.on,
+    onAfterRender: eventHookAfterRender.on,
+    render, // TODO I'd call this replaceRenderFunction or similar
   }
 }

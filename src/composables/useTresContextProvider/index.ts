@@ -71,18 +71,6 @@ export function useTresContextProvider({
     root: ctx,
   }
 
-  // TODO remove
-  // ctx.loop.setReady(false)
-  // ctx.loop.start()
-
-  // renderer.onReady(() => {
-  //   ctx.loop.setReady(true)
-  // })
-
-  // onUnmounted(() => {
-  //   ctx.loop.stop()
-  // })
-
   return ctx
 }
 

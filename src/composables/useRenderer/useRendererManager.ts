@@ -15,7 +15,7 @@ import type { Renderer } from 'three/webgpu'
 import { setPixelRatio } from '../../utils'
 
 import { logWarning } from '../../utils/logger'
-import { useCreateRenderLoop } from '../../core/loop'
+import { useRenderLoop } from '../useRenderLoop'
 import type { SizesType } from '../useSizes'
 import type { UseCameraReturn } from '../useCamera'
 import type { TresScene } from '../../types'
@@ -281,7 +281,7 @@ export function useRendererManager(
     readyEventHook.trigger(renderer)
   }
 
-  const loop = useCreateRenderLoop(() => {
+  const loop = useRenderLoop(() => {
     if (camera.activeCamera.value && frames.value) {
       renderer.render(scene.value, camera.activeCamera.value)
 

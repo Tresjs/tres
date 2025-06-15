@@ -1,61 +1,53 @@
-import type { EventHookOn, Fn } from '@vueuse/core'
-import type { Ref } from 'vue'
 import { createEventHook, useRafFn } from '@vueuse/core'
 import { Clock } from 'three'
 
-export interface RenderLoop {
-  delta: number
-  elapsed: number
-  clock: Clock
-}
+export interface RenderLoopContext { delta: number, elapsed: number }
 
-export interface UseRenderLoopReturn {
-  onBeforeLoop: EventHookOn<RenderLoop>
-  onLoop: EventHookOn<RenderLoop>
-  onAfterLoop: EventHookOn<RenderLoop>
-  pause: Fn
-  resume: Fn
-  isActive: Ref<boolean>
-}
+export const useRenderLoop = (
+  render: () => void, // TODO think about allowing nextFrame() style
+) => { // TODO think about name
+  const clock = new Clock()
 
-const onBeforeLoop = createEventHook<RenderLoop>()
-const onLoop = createEventHook<RenderLoop>()
-const onAfterLoop = createEventHook<RenderLoop>()
+  let renderFn = render
 
-const clock = new Clock()
-let delta = 0
-let elapsed = 0
+  const eventHooks = {
+    beforeRender: createEventHook<RenderLoopContext>(),
+    afterRender: createEventHook<RenderLoopContext>(),
+  }
 
-const { pause, resume, isActive } = useRafFn(
-  () => {
-    onBeforeLoop.trigger({ delta, elapsed, clock })
-    onLoop.trigger({ delta, elapsed, clock })
-    onAfterLoop.trigger({ delta, elapsed, clock })
-  },
-  { immediate: false },
-)
+  const { pause, resume, isActive } = useRafFn(() => {
+    const getContextWithClock = (): RenderLoopContext => ({
+      delta: clock.getDelta(),
+      elapsed: clock.getElapsedTime(),
+    })
 
-onAfterLoop.on(() => {
-  delta = clock.getDelta()
-  elapsed = clock.getElapsedTime()
-})
+    eventHooks.beforeRender.trigger(getContextWithClock())
+    renderFn()
+    eventHooks.afterRender.trigger(getContextWithClock())
+  }, {
+    immediate: false,
+  })
 
-let startedOnce = false
-export const useRenderLoop = (): UseRenderLoopReturn => {
-  if (!startedOnce) {
-    // NOTE: `useRenderLoop` is not started by default
-    // in order not to waste user resources. Instead, we'll
-    // start the loop the first time the user uses
-    // `useRenderLoop`.
-    startedOnce = true
+  const start = () => {
+    clock.start()
     resume()
   }
+
+  const stop = () => {
+    clock.stop()
+    pause()
+  }
+
+  const replaceRenderFunction = (render: () => void) => {
+    renderFn = render
+  }
+
   return {
-    onBeforeLoop: onBeforeLoop.on,
-    onLoop: onLoop.on,
-    onAfterLoop: onAfterLoop.on,
-    pause,
-    resume,
+    start,
+    stop, // TODO does it even make sense to stop?
     isActive,
+    onBeforeRender: eventHooks.beforeRender.on,
+    onAfterRender: eventHooks.afterRender.on,
+    replaceRenderFunction,
   }
 }
