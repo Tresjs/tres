@@ -271,7 +271,7 @@ export const inspectorStateHandler = (tres: TresContext, { highlightMesh, prevIn
       }
 
       if (instance.isScene) {
-        payload.state = {
+        const sceneState = {
           ...payload.state,
           state: [
             {
@@ -285,15 +285,19 @@ export const inspectorStateHandler = (tres: TresContext, { highlightMesh, prevIn
                 lines: tres.renderer.instance.info.render.lines,
               },
             },
-            {
-              key: 'Programs',
-              value: tres.renderer.instance.info.programs?.map(program => ({
-                ...program,
-                programName: program.name,
-              })) || [],
-            },
           ],
         }
+
+        if ('programs' in tres.renderer.instance.info) {
+          sceneState.state.push({
+            key: 'Programs',
+            value: tres.renderer.instance.info.programs?.map(program => ({
+              ...program,
+              programName: program.name,
+            })),
+          })
+        }
+        payload.state = sceneState
       }
     }
     else if (payload.nodeId.includes('context')) {

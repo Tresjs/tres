@@ -1,16 +1,17 @@
 import type { ComputedRef } from 'vue'
 import type { TresContext } from '../useTresContextProvider'
 import { useTresContext } from '../useTresContextProvider'
-import type { Camera, WebGLRenderer } from 'three'
+import type { Camera } from 'three'
+import type { TresRenderer } from '..'
 
 export interface TresPartialContext extends Omit<TresContext, 'renderer' | 'camera'> {
   /**
    * The renderer instance
    *
-   * @type {WebGLRenderer}
+   * @type {TresRenderer}
    * @memberof TresPartialContext
    */
-  renderer: WebGLRenderer
+  renderer: TresRenderer
   /**
    * The current active camera
    *
