@@ -1,5 +1,7 @@
 # Changelog
 
+## [4.3.6](https://github.com/Tresjs/tres/compare/4.3.5...4.3.6) (2025-06-06)
+
 ## [4.3.5](https://github.com/Tresjs/tres/compare/4.3.4...4.3.5) (2025-05-16)
 
 ### Bug Fixes
