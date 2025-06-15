@@ -1,5 +1,11 @@
 # Changelog
 
+## [5.0.0-next.3](https://github.com/Tresjs/tres/compare/5.0.0-next.2...5.0.0-next.3) (2025-06-15)
+
+### Features
+
+* expose render mode ([#1032](https://github.com/Tresjs/tres/issues/1032)) ([b5b9456](https://github.com/Tresjs/tres/commit/b5b94560fddcdcb65f3dec6692143867ed58914e))
+
 ## [5.0.0-next.2](https://github.com/Tresjs/tres/compare/5.0.0-next.1...5.0.0-next.2) (2025-06-15)
 
 ### ⚠ BREAKING CHANGES
