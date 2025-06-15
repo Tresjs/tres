@@ -1,5 +1,6 @@
 const whitelist = [
   'TresCanvas',
+  'tres-canvas',
   'TresLeches',
   'TresScene',
 ]
@@ -7,7 +8,7 @@ const whitelist = [
 const templateCompilerOptions = {
   template: {
     compilerOptions: {
-      isCustomElement: (tag: string) => (tag.startsWith('Tres') && !whitelist.includes(tag)) || tag === 'primitive',
+      isCustomElement: (tag: string) => ((tag.startsWith('Tres') || tag.startsWith('tres')) && !whitelist.includes(tag)) || tag === 'primitive',
     },
   },
 }
