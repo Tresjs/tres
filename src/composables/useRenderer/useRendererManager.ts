@@ -406,6 +406,7 @@ export function useRendererManager(
     invalidate,
     canBeInvalidated,
     frames,
+    mode: toValue(options.renderMode),
   }
 }
 
