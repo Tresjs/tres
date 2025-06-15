@@ -46,10 +46,12 @@ export default defineConfig({
     threads: false,
   },
   build: {
+    // vite.config.ts
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
       name: 'tres',
       fileName: 'tres',
+      formats: ['es'],
     },
     watch: {
       include: [resolve(__dirname, 'src')],
@@ -71,13 +73,6 @@ export default defineConfig({
       external: ['vue', '@vueuse/core', 'three'],
       output: {
         exports: 'named',
-        // Provide global variables to use in the UMD build
-        // for externalized deps
-        globals: {
-          'vue': 'Vue',
-          '@vueuse/core': 'VueUseCore',
-          'three': 'Three',
-        },
       },
     },
   },

@@ -9,7 +9,7 @@ model.position.set(0, 1, 0)
 
 const state = useTresContext()
 
-state.invalidate()
+state.renderer.invalidate()
 </script>
 
 <template>
