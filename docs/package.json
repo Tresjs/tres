@@ -6,6 +6,8 @@
   },
   "dependencies": {
     "@nuxt/eslint": "1.4.1",
+    "@tresjs/cientos": "5.0.0-next.0",
+    "@tresjs/core": "workspace:^",
     "better-sqlite3": "^11.10.0",
     "docus": "latest",
     "eslint": "^9.0.0",

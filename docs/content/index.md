@@ -1,19 +1,25 @@
 ---
 seo:
-  title: Write beautiful docs with Markdown
+  title: TresJS - Bring Three to the Vue ecosystem
+
   description: Ship fast, flexible, and SEO-optimized documentation with beautiful
     design out of the box. Docus brings together the best of the Nuxt ecosystem.
     Powered by Nuxt UI Pro.
 ---
 
 ::u-page-hero
+---
+orientation: horizontal
+---
+#default
+::hero-scene
+::
 #title
-Write beautiful docs with Markdown
+<span><span class="text-primary-400">TresJS</span> \
+Declarative 3D for Vue
 
 #description
-Ship fast, flexible, and SEO-optimized documentation with beautiful design out of the box.
-
-Docus brings the best of the Nuxt ecosystem into one CLI.
+Create awesome Three based experiences with the framework you love.
 
 #links
   :::u-button
@@ -36,6 +42,7 @@ Docus brings the best of the Nuxt ecosystem into one CLI.
   ---
   Star on GitHub
   :::
+ 
 ::
 
 ::u-page-section

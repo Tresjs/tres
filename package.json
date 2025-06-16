@@ -94,7 +94,6 @@
     "gsap": "^3.12.7",
     "jsdom": "^26.0.0",
     "kolorist": "^1.8.0",
-    "ohmyfetch": "^0.4.21",
     "pathe": "^2.0.2",
     "release-it": "^18.1.2",
     "rollup-plugin-analyzer": "^4.0.0",
@@ -120,6 +119,10 @@
   "pnpm": {
     "onlyBuiltDependencies": [
       "better-sqlite3"
-    ]
+    ],
+    "overrides": {
+      "vue": "^3.5.16",
+      "vue-router": "^4.5.1"
+    }
   }
 }
