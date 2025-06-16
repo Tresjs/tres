@@ -403,7 +403,7 @@ export function useRendererManager(
     loop,
     instance: renderer,
     advance,
-    onRender: renderEventHook.on,
+    onRender: renderEventHook.on, // TODO this is a duplicate of the loop.onAfterRender. Remove!
     onReady: readyEventHook.on,
     invalidate,
     canBeInvalidated,

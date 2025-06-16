@@ -6,7 +6,7 @@ import type { RenderLoopContext } from '../useRenderLoop'
 type ContextParts = Pick<TresContext, 'camera' | 'scene' | 'controls' | 'events' | 'renderer'>
 export type LoopContext = RenderLoopContext & ContextParts
 
-// TODO write explanation
+// TODO write explanation -> syntax sugar for useTresContext.renderer.loop + context
 export const useLoop = () => {
   const tresContext = useTresContext()
 
@@ -40,7 +40,7 @@ export const useLoop = () => {
     start: rendererManager.loop.start,
     isActive: rendererManager.loop.isActive,
     onBeforeRender: eventHookBeforeRender.on,
-    onAfterRender: eventHookAfterRender.on,
+    onAfterRender: eventHookAfterRender.on, // TODO think about naming this onRender
     render, // TODO I'd call this replaceRenderFunction or similar
   }
 }

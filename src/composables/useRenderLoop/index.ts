@@ -4,11 +4,11 @@ import { Clock } from 'three'
 export interface RenderLoopContext { delta: number, elapsed: number }
 
 export const useRenderLoop = (
-  render: () => void, // TODO think about allowing nextFrame() style
+  defaultRenderFunction: () => void, // TODO think about allowing nextFrame() style
 ) => { // TODO think about name
   const clock = new Clock()
 
-  let renderFn = render
+  let renderFn = defaultRenderFunction
 
   const eventHooks = {
     beforeRender: createEventHook<RenderLoopContext>(),
