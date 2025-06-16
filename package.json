@@ -63,7 +63,8 @@
     "docs:build": "vitepress build docs",
     "docs:serve": "vitepress serve docs",
     "docs:preview": "vitepress preview docs",
-    "docs:contributors": "esno scripts/update-contributors.ts"
+    "docs:contributors": "esno scripts/update-contributors.ts",
+    "postinstall": "cd docs && nuxt prepare"
   },
   "peerDependencies": {
     "three": ">=0.133",
@@ -116,5 +117,20 @@
     "vue": "3.5.13",
     "vue-demi": "^0.14.10",
     "vue-tsc": "^2.2.0"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "better-sqlite3"
+    ],
+    "ignoredBuiltDependencies": [
+      "vue-demi"
+    ],
+    "overrides": {
+      "vue": "^3.5.13",
+      "vue-router": "^4.5.0"
+    }
+  },
+  "resolutions": {
+    "unimport": "4.1.1"
   }
 }
