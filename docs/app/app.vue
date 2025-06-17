@@ -33,7 +33,7 @@ provide('navigation', navigation)
 
     <AppHeader />
 
-    <UMain>
+    <UMain class="pattern-bg">
       <NuxtLayout>
         <NuxtPage />
       </NuxtLayout>

@@ -1,8 +1,15 @@
 export default defineAppConfig({
   ui: {
     colors: {
-      primary: 'green',
-      neutral: 'slate'
+      primary: 'teal',
+      accent: 'yellow',
+      neutral: 'zinc'
+    },
+    card: {
+      slots: {
+        root: 'hover:bg-linear-[115deg,#272727 .06%,#171717]',
+        body: 'p-2 sm:p-3'
+      }
     }
   },
   uiPro: {
@@ -28,55 +35,50 @@ export default defineAppConfig({
     colorMode: true,
     links: [{
       'icon': 'i-simple-icons-github',
-      'to': 'https://github.com/nuxt-ui-pro/docs',
+      'to': 'https://github.com/tresjs/tres',
       'target': '_blank',
       'aria-label': 'GitHub'
     }]
   },
   footer: {
-    credits: `Copyright © ${new Date().getFullYear()}`,
+    credits: `Copyright © ${new Date().getFullYear()} TresJS`,
     colorMode: false,
     links: [{
-      'icon': 'i-simple-icons-nuxtdotjs',
-      'to': 'https://nuxt.com',
+      'icon': 'i-lucide-globe',
+      'to': 'https://tresjs.org',
       'target': '_blank',
-      'aria-label': 'Nuxt Website'
+      'aria-label': 'TresJS Website'
     }, {
       'icon': 'i-simple-icons-discord',
-      'to': 'https://discord.com/invite/ps2h6QT',
+      'to': 'https://discord.gg/Q6ncbJdQ',
       'target': '_blank',
-      'aria-label': 'Nuxt UI on Discord'
+      'aria-label': 'TresJS on Discord'
     }, {
       'icon': 'i-simple-icons-x',
-      'to': 'https://x.com/nuxt_js',
+      'to': 'https://x.com/tresjs_dev',
       'target': '_blank',
-      'aria-label': 'Nuxt on X'
+      'aria-label': 'TresJS on X'
     }, {
       'icon': 'i-simple-icons-github',
-      'to': 'https://github.com/nuxt/ui',
+      'to': 'https://github.com/tresjs/tres',
       'target': '_blank',
-      'aria-label': 'Nuxt UI on GitHub'
+      'aria-label': 'TresJS on GitHub'
     }]
   },
   toc: {
     title: 'Table of Contents',
     bottom: {
       title: 'Community',
-      edit: 'https://github.com/nuxt-ui-pro/docs/edit/main/content',
+      edit: 'https://github.com/tresjs/tres/edit/main/docs/content',
       links: [{
+        icon: 'i-lucide-heart',
+        label: 'Become a sponsor',
+        to: 'https://github.com/sponsors/tresjs',
+        target: '_blank'
+      }, {
         icon: 'i-lucide-star',
         label: 'Star on GitHub',
-        to: 'https://github.com/nuxt/ui',
-        target: '_blank'
-      }, {
-        icon: 'i-lucide-book-open',
-        label: 'Nuxt UI Pro docs',
-        to: 'https://ui.nuxt.com/getting-started/installation/pro/nuxt',
-        target: '_blank'
-      }, {
-        icon: 'i-simple-icons-nuxtdotjs',
-        label: 'Purchase a license',
-        to: 'https://ui.nuxt.com/pro/purchase',
+        to: 'https://github.com/tresjs/tres',
         target: '_blank'
       }]
     }

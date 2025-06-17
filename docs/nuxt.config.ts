@@ -1,3 +1,4 @@
+import { templateCompilerOptions } from '@tresjs/core'
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   modules: [
@@ -14,6 +15,10 @@ export default defineNuxtConfig({
   },
 
   css: ['~/assets/css/main.css'],
+
+  vue: {
+    compilerOptions: templateCompilerOptions.template.compilerOptions
+  },
 
   content: {
     build: {

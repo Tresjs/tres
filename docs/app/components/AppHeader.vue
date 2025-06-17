@@ -15,6 +15,7 @@ const { header } = useAppConfig()
       v-if="header?.search"
       :collapsed="false"
       class="w-full"
+      variant="subtle"
     />
 
     <template
@@ -41,14 +42,13 @@ const { header } = useAppConfig()
       <NuxtLink :to="header?.to || '/'">
         <LogoPro class="w-auto h-6 shrink-0" />
       </NuxtLink>
-
-      <TemplateMenu />
     </template>
 
     <template #right>
       <UContentSearchButton
         v-if="header?.search"
         class="lg:hidden"
+        variant="subtle"
       />
 
       <UColorModeButton v-if="header?.colorMode" />

@@ -1,34 +1,28 @@
 ---
 seo:
-  title: Nuxt Docs Template
-  description: Nuxt UI Pro is a collection of premium Vue components built on top
-    of Nuxt UI to create beautiful & responsive Nuxt applications in minutes.
+  title: TresJS - Bring Three to the Vue ecosystem
+  description: Create awesome 3D experiences with the framework you love.
 ---
 
 ::u-page-hero
 ---
 orientation: horizontal
 ---
-  :::prose-pre
-  ---
-  code: npx nuxi init -t github:nuxt-ui-pro/docs
-  filename: Terminal
-  ---
-  ```bash
-  npx nuxi init -t github:nuxt-ui-pro/docs
-  ```
+  :::home-scene
   :::
 
 #title
-Build your docs with Nuxt UI Pro
+<span class="text-primary-300">TresJS</span> \
+Bring Three to the Vue ecosystem
 
 #description
-Nuxt UI Pro is a collection of premium components built on top of Nuxt UI to create beautiful & responsive applications in minutes.
+Create awesome Three based experiences with the framework you love.
 
 #links
   :::u-button
   ---
-  size: xl
+  size: lg
+  color: neutral
   to: /getting-started
   trailing-icon: i-lucide-arrow-right
   ---
@@ -39,12 +33,12 @@ Nuxt UI Pro is a collection of premium components built on top of Nuxt UI to cre
   ---
   color: neutral
   icon: i-simple-icons-github
-  size: xl
+  size: lg
   target: _blank
-  to: https://github.com/nuxt-ui-pro/docs
+  to: https://github.com/tresjs/tres
   variant: subtle
   ---
-  Use this template
+  Star on GitHub
   :::
 ::
 

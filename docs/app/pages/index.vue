@@ -21,6 +21,7 @@ useSeoMeta({
 <template>
   <ContentRenderer
     v-if="page"
+    class="bg-default"
     :value="page"
     :prose="false"
   />
