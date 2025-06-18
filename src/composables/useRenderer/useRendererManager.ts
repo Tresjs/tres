@@ -403,7 +403,6 @@ export function useRendererManager(
     onReady: readyEventHook.on,
     invalidate,
     canBeInvalidated,
-    frames,
     mode: toValue(options.renderMode),
   }
 }
