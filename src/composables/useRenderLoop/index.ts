@@ -3,12 +3,16 @@ import { Clock } from 'three'
 
 export interface RenderLoopContext { delta: number, elapsed: number }
 
+type RenderFunction = (notifyFrameRendered: () => void) => void
+
+// TODO explain
 export const useRenderLoop = (
-  defaultRenderFunction: () => void, // TODO think about allowing nextFrame() style
-) => { // TODO think about name
+  defaultRenderFunction: RenderFunction,
+  notifyFrameRendered: () => void,
+) => {
   const clock = new Clock()
 
-  let renderFn = defaultRenderFunction
+  let renderFn: (notifyFrameRendered: () => void) => void = defaultRenderFunction
 
   const eventHooks = {
     beforeRender: createEventHook<RenderLoopContext>(),
@@ -22,7 +26,7 @@ export const useRenderLoop = (
     })
 
     eventHooks.beforeRender.trigger(getContextWithClock())
-    renderFn()
+    renderFn(notifyFrameRendered)
     eventHooks.afterRender.trigger(getContextWithClock())
   }, {
     immediate: false,
@@ -38,7 +42,7 @@ export const useRenderLoop = (
     pause()
   }
 
-  const replaceRenderFunction = (render: () => void) => {
+  const replaceRenderFunction = (render: RenderFunction) => {
     renderFn = render
   }
 

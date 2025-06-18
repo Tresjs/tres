@@ -277,15 +277,18 @@ export function useRendererManager(
     readyEventHook.trigger(renderer)
   }
 
-  const loop = useRenderLoop(() => {
-    if (camera.activeCamera.value && frames.value) {
-      renderer.render(scene.value, camera.activeCamera.value)
-    }
-
+  const notifyFrameRendered = () => {
     frames.value = isModeAlways.value
       ? 1
       : Math.max(0, frames.value - 1)
-  })
+  }
+
+  const loop = useRenderLoop((_notifyFrameRendered) => {
+    if (camera.activeCamera.value && frames.value) {
+      renderer.render(scene.value, camera.activeCamera.value)
+    }
+    _notifyFrameRendered()
+  }, notifyFrameRendered)
 
   readyEventHook.on(loop.start)
 
