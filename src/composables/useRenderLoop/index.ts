@@ -6,6 +6,7 @@ export interface RenderLoopContext { delta: number, elapsed: number }
 type RenderFunction = (notifyFrameRendered: () => void) => void
 
 // TODO explain
+// TODO do not expose publicly?
 export const useRenderLoop = (
   defaultRenderFunction: RenderFunction,
   notifyFrameRendered: () => void,
