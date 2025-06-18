@@ -266,8 +266,6 @@ export function useRendererManager(
 
   const isModeAlways = computed(() => toValue(options.renderMode) === 'always')
 
-  const renderEventHook = createEventHook<TresRenderer>()
-
   // be aware that the WebGLRenderer does not extend from Renderer
   const isRenderer = (value: unknown): value is Renderer =>
     isObject(value) && 'isRenderer' in value && Boolean(value.isRenderer)
@@ -284,8 +282,6 @@ export function useRendererManager(
   const loop = useRenderLoop(() => {
     if (camera.activeCamera.value && frames.value) {
       renderer.render(scene.value, camera.activeCamera.value)
-
-      renderEventHook.trigger(renderer)
     }
 
     frames.value = isModeAlways.value
@@ -403,7 +399,6 @@ export function useRendererManager(
     loop,
     instance: renderer,
     advance,
-    onRender: renderEventHook.on, // TODO this is a duplicate of the loop.onAfterRender. Remove!
     onReady: readyEventHook.on,
     invalidate,
     canBeInvalidated,

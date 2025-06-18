@@ -44,7 +44,7 @@ export const useRenderLoop = (
 
   return {
     start,
-    stop, // TODO does it even make sense to stop?
+    stop,
     isActive,
     onBeforeRender: eventHooks.beforeRender.on,
     onAfterRender: eventHooks.afterRender.on,
