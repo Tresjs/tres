@@ -187,7 +187,6 @@ export interface TresRendererSetupContext {
   sizes: SizesType
   scene: ShallowRef<TresScene>
   camera: UseCameraReturn
-  loop: RendererLoop
   canvas: MaybeRef<HTMLCanvasElement>
 }
 
@@ -207,15 +206,14 @@ export function useRendererManager(
   }: UseRendererOptions,
 ) {
   const getRenderer = () => {
-    // if (isFunction(options.renderer)) { // TODO
-    //   return options.renderer({
-    //     sizes,
-    //     scene,
-    //     camera,
-    //     loop,
-    //     canvas,
-    //   })
-    // }
+    if (isFunction(options.renderer)) {
+      return options.renderer({
+        sizes,
+        scene,
+        camera,
+        canvas,
+      })
+    }
 
     return new WebGLRenderer({
       ...options,
