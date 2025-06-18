@@ -277,17 +277,21 @@ export function useRendererManager(
     readyEventHook.trigger(renderer)
   }
 
+  const renderEventHook = createEventHook<TresRenderer>()
+
   const notifyFrameRendered = () => {
     frames.value = isModeAlways.value
       ? 1
       : Math.max(0, frames.value - 1)
+
+    renderEventHook.trigger(renderer)
   }
 
   const loop = useRenderLoop((_notifyFrameRendered) => {
     if (camera.activeCamera.value && frames.value) {
       renderer.render(scene.value, camera.activeCamera.value)
+      _notifyFrameRendered()
     }
-    _notifyFrameRendered()
   }, notifyFrameRendered)
 
   readyEventHook.on(loop.start)
@@ -319,7 +323,7 @@ export function useRendererManager(
 
   if (toValue(options.renderMode) === 'manual') {
     // Advance for the first time, setTimeout to make sure there is something to render
-    setTimeout(() => {
+    setTimeout(() => { // TODO this is dangerous in case the canvas is not there anymore
       advance()
     }, 100)
   }
@@ -401,6 +405,7 @@ export function useRendererManager(
     instance: renderer,
     advance,
     onReady: readyEventHook.on,
+    onRender: renderEventHook.on,
     invalidate,
     canBeInvalidated,
     mode: toValue(options.renderMode),

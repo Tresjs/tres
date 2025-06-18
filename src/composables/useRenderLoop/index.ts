@@ -25,7 +25,7 @@ export const useRenderLoop = (
       elapsed: clock.getElapsedTime(),
     })
 
-    eventHooks.beforeRender.trigger(getContextWithClock())
+    eventHooks.beforeRender.trigger(getContextWithClock()) // TODO is it confusing that this triggers even if nothing rendered (on-demand)?
     renderFn(notifyFrameRendered)
     eventHooks.afterRender.trigger(getContextWithClock())
   }, {
