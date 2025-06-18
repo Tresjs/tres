@@ -48,7 +48,7 @@ export function useTres(): TresPartialContext {
     controls,
     extend,
     events,
-    invalidate: () => renderer.invalidate(),
-    advance: () => renderer.advance(),
+    invalidate: renderer.invalidate,
+    advance: renderer.advance,
   }
 }

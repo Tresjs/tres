@@ -214,8 +214,8 @@ onMounted(() => {
     addDefaultCamera()
   }
 
-  renderer.onRender((renderer) => {
-    emit('render', renderer)
+  renderer.loop.onAfterRender(() => {
+    emit('render', renderer.instance)
   })
 
   renderer.onReady(() => {
