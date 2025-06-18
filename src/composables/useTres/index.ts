@@ -41,7 +41,6 @@ export function useTres(): TresPartialContext {
   const { scene, renderer, camera, sizes, controls, extend, events } = useTresContext()
 
   return {
-    // TODO think about providing dedicated loop
     scene,
     renderer: renderer.instance,
     camera: camera.activeCamera,
