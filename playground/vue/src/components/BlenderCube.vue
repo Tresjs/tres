@@ -12,7 +12,11 @@ defineExpose({
   model,
 })
 
-whenever(isReady, () => emit('ready'))
+whenever(
+  isReady,
+  () => emit('ready'),
+  { once: true },
+)
 </script>
 
 <template>

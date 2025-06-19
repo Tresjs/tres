@@ -2,7 +2,7 @@
 import { TresCanvas } from '@tresjs/core'
 import type { ShadowMapType, ToneMapping } from 'three'
 import { ACESFilmicToneMapping, AgXToneMapping, BasicShadowMap, CineonToneMapping, LinearToneMapping, NeutralToneMapping, NoToneMapping, PCFShadowMap, PCFSoftShadowMap, ReinhardToneMapping, VSMShadowMap } from 'three'
-// import { OrbitControls } from '@tresjs/cientos'
+import { OrbitControls } from '@tresjs/cientos'
 import { TresLeches, useControls } from '@tresjs/leches'
 import '@tresjs/leches/styles'
 
@@ -58,7 +58,7 @@ const formattedShadowMapType = computed(() => {
     :shadow-map-type="formattedShadowMapType"
   >
     <TresPerspectiveCamera :position="[5, 5, 5]" />
-    <!-- <OrbitControls /> -->
+    <OrbitControls />
     <TresMesh :position="[0, 1, 0]" cast-shadow>
       <TresBoxGeometry />
       <TresMeshStandardMaterial color="teal" :opacity="0.5" transparent />
