@@ -1,7 +1,7 @@
 import { createEventHook, useRafFn } from '@vueuse/core'
 import { Clock } from 'three'
 
-export interface LoopContext { delta: number, elapsed: number }
+export interface RafLoopContext { delta: number, elapsed: number }
 
 type CycleFunction = (notifySuccess: () => void) => void
 
@@ -18,12 +18,12 @@ export const useCreateRafLoop = (
   let cycleFn: CycleFunction = defaultFunction
 
   const eventHooks = {
-    before: createEventHook<LoopContext>(),
-    after: createEventHook<LoopContext>(),
+    before: createEventHook<RafLoopContext>(),
+    after: createEventHook<RafLoopContext>(),
   }
 
   const { pause, resume, isActive } = useRafFn(() => {
-    const getContextWithClock = (): LoopContext => ({
+    const getContextWithClock = (): RafLoopContext => ({
       delta: clock.getDelta(),
       elapsed: clock.getElapsedTime(),
     })

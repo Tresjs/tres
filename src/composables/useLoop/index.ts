@@ -1,6 +1,6 @@
 import { useTresContext } from '..'
 import { createPriorityEventHook } from '../../utils/createPriorityEventHook'
-import type { LoopContext as RafLoopContext } from '../useCreateRafLoop'
+import type { RafLoopContext } from '../useCreateRafLoop'
 import type { TresPartialContext } from '../useTres'
 import { useTres } from '../useTres'
 

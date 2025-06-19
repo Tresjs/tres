@@ -19,7 +19,6 @@ export interface TresContext {
   camera: UseCameraReturn
   controls: Ref<TresControl | null>
   renderer: UseRendererManagerReturn
-  // loop: RendererLoop // TODO
   events: ReturnType<typeof useEventManager>
 }
 
@@ -60,7 +59,6 @@ export function useTresContextProvider({
     renderer,
     controls: ref(null),
     extend,
-    // loop, //TODO
     events,
   }
 

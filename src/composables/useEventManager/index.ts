@@ -14,7 +14,7 @@ export function useEventManager({
   contextParts: Pick<TresContext, 'scene' | 'camera' | 'renderer' >
 }) {
   const { update, destroy } = forwardHtmlEvents(toValue(canvas), () => toValue(camera.activeCamera), scene.value)
-  const { off } = renderer.loop.onBeforeRender(update)
+  const { off } = renderer.loop.onCycle(update)
   onUnmounted(destroy)
   onUnmounted(off)
 
