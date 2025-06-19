@@ -7,7 +7,7 @@ import {
   WebGLRenderer,
 } from 'three'
 import type { App, Ref } from 'vue'
-import type { TresCamera, TresObject, TresScene } from '../types/'
+import type { TresCamera, TresContextWithClock, TresObject, TresScene } from '../types/'
 import type { PointerEvent } from '@pmndrs/pointer-events'
 import * as THREE from 'three'
 
@@ -27,7 +27,7 @@ import {
   watchEffect,
 } from 'vue'
 import pkg from '../../package.json'
-import type { RafLoopContext, RendererOptions, TresContext, TresRenderer } from '../composables'
+import type { RendererOptions, TresContext, TresRenderer } from '../composables'
 import { useTresContextProvider } from '../composables'
 import { extend } from '../core/catalogue'
 import { nodeOps } from '../core/nodeOps'
@@ -59,8 +59,8 @@ const emit = defineEmits<{
   ready: [context: TresContext]
   pointermissed: [event: PointerEvent<MouseEvent>]
   render: [renderer: TresRenderer]
-  loop: [context: TresContext & RafLoopContext]
-  beforeLoop: [context: TresContext & RafLoopContext]
+  loop: [context: TresContextWithClock]
+  beforeLoop: [context: TresContextWithClock]
 } & {
   // all pointer events are supported because they bubble up
   [key in TresPointerEventName]: [event: PointerEvent<MouseEvent>]

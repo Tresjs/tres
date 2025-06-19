@@ -1,7 +1,6 @@
 import UseLoader from './useLoader/component.vue'
 
 export * from './useCamera'
-export * from './useCreateRafLoop'
 export * from './useGraph'
 export * from './useLoader'
 export * from './useLoop'
