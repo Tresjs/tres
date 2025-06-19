@@ -6,6 +6,7 @@ let loop: ReturnType<typeof useLoop>
 
 describe(useLoop.name, () => {
   beforeEach(() => {
+    vi.useFakeTimers()
     loop = useLoop()
     vi.mock('../useTresContextProvider', () => ({
       useTresContext: vi.fn(() => ({
@@ -21,10 +22,10 @@ describe(useLoop.name, () => {
   })
   afterEach(() => {
     loop.stop()
+    vi.useRealTimers()
   })
 
   it('should start and stop the loop', () => {
-    vi.useFakeTimers()
     const requestAnimationFrameSpy = vi.spyOn(window, 'requestAnimationFrame')
     requestAnimationFrameSpy.mockImplementation((_callback: FrameRequestCallback) => 0)
     expect(loop.isActive.value).toBe(false)
@@ -42,8 +43,6 @@ describe(useLoop.name, () => {
   })
 
   it('should call registered callbacks in the right order', async () => {
-    vi.useFakeTimers()
-
     let toTest = ''
 
     const add = (num: number) => () => { toTest += num }
@@ -65,5 +64,17 @@ describe(useLoop.name, () => {
 
     expect(toTest).toBe('01234567')
     vi.useRealTimers()
+  })
+
+  it('should be possible to replace the loop function', () => {
+    let toTest = 0
+    loop.start()
+    loop.render(() => {
+      toTest++
+    })
+    vi.advanceTimersToNextFrame()
+    vi.advanceTimersToNextFrame()
+    vi.advanceTimersToNextFrame()
+    expect(toTest).toBe(3)
   })
 })
