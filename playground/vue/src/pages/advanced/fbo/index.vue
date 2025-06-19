@@ -14,15 +14,15 @@ const gl = {
   toneMapping: NoToneMapping,
 }
 
-const fboRef = ref()
+const groupRef = ref()
 
 let direction = 1
 const move = () => {
-  fboRef.value.position.y += 0.02 * direction
-  if (fboRef.value.position.y > 1) {
+  groupRef.value.position.y += 0.02 * direction
+  if (groupRef.value.position.y > 1) {
     direction = -1
   }
-  else if (fboRef.value.position.y < -1) {
+  else if (groupRef.value.position.y < -1) {
     direction = 1
   }
 }
@@ -37,7 +37,7 @@ const move = () => {
       v-bind="state"
     /> -->
 
-    <TresGroup ref="fboRef">
+    <TresGroup ref="groupRef">
       <FBOCube />
     </TresGroup>
     <TresAmbientLight :intensity="1" />
