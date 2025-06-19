@@ -6,7 +6,9 @@ import { useTres } from '../useTres'
 
 export type LoopContext = RafLoopContext & TresPartialContext
 
-// TODO write explanation -> syntax sugar for useTresContext.renderer.loop + context
+/**
+ * Composable that provides control over the render loop and animation lifecycle.
+ */
 export const useLoop = () => {
   const tresContext = useTres()
   const { renderer: rendererManager } = useTresContext()
