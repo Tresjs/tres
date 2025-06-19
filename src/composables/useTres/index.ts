@@ -1,4 +1,4 @@
-import type { ComputedRef } from 'vue'
+import type { ComputedRef, ShallowRef } from 'vue'
 import type { TresContext } from '../useTresContextProvider'
 import { useTresContext } from '../useTresContextProvider'
 import type { Camera } from 'three'
@@ -11,7 +11,7 @@ export interface TresPartialContext extends Omit<TresContext, 'renderer' | 'came
    * @type {TresRenderer}
    * @memberof TresPartialContext
    */
-  renderer: TresRenderer
+  renderer: ShallowRef<TresRenderer>
   /**
    * The current active camera
    *

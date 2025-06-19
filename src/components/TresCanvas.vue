@@ -34,7 +34,6 @@ import { nodeOps } from '../core/nodeOps'
 
 import { disposeObject3D } from '../utils/'
 import { registerTresDevtools } from '../devtools'
-import { whenever } from '@vueuse/core'
 import type { TresPointerEventName } from '../utils/pointerEvents'
 
 const props = withDefaults(defineProps<TresCanvasProps>(), {
@@ -132,8 +131,10 @@ const dispose = (context: TresContext, force = false) => {
   disposeObject3D(context.scene.value as unknown as TresObject)
   if (force) {
     context.renderer.instance.value.dispose()
-    context.renderer.instance.value.renderLists.dispose()
-    context.renderer.instance.value.forceContextLoss()
+    if (context.renderer.instance.value instanceof WebGLRenderer) {
+      context.renderer.instance.value.renderLists.dispose()
+      context.renderer.instance.value.forceContextLoss()
+    }
   }
   (scene.value as TresScene).__tres = {
     root: context,
