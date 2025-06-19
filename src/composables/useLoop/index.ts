@@ -16,11 +16,11 @@ export const useLoop = () => {
   const eventHookBeforeRender = createPriorityEventHook<LoopContext>()
   const eventHookAfterRender = createPriorityEventHook<LoopContext>()
 
-  rendererManager.loop.onBeforeCycle((loopContext) => {
+  rendererManager.loop.onBeforeLoop((loopContext) => {
     eventHookBeforeRender.trigger({ ...tresContext, ...loopContext })
   })
 
-  rendererManager.loop.onCycle((loopContext) => {
+  rendererManager.loop.onLoop((loopContext) => {
     eventHookAfterRender.trigger({ ...tresContext, ...loopContext })
   })
 

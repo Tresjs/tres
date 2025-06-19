@@ -27,7 +27,7 @@ import {
   watchEffect,
 } from 'vue'
 import pkg from '../../package.json'
-import type { RendererOptions, TresContext, TresRenderer } from '../composables'
+import type { RafLoopContext, RendererOptions, TresContext, TresRenderer } from '../composables'
 import { useTresContextProvider } from '../composables'
 import { extend } from '../core/catalogue'
 import { nodeOps } from '../core/nodeOps'
@@ -57,8 +57,10 @@ const props = withDefaults(defineProps<TresCanvasProps>(), {
 
 const emit = defineEmits<{
   ready: [context: TresContext]
-  render: [renderer: TresRenderer] // TODO why emit the renderer and not the context? // TODO name this loop?
   pointermissed: [event: PointerEvent<MouseEvent>]
+  render: [renderer: TresRenderer]
+  loop: [context: TresContext & RafLoopContext]
+  beforeLoop: [context: TresContext & RafLoopContext]
 } & {
   // all pointer events are supported because they bubble up
   [key in TresPointerEventName]: [event: PointerEvent<MouseEvent>]
@@ -216,6 +218,18 @@ onMounted(() => {
 
   renderer.onRender(() => {
     emit('render', renderer.instance)
+  })
+
+  renderer.loop.onLoop((loopContext) => {
+    if (context.value) {
+      emit('loop', { ...context.value, ...loopContext })
+    }
+  })
+
+  renderer.loop.onBeforeLoop((loopContext) => {
+    if (context.value) {
+      emit('beforeLoop', { ...context.value, ...loopContext })
+    }
   })
 
   renderer.onReady(() => {

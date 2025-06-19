@@ -53,8 +53,8 @@ export const useCreateRafLoop = (
     start,
     stop,
     isActive,
-    onBeforeCycle: eventHooks.before.on,
-    onCycle: eventHooks.after.on,
+    onBeforeLoop: eventHooks.before.on,
+    onLoop: eventHooks.after.on,
     replaceCycleFunction,
   }
 }

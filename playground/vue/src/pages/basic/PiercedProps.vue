@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { TresCanvas, useRenderLoop } from '@tresjs/core'
+import type { LoopContext } from '@tresjs/core'
+import { TresCanvas } from '@tresjs/core'
 import { TresLeches, useControls } from '@tresjs/leches'
 import '@tresjs/leches/styles'
 import { shallowRef } from 'vue'
-import LocalOrbitControls from '../../components/LocalOrbitControls.vue'
+// import LocalOrbitControls from '../../components/LocalOrbitControls.vue'
 
 const x = shallowRef(1)
 const y = shallowRef(1)
@@ -29,17 +30,15 @@ const labels = [
   'scale-z',
 ]
 
-/* const PI2 = Math.PI * 2 */
-
-useRenderLoop().onLoop(({ elapsed }) => {
+const onLoop = ({ elapsed }: { elapsed: number }) => {
   const i = Math.floor(elapsed % refs.length)
   refs[i].value = Math.cos(elapsed * Math.PI * 2)
   label.value = `${labels[i]} ${Math.trunc(refs[i].value * 10) / 10}`
-})
+}
 
-const { enableZoom } = useControls({
-  enableZoom: false,
-})
+// const { enableZoom } = useControls({
+//   enableZoom: false,
+// })
 </script>
 
 <template>
@@ -48,7 +47,7 @@ const { enableZoom } = useControls({
     {{ label }}
   </div>
   <TresLeches />
-  <TresCanvas>
+  <TresCanvas @loop="onLoop">
     <TresMesh
       :position-x="x"
       :position-y="y"
@@ -63,7 +62,7 @@ const { enableZoom } = useControls({
       <TresBoxGeometry />
       <TresMeshNormalMaterial />
     </TresMesh>
-    <LocalOrbitControls :enable-zoom="enableZoom" />
+    <!-- <LocalOrbitControls :enable-zoom="enableZoom" /> -->
   </TresCanvas>
 </template>
 

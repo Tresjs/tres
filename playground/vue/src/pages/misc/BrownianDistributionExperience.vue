@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import type { TresCanvas, TresPointerEvent } from '@tresjs/core'
+import type { TresPointerEvent } from '@tresjs/core'
 // import { OrbitControls } from '@tresjs/cientos'
-import { useLoop, useTresContext } from '@tresjs/core'
+import { useLoop } from '@tresjs/core'
 import type { Mesh } from 'three'
-import { BasicShadowMap, BoxGeometry, CylinderGeometry, Euler, MathUtils, MeshToonMaterial, NoToneMapping, SphereGeometry, SRGBColorSpace, Vector3 } from 'three'
-import { reactive, ref } from 'vue'
+import { BoxGeometry, CylinderGeometry, Euler, MathUtils, MeshToonMaterial, SphereGeometry, Vector3 } from 'three'
 
 const lerp = MathUtils.lerp
 const clamp = MathUtils.clamp
