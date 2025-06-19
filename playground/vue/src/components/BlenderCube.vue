@@ -1,12 +1,18 @@
 <script setup lang="ts">
 import { useGLTF } from '@tresjs/cientos'
+import { whenever } from '@vueuse/core'
 
-const { nodes } = useGLTF('https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/blender-cube.glb', { draco: true })
+const emit = defineEmits<{
+  ready: []
+}>()
+const { nodes, isReady } = useGLTF('https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/blender-cube.glb', { draco: true })
 const model = computed(() => nodes.value.BlenderCube)
 
 defineExpose({
   model,
 })
+
+whenever(isReady, () => emit('ready'))
 </script>
 
 <template>

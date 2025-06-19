@@ -6,6 +6,7 @@ import {
   createEventHook,
   unrefElement,
   useDevicePixelRatio,
+  useTimeout,
 } from '@vueuse/core'
 import { Material, Mesh, WebGLRenderer } from 'three'
 import { computed, type MaybeRef, onUnmounted, type Reactive, ref, type ShallowRef, toValue, watch, watchEffect } from 'vue'
@@ -323,9 +324,9 @@ export function useRendererManager(
 
   if (toValue(options.renderMode) === 'manual') {
     // Advance for the first time, setTimeout to make sure there is something to render
-    setTimeout(() => { // TODO this is dangerous in case the canvas is not there anymore
-      advance()
-    }, 100)
+    useTimeout(100, {
+      callback: advance,
+    })
   }
 
   const clearColorAndAlpha = computed(() => {
