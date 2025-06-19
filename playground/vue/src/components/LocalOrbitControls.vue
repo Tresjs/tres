@@ -323,9 +323,9 @@ function addEventListeners() {
   useEventListener(controlsRef.value as any, 'end', () => emit('end', controlsRef.value))
 }
 
-const { onBeforeLoop: onBeforeRender } = useLoop()
+const { onBeforeLoop } = useLoop()
 
-onBeforeRender(({ invalidate }) => {
+onBeforeLoop(({ invalidate }) => {
   if (controlsRef.value && (enableDamping.value || autoRotate.value)) {
     controlsRef.value.update()
 
