@@ -1,10 +1,10 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { useLoop } from './index'
-import { useRenderLoop } from '../useRenderLoop'
+import { useCreateRafLoop } from '../useCreateRafLoop'
 
 let loop: ReturnType<typeof useLoop>
 
-describe('useRenderLoop', () => {
+describe(useLoop.name, () => {
   beforeEach(() => {
     loop = useLoop()
     vi.mock('../useTresContextProvider', () => ({
@@ -12,7 +12,7 @@ describe('useRenderLoop', () => {
         camera: {},
         scene: {},
         renderer: {
-          loop: useRenderLoop(() => {}),
+          loop: useCreateRafLoop(() => {}, () => {}),
         },
         controls: {},
         events: {},
@@ -52,14 +52,18 @@ describe('useRenderLoop', () => {
     loop.onBeforeRender(add(1), 0)
     loop.onBeforeRender(add(2), 1)
 
-    loop.onAfterRender(add(3), -1)
-    loop.onAfterRender(add(4), 0)
-    loop.onAfterRender(add(5), 1)
+    loop.onRender(add(3), -1)
+    loop.onRender(add(4), 0)
+    loop.onRender(add(5), 1)
+
+    // check if elements with the same index are called by insertion order
+    loop.onRender(add(6), 1)
+    loop.onRender(add(7), 1)
 
     loop.start()
     vi.advanceTimersToNextFrame()
 
-    expect(toTest).toBe('012345')
+    expect(toTest).toBe('01234567')
     vi.useRealTimers()
   })
 })
