@@ -15,11 +15,11 @@ import type { Renderer } from 'three/webgpu'
 import { setPixelRatio } from '../../utils'
 
 import { logWarning } from '../../utils/logger'
-import { useRenderLoop } from '../useRenderLoop'
 import type { SizesType } from '../useSizes'
 import type { UseCameraReturn } from '../useCamera'
 import type { TresScene } from '../../types'
 import { isFunction, isObject } from '../../utils/is'
+import { useCreateRafLoop } from '../useCreateRafLoop'
 
 /**
  * If set to 'on-demand', the scene will only be rendered when the current frame is invalidated
@@ -287,7 +287,7 @@ export function useRendererManager(
     renderEventHook.trigger(renderer)
   }
 
-  const loop = useRenderLoop((_notifyFrameRendered) => {
+  const loop = useCreateRafLoop((_notifyFrameRendered) => {
     if (camera.activeCamera.value && frames.value) {
       renderer.render(scene.value, camera.activeCamera.value)
       _notifyFrameRendered()

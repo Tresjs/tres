@@ -23,16 +23,16 @@ export const useLoop = () => {
 
   const rendererManager = tresContext.renderer
 
-  rendererManager.loop.onBeforeRender((loopContext) => {
+  rendererManager.loop.onBeforeCycle((loopContext) => {
     eventHookBeforeRender.trigger({ ...tresContextParts, ...loopContext })
   })
 
-  rendererManager.loop.onAfterRender((loopContext) => {
+  rendererManager.loop.onCycle((loopContext) => {
     eventHookAfterRender.trigger({ ...tresContextParts, ...loopContext })
   })
 
   const render = (fn: () => void) => {
-    rendererManager.loop.replaceRenderFunction(fn)
+    rendererManager.loop.replaceCycleFunction(fn)
   }
 
   return {
@@ -41,6 +41,6 @@ export const useLoop = () => {
     isActive: rendererManager.loop.isActive,
     onBeforeRender: eventHookBeforeRender.on,
     onAfterRender: eventHookAfterRender.on, // TODO think about naming this onRender -> yes
-    render, // TODO I'd call this replaceRenderFunction or similar -> no
+    render,
   }
 }
