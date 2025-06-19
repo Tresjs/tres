@@ -1,4 +1,5 @@
 import type { MaybeRef, MaybeRefOrGetter, Ref, ShallowRef } from 'vue'
+import { whenever } from '@vueuse/core'
 
 import type { RendererLoop } from '../../core/loop'
 import type { TresControl, TresScene } from '../../types'
@@ -78,8 +79,11 @@ export function useTresContextProvider({
   ctx.loop.setReady(false)
   ctx.loop.start()
 
-  renderer.onReady(() => {
+  whenever(renderer.isReady, () => { // TODO #994 This does not belong here, see https://github.com/Tresjs/tres/issues/595
     ctx.loop.setReady(true)
+  }, {
+    once: true,
+    immediate: true,
   })
 
   onUnmounted(() => {

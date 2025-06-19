@@ -9,7 +9,7 @@ import {
   useDevicePixelRatio,
 } from '@vueuse/core'
 import { Material, Mesh, WebGLRenderer } from 'three'
-import { computed, onUnmounted, ref, toValue, watch, watchEffect } from 'vue'
+import { computed, onUnmounted, readonly, ref, shallowRef, toValue, watch, watchEffect } from 'vue'
 import type { MaybeRef, ShallowRef } from 'vue'
 import type { Renderer } from 'three/webgpu'
 
@@ -225,6 +225,7 @@ export function useRendererManager(
   }
 
   const renderer = getRenderer()
+  const instance = shallowRef(renderer)
 
   const frames = ref(0)
   const maxFrames = 60
@@ -275,11 +276,13 @@ export function useRendererManager(
 
   const readyEventHook = createEventHook<TresRenderer>()
   let hasTriggeredReady = false
+  const isReady = ref(false)
 
   if (isRenderer(renderer)) {
     // Initialize the WebGPU context
     renderer.init()
     readyEventHook.trigger(renderer)
+    isReady.value = true
   }
 
   loop.register(() => {
@@ -301,6 +304,7 @@ export function useRendererManager(
     if (!hasTriggeredReady && renderer.domElement.width && renderer.domElement.height) {
       readyEventHook.trigger(renderer)
       hasTriggeredReady = true
+      isReady.value = true
     }
 
     invalidateOnDemand()
@@ -399,7 +403,8 @@ export function useRendererManager(
   })
 
   return {
-    instance: renderer,
+    instance,
+    isReady: readonly(isReady),
     advance,
     onRender: renderEventHook.on,
     onReady: readyEventHook.on,

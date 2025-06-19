@@ -279,19 +279,19 @@ export const inspectorStateHandler = (tres: TresContext, { highlightMesh, prevIn
               value: {
                 objects: instance.children.length,
                 memory: calculateMemoryUsage(instance),
-                calls: tres.renderer.instance.info.render.calls,
-                triangles: tres.renderer.instance.info.render.triangles,
-                points: tres.renderer.instance.info.render.points,
-                lines: tres.renderer.instance.info.render.lines,
+                calls: tres.renderer.instance.value.info.render.calls,
+                triangles: tres.renderer.instance.value.info.render.triangles,
+                points: tres.renderer.instance.value.info.render.points,
+                lines: tres.renderer.instance.value.info.render.lines,
               },
             },
           ],
         }
 
-        if ('programs' in tres.renderer.instance.info) {
+        if ('programs' in tres.renderer.instance.value.info) {
           sceneState.state.push({
             key: 'Programs',
-            value: tres.renderer.instance.info.programs?.map(program => ({
+            value: tres.renderer.instance.value.info.programs?.map(program => ({
               ...program,
               programName: program.name,
             })),
