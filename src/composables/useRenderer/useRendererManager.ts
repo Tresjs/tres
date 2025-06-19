@@ -224,7 +224,7 @@ export function useRendererManager(
 
   const renderer = getRenderer()
 
-  const frames = ref(0)
+  const frames = ref(toValue(options.renderMode) === 'manual' ? 0 : 1) // 1 to make sure the first frame is rendered
   const maxFrames = 60
   const canBeInvalidated = computed(() => toValue(options.renderMode) === 'on-demand' && frames.value === 0)
 
