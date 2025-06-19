@@ -1,7 +1,7 @@
 <!-- eslint-disable no-console -->
 <script setup lang="ts">
-import { OrbitControls } from '@tresjs/cientos'
-import { TresCanvas, useRenderLoop } from '@tresjs/core'
+// import { OrbitControls } from '@tresjs/cientos'
+import { TresCanvas, useLoop } from '@tresjs/core'
 import { TresLeches, useControls } from '@tresjs/leches'
 import {
   BasicShadowMap,
@@ -71,7 +71,7 @@ secondGroup.add(sphere)
 
 const primitiveRef = ref()
 
-useRenderLoop().onLoop(() => {
+const rotate = () => {
   if (primitiveRef.value) {
     // This doesn't work
     /* torusKnot.rotation.x += 0.01 */
@@ -79,7 +79,7 @@ useRenderLoop().onLoop(() => {
     primitiveRef.value.rotation.x += 0.01
     primitiveRef.value.rotation.y += 0.01
   }
-})
+}
 
 watchEffect(() => {
   console.log('primitiveRef.value', primitiveRef.value)
@@ -103,11 +103,13 @@ const modelArray = ref([torus, torusKnot, sphere]) */
     window-size
     class="awiwi"
     :style="{ background: '#008080' }"
+    @render="rotate"
   >
     <TresPerspectiveCamera
       :position="[7, 7, 7]"
+      :look-at="[0, 0, 0]"
     />
-    <OrbitControls />
+    <!-- <OrbitControls /> -->
     <!--  <primitive
       :object="reactivePrimitiveRef"
     /> -->

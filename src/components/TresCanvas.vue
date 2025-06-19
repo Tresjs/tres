@@ -57,7 +57,7 @@ const props = withDefaults(defineProps<TresCanvasProps>(), {
 
 const emit = defineEmits<{
   ready: [context: TresContext]
-  render: [renderer: TresRenderer]
+  render: [renderer: TresRenderer] // TODO why emit the renderer and not the context? // TODO name this loop?
   pointermissed: [event: PointerEvent<MouseEvent>]
 } & {
   // all pointer events are supported because they bubble up

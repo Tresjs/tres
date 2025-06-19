@@ -1,6 +1,6 @@
 <!-- eslint-disable no-console -->
 <script setup lang="ts">
-import { OrbitControls } from '@tresjs/cientos'
+// import { OrbitControls } from '@tresjs/cientos'
 import { TresCanvas, type TresPointerEvent } from '@tresjs/core'
 import { TresLeches } from '@tresjs/leches'
 import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
@@ -61,7 +61,7 @@ function onPointerMissed(ev: TresPointerEvent) {
       :position="[11, 11, 11]"
       :look-at="[0, 0, 0]"
     />
-    <OrbitControls />
+    <!-- <OrbitControls /> -->
     <template v-for="(x, xIndex) in [-2.5, 0, 2.5]">
       <template v-for="(y, yIndex) in [-2.5, 0, 2.5]">
         <TresMesh

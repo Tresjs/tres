@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { OrbitControls } from '@tresjs/cientos'
+// import { OrbitControls } from '@tresjs/cientos'
 import { useTres } from '@tresjs/core'
 import BlenderCube from '../../../components/BlenderCube.vue'
 
@@ -18,7 +18,7 @@ onMounted(() => {
   <BlenderCube @ready="advance" />
 
   <TresGridHelper />
-  <OrbitControls @change="advance" />
+  <!-- <OrbitControls @change="advance" /> -->
   <TresAmbientLight :intensity="1" />
   <TresDirectionalLight
     :position="[0, 8, 4]"

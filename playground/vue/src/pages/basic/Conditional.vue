@@ -67,7 +67,7 @@ const material = new MeshPhongMaterial({ color: '#ff0000' })
         </TresMesh>
       </TresGroup>
     </TresGroup>
-    <OrbitControls />
+    <!-- <OrbitControls /> -->
     <TresAmbientLight :intensity="0.5" />
   </TresCanvas>
 </template>

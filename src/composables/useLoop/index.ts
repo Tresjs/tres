@@ -32,8 +32,8 @@ export const useLoop = () => {
     stop: rendererManager.loop.stop,
     start: rendererManager.loop.start,
     isActive: rendererManager.loop.isActive,
-    onBeforeRender: eventHookBeforeRender.on,
-    onRender: eventHookAfterRender.on,
+    onBeforeRender: eventHookBeforeRender.on, // TODO name onBeforeLoop?
+    onRender: eventHookAfterRender.on, // TODO name onLoop?
     render,
   }
 }
