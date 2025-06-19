@@ -1,34 +1,25 @@
+import { useTresContext } from '..'
 import { createPriorityEventHook } from '../../utils/createPriorityEventHook'
-import type { TresContext } from '../useTresContextProvider'
-import { useTresContext } from '../useTresContextProvider'
-import type { RenderLoopContext } from '../useRenderLoop'
+import type { LoopContext as RafLoopContext } from '../useCreateRafLoop'
+import type { TresPartialContext } from '../useTres'
+import { useTres } from '../useTres'
 
-type ContextParts = Pick<TresContext, 'camera' | 'scene' | 'controls' | 'events' | 'renderer'> // TODO make this the same as useTresContext
-export type LoopContext = RenderLoopContext & ContextParts
+export type LoopContext = RafLoopContext & TresPartialContext
 
 // TODO write explanation -> syntax sugar for useTresContext.renderer.loop + context
 export const useLoop = () => {
-  const tresContext = useTresContext()
-
-  const tresContextParts: ContextParts = {
-    camera: tresContext.camera,
-    scene: tresContext.scene,
-    renderer: tresContext.renderer,
-    controls: tresContext.controls,
-    events: tresContext.events,
-  }
+  const tresContext = useTres()
+  const { renderer: rendererManager } = useTresContext()
 
   const eventHookBeforeRender = createPriorityEventHook<LoopContext>()
   const eventHookAfterRender = createPriorityEventHook<LoopContext>()
 
-  const rendererManager = tresContext.renderer
-
   rendererManager.loop.onBeforeCycle((loopContext) => {
-    eventHookBeforeRender.trigger({ ...tresContextParts, ...loopContext })
+    eventHookBeforeRender.trigger({ ...tresContext, ...loopContext })
   })
 
   rendererManager.loop.onCycle((loopContext) => {
-    eventHookAfterRender.trigger({ ...tresContextParts, ...loopContext })
+    eventHookAfterRender.trigger({ ...tresContext, ...loopContext })
   })
 
   const render = (fn: () => void) => {
@@ -40,7 +31,7 @@ export const useLoop = () => {
     start: rendererManager.loop.start,
     isActive: rendererManager.loop.isActive,
     onBeforeRender: eventHookBeforeRender.on,
-    onAfterRender: eventHookAfterRender.on, // TODO think about naming this onRender -> yes
+    onRender: eventHookAfterRender.on,
     render,
   }
 }
