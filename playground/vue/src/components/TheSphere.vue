@@ -4,7 +4,7 @@ import { useLoop } from '@tresjs/core'
 
 const sphereRef = ref()
 
-const { onBeforeRender } = useLoop()
+const { onBeforeLoop: onBeforeRender } = useLoop()
 
 onBeforeRender((state) => {
   if (!sphereRef.value) { return }

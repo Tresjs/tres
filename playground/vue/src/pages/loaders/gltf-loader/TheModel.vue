@@ -61,9 +61,9 @@ watch(progress, (newProgress) => {
 
 const modelRef = ref<Mesh>()
 
-const { onBeforeRender } = useLoop()
+const { onBeforeLoop } = useLoop()
 
-onBeforeRender(({ elapsed }) => {
+onBeforeLoop(({ elapsed }) => {
   if (modelRef.value) {
     modelRef.value.position.y = Math.sin(elapsed) + 2
   }

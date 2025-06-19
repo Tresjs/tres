@@ -6,7 +6,7 @@ import { shallowRef } from 'vue'
 const tOrF = shallowRef(false)
 const tOrFSlow = shallowRef(false)
 
-useLoop().onBeforeRender(({ elapsed: _elapsed }) => {
+useLoop().onBeforeLoop(({ elapsed: _elapsed }) => {
   tOrF.value = !!(Math.floor(_elapsed) % 2)
   tOrFSlow.value = !!(Math.floor(_elapsed * 0.25) % 2)
 })

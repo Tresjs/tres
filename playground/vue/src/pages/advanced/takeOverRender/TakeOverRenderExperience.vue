@@ -4,7 +4,7 @@
 import { useLoop, useTresContext } from '@tresjs/core'
 import type { Mesh } from 'three'
 
-const { render, onRender } = useLoop()
+const { render, onLoop } = useLoop()
 const { renderer, scene, camera } = useTresContext() // TODO: why do I need to use this?
 
 render((notifySuccess) => {
@@ -14,7 +14,7 @@ render((notifySuccess) => {
 
 const boxRef = ref<Mesh>()
 
-onRender(() => {
+onLoop(() => {
   if (boxRef.value) {
     boxRef.value.rotation.y += 0.01
   }

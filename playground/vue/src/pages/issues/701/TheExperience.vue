@@ -148,7 +148,7 @@ for (let i = 0; i < COUNT; i++) {
   })
 }
 
-useLoop().onBeforeRender(({ elapsed: _elapsed }) => {
+useLoop().onBeforeLoop(({ elapsed: _elapsed }) => {
   meshRef.value = Math.floor(_elapsed) % 2 ? sphere : box
   sphere.scale.y = Math.sin(_elapsed)
   primitiveX.value = Math.sin(_elapsed)
