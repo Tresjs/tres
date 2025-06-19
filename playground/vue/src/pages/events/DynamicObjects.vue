@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { Box, OrbitControls, Sphere, StatsGl } from '@tresjs/cientos'
-import { TresCanvas } from '@tresjs/core'
+import { Box, Sphere, StatsGl } from '@tresjs/cientos'
+import { TresCanvas, type TresPointerEvent } from '@tresjs/core'
 import { reactive } from 'vue'
 
 const hotspots = reactive([
@@ -26,21 +26,21 @@ const removeHotspot = () => {
   hotspots.pop()
 }
 
-const grow = (event) => {
+const grow = (event: TresPointerEvent) => {
   event.object.scale.set(1.5, 1.5, 1.5)
 }
 
-const shrink = (event) => {
+const shrink = (event: TresPointerEvent) => {
   event.object.scale.set(1, 1, 1)
 }
 </script>
 
 <template>
   <TresCanvas>
-    <Suspense>
+    <!-- <Suspense>
       <StatsGl />
-    </Suspense>
-    <OrbitControls />
+    </Suspense> -->
+    <!-- <OrbitControls /> -->
     <TresPerspectiveCamera />
     <TresAmbientLight :args="['white', 0.5]" />
     <Box :position="[0, 0, 0]" :scale="[1, 1, 1]" @click="addHotspot" @context-menu="removeHotspot">
@@ -52,8 +52,8 @@ const shrink = (event) => {
       :args="[0.5, 16, 16]"
       :position="hotspot.position"
       @click="console.log('click', index)"
-      @pointer-enter="grow"
-      @pointer-leave="shrink"
+      @pointerenter="grow"
+      @pointerleave="shrink"
     >
       <TresMeshNormalMaterial />
     </Sphere>
