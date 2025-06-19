@@ -47,17 +47,17 @@ describe(useLoop.name, () => {
 
     const add = (num: number) => () => { toTest += num }
 
-    loop.onBeforeRender(add(0), -1)
-    loop.onBeforeRender(add(1), 0)
-    loop.onBeforeRender(add(2), 1)
+    loop.onBeforeLoop(add(0), -1)
+    loop.onBeforeLoop(add(1), 0)
+    loop.onBeforeLoop(add(2), 1)
 
-    loop.onRender(add(3), -1)
-    loop.onRender(add(4), 0)
-    loop.onRender(add(5), 1)
+    loop.onLoop(add(3), -1)
+    loop.onLoop(add(4), 0)
+    loop.onLoop(add(5), 1)
 
     // check if elements with the same index are called by insertion order
-    loop.onRender(add(6), 1)
-    loop.onRender(add(7), 1)
+    loop.onLoop(add(6), 1)
+    loop.onLoop(add(7), 1)
 
     loop.start()
     vi.advanceTimersToNextFrame()
