@@ -13,10 +13,23 @@ const gl = {
   outputColorSpace: SRGBColorSpace,
   toneMapping: NoToneMapping,
 }
+
+const fboRef = ref()
+
+let direction = 1
+const move = () => {
+  fboRef.value.position.y += 0.02 * direction
+  if (fboRef.value.position.y > 1) {
+    direction = -1
+  }
+  else if (fboRef.value.position.y < -1) {
+    direction = 1
+  }
+}
 </script>
 
 <template>
-  <TresCanvas v-bind="gl">
+  <TresCanvas v-bind="gl" @loop="move">
     <TresPerspectiveCamera :position="[3, 3, 3]" :look-at="[0, 0, 0]" />
     <!-- <OrbitControls /> -->
     <!--  <Fbo
@@ -24,7 +37,9 @@ const gl = {
       v-bind="state"
     /> -->
 
-    <FBOCube />
+    <TresGroup ref="fboRef">
+      <FBOCube />
+    </TresGroup>
     <TresAmbientLight :intensity="1" />
   </TresCanvas>
 </template>
