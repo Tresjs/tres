@@ -79,11 +79,8 @@ export function useTresContextProvider({
   ctx.loop.setReady(false)
   ctx.loop.start()
 
-  whenever(renderer.isReady, () => { // TODO #994 This does not belong here, see https://github.com/Tresjs/tres/issues/595
+  renderer.onReady(() => {
     ctx.loop.setReady(true)
-  }, {
-    once: true,
-    immediate: true,
   })
 
   onUnmounted(() => {
