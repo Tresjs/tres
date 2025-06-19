@@ -1,6 +1,6 @@
 <script setup lang="ts">
 /* eslint-disable no-console */
-import { OrbitControls } from '@tresjs/cientos'
+// import { OrbitControls } from '@tresjs/cientos'
 import { useLoader } from '@tresjs/core'
 import { LoadingManager } from 'three'
 import type { GLTF } from 'three/examples/jsm/Addons.js'
@@ -49,7 +49,7 @@ watch([computedIsLoading, allModelsLoaded], ([isLoading, loaded]) => {
 
 <template>
   <TresPerspectiveCamera :position="[11, 11, 11]" />
-  <OrbitControls />
+  <!-- <OrbitControls /> -->
   <TresGridHelper />
   <TresAmbientLight :intensity="1" />
   <template v-for="(model, index) in models" :key="index">
