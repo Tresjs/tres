@@ -24,9 +24,7 @@ export const useLoop = () => {
     eventHookAfterRender.trigger({ ...tresContext, ...loopContext })
   })
 
-  const render = (fn: () => void) => {
-    rendererManager.loop.replaceCycleFunction(fn)
-  }
+  const render = rendererManager.loop.replaceLoopFunction
 
   return {
     stop: rendererManager.loop.stop,
