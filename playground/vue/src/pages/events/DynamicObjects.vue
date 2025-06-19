@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Box, Sphere, StatsGl } from '@tresjs/cientos'
+import { Box, Sphere } from '@tresjs/cientos'
 import { TresCanvas, type TresPointerEvent } from '@tresjs/core'
 import { reactive } from 'vue'
 

@@ -13,9 +13,9 @@ watch(blenderCubeRef, (prev, next) => {
   invalidate()
 })
 
-function onControlChange() {
-  invalidate()
-}
+// function onControlChange() {
+//   invalidate()
+// }
 </script>
 
 <template>

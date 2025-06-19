@@ -1,4 +1,3 @@
-import type { Camera } from 'three'
 import type { Ref } from 'vue'
 /* eslint-disable no-console */
 import { useLoop, useTres } from '@tresjs/core'

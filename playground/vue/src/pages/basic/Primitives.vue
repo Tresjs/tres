@@ -1,7 +1,7 @@
 <!-- eslint-disable no-console -->
 <script setup lang="ts">
 // import { OrbitControls } from '@tresjs/cientos'
-import { TresCanvas, useLoop } from '@tresjs/core'
+import { TresCanvas } from '@tresjs/core'
 import { TresLeches, useControls } from '@tresjs/leches'
 import {
   BasicShadowMap,
