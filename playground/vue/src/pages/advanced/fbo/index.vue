@@ -1,5 +1,5 @@
 <script setup lang="ts">
-// import { OrbitControls } from '@tresjs/cientos'
+import { OrbitControls } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
 import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
 import FBOCube from './FBOCube.vue'
@@ -31,7 +31,7 @@ const move = () => {
 <template>
   <TresCanvas v-bind="gl" @loop="move">
     <TresPerspectiveCamera :position="[3, 3, 3]" :look-at="[0, 0, 0]" />
-    <!-- <OrbitControls /> -->
+    <OrbitControls />
     <!--  <Fbo
       ref="fboRef"
       v-bind="state"

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-// import { OrbitControls } from '@tresjs/cientos'
+import { OrbitControls } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
 import { TresLeches, useControls } from '@tresjs/leches'
 import { BasicShadowMap, MeshPhongMaterial, NoToneMapping, SRGBColorSpace } from 'three'
@@ -67,7 +67,7 @@ const material = new MeshPhongMaterial({ color: '#ff0000' })
         </TresMesh>
       </TresGroup>
     </TresGroup>
-    <!-- <OrbitControls /> -->
+    <OrbitControls />
     <TresAmbientLight :intensity="0.5" />
   </TresCanvas>
 </template>

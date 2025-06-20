@@ -1,7 +1,5 @@
 <script lang="ts" setup>
-// import { Icosahedron, OrbitControls, StatsGl } from '@tresjs/cientos'
-
-import { Icosahedron } from '@tresjs/cientos'
+import { Icosahedron, OrbitControls, StatsGl } from '@tresjs/cientos'
 
 import { TresCanvas } from '@tresjs/core'
 import {
@@ -27,7 +25,7 @@ const gl = {
   <TresCanvas clear-color="#ccc" v-bind="gl" window-size preset="realistic">
     <!-- <StatsGl /> -->
     <TresPerspectiveCamera :position="[0, 0, 15]" :args="[45, 1, 0.1, 1000]" />
-    <!-- <OrbitControls /> -->
+    <OrbitControls />
     <TresDirectionalLight
       :intensity="0.4"
       :position="[30, 20, 10]"

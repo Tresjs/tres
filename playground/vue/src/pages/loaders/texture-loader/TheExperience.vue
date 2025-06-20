@@ -1,6 +1,6 @@
 <script setup lang="ts">
 /* eslint-disable no-console */
-// import { OrbitControls } from '@tresjs/cientos'
+import { OrbitControls } from '@tresjs/cientos'
 import { useLoader } from '@tresjs/core'
 import { LoadingManager, Texture, TextureLoader } from 'three'
 
@@ -41,7 +41,7 @@ watch(texture, (newTexture) => {
 
 <template>
   <TresPerspectiveCamera :position="[3, 3, 3]" :look-at="[0, 0, 0]" />
-  <!-- <OrbitControls /> -->
+  <OrbitControls />
   <TresGridHelper />
   <TresAmbientLight :intensity="1" />
   <TresMesh>

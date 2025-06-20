@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { TresPointerEvent } from '@tresjs/core'
-// import { OrbitControls } from '@tresjs/cientos'
+import { OrbitControls } from '@tresjs/cientos'
 import { useLoop } from '@tresjs/core'
 import type { Mesh } from 'three'
 import { BoxGeometry, CylinderGeometry, Euler, MathUtils, MeshToonMaterial, SphereGeometry, Vector3 } from 'three'
@@ -86,7 +86,7 @@ onBeforeRender(({ elapsed }) => {
     :far="1000"
     :look-at="[0, 5, 0]"
   />
-  <!-- <OrbitControls /> -->
+  <OrbitControls />
   <TresAmbientLight :intensity="0.5" />
 
   <TresGroup>

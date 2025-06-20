@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { TresObject } from '@tresjs/core'
-// import { OrbitControls } from '@tresjs/cientos'
+import { OrbitControls } from '@tresjs/cientos'
 import { TresCanvas, vDistanceTo, vLightHelper, vLog } from '@tresjs/core'
 
 import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
@@ -26,7 +26,7 @@ const planeRef: Ref<TresObject | null> = ref(null)
       v-distance-to="planeRef"
       :position="[3, 3, 3]"
     />
-    <!-- <OrbitControls /> -->
+    <OrbitControls />
 
     <TresDirectionalLight
       v-light-helper

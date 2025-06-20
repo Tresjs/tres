@@ -1,5 +1,5 @@
 <script setup lang="ts">
-// import { OrbitControls } from '@tresjs/cientos'
+import { OrbitControls } from '@tresjs/cientos'
 
 import { useLoop, useTresContext } from '@tresjs/core'
 import type { Mesh } from 'three'
@@ -29,7 +29,7 @@ setTimeout(() => {
 
 <template>
   <TresPerspectiveCamera :position="[3, 3, 3]" :look-at="[2, 0, 0]" />
-  <!-- <OrbitControls make-default /> -->
+  <OrbitControls make-default />
   <TresMesh
     ref="boxRef"
     :position="[2, 0, 0]"

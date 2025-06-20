@@ -2,7 +2,7 @@
 /* eslint-disable no-console */
 import { TresCanvas, useGraph } from '@tresjs/core'
 
-// import { OrbitControls } from '@tresjs/cientos'
+import { OrbitControls } from '@tresjs/cientos'
 import { BoxGeometry, Group, Mesh, MeshStandardMaterial } from 'three'
 
 const gl = {
@@ -25,7 +25,7 @@ materials.FancyMaterial.color.set('blue')
 <template>
   <TresCanvas v-bind="gl">
     <TresPerspectiveCamera :position="[3, 3, 3]" :look-at="[0, 0, 0]" />
-    <!-- <OrbitControls /> -->
+    <OrbitControls />
     <TresGridHelper />
     <TresAmbientLight :intensity="1" />
     <primitive :object="group" />

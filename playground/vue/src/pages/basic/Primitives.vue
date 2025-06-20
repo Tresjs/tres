@@ -1,6 +1,6 @@
 <!-- eslint-disable no-console -->
 <script setup lang="ts">
-// import { OrbitControls } from '@tresjs/cientos'
+import { OrbitControls } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
 import { TresLeches, useControls } from '@tresjs/leches'
 import {
@@ -109,7 +109,7 @@ const modelArray = ref([torus, torusKnot, sphere]) */
       :position="[7, 7, 7]"
       :look-at="[0, 0, 0]"
     />
-    <!-- <OrbitControls /> -->
+    <OrbitControls />
     <!--  <primitive
       :object="reactivePrimitiveRef"
     /> -->

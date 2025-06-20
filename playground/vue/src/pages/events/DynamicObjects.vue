@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Box, Sphere } from '@tresjs/cientos'
+import { Box, OrbitControls, Sphere } from '@tresjs/cientos'
 import { TresCanvas, type TresPointerEvent } from '@tresjs/core'
 import { reactive } from 'vue'
 
@@ -37,10 +37,10 @@ const shrink = (event: TresPointerEvent) => {
 
 <template>
   <TresCanvas>
-    <!-- <Suspense>
+    <Suspense>
       <StatsGl />
-    </Suspense> -->
-    <!-- <OrbitControls /> -->
+    </Suspense>
+    <OrbitControls />
     <TresPerspectiveCamera />
     <TresAmbientLight :args="['white', 0.5]" />
     <Box :position="[0, 0, 0]" :scale="[1, 1, 1]" @click="addHotspot" @context-menu="removeHotspot">
