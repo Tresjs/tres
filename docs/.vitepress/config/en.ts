@@ -37,7 +37,15 @@ export const enConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
           },
         ],
       },
-
+      {
+        text: 'Composables',
+        link: '/api/composables',
+        items: [
+          { text: 'useTres', link: '/composables/use-tres' },
+          { text: 'useLoader', link: '/composables/use-loader' },
+          { text: 'useGraph', link: '/composables/use-graph' },
+        ],
+      },
       {
         text: 'Advanced',
 

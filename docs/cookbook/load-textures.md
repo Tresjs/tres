@@ -28,9 +28,12 @@ For a detailed explanation of how to use `useLoader`, check out the [useLoader](
 
 ```ts
 import { useLoader } from '@tresjs/core'
-import { TextureLoader } from 'three'
+import { Texture, TextureLoader } from 'three'
 
-const texture = useLoader(TextureLoader, '/Rock035_2K_Color.jpg')
+const { state: texture, isLoading } = useLoader(
+  TextureLoader,
+  '/Rock035_2K_Color.jpg',
+)
 ```
 
 Then you can pass the texture to a material:
@@ -54,12 +57,18 @@ import TexturedSphere from './TexturedSphere.vue'
 </template>
 ```
 
-```vue [Model.vue]
+```vue [TexturedSphere.vue]
 <script setup lang="ts">
 import { useLoader } from '@tresjs/core'
 import { TextureLoader } from 'three'
 
-const texture = useLoader(TextureLoader, '/Rock035_2K_Color.jpg')
+const { state: texture, isLoading } = useLoader(
+  TextureLoader,
+  '/Rock035_2K_Color.jpg',
+  {
+    initialValue: new Texture(),
+  },
+)
 </script>
 
 <template>
@@ -71,37 +80,25 @@ const texture = useLoader(TextureLoader, '/Rock035_2K_Color.jpg')
 ```
 :::
 
+::: tip
+To avoid using v-if on the material, you can set a default texture as the initial value of the `state` property.
+:::
+
 ## Using `useTexture`
 
-A more convenient way of loading textures is using the `useTexture` composable. It accepts both an array of URLs or a single object with the texture paths mapped.
-
-To learn more about `useTexture`, check out the [useTexture](/api/composables#use-texture) documentation.
+A more convenient way of loading textures is using the `useTexture` and `useTextures` composables from the `@tresjs/cientos` package.
+To learn more about `useTexture`, check out the [useTexture](https://cientos.tresjs.org/guide/loaders/useTexture) documentation.
 
 ```ts
-import { useTexture } from '@tresjs/core'
+import { useTexture } from '@tresjs/cientos'
 
-const pbrTexture = await useTexture({
-  map: '/textures/black-rock/Rock035_2K_Displacement.jpg',
-  displacementMap: '/textures/black-rock/Rock035_2K_Displacement.jpg',
-  roughnessMap: '/textures/black-rock/Rock035_2K_Roughness.jpg',
-  normalMap: '/textures/black-rock/Rock035_2K_NormalDX.jpg',
-  aoMap: '/textures/black-rock/Rock035_2K_AmbientOcclusion.jpg',
-  metalnessMap: '/textures/black-rock/myMetalnessTexture.jpg',
-  matcap: '/textures/black-rock/myMatcapTexture.jpg',
-  alphaMap: '/textures/black-rock/myAlphaMapTexture.jpg'
-})
+const { state: texture, isLoading } = useTexture('/Rock035_2K_Color.jpg')
 ```
 Similar to the previous example, we can pass all the textures to a material via props:
 
 ```html
 <TresMesh>
   <TresSphereGeometry :args="[1,32,32]" />
-  <TresMeshStandardMaterial
-    :map="pbrTexture.map"
-    :displacementMap="pbrTexture.displacementMap"
-    :roughnessMap="pbrTexture.roughnessMap"
-    :normalMap="pbrTexture.normalMap"
-    :aoMap="pbrTexture.ambientOcclusionMap"
-  />
+  <TresMeshStandardMaterial :map="texture" />
 </TresMesh>
 ```
