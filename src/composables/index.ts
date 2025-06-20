@@ -7,6 +7,6 @@ export * from './useLoop'
 export * from './useRenderer/useRendererManager'
 export * from './useTres'
 
-export * from './useTresContextProvider'
+export { type TresContext, useTresContext, useTresContextProvider } from './useTresContextProvider'
 
 export { UseLoader }
