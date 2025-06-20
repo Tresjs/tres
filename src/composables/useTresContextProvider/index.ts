@@ -23,7 +23,7 @@ export interface TresContext {
   events: ReturnType<typeof useEventManager>
 }
 
-export const INJECTION_KEY = 'useTres' // this is intentionally not as the symbol can not properly be bridged to the custom renderer
+export const INJECTION_KEY = 'useTres' // this is intentionally not a symbol as it can not properly be bridged to the custom renderer
 
 const [useTresContextProvider, _useTresContext] = createInjectionState(({
   scene,
