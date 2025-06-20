@@ -3,7 +3,7 @@ import { TresCanvas } from '@tresjs/core'
 import { TresLeches } from '@tresjs/leches'
 import '@tresjs/leches/styles'
 import { shallowRef } from 'vue'
-// import LocalOrbitControls from '../../components/LocalOrbitControls.vue'
+import LocalOrbitControls from '../../components/LocalOrbitControls.vue'
 
 const x = shallowRef(1)
 const y = shallowRef(1)
@@ -61,7 +61,7 @@ const onLoop = ({ elapsed }: { elapsed: number }) => {
       <TresBoxGeometry />
       <TresMeshNormalMaterial />
     </TresMesh>
-    <!-- <LocalOrbitControls :enable-zoom="enableZoom" /> -->
+    <LocalOrbitControls :enable-zoom="enableZoom" />
   </TresCanvas>
 </template>
 
