@@ -4,7 +4,7 @@ import { useLoop } from '@tresjs/core'
 const groupRef = shallowRef()
 const showRef = shallowRef(false)
 const parentNameRef = shallowRef('')
-useLoop().onBeforeLoop(({ elapsed }) => {
+useLoop().onBeforeRender(({ elapsed }) => {
   showRef.value = Math.floor(elapsed) % 2 === 1
   parentNameRef.value = groupRef.value?.parent.name || ''
 })

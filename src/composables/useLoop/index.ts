@@ -30,8 +30,8 @@ export const useLoop = () => {
     stop: rendererManager.loop.stop,
     start: rendererManager.loop.start,
     isActive: rendererManager.loop.isActive,
-    onBeforeLoop: eventHookBeforeRender.on,
-    onLoop: eventHookAfterRender.on,
+    onBeforeRender: eventHookBeforeRender.on,
+    onRender: eventHookAfterRender.on,
     render,
   }
 }

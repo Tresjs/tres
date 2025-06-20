@@ -61,9 +61,9 @@ function onPointerLeave(ev: TresPointerEvent) {
 
 const PI = Math.PI
 
-const { onBeforeLoop } = useLoop()
+const { onBeforeRender } = useLoop()
 
-onBeforeLoop(({ elapsed }) => {
+onBeforeRender(({ elapsed }) => {
   elapsed = elapsed * 3 + 7
   pyramidRef.value.position.y = Math.tan(clamp((1 + elapsed) % 9, 0, PI))
   boxRef.value.position.y = Math.tan(clamp((0.5 + elapsed) % 9, 0, PI))

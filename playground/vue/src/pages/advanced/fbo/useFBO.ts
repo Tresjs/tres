@@ -68,9 +68,9 @@ export function useFBO(options: FboOptions) {
     }
   })
   const logBefore = useThrottleFn(() => console.log('FBO: just before render'), 3000)
-  const { onBeforeLoop } = useLoop()
+  const { onBeforeRender } = useLoop()
 
-  onBeforeLoop(({ renderer, scene, camera }) => {
+  onBeforeRender(({ renderer, scene, camera }) => {
     logBefore()
     renderer.setRenderTarget(target.value)
     renderer.clear()

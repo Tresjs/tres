@@ -4,11 +4,11 @@ import { useLoop } from '@tresjs/core'
 
 const sphereRef = ref()
 
-const { onBeforeLoop } = useLoop()
+const { onBeforeRender } = useLoop()
 
-onBeforeLoop(({ invalidate }) => {
+onBeforeRender(({ invalidate, elapsed }) => {
   if (!sphereRef.value) { return }
-  sphereRef.value.position.y += Math.sin(state.elapsed) * 0.01
+  sphereRef.value.position.y += Math.sin(elapsed) * 0.01
   invalidate()
 })
 </script>
