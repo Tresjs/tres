@@ -1,5 +1,7 @@
 # Changelog
 
+## [5.0.0-next.5](https://github.com/Tresjs/tres/compare/5.0.0-next.4...5.0.0-next.5) (2025-06-20)
+
 ## [5.0.0-next.4](https://github.com/Tresjs/tres/compare/5.0.0-next.3...5.0.0-next.4) (2025-06-20)
 
 ### ⚠ BREAKING CHANGES
