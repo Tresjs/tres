@@ -79,5 +79,5 @@ export const useTresContext = () => {
     throw new Error('useTresContext must be used together with useTresContextProvider')
   }
 
-  return context as TresContext
+  return context
 }
