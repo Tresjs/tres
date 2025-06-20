@@ -4,7 +4,7 @@ import { OrbitControls } from '@tresjs/cientos'
 import { useLoader } from '@tresjs/core'
 import { LoadingManager } from 'three'
 import type { GLTF } from 'three/examples/jsm/Addons.js'
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 
 const state = inject<{
   hasFinishLoading: boolean
@@ -28,7 +28,7 @@ const models = ref(modelPaths.map(path => useLoader<GLTF>(GLTFLoader, path, {
   manager,
 })))
 
-const computedIsLoading = computed(() => models.value.some(model => model.isLoading.value))
+const computedIsLoading = computed(() => models.value.some(model => model.isLoading))
 
 // Check if all models have loaded successfully and their scenes are available
 const allModelsLoaded = computed(() => models.value.every(model =>

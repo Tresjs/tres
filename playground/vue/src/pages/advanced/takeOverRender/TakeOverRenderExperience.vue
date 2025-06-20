@@ -1,54 +1,43 @@
 <script setup lang="ts">
 import { OrbitControls } from '@tresjs/cientos'
 
-import { useLoop } from '@tresjs/core'
+import { useLoop, useTres } from '@tresjs/core'
 import { useControls } from '@tresjs/leches'
+import type { Mesh } from 'three'
 
-const { render, pauseRender, resumeRender } = useLoop()
+const { render, onRender } = useLoop()
+const { renderer, scene, camera } = useTres()
 
-const { off } = render(({ renderer, scene, camera }) => {
-  renderer.instance.render(scene, camera)
+const { shouldRender } = useControls({
+  shouldRender: true,
 })
 
-const { isRenderPaused, unregisterRender } = useControls({
-  isRenderPaused: {
-    value: false,
-    type: 'boolean',
-    label: 'Pause Render',
-  },
-  unregisterRender: {
-    value: false,
-    type: 'boolean',
-    label: 'Unregister render callback',
-  },
-})
-
-watchEffect(() => {
-  if (unregisterRender.value) {
-    off()
+render((notifySuccess) => {
+  if (shouldRender.value && camera.value) {
+    renderer.render(scene.value, camera.value)
+    notifySuccess()
   }
 })
 
-watchEffect(() => {
-  if (isRenderPaused.value) {
-    pauseRender()
-  }
-  else {
-    resumeRender()
+const boxRef = ref<Mesh>()
+
+onRender(() => {
+  if (boxRef.value) {
+    boxRef.value.rotation.y += 0.01
   }
 })
-
-const showGrid = ref(true)
-
-setTimeout(() => {
-  showGrid.value = false
-}, 10000)
 </script>
 
 <template>
-  <TresPerspectiveCamera :position="[3, 3, 3]" />
+  <TresPerspectiveCamera :position="[3, 3, 3]" :look-at="[0, 0, 0]" />
   <OrbitControls make-default />
-  <AnimatedObjectUseUpdate />
-  <TresGridHelper v-if="showGrid" />
+  <TresMesh
+    ref="boxRef"
+    :position="[0, 0, 0]"
+    cast-shadow
+  >
+    <TresBoxGeometry />
+    <TresMeshNormalMaterial />
+  </TresMesh>
   <TresAmbientLight :intensity="1" />
 </template>

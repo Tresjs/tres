@@ -43,7 +43,6 @@ export default defineConfig({
   test: {
     environment: 'jsdom',
     globals: true,
-    threads: false,
   },
   build: {
     // vite.config.ts

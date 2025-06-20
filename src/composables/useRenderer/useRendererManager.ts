@@ -1,4 +1,3 @@
-import type { RendererLoop } from './../../core/loop'
 import type { ColorRepresentation, ColorSpace, Object3D, ShadowMapType, ToneMapping } from 'three'
 
 import type { TresContext } from '../useTresContextProvider'
@@ -7,10 +6,10 @@ import {
   createEventHook,
   unrefElement,
   useDevicePixelRatio,
+  useTimeout,
 } from '@vueuse/core'
 import { Material, Mesh, WebGLRenderer } from 'three'
-import { computed, onUnmounted, ref, toValue, watch, watchEffect } from 'vue'
-import type { MaybeRef, ShallowRef } from 'vue'
+import { computed, type MaybeRef, onUnmounted, type Reactive, ref, type ShallowRef, toValue, watch, watchEffect } from 'vue'
 import type { Renderer } from 'three/webgpu'
 
 // Solution taken from Thretle that actually support different versions https://github.com/threlte/threlte/blob/5fa541179460f0dadc7dc17ae5e6854d1689379e/packages/core/src/lib/lib/useRenderer.ts
@@ -21,6 +20,7 @@ import type { SizesType } from '../useSizes'
 import type { UseCameraReturn } from '../useCamera'
 import type { TresScene } from '../../types'
 import { isFunction, isObject } from '../../utils/is'
+import { useCreateRafLoop } from '../useCreateRafLoop'
 
 /**
  * If set to 'on-demand', the scene will only be rendered when the current frame is invalidated
@@ -188,15 +188,14 @@ export interface TresRendererSetupContext {
   sizes: SizesType
   scene: ShallowRef<TresScene>
   camera: UseCameraReturn
-  loop: RendererLoop
   canvas: MaybeRef<HTMLCanvasElement>
 }
 
 export interface UseRendererOptions {
   scene: ShallowRef<TresScene>
   canvas: MaybeRef<HTMLCanvasElement>
-  options: RendererOptions
-  contextParts: Pick<TresContext, 'sizes' | 'camera' | 'loop'>
+  options: Reactive<RendererOptions>
+  contextParts: Pick<TresContext, 'sizes' | 'camera'>
 }
 
 export function useRendererManager(
@@ -204,7 +203,7 @@ export function useRendererManager(
     scene,
     canvas,
     options,
-    contextParts: { sizes, loop, camera },
+    contextParts: { sizes, camera },
   }: UseRendererOptions,
 ) {
   const getRenderer = () => {
@@ -213,7 +212,6 @@ export function useRendererManager(
         sizes,
         scene,
         camera,
-        loop,
         canvas,
       })
     }
@@ -226,7 +224,7 @@ export function useRendererManager(
 
   const renderer = getRenderer()
 
-  const frames = ref(0)
+  const frames = ref(toValue(options.renderMode) === 'manual' ? 0 : 1) // 1 to make sure the first frame is rendered
   const maxFrames = 60
   const canBeInvalidated = computed(() => toValue(options.renderMode) === 'on-demand' && frames.value === 0)
 
@@ -267,8 +265,6 @@ export function useRendererManager(
 
   const isModeAlways = computed(() => toValue(options.renderMode) === 'always')
 
-  const renderEventHook = createEventHook<TresRenderer>()
-
   // be aware that the WebGLRenderer does not extend from Renderer
   const isRenderer = (value: unknown): value is Renderer =>
     isObject(value) && 'isRenderer' in value && Boolean(value.isRenderer)
@@ -282,17 +278,24 @@ export function useRendererManager(
     readyEventHook.trigger(renderer)
   }
 
-  loop.register(() => {
-    if (camera.activeCamera.value && frames.value) {
-      renderer.render(scene.value, camera.activeCamera.value)
+  const renderEventHook = createEventHook<TresRenderer>()
 
-      renderEventHook.trigger(renderer)
-    }
-
+  const notifyFrameRendered = () => {
     frames.value = isModeAlways.value
       ? 1
       : Math.max(0, frames.value - 1)
-  }, 'render')
+
+    renderEventHook.trigger(renderer)
+  }
+
+  const loop = useCreateRafLoop((_notifyFrameRendered) => {
+    if (camera.activeCamera.value && frames.value) {
+      renderer.render(scene.value, camera.activeCamera.value)
+      _notifyFrameRendered()
+    }
+  }, notifyFrameRendered)
+
+  readyEventHook.on(loop.start)
 
   // Watch the sizes and invalidate the renderer when they change
   watch([sizes.width, sizes.height], () => {
@@ -321,9 +324,9 @@ export function useRendererManager(
 
   if (toValue(options.renderMode) === 'manual') {
     // Advance for the first time, setTimeout to make sure there is something to render
-    setTimeout(() => {
-      advance()
-    }, 100)
+    useTimeout(100, {
+      callback: advance,
+    })
   }
 
   const clearColorAndAlpha = computed(() => {
@@ -399,13 +402,13 @@ export function useRendererManager(
   })
 
   return {
+    loop,
     instance: renderer,
     advance,
-    onRender: renderEventHook.on,
     onReady: readyEventHook.on,
+    onRender: renderEventHook.on,
     invalidate,
     canBeInvalidated,
-    frames,
     mode: toValue(options.renderMode),
   }
 }

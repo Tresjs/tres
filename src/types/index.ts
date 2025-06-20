@@ -78,6 +78,30 @@ export interface TresObject3D extends THREE.Object3D<THREE.Object3DEventMap> {
 export type TresObject =
   TresBaseObject & (TresObject3D | THREE.BufferGeometry | THREE.Material | THREE.Fog) & { __tres?: LocalState }
 
+/**
+ * Union type covering all common Three.js material types
+ * This provides better TypeScript intellisense and type checking
+ * when accessing specific material properties
+ */
+export type TresMaterial =
+  | THREE.MeshBasicMaterial
+  | THREE.MeshStandardMaterial
+  | THREE.MeshPhysicalMaterial
+  | THREE.MeshLambertMaterial
+  | THREE.MeshPhongMaterial
+  | THREE.MeshToonMaterial
+  | THREE.MeshNormalMaterial
+  | THREE.MeshMatcapMaterial
+  | THREE.MeshDepthMaterial
+  | THREE.MeshDistanceMaterial
+  | THREE.LineBasicMaterial
+  | THREE.LineDashedMaterial
+  | THREE.PointsMaterial
+  | THREE.SpriteMaterial
+  | THREE.ShaderMaterial
+  | THREE.RawShaderMaterial
+  | THREE.ShadowMaterial
+  | THREE.Material // Fallback for any other materials
 export type TresInstance = TresObject & { __tres: LocalState }
 
 export type TresPrimitive = TresInstance & { object: TresInstance, isPrimitive: true }
@@ -121,6 +145,7 @@ export type TresLayers = THREE.Layers | Parameters<THREE.Layers['set']>[0]
 export type TresQuaternion = THREE.Quaternion | Parameters<THREE.Quaternion['set']>
 export type TresEuler = THREE.Euler
 export type TresControl = THREE.EventDispatcher & { enabled: boolean }
+export type TresContextWithClock = TresContext & { delta: number, elapsed: number }
 
 export type WithMathProps<P> = { [K in keyof P]: P[K] extends MathRepresentation | THREE.Euler ? MathType<P[K]> : P[K] }
 

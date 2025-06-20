@@ -8,17 +8,6 @@ import type { TresObjectMap } from '../../../../src/utils/graph'
 import { DRACOLoader } from 'three/examples/jsm/Addons.js'
 import type { LoadingManager } from 'three'
 
-/* export function useGLTF(path: MaybeRef<string>, options: any) {
-  const { state: model, isLoading, execute } = useLoader(GLTFLoader, path, options)
-
-  const state = computed(() => ({
-    ...model.value,
-    ...useGraph(model.value?.scene).value,
-  }))
-
-  return { state, isLoading, execute }
-} */
-
 export function usePocGLTF(path: MaybeRef<string>, options?: {
   draco?: boolean
   manager?: LoadingManager
@@ -39,7 +28,7 @@ export function usePocGLTF(path: MaybeRef<string>, options?: {
         const loadedData = result
         if (loadedData.scene) {
           const graph = buildGraph(loadedData.scene)
-          Object.assign(loadedData, graph.value)
+          Object.assign(loadedData, graph)
         }
         resolve(loadedData as unknown as TresObject)
       }, undefined, (err: unknown) => {

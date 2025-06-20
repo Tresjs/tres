@@ -1,5 +1,112 @@
 # Changelog
 
+## [5.0.0-next.5](https://github.com/Tresjs/tres/compare/5.0.0-next.4...5.0.0-next.5) (2025-06-20)
+
+## [5.0.0-next.4](https://github.com/Tresjs/tres/compare/5.0.0-next.3...5.0.0-next.4) (2025-06-20)
+
+### ⚠ BREAKING CHANGES
+
+* onAfterRender has been renamed to onRender
+
+* refactor: type improvements in createPriorityEventHook
+
+* wip
+
+* wip
+
+* improved test
+
+* added context to useCreateRenderLoop and tests
+
+* fixed typing
+
+* added clock
+
+* wip
+
+* refactor: remove deprecated loop implementation and update related composables
+
+- Removed the old `useCreateRenderLoop` and its associated tests.
+- Updated `useLoop` to utilize the new `useRenderLoop` for better event handling.
+- Commented out `OrbitControls` in relevant Vue components for potential future use.
+- Cleaned up unused code and comments in `useTresContextProvider`.
+
+* added some todos
+
+* refactor: removed redundant eventhook
+
+* refactor: simplify renderer setup by removing loop parameter
+
+* refactor: enhance useRenderLoop to accept notifyFrameRendered callback
+
+* chore: removed obsolete comment
+
+* chore: made TresCanvas use correct event hook
+
+* refactor!: omitted frame in render manager return
+
+* refactor: restored renderEventHook
+
+* chore: added comments after meeting
+
+* refactor: made render loop more generic in it's naming
+
+* refactor: made useLoop use useTres context
+
+* chore: added jsdoc description for useLoop
+
+* refactor: rename LoopContext to RafLoopContext and update related references
+
+* refactor: replaced setTimeout with useTimeout
+
+* refactor: update useLoop tests to use useCreateRafLoop and adjust rendering logic
+
+* test: enhance useLoop tests with fake timers and add new callback functionality
+
+* chore: removed debug code
+
+* fix: initialize frames based on renderMode to ensure correct rendering behavior
+
+* refactor: fixed multiple playgrounds
+
+* feat: added loop and beforeLoop events to canvas
+
+* fix: fixed playground experience
+rafactor: renamed replaceCycleFunction to replaceLoopFunction
+
+* fix: fixed some more playgrounds
+
+* fixed some more playgrounds
+
+* refactor!: renamed onBeforeRender to onBeforeLoop and onRender to onLoop
+fix: fixed playgrounds
+
+* fixed test
+
+* refactor: tiny code styling improvement
+
+* refactor: omitted export of useCreateRafLoop
+
+* linting fixes
+
+* refactor: tiny improvement for fbo demo
+
+* refactor: rename fboRef to groupRef for clarity in FBO demo
+
+* refactor: renamed onBeforeLoop back to onBeforeRender and onLoop back to onRender
+
+* restored usage of orbit controls
+
+* more restoring of orbitcontrols usages
+
+* refactor: updated loop handling by renaming onLoop to onRender in TakeOverRenderExperience.vue and adjusted related emit definitions in TresCanvas.vue
+
+* removed obsolete comment
+
+### Features
+
+* useLoop and useRenderLoop refactoring ([#1035](https://github.com/Tresjs/tres/issues/1035)) ([db65f3f](https://github.com/Tresjs/tres/commit/db65f3f1ea723048d6851ed52a445d80a0d26f09)), closes [#1039](https://github.com/Tresjs/tres/issues/1039)
+
 ## [5.0.0-next.3](https://github.com/Tresjs/tres/compare/5.0.0-next.2...5.0.0-next.3) (2025-06-15)
 
 ### Features

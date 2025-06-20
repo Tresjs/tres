@@ -1,13 +1,14 @@
-import type { Material, Mesh, Object3D, Scene } from 'three'
+import type { Mesh, Scene } from 'three'
+import type { TresMaterial, TresObject } from '../types'
 
 export interface TresObjectMap {
-  nodes: { [name: string]: Object3D }
-  materials: { [name: string]: Material }
+  nodes: { [name: string]: TresObject }
+  materials: { [name: string]: TresMaterial }
   meshes: { [name: string]: Mesh }
   scene?: Scene
 }
 
-export function buildGraph(object: Object3D): TresObjectMap {
+export function buildGraph(object: TresObject): TresObjectMap {
   const data: TresObjectMap = { nodes: {}, materials: {}, meshes: {} }
   if (object) {
     object.traverse((obj: any) => {
