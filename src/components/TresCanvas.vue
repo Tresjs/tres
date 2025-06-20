@@ -27,7 +27,7 @@ import {
   watchEffect,
 } from 'vue'
 import pkg from '../../package.json'
-import type { RendererOptions, TresContext, TresRenderer } from '../composables'
+import type { RendererOptions, TresContext } from '../composables'
 import { useTresContextProvider } from '../composables'
 import { extend } from '../core/catalogue'
 import { nodeOps } from '../core/nodeOps'
@@ -58,14 +58,14 @@ const props = withDefaults(defineProps<TresCanvasProps>(), {
 const emit = defineEmits<{
   ready: [context: TresContext]
   pointermissed: [event: PointerEvent<MouseEvent>]
-  // TODO write explanation for differences
-  render: [renderer: TresRenderer] // TODO: should this be context? -> yes
+  render: [context: TresContext]
   beforeLoop: [context: TresContextWithClock]
   loop: [context: TresContextWithClock]
 } & {
   // all pointer events are supported because they bubble up
   [key in TresPointerEventName]: [event: PointerEvent<MouseEvent>]
-}>()
+}
+>()
 
 const slots = defineSlots<{
   default: () => any
@@ -218,7 +218,9 @@ onMounted(() => {
   }
 
   renderer.onRender(() => {
-    emit('render', renderer.instance)
+    if (context.value) {
+      emit('render', context.value)
+    }
   })
 
   renderer.loop.onLoop((loopContext) => {

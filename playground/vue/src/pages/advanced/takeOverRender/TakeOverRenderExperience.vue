@@ -6,7 +6,7 @@ import { useControls } from '@tresjs/leches'
 import type { Mesh } from 'three'
 
 const { render, onRender } = useLoop()
-const { renderer, scene, camera } = useTres() // TODO: why do I need to use this?
+const { renderer, scene, camera } = useTres()
 
 const { shouldRender } = useControls({
   shouldRender: true,
