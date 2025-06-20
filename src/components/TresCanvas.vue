@@ -58,9 +58,10 @@ const props = withDefaults(defineProps<TresCanvasProps>(), {
 const emit = defineEmits<{
   ready: [context: TresContext]
   pointermissed: [event: PointerEvent<MouseEvent>]
-  render: [renderer: TresRenderer]
-  loop: [context: TresContextWithClock]
+  // TODO write explanation for differences
+  render: [renderer: TresRenderer] // TODO: should this be context? -> yes
   beforeLoop: [context: TresContextWithClock]
+  loop: [context: TresContextWithClock]
 } & {
   // all pointer events are supported because they bubble up
   [key in TresPointerEventName]: [event: PointerEvent<MouseEvent>]
