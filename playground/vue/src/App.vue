@@ -10,9 +10,6 @@ function setBodyClass(routeName: string) {
 }
 watch([route], () => setBodyClass(route.name?.toString() ?? ''))
 provide('v-route', route)
-provide('useTres', {
-  message: `Im not the real useTres, but I can provide you with some data!`,
-})
 </script>
 
 <template>

@@ -57,7 +57,7 @@ const formattedShadowMapType = computed(() => {
     :shadows="shadows"
     :shadow-map-type="formattedShadowMapType"
   >
-    <TresPerspectiveCamera :position="[5, 5, 5]" />
+    <TresPerspectiveCamera :position="[5, 5, 5]" :look-at="[0, 0, 0]" />
     <OrbitControls />
     <TresMesh :position="[0, 1, 0]" cast-shadow>
       <TresBoxGeometry />
@@ -65,7 +65,7 @@ const formattedShadowMapType = computed(() => {
     </TresMesh>
 
     <TresMesh
-      :rotation="[-Math.PI / 2, 0, 0]"
+      :rotation-x="-Math.PI / 2"
       receive-shadow
     >
       <TresPlaneGeometry :args="[10, 10, 10, 10]" />

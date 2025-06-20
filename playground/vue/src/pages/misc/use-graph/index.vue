@@ -13,8 +13,9 @@ const group = new Group()
 
 group.add(new Mesh(new BoxGeometry(1, 1, 1), new MeshStandardMaterial({ name: 'FancyMaterial', color: 'red' })))
 
-const { nodes, materials } = useGraph(group)
+const graph = useGraph(group)
 
+const { nodes, materials } = graph.value
 console.log('nodes', nodes)
 console.log('materials', materials)
 
@@ -23,7 +24,7 @@ materials.FancyMaterial.color.set('blue')
 
 <template>
   <TresCanvas v-bind="gl">
-    <TresPerspectiveCamera :position="[3, 3, 3]" />
+    <TresPerspectiveCamera :position="[3, 3, 3]" :look-at="[0, 0, 0]" />
     <OrbitControls />
     <TresGridHelper />
     <TresAmbientLight :intensity="1" />

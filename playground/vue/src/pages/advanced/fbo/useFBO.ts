@@ -1,4 +1,3 @@
-import type { Camera } from 'three'
 import type { Ref } from 'vue'
 /* eslint-disable no-console */
 import { useLoop, useTres } from '@tresjs/core'
@@ -75,7 +74,9 @@ export function useFBO(options: FboOptions) {
     logBefore()
     renderer.setRenderTarget(target.value)
     renderer.clear()
-    renderer.render(scene, camera as Camera)
+    if (camera.value) {
+      renderer.render(scene.value, camera.value)
+    }
     renderer.setRenderTarget(null)
   }, Number.POSITIVE_INFINITY)
 

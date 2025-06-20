@@ -1,11 +1,9 @@
 import type { MaybeRef, MaybeRefOrGetter, Ref, ShallowRef } from 'vue'
 
-import type { RendererLoop } from '../../core/loop'
 import type { TresControl, TresScene } from '../../types'
 import type { RendererOptions, UseRendererManagerReturn } from '../useRenderer/useRendererManager'
-import { inject, onUnmounted, provide, ref, shallowRef } from 'vue'
+import { inject, provide, ref, shallowRef } from 'vue'
 import { extend } from '../../core/catalogue'
-import { createRenderLoop } from '../../core/loop'
 
 import type { UseCameraReturn } from '../useCamera/'
 
@@ -21,7 +19,6 @@ export interface TresContext {
   camera: UseCameraReturn
   controls: Ref<TresControl | null>
   renderer: UseRendererManagerReturn
-  loop: RendererLoop
   events: ReturnType<typeof useEventManager>
 }
 
@@ -41,20 +38,18 @@ export function useTresContextProvider({
 
   const camera = useCameraManager({ sizes })
 
-  const loop = createRenderLoop()
-
   const renderer = useRendererManager(
     {
       scene: localScene,
       canvas,
       options: rendererOptions,
-      contextParts: { sizes, camera, loop },
+      contextParts: { sizes, camera },
     },
   )
 
   const events = useEventManager({
     canvas,
-    contextParts: { scene: localScene, camera, loop },
+    contextParts: { scene: localScene, camera, renderer },
   })
 
   const ctx: TresContext = {
@@ -64,7 +59,6 @@ export function useTresContextProvider({
     renderer,
     controls: ref(null),
     extend,
-    loop,
     events,
   }
 
@@ -74,17 +68,6 @@ export function useTresContextProvider({
   ctx.scene.value.__tres = {
     root: ctx,
   }
-
-  ctx.loop.setReady(false)
-  ctx.loop.start()
-
-  renderer.onReady(() => {
-    ctx.loop.setReady(true)
-  })
-
-  onUnmounted(() => {
-    ctx.loop.stop()
-  })
 
   return ctx
 }

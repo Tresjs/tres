@@ -5,7 +5,6 @@ export * from './useGraph'
 export * from './useLoader'
 export * from './useLoop'
 export * from './useRenderer/useRendererManager'
-export * from './useRenderLoop'
 export * from './useTres'
 
 export * from './useTresContextProvider'
