@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { Icosahedron, OrbitControls, StatsGl } from '@tresjs/cientos'
+import { Icosahedron, OrbitControls } from '@tresjs/cientos'
 
 import { TresCanvas } from '@tresjs/core'
 import {
