@@ -1,4 +1,4 @@
-import type { MaybeRef, MaybeRefOrGetter, Ref, ShallowRef } from 'vue'
+import type { InjectionKey, MaybeRef, MaybeRefOrGetter, Ref, ShallowRef } from 'vue'
 
 import type { TresControl, TresScene } from '../../types'
 import type { RendererOptions, UseRendererManagerReturn } from '../useRenderer/useRendererManager'
@@ -12,6 +12,7 @@ import { useRendererManager } from '../useRenderer/useRendererManager'
 import useSizes, { type SizesType } from '../useSizes'
 import { useEventManager } from '../useEventManager'
 
+const injectionKey: InjectionKey<TresContext> = Symbol('useTresContextProvider')
 export interface TresContext {
   scene: ShallowRef<TresScene>
   sizes: SizesType
@@ -22,7 +23,7 @@ export interface TresContext {
   events: ReturnType<typeof useEventManager>
 }
 
-export function useTresContextProvider({
+export const useTresContextProvider = ({
   scene,
   canvas,
   windowSize,
@@ -32,7 +33,7 @@ export function useTresContextProvider({
   canvas: MaybeRef<HTMLCanvasElement>
   windowSize: MaybeRefOrGetter<boolean>
   rendererOptions: RendererOptions
-}): TresContext {
+}): TresContext => {
   const localScene = shallowRef(scene)
   const sizes = useSizes(windowSize, canvas)
 
@@ -62,18 +63,17 @@ export function useTresContextProvider({
     events,
   }
 
-  provide('useTres', ctx)
-
-  // Add context to scene local state
   ctx.scene.value.__tres = {
     root: ctx,
   }
 
+  provide(injectionKey, ctx)
+
   return ctx
 }
 
-export function useTresContext(): TresContext {
-  const context = inject<Partial<TresContext>>('useTres')
+export const useTresContext = () => {
+  const context = inject(injectionKey)
 
   if (!context) {
     throw new Error('useTresContext must be used together with useTresContextProvider')
