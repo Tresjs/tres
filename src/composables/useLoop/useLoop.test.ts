@@ -13,7 +13,7 @@ describe(useLoop.name, () => {
         camera: {},
         scene: {},
         renderer: {
-          loop: useCreateRafLoop(() => {}, () => {}),
+          loop: useCreateRafLoop(() => {}),
         },
         controls: {},
         events: {},
