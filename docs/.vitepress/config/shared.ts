@@ -88,7 +88,7 @@ export const sharedConfig = defineConfig({
   vue: {
     template: {
       compilerOptions: {
-        isCustomElement: tag => tag.startsWith('Tres') && tag !== 'TresCanvas',
+        isCustomElement: tag => (tag.startsWith('Tres') || tag.startsWith('tres')) && tag !== 'TresCanvas',
       },
     },
   },
