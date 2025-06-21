@@ -105,6 +105,12 @@ export const enConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
         ],
       },
       {
+        text: 'Community',
+        items: [
+          { text: 'Awesome Resources', link: '/community/awesome-resources' },
+        ],
+      },
+      {
         text: 'Contributing',
         items: [
           { text: 'Contribute', link: '/contribute/contributing' },
