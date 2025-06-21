@@ -101,6 +101,12 @@ export const esConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
           },
         ],
       },
+      {
+        text: 'Comunidad',
+        items: [
+          { text: 'Recursos increíbles', link: '/es/community/awesome-resources' },
+        ],
+      },
     ],
     nav: [
       { text: 'Guía', link: '/es/guide/' },

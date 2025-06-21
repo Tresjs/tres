@@ -1,4 +1,4 @@
-# Awesome Resources
+# Tolle Resourcen
 
 Eine ausgewählte Liste interessanter Threejs und TresJS Community Projekte. Die aufgelisteten Quellen sind in erster Linie in Englisch. Lokalisierte Ressourcen findest du, falls vorhanden, am Ende dieser Seite.
 
