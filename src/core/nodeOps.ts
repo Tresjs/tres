@@ -2,7 +2,7 @@ import type { TresContext } from '../composables'
 import type { DisposeType, LocalState, TresInstance, TresObject, TresObject3D, TresPrimitive, WithMathProps } from '../types'
 import { BufferAttribute, Object3D } from 'three'
 import { isRef, type RendererOptions } from 'vue'
-import { attach, deepArrayEqual, doRemoveDeregister, doRemoveDetach, invalidateInstance, isHTMLTag, kebabToCamel, noop, prepareTresInstance, setPrimitiveObject, unboxTresPrimitive } from '../utils'
+import { attach, deepArrayEqual, doRemoveDeregister, doRemoveDetach, invalidateInstance, isHTMLTag, kebabToCamel, noop, prepareTresInstance, resolve, setPrimitiveObject, unboxTresPrimitive } from '../utils'
 import { logError } from '../utils/logger'
 import { isArray, isCamera, isClassInstance, isColor, isColorRepresentation, isCopyable, isFunction, isLayers, isObject, isObject3D, isScene, isTresInstance, isUndefined, isVectorLike } from '../utils/is'
 import { createRetargetingProxy } from '../utils/primitive/createRetargetingProxy'
@@ -216,7 +216,7 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
     if (!node) { return }
 
     let root: Record<string, unknown> = node
-    let key = prop
+    const key = prop
 
     // NOTE: Update memoizedProps with the new value
     if (node.__tres) { node.__tres.memoizedProps[prop] = nextValue }
@@ -298,15 +298,10 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
 
     // Traverse pierced props (e.g. foo-bar=value => foo.bar = value)
     if (key.includes('-') && target === undefined) {
-      // TODO: A standalone function called `resolve` is
-      // available in /src/utils/index.ts. It's covered by tests.
-      // Refactor below to DRY.
-      target = root
-      for (const part of key.split('-')) {
-        finalKey = key = kebabToCamel(part)
-        root = target
-        target = target?.[key] as Record<string, unknown>
-      }
+      const resolved = resolve(root, key)
+      target = resolved.target
+      root = resolved.target
+      finalKey = resolved.key
     }
     let value = nextValue
     if (value === '') { value = true }
