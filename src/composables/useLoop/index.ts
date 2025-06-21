@@ -24,11 +24,17 @@ export const useLoop = () => {
     eventHookAfterRender.trigger({ ...tresContext, ...loopContext })
   })
 
+  /**
+   * @deprecated Use `rendererManager.replaceRenderFunction` instead.
+   */
+  const render = rendererManager.replaceRenderFunction
+
   return {
     stop: rendererManager.loop.stop,
     start: rendererManager.loop.start,
     isActive: rendererManager.loop.isActive,
     onBeforeRender: eventHookBeforeRender.on,
     onRender: eventHookAfterRender.on,
+    render,
   }
 }
