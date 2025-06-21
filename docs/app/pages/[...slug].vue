@@ -59,6 +59,9 @@ const links = computed(() => {
       :description="page.description"
       :links="page.links"
       :headline="headline"
+      :ui="{
+        headline: 'uppercase font-mono font-light text-default-500 text-dim'
+      }"
     />
 
     <UPageBody>

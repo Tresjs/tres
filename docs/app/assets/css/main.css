@@ -6,7 +6,7 @@
 @theme static {
   --font-display: 'Manrope', sans-serif;
   --font-sans: 'Inter', sans-serif;
-  --font-mono: 'Fira Code', monospace;
+  --font-mono: 'JetBrains Mono', monospace;
   --breakpoint-3xl: 1920px;
   --ui-pattern-fg: color-mix(in oklab,var(--ui-text)5%,transparent);
   --ui-pattern-bg: repeating-linear-gradient(315deg,var(--ui-pattern-fg)0,var(--ui-pattern-fg)1px,transparent 0,transparent 50%);

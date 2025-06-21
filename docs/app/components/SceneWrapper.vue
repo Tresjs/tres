@@ -3,6 +3,8 @@
 
 <template>
   <div class="w-full aspect-video rounded-lg overflow-hidden">
-    <slot />
+    <ClientOnly>
+      <slot />
+    </ClientOnly>
   </div>
 </template>
