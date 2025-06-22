@@ -28,6 +28,7 @@ import { useCreateRafLoop } from '../useCreateRafLoop'
  * If set to 'always', the scene will be rendered every frame
  */
 export type RenderMode = 'always' | 'on-demand' | 'manual'
+export type RenderFunction = (notifySuccess: () => void) => void
 
 export type TresRenderer = WebGLRenderer | Renderer
 
@@ -288,12 +289,22 @@ export function useRendererManager(
     renderEventHook.trigger(renderer)
   }
 
-  const loop = useCreateRafLoop((_notifyFrameRendered) => {
-    if (camera.activeCamera.value && frames.value) {
+  let renderFunction: RenderFunction = (_notifyFrameRendered) => {
+    if (camera.activeCamera.value) {
       renderer.render(scene.value, camera.activeCamera.value)
       _notifyFrameRendered()
     }
-  }, notifyFrameRendered)
+  }
+
+  const replaceRenderFunction = (fn: RenderFunction) => {
+    renderFunction = fn
+  }
+
+  const loop = useCreateRafLoop(() => {
+    if (frames.value) {
+      renderFunction(notifyFrameRendered)
+    }
+  })
 
   readyEventHook.on(loop.start)
 
@@ -410,6 +421,7 @@ export function useRendererManager(
     invalidate,
     canBeInvalidated,
     mode: toValue(options.renderMode),
+    replaceRenderFunction,
   }
 }
 

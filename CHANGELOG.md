@@ -1,5 +1,11 @@
 # Changelog
 
+## [5.0.0-next.6](https://github.com/Tresjs/tres/compare/5.0.0-next.5...5.0.0-next.6) (2025-06-22)
+
+### Bug Fixes
+
+* update elapsed time retrieval in useCreateRafLoop to use the latest clock property ([#1046](https://github.com/Tresjs/tres/issues/1046)) ([1b3971c](https://github.com/Tresjs/tres/commit/1b3971c27c56964c8cbc3f0528e1362a648c8b41))
+
 ## [5.0.0-next.5](https://github.com/Tresjs/tres/compare/5.0.0-next.4...5.0.0-next.5) (2025-06-20)
 
 ## [5.0.0-next.4](https://github.com/Tresjs/tres/compare/5.0.0-next.3...5.0.0-next.4) (2025-06-20)
