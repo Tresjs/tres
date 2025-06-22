@@ -13,7 +13,7 @@ describe(useLoop.name, () => {
         camera: {},
         scene: {},
         renderer: {
-          loop: useCreateRafLoop(() => {}, () => {}),
+          loop: useCreateRafLoop(() => {}),
         },
         controls: {},
         events: {},
@@ -64,17 +64,5 @@ describe(useLoop.name, () => {
 
     expect(toTest).toBe('01234567')
     vi.useRealTimers()
-  })
-
-  it('should be possible to replace the loop function', () => {
-    let toTest = 0
-    loop.start()
-    loop.render(() => {
-      toTest++
-    })
-    vi.advanceTimersToNextFrame()
-    vi.advanceTimersToNextFrame()
-    vi.advanceTimersToNextFrame()
-    expect(toTest).toBe(3)
   })
 })

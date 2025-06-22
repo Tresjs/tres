@@ -1,20 +1,20 @@
 <script setup lang="ts">
 import { OrbitControls } from '@tresjs/cientos'
 
-import { useLoop, useTres } from '@tresjs/core'
+import { useLoop, useTresContext } from '@tresjs/core'
 import { useControls } from '@tresjs/leches'
 import type { Mesh } from 'three'
 
-const { render, onRender } = useLoop()
-const { renderer, scene, camera } = useTres()
+const { onRender } = useLoop()
+const { renderer, scene, camera } = useTresContext()
 
 const { shouldRender } = useControls({
   shouldRender: true,
 })
 
-render((notifySuccess) => {
-  if (shouldRender.value && camera.value) {
-    renderer.render(scene.value, camera.value)
+renderer.replaceRenderFunction((notifySuccess) => {
+  if (shouldRender.value && camera.activeCamera.value) {
+    renderer.instance.render(scene.value, camera.activeCamera.value)
     notifySuccess()
   }
 })
