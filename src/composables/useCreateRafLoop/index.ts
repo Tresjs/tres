@@ -25,7 +25,7 @@ export const useCreateRafLoop = (
   const { pause, resume, isActive } = useRafFn(() => {
     const getContextWithClock = (): RafLoopContext => ({
       delta: clock.getDelta(),
-      elapsed: clock.getElapsedTime(),
+      elapsed: clock.elapsedTime,
     })
 
     eventHooks.before.trigger(getContextWithClock())
