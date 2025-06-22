@@ -29,6 +29,7 @@ import {
 import pkg from '../../package.json'
 import type { RendererOptions, TresContext } from '../composables'
 import { useTresContextProvider } from '../composables'
+import { INJECTION_KEY as CONTEXT_INJECTION_KEY } from '../composables/useTresContextProvider'
 import { extend } from '../core/catalogue'
 import { nodeOps } from '../core/nodeOps'
 
@@ -114,7 +115,7 @@ const createInternalComponent = (context: TresContext, empty = false) =>
           })
       }
 
-      provide('useTres', context)
+      provide(CONTEXT_INJECTION_KEY, context)
       provide('extend', extend)
 
       if (typeof window !== 'undefined' && ctx?.app) {
