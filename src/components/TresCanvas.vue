@@ -251,7 +251,7 @@ onMounted(async () => {
 
   if (context.value && (!context.value.sizes.width || !context.value.sizes.height.value)) {
     const windowSizePropName: keyof Pick<TresCanvasProps, 'windowSize'> = 'windowSize'
-    console.warn(`TresCanvas: The canvas has no area, so nothing can be rendered. Set it manually or use the prop ${windowSizePropName}.`)
+    console.warn(`TresCanvas: The canvas has no area, so nothing can be rendered. Set it manually on the parent element or use the prop ${windowSizePropName}.`)
   }
 })
 
