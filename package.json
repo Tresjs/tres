@@ -67,9 +67,10 @@
     "lint:fix": "eslint . --fix",
     "typecheck": "vue-tsc --noEmit",
     "docs:dev": "pnpm --filter='./docs' dev",
-    "docs:generate": "pnpm run build && pnpm --filter='./docs' generate",
+    "docs:generate": "pnpm --filter='./docs' generate",
     "docs:contributors": "esno scripts/update-contributors.ts",
-    "docs:prepare": "pnpm --filter='./docs' prepare"
+    "docs:prepare": "pnpm --filter='./docs' prepare",
+    "postinstall": "pnpm run build"
   },
   "peerDependencies": {
     "three": ">=0.133",
