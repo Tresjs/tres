@@ -20,8 +20,15 @@
   "sideEffects": false,
   "exports": {
     ".": {
+      "development": {
+        "types": "./src/index.ts",
+        "import": "./src/index.ts",
+        "default": "./src/index.ts"
+      },
       "types": "./dist/index.d.ts",
-      "import": "./dist/tres.js"
+      "import": "./dist/tres.js",
+      "require": "./dist/tres.js",
+      "default": "./dist/tres.js"
     },
     "./components": {
       "types": "./dist/src/components/index.d.ts"
@@ -62,7 +69,7 @@
     "docs:dev": "pnpm --filter='./docs' dev",
     "docs:generate": "pnpm run build && pnpm --filter='./docs' generate",
     "docs:contributors": "esno scripts/update-contributors.ts",
-    "postinstall": "cd docs && nuxt prepare"
+    "docs:prepare": "pnpm --filter='./docs' prepare"
   },
   "peerDependencies": {
     "three": ">=0.133",
