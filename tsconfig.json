@@ -1,8 +1,4 @@
 {
-  // Fix for pnpm workspace + Nuxt Content/UI hydration issue
-  // This extends the docs Nuxt TypeScript configuration to resolve
-  // "Cannot read properties of null (reading 'ce')" error
-  "extends": "./docs/.nuxt/tsconfig.json",
   "compilerOptions": {
     "incremental": false,
     "target": "esnext",
