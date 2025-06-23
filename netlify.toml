@@ -5,3 +5,26 @@ command = "pnpm run build && pnpm docs:generate"
 [build.environment]
 COREPACK_INTEGRITY_KEYS = "0"
 NODE_VERSION = "22"
+
+# Redirects from old VitePress URLs to new Nuxt structure
+
+[[redirects]]
+  from = "/guide/getting-started.html"
+  to = "/getting-started/installation"
+  status = 301
+
+[[redirects]]
+  from = "/guide/your-first-scene.html"
+  to = "/getting-started/your-first-scene"
+  status = 301
+
+
+[[redirects]]
+  from = "/api/tres-canvas.html"
+  to = "/api/components/tres-canvas"
+  status = 301
+
+[[redirects]]
+  from = "/api/instances-arguments-and-props.html" 
+  to = "/api/components/tres-objects"
+  status = 301
