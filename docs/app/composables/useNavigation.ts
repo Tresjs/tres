@@ -16,8 +16,8 @@ function _useHeaderLinks() {
       label: 'Essentials',
       description: 'Get the key concepts and best practices.',
       icon: 'i-lucide-book-open',
-      to: `${to}/guide`,
-      active: route.path.startsWith(`${to}/guide`)
+      to: `${to}/essentials`,
+      active: route.path.startsWith(`${to}/essentials`)
     }, {
       label: 'API',
       description: 'Explore the TresJS components, composables, utilities and more.',
@@ -30,13 +30,13 @@ function _useHeaderLinks() {
       icon: 'i-lucide-book-open-text',
       to: `${to}/cookbook`,
       active: route.path.startsWith(`${to}/cookbook`)
-    }, {
+    }/*  {
       label: 'Community',
       description: 'Find answers and support from the community.',
       icon: 'i-lucide-messages-square',
       to: `${to}/community`,
       active: route.path.startsWith(`${to}/community`)
-    }]
+    } */]
   })
 
   return { headerLinks }

@@ -59,10 +59,8 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "typecheck": "vue-tsc --noEmit",
-    "docs:dev": "vitepress dev docs",
-    "docs:build": "vitepress build docs",
-    "docs:serve": "vitepress serve docs",
-    "docs:preview": "vitepress preview docs",
+    "docs:dev": "pnpm --filter='./docs' dev",
+    "docs:generate": "pnpm --filter='./docs' generate",
     "docs:contributors": "esno scripts/update-contributors.ts",
     "postinstall": "cd docs && nuxt prepare"
   },
