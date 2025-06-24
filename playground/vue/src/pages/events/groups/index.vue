@@ -8,11 +8,15 @@ const handleClick = (e: PointerEvent) => {
 }
 
 const handlePointerEnter = (e: PointerEvent) => {
-  console.log('pointer-enter', e)
+  console.log('pointerenter', e)
 }
 
 const handlePointerLeave = (e: PointerEvent) => {
-  console.log('pointer-leave', e)
+  console.log('pointerleave', e)
+}
+
+const handlePointerMissed = (e: PointerEvent) => {
+  console.log('pointermissed', e)
 }
 /* eslint-enable no-console */
 </script>
@@ -31,7 +35,7 @@ const handlePointerLeave = (e: PointerEvent) => {
     <TresAmbientLight :intensity="0.5" />
 
     <!-- Group of geometric shapes -->
-    <TresGroup @click="handleClick" @pointer-enter="handlePointerEnter" @pointer-leave="handlePointerLeave">
+    <TresGroup @click="handleClick" @pointerenter="handlePointerEnter" @pointerleave="handlePointerLeave" @pointermissed="handlePointerMissed">
       <!-- Box -->
       <TresMesh :position="[-2, 0, 0]">
         <TresBoxGeometry :args="[1, 1, 1]" />

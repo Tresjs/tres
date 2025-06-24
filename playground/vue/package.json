@@ -9,9 +9,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@tresjs/cientos": "4.1.0",
+    "@tresjs/cientos": "5.0.0-next.0",
     "@tresjs/core": "workspace:^",
-    "@tresjs/leches": "https://pkg.pr.new/@tresjs/leches@9ad0cd3",
+    "@tresjs/leches": "https://pkg.pr.new/@tresjs/leches@b34e795",
     "vue-router": "^4.5.0"
   },
   "devDependencies": {

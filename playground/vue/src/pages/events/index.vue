@@ -1,9 +1,8 @@
 <!-- eslint-disable no-console -->
 <script setup lang="ts">
-import type { ThreeEvent } from '@tresjs/core'
-import { OrbitControls, StatsGl } from '@tresjs/cientos'
-import { TresCanvas } from '@tresjs/core'
-import { TresLeches, useControls } from '@tresjs/leches'
+import { OrbitControls } from '@tresjs/cientos'
+import { TresCanvas, type TresPointerEvent } from '@tresjs/core'
+import { TresLeches } from '@tresjs/leches'
 import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
 import '@tresjs/leches/styles'
 
@@ -16,45 +15,38 @@ const gl = {
   toneMapping: NoToneMapping,
 }
 
-const { stopPropagation } = useControls({
-  stopPropagation: false,
-})
-
-function onClick(ev: ThreeEvent<MouseEvent>) {
+function onClick(ev: TresPointerEvent) {
   console.log('click', ev)
-  if (stopPropagation.value) { ev.stopPropagation() }
   ev.object.material.color.set('#008080')
 }
 
-function onDoubleClick(ev: ThreeEvent<MouseEvent>) {
-  console.log('double-click', ev)
-  if (stopPropagation.value) { ev.stopPropagation() }
+function onDoubleClick(ev: TresPointerEvent) {
+  console.log('doubleclick', ev)
   ev.object.material.color.set('#FFD700')
 }
 
-function onPointerEnter(ev: ThreeEvent<MouseEvent>) {
-  if (stopPropagation.value) { ev.stopPropagation() }
+function onPointerEnter(ev: TresPointerEvent) {
+  console.log('pointerenter', ev)
   ev.object.material.color.set('#CCFF03')
 }
 
-function onPointerLeave(ev: ThreeEvent<MouseEvent>) {
-  if (stopPropagation.value) { ev.stopPropagation() }
-  /*  ev.object.material.color.set('#efefef') */
+function onPointerLeave(ev: TresPointerEvent) {
+  console.log('pointerleave', ev)
+  ev.object.material.color.set('#efefef')
 }
 
-function onPointerMove(ev: ThreeEvent<MouseEvent>) {
-  if (stopPropagation.value) { ev.stopPropagation() }
+// eslint-disable-next-line unused-imports/no-unused-vars
+function onPointerMove(ev: TresPointerEvent) {
+  // console.log('pointer-move', ev)
 }
 
-function onContextMenu(ev: ThreeEvent<MouseEvent>) {
-  console.log('context-menu', ev)
-  if (stopPropagation.value) { ev.stopPropagation() }
+function onContextMenu(ev: TresPointerEvent) {
+  console.log('contextmenu', ev)
   ev.object.material.color.set('#FF4500')
 }
 
-function onPointerMissed(ev: ThreeEvent<MouseEvent>) {
-  console.log('pointer-missed', ev)
-  if (stopPropagation.value) { ev.stopPropagation() }
+function onPointerMissed(ev: TresPointerEvent) {
+  console.log('pointermissed', ev)
 }
 </script>
 
@@ -63,28 +55,26 @@ function onPointerMissed(ev: ThreeEvent<MouseEvent>) {
   <TresCanvas
     window-size
     v-bind="gl"
+    @pointermissed="onPointerMissed"
   >
-    <Suspense>
-      <StatsGl />
-    </Suspense>
     <TresPerspectiveCamera
       :position="[11, 11, 11]"
       :look-at="[0, 0, 0]"
     />
     <OrbitControls />
-    <template v-for="x in [-2.5, 0, 2.5]">
-      <template v-for="y in [-2.5, 0, 2.5]">
+    <template v-for="(x, xIndex) in [-2.5, 0, 2.5]">
+      <template v-for="(y, yIndex) in [-2.5, 0, 2.5]">
         <TresMesh
-          v-for="z in [-2.5, 0, 2.5]"
+          v-for="(z, zIndex) in [-2.5, 0, 2.5]"
           :key="`${[x, y, z]}`"
           :position="[x, y, z]"
+          :name="`box-${[xIndex, yIndex, zIndex].join('-')}`"
           @click="onClick"
-          @double-click="onDoubleClick"
-          @pointer-enter="onPointerEnter"
-          @pointer-leave="onPointerLeave"
-          @pointer-move="onPointerMove"
-          @context-menu="onContextMenu"
-          @pointer-missed="onPointerMissed"
+          @dblclick="onDoubleClick"
+          @pointerenter="onPointerEnter"
+          @pointerleave="onPointerLeave"
+          @pointermove="onPointerMove"
+          @contextmenu="onContextMenu"
         >
           <TresBoxGeometry :args="[1, 1, 1]" />
           <TresMeshToonMaterial color="#efefef" />
