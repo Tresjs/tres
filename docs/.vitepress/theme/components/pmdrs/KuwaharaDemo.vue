@@ -18,8 +18,8 @@ const glComposer = {
   multisampling: 4,
 }
 
-const { scene: scenePlantJar } = await useGLTF('https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/kuwahara-effect/plant-jar/plant-jar.glb', { draco: true })
-const { scene: sceneWatermelon } = await useGLTF('https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/kuwahara-effect/watermelon/watermelon_fruit.glb', { draco: true })
+const { state: scenePlantJar } = await useGLTF('https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/kuwahara-effect/plant-jar/plant-jar.glb', { draco: true })
+const { state: sceneWatermelon } = await useGLTF('https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/kuwahara-effect/watermelon/watermelon_fruit.glb', { draco: true })
 
 const effectProps = reactive({
   blendFunction: BlendFunction.NORMAL,
@@ -51,8 +51,19 @@ watch(enabled, () => {
 
       <TresDirectionalLight />
 
-      <primitive :position-x="-3" :position-y="-3.5" :scale="5" :object="scenePlantJar" />
-      <primitive :position-x="4" :scale="20" :object="sceneWatermelon" />
+      <primitive
+        v-if="scenePlantJar"
+        :position-x="-3"
+        :position-y="-3.5"
+        :scale="5"
+        :object="scenePlantJar.scene"
+      />
+      <primitive
+        v-if="sceneWatermelon"
+        :position-x="4"
+        :scale="20"
+        :object="sceneWatermelon.scene"
+      />
 
       <ContactShadows
         :opacity=".25"

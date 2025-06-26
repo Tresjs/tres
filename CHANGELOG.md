@@ -1,5 +1,15 @@
 # Changelog
 
+## [3.0.0-next.0](https://github.com/Tresjs/post-processing/compare/2.4.0...3.0.0-next.0) (2025-06-24)
+
+### Features
+
+* adapt code and playgrounds to latest changes on ecosystem ([#207](https://github.com/Tresjs/post-processing/issues/207)) ([39ad650](https://github.com/Tresjs/post-processing/commit/39ad650786d565cbaafb300cabfa51978c0fb73d)), closes [#208](https://github.com/Tresjs/post-processing/issues/208)
+
+### Bug Fixes
+
+* update import paths for post-processing components in documentation ([#206](https://github.com/Tresjs/post-processing/issues/206)) ([7289c15](https://github.com/Tresjs/post-processing/commit/7289c152b81ea9e386f7d4621e55fc61292b505f))
+
 ## [2.4.0](https://github.com/Tresjs/post-processing/compare/2.3.1...2.4.0) (2025-05-26)
 
 ### Features

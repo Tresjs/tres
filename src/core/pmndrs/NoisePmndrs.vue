@@ -1,5 +1,5 @@
 <script lang="ts">
-import { useLoop } from '@tresjs/core'
+import { useLoop, useTres } from '@tresjs/core'
 import type { BlendFunction } from 'postprocessing'
 import { NoiseEffect } from 'postprocessing'
 import { makePropWatchers } from '../../util/prop'
@@ -22,8 +22,10 @@ const props = withDefaults(defineProps<NoisePmndrsProps>(), {
 const { pass, effect } = useEffectPmndrs(() => new NoiseEffect(props), props)
 defineExpose({ pass, effect })
 
+const { invalidate } = useTres()
+
 const { onBeforeRender } = useLoop()
-onBeforeRender(({ invalidate }) => invalidate())
+onBeforeRender(() => invalidate())
 
 makePropWatchers(
   [

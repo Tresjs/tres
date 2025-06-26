@@ -30,7 +30,7 @@ const { angle, scale, blendFunction } = useControls({
   },
 })
 
-const { scene } = await useGLTF('https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/suzanne/suzanne.glb', { draco: true })
+const { state } = useGLTF('https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/suzanne/suzanne.glb', { draco: true })
 </script>
 
 <template>
@@ -44,7 +44,15 @@ const { scene } = await useGLTF('https://raw.githubusercontent.com/Tresjs/assets
       />
       <OrbitControls />
 
-      <primitive :scale="2" :rotation-x="Math.PI / -5" :rotation-y="Math.PI" :position-y=".25" :position-z="0.5" :object="scene" />
+      <primitive
+        v-if="state"
+        :scale="2"
+        :rotation-x="Math.PI / -5"
+        :rotation-y="Math.PI"
+        :position-y=".25"
+        :position-z="0.5"
+        :object="state.scene"
+      />
 
       <ContactShadows
         :opacity="1"

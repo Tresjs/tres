@@ -40,17 +40,13 @@ const effectParams = ref({
       :position="[-5, 0.5, -10]"
       :scale="0.5"
     >
-      <Suspense>
-        <Ducky />
-      </Suspense>
+      <Ducky />
     </TresGroup>
     <TresGroup
       :position="[0, 0.5, 0]"
       :scale="0.5"
     >
-      <Suspense>
-        <BlenderCube />
-      </Suspense>
+      <BlenderCube />
     </TresGroup>
     <TresAmbientLight />
     <TresDirectionalLight

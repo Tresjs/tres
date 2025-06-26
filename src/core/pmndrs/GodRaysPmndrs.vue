@@ -3,7 +3,7 @@ import type { BlendFunction, KernelSize } from 'postprocessing'
 import { GodRaysEffect } from 'postprocessing'
 import { makePropWatchers } from '../../util/prop'
 import { useEffectPmndrs } from './composables/useEffectPmndrs'
-import { useTresContext } from '@tresjs/core'
+import { useTres } from '@tresjs/core'
 import { computed, toRaw, watch } from 'vue'
 import type { Points } from 'three'
 import { Mesh, MeshBasicMaterial, SphereGeometry } from 'three'
@@ -82,7 +82,7 @@ export interface GodRaysPmndrsProps {
 
 const props = defineProps<GodRaysPmndrsProps>()
 
-const { camera } = useTresContext()
+const { camera } = useTres()
 
 const resolvedLightSource = computed(() =>
   props.lightSource ?? new Mesh(

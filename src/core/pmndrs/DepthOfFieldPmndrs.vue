@@ -1,6 +1,6 @@
 <script lang="ts">
 import type { BlendFunction } from 'postprocessing'
-import { useTresContext } from '@tresjs/core'
+import { useTres } from '@tresjs/core'
 import { DepthOfFieldEffect } from 'postprocessing'
 import { makePropWatchers } from '../../util/prop'
 import { useEffectPmndrs } from './composables/useEffectPmndrs'
@@ -44,7 +44,7 @@ export interface DepthOfFieldPmndrsProps {
 
 <script lang="ts" setup>
 const props = defineProps<DepthOfFieldPmndrsProps>()
-const { camera } = useTresContext()
+const { camera } = useTres()
 
 const { pass, effect } = useEffectPmndrs(() => new DepthOfFieldEffect(camera.value, props), props)
 defineExpose({ pass, effect })

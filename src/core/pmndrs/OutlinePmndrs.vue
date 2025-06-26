@@ -2,7 +2,7 @@
 import type { TresColor } from '@tresjs/core'
 import type { BlendFunction, KernelSize } from 'postprocessing'
 import type { Object3D, Texture } from 'three'
-import { normalizeColor, useTresContext } from '@tresjs/core'
+import { normalizeColor, useTres } from '@tresjs/core'
 import { OutlineEffect } from 'postprocessing'
 import { computed, watch } from 'vue'
 import { makePropWatchers } from '../../util/prop'
@@ -57,7 +57,7 @@ const props = withDefaults(
 const colorToNumber = (color: TresColor | undefined) =>
   color !== undefined ? normalizeColor(color).getHex() : undefined
 
-const { camera, scene } = useTresContext()
+const { camera, scene } = useTres()
 
 const { pass, effect } = useEffectPmndrs(
   () => new OutlineEffect(

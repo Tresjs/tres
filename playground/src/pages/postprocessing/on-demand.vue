@@ -13,10 +13,6 @@ function onRender() {
 }
 
 const canvas = ref<InstanceType<typeof TresCanvas>>()
-
-function onControlChange() {
-  canvas.value?.context?.invalidate()
-}
 </script>
 
 <template>
@@ -30,7 +26,7 @@ function onControlChange() {
       :position="[5, 5, 5]"
       :look-at="[0, 0, 0]"
     />
-    <OrbitControls @change="onControlChange" />
+    <OrbitControls />
     <TresMesh
       :position="[-3.5, 1, 0]"
     >

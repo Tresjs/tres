@@ -4,7 +4,7 @@ import { EffectPass, SMAAEffect, TextureEffect } from 'postprocessing'
 import { makePropWatchers } from '../../util/prop'
 import { useEffectPmndrs } from './composables/useEffectPmndrs'
 import { inject, watch } from 'vue'
-import { useTresContext } from '@tresjs/core'
+import { useTres } from '@tresjs/core'
 import { effectComposerInjectionKey } from './EffectComposerPmndrs.vue'
 
 export const DEBUG_MODE = {
@@ -50,7 +50,7 @@ export interface SMAAPmndrsProps {
 const props = defineProps<SMAAPmndrsProps>()
 
 const { pass, effect } = useEffectPmndrs(() => new SMAAEffect(props), props)
-const { camera } = useTresContext()
+const { camera } = useTres()
 const composer = inject(effectComposerInjectionKey)
 
 defineExpose({ pass, effect })

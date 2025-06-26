@@ -1,6 +1,6 @@
 import type { Effect } from 'postprocessing'
 import type { Reactive, ShallowRef } from 'vue'
-import { useTresContext } from '@tresjs/core'
+import { useTres } from '@tresjs/core'
 import { EffectPass } from 'postprocessing'
 import { inject, nextTick, onUnmounted, shallowRef, watch, watchEffect } from 'vue'
 import { effectComposerInjectionKey } from '../EffectComposerPmndrs.vue'
@@ -23,7 +23,7 @@ export const useEffectPmndrs = <T extends Effect, D extends Record<PropertyKey, 
   const pass = shallowRef<EffectPass | null>(null) as ShallowRef<EffectPass | null>
   const effect = shallowRef<T | null>(null) as ShallowRef<T | null>
 
-  const { scene, camera, invalidate } = useTresContext()
+  const { scene, camera, invalidate } = useTres()
 
   watch(passDependencies, () => invalidate())
 

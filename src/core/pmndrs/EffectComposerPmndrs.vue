@@ -1,7 +1,7 @@
 <script lang="ts">
 import type { EffectComposer } from 'postprocessing'
 import type { InjectionKey, ShallowRef } from 'vue'
-import { useLoop, useTresContext } from '@tresjs/core'
+import { useTresContext } from '@tresjs/core'
 import { DepthDownsamplingPass, EffectComposer as EffectComposerImpl, NormalPass, RenderPass } from 'postprocessing'
 
 import { HalfFloatType } from 'three'
@@ -36,7 +36,7 @@ const props = withDefaults(defineProps<EffectComposerPmndrsProps>(), {
 })
 const emit = defineEmits(['render'])
 
-const { scene, camera, renderer, sizes, render: renderCtx } = useTresContext()
+const { scene, camera, renderer, sizes } = useTresContext()
 
 const effectComposer: ShallowRef<EffectComposerImpl | null> = shallowRef(null)
 
@@ -49,7 +49,7 @@ defineExpose({ composer: effectComposer })
 const setNormalPass = () => {
   if (!effectComposer.value) { return }
 
-  normalPass = new NormalPass(scene.value, camera.value)
+  normalPass = new NormalPass(scene.value, camera.activeCamera.value)
   normalPass.enabled = false
   effectComposer.value.addPass(normalPass)
   if (props.resolutionScale !== undefined && WEBGL.isWebGL2Available()) {
@@ -81,16 +81,16 @@ const effectComposerParams = computed(() => {
 })
 
 const initEffectComposer = () => {
-  if (!renderer.value && !scene.value && !camera.value) { return }
+  if (!renderer.instance && !scene.value && !camera.activeCamera.value) { return }
 
   effectComposer.value?.dispose()
-  effectComposer.value = new EffectComposerImpl(renderer.value, effectComposerParams.value)
-  effectComposer.value.addPass(new RenderPass(scene.value, camera.value))
+  effectComposer.value = new EffectComposerImpl(renderer.instance, effectComposerParams.value)
+  effectComposer.value.addPass(new RenderPass(scene.value, camera.activeCamera.value))
 
   if (!props.disableNormalPass) { setNormalPass() }
 }
 
-watch([renderer, scene, camera, () => props.disableNormalPass], () => {
+watch([scene, camera.activeCamera, () => props.disableNormalPass], () => {
   if (!sizes.width.value || !sizes.height.value) { return }
 
   initEffectComposer()
@@ -105,21 +105,16 @@ watch(() => [sizes.width.value, sizes.height.value], ([width, height]) => {
   immediate: true,
 })
 
-const { render } = useLoop()
-
-render(() => {
-  if (props.enabled && renderer.value && effectComposer.value && sizes.width.value && sizes.height.value && renderCtx.frames.value > 0) {
-    const currentAutoClear = renderer.value.autoClear
-    renderer.value.autoClear = props.autoClear
-    if (props.stencilBuffer && !props.autoClear) { renderer.value.clearStencil() }
+renderer.replaceRenderFunction((notifySuccess) => {
+  if (props.enabled && renderer.instance && effectComposer.value && sizes.width.value && sizes.height.value) {
+    const currentAutoClear = renderer.instance.autoClear
+    renderer.instance.autoClear = props.autoClear
+    if (props.stencilBuffer && !props.autoClear) { renderer.instance.clearStencil() }
     effectComposer.value.render()
     emit('render', effectComposer.value)
-    renderer.value.autoClear = currentAutoClear
+    renderer.instance.autoClear = currentAutoClear
+    notifySuccess()
   }
-
-  renderCtx.frames.value = renderCtx.mode.value === 'always'
-    ? 1
-    : Math.max(0, renderCtx.frames.value - 1)
 })
 
 onUnmounted(() => {

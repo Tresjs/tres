@@ -1,7 +1,7 @@
 <script lang="ts">
 import type { BlendFunction } from 'postprocessing'
 import type { Texture, Vector2 } from 'three'
-import { useLoop } from '@tresjs/core'
+import { useLoop, useTres } from '@tresjs/core'
 import { GlitchEffect, GlitchMode } from 'postprocessing'
 import { watchEffect } from 'vue'
 import { omit } from '../../util/object'
@@ -60,8 +60,10 @@ const props = defineProps<GlitchPmndrsProps>()
 const { pass, effect } = useEffectPmndrs(() => new GlitchEffect(props), props, ['dtSize'])
 defineExpose({ pass, effect })
 
+const { invalidate } = useTres()
+
 const { onBeforeRender } = useLoop()
-onBeforeRender(({ invalidate }) => invalidate())
+onBeforeRender(() => invalidate())
 
 watchEffect(() => {
   const getMode = () => {

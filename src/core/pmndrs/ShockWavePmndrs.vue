@@ -4,7 +4,7 @@ import { Vector3 } from 'three'
 import { watch } from 'vue'
 import { makePropWatchers } from '../../util/prop'
 import { useEffectPmndrs } from './composables/useEffectPmndrs'
-import { useTresContext } from '@tresjs/core'
+import { useTres } from '@tresjs/core'
 
 export interface ShockWavePmndrsProps {
   /**
@@ -35,7 +35,7 @@ export interface ShockWavePmndrsProps {
 
 const props = defineProps<ShockWavePmndrsProps>()
 
-const { camera } = useTresContext()
+const { camera } = useTres()
 
 const { pass, effect } = useEffectPmndrs(
   () => new ShockWaveEffect(camera.value, Array.isArray(props.position) ? new Vector3(...props.position) : props.position, props),

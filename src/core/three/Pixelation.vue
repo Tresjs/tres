@@ -1,5 +1,5 @@
 <script lang="ts">
-import { useTresContext } from '@tresjs/core'
+import { useTres } from '@tresjs/core'
 import { RenderPixelatedPass } from 'three/examples/jsm/postprocessing/RenderPixelatedPass.js'
 import { watchEffect } from 'vue'
 import { makePropWatchers } from '../../util/prop'
@@ -15,7 +15,7 @@ export interface PixelationProps {
 <script lang="ts" setup>
 const props = defineProps<PixelationProps>()
 
-const { scene, camera } = useTresContext()
+const { scene, camera } = useTres()
 
 const { pass } = useEffect(() => new RenderPixelatedPass(props.pixelSize, scene.value, camera.value!), props)
 

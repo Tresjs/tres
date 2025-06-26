@@ -1,6 +1,6 @@
 import type { Pass } from 'three/examples/jsm/postprocessing/Pass.js'
 import type { Reactive, ShallowRef } from 'vue'
-import { useTresContext } from '@tresjs/core'
+import { useTres } from '@tresjs/core'
 import { inject, nextTick, onUnmounted, shallowRef, watch, watchEffect } from 'vue'
 import { effectComposerInjectionKey } from '../EffectComposer.vue'
 
@@ -21,7 +21,7 @@ export const useEffect = <T extends Pass, D extends Record<PropertyKey, any>>(
   const composer = inject(effectComposerInjectionKey)
 
   const pass = shallowRef<T>(newPassFunction()) as ShallowRef<T>
-  const { sizes, invalidate } = useTresContext()
+  const { sizes, invalidate } = useTres()
 
   if (passDependencies) {
     watch(passDependencies, () => invalidate())

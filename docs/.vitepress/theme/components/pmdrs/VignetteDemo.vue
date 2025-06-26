@@ -26,9 +26,7 @@ const { effectComposer } = useRouteDisposal()
   <TresCanvas v-bind="gl">
     <TresPerspectiveCamera :position="[3, 3, 3]" />
     <OrbitControls />
-    <Suspense>
-      <BlenderCube />
-    </Suspense>
+    <BlenderCube />
     <EffectComposerPmndrs ref="effectComposer">
       <DepthOfFieldPmndrs :focus-distance="0" :focal-length="0.02" :bokeh-scale="2" />
       <VignettePmndrs :darkness="0.9" :offset="0.3" />

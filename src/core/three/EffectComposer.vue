@@ -1,5 +1,5 @@
 <script lang="ts">
-import { useLoop, useTresContext } from '@tresjs/core'
+import { useTresContext } from '@tresjs/core'
 import { useDevicePixelRatio } from '@vueuse/core'
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js'
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js'
@@ -24,11 +24,11 @@ provide(effectComposerInjectionKey, effectComposer)
 
 defineExpose({ composer: effectComposer })
 
-const { renderer, sizes, scene, camera, render: renderCtx } = useTresContext()
+const { renderer, sizes, scene, camera } = useTresContext()
 
 const initEffectComposer = () => {
   effectComposer.value?.dispose()
-  effectComposer.value = new EffectComposer(renderer.value)
+  effectComposer.value = new EffectComposer(renderer.instance)
 }
 watchEffect(initEffectComposer)
 
@@ -47,22 +47,17 @@ watchEffect(() => {
 
 if (!props.withoutRenderPass) {
   watchEffect(() => {
-    if (camera.value && scene.value && effectComposer.value) {
-      effectComposer.value.addPass(new RenderPass(scene.value, camera.value))
+    if (camera.activeCamera.value && scene.value && effectComposer.value) {
+      effectComposer.value.addPass(new RenderPass(scene.value, camera.activeCamera.value))
     }
   })
 }
 
-const { render } = useLoop()
-
-render(() => {
-  if (renderCtx.frames.value > 0 && effectComposer.value && props.enabled) {
+renderer.replaceRenderFunction((notifySuccess) => {
+  if (effectComposer.value && props.enabled) {
     effectComposer.value.render()
+    notifySuccess()
   }
-
-  renderCtx.frames.value = renderCtx.mode.value === 'always'
-    ? 1
-    : Math.max(0, renderCtx.frames.value - 1)
 })
 
 onUnmounted(() => {
