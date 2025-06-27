@@ -1,3 +1,5 @@
 packages:
-  - docs
-  - playground/*
+  - packages/*
+  - packages/*/playground
+  - packages/*/playground/*
+  - tools/*

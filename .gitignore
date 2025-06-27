@@ -29,3 +29,11 @@ docs/.vitepress/cache/
 .env
 .env.local
 .claude
+.nx
+olddocs
+
+
+.nx/cache
+.nx/workspace-data
+.cursor/rules/nx-rules.mdc
+.github/instructions/nx.instructions.md
