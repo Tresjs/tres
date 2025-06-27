@@ -22,6 +22,7 @@
     "build": "nx run-many --target=build",
     "dev": "nx run-many --target=dev",
     "lint": "nx run-many --target=lint",
+    "lint:fix": "nx run-many --target=lint --fix",
     "test": "nx run-many --target=test",
     "release": "release-it",
     "monocubo": "node tools/monocubo/dist/index.mjs"

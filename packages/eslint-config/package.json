@@ -49,9 +49,8 @@
   },
   "devDependencies": {
     "@release-it/conventional-changelog": "^8.0.2",
-    "eslint": "npm:eslint-ts-patch@9.8.0-1",
+    "eslint": "^9.19.0",
     "eslint-flat-config-viewer": "^0.1.20",
-    "eslint-ts-patch": "9.8.0-1",
     "release-it": "^17.6.0",
     "tsup": "^8.2.4"
   }
