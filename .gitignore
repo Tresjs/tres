@@ -23,8 +23,6 @@ coverage
 *.njsproj
 *.sln
 *.sw?
-docs/.vitepress/dist/
-docs/.vitepress/cache/
 
 .env
 .env.local
@@ -32,6 +30,10 @@ docs/.vitepress/cache/
 .nx
 olddocs
 
+apps/docs/.vitepress/cache/
+apps/docs/.vitepress/dist/
+apps/docs/.vitepress/cache/
+apps/docs/.vitepress/.temp/
 
 .nx/cache
 .nx/workspace-data

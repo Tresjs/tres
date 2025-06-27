@@ -29,7 +29,8 @@
   },
   "workspaces": [
     "packages/*",
-    "tools/*"
+    "tools/*",
+    "apps/*"
   ],
   "devDependencies": {
     "nx": "21.2.1",
