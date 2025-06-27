@@ -23,7 +23,8 @@
     "dev": "nx run-many --target=dev",
     "lint": "nx run-many --target=lint",
     "test": "nx run-many --target=test",
-    "release": "release-it"
+    "release": "release-it",
+    "monocubo": "node tools/monocubo/dist/index.mjs"
   },
   "workspaces": [
     "packages/*",
