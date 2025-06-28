@@ -34,5 +34,5 @@ jobs:
       - name: Install dependencies
         run: pnpm install
       - name: Build
-        run: pnpm build
-      - run: pnpx pkg-pr-new publish --compact --pnpm
+        run: pnpm nx run-many --target=build --parallel=3 -p="tag:npm:public"
+      - run: pnpx pkg-pr-new publish ./packages/core ./packages/eslint-config --compact --pnpm
