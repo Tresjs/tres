@@ -10,6 +10,8 @@
   --breakpoint-3xl: 1920px;
   --ui-pattern-fg: color-mix(in oklab,var(--ui-text)5%,transparent);
   --ui-pattern-bg: repeating-linear-gradient(315deg,var(--ui-pattern-fg)0,var(--ui-pattern-fg)1px,transparent 0,transparent 50%);
+  --ui-pattern-dot-fg: color-mix(in oklab, oklch(0.18 0.04 266.75) 5%, transparent);
+  --ui-pattern-dot-bg: radial-gradient(var(--ui-pattern-dot-fg) 1px, transparent 0);
   --ui-header-height: 3rem;
   /* Technical blueprint styles */
   --ui-line-gap: 5px;
@@ -46,6 +48,7 @@
 
 .dark {
   --ui-line-color: var(--color-gray-800);
+  --ui-pattern-dot-fg: color-mix(in oklab, var(--color-gray-200) 5%, transparent);
 }
 
 .pattern-bg {
@@ -54,3 +57,8 @@
   background-attachment: fixed;
 }
 
+.pattern-dot-bg {
+  background-image: var(--ui-pattern-dot-bg);
+  background-size: 10px 10px;
+  background-attachment: fixed;
+}
