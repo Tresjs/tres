@@ -10,13 +10,14 @@
   },
   "dependencies": {
     "@tresjs/core": "workspace:^",
-    "tweakpane": "^4.0.5"
+    "vue": "^3.5.13"
   },
   "devDependencies": {
     "@iconify-json/logos": "^1.2.4",
     "@iconify-json/mdi": "^1.2.3",
     "unocss": "^65.4.3",
     "vite-svg-loader": "^5.1.0",
+    "vitepress": "^1.6.3",
     "vitepress-plugin-group-icons": "^1.6.0"
   }
 }

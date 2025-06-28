@@ -1,4 +1,3 @@
-import { resolve } from 'pathe'
 import { defineConfig } from 'vitepress'
 import { groupIconMdPlugin } from 'vitepress-plugin-group-icons'
 
@@ -78,12 +77,12 @@ export const sharedConfig = defineConfig({
         overlay: false,
       },
     },
-    resolve: {
+    /* resolve: {
       alias: {
         '@tresjs/core': resolve(__dirname, '../../../dist/tres.js'),
       },
       dedupe: ['@tresjs/cientos', 'three'],
-    },
+    }, */
   },
   vue: {
     template: {

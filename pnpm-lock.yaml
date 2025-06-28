@@ -20,10 +20,28 @@ importers:
       '@tresjs/core':
         specifier: workspace:^
         version: link:../../packages/core
+      vue:
+        specifier: ^3.5.13
+        version: 3.5.17(typescript@5.8.3)
     devDependencies:
+      '@iconify-json/logos':
+        specifier: ^1.2.4
+        version: 1.2.4
+      '@iconify-json/mdi':
+        specifier: ^1.2.3
+        version: 1.2.3
+      unocss:
+        specifier: ^65.4.3
+        version: 65.5.0(postcss@8.5.6)(vite@5.4.19(@types/node@22.15.29))(vue@3.5.17(typescript@5.8.3))
+      vite-svg-loader:
+        specifier: ^5.1.0
+        version: 5.1.0(vue@3.5.17(typescript@5.8.3))
+      vitepress:
+        specifier: ^1.6.3
+        version: 1.6.3(@algolia/client-search@5.25.0)(@types/node@22.15.29)(axios@1.10.0)(postcss@8.5.6)(search-insights@2.17.3)(typescript@5.8.3)
       vitepress-plugin-group-icons:
         specifier: ^1.6.0
-        version: 1.6.0(markdown-it@14.1.0)(vite@6.3.5(@types/node@22.15.29)(jiti@2.4.2)(tsx@4.19.4)(yaml@2.8.0))
+        version: 1.6.0(markdown-it@14.1.0)(vite@5.4.19(@types/node@22.15.29))
 
   packages/core:
     dependencies:
@@ -1444,6 +1462,9 @@ packages:
 
   '@iconify-json/logos@1.2.4':
     resolution: {integrity: sha512-XC4If5D/hbaZvUkTV8iaZuGlQCyG6CNOlaAaJaGa13V5QMYwYjgtKk3vPP8wz3wtTVNVEVk3LRx1fOJz+YnSMw==}
+
+  '@iconify-json/mdi@1.2.3':
+    resolution: {integrity: sha512-O3cLwbDOK7NNDf2ihaQOH5F9JglnulNDFV7WprU2dSoZu3h3cWH//h74uQAB87brHmvFVxIOkuBX2sZSzYhScg==}
 
   '@iconify-json/simple-icons@1.2.37':
     resolution: {integrity: sha512-jZwTBznpYVDYKWyAuRpepPpCiHScVrX6f8WRX8ReX6pdii99LYVHwJywKcH2excWQrWmBomC9nkxGlEKzXZ/wQ==}
@@ -8567,6 +8588,10 @@ snapshots:
     dependencies:
       '@iconify/types': 2.0.0
 
+  '@iconify-json/mdi@1.2.3':
+    dependencies:
+      '@iconify/types': 2.0.0
+
   '@iconify-json/simple-icons@1.2.37':
     dependencies:
       '@iconify/types': 2.0.0
@@ -9680,6 +9705,16 @@ snapshots:
       '@unhead/schema': 1.11.20
       '@unhead/shared': 1.11.20
 
+  '@unocss/astro@65.5.0(vite@5.4.19(@types/node@22.15.29))(vue@3.5.17(typescript@5.8.3))':
+    dependencies:
+      '@unocss/core': 65.5.0
+      '@unocss/reset': 65.5.0
+      '@unocss/vite': 65.5.0(vite@5.4.19(@types/node@22.15.29))(vue@3.5.17(typescript@5.8.3))
+    optionalDependencies:
+      vite: 5.4.19(@types/node@22.15.29)
+    transitivePeerDependencies:
+      - vue
+
   '@unocss/astro@65.5.0(vite@6.3.5(@types/node@22.15.29)(jiti@2.4.2)(tsx@4.19.4)(yaml@2.8.0))(vue@3.5.17(typescript@5.8.3))':
     dependencies:
       '@unocss/core': 65.5.0
@@ -9809,6 +9844,20 @@ snapshots:
   '@unocss/transformer-variant-group@65.5.0':
     dependencies:
       '@unocss/core': 65.5.0
+
+  '@unocss/vite@65.5.0(vite@5.4.19(@types/node@22.15.29))(vue@3.5.17(typescript@5.8.3))':
+    dependencies:
+      '@ampproject/remapping': 2.3.0
+      '@unocss/config': 65.5.0
+      '@unocss/core': 65.5.0
+      '@unocss/inspector': 65.5.0(vue@3.5.17(typescript@5.8.3))
+      chokidar: 3.6.0
+      magic-string: 0.30.17
+      tinyglobby: 0.2.14
+      unplugin-utils: 0.2.4
+      vite: 5.4.19(@types/node@22.15.29)
+    transitivePeerDependencies:
+      - vue
 
   '@unocss/vite@65.5.0(vite@6.3.5(@types/node@22.15.29)(jiti@2.4.2)(tsx@4.19.4)(yaml@2.8.0))(vue@3.5.17(typescript@5.8.3))':
     dependencies:
@@ -14755,6 +14804,32 @@ snapshots:
       '@unocss/preset-mini': 65.5.0
       unocss: 65.5.0(postcss@8.5.6)(vite@6.3.5(@types/node@22.15.29)(jiti@2.4.2)(tsx@4.19.4)(yaml@2.8.0))(vue@3.5.17(typescript@5.8.3))
 
+  unocss@65.5.0(postcss@8.5.6)(vite@5.4.19(@types/node@22.15.29))(vue@3.5.17(typescript@5.8.3)):
+    dependencies:
+      '@unocss/astro': 65.5.0(vite@5.4.19(@types/node@22.15.29))(vue@3.5.17(typescript@5.8.3))
+      '@unocss/cli': 65.5.0
+      '@unocss/core': 65.5.0
+      '@unocss/postcss': 65.5.0(postcss@8.5.6)
+      '@unocss/preset-attributify': 65.5.0
+      '@unocss/preset-icons': 65.5.0
+      '@unocss/preset-mini': 65.5.0
+      '@unocss/preset-tagify': 65.5.0
+      '@unocss/preset-typography': 65.5.0
+      '@unocss/preset-uno': 65.5.0
+      '@unocss/preset-web-fonts': 65.5.0
+      '@unocss/preset-wind': 65.5.0
+      '@unocss/transformer-attributify-jsx': 65.5.0
+      '@unocss/transformer-compile-class': 65.5.0
+      '@unocss/transformer-directives': 65.5.0
+      '@unocss/transformer-variant-group': 65.5.0
+      '@unocss/vite': 65.5.0(vite@5.4.19(@types/node@22.15.29))(vue@3.5.17(typescript@5.8.3))
+    optionalDependencies:
+      vite: 5.4.19(@types/node@22.15.29)
+    transitivePeerDependencies:
+      - postcss
+      - supports-color
+      - vue
+
   unocss@65.5.0(postcss@8.5.6)(vite@6.3.5(@types/node@22.15.29)(jiti@2.4.2)(tsx@4.19.4)(yaml@2.8.0))(vue@3.5.17(typescript@5.8.3)):
     dependencies:
       '@unocss/astro': 65.5.0(vite@6.3.5(@types/node@22.15.29)(jiti@2.4.2)(tsx@4.19.4)(yaml@2.8.0))(vue@3.5.17(typescript@5.8.3))
@@ -15061,13 +15136,13 @@ snapshots:
       tsx: 4.19.4
       yaml: 2.8.0
 
-  vitepress-plugin-group-icons@1.6.0(markdown-it@14.1.0)(vite@6.3.5(@types/node@22.15.29)(jiti@2.4.2)(tsx@4.19.4)(yaml@2.8.0)):
+  vitepress-plugin-group-icons@1.6.0(markdown-it@14.1.0)(vite@5.4.19(@types/node@22.15.29)):
     dependencies:
       '@iconify-json/logos': 1.2.4
       '@iconify-json/vscode-icons': 1.2.23
       '@iconify/utils': 2.3.0
       markdown-it: 14.1.0
-      vite: 6.3.5(@types/node@22.15.29)(jiti@2.4.2)(tsx@4.19.4)(yaml@2.8.0)
+      vite: 5.4.19(@types/node@22.15.29)
     transitivePeerDependencies:
       - supports-color
 
