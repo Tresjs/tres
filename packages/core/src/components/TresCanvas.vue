@@ -36,6 +36,7 @@ import { nodeOps } from '../core/nodeOps'
 import { disposeObject3D } from '../utils/'
 import { registerTresDevtools } from '../devtools'
 import type { TresPointerEventName } from '../utils/pointerEvents'
+import { promiseTimeout } from '@vueuse/core'
 
 const props = withDefaults(defineProps<TresCanvasProps>(), {
   alpha: undefined,
@@ -242,6 +243,16 @@ onMounted(() => {
 
   // HMR support
   if (import.meta.hot && context.value) { import.meta.hot.on('vite:afterUpdate', () => handleHMR(context.value as TresContext)) }
+})
+
+// warn if the canvas has no area
+onMounted(async () => {
+  await promiseTimeout(3000)
+
+  if (context.value && (!context.value.sizes.width || !context.value.sizes.height.value)) {
+    const windowSizePropName: keyof Pick<TresCanvasProps, 'windowSize'> = 'windowSize'
+    console.warn(`TresCanvas: The canvas has no area, so nothing can be rendered. Set it manually on the parent element or use the prop ${windowSizePropName}.`)
+  }
 })
 
 onUnmounted(unmountCanvas)
