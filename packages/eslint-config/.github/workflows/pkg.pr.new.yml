@@ -1,10 +1,10 @@
 name: Publish Any Commit
 on:
   push:
-    tags:
-      - '!**'
     branches:
       - '**'
+    tags:
+      - '!**'
 
 env:
   PNPM_CACHE_FOLDER: .pnpm-store
@@ -26,7 +26,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - run: npm i -g --force corepack && corepack enable
+      - run: corepack enable
       - uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
@@ -34,5 +34,5 @@ jobs:
       - name: Install dependencies
         run: pnpm install
       - name: Build
-        run: pnpm nx run-many --target=build --parallel=3 -p="tag:npm:public"
-      - run: pnpx pkg-pr-new publish ./packages/core ./packages/eslint-config --compact --pnpm
+        run: pnpm build
+      - run: pnpx pkg-pr-new publish --compact --pnpm

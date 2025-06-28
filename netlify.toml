@@ -1,7 +1,7 @@
 [build]
-publish = "docs/.vitepress/dist"
-command = "pnpm run build && pnpm docs:build"
+publish = "apps/docs/.vitepress/dist"
+command = "pnpm install && nx run-many --target=build --projects=@tresjs/core,docs"
 
 [build.environment]
 COREPACK_INTEGRITY_KEYS = "0"
-NODE_VERSION = "20"
+NODE_VERSION = "22"
