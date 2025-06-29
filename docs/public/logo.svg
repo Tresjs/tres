@@ -1,27 +1,5 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg
-   width="440"
-   height="102.67172"
-   version="1.1"
-   id="svg154"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:svg="http://www.w3.org/2000/svg">
-  <defs
-     id="defs158" />
-  <g
-     id="g442"
-     transform="matrix(7.3336915,0,0,7.3336915,-0.02148824,0)">
-    <path
-       fill="#82dbc5"
-       d="m 6.768,0.75 c 0.6,-1 2.05,-1 2.65,0 l 6.546,10.909 A 1.546,1.546 0 0 1 14.638,14 H 1.548 A 1.546,1.546 0 0 1 0.223,11.659 Z"
-       id="path148" />
-    <path
-       d="M 25.556,0 H 36.444 C 37.306,0 38,0.694 38,1.556 V 12.444 C 38,13.306 37.306,14 36.444,14 H 25.556 A 1.552,1.552 0 0 1 24,12.444 V 1.556 C 24,0.694 24.694,0 25.556,0 Z"
-       style="fill:#4f4f4f;fill-opacity:1"
-       id="path150" />
-    <path
-       d="m 60,7 a 7,7 0 0 1 -7,7 7,7 0 0 1 -7,-7 7,7 0 0 1 7,-7 7,7 0 0 1 7,7 z"
-       style="fill:#efac35"
-       id="path152" />
-  </g>
+<svg width="44" height="10" viewBox="0 0 44 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M5.14255 1.42916C5.53095 0.781817 6.46913 0.781816 6.85753 1.42915L11.0913 8.4855C11.4913 9.15203 11.0111 10 10.2338 10H1.76623C0.988935 10 0.508822 9.15203 0.908736 8.4855L5.14255 1.42916Z" fill="#82DBC5"/>
+<rect x="19" y="1" width="9" height="9" rx="1" fill="#4F4F4F"/>
+<circle cx="39.5" cy="5.5" r="4.5" fill="#EFAC35"/>
 </svg>
