@@ -129,8 +129,7 @@ const createWebGPURenderer = (ctx: TresRendererSetupContext) => {
   <template>
     <primitive v-if="model" :object="model" />
   </template>
-
-  ```
+```
   ```vue [app.vue]
   <script setup lang="ts">
   import { TresCanvas } from '@tresjs/core'
@@ -149,7 +148,6 @@ const createWebGPURenderer = (ctx: TresRendererSetupContext) => {
     })
     return renderer
   }
-
   </script>
 
   <template>

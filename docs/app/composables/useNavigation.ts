@@ -11,32 +11,26 @@ function _useHeaderLinks() {
       description: 'Learn how to get started with TresJS to build your 3D first app.',
       icon: 'i-lucide-rocket',
       to: `${to}/getting-started`,
-      active: route.path.startsWith(`${to}/getting-started`)
+      active: route.path.startsWith(`${to}/getting-started`),
     }, {
       label: 'Essentials',
       description: 'Get the key concepts and best practices.',
       icon: 'i-lucide-book-open',
       to: `${to}/essentials`,
-      active: route.path.startsWith(`${to}/essentials`)
+      active: route.path.startsWith(`${to}/essentials`),
     }, {
       label: 'API',
       description: 'Explore the TresJS components, composables, utilities and more.',
       icon: 'i-lucide-code-xml',
       to: `${to}/api`,
-      active: route.path.startsWith(`${to}/api`)
+      active: route.path.startsWith(`${to}/api`),
     }, {
       label: 'Cookbook',
       description: 'Discover and explore official and community examples.',
       icon: 'i-lucide-book-open-text',
       to: `${to}/cookbook`,
-      active: route.path.startsWith(`${to}/cookbook`)
-    }/*  {
-      label: 'Community',
-      description: 'Find answers and support from the community.',
-      icon: 'i-lucide-messages-square',
-      to: `${to}/community`,
-      active: route.path.startsWith(`${to}/community`)
-    } */]
+      active: route.path.startsWith(`${to}/cookbook`),
+    }/*  {      label: 'Community',      description: 'Find answers and support from the community.',      icon: 'i-lucide-messages-square',      to: `${to}/community`,      active: route.path.startsWith(`${to}/community`)    } */]
   })
 
   return { headerLinks }
@@ -49,38 +43,38 @@ const footerLinks = [{
   children: [{
     label: 'Discord',
     to: 'https://discord.gg/tresjs',
-    target: '_blank'
+    target: '_blank',
   }, {
     label: 'Team',
-    to: '/team'
-  }]
+    to: '/team',
+  }],
 }, {
   label: 'Products',
   children: [{
     label: 'Nuxt UI Pro',
     to: 'https://ui.nuxt.com/pro?utm_source=nuxt-website&utm_medium=footer',
-    target: '_blank'
+    target: '_blank',
   }, {
     label: 'Nuxt Studio',
     to: 'https://content.nuxt.com/studio/?utm_source=nuxt-website&utm_medium=footer',
-    target: '_blank'
+    target: '_blank',
   }, {
     label: 'NuxtHub',
     to: 'https://hub.nuxt.com/?utm_source=nuxt-website&utm_medium=footer',
-    target: '_blank'
-  }]
+    target: '_blank',
+  }],
 }, {
   label: 'Enterprise',
   children: [{
     label: 'Support',
-    to: '/enterprise/support'
+    to: '/enterprise/support',
   }, {
     label: 'Agencies',
-    to: '/enterprise/agencies'
+    to: '/enterprise/agencies',
   }, {
     label: 'Sponsors',
-    to: '/enterprise/sponsors'
-  }]
+    to: '/enterprise/sponsors',
+  }],
 }]
 
 export const useFooterLinks = () => ({ footerLinks })
@@ -104,29 +98,33 @@ const _useNavigation = () => {
         return {
           label: link.label,
           icon: link.icon,
-          children: link.children
+          children: link.children,
         }
       }
       return link
-    }).filter((link): link is NonNullable<typeof link> => Boolean(link)), {
+    }).filter((link): link is NonNullable<typeof link> => Boolean(link)),
+    {
       label: 'Team',
       icon: 'i-lucide-users',
-      to: '/team'
-    }, {
+      to: '/team',
+    },
+    {
       label: 'Design Kit',
       icon: 'i-lucide-palette',
-      to: '/design-kit'
-    }, {
+      to: '/design-kit',
+    },
+    {
       label: 'Newsletter',
       icon: 'i-lucide-mail',
-      to: '/newsletter'
-    }])
+      to: '/newsletter',
+    },
+  ])
 
   return {
     searchTerm,
     headerLinks,
     footerLinks,
-    searchLinks
+    searchLinks,
   }
 }
 

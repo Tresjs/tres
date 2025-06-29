@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 const props = withDefaults(defineProps<{ title?: string, description?: string, headline?: string }>(), {
   title: 'title',
-  description: 'description'
+  description: 'description',
 })
 
 const title = computed(() => (props.title || '').slice(0, 60))

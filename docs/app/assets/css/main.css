@@ -1,5 +1,5 @@
-@import "tailwindcss";
-@import "@nuxt/ui-pro";
+@import 'tailwindcss';
+@import '@nuxt/ui-pro';
 
 @source "../../../content/**/*";
 
@@ -8,8 +8,14 @@
   --font-sans: 'Inter', sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
   --breakpoint-3xl: 1920px;
-  --ui-pattern-fg: color-mix(in oklab,var(--ui-text)5%,transparent);
-  --ui-pattern-bg: repeating-linear-gradient(315deg,var(--ui-pattern-fg)0,var(--ui-pattern-fg)1px,transparent 0,transparent 50%);
+  --ui-pattern-fg: color-mix(in oklab, var(--ui-text) 5%, transparent);
+  --ui-pattern-bg: repeating-linear-gradient(
+    315deg,
+    var(--ui-pattern-fg) 0,
+    var(--ui-pattern-fg) 1px,
+    transparent 0,
+    transparent 50%
+  );
   --ui-pattern-dot-fg: color-mix(in oklab, oklch(0.18 0.04 266.75) 5%, transparent);
   --ui-pattern-dot-bg: radial-gradient(var(--ui-pattern-dot-fg) 1px, transparent 0);
   --ui-header-height: 3rem;

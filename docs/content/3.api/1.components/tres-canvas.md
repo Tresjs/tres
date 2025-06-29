@@ -23,12 +23,10 @@ import { TresCanvas } from '@tresjs/core'
 
 <template>
   <TresCanvas shadows>
-    <TresPerspectiveCamera :position="[5,5,5]" />
+    <TresPerspectiveCamera :position="[5, 5, 5]" />
     <!-- Your scene content here -->
   </TresCanvas>
 </template>
-
-
 ```
 
 ## Canvas Size
@@ -111,7 +109,7 @@ For detailed technical information about prop reactivity, see [GitHub Issue #982
   ::::field{name="failIfMajorPerformanceCaveat" type="boolean"}
   **🔒 WebGL Context Option** - Whether the renderer creation will fail upon low performance detection. See WebGL spec for details.
   ::::
- 
+
   ::::field{name="logarithmicDepthBuffer" type="boolean"}
   **🔒 WebGL Context Option** - Whether to use a logarithmic depth buffer. May be necessary for huge differences in scale. Can cause performance decrease.
   ::::
@@ -121,8 +119,8 @@ For detailed technical information about prop reactivity, see [GitHub Issue #982
   ::::
 
   ::::field{name="renderer" type="(ctx: TresRendererSetupContext) => TresRenderer"}
-  Custom [WebGL](https://threejs.org/docs/#api/en/renderers/WebGLRenderer) or experimental **WebGPU** renderer instance. Allows using a pre-configured renderer instead of creating a new one. Useful for advanced renderer customization. 
-  
+  Custom [WebGL](https://threejs.org/docs/#api/en/renderers/WebGLRenderer) or experimental **WebGPU** renderer instance. Allows using a pre-configured renderer instead of creating a new one. Useful for advanced renderer customization.
+
    ::note
    To see how to use the WebGPU renderer, check the example here: **[WebGPU](/api/advanced/web-gpu)**.
    ::
