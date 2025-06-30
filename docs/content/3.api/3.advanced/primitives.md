@@ -46,7 +46,7 @@ The `<primitive />` component accepts the following props:
 - **Type**: `Object3D | Ref<Object3D>`
 - **Required**: `true`
 
-This prop expects either a plain or a reactive Three.js `Object3D` (preferably a `shallowRef`) or any of its derived classes. It is the primary object that the `<primitive />` component will render.
+The primary Three.js object that the primitive component will render. This should be either a plain Three.js object or a reactive reference (preferably `shallowRef`).
 
 ```vue
 <script setup lang="ts">
@@ -64,6 +64,209 @@ const mesh = shallowRef(
 
 <template>
   <primitive :object="mesh" />
+</template>
+```
+
+### `dispose`
+- **Type**: `boolean | 'default' | ((self: TresInstance) => void) | null`
+- **Default**: `'default'` (no disposal for primitives)
+
+Controls how the primitive's resources are disposed when removed from the scene:
+
+- `'default'` - Default behavior: don't dispose primitive resources
+- `false` or `null` - Explicitly disable disposal
+- `true` - Force disposal of the primitive and its resources
+- `function` - Custom disposal function
+
+```vue
+<script setup lang="ts">
+import { Mesh, BoxGeometry, MeshBasicMaterial } from 'three'
+
+const mesh = new Mesh(
+  new BoxGeometry(1, 1, 1),
+  new MeshBasicMaterial({ color: 0xff0000 })
+)
+
+// Custom disposal function
+function customDispose(instance) {
+  console.log('Disposing:', instance)
+  if (instance.geometry) instance.geometry.dispose()
+  if (instance.material) instance.material.dispose()
+}
+</script>
+
+<template>
+  <!-- Default: no disposal -->
+  <primitive :object="mesh" />
+  
+  <!-- Force disposal -->
+  <primitive :object="mesh" :dispose="true" />
+  
+  <!-- Custom disposal -->
+  <primitive :object="mesh" :dispose="customDispose" />
+</template>
+```
+
+### `attach`
+- **Type**: `string | ((parent: any, self: TresInstance) => () => void)`
+- **Optional**
+
+Specifies how to attach the primitive to its parent. Can be a property name or a custom attachment function.
+
+::code-group
+```vue [Material Attachment]
+<script setup lang="ts">
+import { MeshStandardMaterial } from 'three'
+
+// Create a custom material
+const customMaterial = new MeshStandardMaterial({
+  color: 0xff6600,
+  metalness: 0.8,
+  roughness: 0.2
+})
+</script>
+
+<template>
+  <TresMesh>
+    <TresBoxGeometry :args="[1, 1, 1]" />
+    <!-- Attach the primitive as the mesh's material -->
+    <primitive :object="customMaterial" attach="material" />
+  </TresMesh>
+</template>
+```
+
+```vue [Geometry Attachment]
+<script setup lang="ts">
+import { ConeGeometry } from 'three'
+
+// Create a custom geometry
+const customGeometry = new ConeGeometry(1, 2, 8)
+</script>
+
+<template>
+  <TresMesh>
+    <!-- Attach the primitive as the mesh's geometry -->
+    <primitive :object="customGeometry" attach="geometry" />
+    <TresMeshBasicMaterial :color="0x00ff00" />
+  </TresMesh>
+</template>
+```
+
+```vue [Custom Attachment Function]
+<script setup lang="ts">
+import { DirectionalLight } from 'three'
+
+const customLight = new DirectionalLight(0xffffff, 1)
+
+// Custom attachment function
+const attachToTarget = (parent, self) => {
+  // Attach light as target
+  parent.target = self.object
+  return () => {
+    parent.target = null // Cleanup function
+  }
+}
+</script>
+
+<template>
+  <TresDirectionalLight :position="[5, 5, 5]">
+    <!-- Custom attachment -->
+    <primitive :object="customLight" :attach="attachToTarget" />
+  </TresDirectionalLight>
+</template>
+```
+::
+
+### `visible`
+- **Type**: `boolean`
+- **Default**: `true`
+
+Controls the visibility of the primitive object.
+
+```vue
+<script setup lang="ts">
+import { ref } from 'vue'
+
+const isVisible = ref(true)
+
+// Toggle visibility every 2 seconds
+setInterval(() => {
+  isVisible.value = !isVisible.value
+}, 2000)
+</script>
+
+<template>
+  <primitive :object="mesh" :visible="isVisible" />
+</template>
+```
+
+### Event Handlers
+
+All pointer event handlers are supported:
+
+- `@click` - Mouse/touch click events
+- `@contextmenu` - Right-click events  
+- `@pointerdown` - Pointer press events
+- `@pointerup` - Pointer release events
+- `@pointermove` - Pointer movement events
+- `@pointerenter` - Pointer enter events
+- `@pointerleave` - Pointer leave events
+
+```vue
+<script setup lang="ts">
+function onClick(event) {
+  console.log('Primitive clicked!', event)
+  // Change color on click
+  event.object.material.color.setHex(Math.random() * 0xffffff)
+}
+
+function onPointerEnter(event) {
+  // Scale up on hover
+  event.object.scale.setScalar(1.1)
+}
+
+function onPointerLeave(event) {
+  // Scale back to normal
+  event.object.scale.setScalar(1)
+}
+</script>
+
+<template>
+  <primitive 
+    :object="mesh"
+    @click="onClick"
+    @pointerenter="onPointerEnter"
+    @pointerleave="onPointerLeave"
+  />
+</template>
+```
+
+### Pass-through Props
+
+Any other props are passed through to the underlying Three.js object, allowing you to modify its properties directly:
+
+```vue
+<script setup lang="ts">
+import { ref } from 'vue'
+
+const rotationY = ref(0)
+
+// Animate rotation
+useLoop().onBeforeRender(() => {
+  rotationY.value += 0.01
+})
+</script>
+
+<template>
+  <!-- These props are applied directly to the Three.js object -->
+  <primitive 
+    :object="mesh"
+    :position="[1, 2, 3]"
+    :rotation="[0, rotationY, 0]"
+    :scale="2"
+    name="my-primitive"
+    userData="{ customData: 'example' }"
+  />
 </template>
 ```
 
