@@ -18,19 +18,17 @@ const planeRef: Ref<TresObject | null> = ref(null)
 </script>
 
 <template>
-  <!-- eslint-disable-next-line vue/component-name-in-template-casing -->
-  <tres-canvas
+  <TresCanvas
 
     v-bind="gl"
   >
-    <tres-perspective-camera
+    <TresPerspectiveCamera
       v-distance-to="planeRef"
       :position="[3, 3, 3]"
     />
-    <!-- eslint-disable-next-line vue/component-name-in-template-casing -->
-    <orbit-controls />
+    <OrbitControls />
 
-    <tres-directional-light
+    <TresDirectionalLight
       v-light-helper
       :position="[0, 8, 4]"
       :intensity="0.7"
@@ -38,29 +36,28 @@ const planeRef: Ref<TresObject | null> = ref(null)
       cast-shadow
       :shadow-mapSize="[512, 512]"
     />
-    <tres-mesh
+    <TresMesh
       ref="planeRef"
       v-log:material
       :rotation="[-Math.PI / 2, 0, 0]"
       receive-shadow
     >
-      <tres-plane-geometry :args="[10, 10, 10, 10]" />
-      <tres-mesh-toon-material />
-    </tres-mesh>
-    <tres-mesh
+      <TresPlaneGeometry :args="[10, 10, 10, 10]" />
+      <TresMeshToonMaterial />
+    </TresMesh>
+    <TresMesh
       :position="[-2, 2, 0]"
     >
-      <tres-box-geometry :args="[1, 1, 1]" />
-      <tres-mesh-toon-material color="red" />
-    </tres-mesh>
-    <tres-mesh
+      <TresBoxGeometry :args="[1, 1, 1]" />
+      <TresMeshToonMaterial color="red" />
+    </TresMesh>
+    <TresMesh
       :position="[2, 4, 0]"
       cast-shadow
     >
-      <tres-sphere-geometry :args="[1, 32, 32]" />
-      <tres-mesh-toon-material color="yellow" />
-    </tres-mesh>
-    <tres-ambient-light :intensity="1" />
-    <!-- eslint-disable-next-line vue/component-name-in-template-casing -->
-  </tres-canvas>
+      <TresSphereGeometry :args="[1, 32, 32]" />
+      <TresMeshToonMaterial color="yellow" />
+    </TresMesh>
+    <TresAmbientLight :intensity="1" />
+  </TresCanvas>
 </template>
