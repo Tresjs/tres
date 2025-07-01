@@ -19,4 +19,9 @@ export const miscRoutes = [
     name: 'Brownian Distribution',
     component: () => import('../../pages/misc/BrownianDistribution.vue'),
   },
+  {
+    path: '/misc/kebab-case',
+    name: 'Kebab Case Notation',
+    component: () => import('../../pages/misc/kebab-case.vue'),
+  },
 ]
