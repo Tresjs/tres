@@ -7,7 +7,7 @@ description: Use the primitive component to directly integrate any Three.js obje
 
 The `<primitive />` component is a versatile low-level component in TresJS that allows you to directly use any Three.js object within your Vue application without an abstraction. It acts as a bridge between Vue's reactivity system and THREE's scene graph.
 
-This component is particularly useful when you need to:
+This component is particularly useful when you need:
 - **Direct Three.js Integration**: Use existing Three.js objects without wrapper components
 - **Complex Model Rendering**: Display models loaded from external sources like GLTF files
 - **Performance Optimization**: Bypass component overhead for specific use cases
@@ -46,7 +46,7 @@ The `<primitive />` component accepts the following props:
 - **Type**: `Object3D | Ref<Object3D>`
 - **Required**: `true`
 
-The primary Three.js object that the primitive component will render. This should be either a plain Three.js object or a reactive reference (preferably `shallowRef`).
+The primary Three.js object which the primitive component will render. This should be either a plain Three.js object or a reactive reference (preferably `shallowRef`).
 
 ```vue
 <script setup lang="ts">
@@ -329,7 +329,7 @@ function onPointerLeave(event) {
 
 ## Children via Slots
 
-You can add children to the `<primitive />` component using slots. This is particularly useful when you want to add additional objects or materials that are not part of the main object:
+You can add children to the `<primitive />` component using slots. This is particularly useful when you want to add additional objects or materials which are not part of the main object:
 
 ```vue [primitive-children.vue]
 <script setup lang="ts">
@@ -398,7 +398,7 @@ import TheModel from './TheModel.vue'
 
 ### Working with Multiple Model Parts
 
-When working with complex models, you might want to access and manipulate specific parts:
+If you are working with complex models, you may want to access and manipulate specific parts:
 
 ```vue [primitive-model-parts.vue]
 <script setup lang="ts">
