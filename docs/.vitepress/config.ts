@@ -1,4 +1,3 @@
-import { resolve } from 'pathe'
 import { defineConfig } from 'vitepress'
 import { groupIconMdPlugin } from 'vitepress-plugin-group-icons'
 
