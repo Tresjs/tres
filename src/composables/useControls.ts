@@ -217,9 +217,12 @@ export const useControls = (
 
     // If the value is reactive, convert it to ref
     else if (typeof value === 'object' && !Array.isArray(value)) {
-      const reactiveRefs = toRefs(value)
-      if (reactiveRefs[key]) {
-        value = reactiveRefs[key]
+      // Check if the object is reactive before calling toRefs
+      if (isReactive(value)) {
+        const reactiveRefs = toRefs(value)
+        if (reactiveRefs[key]) {
+          value = reactiveRefs[key]
+        }
       }
     }
 

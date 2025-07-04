@@ -72,6 +72,7 @@ export default defineConfig({
       entry: resolve(__dirname, 'src/index.ts'),
       name: 'tresleches',
       fileName: 'tresleches',
+      formats: ['es'],
     },
     watch: {
       include: [resolve(__dirname, 'src')],
