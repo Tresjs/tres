@@ -27,7 +27,6 @@ This package is on heavy WIP and it's not ready for production. Expect possible 
 ```html
 <script lang="ts" setup>
   import { useControls, TresLeches } from '@tresjs/leches'
-  import '@tresjs/leches/styles'
 
   const controls = useControls({
     awiwi: true,
@@ -55,11 +54,7 @@ To use `TresLeches` in your project, you need to import the `TresLeches` compone
 import { TresLeches, useControls } from '@tresjs/leches'
 ```
 
-To get the styles, you need to import them from `@tresjs/leches/styles`.
-
-```ts
-import '@tresjs/leches/styles'
-```
+<!-- Removed outdated CSS import instructions -->
 
 In your Vue app, you need to use the `useControls` composable to create the controls.
 

@@ -5,7 +5,6 @@
 ```html
 <script lang="ts" setup>
   import { useControls, TresLeches } from '@tresjs/leches'
-  import '@tresjs/leches/styles'
 
   const control = useControls({
     awiwi: true,
@@ -42,7 +41,6 @@ Most commonly, you will want to use multiple controls at the same time. In this 
 ```html
 <script lang="ts" setup>
   import { useControls, TresLeches } from '@tresjs/leches'
-  import '@tresjs/leches/styles'
 
   const { awiwi, slider } = useControls({
     awiwi: true,
@@ -73,7 +71,6 @@ You can pass a reactive object to the `useControls` composable and it will retur
 ```html
 <script lang="ts" setup>
   import { useControls, TresLeches } from '@tresjs/leches'
-  import '@tresjs/leches/styles'
 
   const gl = reactive({
     clearColor: '#008080',
@@ -91,7 +88,6 @@ To better organize your controls, you can pass a folder to the `useControls` com
 ```html
 <script lang="ts" setup>
   import { useControls, TresLeches } from '@tresjs/leches'
-  import '@tresjs/leches/styles'
   import { Vector3, Euler } from 'three'
   const { position } = useControls('Camera', {
     position: {
