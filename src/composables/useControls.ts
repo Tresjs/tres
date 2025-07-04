@@ -116,11 +116,8 @@ export const useControls = (
     // If the control is part of a folder, prefix the key with the folder name
     if (folderName) {
       key = `${folderName.replace(/[\u{1F300}-\u{1F9FF}]/gu, '').trim()}${capitalize(key)}`
-      uniqueKey = `${uuid}-${key}`
     }
-    else {
-      uniqueKey = `${uuid}-${key}`
-    }
+    uniqueKey = `${uuid}-${key}`
 
     // If the value is an object with control options
     if (typeof value === 'object' && !isRef(value) && !Array.isArray(value) && value.value !== undefined) {

@@ -6,7 +6,7 @@ import { OrbitControls } from '@tresjs/cientos'
 import { TresLeches, useControls } from '@tresjs/leches'
 
 /* import '@tresjs/leches/style.css' */
-import { ref, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useDark, useToggle } from '@vueuse/core'
 
 const cameraRef = ref()
@@ -40,13 +40,13 @@ const { clearColor, wireframe, position, rotation, select } = useControls({
   number: 1,
   text: 'Hello',
   accept: {
-    label: isDark.value ? 'Light' : 'Dark',
+    label: computed(() => isDark.value ? 'Light' : 'Dark'),
     type: 'button',
     variant: 'secondary',
     onClick: () => {
       toggleDark()
     },
-    icon: isDark.value ? 'i-carbon-sun' : 'i-carbon-moon',
+    icon: computed(() => isDark.value ? 'i-carbon-sun' : 'i-carbon-moon'),
     size: 'block',
   },
 })

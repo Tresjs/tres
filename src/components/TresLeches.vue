@@ -19,6 +19,10 @@ const props = withDefaults(defineProps<{
   collapsed: false,
   float: true,
 })
+const slots = defineSlots<{
+  default: () => any
+}>()
+
 const { uuid, collapsed, float } = toRefs(props)
 
 // Panel
@@ -33,27 +37,22 @@ const { width } = useWindowSize()
 const { height: windowHeight } = useWindowSize()
 const isInitialized = ref(false)
 const isResizing = ref(false)
-const manualHeight = ref<number | null>(null) // Track manual height override
 
 const DEFAULT_WIDTH = 320
 const COLLAPSED_SIZE = 36
-const MIN_HEIGHT = 160 // Minimum height for the panel
+const MIN_HEIGHT = 148 // Minimum height for the panel
 const MAX_HEIGHT = 600 // Maximum height for the panel
 const CONTROL_HEIGHT = 44 // Approximate height per control
-const FPS_GRAPH_EXTRA_HEIGHT = 20 // Extra padding needed for FPS graph
+const FPS_GRAPH_EXTRA_HEIGHT = 26 // Extra padding needed for FPS graph
 
 const panelWidth = ref(DEFAULT_WIDTH)
 const resizeEdge = ref<'right' | 'left' | 'bottom' | 'corner' | 'corner-left' | null>(null)
 
 // Controls
 const controls = useControlsProvider(uuid?.value)
+const hasSlots = ref(false)
 
 defineExpose(controls)
-
-// Add cleanup when component is unmounted
-onUnmounted(() => {
-  dispose(uuid?.value)
-})
 
 function onChange(key: string, value: string) {
   controls[key].value = value
@@ -75,39 +74,30 @@ const groupedControls = computed(() => {
   return groups
 })
 
-const panelHeight = computed({
-  get: () => {
-    if (isCollapsedAndNotFloat.value) { return COLLAPSED_SIZE } // Height when collapsed
+function calculateHeight() {
+  if (isCollapsedAndNotFloat.value) { return COLLAPSED_SIZE } // Height when collapsed
 
-    // If manually resized, use that height within constraints
-    if (manualHeight.value !== null) {
-      const maxAllowedHeight = float.value ? windowHeight.value : MAX_HEIGHT
-      return Math.min(maxAllowedHeight, Math.max(MIN_HEIGHT, manualHeight.value))
+  // Calculate total controls including those in folders
+  let totalControls = 0
+  let hasFPSGraph = false
+  for (const folderName in groupedControls.value) {
+    const controls = groupedControls.value[folderName]
+    totalControls += controls.length
+    // Add height for folder header if it's not the default folder
+    if (folderName !== 'default') { totalControls += 1 }
+    // Check if there's an FPS graph control
+    if (controls.some(control => control.type === 'fpsgraph')) {
+      hasFPSGraph = true
     }
+  }
 
-    // Calculate total controls including those in folders
-    let totalControls = 0
-    let hasFPSGraph = false
-    for (const folderName in groupedControls.value) {
-      const controls = groupedControls.value[folderName]
-      totalControls += controls.length
-      // Add height for folder header if it's not the default folder
-      if (folderName !== 'default') { totalControls += 1 }
-      // Check if there's an FPS graph control
-      if (controls.some(control => control.type === 'fpsgraph')) {
-        hasFPSGraph = true
-      }
-    }
+  // Calculate height: header (32px) + controls + padding + extra for FPS if present
+  const calculatedHeight = 32 + (totalControls * CONTROL_HEIGHT) + (hasFPSGraph ? FPS_GRAPH_EXTRA_HEIGHT : 0)
+  const maxAllowedHeight = float.value ? windowHeight.value : MAX_HEIGHT
+  return Math.min(maxAllowedHeight, Math.max(MIN_HEIGHT, calculatedHeight))
+}
 
-    // Calculate height: header (32px) + controls + padding + extra for FPS if present
-    const calculatedHeight = 32 + (totalControls * CONTROL_HEIGHT) + (hasFPSGraph ? FPS_GRAPH_EXTRA_HEIGHT : 0)
-    const maxAllowedHeight = float.value ? windowHeight.value : MAX_HEIGHT
-    return Math.min(maxAllowedHeight, Math.max(MIN_HEIGHT, calculatedHeight))
-  },
-  set: (value) => {
-    manualHeight.value = value
-  },
-})
+const panelHeight = ref(calculateHeight())
 
 const paneRef = ref<HTMLElement | null>(null)
 const handleRef = ref<HTMLElement | null>(null)
@@ -178,7 +168,7 @@ function startResize(edge: 'right' | 'left' | 'bottom' | 'corner' | 'corner-left
   const startX = e.clientX
   const startY = e.clientY
   const startWidth = panelWidth.value
-  const startHeight = manualHeight.value ?? panelHeight.value
+  const startHeight = panelHeight.value
   const startDragX = dragPosition.value.x
 
   function onMouseMove(e: MouseEvent) {
@@ -187,7 +177,6 @@ function startResize(edge: 'right' | 'left' | 'bottom' | 'corner' | 'corner-left
     if (resizeEdge.value === 'right' || resizeEdge.value === 'corner') {
       const deltaX = e.clientX - startX
       panelWidth.value = Math.max(280, startWidth + deltaX)
-      paneRef.value.style.maxWidth = `${panelWidth.value}px`
     }
 
     if (resizeEdge.value === 'left' || resizeEdge.value === 'corner-left') {
@@ -195,14 +184,13 @@ function startResize(edge: 'right' | 'left' | 'bottom' | 'corner' | 'corner-left
       const newWidth = Math.max(280, startWidth + deltaX)
       dragPosition.value.x = startDragX - deltaX
       panelWidth.value = newWidth
-      paneRef.value.style.maxWidth = `${panelWidth.value}px`
     }
 
     if (resizeEdge.value === 'bottom' || resizeEdge.value === 'corner' || resizeEdge.value === 'corner-left') {
       const deltaY = e.clientY - startY
       const maxAllowedHeight = float.value ? windowHeight.value : MAX_HEIGHT
-      manualHeight.value = Math.min(maxAllowedHeight, Math.max(MIN_HEIGHT, startHeight + deltaY))
-      paneRef.value.style.maxHeight = `${manualHeight.value}px`
+      panelHeight.value = Math.min(maxAllowedHeight, Math.max(MIN_HEIGHT, startHeight + deltaY))
+
       // Update gradients after resize
       handleScroll()
     }
@@ -221,21 +209,23 @@ function startResize(edge: 'right' | 'left' | 'bottom' | 'corner' | 'corner-left
   document.addEventListener('mouseup', onMouseUp)
 }
 
+watch(panelHeight, (value) => {
+  if (value && paneRef.value) {
+    paneRef.value.style.maxHeight = `${value}px`
+  }
+})
+
+watch(panelWidth, (value) => {
+  if (value && paneRef.value) {
+    paneRef.value.style.maxWidth = `${value}px`
+  }
+})
+
 function toggleCollapsed() {
   if (float.value) {
     isCollapsed.value = !isCollapsed.value
   }
 }
-
-// Initialize panel after slot content is rendered
-onMounted(async () => {
-  handleScroll()
-
-  // Wait for slot content to be rendered
-  await nextTick()
-
-  isInitialized.value = true
-})
 
 // Update animation when panel state changes
 watch(isCollapsed, async (value) => {
@@ -243,7 +233,7 @@ watch(isCollapsed, async (value) => {
     await nextTick() // Wait for slot to be visible
     await apply({
       width: float.value ? panelWidth.value : 'none',
-      height: float.value ? (manualHeight.value || panelHeight.value) : 'none',
+      height: float.value ? panelHeight.value : 'none',
       right: float.value ? '1rem' : 'auto',
       left: float.value ? 'auto' : '0',
     })
@@ -254,11 +244,30 @@ watch(isCollapsed, async (value) => {
 
 function onFolderOpen(value: boolean) {
   panelHeight.value = panelHeight.value + (44 * (value ? 1 : -1))
-  if (manualHeight.value && paneRef.value) {
-    manualHeight.value = manualHeight.value + (44 * (value ? 1 : -1))
-    paneRef.value.style.maxHeight = `${manualHeight.value}px`
-  }
 }
+
+const slotsRef = ref()
+
+watch(slotsRef, (value) => {
+  panelHeight.value = panelHeight.value + value.clientHeight
+})
+
+// Initialize panel after slot content is rendered
+onMounted(async () => {
+  handleScroll()
+
+  // Wait for slot content to be rendered
+  await nextTick()
+
+  isInitialized.value = true
+
+  hasSlots.value = slots?.default ? slots?.default().length > 0 : false
+})
+
+// Add cleanup when component is unmounted
+onUnmounted(() => {
+  dispose(uuid?.value)
+})
 </script>
 
 <template>
@@ -303,7 +312,7 @@ function onFolderOpen(value: boolean) {
           </button>
         </div>
       </header>
-      <div v-show="!isCollapsed" class="tl-flex-1 tl-relative tl-overflow-hidden tl-my-4">
+      <div v-show="!isCollapsed" class="tl-flex-1 tl-relative tl-overflow-hidden tl-py-4">
         <!-- Gradient overlays moved outside scrollable area -->
         <div
           class="tl-pointer-events-none tl-absolute tl-left-0 tl-right-0 tl-top-0 tl-h-8 tl-bg-gradient-linear tl-bg-gradient-to-b tl-from-white dark:tl-from-dark-200 tl-to-transparent tl-z-20 tl-opacity-0 tl-transition-opacity duration-200"
@@ -337,7 +346,10 @@ function onFolderOpen(value: boolean) {
               />
             </template>
           </template>
-          <slot></slot>
+
+          <div v-if="hasSlots" ref="slotsRef" class="tl-px-4">
+            <slot></slot>
+          </div>
         </div>
       </div>
       <!-- Resize handles -->

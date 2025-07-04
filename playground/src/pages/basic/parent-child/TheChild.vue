@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { TresObject } from '@tresjs/core'
 import { useLoop } from '@tresjs/core'
-import { shallowRef } from 'vue'
+import { shallowRef, watch } from 'vue'
 import { OrbitControls } from '@tresjs/cientos'
 import { useControls } from '@tresjs/leches'
 
@@ -16,8 +16,32 @@ onBeforeRender(({ elapsed }) => {
   }
 })
 
-const { wireframe } = useControls({
+const { wireframe, number, booleanDropdown } = useControls({
   wireframe: false,
+  number: 1,
+  booleanDropdown: {
+    value: true,
+    options: [{
+      text: 'Option 1',
+      value: true,
+    }, {
+      text: 'Option 2',
+      value: false,
+    }, {
+      text: 'Option 3',
+      value: true,
+    }],
+  },
+})
+
+watch(booleanDropdown, (value) => {
+  // eslint-disable-next-line no-console
+  console.log('booleanDropdown', value)
+})
+
+watch(number, (value) => {
+  // eslint-disable-next-line no-console
+  console.log('number', value)
 })
 </script>
 
