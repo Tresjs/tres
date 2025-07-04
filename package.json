@@ -59,7 +59,7 @@
     "vue": ">=3.3.4"
   },
   "dependencies": {
-    "@unocss/core": "66.1.0-beta.7",
+    "@unocss/core": "66.3.2",
     "@vueuse/components": "^13.0.0",
     "@vueuse/motion": "^3.0.3",
     "unocss-preset-scrollbar": "^3.2.0"
@@ -94,6 +94,7 @@
     "vite-plugin-banner": "^0.8.0",
     "vite-plugin-css-injected-by-js": "^3.5.2",
     "vite-plugin-dts": "^4.5.3",
+    "vite-plugin-inspect": "^11.3.0",
     "vite-svg-loader": "^5.1.0",
     "vitepress": "1.6.3",
     "vitest": "^3.0.9",

@@ -17,6 +17,7 @@ import { bold, gray, lightGreen, magenta } from 'kolorist'
 import pkg from './package.json'
 import { presetScrollbar } from 'unocss-preset-scrollbar'
 
+import cssInjectedByJsPlugin from 'vite-plugin-css-injected-by-js'
 // eslint-disable-next-line no-console
 console.log(`${lightGreen('▲')} ${gray('■')} ${magenta('🍰')} ${bold('Tres/leches')} v${pkg.version}`)
 
@@ -34,6 +35,7 @@ export default defineConfig({
       }\n * (c) ${new Date().getFullYear()}\n * description: ${pkg.description}\n * author: ${pkg.author}\n */`,
     }),
     UnoCSS({
+      mode: 'vue-scoped',
       /* options */
       shortcuts: {
         'tl-leches-input': 'tl-p-2 tl-rounded tl-text-left tl-text-xs tl-text-gray-400 tl-bg-gray-100 dark:tl-bg-dark-300 dark:tl-text-gray-400 tl-outline-none tl-border-none focus:tl-ring-2 focus:tl-border-gray-200 focus:tl-ring focus:tl-ring-gray-200 tl-font-sans',
@@ -64,8 +66,11 @@ export default defineConfig({
       ],
       transformers: [transformerDirectives()],
     }),
-    /*  cssInjectedByJsPlugin(), */
-
+    cssInjectedByJsPlugin(),
+    /*  Inspect({
+      build: true,
+      outputDir: 'dist/inspect',
+    }), */
   ],
   build: {
     lib: {
@@ -74,17 +79,18 @@ export default defineConfig({
       fileName: 'tresleches',
       formats: ['es'],
     },
+    cssCodeSplit: false, // <--- important!
     watch: {
       include: [resolve(__dirname, 'src')],
     },
     rollupOptions: {
       plugins: [
-        analyze(),
+      /*   analyze(),
         visualizer({
           gzipSize: true,
           brotliSize: true,
           open: false,
-        }),
+        }), */
       ],
       external: ['vue', '@vueuse/core'],
       output: {
