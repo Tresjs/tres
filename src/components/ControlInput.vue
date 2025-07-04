@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { LechesControl } from '../types'
+import type { LechesControlUnion } from '../types'
 import NumberControl from './NumberControl.vue'
 import TextControl from './TextControl.vue'
 import BooleanControl from './BooleanControl.vue'
@@ -12,7 +12,7 @@ import ButtonControl from './ButtonControl.vue'
 import GraphControl from './GraphControl.vue'
 
 defineProps<{
-  control: LechesControl
+  control: LechesControlUnion
 }>()
 
 const emit = defineEmits(['change'])

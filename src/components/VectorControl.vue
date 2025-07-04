@@ -2,12 +2,12 @@
 import { useKeyModifier, useMouse, useMousePressed } from '@vueuse/core'
 import { computed, ref, watch } from 'vue'
 import { isVector2, isVector3, normalizeVectorFlexibleParam } from '../utils/'
-import type { LechesControl } from '../types'
+import type { LechesVectorControl } from '../types'
 import ControlLabel from './ControlLabel.vue'
 
 const props = defineProps<{
   label: string
-  control: LechesControl
+  control: LechesVectorControl
 }>()
 
 const emit = defineEmits(['change'])

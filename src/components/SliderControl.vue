@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
 import { useDark, useMouse } from '@vueuse/core'
-import type { LechesControl } from '../types'
+import type { LechesNumberControl } from '../types'
 import ControlLabel from './ControlLabel.vue'
 
 const props = defineProps<{
   label: string
-  control: LechesControl
+  control: LechesNumberControl
 }>()
 
 const emit = defineEmits(['change'])

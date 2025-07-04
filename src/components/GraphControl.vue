@@ -1,12 +1,12 @@
 <script lang="ts" setup>
 import { onMounted, onUnmounted, ref } from 'vue'
 import { useRafFn } from '@vueuse/core'
-import type { LechesControl } from '../types'
+import type { LechesGraphControl } from '../types'
 import ControlLabel from './ControlLabel.vue'
 
 const props = defineProps<{
   label: string
-  control: LechesControl
+  control: LechesGraphControl
 }>()
 
 const containerRef = ref<HTMLElement | null>(null)

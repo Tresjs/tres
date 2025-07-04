@@ -1,16 +1,16 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import type { LechesControl } from '../types'
+import type { LechesControlUnion } from '../types'
 import ControlInput from './ControlInput.vue'
 
 defineProps<{
-  controls: LechesControl[]
+  controls: LechesControlUnion[]
   label: string | number
 }>()
 
 const emit = defineEmits(['open'])
 
-function onChange(value: string, control: LechesControl) {
+function onChange(value: string, control: LechesControlUnion) {
   control.value = value as any
 }
 

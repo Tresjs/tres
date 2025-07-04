@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import type { LechesControl } from '../types'
+import type { LechesBooleanControl } from '../types'
 import ControlLabel from './ControlLabel.vue'
 
 const props = defineProps<{
   label: string
-  control: LechesControl
+  control: LechesBooleanControl
 }>()
 
 const emit = defineEmits(['change'])
@@ -42,7 +42,7 @@ function onKeydown(event: KeyboardEvent) {
       <span
         tabindex="0"
         role="checkbox"
-        :aria-checked="control.value.toString()"
+        :aria-checked="control.value"
         :class="{ 'tl-bg-dark-500 dark:tl-bg-gray-400': control.value, 'tl-bg-gray-100 dark:tl-bg-dark-300': !control.value }"
         class="tl-w-4
           tl-h-4
