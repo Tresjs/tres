@@ -8,7 +8,7 @@ exports[`button Controls > should render a block size button 1`] = `
       <!--v-if-->
       <div class="tl-flex tl-justify-end"><button class="tl-rounded-full tl-inline-flex tl-justify-center tl-items-center tl-p-1.5 tl-bg-gray-100 dark:tl-bg-dark-300 tl-outline-none tl-border-none tl-cursor-pointer"><img src="/src/assets/tresleches-icon.svg" alt="TresLechesIcon" class="tl-w-4 tl-h-4 tl-block" width="16" height="16"></button></div>
     </header>
-    <div class="tl-flex-1 tl-relative tl-overflow-hidden tl-my-4">
+    <div class="tl-flex-1 tl-relative tl-overflow-hidden tl-py-4">
       <!-- Gradient overlays moved outside scrollable area -->
       <div class="tl-pointer-events-none tl-absolute tl-left-0 tl-right-0 tl-top-0 tl-h-8 tl-bg-gradient-linear tl-bg-gradient-to-b tl-from-white dark:tl-from-dark-200 tl-to-transparent tl-z-20 tl-opacity-0 tl-transition-opacity duration-200"></div>
       <div class="tl-pointer-events-none tl-absolute tl-left-0 tl-right-0 tl-bottom-0 tl-h-8 tl-bg-gradient-linear tl-bg-gradient-to-t tl-from-white dark:tl-from-dark-200 tl-to-transparent tl-z-20 tl-opacity-0 tl-transition-opacity duration-200"></div>
@@ -17,7 +17,7 @@ exports[`button Controls > should render a block size button 1`] = `
         <div>
           <div class="tl-py-2 tl-px-4 tl-flex tl-justify-end"><button id="default-acceptBtn" class="leches-btn leches-btn-primary leches-btn-block"><i class="mr-1"></i> Accept</button></div>
         </div>
-        <div class="tl-p-4"></div>
+        <!--v-if-->
       </div>
     </div><!-- Resize handles -->
     <!-- <span
@@ -42,7 +42,7 @@ exports[`button Controls > should render a button 1`] = `
       <!--v-if-->
       <div class="tl-flex tl-justify-end"><button class="tl-rounded-full tl-inline-flex tl-justify-center tl-items-center tl-p-1.5 tl-bg-gray-100 dark:tl-bg-dark-300 tl-outline-none tl-border-none tl-cursor-pointer"><img src="/src/assets/tresleches-icon.svg" alt="TresLechesIcon" class="tl-w-4 tl-h-4 tl-block" width="16" height="16"></button></div>
     </header>
-    <div class="tl-flex-1 tl-relative tl-overflow-hidden tl-my-4">
+    <div class="tl-flex-1 tl-relative tl-overflow-hidden tl-py-4">
       <!-- Gradient overlays moved outside scrollable area -->
       <div class="tl-pointer-events-none tl-absolute tl-left-0 tl-right-0 tl-top-0 tl-h-8 tl-bg-gradient-linear tl-bg-gradient-to-b tl-from-white dark:tl-from-dark-200 tl-to-transparent tl-z-20 tl-opacity-0 tl-transition-opacity duration-200"></div>
       <div class="tl-pointer-events-none tl-absolute tl-left-0 tl-right-0 tl-bottom-0 tl-h-8 tl-bg-gradient-linear tl-bg-gradient-to-t tl-from-white dark:tl-from-dark-200 tl-to-transparent tl-z-20 tl-opacity-0 tl-transition-opacity duration-200"></div>
@@ -51,7 +51,7 @@ exports[`button Controls > should render a button 1`] = `
         <div>
           <div class="tl-py-2 tl-px-4 tl-flex tl-justify-end"><button id="default-acceptBtn" class="leches-btn leches-btn-primary leches-btn-sm"><i class="mr-1"></i> Accept</button></div>
         </div>
-        <div class="tl-p-4"></div>
+        <!--v-if-->
       </div>
     </div><!-- Resize handles -->
     <!-- <span
@@ -76,7 +76,7 @@ exports[`button Controls > should render a button with a label 1`] = `
       <!--v-if-->
       <div class="tl-flex tl-justify-end"><button class="tl-rounded-full tl-inline-flex tl-justify-center tl-items-center tl-p-1.5 tl-bg-gray-100 dark:tl-bg-dark-300 tl-outline-none tl-border-none tl-cursor-pointer"><img src="/src/assets/tresleches-icon.svg" alt="TresLechesIcon" class="tl-w-4 tl-h-4 tl-block" width="16" height="16"></button></div>
     </header>
-    <div class="tl-flex-1 tl-relative tl-overflow-hidden tl-my-4">
+    <div class="tl-flex-1 tl-relative tl-overflow-hidden tl-py-4">
       <!-- Gradient overlays moved outside scrollable area -->
       <div class="tl-pointer-events-none tl-absolute tl-left-0 tl-right-0 tl-top-0 tl-h-8 tl-bg-gradient-linear tl-bg-gradient-to-b tl-from-white dark:tl-from-dark-200 tl-to-transparent tl-z-20 tl-opacity-0 tl-transition-opacity duration-200"></div>
       <div class="tl-pointer-events-none tl-absolute tl-left-0 tl-right-0 tl-bottom-0 tl-h-8 tl-bg-gradient-linear tl-bg-gradient-to-t tl-from-white dark:tl-from-dark-200 tl-to-transparent tl-z-20 tl-opacity-0 tl-transition-opacity duration-200"></div>
@@ -85,7 +85,7 @@ exports[`button Controls > should render a button with a label 1`] = `
         <div>
           <div class="tl-py-2 tl-px-4 tl-flex tl-justify-end"><button id="default-acceptBtn" class="leches-btn leches-btn-primary leches-btn-sm"><i class="mr-1"></i> Accept</button></div>
         </div>
-        <div class="tl-p-4"></div>
+        <!--v-if-->
       </div>
     </div><!-- Resize handles -->
     <!-- <span
@@ -110,7 +110,7 @@ exports[`button Controls > should render a large button 1`] = `
       <!--v-if-->
       <div class="tl-flex tl-justify-end"><button class="tl-rounded-full tl-inline-flex tl-justify-center tl-items-center tl-p-1.5 tl-bg-gray-100 dark:tl-bg-dark-300 tl-outline-none tl-border-none tl-cursor-pointer"><img src="/src/assets/tresleches-icon.svg" alt="TresLechesIcon" class="tl-w-4 tl-h-4 tl-block" width="16" height="16"></button></div>
     </header>
-    <div class="tl-flex-1 tl-relative tl-overflow-hidden tl-my-4">
+    <div class="tl-flex-1 tl-relative tl-overflow-hidden tl-py-4">
       <!-- Gradient overlays moved outside scrollable area -->
       <div class="tl-pointer-events-none tl-absolute tl-left-0 tl-right-0 tl-top-0 tl-h-8 tl-bg-gradient-linear tl-bg-gradient-to-b tl-from-white dark:tl-from-dark-200 tl-to-transparent tl-z-20 tl-opacity-0 tl-transition-opacity duration-200"></div>
       <div class="tl-pointer-events-none tl-absolute tl-left-0 tl-right-0 tl-bottom-0 tl-h-8 tl-bg-gradient-linear tl-bg-gradient-to-t tl-from-white dark:tl-from-dark-200 tl-to-transparent tl-z-20 tl-opacity-0 tl-transition-opacity duration-200"></div>
@@ -119,7 +119,7 @@ exports[`button Controls > should render a large button 1`] = `
         <div>
           <div class="tl-py-2 tl-px-4 tl-flex tl-justify-end"><button id="default-acceptBtn" class="leches-btn leches-btn-primary leches-btn-lg"><i class="mr-1"></i> Accept</button></div>
         </div>
-        <div class="tl-p-4"></div>
+        <!--v-if-->
       </div>
     </div><!-- Resize handles -->
     <!-- <span
@@ -144,7 +144,7 @@ exports[`button Controls > should render a primary button variant by default 1`]
       <!--v-if-->
       <div class="tl-flex tl-justify-end"><button class="tl-rounded-full tl-inline-flex tl-justify-center tl-items-center tl-p-1.5 tl-bg-gray-100 dark:tl-bg-dark-300 tl-outline-none tl-border-none tl-cursor-pointer"><img src="/src/assets/tresleches-icon.svg" alt="TresLechesIcon" class="tl-w-4 tl-h-4 tl-block" width="16" height="16"></button></div>
     </header>
-    <div class="tl-flex-1 tl-relative tl-overflow-hidden tl-my-4">
+    <div class="tl-flex-1 tl-relative tl-overflow-hidden tl-py-4">
       <!-- Gradient overlays moved outside scrollable area -->
       <div class="tl-pointer-events-none tl-absolute tl-left-0 tl-right-0 tl-top-0 tl-h-8 tl-bg-gradient-linear tl-bg-gradient-to-b tl-from-white dark:tl-from-dark-200 tl-to-transparent tl-z-20 tl-opacity-0 tl-transition-opacity duration-200"></div>
       <div class="tl-pointer-events-none tl-absolute tl-left-0 tl-right-0 tl-bottom-0 tl-h-8 tl-bg-gradient-linear tl-bg-gradient-to-t tl-from-white dark:tl-from-dark-200 tl-to-transparent tl-z-20 tl-opacity-0 tl-transition-opacity duration-200"></div>
@@ -153,7 +153,7 @@ exports[`button Controls > should render a primary button variant by default 1`]
         <div>
           <div class="tl-py-2 tl-px-4 tl-flex tl-justify-end"><button id="default-acceptBtn" class="leches-btn leches-btn-primary leches-btn-sm"><i class="mr-1"></i> Accept</button></div>
         </div>
-        <div class="tl-p-4"></div>
+        <!--v-if-->
       </div>
     </div><!-- Resize handles -->
     <!-- <span
@@ -178,7 +178,7 @@ exports[`button Controls > should render a secondary button variant 1`] = `
       <!--v-if-->
       <div class="tl-flex tl-justify-end"><button class="tl-rounded-full tl-inline-flex tl-justify-center tl-items-center tl-p-1.5 tl-bg-gray-100 dark:tl-bg-dark-300 tl-outline-none tl-border-none tl-cursor-pointer"><img src="/src/assets/tresleches-icon.svg" alt="TresLechesIcon" class="tl-w-4 tl-h-4 tl-block" width="16" height="16"></button></div>
     </header>
-    <div class="tl-flex-1 tl-relative tl-overflow-hidden tl-my-4">
+    <div class="tl-flex-1 tl-relative tl-overflow-hidden tl-py-4">
       <!-- Gradient overlays moved outside scrollable area -->
       <div class="tl-pointer-events-none tl-absolute tl-left-0 tl-right-0 tl-top-0 tl-h-8 tl-bg-gradient-linear tl-bg-gradient-to-b tl-from-white dark:tl-from-dark-200 tl-to-transparent tl-z-20 tl-opacity-0 tl-transition-opacity duration-200"></div>
       <div class="tl-pointer-events-none tl-absolute tl-left-0 tl-right-0 tl-bottom-0 tl-h-8 tl-bg-gradient-linear tl-bg-gradient-to-t tl-from-white dark:tl-from-dark-200 tl-to-transparent tl-z-20 tl-opacity-0 tl-transition-opacity duration-200"></div>
@@ -187,7 +187,7 @@ exports[`button Controls > should render a secondary button variant 1`] = `
         <div>
           <div class="tl-py-2 tl-px-4 tl-flex tl-justify-end"><button id="default-acceptBtn" class="leches-btn leches-btn-secondary leches-btn-sm"><i class="mr-1"></i> Accept</button></div>
         </div>
-        <div class="tl-p-4"></div>
+        <!--v-if-->
       </div>
     </div><!-- Resize handles -->
     <!-- <span
@@ -212,7 +212,7 @@ exports[`button Controls > should render a small button 1`] = `
       <!--v-if-->
       <div class="tl-flex tl-justify-end"><button class="tl-rounded-full tl-inline-flex tl-justify-center tl-items-center tl-p-1.5 tl-bg-gray-100 dark:tl-bg-dark-300 tl-outline-none tl-border-none tl-cursor-pointer"><img src="/src/assets/tresleches-icon.svg" alt="TresLechesIcon" class="tl-w-4 tl-h-4 tl-block" width="16" height="16"></button></div>
     </header>
-    <div class="tl-flex-1 tl-relative tl-overflow-hidden tl-my-4">
+    <div class="tl-flex-1 tl-relative tl-overflow-hidden tl-py-4">
       <!-- Gradient overlays moved outside scrollable area -->
       <div class="tl-pointer-events-none tl-absolute tl-left-0 tl-right-0 tl-top-0 tl-h-8 tl-bg-gradient-linear tl-bg-gradient-to-b tl-from-white dark:tl-from-dark-200 tl-to-transparent tl-z-20 tl-opacity-0 tl-transition-opacity duration-200"></div>
       <div class="tl-pointer-events-none tl-absolute tl-left-0 tl-right-0 tl-bottom-0 tl-h-8 tl-bg-gradient-linear tl-bg-gradient-to-t tl-from-white dark:tl-from-dark-200 tl-to-transparent tl-z-20 tl-opacity-0 tl-transition-opacity duration-200"></div>
@@ -221,7 +221,7 @@ exports[`button Controls > should render a small button 1`] = `
         <div>
           <div class="tl-py-2 tl-px-4 tl-flex tl-justify-end"><button id="default-acceptBtn" class="leches-btn leches-btn-primary leches-btn-sm"><i class="mr-1"></i> Accept</button></div>
         </div>
-        <div class="tl-p-4"></div>
+        <!--v-if-->
       </div>
     </div><!-- Resize handles -->
     <!-- <span
@@ -246,7 +246,7 @@ exports[`button Controls > should render an icon on the button 1`] = `
       <!--v-if-->
       <div class="tl-flex tl-justify-end"><button class="tl-rounded-full tl-inline-flex tl-justify-center tl-items-center tl-p-1.5 tl-bg-gray-100 dark:tl-bg-dark-300 tl-outline-none tl-border-none tl-cursor-pointer"><img src="/src/assets/tresleches-icon.svg" alt="TresLechesIcon" class="tl-w-4 tl-h-4 tl-block" width="16" height="16"></button></div>
     </header>
-    <div class="tl-flex-1 tl-relative tl-overflow-hidden tl-my-4">
+    <div class="tl-flex-1 tl-relative tl-overflow-hidden tl-py-4">
       <!-- Gradient overlays moved outside scrollable area -->
       <div class="tl-pointer-events-none tl-absolute tl-left-0 tl-right-0 tl-top-0 tl-h-8 tl-bg-gradient-linear tl-bg-gradient-to-b tl-from-white dark:tl-from-dark-200 tl-to-transparent tl-z-20 tl-opacity-0 tl-transition-opacity duration-200"></div>
       <div class="tl-pointer-events-none tl-absolute tl-left-0 tl-right-0 tl-bottom-0 tl-h-8 tl-bg-gradient-linear tl-bg-gradient-to-t tl-from-white dark:tl-from-dark-200 tl-to-transparent tl-z-20 tl-opacity-0 tl-transition-opacity duration-200"></div>
@@ -255,7 +255,7 @@ exports[`button Controls > should render an icon on the button 1`] = `
         <div>
           <div class="tl-py-2 tl-px-4 tl-flex tl-justify-end"><button id="default-acceptBtn" class="leches-btn leches-btn-primary leches-btn-sm"><i class="i-carbon-checkmark mr-1"></i> Accept</button></div>
         </div>
-        <div class="tl-p-4"></div>
+        <!--v-if-->
       </div>
     </div><!-- Resize handles -->
     <!-- <span
