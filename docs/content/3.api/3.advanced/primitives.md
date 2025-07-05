@@ -19,11 +19,11 @@ The simplest way to use the `<primitive />` component is by passing a Three.js o
 
 ```vue [basic-primitive.vue]
 <script setup lang="ts">
-import { Mesh, BoxGeometry, MeshBasicMaterial } from 'three'
+import { BoxGeometry, Mesh, MeshBasicMaterial } from 'three'
 
 // Create a box geometry and a basic material
 const geometry = new BoxGeometry(1, 1, 1)
-const material = new MeshBasicMaterial({ color: 0x00ff00 })
+const material = new MeshBasicMaterial({ color: 0x00FF00 })
 
 // Create a mesh with the geometry and material
 const meshWithMaterial = new Mesh(geometry, material)
@@ -51,13 +51,13 @@ The primary Three.js object which the primitive component will render. This shou
 ```vue
 <script setup lang="ts">
 import { shallowRef } from 'vue'
-import { Mesh, BoxGeometry, MeshBasicMaterial } from 'three'
+import { BoxGeometry, Mesh, MeshBasicMaterial } from 'three'
 
 // Using shallowRef for better performance with Three.js objects
 const mesh = shallowRef(
   new Mesh(
     new BoxGeometry(1, 1, 1),
-    new MeshBasicMaterial({ color: 0xff0000 })
+    new MeshBasicMaterial({ color: 0xFF0000 })
   )
 )
 </script>
@@ -80,28 +80,28 @@ Controls how the primitive's resources are disposed when removed from the scene:
 
 ```vue
 <script setup lang="ts">
-import { Mesh, BoxGeometry, MeshBasicMaterial } from 'three'
+import { BoxGeometry, Mesh, MeshBasicMaterial } from 'three'
 
 const mesh = new Mesh(
   new BoxGeometry(1, 1, 1),
-  new MeshBasicMaterial({ color: 0xff0000 })
+  new MeshBasicMaterial({ color: 0xFF0000 })
 )
 
 // Custom disposal function
 function customDispose(instance) {
   console.log('Disposing:', instance)
-  if (instance.geometry) instance.geometry.dispose()
-  if (instance.material) instance.material.dispose()
+  if (instance.geometry) { instance.geometry.dispose() }
+  if (instance.material) { instance.material.dispose() }
 }
 </script>
 
 <template>
   <!-- Default: no disposal -->
   <primitive :object="mesh" />
-  
+
   <!-- Force disposal -->
   <primitive :object="mesh" :dispose="true" />
-  
+
   <!-- Custom disposal -->
   <primitive :object="mesh" :dispose="customDispose" />
 </template>
@@ -120,7 +120,7 @@ import { MeshStandardMaterial } from 'three'
 
 // Create a custom material
 const customMaterial = new MeshStandardMaterial({
-  color: 0xff6600,
+  color: 0xFF6600,
   metalness: 0.8,
   roughness: 0.2
 })
@@ -147,7 +147,7 @@ const customGeometry = new ConeGeometry(1, 2, 8)
   <TresMesh>
     <!-- Attach the primitive as the mesh's geometry -->
     <primitive :object="customGeometry" attach="geometry" />
-    <TresMeshBasicMaterial :color="0x00ff00" />
+    <TresMeshBasicMaterial :color="0x00FF00" />
   </TresMesh>
 </template>
 ```
@@ -156,7 +156,7 @@ const customGeometry = new ConeGeometry(1, 2, 8)
 <script setup lang="ts">
 import { DirectionalLight } from 'three'
 
-const customLight = new DirectionalLight(0xffffff, 1)
+const customLight = new DirectionalLight(0xFFFFFF, 1)
 
 // Custom attachment function
 const attachToTarget = (parent, self) => {
@@ -205,7 +205,7 @@ setInterval(() => {
 All pointer event handlers are supported:
 
 - `@click` - Mouse/touch click events
-- `@contextmenu` - Right-click events  
+- `@contextmenu` - Right-click events
 - `@pointerdown` - Pointer press events
 - `@pointerup` - Pointer release events
 - `@pointermove` - Pointer movement events
@@ -217,7 +217,7 @@ All pointer event handlers are supported:
 function onClick(event) {
   console.log('Primitive clicked!', event)
   // Change color on click
-  event.object.material.color.setHex(Math.random() * 0xffffff)
+  event.object.material.color.setHex(Math.random() * 0xFFFFFF)
 }
 
 function onPointerEnter(event) {
@@ -232,7 +232,7 @@ function onPointerLeave(event) {
 </script>
 
 <template>
-  <primitive 
+  <primitive
     :object="mesh"
     @click="onClick"
     @pointerenter="onPointerEnter"
@@ -259,7 +259,7 @@ useLoop().onBeforeRender(() => {
 
 <template>
   <!-- These props are applied directly to the Three.js object -->
-  <primitive 
+  <primitive
     :object="mesh"
     :position="[1, 2, 3]"
     :rotation="[0, rotationY, 0]"
@@ -276,18 +276,18 @@ The `<primitive />` component supports all the pointer events available on TresJ
 
 ```vue [primitive-events.vue]
 <script setup lang="ts">
-import { Mesh, BoxGeometry, MeshBasicMaterial } from 'three'
+import { BoxGeometry, Mesh, MeshBasicMaterial } from 'three'
 
 const mesh = new Mesh(
   new BoxGeometry(1, 1, 1),
-  new MeshBasicMaterial({ color: 0x00ff00 })
+  new MeshBasicMaterial({ color: 0x00FF00 })
 )
 
 // Event handlers
 function onClick(event) {
   console.log('Primitive clicked!', event)
   // Change color on click
-  event.object.material.color.setHex(Math.random() * 0xffffff)
+  event.object.material.color.setHex(Math.random() * 0xFFFFFF)
 }
 
 function onPointerMove(event) {
@@ -308,8 +308,8 @@ function onPointerLeave(event) {
 </script>
 
 <template>
-  <primitive 
-    :object="mesh" 
+  <primitive
+    :object="mesh"
     @click="onClick"
     @pointermove="onPointerMove"
     @pointerenter="onPointerEnter"
@@ -333,7 +333,7 @@ You can add children to the `<primitive />` component using slots. This is parti
 
 ```vue [primitive-children.vue]
 <script setup lang="ts">
-import { Mesh, BoxGeometry } from 'three'
+import { BoxGeometry, Mesh } from 'three'
 
 // Create a mesh with only geometry, material will be added via slot
 const meshWithOnlyGeometry = new Mesh(new BoxGeometry(1, 1, 1))
@@ -342,12 +342,12 @@ const meshWithOnlyGeometry = new Mesh(new BoxGeometry(1, 1, 1))
 <template>
   <primitive :object="meshWithOnlyGeometry">
     <!-- Add material as child -->
-    <TresMeshBasicMaterial :color="0xff0000" />
-    
+    <TresMeshBasicMaterial :color="0xFF0000" />
+
     <!-- Add additional objects as children -->
     <TresMesh :position="[0, 1.5, 0]">
       <TresSphereGeometry :args="[0.3, 16, 16]" />
-      <TresMeshBasicMaterial :color="0x00ff00" />
+      <TresMeshBasicMaterial :color="0x00FF00" />
     </TresMesh>
   </primitive>
 </template>
@@ -356,7 +356,6 @@ const meshWithOnlyGeometry = new Mesh(new BoxGeometry(1, 1, 1))
 ## Usage with Models
 
 The `<primitive />` component is especially powerful when working with complex models loaded from external sources. Here's how to use it with GLTF models:
-
 
 ::code-group
 ```vue [TheModel.vue]
@@ -373,7 +372,7 @@ const modelNode = computed(() => nodes.value.AkuAku)
 <template>
   <!-- Use specific node from the model -->
   <primitive v-if="modelNode" :object="modelNode" />
-  
+
   <!-- Or use the entire scene -->
   <primitive v-if="state.scene" :object="state.scene" />
 </template>
@@ -389,7 +388,7 @@ import TheModel from './TheModel.vue'
     <TresPerspectiveCamera :position="[5, 5, 5]" :look-at="[0, 0, 0]" />
     <TresAmbientLight :intensity="0.5" />
     <TresDirectionalLight :position="[5, 5, 5]" />
-    
+
     <TheModel />
   </TresCanvas>
 </template>
@@ -414,7 +413,7 @@ const engine = computed(() => nodes.value.Engine)
 // You can modify materials or properties
 watchEffect(() => {
   if (chassis.value) {
-    chassis.value.material.color.setHex(0xff0000)
+    chassis.value.material.color.setHex(0xFF0000)
   }
 })
 </script>
@@ -440,7 +439,7 @@ When using primitives, keep these performance tips in mind:
 ```vue
 <script setup lang="ts">
 import { shallowRef } from 'vue'
-import { Mesh, BoxGeometry, MeshBasicMaterial } from 'three'
+import { BoxGeometry, Mesh, MeshBasicMaterial } from 'three'
 
 // ✅ Good - Use shallowRef for Three.js objects
 const mesh = shallowRef(new Mesh(geometry, material))
@@ -457,10 +456,10 @@ const mesh = shallowRef(new Mesh(geometry, material))
 ```vue
 <script setup lang="ts">
 import { onUnmounted, shallowRef } from 'vue'
-import { Mesh, BoxGeometry, MeshBasicMaterial } from 'three'
+import { BoxGeometry, Mesh, MeshBasicMaterial } from 'three'
 
 const geometry = new BoxGeometry(1, 1, 1)
-const material = new MeshBasicMaterial({ color: 0xff0000 })
+const material = new MeshBasicMaterial({ color: 0xFF0000 })
 const mesh = shallowRef(new Mesh(geometry, material))
 
 // ✅ Clean up resources when component is unmounted
@@ -484,13 +483,13 @@ You can override the default behavior using the `dispose` prop:
 <template>
   <!-- Default: Don't dispose primitive resources -->
   <primitive :object="mesh" />
-  
+
   <!-- Explicitly disable disposal -->
   <primitive :object="mesh" :dispose="false" />
-  
+
   <!-- Force disposal of the primitive and its resources -->
   <primitive :object="mesh" :dispose="true" />
-  
+
   <!-- Custom disposal function -->
   <primitive :object="mesh" :dispose="customDispose" />
 </template>
@@ -506,7 +505,7 @@ import { Text } from 'troika-three-text'
 const textMesh = new Text()
 textMesh.text = 'Hello TresJS!'
 textMesh.fontSize = 0.5
-textMesh.color = 0xff6600
+textMesh.color = 0xFF6600
 </script>
 
 <template>
@@ -517,18 +516,24 @@ textMesh.color = 0xff6600
 ### 2. Custom Geometries
 ```vue
 <script setup lang="ts">
-import { BufferGeometry, BufferAttribute } from 'three'
+import { BufferAttribute, BufferGeometry } from 'three'
 
 // Create custom geometry
 const geometry = new BufferGeometry()
 const vertices = new Float32Array([
-  -1, -1, 0,
-   1, -1, 0,
-   0,  1, 0
+  -1,
+  -1,
+  0,
+  1,
+  -1,
+  0,
+  0,
+  1,
+  0
 ])
 geometry.setAttribute('position', new BufferAttribute(vertices, 3))
 
-const customMesh = new Mesh(geometry, new MeshBasicMaterial({ color: 0x00ff00 }))
+const customMesh = new Mesh(geometry, new MeshBasicMaterial({ color: 0x00FF00 }))
 </script>
 
 <template>
@@ -539,7 +544,7 @@ const customMesh = new Mesh(geometry, new MeshBasicMaterial({ color: 0x00ff00 })
 ### 3. Particle Systems
 ```vue
 <script setup lang="ts">
-import { BufferAttribute, Points, BufferGeometry, PointsMaterial } from 'three'
+import { BufferAttribute, BufferGeometry, Points, PointsMaterial } from 'three'
 
 const particleGeometry = new BufferGeometry()
 const particleCount = 1000
@@ -553,7 +558,7 @@ particleGeometry.setAttribute('position', new BufferAttribute(positions, 3))
 
 const particles = new Points(
   particleGeometry,
-  new PointsMaterial({ color: 0xff6600, size: 0.1 })
+  new PointsMaterial({ color: 0xFF6600, size: 0.1 })
 )
 </script>
 
@@ -562,4 +567,4 @@ const particles = new Points(
 </template>
 ```
 
-The `<primitive />` component provides the flexibility to integrate any Three.js object seamlessly into your TresJS application while maintaining the benefits of Vue's reactivity and component system. 
+The `<primitive />` component provides the flexibility to integrate any Three.js object seamlessly into your TresJS application while maintaining the benefits of Vue's reactivity and component system.

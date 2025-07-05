@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { useLoader, useGraph } from '@tresjs/core'
-import { GLTFLoader, type GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js'
+import { useGraph, useLoader } from '@tresjs/core'
+import { type GLTF, GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
 import { computed } from 'vue'
 import { OrbitControls } from '@tresjs/cientos'
@@ -18,8 +18,8 @@ const { state: model } = useLoader<GLTF>(
       if (loader instanceof GLTFLoader) {
         loader.setDRACOLoader(dracoLoader)
       }
-    }
-  }
+    },
+  },
 )
 
 // Extract the scene and graph
