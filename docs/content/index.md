@@ -44,7 +44,7 @@ Create awesome Three based experiences with the framework you love.
 
 ::u-page-section
 #title
-All-in-one documentation template
+Features you will love
 
 #links
   :::u-button
@@ -52,51 +52,49 @@ All-in-one documentation template
   color: neutral
   size: lg
   target: _blank
-  to: https://ui.nuxt.com/getting-started/installation/pro/nuxt
-  trailingIcon: i-lucide-arrow-right
+  to: https://lab.tresjs.org/
+  trailingIcon: i-lucide:flask-conical
   variant: subtle
   ---
-  Discover Nuxt UI Pro v3
+  Explore the lab
   :::
 
 #features
   :::u-page-feature
   ---
-  icon: i-simple-icons-nuxt
+  icon: i-lucide-lightbulb
   target: _blank
-  to: https://nuxt.com
   ---
   #title
-  Nuxt 3
+  Declarative
 
   #description
-  Powered by Nuxt 3 for optimal performances and SEO.
+  Build 3D scenes with familiar Vue components and composables.
   :::
 
   :::u-page-feature
   ---
-  icon: i-simple-icons-markdown
+  icon: i-simple-icons-threedotjs
   target: _blank
-  to: https://content.nuxt.com
+  to: https://threejs.org
   ---
   #title
-  Markdown
+  Up to date with Three.js
 
   #description
-  Write your pages with MDC thanks to Nuxt Content.
+  Enjoy latest features right away.
   :::
 
   :::u-page-feature
   ---
-  icon: i-lucide-sparkles
+  icon: i-lucide-smile
   target: _blank
   to: https://ui.nuxt.com
   ---
   #title
-  Nuxt UI v3
-
+  DX focused
   #description
-  Offers a very large set of full customizable components.
+  Inspect your 3D scenes like never before with official devtools.
   :::
 
   :::u-page-feature
@@ -116,48 +114,26 @@ All-in-one documentation template
   ---
   icon: i-simple-icons-nuxtdotjs
   target: _blank
-  to: https://content.nuxt.com/docs/studio
+  to: https://nuxt.com/modules/tresjs
   ---
   #title
-  Nuxt Studio
+  Nuxt module
 
   #description
-  Supported by Nuxt Studio for fast updates and previews.
+  Enjoy the best of both worlds with a fully integrated experience.
   :::
 
   :::u-page-feature
   ---
-  icon: i-lucide-search
+  icon: i-lucide:tree-deciduous
   target: _blank
-  to: https://ui.nuxt.com/components/content-search
+
   ---
   #title
-  Search
+  Ecosystem
 
   #description
-  A full-text search modal powered by Fuse.js.
+  Extend the core functionality with packages such as cientos and postprocessing—or add your own custom packages.
   :::
 ::
 
-::u-page-section
-  :::u-page-c-t-a
-  ---
-  links:
-    - label: Buy now
-      to: https://ui.nuxt.com/pro/purchase
-      target: _blank
-      icon: i-lucide-shopping-cart
-      color: neutral
-    - label: License
-      to: https://ui.nuxt.com/getting-started/license
-      trailingIcon: i-lucide-circle-help
-      target: _blank
-      color: neutral
-      variant: subtle
-  description: Nuxt UI Pro is free in development, but you need a license to use
-    it in production.
-  title: Start with Nuxt UI Pro today!
-  variant: subtle
-  ---
-  :::
-::
