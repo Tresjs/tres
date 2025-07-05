@@ -7,31 +7,31 @@ export default defineNuxtConfig({
     '@nuxt/ui-pro',
     '@nuxt/content',
     'nuxt-og-image',
-    'nuxt-llms',
+    'nuxt-llms'
   ],
 
   devtools: {
-    enabled: true,
+    enabled: true
   },
 
   css: ['~/assets/css/main.css'],
 
   vue: {
-    compilerOptions: templateCompilerOptions.template.compilerOptions,
+    compilerOptions: templateCompilerOptions.template.compilerOptions
   },
 
   content: {
     build: {
       markdown: {
         toc: {
-          searchDepth: 1,
-        },
-      },
-    },
+          searchDepth: 1
+        }
+      }
+    }
   },
 
   future: {
-    compatibilityVersion: 4,
+    compatibilityVersion: 4
   },
 
   compatibilityDate: '2024-07-11',
@@ -39,48 +39,48 @@ export default defineNuxtConfig({
   nitro: {
     prerender: {
       routes: [
-        '/',
+        '/'
       ],
-      crawlLinks: true,
-    },
+      crawlLinks: true
+    }
   },
 
   eslint: {
     config: {
       stylistic: {
         commaDangle: 'never',
-        braceStyle: '1tbs',
-      },
-    },
+        braceStyle: '1tbs'
+      }
+    }
   },
 
   icon: {
-    provider: 'iconify',
+    provider: 'iconify'
   },
 
   llms: {
-    domain: 'https://docs-template.nuxt.dev/',
-    title: 'Nuxt Docs Template',
-    description: 'A template for building documentation with Nuxt UI Pro and Nuxt Content.',
+    domain: 'https://docs.tresjs.org/',
+    title: 'TresJS Docs',
+    description: 'A documentation for building 3D scenes with TresJS.',
     full: {
-      title: 'Nuxt Docs Template - Full Documentation',
-      description: 'This is the full documentation for the Nuxt Docs Template.',
+      title: 'TresJS - Full Documentation',
+      description: 'This is the full documentation for the TresJS.'
     },
     sections: [
       {
         title: 'Getting Started',
         contentCollection: 'docs',
         contentFilters: [
-          { field: 'path', operator: 'LIKE', value: '/getting-started%' },
-        ],
+          { field: 'path', operator: 'LIKE', value: '/getting-started%' }
+        ]
       },
       {
         title: 'Essentials',
         contentCollection: 'docs',
         contentFilters: [
-          { field: 'path', operator: 'LIKE', value: '/essentials%' },
-        ],
-      },
-    ],
-  },
+          { field: 'path', operator: 'LIKE', value: '/essentials%' }
+        ]
+      }
+    ]
+  }
 })
