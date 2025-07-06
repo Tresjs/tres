@@ -87,6 +87,7 @@
     "@stackblitz/sdk": "^1.11.0",
     "@tresjs/cientos": "5.0.0-next.0",
     "@tresjs/eslint-config": "^1.4.0",
+    "@tresjs/leches": "1.0.0-next.0",
     "@types/three": "^0.177.0",
     "@typescript-eslint/eslint-plugin": "^8.23.0",
     "@typescript-eslint/parser": "^8.23.0",
