@@ -206,7 +206,7 @@ Properties with `.set()` methods can accept arrays:
 
 ## Extending the Catalogue 🔌
 
-Tres offers bare bones functionality, but it's easy to add third-party elements and extend them into its internal catalogue.
+Tres offers bare bones functionality, but it's easy to add third-party elements and `extend` them into its internal catalogue.
 
 Most of 3D experience uses `OrbitControls` which is not part of the core threejs library. You can add it to your project by importing it from the three/addons/controls/OrbitControls module.
 

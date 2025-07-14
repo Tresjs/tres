@@ -4,3 +4,6 @@ description: Discover guided recipes to help you get started with the basics of 
 ---
 
 ## Recipes
+
+::recipes-list
+::
