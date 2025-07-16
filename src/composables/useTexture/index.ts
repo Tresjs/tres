@@ -1,6 +1,7 @@
 import type { LoadingManager, Texture } from 'three'
 import { TextureLoader } from 'three'
 import { isArray } from '../../utils'
+import { useTresContext } from '../useTresContextProvider'
 
 export interface PBRMaterialOptions {
   /**
@@ -117,6 +118,7 @@ export async function useTexture(
   manager?: LoadingManager,
 ): Promise<Texture | Texture[] | PBRTextureMaps> {
   const textureLoader = new TextureLoader(manager)
+  const { invalidate } = useTresContext()
 
   /**
    * Load a texture.
@@ -127,7 +129,10 @@ export async function useTexture(
   const loadTexture = (url: string): Promise<Texture> => new Promise((resolve, reject) => {
     textureLoader.load(
       url,
-      texture => resolve(texture),
+      (texture) => {
+        resolve(texture)
+        invalidate()
+      },
       () => null,
       () => {
         reject(new Error('[useTextures] - Failed to load texture'))
