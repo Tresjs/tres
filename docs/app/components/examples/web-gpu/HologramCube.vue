@@ -13,7 +13,7 @@ const material = new MeshBasicNodeMaterial({
   transparent: true,
   side: DoubleSide,
   depthWrite: false,
-  blending: AdditiveBlending,
+  blending: AdditiveBlending
 })
 // Position
 const glitchStrength = varying(0)
@@ -22,12 +22,12 @@ material.vertexNode = Fn(() => {
   glitchStrength.assign(add(
     sin(glitchTime),
     sin(glitchTime.mul(3.45)),
-    sin(glitchTime.mul(8.76)),
+    sin(glitchTime.mul(8.76))
   ).div(3).smoothstep(0.3, 1))
   const glitch = vec3(
     hash(positionWorld.xz.abs().mul(9999)).sub(0.5),
     0,
-    hash(positionWorld.yx.abs().mul(9999)).sub(0.5),
+    hash(positionWorld.yx.abs().mul(9999)).sub(0.5)
   )
   positionWorld.xyz.addAssign(glitch.mul(glitchStrength.mul(0.5)))
   return cameraProjectionMatrix.mul(cameraViewMatrix).mul(positionWorld)
@@ -54,5 +54,8 @@ watch(model, (newModel) => {
 </script>
 
 <template>
-  <primitive v-if="model" :object="model" />
+  <primitive
+    v-if="model"
+    :object="model"
+  />
 </template>

@@ -9,7 +9,7 @@
         <AppSide />
       </template>
       <UContainer>
-        <slot></slot>
+        <slot />
       </UContainer>
     </UPage>
   </div>

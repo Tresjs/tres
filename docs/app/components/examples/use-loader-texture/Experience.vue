@@ -6,7 +6,7 @@ import { TextureLoader } from 'three'
 // Load a texture from a remote URL
 const { state: texture } = useLoader(
   TextureLoader,
-  'https://raw.githubusercontent.com/Tresjs/assets/main/textures/black-rock/Rock035_2K_Color.jpg',
+  'https://raw.githubusercontent.com/Tresjs/assets/main/textures/black-rock/Rock035_2K_Color.jpg'
 )
 </script>
 
