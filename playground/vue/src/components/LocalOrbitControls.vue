@@ -298,7 +298,7 @@ const {
   mouseButtons,
 } = toRefs(props)
 
-const { camera: activeCamera, renderer, extend, controls, invalidate } = useTresContext()
+const { camera: activeCamera, renderer, extend, controls } = useTresContext()
 
 const controlsRef = shallowRef<OrbitControls | null>(null)
 
@@ -317,7 +317,7 @@ watch(controlsRef, (value) => {
 function addEventListeners() {
   useEventListener(controlsRef.value as any, 'change', () => {
     emit('change', controlsRef.value)
-    invalidate()
+    renderer.invalidate()
   })
   useEventListener(controlsRef.value as any, 'start', () => emit('start', controlsRef.value))
   useEventListener(controlsRef.value as any, 'end', () => emit('end', controlsRef.value))
@@ -370,6 +370,6 @@ defineExpose({ instance: controlsRef })
     :enable-rotate="enableRotate"
     :rotate-speed="rotateSpeed"
     :mouse-buttons="mouseButtons"
-    :args="[camera || activeCamera, domElement || renderer.domElement]"
+    :args="[camera || activeCamera, domElement || renderer.instance.domElement]"
   />
 </template>

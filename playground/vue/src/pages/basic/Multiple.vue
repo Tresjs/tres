@@ -3,10 +3,10 @@ import { TresCanvas } from '@tresjs/core'
 import { ref, shallowRef } from 'vue'
 
 const boxRef = shallowRef(null)
-const showBox = ref(true)
+const showBoxAndSphere = ref(true)
 
 setInterval(() => {
-  showBox.value = !showBox.value
+  showBoxAndSphere.value = !showBoxAndSphere.value
 }, 3000)
 </script>
 
@@ -24,7 +24,7 @@ setInterval(() => {
           color="red"
         />
         <TresMesh
-          v-if="showBox"
+          v-if="showBoxAndSphere"
           ref="boxRef"
           :position="[0, 2, 0]"
         >
@@ -46,7 +46,7 @@ setInterval(() => {
           :position="[5, 5, 5]"
           :look-at="[0, 0, 0]"
         />
-        <TresMesh>
+        <TresMesh v-if="showBoxAndSphere">
           <TresSphereGeometry :args="[1, 32, 32]" />
           <TresMeshNormalMaterial />
         </TresMesh>
