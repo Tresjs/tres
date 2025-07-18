@@ -27,7 +27,7 @@ For example, if you want to use a `PerspectiveCamera` you would use `<TresPerspe
 </template>
 ```
 
-This means that you can use the same [documentation](https://threejs.org/docs/?q=Perspe#api/en/cameras/PerspectiveCamera) as you would when using plain Three.js, but with the power of Vue.
+This means that you can rely on the same [documentation](https://threejs.org/docs/?q=Perspe#api/en/cameras/PerspectiveCamera) as you would when using plain Three.js, but with the power of Vue.
 
 ## Declaring objects
 

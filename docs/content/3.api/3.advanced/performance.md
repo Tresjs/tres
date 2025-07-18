@@ -1,6 +1,6 @@
 ---
 title: Scaling Performance 🚀
-description: Quick guide with tips to improve performance of your TresJS application.
+description: Quick guide with tips to improve the performance of your TresJS application.
 ---
 
 Running WebGL in the browser can be resource-intensive depending on the user's device capabilities. To make 3D accessible to everyone, it's important to optimize your applications for performance, especially on low-end devices. This guide shares practical tips to help you get the best performance from your TresJS projects.
@@ -14,9 +14,9 @@ By default, TresJS renders your scene on every frame. While this works for most 
 
 Otherwise it might drain your device battery 🔋 and make your computer sound like an airplane 🛫.
 
-Ideally, you only want to **render the scene when necessary**, for example when the user interacts with the scene and the camera moves, or when objects in the scene are animated.
+To optimize performance, **scene rendering should be triggered only when necessary events** occur—like user input, camera transformations, or object animations.
 
-You can do that by setting the `renderMode` prop to `on-demand` or `manual`:
+You can achieve this by setting the `renderMode` prop to `on-demand` or `manual`:
 
 ### Mode `on-demand`
 
@@ -74,7 +74,7 @@ advance()
 
 #### Manual Invalidation
 
-Since it is not really possible to observe all the possible changes in your application, you can also manually invalidate the frame by calling the `invalidate()` method from the useTres composable:
+It’s often not possible to observe every change in your application. In such cases, you can manually invalidate the frame using the `invalidate()` method from the useTres composable.:
 
 ```vue [manual-invalidate.vue]
 <script setup lang="ts">
