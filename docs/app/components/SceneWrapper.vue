@@ -4,7 +4,7 @@
 <template>
   <div class="w-full relative aspect-video rounded-lg overflow-hidden">
     <ClientOnly>
-      <slot />
+      <slot></slot>
     </ClientOnly>
   </div>
 </template>

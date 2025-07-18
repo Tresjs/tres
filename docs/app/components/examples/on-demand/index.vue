@@ -12,8 +12,8 @@ useControls({
     label: 'Render Times (ms)',
     onUpdate: () => {
       renderTimes.value = 0
-    }
-  }
+    },
+  },
 })
 
 function onRender() {

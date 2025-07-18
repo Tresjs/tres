@@ -4,13 +4,13 @@ import type { PropType } from 'vue'
 const props = defineProps({
   href: {
     type: String,
-    default: ''
+    default: '',
   },
   target: {
     type: String as PropType<'_blank' | '_parent' | '_self' | '_top' | (string & object) | null | undefined>,
     default: undefined,
-    required: false
-  }
+    required: false,
+  },
 })
 
 const type = computed(() => {
@@ -32,6 +32,6 @@ const type = computed(() => {
     :href="href"
     :target="target"
   >
-    <slot />
+    <slot></slot>
   </NuxtLink>
 </template>

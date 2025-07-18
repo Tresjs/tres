@@ -37,7 +37,7 @@ const parseGitHubURL = (url: string): GitHubURLInfo => {
         type: 'issue',
         owner,
         repo,
-        number: pathParts[3]!
+        number: pathParts[3]!,
       }
     }
     // Check for PR URL
@@ -46,7 +46,7 @@ const parseGitHubURL = (url: string): GitHubURLInfo => {
         type: 'pr',
         owner,
         repo,
-        number: pathParts[3]!
+        number: pathParts[3]!,
       }
     }
     // Check for permalink URL (blob/commit/tree)
@@ -58,11 +58,12 @@ const parseGitHubURL = (url: string): GitHubURLInfo => {
         owner,
         repo,
         path: filePath,
-        lines: hashLines || undefined
+        lines: hashLines || undefined,
       }
     }
     return { type: 'unknown', owner, repo }
-  } catch {
+  }
+  catch {
     return { type: 'unknown', owner: '', repo: '' }
   }
 }
@@ -77,7 +78,8 @@ const fetchGitHubTitle = async (owner: string, repo: string, type: 'issue' | 'pr
     }
     const data = await response.json()
     return data.title || `${type === 'issue' ? 'Issue' : 'PR'} #${number}`
-  } catch (error) {
+  }
+  catch (error) {
     console.warn('Failed to fetch GitHub title:', error)
     return `${type === 'issue' ? 'Issue' : 'PR'} #${number}`
   }
@@ -96,14 +98,17 @@ watch(urlInfo, async (info) => {
   if (info.type === 'permalink') {
     displayTitle.value = `${info.repo}/${info.path}`
     suffix.value = info.lines ? `#${info.lines}` : ''
-  } else if (info.type === 'repo') {
+  }
+  else if (info.type === 'repo') {
     displayTitle.value = `${info.owner}/${info.repo}`
     suffix.value = ''
-  } else if (info.type === 'issue' || info.type === 'pr') {
+  }
+  else if (info.type === 'issue' || info.type === 'pr') {
     suffix.value = `#${info.number}`
     displayTitle.value = await fetchGitHubTitle(info.owner, info.repo, info.type, info.number!)
     icon.value = info.type === 'issue' ? 'octicon:issue-opened-16' : 'octicon:git-pull-request-16'
-  } else {
+  }
+  else {
     displayTitle.value = props.href
     suffix.value = ''
   }

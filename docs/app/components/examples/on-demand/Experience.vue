@@ -3,7 +3,7 @@ import { useGraph, useLoader } from '@tresjs/core'
 import { type GLTF, GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
 import { computed } from 'vue'
-import { OrbitControls, Environment } from '@tresjs/cientos'
+import { Environment, OrbitControls } from '@tresjs/cientos'
 import { Color } from 'three'
 
 // Setup DRACO loader for compressed GLTFs
@@ -19,8 +19,8 @@ const { state: model } = useLoader<GLTF>(
       if (loader instanceof GLTFLoader) {
         loader.setDRACOLoader(dracoLoader)
       }
-    }
-  }
+    },
+  },
 )
 
 // Extract the scene and graph

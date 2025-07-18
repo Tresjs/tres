@@ -16,7 +16,7 @@ import LocalOrbitControls from './LocalOrbitControls.vue'
         <Text3D
           :position="[0, 1, 0]"
           text="Click and drag to orbit"
-          :font="'https://raw.githubusercontent.com/Tresjs/assets/main/fonts/FiraCodeRegular.json'"
+          font="https://raw.githubusercontent.com/Tresjs/assets/main/fonts/FiraCodeRegular.json"
         >
           <TresMeshNormalMaterial />
         </Text3D>

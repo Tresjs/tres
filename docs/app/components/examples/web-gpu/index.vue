@@ -11,7 +11,7 @@ const createWebGPURenderer = (ctx: TresRendererSetupContext) => {
     canvas: toValue(ctx.canvas),
     // WebGPU specific configuration
     alpha: true,
-    antialias: true
+    antialias: true,
   })
   return renderer
 }

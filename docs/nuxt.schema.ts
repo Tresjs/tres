@@ -18,7 +18,7 @@ export default defineNuxtSchema({
               description: 'Primary color of your UI.',
               icon: 'i-mdi-palette-outline',
               default: 'green',
-              required: ['red', 'orange', 'amber', 'yellow', 'lime', 'green', 'emerald', 'teal', 'cyan', 'sky', 'blue', 'indigo', 'violet', 'purple', 'fuchsia', 'pink', 'rose']
+              required: ['red', 'orange', 'amber', 'yellow', 'lime', 'green', 'emerald', 'teal', 'cyan', 'sky', 'blue', 'indigo', 'violet', 'purple', 'fuchsia', 'pink', 'rose'],
             }),
             neutral: field({
               type: 'string',
@@ -26,9 +26,9 @@ export default defineNuxtSchema({
               description: 'Neutral color of your UI.',
               icon: 'i-mdi-palette-outline',
               default: 'slate',
-              required: ['slate', 'gray', 'zinc', 'neutral', 'stone']
-            })
-          }
+              required: ['slate', 'gray', 'zinc', 'neutral', 'stone'],
+            }),
+          },
         }),
         icons: group({
           title: 'Icons',
@@ -40,46 +40,46 @@ export default defineNuxtSchema({
               title: 'Search Bar',
               description: 'Icon to display in the search bar.',
               icon: 'i-mdi-magnify',
-              default: 'i-lucide-search'
+              default: 'i-lucide-search',
             }),
             dark: field({
               type: 'icon',
               title: 'Dark mode',
               description: 'Icon of color mode button for dark mode.',
               icon: 'i-mdi-moon-waning-crescent',
-              default: 'i-lucide-moon'
+              default: 'i-lucide-moon',
             }),
             light: field({
               type: 'icon',
               title: 'Light mode',
               description: 'Icon of color mode button for light mode.',
               icon: 'i-mdi-white-balance-sunny',
-              default: 'i-lucide-sun'
+              default: 'i-lucide-sun',
             }),
             external: field({
               type: 'icon',
               title: 'External Link',
               description: 'Icon for external link.',
               icon: 'i-mdi-arrow-top-right',
-              default: 'i-lucide-external-link'
+              default: 'i-lucide-external-link',
             }),
             chevron: field({
               type: 'icon',
               title: 'Chevron',
               description: 'Icon for chevron.',
               icon: 'i-mdi-chevron-down',
-              default: 'i-lucide-chevron-down'
+              default: 'i-lucide-chevron-down',
             }),
             hash: field({
               type: 'icon',
               title: 'Hash',
               description: 'Icon for hash anchors.',
               icon: 'i-ph-hash',
-              default: 'i-lucide-hash'
-            })
-          }
-        })
-      }
+              default: 'i-lucide-hash',
+            }),
+          },
+        }),
+      },
     }),
     seo: group({
       title: 'SEO',
@@ -91,9 +91,9 @@ export default defineNuxtSchema({
           title: 'Site Name',
           description: 'Name used in ogSiteName and used as second part of your page title (My page title - Nuxt UI Pro).',
           icon: 'i-mdi-web',
-          default: []
-        })
-      }
+          default: [],
+        }),
+      },
     }),
     header: group({
       title: 'Header',
@@ -105,14 +105,14 @@ export default defineNuxtSchema({
           title: 'Title',
           description: 'Title to display in the header.',
           icon: 'i-mdi-format-title',
-          default: ''
+          default: '',
         }),
         to: field({
           type: 'string',
           title: 'To',
           description: 'URL to redirect to when the title is clicked.',
           icon: 'i-mdi-link-variant',
-          default: ''
+          default: '',
         }),
         logo: group({
           title: 'Logo',
@@ -124,46 +124,46 @@ export default defineNuxtSchema({
               title: 'Light Mode Logo',
               description: 'Pick an image from your gallery.',
               icon: 'i-mdi-white-balance-sunny',
-              default: ''
+              default: '',
             }),
             dark: field({
               type: 'media',
               title: 'Dark Mode Logo',
               description: 'Pick an image from your gallery.',
               icon: 'i-mdi-moon-waning-crescent',
-              default: ''
+              default: '',
             }),
             alt: field({
               type: 'string',
               title: 'Alt',
               description: 'Alt to display for accessibility.',
               icon: 'i-mdi-alphabet-latin',
-              default: ''
-            })
-          }
+              default: '',
+            }),
+          },
         }),
         search: field({
           type: 'boolean',
           title: 'Search Bar',
           description: 'Hide or display the search bar.',
           icon: 'i-mdi-magnify',
-          default: true
+          default: true,
         }),
         colorMode: field({
           type: 'boolean',
           title: 'Color Mode',
           description: 'Hide or display the color mode button in your header.',
           icon: 'i-mdi-moon-waning-crescent',
-          default: true
+          default: true,
         }),
         links: field({
           type: 'array',
           title: 'Links',
           description: 'Array of link object displayed in header.',
           icon: 'i-mdi-link-variant',
-          default: []
-        })
-      }
+          default: [],
+        }),
+      },
     }),
     footer: group({
       title: 'Footer',
@@ -175,23 +175,23 @@ export default defineNuxtSchema({
           title: 'Footer credits section',
           description: 'Text to display as credits in the footer.',
           icon: 'i-mdi-circle-edit-outline',
-          default: ''
+          default: '',
         }),
         colorMode: field({
           type: 'boolean',
           title: 'Color Mode',
           description: 'Hide or display the color mode button in the footer.',
           icon: 'i-mdi-moon-waning-crescent',
-          default: false
+          default: false,
         }),
         links: field({
           type: 'array',
           title: 'Links',
           description: 'Array of link object displayed in footer.',
           icon: 'i-mdi-link-variant',
-          default: []
-        })
-      }
+          default: [],
+        }),
+      },
     }),
     toc: group({
       title: 'Table of contents',
@@ -203,7 +203,7 @@ export default defineNuxtSchema({
           title: 'Title',
           description: 'Text to display as title of the main toc.',
           icon: 'i-mdi-format-title',
-          default: ''
+          default: '',
         }),
         bottom: group({
           title: 'Bottom',
@@ -215,27 +215,27 @@ export default defineNuxtSchema({
               title: 'Title',
               description: 'Text to display as title of the bottom toc.',
               icon: 'i-mdi-format-title',
-              default: ''
+              default: '',
             }),
             edit: field({
               type: 'string',
               title: 'Edit Page Link',
               description: 'URL of your repository content folder.',
               icon: 'i-ph-note-pencil',
-              default: ''
+              default: '',
             }),
             links: field({
               type: 'array',
               title: 'Links',
               description: 'Array of link object displayed in bottom toc.',
               icon: 'i-mdi-link-variant',
-              default: []
-            })
-          }
-        })
-      }
-    })
-  }
+              default: [],
+            }),
+          },
+        }),
+      },
+    }),
+  },
 })
 
 declare module '@nuxt/schema' {

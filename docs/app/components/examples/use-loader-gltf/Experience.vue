@@ -18,8 +18,8 @@ const { state: model } = useLoader<GLTF>(
       if (loader instanceof GLTFLoader) {
         loader.setDRACOLoader(dracoLoader)
       }
-    }
-  }
+    },
+  },
 )
 
 // Extract the scene and graph
