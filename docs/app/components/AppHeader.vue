@@ -4,6 +4,8 @@ import type { ContentNavigationItem } from '@nuxt/content'
 const navigation = inject<Ref<ContentNavigationItem[]>>('navigation')
 
 const { header } = useAppConfig()
+
+const route = useRoute()
 </script>
 
 <template>
@@ -49,6 +51,19 @@ const { header } = useAppConfig()
         v-if="header?.search"
         class="lg:hidden"
         variant="subtle"
+      />
+
+      <!-- <template v-if="header?.navigation">
+        <UButton
+          v-for="(item, index) of header.navigation"
+          :key="index"
+          v-bind="{ color: 'neutral', variant: 'ghost', ...item }"
+        />
+      </template> -->
+
+      <UNavigationMenu
+        v-if="route.path === '/'"
+        :items="header?.navigation"
       />
 
       <UColorModeButton v-if="header?.colorMode" />

@@ -3,25 +3,25 @@ export default defineAppConfig({
     colors: {
       primary: 'teal',
       accent: 'yellow',
-      neutral: 'zinc',
+      neutral: 'zinc'
     },
     card: {
       slots: {
         root: 'hover:bg-linear-[115deg,#272727 .06%,#171717]',
-        body: 'p-2 sm:p-3',
-      },
-    },
+        body: 'p-2 sm:p-3'
+      }
+    }
   },
   uiPro: {
     footer: {
       slots: {
         root: 'border-t border-default',
-        left: 'text-sm text-muted',
-      },
-    },
+        left: 'text-sm text-muted'
+      }
+    }
   },
   seo: {
-    siteName: 'TresJS Docs',
+    siteName: 'TresJS Docs'
   },
   header: {
     title: '',
@@ -29,16 +29,34 @@ export default defineAppConfig({
     logo: {
       alt: '',
       light: '',
-      dark: '',
+      dark: ''
     },
     search: true,
     colorMode: true,
-    links: [{
-      'icon': 'i-simple-icons-github',
-      'to': 'https://github.com/tresjs/tres',
-      'target': '_blank',
-      'aria-label': 'GitHub',
-    }],
+    navigation: [
+      {
+        label: 'Guide',
+        to: '/getting-started/installation'
+      },
+      {
+        label: 'API',
+        to: '/api'
+      }
+    ],
+    links: [
+      {
+        icon: 'i-simple-icons-github',
+        to: 'https://github.com/tresjs/tres',
+        target: '_blank',
+        ariaLabel: 'GitHub'
+      },
+      {
+        icon: 'i-simple-icons-discord',
+        to: 'https://discord.com/invite/UCr96AQmWn',
+        target: '_blank',
+        ariaLabel: 'Discord'
+      }
+    ]
   },
   footer: {
     credits: `Copyright © ${new Date().getFullYear()} TresJS`,
@@ -47,23 +65,23 @@ export default defineAppConfig({
       'icon': 'i-lucide-globe',
       'to': 'https://tresjs.org',
       'target': '_blank',
-      'aria-label': 'TresJS Website',
+      'aria-label': 'TresJS Website'
     }, {
       'icon': 'i-simple-icons-discord',
       'to': 'https://discord.gg/Q6ncbJdQ',
       'target': '_blank',
-      'aria-label': 'TresJS on Discord',
+      'aria-label': 'TresJS on Discord'
     }, {
       'icon': 'i-simple-icons-x',
       'to': 'https://x.com/tresjs_dev',
       'target': '_blank',
-      'aria-label': 'TresJS on X',
+      'aria-label': 'TresJS on X'
     }, {
       'icon': 'i-simple-icons-github',
       'to': 'https://github.com/tresjs/tres',
       'target': '_blank',
-      'aria-label': 'TresJS on GitHub',
-    }],
+      'aria-label': 'TresJS on GitHub'
+    }]
   },
   toc: {
     title: 'Table of Contents',
@@ -74,13 +92,13 @@ export default defineAppConfig({
         icon: 'i-lucide-heart',
         label: 'Become a sponsor',
         to: 'https://github.com/sponsors/tresjs',
-        target: '_blank',
+        target: '_blank'
       }, {
         icon: 'i-lucide-star',
         label: 'Star on GitHub',
         to: 'https://github.com/tresjs/tres',
-        target: '_blank',
-      }],
-    },
-  },
+        target: '_blank'
+      }]
+    }
+  }
 })
