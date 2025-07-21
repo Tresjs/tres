@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { computedAsync } from '@vueuse/core'
+
 interface GitHubURLInfo {
   type: 'permalink' | 'issue' | 'pr' | 'repo' | 'unknown'
   owner: string
@@ -88,31 +90,44 @@ const fetchGitHubTitle = async (owner: string, repo: string, type: 'issue' | 'pr
 // Parse URL and get display information
 const urlInfo = computed(() => parseGitHubURL(props.href))
 
-// Reactive title for issues and PRs
-const displayTitle = ref<string>('')
-const suffix = ref<string>('')
-const icon = ref<string>('i-simple-icons-github')
-
-// Watch for URL changes and update display information
-watch(urlInfo, async (info) => {
-  if (info.type === 'permalink') {
-    displayTitle.value = `${info.repo}/${info.path}`
-    suffix.value = info.lines ? `#${info.lines}` : ''
+const displayTitle = computedAsync(async () => {
+  if (urlInfo.value.type === 'permalink') {
+    return `${urlInfo.value.repo}/${urlInfo.value.path}`
   }
-  else if (info.type === 'repo') {
-    displayTitle.value = `${info.owner}/${info.repo}`
-    suffix.value = ''
+  else if (urlInfo.value.type === 'repo') {
+    return `${urlInfo.value.owner}/${urlInfo.value.repo}`
   }
-  else if (info.type === 'issue' || info.type === 'pr') {
-    suffix.value = `#${info.number}`
-    displayTitle.value = await fetchGitHubTitle(info.owner, info.repo, info.type, info.number!)
-    icon.value = info.type === 'issue' ? 'octicon:issue-opened-16' : 'octicon:git-pull-request-16'
+  else if (urlInfo.value.type === 'issue' || urlInfo.value.type === 'pr') {
+    return await fetchGitHubTitle(urlInfo.value.owner, urlInfo.value.repo, urlInfo.value.type, urlInfo.value.number!)
   }
   else {
-    displayTitle.value = props.href
-    suffix.value = ''
+    return props.href
   }
-}, { immediate: true })
+})
+
+const suffix = computed(() => {
+  if (urlInfo.value.type === 'permalink') {
+    return urlInfo.value.lines ? `#${urlInfo.value.lines}` : ''
+  }
+  else if (urlInfo.value.type === 'issue' || urlInfo.value.type === 'pr') {
+    return `#${urlInfo.value.number}`
+  }
+  else {
+    return ''
+  }
+})
+
+const icon = computed(() => {
+  if (urlInfo.value.type === 'issue') {
+    return 'octicon:issue-opened-16'
+  }
+  else if (urlInfo.value.type === 'pr') {
+    return 'octicon:git-pull-request-16'
+  }
+  else {
+    return 'i-simple-icons-github'
+  }
+})
 </script>
 
 <template>
@@ -122,7 +137,10 @@ watch(urlInfo, async (info) => {
     class="inline-flex items-center gap-1 bg-gray-100 hover:bg-gray-200 border border-gray-200 rounded-md text-xs text-muted no-underline transition-colors"
   >
     <span class="flex items-center gap-1 px-1 py-0.5">
-      <UIcon :name="icon" />
+      <UIcon
+        v-if="icon"
+        :name="icon"
+      />
       {{ displayTitle }}
     </span>
     <span
