@@ -16,7 +16,7 @@ const createBreadcrumb = (link: string = 'Missing link') => {
     .map(part =>
       splitByCase(part)
         .map(p => upperFirst(p))
-        .join(' ')
+        .join(' '),
     )
     .join(' > ')
     .replace('Api', 'API')
@@ -35,7 +35,7 @@ const computedTitle = computed<string>(() => props.title || createBreadcrumb(pro
       Read more in <span
         class="font-bold"
         v-text="computedTitle"
-      />.
+      ></span>.
     </slot>
   </ProseCallout>
 </template>

@@ -20,7 +20,7 @@ const recipes = computed(() => Array.from(data.value || []))
         :src="recipe.meta.thumbnail as string"
         alt="recipe thumbnail"
         class="w-full h-full object-cover"
-      >
+      />
     </UPageCard>
   </div>
 </template>
