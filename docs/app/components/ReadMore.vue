@@ -1,17 +1,10 @@
 <script setup lang="ts">
 import { splitByCase, upperFirst } from 'scule'
 
-const props = defineProps({
-  to: {
-    type: String,
-    required: true,
-  },
-  title: {
-    type: String,
-    required: false,
-    default: '',
-  },
-})
+const props = defineProps<{
+  to: string
+  title: string
+}>()
 
 const createBreadcrumb = (link: string = 'Missing link') => {
   if (link.startsWith('http')) {
@@ -23,7 +16,7 @@ const createBreadcrumb = (link: string = 'Missing link') => {
     .map(part =>
       splitByCase(part)
         .map(p => upperFirst(p))
-        .join(' '),
+        .join(' ')
     )
     .join(' > ')
     .replace('Api', 'API')
@@ -42,7 +35,7 @@ const computedTitle = computed<string>(() => props.title || createBreadcrumb(pro
       Read more in <span
         class="font-bold"
         v-text="computedTitle"
-      ></span>.
+      />.
     </slot>
   </ProseCallout>
 </template>
