@@ -1,17 +1,10 @@
 <script setup lang="ts">
-import type { PropType } from 'vue'
-
-const props = defineProps({
-  href: {
-    type: String,
-    default: '',
-  },
-  target: {
-    type: String as PropType<'_blank' | '_parent' | '_self' | '_top' | (string & object) | null | undefined>,
-    default: undefined,
-    required: false,
-  },
-})
+const props = defineProps<
+  {
+    href: string
+    target: '_blank' | '_parent' | '_self' | '_top' | (string & object) | null | undefined
+  }
+>()
 
 const type = computed(() => {
   if (props.href.startsWith('https://github.com/')) {
@@ -32,6 +25,6 @@ const type = computed(() => {
     :href="href"
     :target="target"
   >
-    <slot></slot>
+    <slot />
   </NuxtLink>
 </template>
