@@ -9,7 +9,7 @@ description: Explore experimental WebGPU rendering capabilities in TresJS.
 
 ## What is WebGPU?
 
-WebGPU is the next-generation graphics API for the web, designed to provide high-performance 3D graphics and general-purpose computing capabilities directly in web browsers. It offers several advantages over WebGL:
+[WebGPU](https://developer.mozilla.org/en-US/docs/Web/API/WebGPU_API) is the next-generation graphics API for the web, designed to provide high-performance 3D graphics and general-purpose computing capabilities directly in web browsers. It offers several advantages over WebGL:
 
 ### **Key Benefits**
 - **Better Performance**: More efficient GPU utilization and reduced CPU overhead

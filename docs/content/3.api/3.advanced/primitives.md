@@ -433,7 +433,7 @@ watchEffect(() => {
 When using primitives, keep these performance tips in mind:
 
 ::note
-**Reactivity Optimization**: Use `shallowRef` instead of `ref` for Three.js objects to avoid deep reactivity overhead, as Three.js objects have complex internal structures that don't benefit from Vue's reactivity system.
+**Reactivity Optimization**: Use [`shallowRef`](https://vuejs.org/api/reactivity-advanced.html#shallowref) instead of [`ref`](https://vuejs.org/api/reactivity-core.html#ref) for Three.js objects to avoid deep reactivity overhead, as Three.js objects have complex internal structures that don't benefit from Vue's reactivity system.
 ::
 
 ```vue

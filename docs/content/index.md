@@ -16,7 +16,7 @@ orientation: horizontal
 Bring Three to the Vue ecosystem
 
 #description
-Create awesome Three based experiences with the framework you love.
+Create awesome Three-based experiences with the framework you love.
 
 #links
   :::u-button
@@ -133,6 +133,6 @@ Features you will love
   Ecosystem
 
   #description
-  Extend the core functionality with packages such as cientos and postprocessing—or add your own custom packages.
+  Extend the core functionality with packages such as cientos and postprocessing or add your own custom packages.
   :::
 ::
