@@ -16,7 +16,8 @@ const recipes = computed(() => Array.from(data.value || []))
       spotlight
     >
       <img
-        :src="recipe.meta.thumbnail"
+        v-if="recipe.meta"
+        :src="recipe.meta.thumbnail as string"
         alt="recipe thumbnail"
         class="w-full h-full object-cover"
       >

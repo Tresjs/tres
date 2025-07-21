@@ -19,8 +19,8 @@ const { state: model } = useLoader<GLTF>(
       if (loader instanceof GLTFLoader) {
         loader.setDRACOLoader(dracoLoader)
       }
-    },
-  },
+    }
+  }
 )
 
 // Extract the scene and graph
@@ -30,9 +30,11 @@ const graph = useGraph(scene)
 const nodes = computed(() => graph.value.nodes)
 
 watch(graph, ({ materials }) => {
-  materials.Material.color = new Color('gold')
-  materials.Material.roughness = 0.1
-  materials.Material.metalness = 0.9
+  if (materials?.Material) {
+    materials.Material.color = new Color('gold')
+    materials.Material.roughness = 0.1
+    materials.Material.metalness = 0.9
+  }
 })
 </script>
 
