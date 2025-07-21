@@ -42,7 +42,7 @@ const route = useRoute()
       #left
     >
       <NuxtLink :to="header?.to || '/'">
-        <LogoPro class="w-auto h-6 shrink-0" />
+        <TheLogo class="w-auto h-6 shrink-0" />
       </NuxtLink>
     </template>
 
