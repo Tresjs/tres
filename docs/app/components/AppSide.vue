@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { ContentNavigationItem } from '@nuxt/content'
 
-const navigation = inject<Ref<ContentNavigationItem[]>>('navigation', ref([]))
+const navigation = inject<Ref<ContentNavigationItem[]>>(navigationInjectionKey)
 
 const route = useRoute()
 
@@ -13,7 +13,7 @@ const links = computed(() => headerLinks.value ?? [])
 const asideNavigation = computed(() => {
   const localPath = [route.params.slug?.[0]].filter(Boolean).join('/')
 
-  const result = navPageFromPath(`/${localPath}`, navigation.value)?.children || []
+  const result = navPageFromPath(`/${localPath}`, navigation?.value || [])?.children || []
 
   return result
 })

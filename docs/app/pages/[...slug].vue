@@ -3,12 +3,12 @@ import type { ContentNavigationItem } from '@nuxt/content'
 import { findPageHeadline } from '#ui-pro/utils/content'
 
 definePageMeta({
-  layout: 'docs',
+  layout: 'docs'
 })
 
 const route = useRoute()
 const { toc } = useAppConfig()
-const navigation = inject<Ref<ContentNavigationItem[]>>('navigation')
+const navigation = inject<Ref<ContentNavigationItem[]>>(navigationInjectionKey)
 
 const { data: page } = await useAsyncData(route.path, () => queryCollection('docs').path(route.path).first())
 if (!page.value) {
@@ -17,7 +17,7 @@ if (!page.value) {
 
 const { data: surround } = await useAsyncData(`${route.path}-surround`, () => {
   return queryCollectionItemSurroundings('docs', route.path, {
-    fields: ['description'],
+    fields: ['description']
   })
 })
 
@@ -28,13 +28,13 @@ useSeoMeta({
   title,
   ogTitle: title,
   description,
-  ogDescription: description,
+  ogDescription: description
 })
 
 const headline = computed(() => findPageHeadline(navigation?.value, page.value))
 
 defineOgImageComponent('Docs', {
-  headline: headline.value,
+  headline: headline.value
 })
 
 const links = computed(() => {
@@ -44,7 +44,7 @@ const links = computed(() => {
       icon: 'i-lucide-external-link',
       label: 'Edit this page',
       to: `${toc.bottom.edit}/${page?.value?.stem}.${page?.value?.extension}`,
-      target: '_blank',
+      target: '_blank'
     })
   }
 
@@ -60,7 +60,7 @@ const links = computed(() => {
       :links="page.links"
       :headline="headline"
       :ui="{
-        headline: 'uppercase font-mono font-light text-default-500 text-dim',
+        headline: 'uppercase font-mono font-light text-default-500 text-dim'
       }"
     />
 
