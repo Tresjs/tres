@@ -16,7 +16,7 @@ const camera = new PerspectiveCamera(45, width / height, 1, 1000)
 With **Tres** you don't need to import anything, that's because **Tres** automatically generates a **Vue Component based of the Three Object you want to use in PascalCase with a Tres prefix**.
 ::
 
-For example, if you want to use a `PerspectiveCamera` you would use `<TresPerspectiveCamera />` component.
+For example, if you want to use a `PerspectiveCamera` you would use the `<TresPerspectiveCamera />` component.
 
 ```vue
 <template>
