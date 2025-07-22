@@ -2,13 +2,14 @@
 import { computedAsync } from '@vueuse/core'
 
 interface GitHubURLInfo {
-  type: 'permalink' | 'issue' | 'pr' | 'repo' | 'unknown'
+  type: 'permalink' | 'issue' | 'pr' | 'repo' | 'wiki' | 'unknown' // Only declare 'type' once, including 'wiki'
   owner: string
   repo: string
   path?: string
   lines?: string
   number?: string
   title?: string
+  page?: string // For wiki page name
 }
 
 const props = defineProps<{
@@ -49,6 +50,16 @@ const parseGitHubURL = (url: string): GitHubURLInfo => {
         owner,
         repo,
         number: pathParts[3]!,
+      }
+    }
+    // Check for wiki URL
+    if (pathParts[2] === 'wiki' && pathParts[3]) {
+      // Handles links like https://github.com/owner/repo/wiki/Page-Name
+      return {
+        type: 'wiki',
+        owner,
+        repo,
+        page: pathParts[3],
       }
     }
     // Check for permalink URL (blob/commit/tree)
@@ -100,6 +111,11 @@ const displayTitle = computedAsync(async () => {
   else if (urlInfo.value.type === 'issue' || urlInfo.value.type === 'pr') {
     return await fetchGitHubTitle(urlInfo.value.owner, urlInfo.value.repo, urlInfo.value.type, urlInfo.value.number!)
   }
+  else if (urlInfo.value.type === 'wiki') {
+    // For wiki, use the page slug (replace dashes with spaces for readability)
+    // Optionally, you could fetch the actual page title from the HTML, but this is a simple fallback
+    return urlInfo.value.page ? urlInfo.value.page.replace(/-/g, ' ') : 'Wiki Page'
+  }
   else {
     return props.href
   }
@@ -111,6 +127,10 @@ const suffix = computed(() => {
   }
   else if (urlInfo.value.type === 'issue' || urlInfo.value.type === 'pr') {
     return `#${urlInfo.value.number}`
+  }
+  else if (urlInfo.value.type === 'wiki') {
+    // For wiki links, always show 'wiki' as the suffix
+    return 'wiki'
   }
   else {
     return ''
@@ -134,7 +154,7 @@ const icon = computed(() => {
   <a
     :href="props.href"
     :target="props.target"
-    class="inline-flex items-center gap-1 bg-gray-100 hover:bg-gray-200 border border-gray-200 rounded-md text-xs text-muted no-underline transition-colors"
+    class="inline-flex translate-y-0.5 items-center gap-1 bg-gray-100 hover:bg-gray-200 border border-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 rounded-md text-xs text-muted no-underline transition-colors"
   >
     <span class="flex items-center gap-1 px-1 py-0.5">
       <UIcon
@@ -145,7 +165,7 @@ const icon = computed(() => {
     </span>
     <span
       v-if="suffix"
-      class="bg-gray-300 px-1 py-0.5 rounded-r-md"
+      class="bg-gray-300 dark:bg-gray-700 px-1 py-0.5 rounded-r-md"
     >
       {{ suffix }}
     </span>

@@ -21,6 +21,7 @@ const type = computed(() => {
     target="_blank"
   />
   <NuxtLink
+    v-else
     class="text-primary border-b border-transparent hover:border-primary font-medium focus-visible:outline-primary [&>code]:border-dashed hover:[&>code]:border-primary hover:[&>code]:text-primary"
     :href="href"
     :target="target"
