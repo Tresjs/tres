@@ -1,6 +1,6 @@
 import type { ContentNavigationItem } from '@nuxt/content'
 
-export const navigationInjectionKey = Symbol('navigation')
+export const navigationInjectionKey: InjectionKey<Ref<ContentNavigationItem[] | undefined>> = Symbol('navigation')
 
 export function navPageFromPath(path: string, tree: ContentNavigationItem[]): ContentNavigationItem | undefined {
   for (const file of tree) {

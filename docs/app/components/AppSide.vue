@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import type { ContentNavigationItem } from '@nuxt/content'
-
-const navigation = inject<Ref<ContentNavigationItem[]>>(navigationInjectionKey)
+const navigation = inject(navigationInjectionKey)
 
 const route = useRoute()
 

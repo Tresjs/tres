@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import type { ContentNavigationItem } from '@nuxt/content'
 import { findPageHeadline } from '#ui-pro/utils/content'
 
 definePageMeta({
@@ -8,7 +7,7 @@ definePageMeta({
 
 const route = useRoute()
 const { toc } = useAppConfig()
-const navigation = inject<Ref<ContentNavigationItem[]>>(navigationInjectionKey)
+const navigation = inject(navigationInjectionKey)
 
 const { data: page } = await useAsyncData(route.path, () => queryCollection('docs').path(route.path).first())
 if (!page.value) {
@@ -60,7 +59,7 @@ const links = computed(() => {
       :links="page.links"
       :headline="headline"
       :ui="{
-        headline: 'uppercase font-mono font-light text-default-500 text-dim',
+        headline: 'uppercase font-mono font-light text-default-500 text-dim'
       }"
     />
 
