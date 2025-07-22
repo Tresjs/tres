@@ -5,7 +5,7 @@ description: Quick guide with tips to improve the performance of your TresJS app
 
 Running WebGL in the browser can be resource-intensive depending on the user's device capabilities. To make 3D accessible to everyone, it's important to optimize your applications for performance, especially on low-end devices. This guide shares practical tips to help you get the best performance from your TresJS projects.
 
-## On-demand Rendering
+## Rendering Modes
 
 ::examples-on-demand
 ::
@@ -179,7 +179,7 @@ onLoop(({ _delta, elapsed }) => {
 
 ## Dispose Resources with `dispose()`
 
-When you're finished with a resource—such as a texture, geometry, or material—be sure to dispose of it to free up memory. This is especially important if your app frequently creates and destroys resources, like in games or interactive experiences.
+When a resource is no longer needed—such as a texture, geometry, or material—be sure to dispose of it to free up memory. This is especially important if your app frequently creates and destroys resources, like in games or interactive experiences.
 
 TresJS will automatically dispose of resources recursively when the component is unmounted, but you can also perform this manually by calling the `dispose()` directly from the package:
 

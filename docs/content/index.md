@@ -82,7 +82,7 @@ Features you will love
   Up to date with Three.js
 
   #description
-  Enjoy latest features right away.
+  Enjoy the latest features right away.
   :::
 
   :::u-page-feature

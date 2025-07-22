@@ -200,46 +200,7 @@ setInterval(() => {
 </template>
 ```
 
-### Event Handlers
 
-All pointer event handlers are supported:
-
-- `@click` - Mouse/touch click events
-- `@contextmenu` - Right-click events
-- `@pointerdown` - Pointer press events
-- `@pointerup` - Pointer release events
-- `@pointermove` - Pointer movement events
-- `@pointerenter` - Pointer enter events
-- `@pointerleave` - Pointer leave events
-
-```vue
-<script setup lang="ts">
-function onClick(event) {
-  console.log('Primitive clicked!', event)
-  // Change color on click
-  event.object.material.color.setHex(Math.random() * 0xFFFFFF)
-}
-
-function onPointerEnter(event) {
-  // Scale up on hover
-  event.object.scale.setScalar(1.1)
-}
-
-function onPointerLeave(event) {
-  // Scale back to normal
-  event.object.scale.setScalar(1)
-}
-</script>
-
-<template>
-  <primitive
-    :object="mesh"
-    @click="onClick"
-    @pointerenter="onPointerEnter"
-    @pointerleave="onPointerLeave"
-  />
-</template>
-```
 
 ### Pass-through Props
 
