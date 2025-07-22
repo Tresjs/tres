@@ -5,8 +5,6 @@ const navigation = inject<Ref<ContentNavigationItem[]>>(navigationInjectionKey)
 
 const route = useRoute()
 
-/* const path = computed(() => route.path.replace(/\/$/, ''))
- */
 const { headerLinks } = useHeaderLinks()
 const links = computed(() => headerLinks.value ?? [])
 
