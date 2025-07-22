@@ -200,8 +200,6 @@ setInterval(() => {
 </template>
 ```
 
-
-
 ### Pass-through Props
 
 Any other props are passed through to the underlying Three.js object, allowing you to modify its properties directly:
