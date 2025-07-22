@@ -64,6 +64,7 @@ const route = useRoute()
       <UNavigationMenu
         v-if="route.path === '/'"
         :items="header?.navigation"
+        class="hidden md:flex"
       />
 
       <UColorModeButton v-if="header?.colorMode" />
