@@ -6,7 +6,7 @@ if (!page.value) {
 
 const title = page.value.seo?.title || page.value.title
 const description = page.value.seo?.description || page.value.description
-const siteName = page.value.seo?.siteName || 'TresJS'
+const siteName = typeof page.value.seo?.siteName === 'string' ? page.value.seo.siteName : 'TresJS'
 
 useSeoMeta({
   titleTemplate: title,
