@@ -34,7 +34,6 @@ useSeoMeta({
 
 const headline = computed(() => findPageHeadline(navigation?.value, page.value))
 
-
 const links = computed(() => {
   const links = []
   if (toc?.bottom?.edit) {
