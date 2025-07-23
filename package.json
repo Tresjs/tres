@@ -20,8 +20,15 @@
   "sideEffects": false,
   "exports": {
     ".": {
+      "development": {
+        "types": "./src/index.ts",
+        "import": "./src/index.ts",
+        "default": "./src/index.ts"
+      },
       "types": "./dist/index.d.ts",
-      "import": "./dist/tres.js"
+      "import": "./dist/tres.js",
+      "require": "./dist/tres.js",
+      "default": "./dist/tres.js"
     },
     "./components": {
       "types": "./dist/src/components/index.d.ts"
@@ -59,11 +66,10 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "typecheck": "vue-tsc --noEmit",
-    "docs:dev": "vitepress dev docs",
-    "docs:build": "vitepress build docs",
-    "docs:serve": "vitepress serve docs",
-    "docs:preview": "vitepress preview docs",
-    "docs:contributors": "esno scripts/update-contributors.ts"
+    "docs:dev": "pnpm --filter='./docs' dev",
+    "docs:generate": "pnpm --filter='./docs' generate",
+    "docs:prepare": "pnpm --filter='./docs' prepare",
+    "postinstall": "pnpm run build && pnpm --filter='./docs' prepare"
   },
   "peerDependencies": {
     "three": ">=0.133",
@@ -80,6 +86,7 @@
     "@stackblitz/sdk": "^1.11.0",
     "@tresjs/cientos": "5.0.0-next.0",
     "@tresjs/eslint-config": "^1.4.0",
+    "@tresjs/leches": "1.0.0-next.0",
     "@types/three": "^0.177.0",
     "@typescript-eslint/eslint-plugin": "^8.23.0",
     "@typescript-eslint/parser": "^8.23.0",
@@ -116,5 +123,20 @@
     "vue": "3.5.17",
     "vue-demi": "^0.14.10",
     "vue-tsc": "^2.2.0"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "better-sqlite3"
+    ],
+    "ignoredBuiltDependencies": [
+      "vue-demi"
+    ],
+    "overrides": {
+      "vue": "^3.5.13",
+      "vue-router": "^4.5.0"
+    }
+  },
+  "resolutions": {
+    "unimport": "4.1.1"
   }
 }

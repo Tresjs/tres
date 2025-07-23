@@ -34,6 +34,7 @@ const planeRef: Ref<TresObject | null> = ref(null)
       :intensity="0.7"
       color="yellow"
       cast-shadow
+      :shadow-mapSize="[512, 512]"
     />
     <TresMesh
       ref="planeRef"
