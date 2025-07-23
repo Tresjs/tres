@@ -40,3 +40,5 @@ jobs:
         run: pnpm run lint
       - name: Unit tests
         run: pnpm run test
+      - name: Docs typecheck
+        run: pnpm run docs:typecheck
