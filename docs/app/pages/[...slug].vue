@@ -28,13 +28,12 @@ useSeoMeta({
   ogTitle: title,
   description,
   ogDescription: description,
+  twitterTitle: title,
+  twitterDescription: description,
 })
 
 const headline = computed(() => findPageHeadline(navigation?.value, page.value))
 
-defineOgImageComponent('Docs', {
-  headline: headline.value,
-})
 
 const links = computed(() => {
   const links = []

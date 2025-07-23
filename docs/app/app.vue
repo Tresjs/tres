@@ -31,6 +31,11 @@ useSeoMeta({
   titleTemplate: title => title ? `${title} · TresJS` : 'TresJS: Building 3D scenes with Vue',
   ogSiteName: seo?.siteName,
   twitterCard: 'summary_large_image',
+  ogImage: '/og-image.png',
+  twitterImage: '/og-image.png',
+  ogUrl: 'https://tresjs.org',
+  twitterTitle: 'TresJS: Building 3D scenes with Vue',
+  twitterDescription: 'TresJS is a library for building 3D scenes with Vue. It provides a set of components and utilities for creating and managing 3D scenes.',
 })
 
 provide(navigationInjectionKey, navigation)
