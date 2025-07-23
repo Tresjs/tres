@@ -62,7 +62,7 @@ const context = useTresContext()
 | **advance** | a method to advance the render loop. This is only required if you set the `render-mode` prop to `manual`. |
 | **loop** | the renderer loop |
 
-### useLoop <Badge text="v4.0.0" />
+## useLoop <Badge text="v4.0.0" />
 
 This composable allows you to execute a callback on every rendered frame, similar to `useRenderLoop` but unique to each `TresCanvas` instance and with access to the [context](#usetrescontext).
 
