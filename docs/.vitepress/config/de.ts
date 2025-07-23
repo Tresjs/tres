@@ -100,6 +100,12 @@ export const deConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
           },
         ],
       },
+      {
+        text: 'Community',
+        items: [
+          { text: 'Tolle Resourcen', link: '/de/community/awesome-resources' },
+        ],
+      },
     ],
     nav: [
       { text: 'Anleitung', link: '/de/guide/' },

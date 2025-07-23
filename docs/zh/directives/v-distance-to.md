@@ -8,7 +8,7 @@
 
 ```vue{2,8,13}
 <script setup lang="ts">
-import { OrbitControls, Sphere, vLog } from '@tresjs/cientos'
+import { OrbitControls, Sphere, vDistanceTo } from '@tresjs/cientos'
 </script>
 <template>
   <TresCanvas v-bind="gl">
