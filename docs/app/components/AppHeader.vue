@@ -4,6 +4,8 @@ const navigation = inject(navigationInjectionKey)
 const { header } = useAppConfig()
 
 const route = useRoute()
+
+const version = useRuntimeConfig().public.pkgVersion
 </script>
 
 <template>
@@ -39,9 +41,16 @@ const route = useRoute()
       v-else
       #left
     >
-      <NuxtLink :to="header?.to || '/'">
+      <NuxtLink :to="header?.to || '/'" class="mr-2">
         <TheLogo class="w-auto h-6 shrink-0" />
       </NuxtLink>
+      <UBadge
+        color="primary"
+        variant="subtle"
+        size="sm"
+      >
+        {{ version }}
+      </UBadge>
     </template>
 
     <template #right>
