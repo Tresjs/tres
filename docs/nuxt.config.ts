@@ -1,6 +1,6 @@
-import { templateCompilerOptions } from '@tresjs/core'
 import { existsSync, readFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
+import { templateCompilerOptions } from '@tresjs/core'
 
 function findMonorepoRootPackageJson(startDir: string): string | undefined {
   let dir = startDir
@@ -9,10 +9,14 @@ function findMonorepoRootPackageJson(startDir: string): string | undefined {
     if (existsSync(pkgPath)) {
       const pkg = JSON.parse(readFileSync(pkgPath, 'utf-8'))
       // Check for a field unique to your monorepo root
-      if (pkg.workspaces || pkg.name === '@tresjs/core') { return pkgPath }
+      if (pkg.workspaces || pkg.name === '@tresjs/core') {
+        return pkgPath
+      }
     }
     const parentDir = dirname(dir)
-    if (parentDir === dir) { break }
+    if (parentDir === dir) {
+      break
+    }
     dir = parentDir
   }
   return undefined
@@ -34,11 +38,6 @@ export default defineNuxtConfig({
   devtools: {
     enabled: true,
   },
-  runtimeConfig: {
-    public: {
-      pkgVersion: pkg.version,
-    },
-  },
   css: ['~/assets/css/main.css'],
 
   vue: {
@@ -52,6 +51,11 @@ export default defineNuxtConfig({
           searchDepth: 1,
         },
       },
+    },
+  },
+  runtimeConfig: {
+    public: {
+      pkgVersion: pkg.version,
     },
   },
 

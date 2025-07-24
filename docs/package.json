@@ -9,6 +9,7 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "typecheck": "nuxt typecheck"
   },
   "dependencies": {
@@ -28,6 +29,7 @@
   },
   "devDependencies": {
     "@nuxt/eslint": "^1.4.1",
+    "@tresjs/eslint-config": "^1.4.0",
     "eslint": "^9.28.0",
     "typescript": "^5.8.3",
     "vue-tsc": "^2.2.10"

@@ -41,7 +41,10 @@ const version = useRuntimeConfig().public.pkgVersion
       v-else
       #left
     >
-      <NuxtLink :to="header?.to || '/'" class="mr-2">
+      <NuxtLink
+        :to="header?.to || '/'"
+        class="mr-2"
+      >
         <TheLogo class="w-auto h-6 shrink-0" />
       </NuxtLink>
       <UBadge
