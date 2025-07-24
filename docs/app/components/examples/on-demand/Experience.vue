@@ -4,7 +4,7 @@ import { type GLTF, GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
 import { computed } from 'vue'
 import { Environment, OrbitControls } from '@tresjs/cientos'
-import type { Object3D, MeshPhysicalMaterial } from 'three'
+import type { MeshPhysicalMaterial, Object3D } from 'three'
 import { Color } from 'three'
 
 // Setup DRACO loader for compressed GLTFs
