@@ -46,8 +46,9 @@ material.colorNode = Fn(() => {
 })()
 
 watch(model, (newModel) => {
+  const isMesh = (child: Object3D): child is Mesh => 'isMesh' in child && !!(child.isMesh)
+
   newModel?.traverse((child) => {
-    const isMesh = (child: Object3D): child is Mesh => 'isMesh' in child && !!(child.isMesh)
     if (isMesh(child)) {
       child.material = material
     }
