@@ -26,6 +26,6 @@ const type = computed(() => {
     :href="href"
     :target="target"
   >
-    <slot />
+    <slot></slot>
   </NuxtLink>
 </template>

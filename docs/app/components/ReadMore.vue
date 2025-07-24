@@ -35,7 +35,7 @@ const computedTitle = computed<string>(() => props.title || createBreadcrumb(pro
       Read more in <span
         class="font-bold"
         v-text="computedTitle"
-      />.
+      ></span>.
     </slot>
   </ProseCallout>
 </template>

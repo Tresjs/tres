@@ -75,7 +75,8 @@ const parseGitHubURL = (url: string): GitHubURLInfo => {
       }
     }
     return { type: 'unknown', owner, repo }
-  } catch {
+  }
+  catch {
     return { type: 'unknown', owner: '', repo: '' }
   }
 }
@@ -90,7 +91,8 @@ const fetchGitHubTitle = async (owner: string, repo: string, type: 'issue' | 'pr
     }
     const data = await response.json()
     return data.title || `${type === 'issue' ? 'Issue' : 'PR'} #${number}`
-  } catch (error) {
+  }
+  catch (error) {
     console.warn('Failed to fetch GitHub title:', error)
     return `${type === 'issue' ? 'Issue' : 'PR'} #${number}`
   }
@@ -102,15 +104,19 @@ const urlInfo = computed(() => parseGitHubURL(props.href))
 const displayTitle = computedAsync(async () => {
   if (urlInfo.value.type === 'permalink') {
     return `${urlInfo.value.repo}/${urlInfo.value.path}`
-  } else if (urlInfo.value.type === 'repo') {
+  }
+  else if (urlInfo.value.type === 'repo') {
     return `${urlInfo.value.owner}/${urlInfo.value.repo}`
-  } else if (urlInfo.value.type === 'issue' || urlInfo.value.type === 'pr') {
+  }
+  else if (urlInfo.value.type === 'issue' || urlInfo.value.type === 'pr') {
     return await fetchGitHubTitle(urlInfo.value.owner, urlInfo.value.repo, urlInfo.value.type, urlInfo.value.number!)
-  } else if (urlInfo.value.type === 'wiki') {
+  }
+  else if (urlInfo.value.type === 'wiki') {
     // For wiki, use the page slug (replace dashes with spaces for readability)
     // Optionally, you could fetch the actual page title from the HTML, but this is a simple fallback
     return urlInfo.value.page ? urlInfo.value.page.replace(/-/g, ' ') : 'Wiki Page'
-  } else {
+  }
+  else {
     return props.href
   }
 })
@@ -118,12 +124,15 @@ const displayTitle = computedAsync(async () => {
 const suffix = computed(() => {
   if (urlInfo.value.type === 'permalink') {
     return urlInfo.value.lines ? `#${urlInfo.value.lines}` : ''
-  } else if (urlInfo.value.type === 'issue' || urlInfo.value.type === 'pr') {
+  }
+  else if (urlInfo.value.type === 'issue' || urlInfo.value.type === 'pr') {
     return `#${urlInfo.value.number}`
-  } else if (urlInfo.value.type === 'wiki') {
+  }
+  else if (urlInfo.value.type === 'wiki') {
     // For wiki links, always show 'wiki' as the suffix
     return 'wiki'
-  } else {
+  }
+  else {
     return ''
   }
 })
@@ -131,9 +140,11 @@ const suffix = computed(() => {
 const icon = computed(() => {
   if (urlInfo.value.type === 'issue') {
     return 'octicon:issue-opened-16'
-  } else if (urlInfo.value.type === 'pr') {
+  }
+  else if (urlInfo.value.type === 'pr') {
     return 'octicon:git-pull-request-16'
-  } else {
+  }
+  else {
     return 'i-simple-icons-github'
   }
 })
