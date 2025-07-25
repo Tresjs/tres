@@ -69,6 +69,7 @@
     "docs:dev": "pnpm --filter='./docs' dev",
     "docs:generate": "pnpm --filter='./docs' generate",
     "docs:prepare": "pnpm --filter='./docs' prepare",
+    "docs:typecheck": "pnpm --filter='./docs' typecheck",
     "postinstall": "pnpm run build && pnpm --filter='./docs' prepare"
   },
   "peerDependencies": {
