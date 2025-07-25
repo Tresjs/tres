@@ -152,6 +152,7 @@ const icon = computed(() => {
 
 <template>
   <a
+    v-if="urlInfo.type !== 'unknown'"
     :href="props.href"
     :target="props.target"
     class="inline-flex translate-y-0.5 items-center gap-1 bg-gray-100 hover:bg-gray-200 border border-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 rounded-md text-xs text-muted no-underline transition-colors"
@@ -170,4 +171,12 @@ const icon = computed(() => {
       {{ suffix }}
     </span>
   </a>
+  <NuxtLink
+    v-else
+    class="text-primary border-b border-transparent hover:border-primary font-medium focus-visible:outline-primary [&>code]:border-dashed hover:[&>code]:border-primary hover:[&>code]:text-primary"
+    :href="props.href"
+    :target="props.target"
+  >
+    <slot></slot>
+  </NuxtLink>
 </template>
