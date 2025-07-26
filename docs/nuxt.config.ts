@@ -77,7 +77,6 @@ export default defineNuxtConfig({
   eslint: {
     config: {
       stylistic: {
-        commaDangle: 'never',
         braceStyle: '1tbs',
       },
     },
