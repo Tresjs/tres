@@ -74,14 +74,6 @@ export default defineNuxtConfig({
     },
   },
 
-  eslint: {
-    config: {
-      stylistic: {
-        braceStyle: '1tbs',
-      },
-    },
-  },
-
   icon: {
     provider: 'iconify',
   },

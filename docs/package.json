@@ -28,7 +28,6 @@
     "vue-router": "^4.5.0"
   },
   "devDependencies": {
-    "@nuxt/eslint": "^1.4.1",
     "eslint": "^9.28.0",
     "typescript": "^5.8.3",
     "vue-tsc": "^2.2.10"
