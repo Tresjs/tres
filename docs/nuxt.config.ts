@@ -28,7 +28,6 @@ const pkg = JSON.parse(readFileSync(rootPkgPath!, 'utf-8'))
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   modules: [
-    '@nuxt/eslint',
     '@nuxt/image',
     '@nuxt/ui-pro',
     '@nuxt/content',
