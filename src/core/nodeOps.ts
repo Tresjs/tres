@@ -4,7 +4,7 @@ import { BufferAttribute, Object3D } from 'three'
 import { isRef, type RendererOptions } from 'vue'
 import { attach, deepArrayEqual, doRemoveDeregister, doRemoveDetach, invalidateInstance, kebabToCamel, noop, prepareTresInstance, resolve, setPrimitiveObject, unboxTresPrimitive } from '../utils'
 import { logError } from '../utils/logger'
-import { isArray, isCamera, isClassInstance, isColor, isColorRepresentation, isCopyable, isFunction, isHTMLTag, isLayers, isObject, isObject3D, isScene, isTresInstance, isUndefined, isVectorLike } from '../utils/is'
+import { isCamera, isClassInstance, isColor, isColorRepresentation, isCopyable, isFunction, isHTMLTag, isLayers, isObject, isObject3D, isScene, isTresInstance, isUndefined, isVectorLike } from '../utils/is'
 import { createRetargetingProxy } from '../utils/primitive/createRetargetingProxy'
 import { catalogue } from './catalogue'
 import { isSupportedPointerEvent, pointerEventsMapVueToThree } from '../utils/pointerEvents'
@@ -309,7 +309,7 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
       // don't call pointer event callback functions
 
       if (!isSupportedPointerEvent(prop)) {
-        if (isArray(value)) { node[finalKey](...value) }
+        if (Array.isArray(value)) { node[finalKey](...value) }
         else { node[finalKey](value) }
       }
       // NOTE: Set on* callbacks

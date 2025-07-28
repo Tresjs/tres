@@ -2,130 +2,9 @@ import type { TresCamera, TresInstance, TresObject, TresPrimitive } from 'src/ty
 import type { BufferGeometry, Color, ColorRepresentation, Fog, Light, Material, Mesh, Object3D, OrthographicCamera, PerspectiveCamera, Scene } from 'three'
 import { Layers } from 'three'
 import { makeMap } from './makeMap'
+import { isObject } from 'radashi'
 
-/**
- * Type guard to check if a value is undefined
- * @param value - The value to check
- * @returns True if the value is undefined, false otherwise
- * @example
- * ```ts
- * const value = undefined
- * if (isUndefined(value)) {
- *   // TypeScript knows value is undefined here
- * }
- * ```
- */
-export function isUndefined(value: unknown): value is undefined {
-  return typeof value === 'undefined'
-}
-
-/**
- * Type guard to check if a value is an array
- * @param value - The value to check
- * @returns True if the value is an array, false otherwise
- * @example
- * ```ts
- * const value = [1, 2, 3]
- * if (isArray(value)) {
- *   // TypeScript knows value is Array<unknown> here
- *   value.length // OK
- *   value.map(x => x) // OK
- * }
- * ```
- */
-export function isArray(value: unknown): value is Array<unknown> {
-  return Array.isArray(value)
-}
-
-/**
- * Type guard to check if a value is a number
- * @param value - The value to check
- * @returns True if the value is a number (including NaN and Infinity), false otherwise
- * @example
- * ```ts
- * const value = 42
- * if (isNumber(value)) {
- *   // TypeScript knows value is number here
- *   value.toFixed(2) // OK
- *   value * 2 // OK
- * }
- * ```
- */
-export function isNumber(value: unknown): value is number {
-  return typeof value === 'number'
-}
-
-/**
- * Type guard to check if a value is a string
- * @param value - The value to check
- * @returns True if the value is a string, false otherwise
- * @example
- * ```ts
- * const value = "hello"
- * if (isString(value)) {
- *   // TypeScript knows value is string here
- *   value.length // OK
- *   value.toUpperCase() // OK
- * }
- * ```
- */
-export function isString(value: unknown): value is string {
-  return typeof value === 'string'
-}
-
-/**
- * Type guard to check if a value is a boolean
- * @param value - The value to check
- * @returns True if the value is strictly true or false, false otherwise
- * @example
- * ```ts
- * const value = true
- * if (isBoolean(value)) {
- *   // TypeScript knows value is boolean here
- *   !value // OK
- *   value && true // OK
- * }
- * ```
- */
-export function isBoolean(value: unknown): value is boolean {
-  return value === true || value === false
-}
-
-/**
- * Type guard to check if a value is a function
- * @param value - The value to check
- * @returns True if the value is a callable function, false otherwise
- * @example
- * ```ts
- * const value = () => {}
- * if (isFunction(value)) {
- *   // TypeScript knows value is (...args: any[]) => any here
- *   value() // OK
- *   value.call(null) // OK
- * }
- * ```
- */
-export function isFunction(value: unknown): value is (...args: any[]) => any {
-  return typeof value === 'function'
-}
-
-/**
- * Type guard to check if a value is a plain object
- * @param value - The value to check
- * @returns True if the value is a plain object (not null, array, or function), false otherwise
- * @example
- * ```ts
- * const value = { key: 'value' }
- * if (isObject(value)) {
- *   // TypeScript knows value is Record<string | number | symbol, unknown> here
- *   Object.keys(value) // OK
- *   value.key // OK
- * }
- * ```
- */
-export function isObject(value: unknown): value is Record<string | number | symbol, unknown> {
-  return value === Object(value) && !isArray(value) && !isFunction(value)
-}
+export { isFunction, isNumber, isObject, isString, isUndefined } from 'radashi'
 
 /**
  * Type guard to check if a value is a Three.js Object3D
@@ -143,7 +22,7 @@ export function isObject(value: unknown): value is Record<string | number | symb
  * ```
  */
 export function isObject3D(value: unknown): value is Object3D {
-  return isObject(value) && !!(value.isObject3D)
+  return isObject(value) && 'isObject3D' in value && !!(value.isObject3D)
 }
 
 export function isMesh(value: unknown): value is Mesh {
@@ -166,11 +45,11 @@ export function isMesh(value: unknown): value is Mesh {
  * ```
  */
 export function isCamera(value: unknown): value is TresCamera {
-  return isObject(value) && !!(value.isCamera)
+  return isObject(value) && 'isCamera' in value && !!(value.isCamera)
 }
 
 export function isColor(value: unknown): value is Color {
-  return isObject(value) && !!(value.isColor)
+  return isObject(value) && 'isColor' in value && !!(value.isColor)
 }
 
 export function isColorRepresentation(value: unknown): value is ColorRepresentation {
@@ -202,7 +81,7 @@ export function isLayers(value: unknown): value is Layers {
  * @returns True if the value is a Three.js OrthographicCamera instance, false otherwise
  */
 export function isOrthographicCamera(value: unknown): value is OrthographicCamera {
-  return isObject(value) && !!(value.isOrthographicCamera)
+  return isObject(value) && 'isOrthographicCamera' in value && !!(value.isOrthographicCamera)
 }
 
 /**
@@ -211,7 +90,7 @@ export function isOrthographicCamera(value: unknown): value is OrthographicCamer
  * @returns True if the value is a Three.js PerspectiveCamera instance, false otherwise
  */
 export function isPerspectiveCamera(value: unknown): value is PerspectiveCamera {
-  return isObject(value) && !!(value.isPerspectiveCamera)
+  return isObject(value) && 'isPerspectiveCamera' in value && !!(value.isPerspectiveCamera)
 }
 
 /**
@@ -230,7 +109,7 @@ export function isPerspectiveCamera(value: unknown): value is PerspectiveCamera 
  * ```
  */
 export function isBufferGeometry(value: unknown): value is BufferGeometry {
-  return isObject(value) && !!(value.isBufferGeometry)
+  return isObject(value) && 'isBufferGeometry' in value && !!(value.isBufferGeometry)
 }
 
 /**
@@ -249,7 +128,7 @@ export function isBufferGeometry(value: unknown): value is BufferGeometry {
  * ```
  */
 export function isMaterial(value: unknown): value is Material {
-  return isObject(value) && !!(value.isMaterial)
+  return isObject(value) && 'isMaterial' in value && !!(value.isMaterial)
 }
 
 /**
@@ -268,7 +147,7 @@ export function isMaterial(value: unknown): value is Material {
  * ```
  */
 export function isLight(value: unknown): value is Light {
-  return isObject(value) && !!(value.isLight)
+  return isObject(value) && 'isLight' in value && !!(value.isLight)
 }
 
 /**
@@ -287,7 +166,7 @@ export function isLight(value: unknown): value is Light {
  * ```
  */
 export function isFog(value: unknown): value is Fog {
-  return isObject(value) && !!(value.isFog)
+  return isObject(value) && 'isFog' in value && !!(value.isFog)
 }
 
 /**
@@ -306,7 +185,7 @@ export function isFog(value: unknown): value is Fog {
  * ```
  */
 export function isScene(value: unknown): value is Scene {
-  return isObject(value) && !!(value.isScene)
+  return isObject(value) && 'isScene' in value && !!(value.isScene)
 }
 
 /**
@@ -348,7 +227,7 @@ export function isTresObject(value: unknown): value is TresObject {
  * that can be used directly in the scene without needing to be wrapped in a Three.js object.
  */
 export function isTresPrimitive(value: unknown): value is TresPrimitive {
-  return isObject(value) && !!(value.isPrimitive)
+  return isObject(value) && 'isPrimitive' in value && !!(value.isPrimitive)
 }
 
 /**
