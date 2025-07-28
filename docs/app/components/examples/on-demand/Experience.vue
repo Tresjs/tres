@@ -4,6 +4,7 @@ import { type GLTF, GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
 import { computed } from 'vue'
 import { Environment, OrbitControls } from '@tresjs/cientos'
+import type { MeshPhysicalMaterial, Object3D } from 'three'
 import { Color } from 'three'
 
 // Setup DRACO loader for compressed GLTFs
@@ -24,13 +25,18 @@ const { state: model } = useLoader<GLTF>(
 )
 
 // Extract the scene and graph
-const scene = computed(() => model.value?.scene)
+const scene = computed(() => model.value?.scene as unknown as Object3D | undefined)
 const graph = useGraph(scene)
 
-const nodes = computed(() => graph.value.nodes)
+const nodes = computed(() => graph.value?.nodes)
 
-watch(graph, ({ materials }) => {
-  if (materials?.Material) {
+watch(graph, (graph) => {
+  const materials = graph?.materials
+
+  const isMeshPhysicalMaterial = (maybeMaterial: unknown): maybeMaterial is MeshPhysicalMaterial =>
+    typeof maybeMaterial === 'object' && !!maybeMaterial && 'isMeshPhysicalMaterial' in maybeMaterial && !!(maybeMaterial.isMeshPhysicalMaterial)
+
+  if (materials?.Material && isMeshPhysicalMaterial(materials.Material)) {
     materials.Material.color = new Color('gold')
     materials.Material.roughness = 0.1
     materials.Material.metalness = 0.9

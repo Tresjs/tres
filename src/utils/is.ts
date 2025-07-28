@@ -1,5 +1,5 @@
 import type { TresCamera, TresInstance, TresObject, TresPrimitive } from 'src/types'
-import type { BufferGeometry, Color, ColorRepresentation, Fog, Light, Material, Object3D, OrthographicCamera, PerspectiveCamera, Scene } from 'three'
+import type { BufferGeometry, Color, ColorRepresentation, Fog, Light, Material, Mesh, Object3D, OrthographicCamera, PerspectiveCamera, Scene } from 'three'
 import { Layers } from 'three'
 import { makeMap } from './makeMap'
 
@@ -144,6 +144,10 @@ export function isObject(value: unknown): value is Record<string | number | symb
  */
 export function isObject3D(value: unknown): value is Object3D {
   return isObject(value) && !!(value.isObject3D)
+}
+
+export function isMesh(value: unknown): value is Mesh {
+  return isObject3D(value) && 'isMesh' in value && !!(value.isMesh)
 }
 
 /**
