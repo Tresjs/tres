@@ -3,6 +3,10 @@ import { buildGraph } from '../../utils/graph'
 import { computed, toValue } from 'vue'
 import type { TresObject } from '../../types'
 
-export function useGraph(object: MaybeRef<TresObject>) {
-  return computed(() => buildGraph(toValue(object)))
+export const useGraph = (object: MaybeRef<TresObject | undefined>) => {
+  return computed(() => {
+    const obj = toValue(object)
+    if (!obj) { return undefined }
+    return buildGraph(obj)
+  })
 }

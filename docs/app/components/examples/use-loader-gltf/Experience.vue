@@ -4,6 +4,7 @@ import { type GLTF, GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
 import { computed } from 'vue'
 import { OrbitControls } from '@tresjs/cientos'
+import type { Object3D } from 'three'
 
 // Setup DRACO loader for compressed GLTFs
 const dracoLoader = new DRACOLoader()
@@ -23,10 +24,10 @@ const { state: model } = useLoader<GLTF>(
 )
 
 // Extract the scene and graph
-const scene = computed(() => model.value?.scene)
+const scene = computed(() => model.value?.scene as unknown as Object3D | undefined)
 const graph = useGraph(scene)
 
-const nodes = computed(() => graph.value.nodes)
+const nodes = computed(() => graph.value?.nodes)
 </script>
 
 <template>

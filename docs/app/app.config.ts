@@ -1,8 +1,9 @@
-export default defineAppConfig({
+import type { AppConfigInput } from 'nuxt/schema'
+
+const newLocal = {
   ui: {
     colors: {
       primary: 'teal',
-      accent: 'yellow',
       neutral: 'zinc',
     },
     card: {
@@ -33,16 +34,6 @@ export default defineAppConfig({
     },
     search: true,
     colorMode: true,
-    navigation: [
-      {
-        label: 'Guide',
-        to: '/getting-started/installation',
-      },
-      {
-        label: 'API',
-        to: '/api',
-      },
-    ],
     links: [
       {
         icon: 'i-simple-icons-github',
@@ -101,4 +92,6 @@ export default defineAppConfig({
       }],
     },
   },
-})
+} satisfies AppConfigInput
+
+export default defineAppConfig(newLocal)
