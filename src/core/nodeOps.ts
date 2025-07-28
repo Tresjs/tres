@@ -2,9 +2,9 @@ import type { TresContext } from '../composables'
 import type { DisposeType, LocalState, TresInstance, TresObject, TresObject3D, TresPrimitive, WithMathProps } from '../types'
 import { BufferAttribute, Object3D } from 'three'
 import { isRef, type RendererOptions } from 'vue'
-import { attach, deepArrayEqual, doRemoveDeregister, doRemoveDetach, invalidateInstance, isHTMLTag, kebabToCamel, noop, prepareTresInstance, resolve, setPrimitiveObject, unboxTresPrimitive } from '../utils'
+import { attach, deepArrayEqual, doRemoveDeregister, doRemoveDetach, invalidateInstance, kebabToCamel, noop, prepareTresInstance, resolve, setPrimitiveObject, unboxTresPrimitive } from '../utils'
 import { logError } from '../utils/logger'
-import { isArray, isCamera, isClassInstance, isColor, isColorRepresentation, isCopyable, isFunction, isLayers, isObject, isObject3D, isScene, isTresInstance, isUndefined, isVectorLike } from '../utils/is'
+import { isArray, isCamera, isClassInstance, isColor, isColorRepresentation, isCopyable, isFunction, isHTMLTag, isLayers, isObject, isObject3D, isScene, isTresInstance, isUndefined, isVectorLike } from '../utils/is'
 import { createRetargetingProxy } from '../utils/primitive/createRetargetingProxy'
 import { catalogue } from './catalogue'
 import { isSupportedPointerEvent, pointerEventsMapVueToThree } from '../utils/pointerEvents'
@@ -18,7 +18,6 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
     if (!props.args) {
       props.args = []
     }
-    if (tag === 'template') { return null }
     if (isHTMLTag(tag)) { return null }
     let name = tag.replace('Tres', '')
     let obj: TresObject | null
