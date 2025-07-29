@@ -1,7 +1,8 @@
 import type { Camera, Light, Material, Object3D } from 'three'
 import { AmbientLight, BufferGeometry, DirectionalLight, Fog, Group, Mesh, MeshBasicMaterial, MeshNormalMaterial, OrthographicCamera, PerspectiveCamera, PointLight, Scene } from 'three'
-import { isBufferGeometry, isCamera, isFog, isLight, isMaterial, isObject3D, isScene, isTresObject } from './is'
+import { isBufferGeometry, isCamera, isFog, isLight, isMaterial, isObject3D, isScene, isTresObject } from '../is/index'
 
+// TODO move file
 const NUMBERS: Record<string, number> = {
   '0': 0,
   '1': 1,

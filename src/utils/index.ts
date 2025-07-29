@@ -7,6 +7,7 @@ import { HightlightMesh } from '../devtools/highlight'
 import { isFunction, isNumber, isString, isTresCamera, isTresPrimitive, isUndefined } from './is'
 
 export * from './logger'
+
 export function toSetMethodName(key: string) {
   return `set${key[0].toUpperCase()}${key.slice(1)}`
 }
