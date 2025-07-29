@@ -4,7 +4,7 @@ import type { Material, Mesh, Object3D, Texture } from 'three'
 import type { TresContext } from '../composables/useTresContextProvider'
 import { DoubleSide, MathUtils, MeshBasicMaterial, Scene, Vector3 } from 'three'
 import { HightlightMesh } from '../devtools/highlight'
-import { isCamera, isFunction, isNumber, isString, isTresPrimitive, isUndefined } from './is'
+import { isFunction, isNumber, isString, isTresCamera, isTresPrimitive, isUndefined } from './is'
 
 export * from './logger'
 export function toSetMethodName(key: string) {
@@ -542,12 +542,12 @@ export function doRemoveDeregister(node: TresObject, context: TresContext) {
   // TODO: Refactor as `context.deregister`?
   // That would eliminate `context.deregisterCamera`.
   node.traverse?.((child: TresObject) => {
-    if (isCamera(child)) {
+    if (isTresCamera(child)) {
       context.camera.deregisterCamera(child)
     }
   })
 
-  if (isCamera(node)) {
+  if (isTresCamera(node)) {
     context.camera.deregisterCamera(node)
   }
   invalidateInstance(node as TresObject)

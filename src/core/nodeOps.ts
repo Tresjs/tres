@@ -4,7 +4,7 @@ import { BufferAttribute, Object3D } from 'three'
 import { isRef, type RendererOptions } from 'vue'
 import { attach, deepArrayEqual, doRemoveDeregister, doRemoveDetach, invalidateInstance, kebabToCamel, noop, prepareTresInstance, resolve, setPrimitiveObject, unboxTresPrimitive } from '../utils'
 import { logError } from '../utils/logger'
-import { isCamera, isClassInstance, isColor, isColorRepresentation, isCopyable, isFunction, isHTMLTag, isLayers, isObject, isObject3D, isScene, isTresInstance, isUndefined, isVectorLike } from '../utils/is'
+import { isClassInstance, isColor, isColorRepresentation, isCopyable, isFunction, isHTMLTag, isLayers, isObject, isObject3D, isScene, isTresCamera, isTresInstance, isUndefined, isVectorLike } from '../utils/is'
 import { createRetargetingProxy } from '../utils/primitive/createRetargetingProxy'
 import { catalogue } from './catalogue'
 import { isSupportedPointerEvent, pointerEventsMapVueToThree } from '../utils/pointerEvents'
@@ -60,7 +60,7 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
     if (!obj) { return null }
 
     // Opinionated default to avoid user issue not seeing anything if camera is on origin
-    if (isCamera(obj)) {
+    if (isTresCamera(obj)) {
       if (!props?.position) {
         obj.position.set(3, 3, 3)
       }
@@ -93,7 +93,7 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
     child = unboxTresPrimitive(childInstance)
     parent = unboxTresPrimitive(parentInstance)
 
-    if (isCamera(child)) {
+    if (isTresCamera(child)) {
       context.camera?.registerCamera(child)
     }
 
@@ -359,7 +359,7 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
       root[finalKey] = value
     }
 
-    if (isCamera(node)) {
+    if (isTresCamera(node)) {
       node.updateProjectionMatrix()
     }
 
