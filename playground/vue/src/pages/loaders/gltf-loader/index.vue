@@ -9,14 +9,6 @@ const state = reactive({
 })
 
 provide('gltf-loader-state', state)
-
-onMounted(() => {
-  window.__TRES__DEVTOOLS__?.subscribe((message) => {
-    if (message.type === 'asset-load') {
-      console.log('asset-load', message.data)
-    }
-  })
-})
 </script>
 
 <template>
