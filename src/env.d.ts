@@ -21,7 +21,7 @@ interface PerformanceState {
 }
 
 interface Window {
-  __TRES__DEVTOOLS__?: import('./devtools/DevtoolsMessenger').DevtoolsMessenger
+  __TRES__DEVTOOLS__?: DevtoolsMessenger
 }
 
 declare module '*.glsl' {}
