@@ -3,6 +3,7 @@ import { boundedPush, calculateMemoryUsage } from '../utils/perf'
 import type { TresContext } from '../composables'
 import type { TresObject } from '../types'
 import { onUnmounted } from 'vue'
+import { DevtoolsMessenger } from './DevtoolsMessenger'
 
 export interface PerformanceState {
   maxFrames: number
@@ -19,6 +20,11 @@ export interface PerformanceState {
 
 export function setupTresDevtools(ctx: TresContext) {
   if (!ctx) { return }
+
+  // Initialize devtools messenger
+  if (typeof window !== 'undefined' && !window.__TRES__DEVTOOLS__) {
+    window.__TRES__DEVTOOLS__ = new DevtoolsMessenger()
+  }
 
   const performanceState: PerformanceState = {
     maxFrames: 160,
@@ -82,10 +88,8 @@ export function setupTresDevtools(ctx: TresContext) {
 
     // Check if the accumulated time is greater than or equal to the interval
     if (accumulatedTime >= interval) {
-      window.__TRES__DEVTOOLS__.cb({
-        context: ctx,
-        performance: performanceState,
-      })
+      window.__TRES__DEVTOOLS__.send('context', ctx)
+      window.__TRES__DEVTOOLS__.send('performance', performanceState)
 
       // Reset the accumulated time
       accumulatedTime = 0

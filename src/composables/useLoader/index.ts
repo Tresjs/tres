@@ -82,12 +82,26 @@ export function useLoader<T, Shallow extends boolean = false>(
   const initialPath = toValue(path)
   const result = useAsyncState(
     (path?: string) => new Promise((resolve, reject) => {
-      proto.load(path || initialPath || '', (result: T) => {
+      const assetPath = path || initialPath || ''
+
+      proto.load(assetPath, (result: T) => {
+        // Send asset loading complete event to devtools
+        // Send asset loading progress event to devtools
+
         resolve(result as unknown as TresObject)
       }, (event: ProgressEvent<EventTarget>) => {
-        progress.loaded = event.loaded
-        progress.total = event.total
-        progress.percentage = ((progress.loaded / progress.total) * 100)
+        if (typeof window !== 'undefined' && window.__TRES__DEVTOOLS__) {
+          progress.loaded = event.loaded
+          progress.total = event.total
+          progress.percentage = ((progress.loaded / progress.total) * 100)
+          if (progress.loaded) {
+            window.__TRES__DEVTOOLS__.send('asset-load', {
+              url: assetPath,
+              result,
+              size: event.total,
+            })
+          }
+        }
       }, (err: unknown) => {
         reject(err)
       })
