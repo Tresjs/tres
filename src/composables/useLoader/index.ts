@@ -86,21 +86,21 @@ export function useLoader<T, Shallow extends boolean = false>(
 
       proto.load(assetPath, (result: T) => {
         // Send asset loading complete event to devtools
-        // Send asset loading progress event to devtools
-
         resolve(result as unknown as TresObject)
       }, (event: ProgressEvent<EventTarget>) => {
+        progress.loaded = event.loaded
+        progress.total = event.total
+        progress.percentage = ((progress.loaded / progress.total) * 100)
+
+        // Send asset loading progress event to devtools
         if (typeof window !== 'undefined' && window.__TRES__DEVTOOLS__) {
-          progress.loaded = event.loaded
-          progress.total = event.total
-          progress.percentage = ((progress.loaded / progress.total) * 100)
-          if (progress.loaded) {
-            window.__TRES__DEVTOOLS__.send('asset-load', {
-              url: assetPath,
-              result,
-              size: event.total,
-            })
-          }
+          window.__TRES__DEVTOOLS__.send('asset-load', {
+            url: assetPath,
+            type: Loader.name.toLowerCase().replace('loader', ''),
+            progress: progress.percentage,
+            loaded: false,
+            sizeKB: Math.round(event.total / 1024),
+          })
         }
       }, (err: unknown) => {
         reject(err)
