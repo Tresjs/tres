@@ -286,11 +286,6 @@ export function invalidateInstance(instance: TresObject) {
   }
 }
 
-export function noop(fn: string): any {
-  // eslint-disable-next-line ts/no-unused-expressions
-  fn
-}
-
 export function setPixelRatio(renderer: { setPixelRatio?: (dpr: number) => void, getPixelRatio?: () => number }, systemDpr: number, userDpr?: number | [number, number]) {
   // NOTE: Optional `setPixelRatio` allows this function to accept
   // THREE renderers like SVGRenderer.

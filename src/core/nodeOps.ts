@@ -2,7 +2,7 @@ import type { TresContext } from '../composables'
 import type { DisposeType, LocalState, TresInstance, TresObject, TresObject3D, TresPrimitive, WithMathProps } from '../types'
 import { BufferAttribute, Object3D } from 'three'
 import { isRef, type RendererOptions } from 'vue'
-import { attach, doRemoveDeregister, doRemoveDetach, invalidateInstance, noop, prepareTresInstance, resolve, setPrimitiveObject, unboxTresPrimitive } from '../utils'
+import { attach, doRemoveDeregister, doRemoveDetach, invalidateInstance, prepareTresInstance, resolve, setPrimitiveObject, unboxTresPrimitive } from '../utils'
 import { logError } from '../utils/logger'
 import { isClassInstance, isColor, isColorRepresentation, isCopyable, isEqual, isFunction, isHTMLTag, isLayers, isObject, isObject3D, isScene, isTresCamera, isTresInstance, isUndefined, isVectorLike } from '../utils/is'
 import { camel } from '../utils/string'
@@ -399,20 +399,22 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
     return siblings[index + 1]
   }
 
+  const noop = (): any => {}
+
   return {
     insert,
     remove,
     createElement,
     patchProp,
     parentNode,
-    createText: () => noop('createText'),
+    createText: noop,
     createComment,
-    setText: () => noop('setText'),
-    setElementText: () => noop('setElementText'),
+    setText: noop,
+    setElementText: noop,
     nextSibling,
-    querySelector: () => noop('querySelector'),
-    setScopeId: () => noop('setScopeId'),
-    cloneNode: () => noop('cloneNode'),
-    insertStaticContent: () => noop('insertStaticContent'),
+    querySelector: noop,
+    setScopeId: noop,
+    cloneNode: noop,
+    insertStaticContent: noop,
   }
 }
