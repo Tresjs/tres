@@ -1,4 +1,4 @@
-import type { Mesh } from 'three'
+import type { Mesh, Scene } from 'three'
 import { Color } from 'three'
 import type { TresObject } from '../types'
 import { bytesToKB, calculateMemoryUsage } from '../utils/perf'
@@ -7,7 +7,8 @@ import type { SceneGraphObject } from './types'
 import { isRef } from 'vue'
 import type { TresContext } from '../composables/useTresContextProvider'
 import { INSPECTOR_ID } from './plugin'
-import { createHighlightMesh, editSceneObject } from '../utils'
+import { createHighlightMesh } from '../utils'
+import { getObjectByUuid } from '../utils/three'
 
 /**
  * Creates a node representation of a Three.js object for the inspector tree
@@ -363,6 +364,36 @@ export const inspectorStateHandler = (tres: TresContext, { highlightMesh, prevIn
         }
       }
     }
+  }
+}
+
+const editSceneObject = (scene: Scene, objectUuid: string, propertyPath: string[], value: any) => {
+  // Find the target object
+  const targetObject = getObjectByUuid(scene, objectUuid)
+  if (!targetObject) {
+    console.warn('Object with UUID not found in the scene.')
+    return
+  }
+
+  // Traverse the property path to get to the desired property
+  let currentProperty: any = targetObject
+  for (let i = 0; i < propertyPath.length - 1; i++) {
+    if (currentProperty[propertyPath[i]] !== undefined) {
+      currentProperty = currentProperty[propertyPath[i]]
+    }
+    else {
+      console.warn(`Property path is not valid: ${propertyPath.join('.')}`)
+      return
+    }
+  }
+
+  // Set the new value
+  const lastProperty = propertyPath[propertyPath.length - 1]
+  if (currentProperty[lastProperty] !== undefined) {
+    currentProperty[lastProperty] = value
+  }
+  else {
+    console.warn(`Property path is not valid: ${propertyPath.join('.')}`)
   }
 }
 

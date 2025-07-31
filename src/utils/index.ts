@@ -8,52 +8,6 @@ import { isString, isTresCamera, isTresPrimitive, isUndefined } from './is'
 
 export * from './logger'
 
-export function editSceneObject(scene: Scene, objectUuid: string, propertyPath: string[], value: any): void {
-  // Function to recursively find the object by UUID
-  const findObjectByUuid = (node: Object3D): Object3D | undefined => {
-    if (node.uuid === objectUuid) {
-      return node
-    }
-
-    for (const child of node.children) {
-      const found = findObjectByUuid(child)
-      if (found) {
-        return found
-      }
-    }
-
-    return undefined
-  }
-
-  // Find the target object
-  const targetObject = findObjectByUuid(scene)
-  if (!targetObject) {
-    console.warn('Object with UUID not found in the scene.')
-    return
-  }
-
-  // Traverse the property path to get to the desired property
-  let currentProperty: any = targetObject
-  for (let i = 0; i < propertyPath.length - 1; i++) {
-    if (currentProperty[propertyPath[i]] !== undefined) {
-      currentProperty = currentProperty[propertyPath[i]]
-    }
-    else {
-      console.warn(`Property path is not valid: ${propertyPath.join('.')}`)
-      return
-    }
-  }
-
-  // Set the new value
-  const lastProperty = propertyPath[propertyPath.length - 1]
-  if (currentProperty[lastProperty] !== undefined) {
-    currentProperty[lastProperty] = value
-  }
-  else {
-    console.warn(`Property path is not valid: ${propertyPath.join('.')}`)
-  }
-}
-
 export function createHighlightMaterial(): MeshBasicMaterial {
   return new MeshBasicMaterial({
     color: 0xA7E6D7, // Highlight color, e.g., yellow
