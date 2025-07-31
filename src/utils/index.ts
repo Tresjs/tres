@@ -1,62 +1,11 @@
 import type { nodeOps } from 'src/core/nodeOps'
 import type { AttachType, LocalState, TresInstance, TresObject, TresPrimitive } from 'src/types'
-import type { Material, Mesh, Object3D, Texture } from 'three'
+import type { Material, Mesh, Texture } from 'three'
 import type { TresContext } from '../composables/useTresContextProvider'
-import { DoubleSide, MeshBasicMaterial, Scene, Vector3 } from 'three'
-import { HightlightMesh } from '../devtools/highlight'
+import { Scene, Vector3 } from 'three'
 import { isString, isTresCamera, isTresPrimitive, isUndefined } from './is'
 
 export * from './logger'
-
-export function createHighlightMaterial(): MeshBasicMaterial {
-  return new MeshBasicMaterial({
-    color: 0xA7E6D7, // Highlight color, e.g., yellow
-    transparent: true,
-    opacity: 0.2,
-    depthTest: false, // So the highlight is always visible
-    side: DoubleSide, // To ensure the highlight is visible from all angles
-  })
-}
-let animationFrameId: number | null = null
-export function animateHighlight(highlightMesh: Mesh, startTime: number): void {
-  const currentTime = Date.now()
-  const time = (currentTime - startTime) / 1000 // convert to seconds
-
-  // Pulsing effect parameters
-  const scaleAmplitude = 0.07 // Amplitude of the scale pulsation
-  const pulseSpeed = 2.5 // Speed of the pulsation
-
-  // Calculate the scale factor with a sine function for pulsing effect
-  const scaleFactor = 1 + scaleAmplitude * Math.sin(pulseSpeed * time)
-
-  // Apply the scale factor
-  highlightMesh.scale.set(scaleFactor, scaleFactor, scaleFactor)
-
-  // Update the animation frame ID
-  animationFrameId = requestAnimationFrame(() => animateHighlight(highlightMesh, startTime))
-}
-
-export function stopHighlightAnimation(): void {
-  if (animationFrameId !== null) {
-    cancelAnimationFrame(animationFrameId)
-    animationFrameId = null
-  }
-}
-
-export function createHighlightMesh(object: TresObject): Mesh {
-  const highlightMaterial = new MeshBasicMaterial({
-    color: 0xA7E6D7, // Highlight color, e.g., yellow
-    transparent: true,
-    opacity: 0.2,
-    depthTest: false, // So the highlight is always visible
-    side: DoubleSide, // To e
-  })
-  // Clone the geometry of the object. You might need a more complex approach
-  // if the object's geometry is not straightforward.
-  const highlightMesh = new HightlightMesh(object.geometry.clone(), highlightMaterial)
-
-  return highlightMesh
-}
 
 export function extractBindingPosition(binding: any): Vector3 {
   let observer = binding.value
