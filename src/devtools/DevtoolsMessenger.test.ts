@@ -8,12 +8,14 @@ describe('devtoolsMessenger', () => {
     messenger = new DevtoolsMessenger()
   })
 
-  it('should queue messages when no subscribers are available', () => {
-    // Send messages without any subscribers
+  it('should queue only queueable messages when no subscribers are available', () => {
+    // Send different types of messages without any subscribers
     messenger.send('asset-load', { url: 'test.gltf', progress: 50 })
+    messenger.send('performance', { fps: 60 })
+    messenger.send('context', { scene: {} })
     messenger.send('asset-load', { url: 'test.gltf', progress: 100 })
 
-    // Messages should be queued
+    // Only asset-load messages should be queued
     expect(messenger.queueSize).toBe(2)
     expect(messenger.hasSubscribers).toBe(false)
   })
@@ -65,6 +67,18 @@ describe('devtoolsMessenger', () => {
 
     // Should only keep the last 100 messages
     expect(messenger.queueSize).toBe(100)
+    expect(messenger.hasSubscribers).toBe(false)
+  })
+
+  it('should not queue performance and context messages', () => {
+    // Send performance and context messages without subscribers
+    messenger.send('performance', { fps: 60 })
+    messenger.send('context', { scene: {} })
+    messenger.send('performance', { fps: 55 })
+    messenger.send('context', { scene: {} })
+
+    // These should not be queued
+    expect(messenger.queueSize).toBe(0)
     expect(messenger.hasSubscribers).toBe(false)
   })
 

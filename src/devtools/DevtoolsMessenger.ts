@@ -1,5 +1,8 @@
 export type DevtoolsMessageType = 'performance' | 'context' | 'asset-load'
 
+// Message types that should be queued when no subscribers are available
+const QUEUEABLE_MESSAGE_TYPES: DevtoolsMessageType[] = ['asset-load']
+
 export interface DevtoolsMessage<T = any> {
   type: DevtoolsMessageType
   data: T
@@ -19,7 +22,7 @@ export class DevtoolsMessenger {
 
   /**
    * Send a message to devtools subscribers
-   * If no subscribers are available, the message is queued
+   * If no subscribers are available, only queueable message types are queued
    */
   send<T>(type: DevtoolsMessageType, data: T): void {
     const message: DevtoolsMessage<T> = {
@@ -33,8 +36,11 @@ export class DevtoolsMessenger {
       this.subscribers.forEach(subscriber => subscriber(message))
     }
     else {
-      // Otherwise, queue the message
-      this.queueMessage(message)
+      // Only queue specific message types (like asset-load)
+      // Performance and context messages are dropped when no subscribers
+      if (QUEUEABLE_MESSAGE_TYPES.includes(type)) {
+        this.queueMessage(message)
+      }
     }
   }
 
@@ -70,7 +76,7 @@ export class DevtoolsMessenger {
 
   /**
    * Subscribe to devtools messages
-   * When a new subscriber is added, all queued messages are immediately delivered
+   * When a new subscriber is added, all queued messages (asset-load events) are immediately delivered
    */
   subscribe(subscriber: DevtoolsSubscriber): () => void {
     this.subscribers.add(subscriber)
