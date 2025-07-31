@@ -78,7 +78,6 @@
     "vue": ">=3.4"
   },
   "dependencies": {
-    "@alvarosabu/utils": "^3.2.0",
     "@pmndrs/pointer-events": "^6.6.17",
     "@vue/devtools-api": "^7.7.2",
     "@vueuse/core": "^12.5.0",
