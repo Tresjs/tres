@@ -75,6 +75,8 @@ export function useLoader<T, Shallow extends boolean = false>(
     total: 0,
     percentage: 0,
   })
+  // Track the total size for the completion event
+  let totalSize = 0
   if (options?.extensions) {
     options.extensions(proto)
   }
@@ -92,13 +94,15 @@ export function useLoader<T, Shallow extends boolean = false>(
             url: assetPath,
             type: Loader.name.toLowerCase().replace('loader', ''),
             loaded: true,
-            sizeKB: Math.round(progress.total / 1024), // Use the total from progress tracking
+            sizeKB: Math.round(totalSize / 1024), // Use tracked total size
+            asset: result, // Send the actual loaded asset
           })
         }
         resolve(result as unknown as TresObject)
       }, (event: ProgressEvent<EventTarget>) => {
         progress.loaded = event.loaded
         progress.total = event.total
+        totalSize = event.total // Track total size for completion event
         progress.percentage = ((progress.loaded / progress.total) * 100)
       }, (err: unknown) => {
         reject(err)
