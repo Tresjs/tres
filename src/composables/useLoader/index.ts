@@ -94,7 +94,7 @@ export function useLoader<T, Shallow extends boolean = false>(
             url: assetPath,
             type: Loader.name.toLowerCase().replace('loader', ''),
             loaded: true,
-            sizeKB: Math.round(totalSize / 1024), // Use tracked total size
+            size: totalSize, // Use tracked total size
             asset: result, // Send the actual loaded asset
           })
         }
