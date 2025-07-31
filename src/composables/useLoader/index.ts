@@ -6,6 +6,7 @@ import { onUnmounted, reactive, toValue, watch } from 'vue'
 
 import type { TresObject } from '../../types'
 import { disposeObject3D } from '../../utils/'
+import type { AssetLoadData } from '../../devtools'
 
 export interface LoaderMethods {
   setDRACOLoader: (dracoLoader: any) => void
@@ -90,9 +91,9 @@ export function useLoader<T, Shallow extends boolean = false>(
         // Send asset loading complete event to devtools
         // Messages are queued if no subscribers are available
         if (typeof window !== 'undefined' && window.__TRES__DEVTOOLS__) {
-          window.__TRES__DEVTOOLS__.send('asset-load', {
+          window.__TRES__DEVTOOLS__.send<AssetLoadData>('asset-load', {
             url: assetPath,
-            type: Loader.name.toLowerCase().replace('loader', ''),
+            loader: Loader, // Send the actual loader constructor
             loaded: true,
             size: totalSize, // Use tracked total size
             asset: result, // Send the actual loaded asset

@@ -1,5 +1,13 @@
 export type DevtoolsMessageType = 'performance' | 'context' | 'asset-load'
 
+export interface AssetLoadData {
+  url: string
+  type: string
+  loaded: boolean
+  size: number
+  asset: any
+}
+
 // Message types that should be queued when no subscribers are available
 const QUEUEABLE_MESSAGE_TYPES: DevtoolsMessageType[] = ['asset-load']
 
