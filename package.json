@@ -20,11 +20,6 @@
   "sideEffects": false,
   "exports": {
     ".": {
-      "development": {
-        "types": "./src/index.ts",
-        "import": "./src/index.ts",
-        "default": "./src/index.ts"
-      },
       "types": "./dist/index.d.ts",
       "import": "./dist/tres.js",
       "require": "./dist/tres.js",
