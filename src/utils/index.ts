@@ -2,9 +2,9 @@ import type { nodeOps } from 'src/core/nodeOps'
 import type { AttachType, LocalState, TresInstance, TresObject, TresPrimitive } from 'src/types'
 import type { Material, Mesh, Object3D, Texture } from 'three'
 import type { TresContext } from '../composables/useTresContextProvider'
-import { DoubleSide, MathUtils, MeshBasicMaterial, Scene, Vector3 } from 'three'
+import { DoubleSide, MeshBasicMaterial, Scene, Vector3 } from 'three'
 import { HightlightMesh } from '../devtools/highlight'
-import { isFunction, isNumber, isString, isTresCamera, isTresPrimitive, isUndefined } from './is'
+import { isString, isTresCamera, isTresPrimitive, isUndefined } from './is'
 
 export * from './logger'
 
@@ -197,10 +197,10 @@ function joinAsCamelCase(...strings: string[]): string {
   return strings.map((s, i) => i === 0 ? s : s.charAt(0).toUpperCase() + s.slice(1)).join('')
 }
 
-// Checks if a dash-cased string ends with an integer
-const INDEX_REGEX = /-\d+$/
-
 export function attach(parent: TresInstance, child: TresInstance, type: AttachType) {
+  // Checks if a dash-cased string ends with an integer
+  const INDEX_REGEX = /-\d+$/
+
   if (isString(type)) {
     // NOTE: If attaching into an array (foo-0), create one
     if (INDEX_REGEX.test(type)) {
@@ -284,26 +284,6 @@ export function invalidateInstance(instance: TresObject) {
   if (ctx.renderer.canBeInvalidated.value) {
     ctx.renderer.invalidate()
   }
-}
-
-export function setPixelRatio(renderer: { setPixelRatio?: (dpr: number) => void, getPixelRatio?: () => number }, systemDpr: number, userDpr?: number | [number, number]) {
-  // NOTE: Optional `setPixelRatio` allows this function to accept
-  // THREE renderers like SVGRenderer.
-  if (!isFunction(renderer.setPixelRatio)) { return }
-
-  let newDpr = 0
-
-  if (userDpr && Array.isArray(userDpr) && userDpr.length >= 2) {
-    const [min, max] = userDpr
-    newDpr = MathUtils.clamp(systemDpr, min, max)
-  }
-  else if (isNumber(userDpr)) { newDpr = userDpr }
-  else { newDpr = systemDpr }
-
-  // NOTE: Don't call `setPixelRatio` unless both:
-  // - the dpr value has changed
-  // - the renderer has `setPixelRatio`; this check allows us to pass any THREE renderer
-  if (newDpr !== renderer.getPixelRatio?.()) { renderer.setPixelRatio(newDpr) }
 }
 
 export function setPrimitiveObject(
