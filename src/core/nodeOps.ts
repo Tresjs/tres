@@ -2,9 +2,10 @@ import type { TresContext } from '../composables'
 import type { DisposeType, LocalState, TresInstance, TresObject, TresObject3D, TresPrimitive, WithMathProps } from '../types'
 import { BufferAttribute, Object3D } from 'three'
 import { isRef, type RendererOptions } from 'vue'
-import { attach, doRemoveDeregister, doRemoveDetach, invalidateInstance, kebabToCamel, noop, prepareTresInstance, resolve, setPrimitiveObject, unboxTresPrimitive } from '../utils'
+import { attach, doRemoveDeregister, doRemoveDetach, invalidateInstance, noop, prepareTresInstance, resolve, setPrimitiveObject, unboxTresPrimitive } from '../utils'
 import { logError } from '../utils/logger'
 import { isClassInstance, isColor, isColorRepresentation, isCopyable, isEqual, isFunction, isHTMLTag, isLayers, isObject, isObject3D, isScene, isTresCamera, isTresInstance, isUndefined, isVectorLike } from '../utils/is'
+import { camel } from '../utils/string'
 import { createRetargetingProxy } from '../utils/primitive/createRetargetingProxy'
 import { catalogue } from './catalogue'
 import { isSupportedPointerEvent, pointerEventsMapVueToThree } from '../utils/pointerEvents'
@@ -243,7 +244,7 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
     if (isSupportedPointerEvent(prop) && isFunction(nextValue)) {
       node.addEventListener(pointerEventsMapVueToThree[prop], nextValue)
     }
-    let finalKey = kebabToCamel(key)
+    let finalKey = camel(key)
     let target = root?.[finalKey] as Record<string, unknown>
 
     if (key === 'args') {
@@ -289,7 +290,7 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
     if (root.type === 'BufferGeometry') {
       if (key === 'args') { return }
       (root as TresObject).setAttribute(
-        kebabToCamel(key),
+        camel(key),
         new BufferAttribute(...(nextValue as ConstructorParameters<typeof BufferAttribute>)),
       )
       return

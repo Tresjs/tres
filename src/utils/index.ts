@@ -8,38 +8,6 @@ import { isFunction, isNumber, isString, isTresCamera, isTresPrimitive, isUndefi
 
 export * from './logger'
 
-export function kebabToCamel(str: string) {
-  return str.replace(/-([a-z])/g, (_, c) => c.toUpperCase())
-}
-
-export const get = <T>(obj: any, path: string | string[]): T | undefined => {
-  if (!path) {
-    return undefined
-  }
-
-  // Regex explained: https://regexr.com/58j0k
-  const pathArray = Array.isArray(path) ? path : path.match(/([^[.\]])+/g)
-
-  return pathArray?.reduce((prevObj, key) => prevObj && prevObj[key], obj)
-}
-
-export const set = (obj: any, path: string | string[], value: any): void => {
-  // Regex explained: https://regexr.com/58j0k
-  const pathArray = Array.isArray(path) ? path : path.match(/([^[.\]])+/g)
-
-  if (pathArray) {
-    pathArray.reduce((acc, key, i) => {
-      if (acc[key] === undefined) {
-        acc[key] = {}
-      }
-      if (i === pathArray.length - 1) {
-        acc[key] = value
-      }
-      return acc[key]
-    }, obj)
-  }
-}
-
 export function editSceneObject(scene: Scene, objectUuid: string, propertyPath: string[], value: any): void {
   // Function to recursively find the object by UUID
   const findObjectByUuid = (node: Object3D): Object3D | undefined => {
