@@ -1,4 +1,4 @@
-import { isObject } from './primitives'
+import { isObject } from './typed'
 
 export const createTypeGuard = <T>(property: keyof T) =>
   (value: unknown): value is T =>

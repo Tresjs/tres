@@ -1,4 +1,4 @@
 export * from './dom'
-export * from './primitives'
+export * from './typed'
 export * from './three'
 export * from './tres'
