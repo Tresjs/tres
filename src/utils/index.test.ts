@@ -1,4 +1,5 @@
 import * as utils from './index'
+import { shuffle } from 'radashi'
 
 describe('filterInPlace', () => {
   it('returns the passed array', () => {
@@ -47,19 +48,6 @@ describe('filterInPlace', () => {
     expect(arr).toStrictEqual('acegi'.split(''))
   })
 })
-
-function shuffle(array: any[]) {
-  let currentIndex = array.length
-  while (currentIndex !== 0) {
-    const randomIndex = Math.floor(Math.random() * currentIndex)
-    currentIndex--;
-    [array[currentIndex], array[randomIndex]] = [
-      array[randomIndex],
-      array[currentIndex],
-    ]
-  }
-  return array
-};
 
 describe('resolve', () => {
   it('returns the first argument if it contains the key', () => {
