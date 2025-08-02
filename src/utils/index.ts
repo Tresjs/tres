@@ -10,7 +10,7 @@ export * from './logger'
 
 export function disposeMaterial(material: Material): void {
   const hasMap = (material: Material): material is Material & { map: Texture } =>
-    'map' in material
+    'map' in material && !!material.map
 
   if (hasMap(material)) {
     material.map.dispose()
