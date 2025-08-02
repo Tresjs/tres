@@ -2,20 +2,11 @@ import type { nodeOps } from 'src/core/nodeOps'
 import type { AttachType, LocalState, TresInstance, TresObject, TresPrimitive } from 'src/types'
 import type { Material, Mesh, Texture } from 'three'
 import type { TresContext } from '../composables/useTresContextProvider'
-import { Scene, Vector3 } from 'three'
+import { Scene } from 'three'
 import { isString, isTresCamera, isTresPrimitive, isUndefined } from './is'
 import { filterInPlace } from './array'
 
 export * from './logger'
-
-export function extractBindingPosition(binding: any): Vector3 {
-  let observer = binding.value
-  if (binding.value && binding.value?.isMesh) {
-    observer = binding.value.position
-  }
-  if (Array.isArray(binding.value)) { observer = new Vector3(...observer) }
-  return observer
-}
 
 function hasMap(material: Material): material is Material & { map: Texture | null } {
   return 'map' in material
