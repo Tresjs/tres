@@ -1,7 +1,11 @@
 import { isFunction, isNumber } from '../../utils/is'
 import { MathUtils } from 'three'
 
-export function setPixelRatio(renderer: { setPixelRatio?: (dpr: number) => void, getPixelRatio?: () => number }, systemDpr: number, userDpr?: number | [number, number]) {
+export const setPixelRatio = (
+  renderer: { setPixelRatio?: (dpr: number) => void, getPixelRatio?: () => number },
+  systemDpr: number,
+  userDpr?: number | [number, number],
+) => {
   // NOTE: Optional `setPixelRatio` allows this function to accept
   // THREE renderers like SVGRenderer.
   if (!isFunction(renderer.setPixelRatio)) { return }
