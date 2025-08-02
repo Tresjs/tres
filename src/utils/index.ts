@@ -4,6 +4,7 @@ import type { Material, Mesh, Texture } from 'three'
 import type { TresContext } from '../composables/useTresContextProvider'
 import { Scene, Vector3 } from 'three'
 import { isString, isTresCamera, isTresPrimitive, isUndefined } from './is'
+import { filterInPlace } from './array'
 
 export * from './logger'
 
@@ -56,23 +57,6 @@ export function disposeObject3D(object: TresObject): void {
       disposeMaterial(mesh.material)
     }
   }
-}
-
-/**
- * Like Array.filter, but modifies the array in place.
- * @param array - Array to modify
- * @param callbackFn - A function called for each element of the array. It should return a truthy value to keep the element in the array.
- */
-export function filterInPlace<T>(array: T[], callbackFn: (element: T, index: number) => unknown) {
-  let i = 0
-  for (let ii = 0; ii < array.length; ii++) {
-    if (callbackFn(array[ii], ii)) {
-      array[i] = array[ii]
-      i++
-    }
-  }
-  array.length = i
-  return array
 }
 
 export function resolve(obj: Record<string, any>, key: string) {
