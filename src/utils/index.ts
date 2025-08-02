@@ -3,7 +3,7 @@ import type { AttachType, LocalState, TresInstance, TresObject, TresPrimitive } 
 import type { Material, Mesh, Texture } from 'three'
 import type { TresContext } from '../composables/useTresContextProvider'
 import { Scene } from 'three'
-import { isString, isTresCamera, isTresPrimitive, isUndefined } from './is'
+import { isBufferGeometry, isFog, isMaterial, isString, isTresCamera, isTresPrimitive, isUndefined } from './is'
 import { filterInPlace } from './array'
 
 export * from './logger'
@@ -145,9 +145,9 @@ export function prepareTresInstance<T extends TresObject>(obj: T, state: Partial
   }
 
   if (!instance.__tres.attach) {
-    if (instance.isMaterial) { instance.__tres.attach = 'material' }
-    else if (instance.isBufferGeometry) { instance.__tres.attach = 'geometry' }
-    else if (instance.isFog) { instance.__tres.attach = 'fog' }
+    if (isMaterial(instance)) { instance.__tres.attach = 'material' }
+    else if (isBufferGeometry(instance)) { instance.__tres.attach = 'geometry' }
+    else if (isFog(instance)) { instance.__tres.attach = 'fog' }
   }
 
   return instance

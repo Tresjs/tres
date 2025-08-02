@@ -2,7 +2,7 @@ import type { Mesh, Scene } from 'three'
 import { Color, DoubleSide, MeshBasicMaterial } from 'three'
 import type { TresObject } from '../types'
 import { bytesToKB, calculateMemoryUsage } from '../utils/perf'
-import { isLight } from '../utils/is'
+import { isLight, isMesh, isScene } from '../utils/is'
 import type { SceneGraphObject } from './types'
 import { isRef } from 'vue'
 import type { TresContext } from '../composables/useTresContextProvider'
@@ -259,7 +259,7 @@ export const inspectorStateHandler = (tres: TresContext, { highlightMesh, prevIn
       prevInstance.remove(highlightMesh)
     }
 
-    if (instance.isMesh) {
+    if (isMesh(instance)) {
       const newHighlightMesh = new HightlightMesh(instance.geometry.clone(), highlightMaterial)
       instance.add(newHighlightMesh)
 
@@ -280,7 +280,7 @@ export const inspectorStateHandler = (tres: TresContext, { highlightMesh, prevIn
         }),
     }
 
-    if (instance.isScene) {
+    if (isScene(instance)) {
       const sceneState = {
         ...payload.state,
         state: [

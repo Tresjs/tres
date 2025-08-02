@@ -3,19 +3,16 @@ import { isBufferGeometry, isCamera, isFog, isMaterial, isObject3D, isOrthograph
 import { createTypeGuard } from './util'
 
 interface VectorLike { set: (...args: any[]) => void, constructor?: (...args: any[]) => any }
-export function isVectorLike(value: unknown): value is VectorLike {
-  return value !== null && typeof value === 'object' && 'set' in value && typeof value.set === 'function'
-}
+export const isVectorLike = (value: unknown): value is VectorLike =>
+  value !== null && typeof value === 'object' && 'set' in value && typeof value.set === 'function'
 
 interface Copyable { copy: (...args: any[]) => void, constructor?: (...args: any[]) => any }
-export function isCopyable(value: unknown): value is Copyable {
-  return isVectorLike(value) && 'copy' in value && typeof value.copy === 'function'
-}
+export const isCopyable = (value: unknown): value is Copyable =>
+  isVectorLike(value) && 'copy' in value && typeof value.copy === 'function'
 
 interface ClassInstance { constructor?: (...args: any[]) => any }
-export function isClassInstance(object: unknown): object is ClassInstance {
-  return !!(object)?.constructor
-}
+export const isClassInstance = (object: unknown): object is ClassInstance =>
+  !!(object)?.constructor
 
 /**
  * Type guard to check if a value is a TresCamera
@@ -40,11 +37,10 @@ export const isTresCamera = (value: unknown): value is TresCamera => isCamera(va
  * TresObject is a union type that represents the core Three.js objects that can be used in TresJS.
  * This includes Object3D, BufferGeometry, Material, and Fog instances.
  */
-export function isTresObject(value: unknown): value is TresObject {
+export const isTresObject = (value: unknown): value is TresObject =>
   // NOTE: TresObject is currently defined as
   // TresObject3D | THREE.BufferGeometry | THREE.Material | THREE.Fog
-  return isObject3D(value) || isBufferGeometry(value) || isMaterial(value) || isFog(value)
-}
+  isObject3D(value) || isBufferGeometry(value) || isMaterial(value) || isFog(value)
 
 /**
  * Type guard to check if a value is a TresPrimitive
@@ -77,6 +73,5 @@ export const isTresPrimitive = createTypeGuard<TresPrimitive>('isPrimitive')
  * }
  * ```
  */
-export function isTresInstance(value: unknown): value is TresInstance {
-  return isTresObject(value) && '__tres' in value
-}
+export const isTresInstance = (value: unknown): value is TresInstance =>
+  isTresObject(value) && '__tres' in value
