@@ -8,7 +8,7 @@ let arrowHelper: ArrowHelper | null = null
 
 export const vDistanceTo = {
   updated: (el: TresObject, binding: Ref<TresObject>) => {
-    const extractBindingPosition = (binding: any): Vector3 => { // TODO check back with alvaro why binding is of type any
+    const extractBindingPosition = (binding: any): Vector3 => {
       let observer = binding.value
       if (binding.value && isMesh(binding.value)) {
         observer = binding.value.position
