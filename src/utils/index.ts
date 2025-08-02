@@ -8,12 +8,11 @@ import { filterInPlace } from './array'
 
 export * from './logger'
 
-function hasMap(material: Material): material is Material & { map: Texture | null } {
-  return 'map' in material
-}
-
 export function disposeMaterial(material: Material): void {
-  if (hasMap(material) && material.map) {
+  const hasMap = (material: Material): material is Material & { map: Texture } =>
+    'map' in material
+
+  if (hasMap(material)) {
     material.map.dispose()
   }
 
@@ -270,5 +269,5 @@ export function doRemoveDeregister(node: TresObject, context: TresContext) {
   if (isTresCamera(node)) {
     context.camera.deregisterCamera(node)
   }
-  invalidateInstance(node as TresObject)
+  invalidateInstance(node)
 }
