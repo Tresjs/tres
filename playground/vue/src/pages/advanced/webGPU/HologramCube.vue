@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { isMesh } from '@tresjs/core'
 import { useGLTF } from '@tresjs/cientos'
 import { add, cameraProjectionMatrix, cameraViewMatrix, color, Fn, hash, mix, normalView, positionWorld, sin, timerGlobal, uniform, varying, vec3, vec4 } from 'three/tsl'
 import { AdditiveBlending, DoubleSide, MeshBasicNodeMaterial } from 'three/webgpu'
@@ -46,7 +47,7 @@ material.colorNode = Fn(() => {
 
 watch(model, (newModel) => {
   newModel.traverse((child) => {
-    if (child.isMesh) {
+    if (isMesh(child)) {
       child.material = material
     }
   })
