@@ -1,4 +1,4 @@
-import type { BufferGeometry, Camera, Color, ColorRepresentation, Fog, Light, Material, Mesh, Object3D, OrthographicCamera, PerspectiveCamera, Scene } from 'three'
+import type { BufferGeometry, Camera, Color, ColorRepresentation, Fog, Group, Light, Material, Mesh, Object3D, OrthographicCamera, PerspectiveCamera, Scene } from 'three'
 import { Layers } from 'three'
 import { isNumber, isString } from './typed'
 import { createTypeGuard } from './util'
@@ -153,6 +153,7 @@ export const isLight = createTypeGuard<Light>('isLight')
  * ```
  */
 export const isFog = createTypeGuard<Fog>('isFog')
+
 /**
  * Type guard to check if a value is a Three.js Scene
  * @param value - The value to check
@@ -169,3 +170,11 @@ export const isFog = createTypeGuard<Fog>('isFog')
  * ```
  */
 export const isScene = createTypeGuard<Scene>('isScene')
+
+/**
+ * Type guard to check if a value is a Three.js Group
+ * @param value - The value to check
+ * @returns True if the value is a Three.js Group instance, false otherwise
+ * ```
+ */
+export const isGroup = createTypeGuard<Group>('isGroup')
