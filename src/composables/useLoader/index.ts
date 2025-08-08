@@ -1,6 +1,6 @@
 import type { Loader, LoadingManager, Object3D } from 'three'
 import type { TresObject } from '../../types'
-import { useLogger } from '..'
+import { useLogger, useTresContext } from '..'
 
 export interface TresLoader<T> extends Loader {
   load: (
@@ -73,6 +73,8 @@ export async function useLoader<T>(
   cb?: (proto: TresLoader<T>) => void,
 ): Promise<T | T[]> {
   const { logError } = useLogger()
+  const { invalidate } = useTresContext()
+
   const proto = new Loader()
   if (cb) {
     cb(proto)
@@ -89,6 +91,7 @@ export async function useLoader<T>(
         if (data.scene) {
           Object.assign(data, traverseObjects(data.scene))
         }
+        invalidate()
         resolve(data as T | T[])
       },
       onProgress,
