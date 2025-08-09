@@ -88,6 +88,7 @@ const version = useRuntimeConfig().public.pkgVersion
         <UButton
           v-for="(link, index) of header.links"
           :key="index"
+          class="hidden md:flex"
           v-bind="{ color: 'neutral', variant: 'ghost', ...link }"
         />
       </template>
