@@ -13,9 +13,6 @@ importers:
 
   .:
     dependencies:
-      '@alvarosabu/utils':
-        specifier: ^3.2.0
-        version: 3.2.0
       '@pmndrs/pointer-events':
         specifier: ^6.6.17
         version: 6.6.20
@@ -25,6 +22,9 @@ importers:
       '@vueuse/core':
         specifier: ^12.5.0
         version: 12.8.2(typescript@5.9.2)
+      radashi:
+        specifier: ^12.6.0
+        version: 12.6.0
     devDependencies:
       '@release-it/conventional-changelog':
         specifier: ^10.0.0
@@ -7034,6 +7034,10 @@ packages:
 
   quote-unquote@1.0.0:
     resolution: {integrity: sha512-twwRO/ilhlG/FIgYeKGFqyHhoEhqgnKVkcmqMKi2r524gz3ZbDTcyFt38E9xjJI2vT+KbRNHVbnJ/e0I25Azwg==}
+
+  radashi@12.6.0:
+    resolution: {integrity: sha512-nJcpgS3La+yRlxm4bLjCcjsi1G5VeOycSo8nt5BzSEDWqSY0XNAUAwckvCa8uMHXtZqCK8fntJPXPlLve+vKhA==}
+    engines: {node: '>=16.0.0'}
 
   radix3@1.1.2:
     resolution: {integrity: sha512-b484I/7b8rDEdSDKckSSBA8knMpcdsXudlE/LNL639wFoHKwLbEkQFZHWEYwDC0wa0FKUcCY+GAF73Z7wxNVFA==}
@@ -16931,6 +16935,8 @@ snapshots:
   queue-microtask@1.2.3: {}
 
   quote-unquote@1.0.0: {}
+
+  radashi@12.6.0: {}
 
   radix3@1.1.2: {}
 

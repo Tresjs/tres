@@ -13,7 +13,7 @@ import { computed, type MaybeRef, onUnmounted, type Reactive, ref, type ShallowR
 import type { Renderer } from 'three/webgpu'
 
 // Solution taken from Thretle that actually support different versions https://github.com/threlte/threlte/blob/5fa541179460f0dadc7dc17ae5e6854d1689379e/packages/core/src/lib/lib/useRenderer.ts
-import { setPixelRatio } from '../../utils'
+import { setPixelRatio } from './pixelRatio'
 
 import { logWarning } from '../../utils/logger'
 import type { SizesType } from '../useSizes'
