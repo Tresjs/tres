@@ -19,7 +19,9 @@ const type = computed(() => {
     v-if="type === 'github-at'"
     :href="href"
     target="_blank"
-  />
+  >
+    <slot></slot>
+  </GithubMagicLink>
   <NuxtLink
     v-else
     class="text-primary border-b border-transparent hover:border-primary font-medium focus-visible:outline-primary [&>code]:border-dashed hover:[&>code]:border-primary hover:[&>code]:text-primary"
