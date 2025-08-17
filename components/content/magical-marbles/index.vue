@@ -106,6 +106,8 @@ const uniforms = reactive({
 })
 
 onMounted(() => {
+  if (!mainRef.value) return
+  
   ctx = gsap.context(() => { }, mainRef.value)
 })
 
@@ -135,6 +137,8 @@ const updateBackground = (immediate = false) => {
   }
   else {
     ctx.add(() => {
+      if(!sphereRef.value) return
+
       tl = gsap.timeline({
         onStart: () => {
           tlInProgress.value = true
@@ -156,14 +160,14 @@ const updateBackground = (immediate = false) => {
           duration: .75,
           ease: 'power1.out',
         }, 'sphereAnimation+=.15')
-        .to(sphereRef.value.value.scale, {
+        .to(sphereRef.value.instance.scale, {
           x: .95,
           y: .95,
           z: .95,
           duration: 0.35,
           ease: 'power1.inOut',
         }, 'sphereAnimation+=.15')
-        .to(sphereRef.value.value.scale, {
+        .to(sphereRef.value.instance.scale, {
           x: 1,
           y: 1,
           z: 1,
@@ -190,24 +194,12 @@ onLoop(({ delta }) => {
 </script>
 
 <template>
-  <div
-    ref="mainRef"
-    class="magical-marbles"
-  >
-    <NuxtLink
-      class="magical-marbles__logo"
-      to="/"
-    >
-      <img
-        src="/lab.svg"
-        alt="TresJS Logo"
-      >
+  <div ref="mainRef" class="magical-marbles">
+    <NuxtLink class="magical-marbles__logo" to="/">
+      <img src="/lab.svg" alt="TresJS Logo">
     </NuxtLink>
 
-    <button
-      class="magical-marbles__cta"
-      @click.stop="onPointerClick"
-    >
+    <button class="magical-marbles__cta" @click.stop="onPointerClick">
       shuffle colors
     </button>
 
@@ -217,54 +209,28 @@ onLoop(({ delta }) => {
       </NuxtLink>
       <p>
         Magical Marbles inspired by the
-        <a
-          target="_blank"
-          href="https://tympanus.net/codrops/2021/08/02/magical-marbles-in-three-js/"
-        >
+        <a target="_blank" href="https://tympanus.net/codrops/2021/08/02/magical-marbles-in-three-js/">
           Codrops tutorial
         </a>
       </p>
     </div>
 
-    <div
-      ref="backgroundRef"
-      class="magical-marbles__bg"
-    />
+    <div ref="backgroundRef" class="magical-marbles__bg" />
 
     <TresLeches />
 
-    <TresCanvas
-      window-size
-      v-bind="gl"
-    >
-      <TresPerspectiveCamera
-        :position="[0, 0, 4.5]"
-        :fov="45"
-        :near=".1"
-        :far="1000"
-      />
-      <OrbitControls
-        auto-rotate
-        make-default
-      />
+    <TresCanvas window-size v-bind="gl">
+      <TresPerspectiveCamera :position="[0, 0, 4.5]" :fov="45" :near=".1" :far="1000" />
+      <OrbitControls auto-rotate make-default />
 
       <Suspense>
         <Environment preset="hangar" />
       </Suspense>
 
-      <Sphere
-        ref="sphereRef"
-        :args="[1, 64, 32]"
-      >
-        <CustomShaderMaterial
-          :roughness="roughness.value"
-          :metalness="metalness.value"
-          :base-material="MeshStandardMaterial"
-          :vertex-shader="vertex"
-          :fragment-shader="fragment"
-          :uniforms="uniforms"
-          silent
-        />
+      <Sphere ref="sphereRef" :args="[1, 64, 32]">
+        <CustomShaderMaterial :roughness="roughness.value" :metalness="metalness.value"
+          :base-material="MeshStandardMaterial" :vertex-shader="vertex" :fragment-shader="fragment" :uniforms="uniforms"
+          silent />
       </Sphere>
     </TresCanvas>
   </div>
@@ -272,88 +238,88 @@ onLoop(({ delta }) => {
 
 <style scoped>
 .magical-marbles {
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
 }
 
 .magical-marbles__bg {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 0;
-    background-color: #d8bcac;
-    pointer-events: none;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 0;
+  background-color: #d8bcac;
+  pointer-events: none;
 }
 
 .magical-marbles__logo {
-    align-self: flex-start;
-    position: absolute;
-    top: 40px;
-    left: 60px;
-    width: 5%;
-    z-index: 3;
+  align-self: flex-start;
+  position: absolute;
+  top: 40px;
+  left: 60px;
+  width: 5%;
+  z-index: 3;
 }
 
 .magical-marbles__infos {
-    margin-top: auto;
-    position: absolute;
-    bottom: 40px;
-    left: 60px;
-    z-index: 3;
+  margin-top: auto;
+  position: absolute;
+  bottom: 40px;
+  left: 60px;
+  z-index: 3;
 }
 
 .magical-marbles__cta {
-    z-index: 3;
-    background: white;
-    position: absolute;
-    bottom: 40px;
-    right: 60px;
-    padding: 10px 20px;
-    color: black;
-    border-radius: 5px;
-    transition: transform .3s cubic-bezier(0.33, 1, 0.68, 1);
-    will-change: transform;
-    text-transform: uppercase;
-    font-weight: 800;
-    font-size: 0.85vw;
-    transform: scale(1)
+  z-index: 3;
+  background: white;
+  position: absolute;
+  bottom: 40px;
+  right: 60px;
+  padding: 10px 20px;
+  color: black;
+  border-radius: 5px;
+  transition: transform .3s cubic-bezier(0.33, 1, 0.68, 1);
+  will-change: transform;
+  text-transform: uppercase;
+  font-weight: 800;
+  font-size: 0.85vw;
+  transform: scale(1)
 }
 
 .magical-marbles__cta:hover {
-    transform: scale(1.05)
+  transform: scale(1.05)
 }
 
 .magical-marbles p,
 .magical-marbles a {
-    font-family: "Segoe UI", Helvetica, Arial, sans-serif;
+  font-family: "Segoe UI", Helvetica, Arial, sans-serif;
 }
 
 .magical-marbles__infos p {
-    color: #FFF;
+  color: #FFF;
 }
 
 .magical-marbles__infos a {
-    pointer-events: auto;
-    color: #ad836d;
-    transition: color 0.25s;
+  pointer-events: auto;
+  color: #ad836d;
+  transition: color 0.25s;
 }
 
 .magical-marbles__infos a:hover {
-    color: #79573e;
+  color: #79573e;
 }
 
 canvas {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 2;
-    /* pointer-events: none !important; */
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  /* pointer-events: none !important; */
 
 }
 </style>
