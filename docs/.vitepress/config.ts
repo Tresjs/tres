@@ -65,13 +65,14 @@ export default defineConfig({
         items: [
           { text: 'Physics', link: '/components/physics' },
           { text: 'RigidBody', link: '/components/rigid-body' },
-          { text: 'Collider', link: '/components/collider' },
+          { text: 'Custom Collider', link: '/components/custom-collider' },
           { text: 'Joint', link: '/components/joint' },
         ],
       },
       {
         text: 'Composables',
         items: [
+          { text: 'useRapier', link: '/composables/use-rapier' },
         ],
       },
     ],
