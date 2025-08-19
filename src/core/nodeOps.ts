@@ -302,6 +302,16 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
       target = resolved.target
       root = resolved.target
       finalKey = resolved.key
+      // For pierced props with number values, directly assign to avoid vector setScalar behavior
+      // For arrays and other values, let them go through normal vector handling (set/fromArray/copy)
+      if (target && finalKey) {
+        target[finalKey] = nextValue
+        if (isTresCamera(node)) {
+          node.updateProjectionMatrix()
+        }
+        invalidateInstance(node as TresObject)
+        return
+      }
     }
     let value = nextValue
     if (value === '') { value = true }

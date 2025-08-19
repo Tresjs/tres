@@ -59,7 +59,7 @@ const formattedShadowMapType = computed(() => {
   >
     <TresPerspectiveCamera :position="[5, 5, 5]" :look-at="[0, 0, 0]" />
     <OrbitControls />
-    <TresMesh :position="[0, 1, 0]" cast-shadow>
+    <TresMesh cast-shadow :position-x="2">
       <TresBoxGeometry />
       <TresMeshStandardMaterial color="teal" :opacity="0.5" transparent />
     </TresMesh>
@@ -71,6 +71,7 @@ const formattedShadowMapType = computed(() => {
       <TresPlaneGeometry :args="[10, 10, 10, 10]" />
       <TresMeshToonMaterial />
     </TresMesh>
+    <TresAxesHelper />
     <!-- Add lighting to see the edges better -->
     <TresDirectionalLight :position="[1, 1, -1]" cast-shadow :intensity="2" />
     <TresAmbientLight :intensity="1" />
