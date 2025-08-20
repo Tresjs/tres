@@ -302,6 +302,15 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
       target = resolved.target
       root = resolved.target
       finalKey = resolved.key
+
+      if (target && finalKey) {
+        target[finalKey] = nextValue
+        if (isTresCamera(node)) {
+          node.updateProjectionMatrix()
+        }
+        invalidateInstance(node as TresObject)
+        return
+      }
     }
     let value = nextValue
     if (value === '') { value = true }
