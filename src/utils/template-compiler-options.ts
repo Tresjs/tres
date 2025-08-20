@@ -8,7 +8,7 @@ const whitelist = [
 const templateCompilerOptions = {
   template: {
     compilerOptions: {
-      isCustomElement: (tag: string) => ((tag.startsWith('Tres') || tag.startsWith('tres')) && !whitelist.includes(tag)) || tag === 'primitive',
+      isCustomElement: (tag: string) => ((/^Tres[A-Z]/.test(tag) || tag.startsWith('tres-')) && !whitelist.includes(tag)) || tag === 'primitive',
     },
   },
 }
