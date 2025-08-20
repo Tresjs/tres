@@ -137,7 +137,7 @@ describe('nodeOps', () => {
       expect(() => { nodeOps.createElement('TresMeshNormalMaterial', undefined, undefined, null) }).not.toThrow()
     })
 
-    it('creates an instance with given tag using kebab-case notation', async () => {
+    it('creates an instance with given tag using kebab-case notation', () => {
       // Setup
       const tag = 'tres-mesh'
       const props = { args: [] }
@@ -150,7 +150,7 @@ describe('nodeOps', () => {
       expect(instance).toBeInstanceOf(Mesh)
     })
 
-    it('creates an instance with given tag using kebab-case notation and props ', async () => {
+    it('creates an instance with given tag using kebab-case notation and props ', () => {
       // Setup
       const tag = 'tres-torus-geometry'
       const props = { args: [10, 3, 16, 100] }
