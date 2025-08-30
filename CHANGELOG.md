@@ -1,5 +1,11 @@
 # Changelog
 
+## [5.0.0-alpha.1](https://github.com/Tresjs/tres/compare/5.0.0-alpha.0...5.0.0-alpha.1) (2025-08-30)
+
+### Bug Fixes
+
+* removed development exports from package.json ([#1079](https://github.com/Tresjs/tres/issues/1079)) ([1baca35](https://github.com/Tresjs/tres/commit/1baca351698d21240e47275d328a4a757b9edfd2))
+
 ## [5.0.0-alpha.0](https://github.com/Tresjs/tres/compare/5.0.0-next.6...5.0.0-alpha.0) (2025-08-21)
 
 ### Features
