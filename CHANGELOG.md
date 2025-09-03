@@ -1,5 +1,11 @@
 # Changelog
 
+## [5.0.0-alpha.2](https://github.com/Tresjs/tres/compare/5.0.0-alpha.1...5.0.0-alpha.2) (2025-09-03)
+
+### Features
+
+* devtools communication strategy ([#1067](https://github.com/Tresjs/tres/issues/1067)) ([d8752bb](https://github.com/Tresjs/tres/commit/d8752bbdb330ea7c8d641164aab787abbb425ccb))
+
 ## [5.0.0-alpha.1](https://github.com/Tresjs/tres/compare/5.0.0-alpha.0...5.0.0-alpha.1) (2025-08-30)
 
 ### Bug Fixes
