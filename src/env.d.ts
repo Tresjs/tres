@@ -21,13 +21,7 @@ interface PerformanceState {
 }
 
 interface Window {
-  __TRES__DEVTOOLS__?: {
-    cb: (
-      { context, performance }:
-      { context: TresContext, performance: PerformanceState } // TODO https://github.com/Tresjs/nuxt/issues/163 this type should come from the devtools package
-    ) => void
-    // You can add other properties of __TRES__DEVTOOLS__ here if needed
-  }
+  __TRES__DEVTOOLS__?: DevtoolsMessenger
 }
 
 declare module '*.glsl' {}
