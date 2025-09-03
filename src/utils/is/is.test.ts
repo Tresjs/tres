@@ -1,7 +1,8 @@
 import type { Camera, Light, Material, Object3D } from 'three'
 import { AmbientLight, BufferGeometry, DirectionalLight, Fog, Group, Mesh, MeshBasicMaterial, MeshNormalMaterial, OrthographicCamera, PerspectiveCamera, PointLight, Scene } from 'three'
-import { isArray, isBoolean, isBufferGeometry, isCamera, isFog, isFunction, isLight, isMaterial, isNumber, isObject, isObject3D, isScene, isString, isTresObject, isUndefined } from './is'
+import { isBufferGeometry, isCamera, isFog, isLight, isMaterial, isObject3D, isScene, isTresObject } from '../is/index'
 
+// TODO move file
 const NUMBERS: Record<string, number> = {
   '0': 0,
   '1': 1,
@@ -94,13 +95,6 @@ const TRES_OBJECTS = Object.assign({}, MATERIALS, OBJECT3DS, BUFFER_GEOMETRIES, 
 const ALL = Object.assign({}, NUMBERS, BOOLEANS, STRINGS, NULL, UNDEFINED, ARRAYS, FUNCTIONS, OBJECTS)
 
 describe('is', () => {
-  describe('isUndefined(a: any)', () => { test(isUndefined, UNDEFINED) })
-  describe('isArray(a: any)', () => { test(isArray, ARRAYS) })
-  describe('isNumber(a: any)', () => { test(isNumber, NUMBERS) })
-  describe('isString(a: any)', () => { test(isString, STRINGS) })
-  describe('isBoolean(a: any)', () => { test(isBoolean, BOOLEANS) })
-  describe('isFunction(a: any)', () => { test(isFunction, FUNCTIONS) })
-  describe('isObject(a: any)', () => { test(isObject, OBJECTS) })
   describe('isObject3D(a: any)', () => { test(isObject3D, OBJECT3DS) })
   describe('isCamera(a: any)', () => { test(isCamera, CAMERAS) })
   describe('isBufferGeometry(a: any)', () => { test(isBufferGeometry, BUFFER_GEOMETRIES) })

@@ -3,7 +3,6 @@ import { TresCanvas } from '@tresjs/core'
 import { TresLeches } from '@tresjs/leches'
 import '@tresjs/leches/styles'
 import { shallowRef } from 'vue'
-import LocalOrbitControls from '../../components/LocalOrbitControls.vue'
 
 const x = shallowRef(1)
 const y = shallowRef(1)
@@ -34,10 +33,6 @@ const onLoop = ({ elapsed }: { elapsed: number }) => {
   refs[i].value = Math.cos(elapsed * Math.PI * 2)
   label.value = `${labels[i]} ${Math.trunc(refs[i].value * 10) / 10}`
 }
-
-// const { enableZoom } = useControls({
-//   enableZoom: false,
-// })
 </script>
 
 <template>
@@ -47,6 +42,7 @@ const onLoop = ({ elapsed }: { elapsed: number }) => {
   </div>
   <TresLeches />
   <TresCanvas @loop="onLoop">
+    <TresPerspectiveCamera :position="[5, 5, 5]" :look-at="[0, 0, 0]" />
     <TresMesh
       :position-x="x"
       :position-y="y"
@@ -61,7 +57,7 @@ const onLoop = ({ elapsed }: { elapsed: number }) => {
       <TresBoxGeometry />
       <TresMeshNormalMaterial />
     </TresMesh>
-    <LocalOrbitControls :enable-zoom="enableZoom" />
+    <TresGridHelper :size="10" :divisions="10" />
   </TresCanvas>
 </template>
 
