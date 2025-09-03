@@ -3,7 +3,7 @@ import { boundedPush, calculateMemoryUsage } from '../utils/perf'
 import type { TresContext } from '../composables'
 import type { TresObject } from '../types'
 import { onUnmounted } from 'vue'
-import { ContextData, DevtoolsMessenger, PerformanceData } from './DevtoolsMessenger'
+import { DevtoolsMessenger } from './DevtoolsMessenger'
 
 export interface PerformanceState {
   maxFrames: number
