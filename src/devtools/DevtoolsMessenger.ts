@@ -5,7 +5,7 @@ export interface AssetLoadData {
   type: string
   loaded: boolean
   size: number
-  asset: any
+  asset: HTMLImageElement | HTMLScriptElement | HTMLLinkElement | Blob | ArrayBuffer | null
 }
 
 // Message types that should be queued when no subscribers are available

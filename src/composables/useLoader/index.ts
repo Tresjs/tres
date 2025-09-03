@@ -6,7 +6,6 @@ import { onUnmounted, reactive, toValue, watch } from 'vue'
 
 import type { TresObject } from '../../types'
 import { disposeObject3D } from '../../utils/'
-import type { AssetLoadData } from '../../devtools'
 
 export interface LoaderMethods {
   setDRACOLoader: (dracoLoader: any) => void
@@ -76,8 +75,6 @@ export function useLoader<T, Shallow extends boolean = false>(
     total: 0,
     percentage: 0,
   })
-  // Track the total size for the completion event
-  let totalSize = 0
   if (options?.extensions) {
     options.extensions(proto)
   }
@@ -88,22 +85,10 @@ export function useLoader<T, Shallow extends boolean = false>(
       const assetPath = path || initialPath || ''
 
       proto.load(assetPath, (result: T) => {
-        // Send asset loading complete event to devtools
-        // Messages are queued if no subscribers are available
-        if (typeof window !== 'undefined' && window.__TRES__DEVTOOLS__) {
-          window.__TRES__DEVTOOLS__.send<AssetLoadData>('asset-load', {
-            url: assetPath,
-            loader: Loader, // Send the actual loader constructor
-            loaded: true,
-            size: totalSize, // Use tracked total size
-            asset: result, // Send the actual loaded asset
-          })
-        }
         resolve(result as unknown as TresObject)
       }, (event: ProgressEvent<EventTarget>) => {
         progress.loaded = event.loaded
         progress.total = event.total
-        totalSize = event.total // Track total size for completion event
         progress.percentage = ((progress.loaded / progress.total) * 100)
       }, (err: unknown) => {
         reject(err)
