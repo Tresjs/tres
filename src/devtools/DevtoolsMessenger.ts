@@ -1,5 +1,6 @@
 export type DevtoolsMessageType = 'performance' | 'context' | 'asset-load'
 
+// TODO: To be used in https://github.com/Tresjs/tres/issues/1080
 export interface AssetLoadData {
   url: string
   type: string
