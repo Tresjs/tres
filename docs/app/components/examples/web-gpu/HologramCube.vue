@@ -17,7 +17,7 @@ const material = new MeshBasicNodeMaterial({
   blending: AdditiveBlending,
 })
 // Position
-const glitchStrength = varying(0)
+const glitchStrength = varying(uniform(0))
 material.vertexNode = Fn(() => {
   const glitchTime = timerGlobal().sub(positionWorld.y.mul(0.5))
   glitchStrength.assign(add(
