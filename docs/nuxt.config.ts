@@ -34,6 +34,12 @@ export default defineNuxtConfig({
     'nuxt-llms',
   ],
 
+  router: {
+    options: {
+      strict: true,
+    },
+  },
+
   devtools: {
     enabled: true,
   },
