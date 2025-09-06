@@ -1,7 +1,8 @@
 [build]
-publish = "docs/dist"
-command = "pnpm run build && pnpm docs:generate"
+publish = ".output/public"
+command = "pnpm run build && cd docs && pnpm generate"
 
 [build.environment]
 COREPACK_INTEGRITY_KEYS = "0"
 NODE_VERSION = "22"
+
