@@ -7,7 +7,7 @@
   publish = "docs/dist"
 
 [[redirects]]
-  from = "/*"
+  from = "docs/*"
   to = "/index.html"
   status = 200
 
