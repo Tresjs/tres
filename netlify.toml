@@ -1,6 +1,6 @@
 [build]
-publish = ".output/public"
-command = "pnpm run build && cd docs && pnpm generate"
+publish = "docs/.output/public"
+command = "pnpm run build && pnpm docs:generate"
 
 [build.environment]
 COREPACK_INTEGRITY_KEYS = "0"
