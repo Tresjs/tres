@@ -1,8 +1,13 @@
-[build]
-publish = ".output/public"
-command = "pnpm run build && pnpm -w run docs:generate"
-
 [build.environment]
-COREPACK_INTEGRITY_KEYS = "0"
-NODE_VERSION = "22"
+  COREPACK_INTEGRITY_KEYS = "0"
+  NODE_VERSION = "22"
+
+[build]
+  command = "pnpm run build && pnpm run docs:generate"
+  publish = "docs/dist"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
 
