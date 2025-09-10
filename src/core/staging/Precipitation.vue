@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useLoop, useTexture } from '@tresjs/core'
-import { shallowRef, toRefs, watchEffect } from 'vue'
+import { shallowRef, toRefs, watch, watchEffect } from 'vue'
 import type { TresColor } from '@tresjs/core'
 import type { Texture } from 'three'
 
@@ -167,8 +167,12 @@ const setSpeed = () => {
 setSpeed()
 setPosition()
 
-watchEffect(() => {
+watch((speed), () => {
   setSpeed()
+})
+
+watchEffect(() => {
+  if (speed.value) { return }
   setPosition()
 })
 
