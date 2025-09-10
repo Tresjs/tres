@@ -9,10 +9,6 @@ const rig = computed(() => nodes.value.Rig)
 
 const animations = computed(() => model.value?.animations || [])
 
-watch(animations, (animations) => {
-  console.log('Animations loaded:', animations.map(a => a.name))
-}, { immediate: true })
-
 const { actions } = useAnimations(animations, rig)
 const currentAction = ref<AnimationAction>()
 
