@@ -19,7 +19,7 @@
     "@nuxt/content": "^3.6.3",
     "@nuxt/image": "^1.11.0",
     "@nuxt/ui-pro": "^3.3.0",
-    "@tresjs/cientos": "5.0.0-next.0",
+    "@tresjs/cientos": "5.0.0-alpha.1",
     "@tresjs/core": "workspace:^",
     "better-sqlite3": "^12.2.0",
     "nuxt": "^4.0.3",
