@@ -27,7 +27,6 @@ const plugin: TresPlugin = {
   install(app: App) {
     // Register core components
     app.component('TresCanvas', TresCanvas)
-    app.component('tres-canvas', TresCanvas)
   },
 }
 
