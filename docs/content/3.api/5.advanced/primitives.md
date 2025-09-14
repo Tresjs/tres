@@ -277,14 +277,8 @@ function onPointerLeave(event) {
 </template>
 ```
 
-### Available Events
-- `@click` - Triggered when the object is clicked
-- `@contextmenu` - Triggered on right-click
-- `@pointerdown` - Triggered when pointer is pressed down
-- `@pointerup` - Triggered when pointer is released
-- `@pointermove` - Triggered when pointer moves over the object
-- `@pointerenter` - Triggered when pointer enters the object
-- `@pointerleave` - Triggered when pointer leaves the object
+::read-more{to="/api/events/pointer-events"}
+::
 
 ## Children via Slots
 

@@ -1,7 +1,20 @@
 <script setup lang="ts">
+import type { NavigationMenuItem } from '@nuxt/ui'
+
 const navigation = inject(navigationInjectionKey)
 
 const { header } = useAppConfig()
+
+const navItems: NavigationMenuItem[] = [
+  {
+    label: 'Guide',
+    to: '/getting-started/installation',
+  },
+  {
+    label: 'API',
+    to: '/api',
+  },
+]
 
 const route = useRoute()
 
@@ -41,7 +54,10 @@ const version = useRuntimeConfig().public.pkgVersion
       v-else
       #left
     >
-      <NuxtLink :to="header?.to || '/'" class="mr-2">
+      <NuxtLink
+        :to="header?.to || '/'"
+        class="mr-2"
+      >
         <TheLogo class="w-auto h-6 shrink-0" />
       </NuxtLink>
       <UBadge
@@ -60,17 +76,9 @@ const version = useRuntimeConfig().public.pkgVersion
         variant="subtle"
       />
 
-      <!-- <template v-if="header?.navigation">
-        <UButton
-          v-for="(item, index) of header.navigation"
-          :key="index"
-          v-bind="{ color: 'neutral', variant: 'ghost', ...item }"
-        />
-      </template> -->
-
       <UNavigationMenu
         v-if="route.path === '/'"
-        :items="header?.navigation"
+        :items="navItems"
         class="hidden md:flex"
       />
 
@@ -80,6 +88,7 @@ const version = useRuntimeConfig().public.pkgVersion
         <UButton
           v-for="(link, index) of header.links"
           :key="index"
+          class="hidden md:flex"
           v-bind="{ color: 'neutral', variant: 'ghost', ...link }"
         />
       </template>

@@ -1,5 +1,33 @@
 # Changelog
 
+## [5.0.0-alpha.2](https://github.com/Tresjs/tres/compare/5.0.0-alpha.1...5.0.0-alpha.2) (2025-09-03)
+
+### Features
+
+* devtools communication strategy ([#1067](https://github.com/Tresjs/tres/issues/1067)) ([d8752bb](https://github.com/Tresjs/tres/commit/d8752bbdb330ea7c8d641164aab787abbb425ccb))
+
+## [5.0.0-alpha.1](https://github.com/Tresjs/tres/compare/5.0.0-alpha.0...5.0.0-alpha.1) (2025-08-30)
+
+### Bug Fixes
+
+* removed development exports from package.json ([#1079](https://github.com/Tresjs/tres/issues/1079)) ([1baca35](https://github.com/Tresjs/tres/commit/1baca351698d21240e47275d328a4a757b9edfd2))
+
+## [5.0.0-alpha.0](https://github.com/Tresjs/tres/compare/5.0.0-next.6...5.0.0-alpha.0) (2025-08-21)
+
+### Features
+
+* 1047 warn user if the canvas has no area ([#1048](https://github.com/Tresjs/tres/issues/1048)) ([4c06603](https://github.com/Tresjs/tres/commit/4c06603eef16d06ec045936d33b820d209c99eb0))
+* enhance Nuxt configuration and AppHeader to include package version ([7a8b53f](https://github.com/Tresjs/tres/commit/7a8b53f9e22b36cdd07b3499c845e61e737556a4))
+* make some of the utility methods available to users ([#1068](https://github.com/Tresjs/tres/issues/1068)) ([a225230](https://github.com/Tresjs/tres/commit/a225230cd61c87eeed30b1d86261b97649bfd2ae))
+
+### Bug Fixes
+
+* avoid pierced props to setScalar when numerical ([#1073](https://github.com/Tresjs/tres/issues/1073)) ([4e7ba85](https://github.com/Tresjs/tres/commit/4e7ba85d28b8aefa4a37cd336bfedd841c981e91))
+
+### Reverts
+
+* **docs:** revert active navigation change ([#1058](https://github.com/Tresjs/tres/issues/1058)) ([dd13115](https://github.com/Tresjs/tres/commit/dd13115bf2b13ce6e3b9ffad28d5c6056afdc2b6))
+
 ## [5.0.0-next.6](https://github.com/Tresjs/tres/compare/5.0.0-next.5...5.0.0-next.6) (2025-06-22)
 
 ### Bug Fixes

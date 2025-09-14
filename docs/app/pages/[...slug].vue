@@ -1,17 +1,15 @@
 <script setup lang="ts">
-import { findPageHeadline } from '#ui-pro/utils/content'
-
 definePageMeta({
   layout: 'docs',
 })
 
 const route = useRoute()
 const { toc } = useAppConfig()
-const navigation = inject(navigationInjectionKey)
 
 const { data: page } = await useAsyncData(route.path, () => queryCollection('docs').path(route.path).first())
+
 if (!page.value) {
-  throw createError({ statusCode: 404, statusMessage: 'Page not found', fatal: true })
+  throw createError({ statusCode: 404, statusMessage: 'Page not found' })
 }
 
 const { data: surround } = await useAsyncData(`${route.path}-surround`, () => {
@@ -31,8 +29,6 @@ useSeoMeta({
   twitterTitle: title,
   twitterDescription: description,
 })
-
-const headline = computed(() => findPageHeadline(navigation?.value, page.value))
 
 const links = computed(() => {
   const links = []
@@ -55,7 +51,6 @@ const links = computed(() => {
       :title="page.title"
       :description="page.description"
       :links="page.links"
-      :headline="headline"
       :ui="{
         headline: 'uppercase font-mono font-light text-default-500 text-dim',
       }"

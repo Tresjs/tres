@@ -2,9 +2,10 @@ import type { TresContext } from '../composables'
 import type { DisposeType, LocalState, TresInstance, TresObject, TresObject3D, TresPrimitive, WithMathProps } from '../types'
 import { BufferAttribute, Object3D } from 'three'
 import { isRef, type RendererOptions } from 'vue'
-import { attach, deepArrayEqual, doRemoveDeregister, doRemoveDetach, invalidateInstance, isHTMLTag, kebabToCamel, noop, prepareTresInstance, resolve, setPrimitiveObject, unboxTresPrimitive } from '../utils'
+import { attach, doRemoveDeregister, doRemoveDetach, invalidateInstance, prepareTresInstance, resolve, setPrimitiveObject, unboxTresPrimitive } from '../utils'
 import { logError } from '../utils/logger'
-import { isArray, isCamera, isClassInstance, isColor, isColorRepresentation, isCopyable, isFunction, isLayers, isObject, isObject3D, isScene, isTresInstance, isUndefined, isVectorLike } from '../utils/is'
+import { isClassInstance, isColor, isColorRepresentation, isCopyable, isEqual, isFunction, isHTMLTag, isLayers, isObject, isObject3D, isScene, isTresCamera, isTresInstance, isUndefined, isVectorLike } from '../utils/is'
+import { camel } from '../utils/string'
 import { createRetargetingProxy } from '../utils/primitive/createRetargetingProxy'
 import { catalogue } from './catalogue'
 import { isSupportedPointerEvent, pointerEventsMapVueToThree } from '../utils/pointerEvents'
@@ -18,7 +19,6 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
     if (!props.args) {
       props.args = []
     }
-    if (tag === 'template') { return null }
     if (isHTMLTag(tag)) { return null }
     let name = tag.replace('Tres', '')
     let obj: TresObject | null
@@ -61,7 +61,7 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
     if (!obj) { return null }
 
     // Opinionated default to avoid user issue not seeing anything if camera is on origin
-    if (isCamera(obj)) {
+    if (isTresCamera(obj)) {
       if (!props?.position) {
         obj.position.set(3, 3, 3)
       }
@@ -94,7 +94,7 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
     child = unboxTresPrimitive(childInstance)
     parent = unboxTresPrimitive(parentInstance)
 
-    if (isCamera(child)) {
+    if (isTresCamera(child)) {
       context.camera?.registerCamera(child)
     }
 
@@ -244,7 +244,7 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
     if (isSupportedPointerEvent(prop) && isFunction(nextValue)) {
       node.addEventListener(pointerEventsMapVueToThree[prop], nextValue)
     }
-    let finalKey = kebabToCamel(key)
+    let finalKey = camel(key)
     let target = root?.[finalKey] as Record<string, unknown>
 
     if (key === 'args') {
@@ -256,7 +256,7 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
       if (
         instanceName
         && prevArgs.length
-        && !deepArrayEqual(prevArgs, args)
+        && !isEqual(prevArgs, args)
       ) {
         // Create a new instance
         const newInstance = new catalogue.value[instanceName](...nextValue)
@@ -290,7 +290,7 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
     if (root.type === 'BufferGeometry') {
       if (key === 'args') { return }
       (root as TresObject).setAttribute(
-        kebabToCamel(key),
+        camel(key),
         new BufferAttribute(...(nextValue as ConstructorParameters<typeof BufferAttribute>)),
       )
       return
@@ -302,6 +302,15 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
       target = resolved.target
       root = resolved.target
       finalKey = resolved.key
+
+      if (target && finalKey) {
+        target[finalKey] = nextValue
+        if (isTresCamera(node)) {
+          node.updateProjectionMatrix()
+        }
+        invalidateInstance(node as TresObject)
+        return
+      }
     }
     let value = nextValue
     if (value === '') { value = true }
@@ -310,7 +319,7 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
       // don't call pointer event callback functions
 
       if (!isSupportedPointerEvent(prop)) {
-        if (isArray(value)) { node[finalKey](...value) }
+        if (Array.isArray(value)) { node[finalKey](...value) }
         else { node[finalKey](value) }
       }
       // NOTE: Set on* callbacks
@@ -360,7 +369,7 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
       root[finalKey] = value
     }
 
-    if (isCamera(node)) {
+    if (isTresCamera(node)) {
       node.updateProjectionMatrix()
     }
 
@@ -399,20 +408,22 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
     return siblings[index + 1]
   }
 
+  const noop = (): any => {}
+
   return {
     insert,
     remove,
     createElement,
     patchProp,
     parentNode,
-    createText: () => noop('createText'),
+    createText: noop,
     createComment,
-    setText: () => noop('setText'),
-    setElementText: () => noop('setElementText'),
+    setText: noop,
+    setElementText: noop,
     nextSibling,
-    querySelector: () => noop('querySelector'),
-    setScopeId: () => noop('setScopeId'),
-    cloneNode: () => noop('cloneNode'),
-    insertStaticContent: () => noop('insertStaticContent'),
+    querySelector: noop,
+    setScopeId: noop,
+    cloneNode: noop,
+    insertStaticContent: noop,
   }
 }
