@@ -82,7 +82,9 @@ export function useLoader<T, Shallow extends boolean = false>(
   const initialPath = toValue(path)
   const result = useAsyncState(
     (path?: string) => new Promise((resolve, reject) => {
-      proto.load(path || initialPath || '', (result: T) => {
+      const assetPath = path || initialPath || ''
+
+      proto.load(assetPath, (result: T) => {
         resolve(result as unknown as TresObject)
       }, (event: ProgressEvent<EventTarget>) => {
         progress.loaded = event.loaded

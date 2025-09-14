@@ -1,4 +1,4 @@
-import { templateCompilerOptions } from '@tresjs/core'
+import templateCompilerOptions from '../../src/utils/template-compiler-options'
 import vue from '@vitejs/plugin-vue'
 import { resolve } from 'pathe'
 import UnoCSS from 'unocss/vite'

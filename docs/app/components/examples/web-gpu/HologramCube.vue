@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { isMesh } from '@tresjs/core'
+import { isMesh, type TresObject } from '@tresjs/core'
 import { useGLTF } from '@tresjs/cientos'
 import { add, cameraProjectionMatrix, cameraViewMatrix, color, Fn, hash, mix, normalView, positionWorld, sin, timerGlobal, uniform, varying, vec3, vec4 } from 'three/tsl'
 import { AdditiveBlending, DoubleSide, MeshBasicNodeMaterial } from 'three/webgpu'
@@ -17,7 +17,7 @@ const material = new MeshBasicNodeMaterial({
   blending: AdditiveBlending,
 })
 // Position
-const glitchStrength = varying(0)
+const glitchStrength = varying(uniform(0))
 material.vertexNode = Fn(() => {
   const glitchTime = timerGlobal().sub(positionWorld.y.mul(0.5))
   glitchStrength.assign(add(
@@ -46,7 +46,7 @@ material.colorNode = Fn(() => {
 })()
 
 watch(model, (newModel) => {
-  newModel?.traverse((child) => {
+  newModel?.traverse((child: TresObject) => {
     if (isMesh(child)) {
       child.material = material
     }

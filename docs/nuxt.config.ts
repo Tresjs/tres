@@ -34,6 +34,17 @@ export default defineNuxtConfig({
     'nuxt-llms',
   ],
 
+  image: {
+    quality: 80,
+    format: ['webp', 'png', 'jpg'],
+  },
+
+  router: {
+    options: {
+      strict: true,
+    },
+  },
+
   devtools: {
     enabled: true,
   },
