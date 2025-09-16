@@ -29,6 +29,7 @@
     "vue-router": "^4.5.1"
   },
   "devDependencies": {
+    "@tweakpane/core": "^2.0.5",
     "eslint": "^9.33.0",
     "typescript": "^5.9.2",
     "vue-tsc": "^3.0.5"
