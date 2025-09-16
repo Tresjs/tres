@@ -15,11 +15,11 @@ watch(boxesRef, () => {
 
   // Getting positions for all the boxes
   const positions = Array.from(boxesRef.value.children as TresObject[]).map(
-    (child) => child.position,
+    child => child.position,
   )
   // Getting rotations for all the boxes
   const rotations = Array.from(boxesRef.value.children as TresObject[]).map(
-    (child) => child.rotation,
+    child => child.rotation,
   )
 
   const animProperties = {
