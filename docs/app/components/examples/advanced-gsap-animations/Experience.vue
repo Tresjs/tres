@@ -5,7 +5,7 @@ import gsap from 'gsap'
 import type { TresObject } from '@tresjs/core'
 
 const boxesRef = shallowRef<TresObject>()
-const zs = []
+const zs: number[] = []
 for (let z = -4.5; z <= 4.5; z++) {
   zs.push(z)
 }
@@ -14,12 +14,12 @@ watch(boxesRef, () => {
   if (!boxesRef.value) { return }
 
   // Getting positions for all the boxes
-  const positions = Array.from(boxesRef.value.children).map(
-    (child: TresObject) => child.position,
+  const positions = Array.from(boxesRef.value.children as TresObject[]).map(
+    (child) => child.position,
   )
   // Getting rotations for all the boxes
-  const rotations = Array.from(boxesRef.value.children).map(
-    (child: TresObject) => child.rotation,
+  const rotations = Array.from(boxesRef.value.children as TresObject[]).map(
+    (child) => child.rotation,
   )
 
   const animProperties = {

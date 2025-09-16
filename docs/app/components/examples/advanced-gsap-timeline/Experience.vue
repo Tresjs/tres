@@ -8,7 +8,7 @@ const groupRef = shallowRef<TresObject>()
 const timeline = gsap.timeline({ paused: true })
 
 // Create array of positions for multiple objects
-const positions = [
+const positions: [number, number, number][] = [
   [-3, 0.5, 0],
   [-1, 0.5, 0],
   [1, 0.5, 0],
