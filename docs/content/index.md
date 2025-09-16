@@ -8,8 +8,7 @@ seo:
 ---
 orientation: horizontal
 ---
-  :::home-scene
-  :::
+
 
 #title
 <span class="text-primary-300">TresJS</span> \
