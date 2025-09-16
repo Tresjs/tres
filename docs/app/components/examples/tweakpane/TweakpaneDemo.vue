@@ -61,16 +61,18 @@ onMounted(() => {
 
   // Reset button
   pane.value.addButton({ title: 'Reset All' }).on('click', () => {
-    controls.value.positionX = 0
-    controls.value.positionY = 0
-    controls.value.positionZ = 0
-    controls.value.rotationX = 0
-    controls.value.rotationY = 0
-    controls.value.rotationZ = 0
-    controls.value.scale = 1
-    controls.value.color = '#ff6b6b'
-    controls.value.wireframe = false
-    controls.value.material = 'basic'
+    Object.assign(controls.value, {
+      positionX: 0,
+      positionY: 0,
+      positionZ: 0,
+      rotationX: 0,
+      rotationY: 0,
+      rotationZ: 0,
+      scale: 1,
+      color: '#ff6b6b',
+      wireframe: false,
+      material: 'basic',
+    })
   })
 })
 

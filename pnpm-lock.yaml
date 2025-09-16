@@ -196,9 +196,6 @@ importers:
         specifier: ^4.5.1
         version: 4.5.1(vue@3.5.21(typescript@5.9.2))
     devDependencies:
-      '@tweakpane/core':
-        specifier: ^2.0.5
-        version: 2.0.5
       eslint:
         specifier: ^9.33.0
         version: 9.33.0(jiti@2.5.1)
@@ -2690,9 +2687,6 @@ packages:
   '@trysound/sax@0.2.0':
     resolution: {integrity: sha512-L7z9BgrNEcYyUYtF+HaEfiS5ebkh9jXqbszz7pC0hRBPaatV0XjSD3+eHrpqFemQfgwiFF0QPIarnIihIDn7OA==}
     engines: {node: '>=10.13.0'}
-
-  '@tweakpane/core@2.0.5':
-    resolution: {integrity: sha512-punBgD5rKCF5vcNo6BsSOXiDR/NSs9VM7SG65QSLJIxfRaGgj54ree9zQW6bO3pNFf3AogiGgaNODUVQRk9YqQ==}
 
   '@tweakpane/plugin-essentials@0.2.1':
     resolution: {integrity: sha512-VbFU1/uD+CJNFQdfLXUOLjeG5HyUZH97Ox9CxmyVetg1hqjVun3C83HAGFULyhKzl8tSgii8jr304r8QpdHwzQ==}
@@ -11566,8 +11560,6 @@ snapshots:
       - unocss
 
   '@trysound/sax@0.2.0': {}
-
-  '@tweakpane/core@2.0.5': {}
 
   '@tweakpane/plugin-essentials@0.2.1(tweakpane@4.0.5)':
     dependencies:
