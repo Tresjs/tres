@@ -186,6 +186,9 @@ importers:
       nuxt-llms:
         specifier: 0.1.3
         version: 0.1.3(magicast@0.3.5)
+      tweakpane:
+        specifier: ^4.0.5
+        version: 4.0.5
       vue:
         specifier: ^3.5.21
         version: 3.5.21(typescript@5.9.2)
