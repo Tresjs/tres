@@ -38,7 +38,7 @@ function _useHeaderLinks() {
       icon: 'i-lucide-cooking-pot',
       to: `${to}/cookbook`,
       active: route.path.startsWith(`${to}/cookbook`),
-    }/*  {      label: 'Community',      description: 'Find answers and support from the community.',      icon: 'i-lucide-messages-square',      to: `${to}/community`,      active: route.path.startsWith(`${to}/community`)    } */]
+    }, { label: 'Community', description: 'Find answers and support from the community.', icon: 'i-lucide-messages-square', to: `${to}/community`, active: route.path.startsWith(`${to}/community`) }]
   })
 
   return { headerLinks }
