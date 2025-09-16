@@ -33,6 +33,4 @@ onBeforeRender(({ elapsed }) => {
     <TresBoxGeometry :args="[1, 1, 1]" />
     <TresMeshStandardMaterial color="#ff6b6b" />
   </TresMesh>
-  <TresAmbientLight :intensity="0.5" />
-  <TresDirectionalLight :position="[0, 2, 4]" :intensity="1" />
 </template>
