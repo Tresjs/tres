@@ -5,12 +5,27 @@ seo:
 ---
 
 ::u-page-hero
----
-orientation: horizontal
+
+
+<!-- #headline 
+:::nuxt-link
+--- 
+to: /getting-started
 ---
 
+:::u-badge
+---
+variant: subtle
+size: lg
+icon: i-lucide-arrow-right
+---
+Tres v5 announcement
+:::
+:::
+ -->
 
 #title
+
 <span class="text-primary-300">TresJS</span> \
 Bring Three to the Vue ecosystem
 
