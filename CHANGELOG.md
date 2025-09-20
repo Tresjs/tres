@@ -1,5 +1,15 @@
 # Changelog
 
+## [5.0.0-rc.0](https://github.com/Tresjs/tres/compare/5.0.0-alpha.2...5.0.0-rc.0) (2025-09-20)
+
+### Features
+
+* model and animation recipe ([#1082](https://github.com/Tresjs/tres/issues/1082)) ([078d7bc](https://github.com/Tresjs/tres/commit/078d7bce3c4d6496a78e80e6ec5302a208ef8931))
+
+### Bug Fixes
+
+* docs ssg 404 issues ([#1081](https://github.com/Tresjs/tres/issues/1081)) ([9e1fc89](https://github.com/Tresjs/tres/commit/9e1fc89d79ea995a005bb3fd09797c2c0391ce78))
+
 ## [5.0.0-alpha.2](https://github.com/Tresjs/tres/compare/5.0.0-alpha.1...5.0.0-alpha.2) (2025-09-03)
 
 ### Features
