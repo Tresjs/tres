@@ -65,7 +65,7 @@ const version = useRuntimeConfig().public.pkgVersion
         variant="subtle"
         size="sm"
       >
-        v5
+        {{ version }}
       </UBadge>
     </template>
 
