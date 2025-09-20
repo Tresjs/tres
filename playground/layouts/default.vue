@@ -1,44 +1,15 @@
-<script setup lang="ts">
-
-</script>
+<script lang="ts" setup></script>
 
 <template>
   <div>
-    <header class="menu">
-      <div>
-        <NuxtLink to="/">
-          Home
-        </NuxtLink>
-      </div>
-      <div>
-        <NuxtLink
-          to="/page1"
-          :prefetch="false"
-        >
-          page1
-        </NuxtLink>
-      </div>
-      <div>
-        <a href="/page2">
-          page2
-        </a>
-      </div>
-    </header>
-    <slot />
+    <TheHeader />
+    <NuxtLoadingIndicator />
+    <main
+      class="bg-(--ui-bg) min-h-[calc(100vh-var(--ui-header-height))]"
+    >
+      <slot />
+    </main>
   </div>
 </template>
 
-<style>
-.menu {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 3rem;
-  color: #fff;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  z-index: 100;
-}
-</style>
+<style scoped></style>ß

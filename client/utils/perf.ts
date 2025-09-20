@@ -3,8 +3,11 @@ import type { Scene } from 'three'
 
 export function calculateMemoryUsage(object: TresObject | Scene) {
   let totalMemory = 0
-
-  object.traverse((node: TresObject) => {
+  let inspectableObject = object
+  if (object.scene) {
+    inspectableObject = object.scene
+  }
+  inspectableObject.traverse((node: TresObject) => {
     if (node.isMesh && node.geometry) {
       const geometry = node.geometry
       const verticesMemory = geometry.attributes.position.count * 3 * Float32Array.BYTES_PER_ELEMENT

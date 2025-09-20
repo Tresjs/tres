@@ -6,17 +6,13 @@ const props = withDefaults(defineProps<{
   value?: number
   unit?: string
   label?: string
-  color?: 'green' | 'yellow'
+  color?: 'primary' | 'warning' | 'error'
 }>(), {
   points: () => [],
   value: 0,
   unit: '',
   label: '',
-  color: 'green',
-})
-
-const textColor = computed(() => { // ''
-  return props.color === 'yellow' ? 'text-[#827717] dark:text-[#EAB306]' : 'text-[#15803D] dark:text-[#34E676]'
+  color: 'primary',
 })
 
 const height = 40
@@ -50,10 +46,11 @@ const pointsF = computed(() => props.points.map(
       border-none
       font-sans
     "
+    :class="`graph-${color}`"
   >
     <div
       class="absolute bottom-0.5 right-1 font-mono text-xs"
-      :class="textColor"
+      :class="`text-${color}`"
     >
       {{ Math.round(value) }} {{ unit }}
     </div>
@@ -75,21 +72,24 @@ const pointsF = computed(() => props.points.map(
 </template>
 
 <style>
-.graph {
-  background-color: rgba(var(--nui-c-context), 0.1);
-  color: rgba(var(--nui-c-context), 1);
+.graph-primary {
+  background-color: color-mix(in oklab, var(--ui-primary) 10%, transparent);
+  color: var(--ui-primary);
 }
-
-.graph polyline.green {
-  stroke: #15803d;
+.graph-warning {
+  background-color: color-mix(in oklab, var(--ui-warning) 10%, transparent);
+  color: var(--ui-warning);
 }
-.graph polyline.yellow {
-  stroke: #827717;
+.graph polyline.primary {
+  stroke: var(--ui-primary);
 }
-.dark .graph polyline.green {
-  stroke: #34E676;
+.graph polyline.warning {
+  stroke: var(--ui-warning);
 }
-.dark .graph polyline.yellow {
-  stroke: #EAB306;
+.dark .graph polyline.primary {
+  stroke: var(--ui-primary);
+}
+.dark .graph polyline.warning {
+  stroke: var(--ui-warning);
 }
 </style>

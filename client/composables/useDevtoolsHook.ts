@@ -1,8 +1,43 @@
-import type { TresContext, TresObject } from '@tresjs/core'
+import type { TresObject, DevtoolsMessage } from '@tresjs/core'
 import type { Scene } from 'three'
-import type { SceneGraphObject, ProgramObject } from '../types'
-import { reactive } from '#imports'
-import type { UnwrapNestedRefs } from '#imports'
+import type { SceneGraphObject } from '../types'
+import { reactive, shallowReactive } from '#imports'
+import { createSharedComposable } from '@vueuse/core'
+import type { UnwrapNestedRefs } from 'vue'
+import { getSceneGraph } from '../utils/graph'
+
+// Define message data types for different message types
+export interface ContextMessageData {
+  scene: {
+    value: Scene
+  }
+  renderer: {
+    instance: {
+      info: {
+        render: {
+          frame: number
+          calls: number
+          triangles: number
+          points: number
+          lines: number
+        }
+        memory: {
+          geometries: number
+          textures: number
+        }
+        programs: WebGLProgram[]
+      }
+    }
+  }
+}
+
+export interface PerformanceMessageData {
+  fps: FPSState
+  memory: MemoryState
+}
+
+// Union type for all possible message types
+export type DevtoolsMessageData = ContextMessageData | PerformanceMessageData
 
 export interface FPSState {
   value: number
@@ -47,121 +82,14 @@ export interface RendererState {
 export interface DevtoolsHookReturn {
   scene: {
     objects: number
-    graph: Record<string, unknown>
+    graph: SceneGraphObject | null
     value: Scene | undefined
+    selected: TresObject | undefined
+    /* assets: AssetInfo[] */
   }
   fps: FPSState
   memory: MemoryState
   renderer: RendererState
-}
-
-const scene = reactive<{
-  objects: number
-  graph: Record<string, unknown>
-  value: Scene | undefined
-}>({
-  objects: 0,
-  graph: {},
-  value: undefined,
-})
-
-const gl = {
-  fps: reactive<FPSState>({
-    value: 0,
-    accumulator: [],
-    lastLoggedTime: Date.now(),
-    logInterval: 1000,
-  }),
-  memory: reactive<MemoryState>({
-    currentMem: 0,
-    averageMem: 0,
-    maxMemory: 0,
-    allocatedMem: 0,
-    accumulator: [],
-    lastLoggedTime: Date.now(),
-    logInterval: 1000,
-  }),
-  renderer: reactive<RendererState>({
-    info: {
-      render: {
-        frame: 0,
-        calls: 0,
-        triangles: 0,
-        points: 0,
-        lines: 0,
-      },
-      memory: {
-        geometries: 0,
-        textures: 0,
-      },
-      programs: [],
-    },
-  }),
-} satisfies RendererType
-
-const icons: Record<string, string> = {
-  scene: 'i-carbon-web-services-container',
-  perspectivecamera: 'i-carbon-video',
-  mesh: 'i-carbon-cube',
-  group: 'i-carbon-group-objects',
-  ambientlight: 'i-carbon-light',
-  directionallight: 'i-carbon-light',
-  spotlight: 'i-iconoir-project-curve-3d',
-  position: 'i-iconoir-axes',
-  rotation: 'i-carbon-rotate-clockwise',
-  scale: 'i-iconoir-ellipse-3d-three-points',
-  bone: 'i-ph-bone',
-  skinnedmesh: 'carbon:3d-print-mesh',
-}
-
-function createNode(object: TresObject) {
-  const node: SceneGraphObject = {
-    name: object.name,
-    type: object.type,
-    icon: icons[object.type.toLowerCase()] || 'i-carbon-cube',
-    position: {
-      x: object.position.x,
-      y: object.position.y,
-      z: object.position.z,
-    },
-    rotation: {
-      x: object.rotation.x,
-      y: object.rotation.y,
-      z: object.rotation.z,
-    },
-    children: [],
-  }
-
-  if (object.type === 'Mesh') {
-    node.material = object.material
-    node.geometry = object.geometry
-    node.scale = {
-      x: object.scale.x,
-      y: object.scale.y,
-      z: object.scale.z,
-    }
-  }
-
-  if (object.type.includes('Light')) {
-    node.color = object.color.getHexString()
-    node.intensity = object.intensity
-  }
-  return node
-}
-
-function getSceneGraph(scene: TresObject) {
-  function buildGraph(object: TresObject, node: SceneGraphObject) {
-    object.children.forEach((child: TresObject) => {
-      const childNode = createNode(child)
-      node.children.push(childNode)
-      buildGraph(child, childNode)
-    })
-  }
-
-  const root = createNode(scene)
-  buildGraph(scene, root)
-
-  return root
 }
 
 function countObjectsInScene(scene: Scene) {
@@ -177,31 +105,110 @@ function countObjectsInScene(scene: Scene) {
   return count
 }
 
-export function useDevtoolsHook(): DevtoolsHookReturn {
-  // Connect with Core
-  const tresGlobalHook = {
-    cb(context: TresContext) {
-      scene.value = context.scene.value
-      scene.objects = countObjectsInScene(context.scene.value)
-      Object.assign(gl.renderer.info.render, context.renderer.value.info.render)
-      Object.assign(gl.renderer.info.memory, context.renderer.value.info.memory)
-      gl.renderer.info.programs = [...(context.renderer.value.info.programs || []) as unknown as ProgramObject[]]
-      Object.assign(gl.fps, context.perf.fps)
-      gl.fps.accumulator = [...context.perf.fps.accumulator]
-      Object.assign(gl.memory, context.perf.memory)
-      gl.memory.accumulator = [...context.perf.memory.accumulator]
-      scene.graph = getSceneGraph(context.scene.value as unknown as TresObject)
-      /*
-      console.log('Devtools hook updated', context.renderer.value.info.render.triangles) */
-    },
+export interface DevtoolsState {
+  scene: {
+    objects: number
+    graph: SceneGraphObject | null
+    value: Scene | undefined
+    selected: TresObject | undefined
+    /* assets: AssetInfo[] */
   }
-
-  window.parent.parent.__TRES__DEVTOOLS__ = tresGlobalHook
-
-  return {
-    scene,
-    fps: gl.fps,
-    memory: gl.memory,
-    renderer: gl.renderer,
-  }
+  fps: FPSState
+  memory: MemoryState
+  renderer: RendererState
 }
+
+function _useDevtoolsHook(): DevtoolsHookReturn {
+  const state: DevtoolsState = {
+    scene: shallowReactive({
+      objects: 0,
+      graph: null,
+      value: undefined,
+      selected: undefined,
+      assets: [],
+    }),
+    fps: shallowReactive({
+      value: 0,
+      accumulator: [],
+      lastLoggedTime: Date.now(),
+      logInterval: 1000,
+    }),
+    memory: shallowReactive({
+      currentMem: 0,
+      averageMem: 0,
+      maxMemory: 0,
+      allocatedMem: 0,
+      accumulator: [],
+      lastLoggedTime: Date.now(),
+      logInterval: 1000,
+    }),
+    renderer: reactive({
+      info: {
+        render: {
+          frame: 0,
+          calls: 0,
+          triangles: 0,
+          points: 0,
+          lines: 0,
+        },
+        memory: {
+          geometries: 0,
+          textures: 0,
+        },
+        programs: [],
+      },
+    }),
+  }
+
+  let lastSceneUuid: string | null = null
+
+  // Initialize DevtoolsMessenger if not exists
+  if (typeof window !== 'undefined' && window.parent.parent.__TRES__DEVTOOLS__) {
+    // Subscribe to different message types
+    window.parent.parent.__TRES__DEVTOOLS__.subscribe((message: DevtoolsMessage<DevtoolsMessageData>) => {
+      /* if (message.type === 'asset-load') {
+        const messageData = message.data as AssetLoadData
+        const formattedAsset = formatAsset(messageData)
+        state.scene.assets.push(formattedAsset)
+      } */
+
+      if (message.type === 'context') {
+        const context = message.data as ContextMessageData
+        if (context.scene.value.children.length > 0) {
+          // Use scene UUID for lightweight change detection
+          const currentSceneUuid = context.scene.value.uuid
+          if (currentSceneUuid !== lastSceneUuid) {
+            state.scene.value = context.scene.value
+            state.scene.objects = countObjectsInScene(context.scene.value)
+            state.scene.graph = getSceneGraph(context.scene.value as unknown as TresObject)
+            lastSceneUuid = currentSceneUuid
+          }
+        }
+        else {
+          state.scene.value = undefined
+          state.scene.graph = null
+          /* state.scene.assets = [] */
+          lastSceneUuid = null
+        }
+
+        // Update renderer info from context
+        if (context.renderer?.instance?.info) {
+          Object.assign(state.renderer.info.render, context.renderer.instance.info.render)
+          Object.assign(state.renderer.info.memory, context.renderer.instance.info.memory)
+          state.renderer.info.programs = [...(context.renderer.instance.info.programs || [])]
+        }
+      }
+      else if (message.type === 'performance') {
+        const performance = message.data as PerformanceMessageData
+        Object.assign(state.fps, performance.fps)
+        state.fps.accumulator = [...performance.fps.accumulator]
+        Object.assign(state.memory, performance.memory)
+        state.memory.accumulator = [...performance.memory.accumulator]
+      }
+    })
+  }
+
+  return state
+}
+
+export const useDevtoolsHook = createSharedComposable(_useDevtoolsHook)

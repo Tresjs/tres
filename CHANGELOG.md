@@ -1,5 +1,29 @@
 # Changelog
 
+## [5.0.0-rc.1](https://github.com/Tresjs/nuxt/compare/5.0.0-rc.0...5.0.0-rc.1) (2025-09-20)
+
+### Bug Fixes
+
+* integrate useAttrs composable in TresCanvas component ([16f12e7](https://github.com/Tresjs/nuxt/commit/16f12e79334c6dcbd3d78412838b41a00a47185d))
+
+## [5.0.0-rc.0](https://github.com/Tresjs/nuxt/compare/4.1.0-next.1...5.0.0-rc.0) (2025-09-20)
+
+### ⚠ BREAKING CHANGES
+
+* upgrade Nuxt 4 (#171)
+
+### Features
+
+* upgrade Nuxt 4 ([#171](https://github.com/Tresjs/nuxt/issues/171)) ([2cb9e6b](https://github.com/Tresjs/nuxt/commit/2cb9e6b624cf1714edaa0b05be768ca99a4d32dc))
+* v5-tres-devtools ([#172](https://github.com/Tresjs/nuxt/issues/172)) ([b86f224](https://github.com/Tresjs/nuxt/commit/b86f224e189f83600646099bef3348f7c7a8a893))
+
+## [4.1.0-next.1](https://github.com/Tresjs/nuxt/compare/4.0.0...4.1.0-next.1) (2025-06-26)
+
+### Features
+
+* add pointer events to AnimatedDonnut and update core dependency ([8b6693f](https://github.com/Tresjs/nuxt/commit/8b6693fc55adc215c3381086e819b9f05489751b))
+## [4.0.0-next.0](https://github.com/Tresjs/nuxt/compare/4.0.0...4.1.0-next.1) (2025-02-22)
+
 ## [4.0.0](https://github.com/Tresjs/nuxt/compare/3.0.8...4.0.0) (2025-05-25)
 
 ### ⚠ BREAKING CHANGES
@@ -14,6 +38,12 @@
 
 * update TypeScript error comments in ProgramsModule.vue for clarity ([3e58130](https://github.com/Tresjs/nuxt/commit/3e58130dfb94b44a1f12323bf432c7cf93bc6220))
 
+## [4.0.0-next.0](https://github.com/tresjs/nuxt/compare/3.0.7...4.0.0-next.0) (2025-02-22)
+
+### Bug Fixes
+
+* **deps:** update dependency @tresjs/nuxt to v3.0.7 ([#106](https://github.com/tresjs/nuxt/issues/106)) ([8a73538](https://github.com/tresjs/nuxt/commit/8a735385edffdeda2fb12fa2cbe51376008ae39f))
+* **deps:** update dependency typescript to v5.6.2 ([#136](https://github.com/tresjs/nuxt/issues/136)) ([a32ec04](https://github.com/tresjs/nuxt/commit/a32ec043fe65e1fb396a42a206eb32b3cb6df6a3))
 ## [3.0.8](https://github.com/Tresjs/nuxt/compare/3.0.7...3.0.8) (2025-02-25)
 
 ### Bug Fixes

@@ -8,6 +8,29 @@ import { readPackageJSON } from 'pkg-types'
 import glsl from 'vite-plugin-glsl'
 import { version } from '../package.json'
 import { setupDevToolsUI } from './devtools'
+import { join, dirname } from 'node:path'
+import { existsSync } from 'node:fs'
+
+async function getAllPackageDeps(nuxtRootDir: string) {
+  // Read local package.json
+  const localPkg = await readPackageJSON(nuxtRootDir)
+  let rootPkg = localPkg
+
+  // Try to find a parent package.json (monorepo root)
+  const parentDir = dirname(nuxtRootDir)
+  const rootPkgPath = join(parentDir, 'package.json')
+  if (existsSync(rootPkgPath)) {
+    rootPkg = await readPackageJSON(parentDir)
+  }
+
+  // Merge dependencies, local takes precedence
+  return {
+    ...rootPkg.dependencies,
+    ...rootPkg.devDependencies,
+    ...localPkg.dependencies,
+    ...localPkg.devDependencies,
+  }
+}
 
 export interface ModuleOptions {
   modules: string[]
@@ -61,8 +84,8 @@ export default defineNuxtModule<ModuleOptions>({
 
     nuxt.options.vue.compilerOptions.isCustomElement = templateCompilerOptions.template.compilerOptions.isCustomElement
 
-    const pkg = await readPackageJSON(nuxt.options.rootDir)
-    const coreDeps = Object.keys({ ...pkg.dependencies, ...pkg.devDependencies }).filter(d => d.startsWith('@tresjs/'))
+    const allDeps = await getAllPackageDeps(nuxt.options.rootDir)
+    const coreDeps = Object.keys(allDeps).filter(d => d.startsWith('@tresjs/'))
 
     for (const mod of new Set([...options.modules, ...coreDeps])) {
       if (mod === '@tresjs/core' || mod === '@tresjs/nuxt') {

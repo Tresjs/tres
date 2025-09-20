@@ -1,21 +1,4 @@
 {
-  "name": "@tresjs/nuxt-playground",
-  "type": "module",
-  "private": true,
-  "scripts": {
-    "dev": "nuxi dev",
-    "build": "nuxi build",
-    "generate": "nuxi generate"
-  },
-  "dependencies": {
-    "@tresjs/cientos": "^4.0.3",
-    "@tresjs/core": "^4.3.1"
-  },
-  "devDependencies": {
-    "@nuxt/devtools": "1.6.4",
-    "@types/three": "^0.171.0",
-    "nuxt": "^3.14.1592",
-    "postprocessing": "^6.36.4",
-    "tweakpane": "^4.0.5"
-  }
+  "name": "playground",
+  "private": true
 }
