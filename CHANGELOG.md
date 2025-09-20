@@ -1,5 +1,18 @@
 # Changelog
 
+## [5.0.0](https://github.com/Tresjs/tres/compare/4.3.6...5.0.0) (2025-09-20)
+
+### ⚠ BREAKING CHANGES
+
+* Tres is now ESM only
+
+- Removed UMD build configuration from package.json and adjusted exports to only include ES module.
+- Updated vite.config.ts to specify the output format as ES, enhancing compatibility with modern module systems.
+
+### Features
+
+* v5 release ([#965](https://github.com/Tresjs/tres/issues/965)) ([190d8f7](https://github.com/Tresjs/tres/commit/190d8f71a4e350bd2944cb91a064920755b03ce7)), closes [#964](https://github.com/Tresjs/tres/issues/964) [#960](https://github.com/Tresjs/tres/issues/960) [#966](https://github.com/Tresjs/tres/issues/966) [#973](https://github.com/Tresjs/tres/issues/973) [#975](https://github.com/Tresjs/tres/issues/975)
+
 ## [5.0.0-rc.0](https://github.com/Tresjs/tres/compare/5.0.0-alpha.2...5.0.0-rc.0) (2025-09-20)
 
 ### Features
