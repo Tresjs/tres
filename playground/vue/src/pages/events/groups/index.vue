@@ -8,17 +8,21 @@ const handleClick = (e: PointerEvent) => {
 }
 
 const handlePointerEnter = (e: PointerEvent) => {
-  console.log('pointer-enter', e)
+  console.log('pointerenter', e)
 }
 
 const handlePointerLeave = (e: PointerEvent) => {
-  console.log('pointer-leave', e)
+  console.log('pointerleave', e)
+}
+
+const handlePointerMissed = (event: PointerEvent) => {
+  console.log('pointermissed', event)
 }
 /* eslint-enable no-console */
 </script>
 
 <template>
-  <TresCanvas clear-color="#202020" shadows>
+  <TresCanvas clear-color="#202020" shadows @pointermissed="handlePointerMissed">
     <!-- Camera setup -->
     <TresPerspectiveCamera
       :position="[5, 5, 5]"
@@ -31,7 +35,7 @@ const handlePointerLeave = (e: PointerEvent) => {
     <TresAmbientLight :intensity="0.5" />
 
     <!-- Group of geometric shapes -->
-    <TresGroup @click="handleClick" @pointer-enter="handlePointerEnter" @pointer-leave="handlePointerLeave">
+    <TresGroup @click="handleClick" @pointerenter="handlePointerEnter" @pointerleave="handlePointerLeave">
       <!-- Box -->
       <TresMesh :position="[-2, 0, 0]">
         <TresBoxGeometry :args="[1, 1, 1]" />

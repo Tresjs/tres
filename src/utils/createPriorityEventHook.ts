@@ -1,25 +1,17 @@
-import type { EventHookOff, IsAny } from '@vueuse/core'
+import type { EventHookOff, EventHookTrigger } from '@vueuse/core'
 import { tryOnScopeDispose } from '@vueuse/core'
 
 // NOTE: Based on vueuse's createEventHook
 // https://github.com/vueuse/vueuse/blob/1558cd2b5b019abc1feda6d702caa1053a182903/packages/shared/createEventHook/index.ts
 
-// NOTE: any extends void = true
-// So we need to check if T is any first
-export type Callback<T> = IsAny<T> extends true
-  ? (param: any) => void
-  : (
-      [T] extends [void]
-        ? () => void
-        : (param: T) => void
-    )
+export type Callback<T> = Parameters<EventHookOff<T>>[0]
 export type PriorityEventHookOn<T> = (fn: Callback<T>, priority?: number) => { off: () => void }
 export type PriorityEventHookOff<T> = EventHookOff<T>
-export type PriorityEventHookTrigger<T = any> = (param?: T) => void
+export type PriorityEventHookTrigger<T> = EventHookTrigger<T>
 
 export interface PriorityEventHook<T = any> {
   on: PriorityEventHookOn<T>
-  off: EventHookOff<T>
+  off: (fn: Callback<T>) => void
   trigger: PriorityEventHookTrigger<T>
   dispose: () => void
   count: number
@@ -61,7 +53,10 @@ export function createPriorityEventHook<T>(): PriorityEventHook<T> {
       sort()
       dirty = false
     }
-    ascending.forEach(fn => fn(...(args as [T])))
+
+    return Promise.all(
+      Array.from(ascending).map(fn => fn(...args)),
+    )
   }
 
   const dispose = () => {

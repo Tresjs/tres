@@ -1,49 +1,37 @@
-import type { LoopCallbackFn } from './../../core/loop'
-import { useTresContext } from '../useTresContextProvider'
+import { useTresContext } from '..'
+import { createPriorityEventHook } from '../../utils/createPriorityEventHook'
+import type { RafLoopContext } from '../useCreateRafLoop'
+import type { TresPartialContext } from '../useTres'
+import { useTres } from '../useTres'
 
-export function useLoop() {
-  const {
-    camera,
-    scene,
-    renderer,
-    loop,
-    raycaster,
-    controls,
-    invalidate,
-    advance,
-  } = useTresContext()
+export type LoopContext = RafLoopContext & TresPartialContext
 
-  // Pass context to loop
-  loop.setContext({
-    camera,
-    scene,
-    renderer,
-    raycaster,
-    controls,
-    invalidate,
-    advance,
+/**
+ * Composable that provides control over the render loop and animation lifecycle.
+ */
+export const useLoop = () => {
+  const tresContext = useTres()
+  const { renderer: rendererManager } = useTresContext()
+
+  const eventHookBeforeRender = createPriorityEventHook<LoopContext>()
+  const eventHookAfterRender = createPriorityEventHook<LoopContext>()
+
+  rendererManager.loop.onBeforeLoop((loopContext) => {
+    eventHookBeforeRender.trigger({ ...tresContext, ...loopContext })
   })
 
-  function onBeforeRender(cb: LoopCallbackFn, index = 0) {
-    return loop.register(cb, 'before', index)
-  }
+  rendererManager.loop.onLoop((loopContext) => {
+    eventHookAfterRender.trigger({ ...tresContext, ...loopContext })
+  })
 
-  function render(cb: LoopCallbackFn) {
-    return loop.register(cb, 'render')
-  }
-
-  function onAfterRender(cb: LoopCallbackFn, index = 0) {
-    return loop.register(cb, 'after', index)
-  }
+  const render = rendererManager.replaceRenderFunction
 
   return {
-    pause: loop.pause,
-    resume: loop.resume,
-    pauseRender: loop.pauseRender,
-    resumeRender: loop.resumeRender,
-    isActive: loop.isActive,
-    onBeforeRender,
+    stop: rendererManager.loop.stop,
+    start: rendererManager.loop.start,
+    isActive: rendererManager.loop.isActive,
+    onBeforeRender: eventHookBeforeRender.on,
+    onRender: eventHookAfterRender.on,
     render,
-    onAfterRender,
   }
 }

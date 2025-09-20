@@ -1,5 +1,879 @@
 # Changelog
 
+## [5.0.0-rc.0](https://github.com/Tresjs/tres/compare/5.0.0-alpha.2...5.0.0-rc.0) (2025-09-20)
+
+### Features
+
+* model and animation recipe ([#1082](https://github.com/Tresjs/tres/issues/1082)) ([078d7bc](https://github.com/Tresjs/tres/commit/078d7bce3c4d6496a78e80e6ec5302a208ef8931))
+
+### Bug Fixes
+
+* docs ssg 404 issues ([#1081](https://github.com/Tresjs/tres/issues/1081)) ([9e1fc89](https://github.com/Tresjs/tres/commit/9e1fc89d79ea995a005bb3fd09797c2c0391ce78))
+
+## [5.0.0-alpha.2](https://github.com/Tresjs/tres/compare/5.0.0-alpha.1...5.0.0-alpha.2) (2025-09-03)
+
+### Features
+
+* devtools communication strategy ([#1067](https://github.com/Tresjs/tres/issues/1067)) ([d8752bb](https://github.com/Tresjs/tres/commit/d8752bbdb330ea7c8d641164aab787abbb425ccb))
+
+## [5.0.0-alpha.1](https://github.com/Tresjs/tres/compare/5.0.0-alpha.0...5.0.0-alpha.1) (2025-08-30)
+
+### Bug Fixes
+
+* removed development exports from package.json ([#1079](https://github.com/Tresjs/tres/issues/1079)) ([1baca35](https://github.com/Tresjs/tres/commit/1baca351698d21240e47275d328a4a757b9edfd2))
+
+## [5.0.0-alpha.0](https://github.com/Tresjs/tres/compare/5.0.0-next.6...5.0.0-alpha.0) (2025-08-21)
+
+### Features
+
+* 1047 warn user if the canvas has no area ([#1048](https://github.com/Tresjs/tres/issues/1048)) ([4c06603](https://github.com/Tresjs/tres/commit/4c06603eef16d06ec045936d33b820d209c99eb0))
+* enhance Nuxt configuration and AppHeader to include package version ([7a8b53f](https://github.com/Tresjs/tres/commit/7a8b53f9e22b36cdd07b3499c845e61e737556a4))
+* make some of the utility methods available to users ([#1068](https://github.com/Tresjs/tres/issues/1068)) ([a225230](https://github.com/Tresjs/tres/commit/a225230cd61c87eeed30b1d86261b97649bfd2ae))
+
+### Bug Fixes
+
+* avoid pierced props to setScalar when numerical ([#1073](https://github.com/Tresjs/tres/issues/1073)) ([4e7ba85](https://github.com/Tresjs/tres/commit/4e7ba85d28b8aefa4a37cd336bfedd841c981e91))
+
+### Reverts
+
+* **docs:** revert active navigation change ([#1058](https://github.com/Tresjs/tres/issues/1058)) ([dd13115](https://github.com/Tresjs/tres/commit/dd13115bf2b13ce6e3b9ffad28d5c6056afdc2b6))
+
+## [5.0.0-next.6](https://github.com/Tresjs/tres/compare/5.0.0-next.5...5.0.0-next.6) (2025-06-22)
+
+### Bug Fixes
+
+* update elapsed time retrieval in useCreateRafLoop to use the latest clock property ([#1046](https://github.com/Tresjs/tres/issues/1046)) ([1b3971c](https://github.com/Tresjs/tres/commit/1b3971c27c56964c8cbc3f0528e1362a648c8b41))
+
+## [5.0.0-next.5](https://github.com/Tresjs/tres/compare/5.0.0-next.4...5.0.0-next.5) (2025-06-20)
+
+## [5.0.0-next.4](https://github.com/Tresjs/tres/compare/5.0.0-next.3...5.0.0-next.4) (2025-06-20)
+
+### ⚠ BREAKING CHANGES
+
+* onAfterRender has been renamed to onRender
+
+* refactor: type improvements in createPriorityEventHook
+
+* wip
+
+* wip
+
+* improved test
+
+* added context to useCreateRenderLoop and tests
+
+* fixed typing
+
+* added clock
+
+* wip
+
+* refactor: remove deprecated loop implementation and update related composables
+
+- Removed the old `useCreateRenderLoop` and its associated tests.
+- Updated `useLoop` to utilize the new `useRenderLoop` for better event handling.
+- Commented out `OrbitControls` in relevant Vue components for potential future use.
+- Cleaned up unused code and comments in `useTresContextProvider`.
+
+* added some todos
+
+* refactor: removed redundant eventhook
+
+* refactor: simplify renderer setup by removing loop parameter
+
+* refactor: enhance useRenderLoop to accept notifyFrameRendered callback
+
+* chore: removed obsolete comment
+
+* chore: made TresCanvas use correct event hook
+
+* refactor!: omitted frame in render manager return
+
+* refactor: restored renderEventHook
+
+* chore: added comments after meeting
+
+* refactor: made render loop more generic in it's naming
+
+* refactor: made useLoop use useTres context
+
+* chore: added jsdoc description for useLoop
+
+* refactor: rename LoopContext to RafLoopContext and update related references
+
+* refactor: replaced setTimeout with useTimeout
+
+* refactor: update useLoop tests to use useCreateRafLoop and adjust rendering logic
+
+* test: enhance useLoop tests with fake timers and add new callback functionality
+
+* chore: removed debug code
+
+* fix: initialize frames based on renderMode to ensure correct rendering behavior
+
+* refactor: fixed multiple playgrounds
+
+* feat: added loop and beforeLoop events to canvas
+
+* fix: fixed playground experience
+rafactor: renamed replaceCycleFunction to replaceLoopFunction
+
+* fix: fixed some more playgrounds
+
+* fixed some more playgrounds
+
+* refactor!: renamed onBeforeRender to onBeforeLoop and onRender to onLoop
+fix: fixed playgrounds
+
+* fixed test
+
+* refactor: tiny code styling improvement
+
+* refactor: omitted export of useCreateRafLoop
+
+* linting fixes
+
+* refactor: tiny improvement for fbo demo
+
+* refactor: rename fboRef to groupRef for clarity in FBO demo
+
+* refactor: renamed onBeforeLoop back to onBeforeRender and onLoop back to onRender
+
+* restored usage of orbit controls
+
+* more restoring of orbitcontrols usages
+
+* refactor: updated loop handling by renaming onLoop to onRender in TakeOverRenderExperience.vue and adjusted related emit definitions in TresCanvas.vue
+
+* removed obsolete comment
+
+### Features
+
+* useLoop and useRenderLoop refactoring ([#1035](https://github.com/Tresjs/tres/issues/1035)) ([db65f3f](https://github.com/Tresjs/tres/commit/db65f3f1ea723048d6851ed52a445d80a0d26f09)), closes [#1039](https://github.com/Tresjs/tres/issues/1039)
+
+## [5.0.0-next.3](https://github.com/Tresjs/tres/compare/5.0.0-next.2...5.0.0-next.3) (2025-06-15)
+
+### Features
+
+* expose render mode ([#1032](https://github.com/Tresjs/tres/issues/1032)) ([b5b9456](https://github.com/Tresjs/tres/commit/b5b94560fddcdcb65f3dec6692143867ed58914e))
+
+## [5.0.0-next.2](https://github.com/Tresjs/tres/compare/5.0.0-next.1...5.0.0-next.2) (2025-06-15)
+
+### ⚠ BREAKING CHANGES
+
+* Only first element intersected wil trigger the pointer event, no more need to stop propagation on occlusion
+
+* feat: get the context object tree with max 4 leves deep
+
+* feat: enhance context node creation and graph building
+
+- Updated `createContextNode` to include an optional `parentKey` parameter for better context chaining.
+- Modified `buildContextGraph` to utilize the new `parentKey` for constructing chained keys during recursion.
+- Added handling for context nodes in the inspector state, allowing for dynamic traversal of context objects based on chained keys.
+- Improved readability and maintainability of the context graph logic.
+
+* fix: improve scene object handling in Tres Devtools
+
+- Enhanced the logic for extracting UUIDs from scene node IDs to ensure proper handling of scene objects.
+- Updated the inspector state editing to reflect the new UUID extraction method, improving reliability when editing scene objects.
+- Set the `editable` property to false for certain inspector values to prevent unintended modifications.
+
+* fix: lint issue with fonts
+
+* feat: implement inspector handlers for Tres Devtools
+
+- Added `inspectorHandlers.ts` to manage inspector tree and state updates, enhancing the interaction with the Tres context.
+- Introduced functions for creating nodes in the inspector tree, building graphs for scene and context objects, and handling state edits.
+- Updated `TresCanvas.vue` to ensure proper context handling when registering Tres Devtools.
+- Refactored `plugin.ts` to utilize the new inspector handlers, improving code organization and maintainability.
+- Created type definitions in `types.ts` for better clarity and type safety in inspector-related functionalities.
+
+* feat!(events): new event system based on pmdrs/pointer-events
+* Only first element intersected wil trigger the pointer event, no more need to stop propagation on occlusion
+
+* refactor: update event handler parameter naming for clarity
+
+- Renamed the parameter in the onPointerMove function from 'ev' to '_ev' to indicate that it is intentionally unused, improving code readability.
+- Removed unused import 'TresObject' from useTresContextProvider to clean up the codebase.
+
+* refactor: update type imports and event handling in TresCanvas
+
+- Replaced the Camera type with TresCamera in TresCanvasProps for better type specificity.
+- Cleaned up imports in TresCanvas.vue by removing unused imports.
+- Updated event handling in useEventManager to use pointerEventsMap for onClick, with a TODO for future type improvements.
+- Modified handlers in LocalState to accept both PointerEventType and string for enhanced flexibility.
+- Adjusted deregistration method in doRemoveDeregister to use context.events for consistency.
+
+* refactor: update useTres composable to replace raycaster with events
+
+- Modified the `useTres` composable to return `events` instead of `raycaster`, aligning with the updated context structure.
+- Removed the `uuid` property from the `TresContext` interface and cleaned up unused imports in `useTresContextProvider`, enhancing code maintainability.
+
+* refactor: update useLoop composable to replace raycaster with events
+
+- Modified the `useLoop` composable to utilize `events` instead of `raycaster`, aligning with the recent changes in the Tres context structure.
+- This change enhances the integration with the updated event system, ensuring better context handling during the rendering loop.
+
+* wip
+
+* separated event utils
+
+* beautified types
+
+* type fixes
+
+* moved update call
+
+* added todos
+
+* omitted potential memory leak and callback calls of gone objects
+
+* refactor: fixed onRender naming
+
+* restored playground example
+
+* Updated the `offPointerMissed` assignment to create a separate listener for each object, preventing unintended shared calls.
+
+* improved comment
+
+* renamed eventManager in context
+
+* removed obsolete code
+
+* chore: update @tresjs/cientos dependency to version 5.0.0-next.0 in package.json and playground/vue/package.json
+
+* chore(playground): streamline event handling and remove unused Box component
+
+- Removed the `stopPropagation` control logic from event handlers in `index.vue` to simplify the code.
+- Updated event logging messages for consistency in `index.vue` and `groups/index.vue`.
+- Enhanced the `TresGroup` component in `groups/index.vue` to include a new `@pointermissed` event handler.
+- Deleted the unused `Box.vue` and `index.vue` files from the propagation directory to clean up the codebase.
+
+* went back to "events"
+
+* removed pointermissed from nodeops
+
+* fixed emits of canvas compoennt
+
+* cleaned up types
+
+* tiny readability improvement
+
+* eslint fix
+
+* feat!(events): new event system based on pmdrs/pointer-events ([f201378](https://github.com/Tresjs/tres/commit/f2013783ea528b0a230b03ec3334640ad3dd0227))
+
+### Features
+
+* 982 refactor userenderer ([#1022](https://github.com/Tresjs/tres/issues/1022)) ([cc8b752](https://github.com/Tresjs/tres/commit/cc8b752b717ca20f3da58b1a1890c5da2473f1cf)), closes [#1028](https://github.com/Tresjs/tres/issues/1028)
+* webgpu native support ([#1029](https://github.com/Tresjs/tres/issues/1029)) ([6f3d41d](https://github.com/Tresjs/tres/commit/6f3d41d1c73cb3113cd22321d9672a2907080652))
+## [5.0.0-next.1](https://github.com/Tresjs/tres/compare/5.0.0-next.1...5.0.0-next.2) (2025-06-06)
+
+### ⚠ BREAKING CHANGES
+
+* - useTresReady is no longer available, it has been replaced by isReady in the renderer in the context
+- onTresReady is no longer available. renderer.isReady should be leveraged instead
+
+* chore: removed playground files concerning useTresReady
+
+* chore: removed ready pages from playground routes
+
+* feature: made isReady dependency clearer by leveraging triggerRef
+
+* ˆ
+* camera ctx property is now an object with the camera manager instead of the active camera
+
+* fix: remove camera manual check
+
+* chore: remove reset onUnmounted
+
+Co-authored-by: Tino Koch <17991193+Tinoooo@users.noreply.github.com>
+
+* chore: remove unused comment
+
+Co-authored-by: Tino Koch <17991193+Tinoooo@users.noreply.github.com>
+
+* chore: omit previous reordering of cameras
+
+Co-authored-by: Tino Koch <17991193+Tinoooo@users.noreply.github.com>
+
+* refactor: update camera handling to use Three.js Camera type
+
+- Replaced instances of TresCamera with Three.js Camera type across the codebase for better compatibility and consistency.
+- Updated camera management logic in useCamera composable and related components to reflect the new type.
+- Simplified currentCamera logic to use computed properties instead of watch.
+
+* refactor: enhance orthographic camera setup and controls
+
+- Updated the orthographic camera initialization to correctly calculate frustum dimensions based on the aspect ratio.
+- Introduced zoom functionality for the orthographic camera.
+- Simplified the useControls setup by removing unnecessary properties and focusing on essential controls.
+- Adjusted the camera update logic to reflect the new control structure, ensuring proper projection matrix updates.
+
+* chore(playground): streamline camera implementation with TresJS components
+
+- Removed manual camera initialization in favor of using TresJS components for perspective and orthographic cameras.
+- Updated the template to conditionally render the appropriate camera based on the selected camera type.
+- Enhanced readability and maintainability by leveraging TresJS's built-in camera properties and methods.
+
+* refactor(playground): remove unused camera imports in index.vue
+
+- Eliminated unused imports for OrthographicCamera and PerspectiveCamera from Three.js to streamline the code.
+- This change enhances code clarity and reduces unnecessary dependencies, aligning with the recent updates to utilize TresJS components for camera management.
+* `useTexture` composable has been refactored and moved to `@tresjs/cientos` package
+
+- Deleted the `useTexture` composable and its associated files as it has been refactored and moved to the `@tresjs/cientos` package.
+- Updated documentation to reflect the changes, including a warning about the deprecation and a link to the new `cientos` documentation for `useTexture`.
+- Adjusted examples in the cookbook to utilize the new `useTexture` from `@tresjs/cientos`, ensuring users are directed to the correct implementation.
+
+* fix: clean up texture loading examples in documentation
+
+- Removed unnecessary line breaks and improved formatting in the `load-textures.md` documentation.
+- Streamlined the example code for `TresMeshStandardMaterial` to enhance readability and maintain consistency with coding standards.
+
+* docs: update composables documentation to reflect removal of useTexture
+
+- Removed deprecated `useTexture` section from the documentation, indicating its refactor to the `@tresjs/cientos` package.
+- Added a warning about the deprecation and provided a link to the new `cientos` documentation for user guidance.
+- Ensured that the remaining documentation is clear and concise, maintaining consistency with the latest changes in the codebase.
+* - useTresReady is no longer available, it has been replaced by isReady in the renderer in the context
+- onTresReady is no longer available. renderer.isReady should be leveraged instead
+
+* chore: removed playground files concerning useTresReady
+
+* chore: removed ready pages from playground routes
+
+* feature: made isReady dependency clearer by leveraging triggerRef
+* - useRenderer now returns invalidate and advance
+- useTresContextProvider no longer contains render state
+
+* chore: removed internal renderer ref
+
+* refactor!: the renderer instance is now returned from useRenderer, made renderer being wrapped inside the context
+* - invalidate, advance, canBeInvalidated and the renderer instance are now accessed through the context via `renderer`
+- the renderer instance in the context is now readonly
+
+* refactor: removed one emit dependency
+
+* tofo cleanup
+
+* merge fix
+
+* refactor: updated other parts to match structural changes
+
+* worked around loop errors
+
+* fixes concerning changes in playground
+
+* updated english docs
+
+* fix: wrong render mode in docs
+
+* removed obsolete todo
+
+* fix: added null check
+
+* fix: removed deprecated toValue import
+
+* feat: remove emit from useTresEventManager
+
+* renamed type
+
+* chore: got rid of emit concerning TresReady
+
+* refactor!: removed emit from useTresContextProvider and useTresEventManager
+* - the type `EmitEventName` is no longer exported from @tresjs/core
+- the type `EmitEventFn` is no longer exported from @tresjs/core
+
+* chore: restored renderer tyope in LoopCallbackWithCtx
+
+* refactor: renamed useRenderer
+
+* fix: test
+
+* cleanup
+* - useRenderer now returns invalidate and advance
+- useTresContextProvider no longer contains render state
+
+* chore: removed internal renderer ref
+
+* refactor!: the renderer instance is now returned from useRenderer, made renderer being wrapped inside the context
+* - invalidate, advance, canBeInvalidated and the renderer instance are now accessed through the context via `renderer`
+- the renderer instance in the context is now readonly
+
+* refactor: removed one emit dependency
+
+* tofo cleanup
+
+* merge fix
+
+* refactor: updated other parts to match structural changes
+
+* worked around loop errors
+
+* fixes concerning changes in playground
+
+* updated english docs
+
+* fix: wrong render mode in docs
+
+* removed obsolete todo
+
+* fix: added null check
+
+* fix: removed deprecated toValue import
+
+* chore: restored renderer tyope in LoopCallbackWithCtx
+
+* refactor: renamed useRenderer
+
+* fix: test
+
+* fix: lint fix
+* `useSeek` is deprecated
+
+- Marked the `useSeek` composable as deprecated in the documentation, indicating its removal in v5.0.0.
+- Removed the `useSeek` composable implementation and its associated tests from the codebase to streamline the composables directory.
+- Updated the documentation to reflect the deprecation status and provide guidance for users.
+
+* Update docs/api/composables.md
+
+Co-authored-by: Tino Koch <17991193+Tinoooo@users.noreply.github.com>
+
+### Features
+
+* 1012 add context inspector devtools ([#1013](https://github.com/Tresjs/tres/issues/1013)) ([ff6723c](https://github.com/Tresjs/tres/commit/ff6723cc7d91b229523220e7eb18d0e2b4a48efb))
+* 986 remove usetexture ([#1008](https://github.com/Tresjs/tres/issues/1008)) ([041b697](https://github.com/Tresjs/tres/commit/041b697bf77ad7b7f70b7d3f2bdeed99c5149abb))
+* deprecate useSeek composable and update documentation ([#990](https://github.com/Tresjs/tres/issues/990)) ([3d5ea13](https://github.com/Tresjs/tres/commit/3d5ea135911627ae3c9d4609c83f646a9cd793a9))
+* introduce useTres composable and update related documentation ([#1017](https://github.com/Tresjs/tres/issues/1017)) ([fd03f72](https://github.com/Tresjs/tres/commit/fd03f7241e9345f670ab64967007a40e3c1d80cd))
+
+### Bug Fixes
+
+* add initial value support to useLoader([#1007](https://github.com/Tresjs/tres/issues/1007)) ([be3280b](https://github.com/Tresjs/tres/commit/be3280b01185358558cd91aa7cfca4bc7a1507e8))
+* added forgotten ready emit ([8b97e85](https://github.com/Tresjs/tres/commit/8b97e850d19a9bba4dc1353e796859d209539fbe))
+
+### Code Refactoring
+
+* 979 move renderer logic from usetrescontextprovider to userenderer 2 ([#993](https://github.com/Tresjs/tres/issues/993)) ([36bcb1c](https://github.com/Tresjs/tres/commit/36bcb1c0c2e1ca97d09240bff2ce46d8da43896c))
+* 992 removal of emit from usetrescontextprovider composable ([#999](https://github.com/Tresjs/tres/issues/999)) ([090adf3](https://github.com/Tresjs/tres/commit/090adf30774daa90c1fef710b00cbac5480c0b94))
+* context camera is now a state ([#1004](https://github.com/Tresjs/tres/issues/1004)) ([d5daf5d](https://github.com/Tresjs/tres/commit/d5daf5dace31e27f293c49506302e3fa0c93483a)), closes [#1009](https://github.com/Tresjs/tres/issues/1009)
+* removal of performance state from useTresContextProvider ([#1003](https://github.com/Tresjs/tres/issues/1003)) ([79edf43](https://github.com/Tresjs/tres/commit/79edf431f61b5bd6876bc248ce88b8dcf220b64b))
+* removed useTresReady, added isReady to the renderer in the… ([#1000](https://github.com/Tresjs/tres/issues/1000)) ([ff35bfc](https://github.com/Tresjs/tres/commit/ff35bfce4964bb884faa0b3258f7f3a5450ec69c))
+## [5.0.0-next.0](https://github.com/Tresjs/tres/compare/5.0.0-next.1...5.0.0-next.2) (2025-04-12)
+
+### ⚠ BREAKING CHANGES
+
+* **loader:** useLoader no longer returns the plain obj, it now returns and object with reactive data (resource|s), isLoading, error) and a load method, can be used both sync and async (suspense)
+
+- Added `useLoader` composable for loading resources with THREE.js, supporting single and multiple resource loading, loading state tracking, and error handling.
+- Created comprehensive documentation for `useLoader`, detailing its features, usage examples, and API reference.
+- Updated various playground components to utilize the new `useLoader` composable for loading GLTF and FBX models.
+- Added new demo pages for loading multiple models and using the `UseLoader` component in templates.
+
+* chore(loader): simplify useLoader implementation and clean up imports
+
+- Updated the `UseLoader` component in documentation to remove unnecessary destructuring of the slot props.
+- Cleaned up imports in `BlenderCube.vue`, `Suzanne.vue`, and `TheExperience.vue` by removing unused types.
+- Added eslint-disable comments for console logging in `Suzanne.vue` and `TheExperience.vue` to improve code readability while debugging.
+
+* feat: useGraph to generate named object material collections
+
+* feat: useAsyncState for useLoader
+
+- Added documentation for the `useLoader` composable, detailing its features, usage examples, and API reference.
+- Updated the navigation in the VitePress configuration to include a link to the new `useLoader` documentation.
+- Enhanced the `useLoader` composable to support better type safety and resource management.
+- Removed the `Suzanne.vue` component as part of the cleanup process.
+
+* feat: enhance useLoader and useGraph composables
+
+- Updated the `useLoader` composable to improve type safety and support loading textures alongside models.
+- Refactored the `useGraph` composable to accept both Object3D and TresObject types, enhancing its flexibility.
+- Added new examples and documentation for loading multiple models and textures, including progress tracking.
+- Cleaned up and organized playground components to demonstrate the new features effectively.
+
+* refactor(useLoader.test): clean up imports by removing unused `nextTick` import
+
+- Removed the unused `nextTick` import from the `useLoader.test.ts` file to streamline the code and improve readability.
+
+* docs: remove trailing spaces in team.md for consistency
+
+- Cleaned up trailing spaces in the `team.md` file to improve code consistency and readability.
+
+* fix(graph): export also types from graph utils
+
+* refactor(index.ts): remove unused export of buildGraph
+
+- Removed the unused `buildGraph` export from `index.ts` to streamline the code and improve maintainability.
+
+* feat: enhance resources loading with progress tracking
+
+- Enhanced the `useLoader` composable to return progress information, allowing for better user feedback during model loading.
+- Updated `TheModel.vue` to utilize the new progress tracking feature from the `useLoader` composable.
+- Removed the unused `LoadingManager` and integrated progress updates directly into the component's state.
+- Updated docs
+
+* feat: added tests to load and progress
+* Tres is now ESM only
+
+- Removed UMD build configuration from package.json and adjusted exports to only include ES module.
+- Updated vite.config.ts to specify the output format as ES, enhancing compatibility with modern module systems.
+
+### Features
+
+* 974-createsetup-devtools ([#975](https://github.com/Tresjs/tres/issues/975)) ([1d83f7b](https://github.com/Tresjs/tres/commit/1d83f7b96e0f0c6b20a3c42a03599f86211e051f))
+* **deps:** update @vue/devtools-api and @tresjs/cientos dependencies ([#977](https://github.com/Tresjs/tres/issues/977)) ([4793f6b](https://github.com/Tresjs/tres/commit/4793f6b0cabd0a233e9008bd3b45fcef6c133945))
+* **loader:** refactor useLoader to a true composable ([#959](https://github.com/Tresjs/tres/issues/959)) ([430837f](https://github.com/Tresjs/tres/commit/430837f1aeeddb4f17620efb13975c23e0f67d6c))
+* update package.json and vite.config.ts for build configuration ([#960](https://github.com/Tresjs/tres/issues/960)) ([96a96f4](https://github.com/Tresjs/tres/commit/96a96f48a4b0097c34b2edb36babf745e97a9a6f))
+
+### Bug Fixes
+
+* export logger utility from utils in index.ts ([#966](https://github.com/Tresjs/tres/issues/966)) ([bb0b9e2](https://github.com/Tresjs/tres/commit/bb0b9e2f3843d2bd27cd46cfe982f433dca013b4))
+## [4.3.6](https://github.com/Tresjs/tres/compare/5.0.0-next.1...5.0.0-next.2) (2025-06-06)
+
+## [5.0.0-next.1](https://github.com/Tresjs/tres/compare/5.0.0-next.0...5.0.0-next.1) (2025-06-06)
+
+### ⚠ BREAKING CHANGES
+
+* - useTresReady is no longer available, it has been replaced by isReady in the renderer in the context
+- onTresReady is no longer available. renderer.isReady should be leveraged instead
+
+* chore: removed playground files concerning useTresReady
+
+* chore: removed ready pages from playground routes
+
+* feature: made isReady dependency clearer by leveraging triggerRef
+
+* ˆ
+* camera ctx property is now an object with the camera manager instead of the active camera
+
+* fix: remove camera manual check
+
+* chore: remove reset onUnmounted
+
+Co-authored-by: Tino Koch <17991193+Tinoooo@users.noreply.github.com>
+
+* chore: remove unused comment
+
+Co-authored-by: Tino Koch <17991193+Tinoooo@users.noreply.github.com>
+
+* chore: omit previous reordering of cameras
+
+Co-authored-by: Tino Koch <17991193+Tinoooo@users.noreply.github.com>
+
+* refactor: update camera handling to use Three.js Camera type
+
+- Replaced instances of TresCamera with Three.js Camera type across the codebase for better compatibility and consistency.
+- Updated camera management logic in useCamera composable and related components to reflect the new type.
+- Simplified currentCamera logic to use computed properties instead of watch.
+
+* refactor: enhance orthographic camera setup and controls
+
+- Updated the orthographic camera initialization to correctly calculate frustum dimensions based on the aspect ratio.
+- Introduced zoom functionality for the orthographic camera.
+- Simplified the useControls setup by removing unnecessary properties and focusing on essential controls.
+- Adjusted the camera update logic to reflect the new control structure, ensuring proper projection matrix updates.
+
+* chore(playground): streamline camera implementation with TresJS components
+
+- Removed manual camera initialization in favor of using TresJS components for perspective and orthographic cameras.
+- Updated the template to conditionally render the appropriate camera based on the selected camera type.
+- Enhanced readability and maintainability by leveraging TresJS's built-in camera properties and methods.
+
+* refactor(playground): remove unused camera imports in index.vue
+
+- Eliminated unused imports for OrthographicCamera and PerspectiveCamera from Three.js to streamline the code.
+- This change enhances code clarity and reduces unnecessary dependencies, aligning with the recent updates to utilize TresJS components for camera management.
+* `useTexture` composable has been refactored and moved to `@tresjs/cientos` package
+
+- Deleted the `useTexture` composable and its associated files as it has been refactored and moved to the `@tresjs/cientos` package.
+- Updated documentation to reflect the changes, including a warning about the deprecation and a link to the new `cientos` documentation for `useTexture`.
+- Adjusted examples in the cookbook to utilize the new `useTexture` from `@tresjs/cientos`, ensuring users are directed to the correct implementation.
+
+* fix: clean up texture loading examples in documentation
+
+- Removed unnecessary line breaks and improved formatting in the `load-textures.md` documentation.
+- Streamlined the example code for `TresMeshStandardMaterial` to enhance readability and maintain consistency with coding standards.
+
+* docs: update composables documentation to reflect removal of useTexture
+
+- Removed deprecated `useTexture` section from the documentation, indicating its refactor to the `@tresjs/cientos` package.
+- Added a warning about the deprecation and provided a link to the new `cientos` documentation for user guidance.
+- Ensured that the remaining documentation is clear and concise, maintaining consistency with the latest changes in the codebase.
+* - useTresReady is no longer available, it has been replaced by isReady in the renderer in the context
+- onTresReady is no longer available. renderer.isReady should be leveraged instead
+
+* chore: removed playground files concerning useTresReady
+
+* chore: removed ready pages from playground routes
+
+* feature: made isReady dependency clearer by leveraging triggerRef
+* - useRenderer now returns invalidate and advance
+- useTresContextProvider no longer contains render state
+
+* chore: removed internal renderer ref
+
+* refactor!: the renderer instance is now returned from useRenderer, made renderer being wrapped inside the context
+* - invalidate, advance, canBeInvalidated and the renderer instance are now accessed through the context via `renderer`
+- the renderer instance in the context is now readonly
+
+* refactor: removed one emit dependency
+
+* tofo cleanup
+
+* merge fix
+
+* refactor: updated other parts to match structural changes
+
+* worked around loop errors
+
+* fixes concerning changes in playground
+
+* updated english docs
+
+* fix: wrong render mode in docs
+
+* removed obsolete todo
+
+* fix: added null check
+
+* fix: removed deprecated toValue import
+
+* feat: remove emit from useTresEventManager
+
+* renamed type
+
+* chore: got rid of emit concerning TresReady
+
+* refactor!: removed emit from useTresContextProvider and useTresEventManager
+* - the type `EmitEventName` is no longer exported from @tresjs/core
+- the type `EmitEventFn` is no longer exported from @tresjs/core
+
+* chore: restored renderer tyope in LoopCallbackWithCtx
+
+* refactor: renamed useRenderer
+
+* fix: test
+
+* cleanup
+* - useRenderer now returns invalidate and advance
+- useTresContextProvider no longer contains render state
+
+* chore: removed internal renderer ref
+
+* refactor!: the renderer instance is now returned from useRenderer, made renderer being wrapped inside the context
+* - invalidate, advance, canBeInvalidated and the renderer instance are now accessed through the context via `renderer`
+- the renderer instance in the context is now readonly
+
+* refactor: removed one emit dependency
+
+* tofo cleanup
+
+* merge fix
+
+* refactor: updated other parts to match structural changes
+
+* worked around loop errors
+
+* fixes concerning changes in playground
+
+* updated english docs
+
+* fix: wrong render mode in docs
+
+* removed obsolete todo
+
+* fix: added null check
+
+* fix: removed deprecated toValue import
+
+* chore: restored renderer tyope in LoopCallbackWithCtx
+
+* refactor: renamed useRenderer
+
+* fix: test
+
+* fix: lint fix
+* `useSeek` is deprecated
+
+- Marked the `useSeek` composable as deprecated in the documentation, indicating its removal in v5.0.0.
+- Removed the `useSeek` composable implementation and its associated tests from the codebase to streamline the composables directory.
+- Updated the documentation to reflect the deprecation status and provide guidance for users.
+
+* Update docs/api/composables.md
+
+Co-authored-by: Tino Koch <17991193+Tinoooo@users.noreply.github.com>
+
+### Features
+
+* 1012 add context inspector devtools ([#1013](https://github.com/Tresjs/tres/issues/1013)) ([ff6723c](https://github.com/Tresjs/tres/commit/ff6723cc7d91b229523220e7eb18d0e2b4a48efb))
+* 986 remove usetexture ([#1008](https://github.com/Tresjs/tres/issues/1008)) ([041b697](https://github.com/Tresjs/tres/commit/041b697bf77ad7b7f70b7d3f2bdeed99c5149abb))
+* deprecate useSeek composable and update documentation ([#990](https://github.com/Tresjs/tres/issues/990)) ([3d5ea13](https://github.com/Tresjs/tres/commit/3d5ea135911627ae3c9d4609c83f646a9cd793a9))
+* introduce useTres composable and update related documentation ([#1017](https://github.com/Tresjs/tres/issues/1017)) ([fd03f72](https://github.com/Tresjs/tres/commit/fd03f7241e9345f670ab64967007a40e3c1d80cd))
+
+### Bug Fixes
+
+* add initial value support to useLoader([#1007](https://github.com/Tresjs/tres/issues/1007)) ([be3280b](https://github.com/Tresjs/tres/commit/be3280b01185358558cd91aa7cfca4bc7a1507e8))
+* added forgotten ready emit ([8b97e85](https://github.com/Tresjs/tres/commit/8b97e850d19a9bba4dc1353e796859d209539fbe))
+
+### Code Refactoring
+
+* 979 move renderer logic from usetrescontextprovider to userenderer 2 ([#993](https://github.com/Tresjs/tres/issues/993)) ([36bcb1c](https://github.com/Tresjs/tres/commit/36bcb1c0c2e1ca97d09240bff2ce46d8da43896c))
+* 992 removal of emit from usetrescontextprovider composable ([#999](https://github.com/Tresjs/tres/issues/999)) ([090adf3](https://github.com/Tresjs/tres/commit/090adf30774daa90c1fef710b00cbac5480c0b94))
+* context camera is now a state ([#1004](https://github.com/Tresjs/tres/issues/1004)) ([d5daf5d](https://github.com/Tresjs/tres/commit/d5daf5dace31e27f293c49506302e3fa0c93483a)), closes [#1009](https://github.com/Tresjs/tres/issues/1009)
+* removal of performance state from useTresContextProvider ([#1003](https://github.com/Tresjs/tres/issues/1003)) ([79edf43](https://github.com/Tresjs/tres/commit/79edf431f61b5bd6876bc248ce88b8dcf220b64b))
+* removed useTresReady, added isReady to the renderer in the… ([#1000](https://github.com/Tresjs/tres/issues/1000)) ([ff35bfc](https://github.com/Tresjs/tres/commit/ff35bfce4964bb884faa0b3258f7f3a5450ec69c))
+## [5.0.0-next.0](https://github.com/Tresjs/tres/compare/5.0.0-next.0...5.0.0-next.1) (2025-04-12)
+
+### ⚠ BREAKING CHANGES
+
+* **loader:** useLoader no longer returns the plain obj, it now returns and object with reactive data (resource|s), isLoading, error) and a load method, can be used both sync and async (suspense)
+
+- Added `useLoader` composable for loading resources with THREE.js, supporting single and multiple resource loading, loading state tracking, and error handling.
+- Created comprehensive documentation for `useLoader`, detailing its features, usage examples, and API reference.
+- Updated various playground components to utilize the new `useLoader` composable for loading GLTF and FBX models.
+- Added new demo pages for loading multiple models and using the `UseLoader` component in templates.
+
+* chore(loader): simplify useLoader implementation and clean up imports
+
+- Updated the `UseLoader` component in documentation to remove unnecessary destructuring of the slot props.
+- Cleaned up imports in `BlenderCube.vue`, `Suzanne.vue`, and `TheExperience.vue` by removing unused types.
+- Added eslint-disable comments for console logging in `Suzanne.vue` and `TheExperience.vue` to improve code readability while debugging.
+
+* feat: useGraph to generate named object material collections
+
+* feat: useAsyncState for useLoader
+
+- Added documentation for the `useLoader` composable, detailing its features, usage examples, and API reference.
+- Updated the navigation in the VitePress configuration to include a link to the new `useLoader` documentation.
+- Enhanced the `useLoader` composable to support better type safety and resource management.
+- Removed the `Suzanne.vue` component as part of the cleanup process.
+
+* feat: enhance useLoader and useGraph composables
+
+- Updated the `useLoader` composable to improve type safety and support loading textures alongside models.
+- Refactored the `useGraph` composable to accept both Object3D and TresObject types, enhancing its flexibility.
+- Added new examples and documentation for loading multiple models and textures, including progress tracking.
+- Cleaned up and organized playground components to demonstrate the new features effectively.
+
+* refactor(useLoader.test): clean up imports by removing unused `nextTick` import
+
+- Removed the unused `nextTick` import from the `useLoader.test.ts` file to streamline the code and improve readability.
+
+* docs: remove trailing spaces in team.md for consistency
+
+- Cleaned up trailing spaces in the `team.md` file to improve code consistency and readability.
+
+* fix(graph): export also types from graph utils
+
+* refactor(index.ts): remove unused export of buildGraph
+
+- Removed the unused `buildGraph` export from `index.ts` to streamline the code and improve maintainability.
+
+* feat: enhance resources loading with progress tracking
+
+- Enhanced the `useLoader` composable to return progress information, allowing for better user feedback during model loading.
+- Updated `TheModel.vue` to utilize the new progress tracking feature from the `useLoader` composable.
+- Removed the unused `LoadingManager` and integrated progress updates directly into the component's state.
+- Updated docs
+
+* feat: added tests to load and progress
+* Tres is now ESM only
+
+- Removed UMD build configuration from package.json and adjusted exports to only include ES module.
+- Updated vite.config.ts to specify the output format as ES, enhancing compatibility with modern module systems.
+
+### Features
+
+* 974-createsetup-devtools ([#975](https://github.com/Tresjs/tres/issues/975)) ([1d83f7b](https://github.com/Tresjs/tres/commit/1d83f7b96e0f0c6b20a3c42a03599f86211e051f))
+* **deps:** update @vue/devtools-api and @tresjs/cientos dependencies ([#977](https://github.com/Tresjs/tres/issues/977)) ([4793f6b](https://github.com/Tresjs/tres/commit/4793f6b0cabd0a233e9008bd3b45fcef6c133945))
+* **loader:** refactor useLoader to a true composable ([#959](https://github.com/Tresjs/tres/issues/959)) ([430837f](https://github.com/Tresjs/tres/commit/430837f1aeeddb4f17620efb13975c23e0f67d6c))
+* update package.json and vite.config.ts for build configuration ([#960](https://github.com/Tresjs/tres/issues/960)) ([96a96f4](https://github.com/Tresjs/tres/commit/96a96f48a4b0097c34b2edb36babf745e97a9a6f))
+
+### Bug Fixes
+
+* export logger utility from utils in index.ts ([#966](https://github.com/Tresjs/tres/issues/966)) ([bb0b9e2](https://github.com/Tresjs/tres/commit/bb0b9e2f3843d2bd27cd46cfe982f433dca013b4))
+## [4.3.5](https://github.com/Tresjs/tres/compare/5.0.0-next.0...5.0.0-next.1) (2025-05-16)
+
+### Bug Fixes
+
+* make sure key is camelCase when reached else on conditional ([#1011](https://github.com/Tresjs/tres/issues/1011)) ([2902d05](https://github.com/Tresjs/tres/commit/2902d05c600b0e2b02738d0ab5af292b4d75cc35))
+## [4.3.4](https://github.com/Tresjs/tres/compare/5.0.0-next.0...5.0.0-next.1) (2025-05-13)
+
+### Bug Fixes
+
+* **patchProp:** harden props inference ([#1006](https://github.com/Tresjs/tres/issues/1006)) ([6cdf28b](https://github.com/Tresjs/tres/commit/6cdf28b73a246b935f0b58a8b759a0aa1b925ff6))
+
+## [5.0.0-next.0](https://github.com/Tresjs/tres/compare/4.3.3...5.0.0-next.0) (2025-04-12)
+
+### ⚠ BREAKING CHANGES
+
+* **loader:** useLoader no longer returns the plain obj, it now returns and object with reactive data (resource|s), isLoading, error) and a load method, can be used both sync and async (suspense)
+
+- Added `useLoader` composable for loading resources with THREE.js, supporting single and multiple resource loading, loading state tracking, and error handling.
+- Created comprehensive documentation for `useLoader`, detailing its features, usage examples, and API reference.
+- Updated various playground components to utilize the new `useLoader` composable for loading GLTF and FBX models.
+- Added new demo pages for loading multiple models and using the `UseLoader` component in templates.
+
+* chore(loader): simplify useLoader implementation and clean up imports
+
+- Updated the `UseLoader` component in documentation to remove unnecessary destructuring of the slot props.
+- Cleaned up imports in `BlenderCube.vue`, `Suzanne.vue`, and `TheExperience.vue` by removing unused types.
+- Added eslint-disable comments for console logging in `Suzanne.vue` and `TheExperience.vue` to improve code readability while debugging.
+
+* feat: useGraph to generate named object material collections
+
+* feat: useAsyncState for useLoader
+
+- Added documentation for the `useLoader` composable, detailing its features, usage examples, and API reference.
+- Updated the navigation in the VitePress configuration to include a link to the new `useLoader` documentation.
+- Enhanced the `useLoader` composable to support better type safety and resource management.
+- Removed the `Suzanne.vue` component as part of the cleanup process.
+
+* feat: enhance useLoader and useGraph composables
+
+- Updated the `useLoader` composable to improve type safety and support loading textures alongside models.
+- Refactored the `useGraph` composable to accept both Object3D and TresObject types, enhancing its flexibility.
+- Added new examples and documentation for loading multiple models and textures, including progress tracking.
+- Cleaned up and organized playground components to demonstrate the new features effectively.
+
+* refactor(useLoader.test): clean up imports by removing unused `nextTick` import
+
+- Removed the unused `nextTick` import from the `useLoader.test.ts` file to streamline the code and improve readability.
+
+* docs: remove trailing spaces in team.md for consistency
+
+- Cleaned up trailing spaces in the `team.md` file to improve code consistency and readability.
+
+* fix(graph): export also types from graph utils
+
+* refactor(index.ts): remove unused export of buildGraph
+
+- Removed the unused `buildGraph` export from `index.ts` to streamline the code and improve maintainability.
+
+* feat: enhance resources loading with progress tracking
+
+- Enhanced the `useLoader` composable to return progress information, allowing for better user feedback during model loading.
+- Updated `TheModel.vue` to utilize the new progress tracking feature from the `useLoader` composable.
+- Removed the unused `LoadingManager` and integrated progress updates directly into the component's state.
+- Updated docs
+
+* feat: added tests to load and progress
+* Tres is now ESM only
+
+- Removed UMD build configuration from package.json and adjusted exports to only include ES module.
+- Updated vite.config.ts to specify the output format as ES, enhancing compatibility with modern module systems.
+
+### Features
+
+* 974-createsetup-devtools ([#975](https://github.com/Tresjs/tres/issues/975)) ([1d83f7b](https://github.com/Tresjs/tres/commit/1d83f7b96e0f0c6b20a3c42a03599f86211e051f))
+* **deps:** update @vue/devtools-api and @tresjs/cientos dependencies ([#977](https://github.com/Tresjs/tres/issues/977)) ([4793f6b](https://github.com/Tresjs/tres/commit/4793f6b0cabd0a233e9008bd3b45fcef6c133945))
+* **loader:** refactor useLoader to a true composable ([#959](https://github.com/Tresjs/tres/issues/959)) ([430837f](https://github.com/Tresjs/tres/commit/430837f1aeeddb4f17620efb13975c23e0f67d6c))
+* update package.json and vite.config.ts for build configuration ([#960](https://github.com/Tresjs/tres/issues/960)) ([96a96f4](https://github.com/Tresjs/tres/commit/96a96f48a4b0097c34b2edb36babf745e97a9a6f))
+
+### Bug Fixes
+
+* export logger utility from utils in index.ts ([#966](https://github.com/Tresjs/tres/issues/966)) ([bb0b9e2](https://github.com/Tresjs/tres/commit/bb0b9e2f3843d2bd27cd46cfe982f433dca013b4))
 ## [4.3.6](https://github.com/Tresjs/tres/compare/4.3.5...4.3.6) (2025-06-06)
 
 ## [4.3.5](https://github.com/Tresjs/tres/compare/4.3.4...4.3.5) (2025-05-16)

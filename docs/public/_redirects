@@ -1,0 +1,5 @@
+# Redirects from old VitePress URLs to new Nuxt structure
+/guide/getting-started.html           /getting-started/installation        
+/guide/your-first-scene.html          /getting-started/your-first-scene   
+/api/tres-canvas.html                 /api/components/tres-canvas          
+/api/instances-arguments-and-props.html /api/components/tres-objects        

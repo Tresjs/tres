@@ -5,10 +5,10 @@ const props = defineProps<{
   activeCameraUuid?: string
 }>()
 
-const { setCameraActive } = useTresContext()
+const { camera } = useTresContext()
 
 watchEffect(() => {
-  if (props.activeCameraUuid) { setCameraActive(props.activeCameraUuid) }
+  if (props.activeCameraUuid) { camera.setActiveCamera(props.activeCameraUuid) }
 })
 </script>
 

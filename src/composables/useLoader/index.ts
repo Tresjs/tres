@@ -1,101 +1,132 @@
-import type { Loader, LoadingManager, Object3D } from 'three'
-import type { TresObject } from '../../types'
-import { useLogger } from '..'
+import type { UseAsyncStateOptions, UseAsyncStateReturn } from '@vueuse/core'
+import { useAsyncState } from '@vueuse/core'
+import type { Loader, LoadingManager } from 'three'
+import type { MaybeRef } from 'vue'
+import { onUnmounted, reactive, toValue, watch } from 'vue'
 
-export interface TresLoader<T> extends Loader {
+import type { TresObject } from '../../types'
+import { disposeObject3D } from '../../utils/'
+
+export interface LoaderMethods {
+  setDRACOLoader: (dracoLoader: any) => void
+  setMeshoptDecoder: (meshoptDecoder: any) => void
+  setKTX2Loader: (ktx2Loader: any) => void
+}
+
+export type TresLoader<T> = Loader & Partial<LoaderMethods> & {
   load: (
-    url: string | string[],
+    url: string,
     onLoad: (result: T) => void,
-    onProgress?: (event: ProgressEvent) => void,
-    onError?: (event: ErrorEvent) => void
+    onProgress?: (event: ProgressEvent<EventTarget>) => void,
+    onError?: (err: unknown) => void
   ) => void
   loadAsync: (url: string, onProgress?: (event: ProgressEvent) => void) => Promise<T>
 }
 
 export type LoaderProto<T> = new (manager?: LoadingManager) => TresLoader<T>
 
-export type LoaderReturnType<T, L extends LoaderProto<T>> = T extends unknown
-  ? Awaited<ReturnType<InstanceType<L>['loadAsync']>>
-  : T
-
-/**
- * Traverse an object and return all the nodes and materials
- *
- * @export
- * @param {Object3D} object
- * @return { [key: string]: any }
- */
-export function traverseObjects(object: Object3D) {
-  const data: { [key: string]: any } = { nodes: {}, materials: {} }
-  if (object) {
-    object.traverse((obj: any) => {
-      if (obj.name) {
-        data.nodes[obj.name] = obj
-      }
-      if (obj.material && !data.materials[obj.material.name]) {
-        data.materials[obj.material.name] = obj.material
-      }
-    })
-  }
-  return data
+export interface TresLoaderOptions<T, Shallow extends boolean> {
+  manager?: LoadingManager
+  extensions?: (loader: TresLoader<T>) => void
+  initialValue?: T
+  asyncOptions?: UseAsyncStateOptions<Shallow, any | null>
 }
 
-export type Extensions<T extends { prototype: LoaderProto<any> }> = (loader: T['prototype']) => void
+/**
+ * Return type for the useLoader composable
+ * @template T - The type of the loaded asset (e.g., GLTF, Texture, etc.)
+ * @template Shallow - Whether to use shallow reactivity for better performance
+ * @extends {UseAsyncStateReturn<T, [string], Shallow>} - Extends VueUse's useAsyncState return type
+ */
+export type UseLoaderReturn<T, Shallow extends boolean> = UseAsyncStateReturn<T, [string], Shallow> & {
+  /**
+   * Loads a new asset from the given path
+   * @param path - The URL or path to the asset to load
+   */
+  load: (path: string) => void
+  /**
+   * Progress of the loading process
+   * @property loaded - The number of bytes loaded
+   * @property total - The total number of bytes to load
+   * @property percentage - The percentage of the loading process
+   */
+  progress: {
+    loaded: number
+    total: number
+    percentage: number
+  }
+}
 
 /**
- * Load resources using THREE loaders and return the result as a promise
- *
- * @see https://tresjs.org/api/composables.html#useloader
- * @see https://threejs.org/docs/index.html?q=loader#api/en/loaders/Loader
- *
- * ```ts
- * import { useLoader } from '@tresjs/core'
- * import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
- *
- * const { scene } = await useLoader(THREE.GLTFLoader, 'path/to/asset.gltf')
- * ```
- *
- * @export
- * @template LoaderProto<T>
- * @template string | string[],
- * @param {LoaderProto<T>} Loader
- * @param {string | string[],} url
- * @param {Extensions<TresLoader<T>>} [extensions]
- * @param {(event: ProgressEvent<EventTarget>) => void} [onProgress]
- * @param {(proto: TresLoader<T>) => void} [cb]
- * @return {*}
+ * Vue composable for loading 3D models using Three.js loaders
+ * @param Loader - The Three.js loader constructor
+ * @param path - The path to the model file
+ * @param options - Optional configuration for the loader
+ * @returns UseAsyncState composable with the loaded model
  */
-export async function useLoader<T>(
+export function useLoader<T, Shallow extends boolean = false>(
   Loader: LoaderProto<T>,
-  url: string | string[],
-  extensions?: (loader: TresLoader<T>) => void,
-  onProgress?: (event: ProgressEvent<EventTarget>) => void,
-  cb?: (proto: TresLoader<T>) => void,
-): Promise<T | T[]> {
-  const { logError } = useLogger()
-  const proto = new Loader()
-  if (cb) {
-    cb(proto)
-  }
-  if (extensions) {
-    extensions(proto)
+  path: MaybeRef<string>,
+  options?: TresLoaderOptions<T, Shallow>,
+): UseLoaderReturn<T, Shallow> {
+  const proto = new Loader(options?.manager)
+  const progress = reactive({
+    loaded: 0,
+    total: 0,
+    percentage: 0,
+  })
+  if (options?.extensions) {
+    options.extensions(proto)
   }
 
-  return await new Promise((resolve, reject) => {
-    proto.load(
-      url,
-      (result: T) => {
-        const data = result as unknown as TresObject
-        if (data.scene) {
-          Object.assign(data, traverseObjects(data.scene))
-        }
-        resolve(data as T | T[])
-      },
-      onProgress,
-      (error: ErrorEvent) => {
-        logError('[useLoader] - Failed to load resource', error as unknown as Error)
-        reject(error)
-      },
-    )
-  }) as T | T[]
+  const initialPath = toValue(path)
+  const result = useAsyncState(
+    (path?: string) => new Promise((resolve, reject) => {
+      const assetPath = path || initialPath || ''
+
+      proto.load(assetPath, (result: T) => {
+        resolve(result as unknown as TresObject)
+      }, (event: ProgressEvent<EventTarget>) => {
+        progress.loaded = event.loaded
+        progress.total = event.total
+        progress.percentage = ((progress.loaded / progress.total) * 100)
+      }, (err: unknown) => {
+        reject(err)
+      })
+    }),
+    options?.initialValue ?? null,
+    {
+      ...options?.asyncOptions,
+      immediate: options?.asyncOptions?.immediate ?? true,
+    },
+  )
+
+  // Watch for path changes and reload the model
+  const unsub = watch(() => toValue(path), (newPath) => {
+    if (newPath) {
+      const value = result.state.value
+      // Safely dispose the scene if it exists
+      if (value && typeof value === 'object' && 'scene' in value && value.scene) {
+        disposeObject3D(value.scene as unknown as TresObject)
+      }
+      result.execute(0, newPath)
+    }
+  })
+
+  // Cleanup on component unmount
+  onUnmounted(() => {
+    unsub()
+    const value = result.state.value
+    if (value && typeof value === 'object' && 'scene' in value && value.scene) {
+      disposeObject3D(value.scene as unknown as TresObject)
+    }
+  })
+
+  return {
+    ...result,
+    load: (path: string) => {
+      result.execute(0, path)
+    },
+    progress,
+  } as UseLoaderReturn<T, Shallow>
 }

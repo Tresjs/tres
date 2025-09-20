@@ -7,12 +7,21 @@ declare module '*.vue' {
   export default component
 }
 
-interface Window {
-  __TRES__DEVTOOLS__?: {
-
-    cb: (...args: any[]) => void
-    // You can add other properties of __TRES__DEVTOOLS__ here if needed
+interface PerformanceState {
+  maxFrames: number
+  fps: {
+    value: number
+    accumulator: number[]
   }
+  memory: {
+    currentMem: number
+    allocatedMem: number
+    accumulator: number[]
+  }
+}
+
+interface Window {
+  __TRES__DEVTOOLS__?: DevtoolsMessenger
 }
 
 declare module '*.glsl' {}

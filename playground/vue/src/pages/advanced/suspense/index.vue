@@ -13,7 +13,7 @@ const { show } = useControls({
     label: 'Render dispose',
     type: 'button',
     onClick() {
-      ctx?.value?.dispose()
+      ctx?.value?.renderer?.instance?.value?.dispose()
     },
   },
 })

@@ -9,9 +9,8 @@ import {
   SpotLightHelper,
 } from 'three'
 import { RectAreaLightHelper } from 'three-stdlib'
-import { useLogger } from '../composables'
-
-const { logWarning } = useLogger()
+import { logWarning } from '../utils/logger'
+import { isLight } from '../utils/is'
 
 type LightHelper = typeof DirectionalLightHelper
   | typeof PointLightHelper
@@ -32,12 +31,12 @@ const helpers: Record<Light['type'], LightHelper> = {
 
 export const vLightHelper = {
   mounted: (el: TresObject) => {
-    if (!el.isLight) {
+    if (!isLight(el)) {
       logWarning(`${el.type} is not a light`)
       return
     }
     CurrentHelper = helpers[el.type]
-    el.parent.add(new CurrentHelper(el as never, 1, el.color.getHex()))
+    el.parent?.add(new CurrentHelper(el as never, 1, el.color.getHex()))
   },
   updated: (el: TresObject) => {
     currentInstance = el.parent.children.find((child: TresObject) => child instanceof CurrentHelper)

@@ -2,30 +2,11 @@
 import { Box } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
 import { TresLeches, useControls } from '@tresjs/leches'
-import { BasicShadowMap, NoToneMapping, OrthographicCamera, PerspectiveCamera, SRGBColorSpace } from 'three'
 import '@tresjs/leches/styles'
 
-const gl = {
-  clearColor: '#82DBC5',
-  shadows: true,
-  alpha: false,
-  shadowMapType: BasicShadowMap,
-  outputColorSpace: SRGBColorSpace,
-  toneMapping: NoToneMapping,
-}
-type Cam = (PerspectiveCamera | OrthographicCamera) & { manual?: boolean }
-
-const state = reactive({
-  cameraType: 'perspective',
-  camera: new PerspectiveCamera(75, 1, 0.1, 1000) as Cam,
-})
-
-state.camera.position.set(5, 5, 5)
-state.camera.lookAt(0, 0, 0)
-
-const { cameraType, manual } = useControls({
+const { cameraType } = useControls({
   cameraType: {
-    label: 'CameraType',
+    value: 'perspective',
     options: [{
       text: 'Perspective',
       value: 'perspective',
@@ -33,50 +14,30 @@ const { cameraType, manual } = useControls({
       text: 'Orthographic',
       value: 'orthographic',
     }],
-    value: state.cameraType,
   },
-  manual: false,
 })
-
-watch(() => [cameraType.value.value, manual.value.value], () => {
-  state.cameraType = cameraType.value.value
-  if (cameraType.value.value === 'perspective') {
-    state.camera = new PerspectiveCamera(75, 1, 0.1, 1000)
-  }
-  else if (cameraType.value.value === 'orthographic') {
-    state.camera = new OrthographicCamera(-1, 1, 1, -1, 0, 1000)
-    state.camera.zoom = 20
-  }
-  state.camera.manual = manual.value.value
-  state.camera.position.set(5, 5, 5)
-  state.camera.lookAt(0, 0, 0)
-})
-
-const context = ref(null)
-
-watchEffect(() => {
-  if (context.value) {
-    // eslint-disable-next-line no-console
-    console.log(context.value)
-  }
-})
-
-const asyncTorus = ref(false)
-
-setTimeout(() => {
-  asyncTorus.value = true
-}, 1000)
 </script>
 
 <template>
   <TresLeches />
   <TresCanvas
-    v-bind="gl"
-    ref="context"
-    :camera="state.camera"
+    clear-color="#82DBC5"
   >
-    <!--     <TresPerspectiveCamera v-if="state.cameraType === 'perspective'" :position="[11, 11, 11]" />
-    <TresOrthographicCamera v-if="state.cameraType === 'orthographic'" :position="[11, 11, 11]" /> -->
+    <TresPerspectiveCamera
+      v-if="cameraType === 'perspective'"
+      :position="[8, 8, 8]"
+      :fov="75"
+      :near="0.1"
+      :far="1000"
+      :look-at="[0, 0, 0]"
+    />
+    <TresOrthographicCamera
+      v-else
+      :position="[8, 8, 8]"
+      :near="0.1"
+      :far="1000"
+      :look-at="[0, 0, 0]"
+    />
     <Box
       :position="[0, 1, 0]"
       :scale="[2, 2, 2]"

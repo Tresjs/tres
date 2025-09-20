@@ -5,6 +5,16 @@ export const cameraRoutes = [
     component: () => import('../../pages/cameras/index.vue'),
   },
   {
+    path: '/cameras/perspective-camera',
+    name: 'Perspective Camera',
+    component: () => import('../../pages/cameras/PerspectiveCamera.vue'),
+  },
+  {
+    path: '/cameras/orthographic-camera',
+    name: 'Orthographic Camera',
+    component: () => import('../../pages/cameras/OrthographicCamera.vue'),
+  },
+  {
     path: '/cameras/no-camera',
     name: 'No Camera',
     component: () => import('../../pages/cameras/index.vue'),

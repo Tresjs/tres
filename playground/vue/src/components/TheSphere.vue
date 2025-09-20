@@ -6,10 +6,10 @@ const sphereRef = ref()
 
 const { onBeforeRender } = useLoop()
 
-onBeforeRender((state) => {
+onBeforeRender(({ invalidate, elapsed }) => {
   if (!sphereRef.value) { return }
-  sphereRef.value.position.y += Math.sin(state.elapsed) * 0.01
-  state.invalidate()
+  sphereRef.value.position.y += Math.sin(elapsed) * 0.01
+  invalidate()
 })
 </script>
 

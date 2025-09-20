@@ -1,6 +1,6 @@
 import type { ComputedRef, MaybeRef, MaybeRefOrGetter, Ref } from 'vue'
-import { refDebounced, toValue, useElementSize, useWindowSize } from '@vueuse/core'
-import { computed, readonly } from 'vue'
+import { refDebounced, useElementSize, useWindowSize } from '@vueuse/core'
+import { computed, readonly, toValue } from 'vue'
 
 export interface SizesType {
   height: Readonly<Ref<number>>

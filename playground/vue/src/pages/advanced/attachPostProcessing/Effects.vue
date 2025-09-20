@@ -3,14 +3,14 @@ import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass'
 import { OutputPass } from 'three/examples/jsm/postprocessing/OutputPass'
 import { UnrealBloomPass } from 'three-stdlib'
-import { extend, useLoop, useTres } from '@tresjs/core'
+import { extend, useTres, useTresContext } from '@tresjs/core'
 import { shallowRef } from 'vue'
 
 extend({ EffectComposer, OutputPass, UnrealBloomPass, RenderPass })
 const { renderer, scene, camera, sizes } = useTres()
 const composer = shallowRef<EffectComposer>()
 
-useLoop().render(() => {
+useTresContext().renderer.replaceRenderFunction(() => {
   if (composer.value) {
     composer.value!.render()
   }

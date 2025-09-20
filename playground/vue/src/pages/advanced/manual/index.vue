@@ -1,19 +1,29 @@
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
-import GraphPane from '../../../components/GraphPane.vue'
+import { TresLeches, useControls } from '@tresjs/leches'
 
-import { useState } from '../../../composables/state'
 import ManualExperience from './experience.vue'
 
-const { renderingTimes } = useState()
+const renderTimes = ref(0)
+
+useControls({
+  renderTimes: {
+    value: renderTimes,
+    type: 'graph',
+    label: 'Render Times (ms)',
+    onUpdate: () => {
+      renderTimes.value = 0
+    },
+  },
+})
 
 function onRender() {
-  renderingTimes.value = 1
+  renderTimes.value = 1
 }
 </script>
 
 <template>
-  <GraphPane />
+  <TresLeches />
   <TresCanvas
     render-mode="manual"
     clear-color="#82DBC5"

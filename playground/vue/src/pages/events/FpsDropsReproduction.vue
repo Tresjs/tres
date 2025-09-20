@@ -1,5 +1,6 @@
 <script lang="ts" setup>
-import { Icosahedron, OrbitControls, StatsGl } from '@tresjs/cientos'
+import { Icosahedron, OrbitControls } from '@tresjs/cientos'
+
 import { TresCanvas } from '@tresjs/core'
 import {
   AgXToneMapping,
@@ -16,14 +17,13 @@ const gl = {
   toneMapping: AgXToneMapping,
   toneMappingExposure: 2.2,
   shadowMapType: PCFSoftShadowMap,
-  powerPreference: 'high-performance',
   antialias: true,
 }
 </script>
 
 <template>
   <TresCanvas clear-color="#ccc" v-bind="gl" window-size preset="realistic">
-    <StatsGl />
+    <!-- <StatsGl /> -->
     <TresPerspectiveCamera :position="[0, 0, 15]" :args="[45, 1, 0.1, 1000]" />
     <OrbitControls />
     <TresDirectionalLight

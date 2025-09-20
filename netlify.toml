@@ -1,7 +1,12 @@
 [build]
-publish = "docs/.vitepress/dist"
-command = "pnpm run build && pnpm docs:build"
+command = "pnpm run build && pnpm run docs:generate"
+publish = "docs/dist"
 
 [build.environment]
 COREPACK_INTEGRITY_KEYS = "0"
-NODE_VERSION = "20"
+NODE_VERSION = "22"
+
+[[redirects]]
+from = "/*"
+to = "/200.html"
+status = 200

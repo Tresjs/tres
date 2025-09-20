@@ -1,4 +1,4 @@
-import { templateCompilerOptions } from '@tresjs/core'
+import templateCompilerOptions from '../../src/utils/template-compiler-options'
 import vue from '@vitejs/plugin-vue'
 import { resolve } from 'pathe'
 import UnoCSS from 'unocss/vite'
@@ -7,7 +7,7 @@ import Components from 'unplugin-vue-components/vite'
 import { defineConfig } from 'vite'
 import glsl from 'vite-plugin-glsl'
 import { qrcode } from 'vite-plugin-qrcode'
-/* import VueDevTools from 'vite-plugin-vue-devtools' */
+import VueDevTools from 'vite-plugin-vue-devtools'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -38,7 +38,8 @@ export default defineConfig({
         },
       },
     }),
-    qrcode(), // only applies in dev mode
+    qrcode(), // only applies in dev mode,
+    VueDevTools(),
   ],
   resolve: {
     alias: {

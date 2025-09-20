@@ -1,22 +1,63 @@
-import type { OrthographicCamera } from 'three'
-import type { TresScene } from '../../types'
 import type { TresContext } from '../useTresContextProvider'
 
-import { Camera, PerspectiveCamera } from 'three'
-import { computed, onUnmounted, ref, watchEffect } from 'vue'
-import { camera as isCamera } from '../../utils/is'
+import type { ComputedRef, Ref } from 'vue'
+import { computed, ref, watchEffect } from 'vue'
+import { isCamera, isPerspectiveCamera } from '../../utils/is'
+import type { TresCamera } from '../../types'
 
-export const useCamera = ({ sizes }: Pick<TresContext, 'sizes'> & { scene: TresScene }) => {
-  // the computed does not trigger, when for example the camera position changes
-  const cameras = ref<Camera[]>([])
-  const camera = computed<Camera | undefined>(
-    () => cameras.value[0],
-  )
+/**
+ * Interface for the return value of the useCamera composable
+ */
+export interface UseCameraReturn {
 
-  const setCameraActive = (cameraOrUuid: string | Camera) => {
-    const camera = cameraOrUuid instanceof Camera
+  activeCamera: ComputedRef<TresCamera>
+  /**
+   * The list of cameras
+   */
+  cameras: Ref<TresCamera[]>
+  /**
+   * Register a camera
+   * @param camera - The camera to register
+   * @param active - Whether to set the camera as active
+   */
+  registerCamera: (camera: TresCamera, active?: boolean) => void
+  /**
+   * Deregister a camera
+   * @param camera - The camera to deregister
+   */
+  deregisterCamera: (camera: TresCamera) => void
+  /**
+   * Set the active camera
+   * @param cameraOrUuid - The camera or its UUID to set as active
+   */
+  setActiveCamera: (cameraOrUuid: string | TresCamera) => void
+}
+
+/**
+ * Interface for the parameters of the useCamera composable
+ */
+interface UseCameraParams {
+  sizes: TresContext['sizes']
+}
+
+/**
+ * Composable for managing cameras in a Three.js scene
+ * @param params - The parameters for the composable
+ * @param params.sizes - The sizes object containing window dimensions
+ * @returns The camera management functions and state
+ */
+export const useCameraManager = ({ sizes }: UseCameraParams): UseCameraReturn => {
+  const cameras = ref<TresCamera[]>([])
+  const activeCamera = computed<TresCamera>(() => cameras.value[0]) // the first camera is used to make sure there is always one camera active
+
+  /**
+   * Set the active camera
+   * @param cameraOrUuid - The camera or its UUID to set as active
+   */
+  const setActiveCamera = (cameraOrUuid: string | TresCamera) => {
+    const camera = isCamera(cameraOrUuid)
       ? cameraOrUuid
-      : cameras.value.find((camera: Camera) => camera.uuid === cameraOrUuid)
+      : cameras.value.find((camera: TresCamera) => camera.uuid === cameraOrUuid)
 
     if (!camera) { return }
 
@@ -24,62 +65,47 @@ export const useCamera = ({ sizes }: Pick<TresContext, 'sizes'> & { scene: TresS
     cameras.value = [camera, ...otherCameras]
   }
 
-  const registerCamera = (maybeCamera: unknown, active = false) => {
-    if (isCamera(maybeCamera)) {
-      const camera = maybeCamera
-      if (cameras.value.some(({ uuid }) => uuid === camera.uuid)) { return }
+  /**
+   * Register a camera
+   * @param camera - The camera to register
+   * @param active - Whether to set the camera as active
+   */
+  const registerCamera = (camera: TresCamera, active = false): void => {
+    if (cameras.value.some(({ uuid }) => uuid === camera.uuid)) { return }
+    cameras.value.push(camera)
 
-      if (active) { setCameraActive(camera) }
-      else { cameras.value.push(camera) }
+    if (active) {
+      setActiveCamera(camera.uuid)
     }
   }
 
-  const deregisterCamera = (maybeCamera: unknown) => {
-    if (isCamera(maybeCamera)) {
-      const camera = maybeCamera
-      cameras.value = cameras.value.filter(({ uuid }) => uuid !== camera.uuid)
-    }
+  /**
+   * Deregister a camera
+   * @param camera - The camera to deregister
+   */
+  const deregisterCamera = (camera: TresCamera): void => {
+    cameras.value = cameras.value.filter(({ uuid }) => uuid !== camera.uuid)
   }
 
+  /**
+   * Update camera aspect ratios when the window size changes
+   */
   watchEffect(() => {
     if (sizes.aspectRatio.value) {
-      cameras.value.forEach((camera: Camera & { manual?: boolean }) => {
-        // NOTE: Don't mess with the camera if it belongs to the user.
-        // https://github.com/pmndrs/react-three-fiber/blob/0ef66a1d23bf16ecd457dde92b0517ceec9861c5/packages/fiber/src/core/utils.ts#L457
-        //
-        // To set camera as "manual":
-        // const myCamera = new PerspectiveCamera(); // or OrthographicCamera
-        // (myCamera as any).manual = true
-        if (!camera.manual && (camera instanceof PerspectiveCamera || isOrthographicCamera(camera))) {
-          if (camera instanceof PerspectiveCamera) {
-            camera.aspect = sizes.aspectRatio.value
-          }
-          else {
-            camera.left = sizes.width.value * -0.5
-            camera.right = sizes.width.value * 0.5
-            camera.top = sizes.height.value * 0.5
-            camera.bottom = sizes.height.value * -0.5
-          }
+      cameras.value.forEach((camera: TresCamera) => {
+        if (isPerspectiveCamera(camera)) {
+          camera.aspect = sizes.aspectRatio.value
           camera.updateProjectionMatrix()
         }
       })
     }
   })
 
-  onUnmounted(() => {
-    cameras.value = []
-  })
-
   return {
-    camera,
+    activeCamera,
     cameras,
     registerCamera,
     deregisterCamera,
-    setCameraActive,
+    setActiveCamera,
   }
-}
-
-function isOrthographicCamera(o: any): o is OrthographicCamera {
-  // eslint-disable-next-line no-prototype-builtins
-  return o.hasOwnProperty('isOrthographicCamera') && o.isOrthographicCamera
 }

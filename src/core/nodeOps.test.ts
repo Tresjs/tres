@@ -1047,12 +1047,35 @@ describe('nodeOps', () => {
       const node = nodeOps.createElement('Mesh')!
       const prop = 'position-x'
       const nextValue = 5
+      const originalY = node.position.y
+      const originalZ = node.position.z
 
       // Test
       nodeOps.patchProp(node, prop, null, nextValue)
 
       // Assert
-      expect(node.position.x === nextValue)
+      expect(node.position.x).toBe(nextValue)
+      expect(node.position.y).toBe(originalY) // Should remain unchanged
+      expect(node.position.z).toBe(originalZ) // Should remain unchanged
+    })
+
+    it('patches/traverses pierced props with array values', async () => {
+    // Setup
+      const light = nodeOps.createElement('DirectionalLight')!
+
+      // DirectionalLight shadow might be null by default, need to enable it
+      light.castShadow = true // This should initialize the shadow
+
+      const prop = 'shadow-mapSize'
+      const nextValue = [2048, 2048]
+
+      // Test
+      nodeOps.patchProp(light, prop, null, nextValue)
+
+      // Assert
+      expect(light.shadow).toBeTruthy()
+      expect(light.shadow.mapSize[0]).toBe(2048)
+      expect(light.shadow.mapSize[1]).toBe(2048)
     })
 
     it('does not patch/traverse pierced props of existing dashed properties', async () => {
@@ -1546,8 +1569,10 @@ function mockTresObjectRootInObject(obj) {
 function mockTresContext() {
   return {
     scene: shallowRef(new Scene()),
-    registerCamera: () => {},
-    deregisterCamera: () => {},
+    camera: {
+      registerCamera: () => {},
+      deregisterCamera: () => {},
+    },
   } as unknown as TresContext
 }
 

@@ -1,15 +1,22 @@
 import type { Ref } from 'vue'
 import type { TresObject } from '../types'
-import { ArrowHelper } from 'three'
-import { useLogger } from '../composables'
-import { extractBindingPosition } from '../utils'
-
-const { logWarning } = useLogger()
+import { ArrowHelper, Vector3 } from 'three'
+import { logWarning } from '../utils/logger'
+import { isMesh } from '../utils/is'
 
 let arrowHelper: ArrowHelper | null = null
 
 export const vDistanceTo = {
   updated: (el: TresObject, binding: Ref<TresObject>) => {
+    const extractBindingPosition = (binding: any): Vector3 => {
+      let observer = binding.value
+      if (binding.value && isMesh(binding.value)) {
+        observer = binding.value.position
+      }
+      if (Array.isArray(binding.value)) { observer = new Vector3(...observer) }
+      return observer
+    }
+
     const observer = extractBindingPosition(binding)
     if (!observer) {
       logWarning(`v-distance-to: problem with binding value: ${binding.value}`)

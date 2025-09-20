@@ -7,9 +7,13 @@ import templateCompilerOptions from './utils/template-compiler-options'
 export * from './components'
 export * from './composables'
 export * from './core/catalogue'
-export * from './core/loop'
+export * from './devtools'
 export * from './directives'
 export * from './types'
+export * from './utils/graph'
+export * from './utils/is/three'
+export * from './utils/is/tres'
+export * from './utils/logger'
 
 export interface TresOptions {
   extends?: Record<string, unknown>

@@ -1,16 +1,12 @@
 import UseLoader from './useLoader/component.vue'
-import UseTexture from './useTexture/component.vue'
 
-export * from './useCamera/'
+export * from './useCamera'
+export * from './useGraph'
 export * from './useLoader'
-export * from './useLogger'
 export * from './useLoop'
-export * from './useRaycaster'
-export * from './useRenderer/'
-export * from './useRenderLoop'
-export * from './useSeek'
-export * from './useTexture'
-export * from './useTresContextProvider'
-export * from './useTresEventManager'
-export { onTresReady } from './useTresReady'
-export { UseLoader, UseTexture }
+export * from './useRenderer/useRendererManager'
+export * from './useTres'
+
+export { type TresContext, useTresContext, useTresContextProvider } from './useTresContextProvider'
+
+export { UseLoader }

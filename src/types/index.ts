@@ -3,6 +3,7 @@ import type * as THREE from 'three'
 
 import type { DefineComponent, VNode, VNodeRef } from 'vue'
 import type { TresContext } from '../composables/useTresContextProvider'
+import type { PointerEventHandlers } from '../utils/pointerEvents'
 
 // Based on React Three Fiber types by Pmndrs
 // https://github.com/pmndrs/react-three-fiber/blob/v9/packages/fiber/src/three-types.ts
@@ -23,8 +24,6 @@ export interface TresCatalogue {
   [name: string]: ConstructorRepresentation
 }
 
-export type EmitEventName = 'render' | 'ready' | 'click' | 'double-click' | 'context-menu' | 'pointer-move' | 'pointer-up' | 'pointer-down' | 'pointer-enter' | 'pointer-leave' | 'pointer-over' | 'pointer-out' | 'pointer-missed' | 'wheel'
-export type EmitEventFn = (event: EmitEventName, ...args: any[]) => void
 export type TresCamera = THREE.OrthographicCamera | THREE.PerspectiveCamera
 
 /**
@@ -49,9 +48,7 @@ interface TresBaseObject {
 
 export interface LocalState {
   type: string
-  eventCount: number
   root: TresContext
-  handlers: Partial<EventHandlers>
   memoizedProps: { [key: string]: any }
   // NOTE:
   // LocalState holds information about the parent/child relationship
@@ -81,6 +78,30 @@ export interface TresObject3D extends THREE.Object3D<THREE.Object3DEventMap> {
 export type TresObject =
   TresBaseObject & (TresObject3D | THREE.BufferGeometry | THREE.Material | THREE.Fog) & { __tres?: LocalState }
 
+/**
+ * Union type covering all common Three.js material types
+ * This provides better TypeScript intellisense and type checking
+ * when accessing specific material properties
+ */
+export type TresMaterial =
+  | THREE.MeshBasicMaterial
+  | THREE.MeshStandardMaterial
+  | THREE.MeshPhysicalMaterial
+  | THREE.MeshLambertMaterial
+  | THREE.MeshPhongMaterial
+  | THREE.MeshToonMaterial
+  | THREE.MeshNormalMaterial
+  | THREE.MeshMatcapMaterial
+  | THREE.MeshDepthMaterial
+  | THREE.MeshDistanceMaterial
+  | THREE.LineBasicMaterial
+  | THREE.LineDashedMaterial
+  | THREE.PointsMaterial
+  | THREE.SpriteMaterial
+  | THREE.ShaderMaterial
+  | THREE.RawShaderMaterial
+  | THREE.ShadowMaterial
+  | THREE.Material // Fallback for any other materials
 export type TresInstance = TresObject & { __tres: LocalState }
 
 export type TresPrimitive = TresInstance & { object: TresInstance, isPrimitive: true }
@@ -89,77 +110,6 @@ export interface TresScene extends THREE.Scene {
   __tres: {
     root: TresContext
   }
-}
-
-// Events
-
-export interface Intersection extends THREE.Intersection {
-  /** The event source (the object which registered the handler) */
-  eventObject: TresObject
-}
-
-export interface IntersectionEvent<TSourceEvent> extends Intersection {
-  /** The event source (the object which registered the handler) */
-  eventObject: TresObject
-  /** An array of intersections */
-  intersections: Intersection[]
-  /** vec3.set(pointer.x, pointer.y, 0).unproject(camera) */
-  unprojectedPoint: THREE.Vector3
-  /** Normalized event coordinates */
-  pointer: THREE.Vector2
-  /** Delta between first click and this event */
-  delta: number
-  /** The ray that pierced it */
-  ray: THREE.Ray
-  /** The camera that was used by the raycaster */
-  camera: TresCamera
-  /** stopPropagation will stop underlying handlers from firing */
-  stopPropagation: () => void
-  /** The original host event */
-  nativeEvent: TSourceEvent
-  /** If the event was stopped by calling stopPropagation */
-  stopped: boolean
-}
-
-export type ThreeEvent<TEvent> = IntersectionEvent<TEvent> & Properties<TEvent>
-export type DomEvent = PointerEvent | MouseEvent | WheelEvent
-
-export interface TresEvent {
-  eventObject: TresObject
-  event: DomEvent
-  stopPropagation: () => void
-  stopPropagating: boolean
-  intersections: Intersection[]
-  intersects: Intersection[]
-}
-
-export interface Events {
-  onClick: EventListener
-  onContextMenu: EventListener
-  onDoubleClick: EventListener
-  onWheel: EventListener
-  onPointerDown: EventListener
-  onPointerUp: EventListener
-  onPointerLeave: EventListener
-  onPointerMove: EventListener
-  onPointerCancel: EventListener
-  onLostPointerCapture: EventListener
-}
-
-export interface EventHandlers {
-  onClick?: (event: ThreeEvent<MouseEvent>) => void
-  onContextMenu?: (event: ThreeEvent<MouseEvent>) => void
-  onDoubleClick?: (event: ThreeEvent<MouseEvent>) => void
-  onPointerUp?: (event: ThreeEvent<PointerEvent>) => void
-  onPointerDown?: (event: ThreeEvent<PointerEvent>) => void
-  onPointerOver?: (event: ThreeEvent<PointerEvent>) => void
-  onPointerOut?: (event: ThreeEvent<PointerEvent>) => void
-  onPointerEnter?: (event: ThreeEvent<PointerEvent>) => void
-  onPointerLeave?: (event: ThreeEvent<PointerEvent>) => void
-  onPointerMove?: (event: ThreeEvent<PointerEvent>) => void
-  onPointerMissed?: (event: MouseEvent) => void
-  onPointerCancel?: (event: ThreeEvent<PointerEvent>) => void
-  onWheel?: (event: ThreeEvent<WheelEvent>) => void
 }
 
 interface MathRepresentation {
@@ -195,13 +145,15 @@ export type TresLayers = THREE.Layers | Parameters<THREE.Layers['set']>[0]
 export type TresQuaternion = THREE.Quaternion | Parameters<THREE.Quaternion['set']>
 export type TresEuler = THREE.Euler
 export type TresControl = THREE.EventDispatcher & { enabled: boolean }
+export type TresContextWithClock = TresContext & { delta: number, elapsed: number }
 
 export type WithMathProps<P> = { [K in keyof P]: P[K] extends MathRepresentation | THREE.Euler ? MathType<P[K]> : P[K] }
 
 interface RaycastableRepresentation {
   raycast: (raycaster: THREE.Raycaster, intersects: THREE.Intersection[]) => void
 }
-type EventProps<P> = P extends RaycastableRepresentation ? Partial<EventHandlers> : unknown
+type EventProps<P> = P extends RaycastableRepresentation ? Partial<PointerEventHandlers> : unknown
+export type { TresPointerEvent } from '../utils/pointerEvents'
 
 export interface VueProps {
   children?: VNode[]
