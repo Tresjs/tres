@@ -2,19 +2,9 @@
 import { Html, OrbitControls } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
 import { TresLeches, useControls } from '@tresjs/leches'
-import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
 import { reactive, ref } from 'vue'
 import Card from './Card.vue'
 import '@tresjs/leches/styles'
-
-const gl = {
-  clearColor: '#82DBC5',
-  shadows: true,
-  alpha: false,
-  shadowMapType: BasicShadowMap,
-  outputColorSpace: SRGBColorSpace,
-  toneMapping: NoToneMapping,
-}
 
 const sphereRef = ref(null)
 const torusRef = ref(null)
@@ -33,7 +23,7 @@ const { showHtml } = useControls({
 
 <template>
   <TresLeches />
-  <TresCanvas v-bind="gl">
+  <TresCanvas clear-color="#82DBC5" shadows>
     <TresPerspectiveCamera :position="[3, 0, 8]" />
     <OrbitControls />
     <TresMesh

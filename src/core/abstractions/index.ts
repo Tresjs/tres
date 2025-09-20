@@ -6,6 +6,9 @@ import GradientTexture from './GradientTexture.vue'
 import Image from './Image/component.vue'
 import Lensflare from './Lensflare/component.vue'
 import Levioso from './Levioso.vue'
+import MarchingCube from './MarchingCubes/MarchingCube.vue'
+import MarchingCubes from './MarchingCubes/MarchingCubes.vue'
+import MarchingPlane from './MarchingCubes/MarchingPlane.vue'
 import Mask from './Mask/component.vue'
 import MouseParallax from './MouseParallax.vue'
 import Outline from './Outline/component.vue'
@@ -34,6 +37,9 @@ export {
   Image,
   Lensflare,
   Levioso,
+  MarchingCube,
+  MarchingCubes,
+  MarchingPlane,
   Mask,
   MouseParallax,
   Outline,

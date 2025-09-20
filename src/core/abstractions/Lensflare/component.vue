@@ -1,7 +1,12 @@
 <script setup lang="ts">
 import { normalizeColor } from '@tresjs/core'
 import { TextureLoader } from 'three'
-import { Lensflare } from 'three-stdlib'
+// TODO:
+// three-stdlib's Lensflare is not currently working.
+// PR here: https://github.com/pmndrs/three-stdlib/issues/396
+// Once three-stdlib's Lensflare is fixed, use it below
+// and delete ./LensflareImpl from the repo.
+import { Lensflare } from './LensflareImpl'
 import { onMounted, onUnmounted, shallowRef, watch } from 'vue'
 import type { TresColor } from '@tresjs/core'
 import type { Texture } from 'three'

@@ -1,4 +1,4 @@
-import { useLoader, useTresContext } from '@tresjs/core'
+import { useTres } from '@tresjs/core'
 import {
   CubeReflectionMapping,
   CubeTextureLoader,
@@ -9,7 +9,6 @@ import {
 } from 'three'
 import { RGBELoader } from 'three-stdlib'
 import { computed, ref, toRefs, unref, watch } from 'vue'
-import type { LoaderProto } from '@tresjs/core'
 import type {
   CubeTexture,
   Scene,
@@ -81,7 +80,7 @@ export async function useEnvironment(
   options: Partial<EnvironmentOptions>,
   fbo: Ref<WebGLCubeRenderTarget | null>,
 ): Promise<Ref<Texture | CubeTexture | null>> {
-  const { scene, invalidate } = useTresContext()
+  const { scene, invalidate } = useTres()
 
   const {
     preset,
@@ -102,28 +101,58 @@ export async function useEnvironment(
 
   const texture: Ref<Texture | CubeTexture | null> = ref(null)
   const isCubeMap = computed(() => Array.isArray((files as Ref<string[]>).value))
-  const loader = computed(() => isCubeMap.value ? CubeTextureLoader : RGBELoader)
+
+  // Create loaders
+  const cubeTextureLoader = new CubeTextureLoader()
+  const rgbeLoader = new RGBELoader()
+
+  // Function to load textures directly
+  const loadTexture = async (files: string[], path?: string): Promise<Texture | CubeTexture> => {
+    return new Promise((resolve, reject) => {
+      if (isCubeMap.value) {
+        // Handle cube map
+        if (path) { cubeTextureLoader.setPath(path) }
+        cubeTextureLoader.load(
+          files,
+          (texture) => {
+            texture.mapping = CubeReflectionMapping
+            resolve(texture)
+          },
+          undefined,
+          error => reject(error),
+        )
+      }
+      else {
+        // Handle HDR/equirectangular
+        if (path) { rgbeLoader.setPath(path) }
+        rgbeLoader.load(
+          files[0],
+          (texture) => {
+            texture.mapping = EquirectangularReflectionMapping
+            resolve(texture)
+          },
+          undefined,
+          error => reject(error),
+        )
+      }
+    })
+  }
 
   // Watch for texture loading
   watch([files, path], async ([files, path]) => {
-    if (!files) { return }
-    if (files.length > 0 && !preset?.value) {
-      try {
-        const result = await useLoader(
-          loader.value as unknown as LoaderProto<Texture | CubeTexture>,
-          isCubeMap.value ? [...unref(files)] : unref(files),
-          (loader: any) => {
-            if (path) { loader.setPath(unref(path)) }
-          },
-        )
-        texture.value = Array.isArray(result) ? result[0] : result
-      }
-      catch (error) {
-        throw new Error(`Failed to load environment map: ${error}`)
-      }
-      if (texture.value) {
-        texture.value.mapping = isCubeMap.value ? CubeReflectionMapping : EquirectangularReflectionMapping
-      }
+    if (!files || files.length === 0 || preset?.value) { return }
+
+    try {
+      const loadedTexture = await loadTexture(
+        isCubeMap.value
+          ? [...(unref(files) as string[])]
+          : [unref(files) as string],
+        unref(path),
+      )
+      texture.value = loadedTexture
+    }
+    catch (error) {
+      throw new Error(`Failed to load environment map: ${error}`)
     }
   }, {
     immediate: true,
@@ -208,14 +237,22 @@ export async function useEnvironment(
       const _files = environmentPresets[value as unknown as keyof typeof environmentPresets]
 
       try {
-        const result = await useLoader(
-          RGBELoader as unknown as LoaderProto<Texture>,
-          _files,
-          (loader) => {
-            if (_path) { loader.setPath(_path) }
-          },
-        )
-        texture.value = Array.isArray(result) ? result[0] : result
+        // Load preset using RGBELoader directly
+        rgbeLoader.setPath(_path)
+        const loadedTexture = await new Promise<Texture>((resolve, reject) => {
+          rgbeLoader.load(
+            _files,
+            (texture) => {
+              texture.mapping = EquirectangularReflectionMapping
+              resolve(texture)
+            },
+            undefined,
+            error => reject(error),
+          )
+        })
+
+        texture.value = loadedTexture
+        invalidate()
       }
       catch (error) {
         throw new Error(`Failed to load environment map: ${error}`)

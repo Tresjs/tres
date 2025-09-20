@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { useLoop, useTresContext } from '@tresjs/core'
+import { useLoop, useTres } from '@tresjs/core'
 import { useElementSize, useMouse, useWindowSize } from '@vueuse/core'
 import { computed, ref, shallowRef, toRefs, watch } from 'vue'
 import type { UseMouseOptions } from '@vueuse/core'
-import type { Group, Object3D } from 'three'
+import type { Group } from 'three'
 
 export interface MouseParallaxProps {
   /**
@@ -47,20 +47,20 @@ const props = withDefaults(defineProps<MouseParallaxProps>(), {
   local: false,
 })
 
-const { camera, renderer } = useTresContext()
+const { camera, renderer } = useTres()
 
 const { disabled, factor, ease, local } = toRefs(props)
 
 const mouseOptions: UseMouseOptions = {}
 
 if (local.value) {
-  mouseOptions.target = renderer.value.domElement
+  mouseOptions.target = renderer.domElement
   mouseOptions.type = 'client'
 }
 
 const { x, y } = useMouse(mouseOptions)
 const { width, height } = local.value
-  ? useElementSize(renderer.value.domElement)
+  ? useElementSize(renderer.domElement)
   : useWindowSize()
 
 const cameraGroupRef = shallowRef<Group>()
@@ -81,7 +81,7 @@ const cursorY = computed(() => -(y.value / height.value - 0.5) * _factor.value[1
 
 const { onBeforeRender } = useLoop()
 
-onBeforeRender(({ delta, invalidate }) => {
+onBeforeRender(({ delta /* invalidate */ }) => {
   if (
     disabled.value
     || !cameraGroupRef.value
@@ -95,12 +95,13 @@ onBeforeRender(({ delta, invalidate }) => {
   cameraGroupRef.value.position.y
     += (cursorY.value - cameraGroupRef.value.position.y) * _ease.value[1] * delta
 
-  invalidate()
+  // TODO: comment this until invalidate is back in the loop callback on v5
+  // invalidate()
 })
 
 watch(
   () => cameraGroupRef.value,
-  value => value?.add(camera.value as Object3D),
+  value => value?.add(camera.value!),
 )
 </script>
 

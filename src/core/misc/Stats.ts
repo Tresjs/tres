@@ -20,9 +20,9 @@ export const Stats = defineComponent({
     stats.showPanel(props.showPanel || 0)
     node?.appendChild(stats.dom)
 
-    const { onBeforeRender, onAfterRender } = useLoop()
+    const { onBeforeRender, onRender } = useLoop()
     onBeforeRender(() => stats.begin(), Number.NEGATIVE_INFINITY)
-    onAfterRender(() => stats.end(), Number.POSITIVE_INFINITY)
+    onRender(() => stats.end(), Number.POSITIVE_INFINITY)
 
     onUnmounted(() => {
       node?.removeChild(stats.dom)

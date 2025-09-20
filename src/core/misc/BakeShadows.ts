@@ -1,15 +1,18 @@
-import { useTresContext } from '@tresjs/core'
+import { useTres } from '@tresjs/core'
+import { WebGLRenderer } from 'three'
 import { defineComponent, watchEffect } from 'vue'
 
 export const BakeShadows = defineComponent({
   name: 'BakeShadows',
 
   setup() {
-    const { renderer } = useTresContext()
+    const { renderer } = useTres()
 
     watchEffect(() => {
-      renderer.value.shadowMap.autoUpdate = false
-      renderer.value.shadowMap.needsUpdate = true
+      if (renderer instanceof WebGLRenderer) {
+        renderer.shadowMap.autoUpdate = false
+        renderer.shadowMap.needsUpdate = true
+      }
     })
   },
 })

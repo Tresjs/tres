@@ -1,4 +1,4 @@
-import { useLogger } from '@tresjs/core'
+import { logError } from '@tresjs/core'
 
 /**
  * Expand an animation definition string into an array of numbers.
@@ -222,7 +222,7 @@ function logDefinitionBadCharacter(
   definition: string,
   index: number,
 ) {
-  useLogger().logError(
+  logError(
     'Cientos AnimationDefinitionParser: '
     + `Unexpected character while processing animation definition: expected ${expected}, got ${found}.
 ${definition}
@@ -236,7 +236,7 @@ function logDefinitionSyntaxError(
   definition: string,
   index: number,
 ) {
-  useLogger().logError(
+  logError(
     'Cientos AnimationDefinitionParser: '
     + `Syntax error while processing animation definition: expected ${expected}, got ${found}.
 ${definition}

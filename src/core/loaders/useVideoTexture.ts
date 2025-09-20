@@ -1,5 +1,5 @@
+import { logError } from '@tresjs/core'
 import { VideoTexture } from 'three'
-import { useLogger } from '../../composables/useLogger'
 
 interface VideoTextureProps extends HTMLVideoElement {
   unsuspend?: 'canplay' | 'canplaythrough' | 'loadstart' | 'loadedmetadata'
@@ -34,7 +34,6 @@ export async function useVideoTexture(src: string | MediaStream, options?: Parti
    * @param {src} string
    * @return {VideoTexture}  {VideoTexture}
    */
-  const { logError } = useLogger()
   if (!src) { return logError('Error no path provided') }
 
   const { unsuspend, start, crossOrigin, muted, loop, ...rest } = {

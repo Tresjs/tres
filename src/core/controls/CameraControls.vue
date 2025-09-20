@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useLoop, useTresContext } from '@tresjs/core'
+import { useLoop, useTres } from '@tresjs/core'
 import { useEventListener } from '@vueuse/core'
 import CameraControls from 'camera-controls'
 import {
@@ -316,7 +316,7 @@ const props = withDefaults(defineProps<CameraControlsProps>(), {
   maxPolarAngle: Math.PI,
   minAzimuthAngle: Number.NEGATIVE_INFINITY,
   maxAzimuthAngle: Number.POSITIVE_INFINITY,
-  distance: () => useTresContext().camera.value!.position.z,
+  distance: () => useTres().camera.value!.position.z,
   minDistance: Number.EPSILON,
   maxDistance: Number.POSITIVE_INFINITY,
   infinityDolly: false,
@@ -336,8 +336,8 @@ const props = withDefaults(defineProps<CameraControlsProps>(), {
   boundaryFriction: 0.0,
   restThreshold: 0.01,
   colliderMeshes: () => [],
-  mouseButtons: () => getMouseButtons(useTresContext().camera.value),
-  touches: () => getTouches(useTresContext().camera.value),
+  mouseButtons: () => getMouseButtons(useTres().camera.value),
+  touches: () => getTouches(useTres().camera.value),
 })
 
 const emit = defineEmits(['change', 'start', 'end'])
@@ -387,7 +387,7 @@ const subsetOfTHREE = {
 }
 CameraControls.install({ THREE: subsetOfTHREE })
 
-const { camera: activeCamera, renderer, extend, controls, invalidate } = useTresContext()
+const { camera: activeCamera, renderer, extend, controls, invalidate } = useTres()
 
 watch(props, () => {
   invalidate()
@@ -426,10 +426,11 @@ function addEventListeners() {
 
 const { onBeforeRender } = useLoop()
 
-onBeforeRender(({ delta, invalidate }) => {
+onBeforeRender(({ delta /* invalidate */ }) => {
   if (controlsRef.value?.enabled) {
     controlsRef.value?.update(delta)
-    invalidate()
+    // TODO: comment this until invalidate is back in the loop callback on v5
+    // invalidate()
   }
 })
 
@@ -483,7 +484,7 @@ export { default as BaseCameraControls } from 'camera-controls'
 
 <template>
   <TresCameraControls
-    v-if="(camera || activeCamera) && (domElement || renderer)"
+    v-if="(camera || activeCamera) && (domElement || renderer.domElement)"
     ref="controlsRef"
     :min-polar-angle="minPolarAngle"
     :max-polar-angle="maxPolarAngle"

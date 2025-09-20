@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { MeshReflectionMaterial, OrbitControls } from '@tresjs/cientos'
-import { TresCanvas, useTexture } from '@tresjs/core'
+import { MeshReflectionMaterial, OrbitControls, useTextures } from '@tresjs/cientos'
+import { TresCanvas } from '@tresjs/core'
 import { TresLeches, useControls } from '@tresjs/leches'
 import { shallowRef } from 'vue'
 import '@tresjs/leches/styles'
@@ -60,8 +60,8 @@ const {
 })
 
 const PATH = 'https://raw.githubusercontent.com/Tresjs/assets/d15ced5cf09eddb2dae680dbe993613daae9cea4/textures/rock/'
-const [roughnessMap, normalMap, distortionMap, diffuseMap]
-  = await useTexture(['roughness.jpg', 'normal.jpg', 'displacement.png', 'diffuse.jpg'].map(p => PATH + p))
+const { textures } = useTextures(['roughness.jpg', 'normal.jpg', 'displacement.png', 'diffuse.jpg'].map(p => PATH + p))
+const [roughnessMap, normalMap, distortionMap, diffuseMap] = textures.value
 
 const lightX = shallowRef(0)
 const lightZ = shallowRef(0)

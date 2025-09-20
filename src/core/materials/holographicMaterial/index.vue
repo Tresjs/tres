@@ -46,9 +46,10 @@ defineExpose({ root: MeshHolographicMaterialClass, constructor: HolographicMater
 
 const { onBeforeRender } = useLoop()
 
-onBeforeRender(({ invalidate }) => {
+onBeforeRender(() => {
   MeshHolographicMaterialClass.value?.update()
-  invalidate()
+  // TODO: comment this until invalidate is back in the loop callback on v5
+  // invalidate()
 })
 </script>
 

@@ -1,6 +1,9 @@
 <!-- eslint-disable vue/attribute-hyphenation -->
 <script setup lang="ts">
-import { useLogger, useLoop, useTresContext } from '@tresjs/core'
+import { logWarning, useLoop, useTres } from '@tresjs/core'
+import type {
+  Texture,
+} from 'three'
 import {
   Color,
   DepthTexture,
@@ -14,19 +17,14 @@ import {
   Vector2,
   Vector3,
   Vector4,
+  WebGLRenderer,
   WebGLRenderTarget,
 } from 'three'
-import { computed, onBeforeUnmount, shallowRef, watch } from 'vue'
+import { computed, onBeforeUnmount, shallowRef, toValue, watch } from 'vue'
 import type { TresColor } from '@tresjs/core'
-import type {
-  Camera,
-  Object3D,
-  Scene,
-  Texture,
-  WebGLRenderer,
-} from 'three'
 import { BlurPass } from './BlurPass'
 import { MeshReflectionMaterial } from './material'
+import { WebGPURenderer } from 'three/webgpu'
 
 export interface MeshReflectionMaterialProps {
 
@@ -151,7 +149,7 @@ const props = withDefaults(
   },
 )
 
-const { extend, invalidate } = useTresContext()
+const { extend, invalidate } = useTres()
 extend({ MeshReflectionMaterial })
 
 const blurWidth = computed(() => 500 - (Array.isArray(props.blurSize) ? props.blurSize[0] : props.blurSize))
@@ -204,87 +202,6 @@ const fboBlur = new WebGLRenderTarget(
   },
 )
 
-function onBeforeRender(renderer: WebGLRenderer, scene: Scene, camera: Camera, object: Object3D) {
-  invalidate()
-
-  const currentXrEnabled = renderer.xr.enabled
-  const currentShadowAutoUpdate = renderer.shadowMap.autoUpdate
-
-  state.reflectorWorldPosition.setFromMatrixPosition(object.matrixWorld)
-  state.cameraWorldPosition.setFromMatrixPosition(camera.matrixWorld as Matrix4)
-  state.rotationMatrix.extractRotation(object.matrixWorld)
-  state.normal.set(0, 0, 1)
-  state.normal.applyMatrix4(state.rotationMatrix)
-  state.reflectorWorldPosition.addScaledVector(state.normal, props.reflectorOffset)
-  state.view.subVectors(state.reflectorWorldPosition, state.cameraWorldPosition)
-
-  // NOTE: Avoid rendering when reflector is facing away
-  if (state.view.dot(state.normal) > 0) { return }
-
-  // NOTE: Avoid re-rendering the reflective object.
-  object.visible = false
-
-  state.view.reflect(state.normal).negate()
-  state.view.add(state.reflectorWorldPosition)
-  state.rotationMatrix.extractRotation(camera.matrixWorld as Matrix4)
-  state.lookAtPosition.set(0, 0, -1)
-  state.lookAtPosition.applyMatrix4(state.rotationMatrix)
-  state.lookAtPosition.add(state.cameraWorldPosition)
-  state.target.subVectors(state.reflectorWorldPosition, state.lookAtPosition)
-  state.target.reflect(state.normal).negate()
-  state.target.add(state.reflectorWorldPosition)
-  state.virtualCamera.position.copy(state.view)
-  state.virtualCamera.up.set(0, 1, 0)
-  state.virtualCamera.up.applyMatrix4(state.rotationMatrix)
-  state.virtualCamera.up.reflect(state.normal)
-  state.virtualCamera.lookAt(state.target)
-  state.virtualCamera.far = (camera as PerspectiveCamera).far
-  state.virtualCamera.updateMatrixWorld()
-  state.virtualCamera.projectionMatrix.copy((camera as PerspectiveCamera).projectionMatrix)
-
-  // NOTE: Update the texture matrix
-  state.textureMatrix.set(0.5, 0.0, 0.0, 0.5, 0.0, 0.5, 0.0, 0.5, 0.0, 0.0, 0.5, 0.5, 0.0, 0.0, 0.0, 1.0)
-  state.textureMatrix.multiply(state.virtualCamera.projectionMatrix)
-  state.textureMatrix.multiply(state.virtualCamera.matrixWorldInverse)
-  state.textureMatrix.multiply(object.matrixWorld)
-
-  // NOTE: Now update projection matrix with new clip reflectorPlane, implementing code from: http://www.terathon.com/code/oblique.html
-  // Paper explaining this technique: http://www.terathon.com/lengyel/Lengyel-Oblique.pdf
-  state.reflectorPlane.setFromNormalAndCoplanarPoint(state.normal, state.reflectorWorldPosition)
-  state.reflectorPlane.applyMatrix4(state.virtualCamera.matrixWorldInverse)
-  state.clipPlane.set(
-    state.reflectorPlane.normal.x,
-    state.reflectorPlane.normal.y,
-    state.reflectorPlane.normal.z,
-    state.reflectorPlane.constant,
-  )
-  const projectionMatrix = state.virtualCamera.projectionMatrix
-  state.q.x = (Math.sign(state.clipPlane.x) + projectionMatrix.elements[8]) / projectionMatrix.elements[0]
-  state.q.y = (Math.sign(state.clipPlane.y) + projectionMatrix.elements[9]) / projectionMatrix.elements[5]
-  state.q.z = -1.0
-  state.q.w = (1.0 + projectionMatrix.elements[10]) / projectionMatrix.elements[14]
-  // NOTE: Calculate the scaled reflectorPlane vector
-  state.clipPlane.multiplyScalar(2.0 / state.clipPlane.dot(state.q))
-  // NOTE: Replacing the third row of the projection matrix
-  projectionMatrix.elements[2] = state.clipPlane.x
-  projectionMatrix.elements[6] = state.clipPlane.y
-  projectionMatrix.elements[10] = state.clipPlane.z + 1.0
-  projectionMatrix.elements[14] = state.clipPlane.w
-
-  renderer.shadowMap.autoUpdate = false
-  renderer.setRenderTarget(fboSharp)
-  if (!renderer.autoClear) { renderer.clear() }
-
-  renderer.render(scene, state.virtualCamera)
-  blurpass.render(renderer, fboSharp, fboBlur)
-
-  // NOTE: Restore the previous render target and material
-  renderer.xr.enabled = currentXrEnabled
-  renderer.shadowMap.autoUpdate = currentShadowAutoUpdate
-  object.visible = true
-  renderer.setRenderTarget(null)
-}
-
 watch(
   () => [props.resolution],
   () => {
@@ -324,31 +241,31 @@ watch(() => [
 //
 // TODO: This code can be removed when #615 is resolved
 watch(() => [hasBlur.value], () => {
-  useLogger().logWarning(
+  logWarning(
     'MeshReflectionMaterial: Setting blurMixRough or blurMixSmooth to 0, then non-zero triggers a recompile.'
     + 'The TresJS core cannot currently handle recompiled materials.',
   )
 })
 watch(hasDepth, () => {
-  useLogger().logWarning(
+  logWarning(
     'MeshReflectionMaterial: Setting depthScale to 0, then non-zero triggers a recompile.'
     + 'The TresJS core cannot currently handle recompiled materials.',
   )
 })
 watch(hasDistortion, () => {
-  useLogger().logWarning(
+  logWarning(
     'MeshReflectionMaterial: Toggling distortionMap triggers a recompile.'
     + 'The TresJS core cannot currently handle recompiled materials.',
   )
 })
 watch(hasRoughness, () => {
-  useLogger().logWarning(
+  logWarning(
     'MeshReflectionMaterial: Toggling roughnessMap triggers a recompile.'
     + 'The TresJS core cannot currently handle recompiled materials.',
   )
 })
 watch(() => [props.normalMap], () => {
-  useLogger().logWarning(
+  logWarning(
     'MeshReflectionMaterial: Toggling normalMap triggers a recompile.'
     + 'The TresJS core cannot currently handle recompiled materials.',
   )
@@ -360,12 +277,99 @@ onBeforeUnmount(() => {
   fboBlur.dispose()
   blurpass.dispose()
 })
+const { onBeforeRender } = useLoop()
 
-useLoop().onBeforeRender(({ renderer, scene, camera, invalidate }) => {
+onBeforeRender(({ renderer, scene, camera }) => {
   const parent = (materialRef.value as any)?.__tres?.parent
   if (!parent) { return }
-  onBeforeRender(renderer, scene, camera, parent)
-  invalidate()
+  if (renderer instanceof WebGPURenderer) {
+    console.warn('MeshReflectionMaterial: WebGPURenderer is not supported yet')
+    return
+  }
+  if (renderer instanceof WebGLRenderer) {
+    invalidate()
+
+    const currentXrEnabled = renderer.xr.enabled
+    const currentShadowAutoUpdate = renderer.shadowMap.autoUpdate
+
+    state.reflectorWorldPosition.setFromMatrixPosition(parent.matrixWorld)
+    state.cameraWorldPosition.setFromMatrixPosition(camera.value?.matrixWorld as Matrix4)
+    state.rotationMatrix.extractRotation(parent.matrixWorld)
+    state.normal.set(0, 0, 1)
+    state.normal.applyMatrix4(state.rotationMatrix)
+    state.reflectorWorldPosition.addScaledVector(state.normal, props.reflectorOffset)
+    state.view.subVectors(state.reflectorWorldPosition, state.cameraWorldPosition)
+
+    // NOTE: Avoid rendering when reflector is facing away
+    if (state.view.dot(state.normal) > 0) { return }
+
+    // NOTE: Avoid re-rendering the reflective object.
+    parent.visible = false
+
+    state.view.reflect(state.normal).negate()
+    state.view.add(state.reflectorWorldPosition)
+    state.rotationMatrix.extractRotation(camera.value?.matrixWorld as Matrix4)
+    state.lookAtPosition.set(0, 0, -1)
+    state.lookAtPosition.applyMatrix4(state.rotationMatrix)
+    state.lookAtPosition.add(state.cameraWorldPosition)
+    state.target.subVectors(state.reflectorWorldPosition, state.lookAtPosition)
+    state.target.reflect(state.normal).negate()
+    state.target.add(state.reflectorWorldPosition)
+    state.virtualCamera.position.copy(state.view)
+    state.virtualCamera.up.set(0, 1, 0)
+    state.virtualCamera.up.applyMatrix4(state.rotationMatrix)
+    state.virtualCamera.up.reflect(state.normal)
+    state.virtualCamera.lookAt(state.target)
+    state.virtualCamera.far = (camera.value as PerspectiveCamera).far
+    state.virtualCamera.updateMatrixWorld()
+    state.virtualCamera.far = (camera.value as PerspectiveCamera).far
+    state.virtualCamera.projectionMatrix.copy((camera.value as PerspectiveCamera).projectionMatrix)
+
+    // NOTE: Update the texture matrix
+    state.textureMatrix.set(0.5, 0.0, 0.0, 0.5, 0.0, 0.5, 0.0, 0.5, 0.0, 0.0, 0.5, 0.5, 0.0, 0.0, 0.0, 1.0)
+    state.textureMatrix.multiply(state.virtualCamera.projectionMatrix)
+    state.textureMatrix.multiply(state.virtualCamera.matrixWorldInverse)
+    state.textureMatrix.multiply(parent.matrixWorld)
+
+    // NOTE: Now update projection matrix with new clip reflectorPlane, implementing code from: http://www.terathon.com/code/oblique.html
+    // Paper explaining this technique: http://www.terathon.com/lengyel/Lengyel-Oblique.pdf
+    state.reflectorPlane.setFromNormalAndCoplanarPoint(state.normal, state.reflectorWorldPosition)
+    state.reflectorPlane.applyMatrix4(state.virtualCamera.matrixWorldInverse)
+    state.clipPlane.set(
+      state.reflectorPlane.normal.x,
+      state.reflectorPlane.normal.y,
+      state.reflectorPlane.normal.z,
+      state.reflectorPlane.constant,
+    )
+    const projectionMatrix = state.virtualCamera.projectionMatrix
+    state.q.x = (Math.sign(state.clipPlane.x) + projectionMatrix.elements[8]) / projectionMatrix.elements[0]
+    state.q.y = (Math.sign(state.clipPlane.y) + projectionMatrix.elements[9]) / projectionMatrix.elements[5]
+    state.q.z = -1.0
+    state.q.w = (1.0 + projectionMatrix.elements[10]) / projectionMatrix.elements[14]
+    // NOTE: Calculate the scaled reflectorPlane vector
+    state.clipPlane.multiplyScalar(2.0 / state.clipPlane.dot(state.q))
+    // NOTE: Replacing the third row of the projection matrix
+    projectionMatrix.elements[2] = state.clipPlane.x
+    projectionMatrix.elements[6] = state.clipPlane.y
+    projectionMatrix.elements[10] = state.clipPlane.z + 1.0
+    projectionMatrix.elements[14] = state.clipPlane.w
+
+    renderer.shadowMap.autoUpdate = false
+    renderer.setRenderTarget(fboSharp)
+    if (!renderer.autoClear) { renderer.clear() }
+
+    renderer.render(toValue(scene), state.virtualCamera)
+    if (renderer instanceof WebGLRenderer) {
+      blurpass.render(renderer, fboSharp, fboBlur)
+    }
+
+    // NOTE: Restore the previous render target and material
+    renderer.xr.enabled = currentXrEnabled
+    renderer.shadowMap.autoUpdate = currentShadowAutoUpdate
+    parent.visible = true
+    renderer.setRenderTarget(null)
+    invalidate()
+  }
 })
 defineExpose({ instance: materialRef })
 </script>

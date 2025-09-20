@@ -13,9 +13,9 @@ withDefaults(defineProps<ScreenSpaceProps>(), {
 const outerRef = shallowRef()
 
 useLoop().onBeforeRender(({ camera }) => {
-  if (outerRef.value) {
-    outerRef.value.quaternion.copy(camera.quaternion)
-    outerRef.value.position.copy(camera.position)
+  if (outerRef.value && camera.value) {
+    outerRef.value.quaternion.copy(camera.value.quaternion)
+    outerRef.value.position.copy(camera.value.position)
   }
 })
 

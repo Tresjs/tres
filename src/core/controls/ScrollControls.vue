@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useLogger, useLoop, useTresContext } from '@tresjs/core'
+import { logWarning, useLoop, useTresContext } from '@tresjs/core'
 import { useScroll, useWindowScroll, useWindowSize } from '@vueuse/core'
 import { ref, shallowRef, watch } from 'vue'
 
@@ -65,15 +65,13 @@ const props = withDefaults(
 
 const emit = defineEmits(['update:modelValue'])
 
-const { logWarning } = useLogger()
-
 if (props.smoothScroll < 0) { logWarning('SmoothControl must be greater than zero') }
 if (props.pages < 0) { logWarning('Pages must be greater than zero') }
 
-const { camera, controls, renderer, invalidate } = useTresContext()
+const { camera, controls, renderer } = useTresContext()
 
 watch(props, () => {
-  invalidate()
+  renderer.invalidate()
 })
 const wrapperRef = shallowRef()
 const scrollContainer = document.createElement('div')
@@ -92,7 +90,7 @@ const scrollNodeY = ref(0)
 const direction = props.horizontal ? 'x' : 'y'
 
 const unWatch = watch(
-  camera,
+  camera.activeCamera,
   (value) => {
     if (initialized.value) {
       unWatch()
@@ -134,7 +132,7 @@ watch(containerX, (value) => {
 })
 
 watch(
-  renderer,
+  renderer.instance,
   (value) => {
     const canvas = value?.domElement
     if (props.htmlScroll && value?.domElement) {
@@ -192,17 +190,18 @@ watch(
 
 const { onBeforeRender } = useLoop()
 
-onBeforeRender(({ invalidate }) => {
-  if (camera.value?.position) {
+onBeforeRender(() => {
+  if (camera.activeCamera.value?.position) {
     const delta
-      = (progress.value * props.distance - camera.value.position[direction] + initCameraPos) * props.smoothScroll
+      = (progress.value * props.distance - camera.activeCamera.value.position[direction] + initCameraPos) * props.smoothScroll
 
-    camera.value.position[direction] += delta
+    camera.activeCamera.value.position[direction] += delta
     if (wrapperRef.value.children.length > 0) {
       wrapperRef.value.position[direction] += delta
     }
 
-    invalidate()
+    // TODO: comment this until invalidate is back in the loop callback on v5
+    // invalidate()
   }
 })
 

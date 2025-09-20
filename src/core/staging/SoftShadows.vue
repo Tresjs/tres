@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { useTres } from '@tresjs/core'
-import type { Camera, Scene, WebGLRenderer } from 'three'
-import { ShaderChunk } from 'three'
+import type { TresRenderer } from '@tresjs/core'
+import type { Camera, Scene } from 'three'
+import { ShaderChunk, WebGLRenderer } from 'three'
 import { onUnmounted, watch } from 'vue'
 
 // NOTE: Sources
@@ -131,7 +132,7 @@ float PCSS (sampler2D shadowMap, vec4 coords) {
 const originalShadowsFragment = ShaderChunk.shadowmap_pars_fragment
 const { renderer, scene, camera } = useTres()
 
-function injectSoftShadowsFragment(renderer: WebGLRenderer, props: SoftShadowsProps) {
+function injectSoftShadowsFragment(renderer: TresRenderer, props: SoftShadowsProps) {
   // overwrite shadowmap code
 
   let shader = originalShadowsFragment
@@ -154,15 +155,17 @@ function injectSoftShadowsFragment(renderer: WebGLRenderer, props: SoftShadowsPr
   renderer.shadowMap.enabled = true
 }
 
-function reset(renderer: WebGLRenderer, scene: Scene, camera: Camera) {
-  scene.traverse((object) => {
-    if ('material' in object && object.material) {
-      renderer.properties.remove(object.material)
-      if (typeof object.material === 'object' && 'dispose' in object.material && typeof object.material.dispose === 'function') { object.material.dispose?.() }
+function reset(renderer: TresRenderer, scene: Scene, camera: Camera) {
+  if (renderer instanceof WebGLRenderer) {
+    scene.traverse((object) => {
+      if ('material' in object && object.material) {
+        renderer.properties.remove(object.material)
+        if (typeof object.material === 'object' && 'dispose' in object.material && typeof object.material.dispose === 'function') { object.material.dispose?.() }
+      }
+    })
+    if (renderer.info.programs) {
+      renderer.info.programs.length = 0
     }
-  })
-  if (renderer.info.programs) {
-    renderer.info.programs.length = 0
   }
   renderer.compile(scene, camera)
 }
@@ -170,14 +173,14 @@ function reset(renderer: WebGLRenderer, scene: Scene, camera: Camera) {
 onUnmounted(() => {
   if (camera.value) {
     ShaderChunk.shadowmap_pars_fragment = originalShadowsFragment
-    reset(renderer.value, scene.value, camera.value)
+    reset(renderer, scene.value, camera.value)
   }
 })
 
 watch(props, () => {
   if (camera.value) {
-    injectSoftShadowsFragment(renderer.value, props)
-    reset(renderer.value, scene.value, camera.value)
+    injectSoftShadowsFragment(renderer, props)
+    reset(renderer, scene.value, camera.value)
   }
 }, { immediate: true })
 </script>

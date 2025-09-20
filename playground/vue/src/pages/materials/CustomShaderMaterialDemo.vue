@@ -3,8 +3,9 @@ import {
   CustomShaderMaterial,
   OrbitControls,
   StatsGl,
+  useTexture,
 } from '@tresjs/cientos'
-import { TresCanvas, useRenderLoop, useTexture } from '@tresjs/core'
+import { TresCanvas, useRenderLoop } from '@tresjs/core'
 import { TresLeches, useControls } from '@tresjs/leches'
 import { MeshMatcapMaterial } from 'three'
 
@@ -17,13 +18,11 @@ const gl = {
   clearColor: '#82DBC5',
 }
 
-const texture01 = await useTexture({
-  matcap: '/matcap_01.png',
-})
+const { state: texture01 } = useTexture('/matcap_01.png')
 
 const materialProps = {
   baseMaterial: MeshMatcapMaterial,
-  matcap: texture01.matcap,
+  matcap: texture01.value,
   fragmentShader: `
     varying float vWobble;
 

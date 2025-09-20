@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { type TresColor, useTresContext } from '@tresjs/core'
+import { type TresColor, useTres } from '@tresjs/core'
 import { BufferAttribute, BufferGeometry } from 'three'
 import { onUnmounted, shallowRef, watch } from 'vue'
 
@@ -47,7 +47,7 @@ const props = withDefaults(defineProps<SuperFormulaProps>(), {
   color: 'white',
 })
 
-const { invalidate } = useTresContext()
+const { invalidate } = useTres()
 
 const { cos, sin, abs } = Math
 

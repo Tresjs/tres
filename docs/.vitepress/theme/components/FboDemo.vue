@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { Fbo, OrbitControls } from '@tresjs/cientos'
-import { TresCanvas, useRenderLoop } from '@tresjs/core'
+import type { TresObject } from '@tresjs/core'
+import { TresCanvas } from '@tresjs/core'
 import { ACESFilmicToneMapping, SRGBColorSpace } from 'three'
-import { nextTick, onMounted, ref, shallowReactive, shallowRef } from 'vue'
+import { ref, shallowReactive, shallowRef } from 'vue'
 
 const gl = {
   clearColor: '#82DBC5',
@@ -13,10 +14,8 @@ const gl = {
 }
 
 const fboRef = ref(null)
-const torusRef = shallowRef(null)
-const capsuleRef = shallowRef(null)
-
-const { onLoop } = useRenderLoop()
+const torusRef = shallowRef<TresObject | null>(null)
+const capsuleRef = shallowRef<TresObject | null>(null)
 
 const state = shallowReactive({
   depth: false,
@@ -25,21 +24,19 @@ const state = shallowReactive({
   },
 })
 
-onMounted(async () => {
-  await nextTick()
+function onLoop({ elapsed }: { elapsed: number }) {
+  if (!torusRef.value || !capsuleRef.value) { return }
 
-  onLoop(({ elapsed }) => {
-    torusRef.value.rotation.x = elapsed * 0.745
-    torusRef.value.rotation.y = elapsed * 0.361
+  torusRef.value.rotation.x = elapsed * 0.745
+  torusRef.value.rotation.y = elapsed * 0.361
 
-    capsuleRef.value.rotation.x = elapsed * 0.471
-    capsuleRef.value.rotation.z = elapsed * 0.632
-  })
-})
+  capsuleRef.value.rotation.x = elapsed * 0.471
+  capsuleRef.value.rotation.z = elapsed * 0.632
+}
 </script>
 
 <template>
-  <TresCanvas v-bind="gl">
+  <TresCanvas v-bind="gl" @loop="onLoop">
     <TresPerspectiveCamera :position="[0, 0.5, 5]" />
     <OrbitControls />
 

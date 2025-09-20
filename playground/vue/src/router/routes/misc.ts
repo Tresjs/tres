@@ -1,5 +1,10 @@
 export const miscRoutes = [
   {
+    path: '/misc/lod',
+    name: 'LOD',
+    component: () => import('../../pages/misc/LODDemo.vue'),
+  },
+  {
     path: '/misc/html',
     name: 'HTML',
     component: () => import('../../pages/misc/HTMLDemo.vue'),
@@ -28,5 +33,10 @@ export const miscRoutes = [
     path: '/misc/gltfExporter',
     name: 'GLTFExporter',
     component: () => import('../../pages/misc/GLTFExporterDemo.vue'),
+  },
+  {
+    path: '/misc/useIntersect',
+    name: 'useIntersect',
+    component: () => import('../../pages/misc/useIntersect/index.vue'),
   },
 ]

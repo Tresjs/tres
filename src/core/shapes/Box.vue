@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { type TresColor, useTresContext } from '@tresjs/core'
+import { type TresColor, useTres } from '@tresjs/core'
 import { shallowRef, toRefs, watch } from 'vue'
 
 import type { BoxGeometry } from 'three'
@@ -25,10 +25,12 @@ export interface BoxProps {
 }
 
 const props = withDefaults(defineProps<BoxProps>(), { args: () => [1, 1, 1], color: '#ffffff' })
-const { invalidate } = useTresContext()
+const { invalidate } = useTres()
 
 const { args, color } = toRefs(props)
-watch(args, () => invalidate())
+watch(args, () => {
+  invalidate()
+})
 
 const boxRef = shallowRef()
 

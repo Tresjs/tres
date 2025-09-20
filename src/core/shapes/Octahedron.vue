@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { type TresColor, useTresContext } from '@tresjs/core'
+import { type TresColor, useTres } from '@tresjs/core'
 import { shallowRef, toRefs, watch } from 'vue'
 import type { OctahedronGeometry } from 'three'
 
@@ -23,9 +23,12 @@ export interface OctahedronProps {
 }
 
 const props = withDefaults(defineProps<OctahedronProps>(), { args: () => [1, 0], color: '#ffffff' })
+const { invalidate } = useTres()
+
 const { args, color } = toRefs(props)
-const { invalidate } = useTresContext()
-watch(args, () => invalidate())
+watch(args, () => {
+  invalidate()
+})
 
 const octahedronRef = shallowRef()
 

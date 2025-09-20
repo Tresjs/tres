@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Box, KeyboardControls, StatsGl } from '@tresjs/cientos'
+import { Box, KeyboardControls } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
 import { BasicShadowMap, NoToneMapping } from 'three'
 
@@ -22,9 +22,8 @@ const hasChange = (state: any) => {
 </script>
 
 <template>
-  <TresCanvas v-bind="gl" render-mode="on-demand">
+  <TresCanvas v-bind="gl">
     <TresPerspectiveCamera :position="[0, 3, 10]" />
-    <StatsGl />
     <!-- <Sky /> -->
     <KeyboardControls
       @change="state => hasChange(state)"

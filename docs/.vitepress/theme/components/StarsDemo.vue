@@ -1,16 +1,20 @@
 <script setup lang="ts">
 import { OrbitControls, Stars } from '@tresjs/cientos'
-import { TresCanvas, useRenderLoop } from '@tresjs/core'
+import { TresCanvas } from '@tresjs/core'
 import { shallowRef } from 'vue'
 
 const yRotation = shallowRef(0)
-useRenderLoop().onLoop(({ delta }) => {
+
+function onLoop({ delta }: { delta: number }) {
   yRotation.value += 0.02 * delta
-})
+}
 </script>
 
 <template>
-  <TresCanvas clear-color="#333">
+  <TresCanvas
+    clear-color="#333"
+    @loop="onLoop"
+  >
     <TresPerspectiveCamera :position="[0, 2, 5]" />
     <Stars
       :rotation="[0, yRotation, 0]"

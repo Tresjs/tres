@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { type TresColor, useTresContext } from '@tresjs/core'
+import { type TresColor, useTres } from '@tresjs/core'
 import { shallowRef, toRefs, watch } from 'vue'
 import type { DodecahedronGeometry } from 'three'
 
@@ -23,11 +23,14 @@ export interface DodecahedronProps {
 }
 
 const props = withDefaults(defineProps<DodecahedronProps>(), { args: () => [1, 0], color: '#ffffff' })
+const { invalidate } = useTres()
+
 const { args, color } = toRefs(props)
+watch(args, () => {
+  invalidate()
+})
 
 const dodecahedronRef = shallowRef()
-const { invalidate } = useTresContext()
-watch(args, () => invalidate())
 
 defineExpose({
   instance: dodecahedronRef,

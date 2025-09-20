@@ -1,24 +1,23 @@
 <script setup lang="ts">
 import { BakeShadows } from '@tresjs/cientos'
-import { TresCanvas, useRenderLoop } from '@tresjs/core'
+import { TresCanvas } from '@tresjs/core'
 import { shallowRef } from 'vue'
 
 const cubeRef = shallowRef()
 
-const { onLoop } = useRenderLoop()
-
-onLoop(({ elapsed }) => {
+function onLoop({ elapsed }: { elapsed: number }) {
   if (cubeRef.value) {
     cubeRef.value.rotation.y = elapsed * 0.5
     cubeRef.value.rotation.x = elapsed * 0.5
   }
-})
+}
 </script>
 
 <template>
   <TresCanvas
     clear-color="#82DBC5"
     shadows
+    @loop="onLoop"
   >
     <TresPerspectiveCamera
       :position="[0, 2, 5]"

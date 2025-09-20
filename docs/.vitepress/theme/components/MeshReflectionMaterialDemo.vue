@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { MeshReflectionMaterial, SVG as MySVG, OrbitControls } from '@tresjs/cientos'
-import { TresCanvas, useTexture } from '@tresjs/core'
+import { MeshReflectionMaterial, UseSVG as MySVG, OrbitControls, useTexture } from '@tresjs/cientos'
+import { TresCanvas } from '@tresjs/core'
 
 const normalMapSrc = 'https://raw.githubusercontent.com/'
   + 'Tresjs/assets/main/textures/rock/normal.jpg'
-const normalMap = await useTexture([normalMapSrc])
+const { state: normalMap } = useTexture(normalMapSrc)
 const svgSrc = '/logo.svg'
 </script>
 

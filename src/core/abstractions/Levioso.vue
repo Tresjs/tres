@@ -33,7 +33,7 @@ defineExpose({
   const { onBeforeRender } = useLoop()
   let elapsed = START_OFFSET
 
-  onBeforeRender(({ delta, invalidate }) => {
+  onBeforeRender(({ delta /* invalidate */ }) => {
     if (!groupRef.value) { return }
 
     elapsed += delta * props.speed
@@ -45,7 +45,8 @@ defineExpose({
     group.rotation.z = Math.sin(theta) * AMPLITUDE_ROTATION_Z * props.rotationFactor
     group.position.y = MathUtils.mapLinear(Math.sin(theta), -1, 1, props.range[0], props.range[1]) * props.floatFactor
 
-    invalidate()
+    // TODO: comment this until invalidate is back in the loop callback on v5
+    // invalidate()
   })
 }
 </script>

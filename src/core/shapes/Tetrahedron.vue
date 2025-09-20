@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { shallowRef, toRefs } from 'vue'
-import type { TresColor } from '@tresjs/core'
+import { type TresColor, useTres } from '@tresjs/core'
+import { shallowRef, toRefs, watch } from 'vue'
 import type { TetrahedronGeometry } from 'three'
 
 export interface TetrahedronProps {
@@ -23,7 +23,13 @@ export interface TetrahedronProps {
 }
 
 const props = withDefaults(defineProps<TetrahedronProps>(), { args: () => [1, 0], color: '#ffffff' })
+const { invalidate } = useTres()
+
 const { args, color } = toRefs(props)
+watch(args, () => {
+  invalidate()
+})
+
 const tetrahedronRef = shallowRef()
 
 defineExpose({

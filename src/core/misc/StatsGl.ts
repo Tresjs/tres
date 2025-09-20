@@ -93,17 +93,18 @@ export const StatsGl = defineComponent<StatsGlProps>({
     expose({ instance: statsGl })
 
     const node = document.body
-    const statContainer = statsGl.dom || statsGl.container
+    // @ts-expect-error - container is not typed
+    const statContainer = statsGl.container
 
     node?.appendChild(statContainer)
 
     const { renderer } = useTresContext()
 
-    const { onAfterRender } = useLoop()
+    const { onRender } = useLoop()
 
-    statsGl.init(renderer.value)
+    statsGl.init(renderer.instance)
 
-    onAfterRender(() => statsGl.update(), Number.POSITIVE_INFINITY)
+    onRender(() => statsGl.update(), Number.POSITIVE_INFINITY)
 
     onUnmounted(() => {
       node?.removeChild(statContainer)

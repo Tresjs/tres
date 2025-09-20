@@ -1,8 +1,6 @@
-import { useLogger } from '@tresjs/core'
+import { logError } from '@tresjs/core'
 import { GLTFExporter } from 'three-stdlib'
 import type { AnimationClip, Object3D } from 'three'
-
-const { logError } = useLogger()
 
 interface gltfExporterOptions {
   fileName?: string

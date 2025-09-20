@@ -144,14 +144,18 @@ const ref = shallowRef<Mesh>(new Mesh())
 const plane = new Plane()
 const upVector = new Vector3(0, 1, 0)
 const zeroVector = new Vector3(0, 0, 0)
-useLoop().onBeforeRender((state) => {
+
+const { onBeforeRender } = useLoop()
+
+onBeforeRender((state) => {
+  if (!state.camera) { return }
   plane.setFromNormalAndCoplanarPoint(upVector, zeroVector).applyMatrix4(ref.value.matrixWorld)
 
   const gridMaterial = ref.value.material as ShaderMaterial
   const worldCamProjPosition = gridMaterial.uniforms.worldCamProjPosition as Uniform<Vector3>
   const worldPlanePosition = gridMaterial.uniforms.worldPlanePosition as Uniform<Vector3>
 
-  plane.projectPoint(state.camera.position, worldCamProjPosition.value)
+  plane.projectPoint(state.camera.value!.position, worldCamProjPosition.value)
   worldPlanePosition.value.set(0, 0, 0).applyMatrix4(ref.value.matrixWorld)
 })
 </script>

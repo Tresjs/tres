@@ -4,16 +4,16 @@ import { TresCanvas } from '@tresjs/core'
 
 const path = 'https://raw.githubusercontent.com/'
   + 'Tresjs/assets/main/models/gltf/blender-cube.glb'
-const { scene } = await useGLTF(path)
+const { state } = useGLTF(path)
 </script>
 
 <template>
-  <TresCanvas clear-color="#F78B3D">
+  <TresCanvas clear-color="#FBB03B">
     <TresPerspectiveCamera :position="[3, 2, 5]" />
     <OrbitControls />
-    <Suspense>
-      <primitive :object="scene" />
-    </Suspense>
+
+    <primitive v-if="state" :object="state?.scene" />
+
     <TresDirectionalLight
       :intensity="2"
       :position="[3, 3, 3]"

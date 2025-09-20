@@ -1,13 +1,11 @@
 <script setup lang="ts">
 import { CustomShaderMaterial } from '@tresjs/cientos'
-import { TresCanvas, useRenderLoop } from '@tresjs/core'
+import { TresCanvas } from '@tresjs/core'
 import { TresLeches, useControls } from '@tresjs/leches'
 import { MeshBasicMaterial } from 'three'
 
-import { nextTick, onMounted, watch } from 'vue'
+import { watch } from 'vue'
 import '@tresjs/leches/styles'
-
-const { onLoop } = useRenderLoop()
 
 const gl = {
   clearColor: '#82DBC5',
@@ -48,14 +46,9 @@ const materialProps = {
   },
 }
 
-onMounted(async () => {
-  await nextTick()
-
-  onLoop(() => {
-    materialProps.uniforms.u_Time.value
-      += 0.01 * materialProps.uniforms.u_WobbleSpeed.value
-  })
-})
+function onLoop() {
+  materialProps.uniforms.u_Time.value += 0.01 * materialProps.uniforms.u_WobbleSpeed.value
+}
 
 const { speed, amplitude, frequency } = useControls({
   speed: {
@@ -87,7 +80,7 @@ watch([speed.value, amplitude.value, frequency.value], () => {
 
 <template>
   <TresLeches class="top-0 important-left-4" />
-  <TresCanvas v-bind="gl">
+  <TresCanvas v-bind="gl" @loop="onLoop">
     <TresPerspectiveCamera
       :position="[0, 2, 4]"
       :look-at="[-1, 0, 0]"

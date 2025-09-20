@@ -1,8 +1,41 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import type { TresObject } from '@tresjs/core'
+import { watchEffect } from 'vue'
+import { Mesh } from 'three'
 import { useGLTF } from '.'
 
+const props = withDefaults(
+  defineProps<GLTFModelProps>(),
+  {
+    draco: false,
+    castShadow: false,
+    receiveShadow: false,
+    decoderPath: 'https://www.gstatic.com/draco/versioned/decoders/1.4.1/',
+  },
+)
+
+const { state, isLoading } = useGLTF(props.path as string, {
+  draco: props.draco,
+  decoderPath: props.decoderPath,
+})
+
+defineExpose({
+  instance: state,
+})
+
+// Apply shadow settings when the model loads or shadow props change
+watchEffect(() => {
+  if (state.value?.scene && (props.castShadow || props.receiveShadow)) {
+    state.value.scene.traverse((child) => {
+      if (child instanceof Mesh) {
+        child.castShadow = props.castShadow
+        child.receiveShadow = props.receiveShadow
+      }
+    })
+  }
+})
+</script>
+
+<script lang="ts">
 export interface GLTFModelProps {
   /**
    *
@@ -55,46 +88,12 @@ export interface GLTFModelProps {
    */
   decoderPath?: string
 }
-
-const props = withDefaults(
-  defineProps<{
-    path: string
-    draco?: boolean
-    decoderPath?: string
-    castShadow?: boolean
-    receiveShadow?: boolean
-  }>(),
-  {
-    draco: false,
-    castShadow: false,
-    receiveShadow: false,
-    decoderPath: 'https://www.gstatic.com/draco/versioned/decoders/1.4.1/',
-  },
-)
-const modelRef = ref()
-
-defineExpose({
-  instance: modelRef,
-})
-
-const { scene: model } = await useGLTF(props.path as string, {
-  draco: props.draco,
-  decoderPath: props.decoderPath,
-})
-if (props.castShadow || props.receiveShadow) {
-  model.traverse((child: TresObject) => {
-    if (child.isMesh) {
-      child.castShadow = props.castShadow
-      child.receiveShadow = props.receiveShadow
-    }
-  })
-}
 </script>
 
 <template>
   <primitive
-    ref="modelRef"
-    :object="model"
+    v-if="!isLoading && state?.scene"
+    :object="state?.scene"
     v-bind="$attrs"
   />
 </template>

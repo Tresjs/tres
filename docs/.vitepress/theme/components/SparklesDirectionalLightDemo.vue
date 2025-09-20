@@ -1,20 +1,23 @@
 <script setup lang="ts">
 import { OrbitControls, Sparkles, Sphere, Torus } from '@tresjs/cientos'
-import { TresCanvas, useRenderLoop } from '@tresjs/core'
+import { TresCanvas } from '@tresjs/core'
 import { shallowRef } from 'vue'
 
 const lightRef = shallowRef()
 
-useRenderLoop().onLoop(({ elapsed }) => {
+function onLoop({ elapsed }: { elapsed: number }) {
   if (lightRef.value) {
     lightRef.value.position.x = Math.cos(elapsed) * 2.5
     lightRef.value.position.y = Math.sin(elapsed) * 2.5
   }
-})
+}
 </script>
 
 <template>
-  <TresCanvas clear-color="#333">
+  <TresCanvas
+    clear-color="#333"
+    @loop="onLoop"
+  >
     <TresPerspectiveCamera :position="[0, 0, 8]" />
     <TresDirectionalLight ref="lightRef">
       <Sphere

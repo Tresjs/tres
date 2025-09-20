@@ -2,15 +2,9 @@
 import { Html, OrbitControls } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
 
-import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
-
 const gl = {
   clearColor: '#82DBC5',
   shadows: true,
-  alpha: false,
-  shadowMapType: BasicShadowMap,
-  outputColorSpace: SRGBColorSpace,
-  toneMapping: NoToneMapping,
 }
 </script>
 

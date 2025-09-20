@@ -2,7 +2,7 @@
 import type { Camera } from 'three'
 import { Euler, Group, Quaternion } from 'three'
 import { shallowRef } from 'vue'
-import { useLoop, useTres } from '@tresjs/core'
+import { useLoop, useTresContext } from '@tresjs/core'
 
 export interface BillboardProps {
   /**
@@ -39,8 +39,8 @@ function update(camera?: Camera) {
   if (!outerRef.value) { return }
 
   if (!camera) {
-    const t = useTres()
-    camera = t.camera.value
+    const { camera: ctxCamera } = useTresContext()
+    camera = ctxCamera.activeCamera.value
     if (!camera) { return }
   }
 
@@ -60,7 +60,7 @@ function update(camera?: Camera) {
 }
 
 useLoop().onBeforeRender(({ camera }) => {
-  if (props.autoUpdate) { update(camera) }
+  if (props.autoUpdate) { update(camera.value) }
 })
 
 defineExpose({ instance: outerRef, update })

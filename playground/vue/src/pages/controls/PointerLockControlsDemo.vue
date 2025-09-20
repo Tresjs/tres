@@ -1,6 +1,6 @@
 <!-- eslint-disable no-console -->
 <script setup lang="ts">
-import { PointerLockControls, Sky, StatsGl } from '@tresjs/cientos'
+import { PointerLockControls, Sky } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
 import { BasicShadowMap, NoToneMapping } from 'three'
 
@@ -19,7 +19,6 @@ const hasChange = (state: any) => console.log('change', state)
 <template>
   <TresCanvas v-bind="gl">
     <TresPerspectiveCamera :position="[0, 3, 10]" />
-    <StatsGl />
     <Sky />
     <PointerLockControls
       make-default

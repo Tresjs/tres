@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useTresContext } from '@tresjs/core'
+import { useTres } from '@tresjs/core'
 import CustomShaderMaterial from 'three-custom-shader-material/vanilla'
 import { shallowRef, watch } from 'vue'
 import type { Fn } from '@vueuse/core'
@@ -16,9 +16,11 @@ const props = defineProps<CustomShaderMaterialProps>()
 
 const customShaderMaterialClass = shallowRef(null)
 
-const { extend, invalidate } = useTresContext()
+const { extend, invalidate } = useTres()
 extend({ CustomShaderMaterial })
-watch(props, () => invalidate())
+watch(props, () => {
+  invalidate()
+})
 
 defineExpose({ instance: customShaderMaterialClass })
 </script>

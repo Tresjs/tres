@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useLoop, useTexture, useTresContext } from '@tresjs/core'
+import { useLoop, useTresContext } from '@tresjs/core'
 import {
   AdditiveBlending,
   IcosahedronGeometry,
@@ -11,12 +11,13 @@ import {
   Uniform,
   Vector3,
 } from 'three'
-import { onMounted, onUnmounted, shallowRef, toRefs, watch } from 'vue'
+import { onMounted, onUnmounted, toRefs, watch } from 'vue'
 import type { TresColor, VectorFlexibleParams } from '@tresjs/core'
 import type { Blending, BufferGeometry, IUniform, ShaderMaterialParameters, Texture } from 'three'
 import type { Ref } from 'vue'
 import ShaderDataBuilder from './ShaderDataBuilder'
 import useEmptyDataTexture from './useEmptyDataTexture'
+import { useTexture } from '../../loaders/useTexture'
 import type { Gradient } from '../../../utils/Gradient'
 
 interface SparkleProps {
@@ -322,6 +323,8 @@ const shaderMaterialParameters: ShaderMaterialParameters = {
 const mat = new ShaderMaterial(shaderMaterialParameters)
 const sparkles = new Points(undefined, mat)
 
+defineExpose({ instance: sparkles })
+
 const u = mat.uniforms
 const NOW = { immediate: true }
 
@@ -358,7 +361,8 @@ watch([refs.lifetimeSec, refs.cooldownSec], () => { u.uCooldownRatio.value = ref
 
 watch(refs.map, () => {
   if (typeof refs.map.value === 'string') {
-    useTexture([refs.map.value]).then(texture => mat.uniforms.uMap.value = texture)
+    const { state: texture } = useTexture(refs.map.value)
+    mat.uniforms.uMap.value = texture
   }
   else {
     mat.uniforms.uMap.value = refs.map.value
@@ -367,13 +371,14 @@ watch(refs.map, () => {
 
 const rotation = new Quaternion()
 const normal = new Vector3()
-useLoop().onBeforeRender(({ elapsed, invalidate }) => {
+useLoop().onBeforeRender(({ elapsed /* invalidate */ }) => {
   sparkles.getWorldQuaternion(rotation)
   normal.copy(props.directionalLight ? props.directionalLight.position : Object3D.DEFAULT_UP).normalize()
   normal.applyQuaternion(rotation.invert())
   mat.uniforms.uNormal.value = normal
   mat.uniforms.uTime.value = elapsed / (props.cooldownSec + props.lifetimeSec)
-  invalidate()
+  // TODO: comment this until invalidate is back in the loop callback on v5
+  // invalidate()
 })
 
 function isObject3D(o: any): o is Object3D {
@@ -401,7 +406,8 @@ onMounted(() => {
   }
 
   if (typeof props.map === 'string') {
-    useTexture([props.map]).then(texture => mat.uniforms.uMap.value = texture)
+    const { state: texture } = useTexture(props.map)
+    mat.uniforms.uMap.value = texture
   }
 })
 
@@ -410,11 +416,8 @@ onUnmounted(() => {
   infoTexture.value.dispose()
   mat.dispose()
 })
-
-const sparkleRef = shallowRef()
-defineExpose({ instance: sparkles })
 </script>
 
 <template>
-  <primitive ref="sparkleRef" :object="sparkles" />
+  <primitive :object="sparkles" />
 </template>

@@ -1,7 +1,7 @@
+import { logError } from '@tresjs/core'
 import { DefaultLoadingManager } from 'three'
 import { ref } from 'vue'
 import type { Ref } from 'vue'
-import { useLogger } from '../../composables/useLogger'
 
 let saveLastTotalLoaded = 0
 
@@ -13,7 +13,6 @@ export function useProgress(): Promise<{
   const hasFinishLoading = ref(false)
   const progress = ref(0)
   const items: Ref<string[]> = ref([])
-  const { logError } = useLogger()
 
   return new Promise((resolve) => {
     DefaultLoadingManager.onStart = () => {

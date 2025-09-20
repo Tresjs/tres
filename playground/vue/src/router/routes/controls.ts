@@ -34,4 +34,9 @@ export const controlsRoutes = [
     name: 'ScrollControls',
     component: () => import('../../pages/controls/ScrollControlsDemo.vue'),
   },
+  {
+    path: '/controls/helper',
+    name: 'Helper',
+    component: () => import('../../pages/controls/HelperDemo.vue'),
+  },
 ]

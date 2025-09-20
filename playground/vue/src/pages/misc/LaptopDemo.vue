@@ -2,30 +2,18 @@
 import { ContactShadows, Html, Levioso, OrbitControls, useGLTF } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
 
-import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
-
-const gl = {
-  clearColor: '#241a1a',
-  shadows: true,
-  alpha: false,
-  shadowMapType: BasicShadowMap,
-  outputColorSpace: SRGBColorSpace,
-  toneMapping: NoToneMapping,
-}
-
 const { nodes }
-  = await useGLTF('https://vazxmixjsiawhamofees.supabase.co/storage/v1/object/public/models/macbook/model.gltf', { draco: true })
+  = useGLTF('https://vazxmixjsiawhamofees.supabase.co/storage/v1/object/public/models/macbook/model.gltf', { draco: true })
 
-// eslint-disable-next-line no-console
-console.log(nodes)
+const laptop = computed(() => nodes.value.Macbook)
 </script>
 
 <template>
-  <TresCanvas v-bind="gl">
+  <TresCanvas clear-color="#241a1a" shadows>
     <TresPerspectiveCamera :position="[-5, 4, 3]" />
     <OrbitControls />
     <Levioso>
-      <primitive :object="nodes.Macbook">
+      <primitive v-if="laptop" :object="laptop">
         <Html
           transform
           wrapper-class="webpage"

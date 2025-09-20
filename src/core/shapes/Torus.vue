@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { type TresColor, useTresContext } from '@tresjs/core'
+import { type TresColor, useTres } from '@tresjs/core'
 import { shallowRef, toRefs, watch } from 'vue'
 import type { TorusGeometry } from 'three'
 
@@ -24,8 +24,10 @@ export interface TorusProps {
 
 const props = withDefaults(defineProps<TorusProps>(), { args: () => [1, 1, 16, 80], color: '#ffffff' })
 const { args, color } = toRefs(props)
-const { invalidate } = useTresContext()
-watch(args, () => invalidate())
+const { invalidate } = useTres()
+watch(args, () => {
+  invalidate()
+})
 
 const torusRef = shallowRef()
 

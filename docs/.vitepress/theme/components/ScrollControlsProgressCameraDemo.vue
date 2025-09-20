@@ -1,25 +1,25 @@
 <script setup lang="ts">
 import { Box, ScrollControls, Stars } from '@tresjs/cientos'
-import { TresCanvas, useRenderLoop } from '@tresjs/core'
+import { TresCanvas } from '@tresjs/core'
 import { ref } from 'vue'
 
 const boxRef = ref()
 const progress = ref(0)
 
-const { onLoop } = useRenderLoop()
-onLoop(() => {
+function onLoop() {
   if (boxRef.value) {
     boxRef.value.instance.rotation.x = progress.value * 10
     boxRef.value.instance.rotation.y = progress.value * 2
     boxRef.value.instance.position.x = progress.value * 4.5
   }
-})
+}
 </script>
 
 <template>
   <TresCanvas
     class="important-absolute"
     clear-color="#333"
+    @loop="onLoop"
   >
     <TresPerspectiveCamera :position="[0, 2, 5]" />
     <Stars :radius="1" />

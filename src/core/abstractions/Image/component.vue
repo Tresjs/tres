@@ -2,9 +2,10 @@
 import type { Side, Texture } from 'three'
 import { Color, FrontSide } from 'three'
 import type { TresColor } from '@tresjs/core'
-import { useTexture, useTres } from '@tresjs/core'
+import { useTres } from '@tresjs/core'
 import { computed, shallowRef, watchEffect } from 'vue'
 import ImageMaterial from './ImageMaterial.vue'
+import { useTexture } from '../../loaders/useTexture'
 
 export type ImageProps = {
   /**
@@ -78,7 +79,7 @@ const imageRef = shallowRef()
 const texture = shallowRef<Texture | null>(props.texture ?? null)
 const size = useTres().sizes
 const planeBounds = computed(() => Array.isArray(props.scale) ? [props.scale[0], props.scale[1]] : [props.scale, props.scale])
-const imageBounds = computed(() => [texture.value?.image.width ?? 0, texture.value?.image.height ?? 0])
+const imageBounds = computed(() => [texture.value?.image?.width ?? 0, texture.value?.image?.height ?? 0])
 const resolution = computed(() => Math.max(size.width.value, size.height.value))
 
 watchEffect(() => {
@@ -86,7 +87,8 @@ watchEffect(() => {
     texture.value = props.texture
   }
   else {
-    useTexture([props.url!]).then(t => texture.value = t)
+    const { state: t } = useTexture(props.url!)
+    texture.value = t.value
   }
 })
 

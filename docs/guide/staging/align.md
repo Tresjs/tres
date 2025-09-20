@@ -30,13 +30,13 @@ All props are optional.
 | `onAlign`    | Callback that fires when updating, after measurement. |
 | `cacheKey`   | If set, component will only update when `cacheKey`'s value changes. If unset, component will update every frame. |
 
-## `OnAlignCallbackProps`
+## `AlignCallbackOptions`
 
 ```ts
-export interface OnAlignCallbackProps {
+export interface AlignCallbackOptions {
   /** The next parent above <Align /> */
   parent: Object3D
-  /** The outmost container group of the <Align /> component */
+  /** The outmost container group of the <Align/> component */
   container: Object3D
   width: number
   height: number

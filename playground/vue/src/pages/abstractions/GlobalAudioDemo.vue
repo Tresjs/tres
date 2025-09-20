@@ -31,16 +31,18 @@ watch(soundRef, (value) => {
       :near="0.1"
       :far="1000"
     />
-    <GlobalAudio
-      ref="soundRef"
-      :src="exampleAudio"
-      :volume="0.5"
-      :loop="true"
-      :playback-rate="1"
-      play-trigger="playBtn"
-      stop-trigger="stopBtn"
-      @is-playing="(e) => isPlaying = e"
-    />
+    <Suspense>
+      <GlobalAudio
+        ref="soundRef"
+        :src="exampleAudio"
+        :volume="0.5"
+        :loop="true"
+        :playback-rate="1"
+        play-trigger="playBtn"
+        stop-trigger="stopBtn"
+        @is-playing="(e) => isPlaying = e"
+      />
+    </Suspense>
   </TresCanvas>
 </template>
 

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useTresContext } from '@tresjs/core'
+import { useTres } from '@tresjs/core'
 import { useEventListener } from '@vueuse/core'
 import { PointerLockControls } from 'three-stdlib'
 import { onUnmounted, shallowRef, watch } from 'vue'
@@ -57,7 +57,7 @@ const props = withDefaults(defineProps<PointerLockControlsProps>(), {
 
 const emit = defineEmits(['isLock', 'change'])
 
-const { camera: activeCamera, renderer, extend, controls, invalidate } = useTresContext()
+const { camera: activeCamera, renderer, extend, controls, invalidate } = useTres()
 
 watch(props, () => {
   invalidate()
@@ -80,7 +80,7 @@ watch(controlsRef, (value) => {
     controls.value = null
   }
   const selector = document.getElementById(props.selector || '')
-  triggerSelector = selector || renderer.value.domElement
+  triggerSelector = selector || renderer.domElement
 
   useEventListener(triggerSelector, 'click', () => {
     if (controlsRef.value) {
@@ -108,7 +108,7 @@ defineExpose({
 
 <template>
   <TresPointerLockControls
-    v-if="(camera || activeCamera) && (domElement || renderer)"
+    v-if="(camera || activeCamera) && (domElement || renderer.domElement)"
     ref="controlsRef"
     :args="[camera || activeCamera, domElement || renderer.domElement]"
   />

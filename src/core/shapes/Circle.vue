@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { type TresColor, useTresContext } from '@tresjs/core'
+import { type TresColor, useTres } from '@tresjs/core'
 import { shallowRef, toRefs, watch } from 'vue'
 import type { CircleGeometry } from 'three'
 
@@ -7,7 +7,7 @@ export interface CircleProps {
   /**
    * The radius, segment, thetaStart, thetaLength of the circle.
    * @default [1, 32, 0, Math.PI * 2]
-   * @type {number[]}
+   * @type {any[]}
    * @memberof CircleProps
    * @see https://threejs.org/docs/#api/en/geometries/CircleGeometry
    */
@@ -23,9 +23,12 @@ export interface CircleProps {
 }
 
 const props = withDefaults(defineProps<CircleProps>(), { args: () => [1, 32, 0, Math.PI * 2], color: '#ffffff' })
+const { invalidate } = useTres()
+
 const { args, color } = toRefs(props)
-const { invalidate } = useTresContext()
-watch(args, () => invalidate())
+watch(args, () => {
+  invalidate()
+})
 
 const circleRef = shallowRef()
 

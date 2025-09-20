@@ -1,7 +1,8 @@
 import { useTres } from '@tresjs/core'
+import type { TresRenderer } from '@tresjs/core'
 import type { MaybeRefOrGetter } from 'vue'
 import { computed, toValue, watchEffect } from 'vue'
-import type { Fog, FogExp2, Scene, Texture, WebGLRenderer } from 'three'
+import type { Fog, FogExp2, Scene, Texture } from 'three'
 import { HalfFloatType, CubeCamera as ThreeCubeCamera, WebGLCubeRenderTarget } from 'three'
 import { tryOnScopeDispose } from '@vueuse/core'
 
@@ -17,7 +18,7 @@ export interface CubeCameraOptions {
   /** Custom fog that is temporarily set as the scene's fog */
   fog?: MaybeRefOrGetter<Fog | FogExp2>
   /** Renderer */
-  renderer?: MaybeRefOrGetter<WebGLRenderer>
+  renderer?: MaybeRefOrGetter<TresRenderer>
   /** Scene */
   scene?: MaybeRefOrGetter<Scene>
 }

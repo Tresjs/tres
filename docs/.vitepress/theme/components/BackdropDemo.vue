@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { Backdrop, GLTFModel, useProgress } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
-
+import type { Camera } from 'three'
 import { PCFSoftShadowMap, SRGBColorSpace } from 'three'
-import { ref, watch, watchEffect } from 'vue'
+import { ref, watchEffect } from 'vue'
 
 const gl = {
   clearColor: 'pink',
@@ -13,21 +13,11 @@ const gl = {
   outputColorSpace: SRGBColorSpace,
 }
 
-const model = ref(null)
-
-watch(model, ({ value }) => {
-  value.traverse((child) => {
-    if (child.isMesh) {
-      child.castShadow = true
-    }
-  })
-})
-
 const cameraRef = ref(null)
 
 watchEffect(() => {
   if (cameraRef.value) {
-    (cameraRef.value as THREE.Camera).lookAt(0, 5, 0)
+    (cameraRef.value as Camera).lookAt(0, 5, 0)
   }
 })
 
@@ -58,7 +48,6 @@ const { hasFinishLoading, progress } = await useProgress()
       />
       <Suspense>
         <GLTFModel
-          ref="model"
           path="https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/blender-cube.glb"
           :rotation="[0, 0.5, 0]"
           :position="[0, 0.4, 0]"

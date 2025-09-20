@@ -8,7 +8,7 @@ This component allows you to project HTML content to any object in your scene. T
 
 ## Usage
 
-<<< @/.vitepress/theme/components/HtmlDemo.vue{3,13-23}
+<<< @/.vitepress/theme/components/HtmlDemo.vue{2,18-28}
 
 ## Occlusion
 
@@ -26,7 +26,7 @@ You can also choose which objects should occlude the HTML content by passing an 
   <HtmlOccludeDemo />
 </DocsDemo>
 
-<<< @/.vitepress/theme/components/HtmlOccludeDemo.vue{2,6,19,28}
+<<< @/.vitepress/theme/components/HtmlOccludeDemo.vue{2,11,24,33}
 
 ## Using `iframes`
 
@@ -36,7 +36,7 @@ You can achieve pretty cool results with the `Html` component by using iframes. 
   <HtmlLaptopDemo />
 </DocsDemo>
 
-<<< @/.vitepress/theme/components/HtmlLaptopDemo.vue{23-27}
+<<< @/.vitepress/theme/components/HtmlLaptopDemo.vue
 
 ## Props
 

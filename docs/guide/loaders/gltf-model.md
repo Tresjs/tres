@@ -8,7 +8,7 @@ The `GLTFModel` component is a wrapper around [`useGLTF`](./use-gltf.md) composa
 
 ## Usage
 
-<<< @/.vitepress/theme/components/GLTFModelDemo.vue{3,10-12}
+<<< @/.vitepress/theme/components/GLTFModelDemo.vue{3,10}
 
 ## Model reference
 
@@ -16,15 +16,23 @@ You can access the model reference by passing a `ref` to the `model` prop and th
 
 ```vue
 <script setup lang="ts">
+import type { TresObject } from 'tresjs'
 import { GLTFModel, OrbitControls } from '@tresjs/cientos'
 
-const modelRef = shallowRef<THREE.Object3D>()
+const modelRef = shallowRef<TresObject>()
 
 watch(modelRef, (model) => {
   // Do something with the model
   model.position.set(0, 0, 0)
 })
 </script>
+
+<template>
+  <GLTFModel
+    ref="modelRef"
+    path="https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/blender-cube.glb"
+  />
+</template>
 ```
 
 ## Props

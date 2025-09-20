@@ -1,7 +1,20 @@
 import type { MeshStandardMaterialParameters } from 'three'
 import { Color, MathUtils, MeshStandardMaterial, Vector2 } from 'three'
 
-class MeshGlassMaterial extends MeshStandardMaterial {
+// Extend Three.js types to include properties that exist at runtime but aren't in the type definitions
+declare module 'three' {
+  interface Material {
+    defines: Record<string, string | number | boolean>
+  }
+}
+
+// Create a properly typed interface for our glass material
+interface IMeshGlassMaterial extends MeshStandardMaterial {
+  defines: Record<string, string | number | boolean>
+  version: number
+}
+
+class MeshGlassMaterial extends MeshStandardMaterial implements IMeshGlassMaterial {
   isMeshPhysicalMaterial: boolean
   clearcoatMap: null
   clearcoatRoughness: number
@@ -74,7 +87,8 @@ class MeshGlassMaterial extends MeshStandardMaterial {
   set clearcoat(value) {
     // eslint-disable-next-line style/no-mixed-operators
     if (this._clearcoat > 0 !== value > 0) {
-      this.version++
+      // Increment version to trigger shader recompilation - using mutable interface
+      ;(this as IMeshGlassMaterial).version++
     }
 
     this._clearcoat = value
@@ -87,13 +101,14 @@ class MeshGlassMaterial extends MeshStandardMaterial {
   set transmission(value) {
     // eslint-disable-next-line style/no-mixed-operators
     if (this._transmission > 0 !== value > 0) {
-      this.version++
+      // Increment version to trigger shader recompilation - using mutable interface
+      ;(this as IMeshGlassMaterial).version++
     }
 
     this._transmission = value
   }
 
-  copy(source: any) {
+  copy(source: MeshGlassMaterial) {
     super.copy(source)
 
     this.defines = {

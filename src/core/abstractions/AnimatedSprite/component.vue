@@ -1,11 +1,10 @@
 <script setup lang="ts">
-import { normalizeVectorFlexibleParam, useLoop, useTresContext } from '@tresjs/core'
+import { normalizeVectorFlexibleParam, useLoop, useTres } from '@tresjs/core'
 import { DoubleSide } from 'three'
 import { onUnmounted, ref, shallowRef, watch } from 'vue'
 import type { TresVector2 } from '@tresjs/core'
-import type { Texture } from 'three'
 import { getAtlasFrames, getNullAtlasFrame, getTextureAndAtlasAsync, setAtlasDefinitions } from './Atlas'
-import type { Atlas, Atlasish } from './Atlas'
+import type { Atlasish } from './Atlas'
 
 export interface AnimatedSpriteProps {
   /** URL of the image texture or an image dataURL. This prop is not reactive. */
@@ -76,7 +75,7 @@ const emit = defineEmits<{
   (e: 'loop', frameName: string): void
 }>()
 
-const { invalidate } = useTresContext()
+const { invalidate } = useTres()
 
 watch(props, () => {
   invalidate()
@@ -90,7 +89,8 @@ const scaleY = ref(0)
 const groupRef = shallowRef()
 defineExpose({ instance: groupRef })
 
-const [texture, atlas]: [Texture, Atlas] = await getTextureAndAtlasAsync(props.image, props.atlas) as [Texture, Atlas]
+const [textureResult, atlas] = await getTextureAndAtlasAsync(props.image, props.atlas)
+const texture = Array.isArray(textureResult) ? textureResult[0] : textureResult
 texture.matrixAutoUpdate = false
 
 let animation = getAtlasFrames(atlas, props.animation, props.reversed)

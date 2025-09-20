@@ -9,7 +9,6 @@ import '@tresjs/leches/styles'
 const gl = {
   clearColor: '#FAFAFA',
   shadows: true,
-  alpha: false,
 }
 
 let tl: gsap.core.Timeline, ctx: gsap.Context
@@ -43,7 +42,7 @@ const { helper, innerAngle, outerAngle, outerGain } = useControls({
   },
 })
 
-const model = await useGLTF('https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/positional-audio/ping-pong.glb', { draco: true })
+const { state } = useGLTF('https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/positional-audio/ping-pong.glb', { draco: true })
 
 const onBallBounce = () => {
   const iteration = tl.iteration() % 2
@@ -129,16 +128,13 @@ onUnmounted(() => {
         />
       </Suspense>
     </Sphere>
-
-    <Suspense>
-      <primitive
-        :scale="[.2, .2, .2]"
-        :position="[0, -1.15, 0]"
-        receive-shadow
-        :object="model.scene"
-      />
-    </Suspense>
-
+    <primitive
+      v-if="state?.scene"
+      :scale="[.2, .2, .2]"
+      :position="[0, -1.15, 0]"
+      receive-shadow
+      :object="state?.scene"
+    />
     <TresAmbientLight
       color="#ffffff"
       :intensity="2"

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useTresContext } from '@tresjs/core'
+import { useTres } from '@tresjs/core'
 import { ref, watch, watchEffect } from 'vue'
 import type { InstancedMesh, Mesh } from 'three'
 import { useSurfaceSampler } from '.'
@@ -11,9 +11,11 @@ const samplerRef = ref()
 const instancedRef = ref()
 const meshToSampleRef = ref()
 
-const { invalidate } = useTresContext()
+const { invalidate } = useTres()
 
-watch(props, () => invalidate())
+watch(props, () => {
+  invalidate()
+})
 
 // TODO: refactor to use watch instead.
 watchEffect(() => {

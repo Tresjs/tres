@@ -28,6 +28,9 @@ export default defineConfig({
     }),
     dts({
       insertTypesEntry: true,
+      compilerOptions: {
+        skipLibCheck: true, // Make DTS plugin skip lib check too
+      },
     }),
     glsl(),
     banner({
@@ -41,6 +44,7 @@ export default defineConfig({
       entry: resolve(__dirname, 'src/index.ts'),
       name: 'trescientos',
       fileName: 'trescientos',
+      formats: ['es'],
     },
     copyPublicDir: false,
     watch: {
@@ -58,13 +62,6 @@ export default defineConfig({
       external: ['three', 'vue', '@tresjs/core'],
       output: {
         exports: 'named',
-        // Provide global variables to use in the UMD build
-        // for externalized deps
-        globals: {
-          '@tresjs/core': 'TresjsCore',
-          'three': 'Three',
-          'vue': 'Vue',
-        },
       },
     },
   },

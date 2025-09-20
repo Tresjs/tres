@@ -1,8 +1,35 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import type { TresObject } from '@tresjs/core'
+import { watchEffect } from 'vue'
+import { Mesh } from 'three'
+import type { Group } from 'three'
 import { useFBX } from '.'
 
+const props = withDefaults(defineProps<FBXModelProps>(), {
+  castShadow: false,
+  receiveShadow: false,
+})
+
+// Use the new reactive useFBX composable with reactive path
+const { state: model } = useFBX(props.path as string)
+
+defineExpose({
+  instance: model,
+})
+
+// Apply shadow settings when the model loads or shadow props change
+watchEffect(() => {
+  if (model.value && (props.castShadow || props.receiveShadow)) {
+    ;(model.value as Group).traverse((child) => {
+      if (child instanceof Mesh) {
+        child.castShadow = props.castShadow
+        child.receiveShadow = props.receiveShadow
+      }
+    })
+  }
+})
+</script>
+
+<script lang="ts">
 export interface FBXModelProps {
   /**
    * Path to the FBX file.
@@ -33,37 +60,10 @@ export interface FBXModelProps {
    */
   receiveShadow?: boolean
 }
-
-const props = withDefaults(defineProps<{
-  path: string
-  castShadow?: boolean
-  receiveShadow?: boolean
-}>(), {
-  castShadow: false,
-  receiveShadow: false,
-})
-
-const modelRef = ref()
-
-defineExpose({
-  instance: modelRef,
-})
-
-const model = await useFBX(props.path as string)
-
-if (props.castShadow || props.receiveShadow) {
-  model.traverse((child: TresObject) => {
-    if (child.isMesh) {
-      child.castShadow = props.castShadow
-      child.receiveShadow = props.receiveShadow
-    }
-  })
-}
 </script>
 
 <template>
   <primitive
-    ref="modelRef"
     :object="model"
     v-bind="$attrs"
   />

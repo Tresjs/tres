@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { type TresColor, useTresContext } from '@tresjs/core'
+import { type TresColor, useTres } from '@tresjs/core'
 import { shallowRef, toRefs, watch } from 'vue'
 import type { PlaneGeometry } from 'three'
 
 export interface PlaneProps {
   /**
-   * The width and height, widthSegments, heightSegments of the plane.
+   * The width, height, widthSegments and heightSegments of the plane.
    * @default [1, 1, 1, 1]
    * @type {number[]}
    * @memberof PlaneProps
@@ -23,10 +23,12 @@ export interface PlaneProps {
 }
 
 const props = withDefaults(defineProps<PlaneProps>(), { args: () => [1, 1], color: '#ffffff' })
+const { invalidate } = useTres()
 
 const { args, color } = toRefs(props)
-const { invalidate } = useTresContext()
-watch(args, () => invalidate())
+watch(args, () => {
+  invalidate()
+})
 
 const planeRef = shallowRef()
 

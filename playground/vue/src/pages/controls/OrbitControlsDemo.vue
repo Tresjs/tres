@@ -36,6 +36,7 @@ const controlsState = reactive({
   zoomSpeed: 1,
   enableRotate: true,
   rotateSpeed: 1,
+  switchCamera: 'orbit',
   mouseButtons: {
     LEFT: MOUSE.ROTATE,
     MIDDLE: MOUSE.DOLLY,
@@ -48,7 +49,9 @@ const {
   dampingFactor,
   'enable Zoom': enableZoom,
   'enable Pan': enablePan,
+  'enable Rotate': enableRotate,
   keyPanSpeed,
+  switchCamera,
 } = useControls({
   'enable Damping': controlsState.enableDamping,
   'dampingFactor': {
@@ -58,6 +61,7 @@ const {
     max: 10,
   },
   'enable Zoom': controlsState.enableZoom,
+  'enable Rotate': controlsState.enableRotate,
   'enable Pan': controlsState.enablePan,
   'keyPanSpeed': {
     value: controlsState.keyPanSpeed,
@@ -65,13 +69,19 @@ const {
     min: 0,
     max: 10,
   },
+  'switchCamera': {
+    label: 'Switch Camera',
+    value: controlsState.switchCamera,
+    options: ['orbit', 'firstPerson'],
+  },
 })
 
-watch([enableDamping.value, dampingFactor.value, enableZoom.value, enablePan.value, keyPanSpeed.value], () => {
+watch([enableDamping.value, dampingFactor.value, enableZoom.value, enablePan.value, keyPanSpeed.value, enableRotate.value], () => {
   controlsState.enableDamping = enableDamping.value.value
   controlsState.dampingFactor = dampingFactor.value.value
   controlsState.enableZoom = enableZoom.value.value
   controlsState.enablePan = enablePan.value.value
+  controlsState.enableRotate = enableRotate.value.value
   controlsState.keyPanSpeed = keyPanSpeed.value.value
 })
 
@@ -192,7 +202,8 @@ function onRender() {
   <TresLeches />
   <GraphPane />
   <TresCanvas v-bind="gl" @render="onRender">
-    <TresPerspectiveCamera :position="[3, 3, 3]" />
+    <TresPerspectiveCamera v-if="switchCamera.value === 'orbit'" name="orbit" :position="[3, 3, 3]" />
+    <TresPerspectiveCamera v-else name="firstPerson" :position="[0, 0, 3]" />
     <OrbitControls
       v-bind="controlsState"
       @change="onChange"

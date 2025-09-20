@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useLoop, useTresContext } from '@tresjs/core'
+import { useLoop, useTres } from '@tresjs/core'
 import { useEventListener } from '@vueuse/core'
 import { MapControls } from 'three-stdlib'
 import { onUnmounted, shallowRef, toRefs, watch } from 'vue'
@@ -275,7 +275,7 @@ const {
   rotateSpeed,
 } = toRefs(props)
 
-const { camera: activeCamera, renderer, extend, controls, invalidate } = useTresContext()
+const { camera: activeCamera, renderer, extend, controls, invalidate } = useTres()
 
 watch(props, () => {
   invalidate()
@@ -306,11 +306,12 @@ function addEventListeners() {
 }
 const { onBeforeRender } = useLoop()
 
-onBeforeRender(({ invalidate }) => {
+onBeforeRender(() => {
   if (controlsRef.value && (enableDamping.value || autoRotate.value)) {
     controlsRef.value.update()
 
-    invalidate()
+    // TODO: comment this until invalidate is back in the loop callback on v5
+    // invalidate()
   }
 })
 
@@ -327,7 +328,7 @@ defineExpose({
 
 <template>
   <TresMapControls
-    v-if="(camera || activeCamera) && (domElement || renderer)"
+    v-if="(camera || activeCamera) && (domElement || renderer.domElement)"
     ref="controlsRef"
     :args="[camera || activeCamera, domElement || renderer.domElement]"
     :auto-rotate="autoRotate"

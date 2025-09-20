@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { type TresColor, useTresContext } from '@tresjs/core'
+import { type TresColor, useTres } from '@tresjs/core'
 import { shallowRef, toRefs, watch } from 'vue'
 import type { TorusKnotGeometry } from 'three'
 
@@ -24,8 +24,11 @@ export interface TorusKnotProps {
 
 const props = withDefaults(defineProps<TorusKnotProps>(), { args: () => [1, 0.4, 64, 8], color: '#ffffff' })
 const { args, color } = toRefs(props)
-const { invalidate } = useTresContext()
-watch(args, () => invalidate())
+const { invalidate } = useTres()
+
+watch(args, () => {
+  invalidate()
+})
 
 const torusKnotRef = shallowRef()
 

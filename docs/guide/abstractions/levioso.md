@@ -10,13 +10,7 @@ The `cientos` package provides a `<Levioso />` wrapper that makes its content â€
 
 ## Usage
 
-```html
-<Levioso ref="groupRef">
-  <TorusKnot :position="[0, 4, 0]">
-    <TresMeshNormalMaterial />
-  </TorusKnot>
-</Levioso>
-```
+<<< @/.vitepress/theme/components/Feather.vue
 
 ## Props
 

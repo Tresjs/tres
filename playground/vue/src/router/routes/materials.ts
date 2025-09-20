@@ -25,6 +25,11 @@ export const materialsRoutes = [
     component: () => import('../../pages/materials/HolographicMaterialDemo.vue'),
   },
   {
+    path: '/materials/point-material',
+    name: 'PointMaterial',
+    component: () => import('../../pages/materials/PointMaterialDemo.vue'),
+  },
+  {
     path: '/materials/discard-material',
     name: 'MeshDiscardMaterial',
     component: () => import('../../pages/materials/MeshDiscardMaterialDemo.vue'),

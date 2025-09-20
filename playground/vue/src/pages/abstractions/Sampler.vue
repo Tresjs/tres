@@ -5,7 +5,7 @@ import { TresLeches, useControls } from '@tresjs/leches'
 import { ACESFilmicToneMapping, SRGBColorSpace } from 'three'
 import { ref } from 'vue'
 import type { Mesh } from 'three'
-import '@tresjs/leches/dist/style.css'
+import '@tresjs/leches/styles'
 
 const gl = {
   clearColor: '#82DBC5',

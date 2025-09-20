@@ -175,16 +175,16 @@ class ShaderDataTexture {
 
     const texture
       = recycledTexture
-      ?? new DataTexture(
-        this.context.getImageData(0, 0, this.size, this.size).data,
-        this.size,
-        this.size,
-        RGBAFormat,
-        UnsignedByteType,
-        UVMapping,
-        ClampToEdgeWrapping,
-        ClampToEdgeWrapping,
-      )
+        ?? new DataTexture(
+          this.context.getImageData(0, 0, this.size, this.size).data,
+          this.size,
+          this.size,
+          RGBAFormat,
+          UnsignedByteType,
+          UVMapping,
+          ClampToEdgeWrapping,
+          ClampToEdgeWrapping,
+        )
 
     texture.needsUpdate = true
 

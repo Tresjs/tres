@@ -1,136 +1,84 @@
-import { type LoaderProto, type TresLoader, type TresObject3D, useLoader } from '@tresjs/core'
-import { DRACOLoader, GLTFLoader } from 'three-stdlib'
-import { Loader } from 'three'
-import type { AnimationClip, LoadingManager, Material, Scene } from 'three'
+import type { TresLoader, TresLoaderOptions, TresObject } from '@tresjs/core'
+import { buildGraph, useLoader } from '@tresjs/core'
+
+import { computed, type ComputedRef, type MaybeRef, type Ref, watch } from 'vue'
+
 import type { GLTF } from 'three-stdlib'
+import { DRACOLoader, GLTFLoader } from 'three-stdlib'
 
-/**
- * A wrapper class that implements TresLoader<GLTF> interface
- * to make GLTFLoader compatible with TresJS loader system.
- */
-class TresGLTFLoaderClass extends Loader implements TresLoader<GLTF> {
-  private gltfLoader: GLTFLoader
-
-  constructor(manager?: LoadingManager) {
-    super(manager)
-    this.gltfLoader = new GLTFLoader(manager)
-  }
-
+export interface UseGLTFOptions {
   /**
-   * Load a GLTF model from a URL or array of URLs.
-   * If an array is provided, only the first URL will be used.
-   *
-   * @param {(string | string[])} url - URL or array of URLs to load
-   * @param {(result: GLTF) => void} onLoad - Callback when the model is loaded
-   * @param {(event: ProgressEvent<EventTarget>) => void} [onProgress] - Loading progress callback
-   * @param {(event: ErrorEvent) => void} [onError] - Error callback
-   */
-  load(
-    url: string | string[],
-    onLoad: (result: GLTF) => void,
-    onProgress?: (event: ProgressEvent<EventTarget>) => void,
-    onError?: (event: ErrorEvent) => void,
-  ): void {
-    const singleUrl = Array.isArray(url) ? url[0] : url
-    this.gltfLoader.load(singleUrl, onLoad, onProgress, onError)
-  }
-
-  /**
-   * Asynchronously load a GLTF model.
-   *
-   * @param {string | string[]} url - URL or array of URLs to load
-   * @returns {Promise<GLTF>} Promise that resolves with the loaded model
-   */
-  async loadAsync(url: string | string[]): Promise<GLTF> {
-    const singleUrl = Array.isArray(url) ? url[0] : url
-    return this.gltfLoader.loadAsync(singleUrl)
-  }
-
-  /**
-   * Set the DRACO loader for compressed models.
-   *
-   * @param {DRACOLoader} dracoLoader - The DRACO loader instance
-   * @returns {GLTFLoader} The loader instance for chaining
-   */
-  setDRACOLoader(dracoLoader: DRACOLoader): GLTFLoader {
-    return this.gltfLoader.setDRACOLoader(dracoLoader)
-  }
-}
-
-const TresGLTFLoader = TresGLTFLoaderClass as unknown as LoaderProto<GLTF>
-
-export interface GLTFLoaderOptions {
-  /**
-   * Whether to use Draco compression.
-   *
+   * Whether to use DRACO compression for loading the model
    * @type {boolean}
-   * @memberof GLTFLoaderOptions
    */
   draco?: boolean
   /**
-   * The path to the Draco decoder.
-   *
+   * Path to the DRACO decoder. Defaults to https://www.gstatic.com/draco/versioned/decoders/1.5.6/
    * @type {string}
-   * @memberof GLTFLoaderOptions
    */
   decoderPath?: string
-}
-
-export interface GLTFResult {
-  animations: Array<AnimationClip>
-  nodes: Record<string, TresObject3D>
-  materials: Record<string, Material>
-  scene: Scene
-}
-
-let dracoLoader: DRACOLoader | null = null
-
-export interface TresGLTFLoaderType extends TresLoader<GLTF> {
-  setDRACOLoader?: (dracoLoader: DRACOLoader) => void
+  /**
+   * A traverse function applied to the scene upon loading the model.
+   * @type {Function}
+   */
+  traverse?: (child: TresObject) => void
 }
 
 /**
- * Sets the extensions for the GLTFLoader.
+ * Vue composable for loading GLTF models in TresJS
  *
- * @param {GLTFLoaderOptions} options - Options for the loader
- * @param {(loader: TresGLTFLoaderType) => void} [extendLoader] - Function to extend the loader
+ * @remarks
+ * This composable uses Three.js GLTFLoader under the hood and supports DRACO compression.
+ * When DRACO compression is enabled, it will use the specified decoder path or fallback to Google's CDN.
+ *
+ * @example
+ * ```ts
+ * const { state: model } = useGLTF('/path/to/model.glb', { draco: true })
+ * ```
+ *
+ * @param {MaybeRef<string>} path - Path to the GLTF model file
+ * @param {UseGLTFOptions} options - Options for loading the model
+ * @returns {{ state: GLTF, isLoading: boolean, execute: () => Promise<void> }} Object containing the model state, loading state and reload function
  */
-function setExtensions(options: GLTFLoaderOptions, extendLoader?: (loader: TresGLTFLoaderType) => void) {
-  return (loader: TresGLTFLoaderType) => {
-    if (extendLoader) {
-      extendLoader(loader)
-    }
-    if (options.draco) {
-      if (!dracoLoader) {
-        dracoLoader = new DRACOLoader()
-      }
-      dracoLoader.setDecoderPath(options.decoderPath || 'https://www.gstatic.com/draco/versioned/decoders/1.4.3/')
-      if (loader.setDRACOLoader) {
+export function useGLTF(path: MaybeRef<string>, options?: UseGLTFOptions): {
+  state: Ref<GLTF | null>
+  isLoading: Ref<boolean>
+  execute: (delay?: number, ...args: any[]) => Promise<GLTF>
+  nodes: ComputedRef<Record<string, any>>
+  materials: ComputedRef<Record<string, any>>
+} {
+  const useLoaderOptions: TresLoaderOptions<GLTF, true> = {
+
+  }
+  if (options?.draco) {
+    const dracoLoader = new DRACOLoader()
+    // Set the path to the Draco decoder (you might want to use a CDN or local path)
+    dracoLoader.setDecoderPath(options.decoderPath || 'https://www.gstatic.com/draco/versioned/decoders/1.5.6/')
+    useLoaderOptions.extensions = (loader: TresLoader<GLTF>) => {
+      if (loader instanceof GLTFLoader) {
         loader.setDRACOLoader(dracoLoader)
       }
     }
   }
-}
 
-/**
- * Loads a GLTF file and returns a THREE.Object3D.
- *
- * @export
- * @template T
- * @param {T} path - Path or array of paths to the GLTF file(s)
- * @param {GLTFLoaderOptions} [options] - Options for the loader
- * @param {(loader: TresGLTFLoaderType) => void} [extendLoader] - Function to extend the loader
- * @returns {Promise<T extends string[] ? GLTFResult[] : GLTFResult>} Promise that resolves with the loaded model(s)
- */
-export async function useGLTF<T extends string | string[]>(
-  path: T,
-  options: GLTFLoaderOptions = {
-    draco: false,
-  },
-  extendLoader?: (loader: TresGLTFLoaderType) => void,
-): Promise<T extends string[] ? GLTFResult[] : GLTFResult> {
-  const gltfModel = (await useLoader<GLTF>(TresGLTFLoader, path, setExtensions(options, extendLoader))) as unknown as GLTFResult
-  dracoLoader?.dispose()
-  dracoLoader = null
-  return gltfModel as T extends string[] ? GLTFResult[] : GLTFResult
+  const result = useLoader(GLTFLoader, path, useLoaderOptions)
+  if (options?.traverse) {
+    watch(result.state, (state) => {
+      state.scene.traverse(child => options.traverse?.(child as TresObject))
+    })
+  }
+
+  const nodes = computed(() => {
+    return result.state.value?.scene ? buildGraph(result.state.value?.scene as unknown as TresObject).nodes : {}
+  })
+
+  const materials = computed(() => {
+    return result.state.value?.scene ? buildGraph(result.state.value?.scene as unknown as TresObject).materials : {}
+  })
+
+  return {
+    ...result,
+    nodes,
+    materials,
+  }
 }

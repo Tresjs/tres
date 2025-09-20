@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useLoop, useTresContext } from '@tresjs/core'
+import { useLoop, useTres } from '@tresjs/core'
 import { useEventListener } from '@vueuse/core'
 import { MOUSE, TOUCH } from 'three'
 import { OrbitControls } from 'three-stdlib'
@@ -298,7 +298,7 @@ const {
   mouseButtons,
 } = toRefs(props)
 
-const { camera: activeCamera, renderer, extend, controls, invalidate } = useTresContext()
+const { camera: activeCamera, renderer, extend, controls, invalidate } = useTres()
 
 const controlsRef = shallowRef<OrbitControls | null>(null)
 
@@ -325,12 +325,13 @@ function addEventListeners() {
 
 const { onBeforeRender } = useLoop()
 
-onBeforeRender(({ invalidate }) => {
+onBeforeRender(() => {
   if (controlsRef.value && (enableDamping.value || autoRotate.value)) {
     controlsRef.value.update()
 
     if (autoRotate.value) {
-      invalidate()
+      // TODO: comment this until invalidate is back in the loop callback on v5
+      // invalidate()
     }
   }
 })
@@ -346,8 +347,9 @@ defineExpose({ instance: controlsRef })
 
 <template>
   <TresOrbitControls
-    v-if="(camera || activeCamera) && (domElement || renderer)"
+    v-if="(camera || activeCamera) && (domElement || renderer.domElement)"
     ref="controlsRef"
+    :key="(camera || activeCamera)?.uuid"
     :target="target"
     :auto-rotate="autoRotate"
     :auto-rotate-speed="autoRotateSpeed"

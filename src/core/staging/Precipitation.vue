@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { useLoop, useTexture } from '@tresjs/core'
-import { shallowRef, toRefs, watch, watchEffect } from 'vue'
+import { useLoop } from '@tresjs/core'
+import { useTexture } from '../loaders/useTexture'
+import { shallowRef, toRefs, watchEffect } from 'vue'
 import type { TresColor } from '@tresjs/core'
 import type { Texture } from 'three'
 
@@ -181,36 +182,26 @@ const alphaMapTexture = shallowRef<Texture | null>(null)
 const mapTexture = shallowRef<Texture | null>(null)
 
 watchEffect(async () => {
-  /* if (alphaMapUrl.value) {
-    const textures = await useTexture({ alphaMap: alphaMapUrl.value })
-    alphaMapTexture.value = textures.alphaMap
+  if (typeof alphaMapUrl.value === 'string') {
+    const { state: alphaMap } = useTexture(alphaMapUrl.value)
+    alphaMapTexture.value = alphaMap.value
   }
-  if (mapUrl.value) {
-    const textures = await useTexture({ map: mapUrl.value })
-    mapTexture.value = textures.map
-  } */
-  watchEffect(async () => {
-    if (typeof alphaMapUrl.value === 'string') {
-      const resolvedTexture = await useTexture({ alphaMap: alphaMapUrl.value })
-      alphaMapTexture.value = resolvedTexture.alphaMap
-    }
-    else {
-      alphaMapTexture.value = alphaMapUrl.value ?? null
-    }
+  else {
+    alphaMapTexture.value = alphaMapUrl.value ?? null
+  }
 
-    if (typeof mapUrl.value === 'string') {
-      const resolvedTexture = await useTexture({ map: mapUrl.value })
-      mapTexture.value = resolvedTexture.map
-    }
-    else {
-      mapTexture.value = mapUrl.value ?? null
-    }
-  })
+  if (typeof mapUrl.value === 'string') {
+    const { state: map } = useTexture(mapUrl.value)
+    mapTexture.value = map.value
+  }
+  else {
+    mapTexture.value = mapUrl.value ?? null
+  }
 })
 
 const { onBeforeRender } = useLoop()
 
-onBeforeRender(({ invalidate }) => {
+onBeforeRender(() => {
   if (geometryRef.value?.attributes.position.array && geometryRef.value?.attributes.position.count) {
     const positionArray = geometryRef.value.attributes.position.array
     for (let i = 0; i < geometryRef.value.attributes.position.count; i++) {
@@ -225,7 +216,8 @@ onBeforeRender(({ invalidate }) => {
     }
     geometryRef.value.attributes.position.needsUpdate = true
 
-    invalidate()
+    // TODO: comment this until invalidate is back in the loop callback on v5
+    // invalidate()
   }
 })
 

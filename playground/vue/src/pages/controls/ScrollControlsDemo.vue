@@ -13,7 +13,7 @@ const progress = ref(0)
 
 watchEffect(() => {
   // eslint-disable-next-line no-console
-  console.log('jaime ~ progress:', progress.value)
+  console.log('progress:', progress.value)
 })
 
 const gl = {

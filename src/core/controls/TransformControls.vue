@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useTresContext } from '@tresjs/core'
+import { useTres } from '@tresjs/core'
 import { useEventListener } from '@vueuse/core'
 
 import { TransformControls } from 'three-stdlib'
@@ -40,7 +40,7 @@ const { object, mode, enabled, axis, translationSnap, rotationSnap, scaleSnap, s
 
 const controlsRef = shallowRef<TransformControls | null>(null)
 
-const { controls, camera: activeCamera, renderer, extend, invalidate } = useTresContext()
+const { controls, camera: activeCamera, renderer, extend, invalidate } = useTres()
 
 watch([object, mode, enabled, axis, translationSnap, rotationSnap, scaleSnap, space, size, showX, showY, showZ], () => {
   invalidate()
@@ -70,7 +70,7 @@ const onMouseDown = () => {
 
 const onMouseUp = () => {
   invalidate()
-  emit('mouseDown')
+  emit('mouseUp')
 }
 
 const onObjectChange = () => {
@@ -105,7 +105,7 @@ defineExpose({
 
 <template>
   <TresTransformControls
-    v-if="(camera || activeCamera) && renderer"
+    v-if="(camera || activeCamera) && renderer.domElement"
     ref="controlsRef"
     :key="(camera || activeCamera)?.uuid"
     :object="object"

@@ -1,15 +1,16 @@
 <script setup lang="ts">
 import { Lensflare, OrbitControls, Torus } from '@tresjs/cientos'
-import { TresCanvas, useRenderLoop } from '@tresjs/core'
+import { TresCanvas } from '@tresjs/core'
 import { TresLeches, useControls } from '@tresjs/leches'
 import { shallowRef } from 'vue'
 import '@tresjs/leches/styles'
 
 const [x, z] = [shallowRef(0), shallowRef(0)]
-useRenderLoop().onLoop(({ elapsed }) => {
+
+function onLoop({ elapsed }: { elapsed: number }) {
   z.value = Math.cos(elapsed * 0.5) * 2
   x.value = Math.sin(elapsed)
-})
+}
 
 const { value: scale } = useControls({
   scale: { value: 0.33, min: 0.01, max: 2, step: 0.01 },
@@ -18,7 +19,7 @@ const { value: scale } = useControls({
 
 <template>
   <TresLeches class="important-top-4 important-left-4" />
-  <TresCanvas clear-color="#333">
+  <TresCanvas clear-color="#333" @loop="onLoop">
     <OrbitControls />
     <TresPointLight :position="[x, 0, z]">
       <Lensflare
