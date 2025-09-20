@@ -1,5 +1,15 @@
 # Changelog
 
+## [5.0.0](https://github.com/Tresjs/nuxt/compare/4.0.0...5.0.0) (2025-09-20)
+
+### ⚠ BREAKING CHANGES
+
+* v5 (#159)
+
+### Features
+
+* v5 ([#159](https://github.com/Tresjs/nuxt/issues/159)) ([9ce4cbf](https://github.com/Tresjs/nuxt/commit/9ce4cbfb160f790b25f32c93880024c4bf4fef24)), closes [#171](https://github.com/Tresjs/nuxt/issues/171) [#172](https://github.com/Tresjs/nuxt/issues/172)
+
 ## [5.0.0-rc.1](https://github.com/Tresjs/nuxt/compare/5.0.0-rc.0...5.0.0-rc.1) (2025-09-20)
 
 ### Bug Fixes
