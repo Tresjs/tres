@@ -1,6 +1,6 @@
 ---
 title: Awesome Resources
-description: A curated list of interesting TresJS community projects.
+description: A curated list of interesting TresJS community resources.
 ---
 
 ![](/tres-post-processing-banner.png)
