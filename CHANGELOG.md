@@ -1,5 +1,15 @@
 # Changelog
 
+## [5.0.0](https://github.com/Tresjs/cientos/compare/4.3.1...5.0.0) (2025-09-20)
+
+### Features
+
+* release v5 ([#563](https://github.com/Tresjs/cientos/issues/563)) ([28808b5](https://github.com/Tresjs/cientos/commit/28808b58cfbcfdc57d0f1fe0656da9a8d3e4bcdb)), closes [#543](https://github.com/Tresjs/cientos/issues/543)
+
+### Bug Fixes
+
+* precipitation speed ([#643](https://github.com/Tresjs/cientos/issues/643)) ([8958ecc](https://github.com/Tresjs/cientos/commit/8958eccb30ed6537eaa84a2221ff7e39a158bd88))
+
 ## [5.0.0-rc.0](https://github.com/Tresjs/cientos/compare/5.0.0-alpha.1...5.0.0-rc.0) (2025-09-20)
 
 ## [5.0.0-alpha.1](https://github.com/Tresjs/cientos/compare/5.0.0-alpha.0...5.0.0-alpha.1) (2025-09-06)
