@@ -19,3 +19,11 @@ pnpm-debug.log*
 # macOS-specific files
 .DS_Store
 .nuxt/
+
+.data
+
+# AI Assistant configurations
+.cursor/
+.claude/
+CLAUDE.md
+
