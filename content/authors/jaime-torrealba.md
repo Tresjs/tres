@@ -5,5 +5,5 @@ email: solucionesinformaticasjtc@gmail.com
 twitter: jaimebboyjt
 github: JaimeTorrealba
 website: https://jaimetorrealba.com/
-avatar: https://avatars.githubusercontent.com/u/63722373?v=4
+avatar: /avatars/jaime-torrealba.jpg
 ---
