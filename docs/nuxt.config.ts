@@ -27,13 +27,16 @@ const pkg = JSON.parse(readFileSync(rootPkgPath!, 'utf-8'))
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  modules: [
-    '@nuxt/image',
-    '@nuxt/ui-pro',
-    '@nuxt/content',
-    'nuxt-llms',
-  ],
-
+  modules: ['@nuxt/image', '@nuxt/ui-pro', '@nuxt/content', 'nuxt-llms', '@nuxt/scripts'],
+  $production: {
+    scripts: {
+      registry: {
+        fathomAnalytics: {
+          site: 'NLLAFMJJ',
+        },
+      },
+    },
+  },
   image: {
     quality: 80,
     format: ['webp', 'png', 'jpg'],
