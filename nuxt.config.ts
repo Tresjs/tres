@@ -12,6 +12,7 @@ export default defineNuxtConfig({
     '@nuxt/image',
     '@nuxt/devtools',
     '@tresjs/nuxt',
+    '@nuxt/scripts',
   ],
 
   css: ['~/assets/styles/main.css'],
@@ -56,4 +57,13 @@ export default defineNuxtConfig({
   },
 
   compatibilityDate: '2024-08-29',
+  $production: {
+    scripts: {
+      registry: {
+        fathomAnalytics: {
+          site: 'RCNYLVAZ',
+        },
+      },
+    },
+  },
 })
