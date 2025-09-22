@@ -1,5 +1,11 @@
 # Changelog
 
+## [5.0.1](https://github.com/Tresjs/tres/compare/5.0.0...5.0.1) (2025-09-22)
+
+### Bug Fixes
+
+* removed postinstall script ([#1089](https://github.com/Tresjs/tres/issues/1089)) ([59f5024](https://github.com/Tresjs/tres/commit/59f5024de096d20c2873168199271cecf7a88a1c))
+
 ## [5.0.0](https://github.com/Tresjs/tres/compare/4.3.6...5.0.0) (2025-09-20)
 
 ### ⚠ BREAKING CHANGES
