@@ -36,6 +36,8 @@ jobs:
         run: pnpm install
       - name: Typecheck
         run: pnpm run typecheck
+      - name: Build
+        run: pnpm run build
       - name: Lint
         run: pnpm run lint
       - name: Unit tests
