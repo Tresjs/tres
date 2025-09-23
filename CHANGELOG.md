@@ -1,5 +1,11 @@
 # Changelog
 
+## [5.0.1](https://github.com/Tresjs/nuxt/compare/5.0.0...5.0.1) (2025-09-23)
+
+### Bug Fixes
+
+* update @tresjs/core to version 5.0.1 for regression ([#175](https://github.com/Tresjs/nuxt/issues/175)) ([b01a2ae](https://github.com/Tresjs/nuxt/commit/b01a2aebdf0e197c86e6ac48cb9c63819a3e46f1))
+
 ## [5.0.0](https://github.com/Tresjs/nuxt/compare/4.0.0...5.0.0) (2025-09-20)
 
 ### ⚠ BREAKING CHANGES
