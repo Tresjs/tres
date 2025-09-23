@@ -22,7 +22,6 @@
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/tres.js",
-      "require": "./dist/tres.js",
       "default": "./dist/tres.js"
     },
     "./components": {
@@ -39,7 +38,6 @@
     },
     "./*": "./*"
   },
-  "main": "./dist/tres.js",
   "module": "./dist/tres.js",
   "types": "./dist/index.d.ts",
   "files": [
