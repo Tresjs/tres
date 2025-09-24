@@ -15,19 +15,8 @@ const banner = `/**
 
 export default defineConfig([
   {
-    entry: ['./src/index.ts'],
-    platform: 'neutral',
-    fromVite: true,
-    banner,
-    dts: {
-      vue: true,
-    },
-    define: {
-      __VERSION__: JSON.stringify(pkg.version),
-    },
-  },
-  {
     entry: [
+      './src/index.ts',
       './src/components/index.ts',
       './src/composables/index.ts',
       './src/utils/index.ts',
