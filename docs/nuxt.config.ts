@@ -1,6 +1,7 @@
 import { existsSync, readFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import templateCompilerOptions from '../src/utils/template-compiler-options'
+import { createResolver } from '@nuxt/kit'
 
 function findMonorepoRootPackageJson(startDir: string): string | undefined {
   let dir = startDir
@@ -24,6 +25,10 @@ function findMonorepoRootPackageJson(startDir: string): string | undefined {
 
 const rootPkgPath = findMonorepoRootPackageJson(__dirname)
 const pkg = JSON.parse(readFileSync(rootPkgPath!, 'utf-8'))
+
+const SUFFIX = process.env.TYPECHECK === 'true' ? '/dist' : '/src/index.ts'
+const resolver = createResolver(import.meta.url)
+const r = (path: string) => resolver.resolve(path)
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
@@ -53,8 +58,21 @@ export default defineNuxtConfig({
   },
   css: ['~/assets/css/main.css'],
 
+  /** ONLY REQUIRED IN THE MONOREPO */
+  alias: {
+    '@tresjs/core': r(`../${SUFFIX}`),
+  },
+
+  vite: {
+    define: {
+      __VERSION__: JSON.stringify(pkg.version),
+    },
+  },
+
   vue: {
-    compilerOptions: templateCompilerOptions.template.compilerOptions,
+    compilerOptions: {
+      isCustomElement: templateCompilerOptions.template.compilerOptions.isCustomElement,
+    },
   },
 
   content: {

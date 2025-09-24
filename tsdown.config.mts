@@ -19,7 +19,8 @@ export default defineConfig([
       vue: true,
     },
     define: {
-      __VERSION__: JSON.stringify(pkg.version),
+      'import.meta.env.MODE': JSON.stringify(true),
+      '__VERSION__': JSON.stringify(pkg.version),
     },
   },
   {
@@ -36,7 +37,8 @@ export default defineConfig([
       vue: true,
     },
     define: {
-      __VERSION__: JSON.stringify(pkg.version),
+      'import.meta.env.MODE': JSON.stringify(true),
+      '__VERSION__': JSON.stringify(pkg.version),
     },
   },
   {

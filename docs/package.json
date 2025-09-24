@@ -11,7 +11,7 @@
     "preview": "nuxt preview",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "typecheck": "nuxt typecheck"
+    "typecheck": "TYPECHECK=true nuxt prepare && TYPECHECK=true nuxt typecheck"
   },
   "dependencies": {
     "@iconify-json/lucide": "^1.2.61",
