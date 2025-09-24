@@ -8,7 +8,7 @@ import { filterInPlace } from './array'
 
 export * from './logger'
 
-export const TresJSCoreVersion = __VERSION__
+export const TresJSCoreVersion: string = __VERSION__
 
 export function disposeMaterial(material: Material): void {
   const hasMap = (material: Material): material is Material & { map: Texture } =>
