@@ -17,7 +17,6 @@ export default defineConfig([
     banner,
     dts: {
       vue: true,
-      banner,
     },
     define: {
       __VERSION__: JSON.stringify(pkg.version),
@@ -35,7 +34,6 @@ export default defineConfig([
     banner,
     dts: {
       vue: true,
-      banner,
     },
     define: {
       __VERSION__: JSON.stringify(pkg.version),
@@ -47,8 +45,6 @@ export default defineConfig([
     ],
     platform: 'node',
     banner,
-    dts: {
-      banner,
-    },
+    dts: true,
   },
 ])
