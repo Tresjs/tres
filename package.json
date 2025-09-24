@@ -19,38 +19,46 @@
   ],
   "sideEffects": false,
   "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/tres.js",
-      "default": "./dist/tres.js"
-    },
-    "./components": {
-      "types": "./dist/src/components/index.d.ts"
-    },
-    "./composables": {
-      "types": "./dist/src/composables/index.d.ts"
-    },
+    ".": "./dist/index.js",
+    "./components": "./dist/components/index.js",
+    "./composables": "./dist/composables/index.js",
     "./types": {
-      "types": "./dist/src/types/index.d.ts"
+      "types": "./dist/types/index.d.ts"
     },
-    "./utils": {
-      "types": "./dist/src/utils/index.d.ts"
-    },
-    "./*": "./*"
+    "./utils": "./dist/utils/index.js",
+    "./template-compiler-options": "./dist/template-compiler-options.js",
+    "./package.json": "./package.json"
   },
-  "module": "./dist/tres.js",
+  "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "components": [
+        "dist/components/index.d.ts"
+      ],
+      "composables": [
+        "dist/composables/index.d.ts"
+      ],
+      "types": [
+        "dist/types/index.d.ts"
+      ],
+      "utils": [
+        "dist/utils/index.d.ts"
+      ],
+      "template-compiler-options": [
+        "dist/template-compiler-options.d.ts"
+      ]
+    }
+  },
   "files": [
-    "*.d.ts",
     "dist"
   ],
   "publishConfig": {
     "access": "public"
   },
   "scripts": {
-    "dev": "pnpm --filter='./playground/vue' dev",
-    "dev:nuxt": "pnpm --filter='./playground/nuxt' dev",
-    "build": "vite build",
+    "dev": "pnpm -C playground/vue run dev",
+    "build": "tsdown",
     "test": "vitest",
     "test:ci": "vitest run",
     "test:ui": "vitest --ui --coverage.enabled=true",
@@ -59,11 +67,11 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "typecheck": "vue-tsc --noEmit",
-    "docs:dev": "pnpm --filter='./docs' dev",
-    "docs:generate": "pnpm --filter='./docs' generate",
-    "docs:prepare": "pnpm --filter='./docs' prepare",
-    "docs:lint": "pnpm --filter='./docs' lint",
-    "docs:typecheck": "pnpm --filter='./docs' typecheck"
+    "docs:dev": "pnpm -C docs run dev",
+    "docs:generate": "pnpm -C docs run generate",
+    "docs:prepare": "pnpm -C docs run prepare",
+    "docs:lint": "pnpm -C docs run lint",
+    "docs:typecheck": "pnpm --C docs run typecheck"
   },
   "peerDependencies": {
     "three": ">=0.133",
@@ -103,6 +111,8 @@
     "rollup-plugin-visualizer": "^6.0.3",
     "sponsorkit": "^17.0.0",
     "three": "^0.180.0",
+    "tsdown": "^0.15.4",
+    "typescript": "~5.9.2",
     "unocss": "^65.5.0",
     "unplugin": "^2.3.10",
     "unplugin-vue-components": "^29.0.0",

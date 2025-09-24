@@ -1,6 +1,6 @@
 import { existsSync, readFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
-import { templateCompilerOptions } from '@tresjs/core'
+import templateCompilerOptions from '@tresjs/core/template-compiler-options'
 
 function findMonorepoRootPackageJson(startDir: string): string | undefined {
   let dir = startDir

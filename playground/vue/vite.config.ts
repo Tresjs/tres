@@ -8,9 +8,18 @@ import { defineConfig } from 'vite'
 import glsl from 'vite-plugin-glsl'
 import { qrcode } from 'vite-plugin-qrcode'
 import VueDevTools from 'vite-plugin-vue-devtools'
+import pkg from '../../package.json'
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  define: {
+    __VERSION__: JSON.stringify(pkg.version),
+  },
+  server: {
+    fs: {
+      allow: ['../..'],
+    },
+  },
   plugins: [
     glsl(),
     /*     VueDevTools(), */

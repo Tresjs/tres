@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { useLoader } from '.'
 import type { LoaderProto, TresLoaderOptions } from '@tresjs/core'
-import type { GLTF } from 'three/examples/jsm/loaders/GLTFLoader'
+import type { GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import type { UseAsyncStateReturn } from '@vueuse/core'
 import { ref, watch } from 'vue'
 

@@ -26,7 +26,6 @@ import {
   watch,
   watchEffect,
 } from 'vue'
-import pkg from '../../package.json'
 import type { RendererOptions, TresContext } from '../composables'
 import { useTresContextProvider } from '../composables'
 import { INJECTION_KEY as CONTEXT_INJECTION_KEY } from '../composables/useTresContextProvider'
@@ -72,6 +71,8 @@ const emit = defineEmits<{
 const slots = defineSlots<{
   default: () => any
 }>()
+
+const version = __VERSION__
 
 const canvasRef = ref<HTMLCanvasElement>()
 
@@ -285,7 +286,7 @@ export interface TresCanvasProps extends RendererOptions {
     ref="canvasRef"
     :data-scene="scene.uuid"
     :class="$attrs.class"
-    :data-tres="`tresjs ${pkg.version}`"
+    :data-tres="`tresjs ${version}`"
     :style="{
       display: 'block',
       width: '100%',

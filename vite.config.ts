@@ -2,15 +2,13 @@
 
 import vue from '@vitejs/plugin-vue'
 
-import copy from 'rollup-plugin-copy'
+// import copy from 'rollup-plugin-copy'
 import { defineConfig } from 'vite'
-import banner from 'vite-plugin-banner'
-import dts from 'vite-plugin-dts'
+// import dts from 'vite-plugin-dts'
 
 /* import analyze from 'rollup-plugin-analyzer' */
 
 import { bold, gray, lightGreen, yellow } from 'kolorist'
-import { resolve } from 'pathe'
 
 import pkg from './package.json'
 
@@ -21,6 +19,9 @@ export default defineConfig({
   server: {
     port: 5174,
   },
+  define: {
+    __VERSION__: JSON.stringify(pkg.version),
+  },
   plugins: [
     vue({
       isProduction: false,
@@ -30,21 +31,21 @@ export default defineConfig({
         },
       },
     }),
-    dts({
+    /* dts({
       insertTypesEntry: true,
-    }),
-    banner({
-      content: `/**\n * name: ${pkg.name}\n * version: v${
+    }), */
+    /* banner({
+      content: `/!**\n * name: ${pkg.name}\n * version: v${
         pkg.version
-      }\n * (c) ${new Date().getFullYear()}\n * description: ${pkg.description}\n * author: ${pkg.author}\n */`,
-    }),
+      }\n * (c) ${new Date().getFullYear()}\n * description: ${pkg.description}\n * author: ${pkg.author}\n *!/`,
+    }), */
     // Inspect(),
   ],
   test: {
     environment: 'jsdom',
     globals: true,
   },
-  build: {
+  /* build: {
     // vite.config.ts
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
@@ -61,12 +62,12 @@ export default defineConfig({
         copy({
           targets: [{ src: 'src/types/tres-components.d.ts', dest: 'dist/types' }],
         }),
-        /*   analyze(), */
-        /* visualizer({
+        /!*   analyze(), *!/
+        /!* visualizer({
           open: true,
           gzipSize: true,
           brotliSize: true,
-        }), */
+        }), *!/
       ],
 
       external: ['vue', '@vueuse/core', 'three'],
@@ -74,7 +75,7 @@ export default defineConfig({
         exports: 'named',
       },
     },
-  },
+  }, */
   optimizeDeps: {
     exclude: ['vue', 'three'],
   },
