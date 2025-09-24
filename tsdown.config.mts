@@ -19,6 +19,7 @@ export default defineConfig([
       './src/index.ts',
       './src/components/index.ts',
       './src/composables/index.ts',
+      './src/directives/index.ts',
       './src/utils/index.ts',
       './src/types/index.ts',
     ],
@@ -35,8 +36,14 @@ export default defineConfig([
   {
     entry: [
       './src/utils/template-compiler-options.ts',
+      './src/unimport/index.ts',
+      './src/unplugin-vue-components/index.ts',
     ],
     platform: 'node',
+    external: [
+      'unimport',
+      'unplugin-vue-components',
+    ],
     banner,
     dts: true,
   },

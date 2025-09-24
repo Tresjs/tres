@@ -22,11 +22,14 @@
     ".": "./dist/index.js",
     "./components": "./dist/components/index.js",
     "./composables": "./dist/composables/index.js",
+    "./directives": "./dist/directives/index.js",
     "./types": {
       "types": "./dist/types/index.d.ts"
     },
     "./utils": "./dist/utils/index.js",
-    "./template-compiler-options": "./dist/template-compiler-options.js",
+    "./utils/template-compiler-options": "./dist/utils/template-compiler-options.js",
+    "./unimport": "./dist/unimport/index.js",
+    "./unplugin-vue-components": "./dist/unplugin-vue-components/index.js",
     "./package.json": "./package.json"
   },
   "module": "./dist/index.js",
@@ -39,14 +42,23 @@
       "composables": [
         "dist/composables/index.d.ts"
       ],
+      "directives": [
+        "dist/directives/index.d.ts"
+      ],
       "types": [
         "dist/types/index.d.ts"
       ],
       "utils": [
         "dist/utils/index.d.ts"
       ],
-      "template-compiler-options": [
-        "dist/template-compiler-options.d.ts"
+      "utils/template-compiler-options": [
+        "dist/utils/template-compiler-options.d.ts"
+      ],
+      "unimport": [
+        "dist/unimport/index.d.ts"
+      ],
+      "unplugin-vue-components": [
+        "dist/unplugin-vue-components/index.d.ts"
       ]
     }
   },
@@ -75,6 +87,7 @@
   },
   "peerDependencies": {
     "three": ">=0.133",
+    "unimport": "^4.0.0 || ^5.0.0",
     "vue": ">=3.4"
   },
   "dependencies": {
@@ -113,6 +126,7 @@
     "three": "^0.180.0",
     "tsdown": "^0.15.4",
     "typescript": "~5.9.2",
+    "unimport": "^5.0.1",
     "unocss": "^65.5.0",
     "unplugin": "^2.3.10",
     "unplugin-vue-components": "^29.0.0",
