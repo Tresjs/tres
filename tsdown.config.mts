@@ -5,9 +5,13 @@ const require = createRequire(import.meta.url)
 
 const pkg = require('./package.json')
 
-const banner = `/**\n * name: ${pkg.name}\n * version: v${
-  pkg.version
-}\n * (c) ${new Date().getFullYear()}\n * description: ${pkg.description}\n * author: ${pkg.author}\n */`
+const banner = `/**
+  * name: ${pkg.name}
+  * version: v${pkg.version}
+  * (c) ${new Date().getFullYear()}
+  * description: ${pkg.description}
+  * author: ${pkg.author}
+  */`
 
 export default defineConfig([
   {
@@ -19,8 +23,7 @@ export default defineConfig([
       vue: true,
     },
     define: {
-      'import.meta.env.MODE': JSON.stringify(true),
-      '__VERSION__': JSON.stringify(pkg.version),
+      __VERSION__: JSON.stringify(pkg.version),
     },
   },
   {
@@ -37,8 +40,7 @@ export default defineConfig([
       vue: true,
     },
     define: {
-      'import.meta.env.MODE': JSON.stringify(true),
-      '__VERSION__': JSON.stringify(pkg.version),
+      __VERSION__: JSON.stringify(pkg.version),
     },
   },
   {
