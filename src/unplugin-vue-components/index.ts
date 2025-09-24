@@ -136,7 +136,7 @@ function createDirectivesResolver(prefix: boolean) {
         }
         tresName = tresName.slice('Tres'.length)
       }
-      const directive = directives.includes(name as typeof directives[number])
+      const directive = directives.includes(`v${tresName}`)
       if (!directive) { return undefined }
 
       return {
