@@ -26,9 +26,13 @@ function findMonorepoRootPackageJson(startDir: string): string | undefined {
 const rootPkgPath = findMonorepoRootPackageJson(__dirname)
 const pkg = JSON.parse(readFileSync(rootPkgPath!, 'utf-8'))
 
-const SUFFIX = process.env.TYPECHECK === 'true' ? '/dist' : '/src/index.ts'
+const SUFFIX = process.env.TYPECHECK === 'true' ? '/dist' : '/src/index'
 const resolver = createResolver(import.meta.url)
-const r = (path: string) => resolver.resolve(path)
+const r = (path: string) => {
+  const resolved = resolver.resolve(path)
+  console.log(`${path} => ${resolved}`)
+  return resolved
+}
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
@@ -60,7 +64,11 @@ export default defineNuxtConfig({
 
   /** ONLY REQUIRED IN THE MONOREPO */
   alias: {
-    '@tresjs/core': r(`../${SUFFIX}`),
+    '@tresjs/core': r(`..${SUFFIX}`),
+  },
+
+  build: {
+    transpile: [/@tresjs/],
   },
 
   vite: {
