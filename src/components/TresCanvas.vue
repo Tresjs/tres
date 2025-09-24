@@ -7,7 +7,7 @@ import {
   WebGLRenderer,
 } from 'three'
 import type { App, Ref } from 'vue'
-import type { TresCamera, TresContextWithClock, TresObject, TresScene } from '../types/'
+import type { TresCamera, TresContextWithClock, TresObject, TresScene } from '../types'
 import type { PointerEvent } from '@pmndrs/pointer-events'
 import * as THREE from 'three'
 
@@ -32,7 +32,7 @@ import { INJECTION_KEY as CONTEXT_INJECTION_KEY } from '../composables/useTresCo
 import { extend } from '../core/catalogue'
 import { nodeOps } from '../core/nodeOps'
 
-import { disposeObject3D } from '../utils/'
+import { disposeObject3D, TresJSCoreVersion } from '../utils/'
 import { registerTresDevtools } from '../devtools'
 import type { TresPointerEventName } from '../utils/pointerEvents'
 import { promiseTimeout } from '@vueuse/core'
@@ -71,8 +71,6 @@ const emit = defineEmits<{
 const slots = defineSlots<{
   default: () => any
 }>()
-
-const version = __VERSION__
 
 const canvasRef = ref<HTMLCanvasElement>()
 
@@ -286,7 +284,7 @@ export interface TresCanvasProps extends RendererOptions {
     ref="canvasRef"
     :data-scene="scene.uuid"
     :class="$attrs.class"
-    :data-tres="`tresjs ${version}`"
+    :data-tres="`tresjs ${TresJSCoreVersion}`"
     :style="{
       display: 'block',
       width: '100%',
