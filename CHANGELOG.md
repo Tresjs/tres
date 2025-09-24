@@ -1,5 +1,88 @@
 # Changelog
 
+## [5.0.1](https://github.com/Tresjs/tres/compare/5.0.0...5.0.1) (2025-09-22)
+
+### Bug Fixes
+
+* removed postinstall script ([#1089](https://github.com/Tresjs/tres/issues/1089)) ([59f5024](https://github.com/Tresjs/tres/commit/59f5024de096d20c2873168199271cecf7a88a1c))
+
+## [5.0.0](https://github.com/Tresjs/tres/compare/4.3.6...5.0.0) (2025-09-20)
+
+### ⚠ BREAKING CHANGES
+
+#### ESM Only
+* **Tres is now ESM only** - Removed UMD build configuration from package.json and adjusted exports to only include ES module. Updated vite.config.ts to specify the output format as ES, enhancing compatibility with modern module systems.
+
+#### Event System Overhaul
+* **New event system based on pmdrs/pointer-events** - Only first element intersected will trigger the pointer event, no more need to stop propagation on occlusion. Replaced raycaster with events system throughout the codebase.
+
+#### Loop System Refactoring
+* **onAfterRender has been renamed to onRender**
+* Removed deprecated loop implementation and updated related composables
+
+#### Context API Changes
+* **useTresReady is no longer available** - replaced by `isReady` in the renderer in the context
+* **onTresReady is no longer available** - `renderer.isReady` should be leveraged instead
+* **camera ctx property is now an object** with the camera manager instead of the active camera
+* **useRenderer now returns invalidate and advance** - useTresContextProvider no longer contains render state
+* **invalidate, advance, canBeInvalidated and the renderer instance** are now accessed through the context via `renderer`
+* The renderer instance in the context is now readonly
+* Removed emit from useTresContextProvider and useTresEventManager
+* The types `EmitEventName` and `EmitEventFn` are no longer exported from @tresjs/core
+
+#### Composables Removed/Deprecated
+* **useTexture composable moved to @tresjs/cientos package**
+* **useSeek is deprecated** and removed
+
+#### Loader Changes
+* **useLoader API changed** - no longer returns the plain object, now returns an object with reactive data (resource|s), isLoading, error) and a load method, can be used both sync and async (suspense)
+
+### Features
+
+* **WebGPU native support** ([#1029](https://github.com/Tresjs/tres/issues/1029)) ([6f3d41d](https://github.com/Tresjs/tres/commit/6f3d41d1c73cb3113cd22321d9672a2907080652))
+* **New useTres composable** - introduce useTres composable and update related documentation ([#1017](https://github.com/Tresjs/tres/issues/1017)) ([fd03f72](https://github.com/Tresjs/tres/commit/fd03f7241e9345f670ab64967007a40e3c1d80cd))
+* **Enhanced useLoop and useRenderLoop** - useLoop and useRenderLoop refactoring ([#1035](https://github.com/Tresjs/tres/issues/1035)) ([db65f3f](https://github.com/Tresjs/tres/commit/db65f3f1ea723048d6851ed52a445d80a0d26f09))
+* **Expose render mode** ([#1032](https://github.com/Tresjs/tres/issues/1032)) ([b5b9456](https://github.com/Tresjs/tres/commit/b5b94560fddcdcb65f3dec6692143867ed58914e))
+* **Tres Devtools integration** - add context inspector devtools ([#1013](https://github.com/Tresjs/tres/issues/1013)) ([ff6723c](https://github.com/Tresjs/tres/commit/ff6723cc7d91b229523220e7eb18d0e2b4a48efb))
+* **Make utility methods available** ([#1068](https://github.com/Tresjs/tres/issues/1068)) ([a225230](https://github.com/Tresjs/tres/commit/a225230cd61c87eeed30b1d86261b97649bfd2ae))
+* **Model and animation recipe** ([#1082](https://github.com/Tresjs/tres/issues/1082)) ([078d7bc](https://github.com/Tresjs/tres/commit/078d7bce3c4d6496a78e80e6ec5302a208ef8931))
+* **Warning system** - warn user if the canvas has no area ([#1048](https://github.com/Tresjs/tres/issues/1048)) ([4c06603](https://github.com/Tresjs/tres/commit/4c06603eef16d06ec045936d33b820d209c99eb0))
+* **Enhanced Nuxt configuration** - enhance Nuxt configuration and AppHeader to include package version ([7a8b53f](https://github.com/Tresjs/tres/commit/7a8b53f9e22b36cdd07b3499c845e61e737556a4))
+* **devtools communication strategy** ([#1067](https://github.com/Tresjs/tres/issues/1067)) ([d8752bb](https://github.com/Tresjs/tres/commit/d8752bbdb330ea7c8d641164aab787abbb425ccb))
+* v5 release ([#965](https://github.com/Tresjs/tres/issues/965)) ([190d8f7](https://github.com/Tresjs/tres/commit/190d8f71a4e350bd2944cb91a064920755b03ce7))
+
+### Bug Fixes
+
+* **Performance improvements** - update elapsed time retrieval in useCreateRafLoop to use the latest clock property ([#1046](https://github.com/Tresjs/tres/issues/1046)) ([1b3971c](https://github.com/Tresjs/tres/commit/1b3971c27c56964c8cbc3f0528e1362a648c8b41))
+* **Property handling** - avoid pierced props to setScalar when numerical ([#1073](https://github.com/Tresjs/tres/issues/1073)) ([4e7ba85](https://github.com/Tresjs/tres/commit/4e7ba85d28b8aefa4a37cd336bfedd841c981e91))
+* **Documentation** - docs ssg 404 issues ([#1081](https://github.com/Tresjs/tres/issues/1081)) ([9e1fc89](https://github.com/Tresjs/tres/commit/9e1fc89d79ea995a005bb3fd09797c2c0391ce78))
+* **Package exports** - removed development exports from package.json ([#1079](https://github.com/Tresjs/tres/issues/1079)) ([1baca35](https://github.com/Tresjs/tres/commit/1baca351698d21240e47275d328a4a757b9edfd2))
+* **Loader improvements** - add initial value support to useLoader ([#1007](https://github.com/Tresjs/tres/issues/1007)) ([be3280b](https://github.com/Tresjs/tres/commit/be3280b01185358558cd91aa7cfca4bc7a1507e8))
+* added forgotten ready emit ([8b97e85](https://github.com/Tresjs/tres/commit/8b97e850d19a9bba4dc1353e796859d209539fbe))
+
+### Code Refactoring
+
+* **useRenderer refactoring** - move renderer logic from usetrescontextprovider to userenderer ([#1022](https://github.com/Tresjs/tres/issues/1022)) ([cc8b752](https://github.com/Tresjs/tres/commit/cc8b752b717ca20f3da58b1a1890c5da2473f1cf))
+* **Context system overhaul** - removal of emit from usetrescontextprovider composable ([#999](https://github.com/Tresjs/tres/issues/999)) ([090adf3](https://github.com/Tresjs/tres/commit/090adf30774daa90c1fef710b00cbac5480c0b94))
+* **Camera management** - context camera is now a state ([#1004](https://github.com/Tresjs/tres/issues/1004)) ([d5daf5d](https://github.com/Tresjs/tres/commit/d5daf5dace31e27f293c49506302e3fa0c93483a))
+* **Performance optimization** - removal of performance state from useTresContextProvider ([#1003](https://github.com/Tresjs/tres/issues/1003)) ([79edf43](https://github.com/Tresjs/tres/commit/79edf431f61b5bd6876bc248ce88b8dcf220b64b))
+* **Ready state management** - removed useTresReady, added isReady to the renderer ([#1000](https://github.com/Tresjs/tres/issues/1000)) ([ff35bfc](https://github.com/Tresjs/tres/commit/ff35bfce4964bb884faa0b3258f7f3a5450ec69c))
+
+### Deprecated/Removed Features
+
+* **useTexture composable removal** ([#1008](https://github.com/Tresjs/tres/issues/1008)) ([041b697](https://github.com/Tresjs/tres/commit/041b697bf77ad7b7f70b7d3f2bdeed99c5149abb))
+* **useSeek deprecation** - deprecate useSeek composable and update documentation ([#990](https://github.com/Tresjs/tres/issues/990)) ([3d5ea13](https://github.com/Tresjs/tres/commit/3d5ea135911627ae3c9d4609c83f646a9cd793a9))
+
+## [5.0.0-rc.0](https://github.com/Tresjs/tres/compare/5.0.0-alpha.2...5.0.0-rc.0) (2025-09-20)
+
+### Features
+
+* model and animation recipe ([#1082](https://github.com/Tresjs/tres/issues/1082)) ([078d7bc](https://github.com/Tresjs/tres/commit/078d7bce3c4d6496a78e80e6ec5302a208ef8931))
+
+### Bug Fixes
+
+* docs ssg 404 issues ([#1081](https://github.com/Tresjs/tres/issues/1081)) ([9e1fc89](https://github.com/Tresjs/tres/commit/9e1fc89d79ea995a005bb3fd09797c2c0391ce78))
+
 ## [5.0.0-alpha.2](https://github.com/Tresjs/tres/compare/5.0.0-alpha.1...5.0.0-alpha.2) (2025-09-03)
 
 ### Features
