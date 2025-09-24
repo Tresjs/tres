@@ -28,11 +28,7 @@ const pkg = JSON.parse(readFileSync(rootPkgPath!, 'utf-8'))
 
 const SUFFIX = process.env.TYPECHECK === 'true' ? '/dist' : '/src/index'
 const resolver = createResolver(import.meta.url)
-const r = (path: string) => {
-  const resolved = resolver.resolve(path)
-  console.log(`${path} => ${resolved}`)
-  return resolved
-}
+const r = (path: string) => resolver.resolve(path)
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
