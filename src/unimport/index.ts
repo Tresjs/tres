@@ -8,7 +8,7 @@ import type { Addon, AddonsOptions, InlinePreset } from 'unimport'
  * import { TresCoreComposables } from '@tresjs/core/unimport'
  *
  * AutoImport({
- *   presets: [TresCoreComposables()]
+ *   imports: [TresCoreComposables()]
  * })
  * ```
  *
@@ -61,7 +61,7 @@ export function TresCoreComposables(prefix = false) {
  * import { TresCoreDirectives } from '@tresjs/core/unimport'
  *
  * AutoImport({
- *   presets: [TresCoreDirectives()],
+ *   imports: [TresCoreDirectives()],
  *   vueDirectives: true
  * })
  * ```
@@ -75,7 +75,7 @@ export function TresCoreComposables(prefix = false) {
  * })
  * ```
  *
- * To auto-import `@tresjs/core` directives using Nuxt configuration file:
+ * To enable auto-import `@tresjs/core` directives using Nuxt configuration file:
  * ```ts
  * import { TresCoreDirectives } from '@tresjs/core/unimport'
  * // inside the defineNuxtConfig options
@@ -89,6 +89,7 @@ export function TresCoreComposables(prefix = false) {
  *
  * @param prefix Add `Tres` prefix (`v-log` becomes `v-tres-log` when prefix is `true`)?. The prefix is `false` if omitted.
  * @returns The inline preset for the directives.
+ * @see enableDirectives
  */
 export function TresCoreDirectives(prefix = false) {
   const directives = [
@@ -112,12 +113,26 @@ export function TresCoreDirectives(prefix = false) {
 }
 
 /**
- * Helper function to enable auto-importing Vue directives using a Nuxt module:
+ * Helper function to enable auto-importing Vue directives with Nuxt.
+ *
+ * To auto-import `@tresjs/core` directives using a Nuxt module:
  * ```ts
  * import { enableDirectives } from '@tresjs/core/unimport'
  * // inside the setup function
  * const imports = nuxt.options.imports
  * imports.addons = enableDirectives(imports.addons as AddonsOptions | Addon[] | undefined)
+ * ```
+ *
+ * To auto-import `@tresjs/core` directives using Nuxt configuration file:
+ * ```ts
+ * import { TresCoreDirectives } from '@tresjs/core/unimport'
+ * // inside the defineNuxtConfig options
+ * imports: {
+ *   presets: [TresCoreDirectives()],
+ *   addons: {
+ *     vueDirectives: true,
+ *   },
+ * }
  * ```
  *
  * @param addons The addons to include.
