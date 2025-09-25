@@ -8,7 +8,7 @@ import type { Addon, AddonsOptions, InlinePreset } from 'unimport'
  * import { TresCoreComposables } from '@tresjs/core/unimport'
  *
  * AutoImport({
- *   imports: [TresCoreComposables()]
+ *   presets: [TresCoreComposables()]
  * })
  * ```
  *
@@ -26,7 +26,7 @@ import type { Addon, AddonsOptions, InlinePreset } from 'unimport'
  * import { TresCoreComposables } from '@tresjs/core/unimport'
  * // inside the defineNuxtConfig options
  * imports: {
- *   imports: [TresCoreComposables()],
+ *   presets: [TresCoreComposables()],
  * }
  * ```
  *
@@ -61,7 +61,7 @@ export function TresCoreComposables(prefix = false) {
  * import { TresCoreDirectives } from '@tresjs/core/unimport'
  *
  * AutoImport({
- *   imports: [TresCoreDirectives()],
+ *   presets: [TresCoreDirectives()],
  *   vueDirectives: true
  * })
  * ```
@@ -80,7 +80,7 @@ export function TresCoreComposables(prefix = false) {
  * import { TresCoreDirectives } from '@tresjs/core/unimport'
  * // inside the defineNuxtConfig options
  * imports: {
- *   imports: [TresCoreDirectives()],
+ *   presets: [TresCoreDirectives()],
  *   addons: {
  *     vueDirectives: true,
  *   },
@@ -117,7 +117,7 @@ export function TresCoreDirectives(prefix = false) {
  * import { enableDirectives } from '@tresjs/core/unimport'
  * // inside the setup function
  * const imports = nuxt.options.imports
- * imports.addons = enableTresDirectives(imports.addons as AddonsOptions | Addon[] | undefined)
+ * imports.addons = enableDirectives(imports.addons as AddonsOptions | Addon[] | undefined)
  * ```
  *
  * @param addons The addons to include.
