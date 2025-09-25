@@ -82,8 +82,8 @@ export function TresCoreComposables(prefix = false) {
  * imports: {
  *   presets: [TresCoreDirectives()],
  *   addons: {
- *     vueDirectives: true,
- *   },
+ *     vueDirectives: true
+ *   }
  * }
  * ```
  *
@@ -130,8 +130,8 @@ export function TresCoreDirectives(prefix = false) {
  * imports: {
  *   presets: [TresCoreDirectives()],
  *   addons: {
- *     vueDirectives: true,
- *   },
+ *     vueDirectives: true
+ *   }
  * }
  * ```
  *
