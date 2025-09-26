@@ -27,6 +27,26 @@ export interface Package {
 
 // Get root directory of the monorepo
 export function getMonorepoRoot(): string {
+  // Start from current directory and walk up to find the monorepo root
+  let currentDir = process.cwd();
+
+  // Walk up until we find a directory with repo-manifest.json
+  while (currentDir !== path.dirname(currentDir)) {
+    const manifestPath = path.join(currentDir, 'repo-manifest.json');
+    if (fs.existsSync(manifestPath)) {
+      return currentDir;
+    }
+    currentDir = path.dirname(currentDir);
+  }
+
+  // Fallback: if no repo-manifest.json found, assume we're in a subdirectory
+  // and the root is two levels up from tools/monocubo
+  const toolsDir = path.resolve(__dirname, '../..');
+  if (fs.existsSync(path.join(toolsDir, 'repo-manifest.json'))) {
+    return toolsDir;
+  }
+
+  // Final fallback to current working directory
   return process.cwd();
 }
 
