@@ -4,17 +4,24 @@ on:
     branches:
       - main
       - next
+    paths-ignore:
+      - '**/*.md'
+      - 'docs/**'
 
   pull_request:
     branches:
       - main
       - next
+    paths-ignore:
+      - '**/*.md'
+      - 'docs/**'
 
   merge_group: {}
 
 env:
   PNPM_CACHE_FOLDER: .pnpm-store
   HUSKY: 0 # Bypass husky commit hook for CI
+  NX_REJECT_UNKNOWN_LOCAL_CACHE: 0
 
 jobs:
   ci:
@@ -25,24 +32,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: pnpm
-      - name: Install dependencies
-        run: pnpm install
-      - name: Typecheck
-        run: pnpm run typecheck
-      - name: Build
-        run: pnpm run build
-      - name: Lint
-        run: pnpm run lint
-      - name: Unit tests
-        run: pnpm run test
-      - name: Docs lint
-        run: pnpm run docs:lint
-      - name: Docs typecheck
-        run: pnpm run docs:typecheck
+      - uses: ./.github/actions/setup-node
+      - name: Check
+        run: pnpm nx run-many --target=build,lint,test:ci --parallel=3 -p="tag:npm:public"
