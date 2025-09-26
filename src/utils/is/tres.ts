@@ -1,4 +1,4 @@
-import type { TresCamera, TresInstance, TresObject, TresPrimitive } from 'src/types'
+import type { TresCamera, TresInstance, TresObject, TresPrimitive } from '../../types'
 import { isBufferGeometry, isCamera, isFog, isMaterial, isObject3D, isOrthographicCamera, isPerspectiveCamera } from './three'
 import { createTypeGuard } from './util'
 

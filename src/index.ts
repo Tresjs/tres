@@ -1,6 +1,6 @@
 import type { App } from 'vue'
 import TresCanvas from './components/TresCanvas.vue'
-import { disposeObject3D as dispose } from './utils'
+import { disposeObject3D as dispose, TresJSCoreVersion } from './utils'
 import { normalizeColor, normalizeVectorFlexibleParam } from './utils/normalize'
 import templateCompilerOptions from './utils/template-compiler-options'
 
@@ -14,6 +14,8 @@ export * from './utils/graph'
 export * from './utils/is/three'
 export * from './utils/is/tres'
 export * from './utils/logger'
+
+export { TresJSCoreVersion }
 
 export interface TresOptions {
   extends?: Record<string, unknown>
