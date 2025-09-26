@@ -20,7 +20,7 @@
     "@nuxt/image": "^1.11.0",
     "@nuxt/scripts": "0.11.13",
     "@nuxt/ui-pro": "^3.3.0",
-    "@tresjs/cientos": "5.0.0-alpha.1",
+    "@tresjs/cientos": "5.0.1",
     "@tresjs/core": "workspace:^",
     "@unhead/vue": "^2.0.14",
     "better-sqlite3": "^12.2.0",
