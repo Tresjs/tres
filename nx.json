@@ -1,0 +1,55 @@
+{
+    "$schema": "./node_modules/nx/schemas/nx-schema.json",
+    "defaultProject": "main",
+    "parallel": 5,
+    "targetDefaults": {
+      "build": {
+        "dependsOn": ["^build"],
+        "outputs": ["{projectRoot}/dist"],
+        "cache": true
+      },
+      "test": {
+        "dependsOn": ["build"]
+      },
+      "lint": {
+        "dependsOn": ["^build"],
+        "cache": true
+      }
+    },
+    "tui": {
+      "enabled": false
+    },
+    "release": {
+      "projectsRelationship": "independent",
+      "groups": {
+        "core": {
+          "projects": ["@tresjs/core" /*"@tresjs/cientos", @tresjs/post-processing */]
+        },
+        "tooling": {
+          "projects": ["@tresjs/eslint-config", "@tresjs/leches"]
+        }
+      },
+      "version": {
+        "conventionalCommits": true,
+        "fallbackCurrentVersionResolver": "disk",
+        "versionActionsOptions": {
+          "skipLockFileUpdate": true
+        }
+      },
+      "changelog": {
+        "git": {
+          "commit": true,
+          "tag": true
+        },
+        "workspaceChangelog": {
+          "createRelease": "github"
+        },
+        "projectChangelogs": true,
+        "renderOptions": {
+          "authors": true,
+          "commitReferences": true,
+          "versionTitleDate": true
+        }
+      }
+    }
+  }
