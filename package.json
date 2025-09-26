@@ -25,7 +25,7 @@
       "lint:fix": "nx run-many --target=lint --fix",
       "test": "nx run-many --target=test",
       "release": "release-it",
-      "monocubo": "node tools/monocubo/dist/index.mjs"
+      "monocubo": "node tools/monocubo/dist/index.js"
     },
     "workspaces": [
       "packages/*",
