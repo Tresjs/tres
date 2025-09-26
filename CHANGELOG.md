@@ -1,5 +1,11 @@
 # Changelog
 
+## [5.0.2](https://github.com/Tresjs/tres/compare/5.0.1...5.0.2) (2025-09-24)
+
+### Bug Fixes
+
+* indicate ESM-only ([#1091](https://github.com/Tresjs/tres/issues/1091)) ([fc3cc7c](https://github.com/Tresjs/tres/commit/fc3cc7c92230b37e56f00d76de8acc4375efb71e))
+
 ## [5.0.1](https://github.com/Tresjs/tres/compare/5.0.0...5.0.1) (2025-09-22)
 
 ### Bug Fixes
