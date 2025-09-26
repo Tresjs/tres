@@ -1,0 +1,31 @@
+{
+  "name": "@tresjs/monorepo-cli",
+  "version": "0.1.0",
+  "description": "CLI tool for migrating and managing Storyblok projects in the monorepo",
+  "packageManager": "pnpm@10.10.0",
+  "type": "module",
+  "main": "dist/index.mjs",
+  "private": true,
+  "bin": {
+    "monocubo": "dist/index.mjs"
+  },
+  "scripts": {
+    "build": "tsdown",
+    "postinstall": "pnpm run build"
+  },
+  "dependencies": {
+    "@types/license-checker": "^25.0.6",
+    "chalk": "^5.4.1",
+    "commander": "^13.1.0",
+    "execa": "^5.1.1",
+    "inquirer": "^8.2.5",
+    "license-checker": "^25.0.1",
+    "ora": "^5.4.1",
+    "tsdown": "^0.15.4"
+  },
+  "devDependencies": {
+    "@types/inquirer": "^9.0.8",
+    "@types/node": "^22.15.18",
+    "typescript": "5.8.3"
+  }
+}

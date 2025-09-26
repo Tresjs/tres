@@ -1,0 +1,21 @@
+name: Setup Node
+description: Setup node
+runs:
+  using: "composite"
+  steps:
+    - uses: ./.github/actions/cache-monorepo
+
+    - name: Install pnpm
+      uses: pnpm/action-setup@v2
+      with:
+        version: 10
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version-file: '.nvmrc'
+        cache: 'pnpm'
+
+    - name: Install dependencies
+      shell: bash
+      run: pnpm install --frozen-lockfile

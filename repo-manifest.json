@@ -1,0 +1,8 @@
+{
+    "@tresjs/eslint-config": {
+      "remote": "eslint-config",
+      "repo": "tresjs/eslint-config",
+      "branch": "main",
+      "path": "packages/eslint-config"
+    }
+  }
