@@ -1,4 +1,4 @@
-import templateCompilerOptions from '../../src/utils/template-compiler-options'
+import { templateCompilerOptions } from '@tresjs/core'
 import vue from '@vitejs/plugin-vue'
 import { resolve } from 'pathe'
 import UnoCSS from 'unocss/vite'
@@ -42,9 +42,11 @@ export default defineConfig({
     VueDevTools(),
   ],
   resolve: {
-    alias: {
-      '@tresjs/core': resolve(__dirname, '../../src/index.ts'),
-    },
+    alias: process.env.NODE_ENV === 'development'
+      ? {
+          '@tresjs/core': resolve(__dirname, '../../packages/core/src/index.ts'),
+        }
+      : {},
     dedupe: ['three'],
   },
 })
