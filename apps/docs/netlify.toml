@@ -1,6 +1,6 @@
 [build]
 command = "pnpm run generate"
-publish = "docs/dist"
+publish = "apps/docs/dist"
 
 [build.environment]
 COREPACK_INTEGRITY_KEYS = "0"
