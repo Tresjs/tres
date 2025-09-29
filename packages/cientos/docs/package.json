@@ -1,0 +1,20 @@
+{
+  "name": "docs",
+  "type": "module",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "vitepress dev",
+    "build": "vitepress build",
+    "preview": "vitepress preview"
+  },
+  "dependencies": {
+    "@tresjs/cientos": "workspace:^"
+  },
+  "devDependencies": {
+    "@tresjs/leches": "^0.14.0",
+    "markdown-it": "^14.0.0",
+    "unocss": "^0.65.1",
+    "vite-svg-loader": "^5.1.0"
+  }
+}

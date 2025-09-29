@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "composite": true,
+    "baseUrl": ".",
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "allowSyntheticDefaultImports": true
+  },
+  "include": ["vite.config.ts", "src/**/*.test.ts"]
+}
