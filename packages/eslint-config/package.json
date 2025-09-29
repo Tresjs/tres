@@ -48,7 +48,7 @@
     "eslint-plugin-format": "^0.1.2"
   },
   "devDependencies": {
-    "eslint": "9.26.0",
+    "eslint": "catalog:",
     "eslint-flat-config-viewer": "^0.1.20",
     "tsdown": "^0.15.4"
   }
