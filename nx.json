@@ -21,12 +21,13 @@
     },
     "release": {
       "projectsRelationship": "independent",
+      "releaseTagPattern": "{projectName}@{version}",
       "groups": {
         "core": {
-          "projects": ["@tresjs/core" /*"@tresjs/cientos", @tresjs/post-processing */]
+          "projects": ["@tresjs/core"]
         },
         "tooling": {
-          "projects": ["@tresjs/eslint-config", "@tresjs/leches"]
+          "projects": ["@tresjs/eslint-config"]
         }
       },
       "version": {
@@ -37,19 +38,17 @@
         }
       },
       "changelog": {
-        "git": {
-          "commit": true,
-          "tag": true
-        },
-        "workspaceChangelog": {
-          "createRelease": "github"
-        },
+        "workspaceChangelog": false,
         "projectChangelogs": true,
         "renderOptions": {
           "authors": true,
           "commitReferences": true,
           "versionTitleDate": true
         }
+      },
+      "git": {
+        "commit": true,
+        "tag": true
       }
     }
   }
