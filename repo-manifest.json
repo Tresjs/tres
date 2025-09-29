@@ -4,5 +4,11 @@
       "repo": "tresjs/eslint-config",
       "branch": "main",
       "path": "packages/eslint-config"
+    },
+    "@tresjs/cientos": {
+      "remote": "cientos",
+      "repo": "tresjs/cientos",
+      "branch": "main",
+      "path": "packages/cientos"
     }
   }
