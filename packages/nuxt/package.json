@@ -1,0 +1,118 @@
+{
+  "name": "@tresjs/nuxt",
+  "type": "module",
+  "version": "5.0.1",
+  "packageManager": "pnpm@10.17.0",
+  "description": "TresJS integration for Nuxt.",
+  "author": "Daniel Roe (https://github.com/danielroe/)",
+  "license": "MIT",
+  "homepage": "https://tresjs.org",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tresjs/nuxt.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Tresjs/nuxt/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/types.d.mts",
+      "default": "./dist/module.mjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "dist/module.mjs",
+  "typesVersions": {
+    "*": {
+      ".": [
+        "./dist/types.d.mts"
+      ]
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "pnpm run module:build && pnpm run client:build",
+    "module:build": "nuxt-module-build prepare && nuxt-module-build build",
+    "client:build": "nuxt prepare client && nuxi generate client",
+    "client:dev": "nuxi dev client --port 3300",
+    "dev": "nuxi dev playground",
+    "dev:build": "nuxi build playground",
+    "dev:prepare": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxi prepare playground",
+    "release": "release-it",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "test": "vitest run",
+    "test:watch": "vitest watch"
+  },
+  "peerDependencies": {
+    "three": ">=0.133"
+  },
+  "dependencies": {
+    "@nuxt/kit": "4.1.2",
+    "@tresjs/core": "5.0.1",
+    "defu": "^6.1.4",
+    "mlly": "^1.8.0",
+    "ohash": "^2.0.11",
+    "pkg-types": "^2.3.0",
+    "sirv": "^3.0.2",
+    "vite-plugin-glsl": "^1.5.1"
+  },
+  "devDependencies": {
+    "@nuxt/devtools": "^2.6.5",
+    "@nuxt/devtools-ui-kit": "^2.6.5",
+    "@nuxt/eslint-config": "^1.9.0",
+    "@nuxt/module-builder": "^1.0.2",
+    "@nuxt/schema": "^4.1.2",
+    "@nuxt/test-utils": "^3.19.2",
+    "@nuxt/ui-pro": "^3.3.4",
+    "@release-it/conventional-changelog": "^10.0.1",
+    "@tresjs/cientos": "5.0.0",
+    "@tresjs/leches": "1.0.0-next.0",
+    "@types/node": "^24.5.2",
+    "@types/three": "^0.180.0",
+    "@vueuse/nuxt": "13.9.0",
+    "eslint": "^9.36.0",
+    "nuxt": "4.1.2",
+    "playwright": "^1.55.0",
+    "release-it": "^19.0.5",
+    "three": "^0.180.0",
+    "typescript": "^5.9.2",
+    "vitest": "^3.2.4",
+    "vue": "3.5.21",
+    "vue-tsc": "^3.0.7"
+  },
+  "build": {
+    "externals": [
+      "node:child_process",
+      "vite-plugin-glsl",
+      "@rollup/pluginutils",
+      "vite",
+      "esbuild",
+      "rollup",
+      "estree-walker",
+      "picomatch",
+      "postcss",
+      "lightningcss",
+      "fsevents",
+      "pnpapi",
+      "picocolors",
+      "source-map-js",
+      "nanoid/non-secure",
+      "@nuxt/devtools-kit"
+    ]
+  },
+  "pnpm": {
+    "ignoredBuiltDependencies": [
+      "@parcel/watcher",
+      "esbuild"
+    ],
+    "onlyBuiltDependencies": [
+      "better-sqlite3"
+    ]
+  }
+}
