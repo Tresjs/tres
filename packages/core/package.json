@@ -78,7 +78,6 @@
   "devDependencies": {
     "@release-it/conventional-changelog": "^10.0.0",
     "@stackblitz/sdk": "^1.11.0",
-    "@tresjs/cientos": "5.0.0-alpha.1",
     "@tresjs/eslint-config": "workspace:*",
     "@tresjs/leches": "1.0.0-next.0",
     "@types/three": "catalog:",

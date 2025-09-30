@@ -83,12 +83,6 @@ export default defineConfig({
         overlay: false,
       },
     },
-    resolve: {
-      alias: {
-        '@tresjs/cientos': resolve(__dirname, '../../dist/trescientos.js'),
-      },
-      dedupe: ['three'],
-    },
   },
   vue: {
     template: {

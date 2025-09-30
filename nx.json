@@ -24,7 +24,7 @@
       "releaseTagPattern": "{projectName}@{version}",
       "groups": {
         "core": {
-          "projects": ["@tresjs/core"]
+          "projects": ["@tresjs/core", "@tresjs/cientos"]
         },
         "tooling": {
           "projects": ["@tresjs/eslint-config"]

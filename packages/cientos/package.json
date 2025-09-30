@@ -96,5 +96,10 @@
     "vite-svg-loader": "^5.1.0",
     "vitepress": "catalog:",
     "vue-tsc": "catalog:"
+  },
+  "nx": {
+    "implicitDependencies": [
+      "!@tresjs/cientos-*"
+    ]
   }
 }
