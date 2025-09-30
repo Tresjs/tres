@@ -1,47 +1,47 @@
 {
-    "name": "tresjs",
-    "type": "module",
-    "private": true,
-    "version": "0.1.0",
-    "packageManager": "pnpm@10.6.3",
-    "description": "Official monorepo for TresJS",
-    "author": "Alvaro Saburido <hola@alvarosaburido.dev> (https://github.com/alvarosabu/)",
-    "license": "MIT",
-    "repository": {
-      "type": "git",
-      "url": "git+https://github.com/Tresjs/tres.git"
-    },
-    "keywords": [
-      "vue",
-      "3d",
-      "threejs",
-      "three",
-      "threejs-vue"
+  "name": "tresjs",
+  "type": "module",
+  "private": true,
+  "version": "0.1.0",
+  "packageManager": "pnpm@10.17.1",
+  "description": "Official monorepo for TresJS",
+  "author": "Alvaro Saburido <hola@alvarosaburido.dev> (https://github.com/alvarosabu/)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tresjs/tres.git"
+  },
+  "keywords": [
+    "vue",
+    "3d",
+    "threejs",
+    "three",
+    "threejs-vue"
+  ],
+  "scripts": {
+    "build": "nx run-many --target=build",
+    "dev": "nx run-many --target=dev",
+    "lint": "nx run-many --target=lint",
+    "lint:fix": "nx run-many --target=lint --fix",
+    "test": "nx run-many --target=test",
+    "release": "release-it",
+    "monocubo": "node tools/monocubo/dist/index.js"
+  },
+  "workspaces": [
+    "packages/*",
+    "tools/*",
+    "apps/*"
+  ],
+  "devDependencies": {
+    "@nx/js": "^21.2.1",
+    "nx": "21.2.1"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "better-sqlite3"
     ],
-    "scripts": {
-      "build": "nx run-many --target=build",
-      "dev": "nx run-many --target=dev",
-      "lint": "nx run-many --target=lint",
-      "lint:fix": "nx run-many --target=lint --fix",
-      "test": "nx run-many --target=test",
-      "release": "release-it",
-      "monocubo": "node tools/monocubo/dist/index.js"
-    },
-    "workspaces": [
-      "packages/*",
-      "tools/*",
-      "apps/*"
-    ],
-    "devDependencies": {
-      "nx": "21.2.1",
-      "@nx/js": "^21.2.1"
-    },
-    "pnpm": {
-      "onlyBuiltDependencies": [
-        "better-sqlite3"
-      ],
-      "overrides": {
-        "ipx": "3.0.2"
-      }
+    "overrides": {
+      "ipx": "3.0.2"
     }
   }
+}
