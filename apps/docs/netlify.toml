@@ -1,7 +1,6 @@
 [build]
-base = "apps/docs"
-command = "pnpm run generate"
-publish = "dist"
+command = "pnpm install && pnpm nx run tresjs-docs:generate"
+publish = "apps/docs/dist"
 
 [build.environment]
 COREPACK_INTEGRITY_KEYS = "0"

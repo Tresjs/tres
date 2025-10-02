@@ -8,6 +8,11 @@
         "outputs": ["{projectRoot}/dist"],
         "cache": true
       },
+      "generate": {
+        "dependsOn": ["^build"],
+        "outputs": ["{projectRoot}/dist"],
+        "cache": true
+      },
       "test": {
         "dependsOn": ["build"]
       },
