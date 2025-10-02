@@ -1,0 +1,50 @@
+<script setup lang="ts">
+import { type TresColor, useTres } from '@tresjs/core'
+import { shallowRef, toRefs, watch } from 'vue'
+import type { IcosahedronGeometry } from 'three'
+
+export interface IcosahedronProps {
+  /**
+   * The radius and detail of the icosahedron.
+   * @default [1, 0]
+   * @type {number[]}
+   * @memberof IcosahedronProps
+   * @see https://threejs.org/docs/#api/en/geometries/IcosahedronGeometry
+   */
+  args?: ConstructorParameters<typeof IcosahedronGeometry>
+  /**
+   * The color of the icosahedron.
+   * @default 0xffffff
+   * @type {TresColor}
+   * @memberof IcosahedronProps
+   * @see https://threejs.org/docs/#api/en/materials/MeshBasicMaterial
+   */
+  color?: TresColor
+}
+
+const props = withDefaults(defineProps<IcosahedronProps>(), { args: () => [1, 0], color: '#ffffff' })
+const { invalidate } = useTres()
+
+const { args, color } = toRefs(props)
+watch(args, () => {
+  invalidate()
+})
+
+const icosahedronRef = shallowRef()
+
+defineExpose({
+  instance: icosahedronRef,
+})
+</script>
+
+<template>
+  <TresMesh
+    ref="icosahedronRef"
+    v-bind="$attrs"
+  >
+    <TresIcosahedronGeometry :args="args" />
+    <slot>
+      <TresMeshBasicMaterial :color="color" />
+    </slot>
+  </TresMesh>
+</template>

@@ -1,0 +1,28 @@
+{
+  "name": "playground",
+  "type": "module",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "vite --host",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
+  },
+  "dependencies": {
+    "@tresjs/cientos": "workspace:^",
+    "@tresjs/core": "workspace:^",
+    "@tresjs/leches": "https://pkg.pr.new/@tresjs/leches@b34e795",
+    "vue-router": "^4.5.1"
+  },
+  "devDependencies": {
+    "@tresjs/eslint-config": "^1.4.0",
+    "@tweakpane/plugin-essentials": "^0.2.1",
+    "unplugin-auto-import": "^20.2.0",
+    "vite-plugin-glsl": "^1.5.1",
+    "vite-plugin-qrcode": "^0.3.0",
+    "vite-plugin-vue-devtools": "8.0.2",
+    "vue-tsc": "^3.0.8"
+  }
+}

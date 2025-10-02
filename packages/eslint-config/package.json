@@ -1,0 +1,55 @@
+{
+  "name": "@tresjs/eslint-config",
+  "type": "module",
+  "version": "1.4.0",
+  "packageManager": "pnpm@9.9.0",
+  "description": "Opinionated ESLint configuration for Tres.js ecosystem",
+  "author": "Alvaro Saburido <hola@alvarosaburido.dev> (https://github.com/alvarosabu/)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tresjs/eslint-config.git"
+  },
+  "keywords": [
+    "eslint",
+    "eslint-config",
+    "eslintconfig"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "dev": "npx @eslint/config-inspector --config eslint.config.ts",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "preview": "eslint-flat-config-viewer",
+    "release": "release-it",
+    "build": "tsdown",
+    "stub": "tsdown --format esm",
+    "watch": "tsdown --watch"
+  },
+  "peerDependencies": {
+    "eslint": ">=8.40.0"
+  },
+  "dependencies": {
+    "@antfu/eslint-config": "~3.6.0",
+    "eslint-plugin-format": "^0.1.2"
+  },
+  "devDependencies": {
+    "eslint": "catalog:",
+    "eslint-flat-config-viewer": "^0.1.20",
+    "tsdown": "^0.15.4"
+  }
+}

@@ -23,16 +23,14 @@ jobs:
       matrix:
         node-version: [20]
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - run: npm i -g --force corepack && corepack enable
-      - uses: actions/setup-node@v4
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: pnpm
+      - uses: ./.github/actions/setup-node
       - name: Install dependencies
         run: pnpm install
       - name: Build
-        run: pnpm build
-      - run: pnpx pkg-pr-new publish --compact --pnpm
+        run: pnpm nx run-many --target=build --parallel=5 -p="tag:npm:public"
+      - run: |
+          PATHS=$(pnpm list --recursive --depth=0 --json | jq -r '.[] | select(.private == false) | .path' | tr '\n' ' ')
+          pnpx pkg-pr-new publish $PATHS --compact --pnpm
+

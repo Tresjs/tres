@@ -1,0 +1,50 @@
+<script setup lang="ts">
+import { type TresColor, useTres } from '@tresjs/core'
+import { shallowRef, toRefs, watch } from 'vue'
+import type { DodecahedronGeometry } from 'three'
+
+export interface DodecahedronProps {
+  /**
+   * The radius and detail of the dodecahedron.
+   * @default [1, 0]
+   * @type {number[]}
+   * @memberof DodecahedronProps
+   * @see https://threejs.org/docs/#api/en/geometries/DodecahedronGeometry
+   */
+  args?: ConstructorParameters<typeof DodecahedronGeometry>
+  /**
+   * The color of the dodecahedron.
+   * @default 0xffffff
+   * @type {TresColor}
+   * @memberof DodecahedronProps
+   * @see https://threejs.org/docs/#api/en/materials/MeshBasicMaterial
+   */
+  color?: TresColor
+}
+
+const props = withDefaults(defineProps<DodecahedronProps>(), { args: () => [1, 0], color: '#ffffff' })
+const { invalidate } = useTres()
+
+const { args, color } = toRefs(props)
+watch(args, () => {
+  invalidate()
+})
+
+const dodecahedronRef = shallowRef()
+
+defineExpose({
+  instance: dodecahedronRef,
+})
+</script>
+
+<template>
+  <TresMesh
+    ref="dodecahedronRef"
+    v-bind="$attrs"
+  >
+    <TresDodecahedronGeometry :args="args" />
+    <slot>
+      <TresMeshBasicMaterial :color="color" />
+    </slot>
+  </TresMesh>
+</template>

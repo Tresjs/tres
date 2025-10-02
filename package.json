@@ -1,9 +1,10 @@
 {
-  "name": "@tresjs/core",
+  "name": "tresjs",
   "type": "module",
-  "version": "5.0.2",
-  "packageManager": "pnpm@10.17.0",
-  "description": "Declarative ThreeJS using Vue Components",
+  "private": true,
+  "version": "0.1.0",
+  "packageManager": "pnpm@10.17.1",
+  "description": "Official monorepo for TresJS",
   "author": "Alvaro Saburido <hola@alvarosaburido.dev> (https://github.com/alvarosabu/)",
   "license": "MIT",
   "repository": {
@@ -17,121 +18,32 @@
     "three",
     "threejs-vue"
   ],
-  "sideEffects": false,
-  "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/tres.js",
-      "default": "./dist/tres.js"
-    },
-    "./components": {
-      "types": "./dist/src/components/index.d.ts"
-    },
-    "./composables": {
-      "types": "./dist/src/composables/index.d.ts"
-    },
-    "./types": {
-      "types": "./dist/src/types/index.d.ts"
-    },
-    "./utils": {
-      "types": "./dist/src/utils/index.d.ts"
-    },
-    "./*": "./*"
-  },
-  "module": "./dist/tres.js",
-  "types": "./dist/index.d.ts",
-  "files": [
-    "*.d.ts",
-    "dist"
-  ],
-  "publishConfig": {
-    "access": "public"
-  },
   "scripts": {
-    "dev": "pnpm --filter='./playground/vue' dev",
-    "dev:nuxt": "pnpm --filter='./playground/nuxt' dev",
-    "build": "vite build",
-    "test": "vitest",
-    "test:ci": "vitest run",
-    "test:ui": "vitest --ui --coverage.enabled=true",
+    "build": "nx run-many --target=build",
+    "build:ci": "nx run-many --target=build -p=\"tag:npm:public\"",
+    "dev": "nx run-many --target=dev",
+    "lint": "nx run-many --target=lint",
+    "lint:fix": "nx run-many --target=lint --fix",
+    "typecheck": "nx run-many --target=typecheck",
+    "test": "nx run-many --target=test",
     "release": "release-it",
-    "coverage": "vitest run --coverage",
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
-    "typecheck": "vue-tsc --noEmit",
-    "docs:dev": "pnpm --filter='./docs' dev",
-    "docs:generate": "pnpm --filter='./docs' generate",
-    "docs:prepare": "pnpm --filter='./docs' prepare",
-    "docs:lint": "pnpm --filter='./docs' lint",
-    "docs:typecheck": "pnpm --filter='./docs' typecheck"
+    "monocubo": "node tools/monocubo/dist/index.js"
   },
-  "peerDependencies": {
-    "three": ">=0.133",
-    "vue": ">=3.4"
-  },
-  "dependencies": {
-    "@pmndrs/pointer-events": "^6.6.17",
-    "@vue/devtools-api": "^7.7.2",
-    "@vueuse/core": "^13.9.0",
-    "radashi": "^12.6.2"
-  },
+  "workspaces": [
+    "packages/*",
+    "tools/*",
+    "apps/*"
+  ],
   "devDependencies": {
-    "@release-it/conventional-changelog": "^10.0.0",
-    "@stackblitz/sdk": "^1.11.0",
-    "@tresjs/cientos": "5.0.0-alpha.1",
-    "@tresjs/eslint-config": "^1.4.0",
-    "@tresjs/leches": "1.0.0-next.0",
-    "@types/three": "^0.180.0",
-    "@typescript-eslint/eslint-plugin": "^8.42.0",
-    "@typescript-eslint/parser": "^8.42.0",
-    "@vitejs/plugin-vue": "^6.0.1",
-    "@vitest/coverage-c8": "^0.33.0",
-    "@vitest/coverage-v8": "^3.2.4",
-    "@vitest/ui": "^3.2.4",
-    "@vue/test-utils": "^2.4.6",
-    "eslint": "^9.34.0",
-    "eslint-plugin-vue": "^10.4.0",
-    "esno": "^4.8.0",
-    "gsap": "^3.13.0",
-    "jsdom": "^27.0.0",
-    "kolorist": "^1.8.0",
-    "ohmyfetch": "^0.4.21",
-    "pathe": "^2.0.3",
-    "release-it": "^19.0.4",
-    "rollup-plugin-analyzer": "^4.0.0",
-    "rollup-plugin-copy": "^3.5.0",
-    "rollup-plugin-visualizer": "^6.0.3",
-    "sponsorkit": "^17.0.0",
-    "three": "^0.180.0",
-    "unocss": "^65.5.0",
-    "unplugin": "^2.3.10",
-    "unplugin-vue-components": "^29.0.0",
-    "vite": "^7.1.6",
-    "vite-plugin-banner": "^0.8.1",
-    "vite-plugin-dts": "4.5.4",
-    "vite-plugin-inspect": "^11.3.3",
-    "vite-plugin-require-transform": "^1.0.21",
-    "vite-svg-loader": "^5.1.0",
-    "vitepress": "1.6.4",
-    "vitest": "3.2.4",
-    "vue": "3.5.21",
-    "vue-demi": "^0.14.10",
-    "vue-tsc": "^3.0.6"
+    "@nx/js": "^21.2.1",
+    "nx": "21.2.1"
   },
   "pnpm": {
     "onlyBuiltDependencies": [
       "better-sqlite3"
     ],
-    "ignoredBuiltDependencies": [
-      "vue-demi"
-    ],
     "overrides": {
-      "ipx": "^3.0.3",
-      "vue": "^3.5.21",
-      "vue-router": "^4.5.1"
+      "ipx": "3.0.2"
     }
-  },
-  "resolutions": {
-    "unimport": "4.1.1"
   }
 }

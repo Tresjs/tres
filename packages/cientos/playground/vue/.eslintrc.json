@@ -1,0 +1,16 @@
+{
+  "extends": "@tresjs/eslint-config-vue",
+  "rules": {
+    "no-console": "off",
+    "vue/attribute-hyphenation": [2, "always", {
+      "ignore": [
+        "shadow-mapSize-width",
+        "shadow-mapSize-height",
+        "distortionMap",
+        "material-uniforms-mieCoefficient-value",
+        "material-uniforms-mieDirectionalG-value",
+        "material-uniforms-sunPosition-value"
+      ]
+    }]
+  }
+}
