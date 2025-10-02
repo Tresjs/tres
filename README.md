@@ -7,12 +7,11 @@
   <a href="https://app.netlify.com/sites/tresjs-docs/deploys"><img src="https://api.netlify.com/api/v1/badges/5a59eb67-67f1-4c9d-bdf4-2f9a5899a531/deploy-status" alt="netlify status"></a>
 </p>
 
-# TresJS `@tresjs/core`
+# TresJS Ecosystem
 
 > Declarative ThreeJS using Vue Components
 
 - 💡 Build 3D scene as they were Vue components
-- ⚡️ Powered by Vite
 - 🥰 It brings all the updated features of ThreeJS right away regardless the version
 - 🦾 Fully Typed
 
@@ -38,53 +37,125 @@ Checkout the [docs](https://tresjs.org)
 
 ## Ecosystem
 
-| Package                     | Version                                                                                            |
-| --------------------------- | :------------------------------------------------------------------------------------------------- |
-| [Tres](https://github.com/TresJS/tres)       | ![tres version](https://img.shields.io/npm/v/@tresjs/core/latest.svg?label=%20&color=%2382DBCA)    |
-| [Cientos](https://github.com/TresJS/cientos) | ![cientos version](https://img.shields.io/npm/v/@tresjs/cientos/latest.svg?label=%20&color=%23f19b00) |
-| [Post-processing](https://github.com/TresJS/post-processing) | ![post-processing version](https://img.shields.io/npm/v/@tresjs/post-processing/latest.svg?label=%20&color=ff7bac) |
-| [Nuxt](https://github.com/TresJS/nuxt) | ![nuxt version](https://img.shields.io/npm/v/@tresjs/nuxt/latest.svg?label=%20&color=4f4f4f&logo=nuxt.js) |
-| [TresLeches 🍰](https://github.com/TresJS/leches) | ![tresleches version](https://img.shields.io/npm/v/@tresjs/leches/latest.svg?label=%20&color=ffffff) |
+| Package                     | Version                                                                                            | Downloads                                                                                            |
+| --------------------------- | :------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| [Tres](https://github.com/TresJS/tres)       | ![tres version](https://img.shields.io/npm/v/@tresjs/core/latest.svg?label=%20&color=%2382DBCA)    | ![tres downloads](https://img.shields.io/npm/dm/@tresjs/core?color=%2382DBCA) |
+| [Cientos](https://github.com/TresJS/cientos) | ![cientos version](https://img.shields.io/npm/v/@tresjs/cientos/latest.svg?label=%20&color=%23f19b00) | ![cientos downloads](https://img.shields.io/npm/dm/@tresjs/cientos?color=%23f19b00) |
+| [Post-processing](https://github.com/TresJS/post-processing) | ![post-processing version](https://img.shields.io/npm/v/@tresjs/post-processing/latest.svg?label=%20&color=ff7bac) | ![post-processing downloads](https://img.shields.io/npm/dm/@tresjs/post-processing?color=ff7bac) |
+| [Nuxt](https://github.com/TresJS/nuxt) | ![nuxt version](https://img.shields.io/npm/v/@tresjs/nuxt/latest.svg?label=%20&color=4f4f4f&logo=nuxt.js) | ![nuxt downloads](https://img.shields.io/npm/dm/@tresjs/nuxt?color=4f4f4f&logo=nuxt.js) |
+| [TresLeches 🍰](https://github.com/TresJS/leches) | ![tresleches version](https://img.shields.io/npm/v/@tresjs/leches/latest.svg?label=%20&color=ffffff) | ![tresleches downloads](https://img.shields.io/npm/dm/@tresjs/leches?color=ffffff) |
 
-## Contribution
+## 🛠️ Development
 
-We are open to contributions, please read the [contributing guide](/CONTRIBUTING.md) to get started.
+### Prerequisites
+
+- Node.js (v18 or later)
+- pnpm (v8 or later)
+- Git
 
 ### Setup
 
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/storyblok/monoblok.git
+   cd monoblok
+   ```
+
+2. Install dependencies:
+   ```bash
+   pnpm install
+   ```
+
+### Package Management with PNPM
+
+This repository uses PNPM as its primary package manager, providing efficient dependency management and disk space usage. The workspace is configured in `pnpm-workspace.yaml` and includes all packages in the `packages/` directory.
+
+Common PNPM commands:
+```bash
+# Install dependencies
+pnpm install
+
+# Add a dependency to a specific package
+pnpm add <package> --filter @tresjs/cientos
+
+# Run a script in a specific package
+pnpm --filter @tresjs/cientos <script>
 ```
-pnpm install --shamefully-hoist
-```
 
-### Playground
+### Development with NX
 
-To run the small playground
+While PNPM manages our packages, we use NX to optimize our development workflow. NX provides powerful features for:
 
-```
-pnpm run playground
-```
+- Intelligent caching
+- Affected package detection
+- Dependency graph visualization
+- Parallel task execution
+- Project-specific configurations
 
-### Build lib
-
-To build the core as library mode just use
-
-```
-pnpm run build
-```
-
-### Docs
-
-To run de docs in dev mode
+#### Common NX Commands
 
 ```bash
-pnpm run docs:dev
+# Build all packages
+pnpm build
+
+# Build a specific package
+pnpm build @tresjs/cientos
+
+# Run tests for affected packages
+pnpm nx affected:test
+
+# Show dependency graph
+pnpm nx graph
+
+# Run commands only on affected packages
+pnpm nx affected --target=build
 ```
 
-To build them
+#### Development Workflows
 
 ```bash
-pnpm run docs:build
+# Start development mode for a package
+pnpm dev @tresjs/cientos
+
+# Run tests in watch mode
+pnpm test:watch @tresjs/cientos
+
+# Lint all packages
+pnpm lint
+
+# Format all packages
+pnpm format
+
+# Check types
+pnpm typecheck
 ```
+
+For more advanced NX usage, we recommend exploring:
+- [NX Documentation](https://nx.dev/docs)
+- [NX Cache](https://nx.dev/concepts/how-caching-works)
+- [NX Affected](https://nx.dev/concepts/affected)
+- [NX Project Configuration](https://nx.dev/concepts/project-configuration)
+
+### Repository Administration
+
+For repository administrators, we provide the `monocubo` tool to help manage the monorepo. This tool assists with:
+
+- Package migration
+- Dependency management
+- Repository maintenance
+- Release coordination
+
+See the [monocubo package](tools/monocubo) for detailed documentation and usage instructions.
+
+
+## Contribution
+
+> [!WARNING]
+> WIP
+
+We are open to contributions, please read the [contributing guide](/CONTRIBUTING.md) to get started.
+
+
 
 ## License
 

@@ -20,9 +20,11 @@
   ],
   "scripts": {
     "build": "nx run-many --target=build",
+    "build:ci": "nx run-many --target=build -p=\"tag:npm:public\"",
     "dev": "nx run-many --target=dev",
     "lint": "nx run-many --target=lint",
     "lint:fix": "nx run-many --target=lint --fix",
+    "typecheck": "nx run-many --target=typecheck",
     "test": "nx run-many --target=test",
     "release": "release-it",
     "monocubo": "node tools/monocubo/dist/index.js"
