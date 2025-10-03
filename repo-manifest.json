@@ -16,5 +16,23 @@
     "repo": "tresjs/nuxt",
     "branch": "main",
     "path": "packages/nuxt"
+  },
+  "@tresjs/leches": {
+    "remote": "leches",
+    "repo": "tresjs/leches",
+    "branch": "main",
+    "path": "packages/leches"
+  },
+  "@tresjs/post-processing": {
+    "remote": "post-processing",
+    "repo": "tresjs/post-processing",
+    "branch": "main",
+    "path": "packages/postprocessing"
+  },
+  "@tresjs/lab": {
+    "remote": "lab",
+    "repo": "tresjs/lab",
+    "branch": "main",
+    "path": "apps/lab"
   }
 }
