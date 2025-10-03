@@ -6,7 +6,6 @@ import { DotScreenPmndrs, EffectComposerPmndrs } from '@tresjs/post-processing'
 import { BlendFunction } from 'postprocessing'
 import { NoToneMapping } from 'three'
 
-import '@tresjs/leches/styles'
 
 const gl = {
   toneMapping: NoToneMapping,

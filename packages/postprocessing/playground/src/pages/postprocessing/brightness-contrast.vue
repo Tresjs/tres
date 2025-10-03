@@ -6,7 +6,6 @@ import { NoToneMapping } from 'three'
 import { BlendFunction } from 'postprocessing'
 import { BrightnessContrastPmndrs, EffectComposerPmndrs } from '@tresjs/post-processing'
 
-import '@tresjs/leches/styles'
 
 const gl = {
   clearColor: '#ffffff',

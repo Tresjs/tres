@@ -6,7 +6,6 @@ import { BloomPmndrs, EffectComposerPmndrs } from '@tresjs/post-processing'
 import { BlendFunction, KernelSize } from 'postprocessing'
 import { BasicShadowMap, Color, NoToneMapping } from 'three'
 import { onMounted, ref, watch } from 'vue'
-import '@tresjs/leches/styles'
 
 const gl = {
   clearColor: '#121212',

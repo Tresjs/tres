@@ -6,7 +6,6 @@ import { EffectComposerPmndrs, HueSaturationPmndrs } from '@tresjs/post-processi
 import { BlendFunction } from 'postprocessing'
 import { NoToneMapping } from 'three'
 
-import '@tresjs/leches/styles'
 
 const gl = {
   toneMapping: NoToneMapping,

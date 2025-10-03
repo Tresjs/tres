@@ -5,7 +5,6 @@ import { TresLeches, useControls } from '@tresjs/leches'
 import { EffectComposerPmndrs, GlitchPmndrs } from '@tresjs/post-processing'
 import { GlitchMode } from 'postprocessing'
 import { BasicShadowMap, NoToneMapping, Vector2 } from 'three'
-import '@tresjs/leches/styles'
 
 const gl = {
   clearColor: '#121212',

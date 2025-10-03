@@ -6,7 +6,6 @@ import { TresLeches, useControls } from '@tresjs/leches'
 import { EffectComposerPmndrs, OutlinePmndrs } from '@tresjs/post-processing'
 import { BlendFunction, KernelSize } from 'postprocessing'
 import { computed, ref, watch, watchEffect } from 'vue'
-import '@tresjs/leches/styles'
 
 const glComposer = {
   multisampling: 4,

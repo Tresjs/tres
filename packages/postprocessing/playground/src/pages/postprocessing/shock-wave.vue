@@ -7,7 +7,6 @@ import { DepthPickingPassPmndrs, EffectComposerPmndrs, ShockWavePmndrs } from '@
 import { useMouse, useWindowSize } from '@vueuse/core'
 import { computed, ref } from 'vue'
 
-import '@tresjs/leches/styles'
 
 const gl = {
   clearColor: '#ffffff',

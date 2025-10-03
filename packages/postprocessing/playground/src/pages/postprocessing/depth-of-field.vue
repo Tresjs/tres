@@ -8,7 +8,6 @@ import { DepthOfFieldPmndrs, EffectComposerPmndrs } from '@tresjs/post-processin
 import { computed } from 'vue'
 import BlenderCube from '../../components/BlenderCube.vue'
 
-import '@tresjs/leches/styles'
 import Ducky from '../../components/Ducky.vue'
 
 useControls('fpsgraph')

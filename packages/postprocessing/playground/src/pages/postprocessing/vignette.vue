@@ -5,7 +5,6 @@ import { TresLeches, useControls } from '@tresjs/leches'
 import { DepthOfFieldPmndrs, EffectComposerPmndrs, VignettePmndrs } from '@tresjs/post-processing'
 import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
 import BlenderCube from '../../components/BlenderCube.vue'
-import '@tresjs/leches/styles'
 
 const gl = {
   clearColor: '#4f4f4f',

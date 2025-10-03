@@ -5,7 +5,6 @@ import { TresLeches, useControls } from '@tresjs/leches'
 import { EffectComposerPmndrs, NoisePmndrs } from '@tresjs/post-processing'
 import { BlendFunction } from 'postprocessing'
 import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
-import '@tresjs/leches/styles'
 
 const gl = {
   clearColor: '#82DBC5',

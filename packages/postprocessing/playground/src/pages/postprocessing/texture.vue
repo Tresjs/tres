@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ContactShadows, Environment, OrbitControls } from '@tresjs/cientos'
-import { TresCanvas, useTexture } from '@tresjs/core'
+import { TresCanvas } from '@tresjs/core'
+import { useTexture } from '@tresjs/cientos'
 import { TresLeches, useControls } from '@tresjs/leches'
 import { NoToneMapping, RepeatWrapping, SRGBColorSpace } from 'three'
 import { BlendFunction } from 'postprocessing'
@@ -9,7 +10,6 @@ import { EffectComposerPmndrs, TexturePmndrs } from '@tresjs/post-processing'
 import type { Ref } from 'vue'
 import type { EffectPass, TextureEffect } from 'postprocessing'
 
-import '@tresjs/leches/styles'
 
 const gl = {
   clearColor: '#ffffff',
@@ -18,9 +18,12 @@ const gl = {
 
 const textureEffectRef: Ref<{ pass: EffectPass, effect: TextureEffect } | null> = ref(null)
 
-const texture = await useTexture(['https://raw.githubusercontent.com/Tresjs/assets/main/textures/dirt/color.jpg'])
-texture.colorSpace = SRGBColorSpace
-texture.wrapS = texture.wrapT = RepeatWrapping
+const {state: texture } =  useTexture('https://raw.githubusercontent.com/Tresjs/assets/main/textures/dirt/color.jpg')
+
+watch(texture, (newTexture) => {
+  newTexture.colorSpace = SRGBColorSpace
+  newTexture.wrapS = newTexture.wrapT = RepeatWrapping
+})
 
 const { blendFunction, rotation, opacity } = useControls({
   blendFunction: {
@@ -36,11 +39,11 @@ const { blendFunction, rotation, opacity } = useControls({
     max: 1,
     step: 0.01,
   },
-  repeat: texture.repeat,
-  offset: texture.offset,
-  center: texture.center,
+  repeat: texture.value.repeat,
+  offset: texture.value.offset,
+  center: texture.value.center,
   rotation: {
-    value: texture.rotation,
+    value: texture.value.rotation,
     min: 0,
     max: 2 * Math.PI,
     step: 0.001,
@@ -48,7 +51,7 @@ const { blendFunction, rotation, opacity } = useControls({
 })
 
 watch(rotation, () => {
-  texture.rotation = rotation.value
+  texture.value.rotation = rotation.value
 })
 
 // Example of using TextureEffect's setTextureSwizzleRGBA function
