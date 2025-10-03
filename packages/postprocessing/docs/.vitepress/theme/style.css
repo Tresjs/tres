@@ -1,0 +1,67 @@
+:root {
+  --vp-home-hero-name-color: #ff7bac;
+  --vp-c-brand: #ff7bac;
+  --vp-c-brand-light: #f79abd;
+}
+
+/**
+ * Component: Button
+ * -------------------------------------------------------------------------- */
+
+:root {
+  --vp-button-brand-border: var(--vp-c-brand-light);
+  --vp-button-brand-text: var(--vp-c-text-dark-1);
+  --vp-button-brand-bg: var(--vp-c-brand);
+  --vp-button-brand-border: var(--vp-c-brand);
+  --vp-button-brand-hover-border: var(--vp-c-brand-light);
+  --vp-button-brand-hover-text: var(--vp-c-text-dark-1);
+  --vp-button-brand-hover-bg: var(--vp-c-brand-light);
+  --vp-button-brand-active-border: var(--vp-c-brand-light);
+  --vp-button-brand-active-text: var(--vp-c-text-dark-1);
+  --vp-button-brand-active-bg: var(--vp-button-brand-bg);
+
+  --vp-button-alt-border: var(--vp-c-gray-light-3);
+  --vp-button-alt-text: var(--vp-c-text-light-1);
+  --vp-button-alt-bg: var(--vp-c-gray-light-5);
+  --vp-button-alt-hover-border: var(--vp-c-gray-light-3);
+  --vp-button-alt-hover-text: var(--vp-c-text-light-1);
+  --vp-button-alt-hover-bg: var(--vp-c-gray-light-4);
+  --vp-button-alt-active-border: var(--vp-c-gray-light-3);
+  --vp-button-alt-active-text: var(--vp-c-text-light-1);
+  --vp-button-alt-active-bg: var(--vp-c-gray-light-3);
+
+  --vp-button-sponsor-border: var(--vp-c-gray-light-3);
+  --vp-button-sponsor-text: var(--vp-c-text-light-2);
+  --vp-button-sponsor-bg: transparent;
+  --vp-button-sponsor-hover-border: var(--vp-c-sponsor);
+  --vp-button-sponsor-hover-text: var(--vp-c-sponsor);
+  --vp-button-sponsor-hover-bg: transparent;
+  --vp-button-sponsor-active-border: var(--vp-c-sponsor);
+  --vp-button-sponsor-active-text: var(--vp-c-sponsor);
+  --vp-button-sponsor-active-bg: transparent;
+}
+
+.VPSidebar .link.active span {
+  font-weight: bold;
+}
+
+.vp-doc a {
+  text-decoration: dashed;
+  font-weight: bold;
+}
+
+.VPButton.medium.brand {
+  color: var(--vp-button-alt-text);
+}
+
+.VPNavBarTitle a {
+  font-size: 12px !important;
+}
+
+.VPNavBarTitle .logo {
+  height: 16px !important;
+}
+
+img {
+  border-radius: 8px;
+}

@@ -1,0 +1,89 @@
+{
+  "name": "@tresjs/post-processing",
+  "type": "module",
+  "version": "3.0.0-next.0",
+  "packageManager": "pnpm@10.6.3",
+  "description": "Post-processing library for TresJS",
+  "author": "Alvaro Saburido <hola@alvarosaburido.dev> (https://github.com/alvarosabu/)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tresjs/post-processing.git"
+  },
+  "keywords": [
+    "vue",
+    "3d",
+    "threejs",
+    "three",
+    "post-processing",
+    "effects",
+    "fx"
+  ],
+  "maintainers": [
+    "Alvaro Saburido (https://github.com/alvarosabu/)",
+    "Tino Koch (https://github.com/Tinoooo)"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/tres-post-processing.d.ts",
+      "import": "./dist/tres-post-processing.js",
+      "require": "./dist/tres-post-processing.cjs"
+    },
+    "./*": "./*"
+  },
+  "files": [
+    "*.d.ts",
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "dev": "cd playground && npm run dev",
+    "playground": "cd playground && npm run dev",
+    "build": "vite build",
+    "preview": "vite preview",
+    "release": "release-it",
+    "lint": "eslint .",
+    "typecheck": "vue-tsc --noEmit",
+    "lint:fix": "eslint . --fix",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview"
+  },
+  "peerDependencies": {
+    "@tresjs/core": ">=5.0",
+    "three": ">=0.169",
+    "vue": ">=3.4"
+  },
+  "dependencies": {
+    "@vueuse/core": "^12.5.0",
+    "postprocessing": "^6.37.2"
+  },
+  "devDependencies": {
+    "@release-it/conventional-changelog": "^10.0.0",
+    "@tresjs/core": "5.0.0-next.6",
+    "@tresjs/eslint-config": "^1.4.0",
+    "@tresjs/leches": "https://pkg.pr.new/@tresjs/leches@9ad0cd3",
+    "@types/three": "^0.172.0",
+    "@unocss/core": "^65.4.3",
+    "@vitejs/plugin-vue": "^5.2.1",
+    "eslint": "^9.19.0",
+    "gsap": "^3.12.7",
+    "kolorist": "^1.8.0",
+    "pathe": "^2.0.2",
+    "release-it": "^18.1.2",
+    "rollup-plugin-analyzer": "^4.0.0",
+    "rollup-plugin-visualizer": "^5.14.0",
+    "three": "^0.173.0",
+    "typescript": "^5.7.3",
+    "unocss": "^65.4.3",
+    "vite": "^6.0.11",
+    "vite-plugin-banner": "^0.8.0",
+    "vite-plugin-dts": "4.5.0",
+    "vite-svg-loader": "^5.1.0",
+    "vitepress": "1.6.3",
+    "vue": "^3.5.13",
+    "vue-tsc": "^2.2.0"
+  }
+}
