@@ -36,6 +36,13 @@ Package and app-specific details are in their respective CLAUDE.md files:
 - **playground**: [apps/playground/CLAUDE.md](apps/playground/CLAUDE.md)
 - **cientos-docs-vitepress**: [apps/cientos-docs-vitepress/CLAUDE.md](apps/cientos-docs-vitepress/CLAUDE.md)
 
+
+## Code Style & Standards
+
+@./.claude/typescript.md
+
+@./.claude/vue.md
+
 ## Release Process
 
 Uses NX release with conventional commits:
