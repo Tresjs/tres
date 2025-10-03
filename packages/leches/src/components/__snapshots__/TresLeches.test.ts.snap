@@ -1,0 +1,23 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`TresLeches > should mount 1`] = `
+"<div style=\\"left: 704px; top: 10px;\\" id=\\"test\\" class=\\"tl-absolute tl-select-none tl-z-24 tl-w-280px tl-font-sans tl-text-xs\\">
+  <div tabindex=\\"0\\" class=\\"tl-bg-white tl-shadow-xl tl-rounded tl-border-4 tl-border-solid tl-border-black\\">
+    <header class=\\"tl-relative tl-cursor-grabbing tl-p-4 tl-flex tl-justify-between tl-text-gray-200 tl-relative\\"><i class=\\"tl-h-4 tl-w-4 tl-p-1.5 tl-flex tl-items-center tl-line-height-0 tl-rounded-full tl-bg-gray-100 tl-text-xs\\">🍰</i>
+      <div><i class=\\"i-ic-baseline-drag-indicator\\"></i><i class=\\"i-ic-baseline-drag-indicator\\"></i><i class=\\"i-ic-baseline-drag-indicator\\"></i></div>
+      <div></div>
+    </header>
+  </div>
+</div>"
+`;
+
+exports[`tresLeches > should mount 1`] = `
+"<div style="left: 704px; top: 10px;" id="test" class="tl-absolute tl-select-none tl-z-24 tl-w-280px tl-font-sans tl-text-xs">
+  <div tabindex="0" class="tl-bg-white tl-shadow-xl tl-rounded tl-border-4 tl-border-solid tl-border-black">
+    <header class="tl-relative tl-cursor-grabbing tl-p-4 tl-flex tl-justify-between tl-text-gray-200 tl-relative"><i class="tl-h-4 tl-w-4 tl-p-1.5 tl-flex tl-items-center tl-line-height-0 tl-rounded-full tl-bg-gray-100 tl-text-xs">🍰</i>
+      <div><i class="i-ic-baseline-drag-indicator"></i><i class="i-ic-baseline-drag-indicator"></i><i class="i-ic-baseline-drag-indicator"></i></div>
+      <div></div>
+    </header>
+  </div>
+</div>"
+`;

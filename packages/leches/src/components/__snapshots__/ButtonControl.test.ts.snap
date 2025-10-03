@@ -1,0 +1,241 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Button Controls > should render a block size button 1`] = `
+"<div style=\\"left: 704px; top: 10px;\\" class=\\"tl-absolute tl-select-none tl-z-24 tl-w-280px tl-font-sans tl-text-xs\\">
+  <div tabindex=\\"0\\" class=\\"tl-bg-white tl-shadow-xl tl-rounded tl-border-4 tl-border-solid tl-border-black\\">
+    <header class=\\"tl-relative tl-cursor-grabbing tl-p-4 tl-flex tl-justify-between tl-text-gray-200 tl-relative\\"><i class=\\"tl-h-4 tl-w-4 tl-p-1.5 tl-flex tl-items-center tl-line-height-0 tl-rounded-full tl-bg-gray-100 tl-text-xs\\">🍰</i>
+      <div><i class=\\"i-ic-baseline-drag-indicator\\"></i><i class=\\"i-ic-baseline-drag-indicator\\"></i><i class=\\"i-ic-baseline-drag-indicator\\"></i></div>
+      <div></div>
+    </header>
+    <!--v-if-->
+    <div>
+      <div class=\\"tl-p-2 tl-inline-flex\\"><button data-v-9a5f9367=\\"\\" class=\\"leches-btn leches-btn-primary leches-btn-block\\"><i data-v-9a5f9367=\\"\\" class=\\"mr-1\\"></i> Accept</button></div>
+    </div>
+  </div>
+</div>"
+`;
+
+exports[`Button Controls > should render a button 1`] = `
+"<div style=\\"left: 704px; top: 10px;\\" class=\\"tl-absolute tl-select-none tl-z-24 tl-w-280px tl-font-sans tl-text-xs\\">
+  <div tabindex=\\"0\\" class=\\"tl-bg-white tl-shadow-xl tl-rounded tl-border-4 tl-border-solid tl-border-black\\">
+    <header class=\\"tl-relative tl-cursor-grabbing tl-p-4 tl-flex tl-justify-between tl-text-gray-200 tl-relative\\"><i class=\\"tl-h-4 tl-w-4 tl-p-1.5 tl-flex tl-items-center tl-line-height-0 tl-rounded-full tl-bg-gray-100 tl-text-xs\\">🍰</i>
+      <div><i class=\\"i-ic-baseline-drag-indicator\\"></i><i class=\\"i-ic-baseline-drag-indicator\\"></i><i class=\\"i-ic-baseline-drag-indicator\\"></i></div>
+      <div></div>
+    </header>
+    <!--v-if-->
+    <div>
+      <div class=\\"tl-p-2 tl-inline-flex\\"><button data-v-9a5f9367=\\"\\" class=\\"leches-btn leches-btn-primary leches-btn-sm\\"><i data-v-9a5f9367=\\"\\" class=\\"mr-1\\"></i> Accept</button></div>
+    </div>
+  </div>
+</div>"
+`;
+
+exports[`Button Controls > should render a button with a label 1`] = `
+"<div style=\\"left: 704px; top: 10px;\\" class=\\"tl-absolute tl-select-none tl-z-24 tl-w-280px tl-font-sans tl-text-xs\\">
+  <div tabindex=\\"0\\" class=\\"tl-bg-white tl-shadow-xl tl-rounded tl-border-4 tl-border-solid tl-border-black\\">
+    <header class=\\"tl-relative tl-cursor-grabbing tl-p-4 tl-flex tl-justify-between tl-text-gray-200 tl-relative\\"><i class=\\"tl-h-4 tl-w-4 tl-p-1.5 tl-flex tl-items-center tl-line-height-0 tl-rounded-full tl-bg-gray-100 tl-text-xs\\">🍰</i>
+      <div><i class=\\"i-ic-baseline-drag-indicator\\"></i><i class=\\"i-ic-baseline-drag-indicator\\"></i><i class=\\"i-ic-baseline-drag-indicator\\"></i></div>
+      <div></div>
+    </header>
+    <!--v-if-->
+    <div>
+      <div class=\\"tl-p-2 tl-inline-flex\\"><button data-v-9a5f9367=\\"\\" class=\\"leches-btn leches-btn-primary leches-btn-sm\\"><i data-v-9a5f9367=\\"\\" class=\\"mr-1\\"></i> Accept</button></div>
+    </div>
+  </div>
+</div>"
+`;
+
+exports[`Button Controls > should render a large button 1`] = `
+"<div style=\\"left: 704px; top: 10px;\\" class=\\"tl-absolute tl-select-none tl-z-24 tl-w-280px tl-font-sans tl-text-xs\\">
+  <div tabindex=\\"0\\" class=\\"tl-bg-white tl-shadow-xl tl-rounded tl-border-4 tl-border-solid tl-border-black\\">
+    <header class=\\"tl-relative tl-cursor-grabbing tl-p-4 tl-flex tl-justify-between tl-text-gray-200 tl-relative\\"><i class=\\"tl-h-4 tl-w-4 tl-p-1.5 tl-flex tl-items-center tl-line-height-0 tl-rounded-full tl-bg-gray-100 tl-text-xs\\">🍰</i>
+      <div><i class=\\"i-ic-baseline-drag-indicator\\"></i><i class=\\"i-ic-baseline-drag-indicator\\"></i><i class=\\"i-ic-baseline-drag-indicator\\"></i></div>
+      <div></div>
+    </header>
+    <!--v-if-->
+    <div>
+      <div class=\\"tl-p-2 tl-inline-flex\\"><button data-v-9a5f9367=\\"\\" class=\\"leches-btn leches-btn-primary leches-btn-lg\\"><i data-v-9a5f9367=\\"\\" class=\\"mr-1\\"></i> Accept</button></div>
+    </div>
+  </div>
+</div>"
+`;
+
+exports[`Button Controls > should render a primary button variant by default 1`] = `
+"<div style=\\"left: 704px; top: 10px;\\" class=\\"tl-absolute tl-select-none tl-z-24 tl-w-280px tl-font-sans tl-text-xs\\">
+  <div tabindex=\\"0\\" class=\\"tl-bg-white tl-shadow-xl tl-rounded tl-border-4 tl-border-solid tl-border-black\\">
+    <header class=\\"tl-relative tl-cursor-grabbing tl-p-4 tl-flex tl-justify-between tl-text-gray-200 tl-relative\\"><i class=\\"tl-h-4 tl-w-4 tl-p-1.5 tl-flex tl-items-center tl-line-height-0 tl-rounded-full tl-bg-gray-100 tl-text-xs\\">🍰</i>
+      <div><i class=\\"i-ic-baseline-drag-indicator\\"></i><i class=\\"i-ic-baseline-drag-indicator\\"></i><i class=\\"i-ic-baseline-drag-indicator\\"></i></div>
+      <div></div>
+    </header>
+    <!--v-if-->
+    <div>
+      <div class=\\"tl-p-2 tl-inline-flex\\"><button data-v-9a5f9367=\\"\\" class=\\"leches-btn leches-btn-primary leches-btn-sm\\"><i data-v-9a5f9367=\\"\\" class=\\"mr-1\\"></i> Accept</button></div>
+    </div>
+  </div>
+</div>"
+`;
+
+exports[`Button Controls > should render a secondary button variant 1`] = `
+"<div style=\\"left: 704px; top: 10px;\\" class=\\"tl-absolute tl-select-none tl-z-24 tl-w-280px tl-font-sans tl-text-xs\\">
+  <div tabindex=\\"0\\" class=\\"tl-bg-white tl-shadow-xl tl-rounded tl-border-4 tl-border-solid tl-border-black\\">
+    <header class=\\"tl-relative tl-cursor-grabbing tl-p-4 tl-flex tl-justify-between tl-text-gray-200 tl-relative\\"><i class=\\"tl-h-4 tl-w-4 tl-p-1.5 tl-flex tl-items-center tl-line-height-0 tl-rounded-full tl-bg-gray-100 tl-text-xs\\">🍰</i>
+      <div><i class=\\"i-ic-baseline-drag-indicator\\"></i><i class=\\"i-ic-baseline-drag-indicator\\"></i><i class=\\"i-ic-baseline-drag-indicator\\"></i></div>
+      <div></div>
+    </header>
+    <!--v-if-->
+    <div>
+      <div class=\\"tl-p-2 tl-inline-flex\\"><button data-v-9a5f9367=\\"\\" class=\\"leches-btn leches-btn-secondary leches-btn-sm\\"><i data-v-9a5f9367=\\"\\" class=\\"mr-1\\"></i> Accept</button></div>
+    </div>
+  </div>
+</div>"
+`;
+
+exports[`Button Controls > should render a small button 1`] = `
+"<div style=\\"left: 704px; top: 10px;\\" class=\\"tl-absolute tl-select-none tl-z-24 tl-w-280px tl-font-sans tl-text-xs\\">
+  <div tabindex=\\"0\\" class=\\"tl-bg-white tl-shadow-xl tl-rounded tl-border-4 tl-border-solid tl-border-black\\">
+    <header class=\\"tl-relative tl-cursor-grabbing tl-p-4 tl-flex tl-justify-between tl-text-gray-200 tl-relative\\"><i class=\\"tl-h-4 tl-w-4 tl-p-1.5 tl-flex tl-items-center tl-line-height-0 tl-rounded-full tl-bg-gray-100 tl-text-xs\\">🍰</i>
+      <div><i class=\\"i-ic-baseline-drag-indicator\\"></i><i class=\\"i-ic-baseline-drag-indicator\\"></i><i class=\\"i-ic-baseline-drag-indicator\\"></i></div>
+      <div></div>
+    </header>
+    <!--v-if-->
+    <div>
+      <div class=\\"tl-p-2 tl-inline-flex\\"><button data-v-9a5f9367=\\"\\" class=\\"leches-btn leches-btn-primary leches-btn-sm\\"><i data-v-9a5f9367=\\"\\" class=\\"mr-1\\"></i> Accept</button></div>
+    </div>
+  </div>
+</div>"
+`;
+
+exports[`Button Controls > should render an icon on the button 1`] = `
+"<div style=\\"left: 704px; top: 10px;\\" class=\\"tl-absolute tl-select-none tl-z-24 tl-w-280px tl-font-sans tl-text-xs\\">
+  <div tabindex=\\"0\\" class=\\"tl-bg-white tl-shadow-xl tl-rounded tl-border-4 tl-border-solid tl-border-black\\">
+    <header class=\\"tl-relative tl-cursor-grabbing tl-p-4 tl-flex tl-justify-between tl-text-gray-200 tl-relative\\"><i class=\\"tl-h-4 tl-w-4 tl-p-1.5 tl-flex tl-items-center tl-line-height-0 tl-rounded-full tl-bg-gray-100 tl-text-xs\\">🍰</i>
+      <div><i class=\\"i-ic-baseline-drag-indicator\\"></i><i class=\\"i-ic-baseline-drag-indicator\\"></i><i class=\\"i-ic-baseline-drag-indicator\\"></i></div>
+      <div></div>
+    </header>
+    <!--v-if-->
+    <div>
+      <div class=\\"tl-p-2 tl-inline-flex\\"><button data-v-9a5f9367=\\"\\" class=\\"leches-btn leches-btn-primary leches-btn-sm\\"><i data-v-9a5f9367=\\"\\" class=\\"i-carbon-checkmark mr-1\\"></i> Accept</button></div>
+    </div>
+  </div>
+</div>"
+`;
+
+exports[`button Controls > should render a block size button 1`] = `
+"<div style="left: 704px; top: 10px;" class="tl-absolute tl-select-none tl-z-24 tl-w-280px tl-font-sans tl-text-xs">
+  <div tabindex="0" class="tl-bg-white tl-shadow-xl tl-rounded tl-border-4 tl-border-solid tl-border-black">
+    <header class="tl-relative tl-cursor-grabbing tl-p-4 tl-flex tl-justify-between tl-text-gray-200 tl-relative"><i class="tl-h-4 tl-w-4 tl-p-1.5 tl-flex tl-items-center tl-line-height-0 tl-rounded-full tl-bg-gray-100 tl-text-xs">🍰</i>
+      <div><i class="i-ic-baseline-drag-indicator"></i><i class="i-ic-baseline-drag-indicator"></i><i class="i-ic-baseline-drag-indicator"></i></div>
+      <div></div>
+    </header>
+    <!--v-if-->
+    <div>
+      <div class="tl-p-2 tl-inline-flex"><button data-v-9a5f9367="" class="leches-btn leches-btn-primary leches-btn-block"><i data-v-9a5f9367="" class="mr-1"></i> Accept</button></div>
+    </div>
+  </div>
+</div>"
+`;
+
+exports[`button Controls > should render a button 1`] = `
+"<div style="left: 704px; top: 10px;" class="tl-absolute tl-select-none tl-z-24 tl-w-280px tl-font-sans tl-text-xs">
+  <div tabindex="0" class="tl-bg-white tl-shadow-xl tl-rounded tl-border-4 tl-border-solid tl-border-black">
+    <header class="tl-relative tl-cursor-grabbing tl-p-4 tl-flex tl-justify-between tl-text-gray-200 tl-relative"><i class="tl-h-4 tl-w-4 tl-p-1.5 tl-flex tl-items-center tl-line-height-0 tl-rounded-full tl-bg-gray-100 tl-text-xs">🍰</i>
+      <div><i class="i-ic-baseline-drag-indicator"></i><i class="i-ic-baseline-drag-indicator"></i><i class="i-ic-baseline-drag-indicator"></i></div>
+      <div></div>
+    </header>
+    <!--v-if-->
+    <div>
+      <div class="tl-p-2 tl-inline-flex"><button data-v-9a5f9367="" class="leches-btn leches-btn-primary leches-btn-sm"><i data-v-9a5f9367="" class="mr-1"></i> Accept</button></div>
+    </div>
+  </div>
+</div>"
+`;
+
+exports[`button Controls > should render a button with a label 1`] = `
+"<div style="left: 704px; top: 10px;" class="tl-absolute tl-select-none tl-z-24 tl-w-280px tl-font-sans tl-text-xs">
+  <div tabindex="0" class="tl-bg-white tl-shadow-xl tl-rounded tl-border-4 tl-border-solid tl-border-black">
+    <header class="tl-relative tl-cursor-grabbing tl-p-4 tl-flex tl-justify-between tl-text-gray-200 tl-relative"><i class="tl-h-4 tl-w-4 tl-p-1.5 tl-flex tl-items-center tl-line-height-0 tl-rounded-full tl-bg-gray-100 tl-text-xs">🍰</i>
+      <div><i class="i-ic-baseline-drag-indicator"></i><i class="i-ic-baseline-drag-indicator"></i><i class="i-ic-baseline-drag-indicator"></i></div>
+      <div></div>
+    </header>
+    <!--v-if-->
+    <div>
+      <div class="tl-p-2 tl-inline-flex"><button data-v-9a5f9367="" class="leches-btn leches-btn-primary leches-btn-sm"><i data-v-9a5f9367="" class="mr-1"></i> Accept</button></div>
+    </div>
+  </div>
+</div>"
+`;
+
+exports[`button Controls > should render a large button 1`] = `
+"<div style="left: 704px; top: 10px;" class="tl-absolute tl-select-none tl-z-24 tl-w-280px tl-font-sans tl-text-xs">
+  <div tabindex="0" class="tl-bg-white tl-shadow-xl tl-rounded tl-border-4 tl-border-solid tl-border-black">
+    <header class="tl-relative tl-cursor-grabbing tl-p-4 tl-flex tl-justify-between tl-text-gray-200 tl-relative"><i class="tl-h-4 tl-w-4 tl-p-1.5 tl-flex tl-items-center tl-line-height-0 tl-rounded-full tl-bg-gray-100 tl-text-xs">🍰</i>
+      <div><i class="i-ic-baseline-drag-indicator"></i><i class="i-ic-baseline-drag-indicator"></i><i class="i-ic-baseline-drag-indicator"></i></div>
+      <div></div>
+    </header>
+    <!--v-if-->
+    <div>
+      <div class="tl-p-2 tl-inline-flex"><button data-v-9a5f9367="" class="leches-btn leches-btn-primary leches-btn-lg"><i data-v-9a5f9367="" class="mr-1"></i> Accept</button></div>
+    </div>
+  </div>
+</div>"
+`;
+
+exports[`button Controls > should render a primary button variant by default 1`] = `
+"<div style="left: 704px; top: 10px;" class="tl-absolute tl-select-none tl-z-24 tl-w-280px tl-font-sans tl-text-xs">
+  <div tabindex="0" class="tl-bg-white tl-shadow-xl tl-rounded tl-border-4 tl-border-solid tl-border-black">
+    <header class="tl-relative tl-cursor-grabbing tl-p-4 tl-flex tl-justify-between tl-text-gray-200 tl-relative"><i class="tl-h-4 tl-w-4 tl-p-1.5 tl-flex tl-items-center tl-line-height-0 tl-rounded-full tl-bg-gray-100 tl-text-xs">🍰</i>
+      <div><i class="i-ic-baseline-drag-indicator"></i><i class="i-ic-baseline-drag-indicator"></i><i class="i-ic-baseline-drag-indicator"></i></div>
+      <div></div>
+    </header>
+    <!--v-if-->
+    <div>
+      <div class="tl-p-2 tl-inline-flex"><button data-v-9a5f9367="" class="leches-btn leches-btn-primary leches-btn-sm"><i data-v-9a5f9367="" class="mr-1"></i> Accept</button></div>
+    </div>
+  </div>
+</div>"
+`;
+
+exports[`button Controls > should render a secondary button variant 1`] = `
+"<div style="left: 704px; top: 10px;" class="tl-absolute tl-select-none tl-z-24 tl-w-280px tl-font-sans tl-text-xs">
+  <div tabindex="0" class="tl-bg-white tl-shadow-xl tl-rounded tl-border-4 tl-border-solid tl-border-black">
+    <header class="tl-relative tl-cursor-grabbing tl-p-4 tl-flex tl-justify-between tl-text-gray-200 tl-relative"><i class="tl-h-4 tl-w-4 tl-p-1.5 tl-flex tl-items-center tl-line-height-0 tl-rounded-full tl-bg-gray-100 tl-text-xs">🍰</i>
+      <div><i class="i-ic-baseline-drag-indicator"></i><i class="i-ic-baseline-drag-indicator"></i><i class="i-ic-baseline-drag-indicator"></i></div>
+      <div></div>
+    </header>
+    <!--v-if-->
+    <div>
+      <div class="tl-p-2 tl-inline-flex"><button data-v-9a5f9367="" class="leches-btn leches-btn-secondary leches-btn-sm"><i data-v-9a5f9367="" class="mr-1"></i> Accept</button></div>
+    </div>
+  </div>
+</div>"
+`;
+
+exports[`button Controls > should render a small button 1`] = `
+"<div style="left: 704px; top: 10px;" class="tl-absolute tl-select-none tl-z-24 tl-w-280px tl-font-sans tl-text-xs">
+  <div tabindex="0" class="tl-bg-white tl-shadow-xl tl-rounded tl-border-4 tl-border-solid tl-border-black">
+    <header class="tl-relative tl-cursor-grabbing tl-p-4 tl-flex tl-justify-between tl-text-gray-200 tl-relative"><i class="tl-h-4 tl-w-4 tl-p-1.5 tl-flex tl-items-center tl-line-height-0 tl-rounded-full tl-bg-gray-100 tl-text-xs">🍰</i>
+      <div><i class="i-ic-baseline-drag-indicator"></i><i class="i-ic-baseline-drag-indicator"></i><i class="i-ic-baseline-drag-indicator"></i></div>
+      <div></div>
+    </header>
+    <!--v-if-->
+    <div>
+      <div class="tl-p-2 tl-inline-flex"><button data-v-9a5f9367="" class="leches-btn leches-btn-primary leches-btn-sm"><i data-v-9a5f9367="" class="mr-1"></i> Accept</button></div>
+    </div>
+  </div>
+</div>"
+`;
+
+exports[`button Controls > should render an icon on the button 1`] = `
+"<div style="left: 704px; top: 10px;" class="tl-absolute tl-select-none tl-z-24 tl-w-280px tl-font-sans tl-text-xs">
+  <div tabindex="0" class="tl-bg-white tl-shadow-xl tl-rounded tl-border-4 tl-border-solid tl-border-black">
+    <header class="tl-relative tl-cursor-grabbing tl-p-4 tl-flex tl-justify-between tl-text-gray-200 tl-relative"><i class="tl-h-4 tl-w-4 tl-p-1.5 tl-flex tl-items-center tl-line-height-0 tl-rounded-full tl-bg-gray-100 tl-text-xs">🍰</i>
+      <div><i class="i-ic-baseline-drag-indicator"></i><i class="i-ic-baseline-drag-indicator"></i><i class="i-ic-baseline-drag-indicator"></i></div>
+      <div></div>
+    </header>
+    <!--v-if-->
+    <div>
+      <div class="tl-p-2 tl-inline-flex"><button data-v-9a5f9367="" class="leches-btn leches-btn-primary leches-btn-sm"><i data-v-9a5f9367="" class="i-carbon-checkmark mr-1"></i> Accept</button></div>
+    </div>
+  </div>
+</div>"
+`;
