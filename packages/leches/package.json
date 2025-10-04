@@ -45,7 +45,6 @@
     "test:ui": "vitest --ui",
     "test:browser": "BROWSER_TEST=true HEADLESS=true vitest",
     "test:browser:ui": "BROWSER_TEST=true vitest",
-    "release": "release-it",
     "coverage": "vitest run --coverage",
     "lint": "eslint .",
     "docs:dev": "vitepress dev docs",
@@ -64,7 +63,6 @@
   "devDependencies": {
     "@iconify-json/ic": "^1.2.2",
     "@iconify/json": "^2.2.320",
-    "@release-it/conventional-changelog": "^10.0.0",
     "@tresjs/eslint-config": "workspace:*",
     "@typescript-eslint/eslint-plugin": "catalog:",
     "@typescript-eslint/parser": "catalog:",

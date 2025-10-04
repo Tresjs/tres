@@ -35,7 +35,6 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "preview": "eslint-flat-config-viewer",
-    "release": "release-it",
     "build": "tsdown",
     "stub": "tsdown --format esm",
     "watch": "tsdown --watch"

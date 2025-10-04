@@ -54,7 +54,6 @@
     "test": "vitest",
     "test:ci": "vitest run",
     "test:ui": "vitest --ui --coverage.enabled=true",
-    "release": "release-it",
     "coverage": "vitest run --coverage",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
@@ -76,7 +75,6 @@
     "radashi": "^12.6.2"
   },
   "devDependencies": {
-    "@release-it/conventional-changelog": "^10.0.0",
     "@stackblitz/sdk": "^1.11.0",
     "@tresjs/eslint-config": "workspace:*",
     "@tresjs/leches": "1.0.0-next.0",
@@ -96,7 +94,6 @@
     "kolorist": "catalog:",
     "ohmyfetch": "^0.4.21",
     "pathe": "catalog:",
-    "release-it": "catalog:",
     "rollup-plugin-analyzer": "catalog:",
     "rollup-plugin-copy": "^3.5.0",
     "rollup-plugin-visualizer": "catalog:",

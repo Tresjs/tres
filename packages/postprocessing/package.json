@@ -43,7 +43,6 @@
     "playground": "cd playground && npm run dev",
     "build": "vite build",
     "preview": "vite preview",
-    "release": "release-it",
     "lint": "eslint .",
     "typecheck": "vue-tsc --noEmit",
     "lint:fix": "eslint . --fix"
@@ -67,7 +66,6 @@
     "gsap": "catalog:",
     "kolorist": "catalog:",
     "pathe": "catalog:",
-    "release-it": "catalog:",
     "rollup-plugin-analyzer": "catalog:",
     "rollup-plugin-visualizer": "catalog:",
     "three": "catalog:",
