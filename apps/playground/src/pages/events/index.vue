@@ -4,7 +4,6 @@ import { OrbitControls } from '@tresjs/cientos'
 import { TresCanvas, type TresPointerEvent } from '@tresjs/core'
 import { TresLeches } from '@tresjs/leches'
 import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
-import '@tresjs/leches/styles'
 
 const gl = {
   clearColor: '#202020',

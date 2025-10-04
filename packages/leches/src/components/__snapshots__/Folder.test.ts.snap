@@ -1,0 +1,49 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`folder Controls > should render controls within a folder 1`] = `
+"<div class="tresleches-container">
+  <div id="tres-leches-pane-default" class="tl-box-border tl-z-24 tl-bg-white dark:tl-bg-dark-200 tl-shadow-xl tl-p-1 tl-font-sans tl-text-xs tl-flex tl-flex-col tl-rounded-lg tl-relative" >
+    <header class="tl-flex tl-justify-between tl-items-center tl-text-gray-200 dark:tl-text-gray-600 tl-text-xs">
+      <!--v-if-->
+      <!--v-if-->
+      <div class="tl-flex tl-justify-end"><button class="tl-rounded-full tl-inline-flex tl-justify-center tl-items-center tl-p-1.5 tl-bg-gray-100 dark:tl-bg-dark-300 tl-outline-none tl-border-none tl-cursor-pointer"><img src="/src/assets/tresleches-icon.svg" alt="TresLechesIcon" class="tl-w-4 tl-h-4 tl-block" width="16" height="16"></button></div>
+    </header>
+    <div class="tl-flex-1 tl-relative tl-overflow-hidden tl-py-4">
+      <!-- Gradient overlays moved outside scrollable area -->
+      <div class="tl-pointer-events-none tl-absolute tl-left-0 tl-right-0 tl-top-0 tl-h-8 tl-bg-gradient-linear tl-bg-gradient-to-b tl-from-white dark:tl-from-dark-200 tl-to-transparent tl-z-20 tl-opacity-0 tl-transition-opacity duration-200"></div>
+      <div class="tl-pointer-events-none tl-absolute tl-left-0 tl-right-0 tl-bottom-0 tl-h-8 tl-bg-gradient-linear tl-bg-gradient-to-t tl-from-white dark:tl-from-dark-200 tl-to-transparent tl-z-20 tl-opacity-0 tl-transition-opacity duration-200"></div>
+      <div class="tl-h-full tl-overflow-y-auto tl-overflow-x-hidden tl-scrollbar tl-scrollbar-rounded tl-scrollbar-w-4px tl-scrollbar-radius-2 tl-scrollbar-track-radius-4 tl-scrollbar-thumb-radius-4 tl-scrollbar-track-color-gray-100 dark:tl-scrollbar-track-color-dark-300 tl-scrollbar-thumb-color-gray-300 dark:tl-scrollbar-thumb-color-gray-400">
+        <div class="tl-mb-2 tl-transition-all tl-duration-400 tl-ease-in-out"><button class="tl-flex tl-items-center tl-justify-between tl-w-full tl-py-2 tl-px-4 tl-bg-gray-100 dark:tl-bg-dark-300 tl-border-none tl-text-gray-400 dark:tl-text-gray-400 tl-font-bold tl-text-xs tl-font-sans tl-cursor-pointer tl-relative tl-z-10" aria-expanded="false" aria-haspopup="true" role="button" data-folder="camera" tabindex="0"><span>camera</span><i class="i-ic:baseline-keyboard-arrow-down"></i></button>
+          <div class="tl-relative tl-overflow-hidden">
+            <transition-stub name="slide" enteractiveclass="tl-transition-[transform,opacity] tl-duration-200 tl-ease-out" enterfromclass="tl-origin-top tl-scale-y-0 tl-opacity-0" entertoclass="tl-origin-top tl-scale-y-100 tl-opacity-100" leaveactiveclass="tl-transition-[transform,opacity] tl-duration-200 tl-ease-in" leavefromclass="tl-origin-top tl-scale-y-100 tl-opacity-100" leavetoclass="tl-origin-top tl-scale-y-0 tl-opacity-0" appear="false" persisted="true" css="true">
+              <div class="tl-bg-white dark:tl-bg-dark-300 tl-rounded-b tl-pt-4 tl-pb-2" role="menu" style="display: none;">
+                <div role="menuitem">
+                  <div class="tl-flex tl-px-4 tl-gap-1 tl-justify-between tl-items-center tl-mb-2"><label for="default-cameraPosition" title="position" class="tl-text-gray-500 dark:tl-text-gray-400 tl-w-1/3 tl-truncate">position</label>
+                    <div class="tl-relative tl-w-2/3 tl-flex tl-justify-between tl-gap-0.5">
+                      <div class="tl-flex tl-items-center tl-bg-gray-100 dark:tl-bg-dark-300 tl-rounded tl-border-none tl-outline-none tl-focus:tl-border-gray-200 tl-focus:tl-ring tl-focus:tl-ring-gray-200 tl-w-1/3 tl-w-1/2"><span class="tl-font-bold tl-px-1 tl-py-1 tl-text-0.65rem tl-text-gray-300 dark:tl-text-gray-400">x</span><input id="default-cameraPosition-x" type="number" step="1" class="tl-w-full tl-px-0 tl-p-1 tl-text-right tl-text-0.65rem tl-text-gray-400 dark:tl-text-gray-400 tl-bg-transparent focus:tl-border-gray-200 tl-outline-none tl-border-none tl-font-sans tl-appearence-none" value="3.00"></div>
+                      <div class="tl-flex tl-items-center tl-bg-gray-100 dark:tl-bg-dark-300 tl-rounded tl-border-none tl-outline-none tl-focus:tl-border-gray-200 tl-focus:tl-ring tl-focus:tl-ring-gray-200 tl-w-1/3 tl-w-1/2"><span class="tl-font-bold tl-px-1 tl-py-1 tl-text-0.65rem tl-text-gray-300 dark:tl-text-gray-400">y</span><input id="default-cameraPosition-y" type="number" step="1" class="tl-w-full tl-px-0 tl-p-1 tl-text-right tl-text-0.65rem tl-text-gray-400 dark:tl-text-gray-400 tl-bg-transparent focus:tl-border-gray-200 tl-outline-none tl-border-none tl-font-sans tl-appearence-none" value="2.00"></div>
+                      <div class="tl-flex tl-items-center tl-bg-gray-100 dark:tl-bg-dark-300 tl-rounded tl-border-none tl-outline-none tl-focus:tl-border-gray-200 tl-focus:tl-ring tl-focus:tl-ring-gray-200 tl-w-1/3 tl-w-1/2"><span class="tl-font-bold tl-px-1 tl-py-1 tl-text-0.65rem tl-text-gray-300 dark:tl-text-gray-400">z</span><input id="default-cameraPosition-z" type="number" step="1" class="tl-w-full tl-px-0 tl-p-1 tl-text-right tl-text-0.65rem tl-text-gray-400 dark:tl-text-gray-400 tl-bg-transparent focus:tl-border-gray-200 tl-outline-none tl-border-none tl-font-sans tl-appearence-none" value="4.00"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </transition-stub>
+          </div>
+        </div>
+        <!--v-if-->
+        <!--v-if-->
+      </div>
+    </div><!-- Resize handles -->
+    <!-- <span
+        v-if="!isCollapsed"
+        class="tl-absolute tl-right-0 tl-top-0 tl-bottom-0 tl-w-2 hover:tl-w-4 tl-transition-all tl-cursor-ew-resize tl-z-10"
+        @mousedown="e => startResize('right', e)"
+      ></span> --><span class="tl-absolute tl-left-0 tl-right-0 tl-bottom-0 tl-h-2 hover:tl-h-4 tl-transition-all tl-cursor-ns-resize tl-z-10"></span>
+    <!-- <span
+        v-if="!isCollapsed"
+        class="tl-absolute tl-right-0 tl-bottom-0 tl-w-4 tl-h-4 hover:tl-w-6 hover:tl-h-6 tl-transition-all tl-cursor-nwse-resize tl-z-10"
+        @mousedown="e => startResize('corner', e)"
+      ></span> --><span class="tl-absolute tl-left-0 tl-top-0 tl-bottom-0 tl-w-2 hover:tl-w-4 tl-transition-all tl-cursor-ew-resize tl-z-10"></span><span class="tl-absolute tl-left-0 tl-bottom-0 tl-w-4 tl-h-4 hover:tl-w-6 hover:tl-h-6 tl-transition-all tl-cursor-nesw-resize tl-z-10"></span>
+  </div>
+</div>"
+`;

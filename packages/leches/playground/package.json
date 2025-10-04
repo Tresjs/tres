@@ -1,0 +1,30 @@
+{
+  "name": "leches-playground",
+  "type": "module",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "vite --host",
+    "build": "vue-tsc && vite build",
+    "preview": "vite preview"
+  },
+  "peerDependencies": {
+    "three": ">=0.133",
+    "vue": ">=3.3"
+  },
+  "dependencies": {
+    "@tresjs/leches": "workspace:*",
+    "vue": "^3.5.13",
+    "vue-router": "^4.5.0"
+  },
+  "devDependencies": {
+    "@iconify-json/carbon": "^1.2.5",
+    "@tresjs/cientos": "workspace:*",
+    "@tresjs/core": "workspace:*",
+    "@types/three": "catalog:",
+    "three": "catalog:",
+    "unplugin-auto-import": "^0.17.8",
+    "unplugin-vue-components": "^0.25.2",
+    "vite-plugin-qrcode": "^0.2.4"
+  }
+}

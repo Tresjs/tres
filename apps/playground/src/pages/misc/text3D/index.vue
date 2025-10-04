@@ -5,8 +5,6 @@ import { TresLeches, useControls } from '@tresjs/leches'
 import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
 import Text3D from './Text3D.vue'
 
-import '@tresjs/leches/styles'
-
 const gl = {
   clearColor: '#82DBC5',
   shadows: true,

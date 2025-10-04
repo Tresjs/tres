@@ -3,7 +3,6 @@ import { OrbitControls } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
 import { TresLeches, useControls } from '@tresjs/leches'
 import AsyncComponent from './AsyncComponent.vue'
-import '@tresjs/leches/styles'
 
 const ctx = ref(null)
 

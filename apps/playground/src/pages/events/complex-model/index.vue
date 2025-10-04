@@ -6,7 +6,6 @@ import {
 } from '@tresjs/core'
 import { BoxGeometry, Mesh, MeshNormalMaterial } from 'three'
 import { TresLeches, useControls } from '@tresjs/leches'
-import '@tresjs/leches/styles'
 import Character from './Character.vue'
 import ComplexModel from './ComplexModel.vue'
 

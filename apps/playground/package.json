@@ -13,11 +13,11 @@
   "dependencies": {
     "@tresjs/cientos": "workspace:^",
     "@tresjs/core": "workspace:^",
-    "@tresjs/leches": "https://pkg.pr.new/@tresjs/leches@b34e795",
+    "@tresjs/leches": "workspace:^",
     "vue-router": "^4.5.1"
   },
   "devDependencies": {
-    "@tresjs/eslint-config": "^1.4.0",
+    "@tresjs/eslint-config": "workspace:^",
     "@tweakpane/plugin-essentials": "^0.2.1",
     "unplugin-auto-import": "^20.2.0",
     "vite-plugin-glsl": "^1.5.1",

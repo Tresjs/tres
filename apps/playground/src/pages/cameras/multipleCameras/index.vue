@@ -3,7 +3,6 @@ import type { Camera } from 'three'
 import { TresCanvas } from '@tresjs/core'
 import { TresLeches, useControls } from '@tresjs/leches'
 import TheCameraOperator from './TheCameraOperator.vue'
-import '@tresjs/leches/styles'
 
 useControls('fpsgraph')
 

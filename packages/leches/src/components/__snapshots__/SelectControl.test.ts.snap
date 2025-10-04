@@ -1,0 +1,39 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`dropdown Control > should render a select control 1`] = `
+"<div class="tresleches-container">
+  <div id="tres-leches-pane-default" class="tl-box-border tl-z-24 tl-bg-white dark:tl-bg-dark-200 tl-shadow-xl tl-p-1 tl-font-sans tl-text-xs tl-flex tl-flex-col tl-rounded-lg tl-absolute tl-top-4" >
+    <header class="tl-flex tl-justify-between tl-items-center tl-text-gray-200 dark:tl-text-gray-600 tl-text-xs">
+      <div class="w-1/3"></div>
+      <div class="tl-cursor-grabbing w-1/3"><i class="i-ic-baseline-drag-indicator"></i><i class="i-ic-baseline-drag-indicator"></i><i class="i-ic-baseline-drag-indicator"></i></div>
+      <div class="tl-flex tl-justify-end"><button class="tl-rounded-full tl-inline-flex tl-justify-center tl-items-center tl-p-1.5 tl-bg-gray-100 dark:tl-bg-dark-300 tl-outline-none tl-border-none tl-cursor-pointer"><img src="/src/assets/tresleches-icon.svg" alt="TresLechesIcon" class="tl-w-4 tl-h-4 tl-block" width="16" height="16"></button></div>
+    </header>
+    <div class="tl-flex-1 tl-relative tl-overflow-hidden tl-py-4">
+      <!-- Gradient overlays moved outside scrollable area -->
+      <div class="tl-pointer-events-none tl-absolute tl-left-0 tl-right-0 tl-top-0 tl-h-8 tl-bg-gradient-linear tl-bg-gradient-to-b tl-from-white dark:tl-from-dark-200 tl-to-transparent tl-z-20 tl-opacity-0 tl-transition-opacity duration-200"></div>
+      <div class="tl-pointer-events-none tl-absolute tl-left-0 tl-right-0 tl-bottom-0 tl-h-8 tl-bg-gradient-linear tl-bg-gradient-to-t tl-from-white dark:tl-from-dark-200 tl-to-transparent tl-z-20 tl-opacity-0 tl-transition-opacity duration-200"></div>
+      <div class="tl-h-full tl-overflow-y-auto tl-overflow-x-hidden tl-scrollbar tl-scrollbar-rounded tl-scrollbar-w-4px tl-scrollbar-radius-2 tl-scrollbar-track-radius-4 tl-scrollbar-thumb-radius-4 tl-scrollbar-track-color-gray-100 dark:tl-scrollbar-track-color-dark-300 tl-scrollbar-thumb-color-gray-300 dark:tl-scrollbar-thumb-color-gray-400">
+        <!--v-if-->
+        <div>
+          <div class="tl-flex tl-px-4 tl-gap-1 tl-justify-start tl-items-center tl-mb-2 tl-min-h-40px"><label for="default-game" title="Games" class="tl-text-gray-500 dark:tl-text-gray-400 tl-w-1/3 tl-truncate">Games</label><select id="default-game" class="tl-leches-input tl-w-2/3" value="crash-bandicoot">
+              <option value="crash-bandicoot">Crash Bandicoot</option>
+              <option value="spyro-the-dragon">Spyro The Dragon</option>
+              <option value="metal-gear-solid">Metal Gear Solid</option>
+            </select></div>
+        </div>
+        <!--v-if-->
+      </div>
+    </div><!-- Resize handles -->
+    <!-- <span
+        v-if="!isCollapsed"
+        class="tl-absolute tl-right-0 tl-top-0 tl-bottom-0 tl-w-2 hover:tl-w-4 tl-transition-all tl-cursor-ew-resize tl-z-10"
+        @mousedown="e => startResize('right', e)"
+      ></span> --><span class="tl-absolute tl-left-0 tl-right-0 tl-bottom-0 tl-h-2 hover:tl-h-4 tl-transition-all tl-cursor-ns-resize tl-z-10"></span>
+    <!-- <span
+        v-if="!isCollapsed"
+        class="tl-absolute tl-right-0 tl-bottom-0 tl-w-4 tl-h-4 hover:tl-w-6 hover:tl-h-6 tl-transition-all tl-cursor-nwse-resize tl-z-10"
+        @mousedown="e => startResize('corner', e)"
+      ></span> --><span class="tl-absolute tl-left-0 tl-top-0 tl-bottom-0 tl-w-2 hover:tl-w-4 tl-transition-all tl-cursor-ew-resize tl-z-10"></span><span class="tl-absolute tl-left-0 tl-bottom-0 tl-w-4 tl-h-4 hover:tl-w-6 hover:tl-h-6 tl-transition-all tl-cursor-nesw-resize tl-z-10"></span>
+  </div>
+</div>"
+`;

@@ -1,0 +1,23 @@
+{
+  "name": "postprocessing-playground",
+  "type": "module",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "vite --host",
+    "build": "vue-tsc && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@tresjs/cientos": "workspace:*",
+    "@tresjs/core": "workspace:*",
+    "@tresjs/post-processing": "workspace:*",
+    "vue-router": "^4.5.0"
+  },
+  "devDependencies": {
+    "@types/three": "^0.172.0",
+    "unplugin-auto-import": "^19.0.0",
+    "unplugin-vue-components": "^28.0.0",
+    "vite-plugin-qrcode": "^0.2.4"
+  }
+}

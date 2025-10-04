@@ -235,9 +235,11 @@ const axisLabels = computed(() => {
         <line
           v-if="config.showAxes[0]"
           :x1="config.padding"
-          :y1="transformPoint({ x: 0, y: 0 }).y"
+          :y1="transformPoint({ x: 0,
+                                y: 0 }).y"
           :x2="width - config.padding"
-          :y2="transformPoint({ x: 0, y: 0 }).y"
+          :y2="transformPoint({ x: 0,
+                                y: 0 }).y"
           :stroke="config.axisColor"
           stroke-width="2"
         />
@@ -245,9 +247,11 @@ const axisLabels = computed(() => {
         <!-- Y axis (x=0 line) -->
         <line
           v-if="config.showAxes[1]"
-          :x1="transformPoint({ x: 0, y: 0 }).x"
+          :x1="transformPoint({ x: 0,
+                                y: 0 }).x"
           :y1="config.padding"
-          :x2="transformPoint({ x: 0, y: 0 }).x"
+          :x2="transformPoint({ x: 0,
+                                y: 0 }).x"
           :y2="height - config.padding"
           :stroke="config.axisColor"
           stroke-width="2"

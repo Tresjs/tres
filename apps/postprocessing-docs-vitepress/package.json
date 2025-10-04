@@ -1,0 +1,24 @@
+{
+  "name": "postprocessing-docs-vitepress",
+  "type": "module",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "vitepress dev",
+    "build": "vitepress build",
+    "preview": "vitepress preview"
+  },
+  "dependencies": {
+    "@tresjs/cientos": "workspace:*",
+    "@tresjs/core": "workspace:*",
+    "@tresjs/post-processing": "workspace:*",
+    "@tresjs/leches": "1.0.0-next.0",
+    "gsap": "catalog:"
+  },
+  "devDependencies": {
+    "unocss": "catalog:",
+    "unplugin-vue-components": "^28.0.0",
+    "vite-svg-loader": "^5.1.0",
+    "vitepress": "catalog:"
+  }
+}

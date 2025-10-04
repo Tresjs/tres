@@ -4,7 +4,6 @@ import { TresCanvas } from '@tresjs/core'
 import { TresLeches, useControls } from '@tresjs/leches'
 import { ref, watchEffect } from 'vue'
 import TheSphere from './TheSphere.vue'
-import '@tresjs/leches/styles'
 
 const gl = {
   clearColor: '#82DBC5',

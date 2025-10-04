@@ -48,7 +48,6 @@
     "dev": "cd playground/vue && pnpm dev",
     "dev:nuxt": "cd playground/nuxt && pnpm dev",
     "build": "vite build",
-    "release": "release-it",
     "lint": "eslint .",
     "typecheck": "vue-tsc --noEmit",
     "lint:fix": "eslint . --fix",
@@ -70,7 +69,6 @@
     "three-stdlib": "catalog:"
   },
   "devDependencies": {
-    "@release-it/conventional-changelog": "^10.0.1",
     "@tresjs/core": "workspace:*",
     "@tresjs/eslint-config": "workspace:*",
     "@types/node": "^24.3.0",
@@ -83,7 +81,6 @@
     "gsap": "catalog:",
     "kolorist": "catalog:",
     "pathe": "catalog:",
-    "release-it": "catalog:",
     "rollup-plugin-analyzer": "catalog:",
     "rollup-plugin-visualizer": "catalog:",
     "three": "catalog:",

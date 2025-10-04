@@ -7,7 +7,6 @@ import {
   NoToneMapping,
   SRGBColorSpace,
 } from 'three'
-import '@tresjs/leches/styles'
 
 const gl = {
   clearColor: '#82DBC5',

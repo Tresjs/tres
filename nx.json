@@ -29,10 +29,10 @@
       "releaseTagPattern": "{projectName}@{version}",
       "groups": {
         "core": {
-          "projects": ["@tresjs/core", "@tresjs/cientos"]
+          "projects": ["@tresjs/core", "@tresjs/cientos", "@tresjs/post-processing", "@tresjs/nuxt"]
         },
         "tooling": {
-          "projects": ["@tresjs/eslint-config"]
+          "projects": ["@tresjs/eslint-config", "@tresjs/leches"]
         }
       },
       "version": {

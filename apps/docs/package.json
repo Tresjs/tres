@@ -20,7 +20,7 @@
     "@nuxt/image": "^1.11.0",
     "@nuxt/scripts": "0.12.1",
     "@nuxt/ui-pro": "^3.3.5",
-    "@tresjs/cientos": "5.0.0",
+    "@tresjs/cientos": "workspace:^",
     "@tresjs/core": "workspace:^",
     "@unhead/vue": "^2.0.17",
     "better-sqlite3": "^12.4.1",
@@ -31,9 +31,10 @@
     "vue-router": "^4.5.1"
   },
   "devDependencies": {
+    "@tresjs/eslint-config": "workspace:*",
     "@tweakpane/core": "^2.0.5",
-    "eslint": "^9.36.0",
-    "typescript": "^5.9.2",
-    "vue-tsc": "^3.0.8"
+    "eslint": "catalog:",
+    "typescript": "catalog:",
+    "vue-tsc": "catalog:"
   }
 }

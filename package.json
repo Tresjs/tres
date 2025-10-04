@@ -26,7 +26,6 @@
     "lint:fix": "nx run-many --target=lint --fix",
     "typecheck": "nx run-many --target=typecheck",
     "test": "nx run-many --target=test",
-    "release": "release-it",
     "monocubo": "node tools/monocubo/dist/index.js"
   },
   "workspaces": [

@@ -89,7 +89,9 @@ const version = useRuntimeConfig().public.pkgVersion
           v-for="(link, index) of header.links"
           :key="index"
           class="hidden md:flex"
-          v-bind="{ color: 'neutral', variant: 'ghost', ...link }"
+          v-bind="{ color: 'neutral',
+                    variant: 'ghost',
+                    ...link }"
         />
       </template>
     </template>
