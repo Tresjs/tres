@@ -148,7 +148,11 @@ onUnmounted(() => {
       Start plain Vue/THREE test
     </button>
   </OverlayInfo>
-  <div v-if="showTres" :style="{ width: `${width}px`, height: `${height}px` }">
+  <div
+    v-if="showTres"
+    :style="{ width: `${width}px`,
+              height: `${height}px` }"
+  >
     <TresCanvas clear-color="#EEE">
       <TresGroup ref="r">
         <TresMesh v-for="_, i of Array.from({ length: numObjectsMax })" :key="i">
