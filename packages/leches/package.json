@@ -79,7 +79,6 @@
     "eslint-plugin-vue": "catalog:",
     "kolorist": "catalog:",
     "pathe": "catalog:",
-    "release-it": "catalog:",
     "rollup-plugin-analyzer": "catalog:",
     "rollup-plugin-visualizer": "catalog:",
     "typescript": "catalog:",
