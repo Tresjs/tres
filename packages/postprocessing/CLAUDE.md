@@ -50,7 +50,7 @@ Both pmndrs and three implementations include composables for effect management 
 
 ```vue
 <script setup lang="ts">
-import { EffectComposerPmndrs, BloomPmndrs } from '@tresjs/post-processing'
+import { BloomPmndrs, EffectComposerPmndrs } from '@tresjs/post-processing'
 </script>
 
 <template>
