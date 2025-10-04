@@ -1,3 +1,7 @@
+## 1.4.1 (2025-10-04)
+
+This was a version bump only for @tresjs/eslint-config to align it with other projects, there were no code changes.
+
 # Changelog
 
 ## [1.4.0](https://github.com/Tresjs/eslint-config/compare/1.3.2...1.4.0) (2024-10-01)

@@ -1,3 +1,10 @@
+## 5.0.1 (2025-10-04)
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/core to 5.0.3
+- Updated @tresjs/eslint-config to 1.4.1
+
 # Changelog
 
 ## [5.0.0](https://github.com/Tresjs/cientos/compare/4.3.1...5.0.0) (2025-09-20)

@@ -1,7 +1,7 @@
 {
   "name": "@tresjs/cientos",
   "type": "module",
-  "version": "5.0.0",
+  "version": "5.0.1",
   "packageManager": "pnpm@10.17.0",
   "description": "Collection of useful helpers and fully functional, ready-made abstractions for Tres",
   "author": "Alvaro Saburido <hola@alvarosaburido.dev> (https://github.com/alvarosabu/)",
@@ -56,7 +56,7 @@
     "docs:preview": "vitepress preview docs"
   },
   "peerDependencies": {
-    "@tresjs/core": ">=5.0.0",
+    "@tresjs/core": "5.0.3",
     "three": ">=0.133",
     "vue": ">=3.5.17"
   },
