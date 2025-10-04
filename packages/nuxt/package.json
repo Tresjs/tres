@@ -1,7 +1,7 @@
 {
   "name": "@tresjs/nuxt",
   "type": "module",
-  "version": "5.0.2",
+  "version": "5.0.1",
   "packageManager": "pnpm@10.6.3",
   "description": "TresJS integration for Nuxt.",
   "author": "Daniel Roe (https://github.com/danielroe/)",
@@ -70,7 +70,7 @@
     "@nuxt/test-utils": "^3.19.2",
     "@nuxt/ui-pro": "^3.3.4",
     "@tresjs/cientos": "workspace:*",
-    "@tresjs/leches": "1.0.0",
+    "@tresjs/leches": "1.0.0-next.0",
     "@types/node": "^24.5.2",
     "@types/three": "catalog:",
     "@vueuse/nuxt": "13.9.0",
