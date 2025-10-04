@@ -77,7 +77,7 @@
   "devDependencies": {
     "@stackblitz/sdk": "^1.11.0",
     "@tresjs/eslint-config": "workspace:*",
-    "@tresjs/leches": "1.0.0",
+    "@tresjs/leches": "workspace:*",
     "@types/three": "catalog:",
     "@typescript-eslint/eslint-plugin": "catalog:",
     "@typescript-eslint/parser": "catalog:",
