@@ -36,11 +36,7 @@ const shakedProps = computed(() =>
   ),
 )
 
-const { pass } = useEffect(() => new HalftonePass(
-  sizes.width.value,
-  sizes.height.value,
-  shakedProps.value,
-), props)
+const { pass } = useEffect(() => new HalftonePass(shakedProps.value), props)
 
 defineExpose({ pass })
 

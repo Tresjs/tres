@@ -60,7 +60,7 @@
   "devDependencies": {
     "@tresjs/core": "workspace:*",
     "@tresjs/eslint-config": "workspace:*",
-    "@tresjs/leches": "1.0.0-next.0",
+    "@tresjs/leches": "workspace:*",
     "@types/three": "catalog:",
     "@vitejs/plugin-vue": "catalog:",
     "eslint": "catalog:",

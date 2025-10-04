@@ -20,7 +20,7 @@ const { pixelRatio } = useDevicePixelRatio() // the renderers pixel ratio is not
 const width = computed(() => props.width ?? sizes.width.value * pixelRatio.value)
 const height = computed(() => props.height ?? sizes.height.value * pixelRatio.value)
 
-const { pass } = useEffect(() => new SMAAPass(width.value, height.value), props)
+const { pass } = useEffect(() => new SMAAPass(), props)
 
 defineExpose({ pass })
 
