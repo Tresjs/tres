@@ -10,6 +10,8 @@ TresJS is a Vue-based declarative 3D rendering library built on top of Three.js.
 
 - **@tresjs/core** (`packages/core`): The core library implementing the Vue custom renderer for Three.js
 - **@tresjs/cientos** (`packages/cientos`): Collection of helpers and abstractions (controls, loaders, staging, materials, shapes)
+- **@tresjs/post-processing** (`packages/postprocessing`): Post-processing effects library built on pmndrs/postprocessing
+- **@tresjs/leches** (`packages/leches`): Tasty GUI for Vue controls 🍰
 - **@tresjs/eslint-config** (`packages/eslint-config`): Shared ESLint configuration for the ecosystem
 - **@tresjs/nuxt** (`packages/nuxt`): Nuxt module integration
 
@@ -28,6 +30,8 @@ Package and app-specific details are in their respective CLAUDE.md files:
 **Packages:**
 - **@tresjs/core**: [packages/core/CLAUDE.md](packages/core/CLAUDE.md)
 - **@tresjs/cientos**: [packages/cientos/CLAUDE.md](packages/cientos/CLAUDE.md)
+- **@tresjs/post-processing**: [packages/postprocessing/CLAUDE.md](packages/postprocessing/CLAUDE.md)
+- **@tresjs/leches**: [packages/leches/CLAUDE.md](packages/leches/CLAUDE.md)
 - **@tresjs/nuxt**: [packages/nuxt/CLAUDE.md](packages/nuxt/CLAUDE.md)
 - **@tresjs/eslint-config**: [packages/eslint-config/CLAUDE.md](packages/eslint-config/CLAUDE.md)
 
