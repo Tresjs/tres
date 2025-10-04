@@ -4,7 +4,6 @@ import type { ShadowMapType, ToneMapping } from 'three'
 import { ACESFilmicToneMapping, AgXToneMapping, BasicShadowMap, CineonToneMapping, LinearToneMapping, NeutralToneMapping, NoToneMapping, PCFShadowMap, PCFSoftShadowMap, ReinhardToneMapping, VSMShadowMap } from 'three'
 import { OrbitControls } from '@tresjs/cientos'
 import { TresLeches, useControls } from '@tresjs/leches'
-import '@tresjs/leches/styles'
 
 const { clearColor, clearAlpha, toneMapping, shadows, shadowMapType } = useControls({
   clearColor: '#82DBC5',

@@ -8,7 +8,6 @@ import { ref } from 'vue'
 import { EffectComposerPmndrs, FXAAPmndrs } from '@tresjs/post-processing'
 import type { PerspectiveCamera } from 'three'
 
-
 const gl = {
   antialias: false,
   clearColor: '#2e3440',

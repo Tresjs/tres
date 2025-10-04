@@ -93,7 +93,11 @@ defineExpose({
 <template>
   <TresReflector
     ref="reflectorRef"
-    :args="[undefined, { textureWidth, textureHeight, clipBias, multisample, shader }]"
+    :args="[undefined, { textureWidth,
+                         textureHeight,
+                         clipBias,
+                         multisample,
+                         shader }]"
     :material-uniforms-color-value="color"
   >
     <slot>

@@ -75,7 +75,8 @@ onUnmounted(() => {
         :src="svgTriangleString"
         :skip-fills="skipFillsA"
         :position="[-200, 0, 0]"
-        :fill-material="{ transparent: true, opacity: 0.8 }"
+        :fill-material="{ transparent: true,
+                          opacity: 0.8 }"
       />
 
       <!-- Square SVG with animated skip-fills -->
@@ -84,7 +85,8 @@ onUnmounted(() => {
         :src="svgSquareString"
         :skip-fills="skipFillsB"
         :position="[0, 200, 0]"
-        :stroke-material="{ transparent: true, opacity: 0.9 }"
+        :stroke-material="{ transparent: true,
+                            opacity: 0.9 }"
       />
 
       <!-- Heart SVG from URL with animated skip-fills -->
@@ -93,7 +95,9 @@ onUnmounted(() => {
         :src="svgHeartURL"
         :skip-fills="skipFillsC"
         :position="[200, -4, 0]"
-        :fill-material="{ color: '#ff6b6b', transparent: true, opacity: 0.7 }"
+        :fill-material="{ color: '#ff6b6b',
+                          transparent: true,
+                          opacity: 0.7 }"
         depth="offsetZ"
       />
 
@@ -103,7 +107,9 @@ onUnmounted(() => {
         :src="svgHeartURL"
         :skip-fills="skipFillsC"
         :position="[200, -80, 0]"
-        :fill-material="{ color: '#4ecdc4', transparent: true, opacity: 0.7 }"
+        :fill-material="{ color: '#4ecdc4',
+                          transparent: true,
+                          opacity: 0.7 }"
         depth="renderOrder"
       />
     </TresGroup>

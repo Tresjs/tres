@@ -5,7 +5,6 @@ import { TresLeches, useControls } from '@tresjs/leches'
 import { EffectComposerPmndrs, LensDistortionPmndrs } from '@tresjs/post-processing'
 import { NoToneMapping, Vector2 } from 'three'
 
-
 const gl = {
   toneMapping: NoToneMapping,
 }

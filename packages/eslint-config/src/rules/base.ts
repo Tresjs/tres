@@ -30,6 +30,9 @@ const baseConfig = [
         },
       }],
       'vue/attribute-hyphenation': 'off',
+      'vue/object-property-newline': ['error', {
+        allowAllPropertiesOnSameLine: false,
+      }],
     },
   },
 ]

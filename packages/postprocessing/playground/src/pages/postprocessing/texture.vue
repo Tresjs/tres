@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { ContactShadows, Environment, OrbitControls } from '@tresjs/cientos'
+import { ContactShadows, Environment, OrbitControls, useTexture } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
-import { useTexture } from '@tresjs/cientos'
 import { TresLeches, useControls } from '@tresjs/leches'
 import { NoToneMapping, RepeatWrapping, SRGBColorSpace } from 'three'
 import { BlendFunction } from 'postprocessing'
@@ -10,7 +9,6 @@ import { EffectComposerPmndrs, TexturePmndrs } from '@tresjs/post-processing'
 import type { Ref } from 'vue'
 import type { EffectPass, TextureEffect } from 'postprocessing'
 
-
 const gl = {
   clearColor: '#ffffff',
   toneMapping: NoToneMapping,
@@ -18,7 +16,7 @@ const gl = {
 
 const textureEffectRef: Ref<{ pass: EffectPass, effect: TextureEffect } | null> = ref(null)
 
-const {state: texture } =  useTexture('https://raw.githubusercontent.com/Tresjs/assets/main/textures/dirt/color.jpg')
+const { state: texture } = useTexture('https://raw.githubusercontent.com/Tresjs/assets/main/textures/dirt/color.jpg')
 
 watch(texture, (newTexture) => {
   newTexture.colorSpace = SRGBColorSpace

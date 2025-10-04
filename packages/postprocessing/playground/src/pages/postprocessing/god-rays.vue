@@ -7,7 +7,6 @@ import { BlendFunction, KernelSize, Resolution } from 'postprocessing'
 import { EffectComposerPmndrs, GodRaysPmndrs } from '@tresjs/post-processing'
 import { shallowRef } from 'vue'
 
-
 const gl = {
   clearColor: 'blue',
   toneMapping: NoToneMapping,

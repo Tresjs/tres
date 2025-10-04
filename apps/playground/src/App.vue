@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { watch } from 'vue'
 import { useRoute } from 'vue-router'
-import '@tresjs/leches/styles'
 
 const route = useRoute()
 function setBodyClass(routeName: string) {

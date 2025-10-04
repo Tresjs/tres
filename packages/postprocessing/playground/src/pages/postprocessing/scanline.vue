@@ -6,7 +6,6 @@ import { NoToneMapping } from 'three'
 import { BlendFunction } from 'postprocessing'
 import { EffectComposerPmndrs, ScanlinePmndrs } from '@tresjs/post-processing'
 
-
 const gl = {
   clearColor: '#4f4f4f',
   toneMapping: NoToneMapping,

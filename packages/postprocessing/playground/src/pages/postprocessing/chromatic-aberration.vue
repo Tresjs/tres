@@ -7,7 +7,6 @@ import { watchEffect } from 'vue'
 import { BlendFunction } from 'postprocessing'
 import { ChromaticAberrationPmndrs, EffectComposerPmndrs } from '@tresjs/post-processing'
 
-
 // TODO: Adapt watchEffect to useControls for visibility of modulationOffset
 
 const gl = {

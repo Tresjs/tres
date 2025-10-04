@@ -6,7 +6,6 @@ import { EffectComposerPmndrs, TiltShiftPmndrs } from '@tresjs/post-processing'
 import { BlendFunction, KernelSize, Resolution } from 'postprocessing'
 import { NoToneMapping } from 'three'
 
-
 const gl = {
   toneMapping: NoToneMapping,
 }

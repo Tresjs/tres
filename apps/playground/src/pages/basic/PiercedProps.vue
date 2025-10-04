@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
 import { TresLeches } from '@tresjs/leches'
-import '@tresjs/leches/styles'
 import { shallowRef } from 'vue'
 
 const x = shallowRef(1)

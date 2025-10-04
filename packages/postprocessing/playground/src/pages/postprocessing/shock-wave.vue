@@ -7,7 +7,6 @@ import { DepthPickingPassPmndrs, EffectComposerPmndrs, ShockWavePmndrs } from '@
 import { useMouse, useWindowSize } from '@vueuse/core'
 import { computed, ref } from 'vue'
 
-
 const gl = {
   clearColor: '#ffffff',
   toneMapping: NoToneMapping,

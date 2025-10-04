@@ -2,7 +2,6 @@
 import { OrbitControls } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
 import FBOCube from './FBOCube.vue'
-import '@tresjs/leches/styles'
 
 const groupRef = ref()
 

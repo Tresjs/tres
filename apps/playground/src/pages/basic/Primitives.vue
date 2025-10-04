@@ -15,7 +15,6 @@ import {
   TorusKnotGeometry,
 } from 'three'
 import { ref, watchEffect } from 'vue'
-import '@tresjs/leches/styles'
 
 const gl = {
   clearColor: '#82DBC5',
