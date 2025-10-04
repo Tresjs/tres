@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 import { useMouse } from '@vueuse/core'
-import type { Control } from '../types'
+import type { LechesNumberControl } from '../types'
 import ControlLabel from './ControlLabel.vue'
 
 const props = defineProps<{
   label: string
-  control: Control
+  control: LechesNumberControl
 }>()
 
 const emit = defineEmits(['change'])
@@ -57,7 +57,7 @@ watch(mouse.x, (newValue) => {
 </script>
 
 <template>
-  <div class="tl-flex tl-px-4 tl-justify-between tl-gap-4 tl-items-center tl-mb-2">
+  <div class="tl-flex tl-px-4 tl-gap-1 tl-justify-between  tl-items-center tl-mb-2">
     <ControlLabel
       :label="label"
       :control="control"
@@ -65,19 +65,7 @@ watch(mouse.x, (newValue) => {
     <input
       :id="control.uniqueKey"
       :value="control.value"
-      class="
-        tl-p-2
-        tl-w-1/3
-        tl-rounded
-        tl-text-right
-        tl-text-xs
-        tl-text-gray-400
-        tl-bg-gray-100
-        tl-focus:border-gray-200
-        tl-outline-none
-        tl-border-none
-        tl-font-sans
-      "
+      class="tl-leches-input tl-w-2/3"
       type="number"
       :class="{ 'tl-cursor-ew-resize': isMouseDown }"
       :min="control.min"

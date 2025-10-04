@@ -1,5 +1,5 @@
 import { createApp } from 'vue'
-import '@tresjs/leches/styles'
+/* import '@leches/styles' */
 import './style.css'
 import App from './App.vue'
 import { router } from './router'

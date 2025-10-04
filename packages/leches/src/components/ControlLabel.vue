@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import type { Control } from '../types'
+import type { LechesControl } from '../types'
 
 defineProps<{
   label: string
-  control: Control
+  control: LechesControl
 }>()
 </script>
 
@@ -11,7 +11,7 @@ defineProps<{
   <label
     :for="control.uniqueKey"
     :title="label"
-    class="tl-text-gray-500 tl-w-1/3 tl-truncate"
+    class="tl-text-gray-500 dark:tl-text-gray-400 tl-w-1/3 tl-truncate"
   >
     <i
       v-if="control.icon"

@@ -23,7 +23,7 @@ describe('dropdown Control', async () => {
   beforeEach(() => {
     dispose()
     mountComponent(() => {
-      const { value: game, visible } = useControls({
+      const { game } = useControls({
         game: {
           label: 'Games',
           options: [
@@ -36,12 +36,11 @@ describe('dropdown Control', async () => {
       })
       return {
         game,
-        visible,
       }
     })
   })
   it('should render a select control', async () => {
-    expect(wrapper.html()).toMatchSnapshot()
+    expect(wrapper.html().replace(/style="[^"]*"/, '')).toMatchSnapshot()
     expect(wrapper.find('select').exists())
   })
   it('should render a select control with a label', async () => {
@@ -58,21 +57,10 @@ describe('dropdown Control', async () => {
 
     expect(wrapper.vm.game).toBe('spyro-the-dragon')
   })
-  it('should hide the control when the visible property is toggled', async () => {
-    wrapper.vm.visible = false
-    await nextTick()
-    expect(wrapper.find('select').exists()).toBe(false)
-  })
-  it('should show the control by default', async () => {
-    const input = wrapper.find('select')
-    expect(input.exists()).toBe(true)
-
-    expect(wrapper.vm.visible).toBe(true)
-  })
   it('should not show the control if the visibility is initially false', async () => {
     dispose()
     mountComponent(() => {
-      const { value: game, visible } = useControls({
+      const { game } = useControls({
         game: {
           label: 'Games',
           options: [
@@ -86,18 +74,15 @@ describe('dropdown Control', async () => {
       })
       return {
         game,
-        visible,
       }
     })
     const input = wrapper.find('select')
     expect(input.exists()).toBe(false)
-
-    expect(wrapper.vm.visible).toBe(false)
   })
   it('should render an icon instead of a label', () => {
     dispose()
     mountComponent(() => {
-      const { visible } = useControls({
+      useControls({
         test: {
           label: 'Games',
           options: [
@@ -109,7 +94,6 @@ describe('dropdown Control', async () => {
           icon: 'i-carbon-checkmark',
         },
       })
-      return { visible }
     })
     const icon = wrapper.find('i.i-carbon-checkmark')
     expect(icon.exists()).toBe(true)

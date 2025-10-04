@@ -1,47 +1,43 @@
 <script setup lang="ts">
-import type { Control } from '../types'
+import type { LechesControl, LechesSelectOption } from '../types'
 import ControlLabel from './ControlLabel.vue'
 
-defineProps<{
+const props = defineProps<{
   label: string
-  control: Control
+  control: LechesControl
 }>()
 
 const emit = defineEmits(['change'])
 
 function onChange(event: Event) {
-  emit('change', (event.target as HTMLSelectElement).value)
+  const selectedValue = (event.target as HTMLSelectElement).value
+
+  // Find the matching option to preserve the original type
+  const selectedOption = props.control.options?.find((option: LechesSelectOption) =>
+    String(option.value) === selectedValue,
+  )
+
+  // Use the original value with its correct type
+  emit('change', selectedOption?.value ?? selectedValue)
 }
 </script>
 
 <template>
-  <div class="tl-flex tl-px-4 tl-justify-between tl-gap-4 tl-items-center tl-mb-2 tl-min-h-32px">
+  <div class="tl-flex tl-px-4 tl-gap-1 tl-justify-start tl-items-center tl-mb-2 tl-min-h-40px">
     <ControlLabel
       :label="label"
       :control="control"
     />
     <select
       :id="control.uniqueKey"
-      :value="control.value"
-      class="
-        tl-p-2
-        tl-w-2/3
-        tl-rounded
-        tl-text-left
-        tl-text-xs
-        tl-text-gray-400
-        tl-bg-gray-100
-        focus:tl-border-gray-200
-        tl-outline-none
-        tl-border-none
-        tl-font-sans
-      "
+      :value="String(control.value)"
+      class="tl-leches-input tl-w-2/3"
       @change="onChange"
     >
       <option
         v-for="option in control.options"
-        :key="option.value"
-        :value="option.value"
+        :key="String(option.value)"
+        :value="String(option.value)"
       >
         {{ option.text }}
       </option>

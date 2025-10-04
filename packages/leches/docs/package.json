@@ -10,10 +10,11 @@
   },
   "dependencies": {
     "@tresjs/leches": "workspace:*",
-    "three": "^0.158.0"
+    "three": "^0.178.0"
   },
   "devDependencies": {
-    "@iconify-json/carbon": "^1.2.5",
-    "unocss": "^0.57.7"
+    "@iconify-json/carbon": "^1.2.10",
+    "unocss": "^66.3.2",
+    "vitepress-plugin-group-icons": "^1.6.1"
   }
 }

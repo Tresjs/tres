@@ -93,6 +93,16 @@
   --vp-button-brand-active-bg: var(--vp-c-brand-1);
 }
 
+.dark {
+  --vp-home-hero-name-color: var(--vp-c-white);
+  --vp-code-color: var(--vp-c-light-1);
+  --vp-c-brand-1: var(--vp-c-white);
+  --vp-c-brand-2: var(--vp-c-white);
+  --vp-c-brand-3: var(--vp-c-white);
+  --vp-brand-text: var(--vp-c-dark-1);
+  --vp-button-brand-text: var(--vp-c-dark-1);
+}
+
 .VPButton.outline {
   --vp-button-brand-border: var(--vp-c-brand-3);
   --vp-button-brand-text: var(--vp-c-brand-3);
@@ -121,9 +131,7 @@
  * -------------------------------------------------------------------------- */
 
 .box {
-  border: 2px solid var(--vp-c-dark-2);
   border-radius: 8px;
-  background-color: var(--vp-c-white);
 }
 
 /**

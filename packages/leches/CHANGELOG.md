@@ -1,5 +1,59 @@
 # Changelog
 
+## [1.0.0-next.0](https://github.com/Tresjs/leches/compare/0.14.1...1.0.0-next.0) (2025-07-04)
+
+### ⚠ BREAKING CHANGES
+
+* styles are now auto injected
+* `useControls` with folders now return properties prefixed with the folder name, a folder camera with a control position will return a ref `cameraPosition`
+* select options values
+* Now composable returns an object containing only each control value. When using multiple controls at the same time, you can access `controlName.value` directly instead of `controlName.value.value`
+
+- Refactor `useControls` to return object with control values as refs
+- Updated tests and remove visibility testing.
+
+### Features
+
+* add ButtonControl demo and enhance button functionality ([b42cfa8](https://github.com/Tresjs/leches/commit/b42cfa845929a26dc2e568bb5e1ec973d2e7fca9))
+* add DemoLayout component and UnoCSS shortcuts for consistent demo styling ([e3035bf](https://github.com/Tresjs/leches/commit/e3035bfb0d1d7eab57651426a427cec3e90455b9))
+* add gap spacing to control components ([ca9d418](https://github.com/Tresjs/leches/commit/ca9d418fd0471cc22c83166fc5df8bbbef35ea54))
+* add graph pane type and corresponding demo component ([a22e6d6](https://github.com/Tresjs/leches/commit/a22e6d6d908082d6b86156a9d20ef0a634279499))
+* add new icon and enhance component functionality ([9ec3c85](https://github.com/Tresjs/leches/commit/9ec3c852c58bb255cf5302267bde02611ea7907b))
+* add slot content support to TresLeches panele ([2071202](https://github.com/Tresjs/leches/commit/2071202a036c5f3e646ab6e1963fe83ce6c9af35))
+* add stacked mode for TresLeches component ([c297c82](https://github.com/Tresjs/leches/commit/c297c82156e72e24ab8cee60364f2e90392d5b4b))
+* add unocss-preset-scrollbar and update component styles ([1f27a69](https://github.com/Tresjs/leches/commit/1f27a6937cbffb4ec8feeca54f6885ac2f4f955d))
+* enhance component styles and dark mode support ([eb41769](https://github.com/Tresjs/leches/commit/eb4176942b89c6d9876bdcbcdeda1987307ad61b))
+* enhance control components with new features and optimizations ([0062fe1](https://github.com/Tresjs/leches/commit/0062fe1409cbd930b45e7c7f4efbe5a8d785125b))
+* enhance NumberControl and TresLeches components for improved layout and functionality ([3092a7f](https://github.com/Tresjs/leches/commit/3092a7f51900d337e0a669055081a7a372040d0f))
+* folder drawer animations ([f5926fc](https://github.com/Tresjs/leches/commit/f5926fc246bbe3bb1ddb7257db28b3cb928037e6))
+* increase default width of TresLeches panel to 320px ([ad3f472](https://github.com/Tresjs/leches/commit/ad3f47228b2b57eb960ccc131618679ac96c27c0))
+* increase panel size on folder open ([22e73a4](https://github.com/Tresjs/leches/commit/22e73a462f5ddfd82058889c62e1ffdf36227200))
+* resizable and collapsable pane ([2720225](https://github.com/Tresjs/leches/commit/27202255f62b201fc297fe717a68773be2dc18fb))
+* simplified `useControls` API ([742c8af](https://github.com/Tresjs/leches/commit/742c8af70e8eb8d354231873a7eeb0591ef46595))
+* styles are now auto injected ([ad10063](https://github.com/Tresjs/leches/commit/ad1006333d5374f84a81f29608d9d95e5897a065))
+* uniquekey now consider uuid to make multiple instances on same page work ([77e29a5](https://github.com/Tresjs/leches/commit/77e29a56952c3fbb51baeb7600d701f22eb36c5b))
+* update control types for enhanced type safety and functionality ([59abed1](https://github.com/Tresjs/leches/commit/59abed17ae40482b7dca14dab9563575400cba7f))
+
+### Bug Fixes
+
+* add box-border class to TresLeches component pane ([4d89c02](https://github.com/Tresjs/leches/commit/4d89c02e0fe9e060f79b269b87951e4eeca4d3f2))
+* add cleanup for controls in TresLeches component ([377a605](https://github.com/Tresjs/leches/commit/377a6050c6b4ea2d7896fa9c0e777f09105cdd4c))
+* folders controls key handling ([afdafbb](https://github.com/Tresjs/leches/commit/afdafbbbe59b416355e1810769d3fd830511d73e))
+* improve focus and background styles for controls ([5275e27](https://github.com/Tresjs/leches/commit/5275e27bcc94284c1d9b971e5bdd018890250a28))
+* increased control aprox height for initial calculation ([4201750](https://github.com/Tresjs/leches/commit/4201750f278a048da1e1d1eabfaa39899f965633))
+* removed dynamic style tag from html for snapshots ([03c8db4](https://github.com/Tresjs/leches/commit/03c8db47efa236b0f8d166a9472f940f3d60e9bd))
+* replace transform directive apply with plain css ([0a25292](https://github.com/Tresjs/leches/commit/0a252923649a2783aa61053957699dc8937cb1ba))
+* resolve merge conflict in component snapshot tests ([f34f3b7](https://github.com/Tresjs/leches/commit/f34f3b7269ae1776e08e6c81d336db92613c8a6a))
+* select control now respects option value type ([5536ad5](https://github.com/Tresjs/leches/commit/5536ad53adfe24ba3a1efecaef73402c8bb8b4f0))
+* select options values ([3b9ef68](https://github.com/Tresjs/leches/commit/3b9ef680fd16b1a4522e9f183505cf49f48d2b36))
+* solve issue with useControls needed on parent. ([7a7558c](https://github.com/Tresjs/leches/commit/7a7558c91388bab5a33403757ff977dcbcfdb828))
+* tweak fpsgraph extra height on calculation ([9ff00b8](https://github.com/Tresjs/leches/commit/9ff00b84f51a8791aba9e5b16452eedada9a3f17))
+* update snapshot tests for control components ([553ce82](https://github.com/Tresjs/leches/commit/553ce82326eac170a5798d7cb3105fcde66de618))
+* update snapshot tests with box-border class for TresLeches pane ([bbf8c16](https://github.com/Tresjs/leches/commit/bbf8c162d012a8a588eb8dd4ad5e12871b4e78fd))
+* update snapshots for BooleanControl tests ([4e6c4d2](https://github.com/Tresjs/leches/commit/4e6c4d287e43be0978f10ca3bc75f9e37a1c5473))
+* update snapshots for BooleanControl tests ([7b5b02b](https://github.com/Tresjs/leches/commit/7b5b02b4a2c2a38649ab984c38617c9888448e1e))
+* update snapshots for ColorControl tests ([ef00b59](https://github.com/Tresjs/leches/commit/ef00b59a3cb5099f0897ced4e7d7e5b89fd7987b))
+
 ## [0.14.1](https://github.com/Tresjs/leches/compare/0.14.0...0.14.1) (2025-01-15)
 
 ### Bug Fixes

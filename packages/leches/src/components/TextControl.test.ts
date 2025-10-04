@@ -23,13 +23,13 @@ describe('text Control', () => {
   beforeEach(() => {
     dispose()
     mountComponent(() => {
-      const { value: textValue, visible } = useControls({ textValue: 'awiwi' })
-      return { textValue, visible }
+      const { textValue } = useControls({ textValue: 'awiwi' })
+      return { textValue }
     })
   })
 
   it('should render a text control', () => {
-    expect(wrapper.html()).toMatchSnapshot()
+    expect(wrapper.html().replace(/style="[^"]*"/, '')).toMatchSnapshot()
     expect(wrapper.find('input').attributes('type')).toBe('text')
   })
 
@@ -45,44 +45,34 @@ describe('text Control', () => {
   })
 
   describe('visibility Tests', () => {
-    it('should hide the control when the visible property is toggled', async () => {
-      wrapper.vm.visible = false
-      await nextTick()
-      expect(wrapper.find('input[type="text"]').exists()).toBe(false)
-    })
-
     it('should show the control by default', () => {
       const input = wrapper.find('input[type="text"]')
       expect(input.exists()).toBe(true)
-      expect(wrapper.vm.visible).toBe(true)
     })
 
     it('should not show the control if the visibility is initially false', () => {
       dispose()
       mountComponent(() => {
-        const { visible } = useControls({
+        useControls({
           test: {
             value: 'awiwi',
             visible: false,
           },
         })
-        return { visible }
       })
       const input = wrapper.find('input[type="text"]')
       expect(input.exists()).toBe(false)
-      expect(wrapper.vm.visible).toBe(false)
     })
 
     it('should render an icon instead of a label', () => {
       dispose()
       mountComponent(() => {
-        const { visible } = useControls({
+        useControls({
           test: {
             value: 'awiwi',
             icon: 'i-carbon-checkmark',
           },
         })
-        return { visible }
       })
       const icon = wrapper.find('i.i-carbon-checkmark')
       expect(icon.exists()).toBe(true)

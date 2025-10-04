@@ -6,19 +6,21 @@ import { OrbitControls } from '@tresjs/cientos'
 import { TresLeches, useControls } from '@tresjs/leches'
 
 /* import '@tresjs/leches/style.css' */
-import { reactive, ref } from 'vue'
-
-const gl = reactive({
-  clearColor: '#82DBC5',
-})
+import { computed, ref, watch } from 'vue'
+import { useDark, useToggle } from '@vueuse/core'
 
 const cameraRef = ref()
 const boxRef = ref()
 useControls('fpsgraph')
 
-const { wireframe, camPos, position, rotation } = useControls({
+const label = ref('Range')
+
+const isDark = useDark()
+const toggleDark = useToggle(isDark)
+const { clearColor, wireframe, position, rotation, select } = useControls({
+  clearColor: '#82DBC5',
   wireframe: false,
-  camPos: new Vector3(4, 4, 4),
+  extremelyLongBoolean: false,
   position: new Vector3(0, 1, 2),
   rotation: {
     value: new Vector3(5, 5, 5),
@@ -29,32 +31,54 @@ const { wireframe, camPos, position, rotation } = useControls({
     icon: 'i-carbon-checkmark',
   },
   range: {
+    label,
     value: 1,
     min: 0,
     max: 10,
     step: 0.1,
   },
+  number: 1,
+  text: 'Hello',
+  accept: {
+    label: computed(() => isDark.value ? 'Light' : 'Dark'),
+    type: 'button',
+    variant: 'secondary',
+    onClick: () => {
+      toggleDark()
+    },
+    icon: computed(() => isDark.value ? 'i-carbon-sun' : 'i-carbon-moon'),
+    size: 'block',
+  },
+})
+
+watch(wireframe, (value) => {
+  label.value = value ? 'Wireframe' : 'Solid'
+})
+
+watch(select, (value) => {
+  // eslint-disable-next-line no-console
+  console.log('select', value)
 })
 </script>
 
 <template>
   <TresLeches />
-  <TresCanvas v-bind="gl">
+  <TresCanvas :clear-color="clearColor">
     <TresPerspectiveCamera
       ref="cameraRef"
-      :position="[camPos.value.x, camPos.value.y, camPos.value.z]"
+      :position="[7, 7, 7]"
       :look-at="[1, 2, 0]"
     />
     <TresMesh
       ref="boxRef"
-      :position="[position.value.x, position.value.y, position.value.z]"
-      :rotation="[rotation.value.x, rotation.value.y, rotation.value.z]"
+      :position="[position.x, position.y, position.z]"
+      :rotation="[rotation.x, rotation.y, rotation.z]"
       :scale="[2, 2, 2]"
     >
       <TresBoxGeometry />
       <TresMeshNormalMaterial
         color="teal"
-        :wireframe="wireframe.value"
+        :wireframe="wireframe"
       />
     </TresMesh>
     <TresGridHelper />
