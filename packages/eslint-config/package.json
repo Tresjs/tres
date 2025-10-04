@@ -1,7 +1,7 @@
 {
   "name": "@tresjs/eslint-config",
   "type": "module",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "packageManager": "pnpm@9.9.0",
   "description": "Opinionated ESLint configuration for Tres.js ecosystem",
   "author": "Alvaro Saburido <hola@alvarosaburido.dev> (https://github.com/alvarosabu/)",
