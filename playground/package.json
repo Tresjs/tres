@@ -19,12 +19,12 @@
   },
   "devDependencies": {
     "@iconify-json/carbon": "^1.2.5",
-    "@tresjs/cientos": "3.6.0",
-    "@tresjs/core": "3.6.0",
-    "@types/three": "^0.158.3",
-    "three": "^0.158.0",
-    "unplugin-auto-import": "^0.17.8",
-    "unplugin-vue-components": "^0.25.2",
+    "@tresjs/cientos": "4.1.0",
+    "@tresjs/core": "4.3.2",
+    "@types/three": "^0.172.0",
+    "three": "^0.172.0",
+    "unplugin-auto-import": "^19.0.0",
+    "unplugin-vue-components": "^28.0.0",
     "vite-plugin-qrcode": "^0.2.4"
   }
 }

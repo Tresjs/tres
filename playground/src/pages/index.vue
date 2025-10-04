@@ -2,10 +2,14 @@
 import {
   advancedRoutes,
   basicRoutes,
+  controlsRoutes,
+  miscRoutes,
 } from '../router/routes'
 
 const sections = [
   { icon: '📦', title: 'Basic', routes: basicRoutes },
+  { icon: '🎛️', title: 'Controls', routes: controlsRoutes },
+  { icon: '🐶', title: 'Misc', routes: miscRoutes },
   { icon: '🤓', title: 'Advanced', routes: advancedRoutes },
 ]
 </script>

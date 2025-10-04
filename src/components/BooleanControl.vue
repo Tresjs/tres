@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import type { Control } from '../types'
+import type { LechesBooleanControl } from '../types'
+import ControlLabel from './ControlLabel.vue'
 
 const props = defineProps<{
   label: string
-  control: Control
+  control: LechesBooleanControl
 }>()
 
 const emit = defineEmits(['change'])
@@ -22,8 +23,11 @@ function onKeydown(event: KeyboardEvent) {
 </script>
 
 <template>
-  <div class="tl-flex tl-px-4 tl-justify-start tl-gap-2 tl-items-center tl-mb-2 tl-min-h-32px">
-    <label class="tl-text-gray-500 tl-w-1/3">{{ label }}</label>
+  <div class="tl-flex tl-px-4 tl-gap-1 tl-justify-start tl-items-center tl-mb-2 tl-min-h-32px">
+    <ControlLabel
+      :label="label"
+      :control="control"
+    />
     <input
       :id="control.uniqueKey"
       :checked="control.value"
@@ -38,8 +42,8 @@ function onKeydown(event: KeyboardEvent) {
       <span
         tabindex="0"
         role="checkbox"
-        :aria-checked="control.value.toString()"
-        :class="{ 'tl-bg-dark-500': control.value, 'tl-bg-gray-200': !control.value }"
+        :aria-checked="control.value"
+        :class="{ 'tl-bg-dark-500 dark:tl-bg-gray-400': control.value, 'tl-bg-gray-100 dark:tl-bg-dark-300': !control.value }"
         class="tl-w-4
           tl-h-4
           tl-flex
@@ -48,6 +52,12 @@ function onKeydown(event: KeyboardEvent) {
           tl-rounded
           tl-border
           tl-border-gray-300
+          tl-text-white
+          tl-outline-none
+          tl-border-none
+          focus:tl-border-gray-200
+          focus:tl-ring-2
+          focus:tl-ring-gray-200
           tl-mr-2
           tl-transition-colors
           tl-duration-200"
@@ -55,7 +65,7 @@ function onKeydown(event: KeyboardEvent) {
       >
         <i
           v-show="control.value"
-          class="i-ic:baseline-check tl-text-light"
+          class="i-ic:baseline-check tl-text-light dark:tl-text-dark"
         ></i></span>
     </label>
   </div>

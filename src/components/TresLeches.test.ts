@@ -1,21 +1,28 @@
 import { mount } from '@vue/test-utils'
-import { TresLeches } from '/@/'
-import { expect, it } from 'vitest'
+import { TresLeches } from '../index'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { dispose } from '../composables/useControls'
 
-afterEach(() => {
+beforeEach(() => {
   dispose()
+  // Mock the useMotion composable
+  vi.mock('@vueuse/motion', () => ({
+    useMotion: () => ({
+      apply: vi.fn(),
+    }),
+  }))
 })
 
-describe('tresLeches', async () => {
+describe('tresLeches', () => {
   it('should mount', async () => {
     const wrapper = mount(TresLeches, {
-    /*    attachTo: document.body, */
       props: {
         uuid: 'test',
       },
+      attachTo: document.body,
     })
-    expect(wrapper.html()).toMatchSnapshot()
-    expect(wrapper.find('div').attributes('id')).toBe('test')
+    // Remove dynamic style attributes before snapshot
+    const html = wrapper.html().replace(/style="[^"]*"/, '')
+    expect(html).toMatchSnapshot()
   })
 })

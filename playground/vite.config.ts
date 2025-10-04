@@ -6,7 +6,7 @@ import UnoCSS from 'unocss/vite'
 import { presetIcons, presetTypography, presetUno, presetWebFonts, transformerDirectives } from 'unocss'
 import { templateCompilerOptions } from '@tresjs/core'
 import { qrcode } from 'vite-plugin-qrcode'
-
+import { resolve } from 'node:path'
 // https://vitejs.dev/config/
 export default defineConfig({
 
@@ -17,6 +17,7 @@ export default defineConfig({
       },
       ...templateCompilerOptions,
     }),
+    // svgLoader(),
     AutoImport({
       dts: true,
       eslintrc: {
@@ -84,16 +85,17 @@ export default defineConfig({
     }),
     qrcode(),
   ],
-  server: {
+  /*  server: {
     fs: {
       // Allow serving files from one level up to the project root
       allow: ['..'],
     },
-  },
+  }, */
   resolve: {
-    /* alias: {
-      '@tresjs/leches': resolve(__dirname, '../src/'),
-    }, */
+    alias: {
+      /* '@tresjs/leches': resolve(__dirname, '../src/'), */
+      '@leches/styles': resolve(__dirname, '../dist/tresleches.css'),
+    },
     dedupe: ['three'],
   },
 })

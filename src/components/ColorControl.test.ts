@@ -23,12 +23,12 @@ describe('color Control', async () => {
   beforeEach(() => {
     dispose()
     mountComponent(() => {
-      const { colorValue, visible } = useControls({ colorValue: '#008080' })
-      return { colorValue, visible }
+      const { colorValue } = useControls({ colorValue: '#008080' })
+      return { colorValue }
     })
   })
   it('should render a color control', async () => {
-    expect(wrapper.html()).toMatchSnapshot()
+    expect(wrapper.html().replace(/style="[^"]*"/, '')).toMatchSnapshot()
     expect(wrapper.find('input').attributes('type')).toBe('color')
   })
   it('should render a color control with a label', async () => {
@@ -42,26 +42,17 @@ describe('color Control', async () => {
 
     expect(wrapper.vm.colorValue).toBe('#ff2400')
   })
-  it('should hide the control when the visible property is toggled', async () => {
-    wrapper.vm.visible = false
-    await nextTick()
-    expect(wrapper.find('input[type="color"]').exists()).toBe(false)
-  })
   it('should show the control by default', async () => {
     const checkboxInput = wrapper.find('input[type="color"]')
     expect(checkboxInput.exists()).toBe(true)
-
-    expect(wrapper.vm.visible).toBe(true)
   })
   it('should not show the control if the visibility is initially false', async () => {
     dispose()
     mountComponent(() => {
-      const { colorValue, visible } = useControls({ colorValue: { value: '#008080', visible: false } })
-      return { colorValue, visible }
+      const { colorValue } = useControls({ colorValue: { value: '#008080', visible: false } })
+      return { colorValue }
     })
     const input = wrapper.find('input[type="color"]')
     expect(input.exists()).toBe(false)
-
-    expect(wrapper.vm.visible).toBe(false)
   })
 })

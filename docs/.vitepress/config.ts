@@ -1,5 +1,5 @@
-import { resolve } from 'pathe'
 import { defineConfig } from 'vitepress'
+import { groupIconMdPlugin } from 'vitepress-plugin-group-icons'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
@@ -24,7 +24,8 @@ export default defineConfig({
         text: 'Guide',
         items: [
           { text: 'Getting Started', link: '/guide/getting-started' },
-          { text: 'Controls', link: '/guide/controls' },
+          { text: 'useControls', link: '/guide/use-controls' },
+          { text: 'Icons', link: '/guide/icons' },
         ],
       },
       {
@@ -39,6 +40,15 @@ export default defineConfig({
           { text: 'Select', link: '/controls/index.html#select' },
           { text: 'Vector', link: '/controls/index.html#vector' },
           { text: 'Button', link: '/controls/index.html#button' },
+          { text: 'Graph', link: '/controls/index.html#graph' },
+        ],
+      },
+      {
+        text: 'Advanced',
+        link: '/advanced',
+        items: [
+          { text: 'Multiple Instances', link: '/advanced/multiple-instances' },
+          { text: 'Stacked mode', link: '/advanced/stacked' },
         ],
       },
       {
@@ -65,11 +75,12 @@ export default defineConfig({
       },
     },
     resolve: {
-      alias: {
-        '@tresjs/leches': resolve(__dirname, '../../dist/tresleches.js'),
-        '@leches/styles': resolve(__dirname, '../../dist/style.css'),
-      },
       dedupe: ['@tresjs/cientos', 'three'],
+    },
+  },
+  markdown: {
+    config: (md) => {
+      md.use(groupIconMdPlugin)
     },
   },
 })

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Control } from '../types'
+import type { LechesControlUnion } from '../types'
 import NumberControl from './NumberControl.vue'
 import TextControl from './TextControl.vue'
 import BooleanControl from './BooleanControl.vue'
@@ -9,9 +9,10 @@ import VectorControl from './VectorControl.vue'
 import FPSGraph from './FPSGraph.vue'
 import SelectControl from './SelectControl.vue'
 import ButtonControl from './ButtonControl.vue'
+import GraphControl from './GraphControl.vue'
 
 defineProps<{
-  control: Control
+  control: LechesControlUnion
 }>()
 
 const emit = defineEmits(['change'])
@@ -52,6 +53,11 @@ function onChange(value: string) {
       :label="control.label"
       :control="control"
     />
+    <GraphControl
+      v-else-if="control.type === 'graph'"
+      :label="control.label"
+      :control="control"
+    />
     <NumberControl
       v-else-if="control.type === 'number'"
       :label="control.label"
@@ -66,11 +72,9 @@ function onChange(value: string) {
     />
     <div
       v-else-if="control.type === 'button'"
-      class="tl-p-2"
-      :class="control.value.size === 'tl-block' ? 'tl-flex' : 'tl-inline-flex'"
+      class="tl-py-2 tl-px-4 tl-flex tl-justify-end"
     >
       <ButtonControl
-
         :label="control.label"
         :control="control"
       />

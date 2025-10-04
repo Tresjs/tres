@@ -2,12 +2,12 @@
 import { useKeyModifier, useMouse, useMousePressed } from '@vueuse/core'
 import { computed, ref, watch } from 'vue'
 import { isVector2, isVector3, normalizeVectorFlexibleParam } from '../utils/'
-import type { Control } from '../types'
+import type { LechesVectorControl } from '../types'
 import ControlLabel from './ControlLabel.vue'
 
 const props = defineProps<{
   label: string
-  control: Control
+  control: LechesVectorControl
 }>()
 
 const emit = defineEmits(['change'])
@@ -107,7 +107,7 @@ watch(mouse.x, (newValue) => {
 
 <template>
   <div
-    class="tl-flex tl-px-4 tl-justify-between tl-gap-1 tl-items-center tl-mb-2"
+    class="tl-flex tl-px-4 tl-gap-1 tl-justify-between tl-items-center tl-mb-2"
     @mouseup="onControlMouseUp()"
   >
     <ControlLabel
@@ -118,7 +118,7 @@ watch(mouse.x, (newValue) => {
       <div
         v-for="(_subcontrol, $index) in vector"
         :key="label + $index"
-        class="tl-flex tl-items-center tl-bg-gray-100 tl-rounded"
+        class="tl-flex tl-items-center tl-bg-gray-100 dark:tl-bg-dark-300 tl-rounded tl-border-none tl-outline-none tl-focus:tl-border-gray-200 tl-focus:tl-ring tl-focus:tl-ring-gray-200"
         :class="{
           'tl-w-2/5': focused === $index,
           'tl-w-1/3': isVector3(control.value),
@@ -127,7 +127,7 @@ watch(mouse.x, (newValue) => {
       >
         <span
           v-if="labels[$index] && isVector"
-          class="tl-font-bold tl-px-1 tl-py-1 tl-text-0.65rem tl-text-gray-300"
+          class="tl-font-bold tl-px-1 tl-py-1 tl-text-0.65rem tl-text-gray-300 dark:tl-text-gray-400"
         >{{
           labels[$index]
         }}</span>
@@ -142,6 +142,7 @@ watch(mouse.x, (newValue) => {
             tl-text-right
             tl-text-0.65rem
             tl-text-gray-400
+            dark:tl-text-gray-400
             tl-bg-transparent
             focus:tl-border-gray-200
             tl-outline-none

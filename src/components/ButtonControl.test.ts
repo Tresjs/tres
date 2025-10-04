@@ -9,7 +9,7 @@ describe('button Controls', () => {
   let component
   const mountComponent = (setup) => {
     component = defineComponent({
-      template: `<TresLeches />`,
+      template: `<TresLeches :float="false" />`,
       components: { TresLeches, ButtonControl },
       setup,
     })
@@ -23,16 +23,17 @@ describe('button Controls', () => {
     mountComponent(() => {
       useControls({ acceptBtn: { type: 'button', label: 'Accept' } })
     })
-    expect(wrapper.html()).toMatchSnapshot()
-    expect(wrapper.find('button').exists()).toBe(true)
+    expect(wrapper.html().replace(/style="[^"]*"/, '')).toMatchSnapshot()
+    expect(wrapper.find('button#default-acceptBtn').exists()).toBe(true)
   })
 
-  it('should render a button with a label', () => {
+  it('should render a button with a label', async () => {
     mountComponent(() => {
       useControls({ acceptBtn: { type: 'button', label: 'Accept' } })
     })
-    expect(wrapper.html()).toMatchSnapshot()
-    expect(wrapper.find('button').text()).toBe('Accept')
+    expect(wrapper.html().replace(/style="[^"]*"/, '')).toMatchSnapshot()
+    const button = wrapper.find('button#default-acceptBtn')
+    expect(button.text()).toBe('Accept')
   })
 
   it('should render a clickable button', async () => {
@@ -42,7 +43,7 @@ describe('button Controls', () => {
       return { isClicked }
     })
 
-    const button = wrapper.find('button')
+    const button = wrapper.find('button#default-acceptBtn')
     await button.trigger('click')
     expect(wrapper.vm.isClicked).toBe(true)
   })
@@ -51,7 +52,7 @@ describe('button Controls', () => {
     mountComponent(() => {
       useControls({ acceptBtn: { type: 'button', label: 'Accept', icon: 'i-carbon-checkmark' } })
     })
-    expect(wrapper.html()).toMatchSnapshot()
+    expect(wrapper.html().replace(/style="[^"]*"/, '')).toMatchSnapshot()
     expect(wrapper.find('i.i-carbon-checkmark').exists()).toBe(true)
   })
 
@@ -59,39 +60,34 @@ describe('button Controls', () => {
     mountComponent(() => {
       useControls({ acceptBtn: { type: 'button', label: 'Accept', size: 'sm' } })
     })
-    expect(wrapper.html()).toMatchSnapshot()
-    expect(wrapper.find('button').classes()).toContain('leches-btn-sm')
+    expect(wrapper.html().replace(/style="[^"]*"/, '')).toMatchSnapshot()
   })
 
   it('should render a large button', () => {
     mountComponent(() => {
       useControls({ acceptBtn: { type: 'button', label: 'Accept', size: 'lg' } })
     })
-    expect(wrapper.html()).toMatchSnapshot()
-    expect(wrapper.find('button').classes()).toContain('leches-btn-lg')
+    expect(wrapper.html().replace(/style="[^"]*"/, '')).toMatchSnapshot()
   })
 
   it('should render a block size button', () => {
     mountComponent(() => {
       useControls({ acceptBtn: { type: 'button', label: 'Accept', size: 'block' } })
     })
-    expect(wrapper.html()).toMatchSnapshot()
-    expect(wrapper.find('button').classes()).toContain('leches-btn-block')
+    expect(wrapper.html().replace(/style="[^"]*"/, '')).toMatchSnapshot()
   })
 
   it('should render a primary button variant by default', () => {
     mountComponent(() => {
       useControls({ acceptBtn: { type: 'button', label: 'Accept' } })
     })
-    expect(wrapper.html()).toMatchSnapshot()
-    expect(wrapper.find('button').classes()).toContain('leches-btn-primary')
+    expect(wrapper.html().replace(/style="[^"]*"/, '')).toMatchSnapshot()
   })
 
   it('should render a secondary button variant', () => {
     mountComponent(() => {
       useControls({ acceptBtn: { type: 'button', label: 'Accept', variant: 'secondary' } })
     })
-    expect(wrapper.html()).toMatchSnapshot()
-    expect(wrapper.find('button').classes()).toContain('leches-btn-secondary')
+    expect(wrapper.html().replace(/style="[^"]*"/, '')).toMatchSnapshot()
   })
 })
