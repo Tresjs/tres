@@ -1,3 +1,9 @@
+# 1.0.0 (2025-10-04)
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/eslint-config to 1.4.1
+
 # Changelog
 
 ## [1.0.0-next.0](https://github.com/Tresjs/leches/compare/0.14.1...1.0.0-next.0) (2025-07-04)

@@ -1,3 +1,11 @@
+# 3.0.0 (2025-10-04)
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/core to 5.0.3
+- Updated @tresjs/eslint-config to 1.4.1
+- Updated @tresjs/leches to 1.0.0
+
 # Changelog
 
 ## [3.0.0-next.0](https://github.com/Tresjs/post-processing/compare/2.4.0...3.0.0-next.0) (2025-06-24)

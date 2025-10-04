@@ -1,3 +1,11 @@
+## 5.0.2 (2025-10-04)
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/core to 5.0.3
+- Updated @tresjs/cientos to 5.0.1
+- Updated @tresjs/leches to 1.0.0
+
 # Changelog
 
 ## [5.0.1](https://github.com/Tresjs/nuxt/compare/5.0.0...5.0.1) (2025-09-23)
