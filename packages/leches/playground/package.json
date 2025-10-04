@@ -1,5 +1,5 @@
 {
-  "name": "playground",
+  "name": "leches-playground",
   "type": "module",
   "version": "0.0.0",
   "private": true,
@@ -19,10 +19,10 @@
   },
   "devDependencies": {
     "@iconify-json/carbon": "^1.2.5",
-    "@tresjs/cientos": "3.6.0",
-    "@tresjs/core": "3.6.0",
-    "@types/three": "^0.158.3",
-    "three": "^0.158.0",
+    "@tresjs/cientos": "workspace:*",
+    "@tresjs/core": "workspace:*",
+    "@types/three": "catalog:",
+    "three": "catalog:",
     "unplugin-auto-import": "^0.17.8",
     "unplugin-vue-components": "^0.25.2",
     "vite-plugin-qrcode": "^0.2.4"
