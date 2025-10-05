@@ -1,29 +1,18 @@
-import { existsSync, readFileSync } from 'node:fs'
-import { dirname, resolve } from 'node:path'
+import { readFileSync } from 'node:fs'
+import { resolve } from 'node:path'
 import { templateCompilerOptions } from '@tresjs/core'
 
-function findMonorepoRootPackageJson(startDir: string): string | undefined {
-  let dir = startDir
-  while (true) {
-    const pkgPath = resolve(dir, 'package.json')
-    if (existsSync(pkgPath)) {
-      const pkg = JSON.parse(readFileSync(pkgPath, 'utf-8'))
-      // Check for a field unique to your monorepo root
-      if (pkg.workspaces || pkg.name === '@tresjs/core') {
-        return pkgPath
-      }
-    }
-    const parentDir = dirname(dir)
-    if (parentDir === dir) {
-      break
-    }
-    dir = parentDir
-  }
-  return undefined
+// Try to read from node_modules first (works in production), fallback to monorepo path
+let corePackageJsonPath = resolve(__dirname, 'node_modules/@tresjs/core/package.json')
+try {
+  readFileSync(corePackageJsonPath, 'utf-8')
+}
+catch {
+  // In development, use the monorepo path
+  corePackageJsonPath = resolve(__dirname, '../../packages/core/package.json')
 }
 
-const rootPkgPath = findMonorepoRootPackageJson(__dirname)
-const pkg = JSON.parse(readFileSync(rootPkgPath!, 'utf-8'))
+const pkg = JSON.parse(readFileSync(corePackageJsonPath, 'utf-8'))
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
