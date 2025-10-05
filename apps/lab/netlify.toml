@@ -1,0 +1,6 @@
+[build]
+  command = "pnpm run generate"
+
+[build.environment]
+COREPACK_INTEGRITY_KEYS = "0"
+NODE_VERSION = "22"
