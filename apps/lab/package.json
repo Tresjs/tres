@@ -1,5 +1,5 @@
 {
-  "name": "@tresjs/playground",
+  "name": "tresjs-lab",
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
