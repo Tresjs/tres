@@ -8,7 +8,8 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Tresjs/leches.git"
+    "url": "git+https://github.com/Tresjs/tres.git",
+    "directory": "packages/leches"
   },
   "keywords": [
     "vue",

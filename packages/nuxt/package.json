@@ -9,7 +9,8 @@
   "homepage": "https://tresjs.org",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Tresjs/nuxt.git"
+    "url": "git+https://github.com/Tresjs/tres.git",
+    "directory": "packages/nuxt"
   },
   "bugs": {
     "url": "https://github.com/Tresjs/nuxt/issues"
