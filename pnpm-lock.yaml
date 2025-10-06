@@ -9,33 +9,15 @@ catalogs:
     '@types/three':
       specifier: ^0.180.0
       version: 0.180.0
-    '@typescript-eslint/eslint-plugin':
-      specifier: ^8.42.0
-      version: 8.44.1
-    '@typescript-eslint/parser':
-      specifier: ^8.42.0
-      version: 8.44.1
     '@vitejs/plugin-vue':
       specifier: ^6.0.1
       version: 6.0.1
-    '@vitest/ui':
-      specifier: ^3.2.4
-      version: 3.2.4
-    '@vue/test-utils':
-      specifier: ^2.4.6
-      version: 2.4.6
     '@vueuse/core':
       specifier: ^13.9.0
       version: 13.9.0
     eslint:
       specifier: ^9.34.0
       version: 9.36.0
-    eslint-plugin-vue:
-      specifier: ^10.4.0
-      version: 10.5.0
-    jsdom:
-      specifier: ^27.0.0
-      version: 27.0.0
     kolorist:
       specifier: ^1.8.0
       version: 1.8.0
@@ -51,6 +33,9 @@ catalogs:
     three:
       specifier: ^0.180.0
       version: 0.180.0
+    typescript:
+      specifier: ^5.8.3
+      version: 5.8.3
     vite:
       specifier: ^7.1.6
       version: 7.1.7
@@ -60,9 +45,6 @@ catalogs:
     vite-plugin-dts:
       specifier: 4.5.4
       version: 4.5.4
-    vitest:
-      specifier: 3.2.4
-      version: 3.2.4
     vue:
       specifier: ^3.5.21
       version: 3.5.22
@@ -736,9 +718,6 @@ importers:
       eslint:
         specifier: 'catalog:'
         version: 9.36.0(jiti@2.6.0)
-      gsap:
-        specifier: 'catalog:'
-        version: 3.13.0
       kolorist:
         specifier: 'catalog:'
         version: 1.8.0
