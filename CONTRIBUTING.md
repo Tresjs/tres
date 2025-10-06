@@ -50,7 +50,7 @@ pnpm build
 4. Start development mode for a specific package:
 ```bash
 # For core package (runs playground)
-pnpm --filter @tresjs/core dev
+pnpm --filter playground dev
 
 # For cientos package
 pnpm --filter @tresjs/cientos dev
