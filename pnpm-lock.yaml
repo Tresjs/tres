@@ -9,6 +9,12 @@ catalogs:
     '@types/three':
       specifier: ^0.180.0
       version: 0.180.0
+    '@typescript-eslint/eslint-plugin':
+      specifier: ^8.42.0
+      version: 8.44.1
+    '@typescript-eslint/parser':
+      specifier: ^8.42.0
+      version: 8.44.1
     '@vitejs/plugin-vue':
       specifier: ^6.0.1
       version: 6.0.1
@@ -18,6 +24,9 @@ catalogs:
     eslint:
       specifier: ^9.34.0
       version: 9.36.0
+    eslint-plugin-vue:
+      specifier: ^10.4.0
+      version: 10.5.0
     kolorist:
       specifier: ^1.8.0
       version: 1.8.0
@@ -33,6 +42,12 @@ catalogs:
     three:
       specifier: ^0.180.0
       version: 0.180.0
+    three-custom-shader-material:
+      specifier: ^5.4.0
+      version: 5.4.0
+    three-stdlib:
+      specifier: ^2.36.0
+      version: 2.36.0
     typescript:
       specifier: ^5.8.3
       version: 5.8.3
@@ -45,9 +60,6 @@ catalogs:
     vite-plugin-dts:
       specifier: 4.5.4
       version: 4.5.4
-    vue:
-      specifier: ^3.5.21
-      version: 3.5.22
     vue-tsc:
       specifier: ^3.0.7
       version: 3.0.8
@@ -271,9 +283,6 @@ importers:
       eslint-plugin-vue:
         specifier: 'catalog:'
         version: 10.5.0(@stylistic/eslint-plugin@5.4.0(eslint@9.36.0(jiti@2.6.0)))(@typescript-eslint/parser@8.44.1(eslint@9.36.0(jiti@2.6.0))(typescript@5.8.3))(eslint@9.36.0(jiti@2.6.0))(vue-eslint-parser@10.2.0(eslint@9.36.0(jiti@2.6.0)))
-      gsap:
-        specifier: 'catalog:'
-        version: 3.13.0
       kolorist:
         specifier: 'catalog:'
         version: 1.8.0
@@ -310,9 +319,6 @@ importers:
       vite-svg-loader:
         specifier: ^5.1.0
         version: 5.1.0(vue@3.5.22(typescript@5.8.3))
-      vitepress:
-        specifier: 'catalog:'
-        version: 1.6.4(@algolia/client-search@5.38.0)(@types/node@24.5.2)(axios@1.12.2)(change-case@5.4.4)(fuse.js@7.1.0)(lightningcss@1.30.1)(postcss@8.5.6)(search-insights@2.17.3)(terser@5.44.0)(typescript@5.8.3)
       vue-tsc:
         specifier: 'catalog:'
         version: 3.0.8(typescript@5.8.3)
