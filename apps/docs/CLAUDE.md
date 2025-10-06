@@ -5,7 +5,7 @@ Nuxt-based documentation site using Nuxt Content and Nuxt UI Pro.
 ## Tech Stack
 
 - **Nuxt 4** with Nuxt Content for MDC (Markdown Components)
-- **@nuxt/ui-pro v3** - UI component library
+- **@nuxt/ui v4** - UI component library
 - **nuxt-llms** - LLM-friendly documentation generation
 
 ## Code Style & Standards
@@ -13,14 +13,13 @@ Nuxt-based documentation site using Nuxt Content and Nuxt UI Pro.
 ### UI Components
 
 **ALWAYS prefer Nuxt UI components over custom CSS:**
-- Use existing Nuxt UI Pro components from `@nuxt/ui-pro`
+- Use existing Nuxt UI components from `@nuxt/ui`
 - Refer to [Nuxt UI v4 docs](https://ui.nuxt.com) for available components
 - Only create custom components when Nuxt UI doesn't provide the functionality
 
 **Component Hierarchy:**
-1. First choice: Nuxt UI Pro components (`<UButton>`, `<UCard>`, `<UContainer>`, etc.)
-2. Second choice: Nuxt UI base components
-3. Last resort: Custom Vue components with Tailwind utilities
+1. First choice: Nuxt UI components (`<UButton>`, `<UCard>`, `<UContainer>`, etc.)
+2. Last resort: Custom Vue components with Tailwind utilities
 
 ### Content
 

@@ -12,8 +12,6 @@ const newLocal = {
         body: 'p-2 sm:p-3',
       },
     },
-  },
-  uiPro: {
     footer: {
       slots: {
         root: 'border-t border-default',

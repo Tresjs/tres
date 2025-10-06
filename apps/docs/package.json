@@ -19,7 +19,7 @@
     "@nuxt/content": "^3.7.1",
     "@nuxt/image": "^1.11.0",
     "@nuxt/scripts": "0.12.1",
-    "@nuxt/ui-pro": "^3.3.5",
+    "@nuxt/ui": "^4.0.0",
     "@tresjs/cientos": "workspace:^",
     "@tresjs/core": "workspace:^",
     "@unhead/vue": "^2.0.17",
