@@ -63,7 +63,6 @@
     "@types/three": "catalog:",
     "@vitejs/plugin-vue": "catalog:",
     "eslint": "catalog:",
-    "gsap": "catalog:",
     "kolorist": "catalog:",
     "pathe": "catalog:",
     "rollup-plugin-analyzer": "catalog:",
