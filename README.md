@@ -37,13 +37,13 @@ Checkout the [docs](https://tresjs.org)
 
 ## Ecosystem
 
-| Package                     | Version                                                                                            | Downloads                                                                                            |
-| --------------------------- | :------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
-| [Tres](https://github.com/TresJS/tres)       | ![tres version](https://img.shields.io/npm/v/@tresjs/core/latest.svg?label=%20&color=%2382DBCA)    | ![tres downloads](https://img.shields.io/npm/dm/@tresjs/core?color=%2382DBCA) |
-| [Cientos](https://github.com/TresJS/cientos) | ![cientos version](https://img.shields.io/npm/v/@tresjs/cientos/latest.svg?label=%20&color=%23f19b00) | ![cientos downloads](https://img.shields.io/npm/dm/@tresjs/cientos?color=%23f19b00) |
+| Package                                                      | Version                                                                                                            | Downloads                                                                                        |
+| ------------------------------------------------------------ | :----------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| [Tres](https://github.com/TresJS/tres)                       | ![tres version](https://img.shields.io/npm/v/@tresjs/core/latest.svg?label=%20&color=%2382DBCA)                    | ![tres downloads](https://img.shields.io/npm/dm/@tresjs/core?color=%2382DBCA)                    |
+| [Cientos](https://github.com/TresJS/cientos)                 | ![cientos version](https://img.shields.io/npm/v/@tresjs/cientos/latest.svg?label=%20&color=%23f19b00)              | ![cientos downloads](https://img.shields.io/npm/dm/@tresjs/cientos?color=%23f19b00)              |
 | [Post-processing](https://github.com/TresJS/post-processing) | ![post-processing version](https://img.shields.io/npm/v/@tresjs/post-processing/latest.svg?label=%20&color=ff7bac) | ![post-processing downloads](https://img.shields.io/npm/dm/@tresjs/post-processing?color=ff7bac) |
-| [Nuxt](https://github.com/TresJS/nuxt) | ![nuxt version](https://img.shields.io/npm/v/@tresjs/nuxt/latest.svg?label=%20&color=4f4f4f&logo=nuxt.js) | ![nuxt downloads](https://img.shields.io/npm/dm/@tresjs/nuxt?color=4f4f4f&logo=nuxt.js) |
-| [TresLeches 🍰](https://github.com/TresJS/leches) | ![tresleches version](https://img.shields.io/npm/v/@tresjs/leches/latest.svg?label=%20&color=ffffff) | ![tresleches downloads](https://img.shields.io/npm/dm/@tresjs/leches?color=ffffff) |
+| [Nuxt](https://github.com/TresJS/nuxt)                       | ![nuxt version](https://img.shields.io/npm/v/@tresjs/nuxt/latest.svg?label=%20&color=4f4f4f&logo=nuxt.js)          | ![nuxt downloads](https://img.shields.io/npm/dm/@tresjs/nuxt?color=4f4f4f&logo=nuxt.js)          |
+| [TresLeches 🍰](https://github.com/TresJS/leches)            | ![tresleches version](https://img.shields.io/npm/v/@tresjs/leches/latest.svg?label=%20&color=ffffff)               | ![tresleches downloads](https://img.shields.io/npm/dm/@tresjs/leches?color=ffffff)               |
 
 ## 🛠️ Development
 
@@ -56,9 +56,10 @@ Checkout the [docs](https://tresjs.org)
 ### Setup
 
 1. Clone the repository:
+
    ```bash
-   git clone https://github.com/storyblok/monoblok.git
-   cd monoblok
+   git clone https://github.com/tresjs/tres.git
+   cd tres
    ```
 
 2. Install dependencies:
@@ -71,6 +72,7 @@ Checkout the [docs](https://tresjs.org)
 This repository uses PNPM as its primary package manager, providing efficient dependency management and disk space usage. The workspace is configured in `pnpm-workspace.yaml` and includes all packages in the `packages/` directory.
 
 Common PNPM commands:
+
 ```bash
 # Install dependencies
 pnpm install
@@ -131,6 +133,7 @@ pnpm typecheck
 ```
 
 For more advanced NX usage, we recommend exploring:
+
 - [NX Documentation](https://nx.dev/docs)
 - [NX Cache](https://nx.dev/concepts/how-caching-works)
 - [NX Affected](https://nx.dev/concepts/affected)
@@ -147,15 +150,12 @@ For repository administrators, we provide the `monocubo` tool to help manage the
 
 See the [monocubo package](tools/monocubo) for detailed documentation and usage instructions.
 
-
 ## Contribution
 
 > [!WARNING]
 > WIP
 
 We are open to contributions, please read the [contributing guide](/CONTRIBUTING.md) to get started.
-
-
 
 ## License
 
