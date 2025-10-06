@@ -84,7 +84,7 @@ pnpm --filter @tresjs/core test
 pnpm --filter @tresjs/core test:ui  # with UI and coverage
 
 # Test only affected packages
-pnpm nx affected:test
+pnpm nx affected --target=test
 ```
 
 ### Code Quality
