@@ -132,7 +132,7 @@ watch(containerX, (value) => {
 })
 
 watch(
-  renderer.instance,
+  () => renderer.instance,
   (value) => {
     const canvas = value?.domElement
     if (props.htmlScroll && value?.domElement) {
@@ -170,6 +170,7 @@ watch(
       fill.style.height = props.horizontal ? '100%' : `${height.value * props.pages}px`
       fill.style.width = props.horizontal ? `${width.value * props.pages}px` : '100vw'
       fill.style.pointerEvents = 'none'
+      // console.log('jaime ~ canvas:', canvas);
       canvas.style.position = 'fixed'
       canvas.style.zIndex = '0'
       if (canvas?.style.width) {
