@@ -166,8 +166,7 @@ BREAKING CHANGE: useCameraManager now requires sizes parameter
 ### TypeScript
 
 - **Always use TypeScript** for all code
-- **Never use `any`** - find a better type
-- **Explicitly type** function return values and parameters
+- **Avoid using `any`** - find a good type if possible  
 - Use `type` for unions, `interface` for object shapes
 - Document public APIs with JSDoc comments
 
