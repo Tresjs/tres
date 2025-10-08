@@ -20,6 +20,7 @@ const gl = {
     <GLTFModel
       path="https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/blender-cube.glb"
       cast-shadow
+      draco
       :position="[0, 1, 0]"
     />
     <TresMesh

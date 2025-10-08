@@ -4,7 +4,7 @@ import { TresCanvas } from '@tresjs/core'
 
 const path = 'https://raw.githubusercontent.com/'
   + 'Tresjs/assets/main/models/gltf/blender-cube.glb'
-const { state } = useGLTF(path)
+const { state } = useGLTF(path, { draco: true })
 </script>
 
 <template>
