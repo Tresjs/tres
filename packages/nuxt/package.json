@@ -1,7 +1,7 @@
 {
   "name": "@tresjs/nuxt",
   "type": "module",
-  "version": "5.0.2",
+  "version": "5.0.3",
   "packageManager": "pnpm@10.6.3",
   "description": "TresJS integration for Nuxt.",
   "author": "Daniel Roe (https://github.com/danielroe/)",
@@ -9,7 +9,8 @@
   "homepage": "https://tresjs.org",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Tresjs/nuxt.git"
+    "url": "git+https://github.com/Tresjs/tres.git",
+    "directory": "packages/nuxt"
   },
   "bugs": {
     "url": "https://github.com/Tresjs/nuxt/issues"
