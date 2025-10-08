@@ -1,3 +1,9 @@
+## 5.0.3 (2025-10-08)
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/cientos to 5.0.2
+
 ## 5.0.2 (2025-10-04)
 
 ### 🧱 Updated Dependencies

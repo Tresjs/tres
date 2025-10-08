@@ -1,3 +1,13 @@
+## 5.0.2 (2025-10-08)
+
+### 🩹 Fixes
+
+- **cientos:** scroll controls component. ([61dbc522](https://github.com/Tresjs/tres/commit/61dbc522))
+
+### ❤️ Thank You
+
+- Jaime Torrealba
+
 ## 5.0.1 (2025-10-04)
 
 ### 🧱 Updated Dependencies
