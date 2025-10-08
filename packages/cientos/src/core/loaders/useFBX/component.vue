@@ -10,7 +10,7 @@ const props = withDefaults(defineProps<FBXModelProps>(), {
 })
 
 // Use the new reactive useFBX composable with reactive path
-const { state: model } = useFBX(props.path as string)
+const { state: model, isLoading } = useFBX(props.path as string)
 
 defineExpose({
   instance: model,
@@ -64,6 +64,7 @@ export interface FBXModelProps {
 
 <template>
   <primitive
+    v-if="!isLoading && model"
     :object="model"
     v-bind="$attrs"
   />
