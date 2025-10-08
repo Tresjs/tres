@@ -8,7 +8,8 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Tresjs/post-processing.git"
+    "url": "git+https://github.com/Tresjs/tres.git",
+    "directory": "packages/postprocessing"
   },
   "keywords": [
     "vue",
@@ -63,7 +64,6 @@
     "@types/three": "catalog:",
     "@vitejs/plugin-vue": "catalog:",
     "eslint": "catalog:",
-    "gsap": "catalog:",
     "kolorist": "catalog:",
     "pathe": "catalog:",
     "rollup-plugin-analyzer": "catalog:",
