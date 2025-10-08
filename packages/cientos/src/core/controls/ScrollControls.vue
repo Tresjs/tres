@@ -132,7 +132,7 @@ watch(containerX, (value) => {
 })
 
 watch(
-  renderer.instance,
+  () => renderer.instance,
   (value) => {
     const canvas = value?.domElement
     if (props.htmlScroll && value?.domElement) {

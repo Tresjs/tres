@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Box, ScrollControls, Sphere, Stars } from '@tresjs/cientos'
-import { TresCanvas, useRenderLoop } from '@tresjs/core'
+import { TresCanvas } from '@tresjs/core'
 import { TresLeches, useControls } from '@tresjs/leches'
 import { NoToneMapping, SRGBColorSpace } from 'three'
 import { ref, watchEffect } from 'vue'
@@ -28,13 +28,12 @@ useControls({
   progress: progress.value,
 })
 
-const { onLoop } = useRenderLoop()
-onLoop(() => {
+const onLoop = () => {
   if (boxRef.value) {
     boxRef.value.instance.rotation.x = progress.value * 10
     boxRef.value.instance.rotation.y = progress.value * 2
   }
-})
+}
 </script>
 
 <template>
@@ -42,6 +41,7 @@ onLoop(() => {
   <TresCanvas
     v-bind="gl"
     window-size
+    @loop="() => onLoop()"
   >
     <TresPerspectiveCamera :position="[0, 2, 5]" />
     <Stars :radius="1" />
