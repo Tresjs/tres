@@ -24,7 +24,6 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
     if (tag.includes('-')) {
         tag = tag.replace(/-([a-z])/g, (_, c) => c.toUpperCase())
             .replace(/^[a-z]/, c => c.toUpperCase())
-        console.warn('Tag output after kebabToCamel', tag)
     }
     let name = tag.replace('Tres', '')
     let obj: TresObject | null
