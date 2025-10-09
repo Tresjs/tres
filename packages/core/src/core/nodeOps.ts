@@ -20,10 +20,10 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
       props.args = []
     }
     if (isHTMLTag(tag)) { return null }
-      // support kebab-case tags
+    // support kebab-case tags
     if (tag.includes('-')) {
-        tag = tag.replace(/-([a-z])/g, (_, c) => c.toUpperCase())
-            .replace(/^[a-z]/, c => c.toUpperCase())
+      tag = tag.replace(/-([a-z])/g, (_, c) => c.toUpperCase())
+        .replace(/^[a-z]/, c => c.toUpperCase())
     }
     let name = tag.replace('Tres', '')
     let obj: TresObject | null
