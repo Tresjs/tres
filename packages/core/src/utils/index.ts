@@ -1,5 +1,5 @@
-import type { nodeOps } from 'src/core/nodeOps'
-import type { AttachType, LocalState, TresInstance, TresObject, TresPrimitive } from 'src/types'
+import type { nodeOps } from '../core/nodeOps'
+import type { AttachType, LocalState, TresInstance, TresObject, TresPrimitive } from '../types'
 import type { Material, Mesh, Texture } from 'three'
 import type { TresContext } from '../composables/useTresContextProvider'
 import { Scene } from 'three'
