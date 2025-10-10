@@ -70,7 +70,7 @@ export default defineConfig({
     socialLinks: [
       { icon: 'github', link: 'https://github.com/tresjs/cientos' },
       { icon: 'twitter', link: 'https://twitter.com/tresjs_dev' },
-      { icon: 'discord', link: 'https://discord.gg/UCr96AQmWn' },
+      { icon: 'discord', link: 'https://tresjs.org/discord' },
     ],
   },
   vite: {

@@ -100,7 +100,7 @@ export default defineConfig({
 
     socialLinks: [
       { icon: 'twitter', link: 'https://twitter.com/tresjs_dev' },
-      { icon: 'discord', link: 'https://discord.gg/UCr96AQmWn' },
+      { icon: 'discord', link: 'https://tresjs.org/discord' },
       { icon: 'github', link: 'https://github.com/Tresjs/post-processing' },
     ],
   },
