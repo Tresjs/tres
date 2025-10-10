@@ -30,12 +30,8 @@
       "types": "./dist/trescientos.d.ts",
       "import": "./dist/trescientos.js"
     },
-    "./core": {
-      "types": "./dist/core/trescientos.d.ts"
-    },
     "./*": "./*"
   },
-  "main": "./dist/trescientos.js",
   "module": "./dist/trescientos.js",
   "types": "./dist/trescientos.d.ts",
   "files": [
