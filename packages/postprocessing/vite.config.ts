@@ -20,14 +20,6 @@ export default defineConfig({
   },
   plugins: [
     vue(templateCompilerOptions),
-    dts({
-      insertTypesEntry: true,
-    }),
-    banner({
-      content: `/**\n * name: ${pkg.name}\n * version: v${
-        pkg.version
-      }\n * (c) ${new Date().getFullYear()}\n * description: ${pkg.description}\n * author: ${pkg.author}\n */`,
-    }),
   ],
   build: {
     copyPublicDir: false,
