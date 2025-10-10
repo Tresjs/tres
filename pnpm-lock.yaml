@@ -61,7 +61,7 @@ catalogs:
       specifier: ^2.36.0
       version: 2.36.0
     tsdown:
-      specifier: ^0.15.4
+      specifier: 0.15.4
       version: 0.15.4
     typescript:
       specifier: 5.8.3
@@ -398,6 +398,9 @@ importers:
       three:
         specifier: 'catalog:'
         version: 0.180.0
+      tsdown:
+        specifier: 'catalog:'
+        version: 0.15.4(typescript@5.8.3)(vue-tsc@3.0.8(typescript@5.8.3))
       typescript:
         specifier: 'catalog:'
         version: 5.8.3

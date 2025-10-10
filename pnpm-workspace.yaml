@@ -25,6 +25,7 @@ catalog:
   three: ^0.180.0
   three-custom-shader-material: ^5.4.0
   three-stdlib: ^2.36.0
+  tsdown: 0.15.4
   typescript: 5.8.3
   unocss: ^66.1.2
   vite: ^7.1.6
@@ -34,4 +35,3 @@ catalog:
   vitest: 3.2.4
   vue: ^3.5.21
   vue-tsc: ^3.0.7
-  tsdown: ^0.15.4

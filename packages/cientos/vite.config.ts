@@ -26,45 +26,8 @@ export default defineConfig({
       isProduction: false,
       ...templateCompilerOptions,
     }),
-    dts({
-      insertTypesEntry: true,
-      compilerOptions: {
-        skipLibCheck: true, // Make DTS plugin skip lib check too
-      },
-    }),
     glsl(),
-    banner({
-      content: `/**\n * name: ${pkg.name}\n * version: v${
-        pkg.version
-      }\n * (c) ${new Date().getFullYear()}\n * description: ${pkg.description}\n * author: ${pkg.author}\n */`,
-    }),
   ],
-  build: {
-    lib: {
-      entry: resolve(__dirname, 'src/index.ts'),
-      name: 'trescientos',
-      fileName: 'trescientos',
-      formats: ['es'],
-    },
-    copyPublicDir: false,
-    watch: {
-      include: [resolve(__dirname, 'src')],
-    },
-    rollupOptions: {
-      plugins: [
-        /*  analyze(), */
-        /* visualizer({
-          gzipSize: true,
-          brotliSize: true,
-          open: true,
-        }), */
-      ],
-      external: ['three', 'vue', '@tresjs/core'],
-      output: {
-        exports: 'named',
-      },
-    },
-  },
   optimizeDeps: {
     exclude: ['three', 'vue', '@tresjs/core'],
   },
