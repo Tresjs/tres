@@ -25,6 +25,7 @@ export default [
       { text: 'GradientTexture', link: '/guide/abstractions/gradient-texture' },
       { text: 'ScreenSizer', link: '/guide/abstractions/screen-sizer' },
       { text: 'ScreenSpace', link: '/guide/abstractions/screen-space' },
+      { text: 'AbsoluteGroup', link: '/guide/abstractions/absolute-group' },
       { text: 'Outline', link: '/guide/abstractions/outline' },
       { text: 'Image', link: '/guide/abstractions/image' },
       { text: 'Billboard', link: '/guide/abstractions/billboard' },
