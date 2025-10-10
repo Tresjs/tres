@@ -57,7 +57,7 @@ const newLocal = {
       'aria-label': 'TresJS Website',
     }, {
       'icon': 'i-simple-icons-discord',
-      'to': 'https://discord.gg/WTpvaxr5',
+      'to': 'https://tresjs.org/discord',
       'target': '_blank',
       'aria-label': 'TresJS on Discord',
     }, {

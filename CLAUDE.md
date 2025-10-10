@@ -85,4 +85,4 @@ Each package has its own Vite config. Core and Cientos build as libraries with `
   - If it exists, it will contain other links to the documentation for the LLMs used in this project
 - ALWAYS follow existing links in table of contents or documentation indices
 - Verify examples and patterns from documentation before using
-- 
+-

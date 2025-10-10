@@ -3,7 +3,7 @@
 <p align="center">
   <a href="https://www.npmjs.com/package/@tresjs/cientos"><img src="https://img.shields.io/npm/v/@tresjs/cientos/latest?color=FBB03B" alt="npm package"></a>
   <a href="https://www.npmjs.com/package/@tresjs/cientos"><img src="https://img.shields.io/npm/dm/@tresjs/cientos?color=FBB03B" alt="npm downloads"></a>
-  <a href="https://discord.gg/UCr96AQmWn"><img src="https://img.shields.io/badge/chat-discord-purple?style=flat&logo=discord" alt="discord chat"></a>
+  <a href="https://tresjs.org/discord"><img src="https://img.shields.io/badge/chat-discord-purple?style=flat&logo=discord" alt="discord chat"></a>
 </p>
 <br/>
 

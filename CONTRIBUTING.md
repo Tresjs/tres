@@ -269,7 +269,7 @@ For new features:
 
 ## 💬 Community
 
-- Join our [Discord server](https://discord.gg/UCr96AQmWn) for questions and discussions
+- Join our [Discord server](https://tresjs.org/discord) for questions and discussions
 - Follow [@tresjs_dev](https://twitter.com/tresjs_dev) on Twitter
 - Check out [discussions](https://github.com/Tresjs/tres/discussions) for Q&A
 
