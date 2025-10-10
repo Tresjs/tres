@@ -22,24 +22,12 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/tres.js",
-      "default": "./dist/tres.js"
-    },
-    "./components": {
-      "types": "./dist/src/components/index.d.ts"
-    },
-    "./composables": {
-      "types": "./dist/src/composables/index.d.ts"
-    },
-    "./types": {
-      "types": "./dist/src/types/index.d.ts"
-    },
-    "./utils": {
-      "types": "./dist/src/utils/index.d.ts"
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
     },
     "./*": "./*"
   },
-  "module": "./dist/tres.js",
+  "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [
     "*.d.ts",
@@ -49,7 +37,7 @@
     "access": "public"
   },
   "scripts": {
-    "build": "vite build",
+    "build": "tsdown",
     "test": "vitest",
     "test:ci": "vitest run",
     "test:ui": "vitest --ui --coverage.enabled=true",
@@ -66,7 +54,9 @@
     "@pmndrs/pointer-events": "^6.6.17",
     "@vue/devtools-api": "^7.7.2",
     "@vueuse/core": "catalog:",
-    "radashi": "^12.6.2"
+    "radashi": "^12.6.2",
+    "tsdown": "^0.15.4",
+    "typescript": "catalog:"
   },
   "devDependencies": {
     "@tresjs/eslint-config": "workspace:*",
