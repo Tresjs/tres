@@ -21,14 +21,14 @@
   "sideEffects": false,
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js",
-      "default": "./dist/index.js"
+      "types": "./dist/tres.d.ts",
+      "import": "./dist/tres.js",
+      "default": "./dist/tres.js"
     },
     "./*": "./*"
   },
-  "module": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "module": "./dist/tres.js",
+  "types": "./dist/tres.d.ts",
   "files": [
     "*.d.ts",
     "dist"
@@ -55,10 +55,10 @@
     "@vue/devtools-api": "^7.7.2",
     "@vueuse/core": "catalog:",
     "radashi": "^12.6.2",
-    "tsdown": "^0.15.4",
     "typescript": "catalog:"
   },
   "devDependencies": {
+    "tsdown": "catalog:",
     "@tresjs/eslint-config": "workspace:*",
     "@types/three": "catalog:",
     "@typescript-eslint/eslint-plugin": "catalog:",

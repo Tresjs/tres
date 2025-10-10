@@ -15,9 +15,9 @@ const banner = `/**
 
 export default defineConfig([
   {
-    entry: [
-      './src/index.ts',
-    ],
+    entry: {
+      tres: './src/index.ts',
+    },
     platform: 'neutral',
     fromVite: true,
     banner,
@@ -31,8 +31,8 @@ export default defineConfig([
   {
     entry: [
       './src/utils/template-compiler-options.ts',
-      './src/unimport/index.ts',
-      './src/unplugin-vue-components/index.ts',
+      /*       './src/unimport/index.ts',
+            './src/unplugin-vue-components/index.ts', */
     ],
     platform: 'node',
     banner,

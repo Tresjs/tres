@@ -60,6 +60,9 @@ catalogs:
     three-stdlib:
       specifier: ^2.36.0
       version: 2.36.0
+    tsdown:
+      specifier: ^0.15.4
+      version: 0.15.4
     typescript:
       specifier: 5.8.3
       version: 5.8.3
@@ -462,9 +465,6 @@ importers:
       radashi:
         specifier: ^12.6.2
         version: 12.6.2
-      tsdown:
-        specifier: ^0.15.4
-        version: 0.15.4(typescript@5.8.3)(vue-tsc@3.0.8(typescript@5.8.3))
       typescript:
         specifier: 'catalog:'
         version: 5.8.3
@@ -520,6 +520,9 @@ importers:
       three:
         specifier: 'catalog:'
         version: 0.180.0
+      tsdown:
+        specifier: 'catalog:'
+        version: 0.15.4(typescript@5.8.3)(vue-tsc@3.0.8(typescript@5.8.3))
       vite:
         specifier: 'catalog:'
         version: 7.1.7(@types/node@24.5.2)(jiti@2.6.0)(lightningcss@1.30.1)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1)
@@ -2455,9 +2458,6 @@ packages:
 
   '@napi-rs/wasm-runtime@0.2.4':
     resolution: {integrity: sha512-9zESzOO5aDByvhIAsOy9TbpZ0Ur2AJbUI7UT73kcUTS2mxAMHOBaa1st/jAymNoCtvrit99kkzT1FZuXVcgfIQ==}
-
-  '@napi-rs/wasm-runtime@1.0.5':
-    resolution: {integrity: sha512-TBr9Cf9onSAS2LQ2+QHx6XcC6h9+RIzJgbqG3++9TUZSH204AwEy5jg3BTQ0VATsyoGj4ee49tN/y6rvaOOtcg==}
 
   '@napi-rs/wasm-runtime@1.0.6':
     resolution: {integrity: sha512-DXj75ewm11LIWUk198QSKUTxjyRjsBwk09MuMk5DGK+GDUtyPhhEHOGP/Xwwj3DjQXXkivoBirmOnKrLfc0+9g==}
@@ -12288,13 +12288,6 @@ snapshots:
       '@emnapi/runtime': 1.5.0
       '@tybys/wasm-util': 0.9.0
 
-  '@napi-rs/wasm-runtime@1.0.5':
-    dependencies:
-      '@emnapi/core': 1.5.0
-      '@emnapi/runtime': 1.5.0
-      '@tybys/wasm-util': 0.10.1
-    optional: true
-
   '@napi-rs/wasm-runtime@1.0.6':
     dependencies:
       '@emnapi/core': 1.5.0
@@ -13414,7 +13407,7 @@ snapshots:
 
   '@oxc-minify/binding-wasm32-wasi@0.87.0':
     dependencies:
-      '@napi-rs/wasm-runtime': 1.0.5
+      '@napi-rs/wasm-runtime': 1.0.6
     optional: true
 
   '@oxc-minify/binding-win32-arm64-msvc@0.87.0':
@@ -13461,7 +13454,7 @@ snapshots:
 
   '@oxc-parser/binding-wasm32-wasi@0.87.0':
     dependencies:
-      '@napi-rs/wasm-runtime': 1.0.5
+      '@napi-rs/wasm-runtime': 1.0.6
     optional: true
 
   '@oxc-parser/binding-win32-arm64-msvc@0.87.0':
@@ -13512,7 +13505,7 @@ snapshots:
 
   '@oxc-transform/binding-wasm32-wasi@0.87.0':
     dependencies:
-      '@napi-rs/wasm-runtime': 1.0.5
+      '@napi-rs/wasm-runtime': 1.0.6
     optional: true
 
   '@oxc-transform/binding-win32-arm64-msvc@0.87.0':
