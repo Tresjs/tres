@@ -19,6 +19,7 @@
   "devDependencies": {
     "@tresjs/eslint-config": "workspace:^",
     "@tweakpane/plugin-essentials": "^0.2.1",
+    "@vitejs/plugin-vue": "catalog:",
     "unplugin-auto-import": "^20.2.0",
     "vite-plugin-glsl": "^1.5.1",
     "vite-plugin-qrcode": "^0.3.0",
