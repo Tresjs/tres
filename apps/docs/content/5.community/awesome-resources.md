@@ -13,6 +13,10 @@ description: A curated list of interesting TresJS community resources.
 You have a community plugin that helps solve a problem?
 Please open a pull request and let us know more details about what your plugin solves, so we can review it and add it to the list.
 
+::prose-note
+The following resources are mostly using Tres v4, we will add new resources covering v5 over time.
+::
+
 ## Recent talks on TresJS
 
 - [Bring the Magic of 3D to Your Vue Applications With TresJS by Alvaro Saburido](https://www.youtube.com/watch?v=k_BEfbY9wrw)
@@ -35,4 +39,4 @@ Please open a pull request and let us know more details about what your plugin s
 - Egghead Course by Alvaro [Create Interactive 3D Experiences with TresJS](https://egghead.io/courses/create-interactive-3d-experiences-with-tresjs-004057c2)
 - Become a Three.js developer [ThreeJS Journey by Bruno Simon](https://threejs-journey.com/?c=p3)
 - Crea experiencias 3D increíbles con Vue (Spanish 🇪🇸) [Crea experiencias 3D increíbles con Vue by Alvaro Saburido](https://midu.dev/curso/experiencias-3d-con-vue)
-- Tresjs, interfaces 3D con VueJs by  Jaime Torrealba (Spanish 🇪🇸) [Tresjs, interfaces 3D con VueJs by Jaime Torrealba](https://www.udemy.com/course/tresjs-interfaces-3d-con-vuejs/)
+- Tresjs, interfaces 3D con VueJs by Jaime Torrealba (Spanish 🇪🇸) [Tresjs, interfaces 3D con VueJs by Jaime Torrealba](https://www.udemy.com/course/tresjs-interfaces-3d-con-vuejs/)
