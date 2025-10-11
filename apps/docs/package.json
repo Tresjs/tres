@@ -17,6 +17,7 @@
     "@iconify-json/simple-icons": "^1.2.53",
     "@iconify-json/vscode-icons": "^1.2.30",
     "@nuxt/content": "catalog:",
+    "@nuxt/icon": "^2.0.0",
     "@nuxt/image": "catalog:",
     "@nuxt/scripts": "0.12.1",
     "@nuxt/ui": "catalog:",
