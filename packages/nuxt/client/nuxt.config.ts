@@ -5,8 +5,6 @@ export default defineNuxtConfig({
   modules: [
     '@nuxt/ui',
     '@vueuse/nuxt',
-    /*   '@nuxt/devtools-ui-kit', */
-    '@nuxt/icon',
   ],
   ssr: false,
 
