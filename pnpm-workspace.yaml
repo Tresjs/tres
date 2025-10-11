@@ -16,6 +16,13 @@ catalog:
   vue: ^3.5.21
   "@vueuse/core": ^13.9.0
   vue-tsc: ^3.0.7
+  vue-router: "^4.5.1"
+
+  # Nuxt ecsosystem
+  nuxt: 4.1.2
+  "@nuxt/content": "^3.7.1"
+  "@nuxt/ui": "^4.0.0"
+  "@nuxt/image": "^1.11.0"
 
   # Build tools
   vite: ^7.1.6
