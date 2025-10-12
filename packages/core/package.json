@@ -1,14 +1,15 @@
 {
   "name": "@tresjs/core",
   "type": "module",
-  "version": "5.0.3",
+  "version": "5.1.0",
   "packageManager": "pnpm@10.17.0",
   "description": "Declarative ThreeJS using Vue Components",
   "author": "Alvaro Saburido <hola@alvarosaburido.dev> (https://github.com/alvarosabu/)",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Tresjs/tres.git"
+    "url": "git+https://github.com/Tresjs/tres.git",
+    "directory": "packages/core"
   },
   "keywords": [
     "vue",
@@ -48,8 +49,6 @@
     "access": "public"
   },
   "scripts": {
-    "dev": "pnpm --filter='./playground/vue' dev",
-    "dev:nuxt": "pnpm --filter='./playground/nuxt' dev",
     "build": "vite build",
     "test": "vitest",
     "test:ci": "vitest run",
@@ -57,12 +56,7 @@
     "coverage": "vitest run --coverage",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "typecheck": "vue-tsc --noEmit",
-    "docs:dev": "pnpm --filter='./docs' dev",
-    "docs:generate": "pnpm --filter='./docs' generate",
-    "docs:prepare": "pnpm --filter='./docs' prepare",
-    "docs:lint": "pnpm --filter='./docs' lint",
-    "docs:typecheck": "pnpm --filter='./docs' typecheck"
+    "typecheck": "vue-tsc --noEmit"
   },
   "peerDependencies": {
     "three": ">=0.133",
@@ -75,40 +69,27 @@
     "radashi": "^12.6.2"
   },
   "devDependencies": {
-    "@stackblitz/sdk": "^1.11.0",
     "@tresjs/eslint-config": "workspace:*",
-    "@tresjs/leches": "workspace:*",
     "@types/three": "catalog:",
     "@typescript-eslint/eslint-plugin": "catalog:",
     "@typescript-eslint/parser": "catalog:",
     "@vitejs/plugin-vue": "catalog:",
-    "@vitest/coverage-c8": "^0.33.0",
-    "@vitest/coverage-v8": "catalog:",
+    "@vitest/coverage-v8": "3.2.4",
     "@vitest/ui": "catalog:",
     "@vue/test-utils": "catalog:",
     "eslint": "catalog:",
     "eslint-plugin-vue": "catalog:",
-    "esno": "^4.8.0",
-    "gsap": "catalog:",
     "jsdom": "catalog:",
     "kolorist": "catalog:",
-    "ohmyfetch": "^0.4.21",
     "pathe": "catalog:",
     "rollup-plugin-analyzer": "catalog:",
     "rollup-plugin-copy": "^3.5.0",
     "rollup-plugin-visualizer": "catalog:",
-    "sponsorkit": "^17.0.0",
     "three": "catalog:",
-    "unocss": "^65.5.0",
-    "unplugin": "^2.3.10",
-    "unplugin-vue-components": "^29.0.0",
     "vite": "catalog:",
     "vite-plugin-banner": "catalog:",
     "vite-plugin-dts": "catalog:",
     "vite-plugin-inspect": "^11.3.3",
-    "vite-plugin-require-transform": "^1.0.21",
-    "vite-svg-loader": "^5.1.0",
-    "vitepress": "catalog:",
     "vitest": "catalog:",
     "vue": "catalog:",
     "vue-demi": "^0.14.10",

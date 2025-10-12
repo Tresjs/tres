@@ -3,10 +3,8 @@ import { resolve } from 'pathe'
 export default defineNuxtConfig({
 
   modules: [
-    '@nuxt/ui-pro',
+    '@nuxt/ui',
     '@vueuse/nuxt',
-    /*   '@nuxt/devtools-ui-kit', */
-    '@nuxt/icon',
   ],
   ssr: false,
 

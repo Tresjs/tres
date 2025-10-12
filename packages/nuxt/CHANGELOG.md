@@ -1,3 +1,17 @@
+## 5.1.0 (2025-10-10)
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/core to 5.1.0
+- Updated @tresjs/cientos to 5.1.0
+- Updated @tresjs/leches to 1.1.0
+
+## 5.0.3 (2025-10-08)
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/cientos to 5.0.2
+
 ## 5.0.2 (2025-10-04)
 
 ### 🧱 Updated Dependencies

@@ -1,14 +1,15 @@
 {
   "name": "@tresjs/leches",
   "type": "module",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "packageManager": "pnpm@10.12.4",
   "description": "Tasty GUI for Vue controls 🍰",
   "author": "Alvaro Saburido <hola@alvarosaburido.dev> (https://github.com/alvarosabu/)",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Tresjs/leches.git"
+    "url": "git+https://github.com/Tresjs/tres.git",
+    "directory": "packages/leches"
   },
   "keywords": [
     "vue",
@@ -46,10 +47,7 @@
     "test:browser": "BROWSER_TEST=true HEADLESS=true vitest",
     "test:browser:ui": "BROWSER_TEST=true vitest",
     "coverage": "vitest run --coverage",
-    "lint": "eslint .",
-    "docs:dev": "vitepress dev docs",
-    "docs:build": "vitepress build docs",
-    "docs:preview": "vitepress preview docs"
+    "lint": "eslint ."
   },
   "peerDependencies": {
     "vue": ">=3.3.4"
@@ -88,7 +86,6 @@
     "vite-plugin-dts": "catalog:",
     "vite-plugin-inspect": "^11.3.0",
     "vite-svg-loader": "^5.1.0",
-    "vitepress": "catalog:",
     "vitest": "catalog:",
     "vue": "catalog:",
     "webdriverio": "^9.12.1"

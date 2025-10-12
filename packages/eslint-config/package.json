@@ -1,14 +1,15 @@
 {
   "name": "@tresjs/eslint-config",
   "type": "module",
-  "version": "1.4.1",
+  "version": "1.5.0",
   "packageManager": "pnpm@9.9.0",
   "description": "Opinionated ESLint configuration for Tres.js ecosystem",
   "author": "Alvaro Saburido <hola@alvarosaburido.dev> (https://github.com/alvarosabu/)",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Tresjs/eslint-config.git"
+    "url": "git+https://github.com/Tresjs/tres.git",
+    "directory": "packages/eslint-config"
   },
   "keywords": [
     "eslint",

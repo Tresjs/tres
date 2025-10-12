@@ -1,10 +1,11 @@
 # Release Process
 
-This document details the release process for Storyblok packages in the monorepo.
+This document details the release process for Tres packages in the monorepo.
 
 ## Overview
 
 The release process is split into two main steps:
+
 1. **Versioning**: Increment versions and create version commits
 2. **Publishing**: Build and publish packages to npm with appropriate distribution tags
 
@@ -23,6 +24,7 @@ pnpm nx release --skip-publish
 ```
 
 This will:
+
 - Analyze conventional commits since the last release
 - Determine appropriate version bumps
 - Create version commits
@@ -40,6 +42,7 @@ pnpm nx release version
 ```
 
 This will:
+
 - Analyze conventional commits since the last release
 - Determine appropriate version bumps
 - Create version commits
@@ -63,6 +66,7 @@ pnpm nx release version 1.2.3
 ### Version Bumps
 
 Version increments are determined by commit messages:
+
 - `feat:` → minor version bump
 - `fix:` → patch version bump
 - `BREAKING CHANGE:` or `feat!:` → major version bump
@@ -78,6 +82,7 @@ After versioning and pushing your changes:
 5. Click "Run workflow"
 
 The publish workflow will:
+
 - Build all packages
 - Handle workspace dependencies
 - Publish to npm with the appropriate distribution tag:
@@ -124,4 +129,4 @@ Each branch corresponds to a specific npm distribution tag, ensuring users can i
 5. Document breaking changes in commit messages
 6. Test the published package before announcing the release
 7. Use `nx release version` for release candidates or when you don't want to create a GitHub release
-8. Use `nx release --skip-publish` for full releases that should be announced via GitHub 
+8. Use `nx release --skip-publish` for full releases that should be announced via GitHub

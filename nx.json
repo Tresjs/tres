@@ -1,61 +1,76 @@
 {
-    "$schema": "./node_modules/nx/schemas/nx-schema.json",
-    "defaultProject": "main",
-    "parallel": 5,
-    "targetDefaults": {
-      "build": {
-        "dependsOn": ["^build"],
-        "outputs": ["{projectRoot}/dist"],
-        "cache": true
+  "$schema": "./node_modules/nx/schemas/nx-schema.json",
+  "defaultProject": "main",
+  "parallel": 5,
+  "targetDefaults": {
+    "build": {
+      "dependsOn": [
+        "^build"
+      ],
+      "outputs": [
+        "{projectRoot}/dist"
+      ],
+      "cache": true
+    },
+    "generate": {
+      "dependsOn": [
+        "^build"
+      ],
+      "outputs": [
+        "{projectRoot}/dist"
+      ],
+      "cache": true
+    },
+    "test": {
+      "dependsOn": [
+        "build"
+      ]
+    },
+    "lint": {
+      "dependsOn": [
+        "^build"
+      ],
+      "cache": true
+    }
+  },
+  "tui": {
+    "enabled": false
+  },
+  "release": {
+    "projectsRelationship": "independent",
+    "releaseTagPattern": "{projectName}@{version}",
+    "groups": {
+      "core": {
+        "projects": [
+          "@tresjs/core",
+          "@tresjs/cientos",
+          "@tresjs/post-processing",
+          "@tresjs/nuxt"
+        ]
       },
-      "generate": {
-        "dependsOn": ["^build"],
-        "outputs": ["{projectRoot}/dist"],
-        "cache": true
-      },
-      "test": {
-        "dependsOn": ["build"]
-      },
-      "lint": {
-        "dependsOn": ["^build"],
-        "cache": true
+      "tooling": {
+        "projects": [
+          "@tresjs/eslint-config",
+          "@tresjs/leches"
+        ]
       }
     },
-    "tui": {
-      "enabled": false
-    },
-    "release": {
-      "projectsRelationship": "independent",
-      "releaseTagPattern": "{projectName}@{version}",
-      "groups": {
-        "core": {
-          "projects": ["@tresjs/core", "@tresjs/cientos", "@tresjs/post-processing", "@tresjs/nuxt"]
-        },
-        "tooling": {
-          "projects": ["@tresjs/eslint-config", "@tresjs/leches"]
-        }
-      },
-      "version": {
-        "conventionalCommits": true,
-        "fallbackCurrentVersionResolver": "disk",
-        "versionActionsOptions": {
-          "skipLockFileUpdate": true
-        }
-      },
-      "changelog": {
-        "workspaceChangelog": false,
-        "projectChangelogs": {
-          "createRelease": "github",
-          "renderOptions": {
-            "authors": true,
-            "commitReferences": true,
-            "versionTitleDate": true
-          }
-        }
-      },
-      "git": {
-        "commit": true,
-        "tag": true
+    "version": {
+      "conventionalCommits": true,
+      "fallbackCurrentVersionResolver": "disk",
+      "versionActionsOptions": {
+        "skipLockFileUpdate": true
       }
+    },
+    "changelog": {
+      "workspaceChangelog": false,
+      "projectChangelogs": {
+        "createRelease": "github"
+      }
+    },
+    "git": {
+      "commit": true,
+      "tag": true
     }
   }
+}

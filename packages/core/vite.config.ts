@@ -12,7 +12,7 @@ import dts from 'vite-plugin-dts'
 import { bold, gray, lightGreen, yellow } from 'kolorist'
 import { resolve } from 'pathe'
 
-import pkg from '../../package.json'
+import pkg from './package.json'
 
 // eslint-disable-next-line no-console
 console.log(`${lightGreen('▲')} ${gray('■')} ${yellow('●')} ${bold('Tres')} v${pkg.version}`)
@@ -26,7 +26,7 @@ export default defineConfig({
       isProduction: false,
       template: {
         compilerOptions: {
-          isCustomElement: tag => tag.startsWith('Tres') && tag !== 'TresCanvas',
+          isCustomElement: (tag: string) => ((/^Tres[A-Z]/.test(tag) || tag.startsWith('tres-'))),
         },
       },
     }),

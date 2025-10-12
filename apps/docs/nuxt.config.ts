@@ -16,7 +16,7 @@ const pkg = JSON.parse(readFileSync(corePackageJsonPath, 'utf-8'))
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  modules: ['@nuxt/image', '@nuxt/ui-pro', '@nuxt/content', 'nuxt-llms', '@nuxt/scripts'],
+  modules: ['@nuxt/image', '@nuxt/ui', '@nuxt/content', 'nuxt-llms', '@nuxt/scripts'],
   $production: {
     scripts: {
       registry: {
@@ -73,6 +73,8 @@ export default defineNuxtConfig({
         '/',
       ],
       crawlLinks: true,
+      concurrency: 1, // Reduce concurrent rendering to save memory
+      interval: 100, // Add small delay between renders
     },
   },
 
