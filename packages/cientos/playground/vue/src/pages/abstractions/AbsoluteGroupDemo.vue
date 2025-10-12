@@ -8,36 +8,36 @@ import { TresCanvas } from '@tresjs/core'
     <TresPerspectiveCamera :position="[0, 0, 10]" />
     <OrbitControls />
 
-    <AbsoluteGroup :distance="10" :left="0" :top="0">
+    <AbsoluteGroup :distance="8" :left="0.1" :top="0.2">
       <TresMesh>
         <TresTorusGeometry />
         <TresMeshNormalMaterial />
       </TresMesh>
     </AbsoluteGroup>
 
-    <!-- By default, children are centrered -->
-    <AbsoluteGroup :distance="10">
+    <!-- By default, children are centrered and at 10 units from the camera -->
+    <AbsoluteGroup>
       <TresMesh>
         <TresTorusGeometry />
         <TresMeshNormalMaterial />
       </TresMesh>
     </AbsoluteGroup>
 
-    <AbsoluteGroup :distance="10" :right="0" :bottom="0">
+    <AbsoluteGroup :right="0" :bottom="0">
       <TresMesh>
         <TresTorusGeometry />
         <TresMeshNormalMaterial />
       </TresMesh>
     </AbsoluteGroup>
 
-    <AbsoluteGroup :distance="10" :left="0.25" :bottom="0.25">
+    <AbsoluteGroup :distance="25" :left="0.25" :bottom="0.25">
       <TresMesh>
         <TresTorusGeometry />
         <TresMeshNormalMaterial />
       </TresMesh>
     </AbsoluteGroup>
 
-    <AbsoluteGroup :distance="10" :right="0.25">
+    <AbsoluteGroup :distance="15" :right="0.25">
       <TresMesh>
         <TresTorusGeometry />
         <TresMeshNormalMaterial />

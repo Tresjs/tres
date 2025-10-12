@@ -1,7 +1,7 @@
 import { OrthographicCamera, PerspectiveCamera, Vector3 } from 'three'
-import { logWarning, useTresContext } from '@tresjs/core'
-import { computed, toValue } from 'vue'
-import type { ComputedRef, MaybeRef } from 'vue'
+import { logWarning, useLoop, useTresContext } from '@tresjs/core'
+import { computed, ref, toValue } from 'vue'
+import type { MaybeRef, Ref } from 'vue'
 
 /**
  * Position along horizontal axis (0-1, where 0.5 is center)
@@ -29,34 +29,32 @@ type VerticalPosition = {
 
 export type UseAbsolutePositionOptions = {
   /**
-   * For PerspectiveCamera: Manually set the perpendicular distance
-   * from the camera to a plane containing the target object.
+   * The perpendicular distance from the camera to a plane
+   * containing the target object.
+   *
+   * @remarks For OrthographicCamera, the distance only affects
+   * the order in which objects are rendered (like CSS `z-index`).
+   *
+   * @defaultValue 10
    */
   distance?: MaybeRef<number>
 } & HorizontalPosition & VerticalPosition
 
 export interface UseAbsolutePositionReturn {
-  position: ComputedRef<Vector3>
+  position: Readonly<Ref<Vector3>>
 }
 
 export function useAbsolutePosition(options: UseAbsolutePositionOptions): UseAbsolutePositionReturn {
   const { camera, sizes } = useTresContext()
 
+  const zoom = ref(camera.activeCamera.value.zoom)
+  const position = ref(new Vector3())
   const distance = computed(() => {
-    if (!(camera.activeCamera.value instanceof PerspectiveCamera)) {
-      return 0
-    }
-
-    const maybeDistance = toValue(options.distance)
-    if (maybeDistance !== undefined) {
-      return maybeDistance
-    }
-
-    logWarning('useAbsolutePosition: distance must be provided for PerspectiveCamera')
-    return 0
+    // Reflect `zoom` on position
+    return (toValue(options.distance) || 10) / zoom.value
   })
 
-  // Dimensions of the "plane" rendered by the active camera
+  // Dimensions of the "plane" captured by the active camera
   const plane = computed(() => {
     const activeCamera = camera.activeCamera.value
 
@@ -65,14 +63,12 @@ export function useAbsolutePosition(options: UseAbsolutePositionOptions): UseAbs
 
     if (activeCamera instanceof PerspectiveCamera) {
       const fov = activeCamera.fov
-      const zoom = activeCamera.zoom
-      height = (2 * Math.tan(fov * Math.PI / 180 / 2) * distance.value) / zoom
+      height = (2 * Math.tan(fov * Math.PI / 180 / 2) * distance.value) / zoom.value
       width = height * sizes.aspectRatio.value
     }
     else if (activeCamera instanceof OrthographicCamera) {
-      const zoom = activeCamera.zoom
-      height = (activeCamera.top - activeCamera.bottom) / zoom
-      width = (activeCamera.right - activeCamera.left) / zoom
+      height = (activeCamera.top - activeCamera.bottom) / zoom.value
+      width = (activeCamera.right - activeCamera.left) / zoom.value
     }
     else if (activeCamera) {
       logWarning(`useAbsolutePosition: Unhandled active camera type, only PerspectiveCamera and OrthographicCamera are supported`, activeCamera)
@@ -81,7 +77,7 @@ export function useAbsolutePosition(options: UseAbsolutePositionOptions): UseAbs
     return { height, width }
   })
 
-  const position = computed(() => {
+  const positionFromOrigin = computed(() => {
     const left = toValue(options.left)
     const right = toValue(options.right)
     const top = toValue(options.top)
@@ -92,10 +88,18 @@ export function useAbsolutePosition(options: UseAbsolutePositionOptions): UseAbs
     const topPos = top ?? (bottom !== undefined ? 1 - bottom : 0.5)
 
     const x = plane.value.width * (leftPos - 0.5)
-    const y = plane.value.height * (1 - topPos - 0.5) // Invert topPos so it behaves like CSS
-    const z = 0
+    const y = plane.value.height * (1 - topPos - 0.5) // Invert y so it behaves like CSS
+    const z = -distance.value
 
     return new Vector3(x, y, z)
+  })
+
+  useLoop().onBeforeRender(() => {
+    zoom.value = camera.activeCamera.value.zoom
+
+    const cameraPosition = camera.activeCamera.value.position.clone()
+
+    position.value = cameraPosition.add(positionFromOrigin.value.clone().applyQuaternion(camera.activeCamera.value.quaternion))
   })
 
   return { position }
