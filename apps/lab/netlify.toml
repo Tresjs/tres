@@ -4,4 +4,3 @@ publish = "apps/docs/dist"
 
 [build.environment]
 COREPACK_INTEGRITY_KEYS = "0"
-NODE_VERSION = "22"
