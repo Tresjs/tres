@@ -38,7 +38,6 @@
     "@tresjs/cientos": "workspace:*",
     "@tresjs/eslint-config": "workspace:*",
     "@tresjs/leches": "workspace:*",
-    "@tresjs/nuxt": "workspace:*",
     "@tweakpane/plugin-essentials": "^0.2.1",
     "@types/three": "catalog:",
     "@unhead/vue": "^2.0.3",
