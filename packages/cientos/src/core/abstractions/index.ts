@@ -1,6 +1,6 @@
 import AnimatedSprite from './AnimatedSprite/component.vue'
 import CubeCamera from './CubeCamera/component.vue'
-import AbsoluteGroup from './AbsoluteGroup.vue'
+import AbsoluteGroup from './useAbsolutePosition/AbsoluteGroup.vue'
 import Billboard from './Billboard.vue'
 import { GlobalAudio } from './GlobalAudio'
 import GradientTexture from './GradientTexture.vue'
@@ -25,6 +25,7 @@ import ScreenSizer from './ScreenSizer.vue'
 import Edges from './Edges.vue'
 
 export * from '../staging/useEnvironment'
+export * from './useAbsolutePosition'
 export * from './useFBO/'
 export * from './useSurfaceSampler'
 export {
