@@ -1,10 +1,11 @@
 [build]
-command = "pnpm install && pnpm nx run tresjs-docs:generate"
+command = "pnpm install && NODE_OPTIONS='--max-old-space-size=4096' pnpm nx run tresjs-docs:generate"
 publish = "apps/docs/dist"
 
 [build.environment]
 COREPACK_INTEGRITY_KEYS = "0"
 NODE_VERSION = "22"
+NODE_OPTIONS = "--max-old-space-size=4096"
 
 [[redirects]]
 from = "/*"

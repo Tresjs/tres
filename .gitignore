@@ -25,6 +25,7 @@ coverage
 *.sw?
 **/.vitepress/dist/
 **/.vitepress/cache/
+**/.nuxt
 
 .env
 .env.local
