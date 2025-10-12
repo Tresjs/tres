@@ -290,6 +290,9 @@ importers:
       '@nuxt/ui':
         specifier: 'catalog:'
         version: 4.0.1(@babel/parser@7.28.4)(axios@1.12.2)(change-case@5.4.4)(db0@0.3.2(better-sqlite3@12.4.1))(embla-carousel@8.6.0)(focus-trap@7.6.5)(ioredis@5.8.0)(magicast@0.3.5)(typescript@5.9.2)(valibot@1.1.0(typescript@5.9.2))(vite@7.1.9(@types/node@24.5.2)(jiti@2.6.1)(lightningcss@1.30.1)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1))(vue-router@4.5.1(vue@3.5.22(typescript@5.9.2)))(vue@3.5.22(typescript@5.9.2))(zod@3.25.76)
+      '@tresjs/nuxt':
+        specifier: workspace:*
+        version: link:../../packages/nuxt
       '@tresjs/post-processing':
         specifier: workspace:*
         version: link:../../packages/postprocessing
@@ -354,9 +357,6 @@ importers:
       '@tresjs/leches':
         specifier: workspace:*
         version: link:../../packages/leches
-      '@tresjs/nuxt':
-        specifier: workspace:*
-        version: link:../../packages/nuxt
       '@tweakpane/plugin-essentials':
         specifier: ^0.2.1
         version: 0.2.1(tweakpane@4.0.5)

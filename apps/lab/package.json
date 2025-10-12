@@ -15,6 +15,7 @@
     "@nuxt/eslint": "^1.9.0",
     "@nuxt/ui": "catalog:",
     "@tresjs/post-processing": "workspace:*",
+    "@tresjs/nuxt": "workspace:*",
     "@vueuse/nuxt": "^13.9.0",
     "better-sqlite3": "^12.2.0",
     "mdast-util-to-string": "^4.0.0",
