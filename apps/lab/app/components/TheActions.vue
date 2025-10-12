@@ -21,7 +21,7 @@ defineShortcuts({
 })
 </script>
 <template>
-  <UButtonGroup v-if="visible" size="sm">
+  <UFieldGroup v-if="visible" size="sm">
     <TheCodeButton />
     <USlideover v-model:open="openInfo" size="lg" :title="page.title" :ui="{
       content: 'max-w-2xl'
@@ -43,5 +43,5 @@ defineShortcuts({
     </USlideover>
     <UButton variant="subtle" color="neutral" :icon="isDark ? 'i-carbon-sun' : 'i-carbon-moon'" class="rounded-full"
       @click="toggleDark()" />
-  </UButtonGroup>
+  </UFieldGroup>
 </template>

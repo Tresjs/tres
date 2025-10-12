@@ -1,5 +1,6 @@
 [build]
-  command = "pnpm run generate"
+command = "pnpm install && NODE_OPTIONS='--max-old-space-size=4096' pnpm nx run tresjs-lab:generate"
+publish = "apps/docs/dist"
 
 [build.environment]
 COREPACK_INTEGRITY_KEYS = "0"

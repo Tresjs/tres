@@ -1,5 +1,8 @@
 {
   "name": "tresjs-lab",
+  "type": "module",
+  "private": true,
+  "packageManager": "pnpm@10.14.0",
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
@@ -10,14 +13,13 @@
   },
   "dependencies": {
     "@nuxt/eslint": "^1.9.0",
-    "@nuxt/ui-pro": "^3.3.4",
+    "@nuxt/ui": "catalog:",
     "@tresjs/post-processing": "workspace:*",
     "@vueuse/nuxt": "^13.9.0",
     "better-sqlite3": "^12.2.0",
     "mdast-util-to-string": "^4.0.0",
     "three": "catalog:",
     "three-custom-shader-material": "^6.3.7",
-    "unist-util-stringify-position": "^4.0.0",
     "vue": "catalog:"
   },
   "devDependencies": {
@@ -26,13 +28,11 @@
     "@iconify-json/ic": "^1.2.4",
     "@iconify-json/logos": "^1.2.9",
     "@iconify-json/lucide": "^1.2.68",
-    "@nuxt/content": "^3.7.1",
+    "@nuxt/content": "catalog:",
     "@nuxt/fonts": "0.11.4",
     "@nuxt/icon": "2.0.0",
-    "@nuxt/image": "^1.11.0",
-    "@nuxt/kit": "^4.1.2",
+    "@nuxt/image": "catalog:",
     "@nuxt/scripts": "0.11.13",
-    "@nuxt/ui": "^3.3.4",
     "@nuxtjs/color-mode": "^3.5.2",
     "@tresjs/cientos": "workspace:*",
     "@tresjs/eslint-config": "workspace:*",
@@ -42,17 +42,9 @@
     "@types/three": "catalog:",
     "@unhead/vue": "^2.0.3",
     "gsap": "catalog:",
-    "nuxt": "^4.1.2",
+    "nuxt": "catalog:",
     "nuxt-svgo": "^4.2.6",
     "postprocessing": "6.37.8",
     "vite-svg-loader": "^5.1.0"
-  },
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "better-sqlite3"
-    ],
-    "overrides": {
-      "ipx": "^3.1.1"
-    }
   }
 }

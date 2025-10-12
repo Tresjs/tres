@@ -6,7 +6,7 @@ export default defineNuxtConfig({
   modules: [
     '@nuxt/eslint',
     '@nuxt/fonts',
-    '@nuxt/ui-pro',
+    '@nuxt/ui',
     'nuxt-svgo',
     '@nuxt/content',
     '@nuxt/image',
