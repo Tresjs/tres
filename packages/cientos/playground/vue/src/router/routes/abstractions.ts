@@ -90,11 +90,6 @@ export const abstractionsRoutes = [
     component: () => import('../../pages/abstractions/ScreenSpaceDemo.vue'),
   },
   {
-    path: '/abstractions/absolute-group',
-    name: 'AbsoluteGroup',
-    component: () => import('../../pages/abstractions/AbsoluteGroupDemo.vue'),
-  },
-  {
     path: '/abstractions/outline',
     name: 'Outline',
     component: () => import('../../pages/abstractions/OutlineDemo.vue'),

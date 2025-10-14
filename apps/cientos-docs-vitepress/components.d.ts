@@ -8,7 +8,6 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
-    AbsoluteGroupDemo: typeof import('./.vitepress/theme/components/AbsoluteGroupDemo.vue')['default']
     AccumulativeShadowsDemo: typeof import('./.vitepress/theme/components/AccumulativeShadowsDemo.vue')['default']
     AlignDemo: typeof import('./.vitepress/theme/components/AlignDemo.vue')['default']
     AnimatedSpriteCenterDemo: typeof import('./.vitepress/theme/components/AnimatedSpriteCenterDemo.vue')['default']
