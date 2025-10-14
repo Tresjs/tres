@@ -39,8 +39,7 @@ const viewPlaneDimensions = computed(() => {
 
   const activeCamera = camera.activeCamera.value
   if (activeCamera instanceof PerspectiveCamera) {
-    const fov = activeCamera.fov
-    height = (2 * Math.tan(fov * Math.PI / 180 / 2) * props.depth) / zoom.value
+    height = (2 * Math.tan(activeCamera.fov * Math.PI / 180 / 2) * props.depth) / zoom.value
     width = height * sizes.aspectRatio.value
   }
   else if (activeCamera instanceof OrthographicCamera) {
