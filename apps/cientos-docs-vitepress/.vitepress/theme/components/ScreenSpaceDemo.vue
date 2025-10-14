@@ -4,7 +4,7 @@ import { TresCanvas } from '@tresjs/core'
 </script>
 
 <template>
-  <TresCanvas>
+  <TresCanvas clear-color="#333">
     <TresPerspectiveCamera />
     <OrbitControls />
 
