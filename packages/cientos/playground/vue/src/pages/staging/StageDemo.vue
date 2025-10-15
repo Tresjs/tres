@@ -1,15 +1,15 @@
 <script setup>
-import { Grid, OrbitControls, Stage, useGLTF } from "@tresjs/cientos";
-import { TresCanvas } from "@tresjs/core";
-import { Mesh, MeshStandardMaterial, NoToneMapping, SRGBColorSpace } from "three";
-import { watchOnce } from "@vueuse/core";
+import { Grid, OrbitControls, Stage, useGLTF } from '@tresjs/cientos'
+import { TresCanvas } from '@tresjs/core'
+import { Mesh, MeshStandardMaterial, NoToneMapping, SRGBColorSpace } from 'three'
+import { watchOnce } from '@vueuse/core'
 
 const controlsOptions = {
   lighting: [
-    "rembrandt",
-    "portrait",
-    "upfront",
-    "soft",
+    'rembrandt',
+    'portrait',
+    'upfront',
+    'soft',
     null,
     undefined,
     true,
@@ -18,12 +18,12 @@ const controlsOptions = {
   ],
   intensity: [0.5, 0, 1, 2, 1000],
   shadows: [
-    "contact",
-    { type: "contact", offset: 0.2 },
-    "accumulative",
-    { type: "accumulative", alphaTest: 1 },
-    { type: "accumulative", alphaTest: 0.5, ambient: 0 },
-    { type: "accumulative", alphaTest: 0.5, ambient: 1 },
+    'contact',
+    { type: 'contact', offset: 0.2 },
+    'accumulative',
+    { type: 'accumulative', alphaTest: 1 },
+    { type: 'accumulative', alphaTest: 0.5, ambient: 0 },
+    { type: 'accumulative', alphaTest: 0.5, ambient: 1 },
     null,
     undefined,
     true,
@@ -31,10 +31,10 @@ const controlsOptions = {
   ],
   adjustCamera: [true, false, 0, 0.5, 1, 2, 5],
   environment: [
-    "city",
-    { preset: "city", blur: 1 },
-    "umbrellas",
-    { preset: "night" },
+    'city',
+    { preset: 'city', blur: 1 },
+    'umbrellas',
+    { preset: 'night' },
     null,
     undefined,
   ],
@@ -47,37 +47,37 @@ const controlsOptions = {
   enabled: [true, false],
   test_torusKnotEnabled: [false, true],
   test_giantTorusKnotEnabled: [false, true],
-};
+}
 
 const controls = Object.entries(controlsOptions).reduce((acc, [k, v]) => {
-  acc[k] = { options: v, selected: shallowRef(v[0]) };
-  return acc;
-}, {});
+  acc[k] = { options: v, selected: shallowRef(v[0]) }
+  return acc
+}, {})
 
 const gl = {
-  clearColor: "#82DBC5",
+  clearColor: '#82DBC5',
   outputColorSpace: SRGBColorSpace,
   toneMapping: NoToneMapping,
   shadows: true,
-};
+}
 
 const { isLoading, nodes } = useGLTF(
-  "https://raw.githubusercontent.com/Tresjs/assets/215208b4a54736965d525ab9c47d82dbfe4b2a02/models/gltf/suzanne/suzanne.glb"
-);
+  'https://raw.githubusercontent.com/Tresjs/assets/215208b4a54736965d525ab9c47d82dbfe4b2a02/models/gltf/suzanne/suzanne.glb',
+)
 
 watchOnce(isLoading, (v) => {
   if (!v) {
     nodes.value.Suzanne.traverse((obj) => {
       if (obj instanceof Mesh) {
         obj.material = new MeshStandardMaterial({
-          color: "#fbb03b",
+          color: '#fbb03b',
           metalness: 1,
           roughness: 0,
-        });
+        })
       }
-    });
+    })
   }
-});
+})
 </script>
 
 <template>
