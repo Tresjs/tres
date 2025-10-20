@@ -1,5 +1,5 @@
 {
-  "name": "docs-boilerplate",
+  "name": "cientos-docs",
   "type": "module",
   "private": true,
   "packageManager": "pnpm@10.14.0",
