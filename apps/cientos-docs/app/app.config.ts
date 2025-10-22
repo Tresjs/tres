@@ -20,10 +20,10 @@ const newLocal = {
     },
   },
   seo: {
-    siteName: 'Docs Boilerplate',
+    siteName: 'Cientos docs',
   },
   header: {
-    title: 'Docs',
+    title: 'Cientos',
     to: '/',
     logo: {
       alt: '',

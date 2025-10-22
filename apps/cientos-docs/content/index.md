@@ -79,25 +79,37 @@ Features you will love
   ---
   icon: i-simple-icons-threedotjs
   target: _blank
+  to: https://github.com/pmndrs/three-stdlib
+  ---
+  #title
+  three-stdlib
+
+  #description
+  Because the ThreeJS addons repo structure is... daunting.
+  :::
+  :::u-page-feature
+  ---
+  icon: i-lucide-biceps-flexed
+  target: _blank
   to: https://threejs.org
   ---
   #title
-  Up to date with Three.js
+  Extendable
 
   #description
-  Enjoy the latest features right away.
+  You want to create a fancy shader material component? Submit a PR 🤗.
   :::
 
   :::u-page-feature
   ---
-  icon: i-lucide-smile
+  icon: i-lucide-heart
   target: _blank
   to: https://ui.nuxt.com
   ---
   #title
-  DX focused
+  Community-Driven
   #description
-  Inspect your 3D scenes like never before with official devtools.
+  Benefits from the active and growing Vue TresJS community.
   :::
 
   :::u-page-feature
