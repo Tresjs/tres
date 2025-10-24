@@ -1,4 +1,4 @@
 import TresCanvas from './TresCanvas.vue'
 
 export { TresCanvas }
-export type { TresCanvasProps } from './TresCanvas.vue'
+export type { TresCanvasEmits, TresCanvasProps } from './TresCanvas.vue'
