@@ -52,7 +52,7 @@ const [useTresContextProvider, _useTresContext] = createInjectionState(({
 
   const events = useEventManager({
     // custom renderer may use a different canvas (e.g. mapbox-gl) than the provided one
-    canvas: renderer.instance.domElement as HTMLCanvasElement,
+    canvas: renderer.instance.domElement,
     contextParts: { scene: localScene, camera, renderer },
   })
 
