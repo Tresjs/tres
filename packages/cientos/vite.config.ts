@@ -42,8 +42,6 @@ export default defineConfig({
   build: {
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
-      name: 'trescientos',
-      fileName: 'trescientos',
       formats: ['es'],
     },
     copyPublicDir: false,
@@ -61,7 +59,23 @@ export default defineConfig({
       ],
       external: ['three', 'vue', '@tresjs/core'],
       output: {
-        exports: 'named',
+        preserveModules: true,
+        preserveModulesRoot: 'src',
+        entryFileNames: (chunkInfo) => {
+          const name = chunkInfo.name || 'index'
+
+          // Put external dependencies and virtual modules in specific directories
+          if (name.includes('node_modules')) {
+            return `external/${name.replace(/.*node_modules\//, '')}.js`
+          }
+
+          if (name.includes('_virtual')) {
+            return `virtual/${name.replace('_virtual/', '')}.js`
+          }
+
+          // Use cleaned path for source code files
+          return `${name}.js`
+        },
       },
     },
   },

@@ -28,15 +28,15 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/trescientos.js"
+      "import": "./dist/index.js"
     },
     "./core": {
       "types": "./dist/core/index.d.ts"
     },
     "./*": "./*"
   },
-  "main": "./dist/trescientos.js",
-  "module": "./dist/trescientos.js",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [
     "*.d.ts",
