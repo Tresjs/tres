@@ -5,7 +5,7 @@ import {
   Vector3,
 } from 'three'
 import { MeshSurfaceSampler } from 'three-stdlib'
-import { ref } from 'vue'
+import { type Ref, ref } from 'vue'
 import type { InstancedMesh, Mesh, Object3DEventMap } from 'three'
 import type { TresObject } from '@tresjs/core'
 
@@ -85,7 +85,9 @@ export const useSurfaceSampler = (
   instanceMesh?: InstancedMesh | null,
   weight?: string,
   transform?: TransformFn,
-) => {
+): {
+  buffer: Ref<InterleavedBuffer>
+} => {
   const arr = new Float32Array(count * 16)
   const buffer = ref(new InterleavedBuffer(arr, 16))
 

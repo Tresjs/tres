@@ -2,6 +2,7 @@
 import type { LoadingManager, Texture } from 'three'
 import { useTexture } from '.'
 import { whenever } from '@vueuse/core'
+import type { VNode } from 'vue'
 
 const props = defineProps<{
   /**
@@ -22,6 +23,15 @@ const emit = defineEmits<{
   loaded: [result: Texture]
   error: [error: unknown]
 }>()
+
+defineSlots<{
+  default?: (props: {
+    state: Texture | null
+    isLoading: boolean
+    error: unknown
+  }) => VNode[]
+}>()
+
 // Use the useTexture composable to load the texture
 const { state: texture, isLoading, error } = useTexture(props.path)
 
