@@ -21,12 +21,6 @@ function _useHeaderLinks() {
       to: `${to}/getting-started`,
       active: route.path.startsWith(`${to}/getting-started`),
     }, {
-      label: 'Guide',
-      description: 'Get the key concepts and best practices.',
-      icon: 'i-lucide-book-open',
-      to: `${to}/guide`,
-      active: route.path.startsWith(`${to}/guide`),
-    }, {
       label: 'API',
       description: 'Explore the API reference.',
       icon: 'i-lucide-code-xml',
