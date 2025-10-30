@@ -1,7 +1,7 @@
 {
   "name": "@tresjs/post-processing",
   "type": "module",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "packageManager": "pnpm@10.6.3",
   "description": "Post-processing library for TresJS",
   "author": "Alvaro Saburido <hola@alvarosaburido.dev> (https://github.com/alvarosabu/)",
@@ -48,7 +48,7 @@
     "lint:fix": "eslint . --fix"
   },
   "peerDependencies": {
-    "@tresjs/core": "5.0.3",
+    "@tresjs/core": "5.1.0",
     "three": ">=0.169",
     "vue": ">=3.4"
   },

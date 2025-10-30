@@ -1,3 +1,9 @@
+## 1.1.0 (2025-10-10)
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/eslint-config to 1.5.0
+
 # 1.0.0 (2025-10-04)
 
 ### 🧱 Updated Dependencies

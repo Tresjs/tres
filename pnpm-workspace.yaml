@@ -9,7 +9,10 @@ catalog:
   '@types/three': ^0.180.0
   '@typescript-eslint/eslint-plugin': ^8.42.0
   '@typescript-eslint/parser': ^8.42.0
-  '@vitejs/plugin-vue': 6.0.1
+  '@nuxt/content': ^3.7.1
+  '@nuxt/image': ^1.11.0
+  '@nuxt/ui': ^4.0.1
+  '@vitejs/plugin-vue': ^6.0.1
   '@vitest/coverage-v8': ^3.2.4
   '@vitest/ui': ^3.2.4
   '@vue/test-utils': ^2.4.6
@@ -19,6 +22,7 @@ catalog:
   gsap: ^3.13.0
   jsdom: ^27.0.0
   kolorist: ^1.8.0
+  nuxt: 4.1.3
   pathe: ^2.0.3
   rollup-plugin-analyzer: ^4.0.0
   rollup-plugin-visualizer: ^6.0.3
@@ -26,12 +30,13 @@ catalog:
   three-custom-shader-material: ^5.4.0
   three-stdlib: ^2.36.0
   tsdown: 0.15.4
-  typescript: 5.8.3
   unocss: ^66.1.2
-  vite: ^7.1.6
+  typescript: ^5.8.3
+  vite: ^7.1.9
   vite-plugin-banner: ^0.8.1
   vite-plugin-dts: 4.5.4
   vitepress: 1.6.4
   vitest: 3.2.4
-  vue: ^3.5.21
-  vue-tsc: ^3.0.7
+  vue: ^3.5.22
+  vue-router: ^4.5.1
+  vue-tsc: ^3.1.1

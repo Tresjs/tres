@@ -1,3 +1,20 @@
+## 5.1.0 (2025-10-10)
+
+### 🩹 Fixes
+
+- **docs:** update Discord links across documentation to point to the new URL ([9147f0d1](https://github.com/Tresjs/tres/commit/9147f0d1))
+- **cientos:** FBX component ([06ca32e6](https://github.com/Tresjs/tres/commit/06ca32e6))
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/core to 5.1.0
+- Updated @tresjs/eslint-config to 1.5.0
+
+### ❤️ Thank You
+
+- alvarosabu @alvarosabu
+- Jaime Torrealba
+
 ## 5.0.2 (2025-10-08)
 
 ### 🩹 Fixes
