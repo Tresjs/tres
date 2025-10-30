@@ -3,9 +3,9 @@ title: Controls
 description: All controls
 ---
 
-## Available controls
+## All controls
 
-::ControlsList
+::ApiList{listName="control-list"}
 
 ::
 

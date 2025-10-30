@@ -4,25 +4,30 @@ description: Orbit Controls docs
 ---
 
 # OrbitControls
-
-::ControlsOrbitControls
+::SceneWrapper
+  ::ControlsOrbitControls
+  ::
 ::
-
 [OrbitControls](https://threejs.org/docs/index.html?q=orbit#examples/en/controls/OrbitControls) is a camera controller that allows you to orbit around a target. It's a great way to explore your scene.
 
 ## Usage
 
-```html{3}
-    <TresCanvas clear-color="#82DBC5">
-      <TresPerspectiveCamera :position="[3, 3, 3]" />
-      <OrbitControls />
-      <Box :scale="2">
-        <TresMeshToonMaterial color="orange" />
-      </Box>
-      <TresAmbientLight />
-      <TresDirectionalLight :position="[0, 2, 4]" />
-      <TresGridHelper />
-    </TresCanvas>
+```vue{7}
+<script setup>
+import { OrbitControls } from "@tresjs/cientos"
+</script>
+<template>
+  <TresCanvas clear-color="#82DBC5">
+    <TresPerspectiveCamera :position="[3, 3, 3]" />
+    <OrbitControls />
+    <Box :scale="2">
+      <TresMeshToonMaterial color="orange" />
+    </Box>
+    <TresAmbientLight />
+    <TresDirectionalLight :position="[0, 2, 4]" />
+    <TresGridHelper />
+  </TresCanvas>
+</template>
 ```
 
 ::UAlert{icon="i-lucide-message-square-warning" title="Warning" description="Is really important that the Perspective camera is set first in the canvas. Otherwise might break."}
