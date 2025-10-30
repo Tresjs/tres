@@ -58,7 +58,6 @@
     "typescript": "catalog:"
   },
   "devDependencies": {
-    "tsdown": "catalog:",
     "@tresjs/eslint-config": "workspace:*",
     "@types/three": "catalog:",
     "@typescript-eslint/eslint-plugin": "catalog:",
@@ -76,6 +75,7 @@
     "rollup-plugin-copy": "^3.5.0",
     "rollup-plugin-visualizer": "catalog:",
     "three": "catalog:",
+    "tsdown": "catalog:",
     "vite": "catalog:",
     "vite-plugin-banner": "catalog:",
     "vite-plugin-dts": "catalog:",

@@ -2,15 +2,11 @@
 
 import vue from '@vitejs/plugin-vue'
 
-import copy from 'rollup-plugin-copy'
 import { defineConfig } from 'vite'
-import banner from 'vite-plugin-banner'
-import dts from 'vite-plugin-dts'
 
 /* import analyze from 'rollup-plugin-analyzer' */
 
 import { bold, gray, lightGreen, yellow } from 'kolorist'
-import { resolve } from 'pathe'
 
 import pkg from './package.json'
 

@@ -3,8 +3,6 @@ import vue from '@vitejs/plugin-vue'
 import { bold, gray, lightGreen, magenta } from 'kolorist'
 import { resolve } from 'pathe'
 import { defineConfig } from 'vite'
-import banner from 'vite-plugin-banner'
-import dts from 'vite-plugin-dts'
 import pkg from './package.json'
 
 // eslint-disable-next-line no-console
