@@ -9,7 +9,6 @@ function resolveRuntimeMode(): string {
   // import.meta may be undefined when this file is executed in Node during Vite config bundling
   try {
     // Using optional chaining to avoid ReferenceErrors when import.meta is not defined
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const modeFromImportMeta = (import.meta as any)?.env?.MODE as string | undefined
     if (modeFromImportMeta) { return modeFromImportMeta }
   }
