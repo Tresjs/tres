@@ -29,6 +29,7 @@
     ".": "./dist/trescientos.js",
     "./package.json": "./package.json"
   },
+  "main": "./dist/trescientos.js",
   "module": "./dist/trescientos.js",
   "types": "./dist/trescientos.d.ts",
   "files": [
@@ -87,6 +88,5 @@
     "implicitDependencies": [
       "!@tresjs/cientos-*"
     ]
-  },
-  "main": "./dist/trescientos.js"
+  }
 }

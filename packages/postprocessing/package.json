@@ -28,6 +28,8 @@
     ".": "./dist/tres-post-processing.js",
     "./package.json": "./package.json"
   },
+  "main": "./dist/tres-post-processing.js",
+  "module": "./dist/tres-post-processing.js",
   "types": "./dist/tres-post-processing.d.ts",
   "files": [
     "*.d.ts",
@@ -78,7 +80,5 @@
     "implicitDependencies": [
       "!@tresjs/post-processing-*"
     ]
-  },
-  "main": "./dist/tres-post-processing.js",
-  "module": "./dist/tres-post-processing.js"
+  }
 }

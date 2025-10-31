@@ -23,6 +23,7 @@
     ".": "./dist/tres.js",
     "./package.json": "./package.json"
   },
+  "main": "./dist/tres.js",
   "module": "./dist/tres.js",
   "types": "./dist/tres.d.ts",
   "files": [
@@ -85,6 +86,5 @@
     "implicitDependencies": [
       "!@tresjs/core-*"
     ]
-  },
-  "main": "./dist/tres.js"
+  }
 }
