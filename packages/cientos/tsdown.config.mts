@@ -21,6 +21,8 @@ export default defineConfig([
     platform: 'neutral',
     fromVite: true,
     banner,
+    // Enable tsdown to manage the package exports field automatically based on outputs
+    exports: true,
     dts: {
       vue: true,
     },

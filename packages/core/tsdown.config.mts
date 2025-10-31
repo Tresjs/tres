@@ -21,6 +21,7 @@ export default defineConfig([
     platform: 'neutral',
     fromVite: true,
     banner,
+    exports: true,
     dts: {
       vue: true,
     },
@@ -31,8 +32,6 @@ export default defineConfig([
   {
     entry: [
       './src/utils/template-compiler-options.ts',
-      /*       './src/unimport/index.ts',
-            './src/unplugin-vue-components/index.ts', */
     ],
     platform: 'node',
     banner,

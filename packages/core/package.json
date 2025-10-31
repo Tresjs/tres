@@ -20,12 +20,7 @@
   ],
   "sideEffects": false,
   "exports": {
-    ".": {
-      "types": "./dist/tres.d.ts",
-      "import": "./dist/tres.js",
-      "default": "./dist/tres.js"
-    },
-    "./*": "./*"
+    ".": "./dist/tres.js"
   },
   "module": "./dist/tres.js",
   "types": "./dist/tres.d.ts",

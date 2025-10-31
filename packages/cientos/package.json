@@ -26,11 +26,7 @@
   ],
   "sideEffects": false,
   "exports": {
-    ".": {
-      "types": "./dist/trescientos.d.ts",
-      "import": "./dist/trescientos.js"
-    },
-    "./*": "./*"
+    ".": "./dist/trescientos.js"
   },
   "module": "./dist/trescientos.js",
   "types": "./dist/trescientos.d.ts",

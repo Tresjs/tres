@@ -25,12 +25,9 @@
     "Tino Koch (https://github.com/Tinoooo)"
   ],
   "exports": {
-    ".": {
-      "types": "./dist/tres-post-processing.d.ts",
-      "import": "./dist/tres-post-processing.js"
-    },
-    "./*": "./*"
+    ".": "./dist/tres-post-processing.js"
   },
+  "types": "./dist/tres-post-processing.d.ts",
   "files": [
     "*.d.ts",
     "dist"
