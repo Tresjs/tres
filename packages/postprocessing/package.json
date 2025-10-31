@@ -25,7 +25,8 @@
     "Tino Koch (https://github.com/Tinoooo)"
   ],
   "exports": {
-    ".": "./dist/tres-post-processing.js"
+    ".": "./dist/tres-post-processing.js",
+    "./package.json": "./package.json"
   },
   "types": "./dist/tres-post-processing.d.ts",
   "files": [
@@ -77,5 +78,7 @@
     "implicitDependencies": [
       "!@tresjs/post-processing-*"
     ]
-  }
+  },
+  "main": "./dist/tres-post-processing.js",
+  "module": "./dist/tres-post-processing.js"
 }

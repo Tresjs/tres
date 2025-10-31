@@ -20,7 +20,8 @@
   ],
   "sideEffects": false,
   "exports": {
-    ".": "./dist/tres.js"
+    ".": "./dist/tres.js",
+    "./package.json": "./package.json"
   },
   "module": "./dist/tres.js",
   "types": "./dist/tres.d.ts",
@@ -84,5 +85,6 @@
     "implicitDependencies": [
       "!@tresjs/core-*"
     ]
-  }
+  },
+  "main": "./dist/tres.js"
 }

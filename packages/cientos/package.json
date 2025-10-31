@@ -26,7 +26,8 @@
   ],
   "sideEffects": false,
   "exports": {
-    ".": "./dist/trescientos.js"
+    ".": "./dist/trescientos.js",
+    "./package.json": "./package.json"
   },
   "module": "./dist/trescientos.js",
   "types": "./dist/trescientos.d.ts",
@@ -86,5 +87,6 @@
     "implicitDependencies": [
       "!@tresjs/cientos-*"
     ]
-  }
+  },
+  "main": "./dist/trescientos.js"
 }
