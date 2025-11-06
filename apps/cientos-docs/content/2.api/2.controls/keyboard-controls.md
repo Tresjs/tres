@@ -1,6 +1,6 @@
 ---
 title: Keyboard Controls
-description: Keyboard Controls docs
+description: WASD on QWERTY keyboards or equivalent keys on non-QWERTY keyboards
 ---
 
 # KeyboardControls

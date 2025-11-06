@@ -1,6 +1,6 @@
 ---
 title: Transform Controls
-description: Transform Controls docs
+description: Set of three gizmos that can be used to translate, rotate and scale objects
 ---
 
 # Transform Controls

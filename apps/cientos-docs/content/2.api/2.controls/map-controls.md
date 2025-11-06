@@ -1,6 +1,6 @@
 ---
 title: Map Controls
-description: Map Controls docs
+description: similar to OrbitControls but for map views
 ---
 
 # MapControls

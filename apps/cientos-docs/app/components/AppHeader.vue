@@ -11,8 +11,8 @@ const navItems: NavigationMenuItem[] = [
     to: '/getting-started/installation',
   },
   {
-    label: 'Components',
-    to: '/components',
+    label: 'API',
+    to: '/api',
   },
 ]
 

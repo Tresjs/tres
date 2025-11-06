@@ -1,6 +1,6 @@
 ---
 title: PointerLock Controls
-description: PointerLock Controls docs
+description: Allows you to capture the mouse movement and simulate a first person camera
 ---
 
 # PointerLockControls

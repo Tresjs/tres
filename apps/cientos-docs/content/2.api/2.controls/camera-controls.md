@@ -1,6 +1,6 @@
 ---
 title: Camera Controls
-description: Camera Controls docs
+description: Is similar to OrbitControls yet supports smooth transitions and more features.
 ---
 
 # CameraControls

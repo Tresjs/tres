@@ -1,6 +1,6 @@
 ---
 title: Orbit Controls
-description: Orbit Controls docs
+description: Allows you to orbit around the scene
 ---
 
 # OrbitControls
