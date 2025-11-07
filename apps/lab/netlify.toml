@@ -1,5 +1,5 @@
 [build]
-command = "rm -rf $HOME/.cache/node/corepack && pnpm install && NODE_OPTIONS='--max-old-space-size=4096' pnpm nx run tresjs-lab:generate"
+command = "rm -rf $HOME/.cache/node/corepack /opt/buildhome/.cache/node/corepack && pnpm install && NODE_OPTIONS='--max-old-space-size=4096' pnpm nx run tresjs-lab:generate"
 publish = "apps/docs/dist"
 
 [build.environment]
