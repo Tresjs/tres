@@ -3,7 +3,7 @@
   "type": "module",
   "private": true,
   "version": "0.1.0",
-  "packageManager": "pnpm@10.17.1",
+  "packageManager": "pnpm@10.20.0",
   "description": "Official monorepo for TresJS",
   "author": "Alvaro Saburido <hola@alvarosaburido.dev> (https://github.com/alvarosabu/)",
   "license": "MIT",
