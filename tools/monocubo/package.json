@@ -2,7 +2,6 @@
   "name": "@tresjs/monorepo-cli",
   "version": "0.1.0",
   "description": "CLI tool for migrating and managing Tres projects in the monorepo",
-  "packageManager": "pnpm@10.10.0",
   "type": "module",
   "main": "dist/index.mjs",
   "private": true,
