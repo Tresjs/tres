@@ -19,37 +19,6 @@ export default defineConfig({
   plugins: [
     vue(templateCompilerOptions),
   ],
-  build: {
-    copyPublicDir: false,
-    watch: {
-      include: [resolve(__dirname, 'src')],
-    },
-    lib: {
-      entry: resolve(__dirname, 'src/index.ts'),
-      name: 'tres-post-processing',
-      fileName: 'tres-post-processing',
-    },
-    rollupOptions: {
-      plugins: [
-        /* analyze(),
-        visualizer({
-          gzipSize: true,
-          brotliSize: true,
-          open: false,
-        }), */
-      ],
-      external: ['three', 'vue', '@tresjs/core', 'postprocessing', '@vueuse/core'],
-      output: {
-        globals: {
-          '@tresjs/core': 'TresjsCore',
-          'three': 'Three',
-          'vue': 'Vue',
-          'postprocessing': 'Postprocessing',
-          '@vueuse/core': 'VueUseCore',
-        },
-      },
-    },
-  },
   optimizeDeps: {
     exclude: ['three', 'vue', '@tresjs/core', 'postprocessing', '@vueuse/core'],
   },
