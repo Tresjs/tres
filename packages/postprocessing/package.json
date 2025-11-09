@@ -52,28 +52,28 @@
     "vue": ">=3.4"
   },
   "dependencies": {
-    "@vueuse/core": "catalog:",
+    "@vueuse/core": "catalog:utils",
     "postprocessing": "^6.37.2"
   },
   "devDependencies": {
     "@tresjs/core": "workspace:*",
     "@tresjs/eslint-config": "workspace:*",
     "@tresjs/leches": "workspace:*",
-    "@types/three": "catalog:",
-    "@vitejs/plugin-vue": "catalog:",
-    "eslint": "catalog:",
-    "kolorist": "catalog:",
-    "pathe": "catalog:",
-    "rollup-plugin-analyzer": "catalog:",
-    "rollup-plugin-visualizer": "catalog:",
-    "three": "catalog:",
-    "tsdown": "catalog:",
-    "typescript": "catalog:",
-    "vite": "catalog:",
-    "vite-plugin-banner": "catalog:",
-    "vite-plugin-dts": "catalog:",
-    "vue": "catalog:",
-    "vue-tsc": "catalog:"
+    "@types/three": "catalog:three",
+    "@vitejs/plugin-vue": "catalog:vite",
+    "eslint": "catalog:eslint",
+    "kolorist": "catalog:utils",
+    "pathe": "catalog:utils",
+    "rollup-plugin-analyzer": "catalog:build",
+    "rollup-plugin-visualizer": "catalog:build",
+    "three": "catalog:three",
+    "tsdown": "catalog:build",
+    "typescript": "catalog:typescript",
+    "vite": "catalog:vite",
+    "vite-plugin-banner": "catalog:vite",
+    "vite-plugin-dts": "catalog:vite",
+    "vue": "catalog:vue",
+    "vue-tsc": "catalog:typescript"
   },
   "nx": {
     "implicitDependencies": [
