@@ -26,8 +26,12 @@ export default defineConfig([
     dts: {
       vue: true,
     },
-    define: {
-      __VERSION__: JSON.stringify(pkg.version),
+    inputOptions: {
+      transform: {
+        define: {
+          __VERSION__: JSON.stringify(pkg.version),
+        },
+      },
     },
   },
 ])

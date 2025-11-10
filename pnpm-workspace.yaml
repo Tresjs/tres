@@ -9,7 +9,7 @@ catalogs:
   build:
     rollup-plugin-analyzer: ^4.0.0
     rollup-plugin-visualizer: ^6.0.3
-    tsdown: 0.15.4
+    tsdown: 0.16.1
 
   docs:
     vitepress: 1.6.4
