@@ -7,7 +7,6 @@ class EnvironmentScene extends Object3D {
     this.virtualScene = new Scene()
   }
 
-  // @ts-expect-error - No idea how to fix the type error here
   add(...object: Object3D[]): this {
     for (const obj of object) {
       this.virtualScene.add(obj)
