@@ -25,6 +25,17 @@ export default defineNuxtConfig({
     glsl: true,
   },
 
+  imports: {
+    transform: {
+      exclude: [
+        /[\/]packages[\\/]cientos[\\/]dist[\\/]trescientos\.js$/,
+        /[\/]packages[\\/]core[\\/]dist[\\/]tres\.js$/,
+        /[\/]packages[\\/]leches[\\/]dist[\\/]tresleches\.js$/,
+        /[\/]packages[\\/]postprocessing[\\/]dist[\\/]tres-post-processing\.js$/,
+      ],
+    }
+  },
+
   fonts: {
     families: [
       { name: 'Manrope', provider: 'google' },
