@@ -21,7 +21,6 @@ export default defineConfig([
     platform: 'neutral',
     fromVite: true,
     banner,
-    exports: true,
     dts: {
       vue: true,
     },
