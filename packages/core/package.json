@@ -20,11 +20,17 @@
   "sideEffects": false,
   "exports": {
     ".": "./dist/tres.js",
+    "./template-compiler-options": "./dist/template-compiler-options.mjs",
     "./package.json": "./package.json"
   },
   "main": "./dist/tres.js",
   "module": "./dist/tres.js",
   "types": "./dist/tres.d.ts",
+  "typesVersions": {
+    "*": {
+      "template-compiler-options": ["dist/template-compiler-options.d.mts"]
+    }
+  },
   "files": [
     "*.d.ts",
     "dist"
