@@ -26,6 +26,7 @@ const asideNavigation = computed(() => {
       class="pr-4"
       highlight
       :navigation="asideNavigation"
+      :default-open="false"
     />
   </UPageAside>
 </template>
