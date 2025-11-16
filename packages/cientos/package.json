@@ -46,7 +46,7 @@
     "lint:fix": "eslint . --fix"
   },
   "peerDependencies": {
-    "@tresjs/core": "5.1.0",
+    "@tresjs/core": ">=5.0.0",
     "three": ">=0.133",
     "vue": ">=3.5.17"
   },
