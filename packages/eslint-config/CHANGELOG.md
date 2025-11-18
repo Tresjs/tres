@@ -1,3 +1,7 @@
+# 2.0.0 (2025-11-18)
+
+This was a version bump only for @tresjs/eslint-config to align it with other projects, there were no code changes.
+
 ## 1.5.0 (2025-10-10)
 
 This was a version bump only for @tresjs/eslint-config to align it with other projects, there were no code changes.
