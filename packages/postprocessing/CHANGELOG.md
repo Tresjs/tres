@@ -1,17 +1,3 @@
-## 4.0.1 (2025-11-18)
-
-### 🧱 Updated Dependencies
-
-- Updated @tresjs/core to 6.0.1
-
-# 4.0.0 (2025-11-18)
-
-### 🧱 Updated Dependencies
-
-- Updated @tresjs/core to 6.0.0
-- Updated @tresjs/eslint-config to 2.0.0
-- Updated @tresjs/leches to 2.0.0
-
 ## 3.1.0 (2025-10-10)
 
 ### 🩹 Fixes
