@@ -28,7 +28,9 @@
   "types": "./dist/tres.d.ts",
   "typesVersions": {
     "*": {
-      "template-compiler-options": ["dist/template-compiler-options.d.mts"]
+      "template-compiler-options": [
+        "dist/template-compiler-options.d.mts"
+      ]
     }
   },
   "files": [
