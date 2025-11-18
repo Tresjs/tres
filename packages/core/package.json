@@ -21,6 +21,8 @@
   "exports": {
     ".": "./dist/tres.js",
     "./template-compiler-options": "./dist/template-compiler-options.mjs",
+    "./unimport": "./dist/unimport.mjs",
+    "./unplugin-vue-components-resolver": "./dist/unplugin-vue-components-resolver.mjs",
     "./package.json": "./package.json"
   },
   "main": "./dist/tres.js",
@@ -30,6 +32,12 @@
     "*": {
       "template-compiler-options": [
         "dist/template-compiler-options.d.mts"
+      ],
+      "unimport": [
+        "dist/unimport.d.mts"
+      ],
+      "unplugin-vue-components-resolver": [
+        "dist/unplugin-vue-components-resolver.d.mts"
       ]
     }
   },
@@ -52,7 +60,17 @@
   },
   "peerDependencies": {
     "three": ">=0.133",
+    "unimport": "^4.0.0 || ^5.0.0",
+    "unplugin-vue-components": "^28.0.0 || ^29.0.0 || ^30.0.0",
     "vue": ">=3.4"
+  },
+  "peerDependenciesMeta": {
+    "unimport": {
+      "optional": true
+    },
+    "unplugin-vue-components": {
+      "optional": true
+    }
   },
   "dependencies": {
     "@pmndrs/pointer-events": "^6.6.17",
@@ -80,6 +98,8 @@
     "rollup-plugin-visualizer": "catalog:build",
     "three": "catalog:three",
     "tsdown": "catalog:build",
+    "unimport": "catalog:utils",
+    "unplugin-vue-components": "catalog:utils",
     "vite": "catalog:vite",
     "vite-plugin-banner": "catalog:vite",
     "vite-plugin-dts": "catalog:vite",
