@@ -1,7 +1,7 @@
 {
   "name": "@tresjs/core",
   "type": "module",
-  "version": "6.0.0",
+  "version": "6.0.1",
   "description": "Declarative ThreeJS using Vue Components",
   "author": "Alvaro Saburido <hola@alvarosaburido.dev> (https://github.com/alvarosabu/)",
   "license": "MIT",
@@ -28,7 +28,9 @@
   "types": "./dist/tres.d.ts",
   "typesVersions": {
     "*": {
-      "template-compiler-options": ["dist/template-compiler-options.d.mts"]
+      "template-compiler-options": [
+        "dist/template-compiler-options.d.mts"
+      ]
     }
   },
   "files": [
