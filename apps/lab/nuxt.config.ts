@@ -17,9 +17,6 @@ export default defineNuxtConfig({
 
   css: ['~/assets/styles/main.css'],
   declare: ['*.glsl'],
-  uiPro: {
-    license: process.env.NUXT_UI_PRO_LICENSE
-  },
   tres: {
     devtools: true,
     glsl: true,
@@ -63,8 +60,30 @@ export default defineNuxtConfig({
     },
   },
 
+  icon: {
+    serverBundle: {
+      collections: ['lucide', 'carbon', 'game-icons', 'ic', 'logos', 'ph'],
+      externalizeIconsJson: true,
+    }
+  },
+
   vite: {
     plugins: [svgLoader()],
+    optimizeDeps: {
+      include: [
+        '@vue/devtools-core',
+        '@vue/devtools-kit',
+        '@vueuse/core',
+        'three-stdlib',
+        'camera-controls',
+        'three-custom-shader-material/vanilla',
+        'three/webgpu',
+        'stats.js',
+        'stats-gl',
+        'radashi',
+        '@pmndrs/pointer-events',
+      ],
+    }
   },
 
   compatibilityDate: '2024-08-29',
