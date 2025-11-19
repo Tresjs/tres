@@ -5,7 +5,7 @@ import type { RendererOptions, UseRendererManagerReturn } from '../useRenderer/u
 import { ref, shallowRef } from 'vue'
 import { extend } from '../../core/catalogue'
 
-import type { UseCameraReturn } from '../useCamera/'
+import type { UseCameraReturn } from '../useCamera'
 
 import { useCameraManager } from '../useCamera'
 import { useRendererManager } from '../useRenderer/useRendererManager'
