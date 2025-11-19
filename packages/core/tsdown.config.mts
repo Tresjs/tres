@@ -33,9 +33,11 @@ export default defineConfig([
     },
   },
   {
-    entry: [
-      './src/utils/template-compiler-options.ts',
-    ],
+    entry: {
+      'template-compiler-options': './src/utils/template-compiler-options.ts',
+      'unimport': './src/unimport/index.ts',
+      'unplugin-vue-components-resolver': './src/resolvers/index.ts',
+    },
     platform: 'node',
     banner,
     dts: true,
