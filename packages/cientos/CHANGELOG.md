@@ -1,3 +1,20 @@
+## 5.1.1 (2025-11-18)
+
+### 🚀 Features
+
+- **cientos:** support absolute-inspired positioning on `<ScreenSpace>` ([d26ac22e](https://github.com/Tresjs/tres/commit/d26ac22e))
+- **cientos:** support ortographic camera with absolute group ([0b68cc1f](https://github.com/Tresjs/tres/commit/0b68cc1f))
+- **cientos:** add `<AbsoluteGroup>` abstraction ([6d0eee45](https://github.com/Tresjs/tres/commit/6d0eee45))
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/core to 5.1.1
+- Updated @tresjs/eslint-config to 1.5.1
+
+### ❤️ Thank You
+
+- lihbr @lihbr
+
 ## 5.1.0 (2025-10-10)
 
 ### 🩹 Fixes

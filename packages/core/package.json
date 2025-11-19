@@ -1,8 +1,7 @@
 {
   "name": "@tresjs/core",
   "type": "module",
-  "version": "5.1.0",
-  "packageManager": "pnpm@10.17.0",
+  "version": "5.1.1",
   "description": "Declarative ThreeJS using Vue Components",
   "author": "Alvaro Saburido <hola@alvarosaburido.dev> (https://github.com/alvarosabu/)",
   "license": "MIT",
@@ -20,27 +19,20 @@
   ],
   "sideEffects": false,
   "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/tres.js",
-      "default": "./dist/tres.js"
-    },
-    "./components": {
-      "types": "./dist/src/components/index.d.ts"
-    },
-    "./composables": {
-      "types": "./dist/src/composables/index.d.ts"
-    },
-    "./types": {
-      "types": "./dist/src/types/index.d.ts"
-    },
-    "./utils": {
-      "types": "./dist/src/utils/index.d.ts"
-    },
-    "./*": "./*"
+    ".": "./dist/tres.js",
+    "./template-compiler-options": "./dist/template-compiler-options.mjs",
+    "./package.json": "./package.json"
   },
+  "main": "./dist/tres.js",
   "module": "./dist/tres.js",
-  "types": "./dist/index.d.ts",
+  "types": "./dist/tres.d.ts",
+  "typesVersions": {
+    "*": {
+      "template-compiler-options": [
+        "dist/template-compiler-options.d.mts"
+      ]
+    }
+  },
   "files": [
     "*.d.ts",
     "dist"
@@ -49,7 +41,7 @@
     "access": "public"
   },
   "scripts": {
-    "build": "vite build",
+    "build": "tsdown",
     "test": "vitest",
     "test:ci": "vitest run",
     "test:ui": "vitest --ui --coverage.enabled=true",
@@ -65,35 +57,37 @@
   "dependencies": {
     "@pmndrs/pointer-events": "^6.6.17",
     "@vue/devtools-api": "^7.7.2",
-    "@vueuse/core": "catalog:",
-    "radashi": "^12.6.2"
+    "@vueuse/core": "catalog:utils",
+    "radashi": "^12.6.2",
+    "typescript": "catalog:typescript"
   },
   "devDependencies": {
     "@tresjs/eslint-config": "workspace:*",
-    "@types/three": "catalog:",
-    "@typescript-eslint/eslint-plugin": "catalog:",
-    "@typescript-eslint/parser": "catalog:",
-    "@vitejs/plugin-vue": "catalog:",
+    "@types/three": "catalog:three",
+    "@typescript-eslint/eslint-plugin": "catalog:eslint",
+    "@typescript-eslint/parser": "catalog:eslint",
+    "@vitejs/plugin-vue": "catalog:vite",
     "@vitest/coverage-v8": "3.2.4",
-    "@vitest/ui": "catalog:",
-    "@vue/test-utils": "catalog:",
-    "eslint": "catalog:",
-    "eslint-plugin-vue": "catalog:",
-    "jsdom": "catalog:",
-    "kolorist": "catalog:",
-    "pathe": "catalog:",
-    "rollup-plugin-analyzer": "catalog:",
+    "@vitest/ui": "catalog:testing",
+    "@vue/test-utils": "catalog:testing",
+    "eslint": "catalog:eslint",
+    "eslint-plugin-vue": "catalog:eslint",
+    "jsdom": "catalog:testing",
+    "kolorist": "catalog:utils",
+    "pathe": "catalog:utils",
+    "rollup-plugin-analyzer": "catalog:build",
     "rollup-plugin-copy": "^3.5.0",
-    "rollup-plugin-visualizer": "catalog:",
-    "three": "catalog:",
-    "vite": "catalog:",
-    "vite-plugin-banner": "catalog:",
-    "vite-plugin-dts": "catalog:",
+    "rollup-plugin-visualizer": "catalog:build",
+    "three": "catalog:three",
+    "tsdown": "catalog:build",
+    "vite": "catalog:vite",
+    "vite-plugin-banner": "catalog:vite",
+    "vite-plugin-dts": "catalog:vite",
     "vite-plugin-inspect": "^11.3.3",
-    "vitest": "catalog:",
-    "vue": "catalog:",
+    "vitest": "catalog:testing",
+    "vue": "catalog:vue",
     "vue-demi": "^0.14.10",
-    "vue-tsc": "catalog:"
+    "vue-tsc": "catalog:typescript"
   },
   "nx": {
     "implicitDependencies": [

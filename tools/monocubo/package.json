@@ -2,7 +2,6 @@
   "name": "@tresjs/monorepo-cli",
   "version": "0.1.0",
   "description": "CLI tool for migrating and managing Tres projects in the monorepo",
-  "packageManager": "pnpm@10.10.0",
   "type": "module",
   "main": "dist/index.mjs",
   "private": true,
@@ -21,7 +20,7 @@
     "inquirer": "^8.2.5",
     "license-checker": "^25.0.1",
     "ora": "^5.4.1",
-    "tsdown": "^0.15.4"
+    "tsdown": "catalog:build"
   },
   "devDependencies": {
     "@types/inquirer": "^9.0.8",

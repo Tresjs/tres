@@ -1,4 +1,4 @@
-import type { TresContext } from 'src/composables'
+import type { TresContext } from '../composables'
 import type { Vector3 } from 'three'
 import type { TresObject } from '../types'
 import * as THREE from 'three'
