@@ -1,3 +1,18 @@
+## 5.1.1 (2025-11-18)
+
+### 🩹 Fixes
+
+- **logger:** remove unnecessary eslint directive for explicit any in runtime mode resolution ([5b06cc1d](https://github.com/Tresjs/tres/commit/5b06cc1d))
+- **core:** enhance runtime mode resolution for both browser and Node environments ([2f9c55c2](https://github.com/Tresjs/tres/commit/2f9c55c2))
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/eslint-config to 1.5.1
+
+### ❤️ Thank You
+
+- alvarosabu @alvarosabu
+
 ## 5.1.0 (2025-10-10)
 
 ### 🚀 Features

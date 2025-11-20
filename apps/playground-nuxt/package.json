@@ -10,12 +10,12 @@
   },
   "dependencies": {
     "@tresjs/nuxt": "workspace:*",
-    "@nuxt/ui": "catalog:",
+    "@nuxt/ui": "catalog:nuxt",
     "@tresjs/cientos": "workspace:^",
     "@tresjs/leches": "workspace:^"
   },
   "devDependencies": {
     "@tresjs/eslint-config": "workspace:*",
-    "nuxt": "catalog:"
+    "nuxt": "catalog:nuxt"
   }
 }
