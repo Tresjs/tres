@@ -21,8 +21,8 @@
     "@iconify-json/carbon": "^1.2.5",
     "@tresjs/cientos": "workspace:*",
     "@tresjs/core": "workspace:*",
-    "@types/three": "catalog:",
-    "three": "catalog:",
+    "@types/three": "catalog:three",
+    "three": "catalog:three",
     "unplugin-auto-import": "^0.17.8",
     "unplugin-vue-components": "^0.25.2",
     "vite-plugin-qrcode": "^0.2.4"
