@@ -1,8 +1,7 @@
 {
   "name": "@tresjs/nuxt",
   "type": "module",
-  "version": "5.1.0",
-  "packageManager": "pnpm@10.6.3",
+  "version": "5.1.1",
   "description": "TresJS integration for Nuxt.",
   "author": "Daniel Roe (https://github.com/danielroe/)",
   "license": "MIT",
@@ -54,7 +53,7 @@
   },
   "dependencies": {
     "@nuxt/kit": "4.1.2",
-    "@nuxt/ui": "catalog:",
+    "@nuxt/ui": "catalog:nuxt",
     "@tresjs/core": "workspace:*",
     "defu": "^6.1.4",
     "mlly": "^1.8.0",
@@ -71,16 +70,16 @@
     "@nuxt/schema": "^4.1.2",
     "@nuxt/test-utils": "^3.19.2",
     "@types/node": "^24.5.2",
-    "@types/three": "catalog:",
+    "@types/three": "catalog:three",
     "@vueuse/nuxt": "13.9.0",
-    "eslint": "catalog:",
-    "nuxt": "catalog:",
+    "eslint": "catalog:eslint",
+    "nuxt": "catalog:nuxt",
     "playwright": "^1.55.0",
-    "three": "catalog:",
-    "typescript": "catalog:",
-    "vitest": "catalog:",
-    "vue": "catalog:",
-    "vue-tsc": "catalog:"
+    "three": "catalog:three",
+    "typescript": "catalog:typescript",
+    "vitest": "catalog:testing",
+    "vue": "catalog:vue",
+    "vue-tsc": "catalog:typescript"
   },
   "build": {
     "externals": [
