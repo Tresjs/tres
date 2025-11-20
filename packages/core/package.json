@@ -58,8 +58,7 @@
     "@pmndrs/pointer-events": "^6.6.17",
     "@vue/devtools-api": "^7.7.2",
     "@vueuse/core": "catalog:utils",
-    "radashi": "^12.6.2",
-    "typescript": "catalog:typescript"
+    "radashi": "^12.6.2"
   },
   "devDependencies": {
     "@tresjs/eslint-config": "workspace:*",
@@ -80,6 +79,7 @@
     "rollup-plugin-visualizer": "catalog:build",
     "three": "catalog:three",
     "tsdown": "catalog:build",
+    "typescript": "catalog:typescript",
     "vite": "catalog:vite",
     "vite-plugin-banner": "catalog:vite",
     "vite-plugin-dts": "catalog:vite",
