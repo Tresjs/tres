@@ -52,6 +52,7 @@ const { hasFinishLoading, progress } = await useProgress()
           :rotation="[0, 0.5, 0]"
           :position="[0, 0.4, 0]"
           :scale="0.5"
+          draco
         />
       </Suspense>
       <Backdrop
