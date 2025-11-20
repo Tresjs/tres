@@ -57,17 +57,7 @@ const props = withDefaults(defineProps<TresCanvasProps>(), {
   shadowMapType: PCFSoftShadowMap,
 })
 
-const emit = defineEmits<{
-  ready: [context: TresContext]
-  pointermissed: [event: PointerEvent<MouseEvent>]
-  render: [context: TresContext]
-  beforeLoop: [context: TresContextWithClock]
-  loop: [context: TresContextWithClock]
-} & {
-  // all pointer events are supported because they bubble up
-  [key in TresPointerEventName]: [event: PointerEvent<MouseEvent>]
-}
->()
+const emit = defineEmits<TresCanvasEmits>()
 
 const slots = defineSlots<{
   default: () => any
@@ -277,6 +267,17 @@ export interface TresCanvasProps extends RendererOptions {
    * @default true
    */
   enableProvideBridge?: boolean
+}
+
+export type TresCanvasEmits = {
+  ready: [context: TresContext]
+  pointermissed: [event: PointerEvent<MouseEvent>]
+  render: [context: TresContext]
+  beforeLoop: [context: TresContextWithClock]
+  loop: [context: TresContextWithClock]
+} & {
+  // all pointer events are supported because they bubble up
+  [key in TresPointerEventName]: [event: PointerEvent<MouseEvent>]
 }
 </script>
 

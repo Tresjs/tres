@@ -4,7 +4,24 @@
  */
 
 /* eslint-disable no-console */
-export const isProd = import.meta.env.MODE === 'production'
+// Resolve runtime mode in both browser (Vite) and Node (when Vite bundles config)
+function resolveRuntimeMode(): string {
+  // import.meta may be undefined when this file is executed in Node during Vite config bundling
+  try {
+    // Using optional chaining to avoid ReferenceErrors when import.meta is not defined
+    const modeFromImportMeta = (import.meta as any)?.env?.MODE as string | undefined
+    if (modeFromImportMeta) { return modeFromImportMeta }
+  }
+  catch {
+    // ignore – fall back to process.env
+  }
+  // Fallback for Node contexts
+  return typeof process !== 'undefined' && process.env && process.env.NODE_ENV
+    ? process.env.NODE_ENV
+    : 'production'
+}
+
+export const isProd = resolveRuntimeMode() === 'production'
 
 const logPrefix = '[TresJS ▲ ■ ●] '
 
