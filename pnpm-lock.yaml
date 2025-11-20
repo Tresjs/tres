@@ -623,9 +623,6 @@ importers:
       radashi:
         specifier: ^12.6.2
         version: 12.6.2
-      typescript:
-        specifier: catalog:typescript
-        version: 5.8.3
     devDependencies:
       '@tresjs/eslint-config':
         specifier: workspace:*
@@ -681,6 +678,9 @@ importers:
       tsdown:
         specifier: catalog:build
         version: 0.16.1(synckit@0.11.11)(typescript@5.8.3)(vue-tsc@3.1.1(typescript@5.8.3))
+      typescript:
+        specifier: catalog:typescript
+        version: 5.8.3
       vite:
         specifier: catalog:vite
         version: 7.1.9(@types/node@24.5.2)(jiti@2.6.1)(lightningcss@1.30.1)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1)
