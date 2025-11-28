@@ -34,6 +34,6 @@ export type TresCanvasEmits = {
 }
 
 export interface TresCanvasInstance {
-  get context(): TresContext | null | undefined
+  get context(): TresContext | undefined
   dispose: () => void
 }
