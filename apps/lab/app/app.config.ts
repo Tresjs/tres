@@ -11,5 +11,11 @@ export default defineAppConfig({
         body: 'p-2 sm:p-3'
       }
     }
+  },
+  site: {
+    name: 'TresJS Lab',
+    url: 'https://lab.tresjs.org',
+    description: 'Explore creative WebGL experiments built with TresJS, the declarative ThreeJS framework for Vue',
+    image: '/og-home.png',
   }
 })

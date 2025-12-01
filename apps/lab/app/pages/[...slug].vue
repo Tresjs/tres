@@ -3,6 +3,9 @@ definePageMeta({
   layout: 'experiment',
 })
 const route = useRoute()
+const img = useImage()
+const site = useSiteConfig()
+
 const { data: page } = await useAsyncData(route.path, () => {
   return queryCollection('experiments').path(route.path).first()
 })
@@ -18,69 +21,31 @@ const formattedPage = computed(() => {
   }
 })
 
-useHead({
-  title: `${page?.value?.title}`,
-  meta: [
-    {
-      hid: 'description',
-      name: 'description',
-      content: page?.value?.description,
-    },
-    {
-      hid: 'keywords',
-      property: 'keywords',
-      keywords: page?.value?.tags?.join(', '),
-    },
-    // og
-    {
-      hid: 'og:description',
-      property: 'og:description',
-      content: page?.value?.description,
-    },
-    {
-      hid: 'og:title',
-      property: 'og:title',
-      content: `${page?.value?.title} made with TresJS by @${page?.value?.author}`,
-    },
-    {
-      hid: 'og:type',
-      property: 'og:type',
-      content: 'project',
-    },
-    {
-      hid: 'og:image',
-      property: 'og:image',
-      content: page?.value?.thumbnail ?? `/${page?.value?._path?.split('/').pop()}.png`,
-    },
-    {
-      hid: 'og:image:alt',
-      property: 'og:image:alt',
-      content: page?.value?.title,
-    },
-    // Twitter
-    { name: 'twitter:card', content: 'summary_large_image' },
-    { name: 'twitter:site', content: '@alvarosabu' },
-    {
-      hid: 'twitter:title',
-      property: 'twitter:title',
-      content: `${page?.value?.title} - Tres`,
-    },
-    {
-      hid: 'twitter:description',
-      name: 'twitter:description',
-      content: page?.value?.description,
-    },
-    {
-      hid: 'twitter:image',
-      name: 'twitter:image',
-      content: page?.value?.thumbnail ?? `/${page?.value?._path?.split('/').pop()}.png`,
-    },
-    {
-      hid: 'twitter:image:alt',
-      name: 'twitter:image:alt',
-      content: page?.value?.title,
-    },
-  ],
+const ogImageUrl = computed(() => {
+  const imagePath = page.value?.thumbnail ?? `/${page.value?.path?.split('/').pop()}.png`
+  return img(imagePath, { width: 1200, height: 630, fit: 'cover' })
+})
+
+defineOgImage({
+  url: ogImageUrl.value,
+  alt: page.value?.title,
+  extension: 'png',
+})
+
+useSeoMeta({
+  title: page.value?.title,
+  description: page.value?.description,
+  keywords: page.value?.tags?.join(', '),
+  ogTitle: `${page.value?.title} made with TresJS by @${page.value?.author}`,
+  icon: '/favicon.ico',
+  ogDescription: page.value?.description,
+  ogImage: ogImageUrl.value,
+  ogType: 'website',
+  twitterImage: ogImageUrl.value,
+  twitterSite: '@tresjs_dev',
+
+  twitterTitle: page.value?.title,
+  twitterDescription: page.value?.description,
 })
 
 function toPascalCase(str: string) {

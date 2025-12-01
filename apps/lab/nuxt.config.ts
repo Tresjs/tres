@@ -13,8 +13,15 @@ export default defineNuxtConfig({
     '@nuxt/devtools',
     '@tresjs/nuxt',
     '@nuxt/scripts',
+    '@nuxtjs/seo',
   ],
-
+  site: {
+    name: 'TresJS Lab',
+    url: 'https://lab.tresjs.org',
+    description: 'Explore creative WebGL experiments built with TresJS, the declarative ThreeJS framework for Vue',
+    image: '/og-home.png',
+    icon: '/favicon.ico',
+  },
   css: ['~/assets/styles/main.css'],
   declare: ['*.glsl'],
   tres: {

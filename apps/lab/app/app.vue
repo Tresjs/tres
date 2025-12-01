@@ -4,23 +4,30 @@ const { data: files } = useLazyAsyncData('search', () => queryCollectionSearchSe
   server: false
 })
 
-useHead({
-  meta: [
-    { name: 'viewport', content: 'width=device-width, initial-scale=1' }
-  ],
-  link: [
-    { rel: 'icon', href: '/favicon.ico' }
-  ],
-  htmlAttrs: {
-    lang: 'en'
-  }
-})
+const site = useSiteConfig()
 
-useSeoMeta({
-  titleTemplate: title => title ? `${title} · TresJS Lab` : 'TresJS Lab',
-  ogSiteName: 'TresJS Lab',
-  twitterCard: 'summary_large_image'
-})
+
+if (import.meta.server) {
+  useHead({
+    meta: [
+      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+    ],
+    link: [
+      { rel: 'icon', href: '/favicon.ico' },
+    ],
+    htmlAttrs: {
+      lang: 'en',
+    },
+  })
+
+  useSeoMeta({
+    ogSiteName: site.name,
+    ogType: 'website',
+    twitterCard: 'summary_large_image',
+    twitterSite: 'tresjs_dev',
+    icon: site.icon,
+  })
+}
 
 provide('navigation', navigation)
 </script>

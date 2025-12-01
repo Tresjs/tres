@@ -1,11 +1,23 @@
 <script setup lang="ts">
 import type { ExperimentItem } from '~/app/types'
 
-useHead({
-  meta: [
-    { name: 'description', content: 'Explore creative WebGL experiments built with TresJS, the declarative ThreeJS framework for Vue' },
-  ],
+const site = useSiteConfig()
+
+useSeoMeta({
+  titleTemplate: title => title ? `${title} · ${site.name}` : site.name,
+  title: site.name,
+  description: site.description,
+  ogTitle: site.name,
+  ogDescription: site.description,
+  ogImage: site.image,
+  twitterTitle: site.name,
+  twitterDescription: site.description,
+  twitterImage: site.image,
+  twitterCreator: '@tresjs_dev',
+  twitterSite: '@tresjs_dev',
+  icon: '/favicon.ico',
 })
+
 
 // Fetch all experiments ordered by featured first, then by date
 const { data: experiments } = await useAsyncData('experiments', () =>
