@@ -1,7 +1,7 @@
 {
   "name": "@tresjs/post-processing",
   "type": "module",
-  "version": "3.1.0",
+  "version": "3.1.1",
   "description": "Post-processing library for TresJS",
   "author": "Alvaro Saburido <hola@alvarosaburido.dev> (https://github.com/alvarosabu/)",
   "license": "MIT",
@@ -24,13 +24,12 @@
     "Tino Koch (https://github.com/Tinoooo)"
   ],
   "exports": {
-    ".": {
-      "types": "./dist/tres-post-processing.d.ts",
-      "import": "./dist/tres-post-processing.js",
-      "require": "./dist/tres-post-processing.cjs"
-    },
-    "./*": "./*"
+    ".": "./dist/tres-post-processing.js",
+    "./package.json": "./package.json"
   },
+  "main": "./dist/tres-post-processing.js",
+  "module": "./dist/tres-post-processing.js",
+  "types": "./dist/tres-post-processing.d.ts",
   "files": [
     "*.d.ts",
     "dist"
@@ -41,39 +40,40 @@
   "scripts": {
     "dev": "cd playground && npm run dev",
     "playground": "cd playground && npm run dev",
-    "build": "vite build",
+    "build": "tsdown",
     "preview": "vite preview",
     "lint": "eslint .",
     "typecheck": "vue-tsc --noEmit",
     "lint:fix": "eslint . --fix"
   },
   "peerDependencies": {
-    "@tresjs/core": "5.1.0",
+    "@tresjs/core": "5.1.1",
     "three": ">=0.169",
     "vue": ">=3.4"
   },
   "dependencies": {
-    "@vueuse/core": "catalog:",
+    "@vueuse/core": "catalog:utils",
     "postprocessing": "^6.37.2"
   },
   "devDependencies": {
     "@tresjs/core": "workspace:*",
     "@tresjs/eslint-config": "workspace:*",
     "@tresjs/leches": "workspace:*",
-    "@types/three": "catalog:",
-    "@vitejs/plugin-vue": "catalog:",
-    "eslint": "catalog:",
-    "kolorist": "catalog:",
-    "pathe": "catalog:",
-    "rollup-plugin-analyzer": "catalog:",
-    "rollup-plugin-visualizer": "catalog:",
-    "three": "catalog:",
-    "typescript": "catalog:",
-    "vite": "catalog:",
-    "vite-plugin-banner": "catalog:",
-    "vite-plugin-dts": "catalog:",
-    "vue": "catalog:",
-    "vue-tsc": "catalog:"
+    "@types/three": "catalog:three",
+    "@vitejs/plugin-vue": "catalog:vite",
+    "eslint": "catalog:eslint",
+    "kolorist": "catalog:utils",
+    "pathe": "catalog:utils",
+    "rollup-plugin-analyzer": "catalog:build",
+    "rollup-plugin-visualizer": "catalog:build",
+    "three": "catalog:three",
+    "tsdown": "catalog:build",
+    "typescript": "catalog:typescript",
+    "vite": "catalog:vite",
+    "vite-plugin-banner": "catalog:vite",
+    "vite-plugin-dts": "catalog:vite",
+    "vue": "catalog:vue",
+    "vue-tsc": "catalog:typescript"
   },
   "nx": {
     "implicitDependencies": [

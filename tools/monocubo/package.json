@@ -20,7 +20,7 @@
     "inquirer": "^8.2.5",
     "license-checker": "^25.0.1",
     "ora": "^5.4.1",
-    "tsdown": "^0.15.4"
+    "tsdown": "catalog:build"
   },
   "devDependencies": {
     "@types/inquirer": "^9.0.8",
