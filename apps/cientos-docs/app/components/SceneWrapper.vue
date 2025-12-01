@@ -2,7 +2,7 @@
 </script>
 
 <template>
-  <div class="w-full relative aspect-video rounded-lg overflow-hidden">
+  <div class="w-full relative rounded-lg overflow-hidden">
     <ClientOnly>
       <slot></slot>
     </ClientOnly>
