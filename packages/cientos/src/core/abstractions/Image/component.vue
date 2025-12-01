@@ -92,14 +92,14 @@ const imageBounds = computed(() => [
 ])
 const resolution = computed(() => Math.max(size.width.value, size.height.value))
 
-const { state: t, isLoading } = useTexture(props.url!)
+const { state, isLoading } = useTexture(props.url!)
 
 watchEffect(() => {
   if (props.texture) {
     texture.value = props.texture
   }
   if (!isLoading.value) {
-    texture.value = t.value
+    texture.value = state.value
   }
 })
 
