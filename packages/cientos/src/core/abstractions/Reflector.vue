@@ -1,7 +1,8 @@
 <script lang="ts" setup>
 import { useTres } from '@tresjs/core'
 import { Reflector } from 'three-stdlib'
-import { shallowRef, toRefs, watch } from 'vue'
+import { computed, shallowRef, toRefs, watch } from 'vue'
+import { Color } from 'three'
 import type { TresColor } from '@tresjs/core'
 
 export interface ReflectorProps {
@@ -81,6 +82,8 @@ extend({ Reflector })
 const { color, textureWidth, textureHeight, clipBias, multisample, shader }
   = toRefs(props)
 
+const colorValue = computed(() => new Color(color.value))
+
 watch(props, () => {
   invalidate()
 })
@@ -98,7 +101,7 @@ defineExpose({
                          clipBias,
                          multisample,
                          shader }]"
-    :material-uniforms-color-value="color"
+    :material-uniforms-color-value="colorValue"
   >
     <slot>
       <TresPlaneGeometry :args="[5, 5]" />

@@ -6,7 +6,7 @@ import {
   Stars,
 } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
-import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
+import { BasicShadowMap, Color, NoToneMapping, SRGBColorSpace } from 'three'
 import { shallowRef, watch } from 'vue'
 
 const gl = {
