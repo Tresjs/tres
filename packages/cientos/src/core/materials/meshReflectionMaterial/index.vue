@@ -21,7 +21,7 @@ import {
   WebGLRenderTarget,
 } from 'three'
 import { computed, onBeforeUnmount, shallowRef, toValue, watch } from 'vue'
-import type { TresColor } from '@tresjs/core'
+import type { TresColor, TresObject } from '@tresjs/core'
 import { BlurPass } from './BlurPass'
 import { MeshReflectionMaterial } from './material'
 
@@ -158,7 +158,7 @@ const hasDepth = computed(() => props.sharpDepthScale > 0 || props.blurDepthScal
 const hasDistortion = computed(() => !!props.distortionMap)
 const hasRoughness = computed(() => !!props.roughnessMap)
 
-const materialRef = shallowRef()
+const materialRef = shallowRef<TresObject>()
 let blurpass: BlurPass
 
 const state = {
@@ -279,11 +279,11 @@ onBeforeUnmount(() => {
 const { onBeforeRender } = useLoop()
 
 onBeforeRender(({ renderer, scene, camera }) => {
-  const parent = (materialRef.value as any)?.__tres?.parent
+  const parent = materialRef.value?.__tres?.parent
   if (!parent) { return }
   // WebGPU compatibility: avoid importing three/webgpu (not exported in older versions).
   // Detect WebGPU renderer by its flag property defined in its class (`isWebGPURenderer: true`).
-  if ((renderer as any)?.isWebGPURenderer === true) {
+  if ('isWebGPURenderer' in renderer && renderer.isWebGPURenderer === true) {
     console.warn('MeshReflectionMaterial: WebGPURenderer is not supported yet')
     return
   }
