@@ -25,7 +25,7 @@ import {
   watch,
   watchEffect,
 } from 'vue'
-import { version } from '../../package.json'
+import { version } from '../../package.json' with { type: 'json' }
 import type { RendererOptions, TresContext } from '../composables'
 import { useTresContextProvider } from '../composables'
 import { INJECTION_KEY as CONTEXT_INJECTION_KEY } from '../composables/useTresContextProvider'
