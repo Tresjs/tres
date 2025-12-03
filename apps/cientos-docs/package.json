@@ -19,23 +19,23 @@
     "@nuxt/content": "catalog:",
     "@nuxt/image": "catalog:",
     "@nuxt/scripts": "0.12.1",
-    "@nuxt/ui": "catalog:",
+    "@nuxt/ui": "catalog:nuxt",
     "@tresjs/cientos": "workspace:^",
     "@tresjs/core": "workspace:^",
     "@tresjs/leches": "workspace:^",
     "@unhead/vue": "^2.0.17",
     "better-sqlite3": "^12.4.1",
-    "nuxt": "catalog:",
+    "nuxt": "catalog:nuxt",
     "nuxt-llms": "0.1.3",
     "tweakpane": "^4.0.5",
-    "vue": "catalog:",
-    "vue-router": "catalog:"
+    "vue": "catalog:vue",
+    "vue-router": "catalog:vue"
   },
   "devDependencies": {
     "@tresjs/eslint-config": "workspace:*",
     "@tweakpane/core": "^2.0.5",
-    "eslint": "catalog:",
-    "typescript": "catalog:",
-    "vue-tsc": "catalog:"
+    "eslint": "catalog:eslint",
+    "typescript": "catalog:typescript",
+    "vue-tsc": "catalog:typescript"
   }
 }
