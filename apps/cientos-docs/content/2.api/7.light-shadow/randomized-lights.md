@@ -3,8 +3,6 @@ title: Randomized Lights
 description: Creates multiple lights and jiggles them for softer shadows.
 ---
 
-# RandomizedLights
-
 ::SceneWrapper
   ::LightShadowRandomizedLights
   ::

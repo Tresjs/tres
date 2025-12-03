@@ -3,8 +3,6 @@ title: GradientTexture
 description: Create gradient textures for materials.
 ---
 
-# GradientTexture
-
 ::SceneWrapper
   ::ObjectsGradientTexture
   ::

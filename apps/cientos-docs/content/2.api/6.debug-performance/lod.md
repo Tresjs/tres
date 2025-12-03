@@ -3,8 +3,6 @@ title: LOD
 description: Level of Detail - show meshes with more or less geometry based on distance from camera.
 ---
 
-# LOD
-
 ::SceneWrapper
   ::DebugPerformanceLOD
   ::

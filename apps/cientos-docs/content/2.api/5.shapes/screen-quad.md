@@ -3,8 +3,6 @@ title: Screen Quad
 description: A triangle that fills the screen for full-screen fragment shader work.
 ---
 
-# ScreenQuad
-
 ::SceneWrapper
   ::ShapesScreenQuad
   ::

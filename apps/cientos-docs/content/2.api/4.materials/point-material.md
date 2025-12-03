@@ -3,8 +3,6 @@ title: Point Material
 description: Extends THREE.PointsMaterial to render points as dots rather than squares.
 ---
 
-# PointMaterial
-
 ::SceneWrapper
   ::MaterialsPointMaterial
   ::

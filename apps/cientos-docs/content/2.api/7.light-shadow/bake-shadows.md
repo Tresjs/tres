@@ -3,8 +3,6 @@ title: Bake Shadows
 description: Bakes shadows in the first frame for performance optimization.
 ---
 
-# BakeShadows
-
 ::SceneWrapper
   ::LightShadowBakeShadows
   ::

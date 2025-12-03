@@ -3,8 +3,6 @@ title: useProgress
 description: A composable to track loading progress of assets in TresJS scenes.
 ---
 
-# useProgress
-
 A composable to convenience wrap `THREE.DefaultLoadingManager` and returns the progress of the loading assets into the scene.
 
 This comes handy to show an HTML loading bar or a spinner while the assets are being loaded.

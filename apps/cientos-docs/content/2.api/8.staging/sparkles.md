@@ -3,8 +3,6 @@ title: Sparkles
 description: Makes sparkles on geometry vertices, optionally guided by directional light.
 ---
 
-# Sparkles
-
 <!-- ::SceneWrapper
   ::StagingSparkles
   ::

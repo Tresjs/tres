@@ -3,8 +3,6 @@ title: Cubic Bezier Line
 description: Renders a Line2 between start and end points with two control points.
 ---
 
-# CubicBezierLine
-
 ::SceneWrapper
   ::ShapesCubicBezierLine
   ::

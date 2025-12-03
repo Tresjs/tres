@@ -3,8 +3,6 @@ title: Align
 description: Calculate and align children within their parent using bounding boxes.
 ---
 
-# Align
-
 ::SceneWrapper
   ::AbstractionsAlign
   ::

@@ -3,8 +3,6 @@ title: Stage
 description: Creates a complete stage setup with lighting, shadows, and environment.
 ---
 
-# Stage
-
 ::SceneWrapper
   ::LightShadowStage
   ::

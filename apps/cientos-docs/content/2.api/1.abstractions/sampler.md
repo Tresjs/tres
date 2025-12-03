@@ -3,8 +3,6 @@ title: Sampler
 description: Distribute instances on mesh surfaces using MeshSurfaceSampler.
 ---
 
-# Sampler
-
 ::SceneWrapper
   ::AbstractionsSampler
   ::

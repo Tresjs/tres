@@ -3,8 +3,6 @@ title: Line2
 description: Component for creating 3D lines using Three.js's Line2.
 ---
 
-# Line2
-
 ::SceneWrapper
   ::ShapesLine2
   ::

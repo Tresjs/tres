@@ -3,8 +3,6 @@ title: CatmullRomCurve3
 description: Allows you to make smooth 3D lines using Catmull-Rom curves.
 ---
 
-# CatmullRomCurve3
-
 ::SceneWrapper
   ::ShapesCatmullRomCurve3
   ::

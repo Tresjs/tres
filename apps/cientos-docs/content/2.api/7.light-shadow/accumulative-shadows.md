@@ -3,8 +3,6 @@ title: Accumulative Shadows
 description: DirectionalLight-based shadow component with progressive accumulation.
 ---
 
-# AccumulativeShadows
-
 ::SceneWrapper
   ::LightShadowAccumulativeShadows
   ::

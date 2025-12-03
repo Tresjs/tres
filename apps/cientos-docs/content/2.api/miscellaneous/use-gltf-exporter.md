@@ -3,8 +3,6 @@ title: useGLTFExporter
 description: Export 3D objects to GLTF format.
 ---
 
-# useGLTFExporter
-
 [GLTFExporter](https://threejs.org/docs/index.html?q=expo#examples/en/exporters/GLTFExporter) is an addon in threeJs that allows you to download any object3D in a [GLTF](https://www.khronos.org/gltf) format. **TresJS** provides a composable that simplifies this process with just a few lines of code.
 
 ## Basic usage

@@ -3,8 +3,6 @@ title: Stars
 description: Renders beautiful stars in the sky using Points and BufferGeometry.
 ---
 
-# Stars
-
 ::SceneWrapper
   ::StagingStars
   ::

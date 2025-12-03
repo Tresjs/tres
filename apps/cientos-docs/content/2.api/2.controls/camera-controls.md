@@ -3,8 +3,6 @@ title: Camera Controls
 description: Is similar to OrbitControls yet supports smooth transitions and more features.
 ---
 
-# CameraControls
-
 ::SceneWrapper
   ::ControlsCameraControls
   ::

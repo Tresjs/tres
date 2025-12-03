@@ -3,8 +3,6 @@ title: Tetrahedron
 description: Short-cut for a TetrahedronGeometry and a MeshBasicMaterial with a Mesh object.
 ---
 
-# Tetrahedron
-
 ::SceneWrapper
   ::ShapesTetrahedron
   ::

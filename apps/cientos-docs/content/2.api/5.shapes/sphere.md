@@ -3,8 +3,6 @@ title: Sphere
 description: Short-cut for a SphereGeometry and a MeshBasicMaterial with a Mesh object.
 ---
 
-# Sphere
-
 ::SceneWrapper
   ::ShapesSphere
   ::

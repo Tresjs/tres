@@ -3,8 +3,6 @@ title: Ring
 description: Short-cut for a RingGeometry and a MeshBasicMaterial with a Mesh object.
 ---
 
-# Ring
-
 ::SceneWrapper
   ::ShapesRing
   ::

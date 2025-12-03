@@ -3,8 +3,6 @@ title: Outline
 description: Create inverted-hull outlines using parent geometry.
 ---
 
-# Outline
-
 ::SceneWrapper
   ::AbstractionsOutline
   ::

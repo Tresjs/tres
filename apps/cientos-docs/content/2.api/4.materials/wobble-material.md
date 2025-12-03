@@ -3,8 +3,6 @@ title: Wobble Material
 description: Makes a geometry wobble and wave around with customizable speed and factor.
 ---
 
-# MeshWobbleMaterial
-
 ::SceneWrapper
   ::MaterialsWobbleMaterial
   ::

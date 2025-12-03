@@ -3,8 +3,6 @@ title: Backdrop
 description: A curved plane studio backdrop for presentational purposes.
 ---
 
-# Backdrop
-
 ::SceneWrapper
   ::StagingBackdrop
   ::

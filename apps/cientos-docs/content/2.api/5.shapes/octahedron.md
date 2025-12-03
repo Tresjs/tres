@@ -3,8 +3,6 @@ title: Octahedron
 description: Short-cut for a OctahedronGeometry and a MeshBasicMaterial with a Mesh object.
 ---
 
-# Octahedron
-
 ::SceneWrapper
   ::ShapesOctahedron
   ::

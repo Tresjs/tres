@@ -3,8 +3,6 @@ title: useVideoTexture
 description: A composable to load video textures in TresJS scenes.
 ---
 
-# useVideoTexture
-
 ::SceneWrapper
   ::LoadersUseVideoTexture
   ::

@@ -3,8 +3,6 @@ title: Dodecahedron
 description: Short-cut for a DodecahedronGeometry and a MeshBasicMaterial with a Mesh object.
 ---
 
-# Dodecahedron
-
 ::SceneWrapper
   ::ShapesDodecahedron
   ::

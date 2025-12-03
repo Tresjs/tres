@@ -3,8 +3,6 @@ title: Custom Shader Material
 description: Extends Three.js' material library with your own Vertex and Fragment shaders.
 ---
 
-# TresCustomShaderMaterial
-
 ::SceneWrapper
   ::MaterialsCustomShaderMaterial
   ::

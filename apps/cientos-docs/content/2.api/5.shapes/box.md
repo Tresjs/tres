@@ -3,8 +3,6 @@ title: Box
 description: Short-cut for a BoxGeometry and a MeshBasicMaterial with a Mesh object.
 ---
 
-# Box
-
 ::SceneWrapper
   ::ShapesBox
   ::

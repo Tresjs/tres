@@ -3,8 +3,6 @@ title: Keyboard Controls
 description: WASD on QWERTY keyboards or equivalent keys on non-QWERTY keyboards
 ---
 
-# KeyboardControls
-
 ::SceneWrapper
   ::ControlsKeyboardControls
   ::

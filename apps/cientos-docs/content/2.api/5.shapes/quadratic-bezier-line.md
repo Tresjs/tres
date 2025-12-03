@@ -3,8 +3,6 @@ title: Quadratic Bezier Line
 description: Renders a Line2 between start and end points with an optional control point.
 ---
 
-# QuadraticBezierLine
-
 ::SceneWrapper
   ::ShapesQuadraticBezierLine
   ::

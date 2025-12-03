@@ -1,9 +1,7 @@
 ---
-title: Glass Material
+title: Mesh Glass Material
 description: Makes a geometry look like glass by re-defining the MeshPhysicalMaterial.
 ---
-
-# MeshGlassMaterial
 
 ::SceneWrapper
   ::MaterialsGlassMaterial

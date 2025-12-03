@@ -3,8 +3,6 @@ title: GlobalAudio
 description: Add global sound to your scene.
 ---
 
-# GlobalAudio
-
 The `cientos` package provides a `<GlobalAudio />` component that serves to easily add a global sound to your scene.
 
 Reference: [Audio](https://threejs.org/docs/index.html?q=audio#api/en/audio/Audio)

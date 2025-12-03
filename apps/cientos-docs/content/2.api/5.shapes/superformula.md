@@ -3,8 +3,6 @@ title: Superformula
 description: Produces a configurable 3D plot of the superformula.
 ---
 
-# Superformula
-
 ::SceneWrapper
   ::ShapesSuperFormula
   ::

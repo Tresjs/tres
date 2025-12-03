@@ -3,8 +3,6 @@ title: Smoke
 description: Beautiful smoke, cloud, and fog effect using textures and transparency.
 ---
 
-# Smoke
-
 ::SceneWrapper
   ::StagingSmoke
   ::

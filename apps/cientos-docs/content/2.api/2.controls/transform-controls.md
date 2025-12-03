@@ -3,8 +3,6 @@ title: Transform Controls
 description: Set of three gizmos that can be used to translate, rotate and scale objects
 ---
 
-# Transform Controls
-
 The [Transform Controls](https://threejs.org/docs/#examples/en/controls/TransformControls) are a set of three gizmos that can be used to translate, rotate and scale objects in the scene. It adapts a similar interaction model of DCC tools like Blender
 
 ::SceneWrapper

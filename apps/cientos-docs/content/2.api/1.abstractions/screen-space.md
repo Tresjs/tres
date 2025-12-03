@@ -3,8 +3,6 @@ title: ScreenSpace
 description: Position objects in front of the camera with CSS-like positioning.
 ---
 
-# ScreenSpace
-
 ::SceneWrapper
   ::AbstractionsScreenSpace
   ::

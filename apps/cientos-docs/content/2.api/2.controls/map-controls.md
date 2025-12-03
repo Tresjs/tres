@@ -3,8 +3,6 @@ title: Map Controls
 description: similar to OrbitControls but for map views
 ---
 
-# MapControls
-
 ::SceneWrapper
   ::ControlsMapControls
   ::

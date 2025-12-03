@@ -3,8 +3,6 @@ title: AnimatedSprite
 description: Display 2D animations defined in a texture atlas.
 ---
 
-# AnimatedSprite
-
 ::SceneWrapper
   ::ObjectsAnimatedSprite
   ::

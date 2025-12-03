@@ -3,8 +3,6 @@ title: Bounds
 description: Calculate boundary box and center camera accordingly.
 ---
 
-# Bounds
-
 ::SceneWrapper
   ::MiscellaneousBounds
   ::

@@ -3,8 +3,6 @@ title: PositionalAudio
 description: Spatially positioned audio in 3D space.
 ---
 
-# PositionalAudio
-
 ::SceneWrapper
   ::MiscellaneousPositionalAudio
   ::

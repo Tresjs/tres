@@ -3,8 +3,6 @@ title: Holographic Material
 description: A simple to use holographic material for TresJS with vibrant colors, dynamic scanlines, and futuristic brilliance.
 ---
 
-# HolographicMaterial
-
 ::SceneWrapper
   ::MaterialsHolographicMaterial
   ::

@@ -3,8 +3,6 @@ title: Plane
 description: Short-cut for a PlaneGeometry and a MeshBasicMaterial with a Mesh object.
 ---
 
-# Plane
-
 ::SceneWrapper
   ::ShapesPlane
   ::

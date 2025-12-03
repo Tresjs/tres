@@ -3,8 +3,6 @@ title: Html
 description: Project HTML content to objects in your scene.
 ---
 
-# Html
-
 ::SceneWrapper
   ::ObjectsHtml
   ::

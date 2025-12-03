@@ -3,8 +3,6 @@ title: Billboard
 description: Make objects always face the camera automatically.
 ---
 
-# Billboard
-
 ::SceneWrapper
   ::AbstractionsBillboard
   ::

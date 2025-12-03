@@ -3,8 +3,6 @@ title: Soft Shadows
 description: Injects percent closer soft shadows (PCSS) into THREE's shader chunk.
 ---
 
-# SoftShadows
-
 ::SceneWrapper
   ::LightShadowSoftShadows
   ::

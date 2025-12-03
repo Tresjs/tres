@@ -3,9 +3,6 @@ title: All
 description: Explore the complete API reference
 ---
 
-# All
-
-
 ## 📦 Abstraction
 
 ::ApiList{listName="abstraction-list" path="/api/abstractions"}

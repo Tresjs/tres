@@ -3,8 +3,6 @@ title: Fbo
 description: Render to texture using Frame Buffer Objects.
 ---
 
-# Fbo
-
 ::SceneWrapper
   ::ObjectsFbo
   ::

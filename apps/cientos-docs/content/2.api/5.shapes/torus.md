@@ -3,8 +3,6 @@ title: Torus
 description: Short-cut for a TorusGeometry and a MeshBasicMaterial with a Mesh object.
 ---
 
-# Torus
-
 ::SceneWrapper
   ::ShapesTorus
   ::

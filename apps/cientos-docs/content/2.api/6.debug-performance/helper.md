@@ -3,8 +3,6 @@ title: Helper
 description: Handles instantiation, updates, and removal/disposal of THREE Helpers.
 ---
 
-# Helper
-
 ::SceneWrapper
   ::DebugPerformanceHelper
   ::

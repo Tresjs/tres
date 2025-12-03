@@ -3,8 +3,6 @@ title: ScreenSizer
 description: Scale objects to screen space where 1 unit equals 1 pixel.
 ---
 
-# ScreenSizer
-
 ::SceneWrapper
   ::AbstractionsScreenSizer
   ::

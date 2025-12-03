@@ -3,8 +3,6 @@ title: Ocean
 description: Wrapper for the Three.js Water add-on with sky reflection support.
 ---
 
-# Ocean
-
 ::SceneWrapper
   ::StagingOcean
   ::

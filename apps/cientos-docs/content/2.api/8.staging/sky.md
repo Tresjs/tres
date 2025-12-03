@@ -3,8 +3,6 @@ title: Sky
 description: Wrapper for the Three.js Sky add-on with sun position controls.
 ---
 
-# Sky
-
 ::SceneWrapper
   ::StagingSky
   ::

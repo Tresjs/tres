@@ -3,8 +3,6 @@ title: Rounded Box
 description: Short-cut for a RoundedBoxGeometry and a MeshBasicMaterial with a Mesh object.
 ---
 
-# RoundedBox
-
 ::SceneWrapper
   ::ShapesRoundedBox
   ::

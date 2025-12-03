@@ -3,8 +3,6 @@ title: Fit
 description: Uniformly scale and position children to fit into a defined space.
 ---
 
-# Fit
-
 ::SceneWrapper
   ::AbstractionsFit
   ::

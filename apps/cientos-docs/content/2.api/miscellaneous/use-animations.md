@@ -3,8 +3,6 @@ title: useAnimations
 description: Composable for managing model animations with AnimationMixer.
 ---
 
-# useAnimations
-
 `useAnimations` is a composable that returns a `shallowReactive` with all the models actions based on the animations provided. It is a wrapper around the [AnimationMixer](https://threejs.org/docs/#api/en/animation/AnimationMixer) class.
 
 ## Usage

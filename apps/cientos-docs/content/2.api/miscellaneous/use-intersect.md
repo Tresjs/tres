@@ -3,8 +3,6 @@ title: useIntersect
 description: Detect when objects enter or leave the screen.
 ---
 
-# useIntersect
-
 `useIntersect` is a function that returns `intersect`, a `Ref<boolean>` that's updated when the observed object enters or leaves the screen. This relies on [THREE.Object3D.onBeforeRender](https://threejs.org/docs/#api/en/core/Object3D.onBeforeRender) so it only works on objects that are effectively rendered, like meshes, lines, sprites. It won't work on other types like group, object3d, bone, etc.
 
 ## Usage

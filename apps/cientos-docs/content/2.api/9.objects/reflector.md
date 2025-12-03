@@ -3,8 +3,6 @@ title: Reflector
 description: Create real-time reflections of your scene.
 ---
 
-# Reflector
-
 ::SceneWrapper
   ::ObjectsReflector
   ::

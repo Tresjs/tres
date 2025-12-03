@@ -3,8 +3,6 @@ title: Stats
 description: JavaScript performance monitor to track FPS, MS, and memory usage.
 ---
 
-# Stats
-
 [stats.js](https://github.com/mrdoob/stats.js/) is a JavaScript performance monitor, made by [mrdoob](https://github.com/mrdoob). stats.js provides a simple info box that will help you monitor your code performance.
 
 **Cientos** provides a component called `Stats` that creates a panel without effort or configuration in the top left corner where you'll be able to monitor your app.
