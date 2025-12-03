@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { shallowRef } from 'vue'
 import { extend } from '@tresjs/core'
-import ImageMaterial from './ImageMaterialImpl'
+import { imageMaterialImpl } from './ImageMaterialImpl'
 
-extend({ ImageMaterial })
+extend({ ImageMaterial: imageMaterialImpl })
 
 const materialRef = shallowRef()
 
