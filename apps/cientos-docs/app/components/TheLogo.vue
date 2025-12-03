@@ -9,6 +9,6 @@
       class="font-bold text-dark font-sans text-sm"
       href="/"
       title="Home"
-    >Tres<span class="text-primary-300">JS</span></a>
+    >Cientos</a>
   </div>
 </template>
