@@ -1,30 +1,32 @@
 <script setup lang="ts">
-import { Fit, OrbitControls } from '@tresjs/cientos'
-import { TresCanvas } from '@tresjs/core'
-import { BoxGeometry, MeshNormalMaterial } from 'three'
+import { Fit, OrbitControls } from "@tresjs/cientos";
+import { TresCanvas } from "@tresjs/core";
+import { BoxGeometry, MeshNormalMaterial } from "three";
 
-const positions: number[][] = []
+const positions: number[][] = [];
 for (let y = 100; y <= 120; y += 10) {
   for (let x = 100; x <= 120; x += 10) {
-    positions.push([x, y, 9999])
+    positions.push([x, y, 9999]);
   }
 }
-const geom = new BoxGeometry()
-const mat = new MeshNormalMaterial()
+const geom = new BoxGeometry();
+const mat = new MeshNormalMaterial();
 </script>
 
 <template>
-  <TresCanvas clear-color="#4F4F4F">
-    <TresPerspectiveCamera :position="[1, 1, 1]" />
-    <OrbitControls />
-    <Fit>
-      <TresMesh
-        v-for="(pos, index) in positions"
-        :key="index"
-        :position="pos"
-        :args="[geom, mat]"
-      />
-    </Fit>
-    <TresGridHelper :args="[1, 1]" />
-  </TresCanvas>
+  <div class="aspect-16/9">
+    <TresCanvas clear-color="#4F4F4F">
+      <TresPerspectiveCamera :position="[1, 1, 1]" />
+      <OrbitControls />
+      <Fit>
+        <TresMesh
+          v-for="(pos, index) in positions"
+          :key="index"
+          :position="pos as [number, number, number]"
+          :args="[geom, mat]"
+        />
+      </Fit>
+      <TresGridHelper :args="[1, 1]" />
+    </TresCanvas>
+  </div>
 </template>

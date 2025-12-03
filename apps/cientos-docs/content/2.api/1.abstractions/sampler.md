@@ -10,9 +10,6 @@ description: Distribute instances on mesh surfaces using MeshSurfaceSampler.
 
 Declarative abstraction around MeshSurfaceSampler & InstancedMesh. It samples points from the passed mesh and transforms an InstancedMesh's matrix to distribute instances on the points.
 
-::UAlert{type="warning" description="Available in version 3.7.0 and above"}
-::
-
 ## Usage
 
 ```vue{2,11-20}
