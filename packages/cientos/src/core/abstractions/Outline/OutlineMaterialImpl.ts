@@ -4,7 +4,7 @@ import { shaderMaterial } from '../../../utils/shaderMaterial'
 // NOTE: Source
 // https://github.com/pmndrs/drei/blob/master/src/core/Outlines.tsx
 
-const OutlineMaterialImpl = shaderMaterial(
+export const OutlineMaterialImpl = /* @__PURE__ */ shaderMaterial(
   {
     screenspace: false,
     color: new Color('black'),
@@ -38,7 +38,7 @@ const OutlineMaterialImpl = shaderMaterial(
      #endif
      if (screenspace) {
        vec3 newPosition = tPosition.xyz + tNormal.xyz * thickness;
-       gl_Position = projectionMatrix * modelViewMatrix * vec4(newPosition, 1.0); 
+       gl_Position = projectionMatrix * modelViewMatrix * vec4(newPosition, 1.0);
      } else {
        vec4 clipPosition = projectionMatrix * modelViewMatrix * tPosition;
        vec4 clipNormal = projectionMatrix * modelViewMatrix * tNormal;
@@ -55,5 +55,3 @@ const OutlineMaterialImpl = shaderMaterial(
      #include <colorspace_fragment>
    }`,
 )
-
-export default OutlineMaterialImpl
