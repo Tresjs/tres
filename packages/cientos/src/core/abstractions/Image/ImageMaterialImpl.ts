@@ -5,7 +5,7 @@ import { Color, Vector2 } from 'three'
  * NOTE: Source:
  * https://threejs.org/docs/?q=material#api/en/materials/Material.transparent
  */
-const imageMaterialImpl = shaderMaterial(
+export const ImageMaterialImpl = /* @__PURE__ */ shaderMaterial(
   {
     color: /* @__PURE__ */ new Color('white'),
     scale: /* @__PURE__ */ new Vector2(1, 1),
@@ -46,14 +46,14 @@ const imageMaterialImpl = shaderMaterial(
     vec2 aspect(vec2 size) {
       return size / min(size.x, size.y);
     }
-    
+
     const float PI = 3.14159265;
-      
+
     // from https://iquilezles.org/articles/distfunctions
     float udRoundBox( vec2 p, vec2 b, float r ) {
       return length(max(abs(p)-b+r,0.0))-r;
     }
-  
+
     void main() {
       vec2 s = aspect(scale);
       vec2 i = aspect(imageBounds);
@@ -63,17 +63,15 @@ const imageMaterialImpl = shaderMaterial(
       vec2 offset = (rs < ri ? vec2((new.x - s.x) / 2.0, 0.0) : vec2(0.0, (new.y - s.y) / 2.0)) / new;
       vec2 uv = vUv * s / new + offset;
       vec2 zUv = (uv - vec2(0.5, 0.5)) / zoom + vec2(0.5, 0.5);
-  
+
       vec2 res = vec2(scale * resolution);
       vec2 halfRes = 0.5 * res;
-      float b = udRoundBox(vUv.xy * res - halfRes, halfRes, resolution * radius);    
+      float b = udRoundBox(vUv.xy * res - halfRes, halfRes, resolution * radius);
         vec3 a = mix(vec3(1.0,0.0,0.0), vec3(0.0,0.0,0.0), smoothstep(0.0, 1.0, b));
       gl_FragColor = toGrayscale(texture2D(map, zUv) * vec4(color, opacity * a), grayscale);
-      
+
       #include <tonemapping_fragment>
       #include <colorspace_fragment>
     }
   `,
 )
-
-export default imageMaterialImpl
