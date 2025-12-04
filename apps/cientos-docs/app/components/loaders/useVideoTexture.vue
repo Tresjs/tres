@@ -10,7 +10,8 @@ texture.value = await useVideoTexture(exampleVideo, { loop: false })
 </script>
 
 <template>
-  <TresCanvas clear-color="#333">
+  <div class="aspect-video">
+    <TresCanvas clear-color="#333">
     <TresPerspectiveCamera
       :position="[0, 5, 9]"
       :look-at="[0, 1, 0]"
@@ -21,5 +22,6 @@ texture.value = await useVideoTexture(exampleVideo, { loop: false })
     </Sphere>
     <TresGridHelper />
     <TresAmbientLight />
-  </TresCanvas>
+    </TresCanvas>
+  </div>
 </template>

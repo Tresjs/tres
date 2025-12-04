@@ -7,7 +7,8 @@ const svgURL = 'https://raw.githubusercontent.com/'
 </script>
 
 <template>
-  <TresCanvas clear-color="#333">
+  <div class="aspect-video">
+    <TresCanvas clear-color="#333">
     <OrbitControls />
     <Suspense>
       <UseSVG
@@ -17,5 +18,6 @@ const svgURL = 'https://raw.githubusercontent.com/'
       />
     </Suspense>
     <TresGridHelper />
-  </TresCanvas>
+    </TresCanvas>
+  </div>
 </template>

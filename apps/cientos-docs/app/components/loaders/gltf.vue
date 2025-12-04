@@ -4,7 +4,8 @@ import { TresCanvas } from '@tresjs/core'
 </script>
 
 <template>
-  <TresCanvas clear-color="#F78B3D">
+  <div class="aspect-video">
+    <TresCanvas clear-color="#F78B3D">
     <TresPerspectiveCamera :position="[3, 2, 5]" />
     <OrbitControls />
     <GLTFModel draco path="https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/blender-cube.glb" />
@@ -13,5 +14,6 @@ import { TresCanvas } from '@tresjs/core'
       :position="[3, 3, 3]"
     />
     <TresAmbientLight :intensity="1" />
-  </TresCanvas>
+    </TresCanvas>
+  </div>
 </template>

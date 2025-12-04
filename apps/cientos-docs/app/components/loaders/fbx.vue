@@ -14,7 +14,8 @@ const gl = {
 </script>
 
 <template>
-  <TresCanvas v-bind="gl">
+  <div class="aspect-video">
+    <TresCanvas v-bind="gl">
     <TresPerspectiveCamera :position="[5.3, 2.45, 9.3]" :look-at="[0, 0, 0]" />
     <OrbitControls />
     <FBXModel
@@ -38,5 +39,6 @@ const gl = {
       cast-shadow
       :position="[5, 10, 5]"
     />
-  </TresCanvas>
+    </TresCanvas>
+  </div>
 </template>
