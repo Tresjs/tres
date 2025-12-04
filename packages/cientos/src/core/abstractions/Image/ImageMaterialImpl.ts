@@ -5,7 +5,7 @@ import { Color, Vector2 } from 'three'
  * NOTE: Source:
  * https://threejs.org/docs/?q=material#api/en/materials/Material.transparent
  */
-export const imageMaterialImpl = /* @__PURE__ */ shaderMaterial(
+export const ImageMaterialImpl = /* @__PURE__ */ shaderMaterial(
   {
     color: /* @__PURE__ */ new Color('white'),
     scale: /* @__PURE__ */ new Vector2(1, 1),
