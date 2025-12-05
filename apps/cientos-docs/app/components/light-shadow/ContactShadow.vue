@@ -3,7 +3,7 @@ import { ContactShadows, Levioso, TorusKnot } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
 import { TresLeches, useControls } from '@tresjs/leches'
 
-const { opacity, blur, color, tint, scale, width, height, far, smooth, resolution, frames, depthWrite } = useControls({
+const { opacity, blur, color, tint, scale, width, height, far, smooth, resolution, frames } = useControls({
   opacity: { value: 1, min: 0, max: 1, step: 0.1 },
   blur: { value: 1, min: 0, max: 5, step: 0.1 },
   color: '#000000',

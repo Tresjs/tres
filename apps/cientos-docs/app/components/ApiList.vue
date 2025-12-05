@@ -1,14 +1,13 @@
 <script setup lang="ts">
 const props = defineProps<{
-  listName: string;
-  path?: string;
-}>();
-const route = useRoute();
-const base = props.path || (route.path || "/").replace(/\/$/, "");
+  listName: string
+  path?: string
+}>()
+const route = useRoute()
+const base = props.path || (route.path || '/').replace(/\/$/, '')
 
 const { data } = await useAsyncData(props.listName, () =>
-  queryCollection("docs").where("path", "LIKE", `${base}/%`).all()
-);
+  queryCollection('docs').where('path', 'LIKE', `${base}/%`).all())
 </script>
 
 <template>
@@ -19,7 +18,6 @@ const { data } = await useAsyncData(props.listName, () =>
       :title="doc.title || doc.path.split('/').pop()"
       :description="doc.description"
       :to="doc.path"
-    >
-    </UPageCard>
+    />
   </UPageGrid>
 </template>

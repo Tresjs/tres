@@ -169,4 +169,4 @@ const directionalLightRef = shallowRef()
 | **mixNoise** | Type: `number`<br>Default: `1.`<br><br>How is a particle's progress for lifetime calculated? (0: normal, 1: particle lifetime) |
 | **blending** | Type: `Blending`<br>Default: `AdditiveBlending`<br><br>Material blending |
 | **transparent** | Type: `boolean`<br>Default: `true`<br><br>Material transparency |
-| **depthWrite** | Type: `boolean`<br>Default: `false`<br><br>Material depth write | 
+| **depthWrite** | Type: `boolean`<br>Default: `false`<br><br>Material depth write |

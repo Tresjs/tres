@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Html, OrbitControls, RoundedBox } from '@tresjs/cientos'
+import { OrbitControls, RoundedBox } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
 </script>
 
@@ -18,7 +18,7 @@ import { TresCanvas } from '@tresjs/core'
         color="orange"
       />
     </RoundedBox>
-        <TresAmbientLight />
+    <TresAmbientLight />
     <TresDirectionalLight :position="[0, 2, 4]" />
     <TresGridHelper :position-y="-0.5" />
   </TresCanvas>

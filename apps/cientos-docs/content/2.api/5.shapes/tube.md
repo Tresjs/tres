@@ -33,7 +33,7 @@ const tubePath = ref(new CubicBezierCurve3(
   <Tube :args="[tubePath, 20, 0.2, 8, false]" color="orange" />
 
   <!-- Tube with a custom material transformations -->
-  <Tube ref="tubeRef" :args="[tubePath, 20, 0.2, 8, false]" :position="[0, 4, 0]">
+  <Tube :args="[tubePath, 20, 0.2, 8, false]" :position="[0, 4, 0]">
     <TresMeshToonMaterial color="orange" />
   </Tube>
 </template>

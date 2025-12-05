@@ -27,7 +27,7 @@ import { PointMaterial, OrbitControls } from '@tresjs/cientos'
     <OrbitControls />
     <TresPoints>
       <TresIcosahedronGeometry :args="[1, 4]" />
-      <PointMaterial 
+      <PointMaterial
         :size="5"
         color="orange"
       />

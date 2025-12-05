@@ -1,55 +1,50 @@
 <script setup lang="ts">
-import { OrbitControls, TransformControls } from "@tresjs/cientos";
-import { TresCanvas } from "@tresjs/core";
+import { OrbitControls, TransformControls } from '@tresjs/cientos'
+import { TresCanvas } from '@tresjs/core'
 
-import { TresLeches, useControls } from "@tresjs/leches";
-import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from "three";
-import { ref, shallowReactive } from "vue";
+import { TresLeches, useControls } from '@tresjs/leches'
+import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
+import { ref } from 'vue'
 
 const gl = {
-  clearColor: "#201919",
+  clearColor: '#201919',
   shadows: true,
   alpha: false,
   shadowMapType: BasicShadowMap,
   outputColorSpace: SRGBColorSpace,
   toneMapping: NoToneMapping,
-};
+}
 
-const boxRef = ref();
-const transformState = shallowReactive({
-  showX: true,
-  showY: true,
-  showZ: true,
-});
+const boxRef = ref()
 
 const { mode, space, size, showX, showY, showZ } = useControls({
   mode: {
-    value: "translate",
+    value: 'translate',
     options: [
       {
-        text: "Translate",
-        value: "translate",
+        text: 'Translate',
+        value: 'translate',
       },
       {
-        text: "Rotate",
-        value: "rotate",
+        text: 'Rotate',
+        value: 'rotate',
       },
       {
-        text: "Scale",
-        value: "scale",
+        text: 'Scale',
+        value: 'scale',
       },
     ],
   },
   space: {
-    value: "local",
+    value: 'local',
     options: [
       {
-        text: "Local",
-        value: "local",
+        text: 'Local',
+        value: 'local',
       },
       {
-        text: "World",
-        value: "world",
+        text: 'World',
+        value: 'world',
       },
     ],
   },
@@ -57,7 +52,7 @@ const { mode, space, size, showX, showY, showZ } = useControls({
   showX: true,
   showY: true,
   showZ: true,
-});
+})
 </script>
 
 <template>

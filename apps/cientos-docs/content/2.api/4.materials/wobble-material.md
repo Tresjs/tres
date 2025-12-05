@@ -23,7 +23,7 @@ import { MeshWobbleMaterial } from '@tresjs/cientos'
     <TresPerspectiveCamera :position="[3, 3, 3]" :look-at="[0, 0, 0]" />
     <TresMesh>
       <TresTorusGeometry />
-      <MeshWobbleMaterial 
+      <MeshWobbleMaterial
         color="#f25042"
         :speed="1"
         :factor="0.6"
@@ -43,4 +43,3 @@ import { MeshWobbleMaterial } from '@tresjs/cientos'
 | **camfactorera**      | how strong the wobble effect will deform the geometry                                                                    | `1` |
 
  This material extends `THREE.MeshStandardMaterial` and accepts all the same props plus additional reflection-specific properties.
-

@@ -25,7 +25,6 @@ If you are using other camera controls, be sure to make them the 'default'.
 
 ::
 
-
 ::UAlert{icon="i-lucide-info" title="Info" color="neutral" style="margin:1rem 0;"}
 
 #description
@@ -40,8 +39,6 @@ If you are using shadows='accumulative', enable shadows on your canvas and on yo
 </TresMesh>
 ```
 ::
-
-
 
 ## Usage
 

@@ -49,7 +49,6 @@ import { TresCanvas } from '@tresjs/core'
 | weight       | **String** A vertex attribute to be used as a weight when sampling |
 | transform    | **Function** A function that can be used as a custom sampling      |
 
-
 ## useSurfaceSampler
 
 A hook to obtain the result of the <Sampler /> as a buffer. Useful for driving anything other than InstancedMesh via the Sampler.

@@ -9,15 +9,15 @@ const svgURL = 'https://raw.githubusercontent.com/'
 <template>
   <div class="aspect-video">
     <TresCanvas clear-color="#333">
-    <OrbitControls />
-    <Suspense>
-      <UseSVG
-        :src="svgURL"
-        :position="[-0.4, 1, 0]"
-        :scale="0.01"
-      />
-    </Suspense>
-    <TresGridHelper />
+      <OrbitControls />
+      <Suspense>
+        <UseSVG
+          :src="svgURL"
+          :position="[-0.4, 1, 0]"
+          :scale="0.01"
+        />
+      </Suspense>
+      <TresGridHelper />
     </TresCanvas>
   </div>
 </template>

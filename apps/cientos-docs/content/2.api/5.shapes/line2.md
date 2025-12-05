@@ -72,7 +72,7 @@ The passed array is converted to `Array<number>` – i.e., a series of x, y, z v
 <!-- result: (1,1,0) (2,2,3) (3,0,❌) -->
 
 <!-- Right -->
-<Line2 :points="[[1,1], 2, 2, 0, [3,3]]" />
+<Line2 :points="[[1, 1], 2, 2, 0, [3, 3]]" />
 <!-- result: (1,1,0) (2,2,0) (3,3,0) -->
 ```
 

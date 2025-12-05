@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { OrbitControls, Smoke } from "@tresjs/cientos";
-import { TresCanvas } from "@tresjs/core";
+import { OrbitControls, Smoke } from '@tresjs/cientos'
+import { TresCanvas } from '@tresjs/core'
 </script>
 
 <template>

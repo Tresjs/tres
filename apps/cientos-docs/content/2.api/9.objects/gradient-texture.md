@@ -20,7 +20,7 @@ import { GradientTexture } from '@tresjs/cientos'
 <template>
   <TresCanvas>
     <TresPerspectiveCamera :position="[0, 0, 5]" />
-    
+
     <TresMesh>
       <TresPlaneGeometry :args="[2, 2]" />
       <TresMeshBasicMaterial>

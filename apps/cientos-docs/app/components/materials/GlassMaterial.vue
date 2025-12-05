@@ -12,7 +12,7 @@ import { MeshGlassMaterial, OrbitControls } from '@tresjs/cientos'
       <MeshGlassMaterial />
     </TresMesh>
     <TresMesh :position="[0, 0, -3]">
-      <TresPlaneGeometry :args="[10,10]" />
+      <TresPlaneGeometry :args="[10, 10]" />
       <TresMeshStandardMaterial color="orange" />
     </TresMesh>
     <TresAmbientLight />

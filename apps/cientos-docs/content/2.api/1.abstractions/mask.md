@@ -58,7 +58,6 @@ import { TresCanvas } from '@tresjs/core'
   </TresCanvas>
 </template>
 
-
 ```
 
 ## Props
@@ -80,5 +79,3 @@ Composable that returns the stencil configuration to apply a mask to a material.
 ```vue
 <TresMeshNormalMaterial v-bind="useMask(1)" />
 ```
-
-

@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { CircleShadow, OrbitControls } from "@tresjs/cientos";
-import { TresCanvas } from "@tresjs/core";
-import { TresLeches, useControls } from "@tresjs/leches";
+import { CircleShadow, OrbitControls } from '@tresjs/cientos'
+import { TresCanvas } from '@tresjs/core'
+import { TresLeches, useControls } from '@tresjs/leches'
 
 const { color, opacity, offset } = useControls({
   color: '#000000',

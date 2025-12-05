@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { Box, KeyboardControls } from "@tresjs/cientos";
-import { TresCanvas } from "@tresjs/core";
-import { TresLeches, useControls } from "@tresjs/leches";
+import { Box, KeyboardControls } from '@tresjs/cientos'
+import { TresCanvas } from '@tresjs/core'
+import { TresLeches, useControls } from '@tresjs/leches'
 
 const { moveSpeed } = useControls({
   moveSpeed: { value: 0.1, min: 0.01, max: 1, step: 0.05 },

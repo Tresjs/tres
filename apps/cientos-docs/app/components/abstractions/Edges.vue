@@ -1,18 +1,18 @@
 <script setup lang="ts">
-import { TresCanvas } from "@tresjs/core";
-import { Box, ContactShadows, Edges, OrbitControls } from "@tresjs/cientos";
-import { TresLeches, useControls } from "@tresjs/leches";
+import { TresCanvas } from '@tresjs/core'
+import { Box, ContactShadows, Edges, OrbitControls } from '@tresjs/cientos'
+import { TresLeches, useControls } from '@tresjs/leches'
 
 const gl = {
-  clearColor: "#f6f6f6",
+  clearColor: '#f6f6f6',
   alpha: false,
-};
+}
 
 const { colorEdges } = useControls({
-  colorEdges: "#505050"
-});
+  colorEdges: '#505050',
+})
 
-const dataBoxes = ["#82DBC5", "#505050", "#F6B03B"];
+const dataBoxes = ['#82DBC5', '#505050', '#F6B03B']
 </script>
 
 <template>

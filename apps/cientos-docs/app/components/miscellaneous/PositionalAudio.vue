@@ -11,9 +11,9 @@ const positionalAudioRef = shallowRef(null)
 const ballRef = shallowRef(null)
 
 const options = {
-    innerAngle: 195,
-    outerAngle: 260,
-    outerGain: 0.3,
+  innerAngle: 195,
+  outerAngle: 260,
+  outerGain: 0.3,
 }
 
 const { state } = useGLTF('https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/positional-audio/ping-pong.glb', { draco: true })
@@ -69,7 +69,7 @@ onUnmounted(() => {
   </div>
 
   <TresCanvas
-    :clear-color="'#82DBC5'"
+    clear-color="#82DBC5"
   >
     <TresPerspectiveCamera :position="[0, 0.5, 15]" />
     <OrbitControls make-default />

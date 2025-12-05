@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { Box, PointerLockControls } from "@tresjs/cientos";
-import { TresCanvas } from "@tresjs/core";
-import { TresLeches, useControls } from "@tresjs/leches";
+import { Box, PointerLockControls } from '@tresjs/cientos'
+import { TresCanvas } from '@tresjs/core'
+import { TresLeches, useControls } from '@tresjs/leches'
 
 const { maxPolarAngle, minPolarAngle, pointerSpeed } = useControls({
   maxPolarAngle: { value: Math.PI, min: 0, max: Math.PI, step: 0.1 },

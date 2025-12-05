@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { Environment, OrbitControls, Sphere, useProgress } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
-import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
-import { ref } from 'vue'
 
 const environmentFiles = ['/px.jpg', '/nx.jpg', '/py.jpg', '/ny.jpg', '/pz.jpg', '/nz.jpg']
 
@@ -30,7 +28,6 @@ const { progress, hasFinishLoading } = await useProgress()
     <OrbitControls />
     <Suspense>
       <Environment
-        ref="environmentRef"
         :background="true"
         :files="environmentFiles"
         :blur="0"

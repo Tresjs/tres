@@ -82,13 +82,13 @@ const positionalAudioRef = shallowRef(null)
 console.log(positionalAudioRef.value.instance) // instance properties
 
 const handlerAudio = (action: string) => {
-  if (!positionalAudioRef.value) return
+  if (!positionalAudioRef.value) { return }
 
   const { play, pause, stop } = positionalAudioRef.value
 
-  if (action === 'play') play()
-  else if (action === 'pause') pause()
-  else if (action === 'stop') stop()
+  if (action === 'play') { play() }
+  else if (action === 'pause') { pause() }
+  else if (action === 'stop') { stop() }
 }
 ```
 
@@ -98,10 +98,10 @@ const handlerAudio = (action: string) => {
   <button @click="handlerAudio('pause')">pause</button>
   <button @click="handlerAudio('stop')">stop</button>
 
- <TresCanvas>
-   <Sphere>
+  <TresCanvas>
+    <Sphere>
       <Suspense>
-        <PositionalAudio ref="positionalAudioRef" />
+        <PositionalAudio />
       </Suspense>
     </Sphere>
   </TresCanvas>

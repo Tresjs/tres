@@ -38,7 +38,6 @@ const downloadBox = () => {
 
 ```
 
-
 ## Arguments
 
 | Name         | Type       | Default     | Description                                          |

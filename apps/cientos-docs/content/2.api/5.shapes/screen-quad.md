@@ -21,9 +21,9 @@ import { ScreenQuad } from '@tresjs/cientos'
 <template>
   <TresCanvas>
     <TresOrthographicCamera />
-     <ScreenQuad>
-        <TresMeshToonMaterial color="orange" />
-      </ScreenQuad>
+    <ScreenQuad>
+      <TresMeshToonMaterial color="orange" />
+    </ScreenQuad>
   </TresCanvas>
 </template>
 ```

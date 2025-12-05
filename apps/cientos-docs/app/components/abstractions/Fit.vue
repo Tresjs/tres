@@ -1,16 +1,16 @@
 <script setup lang="ts">
-import { Fit, OrbitControls } from "@tresjs/cientos";
-import { TresCanvas } from "@tresjs/core";
-import { BoxGeometry, MeshNormalMaterial } from "three";
+import { Fit, OrbitControls } from '@tresjs/cientos'
+import { TresCanvas } from '@tresjs/core'
+import { BoxGeometry, MeshNormalMaterial } from 'three'
 
-const positions: number[][] = [];
+const positions: number[][] = []
 for (let y = 100; y <= 120; y += 10) {
   for (let x = 100; x <= 120; x += 10) {
-    positions.push([x, y, 9999]);
+    positions.push([x, y, 9999])
   }
 }
-const geom = new BoxGeometry();
-const mat = new MeshNormalMaterial();
+const geom = new BoxGeometry()
+const mat = new MeshNormalMaterial()
 </script>
 
 <template>

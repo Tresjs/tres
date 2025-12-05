@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { TresCanvas } from "@tresjs/core";
-import { OrbitControls, ScreenSizer } from "@tresjs/cientos";
+import { TresCanvas } from '@tresjs/core'
+import { OrbitControls, ScreenSizer } from '@tresjs/cientos'
 </script>
 
 <template>

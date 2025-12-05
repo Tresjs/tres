@@ -52,4 +52,3 @@ description: Explore the complete API reference
 
 ::ApiList{listName="misc-list" path="/api/miscellaneous"}
 ::
-

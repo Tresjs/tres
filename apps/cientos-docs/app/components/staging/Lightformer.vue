@@ -1,23 +1,23 @@
 <script setup lang="ts">
 import {
   Environment,
+  Lightformer,
   OrbitControls,
   Sphere,
   useProgress,
-  Lightformer,
-} from "@tresjs/cientos";
-import { TresCanvas } from "@tresjs/core";
+} from '@tresjs/cientos'
+import { TresCanvas } from '@tresjs/core'
 
 const environmentFiles = [
-  "/px.jpg",
-  "/nx.jpg",
-  "/py.jpg",
-  "/ny.jpg",
-  "/pz.jpg",
-  "/nz.jpg",
-];
+  '/px.jpg',
+  '/nx.jpg',
+  '/py.jpg',
+  '/ny.jpg',
+  '/pz.jpg',
+  '/nz.jpg',
+]
 
-const { progress, hasFinishLoading } = await useProgress();
+const { progress, hasFinishLoading } = await useProgress()
 </script>
 
 <template>
@@ -46,8 +46,8 @@ const { progress, hasFinishLoading } = await useProgress();
         :environmentIntensity="0.05"
         path="https://raw.githubusercontent.com/Tresjs/assets/main/textures/environmentMap"
       >
-      <Lightformer :intensity="100" :position="[0, -2, 3]" :scale="2" />
-      <Lightformer :intensity="100" :position="[0, 2, -3]" :scale="2" />
+        <Lightformer :intensity="100" :position="[0, -2, 3]" :scale="2" />
+        <Lightformer :intensity="100" :position="[0, 2, -3]" :scale="2" />
       </Environment>
     </Suspense>
     <Sphere>

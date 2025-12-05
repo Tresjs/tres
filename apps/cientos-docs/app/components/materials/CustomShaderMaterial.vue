@@ -59,4 +59,3 @@ function onLoop() {
     </TresMesh>
   </TresCanvas>
 </template>
-

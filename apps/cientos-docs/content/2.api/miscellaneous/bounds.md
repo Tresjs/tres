@@ -13,6 +13,7 @@ Calculates a boundary box and centers the camera accordingly. Its `lookAt` metho
 ::UAlert{type="info" color="neutral"}
 #description
 If you are using other camera controls, be sure to make them the 'default'.
+
 ```vue
 <OrbitControls make-default />
 ```

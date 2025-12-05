@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
-import { HolographicMaterial, Sphere, OrbitControls } from '@tresjs/cientos'
-
+import { HolographicMaterial, OrbitControls, Sphere } from '@tresjs/cientos'
 </script>
+
 <template>
   <TresCanvas>
     <TresPerspectiveCamera :position="[3, 3, 3]" :look-at="[0, 0, 0]" />

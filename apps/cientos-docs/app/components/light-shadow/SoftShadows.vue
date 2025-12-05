@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { SoftShadows, Levioso, TorusKnot, Plane } from "@tresjs/cientos";
-import { TresCanvas } from "@tresjs/core";
-import { TresLeches, useControls } from "@tresjs/leches";
+import { Levioso, Plane, SoftShadows, TorusKnot } from '@tresjs/cientos'
+import { TresCanvas } from '@tresjs/core'
+import { TresLeches, useControls } from '@tresjs/leches'
 
 const { size, samples, focus } = useControls({
   size: { value: 25, min: 5, max: 100, step: 5 },

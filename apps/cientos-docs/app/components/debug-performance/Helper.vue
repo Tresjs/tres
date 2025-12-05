@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { TresCanvas } from "@tresjs/core";
-import { Helper, OrbitControls } from "@tresjs/cientos";
-import { BoxHelper } from "three";
+import { TresCanvas } from '@tresjs/core'
+import { Helper, OrbitControls } from '@tresjs/cientos'
+import { BoxHelper } from 'three'
 </script>
 
 <template>
@@ -12,7 +12,7 @@ import { BoxHelper } from "three";
       <TresMesh>
         <TresSphereGeometry />
         <TresMeshNormalMaterial />
-        <Helper :type="BoxHelper" :args="[0xff0000]" />
+        <Helper :type="BoxHelper" :args="[0xFF0000]" />
       </TresMesh>
       <TresAmbientLight />
     </TresCanvas>

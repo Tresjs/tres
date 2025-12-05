@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
-import { PointMaterial, OrbitControls } from '@tresjs/cientos'
+import { OrbitControls, PointMaterial } from '@tresjs/cientos'
 </script>
 
 <template>
@@ -9,7 +9,7 @@ import { PointMaterial, OrbitControls } from '@tresjs/cientos'
     <OrbitControls />
     <TresPoints>
       <TresIcosahedronGeometry :args="[1, 4]" />
-      <PointMaterial 
+      <PointMaterial
         :size="5"
         color="orange"
       />

@@ -56,8 +56,8 @@ All the props except the `color`, are not reactive
 For more complex effect you can provide your own shaders, you could do this creating an object and pass the uniforms, vertexShaders or fragmentShaders:
 
 ```vue
-<script setup lang="ts" >
-import vertexShader from "MyCustomVertexShader.glsl"
+<script setup lang="ts">
+import vertexShader from 'MyCustomVertexShader.glsl'
 
 const customShader = {
   vertexShader
@@ -68,14 +68,15 @@ const customShader = {
   <TresCanvas shadows alpha>
     <TresPerspectiveCamera :position="[0, 0, 3]" />
     ...
-    <Reflector :rotation="[-Math.PI * 0.5, 0, 0]"
-    :position-y="-2"
-    color="#fff"
-    :shader="customShader"
+    <Reflector
+      :rotation="[-Math.PI * 0.5, 0, 0]"
+      :position-y="-2"
+      color="#fff"
+      :shader="customShader"
     >
       <TresCircleGeometry :args="[10, 10]" />
     </Reflector>
-...
+    ...
   </TresCanvas>
 </template>
 ```

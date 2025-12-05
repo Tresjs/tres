@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Backdrop, GLTFModel, useProgress, OrbitControls } from '@tresjs/cientos'
+import { Backdrop, GLTFModel, OrbitControls, useProgress } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
 import type { Camera } from 'three'
 import { PCFSoftShadowMap, SRGBColorSpace } from 'three'

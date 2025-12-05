@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { CubicBezierLine, OrbitControls } from "@tresjs/cientos";
-import { TresCanvas } from "@tresjs/core";
+import { CubicBezierLine, OrbitControls } from '@tresjs/cientos'
+import { TresCanvas } from '@tresjs/core'
 </script>
 
 <template>

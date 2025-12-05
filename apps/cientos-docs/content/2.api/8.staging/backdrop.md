@@ -29,13 +29,9 @@ import { Backdrop } from '@tresjs/cientos'
 ```
 Or with a custom material
 ```html
-    <Backdrop
-      :floor="1.5"
-      :segments="20"
-      receive-shadow
-    >
-      <TresMeshPhysicalMaterial color="orange" :roughness="1" />
-    </Backdrop>
+<Backdrop :floor="1.5" :segments="20" receive-shadow>
+  <TresMeshPhysicalMaterial color="orange" :roughness="1" />
+</Backdrop>
 ```
 
 ## Props

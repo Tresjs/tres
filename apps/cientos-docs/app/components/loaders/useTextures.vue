@@ -1,58 +1,57 @@
 <script setup lang="ts">
-/* eslint-disable no-console */
-import { computed, watch } from "vue";
-import { TresCanvas } from "@tresjs/core";
-import { Environment, OrbitControls, useGLTF, useTextures } from "@tresjs/cientos";
-import type { MeshStandardMaterial } from "three";
+import { computed, watch } from 'vue'
+import { TresCanvas } from '@tresjs/core'
+import { Environment, OrbitControls, useGLTF, useTextures } from '@tresjs/cientos'
+import type { MeshStandardMaterial } from 'three'
 
 // Load the 3D model
 const {
   nodes,
   materials,
 } = useGLTF(
-  "https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/blender-cube.glb",
-  { draco: true }
-);
-const cube = computed(() => nodes.value?.BlenderCube);
-const material = computed(() => materials.value?.Material);
+  'https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/blender-cube.glb',
+  { draco: true },
+)
+const cube = computed(() => nodes.value?.BlenderCube)
+const material = computed(() => materials.value?.Material)
 
 // Define texture paths
 const texturePaths = [
-  "https://raw.githubusercontent.com/Tresjs/assets/main/textures/rusted-metal/Metal053C_4K-JPG_Color.jpg",
-  "https://raw.githubusercontent.com/Tresjs/assets/main/textures/rusted-metal/Metal053C_4K-JPG_NormalGL.jpg",
-  "https://raw.githubusercontent.com/Tresjs/assets/main/textures/rusted-metal/Metal053C_4K-JPG_Roughness.jpg",
-  "https://raw.githubusercontent.com/Tresjs/assets/main/textures/rusted-metal/Metal053C_4K-JPG_Metalness.jpg",
-  "https://raw.githubusercontent.com/Tresjs/assets/main/textures/rusted-metal/Metal053C_4K-JPG_Displacement.jpg",
-];
+  'https://raw.githubusercontent.com/Tresjs/assets/main/textures/rusted-metal/Metal053C_4K-JPG_Color.jpg',
+  'https://raw.githubusercontent.com/Tresjs/assets/main/textures/rusted-metal/Metal053C_4K-JPG_NormalGL.jpg',
+  'https://raw.githubusercontent.com/Tresjs/assets/main/textures/rusted-metal/Metal053C_4K-JPG_Roughness.jpg',
+  'https://raw.githubusercontent.com/Tresjs/assets/main/textures/rusted-metal/Metal053C_4K-JPG_Metalness.jpg',
+  'https://raw.githubusercontent.com/Tresjs/assets/main/textures/rusted-metal/Metal053C_4K-JPG_Displacement.jpg',
+]
 
 // Load all PBR textures at once
-const { textures, isLoading, error } = useTextures(texturePaths);
+const { textures, isLoading, error } = useTextures(texturePaths)
 
 // Apply textures to material when loaded
 watch([material, textures], ([modelMaterial, textures]) => {
   if (modelMaterial && textures && textures.length === texturePaths.length) {
     // Cast to MeshStandardMaterial to access PBR properties
-    const pbrMaterial = modelMaterial as MeshStandardMaterial;
+    const pbrMaterial = modelMaterial as MeshStandardMaterial
 
     // Apply textures
-    pbrMaterial.map = textures[0] ?? null;
-    pbrMaterial.normalMap = textures[1] ?? null;
-    pbrMaterial.roughnessMap = textures[2] ?? null;
-    pbrMaterial.metalnessMap = textures[3] ?? null;
-    pbrMaterial.displacementMap = textures[4] ?? null;
+    pbrMaterial.map = textures[0] ?? null
+    pbrMaterial.normalMap = textures[1] ?? null
+    pbrMaterial.roughnessMap = textures[2] ?? null
+    pbrMaterial.metalnessMap = textures[3] ?? null
+    pbrMaterial.displacementMap = textures[4] ?? null
 
     // Set material properties
-    pbrMaterial.displacementScale = 0;
-    pbrMaterial.metalness = 0.8;
-    pbrMaterial.roughness = 0.2;
+    pbrMaterial.displacementScale = 0
+    pbrMaterial.metalness = 0.8
+    pbrMaterial.roughness = 0.2
   }
-});
+})
 
 watch(error, (errs) => {
   if (errs) {
-    console.error("Error loading textures:", errs);
+    console.error('Error loading textures:', errs)
   }
-});
+})
 </script>
 
 <template>

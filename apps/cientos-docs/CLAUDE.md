@@ -86,7 +86,7 @@ Edit `app/app.config.ts` to customize:
 ui: {
   colors: {
     primary: 'teal',      // Change primary color
-    neutral: 'zinc',      // Change neutral color
+    neutral: 'zinc'       // Change neutral color
   },
 }
 ```

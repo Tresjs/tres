@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { TresCanvas } from "@tresjs/core";
-import { Stage, OrbitControls, Plane } from "@tresjs/cientos";
+import { TresCanvas } from '@tresjs/core'
+import { OrbitControls, Plane, Stage } from '@tresjs/cientos'
 </script>
 
 <template>

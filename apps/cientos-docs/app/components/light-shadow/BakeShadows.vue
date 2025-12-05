@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import { BakeShadows } from "@tresjs/cientos";
-import { TresCanvas } from "@tresjs/core";
-import { shallowRef } from "vue";
+import { BakeShadows } from '@tresjs/cientos'
+import { TresCanvas } from '@tresjs/core'
+import { shallowRef } from 'vue'
 
-const cubeRef = shallowRef();
+const cubeRef = shallowRef()
 
 function onLoop({ elapsed }: { elapsed: number }) {
   if (cubeRef.value) {
-    cubeRef.value.rotation.y = elapsed * 0.5;
-    cubeRef.value.rotation.x = elapsed * 0.5;
+    cubeRef.value.rotation.y = elapsed * 0.5
+    cubeRef.value.rotation.x = elapsed * 0.5
   }
 }
 </script>
@@ -24,7 +24,7 @@ function onLoop({ elapsed }: { elapsed: number }) {
       </TresMesh>
       <TresMesh receive-shadow :position="[0, -2, 0]" :rotation-x="-Math.PI / 2">
         <TresPlaneGeometry :args="[5, 5]" />
-        <TresMeshStandardMaterial :color="0xf7f7f7" />
+        <TresMeshStandardMaterial :color="0xF7F7F7" />
       </TresMesh>
       <TresDirectionalLight cast-shadow :position="[0, 10, 0]" />
     </TresCanvas>

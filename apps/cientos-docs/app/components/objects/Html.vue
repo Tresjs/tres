@@ -26,6 +26,7 @@ import { TresCanvas } from '@tresjs/core'
     <TresAmbientLight />
   </TresCanvas>
 </template>
+
 <style scoped>
 .title {
   background-color: #1e1e1e;

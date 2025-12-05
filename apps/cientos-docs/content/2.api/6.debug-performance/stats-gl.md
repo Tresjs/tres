@@ -3,7 +3,6 @@ title: StatsGl
 description: WebGL performance monitoring tool displaying CPU and GPU metrics.
 ---
 
-
 [stats-gl](https://github.com/RenaudRohlinger/stats-gl) is a powerful WebGL performance monitoring tool created by [RenaudRohlinger](https://github.com/RenaudRohlinger).
 It offers simple information boxes to track code performance and serves as a more advanced alternative to [stats.js](https://github.com/mrdoob/stats.js/), capable of displaying CPU and GPU metrics.
 

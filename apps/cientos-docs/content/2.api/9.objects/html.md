@@ -60,7 +60,7 @@ By default, the HTML content will be visible through other objects in the scene.
 Html can hide behind geometry using the occlude prop.
 
 ```html
-<Html occlude>
+<html occlude></html>
 ```
 
 You can also choose which objects should occlude the HTML content by passing an array of objects refs to the `occlude` prop.
@@ -80,7 +80,7 @@ const sphereRef = shallowRef()
       <TresBoxGeometry />
       <TresMeshNormalMaterial />
     </TresMesh>
-    
+
     <TresMesh ref="sphereRef">
       <TresSphereGeometry />
       <TresMeshNormalMaterial />

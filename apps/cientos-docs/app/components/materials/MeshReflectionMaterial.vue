@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { TresCanvas } from "@tresjs/core";
-import { MeshReflectionMaterial, OrbitControls } from "@tresjs/cientos";
+import { TresCanvas } from '@tresjs/core'
+import { MeshReflectionMaterial, OrbitControls } from '@tresjs/cientos'
 </script>
 
 <template>

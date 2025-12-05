@@ -23,14 +23,14 @@ import { CubeCamera, OrbitControls } from '@tresjs/cientos'
   <TresCanvas>
     <TresPerspectiveCamera :position="[0, 2, 5]" />
     <OrbitControls />
-    
+
     <CubeCamera :resolution="256" :frames="Infinity">
       <TresMesh>
         <TresSphereGeometry :args="[1, 32, 32]" />
         <TresMeshStandardMaterial :metalness="1" :roughness="0" />
       </TresMesh>
     </CubeCamera>
-    
+
     <TresAmbientLight :intensity="0.5" />
     <TresDirectionalLight :position="[0, 2, 4]" />
   </TresCanvas>
