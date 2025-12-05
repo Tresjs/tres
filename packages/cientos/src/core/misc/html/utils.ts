@@ -42,6 +42,31 @@ export function isObjectVisible(el: TresObject3D, camera: TresCamera, raycaster:
   return true
 }
 
+export function getViewportFactor(
+  camera: TresCamera,
+  target: Vector3 = new Vector3(0, 0, 0),
+  size: { width: number, height: number },
+) {
+  const { width, height } = size
+  const aspect = width / height
+
+  const position = v1
+  const tempTarget = v2
+
+  tempTarget.copy(target)
+  const distance = camera.getWorldPosition(position).distanceTo(tempTarget)
+
+  if (camera instanceof OrthographicCamera) {
+    return 1
+  }
+
+  const fov = (camera.fov * Math.PI) / 180
+  const h = 2 * Math.tan(fov / 2) * distance
+  const w = h * aspect
+
+  return width / w
+}
+
 export function objectScale(el: TresObject3D, camera: TresCamera) {
   if (camera instanceof OrthographicCamera) {
     return camera.zoom
@@ -89,4 +114,4 @@ export const getObjectCSSMatrix
   = ((scaleMultipliers: (n: number) => number[]) =>
     (matrix: Matrix4, factor: number) =>
       getCSSMatrix(matrix, scaleMultipliers(factor), 'translate(-50%,-50%)'))((f: number) =>
-    [1 / f, 1 / f, 1 / f, 1, -1 / f, -1 / f, -1 / f, -1, 1 / f, 1 / f, 1 / f, 1, 1, 1, 1, 1])
+        [1 / f, 1 / f, 1 / f, 1, -1 / f, -1 / f, -1 / f, -1, 1 / f, 1 / f, 1 / f, 1, 1, 1, 1, 1])

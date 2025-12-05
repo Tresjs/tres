@@ -1,33 +1,61 @@
 <script setup lang="ts">
-import { useLoop, useTresContext } from '@tresjs/core'
-import type {
-  OrthographicCamera,
-} from 'three'
+import { dispose, useLoop, useTresContext } from '@tresjs/core'
 import {
   DoubleSide,
+  Matrix4,
+  OrthographicCamera,
   PlaneGeometry,
+  Quaternion,
   Raycaster,
   ShaderMaterial,
   Vector3,
 } from 'three'
-import { computed, createVNode, isRef, onUnmounted, ref, render, shallowRef, toRefs, useAttrs, watch, watchEffect } from 'vue'
+
+import {
+  computed,
+  createVNode,
+  onUnmounted,
+  ref,
+  render,
+  shallowRef,
+  toRefs,
+  useAttrs,
+  watch,
+  watchEffect,
+} from 'vue'
+
 import type { TresCamera, TresObject3D } from '@tresjs/core'
 import type { Mutable } from '@vueuse/core'
-
 import type { VNode } from 'vue'
+
 import fragmentShader from './shaders/fragment.glsl'
 import vertexShader from './shaders/vertex.glsl'
 import passthroughVertex from './shaders/passthrough-vertex.glsl'
+
 import {
   calculatePosition as defaultCalculatePosition,
   epsilon,
   getCameraCSSMatrix,
   getObjectCSSMatrix,
+  getViewportFactor,
   isObjectBehindCamera,
   isObjectVisible,
   objectScale,
   objectZIndex,
 } from './utils'
+
+type PointerEventsProperties =
+  | 'auto'
+  | 'none'
+  | 'visiblePainted'
+  | 'visibleFill'
+  | 'visibleStroke'
+  | 'visible'
+  | 'painted'
+  | 'fill'
+  | 'stroke'
+  | 'all'
+  | 'inherit'
 
 export interface HTMLProps {
   geometry?: any
@@ -43,6 +71,7 @@ export interface HTMLProps {
   center?: boolean
   pointerEvents?: PointerEventsProperties
   sprite?: boolean
+  transparentMaterial?: boolean
   zIndexRange?: Array<number>
   calculatePosition?: typeof defaultCalculatePosition
 
@@ -64,32 +93,13 @@ const props = withDefaults(defineProps<HTMLProps>(), {
   prepend: false,
   castShadow: false,
   receiveShadow: false,
+  transparentMaterial: false,
   calculatePosition: () => defaultCalculatePosition,
 })
 
 const emits = defineEmits(['onOcclude'])
 
 const slots = defineSlots()
-
-type PointerEventsProperties =
-  | 'auto'
-  | 'none'
-  | 'visiblePainted'
-  | 'visibleFill'
-  | 'visibleStroke'
-  | 'visible'
-  | 'painted'
-  | 'fill'
-  | 'stroke'
-  | 'all'
-  | 'inherit'
-
-const attrs = useAttrs()
-
-const groupRef = shallowRef<TresObject3D | null>(null)
-const occlusionMeshRef = shallowRef<TresObject3D | null>(null)
-
-const defaultPlaneGeometry = shallowRef(new PlaneGeometry())
 
 const {
   geometry,
@@ -109,52 +119,66 @@ const {
   zIndexRange,
   castShadow,
   receiveShadow,
+  transparentMaterial,
   calculatePosition,
 } = toRefs(props)
+
+const attrs = useAttrs()
+
+const groupRef = shallowRef<TresObject3D | null>(null)
+const occlusionMeshRef = shallowRef<TresObject3D | null>(null)
+
+const defaultPlaneGeometry = new PlaneGeometry()
 
 const { renderer, scene, camera, sizes } = useTresContext()
 
 const el = computed(() => document.createElement(as.value))
 
-const previousPosition = ref([0, 0, 0])
+const raycaster = new Raycaster()
+const tmpVec = new Vector3()
+const tmpMatrix = new Matrix4()
+const tmpQuat = new Quaternion()
+
+const previousPosition = ref<[number, number, number]>([0, 0, 0])
 const previousZoom = ref(0)
-const vnode = ref<VNode>()
-const raycaster = ref<Raycaster>(new Raycaster())
+const vnode = ref<VNode | null>(null)
+
+const isVisible = ref(true)
+const isMeshSizeSet = ref(false)
+
+const baseStyle = computed(() => ({
+  position: 'absolute',
+  top: '0',
+  left: '0',
+  willChange: 'transform',
+  pointerEvents: pointerEvents.value,
+  ...(typeof attrs.style === 'object' ? attrs.style : {}),
+}))
 
 const styles = computed(() => {
-  const baseStyles: any = {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    willChange: 'transform',
-    pointerEvents: pointerEvents.value,
-    ...Object.assign({}, attrs.style),
-  }
-
   const w = sizes.width.value
   const h = sizes.height.value
 
   if (transform.value) {
     return {
-      ...baseStyles,
+      ...baseStyle.value,
       transformStyle: 'preserve-3d',
       pointerEvents: 'none',
       width: `${w}px`,
       height: `${h}px`,
     }
   }
-  else {
-    return {
-      ...baseStyles,
-      transform: center.value ? 'translate3d(-50%,-50%,0)' : 'none',
-      ...(fullscreen.value && {
-        top: `-${h / 2}px`,
-        left: `-${w / 2}px`,
-        width: `${w}px`,
-        height: `${h}px`,
-      }),
-      pointerEvents: fullscreen.value ? 'none' : pointerEvents.value,
-    }
+
+  return {
+    ...baseStyle.value,
+    transform: center.value ? 'translate3d(-50%,-50%,0)' : 'none',
+    ...(fullscreen.value && {
+      top: `-${h / 2}px`,
+      left: `-${w / 2}px`,
+      width: `${w}px`,
+      height: `${h}px`,
+    }),
+    pointerEvents: fullscreen.value ? 'none' : pointerEvents.value,
   }
 })
 
@@ -163,276 +187,346 @@ const transformInnerStyles = computed(() => ({
   pointerEvents: pointerEvents.value,
 }))
 
-const isMeshSizeSet = ref(false)
-
-const isRayCastOcclusion = computed(
-  () =>
-    (occlude?.value && occlude?.value !== 'blending')
-    || (Array.isArray(occlude?.value) && occlude?.value.length && isRef(occlude.value[0])),
-)
-
-watch(
-  [occlude, () => renderer.instance],
-  ([occludeVal, rendererVal]) => {
-    if (!rendererVal || occludeVal === false) { return }
-
-    const target = rendererVal.domElement
-
-    if (occludeVal && occludeVal === 'blending') {
-      target.style.zIndex = `${Math.floor(zIndexRange.value[0] / 2)}`
-      target.style.position = 'absolute'
-    }
-    else {
-      // IMPORTANT:
-      // Do NOT restore zIndex / position / pointerEvents here.
-      // These properties should ONLY be modified when occlusion="blending".
-      // Resetting them in other modes would overwrite user-defined canvas styles
-      // and break the layout, event handling, or rendering order of the scene.
-    }
-  },
-  { immediate: true },
-)
-
-watch(
-  () => [groupRef.value, renderer.instance, sizes.width.value, sizes.height.value, slots.default?.(), camera.activeCamera.value],
-  ([group, rendererInst]): void => {
-    if (group && rendererInst && camera.activeCamera.value) {
-      isMeshSizeSet.value = false
-      scene.value?.updateMatrixWorld()
-
-      // Initial positioning will be handled during the first render frame.
-      if (transform.value) {
-        el.value.style.position = 'absolute'
-        el.value.style.top = '0'
-        el.value.style.left = '0'
-        el.value.style.pointerEvents = 'none'
-        el.value.style.overflow = 'hidden'
-        el.value.style.transformStyle = 'preserve-3d'
-      }
-      else {
-        // For non-transform mode, we can set some base styles, but leave position calculation to the render loop
-        el.value.style.position = 'absolute'
-        el.value.style.top = '0'
-        el.value.style.left = '0'
-        el.value.style.transformOrigin = '0 0'
-        el.value.style.willChange = 'transform'
-
-        if (!occlude.value) {
-          el.value.style.zIndex = `${zIndexRange.value[0]}`
-        }
-      }
-
-      let mountTarget: HTMLElement | null = null
-      if (portal?.value) {
-        mountTarget = portal.value as HTMLElement
-      }
-      else { mountTarget = rendererInst.domElement?.parentNode as HTMLElement }
-
-      if (mountTarget && !el.value.parentNode) {
-        if (prepend.value) {
-          mountTarget.prepend(el.value)
-        }
-        else { mountTarget.appendChild(el.value) }
-      }
-
-      if (transform.value) {
-        vnode.value = createVNode('div', { id: 'outer', style: styles.value }, [
-          createVNode('div', { id: 'inner', style: transformInnerStyles.value }, [
-            createVNode('div', {
-              key: groupRef.value?.uuid,
-              id: `${scene?.value.uuid}`,
-              class: attrs.class,
-              style: attrs.style,
-            }, slots.default?.()),
-          ]),
-        ])
-      }
-      else {
-        vnode.value = createVNode('div', {
-          key: groupRef.value?.uuid,
-          id: `${scene?.value.uuid}`,
-          style: styles.value,
-          class: attrs.class,
-        }, slots.default?.())
-      }
-      render(vnode.value, el.value)
-    }
-  },
-)
-
-watchEffect(() => {
-  if (wrapperClass?.value) {
-    el.value.className = wrapperClass.value
-  }
-})
-
-const isVisible = ref(true)
-
-const { onBeforeRender } = useLoop()
-
-onBeforeRender(({ invalidate }) => {
-  let changed = false
-
-  if (groupRef.value && camera.activeCamera.value && renderer.instance) {
-    camera.activeCamera.value?.updateMatrixWorld()
-    groupRef.value.updateWorldMatrix(true, false)
-
-    const width = sizes.width.value || 0
-    const height = sizes.height.value || 0
-
-    const widthHalf = width / 2
-    const heightHalf = height / 2
-
-    const vector = transform.value
-      ? previousPosition.value
-      : calculatePosition.value(groupRef.value, camera.activeCamera.value as TresCamera, {
-          width,
-          height,
-        })
-
-    if (
-      transform.value
-      || Math.abs(previousZoom.value - (camera.activeCamera.value as TresCamera).zoom) > eps.value
-      || Math.abs(previousPosition.value[0] - vector[0]) > eps.value
-      || Math.abs(previousPosition.value[1] - vector[1]) > eps.value
-      || Math.abs(previousPosition.value[2] - vector[2]) > eps.value
-    ) {
-      changed = true
-
-      const isBehindCamera = isObjectBehindCamera(groupRef.value, camera.activeCamera.value as TresCamera)
-      let raytraceTarget: null | undefined | boolean | TresObject3D[] = false
-      if (isRayCastOcclusion.value) {
-        if (Array.isArray(occlude?.value)) { raytraceTarget = occlude?.value as unknown as TresObject3D[] }
-        else if (occlude?.value !== 'blending') { raytraceTarget = [scene.value as unknown as TresObject3D] }
-      }
-      const previouslyVisible = isVisible.value
-      if (raytraceTarget) {
-        const isCurrentlyVisible = isObjectVisible(groupRef.value, camera.activeCamera.value as TresCamera, raycaster.value, raytraceTarget as TresObject3D[])
-        isVisible.value = isCurrentlyVisible && !isBehindCamera
-      }
-      else {
-        isVisible.value = !isBehindCamera
-      }
-      if (previouslyVisible !== isVisible.value) {
-        emits('onOcclude', !isVisible.value)
-        el.value.style.display = isVisible.value ? 'block' : 'none'
-      }
-
-      const halfRange = Math.floor(zIndexRange.value[0] / 2)
-      const zRange = occlude?.value
-        ? isRayCastOcclusion.value ? [zIndexRange.value[0], halfRange] : [halfRange - 1, 0]
-        : zIndexRange.value
-      el.value.style.zIndex = `${objectZIndex(groupRef.value, camera.activeCamera.value as TresCamera, zRange)}`
-
-      if (transform.value) {
-        const fov = camera.activeCamera.value.projectionMatrix.elements[5] * heightHalf
-
-        const { isOrthographicCamera, top, left, bottom, right } = camera.activeCamera.value as OrthographicCamera
-        const cameraMatrix = getCameraCSSMatrix(camera.activeCamera.value.matrixWorldInverse)
-
-        const cameraTransform = isOrthographicCamera
-          ? `scale(${fov})translate(${epsilon(-(right + left) / 2)}px,${epsilon((top + bottom) / 2)}px)`
-          : `translateZ(${fov}px)`
-
-        let matrix = groupRef.value.matrixWorld
-        if (sprite.value) {
-          matrix = camera.activeCamera.value.matrixWorldInverse.clone().transpose().copyPosition(matrix).scale(groupRef.value.scale)
-          matrix.elements[3] = matrix.elements[7] = matrix.elements[11] = 0
-          matrix.elements[15] = 1
-        }
-
-        el.value.style.width = `${width}px`
-        el.value.style.height = `${height}px`
-        el.value.style.perspective = isOrthographicCamera ? '' : `${fov}px`
-
-        if (vnode.value?.el && vnode.value?.children && Array.isArray(vnode.value.children)) {
-          vnode.value.el.style.transform = `${cameraTransform}${cameraMatrix}translate(${widthHalf}px,${heightHalf}px)`
-
-          const firstChild = vnode.value.children[0] as VNode
-          if (firstChild && firstChild.el) {
-            firstChild.el.style.transform = getObjectCSSMatrix(
-              matrix,
-              1 / ((distanceFactor?.value || 10) / 400),
-            )
-          }
-        }
-      }
-      else {
-        const scale = distanceFactor?.value === undefined
-          ? 1
-          : objectScale(groupRef.value, camera.activeCamera.value as TresCamera) * distanceFactor?.value
-
-        el.value.style.transform = `translate3d(${vector[0]}px,${vector[1]}px,0) scale(${scale})`
-      }
-    }
-
-    previousPosition.value = vector
-    previousZoom.value = (camera.activeCamera.value as TresCamera).zoom
-  }
-
-  if (!isRayCastOcclusion.value && occlusionMeshRef.value && !isMeshSizeSet.value) {
-    if (transform.value) {
-      if (vnode.value?.el && vnode.value?.children) {
-        const childVNode = (vnode.value.children as VNode[])[0]
-        const childEl = childVNode?.el as HTMLElement | null
-        if (childEl) {
-          const { isOrthographicCamera } = camera.activeCamera.value as OrthographicCamera
-          if ((isOrthographicCamera && geometry.value) && attrs.scale) {
-            if (!Array.isArray(attrs.scale)) {
-              occlusionMeshRef.value.scale.setScalar(1 / (attrs.scale as number))
-            }
-            else if (attrs.scale instanceof Vector3) {
-              occlusionMeshRef.value.scale.copy(attrs.scale.clone())
-            }
-            else {
-              occlusionMeshRef.value.scale.set(1 / attrs.scale[0], 1 / attrs.scale[1], 1 / attrs.scale[2])
-            }
-          }
-          else if (!isOrthographicCamera && !geometry.value) {
-            const ratio = (distanceFactor?.value || 10) / 400
-            const w = childEl.clientWidth * ratio
-            const h = childEl.clientHeight * ratio
-            occlusionMeshRef.value.scale.set(w, h, 1)
-          }
-          isMeshSizeSet.value = true
-        }
-      }
-    }
-    else {
-      const ele = el.value.children[0]
-      if (ele?.clientWidth && ele?.clientHeight) {
-        // TODO: Create factor value (1 / sizes.factor)
-        // Ratio of canvas pixels to Three.js world units (size.width / viewport.width)
-        const ratio = 1 / 1
-        const w = ele.clientWidth * ratio
-        const h = ele.clientHeight * ratio
-        occlusionMeshRef.value.scale.set(w, h, 1)
-        isMeshSizeSet.value = true
-      }
-      occlusionMeshRef.value.lookAt(camera.activeCamera.value?.position)
-    }
-  }
-
-  if (changed) { invalidate() }
+const isRayCastOcclusion = computed(() => {
+  const o = occlude.value
+  return (
+    o
+    && o !== 'blending'
+    && (Array.isArray(o) ? o.length && typeof o[0] !== 'boolean' : true)
+  )
 })
 
 const effectiveMaterial = computed(() => {
   if (material.value) { return material.value }
 
   return new ShaderMaterial({
-    vertexShader: transform.value ? (passthroughVertex as string) : (vertexShader as string),
+    vertexShader: sprite.value
+      ? (vertexShader as string)
+      : transform.value
+        ? (passthroughVertex as string)
+        : (vertexShader as string),
     fragmentShader: fragmentShader as string,
     side: DoubleSide,
+    transparent: transparentMaterial.value,
+    uniforms: {
+      uWidth: { value: 1 },
+      uHeight: { value: 1 },
+    },
   })
 })
 
-onUnmounted(() => {
-  defaultPlaneGeometry.value?.dispose?.()
-  effectiveMaterial.value?.dispose?.()
-  el.value.remove()
+watchEffect(() => {
+  effectiveMaterial.value.transparent = transparentMaterial.value
 })
 
-defineExpose({ instance: groupRef, isVisible, occlusionMesh: occlusionMeshRef })
+watch(
+  [occlude, () => renderer.instance],
+  ([occludeVal, r]) => {
+    if (!r || occludeVal !== 'blending') { return }
+    const target = r.domElement
+    target.style.zIndex = `${Math.floor(zIndexRange.value[0] / 2)}`
+    target.style.position = 'absolute'
+  },
+  { immediate: true },
+)
+
+watch(
+  () => [
+    groupRef.value,
+    renderer.instance,
+    sizes.width.value,
+    sizes.height.value,
+    slots.default?.(),
+    camera.activeCamera.value,
+  ],
+  ([group, r]) => {
+    if (!group || !r || !camera.activeCamera.value) { return }
+
+    isMeshSizeSet.value = false
+    scene.value?.updateMatrixWorld()
+
+    const elStyle = el.value.style
+    elStyle.position = 'absolute'
+    elStyle.top = '0'
+    elStyle.left = '0'
+
+    if (transform.value) {
+      elStyle.pointerEvents = 'none'
+      elStyle.overflow = 'hidden'
+      elStyle.transformStyle = 'preserve-3d'
+    }
+    else {
+      elStyle.transformOrigin = '0 0'
+      elStyle.willChange = 'transform'
+      if (!occlude.value) {
+        elStyle.zIndex = `${zIndexRange.value[0]}`
+      }
+    }
+
+    const parent = portal.value || r.domElement?.parentNode
+    if (parent && !el.value.parentNode) {
+      prepend.value ? parent.prepend(el.value) : parent.appendChild(el.value)
+    }
+
+    vnode.value = transform.value
+      ? createVNode('div', { style: styles.value }, [
+          createVNode('div', { style: transformInnerStyles.value }, [
+            createVNode(
+              'div',
+              {
+                key: groupRef.value?.uuid,
+                class: attrs.class,
+                style: attrs.style,
+              },
+              slots.default?.(),
+            ),
+          ]),
+        ])
+      : createVNode(
+          'div',
+          {
+            key: groupRef.value?.uuid,
+            style: styles.value,
+            class: attrs.class,
+          },
+          slots.default?.(),
+        )
+
+    render(vnode.value, el.value)
+  },
+)
+
+watchEffect(() => {
+  if (wrapperClass.value) { el.value.className = wrapperClass.value }
+})
+
+const { onBeforeRender } = useLoop()
+
+onBeforeRender(({ invalidate }) => {
+  const group = groupRef.value
+  const cam = camera.activeCamera.value
+  const rend = renderer.instance
+
+  if (!group || !cam || !rend) { return }
+
+  cam.updateMatrixWorld()
+  group.updateWorldMatrix(true, false)
+
+  const width = sizes.width.value
+  const height = sizes.height.value
+  const widthHalf = width * 0.5
+  const heightHalf = height * 0.5
+
+  const newPos = transform.value
+    ? previousPosition.value
+    : calculatePosition.value(group, cam as TresCamera, {
+        width,
+        height,
+      })
+
+  const posChanged
+    = Math.abs(previousZoom.value - cam.zoom) > eps.value
+      || Math.abs(previousPosition.value[0] - newPos[0]) > eps.value
+      || Math.abs(previousPosition.value[1] - newPos[1]) > eps.value
+      || Math.abs(previousPosition.value[2] - newPos[2]) > eps.value
+
+  let changed = transform.value || posChanged
+
+  let visible = true
+  const behind = isObjectBehindCamera(group, cam)
+
+  if (isRayCastOcclusion.value) {
+    let targets: TresObject3D[] | false = false
+
+    if (Array.isArray(occlude.value)) {
+      targets = occlude.value as TresObject3D[]
+    }
+    else if (occlude.value !== 'blending') {
+      targets = [scene.value as unknown as TresObject3D]
+    }
+
+    if (targets) {
+      visible = isObjectVisible(group, cam, raycaster, targets) && !behind
+    }
+  }
+  else {
+    visible = !behind
+  }
+
+  if (visible !== isVisible.value) {
+    isVisible.value = visible
+    el.value.style.display = visible ? 'block' : 'none'
+    emits('onOcclude', !visible)
+    changed = true
+  }
+
+  const halfRange = Math.floor(zIndexRange.value[0] / 2)
+  const zRange = occlude.value
+    ? isRayCastOcclusion.value
+      ? [zIndexRange.value[0], halfRange]
+      : [halfRange - 1, 0]
+    : zIndexRange.value
+
+  el.value.style.zIndex = `${objectZIndex(group, cam, zRange)}`
+
+  if (transform.value) {
+    const persp = cam.projectionMatrix.elements[5] * heightHalf
+    const camMatrix = getCameraCSSMatrix(cam.matrixWorldInverse)
+    const isOrtho = cam instanceof OrthographicCamera
+
+    const cameraTransform = isOrtho
+      ? `scale(${persp})translate(${epsilon(-(cam.right + cam.left) / 2)}px,${epsilon(
+        (cam.top + cam.bottom) / 2,
+      )}px)`
+      : `translateZ(${persp}px)`
+
+    let finalMatrix = group.matrixWorld
+
+    if (sprite.value) {
+      tmpMatrix.copy(group.matrixWorld)
+
+      const invCamMat = cam.matrixWorldInverse.clone().transpose()
+      tmpQuat.setFromRotationMatrix(invCamMat)
+      tmpMatrix.makeRotationFromQuaternion(tmpQuat)
+
+      group.getWorldPosition(tmpVec)
+      tmpMatrix.setPosition(tmpVec)
+
+      tmpMatrix.scale(group.scale)
+
+      tmpMatrix.elements[3] = tmpMatrix.elements[7] = tmpMatrix.elements[11] = 0
+      tmpMatrix.elements[15] = 1
+
+      finalMatrix = tmpMatrix
+    }
+
+    const style = el.value.style
+    style.width = `${width}px`
+    style.height = `${height}px`
+    style.perspective = isOrtho ? '' : `${persp}px`
+
+    if (vnode.value?.el) {
+      vnode.value.el.style.transform = `${cameraTransform}${camMatrix}translate(${widthHalf}px,${heightHalf}px)`
+
+      let inner: VNode | undefined
+      if (Array.isArray(vnode.value.children)) {
+        inner = vnode.value.children[0] as VNode
+      }
+      if (inner?.el) {
+        inner.el.style.transform = getObjectCSSMatrix(
+          finalMatrix,
+          1 / ((distanceFactor.value || 10) / 400),
+        )
+      }
+    }
+  }
+
+  else {
+    const scale
+      = distanceFactor.value === undefined
+        ? 1
+        : objectScale(group, cam) * distanceFactor.value
+
+    el.value.style.transform = `translate3d(${newPos[0]}px,${newPos[1]}px,0) scale(${scale})`
+  }
+
+  previousPosition.value = [newPos[0], newPos[1], newPos[2]]
+  previousZoom.value = cam.zoom
+
+  if (!isRayCastOcclusion.value && occlusionMeshRef.value && !isMeshSizeSet.value) {
+    const mesh = occlusionMeshRef.value
+
+    if (transform.value) {
+      const vnodeRoot = vnode.value
+      const children = vnodeRoot?.children
+
+      if (Array.isArray(children)) {
+        const childVNode = children[0] as VNode
+        const element = childVNode?.el as HTMLElement
+
+        if (element) {
+          const isOrtho = cam instanceof OrthographicCamera
+
+          if (isOrtho && geometry.value && attrs.scale) {
+            if (!Array.isArray(attrs.scale)) {
+              mesh.scale.setScalar(1 / (attrs.scale as number))
+            }
+            else if (attrs.scale instanceof Vector3) {
+              mesh.scale.copy(attrs.scale)
+            }
+            else {
+              mesh.scale.set(
+                1 / attrs.scale[0],
+                1 / attrs.scale[1],
+                1 / attrs.scale[2],
+              )
+            }
+          }
+          else if (!isOrtho && !geometry.value) {
+            const ratio = (distanceFactor.value || 10) / 400
+
+            if (sprite.value) {
+              effectiveMaterial.value.uniforms.uWidth.value = element.clientWidth * ratio
+              effectiveMaterial.value.uniforms.uHeight.value
+                = element.clientHeight * ratio
+
+              mesh.lookAt(cam.position)
+              mesh.scale.set(1, 1, 1)
+            }
+            else {
+              const w = element.clientWidth * ratio
+              const h = element.clientHeight * ratio
+              mesh.scale.set(w, h, 1)
+            }
+          }
+
+          isMeshSizeSet.value = true
+        }
+      }
+    }
+
+    else {
+      const element = el.value.children[0] as HTMLElement
+
+      if (element?.clientWidth && element?.clientHeight) {
+        group.getWorldPosition(tmpVec)
+
+        const factor = getViewportFactor(cam, tmpVec, { width, height })
+        const ratio = 1 / factor
+
+        effectiveMaterial.value.uniforms.uWidth.value
+          = element.clientWidth * ratio
+        effectiveMaterial.value.uniforms.uHeight.value
+          = element.clientHeight * ratio
+
+        mesh.scale.set(1, 1, 1)
+        mesh.lookAt(cam.position)
+
+        isMeshSizeSet.value = true
+      }
+    }
+  }
+
+  if (changed) { invalidate() }
+})
+
+onUnmounted(() => {
+  dispose(defaultPlaneGeometry)
+
+  const mat = effectiveMaterial.value
+
+  if (mat) { dispose(mat) }
+
+  if (el.value?.parentNode) {
+    el.value.parentNode.removeChild(el.value)
+  }
+})
+
+defineExpose({
+  instance: groupRef,
+  isVisible,
+  occlusionMesh: occlusionMeshRef,
+})
 </script>
 
 <template>
