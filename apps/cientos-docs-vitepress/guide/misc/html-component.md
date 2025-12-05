@@ -2,6 +2,9 @@
 
 This component allows you to project HTML content to any object in your scene. TresJS will automatically update the position of the HTML content to match the position of the object in the scene.
 
+
+🚀 Works seamlessly with both **PerspectiveCamera** and **OrthographicCamera** — the active camera is automatically detected by the `<Html>` component.
+
 <DocsDemo>
   <HtmlDemo />
 </DocsDemo>
@@ -168,7 +171,8 @@ You can achieve pretty cool results with the `Html` component by using iframes. 
 | **calculatePosition** | Callback function to override the default positioning logic. <br>**Type:** `(object: Object3D, camera: Camera, size: { width: number; height: number }) => [number, number, number]` <br>Receives the related 3D object, the active camera, and the current viewport size, and must return `[x, y, z]` pixel coordinates for placing the HTML element. <br>➡️ *Ignored in **transform** mode.*                                                     |    [Default `calculatePosition`](https://github.com/Tresjs/cientos/blob/main/src/core/misc/html/utils.ts#L9-L19)                                      |
 | **occlude**         | Enables occlusion. Possible values: <br>- `true` → Occlusion against *all* scene objects <br> - `Ref<TresObject3D>[]` → Occlusion is enabled only against the specified objects. <br>- `'blending'` → Uses a *blending-based* occlusion method (CSS-like depth blending).                      |                                          |
 | **geometry**         | Custom `geometry` to be used.                                                                                              |                    [`PlaneGeometry`](https://threejs.org/docs/?q=geometry#api/en/geometries/PlaneGeometry)       |
-| **material**         | Custom shader `material` to be used.  use                                                                                              |                                          |
+| **material** | **Custom shader _material_ used for the occlusion mesh.** <br> **Only applies when `occlude="blending"` is enabled** (an occlusion mesh is created). <br> _Ignored in raycast occlusion modes (`true`, object refs)._ | |
+| **transparentMaterial** | **Enables _transparent_ rendering for the occlusion material.** <br> **Only applies when `occlude="blending"` creates an occlusion mesh.** <br> _Ignored in raycast occlusion modes._ | `false` |
 
 ## Events
 
@@ -189,13 +193,22 @@ You can achieve pretty cool results with the `Html` component by using iframes. 
 
 - 🎨 When using **`<Html occlude="blending">`**, the HTML content is no longer **selectable** because it is rendered **behind the canvas**. This is required to achieve the blending effect.
 
-- ⚙️ When using a **custom material** with occlusion in `blending` mode, there are a few important requirements to make the HTML content visible ⬇️
+- ⚙️ When using a **custom material** with occlusion in `blending` mode, there are a few important requirements to ensure the HTML content renders correctly ⬇️
 
   <details>
     <summary>See more information</summary>
 
-  1. Your **material must be transparent** (`transparent: true`) and have an **opacity (`opacity`)** value lower than `1`.
-  2. Make sure your **`<TresCanvas>` does not use a clear-color**, or reduce its `clear-alpha` to `0`.
-    - This ensures that the HTML content, rendered behind the canvas (via `zIndex`), remains visible.
-  3. To compensate for the lack of a canvas background, you can **reapply your previous clear-color as a CSS background** on the `html`, `body`, or a wrapper `div`.
-    </details>
+  1. If you provide your own material, it must be **transparent** (`transparent: true`) with an **opacity < 1**.
+  2. If you are not providing a custom material, enable **`transparentMaterial`** so the internal shader becomes transparent.
+  3. The occlusion mesh requires a **fully transparent canvas background**; otherwise, thin borders or halo artifacts may appear.
+  4. To compensate for the transparent canvas, you may **reapply your previous clear-color as a CSS background** on the `html`, `body`, or a wrapper `div`.
+  </details>
+    
+- 🔶 When using **`transparentMaterial`**, overlapping `<Html>` elements (especially multiple `occlude="blending"` instances) may cause **z-index or depth-order artifacts**.  
+  This happens because the occlusion mesh uses transparency in the WebGL layer while the DOM element uses CSS stacking order.  
+
+- 🔵 To avoid thin border artifacts when using `occlude="blending"`, make sure your `<TresCanvas>` is fully transparent:
+  ```vue
+  <TresCanvas :alpha="true" :clearAlpha="0" />
+  ```
+
