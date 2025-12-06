@@ -121,6 +121,7 @@ export default [
       { text: 'Sky', link: '/guide/staging/sky' },
       { text: 'Stars', link: '/guide/staging/stars' },
       { text: 'Smoke', link: '/guide/staging/smoke' },
+      { text: 'CameraShake', link: '/guide/staging/camera-shake' },
       { text: 'AccumulativeShadows', link: '/guide/staging/accumulative-shadows' },
       { text: 'ContactShadows', link: '/guide/staging/contact-shadows' },
       { text: 'Precipitation', link: '/guide/staging/precipitation' },

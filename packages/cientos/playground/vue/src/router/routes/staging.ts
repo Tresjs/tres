@@ -45,6 +45,11 @@ export const stagingRoutes = [
     component: () => import('../../pages/staging/OceanDemo.vue'),
   },
   {
+    path: '/staging/camera-shake',
+    name: 'CameraShake',
+    component: () => import('../../pages/staging/CameraShakeDemo.vue'),
+  },
+  {
     path: '/staging/bounds',
     name: 'Bounds',
     component: () => import('../../pages/staging/BoundsDemo.vue'),
