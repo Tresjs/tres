@@ -66,7 +66,7 @@ function focusObject() {
 
 ### Method Signatures
 
-```ts
+```
 /**
  * Calculates a boundary box around an `Object3D` and centers the camera accordingly.
  */

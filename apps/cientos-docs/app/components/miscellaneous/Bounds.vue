@@ -12,14 +12,16 @@ function focusObject() {
 </script>
 
 <template>
-  <TresCanvas>
-    <TresPerspectiveCamera :position="[0, 2, 5]" />
-    <OrbitControls make-default />
-    <Bounds ref="boundsRef" clip use-mounted :offset="0.75">
-      <TresMesh ref="objectRef" @click="(e) => focusObject()">
-        <TresBoxGeometry />
-        <TresMeshNormalMaterial />
-      </TresMesh>
-    </Bounds>
-  </TresCanvas>
+  <div class="aspect-video">
+    <TresCanvas>
+      <TresPerspectiveCamera :position="[0, 2, 5]" />
+      <OrbitControls make-default />
+      <Bounds ref="boundsRef" clip use-mounted :offset="0.75">
+        <TresMesh ref="objectRef" @click="(e) => focusObject()">
+          <TresBoxGeometry />
+          <TresMeshNormalMaterial />
+        </TresMesh>
+      </Bounds>
+    </TresCanvas>
+  </div>
 </template>
