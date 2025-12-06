@@ -78,7 +78,10 @@ const customGeometry = shallowRef(new CircleGeometry(1.25, 32))
 
 <template>
   <div class="html-demo-wrapper">
-    <TresLeches :style="{position:'relative', zIndex: 9999999999}"  />
+    <TresLeches
+      :style="{ position: 'relative',
+                zIndex: 9999999999 }"
+    />
     <TresCanvas clear-color="#82DBC5" shadows alpha :clearAlpha="0" :antialias="true">
       <TresPerspectiveCamera :position="[0, 0, 15]" />
       <!-- <TresOrthographicCamera :args="[width / -2, width / 2, height / 2, height / -2]" :zoom="65" :position="[0, 0, 15]" /> -->
@@ -232,7 +235,7 @@ const customGeometry = shallowRef(new CircleGeometry(1.25, 32))
         <TresSphereGeometry :args="[.5, 32, 32]" />
         <TresMeshNormalMaterial />
       </TresMesh>
-     
+
       <TresAmbientLight :intensity="1" />
 
       <TresDirectionalLight

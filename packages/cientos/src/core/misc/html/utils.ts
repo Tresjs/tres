@@ -110,8 +110,25 @@ export const getCameraCSSMatrix
   = ((multipliers: number[]) =>
     (matrix: Matrix4) => getCSSMatrix(matrix, multipliers))([1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1])
 
-export const getObjectCSSMatrix
-  = ((scaleMultipliers: (n: number) => number[]) =>
-    (matrix: Matrix4, factor: number) =>
-      getCSSMatrix(matrix, scaleMultipliers(factor), 'translate(-50%,-50%)'))((f: number) =>
-        [1 / f, 1 / f, 1 / f, 1, -1 / f, -1 / f, -1 / f, -1, 1 / f, 1 / f, 1 / f, 1, 1, 1, 1, 1])
+export const getObjectCSSMatrix = (matrix: Matrix4, factor: number) => {
+  const m = [
+    1 / factor,
+    1 / factor,
+    1 / factor,
+    1,
+    -1 / factor,
+    -1 / factor,
+    -1 / factor,
+    -1,
+    1 / factor,
+    1 / factor,
+    1 / factor,
+    1,
+    1,
+    1,
+    1,
+    1,
+  ]
+
+  return getCSSMatrix(matrix, m, 'translate(-50%,-50%)')
+}
