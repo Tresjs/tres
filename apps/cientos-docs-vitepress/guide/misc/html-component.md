@@ -172,7 +172,7 @@ You can achieve pretty cool results with the `Html` component by using iframes. 
 | **occlude**         | Enables occlusion. Possible values: <br>- `true` → Occlusion against *all* scene objects <br> - `Ref<TresObject3D>[]` → Occlusion is enabled only against the specified objects. <br>- `'blending'` → Uses a *blending-based* occlusion method (CSS-like depth blending).                      |                                          |
 | **geometry**         | Custom `geometry` to be used.                                                                                              |                    [`PlaneGeometry`](https://threejs.org/docs/?q=geometry#api/en/geometries/PlaneGeometry)       |
 | **material** | **Custom shader _material_ used for the occlusion mesh.** <br> **Only applies when `occlude="blending"` is enabled** (an occlusion mesh is created). <br> _Ignored in raycast occlusion modes (`true`, object refs)._ | |
-| **transparentMaterial** | **Enables _transparent_ rendering for the occlusion material.** <br> **Only applies when `occlude="blending"` creates an occlusion mesh.** <br> _Ignored in raycast occlusion modes._ | `false` |
+| **transparentMaterial** | **Enables _transparent_ rendering for the occlusion material.** <br> **Only applies when `occlude="blending"` creates an occlusion mesh.** <br> _Ignored in raycast occlusion modes (`true`, object refs)._ | `false` |
 
 ## Events
 
