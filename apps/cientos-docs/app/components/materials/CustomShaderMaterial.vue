@@ -43,19 +43,19 @@ const materialProps = {
 }
 
 function onLoop() {
-  materialProps.uniforms.u_Time.value += 0.01 * materialProps.uniforms.u_WobbleSpeed.value
+  materialProps.uniforms.u_Time.value
+    += 0.01 * materialProps.uniforms.u_WobbleSpeed.value
 }
 </script>
 
 <template>
-  <TresCanvas v-bind="gl" @loop="onLoop">
-    <TresPerspectiveCamera
-      :position="[0, 2, 4]"
-      :look-at="[-1, 0, 0]"
-    />
-    <TresMesh>
-      <TresTorusKnotGeometry :args="[1, 0.3, 512, 32]" />
-      <CustomShaderMaterial v-bind="materialProps" />
-    </TresMesh>
-  </TresCanvas>
+  <div class="aspect-video">
+    <TresCanvas v-bind="gl" @loop="onLoop">
+      <TresPerspectiveCamera :position="[0, 2, 4]" :look-at="[0, 0, 0]" />
+      <TresMesh>
+        <TresTorusKnotGeometry :args="[1, 0.3, 512, 32]" />
+        <CustomShaderMaterial v-bind="materialProps" />
+      </TresMesh>
+    </TresCanvas>
+  </div>
 </template>

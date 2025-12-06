@@ -82,7 +82,7 @@ content/
 
 Edit `app/app.config.ts` to customize:
 
-```ts
+```
 ui: {
   colors: {
     primary: 'teal',      // Change primary color
@@ -216,7 +216,7 @@ Hero description
 
 Configured for static site generation with Nitro prerendering:
 
-```ts
+```
 nitro: {
   prerender: {
     routes: ['/'],
