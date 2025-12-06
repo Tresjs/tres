@@ -2,7 +2,6 @@
 import { Html, Levioso, OrbitControls } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
 import { shallowRef } from 'vue'
-import CanvasFixWrapper from './CanvasFixWrapper.vue'
 import { CircleGeometry, MeshStandardMaterial } from 'three'
 
 const gl = {
@@ -46,7 +45,7 @@ const customMaterial = shallowRef(new MeshStandardMaterial({
       <TresPerspectiveCamera :position="[0, 1.5, 7.5]" />
       <OrbitControls />
 
-      <!-- <Levioso
+      <Levioso
         v-for="(geometry, index) in geometries"
         :key="`html-occlude-blending-demo-${index}`"
         :speed="3"
@@ -58,7 +57,7 @@ const customMaterial = shallowRef(new MeshStandardMaterial({
           <component :is="geometry.component" :args="geometry.args" />
           <TresMeshNormalMaterial />
         </TresMesh>
-      </Levioso> -->
+      </Levioso>
 
       <Html
         center

@@ -172,7 +172,7 @@ const customGeometry = shallowRef(new CircleGeometry(1.25, 32))
           <Transition name="transition-basic">
             <Card v-if="showTransition" :active="isActive">
               <template #default>
-                {{ textBlank }} fdsfds
+                {{ textBlank }}
               </template>
             </Card>
           </Transition>
