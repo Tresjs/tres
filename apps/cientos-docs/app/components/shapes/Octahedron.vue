@@ -1,17 +1,27 @@
 <script setup lang="ts">
-import { Icosahedron, OrbitControls } from '@tresjs/cientos'
+import { Octahedron, OrbitControls } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
+import { TresLeches, useControls } from '@tresjs/leches'
+
+const { radius, detail, showWireframe } = useControls({
+  radius: { value: 1, min: 0.1, max: 5, step: 0.1 },
+  detail: { value: 0, min: 0, max: 5, step: 1 },
+  showWireframe: false,
+})
 </script>
 
 <template>
-  <TresCanvas clear-color="#82DBC5">
-    <TresPerspectiveCamera :position="[3, 3, 3]" />
-    <OrbitControls />
-    <Icosahedron>
-      <TresMeshToonMaterial color="orange" />
-    </Icosahedron>
-    <TresAmbientLight />
-    <TresDirectionalLight :position="[0, 2, 4]" />
-    <TresGridHelper :position-y="-0.5" />
-  </TresCanvas>
+  <div class="aspect-video">
+    <TresCanvas clear-color="#82DBC5">
+      <TresPerspectiveCamera :position="[3, 3, 3]" />
+      <OrbitControls />
+      <Octahedron :args="[radius, detail]">
+        <TresMeshToonMaterial color="orange" :wireframe="showWireframe" />
+      </Octahedron>
+      <TresAmbientLight />
+      <TresDirectionalLight :position="[0, 2, 4]" />
+      <TresGridHelper :position-y="-0.5" />
+    </TresCanvas>
+  </div>
+  <TresLeches :float="false" />
 </template>

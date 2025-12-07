@@ -12,7 +12,7 @@ The `cientos` package provides a `<Superformula />` component that produces a co
 
 ## Usage
 
-```vue{3,8-13}
+```vue{3,9-14}
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
 import { Superformula } from '@tresjs/cientos'

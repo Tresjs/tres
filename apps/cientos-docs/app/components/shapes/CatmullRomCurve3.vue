@@ -5,7 +5,8 @@ import { Vector3 } from 'three'
 </script>
 
 <template>
-  <TresCanvas clear-color="#82DBC5">
+  <div class="aspect-video">
+    <TresCanvas clear-color="#82DBC5">
     <TresPerspectiveCamera :position="[3, 3, 3]" />
     <OrbitControls />
     <CatmullRomCurve3
@@ -16,5 +17,6 @@ import { Vector3 } from 'three'
     />
     <TresGridHelper :position-y="-0.5" />
     <TresAmbientLight />
-  </TresCanvas>
+    </TresCanvas>
+  </div>
 </template>
