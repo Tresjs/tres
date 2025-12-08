@@ -7,43 +7,6 @@ import type { TresCamera, TresContextWithClock, TresPointerEvent } from '../type
 import type { TresPointerEventName } from '../utils/pointerEvents.ts'
 import Context from './Context.vue'
 
-const props = withDefaults(defineProps<TresCanvasProps>(), {
-  alpha: undefined,
-  depth: undefined,
-  shadows: undefined,
-  stencil: undefined,
-  antialias: true,
-  windowSize: undefined,
-  useLegacyLights: undefined,
-  preserveDrawingBuffer: undefined,
-  logarithmicDepthBuffer: undefined,
-  failIfMajorPerformanceCaveat: undefined,
-  renderMode: 'always',
-  clearColor: '#000000',
-  clearAlpha: 1,
-  enableProvideBridge: true,
-  toneMapping: ACESFilmicToneMapping,
-  shadowMapType: PCFSoftShadowMap,
-})
-
-const emit = defineEmits<TresCanvasEmits>()
-
-defineSlots<{
-  default: () => any
-}>()
-
-const canvasRef = ref<HTMLCanvasElement>()
-const contextRef = shallowRef<{ context: TresContext, dispose: () => void }>()
-
-defineExpose<TresCanvasInstance>({
-  get context() {
-    return contextRef.value?.context
-  },
-  dispose: () => contextRef.value?.dispose(),
-})
-</script>
-
-<script lang="ts">
 export interface TresCanvasProps extends RendererOptions {
   /**
    * Custom camera instance to use as main camera
@@ -79,6 +42,41 @@ export interface TresCanvasInstance {
   get context(): TresContext | undefined
   dispose: () => void
 }
+
+const props = withDefaults(defineProps<TresCanvasProps>(), {
+  alpha: undefined,
+  depth: undefined,
+  shadows: undefined,
+  stencil: undefined,
+  antialias: true,
+  windowSize: undefined,
+  useLegacyLights: undefined,
+  preserveDrawingBuffer: undefined,
+  logarithmicDepthBuffer: undefined,
+  failIfMajorPerformanceCaveat: undefined,
+  renderMode: 'always',
+  clearColor: '#000000',
+  clearAlpha: 1,
+  enableProvideBridge: true,
+  toneMapping: ACESFilmicToneMapping,
+  shadowMapType: PCFSoftShadowMap,
+})
+
+const emit = defineEmits<TresCanvasEmits>()
+
+defineSlots<{
+  default: () => any
+}>()
+
+const canvasRef = ref<HTMLCanvasElement>()
+const contextRef = shallowRef<{ context: TresContext, dispose: () => void }>()
+
+defineExpose<TresCanvasInstance>({
+  get context() {
+    return contextRef.value?.context
+  },
+  dispose: () => contextRef.value?.dispose(),
+})
 </script>
 
 <template>
