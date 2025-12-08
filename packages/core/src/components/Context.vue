@@ -2,7 +2,7 @@
 import type { ShallowRef } from 'vue'
 import type { TresContext } from '../composables'
 import type { TresScene } from '../types'
-import type { TresCanvasEmits, TresCanvasProps } from './types'
+import type { TresCanvasEmits, TresCanvasProps } from './TresCanvas.vue'
 import { Scene } from 'three'
 import * as THREE from 'three'
 import { shallowRef } from 'vue'
