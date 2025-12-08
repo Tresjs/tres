@@ -25,7 +25,7 @@ import { nodeOps } from '../core/nodeOps'
 import { disposeObject3D } from '../utils/'
 import { registerTresDevtools } from '../devtools'
 import { promiseTimeout } from '@vueuse/core'
-import type { TresCanvasEmits, TresCanvasProps } from './types'
+import type { TresCanvasEmits, TresCanvasProps } from './TresCanvas.vue'
 
 const props = defineProps<TresCanvasProps & { canvas: HTMLCanvasElement }>()
 
