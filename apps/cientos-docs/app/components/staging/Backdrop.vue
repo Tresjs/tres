@@ -27,7 +27,7 @@ const { hasFinishLoading, progress } = await useProgress()
 const { floor, segments, receiveShadow } = useControls({
   floor: { value: 1.5, min: 0, max: 5, step: 0.05 },
   segments: { value: 20, min: 1, max: 128, step: 1 },
-  receiveShadow:  true,
+  receiveShadow: true,
 })
 </script>
 
