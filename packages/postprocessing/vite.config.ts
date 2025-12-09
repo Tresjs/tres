@@ -12,7 +12,7 @@ console.log(`${lightGreen('▲')} ${gray('■')} ${magenta('𝗫')} ${bold('Tres
 export default defineConfig({
   resolve: {
     alias: {
-      '/@': resolve(__dirname, './src'),
+      '/@': resolve(import.meta.dirname, './src'),
     },
     dedupe: ['@tresjs/core', '@vueuse/core'],
   },
