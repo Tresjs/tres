@@ -15,6 +15,21 @@ description: Wrapper for the Three.js Water add-on with sky reflection support.
 
 ## Usage
 
+```vue{3, 9}
+<script setup lang="ts">
+import { TresCanvas } from '@tresjs/core'
+import { Ocean } from '@tresjs/cientos'
+</script>
+
+<template>
+  <TresCanvas>
+    <Suspense>
+      <Ocean />
+    </Suspense>
+  </TresCanvas>
+</template>
+```
+
 ### SKY
 
 `<Ocean />` works hand in hand with the Sky component, detecting the position of the sun and reflecting on the water.
@@ -28,7 +43,7 @@ The `<Ocean />` component also reacts when there's [Fog](https://threejs.org/doc
 
 You can use custom geometry by adding it as a child.
 
-```vue
+```vue{3, 9-11}
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
 import { Ocean } from '@tresjs/cientos'
