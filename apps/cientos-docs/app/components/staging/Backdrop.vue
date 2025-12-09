@@ -4,6 +4,7 @@ import { TresCanvas } from '@tresjs/core'
 import type { Camera } from 'three'
 import { PCFSoftShadowMap, SRGBColorSpace } from 'three'
 import { ref, watchEffect } from 'vue'
+import { TresLeches, useControls } from '@tresjs/leches'
 
 const gl = {
   clearColor: 'pink',
@@ -22,6 +23,12 @@ watchEffect(() => {
 })
 
 const { hasFinishLoading, progress } = await useProgress()
+
+const { floor, segments, receiveShadow } = useControls({
+  floor: { value: 1.5, min: 0, max: 5, step: 0.05 },
+  segments: { value: 20, min: 1, max: 128, step: 1 },
+  receiveShadow:  true,
+})
 </script>
 
 <template>
@@ -51,16 +58,18 @@ const { hasFinishLoading, progress } = await useProgress()
         <GLTFModel
           path="https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/blender-cube.glb"
           :rotation="[0, 0.5, 0]"
-          :position="[0, 0.4, 0]"
+          :position="[0, 1, 0]"
           :scale="0.5"
+          castShadow
           draco
         />
       </Suspense>
       <Backdrop
-        :floor="1.5"
+        :floor="floor"
+        :segments="segments"
         :scale="[10, 3, 3]"
         :position="[0, 0, -3]"
-        receive-shadow
+        :receive-shadow="receiveShadow"
       >
         <TresMeshPhysicalMaterial
           :roughness="1"
@@ -87,4 +96,5 @@ const { hasFinishLoading, progress } = await useProgress()
       />
     </TresCanvas>
   </div>
+  <TresLeches :float="false" />
 </template>

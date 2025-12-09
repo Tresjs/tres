@@ -7,6 +7,7 @@ import {
   useProgress,
 } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
+import { TresLeches, useControls } from '@tresjs/leches'
 
 const environmentFiles = [
   '/px.jpg',
@@ -18,6 +19,13 @@ const environmentFiles = [
 ]
 
 const { progress, hasFinishLoading } = await useProgress()
+
+const { intensity, form, toneMapped, color } = useControls({
+  intensity: { value: 100, min: 0, max: 200, step: 1 },
+  form: { value: 'rect', options: ['circle', 'ring', 'rect'] },
+  toneMapped: false,
+  color: '#ffffff',
+})
 </script>
 
 <template>
@@ -36,23 +44,26 @@ const { progress, hasFinishLoading } = await useProgress()
       </div>
     </div>
   </Transition>
-  <TresCanvas>
-    <TresPerspectiveCamera :position="[3, 3, 3]" />
-    <OrbitControls />
-    <Suspense>
-      <Environment
-        :files="environmentFiles"
-        :blur="10"
-        :environmentIntensity="0.05"
-        path="https://raw.githubusercontent.com/Tresjs/assets/main/textures/environmentMap"
-      >
-        <Lightformer :intensity="100" :position="[0, -2, 3]" :scale="2" />
-        <Lightformer :intensity="100" :position="[0, 2, -3]" :scale="2" />
-      </Environment>
-    </Suspense>
-    <Sphere>
-      <TresMeshStandardMaterial color="yellow" :roughness="0" :metalness="0.5" />
-    </Sphere>
-    <TresAmbientLight :intensity="1" />
-  </TresCanvas>
+  <div class="aspect-video">
+    <TresCanvas>
+      <TresPerspectiveCamera :position="[3, 3, 3]" />
+      <OrbitControls />
+      <Suspense>
+        <Environment
+          :files="environmentFiles"
+          :blur="10"
+          :environmentIntensity="0.05"
+          path="https://raw.githubusercontent.com/Tresjs/assets/main/textures/environmentMap"
+        >
+          <Lightformer :intensity="intensity" :position="[0, -2, 3]" :scale="2" :form="form" :tone-mapped="toneMapped" :color="color" />
+          <Lightformer :intensity="intensity" :position="[0, 2, -3]" :scale="2" :form="form" :tone-mapped="toneMapped" :color="color" />
+        </Environment>
+      </Suspense>
+      <Sphere>
+        <TresMeshStandardMaterial color="yellow" :roughness="0" :metalness="0.5" />
+      </Sphere>
+      <TresAmbientLight :intensity="1" />
+    </TresCanvas>
+  </div>
+  <TresLeches :float="false" />
 </template>
