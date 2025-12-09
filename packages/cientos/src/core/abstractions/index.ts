@@ -22,6 +22,8 @@ import Fbo from './useFBO/component.vue'
 import Sampler from './useSurfaceSampler/component.vue'
 import ScreenSizer from './ScreenSizer.vue'
 import Edges from './Edges.vue'
+import Decal from './Decal/index.vue'
+import DecalDebugUI from './Decal/DebugUI.vue'
 
 export * from '../staging/useEnvironment'
 export * from './useFBO/'
@@ -30,6 +32,8 @@ export {
   AnimatedSprite,
   Billboard,
   CubeCamera,
+  Decal,
+  DecalDebugUI,
   Edges,
   Fbo,
   GlobalAudio,
