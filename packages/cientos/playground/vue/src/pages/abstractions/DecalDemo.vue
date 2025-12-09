@@ -2,7 +2,7 @@
 import { TresCanvas } from '@tresjs/core'
 import { Box, Decal,DecalDebugUI, OrbitControls } from '@tresjs/cientos'
 import { TresLeches, useControls } from '@tresjs/leches'
-import { useTexture } from '@tresjs/cientos'
+import { useTexture, useTextures } from '@tresjs/cientos'
 import { SRGBColorSpace } from 'three'
 
 const gl = {
@@ -22,7 +22,37 @@ const { enabled, edgeColor, edgeThreshold } = useControls({
 })
 
 const { state: texture } = useTexture('/decal/tresjs-dark.png')
-const { state: textureVue } = useTexture('/decal/vue.png')
+
+const texturePaths = [
+  '/decal/tresjs-dark.png',
+  '/decal/vue.png',
+  '/decal/threejs.png',
+]
+
+const testttttt = [
+    {
+        "id": "5d77b913-fb20-42ab-a9a6-d8c8c7642f4b",
+        "position": [
+            0.004330500446731596,
+            1,
+            0.16115118796291394
+        ],
+        "orientation": [
+            -1.57069632679523,
+            0,
+            0
+        ],
+        "size": [
+            0.9749061269648661,
+            0.22261635970063873,
+            1
+        ],
+        "zIndex": 2,
+        "map": "tresjs-dark.png"
+    }
+]
+
+const { textures } = useTextures(texturePaths)
 
 watch(texture, () => {
   if(!texture.value?.image) return
@@ -30,12 +60,20 @@ watch(texture, () => {
   texture.value.colorSpace = SRGBColorSpace
 })
 
+watch(textures, (val) => {
+  if (Array.isArray(val)) {
+    val.forEach(t => {
+      if(t) t.colorSpace = SRGBColorSpace
+    })
+  }
+}, { immediate: true })
+
 </script>
 
 <template>
   <TresLeches />
+      <DecalDebugUI  />
 
-  <DecalDebugUI  />
 
   <TresCanvas
     v-bind="gl"
@@ -53,24 +91,14 @@ watch(texture, () => {
       :position-y="-.5"
     />
 
-    <TresMesh :scale="2" :position-x="-2">
+    <TresMesh :scale="2" :position-x="0">
       <TresBoxGeometry />
       <TresMeshBasicMaterial color="#f6f6f6" />
-      <Decal
-        :map="textureVue"
-        debug
-      >
-      </Decal>
-    </TresMesh>
+    
 
-    <TresMesh :scale="2" :position-x="2">
-      <TresBoxGeometry />
-      <TresMeshBasicMaterial color="#f6f6f6" />
-      <Decal
-        :map="texture"
-        debug
-      >
-      </Decal>
+      <!-- <Decal :map="texture" debug /> -->
+      <Decal :map="textures" debug :data="testttttt"   />
+
     </TresMesh>
 
   </TresCanvas>

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, nextTick, onBeforeUnmount, ref, toRaw, toRefs, watch } from 'vue'
 import { DecalGeometry } from 'three-stdlib'
-import { Mesh, MeshBasicMaterial } from 'three'
+import { Mesh, MeshBasicMaterial, Vector3 } from 'three'
 import { useLoop } from '@tresjs/core'
 import { decalBus } from './DecalBus'
 
@@ -15,6 +15,7 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits(['select'])
+
 let localElapsed = 0
 const wasSelected = ref(false)
 
@@ -22,30 +23,47 @@ const { parent, decal, map, isSelected, highlight } = toRefs(props)
 
 const meshRef = ref<Mesh | null>(null)
 const raycastMesh = ref<Mesh | null>(null)
-const originalScale = new Mesh().scale.clone() // remplacé après le mount
+
+const originalScale = new Mesh().scale.clone()
+
+// watch(() => [meshRef.value, parent.value], () => {
+//   const p = toRaw(parent.value)
+//   const m = toRaw(meshRef.value)
+
+//   // Si on a le parent et le mesh du sticker
+//   if (p && m) {
+//     // On force l'attachement parent-enfant natif de Three.js
+//     // Cela corrige instantanément la position et l'échelle
+//     p.attach(m)
+//   }
+// }, { immediate: true })
 
 const updateRaycastClone = () => {
   if (!props.groupTest || !meshRef.value) { return }
 
   if (!raycastMesh.value) {
-    raycastMesh.value = new Mesh(meshRef.value.geometry, new MeshBasicMaterial({ visible: false }))
-    raycastMesh.value.name = `raycast-decal-${decal.value.id}`
+    raycastMesh.value = new Mesh(
+      meshRef.value.geometry,
+      new MeshBasicMaterial({ visible: false }),
+    )
 
-    raycastMesh.value.userData = { id: decal.value.id, originalUuid: decal.value.uuid }
+    raycastMesh.value.name = `raycast-decal-${decal.value.id}`
+    raycastMesh.value.userData = {
+      id: decal.value.id,
+      originalUuid: decal.value.uuid,
+    }
 
     props.groupTest.add(raycastMesh.value)
   }
   else {
     raycastMesh.value.geometry = meshRef.value.geometry
-
-    raycastMesh.value.position.copy(meshRef.value.position)
-    raycastMesh.value.rotation.copy(meshRef.value.rotation)
-    raycastMesh.value.scale.copy(meshRef.value.scale)
   }
 }
 
 const buildGeometry = () => {
   if (!meshRef.value || !parent.value) { return }
+
+  parent.value.updateMatrixWorld(true)
 
   const geometry = new DecalGeometry(
     parent.value,
@@ -54,25 +72,31 @@ const buildGeometry = () => {
     decal.value.size,
   )
 
-  const n = decal.value.face.normal.clone()
-  n.transformDirection(parent.value.matrixWorld)
-  n.normalize()
+  const inverseMatrix = parent.value.matrixWorld.clone().invert()
+
+  geometry.applyMatrix4(inverseMatrix)
+
+  const worldNormal = new Vector3(0, 0, 1).applyEuler(decal.value.orientation)
+  const localNormal = worldNormal.clone().transformDirection(inverseMatrix).normalize()
 
   const baseOffset = 0.01
   const layerGap = 0.001
   const currentZ = decal.value.zIndex ?? 0
+  const parentScale = parent.value.scale.x || 1 // Approximation uniforme
+  const totalOffset = (baseOffset + currentZ * layerGap) / parentScale
 
-  const totalOffset = baseOffset + (currentZ * layerGap)
+  geometry.translate(
+    localNormal.x * totalOffset,
+    localNormal.y * totalOffset,
+    localNormal.z * totalOffset,
+  )
 
-  geometry.translate(n.x * totalOffset, n.y * totalOffset, n.z * totalOffset)
-
-  if (meshRef.value.geometry) {
-    meshRef.value.geometry.dispose()
-  }
-
+  if (meshRef.value.geometry) { meshRef.value.geometry.dispose() }
   meshRef.value.geometry = geometry
-  meshRef.value.position.set(0, 0, 0)
 
+  meshRef.value.position.set(0, 0, 0)
+  meshRef.value.rotation.set(0, 0, 0)
+  meshRef.value.scale.set(1, 1, 1)
   meshRef.value.renderOrder = decal.value.zIndex ?? 0
 
   updateRaycastClone()
@@ -94,16 +118,24 @@ watch(isSelected, (selected) => {
 
 watch(isSelected, (selected) => {
   if (!meshRef.value) { return }
-
-  if (!selected) {
-    // réinitialisation du scale
-    meshRef.value.scale.copy(originalScale)
-  }
+  if (!selected) { meshRef.value.scale.copy(originalScale) }
 })
 
 const { onBeforeRender } = useLoop()
 
 onBeforeRender(({ delta }) => {
+  if (raycastMesh.value && parent.value) {
+    parent.value.updateMatrixWorld()
+
+    parent.value.matrixWorld.decompose(
+      raycastMesh.value.position,
+      raycastMesh.value.quaternion,
+      raycastMesh.value.scale,
+    )
+
+    raycastMesh.value.updateMatrixWorld()
+  }
+
   if (!meshRef.value) { return }
   const material = meshRef.value.material as any
 
@@ -121,26 +153,28 @@ onBeforeRender(({ delta }) => {
 
   if (isSelected.value) {
     const speed = 5
-    const minO = 0.4
+    const minO = 0.2
     const maxO = 1
-
     const t = (Math.sin(localElapsed * speed) + 1) / 2
     const opacity = minO + t * (maxO - minO)
-
     material.opacity = opacity
     material.needsUpdate = true
   }
 })
 
-watch([() => decal.value.position, () => decal.value.orientation, () => decal.value.size], () => {
-  buildGeometry()
-}, { deep: true })
+watch(
+  [() => decal.value.position, () => decal.value.orientation, () => decal.value.size],
+  () => {
+    buildGeometry()
+  },
+  { deep: true },
+)
 
 watch([meshRef, () => props.groupTest], () => {
   if (!meshRef.value || !props.groupTest) { return }
-  buildGeometry()
 
-  originalScale.copy(meshRef.value.scale) // on garde la vraie échelle du mesh
+  buildGeometry()
+  originalScale.copy(meshRef.value.scale)
 }, { immediate: true })
 
 const onClickMesh = (event: MouseEvent) => {
@@ -150,16 +184,13 @@ const onClickMesh = (event: MouseEvent) => {
 
 const stop = decalBus.on((payload) => {
   if (payload.type === 'refresh-raycasts') {
-    // Rebuild geometry du decal existant
     buildGeometry()
-
-    // Regénère le clone raycastMesh
     updateRaycastClone()
   }
 })
 
 const materialIsTransparent = computed(() => {
-  if (isSelected.value) { return isSelected.value }
+  if (isSelected.value) { return true }
   return !highlight.value
 })
 
@@ -172,17 +203,17 @@ watch(materialIsTransparent, async () => {
 onBeforeUnmount(() => {
   if (raycastMesh.value && props.groupTest) {
     props.groupTest.remove(raycastMesh.value)
+
     if (raycastMesh.value.geometry) { raycastMesh.value.geometry.dispose() }
     if (raycastMesh.value.material) { (raycastMesh.value.material as any).dispose() }
+
     raycastMesh.value = null
   }
 
   stop()
 })
 
-defineExpose({
-  meshRef,
-})
+defineExpose({ meshRef })
 </script>
 
 <template>
@@ -198,7 +229,7 @@ defineExpose({
       :transparent="true"
       :opacity="isSelected ? 0.5 : 1"
       :depthTest="true"
-      :polygonOffsetFactor="-10 - (decal.zIndex ?? 0)"
+      :polygonOffsetFactor="-(10 + (decal.zIndex ?? 0))"
     />
   </TresMesh>
 </template>
