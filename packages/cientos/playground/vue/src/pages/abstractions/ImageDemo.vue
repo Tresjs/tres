@@ -3,7 +3,6 @@ import { TresCanvas } from '@tresjs/core'
 import { Image, OrbitControls } from '@tresjs/cientos'
 import { Color, DoubleSide, FrontSide, NoToneMapping } from 'three'
 import { TresLeches, useControls } from '@tresjs/leches'
-import '@tresjs/leches/styles'
 
 const URLS = [
   'https://upload.wikimedia.org/wikipedia/commons/1/13/20220713-great-tit.jpg',

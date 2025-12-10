@@ -1,3 +1,30 @@
+## 5.1.2 (2025-12-10)
+
+### 🩹 Fixes
+
+- update package.json import to use module attributes ([59de9e3a](https://github.com/Tresjs/tres/commit/59de9e3a))
+- improve type guard ([37eda284](https://github.com/Tresjs/tres/commit/37eda284))
+- **cientos:** colour handling for holographic material and reflector ([60ba0c04](https://github.com/Tresjs/tres/commit/60ba0c04))
+- **cientos:** small code review ([1b04509d](https://github.com/Tresjs/tres/commit/1b04509d))
+- **cientos:** improve WebGPU compatibility check in MeshReflectionMaterial ([d65620c3](https://github.com/Tresjs/tres/commit/d65620c3))
+- **cientos:** image component ([e0f94e31](https://github.com/Tresjs/tres/commit/e0f94e31))
+
+### 🔥 Performance
+
+- **cientos:** export as PascalCase ([c8451621](https://github.com/Tresjs/tres/commit/c8451621))
+- **cientos:** improve tree-shake for image and outline materials ([74ce2d84](https://github.com/Tresjs/tres/commit/74ce2d84))
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/core to 5.2.0
+
+### ❤️ Thank You
+
+- alvarosabu @alvarosabu
+- init-qy
+- Jaime Torrealba
+- Jungzl
+
 ## 5.1.1 (2025-11-18)
 
 ### 🚀 Features

@@ -1,3 +1,9 @@
+## 5.1.2 (2025-12-10)
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/core to 5.2.0
+
 ## 5.1.1 (2025-11-18)
 
 ### 🧱 Updated Dependencies

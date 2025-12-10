@@ -7,8 +7,7 @@ import {
   WebGLRenderer,
 } from 'three'
 import type { App, Ref } from 'vue'
-import type { TresCamera, TresContextWithClock, TresObject, TresScene } from '../types/'
-import type { PointerEvent } from '@pmndrs/pointer-events'
+import type { TresCamera, TresContextWithClock, TresObject, TresPointerEvent, TresScene } from '../types'
 import * as THREE from 'three'
 
 import {
@@ -26,7 +25,7 @@ import {
   watch,
   watchEffect,
 } from 'vue'
-import pkg from '../../package.json'
+import { version } from '../../package.json' with { type: 'json' }
 import type { RendererOptions, TresContext } from '../composables'
 import { useTresContextProvider } from '../composables'
 import { INJECTION_KEY as CONTEXT_INJECTION_KEY } from '../composables/useTresContextProvider'
@@ -271,13 +270,13 @@ export interface TresCanvasProps extends RendererOptions {
 
 export type TresCanvasEmits = {
   ready: [context: TresContext]
-  pointermissed: [event: PointerEvent<MouseEvent>]
+  pointermissed: [event: TresPointerEvent]
   render: [context: TresContext]
   beforeLoop: [context: TresContextWithClock]
   loop: [context: TresContextWithClock]
 } & {
   // all pointer events are supported because they bubble up
-  [key in TresPointerEventName]: [event: PointerEvent<MouseEvent>]
+  [key in TresPointerEventName]: [event: TresPointerEvent]
 }
 </script>
 
@@ -286,7 +285,7 @@ export type TresCanvasEmits = {
     ref="canvasRef"
     :data-scene="scene.uuid"
     :class="$attrs.class"
-    :data-tres="`tresjs ${pkg.version}`"
+    :data-tres="`tresjs ${version}`"
     :style="{
       display: 'block',
       width: '100%',
