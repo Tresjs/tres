@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, nextTick, onBeforeUnmount, onMounted, reactive, ref, useTemplateRef, watch } from 'vue'
-import { onClickOutside, useDraggable, useElementSize, useEventListener, useResizeObserver } from '@vueuse/core'
+import { onKeyStroke, useDraggable, useElementSize, useEventListener, useResizeObserver } from '@vueuse/core'
 import { decalBus } from './DecalBus'
 
 const dragRef = useTemplateRef<HTMLDivElement>('dragRef')
@@ -220,6 +220,33 @@ watch(isVisibleDecalIntersect, (visible) => {
   }
 })
 
+onKeyStroke('Enter', (e) => {
+  if (!isVisibleDecalIntersect.value) { return }
+
+  e.preventDefault()
+  onValidateDecal()
+})
+
+onKeyStroke('Escape', (e) => {
+  if (!isVisibleDecalIntersect.value) { return }
+
+  e.preventDefault()
+  onCancelEdit()
+})
+
+onKeyStroke(['Delete', 'Backspace'], (e) => {
+  if (!isVisibleDecalIntersect.value) { return }
+
+  e.preventDefault()
+
+  if (currentEditingId.value) {
+    onDeleteDecal()
+  }
+  else {
+    onCancelEdit()
+  }
+})
+
 onMounted(() => {
   updateSliderFromAngle(-Math.PI / 2)
 })
@@ -243,49 +270,81 @@ onBeforeUnmount(stop)
 
       <div
         ref="selectorRef"
-        class="absolute left-1/2 -translate-x-1/2 top-[105%] flex flex-col items-center gap-3 w-max z-[1000001]"
+        class="absolute left-1/2 top-[105%] -translate-x-1/2 flex flex-col items-center gap-3 w-max z-[1000001]"
         :class="isVisibleDecalIntersect ? 'pointer-events-auto' : 'pointer-events-none'"
       >
-        <div class="flex items-center gap-2 p-2 bg-white/90 backdrop-blur-md rounded-full border border-gray-200 shadow-xl">
+        <!-- BARRE D'ACTIONS -->
+        <div class="flex items-center gap-2 p-2 bg-white/90 border border-gray-200 shadow-xl backdrop-blur-xl rounded-full">
+          <!-- Snap -->
           <button
-            class="w-8 h-8 flex items-center justify-center rounded-full transition-colors text-md"
-            :class="isSnapEnabled ? 'bg-blue-100 text-blue-600 border border-blue-200' : 'hover:bg-gray-100 text-gray-500'"
-            title="Snap Angle (15°)"
+            class="w-8 h-8 flex items-center justify-center rounded-full text-md transition"
+            :class="[
+              isSnapEnabled
+                ? 'bg-blue-100 text-blue-600 border border-blue-300'
+                : 'text-gray-500 hover:bg-gray-100',
+            ]"
             @click="toggleSnap"
           >
             🧲
           </button>
+
+          <!-- Export (mode édition) -->
           <button
             v-if="currentEditingId"
-            class="px-4 h-9 flex items-center justify-center rounded-full hover:bg-gray-100 text-xs font-bold text-gray-700 transition-colors border border-transparent hover:border-gray-200"
+            class="px-3 h-8 flex items-center justify-center rounded-full border border-gray-200 bg-gray-50 text-xs font-semibold hover:bg-gray-100"
             @click="exportData"
           >
             Export
           </button>
 
-          <div class="w-px h-5 bg-gray-300 mx-1"></div>
-
-          <div v-if="hasMultipleTextures" class="flex items-center gap-2">
-            <button class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 font-bold text-gray-500 transition-colors" @click="onPrevTexture">&lt;</button>
+          <!-- TEXTURE SWITCH -->
+          <div v-if="hasMultipleTextures" class="flex items-center gap-1 mx-1">
+            <button class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 text-gray-600" @click="onPrevTexture">
+              &lt;
+            </button>
             <span class="text-xl select-none">🎨</span>
-            <button class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 font-bold text-gray-500 transition-colors" @click="onNextTexture">&gt;</button>
-            <div class="w-px h-5 bg-gray-300 mx-1"></div>
+            <button class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 text-gray-600" @click="onNextTexture">
+              &gt;
+            </button>
           </div>
 
-          <button class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-red-100 text-red-500 transition-colors text-sm font-bold" @click="onCancelEdit">❌</button>
-          <button class="w-8 h-8 flex items-center justify-center rounded-full bg-green-500 hover:bg-green-600 text-white shadow-sm transition-colors text-sm font-bold" @click="onValidateDecal">✅</button>
+          <!-- Cancel -->
+          <button
+            class="w-8 h-8 flex items-center justify-center text-red-600 hover:bg-red-100 rounded-full"
+            @click="onCancelEdit"
+          >
+            ❌
+          </button>
+
+          <!-- Validate -->
+          <button
+            class="w-8 h-8 flex items-center justify-center rounded-full bg-green-500 hover:bg-green-600 text-white"
+            @click="onValidateDecal"
+          >
+            ✅
+          </button>
         </div>
 
-        <div v-if="currentEditingId" class="flex items-center gap-2 p-1 bg-white/90 backdrop-blur-md rounded-full border border-gray-200 shadow-lg text-gray-600">
-          <button class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-red-100 text-red-500 transition-colors text-sm" @click="onDeleteDecal">🗑️</button>
+        <!-- PANEL SECONDARY (delete + z-index) -->
+        <div
+          v-if="currentEditingId"
+          class="flex items-center gap-2 px-3 py-1 bg-white/90 border border-gray-200 shadow-lg backdrop-blur-xl rounded-full text-gray-700"
+        >
+          <!-- Delete (PLUS VISIBLE) -->
+          <button
+            class="w-9 h-9 text-lg flex items-center justify-center rounded-full bg-red-50 text-red-600 hover:bg-red-100 shadow"
+            @click="onDeleteDecal"
+          >
+            🗑️
+          </button>
 
-          <div class="w-px h-5 bg-gray-300 mx-1"></div>
+          <div class="w-px h-6 bg-gray-300"></div>
 
-          <span class="font-bold text-gray-700 text-sm m-0 px-2 select-none tracking-wide">Layer</span>
+          <span class="font-semibold text-sm">Layer</span>
 
           <div class="flex items-center gap-1 bg-gray-100 rounded-full p-1">
-            <button class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-white text-xs font-bold transition-all shadow-sm" @click="onZIndexDown">-</button>
-            <button class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-white text-xs font-bold transition-all shadow-sm" @click="onZIndexUp">+</button>
+            <button class="w-8 h-8 rounded-full hover:bg-white shadow" @click="onZIndexDown">-</button>
+            <button class="w-8 h-8 rounded-full hover:bg-white shadow" @click="onZIndexUp">+</button>
           </div>
         </div>
       </div>
@@ -312,7 +371,6 @@ onBeforeUnmount(stop)
   width: 25vw;
   height: auto;
   aspect-ratio: 1/ 1;
-  margin: 5px;
   pointer-events: auto;
 }
 
@@ -326,10 +384,6 @@ onBeforeUnmount(stop)
 
 .cientos-decal-debug-ui__inner:hover {
   cursor: grab;
-
-  /* .cientos-decal-debug-ui__dot-center {
-    transform: translate(-50%, -50%) scale(1);
-  } */
 }
 
 .cientos-decal-debug-ui__border {
@@ -347,33 +401,13 @@ onBeforeUnmount(stop)
   position: absolute;
   left: 50%;
   top: 50%;
-  transform: translate(-50%, -50%) scale(1);
+  transform: translate(-50%, -50%);
   width: 10px;
   height: auto;
   aspect-ratio: 1 / 1;
   background: white;
   border-radius: 50%;
   box-shadow: 0 0 6px #000000e6;
-  transition: transform 0.3s ease;
-}
-
-.cientos-decal-debug-ui__selector {
-  position: absolute;
-  left: 100%;
-  bottom: 0;
-  display: flex;
-}
-
-.cientos-decal-debug-ui__selector-item {
-  background: #ffffffcc;
-  padding: 4px 8px;
-  margin-left: 4px;
-  border-radius: 4px;
-  box-shadow: 0 0 3px #00000080;
-  font-size: 12px;
-  font-weight: bold;
-  user-select: none;
-  cursor: pointer;
 }
 
 .cientos-decal-debug-ui__slider {
