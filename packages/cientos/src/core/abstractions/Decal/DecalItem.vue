@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, nextTick, onBeforeUnmount, ref, toRaw, toRefs, watch } from 'vue'
+import { computed, nextTick, onBeforeUnmount, ref, shallowRef, toRaw, toRefs, watch } from 'vue'
 import { DecalGeometry } from 'three-stdlib'
 import { Mesh, MeshBasicMaterial, Vector3 } from 'three'
 import { useLoop } from '@tresjs/core'
@@ -23,6 +23,8 @@ const { parent, decal, map, isSelected, highlight } = toRefs(props)
 
 const meshRef = ref<Mesh | null>(null)
 const raycastMesh = ref<Mesh | null>(null)
+const boxHelper = shallowRef(null)
+const isHovered = ref(false)
 
 const originalScale = new Mesh().scale.clone()
 
@@ -151,7 +153,7 @@ onBeforeRender(({ delta }) => {
 
   localElapsed += delta
 
-  if (isSelected.value) {
+  if (isSelected.value || isHovered.value) {
     const speed = 5
     const minO = 0.2
     const maxO = 1
@@ -177,11 +179,6 @@ watch([meshRef, () => props.groupTest], () => {
   originalScale.copy(meshRef.value.scale)
 }, { immediate: true })
 
-const onClickMesh = (event: MouseEvent) => {
-  event.stopPropagation()
-  emit('select', decal.value)
-}
-
 const stop = decalBus.on((payload) => {
   if (payload.type === 'refresh-raycasts') {
     buildGeometry()
@@ -199,6 +196,22 @@ watch(materialIsTransparent, async () => {
   await nextTick()
   meshRef.value.material.needsUpdate = true
 })
+
+const onClickMesh = (event: MouseEvent) => {
+  event.stopPropagation()
+  emit('select', decal.value)
+}
+
+const onPointerEnter = (event: PointerEvent) => {
+  console.log('pointer enter decal item')
+  event.stopPropagation()
+  isHovered.value = true
+}
+
+const onPointerLeave = (event: PointerEvent) => {
+  console.log('pointer leave decal item')
+  isHovered.value = false
+}
 
 onBeforeUnmount(() => {
   if (raycastMesh.value && props.groupTest) {
@@ -221,15 +234,16 @@ defineExpose({ meshRef })
     ref="meshRef"
     :name="`decal-${decal.id}`"
     :render-order="decal.zIndex ?? 0"
+    :material-transparent="true"
+    :material-polygonOffset="true"
+    :material-polygonOffsetFactor="-(10 + (decal.zIndex ?? 0))"
+    :material-depthTest="true"
+    :material-map="map"
+    :material-opacity="isSelected ? 0.5 : 1"
     @click="onClickMesh"
+    @pointerenter="onPointerEnter"
+    @pointerleave="onPointerLeave"
   >
-    <TresMeshBasicMaterial
-      :map="map"
-      :polygonOffset="true"
-      :transparent="true"
-      :opacity="isSelected ? 0.5 : 1"
-      :depthTest="true"
-      :polygonOffsetFactor="-(10 + (decal.zIndex ?? 0))"
-    />
+    <slot></slot>
   </TresMesh>
 </template>

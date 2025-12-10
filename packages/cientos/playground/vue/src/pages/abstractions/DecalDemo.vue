@@ -3,7 +3,7 @@ import { TresCanvas } from '@tresjs/core'
 import { Box, Decal,DecalDebugUI, OrbitControls } from '@tresjs/cientos'
 import { TresLeches, useControls } from '@tresjs/leches'
 import { useTexture, useTextures } from '@tresjs/cientos'
-import { SRGBColorSpace } from 'three'
+import { DirectionalLight, SRGBColorSpace } from 'three'
 
 const gl = {
   clearColor: '#F6B03B',
@@ -29,17 +29,17 @@ const texturePaths = [
   '/decal/threejs.png',
 ]
 
-const testttttt = [
+const dataExport = [
     {
-        "id": "5d77b913-fb20-42ab-a9a6-d8c8c7642f4b",
+        "id": "8e6745c4-6e09-47dc-a9a2-019c23a83a9a",
         "position": [
-            0.004330500446731596,
             1,
-            0.16115118796291394
+            0.2951952871379424,
+            0.250421752701838
         ],
         "orientation": [
-            -1.57069632679523,
             0,
+            1.5707963267948966,
             0
         ],
         "size": [
@@ -47,8 +47,28 @@ const testttttt = [
             0.22261635970063873,
             1
         ],
-        "zIndex": 2,
+        "zIndex": 1,
         "map": "tresjs-dark.png"
+    },
+    {
+        "id": "a4992c8d-9829-4f11-a474-62774fcc728f",
+        "position": [
+            -0.038218592388965966,
+            0.1716433845731351,
+            1
+        ],
+        "orientation": [
+            0,
+            0,
+            0
+        ],
+        "size": [
+            0.7071067811865475,
+            0.7071067811865475,
+            1
+        ],
+        "zIndex": 3,
+        "map": "vue.png"
     }
 ]
 
@@ -91,13 +111,15 @@ watch(textures, (val) => {
       :position-y="-.5"
     />
 
+
     <TresMesh :scale="2" :position-x="0">
       <TresBoxGeometry />
-      <TresMeshBasicMaterial color="#f6f6f6" />
+      <TresMeshBasicMaterial color="#f6f6f6" wireframe />
     
 
       <!-- <Decal :map="texture" debug /> -->
-      <Decal :map="textures" debug :data="testttttt"   />
+      <Decal :map="textures" debug :data="dataExport">
+      </Decal>
 
     </TresMesh>
 

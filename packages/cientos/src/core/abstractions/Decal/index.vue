@@ -83,7 +83,7 @@ const decalBackup = ref<{
   map: Texture | null
 } | null>(null)
 
-const hideBoooooox = ref(false)
+const hideBoxHelper = ref(false)
 
 const currentIntersectIsEmpty = computed(() => Object.keys(currentIntersect).length === 0)
 const decalIntersectIsEmpty = computed(() => Object.keys(decalIntersect).length === 0)
@@ -289,7 +289,7 @@ const makeGeometry = () => {
 }
 
 watch(editingDecal, (isEditing) => {
-  hideBoooooox.value = !!isEditing
+  hideBoxHelper.value = !!isEditing
   if (isEditing) {
     makeGeometryInitial()
     for (const key in decalIntersect) { delete decalIntersect[key] }
@@ -497,11 +497,11 @@ onBeforeRender(() => {
   if (intersects.length > 0) {
     const { object } = intersects[0]
     if (object.uuid !== parent.uuid && decalIntersectIsEmpty.value) {
-      hideBoooooox.value = true
+      hideBoxHelper.value = true
     }
     else {
       if (editingDecal.value) { return }
-      hideBoooooox.value = false
+      hideBoxHelper.value = false
       if (!boxHelperRef.value || !meshRef.value) { return }
       const { point, face } = intersects[0]
       if (!face || !point) { return }
@@ -633,7 +633,7 @@ const stop = decalBus.on((payload) => {
 
     for (const key in currentIntersect) { delete currentIntersect[key] }
     for (const key in decalIntersect) { delete decalIntersect[key] }
-    hideBoooooox.value = false
+    hideBoxHelper.value = false
     decalBus.emit({ type: 'ui-toggle-visibility-decal-intersect', visible: false })
     makeGeometryInitial()
     decalBus.emit({ type: 'refresh-raycasts' })
@@ -666,7 +666,7 @@ const stop = decalBus.on((payload) => {
     for (const key in currentIntersect) { delete currentIntersect[key] }
     for (const key in decalIntersect) { delete decalIntersect[key] }
 
-    hideBoooooox.value = false
+    hideBoxHelper.value = false
     decalBus.emit({ type: 'ui-toggle-visibility-decal-intersect', visible: false })
     makeGeometryInitial()
     decalBus.emit({ type: 'refresh-raycasts' })
@@ -719,7 +719,7 @@ defineExpose({ root: meshRef })
     name="meshRef decal"
     :render-order="activeRenderOrder"
   >
-    <slot></slot>
+    <TresMeshBasicMaterial />
   </TresMesh>
 
   <TresGroup v-if="currentParent" name="decal-items-group">
@@ -733,7 +733,9 @@ defineExpose({ root: meshRef })
       :decal="item"
       :is-selected="editingDecal?.id === item.id"
       @select="onSelectDecal"
-    />
+    >
+      <slot></slot>
+    </DecalItem>
   </TresGroup>
 
   <TresLine v-if="debug" ref="meshLineRef" :visible="!!(!currentIntersectIsEmpty)" name="decal-line-helper">
@@ -742,8 +744,9 @@ defineExpose({ root: meshRef })
   </TresLine>
 
   <TresMesh
-    v-if="!hideBoooooox"
+    v-if="!hideBoxHelper"
     ref="boxHelperRef"
+    :visible="false"
     name="decal-box-helper"
     @pointerdown="onPointerDown"
     @pointerup="onPointerUp"
