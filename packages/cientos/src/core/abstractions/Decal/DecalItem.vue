@@ -9,7 +9,6 @@ import {
   Vector3,
 } from 'three'
 import { decalBus } from './DecalBus'
-// 1. On réimporte useLoop pour l'animation
 import { dispose, useLoop } from '@tresjs/core'
 
 const props = defineProps<{
@@ -32,19 +31,23 @@ const helperLineRef = shallowRef<LineSegments | null>(null)
 
 const originalScale = new Mesh().scale.clone()
 
-// --- GESTION DE LA MÉMOIRE AVEC DISPOSE() ---
+const updateHelperVisuals = () => {
+  if (!helperLineRef.value) { return }
 
-const clearHelper = () => {
-  if (helperLineRef.value) {
-    if (meshRef.value) {
-      meshRef.value.remove(helperLineRef.value)
-    }
-    dispose(helperLineRef.value)
-    helperLineRef.value = null
-  }
+  const visible = isHovered.value || isSelected.value
+  helperLineRef.value.visible = visible
 }
 
-// --- CRÉATION OBJETS ---
+const clearHelper = () => {
+  if (!helperLineRef.value) { return }
+
+  if (meshRef.value) {
+    meshRef.value.remove(helperLineRef.value)
+  }
+
+  dispose(helperLineRef.value)
+  helperLineRef.value = null
+}
 
 const createHelper = () => {
   if (!meshRef.value || !meshRef.value.geometry) { return }
@@ -53,12 +56,11 @@ const createHelper = () => {
 
   const edgesGeometry = new EdgesGeometry(meshRef.value.geometry)
 
-  // 2. On active la transparence pour permettre l'animation d'opacité
   const lineMaterial = new LineBasicMaterial({
-    color: 0x0000FF, // Reste toujours BLEU
+    color: 0x0000FF,
     depthTest: false,
     linewidth: 2,
-    transparent: true, // Important pour le clignotement
+    transparent: true,
     opacity: 1,
   })
 
@@ -72,40 +74,21 @@ const createHelper = () => {
   updateHelperVisuals()
 }
 
-const updateHelperVisuals = () => {
-  if (!helperLineRef.value) { return }
-
-  // Gère uniquement la visibilité globale (on/off)
-  const visible = isHovered.value || isSelected.value
-  helperLineRef.value.visible = visible
-
-  // J'ai supprimé le changement de couleur ici, cela reste bleu (défini dans createHelper)
-}
-
-// --- ANIMATION (CLIGNOTEMENT) ---
-
 const { onBeforeRender } = useLoop()
 
 onBeforeRender(({ elapsed }) => {
-  // Si le helper n'existe pas ou n'est pas visible, on ne fait rien
   if (!helperLineRef.value || !helperLineRef.value.visible) { return }
 
   const material = helperLineRef.value.material as LineBasicMaterial
 
   if (isSelected.value) {
-    // 3. Calcul du clignotement (Sinusoidale)
-    // elapsed * 10 contrôle la vitesse
     const t = (Math.sin(elapsed * 10) + 1) / 2
-    // Opacité oscille entre 0.2 et 1
     material.opacity = 0.2 + t * 0.8
   }
   else {
-    // Si juste survolé (pas sélectionné), opacité fixe à 1
     if (material.opacity !== 1) { material.opacity = 1 }
   }
 })
-
-// --- LOGIQUE GEOMETRIE (Inchangée) ---
 
 const buildGeometry = () => {
   if (!meshRef.value || !parent.value) { return }
@@ -198,29 +181,22 @@ const onClickMesh = (event: MouseEvent) => {
 }
 
 const onPointerEnter = (event: PointerEvent) => {
-  event.stopPropagation() // Empêche le raycaster de traverser vers le parent
+  event.stopPropagation()
   isHovered.value = true
   document.body.style.cursor = 'pointer'
 
-  // PRÉVENIR LE PARENT
   emit('hover', true)
 }
 
 const onPointerLeave = (event: PointerEvent) => {
-  // event.stopPropagation() // Pas nécessaire ici
   isHovered.value = false
   document.body.style.cursor = 'auto'
 
-  // PRÉVENIR LE PARENT
   emit('hover', false)
 }
 
 onBeforeUnmount(() => {
   clearHelper()
-
-  if (meshRef.value && meshRef.value.geometry) {
-    meshRef.value.geometry.dispose()
-  }
 
   stop()
 })

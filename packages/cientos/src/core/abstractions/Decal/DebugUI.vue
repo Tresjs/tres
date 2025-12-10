@@ -169,18 +169,6 @@ function onZIndexDown() {
   decalBus.emit({ type: 'change-zindex', id: currentEditingId.value, delta: -1 })
 }
 
-// onClickOutside(dragRef, () => {
-//   if (!isVisibleDecalIntersect.value) { return }
-//   console.log('here ')
-
-//   if (currentEditingId.value) {
-//     onValidateDecal()
-//   }
-//   else {
-//     onCancelEdit()
-//   }
-// })
-
 useEventListener(window, 'pointerdown', (event) => {
   if (!isVisibleDecalIntersect.value) { return }
 
@@ -253,18 +241,22 @@ onBeforeUnmount(stop)
         </div>
       </div>
 
-      <div ref="selectorRef" class="absolute left-1/2 -translate-x-1/2 top-[105%] flex flex-col items-center gap-3 w-max pointer-events-none z-[1000001]">
-        <div class="pointer-events-auto flex items-center gap-2 p-2 bg-white/90 backdrop-blur-md rounded-full border border-gray-200 shadow-xl">
+      <div
+        ref="selectorRef"
+        class="absolute left-1/2 -translate-x-1/2 top-[105%] flex flex-col items-center gap-3 w-max z-[1000001]"
+        :class="isVisibleDecalIntersect ? 'pointer-events-auto' : 'pointer-events-none'"
+      >
+        <div class="flex items-center gap-2 p-2 bg-white/90 backdrop-blur-md rounded-full border border-gray-200 shadow-xl">
           <button
-            class="w-9 h-9 flex items-center justify-center rounded-full transition-colors text-lg"
+            class="w-8 h-8 flex items-center justify-center rounded-full transition-colors text-md"
             :class="isSnapEnabled ? 'bg-blue-100 text-blue-600 border border-blue-200' : 'hover:bg-gray-100 text-gray-500'"
             title="Snap Angle (15°)"
             @click="toggleSnap"
           >
             🧲
           </button>
-
           <button
+            v-if="currentEditingId"
             class="px-4 h-9 flex items-center justify-center rounded-full hover:bg-gray-100 text-xs font-bold text-gray-700 transition-colors border border-transparent hover:border-gray-200"
             @click="exportData"
           >
@@ -274,26 +266,26 @@ onBeforeUnmount(stop)
           <div class="w-px h-5 bg-gray-300 mx-1"></div>
 
           <div v-if="hasMultipleTextures" class="flex items-center gap-2">
-            <button class="w-9 h-9 flex items-center justify-center rounded-full hover:bg-gray-100 font-bold text-gray-500 transition-colors" @click="onPrevTexture">&lt;</button>
+            <button class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 font-bold text-gray-500 transition-colors" @click="onPrevTexture">&lt;</button>
             <span class="text-xl select-none">🎨</span>
-            <button class="w-9 h-9 flex items-center justify-center rounded-full hover:bg-gray-100 font-bold text-gray-500 transition-colors" @click="onNextTexture">&gt;</button>
+            <button class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 font-bold text-gray-500 transition-colors" @click="onNextTexture">&gt;</button>
             <div class="w-px h-5 bg-gray-300 mx-1"></div>
           </div>
 
-          <button class="w-9 h-9 flex items-center justify-center rounded-full hover:bg-red-100 text-red-500 transition-colors text-sm font-bold" @click="onCancelEdit">❌</button>
-          <button class="w-9 h-9 flex items-center justify-center rounded-full bg-green-500 hover:bg-green-600 text-white shadow-sm transition-colors text-sm font-bold" @click="onValidateDecal">✅</button>
+          <button class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-red-100 text-red-500 transition-colors text-sm font-bold" @click="onCancelEdit">❌</button>
+          <button class="w-8 h-8 flex items-center justify-center rounded-full bg-green-500 hover:bg-green-600 text-white shadow-sm transition-colors text-sm font-bold" @click="onValidateDecal">✅</button>
         </div>
 
-        <div v-if="currentEditingId" class="pointer-events-auto flex items-center gap-2 p-2 bg-white/90 backdrop-blur-md rounded-full border border-gray-200 shadow-lg text-gray-600">
-          <button class="w-9 h-9 flex items-center justify-center rounded-full hover:bg-red-100 text-red-500 transition-colors text-sm" @click="onDeleteDecal">🗑️</button>
+        <div v-if="currentEditingId" class="flex items-center gap-2 p-1 bg-white/90 backdrop-blur-md rounded-full border border-gray-200 shadow-lg text-gray-600">
+          <button class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-red-100 text-red-500 transition-colors text-sm" @click="onDeleteDecal">🗑️</button>
 
           <div class="w-px h-5 bg-gray-300 mx-1"></div>
 
-          <span class="text-[11px] font-bold uppercase text-gray-500 px-2 select-none tracking-wide">Layer</span>
+          <span class="font-bold text-gray-700 text-sm m-0 px-2 select-none tracking-wide">Layer</span>
 
           <div class="flex items-center gap-1 bg-gray-100 rounded-full p-1">
-            <button class="w-7 h-7 flex items-center justify-center rounded-full hover:bg-white text-xs font-bold transition-all shadow-sm" @click="onZIndexDown">-</button>
-            <button class="w-7 h-7 flex items-center justify-center rounded-full hover:bg-white text-xs font-bold transition-all shadow-sm" @click="onZIndexUp">+</button>
+            <button class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-white text-xs font-bold transition-all shadow-sm" @click="onZIndexDown">-</button>
+            <button class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-white text-xs font-bold transition-all shadow-sm" @click="onZIndexUp">+</button>
           </div>
         </div>
       </div>
@@ -391,8 +383,6 @@ onBeforeUnmount(stop)
   width: 40px;
   height: 10px;
   transform-origin: center center;
-  pointer-events: none;
-  pointer-events: auto;
   z-index: 9999;
   /* overflow: hidden; */
 }

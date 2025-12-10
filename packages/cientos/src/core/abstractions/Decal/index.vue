@@ -436,10 +436,6 @@ const onClickDebug = async () => {
 
   await nextTick()
   makeGeometry()
-
-  // setTimeout(() => {
-  //   console.log('Decal clicked:', currentIntersect, editingDecal.value)
-  // }, 500)
 }
 
 const validateDecal = async () => {
@@ -575,14 +571,11 @@ function updateDecalFromMouse() {
 }
 
 const onPointerDown = (e: PointerEvent) => {
-  // e.stopPropagation()
-
   isDragging.value = false
   dragStart.set(e.clientX, e.clientY)
 }
 
 const onPointerUp = (e: PointerEvent) => {
-  // e.stopPropagation()
   if (isHoveringDecal.value) { return }
 
   const dx = e.clientX - dragStart.x
@@ -670,9 +663,7 @@ const stop = decalBus.on((payload) => {
   }
 
   if (payload.type === 'cancel-edit') {
-    if (!editingDecal.value) { return }
-
-    if (decalBackup.value) {
+    if (editingDecal.value && decalBackup.value) {
       editingDecal.value.position.copy(decalBackup.value.position)
       editingDecal.value.orientation.copy(decalBackup.value.orientation)
       editingDecal.value.size.copy(decalBackup.value.size)
@@ -680,6 +671,7 @@ const stop = decalBus.on((payload) => {
       editingDecal.value.map = decalBackup.value.map
       decalBackup.value = null
     }
+
     editingDecal.value = null
 
     for (const key in currentIntersect) { delete currentIntersect[key] }
@@ -687,7 +679,9 @@ const stop = decalBus.on((payload) => {
 
     hideBoxHelper.value = false
     decalBus.emit({ type: 'ui-toggle-visibility-decal-intersect', visible: false })
+
     makeGeometryInitial()
+
     decalBus.emit({ type: 'refresh-raycasts' })
   }
 
@@ -707,6 +701,8 @@ const stop = decalBus.on((payload) => {
 
   if (payload.type === 'validate-decal') {
     validateDecal()
+
+    currentTextureIndex.value = 0
   }
 
   if (payload.type === 'change-texture') {
