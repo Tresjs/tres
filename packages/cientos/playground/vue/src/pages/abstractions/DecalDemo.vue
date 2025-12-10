@@ -1,25 +1,12 @@
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
 import { Box, Decal,DecalDebugUI, OrbitControls } from '@tresjs/cientos'
-import { TresLeches, useControls } from '@tresjs/leches'
 import { useTexture, useTextures } from '@tresjs/cientos'
-import { DirectionalLight, SRGBColorSpace } from 'three'
+import { SRGBColorSpace } from 'three'
 
 const gl = {
   clearColor: '#F6B03B',
 }
-
-const { enabled, edgeColor, edgeThreshold } = useControls({
-  enabled: { value: true, type: 'boolean', label: 'Enabled' },
-  edgeColor: { value: '#292929', type: 'color', label: 'Color' },
-  edgeThreshold: {
-    label: 'Threshold Angle',
-    value: 15,
-    min: 1,
-    max: 100,
-    step: 1,
-  },
-})
 
 const { state: texture } = useTexture('/decal/tresjs-dark.png')
 
@@ -91,7 +78,6 @@ watch(textures, (val) => {
 </script>
 
 <template>
-  <TresLeches />
       <DecalDebugUI  />
 
 
@@ -114,7 +100,7 @@ watch(textures, (val) => {
 
     <TresMesh :scale="2" :position-x="0">
       <TresBoxGeometry />
-      <TresMeshBasicMaterial color="#f6f6f6" wireframe />
+      <TresMeshBasicMaterial color="#f6f6f6"  />
     
 
       <!-- <Decal :map="texture" debug /> -->

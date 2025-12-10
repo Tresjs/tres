@@ -335,9 +335,9 @@ onBeforeUnmount(stop)
 .cientos-decal-debug-ui__inner:hover {
   cursor: grab;
 
-  .cientos-decal-debug-ui__dot-center {
+  /* .cientos-decal-debug-ui__dot-center {
     transform: translate(-50%, -50%) scale(1);
-  }
+  } */
 }
 
 .cientos-decal-debug-ui__border {
@@ -355,11 +355,11 @@ onBeforeUnmount(stop)
   position: absolute;
   left: 50%;
   top: 50%;
-  transform: translate(-50%, -50%) scale(0);
+  transform: translate(-50%, -50%) scale(1);
   width: 10px;
   height: auto;
   aspect-ratio: 1 / 1;
-  background: red;
+  background: white;
   border-radius: 50%;
   box-shadow: 0 0 6px #000000e6;
   transition: transform 0.3s ease;

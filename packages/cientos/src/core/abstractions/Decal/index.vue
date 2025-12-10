@@ -4,7 +4,7 @@ import type { Intersection, Texture } from 'three'
 import { Euler, Group, Mesh, Object3D, Raycaster, Vector2, Vector3 } from 'three'
 import { DecalGeometry } from 'three-stdlib'
 import { useLoop, useTresContext } from '@tresjs/core'
-import { useMouse } from '@vueuse/core'
+import { useEventListener, useMouse } from '@vueuse/core'
 import { decalBus } from './DecalBus'
 import DecalItem from './DecalItem.vue'
 
@@ -48,7 +48,7 @@ const props = withDefaults(defineProps<DecalProps>(), {
 const { debug, depthTest, mesh, map, polygonOffsetFactor, position, orientation, size, normal, data } = toRefs(props)
 
 const { onBeforeRender } = useLoop()
-const { sizes, camera, controls } = useTresContext()
+const { sizes, camera, controls, renderer } = useTresContext()
 
 const dragStart = new Vector2()
 const isDragging = ref(false)
@@ -59,7 +59,6 @@ const raycaster = shallowRef(new Raycaster())
 const meshRef = shallowRef<Mesh | null>(null)
 const meshLineRef = shallowRef<Mesh | null>(null)
 const boxHelperRef = shallowRef<ShallowRef<Mesh> | null>(null)
-
 const decalPosition = reactive<Vector3>(new Vector3(...position.value))
 const decalOrientation = reactive<Euler>(new Euler(...orientation.value))
 const decalSize = reactive<Vector3>(new Vector3(...size.value))
@@ -74,6 +73,7 @@ const editingDecal = ref<null | typeof stampedDecals.value[0]>(null)
 const testRefsGroup = new Group()
 const baseSize = ref(1)
 const currentTextureIndex = ref(0)
+const isHoveringDecal = ref(false)
 
 const decalBackup = ref<{
   position: Vector3
@@ -436,6 +436,10 @@ const onClickDebug = async () => {
 
   await nextTick()
   makeGeometry()
+
+  // setTimeout(() => {
+  //   console.log('Decal clicked:', currentIntersect, editingDecal.value)
+  // }, 500)
 }
 
 const validateDecal = async () => {
@@ -571,21 +575,36 @@ function updateDecalFromMouse() {
 }
 
 const onPointerDown = (e: PointerEvent) => {
-  e.stopPropagation()
-  dragStart.set(e.clientX, e.clientY)
+  // e.stopPropagation()
+
   isDragging.value = false
+  dragStart.set(e.clientX, e.clientY)
 }
 
-const onPointerUp = async (e: PointerEvent) => {
-  e.stopPropagation()
+const onPointerUp = (e: PointerEvent) => {
+  // e.stopPropagation()
+  if (isHoveringDecal.value) { return }
+
   const dx = e.clientX - dragStart.x
   const dy = e.clientY - dragStart.y
-  if (Math.sqrt(dx * dx + dy * dy) > 1) {
+
+  if (Math.sqrt(dx * dx + dy * dy) > 5) {
     isDragging.value = true
     return
   }
-  onClickDebug()
+
+  if (!currentIntersectIsEmpty.value) {
+    onClickDebug()
+  }
 }
+
+watch(() => renderer.instance, () => {
+  const instanceRenderer = renderer.instance
+  if (instanceRenderer?.domElement) {
+    useEventListener(instanceRenderer.domElement, 'pointerdown', onPointerDown)
+    useEventListener(instanceRenderer.domElement, 'pointerup', onPointerUp)
+  }
+}, { immediate: true })
 
 const stop = decalBus.on((payload) => {
   if (payload.type === 'drag-ui') {
@@ -712,7 +731,7 @@ defineExpose({ root: meshRef })
     v-bind="$attrs"
     :visible="!editingDecal"
     :material-transparent="true"
-    material-polygonOffset
+    :material-polygonOffset="true"
     :material-polygonOffsetFactor="-50"
     :material-depthTest="depthTest"
     :material-map="activeMap"
@@ -733,6 +752,7 @@ defineExpose({ root: meshRef })
       :decal="item"
       :is-selected="editingDecal?.id === item.id"
       @select="onSelectDecal"
+      @hover="(val) => isHoveringDecal = val"
     >
       <slot></slot>
     </DecalItem>
@@ -748,8 +768,6 @@ defineExpose({ root: meshRef })
     ref="boxHelperRef"
     :visible="false"
     name="decal-box-helper"
-    @pointerdown="onPointerDown"
-    @pointerup="onPointerUp"
   >
     <TresBoxGeometry :args="[0.1, 0.1, 1]" />
     <TresMeshNormalMaterial />
