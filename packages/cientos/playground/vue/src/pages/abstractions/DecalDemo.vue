@@ -1,8 +1,16 @@
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
 import { Box, Decal,DecalDebugUI, OrbitControls } from '@tresjs/cientos'
-import { useTexture, useTextures } from '@tresjs/cientos'
+import { useTexture, useTextures, Environment } from '@tresjs/cientos'
 import { SRGBColorSpace } from 'three'
+
+import { useGraph, useLoader } from '@tresjs/core'
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
+import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
+import { computed } from 'vue'
+
+const dracoLoader = new DRACOLoader()
+dracoLoader.setDecoderPath('https://www.gstatic.com/draco/versioned/decoders/1.5.6/')
 
 const gl = {
   clearColor: '#F6B03B',
@@ -16,90 +24,33 @@ const texturePaths = [
   '/decal/threejs.png',
 ]
 
-const dataExport = [
-    {
-        "id": "8e6745c4-6e09-47dc-a9a2-019c23a83a9a",
-        "position": [
-            1,
-            0.2951952871379424,
-            0.250421752701838
-        ],
-        "orientation": [
-            0,
-            1.5707963267948966,
-            0
-        ],
-        "size": [
-            0.9749061269648661,
-            0.22261635970063873,
-            1
-        ],
-        "zIndex": 1,
-        "map": "tresjs-dark.png"
+const { state: model, isLoading, error } = useLoader(
+  GLTFLoader,
+  'https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/blender-cube.glb',
+  {
+    extensions: (loader) => {
+      if (loader instanceof GLTFLoader) {
+        loader.setDRACOLoader(dracoLoader)
+      }
     },
-    {
-        "id": "a4992c8d-9829-4f11-a474-62774fcc728f",
-        "position": [
-            -0.03821859238896553,
-            0.17164338457313488,
-            1
-        ],
-        "orientation": [
-            0,
-            0,
-            0
-        ],
-        "size": [
-            0.7071067811865475,
-            0.7071067811865475,
-            1
-        ],
-        "zIndex": 4,
-        "map": "vue.png"
-    },
-    {
-        "id": "1b87677c-e43e-4e94-9688-9ecb186f9d56",
-        "position": [
-            0.6398835987226126,
-            -0.45158818496946274,
-            1
-        ],
-        "orientation": [
-            0,
-            0,
-            0
-        ],
-        "size": [
-            0.9749061269648661,
-            0.22261635970063873,
-            1
-        ],
-        "zIndex": 8,
-        "map": "tresjs-dark.png"
-    },
-    {
-        "id": "2baa1fd9-1665-4058-9299-7f8fed522ffa",
-        "position": [
-            -0.36800979037350084,
-            -0.753894120825642,
-            1
-        ],
-        "orientation": [
-            0,
-            0,
-            0
-        ],
-        "size": [
-            0.9749061269648661,
-            0.22261635970063873,
-            1
-        ],
-        "zIndex": 7,
-        "map": "tresjs-dark.png"
-    }
-]
+  },
+)
+
+const torusRef = shallowRef(null)
 
 const { textures } = useTextures(texturePaths)
+
+const scene = computed(() => model.value?.scene)
+
+const graph = useGraph(scene)
+
+const nodes = computed(() => graph.value?.nodes)
+
+watch(nodes, (newScene) => {
+  if (newScene) {
+    console.log('Loaded scene:', newScene)
+  }
+})
 
 watch(texture, () => {
   if(!texture.value?.image) return
@@ -118,8 +69,7 @@ watch(textures, (val) => {
 </script>
 
 <template>
-      <DecalDebugUI  />
-
+  <DecalDebugUI  />
 
   <TresCanvas
     v-bind="gl"
@@ -127,6 +77,12 @@ watch(textures, (val) => {
     <TresPerspectiveCamera
       :position="[0, 2, 8]"
     />
+
+    <Suspense>
+      <Environment
+        preset="hangar"
+      />
+    </Suspense>
 
     <OrbitControls
       make-default
@@ -137,15 +93,32 @@ watch(textures, (val) => {
       :position-y="-.5"
     />
 
+    <TresMesh :scale="1" :position-x="-4">
+      <TresSphereGeometry />
+      <TresMeshBasicMaterial color="#f6f6f6"  />
+
+      <Decal :map="texture" debug />
+    </TresMesh>
+
+    <primitive
+      v-if="nodes?.BlenderCube"
+      :object="nodes.BlenderCube"
+      :position-x="4"
+    >
+    </primitive>
+
+    <TresMesh ref="torusRef" :scale="1" :position="[-2, 0, -2.5]">
+      <TresTorusGeometry :args="[1, 0.4, 16, 100]" />
+      <TresMeshBasicMaterial color="#f6f6f6"  />
+    </TresMesh>
+
+    <Decal :map="textures" debug :mesh="torusRef" />
 
     <TresMesh :scale="2" :position-x="0">
       <TresBoxGeometry />
       <TresMeshBasicMaterial color="#f6f6f6"  />
     
-
-      <!-- <Decal :map="texture" debug /> -->
-      <Decal :map="textures" debug :data="dataExport">
-      </Decal>
+      <Decal :map="textures" debug />
 
     </TresMesh>
 

@@ -106,15 +106,18 @@ const buildGeometry = () => {
     decal.value.size,
   )
 
-  const inverseMatrix = parent.value.matrixWorld.clone().invert()
+  const inverseMatrix = meshRef.value.parent?.matrixWorld.clone().invert() || new Matrix4()
+
   geometry.applyMatrix4(inverseMatrix)
 
   const worldNormal = new Vector3(0, 0, 1).applyEuler(decal.value.orientation)
+
   const localNormal = worldNormal.clone().transformDirection(inverseMatrix).normalize()
 
   const baseOffset = 0.01
   const layerGap = 0.001
   const currentZ = decal.value.zIndex ?? 0
+
   const parentScale = parent.value.scale.x || 1
   const totalOffset = (baseOffset + currentZ * layerGap) / parentScale
 

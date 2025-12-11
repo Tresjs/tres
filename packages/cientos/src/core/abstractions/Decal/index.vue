@@ -227,10 +227,12 @@ const makeGeometryInitial = () => {
   if (!parent || !target) { return }
 
   target.geometry?.dispose()
-  const parentMatrixWorld = parent.matrixWorld.clone().invert()
+
+  const targetParentMatrixWorld = target.parent?.matrixWorld.clone().invert() || new Matrix4()
 
   target.geometry = new DecalGeometry(parent, decalPosition, decalOrientation, decalSize)
-  target.geometry.applyMatrix4(parentMatrixWorld)
+
+  target.geometry.applyMatrix4(targetParentMatrixWorld)
 }
 
 const makeGeometry = () => {
@@ -243,8 +245,8 @@ const makeGeometry = () => {
   target.geometry?.dispose()
 
   parent.updateMatrixWorld(true)
-  const parentMatrixWorld = parent.matrixWorld.clone()
-  const parentMatrixWorldInverse = parentMatrixWorld.clone().invert()
+
+  const targetParentMatrixWorldInverse = target.parent?.matrixWorld.clone().invert() || new Matrix4()
 
   decalOrientation.copy(baseOrientation)
   decalOrientation.x += userOrientation.x
@@ -262,11 +264,11 @@ const makeGeometry = () => {
 
   target.geometry = new DecalGeometry(parent, originPoint, decalOrientation, scaledSize)
 
-  target.geometry.applyMatrix4(parentMatrixWorldInverse)
+  target.geometry.applyMatrix4(targetParentMatrixWorldInverse)
 
   const worldNormal = new Vector3(0, 0, 1).applyEuler(decalOrientation)
 
-  const localNormal = worldNormal.transformDirection(parentMatrixWorldInverse).normalize()
+  const localNormal = worldNormal.transformDirection(targetParentMatrixWorldInverse).normalize()
 
   const baseOffset = 0.01
   const layerGap = 0.001
@@ -503,23 +505,33 @@ onBeforeRender(() => {
       if (editingDecal.value) { return }
       hideBoxHelper.value = false
       if (!boxHelperRef.value || !meshRef.value) { return }
+
       const { point, face } = intersects[0]
       if (!face || !point) { return }
+
       Object.assign(currentIntersect, intersects[0])
 
+      const worldNormal = face.normal.clone().transformDirection(parent.matrixWorld).normalize()
+
       const { depth } = boxHelperRef.value.geometry.parameters
-      const parentMatrixWorld = parent.matrixWorld.clone().invert()
-      const p = point.clone().applyMatrix4(parentMatrixWorld)
-      boxHelperRef.value.position.copy(p)
+      const lookAtTarget = point.clone().add(worldNormal.clone().multiplyScalar(depth))
 
-      const nLookAt = face.normal.clone().transformDirection(parent.matrixWorld).multiplyScalar(depth).add(point)
-      boxHelperRef.value.lookAt(nLookAt)
+      const helperParent = boxHelperRef.value.parent
+      const helperParentInverse = helperParent ? helperParent.matrixWorld.clone().invert() : new Matrix4()
 
-      const nLineHelper = face.normal.clone().transformDirection(parent.matrixWorld).multiplyScalar(depth).add(point).applyMatrix4(parentMatrixWorld)
-      const positions = meshLineRef.value.geometry.attributes.position
-      positions.setXYZ(0, p.x, p.y, p.z)
-      positions.setXYZ(1, nLineHelper.x, nLineHelper.y, nLineHelper.z)
-      positions.needsUpdate = true
+      const localPoint = point.clone().applyMatrix4(helperParentInverse)
+
+      boxHelperRef.value.position.copy(localPoint)
+      boxHelperRef.value.lookAt(lookAtTarget)
+
+      const linePositions = meshLineRef.value.geometry.attributes.position
+
+      const localLookAt = lookAtTarget.clone().applyMatrix4(helperParentInverse)
+
+      linePositions.setXYZ(0, localPoint.x, localPoint.y, localPoint.z)
+      linePositions.setXYZ(1, localLookAt.x, localLookAt.y, localLookAt.z)
+
+      linePositions.needsUpdate = true
     }
   }
   else {
@@ -537,18 +549,21 @@ function updateDecalFromMouse() {
   const { point, face } = intersects[0]
   if (!point || !face) { return }
 
+  const worldNormal = face.normal.clone().transformDirection(parent.matrixWorld).normalize()
+  const lookAtTarget = point.clone().add(worldNormal)
+
   if (!editingDecal.value) {
     Object.assign(decalIntersect, intersects[0])
     if (!boxHelperRef.value) { return }
-    baseOrientation.copy(boxHelperRef.value.rotation)
+
+    dummyHelper.position.copy(point)
+    dummyHelper.lookAt(lookAtTarget)
+    baseOrientation.copy(dummyHelper.rotation)
+
     makeGeometry()
   }
   else {
-    const pointWorld = point.clone()
-    const n = face.normal.clone().transformDirection(parent.matrixWorld)
-    const lookAtTarget = pointWorld.clone().add(n)
-
-    dummyHelper.position.copy(pointWorld)
+    dummyHelper.position.copy(point)
     dummyHelper.lookAt(lookAtTarget)
     baseOrientation.copy(dummyHelper.rotation)
 
@@ -563,7 +578,7 @@ function updateDecalFromMouse() {
       decalSize.z,
     )
 
-    editingDecal.value.position.copy(pointWorld)
+    editingDecal.value.position.copy(point)
     editingDecal.value.orientation.copy(decalOrientation)
     editingDecal.value.size.copy(scaledSize)
     editingDecal.value.face = face
