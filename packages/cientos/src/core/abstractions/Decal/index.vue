@@ -1,35 +1,14 @@
 <script setup lang="ts">
-import { computed, nextTick, onBeforeUnmount, reactive, ref, shallowReactive, shallowRef, type ShallowRef, toRefs, watch } from 'vue'
-import type { Intersection, Texture } from 'three'
-import { Euler, Group, Mesh, Object3D, Raycaster, Vector2, Vector3 } from 'three'
-import { DecalGeometry } from 'three-stdlib'
+import { computed, nextTick, onBeforeUnmount, reactive, ref, shallowReactive, shallowRef, toRefs, watch } from 'vue'
+import { Euler, Group, Matrix4, Mesh, Object3D, Raycaster, Vector2, Vector3 } from 'three'
+import type { Intersection } from 'three'
 import { useLoop, useTresContext } from '@tresjs/core'
 import { useEventListener, useMouse } from '@vueuse/core'
+
 import { decalBus } from './DecalBus'
 import DecalItem from './DecalItem.vue'
-
-export interface DecalJsonEntry {
-  id: string
-  position: [number, number, number]
-  orientation: [number, number, number]
-  size: [number, number, number]
-  map: string
-  zIndex: number
-}
-
-export interface DecalProps {
-  debug?: boolean
-  depthTest?: boolean
-  map?: Texture | Texture[] | null
-  mesh?: ShallowRef<Mesh | null>
-  polygonOffsetFactor?: number
-  position?: number[]
-  orientation?: number[]
-  size?: number[]
-  normal?: number[]
-  order?: number
-  data?: DecalJsonEntry[]
-}
+import { getTextureNameForExport, updateDecalGeometry } from './DecalUtils'
+import type { DecalData, DecalProps } from './DecalTypes'
 
 const props = withDefaults(defineProps<DecalProps>(), {
   debug: false,
@@ -45,58 +24,54 @@ const props = withDefaults(defineProps<DecalProps>(), {
   data: () => [],
 })
 
-const { debug, depthTest, mesh, map, polygonOffsetFactor, position, orientation, size, normal, data } = toRefs(props)
+const { debug, depthTest, mesh, map, position, orientation, size, data } = toRefs(props)
 
 const { onBeforeRender } = useLoop()
-const { sizes, camera, controls, renderer } = useTresContext()
+const { sizes, camera, renderer } = useTresContext()
 
-const dragStart = new Vector2()
-const isDragging = ref(false)
-const dummyHelper = new Object3D()
-const mouse = new Vector2()
-const { x: xMouse, y: yMouse } = useMouse({ touch: false })
 const raycaster = shallowRef(new Raycaster())
 const meshRef = shallowRef<Mesh | null>(null)
 const meshLineRef = shallowRef<Mesh | null>(null)
-const boxHelperRef = shallowRef<ShallowRef<Mesh> | null>(null)
-const decalPosition = reactive<Vector3>(new Vector3(...position.value))
-const decalOrientation = reactive<Euler>(new Euler(...orientation.value))
-const decalSize = reactive<Vector3>(new Vector3(...size.value))
-const currentIntersect = shallowReactive<Intersection | {}>({})
-const decalIntersect = shallowReactive<Intersection | {}>({})
-const decalScale = ref(1)
+const boxHelperRef = shallowRef<any>(null)
+const dummyHelper = new Object3D()
+
+const mouse = new Vector2()
+const dragStart = new Vector2()
+const isDragging = ref(false)
+const { x: xMouse, y: yMouse } = useMouse({ touch: false })
+
+const stampedDecals = ref<DecalData[]>([])
+const editingDecal = ref<DecalData | null>(null)
+const decalBackup = ref<Partial<DecalData> | null>(null)
+
+const decalPosition = reactive(new Vector3(...position.value))
+const decalOrientation = reactive(new Euler(...orientation.value))
+const decalSize = reactive(new Vector3(...size.value))
 const baseDecalSize = reactive(new Vector3(1, 1, 1))
-const stampedDecals = ref<any[]>([])
+const decalScale = ref(1)
+
 const baseOrientation = reactive(new Euler())
 const userOrientation = reactive(new Euler())
-const editingDecal = ref<null | typeof stampedDecals.value[0]>(null)
-const testRefsGroup = new Group()
+
 const baseSize = ref(1)
+
+const currentIntersect = shallowReactive<Intersection | {}>({})
+const decalIntersect = shallowReactive<Intersection | {} & { point?: Vector3, face?: any }>({})
+const testRefsGroup = new Group()
+
 const currentTextureIndex = ref(0)
 const isHoveringDecal = ref(false)
-
-const decalBackup = ref<{
-  position: Vector3
-  orientation: Euler
-  size: Vector3
-  zIndex: number
-  map: Texture | null
-} | null>(null)
-
 const hideBoxHelper = ref(false)
-
-const currentIntersectIsEmpty = computed(() => Object.keys(currentIntersect).length === 0)
-const decalIntersectIsEmpty = computed(() => Object.keys(decalIntersect).length === 0)
-
-const maxZIndex = computed(() =>
-  Math.max(...stampedDecals.value.map(d => d.zIndex ?? 0), 0),
-)
 
 const currentParent = computed(() => {
   if (mesh.value) { return mesh.value }
   if (meshRef.value && meshRef.value.parent) { return meshRef.value.parent }
   return null
 })
+
+const currentIntersectIsEmpty = computed(() => Object.keys(currentIntersect).length === 0)
+const decalIntersectIsEmpty = computed(() => Object.keys(decalIntersect).length === 0)
+const maxZIndex = computed(() => Math.max(...stampedDecals.value.map(d => d.zIndex ?? 0), 0))
 
 const textureList = computed(() => {
   if (!map.value) { return [] }
@@ -107,18 +82,17 @@ const textureList = computed(() => {
       try {
         const src = t.image.src
         const filename = src.split('/').pop()?.split('?')[0]
-        if (filename) {
-          t.name = decodeURIComponent(filename)
-        }
+        if (filename) { t.name = decodeURIComponent(filename) }
       }
-      catch (e) {
-        // silent
-      }
+      catch (e) { /* silent */ }
     }
   })
-
   return list
 })
+
+const activeMap = computed(() => textureList.value[currentTextureIndex.value] || textureList.value[0])
+
+const activeRenderOrder = computed(() => editingDecal.value ? (editingDecal.value.zIndex ?? 0) : 9999)
 
 const getTextureByPath = (pathName: string) => {
   if (textureList.value.length === 0) { return null }
@@ -126,76 +100,45 @@ const getTextureByPath = (pathName: string) => {
   return found || textureList.value[0]
 }
 
-const getTextureNameForExport = (tex: Texture | null) => {
-  if (!tex) { return 'unknown_texture' }
-  if (tex.name) { return tex.name }
-  if (tex.userData && tex.userData.name) { return tex.userData.name }
-  if (tex.image && tex.image.src) {
-    const filename = tex.image.src.split('/').pop()?.split('?')[0]
-    if (filename) { return decodeURIComponent(filename) }
-  }
-  return 'unknown_texture'
-}
-
 const syncDataToScene = () => {
   if (!data.value || (textureList.value.length === 0 && data.value.length > 0)) { return }
 
-  const newDecals: any[] = []
-
-  data.value.forEach((entry) => {
-    const position = new Vector3(...entry.position)
-    const orientation = new Euler(...entry.orientation)
-    const size = new Vector3(...entry.size)
-    const textureMap = getTextureByPath(entry.map)
-
-    newDecals.push({
+  stampedDecals.value = data.value.map((entry) => {
+    const pos = new Vector3(...entry.position)
+    return {
       id: entry.id,
-      position,
-      orientation,
-      size,
+      position: pos,
+      orientation: new Euler(...entry.orientation),
+      size: new Vector3(...entry.size),
       zIndex: entry.zIndex,
-      map: textureMap,
+      map: getTextureByPath(entry.map),
       object: meshRef.value,
-      point: position,
-    })
+      point: pos,
+    }
   })
-
-  stampedDecals.value = newDecals
 }
 
-watch([() => data.value, textureList], () => {
-  syncDataToScene()
-}, { deep: true, immediate: true })
+watch([() => data.value, textureList], syncDataToScene, { deep: true, immediate: true })
 
-const getLayoutJson = () => {
-  const exportData = stampedDecals.value.map(d => ({
+const getLayoutJson = () => ({
+  decals: stampedDecals.value.map(d => ({
     id: d.id,
     position: d.position.toArray(),
     orientation: d.orientation.toArray().slice(0, 3),
     size: d.size.toArray(),
     zIndex: d.zIndex,
     map: getTextureNameForExport(d.map),
-  }))
-
-  return { decals: exportData }
-}
-
-const activeMap = computed(() => {
-  if (textureList.value.length === 0) { return null }
-  return textureList.value[currentTextureIndex.value] || textureList.value[0]
-})
-
-const activeRenderOrder = computed(() => {
-  if (editingDecal.value) { return editingDecal.value.zIndex ?? 0 }
-  return 9999
+  })),
 })
 
 watch(decalIntersectIsEmpty, (isEmpty) => {
+  if (!debug.value) { return }
   if (decalIntersectIsEmpty.value) { return }
   decalBus.emit({ type: 'ui-toggle-visibility-decal-intersect', visible: !isEmpty })
 })
 
 watch(currentIntersectIsEmpty, (isEmpty) => {
+  if (!debug.value) { return }
   if (!editingDecal.value) {
     decalBus.emit({ type: 'ui-toggle-visibility-current-intersect', visible: !isEmpty })
     return
@@ -211,6 +154,7 @@ watch(textureList, (newList) => {
 })
 
 watch([xMouse, yMouse, sizes.width, sizes.height], () => {
+  if (!debug.value) { return }
   mouse.x = xMouse.value / sizes.width.value * 2 - 1
   mouse.y = -(yMouse.value / sizes.height.value) * 2 + 1
   decalBus.emit({ type: 'cursor-move', x: mouse.x, y: mouse.y })
@@ -222,17 +166,15 @@ watch(meshLineRef, () => {
 }, { immediate: true })
 
 const makeGeometryInitial = () => {
-  const parent = currentParent.value
-  const target = meshRef.value
-  if (!parent || !target) { return }
+  if (!currentParent.value || !meshRef.value) { return }
 
-  target.geometry?.dispose()
-
-  const targetParentMatrixWorld = target.parent?.matrixWorld.clone().invert() || new Matrix4()
-
-  target.geometry = new DecalGeometry(parent, decalPosition, decalOrientation, decalSize)
-
-  target.geometry.applyMatrix4(targetParentMatrixWorld)
+  const tempDecalData: DecalData = {
+    position: decalPosition,
+    orientation: decalOrientation,
+    size: decalSize,
+    zIndex: 0,
+  }
+  updateDecalGeometry(meshRef.value, currentParent.value, tempDecalData)
 }
 
 const makeGeometry = () => {
@@ -241,12 +183,6 @@ const makeGeometry = () => {
   if (!parent || !target) { return }
 
   if (!editingDecal.value && (!decalIntersect.point || !decalIntersect.face)) { return }
-
-  target.geometry?.dispose()
-
-  parent.updateMatrixWorld(true)
-
-  const targetParentMatrixWorldInverse = target.parent?.matrixWorld.clone().invert() || new Matrix4()
 
   decalOrientation.copy(baseOrientation)
   decalOrientation.x += userOrientation.x
@@ -262,32 +198,19 @@ const makeGeometry = () => {
   const originPoint = editingDecal.value ? editingDecal.value.position : decalIntersect.point
   if (!originPoint) { return }
 
-  target.geometry = new DecalGeometry(parent, originPoint, decalOrientation, scaledSize)
-
-  target.geometry.applyMatrix4(targetParentMatrixWorldInverse)
-
-  const worldNormal = new Vector3(0, 0, 1).applyEuler(decalOrientation)
-
-  const localNormal = worldNormal.transformDirection(targetParentMatrixWorldInverse).normalize()
-
-  const baseOffset = 0.01
-  const layerGap = 0.001
-  let currentZ = 0
-
+  let currentZ = maxZIndex.value + 10
   if (editingDecal.value) {
     currentZ = editingDecal.value.zIndex ?? 0
   }
-  else {
-    currentZ = maxZIndex.value + 10
+
+  const decalData: DecalData = {
+    position: originPoint,
+    orientation: decalOrientation,
+    size: scaledSize,
+    zIndex: currentZ,
   }
 
-  const totalOffset = baseOffset + (currentZ * layerGap)
-
-  target.geometry.translate(
-    localNormal.x * totalOffset,
-    localNormal.y * totalOffset,
-    localNormal.z * totalOffset,
-  )
+  updateDecalGeometry(target, parent, decalData)
 }
 
 watch(editingDecal, (isEditing) => {
@@ -300,8 +223,7 @@ watch(editingDecal, (isEditing) => {
 
 watch(meshRef, (val) => {
   if (!val) { return }
-  const parent = currentParent.value
-  if (!(parent instanceof Mesh)) {
+  if (!(currentParent.value instanceof Mesh)) {
     throw new TypeError('A Mesh parent is required for the decal or the "mesh" prop must be set.')
   }
   makeGeometryInitial()
@@ -316,8 +238,6 @@ const updateAspectRatio = () => {
     mat.map = tex
     mat.needsUpdate = true
   }
-
-  const img = tex.image
 
   const applySize = (w: number, h: number) => {
     const diag = Math.sqrt(w * w + h * h)
@@ -342,8 +262,8 @@ const updateAspectRatio = () => {
     }
   }
 
-  if (img && img.width && img.height) {
-    applySize(img.width, img.height)
+  if (tex.image && tex.image.width && tex.image.height) {
+    applySize(tex.image.width, tex.image.height)
   }
   else {
     applySize(1, 1)
@@ -352,7 +272,7 @@ const updateAspectRatio = () => {
 
 watch(activeMap, updateAspectRatio, { immediate: true })
 
-const onSelectDecal = (decal) => {
+const onSelectDecal = (decal: DecalData) => {
   if (editingDecal.value?.id === decal.id) { return }
   if (editingDecal.value) { decalBus.emit({ type: 'cancel-edit' }) }
 
@@ -364,10 +284,8 @@ const onSelectDecal = (decal) => {
   if (decal.map && decal.map.image) {
     const { width, height } = decal.map.image
     const diag = Math.sqrt(width * width + height * height)
-    const normW = width / diag
-    const normH = height / diag
-    baseDecalSize.x = normW * baseSize.value
-    baseDecalSize.y = normH * baseSize.value
+    baseDecalSize.x = (width / diag) * baseSize.value
+    baseDecalSize.y = (height / diag) * baseSize.value
     baseDecalSize.z = decalSize.z
   }
 
@@ -377,22 +295,20 @@ const onSelectDecal = (decal) => {
   editingDecal.value = decal
 
   for (const key in decalIntersect) { delete decalIntersect[key] }
+
   const currentScaleValue = decal.size.x / baseDecalSize.x
   decalScale.value = currentScaleValue
 
   raycaster.value.setFromCamera(mouse, camera.activeCamera.value)
-
   const intersects = raycaster.value.intersectObject(currentParent.value, false)
 
   if (intersects.length > 0) {
     const { point, face } = intersects[0]
+    const n = face!.normal.clone().transformDirection(currentParent.value.matrixWorld)
+    const lookAtTarget = point!.clone().add(n)
 
-    const n = face.normal.clone().transformDirection(currentParent.value.matrixWorld)
-    const lookAtTarget = point.clone().add(n)
-
-    dummyHelper.position.copy(point)
+    dummyHelper.position.copy(point!)
     dummyHelper.lookAt(lookAtTarget)
-
     baseOrientation.copy(dummyHelper.rotation)
   }
   else {
@@ -400,12 +316,7 @@ const onSelectDecal = (decal) => {
   }
 
   const angleZ = decal.orientation.z - baseOrientation.z
-
-  userOrientation.set(
-    0,
-    0,
-    angleZ,
-  )
+  userOrientation.set(0, 0, angleZ)
 
   decalOrientation.copy(baseOrientation)
   decalOrientation.z += userOrientation.z
@@ -424,7 +335,7 @@ const onSelectDecal = (decal) => {
     angle: uiAngle,
     x,
     y,
-    id: decal.id,
+    id: decal.id!,
     textureCount: textureList.value.length,
   })
 
@@ -433,51 +344,40 @@ const onSelectDecal = (decal) => {
 
 const onClickDebug = async () => {
   if (currentIntersectIsEmpty.value) { return }
-
   decalBus.emit({ type: 'click', textureCount: textureList.value.length })
-
   await nextTick()
   makeGeometry()
 }
 
 const validateDecal = async () => {
-  if (!meshRef.value) { return }
-  const parent = currentParent.value
-  if (!(parent instanceof Mesh)) { return }
-
+  if (!meshRef.value || !(currentParent.value instanceof Mesh)) { return }
   if (!editingDecal.value && decalIntersectIsEmpty.value) { return }
 
   if (editingDecal.value) {
-    const index = stampedDecals.value.findIndex(d => d.id === editingDecal.value.id)
+    const index = stampedDecals.value.findIndex(d => d.id === editingDecal.value!.id)
     if (index !== -1) {
-      stampedDecals.value[index].position.copy(editingDecal.value.position)
-      stampedDecals.value[index].orientation.copy(editingDecal.value.orientation)
-      stampedDecals.value[index].size.copy(editingDecal.value.size)
-      stampedDecals.value[index].map = activeMap.value
+      const d = stampedDecals.value[index]
+      d.position.copy(editingDecal.value.position)
+      d.orientation.copy(editingDecal.value.orientation)
+      d.size.copy(editingDecal.value.size)
+      d.map = activeMap.value
     }
   }
-  else {
-    if (decalIntersect.point) {
-      const newId = crypto.randomUUID()
-      const position = decalIntersect.point.clone()
-      const orientation = decalOrientation.clone()
-      const size = new Vector3(
+  else if (decalIntersect.point) {
+    const newId = crypto.randomUUID()
+    stampedDecals.value.push({
+      ...(decalIntersect as any),
+      position: decalIntersect.point.clone(),
+      orientation: decalOrientation.clone(),
+      size: new Vector3(
         baseDecalSize.x * decalScale.value,
         baseDecalSize.y * decalScale.value,
         decalSize.z,
-      )
-      const nextZIndex = maxZIndex.value + 1
-
-      stampedDecals.value.push({
-        ...(decalIntersect as any),
-        position,
-        orientation,
-        size,
-        id: newId,
-        zIndex: nextZIndex,
-        map: activeMap.value,
-      })
-    }
+      ),
+      id: newId,
+      zIndex: maxZIndex.value + 1,
+      map: activeMap.value,
+    })
   }
 
   editingDecal.value = null
@@ -512,25 +412,21 @@ onBeforeRender(() => {
       Object.assign(currentIntersect, intersects[0])
 
       const worldNormal = face.normal.clone().transformDirection(parent.matrixWorld).normalize()
-
       const { depth } = boxHelperRef.value.geometry.parameters
       const lookAtTarget = point.clone().add(worldNormal.clone().multiplyScalar(depth))
 
       const helperParent = boxHelperRef.value.parent
       const helperParentInverse = helperParent ? helperParent.matrixWorld.clone().invert() : new Matrix4()
-
       const localPoint = point.clone().applyMatrix4(helperParentInverse)
 
       boxHelperRef.value.position.copy(localPoint)
       boxHelperRef.value.lookAt(lookAtTarget)
 
       const linePositions = meshLineRef.value.geometry.attributes.position
-
       const localLookAt = lookAtTarget.clone().applyMatrix4(helperParentInverse)
 
       linePositions.setXYZ(0, localPoint.x, localPoint.y, localPoint.z)
       linePositions.setXYZ(1, localLookAt.x, localLookAt.y, localLookAt.z)
-
       linePositions.needsUpdate = true
     }
   }
@@ -552,21 +448,15 @@ function updateDecalFromMouse() {
   const worldNormal = face.normal.clone().transformDirection(parent.matrixWorld).normalize()
   const lookAtTarget = point.clone().add(worldNormal)
 
+  dummyHelper.position.copy(point)
+  dummyHelper.lookAt(lookAtTarget)
+  baseOrientation.copy(dummyHelper.rotation)
+
   if (!editingDecal.value) {
     Object.assign(decalIntersect, intersects[0])
-    if (!boxHelperRef.value) { return }
-
-    dummyHelper.position.copy(point)
-    dummyHelper.lookAt(lookAtTarget)
-    baseOrientation.copy(dummyHelper.rotation)
-
-    makeGeometry()
+    if (boxHelperRef.value) { makeGeometry() }
   }
   else {
-    dummyHelper.position.copy(point)
-    dummyHelper.lookAt(lookAtTarget)
-    baseOrientation.copy(dummyHelper.rotation)
-
     decalOrientation.copy(baseOrientation)
     decalOrientation.x += userOrientation.x
     decalOrientation.y += userOrientation.y
@@ -592,15 +482,12 @@ const onPointerDown = (e: PointerEvent) => {
 
 const onPointerUp = (e: PointerEvent) => {
   if (isHoveringDecal.value) { return }
-
   const dx = e.clientX - dragStart.x
   const dy = e.clientY - dragStart.y
-
   if (Math.sqrt(dx * dx + dy * dy) > 5) {
     isDragging.value = true
     return
   }
-
   if (!currentIntersectIsEmpty.value) {
     onClickDebug()
   }
@@ -615,123 +502,107 @@ watch(() => renderer.instance, () => {
 }, { immediate: true })
 
 const stop = decalBus.on((payload) => {
-  if (payload.type === 'drag-ui') {
-    mouse.x = payload.x
-    mouse.y = payload.y
-    updateDecalFromMouse()
-  }
+  if (!debug.value) { return }
 
-  if (payload.type === 'request-export') {
-    const json = getLayoutJson()
-    console.log('📦 Export JSON:', json)
-
-    const blob = new Blob([JSON.stringify(json, null, 2)], { type: 'application/json' })
-    const link = document.createElement('a')
-    link.href = URL.createObjectURL(blob)
-    link.download = 'design-layout.json'
-    link.click()
-  }
-
-  if (payload.type === 'drag-ui-orientation') {
-    const decalAngle = -(payload.angle + Math.PI / 2)
-    userOrientation.z = decalAngle
-    decalOrientation.z = decalAngle
-
-    if (editingDecal.value) {
-      const newOrientation = baseOrientation.clone()
-      newOrientation.x += userOrientation.x
-      newOrientation.y += userOrientation.y
-      newOrientation.z += userOrientation.z
-      editingDecal.value.orientation.copy(newOrientation)
+  switch (payload.type) {
+    case 'drag-ui':
+      mouse.x = payload.x
+      mouse.y = payload.y
+      updateDecalFromMouse()
+      break
+    case 'request-export': {
+      const json = getLayoutJson()
+      // eslint-disable-next-line no-console
+      console.log('📦 Export JSON:', json)
+      const blob = new Blob([JSON.stringify(json, null, 2)], { type: 'application/json' })
+      const link = document.createElement('a')
+      link.href = URL.createObjectURL(blob)
+      link.download = 'design-layout.json'
+      link.click()
+      break
     }
-    else {
-      makeGeometry()
-    }
-  }
-
-  if (payload.type === 'delete-decal') {
-    if (!editingDecal.value) { return }
-
-    if (editingDecal.value) {
-      stampedDecals.value = stampedDecals.value.filter(d => d.id !== editingDecal.value?.id)
-      editingDecal.value = null
-      decalBackup.value = null
-    }
-
-    for (const key in currentIntersect) { delete currentIntersect[key] }
-    for (const key in decalIntersect) { delete decalIntersect[key] }
-    hideBoxHelper.value = false
-    decalBus.emit({ type: 'ui-toggle-visibility-decal-intersect', visible: false })
-    makeGeometryInitial()
-    decalBus.emit({ type: 'refresh-raycasts' })
-  }
-
-  if (payload.type === 'change-zindex') {
-    const decal = stampedDecals.value.find(d => d.id === payload.id)
-    if (decal) {
-      decal.zIndex = Math.max(0, (decal.zIndex ?? 0) + payload.delta)
-      if (editingDecal.value && editingDecal.value.id === decal.id) {
-        editingDecal.value.zIndex = decal.zIndex
+    case 'drag-ui-orientation': {
+      const decalAngle = -(payload.angle + Math.PI / 2)
+      userOrientation.z = decalAngle
+      decalOrientation.z = decalAngle
+      if (editingDecal.value) {
+        const newOrientation = baseOrientation.clone()
+        newOrientation.x += userOrientation.x
+        newOrientation.y += userOrientation.y
+        newOrientation.z += userOrientation.z
+        editingDecal.value.orientation.copy(newOrientation)
+      }
+      else {
         makeGeometry()
       }
+      break
     }
-  }
-
-  if (payload.type === 'cancel-edit') {
-    if (editingDecal.value && decalBackup.value) {
-      editingDecal.value.position.copy(decalBackup.value.position)
-      editingDecal.value.orientation.copy(decalBackup.value.orientation)
-      editingDecal.value.size.copy(decalBackup.value.size)
-      editingDecal.value.zIndex = decalBackup.value.zIndex
-      editingDecal.value.map = decalBackup.value.map
-      decalBackup.value = null
+    case 'delete-decal':
+      if (editingDecal.value) {
+        stampedDecals.value = stampedDecals.value.filter(d => d.id !== editingDecal.value?.id)
+        editingDecal.value = null
+        decalBackup.value = null
+      }
+      for (const key in currentIntersect) { delete currentIntersect[key] }
+      for (const key in decalIntersect) { delete decalIntersect[key] }
+      hideBoxHelper.value = false
+      decalBus.emit({ type: 'ui-toggle-visibility-decal-intersect', visible: false })
+      makeGeometryInitial()
+      decalBus.emit({ type: 'refresh-raycasts' })
+      break
+    case 'change-zindex': {
+      const decal = stampedDecals.value.find(d => d.id === payload.id)
+      if (decal) {
+        decal.zIndex = Math.max(0, (decal.zIndex ?? 0) + payload.delta)
+        if (editingDecal.value && editingDecal.value.id === decal.id) {
+          editingDecal.value.zIndex = decal.zIndex
+          makeGeometry()
+        }
+      }
+      break
     }
-
-    editingDecal.value = null
-
-    for (const key in currentIntersect) { delete currentIntersect[key] }
-    for (const key in decalIntersect) { delete decalIntersect[key] }
-
-    hideBoxHelper.value = false
-    decalBus.emit({ type: 'ui-toggle-visibility-decal-intersect', visible: false })
-
-    makeGeometryInitial()
-
-    decalBus.emit({ type: 'refresh-raycasts' })
-  }
-
-  if (payload.type === 'drag-ui-scale') {
-    decalScale.value = payload.scale
-    if (editingDecal.value) {
-      editingDecal.value.size.set(
-        baseDecalSize.x * decalScale.value,
-        baseDecalSize.y * decalScale.value,
-        decalSize.z,
-      )
-    }
-    else {
-      makeGeometry()
-    }
-  }
-
-  if (payload.type === 'validate-decal') {
-    validateDecal()
-
-    currentTextureIndex.value = 0
-  }
-
-  if (payload.type === 'change-texture') {
-    if (textureList.value.length <= 1) { return }
-    let newIndex = currentTextureIndex.value + payload.direction
-    if (newIndex < 0) { newIndex = textureList.value.length - 1 }
-    if (newIndex >= textureList.value.length) { newIndex = 0 }
-    currentTextureIndex.value = newIndex
+    case 'cancel-edit':
+      if (editingDecal.value && decalBackup.value) {
+        Object.assign(editingDecal.value, decalBackup.value)
+        decalBackup.value = null
+      }
+      editingDecal.value = null
+      for (const key in currentIntersect) { delete currentIntersect[key] }
+      for (const key in decalIntersect) { delete decalIntersect[key] }
+      hideBoxHelper.value = false
+      decalBus.emit({ type: 'ui-toggle-visibility-decal-intersect', visible: false })
+      makeGeometryInitial()
+      decalBus.emit({ type: 'refresh-raycasts' })
+      break
+    case 'drag-ui-scale':
+      decalScale.value = payload.scale
+      if (editingDecal.value) {
+        editingDecal.value.size.set(
+          baseDecalSize.x * decalScale.value,
+          baseDecalSize.y * decalScale.value,
+          decalSize.z,
+        )
+      }
+      else {
+        makeGeometry()
+      }
+      break
+    case 'validate-decal':
+      validateDecal()
+      currentTextureIndex.value = 0
+      break
+    case 'change-texture':
+      if (textureList.value.length > 1) {
+        let newIndex = currentTextureIndex.value + payload.direction
+        if (newIndex < 0) { newIndex = textureList.value.length - 1 }
+        if (newIndex >= textureList.value.length) { newIndex = 0 }
+        currentTextureIndex.value = newIndex
+      }
+      break
   }
 })
 
-onBeforeUnmount(() => {
-  stop()
-})
+onBeforeUnmount(stop)
 
 defineExpose({ root: meshRef })
 </script>
@@ -754,14 +625,15 @@ defineExpose({ root: meshRef })
 
   <TresGroup v-if="currentParent" name="decal-items-group">
     <DecalItem
-      v-for="(item, index) in stampedDecals"
+      v-for="(item) in stampedDecals"
       :key="item.id"
-      :parent="currentParent"
+      :parent="(currentParent as Mesh)"
       :map="item.map"
       :group-test="testRefsGroup"
       :highlight="true"
       :decal="item"
       :is-selected="editingDecal?.id === item.id"
+      :debug="debug"
       @select="onSelectDecal"
       @hover="(val) => isHoveringDecal = val"
     >

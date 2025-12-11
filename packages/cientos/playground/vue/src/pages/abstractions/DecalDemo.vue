@@ -66,6 +66,29 @@ watch(textures, (val) => {
   }
 }, { immediate: true })
 
+const dataDecalBox = [
+    {
+        "id": "30c70d8b-0b71-4804-bfb7-d37f1bd5b7cd",
+        "position": [
+            0.022124477441550848,
+            0.11464936998309772,
+            1
+        ],
+        "orientation": [
+            0,
+            0,
+            0
+        ],
+        "size": [
+            0.9749061269648661,
+            0.22261635970063873,
+            1
+        ],
+        "zIndex": 2,
+        "map": "tresjs-dark.png"
+    }
+]
+
 </script>
 
 <template>
@@ -90,14 +113,14 @@ watch(textures, (val) => {
 
     <TresGridHelper
       :args="[10, 10]"
-      :position-y="-.5"
+      :position-y="-1"
     />
 
-    <TresMesh :scale="1" :position-x="-4">
+    <TresMesh :scale="1" :position="[-4, 0, 0]">
       <TresSphereGeometry />
       <TresMeshBasicMaterial color="#f6f6f6"  />
 
-      <Decal :map="texture" debug />
+      <Decal :map="texture"  />
     </TresMesh>
 
     <primitive
@@ -112,14 +135,13 @@ watch(textures, (val) => {
       <TresMeshBasicMaterial color="#f6f6f6"  />
     </TresMesh>
 
-    <Decal :map="textures" debug :mesh="torusRef" />
+    <Decal :map="textures"  :mesh="torusRef" />
 
     <TresMesh :scale="2" :position-x="0">
       <TresBoxGeometry />
       <TresMeshBasicMaterial color="#f6f6f6"  />
     
-      <Decal :map="textures" debug />
-
+      <Decal :map="textures" debug :data="dataDecalBox" />
     </TresMesh>
 
   </TresCanvas>

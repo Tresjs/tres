@@ -1,61 +1,46 @@
 <script setup lang="ts">
 import { computed, nextTick, onBeforeUnmount, ref, shallowRef, toRefs, watch } from 'vue'
-import { DecalGeometry } from 'three-stdlib'
-import {
-  EdgesGeometry,
-  LineBasicMaterial,
-  LineSegments,
-  Mesh,
-  Vector3,
-} from 'three'
-import { decalBus } from './DecalBus'
+import { EdgesGeometry, LineBasicMaterial, LineSegments, Mesh } from 'three'
 import { dispose, useLoop } from '@tresjs/core'
+import { decalBus } from './DecalBus'
+import { updateDecalGeometry } from './DecalUtils'
+import type { DecalData } from './DecalTypes'
 
 const props = defineProps<{
   parent: Mesh
-  decal: any
+  decal: DecalData
   map: any
   groupTest: any
   highlight: boolean
   isSelected: boolean
+  debug: boolean
 }>()
 
 const emit = defineEmits(['select', 'hover'])
-
-const { parent, decal, map, isSelected, highlight } = toRefs(props)
+const { parent, decal, highlight, isSelected, debug } = toRefs(props)
 
 const meshRef = ref<Mesh | null>(null)
-const isHovered = ref(false)
-
 const helperLineRef = shallowRef<LineSegments | null>(null)
-
+const isHovered = ref(false)
 const originalScale = new Mesh().scale.clone()
 
 const updateHelperVisuals = () => {
   if (!helperLineRef.value) { return }
-
-  const visible = isHovered.value || isSelected.value
-  helperLineRef.value.visible = visible
+  helperLineRef.value.visible = isHovered.value || isSelected.value
 }
 
 const clearHelper = () => {
   if (!helperLineRef.value) { return }
-
-  if (meshRef.value) {
-    meshRef.value.remove(helperLineRef.value)
-  }
-
+  meshRef.value?.remove(helperLineRef.value)
   dispose(helperLineRef.value)
   helperLineRef.value = null
 }
 
 const createHelper = () => {
-  if (!meshRef.value || !meshRef.value.geometry) { return }
-
+  if (!meshRef.value?.geometry) { return }
   clearHelper()
 
   const edgesGeometry = new EdgesGeometry(meshRef.value.geometry)
-
   const lineMaterial = new LineBasicMaterial({
     color: 0x0000FF,
     depthTest: false,
@@ -65,69 +50,31 @@ const createHelper = () => {
   })
 
   const line = new LineSegments(edgesGeometry, lineMaterial)
-
   line.raycast = () => {}
 
   meshRef.value.add(line)
   helperLineRef.value = line
-
   updateHelperVisuals()
 }
 
 const { onBeforeRender } = useLoop()
-
 onBeforeRender(({ elapsed }) => {
-  if (!helperLineRef.value || !helperLineRef.value.visible) { return }
-
+  if (!helperLineRef.value?.visible) { return }
   const material = helperLineRef.value.material as LineBasicMaterial
 
   if (isSelected.value) {
     const t = (Math.sin(elapsed * 10) + 1) / 2
     material.opacity = 0.2 + t * 0.8
   }
-  else {
-    if (material.opacity !== 1) { material.opacity = 1 }
+  else if (material.opacity !== 1) {
+    material.opacity = 1
   }
 })
 
 const buildGeometry = () => {
   if (!meshRef.value || !parent.value) { return }
 
-  parent.value.updateMatrixWorld(true)
-
-  if (meshRef.value.geometry) {
-    meshRef.value.geometry.dispose()
-  }
-
-  const geometry = new DecalGeometry(
-    parent.value,
-    decal.value.position,
-    decal.value.orientation,
-    decal.value.size,
-  )
-
-  const inverseMatrix = meshRef.value.parent?.matrixWorld.clone().invert() || new Matrix4()
-
-  geometry.applyMatrix4(inverseMatrix)
-
-  const worldNormal = new Vector3(0, 0, 1).applyEuler(decal.value.orientation)
-
-  const localNormal = worldNormal.clone().transformDirection(inverseMatrix).normalize()
-
-  const baseOffset = 0.01
-  const layerGap = 0.001
-  const currentZ = decal.value.zIndex ?? 0
-
-  const parentScale = parent.value.scale.x || 1
-  const totalOffset = (baseOffset + currentZ * layerGap) / parentScale
-
-  geometry.translate(
-    localNormal.x * totalOffset,
-    localNormal.y * totalOffset,
-    localNormal.z * totalOffset,
-  )
-
-  meshRef.value.geometry = geometry
+  updateDecalGeometry(meshRef.value, parent.value, decal.value)
 
   createHelper()
 
@@ -137,21 +84,18 @@ const buildGeometry = () => {
   meshRef.value.renderOrder = decal.value.zIndex ?? 0
 }
 
-watch(() => decal.value.zIndex, () => {
-  buildGeometry()
-})
+watch(() => decal.value.zIndex, buildGeometry)
 
 watch([isSelected, isHovered], () => {
   updateHelperVisuals()
-  if (!meshRef.value) { return }
-  if (!isSelected.value) { meshRef.value.scale.copy(originalScale) }
+  if (meshRef.value && !isSelected.value) {
+    meshRef.value.scale.copy(originalScale)
+  }
 })
 
 watch(
   [() => decal.value.position, () => decal.value.orientation, () => decal.value.size],
-  () => {
-    buildGeometry()
-  },
+  buildGeometry,
   { deep: true },
 )
 
@@ -161,16 +105,13 @@ watch([meshRef, () => props.groupTest], () => {
   originalScale.copy(meshRef.value.scale)
 }, { immediate: true })
 
-const stop = decalBus.on((payload) => {
-  if (payload.type === 'refresh-raycasts') {
+const stopBus = decalBus.on((payload) => {
+  if (debug.value && payload.type === 'refresh-raycasts') {
     buildGeometry()
   }
 })
 
-const materialIsTransparent = computed(() => {
-  if (isSelected.value) { return true }
-  return !highlight.value
-})
+const materialIsTransparent = computed(() => isSelected.value ? true : !highlight.value)
 
 watch(materialIsTransparent, async () => {
   if (!meshRef.value) { return }
@@ -180,28 +121,27 @@ watch(materialIsTransparent, async () => {
 
 const onClickMesh = (event: MouseEvent) => {
   event.stopPropagation()
-  emit('select', decal.value)
+  if (debug.value) { emit('select', decal.value) }
 }
 
 const onPointerEnter = (event: PointerEvent) => {
   event.stopPropagation()
+  if (!debug.value) { return }
   isHovered.value = true
   document.body.style.cursor = 'pointer'
-
   emit('hover', true)
 }
 
-const onPointerLeave = (event: PointerEvent) => {
+const onPointerLeave = () => {
+  if (!debug.value) { return }
   isHovered.value = false
   document.body.style.cursor = 'auto'
-
   emit('hover', false)
 }
 
 onBeforeUnmount(() => {
   clearHelper()
-
-  stop()
+  stopBus()
 })
 
 defineExpose({ meshRef })
