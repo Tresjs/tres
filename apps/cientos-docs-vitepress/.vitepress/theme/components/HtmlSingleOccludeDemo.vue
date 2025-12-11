@@ -22,6 +22,7 @@ const sphereRef = ref(null)
         transform
         :occlude="[sphereRef]"
         :distance-factor="4"
+        :z-index-range="[28, 0]"
       >
         <h1 class="bg-white dark:bg-dark text-xs p-1 rounded">
           Move camera

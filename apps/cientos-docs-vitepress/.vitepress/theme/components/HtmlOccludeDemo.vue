@@ -21,6 +21,7 @@ const gl = {
         occlude
         :distance-factor="4"
         :position="[0, 0, 2]"
+        :z-index-range="[28, 0]"
       >
         <h1 class="bg-white dark:bg-dark text-xs p-1 rounded">
           Move camera

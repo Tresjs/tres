@@ -19,6 +19,7 @@ const gl = {
       <Html
         center
         transform
+        :z-index-range="[28, 0]"
         :position="[0, 0, 1]"
         :scale="[0.65, 0.65, 0.65]"
       >

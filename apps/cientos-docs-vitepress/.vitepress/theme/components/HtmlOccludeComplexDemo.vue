@@ -48,6 +48,7 @@ const occluderRefs = computed<TresObject3D[]>(() => {
         v-bind="htmlProps"
         :occlude="occluderRefs"
         :distance-factor="4"
+        :z-index-range="[28, 0]"
         @on-occlude="(event: boolean) => isOccluded = event"
       >
         <h1 class="bg-white dark:bg-dark text-xs p-1 rounded">
@@ -67,6 +68,7 @@ const occluderRefs = computed<TresObject3D[]>(() => {
       <Html
         v-bind="htmlProps"
         :distance-factor="4"
+        :z-index-range="[28, 0]"
       >
         <h1 class="text-xs p-1 rounded" :class="[isOccluded ? 'bg-white text-dark' : 'bg-dark text-white']">
           Occlude {{ index + 1 }}

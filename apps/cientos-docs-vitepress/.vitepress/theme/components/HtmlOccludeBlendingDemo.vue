@@ -64,6 +64,7 @@ const customMaterial = shallowRef(new MeshStandardMaterial({
         transform
         occlude="blending"
         :position="[-4, .75, -2]"
+        :z-index-range="[28, 0]"
       >
         <div class="text-center text-s p-2 bg-[#1B1C1E] text-light">
           BASIC 💛 <br />
@@ -77,6 +78,7 @@ const customMaterial = shallowRef(new MeshStandardMaterial({
         occlude="blending"
         :position="[0, .85, -2]"
         :geometry="customGeometry"
+        :z-index-range="[28, 0]"
       >
         <div class="text-xs p-8 text-center bg-[#F6B03B] text-dark">
           CUSTOM <br /> <strong>CIRCLE <br /> GEOMETRY</strong>
@@ -91,6 +93,7 @@ const customMaterial = shallowRef(new MeshStandardMaterial({
         :position="[4, .5, -2]"
         :material="customMaterial"
         receive-shadow
+        :z-index-range="[28, 0]"
       >
         <div style="width: 100px; height: auto; aspect-ratio: 250/250;"></div>
       </Html>
@@ -100,6 +103,7 @@ const customMaterial = shallowRef(new MeshStandardMaterial({
         transform
         occlude="blending"
         :position="[4, 2.5, -2]"
+        :z-index-range="[28, 0]"
       >
         <div class="text-center text-xs p-2 text-dark bg-[#FF0000]">
           <strong>HTML + Custom material </strong> <br />

@@ -101,7 +101,7 @@ const customGeometry = shallowRef(new CircleGeometry(1.25, 32))
         >
           <Card :active="isActive" :border-rounded="false">
             <template #default>
-              I'm a caaaaaaaaaaaaaaaaard {{ isActive ? '📦' : '📭' }}
+              I'm a card w/ occlude blending {{ isActive ? '📦' : '📭' }}
             </template>
           </Card>
         </Html>
@@ -151,7 +151,9 @@ const customGeometry = shallowRef(new CircleGeometry(1.25, 32))
           :distance-factor="8"
           :position="[-1, 0, -2]"
         >
-          <Card :active="isActive" />
+          <Card :active="isActive">
+            I'm a card w/ occlude {{ isActive ? '📦' : '📭' }}
+          </Card>
         </Html>
       <!-- GLOBAL OCCLUDE  ⬆️ -->
       </TresMesh>

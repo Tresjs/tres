@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { dispose, useLoop, useTresContext } from '@tresjs/core'
+import { useLoop, useTresContext } from '@tresjs/core'
 import {
   DoubleSide,
   Matrix4,
@@ -511,11 +511,8 @@ onBeforeRender(({ invalidate }) => {
 })
 
 onUnmounted(() => {
-  dispose(defaultPlaneGeometry)
-
-  const mat = effectiveMaterial.value
-
-  if (mat) { dispose(mat) }
+  defaultPlaneGeometry?.dispose()
+  effectiveMaterial.value?.dispose()
 
   if (el.value?.parentNode) {
     el.value.parentNode.removeChild(el.value)

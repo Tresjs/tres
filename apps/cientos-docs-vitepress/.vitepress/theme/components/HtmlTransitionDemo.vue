@@ -79,6 +79,7 @@ const updateBackgroundColor = () => {
         occlude="blending"
         :position="[0, .75, -2]"
         :scale="1.15"
+        :z-index-range="[28, 0]"
       >
         <Transition name="transition-basic">
           <h1

@@ -142,17 +142,25 @@ All **standard interactions** are supported just like on a regular HTML element 
 <<< @/.vitepress/theme/components/HtmlTransitionDemo.vue{2,68-73}
 </details>
 
-## Using `iframes`
+### Using `iframes`
 
 You can achieve pretty cool results with the `Html` component by using iframes. For example, you can use an iframe to display a YouTube video in your scene or a webpage with a 3D model.
 
-
+<DocsDemo>
+  <HtmlIframeDemo />
+</DocsDemo>
 
 <details>
   <summary>Demo code</summary>
 
-<<< @/.vitepress/theme/components/HtmlLaptopDemo.vue
+<<< @/.vitepress/theme/components/HtmlIframeDemo.vue
 </details>
+
+:::info
+The demos use `:z-index-range="[28, 0]"` simply to ensure the HTML elements stay below the documentation header (which uses `z-index: 30`).  
+**This value is for the docs only — you can ignore it or adjust it as needed.**
+:::
+
 
 ## Props
 
@@ -211,4 +219,3 @@ You can achieve pretty cool results with the `Html` component by using iframes. 
   ```vue
   <TresCanvas :alpha="true" :clearAlpha="0" />
   ```
-
