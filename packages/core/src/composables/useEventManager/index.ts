@@ -1,10 +1,11 @@
-import type { PointerEvent, PointerEventsMap } from '@pmndrs/pointer-events'
+import type { PointerEventsMap } from '@pmndrs/pointer-events'
 import type { Event, Object3D, Object3DEventMap } from 'three'
 import { forwardHtmlEvents, getVoidObject } from '@pmndrs/pointer-events'
 import { onUnmounted, toValue } from 'vue'
 import type { MaybeRef } from 'vue'
 import type { TresContext } from '../useTresContextProvider'
 import { createEventHook } from '@vueuse/core'
+import type { TresPointerEvent } from '../../types'
 
 export function useEventManager({
   canvas,
@@ -21,7 +22,7 @@ export function useEventManager({
   type VoidObject = Object3D<Object3DEventMap & PointerEventsMap>
 
   const voidObject = getVoidObject(scene.value) as VoidObject
-  const pointerMissedEventHook = createEventHook<PointerEvent<MouseEvent> & Event<'click', VoidObject>>()
+  const pointerMissedEventHook = createEventHook<TresPointerEvent & Event<'click', VoidObject>>()
 
   voidObject.addEventListener('click', pointerMissedEventHook.trigger)
 

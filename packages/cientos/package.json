@@ -1,7 +1,7 @@
 {
   "name": "@tresjs/cientos",
   "type": "module",
-  "version": "5.1.1",
+  "version": "5.1.2",
   "description": "Collection of useful helpers and fully functional, ready-made abstractions for Tres",
   "author": "Alvaro Saburido <hola@alvarosaburido.dev> (https://github.com/alvarosabu/)",
   "license": "MIT",
@@ -46,7 +46,7 @@
     "lint:fix": "eslint . --fix"
   },
   "peerDependencies": {
-    "@tresjs/core": "5.1.1",
+    "@tresjs/core": "5.2.0",
     "three": ">=0.133",
     "vue": ">=3.5.17"
   },
