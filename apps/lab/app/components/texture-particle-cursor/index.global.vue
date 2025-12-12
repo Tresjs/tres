@@ -1,8 +1,14 @@
 <script setup lang="ts">
 // TODO: Implement experiment logic
+useControls('fpsgraph', {
+  uuid: 'texture-particle-cursor-experiment',
+})
 </script>
 
 <template>
+  <ClientOnly>
+    <TresLeches uuid="texture-particle-cursor-experiment" />
+  </ClientOnly>
   <TresCanvas clear-color="#181818">
     <TresPerspectiveCamera :position="[0,0,18]" />
     <!-- TODO: Add experiment scene objects -->
