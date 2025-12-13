@@ -1,11 +1,11 @@
-import type { Mesh, Object3D } from 'three'
+import type { Mesh } from 'three'
 import { Matrix4, Vector3 } from 'three'
 import { DecalGeometry } from 'three-stdlib'
 import type { DecalData } from './DecalTypes'
 
 export function updateDecalGeometry(
   targetMesh: Mesh,
-  parent: Object3D,
+  parent: Mesh,
   decal: DecalData,
   baseOffset = 0.01,
   layerGap = 0.001,

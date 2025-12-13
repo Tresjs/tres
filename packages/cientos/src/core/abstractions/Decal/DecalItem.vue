@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, nextTick, onBeforeUnmount, ref, shallowRef, toRefs, watch } from 'vue'
 import { EdgesGeometry, LineBasicMaterial, LineSegments, Mesh } from 'three'
-import { dispose, useLoop } from '@tresjs/core'
+import { useLoop } from '@tresjs/core'
 import { decalBus } from './DecalBus'
 import { updateDecalGeometry } from './DecalUtils'
 import type { DecalData } from './DecalTypes'
@@ -10,7 +10,6 @@ const props = defineProps<{
   parent: Mesh
   decal: DecalData
   map: any
-  groupTest: any
   highlight: boolean
   isSelected: boolean
   debug: boolean
@@ -31,8 +30,20 @@ const updateHelperVisuals = () => {
 
 const clearHelper = () => {
   if (!helperLineRef.value) { return }
-  meshRef.value?.remove(helperLineRef.value)
-  dispose(helperLineRef.value)
+
+  const line = helperLineRef.value
+
+  meshRef.value?.remove(line)
+
+  line.geometry.dispose()
+
+  if (Array.isArray(line.material)) {
+    line.material.forEach(mat => mat.dispose())
+  }
+  else {
+    line.material.dispose()
+  }
+
   helperLineRef.value = null
 }
 
@@ -44,9 +55,6 @@ const createHelper = () => {
   const lineMaterial = new LineBasicMaterial({
     color: 0x0000FF,
     depthTest: false,
-    linewidth: 2,
-    transparent: true,
-    opacity: 1,
   })
 
   const line = new LineSegments(edgesGeometry, lineMaterial)
@@ -99,8 +107,9 @@ watch(
   { deep: true },
 )
 
-watch([meshRef, () => props.groupTest], () => {
-  if (!meshRef.value || !props.groupTest) { return }
+watch(meshRef, () => {
+  if (!meshRef.value) { return }
+
   buildGeometry()
   originalScale.copy(meshRef.value.scale)
 }, { immediate: true })
@@ -116,7 +125,13 @@ const materialIsTransparent = computed(() => isSelected.value ? true : !highligh
 watch(materialIsTransparent, async () => {
   if (!meshRef.value) { return }
   await nextTick()
-  meshRef.value.material.needsUpdate = true
+
+  const m = meshRef.value.material
+
+  if (Array.isArray(m)) {
+    m.forEach(mat => (mat.needsUpdate = true))
+  }
+  else { m.needsUpdate = true }
 })
 
 const onClickMesh = (event: MouseEvent) => {

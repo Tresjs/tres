@@ -26,7 +26,7 @@ const texturePaths = [
 
 const { state: model, isLoading, error } = useLoader(
   GLTFLoader,
-  'https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/blender-cube.glb',
+  'https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/suzanne/suzanne.glb',
   {
     extensions: (loader) => {
       if (loader instanceof GLTFLoader) {
@@ -45,12 +45,6 @@ const scene = computed(() => model.value?.scene)
 const graph = useGraph(scene)
 
 const nodes = computed(() => graph.value?.nodes)
-
-watch(nodes, (newScene) => {
-  if (newScene) {
-    console.log('Loaded scene:', newScene)
-  }
-})
 
 watch(texture, () => {
   if(!texture.value?.image) return
@@ -118,28 +112,28 @@ const dataDecalBox = [
 
     <TresMesh :scale="1" :position="[-4, 0, 0]">
       <TresSphereGeometry />
-      <TresMeshBasicMaterial color="#f6f6f6"  />
+      <TresMeshStandardMaterial color="#f6f6f6"  />
 
-      <Decal :map="texture"  />
+      <Decal :map="textures" debug  />
     </TresMesh>
 
-    <primitive
-      v-if="nodes?.BlenderCube"
-      :object="nodes.BlenderCube"
-      :position-x="4"
-    >
-    </primitive>
+
+    <TresMesh v-if="nodes?.Suzanne.geometry" :geometry="nodes?.Suzanne.geometry" :scale="1" :position="[3, 0, 0]" :rotation="[0, Math.PI, 0]">
+      <primitive :object="nodes?.Suzanne.material" attach="material" />
+
+      <Decal :map="textures" debug   />
+    </TresMesh>
 
     <TresMesh ref="torusRef" :scale="1" :position="[-2, 0, -2.5]">
       <TresTorusGeometry :args="[1, 0.4, 16, 100]" />
-      <TresMeshBasicMaterial color="#f6f6f6"  />
+      <TresMeshStandardMaterial color="#f6f6f6"  />
     </TresMesh>
 
-    <Decal :map="textures"  :mesh="torusRef" />
+    <Decal :map="textures" debug :mesh="torusRef" />
 
     <TresMesh :scale="2" :position-x="0">
       <TresBoxGeometry />
-      <TresMeshBasicMaterial color="#f6f6f6"  />
+      <TresMeshStandardMaterial color="#f6f6f6"  />
     
       <Decal :map="textures" debug :data="dataDecalBox" />
     </TresMesh>

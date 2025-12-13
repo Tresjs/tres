@@ -28,6 +28,18 @@ const hasMultipleTextures = ref(false)
 
 const disabledTest = computed(() => !isVisibleDecalIntersect.value)
 
+const { x: xDrag, y: yDrag } = useDraggable(dragRef, {
+  initialValue: { x: 0, y: 0 },
+  preventDefault: true,
+  disabled: disabledTest,
+  onStart(_position, event) {
+    if (!isVisibleDecalIntersect.value) { return false }
+    const target = event.target as Node
+    if (sliderRef.value?.contains(target)) { return false }
+    if (selectorRef.value?.contains(target)) { return false }
+  },
+})
+
 const containerStyle = computed(() => ({
   position: 'absolute' as const,
   left: `${xDrag.value}px`,
@@ -37,18 +49,6 @@ const containerStyle = computed(() => ({
 const innerStyle = computed(() => ({
   transform: `scale(${currentScale.value})`,
 }))
-
-const { x: xDrag, y: yDrag } = useDraggable(dragRef, {
-  initialValue: { x: 0, y: 0 },
-  preventDefault: true,
-  disabled: disabledTest,
-  onStart(position, event) {
-    if (!isVisibleDecalIntersect.value) { return false }
-    const target = event.target as Node
-    if (sliderRef.value?.contains(target)) { return false }
-    if (selectorRef.value?.contains(target)) { return false }
-  },
-})
 
 const { width: widthContainer, height: heightContainer } = useElementSize(dragRef)
 
@@ -259,7 +259,7 @@ onBeforeUnmount(stopBus)
       >
         <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2.5 aspect-square bg-white rounded-full shadow-[0_0_6px_rgba(0,0,0,0.9)]"></div>
 
-        <div class="absolute inset-0 w-full h-full outline outline-4 outline-white rounded-full shadow-[0_0_3px_rgba(0,0,0,0.5),inset_0_0_3px_rgba(0,0,0,0.5)]"></div>
+        <div class="absolute inset-0 w-full h-full outline-4 outline-solid outline-white rounded-full shadow-[0_0_3px_rgba(0,0,0,0.5),inset_0_0_3px_rgba(0,0,0,0.5)]"></div>
 
         <div
           ref="sliderRef"
