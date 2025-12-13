@@ -5,7 +5,6 @@
 .nitro
 .cache
 dist
-.vitepress
 
 # Node dependencies
 node_modules
@@ -23,7 +22,3 @@ logs
 .env
 .env.*
 !.env.example
-
-# VSC
-.history
-.editorconfig
