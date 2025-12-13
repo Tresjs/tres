@@ -1,19 +1,23 @@
 <script setup lang="ts">
-defineProps({
+const props = defineProps({
   active: Boolean,
+  borderRounded: {
+    type: Boolean,
+    default: true,
+  },
 })
 
-onMounted(() => {
-  // eslint-disable-next-line no-console
-  console.log('card mounted')
-})
+const { active, borderRounded } = toRefs(props)
 </script>
 
 <template>
   <div
-    class=" shadow-lg transition-all duration-1000 p-2 rounded-lg"
-    :class="active ? 'bg-light' : 'bg-dark'"
+    style="white-space:nowrap"
+    class="transition-all duration-1000 p-2 rounded-lg"
+    :class="[active ? 'bg-light' : 'bg-dark', active ? 'text-dark' : 'text-light', borderRounded ? 'rounded-full' : 'rounded-none']"
   >
-    I'm a card {{ active ? '📦' : '📭' }}
+    <slot>
+      I'm a card {{ active ? '📦' : '📭' }}
+    </slot>
   </div>
 </template>
