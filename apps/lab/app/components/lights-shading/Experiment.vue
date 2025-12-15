@@ -4,7 +4,7 @@ import fragmentShader from './shaders/fragment.glsl'
 import { ShaderMaterial, Uniform, Color, DoubleSide, Vector3 } from 'three'
 
 const torusKnot = ref(null)
-const torus = ref(null)
+const sphere = ref(null)
 const directionalLightHelper = ref(null)
 
 const CONTROLS_CONFIG = {
@@ -13,7 +13,7 @@ const CONTROLS_CONFIG = {
 
 const { materialColor } = useControls({
   materialColor: {
-    value: '#82DBC5',
+    value: '#ffffff',
     type: 'color',
   },
 }, CONTROLS_CONFIG)
@@ -76,8 +76,9 @@ watch(directionalLightIntensity, (newIntensity) => {
 }, { immediate: true })
 
 watch(directionalLightPosition, (newPosition) => {
+  console.log(newPosition)
   shaderMaterial.uniforms.uDirectionalLightPosition.value = new Vector3(newPosition.x, newPosition.y, newPosition.z)
-}, { immediate: true })
+}, { immediate: true, deep: true })
 
 
 const { onBeforeRender } = useLoop()
@@ -85,11 +86,11 @@ const { onBeforeRender } = useLoop()
 onBeforeRender(({delta}) => {
   if (torusKnot.value) {
     torusKnot.value.rotation.y += delta * 0.5
-    torusKnot.value.rotation.x += delta * 0.5
+    torusKnot.value.rotation.x += delta * 0.7
   }
-  if (torus.value) {
-    torus.value.rotation.y += delta * 0.5
-    torus.value.rotation.x += delta * 0.5
+  if (sphere.value) {
+    sphere.value.rotation.y += delta * 0.5
+    sphere.value.rotation.x += delta * 0.7
   }
 })
 </script>
@@ -100,12 +101,13 @@ onBeforeRender(({delta}) => {
       <TresMeshBasicMaterial :color="directionalLightColor" :side="DoubleSide" />
     </TresMesh>
     <LightsShadingModel :material="shaderMaterial" />
-    <TresMesh ref="torusKnot" :position="[-4, 0, 0]" :material="shaderMaterial">
+    <TresMesh ref="torusKnot" :position="[-4, 0, 0]" >
       <TresTorusKnotGeometry :args="[1, 0.4, 100, 16]" />
+      <primitive :object="shaderMaterial" />
     </TresMesh>
 
-    <TresMesh ref="torus" :position="[4, 0, 0]" :material="shaderMaterial">
-      <TresTorusGeometry :args="[1, 0.4, 100, 32]" />
+    <TresMesh ref="sphere" :position="[4, 0, 0]" :material="shaderMaterial">
+      <TresSphereGeometry :args="[1, 32, 16]" />
     </TresMesh>
   </TresGroup>
 </template>
