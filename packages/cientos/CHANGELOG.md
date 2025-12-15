@@ -1,3 +1,17 @@
+## 5.2.0 (2025-12-15)
+
+### 🚀 Features
+
+- **cientos:** add new iframe demo and replace laptop example, review HTML component and update documentation ([bc877b32](https://github.com/Tresjs/tres/commit/bc877b32))
+- **cientos:** add camera shake component with demo and docs ([5f044e14](https://github.com/Tresjs/tres/commit/5f044e14))
+- **cientos:** html fix lint issues ([7d2acfae](https://github.com/Tresjs/tres/commit/7d2acfae))
+- **cientos:** Rework Html component, implement sprite auto-scaling and optimize performance ([35d07d27](https://github.com/Tresjs/tres/commit/35d07d27))
+- **cientos:** integrate core V5 updates and fix multiple issues ([c0661692](https://github.com/Tresjs/tres/commit/c0661692))
+
+### ❤️ Thank You
+
+- Damien Montastier @damienmontastier
+
 ## 5.1.2 (2025-12-10)
 
 ### 🩹 Fixes
