@@ -13,8 +13,7 @@ description: WASD on QWERTY keyboards or equivalent keys on non-QWERTY keyboards
 * WASD on QWERTY keyboards or equivalent keys on non-QWERTY keyboards
 * Arrow keys
 
-::UAlert{icon="i-lucide-info" color="neutral" title="Info"}
-#description
+::prose-note
 `KeyboardControls` uses `PointerLockControls` under the hood. You can use [PointerLockControls props and events](pointer-lock-controls#props).
 ::
 

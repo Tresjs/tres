@@ -1,6 +1,6 @@
-# Docs Boilerplate
+# Cientos docs
 
-A modern documentation boilerplate built with Nuxt v4 and Nuxt UI v4.
+A modern documentation site built with Nuxt v4 and Nuxt UI v4.
 
 ## Features
 
@@ -16,7 +16,7 @@ A modern documentation boilerplate built with Nuxt v4 and Nuxt UI v4.
 ## Project Structure
 
 ```
-apps/docs-boilerplate/
+apps/cientos-docs/
 ├── app/                      # Nuxt app directory
 │   ├── assets/               # Styles and static assets
 │   ├── components/           # Vue components
@@ -38,7 +38,7 @@ apps/docs-boilerplate/
 
 ### Prerequisites
 
-- Node.js 18+
+- Node.js 24+
 - pnpm package manager
 
 ### Installation
@@ -46,7 +46,7 @@ apps/docs-boilerplate/
 Install dependencies:
 
 ```bash
-pnpm install
+pnpm install --frozen-lockfile
 ```
 
 ### Development
@@ -108,7 +108,7 @@ Edit `nuxt.config.ts` to configure:
 
 ## Components
 
-The boilerplate includes several pre-built components:
+The site includes several pre-built components:
 
 - **AppHeader** - Site header with navigation
 - **AppFooter** - Site footer with links

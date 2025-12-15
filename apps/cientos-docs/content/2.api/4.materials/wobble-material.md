@@ -40,6 +40,6 @@ import { MeshWobbleMaterial } from '@tresjs/cientos'
 | Prop            | Description                                                                               | Default     |
 | :-------------- | :---------------------------------------------------------------------------------------- | ----------- |
 | **speed** | how fast the wobble effect would be.                | `1`     |
-| **camfactorera**      | how strong the wobble effect will deform the geometry                                                                    | `1` |
+| **factor**      | how strong the wobble effect will deform the geometry                                                                    | `1` |
 
  This material extends `THREE.MeshStandardMaterial` and accepts all the same props plus additional reflection-specific properties.

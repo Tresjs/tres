@@ -318,8 +318,7 @@ For *non-rectangular content*, you can use the **`geometry`** prop to provide a 
 
 In the **demo above ⬆️** *(middle yellow example)*, a [`CircleGeometry`](https://threejs.org/docs/#api/en/geometries/CircleGeometry) is used as a **custom geometry**.
 
-::UAlert{icon="i-lucide-info" color="neutral" title="Info"}
-#description
+::prose-list
 - The `geometry` prop only defines the **occlusion shape** in 3D and does not modify your HTML content.
 - You can provide any [`BufferGeometry`](https://threejs.org/docs/#api/en/core/BufferGeometry), for example to simulate **CSS-like styles** such as `border-radius` using a rounded rectangle or squircle geometry (see [`RoundedRectangle / Squircle geometry`](https://discourse.threejs.org/t/roundedrectangle-squircle/28645) for example).
 ::
@@ -329,12 +328,10 @@ In the **demo above ⬆️** *(middle yellow example)*, a [`CircleGeometry`](htt
 You can also assign material properties to the HTML content using the `material` prop.
 In the **demo above ⬆️** *(right red example)*, a **custom material** is used with shadow.
 
-::UAlert{icon="i-lucide-info" color="neutral" title="Info Material"}
-#description
+::prose-note
 The `material` prop is only available when `occlude="blending"` is **enabled**.
 ::
-::UAlert{icon="i-lucide-info" color="neutral" title="Info shadow" class="mt-4"}
-#description
+::prose-note
 Enable shadows using the **`castShadow`** and **`receiveShadow`** props.
 Shadows are supported **only** when using a **custom material**. By default, shadows do **not** work with *`MeshBasicMaterial`* or *`ShaderMaterial`*. <br />
 ::
@@ -343,9 +340,9 @@ Shadows are supported **only** when using a **custom material**. By default, sha
 The native Vue [`<Transition>`](https://vuejs.org/guide/built-ins/transition) component works seamlessly with `<Html>`.
 This means you can **animate** how your projected HTML content *enters* and *leaves* the scene, exactly as you would in a regular Vue application.
 
-:::info
+::prose-note
 All **standard interactions** are supported just like on a regular HTML element — **hover effects**, **events**, and *any kind of DOM interaction* are fully possible.
-:::
+::
 
 ::SceneWrapper
   ::ObjectsHtmlTransitionDemo

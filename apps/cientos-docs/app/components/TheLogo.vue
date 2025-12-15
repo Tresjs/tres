@@ -2,7 +2,7 @@
   <div class="flex items-center">
     <img
       src="/logo.svg"
-      alt="Tres.js"
+      alt="cientos.js"
       class="h-3 mr-4"
     />
     <a

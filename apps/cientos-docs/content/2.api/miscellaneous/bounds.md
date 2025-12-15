@@ -10,8 +10,7 @@ description: Calculate boundary box and center camera accordingly.
 
 Calculates a boundary box and centers the camera accordingly. Its `lookAt` method accepts a target to look at imperatively e.g., after a click.
 
-::UAlert{type="info" color="neutral"}
-#description
+::prose-note
 If you are using other camera controls, be sure to make them the 'default'.
 
 ```vue

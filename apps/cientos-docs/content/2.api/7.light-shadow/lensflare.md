@@ -61,7 +61,8 @@ Adding a `seed` prop to a component enables seeded random element generation.
 
 The `seed` prop is used as the "seed" in a [pseudorandom number generator (PRNG)](https://en.wikipedia.org/wiki/Pseudorandom_number_generator). The PRNG is in turn used to build lensflare elements, by selecting values from an array of `SeedProps`.
 
-::UAlert{icon="i-lucide-info" title="Info" color="neutral" description="If you set a seed but not seedProps, the component will fall back to the default, built-in SeedProps[]."}
+::prose-note
+If you set a seed but not seedProps, the component will fall back to the default, built-in SeedProps[].
 ::
 
 ### Example
@@ -91,7 +92,8 @@ Every element in `seedProps` has this shape.
 | **length**   | `[number, number]` - minimum and maximum allowable number of elements to generate                                                  | yes      |
 | **seed**     | `number` - if set, when this entry is processed, the random number generator with a combination of the incoming seed and this seed | no       |
 
-::UAlert{icon="i-lucide-info" title="Info" color="neutral" description="If you set seedProps but not seed, the component will fall back to a default seed of 0."}
+::prose-note
+If you set seedProps but not seed, the component will fall back to a default seed of 0.
 ::
 
 ## Random elements and non-random properties
@@ -154,7 +156,8 @@ You can mix your own properties and random elements.
 
 Here, both `elements` and `seed` are defined. The component will generate random elements and overwrite their properties with the contents of `elements`, according to the [order of precedence](#precedence).
 
-::UAlert{icon="i-lucide-info" title="Info" color="neutral" description="When mixing random elements with elements, the final number of lensflare elements equals whichever is larger, the length of the array of generated random elements or the length of elements."}
+::prose-note
+When mixing random elements with elements, the final number of lensflare elements equals whichever is larger, the length of the array of generated random elements or the length of elements.
 ::
 
 ### Precedence
@@ -166,7 +169,8 @@ If more than one source sets the same property on a given element, the following
 3. `seed`, `seedProps` – generated random elements
 4. built-in default element properties
 
-::UAlert{icon="i-lucide-info" title="Info" color="neutral" description="If elements, seed, and seedProps are all undefined, a seed of 0 and built-in default seedProps will be used to generate the lensflare elements."}
+::prose-note
+If elements, seed, and seedProps are all undefined, a seed of 0 and built-in default seedProps will be used to generate the lensflare elements.
 ::
 
 ### Precedence example

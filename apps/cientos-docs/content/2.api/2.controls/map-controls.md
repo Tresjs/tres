@@ -41,5 +41,6 @@ import { MapControls } from "@tresjs/cientos"
 | **camera**        | The camera to control.                                                                                           | `undefined` |
 | **domElement**    | The dom element to listen to.                                                                                    | `undefined` |
 
-::UAlert{icon="i-lucide-info" color="neutral" title="Info" description="All the Orbit-Controls props works here too."}
+::prose-note
+All the Orbit-Controls props works here too.
 ::

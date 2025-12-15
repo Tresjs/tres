@@ -76,10 +76,10 @@ export default defineNuxtConfig({
 
   llms: {
     domain: 'https://example.com/',
-    title: 'Boilerplate Docs',
-    description: 'A documentation boilerplate built with Nuxt v4 and Nuxt UI v4.',
+    title: 'Docs',
+    description: 'A documentation site built with Nuxt v4 and Nuxt UI v4.',
     full: {
-      title: 'Boilerplate - Full Documentation',
+      title: 'Full Documentation',
       description: 'This is the full documentation written in markdown (MDC Syntax)',
     },
     sections: [

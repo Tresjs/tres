@@ -15,19 +15,14 @@ This component creates a "stage" for your models. It sets up:
 * zoom to fit
 * environment
 
-::UAlert{icon="i-lucide-info" title="Info" color=neutral }
-
-#description
+::prose-note
 If you are using other camera controls, be sure to make them the 'default'.
 ```vue
 <OrbitControls make-default />
 ```
-
 ::
 
-::UAlert{icon="i-lucide-info" title="Info" color="neutral" style="margin:1rem 0;"}
-
-#description
+::prose-note
 If you are using shadows='accumulative', enable shadows on your canvas and on your objects.
 ```vue
 <TresCanvas shadows />

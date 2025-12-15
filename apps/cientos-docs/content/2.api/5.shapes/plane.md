@@ -16,7 +16,8 @@ args: [width: number, height: number, widthSegments: number, heightSegments: num
 
 Reference: [PlaneGeometry](https://threejs.org/docs/?q=plane#api/en/geometries/PlaneGeometry)
 
-::UAlert{icon="i-lucide-info" title="Info" color="neutral" description="A convenient default rotation is applied to the x-axis of the plane (-Math.PI / 2), so that it is facing up (along the Y axis)."}
+::prose-note
+A convenient default rotation is applied to the x-axis of the plane (-Math.PI / 2), so that it is facing up (along the Y axis).
 ::
 
 ## Usage

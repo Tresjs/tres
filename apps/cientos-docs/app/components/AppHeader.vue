@@ -8,7 +8,7 @@ const { header } = useAppConfig()
 const navItems: NavigationMenuItem[] = [
   {
     label: 'Guide',
-    to: '/getting-started/installation',
+    to: '/getting-started/',
   },
   {
     label: 'API',

@@ -1,15 +1,6 @@
 <script setup lang="ts">
 const { seo } = useAppConfig()
-const colorMode = useColorMode()
 
-const isDark = computed({
-  get() {
-    return colorMode.value === 'dark'
-  },
-  set(_isDark) {
-    colorMode.preference = _isDark ? 'dark' : 'light'
-  },
-})
 const { data: navigation } = await useAsyncData('navigation', () => queryCollectionNavigation('docs'))
 const { data: files } = useLazyAsyncData('search', () => queryCollectionSearchSections('docs'), {
   server: false,
@@ -20,7 +11,7 @@ useHead({
     { name: 'viewport', content: 'width=device-width, initial-scale=1' },
   ],
   link: [
-    { rel: 'icon', href: isDark.value ? '/favicon-dark.svg' : '/favicon.svg' },
+    { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' },
   ],
   htmlAttrs: {
     lang: 'en',
@@ -28,14 +19,14 @@ useHead({
 })
 
 useSeoMeta({
-  titleTemplate: title => title ? `${title} · Docs Boilerplate` : 'Docs Boilerplate',
+  titleTemplate: title => title ? `${title} · Docs` : 'Cientos docs',
   ogSiteName: seo?.siteName,
   twitterCard: 'summary_large_image',
   ogImage: '/og-image.png',
   twitterImage: '/og-image.png',
   ogUrl: 'https://example.com',
-  twitterTitle: 'Docs Boilerplate',
-  twitterDescription: 'A documentation boilerplate built with Nuxt v4 and Nuxt UI v4.',
+  twitterTitle: 'Cientos docs',
+  twitterDescription: 'A documentation site for cientos package built with Nuxt v4 and Nuxt UI v4.',
 })
 
 provide(navigationInjectionKey, navigation)

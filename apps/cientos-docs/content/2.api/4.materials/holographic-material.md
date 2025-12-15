@@ -14,7 +14,8 @@ Dive into a world of mesmerizing holographic wonders with the HolographicMateria
 
 While this material operates independently of any post-processing, it achieves an enhanced visual appeal when coupled with bloom effects. The utilization of bloom proves particularly effective in rendering a captivating glow effect, especially in areas where overexposure is prevalent.
 
-::UAlert{icon="i-lucide-info" color="neutral" title="Info" description="This component ports Anderson Mancini's threejs-vanilla-holographic-material to TresJS. All credit goes to him."}
+::prose-note
+This component ports Anderson Mancini's threejs-vanilla-holographic-material to TresJS. All credit goes to him.
 ::
 
 ## Usage

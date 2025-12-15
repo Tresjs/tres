@@ -34,8 +34,7 @@ import { TresCanvas } from '@tresjs/core'
 </template>
 ```
 
-::UAlert{icon="i-lucide-info" color="neutral" title="Info"}
-#description
+::prose-note
 `<CameraShake />` is fully compatible with **`<OrbitControls />`**.
 To ensure it works *as expected*, make sure to add the **`make-default`** prop:
 

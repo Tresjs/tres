@@ -1,10 +1,10 @@
-# Docs Boilerplate - CLAUDE.md
+# Cientos docs - CLAUDE.md
 
-This is a documentation boilerplate app built with Nuxt v4 and Nuxt UI v4. It serves as a reference implementation for creating new documentation sites in the TresJS ecosystem.
+This is a documentation app built with Nuxt v4 and Nuxt UI v4. It serves as a reference implementation for creating new documentation sites in the TresJS ecosystem.
 
 ## Overview
 
-This boilerplate provides a complete setup for creating documentation sites with:
+This docs provides a complete setup for creating documentation sites with:
 
 - Nuxt v4 with compatibility mode enabled
 - Nuxt UI v4 for beautiful, accessible components
