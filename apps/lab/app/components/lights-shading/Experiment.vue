@@ -5,7 +5,6 @@ import { ShaderMaterial, Uniform, Color, DoubleSide, Vector3 } from 'three'
 
 const torusKnot = ref(null)
 const sphere = ref(null)
-const directionalLightHelper = ref(null)
 
 const CONTROLS_CONFIG = {
   uuid: 'lights-shading-experiment',
@@ -87,9 +86,6 @@ watch(ambientLightIntensity, (newIntensity) => {
 
 watch(directionalLightColor, (newColor) => {
   shaderMaterial.uniforms.uDirectionalLightColor.value = new Color(newColor)
-  if (directionalLightHelper.value) {
-    directionalLightHelper.value.material.color = new Color(newColor)
-  }
 }, { immediate: true })
 
 watch(directionalLightIntensity, (newIntensity) => {
@@ -97,7 +93,6 @@ watch(directionalLightIntensity, (newIntensity) => {
 }, { immediate: true })
 
 watch(directionalLightPosition, (newPosition) => {
-  console.log(newPosition)
   shaderMaterial.uniforms.uDirectionalLightPosition.value = new Vector3(newPosition.x, newPosition.y, newPosition.z)
 }, { immediate: true, deep: true })
 
@@ -133,11 +128,11 @@ onBeforeRender(({delta}) => {
 </script>
 <template>
   <TresGroup>
-    <TresMesh ref="directionalLightHelper" :position="[directionalLightPosition.x, directionalLightPosition.y, directionalLightPosition.z]">
+    <TresMesh :position="[directionalLightPosition.x, directionalLightPosition.y, directionalLightPosition.z]">
       <TresPlaneGeometry :args="[1, 1]" />
       <TresMeshBasicMaterial :color="directionalLightColor" :side="DoubleSide" />
     </TresMesh>
-    <TresMesh ref="pointLightHelper" :position="[pointLightPosition.x, pointLightPosition.y, pointLightPosition.z]">
+    <TresMesh :position="[pointLightPosition.x, pointLightPosition.y, pointLightPosition.z]">
       <TresIcosahedronGeometry :args="[0.1, 2]" />
       <TresMeshBasicMaterial :color="pointLightColor" :side="DoubleSide" />
     </TresMesh>
