@@ -4,12 +4,17 @@ uniform vec3 uAmbientLightColor;
 uniform float uDirectionalLightIntensity;
 uniform vec3 uDirectionalLightColor;
 uniform vec3 uDirectionalLightPosition;
+uniform float uPointLightIntensity;
+uniform vec3 uPointLightColor;
+uniform vec3 uPointLightPosition;
+uniform float uPointLightDecayFactor;
 
 varying vec3 vNormal;
 varying vec3 vPosition;
 
 #include ./includes/ambient.glsl
 #include ./includes/directional.glsl
+#include ./includes/point.glsl
 
 void main() {
   vec3 color = uColor;
@@ -26,6 +31,17 @@ void main() {
     normal,
     uDirectionalLightPosition,
     viewDirection
+  );
+
+  // Point light
+  light += pointLight(
+    uPointLightColor,
+    uPointLightIntensity,
+    normal,
+    uPointLightPosition,
+    viewDirection,
+    vPosition,
+    uPointLightDecayFactor
   );
 
   color *= light;

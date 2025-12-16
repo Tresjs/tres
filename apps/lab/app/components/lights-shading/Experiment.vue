@@ -35,8 +35,25 @@ const { directionalLightIntensity, directionalLightColor, directionalLightPositi
     max: 1,
     step: 0.01,
   },
-  color: '#ffffff',
+  color: '#8fe3ff',
   position: new Vector3(0, 0, 4),
+}, CONTROLS_CONFIG)
+
+const { pointLightIntensity, pointLightColor, pointLightPosition, pointLightDecayFactor } = useControls('pointLight', {
+  intensity: {
+    value: 1,
+    min: 0,
+    max: 1,
+    step: 0.01,
+  },
+  color: '#d37e7e',
+  position: new Vector3(0, 2.5, 0),
+  decayFactor: {
+    value: 0.3,
+    min: 0,
+    max: 1,
+    step: 0.01,
+  },
 }, CONTROLS_CONFIG)
 
 const shaderMaterial = new ShaderMaterial({
@@ -49,6 +66,10 @@ const shaderMaterial = new ShaderMaterial({
     uDirectionalLightIntensity: new Uniform(directionalLightIntensity.value),
     uDirectionalLightColor: new Uniform(new Color(directionalLightColor.value)),
     uDirectionalLightPosition: new Uniform(new Vector3(directionalLightPosition.value)),
+    uPointLightIntensity: new Uniform(pointLightIntensity.value),
+    uPointLightColor: new Uniform(new Color(pointLightColor.value)),
+    uPointLightPosition: new Uniform(new Vector3(pointLightPosition.value)),
+    uPointLightDecayFactor: new Uniform(pointLightDecayFactor.value),
   },
 })
 
@@ -81,6 +102,22 @@ watch(directionalLightPosition, (newPosition) => {
 }, { immediate: true, deep: true })
 
 
+watch(pointLightColor, (newColor) => {
+  shaderMaterial.uniforms.uPointLightColor.value = new Color(newColor)
+}, { immediate: true })
+
+watch(pointLightIntensity, (newIntensity) => {
+  shaderMaterial.uniforms.uPointLightIntensity.value = newIntensity
+}, { immediate: true })
+
+watch(pointLightPosition, (newPosition) => {
+  shaderMaterial.uniforms.uPointLightPosition.value = new Vector3(newPosition.x, newPosition.y, newPosition.z)
+}, { immediate: true, deep: true })
+
+watch(pointLightDecayFactor, (newDecayFactor) => {
+  shaderMaterial.uniforms.uPointLightDecayFactor.value = newDecayFactor
+}, { immediate: true })
+
 const { onBeforeRender } = useLoop()
 
 onBeforeRender(({delta}) => {
@@ -99,6 +136,10 @@ onBeforeRender(({delta}) => {
     <TresMesh ref="directionalLightHelper" :position="[directionalLightPosition.x, directionalLightPosition.y, directionalLightPosition.z]">
       <TresPlaneGeometry :args="[1, 1]" />
       <TresMeshBasicMaterial :color="directionalLightColor" :side="DoubleSide" />
+    </TresMesh>
+    <TresMesh ref="pointLightHelper" :position="[pointLightPosition.x, pointLightPosition.y, pointLightPosition.z]">
+      <TresIcosahedronGeometry :args="[0.1, 2]" />
+      <TresMeshBasicMaterial :color="pointLightColor" :side="DoubleSide" />
     </TresMesh>
     <LightsShadingModel :material="shaderMaterial" />
     <TresMesh ref="torusKnot" :position="[-4, 0, 0]" >
