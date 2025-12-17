@@ -3,9 +3,8 @@ import { TresCanvas } from '@tresjs/core'
 import { OrbitControls, SoftShadows } from '@tresjs/cientos'
 import { Group, MeshPhongMaterial, SphereGeometry, Vector3 } from 'three'
 import { TresLeches, useControls } from '@tresjs/leches'
-import '@tresjs/leches/styles'
 
-const c = useControls({
+const { samples } = useControls({
   samples: { value: 5, min: 1, max: 10, step: 1 },
 })
 const sphereGeo = new SphereGeometry(0.3, 20, 20)
@@ -52,7 +51,7 @@ onUnmounted(() => {
       :shadow-camera-far="20"
     />
 
-    <SoftShadows :samples="c.samples.value" />
+    <SoftShadows :samples="samples" />
 
     <TresMesh :position="[0, 1.5, 1]" :scale-y="3" :cast-shadow="true" :receive-shadow="true" name="column">
       <TresBoxGeometry />

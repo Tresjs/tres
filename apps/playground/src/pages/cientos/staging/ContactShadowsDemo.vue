@@ -4,7 +4,6 @@ import { TresCanvas } from '@tresjs/core'
 import { TresLeches, useControls } from '@tresjs/leches'
 import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
 import { reactive, shallowRef } from 'vue'
-import '@tresjs/leches/styles'
 
 const gl = {
   clearColor: '#CCC',
@@ -31,7 +30,20 @@ const state = reactive({
   rotationX: 0,
 })
 
-const { width, height, blur, far, smooth, opacity, resolution, scale, tint, color, depthWrite, rotationX } = useControls({
+const { 
+  width, 
+  height, 
+  blur, 
+  far, 
+  smooth, 
+  opacity, 
+  resolution, 
+  scale, 
+  tint, 
+  color, 
+  depthWrite, 
+  rotationX, 
+} = useControls({
   width: {
     value: state.width,
     step: 0.1,
@@ -97,33 +109,6 @@ const { width, height, blur, far, smooth, opacity, resolution, scale, tint, colo
   },
 })
 
-watch(() => [
-  width.value.value,
-  height.value.value,
-  blur.value.value,
-  far.value.value,
-  smooth.value.value,
-  opacity.value.value,
-  resolution.value.value,
-  scale.value.value,
-  color.value.value,
-  tint.value.value,
-  depthWrite.value.value,
-  rotationX.value.value,
-], () => {
-  state.width = width.value.value
-  state.height = height.value.value
-  state.blur = blur.value.value
-  state.far = far.value.value
-  state.smooth = smooth.value.value
-  state.opacity = opacity.value.value
-  state.resolution = resolution.value.value
-  state.tint = tint.value.value
-  state.color = color.value.value
-  state.scale = scale.value.value
-  state.depthWrite = depthWrite.value.value
-  state.rotationX = rotationX.value.value
-})
 
 const boxRef = shallowRef({ instance: { rotation: { x: 0, y: 0, z: 0 } } })
 const icoRef = shallowRef({ instance: { rotation: { x: 0, y: 0, z: 0 } } })
@@ -182,7 +167,21 @@ onUnmounted(() => clearInterval(intervalId))
       <TresMeshNormalMaterial />
     </TorusKnot>
     <TresGroup>
-      <ContactShadows v-bind="state" :position-y="0.0001" />
+      <ContactShadows
+      :width="width"
+      :height="height"
+      :blur="blur"
+      :far="far"
+      :smooth="smooth"
+      :opacity="opacity"
+      :resolution="resolution"
+      :scale="scale"
+      :tint="tint"
+      :color="color"
+      :depthWrite="depthWrite"
+      :rotationX="rotationX"
+      :position-y="0.0001"
+    />
       <!-- <TresMesh :rotation-x="-Math.PI / 2" :scale="10">
         <TresPlaneGeometry />
         <TresMeshBasicMaterial color="gray" />

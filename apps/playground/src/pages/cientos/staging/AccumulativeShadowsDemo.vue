@@ -3,9 +3,8 @@ import { AccumulativeShadows, Box, Environment, Icosahedron, OrbitControls, Sphe
 import { NoToneMapping } from 'three'
 import { TresCanvas } from '@tresjs/core'
 import { TresLeches, useControls } from '@tresjs/leches'
-import '@tresjs/leches/styles'
 
-const c = useControls({
+const { frames, once, accumulate, limit, isLimitInfinite, blend, alphaTest, colorBlend, opacity, resolution, scale, toneMapped, isOrange, enabled } = useControls({
   frames: { value: 100, min: 2, max: 200, step: 1 },
   once: true,
   accumulate: true,
@@ -69,19 +68,19 @@ onUnmounted(() => {
     </Sphere>
 
     <AccumulativeShadows
-      v-if="c.enabled.value.value"
-      :accumulate="c.accumulate.value.value"
-      :alpha-test="c.alphaTest.value.value"
-      :blend="c.blend.value.value"
-      :color="c.isOrange.value.value ? 'orange' : 'blue'"
-      :color-blend="c.colorBlend.value.value"
-      :frames="c.frames.value.value"
-      :limit="c.limit.value.value"
-      :once="c.once.value.value"
-      :opacity="c.opacity.value.value"
-      :resolution="c.resolution.value.value"
-      :tone-mapped="c.toneMapped.value.value"
-      :scale="c.scale.value.value"
+      v-if="enabled"
+      :accumulate="accumulate"
+      :alpha-test="alphaTest"
+      :blend="blend"
+      :color="isOrange ? 'orange' : 'blue'"
+      :color-blend="colorBlend"
+      :frames="frames"
+      :limit="limit"
+      :once="once"
+      :opacity="opacity"
+      :resolution="resolution"
+      :tone-mapped="toneMapped"
+      :scale="scale"
     />
     <Suspense>
       <Environment preset="city" />

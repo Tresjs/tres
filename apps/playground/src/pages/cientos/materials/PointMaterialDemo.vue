@@ -3,7 +3,6 @@ import { MathUtils, NoToneMapping } from 'three'
 import { TresCanvas } from '@tresjs/core'
 import { OrbitControls, PointMaterial } from '@tresjs/cientos'
 import { TresLeches, useControls } from '@tresjs/leches'
-import '@tresjs/leches/styles'
 
 const positions = new Float32Array(Array.from({ length: 1000 }, () => [
   MathUtils.randFloatSpread(8),
@@ -11,7 +10,15 @@ const positions = new Float32Array(Array.from({ length: 1000 }, () => [
   MathUtils.randFloatSpread(8),
 ]).flat())
 
-const c = useControls({
+const {
+  color,
+  depthTest,
+  enabled,
+  size,
+  sizeAttenuation,
+  toneMapped,
+  transparent,
+} = useControls({
   color: false,
   depthTest: false,
   enabled: true,
@@ -29,13 +36,13 @@ const c = useControls({
     <OrbitControls />
     <TresPoints :limit="positions.length">
       <PointMaterial
-        v-if="c.enabled.value.value"
-        :color="c.color.value.value ? '#F00' : '#FFF'"
-        :size="c.size.value.value"
-        :size-attenuation="c.sizeAttenuation.value.value"
-        :transparent="c.transparent.value.value"
-        :depth-test="c.depthTest.value.value"
-        :tone-mapped="c.toneMapped.value.value"
+        v-if="enabled"
+        :color="color ? '#F00' : '#FFF'"
+        :size="size"
+        :size-attenuation="sizeAttenuation"
+        :transparent="transparent"
+        :depth-test="depthTest"
+        :tone-mapped="toneMapped"
       />
       <TresBufferGeometry>
         <TresBufferAttribute :args="[positions, 3]" attach="attributes-position" />

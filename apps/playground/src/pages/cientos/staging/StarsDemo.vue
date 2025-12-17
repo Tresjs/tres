@@ -3,8 +3,7 @@ import { MouseParallax, OrbitControls, Stars } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
 import { TresLeches, useControls } from '@tresjs/leches'
 import { NoToneMapping, SRGBColorSpace } from 'three'
-import { reactive, shallowRef } from 'vue'
-import '@tresjs/leches/styles'
+import { reactive } from 'vue'
 
 const gl = {
   clearColor: '#333',
@@ -19,7 +18,13 @@ const options = reactive({
   radius: 100,
 })
 
-const { radius, depth, count, size, 'size attenuation': sizeAttenuation } = useControls({
+const { 
+  radius, 
+  depth, 
+  count, 
+  size, 
+  'size attenuation': sizeAttenuation,
+} = useControls({
   'radius': {
     value: options.radius,
     step: 5,
@@ -47,15 +52,7 @@ const { radius, depth, count, size, 'size attenuation': sizeAttenuation } = useC
   'size attenuation': options.sizeAttenuation,
 })
 
-watch([radius.value, depth.value, count.value, size.value, sizeAttenuation.value], () => {
-  options.radius = radius.value.value
-  options.depth = depth.value.value
-  options.count = count.value.value
-  options.size = size.value.value
-  options.sizeAttenuation = sizeAttenuation.value.value
-})
 
-const star = shallowRef<Stars>(null)
 </script>
 
 <template>
@@ -64,12 +61,11 @@ const star = shallowRef<Stars>(null)
     <TresPerspectiveCamera :position="[0, 2, 5]" />
     <MouseParallax :factor="0.5" />
     <Stars
-      ref="star"
-      :radius="options.radius"
-      :depth="options.depth"
-      :count="options.count"
-      :size="options.size"
-      :size-attenuation="options.sizeAttenuation"
+      :radius="radius"
+      :depth="depth"
+      :count="count"
+      :size="size"
+      :size-attenuation="sizeAttenuation"
     />
     <TresGridHelper :args="[10, 10]" />
     <OrbitControls />

@@ -2,9 +2,8 @@
 import { CircleShadow, OrbitControls } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
 import { TresLeches, useControls } from '@tresjs/leches'
-import '@tresjs/leches/styles'
 
-const c = useControls({
+const { colorRed, opacity, offset, fog, depthWrite, enabled } = useControls({
   colorRed: true,
   opacity: { value: 0.5, min: 0.0, max: 1.0 },
   offset: { value: 0.5, min: 0.0, max: 1.0 },
@@ -25,13 +24,13 @@ const c = useControls({
         <TresMeshNormalMaterial />
       </TresMesh>
       <CircleShadow
-        v-if="c.enabled.value.value"
+        v-if="enabled"
         :scale="1.5"
-        :color="c.colorRed.value.value ? 'red' : 'black'"
-        :offset="c.offset.value.value"
-        :opacity="c.opacity.value.value"
-        :fog="c.fog.value.value"
-        :depth-write="c.depthWrite.value.value"
+        :color="colorRed ? 'red' : 'black'"
+        :offset="offset"
+        :opacity="opacity"
+        :fog="fog"
+        :depth-write="depthWrite"
       />
     </TresGroup>
   </TresCanvas>

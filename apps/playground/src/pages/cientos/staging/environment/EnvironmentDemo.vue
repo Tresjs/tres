@@ -5,7 +5,6 @@ import { TresCanvas } from '@tresjs/core'
 import Lightformers from './Lightformers.vue'
 import { TresLeches, useControls } from '@tresjs/leches'
 import { BasicShadowMap, NoToneMapping, SRGBColorSpace, Vector3 } from 'three'
-import '@tresjs/leches/styles'
 
 /* const environmentFiles = ['/px.jpg', '/nx.jpg', '/py.jpg', '/ny.jpg', '/pz.jpg', '/nz.jpg'] */
 
@@ -106,15 +105,15 @@ const { progress, hasFinishLoading } = await useProgress()
         path="https://raw.githubusercontent.com/Tresjs/assets/main/textures/environmentMap"
       /> -->
       <Environment
-        :background="background.value"
-        :blur="blur.value"
-        :preset="preset.value"
+        :background="background"
+        :blur="blur"
+        :preset="preset"
         :frames="Infinity"
-        :background-intensity="backgroundIntensity.value"
-        :environment-intensity="environmentIntensity.value"
-        :background-rotation="[backgroundRotation.value.x, backgroundRotation.value.y, backgroundRotation.value.z]"
-        :environment-rotation="[environmentRotation.value.x, environmentRotation.value.y, environmentRotation.value.z]"
-        :sync-materials="syncMaterials.value"
+        :background-intensity="backgroundIntensity"
+        :environment-intensity="environmentIntensity"
+        :background-rotation="[backgroundRotation.x, backgroundRotation.y, backgroundRotation.z]"
+        :environment-rotation="[environmentRotation.x, environmentRotation.y, environmentRotation.z]"
+        :sync-materials="syncMaterials"
       >
         <Lightformer
           :intensity="0.75"

@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { OrbitControls, QuadraticBezierLine } from '@tresjs/cientos'
-import { TresCanvas, useRenderLoop } from '@tresjs/core'
+import { TresCanvas } from '@tresjs/core'
 import { TresLeches, useControls } from '@tresjs/leches'
-import '@tresjs/leches/styles'
 import { Vector3 } from 'three'
 
-const c = useControls({
+const {
+  startX, startY, startZ, endX, endY, endZ, moveMid, lineWidth, enabled
+} = useControls({
   startX: { value: 0, min: -10, max: 10 },
   startY: { value: 0, min: -10, max: 10 },
   startZ: { value: 0, min: -10, max: 10 },
@@ -54,31 +55,31 @@ const colors = ref([
 const dashed = ref(true)
 const dashScale = ref(50)
 
-useRenderLoop().onLoop(({ elapsed }) => {
+function onLoop({ elapsed }: { elapsed: number }) {
   const lastColor = colors.value.pop()!
   colors.value.unshift(lastColor)
 
   dashed.value = Math.sin(elapsed * 0.5) < 0
   dashScale.value = 5 + 5 * Math.sin(elapsed)
 
-  if (c.moveMid.value.value) {
+  if (moveMid.value) {
     mid.y = Math.sin(elapsed) * 4
   }
-})
+}
 </script>
 
 <template>
   <TresLeches />
-  <TresCanvas clear-color="#777">
+  <TresCanvas clear-color="#777" @loop="onLoop">
     <TresPerspectiveCamera :position="[10, 10, 10]" />
     <OrbitControls />
     <QuadraticBezierLine
-      v-if="c.enabled.value.value"
-      :start="[c.startX.value.value, c.startY.value.value, c.startZ.value.value]"
-      :end="[c.endX.value.value, c.endY.value.value, c.endZ.value.value]"
+      v-if="enabled"
+      :start="[startX, startY, startZ]"
+      :end="[endX, endY, endZ]"
       :vertex-colors="colors"
       :world-units="true"
-      :line-width="c.lineWidth.value.value"
+      :line-width="lineWidth"
       :dashed="dashed"
       :dash-scale="dashScale"
     />

@@ -3,7 +3,6 @@ import { OrbitControls, Sky } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
 import { TresLeches, useControls } from '@tresjs/leches'
 import { ACESFilmicToneMapping, SRGBColorSpace } from 'three'
-import '@tresjs/leches/styles'
 
 const gl = {
   clearColor: '#333',
@@ -25,20 +24,20 @@ const { turbidity, rayleigh, mieCoefficient, mieDirectionalG, elevation, azimuth
 </script>
 
 <template>
-  <TresLeches class="important-fixed important-left-2 important-w-90" />
+  <TresLeches />
   <TresCanvas
     v-bind="gl"
-    :tone-mapping-exposure="exposure.value"
+    :tone-mapping-exposure="exposure"
   >
     <TresPerspectiveCamera :position="[0, 100, 2000]" />
     <Sky
-      :elevation="elevation.value"
-      :azimuth="azimuth.value"
-      :mie-coefficient="mieCoefficient.value"
-      :mie-directional-g="mieDirectionalG.value"
-      :rayleigh="rayleigh.value"
-      :turbidity="turbidity.value"
-      :distance="distance.value"
+      :elevation="elevation"
+      :azimuth="azimuth"
+      :mie-coefficient="mieCoefficient"
+      :mie-directional-g="mieDirectionalG"
+      :rayleigh="rayleigh"
+      :turbidity="turbidity"
+      :distance="distance"
     />
     <OrbitControls
       :enable-pan="false"

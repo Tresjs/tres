@@ -2,7 +2,6 @@
 import { Align, OrbitControls } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
 import { TresLeches, useControls } from '@tresjs/leches'
-import '@tresjs/leches/styles'
 
 const elapsed = shallowRef(0)
 let intervalId: ReturnType<typeof setInterval>
@@ -16,7 +15,20 @@ onUnmounted(() => {
   clearInterval(intervalId)
 })
 
-const ctrl = useControls({
+const {
+  top, 
+  left, 
+  front, 
+  bottom, 
+  right, 
+  back, 
+  disable, 
+  disableX, 
+  disableY, 
+  disableZ, 
+  useCacheKey, 
+  vIf,
+} = useControls({
   top: false,
   left: false,
   front: false,
@@ -29,6 +41,7 @@ const ctrl = useControls({
   disableZ: false,
   useCacheKey: false,
   vIf: true,
+  enabled: true,
 })
 </script>
 
@@ -39,18 +52,18 @@ const ctrl = useControls({
     <OrbitControls />
     <TresAxesHelper :scale="2" :position="[0, 0, 0]" />
     <Align
-      v-if="ctrl.vIf.value.value"
-      :left="ctrl.left.value.value"
-      :right="ctrl.right.value.value"
-      :top="ctrl.top.value.value"
-      :bottom="ctrl.bottom.value.value"
-      :front="ctrl.front.value.value"
-      :back="ctrl.back.value.value"
-      :disable="ctrl.disable.value.value"
-      :disable-x="ctrl.disableX.value.value"
-      :disable-y="ctrl.disableY.value.value"
-      :disable-z="ctrl.disableZ.value.value"
-      :cache-key="ctrl.useCacheKey.value.value ? (() => Math.floor(elapsed * 0.001)) : undefined"
+      v-if="vIf"
+      :left="left"
+      :right="right"
+      :top="top"
+      :bottom="bottom"
+      :front="front"
+      :back="back"
+      :disable="disable"
+      :disable-x="disableX"
+      :disable-y="disableY"
+      :disable-z="disableZ"
+      :cache-key="useCacheKey ? (() => Math.floor(elapsed * 0.001)) : undefined"
     >
       <TresMesh :position-x="Math.cos(elapsed * 0.001) * 2" :position-y="Math.sin(elapsed * 0.001) * 2" :scale-z="Math.cos(elapsed * 0.001) * 2">
         <TresBoxGeometry />

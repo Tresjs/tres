@@ -1,27 +1,26 @@
 <script setup lang="ts">
 import { Sparkles, Sphere } from '@tresjs/cientos'
-import { TresCanvas, useRenderLoop } from '@tresjs/core'
+import { TresCanvas } from '@tresjs/core'
 import { TresLeches, useControls } from '@tresjs/leches'
 import { Color } from 'three'
 import { shallowRef } from 'vue'
-import '@tresjs/leches/styles'
 
 const lightRef = shallowRef()
 const { value: mix } = useControls({ mix: { value: 0, min: 0, max: 1 } })
 const { value: threshold } = useControls({ threshold: { value: 0.5, min: 0, max: 1 } })
 
-useRenderLoop().onLoop(({ elapsed }) => {
+const onLoop = ({ elapsed }: { elapsed: number }) => {
   if (lightRef.value) {
     lightRef.value.position.x = Math.cos(elapsed) * 2.5
     lightRef.value.position.y = Math.sin(elapsed) * 2.5
     lightRef.value.position.z = Math.sin(lightRef.value.position.y * Math.PI * 0.25) * 2
   }
-})
+}
 </script>
 
 <template>
-  <TresLeches class="top-0 important-left-4" />
-  <TresCanvas clear-color="#333">
+  <TresLeches />
+  <TresCanvas clear-color="#333" @loop="onLoop">
     <TresPerspectiveCamera />
     <TresDirectionalLight ref="lightRef">
       <Sphere

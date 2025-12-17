@@ -3,7 +3,6 @@ import { MeshReflectionMaterial, OrbitControls, useTextures } from '@tresjs/cien
 import { TresCanvas } from '@tresjs/core'
 import { TresLeches, useControls } from '@tresjs/leches'
 import { shallowRef } from 'vue'
-import '@tresjs/leches/styles'
 
 useControls('fpsgraph')
 const {
@@ -110,32 +109,33 @@ const rotationY = shallowRef(0)
     <TresMesh :rotation="[-Math.PI / 2, 0, 0]">
       <TresPlaneGeometry :args="[10, 10]" />
       <MeshReflectionMaterial
+        v-if="textures"
         :resolution="512"
-        :mix="mix.value"
+        :mix="mix"
 
-        :blur-mix-smooth="blurMixSmooth.value"
-        :blur-mix-rough="blurMixRough.value"
-        :blur-depth-edge-min="blurDepthEdgeMin.value"
-        :blur-depth-edge-max="blurDepthEdgeMax.value"
-        :blur-depth-bias="blurDepthBias.value"
-        :blur-depth-scale="blurDepthScale.value"
-        :blur-size="[blurWidth.value, blurHeight.value]"
+        :blur-mix-smooth="blurMixSmooth"
+        :blur-mix-rough="blurMixRough"
+        :blur-depth-edge-min="blurDepthEdgeMin"
+        :blur-depth-edge-max="blurDepthEdgeMax"
+        :blur-depth-bias="blurDepthBias"
+        :blur-depth-scale="blurDepthScale"
+        :blur-size="[blurWidth, blurHeight]"
 
-        :sharp-mix="sharpMix.value"
-        :sharp-depth-edge-min="sharpDepthEdgeMin.value"
-        :sharp-depth-edge-max="sharpDepthEdgeMax.value"
-        :sharp-depth-scale="sharpDepthScale.value"
-        :sharp-depth-bias="sharpDepthBias.value"
+        :sharp-mix="sharpMix"
+        :sharp-depth-edge-min="sharpDepthEdgeMin"
+        :sharp-depth-edge-max="sharpDepthEdgeMax"
+        :sharp-depth-scale="sharpDepthScale"
+        :sharp-depth-bias="sharpDepthBias"
 
-        :distortion="distortion.value"
-        :reflector-offset="reflectorOffset.value"
+        :distortion="distortion"
+        :reflector-offset="reflectorOffset"
 
-        :roughness="roughness.value"
-        :metalness="metalness.value"
-        :map="useDiffuseMap.value ? diffuseMap : undefined"
-        :normal-map="useNormalMap.value ? normalMap : undefined"
-        :distortion-map="useDistortionMap.value ? distortionMap : undefined"
-        :roughness-map="useRoughnessMap.value ? roughnessMap : undefined"
+        :roughness="roughness"
+        :metalness="metalness"
+        :map="useDiffuseMap ? diffuseMap : undefined"
+        :normal-map="useNormalMap ? normalMap : undefined"
+        :distortion-map="useDistortionMap ? distortionMap : undefined"
+        :roughness-map="useRoughnessMap ? roughnessMap : undefined"
       />
     </TresMesh>
   </TresCanvas>

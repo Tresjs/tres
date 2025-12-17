@@ -3,10 +3,25 @@ import { TresCanvas } from '@tresjs/core'
 import { Bounds, Grid, OrbitControls } from '@tresjs/cientos'
 import { Vector3 } from 'three'
 import { TresLeches, useControls } from '@tresjs/leches'
-import '@tresjs/leches/styles'
 import { computed, shallowRef } from 'vue'
 
-const c = useControls({
+const { 
+  duration, 
+  offset, 
+  clip, 
+  useMounted, 
+  useOrthographic, 
+  useResize, 
+  isLinear, 
+  enabled, 
+  lookAtX, 
+  lookAtY, 
+  lookAtZ, 
+  moveToX, 
+  moveToY, 
+  moveToZ, 
+  upX, upY, upZ,
+} = useControls({
   duration: { value: 0.5, min: 0, max: 10, step: 0.25 },
   offset: { value: 1, min: -2, max: 2, step: 0.25 },
   clip: false,
@@ -32,7 +47,7 @@ const positions = Array.from(
   (_, i) => new Vector3(cos(i * PI / 4) * 4, sin(i * PI / 4) * 4, 0),
 )
 
-const easingFn = computed(() => c.isLinear.value.value ? (n: number) => n : undefined)
+const easingFn = computed(() => isLinear ? (n: number) => n : undefined)
 
 const boundsRef = shallowRef()
 
@@ -59,22 +74,22 @@ const onEndFn = (v: any) => { endArg.value = v.object?.uuid; endCount.value++ }
     <p><code>&lt;Bounds&gt;</code> has a <code>fit</code> method that can be called imperatively.</p>
     <button
       @pointerup="() => boundsRef.instance.lookAt(
-        new Vector3(c.lookAtX.value.value, c.lookAtY.value.value, c.lookAtZ.value.value),
+        new Vector3(lookAtX, lookAtY, lookAtZ),
       )"
     >
       lookAt(new Vector(lookAtArgs))
     </button><br />
     <button
       @pointerup="() => boundsRef.instance.lookAt(
-        [c.lookAtX.value.value, c.lookAtY.value.value, c.lookAtZ.value.value],
+        [lookAtX, lookAtY, lookAtZ],
       )"
     >
       lookAt([lookAtArgs])
     </button><br />
     <button
       @pointerup="() => boundsRef.instance.lookAt(
-        [c.lookAtX.value.value, c.lookAtY.value.value, c.lookAtZ.value.value],
-        [c.moveToX.value.value, c.moveToY.value.value, c.moveToZ.value.value],
+        [lookAtX, lookAtY, lookAtZ],
+        [moveToX, moveToY, moveToZ],
       )"
     >
       lookAt([lookAtArgs], [moveToArgs])
@@ -82,7 +97,7 @@ const onEndFn = (v: any) => { endArg.value = v.object?.uuid; endCount.value++ }
     <button
       @pointerup="() => boundsRef.instance.lookAt(
         undefined,
-        [c.moveToX.value.value, c.moveToY.value.value, c.moveToZ.value.value],
+        [moveToX, moveToY, moveToZ],
       )"
     >
       lookAt(undefined, [moveToArgs])
@@ -90,8 +105,8 @@ const onEndFn = (v: any) => { endArg.value = v.object?.uuid; endCount.value++ }
     <button
       @pointerup="() => boundsRef.instance.lookAt(
         undefined,
-        [c.moveToX.value.value, c.moveToY.value.value, c.moveToZ.value.value],
-        [c.upX.value.value, c.upY.value.value, c.upZ.value.value],
+        [moveToX, moveToY, moveToZ],
+        [upX, upY, upZ],
       )"
     >
       lookAt(undefined, [moveToArgs], [upArgs])
@@ -112,18 +127,18 @@ const onEndFn = (v: any) => { endArg.value = v.object?.uuid; endCount.value++ }
     <p>The <code>clip</code> option sets the camera's clipping to a large multiple of the internal <code>distance</code>. To test, change the component's coefficient to a smaller number.</p>
   </OverlayInfo>
   <TresCanvas render-mode="on-demand">
-    <TresOrthographicCamera v-if="c.useOrthographic.value.value" :position="[-5, 5, 5]" :zoom="1" :args="[-400, 400, 400, -400, 0, 10000]" />
+    <TresOrthographicCamera v-if="useOrthographic" :position="[-5, 5, 5]" :zoom="1" :args="[-400, 400, 400, -400, 0, 10000]" />
     <TresPerspectiveCamera v-else :position="[5, 5, 5]" />
     <OrbitControls make-default />
     <TresGroup>
       <Bounds
-        v-if="c.enabled.value.value"
+        v-if="enabled"
         ref="boundsRef"
-        :clip="c.clip.value.value"
-        :duration="c.duration.value.value"
-        :offset="c.offset.value.value"
-        :use-resize="c.useResize.value.value"
-        :use-mounted="c.useMounted.value.value"
+        :clip="clip"
+        :duration="duration"
+        :offset="offset"
+        :use-resize="useResize"
+        :use-mounted="useMounted"
         :easing="easingFn"
         @start="onStartFn"
         @cancel="onCancelFn"

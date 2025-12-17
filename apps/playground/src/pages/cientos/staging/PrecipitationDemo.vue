@@ -3,16 +3,13 @@ import { OrbitControls, Precipitation } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
 import { TresLeches, useControls } from '@tresjs/leches'
 import { NoToneMapping, SRGBColorSpace } from 'three'
-import { reactive, shallowRef } from 'vue'
-import '@tresjs/leches/styles'
+import { reactive } from 'vue'
 
 const gl = {
   clearColor: '#333',
   outputColorSpace: SRGBColorSpace,
   toneMapping: NoToneMapping,
 }
-
-const precipitationRef = shallowRef()
 
 const options = reactive({
   speed: 1,
@@ -69,15 +66,6 @@ const { speed, randomness, count, size, areaX, areaY, areaZ } = useControls({
   },
 })
 
-watch([speed.value, randomness.value, count.value, size.value, areaX.value, areaY.value, areaZ.value], () => {
-  options.speed = speed.value.value
-  options.randomness = randomness.value.value
-  options.count = count.value.value
-  options.size = size.value.value
-  options.areaX = areaX.value.value
-  options.areaY = areaY.value.value
-  options.areaZ = areaZ.value.value
-})
 </script>
 
 <template>
@@ -86,11 +74,11 @@ watch([speed.value, randomness.value, count.value, size.value, areaX.value, area
     <TresPerspectiveCamera :position="[0, 2, 15]" />
     <Precipitation
       ref="precipitationRef"
-      :speed="options.speed"
-      :area="[options.areaX, options.areaY, options.areaZ]"
-      :count="options.count"
-      :randomness="options.randomness"
-      :size="options.size"
+      :speed="speed"
+      :area="[areaX, areaY, areaZ]"
+      :count="count"
+      :randomness="randomness"
+      :size="size"
     />
     <TresGridHelper :args="[10, 10]" />
     <OrbitControls />
