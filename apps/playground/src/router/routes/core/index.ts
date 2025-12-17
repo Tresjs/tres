@@ -7,7 +7,7 @@ import { loaderRoutes } from './loaders'
 import { miscRoutes } from './misc'
 import { modelsRoutes } from './models'
 
-const allRoutes = [
+const coreRoutes = [
   ...basicRoutes,
   ...advancedRoutes,
   ...eventsRoutes,
@@ -20,7 +20,7 @@ const allRoutes = [
 
 export {
   advancedRoutes,
-  allRoutes,
+  coreRoutes,
   basicRoutes,
   cameraRoutes,
   eventsRoutes,

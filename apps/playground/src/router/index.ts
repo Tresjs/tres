@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { allRoutes } from './routes'
+import { coreRoutes } from './routes/core'
 
 const routes = [
   {
@@ -7,7 +7,12 @@ const routes = [
     name: 'Home',
     component: () => import('../pages/index.vue'),
   },
-  ...allRoutes,
+  {
+    path: '/core',
+    name: 'Core',
+    component: () => import('../pages/core.vue'),
+  },
+  ...coreRoutes,
 ]
 export const router = createRouter({
   history: createWebHistory(),
