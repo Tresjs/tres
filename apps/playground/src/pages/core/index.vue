@@ -8,7 +8,7 @@ import {
   loaderRoutes,
   miscRoutes,
   modelsRoutes,
-} from '../router/routes/core'
+} from '../../router/routes/core'
 
 const sections = [
   { icon: '📦', title: 'Basic', routes: basicRoutes },
