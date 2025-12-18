@@ -9,7 +9,9 @@
     "preview": "vitepress preview"
   },
   "dependencies": {
-    "@tresjs/cientos": "workspace:^"
+    "@tresjs/cientos": "workspace:^",
+    "@tresjs/core": "workspace:^",
+    "vue": "catalog:vue"
   },
   "devDependencies": {
     "@tresjs/leches": "^0.14.0",
