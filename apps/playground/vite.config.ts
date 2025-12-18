@@ -44,8 +44,10 @@ export default defineConfig({
   resolve: {
     alias: process.env.NODE_ENV === 'development'
       ? {
-          '@tresjs/core': resolve(__dirname, '../../packages/core/src/index.ts'),
-        }
+        '@tresjs/core': resolve(__dirname, '../../packages/core/src/index.ts'),
+        '@tresjs/cientos': resolve(__dirname, '../../packages/cientos/src/index.ts'),
+        '@tresjs/post-processing': resolve(__dirname, '../../packages/postprocessing/src/index.ts'),
+      }
       : {},
     dedupe: ['three'],
   },
