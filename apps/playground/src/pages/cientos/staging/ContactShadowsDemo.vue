@@ -5,6 +5,8 @@ import { TresLeches, useControls } from '@tresjs/leches'
 import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
 import { reactive, shallowRef } from 'vue'
 
+const uuid = 'staging-contact-shadows'
+
 const gl = {
   clearColor: '#CCC',
   shadows: true,
@@ -30,19 +32,19 @@ const state = reactive({
   rotationX: 0,
 })
 
-const { 
-  width, 
-  height, 
-  blur, 
-  far, 
-  smooth, 
-  opacity, 
-  resolution, 
-  scale, 
-  tint, 
-  color, 
-  depthWrite, 
-  rotationX, 
+const {
+  width,
+  height,
+  blur,
+  far,
+  smooth,
+  opacity,
+  resolution,
+  scale,
+  tint,
+  color,
+  depthWrite,
+  rotationX,
 } = useControls({
   width: {
     value: state.width,
@@ -107,7 +109,7 @@ const {
     step: 0.1,
     max: 9,
   },
-})
+}, { uuid })
 
 
 const boxRef = shallowRef({ instance: { rotation: { x: 0, y: 0, z: 0 } } })
@@ -127,7 +129,7 @@ onUnmounted(() => clearInterval(intervalId))
 </script>
 
 <template>
-  <TresLeches />
+  <TresLeches :uuid="uuid" />
   <TresCanvas v-bind="gl">
     <TresPerspectiveCamera :args="[50]" :position="[0.5, 1, 2]" />
 

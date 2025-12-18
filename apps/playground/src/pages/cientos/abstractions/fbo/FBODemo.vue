@@ -3,6 +3,8 @@ import { Fbo, OrbitControls, Stats } from '@tresjs/cientos'
 import { useLoop } from '@tresjs/core'
 import { useControls } from '@tresjs/leches'
 
+const uuid = 'abstractions-fbo'
+
 const fboRef = ref(null)
 const materialRef = ref(null)
 const torusRef = shallowRef(null)
@@ -42,7 +44,7 @@ const { 'Depth Buffer': isUseDepthBuffer, 'MSAA Samples': numMsaaSamples } = use
     max: 8,
     step: 1,
   },
-})
+}, { uuid })
 
 watch(
   isUseDepthBuffer.value,
