@@ -49,12 +49,16 @@ catalogs:
     kolorist: ^1.8.0
     pathe: ^2.0.3
     unocss: ^66.1.2
+    unplugin-auto-import: 20.3.0
 
   vite:
     '@vitejs/plugin-vue': ^6.0.1
     vite: ^7.1.9
     vite-plugin-banner: ^0.8.1
     vite-plugin-dts: 4.5.4
+    vite-plugin-glsl: 1.5.5
+    vite-plugin-qrcode: 0.3.0
+    vite-plugin-vue-devtools: 8.0.5
 
   vue:
     vue: ^3.5.22
