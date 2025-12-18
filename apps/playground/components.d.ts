@@ -8,8 +8,11 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    BasicScene: typeof import('./src/components/BasicScene.vue')['default']
     BlenderCube: typeof import('./src/components/BlenderCube.vue')['default']
+    Ducky: typeof import('./src/components/Ducky.vue')['default']
     DynamicModel: typeof import('./src/components/DynamicModel.vue')['default']
+    EffectListItem: typeof import('./src/components/EffectListItem.vue')['default']
     LocalOrbitControls: typeof import('./src/components/LocalOrbitControls.vue')['default']
     OverlayInfo: typeof import('./src/components/OverlayInfo.vue')['default']
     ProvideBridge: typeof import('./src/components/ProvideBridge.vue')['default']
