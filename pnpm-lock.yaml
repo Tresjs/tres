@@ -581,34 +581,6 @@ importers:
         specifier: catalog:typescript
         version: 3.1.8(typescript@5.8.3)
 
-  packages/cientos/playground/vue:
-    dependencies:
-      '@tresjs/core':
-        specifier: workspace:*
-        version: link:../../../core
-      vue-router:
-        specifier: ^4.5.1
-        version: 4.6.3(vue@3.5.25(typescript@5.9.3))
-    devDependencies:
-      '@tresjs/leches':
-        specifier: 1.0.0-next.0
-        version: 1.0.0-next.0(magicast@0.5.1)(unocss@66.5.10(@unocss/webpack@66.5.10(webpack@5.103.0(esbuild@0.27.1)))(postcss@8.5.6)(vite@7.2.7(@types/node@24.10.2)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2)))(vue@3.5.25(typescript@5.9.3))
-      unplugin-auto-import:
-        specifier: ^20.1.0
-        version: 20.3.0(@nuxt/kit@4.2.2(magicast@0.5.1))(@vueuse/core@14.1.0(vue@3.5.25(typescript@5.9.3)))
-      unplugin-vue-components:
-        specifier: ^29.0.0
-        version: 29.2.0(@babel/parser@7.28.5)(@nuxt/kit@4.2.2(magicast@0.5.1))(vue@3.5.25(typescript@5.9.3))
-      vite-plugin-glsl:
-        specifier: ^1.5.1
-        version: 1.5.5(@rollup/pluginutils@5.3.0(rollup@4.53.3))(esbuild@0.27.1)(vite@7.2.7(@types/node@24.10.2)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))
-      vite-plugin-qrcode:
-        specifier: ^0.3.0
-        version: 0.3.0(vite@7.2.7(@types/node@24.10.2)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))
-      vue-tsc:
-        specifier: ^3.0.7
-        version: 3.1.8(typescript@5.9.3)
-
   packages/core:
     dependencies:
       '@pmndrs/pointer-events':
@@ -10397,19 +10369,6 @@ packages:
       '@nuxt/kit':
         optional: true
 
-  unplugin-vue-components@29.2.0:
-    resolution: {integrity: sha512-QxBeBdmEflgtJRgMQMc/z/JVV5lcwXN5nOy5ehX6CKDGylIu6Qn4Goy8X95S0qOxF7EdI+uNhdBd4v5i0bvzCw==}
-    engines: {node: '>=14'}
-    peerDependencies:
-      '@babel/parser': ^7.15.8
-      '@nuxt/kit': ^3.2.2 || ^4.0.0
-      vue: 2 || 3
-    peerDependenciesMeta:
-      '@babel/parser':
-        optional: true
-      '@nuxt/kit':
-        optional: true
-
   unplugin-vue-components@30.0.0:
     resolution: {integrity: sha512-4qVE/lwCgmdPTp6h0qsRN2u642tt4boBQtcpn4wQcWZAsr8TQwq+SPT3NDu/6kBFxzo/sSEK4ioXhOOBrXc3iw==}
     engines: {node: '>=14'}
@@ -15211,17 +15170,6 @@ snapshots:
       vue: 3.5.25(typescript@5.9.3)
     transitivePeerDependencies:
       - typescript
-
-  '@tresjs/leches@1.0.0-next.0(magicast@0.5.1)(unocss@66.5.10(@unocss/webpack@66.5.10(webpack@5.103.0(esbuild@0.27.1)))(postcss@8.5.6)(vite@7.2.7(@types/node@24.10.2)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2)))(vue@3.5.25(typescript@5.9.3))':
-    dependencies:
-      '@unocss/core': 66.3.2
-      '@vueuse/components': 13.9.0(vue@3.5.25(typescript@5.9.3))
-      '@vueuse/motion': 3.0.3(magicast@0.5.1)(vue@3.5.25(typescript@5.9.3))
-      unocss-preset-scrollbar: 3.2.0(unocss@66.5.10(@unocss/webpack@66.5.10(webpack@5.103.0(esbuild@0.27.1)))(postcss@8.5.6)(vite@7.2.7(@types/node@24.10.2)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2)))
-      vue: 3.5.25(typescript@5.9.3)
-    transitivePeerDependencies:
-      - magicast
-      - unocss
 
   '@tresjs/leches@1.0.0-next.0(magicast@0.5.1)(unocss@66.5.10(@unocss/webpack@66.5.10(webpack@5.103.0))(postcss@8.5.6)(vite@7.2.7(@types/node@24.10.2)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2)))(vue@3.5.25(typescript@5.9.3))':
     dependencies:
@@ -23232,11 +23180,6 @@ snapshots:
 
   universalify@2.0.1: {}
 
-  unocss-preset-scrollbar@3.2.0(unocss@66.5.10(@unocss/webpack@66.5.10(webpack@5.103.0(esbuild@0.27.1)))(postcss@8.5.6)(vite@7.2.7(@types/node@24.10.2)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))):
-    dependencies:
-      '@unocss/preset-mini': 65.5.0
-      unocss: 66.5.10(@unocss/webpack@66.5.10(webpack@5.103.0(esbuild@0.27.1)))(postcss@8.5.6)(vite@7.2.7(@types/node@24.10.2)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))
-
   unocss-preset-scrollbar@3.2.0(unocss@66.5.10(@unocss/webpack@66.5.10(webpack@5.103.0))(postcss@8.5.6)(vite@7.2.7(@types/node@24.10.2)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))):
     dependencies:
       '@unocss/preset-mini': 65.5.0
@@ -23463,23 +23406,6 @@ snapshots:
       tinyglobby: 0.2.15
       unplugin: 2.3.11
       unplugin-utils: 0.2.5
-      vue: 3.5.25(typescript@5.9.3)
-    optionalDependencies:
-      '@babel/parser': 7.28.5
-      '@nuxt/kit': 4.2.2(magicast@0.5.1)
-    transitivePeerDependencies:
-      - supports-color
-
-  unplugin-vue-components@29.2.0(@babel/parser@7.28.5)(@nuxt/kit@4.2.2(magicast@0.5.1))(vue@3.5.25(typescript@5.9.3)):
-    dependencies:
-      chokidar: 3.6.0
-      debug: 4.4.3
-      local-pkg: 1.1.2
-      magic-string: 0.30.21
-      mlly: 1.8.0
-      tinyglobby: 0.2.15
-      unplugin: 2.3.11
-      unplugin-utils: 0.3.1
       vue: 3.5.25(typescript@5.9.3)
     optionalDependencies:
       '@babel/parser': 7.28.5
