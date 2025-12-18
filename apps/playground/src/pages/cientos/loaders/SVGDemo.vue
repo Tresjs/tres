@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { OrbitControls, SVG } from '@tresjs/cientos'
-import { TresCanvas, useRenderLoop } from '@tresjs/core'
+import { TresCanvas } from '@tresjs/core'
 import { NoToneMapping } from 'three'
 import { shallowRef } from 'vue'
 
@@ -18,7 +18,7 @@ fill="none" xmlns="http://www.w3.org/2000/svg">
 
 const svgHeartURL = '/cientos.svg'
 
-const { onLoop } = useRenderLoop()
+function onLoop({ delta }: { delta: number }) {
 
 const skipFillsA = shallowRef(false)
 const skipFillsB = shallowRef(true)
@@ -26,7 +26,7 @@ const skipFillsC = shallowRef(false)
 
 let cooldown = 0
 
-onLoop(({ delta }) => {
+function onLoop({ delta }: { delta: number }) {
   cooldown -= delta
   while (cooldown <= 0) {
     const skipFillsTmp = skipFillsA.value
@@ -35,7 +35,7 @@ onLoop(({ delta }) => {
     skipFillsB.value = skipFillsTmp
     cooldown += 1
   }
-})
+}
 
 const gl = {
   clearColor: '#333',
@@ -48,6 +48,7 @@ const gl = {
   <TresCanvas
     v-bind="gl"
     render-mode="on-demand"
+    @loop="onLoop"
   >
     <TresPerspectiveCamera :position="[0, 2, 10]" />
     <TresGridHelper :args="[10, 10]" />

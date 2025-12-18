@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { CameraControls, useGLTFExporter } from '@tresjs/cientos'
-import { TresCanvas, useRenderLoop } from '@tresjs/core'
+import { TresCanvas } from '@tresjs/core'
 import { MeshStandardMaterial, TorusGeometry } from 'three'
 import { shallowRef } from 'vue'
 
@@ -11,13 +11,12 @@ const boxRef = shallowRef()
 const downloadScene = () => useGLTFExporter(boxRef.value.parent)
 const downloadCube = () => useGLTFExporter(boxRef.value, { fileName: 'cube', binary: true })
 
-const { onLoop } = useRenderLoop()
-onLoop(({ elapsed }) => {
+function onLoop({ elapsed }: { elapsed: number }) {
   if (boxRef.value) {
     boxRef.value.rotation.x = elapsed
     boxRef.value.rotation.y = elapsed
   }
-})
+}
 </script>
 
 <template>
@@ -33,6 +32,7 @@ onLoop(({ elapsed }) => {
     <TresCanvas
       clear-color="#82DBC5"
       window-size
+      @loop="onLoop"
     >
       <TresPerspectiveCamera :position="[0, 2, 5]" />
       <TresMesh

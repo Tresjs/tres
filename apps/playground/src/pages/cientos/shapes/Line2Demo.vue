@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Line2, OrbitControls } from '@tresjs/cientos'
-import { TresCanvas, useRenderLoop } from '@tresjs/core'
+import { TresCanvas } from '@tresjs/core'
 
 const NUM_POINTS = 10
 const points = ref(Array.from({ length: NUM_POINTS }).fill(0).map((_, i) => [i * 0.1, 0, 0]))
@@ -41,7 +41,7 @@ const lineWidth = ref(5)
 const dashed = ref(true)
 const dashScale = ref(50)
 
-useRenderLoop().onLoop(({ elapsed }) => {
+function onLoop({ elapsed }: { elapsed: number }) {
   points.value.forEach((v, i) => {
     const progress = i * 0.5 + elapsed * 0.25
     v[0] = Math.cos(progress)
@@ -55,11 +55,11 @@ useRenderLoop().onLoop(({ elapsed }) => {
   dashed.value = Math.sin(elapsed * 0.5) < 0
   dashScale.value = 5 + 5 * Math.sin(elapsed)
   lineWidth.value = 0.1 * (Math.sin(elapsed) + 1) + 0.1
-})
+}
 </script>
 
 <template>
-  <TresCanvas clear-color="#777">
+  <TresCanvas clear-color="#777" @loop="onLoop">
     <Line2
       :points="points"
       :vertex-colors="colors"

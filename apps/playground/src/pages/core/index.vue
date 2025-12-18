@@ -32,18 +32,18 @@ const sections = [
       >
         <div>
           <img
-            src="/logo.svg"
+            src="/core.svg"
             alt="TresJS logo"
-            class="max-w-24 sm:max-w-48 align-baseline"
+            class="w-24 max-w-24 sm:max-w-48 align-baseline"
           />
         </div>
         <div class="sm:w-2/3">
           <h1
             class="w-auto max-w-75 mx-auto text-5xl text-zinc-700 mb-3 sm:mx-none sm:w-1/2 sm:max-w-72"
           >
-            <span class="text-tres-primary">TresJS</span> Playground
+            <span class="text-tres-primary">Core</span> Playground
           </h1>
-          <p class="text-lg">Testing zone for TresJS/core components</p>
+          <p class="text-lg">Testing zone for core features</p>
         </div>
       </div>
       <div
@@ -77,6 +77,9 @@ const sections = [
           </div>
         </div>
       </div>
+      <footer class="py-8">
+        <router-link to="/" class="font-mono block no-underline text-zinc-700 visited:text-zinc-400 hover:text-zinc-600">cd ../</router-link>
+      </footer>
     </div>
   </div>
 </template>

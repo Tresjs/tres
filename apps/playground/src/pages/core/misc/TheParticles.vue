@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { OrbitControls } from '@tresjs/cientos'
-import { TresCanvas, useRenderLoop } from '@tresjs/core'
+import { TresCanvas } from '@tresjs/core'
 import { AdditiveBlending } from 'three'
 
 /* import { OrbitControls, GLTFModel } from '@tresjs/cientos' */
@@ -61,17 +61,16 @@ for (let i = 0; i < firefliesCount; i++) {
   scaleArray[i] = Math.random()
 }
 
-const { onLoop } = useRenderLoop()
-
-onLoop(({ elapsed }) => {
+function onLoop({ elapsed }: { elapsed: number }) {
   shader.uniforms.uTime.value = elapsed
-})
+}
 </script>
 
 <template>
   <TresCanvas
     v-bind="gl"
     window-size
+    @loop="onLoop"
   >
     <TresPerspectiveCamera
       :position="[5, 5, 5]"

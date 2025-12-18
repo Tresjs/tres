@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { BakeShadows, CameraControls } from '@tresjs/cientos'
-import { TresCanvas, useRenderLoop, vLightHelper } from '@tresjs/core'
+import { TresCanvas, vLightHelper } from '@tresjs/core'
 import { Color, NoToneMapping, SRGBColorSpace } from 'three'
 import { shallowRef } from 'vue'
 
@@ -13,19 +13,18 @@ const gl = {
 
 const cubeRef = shallowRef()
 
-const { onLoop } = useRenderLoop()
-
-onLoop(({ elapsed }) => {
+function onLoop({ elapsed }: { elapsed: number }) {
   if (cubeRef.value) {
     cubeRef.value.rotation.y = elapsed * 0.5
     cubeRef.value.rotation.x = elapsed * 0.5
   }
-})
+}
 </script>
 
 <template>
   <TresCanvas
     v-bind="gl"
+    @loop="onLoop"
   >
     <TresPerspectiveCamera :position="[0, 2, 5]" />
     <CameraControls />

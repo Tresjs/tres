@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { OrbitControls, Superformula } from '@tresjs/cientos'
-import { TresCanvas, useRenderLoop } from '@tresjs/core'
+import { TresCanvas } from '@tresjs/core'
 import { Color } from 'three'
 
 const numArmsA = shallowRef(1)
@@ -14,7 +14,7 @@ const expB3 = shallowRef(1)
 
 const { sin, cos } = Math
 
-useRenderLoop().onLoop(({ elapsed }) => {
+function onLoop({ elapsed }: { elapsed: number }) {
   const e = elapsed * 0.1
   numArmsA.value = sin(e * Math.PI) * 24
   expA1.value = (sin(e * Math.PI) + 2) * 30
@@ -24,11 +24,11 @@ useRenderLoop().onLoop(({ elapsed }) => {
   expB1.value = (cos(e * Math.PI) + 2) * 30
   expB2.value = (cos(e * Math.E) + 2) * 30
   expB3.value = (cos(e * Math.SQRT2) + 2) * 30
-})
+}
 </script>
 
 <template>
-  <TresCanvas clear-color="#777">
+  <TresCanvas clear-color="#777" @loop="onLoop">
     <TresDirectionalLight
       :position="[3, 2, 1]"
       :intensity="8"

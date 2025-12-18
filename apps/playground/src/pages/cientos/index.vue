@@ -31,13 +31,13 @@ const sections = [
     <div class="mx-4">
       <div
         class="
-    mt-24 mb-12 text-center align-baseline items-center gap-6
+    mt-24 mb-12 justify-between text-center align-baseline items-center gap-6
     sm:mt-16 sm:mb-6 sm:text-left sm:flex sm:flex-row-reverse
     "
       >
         <div>
           <img
-            src="/logo.svg"
+            src="/cientos.svg"
             alt="Cientos logo"
             class="max-w-36 sm:max-w-xs align-baseline"
           />
@@ -85,6 +85,9 @@ const sections = [
           </div>
         </div>
       </div>
+      <footer class="py-8">
+        <router-link to="/" class="font-mono block no-underline text-zinc-700 visited:text-zinc-400 hover:text-zinc-600">cd ../</router-link>
+      </footer>
     </div>
   </div>
 </template>
