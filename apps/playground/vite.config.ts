@@ -46,8 +46,7 @@ export default defineConfig({
       ? {
         '@tresjs/core': resolve(__dirname, '../../packages/core/src/index.ts'),
         '@tresjs/cientos': resolve(__dirname, '../../packages/cientos/src/index.ts'),
-        '@tresjs/leches': resolve(__dirname, '../../packages/leches/src/index.ts'),
-        '@tresjs/post-processing': resolve(__dirname, '../../packages/post-processing/src/index.ts'),
+        '@tresjs/post-processing': resolve(__dirname, '../../packages/postprocessing/src/index.ts'),
       }
       : {},
     dedupe: ['three'],

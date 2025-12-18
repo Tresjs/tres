@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { coreRoutes } from './routes/core'
 import { cientosRoutes } from './routes/cientos'
+import { postProcessingRoutes } from './routes/postprocessing'
 const routes = [
   {
     path: '/',
@@ -19,6 +20,7 @@ const routes = [
   },
   ...coreRoutes,
   ...cientosRoutes,
+  ...postProcessingRoutes,
 ]
 export const router = createRouter({
   history: createWebHistory(),
