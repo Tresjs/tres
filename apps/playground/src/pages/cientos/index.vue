@@ -7,7 +7,7 @@ import {
   miscRoutes,
   shapesRoutes,
   stagingRoutes,
-} from '../../router/routes/cientos'
+} from '@/router/routes/cientos'
 
 const sections = [
   { icon: '📦', title: 'Abstractions', routes: abstractionsRoutes },

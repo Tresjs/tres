@@ -2,7 +2,7 @@
 import {
   pmndrsRoutes,
   threeRoutes,
-} from '../../router/routes/postprocessing'
+} from '@/router/routes/postprocessing'
 
 const sections = [
   {

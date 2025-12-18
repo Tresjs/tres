@@ -1,5 +1,5 @@
 import type { RouteRecordRaw } from 'vue-router'
-import { kebabCase } from '../../../utils'
+import { kebabCase } from '@/utils'
 
 const makeRoute = (name: string, icon: string, isThreeEffect: boolean = true): RouteRecordRaw => {
   const nameInKebab = kebabCase(name)
@@ -12,14 +12,14 @@ const makeRoute = (name: string, icon: string, isThreeEffect: boolean = true): R
       icon,
       name,
     },
-    component: () => import(`../../../pages/postprocessing/${folder}/${nameInKebab}.vue`),
+    component: () => import(`@/pages/postprocessing/${folder}/${nameInKebab}.vue`),
   }
 }
 
 const home: RouteRecordRaw = {
   path: '/postprocessing',
   name: 'Postprocessing',
-  component: () => import('../../../pages/postprocessing/index.vue'),
+  component: () => import('@/pages/postprocessing/index.vue'),
 }
 
 export const threeRoutes = [

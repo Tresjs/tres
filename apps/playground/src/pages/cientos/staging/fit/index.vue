@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
 import { Box3, BoxGeometry, Mesh, MeshBasicMaterial, Vector3 } from 'three'
-import { useState } from '../../../composables/state'
+import { useState } from '@/composables/state'
 import TheExperience from './FitDemo.vue'
 
 // NOTE: Make choices for `:into` options

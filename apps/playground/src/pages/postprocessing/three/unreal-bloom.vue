@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { UnrealBloom } from '@tresjs/post-processing'
 import { ref } from 'vue'
-import BasicScene from '../../../components/BasicScene.vue'
+import BasicScene from '@/components/BasicScene.vue'
 import { useControls, TresLeches } from '@tresjs/leches';
 
 const { enabled, radius, strength, threshold } = useControls({

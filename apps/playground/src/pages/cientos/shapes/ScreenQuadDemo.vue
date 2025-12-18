@@ -3,7 +3,7 @@ import { TresCanvas } from '@tresjs/core'
 import { ScreenQuad } from '@tresjs/cientos'
 import type { WebGLRenderer } from 'three'
 import { RawShaderMaterial, RGBFormat, Vector2, WebGLRenderTarget } from 'three'
-import OverlayInfo from '../../components/OverlayInfo.vue'
+import OverlayInfo from '@/components/OverlayInfo.vue'
 
 const vertexShader = `precision highp float;
 attribute vec2 position;
