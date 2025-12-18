@@ -13,6 +13,7 @@
   "dependencies": {
     "@tresjs/cientos": "workspace:^",
     "@tresjs/core": "workspace:^",
+    "@tresjs/post-processing": "workspace:^",
     "@tresjs/leches": "workspace:^",
     "vue-router": "catalog:vue"
   },

@@ -2,6 +2,7 @@
 const sections = [
   { icon: './core.svg', title: 'Core', path: '/core' },
   { icon: './cientos.svg', title: 'Cientos', path: '/cientos' },
+  { icon: './postprocessing.svg', title: 'Postprocessing', path: '/postprocessing' },
 ]
 </script>
 
