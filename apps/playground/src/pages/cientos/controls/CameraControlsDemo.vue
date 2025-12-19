@@ -6,6 +6,8 @@ import { TresLeches, useControls } from '@tresjs/leches'
 import { BasicShadowMap, MathUtils, NoToneMapping, SRGBColorSpace } from 'three'
 import { reactive, shallowRef } from 'vue'
 
+const uuid = 'controls-camera'
+
 const gl = {
   clearColor: '#82DBC5',
   shadows: true,
@@ -55,7 +57,7 @@ const { distance, minDistance, maxDistance } = useControls({
     max: 100,
     step: 0.01,
   },
-})
+}, { uuid })
 
 useControls(
   'Dolly',
@@ -75,6 +77,7 @@ useControls(
       label: 'Increment (-1)',
     },
   },
+  { uuid },
 )
 
 useControls(
@@ -109,6 +112,7 @@ useControls(
       },
     },
   },
+  { uuid },
 )
 
 useControls(
@@ -122,11 +126,12 @@ useControls(
       },
     },
   },
+  { uuid },
 )
 </script>
 
 <template>
-  <TresLeches />
+  <TresLeches :uuid="uuid" />
   <TresCanvas v-bind="gl">
     <TresPerspectiveCamera :position="[5, 5, 5]" />
     <CameraControls

@@ -5,9 +5,11 @@ import { TresLeches, useControls } from '@tresjs/leches'
 import { Color } from 'three'
 import { shallowRef } from 'vue'
 
+const uuid = 'staging-sparkles'
+
 const lightRef = shallowRef()
-const { value: mix } = useControls({ mix: { value: 0, min: 0, max: 1 } })
-const { value: threshold } = useControls({ threshold: { value: 0.5, min: 0, max: 1 } })
+const { value: mix } = useControls({ mix: { value: 0, min: 0, max: 1 } }, { uuid })
+const { value: threshold } = useControls({ threshold: { value: 0.5, min: 0, max: 1 } }, { uuid })
 
 const onLoop = ({ elapsed }: { elapsed: number }) => {
   if (lightRef.value) {
@@ -19,7 +21,7 @@ const onLoop = ({ elapsed }: { elapsed: number }) => {
 </script>
 
 <template>
-  <TresLeches />
+  <TresLeches :uuid="uuid" />
   <TresCanvas clear-color="#333" @loop="onLoop">
     <TresPerspectiveCamera />
     <TresDirectionalLight ref="lightRef">

@@ -9,6 +9,8 @@ import { TresLeches, useControls } from '@tresjs/leches'
 
 import HologramCube from './HologramCube.vue'
 
+const uuid = 'core-advanced-webgpu'
+
 const createWebGPURenderer = (ctx: TresRendererSetupContext) => {
   const renderer = new WebGPURenderer({
     canvas: toValue(ctx.canvas),
@@ -50,7 +52,7 @@ const { clearColor, clearAlpha, toneMapping, shadows, shadowMapType } = useContr
       { text: 'VSM', value: VSMShadowMap },
     ],
   },
-})
+}, { uuid })
 
 const formattedToneMapping = computed(() => {
   return Number(toneMapping.value) as ToneMapping
@@ -62,7 +64,7 @@ const formattedShadowMapType = computed(() => {
 </script>
 
 <template>
-  <TresLeches />
+  <TresLeches :uuid="uuid" />
 
   <TresCanvas :renderer="createWebGPURenderer" :clear-color="clearColor" :clear-alpha="clearAlpha" :tone-mapping="formattedToneMapping" :shadows="shadows" :shadow-map-type="formattedShadowMapType">
     <TresPerspectiveCamera

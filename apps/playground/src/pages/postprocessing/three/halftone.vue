@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { Halftone } from '@tresjs/post-processing'
-import BasicScene from '../../../components/BasicScene.vue'
+import BasicScene from '@/components/BasicScene.vue'
 import { useControls, TresLeches } from '@tresjs/leches';
 
 const { radius, enabled, shape } = useControls({

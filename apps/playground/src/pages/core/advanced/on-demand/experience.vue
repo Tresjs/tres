@@ -2,7 +2,7 @@
 import { OrbitControls } from '@tresjs/cientos'
 import { useTres } from '@tresjs/core'
 import { ref, watch } from 'vue'
-import BlenderCube from '../../../components/BlenderCube.vue'
+import BlenderCube from '@/components/BlenderCube.vue'
 
 const { invalidate } = useTres()
 

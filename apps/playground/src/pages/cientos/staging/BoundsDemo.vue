@@ -5,21 +5,23 @@ import { Vector3 } from 'three'
 import { TresLeches, useControls } from '@tresjs/leches'
 import { computed, shallowRef } from 'vue'
 
-const { 
-  duration, 
-  offset, 
-  clip, 
-  useMounted, 
-  useOrthographic, 
-  useResize, 
-  isLinear, 
-  enabled, 
-  lookAtX, 
-  lookAtY, 
-  lookAtZ, 
-  moveToX, 
-  moveToY, 
-  moveToZ, 
+const uuid = 'staging-bounds'
+
+const {
+  duration,
+  offset,
+  clip,
+  useMounted,
+  useOrthographic,
+  useResize,
+  isLinear,
+  enabled,
+  lookAtX,
+  lookAtY,
+  lookAtZ,
+  moveToX,
+  moveToY,
+  moveToZ,
   upX, upY, upZ,
 } = useControls({
   duration: { value: 0.5, min: 0, max: 10, step: 0.25 },
@@ -39,7 +41,7 @@ const {
   upX: { value: 0, min: -1, max: 1, step: 0.10 },
   upY: { value: -1, min: -1, max: 1, step: 0.10 },
   upZ: { value: 0, min: -1, max: 1, step: 0.10 },
-})
+}, { uuid })
 
 const { sin, cos, PI } = Math
 const positions = Array.from(
@@ -65,7 +67,7 @@ const onEndFn = (v: any) => { endArg.value = v.object?.uuid; endCount.value++ }
 </script>
 
 <template>
-  <TresLeches />
+  <TresLeches :uuid="uuid" />
   <OverlayInfo>
     <h1>Bounds</h1>
     <h2>Setup</h2>

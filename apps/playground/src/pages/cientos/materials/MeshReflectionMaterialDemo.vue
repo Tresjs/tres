@@ -4,7 +4,9 @@ import { TresCanvas } from '@tresjs/core'
 import { TresLeches, useControls } from '@tresjs/leches'
 import { shallowRef } from 'vue'
 
-useControls('fpsgraph')
+const uuid = 'materials-mesh-reflection'
+
+useControls('fpsgraph', { uuid })
 const {
   mix,
   sharpMix,
@@ -56,7 +58,7 @@ const {
   useRoughnessMap: true,
   useNormalMap: true,
   useDistortionMap: true,
-})
+}, { uuid })
 
 const PATH = 'https://raw.githubusercontent.com/Tresjs/assets/d15ced5cf09eddb2dae680dbe993613daae9cea4/textures/rock/'
 const { textures } = useTextures(['roughness.jpg', 'normal.jpg', 'displacement.png', 'diffuse.jpg'].map(p => PATH + p))
@@ -68,7 +70,7 @@ const rotationY = shallowRef(0)
 </script>
 
 <template>
-  <TresLeches />
+  <TresLeches :uuid="uuid" />
   <TresCanvas clear-color="#050505">
     <TresPerspectiveCamera
       :position="[2, 5, 5]"

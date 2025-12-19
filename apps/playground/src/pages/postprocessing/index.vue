@@ -2,7 +2,7 @@
 import {
   pmndrsRoutes,
   threeRoutes,
-} from '../../router/routes/postprocessing'
+} from '@/router/routes/postprocessing'
 
 const sections = [
   {
@@ -45,7 +45,7 @@ const sections = [
         sm:mx-none sm:w-1/2 sm:max-w-72
         "
           >
-            <span class="text-cientos-blue">Post-processing</span> Playground
+            <span class="text-tres-postprocessing">Post-processing</span> Playground
           </h1>
           <p class="text-lg">
             Testing zone for post-processing effects

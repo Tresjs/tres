@@ -3,6 +3,8 @@ import { Align, OrbitControls } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
 import { TresLeches, useControls } from '@tresjs/leches'
 
+const uuid = 'staging-align'
+
 const elapsed = shallowRef(0)
 let intervalId: ReturnType<typeof setInterval>
 onMounted(() => {
@@ -16,17 +18,17 @@ onUnmounted(() => {
 })
 
 const {
-  top, 
-  left, 
-  front, 
-  bottom, 
-  right, 
-  back, 
-  disable, 
-  disableX, 
-  disableY, 
-  disableZ, 
-  useCacheKey, 
+  top,
+  left,
+  front,
+  bottom,
+  right,
+  back,
+  disable,
+  disableX,
+  disableY,
+  disableZ,
+  useCacheKey,
   vIf,
 } = useControls({
   top: false,
@@ -42,11 +44,11 @@ const {
   useCacheKey: false,
   vIf: true,
   enabled: true,
-})
+}, { uuid })
 </script>
 
 <template>
-  <TresLeches />
+  <TresLeches :uuid="uuid" />
   <TresCanvas>
     <TresPerspectiveCamera :position="[0, 0, 5]" />
     <OrbitControls />

@@ -9,9 +9,11 @@ import { TresLeches, useControls } from '@tresjs/leches'
 import Character from './Character.vue'
 import ComplexModel from './ComplexModel.vue'
 
+const uuid = 'core-events-complex-model'
+
 const box = new Mesh(new BoxGeometry(1, 1, 1), new MeshNormalMaterial())
 box.position.set(4, 0, 0)
-useControls('fpsgraph')
+useControls('fpsgraph', { uuid })
 
 const handleClick = (e: PointerEvent) => {
   console.log('clicked', e)
@@ -28,7 +30,7 @@ const handlePointerLeave = (e: PointerEvent) => {
 </script>
 
 <template>
-  <TresLeches />
+  <TresLeches :uuid="uuid" />
   <TresCanvas clear-color="#202020">
     <TresPerspectiveCamera
       :position="[6, 6, 6]"

@@ -4,6 +4,8 @@ import { Mask, OrbitControls, useMask } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
 import { TresLeches, useControls } from '@tresjs/leches'
 
+const uuid = 'abstractions-mask'
+
 const {
   id,
   invert,
@@ -16,12 +18,12 @@ const {
   colorWrite: false,
   depthWrite: false,
   enabled: true,
-})
+}, { uuid })
 
 </script>
 
 <template>
-  <TresLeches />
+  <TresLeches :uuid="uuid" />
   <TresCanvas :tone-mapping="NoToneMapping" :stencil="true" clear-color="white">
     <TresPerspectiveCamera :position="[11, 11, 11]" />
     <OrbitControls />
