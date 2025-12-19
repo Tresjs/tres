@@ -8,7 +8,7 @@ description: Is similar to OrbitControls yet supports smooth transitions and mor
   ::
 ::
 
-[CameraControls](https://github.com/yomotsu/camera-controls) is a camera controller similar to [OrbitControls](https://cientos.tresjs.org/guide/controls/orbit-controls.html) yet supports smooth transitions and more features.
+[CameraControls](https://github.com/yomotsu/camera-controls) is a camera controller similar to [OrbitControls](/api/controls/orbit-controls) yet supports smooth transitions and more features.
 
 However, it is thirty party library for ThreeJS. So to use it you would need to install and import using [npm](https://www.npmjs.com/package/camera-controls).
 

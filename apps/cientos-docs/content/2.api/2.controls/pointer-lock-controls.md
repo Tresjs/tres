@@ -12,7 +12,7 @@ description: Allows you to capture the mouse movement and simulate a first perso
 
 ::UAlert{icon="i-lucide-message-square-warning" title="Warning"}
 #description
-This control uses the <span style="background-color:#222;padding:0.25rem;border-radius:4px;"><a href="/guide/controls/orbit-controls" style="color:#f7f7f7;text-decoration:none">[`Pointer Lock API`](https://developer.mozilla.org/en-US/docs/Web/API/Pointer_Lock_API)</a></span>, the same rules are applied, for example, you need to interact with the browser to "lock" or start the event.
+This control uses the <span style="background-color:#222;padding:0.25rem;border-radius:4px;"><a href="/api/controls/orbit-controls" style="color:#f7f7f7;text-decoration:none">[`Pointer Lock API`](https://developer.mozilla.org/en-US/docs/Web/API/Pointer_Lock_API)</a></span>, the same rules are applied, for example, you need to interact with the browser to "lock" or start the event.
 In addition, you need to wait 1 second between canceling and re-starting the event
 ::
 
