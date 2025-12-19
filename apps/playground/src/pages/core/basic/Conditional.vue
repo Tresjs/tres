@@ -5,6 +5,8 @@ import { TresLeches, useControls } from '@tresjs/leches'
 import { BasicShadowMap, MeshPhongMaterial, NoToneMapping, SRGBColorSpace } from 'three'
 import { reactive } from 'vue'
 
+const uuid = 'core-basic-conditional'
+
 const state = reactive({
   clearColor: '#201919',
   shadows: true,
@@ -20,14 +22,14 @@ const paneElements = reactive({
   boxPropMaterialVisible: true,
 })
 
-useControls('fpsgraph')
-useControls(paneElements)
+useControls('fpsgraph', { uuid })
+useControls(paneElements, { uuid })
 
 const material = new MeshPhongMaterial({ color: '#ff0000' })
 </script>
 
 <template>
-  <TresLeches />
+  <TresLeches :uuid="uuid" />
   <TresCanvas v-bind="state">
     <TresPerspectiveCamera
       :position="[11, 11, 11]"

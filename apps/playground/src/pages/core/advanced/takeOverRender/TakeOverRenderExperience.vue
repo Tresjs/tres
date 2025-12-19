@@ -5,12 +5,14 @@ import { useLoop, useTresContext } from '@tresjs/core'
 import { useControls } from '@tresjs/leches'
 import type { Mesh } from 'three'
 
+const uuid = 'core-advanced-takeover-render'
+
 const { onRender } = useLoop()
 const { renderer, scene, camera } = useTresContext()
 
 const { shouldRender } = useControls({
   shouldRender: true,
-})
+}, { uuid })
 
 renderer.replaceRenderFunction((notifySuccess) => {
   if (shouldRender.value && camera.activeCamera.value) {

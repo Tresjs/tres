@@ -5,6 +5,8 @@ import { TresLeches, useControls } from '@tresjs/leches'
 import { NoToneMapping, SRGBColorSpace } from 'three'
 import { reactive } from 'vue'
 
+const uuid = 'staging-stars'
+
 const gl = {
   clearColor: '#333',
   outputColorSpace: SRGBColorSpace,
@@ -18,11 +20,11 @@ const options = reactive({
   radius: 100,
 })
 
-const { 
-  radius, 
-  depth, 
-  count, 
-  size, 
+const {
+  radius,
+  depth,
+  count,
+  size,
   'size attenuation': sizeAttenuation,
 } = useControls({
   'radius': {
@@ -50,13 +52,13 @@ const {
     max: 50,
   },
   'size attenuation': options.sizeAttenuation,
-})
+}, { uuid })
 
 
 </script>
 
 <template>
-  <TresLeches />
+  <TresLeches :uuid="uuid" />
   <TresCanvas v-bind="gl">
     <TresPerspectiveCamera :position="[0, 2, 5]" />
     <MouseParallax :factor="0.5" />

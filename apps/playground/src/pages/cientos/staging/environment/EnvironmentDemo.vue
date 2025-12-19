@@ -6,6 +6,8 @@ import Lightformers from './Lightformers.vue'
 import { TresLeches, useControls } from '@tresjs/leches'
 import { BasicShadowMap, NoToneMapping, SRGBColorSpace, Vector3 } from 'three'
 
+const uuid = 'staging-environment'
+
 /* const environmentFiles = ['/px.jpg', '/nx.jpg', '/py.jpg', '/ny.jpg', '/pz.jpg', '/nz.jpg'] */
 
 const gl = {
@@ -61,7 +63,7 @@ const { background, blur, preset, backgroundIntensity, environmentIntensity, bac
     value: new Vector3(0, 0, 0),
   },
   syncMaterials: false,
-})
+}, { uuid })
 
 const environmentRef = ref(null)
 
@@ -92,7 +94,7 @@ const { progress, hasFinishLoading } = await useProgress()
       </div>
     </div>
   </Transition>
-  <TresLeches />
+  <TresLeches :uuid="uuid" />
   <TresCanvas v-bind="gl">
     <TresPerspectiveCamera :position="[10, 10, 10]" />
     <OrbitControls />

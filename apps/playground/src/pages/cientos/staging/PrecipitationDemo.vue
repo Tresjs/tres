@@ -5,6 +5,8 @@ import { TresLeches, useControls } from '@tresjs/leches'
 import { NoToneMapping, SRGBColorSpace } from 'three'
 import { reactive } from 'vue'
 
+const uuid = 'staging-precipitation'
+
 const gl = {
   clearColor: '#333',
   outputColorSpace: SRGBColorSpace,
@@ -64,12 +66,12 @@ const { speed, randomness, count, size, areaX, areaY, areaZ } = useControls({
     min: 1,
     max: 30,
   },
-})
+}, { uuid })
 
 </script>
 
 <template>
-  <TresLeches />
+  <TresLeches :uuid="uuid" />
   <TresCanvas v-bind="gl">
     <TresPerspectiveCamera :position="[0, 2, 15]" />
     <Precipitation

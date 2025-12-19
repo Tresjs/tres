@@ -5,6 +5,8 @@ import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry'
 import { FontLoader } from 'three/examples/jsm/loaders/FontLoader'
 import { useControls } from '@tresjs/leches'
 
+const uuid = 'core-misc-text3d'
+
 const props = defineProps<{
   text: string
 }>()
@@ -65,7 +67,7 @@ const { size, height, curveSegments, bevelEnabled, bevelThickness, bevelSize, be
     max: 10,
     step: 1,
   },
-})
+}, { uuid })
 
 const textOptions = computed(() => ({
   font: toValue(font),

@@ -6,6 +6,8 @@ import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
 import { degToRad } from 'three/src/math/MathUtils.js'
 import { ref, watch } from 'vue'
 
+const uuid = 'abstractions-animated-sprite'
+
 const ASSETS_URL = 'https://raw.githubusercontent.com/andretchen0/tresjs_assets/'
   + '462ad0f669f78d2c5ed7007b5134b419f646efad/textures/animated-sprite/'
 
@@ -35,7 +37,7 @@ const { fps, animation, definitions, flipX, loop, paused, reversed, resetOnEnd, 
   rotationY: { value: 0, step: 1, min: -360, max: 360 },
   rotationZ: { value: 0, step: 1, min: -360, max: 360 },
   position: { value: [0, 0, 0] },
-})
+}, { uuid })
 
 const lastFrame = ref('-')
 const lastEnd = ref('-')
@@ -121,7 +123,7 @@ const centerDemoImgData = (() => {
 </script>
 
 <template>
-  <TresLeches />
+  <TresLeches :uuid="uuid" />
   <div style="position:absolute; top:0; z-index:1; font: 10px sans-serif; padding:10px;">
     <p>@frame: {{ lastFrame }}</p>
     <p>@end: {{ lastEnd }}</p>

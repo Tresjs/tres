@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { usePocGLTF } from '../../../composables/usePocGLTF'
+import { usePocGLTF } from '@/composables/usePocGLTF'
 
 const modelPath = ref('https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/blender-cube.glb')
 
