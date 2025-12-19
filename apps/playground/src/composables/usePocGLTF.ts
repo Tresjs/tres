@@ -4,7 +4,7 @@ import type { UseAsyncStateOptions, UseAsyncStateReturn } from '@vueuse/core'
 import { useAsyncState } from '@vueuse/core'
 import type { GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
-import type { TresObjectMap } from '../../../../src/utils/graph'
+import type { TresObjectMap } from '@/types/tres'
 import { DRACOLoader } from 'three/examples/jsm/Addons.js'
 import type { LoadingManager } from 'three'
 

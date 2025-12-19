@@ -21,7 +21,8 @@
   ],
   "maintainers": [
     "Alvaro Saburido (https://github.com/alvarosabu/)",
-    "Tino Koch (https://github.com/Tinoooo)"
+    "Tino Koch (https://github.com/Tinoooo)",
+    "Damien Montastier (https://github.com/damienmontastier)"
   ],
   "exports": {
     ".": "./dist/tres-post-processing.js",
@@ -38,8 +39,6 @@
     "access": "public"
   },
   "scripts": {
-    "dev": "cd playground && npm run dev",
-    "playground": "cd playground && npm run dev",
     "build": "tsdown",
     "preview": "vite preview",
     "lint": "eslint .",

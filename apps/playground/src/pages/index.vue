@@ -1,24 +1,8 @@
 <script setup lang="ts">
-import {
-  advancedRoutes,
-  basicRoutes,
-  cameraRoutes,
-  eventsRoutes,
-  issuesRoutes,
-  loaderRoutes,
-  miscRoutes,
-  modelsRoutes,
-} from '../router/routes'
-
 const sections = [
-  { icon: '📦', title: 'Basic', routes: basicRoutes },
-  { icon: '🤓', title: 'Advanced', routes: advancedRoutes },
-  { icon: '📣', title: 'Events', routes: eventsRoutes },
-  { icon: '📷', title: 'Camera', routes: cameraRoutes },
-  { icon: '🛜', title: 'Loaders', routes: loaderRoutes },
-  { icon: '🐇', title: 'Models', routes: modelsRoutes },
-  { icon: '🤪', title: 'Misc', routes: miscRoutes },
-  { icon: '🔬', title: 'Issues', routes: issuesRoutes },
+  { icon: './core.svg', title: 'Core', path: '/core' },
+  { icon: './cientos.svg', title: 'Cientos', path: '/cientos' },
+  { icon: './postprocessing.svg', title: 'Postprocessing', path: '/postprocessing' },
 ]
 </script>
 
@@ -43,39 +27,28 @@ const sections = [
           >
             <span class="text-tres-primary">TresJS</span> Playground
           </h1>
-          <p class="text-lg">Testing zone for TresJS/core components</p>
+          <p class="text-lg">Testing zone for TresJS ecosystem</p>
         </div>
       </div>
       <div
         class="text-center sm:text-left sm:grid sm:grid-cols-2 md:grid-cols-3 gap-4"
       >
-        <div
-          v-for="{ title, routes, icon } in sections"
-          :key="title"
-          class="p-4 my-4 leading-normal size-m weight-600 bg-zinc-50 rounded sm:my-0"
-        >
+        <router-link v-for="section in sections" :key="section.path"
+        :to="section.path" class="block no-underline text-zinc-700 visited:text-zinc-400 hover:text-cientos-blue">
           <div
-            class="inline-block p-2 p-x-3 m-b-3 text-2xl bg-zinc-200 rounded"
-          >
-            {{ icon }}
-          </div>
-          <h2 class="text-sm p-0 m-0 mb-1.5 font-semibold text-zinc-600">
-            {{ title }}
-          </h2>
-          <div v-if="routes.length">
-            <div v-for="route in routes" :key="route.name" class="link-wrapper">
-              <router-link
-                class="no-underline text-zinc-700 visited:text-zinc-400 hover:text-cientos-blue"
-                :to="route.path"
+              class="p-4 my-4 leading-normal size-m weight-600 bg-zinc-50 rounded sm:my-0"
+            >
+              <div
+                class="inline-block p-2 p-x-3 m-b-3 text-2xl bg-zinc-200 rounded"
               >
-                <span>{{ route.name }} </span>
-              </router-link>
+                <img :src="section.icon" :alt="section.title" class="w-8 align-baseline" />
+              </div>
+              <h2 class="text-sm p-0 m-0 mb-1.5 font-semibold text-zinc-600">
+                {{ section.title }}
+              </h2>
             </div>
-          </div>
-          <div v-else>
-            (empty)
-          </div>
-        </div>
+        </router-link>
+
       </div>
     </div>
   </div>

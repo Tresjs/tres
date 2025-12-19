@@ -20,8 +20,7 @@
   ],
   "maintainers": [
     "Alvaro Saburido (https://github.com/alvarosabu/)",
-    "Jaime Torrealba (https://github.com/JaimeTorrealba)",
-    "Andre Tchen (https://github.com/andretchen0)"
+    "Jaime Torrealba (https://github.com/JaimeTorrealba)"
   ],
   "sideEffects": false,
   "exports": {
@@ -75,7 +74,6 @@
     "three": "catalog:three",
     "tsdown": "catalog:build",
     "typescript": "catalog:typescript",
-    "unocss": "^66.1.2",
     "vite": "catalog:vite",
     "vite-plugin-banner": "catalog:vite",
     "vite-plugin-dts": "catalog:vite",

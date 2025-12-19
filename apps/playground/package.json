@@ -13,17 +13,18 @@
   "dependencies": {
     "@tresjs/cientos": "workspace:^",
     "@tresjs/core": "workspace:^",
+    "@tresjs/post-processing": "workspace:^",
     "@tresjs/leches": "workspace:^",
-    "vue-router": "^4.5.1"
+    "vue-router": "catalog:vue"
   },
   "devDependencies": {
     "@tresjs/eslint-config": "workspace:^",
     "@tweakpane/plugin-essentials": "^0.2.1",
     "@vitejs/plugin-vue": "catalog:vite",
-    "unplugin-auto-import": "^20.2.0",
-    "vite-plugin-glsl": "^1.5.1",
-    "vite-plugin-qrcode": "^0.3.0",
-    "vite-plugin-vue-devtools": "8.0.2",
-    "vue-tsc": "^3.0.8"
+    "unplugin-auto-import": "catalog:utils",
+    "vite-plugin-glsl": "catalog:vite",
+    "vite-plugin-qrcode": "catalog:vite",
+    "vite-plugin-vue-devtools": "catalog:vite",
+    "vue-tsc": "catalog:typescript"
   }
 }
