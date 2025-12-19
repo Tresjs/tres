@@ -4,6 +4,8 @@ import { TresLeches, useControls } from '@tresjs/leches'
 import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
 import TakeOverLoopExperience from './TakeOverRenderExperience.vue'
 
+const uuid = 'core-advanced-takeover-render-index'
+
 const gl = {
   clearColor: '#82DBC5',
   shadows: true,
@@ -13,11 +15,11 @@ const gl = {
   toneMapping: NoToneMapping,
 }
 
-useControls('fpsgraph')
+useControls('fpsgraph', { uuid })
 </script>
 
 <template>
-  <TresLeches />
+  <TresLeches :uuid="uuid" />
   <TresCanvas v-bind="gl">
     <TakeOverLoopExperience />
   </TresCanvas>

@@ -4,6 +4,8 @@ import type { PerspectiveCamera } from 'three'
 import { Vector3 } from 'three'
 import { TresLeches, useControls } from '@tresjs/leches'
 
+const uuid = 'core-cameras-perspective'
+
 const { position, lookAt, fov, near, far, zoom } = useControls({
   position: new Vector3(8, 8, 8),
   lookAt: new Vector3(0, 0, 0),
@@ -32,7 +34,7 @@ const { position, lookAt, fov, near, far, zoom } = useControls({
     max: 10,
     step: 0.01,
   },
-})
+}, { uuid })
 
 const cameraRef = ref<PerspectiveCamera>()
 
@@ -42,7 +44,7 @@ const computedFov = computed(() => {
 </script>
 
 <template>
-  <TresLeches />
+  <TresLeches :uuid="uuid" />
   <TresCanvas clear-color="#82DBC5">
     <TresPerspectiveCamera
       ref="cameraRef"
