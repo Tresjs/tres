@@ -124,7 +124,6 @@ onBeforeRender(() => {
 <template>
   <TresGroup
     ref="smokeRef"
-    v-bind="$attrs"
   >
     <TresGroup
       ref="groupRef"

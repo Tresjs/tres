@@ -42,7 +42,6 @@ defineExpose({
 <template>
   <TresMesh
     ref="ringRef"
-    v-bind="$attrs"
   >
     <TresRingGeometry :args="args" />
     <slot>

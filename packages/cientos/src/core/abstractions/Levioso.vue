@@ -53,7 +53,7 @@ defineExpose({
 
 <template>
   <TresGroup
-    v-bind="$attrs"
+
     ref="groupRef"
   >
     <slot></slot>
