@@ -9,7 +9,7 @@ attribute float aSize;
 
 varying vec3 vColor;
 
-#include ../includes/simplexNoise3d.glsl
+#include ../includes/simplexNoise3D.glsl
 
 void main()
 {
