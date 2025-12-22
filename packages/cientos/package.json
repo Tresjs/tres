@@ -1,7 +1,7 @@
 {
   "name": "@tresjs/cientos",
   "type": "module",
-  "version": "5.1.1",
+  "version": "5.2.0",
   "description": "Collection of useful helpers and fully functional, ready-made abstractions for Tres",
   "author": "Alvaro Saburido <hola@alvarosaburido.dev> (https://github.com/alvarosabu/)",
   "license": "MIT",
@@ -20,8 +20,7 @@
   ],
   "maintainers": [
     "Alvaro Saburido (https://github.com/alvarosabu/)",
-    "Jaime Torrealba (https://github.com/JaimeTorrealba)",
-    "Andre Tchen (https://github.com/andretchen0)"
+    "Jaime Torrealba (https://github.com/JaimeTorrealba)"
   ],
   "sideEffects": false,
   "exports": {
@@ -46,7 +45,7 @@
     "lint:fix": "eslint . --fix"
   },
   "peerDependencies": {
-    "@tresjs/core": "5.1.1",
+    "@tresjs/core": "5.2.0",
     "three": ">=0.133",
     "vue": ">=3.5.17"
   },
@@ -75,7 +74,6 @@
     "three": "catalog:three",
     "tsdown": "catalog:build",
     "typescript": "catalog:typescript",
-    "unocss": "^66.1.2",
     "vite": "catalog:vite",
     "vite-plugin-banner": "catalog:vite",
     "vite-plugin-dts": "catalog:vite",
