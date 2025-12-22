@@ -231,7 +231,7 @@ For detailed technical information about prop reactivity, see [GitHub Issue #982
 ### Exposed Properties
 
 :::field-group
-  ::::field{name="context" type="TresContext | null"}
+  ::::field{name="context" type="TresContext | undefined"}
   The complete TresJS context object containing scene, renderer, camera, and other core instances. Available after the component is mounted.
   ::::
 

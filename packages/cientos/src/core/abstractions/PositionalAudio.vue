@@ -175,6 +175,5 @@ onBeforeUnmount(() => {
   <TresPositionalAudio
     ref="positionalAudioRef"
     :args="[listener]"
-    v-bind="$attrs"
   />
 </template>
