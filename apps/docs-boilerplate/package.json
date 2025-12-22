@@ -2,7 +2,6 @@
   "name": "docs-boilerplate",
   "type": "module",
   "private": true,
-  "packageManager": "pnpm@10.14.0",
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
@@ -16,26 +15,26 @@
     "@iconify-json/lucide": "^1.2.68",
     "@iconify-json/simple-icons": "^1.2.53",
     "@iconify-json/vscode-icons": "^1.2.30",
-    "@nuxt/content": "^3.7.1",
-    "@nuxt/image": "^1.11.0",
+    "@nuxt/content": "catalog:nuxt",
+    "@nuxt/image": "catalog:nuxt",
     "@nuxt/scripts": "0.12.1",
-    "@nuxt/ui": "^4.0.0",
+    "@nuxt/ui": "catalog:nuxt",
     "@tresjs/cientos": "workspace:^",
     "@tresjs/core": "workspace:^",
     "@tresjs/leches": "workspace:^",
     "@unhead/vue": "^2.0.17",
     "better-sqlite3": "^12.4.1",
-    "nuxt": "^4.1.2",
+    "nuxt": "catalog:nuxt",
     "nuxt-llms": "0.1.3",
     "tweakpane": "^4.0.5",
-    "vue": "^3.5.22",
-    "vue-router": "^4.5.1"
+    "vue": "catalog:vue",
+    "vue-router": "catalog:vue"
   },
   "devDependencies": {
     "@tresjs/eslint-config": "workspace:*",
     "@tweakpane/core": "^2.0.5",
-    "eslint": "catalog:",
-    "typescript": "catalog:",
-    "vue-tsc": "catalog:"
+    "eslint": "catalog:eslint",
+    "typescript": "catalog:typescript",
+    "vue-tsc": "catalog:typescript"
   }
 }

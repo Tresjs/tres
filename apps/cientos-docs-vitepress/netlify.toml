@@ -1,5 +1,5 @@
 [build]
-command = "pnpm run build"
+command = "pnpm install && NODE_OPTIONS='--max-old-space-size=4096' pnpm nx run cientos-docs-vitepress:build"
 publish = "apps/cientos-docs-vitepress/.vitepress/dist"
 
 [build.environment]

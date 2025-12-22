@@ -73,6 +73,8 @@ export default defineNuxtConfig({
         '/',
       ],
       crawlLinks: true,
+      concurrency: 1, // Reduce concurrent rendering to save memory
+      interval: 100, // Add small delay between renders
     },
   },
 

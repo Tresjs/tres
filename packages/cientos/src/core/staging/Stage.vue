@@ -193,7 +193,8 @@ defineExpose({ instance: stageRef, update: () => {} })
         :castShadow="!!shadows"
         :shadow-bias="(shadows as StageShadows)?.bias ?? 0"
         :shadow-normalBias="(shadows as StageShadows)?.normalBias ?? 0"
-        :shadow-mapSize="(shadows as StageShadows)?.size ?? 1024"
+        :shadow-mapSize-x="(shadows as StageShadows)?.size ?? 1024"
+        :shadow-mapSize-y="(shadows as StageShadows)?.size ?? 1024"
       />
       <TresPointLight
         :position="lightingFillComputed"

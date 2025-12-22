@@ -11,6 +11,7 @@ import CircleShadow from './CircleShadow.vue'
 import RandomizedLights from './RandomizedLights/component.vue'
 import Sky from './Sky.vue'
 import Smoke from './Smoke.vue'
+import CameraShake from './CameraShake.vue'
 import SoftShadows from './SoftShadows.vue'
 import Sparkles from './Sparkles/component.vue'
 import Stage from './Stage.vue'
@@ -23,6 +24,7 @@ export {
   Align,
   Backdrop,
   Bounds,
+  CameraShake,
   CircleShadow,
   ContactShadows,
   Environment,

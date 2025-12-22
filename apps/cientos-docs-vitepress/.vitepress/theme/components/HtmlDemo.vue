@@ -4,7 +4,6 @@ import { TresCanvas } from '@tresjs/core'
 
 const gl = {
   clearColor: '#82DBC5',
-  shadows: true,
 }
 </script>
 
@@ -12,22 +11,24 @@ const gl = {
   <TresCanvas v-bind="gl">
     <TresPerspectiveCamera :position="[3, 3, 8]" />
     <OrbitControls />
-    <TresMesh :position="[1, 1, 1]">
-      <TresBoxGeometry />
+
+    <TresMesh :position="[0, .5, 0]">
+      <TresBoxGeometry :args="[1.5, 1.5, 1.5]" />
       <TresMeshNormalMaterial />
+
       <Html
         center
         transform
-        :distance-factor="4"
-        :position="[0, 0, 0.65]"
-        :scale="[0.75, 0.75, 0.75]"
+        :z-index-range="[28, 0]"
+        :position="[0, 0, 1]"
+        :scale="[0.65, 0.65, 0.65]"
       >
         <h1 class="bg-white dark:bg-dark text-xs p-1 rounded">
-          I'm a Box 📦
+          I'm an HTML Box 📦
         </h1>
       </Html>
     </TresMesh>
-    <TresGridHelper />
+
     <TresAmbientLight />
   </TresCanvas>
 </template>

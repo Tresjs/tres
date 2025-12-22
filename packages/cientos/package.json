@@ -1,8 +1,7 @@
 {
   "name": "@tresjs/cientos",
   "type": "module",
-  "version": "5.1.0",
-  "packageManager": "pnpm@10.17.0",
+  "version": "5.2.0",
   "description": "Collection of useful helpers and fully functional, ready-made abstractions for Tres",
   "author": "Alvaro Saburido <hola@alvarosaburido.dev> (https://github.com/alvarosabu/)",
   "license": "MIT",
@@ -21,23 +20,16 @@
   ],
   "maintainers": [
     "Alvaro Saburido (https://github.com/alvarosabu/)",
-    "Jaime Torrealba (https://github.com/JaimeTorrealba)",
-    "Andre Tchen (https://github.com/andretchen0)"
+    "Jaime Torrealba (https://github.com/JaimeTorrealba)"
   ],
   "sideEffects": false,
   "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/trescientos.js"
-    },
-    "./core": {
-      "types": "./dist/core/index.d.ts"
-    },
-    "./*": "./*"
+    ".": "./dist/trescientos.js",
+    "./package.json": "./package.json"
   },
   "main": "./dist/trescientos.js",
   "module": "./dist/trescientos.js",
-  "types": "./dist/index.d.ts",
+  "types": "./dist/trescientos.d.ts",
   "files": [
     "*.d.ts",
     "dist"
@@ -47,48 +39,47 @@
   },
   "scripts": {
     "dev": "cd playground/vue && pnpm dev",
-    "dev:nuxt": "cd playground/nuxt && pnpm dev",
-    "build": "vite build",
+    "build": "tsdown",
     "lint": "eslint .",
     "typecheck": "vue-tsc --noEmit",
     "lint:fix": "eslint . --fix"
   },
   "peerDependencies": {
-    "@tresjs/core": "5.1.0",
+    "@tresjs/core": "5.2.0",
     "three": ">=0.133",
     "vue": ">=3.5.17"
   },
   "dependencies": {
-    "@vueuse/core": "catalog:",
+    "@vueuse/core": "catalog:utils",
     "camera-controls": "^2.9.0",
     "stats-gl": "^2.0.1",
     "stats.js": "^0.17.0",
-    "three-custom-shader-material": "catalog:",
-    "three-stdlib": "catalog:"
+    "three-custom-shader-material": "catalog:three",
+    "three-stdlib": "catalog:three"
   },
   "devDependencies": {
     "@tresjs/core": "workspace:*",
     "@tresjs/eslint-config": "workspace:*",
     "@types/node": "^24.3.0",
-    "@types/three": "catalog:",
-    "@typescript-eslint/eslint-plugin": "catalog:",
-    "@typescript-eslint/parser": "catalog:",
-    "@vitejs/plugin-vue": "catalog:",
-    "eslint": "catalog:",
-    "eslint-plugin-vue": "catalog:",
-    "kolorist": "catalog:",
-    "pathe": "catalog:",
-    "rollup-plugin-analyzer": "catalog:",
-    "rollup-plugin-visualizer": "catalog:",
-    "three": "catalog:",
-    "typescript": "catalog:",
-    "unocss": "^66.1.2",
-    "vite": "catalog:",
-    "vite-plugin-banner": "catalog:",
-    "vite-plugin-dts": "catalog:",
+    "@types/three": "catalog:three",
+    "@typescript-eslint/eslint-plugin": "catalog:eslint",
+    "@typescript-eslint/parser": "catalog:eslint",
+    "@vitejs/plugin-vue": "catalog:vite",
+    "eslint": "catalog:eslint",
+    "eslint-plugin-vue": "catalog:eslint",
+    "kolorist": "catalog:utils",
+    "pathe": "catalog:utils",
+    "rollup-plugin-analyzer": "catalog:build",
+    "rollup-plugin-visualizer": "catalog:build",
+    "three": "catalog:three",
+    "tsdown": "catalog:build",
+    "typescript": "catalog:typescript",
+    "vite": "catalog:vite",
+    "vite-plugin-banner": "catalog:vite",
+    "vite-plugin-dts": "catalog:vite",
     "vite-plugin-glsl": "^1.5.1",
     "vite-svg-loader": "^5.1.0",
-    "vue-tsc": "catalog:"
+    "vue-tsc": "catalog:typescript"
   },
   "nx": {
     "implicitDependencies": [

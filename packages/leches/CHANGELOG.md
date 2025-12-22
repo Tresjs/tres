@@ -1,3 +1,19 @@
+## 1.1.2 (2025-12-10)
+
+### 🩹 Fixes
+
+- update package.json import to use module attributes ([59de9e3a](https://github.com/Tresjs/tres/commit/59de9e3a))
+
+### ❤️ Thank You
+
+- alvarosabu @alvarosabu
+
+## 1.1.1 (2025-11-18)
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/eslint-config to 1.5.1
+
 ## 1.1.0 (2025-10-10)
 
 ### 🧱 Updated Dependencies
