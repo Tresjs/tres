@@ -3,6 +3,8 @@ import { TresCanvas } from '@tresjs/core'
 import { TresLeches } from '@tresjs/leches'
 import { shallowRef } from 'vue'
 
+const uuid = 'core-basic-pierced-props'
+
 const x = shallowRef(1)
 const y = shallowRef(1)
 const z = shallowRef(1)
@@ -39,7 +41,7 @@ const onLoop = ({ elapsed }: { elapsed: number }) => {
     <p>Demonstrate pierced props</p>
     {{ label }}
   </div>
-  <TresLeches />
+  <TresLeches :uuid="uuid" />
   <TresCanvas @loop="onLoop">
     <TresPerspectiveCamera :position="[5, 5, 5]" :look-at="[0, 0, 0]" />
     <TresMesh

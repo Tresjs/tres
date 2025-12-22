@@ -5,6 +5,8 @@ import { TresLeches, useControls } from '@tresjs/leches'
 import { NoToneMapping, SRGBColorSpace } from 'three'
 import { ref, watchEffect } from 'vue'
 
+const uuid = 'controls-scroll'
+
 const boxRef = ref()
 const progress = ref(0)
 
@@ -20,10 +22,10 @@ const gl = {
   toneMapping: NoToneMapping,
 }
 
-useControls('fpsgraph')
+useControls('fpsgraph', { uuid })
 useControls({
   progress: progress.value,
-})
+}, { uuid })
 
 const onLoop = () => {
   if (boxRef.value) {
@@ -34,7 +36,7 @@ const onLoop = () => {
 </script>
 
 <template>
-  <TresLeches class="important-fixed" />
+  <TresLeches :uuid="uuid" class="important-fixed" />
   <TresCanvas
     v-bind="gl"
     window-size

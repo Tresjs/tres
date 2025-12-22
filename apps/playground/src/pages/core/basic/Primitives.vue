@@ -16,6 +16,8 @@ import {
 } from 'three'
 import { ref, watchEffect } from 'vue'
 
+const uuid = 'core-basic-primitives'
+
 const gl = {
   clearColor: '#82DBC5',
   shadows: true,
@@ -30,7 +32,7 @@ const meshRef = ref()
 const { knot, isVisible } = useControls({
   knot: true,
   isVisible: true,
-})
+}, { uuid })
 
 watchEffect(() => {
   if (meshRef.value) {
@@ -95,7 +97,7 @@ const modelArray = ref([torus, torusKnot, sphere]) */
 </script>
 
 <template>
-  <TresLeches />
+  <TresLeches :uuid="uuid" />
   <TresCanvas
     v-bind="gl"
     ref="canvas"

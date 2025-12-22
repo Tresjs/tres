@@ -4,6 +4,8 @@ import { useLoop } from '@tresjs/core'
 import { useControls } from '@tresjs/leches'
 import { shallowRef } from 'vue'
 
+const uuid = 'abstractions-lensflare'
+
 const [x, z] = [shallowRef(0), shallowRef(0)]
 const { onBeforeRender } = useLoop()
 
@@ -14,7 +16,7 @@ onBeforeRender(({ elapsed }) => {
 
 const { value: scale } = useControls({
   scale: { value: 0.33, min: 0.01, max: 2, step: 0.01 },
-})
+}, { uuid })
 </script>
 
 <template>

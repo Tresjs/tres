@@ -6,6 +6,8 @@ import { TresLeches, useControls } from '@tresjs/leches'
 import { BasicShadowMap, MOUSE, NoToneMapping, SRGBColorSpace } from 'three'
 import { reactive } from 'vue'
 
+const uuid = 'controls-orbit'
+
 const gl = {
   clearColor: '#82DBC5',
   shadows: true,
@@ -72,7 +74,7 @@ const {
     value: controlsState.switchCamera,
     options: ['orbit', 'firstPerson'],
   },
-})
+}, { uuid })
 
 watch([
   enableDamping,
@@ -122,7 +124,7 @@ const {
     min: 0,
     max: 2 * Math.PI,
   },
-})
+}, { uuid })
 
 watch([
   AnglesMaxPolarAngle,
@@ -156,7 +158,7 @@ const { DistancesMaxDistance, DistancesMinDistance } = useControls('Distances', 
     min: 0,
     max: 100,
   },
-})
+}, { uuid })
 
 watch([DistancesMaxDistance, DistancesMinDistance], ([
   DistancesMaxDistanceValue,
@@ -186,7 +188,7 @@ const { ZoomEnableZoom, ZoomMinZoom, ZoomMaxZoom, ZoomZoomSpeed } = useControls(
     min: 0,
     max: 100,
   },
-})
+}, { uuid })
 
 watch([ZoomEnableZoom, ZoomMinZoom, ZoomMaxZoom, ZoomZoomSpeed], ([
   ZoomEnableZoomValue,
@@ -214,7 +216,7 @@ function onEnd() {
 </script>
 
 <template>
-  <TresLeches />
+  <TresLeches :uuid="uuid" />
   <TresCanvas v-bind="gl">
     <TresPerspectiveCamera v-if="switchCamera === 'orbit'" name="orbit" :position="[3, 3, 3]" />
     <TresPerspectiveCamera v-else name="firstPerson" :position="[0, 0, 3]" />

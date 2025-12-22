@@ -3,6 +3,8 @@ import { TresCanvas } from '@tresjs/core'
 import OnDemandExperience from './experience.vue'
 import { TresLeches, useControls } from '@tresjs/leches'
 
+const uuid = 'core-advanced-on-demand'
+
 const renderTimes = ref(0)
 
 useControls({
@@ -14,7 +16,7 @@ useControls({
       renderTimes.value = 0
     },
   },
-})
+}, { uuid })
 
 function onRender() {
   renderTimes.value = 1
@@ -22,7 +24,7 @@ function onRender() {
 </script>
 
 <template>
-  <TresLeches />
+  <TresLeches :uuid="uuid" />
   <TresCanvas
     render-mode="on-demand"
     clear-color="#82DBC5"

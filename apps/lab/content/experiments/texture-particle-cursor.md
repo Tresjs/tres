@@ -3,7 +3,7 @@ title: Texture Particle Cursor
 author: alvarosabu
 description: Interactive particle system that follows cursor movement, creating beautiful fluid-like effects using GPU-accelerated particles and texture-based displacement.
 thumbnail: /experiments/texture-particle-cursor.png
-tags: [particles, cursor, texture, interactive]
+tags: [particles, cursor, shaders, interactive]
 date: 2025-12-12
 ---
 

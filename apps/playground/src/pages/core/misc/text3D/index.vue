@@ -5,6 +5,8 @@ import { TresLeches, useControls } from '@tresjs/leches'
 import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
 import Text3D from './Text3D.vue'
 
+const uuid = 'core-misc-text3d-index'
+
 const gl = {
   clearColor: '#82DBC5',
   shadows: true,
@@ -17,11 +19,11 @@ const gl = {
 const { isVisible, text } = useControls({
   isVisible: true,
   text: 'TresJS',
-})
+}, { uuid })
 </script>
 
 <template>
-  <TresLeches />
+  <TresLeches :uuid="uuid" />
   <TresCanvas v-bind="gl">
     <TresPerspectiveCamera :position="[3, 3, 3]" />
     <OrbitControls />

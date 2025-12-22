@@ -8,6 +8,8 @@ import type { VideoTexture } from 'three'
 import { CircleGeometry, DoubleSide, MeshStandardMaterial } from 'three'
 // import { useWindowSize } from '@vueuse/core'
 
+const uuid = 'misc-html'
+
 const sphereRef = ref(null)
 const lightTargetRef = ref(null)
 const portalRef = ref<HTMLElement>()
@@ -26,11 +28,11 @@ const textBlank = ref('hello')
 
 const { showHtml } = useControls({
   showHtml: true,
-})
+}, { uuid })
 
 const { showTransition } = useControls({
   showTransition: true,
-})
+}, { uuid })
 
 useControls({
   updateText: {
@@ -41,7 +43,7 @@ useControls({
     },
     size: 'sm',
   },
-})
+}, { uuid })
 
 useControls({
   activate: {
@@ -52,7 +54,7 @@ useControls({
     },
     size: 'sm',
   },
-})
+}, { uuid })
 
 const customMaterial = shallowRef(new MeshStandardMaterial({
   color: 'white',
@@ -79,6 +81,7 @@ const customGeometry = shallowRef(new CircleGeometry(1.25, 32))
 <template>
   <div class="html-demo-wrapper">
     <TresLeches
+      :uuid="uuid"
       :style="{ position: 'relative',
                 zIndex: 9999999999 }"
     />

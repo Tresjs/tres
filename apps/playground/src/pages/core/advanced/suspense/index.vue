@@ -4,6 +4,8 @@ import { TresCanvas } from '@tresjs/core'
 import { TresLeches, useControls } from '@tresjs/leches'
 import AsyncComponent from './AsyncComponent.vue'
 
+const uuid = 'core-advanced-suspense'
+
 const ctx = ref(null)
 
 const { show } = useControls({
@@ -15,7 +17,7 @@ const { show } = useControls({
       ctx?.value?.renderer?.instance?.value?.dispose()
     },
   },
-})
+}, { uuid })
 
 watchEffect(() => {
   if (!ctx.value) {
@@ -27,7 +29,7 @@ watchEffect(() => {
 </script>
 
 <template>
-  <TresLeches />
+  <TresLeches :uuid="uuid" />
   <TresCanvas ref="ctx" clear-color="#82DBC5">
     <TresPerspectiveCamera :position="[7, 7, 7]" />
     <OrbitControls />
