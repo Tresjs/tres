@@ -50,7 +50,6 @@ defineExpose({ instance: backdropRef })
 <template>
   <TresGroup
     ref="backdropRef"
-    v-bind="$attrs"
   >
     <TresMesh
       :receive-shadow="receiveShadow"

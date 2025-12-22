@@ -41,7 +41,6 @@ defineExpose({
   <TresMesh
     ref="planeRef"
     :rotation="[-Math.PI / 2, 0, 0]"
-    v-bind="$attrs"
   >
     <TresPlaneGeometry :args="args" />
     <slot>

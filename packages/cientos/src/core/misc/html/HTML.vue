@@ -527,7 +527,7 @@ defineExpose({
 </script>
 
 <template>
-  <TresGroup v-bind="$attrs" ref="groupRef">
+  <TresGroup ref="groupRef">
     <template v-if="occlude && !isRayCastOcclusion">
       <TresMesh
         ref="occlusionMeshRef"
