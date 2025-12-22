@@ -13,7 +13,7 @@ const gl = {
 
 const boxRef = shallowRef()
 
-const onHover = (event: any) => {
+function onDrag(event: any) {
   console.log('hover', event)
 }
 </script>
@@ -21,11 +21,11 @@ const onHover = (event: any) => {
 <template>
   <TresCanvas v-bind="gl">
     <TresPerspectiveCamera :position="[0, 7.5, 7.5]" :look-at="[0, 0, 0]" />
-    <DragControls :objects="[boxRef]" @dragstart="onHover" />
     <TresMesh ref="boxRef">
       <TresBoxGeometry />
       <TresMeshBasicMaterial />
     </TresMesh>
+    <DragControls :objects="[boxRef]" @dragstart="onDrag" />
     <TresGridHelper :args="[10, 10]" />
     <TresAmbientLight :intensity="1" />
   </TresCanvas>
