@@ -5,6 +5,8 @@ import { Vector3 } from 'three'
 import { TresLeches, useControls } from '@tresjs/leches'
 import { useWindowSize } from '@vueuse/core'
 
+const uuid = 'core-cameras-orthographic'
+
 const { width, height } = useWindowSize()
 const aspect = computed(() => width.value / height.value)
 
@@ -35,7 +37,7 @@ const { zoom, position, lookAt, near, far, frustum } = useControls({
     max: 1000,
     step: 10,
   },
-})
+}, { uuid })
 const cameraRef = ref<OrthographicCamera>()
 
 watch([zoom, near, far, frustum], () => {
@@ -44,7 +46,7 @@ watch([zoom, near, far, frustum], () => {
 </script>
 
 <template>
-  <TresLeches />
+  <TresLeches :uuid="uuid" />
   <TresCanvas clear-color="#82DBC5">
     <TresOrthographicCamera
       ref="cameraRef"

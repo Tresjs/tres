@@ -5,6 +5,8 @@ import { TresLeches, useControls } from '@tresjs/leches'
 import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
 import { shallowReactive, shallowRef } from 'vue'
 
+const uuid = 'abstractions-levioso'
+
 const gl = {
   clearColor: '#82DBC5',
   shadows: true,
@@ -25,7 +27,7 @@ const { speed, rotationFactor, floatFactor } = useControls({
   speed: { value: leviosoState.speed, min: 0, max: 100, step: 1 },
   rotationFactor: { value: leviosoState.rotationFactor, min: 0, max: 10, step: 1 },
   floatFactor: { value: leviosoState.floatFactor, min: 0, max: 10, step: 1 },
-})
+}, { uuid })
 
 watch([speed, rotationFactor, floatFactor], ([speed, rotationFactor, floatFactor]) => {
   leviosoState.speed = speed
@@ -35,7 +37,7 @@ watch([speed, rotationFactor, floatFactor], ([speed, rotationFactor, floatFactor
 </script>
 
 <template>
-  <TresLeches />
+  <TresLeches :uuid="uuid" />
   <TresCanvas v-bind="gl">
     <TresPerspectiveCamera :position="[11, 11, 11]" />
     <OrbitControls />

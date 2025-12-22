@@ -4,6 +4,8 @@ import { TresLeches, useControls } from '@tresjs/leches'
 
 import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
 
+const uuid = 'core-advanced-memory'
+
 const gl = {
   clearColor: '#fff',
   shadows: true,
@@ -15,7 +17,7 @@ const gl = {
 
 const { isVisible } = useControls({
   isVisible: true,
-})
+}, { uuid })
 
 /* const mesh = new Mesh(
   new BoxGeometry(),
@@ -32,7 +34,7 @@ onUnmounted(() => {
   <RouterLink to="/basic">
     Go to another page
   </RouterLink>
-  <TresLeches />
+  <TresLeches :uuid="uuid" />
   <TresCanvas v-bind="gl">
     <TresPerspectiveCamera
       :position="[3, 3, 3]"

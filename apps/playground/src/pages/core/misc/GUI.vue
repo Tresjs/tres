@@ -6,6 +6,8 @@ import { TresLeches, useControls } from '@tresjs/leches'
 
 import { BasicShadowMap, NoToneMapping, SRGBColorSpace, Vector3 } from 'three'
 
+const uuid = 'core-misc-gui'
+
 const gl = reactive({
   clearColor: '#82DBC5',
   shadows: true,
@@ -17,11 +19,11 @@ const gl = reactive({
 
 const boxPosition = ref(new Vector3(0, 0, 0))
 
-useControls('fpsgraph')
-useControls(gl)
+useControls('fpsgraph', { uuid })
+useControls(gl, { uuid })
 useControls('Box', {
   position: boxPosition.value,
-})
+}, { uuid })
 
 const boxWidth = ref(1)
 
@@ -31,7 +33,7 @@ setTimeout(() => {
 </script>
 
 <template>
-  <TresLeches />
+  <TresLeches :uuid="uuid" />
   <TresCanvas
     v-bind="gl"
     :window-size="true"

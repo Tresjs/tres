@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { TresLeches } from '@tresjs/leches'
 import { Pixelation } from '@tresjs/post-processing'
-import BasicScene from '../../../components/BasicScene.vue'
+import BasicScene from '@/components/BasicScene.vue'
 </script>
 
 <template>

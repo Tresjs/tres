@@ -7,7 +7,7 @@ import {
   miscRoutes,
   shapesRoutes,
   stagingRoutes,
-} from '../../router/routes/cientos'
+} from '@/router/routes/cientos'
 
 const sections = [
   { icon: '📦', title: 'Abstractions', routes: abstractionsRoutes },
@@ -49,7 +49,7 @@ const sections = [
         sm:mx-none sm:w-1/2 sm:max-w-72
         "
           >
-            <span class="text-cientos-blue">Cientos</span> Playground
+            <span class="text-tres-cientos">Cientos</span> Playground
           </h1>
           <p class="text-lg">
             Testing zone for TresJS/Cientos components

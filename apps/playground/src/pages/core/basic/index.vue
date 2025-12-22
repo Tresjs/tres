@@ -5,6 +5,8 @@ import { ACESFilmicToneMapping, AgXToneMapping, BasicShadowMap, CineonToneMappin
 import { OrbitControls } from '@tresjs/cientos'
 import { TresLeches, useControls } from '@tresjs/leches'
 
+const uuid = 'core-basic-index'
+
 const { clearColor, clearAlpha, toneMapping, shadows, shadowMapType } = useControls({
   clearColor: '#82DBC5',
   clearAlpha: {
@@ -33,10 +35,11 @@ const { clearColor, clearAlpha, toneMapping, shadows, shadowMapType } = useContr
       { text: 'Basic', value: BasicShadowMap },
       { text: 'PCF', value: PCFShadowMap },
       { text: 'PCF Soft', value: PCFSoftShadowMap },
-      { text: 'VSM', value: VSMShadowMap },
+      { text: 'VSM', value: VSMShadowMap }
     ],
   },
-})
+}, { uuid })
+
 
 const formattedToneMapping = computed(() => {
   return Number(toneMapping.value) as ToneMapping
@@ -48,7 +51,7 @@ const formattedShadowMapType = computed(() => {
 </script>
 
 <template>
-  <TresLeches />
+  <TresLeches :uuid="uuid" />
   <TresCanvas
     :clear-color="clearColor"
     :clear-alpha="clearAlpha"

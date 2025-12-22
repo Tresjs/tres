@@ -4,6 +4,8 @@ import { TresCanvas } from '@tresjs/core'
 import { NoToneMapping } from 'three'
 import { TresLeches, useControls } from '@tresjs/leches'
 
+const uuid = 'abstractions-marching-cubes'
+
 const r0 = shallowRef()
 const r1 = shallowRef()
 const r2 = shallowRef()
@@ -49,11 +51,11 @@ const {
   strength: { value: 0.5, min: -5, max: 5 },
   subtract: { value: 12, min: 0, max: 100 },
   enableColors: true,
-})
+}, { uuid })
 </script>
 
 <template>
-  <TresLeches />
+  <TresLeches :uuid="uuid" />
   <TresCanvas clear-color="#82DBC5" :tone-mapping="NoToneMapping">
     <TresPerspectiveCamera :position="[0, 0.5, 5]" />
     <OrbitControls />

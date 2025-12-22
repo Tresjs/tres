@@ -4,6 +4,8 @@ import { NoToneMapping } from 'three'
 import { TresCanvas } from '@tresjs/core'
 import { TresLeches, useControls } from '@tresjs/leches'
 
+const uuid = 'staging-accumulative-shadows'
+
 const { frames, once, accumulate, limit, isLimitInfinite, blend, alphaTest, colorBlend, opacity, resolution, scale, toneMapped, isOrange, enabled } = useControls({
   frames: { value: 100, min: 2, max: 200, step: 1 },
   once: true,
@@ -19,7 +21,7 @@ const { frames, once, accumulate, limit, isLimitInfinite, blend, alphaTest, colo
   toneMapped: true,
   isOrange: true,
   enabled: true,
-})
+}, { uuid })
 
 const x = shallowRef(0)
 
@@ -38,7 +40,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <TresLeches />
+  <TresLeches :uuid="uuid" />
   <TresCanvas :shadows="true" clear-color="orange" :tone-mapping="NoToneMapping">
     <TresPerspectiveCamera :args="[50]" :position="[0, 0.6, 2]" :look-at="[0, 0.5, 0]" name="mainCam" />
 

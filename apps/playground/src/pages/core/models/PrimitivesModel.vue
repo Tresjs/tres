@@ -8,6 +8,7 @@ import {
   SRGBColorSpace,
 } from 'three'
 
+const uuid = 'core-models-primitives'
 const gl = {
   clearColor: '#82DBC5',
   shadows: true,
@@ -17,7 +18,7 @@ const gl = {
   toneMapping: NoToneMapping,
 }
 
-useControls('fpsgraph')
+useControls('fpsgraph', { uuid })
 
 const modelsPositions = ref([
   {
@@ -33,7 +34,7 @@ const modelsPositions = ref([
 </script>
 
 <template>
-  <TresLeches />
+  <TresLeches :uuid="uuid" />
   <TresCanvas
     v-bind="gl"
     window-size

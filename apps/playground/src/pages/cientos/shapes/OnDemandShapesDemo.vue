@@ -3,7 +3,7 @@ import { Box, CatmullRomCurve3, Circle, Cone, Cylinder, Dodecahedron, Icosahedro
 import { TresCanvas } from '@tresjs/core'
 import { QuadraticBezierCurve3, Vector3 } from 'three'
 import { onUnmounted } from 'vue'
-import OverlayInfo from '../../components/OverlayInfo.vue'
+import OverlayInfo from '@/components/OverlayInfo.vue'
 
 const COLORS = [0x81DBC5, 0xEFAC35, 0xFFFFFF, 0x444444]
 const WIGGLE_SIZE = 0.3

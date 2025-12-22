@@ -3,11 +3,13 @@ import { TresCanvas } from '@tresjs/core'
 import { TresLeches, useControls } from '@tresjs/leches'
 import Experiment from './FBODemo.vue'
 
-useControls('fpsgraph')
+const uuid = 'abstractions-fbo'
+
+useControls('fpsgraph', { uuid })
 </script>
 
 <template>
-  <TresLeches />
+  <TresLeches :uuid="uuid" />
   <TresCanvas clear-color="#c0ffee">
     <Experiment />
   </TresCanvas>

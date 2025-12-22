@@ -5,6 +5,8 @@ import { TresCanvas, type TresPointerEvent } from '@tresjs/core'
 import { TresLeches } from '@tresjs/leches'
 import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
 
+const uuid = 'core-events-index'
+
 const gl = {
   clearColor: '#202020',
   shadows: true,
@@ -50,7 +52,7 @@ function onPointerMissed(ev: TresPointerEvent) {
 </script>
 
 <template>
-  <TresLeches />
+  <TresLeches :uuid="uuid" />
   <TresCanvas
     window-size
     v-bind="gl"

@@ -5,6 +5,8 @@ import { TresLeches, useControls } from '@tresjs/leches'
 import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
 import { reactive, ref } from 'vue'
 
+const uuid = 'controls-transform'
+
 const gl = {
   clearColor: '#82DBC5',
   shadows: true,
@@ -34,7 +36,7 @@ const controlsState = reactive({
   showZ: true,
 })
 
-useControls('fpsgraph')
+useControls('fpsgraph', { uuid })
 
 const { mode, enabled, space, axis, size, showX, showY, showZ } = useControls({
   mode: {
@@ -63,12 +65,12 @@ const { mode, enabled, space, axis, size, showX, showY, showZ } = useControls({
   showX: true,
   showY: true,
   showZ: true,
-})
+}, { uuid })
 
 </script>
 
 <template>
-  <TresLeches />
+  <TresLeches :uuid="uuid" />
   <TresCanvas
     v-bind="gl"
     ref="context"

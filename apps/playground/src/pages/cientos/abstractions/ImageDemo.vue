@@ -4,6 +4,8 @@ import { Image, OrbitControls } from '@tresjs/cientos'
 import { Color, DoubleSide, FrontSide, NoToneMapping } from 'three'
 import { TresLeches, useControls } from '@tresjs/leches'
 
+const uuid = 'abstractions-image'
+
 const URLS = [
   'https://upload.wikimedia.org/wikipedia/commons/1/13/20220713-great-tit.jpg',
   'https://upload.wikimedia.org/wikipedia/commons/0/00/Friendly_Robin.jpg',
@@ -23,7 +25,7 @@ const c = useControls({
   opacity: { value: 1, min: 0, max: 1, step: 0.01 },
   isDoubleSided: true,
   enabled: true,
-})
+}, { uuid })
 
 const opacity = shallowRef(1)
 const url = shallowRef(URLS[0])
@@ -39,7 +41,7 @@ setInterval(() => {
 </script>
 
 <template>
-  <TresLeches />
+  <TresLeches :uuid="uuid" />
   <TresCanvas :tone-mapping="NoToneMapping">
     <TresPerspectiveCamera />
     <OrbitControls />
