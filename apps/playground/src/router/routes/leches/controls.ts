@@ -1,46 +1,46 @@
 export const controlsRoutes = [
   {
-    path: '/controls/multiple-controls',
+    path: '/leches/controls/multiple-controls',
     name: 'Multiple Controls',
     component: () => import('@/pages/leches/controls/MultipleControlsDemo.vue'),
   },
   {
-    path: '/controls/boolean',
+    path: '/leches/controls/boolean',
     name: 'Boolean Control',
     component: () => import('@/pages/leches/controls/BooleanControlDemo.vue'),
   },
   {
-    path: '/controls/color',
+    path: '/leches/controls/color',
     name: 'Color Control',
     component: () => import('@/pages/leches/controls/ColorControlDemo.vue'),
   },
   {
-    path: '/controls/vector',
+    path: '/leches/controls/vector',
     name: 'Vector Control',
     component: () => import('@/pages/leches/controls/VectorControlDemo.vue'),
   },
   {
-    path: '/controls/select',
+    path: '/leches/controls/select',
     name: 'Select Control',
     component: () => import('@/pages/leches/controls/SelectControlDemo.vue'),
   },
   {
-    path: '/controls/slider',
+    path: '/leches/controls/slider',
     name: 'Slider Control',
     component: () => import('@/pages/leches/controls/SliderControlDemo.vue'),
   },
   {
-    path: '/controls/text',
+    path: '/leches/controls/text',
     name: 'Text Control',
     component: () => import('@/pages/leches/controls/TextControlDemo.vue'),
   },
   {
-    path: '/controls/button',
+    path: '/leches/controls/button',
     name: 'Button Control',
     component: () => import('@/pages/leches/controls/ButtonControlDemo.vue'),
   },
   {
-    path: '/controls/graph',
+    path: '/leches/controls/graph',
     name: 'Graph Control',
     component: () => import('@/pages/leches/controls/GraphDemo.vue'),
   },

@@ -1,21 +1,21 @@
 export const advancedRoutes = [
   {
-    path: '/advanced/folders',
+    path: '/leches/advanced/folders',
     name: 'Folders',
     component: () => import('@/pages/leches/advanced/FoldersDemo.vue'),
   },
   {
-    path: '/advanced/multiple-instances',
+    path: '/leches/advanced/multiple-instances',
     name: 'Multiple Instances',
     component: () => import('@/pages/leches/advanced/multiple-instances/MultipleInstances.vue'),
   },
   {
-    path: '/advanced/stacked',
+    path: '/leches/advanced/stacked',
     name: 'Stacked',
     component: () => import('@/pages/leches/advanced/StackedDemo.vue'),
   },
   {
-    path: '/advanced/slot-content',
+    path: '/leches/advanced/slot-content',
     name: 'Slot Content',
     component: () => import('@/pages/leches/advanced/SlotContentDemo.vue'),
   },

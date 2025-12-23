@@ -1,11 +1,11 @@
 export const basicRoutes = [
   {
-    path: '/basic/reactive-object',
+    path: '/leches/basic/reactive-object',
     name: 'Reactive Object',
     component: () => import('@/pages/leches/basic/ReactiveObjectDemo.vue'),
   },
   {
-    path: '/basic/parent-child',
+    path: '/leches/basic/parent-child',
     name: 'Parent Child',
     component: () => import('@/pages/leches/basic/parent-child/ParentChildDemo.vue'),
   },
