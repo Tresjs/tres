@@ -60,7 +60,6 @@ This component use top level await. Please check the [Suspense API](https://vuej
 | `progress` | `number` | Loading progress as percentage (0-100) |
 | `items` | `Array` | Array of loading items with their status |
 
-::UAlert{icon="i-lucide-message-square-warning" title="Warning"}
-#description
+::prose-warning
 This component use top level await it needs to be wrapped on a [`Suspense`](https://vuejs.org/guide/built-ins/suspense.html#suspense). Please check the [`Suspense API`](https://vuejs.org/guide/built-ins/suspense.html#suspense) for more info
 ::

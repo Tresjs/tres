@@ -29,7 +29,8 @@ import { OrbitControls } from "@tresjs/cientos"
 </template>
 ```
 
-::UAlert{icon="i-lucide-message-square-warning" title="Warning" description="Is really important that the Perspective camera is set first in the canvas. Otherwise might break."}
+::prose-warning
+Is really important that the Perspective camera is set first in the canvas. Otherwise might break.
 ::
 
 ## Props

@@ -46,8 +46,7 @@ import { Reflector } from '@tresjs/cientos'
 | **multisample**   | how many samplers will be render                     | 4                         |
 | **shader**        | The texture of the smoke.                            | Reflector.ReflectorShader |
 
-::UAlert{type="warning"}
-#description
+::prose-warning
 All the props except the `color`, are not reactive
 ::
 

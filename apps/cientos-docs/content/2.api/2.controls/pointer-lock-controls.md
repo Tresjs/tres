@@ -10,8 +10,7 @@ description: Allows you to capture the mouse movement and simulate a first perso
 
 [PointerLockControls](https://threejs.org/docs/index.html?q=pointe#examples/en/controls/PointerLockControls) is a camera controller that allows you to capture the mouse movement and simulate a first person camera. It is a perfect choice for first person 3D games.
 
-::UAlert{icon="i-lucide-message-square-warning" title="Warning"}
-#description
+::prose-warning
 This control uses the <span style="background-color:#222;padding:0.25rem;border-radius:4px;"><a href="/api/controls/orbit-controls" style="color:#f7f7f7;text-decoration:none">[`Pointer Lock API`](https://developer.mozilla.org/en-US/docs/Web/API/Pointer_Lock_API)</a></span>, the same rules are applied, for example, you need to interact with the browser to "lock" or start the event.
 In addition, you need to wait 1 second between canceling and re-starting the event
 ::
@@ -34,7 +33,8 @@ import { PointerLockControls, Box } from '@tresjs/cientos'
 </template>
 ```
 
-::UAlert{icon="i-lucide-message-square-warning" title="Warning" description="Is really important that the Perspective camera is set first in the canvas. Otherwise might break."}
+::prose-warning
+Is really important that the Perspective camera is set first in the canvas. Otherwise might break.
 ::
 
 ## Props

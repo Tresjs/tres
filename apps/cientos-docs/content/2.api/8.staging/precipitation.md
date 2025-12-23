@@ -102,7 +102,8 @@ import { Precipitation } from '@tresjs/cientos'
 
 You can create much more! ☔
 
-::UAlert{icon="i-lucide-message-square-warning" title="Warning" description="Be careful with the performance this components render infinite particles in movement"}
+::prose-warning
+Be careful with the performance this components render infinite particles in movement
 ::
 
 ## Props

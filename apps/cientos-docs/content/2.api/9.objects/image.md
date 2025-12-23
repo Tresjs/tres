@@ -32,8 +32,7 @@ import { Image } from '@tresjs/cientos'
 
 ## Props
 
-::UAlert{type="info"}
-#description
+::prose-warning
 `<Image />` is a THREE.Mesh and most Mesh attributes can be used as props on the component.
 ::
 

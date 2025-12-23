@@ -63,7 +63,8 @@ The passed array is converted to `Array<number>` – i.e., a series of x, y, z v
 | `[number, number]`           | Insert the array values, then 0 into the result array                            |
 | `number`                     | Insert the number into the result array                                          |
 
-::UAlert{icon="i-lucide-message-square-warning" title="Warning" description="If you pass bare numbers in the points array, ensure that you pass triplets – groups of three numbers. Otherwise, you'll corrupt the coordinates that follow."}
+::prose-warning
+If you pass bare numbers in the points array, ensure that you pass triplets – groups of three numbers. Otherwise, you'll corrupt the coordinates that follow.
 ::
 
 ```vue

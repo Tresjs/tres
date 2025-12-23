@@ -43,8 +43,7 @@ onUnmounted(() => {
 </template>
 ```
 
-::UAlert{type="warning"}
-#description
+::prose-warning
 AudioContext is authorised when an user gesture has been made on the page. `:autoplay="true"` cannot be activated if no user gesture has been made previously [`read more`](https://goo.gl/7K7WLu).
 If you are sure that there will be a user gesture before your `<PositionAudio>` component appears/is created, you can directly add `:ready="true"` and `autoplay="true"` for a direct launch.
 ::

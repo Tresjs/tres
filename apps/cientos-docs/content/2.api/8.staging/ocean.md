@@ -10,7 +10,8 @@ description: Wrapper for the Three.js Water add-on with sky reflection support.
 
 `<Ocean />` is a wrapper for the [Three.js `Water` add-on](https://threejs.org/examples/?q=ocean#webgl_shaders_ocean).
 
-::UAlert{icon="i-lucide-message-square-warning" title="Warning" description="Ocean comes with a default texture, so it needs to be wrapped in a Suspense component."}
+::prose-warning
+Ocean comes with a default texture, so it needs to be wrapped in a Suspense component.
 ::
 
 ## Usage
@@ -62,7 +63,8 @@ import { Ocean } from '@tresjs/cientos'
 
 ## Props
 
-::UAlert{icon="i-lucide-message-square-warning" title="Warning" description="All of the props of this component are not reactive."}
+::prose-warning
+All of the props of this component are not reactive.
 ::
 
 | Prop                | Description                                  | Default                                                                                          |

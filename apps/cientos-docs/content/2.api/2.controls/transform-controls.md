@@ -31,8 +31,7 @@ const boxRef = shallowRef()
 </template>
 ```
 
-::UAlert{icon="i-lucide-message-square-warning" title="Warning"}
-#description
+::prose-warning
 If you are using other controls <span style="background-color:#222;padding:0.25rem;border-radius:4px;"><a href="/api/controls/orbit-controls" style="color:#f7f7f7;text-decoration:none">OrbitControls</a></span> they will interfere with each other when dragging. To avoid this, you can set the `makeDefault` prop to `true` on the **OrbitControls**.
 ::
 

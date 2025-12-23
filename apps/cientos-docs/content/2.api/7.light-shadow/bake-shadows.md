@@ -12,7 +12,8 @@ description: Bakes shadows in the first frame for performance optimization.
 
 ## Basic usage
 
-::UAlert{icon="i-lucide-message-square-warning" title="Warning" description="You have to set the shadows in the TresCanvas (renderer), your light sources and objects to receive and cast accordantly as you normally would do."}
+::prose-warning
+You have to set the shadows in the TresCanvas (renderer), your light sources and objects to receive and cast accordantly as you normally would do.
 ::
 
 ```vue{2,26}

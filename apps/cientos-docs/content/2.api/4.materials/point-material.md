@@ -10,7 +10,8 @@ description: Extends THREE.PointsMaterial to render points as dots rather than s
 
 `<PointMaterial />` extends `THREE.PointsMaterial`. It renders the points as dots, rather than the default squares.
 
-::UAlert{icon="i-lucide-info" title="Info" description="N.B., stacking order and transparency of objects using THREE.PointsMaterial and by extension PointMaterial can be somewhat unintuitive, especially when combined with other on-screen objects. Please see discussions at threejs.org for more infomation."}
+::prose-warning
+N.B., stacking order and transparency of objects using THREE.PointsMaterial and by extension PointMaterial can be somewhat unintuitive, especially when combined with other on-screen objects. Please see discussions at threejs.org for more infomation.
 ::
 
 ## Usage

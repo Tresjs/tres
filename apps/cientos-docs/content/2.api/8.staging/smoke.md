@@ -12,7 +12,8 @@ description: Beautiful smoke, cloud, and fog effect using textures and transpare
 
 ## Usage
 
-::UAlert{icon="i-lucide-message-square-warning" title="Warning" description="Smoke component comes with a default texture abstraction it needs to be wrapped by a Suspense component"}
+::prose-warning
+Smoke component comes with a default texture abstraction it needs to be wrapped by a Suspense component
 ::
 
 You can use `<Smoke />` component without passing any props, but still if you want you can tweak the props to find the best setup for you

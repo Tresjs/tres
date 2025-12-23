@@ -7,8 +7,7 @@ description: Detect when objects enter or leave the screen.
 
 ## Usage
 
-::UAlert{type="warning"}
-#description
+::prose-warning
 `useIntersect` requires a `TresCanvas` context, so it is only available in `TresCanvas` descendant components' `<script setup>`.
 ::
 

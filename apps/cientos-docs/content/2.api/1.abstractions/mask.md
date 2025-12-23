@@ -10,8 +10,7 @@ description: Cut out areas of the screen using the stencil buffer.
 
 `<Mask/>` uses the stencil buffer to cut out areas of the screen.
 
-::UAlert{type="warning"}
-#description
+::prose-warning
 To use `<Mask />` you *must* add `:stencil="true"` to your `<TresCanvas />`.
 
 `<Mask />` relies on the [`stencil buffer`](https://threejs.org/docs/#api/en/renderers/WebGLRenderer). In recent versions of THREE.js, by default, the stencil buffer is not created.

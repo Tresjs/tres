@@ -35,8 +35,7 @@ const currentAnimation = ref('cientosIdle')
 </template>
 ```
 
-::UAlert{type="warning"}
-#description
+::prose-warning
 `<AnimatedSprite />` loads resources asynchronously, so it must be wrapped in a `<Suspense />`.
 ::
 
@@ -60,8 +59,7 @@ There may be cases where you don't want to supply an atlas to the `atlas` prop. 
 
 ## Spritesheets in the wild
 
-::UAlert{type="warning"}
-#description
+::prose-warning
 In the wild, spritesheets are often distributed without atlases and the images are often compiled by hand. It can be difficult or impossible to use these resources directly with `<AnimatedSprite />`. In many cases, it's advisable to recompile the spritesheet.
 ::
 
