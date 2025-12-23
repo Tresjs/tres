@@ -2,7 +2,7 @@
 import { ACESFilmicToneMapping, PCFSoftShadowMap } from 'three'
 import { ref, shallowRef } from 'vue'
 import { version } from '../../package.json' with { type: 'json' }
-import type { RendererOptions, TresContext } from '../composables'
+import type { RendererOptions, TresContext, TresCustomRendererOptions } from '../composables'
 import type { TresCamera, TresContextWithClock, TresPointerEvent } from '../types'
 import type { TresPointerEventName } from '../utils/pointerEvents.ts'
 import Context from './Context.vue'
@@ -24,7 +24,12 @@ export interface TresCanvasProps extends RendererOptions {
    * When true, Vue's provide/inject will work across the TresJS boundary
    * @default true
    */
-  enableProvideBridge?: boolean
+  enableProvideBridge?: boolean,
+  /**
+   * Options for the TresJS custom renderer
+   * 
+   */
+  options?: TresCustomRendererOptions
 }
 
 export type TresCanvasEmits = {
@@ -57,9 +62,12 @@ const props = withDefaults(defineProps<TresCanvasProps>(), {
   renderMode: 'always',
   clearColor: '#000000',
   clearAlpha: 1,
-  enableProvideBridge: true,
+  enableProvideBridge: true, // We should probably move to options in next major version
   toneMapping: ACESFilmicToneMapping,
   shadowMapType: PCFSoftShadowMap,
+  options: () => ({
+    primitivePrefix: '',
+  }),
 })
 
 const emit = defineEmits<TresCanvasEmits>()
@@ -80,12 +88,8 @@ defineExpose<TresCanvasInstance>({
 </script>
 
 <template>
-  <canvas
-    ref="canvasRef"
-    :data-scene="contextRef?.context?.scene.value.uuid"
-    :class="$attrs.class"
-    :data-tres="`tresjs ${version}`"
-    :style="{
+  <canvas ref="canvasRef" :data-scene="contextRef?.context?.scene.value.uuid" :class="$attrs.class"
+    :data-tres="`tresjs ${version}`" :style="{
       display: 'block',
       width: '100%',
       height: '100%',
@@ -95,32 +99,16 @@ defineExpose<TresCanvasInstance>({
       pointerEvents: 'auto',
       touchAction: 'none',
       ...$attrs.style as Object,
-    }"
-  >
-    <Context
-      v-if="canvasRef"
-      ref="contextRef"
-      :canvas="canvasRef"
-      v-bind="props"
-      @ready="emit('ready', $event)"
-      @pointermissed="emit('pointermissed', $event)"
-      @render="emit('render', $event)"
-      @before-loop="emit('beforeLoop', $event)"
-      @loop="emit('loop', $event)"
-      @click="emit('click', $event)"
-      @contextmenu="emit('contextmenu', $event)"
-      @pointermove="emit('pointermove', $event)"
-      @pointerenter="emit('pointerenter', $event)"
-      @pointerleave="emit('pointerleave', $event)"
-      @pointerover="emit('pointerover', $event)"
-      @pointerout="emit('pointerout', $event)"
-      @dblclick="emit('dblclick', $event)"
-      @pointerdown="emit('pointerdown', $event)"
-      @pointerup="emit('pointerup', $event)"
-      @pointercancel="emit('pointercancel', $event)"
-      @lostpointercapture="emit('lostpointercapture', $event)"
-      @wheel="emit('wheel', $event)"
-    >
+    }">
+    <Context v-if="canvasRef" ref="contextRef" :canvas="canvasRef" v-bind="props" @ready="emit('ready', $event)"
+      @pointermissed="emit('pointermissed', $event)" @render="emit('render', $event)"
+      @before-loop="emit('beforeLoop', $event)" @loop="emit('loop', $event)" @click="emit('click', $event)"
+      @contextmenu="emit('contextmenu', $event)" @pointermove="emit('pointermove', $event)"
+      @pointerenter="emit('pointerenter', $event)" @pointerleave="emit('pointerleave', $event)"
+      @pointerover="emit('pointerover', $event)" @pointerout="emit('pointerout', $event)"
+      @dblclick="emit('dblclick', $event)" @pointerdown="emit('pointerdown', $event)"
+      @pointerup="emit('pointerup', $event)" @pointercancel="emit('pointercancel', $event)"
+      @lostpointercapture="emit('lostpointercapture', $event)" @wheel="emit('wheel', $event)">
       <slot></slot>
     </Context>
   </canvas>

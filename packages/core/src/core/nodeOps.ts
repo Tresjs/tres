@@ -28,7 +28,7 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
     let name = tag.replace('Tres', '')
     let obj: TresObject | null
 
-    if (tag === 'primitive') {
+    if (tag === `${context.options.primitivePrefix}primitive`) {
       if (!isObject(props.object) || isRef(props.object)) {
         logError(
           'Tres primitives need an \'object\' prop, whose value is an object or shallowRef<object>',
@@ -164,9 +164,9 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
     // NOTE: 1) Recursively remove `node`'s children
     // NOTE: Remove declarative children.
     if (node.__tres && 'objects' in node.__tres) {
-    // NOTE: In the recursive `remove` calls, the array elements
-    // will remove themselves from the array, resulting in skipped
-    // elements. Make a shallow copy of the array.
+      // NOTE: In the recursive `remove` calls, the array elements
+      // will remove themselves from the array, resulting in skipped
+      // elements. Make a shallow copy of the array.
       [...node.__tres.objects].forEach(obj => remove(obj, dispose))
     }
 
@@ -413,7 +413,7 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
     return siblings[index + 1]
   }
 
-  const noop = (): any => {}
+  const noop = (): any => { }
 
   return {
     insert,

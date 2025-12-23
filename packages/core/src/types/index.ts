@@ -172,20 +172,20 @@ export type ThreeElement<T extends ConstructorRepresentation> = Mutable<
 type ThreeExports = typeof THREE
 type ThreeInstancesImpl = {
   [K in keyof ThreeExports as Uncapitalize<K>]: ThreeExports[K] extends ConstructorRepresentation
-    ? ThreeElement<ThreeExports[K]>
-    : never
+  ? ThreeElement<ThreeExports[K]>
+  : never
 }
 
 export interface ThreeInstances extends ThreeInstancesImpl {
   primitive: Omit<ThreeElement<any>, 'args'> & { object: object }
 }
 
-type TresComponents = {
+export type TresComponents = {
   [K in keyof ThreeInstances as `Tres${Capitalize<string & K>}`]: DefineComponent<ThreeInstances[K]>
 }
 
 declare module 'vue' {
-  export interface GlobalComponents extends TresComponents {
+  interface GlobalComponents extends TresComponents {
     primitive: DefineComponent<TresPrimitive>
   }
 }
