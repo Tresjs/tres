@@ -36,10 +36,8 @@
     "access": "public"
   },
   "scripts": {
-    "dev": "cd playground && pnpm run dev",
     "build": "vite build",
     "preview": "vite preview",
-    "playground": "cd playground && pnpm run dev",
     "test": "vitest",
     "test:ci": "echo 'Tests disabled for this branch'",
     "test:ui": "vitest --ui",
