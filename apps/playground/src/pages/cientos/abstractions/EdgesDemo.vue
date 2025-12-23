@@ -3,6 +3,8 @@ import { TresCanvas } from '@tresjs/core'
 import { Box, Edges, OrbitControls } from '@tresjs/cientos'
 import { TresLeches, useControls } from '@tresjs/leches'
 
+const uuid = 'abstractions-edges'
+
 const gl = {
   powerPreference: 'high-performance',
   precision: 'highp',
@@ -19,11 +21,11 @@ const { enabled, edgeColor, edgeThreshold } = useControls({
     max: 100,
     step: 1,
   },
-})
+}, { uuid })
 </script>
 
 <template>
-  <TresLeches />
+  <TresLeches :uuid="uuid" />
 
   <TresCanvas
     v-bind="gl"

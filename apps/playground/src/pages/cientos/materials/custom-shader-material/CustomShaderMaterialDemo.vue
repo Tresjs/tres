@@ -8,6 +8,8 @@ import { useLoop } from '@tresjs/core'
 import { useControls } from '@tresjs/leches'
 import { MeshMatcapMaterial, Uniform } from 'three'
 
+const uuid = 'materials-custom-shader'
+
 const { onBeforeRender } = useLoop()
 
 const { state: texture01 } = useTexture('/matcap_01.png')
@@ -71,7 +73,7 @@ const { speed, amplitude, frequency } = useControls({
     min: 1,
     max: 30,
   },
-})
+}, { uuid })
 
 watch([speed, amplitude, frequency], ([
   speedValue,

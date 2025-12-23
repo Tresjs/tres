@@ -3,6 +3,8 @@ import { Box } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
 import { TresLeches, useControls } from '@tresjs/leches'
 
+const uuid = 'core-cameras-index'
+
 const { cameraType } = useControls({
   cameraType: {
     value: 'perspective',
@@ -14,11 +16,11 @@ const { cameraType } = useControls({
       value: 'orthographic',
     }],
   },
-})
+}, { uuid })
 </script>
 
 <template>
-  <TresLeches />
+  <TresLeches :uuid="uuid" />
   <TresCanvas
     clear-color="#82DBC5"
   >

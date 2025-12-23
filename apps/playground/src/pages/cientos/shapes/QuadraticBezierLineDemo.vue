@@ -4,6 +4,8 @@ import { TresCanvas } from '@tresjs/core'
 import { TresLeches, useControls } from '@tresjs/leches'
 import { Vector3 } from 'three'
 
+const uuid = 'shapes-quadratic-bezier-line'
+
 const {
   startX, startY, startZ, endX, endY, endZ, moveMid, lineWidth, enabled
 } = useControls({
@@ -16,7 +18,7 @@ const {
   moveMid: true,
   lineWidth: { value: 1, min: 0.01, max: 10 },
   enabled: true,
-})
+}, { uuid })
 
 const mid = new Vector3(1, 1, 1)
 const colors = ref([
@@ -69,7 +71,7 @@ function onLoop({ elapsed }: { elapsed: number }) {
 </script>
 
 <template>
-  <TresLeches />
+  <TresLeches :uuid="uuid" />
   <TresCanvas clear-color="#777" @loop="onLoop">
     <TresPerspectiveCamera :position="[10, 10, 10]" />
     <OrbitControls />

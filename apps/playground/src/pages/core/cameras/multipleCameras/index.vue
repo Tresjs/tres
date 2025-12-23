@@ -4,7 +4,9 @@ import { TresCanvas } from '@tresjs/core'
 import { TresLeches, useControls } from '@tresjs/leches'
 import TheCameraOperator from './TheCameraOperator.vue'
 
-useControls('fpsgraph')
+const uuid = 'core-cameras-multiple'
+
+useControls('fpsgraph', { uuid })
 
 const camera1 = shallowRef<Camera>()
 const camera2 = shallowRef<Camera>()
@@ -34,13 +36,13 @@ const { cameras: activeCameraIndex } = useControls({
       },
     ],
   },
-})
+}, { uuid })
 
 const activeCameraUuid = computed(() => cameraUuidList.value[activeCameraIndex.value])
 </script>
 
 <template>
-  <TresLeches>
+  <TresLeches :uuid="uuid">
     {{ activeCameraUuid }}
   </TresLeches>
 

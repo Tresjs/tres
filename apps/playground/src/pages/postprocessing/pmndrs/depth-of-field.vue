@@ -6,9 +6,9 @@ import { TresLeches, useControls } from '@tresjs/leches'
 
 import { DepthOfFieldPmndrs, EffectComposerPmndrs } from '@tresjs/post-processing'
 import { computed } from 'vue'
-import BlenderCube from '../../../components/BlenderCube.vue'
+import BlenderCube from '@/components/BlenderCube.vue'
 
-import Ducky from '../../../components/Ducky.vue'
+import Ducky from '@/components/Ducky.vue'
 
 const uuid = 'depth-of-field-pmndrs'
 

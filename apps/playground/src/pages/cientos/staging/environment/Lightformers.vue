@@ -4,9 +4,11 @@ import { useLoop } from '@tresjs/core'
 import { ref } from 'vue'
 import { Lightformer } from '@tresjs/cientos'
 
+const uuid = 'staging-environment-lightformers'
+
 const { lightformers } = useControls({
   lightformers: false,
-})
+}, { uuid })
 
 const lightformerRef = ref(null)
 

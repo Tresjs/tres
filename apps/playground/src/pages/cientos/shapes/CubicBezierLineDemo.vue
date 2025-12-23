@@ -4,6 +4,8 @@ import { TresCanvas } from '@tresjs/core'
 import { TresLeches, useControls  } from '@tresjs/leches'
 import { Vector3 } from 'three'
 
+const uuid = 'shapes-cubic-bezier-line'
+
 const { startX, startY, startZ, endX, endY, endZ, moveMidA, moveMidB, lineWidth, enabled } = useControls({
   startX: { value: 0, min: -10, max: 10 },
   startY: { value: 0, min: -10, max: 10 },
@@ -15,7 +17,7 @@ const { startX, startY, startZ, endX, endY, endZ, moveMidA, moveMidB, lineWidth,
   moveMidB: true,
   lineWidth: { value: 1, min: 0.01, max: 10 },
   enabled: true,
-})
+}, { uuid })
 
 const midA = reactive([1, 1, 1] as [number, number, number])
 const midB = new Vector3(2, 2, 2)
@@ -72,7 +74,7 @@ function onLoop({ elapsed }: { elapsed: number }) {
 </script>
 
 <template>
-  <TresLeches />
+  <TresLeches :uuid="uuid" />
   <TresCanvas clear-color="#777" @loop="onLoop">
     <CubicBezierLine
       v-if="enabled"

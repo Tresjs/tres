@@ -6,6 +6,8 @@ import { ACESFilmicToneMapping, SRGBColorSpace } from 'three'
 import { ref } from 'vue'
 import type { Mesh } from 'three'
 
+const uuid = 'abstractions-sampler'
+
 const gl = {
   clearColor: '#82DBC5',
   shadows: true,
@@ -21,11 +23,11 @@ const { samples } = useControls({
     step: 1,
     value: 1,
   },
-})
+}, { uuid })
 </script>
 
 <template>
-  <TresLeches />
+  <TresLeches :uuid="uuid" />
   <TresCanvas v-bind="gl" render-mode="on-demand">
     <TresPerspectiveCamera :position="[0, 0.5, 5]" />
     <OrbitControls />

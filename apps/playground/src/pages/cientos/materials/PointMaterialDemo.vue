@@ -4,6 +4,8 @@ import { TresCanvas } from '@tresjs/core'
 import { OrbitControls, PointMaterial } from '@tresjs/cientos'
 import { TresLeches, useControls } from '@tresjs/leches'
 
+const uuid = 'materials-point'
+
 const positions = new Float32Array(Array.from({ length: 1000 }, () => [
   MathUtils.randFloatSpread(8),
   MathUtils.randFloatSpread(8),
@@ -26,11 +28,11 @@ const {
   sizeAttenuation: false,
   toneMapped: false,
   transparent: true,
-})
+}, { uuid })
 </script>
 
 <template>
-  <TresLeches />
+  <TresLeches :uuid="uuid" />
   <TresCanvas :tone-mapping="NoToneMapping" clear-color="#222" :raycaster="{ params: { Points: { threshold: 0.2 } } }">
     <TresPerspectiveCamera :position="[10, 10, 10]" />
     <OrbitControls />

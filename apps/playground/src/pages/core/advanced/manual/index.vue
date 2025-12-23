@@ -4,6 +4,8 @@ import { TresLeches, useControls } from '@tresjs/leches'
 
 import ManualExperience from './experience.vue'
 
+const uuid = 'core-advanced-manual'
+
 const renderTimes = ref(0)
 
 useControls({
@@ -15,7 +17,7 @@ useControls({
       renderTimes.value = 0
     },
   },
-})
+}, { uuid })
 
 function onRender() {
   renderTimes.value = 1
@@ -23,7 +25,7 @@ function onRender() {
 </script>
 
 <template>
-  <TresLeches />
+  <TresLeches :uuid="uuid" />
   <TresCanvas
     render-mode="manual"
     clear-color="#82DBC5"

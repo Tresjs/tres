@@ -3,7 +3,7 @@ import { CameraControls, Stats } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
 import { NoToneMapping, SRGBColorSpace } from 'three'
 import { shallowRef, watch } from 'vue'
-import TestStars from '../../components/StarsForTest.vue'
+import TestStars from '@/components/StarsForTest.vue'
 
 const gl = {
   clearColor: '#000',

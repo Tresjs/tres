@@ -4,6 +4,8 @@ import { TresCanvas } from '@tresjs/core'
 import { TresLeches, useControls } from '@tresjs/leches'
 import { ACESFilmicToneMapping, SRGBColorSpace } from 'three'
 
+const uuid = 'staging-sky'
+
 const gl = {
   clearColor: '#333',
   outputColorSpace: SRGBColorSpace,
@@ -20,11 +22,11 @@ const { turbidity, rayleigh, mieCoefficient, mieDirectionalG, elevation, azimuth
   azimuth: { value: 180, min: 0, max: 360, step: 1 },
   distance: { value: 450000, min: 1000, max: 1000000, step: 1000 },
   exposure: { value: 0.5, min: 0, max: 1, step: 0.01 },
-})
+}, { uuid })
 </script>
 
 <template>
-  <TresLeches />
+  <TresLeches :uuid="uuid" />
   <TresCanvas
     v-bind="gl"
     :tone-mapping-exposure="exposure"

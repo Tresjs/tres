@@ -4,9 +4,11 @@ import { OrbitControls, SoftShadows } from '@tresjs/cientos'
 import { Group, MeshPhongMaterial, SphereGeometry, Vector3 } from 'three'
 import { TresLeches, useControls } from '@tresjs/leches'
 
+const uuid = 'staging-soft-shadows'
+
 const { samples } = useControls({
   samples: { value: 5, min: 1, max: 10, step: 1 },
-})
+}, { uuid })
 const sphereGeo = new SphereGeometry(0.3, 20, 20)
 const sphereMat = new MeshPhongMaterial({ color: '#82dbc5' })
 const spherePositions = Array.from({ length: 10 }).fill(null).map(() => new Vector3())
@@ -33,7 +35,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <TresLeches />
+  <TresLeches :uuid="uuid" />
   <TresCanvas :shadows="true" :shadowMap-enabled="true">
     <TresFog :args="['#FFFFFF', 5, 100]" />
 
