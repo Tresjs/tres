@@ -1,5 +1,5 @@
 import type { ComputedRef, MaybeRef, MaybeRefOrGetter, Ref } from 'vue'
-import { refDebounced, useElementSize, useWindowSize } from '@vueuse/core'
+import { refDebounced, useDevicePixelRatio, useElementSize, useWindowSize } from '@vueuse/core'
 import { computed, readonly, toValue } from 'vue'
 
 export interface SizesType {
@@ -13,6 +13,8 @@ export default function useSizes(
   canvas: MaybeRef<HTMLCanvasElement>,
   debounceMs: number = 10,
 ) {
+  const { pixelRatio } = useDevicePixelRatio()
+
   const reactiveSize = toValue(windowSize)
     ? useWindowSize()
     : useElementSize(computed(() => toValue(canvas).parentElement))
@@ -26,5 +28,6 @@ export default function useSizes(
     height: debouncedReactiveHeight,
     width: debouncedReactiveWidth,
     aspectRatio,
+    pixelRatio,
   }
 }
