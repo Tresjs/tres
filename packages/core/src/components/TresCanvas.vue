@@ -24,10 +24,10 @@ export interface TresCanvasProps extends RendererOptions {
    * When true, Vue's provide/inject will work across the TresJS boundary
    * @default true
    */
-  enableProvideBridge?: boolean,
+  enableProvideBridge?: boolean
   /**
    * Options for the TresJS custom renderer
-   * 
+   *
    */
   options?: TresCustomRendererOptions
 }
@@ -88,8 +88,12 @@ defineExpose<TresCanvasInstance>({
 </script>
 
 <template>
-  <canvas ref="canvasRef" :data-scene="contextRef?.context?.scene.value.uuid" :class="$attrs.class"
-    :data-tres="`tresjs ${version}`" :style="{
+  <canvas
+    ref="canvasRef"
+    :data-scene="contextRef?.context?.scene.value.uuid"
+    :class="$attrs.class"
+    :data-tres="`tresjs ${version}`"
+    :style="{
       display: 'block',
       width: '100%',
       height: '100%',
@@ -99,16 +103,32 @@ defineExpose<TresCanvasInstance>({
       pointerEvents: 'auto',
       touchAction: 'none',
       ...$attrs.style as Object,
-    }">
-    <Context v-if="canvasRef" ref="contextRef" :canvas="canvasRef" v-bind="props" @ready="emit('ready', $event)"
-      @pointermissed="emit('pointermissed', $event)" @render="emit('render', $event)"
-      @before-loop="emit('beforeLoop', $event)" @loop="emit('loop', $event)" @click="emit('click', $event)"
-      @contextmenu="emit('contextmenu', $event)" @pointermove="emit('pointermove', $event)"
-      @pointerenter="emit('pointerenter', $event)" @pointerleave="emit('pointerleave', $event)"
-      @pointerover="emit('pointerover', $event)" @pointerout="emit('pointerout', $event)"
-      @dblclick="emit('dblclick', $event)" @pointerdown="emit('pointerdown', $event)"
-      @pointerup="emit('pointerup', $event)" @pointercancel="emit('pointercancel', $event)"
-      @lostpointercapture="emit('lostpointercapture', $event)" @wheel="emit('wheel', $event)">
+    }"
+  >
+    <Context
+      v-if="canvasRef"
+      ref="contextRef"
+      :canvas="canvasRef"
+      v-bind="props"
+      @ready="emit('ready', $event)"
+      @pointermissed="emit('pointermissed', $event)"
+      @render="emit('render', $event)"
+      @before-loop="emit('beforeLoop', $event)"
+      @loop="emit('loop', $event)"
+      @click="emit('click', $event)"
+      @contextmenu="emit('contextmenu', $event)"
+      @pointermove="emit('pointermove', $event)"
+      @pointerenter="emit('pointerenter', $event)"
+      @pointerleave="emit('pointerleave', $event)"
+      @pointerover="emit('pointerover', $event)"
+      @pointerout="emit('pointerout', $event)"
+      @dblclick="emit('dblclick', $event)"
+      @pointerdown="emit('pointerdown', $event)"
+      @pointerup="emit('pointerup', $event)"
+      @pointercancel="emit('pointercancel', $event)"
+      @lostpointercapture="emit('lostpointercapture', $event)"
+      @wheel="emit('wheel', $event)"
+    >
       <slot></slot>
     </Context>
   </canvas>

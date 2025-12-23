@@ -1601,6 +1601,9 @@ function mockTresContext() {
       registerCamera: () => {},
       deregisterCamera: () => {},
     },
+    options: {
+      primitivePrefix: '',
+    },
   } as unknown as TresContext
 }
 
