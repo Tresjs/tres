@@ -31,6 +31,9 @@ function mutate() {
     href.value = state.href
   } else {
     for (const [r, v] of ([[title, state.title], [author, state.author], [description, state.description], [href, state.href]] as [ShallowRef<string>, string][])) {
+      if (!r.value || !v) {
+        continue
+      }
       const dLength = r.value.length - v.length
       if (dLength < 0) {
         r.value += v[r.value.length] === ' ' ? ' ' : C
@@ -96,6 +99,9 @@ setInterval(mutate, 128 / 1000)
         <div class="author"><span>{{ author }}</span></div>
         <div class="description"><span>{{ description }}</span></div>
         <div class="link"><span><a :href="state.href">{{ href }}</a></span></div>
+        <button class="href cursor-pointer" @click="state.next()"><span>[Next]
+          </span>
+        </button>
       </div>
     </div>
   </div>

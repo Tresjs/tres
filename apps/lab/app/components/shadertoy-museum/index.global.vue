@@ -58,6 +58,10 @@ onMounted(
   () => {
     setTimeout(() => {
       state.next()
+
+      setInterval(() => {
+        state.next()
+      }, 8000)
     }, 3000)
   }
 )
@@ -67,7 +71,7 @@ onMounted(
   <!--   <ClientOnly>
     <TresLeches :uuid="uuid" />
   </ClientOnly> -->
-  <TresCanvas :clear-color="'#000000'" :antialias="false">
+  <TresCanvas :clear-color="'#000000'" :antialias="false" @click="state.next()">
     <!-- TODO: Add experiment scene objects -->
     <ShadertoyMuseumExperiment />
     <TheScreenshot />
