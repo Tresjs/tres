@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { AdditiveBlending, BufferGeometry, Color, Float32BufferAttribute, Points, ShaderMaterial, Spherical, Texture, Uniform, Vector3, type ColorRepresentation } from 'three'
+import { AdditiveBlending, BufferGeometry, Color, Float32BufferAttribute, Points, ShaderMaterial, Spherical, Uniform, Vector3, type ColorRepresentation } from 'three'
 import { useDevicePixelRatio, useEventListener, useWindowSize } from '@vueuse/core'
 import gsap from 'gsap'
 // Shaders
@@ -94,7 +94,7 @@ function createFireworks(options: FireworksOptions) {
   }
 
   gsap.to(
-    material.value?.uniforms.uProgress, 
+    material.value?.uniforms.uProgress,
     {
       value: 1,
       duration: 3,
@@ -113,7 +113,7 @@ const rand = (min: number = 0, max: number = 1) => Math.random() * (max - min) +
 
 const createRandomFirework = () => {
   const color = new Color()
-  color.setHSL(rand(0, 1),1, 0.7)
+  color.setHSL(rand(0, 1), 1, 0.7)
   const limit = 5
   const position = new Vector3(rand(-limit, limit), rand(-limit, limit), rand(-limit, limit))
   createFireworks({
