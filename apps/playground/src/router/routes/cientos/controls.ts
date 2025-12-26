@@ -39,4 +39,9 @@ export const controlsRoutes = [
     name: 'Helper',
     component: () => import('@/pages/cientos/controls/HelperDemo.vue'),
   },
+  {
+    path: '/cientos/controls/drag-controls',
+    name: 'DragControls',
+    component: () => import('@/pages/cientos/controls/DragControlsDemo.vue'),
+  },
 ]
