@@ -40,7 +40,6 @@ defineExpose({
 <template>
   <TresMesh
     ref="octahedronRef"
-    v-bind="$attrs"
   >
     <TresOctahedronGeometry :args="args" />
     <slot>

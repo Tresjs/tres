@@ -1,6 +1,7 @@
 <script lang="ts">
 import { useTresContext } from '@tresjs/core'
 import { useDevicePixelRatio } from '@vueuse/core'
+import type { WebGLRenderTarget } from 'three'
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js'
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js'
 import { type InjectionKey, onUnmounted, provide, type ShallowRef, shallowRef, watchEffect } from 'vue'
@@ -9,6 +10,7 @@ export const effectComposerInjectionKey: InjectionKey<ShallowRef<EffectComposer 
 
 export interface EffectComposerProps {
   enabled?: boolean
+  renderTarget?: WebGLRenderTarget
   withoutRenderPass?: boolean
 }
 </script>
@@ -28,7 +30,7 @@ const { renderer, sizes, scene, camera } = useTresContext()
 
 const initEffectComposer = () => {
   effectComposer.value?.dispose()
-  effectComposer.value = new EffectComposer(renderer.instance)
+  effectComposer.value = new EffectComposer(renderer.instance, props.renderTarget)
 }
 watchEffect(initEffectComposer)
 

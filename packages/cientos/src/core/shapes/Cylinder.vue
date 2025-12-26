@@ -40,7 +40,7 @@ defineExpose({
 </script>
 
 <template>
-  <TresMesh ref="cylinderRef" v-bind="$attrs">
+  <TresMesh ref="cylinderRef">
     <TresCylinderGeometry :args="args" />
     <slot>
       <TresMeshBasicMaterial :color="color" />

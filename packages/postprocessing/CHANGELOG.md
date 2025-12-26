@@ -1,3 +1,19 @@
+## 3.2.0 (2025-12-26)
+
+### 🚀 Features
+
+- **playground:** integrate post-processing playground ([cef81b0f](https://github.com/Tresjs/tres/commit/cef81b0f))
+- **EffectComposer:** add renderTarget prop to EffectComposer for customizable rendering ([6a193f54](https://github.com/Tresjs/tres/commit/6a193f54))
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/core to 5.2.1
+
+### ❤️ Thank You
+
+- alvarosabu @alvarosabu
+- Tino Koch @tinoooo
+
 ## 3.1.2 (2025-12-10)
 
 ### 🩹 Fixes

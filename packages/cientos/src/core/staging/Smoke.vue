@@ -132,7 +132,7 @@ onBeforeRender(() => {
 </script>
 
 <template>
-  <TresGroup ref="smokeRef">
+  <TresGroup ref="smokeRef" :scale="scale">
     <TresGroup ref="groupRef" :position="[0, 0, (segments / 2) * depth]">
       <TresMesh
         v-for="({ x, y, scale: smokeScale }, index) in smoke"
@@ -140,11 +140,7 @@ onBeforeRender(() => {
         :position="[x, y, -index * depth]"
         :scale="smokeScale"
       >
-        <TresPlaneGeometry
-          :width="scale"
-          :height="scale"
-          :rotation="[0, 0, 0]"
-        />
+        <TresPlaneGeometry />
         <TresMeshStandardMaterial
           :map="map"
           :depth-test="depthTest"

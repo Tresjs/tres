@@ -1,3 +1,16 @@
+## 5.2.1 (2025-12-26)
+
+### 🩹 Fixes
+
+- **core:** expose pixelRatio ([a2cbf4c3](https://github.com/Tresjs/tres/commit/a2cbf4c3))
+- move types to setup block ([72139230](https://github.com/Tresjs/tres/commit/72139230))
+- move types back to TresCanvas ([5a8f90c1](https://github.com/Tresjs/tres/commit/5a8f90c1))
+
+### ❤️ Thank You
+
+- alvarosabu @alvarosabu
+- Jungzl
+
 ## 5.2.0 (2025-12-10)
 
 ### 🚀 Features
