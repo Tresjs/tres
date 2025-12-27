@@ -529,7 +529,7 @@ By default, TresJS provides the `<primitive />` component for rendering Three.js
 import { BoxGeometry, Mesh, MeshBasicMaterial } from 'three'
 
 // Configure custom primitive prefix
-const options = {
+const customRendererOptions = {
   primitivePrefix: 'my',
 }
 
@@ -540,7 +540,7 @@ const mesh = new Mesh(
 </script>
 
 <template>
-  <TresCanvas :options="options">
+  <TresCanvas :custom-renderer-options="customRendererOptions">
     <TresPerspectiveCamera :position="[3, 3, 3]" />
     <!-- Use the custom prefixed primitive component -->
     <myprimitive :object="mesh" />

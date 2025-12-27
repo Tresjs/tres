@@ -88,7 +88,7 @@ const createInternalComponent = (context: TresContext, empty = false) =>
 
 const mountCustomRenderer = (context: TresContext, empty = false) => {
   const InternalComponent = createInternalComponent(context, empty)
-  const { render } = createRenderer(nodeOps(context))
+  const { render } = createRenderer(nodeOps({ context, options: props.customRendererOptions }))
   render(h(InternalComponent), scene.value as unknown as TresObject)
 }
 
@@ -111,7 +111,6 @@ const context = shallowRef<TresContext>(useTresContextProvider({
   canvas: props.canvas,
   windowSize: props.windowSize ?? false,
   rendererOptions: props,
-  options: props.options ?? { primitivePrefix: '' },
 }))
 
 defineExpose({ context, dispose: () => dispose(context.value, true) })
