@@ -19,12 +19,6 @@ export type Overwrite<P, O> = Omit<P, NonFunctionKeys<O>> & O
 export type Properties<T> = Pick<T, NonFunctionKeys<T>>
 export type Mutable<P> = { [K in keyof P]: P[K] | Readonly<P[K]> }
 export type Args<T> = T extends ConstructorRepresentation ? ConstructorParameters<T> : any[]
-/**
- * a utility type that takes an object type and makes the hover overlay more readable
- */
-export type Prettify<T> = {
-  [K in keyof T]: T[K];
-} & {}
 
 export interface TresCatalogue {
   [name: string]: ConstructorRepresentation

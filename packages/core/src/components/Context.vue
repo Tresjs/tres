@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { PerspectiveCamera, Scene, WebGLRenderer } from 'three'
 import type { App } from 'vue'
-import type { Prettify, TresCamera, TresContextWithClock, TresObject, TresPointerEvent, TresScene } from '../types'
+import type { TresCamera, TresContextWithClock, TresObject, TresPointerEvent, TresScene } from '../types'
 import * as THREE from 'three'
 import {
   createRenderer,
@@ -27,7 +27,7 @@ import { registerTresDevtools } from '../devtools'
 import { promiseTimeout } from '@vueuse/core'
 import type { TresPointerEventName } from '../utils/pointerEvents'
 
-export type ContextProps = Prettify<RendererOptions & {
+export interface ContextProps extends RendererOptions {
   /**
    * Custom camera instance to use as main camera
    * If not provided, a default PerspectiveCamera will be created
@@ -45,9 +45,9 @@ export type ContextProps = Prettify<RendererOptions & {
    * @default true
    */
   enableProvideBridge?: boolean
-}>
+}
 
-export type ContextEmits = Prettify<{
+export type ContextEmits = {
   ready: [context: TresContext]
   pointermissed: [event: TresPointerEvent]
   render: [context: TresContext]
@@ -56,7 +56,7 @@ export type ContextEmits = Prettify<{
 } & {
   // all pointer events are supported because they bubble up
   [key in TresPointerEventName]: [event: TresPointerEvent]
-}>
+}
 
 const props = defineProps<ContextProps & { canvas: HTMLCanvasElement }>()
 
