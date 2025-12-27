@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { PerspectiveCamera, Scene, WebGLRenderer } from 'three'
 import type { App } from 'vue'
-import type { TresObject, TresScene } from '../types'
+import type { TresCamera, TresContextWithClock, TresObject, TresPointerEvent, TresScene } from '../types'
 import * as THREE from 'three'
 import {
   createRenderer,
@@ -17,7 +17,7 @@ import {
   watch,
   watchEffect,
 } from 'vue'
-import type { TresContext } from '../composables'
+import type { RendererOptions, TresContext } from '../composables'
 import { useTresContextProvider } from '../composables'
 import { INJECTION_KEY as CONTEXT_INJECTION_KEY } from '../composables/useTresContextProvider'
 import { extend } from '../core/catalogue'
@@ -25,11 +25,42 @@ import { nodeOps } from '../core/nodeOps'
 import { disposeObject3D } from '../utils/'
 import { registerTresDevtools } from '../devtools'
 import { promiseTimeout } from '@vueuse/core'
-import type { TresCanvasEmits, TresCanvasProps } from './TresCanvas.vue'
+import type { TresPointerEventName } from '../utils/pointerEvents'
 
-const props = defineProps<TresCanvasProps & { canvas: HTMLCanvasElement }>()
+export interface ContextProps extends RendererOptions {
+  /**
+   * Custom camera instance to use as main camera
+   * If not provided, a default PerspectiveCamera will be created
+   */
+  camera?: TresCamera
+  /**
+   * Whether the canvas should be sized to the window
+   * When true, canvas will be fixed positioned and full viewport size
+   * @default false
+   */
+  windowSize?: boolean
+  /**
+   * Whether to enable the provide/inject bridge between Vue and TresJS
+   * When true, Vue's provide/inject will work across the TresJS boundary
+   * @default true
+   */
+  enableProvideBridge?: boolean
+}
 
-const emit = defineEmits<TresCanvasEmits>()
+export type ContextEmits = {
+  ready: [context: TresContext]
+  pointermissed: [event: TresPointerEvent]
+  render: [context: TresContext]
+  beforeLoop: [context: TresContextWithClock]
+  loop: [context: TresContextWithClock]
+} & {
+  // all pointer events are supported because they bubble up
+  [key in TresPointerEventName]: [event: TresPointerEvent]
+}
+
+const props = defineProps<ContextProps & { canvas: HTMLCanvasElement }>()
+
+const emit = defineEmits<ContextEmits>()
 
 const slots = defineSlots<{
   default: () => any
@@ -204,7 +235,7 @@ onMounted(async () => {
   await promiseTimeout(3000)
 
   if (!context.value.sizes.width || !context.value.sizes.height.value) {
-    const windowSizePropName: keyof Pick<TresCanvasProps, 'windowSize'> = 'windowSize'
+    const windowSizePropName: keyof Pick<ContextProps, 'windowSize'> = 'windowSize'
     console.warn(`TresCanvas: The canvas has no area, so nothing can be rendered. Set it manually on the parent element or use the prop ${windowSizePropName}.`)
   }
 })
