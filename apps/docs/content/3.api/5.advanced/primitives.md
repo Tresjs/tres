@@ -520,4 +520,55 @@ const particles = new Points(
 </template>
 ```
 
+## Customizing the Primitive Component Name
+
+By default, TresJS provides the `<primitive />` component for rendering Three.js objects. You can customize the component name using the `primitivePrefix` option in `<TresCanvas>`:
+
+```vue [custom-primitive-prefix.vue]
+<script setup lang="ts">
+import { BoxGeometry, Mesh, MeshBasicMaterial } from 'three'
+
+// Configure custom primitive prefix
+const options = {
+  primitivePrefix: 'my',
+}
+
+const mesh = new Mesh(
+  new BoxGeometry(1, 1, 1),
+  new MeshBasicMaterial({ color: 0x00FF00 })
+)
+</script>
+
+<template>
+  <TresCanvas :options="options">
+    <TresPerspectiveCamera :position="[3, 3, 3]" />
+    <!-- Use the custom prefixed primitive component -->
+    <myprimitive :object="mesh" />
+  </TresCanvas>
+</template>
+```
+
+This feature is useful when:
+- You need to avoid naming conflicts with other libraries or components
+- Your project requires a specific naming convention
+- You want to add TypeScript support for custom primitive names
+
+::note
+**TypeScript Support**: When using a custom prefix, you can extend Vue's global components type to get full intellisense support:
+
+```typescript
+// types/tres.d.ts
+import type { TresPrimitive } from '@tresjs/core'
+import type { DefineComponent } from 'vue'
+
+declare module 'vue' {
+  interface GlobalComponents {
+    myprimitive: DefineComponent<TresPrimitive>
+  }
+}
+
+export {}
+```
+::
+
 The `<primitive />` component provides the flexibility to integrate any Three.js object seamlessly into your TresJS application while maintaining the benefits of Vue's reactivity and component system.

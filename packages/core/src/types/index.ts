@@ -180,12 +180,12 @@ export interface ThreeInstances extends ThreeInstancesImpl {
   primitive: Omit<ThreeElement<any>, 'args'> & { object: object }
 }
 
-type TresComponents = {
+export type TresComponents = {
   [K in keyof ThreeInstances as `Tres${Capitalize<string & K>}`]: DefineComponent<ThreeInstances[K]>
 }
 
 declare module 'vue' {
-  export interface GlobalComponents extends TresComponents {
+  interface GlobalComponents extends TresComponents {
     primitive: DefineComponent<TresPrimitive>
   }
 }

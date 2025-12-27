@@ -111,6 +111,7 @@ const context = shallowRef<TresContext>(useTresContextProvider({
   canvas: props.canvas,
   windowSize: props.windowSize ?? false,
   rendererOptions: props,
+  options: props.options ?? { primitivePrefix: '' },
 }))
 
 defineExpose({ context, dispose: () => dispose(context.value, true) })
