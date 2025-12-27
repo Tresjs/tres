@@ -2,10 +2,11 @@
 import { ACESFilmicToneMapping, PCFSoftShadowMap } from 'three'
 import { ref, shallowRef } from 'vue'
 import { version } from '../../package.json' with { type: 'json' }
-import type { RendererOptions, TresContext, TresCustomRendererOptions } from '../composables'
+import type { RendererOptions, TresContext } from '../composables'
 import type { TresCamera, TresContextWithClock, TresPointerEvent } from '../types'
 import type { TresPointerEventName } from '../utils/pointerEvents.ts'
 import Context from './Context.vue'
+import type { TresCustomRendererOptions } from '../core/nodeOps'
 
 export interface TresCanvasProps extends RendererOptions {
   /**
@@ -29,7 +30,7 @@ export interface TresCanvasProps extends RendererOptions {
    * Options for the TresJS custom renderer
    *
    */
-  options?: TresCustomRendererOptions
+  customRendererOptions?: TresCustomRendererOptions
 }
 
 export type TresCanvasEmits = {
@@ -65,9 +66,9 @@ const props = withDefaults(defineProps<TresCanvasProps>(), {
   enableProvideBridge: true, // We should probably move to options in next major version
   toneMapping: ACESFilmicToneMapping,
   shadowMapType: PCFSoftShadowMap,
-  options: () => ({
+  options: {
     primitivePrefix: '',
-  }),
+  },
 })
 
 const emit = defineEmits<TresCanvasEmits>()
