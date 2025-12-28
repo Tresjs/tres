@@ -1,3 +1,17 @@
+## 5.2.1 (2025-12-26)
+
+### 🩹 Fixes
+
+- **cientos:** add missing newline at end of package.json ([39bb82aa](https://github.com/Tresjs/tres/commit/39bb82aa))
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/core to 5.2.1
+
+### ❤️ Thank You
+
+- alvarosabu @alvarosabu
+
 ## 5.2.0 (2025-12-15)
 
 ### 🚀 Features
