@@ -5,6 +5,7 @@ description: GPU-accelerated particle system that smoothly morphs between 3D mod
 thumbnail: /experiments/particles-morphing.png
 tags: [particles, animation, shaders]
 date: 2025-12-20
+lastUpdated: 2025-12-22
 ---
 
 # Particles Morphing

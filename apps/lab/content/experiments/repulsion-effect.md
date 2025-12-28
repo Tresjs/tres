@@ -5,6 +5,7 @@ description: Repulsion Effect
 thumbnail: /experiments/repulsion-effect.png
 tags: ['repulsion', 'effect', 'hover']
 date: 2024-02-28
+lastUpdated: 2024-02-28
 ---
 
 This experiment demonstrates a **dynamic repulsion effect** where particles react to mouse movement, creating an engaging interactive experience. Watch as particles flee from your cursor in realistic physics-based motion, showcasing advanced particle systems and user interaction.
