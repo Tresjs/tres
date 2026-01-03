@@ -8,6 +8,7 @@ date: 2024-09-01
 featured: true
 description: A sphere dancing to the sound of your microphone. This demo utilizes your microphone, so please ensure that you allow access.
 tags: ['basic', 'audio', 'shaders']
+lastUpdated: 2024-09-01
 ---
 
 This experiment creates a **mesmerizing audio-reactive blob** that responds to your microphone input in real-time. Using custom shaders and Web Audio API, the sphere morphs and dances to the sound of your voice or ambient audio.
