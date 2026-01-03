@@ -174,6 +174,36 @@ For detailed technical information about prop reactivity, see [GitHub Issue #982
   ::::field{name="windowSize" type="boolean"}
   **⚡ Reactive** - Whether the canvas should be sized to the window. When true, canvas will be fixed positioned and full viewport size.
   ::::
+
+  ::::field{name="customRendererOptions" type="TresCustomRendererOptions"}
+  Configuration options for the TresJS custom renderer:
+  - `primitivePrefix` - Custom prefix for the primitive component name (default: `""`). For example, setting this to `"my"` allows you to use `<myprimitive>` instead of `<primitive>`.
+
+  ::code-group
+  ```vue [Custom Prefix]
+  <script setup lang="ts">
+  const customRendererOptions = {
+    primitivePrefix: 'my', // Use <myprimitive> instead of <primitive>
+  }
+  </script>
+
+  <template>
+    <TresCanvas :custom-renderer-options="customRendererOptions">
+      <myprimitive :object="myThreeObject" />
+    </TresCanvas>
+  </template>
+  ```
+
+  ```vue [Default (No Prefix)]
+  <template>
+    <TresCanvas>
+      <!-- Default primitive component -->
+      <primitive :object="myThreeObject" />
+    </TresCanvas>
+  </template>
+  ```
+  ::
+  ::::
 :::
 
 ### Events

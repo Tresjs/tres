@@ -29,9 +29,12 @@ const props = withDefaults(defineProps<TresCanvasProps>(), {
   renderMode: 'always',
   clearColor: '#000000',
   clearAlpha: 1,
-  enableProvideBridge: true,
+  enableProvideBridge: true, // We should probably move to options in next major version
   toneMapping: ACESFilmicToneMapping,
   shadowMapType: PCFSoftShadowMap,
+  options: {
+    primitivePrefix: '',
+  },
 })
 
 const emit = defineEmits<TresCanvasEmits>()

@@ -21,6 +21,7 @@ import type { RendererOptions, TresContext } from '../composables'
 import { useTresContextProvider } from '../composables'
 import { INJECTION_KEY as CONTEXT_INJECTION_KEY } from '../composables/useTresContextProvider'
 import { extend } from '../core/catalogue'
+import type { TresCustomRendererOptions } from '../core/nodeOps'
 import { nodeOps } from '../core/nodeOps'
 import { disposeObject3D } from '../utils/'
 import { registerTresDevtools } from '../devtools'
@@ -45,6 +46,11 @@ export interface ContextProps extends RendererOptions {
    * @default true
    */
   enableProvideBridge?: boolean
+  /**
+   * Options for the TresJS custom renderer
+   *
+   */
+  customRendererOptions?: TresCustomRendererOptions
 }
 
 export type ContextEmits = {
@@ -119,7 +125,7 @@ const createInternalComponent = (context: TresContext, empty = false) =>
 
 const mountCustomRenderer = (context: TresContext, empty = false) => {
   const InternalComponent = createInternalComponent(context, empty)
-  const { render } = createRenderer(nodeOps(context))
+  const { render } = createRenderer(nodeOps({ context, options: props.customRendererOptions }))
   render(h(InternalComponent), scene.value as unknown as TresObject)
 }
 
