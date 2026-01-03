@@ -5,6 +5,7 @@ description: An advance technique using ArrayCamera with a model animation
 thumbnail: /experiments/array-cameras.png
 tags: ['models']
 date: 2023-04-21
+lastUpdated: 2023-04-21
 ---
 
 This experiment demonstrates the advanced **ArrayCamera** technique in Three.js, providing multiple simultaneous views of a 3D scene through different camera perspectives. This approach is commonly used in security systems, architectural visualization, and game development for split-screen effects.
