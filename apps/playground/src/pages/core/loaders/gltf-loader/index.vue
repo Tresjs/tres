@@ -11,24 +11,29 @@ const state = reactive({
 provide('gltf-loader-state', state)
 
 // Add primitive prefix to the TresJS custom renderer
-const options = {
+const customRendererOptions = {
   primitivePrefix: 'my',
 }
 </script>
 
 <template>
   <div class="relative h-full w-full">
-    <Transition name="fade-overlay" enter-active-class="opacity-1 transition-opacity duration-200"
-      leave-active-class="opacity-0 transition-opacity duration-200">
-      <div v-show="!state.hasFinishLoading"
-        class="absolute bg-white t-0 l-0 w-full h-full z-20 flex justify-center items-center text-black font-mono">
+    <Transition
+      name="fade-overlay"
+      enter-active-class="opacity-1 transition-opacity duration-200"
+      leave-active-class="opacity-0 transition-opacity duration-200"
+    >
+      <div
+        v-show="!state.hasFinishLoading"
+        class="absolute bg-white t-0 l-0 w-full h-full z-20 flex justify-center items-center text-black font-mono"
+      >
         <div class="w-200px">
           Loading...
           {{ state.progress }} %
         </div>
       </div>
     </Transition>
-    <TresCanvas clear-color="#C0ffee" :options="options">
+    <TresCanvas clear-color="#C0ffee" :custom-renderer-options>
       <TheExperience />
     </TresCanvas>
   </div>

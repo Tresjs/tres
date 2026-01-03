@@ -13,10 +13,6 @@ import useSizes, { type SizesType } from '../useSizes'
 import { useEventManager } from '../useEventManager'
 import { createInjectionState } from '@vueuse/core'
 
-export interface TresCustomRendererOptions {
-  primitivePrefix?: string
-}
-
 export interface TresContext {
   scene: ShallowRef<TresScene>
   sizes: SizesType
@@ -25,7 +21,6 @@ export interface TresContext {
   controls: Ref<TresControl | null>
   renderer: UseRendererManagerReturn
   events: ReturnType<typeof useEventManager>
-  options: TresCustomRendererOptions
 }
 
 export const INJECTION_KEY = 'useTres' // this is intentionally not a symbol as it can not properly be bridged to the custom renderer
@@ -35,13 +30,11 @@ const [useTresContextProvider, _useTresContext] = createInjectionState(({
   canvas,
   windowSize,
   rendererOptions,
-  options,
 }: {
   scene: TresScene
   canvas: MaybeRef<HTMLCanvasElement>
   windowSize: MaybeRefOrGetter<boolean>
   rendererOptions: RendererOptions
-  options: TresCustomRendererOptions
 }): TresContext => {
   const localScene = shallowRef(scene)
   const sizes = useSizes(windowSize, canvas)
@@ -70,7 +63,6 @@ const [useTresContextProvider, _useTresContext] = createInjectionState(({
     controls: ref(null),
     extend,
     events,
-    options,
   }
 
   // Add context to scene local state

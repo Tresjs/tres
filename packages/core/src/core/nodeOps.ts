@@ -10,7 +10,17 @@ import { createRetargetingProxy } from '../utils/primitive/createRetargetingProx
 import { catalogue } from './catalogue'
 import { isSupportedPointerEvent, pointerEventsMapVueToThree } from '../utils/pointerEvents'
 
-export const nodeOps: (context: TresContext) => RendererOptions<TresObject, TresObject | null> = (context) => {
+export interface TresCustomRendererOptions {
+  primitivePrefix?: string
+}
+
+export const nodeOps = ({
+  context,
+  options = { primitivePrefix: '' },
+}: {
+  context: TresContext
+  options?: TresCustomRendererOptions
+}): RendererOptions<TresObject, TresObject | null> => {
   const scene = context.scene.value
 
   function createElement(tag: string, _isSVG: undefined, _anchor: any, props: Partial<WithMathProps<TresObject>> | null): TresObject | null {
@@ -28,7 +38,7 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
     let name = tag.replace('Tres', '')
     let obj: TresObject | null
 
-    if (tag === `${context.options.primitivePrefix}primitive`) {
+    if (tag === `${options?.primitivePrefix ?? ''}primitive`) {
       if (!isObject(props.object) || isRef(props.object)) {
         logError(
           'Tres primitives need an \'object\' prop, whose value is an object or shallowRef<object>',
