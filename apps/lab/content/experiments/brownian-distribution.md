@@ -6,6 +6,7 @@ thumbnail: /experiments/brownian-distribution.png
 featured: true
 tags: ['useLoop']
 date: 2025-01-01
+lastUpdated: 2025-01-01
 ---
 
 
