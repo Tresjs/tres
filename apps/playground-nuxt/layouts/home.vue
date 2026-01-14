@@ -15,4 +15,4 @@
   </div>
 </template>
 
-<style scoped></style>ß
+<style scoped></style>
