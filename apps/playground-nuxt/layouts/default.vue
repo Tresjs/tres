@@ -2,7 +2,7 @@
 
 <template>
   <div>
-    <UMain :ui="{ base: 'mt-[var(--ui-header-height)]' }">
+    <UMain>
       <slot />
     </UMain>
     <!-- <main
@@ -13,4 +13,4 @@
   </div>
 </template>
 
-<style scoped></style>ß
+<style scoped></style>

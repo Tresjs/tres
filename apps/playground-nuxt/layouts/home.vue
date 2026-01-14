@@ -4,7 +4,7 @@
   <div>
     <TheHeader />
     <NuxtLoadingIndicator />
-    <UMain :ui="{ base: 'mt-[var(--ui-header-height)]' }">
+    <UMain>
       <slot />
     </UMain>
     <!-- <main
