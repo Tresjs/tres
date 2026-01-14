@@ -14,10 +14,13 @@ import type {
 export const CONTROLS_CONTEXT_KEY = Symbol('CONTROLS_CONTEXT_KEY')
 const DEFAULT_UUID = 'default'
 
-// Internal state - updated to use the union type
-const controlsStore: { [uuid: string]: Record<string, LechesControlUnion> } = reactive({
+// Internal state - updated to use the union type - exported for direct reactivity access
+export const controlsStore: { [uuid: string]: Record<string, LechesControlUnion> } = reactive({
   default: {},
 })
+
+// Trigger ref for forcing UI updates
+export const controlsStoreTrigger = ref(0)
 
 export function useControlsProvider(uuid: string = DEFAULT_UUID) {
   provide(CONTROLS_CONTEXT_KEY, controlsStore)
@@ -236,6 +239,9 @@ export const useControls = (
     values[key] = refValue
     control.uniqueKey = uniqueKey
   }
+
+  // Trigger update for reactive UI components
+  controlsStoreTrigger.value++
 
   return values
 }

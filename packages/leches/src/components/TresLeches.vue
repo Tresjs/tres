@@ -2,7 +2,7 @@
 import { computed, nextTick, onMounted, onUnmounted, ref, toRefs, watch } from 'vue'
 import { useDraggable } from '../composables/useDraggable'
 import { useWindowSize } from '@vueuse/core'
-import { dispose, useControlsProvider } from '../composables/useControls'
+import { controlsStore, controlsStoreTrigger, dispose, useControlsProvider } from '../composables/useControls'
 import type { LechesControlUnion } from '../types'
 import Folder from './Folder.vue'
 import { useMotion } from '@vueuse/motion'
@@ -59,10 +59,15 @@ function onChange(key: string, value: string) {
 }
 
 const groupedControls = computed(() => {
+  // Access global trigger to force re-computation when controls are added
+  controlsStoreTrigger.value
+
+  // Access controlsStore directly to ensure reactivity tracks property additions
+  const storeControls = controlsStore[uuid.value] || {}
   const groups: { [folder: string]: LechesControlUnion[] } = {}
 
-  for (const key in controls) {
-    const control = controls[key]
+  for (const key of Object.keys(storeControls)) {
+    const control = storeControls[key]
     const folderName = control.folder || 'default' // Ensure we access the value of the ref
 
     if (!groups[folderName as unknown as string]) {
