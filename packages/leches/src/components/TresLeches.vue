@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, nextTick, onMounted, onUnmounted, ref, toRefs, watch } from 'vue'
+import { computed, isRef, nextTick, onMounted, onUnmounted, ref, toRefs, watch } from 'vue'
 import { useDraggable } from '../composables/useDraggable'
 import { useWindowSize } from '@vueuse/core'
 import { dispose, useControlsProvider, useControlsStore } from '../composables/useControls'
@@ -56,7 +56,14 @@ const { store: controlsStore, triggers: controlsTriggers } = useControlsStore()
 defineExpose(controls)
 
 function onChange(key: string, value: string) {
-  controls[key].value = value
+  const control = controls[key] as any
+  // Update the ref (control.value is a ref)
+  if (isRef(control.value)) {
+    control.value.value = value
+  }
+  else {
+    control.value = value
+  }
 }
 
 const groupedControls = computed(() => {

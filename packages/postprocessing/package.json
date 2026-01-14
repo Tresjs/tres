@@ -1,7 +1,7 @@
 {
   "name": "@tresjs/post-processing",
   "type": "module",
-  "version": "3.2.1",
+  "version": "3.2.2",
   "description": "Post-processing library for TresJS",
   "author": "Alvaro Saburido <hola@alvarosaburido.dev> (https://github.com/alvarosabu/)",
   "license": "MIT",

@@ -1,13 +1,16 @@
 <script setup lang="ts">
+import { computed, unref } from 'vue'
 import type { LechesControl } from '../types'
 import ControlLabel from './ControlLabel.vue'
 
-defineProps<{
+const props = defineProps<{
   label: string
   control: LechesControl
 }>()
 
 const emit = defineEmits(['change'])
+
+const controlValue = computed(() => unref(props.control.value))
 
 function onChange(event: Event) {
   const { target } = event
@@ -23,7 +26,7 @@ function onChange(event: Event) {
     />
     <input
       :id="control.uniqueKey"
-      :value="control.value"
+      :value="controlValue"
       type="text"
       tabindex="0"
       class="tl-leches-input tl-w-2/3"

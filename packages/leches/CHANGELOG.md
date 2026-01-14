@@ -1,3 +1,13 @@
+## 1.1.4 (2026-01-14)
+
+### 🩹 Fixes
+
+- **leches:** fix control value display in Nuxt SSR environments ([30e05541](https://github.com/Tresjs/tres/commit/30e05541))
+
+### ❤️ Thank You
+
+- alvarosabu @alvarosabu
+
 ## 1.1.3 (2026-01-14)
 
 ### 🩹 Fixes

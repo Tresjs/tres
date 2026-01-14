@@ -1,3 +1,9 @@
+## 3.2.2 (2026-01-14)
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/leches to 1.1.4
+
 ## 3.2.1 (2026-01-14)
 
 ### 🧱 Updated Dependencies
