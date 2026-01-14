@@ -1,6 +1,6 @@
 import type { TresContext } from '../composables'
 import type { DisposeType, LocalState, TresInstance, TresObject, TresObject3D, TresPrimitive, WithMathProps } from '../types'
-import { BufferAttribute, Object3D } from 'three'
+import { BufferAttribute } from 'three'
 import { isRef, type RendererOptions } from 'vue'
 import { attach, doRemoveDeregister, doRemoveDetach, invalidateInstance, prepareTresInstance, resolve, setPrimitiveObject, unboxTresPrimitive } from '../utils'
 import { logError } from '../utils/logger'
@@ -14,13 +14,17 @@ export interface TresCustomRendererOptions {
   primitivePrefix?: string
 }
 
+export const tresCommentSymbol = Symbol('tresComment')
+
+// TODO improve types of exported methods
+
 export const nodeOps = ({
   context,
   options = { primitivePrefix: '' },
 }: {
   context: TresContext
   options?: TresCustomRendererOptions
-}): RendererOptions<TresObject, TresObject | null> => {
+}): RendererOptions<TresObject | typeof tresCommentSymbol, TresObject | null> => {
   const scene = context.scene.value
 
   function createElement(tag: string, _isSVG: undefined, _anchor: any, props: Partial<WithMathProps<TresObject>> | null): TresObject | null {
@@ -96,8 +100,8 @@ export const nodeOps = ({
     return obj as TresObject
   }
 
-  function insert(child: TresObject, parent: TresObject) {
-    if (!child) { return }
+  function insert(child: TresObject | typeof tresCommentSymbol, parent: TresObject) {
+    if (!child || child === tresCommentSymbol) { return }
 
     // TODO: Investigate and eventually remove `scene` fallback.
     // According to the signature, `parent` should always be
@@ -132,14 +136,14 @@ export const nodeOps = ({
    * @param node – the node root to remove
    * @param dispose – the disposal type
    */
-  function remove(node: TresObject | null, dispose?: DisposeType) {
+  function remove(node: TresObject | typeof tresCommentSymbol | null, dispose?: DisposeType) {
     // NOTE: `remove` is initially called by Vue only on
     // the root `node` of the tree to be removed. We will
     // recursively call the function on children, if necessary.
     // NOTE: Vue does not pass a `dispose` argument; it is
     // used by the recursive calls.
 
-    if (!node) { return }
+    if (!node || node === tresCommentSymbol) { return }
 
     // NOTE: Derive `dispose` value for this `remove` call and
     // recursive remove calls.
@@ -404,12 +408,7 @@ export const nodeOps = ({
    * @param comment Any commented out string contaiend in a vue template, typically this is `v-if`
    * @returns TresObject
    */
-  function createComment(comment: string): TresObject {
-    // TODO: Add a custom type for comments instead of reusing Object3D. Comments should be light weight and not exist in the scene graph
-    const commentObj = prepareTresInstance(new Object3D(), { type: 'Comment' }, context)
-    commentObj.name = comment
-    return commentObj
-  }
+  const createComment = (): typeof tresCommentSymbol => tresCommentSymbol
 
   // nextSibling - Returns the next sibling of a TresObject
   function nextSibling(node: TresObject) {
