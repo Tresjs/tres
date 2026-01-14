@@ -61,7 +61,7 @@ function onChange(key: string, value: string) {
 
 const groupedControls = computed(() => {
   // Access UUID-specific trigger to force re-computation when controls are added
-  controlsTriggers[uuid.value]
+  void controlsTriggers[uuid.value]
 
   // Access controlsStore directly to ensure reactivity tracks property additions
   const storeControls = controlsStore[uuid.value] || {}
