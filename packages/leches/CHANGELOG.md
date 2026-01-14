@@ -1,3 +1,13 @@
+## 1.1.3 (2026-01-14)
+
+### 🩹 Fixes
+
+- **controls:** store trigger for ssr reactivity ([710b6287](https://github.com/Tresjs/tres/commit/710b6287))
+
+### ❤️ Thank You
+
+- alvarosabu @alvarosabu
+
 ## 1.1.2 (2025-12-10)
 
 ### 🩹 Fixes

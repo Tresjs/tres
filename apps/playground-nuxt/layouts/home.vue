@@ -2,6 +2,8 @@
 
 <template>
   <div>
+    <TheHeader />
+    <NuxtLoadingIndicator />
     <UMain>
       <slot />
     </UMain>

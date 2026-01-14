@@ -1,3 +1,20 @@
+## 5.3.0 (2026-01-14)
+
+### 🚀 Features
+
+- **core:** moved types to context component and introduced Prettify helper ([77258a63](https://github.com/Tresjs/tres/commit/77258a63))
+- **core:** integrate useForwardPropsEmits in TresCanvas for streamlined event handling ([bb46d603](https://github.com/Tresjs/tres/commit/bb46d603))
+
+### 🩹 Fixes
+
+- **core:** add prefix option for primitives ([#1262](https://github.com/Tresjs/tres/pull/1262))
+- removed Prettify helper to avoid build errors ([dc17faca](https://github.com/Tresjs/tres/commit/dc17faca))
+
+### ❤️ Thank You
+
+- Alvaro Saburido @alvarosabu
+- Tino Koch @tinoooo
+
 ## 5.2.1 (2025-12-26)
 
 ### 🩹 Fixes
