@@ -2,7 +2,7 @@
 import { useControls } from '@tresjs/leches'
 
 const uuid = 'leches-basic-parent-child'
-const { wireframe, number, booleanDropdown } = useControls({
+const { wireframe, number: numberControl, booleanDropdown } = useControls({
   wireframe: false,
   number: 1,
   booleanDropdown: true,
