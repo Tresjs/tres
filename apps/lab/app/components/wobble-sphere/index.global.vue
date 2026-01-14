@@ -1,16 +1,13 @@
 <script setup lang="ts">
-import { TresLeches, useControls } from '@tresjs/leches'
 // TODO: Implement experiment logic
 const uuid = 'wobble-sphere-experiment'
-/* useControls('fpsgraph', {
+useControls('fpsgraph', {
   uuid,
-}) */
+})
 </script>
 
 <template>
-  <ClientOnly>
-    <TresLeches/>
-  </ClientOnly>
+  <TresLeches :uuid="uuid" />
   <TresCanvas shadows>
     <TresPerspectiveCamera :position="[0, 0, 10]" :look-at="[0, 0, 0]" />
     <WobbleSphereTheWobbleSphere />

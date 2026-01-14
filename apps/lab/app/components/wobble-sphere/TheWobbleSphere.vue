@@ -10,10 +10,20 @@ const uniforms = {
 }
 const uuid = 'wobble-sphere-experiment' 
 const { color, metalness, roughness } = useControls({
-  color: { value: 'red' },
-  metalness: { value: 0 },
-  roughness: { value: 0.5 },
-})
+  color: '#ff0000',
+  metalness: { 
+    value: 0.5,
+    min: 0,
+    max: 1,
+    step: 0.1,
+    },
+  roughness: { 
+    value: 0.5,
+    min: 0,
+    max: 1,
+    step: 0.1,
+  },
+}, { uuid })
 </script>
 
 <template>
