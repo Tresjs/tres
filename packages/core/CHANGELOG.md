@@ -1,3 +1,7 @@
+## 5.3.1 (2026-01-15)
+
+This was a version bump only for @tresjs/core to align it with other projects, there were no code changes.
+
 ## 5.3.0 (2026-01-14)
 
 ### 🚀 Features
