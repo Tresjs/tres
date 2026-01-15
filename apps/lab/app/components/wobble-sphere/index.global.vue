@@ -8,8 +8,8 @@ useControls('fpsgraph', {
 
 <template>
   <TresLeches :uuid="uuid" />
-  <TresCanvas shadows>
-    <TresPerspectiveCamera :position="[0, 0, 10]" :look-at="[0, 0, 0]" />
+  <TresCanvas shadows alpha>
+    <TresPerspectiveCamera :position="[13, -3, -5]" :look-at="[0, 0, 0]" />
     <WobbleSphereTheWobbleSphere />
     <OrbitControls />
     <TheScreenshot />
