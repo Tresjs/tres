@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { Billboard, Box, OrbitControls } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
-import { TresLeches, useControls } from '@tresjs/leches'
+import { useControls } from '@tresjs/leches'
 import { Vector3 } from 'three'
+
+const uuid = inject(`uuid`)
 
 const COUNT = 5 * 5
 const positions = Array.from({ length: COUNT }).fill(0).map((_, i) => {
@@ -17,20 +19,17 @@ const { lockX, lockY, lockZ } = useControls({
   lockX: false,
   lockY: false,
   lockZ: false,
-})
+}, { uuid })
 </script>
 
 <template>
-  <div class="aspect-16/9">
-    <TresCanvas clear-color="#222">
-      <OrbitControls />
-      <TresPerspectiveCamera :position="[0, 0, 10]" />
-      <Billboard v-for="position, i of positions" :key="i" :position="position" :lock-x="lockX" :lock-y="lockY" :lock-z="lockZ">
-        <Box :scale="[0.5, 0.5, 0.001]">
-          <TresMeshNormalMaterial />
-        </Box>
-      </Billboard>
-    </TresCanvas>
-  </div>
-  <TresLeches :float="false" />
+  <TresCanvas clear-color="#222">
+    <OrbitControls />
+    <TresPerspectiveCamera :position="[0, 0, 10]" />
+    <Billboard v-for="position, i of positions" :key="i" :position="position" :lock-x="lockX" :lock-y="lockY" :lock-z="lockZ">
+      <Box :scale="[0.5, 0.5, 0.001]">
+        <TresMeshNormalMaterial />
+      </Box>
+    </Billboard>
+  </TresCanvas>
 </template>

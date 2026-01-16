@@ -3,7 +3,7 @@ title: Mask
 description: Cut out areas of the screen using the stencil buffer.
 ---
 
-::SceneWrapper
+::SceneControlsWrapper
   ::AbstractionsMask
   ::
 ::

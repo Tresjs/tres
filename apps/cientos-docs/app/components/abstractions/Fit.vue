@@ -14,19 +14,17 @@ const mat = new MeshNormalMaterial()
 </script>
 
 <template>
-  <div class="aspect-16/9">
-    <TresCanvas clear-color="#4F4F4F">
-      <TresPerspectiveCamera :position="[1, 1, 1]" />
-      <OrbitControls />
-      <Fit>
-        <TresMesh
-          v-for="(pos, index) in positions"
-          :key="index"
-          :position="pos as [number, number, number]"
-          :args="[geom, mat]"
-        />
-      </Fit>
-      <TresGridHelper :args="[1, 1]" />
-    </TresCanvas>
-  </div>
+  <TresCanvas clear-color="#4F4F4F">
+    <TresPerspectiveCamera :position="[1, 1, 1]" />
+    <OrbitControls />
+    <Fit>
+      <TresMesh
+        v-for="(pos, index) in positions"
+        :key="index"
+        :position="pos as [number, number, number]"
+        :args="[geom, mat]"
+      />
+    </Fit>
+    <TresGridHelper :args="[1, 1]" />
+  </TresCanvas>
 </template>

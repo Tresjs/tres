@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { Align, OrbitControls } from '@tresjs/cientos'
+import { useControls } from '@tresjs/leches'
 import { TresCanvas } from '@tresjs/core'
-import { TresLeches, useControls } from '@tresjs/leches'
+const uuid = inject(`uuid`)
 
 const { top, bottom, left, right, front, back } = useControls({
   top: false,
@@ -10,24 +11,21 @@ const { top, bottom, left, right, front, back } = useControls({
   right: false,
   front: false,
   back: false,
-})
+}, { uuid })
 </script>
 
 <template>
-  <div class="aspect-16/9">
-    <TresCanvas clear-color="#222">
-      <TresPerspectiveCamera />
-      <OrbitControls />
+  <TresCanvas clear-color="#222">
+    <TresPerspectiveCamera />
+    <OrbitControls />
 
-      <TresAxesHelper :scale="2" />
+    <TresAxesHelper :scale="2" />
 
-      <Align :top="top" :right="right" :back="back" :left="left" :bottom="bottom" :front="front">
-        <TresMesh>
-          <TresBoxGeometry />
-          <TresMeshNormalMaterial />
-        </TresMesh>
-      </Align>
-    </TresCanvas>
-  </div>
-  <TresLeches :float="false" />
+    <Align :top="top" :right="right" :back="back" :left="left" :bottom="bottom" :front="front">
+      <TresMesh>
+        <TresBoxGeometry />
+        <TresMeshNormalMaterial />
+      </TresMesh>
+    </Align>
+  </TresCanvas>
 </template>

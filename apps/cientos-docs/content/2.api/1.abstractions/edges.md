@@ -3,7 +3,7 @@ title: Edges
 description: Render visible edges of objects with enhanced visual quality.
 ---
 
-::SceneWrapper
+::SceneControlsWrapper
   ::AbstractionsEdges
   ::
 ::

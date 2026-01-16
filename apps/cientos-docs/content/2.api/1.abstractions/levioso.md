@@ -3,7 +3,7 @@ title: Levioso (Float)
 description: Make content float like magic with smooth animations.
 ---
 
-::SceneWrapper
+::SceneControlsWrapper
   ::AbstractionsLevioso
   ::
 ::
