@@ -3,7 +3,7 @@ title: Text3D
 description: Render text in 3D using TextGeometry.
 ---
 
-::SceneWrapper
+::SceneControlsWrapper
   ::ObjectsText
   ::
 ::
