@@ -3,7 +3,7 @@ title: Icosahedron
 description: Short-cut for a IcosahedronGeometry and a MeshBasicMaterial with a Mesh object.
 ---
 
-::SceneWrapper
+::SceneControlsWrapper
   ::ShapesIcosahedron
   ::
 ::

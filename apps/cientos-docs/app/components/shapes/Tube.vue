@@ -3,7 +3,9 @@ import { OrbitControls, Tube } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
 import { CubicBezierCurve3, DoubleSide, Vector3 } from 'three'
 import { ref } from 'vue'
-import { TresLeches, useControls } from '@tresjs/leches'
+import { useControls } from '@tresjs/leches'
+
+const uuid = inject(`uuid`)
 
 const tubePath = ref(
   new CubicBezierCurve3(
@@ -20,12 +22,11 @@ const { tubularSegments, radius, radialSegments, closed, showWireframe } = useCo
   radialSegments: { value: 8, min: 3, max: 64, step: 1 },
   closed: false,
   showWireframe: false,
-})
+}, { uuid })
 </script>
 
 <template>
-  <div class="aspect-video">
-    <TresCanvas clear-color="#82DBC5">
+  <TresCanvas clear-color="#82DBC5">
       <TresPerspectiveCamera :position="[3, 3, 3]" />
       <OrbitControls />
       <Tube :args="[tubePath, tubularSegments, radius, radialSegments, closed]">
@@ -35,6 +36,4 @@ const { tubularSegments, radius, radialSegments, closed, showWireframe } = useCo
       <TresDirectionalLight :position="[0, 2, 4]" />
       <TresGridHelper :position-y="-0.5" />
     </TresCanvas>
-  </div>
-  <TresLeches :float="false" />
 </template>

@@ -4,7 +4,7 @@ import { TresCanvas } from '@tresjs/core'
 </script>
 
 <template>
-  <div class="aspect-video">
+  
     <TresCanvas clear-color="#82DBC5">
       <TresPerspectiveCamera :position="[3, 3, 3]" />
       <QuadraticBezierLine
@@ -16,5 +16,5 @@ import { TresCanvas } from '@tresjs/core'
       <TresGridHelper />
       <OrbitControls />
     </TresCanvas>
-  </div>
+  
 </template>

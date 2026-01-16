@@ -49,13 +49,11 @@ function onLoop() {
 </script>
 
 <template>
-  <div class="aspect-video">
-    <TresCanvas v-bind="gl" @loop="onLoop">
-      <TresPerspectiveCamera :position="[0, 2, 4]" :look-at="[0, 0, 0]" />
-      <TresMesh>
-        <TresTorusKnotGeometry :args="[1, 0.3, 512, 32]" />
-        <CustomShaderMaterial v-bind="materialProps" />
-      </TresMesh>
-    </TresCanvas>
-  </div>
+  <TresCanvas v-bind="gl" @loop="onLoop">
+    <TresPerspectiveCamera :position="[0, 2, 4]" :look-at="[0, 0, 0]" />
+    <TresMesh>
+      <TresTorusKnotGeometry :args="[1, 0.3, 512, 32]" />
+      <CustomShaderMaterial v-bind="materialProps" />
+    </TresMesh>
+  </TresCanvas>
 </template>

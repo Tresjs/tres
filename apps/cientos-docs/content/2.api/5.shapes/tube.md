@@ -3,7 +3,7 @@ title: Tube
 description: Short-cut for a TubeGeometry and a MeshBasicMaterial with a Mesh object.
 ---
 
-::SceneWrapper
+::SceneControlsWrapper
   ::ShapesTube
   ::
 ::
