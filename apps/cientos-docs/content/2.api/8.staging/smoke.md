@@ -42,11 +42,13 @@ import { Smoke } from '@tresjs/cientos'
 | **color** | `TresColor` | The color of the smoke. | `'#ffffff'`
 | **opacity** | `number` | The strength of the opacity. | `0.5`
 | **speed** | `number` | The rotation speed of the smoke. | `0.4`
-| **width** | `number` | The base width. | `10`
-| **depth** | `number` | The base depth. | `1.5`
-| **segments** | `number` | The number of smoke to render. | `20`
+| **depth** | `number` | The base depth. | `0.3`
+| **segments** | `number` | The number of smoke to render. | `10`
 | **texture** | `string` | The texture of the smoke. | [link](https://raw.githubusercontent.com/Tresjs/assets/main/textures/clouds/defaultCloud.png)
-| **depthTest** | `boolean` | The depthTest. | `true`
+| **depthTest** | `boolean` | The depthTest. | `false`
+| **spreadY** | `number` | Spread on the Y axis. | `0.1`
+| **spreadX** | `number` | Spread on the X axis. | `0.5`
+| **scale** | `number` | scale | `1`
 
 ### Default texture
 
