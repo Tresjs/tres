@@ -160,7 +160,7 @@ defineExpose({
 <template>
   <TresMesh
     ref="superformulaRef"
-    v-bind="$attrs"
+
     :geometry="geometry"
   >
     <slot>

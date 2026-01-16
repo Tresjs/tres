@@ -9,7 +9,7 @@ catalogs:
   build:
     rollup-plugin-analyzer: ^4.0.0
     rollup-plugin-visualizer: ^6.0.3
-    tsdown: 0.16.1
+    tsdown: 0.18.3
 
   docs:
     vitepress: 1.6.4
@@ -41,7 +41,7 @@ catalogs:
 
   typescript:
     typescript: ^5.8.3
-    vue-tsc: ^3.1.1
+    vue-tsc: ^3.2.1
 
   utils:
     '@vueuse/core': ^13.9.0

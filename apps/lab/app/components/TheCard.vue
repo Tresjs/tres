@@ -15,13 +15,14 @@ interface Props {
     author?: Author[] | null
     repoPath: string
     repoTitle: string
+    lastUpdated: string
   }
 }
 
 const props = defineProps<Props>()
 
 const formattedDate = computed(() =>
-  new Date(props.experiment.date).toLocaleDateString('en-US', {
+  new Date(props.experiment.lastUpdated).toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'short',
     day: 'numeric'
@@ -35,9 +36,9 @@ const formattedDate = computed(() =>
       <div class="relative aspect-video overflow-hidden bg-gray-100 dark:bg-gray-800 rounded-md">
         <img :src="`/${experiment.stem}.png`" :alt="experiment.title"
           class="object-cover w-full h-full transition-transform duration-300 group-hover:scale-105">
-        
-        </div>
-        
+
+      </div>
+
 
       <!-- Tags -->
       <div class="py-4 flex gap-2 flex-wrap">
@@ -69,14 +70,8 @@ const formattedDate = computed(() =>
           </UAvatarGroup>
         </div>
         <div class="flex gap-2">
-          <UBadge 
-          v-if="experiment.featured" 
-            color="warning" 
-            variant="soft" 
-            label="Editor's Choice"
-            icon="i-lucide-star" 
-            size="sm"
-          />
+          <UBadge v-if="experiment.featured" color="warning" variant="soft" label="Editor's Choice" icon="i-lucide-star"
+            size="sm" />
           <UTooltip :text="experiment.repoTitle">
             <UButton color="primary" variant="ghost" icon="i-heroicons-code-bracket" size="xs" :to="experiment.repoPath"
               target="_blank" @click.stop />

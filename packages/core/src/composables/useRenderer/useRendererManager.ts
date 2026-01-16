@@ -5,7 +5,6 @@ import type { TresContext } from '../useTresContextProvider'
 import {
   createEventHook,
   unrefElement,
-  useDevicePixelRatio,
   useTimeout,
 } from '@vueuse/core'
 import { Material, Mesh, WebGLRenderer } from 'three'
@@ -322,10 +321,8 @@ export function useRendererManager(
     immediate: true,
   })
 
-  const { pixelRatio } = useDevicePixelRatio()
-
   watchEffect(() => {
-    setPixelRatio(renderer, pixelRatio.value, toValue(options.dpr))
+    setPixelRatio(renderer, sizes.pixelRatio.value, toValue(options.dpr))
   })
 
   if (toValue(options.renderMode) === 'on-demand') {

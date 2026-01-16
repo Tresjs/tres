@@ -3,8 +3,9 @@ title: Galaxy Generator 🪐
 author: alvarosabu
 description: Animated galaxy from ThreeJS Journey done with TresJS
 thumbnail: /experiments/galaxy-generator.png
-tags: ['particles', 'shaders', 'glsl']
+tags: ['particles', 'shaders']
 date: 2023-04-25
+lastUpdated: 2023-04-25
 ---
 
 This experiment demonstrates **procedural galaxy generation** using particle systems and custom shaders, based on [Bruno Simon's amazing Three.js Journey tutorial](https://threejs-journey.com/) and ported to TresJS. Create stunning spiral galaxies with **30,000 animated stars** that respond to real-time parameter adjustments, showcasing advanced particle rendering techniques.
