@@ -1,3 +1,22 @@
+## 3.2.3 (2026-01-15)
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/core to 5.3.1
+
+## 3.2.2 (2026-01-14)
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/leches to 1.1.4
+
+## 3.2.1 (2026-01-14)
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/core to 5.3.0
+- Updated @tresjs/leches to 1.1.3
+
 ## 3.2.0 (2025-12-26)
 
 ### 🚀 Features

@@ -1,7 +1,7 @@
 {
   "name": "@tresjs/core",
   "type": "module",
-  "version": "5.2.1",
+  "version": "5.3.1",
   "description": "Declarative ThreeJS using Vue Components",
   "author": "Alvaro Saburido <hola@alvarosaburido.dev> (https://github.com/alvarosabu/)",
   "license": "MIT",

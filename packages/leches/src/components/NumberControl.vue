@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { computed, ref, unref, watch } from 'vue'
 import { useMouse } from '@vueuse/core'
 import type { LechesNumberControl } from '../types'
 import ControlLabel from './ControlLabel.vue'
@@ -10,6 +10,8 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits(['change'])
+
+const controlValue = computed(() => unref(props.control.value))
 
 function onChange(event: Event) {
   const { target } = event
@@ -36,18 +38,19 @@ watch(mouse.x, (newValue) => {
   if (isMouseDown.value) {
     const diff = newValue - initialMouseX.value
     const speed = calculateSpeed(diff)
+    const currentValue = controlValue.value
     if (diff > 0) {
-      emit('change', props.control.value + 1 + speed)
+      emit('change', currentValue + 1 + speed)
     }
     else if (diff < 0) {
-      emit('change', props.control.value - 1 + speed)
+      emit('change', currentValue - 1 + speed)
     }
 
-    if (props.control.min !== undefined && props.control.value < props.control.min) {
+    if (props.control.min !== undefined && currentValue < props.control.min) {
       emit('change', props.control.min)
     }
 
-    if (props.control.max !== undefined && props.control.value > props.control.max) {
+    if (props.control.max !== undefined && currentValue > props.control.max) {
       emit('change', props.control.max)
     }
 
@@ -64,7 +67,7 @@ watch(mouse.x, (newValue) => {
     />
     <input
       :id="control.uniqueKey"
-      :value="control.value"
+      :value="controlValue"
       class="tl-leches-input tl-w-2/3"
       type="number"
       :class="{ 'tl-cursor-ew-resize': isMouseDown }"
