@@ -88,7 +88,7 @@ onBeforeRender(({ delta }) => {
       :transmission="transmission"
       :ior="ior"
       silent
-      :depth-write="true"
+      alpha
       :flat-shading="false"
       :thickness="thickness"
       :wireframe="wireframe"
