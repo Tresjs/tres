@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { Precipitation } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
-import { TresLeches, useControls } from '@tresjs/leches'
+import { useControls } from '@tresjs/leches'
+
+const uuid = inject(`uuid`)
 
 const { size, color, alphaTest, opacity, count, speed, randomness } = useControls({
   size: { value: 0.1, min: 0.01, max: 1, step: 0.01 },
@@ -11,12 +13,11 @@ const { size, color, alphaTest, opacity, count, speed, randomness } = useControl
   count: { value: 5000, min: 500, max: 20000, step: 500 },
   speed: { value: 0.1, min: 0.01, max: 1, step: 0.01 },
   randomness: { value: 0.5, min: 0, max: 1, step: 0.1 },
-})
+}, { uuid })
 </script>
 
 <template>
-  <div class="aspect-video">
-    <TresCanvas clear-color="#333">
+  <TresCanvas clear-color="#333">
       <TresPerspectiveCamera :position="[0, 2, 15]" />
       <Precipitation
         :size="size"
@@ -29,6 +30,4 @@ const { size, color, alphaTest, opacity, count, speed, randomness } = useControl
       />
       <TresGridHelper :args="[10, 10]" />
     </TresCanvas>
-  </div>
-  <TresLeches :float="false" />
 </template>

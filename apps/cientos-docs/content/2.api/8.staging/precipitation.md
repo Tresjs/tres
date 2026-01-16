@@ -3,7 +3,7 @@ title: Precipitation
 description: Flexible infinite particle flow for rain, snow, waterfall, and beam effects.
 ---
 
-::SceneWrapper
+::SceneControlsWrapper
   ::StagingPrecipitation
   ::
 ::
