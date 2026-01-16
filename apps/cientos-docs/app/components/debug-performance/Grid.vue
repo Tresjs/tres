@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { Grid, OrbitControls } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
-import { TresLeches, useControls } from '@tresjs/leches'
+import { useControls } from '@tresjs/leches'
+
+const uuid = inject(`uuid`)
 
 const { cellSize, cellThickness, cellColor, sectionSize, sectionThickness, sectionColor, followCamera, infiniteGrid, fadeDistance, fadeStrength, fadeFrom } = useControls({
   cellSize: { value: 0.6, min: 0.1, max: 2, step: 0.1 },
@@ -15,29 +17,26 @@ const { cellSize, cellThickness, cellColor, sectionSize, sectionThickness, secti
   fadeDistance: { value: 12, min: 0, max: 100, step: 1 },
   fadeStrength: { value: 1, min: 0, max: 2, step: 0.1 },
   fadeFrom: { value: 0, min: 0, max: 1, step: 0.1 },
-})
+}, { uuid })
 </script>
 
 <template>
-  <div class="aspect-video">
-    <TresCanvas clear-color="#222222">
-      <TresPerspectiveCamera :position="[8, 10, 10]" :fov="25" />
-      <OrbitControls />
-      <Grid
-        :args="[10.5, 10.5]"
-        :cell-color="cellColor"
-        :cell-size="cellSize"
-        :cell-thickness="cellThickness"
-        :section-color="sectionColor"
-        :section-size="sectionSize"
-        :section-thickness="sectionThickness"
-        :infinite-grid="infiniteGrid"
-        :fade-from="fadeFrom"
-        :fade-distance="fadeDistance"
-        :fade-strength="fadeStrength"
-        :follow-camera="followCamera"
-      />
-    </TresCanvas>
-  </div>
-  <TresLeches :float="false" />
+  <TresCanvas clear-color="#222222">
+    <TresPerspectiveCamera :position="[8, 10, 10]" :fov="25" />
+    <OrbitControls />
+    <Grid
+      :args="[10.5, 10.5]"
+      :cell-color="cellColor"
+      :cell-size="cellSize"
+      :cell-thickness="cellThickness"
+      :section-color="sectionColor"
+      :section-size="sectionSize"
+      :section-thickness="sectionThickness"
+      :infinite-grid="infiniteGrid"
+      :fade-from="fadeFrom"
+      :fade-distance="fadeDistance"
+      :fade-strength="fadeStrength"
+      :follow-camera="followCamera"
+    />
+  </TresCanvas>
 </template>

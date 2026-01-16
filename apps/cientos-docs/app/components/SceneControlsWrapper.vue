@@ -1,5 +1,10 @@
 <script setup lang="ts">
-// Simple wrapper for components without controls
+import { TresLeches } from '@tresjs/leches'
+const route = useRoute()
+
+const uuid = `leches-${route.path.split('/').pop()}`
+
+provide(`uuid`, uuid)
 </script>
 
 <template>
@@ -8,6 +13,7 @@
       <div class="aspect-video">
         <slot></slot>
       </div>
+      <TresLeches :uuid="uuid" :float="false" class="!rounded-none" />
     </ClientOnly>
   </div>
 </template>

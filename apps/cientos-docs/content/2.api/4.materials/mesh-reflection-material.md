@@ -3,7 +3,7 @@ title: Mesh Reflection Material
 description: Makes floors or walls that reflect the objects in your Scene.
 ---
 
-::SceneWrapper
+::SceneControlsWrapper
   ::MaterialsMeshReflectionMaterial
   ::
 ::

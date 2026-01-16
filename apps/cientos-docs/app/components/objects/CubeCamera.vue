@@ -2,7 +2,9 @@
 import { CubeCamera, OrbitControls } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
 import { onMounted, onUnmounted, shallowRef } from 'vue'
-import { TresLeches, useControls } from '@tresjs/leches'
+import { useControls } from '@tresjs/leches'
+
+const uuid = inject(`uuid`)
 
 const x = shallowRef(1)
 const y0 = shallowRef(1)
@@ -23,33 +25,30 @@ onUnmounted(() => { clearInterval(intervalId) })
 
 const { frames } = useControls({
   frames: { value: Infinity, options: [1, 2, 5, 10, 30, 60, Infinity] },
-})
+}, { uuid })
 </script>
 
 <template>
-  <div class="aspect-video">
-    <TresCanvas clear-color="#222">
-      <TresPerspectiveCamera :position="[0, 5, 20]" />
-      <OrbitControls />
+  <TresCanvas clear-color="#222">
+    <TresPerspectiveCamera :position="[0, 5, 20]" />
+    <OrbitControls />
 
-      <CubeCamera :position-y="5" :frames="frames">
-        <TresMesh :position="[-2, y0, 0]" :scale="2">
-          <TresSphereGeometry />
-          <TresMeshPhysicalMaterial :roughness="0" :metalness="1" />
-        </TresMesh>
-        <TresMesh :position="[2, y1, 0]" :scale="2">
-          <TresSphereGeometry />
-          <TresMeshPhysicalMaterial :roughness="0.25" :metalness="1" />
-        </TresMesh>
-      </CubeCamera>
-
-      <TresMesh :position="[x, 1, 0]">
+    <CubeCamera :position-y="5" :frames="frames">
+      <TresMesh :position="[-2, y0, 0]" :scale="2">
         <TresSphereGeometry />
-        <TresMeshBasicMaterial color="#fbb03b" />
+        <TresMeshPhysicalMaterial :roughness="0" :metalness="1" />
       </TresMesh>
+      <TresMesh :position="[2, y1, 0]" :scale="2">
+        <TresSphereGeometry />
+        <TresMeshPhysicalMaterial :roughness="0.25" :metalness="1" />
+      </TresMesh>
+    </CubeCamera>
 
-      <TresGridHelper :args="[100, 10]" />
-    </TresCanvas>
-  </div>
-  <TresLeches :float="false" />
+    <TresMesh :position="[x, 1, 0]">
+      <TresSphereGeometry />
+      <TresMeshBasicMaterial color="#fbb03b" />
+    </TresMesh>
+
+    <TresGridHelper :args="[100, 10]" />
+  </TresCanvas>
 </template>

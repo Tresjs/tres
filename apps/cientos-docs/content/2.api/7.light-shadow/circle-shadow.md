@@ -3,7 +3,7 @@ title: Circle Shadow
 description: Cheap, texture-based radial gradient shadow on a plane geometry.
 ---
 
-::SceneWrapper
+::SceneControlsWrapper
   ::LightShadowCircleShadow
   ::
 ::

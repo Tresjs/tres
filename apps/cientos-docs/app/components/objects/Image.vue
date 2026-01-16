@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
 import { Image } from '@tresjs/cientos'
-import { TresLeches, useControls } from '@tresjs/leches'
 import { BackSide, DoubleSide, FrontSide } from 'three'
+import { useControls } from '@tresjs/leches'
+
+const uuid = inject(`uuid`)
 
 const {
   scaleX,
@@ -18,23 +20,20 @@ const {
   transparent: false,
   toneMapped: true,
   side: { value: DoubleSide, options: [FrontSide, BackSide, DoubleSide] },
-})
+}, { uuid })
 </script>
 
 <template>
-  <div class="aspect-video">
-    <TresCanvas>
-      <TresPerspectiveCamera :position="[0, 0, 5]" />
+  <TresCanvas>
+    <TresPerspectiveCamera :position="[0, 0, 5]" />
 
-      <Image
-        url="https://upload.wikimedia.org/wikipedia/commons/f/f0/Cyanistes_caeruleus_Oulu_20150516.JPG"
-        :scale="[scaleX, scaleY]"
-        :opacity="opacity"
-        :transparent="transparent"
-        :tone-mapped="toneMapped"
-        :side="side"
-      />
-    </TresCanvas>
-  </div>
-  <TresLeches :float="false" />
+    <Image
+      url="https://upload.wikimedia.org/wikipedia/commons/f/f0/Cyanistes_caeruleus_Oulu_20150516.JPG"
+      :scale="[scaleX, scaleY]"
+      :opacity="opacity"
+      :transparent="transparent"
+      :tone-mapped="toneMapped"
+      :side="side"
+    />
+  </TresCanvas>
 </template>

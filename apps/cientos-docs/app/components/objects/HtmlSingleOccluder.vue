@@ -11,32 +11,30 @@ const sphereRef = ref(null)
 </script>
 
 <template>
-  <div class="aspect-video">
-    <TresCanvas v-bind="gl">
-      <TresPerspectiveCamera :position="[3, 3, 8]" />
-      <OrbitControls />
-      <TresMesh :position="[0, 1, 0]">
-        <TresBoxGeometry />
-        <TresMeshNormalMaterial />
-        <Html
-          center
-          transform
-          :occlude="[sphereRef]"
-          :distance-factor="4"
-          :z-index-range="[28, 0]"
-        >
-          <h1 class="box">Move camera</h1>
-        </Html>
-      </TresMesh>
-      <TresMesh ref="sphereRef" :position="[3, 1, 1]">
-        <TresSphereGeometry />
-        <TresMeshNormalMaterial />
-      </TresMesh>
+  <TresCanvas v-bind="gl">
+    <TresPerspectiveCamera :position="[3, 3, 8]" />
+    <OrbitControls />
+    <TresMesh :position="[0, 1, 0]">
+      <TresBoxGeometry />
+      <TresMeshNormalMaterial />
+      <Html
+        center
+        transform
+        :occlude="[sphereRef]"
+        :distance-factor="4"
+        :z-index-range="[28, 0]"
+      >
+        <h1 class="box">Move camera</h1>
+      </Html>
+    </TresMesh>
+    <TresMesh ref="sphereRef" :position="[3, 1, 1]">
+      <TresSphereGeometry />
+      <TresMeshNormalMaterial />
+    </TresMesh>
 
-      <TresGridHelper />
-      <TresAmbientLight :intensity="1" />
-    </TresCanvas>
-  </div>
+    <TresGridHelper />
+    <TresAmbientLight :intensity="1" />
+  </TresCanvas>
 </template>
 
 <style scoped>

@@ -3,7 +3,7 @@ title: Orbit Controls
 description: Allows you to orbit around the scene
 ---
 
-::SceneWrapper
+::SceneControlsWrapper
   ::ControlsOrbitControls
   ::
 ::

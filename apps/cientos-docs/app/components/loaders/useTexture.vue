@@ -7,15 +7,13 @@ const { state: texture } = useTexture(path)
 </script>
 
 <template>
-  <div class="aspect-video">
-    <TresCanvas clear-color="#FBB03B">
-      <TresPerspectiveCamera :position="[3, 3, 3]" />
-      <OrbitControls />
-      <TresMesh>
-        <TresSphereGeometry />
-        <TresMeshStandardMaterial :map="texture" />
-      </TresMesh>
-      <TresAmbientLight :intensity="1" />
-    </TresCanvas>
-  </div>
+  <TresCanvas clear-color="#FBB03B">
+    <TresPerspectiveCamera :position="[3, 3, 3]" />
+    <OrbitControls />
+    <TresMesh>
+      <TresSphereGeometry />
+      <TresMeshStandardMaterial :map="texture" />
+    </TresMesh>
+    <TresAmbientLight :intensity="1" />
+  </TresCanvas>
 </template>

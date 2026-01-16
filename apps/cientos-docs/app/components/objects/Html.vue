@@ -4,27 +4,25 @@ import { TresCanvas } from '@tresjs/core'
 </script>
 
 <template>
-  <div class="aspect-video">
-    <TresCanvas clear-color="#82DBC5">
-      <TresPerspectiveCamera :position="[2, 2, 5]" />
-      <OrbitControls />
-      <TresMesh :position="[1, 1, 1]">
-        <TresBoxGeometry />
-        <TresMeshNormalMaterial />
-        <Html
-          center
-          transform
-          :distance-factor="4"
-          :position="[0, 0, 0.65]"
-          :scale="[0.75, 0.75, 0.75]"
-        >
-          <h1 class="title">I'm a Box 📦</h1>
-        </Html>
-      </TresMesh>
-      <TresGridHelper />
-      <TresAmbientLight />
-    </TresCanvas>
-  </div>
+  <TresCanvas clear-color="#82DBC5">
+    <TresPerspectiveCamera :position="[2, 2, 5]" />
+    <OrbitControls />
+    <TresMesh :position="[1, 1, 1]">
+      <TresBoxGeometry />
+      <TresMeshNormalMaterial />
+      <Html
+        center
+        transform
+        :distance-factor="4"
+        :position="[0, 0, 0.65]"
+        :scale="[0.75, 0.75, 0.75]"
+      >
+        <h1 class="title">I'm a Box 📦</h1>
+      </Html>
+    </TresMesh>
+    <TresGridHelper />
+    <TresAmbientLight />
+  </TresCanvas>
 </template>
 
 <style scoped>

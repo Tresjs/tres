@@ -3,7 +3,7 @@ title: PointerLock Controls
 description: Allows you to capture the mouse movement and simulate a first person camera
 ---
 
-::SceneWrapper
+::SceneControlsWrapper
   ::ControlsPointerLockControls
   ::
 ::

@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { ContactShadows, Levioso, TorusKnot } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
-import { TresLeches, useControls } from '@tresjs/leches'
+import { useControls } from '@tresjs/leches'
+
+const uuid = inject(`uuid`)
 
 const { opacity, blur, color, tint, scale, width, height, far, smooth, resolution, frames } = useControls({
   opacity: { value: 1, min: 0, max: 1, step: 0.1 },
@@ -15,32 +17,29 @@ const { opacity, blur, color, tint, scale, width, height, far, smooth, resolutio
   smooth: true,
   resolution: { value: 512, min: 256, max: 1024, step: 256 },
   frames: Number.POSITIVE_INFINITY,
-})
+}, { uuid })
 </script>
 
 <template>
-  <div class="aspect-video">
-    <TresCanvas clear-color="#82DBC5">
-      <Levioso :speed="2" :range="[0, 0.7]" :rotation-factor="9">
-        <TorusKnot :scale="0.45">
-          <TresMeshNormalMaterial />
-        </TorusKnot>
-      </Levioso>
-      <ContactShadows
-        :position-y="-1"
-        :color="color"
-        :tint="tint"
-        :scale="scale"
-        :opacity="opacity"
-        :blur="blur"
-        :width="width"
-        :height="height"
-        :far="far"
-        :smooth="smooth"
-        :resolution="resolution"
-        :frames="frames"
-      />
-    </TresCanvas>
-  </div>
-  <TresLeches :float="false" />
+  <TresCanvas clear-color="#82DBC5">
+    <Levioso :speed="2" :range="[0, 0.7]" :rotation-factor="9">
+      <TorusKnot :scale="0.45">
+        <TresMeshNormalMaterial />
+      </TorusKnot>
+    </Levioso>
+    <ContactShadows
+      :position-y="-1"
+      :color="color"
+      :tint="tint"
+      :scale="scale"
+      :opacity="opacity"
+      :blur="blur"
+      :width="width"
+      :height="height"
+      :far="far"
+      :smooth="smooth"
+      :resolution="resolution"
+      :frames="frames"
+    />
+  </TresCanvas>
 </template>

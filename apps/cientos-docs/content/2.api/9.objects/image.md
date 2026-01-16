@@ -3,7 +3,7 @@ title: Image
 description: Display image textures with shader-based effects.
 ---
 
-::SceneWrapper
+::SceneControlsWrapper
   ::ObjectsImage
   ::
 ::

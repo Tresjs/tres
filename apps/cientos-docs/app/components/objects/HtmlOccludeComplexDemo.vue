@@ -37,7 +37,6 @@ const occluderRefs = computed<TresObject3D[]>(() => {
 </script>
 
 <template>
-  <div class="aspect-video">
     <TresCanvas v-bind="gl">
       <TresPerspectiveCamera :position="[3.5, 2.5, 9.5]" />
       <OrbitControls />
@@ -77,7 +76,6 @@ const occluderRefs = computed<TresObject3D[]>(() => {
       <TresGridHelper />
       <TresAmbientLight :intensity="1" />
     </TresCanvas>
-  </div>
 </template>
 
 <style scoped>

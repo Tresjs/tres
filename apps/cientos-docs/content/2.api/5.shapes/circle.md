@@ -3,7 +3,7 @@ title: Circle
 description: Short-cut for a CircleGeometry and a MeshBasicMaterial with a Mesh object.
 ---
 
-::SceneWrapper
+::SceneControlsWrapper
   ::ShapesCircle
   ::
 ::

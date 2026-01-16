@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { Environment, OrbitControls, Sphere, useProgress } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
-import { TresLeches, useControls } from '@tresjs/leches'
+import { useControls } from '@tresjs/leches'
+
+const uuid = inject(`uuid`)
 
 const environmentFiles = ['/px.jpg', '/nx.jpg', '/py.jpg', '/ny.jpg', '/pz.jpg', '/nz.jpg']
 
@@ -16,7 +18,7 @@ const { background, blur, preset, backgroundIntensity, environmentIntensity, bac
   backgroundRotationY: { value: 0, min: 0, max: Math.PI * 2, step: 0.01 },
   environmentRotationY: { value: 0, min: 0, max: Math.PI * 2, step: 0.01 },
   syncMaterials: false,
-})
+}, { uuid })
 </script>
 
 <template>
@@ -35,8 +37,7 @@ const { background, blur, preset, backgroundIntensity, environmentIntensity, bac
       </div>
     </div>
   </Transition>
-  <div class="aspect-video">
-    <TresCanvas>
+  <TresCanvas>
       <TresPerspectiveCamera :position="[7, 7, 7]" />
       <OrbitControls />
       <Suspense>
@@ -62,6 +63,4 @@ const { background, blur, preset, backgroundIntensity, environmentIntensity, bac
       </Sphere>
       <TresAmbientLight :intensity="1" />
     </TresCanvas>
-  </div>
-  <TresLeches :float="false" />
 </template>

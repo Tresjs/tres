@@ -3,7 +3,7 @@ title: MarchingCubes
 description: Create organic blob-like shapes using metaballs.
 ---
 
-::SceneWrapper
+::SceneControlsWrapper
   ::ObjectsMarchingCubes
   ::
 ::

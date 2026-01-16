@@ -4,7 +4,7 @@ import { TresCanvas } from '@tresjs/core'
 </script>
 
 <template>
-  <div class="aspect-video">
+  
     <TresCanvas clear-color="#82DBC5">
       <TresOrthographicCamera />
       <ScreenQuad>
@@ -14,5 +14,5 @@ import { TresCanvas } from '@tresjs/core'
       <TresDirectionalLight :position="[0, 2, 4]" />
       <TresGridHelper :position-y="-0.5" />
     </TresCanvas>
-  </div>
+  
 </template>

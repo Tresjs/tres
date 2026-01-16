@@ -14,31 +14,29 @@ const gl = {
 </script>
 
 <template>
-  <div class="aspect-video">
-    <TresCanvas v-bind="gl">
-      <TresPerspectiveCamera :position="[5.3, 2.45, 9.3]" :look-at="[0, 0, 0]" />
-      <OrbitControls />
-      <FBXModel
-        path="https://raw.githubusercontent.com/Tresjs/assets/main/models/fbx/low-poly-truck/Jeep_done.fbx"
-        cast-shadow
-        :scale="0.01"
-        :position="[0, -1.6, 0]"
-        :rotation-y="-Math.PI * 0.5"
-      />
-      <TresMesh
-        :rotate-x="Math.PI * -0.5"
-        :position-y="-2"
-        receive-shadow
-      >
-        <TresPlaneGeometry :args="[40, 40]" />
-        <TresMeshStandardMaterial :color="0xF7F7F7" />
-      </TresMesh>
-      <TresAmbientLight :intensity="1" />
-      <TresDirectionalLight
-        :intensity="1"
-        cast-shadow
-        :position="[5, 10, 5]"
-      />
-    </TresCanvas>
-  </div>
+  <TresCanvas v-bind="gl">
+    <TresPerspectiveCamera :position="[5.3, 2.45, 9.3]" :look-at="[0, 0, 0]" />
+    <OrbitControls />
+    <FBXModel
+      path="https://raw.githubusercontent.com/Tresjs/assets/main/models/fbx/low-poly-truck/Jeep_done.fbx"
+      cast-shadow
+      :scale="0.01"
+      :position="[0, -1.6, 0]"
+      :rotation-y="-Math.PI * 0.5"
+    />
+    <TresMesh
+      :rotate-x="Math.PI * -0.5"
+      :position-y="-2"
+      receive-shadow
+    >
+      <TresPlaneGeometry :args="[40, 40]" />
+      <TresMeshStandardMaterial :color="0xF7F7F7" />
+    </TresMesh>
+    <TresAmbientLight :intensity="1" />
+    <TresDirectionalLight
+      :intensity="1"
+      cast-shadow
+      :position="[5, 10, 5]"
+    />
+  </TresCanvas>
 </template>

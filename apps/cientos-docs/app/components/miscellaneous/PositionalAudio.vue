@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { OrbitControls, PositionalAudio, Sphere, useGLTF } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
-import { TresLeches, useControls } from '@tresjs/leches'
+import { useControls } from '@tresjs/leches'
 import { gsap } from 'gsap'
 import { onMounted, onUnmounted, ref, shallowRef, watch } from 'vue'
+
+const uuid = inject(`uuid`)
 
 let tl: gsap.core.Timeline, ctx: gsap.Context
 
@@ -18,7 +20,7 @@ const { distance, helper, loop, innerAngle, outerAngle, outerGain } = useControl
   innerAngle: { value: 195, min: 0, max: 360, step: 5 },
   outerAngle: { value: 260, min: 0, max: 360, step: 5 },
   outerGain: { value: 0.3, min: 0, max: 1, step: 0.1 },
-})
+}, { uuid })
 
 const { state } = useGLTF('https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/positional-audio/ping-pong.glb', { draco: true })
 
@@ -51,74 +53,71 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="aspect-video">
-    <div
-      v-if="!ready"
-      class="ready"
-    >
-      <button @click="ready = true">
-        click to continue
-      </button>
-    </div>
-
-    <div
-      v-if="ready"
-      class="controls"
-    >
-      <button @click="tl?.play()">
-        play
-      </button>
-      <button @click="tl?.pause()">
-        pause
-      </button>
-    </div>
-
-    <TresCanvas
-      clear-color="#333"
-    >
-      <TresPerspectiveCamera :position="[0, 0.5, 15]" />
-      <OrbitControls make-default />
-
-      <Sphere
-        ref="ballRef"
-        :args="[1, 16, 16]"
-        :position="[0, 3, 0]"
-        :rotation-x="Math.PI / -2"
-      >
-        <TresMeshStandardMaterial />
-
-        <Suspense>
-          <PositionalAudio
-            ref="positionalAudioRef"
-            :ready
-            :distance="distance"
-            :helper="helper"
-            :loop="loop"
-            :inner-angle="innerAngle"
-            :outer-angle="outerAngle"
-            :outer-gain="outerGain"
-            url="https://raw.githubusercontent.com/Tresjs/assets/main/music/ping-pong.mp3"
-          />
-        </Suspense>
-      </Sphere>
-      <primitive
-        v-if="state?.scene"
-        :scale="[.2, .2, .2]"
-        :position="[0, -1.15, 0]"
-        receive-shadow
-        :object="state?.scene"
-      />
-      <TresAmbientLight
-        color="#ffffff"
-        :intensity="2"
-      />
-      <TresDirectionalLight
-        :position="[5, 10, 0]"
-        :intensity="2"
-      />
-    </TresCanvas>
+  <div
+    v-if="!ready"
+    class="ready"
+  >
+    <button @click="ready = true">
+      click to continue
+    </button>
   </div>
-  <TresLeches :float="false" />
+
+  <div
+    v-if="ready"
+    class="controls"
+  >
+    <button @click="tl?.play()">
+      play
+    </button>
+    <button @click="tl?.pause()">
+      pause
+    </button>
+  </div>
+
+  <TresCanvas
+    clear-color="#333"
+  >
+    <TresPerspectiveCamera :position="[0, 0.5, 15]" />
+    <OrbitControls make-default />
+
+    <Sphere
+      ref="ballRef"
+      :args="[1, 16, 16]"
+      :position="[0, 3, 0]"
+      :rotation-x="Math.PI / -2"
+    >
+      <TresMeshStandardMaterial />
+
+      <Suspense>
+        <PositionalAudio
+          ref="positionalAudioRef"
+          :ready
+          :distance="distance"
+          :helper="helper"
+          :loop="loop"
+          :inner-angle="innerAngle"
+          :outer-angle="outerAngle"
+          :outer-gain="outerGain"
+          url="https://raw.githubusercontent.com/Tresjs/assets/main/music/ping-pong.mp3"
+        />
+      </Suspense>
+    </Sphere>
+    <primitive
+      v-if="state?.scene"
+      :scale="[.2, .2, .2]"
+      :position="[0, -1.15, 0]"
+      receive-shadow
+      :object="state?.scene"
+    />
+    <TresAmbientLight
+      color="#ffffff"
+      :intensity="2"
+    />
+    <TresDirectionalLight
+      :position="[5, 10, 0]"
+      :intensity="2"
+    />
+  </TresCanvas>
 </template>
 
 <style scoped>

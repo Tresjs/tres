@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { OrbitControls, TorusKnot } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
-import { TresLeches, useControls } from '@tresjs/leches'
+import { useControls } from '@tresjs/leches'
+
+const uuid = inject(`uuid`)
 
 const { radius, tube, tubularSegments, radialSegments, p, q, showWireframe } = useControls({
   radius: { value: 1, min: 0.1, max: 5, step: 0.1 },
@@ -11,12 +13,11 @@ const { radius, tube, tubularSegments, radialSegments, p, q, showWireframe } = u
   p: { value: 2, min: 1, max: 10, step: 1 },
   q: { value: 3, min: 1, max: 10, step: 1 },
   showWireframe: false,
-})
+}, { uuid })
 </script>
 
 <template>
-  <div class="aspect-video">
-    <TresCanvas clear-color="#82DBC5">
+  <TresCanvas clear-color="#82DBC5">
       <TresPerspectiveCamera :position="[3, 3, 3]" />
       <OrbitControls />
       <TorusKnot :args="[radius, tube, tubularSegments, radialSegments, p, q]">
@@ -26,6 +27,4 @@ const { radius, tube, tubularSegments, radialSegments, p, q, showWireframe } = u
       <TresDirectionalLight :position="[0, 2, 4]" />
       <TresGridHelper :position-y="-0.5" />
     </TresCanvas>
-  </div>
-  <TresLeches :float="false" />
 </template>

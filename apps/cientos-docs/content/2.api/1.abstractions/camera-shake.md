@@ -3,7 +3,7 @@ title: Camera Shake
 description: Apply smooth camera shake to the active camera.
 ---
 
-::SceneWrapper
+::SceneControlsWrapper
   ::AbstractionsCameraShake
   ::
 ::

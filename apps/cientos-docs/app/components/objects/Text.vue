@@ -3,7 +3,9 @@ import { OrbitControls, Text3D } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
 import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
 import { ref } from 'vue'
-import { TresLeches, useControls } from '@tresjs/leches'
+import { useControls } from '@tresjs/leches'
+
+const uuid = inject(`uuid`)
 
 const gl = {
   clearColor: '#82DBC5',
@@ -41,40 +43,37 @@ const {
   bevelSegments: { value: 3, min: 0, max: 16, step: 1 },
   center: true,
   needUpdates: true,
-})
+}, { uuid })
 </script>
 
 <template>
-  <div class="bg-gray-100 flex justify-center">
+  <div class="bg-gray-100 flex justify-center absolute top-0 left-0 w-full h-full">
     <input
       v-model="reactiveText"
       class="p-2 m-2 rounded-md bg-white border text-red-500 border-gray-400"
     />
   </div>
-  <div class="aspect-video">
-    <TresCanvas v-bind="gl">
-      <TresPerspectiveCamera :position="[0, 0.5, 5]" />
-      <OrbitControls />
-      <Suspense>
-        <Text3D
-          :text="reactiveText"
-          :size="size"
-          :height="height"
-          :curve-segments="curveSegments"
-          :bevel-enabled="bevelEnabled"
-          :bevel-thickness="bevelThickness"
-          :bevel-size="bevelSize"
-          :bevel-offset="bevelOffset"
-          :bevel-segments="bevelSegments"
-          :font="fontPath"
-          :center="center"
-          :need-updates="needUpdates"
-        >
-          <TresMeshNormalMaterial />
-        </Text3D>
-      </Suspense>
-      <TresAmbientLight :intensity="1" />
-    </TresCanvas>
-  </div>
-  <TresLeches :float="false" />
+  <TresCanvas v-bind="gl">
+    <TresPerspectiveCamera :position="[0, 0.5, 5]" />
+    <OrbitControls />
+    <Suspense>
+      <Text3D
+        :text="reactiveText"
+        :size="size"
+        :height="height"
+        :curve-segments="curveSegments"
+        :bevel-enabled="bevelEnabled"
+        :bevel-thickness="bevelThickness"
+        :bevel-size="bevelSize"
+        :bevel-offset="bevelOffset"
+        :bevel-segments="bevelSegments"
+        :font="fontPath"
+        :center="center"
+        :need-updates="needUpdates"
+      >
+        <TresMeshNormalMaterial />
+      </Text3D>
+    </Suspense>
+    <TresAmbientLight :intensity="1" />
+  </TresCanvas>
 </template>

@@ -3,7 +3,7 @@ title: Cylinder
 description: Short-cut for a CylinderGeometry and a MeshBasicMaterial with a Mesh object.
 ---
 
-::SceneWrapper
+::SceneControlsWrapper
   ::ShapesCylinder
   ::
 ::

@@ -3,7 +3,7 @@ title: MouseParallax
 description: Create parallax effects based on mouse movement.
 ---
 
-::SceneWrapper
+::SceneControlsWrapper
   ::MiscellaneousMouseParallax
   ::
 ::

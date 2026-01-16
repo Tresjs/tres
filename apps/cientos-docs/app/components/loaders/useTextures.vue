@@ -67,18 +67,16 @@ watch(error, (errs) => {
       <div class="w-200px">Loading...</div>
     </div>
   </Transition>
-  <div class="aspect-video">
-    <TresCanvas clear-color="#4f4f4f">
-      <Suspense>
-        <Environment preset="studio" background :blur="1" />
-      </Suspense>
-      <TresPerspectiveCamera :position="[2, 2, 4]" :look-at="[0, 2, 0]" />
-      <OrbitControls :target="[0, 2, 0]" />
-      <TresGridHelper />
-      <TresAmbientLight :intensity="2" />
-      <TresGroup position-y="2">
-        <primitive v-if="cube" :object="cube" />
-      </TresGroup>
-    </TresCanvas>
-  </div>
+  <TresCanvas clear-color="#4f4f4f">
+    <Suspense>
+      <Environment preset="studio" background :blur="1" />
+    </Suspense>
+    <TresPerspectiveCamera :position="[2, 2, 4]" :look-at="[0, 2, 0]" />
+    <OrbitControls :target="[0, 2, 0]" />
+    <TresGridHelper />
+    <TresAmbientLight :intensity="2" />
+    <TresGroup position-y="2">
+      <primitive v-if="cube" :object="cube" />
+    </TresGroup>
+  </TresCanvas>
 </template>

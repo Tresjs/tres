@@ -8,34 +8,32 @@ const gl = {
 </script>
 
 <template>
-  <div class="aspect-video">
-    <TresCanvas v-bind="gl">
-      <TresPerspectiveCamera :position="[7, 2, 3]" />
-      <OrbitControls auto-rotate :auto-rotate-speed="3" />
+  <TresCanvas v-bind="gl">
+    <TresPerspectiveCamera :position="[7, 2, 3]" />
+    <OrbitControls auto-rotate :auto-rotate-speed="3" />
 
-      <TresMesh :position="[0, 1, -2]">
-        <TresBoxGeometry />
-        <TresMeshNormalMaterial />
-        <Html
-          center
-          transform
-          occlude
-          :distance-factor="4"
-          :position="[0, 0, 2]"
-          :z-index-range="[28, 0]"
-        >
-          <h1 class="box">Move camera</h1>
-        </Html>
-      </TresMesh>
-      <TresMesh :position="[0, 1, 2]">
-        <TresSphereGeometry />
-        <TresMeshNormalMaterial />
-      </TresMesh>
+    <TresMesh :position="[0, 1, -2]">
+      <TresBoxGeometry />
+      <TresMeshNormalMaterial />
+      <Html
+        center
+        transform
+        occlude
+        :distance-factor="4"
+        :position="[0, 0, 2]"
+        :z-index-range="[28, 0]"
+      >
+        <h1 class="box">Move camera</h1>
+      </Html>
+    </TresMesh>
+    <TresMesh :position="[0, 1, 2]">
+      <TresSphereGeometry />
+      <TresMeshNormalMaterial />
+    </TresMesh>
 
-      <TresGridHelper />
-      <TresAmbientLight :intensity="1" />
-    </TresCanvas>
-  </div>
+    <TresGridHelper />
+    <TresAmbientLight :intensity="1" />
+  </TresCanvas>
 </template>
 
 <style scoped>
