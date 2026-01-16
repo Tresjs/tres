@@ -29,7 +29,7 @@ export interface SmokeProps {
   speed?: number
   /**
    * The base depth.
-   * @default 10
+   * @default 0.3
    * @type {number}
    * @memberof SmokeProps
    * @see https://threejs.org/docs/#api/en/geometries/PlaneGeometry
@@ -51,7 +51,7 @@ export interface SmokeProps {
   texture?: string
   /**
    * The depthTest.
-   * @default true
+   * @default false
    * @type {boolean}
    * @memberof SmokeProps
    */
@@ -80,13 +80,13 @@ export interface SmokeProps {
 }
 
 const props = withDefaults(defineProps<SmokeProps>(), {
+  color: '#f7f7f7',
   opacity: 0.5,
   speed: 0.4,
   depth: 0.3,
   segments: 10,
   texture:
     'https://raw.githubusercontent.com/Tresjs/assets/main/textures/clouds/defaultCloud.png',
-  color: '#f7f7f7',
   depthTest: false,
   spreadY: 0.1,
   spreadX: 0.5,
