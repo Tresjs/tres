@@ -3,7 +3,7 @@ title: Torus Knot
 description: Short-cut for a TorusKnotGeometry and a MeshBasicMaterial with a Mesh object.
 ---
 
-::SceneWrapper
+::SceneControlsWrapper
   ::ShapesTorusKnot
   ::
 ::

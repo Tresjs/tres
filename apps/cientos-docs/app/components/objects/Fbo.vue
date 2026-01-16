@@ -18,26 +18,24 @@ function onLoop({ elapsed }: { elapsed: number }) {
 </script>
 
 <template>
-  <div class="aspect-video">
-    <TresCanvas :clear-color="0x222" @loop="onLoop">
-      <TresPerspectiveCamera :position="[0, 0.5, 5]" />
-      <OrbitControls />
+  <TresCanvas :clear-color="0x222" @loop="onLoop">
+    <TresPerspectiveCamera :position="[0, 0.5, 5]" />
+    <OrbitControls />
 
-      <TresGridHelper :args="[10, 10]" />
-      <Fbo ref="fboRef" :depth="false" :settings="{ samples: 1 }" />
-      <TresMesh>
-        <TresBoxGeometry :args="[1, 1, 1]" />
+    <TresGridHelper :args="[10, 10]" />
+    <Fbo ref="fboRef" :depth="false" :settings="{ samples: 1 }" />
+    <TresMesh>
+      <TresBoxGeometry :args="[1, 1, 1]" />
 
-        <TresMeshBasicMaterial
-          :color="0xFFFFFF"
-          :map="fboRef?.instance?.texture ?? null"
-        />
-      </TresMesh>
+      <TresMeshBasicMaterial
+        :color="0xFFFFFF"
+        :map="fboRef?.instance?.texture ?? null"
+      />
+    </TresMesh>
 
-      <TresMesh ref="torusRef" :position="[3, 0, 0]">
-        <TresTorusGeometry :args="[1, 0.5, 16, 100]" />
-        <TresMeshNormalMaterial />
-      </TresMesh>
-    </TresCanvas>
-  </div>
+    <TresMesh ref="torusRef" :position="[3, 0, 0]">
+      <TresTorusGeometry :args="[1, 0.5, 16, 100]" />
+      <TresMeshNormalMaterial />
+    </TresMesh>
+  </TresCanvas>
 </template>

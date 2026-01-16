@@ -5,16 +5,14 @@ import { BoxHelper } from 'three'
 </script>
 
 <template>
-  <div class="aspect-video">
-    <TresCanvas clear-color="#222">
-      <TresPerspectiveCamera :position="[3, 3, 3]" />
-      <OrbitControls />
-      <TresMesh>
-        <TresSphereGeometry />
-        <TresMeshNormalMaterial />
-        <Helper :type="BoxHelper" :args="[0xFF0000]" />
-      </TresMesh>
-      <TresAmbientLight />
-    </TresCanvas>
-  </div>
+  <TresCanvas clear-color="#222">
+    <TresPerspectiveCamera :position="[3, 3, 3]" />
+    <OrbitControls />
+    <TresMesh>
+      <TresSphereGeometry />
+      <TresMeshNormalMaterial />
+      <Helper :type="BoxHelper" :args="[0xFF0000]" />
+    </TresMesh>
+    <TresAmbientLight />
+  </TresCanvas>
 </template>

@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { OrbitControls, RoundedBox } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
-import { TresLeches, useControls } from '@tresjs/leches'
+import { useControls } from '@tresjs/leches'
+
+const uuid = inject(`uuid`)
 
 const { width, height, depth, radius, segments, showWireframe } = useControls({
   width: { value: 1, min: 0.1, max: 5, step: 0.1 },
@@ -10,12 +12,11 @@ const { width, height, depth, radius, segments, showWireframe } = useControls({
   radius: { value: 0.1, min: 0.01, max: 1, step: 0.01 },
   segments: { value: 2, min: 1, max: 16, step: 1 },
   showWireframe: false,
-})
+}, { uuid })
 </script>
 
 <template>
-  <div class="aspect-video">
-    <TresCanvas clear-color="#82DBC5">
+  <TresCanvas clear-color="#82DBC5">
       <TresPerspectiveCamera :position="[0, 0, 3]" />
       <OrbitControls />
       <RoundedBox :args="[width, height, depth, segments, radius]">
@@ -25,6 +26,4 @@ const { width, height, depth, radius, segments, showWireframe } = useControls({
       <TresDirectionalLight :position="[0, 2, 4]" />
       <TresGridHelper :position-y="-0.5" />
     </TresCanvas>
-  </div>
-  <TresLeches :float="false" />
 </template>

@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { Html, Levioso, OrbitControls } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
-import { TresLeches, useControls } from '@tresjs/leches'
 import { ref } from 'vue'
+import { useControls } from '@tresjs/leches'
+
+const uuid = inject(`uuid`)
 
 const gl = {
   clearColor: '#82DBC5',
@@ -37,7 +39,7 @@ const geometries = [
 
 const { showTransition } = useControls({
   showTransition: true,
-})
+}, { uuid })
 
 const getRandomBackgroundColor = (): string => {
   const colors = ['#F6B03B', '#82DBC5', '#FF5733', '#33FF57', '#3357FF', '#F333FF', '#33FFF5']
@@ -51,7 +53,7 @@ const updateBackgroundColor = () => {
 </script>
 
 <template>
-  <div ref="rootRef" class="html-demo-wrapper aspect-video">
+  <div ref="rootRef" class="html-demo-wrapper">
     <TresCanvas v-bind="gl" class="!pointer-events-none">
       <TresPerspectiveCamera :position="[0, 1.5, 7.5]" />
       <OrbitControls :dom-element="rootRef" />
@@ -95,36 +97,4 @@ const updateBackgroundColor = () => {
       <TresAmbientLight :intensity="1" />
     </TresCanvas>
   </div>
-  <TresLeches :float="false" />
 </template>
-
-<style scoped>
-.html-demo-wrapper {
-  width: 100%;
-  height: 100%;
-  position: relative;
-  overflow: hidden;
-  background-color: #82dbc5;
-}
-
-.html-demo-transition-heading:hover {
-  transform: scale(1.05);
-}
-
-.transition-basic-enter-from,
-.transition-basic-leave-to {
-  opacity: 0;
-  transform: translateY(-20px);
-}
-
-.transition-basic-enter-active,
-.transition-basic-leave-active {
-  transition: all 0.5s ease;
-}
-
-.transition-basic-enter-to,
-.transition-basic-leave-from {
-  opacity: 1;
-  transform: translateY(0);
-}
-</style>

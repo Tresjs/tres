@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { Lensflare, OrbitControls, Torus } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
-import { TresLeches, useControls } from '@tresjs/leches'
+import { useControls } from '@tresjs/leches'
 import { shallowRef } from 'vue'
+
+const uuid = inject(`uuid`)
 
 const [x, z] = [shallowRef(0), shallowRef(0)]
 
@@ -12,7 +14,7 @@ const { scale, seed, color, distance, size } = useControls({
   color: '#ffffff',
   distance: { value: 0, min: -2, max: 2, step: 0.1 },
   size: { value: 1, min: 0.1, max: 10, step: 0.5 },
-})
+}, { uuid })
 
 function onLoop({ elapsed }: { elapsed: number }) {
   z.value = Math.cos(elapsed * 0.5) * 2
@@ -21,29 +23,26 @@ function onLoop({ elapsed }: { elapsed: number }) {
 </script>
 
 <template>
-  <div class="aspect-video">
-    <TresCanvas clear-color="#333" @loop="onLoop">
-      <OrbitControls />
-      <TresPointLight :position="[x, 0, z]">
-        <Lensflare
-          :seed="seed"
-          :scale="scale"
-          :color="color"
-          :distance="distance"
-          :size="size"
-        />
-      </TresPointLight>
-      <Torus
-        v-for="n in [-2, 0, 2]"
-        :key="n"
-        :args="[0.7, 0.15]"
-        :position-z="n"
-        :rotation-y="Math.PI * 0.5"
-      >
-        <TresMeshPhongMaterial color="#888" />
-      </Torus>
-      <TresGridHelper :position="[0, -0.9, 0]" />
-    </TresCanvas>
-  </div>
-  <TresLeches :float="false" />
+  <TresCanvas clear-color="#333" @loop="onLoop">
+    <OrbitControls />
+    <TresPointLight :position="[x, 0, z]">
+      <Lensflare
+        :seed="seed"
+        :scale="scale"
+        :color="color"
+        :distance="distance"
+        :size="size"
+      />
+    </TresPointLight>
+    <Torus
+      v-for="n in [-2, 0, 2]"
+      :key="n"
+      :args="[0.7, 0.15]"
+      :position-z="n"
+      :rotation-y="Math.PI * 0.5"
+    >
+      <TresMeshPhongMaterial color="#888" />
+    </Torus>
+    <TresGridHelper :position="[0, -0.9, 0]" />
+  </TresCanvas>
 </template>

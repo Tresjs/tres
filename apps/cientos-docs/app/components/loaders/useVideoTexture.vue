@@ -10,18 +10,16 @@ texture.value = await useVideoTexture(exampleVideo, { loop: false })
 </script>
 
 <template>
-  <div class="aspect-video">
-    <TresCanvas clear-color="#333">
-      <TresPerspectiveCamera
-        :position="[0, 5, 9]"
-        :look-at="[0, 1, 0]"
-      />
-      <OrbitControls />
-      <Sphere :position="[0, 2, 0]">
-        <TresMeshBasicMaterial :map="texture" />
-      </Sphere>
-      <TresGridHelper />
-      <TresAmbientLight />
-    </TresCanvas>
-  </div>
+  <TresCanvas clear-color="#333">
+    <TresPerspectiveCamera
+      :position="[0, 5, 9]"
+      :look-at="[0, 1, 0]"
+    />
+    <OrbitControls />
+    <Sphere :position="[0, 2, 0]">
+      <TresMeshBasicMaterial :map="texture" />
+    </Sphere>
+    <TresGridHelper />
+    <TresAmbientLight />
+  </TresCanvas>
 </template>

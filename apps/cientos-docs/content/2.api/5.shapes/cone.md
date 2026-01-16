@@ -3,7 +3,7 @@ title: Cone
 description: Short-cut for a ConeGeometry and a MeshBasicMaterial with a Mesh object.
 ---
 
-::SceneWrapper
+::SceneControlsWrapper
   ::ShapesCone
   ::
 ::

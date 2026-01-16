@@ -3,7 +3,7 @@ title: Contact Shadows
 description: Fake, non-lighting-based shadow component for single plane shadows.
 ---
 
-::SceneWrapper
+::SceneControlsWrapper
   ::LightShadowContactShadow
   ::
 ::

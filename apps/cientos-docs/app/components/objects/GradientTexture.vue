@@ -4,18 +4,16 @@ import { GradientTexture } from '@tresjs/cientos'
 </script>
 
 <template>
-  <div class="aspect-video">
-    <TresCanvas clear-color="#333">
-      <TresPerspectiveCamera :position="[0, 0, 3]" />
-      <TresMesh>
-        <TresPlaneGeometry />
-        <TresMeshBasicMaterial>
-          <GradientTexture
-            :stops="[0.1, 0.5, 0.9]"
-            :colors="['#4f4f4f', '#82dbc5', '#fbb03b']"
-          />
-        </TresMeshBasicMaterial>
-      </TresMesh>
-    </TresCanvas>
-  </div>
+  <TresCanvas clear-color="#333">
+    <TresPerspectiveCamera :position="[0, 0, 3]" />
+    <TresMesh>
+      <TresPlaneGeometry />
+      <TresMeshBasicMaterial>
+        <GradientTexture
+          :stops="[0.1, 0.5, 0.9]"
+          :colors="['#4f4f4f', '#82dbc5', '#fbb03b']"
+        />
+      </TresMeshBasicMaterial>
+    </TresMesh>
+  </TresCanvas>
 </template>

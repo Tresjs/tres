@@ -3,7 +3,7 @@ title: Grid
 description: Shader-based grid plane with customizable cell and section lines.
 ---
 
-::SceneWrapper
+::SceneControlsWrapper
   ::DebugPerformanceGrid
   ::
 ::

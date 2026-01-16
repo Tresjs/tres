@@ -7,7 +7,9 @@ import {
   useProgress,
 } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
-import { TresLeches, useControls } from '@tresjs/leches'
+import { useControls } from '@tresjs/leches'
+
+const uuid = inject(`uuid`)
 
 const environmentFiles = [
   '/px.jpg',
@@ -25,7 +27,7 @@ const { intensity, form, toneMapped, color } = useControls({
   form: { value: 'rect', options: ['circle', 'ring', 'rect'] },
   toneMapped: false,
   color: '#ffffff',
-})
+}, { uuid })
 </script>
 
 <template>
@@ -44,8 +46,7 @@ const { intensity, form, toneMapped, color } = useControls({
       </div>
     </div>
   </Transition>
-  <div class="aspect-video">
-    <TresCanvas>
+  <TresCanvas>
       <TresPerspectiveCamera :position="[3, 3, 3]" />
       <OrbitControls />
       <Suspense>
@@ -64,6 +65,4 @@ const { intensity, form, toneMapped, color } = useControls({
       </Sphere>
       <TresAmbientLight :intensity="1" />
     </TresCanvas>
-  </div>
-  <TresLeches :float="false" />
 </template>

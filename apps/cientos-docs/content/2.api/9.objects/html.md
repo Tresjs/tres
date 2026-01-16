@@ -344,7 +344,7 @@ This means you can **animate** how your projected HTML content *enters* and *lea
 All **standard interactions** are supported just like on a regular HTML element — **hover effects**, **events**, and *any kind of DOM interaction* are fully possible.
 ::
 
-::SceneWrapper
+::SceneControlsWrapper
   ::ObjectsHtmlTransitionDemo
   ::
 ::

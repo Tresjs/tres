@@ -36,7 +36,6 @@ const items: Item[] = Array.from({ length: n }, (): Item => ({
 </script>
 
 <template>
-  <div class="aspect-video">
     <TresCanvas v-bind="gl">
       <TresPerspectiveCamera :position="[0, 8.5, 22]" />
       <OrbitControls make-default :enable-pan="false" :domElement="portalRef" :maxPolarAngle="Math.PI / 2.2" :target="[0, 2, 0]" />
@@ -95,7 +94,6 @@ const items: Item[] = Array.from({ length: n }, (): Item => ({
         <Environment preset="city" />
       </Suspense>
     </TresCanvas>
-  </div>
   <div ref="portalRef" class="html-tresjs-portal"></div>
 </template>
 

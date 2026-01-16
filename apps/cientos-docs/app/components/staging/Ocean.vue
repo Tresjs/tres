@@ -4,7 +4,7 @@ import { TresCanvas } from '@tresjs/core'
 </script>
 
 <template>
-  <div class="aspect-video">
+  
     <TresCanvas>
       <TresPerspectiveCamera :position="[0, 1, 1]" />
       <Sky :azimuth="0" />
@@ -22,5 +22,5 @@ import { TresCanvas } from '@tresjs/core'
         :max-distance="200.0"
       />
     </TresCanvas>
-  </div>
+  
 </template>

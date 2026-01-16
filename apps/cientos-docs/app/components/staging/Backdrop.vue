@@ -4,7 +4,9 @@ import { TresCanvas } from '@tresjs/core'
 import type { Camera } from 'three'
 import { PCFSoftShadowMap, SRGBColorSpace } from 'three'
 import { ref, watchEffect } from 'vue'
-import { TresLeches, useControls } from '@tresjs/leches'
+import { useControls } from '@tresjs/leches'
+
+const uuid = inject(`uuid`)
 
 const gl = {
   clearColor: 'pink',
@@ -28,26 +30,25 @@ const { floor, segments, receiveShadow } = useControls({
   floor: { value: 1.5, min: 0, max: 5, step: 0.05 },
   segments: { value: 20, min: 1, max: 128, step: 1 },
   receiveShadow: true,
-})
+}, { uuid })
 </script>
 
 <template>
-  <div class="aspect-video w-full relative">
-    <Transition
-      name="fade-overlay"
-      enter-active-class="opacity-1 transition-opacity duration-200"
-      leave-active-class="opacity-0 transition-opacity duration-200"
+  <Transition
+    name="fade-overlay"
+    enter-active-class="opacity-1 transition-opacity duration-200"
+    leave-active-class="opacity-0 transition-opacity duration-200"
+  >
+    <div
+      v-show="!hasFinishLoading"
+      class="absolute bg-grey-600 t-0 l-0 w-full h-full z-20 flex justify-center items-center text-black font-mono"
     >
-      <div
-        v-show="!hasFinishLoading"
-        class="absolute bg-grey-600 t-0 l-0 w-full h-full z-20 flex justify-center items-center text-black font-mono"
-      >
-        <div class="w-200px">
-          Loading... {{ progress }} %
-        </div>
+      <div class="w-200px">
+        Loading... {{ progress }} %
       </div>
-    </Transition>
-    <TresCanvas v-bind="gl">
+    </div>
+  </Transition>
+  <TresCanvas v-bind="gl">
       <TresPerspectiveCamera
         :position="[0.07224002153117198, 2, 2.9469498522622626]"
         :rotation="[-0.04419077275543715, 0.025561987075415186, 0.0011302162688196786]"
@@ -95,6 +96,4 @@ const { floor, segments, receiveShadow } = useControls({
         :shadow-camera-left="-10"
       />
     </TresCanvas>
-  </div>
-  <TresLeches :float="false" />
 </template>

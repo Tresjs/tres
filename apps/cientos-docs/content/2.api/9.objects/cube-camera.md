@@ -3,7 +3,7 @@ title: CubeCamera
 description: Render environment maps for reflective objects.
 ---
 
-::SceneWrapper
+::SceneControlsWrapper
   ::ObjectsCubeCamera
   ::
 ::

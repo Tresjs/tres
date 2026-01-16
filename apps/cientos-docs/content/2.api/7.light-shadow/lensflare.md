@@ -3,7 +3,7 @@ title: Lensflare
 description: Wraps the three.js Lensflare with seeded random element generation.
 ---
 
-::SceneWrapper
+::SceneControlsWrapper
   ::LightShadowLensflare
   ::
 ::
