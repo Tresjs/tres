@@ -44,21 +44,19 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="aspect-video">
-    <TresCanvas clear-color="gray">
-      <TresPerspectiveCamera :near="1" :far="25000" :position="[0, 0, 0]" />
-      <TresGroup :position-z="z">
-        <LOD
-          v-for="(position, i) of positions"
-          :key="i"
-          :levels="[1500, 3000, 4000]"
-          :position="position"
-        >
-          <TresMesh :geometry="geometries[0]" :material="materials[0]" />
-          <TresMesh :geometry="geometries[1]" :material="materials[1]" />
-          <TresMesh :geometry="geometries[2]" :material="materials[2]" />
-        </LOD>
-      </TresGroup>
-    </TresCanvas>
-  </div>
+  <TresCanvas clear-color="gray">
+    <TresPerspectiveCamera :near="1" :far="25000" :position="[0, 0, 0]" />
+    <TresGroup :position-z="z">
+      <LOD
+        v-for="(position, i) of positions"
+        :key="i"
+        :levels="[1500, 3000, 4000]"
+        :position="position"
+      >
+        <TresMesh :geometry="geometries[0]" :material="materials[0]" />
+        <TresMesh :geometry="geometries[1]" :material="materials[1]" />
+        <TresMesh :geometry="geometries[2]" :material="materials[2]" />
+      </LOD>
+    </TresGroup>
+  </TresCanvas>
 </template>
