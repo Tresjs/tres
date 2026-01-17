@@ -1,5 +1,5 @@
 ---
-title: Abstraction
+title: Abstractions
 description: UI components reference
 ---
 

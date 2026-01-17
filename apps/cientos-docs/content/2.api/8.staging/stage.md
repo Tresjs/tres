@@ -4,7 +4,7 @@ description: Creates a complete stage setup with lighting, shadows, and environm
 ---
 
 ::SceneWrapper
-  ::LightShadowStage
+  ::StagingStage
   ::
 ::
 
