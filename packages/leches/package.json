@@ -1,7 +1,7 @@
 {
   "name": "@tresjs/leches",
   "type": "module",
-  "version": "1.1.2",
+  "version": "1.1.4",
   "description": "Tasty GUI for Vue controls 🍰",
   "author": "Alvaro Saburido <hola@alvarosaburido.dev> (https://github.com/alvarosabu/)",
   "license": "MIT",
@@ -36,10 +36,8 @@
     "access": "public"
   },
   "scripts": {
-    "dev": "cd playground && pnpm run dev",
     "build": "vite build",
     "preview": "vite preview",
-    "playground": "cd playground && pnpm run dev",
     "test": "vitest",
     "test:ci": "echo 'Tests disabled for this branch'",
     "test:ui": "vitest --ui",

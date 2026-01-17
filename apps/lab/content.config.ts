@@ -28,6 +28,7 @@ export default defineContentConfig({
         author: z.union([z.string(), z.array(z.string())]),
         tags: z.array(z.string()),
         date: z.string(),
+        lastUpdated: z.string(),
         featured: z.boolean().optional(),
       }),
     }),

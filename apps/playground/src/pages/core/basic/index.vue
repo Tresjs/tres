@@ -63,7 +63,7 @@ const formattedShadowMapType = computed(() => {
     <OrbitControls />
     <TresMesh cast-shadow :position-x="2">
       <TresBoxGeometry />
-      <TresMeshStandardMaterial color="teal" :opacity="0.5" transparent />
+      <TresMeshStandardMaterial color="teal" :opacity="1" transparent />
     </TresMesh>
 
     <TresMesh
