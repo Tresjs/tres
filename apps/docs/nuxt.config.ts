@@ -81,7 +81,7 @@ export default defineNuxtConfig({
   icon: {
     customCollections: [{
       prefix: 'tres',
-      dir: './app/assets/icons'
+      dir: './app/assets/icons',
     }],
     provider: 'iconify',
   },

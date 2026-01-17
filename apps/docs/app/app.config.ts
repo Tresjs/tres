@@ -102,8 +102,7 @@ const newLocal = {
       label: 'post-processing',
       to: 'https://post-processing.tresjs.org/',
       target: '_blank',
-    },
-    {
+    }, {
       icon: 'i-lucide-cake',
       label: 'tresleches',
       to: 'https://tresleches.tresjs.org/',
