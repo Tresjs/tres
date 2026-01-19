@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { Vector2, Uniform, ShaderMaterial, PlaneGeometry, Mesh, DoubleSide, CanvasTexture, Texture, Float32BufferAttribute, BufferAttribute, AdditiveBlending } from 'three';
+import type { Mesh, Texture} from 'three';
+import { Vector2, Uniform, ShaderMaterial, PlaneGeometry, DoubleSide, CanvasTexture, Float32BufferAttribute, BufferAttribute, AdditiveBlending } from 'three';
 import { useDevicePixelRatio,  } from '@vueuse/core';
 import vertexShader from './shaders/vertex.glsl';
 import fragmentShader from './shaders/fragment.glsl';
@@ -162,7 +163,7 @@ onBeforeRender(({ elapsed }) => {
 </script>
 <template>
   <TresPoints v-if="canRender" :geometry="particlesGeometry" :material="particlesMaterial" />
-  <TresMesh ref="displacementMesh" @pointermove="onMouseMove" :visible="false">
+  <TresMesh ref="displacementMesh" :visible="false" @pointermove="onMouseMove">
     <TresPlaneGeometry :args="[10, 10]" />
     <TresMeshBasicMaterial :color="'red'" wireframe :side="DoubleSide" />
   </TresMesh>

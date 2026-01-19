@@ -9,6 +9,11 @@ const state = reactive({
 })
 
 provide('gltf-loader-state', state)
+
+// Add primitive prefix to the TresJS custom renderer
+const customRendererOptions = {
+  primitivePrefix: 'my',
+}
 </script>
 
 <template>
@@ -28,7 +33,7 @@ provide('gltf-loader-state', state)
         </div>
       </div>
     </Transition>
-    <TresCanvas clear-color="#C0ffee">
+    <TresCanvas clear-color="#C0ffee" :custom-renderer-options>
       <TheExperience />
     </TresCanvas>
   </div>

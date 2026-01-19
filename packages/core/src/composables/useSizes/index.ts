@@ -3,8 +3,9 @@ import { refDebounced, useDevicePixelRatio, useElementSize, useWindowSize } from
 import { computed, readonly, toValue } from 'vue'
 
 export interface SizesType {
-  height: Readonly<Ref<number>>
   width: Readonly<Ref<number>>
+  height: Readonly<Ref<number>>
+  pixelRatio: Readonly<Ref<number>>
   aspectRatio: ComputedRef<number>
 }
 
@@ -12,7 +13,7 @@ export default function useSizes(
   windowSize: MaybeRefOrGetter<boolean>,
   canvas: MaybeRef<HTMLCanvasElement>,
   debounceMs: number = 10,
-) {
+): SizesType {
   const { pixelRatio } = useDevicePixelRatio()
 
   const reactiveSize = toValue(windowSize)
@@ -25,9 +26,9 @@ export default function useSizes(
   const aspectRatio = computed(() => debouncedReactiveWidth.value / debouncedReactiveHeight.value)
 
   return {
-    height: debouncedReactiveHeight,
     width: debouncedReactiveWidth,
-    aspectRatio,
+    height: debouncedReactiveHeight,
     pixelRatio,
+    aspectRatio,
   }
 }

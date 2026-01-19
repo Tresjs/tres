@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { computed, unref } from 'vue'
 import type { LechesBooleanControl } from '../types'
 import ControlLabel from './ControlLabel.vue'
 
@@ -9,6 +10,8 @@ const props = defineProps<{
 
 const emit = defineEmits(['change'])
 
+const controlValue = computed(() => unref(props.control.value))
+
 function onChange(event: Event) {
   const { target } = event
   emit('change', (target as HTMLInputElement).checked)
@@ -17,7 +20,7 @@ function onChange(event: Event) {
 function onKeydown(event: KeyboardEvent) {
   if (event.code === 'Space' || event.code === 'Enter') {
     event.preventDefault() // Prevent scrolling when space is pressed
-    emit('change', !props.control.value)
+    emit('change', !controlValue.value)
   }
 }
 </script>
@@ -30,7 +33,7 @@ function onKeydown(event: KeyboardEvent) {
     />
     <input
       :id="control.uniqueKey"
-      :checked="control.value"
+      :checked="controlValue"
       class="tl-hidden"
       type="checkbox"
       @input="onChange"
@@ -42,9 +45,9 @@ function onKeydown(event: KeyboardEvent) {
       <span
         tabindex="0"
         role="checkbox"
-        :aria-checked="control.value"
-        :class="{ 'tl-bg-dark-500 dark:tl-bg-gray-400': control.value,
-                  'tl-bg-gray-100 dark:tl-bg-dark-300': !control.value }"
+        :aria-checked="controlValue"
+        :class="{ 'tl-bg-dark-500 dark:tl-bg-gray-400': controlValue,
+                  'tl-bg-gray-100 dark:tl-bg-dark-300': !controlValue }"
         class="tl-w-4
           tl-h-4
           tl-flex
@@ -65,7 +68,7 @@ function onKeydown(event: KeyboardEvent) {
         @keydown="onKeydown"
       >
         <i
-          v-show="control.value"
+          v-show="controlValue"
           class="i-ic:baseline-check tl-text-light dark:tl-text-dark"
         ></i></span>
     </label>

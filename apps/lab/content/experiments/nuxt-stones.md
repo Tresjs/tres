@@ -5,6 +5,7 @@ description: Nuxt Stone is a simple scene with a stone model and a Nuxt logo. Th
 thumbnail: /experiments/nuxt-stones.png
 tags: ['gltf', 'baked', 'emission', 'post-processing', 'bloom']
 date: 2023-09-18
+lastUpdated: 2023-09-18
 ---
 
 This experiment demonstrates **professional lighting techniques** and post-processing effects using a simple but effective scene featuring stone models with the Nuxt logo. The scene showcases how baked lighting and bloom effects can create stunning visual results with optimized performance.

@@ -54,10 +54,10 @@ const { data: formattedExperiments } = await useAsyncData('formatted-experiments
       // Featured experiments first
       if (a.featured && !b.featured) return -1
       if (!a.featured && b.featured) return 1
-      
+
       // Then sort by date (newest first)
-      const dateA = new Date(a.date || 0)
-      const dateB = new Date(b.date || 0)
+      const dateA = new Date(a.lastUpdated || 0)
+      const dateB = new Date(b.lastUpdated || 0)
       return dateB.getTime() - dateA.getTime()
     })
   },

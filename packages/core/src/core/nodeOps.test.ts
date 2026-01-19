@@ -8,13 +8,13 @@ import { shallowRef } from 'vue'
 import { extend } from './catalogue'
 import { nodeOps as getNodeOps } from './nodeOps'
 
-let nodeOps = getNodeOps(mockTresContext())
+let nodeOps = getNodeOps({ context: mockTresContext() })
 const pool = []
 
 describe('nodeOps', () => {
   beforeAll(() => {
     extend(THREE)
-    nodeOps = getNodeOps(mockTresContext())
+    nodeOps = getNodeOps({ context: mockTresContext() })
     const ce = nodeOps.createElement
     // NOTE: Overwrite createElement in order to push
     // all objects into a pool, later to be disposed.
