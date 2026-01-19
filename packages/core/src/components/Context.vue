@@ -166,7 +166,6 @@ const unmountCanvas = () => {
 const { camera, renderer } = context.value
 const { registerCamera, cameras, activeCamera, deregisterCamera } = camera
 
-
 const addDefaultCamera = () => {
   const camera = new PerspectiveCamera(
     45,

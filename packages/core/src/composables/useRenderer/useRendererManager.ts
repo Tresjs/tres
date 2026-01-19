@@ -298,9 +298,9 @@ export function useRendererManager(
       const rendererError = error instanceof Error
         ? error
         : new Error('Renderer initialization failed: Unknown error')
-      
+
       initializationError.value = rendererError
-      
+
       // Log detailed error message to help users diagnose the issue
       console.error(
         '[TresJS] Renderer initialization failed. This may occur if:\n'
@@ -310,7 +310,7 @@ export function useRendererManager(
         + `Error details: ${rendererError.message}`,
         rendererError,
       )
-      
+
       // Trigger error event hook for user-defined error handlers
       errorEventHook.trigger(rendererError)
     }
@@ -358,7 +358,7 @@ export function useRendererManager(
   watch([sizes.width, sizes.height, isInitialized], () => {
     // Wait for renderer initialization before setting size (required for WebGPU)
     if (!isInitialized.value) { return }
-    
+
     renderer.setSize(sizes.width.value, sizes.height.value)
 
     if (!hasTriggeredReady && renderer.domElement.width && renderer.domElement.height) {
