@@ -75,7 +75,7 @@ export function useTresContextManager(
 
   const mountCustomRenderer = (context: TresContext, empty = false) => {
     const InternalComponent = createInternalComponent(context, empty)
-    const { render } = createRenderer(nodeOps(context))
+    const { render } = createRenderer(nodeOps({ context, options: props.customRendererOptions }))
     render(h(InternalComponent), scene.value as unknown as TresObject)
   }
 
