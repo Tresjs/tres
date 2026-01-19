@@ -18,13 +18,13 @@ const { innerRadius, outerRadius, thetaSegments, phiSegments, thetaStart, thetaL
 
 <template>
   <TresCanvas clear-color="#82DBC5">
-      <TresPerspectiveCamera :position="[3, 3, 3]" />
-      <OrbitControls />
-      <Ring :args="[innerRadius, outerRadius, thetaSegments, phiSegments, thetaStart, thetaLength]">
-        <TresMeshToonMaterial color="orange" :wireframe="showWireframe" />
-      </Ring>
-      <TresAmbientLight />
-      <TresDirectionalLight :position="[0, 2, 4]" />
-      <TresGridHelper :position-y="-0.5" />
-    </TresCanvas>
+    <TresPerspectiveCamera :position="[3, 3, 3]" />
+    <OrbitControls />
+    <Ring :args="[innerRadius, outerRadius, thetaSegments, phiSegments, thetaStart, thetaLength]">
+      <TresMeshToonMaterial color="orange" :wireframe="showWireframe" />
+    </Ring>
+    <TresAmbientLight />
+    <TresDirectionalLight :position="[0, 2, 4]" />
+    <TresGridHelper :position-y="-0.5" />
+  </TresCanvas>
 </template>

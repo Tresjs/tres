@@ -49,51 +49,51 @@ const { floor, segments, receiveShadow } = useControls({
     </div>
   </Transition>
   <TresCanvas v-bind="gl">
-      <TresPerspectiveCamera
-        :position="[0.07224002153117198, 2, 2.9469498522622626]"
-        :rotation="[-0.04419077275543715, 0.025561987075415186, 0.0011302162688196786]"
-        :fov="35"
+    <TresPerspectiveCamera
+      :position="[0.07224002153117198, 2, 2.9469498522622626]"
+      :rotation="[-0.04419077275543715, 0.025561987075415186, 0.0011302162688196786]"
+      :fov="35"
+    />
+    <OrbitControls />
+    <Suspense>
+      <GLTFModel
+        path="https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/blender-cube.glb"
+        :rotation="[0, 0.5, 0]"
+        :position="[0, 1, 0]"
+        :scale="0.5"
+        castShadow
+        draco
       />
-      <OrbitControls />
-      <Suspense>
-        <GLTFModel
-          path="https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/blender-cube.glb"
-          :rotation="[0, 0.5, 0]"
-          :position="[0, 1, 0]"
-          :scale="0.5"
-          castShadow
-          draco
-        />
-      </Suspense>
-      <Backdrop
-        :floor="floor"
-        :segments="segments"
-        :scale="[10, 3, 3]"
-        :position="[0, 0, -3]"
-        :receive-shadow="receiveShadow"
-      >
-        <TresMeshPhysicalMaterial
-          :roughness="1"
-          color="pink"
-          :side="2"
-        />
-      </Backdrop>
-      <TresAmbientLight :intensity="0.5" />
-      <TresDirectionalLight
-        :args="['white', 2]"
-        cast-shadow
-        :position="[3, 4, 4]"
-        :look-at="[0, 0, 0]"
-        :shadow-camera-near="0.5"
-        :shadow-camera-left="-10"
+    </Suspense>
+    <Backdrop
+      :floor="floor"
+      :segments="segments"
+      :scale="[10, 3, 3]"
+      :position="[0, 0, -3]"
+      :receive-shadow="receiveShadow"
+    >
+      <TresMeshPhysicalMaterial
+        :roughness="1"
+        color="pink"
+        :side="2"
       />
-      <TresDirectionalLight
-        :args="['pink', 1]"
-        cast-shadow
-        :position="[-3, 2, 4]"
-        :look-at="[0, 0, 0]"
-        :shadow-camera-near="0.5"
-        :shadow-camera-left="-10"
-      />
-    </TresCanvas>
+    </Backdrop>
+    <TresAmbientLight :intensity="0.5" />
+    <TresDirectionalLight
+      :args="['white', 2]"
+      cast-shadow
+      :position="[3, 4, 4]"
+      :look-at="[0, 0, 0]"
+      :shadow-camera-near="0.5"
+      :shadow-camera-left="-10"
+    />
+    <TresDirectionalLight
+      :args="['pink', 1]"
+      cast-shadow
+      :position="[-3, 2, 4]"
+      :look-at="[0, 0, 0]"
+      :shadow-camera-near="0.5"
+      :shadow-camera-left="-10"
+    />
+  </TresCanvas>
 </template>

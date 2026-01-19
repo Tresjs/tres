@@ -47,22 +47,22 @@ const { intensity, form, toneMapped, color } = useControls({
     </div>
   </Transition>
   <TresCanvas>
-      <TresPerspectiveCamera :position="[3, 3, 3]" />
-      <OrbitControls />
-      <Suspense>
-        <Environment
-          :files="environmentFiles"
-          :blur="10"
-          :environmentIntensity="0.05"
-          path="https://raw.githubusercontent.com/Tresjs/assets/main/textures/environmentMap"
-        >
-          <Lightformer :intensity="intensity" :position="[0, -2, 3]" :scale="2" :form="form" :tone-mapped="toneMapped" :color="color" />
-          <Lightformer :intensity="intensity" :position="[0, 2, -3]" :scale="2" :form="form" :tone-mapped="toneMapped" :color="color" />
-        </Environment>
-      </Suspense>
-      <Sphere>
-        <TresMeshStandardMaterial color="yellow" :roughness="0" :metalness="0.5" />
-      </Sphere>
-      <TresAmbientLight :intensity="1" />
-    </TresCanvas>
+    <TresPerspectiveCamera :position="[3, 3, 3]" />
+    <OrbitControls />
+    <Suspense>
+      <Environment
+        :files="environmentFiles"
+        :blur="10"
+        :environmentIntensity="0.05"
+        path="https://raw.githubusercontent.com/Tresjs/assets/main/textures/environmentMap"
+      >
+        <Lightformer :intensity="intensity" :position="[0, -2, 3]" :scale="2" :form="form" :tone-mapped="toneMapped" :color="color" />
+        <Lightformer :intensity="intensity" :position="[0, 2, -3]" :scale="2" :form="form" :tone-mapped="toneMapped" :color="color" />
+      </Environment>
+    </Suspense>
+    <Sphere>
+      <TresMeshStandardMaterial color="yellow" :roughness="0" :metalness="0.5" />
+    </Sphere>
+    <TresAmbientLight :intensity="1" />
+  </TresCanvas>
 </template>

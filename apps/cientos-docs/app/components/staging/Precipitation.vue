@@ -18,16 +18,16 @@ const { size, color, alphaTest, opacity, count, speed, randomness } = useControl
 
 <template>
   <TresCanvas clear-color="#333">
-      <TresPerspectiveCamera :position="[0, 2, 15]" />
-      <Precipitation
-        :size="size"
-        :color="color"
-        :alpha-test="alphaTest"
-        :opacity="opacity"
-        :count="count"
-        :speed="speed"
-        :randomness="randomness"
-      />
-      <TresGridHelper :args="[10, 10]" />
-    </TresCanvas>
+    <TresPerspectiveCamera :position="[0, 2, 15]" />
+    <Precipitation
+      :size="size"
+      :color="color"
+      :alpha-test="alphaTest"
+      :opacity="opacity"
+      :count="count"
+      :speed="speed"
+      :randomness="randomness"
+    />
+    <TresGridHelper :args="[10, 10]" />
+  </TresCanvas>
 </template>

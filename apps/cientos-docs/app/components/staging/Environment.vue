@@ -38,29 +38,29 @@ const { background, blur, preset, backgroundIntensity, environmentIntensity, bac
     </div>
   </Transition>
   <TresCanvas>
-      <TresPerspectiveCamera :position="[7, 7, 7]" />
-      <OrbitControls />
-      <Suspense>
-        <Environment
-          :background="background"
-          :files="environmentFiles"
-          :blur="blur"
-          :preset="preset"
-          :background-intensity="backgroundIntensity"
-          :environment-intensity="environmentIntensity"
-          :background-rotation="[0, backgroundRotationY, 0]"
-          :environment-rotation="[0, environmentRotationY, 0]"
-          :syncMaterials="syncMaterials"
-          path="https://raw.githubusercontent.com/Tresjs/assets/main/textures/environmentMap"
-        />
-      </Suspense>
-      <Sphere>
-        <TresMeshStandardMaterial
-          color="yellow"
-          :roughness="0"
-          :metalness="0.5"
-        />
-      </Sphere>
-      <TresAmbientLight :intensity="1" />
-    </TresCanvas>
+    <TresPerspectiveCamera :position="[7, 7, 7]" />
+    <OrbitControls />
+    <Suspense>
+      <Environment
+        :background="background"
+        :files="environmentFiles"
+        :blur="blur"
+        :preset="preset"
+        :background-intensity="backgroundIntensity"
+        :environment-intensity="environmentIntensity"
+        :background-rotation="[0, backgroundRotationY, 0]"
+        :environment-rotation="[0, environmentRotationY, 0]"
+        :syncMaterials="syncMaterials"
+        path="https://raw.githubusercontent.com/Tresjs/assets/main/textures/environmentMap"
+      />
+    </Suspense>
+    <Sphere>
+      <TresMeshStandardMaterial
+        color="yellow"
+        :roughness="0"
+        :metalness="0.5"
+      />
+    </Sphere>
+    <TresAmbientLight :intensity="1" />
+  </TresCanvas>
 </template>

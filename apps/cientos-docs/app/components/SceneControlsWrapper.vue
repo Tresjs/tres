@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { TresLeches } from '@tresjs/leches'
+
 const route = useRoute()
 
 const uuid = `leches-${route.path.split('/').pop()}`

@@ -37,45 +37,45 @@ const occluderRefs = computed<TresObject3D[]>(() => {
 </script>
 
 <template>
-    <TresCanvas v-bind="gl">
-      <TresPerspectiveCamera :position="[3.5, 2.5, 9.5]" />
-      <OrbitControls />
+  <TresCanvas v-bind="gl">
+    <TresPerspectiveCamera :position="[3.5, 2.5, 9.5]" />
+    <OrbitControls />
 
-      <TresMesh :position="[0, 1, 0]">
-        <TresBoxGeometry />
-        <TresMeshNormalMaterial />
-        <Html
-          v-bind="htmlProps"
-          :occlude="occluderRefs"
-          :distance-factor="4"
-          :z-index-range="[28, 0]"
-          @on-occlude="(event: boolean) => isOccluded = event"
-        >
-          <h1 class="box">Move camera</h1>
-        </Html>
-      </TresMesh>
-
-      <TresMesh
-        v-for="(sphere, index) in spheresParams"
-        :key="`html-demo-occlude-complex-${index}`"
-        ref="spheresOcclude"
-        :position="sphere.position"
+    <TresMesh :position="[0, 1, 0]">
+      <TresBoxGeometry />
+      <TresMeshNormalMaterial />
+      <Html
+        v-bind="htmlProps"
+        :occlude="occluderRefs"
+        :distance-factor="4"
+        :z-index-range="[28, 0]"
+        @on-occlude="(event: boolean) => isOccluded = event"
       >
-        <TresSphereGeometry />
-        <TresMeshNormalMaterial />
-        <Html v-bind="htmlProps" :distance-factor="4" :z-index-range="[28, 0]">
-          <h1
-            class="text-xs p-1 rounded"
-            :class="[isOccluded ? 'box' : 'bg-dark text-white']"
-          >
-            Occlude {{ index + 1 }}
-          </h1>
-        </Html>
-      </TresMesh>
+        <h1 class="box">Move camera</h1>
+      </Html>
+    </TresMesh>
 
-      <TresGridHelper />
-      <TresAmbientLight :intensity="1" />
-    </TresCanvas>
+    <TresMesh
+      v-for="(sphere, index) in spheresParams"
+      :key="`html-demo-occlude-complex-${index}`"
+      ref="spheresOcclude"
+      :position="sphere.position"
+    >
+      <TresSphereGeometry />
+      <TresMeshNormalMaterial />
+      <Html v-bind="htmlProps" :distance-factor="4" :z-index-range="[28, 0]">
+        <h1
+          class="text-xs p-1 rounded"
+          :class="[isOccluded ? 'box' : 'bg-dark text-white']"
+        >
+          Occlude {{ index + 1 }}
+        </h1>
+      </Html>
+    </TresMesh>
+
+    <TresGridHelper />
+    <TresAmbientLight :intensity="1" />
+  </TresCanvas>
 </template>
 
 <style scoped>

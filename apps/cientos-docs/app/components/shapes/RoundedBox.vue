@@ -17,13 +17,13 @@ const { width, height, depth, radius, segments, showWireframe } = useControls({
 
 <template>
   <TresCanvas clear-color="#82DBC5">
-      <TresPerspectiveCamera :position="[0, 0, 3]" />
-      <OrbitControls />
-      <RoundedBox :args="[width, height, depth, segments, radius]">
-        <TresMeshBasicMaterial color="orange" :wireframe="showWireframe" />
-      </RoundedBox>
-      <TresAmbientLight />
-      <TresDirectionalLight :position="[0, 2, 4]" />
-      <TresGridHelper :position-y="-0.5" />
-    </TresCanvas>
+    <TresPerspectiveCamera :position="[0, 0, 3]" />
+    <OrbitControls />
+    <RoundedBox :args="[width, height, depth, segments, radius]">
+      <TresMeshBasicMaterial color="orange" :wireframe="showWireframe" />
+    </RoundedBox>
+    <TresAmbientLight />
+    <TresDirectionalLight :position="[0, 2, 4]" />
+    <TresGridHelper :position-y="-0.5" />
+  </TresCanvas>
 </template>

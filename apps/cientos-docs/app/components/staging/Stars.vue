@@ -18,17 +18,17 @@ const { size, sizeAttenuation, transparent, alphaTest, count, depth, radius } = 
 
 <template>
   <TresCanvas clear-color="#111">
-      <TresPerspectiveCamera :position="[0, 5, 10]" />
-      <OrbitControls />
-      <Stars
-        :size="size"
-        :size-attenuation="sizeAttenuation"
-        :transparent="transparent"
-        :alpha-test="alphaTest"
-        :count="count"
-        :depth="depth"
-        :radius="radius"
-      />
-      <TresGridHelper :args="[10, 20]" />
-    </TresCanvas>
+    <TresPerspectiveCamera :position="[0, 5, 10]" />
+    <OrbitControls />
+    <Stars
+      :size="size"
+      :size-attenuation="sizeAttenuation"
+      :transparent="transparent"
+      :alpha-test="alphaTest"
+      :count="count"
+      :depth="depth"
+      :radius="radius"
+    />
+    <TresGridHelper :args="[10, 20]" />
+  </TresCanvas>
 </template>

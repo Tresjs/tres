@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { OrbitControls, Smoke } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
-import { TresLeches, useControls } from '@tresjs/leches'
+import { useControls } from '@tresjs/leches'
 
 const uuid = inject(`uuid`)
 

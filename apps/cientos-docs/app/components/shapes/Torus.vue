@@ -17,13 +17,13 @@ const { radius, tube, radialSegments, tubularSegments, arc, showWireframe } = us
 
 <template>
   <TresCanvas clear-color="#82DBC5">
-      <TresPerspectiveCamera :position="[3, 3, 3]" />
-      <OrbitControls />
-      <Torus :args="[radius, tube, radialSegments, tubularSegments, arc]">
-        <TresMeshToonMaterial color="orange" :wireframe="showWireframe" />
-      </Torus>
-      <TresAmbientLight />
-      <TresDirectionalLight :position="[0, 2, 4]" />
-      <TresGridHelper :position-y="-0.5" />
-    </TresCanvas>
+    <TresPerspectiveCamera :position="[3, 3, 3]" />
+    <OrbitControls />
+    <Torus :args="[radius, tube, radialSegments, tubularSegments, arc]">
+      <TresMeshToonMaterial color="orange" :wireframe="showWireframe" />
+    </Torus>
+    <TresAmbientLight />
+    <TresDirectionalLight :position="[0, 2, 4]" />
+    <TresGridHelper :position-y="-0.5" />
+  </TresCanvas>
 </template>

@@ -27,13 +27,13 @@ const { tubularSegments, radius, radialSegments, closed, showWireframe } = useCo
 
 <template>
   <TresCanvas clear-color="#82DBC5">
-      <TresPerspectiveCamera :position="[3, 3, 3]" />
-      <OrbitControls />
-      <Tube :args="[tubePath, tubularSegments, radius, radialSegments, closed]">
-        <TresMeshToonMaterial color="orange" :side="DoubleSide" :wireframe="showWireframe" />
-      </Tube>
-      <TresAmbientLight />
-      <TresDirectionalLight :position="[0, 2, 4]" />
-      <TresGridHelper :position-y="-0.5" />
-    </TresCanvas>
+    <TresPerspectiveCamera :position="[3, 3, 3]" />
+    <OrbitControls />
+    <Tube :args="[tubePath, tubularSegments, radius, radialSegments, closed]">
+      <TresMeshToonMaterial color="orange" :side="DoubleSide" :wireframe="showWireframe" />
+    </Tube>
+    <TresAmbientLight />
+    <TresDirectionalLight :position="[0, 2, 4]" />
+    <TresGridHelper :position-y="-0.5" />
+  </TresCanvas>
 </template>

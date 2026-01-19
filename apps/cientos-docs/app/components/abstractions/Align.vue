@@ -2,6 +2,7 @@
 import { Align, OrbitControls } from '@tresjs/cientos'
 import { useControls } from '@tresjs/leches'
 import { TresCanvas } from '@tresjs/core'
+
 const uuid = inject(`uuid`)
 
 const { top, bottom, left, right, front, back } = useControls({

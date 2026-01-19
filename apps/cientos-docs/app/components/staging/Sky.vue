@@ -18,17 +18,17 @@ const { turbidity, rayleigh, mieCoefficient, mieDirectionalG, elevation, azimuth
 
 <template>
   <TresCanvas :tone-mapping-exposure="0.25">
-      <TresPerspectiveCamera :position="[0, 15, 200]" />
-      <Sky
-        :turbidity="turbidity"
-        :rayleigh="rayleigh"
-        :mie-coefficient="mieCoefficient"
-        :mie-directional-g="mieDirectionalG"
-        :elevation="elevation"
-        :azimuth="azimuth"
-        :distance="distance"
-      />
-      <OrbitControls />
-      <TresGridHelper :args="[1000, 20]" />
-    </TresCanvas>
+    <TresPerspectiveCamera :position="[0, 15, 200]" />
+    <Sky
+      :turbidity="turbidity"
+      :rayleigh="rayleigh"
+      :mie-coefficient="mieCoefficient"
+      :mie-directional-g="mieDirectionalG"
+      :elevation="elevation"
+      :azimuth="azimuth"
+      :distance="distance"
+    />
+    <OrbitControls />
+    <TresGridHelper :args="[1000, 20]" />
+  </TresCanvas>
 </template>

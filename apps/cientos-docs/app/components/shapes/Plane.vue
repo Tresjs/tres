@@ -16,13 +16,13 @@ const { width, height, widthSegments, heightSegments, showWireframe } = useContr
 
 <template>
   <TresCanvas clear-color="#82DBC5">
-      <TresPerspectiveCamera :position="[3, 3, 3]" />
-      <OrbitControls />
-      <Plane :args="[width, height, widthSegments, heightSegments]">
-        <TresMeshToonMaterial color="orange" :wireframe="showWireframe" />
-      </Plane>
-      <TresAmbientLight />
-      <TresDirectionalLight :position="[0, 2, 4]" />
-      <TresGridHelper :position-y="-0.5" />
-    </TresCanvas>
+    <TresPerspectiveCamera :position="[3, 3, 3]" />
+    <OrbitControls />
+    <Plane :args="[width, height, widthSegments, heightSegments]">
+      <TresMeshToonMaterial color="orange" :wireframe="showWireframe" />
+    </Plane>
+    <TresAmbientLight />
+    <TresDirectionalLight :position="[0, 2, 4]" />
+    <TresGridHelper :position-y="-0.5" />
+  </TresCanvas>
 </template>

@@ -36,64 +36,64 @@ const items: Item[] = Array.from({ length: n }, (): Item => ({
 </script>
 
 <template>
-    <TresCanvas v-bind="gl">
-      <TresPerspectiveCamera :position="[0, 8.5, 22]" />
-      <OrbitControls make-default :enable-pan="false" :domElement="portalRef" :maxPolarAngle="Math.PI / 2.2" :target="[0, 2, 0]" />
+  <TresCanvas v-bind="gl">
+    <TresPerspectiveCamera :position="[0, 8.5, 22]" />
+    <OrbitControls make-default :enable-pan="false" :domElement="portalRef" :maxPolarAngle="Math.PI / 2.2" :target="[0, 2, 0]" />
 
-      <Levioso v-for="(item, index) in items" :key="index" :speed="2">
-        <TresMesh
-          :position="[item.position[0], item.position[1], item.position[2]]"
-          :scale="[item.scale, item.scale, item.scale]"
-          :rotation="[item.rotation[0], item.rotation[1], item.rotation[2]]"
-        >
-          <TresMeshStandardMaterial color="white" attach="material" />
+    <Levioso v-for="(item, index) in items" :key="index" :speed="2">
+      <TresMesh
+        :position="[item.position[0], item.position[1], item.position[2]]"
+        :scale="[item.scale, item.scale, item.scale]"
+        :rotation="[item.rotation[0], item.rotation[1], item.rotation[2]]"
+      >
+        <TresMeshStandardMaterial color="white" attach="material" />
 
-          <TresTetrahedronGeometry v-if="index % 9 === 0" :args="[2]" />
-          <TresCylinderGeometry v-else-if="index % 9 === 1" :args="[0.8, 0.8, 2, 32]" />
-          <TresConeGeometry v-else-if="index % 9 === 2" :args="[1.1, 1.7, 32]" />
-          <TresSphereGeometry v-else-if="index % 9 === 3" :args="[1.5, 32, 32]" />
-          <TresIcosahedronGeometry v-else-if="index % 9 === 4" :args="[2]" />
-          <TresTorusGeometry v-else-if="index % 9 === 5" :args="[1.1, 0.35, 16, 32]" />
-          <TresOctahedronGeometry v-else-if="index % 9 === 6" :args="[2]" />
-          <TresSphereGeometry v-else-if="index % 9 === 7" :args="[1.5, 32, 32]" />
-          <TresBoxGeometry v-else-if="index % 9 === 8" :args="[2.5, 2.5, 2.5]" />
-        </TresMesh>
-      </Levioso>
+        <TresTetrahedronGeometry v-if="index % 9 === 0" :args="[2]" />
+        <TresCylinderGeometry v-else-if="index % 9 === 1" :args="[0.8, 0.8, 2, 32]" />
+        <TresConeGeometry v-else-if="index % 9 === 2" :args="[1.1, 1.7, 32]" />
+        <TresSphereGeometry v-else-if="index % 9 === 3" :args="[1.5, 32, 32]" />
+        <TresIcosahedronGeometry v-else-if="index % 9 === 4" :args="[2]" />
+        <TresTorusGeometry v-else-if="index % 9 === 5" :args="[1.1, 0.35, 16, 32]" />
+        <TresOctahedronGeometry v-else-if="index % 9 === 6" :args="[2]" />
+        <TresSphereGeometry v-else-if="index % 9 === 7" :args="[1.5, 32, 32]" />
+        <TresBoxGeometry v-else-if="index % 9 === 8" :args="[2.5, 2.5, 2.5]" />
+      </TresMesh>
+    </Levioso>
 
-      <Levioso :speed="1.5">
-        <Html
-          transform
-          center
-          :cast-shadow="true"
-          :receive-shadow="true"
-          occlude="blending"
-          :z-index-range="[28, 0]"
-          :position-y="2.5"
-          :portal="portalRef"
-          :style="{ userSelect: 'none' }"
-        >
-          <iframe
-            class="w-[700px] h-[500px]"
-            src="https://tresjs.org"
-            frameborder="0"
-            :width="700"
-            :height="500"
-          ></iframe>
-        </Html>
-      </Levioso>
+    <Levioso :speed="1.5">
+      <Html
+        transform
+        center
+        :cast-shadow="true"
+        :receive-shadow="true"
+        occlude="blending"
+        :z-index-range="[28, 0]"
+        :position-y="2.5"
+        :portal="portalRef"
+        :style="{ userSelect: 'none' }"
+      >
+        <iframe
+          class="w-[700px] h-[500px]"
+          src="https://tresjs.org"
+          frameborder="0"
+          :width="700"
+          :height="500"
+        ></iframe>
+      </Html>
+    </Levioso>
 
-      <ContactShadows
-        :blur="1"
-        :opacity="0.85"
-        :position-y="-5.5"
-        :scale="30"
-        :far="25"
-      />
+    <ContactShadows
+      :blur="1"
+      :opacity="0.85"
+      :position-y="-5.5"
+      :scale="30"
+      :far="25"
+    />
 
-      <Suspense>
-        <Environment preset="city" />
-      </Suspense>
-    </TresCanvas>
+    <Suspense>
+      <Environment preset="city" />
+    </Suspense>
+  </TresCanvas>
   <div ref="portalRef" class="html-tresjs-portal"></div>
 </template>
 
