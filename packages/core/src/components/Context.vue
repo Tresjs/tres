@@ -55,6 +55,7 @@ export interface ContextProps extends RendererOptions {
 
 export type ContextEmits = {
   ready: [context: TresContext]
+  error: [error: Error]
   pointermissed: [event: TresPointerEvent]
   render: [context: TresContext]
   beforeLoop: [context: TresContextWithClock]
@@ -232,6 +233,11 @@ renderer.onReady(() => {
   // Now that renderer is initialized, mount the actual scene with slots
   mountCustomRenderer(context.value, false)
   emit('ready', context.value)
+})
+
+renderer.onError((error) => {
+  // Emit renderer initialization errors to parent components
+  emit('error', error)
 })
 
 // HMR support

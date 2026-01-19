@@ -61,12 +61,19 @@ const formattedToneMapping = computed(() => {
 const formattedShadowMapType = computed(() => {
   return Number(shadowMapType.value) as ShadowMapType
 })
+
+// Handle renderer initialization errors (e.g., WebGPU not supported)
+const handleRendererError = (error: Error) => {
+  console.error('Failed to initialize WebGPU renderer:', error)
+  // You can show a user-friendly error message here
+  // For example, display a fallback message or use WebGLRenderer instead
+}
 </script>
 
 <template>
   <TresLeches :uuid="uuid" />
 
-  <TresCanvas :renderer="createWebGPURenderer" :clear-color="clearColor" :clear-alpha="clearAlpha" :tone-mapping="formattedToneMapping" :shadows="shadows" :shadow-map-type="formattedShadowMapType">
+  <TresCanvas :renderer="createWebGPURenderer" :clear-color="clearColor" :clear-alpha="clearAlpha" :tone-mapping="formattedToneMapping" :shadows="shadows" :shadow-map-type="formattedShadowMapType" @error="handleRendererError">
     <TresPerspectiveCamera
       :position="[3, 3, 3]"
       :look-at="[0, 0, 0]"

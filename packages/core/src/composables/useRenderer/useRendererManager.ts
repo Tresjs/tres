@@ -270,24 +270,49 @@ export function useRendererManager(
     isObject(value) && 'isRenderer' in value && Boolean(value.isRenderer)
 
   const readyEventHook = createEventHook<TresRenderer>()
+  const errorEventHook = createEventHook<Error>()
   let hasTriggeredReady = false
 
   // Track whether the renderer has been initialized (important for WebGPU)
   const isInitialized = ref(false)
+  const initializationError = ref<Error | null>(null)
 
   // Initialize renderer asynchronously (required for WebGPU in Three.js r181+)
   const initializeRenderer = async () => {
-    if (isRenderer(renderer)) {
-      // WebGPU renderer requires awaiting init() before any operations
-      await renderer.init()
-      isInitialized.value = true
-      readyEventHook.trigger(renderer)
+    try {
+      if (isRenderer(renderer)) {
+        // WebGPU renderer requires awaiting init() before any operations
+        await renderer.init()
+        isInitialized.value = true
+        readyEventHook.trigger(renderer)
+      }
+      else {
+        // WebGLRenderer is ready immediately (no async init needed)
+        isInitialized.value = true
+        // Still need to trigger ready for WebGLRenderer for backward compatibility
+        readyEventHook.trigger(renderer)
+      }
     }
-    else {
-      // WebGLRenderer is ready immediately (no async init needed)
-      isInitialized.value = true
-      // Still need to trigger ready for WebGLRenderer for backward compatibility
-      readyEventHook.trigger(renderer)
+    catch (error) {
+      // Handle initialization errors (e.g., WebGPU not supported, GPU initialization failure)
+      const rendererError = error instanceof Error
+        ? error
+        : new Error('Renderer initialization failed: Unknown error')
+      
+      initializationError.value = rendererError
+      
+      // Log detailed error message to help users diagnose the issue
+      console.error(
+        '[TresJS] Renderer initialization failed. This may occur if:\n'
+        + '  - WebGPU is not supported by your browser\n'
+        + '  - GPU is not available or lacks required features\n'
+        + '  - GPU drivers are outdated\n'
+        + `Error details: ${rendererError.message}`,
+        rendererError,
+      )
+      
+      // Trigger error event hook for user-defined error handlers
+      errorEventHook.trigger(rendererError)
     }
   }
 
@@ -448,11 +473,13 @@ export function useRendererManager(
     advance,
     onReady: readyEventHook.on,
     onRender: renderEventHook.on,
+    onError: errorEventHook.on,
     invalidate,
     canBeInvalidated,
     mode: toValue(options.renderMode),
     replaceRenderFunction,
     isInitialized,
+    initializationError,
   }
 }
 
