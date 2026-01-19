@@ -110,7 +110,9 @@ export const nodeOps = ({
     parent = unboxTresPrimitive(parentInstance)
 
     if (isTresCamera(child)) {
-      context.camera?.registerCamera(child)
+      // Register camera as active so it becomes the primary camera immediately
+      // This ensures user cameras take precedence over the default camera
+      context.camera?.registerCamera(child, true)
     }
 
     if (childInstance.__tres.attach) {

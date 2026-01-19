@@ -165,9 +165,6 @@ const unmountCanvas = () => {
 const { camera, renderer } = context.value
 const { registerCamera, cameras, activeCamera, deregisterCamera } = camera
 
-// Mount empty initially to avoid operations on uninitialized renderer (especially for WebGPU)
-// Slots will be rendered after renderer.onReady fires
-mountCustomRenderer(context.value, true)
 
 const addDefaultCamera = () => {
   const camera = new PerspectiveCamera(
