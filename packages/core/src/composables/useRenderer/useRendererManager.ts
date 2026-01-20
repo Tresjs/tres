@@ -275,7 +275,7 @@ export function useRendererManager(
   let hasTriggeredReady = false
 
   // Track whether the renderer has been initialized (important for WebGPU)
-  const isInitialized = ref(false)
+  const isRendererInitialized = ref(false)
   const error = ref<TresRendererError | null>(null)
 
   // Initialize renderer asynchronously (required for WebGPU in Three.js r181+)
@@ -287,7 +287,7 @@ export function useRendererManager(
       }
       // WebGLRenderer is ready immediately (no async init needed)
 
-      isInitialized.value = true
+      isRendererInitialized.value = true
       readyEventHook.trigger(renderer)
     }
     catch (e) {
@@ -347,16 +347,16 @@ export function useRendererManager(
 
   // Only start the render loop after renderer initialization is complete
   readyEventHook.on(() => {
-    if (isInitialized.value) {
+    if (isRendererInitialized.value) {
       loop.start()
     }
   })
 
   // Watch the sizes and invalidate the renderer when they change
-  // Also watch isInitialized to ensure size is set once renderer is ready
-  watch([sizes.width, sizes.height, isInitialized], () => {
+  // Also watch isRendererInitialized to ensure size is set once renderer is ready
+  watch([sizes.width, sizes.height, isRendererInitialized], () => {
     // Wait for renderer initialization before setting size (required for WebGPU)
-    if (!isInitialized.value) { return }
+    if (!isRendererInitialized.value) { return }
 
     renderer.setSize(sizes.width.value, sizes.height.value)
 
@@ -371,7 +371,7 @@ export function useRendererManager(
   })
 
   watchEffect(() => {
-    if (!isInitialized.value) { return }
+    if (!isRendererInitialized.value) { return }
     setPixelRatio(renderer, sizes.pixelRatio.value, toValue(options.dpr))
   })
 
@@ -413,14 +413,14 @@ export function useRendererManager(
   // Watchers for updatable renderer options at runtime
   // All watchers must wait for renderer initialization (especially for WebGPU)
   watchEffect(() => {
-    if (!isInitialized.value) { return }
+    if (!isRendererInitialized.value) { return }
     const value = clearColorAndAlpha.value
     if (value.color === undefined || value.alpha === undefined) { return }
     renderer.setClearColor(value.color, value.alpha)
   })
 
   watchEffect(() => {
-    if (!isInitialized.value) { return }
+    if (!isRendererInitialized.value) { return }
     const value = options.toneMapping
     if (value) {
       renderer.toneMapping = value
@@ -428,7 +428,7 @@ export function useRendererManager(
   })
 
   watchEffect(() => {
-    if (!isInitialized.value) { return }
+    if (!isRendererInitialized.value) { return }
     const value = options.toneMappingExposure
     if (value) {
       renderer.toneMappingExposure = value
@@ -436,7 +436,7 @@ export function useRendererManager(
   })
 
   watchEffect(() => {
-    if (!isInitialized.value) { return }
+    if (!isRendererInitialized.value) { return }
     const value = options.outputColorSpace
     if (value) {
       renderer.outputColorSpace = value
@@ -444,7 +444,7 @@ export function useRendererManager(
   })
 
   watchEffect(() => {
-    if (!isInitialized.value) { return }
+    if (!isRendererInitialized.value) { return }
     const value = options.shadows
     if (value === undefined) { return }
     renderer.shadowMap.enabled = value
@@ -452,7 +452,7 @@ export function useRendererManager(
   })
 
   watchEffect(() => {
-    if (!isInitialized.value) { return }
+    if (!isRendererInitialized.value) { return }
     const value = options.shadowMapType
     if (value === undefined) { return }
     renderer.shadowMap.type = value
@@ -477,7 +477,7 @@ export function useRendererManager(
     canBeInvalidated,
     mode: toValue(options.renderMode),
     replaceRenderFunction,
-    isInitialized,
+    isRendererInitialized,
     error,
   }
 }
