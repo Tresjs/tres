@@ -284,15 +284,11 @@ export function useRendererManager(
       if (isRenderer(renderer)) {
         // WebGPU renderer requires awaiting init() before any operations
         await renderer.init()
-        isInitialized.value = true
-        readyEventHook.trigger(renderer)
       }
-      else {
-        // WebGLRenderer is ready immediately (no async init needed)
-        isInitialized.value = true
-        // Still need to trigger ready for WebGLRenderer for backward compatibility
-        readyEventHook.trigger(renderer)
-      }
+      // WebGLRenderer is ready immediately (no async init needed)
+
+      isInitialized.value = true
+      readyEventHook.trigger(renderer)
     }
     catch (e) {
       // Handle initialization errors (e.g., WebGPU not supported, GPU initialization failure)
