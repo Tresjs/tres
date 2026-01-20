@@ -206,10 +206,6 @@ watch(
   },
 )
 
-if (!activeCamera.value) {
-  addDefaultCamera()
-}
-
 renderer.onRender(() => {
   if (context.value) {
     emit('render', context.value)
@@ -228,10 +224,14 @@ renderer.loop.onBeforeLoop((loopContext) => {
   }
 })
 
-renderer.onReady(() => {
+renderer.onReady(async () => {
   // Now that renderer is initialized, mount the actual scene with slots
   mountCustomRenderer(context.value, false)
   emit('ready', context.value)
+
+  if (!activeCamera.value) {
+    addDefaultCamera()
+  }
 })
 
 renderer.onError((error) => {
