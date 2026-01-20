@@ -224,7 +224,7 @@ renderer.loop.onBeforeLoop((loopContext) => {
   }
 })
 
-renderer.onReady(async () => {
+renderer.onReady(() => {
   // Now that renderer is initialized, mount the actual scene with slots
   mountCustomRenderer(context.value, false)
   emit('ready', context.value)
