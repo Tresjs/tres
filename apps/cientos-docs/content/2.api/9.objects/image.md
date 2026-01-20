@@ -51,3 +51,22 @@ import { Image } from '@tresjs/cientos'
 | `side` | THREE.Side of the image material. [See THREE.material.side](https://threejs.org/docs/?q=material#api/en/materials/Material.side) | `FrontSide` |
 | `texture` | Image texture to display on the geometry. |  |
 | `url` | Image URL to load and display on the geometry. |  |
+
+## Caveats
+
+By default, images loaded via the `url` prop use the renderer’s output color space. For advanced control, pass a `THREE.Texture` via the `texture` prop and set its `colorSpace` (e.g., `THREE.SRGBColorSpace` or `THREE.LinearSRGBColorSpace`).
+
+```vue
+<script setup>
+import { useTexture } from '@tresjs/cientos'
+import { SRGBColorSpace } from 'three'
+const { state } = useTexture(URL)
+watch(state, (texture) => {
+  texture.colorSpace = SRGBColorSpace // assign a custom color space
+})
+</script>
+
+<template>
+  <Image :texture="texture" />
+</template>
+```
