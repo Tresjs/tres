@@ -15,14 +15,12 @@ export interface TresCustomRendererOptions {
   primitivePrefix?: string
 }
 
-// Using Symbol.for() for HMR compatibility - returns same symbol across module reloads
-const tresCommentSymbol = Symbol.for('tresComment')
+const tresCommentSymbol = Symbol('tresComment')
 
 /**
  * Symbol used to identify TresTextNode instances (fragment anchors)
  */
-// Using Symbol.for() for HMR compatibility - returns same symbol across module reloads
-const tresTextNodeSymbol = Symbol.for('tresTextNode')
+const tresTextNodeSymbol = Symbol('tresTextNode')
 
 /**
  * TresTextNode represents a text node used as fragment boundary anchors.
@@ -37,9 +35,7 @@ export interface TresTextNode {
 
 type NodeType = TresObject | TresTextNode | typeof tresCommentSymbol
 
-function isTresTextNode(node: unknown): node is TresTextNode {
-  return !!node && typeof node === 'object' && tresTextNodeSymbol in node
-}
+const isTresTextNode = (node: unknown): node is TresTextNode => !!node && typeof node === 'object' && tresTextNodeSymbol in node
 
 function createTextNode(): TresTextNode {
   return {
@@ -47,8 +43,6 @@ function createTextNode(): TresTextNode {
     __tres: { parent: null },
   }
 }
-
-// TODO improve types of exported methods
 
 export const nodeOps = ({
   context,
@@ -106,7 +100,7 @@ export const nodeOps = ({
         )
       }
       // eslint-disable-next-line new-cap
-      obj = new target(...props.args) as TresObject
+      obj = new target(...props.args)
     }
 
     if (!obj) { return null }
@@ -129,7 +123,7 @@ export const nodeOps = ({
       attach: props.attach,
     }, context)
 
-    return obj as TresObject
+    return obj
   }
 
   function insert(child: NodeType, parent: TresObject, anchor?: NodeType | null) {
@@ -480,7 +474,7 @@ export const nodeOps = ({
   const createComment = (): typeof tresCommentSymbol => tresCommentSymbol
 
   // nextSibling - Returns the next sibling of a TresObject or TresTextNode
-  function nextSibling(node: TresObject | TresTextNode) {
+  function nextSibling(node: Exclude<NodeType, typeof tresCommentSymbol>) {
     if (!node || !('__tres' in node)) {
       return null
     }
