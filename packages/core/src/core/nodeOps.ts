@@ -15,24 +15,23 @@ export interface TresCustomRendererOptions {
   primitivePrefix?: string
 }
 
-// NOTE: Using Symbol.for() for HMR compatibility - returns same symbol across module reloads
-export const tresCommentSymbol = Symbol.for('tresComment')
+// Using Symbol.for() for HMR compatibility - returns same symbol across module reloads
+const tresCommentSymbol = Symbol.for('tresComment')
 
 /**
  * Symbol used to identify TresTextNode instances (fragment anchors)
  */
-// NOTE: Using Symbol.for() for HMR compatibility - returns same symbol across module reloads
+// Using Symbol.for() for HMR compatibility - returns same symbol across module reloads
 const tresTextNodeSymbol = Symbol.for('tresTextNode')
 
 /**
  * TresTextNode represents a text node used as fragment boundary anchors.
  * These are tracking-only nodes that are never added to the Three.js scene graph.
  */
-interface TresTextNode {
+export interface TresTextNode {
   [tresTextNodeSymbol]: true
   __tres: {
     parent: TresObject | null
-    objects: TresTextNode[] | TresInstance[]
   }
 }
 
@@ -45,7 +44,7 @@ function isTresTextNode(node: unknown): node is TresTextNode {
 function createTextNode(): TresTextNode {
   return {
     [tresTextNodeSymbol]: true,
-    __tres: { parent: null, objects: [] },
+    __tres: { parent: null },
   }
 }
 
@@ -57,7 +56,7 @@ export const nodeOps = ({
 }: {
   context: TresContext
   options?: TresCustomRendererOptions
-}): RendererOptions<TresObject | TresTextNode | typeof tresCommentSymbol, TresObject | null> => {
+}): RendererOptions<NodeType, TresObject | null> => {
   const scene = context.scene.value
 
   function createElement(tag: string, _isSVG: undefined, _anchor: any, props: Partial<WithMathProps<TresObject>> | null): TresObject | null {
@@ -206,7 +205,6 @@ export const nodeOps = ({
 
     if (!node || node === tresCommentSymbol) { return }
 
-    // NOTE: Handle TresTextNode (fragment anchor) removal
     // Text nodes only exist in __tres.objects, not the Three.js scene
     if (isTresTextNode(node)) {
       const parent = node.__tres.parent
@@ -467,7 +465,7 @@ export const nodeOps = ({
     invalidateInstance(node as TresObject)
   }
 
-  function parentNode(node: TresObject | TresTextNode): TresObject | null {
+  function parentNode(node: Exclude<NodeType, typeof tresCommentSymbol>): TresObject | null {
     return node?.__tres?.parent || null
   }
 

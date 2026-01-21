@@ -6,7 +6,7 @@ import { Mesh, Scene } from 'three'
 import { beforeAll, describe, expect, it, vi } from 'vitest'
 import { shallowRef } from 'vue'
 import { extend } from './catalogue'
-import { nodeOps as getNodeOps } from './nodeOps'
+import { nodeOps as getNodeOps, type TresTextNode } from './nodeOps'
 
 let nodeOps = getNodeOps({ context: mockTresContext() })
 const pool = []
@@ -1578,7 +1578,6 @@ describe('nodeOps', () => {
       expect(textNode).toBeDefined()
       expect(textNode.__tres).toBeDefined()
       expect(textNode.__tres.parent).toBe(null)
-      expect(textNode.__tres.objects).toEqual([])
     })
 
     it('creates unique text node instances', () => {
@@ -1592,9 +1591,10 @@ describe('nodeOps', () => {
     it('inserts text nodes into __tres.objects', () => {
       const parent = nodeOps.createElement('Mesh')
       const textNode = nodeOps.createText('')
+
       nodeOps.insert(textNode, parent)
       expect(parent.__tres.objects).toContain(textNode)
-      expect(textNode.__tres.parent).toBe(parent)
+      expect((textNode as TresTextNode).__tres.parent).toBe(parent)
     })
 
     it('inserts child before anchor when anchor is provided', () => {
