@@ -15,12 +15,8 @@ export interface TresCustomRendererOptions {
   primitivePrefix?: string
 }
 
-const tresCommentSymbol = Symbol('tresComment')
-
-/**
- * Symbol used to identify TresTextNode instances (fragment anchors)
- */
 const tresTextNodeSymbol = Symbol('tresTextNode')
+const tresCommentNodeSymbol = Symbol('tresComment')
 
 /**
  * TresTextNode represents a text node used as fragment boundary anchors.
@@ -33,16 +29,24 @@ export interface TresTextNode {
   }
 }
 
-type NodeType = TresObject | TresTextNode | typeof tresCommentSymbol
+/**
+ * TresCommentNode represents a comment node used as a placeholder for v-if'd elements
+ * These are tracking-only nodes that are never added to the Three.js scene graph.
+ */
+interface TresCommentNode {
+  [tresCommentNodeSymbol]: true
+}
+
+type NodeType = TresObject | TresTextNode | TresCommentNode
+
+const createTextNode = (): TresTextNode => ({
+  [tresTextNodeSymbol]: true,
+  __tres: { parent: null },
+})
+const createCommentNode = (): TresCommentNode => ({ [tresCommentNodeSymbol]: true })
 
 const isTresTextNode = (node: unknown): node is TresTextNode => !!node && typeof node === 'object' && tresTextNodeSymbol in node
-
-function createTextNode(): TresTextNode {
-  return {
-    [tresTextNodeSymbol]: true,
-    __tres: { parent: null },
-  }
-}
+const isTresCommentNode = (node: unknown): node is TresCommentNode => !!node && typeof node === 'object' && tresCommentNodeSymbol in node
 
 export const nodeOps = ({
   context,
@@ -127,7 +131,7 @@ export const nodeOps = ({
   }
 
   function insert(child: NodeType, parent: TresObject, anchor?: NodeType | null) {
-    if (!child || child === tresCommentSymbol) { return }
+    if (!child || isTresCommentNode(child)) { return }
 
     // TODO: Investigate and eventually remove `scene` fallback.
     // According to the signature, `parent` should always be
@@ -197,7 +201,7 @@ export const nodeOps = ({
     // NOTE: Vue does not pass a `dispose` argument; it is
     // used by the recursive calls.
 
-    if (!node || node === tresCommentSymbol) { return }
+    if (!node || isTresCommentNode(node)) { return }
 
     // Text nodes only exist in __tres.objects, not the Three.js scene
     if (isTresTextNode(node)) {
@@ -459,23 +463,13 @@ export const nodeOps = ({
     invalidateInstance(node as TresObject)
   }
 
-  function parentNode(node: Exclude<NodeType, typeof tresCommentSymbol>): TresObject | null {
+  function parentNode(node: Exclude<NodeType, TresCommentNode>): TresObject | null {
     return node?.__tres?.parent || null
   }
 
-  /**
-   * createComment
-   *
-   * Creates a comment object that can be used to represent a commented out string in a vue template
-   * Used by Vue's internal runtime as a placeholder for v-if'd elements
-   *
-   * @returns Symbol representing a comment node
-   */
-  const createComment = (): typeof tresCommentSymbol => tresCommentSymbol
-
   // nextSibling - Returns the next sibling of a TresObject or TresTextNode
-  function nextSibling(node: Exclude<NodeType, typeof tresCommentSymbol>) {
-    if (!node || !('__tres' in node)) {
+  function nextSibling(node: NodeType) {
+    if (!node || isTresCommentNode(node) || !('__tres' in node)) {
       return null
     }
     const parent = parentNode(node)
@@ -500,7 +494,7 @@ export const nodeOps = ({
     patchProp,
     parentNode,
     createText: createTextNode,
-    createComment,
+    createComment: createCommentNode,
     setText: noop,
     setElementText: noop,
     nextSibling,
