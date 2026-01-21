@@ -23,19 +23,6 @@ const visible = ref(true)
     <TresPerspectiveCamera :position="[5, 5, 5]" :look-at="[0, 0, 0]" />
 
     <template v-if="visible">
-      <TresGroup>
-        <TresMesh
-          v-for="(i, index) in totalItems"
-          :key="i"
-          :position="[i + index * 0.5 - totalItems / 1.5, 1, 0]"
-        >
-          <TresSphereGeometry :args="[0.5]" />
-          <TresMeshNormalMaterial />
-        </TresMesh>
-      </TresGroup>
-    </template>
-
-    <!-- <template v-if="visible">
       <TresMesh
         v-for="(i, index) in totalItems"
         :key="i"
@@ -44,9 +31,20 @@ const visible = ref(true)
         <TresSphereGeometry :args="[0.5]" />
         <TresMeshNormalMaterial />
       </TresMesh>
-    </template> -->
+    </template>
 
-    <!-- <template v-if="visible">
+    <template v-if="visible">
+      <TresMesh
+        v-for="(i, index) in totalItems"
+        :key="i"
+        :position="[i + index * 0.5 - totalItems / 1.5, 1, 0]"
+      >
+        <TresSphereGeometry :args="[0.5]" />
+        <TresMeshNormalMaterial />
+      </TresMesh>
+    </template>
+
+    <template v-if="visible">
       <SlotSimple v-if="totalItems > 0">
         <TresMesh
           v-for="(i, index) in totalItems"
@@ -67,7 +65,7 @@ const visible = ref(true)
           <TresMeshNormalMaterial />
         </TresMesh>
       </SlotSimple>
-    </template> -->
+    </template>
 
     <TresAxesHelper />
     <TresGridHelper :args="[10, 10, 0x444444, 'teal']" />
