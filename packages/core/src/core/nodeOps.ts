@@ -18,15 +18,17 @@ export interface TresCustomRendererOptions {
 const tresTextNodeSymbol = Symbol('tresTextNode')
 const tresCommentNodeSymbol = Symbol('tresComment')
 
+interface TresNode__tres {
+  parent: TresObject | null
+}
+
 /**
  * TresTextNode represents a text node used as fragment boundary anchors.
  * These are tracking-only nodes that are never added to the Three.js scene graph.
  */
 export interface TresTextNode {
   [tresTextNodeSymbol]: true
-  __tres: {
-    parent: TresObject | null
-  }
+  __tres: TresNode__tres
 }
 
 /**
@@ -35,6 +37,7 @@ export interface TresTextNode {
  */
 interface TresCommentNode {
   [tresCommentNodeSymbol]: true
+  __tres: TresNode__tres
 }
 
 type NodeType = TresObject | TresTextNode | TresCommentNode
@@ -43,7 +46,7 @@ const createTextNode = (): TresTextNode => ({
   [tresTextNodeSymbol]: true,
   __tres: { parent: null },
 })
-const createCommentNode = (): TresCommentNode => ({ [tresCommentNodeSymbol]: true })
+const createCommentNode = (): TresCommentNode => ({ [tresCommentNodeSymbol]: true, __tres: { parent: null } })
 
 const isTresTextNode = (node: unknown): node is TresTextNode => !!node && typeof node === 'object' && tresTextNodeSymbol in node
 const isTresCommentNode = (node: unknown): node is TresCommentNode => !!node && typeof node === 'object' && tresCommentNodeSymbol in node
@@ -131,7 +134,7 @@ export const nodeOps = ({
   }
 
   function insert(child: NodeType, parent: TresObject, anchor?: NodeType | null) {
-    if (!child || isTresCommentNode(child)) { return }
+    if (!child) { return }
 
     // TODO: Investigate and eventually remove `scene` fallback.
     // According to the signature, `parent` should always be
@@ -158,7 +161,7 @@ export const nodeOps = ({
       return
     }
 
-    const childInstance: TresInstance = (child.__tres ? child as TresInstance : prepareTresInstance(child, {}, context))
+    const childInstance: TresInstance = (child.__tres ? child as TresInstance : prepareTresInstance(child as TresObject, {}, context))
     const parentInstance: TresInstance = (parent.__tres ? parent as TresInstance : prepareTresInstance(parent, {}, context))
     child = unboxTresPrimitive(childInstance)
     parent = unboxTresPrimitive(parentInstance)
