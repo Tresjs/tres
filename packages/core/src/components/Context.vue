@@ -151,14 +151,6 @@ const context = shallowRef<TresContext>(useTresContextProvider({
   rendererOptions: props,
 }))
 
-// Initialize Scene's __tres with objects array for fragment support
-// NOTE: Preserve existing objects during HMR - setup may re-run but text nodes still exist
-const existingObjects = (scene.value as TresScene).__tres?.objects
-;(scene.value as TresScene).__tres = {
-  root: context.value,
-  objects: existingObjects || [],
-}
-
 defineExpose({ context, dispose: () => dispose(context.value, true) })
 
 const handleHMR = (context: TresContext) => {
