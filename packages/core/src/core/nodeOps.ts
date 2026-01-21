@@ -15,8 +15,8 @@ export interface TresCustomRendererOptions {
   primitivePrefix?: string
 }
 
-const tresTextNodeSymbol = Symbol('tresTextNode')
-const tresCommentNodeSymbol = Symbol('tresComment')
+const textNodeSymbol = Symbol('tresTextNode')
+const commentNodeSymbol = Symbol('tresComment')
 
 interface TresNode__tres {
   parent: TresObject | null
@@ -26,8 +26,8 @@ interface TresNode__tres {
  * TresTextNode represents a text node used as fragment boundary anchors.
  * These are tracking-only nodes that are never added to the Three.js scene graph.
  */
-export interface TresTextNode {
-  [tresTextNodeSymbol]: true
+export interface TextNode {
+  [textNodeSymbol]: true
   __tres: TresNode__tres
 }
 
@@ -35,21 +35,21 @@ export interface TresTextNode {
  * TresCommentNode represents a comment node used as a placeholder for v-if'd elements
  * These are tracking-only nodes that are never added to the Three.js scene graph.
  */
-interface TresCommentNode {
-  [tresCommentNodeSymbol]: true
+interface CommentNode {
+  [commentNodeSymbol]: true
   __tres: TresNode__tres
 }
 
-type NodeType = TresObject | TresTextNode | TresCommentNode
+type NodeType = TresObject | TextNode | CommentNode
 
-const createTextNode = (): TresTextNode => ({
-  [tresTextNodeSymbol]: true,
+const createTextNode = (): TextNode => ({
+  [textNodeSymbol]: true,
   __tres: { parent: null },
 })
-const createCommentNode = (): TresCommentNode => ({ [tresCommentNodeSymbol]: true, __tres: { parent: null } })
+const createCommentNode = (): CommentNode => ({ [commentNodeSymbol]: true, __tres: { parent: null } })
 
-const isTresTextNode = (node: unknown): node is TresTextNode => !!node && typeof node === 'object' && tresTextNodeSymbol in node
-const isTresCommentNode = (node: unknown): node is TresCommentNode => !!node && typeof node === 'object' && tresCommentNodeSymbol in node
+const isTextNode = (node: unknown): node is TextNode => !!node && typeof node === 'object' && textNodeSymbol in node
+const isCommentNode = (node: unknown): node is CommentNode => !!node && typeof node === 'object' && commentNodeSymbol in node
 
 export const nodeOps = ({
   context,
@@ -147,9 +147,9 @@ export const nodeOps = ({
     // elsewhere in Tres.
     parent = parent || scene
 
-    // Handle TresTextNode (fragment anchor) insertion
-    // Text nodes are tracking-only - they go in __tres.objects but not the Three.js scene
-    if (isTresTextNode(child)) {
+    // Handle TresTextNode/TresCommentNode (fragment anchor) insertion
+    // These nodes are tracking-only - they go in __tres.objects but not the Three.js scene
+    if (isTextNode(child) || isCommentNode(child)) {
       const parentInstance: TresInstance = (parent.__tres ? parent as TresInstance : prepareTresInstance(parent, {}, context))
       child.__tres.parent = parentInstance
 
@@ -203,18 +203,16 @@ export const nodeOps = ({
    * @param dispose – the disposal type
    */
   function remove(node: NodeType | null, dispose?: DisposeType) {
-    // TODO something is wrong here. The app freezes often when unmounting.
-
     // NOTE: `remove` is initially called by Vue only on
     // the root `node` of the tree to be removed. We will
     // recursively call the function on children, if necessary.
     // NOTE: Vue does not pass a `dispose` argument; it is
     // used by the recursive calls.
 
-    if (!node || isTresCommentNode(node)) { return } // TODO not sure if this is correct
+    if (!node) { return }
 
     // Text nodes only exist in __tres.objects, not the Three.js scene
-    if (isTresTextNode(node)) {
+    if (isTextNode(node) || isCommentNode(node)) {
       const parent = node.__tres.parent
       if (parent?.__tres?.objects) {
         filterInPlace(parent.__tres.objects, obj => obj !== (node as unknown))
@@ -473,15 +471,16 @@ export const nodeOps = ({
     invalidateInstance(node as TresObject)
   }
 
-  function parentNode(node: Exclude<NodeType, TresCommentNode>): TresObject | null {
+  function parentNode(node: NodeType): TresObject | null {
     return node?.__tres?.parent || null
   }
 
   // nextSibling - Returns the next sibling of a TresObject or TresTextNode
   function nextSibling(node: NodeType) {
-    if (!node || isTresCommentNode(node) || !('__tres' in node)) {
+    if (!node || !('__tres' in node)) {
       return null
     }
+
     const parent = parentNode(node)
     const siblings = parent?.__tres?.objects || []
     // NOTE: Use findIndex with identity check to handle mixed TresTextNode/TresInstance arrays
