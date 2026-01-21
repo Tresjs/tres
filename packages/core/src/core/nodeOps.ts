@@ -147,14 +147,14 @@ export const nodeOps = ({
     // elsewhere in Tres.
     parent = parent || scene
 
-    // NOTE: Handle TresTextNode (fragment anchor) insertion
+    // Handle TresTextNode (fragment anchor) insertion
     // Text nodes are tracking-only - they go in __tres.objects but not the Three.js scene
     if (isTresTextNode(child)) {
       const parentInstance: TresInstance = (parent.__tres ? parent as TresInstance : prepareTresInstance(parent, {}, context))
       child.__tres.parent = parentInstance
 
       if (parentInstance.__tres.objects) {
-        // NOTE: Use findIndex with identity check to handle mixed TresTextNode/TresInstance arrays
+        // Use findIndex with identity check to handle mixed TresTextNode/TresInstance arrays
         const insertIndex = anchor ? parentInstance.__tres.objects.findIndex(obj => obj === anchor) : -1
         if (insertIndex >= 0) {
           parentInstance.__tres.objects.splice(insertIndex, 0, child as unknown as TresInstance)
@@ -186,10 +186,10 @@ export const nodeOps = ({
     // NOTE: Update __tres parent/objects graph
     childInstance.__tres.parent = parentInstance
     if (parentInstance.__tres.objects && !parentInstance.__tres.objects.includes(childInstance)) {
-      // NOTE: If anchor is provided, insert before it; otherwise append
+      // If anchor is provided, insert before it; otherwise append
       // Use findIndex with identity check to handle mixed TresTextNode/TresInstance arrays
       const insertIndex = anchor ? parentInstance.__tres.objects.findIndex(obj => obj === anchor) : -1
-      if (insertIndex >= 0) {
+      if (~insertIndex) {
         parentInstance.__tres.objects.splice(insertIndex, 0, childInstance)
       }
       else {
