@@ -203,13 +203,15 @@ export const nodeOps = ({
    * @param dispose – the disposal type
    */
   function remove(node: NodeType | null, dispose?: DisposeType) {
+    // TODO something is wrong here. The app freezes often when unmounting.
+
     // NOTE: `remove` is initially called by Vue only on
     // the root `node` of the tree to be removed. We will
     // recursively call the function on children, if necessary.
     // NOTE: Vue does not pass a `dispose` argument; it is
     // used by the recursive calls.
 
-    if (!node || isTresCommentNode(node)) { return }
+    if (!node || isTresCommentNode(node)) { return } // TODO not sure if this is correct
 
     // Text nodes only exist in __tres.objects, not the Three.js scene
     if (isTresTextNode(node)) {
