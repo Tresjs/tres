@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { PerspectiveCamera, Scene, WebGLRenderer } from 'three'
+import { PerspectiveCamera, Scene } from 'three'
 import type { App } from 'vue'
 import type { TresCamera, TresContextWithClock, TresObject, TresPointerEvent, TresScene } from '../types'
 import * as THREE from 'three'
@@ -132,14 +132,12 @@ const mountCustomRenderer = (context: TresContext, empty = false) => {
 const dispose = (context: TresContext, force = false) => {
   disposeObject3D(context.scene.value as unknown as TresObject)
   if (force) {
-    context.renderer.instance.dispose()
-    if (context.renderer.instance instanceof WebGLRenderer) {
-      context.renderer.instance.renderLists.dispose()
-      context.renderer.instance.forceContextLoss()
-    }
+    // NOTE: Call renderer.dispose() which also cleans up the renderer cache
+    context.renderer.dispose()
   }
   (scene.value as TresScene).__tres = {
     root: context,
+    objects: [],
   }
 }
 
@@ -150,16 +148,29 @@ const context = shallowRef<TresContext>(useTresContextProvider({
   rendererOptions: props,
 }))
 
+// Initialize Scene's __tres with objects array for fragment support
+// NOTE: Preserve existing objects during HMR - setup may re-run but text nodes still exist
+const existingObjects = (scene.value as TresScene).__tres?.objects
+;(scene.value as TresScene).__tres = {
+  root: context.value,
+  objects: existingObjects || [],
+}
+
 defineExpose({ context, dispose: () => dispose(context.value, true) })
 
 const handleHMR = (context: TresContext) => {
-  dispose(context)
+  // NOTE: Don't call dispose during HMR - Vue's render will diff and
+  // unmount old nodes via nodeOps.remove(), which properly disposes them.
+  // Calling dispose first would delete __tres from objects that Vue
+  // still needs to access during unmount, breaking sibling tracking.
   mountCustomRenderer(context)
 }
 
 const unmountCanvas = () => {
-  dispose(context.value)
+  // NOTE: Render empty first to let Vue properly unmount via nodeOps.remove(),
+  // which handles text nodes and disposes THREE objects. Then dispose remaining resources.
   mountCustomRenderer(context.value, true)
+  dispose(context.value)
 }
 
 const { camera, renderer } = context.value
