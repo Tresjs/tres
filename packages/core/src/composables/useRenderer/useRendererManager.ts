@@ -288,7 +288,6 @@ export function useRendererManager(
       // WebGLRenderer is ready immediately (no async init needed)
 
       isInitialized.value = true
-      readyEventHook.trigger(renderer)
     }
     catch (e) {
       // Handle initialization errors (e.g., WebGPU not supported, GPU initialization failure)
