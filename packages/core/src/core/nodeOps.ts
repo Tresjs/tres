@@ -1,7 +1,7 @@
 import type { TresContext } from '../composables'
 import type { DisposeType, LocalState, TresInstance, TresObject, TresObject3D, TresPrimitive, WithMathProps } from '../types'
 import { BufferAttribute } from 'three'
-import { isRef, type RendererOptions } from 'vue'
+import { type ElementNamespace, isRef, type RendererOptions } from 'vue'
 import { attach, doRemoveDeregister, doRemoveDetach, invalidateInstance, prepareTresInstance, resolve, setPrimitiveObject, unboxTresPrimitive } from '../utils'
 import { filterInPlace } from '../utils/array'
 import { logError } from '../utils/logger'
@@ -60,7 +60,12 @@ export const nodeOps = ({
 }): RendererOptions<NodeType, TresObject | null> => {
   const scene = context.scene.value
 
-  function createElement(tag: string, _isSVG: undefined, _anchor: any, props: Partial<WithMathProps<TresObject>> | null): TresObject | null {
+  function createElement(
+    tag: string,
+    _namespace: ElementNamespace,
+    _isCustomizedBuiltIn: string,
+    props: Partial<WithMathProps<TresObject>> | null,
+  ): TresObject | null {
     if (!props) { props = {} }
 
     if (!props.args) {
