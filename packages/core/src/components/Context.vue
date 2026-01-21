@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { PerspectiveCamera, Scene } from 'three'
+import { PerspectiveCamera, Scene, WebGLRenderer } from 'three'
 import type { App } from 'vue'
 import type { TresCamera, TresContextWithClock, TresObject, TresPointerEvent, TresScene } from '../types'
 import * as THREE from 'three'
@@ -132,8 +132,11 @@ const mountCustomRenderer = (context: TresContext, empty = false) => {
 const dispose = (context: TresContext, force = false) => {
   disposeObject3D(context.scene.value as unknown as TresObject)
   if (force) {
-    // NOTE: Call renderer.dispose() which also cleans up the renderer cache
-    context.renderer.dispose()
+    context.renderer.instance.dispose()
+    if (context.renderer.instance instanceof WebGLRenderer) {
+      context.renderer.instance.renderLists.dispose()
+      context.renderer.instance.forceContextLoss()
+    }
   }
   (scene.value as TresScene).__tres = {
     root: context,

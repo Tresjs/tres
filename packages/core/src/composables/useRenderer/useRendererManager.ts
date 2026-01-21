@@ -8,7 +8,7 @@ import {
   useTimeout,
 } from '@vueuse/core'
 import { Material, Mesh, WebGLRenderer } from 'three'
-import { computed, type MaybeRef, type Reactive, ref, type ShallowRef, toValue, watch, watchEffect } from 'vue'
+import { computed, type MaybeRef, onUnmounted, type Reactive, ref, type ShallowRef, toValue, watch, watchEffect } from 'vue'
 import type { Renderer } from 'three/webgpu'
 
 // Solution taken from Thretle that actually support different versions https://github.com/threlte/threlte/blob/5fa541179460f0dadc7dc17ae5e6854d1689379e/packages/core/src/lib/lib/useRenderer.ts
@@ -20,10 +20,6 @@ import type { UseCameraReturn } from '../useCamera'
 import type { TresScene } from '../../types'
 import { isFunction, isObject } from '../../utils/is'
 import { useCreateRafLoop } from '../useCreateRafLoop'
-
-// NOTE: Renderer cache for HMR support - reuse existing renderer for same canvas
-// to avoid WebGL context conflicts when Context.vue is hot-reloaded
-const rendererCache = new WeakMap<HTMLCanvasElement, WebGLRenderer>()
 
 /**
  * If set to 'on-demand', the scene will only be rendered when the current frame is invalidated
@@ -220,21 +216,10 @@ export function useRendererManager(
       })
     }
 
-    const canvasEl = unrefElement(canvas) as HTMLCanvasElement
-
-    // NOTE: Check cache for existing renderer (HMR support)
-    // Reusing the renderer avoids WebGL context conflicts when Context.vue is hot-reloaded
-    const cachedRenderer = rendererCache.get(canvasEl)
-    if (cachedRenderer) {
-      return cachedRenderer
-    }
-
-    const newRenderer = new WebGLRenderer({
+    return new WebGLRenderer({
       ...options,
-      canvas: canvasEl,
+      canvas: unrefElement(canvas),
     })
-    rendererCache.set(canvasEl, newRenderer)
-    return newRenderer
   }
 
   const renderer = getRenderer()
@@ -417,16 +402,12 @@ export function useRendererManager(
     forceMaterialUpdate()
   })
 
-  // NOTE: Renderer disposal is handled by Context.vue's dispose(force=true) instead of onUnmounted
-  // This allows HMR to reuse the cached renderer without disposing it prematurely
-  const dispose = () => {
-    const canvasEl = unrefElement(canvas) as HTMLCanvasElement
-    rendererCache.delete(canvasEl)
+  onUnmounted(() => {
     renderer.dispose()
     if ('forceContextLoss' in renderer) {
       renderer.forceContextLoss()
     }
-  }
+  })
 
   return {
     loop,
@@ -438,7 +419,6 @@ export function useRendererManager(
     canBeInvalidated,
     mode: toValue(options.renderMode),
     replaceRenderFunction,
-    dispose,
   }
 }
 
