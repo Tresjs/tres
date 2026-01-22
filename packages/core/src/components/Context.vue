@@ -55,6 +55,7 @@ export interface ContextProps extends RendererOptions {
 
 export type ContextEmits = {
   ready: [context: TresContext]
+  error: [error: Error]
   pointermissed: [event: TresPointerEvent]
   render: [context: TresContext]
   beforeLoop: [context: TresContextWithClock]
@@ -165,8 +166,6 @@ const unmountCanvas = () => {
 const { camera, renderer } = context.value
 const { registerCamera, cameras, activeCamera, deregisterCamera } = camera
 
-mountCustomRenderer(context.value)
-
 const addDefaultCamera = () => {
   const camera = new PerspectiveCamera(
     45,
@@ -207,10 +206,6 @@ watch(
   },
 )
 
-if (!activeCamera.value) {
-  addDefaultCamera()
-}
-
 renderer.onRender(() => {
   if (context.value) {
     emit('render', context.value)
@@ -230,7 +225,18 @@ renderer.loop.onBeforeLoop((loopContext) => {
 })
 
 renderer.onReady(() => {
+  // Now that renderer is initialized, mount the actual scene with slots
+  mountCustomRenderer(context.value, false)
   emit('ready', context.value)
+
+  if (!activeCamera.value) {
+    addDefaultCamera()
+  }
+})
+
+renderer.onError((error) => {
+  // Emit renderer initialization errors to parent components
+  emit('error', error)
 })
 
 // HMR support
