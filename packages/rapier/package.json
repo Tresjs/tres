@@ -41,8 +41,6 @@
     "access": "public"
   },
   "scripts": {
-    "dev": "cd playground && pnpm dev",
-    "playground": "cd playground && pnpm dev",
     "build": "tsdown",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
