@@ -3,13 +3,13 @@
   "type": "module",
   "version": "0.0.0",
   "private": true,
-  "packageManager": "pnpm@9.15.0",
   "description": "TresJs physics support, powered by rapier",
   "author": "Alvaro Saburido <hola@alvarosaburido.dev> (https://github.com/alvarosabu/)",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Tresjs/rapier.git"
+    "url": "git+https://github.com/Tresjs/tres.git",
+    "directory": "packages/rapier"
   },
   "keywords": [
     "vue",
@@ -28,18 +28,12 @@
   ],
   "sideEffects": false,
   "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/tresrapier.js"
-    },
-    "./core": {
-      "types": "./dist/core/index.d.ts"
-    },
-    "./*": "./*"
+    ".": "./dist/tresrapier.js",
+    "./package.json": "./package.json"
   },
   "main": "./dist/tresrapier.js",
   "module": "./dist/tresrapier.js",
-  "types": "./dist/index.d.ts",
+  "types": "./dist/tresrapier.d.ts",
   "files": [
     "*.d.ts",
     "dist"
@@ -50,8 +44,7 @@
   "scripts": {
     "dev": "cd playground && pnpm dev",
     "playground": "cd playground && pnpm dev",
-    "build": "vite build",
-    "release": "release-it",
+    "build": "tsdown",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "docs:dev": "vitepress dev docs",
@@ -59,35 +52,36 @@
     "docs:preview": "vitepress preview docs"
   },
   "peerDependencies": {
-    "@tresjs/core": ">=4.0.0",
-    "three": ">=0.158.0",
+    "@tresjs/core": "5.3.2",
+    "three": ">=0.169",
     "vue": ">=3.4.0"
   },
   "dependencies": {
     "@dimforge/rapier3d-compat": "^0.17.0"
   },
   "devDependencies": {
-    "@release-it/conventional-changelog": "^10.0.1",
-    "@tresjs/core": "^4.3.5",
-    "@tresjs/eslint-config": "^1.4.0",
-    "@types/node": "^22.15.18",
-    "@types/three": "^0.176.0",
-    "@vitejs/plugin-vue": "^5.2.4",
-    "dts": "^0.1.1",
-    "eslint": "^9.27.0",
-    "eslint-plugin-vue": "^10.1.0",
-    "kolorist": "^1.8.0",
-    "pathe": "^2.0.3",
-    "release-it": "^19.0.2",
-    "rollup-plugin-analyzer": "^4.0.0",
-    "three": "^0.176.0",
-    "typescript": "^5.8.3",
-    "unocss": "^66.1.2",
-    "vite": "^6.3.5",
-    "vite-plugin-banner": "^0.8.1",
-    "vite-plugin-dts": "^4.5.4",
-    "vitepress": "1.6.3",
-    "vue": "^3.5.14",
-    "vue-tsc": "^2.2.10"
+    "@tresjs/core": "workspace:*",
+    "@tresjs/eslint-config": "workspace:*",
+    "@types/node": "catalog:node",
+    "@types/three": "catalog:three",
+    "@vitejs/plugin-vue": "catalog:vite",
+    "eslint": "catalog:eslint",
+    "eslint-plugin-vue": "catalog:eslint",
+    "kolorist": "catalog:utils",
+    "pathe": "catalog:utils",
+    "rollup-plugin-analyzer": "catalog:build",
+    "three": "catalog:three",
+    "tsdown": "catalog:build",
+    "typescript": "catalog:typescript",
+    "unocss": "catalog:utils",
+    "vite": "catalog:vite",
+    "vitepress": "catalog:docs",
+    "vue": "catalog:vue",
+    "vue-tsc": "catalog:typescript"
+  },
+  "nx": {
+    "implicitDependencies": [
+      "!@tresjs/rapier-*"
+    ]
   }
 }

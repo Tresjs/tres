@@ -39,6 +39,9 @@ catalogs:
     three-custom-shader-material: ^5.4.0
     three-stdlib: ^2.36.0
 
+  node:
+    '@types/node': ^24.5.2
+
   typescript:
     typescript: ^5.8.3
     vue-tsc: ^3.2.1
