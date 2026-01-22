@@ -50,5 +50,3 @@ export const rapierRoutes = [
     component: () => import('@/pages/rapier/JointsAdvancedDemo.vue'),
   },
 ]
-
-console.log('rapierRoutes length:', rapierRoutes.length)
