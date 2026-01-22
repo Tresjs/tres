@@ -1,0 +1,93 @@
+{
+  "name": "@tresjs/rapier",
+  "type": "module",
+  "version": "0.0.0",
+  "private": true,
+  "packageManager": "pnpm@9.15.0",
+  "description": "TresJs physics support, powered by rapier",
+  "author": "Alvaro Saburido <hola@alvarosaburido.dev> (https://github.com/alvarosabu/)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tresjs/rapier.git"
+  },
+  "keywords": [
+    "vue",
+    "3d",
+    "threejs",
+    "three",
+    "threejs-vue",
+    "rapier",
+    "rapier3d",
+    "physics"
+  ],
+  "maintainers": [
+    "Alvaro Saburido (https://github.com/alvarosabu/)",
+    "Nathan Mande (https://github.com/Neosoulink/)",
+    "Jaime Torrealba (https://github.com/JaimeTorrealba)"
+  ],
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/tresrapier.js"
+    },
+    "./core": {
+      "types": "./dist/core/index.d.ts"
+    },
+    "./*": "./*"
+  },
+  "main": "./dist/tresrapier.js",
+  "module": "./dist/tresrapier.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "*.d.ts",
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "dev": "cd playground && pnpm dev",
+    "playground": "cd playground && pnpm dev",
+    "build": "vite build",
+    "release": "release-it",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs"
+  },
+  "peerDependencies": {
+    "@tresjs/core": ">=4.0.0",
+    "three": ">=0.158.0",
+    "vue": ">=3.4.0"
+  },
+  "dependencies": {
+    "@dimforge/rapier3d-compat": "^0.17.0"
+  },
+  "devDependencies": {
+    "@release-it/conventional-changelog": "^10.0.1",
+    "@tresjs/core": "^4.3.5",
+    "@tresjs/eslint-config": "^1.4.0",
+    "@types/node": "^22.15.18",
+    "@types/three": "^0.176.0",
+    "@vitejs/plugin-vue": "^5.2.4",
+    "dts": "^0.1.1",
+    "eslint": "^9.27.0",
+    "eslint-plugin-vue": "^10.1.0",
+    "kolorist": "^1.8.0",
+    "pathe": "^2.0.3",
+    "release-it": "^19.0.2",
+    "rollup-plugin-analyzer": "^4.0.0",
+    "three": "^0.176.0",
+    "typescript": "^5.8.3",
+    "unocss": "^66.1.2",
+    "vite": "^6.3.5",
+    "vite-plugin-banner": "^0.8.1",
+    "vite-plugin-dts": "^4.5.4",
+    "vitepress": "1.6.3",
+    "vue": "^3.5.14",
+    "vue-tsc": "^2.2.10"
+  }
+}
