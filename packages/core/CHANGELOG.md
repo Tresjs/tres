@@ -1,3 +1,17 @@
+## 5.3.2 (2026-01-22)
+
+### 🩹 Fixes
+
+- **core:** fixed active camera check ([13b62e25](https://github.com/Tresjs/tres/commit/13b62e25))
+- **core:** improve error handling for renderer initialization ([69be33da](https://github.com/Tresjs/tres/commit/69be33da))
+- **core:** enhance camera registration and renderer initialization ([5dac8915](https://github.com/Tresjs/tres/commit/5dac8915))
+- **core:** improve renderer initialization for WebGPU support ([06d06093](https://github.com/Tresjs/tres/commit/06d06093))
+
+### ❤️ Thank You
+
+- alvarosabu @alvarosabu
+- Tino Koch @tinoooo
+
 ## 5.3.1 (2026-01-15)
 
 This was a version bump only for @tresjs/core to align it with other projects, there were no code changes.
