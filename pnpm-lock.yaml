@@ -60,11 +60,11 @@ catalogs:
       version: 3.2.4
   three:
     '@types/three':
-      specifier: ^0.180.0
-      version: 0.180.0
+      specifier: ^0.181.0
+      version: 0.181.0
     three:
-      specifier: ^0.180.0
-      version: 0.180.0
+      specifier: ^0.181.0
+      version: 0.181.2
     three-custom-shader-material:
       specifier: ^5.4.0
       version: 5.4.0
@@ -337,10 +337,10 @@ importers:
         version: 4.0.0
       three:
         specifier: catalog:three
-        version: 0.180.0
+        version: 0.181.2
       three-custom-shader-material:
         specifier: catalog:three
-        version: 5.4.0(three@0.180.0)
+        version: 5.4.0(three@0.181.2)
       vue:
         specifier: catalog:vue
         version: 3.5.26(typescript@5.9.3)
@@ -392,7 +392,7 @@ importers:
         version: 0.2.1(tweakpane@4.0.5)
       '@types/three':
         specifier: catalog:three
-        version: 0.180.0
+        version: 0.181.0
       '@unhead/vue':
         specifier: ^2.0.3
         version: 2.1.1(vue@3.5.26(typescript@5.9.3))
@@ -407,7 +407,7 @@ importers:
         version: 4.2.6(magicast@0.5.1)(vue@3.5.26(typescript@5.9.3))
       postprocessing:
         specifier: 6.37.8
-        version: 6.37.8(three@0.180.0)
+        version: 6.37.8(three@0.181.2)
       vite-svg-loader:
         specifier: ^5.1.0
         version: 5.1.0(vue@3.5.26(typescript@5.9.3))
@@ -515,19 +515,19 @@ importers:
         version: 13.9.0(vue@3.5.26(typescript@5.8.3))
       camera-controls:
         specifier: ^2.9.0
-        version: 2.10.1(three@0.180.0)
+        version: 2.10.1(three@0.181.2)
       stats-gl:
         specifier: ^2.0.1
-        version: 2.4.2(@types/three@0.180.0)(three@0.180.0)
+        version: 2.4.2(@types/three@0.181.0)(three@0.181.2)
       stats.js:
         specifier: ^0.17.0
         version: 0.17.0
       three-custom-shader-material:
         specifier: catalog:three
-        version: 5.4.0(three@0.180.0)
+        version: 5.4.0(three@0.181.2)
       three-stdlib:
         specifier: catalog:three
-        version: 2.36.1(three@0.180.0)
+        version: 2.36.1(three@0.181.2)
       vue:
         specifier: '>=3.5.17'
         version: 3.5.26(typescript@5.8.3)
@@ -543,7 +543,7 @@ importers:
         version: 24.10.4
       '@types/three':
         specifier: catalog:three
-        version: 0.180.0
+        version: 0.181.0
       '@typescript-eslint/eslint-plugin':
         specifier: catalog:eslint
         version: 8.50.1(@typescript-eslint/parser@8.50.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.8.3))(eslint@9.39.2(jiti@2.6.1))(typescript@5.8.3)
@@ -573,7 +573,7 @@ importers:
         version: 6.0.5(rolldown@1.0.0-beta.57)(rollup@4.54.0)
       three:
         specifier: catalog:three
-        version: 0.180.0
+        version: 0.181.2
       tsdown:
         specifier: catalog:build
         version: 0.18.3(synckit@0.11.11)(typescript@5.8.3)(vue-tsc@3.2.1(typescript@5.8.3))
@@ -619,7 +619,7 @@ importers:
         version: link:../eslint-config
       '@types/three':
         specifier: catalog:three
-        version: 0.180.0
+        version: 0.181.0
       '@typescript-eslint/eslint-plugin':
         specifier: catalog:eslint
         version: 8.50.1(@typescript-eslint/parser@8.50.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.8.3))(eslint@9.39.2(jiti@2.6.1))(typescript@5.8.3)
@@ -664,7 +664,7 @@ importers:
         version: 6.0.5(rolldown@1.0.0-beta.57)(rollup@4.54.0)
       three:
         specifier: catalog:three
-        version: 0.180.0
+        version: 0.181.2
       tsdown:
         specifier: catalog:build
         version: 0.18.3(synckit@0.11.11)(typescript@5.8.3)(vue-tsc@3.2.1(typescript@5.8.3))
@@ -874,7 +874,7 @@ importers:
         version: 24.10.4
       '@types/three':
         specifier: catalog:three
-        version: 0.180.0
+        version: 0.181.0
       '@vueuse/nuxt':
         specifier: 13.9.0
         version: 13.9.0(magicast@0.5.1)(nuxt@4.1.3(@parcel/watcher@2.5.1)(@types/node@24.10.4)(@vue/compiler-sfc@3.5.26)(better-sqlite3@12.5.0)(cac@6.7.14)(commander@13.1.0)(db0@0.3.4(better-sqlite3@12.5.0))(eslint@9.39.2(jiti@2.6.1))(ioredis@5.8.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rolldown@1.0.0-beta.57)(rollup@4.54.0)(terser@5.44.1)(tsx@4.21.0)(typescript@5.8.3)(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))(vue-tsc@3.2.1(typescript@5.8.3))(yaml@2.8.2))(vue@3.5.26(typescript@5.8.3))
@@ -889,7 +889,7 @@ importers:
         version: 1.57.0
       three:
         specifier: catalog:three
-        version: 0.180.0
+        version: 0.181.2
       typescript:
         specifier: catalog:typescript
         version: 5.8.3
@@ -910,7 +910,7 @@ importers:
         version: 13.9.0(vue@3.5.26(typescript@5.8.3))
       postprocessing:
         specifier: ^6.37.2
-        version: 6.37.8(three@0.180.0)
+        version: 6.37.8(three@0.181.2)
     devDependencies:
       '@tresjs/core':
         specifier: workspace:*
@@ -923,7 +923,7 @@ importers:
         version: link:../leches
       '@types/three':
         specifier: catalog:three
-        version: 0.180.0
+        version: 0.181.0
       '@vitejs/plugin-vue':
         specifier: catalog:vite
         version: 6.0.3(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))(vue@3.5.26(typescript@5.8.3))
@@ -944,7 +944,7 @@ importers:
         version: 6.0.5(rolldown@1.0.0-beta.57)(rollup@4.54.0)
       three:
         specifier: catalog:three
-        version: 0.180.0
+        version: 0.181.2
       tsdown:
         specifier: catalog:build
         version: 0.18.3(synckit@0.11.11)(typescript@5.8.3)(vue-tsc@3.2.1(typescript@5.8.3))
@@ -4442,8 +4442,8 @@ packages:
   '@types/supercluster@7.1.3':
     resolution: {integrity: sha512-Z0pOY34GDFl3Q6hUFYf3HkTwKEE02e7QgtJppBt+beEAxnyOpJua+voGFvxINBHa06GwLFFym7gRPY2SiKIfIA==}
 
-  '@types/three@0.180.0':
-    resolution: {integrity: sha512-ykFtgCqNnY0IPvDro7h+9ZeLY+qjgUWv+qEvUt84grhenO60Hqd4hScHE7VTB9nOQ/3QM8lkbNE+4vKjEpUxKg==}
+  '@types/three@0.181.0':
+    resolution: {integrity: sha512-MLF1ks8yRM2k71D7RprFpDb9DOX0p22DbdPqT/uAkc6AtQXjxWCVDjCy23G9t1o8HcQPk7woD2NIyiaWcWPYmA==}
 
   '@types/through@0.0.33':
     resolution: {integrity: sha512-HsJ+z3QuETzP3cswwtzt2vEIiHBk/dCcHGhbmG5X3ecnwFD/lPrMpliGXxSCg03L9AhrdwA4Oz/qfspkDW+xGQ==}
@@ -10054,8 +10054,8 @@ packages:
     peerDependencies:
       three: '>=0.128.0'
 
-  three@0.180.0:
-    resolution: {integrity: sha512-o+qycAMZrh+TsE01GqWUxUIKR1AL0S8pq7zDkYOQw8GqfX8b8VoCKYUoHbhiX5j+7hr8XsuHDVU6+gkQJQKg9w==}
+  three@0.181.2:
+    resolution: {integrity: sha512-k/CjiZ80bYss6Qs7/ex1TBlPD11whT9oKfT8oTGiHa34W4JRd1NiH/Tr1DbHWQ2/vMUypxksLnF2CfmlmM5XFQ==}
 
   through2@0.6.5:
     resolution: {integrity: sha512-RkK/CCESdTKQZHdmKICijdKKsCRVHs5KsLZ6pACAmF/1GPUQhonHSXWNERctxEp7RmvjdNbZTL5z9V7nSCXKcg==}
@@ -15657,7 +15657,7 @@ snapshots:
     dependencies:
       '@types/geojson': 7946.0.16
 
-  '@types/three@0.180.0':
+  '@types/three@0.181.0':
     dependencies:
       '@dimforge/rapier3d-compat': 0.12.0
       '@tweenjs/tween.js': 23.1.3
@@ -17585,9 +17585,9 @@ snapshots:
 
   callsites@3.1.0: {}
 
-  camera-controls@2.10.1(three@0.180.0):
+  camera-controls@2.10.1(three@0.181.2):
     dependencies:
-      three: 0.180.0
+      three: 0.181.2
 
   caniuse-api@3.0.0:
     dependencies:
@@ -21910,9 +21910,9 @@ snapshots:
       picocolors: 1.1.1
       source-map-js: 1.2.1
 
-  postprocessing@6.37.8(three@0.180.0):
+  postprocessing@6.37.8(three@0.181.2):
     dependencies:
-      three: 0.180.0
+      three: 0.181.2
 
   potpack@1.0.2: {}
 
@@ -22915,10 +22915,10 @@ snapshots:
 
   standard-as-callback@2.1.0: {}
 
-  stats-gl@2.4.2(@types/three@0.180.0)(three@0.180.0):
+  stats-gl@2.4.2(@types/three@0.181.0)(three@0.181.2):
     dependencies:
-      '@types/three': 0.180.0
-      three: 0.180.0
+      '@types/three': 0.181.0
+      three: 0.181.2
 
   stats.js@0.17.0: {}
 
@@ -23173,15 +23173,15 @@ snapshots:
     transitivePeerDependencies:
       - react-native-b4a
 
-  three-custom-shader-material@5.4.0(three@0.180.0):
+  three-custom-shader-material@5.4.0(three@0.181.2):
     dependencies:
       glsl-token-functions: 1.0.1
       glsl-token-string: 1.0.1
       glsl-tokenizer: 2.1.5
       object-hash: 3.0.0
-      three: 0.180.0
+      three: 0.181.2
 
-  three-stdlib@2.36.1(three@0.180.0):
+  three-stdlib@2.36.1(three@0.181.2):
     dependencies:
       '@types/draco3d': 1.4.10
       '@types/offscreencanvas': 2019.7.3
@@ -23189,9 +23189,9 @@ snapshots:
       draco3d: 1.5.7
       fflate: 0.6.10
       potpack: 1.0.2
-      three: 0.180.0
+      three: 0.181.2
 
-  three@0.180.0: {}
+  three@0.181.2: {}
 
   through2@0.6.5:
     dependencies:
