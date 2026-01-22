@@ -20,6 +20,7 @@ import type { UseCameraReturn } from '../useCamera'
 import type { TresScene } from '../../types'
 import { isFunction, isObject } from '../../utils/is'
 import { useCreateRafLoop } from '../useCreateRafLoop'
+import { TresRendererError } from '../../utils/error'
 
 /**
  * If set to 'on-demand', the scene will only be rendered when the current frame is invalidated
@@ -270,12 +271,12 @@ export function useRendererManager(
     isObject(value) && 'isRenderer' in value && Boolean(value.isRenderer)
 
   const readyEventHook = createEventHook<TresRenderer>()
-  const errorEventHook = createEventHook<Error>()
+  const errorEventHook = createEventHook<TresRendererError>()
   let hasTriggeredReady = false
 
   // Track whether the renderer has been initialized (important for WebGPU)
   const isInitialized = ref(false)
-  const initializationError = ref<Error | null>(null)
+  const error = ref<TresRendererError | null>(null)
 
   // Initialize renderer asynchronously (required for WebGPU in Three.js r181+)
   const initializeRenderer = async () => {
@@ -283,23 +284,20 @@ export function useRendererManager(
       if (isRenderer(renderer)) {
         // WebGPU renderer requires awaiting init() before any operations
         await renderer.init()
-        isInitialized.value = true
-        readyEventHook.trigger(renderer)
       }
-      else {
-        // WebGLRenderer is ready immediately (no async init needed)
-        isInitialized.value = true
-        // Still need to trigger ready for WebGLRenderer for backward compatibility
-        readyEventHook.trigger(renderer)
-      }
-    }
-    catch (error) {
-      // Handle initialization errors (e.g., WebGPU not supported, GPU initialization failure)
-      const rendererError = error instanceof Error
-        ? error
-        : new Error('Renderer initialization failed: Unknown error')
+      // WebGLRenderer is ready immediately (no async init needed)
 
-      initializationError.value = rendererError
+      isInitialized.value = true
+    }
+    catch (e) {
+      // Handle initialization errors (e.g., WebGPU not supported, GPU initialization failure)
+      const rendererError = new TresRendererError(
+        e instanceof Error ? e.message : 'Unknown error',
+        'INITIALIZATION_FAILED',
+        { cause: e instanceof Error ? e : undefined },
+      )
+
+      error.value = rendererError
 
       // Log detailed error message to help users diagnose the issue
       console.error(
@@ -354,7 +352,7 @@ export function useRendererManager(
   })
 
   // Watch the sizes and invalidate the renderer when they change
-  // Also watch isInitialized to ensure size is set once renderer is ready
+  // Also watch isRendererInitialized to ensure size is set once renderer is ready
   watch([sizes.width, sizes.height, isInitialized], () => {
     // Wait for renderer initialization before setting size (required for WebGPU)
     if (!isInitialized.value) { return }
@@ -479,7 +477,7 @@ export function useRendererManager(
     mode: toValue(options.renderMode),
     replaceRenderFunction,
     isInitialized,
-    initializationError,
+    error,
   }
 }
 
