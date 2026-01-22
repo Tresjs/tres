@@ -26,7 +26,6 @@
     "Nathan Mande (https://github.com/Neosoulink/)",
     "Jaime Torrealba (https://github.com/JaimeTorrealba)"
   ],
-  "sideEffects": false,
   "exports": {
     ".": "./dist/tresrapier.js",
     "./package.json": "./package.json"

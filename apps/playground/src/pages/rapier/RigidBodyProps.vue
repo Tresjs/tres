@@ -5,7 +5,6 @@ import { TresLeches, useControls } from '@tresjs/leches'
 import { BallCollider, type ExposedRigidBody, Physics, RigidBody } from '@tresjs/rapier'
 import { ACESFilmicToneMapping, SRGBColorSpace } from 'three'
 import { shallowRef } from 'vue'
-import '@tresjs/leches/styles'
 
 const gl = {
   clearColor: '#82DBC5',
@@ -44,7 +43,7 @@ const { gravityScale, linearDamping, angularDamping, lockT, linvelX, friction, m
 
 <template>
   <TresLeches />
-  <TresCanvas v-bind="gl" window-size>
+  <TresCanvas v-bind="gl" >
     <TresPerspectiveCamera :position="[11, 11, 11]" :look-at="[0, 0, 0]" />
     <OrbitControls />
 
@@ -81,9 +80,7 @@ const { gravityScale, linearDamping, angularDamping, lockT, linvelX, friction, m
           :gravityScale="-0.01"
           :additionalMass="50"
           :enabledRotations="[true, true, true]"
-          :linvel="{ x: linvelX.value,
-                     y: 0,
-                     z: 0 }"
+          :linvel="{ x: linvelX.value, y: 0, z: 0 }"
         >
           <TresMesh :position="[4, 2, 5]" @click="rotate">
             <TresBoxGeometry />
