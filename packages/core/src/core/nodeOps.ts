@@ -483,7 +483,7 @@ export const nodeOps = ({
 
     const parent = parentNode(node)
     const siblings = parent?.__tres?.objects || []
-    // NOTE: Use findIndex with identity check to handle mixed TresTextNode/TresInstance arrays
+    // Use findIndex with identity check to handle mixed TresTextNode/TresInstance arrays
     const index = siblings.findIndex(sibling => sibling === node)
 
     // NOTE: If not found OR this is the last of the siblings ...

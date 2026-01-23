@@ -154,7 +154,7 @@ const context = shallowRef<TresContext>(useTresContextProvider({
 defineExpose({ context, dispose: () => dispose(context.value, true) })
 
 const handleHMR = (context: TresContext) => {
-  // NOTE: Don't call dispose during HMR - Vue's render will diff and
+  // Don't call dispose during HMR - Vue's render will diff and
   // unmount old nodes via nodeOps.remove(), which properly disposes them.
   // Calling dispose first would delete __tres from objects that Vue
   // still needs to access during unmount, breaking sibling tracking.
@@ -162,7 +162,7 @@ const handleHMR = (context: TresContext) => {
 }
 
 const unmountCanvas = () => {
-  // NOTE: Render empty first to let Vue properly unmount via nodeOps.remove(),
+  // Render empty first to let Vue properly unmount via nodeOps.remove(),
   // which handles text nodes and disposes THREE objects. Then dispose remaining resources.
   mountCustomRenderer(context.value, true)
   dispose(context.value)
