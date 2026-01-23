@@ -30,6 +30,7 @@ coverage
 .env
 .env.local
 .claude
+.worktrees
 
 .nx/*
 .nx/cache
