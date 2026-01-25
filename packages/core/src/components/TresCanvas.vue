@@ -77,6 +77,7 @@ defineExpose<TresCanvasInstance>({
       :canvas="canvasRef"
       v-bind="props"
       @ready="emit('ready', $event)"
+      @error="emit('error', $event)"
       @pointermissed="emit('pointermissed', $event)"
       @render="emit('render', $event)"
       @before-loop="emit('beforeLoop', $event)"
