@@ -1,7 +1,6 @@
 <script setup>
 import { ref } from 'vue'
 import { TresCanvas } from '@tresjs/core'
-import { gsap } from 'gsap'
 import Sphere from './Sphere.vue'
 import Box from './Box.vue'
 
