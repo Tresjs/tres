@@ -54,7 +54,7 @@
     "vue": ">=3.4.0"
   },
   "dependencies": {
-    "@dimforge/rapier3d-compat": "^0.17.0"
+    "@dimforge/rapier3d-compat": "^0.19.3"
   },
   "devDependencies": {
     "@tresjs/core": "workspace:*",
