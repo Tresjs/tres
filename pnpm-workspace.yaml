@@ -34,10 +34,10 @@ catalogs:
     vitest: 3.2.4
 
   three:
-    '@types/three': ^0.181.0
-    three: ^0.181.0
+    '@types/three': ^0.182.0
+    three: ^0.182.0
     three-custom-shader-material: ^5.4.0
-    three-stdlib: ^2.36.0
+    three-stdlib: ^2.36.1
 
   node:
     '@types/node': ^24.5.2
