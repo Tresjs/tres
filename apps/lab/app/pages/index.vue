@@ -95,7 +95,7 @@ function getThumbnailFromExperiment(experiment: ExperimentItem): string {
 }
 
 function getRepoPathFromExperiment(experiment: ExperimentItem): string {
-  return `https://github.com/Tresjs/lab/tree/main/components/content/${getSlugFromExperiment(experiment)}`
+  return `https://github.com/Tresjs/tres/tree/main/apps/lab/app/components/${getSlugFromExperiment(experiment)}`
 }
 
 function getRepoTitleFromExperiment(experiment: ExperimentItem): string {
