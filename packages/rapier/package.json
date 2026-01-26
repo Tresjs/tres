@@ -1,14 +1,15 @@
 {
-  "name": "@tresjs/cientos",
+  "name": "@tresjs/rapier",
   "type": "module",
-  "version": "5.2.5",
-  "description": "Collection of useful helpers and fully functional, ready-made abstractions for Tres",
+  "version": "0.0.0",
+  "private": true,
+  "description": "TresJs physics support, powered by rapier",
   "author": "Alvaro Saburido <hola@alvarosaburido.dev> (https://github.com/alvarosabu/)",
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Tresjs/tres.git",
-    "directory": "packages/cientos"
+    "directory": "packages/rapier"
   },
   "keywords": [
     "vue",
@@ -16,20 +17,22 @@
     "threejs",
     "three",
     "threejs-vue",
-    "composables"
+    "rapier",
+    "rapier3d",
+    "physics"
   ],
   "maintainers": [
     "Alvaro Saburido (https://github.com/alvarosabu/)",
+    "Nathan Mande (https://github.com/Neosoulink/)",
     "Jaime Torrealba (https://github.com/JaimeTorrealba)"
   ],
-  "sideEffects": false,
   "exports": {
-    ".": "./dist/trescientos.js",
+    ".": "./dist/tresrapier.js",
     "./package.json": "./package.json"
   },
-  "main": "./dist/trescientos.js",
-  "module": "./dist/trescientos.js",
-  "types": "./dist/trescientos.d.ts",
+  "main": "./dist/tresrapier.js",
+  "module": "./dist/tresrapier.js",
+  "types": "./dist/tresrapier.d.ts",
   "files": [
     "*.d.ts",
     "dist"
@@ -38,52 +41,41 @@
     "access": "public"
   },
   "scripts": {
-    "dev": "cd playground/vue && pnpm dev",
     "build": "tsdown",
     "lint": "eslint .",
-    "typecheck": "vue-tsc --noEmit",
-    "lint:fix": "eslint . --fix"
+    "lint:fix": "eslint . --fix",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs"
   },
   "peerDependencies": {
-    "@tresjs/core": "5.3.3",
-    "three": ">=0.133",
-    "vue": ">=3.5.17"
+    "@tresjs/core": "5.3.2",
+    "three": ">=0.169",
+    "vue": ">=3.4.0"
   },
   "dependencies": {
-    "@vueuse/core": "catalog:utils",
-    "camera-controls": "^2.9.0",
-    "stats-gl": "^2.0.1",
-    "stats.js": "^0.17.0",
-    "three-custom-shader-material": "catalog:three",
-    "three-stdlib": "catalog:three"
+    "@dimforge/rapier3d-compat": "^0.19.3"
   },
   "devDependencies": {
     "@tresjs/core": "workspace:*",
     "@tresjs/eslint-config": "workspace:*",
     "@types/node": "catalog:node",
     "@types/three": "catalog:three",
-    "@typescript-eslint/eslint-plugin": "catalog:eslint",
-    "@typescript-eslint/parser": "catalog:eslint",
     "@vitejs/plugin-vue": "catalog:vite",
     "eslint": "catalog:eslint",
     "eslint-plugin-vue": "catalog:eslint",
-    "kolorist": "catalog:utils",
     "pathe": "catalog:utils",
     "rollup-plugin-analyzer": "catalog:build",
-    "rollup-plugin-visualizer": "catalog:build",
     "three": "catalog:three",
     "tsdown": "catalog:build",
     "typescript": "catalog:typescript",
     "vite": "catalog:vite",
-    "vite-plugin-banner": "catalog:vite",
-    "vite-plugin-dts": "catalog:vite",
-    "vite-plugin-glsl": "^1.5.1",
-    "vite-svg-loader": "^5.1.0",
+    "vue": "catalog:vue",
     "vue-tsc": "catalog:typescript"
   },
   "nx": {
     "implicitDependencies": [
-      "!@tresjs/cientos-*"
+      "!@tresjs/rapier-*"
     ]
   }
 }

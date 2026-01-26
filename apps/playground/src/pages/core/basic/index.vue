@@ -48,6 +48,13 @@ const formattedToneMapping = computed(() => {
 const formattedShadowMapType = computed(() => {
   return Number(shadowMapType.value) as ShadowMapType
 })
+
+const cubeRef = ref()
+
+function onLoop() {
+  cubeRef.value.rotation.y += 0.01 * - Math.PI /3
+}
+
 </script>
 
 <template>
@@ -58,10 +65,11 @@ const formattedShadowMapType = computed(() => {
     :tone-mapping="formattedToneMapping"
     :shadows="shadows"
     :shadow-map-type="formattedShadowMapType"
+    @loop="onLoop"
   >
     <TresPerspectiveCamera :position="[5, 5, 5]" :look-at="[0, 0, 0]" />
     <OrbitControls />
-    <TresMesh cast-shadow :position-x="2">
+    <TresMesh ref="cubeRef" cast-shadow :position="[0, 2, 0]">
       <TresBoxGeometry />
       <TresMeshStandardMaterial color="teal" :opacity="1" transparent />
     </TresMesh>
