@@ -360,8 +360,15 @@ export function useRendererManager(
     renderer.setSize(sizes.width.value, sizes.height.value)
 
     if (!hasTriggeredReady && renderer.domElement.width && renderer.domElement.height) {
-      readyEventHook.trigger(renderer)
-      hasTriggeredReady = true
+      // Defer trigger to ensure listeners are registered (especially Context.vue's onReady)
+      // With window-size, this watch runs immediately with non-zero sizes,
+      // which can fire before Context.vue registers its listener
+      queueMicrotask(() => {
+        if (!hasTriggeredReady) {
+          readyEventHook.trigger(renderer)
+          hasTriggeredReady = true
+        }
+      })
     }
 
     invalidateOnDemand()
