@@ -1,5 +1,7 @@
 import { Hono } from 'hono'
+import { handleIssueOpened } from './github/handlers/issues'
 import { verifyWebhookSignature } from './github/verify'
+import type { IssuePayload } from './types'
 
 interface Env {
   DB: D1Database
@@ -13,7 +15,7 @@ interface Env {
 const app = new Hono<{ Bindings: Env }>()
 
 app.get('/', (c) => {
-  return c.json({ status: 'ok', name: 'CubeBot' })
+  return c.json({ status: 'ok', name: 'CubeBot 🧊' })
 })
 
 app.post('/webhook', async (c) => {
@@ -35,7 +37,17 @@ app.post('/webhook', async (c) => {
 
   console.log(`Received ${event} event:`, body.action)
 
-  return c.json({ received: true, event })
+  try {
+    if (event === 'issues' && body.action === 'opened') {
+      await handleIssueOpened(c, body as IssuePayload)
+    }
+
+    return c.json({ received: true, event, action: body.action })
+  }
+  catch (error) {
+    console.error('Error handling webhook:', error)
+    return c.json({ error: 'Internal error' }, 500)
+  }
 })
 
 export default app
