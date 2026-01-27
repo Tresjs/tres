@@ -1,7 +1,8 @@
 import { Hono } from 'hono'
+import { handleCommentCreated } from './github/handlers/comments'
 import { handleIssueOpened } from './github/handlers/issues'
 import { verifyWebhookSignature } from './github/verify'
-import type { IssuePayload } from './types'
+import type { CommentPayload, IssuePayload } from './types'
 
 interface Env {
   DB: D1Database
@@ -40,6 +41,9 @@ app.post('/webhook', async (c) => {
   try {
     if (event === 'issues' && body.action === 'opened') {
       await handleIssueOpened(c, body as IssuePayload)
+    }
+    else if (event === 'issue_comment' && body.action === 'created') {
+      await handleCommentCreated(c, body as CommentPayload)
     }
 
     return c.json({ received: true, event, action: body.action })
