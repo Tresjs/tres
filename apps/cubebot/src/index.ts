@@ -1,4 +1,5 @@
 import { Hono } from 'hono'
+import { verifyWebhookSignature } from './github/verify'
 
 interface Env {
   DB: D1Database
@@ -16,7 +17,25 @@ app.get('/', (c) => {
 })
 
 app.post('/webhook', async (c) => {
-  return c.json({ received: true })
+  const signature = c.req.header('x-hub-signature-256')
+  const payload = await c.req.text()
+
+  const isValid = await verifyWebhookSignature(
+    payload,
+    signature,
+    c.env.GITHUB_WEBHOOK_SECRET,
+  )
+
+  if (!isValid) {
+    return c.json({ error: 'Invalid signature' }, 401)
+  }
+
+  const event = c.req.header('x-github-event')
+  const body = JSON.parse(payload)
+
+  console.log(`Received ${event} event:`, body.action)
+
+  return c.json({ received: true, event })
 })
 
 export default app
