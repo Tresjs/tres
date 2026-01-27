@@ -8,7 +8,8 @@
     "deploy": "wrangler deploy",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "embed-docs": "npx tsx scripts/embed-docs.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.39.0",
