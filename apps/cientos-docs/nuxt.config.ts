@@ -75,12 +75,12 @@ export default defineNuxtConfig({
   },
 
   llms: {
-    domain: 'https://example.com/',
-    title: 'Docs',
-    description: 'A documentation site built with Nuxt v4 and Nuxt UI v4.',
+    domain: 'https://cientos.tresjs.org/',
+    title: 'TresJS Cientos',
+    description: 'Collection of useful helpers and fully functional, ready-made abstractions for TresJS.',
     full: {
       title: 'Full Documentation',
-      description: 'This is the full documentation written in markdown (MDC Syntax)',
+      description: 'Complete Cientos documentation including getting started guides and API reference for all components.',
     },
     sections: [
       {
@@ -88,13 +88,6 @@ export default defineNuxtConfig({
         contentCollection: 'docs',
         contentFilters: [
           { field: 'path', operator: 'LIKE', value: '/getting-started%' },
-        ],
-      },
-      {
-        title: 'Guide',
-        contentCollection: 'docs',
-        contentFilters: [
-          { field: 'path', operator: 'LIKE', value: '/guide%' },
         ],
       },
       {
