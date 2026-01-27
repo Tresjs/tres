@@ -4,6 +4,7 @@ const sections = [
   { icon: './cientos.svg', title: 'Cientos', path: '/cientos' },
   { icon: './postprocessing.svg', title: 'Postprocessing', path: '/postprocessing' },
   { icon: './tresleches.svg', title: 'Leches', path: '/leches' },
+  { icon: './rapier.svg', title: 'Rapier', path: '/rapier' },
 ]
 </script>
 

@@ -1,3 +1,31 @@
+## 5.2.5 (2026-01-26)
+
+### 🩹 Fixes
+
+- **cientos:** wrong color space on image component ([22132e2b](https://github.com/Tresjs/tres/commit/22132e2b))
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/core to 5.3.3
+
+### ❤️ Thank You
+
+- Jaime Torrealba
+
+## 5.2.4 (2026-01-22)
+
+### 🩹 Fixes
+
+- **cientos:** smoke component ([e013afd0](https://github.com/Tresjs/tres/commit/e013afd0))
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/core to 5.3.2
+
+### ❤️ Thank You
+
+- Jaime Torrealba
+
 ## 5.2.3 (2026-01-15)
 
 ### 🧱 Updated Dependencies

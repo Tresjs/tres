@@ -34,5 +34,11 @@
     "repo": "tresjs/lab",
     "branch": "main",
     "path": "apps/lab"
+  },
+  "@tresjs/rapier": {
+    "remote": "rapier",
+    "repo": "tresjs/rapier",
+    "branch": "main",
+    "path": "packages/rapier"
   }
 }

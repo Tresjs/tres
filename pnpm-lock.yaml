@@ -32,6 +32,10 @@ catalogs:
     eslint-plugin-vue:
       specifier: ^10.4.0
       version: 10.6.2
+  node:
+    '@types/node':
+      specifier: ^24.5.2
+      version: 24.10.4
   nuxt:
     '@nuxt/content':
       specifier: ^3.7.1
@@ -60,16 +64,16 @@ catalogs:
       version: 3.2.4
   three:
     '@types/three':
-      specifier: ^0.180.0
-      version: 0.180.0
+      specifier: ^0.182.0
+      version: 0.182.0
     three:
-      specifier: ^0.180.0
-      version: 0.180.0
+      specifier: ^0.182.0
+      version: 0.182.0
     three-custom-shader-material:
       specifier: ^5.4.0
       version: 5.4.0
     three-stdlib:
-      specifier: ^2.36.0
+      specifier: ^2.36.1
       version: 2.36.1
   typescript:
     typescript:
@@ -407,10 +411,10 @@ importers:
         version: 4.0.0
       three:
         specifier: catalog:three
-        version: 0.180.0
+        version: 0.182.0
       three-custom-shader-material:
         specifier: catalog:three
-        version: 5.4.0(three@0.180.0)
+        version: 5.4.0(three@0.182.0)
       vue:
         specifier: catalog:vue
         version: 3.5.26(typescript@5.9.3)
@@ -462,7 +466,7 @@ importers:
         version: 0.2.1(tweakpane@4.0.5)
       '@types/three':
         specifier: catalog:three
-        version: 0.180.0
+        version: 0.182.0
       '@unhead/vue':
         specifier: ^2.0.3
         version: 2.1.1(vue@3.5.26(typescript@5.9.3))
@@ -477,7 +481,7 @@ importers:
         version: 4.2.6(magicast@0.5.1)(vue@3.5.26(typescript@5.9.3))
       postprocessing:
         specifier: 6.37.8
-        version: 6.37.8(three@0.180.0)
+        version: 6.37.8(three@0.182.0)
       vite-svg-loader:
         specifier: ^5.1.0
         version: 5.1.0(vue@3.5.26(typescript@5.9.3))
@@ -496,6 +500,9 @@ importers:
       '@tresjs/post-processing':
         specifier: workspace:^
         version: link:../../packages/postprocessing
+      '@tresjs/rapier':
+        specifier: workspace:^
+        version: link:../../packages/rapier
       vue-router:
         specifier: catalog:vue
         version: 4.6.4(vue@3.5.26(typescript@5.9.3))
@@ -585,19 +592,19 @@ importers:
         version: 13.9.0(vue@3.5.26(typescript@5.8.3))
       camera-controls:
         specifier: ^2.9.0
-        version: 2.10.1(three@0.180.0)
+        version: 2.10.1(three@0.182.0)
       stats-gl:
         specifier: ^2.0.1
-        version: 2.4.2(@types/three@0.180.0)(three@0.180.0)
+        version: 2.4.2(@types/three@0.182.0)(three@0.182.0)
       stats.js:
         specifier: ^0.17.0
         version: 0.17.0
       three-custom-shader-material:
         specifier: catalog:three
-        version: 5.4.0(three@0.180.0)
+        version: 5.4.0(three@0.182.0)
       three-stdlib:
         specifier: catalog:three
-        version: 2.36.1(three@0.180.0)
+        version: 2.36.1(three@0.182.0)
       vue:
         specifier: '>=3.5.17'
         version: 3.5.26(typescript@5.8.3)
@@ -609,11 +616,11 @@ importers:
         specifier: workspace:*
         version: link:../eslint-config
       '@types/node':
-        specifier: ^24.3.0
+        specifier: catalog:node
         version: 24.10.4
       '@types/three':
         specifier: catalog:three
-        version: 0.180.0
+        version: 0.182.0
       '@typescript-eslint/eslint-plugin':
         specifier: catalog:eslint
         version: 8.50.1(@typescript-eslint/parser@8.50.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.8.3))(eslint@9.39.2(jiti@2.6.1))(typescript@5.8.3)
@@ -643,7 +650,7 @@ importers:
         version: 6.0.5(rolldown@1.0.0-beta.57)(rollup@4.54.0)
       three:
         specifier: catalog:three
-        version: 0.180.0
+        version: 0.182.0
       tsdown:
         specifier: catalog:build
         version: 0.18.3(synckit@0.11.11)(typescript@5.8.3)(vue-tsc@3.2.1(typescript@5.8.3))
@@ -689,7 +696,7 @@ importers:
         version: link:../eslint-config
       '@types/three':
         specifier: catalog:three
-        version: 0.180.0
+        version: 0.182.0
       '@typescript-eslint/eslint-plugin':
         specifier: catalog:eslint
         version: 8.50.1(@typescript-eslint/parser@8.50.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.8.3))(eslint@9.39.2(jiti@2.6.1))(typescript@5.8.3)
@@ -734,7 +741,7 @@ importers:
         version: 6.0.5(rolldown@1.0.0-beta.57)(rollup@4.54.0)
       three:
         specifier: catalog:three
-        version: 0.180.0
+        version: 0.182.0
       tsdown:
         specifier: catalog:build
         version: 0.18.3(synckit@0.11.11)(typescript@5.8.3)(vue-tsc@3.2.1(typescript@5.8.3))
@@ -940,11 +947,11 @@ importers:
         specifier: ^3.19.2
         version: 3.21.0(@vitest/ui@3.2.4)(@vue/test-utils@2.4.6)(jsdom@27.4.0)(magicast@0.5.1)(playwright-core@1.57.0)(typescript@5.8.3)(vitest@3.2.4)
       '@types/node':
-        specifier: ^24.5.2
+        specifier: catalog:node
         version: 24.10.4
       '@types/three':
         specifier: catalog:three
-        version: 0.180.0
+        version: 0.182.0
       '@vueuse/nuxt':
         specifier: 13.9.0
         version: 13.9.0(magicast@0.5.1)(nuxt@4.1.3(@parcel/watcher@2.5.1)(@types/node@24.10.4)(@vue/compiler-sfc@3.5.26)(better-sqlite3@12.5.0)(cac@6.7.14)(commander@13.1.0)(db0@0.3.4(better-sqlite3@12.5.0))(eslint@9.39.2(jiti@2.6.1))(ioredis@5.8.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rolldown@1.0.0-beta.57)(rollup@4.54.0)(terser@5.44.1)(tsx@4.21.0)(typescript@5.8.3)(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))(vue-tsc@3.2.1(typescript@5.8.3))(yaml@2.8.2))(vue@3.5.26(typescript@5.8.3))
@@ -959,7 +966,7 @@ importers:
         version: 1.57.0
       three:
         specifier: catalog:three
-        version: 0.180.0
+        version: 0.182.0
       typescript:
         specifier: catalog:typescript
         version: 5.8.3
@@ -980,7 +987,7 @@ importers:
         version: 13.9.0(vue@3.5.26(typescript@5.8.3))
       postprocessing:
         specifier: ^6.37.2
-        version: 6.37.8(three@0.180.0)
+        version: 6.37.8(three@0.182.0)
     devDependencies:
       '@tresjs/core':
         specifier: workspace:*
@@ -993,7 +1000,7 @@ importers:
         version: link:../leches
       '@types/three':
         specifier: catalog:three
-        version: 0.180.0
+        version: 0.182.0
       '@vitejs/plugin-vue':
         specifier: catalog:vite
         version: 6.0.3(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))(vue@3.5.26(typescript@5.8.3))
@@ -1014,7 +1021,7 @@ importers:
         version: 6.0.5(rolldown@1.0.0-beta.57)(rollup@4.54.0)
       three:
         specifier: catalog:three
-        version: 0.180.0
+        version: 0.182.0
       tsdown:
         specifier: catalog:build
         version: 0.18.3(synckit@0.11.11)(typescript@5.8.3)(vue-tsc@3.2.1(typescript@5.8.3))
@@ -1030,6 +1037,58 @@ importers:
       vite-plugin-dts:
         specifier: catalog:vite
         version: 4.5.4(@types/node@24.10.4)(rollup@4.54.0)(typescript@5.8.3)(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))
+      vue:
+        specifier: catalog:vue
+        version: 3.5.26(typescript@5.8.3)
+      vue-tsc:
+        specifier: catalog:typescript
+        version: 3.2.1(typescript@5.8.3)
+
+  packages/rapier:
+    dependencies:
+      '@dimforge/rapier3d-compat':
+        specifier: ^0.19.3
+        version: 0.19.3
+    devDependencies:
+      '@tresjs/core':
+        specifier: workspace:*
+        version: link:../core
+      '@tresjs/eslint-config':
+        specifier: workspace:*
+        version: link:../eslint-config
+      '@types/node':
+        specifier: catalog:node
+        version: 24.10.4
+      '@types/three':
+        specifier: catalog:three
+        version: 0.182.0
+      '@vitejs/plugin-vue':
+        specifier: catalog:vite
+        version: 6.0.3(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))(vue@3.5.26(typescript@5.8.3))
+      eslint:
+        specifier: catalog:eslint
+        version: 9.39.2(jiti@2.6.1)
+      eslint-plugin-vue:
+        specifier: catalog:eslint
+        version: 10.6.2(@stylistic/eslint-plugin@5.6.1(eslint@9.39.2(jiti@2.6.1)))(@typescript-eslint/parser@8.50.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.8.3))(eslint@9.39.2(jiti@2.6.1))(vue-eslint-parser@10.2.0(eslint@9.39.2(jiti@2.6.1)))
+      pathe:
+        specifier: catalog:utils
+        version: 2.0.3
+      rollup-plugin-analyzer:
+        specifier: catalog:build
+        version: 4.0.0
+      three:
+        specifier: catalog:three
+        version: 0.182.0
+      tsdown:
+        specifier: catalog:build
+        version: 0.18.3(synckit@0.11.11)(typescript@5.8.3)(vue-tsc@3.2.1(typescript@5.8.3))
+      typescript:
+        specifier: catalog:typescript
+        version: 5.8.3
+      vite:
+        specifier: catalog:vite
+        version: 7.3.0(@types/node@24.10.4)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2)
       vue:
         specifier: catalog:vue
         version: 3.5.26(typescript@5.8.3)
@@ -1053,7 +1112,7 @@ importers:
         version: 5.1.1
       inquirer:
         specifier: ^8.2.5
-        version: 8.2.7(@types/node@22.19.3)
+        version: 8.2.7(@types/node@24.10.4)
       license-checker:
         specifier: ^25.0.1
         version: 25.0.1
@@ -1068,8 +1127,8 @@ importers:
         specifier: ^9.0.8
         version: 9.0.9
       '@types/node':
-        specifier: ^22.15.18
-        version: 22.19.3
+        specifier: catalog:node
+        version: 24.10.4
       typescript:
         specifier: 5.8.3
         version: 5.8.3
@@ -1878,6 +1937,9 @@ packages:
 
   '@dimforge/rapier3d-compat@0.12.0':
     resolution: {integrity: sha512-uekIGetywIgopfD97oDL5PfeezkFpNhwlzlaEYNOA0N6ghdsOvh/HYjSMek5Q2O1PYvRSDFcqFVJl4r4ZBwOow==}
+
+  '@dimforge/rapier3d-compat@0.19.3':
+    resolution: {integrity: sha512-mMVdSj1PRTT108s9Swbu2GQOmHbn8kbJANRV5xfczL3s0T4vkgZAuoMRgvBzQcHanpKusbC0ZJj6z3mC3aj3vg==}
 
   '@docsearch/css@3.8.2':
     resolution: {integrity: sha512-y05ayQFyUmCXze79+56v/4HpycYF3uFqB78pLPrSV5ZKAlDuIAAJNhaRi8tTdRNXh05yxX/TyNnzD6LwSM89vQ==}
@@ -4481,9 +4543,6 @@ packages:
   '@types/node@20.19.27':
     resolution: {integrity: sha512-N2clP5pJhB2YnZJ3PIHFk5RkygRX5WO/5f0WC08tp0wd+sv0rsJk3MqWn3CbNmT2J505a5336jaQj4ph1AdMug==}
 
-  '@types/node@22.19.3':
-    resolution: {integrity: sha512-1N9SBnWYOJTrNZCdh/yJE+t910Y128BoyY+zBLWhL3r0TYzlTmFdXrPwHL9DyFZmlEXNQQolTZh3KHV31QDhyA==}
-
   '@types/node@24.10.4':
     resolution: {integrity: sha512-vnDVpYPMzs4wunl27jHrfmwojOGKya0xyM3sH+UE5iv5uPS6vX7UIoh6m+vQc5LGBq52HBKPIn/zcSZVzeDEZg==}
 
@@ -4512,8 +4571,8 @@ packages:
   '@types/supercluster@7.1.3':
     resolution: {integrity: sha512-Z0pOY34GDFl3Q6hUFYf3HkTwKEE02e7QgtJppBt+beEAxnyOpJua+voGFvxINBHa06GwLFFym7gRPY2SiKIfIA==}
 
-  '@types/three@0.180.0':
-    resolution: {integrity: sha512-ykFtgCqNnY0IPvDro7h+9ZeLY+qjgUWv+qEvUt84grhenO60Hqd4hScHE7VTB9nOQ/3QM8lkbNE+4vKjEpUxKg==}
+  '@types/three@0.182.0':
+    resolution: {integrity: sha512-WByN9V3Sbwbe2OkWuSGyoqQO8Du6yhYaXtXLoA5FkKTUJorZ+yOHBZ35zUUPQXlAKABZmbYp5oAqpA4RBjtJ/Q==}
 
   '@types/through@0.0.33':
     resolution: {integrity: sha512-HsJ+z3QuETzP3cswwtzt2vEIiHBk/dCcHGhbmG5X3ecnwFD/lPrMpliGXxSCg03L9AhrdwA4Oz/qfspkDW+xGQ==}
@@ -10124,8 +10183,8 @@ packages:
     peerDependencies:
       three: '>=0.128.0'
 
-  three@0.180.0:
-    resolution: {integrity: sha512-o+qycAMZrh+TsE01GqWUxUIKR1AL0S8pq7zDkYOQw8GqfX8b8VoCKYUoHbhiX5j+7hr8XsuHDVU6+gkQJQKg9w==}
+  three@0.182.0:
+    resolution: {integrity: sha512-GbHabT+Irv+ihI1/f5kIIsZ+Ef9Sl5A1Y7imvS5RQjWgtTPfPnZ43JmlYI7NtCRDK9zir20lQpfg8/9Yd02OvQ==}
 
   through2@0.6.5:
     resolution: {integrity: sha512-RkK/CCESdTKQZHdmKICijdKKsCRVHs5KsLZ6pACAmF/1GPUQhonHSXWNERctxEp7RmvjdNbZTL5z9V7nSCXKcg==}
@@ -10888,6 +10947,46 @@ packages:
       sugarss:
         optional: true
       terser:
+        optional: true
+
+  vite@6.4.1:
+    resolution: {integrity: sha512-+Oxm7q9hDoLMyJOYfUYBuHQo+dkAloi33apOPP56pzj+vsdJDzr+j1NISE5pyaAuKL4A3UD34qd0lx5+kfKp2g==}
+    engines: {node: ^18.0.0 || ^20.0.0 || >=22.0.0}
+    hasBin: true
+    peerDependencies:
+      '@types/node': ^18.0.0 || ^20.0.0 || >=22.0.0
+      jiti: '>=1.21.0'
+      less: '*'
+      lightningcss: ^1.21.0
+      sass: '*'
+      sass-embedded: '*'
+      stylus: '*'
+      sugarss: '*'
+      terser: ^5.16.0
+      tsx: ^4.8.1
+      yaml: ^2.4.2
+    peerDependenciesMeta:
+      '@types/node':
+        optional: true
+      jiti:
+        optional: true
+      less:
+        optional: true
+      lightningcss:
+        optional: true
+      sass:
+        optional: true
+      sass-embedded:
+        optional: true
+      stylus:
+        optional: true
+      sugarss:
+        optional: true
+      terser:
+        optional: true
+      tsx:
+        optional: true
+      yaml:
         optional: true
 
   vite@7.3.0:
@@ -12219,7 +12318,7 @@ snapshots:
     dependencies:
       '@babel/code-frame': 7.27.1
       '@babel/generator': 7.28.5
-      '@babel/parser': 7.27.7
+      '@babel/parser': 7.28.5
       '@babel/template': 7.27.2
       '@babel/types': 7.28.5
       debug: 4.4.3
@@ -12326,6 +12425,8 @@ snapshots:
   '@csstools/css-tokenizer@3.0.4': {}
 
   '@dimforge/rapier3d-compat@0.12.0': {}
+
+  '@dimforge/rapier3d-compat@0.19.3': {}
 
   '@docsearch/css@3.8.2': {}
 
@@ -12920,12 +13021,12 @@ snapshots:
   '@img/sharp-win32-x64@0.33.5':
     optional: true
 
-  '@inquirer/external-editor@1.0.3(@types/node@22.19.3)':
+  '@inquirer/external-editor@1.0.3(@types/node@24.10.4)':
     dependencies:
       chardet: 2.1.1
       iconv-lite: 0.7.1
     optionalDependencies:
-      '@types/node': 22.19.3
+      '@types/node': 24.10.4
 
   '@internationalized/date@3.10.1':
     dependencies:
@@ -15758,10 +15859,6 @@ snapshots:
     dependencies:
       undici-types: 6.21.0
 
-  '@types/node@22.19.3':
-    dependencies:
-      undici-types: 6.21.0
-
   '@types/node@24.10.4':
     dependencies:
       undici-types: 7.16.0
@@ -15786,7 +15883,7 @@ snapshots:
     dependencies:
       '@types/geojson': 7946.0.16
 
-  '@types/three@0.180.0':
+  '@types/three@0.182.0':
     dependencies:
       '@dimforge/rapier3d-compat': 0.12.0
       '@tweenjs/tween.js': 23.1.3
@@ -17714,9 +17811,9 @@ snapshots:
 
   callsites@3.1.0: {}
 
-  camera-controls@2.10.1(three@0.180.0):
+  camera-controls@2.10.1(three@0.182.0):
     dependencies:
-      three: 0.180.0
+      three: 0.182.0
 
   caniuse-api@3.0.0:
     dependencies:
@@ -19781,9 +19878,9 @@ snapshots:
 
   ini@4.1.1: {}
 
-  inquirer@8.2.7(@types/node@22.19.3):
+  inquirer@8.2.7(@types/node@24.10.4):
     dependencies:
-      '@inquirer/external-editor': 1.0.3(@types/node@22.19.3)
+      '@inquirer/external-editor': 1.0.3(@types/node@24.10.4)
       ansi-escapes: 4.3.2
       chalk: 4.1.2
       cli-cursor: 3.1.0
@@ -22167,9 +22264,9 @@ snapshots:
       picocolors: 1.1.1
       source-map-js: 1.2.1
 
-  postprocessing@6.37.8(three@0.180.0):
+  postprocessing@6.37.8(three@0.182.0):
     dependencies:
-      three: 0.180.0
+      three: 0.182.0
 
   potpack@1.0.2: {}
 
@@ -23172,10 +23269,10 @@ snapshots:
 
   standard-as-callback@2.1.0: {}
 
-  stats-gl@2.4.2(@types/three@0.180.0)(three@0.180.0):
+  stats-gl@2.4.2(@types/three@0.182.0)(three@0.182.0):
     dependencies:
-      '@types/three': 0.180.0
-      three: 0.180.0
+      '@types/three': 0.182.0
+      three: 0.182.0
 
   stats.js@0.17.0: {}
 
@@ -23430,15 +23527,15 @@ snapshots:
     transitivePeerDependencies:
       - react-native-b4a
 
-  three-custom-shader-material@5.4.0(three@0.180.0):
+  three-custom-shader-material@5.4.0(three@0.182.0):
     dependencies:
       glsl-token-functions: 1.0.1
       glsl-token-string: 1.0.1
       glsl-tokenizer: 2.1.5
       object-hash: 3.0.0
-      three: 0.180.0
+      three: 0.182.0
 
-  three-stdlib@2.36.1(three@0.180.0):
+  three-stdlib@2.36.1(three@0.182.0):
     dependencies:
       '@types/draco3d': 1.4.10
       '@types/offscreencanvas': 2019.7.3
@@ -23446,9 +23543,9 @@ snapshots:
       draco3d: 1.5.7
       fflate: 0.6.10
       potpack: 1.0.2
-      three: 0.180.0
+      three: 0.182.0
 
-  three@0.180.0: {}
+  three@0.182.0: {}
 
   through2@0.6.5:
     dependencies:
@@ -24255,7 +24352,7 @@ snapshots:
       debug: 4.4.3
       es-module-lexer: 1.7.0
       pathe: 2.0.3
-      vite: 7.3.0(@types/node@24.10.4)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2)
+      vite: 6.4.1(@types/node@24.10.4)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2)
     transitivePeerDependencies:
       - '@types/node'
       - jiti
@@ -24458,6 +24555,23 @@ snapshots:
       fsevents: 2.3.3
       lightningcss: 1.30.2
       terser: 5.44.1
+
+  vite@6.4.1(@types/node@24.10.4)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2):
+    dependencies:
+      esbuild: 0.25.12
+      fdir: 6.5.0(picomatch@4.0.3)
+      picomatch: 4.0.3
+      postcss: 8.5.6
+      rollup: 4.54.0
+      tinyglobby: 0.2.15
+    optionalDependencies:
+      '@types/node': 24.10.4
+      fsevents: 2.3.3
+      jiti: 2.6.1
+      lightningcss: 1.30.2
+      terser: 5.44.1
+      tsx: 4.21.0
+      yaml: 2.8.2
 
   vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2):
     dependencies:

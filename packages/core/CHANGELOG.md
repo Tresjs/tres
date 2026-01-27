@@ -1,3 +1,28 @@
+## 5.3.3 (2026-01-26)
+
+### 🩹 Fixes
+
+- **core:** replace queueMicrotask with nextTick for ready event trigger ([50aa91f0](https://github.com/Tresjs/tres/commit/50aa91f0))
+- **core:** defer ready event trigger to fix window-size black screen ([#1285](https://github.com/Tresjs/tres/issues/1285), [#1286](https://github.com/Tresjs/tres/issues/1286))
+
+### ❤️ Thank You
+
+- alvarosabu @alvarosabu
+
+## 5.3.2 (2026-01-22)
+
+### 🩹 Fixes
+
+- **core:** fixed active camera check ([13b62e25](https://github.com/Tresjs/tres/commit/13b62e25))
+- **core:** improve error handling for renderer initialization ([69be33da](https://github.com/Tresjs/tres/commit/69be33da))
+- **core:** enhance camera registration and renderer initialization ([5dac8915](https://github.com/Tresjs/tres/commit/5dac8915))
+- **core:** improve renderer initialization for WebGPU support ([06d06093](https://github.com/Tresjs/tres/commit/06d06093))
+
+### ❤️ Thank You
+
+- alvarosabu @alvarosabu
+- Tino Koch @tinoooo
+
 ## 5.3.1 (2026-01-15)
 
 This was a version bump only for @tresjs/core to align it with other projects, there were no code changes.
