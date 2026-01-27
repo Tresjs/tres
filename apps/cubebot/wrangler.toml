@@ -1,0 +1,11 @@
+name = "tresjs-cubebot"
+main = "src/index.ts"
+compatibility_date = "2025-01-27"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "cubebot-docs"
+database_id = "placeholder-will-be-replaced"
+
+[ai]
+binding = "AI"
