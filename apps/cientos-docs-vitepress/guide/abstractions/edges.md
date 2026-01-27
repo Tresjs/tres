@@ -42,21 +42,3 @@ import { Box, Edges } from '@tresjs/cientos'
 | :---------------- | :--------------------------------------------------- | ------------------------- |
 | **color**        | `THREE.Color` — Color of the edges. <br> More informations : [TresColor](https://docs.tresjs.org/api/instances-arguments-and-props.html#colors) — [THREE.Color](https://threejs.org/docs/#api/en/math/Color) | `#ff0000`                   |
 | **threshold**        | `number` — An edge is only rendered if the angle (in degrees) between the face normals of the adjoining faces exceeds this value  | `1`                   |
-
-## Exposed properties
-
-| Event       | Description                                                      |
-| :---------- | :--------------------------------------------------------------- |
-| `instance` | Instance reference — Inheritance of [LineSegments](https://threejs.org/docs/#api/en/objects/LineSegments).|
-
-```typescript{1}
-const edgesRef = shallowRef(null)
-
-console.log(edgesRef.value.instance) // instance properties
-```
-
-```vue{2}
-<template>
-    <Edges ref="edgesRef" />
-</template>
-```
