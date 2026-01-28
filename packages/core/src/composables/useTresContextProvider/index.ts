@@ -68,6 +68,7 @@ const [useTresContextProvider, _useTresContext] = createInjectionState(({
   // Add context to scene local state
   ctx.scene.value.__tres = {
     root: ctx,
+    objects: [],
   }
 
   return ctx

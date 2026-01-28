@@ -29,4 +29,9 @@ export const issuesRoutes = [
     name: '#732: provide/inject',
     component: () => import('@/pages/core/issues/732/index.vue'),
   },
+  {
+    path: '/issues/1005',
+    name: '#1005: slot',
+    component: () => import('@/pages/core/issues/1005/index.vue'),
+  },
 ]

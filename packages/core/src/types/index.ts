@@ -109,6 +109,7 @@ export type TresPrimitive = TresInstance & { object: TresInstance, isPrimitive: 
 export interface TresScene extends THREE.Scene {
   __tres: {
     root: TresContext
+    objects: TresObject[]
   }
 }
 
