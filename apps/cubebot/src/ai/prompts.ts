@@ -41,7 +41,7 @@ ${docsContext}
 Respond with JSON in this exact format:
 {
   "summary": "Brief 1-2 sentence summary for maintainers",
-  "package": "core|cientos|nuxt|postprocessing|leches|null",
+  "package": "core" | "cientos" | "nuxt" | "postprocessing" | "leches" | null,
   "suggestedDocs": [
     {"title": "Doc title", "url": "https://...", "reason": "Why this helps"}
   ],
