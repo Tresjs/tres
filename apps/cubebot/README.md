@@ -7,7 +7,7 @@ GitHub App bot for TresJS issue triage and documentation assistance.
 - Auto-triages new issues (bug vs feature detection)
 - Redirects feature requests to GitHub Discussions
 - Checks for required bug report info (reproduction, system info)
-- Suggests relevant documentation
+- Suggests relevant documentation via RAG
 - Responds to @mentions with doc-based assistance
 
 ## Setup
@@ -16,51 +16,80 @@ GitHub App bot for TresJS issue triage and documentation assistance.
 
 1. Go to github.com/settings/apps → New GitHub App
 2. Name: `tresjs-cubebot`
-3. Webhook URL: `https://your-worker.workers.dev/webhook`
-4. Permissions:
+3. Permissions:
    - Issues: Read & Write
    - Discussions: Read & Write
-5. Subscribe to events: `issues`, `issue_comment`
-6. Generate and download private key
+4. Subscribe to events: `issues`, `issue_comment`
+5. Generate and download private key (`.pem` file)
 
 ### 2. Cloudflare Setup
 
 ```bash
 # Create D1 database
-wrangler d1 create cubebot-docs
+pnpm wrangler d1 create cubebot-docs
 
-# Update wrangler.toml with database ID
+# Copy the database_id from output and update wrangler.toml
 
-# Apply schema
-wrangler d1 execute cubebot-docs --local --file=schema.sql
-
-# Set secrets
-wrangler secret put GITHUB_APP_ID
-wrangler secret put GITHUB_PRIVATE_KEY
-wrangler secret put GITHUB_WEBHOOK_SECRET
-wrangler secret put ANTHROPIC_API_KEY
+# Apply schema to remote D1
+cd apps/cubebot
+pnpm wrangler d1 execute cubebot-docs --remote --file=schema.sql
 ```
 
-### 3. Embed Documentation
+### 3. Deploy Worker
 
 ```bash
-pnpm embed-docs
-# Then import embeddings to D1 (see scripts/README.md)
+cd apps/cubebot
+pnpm wrangler deploy
 ```
 
-### 4. Deploy
+### 4. Set Secrets
 
 ```bash
-pnpm deploy
+cd apps/cubebot
+
+# App ID from GitHub App page
+pnpm wrangler secret put GITHUB_APP_ID
+
+# Contents of the .pem private key file
+pnpm wrangler secret put GITHUB_PRIVATE_KEY
+
+# Generate with: openssl rand -hex 32
+# Use same value in GitHub App webhook settings
+pnpm wrangler secret put GITHUB_WEBHOOK_SECRET
+
+# From console.anthropic.com
+pnpm wrangler secret put ANTHROPIC_API_KEY
 ```
+
+### 5. Configure GitHub App Webhook
+
+1. Go to your GitHub App settings
+2. Set Webhook URL: `https://tresjs-cubebot.<account>.workers.dev/webhook`
+3. Set Webhook secret: same value as `GITHUB_WEBHOOK_SECRET`
+4. Save
+
+### 6. Seed Documentation (RAG)
+
+```bash
+# Call the admin endpoint to fetch docs and generate embeddings
+curl -X POST https://tresjs-cubebot.<account>.workers.dev/admin/seed-docs
+```
+
+This fetches `llms-full.txt` from TresJS doc sites, generates embeddings via Workers AI, and stores them in D1.
+
+### 7. Install GitHub App
+
+Install the app on the TresJS organization or specific repositories.
 
 ## Development
 
 ```bash
-# Start local dev server
-pnpm dev
+cd apps/cubebot
 
-# Use ngrok or similar to expose for webhook testing
+# Start local dev server
+pnpm wrangler dev
+
+# Use ngrok to expose for webhook testing
 ngrok http 8787
 ```
 
