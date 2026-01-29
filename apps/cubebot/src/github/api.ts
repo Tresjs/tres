@@ -50,77 +50,21 @@ export async function addLabels(
   })
 }
 
-export async function convertToDiscussion(
+export async function closeIssueAsFeatureRequest(
   octokit: Octokit,
   owner: string,
   repo: string,
   issueNumber: number,
-): Promise<string | null> {
-  try {
-    // First get the issue node ID
-    const { data: issue } = await octokit.rest.issues.get({
-      owner,
-      repo,
-      issue_number: issueNumber,
-    })
+): Promise<string> {
+  // Close the issue with "not planned" reason
+  await octokit.rest.issues.update({
+    owner,
+    repo,
+    issue_number: issueNumber,
+    state: 'closed',
+    state_reason: 'not_planned',
+  })
 
-    // Get discussion categories via GraphQL
-    const categoriesQuery = `
-      query($owner: String!, $repo: String!) {
-        repository(owner: $owner, name: $repo) {
-          discussionCategories(first: 10) {
-            nodes {
-              id
-              name
-            }
-          }
-        }
-      }
-    `
-
-    const categoriesResult = await octokit.graphql<{
-      repository: {
-        discussionCategories: {
-          nodes: Array<{ id: string, name: string }>
-        }
-      }
-    }>(categoriesQuery, { owner, repo })
-
-    const categories = categoriesResult.repository.discussionCategories.nodes
-    const ideasCategory = categories.find(c =>
-      c.name.toLowerCase().includes('idea'),
-    ) ?? categories[0]
-
-    if (!ideasCategory) {
-      console.error('No discussion category found')
-      return null
-    }
-
-    // Convert issue to discussion
-    const convertQuery = `
-      mutation($issueId: ID!, $categoryId: ID!) {
-        convertIssueToDiscussion(input: {
-          issueId: $issueId,
-          categoryId: $categoryId
-        }) {
-          discussion {
-            url
-          }
-        }
-      }
-    `
-
-    const result = await octokit.graphql<{
-      convertIssueToDiscussion: { discussion: { url: string } }
-    }>(convertQuery, {
-      issueId: issue.node_id,
-      categoryId: ideasCategory.id,
-    })
-
-    return result.convertIssueToDiscussion.discussion.url
-  }
-  catch (error) {
-    console.error('Failed to convert issue to discussion:', error)
-    return null
-  }
+  // Return the discussions URL for the repo
+  return `https://github.com/${owner}/${repo}/discussions/new?category=ideas`
 }

@@ -63,19 +63,13 @@ ${missingSection}${docsSection}
 
 export function formatFeatureRedirectComment(
   authorUsername: string,
-  discussionUrl: string | null,
+  newDiscussionUrl: string,
 ): string {
-  const redirectNote = discussionUrl
-    ? `I've converted this issue for you. See you there!`
-    : `Please consider opening a discussion there instead.`
-
   return `Hey @${authorUsername}! 🧊
 
-This looks like a feature request — awesome ideas belong in
-[Discussions](https://github.com/orgs/Tresjs/discussions)
-where the community can upvote and discuss!
+This looks like a feature request — awesome ideas belong in [Discussions](${newDiscussionUrl}) where the community can upvote and discuss!
 
-${redirectNote}
+I'm closing this issue, but please [create a discussion](${newDiscussionUrl}) so the community can weigh in. Thanks for contributing! 💚
 
 > 🤖 I'm an AI assistant and can make mistakes.`
 }
