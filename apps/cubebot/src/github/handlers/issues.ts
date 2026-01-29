@@ -85,11 +85,12 @@ export async function handleIssueOpened(
 
   // Build triage result
   const labelsToAdd: string[] = []
-  // Skip needs-reproduction label for org members
-  if (!reproduction && !authorIsOrgMember) labelsToAdd.push('needs-reproduction')
-  if (!systemInfo || !expectedBehavior) labelsToAdd.push('waiting-for-author')
-  if (detectedPackage || analysis.package) {
-    labelsToAdd.push(detectedPackage ?? analysis.package!)
+  // Skip needs reproduction label for org members
+  if (!reproduction && !authorIsOrgMember) labelsToAdd.push('needs reproduction')
+  if (!systemInfo || !expectedBehavior) labelsToAdd.push('waiting for author')
+  const pkgLabel = detectedPackage ?? analysis.package
+  if (pkgLabel && pkgLabel !== 'null') {
+    labelsToAdd.push(pkgLabel)
   }
 
   const triageResult: TriageResult = {
