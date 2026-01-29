@@ -1,3 +1,4 @@
+import { createAppAuth } from '@octokit/auth-app'
 import { Octokit } from 'octokit'
 
 interface TokenCache {
@@ -6,24 +7,6 @@ interface TokenCache {
 }
 
 const tokenCache = new Map<number, TokenCache>()
-
-function createJWT(appId: string, privateKey: string): string {
-  const now = Math.floor(Date.now() / 1000)
-  const payload = {
-    iat: now - 60,
-    exp: now + 600,
-    iss: appId,
-  }
-
-  // For Workers, we need to use a simple JWT implementation
-  // In production, consider using a proper JWT library
-  const header = btoa(JSON.stringify({ alg: 'RS256', typ: 'JWT' }))
-  const body = btoa(JSON.stringify(payload))
-
-  // Note: This is a placeholder - actual RS256 signing requires
-  // crypto.subtle with the private key imported
-  return `${header}.${body}.signature`
-}
 
 export async function getInstallationOctokit(
   appId: string,
@@ -35,17 +18,18 @@ export async function getInstallationOctokit(
     return new Octokit({ auth: cached.token })
   }
 
-  const jwt = createJWT(appId, privateKey)
-  const appOctokit = new Octokit({ auth: jwt })
-
-  const { data } = await appOctokit.rest.apps.createInstallationAccessToken({
-    installation_id: installationId,
+  const auth = createAppAuth({
+    appId,
+    privateKey,
+    installationId,
   })
+
+  const { token, expiresAt } = await auth({ type: 'installation' })
 
   tokenCache.set(installationId, {
-    token: data.token,
-    expiresAt: new Date(data.expires_at).getTime(),
+    token,
+    expiresAt: new Date(expiresAt).getTime(),
   })
 
-  return new Octokit({ auth: data.token })
+  return new Octokit({ auth: token })
 }
