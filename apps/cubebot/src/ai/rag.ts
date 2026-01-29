@@ -15,6 +15,32 @@ export async function generateEmbedding(
   return result.data[0]
 }
 
+export async function generateEmbeddingsBatch(
+  ai: Ai,
+  texts: string[],
+): Promise<number[][]> {
+  if (texts.length === 0) return []
+
+  // Workers AI supports batching - process up to 100 at once
+  const batchSize = 100
+  const allEmbeddings: number[][] = []
+
+  for (let i = 0; i < texts.length; i += batchSize) {
+    const batch = texts.slice(i, i + batchSize)
+    const result = await ai.run('@cf/baai/bge-base-en-v1.5', {
+      text: batch,
+    })
+
+    if (!('data' in result) || !result.data) {
+      throw new Error('Failed to generate embeddings batch')
+    }
+
+    allEmbeddings.push(...result.data)
+  }
+
+  return allEmbeddings
+}
+
 export async function searchDocs(
   db: D1Database,
   ai: Ai,

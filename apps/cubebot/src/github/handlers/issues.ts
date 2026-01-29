@@ -14,7 +14,7 @@ import {
   hasReproduction,
   hasSystemInfo,
 } from '../../triage/detect'
-import { addComment, addLabels, convertToDiscussion } from '../api'
+import { addComment, addLabels, convertToDiscussion, isOrgMember } from '../api'
 import { getInstallationOctokit } from '../auth'
 
 interface Env {
@@ -57,6 +57,9 @@ export async function handleIssueOpened(
     return
   }
 
+  // Check if author is TresJS org member
+  const authorIsOrgMember = await isOrgMember(octokit, issue.user.login)
+
   // For bugs, do full analysis
   const detectedPackage = detectPackage(issue)
   const reproduction = hasReproduction(issue.body)
@@ -82,7 +85,8 @@ export async function handleIssueOpened(
 
   // Build triage result
   const labelsToAdd: string[] = []
-  if (!reproduction) labelsToAdd.push('needs-reproduction')
+  // Skip needs-reproduction label for org members
+  if (!reproduction && !authorIsOrgMember) labelsToAdd.push('needs-reproduction')
   if (!systemInfo || !expectedBehavior) labelsToAdd.push('waiting-for-author')
   if (detectedPackage || analysis.package) {
     labelsToAdd.push(detectedPackage ?? analysis.package!)
@@ -106,11 +110,12 @@ export async function handleIssueOpened(
   const maintainerComment = formatMaintainerComment(triageResult)
   await addComment(octokit, owner, repo, issue.number, maintainerComment)
 
-  // Post author comment
+  // Post author comment (skip reproduction request for org members)
   const authorComment = formatAuthorComment(
     issue.user.login,
     triageResult,
     analysis.authorMessage,
+    authorIsOrgMember,
   )
   await addComment(octokit, owner, repo, issue.number, authorComment)
 }

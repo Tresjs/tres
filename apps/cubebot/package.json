@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.39.0",
+    "@octokit/auth-app": "^8.1.2",
     "hono": "^4.7.0",
     "octokit": "^4.1.0"
   },

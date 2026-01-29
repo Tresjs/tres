@@ -26,10 +26,12 @@ export function formatAuthorComment(
   authorUsername: string,
   result: TriageResult,
   authorMessage: string,
+  isOrgMember = false,
 ): string {
   const missingItems: string[] = []
 
-  if (!result.hasReproduction) {
+  // Skip reproduction request for org members
+  if (!result.hasReproduction && !isOrgMember) {
     missingItems.push(
       '- [ ] **Reproduction:** Please add a [StackBlitz](https://stackblitz.com/edit/tresjs-minimal-reproduction) or GitHub repo link',
     )

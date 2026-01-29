@@ -1,5 +1,5 @@
 import type { Context } from 'hono'
-import { generateEmbedding } from '../ai/rag'
+import { generateEmbeddingsBatch } from '../ai/rag'
 
 interface Env {
   DB: D1Database
@@ -7,11 +7,11 @@ interface Env {
   ADMIN_SECRET?: string
 }
 
-const DOC_SOURCES = [
-  { name: 'core', url: 'https://docs.tresjs.org/llms-full.txt' },
-  { name: 'cientos', url: 'https://cientos.tresjs.org/llms-full.txt' },
-  { name: 'postprocessing', url: 'https://post-processing.tresjs.org/llms-full.txt' },
-]
+const DOC_SOURCES: Record<string, { name: string, url: string }> = {
+  core: { name: 'core', url: 'https://docs.tresjs.org/llms-full.txt' },
+  cientos: { name: 'cientos', url: 'https://cientos.tresjs.org/llms-full.txt' },
+  postprocessing: { name: 'postprocessing', url: 'https://post-processing.tresjs.org/llms-full.txt' },
+}
 
 interface DocChunk {
   source: string
@@ -73,41 +73,82 @@ export async function handleSeedDocs(
     return c.json({ error: 'Unauthorized' }, 401)
   }
 
+  // Get source from query param - seed one at a time to avoid subrequest limits
+  const sourceKey = c.req.query('source')
+  const clearAll = c.req.query('clear') === 'true'
+
+  if (!sourceKey) {
+    return c.json({
+      error: 'Missing source param',
+      usage: '/admin/seed-docs?source=core|cientos|postprocessing',
+      hint: 'Add &clear=true on first call to clear existing docs',
+    }, 400)
+  }
+
+  const source = DOC_SOURCES[sourceKey]
+  if (!source) {
+    return c.json({
+      error: `Unknown source: ${sourceKey}`,
+      available: Object.keys(DOC_SOURCES),
+    }, 400)
+  }
+
   const results: string[] = []
 
-  // Clear existing docs
-  await c.env.DB.prepare('DELETE FROM doc_chunks').run()
-  results.push('Cleared existing docs')
-
-  // Fetch and process each source
-  for (const source of DOC_SOURCES) {
-    const chunks = await fetchDocs(source)
-    results.push(`Fetched ${chunks.length} chunks from ${source.name}`)
-
-    // Generate embeddings and insert
-    for (const chunk of chunks) {
-      try {
-        const embedding = await generateEmbedding(c.env.AI, `${chunk.title} ${chunk.content}`)
-
-        await c.env.DB.prepare(
-          'INSERT INTO doc_chunks (source, url, title, content, embedding) VALUES (?, ?, ?, ?, ?)',
-        )
-          .bind(
-            chunk.source,
-            chunk.url,
-            chunk.title,
-            chunk.content,
-            JSON.stringify(embedding),
-          )
-          .run()
-      }
-      catch (error) {
-        console.error(`Failed to embed chunk: ${chunk.title}`, error)
-      }
-    }
-
-    results.push(`Embedded ${chunks.length} chunks from ${source.name}`)
+  // Only clear if explicitly requested
+  if (clearAll) {
+    await c.env.DB.prepare('DELETE FROM doc_chunks').run()
+    results.push('Cleared all existing docs')
   }
+  else {
+    // Clear only this source
+    await c.env.DB.prepare('DELETE FROM doc_chunks WHERE source = ?').bind(sourceKey).run()
+    results.push(`Cleared existing ${sourceKey} docs`)
+  }
+
+  // Fetch the single source
+  const chunks = await fetchDocs(source)
+  results.push(`Fetched ${chunks.length} chunks from ${source.name}`)
+
+  if (chunks.length === 0) {
+    return c.json({ success: true, results, totalChunks: 0 })
+  }
+
+  // Generate all embeddings in batches (reduces subrequests)
+  const texts = chunks.map(chunk => `${chunk.title} ${chunk.content}`)
+  let embeddings: number[][] = []
+
+  try {
+    embeddings = await generateEmbeddingsBatch(c.env.AI, texts)
+    results.push(`Generated ${embeddings.length} embeddings`)
+  }
+  catch (error) {
+    console.error('Failed to generate embeddings:', error)
+    return c.json({ success: false, error: 'Embedding generation failed', results }, 500)
+  }
+
+  // Insert all chunks with embeddings
+  let insertedCount = 0
+  for (let i = 0; i < chunks.length; i++) {
+    const chunk = chunks[i]
+    const embedding = embeddings[i]
+
+    if (!embedding) continue
+
+    try {
+      await c.env.DB.prepare(
+        'INSERT INTO doc_chunks (source, url, title, content, embedding) VALUES (?, ?, ?, ?, ?)',
+      )
+        .bind(chunk.source, chunk.url, chunk.title, chunk.content, JSON.stringify(embedding))
+        .run()
+      insertedCount++
+    }
+    catch (error) {
+      console.error(`Failed to insert chunk: ${chunk.title}`, error)
+    }
+  }
+
+  results.push(`Inserted ${insertedCount} chunks into database`)
 
   // Get total count
   const { results: countResult } = await c.env.DB.prepare('SELECT COUNT(*) as count FROM doc_chunks').all()

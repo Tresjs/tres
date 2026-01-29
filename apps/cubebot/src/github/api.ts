@@ -1,5 +1,23 @@
 import type { Octokit } from 'octokit'
 
+const TRESJS_ORG = 'Tresjs'
+
+export async function isOrgMember(
+  octokit: Octokit,
+  username: string,
+): Promise<boolean> {
+  try {
+    await octokit.rest.orgs.checkMembershipForUser({
+      org: TRESJS_ORG,
+      username,
+    })
+    return true
+  }
+  catch {
+    return false
+  }
+}
+
 export async function addComment(
   octokit: Octokit,
   owner: string,
