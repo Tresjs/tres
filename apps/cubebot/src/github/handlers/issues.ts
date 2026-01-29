@@ -14,7 +14,7 @@ import {
   hasReproduction,
   hasSystemInfo,
 } from '../../triage/detect'
-import { addComment, addLabels, convertToDiscussion, isOrgMember } from '../api'
+import { addComment, addLabels, closeIssueAsFeatureRequest, isOrgMember } from '../api'
 import { getInstallationOctokit } from '../auth'
 
 interface Env {
@@ -49,11 +49,12 @@ export async function handleIssueOpened(
   // Detect issue type
   const issueType = detectIssueType(issue)
 
-  // Handle feature requests
+  // Handle feature requests - close and redirect to discussions
   if (issueType === 'feature') {
-    const discussionUrl = await convertToDiscussion(octokit, owner, repo, issue.number)
+    const discussionUrl = `https://github.com/${owner}/${repo}/discussions/new?category=ideas`
     const comment = formatFeatureRedirectComment(issue.user.login, discussionUrl)
     await addComment(octokit, owner, repo, issue.number, comment)
+    await closeIssueAsFeatureRequest(octokit, owner, repo, issue.number)
     return
   }
 
