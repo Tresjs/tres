@@ -1,4 +1,5 @@
 import { Hono } from 'hono'
+import { handleSeedDocs } from './admin/seed-docs'
 import { handleCommentCreated } from './github/handlers/comments'
 import { handleIssueOpened } from './github/handlers/issues'
 import { verifyWebhookSignature } from './github/verify'
@@ -18,6 +19,9 @@ const app = new Hono<{ Bindings: Env }>()
 app.get('/', (c) => {
   return c.json({ status: 'ok', name: 'CubeBot 🧊' })
 })
+
+// Admin endpoint to seed documentation embeddings
+app.post('/admin/seed-docs', handleSeedDocs)
 
 app.post('/webhook', async (c) => {
   const signature = c.req.header('x-hub-signature-256')
