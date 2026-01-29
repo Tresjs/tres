@@ -1,3 +1,14 @@
+## 5.3.3 (2026-01-26)
+
+### 🩹 Fixes
+
+- **core:** replace queueMicrotask with nextTick for ready event trigger ([50aa91f0](https://github.com/Tresjs/tres/commit/50aa91f0))
+- **core:** defer ready event trigger to fix window-size black screen ([#1285](https://github.com/Tresjs/tres/issues/1285), [#1286](https://github.com/Tresjs/tres/issues/1286))
+
+### ❤️ Thank You
+
+- alvarosabu @alvarosabu
+
 ## 5.3.2 (2026-01-22)
 
 ### 🩹 Fixes

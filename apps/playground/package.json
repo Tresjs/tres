@@ -15,6 +15,7 @@
     "@tresjs/core": "workspace:^",
     "@tresjs/post-processing": "workspace:^",
     "@tresjs/leches": "workspace:^",
+    "@tresjs/rapier": "workspace:^",
     "vue-router": "catalog:vue"
   },
   "devDependencies": {

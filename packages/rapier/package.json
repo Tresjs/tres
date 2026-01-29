@@ -1,0 +1,81 @@
+{
+  "name": "@tresjs/rapier",
+  "type": "module",
+  "version": "0.0.0",
+  "private": true,
+  "description": "TresJs physics support, powered by rapier",
+  "author": "Alvaro Saburido <hola@alvarosaburido.dev> (https://github.com/alvarosabu/)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tresjs/tres.git",
+    "directory": "packages/rapier"
+  },
+  "keywords": [
+    "vue",
+    "3d",
+    "threejs",
+    "three",
+    "threejs-vue",
+    "rapier",
+    "rapier3d",
+    "physics"
+  ],
+  "maintainers": [
+    "Alvaro Saburido (https://github.com/alvarosabu/)",
+    "Nathan Mande (https://github.com/Neosoulink/)",
+    "Jaime Torrealba (https://github.com/JaimeTorrealba)"
+  ],
+  "exports": {
+    ".": "./dist/tresrapier.js",
+    "./package.json": "./package.json"
+  },
+  "main": "./dist/tresrapier.js",
+  "module": "./dist/tresrapier.js",
+  "types": "./dist/tresrapier.d.ts",
+  "files": [
+    "*.d.ts",
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsdown",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs"
+  },
+  "peerDependencies": {
+    "@tresjs/core": "5.3.2",
+    "three": ">=0.169",
+    "vue": ">=3.4.0"
+  },
+  "dependencies": {
+    "@dimforge/rapier3d-compat": "^0.19.3"
+  },
+  "devDependencies": {
+    "@tresjs/core": "workspace:*",
+    "@tresjs/eslint-config": "workspace:*",
+    "@types/node": "catalog:node",
+    "@types/three": "catalog:three",
+    "@vitejs/plugin-vue": "catalog:vite",
+    "eslint": "catalog:eslint",
+    "eslint-plugin-vue": "catalog:eslint",
+    "pathe": "catalog:utils",
+    "rollup-plugin-analyzer": "catalog:build",
+    "three": "catalog:three",
+    "tsdown": "catalog:build",
+    "typescript": "catalog:typescript",
+    "vite": "catalog:vite",
+    "vue": "catalog:vue",
+    "vue-tsc": "catalog:typescript"
+  },
+  "nx": {
+    "implicitDependencies": [
+      "!@tresjs/rapier-*"
+    ]
+  }
+}

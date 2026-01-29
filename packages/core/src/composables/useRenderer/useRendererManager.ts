@@ -8,7 +8,7 @@ import {
   useTimeout,
 } from '@vueuse/core'
 import { Material, Mesh, WebGLRenderer } from 'three'
-import { computed, type MaybeRef, onUnmounted, type Reactive, ref, type ShallowRef, toValue, watch, watchEffect } from 'vue'
+import { computed, type MaybeRef, nextTick, onUnmounted, type Reactive, ref, type ShallowRef, toValue, watch, watchEffect } from 'vue'
 import type { Renderer } from 'three/webgpu'
 
 // Solution taken from Thretle that actually support different versions https://github.com/threlte/threlte/blob/5fa541179460f0dadc7dc17ae5e6854d1689379e/packages/core/src/lib/lib/useRenderer.ts
@@ -357,8 +357,13 @@ export function useRendererManager(
     renderer.setSize(sizes.width.value, sizes.height.value)
 
     if (!hasTriggeredReady && renderer.domElement.width && renderer.domElement.height) {
-      readyEventHook.trigger(renderer)
+      // Defer trigger to ensure listeners are registered (especially Context.vue's onReady)
+      // With window-size, this watch runs immediately with non-zero sizes,
+      // which can fire before Context.vue registers its listener
       hasTriggeredReady = true
+      nextTick(() => {
+        readyEventHook.trigger(renderer)
+      })
     }
 
     invalidateOnDemand()
