@@ -1,9 +1,11 @@
 import type { Context } from 'hono'
 import type { CommentPayload } from '../../types'
-import { analyzeIssue } from '../../ai/claude'
+import { analyzeFeasibility } from '../../ai/claude'
 import { searchDocs } from '../../ai/rag'
+import { detectPackage } from '../../triage/detect'
 import { addComment } from '../api'
 import { getInstallationOctokit } from '../auth'
+import { fetchRelevantCode } from '../code'
 
 interface Env {
   DB: D1Database
@@ -49,21 +51,32 @@ export async function handleCommentCreated(
   // Extract the question/request from the comment
   const question = comment.body.replace(BOT_MENTION_PATTERN, '').trim()
 
+  // Detect package from issue for targeted code fetch
+  const detectedPackage = detectPackage(issue)
+
+  // Extract keywords from question for code search
+  const keywords = extractKeywords(question)
+
+  // Fetch relevant code from the monorepo
+  const codeFiles = await fetchRelevantCode(octokit, detectedPackage, keywords)
+
   // Get relevant docs via RAG
   const searchQuery = `${issue.title} ${question}`
-  const relevantChunks = await searchDocs(c.env.DB, c.env.AI, searchQuery, 5)
+  const relevantChunks = await searchDocs(c.env.DB, c.env.AI, searchQuery, 3)
   const relevantDocs = relevantChunks.map(chunk => ({
     title: chunk.title,
     url: chunk.url,
     content: chunk.content,
   }))
 
-  // Get analysis/response from Claude
-  const analysis = await analyzeIssue(
+  // Get feasibility analysis from Claude with code context
+  const analysis = await analyzeFeasibility(
     c.env.ANTHROPIC_API_KEY,
-    `Question: ${question}`,
-    `Context from issue:\nTitle: ${issue.title}\nBody: ${issue.body ?? '(none)'}`,
+    question,
+    issue.title,
+    issue.body ?? '',
     relevantDocs,
+    codeFiles,
   )
 
   // Format response
@@ -71,11 +84,25 @@ export async function handleCommentCreated(
     ? `\n\n**📚 Relevant docs:**\n${analysis.suggestedDocs.map(d => `- [${d.title}](${d.url}) — ${d.reason}`).join('\n')}`
     : ''
 
-  const response = `Hey @${comment.user.login}! 🧊
+  const codeNote = codeFiles.length > 0
+    ? `\n\n<details><summary>📂 Code files analyzed</summary>\n\n${codeFiles.map(f => `- \`${f.path}\``).join('\n')}\n</details>`
+    : ''
 
-${analysis.authorMessage}${docsSection}
+  const response = `🧊 **Analysis**
+
+${analysis.analysis}${docsSection}${codeNote}
 
 > 🤖 I'm an AI assistant and can make mistakes. A human maintainer can provide more help if needed!`
 
   await addComment(octokit, owner, repo, issue.number, response)
+}
+
+function extractKeywords(text: string): string[] {
+  // Extract potential code-related keywords
+  const words = text.toLowerCase().split(/\s+/)
+  const techTerms = words.filter(w =>
+    w.length > 3
+    && !['what', 'think', 'this', 'that', 'with', 'would', 'could', 'should', 'about', 'have', 'from'].includes(w),
+  )
+  return [...new Set(techTerms)].slice(0, 5)
 }
