@@ -1,24 +1,34 @@
 <script setup lang="ts">
-import { ref } from 'vue'
 import { TresCanvas } from '@tresjs/core'
+import { TresLeches, useControls } from '@tresjs/leches'
 import SlotSimple from './SlotSimple.vue'
+
+const uuid = 'core-issues-1005'
 
 const totalItems = ref(1)
 
-const addItem = () => {
-  totalItems.value++
-}
+const { visible } = useControls({
+  visible: true,
+  addItem: {
+    type: 'button',
+    label: 'Add Item',
+    size: 'block',
+    onClick: () => totalItems.value++,
+  },
+  removeItem: {
+    type: 'button',
+    label: 'Remove Item',
+    size: 'block',
+    onClick: () => { if (totalItems.value > 0) totalItems.value-- },
+  },
+}, { uuid })
 
-const removeItem = () => {
-  if (totalItems.value > 0) {
-    totalItems.value--
-  }
-}
-
-const visible = ref(true)
 </script>
 
 <template>
+  <TresLeches :uuid="uuid">
+    <p>Total Items: {{ totalItems }}</p>
+  </TresLeches>
   <TresCanvas window-size>
     <TresPerspectiveCamera :position="[5, 5, 5]" :look-at="[0, 0, 0]" />
 
@@ -70,11 +80,4 @@ const visible = ref(true)
     <TresAxesHelper />
     <TresGridHelper :args="[10, 10, 0x444444, 'teal']" />
   </TresCanvas>
-
-  <div style="position: absolute; inset: 0; color: white">
-    <button @click="addItem">Add Item</button>
-    <button @click="removeItem">Remove Item</button>
-    <p>Items total: {{ totalItems }}</p>
-    <input v-model="visible" type="checkbox" /> visible
-  </div>
 </template>
