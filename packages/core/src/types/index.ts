@@ -110,6 +110,7 @@ export interface TresScene extends THREE.Scene {
   __tres: {
     root: TresContext
     objects: TresObject[]
+    isUnmounting: boolean
   }
 }
 

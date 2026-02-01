@@ -69,6 +69,7 @@ const [useTresContextProvider, _useTresContext] = createInjectionState(({
   ctx.scene.value.__tres = {
     root: ctx,
     objects: [],
+    isUnmounting: false,
   }
 
   return ctx

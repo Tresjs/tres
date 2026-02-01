@@ -40,16 +40,7 @@ interface CommentNode {
   __tres: TresNode__tres
 }
 
-type NodeType = TresObject | TextNode | CommentNode
-
-const createTextNode = (): TextNode => ({
-  [textNodeSymbol]: true,
-  __tres: { parent: null },
-})
-const createCommentNode = (): CommentNode => ({ [commentNodeSymbol]: true, __tres: { parent: null } })
-
-const isTextNode = (node: unknown): node is TextNode => !!node && typeof node === 'object' && textNodeSymbol in node
-const isCommentNode = (node: unknown): node is CommentNode => !!node && typeof node === 'object' && commentNodeSymbol in node
+type NodeType = TresObject | TextNode | CommentNode | undefined
 
 export const nodeOps = ({
   context,
@@ -59,6 +50,23 @@ export const nodeOps = ({
   options?: TresCustomRendererOptions
 }): RendererOptions<NodeType, TresObject | null> => {
   const scene = context.scene.value
+
+  const createTextNode = (): TextNode | undefined => {
+    // Don't create additional text nodes when the scene is already unmounting
+    // Doing so can cause endless loops in Vue's fragment removal function
+    if (scene?.__tres?.isUnmounting) { return }
+
+    return {
+
+      [textNodeSymbol]: true,
+      __tres: { parent: null },
+    }
+  }
+
+  const createCommentNode = (): CommentNode => ({ [commentNodeSymbol]: true, __tres: { parent: null } })
+
+  const isTextNode = (node: unknown): node is TextNode => !!node && typeof node === 'object' && textNodeSymbol in node
+  const isCommentNode = (node: unknown): node is CommentNode => !!node && typeof node === 'object' && commentNodeSymbol in node
 
   function createElement(
     tag: string,
@@ -216,6 +224,7 @@ export const nodeOps = ({
     // Text nodes only exist in __tres.objects, not the Three.js scene
     if (isTextNode(node) || isCommentNode(node)) {
       const parent = node.__tres.parent
+
       if (parent?.__tres?.objects) {
         filterInPlace(parent.__tres.objects, obj => obj !== (node as unknown))
       }
