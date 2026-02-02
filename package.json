@@ -35,8 +35,8 @@
     "apps/*"
   ],
   "devDependencies": {
-    "@nx/js": "^21.2.1",
-    "nx": "21.2.1"
+    "@nx/js": "^22.4.4",
+    "nx": "22.4.4"
   },
   "pnpm": {
     "onlyBuiltDependencies": [
