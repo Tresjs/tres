@@ -51,7 +51,9 @@ catalogs:
     gsap: ^3.13.0
     kolorist: ^1.8.0
     pathe: ^2.0.3
+    unimport: ^5.5.0
     unocss: ^66.1.2
+    'unplugin-vue-components': ^30.0.0
     unplugin-auto-import: 20.3.0
 
   vite:
