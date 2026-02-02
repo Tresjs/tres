@@ -13,8 +13,11 @@ description: A curated list of interesting TresJS community resources.
 You have a community plugin that helps solve a problem?
 Please open a pull request and let us know more details about what your plugin solves, so we can review it and add it to the list.
 
+## Courses on TresJS v5
+- [Build a 3D Nuxt 4 e-commerce Website by Lucie Haberer](https://www.youtube.com/watch?v=1ryWEqumhYI)
+
 ::prose-note
-The following resources are mostly using Tres v4, we will add new resources covering v5 over time.
+The following resources are almost exclusively using Tres v4, we will add new resources covering v5 over time.
 ::
 
 ## Recent talks on TresJS
