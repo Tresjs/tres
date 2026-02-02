@@ -5,6 +5,7 @@ description: Best video game ever scene to showcase Postprocessing effects
 thumbnail: /experiments/cult-of-the-lamb.png
 tags: ['post-processing', 'bloom']
 date: 2024-02-05
+lastUpdated: 2024-02-05
 ---
 
 This experiment recreates the atmospheric world of **Cult of the Lamb**, demonstrating advanced post-processing techniques using **bloom effects** and **composition pipelines**. The scene captures the mystical and dark aesthetic of the beloved indie game.

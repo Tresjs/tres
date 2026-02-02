@@ -5,7 +5,7 @@ description: Potions classroom scene for VueJS Live London 2023
 thumbnail: /experiments/potions-classroom.png
 tags: ['baked', 'blender', 'levioso', 'useGltf', 'emissive']
 date: 2023-05-05
-updated: 2025-06-30
+lastUpdated: 2025-06-30
 ---
 
 This experiment recreates a **magical wizard's classroom** complete with floating candles, brewing potions, and mystical atmosphere. Created for [Vue.js Live London 2023](https://youtu.be/Aol9FbJvb2k?si=8awnkJA3IU2HGKz8), this scene demonstrates how TresJS can create immersive magical environments perfect for educational presentations and fantasy themes.

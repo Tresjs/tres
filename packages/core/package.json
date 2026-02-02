@@ -1,7 +1,7 @@
 {
   "name": "@tresjs/core",
   "type": "module",
-  "version": "5.1.1",
+  "version": "5.3.3",
   "description": "Declarative ThreeJS using Vue Components",
   "author": "Alvaro Saburido <hola@alvarosaburido.dev> (https://github.com/alvarosabu/)",
   "license": "MIT",
@@ -76,8 +76,7 @@
     "@pmndrs/pointer-events": "^6.6.17",
     "@vue/devtools-api": "^7.7.2",
     "@vueuse/core": "catalog:utils",
-    "radashi": "^12.6.2",
-    "typescript": "catalog:typescript"
+    "radashi": "^12.6.2"
   },
   "devDependencies": {
     "@tresjs/eslint-config": "workspace:*",
@@ -100,6 +99,7 @@
     "tsdown": "catalog:build",
     "unimport": "catalog:utils",
     "unplugin-vue-components": "catalog:utils",
+    "typescript": "catalog:typescript",
     "vite": "catalog:vite",
     "vite-plugin-banner": "catalog:vite",
     "vite-plugin-dts": "catalog:vite",

@@ -48,19 +48,22 @@ export type ImageProps = {
    * THREE.Side of the image material. [See THREE.material.side](https://threejs.org/docs/?q=material#api/en/materials/Material.side)
    */
   side?: Side
-} & ({
-  /**
-   * Image texture to display on the geometry.
-   */
-  texture: Texture
-  url?: never
-} | {
-  texture?: never
-  /**
-   * Image URL to load and display on the geometry.
-   */
-  url: string
-})
+} & (
+  | {
+    /**
+       * Image texture to display on the geometry.
+       */
+    texture: Texture
+    url?: never
+  }
+  | {
+    texture?: never
+    /**
+       * Image URL to load and display on the geometry.
+       */
+    url: string
+  }
+)
 
 const props = withDefaults(defineProps<ImageProps>(), {
   segments: 1,
@@ -77,23 +80,32 @@ const props = withDefaults(defineProps<ImageProps>(), {
 
 const imageRef = shallowRef()
 const texture = shallowRef<Texture | null>(props.texture ?? null)
-const size = useTres().sizes
-const planeBounds = computed(() => Array.isArray(props.scale) ? [props.scale[0], props.scale[1]] : [props.scale, props.scale])
-const imageBounds = computed(() => [texture.value?.image?.width ?? 0, texture.value?.image?.height ?? 0])
+const { sizes: size, renderer } = useTres()
+const planeBounds = computed(() =>
+  Array.isArray(props.scale)
+    ? [props.scale[0], props.scale[1]]
+    : [props.scale, props.scale],
+)
+const imageBounds = computed(() => [
+  texture.value?.image?.width ?? 0,
+  texture.value?.image?.height ?? 0,
+])
 const resolution = computed(() => Math.max(size.width.value, size.height.value))
+
+const { state, isLoading } = useTexture(props.url!)
 
 watchEffect(() => {
   if (props.texture) {
     texture.value = props.texture
   }
-  else {
-    const { state: t } = useTexture(props.url!)
-    texture.value = t.value
+  if (!isLoading.value) {
+    texture.value = state.value
+    texture.value.colorSpace = renderer.outputColorSpace
   }
 })
 
-const scale = computed(
-  () => Array.isArray(props.scale)
+const scale = computed(() =>
+  Array.isArray(props.scale)
     ? ([...props.scale, 1] as [number, number, number])
     : props.scale,
 )

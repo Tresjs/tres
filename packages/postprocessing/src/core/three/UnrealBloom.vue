@@ -23,8 +23,8 @@ const props = withDefaults(defineProps<UnrealBloomProps>(), {
 const { sizes } = useTresContext()
 const { pass } = useEffect(() => new UnrealBloomPass(
   new Vector2(sizes.width.value, sizes.height.value),
-  props.radius,
   props.strength,
+  props.radius,
   props.threshold,
 ), props)
 

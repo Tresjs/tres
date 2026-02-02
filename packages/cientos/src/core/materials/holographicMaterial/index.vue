@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useLoop, useTresContext } from '@tresjs/core'
-import { FrontSide } from 'three'
-import { shallowRef } from 'vue'
+import { Color, FrontSide } from 'three'
+import { computed, shallowRef } from 'vue'
 import type { TresColor } from '@tresjs/core'
 import type { Side } from 'three'
 
@@ -44,6 +44,8 @@ extend({ HolographicMaterial })
 
 defineExpose({ root: MeshHolographicMaterialClass, constructor: HolographicMaterial })
 
+const colorValue = computed(() => new Color(props.hologramColor as string))
+
 const { onBeforeRender } = useLoop()
 
 onBeforeRender(() => {
@@ -62,7 +64,7 @@ onBeforeRender(() => {
     :uniforms-hologramBrightness-value="props.hologramBrightness"
     :uniforms-scanlineSize-value="props.scanlineSize"
     :uniforms-signalSpeed-value="props.signalSpeed"
-    :uniforms-hologramColor-value="props.hologramColor"
+    :uniforms-hologramColor-value="colorValue"
     :uniforms-hologramOpacity-value="props.hologramOpacity"
     :uniforms-blinkFresnelOnly-value="props.blinkFresnelOnly"
     :enableAdditive="props.enableAdditive"

@@ -1,4 +1,5 @@
 import { capitalize, isReactive, isRef, provide, reactive, ref, type Ref, toRefs } from 'vue'
+import { createSharedComposable } from '@vueuse/core'
 import type {
   LechesBooleanControl,
   LechesButtonControl,
@@ -14,14 +15,29 @@ import type {
 export const CONTROLS_CONTEXT_KEY = Symbol('CONTROLS_CONTEXT_KEY')
 const DEFAULT_UUID = 'default'
 
-// Internal state - updated to use the union type
-const controlsStore: { [uuid: string]: Record<string, LechesControlUnion> } = reactive({
-  default: {},
-})
+// Create a shared composable for the controls store
+const useControlsStoreInternal = () => {
+  const store = reactive<{ [uuid: string]: Record<string, LechesControlUnion> }>({
+    default: {},
+  })
+  // Per-UUID triggers to avoid cross-contamination
+  const triggers = reactive<{ [uuid: string]: number }>({
+    default: 0,
+  })
+
+  return {
+    store,
+    triggers,
+  }
+}
+
+// Shared instance across all components
+export const useControlsStore = createSharedComposable(useControlsStoreInternal)
 
 export function useControlsProvider(uuid: string = DEFAULT_UUID) {
-  provide(CONTROLS_CONTEXT_KEY, controlsStore)
-  return controlsStore[uuid]
+  const { store } = useControlsStore()
+  provide(CONTROLS_CONTEXT_KEY, store)
+  return store[uuid]
 }
 
 // Helper function to infer type - updated to return literal types
@@ -128,8 +144,9 @@ const createControl = (key: string, value: any, type: LechesControlUnion['type']
 }
 
 export const dispose = (uuid: string = DEFAULT_UUID): void => {
-  for (const key in controlsStore[uuid]) {
-    delete controlsStore[uuid][key]
+  const { store } = useControlsStore()
+  for (const key in store[uuid]) {
+    delete store[uuid][key]
   }
 }
 
@@ -138,6 +155,7 @@ export const useControls = (
   paramsOrOptions?: { [key: string]: any } | { uuid?: string },
   options?: { uuid?: string },
 ): { [key: string]: Ref<any> } => {
+  const { store, triggers } = useControlsStore()
   const result: { [key: string]: LechesControlUnion } = {}
   const values: { [key: string]: Ref<any> } = {}
 
@@ -147,19 +165,23 @@ export const useControls = (
   const actualOptions = folderName && folderName !== 'fpsgraph' ? options! : paramsOrOptions as { uuid?: string }
   const uuid = actualOptions?.uuid || DEFAULT_UUID
 
-  if (!controlsStore[uuid]) {
-    controlsStore[uuid] = reactive({})
+  if (!store[uuid]) {
+    store[uuid] = reactive({})
+  }
+
+  if (!triggers[uuid]) {
+    triggers[uuid] = 0
   }
 
   if (folderNameOrParams === 'fpsgraph') {
     const control = createControl('fpsgraph', null, 'fpsgraph', null)
-    controlsStore[uuid].fpsgraph = control
+    store[uuid].fpsgraph = control
     result.fpsgraph = control
     values.fpsgraph = ref(control.value)
     return values
   }
 
-  const controls = controlsStore[uuid]
+  const controls = store[uuid]
 
   // Check if controlsParams is a reactive object
   const isParamsReactive = isReactive(controlsParams)
@@ -236,6 +258,9 @@ export const useControls = (
     values[key] = refValue
     control.uniqueKey = uniqueKey
   }
+
+  // Trigger update for reactive UI components (UUID-specific)
+  triggers[uuid]++
 
   return values
 }
