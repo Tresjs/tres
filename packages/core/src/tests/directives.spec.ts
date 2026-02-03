@@ -1,4 +1,4 @@
-import { h } from 'vue'
+import { defineComponent, h, nextTick, ref } from 'vue'
 import * as THREE from 'three'
 import { extend } from '../core/catalogue'
 import { createScene } from './utils/scene'
@@ -23,6 +23,41 @@ describe('component: TresCanvas integration', () => {
     expect(box).toBeDefined()
     expect(box).toBeInstanceOf(THREE.Mesh)
     expect(box?.name).toBe('TestBox')
+
+    sceneWrapper.unmount()
+  })
+
+  it('renders boxes using v-for with correct and reacts to changes', async () => {
+    const count = ref(5)
+
+    const VForBoxes = defineComponent({
+      setup: () => ({ count }),
+      template: `<TresMesh v-for="i in count" :key="i" :name="'Box' + i" />`,
+    })
+
+    const { sceneWrapper, context } = await createScene(
+      () => h(VForBoxes),
+    )
+
+    const checkBoxes = (count: number) => {
+      expect(context.scene.value.children).toHaveLength(count)
+
+      for (let i = 1; i <= count; i++) {
+        const child = context.scene.value.children[i - 1]
+        expect(child).toBeInstanceOf(THREE.Mesh)
+        expect(child.name).toBe(`Box${i}`)
+      }
+    }
+
+    checkBoxes(5)
+
+    count.value = 0
+    await nextTick()
+    checkBoxes(0)
+
+    count.value = 2
+    await nextTick()
+    checkBoxes(2)
 
     sceneWrapper.unmount()
   })
