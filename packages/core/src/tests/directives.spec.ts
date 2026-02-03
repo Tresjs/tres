@@ -60,6 +60,7 @@ describe('directives', () => {
       setup: () => ({ count, exists }),
       template: `
         <SlotSimple v-if="exists">
+          <!-- comments should work too -->
           <TresMesh v-for="i in count" :key="i" :name="'Box' + i" />
         </SlotSimple>
       `,
