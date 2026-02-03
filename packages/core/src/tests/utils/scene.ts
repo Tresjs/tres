@@ -1,4 +1,4 @@
-import type { Component, VNodeChild } from 'vue'
+import type { VNodeChild } from 'vue'
 import { defineComponent, h } from 'vue'
 import type { TresContext } from '../../composables'
 import { mount } from '@vue/test-utils'
