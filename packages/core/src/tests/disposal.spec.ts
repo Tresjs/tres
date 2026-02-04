@@ -90,6 +90,29 @@ describe('disposal', () => {
     sceneWrapper.unmount()
   })
 
+  it('should not dispose of anything below a component that has the dispose prop set to false or null', async () => {
+    [false, null].forEach(async (dispose) => {
+      const { disposalSpies, sceneWrapper, exists } = await checkDisposal({
+        template: `
+        <TresGroup v-if="exists" :dispose="dispose">
+          <TresMesh>
+            <TresBoxGeometry />
+            <TresMeshBasicMaterial />
+          </TresMesh>
+        </TresGroup>`,
+        getMesh: ({ scene }) => scene.value.children[0].children[0] as Mesh,
+        setupContext: { dispose },
+      })
+
+      exists.value = false
+      await nextTick()
+
+      disposalSpies.forEach(spy => expect(spy).not.toHaveBeenCalledOnce())
+
+      sceneWrapper.unmount()
+    })
+  })
+
   describe('primitives', () => {
     const checkPrimitiveDisposal = async ({
       dispose = undefined,
