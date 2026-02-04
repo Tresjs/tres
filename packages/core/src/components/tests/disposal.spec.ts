@@ -1,6 +1,6 @@
 import { defineComponent, h, nextTick, ref } from 'vue'
-import { createScene } from './utils/scene'
-import { beforeAll, describe, expect, it } from './utils/testing'
+import { createScene } from './util'
+import { beforeAll, describe, expect, it } from '../../utils/test'
 import { isBufferGeometry, isMaterial, isMesh } from '../../utils/is'
 import { extend } from '../../core/catalogue'
 import * as THREE from 'three'

@@ -1,15 +1,15 @@
 import type { VNodeChild } from 'vue'
 import { defineComponent, h } from 'vue'
-import type { TresContext } from '../../../composables'
+import type { TresContext } from '../../composables'
 import { mount } from '@vue/test-utils'
-import { setupMocks } from './mocking'
+import { setupMocks } from '../../utils/test/mocking'
 
 // Reset module cache and apply mocks BEFORE importing mocked modules
 vi.resetModules()
 await setupMocks()
 
 // Dynamic imports AFTER mocks are set up
-const TresCanvas = (await import('../../../components/TresCanvas.vue')).default
+const TresCanvas = (await import('../TresCanvas.vue')).default
 
 export const createScene = async (slotContent: () => VNodeChild) => {
   let resolveReady: (ctx: TresContext) => void
