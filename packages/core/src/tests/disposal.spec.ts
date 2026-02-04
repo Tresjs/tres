@@ -94,17 +94,15 @@ describe('disposal', () => {
     const checkPrimitiveDisposal = async ({
       withParent = false,
       dispose = undefined,
-      shouldDispose = false,
     }: {
       withParent?: boolean
       dispose?: DisposeType
-      shouldDispose?: boolean
     } = {}) => {
       const geometry = new BoxGeometry()
       const material = new MeshBasicMaterial()
       const meshWithMaterial = new Mesh(geometry, material)
 
-      const primitiveTemplate = '<primitive :object="meshWithMaterial" />'
+      const primitiveTemplate = '<primitive :object="meshWithMaterial" :dispose="dispose" />'
       const { disposalSpies, sceneWrapper, exists } = await checkDisposal({
         template: withParent
           ? `
@@ -113,18 +111,24 @@ describe('disposal', () => {
         </TresGroup>`
           : primitiveTemplate,
         getMesh: ({ scene }) => withParent ? scene.value.children[0].children[0] as Mesh : scene.value.children[0] as Mesh,
-        setupContext: { meshWithMaterial },
+        setupContext: { meshWithMaterial, dispose },
       })
 
       exists.value = false
       await nextTick()
 
-      disposalSpies.forEach(spy => expect(spy).toHaveBeenCalledTimes(shouldDispose ? 1 : 0))
+      disposalSpies.forEach(spy => expect(spy).not.toHaveBeenCalled())
 
       sceneWrapper.unmount()
     }
     it('should not dispose primitives when unmounted', () => checkPrimitiveDisposal())
     it('should not dispose primitives when parent is unmounted', () => checkPrimitiveDisposal({ withParent: true }))
-    it('should dispose primitive when dispose prop is set to true', () => checkPrimitiveDisposal({ dispose: true, shouldDispose: true }))
+    it('should call dispose function when dispose prop has a custom function', async () => {
+      const dispose = vi.fn()
+
+      await checkPrimitiveDisposal({ dispose })
+
+      expect(dispose).toHaveBeenCalledOnce()
+    })
   })
 })
