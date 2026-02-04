@@ -6,6 +6,7 @@ import { extend } from '../core/catalogue'
 import * as THREE from 'three'
 import { BoxGeometry, Mesh, MeshBasicMaterial } from 'three'
 import type { TresContext } from '../composables'
+import type { DisposeType } from '../types'
 
 describe('disposal', () => {
   beforeAll(() => {
@@ -90,7 +91,15 @@ describe('disposal', () => {
   })
 
   describe('primitives', () => {
-    const checkPrimitiveDisposal = async (withParent: boolean = false) => {
+    const checkPrimitiveDisposal = async ({
+      withParent = false,
+      dispose = undefined,
+      shouldDispose = false,
+    }: {
+      withParent?: boolean
+      dispose?: DisposeType
+      shouldDispose?: boolean
+    } = {}) => {
       const geometry = new BoxGeometry()
       const material = new MeshBasicMaterial()
       const meshWithMaterial = new Mesh(geometry, material)
@@ -110,11 +119,12 @@ describe('disposal', () => {
       exists.value = false
       await nextTick()
 
-      disposalSpies.forEach(spy => expect(spy).not.toHaveBeenCalled())
+      disposalSpies.forEach(spy => expect(spy).toHaveBeenCalledTimes(shouldDispose ? 1 : 0))
 
       sceneWrapper.unmount()
     }
     it('should not dispose primitives when unmounted', () => checkPrimitiveDisposal())
-    it('should not dispose primitives when parent is unmounted', () => checkPrimitiveDisposal(true))
+    it('should not dispose primitives when parent is unmounted', () => checkPrimitiveDisposal({ withParent: true }))
+    it('should dispose primitive when dispose prop is set to true', () => checkPrimitiveDisposal({ dispose: true, shouldDispose: true }))
   })
 })
