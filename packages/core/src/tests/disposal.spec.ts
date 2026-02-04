@@ -125,6 +125,8 @@ describe('disposal', () => {
     it('should not dispose primitives when parent is unmounted', () => checkPrimitiveDisposal({ withParent: true }))
     it('should not dispose primitives when dispose prop is set to false', () => checkPrimitiveDisposal({ dispose: false }))
     it('should not dispose primitives when dispose prop is set to null', () => checkPrimitiveDisposal({ dispose: null }))
+    it('should not dispose primitives when dispose prop is set to false (via parent unmount)', () => checkPrimitiveDisposal({ dispose: false, withParent: true }))
+    it('should not dispose primitives when dispose prop is set to null (via parent unmount)', () => checkPrimitiveDisposal({ dispose: null, withParent: true }))
 
     it('should call dispose function when dispose prop has a custom function', async () => {
       const dispose = vi.fn()
