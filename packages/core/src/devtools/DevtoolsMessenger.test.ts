@@ -1,4 +1,3 @@
-import { beforeEach, describe, expect, it } from '../utils/test/index'
 import { DevtoolsMessenger } from './DevtoolsMessenger'
 
 describe('devtoolsMessenger', () => {

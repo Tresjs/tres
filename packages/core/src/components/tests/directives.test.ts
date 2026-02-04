@@ -2,7 +2,6 @@ import { defineComponent, h, nextTick, ref } from 'vue'
 import * as THREE from 'three'
 import { extend } from '../../core/catalogue'
 import { initializeSceneCreator } from './util'
-import { beforeAll, describe, expect, it } from '../../utils/test'
 
 describe('directives', () => {
   beforeAll(() => {
