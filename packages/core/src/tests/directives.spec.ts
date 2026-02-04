@@ -5,7 +5,7 @@ import { createScene } from './utils/scene'
 import { beforeAll, describe, expect, it } from './utils/testing'
 
 describe('directives', () => {
-  beforeAll(async () => {
+  beforeAll(() => {
     extend(THREE)
   })
 
