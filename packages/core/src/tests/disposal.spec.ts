@@ -92,11 +92,11 @@ describe('disposal', () => {
 
   describe('primitives', () => {
     const checkPrimitiveDisposal = async ({
-      withParent = false,
       dispose = undefined,
+      withParent = false,
     }: {
-      withParent?: boolean
       dispose?: DisposeType
+      withParent?: boolean
     } = {}) => {
       const geometry = new BoxGeometry()
       const material = new MeshBasicMaterial()
@@ -123,6 +123,9 @@ describe('disposal', () => {
     }
     it('should not dispose primitives when unmounted', () => checkPrimitiveDisposal())
     it('should not dispose primitives when parent is unmounted', () => checkPrimitiveDisposal({ withParent: true }))
+    it('should not dispose primitives when dispose prop is set to false', () => checkPrimitiveDisposal({ dispose: false }))
+    it('should not dispose primitives when dispose prop is set to null', () => checkPrimitiveDisposal({ dispose: null }))
+
     it('should call dispose function when dispose prop has a custom function', async () => {
       const dispose = vi.fn()
 
@@ -132,6 +135,7 @@ describe('disposal', () => {
     })
 
     it('should dispose primitive when dispose prop is set to true', async () => {
+      // using a material as the primitive object because it has a dispose method
       const material = new MeshBasicMaterial()
       const exists = ref(true)
 
@@ -140,7 +144,8 @@ describe('disposal', () => {
           exists,
           material,
         }),
-        template: `<TresMesh v-if="exists">
+        template: `
+        <TresMesh v-if="exists">
           <primitive :object="material" :dispose="true" />
         </TresMesh>`,
       })
