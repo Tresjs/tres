@@ -1,7 +1,7 @@
 import { defineComponent, h, nextTick, ref } from 'vue'
 import * as THREE from 'three'
 import { extend } from '../../core/catalogue'
-import { createScene } from './util'
+import { initializeSceneCreator } from './util'
 import { beforeAll, describe, expect, it } from '../../utils/test'
 
 describe('directives', () => {
@@ -27,6 +27,7 @@ describe('directives', () => {
       template: `<TresMesh v-for="i in count" :key="i" :name="'Box' + i" />`,
     })
 
+    const { createScene } = await initializeSceneCreator()
     const { sceneWrapper, context } = await createScene(
       () => h(VForBoxes),
     )
@@ -66,6 +67,7 @@ describe('directives', () => {
       `,
     })
 
+    const { createScene } = await initializeSceneCreator()
     const { sceneWrapper, context } = await createScene(
       () => h(Group),
     )

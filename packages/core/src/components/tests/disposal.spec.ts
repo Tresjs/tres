@@ -1,5 +1,5 @@
 import { defineComponent, h, nextTick, ref } from 'vue'
-import { createScene } from './util'
+import { initializeSceneCreator } from './util'
 import { beforeAll, describe, expect, it } from '../../utils/test'
 import { isBufferGeometry, isMaterial, isMesh } from '../../utils/is'
 import { extend } from '../../core/catalogue'
@@ -30,6 +30,8 @@ describe('disposal', () => {
       }),
       template,
     })
+
+    const { createScene } = await initializeSceneCreator()
     const { sceneWrapper, context } = await createScene(() => h(Component))
     const mesh = getMesh(context)
 
@@ -179,6 +181,7 @@ describe('disposal', () => {
         </TresMesh>`,
       })
 
+      const { createScene } = await initializeSceneCreator()
       const { sceneWrapper } = await createScene(() => h(Component))
 
       const disposalSpies = vi.spyOn(material, 'dispose')
