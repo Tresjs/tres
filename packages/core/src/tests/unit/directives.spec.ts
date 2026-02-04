@@ -1,6 +1,6 @@
 import { defineComponent, h, nextTick, ref } from 'vue'
 import * as THREE from 'three'
-import { extend } from '../core/catalogue'
+import { extend } from '../../core/catalogue'
 import { createScene } from './utils/scene'
 import { beforeAll, describe, expect, it } from './utils/testing'
 

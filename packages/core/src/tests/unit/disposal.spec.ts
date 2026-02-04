@@ -1,12 +1,12 @@
 import { defineComponent, h, nextTick, ref } from 'vue'
 import { createScene } from './utils/scene'
 import { beforeAll, describe, expect, it } from './utils/testing'
-import { isBufferGeometry, isMaterial, isMesh } from '../utils/is'
-import { extend } from '../core/catalogue'
+import { isBufferGeometry, isMaterial, isMesh } from '../../utils/is'
+import { extend } from '../../core/catalogue'
 import * as THREE from 'three'
 import { BoxGeometry, Mesh, MeshBasicMaterial } from 'three'
-import type { TresContext } from '../composables'
-import type { DisposeType } from '../types'
+import type { TresContext } from '../../composables'
+import type { DisposeType } from '../../types'
 
 describe('disposal', () => {
   beforeAll(() => {
