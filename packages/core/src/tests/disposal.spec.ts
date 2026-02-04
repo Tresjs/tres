@@ -130,5 +130,27 @@ describe('disposal', () => {
 
       expect(dispose).toHaveBeenCalledOnce()
     })
+
+    it('should dispose primitive when dispose prop is set to true', async () => {
+      const material = new MeshBasicMaterial()
+      const exists = ref(true)
+
+      const Component = defineComponent({
+        setup: () => ({
+          exists,
+          material,
+        }),
+        template: `<TresMesh v-if="exists">
+          <primitive :object="material" :dispose="true" />
+        </TresMesh>`,
+      })
+
+      const { sceneWrapper } = await createScene(() => h(Component))
+
+      const disposalSpies = vi.spyOn(material, 'dispose')
+      sceneWrapper.unmount()
+
+      expect(disposalSpies).toHaveBeenCalledOnce()
+    })
   })
 })
