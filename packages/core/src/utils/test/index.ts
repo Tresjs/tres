@@ -1,1 +1,1 @@
-export { beforeAll, describe, expect, it } from 'vitest'
+export { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest'

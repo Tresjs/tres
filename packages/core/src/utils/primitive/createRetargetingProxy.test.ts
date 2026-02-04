@@ -1,4 +1,4 @@
-import { describe, expect, it, vi } from 'vitest'
+import { describe, expect, it, vi } from '../test/index'
 import { createRetargetingProxy } from './createRetargetingProxy'
 
 describe('createRetargetingProxy', () => {

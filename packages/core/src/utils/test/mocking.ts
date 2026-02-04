@@ -1,4 +1,4 @@
-import { vi } from 'vitest'
+import { vi } from './index'
 
 /**
  * Mocks WebGLRenderer to avoid WebGL context issues in JSDOM

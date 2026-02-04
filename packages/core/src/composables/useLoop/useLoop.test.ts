@@ -1,4 +1,4 @@
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from '../../utils/test/index'
 import { useLoop } from './index'
 import { useCreateRafLoop } from '../useCreateRafLoop'
 
