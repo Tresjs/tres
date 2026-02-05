@@ -30,7 +30,7 @@ interface ProcessedMesh {
   mesh: Mesh | SkinnedMesh
   originalRaycast: typeof Mesh.prototype.raycast
   geometry: BufferGeometry
-  boundsTree?: MeshBVH
+  boundsTree: MeshBVH
 }
 
 /**
@@ -158,8 +158,12 @@ export function useBVH(options: UseBVHOptions = {}) {
     // Restore original raycast method
     mesh.raycast = originalRaycast
 
-    // Clean up bounds tree
-    if (geometry.boundsTree) {
+    // Dispose the BVH to free memory using geometry's disposeBoundsTree method
+    if (geometry.disposeBoundsTree) {
+      geometry.disposeBoundsTree()
+    }
+    else if (geometry.boundsTree) {
+      // Fallback: clear the reference if disposeBoundsTree is not available
       geometry.boundsTree = undefined
     }
   }
