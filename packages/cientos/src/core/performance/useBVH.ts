@@ -119,18 +119,33 @@ export function useBVH(options: UseBVHOptions = {}) {
       if (firstHitOnly) {
         // Use raycastFirst for better performance when only first hit is needed
         mesh.raycast = function (raycaster, intersects) {
-          if (this.geometry.boundsTree) {
-            const materials = Array.isArray(this.material) ? this.material : [this.material];
-            const hit = this.geometry.boundsTree.raycastFirst(raycaster.ray, materials)
+          const boundsTree = this.geometry.boundsTree
+          if (boundsTree) {
+            // Check layer intersection
+            if (!this.layers.test(raycaster.layers)) {
+              return
+            }
+
+            const material = Array.isArray(this.material) ? this.material[0] : this.material
+            const side = material?.side ?? raycaster.params.Mesh?.side
+            const hit = (boundsTree as MeshBVH).raycastFirst(
+              raycaster.ray,
+              side,
+              raycaster.near,
+              raycaster.far,
+            )
+
             if (hit) {
               hit.object = this
               intersects.push(hit)
             }
-          } else {
+          }
+          else {
             originalRaycast.call(this, raycaster, intersects)
           }
         }
-      } else {
+      }
+      else {
         // Use standard accelerated raycast
         mesh.raycast = acceleratedRaycast
       }
