@@ -4,29 +4,29 @@ import { acceleratedRaycast, BVHHelper, MeshBVH } from 'three-mesh-bvh'
 import { type BufferGeometry, Group, Mesh, type Object3D, SkinnedMesh } from 'three'
 import type { TresObject3D } from '@tresjs/core'
 /**
- * BVH options interface matching the drei implementation
+ * BVH construction options (static - set once at creation, changing requires rebuild)
  */
 export interface BVHOptions {
-  /** Split strategy, default: SAH (slowest to construct, fastest runtime, least memory) */
+  /** Split strategy, default: SAH (slowest to construct, fastest runtime, least memory). Static. */
   splitStrategy?: 'CENTER' | 'AVERAGE' | 'SAH'
-  /** Print out warnings encountered during tree construction, default: false */
+  /** Print out warnings encountered during tree construction, default: false. Static. */
   verbose?: boolean
-  /** If true then the bounding box for the geometry is set once the BVH has been constructed, default: true */
+  /** If true then the bounding box for the geometry is set once the BVH has been constructed, default: true. Static. */
   setBoundingBox?: boolean
-  /** The maximum depth to allow the tree to build to, default: 40 */
+  /** The maximum depth to allow the tree to build to, default: 40. Static. */
   maxDepth?: number
-  /** The number of triangles to aim for in a leaf node, default: 10 */
+  /** The number of triangles to aim for in a leaf node, default: 10. Static. */
   maxLeafSize?: number
-  /** If false then an index buffer is created if it does not exist and is rearranged */
+  /** If false then an index buffer is created if it does not exist and is rearranged. Static. */
   indirect?: boolean
 }
 
 export interface UseBVHOptions extends BVHOptions {
-  /** Enabled, default: true */
+  /** Enable/disable BVH optimization, default: true. Reactive - can be a ref or getter. */
   enabled?: MaybeRefOrGetter<boolean>
-  /** Use .raycastFirst to retrieve hits which is generally faster, default: false */
+  /** Use .raycastFirst to retrieve hits which is generally faster, default: false. Static. */
   firstHitOnly?: boolean
-  /** Show debug visualization of BVH bounding boxes, default: false */
+  /** Show debug visualization of BVH bounding boxes, default: false. Reactive - can be a ref or getter. */
   debug?: MaybeRefOrGetter<boolean>
 }
 
@@ -42,6 +42,10 @@ interface ProcessedMesh {
  * Vue composable for BVH optimization - speeds up raycasting exponentially
  * Automatically computes boundsTree and assigns acceleratedRaycast for meshes
  * Side-effect free: reverts to original raycast when disabled or unmounted
+ *
+ * @remarks
+ * Only `enabled` and `debug` are reactive. Construction options (splitStrategy,
+ * maxDepth, maxLeafSize, etc.) are static - to apply new values, toggle enabled off/on.
  */
 export function useBVH(options: UseBVHOptions = {}) {
   const {

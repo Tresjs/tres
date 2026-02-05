@@ -111,11 +111,22 @@ watch(() => model.value, (newModel) => {
 
 ## Options
 
+Options are divided into **reactive** (can change at runtime) and **static** (set once at creation - changing requires toggling `enabled` off/on to rebuild).
+
+### Reactive Options
+
 | Option | Type | Default | Description |
 | :--- | :--- | :--- | :--- |
-| **enabled** | `MaybeRefOrGetter<boolean>` | `true` | Enable/disable BVH optimization. Can be reactive. |
+| **enabled** | `MaybeRefOrGetter<boolean>` | `true` | Enable/disable BVH optimization. Toggling rebuilds BVH structures. |
+| **debug** | `MaybeRefOrGetter<boolean>` | `false` | Show debug visualization of BVH bounding boxes. |
+
+### Static Options (BVH Construction)
+
+These options configure how the BVH is built. Changing them after creation has no effect - toggle `enabled` off/on to rebuild with new values.
+
+| Option | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
 | **firstHitOnly** | `boolean` | `false` | Use `raycastFirst` for better performance when only the first hit is needed. |
-| **debug** | `MaybeRefOrGetter<boolean>` | `false` | Show debug visualization of BVH bounding boxes. Can be reactive. |
 | **splitStrategy** | `'CENTER' \| 'AVERAGE' \| 'SAH'` | `'SAH'` | BVH build strategy. SAH is slowest to construct but fastest at runtime. |
 | **maxDepth** | `number` | `40` | Maximum tree depth for the BVH structure. |
 | **maxLeafSize** | `number` | `10` | Target number of triangles per leaf node. |
@@ -172,7 +183,7 @@ This is significantly faster than computing all intersections when you only need
 ## Important Notes
 
 - **Side-effect free**: BVH is automatically removed on unmount and when disabled.
-- **Reactive**: Enabled and debug options can be refs or getters.
+- **Reactive options**: Only `enabled` and `debug` are reactive. Construction options (`splitStrategy`, `maxDepth`, etc.) are static - to apply new values, toggle `enabled` off/on.
 - **Memory efficient**: BVH structures are properly disposed when removed.
 - **Automatic mesh detection**: Works with `Mesh` and `SkinnedMesh` instances.
 - **Draco models**: Works seamlessly with Draco-compressed GLTF models.
