@@ -6,7 +6,7 @@ import { Mesh, Scene } from 'three'
 import { beforeAll, describe, expect, it, vi } from 'vitest'
 import { shallowRef } from 'vue'
 import { extend } from './catalogue'
-import { nodeOps as getNodeOps } from './nodeOps'
+import { nodeOps as getNodeOps, type TextNode } from './nodeOps'
 
 let nodeOps = getNodeOps({ context: mockTresContext() })
 const pool = []
@@ -1569,6 +1569,191 @@ describe('nodeOps', () => {
           expect(nodeToNextSibling.get(node)).toBeFalsy()
         }
       }
+    })
+  })
+
+  describe('createText (fragment anchors)', () => {
+    it('returns a text node object with __tres state', () => {
+      const textNode = nodeOps.createText('')
+      expect(textNode).toBeDefined()
+      expect(textNode.__tres).toBeDefined()
+      expect(textNode.__tres.parent).toBe(null)
+    })
+
+    it('creates unique text node instances', () => {
+      const textNode1 = nodeOps.createText('')
+      const textNode2 = nodeOps.createText('')
+      expect(textNode1).not.toBe(textNode2)
+    })
+  })
+
+  describe('insert with anchor (fragment support)', () => {
+    it('inserts text nodes into __tres.objects', () => {
+      const parent = nodeOps.createElement('Mesh')
+      const textNode = nodeOps.createText('')
+
+      nodeOps.insert(textNode, parent)
+      expect(parent.__tres.objects).toContain(textNode)
+      expect((textNode as TextNode).__tres.parent).toBe(parent)
+    })
+
+    it('inserts child before anchor when anchor is provided', () => {
+      const parent = nodeOps.createElement('Mesh')
+      const child1 = nodeOps.createElement('MeshNormalMaterial')
+      const child2 = nodeOps.createElement('MeshNormalMaterial')
+      const anchor = nodeOps.createElement('BoxGeometry')
+
+      nodeOps.insert(anchor, parent)
+      nodeOps.insert(child1, parent, anchor)
+      nodeOps.insert(child2, parent, anchor)
+
+      // child2 was inserted before anchor, child1 was inserted before anchor (after child2)
+      // Order should be: child1, child2, anchor
+      expect(parent.__tres.objects[0]).toBe(child1)
+      expect(parent.__tres.objects[1]).toBe(child2)
+      expect(parent.__tres.objects[2]).toBe(anchor)
+    })
+
+    it('appends child when anchor is null', () => {
+      const parent = nodeOps.createElement('Mesh')
+      const child1 = nodeOps.createElement('MeshNormalMaterial')
+      const child2 = nodeOps.createElement('BoxGeometry')
+
+      nodeOps.insert(child1, parent, null)
+      nodeOps.insert(child2, parent, null)
+
+      expect(parent.__tres.objects).toStrictEqual([child1, child2])
+    })
+
+    it('inserts text nodes before anchor', () => {
+      const parent = nodeOps.createElement('Mesh')
+      const anchor = nodeOps.createText('')
+      const textNode = nodeOps.createText('')
+      const child = nodeOps.createElement('MeshNormalMaterial')
+
+      nodeOps.insert(anchor, parent)
+      nodeOps.insert(textNode, parent, anchor)
+      nodeOps.insert(child, parent, anchor)
+
+      expect(parent.__tres.objects[0]).toBe(textNode)
+      expect(parent.__tres.objects[1]).toBe(child)
+      expect(parent.__tres.objects[2]).toBe(anchor)
+    })
+
+    it('text nodes do not get added to Three.js children', () => {
+      const parent = nodeOps.createElement('Mesh')
+      const textNode = nodeOps.createText('')
+      const mesh = nodeOps.createElement('Mesh')
+
+      nodeOps.insert(textNode, parent)
+      nodeOps.insert(mesh, parent)
+
+      // Text node should be in __tres.objects
+      expect(parent.__tres.objects).toContain(textNode)
+      expect(parent.__tres.objects).toContain(mesh)
+
+      // Only the mesh should be in Three.js children
+      expect(parent.children.length).toBe(1)
+      expect(parent.children[0]).toBe(mesh)
+    })
+  })
+
+  describe('remove with text nodes', () => {
+    it('removes text nodes from __tres.objects', () => {
+      const parent = nodeOps.createElement('Mesh')
+      const textNode = nodeOps.createText('')
+      nodeOps.insert(textNode, parent)
+
+      expect(parent.__tres.objects).toContain(textNode)
+
+      nodeOps.remove(textNode)
+
+      expect(parent.__tres.objects).not.toContain(textNode)
+      expect(textNode.__tres.parent).toBe(null)
+    })
+
+    it('removes text nodes without affecting other children', () => {
+      const parent = nodeOps.createElement('Mesh')
+      const textNode1 = nodeOps.createText('')
+      const textNode2 = nodeOps.createText('')
+      const child = nodeOps.createElement('MeshNormalMaterial')
+
+      nodeOps.insert(textNode1, parent)
+      nodeOps.insert(child, parent)
+      nodeOps.insert(textNode2, parent)
+
+      nodeOps.remove(textNode1)
+
+      expect(parent.__tres.objects).not.toContain(textNode1)
+      expect(parent.__tres.objects).toContain(child)
+      expect(parent.__tres.objects).toContain(textNode2)
+    })
+  })
+
+  describe('parentNode with text nodes', () => {
+    it('returns parent of text node', () => {
+      const parent = nodeOps.createElement('Mesh')
+      const textNode = nodeOps.createText('')
+      nodeOps.insert(textNode, parent)
+
+      expect(nodeOps.parentNode(textNode)).toBe(parent)
+    })
+
+    it('returns null for uninserted text node', () => {
+      const textNode = nodeOps.createText('')
+      expect(nodeOps.parentNode(textNode)).toBe(null)
+    })
+  })
+
+  describe('nextSibling with text nodes', () => {
+    it('returns next sibling after text node', () => {
+      const parent = nodeOps.createElement('Mesh')
+      const textNode = nodeOps.createText('')
+      const child = nodeOps.createElement('MeshNormalMaterial')
+
+      nodeOps.insert(textNode, parent)
+      nodeOps.insert(child, parent)
+
+      expect(nodeOps.nextSibling(textNode)).toBe(child)
+    })
+
+    it('returns text node as next sibling', () => {
+      const parent = nodeOps.createElement('Mesh')
+      const child = nodeOps.createElement('MeshNormalMaterial')
+      const textNode = nodeOps.createText('')
+
+      nodeOps.insert(child, parent)
+      nodeOps.insert(textNode, parent)
+
+      expect(nodeOps.nextSibling(child)).toBe(textNode)
+    })
+
+    it('returns null when text node is last sibling', () => {
+      const parent = nodeOps.createElement('Mesh')
+      const textNode = nodeOps.createText('')
+
+      nodeOps.insert(textNode, parent)
+
+      expect(nodeOps.nextSibling(textNode)).toBe(null)
+    })
+
+    it('handles mixed text nodes and regular children', () => {
+      const parent = nodeOps.createElement('Mesh')
+      const textStart = nodeOps.createText('')
+      const child1 = nodeOps.createElement('MeshNormalMaterial')
+      const child2 = nodeOps.createElement('BoxGeometry')
+      const textEnd = nodeOps.createText('')
+
+      // Simulate fragment structure: startAnchor, children, endAnchor
+      nodeOps.insert(textStart, parent)
+      nodeOps.insert(child1, parent)
+      nodeOps.insert(child2, parent)
+      nodeOps.insert(textEnd, parent)
+
+      expect(nodeOps.nextSibling(textStart)).toBe(child1)
+      expect(nodeOps.nextSibling(child1)).toBe(child2)
+      expect(nodeOps.nextSibling(child2)).toBe(textEnd)
+      expect(nodeOps.nextSibling(textEnd)).toBe(null)
     })
   })
 })

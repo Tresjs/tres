@@ -1,3 +1,17 @@
+## 5.3.0 (2026-02-02)
+
+### 🩹 Fixes
+
+- **core:** fixed endless loop in renderer when handling fragment instances ([d9ade7eb](https://github.com/Tresjs/tres/commit/d9ade7eb))
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/core to 5.4.0
+
+### ❤️ Thank You
+
+- Tino Koch @tinoooo
+
 ## 5.2.5 (2026-01-26)
 
 ### 🩹 Fixes
