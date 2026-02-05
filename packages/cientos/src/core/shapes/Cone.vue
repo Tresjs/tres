@@ -43,7 +43,6 @@ defineExpose({
 <template>
   <TresMesh
     ref="coneRef"
-    v-bind="$attrs"
   >
     <TresConeGeometry :args="args" />
     <slot>

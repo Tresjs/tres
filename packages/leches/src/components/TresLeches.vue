@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { computed, nextTick, onMounted, onUnmounted, ref, toRefs, watch } from 'vue'
+import { computed, isRef, nextTick, onMounted, onUnmounted, ref, toRefs, watch } from 'vue'
 import { useDraggable } from '../composables/useDraggable'
 import { useWindowSize } from '@vueuse/core'
-import { dispose, useControlsProvider } from '../composables/useControls'
+import { dispose, useControlsProvider, useControlsStore } from '../composables/useControls'
 import type { LechesControlUnion } from '../types'
 import Folder from './Folder.vue'
 import { useMotion } from '@vueuse/motion'
@@ -51,18 +51,31 @@ const resizeEdge = ref<'right' | 'left' | 'bottom' | 'corner' | 'corner-left' | 
 // Controls
 const controls = useControlsProvider(uuid?.value)
 const hasSlots = ref(false)
+const { store: controlsStore, triggers: controlsTriggers } = useControlsStore()
 
 defineExpose(controls)
 
 function onChange(key: string, value: string) {
-  controls[key].value = value
+  const control = controls[key] as any
+  // Update the ref (control.value is a ref)
+  if (isRef(control.value)) {
+    control.value.value = value
+  }
+  else {
+    control.value = value
+  }
 }
 
 const groupedControls = computed(() => {
+  // Access UUID-specific trigger to force re-computation when controls are added
+  void controlsTriggers[uuid.value]
+
+  // Access controlsStore directly to ensure reactivity tracks property additions
+  const storeControls = controlsStore[uuid.value] || {}
   const groups: { [folder: string]: LechesControlUnion[] } = {}
 
-  for (const key in controls) {
-    const control = controls[key]
+  for (const key of Object.keys(storeControls)) {
+    const control = storeControls[key]
     const folderName = control.folder || 'default' // Ensure we access the value of the ref
 
     if (!groups[folderName as unknown as string]) {

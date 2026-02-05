@@ -5,6 +5,7 @@ description: Realistic smoke simulation rising from a coffee mug using custom GL
 thumbnail: /experiments/coffee-smoke.png
 tags: [particles, shader, smoke]
 date: 2025-11-27
+lastUpdated: 2025-12-03
 ---
 
 This experiment creates a **realistic smoke simulation** rising from a coffee mug, based on [Bruno Simon's excellent Three.js Journey course](https://threejs-journey.com/) and implemented in TresJS. The effect uses custom vertex shaders with Perlin noise to create natural-looking smoke with twisting motion and wind effects.

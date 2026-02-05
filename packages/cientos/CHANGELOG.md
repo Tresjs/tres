@@ -1,3 +1,98 @@
+## 5.2.5 (2026-01-26)
+
+### 🩹 Fixes
+
+- **cientos:** wrong color space on image component ([22132e2b](https://github.com/Tresjs/tres/commit/22132e2b))
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/core to 5.3.3
+
+### ❤️ Thank You
+
+- Jaime Torrealba
+
+## 5.2.4 (2026-01-22)
+
+### 🩹 Fixes
+
+- **cientos:** smoke component ([e013afd0](https://github.com/Tresjs/tres/commit/e013afd0))
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/core to 5.3.2
+
+### ❤️ Thank You
+
+- Jaime Torrealba
+
+## 5.2.3 (2026-01-15)
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/core to 5.3.1
+
+## 5.2.2 (2026-01-14)
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/core to 5.3.0
+
+## 5.2.1 (2025-12-26)
+
+### 🩹 Fixes
+
+- **cientos:** add missing newline at end of package.json ([39bb82aa](https://github.com/Tresjs/tres/commit/39bb82aa))
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/core to 5.2.1
+
+### ❤️ Thank You
+
+- alvarosabu @alvarosabu
+
+## 5.2.0 (2025-12-15)
+
+### 🚀 Features
+
+- **cientos:** add new iframe demo and replace laptop example, review HTML component and update documentation ([bc877b32](https://github.com/Tresjs/tres/commit/bc877b32))
+- **cientos:** add camera shake component with demo and docs ([5f044e14](https://github.com/Tresjs/tres/commit/5f044e14))
+- **cientos:** html fix lint issues ([7d2acfae](https://github.com/Tresjs/tres/commit/7d2acfae))
+- **cientos:** Rework Html component, implement sprite auto-scaling and optimize performance ([35d07d27](https://github.com/Tresjs/tres/commit/35d07d27))
+- **cientos:** integrate core V5 updates and fix multiple issues ([c0661692](https://github.com/Tresjs/tres/commit/c0661692))
+
+### ❤️ Thank You
+
+- Damien Montastier @damienmontastier
+
+## 5.1.2 (2025-12-10)
+
+### 🩹 Fixes
+
+- update package.json import to use module attributes ([59de9e3a](https://github.com/Tresjs/tres/commit/59de9e3a))
+- improve type guard ([37eda284](https://github.com/Tresjs/tres/commit/37eda284))
+- **cientos:** colour handling for holographic material and reflector ([60ba0c04](https://github.com/Tresjs/tres/commit/60ba0c04))
+- **cientos:** small code review ([1b04509d](https://github.com/Tresjs/tres/commit/1b04509d))
+- **cientos:** improve WebGPU compatibility check in MeshReflectionMaterial ([d65620c3](https://github.com/Tresjs/tres/commit/d65620c3))
+- **cientos:** image component ([e0f94e31](https://github.com/Tresjs/tres/commit/e0f94e31))
+
+### 🔥 Performance
+
+- **cientos:** export as PascalCase ([c8451621](https://github.com/Tresjs/tres/commit/c8451621))
+- **cientos:** improve tree-shake for image and outline materials ([74ce2d84](https://github.com/Tresjs/tres/commit/74ce2d84))
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/core to 5.2.0
+
+### ❤️ Thank You
+
+- alvarosabu @alvarosabu
+- init-qy
+- Jaime Torrealba
+- Jungzl
+
 ## 5.1.1 (2025-11-18)
 
 ### 🚀 Features

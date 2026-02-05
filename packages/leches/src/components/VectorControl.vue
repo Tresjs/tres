@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useKeyModifier, useMouse, useMousePressed } from '@vueuse/core'
-import { computed, ref, watch } from 'vue'
+import { computed, ref, unref, watch } from 'vue'
 import { isVector2, isVector3, normalizeVectorFlexibleParam } from '../utils/'
 import type { LechesVectorControl } from '../types'
 import ControlLabel from './ControlLabel.vue'
@@ -62,13 +62,14 @@ watch(pressed, (newValue) => {
 
 const calculateSpeed = (diff: number) => Math.floor(Math.abs(diff) / 10)
 
-const vector = computed(() => normalizeVectorFlexibleParam(props.control.value))
+const controlValue = computed(() => unref(props.control.value))
+const vector = computed(() => normalizeVectorFlexibleParam(controlValue.value))
 const labels = ref(['x', 'y', 'z'])
 
-const isVector = computed(() => isVector2(props.control.value) || isVector3(props.control.value))
+const isVector = computed(() => isVector2(controlValue.value) || isVector3(controlValue.value))
 
 function onChange(event: Event, $index: number) {
-  const { value } = props.control
+  const value = controlValue.value
   const { target } = event
   index.value = $index
 
@@ -80,7 +81,7 @@ watch(mouse.x, (newValue) => {
   if (isMouseDown.value) {
     const diff = newValue - initialMouseX.value
     const speed = calculateSpeed(diff)
-    const { value } = props.control
+    const value = controlValue.value
     const label = isVector.value ? labels.value[index.value] : index.value
 
     if (diff > 0) {
@@ -121,8 +122,8 @@ watch(mouse.x, (newValue) => {
         class="tl-flex tl-items-center tl-bg-gray-100 dark:tl-bg-dark-300 tl-rounded tl-border-none tl-outline-none tl-focus:tl-border-gray-200 tl-focus:tl-ring tl-focus:tl-ring-gray-200"
         :class="{
           'tl-w-2/5': focused === $index,
-          'tl-w-1/3': isVector3(control.value),
-          'tl-w-1/2': isVector2(control.value),
+          'tl-w-1/3': isVector3(controlValue),
+          'tl-w-1/2': isVector2(controlValue),
         }"
       >
         <span

@@ -40,7 +40,6 @@ defineExpose({
 <template>
   <TresMesh
     ref="torusKnotRef"
-    v-bind="$attrs"
   >
     <TresTorusKnotGeometry :args="args" />
     <slot>

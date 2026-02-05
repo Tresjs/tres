@@ -5,7 +5,7 @@ description: Magical Marbles Sphere
 thumbnail: /experiments/magical-marbles.png
 tags: ['magical', 'marbles', 'sphere', 'shaders', 'glsl', 'contact shadow']
 date: 2024-02-28
-updated: 2025-06-29
+lastUpdated: 2025-06-29
 ---
 
 This experiment creates a **stunning interactive marble sphere** with sophisticated custom shaders and smooth color transitions. Inspired by the famous [Codrops tutorial](https://tympanus.net/codrops/2021/08/02/magical-marbles-in-three-js/), this implementation showcases advanced material techniques and interactive animations.

@@ -90,6 +90,25 @@ const newLocal = {
       }],
     },
   },
+  ecosystem: {
+    title: 'Ecosystem',
+    links: [{
+      icon: 'i-tres-cientos-heart',
+      label: 'cientos',
+      to: 'https://cientos.tresjs.org/',
+      target: '_blank',
+    }, {
+      icon: 'i-tres-postprocessing-skull',
+      label: 'post-processing',
+      to: 'https://post-processing.tresjs.org/',
+      target: '_blank',
+    }, {
+      icon: 'i-lucide-cake',
+      label: 'tresleches',
+      to: 'https://tresleches.tresjs.org/',
+      target: '_blank',
+    }],
+  },
 } satisfies AppConfigInput
 
 export default defineAppConfig(newLocal)

@@ -5,10 +5,16 @@ const gl = {
   alpha: true,
 }
 
+useControls('fpsgraph', {
+  uuid: 'glass-material-experiment',
+})
+
 </script>
 
 <template>
-  <TresLeches />
+  <ClientOnly>
+    <TresLeches uuid="glass-material-experiment" />
+  </ClientOnly>
   <TresCanvas window-size v-bind="gl">
     <GlassMaterialExperience />
     <TheScreenshot />

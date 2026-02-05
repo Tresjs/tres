@@ -12,7 +12,7 @@ import UnoCSS from 'unocss/vite'
 import { presetIcons, presetUno, presetWebFonts, transformerDirectives } from 'unocss'
 import { bold, gray, lightGreen, magenta } from 'kolorist'
 
-import pkg from './package.json'
+import pkg from './package.json' with { type: 'json' }
 import { presetScrollbar } from 'unocss-preset-scrollbar'
 
 import cssInjectedByJsPlugin from 'vite-plugin-css-injected-by-js'

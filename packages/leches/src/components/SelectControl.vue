@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { computed, unref } from 'vue'
 import type { LechesControl, LechesSelectOption } from '../types'
 import ControlLabel from './ControlLabel.vue'
 
@@ -8,6 +9,8 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits(['change'])
+
+const controlValue = computed(() => unref(props.control.value))
 
 function onChange(event: Event) {
   const selectedValue = (event.target as HTMLSelectElement).value
@@ -30,7 +33,7 @@ function onChange(event: Event) {
     />
     <select
       :id="control.uniqueKey"
-      :value="String(control.value)"
+      :value="String(controlValue)"
       class="tl-leches-input tl-w-2/3"
       @change="onChange"
     >

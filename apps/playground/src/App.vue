@@ -4,7 +4,7 @@ import { useRoute } from 'vue-router'
 
 const route = useRoute()
 function setBodyClass(routeName: string) {
-  document.title = `Core Playground - ${routeName}`
+  document.title = `TresJS Playground - ${routeName}`
   document.body.className = routeName
 }
 watch([route], () => setBodyClass(route.name?.toString() ?? ''))

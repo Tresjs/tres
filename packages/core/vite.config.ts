@@ -8,7 +8,7 @@ import { defineConfig } from 'vite'
 
 import { bold, gray, lightGreen, yellow } from 'kolorist'
 
-import pkg from './package.json'
+import pkg from './package.json' with { type: 'json' }
 
 // eslint-disable-next-line no-console
 console.log(`${lightGreen('▲')} ${gray('■')} ${yellow('●')} ${bold('Tres')} v${pkg.version}`)

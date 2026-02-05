@@ -5,7 +5,7 @@ description: Infinite procedural landscape
 thumbnail: /experiments/synthwave-landscape.png
 tags: ['procedural', 'shaders', 'post-processing']
 date: 2024-08-29
-updated: 2025-06-25
+lastUpdated: 2025-06-25
 ---
 
 ## Retro 80s Synthwave Aesthetic

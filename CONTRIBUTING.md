@@ -267,6 +267,10 @@ For new features:
 - Consider if it belongs in core or a separate package
 - Be open to feedback and alternative approaches
 
+### Issue Triage
+
+To keep the issue tracker healthy and actionable, items marked with any of these labels — `needs reproduction`, `waiting for author`, or `needs-translations` — may be closed by the Tres team if there’s no activity for more than 30 days. If you later have new information (e.g., a minimal reproduction, updated context, or translations), please comment with the update and we’ll happily reopen.
+
 ## 💬 Community
 
 - Join our [Discord server](https://tresjs.org/discord) for questions and discussions

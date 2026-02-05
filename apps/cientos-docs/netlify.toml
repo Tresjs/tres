@@ -1,0 +1,13 @@
+[build]
+command = "pnpm install && NODE_OPTIONS='--max-old-space-size=4096' pnpm nx run cientos-docs:generate"
+publish = "apps/cientos-docs/dist"
+
+[build.environment]
+COREPACK_INTEGRITY_KEYS = "0"
+NODE_VERSION = "22"
+NODE_OPTIONS = "--max-old-space-size=4096"
+
+[[redirects]]
+from = "/*"
+to = "/200.html"
+status = 200

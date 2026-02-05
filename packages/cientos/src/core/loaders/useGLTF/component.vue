@@ -94,6 +94,5 @@ export interface GLTFModelProps {
   <primitive
     v-if="!isLoading && state?.scene"
     :object="state?.scene"
-    v-bind="$attrs"
   />
 </template>

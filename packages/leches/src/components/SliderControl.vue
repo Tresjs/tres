@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue'
+import { computed, ref, unref, watch } from 'vue'
 import { useDark, useMouse } from '@vueuse/core'
 import type { LechesNumberControl } from '../types'
 import ControlLabel from './ControlLabel.vue'
@@ -10,6 +10,8 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits(['change'])
+
+const controlValue = computed(() => unref(props.control.value))
 
 function onChange(event: Event) {
   const { target } = event
@@ -23,7 +25,7 @@ const sliderFilledStyle = computed(() => {
   const colorEnd = isDark.value ? '#2d2d2d' : '#9ca3af'
   return {
     backgroundImage: `linear-gradient(to right, ${colorStart} 0% ${
-      (100 * ((props.control.value as number) - (props.control.min || 0)))
+      (100 * ((controlValue.value as number) - (props.control.min || 0)))
       / ((props.control.max || 100) - (props.control.min || 0))
     }%, ${colorEnd} 0%)`,
   }
@@ -48,18 +50,19 @@ watch(mouse.x, (newValue) => {
   if (isMouseDown.value) {
     const diff = newValue - initialMouseX.value
     const speed = calculateSpeed(diff)
+    const currentValue = controlValue.value
     if (diff > 0) {
-      emit('change', props.control.value + 1 + speed)
+      emit('change', currentValue + 1 + speed)
     }
     else if (diff < 0) {
-      emit('change', props.control.value - 1 + speed)
+      emit('change', currentValue - 1 + speed)
     }
 
-    if (props.control.min !== undefined && props.control.value < props.control.min) {
+    if (props.control.min !== undefined && currentValue < props.control.min) {
       emit('change', props.control.min)
     }
 
-    if (props.control.max !== undefined && props.control.value > props.control.max) {
+    if (props.control.max !== undefined && currentValue > props.control.max) {
       emit('change', props.control.max)
     }
 
@@ -76,7 +79,7 @@ watch(mouse.x, (newValue) => {
     />
     <div class="tl-relative tl-w-2/3 tl-flex tl-justify-between tl-items-center tl-gap-0.5">
       <input
-        :value="control.value"
+        :value="controlValue"
         class="leches-range tl-w-1/2 tl-h-0.75 tl-bg-dark-200 dark:tl-bg-yellow tl-rounded-full tl-appearance-none"
         :style="sliderFilledStyle"
         type="range"
@@ -86,7 +89,7 @@ watch(mouse.x, (newValue) => {
         @input="onChange"
       />
       <input
-        :value="control.value"
+        :value="controlValue"
         class="tl-leches-input tl-w-1/4"
         :class="{ 'tl-cursor-ew-resize': isMouseDown }"
         type="number"

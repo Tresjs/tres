@@ -10,7 +10,17 @@ import { createRetargetingProxy } from '../utils/primitive/createRetargetingProx
 import { catalogue } from './catalogue'
 import { isSupportedPointerEvent, pointerEventsMapVueToThree } from '../utils/pointerEvents'
 
-export const nodeOps: (context: TresContext) => RendererOptions<TresObject, TresObject | null> = (context) => {
+export interface TresCustomRendererOptions {
+  primitivePrefix?: string
+}
+
+export const nodeOps = ({
+  context,
+  options = { primitivePrefix: '' },
+}: {
+  context: TresContext
+  options?: TresCustomRendererOptions
+}): RendererOptions<TresObject, TresObject | null> => {
   const scene = context.scene.value
 
   function createElement(tag: string, _isSVG: undefined, _anchor: any, props: Partial<WithMathProps<TresObject>> | null): TresObject | null {
@@ -28,7 +38,7 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
     let name = tag.replace('Tres', '')
     let obj: TresObject | null
 
-    if (tag === 'primitive') {
+    if (tag === `${options?.primitivePrefix ?? ''}primitive`) {
       if (!isObject(props.object) || isRef(props.object)) {
         logError(
           'Tres primitives need an \'object\' prop, whose value is an object or shallowRef<object>',
@@ -100,6 +110,8 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
     parent = unboxTresPrimitive(parentInstance)
 
     if (isTresCamera(child)) {
+      // Register camera as active so it becomes the primary camera immediately
+      // This ensures user cameras take precedence over the default camera
       context.camera?.registerCamera(child)
     }
 
@@ -164,9 +176,9 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
     // NOTE: 1) Recursively remove `node`'s children
     // NOTE: Remove declarative children.
     if (node.__tres && 'objects' in node.__tres) {
-    // NOTE: In the recursive `remove` calls, the array elements
-    // will remove themselves from the array, resulting in skipped
-    // elements. Make a shallow copy of the array.
+      // NOTE: In the recursive `remove` calls, the array elements
+      // will remove themselves from the array, resulting in skipped
+      // elements. Make a shallow copy of the array.
       [...node.__tres.objects].forEach(obj => remove(obj, dispose))
     }
 
@@ -413,7 +425,7 @@ export const nodeOps: (context: TresContext) => RendererOptions<TresObject, Tres
     return siblings[index + 1]
   }
 
-  const noop = (): any => {}
+  const noop = (): any => { }
 
   return {
     insert,

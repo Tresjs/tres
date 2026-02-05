@@ -1,3 +1,66 @@
+## 3.2.5 (2026-01-26)
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/core to 5.3.3
+
+## 3.2.4 (2026-01-22)
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/core to 5.3.2
+
+## 3.2.3 (2026-01-15)
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/core to 5.3.1
+
+## 3.2.2 (2026-01-14)
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/leches to 1.1.4
+
+## 3.2.1 (2026-01-14)
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/core to 5.3.0
+- Updated @tresjs/leches to 1.1.3
+
+## 3.2.0 (2025-12-26)
+
+### 🚀 Features
+
+- **playground:** integrate post-processing playground ([cef81b0f](https://github.com/Tresjs/tres/commit/cef81b0f))
+- **EffectComposer:** add renderTarget prop to EffectComposer for customizable rendering ([6a193f54](https://github.com/Tresjs/tres/commit/6a193f54))
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/core to 5.2.1
+
+### ❤️ Thank You
+
+- alvarosabu @alvarosabu
+- Tino Koch @tinoooo
+
+## 3.1.2 (2025-12-10)
+
+### 🩹 Fixes
+
+- update alias resolution to use import.meta.dirname in Vite config ([1a0fbf4b](https://github.com/Tresjs/tres/commit/1a0fbf4b))
+- update package.json import to use module attributes ([59de9e3a](https://github.com/Tresjs/tres/commit/59de9e3a))
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/core to 5.2.0
+- Updated @tresjs/leches to 1.1.2
+
+### ❤️ Thank You
+
+- alvarosabu @alvarosabu
+
 ## 3.1.1 (2025-11-18)
 
 ### 🧱 Updated Dependencies

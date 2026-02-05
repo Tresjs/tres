@@ -4,12 +4,12 @@ on:
   workflow_dispatch:
 
 jobs:
-  test:
+  publish:
     name: Publish
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      id-token: write # needed for provenance data generation
+      id-token: write # Required for OIDC trusted publishing
     timeout-minutes: 10
     steps:
       - name: Checkout repository
@@ -19,8 +19,6 @@ jobs:
           filter: tree:0
 
       - uses: ./.github/actions/setup-node
-
-      - run: pnpm config set //registry.npmjs.org/:_authToken ${{ secrets.NPM_TOKEN }}
 
       - name: Build publishable packages
         run: pnpm nx run-many -p="tag:npm:public" -t=build

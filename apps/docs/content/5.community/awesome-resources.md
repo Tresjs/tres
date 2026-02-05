@@ -20,6 +20,7 @@ The following resources are mostly using Tres v4, we will add new resources cove
 ## Recent talks on TresJS
 
 - [Bring the Magic of 3D to Your Vue Applications With TresJS by Alvaro Saburido](https://www.youtube.com/watch?v=k_BEfbY9wrw)
+- [Vue.js Talks #8 — 3D with Vue.js and Three.js, Formwerk, Latest Frontend Trends April 2025](https://www.youtube.com/watch?v=l_-Zx_HQYE4)
 - [Vue.js Nation 2025: Alvaro Saburido - TresJS Effects for Jaw-Dropping Visuals!](https://www.youtube.com/watch?v=MVwN7DAzMFo)
 - [Nuxt Nation 2024: Thorsten Seyschab - Playing with Nuxt in 3D](https://www.youtube.com/watch?v=o5zTGtHb5-o)
 

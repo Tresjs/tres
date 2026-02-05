@@ -4,7 +4,7 @@ definePageMeta({
 })
 
 const route = useRoute()
-const { toc } = useAppConfig()
+const { toc, ecosystem } = useAppConfig()
 
 const { data: page } = await useAsyncData(route.path, () => queryCollection('docs').path(route.path).first())
 
@@ -91,6 +91,16 @@ const links = computed(() => {
             <UPageLinks
               :title="toc.bottom.title"
               :links="links"
+            />
+
+            <USeparator
+              v-if="ecosystem?.links?.length"
+              type="dashed"
+            />
+
+            <UPageLinks
+              :title="ecosystem.title"
+              :links="ecosystem.links"
             />
           </div>
         </template>

@@ -51,7 +51,6 @@ defineExpose({
 <template>
   <TresMesh
     ref="tubeRef"
-    v-bind="$attrs"
   >
     <TresTubeGeometry :args="args" />
     <slot>

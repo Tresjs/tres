@@ -66,6 +66,5 @@ export interface FBXModelProps {
   <primitive
     v-if="!isLoading && model"
     :object="model"
-    v-bind="$attrs"
   />
 </template>

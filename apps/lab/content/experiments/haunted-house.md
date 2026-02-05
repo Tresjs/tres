@@ -4,6 +4,8 @@ author: jaime-bboyjt
 description: The classical threejs-journey haunted house, done with TresJs
 thumbnail: /experiments/haunted-house.png
 tags: ['PointLight', 'fog', 'useTexture', 'threejs-journey']
+date: 2023-04-10
+lastUpdated: 2023-04-10
 ---
 
 This experiment recreates the iconic **haunted house scene** from [Bruno Simon's Three.js Journey course](https://threejs-journey.com/), adapted for TresJS. Experience a spooky atmospheric scene complete with floating ghosts, textured materials, dynamic lighting, and eerie fog effects that create the perfect Halloween ambiance.
