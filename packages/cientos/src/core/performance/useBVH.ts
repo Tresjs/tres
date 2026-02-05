@@ -1,6 +1,7 @@
-import { type MaybeRefOrGetter, type Ref, ref, toValue, watch, watchEffect, onUnmounted } from 'vue'
-import { MeshBVH, acceleratedRaycast, BVHHelper } from 'three-mesh-bvh'
-import { type Object3D, type BufferGeometry, Mesh, SkinnedMesh, Group } from 'three'
+/* eslint-disable no-console */
+import { type MaybeRefOrGetter, onUnmounted, type Ref, ref, toValue, watch, watchEffect } from 'vue'
+import { acceleratedRaycast, BVHHelper, MeshBVH } from 'three-mesh-bvh'
+import { type BufferGeometry, Group, Mesh, type Object3D, SkinnedMesh } from 'three'
 import type { TresObject3D } from '@tresjs/core'
 /**
  * BVH options interface matching the drei implementation
@@ -89,23 +90,23 @@ export function useBVH(options: UseBVHOptions = {}) {
    */
   const getAllMeshes = (object: Object3D): (Mesh | SkinnedMesh)[] => {
     const meshes: (Mesh | SkinnedMesh)[] = []
-    
+
     object.traverse((child) => {
       // Debug logging to see what objects are found
       if (verbose) {
         console.log(`BVH: Found object - Type: ${child.type}, Name: ${child.name || 'unnamed'}`)
       }
-      
+
       // Check for both Mesh and SkinnedMesh using instanceof for more reliable detection
-      if ((child instanceof Mesh || child instanceof SkinnedMesh) && 
-          'geometry' in child && 'material' in child) {
+      if ((child instanceof Mesh || child instanceof SkinnedMesh)
+        && 'geometry' in child && 'material' in child) {
         if (verbose) {
           console.log(`BVH: Adding mesh - Type: ${child.type}, Name: ${child.name || 'unnamed'}`)
         }
         meshes.push(child as Mesh | SkinnedMesh)
       }
     })
-    
+
     return meshes
   }
 
@@ -126,7 +127,7 @@ export function useBVH(options: UseBVHOptions = {}) {
     try {
       // Compute bounds tree for the geometry
       const boundsTree = new MeshBVH(mesh.geometry, bvhOptions)
-      
+
       // Store the bounds tree on the geometry for three-mesh-bvh
       mesh.geometry.boundsTree = boundsTree
 
@@ -171,7 +172,8 @@ export function useBVH(options: UseBVHOptions = {}) {
         geometry: mesh.geometry,
         boundsTree,
       }
-    } catch (error) {
+    }
+    catch (error) {
       if (verbose) {
         console.error('BVH: Failed to create bounds tree for mesh', mesh, error)
       }
@@ -265,11 +267,11 @@ export function useBVH(options: UseBVHOptions = {}) {
     }
 
     const meshes = getAllMeshes(object)
-    
+
     if (verbose) {
       console.log(`BVH: Found ${meshes.length} meshes to process`)
     }
-    
+
     meshes.forEach((mesh, index) => {
       // Skip if already processed
       const alreadyProcessed = processedMeshes.value.find(pm => pm.mesh === mesh)
@@ -371,4 +373,4 @@ export function useBVH(options: UseBVHOptions = {}) {
 /**
  * Type definitions for the composable return
  */
-export type UseBVHReturn = ReturnType<typeof useBVH> 
+export type UseBVHReturn = ReturnType<typeof useBVH>
