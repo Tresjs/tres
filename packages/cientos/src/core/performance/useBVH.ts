@@ -247,6 +247,19 @@ export function useBVH(options: UseBVHOptions = {}) {
     isEnabled.value = enabled
   }
 
+  /**
+   * Helper for async model loading - watches a getter and applies BVH when truthy
+   * @param objectGetter - A getter function that returns the Object3D when ready
+   */
+  const applyBVHWhenReady = (objectGetter: () => Object3D | null | undefined): void => {
+    watchEffect(() => {
+      const object = objectGetter()
+      if (object && isEnabled.value) {
+        applyBVH(object)
+      }
+    })
+  }
+
   // Watch for enabled state changes
   watch(isEnabled, (newEnabled) => {
     if (!newEnabled) {
@@ -263,12 +276,13 @@ export function useBVH(options: UseBVHOptions = {}) {
     // State
     isEnabled,
     processedMeshes: processedMeshes as Ref<readonly ProcessedMesh[]>,
-    
+
     // Methods
     applyBVH,
+    applyBVHWhenReady,
     removeBVH,
     setBVHEnabled,
-    
+
     // Computed info
     get meshCount() {
       return processedMeshes.value.length
