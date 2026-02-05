@@ -1,6 +1,7 @@
 import { type MaybeRefOrGetter, type Ref, ref, toValue, watch, watchEffect, onUnmounted } from 'vue'
-import { MeshBVH, acceleratedRaycast } from 'three-mesh-bvh'
-import { type Object3D, type BufferGeometry, Mesh, SkinnedMesh } from 'three'
+import { MeshBVH, acceleratedRaycast, BVHHelper } from 'three-mesh-bvh'
+import { type Object3D, type BufferGeometry, Mesh, SkinnedMesh, Group } from 'three'
+import type { TresObject3D } from '@tresjs/core'
 /**
  * BVH options interface matching the drei implementation
  */
@@ -14,7 +15,7 @@ export interface BVHOptions {
   /** The maximum depth to allow the tree to build to, default: 40 */
   maxDepth?: number
   /** The number of triangles to aim for in a leaf node, default: 10 */
-  maxLeafTris?: number
+  maxLeafSize?: number
   /** If false then an index buffer is created if it does not exist and is rearranged */
   indirect?: boolean
 }
@@ -24,6 +25,8 @@ export interface UseBVHOptions extends BVHOptions {
   enabled?: MaybeRefOrGetter<boolean>
   /** Use .raycastFirst to retrieve hits which is generally faster, default: false */
   firstHitOnly?: boolean
+  /** Show debug visualization of BVH bounding boxes, default: false */
+  debug?: MaybeRefOrGetter<boolean>
 }
 
 interface ProcessedMesh {
@@ -31,6 +34,7 @@ interface ProcessedMesh {
   originalRaycast: typeof Mesh.prototype.raycast
   geometry: BufferGeometry
   boundsTree: MeshBVH
+  debugHelper?: BVHHelper
 }
 
 /**
@@ -46,17 +50,28 @@ export function useBVH(options: UseBVHOptions = {}) {
     verbose = false,
     setBoundingBox = true,
     maxDepth = 40,
-    maxLeafTris = 10,
+    maxLeafSize = 10,
     indirect = false,
+    debug = false,
   } = options
+
+  const DEBUG_OPACITY = 0.3
 
   // Reactive state - track the reactive enabled option
   const isEnabled = ref(toValue(enabled))
+  const isDebug = ref(toValue(debug))
   const processedMeshes = ref<ProcessedMesh[]>([])
+  const debugGroup = new Group()
+  debugGroup.name = 'BVH-Debug-Helpers'
 
   // Sync isEnabled with reactive enabled option
   watchEffect(() => {
     isEnabled.value = toValue(enabled)
+  })
+
+  // Sync isDebug with reactive debug option
+  watchEffect(() => {
+    isDebug.value = toValue(debug)
   })
 
   // BVH construction options
@@ -65,7 +80,7 @@ export function useBVH(options: UseBVHOptions = {}) {
     verbose,
     setBoundingBox,
     maxDepth,
-    maxLeafTris,
+    maxLeafSize,
     indirect,
   }
 
@@ -165,10 +180,61 @@ export function useBVH(options: UseBVHOptions = {}) {
   }
 
   /**
+   * Create debug helper for a processed mesh
+   */
+  const createDebugHelper = (processedMesh: ProcessedMesh): void => {
+    if (processedMesh.debugHelper) {
+      return // Already has helper
+    }
+
+    // Use the boundsTree directly for the helper
+    const helper = new BVHHelper(processedMesh.mesh as unknown as Object3D, processedMesh.boundsTree, maxDepth)
+    helper.opacity = DEBUG_OPACITY
+    helper.update()
+    processedMesh.debugHelper = helper
+    processedMesh.mesh.parent?.add(helper)
+
+    if (verbose) {
+      console.log(`BVH: Created debug helper for mesh ${processedMesh.mesh.name || 'unnamed'}`)
+    }
+  }
+
+  /**
+   * Remove debug helper from a processed mesh
+   */
+  const removeDebugHelper = (processedMesh: ProcessedMesh): void => {
+    if (!processedMesh.debugHelper) {
+      return
+    }
+
+    processedMesh.debugHelper.removeFromParent()
+    processedMesh.debugHelper = undefined
+
+    if (verbose) {
+      console.log(`BVH: Removed debug helper for mesh ${processedMesh.mesh.name || 'unnamed'}`)
+    }
+  }
+
+  /**
+   * Update debug visualization for all processed meshes
+   */
+  const updateDebugHelpers = (): void => {
+    if (isDebug.value) {
+      processedMeshes.value.forEach(createDebugHelper)
+    }
+    else {
+      processedMeshes.value.forEach(removeDebugHelper)
+    }
+  }
+
+  /**
    * Remove BVH optimization from a mesh
    */
   const removeBVHFromMesh = (processedMesh: ProcessedMesh): void => {
     const { mesh, originalRaycast, geometry } = processedMesh
+
+    // Remove debug helper first
+    removeDebugHelper(processedMesh)
 
     // Restore original raycast method
     mesh.raycast = originalRaycast
@@ -221,6 +287,12 @@ export function useBVH(options: UseBVHOptions = {}) {
       const processedMesh = applyBVHToMesh(mesh)
       if (processedMesh) {
         processedMeshes.value.push(processedMesh)
+
+        // Create debug helper if debug is enabled
+        if (isDebug.value) {
+          createDebugHelper(processedMesh)
+        }
+
         if (verbose) {
           console.log(`BVH: Successfully optimized mesh ${index + 1}`)
         }
@@ -251,7 +323,7 @@ export function useBVH(options: UseBVHOptions = {}) {
    * Helper for async model loading - watches a getter and applies BVH when truthy
    * @param objectGetter - A getter function that returns the Object3D when ready
    */
-  const applyBVHWhenReady = (objectGetter: () => Object3D | null | undefined): void => {
+  const applyBVHWhenReady = (objectGetter: () => TresObject3D | Object3D | null | undefined): void => {
     watchEffect(() => {
       const object = objectGetter()
       if (object && isEnabled.value) {
@@ -267,6 +339,11 @@ export function useBVH(options: UseBVHOptions = {}) {
     }
   })
 
+  // Watch for debug state changes
+  watch(isDebug, () => {
+    updateDebugHelpers()
+  })
+
   // Cleanup on unmount
   onUnmounted(() => {
     removeBVH()
@@ -275,6 +352,7 @@ export function useBVH(options: UseBVHOptions = {}) {
   return {
     // State
     isEnabled,
+    isDebug,
     processedMeshes: processedMeshes as Ref<readonly ProcessedMesh[]>,
 
     // Methods
