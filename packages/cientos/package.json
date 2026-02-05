@@ -55,6 +55,7 @@
     "stats-gl": "^2.0.1",
     "stats.js": "^0.17.0",
     "three-custom-shader-material": "catalog:three",
+    "three-mesh-bvh": "^0.9.8",
     "three-stdlib": "catalog:three"
   },
   "devDependencies": {
