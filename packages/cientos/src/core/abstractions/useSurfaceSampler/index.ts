@@ -5,7 +5,7 @@ import {
   Vector3,
 } from 'three'
 import { MeshSurfaceSampler } from 'three-stdlib'
-import {isReactive, reactive, ref, toRefs} from 'vue'
+import { isReactive, reactive, ref, toRefs } from 'vue'
 import type { InstancedMesh, Mesh, Object3DEventMap } from 'three'
 import type { TresObject } from '@tresjs/core'
 
@@ -79,9 +79,7 @@ type TransformPayload = SamplePayload & {
 
 export type TransformFn = (payload: TransformPayload, i: number) => void
 
-export const useSurfaceSampler = (
-  options: SurfaceSamplerOptions
-) => {
+export function useSurfaceSampler(options: SurfaceSamplerOptions) {
   const { mesh, count, instanceMesh, weight, transform } = isReactive(options) ? toRefs(options) : toRefs(reactive(options))
   const counter = ref(count?.value || 16)
   const arr = new Float32Array(counter.value * 16)
