@@ -5,11 +5,11 @@ import {
   Vector3,
 } from 'three'
 import { MeshSurfaceSampler } from 'three-stdlib'
-import { ref } from 'vue'
+import {isReactive, reactive, ref, toRefs} from 'vue'
 import type { InstancedMesh, Mesh, Object3DEventMap } from 'three'
 import type { TresObject } from '@tresjs/core'
 
-export interface useSurfaceSamplerProps {
+export interface SurfaceSamplerOptions {
   /*
    * A function that can be .
    *
@@ -80,22 +80,20 @@ type TransformPayload = SamplePayload & {
 export type TransformFn = (payload: TransformPayload, i: number) => void
 
 export const useSurfaceSampler = (
-  mesh: Mesh,
-  count: number = 16,
-  instanceMesh?: InstancedMesh | null,
-  weight?: string,
-  transform?: TransformFn,
+  options: SurfaceSamplerOptions
 ) => {
-  const arr = new Float32Array(count * 16)
+  const { mesh, count, instanceMesh, weight, transform } = isReactive(options) ? toRefs(options) : toRefs(reactive(options))
+  const counter = ref(count?.value || 16)
+  const arr = new Float32Array(counter.value * 16)
   const buffer = ref(new InterleavedBuffer(arr, 16))
 
   const updateBuffer = () => {
-    if (!mesh) { return }
+    if (!mesh?.value) { return }
 
-    const sampler = new MeshSurfaceSampler(mesh)
+    const sampler = new MeshSurfaceSampler(mesh.value)
 
-    if (weight) {
-      sampler.setWeightAttribute(weight)
+    if (weight?.value) {
+      sampler.setWeightAttribute(weight.value)
     }
     sampler.build()
 
@@ -104,9 +102,9 @@ export const useSurfaceSampler = (
     const color = new Color()
     const dummy = new Object3D<Object3DEventMap>() as TresObject
 
-    mesh.updateMatrixWorld(true)
+    mesh.value.updateMatrixWorld(true)
 
-    for (let i = 0; i < count; i++) {
+    for (let i = 0; i < counter.value; i++) {
       sampler.sample(position, normal, color)
 
       if (typeof transform === 'function') {
@@ -126,13 +124,13 @@ export const useSurfaceSampler = (
       }
       dummy.updateMatrix()
 
-      if (instanceMesh) {
-        instanceMesh.setMatrixAt(i, dummy.matrix)
+      if (instanceMesh?.value) {
+        instanceMesh.value.setMatrixAt(i, dummy.matrix)
       }
       dummy.matrix.toArray(buffer.value.array, i * 16)
     }
-    if (instanceMesh) {
-      instanceMesh.instanceMatrix.needsUpdate = true
+    if (instanceMesh?.value) {
+      instanceMesh.value.instanceMatrix.needsUpdate = true
     }
 
     buffer.value.needsUpdate = true
