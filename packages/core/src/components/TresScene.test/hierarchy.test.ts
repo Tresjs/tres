@@ -4,8 +4,9 @@ import { initializeSceneCreator } from './util'
 import { defineComponent, h } from 'vue'
 import { isBufferGeometry, isFog, isGroup, isMaterial, isMesh } from '../../utils/is'
 import type { Mesh } from 'three'
+import type { TresContext } from '../../composables'
 
-describe('hierarchy', async () => {
+describe('hierarchy', () => {
   extend(THREE)
 
   const mesh = new THREE.Mesh()
@@ -43,9 +44,17 @@ describe('hierarchy', async () => {
     }),
   })
 
-  const { createScene } = await initializeSceneCreator()
-  const { sceneWrapper, context } = await createScene(() => h(Component))
-  const scene = context.scene.value
+  let scene: TresContext['scene']['value']
+  let sceneWrapper: { unmount: () => void }
+  let group: THREE.Group
+
+  beforeAll(async () => {
+    const { createScene } = await initializeSceneCreator()
+    const result = await createScene(() => h(Component))
+    sceneWrapper = result.sceneWrapper
+    scene = result.context.scene.value
+    group = scene.children[0] as THREE.Group
+  })
 
   it('adds scene fog', () => {
     expect(isFog(scene.fog)).toBe(true)
@@ -53,14 +62,9 @@ describe('hierarchy', async () => {
 
   it('adds a group and its children', () => {
     expect(scene.children.length).toBe(1)
-
-    const group = scene.children[0]
-    expect(isGroup(scene.children[0])).toBe(true)
+    expect(isGroup(group)).toBe(true)
     expect(group.children.length).toBe(4)
   })
-
-  const group = scene.children[0]
-  if (!isGroup(group)) { throw new Error('never') }
 
   const checkMesh = (mesh: Mesh, uuid: string) => {
     expect(isMesh(mesh)).toBe(true)
