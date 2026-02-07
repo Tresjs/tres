@@ -100,7 +100,7 @@ function customDispose(instance) {
   <primitive :object="mesh" />
 
   <!-- Force disposal -->
-  <primitive :object="mesh" :dispose="true" />
+  <primitive :object="mesh.geometry" :dispose="true" />
 
   <!-- Custom disposal -->
   <primitive :object="mesh" :dispose="customDispose" />
