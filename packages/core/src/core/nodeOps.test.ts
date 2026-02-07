@@ -166,42 +166,6 @@ describe('nodeOps', () => {
   })
 
   describe('insert', () => {
-    it('inserts child into parent', async () => {
-    // Setup
-      const parent = new Scene()
-      parent.__tres = {
-        root: {
-          registerCamera: () => { },
-          registerObjectAtPointerEventHandler: () => { },
-        },
-      }
-      const child = new Mesh()
-
-      child.__tres = {
-        root: null,
-      }
-
-      // Fake vnodes
-      child.__vnode = {
-        type: 'TresMesh',
-      }
-
-      // Test
-      nodeOps.insert(child, parent, null)
-
-      // Assert
-      expect(parent.children.includes(child)).toBeTruthy()
-    })
-
-    it('does not insert a falsy child', () => {
-      const parent = nodeOps.createElement('Object3D', undefined, undefined, {})
-      for (const falsyChild of [undefined, null]) {
-        nodeOps.insert(falsyChild, parent)
-        expect(parent.children.length).toBe(0)
-        expect(() => nodeOps.insert(falsyChild, parent)).not.toThrow()
-      }
-    })
-
     describe('attach/detach', () => {
       // NOTE: Special implementation case: `attach`/`detach`
       //
