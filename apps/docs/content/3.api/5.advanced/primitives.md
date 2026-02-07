@@ -99,7 +99,6 @@ function customDispose(instance) {
   <!-- Default: no disposal -->
   <primitive :object="mesh" />
 
-  <!-- TODO create issue for this. meshes cannot be disposed-->
   <!-- Force disposal -->
   <primitive :object="mesh" :dispose="true" />
 
