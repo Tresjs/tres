@@ -37,7 +37,7 @@ describe('disposal', () => {
     expect(isBufferGeometry(mesh.geometry)).toBe(true)
 
     expect(isMaterial(mesh.material)).toBe(true)
-    if (!isMaterial(mesh.material)) { throw new Error('never') }
+    if (!isMaterial(mesh.material)) { throw new Error('never') } // to satisfy typescript
 
     const disposalSpies = [
       mesh.geometry,
