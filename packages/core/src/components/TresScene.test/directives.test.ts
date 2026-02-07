@@ -88,4 +88,8 @@ describe('directives', () => {
 
     sceneWrapper.unmount()
   })
+
+  it('can swap two materials via v-if', async () => {
+    // TODO
+  })
 })

@@ -193,51 +193,6 @@ describe('nodeOps', () => {
       expect(parent.children.includes(child)).toBeTruthy()
     })
 
-    describe.skip('primitive :object', () => {
-      describe('into mesh', () => {
-        it('inserts a mesh :object', () => {
-          const parent = nodeOps.createElement('Mesh', undefined, undefined, {})
-          const object = new THREE.Mesh()
-          const primitive = nodeOps.createElement('primitive', undefined, undefined, { object })
-
-          expect(parent.children.length).toBe(0)
-          nodeOps.insert(primitive, parent)
-          expect(parent.children.length).toBe(1)
-          expect(parent.children[0]).toBe(object)
-        })
-
-        it('inserts a material :object', () => {
-          const parent = nodeOps.createElement('Mesh', undefined, undefined, {})
-          const object = new THREE.MeshNormalMaterial()
-          const primitive = nodeOps.createElement('primitive', undefined, undefined, { object })
-
-          expect(parent.material.uuid).not.toBe(object)
-          nodeOps.insert(primitive, parent)
-          expect(parent.material).toBe(object)
-        })
-
-        it('inserts a geometry :object', () => {
-          const parent = nodeOps.createElement('Mesh', undefined, undefined, {})
-          const object = new THREE.BoxGeometry()
-          const primitive = nodeOps.createElement('primitive', undefined, undefined, { object })
-
-          expect(parent.geometry).not.toBe(object)
-          nodeOps.insert(primitive, parent)
-          expect(parent.geometry).toBe(object)
-        })
-
-        it('inserts a group :object', () => {
-          const parent = nodeOps.createElement('Mesh', undefined, undefined, {})
-          const object = new THREE.Group()
-          const primitive = nodeOps.createElement('primitive', undefined, undefined, { object })
-
-          expect(parent.children.length).toBe(0)
-          nodeOps.insert(primitive, parent)
-          expect(parent.children[0]).toBe(object)
-        })
-      })
-    })
-
     it('does not insert a falsy child', () => {
       const parent = nodeOps.createElement('Object3D', undefined, undefined, {})
       for (const falsyChild of [undefined, null]) {
