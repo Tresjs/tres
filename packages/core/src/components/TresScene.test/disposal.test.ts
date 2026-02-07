@@ -54,7 +54,8 @@ describe('disposal', () => {
 
   it('should dispose of a mesh, geometry and renderer when a scene is unmounted', async () => {
     const { disposalSpies, sceneWrapper, context } = await checkDisposal({
-      template: `<TresMesh v-if="exists" >
+      template: `
+      <TresMesh v-if="exists" >
         <TresBoxGeometry />
         <TresMeshBasicMaterial />
       </TresMesh>`,
@@ -87,6 +88,27 @@ describe('disposal', () => {
     sceneWrapper.unmount()
   })
 
+  it('should dispose of a mesh and geometry when the parent is a primitive and unmounted', async () => {
+    const group = new THREE.Group()
+    const { disposalSpies, sceneWrapper, exists } = await checkDisposal({
+      template: `
+      <primitive v-if="exists" :object="group">
+        <TresMesh>
+          <TresBoxGeometry />
+          <TresMeshBasicMaterial color="red" />
+        </TresMesh>
+      </primitive>`,
+      getMesh: ({ scene }) => scene.value.children[0].children[0] as Mesh,
+      setupContext: { group },
+    })
+    exists.value = false
+    await nextTick()
+
+    disposalSpies.forEach(spy => expect(spy).toHaveBeenCalledOnce())
+
+    sceneWrapper.unmount()
+  })
+
   it('should not dispose of anything below a component that has the dispose prop set to false or null', async () => {
     [false, null].forEach(async (dispose) => {
       const { disposalSpies, sceneWrapper, exists } = await checkDisposal({
@@ -108,6 +130,39 @@ describe('disposal', () => {
 
       sceneWrapper.unmount()
     })
+  })
+
+  it('should give priority to the dispose prop of a child over the dispose prop of a parent', async () => {
+    const { disposalSpies, sceneWrapper, exists, context } = await checkDisposal({
+      template: `
+      <TresMesh v-if="exists" :dispose="false">
+        <TresBoxGeometry />
+        <TresMeshBasicMaterial />
+        <TresMesh :dispose="true">
+          <TresBoxGeometry />
+          <TresMeshBasicMaterial />
+        </TresMesh>
+      </TresMesh>`,
+      getMesh: ({ scene }) => scene.value.children[0].children[0] as Mesh,
+    })
+
+    const parentMesh = context.scene.value.children[0]
+
+    if (!isMesh(parentMesh)) { throw new Error('never') } // to satisfy typescript
+    if (!isMaterial(parentMesh.material)) { throw new Error('never') } // to satisfy typescript
+
+    const parentDisposalSpies = [
+      vi.spyOn(parentMesh.geometry, 'dispose'),
+      vi.spyOn(parentMesh.material, 'dispose'),
+    ]
+
+    exists.value = false
+    await nextTick()
+
+    disposalSpies.forEach(spy => expect(spy).toHaveBeenCalledOnce())
+    parentDisposalSpies.forEach(spy => expect(spy).not.toHaveBeenCalled())
+
+    sceneWrapper.unmount()
   })
 
   describe('primitives', () => {
