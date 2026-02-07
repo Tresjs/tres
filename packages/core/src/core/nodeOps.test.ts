@@ -1,3 +1,4 @@
+// TODO remove all tests that are replaced now
 import type { TresContext } from '../composables'
 import type { Vector3 } from 'three'
 import type { TresObject } from '../types'
