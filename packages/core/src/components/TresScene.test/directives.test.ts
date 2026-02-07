@@ -89,7 +89,47 @@ describe('directives', () => {
     sceneWrapper.unmount()
   })
 
-  it('can swap two materials via v-if', async () => {
-    // TODO
+  it('can swap materials and geometries via v-if', async () => {
+    const isBasicMaterial = ref(true)
+    const isBoxGeometry = ref(true)
+
+    const SwapMaterial = defineComponent({
+      setup: () => ({ isBasicMaterial, isBoxGeometry }),
+      template: `
+        <TresMesh name="swapMesh">
+          <TresBoxGeometry v-if="isBoxGeometry" />
+          <TresSphereGeometry v-else />
+          <TresMeshBasicMaterial v-if="isBasicMaterial" color="red" />
+          <TresMeshStandardMaterial v-else color="blue" />
+        </TresMesh>
+      `,
+    })
+
+    const { createScene } = await initializeSceneCreator()
+    const { sceneWrapper, context } = await createScene(
+      () => h(SwapMaterial),
+    )
+
+    const mesh = context.scene.value.children[0] as THREE.Mesh
+    expect(mesh.name).toBe('swapMesh')
+    expect(mesh.material).toBeInstanceOf(THREE.MeshBasicMaterial)
+    expect(mesh.geometry).toBeInstanceOf(THREE.BoxGeometry)
+
+    isBasicMaterial.value = false
+    await nextTick()
+
+    expect(mesh.material).toBeInstanceOf(THREE.MeshStandardMaterial)
+
+    isBasicMaterial.value = true
+    await nextTick()
+
+    expect(mesh.material).toBeInstanceOf(THREE.MeshBasicMaterial)
+
+    isBoxGeometry.value = false
+    await nextTick()
+
+    expect(mesh.geometry).toBeInstanceOf(THREE.SphereGeometry)
+
+    sceneWrapper.unmount()
   })
 })
