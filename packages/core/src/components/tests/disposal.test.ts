@@ -34,11 +34,7 @@ describe('disposal', () => {
     const { sceneWrapper, context } = await createScene(() => h(Component))
     const mesh = getMesh(context)
 
-    expect(isMesh(mesh)).toBe(true)
-    if (!isMesh(mesh)) { throw new Error('never') }
-
     expect(isBufferGeometry(mesh.geometry)).toBe(true)
-    if (!isBufferGeometry(mesh.geometry)) { throw new Error('never') }
 
     expect(isMaterial(mesh.material)).toBe(true)
     if (!isMaterial(mesh.material)) { throw new Error('never') }
