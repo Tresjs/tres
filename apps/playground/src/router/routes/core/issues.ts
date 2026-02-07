@@ -34,4 +34,9 @@ export const issuesRoutes = [
     name: '#1005: slot',
     component: () => import('@/pages/core/issues/1005/index.vue'),
   },
+  {
+    path: '/issues/1323',
+    name: '#1323: render loop delta',
+    component: () => import('@/pages/core/issues/1323/index.vue'),
+  },
 ]
