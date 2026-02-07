@@ -70,8 +70,24 @@ export const mockWindowDimensions = async () => {
   Object.defineProperty(window, 'innerHeight', { value: 600, writable: true })
 }
 
+/**
+ * Mocks console.warn so messages containing "missing template" or "Failed to resolve component" are suppressed.
+ * This is a workaround for falsely logged warnings.
+ */
+export const mockConsoleWarn = () => {
+  const originalWarn = console.warn
+  vi.spyOn(console, 'warn').mockImplementation((...args: unknown[]) => {
+    const msg = String(args[0] ?? '')
+    if (msg.includes('missing template') || msg.includes('Failed to resolve component')) {
+      return
+    }
+    originalWarn.apply(console, args)
+  })
+}
+
 export const setupMocks = async () => {
   await mockWebGLRenderer()
   await mockPointerEvents()
   await mockWindowDimensions()
+  mockConsoleWarn()
 }
