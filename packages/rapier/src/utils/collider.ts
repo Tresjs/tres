@@ -2,6 +2,29 @@ import { Box3, Object3D, Vector3 } from 'three'
 import type { TresObject3D } from '@tresjs/core'
 
 /**
+ * @description Check if an object has valid geometry for creating a collider.
+ *
+ * Returns true if the object has geometry with position attributes,
+ * or if it has descendants with geometry (non-empty bounding box).
+ *
+ * @param object {@link Object3D}
+ */
+export const hasValidColliderGeometry = (object?: Object3D): boolean => {
+  if (!object) { return false }
+
+  // Check if the object itself has geometry with positions
+  const geo = (object as unknown as { geometry?: { attributes?: { position?: { array?: ArrayLike<number> } } } }).geometry
+  if (geo?.attributes?.position?.array?.length) {
+    return true
+  }
+
+  // Check if the object or its descendants have valid geometry via bounding box
+  const boundingBox = new Box3().setFromObject(object)
+  // Box3.isEmpty() returns true if no points have been added to the box
+  return !boundingBox.isEmpty()
+}
+
+/**
  * @description Get the collider sizings from the given object.
  *
  * Will try to get the bounding-box if the object doesn't have a geometry.

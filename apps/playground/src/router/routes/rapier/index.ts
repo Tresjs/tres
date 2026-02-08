@@ -24,11 +24,7 @@ export const rapierRoutes = [
     name: 'Gravity',
     component: () => import('@/pages/rapier/GravityDemo.vue'),
   },
-  {
-    path: '/rapier/props',
-    name: 'Props',
-    component: () => import('@/pages/rapier/RigidBodyProps.vue'),
-  },
+
   {
     path: '/rapier/collision',
     name: 'Collision',
