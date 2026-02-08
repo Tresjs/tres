@@ -13,45 +13,62 @@ const gl = {
   toneMapping: ACESFilmicToneMapping,
 }
 
-const { gravityY } = useControls({
+const { gravityY, gravityX, gravityZ, debug } = useControls({
   gravityY: { value: 0, min: -20, max: 20, step: 0.1 },
+  gravityX: { value: 0, min: -20, max: 20, step: 0.1 },
+  gravityZ: { value: 0, min: -20, max: 20, step: 0.1 },
+  debug: true,
 })
 </script>
 
 <template>
   <TresLeches />
-  <TresCanvas v-bind="gl" >
-    <TresPerspectiveCamera :position="[15, 15, 15]" :look-at="[0, 0, 0]" />
+  <TresCanvas v-bind="gl">
+    <TresPerspectiveCamera :position="[0, 0, 45]" :look-at="[0, 0, 0]" />
     <OrbitControls />
-    
+
     <Suspense>
-      <Physics debug :gravity="[0, gravityY, 0]">
-        <RigidBody>
-          <TresMesh :position="[0, 8, 0]">
-            <TresTorusGeometry />
-            <TresMeshNormalMaterial />
-          </TresMesh>
-
-          <TresMesh :position="[0, 5, 0]">
-            <TresBoxGeometry />
-            <TresMeshNormalMaterial />
-          </TresMesh>
-        </RigidBody>
-
-        <RigidBody v-for="i in Array.from(Array(10).keys()) " :key="i" collider="ball">
-          <TresMesh :position="[Math.random() * (i / 2), Math.random() + 8, Math.random() * (i / 2)]">
+      <Physics :debug="debug" :gravity="[gravityX, gravityY, gravityZ]">
+        <RigidBody collider="ball" :position="[0, 0, 0]">
+          <TresMesh :position="[0, 0, 0]">
             <TresSphereGeometry />
             <TresMeshNormalMaterial />
           </TresMesh>
         </RigidBody>
 
-        <RigidBody type="fixed">
+        <RigidBody type="fixed" :restitution="0.5" :position="[0, -10, 0]">
           <TresMesh>
             <TresPlaneGeometry :args="[20, 20, 20]" :rotate-x="-Math.PI / 2" />
-            <TresMeshBasicMaterial color="#f4f4f4" />
+            <TresMeshStandardMaterial color="#f4f4f4" />
+          </TresMesh>
+        </RigidBody>
+        <RigidBody type="fixed" :restitution="0.5" :position="[0, 0, -10]">
+          <TresMesh>
+            <TresPlaneGeometry :args="[20, 20, 20]" />
+            <TresMeshStandardMaterial color="#f4f4f4" />
+          </TresMesh>
+        </RigidBody>
+        <RigidBody type="fixed" :restitution="0.5" :position="[0, 10, 0]">
+          <TresMesh>
+            <TresPlaneGeometry :args="[20, 20, 20]" :rotate-x="Math.PI / 2" />
+            <TresMeshStandardMaterial color="#f4f4f4" />
+          </TresMesh>
+        </RigidBody>
+        <RigidBody type="fixed" :restitution="0.5" :position="[10, 0, 0]" :rotate-y="-Math.PI / 2">
+          <TresMesh>
+            <TresPlaneGeometry :args="[20, 20, 20]" />
+            <TresMeshStandardMaterial color="#f4f4f4" />
+          </TresMesh>
+        </RigidBody>
+        <RigidBody type="fixed" :restitution="0.5" :position="[-10, 0, 0]" :rotate-y="Math.PI / 2">
+          <TresMesh>
+            <TresPlaneGeometry :args="[20, 20, 20]" />
+            <TresMeshStandardMaterial color="#f4f4f4" />
           </TresMesh>
         </RigidBody>
       </Physics>
     </Suspense>
+    <TresAmbientLight :intensity="0.5" />
+    <TresDirectionalLight :position="[10, 10, 5]" />
   </TresCanvas>
 </template>
