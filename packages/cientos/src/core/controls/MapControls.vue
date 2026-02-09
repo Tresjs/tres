@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { useLoop, useTres } from '@tresjs/core'
-import { useEventListener } from '@vueuse/core'
+import { whenever } from '@vueuse/core'
 import { MapControls } from 'three-stdlib'
 import { onUnmounted, shallowRef, toRefs, watch } from 'vue'
 import type { TresVector3 } from '@tresjs/core'
@@ -252,7 +252,11 @@ const props = withDefaults(defineProps<MapControlsProps>(), {
   rotateSpeed: 1,
 })
 
-const emit = defineEmits(['change', 'start', 'end'])
+const emit = defineEmits<{
+  change: [controls: MapControls]
+  start: [controls: MapControls]
+  end: [controls: MapControls]
+}>()
 
 const {
   autoRotate,
@@ -273,7 +277,7 @@ const {
   zoomSpeed,
   enableRotate,
   rotateSpeed,
-} = toRefs(props)
+} = toRefs(props) // TODO remove toRefs
 
 const { camera: activeCamera, renderer, extend, controls, invalidate } = useTres()
 
@@ -285,33 +289,27 @@ const controlsRef = shallowRef<MapControls | null>(null)
 
 extend({ MapControls })
 
-watch(controls, (value) => {
+whenever(controlsRef, (value) => {
+  value.addEventListener('change', () => {
+    invalidate()
+    controlsRef.value && emit('change', controlsRef.value)
+  })
+  value.addEventListener('start', () => controlsRef.value && emit('start', controlsRef.value))
+  value.addEventListener('end', () => controlsRef.value && emit('end', controlsRef.value))
+
   if (value && props.makeDefault) {
     controls.value = value
   }
   else {
     controls.value = null
   }
-})
+}, { once: true })
 
-function onChange() {
-  addEventListeners()
-  invalidate()
-  emit('change', controlsRef.value)
-}
-function addEventListeners() {
-  useEventListener(controlsRef.value as any, 'change', onChange)
-  useEventListener(controlsRef.value as any, 'start', () => emit('start', controlsRef.value))
-  useEventListener(controlsRef.value as any, 'end', () => emit('end', controlsRef.value))
-}
 const { onBeforeRender } = useLoop()
 
 onBeforeRender(() => {
   if (controlsRef.value && (enableDamping.value || autoRotate.value)) {
     controlsRef.value.update()
-
-    // TODO: comment this until invalidate is back in the loop callback on v5
-    // invalidate()
   }
 })
 
