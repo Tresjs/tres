@@ -204,10 +204,15 @@ export interface OrbitLikeControlsEmits<T extends OrbitControls = OrbitControls>
   end: [controls: T]
 }
 
+export type OrbitLikeControlsEmitFn<T extends OrbitControls> = <E extends keyof OrbitLikeControlsEmits<T>>(
+  event: E,
+  ...args: OrbitLikeControlsEmits<T>[E]
+) => void
+
 export function useOrbitLikeControls<T extends OrbitControls>(
   controlsRef: ShallowRef<T | null>,
   props: OrbitLikeControlsProps,
-  emit: (e: 'change' | 'start' | 'end', controls: T) => void,
+  emit: OrbitLikeControlsEmitFn<T>,
 ) {
   const { controls, invalidate } = useTres()
 

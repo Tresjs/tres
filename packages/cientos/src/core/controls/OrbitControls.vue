@@ -45,7 +45,7 @@ extend({ OrbitControls })
 useOrbitLikeControls(
   controlsRef,
   props,
-  (e, c) => (emit as (evt: 'change' | 'start' | 'end', controls: OrbitControls) => void)(e, c),
+  emit,
 )
 
 defineExpose({ instance: controlsRef })

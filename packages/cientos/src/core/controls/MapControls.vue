@@ -32,7 +32,7 @@ extend({ MapControls })
 useOrbitLikeControls(
   controlsRef,
   props,
-  (e, c) => (emit as (evt: 'change' | 'start' | 'end', controls: MapControls) => void)(e, c),
+  emit,
 )
 
 defineExpose({
@@ -45,7 +45,7 @@ defineExpose({
     v-if="(camera || activeCamera) && (domElement || renderer.domElement)"
     ref="controlsRef"
     :args="[camera || activeCamera, domElement || renderer.domElement]"
-    :target="target"
+    :target
     :auto-rotate
     :auto-rotate-speed
     :enable-damping
@@ -67,6 +67,6 @@ defineExpose({
     :enable-rotate
     :rotate-speed
     :mouse-buttons
-    :screen-space-panning="screenSpacePanning"
+    :screen-space-panning
   />
 </template>
