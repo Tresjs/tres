@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { useLoop, useTres } from '@tresjs/core'
-import { useEventListener } from '@vueuse/core'
+import { whenever } from '@vueuse/core'
 import CameraControls from 'camera-controls'
 import {
   Box3,
@@ -14,7 +14,7 @@ import {
   Vector3,
   Vector4,
 } from 'three'
-import { computed, onUnmounted, shallowRef, toRefs, watch, watchEffect } from 'vue'
+import { computed, onUnmounted, shallowRef, toRefs, watch } from 'vue'
 import type { TresControl } from '@tresjs/core'
 import type {
   Camera,
@@ -340,7 +340,11 @@ const props = withDefaults(defineProps<CameraControlsProps>(), {
   touches: () => getTouches(useTres().camera.value),
 })
 
-const emit = defineEmits(['change', 'start', 'end'])
+const emit = defineEmits<{
+  change: [controls: CameraControls]
+  start: [controls: CameraControls]
+  end: [controls: CameraControls]
+}>()
 
 const {
   makeDefault,
@@ -405,32 +409,27 @@ const touches = computed(() => getTouches(
 const controlsRef = shallowRef<TresControl & CameraControls | null>(null)
 extend({ CameraControls })
 
-watchEffect(() => {
-  addEventListeners()
-  if (controlsRef.value && makeDefault.value) {
-    controls.value = controlsRef.value
+whenever(controlsRef, (value) => {
+  value.addEventListener('update', () => {
+    controlsRef.value && emit('change', controlsRef.value)
+    invalidate()
+  })
+  value.addEventListener('controlend', () => controlsRef.value && emit('end', controlsRef.value))
+  value.addEventListener('controlstart', () => controlsRef.value && emit('start', controlsRef.value))
+
+  if (makeDefault.value) {
+    controls.value = value
   }
   else {
     controls.value = null
   }
 })
 
-function addEventListeners() {
-  useEventListener(controlsRef.value as any, 'update', () => {
-    emit('change', controlsRef.value)
-    invalidate()
-  })
-  useEventListener(controlsRef.value as any, 'controlend', () => emit('end', controlsRef.value))
-  useEventListener(controlsRef.value as any, 'controlstart', () => emit('start', controlsRef.value))
-}
-
 const { onBeforeRender } = useLoop()
 
-onBeforeRender(({ delta /* invalidate */ }) => {
+onBeforeRender(({ delta }) => {
   if (controlsRef.value?.enabled) {
     controlsRef.value?.update(delta)
-    // TODO: comment this until invalidate is back in the loop callback on v5
-    // invalidate()
   }
 })
 

@@ -244,7 +244,7 @@ export function useOrbitLikeControls<T extends OrbitControls>(
 
   const { onBeforeRender } = useLoop()
   onBeforeRender(() => {
-    if (controlsRef.value && (props.enableDamping || props.autoRotate)) {
+    if (controlsRef.value && controlsRef.value.enabled && (props.enableDamping || props.autoRotate)) {
       controlsRef.value.update()
     }
   })
