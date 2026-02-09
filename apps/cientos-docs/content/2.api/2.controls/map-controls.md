@@ -31,7 +31,7 @@ import { MapControls } from "@tresjs/cientos"
 ```
 
 ::prose-warning
-Is really important that the Perspective camera is set first in the canvas. Otherwise might break.
+It is really important that the perspective camera is set first in the canvas. Otherwise the scene might break.
 ::
 
 ## Props
@@ -43,5 +43,5 @@ Is really important that the Perspective camera is set first in the canvas. Othe
 | **domElement**    | The dom element to listen to.                                                                                    | `undefined` |
 
 ::prose-note
-All the Orbit-Controls props works here too.
+All the props of the orbit controls component apply here too.
 ::

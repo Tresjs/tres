@@ -47,11 +47,13 @@ Is really important that the Perspective camera is set first in the canvas. Othe
 | **maxZoom**         | The maximum field of view angle, in radians. ( OrthographicCamera only ). Default is Infinity.                                                                                   | `Infinity`                                                                       |
 | **touches**         | This object contains references to the touch actions used by the controls.                                                                                                       | `{ ONE: TOUCH.ROTATE, TWO: TOUCH.DOLLY_PAN }`                                    |
 | **mouseButtons**    | This object contains references to the mouse actions used by the controls. LEFT: Rotate around the target, MIDDLE: Zoom the camera, RIGHT: Pan the camera.                       | `{ LEFT: MOUSE.ROTATE, MIDDLE: MOUSE.DOLLY, RIGHT: MOUSE.PAN }`                  |
+| **screenSpacePanning** | Defines how the camera's position is translated when panning. If true, the camera pans in screen space. Otherwise, the camera pans in the plane orthogonal to the camera's up direction. | `true` |
 | -                   | -                                                                                                                                                                                |
 | **enableZoom**      | Whether to enable zooming.                                                                                                                                                       | `true`                                                                           |
 | **zoomSpeed**       | How fast to zoom in and out. Default is 1.                                                                                                                                       | `1`                                                                              |
 | **enableRotate**    | Whether to enable rotating.                                                                                                                                                      | `true`                                                                           |
-| **rotateSpeed**     | How fast to rotate around the target. Default is 1.                                                                                                                              | `1`                                                                              |
+| **rotateSpeed**     | How fast to rotate around the target. Default is 1.    
+                                                                                                                          | `1`                                                                              |
 
 ## Events
 
