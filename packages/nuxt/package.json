@@ -1,7 +1,7 @@
 {
   "name": "@tresjs/nuxt",
   "type": "module",
-  "version": "5.2.0",
+  "version": "5.2.1",
   "description": "TresJS integration for Nuxt.",
   "author": "Daniel Roe (https://github.com/danielroe/)",
   "license": "MIT",

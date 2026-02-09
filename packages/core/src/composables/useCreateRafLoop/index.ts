@@ -15,14 +15,14 @@ export const useCreateRafLoop = (cycleFn: () => void) => {
   }
 
   const { pause, resume, isActive } = useRafFn(() => {
-    const getContextWithClock = (): RafLoopContext => ({
-      delta: clock.getDelta(),
+    const context: RafLoopContext = {
+      delta: clock.getDelta(), // do not call getDelta individually for before and after event hooks as it resets the delta and leads to incorrect delta values (see issue #1323)
       elapsed: clock.elapsedTime,
-    })
+    }
 
-    eventHooks.before.trigger(getContextWithClock())
+    eventHooks.before.trigger(context)
     cycleFn()
-    eventHooks.after.trigger(getContextWithClock())
+    eventHooks.after.trigger(context)
   }, {
     immediate: false,
   })
