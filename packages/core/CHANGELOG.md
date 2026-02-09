@@ -1,3 +1,13 @@
+## 5.4.1 (2026-02-09)
+
+### 🩹 Fixes
+
+- **core:** fixed clock delta bug ([21a813ae](https://github.com/Tresjs/tres/commit/21a813ae))
+
+### ❤️ Thank You
+
+- Tino Koch @tinoooo
+
 ## 5.4.0 (2026-02-02)
 
 ### 🚀 Features
