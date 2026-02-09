@@ -423,7 +423,7 @@ whenever(controlsRef, (value) => {
   else {
     controls.value = null
   }
-})
+}, { once: true })
 
 const { onBeforeRender } = useLoop()
 
