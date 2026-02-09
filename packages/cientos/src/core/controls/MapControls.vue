@@ -2,7 +2,7 @@
 import { useLoop, useTres } from '@tresjs/core'
 import { whenever } from '@vueuse/core'
 import { MapControls } from 'three-stdlib'
-import { onUnmounted, shallowRef, toRefs, watch } from 'vue'
+import { onUnmounted, shallowRef, watch } from 'vue'
 import type { TresVector3 } from '@tresjs/core'
 import type { Camera } from 'three'
 
@@ -230,6 +230,12 @@ export interface MapControlsProps {
   rotateSpeed?: number
 }
 
+export interface MapControlsEmits {
+  change: [controls: MapControls]
+  start: [controls: MapControls]
+  end: [controls: MapControls]
+}
+
 const props = withDefaults(defineProps<MapControlsProps>(), {
   makeDefault: false,
   autoRotate: false,
@@ -252,32 +258,7 @@ const props = withDefaults(defineProps<MapControlsProps>(), {
   rotateSpeed: 1,
 })
 
-const emit = defineEmits<{
-  change: [controls: MapControls]
-  start: [controls: MapControls]
-  end: [controls: MapControls]
-}>()
-
-const {
-  autoRotate,
-  autoRotateSpeed,
-  enableDamping,
-  dampingFactor,
-  enablePan,
-  keyPanSpeed,
-  maxAzimuthAngle,
-  minAzimuthAngle,
-  maxPolarAngle,
-  minPolarAngle,
-  minDistance,
-  maxDistance,
-  minZoom,
-  maxZoom,
-  enableZoom,
-  zoomSpeed,
-  enableRotate,
-  rotateSpeed,
-} = toRefs(props) // TODO remove toRefs
+const emit = defineEmits<MapControlsEmits>()
 
 const { camera: activeCamera, renderer, extend, controls, invalidate } = useTres()
 
@@ -308,7 +289,7 @@ whenever(controlsRef, (value) => {
 const { onBeforeRender } = useLoop()
 
 onBeforeRender(() => {
-  if (controlsRef.value && (enableDamping.value || autoRotate.value)) {
+  if (controlsRef.value && (props.enableDamping || props.autoRotate)) {
     controlsRef.value.update()
   }
 })
