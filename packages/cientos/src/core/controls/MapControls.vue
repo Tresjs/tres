@@ -4,7 +4,7 @@ import { whenever } from '@vueuse/core'
 import { MapControls } from 'three-stdlib'
 import { onUnmounted, shallowRef, watch } from 'vue'
 import type { TresVector3 } from '@tresjs/core'
-import type { Camera } from 'three'
+import { type Camera, MOUSE, TOUCH } from 'three'
 
 export interface MapControlsProps {
   /**
@@ -256,6 +256,8 @@ const props = withDefaults(defineProps<MapControlsProps>(), {
   zoomSpeed: 1,
   enableRotate: true,
   rotateSpeed: 1,
+  touches: () => ({ ONE: TOUCH.PAN, TWO: TOUCH.DOLLY_ROTATE }),
+  mouseButtons: () => ({ LEFT: MOUSE.PAN, MIDDLE: MOUSE.DOLLY, RIGHT: MOUSE.ROTATE }),
 })
 
 const emit = defineEmits<MapControlsEmits>()
@@ -310,24 +312,24 @@ defineExpose({
     v-if="(camera || activeCamera) && (domElement || renderer.domElement)"
     ref="controlsRef"
     :args="[camera || activeCamera, domElement || renderer.domElement]"
-    :auto-rotate="autoRotate"
-    :auto-rotate-speed="autoRotateSpeed"
-    :enable-damping="enableDamping"
-    :damping-factor="dampingFactor"
-    :enable-pan="enablePan"
-    :key-pan-speed="keyPanSpeed"
-    :keys="keys"
-    :max-azimuth-angle="maxAzimuthAngle"
-    :min-azimuth-angle="minAzimuthAngle"
-    :max-polar-angle="maxPolarAngle"
-    :min-polar-angle="minPolarAngle"
-    :min-distance="minDistance"
-    :max-distance="maxDistance"
-    :min-zoom="minZoom"
-    :max-zoom="maxZoom"
-    :enable-zoom="enableZoom"
-    :zoom-speed="zoomSpeed"
-    :enable-rotate="enableRotate"
-    :rotate-speed="rotateSpeed"
+    :auto-rotate
+    :auto-rotate-speed
+    :enable-damping
+    :damping-factor
+    :enable-pan
+    :key-pan-speed
+    :keys
+    :max-azimuth-angle
+    :min-azimuth-angle
+    :max-polar-angle
+    :min-polar-angle
+    :min-distance
+    :max-distance
+    :min-zoom
+    :max-zoom
+    :enable-zoom
+    :zoom-speed
+    :enable-rotate
+    :rotate-speed
   />
 </template>
