@@ -183,6 +183,6 @@ onUnmounted(() => {
       :collisionGroups="_props.collisionGroups"
       :sensor="_props.sensor"
     />
-    <slot v-once></slot>
+    <slot></slot>
   </TresGroup>
 </template>
