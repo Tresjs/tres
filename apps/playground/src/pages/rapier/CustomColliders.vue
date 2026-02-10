@@ -45,7 +45,7 @@ const { debug, friction, mass, restitution, density } = useControls({
     <OrbitControls />
 
     <Suspense>
-      <Physics :debug="debug">
+      <Physics :debug>
         <RigidBody :position="[5, 0, 0]">
           <BallCollider
             :args="[1, 1, 1]"
@@ -60,14 +60,14 @@ const { debug, friction, mass, restitution, density } = useControls({
         <RigidBody ref="colliderRef" :collider="false" :position="[0, 15, 0]">
           <BallCollider
             :args="[1, 1, 1]"
-            :friction="friction"
-            :mass="mass"
-            :restitution="restitution"
-            :density="density"
+            :friction
+            :mass
+            :restitution
+            :density
           />
         </RigidBody>
 
-        <RigidBody type="fixed" :restitution="restitution" @click="jump">
+        <RigidBody type="fixed" :restitution @click="jump">
           <TresMesh :position="[0, 0, 0]">
             <TresPlaneGeometry :args="[20, 20, 20]" :rotate-x="-Math.PI / 2" />
             <TresMeshBasicMaterial color="#f4f4f4" />

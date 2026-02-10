@@ -1,4 +1,5 @@
 import { Box3, Object3D, Vector3 } from 'three'
+import type { Mesh } from 'three'
 import type { TresObject3D } from '@tresjs/core'
 
 /**
@@ -9,19 +10,10 @@ import type { TresObject3D } from '@tresjs/core'
  *
  * @param object {@link Object3D}
  */
-export const hasValidColliderGeometry = (object?: Object3D): boolean => {
-  if (!object) { return false }
-
-  // Check if the object itself has geometry with positions
-  const geo = (object as unknown as { geometry?: { attributes?: { position?: { array?: ArrayLike<number> } } } }).geometry
-  if (geo?.attributes?.position?.array?.length) {
-    return true
-  }
-
-  // Check if the object or its descendants have valid geometry via bounding box
-  const boundingBox = new Box3().setFromObject(object)
-  // Box3.isEmpty() returns true if no points have been added to the box
-  return !boundingBox.isEmpty()
+export function hasValidColliderGeometry(object: Object3D): boolean {
+  if ((object as unknown as Mesh).geometry?.attributes?.position) { return true }
+  // check children only if needed
+  return object.children.some(child => hasValidColliderGeometry(child as Object3D))
 }
 
 /**

@@ -28,7 +28,7 @@ const { gravityY, gravityX, gravityZ, debug } = useControls({
     <OrbitControls />
 
     <Suspense>
-      <Physics :debug="debug" :gravity="[gravityX, gravityY, gravityZ]">
+      <Physics :debug :gravity="[gravityX, gravityY, gravityZ]">
         <RigidBody collider="ball" :position="[0, 0, 0]">
           <TresMesh :position="[0, 0, 0]">
             <TresSphereGeometry />

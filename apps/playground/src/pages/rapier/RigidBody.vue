@@ -37,7 +37,6 @@ const {
   dominanceGroup,
   lockTranslations,
   lockRotations,
-  enableCcd,
   linvelX,
   linvelY,
   linvelZ,
@@ -52,7 +51,9 @@ const {
   enabledTranslationZ,
   debug,
 } = useControls({
+  // this is not reactive yet
   type: { value: 'dynamic', options: ['dynamic', 'fixed'] },
+  // this is not reactive yet
   collider: { value: 'cuboid', options: ['cuboid', 'ball'] },
   gravityScale: { value: 1, min: -10, max: 10, step: 0.1 },
   additionalMass: { value: 0, min: 0, max: 100, step: 0.1 },
@@ -61,7 +62,6 @@ const {
   dominanceGroup: { value: 0, min: -127, max: 127, step: 1 },
   lockTranslations: false,
   lockRotations: false,
-  enableCcd: false,
   linvelX: { value: 0, min: -10, max: 10, step: 0.1 },
   linvelY: { value: 0, min: -10, max: 10, step: 0.1 },
   linvelZ: { value: 0, min: -10, max: 10, step: 0.1 },
@@ -85,20 +85,19 @@ const {
     <OrbitControls />
 
     <Suspense>
-      <Physics :debug="debug">
+      <Physics :debug>
         <!-- TORUS -->
         <RigidBody
           ref="rigidTorusRef"
-          :type="type"
-          :collider="collider"
-          :gravityScale="gravityScale"
-          :additionalMass="additionalMass"
-          :linearDamping="linearDamping"
-          :angularDamping="angularDamping"
-          :dominanceGroup="dominanceGroup"
-          :lockTranslations="lockTranslations"
-          :lockRotations="lockRotations"
-          :enableCcd="enableCcd"
+          :type
+          :collider
+          :gravityScale
+          :additionalMass
+          :linearDamping
+          :angularDamping
+          :dominanceGroup
+          :lockTranslations
+          :lockRotations
           :linvel="{ x: linvelX,
                      y: linvelY,
                      z: linvelZ }"
@@ -117,16 +116,14 @@ const {
         <!-- BOX -->
         <RigidBody
           ref="rigidBoxRef"
-          :type="type"
-          :collider="collider"
-          :gravityScale="gravityScale"
-          :additionalMass="additionalMass"
-          :linearDamping="linearDamping"
-          :angularDamping="angularDamping"
-          :dominanceGroup="dominanceGroup"
-          :lockTranslations="lockTranslations"
-          :lockRotations="lockRotations"
-          :enableCcd="enableCcd"
+          :type
+          :collider
+          :gravityScale
+          :additionalMass
+          :linearDamping
+          :angularDamping
+          :dominanceGroup
+          :lockTranslations
           :linvel="{ x: linvelX,
                      y: linvelY,
                      z: linvelZ }"
