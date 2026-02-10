@@ -41,6 +41,7 @@ It is really important that the perspective camera is set first in the canvas. O
 | **makeDefault**   | If `true`, the controls will be set as the default controls for the scene.                                       | `false`     |
 | **camera**        | The camera to control.                                                                                           | `undefined` |
 | **domElement**    | The dom element to listen to.                                                                                    | `undefined` |
+| **screenSpacePanning** | Defines how the camera's position is translated when panning. If `true`, the camera pans in screen space. Otherwise, the camera pans in the plane orthogonal to the camera's up direction. | `false` |
 
 ::prose-note
 All the props of the orbit controls component apply here too.
