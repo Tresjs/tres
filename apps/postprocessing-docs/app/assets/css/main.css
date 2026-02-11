@@ -1,0 +1,57 @@
+@import 'tailwindcss';
+@import '@nuxt/ui';
+
+@source "../../../content/**/*";
+
+@theme static {
+  --font-display: 'Manrope', sans-serif;
+  --font-sans: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --breakpoint-3xl: 1920px;
+  --ui-pattern-fg: color-mix(in oklab, var(--ui-text) 5%, transparent);
+  --ui-pattern-bg: repeating-linear-gradient(
+    315deg,
+    var(--ui-pattern-fg) 0,
+    var(--ui-pattern-fg) 1px,
+    transparent 0,
+    transparent 50%
+  );
+  --ui-pattern-dot-fg: color-mix(in oklab, oklch(0.18 0.04 266.75) 5%, transparent);
+  --ui-pattern-dot-bg: radial-gradient(var(--ui-pattern-dot-fg) 1px, transparent 0);
+  --ui-header-height: 3rem;
+  /* Technical blueprint styles */
+  --ui-line-gap: 5px;
+  --ui-line-width: 1px;
+  --ui-line-offset: 172px;
+  --ui-line-color: var(--color-gray-200);
+
+  /* Pink Palette (#FF7BAC) */
+  --color-pink-50: #fff1f5;
+  --color-pink-100: #ffe4ec;
+  --color-pink-200: #ffcadb;
+  --color-pink-300: #ffa1bf;
+  --color-pink-400: #FF7BAC;
+  --color-pink-500: #f94d8e;
+  --color-pink-600: #d72668;
+  --color-pink-700: #b91c54;
+  --color-pink-800: #991b47;
+  --color-pink-900: #831b40;
+  --color-pink-950: #4c0920;
+}
+
+.dark {
+  --ui-line-color: var(--color-gray-800);
+  --ui-pattern-dot-fg: color-mix(in oklab, var(--color-gray-200) 5%, transparent);
+}
+
+.pattern-bg {
+  background-image: var(--ui-pattern-bg);
+  background-size: 10px 10px;
+  background-attachment: fixed;
+}
+
+.pattern-dot-bg {
+  background-image: var(--ui-pattern-dot-bg);
+  background-size: 10px 10px;
+  background-attachment: fixed;
+}
