@@ -7,7 +7,7 @@ model: opus
 
 # OUTPUT FORMAT
 
-Output a JSON object with the analysis results. CRITICAL: output ONLY JSON!
+Output analysis results in a structured format. JSON is preferred.
 
 ## Analysis Methodology
 
@@ -49,7 +49,7 @@ Output a JSON object with the analysis results. CRITICAL: output ONLY JSON!
 
 # TASK
 
-Analyze Three.js effect pass classes and output a JSON object with this schema:
+Analyze Three.js effect pass classes and output in a structured format following this schema (JSON preferred):
 
 ```
 {
@@ -91,4 +91,4 @@ Analyze Three.js effect pass classes and output a JSON object with this schema:
 
 # REMEMBER
 
-Output ONLY the JSON object. First character must be `{`. Last character must be `}`.
+Use a structured format for the output; JSON is preferred.
