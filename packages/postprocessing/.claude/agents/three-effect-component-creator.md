@@ -24,13 +24,59 @@ You are an expert Vue.js and Three.js developer specializing in creating postpro
 
 ## Critical Implementation Details
 
-### Prop Utilities from `/src/util/prop.ts`
-Before writing the component, study and understand these utilities:
-- `makePropWatchers` - Creates watchers for multiple props efficiently
-- `useUpdateableProp` - For individual prop watching with update callbacks
-- Other helpers for type coercion and validation
+### Prop Utilities from `/src/util/prop.ts` (PRIORITY ORDER)
 
-Always prefer these utilities over manual watchers when applicable.
+**ALWAYS prefer these utilities over raw `watchEffect`.** Use them in this priority order:
+
+#### 1. `makePropWatchersUsingAllProps` (HIGHEST PRIORITY)
+Use when prop names match the target object's property names exactly:
+```typescript
+import { makePropWatchersUsingAllProps } from '../../util/prop'
+
+makePropWatchersUsingAllProps(
+  props,
+  pass, // ref to the pass/effect
+  () => new EffectPass(), // factory for defaults/cleanup
+)
+```
+
+#### 2. `makePropWatchers`
+Use when you need to map multiple props to different property paths:
+```typescript
+import { makePropWatchers } from '../../util/prop'
+
+makePropWatchers(
+  [
+    [() => props.intensity, 'uniforms.intensity.value'],
+    [() => props.grayscale, 'uniforms.grayscale.value'],
+    [() => props.enabled, 'enabled'],
+  ],
+  pass,
+  () => new EffectPass(),
+)
+```
+
+#### 3. `makePropWatcher`
+Use for a single prop when other helpers don't fit:
+```typescript
+import { makePropWatcher } from '../../util/prop'
+
+makePropWatcher(
+  () => props.intensity,
+  pass,
+  'uniforms.intensity.value',
+  () => new EffectPass(),
+)
+```
+
+#### 4. `watchEffect` (LOWEST PRIORITY)
+Only use `watchEffect` when you need to:
+- Call a method (e.g., `pass.value.setSize(...)`, `pass.value.setPixelSize(...)`)
+- Perform complex update logic that cannot be expressed as a property path
+
+### Property Path Examples
+- Direct property: `'goWild'` → `pass.value.goWild`
+- Nested uniform: `'uniforms.intensity.value'` → `pass.value.uniforms.intensity.value`
 
 ### useEffect Composable
 Study `./composables/useEffect.ts` to understand:
@@ -40,40 +86,46 @@ Study `./composables/useEffect.ts` to understand:
 
 ### Component Structure Template
 ```vue
-<script setup lang="ts">
-import type { /* relevant Three.js types */ } from 'three'
-import { EffectPass } from 'three/examples/jsm/postprocessing/EffectPass.js'
+<script lang="ts">
 import { useTres } from '@tresjs/core'
+import { SomePass } from 'three/examples/jsm/postprocessing/SomePass.js'
+import { makePropWatchersUsingAllProps } from '../../util/prop'
+// OR: import { makePropWatchers } from '../../util/prop'
 import { useEffect } from './composables/useEffect'
-import { makePropWatchers /* or other helpers (!) */ } from '../../util/prop'
 
 export interface EffectNameProps {
-  // All props with JSDoc descriptions
   /** Description of the prop */
   propName?: PropType
 }
+</script>
 
-const props = withDefaults(defineProps<EffectNameProps>(), {
-  // Default values
-})
+<script lang="ts" setup>
+const props = defineProps<EffectNameProps>()
 
+// Get scene/camera/sizes from useTres if needed by the pass constructor
 const { scene, camera, sizes } = useTres()
 
-// Effect instantiation
-const effect = new TheEffect(/* constructor args using props and useTres values */)
+// Register with composer - pass constructor args
+const { pass } = useEffect(() => new SomePass(props.propName), props)
 
-// Register with composer
-const { pass } = useEffect(() => effect /* or pass instance */)
+defineExpose({ pass })
 
-// Watchers for updatable properties using prop utilities
-makePropWatchers(
-  [/* prop configs */],
+// PREFERRED: Use makePropWatchersUsingAllProps when prop names match property names
+makePropWatchersUsingAllProps(
   props,
-  effect // or pass
+  pass,
+  () => new SomePass(),
 )
 
-// Expose if needed
-defineExpose({ effect, pass })
+// OR: Use makePropWatchers when property paths differ from prop names
+// makePropWatchers(
+//   [
+//     [() => props.intensity, 'uniforms.intensity.value'],
+//     [() => props.enabled, 'enabled'],
+//   ],
+//   pass,
+//   () => new SomePass(),
+// )
 </script>
 ```
 
@@ -86,7 +138,7 @@ defineExpose({ effect, pass })
    - Valid range (if applicable)
    - Default value behavior
 
-3. **Reactivity**: All updatable properties must have watchers. Use `makePropWatchers` or `useUpdateableProp` from `/src/util/prop.ts`.
+3. **Reactivity**: All updatable properties must use prop utilities from `/src/util/prop.ts`. Prefer in order: `makePropWatchersUsingAllProps` > `makePropWatchers` > `makePropWatcher` > `watchEffect` (only for method calls).
 
 4. **Consistency**: Match the exact patterns used in existing components like:
    - `Glitch.vue`
@@ -113,6 +165,9 @@ After creating the component:
 Before finalizing:
 1. Verify imports are correct and match the project's import style
 2. Ensure all analyzed properties are included as props
-3. Confirm watchers use the prop utilities correctly
-4. Check that the component structure matches sibling components
+3. **Confirm prop utilities are used correctly:**
+   - Did you use `makePropWatchersUsingAllProps` if prop names match property names?
+   - Did you use `makePropWatchers` for mapped property paths?
+   - Is `watchEffect` only used for method calls (like `setSize()`, `setPixelSize()`)?
+4. Check that the component structure matches sibling components (e.g., `Glitch.vue`, `Pixelation.vue`)
 5. Validate TypeScript types are properly exported
