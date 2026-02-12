@@ -1,6 +1,6 @@
 const whitelist = [
   'TresCanvas',
-  'TresContext',
+  'TresCanvasContext',
   'TresLeches',
   'TresScene',
 ]
