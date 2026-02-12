@@ -24,11 +24,11 @@ Think creatively about what 3D scene would best showcase this effect:
 - Think about movement/animation that makes the effect more visible
 - Consider color choices that complement the effect
 
-**You MUST use the `AskQuestion` tool** to present your scene idea and get user approval before proceeding. Structure the question like:
+**IMPORTANT: You MUST use the `AskQuestion` tool** to present your scene idea and get user approval before proceeding. Structure the question like:
 - Prompt: "I suggest creating a scene with [your idea]. This would showcase the effect well because [reasoning]."
 - Options: "Proceed with this scene" / "I have a different idea"
 
-**Do NOT proceed to Step 3 until you receive the user's response.** If the user picks "I have a different idea", ask them to describe it and adapt accordingly.
+**CRITICAL: Do NOT proceed to Step 3 until you receive the user's response. Under no circumstances, skip this question** If the user picks "I have a different idea", ask them to describe it and adapt accordingly
 
 ### Step 3: Create the Playground Component
 
