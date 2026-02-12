@@ -87,6 +87,7 @@ watch(controlsRef, (value) => {
       controlsRef.value.lock()
       controlsRef.value.addEventListener('lock', () => isLockEmitter(true))
       controlsRef.value.addEventListener('unlock', () => isLockEmitter(false))
+      controlsRef.value.addEventListener('change', () => invalidate())
       invalidate()
     }
   })
