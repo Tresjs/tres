@@ -24,10 +24,11 @@ Think creatively about what 3D scene would best showcase this effect:
 - Think about movement/animation that makes the effect more visible
 - Consider color choices that complement the effect
 
-Present your scene idea to the user and ask:
-"I suggest creating a scene with [your idea]. This would showcase the effect well because [reasoning]. Would you like to proceed with this, or do you have a different vision?"
+**You MUST use the `AskQuestion` tool** to present your scene idea and get user approval before proceeding. Structure the question like:
+- Prompt: "I suggest creating a scene with [your idea]. This would showcase the effect well because [reasoning]."
+- Options: "Proceed with this scene" / "I have a different idea"
 
-Wait for user confirmation or alternative direction before proceeding.
+**Do NOT proceed to Step 3 until you receive the user's response.** If the user picks "I have a different idea", ask them to describe it and adapt accordingly.
 
 ### Step 3: Create the Playground Component
 
@@ -103,28 +104,6 @@ const { propName, anotherProp } = useControls({
 6. **Add animation**: Consider adding subtle object rotation or movement
 7. **Good lighting**: Ensure the scene is well-lit to see effect changes
 8. **Interesting geometry**: Use shapes that highlight the effect (e.g., reflective surfaces for bloom)
-
-## Effect-Specific Guidelines
-
-### Bloom Effects
-- Use emissive materials or bright light sources
-- Include objects with varying brightness levels
-
-### Depth Effects (DoF, etc.)
-- Place objects at varying distances from camera
-- Consider a scene with foreground, midground, and background elements
-
-### Color/Grading Effects
-- Use colorful scenes with variety
-- Consider including standard color references
-
-### Distortion Effects
-- Use recognizable patterns or grid-like structures
-- Include straight lines to show distortion clearly
-
-### Outline Effects
-- Include multiple distinct objects
-- Use contrasting colors
 
 ### Step 4: Add Route to Router Configuration
 
