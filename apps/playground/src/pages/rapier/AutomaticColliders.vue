@@ -4,6 +4,7 @@ import { TresCanvas } from '@tresjs/core'
 import { Physics, RigidBody } from '@tresjs/rapier'
 import { ACESFilmicToneMapping, SRGBColorSpace } from 'three'
 import { TresLeches, useControls } from '@tresjs/leches'
+import type { ExposedRigidBody } from '@tresjs/rapier'
 
 const gl = {
   clearColor: '#82DBC5',
@@ -24,9 +25,9 @@ const jump = () => {
 const { debug, friction, mass, restitution, density } = useControls({
   debug: true,
   friction: { value: 0.5, min: 0, max: 1, step: 0.1 },
-  mass: { value: 1, min: 0.1, max: 100, step: 0.1 },
-  restitution: { value: 0.5, min: 0, max: 1, step: 0.1 },
-  density: { value: 1, min: 0.1, max: 100, step: 0.1 },
+  mass: { value: 1, min: 0.1, max: 20, step: 0.1 },
+  restitution: { value: 0.5, min: 0, max: 2, step: 0.1 },
+  density: { value: 1, min: 0.1, max: 20, step: 0.1 },
 })
 </script>
 
@@ -37,15 +38,15 @@ const { debug, friction, mass, restitution, density } = useControls({
     <OrbitControls />
 
     <Suspense>
-      <Physics :debug="debug">
+      <Physics :debug>
         <RigidBody
           ref="colliderRef"
           collider="ball"
           :position="[0, 15, 0]"
-          :friction="friction"
-          :mass="mass"
-          :restitution="restitution"
-          :density="density"
+          :friction
+          :mass
+          :restitution
+          :density
         >
           <TresMesh @click="jump">
             <TresSphereGeometry />
