@@ -23,6 +23,14 @@ To create a release with automatic version increments and a GitHub release:
 pnpm nx release --skip-publish
 ```
 
+### Grouped Release (with GitHub Release)
+
+To create a release with automatic version increments and a GitHub release, but only for a specific group of packages:
+
+```bash
+pnpm nx release --skip-publish --group=core
+```
+
 This will:
 
 - Analyze conventional commits since the last release
