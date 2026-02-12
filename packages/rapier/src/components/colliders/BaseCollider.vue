@@ -92,7 +92,7 @@ watch([() => props.activeCollision, colliderInfos], ([_activeCollision]) => {
 onUnmounted(() => {
   if (!bodyContext.value || !colliderInfos.value?.collider) { return }
 
-  world.removeCollider(colliderInfos.value.collider, false)
+  world.value.removeCollider(colliderInfos.value.collider, false)
 
   colliderInfos.value = undefined
 })
