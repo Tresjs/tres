@@ -126,6 +126,43 @@ const { propName, anotherProp } = useControls({
 - Include multiple distinct objects
 - Use contrasting colors
 
+### Step 4: Add Route to Router Configuration
+
+After creating the playground component, you MUST add a route entry to:
+`/apps/playground/src/router/routes/postprocessing/index.ts`
+
+#### Route Structure
+The file uses a `makeRoute` helper function:
+```ts
+makeRoute(name: string, icon: string, isThreeEffect: boolean = true)
+```
+
+- `name`: Display name (e.g., `'Depth of Field'`, `'Unreal Bloom'`)
+- `icon`: An emoji representing the effect
+- `isThreeEffect`: `true` for Three.js effects (default), `false` for pmndrs effects
+
+#### Where to Add Routes
+- **pmndrs effects**: Add to the `pmndrsRoutes` array with `isThreeEffect = false`
+- **Three.js effects**: Add to the `threeRoutes` array (omit the third parameter)
+
+#### Example Additions
+```ts
+// For a pmndrs effect:
+export const pmndrsRoutes = [
+  // ... existing routes
+  makeRoute('New Effect', '✨', false),
+]
+
+// For a Three.js effect:
+export const threeRoutes = [
+  // ... existing routes
+  makeRoute('New Effect', '✨'),
+]
+```
+
+#### Choosing an Icon
+Select an emoji that represents the effect's visual result.
+
 ## Quality Checklist
 Before completing, verify:
 - [ ] All reactive props have corresponding controls
@@ -136,9 +173,11 @@ Before completing, verify:
 - [ ] TresLeches component is included in template
 - [ ] Leches styles are imported
 - [ ] The demo is fun and intuitive to interact with
+- [ ] Route added to the correct array in `/apps/playground/src/router/routes/postprocessing/index.ts`
+- [ ] Route has an appropriate emoji icon
 
 ## Communication Style
-- Be enthusiastic about creative scene ideas
 - Explain your reasoning for scene choices
 - Always ask for user input on the scene design before coding
 - Provide clear summaries of what controls are available after creation
+- be concise
