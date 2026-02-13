@@ -1,9 +1,9 @@
 /* eslint-disable no-console */
-import { type DeepReadonly, type MaybeRefOrGetter, onUnmounted, readonly, type Ref, ref, toValue, unref, watch } from 'vue'
+import { type DeepReadonly, type MaybeRefOrGetter, onUnmounted, readonly, type Ref, ref, toValue, watch } from 'vue'
 import { whenever } from '@vueuse/core'
 import { acceleratedRaycast, BVHHelper, MeshBVH } from 'three-mesh-bvh'
 import { type BufferGeometry, Group, Mesh, type Object3D, SkinnedMesh } from 'three'
-import type { TresObject3D } from '@tresjs/core'
+import { isObject3D, type TresObject3D } from '@tresjs/core'
 /**
  * BVH construction options (static - set once at creation, changing requires rebuild)
  */
@@ -51,7 +51,7 @@ export interface UseBVHReturn {
  * Automatically computes boundsTree and assigns acceleratedRaycast for meshes
  * Side-effect free: reverts to original raycast when disabled or unmounted
  */
-export function useBVH({
+export const useBVH = ({
   enabled = true,
   firstHitOnly = false,
   splitStrategy = 'SAH',
@@ -61,7 +61,7 @@ export function useBVH({
   maxLeafSize = 10,
   indirect = false,
   debug = false,
-}: UseBVHOptions = {}): UseBVHReturn {
+}: UseBVHOptions = {}): UseBVHReturn => {
   const DEBUG_OPACITY = 0.3
 
   const processedMeshes = ref<ProcessedMesh[]>([])
@@ -177,8 +177,9 @@ export function useBVH({
    * Create debug helper for a processed mesh
    */
   const createDebugHelper = (processedMesh: ProcessedMesh): void => {
-    if (processedMesh.debugHelper) {
-      return // Already has helper
+    const hasHelper = !!processedMesh.debugHelper
+    if (hasHelper || !isObject3D(processedMesh.mesh)) {
+      return
     }
 
     const helper = new BVHHelper(processedMesh.mesh, processedMesh.boundsTree, maxDepth)
@@ -273,12 +274,10 @@ export function useBVH({
     }, { immediate: true })
   }
 
-  // Watch for enabled becoming false — remove BVH
-  whenever(() => !unref(enabled), () => {
+  whenever(() => !toValue(enabled), () => {
     removeBVH()
   })
 
-  // Watch for debug state changes
   watch(() => toValue(debug), () => {
     processedMeshes.value.forEach(toValue(debug) ? createDebugHelper : removeDebugHelper)
   }, { immediate: true })

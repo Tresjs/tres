@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { TresCanvas, type TresObject3D } from '@tresjs/core'
-import { OrbitControls, useGLTF, useBVH } from '@tresjs/cientos'
+import { OrbitControls, useBVH, useGLTF } from '@tresjs/cientos'
 import { useControls } from '@tresjs/leches'
 
 const uuid = inject('uuid')
