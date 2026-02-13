@@ -43,7 +43,7 @@ interface ProcessedMesh {
 /**
  * Vue composable for BVH optimization - speeds up raycasting
  * Automatically computes boundsTree and assigns acceleratedRaycast for meshes
- * Side-effect free: reverts to original raycast when disabled or unmounted
+ * Not side-effect free: mutates mesh.raycast; reverts to original when disabled or unmounted
  */
 export const useBVH = (
   /** The object or group to apply BVH to. Usually the model */
