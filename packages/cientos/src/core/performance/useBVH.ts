@@ -58,7 +58,7 @@ export const useBVH = (
     maxLeafSize = 10,
     indirect = false,
     debug = false,
-  }: UseBVHOptions,
+  }: UseBVHOptions = {},
 ): void => {
   const DEBUG_OPACITY = 0.3
 
@@ -268,7 +268,6 @@ export const useBVH = (
   })
 
   watch(() => toValue(enabled), (enabled) => {
-    // TODO: I think this did not work before (enabled to true), add PR comment
     if (enabled) {
       const objectValue = toValue(target)
       if (objectValue) {

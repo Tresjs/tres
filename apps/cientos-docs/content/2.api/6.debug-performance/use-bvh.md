@@ -49,7 +49,7 @@ import { useGLTF, useBVH } from '@tresjs/cientos'
 const { state: model } = useGLTF('/models/model.glb')
 
 useBVH(
-  () => model.value?.scene
+  () => model.value?.scene,
   {
     debug: true, // Show BVH bounding boxes
   }

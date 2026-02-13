@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { TresCanvas, type TresObject3D } from '@tresjs/core'
+import { TresCanvas } from '@tresjs/core'
 import { OrbitControls, useBVH, useGLTF } from '@tresjs/cientos'
 import { useControls } from '@tresjs/leches'
 
