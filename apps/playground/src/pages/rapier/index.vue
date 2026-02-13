@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { rapierRoutes } from '@/router/routes/rapier'
 
-console.log('rapierRoutes on load:', rapierRoutes)
-
 const sections = [
   { icon: '📦', title: 'Basics', routes: rapierRoutes },
 ]
@@ -12,7 +10,8 @@ const sections = [
   <div class="container mx-auto max-w-3xl font-sans text-xs color-gray bg-white">
     <div class="mx-4">
       <div
-        class="mt-24 mb-12 text-center align-baseline items-center gap-6 sm:mt-16 sm:mb-6 sm:text-left sm:flex sm:flex-row-reverse sm:justify-left">
+        class="mt-24 mb-12 text-center align-baseline items-center gap-6 sm:mt-16 sm:mb-6 sm:text-left sm:flex sm:flex-row-reverse sm:justify-left"
+      >
         <div>
           <img src="/rapier.svg" alt="TresJS Rapier" class="w-20 h-20" />
         </div>
@@ -24,8 +23,11 @@ const sections = [
         </div>
       </div>
       <div class="text-center sm:text-left sm:grid sm:grid-cols-2 md:grid-cols-3 gap-4">
-        <div v-for="{ title, routes, icon } in sections" :key="title"
-          class="p-4 my-4 leading-normal size-m weight-600 bg-zinc-50 rounded sm:my-0">
+        <div
+          v-for="{ title, routes, icon } in sections"
+          :key="title"
+          class="p-4 my-4 leading-normal size-m weight-600 bg-zinc-50 rounded sm:my-0"
+        >
           <div class="inline-block p-2 p-x-3 m-b-3 text-2xl bg-zinc-200 rounded">
             {{ icon }}
           </div>
@@ -34,8 +36,10 @@ const sections = [
           </h2>
           <div v-if="routes.length">
             <div v-for="route in routes" :key="route.name" class="link-wrapper">
-              <router-link class="no-underline text-zinc-700 visited:text-zinc-400 hover:text-cientos-blue"
-                :to="route.path">
+              <router-link
+                class="no-underline text-zinc-700 visited:text-zinc-400 hover:text-cientos-blue"
+                :to="route.path"
+              >
                 <span>{{ route.name }} </span>
               </router-link>
             </div>
