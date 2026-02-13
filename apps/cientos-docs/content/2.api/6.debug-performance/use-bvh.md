@@ -1,6 +1,6 @@
 ---
 title: useBVH
-description: Exponentially speed up raycasting with Bounding Volume Hierarchy (BVH) optimization.
+description: Speed up raycasting with Bounding Volume Hierarchy (BVH) optimization.
 ---
 
 ::SceneControlsWrapper
@@ -10,7 +10,7 @@ description: Exponentially speed up raycasting with Bounding Volume Hierarchy (B
 
 A composable that dramatically improves raycasting performance by building a Bounding Volume Hierarchy (BVH) for your meshes. This can speed up raycasting by **orders of magnitude**, especially for complex models with many triangles.
 
-Built on top of [three-mesh-bvh](https://github.com/gkjohnson/three-mesh-bvh) by Garrett Johnson.
+Built on top of [three-mesh-bvh](https://github.com/gkjohnson/three-mesh-bvh) by [Garrett Johnson](https://github.com/gkjohnson).
 
 ## What is BVH?
 
@@ -30,9 +30,7 @@ BVH (Bounding Volume Hierarchy) is a spatial data structure that organizes geome
 import { useGLTF, useBVH } from '@tresjs/cientos'
 
 const { state: model } = useGLTF('/models/complex-model.glb')
-const { applyBVHWhenReady } = useBVH({
-  enabled: true,
-})
+const { applyBVHWhenReady } = useBVH()
 
 // Apply BVH when model loads
 applyBVHWhenReady(() => model.value?.scene)
@@ -52,7 +50,6 @@ Enable debug mode to visualize the BVH bounding boxes:
 import { useGLTF, useBVH } from '@tresjs/cientos'
 
 const { applyBVHWhenReady } = useBVH({
-  enabled: true,
   debug: true, // Show BVH bounding boxes
 })
 
@@ -127,7 +124,7 @@ These options configure how the BVH is built. Changing them after creation has n
 | Option | Type | Default | Description |
 | :--- | :--- | :--- | :--- |
 | **firstHitOnly** | `boolean` | `false` | Use `raycastFirst` for better performance when only the first hit is needed. |
-| **splitStrategy** | `'CENTER' \| 'AVERAGE' \| 'SAH'` | `'SAH'` | BVH build strategy. SAH is slowest to construct but fastest at runtime. |
+| **splitStrategy** | `'CENTER' \| 'AVERAGE' \| 'SAH'` | `'SAH'` | BVH build strategy. See section below.   |
 | **maxDepth** | `number` | `40` | Maximum tree depth for the BVH structure. |
 | **maxLeafSize** | `number` | `10` | Target number of triangles per leaf node. |
 | **verbose** | `boolean` | `false` | Print construction warnings and progress to console. |
