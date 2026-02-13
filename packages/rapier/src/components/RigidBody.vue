@@ -14,6 +14,7 @@ import type { ShallowRef } from 'vue'
 
 import { useRapierContext } from '../composables'
 import { createColliderPropsFromObject, createRigidBody } from '../core'
+import { hasValidColliderGeometry } from '../utils'
 import { makePropsWatcherRB } from '../utils/props'
 import { Collider } from './colliders'
 import type {
@@ -88,7 +89,10 @@ watch(bodyGroup, async (group) => {
     const collidersProps: ColliderProps[] = []
 
     for (const child of group.children) {
-      const _props = createColliderPropsFromObject(child, props.collider)
+      // Skip children without valid geometry (e.g., collider wrappers, empty Object3Ds)
+      if (!hasValidColliderGeometry(child as Object3D)) { continue }
+
+      const _props = createColliderPropsFromObject(child as Object3D, props.collider)
       _props.friction = props.friction
       _props.mass = props.mass
       _props.restitution = props.restitution
@@ -179,6 +183,6 @@ onUnmounted(() => {
       :collisionGroups="_props.collisionGroups"
       :sensor="_props.sensor"
     />
-    <slot v-once></slot>
+    <slot></slot>
   </TresGroup>
 </template>
