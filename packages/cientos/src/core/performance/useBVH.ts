@@ -7,26 +7,26 @@ import type { TresObject3D } from '@tresjs/core'
  * BVH construction options (static - set once at creation, changing requires rebuild)
  */
 export interface BVHOptions {
-  /** Split strategy, default: SAH (slowest to construct, fastest runtime, least memory). Static. */
+  /** Split strategy, default: SAH (slowest to construct, fastest runtime, least memory). */
   splitStrategy?: 'CENTER' | 'AVERAGE' | 'SAH'
-  /** Print out warnings encountered during tree construction, default: false. Static. */
+  /** Print out warnings encountered during tree construction, default: false. */
   verbose?: boolean
-  /** If true then the bounding box for the geometry is set once the BVH has been constructed, default: true. Static. */
+  /** If true then the bounding box for the geometry is set once the BVH has been constructed, default: true. */
   setBoundingBox?: boolean
-  /** The maximum depth to allow the tree to build to, default: 40. Static. */
+  /** The maximum depth to allow the tree to build to, default: 40. */
   maxDepth?: number
-  /** The number of triangles to aim for in a leaf node, default: 10. Static. */
+  /** The number of triangles to aim for in a leaf node, default: 10. */
   maxLeafSize?: number
-  /** If false then an index buffer is created if it does not exist and is rearranged. Static. */
+  /** If false then an index buffer is created if it does not exist and is rearranged. */
   indirect?: boolean
 }
 
 export interface UseBVHOptions extends BVHOptions {
-  /** Enable/disable BVH optimization, default: true. Reactive - can be a ref or getter. */
+  /** Enable/disable BVH optimization, default: true. */
   enabled?: MaybeRefOrGetter<boolean>
-  /** Use .raycastFirst to retrieve hits which is generally faster, default: false. Static. */
+  /** Use .raycastFirst to retrieve hits which is generally faster, default: false. */
   firstHitOnly?: boolean
-  /** Show debug visualization of BVH bounding boxes, default: false. Reactive - can be a ref or getter. */
+  /** Show debug visualization of BVH bounding boxes, default: false. */
   debug?: MaybeRefOrGetter<boolean>
 }
 
