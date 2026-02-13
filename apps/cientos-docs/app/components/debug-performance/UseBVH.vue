@@ -15,15 +15,14 @@ const { enabled, debug } = useControls({
 }, { uuid })
 
 // BVH composable with reactive controls
-const { applyBVHWhenReady } = useBVH({
-  enabled,
-  debug,
-  verbose: false,
-})
-
-// Apply BVH when model loads
-const modelScene = computed(() => model.value?.scene)
-applyBVHWhenReady(modelScene as Ref<TresObject3D | null | undefined>)
+useBVH(
+  () => model.value?.scene,
+  {
+    enabled,
+    debug,
+    verbose: false,
+  },
+)
 </script>
 
 <template>
