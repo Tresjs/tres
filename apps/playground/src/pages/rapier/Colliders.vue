@@ -20,7 +20,7 @@ const gl = {
 
     <Suspense>
       <Physics debug>
-        <RigidBody :collider="false">
+        <RigidBody>
           <BallCollider :args="[1, 1, 1]" :position="[2, 10, 0]" />
           <CapsuleCollider :args="[1, 1, 1]" :position="[-2, 10, 0]" />
           <ConeCollider :args="[1, 1, 1]" :position="[0, 10, 2]" />
