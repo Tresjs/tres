@@ -1,3 +1,5 @@
+<!-- eslint-disable no-console -->
+
 <script setup lang="ts">
 import { OrbitControls } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'

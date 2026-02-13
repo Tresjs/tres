@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { OrbitControls } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
-import { Physics, RigidBody } from '@tresjs/rapier'
+import { type ExposedRigidBody, Physics, RigidBody } from '@tresjs/rapier'
 import { ACESFilmicToneMapping, SRGBColorSpace } from 'three'
 import { TresLeches, useControls } from '@tresjs/leches'
 import type { ExposedRigidBody } from '@tresjs/rapier'
