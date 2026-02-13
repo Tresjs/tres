@@ -5,9 +5,14 @@ export const rapierRoutes = [
     component: () => import('@/pages/rapier/RigidBody.vue'),
   },
   {
-    path: '/rapier/colliders',
-    name: 'Colliders',
-    component: () => import('@/pages/rapier/Colliders.vue'),
+    path: '/rapier/automatic-colliders',
+    name: 'Automatic Colliders',
+    component: () => import('@/pages/rapier/AutomaticColliders.vue'),
+  },
+  {
+    path: '/rapier/custom-colliders',
+    name: 'Custom Colliders',
+    component: () => import('@/pages/rapier/CustomColliders.vue'),
   },
   {
     path: '/rapier/instanced-rigid-body',
@@ -24,11 +29,7 @@ export const rapierRoutes = [
     name: 'Gravity',
     component: () => import('@/pages/rapier/GravityDemo.vue'),
   },
-  {
-    path: '/rapier/props',
-    name: 'Props',
-    component: () => import('@/pages/rapier/RigidBodyProps.vue'),
-  },
+
   {
     path: '/rapier/collision',
     name: 'Collision',
