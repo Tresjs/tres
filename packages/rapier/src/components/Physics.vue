@@ -29,7 +29,6 @@ defineExpose(context)
 await context.init()
 const { world, isPaused } = context
 
-
 const setGravity = (gravity: PhysicsProps['gravity']) => {
   // If gravity is something like [0, -9.8, 0]
   if (Array.isArray(gravity)) {
