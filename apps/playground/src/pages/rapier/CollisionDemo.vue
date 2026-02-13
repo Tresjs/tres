@@ -42,7 +42,7 @@ const onCollisionExit = (event: any) => {
 </script>
 
 <template>
-  <TresCanvas v-bind="gl" >
+  <TresCanvas v-bind="gl">
     <TresPerspectiveCamera :position="[0, 11, 30]" :look-at="[0, 0, 0]" />
     <OrbitControls />
 
@@ -67,18 +67,18 @@ const onCollisionExit = (event: any) => {
         </RigidBody>
 
         <RigidBody
+          :position="[0, 15, 0]"
           @collision-enter="onCollisionEnterBall"
         >
           <BallCollider
             :args="[1, 1, 1]"
-            :position="[8, 15, 0]"
             activeCollision
             @collision-enter="onCollisionEnterBall_2"
           />
         </RigidBody>
 
         <RigidBody type="fixed" name="fixedFloor">
-          <TresMesh :position="[0, 0, 0]">
+          <TresMesh>
             <TresPlaneGeometry :args="[20, 20, 20]" :rotate-x="-Math.PI / 2" />
             <TresMeshBasicMaterial color="#f4f4f4" />
           </TresMesh>

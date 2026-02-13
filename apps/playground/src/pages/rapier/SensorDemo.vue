@@ -62,7 +62,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <TresCanvas v-bind="gl" >
+  <TresCanvas v-bind="gl">
     <TresPerspectiveCamera :position="[-30, 8, -10]" :look-at="[0, 0, 0]" />
     <OrbitControls />
 
