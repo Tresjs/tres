@@ -6,7 +6,6 @@ import { ACESFilmicToneMapping, SRGBColorSpace } from 'three'
 import { onErrorCaptured, ref, shallowRef } from 'vue'
 import type { ShallowRef } from 'vue'
 
-
 onErrorCaptured((err) => {
   console.error('Suspense error:', err)
   return false
@@ -25,12 +24,11 @@ const bodyRefB: ShallowRef<ExposedRigidBody | null> = shallowRef(null)
 </script>
 
 <template>
-
-  <TresCanvas  v-bind="gl" >
-      <TresPerspectiveCamera :position="[0, 0, 30]" :look-at="[0, 0, 0]" />
-      <OrbitControls />
-      <Suspense>
-        <Physics debug>
+  <TresCanvas v-bind="gl">
+    <TresPerspectiveCamera :position="[0, 0, 30]" :look-at="[0, 0, 0]" />
+    <OrbitControls />
+    <Suspense>
+      <Physics debug>
         <RigidBody
           ref="bodyRefA"
           type="kinematic"
@@ -69,6 +67,6 @@ const bodyRefB: ShallowRef<ExposedRigidBody | null> = shallowRef(null)
           </TresMesh>
         </RigidBody>
       </Physics>
-      </Suspense>
-    </TresCanvas>
+    </Suspense>
+  </TresCanvas>
 </template>
