@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { useGLTF, useBVH, Html } from '@tresjs/cientos'
+import { TresObject3D } from '@tresjs/core'
 import { useControls } from '@tresjs/leches'
 
-const { state: model } = useGLTF('/models/cyber_samurai/cyber_samurai.glb', {
+const { state: model } = useGLTF('/models/Artificer.glb', {
   draco: true,
 })
 
@@ -19,7 +20,7 @@ const { applyBVHWhenReady } = useBVH({
 })
 
 const modelScene = computed(() => model.value?.scene)
-applyBVHWhenReady(modelScene)
+applyBVHWhenReady(modelScene as Ref<TresObject3D | null | undefined>)
 
 const isHovering = ref(false)
 
@@ -44,7 +45,7 @@ const handleClick = (event: PointerEvent) => {
         <span
           v-if="isHovering"
           class="text-white font-sans text-sm font-bold bg-black px-2 py-1 rounded-md"
-        >Samurai</span>
+        >Artificer</span>
       </div>
     </Html>
   </primitive>
