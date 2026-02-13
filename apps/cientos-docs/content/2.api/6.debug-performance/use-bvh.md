@@ -33,7 +33,8 @@ const { state: model } = useGLTF('/models/complex-model.glb')
 const { applyBVHWhenReady } = useBVH()
 
 // Apply BVH when model loads
-applyBVHWhenReady(() => model.value?.scene)
+const modelScene = computed(() => model.value?.scene)
+applyBVHWhenReady(modelScene)
 </script>
 
 <template>
@@ -55,7 +56,8 @@ const { applyBVHWhenReady } = useBVH({
 
 const { state: model } = useGLTF('/models/model.glb')
 
-applyBVHWhenReady(() => model.value?.scene)
+const modelScene = computed(() => model.value?.scene)
+applyBVHWhenReady(modelScene)
 </script>
 ```
 
@@ -65,24 +67,25 @@ Control BVH optimization dynamically:
 
 ```vue{4,6-9}
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { useGLTF, useBVH } from '@tresjs/cientos'
 
 const bvhEnabled = ref(true)
 
-const { applyBVHWhenReady, meshCount } = useBVH({
+const { applyBVHWhenReady } = useBVH({
   enabled: bvhEnabled,
 })
 
 const { state: model } = useGLTF('/models/model.glb')
 
-applyBVHWhenReady(() => model.value?.scene)
+const modelScene = computed(() => model.value?.scene)
+applyBVHWhenReady(modelScene)
 </script>
 
 <template>
   <div>
     <button @click="bvhEnabled = !bvhEnabled">
-      Toggle BVH ({{ meshCount }} meshes)
+      Toggle BVH
     </button>
     <primitive v-if="model" :object="model.scene" />
   </div>
@@ -141,14 +144,10 @@ These options configure how the BVH is built. Changing them after creation has n
 
 | Name | Type | Description |
 | :--- | :--- | :--- |
-| **isEnabled** | `Ref<boolean>` | Reactive enabled state. |
-| **isDebug** | `Ref<boolean>` | Reactive debug state. |
-| **processedMeshes** | `Ref<readonly ProcessedMesh[]>` | Array of meshes with BVH applied. |
+| **processedMeshes** | `DeepReadonly<Ref<ProcessedMesh[]>>` | Readonly array of meshes with BVH applied. |
 | **applyBVH** | `(object: Object3D) => void` | Apply BVH to an object and all its mesh children. |
-| **applyBVHWhenReady** | `(getter: () => Object3D \| null) => void` | Watch a getter and apply BVH when the object becomes available. |
+| **applyBVHWhenReady** | `(objectRef: Ref<Object3D \| null>) => void` | Watch a ref/computed and apply BVH when the object becomes available. |
 | **removeBVH** | `() => void` | Remove BVH from all processed meshes. |
-| **setBVHEnabled** | `(enabled: boolean) => void` | Programmatically enable/disable BVH. |
-| **meshCount** | `number` | Number of meshes currently optimized. |
 
 ## Advanced Usage
 
@@ -205,16 +204,16 @@ const { state: model } = useGLTF('/models/high-poly-model.glb', {
   draco: true
 })
 
-const { applyBVHWhenReady, meshCount } = useBVH({
-  enabled: true,
+const { applyBVHWhenReady, processedMeshes } = useBVH({
   splitStrategy: 'SAH',
 })
 
-applyBVHWhenReady(() => model.value?.scene)
+const modelScene = computed(() => model.value?.scene)
+applyBVHWhenReady(modelScene)
 
-// meshCount updates when BVH is applied
-watch(meshCount, (count) => {
-  console.log(`BVH applied to ${count} meshes`)
+// processedMeshes updates when BVH is applied
+watch(processedMeshes, (meshes) => {
+  console.log(`BVH applied to ${meshes.length} meshes`)
 })
 </script>
 ```

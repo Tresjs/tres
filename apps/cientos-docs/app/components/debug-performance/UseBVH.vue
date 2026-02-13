@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { TresCanvas } from '@tresjs/core'
+import { TresCanvas, type TresObject3D } from '@tresjs/core'
 import { OrbitControls, useGLTF, useBVH } from '@tresjs/cientos'
 import { useControls } from '@tresjs/leches'
 
@@ -15,14 +15,15 @@ const { enabled, debug } = useControls({
 }, { uuid })
 
 // BVH composable with reactive controls
-const { applyBVHWhenReady, meshCount } = useBVH({
+const { applyBVHWhenReady } = useBVH({
   enabled,
   debug,
   verbose: false,
 })
 
 // Apply BVH when model loads
-applyBVHWhenReady(() => model.value?.scene)
+const modelScene = computed(() => model.value?.scene)
+applyBVHWhenReady(modelScene as Ref<TresObject3D | null | undefined>)
 </script>
 
 <template>

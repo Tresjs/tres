@@ -18,7 +18,8 @@ const { applyBVHWhenReady } = useBVH({
   debug,
 })
 
-applyBVHWhenReady(() => model.value?.scene)
+const modelScene = computed(() => model.value?.scene)
+applyBVHWhenReady(modelScene)
 
 const isHovering = ref(false)
 

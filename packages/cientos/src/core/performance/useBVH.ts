@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
-import { type MaybeRefOrGetter, onUnmounted, type Ref, ref, toValue, watch, watchEffect } from 'vue'
+import { type DeepReadonly, type MaybeRefOrGetter, onUnmounted, readonly, type Ref, ref, toValue, unref, watch } from 'vue'
+import { whenever } from '@vueuse/core'
 import { acceleratedRaycast, BVHHelper, MeshBVH } from 'three-mesh-bvh'
 import { type BufferGeometry, Group, Mesh, type Object3D, SkinnedMesh } from 'three'
 import type { TresObject3D } from '@tresjs/core'
@@ -38,46 +39,34 @@ interface ProcessedMesh {
   debugHelper?: BVHHelper
 }
 
+export interface UseBVHReturn {
+  processedMeshes: DeepReadonly<Ref<ProcessedMesh[]>>
+  applyBVH: (object: Object3D) => void
+  applyBVHWhenReady: (objectRef: Ref<TresObject3D | Object3D | null | undefined>) => void
+  removeBVH: () => void
+}
+
 /**
- * Vue composable for BVH optimization - speeds up raycasting exponentially
+ * Vue composable for BVH optimization - speeds up raycasting
  * Automatically computes boundsTree and assigns acceleratedRaycast for meshes
  * Side-effect free: reverts to original raycast when disabled or unmounted
- *
- * @remarks
- * Only `enabled` and `debug` are reactive. Construction options (splitStrategy,
- * maxDepth, maxLeafSize, etc.) are static - to apply new values, toggle enabled off/on.
  */
-export function useBVH(options: UseBVHOptions = {}) {
-  const {
-    enabled = true,
-    firstHitOnly = false,
-    splitStrategy = 'SAH',
-    verbose = false,
-    setBoundingBox = true,
-    maxDepth = 40,
-    maxLeafSize = 10,
-    indirect = false,
-    debug = false,
-  } = options
-
+export function useBVH({
+  enabled = true,
+  firstHitOnly = false,
+  splitStrategy = 'SAH',
+  verbose = false,
+  setBoundingBox = true,
+  maxDepth = 40,
+  maxLeafSize = 10,
+  indirect = false,
+  debug = false,
+}: UseBVHOptions = {}): UseBVHReturn {
   const DEBUG_OPACITY = 0.3
 
-  // Reactive state - track the reactive enabled option
-  const isEnabled = ref(toValue(enabled))
-  const isDebug = ref(toValue(debug))
   const processedMeshes = ref<ProcessedMesh[]>([])
   const debugGroup = new Group()
   debugGroup.name = 'BVH-Debug-Helpers'
-
-  // Sync isEnabled with reactive enabled option
-  watchEffect(() => {
-    isEnabled.value = toValue(enabled)
-  })
-
-  // Sync isDebug with reactive debug option
-  watchEffect(() => {
-    isDebug.value = toValue(debug)
-  })
 
   // BVH construction options
   const bvhOptions: BVHOptions = {
@@ -96,17 +85,12 @@ export function useBVH(options: UseBVHOptions = {}) {
     const meshes: (Mesh | SkinnedMesh)[] = []
 
     object.traverse((child) => {
-      // Debug logging to see what objects are found
       if (verbose) {
         console.log(`BVH: Found object - Type: ${child.type}, Name: ${child.name || 'unnamed'}`)
       }
 
-      // Check for both Mesh and SkinnedMesh using instanceof for more reliable detection
       if ((child instanceof Mesh || child instanceof SkinnedMesh)
         && 'geometry' in child && 'material' in child) {
-        if (verbose) {
-          console.log(`BVH: Adding mesh - Type: ${child.type}, Name: ${child.name || 'unnamed'}`)
-        }
         meshes.push(child as Mesh | SkinnedMesh)
       }
     })
@@ -118,7 +102,7 @@ export function useBVH(options: UseBVHOptions = {}) {
    * Apply BVH optimization to a mesh (Mesh or SkinnedMesh)
    */
   const applyBVHToMesh = (mesh: Mesh | SkinnedMesh): ProcessedMesh | null => {
-    if (!mesh.geometry || !mesh.geometry.attributes.position) {
+    if (!mesh.geometry?.attributes.position) {
       if (verbose) {
         console.warn('BVH: Mesh has no geometry or position attribute', mesh)
       }
@@ -146,9 +130,13 @@ export function useBVH(options: UseBVHOptions = {}) {
               return
             }
 
+            if (!(boundsTree instanceof MeshBVH)) {
+              return
+            }
+
             const material = Array.isArray(this.material) ? this.material[0] : this.material
             const side = material?.side ?? raycaster.params.Mesh?.side
-            const hit = (boundsTree as MeshBVH).raycastFirst(
+            const hit = boundsTree.raycastFirst(
               raycaster.ray,
               side,
               raycaster.near,
@@ -193,16 +181,11 @@ export function useBVH(options: UseBVHOptions = {}) {
       return // Already has helper
     }
 
-    // Use the boundsTree directly for the helper
-    const helper = new BVHHelper(processedMesh.mesh as unknown as Object3D, processedMesh.boundsTree, maxDepth)
+    const helper = new BVHHelper(processedMesh.mesh, processedMesh.boundsTree, maxDepth)
     helper.opacity = DEBUG_OPACITY
     helper.update()
     processedMesh.debugHelper = helper
     processedMesh.mesh.parent?.add(helper)
-
-    if (verbose) {
-      console.log(`BVH: Created debug helper for mesh ${processedMesh.mesh.name || 'unnamed'}`)
-    }
   }
 
   /**
@@ -215,22 +198,6 @@ export function useBVH(options: UseBVHOptions = {}) {
 
     processedMesh.debugHelper.removeFromParent()
     processedMesh.debugHelper = undefined
-
-    if (verbose) {
-      console.log(`BVH: Removed debug helper for mesh ${processedMesh.mesh.name || 'unnamed'}`)
-    }
-  }
-
-  /**
-   * Update debug visualization for all processed meshes
-   */
-  const updateDebugHelpers = (): void => {
-    if (isDebug.value) {
-      processedMeshes.value.forEach(createDebugHelper)
-    }
-    else {
-      processedMeshes.value.forEach(removeDebugHelper)
-    }
   }
 
   /**
@@ -259,48 +226,24 @@ export function useBVH(options: UseBVHOptions = {}) {
    * Apply BVH optimization to an object and all its mesh children
    */
   const applyBVH = (object: Object3D): void => {
-    if (!isEnabled.value) {
+    if (!toValue(enabled)) {
       if (verbose) {
         console.log('BVH: Optimization disabled, skipping')
       }
       return
     }
 
-    if (verbose) {
-      console.log('BVH: Starting mesh detection on object:', object)
-    }
-
     const meshes = getAllMeshes(object)
+    const unprocessedMeshes = meshes.filter(mesh => !processedMeshes.value.some(pm => pm.mesh === mesh))
 
-    if (verbose) {
-      console.log(`BVH: Found ${meshes.length} meshes to process`)
-    }
-
-    meshes.forEach((mesh, index) => {
-      // Skip if already processed
-      const alreadyProcessed = processedMeshes.value.find(pm => pm.mesh === mesh)
-      if (alreadyProcessed) {
-        if (verbose) {
-          console.log(`BVH: Mesh ${index + 1} already processed, skipping`)
-        }
-        return
-      }
-
-      if (verbose) {
-        console.log(`BVH: Processing mesh ${index + 1}/${meshes.length} - ${mesh.type}`)
-      }
-
+    unprocessedMeshes.forEach((mesh) => {
       const processedMesh = applyBVHToMesh(mesh)
       if (processedMesh) {
         processedMeshes.value.push(processedMesh)
 
         // Create debug helper if debug is enabled
-        if (isDebug.value) {
+        if (toValue(debug)) {
           createDebugHelper(processedMesh)
-        }
-
-        if (verbose) {
-          console.log(`BVH: Successfully optimized mesh ${index + 1}`)
         }
       }
     })
@@ -319,36 +262,26 @@ export function useBVH(options: UseBVHOptions = {}) {
   }
 
   /**
-   * Toggle BVH optimization
+   * Helper for async model loading - watches a ref/computed and applies BVH when truthy
+   * @param objectRef - A ref or computed that returns the Object3D when ready
    */
-  const setBVHEnabled = (enabled: boolean): void => {
-    isEnabled.value = enabled
-  }
-
-  /**
-   * Helper for async model loading - watches a getter and applies BVH when truthy
-   * @param objectGetter - A getter function that returns the Object3D when ready
-   */
-  const applyBVHWhenReady = (objectGetter: () => TresObject3D | Object3D | null | undefined): void => {
-    watchEffect(() => {
-      const object = objectGetter()
-      if (object && isEnabled.value) {
+  const applyBVHWhenReady = (objectRef: Ref<TresObject3D | Object3D | null | undefined>): void => {
+    watch(objectRef, (object) => {
+      if (object && toValue(enabled)) {
         applyBVH(object)
       }
-    })
+    }, { immediate: true })
   }
 
-  // Watch for enabled state changes
-  watch(isEnabled, (newEnabled) => {
-    if (!newEnabled) {
-      removeBVH()
-    }
+  // Watch for enabled becoming false — remove BVH
+  whenever(() => !unref(enabled), () => {
+    removeBVH()
   })
 
   // Watch for debug state changes
-  watch(isDebug, () => {
-    updateDebugHelpers()
-  })
+  watch(() => toValue(debug), () => {
+    processedMeshes.value.forEach(toValue(debug) ? createDebugHelper : removeDebugHelper)
+  }, { immediate: true })
 
   // Cleanup on unmount
   onUnmounted(() => {
@@ -356,25 +289,9 @@ export function useBVH(options: UseBVHOptions = {}) {
   })
 
   return {
-    // State
-    isEnabled,
-    isDebug,
-    processedMeshes: processedMeshes as Ref<readonly ProcessedMesh[]>,
-
-    // Methods
+    processedMeshes: readonly(processedMeshes),
     applyBVH,
     applyBVHWhenReady,
     removeBVH,
-    setBVHEnabled,
-
-    // Computed info
-    get meshCount() {
-      return processedMeshes.value.length
-    },
   }
 }
-
-/**
- * Type definitions for the composable return
- */
-export type UseBVHReturn = ReturnType<typeof useBVH>
