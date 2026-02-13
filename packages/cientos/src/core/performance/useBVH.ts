@@ -46,7 +46,7 @@ interface ProcessedMesh {
  * Side-effect free: reverts to original raycast when disabled or unmounted
  */
 export const useBVH = (
-  /** The object to apply BVH to. Usually the model */
+  /** The object or group to apply BVH to. Usually the model */
   target: MaybeRefOrGetter<UseBVHTarget>,
   {
     enabled = true,
