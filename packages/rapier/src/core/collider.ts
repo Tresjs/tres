@@ -7,10 +7,7 @@ import {
 } from 'three'
 import { mergeVertices } from 'three/examples/jsm/utils/BufferGeometryUtils.js'
 import type { TresObject3D } from '@tresjs/core'
-import type {
-  QuaternionLike,
-  Vector3Like,
-} from 'three'
+import type { QuaternionLike, Vector3Like } from 'three'
 
 import { QUATERNION_ZERO, VECTOR_ZERO } from '../constants'
 import { getColliderSizingsFromObject } from '../utils'
@@ -21,9 +18,12 @@ import type {
   CreateColliderProps,
   CreateColliderReturnType,
 } from '../types/collider'
+import { parsePosition, parseRotation } from '../utils/common'
 
 /**
- * @description Create a {@link ColliderDesc} shape based on the given properties
+ * @description
+ *
+ * Create a {@link ColliderDesc} shape based on the given properties.
  *
  * If the shape or sizes are not specified,
  * it will try to create a shape based on the object's geometry or the bounding-box.
@@ -38,18 +38,15 @@ import type {
 export const createColliderDesc = (props: CreateColliderDescProps) => {
   const { object, args, shape, scale, rigidBody } = props
   const position: Vector3Like
-    = (props.position && {
-      x: props.position[0] ?? 0,
-      y: props.position[1] ?? 0,
-      z: props.position[2] ?? 0,
-    })
-    ?? object?.position ?? rigidBody.translation() ?? VECTOR_ZERO
-  const rotation: QuaternionLike = (props.rotation && ({
-    x: props.rotation[0] ?? 0,
-    y: props.rotation[1] ?? 0,
-    z: props.rotation[2] ?? 0,
-    w: props.rotation[3] ?? 0,
-  })) ?? object?.quaternion ?? rigidBody.rotation() ?? QUATERNION_ZERO
+    = (props.position && parsePosition(props.position))
+      ?? (object?.position && parsePosition(object?.position))
+      ?? rigidBody.translation()
+      ?? VECTOR_ZERO
+  const rotation: QuaternionLike
+  = (props.rotation && parseRotation(props.rotation))
+    ?? (object?.quaternion && parseRotation(object?.quaternion))
+    ?? rigidBody.rotation()
+    ?? QUATERNION_ZERO.clone()
   const sizes = getColliderSizingsFromObject(object as TresObject3D)
   const halfWidth = (args?.[0] ?? sizes.halfWidth) * (scale?.[0] ?? 1)
   const halfHeight = (args?.[1] ?? sizes.halfHeight) * (scale?.[1] ?? 1)
