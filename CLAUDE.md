@@ -21,8 +21,6 @@ TresJS is a Vue-based declarative 3D rendering library built on top of Three.js.
 - **playground** (`apps/playground`): Development testing sandbox
 - **cientos-docs-vitepress** (`apps/cientos-docs-vitepress`): Legacy Cientos documentation
 
-@./.claude/common-commands.md
-
 ## Architecture & Standards
 
 Package and app-specific details are in their respective CLAUDE.md files:
