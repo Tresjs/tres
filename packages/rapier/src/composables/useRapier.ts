@@ -1,57 +1,53 @@
-import { inject, provide } from 'vue'
-
-import { GRAVITY } from '../constants/physics'
+import { createInjectionState } from '@vueuse/core'
+import { shallowRef, ref } from 'vue'
 import type { RapierContext } from '../types/rapier'
+import type { World } from '@dimforge/rapier3d-compat'
+import { GRAVITY } from '../constants/physics'
 
-/**
- * @description Provides the `RapierContext` provider.
- */
-export async function useRapierContextProvider() {
-  const toProvide: Partial<RapierContext> = {
-    rapier: undefined,
-    world: undefined,
-    isPaused: false,
-    isDebug: false,
-    setWorld: (world) => {
-      toProvide.world = world
-    },
-    step: (timestep) => {
-      if (!toProvide.world) { return }
-      if (typeof timestep === 'number') { toProvide.world.timestep = timestep }
+const [
+  useRapierContextProvider,
+  _useRapierContext
+] = createInjectionState((): RapierContext => {
+  const rapier = shallowRef()
+  const world = shallowRef()
+  const isPaused = ref(false)
+  const isDebug = ref(false)
 
-      toProvide.world.step()
-    },
+  const init = async () => {
+    const RAPIER = await import('@dimforge/rapier3d-compat')
+    await RAPIER.init()
+    rapier.value = RAPIER
+    world.value = new RAPIER.World(GRAVITY)
   }
 
-  provide('useRapier', toProvide)
-
-  toProvide.rapier = await import('@dimforge/rapier3d-compat')
-  await toProvide.rapier.init()
-
-  /* Initialize the world with gravity and timestep. */
-  toProvide.world = new toProvide.rapier.World(GRAVITY)
-
-  return toProvide as RapierContext
-}
-
-/**
- * @description Provides the `RapierContext`
- *
- * @internal
- */
-export function useRapierContext(): RapierContext {
-  const context = inject<Partial<RapierContext>>('useRapier')
-
-  if (!context?.world) {
-    throw new Error(
-      'useRapierContext must be used together with useRapierContextProvider',
-    )
+  const setWorld = (w: World) => {
+    world.value = w
   }
 
-  return context as RapierContext
+  const step = (timestep?: number) => {
+    if (!world.value) return
+    if (typeof timestep === 'number') world.value.timestep = timestep
+    world.value.step()
+  }
+
+  return {
+    rapier,
+    world,
+    isPaused,
+    isDebug,
+    init,
+    setWorld,
+    step,
+  }
+}, { injectionKey: 'useRapier' })
+
+const useRapierContext = () => {
+  const ctx = _useRapierContext()
+  if (!ctx?.world.value) {
+    throw new Error('useRapierContext must be used together with useRapierContextProvider')
+  }
+  return ctx
 }
 
-/**
- * @description Provides the `RapierContext`
- */
 export const useRapier = useRapierContext
+export { useRapierContext, useRapierContextProvider }

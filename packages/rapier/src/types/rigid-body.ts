@@ -8,6 +8,7 @@ import type {
 import type { TresObject3D, TresVector3, VectorCoordinates } from '@tresjs/core'
 
 import type { ColliderProps, ColliderShape } from './collider'
+import { Ref } from 'vue'
 
 /** @description Tres Rapier supported `RigidBody` types. */
 export type RigidBodyType =
@@ -145,6 +146,12 @@ export interface CreateRigidBodyDescProps {
   object: TresObject3D
   /** @description The `rigidBody` type. {@link RigidBodyType}. */
   rigidBodyType: RigidBodyType
+  /**
+   * @description The Rapier {@link World} context.
+   *
+   * @see https://rapier.rs/javascript3d/classes/World.html
+   */
+  world: Ref<World>
 }
 
 export interface CreateRigidBodyProps extends CreateRigidBodyDescProps {
@@ -153,7 +160,7 @@ export interface CreateRigidBodyProps extends CreateRigidBodyDescProps {
    *
    * @see https://rapier.rs/javascript3d/classes/World.html
    */
-  world: World
+  world: Ref<World>
 }
 
 export interface CreateRigidBodyReturnType {

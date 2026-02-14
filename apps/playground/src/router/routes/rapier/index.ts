@@ -50,4 +50,9 @@ export const rapierRoutes = [
     name: 'Advanced Joints',
     component: () => import('@/pages/rapier/JointsAdvancedDemo.vue'),
   },
+  {
+    path: '/rapier/expose',
+    name: 'Expose',
+    component: () => import('@/pages/rapier/ExposeDemo.vue'),
+  },
 ]

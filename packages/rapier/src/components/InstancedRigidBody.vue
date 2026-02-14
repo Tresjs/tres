@@ -116,10 +116,10 @@ onUnmounted(() => {
   if (!bodiesContexts.value) { return }
 
   bodiesContexts.value.forEach((context) => {
-    world.removeRigidBody(context.rigidBody)
+    world.value.removeRigidBody(context.rigidBody)
 
     context.colliders.forEach((collider) => {
-      world.removeCollider(collider.collider, false)
+      world.value.removeCollider(collider.collider, false)
     })
   })
 
