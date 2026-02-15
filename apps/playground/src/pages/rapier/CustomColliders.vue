@@ -12,6 +12,7 @@ import {
 } from '@tresjs/rapier'
 import { ACESFilmicToneMapping, SRGBColorSpace } from 'three'
 import { TresLeches, useControls } from '@tresjs/leches'
+import type { ExposedRigidBody } from '@tresjs/rapier'
 
 const gl = {
   clearColor: '#82DBC5',
