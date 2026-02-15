@@ -30,11 +30,7 @@ BVH (Bounding Volume Hierarchy) is a spatial data structure that organizes geome
 import { useGLTF, useBVH } from '@tresjs/cientos'
 
 const { state: model } = useGLTF('/models/complex-model.glb')
-const { applyBVHWhenReady } = useBVH()
-
-// Apply BVH when model loads
-const modelScene = computed(() => model.value?.scene)
-applyBVHWhenReady(modelScene)
+useBVH(() => model.value?.scene)
 </script>
 
 <template>
@@ -50,14 +46,14 @@ Enable debug mode to visualize the BVH bounding boxes:
 <script setup lang="ts">
 import { useGLTF, useBVH } from '@tresjs/cientos'
 
-const { applyBVHWhenReady } = useBVH({
-  debug: true, // Show BVH bounding boxes
-})
-
 const { state: model } = useGLTF('/models/model.glb')
 
-const modelScene = computed(() => model.value?.scene)
-applyBVHWhenReady(modelScene)
+useBVH(
+  () => model.value?.scene,
+  {
+    debug: true, // Show BVH bounding boxes
+  }
+)
 </script>
 ```
 
@@ -72,14 +68,15 @@ import { useGLTF, useBVH } from '@tresjs/cientos'
 
 const bvhEnabled = ref(true)
 
-const { applyBVHWhenReady } = useBVH({
-  enabled: bvhEnabled,
-})
-
 const { state: model } = useGLTF('/models/model.glb')
 
-const modelScene = computed(() => model.value?.scene)
-applyBVHWhenReady(modelScene)
+useBVH(
+  () => model.value?.scene,
+  {
+    enabled: bvhEnabled,
+  }
+)
+
 </script>
 
 <template>
@@ -90,23 +87,6 @@ applyBVHWhenReady(modelScene)
     <primitive v-if="model" :object="model.scene" />
   </div>
 </template>
-```
-
-### Manual Control
-
-Apply BVH directly to objects:
-
-```vue{8}
-<script setup lang="ts">
-import { useGLTF, useBVH } from '@tresjs/cientos'
-
-const { applyBVH } = useBVH()
-const { state: model } = useGLTF('/models/model.glb')
-
-watch(() => model.value, (newModel) => {
-  if (newModel) applyBVH(newModel.scene)
-})
-</script>
 ```
 
 ## Options
@@ -140,15 +120,6 @@ These options configure how the BVH is built. Changing them after creation has n
 - **AVERAGE** - Balanced build time and runtime performance.
 - **CENTER** - Fastest to build, slower at runtime.
 
-## Return Values
-
-| Name | Type | Description |
-| :--- | :--- | :--- |
-| **processedMeshes** | `DeepReadonly<Ref<ProcessedMesh[]>>` | Readonly array of meshes with BVH applied. |
-| **applyBVH** | `(object: Object3D) => void` | Apply BVH to an object and all its mesh children. |
-| **applyBVHWhenReady** | `(objectRef: Ref<Object3D \| null>) => void` | Watch a ref/computed and apply BVH when the object becomes available. |
-| **removeBVH** | `() => void` | Remove BVH from all processed meshes. |
-
 ## Advanced Usage
 
 ### Fine-tuning Performance
@@ -156,12 +127,15 @@ These options configure how the BVH is built. Changing them after creation has n
 Adjust BVH construction parameters for your use case:
 
 ```ts
-const { applyBVHWhenReady } = useBVH({
-  splitStrategy: 'SAH',     // Best runtime performance
-  maxDepth: 30,             // Shallower tree (faster build)
-  maxLeafSize: 5,           // Smaller leaves (better culling)
-  verbose: true,            // Debug construction
-})
+useBVH(
+  target,
+  {
+    splitStrategy: 'SAH', // Best runtime performance
+    maxDepth: 30, // Shallower tree (faster build)
+    maxLeafSize: 5, // Smaller leaves (better culling)
+    verbose: true, // Debug construction
+  }
+)
 ```
 
 ### First Hit Only Mode
@@ -169,9 +143,12 @@ const { applyBVHWhenReady } = useBVH({
 When you only need the closest intersection (e.g., mouse picking):
 
 ```ts
-const { applyBVHWhenReady } = useBVH({
-  firstHitOnly: true,  // Uses raycastFirst internally
-})
+useBVH(
+  target,
+  {
+    firstHitOnly: true, // Uses raycastFirst internally
+  }
+)
 ```
 
 This is significantly faster than computing all intersections when you only need one.
@@ -190,7 +167,6 @@ This is significantly faster than computing all intersections when you only need
 2. **SAH strategy** gives best runtime performance for production
 3. **Adjust maxLeafSize** based on triangle density (smaller for dense meshes)
 4. **Enable debug mode** during development to verify BVH coverage
-5. **Apply to loaded models only** - use `applyBVHWhenReady` with async loaders
 
 ## Integration with useGLTF
 
@@ -198,23 +174,16 @@ Perfect pairing with `useGLTF` for optimized model loading:
 
 ```vue
 <script setup lang="ts">
-import { useGLTF, useBVH } from '@tresjs/cientos'
+import { useBVH, useGLTF } from '@tresjs/cientos'
 
 const { state: model } = useGLTF('/models/high-poly-model.glb', {
   draco: true
 })
 
-const { applyBVHWhenReady, processedMeshes } = useBVH({
-  splitStrategy: 'SAH',
-})
-
-const modelScene = computed(() => model.value?.scene)
-applyBVHWhenReady(modelScene)
-
-// processedMeshes updates when BVH is applied
-watch(processedMeshes, (meshes) => {
-  console.log(`BVH applied to ${meshes.length} meshes`)
-})
+useBVH(
+  () => model.value?.scene,
+  { splitStrategy: 'SAH' }
+)
 </script>
 ```
 

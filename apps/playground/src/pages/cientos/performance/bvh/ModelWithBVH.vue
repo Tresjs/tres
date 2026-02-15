@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { useGLTF, useBVH, Html } from '@tresjs/cientos'
-import { TresObject3D } from '@tresjs/core'
+import { Html, useBVH, useGLTF } from '@tresjs/cientos'
 import { useControls } from '@tresjs/leches'
 
 const { state: model } = useGLTF('/models/Artificer.glb', {
@@ -14,20 +13,21 @@ const { enabled, debug } = useControls({
   debug: false,
 }, { uuid })
 
-const { applyBVHWhenReady } = useBVH({
-  enabled,
-  debug,
-})
-
-const modelScene = computed(() => model.value?.scene)
-applyBVHWhenReady(modelScene as Ref<TresObject3D | null | undefined>)
-
+useBVH(
+  () => model.value?.scene,
+  {
+    enabled,
+    debug,
+  },
+)
 const isHovering = ref(false)
 
 const handleClick = (event: PointerEvent) => {
+  // eslint-disable-next-line no-console
   console.log('clicked', event)
 }
 </script>
+
 <template>
   <primitive
     v-if="model?.scene"
