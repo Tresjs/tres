@@ -68,13 +68,15 @@ export const getColliderSizingsFromObject = (object?: TresObject3D) => {
   else if (object instanceof Object3D) {
     const boundingBox = new Box3().setFromObject(object)
 
-    width = boundingBox.max.x - boundingBox.min.x
-    height = boundingBox.max.y - boundingBox.min.y
-    depth = boundingBox.max.z - boundingBox.min.z
+    if (!boundingBox.isEmpty()) {
+      width = boundingBox.max.x - boundingBox.min.x
+      height = boundingBox.max.y - boundingBox.min.y
+      depth = boundingBox.max.z - boundingBox.min.z
 
-    halfWidth = width / 2
-    halfHeight = height / 2
-    halfDepth = depth / 2
+      halfWidth = width / 2
+      halfHeight = height / 2
+      halfDepth = depth / 2
+    }
   }
 
   const radius = Math.max(halfWidth, halfHeight, halfDepth)
