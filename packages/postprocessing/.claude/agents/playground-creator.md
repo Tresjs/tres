@@ -47,9 +47,9 @@ import { TresCanvas } from '@tresjs/core'
 
 // 2. Import the effect and appropriate composer
 // For pmndrs effects:
-import { EffectComposerPmndrs, [EffectName] } from '@tresjs/postprocessing'
+import { EffectComposerPmndrs, [EffectName] } from '@tresjs/post-processing'
 // For Three.js effects:
-import { EffectComposer, [EffectName], Output } from '@tresjs/postprocessing'
+import { EffectComposer, [EffectName], Output } from '@tresjs/post-processing'
 
 // 3. Import Leches for controls
 import { TresLeches, useControls } from '@tresjs/leches'
