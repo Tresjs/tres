@@ -50,7 +50,7 @@ export const createColliderDesc = (props: CreateColliderDescProps) => {
     z: props.rotation[2] ?? 0,
     w: props.rotation[3] ?? 0,
   })) ?? object?.quaternion ?? rigidBody.rotation() ?? QUATERNION_ZERO
-  const sizes = getColliderSizingsFromObject(object)
+  const sizes = getColliderSizingsFromObject(object as TresObject3D)
   const halfWidth = (args?.[0] ?? sizes.halfWidth) * (scale?.[0] ?? 1)
   const halfHeight = (args?.[1] ?? sizes.halfHeight) * (scale?.[1] ?? 1)
   const halfDepth = (args?.[2] ?? sizes.halfDepth) * (scale?.[2] ?? 1)
@@ -121,7 +121,7 @@ export const createCollider = (
 ): CreateColliderReturnType => {
   const { world, rigidBody, object } = props
   const colliderDesc = createColliderDesc(props)
-  const collider = world.createCollider(colliderDesc, rigidBody)
+  const collider = world.value.createCollider(colliderDesc, rigidBody)
 
   return {
     collider,
