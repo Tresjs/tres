@@ -6,28 +6,10 @@ seo:
 
 ::u-page-hero
 
-
-<!-- #headline 
-:::nuxt-link
---- 
-to: /getting-started
----
-
-:::u-badge
----
-variant: subtle
-size: lg
-icon: i-lucide-arrow-right
----
-Tres v5 announcement
-:::
-:::
- -->
-
 #title
 
 <span class="text-primary-300">Rapier</span> \
-We'll make you love physics again 💚
+We'll make you love physics again 💜
 
 #description
 All the power of physics in your hands.
