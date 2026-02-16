@@ -4,7 +4,7 @@ description: Speed up raycasting with Bounding Volume Hierarchy (BVH) optimizati
 ---
 
 ::SceneControlsWrapper
-  ::DebugPerformanceUseBvh
+  ::DebugPerformanceUseBoundingVolumeHierarchy
   ::
 ::
 
