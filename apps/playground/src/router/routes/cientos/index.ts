@@ -5,6 +5,7 @@ import { materialsRoutes } from './materials'
 import { miscRoutes } from './misc'
 import { shapesRoutes } from './shapes'
 import { stagingRoutes } from './staging'
+import { performanceRoutes } from './performance'
 
 const cientosRoutes = [
   ...abstractionsRoutes,
@@ -14,6 +15,7 @@ const cientosRoutes = [
   ...miscRoutes,
   ...shapesRoutes,
   ...stagingRoutes,
+  ...performanceRoutes,
 ]
 export {
   abstractionsRoutes,
@@ -23,5 +25,6 @@ export {
   miscRoutes,
   shapesRoutes,
   stagingRoutes,
+  performanceRoutes,
   cientosRoutes,
 }

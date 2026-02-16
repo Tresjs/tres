@@ -125,6 +125,25 @@ makePropsWatcherRB(props, [
   'enabledTranslations',
 ], instance)
 
+// reactively set autoColliderProps
+const setAutoColliderProp = <K extends keyof ColliderProps>(prop: K, value: ColliderProps[K]) => {
+  if (autoColliderProps.value.length === 0 || props.collider === false) { return }
+
+  autoColliderProps.value.forEach((_props) => {
+    _props[prop] = value
+  })
+}
+
+// Automatic collider props watchers
+watch(() => props.friction, value => setAutoColliderProp('friction', value))
+watch(() => props.mass, value => setAutoColliderProp('mass', value))
+watch(() => props.restitution, value => setAutoColliderProp('restitution', value))
+watch(() => props.density, value => setAutoColliderProp('density', value))
+watch(() => props.activeCollision, value => setAutoColliderProp('activeCollision', value))
+watch(() => props.activeCollisionTypes, value => setAutoColliderProp('activeCollisionTypes', value))
+watch(() => props.collisionGroups, value => setAutoColliderProp('collisionGroups', value))
+watch(() => props.sensor, value => setAutoColliderProp('sensor', value))
+
 watch([() => props.lockTranslations, instance], ([_lockTranslations, _]) => {
   if (!instance.value) { return }
   instance.value.lockTranslations(_lockTranslations, true)
