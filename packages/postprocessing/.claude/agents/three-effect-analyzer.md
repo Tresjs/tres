@@ -74,7 +74,7 @@ Analyze Three.js effect pass classes and output in a structured format following
 
 1. Read the effect pass file and its parent classes (Pass.js, etc.)
 2. Read the associated shader file if uniforms are used
-3. Check Three.js docs at `/docs/pages/<PassName>.html`
+3. Check Three.js docs at `/docs/pages/<PassName>.html`, inform the user if you were not able to find the file.
 4. For each property, determine:
    - Type from JSDoc or code
    - Whether it's a constructor parameter
@@ -92,3 +92,4 @@ Analyze Three.js effect pass classes and output in a structured format following
 # REMEMBER
 
 Use a structured format for the output; JSON is preferred.
+Each property of the effect listed in the Three.js docs properties section must be part of the returned data.

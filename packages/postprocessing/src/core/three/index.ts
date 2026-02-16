@@ -7,11 +7,13 @@ import Halftone, { type HalftoneProps } from './Halftone.vue'
 import Pixelation, { type PixelationProps } from './Pixelation.vue'
 import Output from './Output.vue'
 import SMAA, { type SMAAProps } from './SMAA.vue'
+import SAO, { type SAOProps } from './SAO.vue'
 import UnrealBloom, { type UnrealBloomProps } from './UnrealBloom.vue'
 
 export {
   EffectComposer,
 
+  SAO,
   Film,
   SMAA,
   Output,
@@ -22,6 +24,7 @@ export {
 
   useEffect,
 
+  SAOProps,
   SMAAProps,
   FilmProps,
   GlitchProps,

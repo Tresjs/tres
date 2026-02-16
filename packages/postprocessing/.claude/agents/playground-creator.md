@@ -23,6 +23,7 @@ Think creatively about what 3D scene would best showcase this effect:
 - Consider what objects, lighting, and camera angles highlight the effect's capabilities
 - Think about movement/animation that makes the effect more visible
 - Consider color choices that complement the effect
+- **Get inspiration from Three.js examples** (`/examples` in the three.js repo) — browse relevant demos to find scene ideas, geometry setups, or animation patterns that pair well with the effect
 
 **IMPORTANT: You MUST use the `AskQuestion` tool** to present your scene idea and get user approval before proceeding. Structure the question like:
 - Prompt: "I suggest creating a scene with [your idea]. This would showcase the effect well because [reasoning]."
@@ -70,15 +71,15 @@ const { propName, anotherProp } = useControls({
   <TresLeches />
   <TresCanvas>
     <!-- Camera setup -->
-    
+
     <!-- Scene content (lights, objects, etc.) -->
-    
+
     <!-- Effect Composer -->
     <!-- For pmndrs: -->
     <EffectComposerPmndrs>
       <EffectName :prop-name="propName" :another-prop="anotherProp" />
     </EffectComposerPmndrs>
-    
+
     <!-- For Three.js: -->
     <EffectComposer>
       <EffectName :prop-name="propName" />
@@ -113,7 +114,7 @@ After creating the playground component, you MUST add a route entry to:
 #### Route Structure
 The file uses a `makeRoute` helper function:
 ```ts
-makeRoute(name: string, icon: string, isThreeEffect: boolean = true)
+makeRoute(name, icon, isThreeEffect)
 ```
 
 - `name`: Display name (e.g., `'Depth of Field'`, `'Unreal Bloom'`)
