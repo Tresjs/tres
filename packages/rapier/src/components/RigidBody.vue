@@ -175,10 +175,10 @@ onUpdated(() => {
 onUnmounted(() => {
   if (!bodyContext.value) { return }
 
-  world.removeRigidBody(bodyContext.value.rigidBody)
+  world.value.removeRigidBody(bodyContext.value.rigidBody)
 
   bodyContext.value.colliders.forEach((collider) => {
-    world.removeCollider(collider.collider, false)
+    world.value.removeCollider(collider.collider, false)
   })
 
   bodyContext.value = undefined

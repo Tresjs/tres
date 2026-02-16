@@ -1,3 +1,13 @@
+## 5.5.0 (2026-02-16)
+
+### 🚀 Features
+
+- **core:** export `Context` component ([5919f887](https://github.com/Tresjs/tres/commit/5919f887))
+
+### ❤️ Thank You
+
+- Jungzl
+
 ## 5.4.1 (2026-02-09)
 
 ### 🩹 Fixes
