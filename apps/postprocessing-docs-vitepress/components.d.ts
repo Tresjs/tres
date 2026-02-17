@@ -40,6 +40,7 @@ declare module 'vue' {
     PixelationThreeDemo: typeof import('./.vitepress/theme/components/three/PixelationThreeDemo.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    SAOThreeDemo: typeof import('./.vitepress/theme/components/three/SAOThreeDemo.vue')['default']
     ScanlineDemo: typeof import('./.vitepress/theme/components/pmdrs/ScanlineDemo.vue')['default']
     SepiaDemo: typeof import('./.vitepress/theme/components/pmdrs/SepiaDemo.vue')['default']
     ShockWaveDemo: typeof import('./.vitepress/theme/components/pmdrs/ShockWaveDemo.vue')['default']

@@ -84,7 +84,7 @@ function RotateGroup() {
       :near="3"
       :far="10"
     />
-    <OrbitControls />
+    <OrbitControls auto-rotate />
 
     <TresAmbientLight :color="0xFFFFFF" :intensity="0.2" />
     <TresPointLight :color="0xEFFFEF" :intensity="500" :position="[-10, -10, 10]" />
