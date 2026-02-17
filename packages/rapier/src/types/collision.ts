@@ -2,12 +2,16 @@ import type { Collider, RigidBody } from '@dimforge/rapier3d-compat'
 import type { TresVNodeObject } from './object'
 
 export interface CollisionSource {
-  collider: Collider
+  collider: Collider & {
+    userData?: {
+      uuid?: string
+    }
+  }
   rigidBody: RigidBody | undefined
-};
+}
 
 export interface SourceTarget {
-  object: TresVNodeObject
+  objects: [rigidBodyObject: TresVNodeObject, colliderObject: TresVNodeObject]
   context: CollisionSource
 }
 

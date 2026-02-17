@@ -10,6 +10,13 @@ import type { Ref } from 'vue'
 
 import type { ColliderProps, ColliderShape } from './collider'
 
+export interface RigidBodyUserData {
+  [key: string]: any
+  uuid?: string
+  name?: string
+  type?: string
+}
+
 /** @description Tres-Rapier supported `RigidBody` types. */
 export type RigidBodyType =
   | 'dynamic'
@@ -133,7 +140,7 @@ export interface RigidBodyContext extends RigidBodyProps {
   rigidBodyDesc: RigidBodyDesc
 
   /**  @description Context {@link RigidBody}. */
-  rigidBody: RigidBody
+  rigidBody: RigidBody & { userData?: RigidBodyUserData }
 
   /** @description Context {@Link TresObject3D} group. */
   group: TresObject3D
@@ -172,7 +179,7 @@ export interface CreateRigidBodyReturnType {
    *
    * @see https://rapier.rs/javascript3d/classes/RigidBody.html
    */
-  rigidBody: RigidBody
+  rigidBody: RigidBody & { userData?: RigidBodyUserData }
   /**
    * {@link RigidBodyDesc}
    *

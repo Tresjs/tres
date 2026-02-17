@@ -1,7 +1,7 @@
 import type { TresObject } from '@tresjs/core'
 import type { SetupContext, VNode } from 'vue'
 
-/** @description approximate {@link VNode} representation. */
+/** @description Approximate VueJs {@link VNode} representation. */
 export type TresVNode = Omit<VNode, 'children'> & {
   __vnode: VNode & {
     children: Array<TresVNode>

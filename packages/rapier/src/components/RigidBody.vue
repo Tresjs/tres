@@ -8,9 +8,9 @@ import {
   onUpdated,
   provide,
   shallowRef,
+  type ShallowRef,
   watch,
 } from 'vue'
-import type { ShallowRef } from 'vue'
 
 import { useRapierContext } from '../composables'
 import { createColliderPropsFromObject, createRigidBody } from '../core'
@@ -40,7 +40,7 @@ const props = withDefaults(defineProps<Partial<RigidBodyProps>>(), {
   enabledRotations: () => [true, true, true],
   enabledTranslations: () => [true, true, true],
 
-  // AUTOMATIC COLLIDERS PROPS
+  // Auto-generated colliders props
   friction: 0.5,
   mass: 1,
   restitution: 0,

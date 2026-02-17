@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { TresObject3D } from '@tresjs/core'
 import { ActiveCollisionTypes, ActiveEvents } from '@dimforge/rapier3d-compat'
 import { inject, nextTick, onUnmounted, type ShallowRef, shallowRef, watch } from 'vue'
 
@@ -22,6 +23,7 @@ const props = withDefaults(defineProps<Partial<ColliderProps>>(), {
 
 const { world } = useRapierContext()
 
+const colliderGroup = shallowRef<TresObject3D>()
 const bodyContext = inject<ShallowRef<RigidBodyContext>>('bodyContext') ?? shallowRef<RigidBodyContext>()
 const colliderInfos = shallowRef<CreateColliderReturnType>()
 const instance = shallowRef<CreateColliderReturnType['collider']>()
@@ -30,16 +32,17 @@ const colliderDesc = shallowRef<CreateColliderReturnType['colliderDesc']>()
 defineExpose({
   instance,
   colliderDesc,
+  object: colliderGroup,
 } satisfies { [K in keyof ExposedCollider]: ShallowRef<ExposedCollider[K] | undefined> })
 
 watch(bodyContext, async (state) => {
   await nextTick()
 
-  const isColliderExist = !!state?.colliders.find((item) => {
+  const isValidCollider = !!state?.colliders.find((item) => {
     return item.object.uuid === props.object?.uuid
   })
 
-  if (!state || isColliderExist) { return }
+  if (!state || isValidCollider) { return }
 
   const object = props.object ?? state.group
   const infos = {
@@ -50,8 +53,12 @@ watch(bodyContext, async (state) => {
       world,
     }),
     object,
+    group: colliderGroup,
   }
 
+  infos.collider.userData = {
+    uuid: colliderGroup.value?.uuid,
+  }
   instance.value = infos.collider
   colliderDesc.value = infos.colliderDesc
   colliderInfos.value = infos
@@ -99,7 +106,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <TresObject3D>
+  <TresObject3D ref="colliderGroup">
     <slot></slot>
   </TresObject3D>
 </template>

@@ -1,9 +1,10 @@
-import { RigidBodyDesc } from '@dimforge/rapier3d-compat'
+import { type RigidBody, RigidBodyDesc } from '@dimforge/rapier3d-compat'
 
 import type {
   CreateRigidBodyDescProps,
   CreateRigidBodyProps,
   CreateRigidBodyReturnType,
+  RigidBodyUserData,
 } from '../types'
 
 /**
@@ -37,7 +38,7 @@ export const createRigidBodyDesc = (props: CreateRigidBodyDescProps) => {
     uuid: object.uuid,
     name: object.name,
     type: object.type,
-  }
+  } satisfies RigidBodyUserData
 
   return rigidBodyDesc
 }
@@ -60,7 +61,7 @@ export const createRigidBody = (props: CreateRigidBodyProps): CreateRigidBodyRet
     )
   }
 
-  const rigidBody = props.world.value.createRigidBody(rigidBodyDesc)
+  const rigidBody = props.world.value.createRigidBody(rigidBodyDesc) as RigidBody & { userData?: RigidBodyUserData }
 
   return {
     rigidBody,

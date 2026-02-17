@@ -107,8 +107,12 @@ export interface ColliderProps {
 export interface ExposedCollider {
   /**  @description Context {@link RigidBodyDesc}. */
   instance: RigidBodyColliderContext['collider']
+
   /**  @description Context {@link RigidBody}. */
   colliderDesc: RigidBodyColliderContext['colliderDesc']
+
+  /** @description Object representation of the `Collider`. */
+  object: RigidBodyColliderContext['object']
 }
 
 export interface CreateColliderDescProps extends ColliderProps {
@@ -137,7 +141,11 @@ export interface CreateColliderReturnType {
    *
    * @see https://rapier.rs/javascript3d/classes/Collider.html
    */
-  collider: Collider
+  collider: Collider & {
+    userData?: {
+      uuid?: string
+    }
+  }
   /**
    * {@link ColliderDesc}
    *
