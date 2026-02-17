@@ -2,7 +2,6 @@
 import { TresCanvas } from '@tresjs/core'
 import { EffectComposer, Output, SAO } from '@tresjs/post-processing'
 import { ref } from 'vue'
-import { useRafFn } from '@vueuse/core'
 
 import { useRouteDisposal } from '../../composables/useRouteDisposal'
 
