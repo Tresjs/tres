@@ -82,6 +82,7 @@ export default defineConfig({
       {
         text: 'Three',
         items: [
+          { text: 'Film', link: '/guide/three/film' },
           { text: 'Glitch', link: '/guide/three/glitch' },
           { text: 'Halftone', link: '/guide/three/halftone' },
           { text: 'Output', link: '/guide/three/output' },

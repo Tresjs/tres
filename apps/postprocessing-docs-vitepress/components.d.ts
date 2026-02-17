@@ -21,6 +21,7 @@ declare module 'vue' {
     DocsDemoGUI: typeof import('./.vitepress/theme/components/DocsDemoGUI.vue')['default']
     DotScreenDemo: typeof import('./.vitepress/theme/components/pmdrs/DotScreenDemo.vue')['default']
     Ducky: typeof import('./.vitepress/theme/components/Ducky.vue')['default']
+    FilmThreeDemo: typeof import('./.vitepress/theme/components/three/FilmThreeDemo.vue')['default']
     FishEyeDemo: typeof import('./.vitepress/theme/components/pmdrs/FishEyeDemo.vue')['default']
     FXAADemo: typeof import('./.vitepress/theme/components/pmdrs/FXAADemo.vue')['default']
     GlitchDemo: typeof import('./.vitepress/theme/components/pmdrs/GlitchDemo.vue')['default']
