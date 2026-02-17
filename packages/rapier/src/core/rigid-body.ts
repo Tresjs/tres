@@ -52,16 +52,15 @@ export const createRigidBodyDesc = (props: CreateRigidBodyDescProps) => {
  * @see https://rapier.rs/docs/user_guides/javascript/rigid_bodies
  */
 export const createRigidBody = (props: CreateRigidBodyProps): CreateRigidBodyReturnType => {
-  const { object, world } = props
   const rigidBodyDesc = createRigidBodyDesc(props)
 
   if (!rigidBodyDesc) {
     throw new Error(
-      `Invalid #RigidBodyDesc properties detected. Unable to create the rigid-body for object #${object?.uuid ?? 'object'}`,
+      `Invalid #RigidBodyDesc properties detected. Unable to create the rigid-body for object #${props.object?.uuid ?? 'object'}`,
     )
   }
 
-  const rigidBody = world.createRigidBody(rigidBodyDesc)
+  const rigidBody = props.world.value.createRigidBody(rigidBodyDesc)
 
   return {
     rigidBody,

@@ -1,3 +1,38 @@
+## 5.4.0 (2026-02-16)
+
+### 🚀 Features
+
+- **cientos:** enhance MapControls with customizable touch and mouse button settings ([16705df5](https://github.com/Tresjs/tres/commit/16705df5))
+- **cientos:** introduce UseBVH component and documentation ([44638439](https://github.com/Tresjs/tres/commit/44638439))
+- **cientos:** add useBVH improvements - maxLeafSize and debug visualization ([56a64a33](https://github.com/Tresjs/tres/commit/56a64a33))
+- **cientos:** add applyBVHWhenReady helper for async model loading ([62c499b7](https://github.com/Tresjs/tres/commit/62c499b7))
+- **cientos:** add performance section with BVH demo ([1e37a716](https://github.com/Tresjs/tres/commit/1e37a716))
+- **cientos:** make useBVH enabled option reactive ([9c2efadc](https://github.com/Tresjs/tres/commit/9c2efadc))
+
+### 🩹 Fixes
+
+- **cientos:** ensure controls are set only once in CameraControls ([b7c238a0](https://github.com/Tresjs/tres/commit/b7c238a0))
+- **cientos:** fixed render mode bug in pointer lock controls and keyboard controls ([adbc9b70](https://github.com/Tresjs/tres/commit/adbc9b70))
+- **cientos:** MapControls: fixed render mode bug ([fbf5989d](https://github.com/Tresjs/tres/commit/fbf5989d))
+- **cientos:** respect raycaster near/far/layers in firstHitOnly mode ([82b556da](https://github.com/Tresjs/tres/commit/82b556da))
+- **cientos:** add proper MeshBVH disposal to prevent memory leaks ([83a4d4a0](https://github.com/Tresjs/tres/commit/83a4d4a0))
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/core to 5.5.0
+
+### ❤️ Thank You
+
+- alvarosabu @alvarosabu
+- Claude Opus 4.5
+- Tino Koch @tinoooo
+
+## 5.3.1 (2026-02-09)
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/core to 5.4.1
+
 ## 5.3.0 (2026-02-02)
 
 ### 🩹 Fixes
