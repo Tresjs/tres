@@ -28,6 +28,8 @@ export const threeRoutes = [
   makeRoute('SMAA', '📐'),
   makeRoute('Halftone', '🎨'),
   makeRoute('Unreal Bloom', '🌼'),
+  makeRoute('Film', '🎞️'),
+  makeRoute('SAO', '🌑'),
 ]
 
 export const pmndrsRoutes = [

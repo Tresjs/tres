@@ -82,10 +82,12 @@ export default defineConfig({
       {
         text: 'Three',
         items: [
+          { text: 'Film', link: '/guide/three/film' },
           { text: 'Glitch', link: '/guide/three/glitch' },
           { text: 'Halftone', link: '/guide/three/halftone' },
           { text: 'Output', link: '/guide/three/output' },
           { text: 'Pixelation', link: '/guide/three/pixelation' },
+          { text: 'SAO', link: '/guide/three/sao' },
           { text: 'SMAA', link: '/guide/three/smaa' },
           { text: 'Unreal Bloom', link: '/guide/three/unreal-bloom' },
         ].sort((a, b) => a.text.localeCompare(b.text)),
