@@ -1,4 +1,3 @@
-import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { useLoader } from '.'
 import type { LoaderProto, TresLoaderOptions } from '@tresjs/core'
 import type { GLTF } from 'three/examples/jsm/loaders/GLTFLoader'
