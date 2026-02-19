@@ -11,6 +11,7 @@ import { resolve } from 'pathe'
 import UnoCSS from 'unocss/vite'
 import { presetIcons, presetUno, presetWebFonts, transformerDirectives } from 'unocss'
 import { bold, gray, lightGreen, magenta } from 'kolorist'
+import { visualizer } from 'rollup-plugin-visualizer'
 
 import pkg from './package.json' with { type: 'json' }
 import { presetScrollbar } from 'unocss-preset-scrollbar'
@@ -65,11 +66,8 @@ export default defineConfig({
       transformers: [transformerDirectives()],
     }),
     cssInjectedByJsPlugin(),
-    /*  Inspect({
-      build: true,
-      outputDir: 'dist/inspect',
-    }), */
-  ],
+    process.env.ANALYZE && visualizer({ open: true, gzipSize: true, filename: 'dist/stats.html' }),
+  ].filter(Boolean),
   build: {
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
