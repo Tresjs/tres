@@ -36,7 +36,7 @@ const createScene = async (extendsOption?: Record<string, unknown>) => {
   return { sceneWrapper, context, catalogue }
 }
 
-describe('Context - extends prop', () => {
+describe('context - extends prop', () => {
   it('extends all of THREE by default when no extends prop is given', async () => {
     const { catalogue, sceneWrapper } = await createScene(undefined)
     expect(catalogue.value).toHaveProperty('Mesh')

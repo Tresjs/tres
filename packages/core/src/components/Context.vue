@@ -51,7 +51,7 @@ export interface ContextProps extends RendererOptions {
    * Options for the TresJS custom renderer
    *
    */
-  customRendererOptions?: TresCustomRendererOptions,
+  customRendererOptions?: TresCustomRendererOptions
   /**
  * Three.js classes to register in the catalogue.
  * When provided, replaces the default `extend(THREE)` (all of Three.js).
@@ -61,7 +61,7 @@ export interface ContextProps extends RendererOptions {
  * import { Mesh, BoxGeometry, MeshStandardMaterial } from 'three'
  * // <TresCanvas :extends="{ Mesh, BoxGeometry, MeshStandardMaterial }">
  */
-extends?: Parameters<typeof extend>[0]
+  extends?: Parameters<typeof extend>[0]
 }
 
 export type ContextEmits = {
