@@ -14,6 +14,13 @@ ecosystem, with the advantage of making the "bound" between the two worlds
 The information on this page is a summary of the **RigidBody** instance, please check the [original Rapier documentation](https://rapier.rs/docs/user_guides/javascript/rigid_bodies)
 ::
 
+::SceneWrapper
+  ::DemosRigidBody
+  ::
+::
+
+
+
 ## Basic usage
 
 To use a `RigidBody` component, import it from
