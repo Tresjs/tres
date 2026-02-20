@@ -19,6 +19,7 @@
     "@nuxt/icon": "^2.0.0",
     "@nuxt/image": "catalog:nuxt",
     "@nuxt/scripts": "0.12.1",
+    "@vueuse/core": "catalog:utils",
     "@nuxt/ui": "catalog:nuxt",
     "@tresjs/cientos": "workspace:^",
     "@tresjs/core": "workspace:^",
