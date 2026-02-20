@@ -87,7 +87,7 @@ const {
 
         <RigidBody type="fixed">
           <TresMesh>
-            <TresPlaneGeometry :args="[20, 20, 20]" :rotate-x="-Math.PI / 2" />
+            <TresPlaneGeometry :args="[20, 20]" :rotate-x="-Math.PI / 2" />
             <TresMeshBasicMaterial color="#f4f4f4" />
           </TresMesh>
         </RigidBody>

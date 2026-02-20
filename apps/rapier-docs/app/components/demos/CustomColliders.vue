@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { OrbitControls } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
-import { Physics, RigidBody } from '@tresjs/rapier'
+import { Physics, RigidBody, ConeCollider, CylinderCollider } from '@tresjs/rapier'
 import { ACESFilmicToneMapping, SRGBColorSpace } from 'three'
 import {  useControls } from '@tresjs/leches'
 import type { ExposedRigidBody } from '@tresjs/rapier'
@@ -16,28 +16,12 @@ const gl = {
 
 const uuid = inject(`uuid`)
 const ballRef = shallowRef<ExposedRigidBody>()
-const cubeRef = shallowRef<ExposedRigidBody>()
-const capsuleRef = shallowRef<ExposedRigidBody>()
 
-const jumpBall = () => {
+const jump = () => {
   if (!ballRef.value) {
     return
   }
   ballRef.value.instance.applyImpulse({ x: 0, y: 15, z: 0 }, true)
-}
-
-const jumpCube = () => {
-  if (!cubeRef.value) {
-    return
-  }
-  cubeRef.value.instance.applyImpulse({ x: 0, y: 15, z: 0 }, true)
-}
-
-const jumpCapsule = () => {
-  if (!capsuleRef.value) {
-    return
-  }
-  capsuleRef.value.instance.applyImpulse({ x: 0, y: 15, z: 0 }, true)
 }
 
 const { debug, friction, mass, restitution, density } = useControls({
@@ -50,7 +34,7 @@ const { debug, friction, mass, restitution, density } = useControls({
 </script>
 
 <template>
-  <div class="floating">Click on the mesh to make it jump</div>
+  <button class="floating" @click="jump">Click on the mesh to make it jump</button>
   <TresCanvas v-bind="gl">
     <TresPerspectiveCamera :position="[11, 20, 20]" :look-at="[0, 0, 0]" />
     <OrbitControls />
@@ -60,43 +44,23 @@ const { debug, friction, mass, restitution, density } = useControls({
         <RigidBody
           ref="ballRef"
           collider="ball"
-          :position="[0, 15, 0]"
           :friction
           :mass
           :restitution
           :density
         >
-          <TresMesh @click="jumpBall">
-            <TresSphereGeometry />
-            <TresMeshStandardMaterial color="#f4f4f4" />
-          </TresMesh>
-        </RigidBody>
-        <RigidBody
-          ref="cubeRef"
-          :position="[4, 15, 0]"
-          :friction
+        <ConeCollider :args="[1, 1, 1]" :position="[1, 14, 0]"            :friction
           :mass
           :restitution
-          :density
-        >
-          <TresMesh @click="jumpCube">
+          :density />
+          <TresMesh @click="jump" :position="[0, 15, 0]">
             <TresSphereGeometry />
             <TresMeshStandardMaterial color="#f4f4f4" />
           </TresMesh>
-        </RigidBody>
-        <RigidBody
-          ref="capsuleRef"
-          collider="capsule"
-          :position="[-4, 15, 0]"
-          :friction
+          <CylinderCollider :args="[0.5, 0.5, 1]" :position="[-1, 16, 0]"           :friction
           :mass
           :restitution
-          :density
-        >
-          <TresMesh @click="jumpCapsule">
-            <TresSphereGeometry />
-            <TresMeshStandardMaterial color="#f4f4f4" />
-          </TresMesh>
+          :density />
         </RigidBody>
 
         <RigidBody type="fixed">
@@ -121,5 +85,6 @@ const { debug, friction, mass, restitution, density } = useControls({
   font-size: 0.75rem;
   color: #333;
   padding: 0.5rem;
+  cursor: pointer;
 }
 </style>

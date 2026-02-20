@@ -36,7 +36,7 @@ const { gravityY, gravityX, gravityZ, debug } = useControls({
 
         <RigidBody type="fixed" :restitution="0.5" :position="[0, -10, 0]">
           <TresMesh>
-            <TresPlaneGeometry :args="[20, 20, 20]" :rotate-x="-Math.PI / 2" />
+            <TresPlaneGeometry :args="[20, 20]" :rotate-x="-Math.PI / 2" />
             <TresMeshStandardMaterial color="#f4f4f4" />
           </TresMesh>
         </RigidBody>
@@ -48,25 +48,25 @@ const { gravityY, gravityX, gravityZ, debug } = useControls({
         </RigidBody>
         <RigidBody type="fixed" :restitution="0.5" :position="[0, 0, -10]">
           <TresMesh>
-            <TresPlaneGeometry :args="[20, 20, 20]" />
+            <TresPlaneGeometry :args="[20, 20]" />
             <TresMeshStandardMaterial color="#f4f4f4" />
           </TresMesh>
         </RigidBody>
         <RigidBody type="fixed" :restitution="0.5" :position="[0, 10, 0]">
           <TresMesh>
-            <TresPlaneGeometry :args="[20, 20, 20]" :rotate-x="Math.PI / 2" />
+            <TresPlaneGeometry :args="[20, 20]" :rotate-x="Math.PI / 2" />
             <TresMeshStandardMaterial color="#f4f4f4" />
           </TresMesh>
         </RigidBody>
         <RigidBody type="fixed" :restitution="0.5" :position="[10, 0, 0]" :rotate-y="-Math.PI / 2">
           <TresMesh>
-            <TresPlaneGeometry :args="[20, 20, 20]" />
+            <TresPlaneGeometry :args="[20, 20]" />
             <TresMeshStandardMaterial color="#f4f4f4" />
           </TresMesh>
         </RigidBody>
         <RigidBody type="fixed" :restitution="0.5" :position="[-10, 0, 0]" :rotate-y="Math.PI / 2">
           <TresMesh>
-            <TresPlaneGeometry :args="[20, 20, 20]" />
+            <TresPlaneGeometry :args="[20, 20]" />
             <TresMeshStandardMaterial color="#f4f4f4" />
           </TresMesh>
         </RigidBody>

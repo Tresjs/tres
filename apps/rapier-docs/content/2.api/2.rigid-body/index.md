@@ -19,8 +19,6 @@ The information on this page is a summary of the **RigidBody** instance, please 
   ::
 ::
 
-
-
 ## Basic usage
 
 To use a `RigidBody` component, import it from
@@ -112,11 +110,9 @@ use[Template ref](https://vuejs.org/guide/essentials/template-refs.html#template
 
 ## Expose object
 
-```
-{
-  instance: rigidBodyInstance,
-  rigidBodyDesc,
-  context: colliderInfos,
-  group: parentObject,
-}
-```
+| Property | Description |
+| :------- | :---------- |
+| `instance` | The `RigidBody` instance created by Rapier. |
+| `rigidBodyDesc` | The Rapier rigid-body descriptor used to initialize the body. |
+| `context` | Collider context information (`colliderInfos`) associated with this rigid body. |
+| `group` | Parent Three.js object/group (`parentObject`) that contains the bound scene node. |
