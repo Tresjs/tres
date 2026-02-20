@@ -70,7 +70,7 @@ const newLocal = {
     title: 'Table of Contents',
     bottom: {
       title: 'Community',
-      edit: 'https://github.com/Tresjs/tres/blob/main/apps/cientos-docs/content',
+      edit: 'https://github.com/Tresjs/tres/edit/main/apps/cientos-docs/content',
       links: [{
         icon: 'i-lucide-heart',
         label: 'Become a sponsor',
