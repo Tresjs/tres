@@ -1,28 +1,34 @@
 <script setup lang="ts">
-import { Mesh, BoxGeometry, MeshStandardMaterial, AmbientLight, DirectionalLight, PerspectiveCamera, GridHelper } from 'three'
-import { TresCanvas } from '@tresjs/core'
-import { OrbitControls } from '@tresjs/cientos'
+import { onMounted, onUnmounted, ref } from 'vue'
+import { createTresApp } from '@tresjs/core'
+import {
+  AmbientLight,
+  BoxGeometry,
+  DirectionalLight,
+  GridHelper,
+  Mesh,
+  MeshStandardMaterial,
+  PerspectiveCamera,
+} from 'three'
+import Experience from './experience.vue'
 
-const catalogue = { 
-    Mesh, 
-    BoxGeometry, 
-    MeshStandardMaterial,
-    AmbientLight,
-    DirectionalLight,
-    PerspectiveCamera,
-    GridHelper,
-}
+const canvasRef = ref<HTMLCanvasElement>()
+let root: ReturnType<typeof createTresApp>
+
+onMounted(() => {
+  if (!canvasRef.value) { return }
+
+  root = createTresApp(canvasRef.value, { windowSize: true })
+  root
+    .extend({ AmbientLight, BoxGeometry, DirectionalLight, GridHelper, Mesh, MeshStandardMaterial, PerspectiveCamera })
+    .render(Experience)
+})
+
+onUnmounted(() => {
+  root?.dispose()
+})
 </script>
 
 <template>
-  <TresCanvas :extends="catalogue">
-    <TresPerspectiveCamera
-        :position="[5, 5, 5]"
-        :look-at="[0, 0, 0]"
-    />
-    <TresGridHelper />
-    <OrbitControls   />
-    <TresAmbientLight :intensity="1" />
-    <TresDirectionalLight :position="[0, 8, 4]" :intensity="0.7" />
-  </TresCanvas>
+  <canvas ref="canvasRef" />
 </template>

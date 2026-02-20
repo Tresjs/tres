@@ -1,5 +1,6 @@
 import UseLoader from './useLoader/component.vue'
 
+export * from './createTresApp'
 export * from './useCamera'
 export * from './useGraph'
 export * from './useLoader'

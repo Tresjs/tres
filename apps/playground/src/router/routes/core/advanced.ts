@@ -61,7 +61,7 @@ export const advancedRoutes = [
   },
   {
     path: '/core/advanced/manual-extend',
-    name: 'Manual Extend',
+    name: 'createTresApp',
     component: () => import('@/pages/core/advanced/manual-extend/index.vue'),
   }
 ]

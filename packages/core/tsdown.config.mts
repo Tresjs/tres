@@ -17,6 +17,7 @@ export default defineConfig([
   {
     entry: {
       tres: './src/index.ts',
+      slim: './src/slim.ts',
     },
     platform: 'neutral',
     fromVite: true,
