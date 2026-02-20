@@ -2,10 +2,9 @@
 import { OrbitControls } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
 import { InstancedRigidBody, Physics, RigidBody } from '@tresjs/rapier'
-import { ACESFilmicToneMapping, DynamicDrawUsage, Matrix4, MeshNormalMaterial, SRGBColorSpace, TorusKnotGeometry } from 'three'
+import { DynamicDrawUsage, Matrix4, MeshNormalMaterial, TorusKnotGeometry } from 'three'
 import { shallowRef, watch } from 'vue'
 import type { InstancedMesh } from 'three'
-
 
 const instanceRBRef = shallowRef<InstancedMesh>()
 
@@ -39,7 +38,7 @@ watch(torusInstancedMesh, (mesh) => {
 </script>
 
 <template>
-  <TresCanvas clear-color="#82DBC5" >
+  <TresCanvas clear-color="#82DBC5">
     <TresPerspectiveCamera :position="[11, 11, 11]" :look-at="[0, 0, 0]" />
     <OrbitControls />
 

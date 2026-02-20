@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ActiveCollisionTypes } from '@dimforge/rapier3d-compat'
-import { useLoop } from '@tresjs/core'
+import { type TresObject3D, useLoop } from '@tresjs/core'
 import { Object3D } from 'three'
 import {
   nextTick,
@@ -8,9 +8,9 @@ import {
   onUpdated,
   provide,
   shallowRef,
+  type ShallowRef,
   watch,
 } from 'vue'
-import type { ShallowRef } from 'vue'
 
 import { useRapierContext } from '../composables'
 import { createColliderPropsFromObject, createRigidBody } from '../core'
@@ -40,7 +40,7 @@ const props = withDefaults(defineProps<Partial<RigidBodyProps>>(), {
   enabledRotations: () => [true, true, true],
   enabledTranslations: () => [true, true, true],
 
-  // AUTOMATIC COLLIDERS PROPS
+  // Auto-generated colliders props
   friction: 0.5,
   mass: 1,
   restitution: 0,
@@ -92,17 +92,11 @@ watch(bodyGroup, async (group) => {
       // Skip children without valid geometry (e.g., collider wrappers, empty Object3Ds)
       if (!hasValidColliderGeometry(child as Object3D)) { continue }
 
-      const _props = createColliderPropsFromObject(child as Object3D, props.collider)
-      _props.friction = props.friction
-      _props.mass = props.mass
-      _props.restitution = props.restitution
-      _props.density = props.density
-      _props.activeCollision = props.activeCollision
-      _props.activeCollisionTypes = props.activeCollisionTypes
-      _props.collisionGroups = props.collisionGroups
-      _props.sensor = props.sensor
-
-      collidersProps.push(_props)
+      const createdProps = createColliderPropsFromObject(
+        child as TresObject3D,
+        props.collider,
+      )
+      collidersProps.push({ ...props, ...createdProps })
     }
 
     autoColliderProps.value = collidersProps

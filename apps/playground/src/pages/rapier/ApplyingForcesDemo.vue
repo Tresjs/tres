@@ -30,7 +30,7 @@ const windSphere = () => {
 </script>
 
 <template>
-  <TresCanvas v-bind="gl" >
+  <TresCanvas v-bind="gl">
     <TresPerspectiveCamera :position="[11, 11, 11]" :look-at="[0, 0, 0]" />
     <OrbitControls />
 

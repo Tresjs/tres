@@ -8,10 +8,10 @@ import { useRapierContextProvider } from '../composables'
 import { GRAVITY } from '../constants'
 
 import {
-  collisionEmisor,
+  collisionTrigger,
   emitIntersection,
-  get3DGroupFromSource,
-  getSourceFromColliderHandle,
+  getCollisionObjectFromSource,
+  getCollisionSourceFromColliderHandle,
 } from '../utils'
 import Debug from './Debug.vue'
 import type { PhysicsProps } from '../types'
@@ -28,7 +28,6 @@ const context = useRapierContextProvider()!
 defineExpose(context)
 await context.init()
 const { world, isPaused } = context
-
 
 const setGravity = (gravity: PhysicsProps['gravity']) => {
   // If gravity is something like [0, -9.8, 0]
@@ -62,24 +61,22 @@ onBeforeRender(() => {
 
   world.value.step(eventQueue)
   eventQueue.drainCollisionEvents((handle1, handle2, started) => {
-    const source1 = getSourceFromColliderHandle(world.value, handle1)
-    const source2 = getSourceFromColliderHandle(world.value, handle2)
-    const group1 = get3DGroupFromSource(source1, scene)
-    const group2 = get3DGroupFromSource(source2, scene)
+    const source1 = getCollisionSourceFromColliderHandle(world.value, handle1)
+    const source2 = getCollisionSourceFromColliderHandle(world.value, handle2)
+    const object1 = getCollisionObjectFromSource(source1, scene)
+    const object2 = getCollisionObjectFromSource(source2, scene)
 
-    if (!group1 || !group2) {
-      return
-    }
+    if (!object1 || !object2) { return }
 
-    collisionEmisor(
-      { object: group1, context: source1 },
-      { object: group2, context: source2 },
+    collisionTrigger(
+      { objects: object1, context: source1 },
+      { objects: object2, context: source2 },
       started,
     )
 
     emitIntersection(
-      { object: group2, context: source2 },
-      { object: group1, context: source1 },
+      { objects: object2, context: source2 },
+      { objects: object1, context: source1 },
       started && world.value.intersectionPair(source1.collider, source2.collider),
     )
   })
