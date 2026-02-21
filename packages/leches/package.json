@@ -37,6 +37,7 @@
   },
   "scripts": {
     "build": "vite build",
+    "build:analyze": "ANALYZE=true vite build",
     "preview": "vite preview",
     "test": "vitest",
     "test:ci": "echo 'Tests disabled for this branch'",

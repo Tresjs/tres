@@ -42,6 +42,7 @@
   },
   "scripts": {
     "build": "tsdown",
+    "build:analyze": "ANALYZE=true tsdown",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "docs:dev": "vitepress dev docs",
@@ -67,6 +68,7 @@
     "eslint-plugin-vue": "catalog:eslint",
     "pathe": "catalog:utils",
     "rollup-plugin-analyzer": "catalog:build",
+    "rollup-plugin-visualizer": "catalog:build",
     "three": "catalog:three",
     "tsdown": "catalog:build",
     "typescript": "catalog:typescript",
