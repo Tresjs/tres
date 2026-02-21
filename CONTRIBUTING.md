@@ -25,7 +25,7 @@ This monorepo contains the following packages and apps:
 
 ### Prerequisites
 
-- [Node.js](https://nodejs.org/) v18 or higher
+- [Node.js](https://nodejs.org/) v24 (or what is written in .nmvrc)
 - [pnpm](https://pnpm.io/) v8 or higher (we use pnpm workspaces)
 - [NX](https://nx.dev/) is included as a dev dependency (no global install needed)
 
@@ -275,7 +275,8 @@ To keep the issue tracker healthy and actionable, items marked with any of these
 
 - Join our [Discord server](https://tresjs.org/discord) for questions and discussions
 - Follow [@tresjs_dev](https://twitter.com/tresjs_dev) on Twitter
-- Check out [discussions](https://github.com/Tresjs/tres/discussions) for Q&A
+- Follow [@tresjs](https://bsky.app/profile/tresjs.org) on Bluesky
+- Check out [discussions](https://github.com/Tresjs/tres/discussions) for RFCs and general discussion
 
 ## 📄 License
 
@@ -283,4 +284,4 @@ By contributing to TresJS, you agree that your contributions will be licensed un
 
 ## 🙏 Thank You
 
-Thank you for contributing to TresJS! Every contribution, no matter how small, helps make the project better for everyone.
+Thank you for contributing to TresJS! Every contribution, no matter how small, helps us make the project better for everyone.
