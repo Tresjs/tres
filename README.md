@@ -22,19 +22,11 @@ It's build on-top of a [Vue Custom Renderer](https://vuejs.org/api/custom-render
 
 The goal is to provide the Vue's community an easy way of building 3D scenes with Vue, always up to date with the latest ThreeJS features and with 0-to-none maintenance.
 
-## Installation
+## Start by
 
-```bash
-pnpm install @tresjs/core three
-```
-
-## Docs
-
-Checkout the [docs](https://docs.tresjs.org)
-
-## Demos
-
-- [Stackblitz Collection](https://stackblitz.com/@alvarosabu/collections/tresjs)
+- Checking out the [docs](https://docs.tresjs.org)
+- Consulting the [installation guide](https://docs.tresjs.org/getting-started/installation)
+- Looking at some [demos](https://stackblitz.com/@alvarosabu/collections/tresjs)
 
 ## Ecosystem
 
@@ -46,110 +38,13 @@ Checkout the [docs](https://docs.tresjs.org)
 | [Nuxt](https://github.com/TresJS/packages/nuxt)                      | ![nuxt version](https://img.shields.io/npm/v/@tresjs/nuxt/latest.svg?label=%20&color=4f4f4f&logo=nuxt.js)          | ![nuxt downloads](https://img.shields.io/npm/dm/@tresjs/nuxt?color=4f4f4f&logo=nuxt.js)          |
 | [TresLeches 🍰](https://github.com/TresJS/packages/leches)           | ![tresleches version](https://img.shields.io/npm/v/@tresjs/leches/latest.svg?label=%20&color=ffffff)               | ![tresleches downloads](https://img.shields.io/npm/dm/@tresjs/leches?color=ffffff)               |
 
-## 🛠️ Development
+## Sponsors
 
-### Prerequisites
-
-- Node.js (v24)
-- pnpm (v8 or later)
-- Git
-
-### Setup
-
-1. Clone the repository:
-
-   ```bash
-   git clone https://github.com/tresjs/tres.git
-   cd tres
-   ```
-
-2. Install dependencies:
-   ```bash
-   pnpm install
-   ```
-
-### Package Management with PNPM
-
-This repository uses PNPM as its primary package manager, providing efficient dependency management and disk space usage. The workspace is configured in `pnpm-workspace.yaml` and includes all packages in the `packages/` directory.
-
-Common PNPM commands:
-
-```bash
-# Install dependencies
-pnpm install
-
-# Add a dependency to a specific package
-pnpm add <package> --filter @tresjs/cientos
-
-# Run a script in a specific package
-pnpm --filter @tresjs/cientos <script>
-```
-
-### Development with NX
-
-While PNPM manages our packages, we use NX to optimize our development workflow. NX provides powerful features for:
-
-- Intelligent caching
-- Affected package detection
-- Dependency graph visualization
-- Parallel task execution
-- Project-specific configurations
-
-#### Common NX Commands
-
-```bash
-# Build all packages
-pnpm build
-
-# Build a specific package
-pnpm build @tresjs/cientos
-
-# Run tests for affected packages
-pnpm nx affected:test
-
-# Show dependency graph
-pnpm nx graph
-
-# Run commands only on affected packages
-pnpm nx affected --target=build
-```
-
-#### Development Workflows
-
-```bash
-# Start development mode for a package
-pnpm dev @tresjs/cientos
-
-# Run tests in watch mode
-pnpm test:watch @tresjs/cientos
-
-# Lint all packages
-pnpm lint
-
-# Format all packages
-pnpm format
-
-# Check types
-pnpm typecheck
-```
-
-For more advanced NX usage, we recommend exploring:
-
-- [NX Documentation](https://nx.dev/docs)
-- [NX Cache](https://nx.dev/concepts/how-caching-works)
-- [NX Affected](https://nx.dev/concepts/affected)
-- [NX Project Configuration](https://nx.dev/concepts/project-configuration)
-
-### Repository Administration
-
-For repository administrators, we provide the `monocubo` tool to help manage the monorepo. This tool assists with:
-
-- Package migration
-- Dependency management
-- Repository maintenance
-- Release coordination
-
-See the [monocubo package](tools/monocubo) for detailed documentation and usage instructions.
+<p align="center">
+  <a target="_blank" href="https://github.com/sponsors/tresjs">
+    <img alt="sponsors" src="./sponsorkit/sponsors.png">
+  </a>
+</p>
 
 ## Contribution
 
@@ -158,11 +53,3 @@ We are open to contributions, please make sure to read the [contributing guide](
 ## License
 
 [MIT](/LICENSE)
-
-## Sponsors
-
-<p>
-  <a target="_blank" href="https://github.com/sponsors/tresjs">
-    <img alt="sponsors" src="./sponsorkit/sponsors.png">
-  </a>
-</p>

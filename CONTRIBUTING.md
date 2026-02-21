@@ -28,6 +28,7 @@ This monorepo contains the following packages and apps:
 - [Node.js](https://nodejs.org/) v24 (or what is written in .nmvrc)
 - [pnpm](https://pnpm.io/) v8 or higher (we use pnpm workspaces)
 - [NX](https://nx.dev/) is included as a dev dependency (no global install needed)
+- Git
 
 ### Development Setup
 
@@ -59,6 +60,24 @@ pnpm --filter @tresjs/cientos dev
 ## 🏗️ Monorepo Workflow
 
 This project uses **NX** for intelligent build caching and affected package detection.
+
+For more advanced NX usage, we recommend exploring:
+
+- [NX Documentation](https://nx.dev/docs)
+- [NX Cache](https://nx.dev/concepts/how-caching-works)
+- [NX Affected](https://nx.dev/concepts/affected)
+- [NX Project Configuration](https://nx.dev/concepts/project-configuration)
+
+### Repository Administration
+
+For repository administrators, we provide the `monocubo` tool to help manage the monorepo. This tool assists with:
+
+- Package migration
+- Dependency management
+- Repository maintenance
+- Release coordination
+
+See the [monocubo package](tools/monocubo) for detailed documentation and usage instructions.
 
 ### Building Packages
 
@@ -95,6 +114,9 @@ pnpm lint
 
 # Auto-fix lint issues
 pnpm lint:fix
+
+# Format all packages
+pnpm format
 
 # Type check all packages
 pnpm typecheck
