@@ -26,14 +26,6 @@ pnpm i @tresjs/rapier
 
 Checkout the [docs](https://rapier.tresjs.org/)
 
-## Demos
-
-- [Stackblitz Collection](https://stackblitz.com/@alvarosabu/collections/tresjs)
-
-## Contributing
-
-We are open to contributions, please read the [contributing guide](https://github.com/Tresjs/tres/blob/main/CONTRIBUTING.md) to get started.
-
 ### Build
 
 To build the package run:
@@ -64,7 +56,7 @@ TODO...
 
 ### Docs
 
-To run de docs in dev mode
+To run the docs in dev mode
 
 ```bash
 pnpm run docs:dev
@@ -79,7 +71,3 @@ pnpm run docs:build
 ## License
 
 [MIT](/LICENSE)
-
-## Sponsors
-
-Be the first to support this project [here](https://github.com/sponsors/tresjs) ☺️

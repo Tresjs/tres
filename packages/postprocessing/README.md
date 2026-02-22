@@ -25,14 +25,6 @@ pnpm i @tresjs/post-processing
 
 Checkout the [docs](https://post-processing.tresjs.org/)
 
-## Demos
-
-- [Stackblitz Collection](https://stackblitz.com/@alvarosabu/collections/tresjs)
-
-## Contributing
-
-We are open to contributions, please read the [contributing guide](https://github.com/Tresjs/tres/blob/main/CONTRIBUTING.md) to get started.
-
 ### Build
 
 To build the package run:
@@ -43,15 +35,15 @@ pnpm run build
 
 ### Playground
 
-To run the playground run, its a great way to test the components and helpers locally:
+Running the playground is a great way to test the components and helpers locally:
 
-First install dependencies
+First install the dependencies
 
 ```
 pnpm i
 ```
 
-And then to run the development server on http://localhost:5173
+And then run the development server on http://localhost:5173
 
 ```bash
 pnpm run playground
@@ -59,7 +51,7 @@ pnpm run playground
 
 ### Docs
 
-To run de docs in dev mode
+To run the docs in dev mode
 
 ```bash
 pnpm run docs:dev
@@ -74,7 +66,3 @@ pnpm run docs:build
 ## License
 
 [MIT](/LICENSE)
-
-## Sponsors
-
-Be the first to support this project [here](https://github.com/sponsors/alvarosabu) ☺️

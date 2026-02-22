@@ -39,7 +39,7 @@ export default defineNuxtConfig({
 
 That's it! You can now use `@tresjs/nuxt` in your Nuxt app ✨
 
-If you want to use the any package from the TresJS ecosystem, you can install the packages you want to use and they will be auto-imported by the module 🧙🏼‍♂️.
+If you want to use any of the packages from the TresJS ecosystem, you can install the packages you want to use and they will be auto-imported by the module 🧙🏼‍♂️.
 
 ```bash
 # Using pnpm

@@ -18,16 +18,18 @@ This monorepo contains the following packages and apps:
 ### Apps
 
 - **[docs](./apps/docs)** - Main documentation site (Nuxt + Nuxt UI Pro)
-- **[playground](./apps/playground)** - Development testing sandbox
+- **[Vue playground](./apps/playground)** - Development testing sandbox for Vue
+- **[Nuxt playground](./apps/playgroud-nuxt)** - Development testing sandbox for Nuxt
 - **[lab](./apps/lab)** - Experimental features and testing environment
 
 ## 🚀 Getting Started
 
 ### Prerequisites
 
-- [Node.js](https://nodejs.org/) v18 or higher
+- [Node.js](https://nodejs.org/) v24 (or what is written in .nmvrc)
 - [pnpm](https://pnpm.io/) v8 or higher (we use pnpm workspaces)
 - [NX](https://nx.dev/) is included as a dev dependency (no global install needed)
+- Git
 
 ### Development Setup
 
@@ -59,6 +61,24 @@ pnpm --filter @tresjs/cientos dev
 ## 🏗️ Monorepo Workflow
 
 This project uses **NX** for intelligent build caching and affected package detection.
+
+For more advanced NX usage, we recommend exploring:
+
+- [NX Documentation](https://nx.dev/docs)
+- [NX Cache](https://nx.dev/concepts/how-caching-works)
+- [NX Affected](https://nx.dev/concepts/affected)
+- [NX Project Configuration](https://nx.dev/concepts/project-configuration)
+
+### Repository Administration
+
+For repository administrators, we provide the `monocubo` tool to help manage the monorepo. This tool assists with:
+
+- Package migration
+- Dependency management
+- Repository maintenance
+- Release coordination
+
+See the [monocubo package](tools/monocubo) for detailed documentation and usage instructions.
 
 ### Building Packages
 
@@ -95,6 +115,9 @@ pnpm lint
 
 # Auto-fix lint issues
 pnpm lint:fix
+
+# Format all packages
+pnpm format
 
 # Type check all packages
 pnpm typecheck
@@ -275,7 +298,8 @@ To keep the issue tracker healthy and actionable, items marked with any of these
 
 - Join our [Discord server](https://tresjs.org/discord) for questions and discussions
 - Follow [@tresjs_dev](https://twitter.com/tresjs_dev) on Twitter
-- Check out [discussions](https://github.com/Tresjs/tres/discussions) for Q&A
+- Follow [@tresjs](https://bsky.app/profile/tresjs.org) on Bluesky
+- Check out [discussions](https://github.com/Tresjs/tres/discussions) for RFCs and general discussion
 
 ## 📄 License
 
@@ -283,4 +307,4 @@ By contributing to TresJS, you agree that your contributions will be licensed un
 
 ## 🙏 Thank You
 
-Thank you for contributing to TresJS! Every contribution, no matter how small, helps make the project better for everyone.
+Thank you for contributing to TresJS! Every contribution, no matter how small, helps us make the project better for everyone.
