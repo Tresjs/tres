@@ -18,7 +18,8 @@ This monorepo contains the following packages and apps:
 ### Apps
 
 - **[docs](./apps/docs)** - Main documentation site (Nuxt + Nuxt UI Pro)
-- **[playground](./apps/playground)** - Development testing sandbox
+- **[Vue playground](./apps/playground)** - Development testing sandbox for Vue
+- **[Nuxt playground](./apps/playgroud-nuxt)** - Development testing sandbox for Nuxt
 - **[lab](./apps/lab)** - Experimental features and testing environment
 
 ## 🚀 Getting Started
