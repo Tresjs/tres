@@ -17,7 +17,7 @@ export const useCreateRafLoop = (cycleFn: () => void) => {
   const { pause, resume, isActive } = useRafFn(() => {
     timer.update() // must be called once per frame before getDelta/getElapsed
     const context: RafLoopContext = {
-      delta: timer.getDelta(),
+      delta: timer.getDelta(), // do not call getDelta individually for before and after event hooks as it resets the delta and leads to incorrect delta values (see issue #1323)
       elapsed: timer.getElapsed(),
     }
 
