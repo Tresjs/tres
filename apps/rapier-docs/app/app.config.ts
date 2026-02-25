@@ -3,7 +3,7 @@ import type { AppConfigInput } from 'nuxt/schema'
 const newLocal = {
   ui: {
     colors: {
-      primary: 'purple', // TODO: change this
+      primary: 'purple',
       neutral: 'zinc',
     },
     card: {

@@ -8,7 +8,7 @@ seo:
 
 #title
 
-<span class="text-primary-300">Rapier</span> \
+<span class="text-primary-600">Rapier</span> \
 We'll make you love physics again 💜
 
 #description

@@ -50,6 +50,19 @@
   --color-yellow-800: #922b0e;
   --color-yellow-900: #78250f;
   --color-yellow-950: #451003;
+
+  /* Purple Palette */
+  --color-purple-50: #f3f5fc;
+  --color-purple-100: #e7ebf9;
+  --color-purple-200: #cdd5f4;
+  --color-purple-300: #b0bceb;
+  --color-purple-400: #8d9fdf;
+  --color-purple-500: #5672cd;
+  --color-purple-600: #4a62b4;
+  --color-purple-700: #3f5397;
+  --color-purple-800: #35457c;
+  --color-purple-900: #2d3966;
+  --color-purple-950: #1b223d;
 }
 
 .dark {

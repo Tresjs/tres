@@ -1,10 +1,10 @@
-# Docs Boilerplate - CLAUDE.md
+# Tres Rapier Docs - CLAUDE.md
 
-This is a documentation boilerplate app built with Nuxt v4 and Nuxt UI v4. It serves as a reference implementation for creating new documentation sites in the TresJS ecosystem.
+This is a documentation for tres rapier built with Nuxt v4 and Nuxt UI v4. It serves as a reference implementation for creating new documentation sites in the TresJS ecosystem.
 
 ## Overview
 
-This boilerplate provides a complete setup for creating documentation sites with:
+This repo provides a complete setup for creating documentation sites with:
 
 - Nuxt v4 with compatibility mode enabled
 - Nuxt UI v4 for beautiful, accessible components
@@ -238,7 +238,7 @@ Create `.env` file for environment-specific configuration (use `.env.example` as
 5. **Performance** - Images are optimized via @nuxt/image
 6. **SEO** - Always include title and description frontmatter
 
-## Extending the Boilerplate
+## Extending the tres rapier
 
 ### Adding New Sections
 

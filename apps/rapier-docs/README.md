@@ -1,6 +1,6 @@
-# Docs Boilerplate
+# Docs
 
-A modern documentation boilerplate built with Nuxt v4 and Nuxt UI v4.
+A modern documentation for tres-rapier built with Nuxt v4 and Nuxt UI v4.
 
 ## Features
 
@@ -16,7 +16,7 @@ A modern documentation boilerplate built with Nuxt v4 and Nuxt UI v4.
 ## Project Structure
 
 ```
-apps/docs-boilerplate/
+apps/rapier-docs/
 ├── app/                      # Nuxt app directory
 │   ├── assets/               # Styles and static assets
 │   ├── components/           # Vue components
@@ -108,7 +108,7 @@ Edit `nuxt.config.ts` to configure:
 
 ## Components
 
-The boilerplate includes several pre-built components:
+The repo includes several pre-built components:
 
 - **AppHeader** - Site header with navigation
 - **AppFooter** - Site footer with links
