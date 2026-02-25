@@ -31,8 +31,8 @@ catalogs:
     jsdom: ^27.0.0
     vitest: 3.2.4
   three:
-    '@types/three': ^0.182.0
-    three: ^0.182.0
+    '@types/three': ^0.183.0
+    three: ^0.183.0
     three-custom-shader-material: ^5.4.0
     three-stdlib: ^2.36.1
   typescript:

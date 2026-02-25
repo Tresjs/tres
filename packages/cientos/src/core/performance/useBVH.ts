@@ -265,7 +265,7 @@ export const useBVH = (
     if (objectValue && toValue(enabled)) {
       applyBVH(objectValue)
     }
-  })
+  }, { immediate: true })
 
   watch(() => toValue(enabled), (enabled) => {
     if (enabled) {
