@@ -1,9 +1,9 @@
 import {
   AdditiveBlending,
-  Clock,
   Color,
   FrontSide,
   ShaderMaterial,
+  Timer,
   Uniform,
 } from 'three'
 import type { Blending, Side } from 'three'
@@ -24,7 +24,7 @@ interface HolographicMaterialParameters {
   depthTest?: boolean
 }
 class HolographicMaterial extends ShaderMaterial {
-  clock: Clock
+  clock: Timer
   /**
    * Create a HolographicMaterial.
    *
@@ -253,7 +253,10 @@ class HolographicMaterial extends ShaderMaterial {
       hologramOpacity: new Uniform(parameters.hologramOpacity !== undefined ? parameters.hologramOpacity : 1),
     }
 
-    this.clock = new Clock()
+    this.clock = new Timer()
+    if (typeof document !== 'undefined') {
+      this.clock.connect(document)
+    }
     this.setValues(parameters)
     this.depthTest = parameters.depthTest !== undefined ? parameters.depthTest : false
     this.blending = parameters.blendMode !== undefined ? parameters.blendMode : AdditiveBlending
@@ -262,7 +265,8 @@ class HolographicMaterial extends ShaderMaterial {
   }
 
   update() {
-    this.uniforms.time.value = this.clock.getElapsedTime()
+    this.clock.update()
+    this.uniforms.time.value = this.clock.getElapsed()
   }
 }
 export default HolographicMaterial
