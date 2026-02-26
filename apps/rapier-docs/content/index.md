@@ -12,7 +12,7 @@ seo:
 Declarative physics in TresJS
 
 #description
-We will make you love physics again 💜
+We will make you love physics again.
 
 
 #links
