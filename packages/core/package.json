@@ -46,6 +46,7 @@
   },
   "scripts": {
     "build": "tsdown",
+    "build:analyze": "ANALYZE=true tsdown",
     "test": "vitest",
     "test:ci": "vitest run",
     "test:ui": "vitest --ui --coverage.enabled=true",

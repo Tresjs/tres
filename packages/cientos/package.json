@@ -40,6 +40,7 @@
   "scripts": {
     "dev": "cd playground/vue && pnpm dev",
     "build": "tsdown",
+    "build:analyze": "ANALYZE=true tsdown",
     "lint": "eslint .",
     "typecheck": "vue-tsc --noEmit",
     "lint:fix": "eslint . --fix"

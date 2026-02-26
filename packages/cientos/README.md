@@ -28,18 +28,6 @@ It just works. 💯
 pnpm i @tresjs/cientos
 ```
 
-## Docs
-
-Checkout the [docs](https://cientos.tresjs.org/)
-
-## Demos
-
-- [Stackblitz Collection](https://stackblitz.com/@alvarosabu/collections/tresjs)
-
-## Contributing
-
-We are open to contributions, please read the [contributing guide](/CONTRIBUTING.md) to get started.
-
 ### Build
 
 To build the package run:
@@ -70,7 +58,7 @@ TODO...
 
 ### Docs
 
-To run de docs in dev mode
+To run the docs in dev mode
 
 ```bash
 pnpm run docs:dev
@@ -85,7 +73,3 @@ pnpm run docs:build
 ## License
 
 [MIT](/LICENSE)
-
-## Sponsors
-
-Be the first to support this project [here](https://github.com/sponsors/alvarosabu) ☺️.
