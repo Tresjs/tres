@@ -9,10 +9,11 @@ seo:
 #title
 
 <span class="text-primary-600">Rapier</span> \
-We'll make you love physics again 💜
+Declarative physics in TresJS
 
 #description
-All the power of physics in your hands.
+We will make you love physics again 💜
+
 
 #links
   :::u-button
@@ -53,7 +54,7 @@ Features you will love
   Declarative
 
   #description
-  Build 3D scenes with familiar Vue components and composables.
+  Build physics-based 3D scenes with familiar Vue components and composables.
   :::
 
   :::u-page-feature
