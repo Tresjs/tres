@@ -59,7 +59,7 @@ Features you will love
 
   :::u-page-feature
   ---
-  icon: i-lucide-magnet
+  icon: i-lucide-swords
   target: _blank
   to: https://rapier.rs/
   ---
@@ -67,7 +67,7 @@ Features you will love
   Rapier
 
   #description
-  The modern library written in Rust
+  Based on the Rapier physics library written in Rust
   :::
 
   :::u-page-feature
@@ -92,7 +92,7 @@ Features you will love
   Games
 
   #description
-  Perfect for games.
+  Perfect for game development.
   :::
 
   :::u-page-feature

@@ -26,9 +26,9 @@ const newLocal = {
     title: 'Rapier docs',
     to: '/',
     logo: {
-      alt: '',
-      light: '',
-      dark: '',
+      alt: 'Rapier logo',
+      light: '/logo.svg',
+      dark: '/logo-dark.svg',
     },
     search: true,
     colorMode: true,
