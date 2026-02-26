@@ -39,6 +39,8 @@ export const collisionTrigger = (
   started: boolean,
 ) => {
   const CollisionType: CollisionType = started ? 'enter' : 'exit'
-  source.objects[0]?.__vnode?.ctx?.emit?.(`collision-${CollisionType}`, { source, target })
-  source.objects[1]?.__vnode?.ctx?.emit?.(`collision-${CollisionType}`, { source, target })
+  const [rigidBodyObject, colliderObject] = source.objects
+
+  rigidBodyObject?.__vnode?.ctx?.emit?.(`collision-${CollisionType}`, { source, target })
+  colliderObject?.__vnode?.ctx?.emit?.(`collision-${CollisionType}`, { source, target })
 }
