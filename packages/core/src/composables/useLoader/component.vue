@@ -18,6 +18,8 @@ const props = defineProps<{
    * Optional THREE.js LoadingManager
    */
   manager?: LoadingManager
+
+  extensions?: (res: T)=> void
 }>()
 
 const emit = defineEmits<{
@@ -25,7 +27,7 @@ const emit = defineEmits<{
   error: [error: unknown]
 }>()
 
-const { state, isLoading, error } = useLoader(props.loader, props.path, { manager: props.manager })
+const { state, isLoading, error } = useLoader(props.loader, props.path, { manager: props.manager, extensions: props.extensions })
 
 whenever(error, (err) => {
   if (err) { emit('error', err) }
