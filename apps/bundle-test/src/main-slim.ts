@@ -1,4 +1,4 @@
-import {
+/* import {
   AmbientLight,
   BoxGeometry,
   DirectionalLight,
@@ -16,3 +16,7 @@ const root = createTresApp(canvas, { windowSize: true })
 root
   .extend({ AmbientLight, BoxGeometry, DirectionalLight, Mesh, MeshStandardMaterial, PerspectiveCamera })
   .render(SceneCreateTres)
+ */
+import { WebGLRenderer } from 'three'
+
+export default new WebGLRenderer({ canvas: document.getElementById('canvas') as HTMLCanvasElement })

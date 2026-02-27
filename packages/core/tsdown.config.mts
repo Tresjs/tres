@@ -22,6 +22,7 @@ export default defineConfig([
     },
     platform: 'neutral',
     fromVite: true,
+    external: ['three', 'vue', /^@vue\//],
     banner,
     plugins: [
       process.env.ANALYZE && visualizer({ open: true, gzipSize: true, filename: 'dist/stats.html' }),

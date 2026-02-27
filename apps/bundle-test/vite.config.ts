@@ -16,6 +16,8 @@ export default defineConfig(({ mode }) => ({
     },
   },
   build: {
+    target: 'esnext',
+    modulePreload: { polyfill: false },
     rollupOptions: {
       input: resolve(__dirname, mode === 'full' ? 'full.html' : mode === 'slim' ? 'slim.html' : 'index.html'),
     },
