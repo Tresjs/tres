@@ -4,7 +4,7 @@ import { generateEmbeddingsBatch } from '../ai/rag'
 interface Env {
   DB: D1Database
   AI: Ai
-  ADMIN_SECRET?: string
+  ADMIN_SECRET: string
 }
 
 const DOC_SOURCES: Record<string, { name: string, url: string }> = {
@@ -67,9 +67,12 @@ function parseDocsIntoChunks(source: string, baseUrl: string, text: string): Doc
 export async function handleSeedDocs(
   c: Context<{ Bindings: Env }>,
 ): Promise<Response> {
-  // Optional: protect with secret
+  // Require ADMIN_SECRET — fail hard if not configured
+  if (!c.env.ADMIN_SECRET) {
+    return c.json({ error: 'Server misconfigured: ADMIN_SECRET not set' }, 500)
+  }
   const authHeader = c.req.header('Authorization')
-  if (c.env.ADMIN_SECRET && authHeader !== `Bearer ${c.env.ADMIN_SECRET}`) {
+  if (authHeader !== `Bearer ${c.env.ADMIN_SECRET}`) {
     return c.json({ error: 'Unauthorized' }, 401)
   }
 

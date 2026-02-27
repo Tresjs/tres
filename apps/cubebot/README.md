@@ -71,9 +71,16 @@ pnpm wrangler secret put ANTHROPIC_API_KEY
 ### 6. Seed Documentation (RAG)
 
 ```bash
-# Call the admin endpoint to fetch docs and generate embeddings
-# source can be: core | cientos | postprocessing
-curl -X POST "https://tresjs-cubebot.<account>.workers.dev/admin/seed-docs?source=core"
+# Seed one source at a time (core | cientos | postprocessing)
+# Add &clear=true on the first call to wipe existing docs first
+curl -X POST https://tresjs-cubebot.<account>.workers.dev/admin/seed-docs?source=core \
+  -H "Authorization: Bearer <ADMIN_SECRET>"
+
+curl -X POST https://tresjs-cubebot.<account>.workers.dev/admin/seed-docs?source=cientos \
+  -H "Authorization: Bearer <ADMIN_SECRET>"
+
+curl -X POST https://tresjs-cubebot.<account>.workers.dev/admin/seed-docs?source=postprocessing \
+  -H "Authorization: Bearer <ADMIN_SECRET>"
 ```
 
 This fetches `llms-full.txt` from TresJS doc sites, generates embeddings via Workers AI, and stores them in D1.
