@@ -16,7 +16,7 @@ const gl = {
 }
 
 const { gravityY } = useControls({
-  gravityY: { value: -9.81, min: -20, max: 20, step: 0.1 },
+  gravityY: { value: -3.5, min: -20, max: 20, step: 0.1 },
 })
 </script>
 
