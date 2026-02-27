@@ -6,6 +6,11 @@ on:
       - main
     paths:
       - 'apps/cubebot/**'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'apps/cubebot/**'
 
 jobs:
   deploy:
