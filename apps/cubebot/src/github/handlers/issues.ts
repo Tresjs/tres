@@ -61,6 +61,11 @@ export async function handleIssueOpened(
     return
   }
 
+  // Only do full bug analysis for bug/unknown issues
+  if (issueType !== 'bug' && issueType !== 'unknown') {
+    return
+  }
+
   // For bugs, do full analysis
   const detectedPackage = detectPackage(issue)
   const reproduction = hasReproduction(issue.body)
@@ -84,19 +89,22 @@ export async function handleIssueOpened(
     relevantDocs,
   )
 
+  // Normalize AI package: treat literal "null" string as no package
+  const normalizedAiPackage = analysis.package === 'null' ? null : analysis.package
+
   // Build triage result
   const labelsToAdd: string[] = []
   // Skip needs reproduction label for org members
   if (!reproduction && !authorIsOrgMember) labelsToAdd.push('needs reproduction')
   if (!systemInfo || !expectedBehavior) labelsToAdd.push('waiting for author')
-  const pkgLabel = detectedPackage ?? analysis.package
-  if (pkgLabel && pkgLabel !== 'null') {
+  const pkgLabel = detectedPackage ?? normalizedAiPackage
+  if (pkgLabel) {
     labelsToAdd.push(pkgLabel)
   }
 
   const triageResult: TriageResult = {
     issueType,
-    package: detectedPackage ?? analysis.package,
+    package: detectedPackage ?? normalizedAiPackage,
     hasReproduction: reproduction,
     hasSystemInfo: systemInfo,
     hasExpectedBehavior: expectedBehavior,

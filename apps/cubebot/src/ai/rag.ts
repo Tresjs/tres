@@ -49,10 +49,10 @@ export async function searchDocs(
 ): Promise<DocChunk[]> {
   const queryEmbedding = await generateEmbedding(ai, query)
 
-  // D1 doesn't have native vector search, so we fetch all and compute in-memory
+  // D1 doesn't have native vector search, so we fetch a capped subset and compute in-memory
   // For production scale, consider Vectorize or external vector DB
   const { results } = await db
-    .prepare('SELECT * FROM doc_chunks')
+    .prepare('SELECT * FROM doc_chunks LIMIT 1000')
     .all<DocChunk>()
 
   if (!results || results.length === 0) {
