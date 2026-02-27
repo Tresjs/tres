@@ -118,6 +118,8 @@ export async function handleIssueOpened(
     triageResult,
     analysis.authorMessage,
     authorIsOrgMember,
+    analysis.greeting,
+    analysis.joke,
   )
   await addComment(octokit, owner, repo, issue.number, authorComment)
 }
