@@ -72,7 +72,8 @@ pnpm wrangler secret put ANTHROPIC_API_KEY
 
 ```bash
 # Call the admin endpoint to fetch docs and generate embeddings
-curl -X POST https://tresjs-cubebot.<account>.workers.dev/admin/seed-docs
+# source can be: core | cientos | postprocessing
+curl -X POST "https://tresjs-cubebot.<account>.workers.dev/admin/seed-docs?source=core"
 ```
 
 This fetches `llms-full.txt` from TresJS doc sites, generates embeddings via Workers AI, and stores them in D1.
