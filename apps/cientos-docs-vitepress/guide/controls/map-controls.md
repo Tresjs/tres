@@ -19,7 +19,7 @@ It just works. 💯
 <<< @/.vitepress/theme/components/MapControlsDemo.vue{3,9}
 
 ::: warning
-Is really important that the Perspective camera is set first in the canvas. Otherwise might break.
+It is really important that the perspective camera is set first in the canvas. Otherwise the scene might break.
 :::
 
 ## Props

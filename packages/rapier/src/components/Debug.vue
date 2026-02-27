@@ -13,7 +13,7 @@ const lineSegmentsRef = ref<LineSegments | null>(null)
 onBeforeRender(() => {
   if (!world || !lineSegmentsRef.value?.geometry?.boundingSphere) { return }
 
-  const buffers = world.debugRender()
+  const buffers = world.value.debugRender()
 
   lineSegmentsRef.value.geometry.setAttribute(
     'position',

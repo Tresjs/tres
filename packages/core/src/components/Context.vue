@@ -23,6 +23,7 @@ import { INJECTION_KEY as CONTEXT_INJECTION_KEY } from '../composables/useTresCo
 import { extend } from '../core/catalogue'
 import type { TresCustomRendererOptions } from '../core/nodeOps'
 import { nodeOps } from '../core/nodeOps'
+import { isScene } from '../utils/is'
 import { disposeObject3D } from '../utils/'
 import { registerTresDevtools } from '../devtools'
 import { promiseTimeout } from '@vueuse/core'
@@ -141,6 +142,8 @@ const dispose = (context: TresContext, force = false) => {
   }
   (scene.value as TresScene).__tres = {
     root: context,
+    objects: [],
+    isUnmounting: true,
   }
 }
 
@@ -154,13 +157,24 @@ const context = shallowRef<TresContext>(useTresContextProvider({
 defineExpose({ context, dispose: () => dispose(context.value, true) })
 
 const handleHMR = (context: TresContext) => {
-  dispose(context)
+  // Don't call dispose during HMR - Vue's render will diff and
+  // unmount old nodes via nodeOps.remove(), which properly disposes them.
+  // Calling dispose first would delete __tres from objects that Vue
+  // still needs to access during unmount, breaking sibling tracking.
   mountCustomRenderer(context)
 }
 
 const unmountCanvas = () => {
-  dispose(context.value)
+  // Render empty first to let Vue properly unmount via nodeOps.remove(),
+  // which handles text nodes and disposes THREE objects. Then dispose remaining resources.
+  const isTresScene = (value: unknown): value is TresScene => isScene(value) && '__tres' in value
+
+  if (isTresScene(scene.value)) {
+    (scene.value as TresScene).__tres.isUnmounting = true
+  }
+
   mountCustomRenderer(context.value, true)
+  dispose(context.value)
 }
 
 const { camera, renderer } = context.value

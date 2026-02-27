@@ -22,7 +22,7 @@ const joints = shallowRef<ImpulseJoint>()
 
 const dispose = () => {
   if (joints.value) {
-    world.removeImpulseJoint(joints.value, wakeUpOnChanges)
+    world.value.removeImpulseJoint(joints.value, wakeUpOnChanges)
     joints.value = undefined
   }
 }
@@ -31,8 +31,8 @@ const setup = (bodies: JointProps['bodies'], params: JointProps['params']) => {
   dispose()
 
   if (
-    !(bodies?.[0] instanceof rapier.RigidBody)
-    || !(bodies?.[1] instanceof rapier.RigidBody)
+    !(bodies?.[0] instanceof rapier.value.RigidBody)
+    || !(bodies?.[1] instanceof rapier.value.RigidBody)
     || !Array.isArray(params)
   ) {
     return
@@ -49,7 +49,7 @@ const setup = (bodies: JointProps['bodies'], params: JointProps['params']) => {
     && (Array.isArray(params[2]) && params[2].length >= 3)
     && (Array.isArray(params[3]) && params[3].length >= 4)
   ) {
-    jointParams = rapier.JointData.fixed(
+    jointParams = rapier.value.JointData.fixed(
       new Vector3(...params[0] as VectorArray),
       new Quaternion(...params[1] as QuaternionArray),
       new Vector3(...params[2] as VectorArray),
@@ -68,7 +68,7 @@ const setup = (bodies: JointProps['bodies'], params: JointProps['params']) => {
     && (Array.isArray(params[2]) && params[2].length >= 3)
     && typeof params[3] === 'number'
   ) {
-    jointParams = rapier.JointData.generic(
+    jointParams = rapier.value.JointData.generic(
       new Vector3(...params[0] as VectorArray),
       new Vector3(...params[1] as VectorArray),
       new Vector3(...params[2] as VectorArray),
@@ -86,7 +86,7 @@ const setup = (bodies: JointProps['bodies'], params: JointProps['params']) => {
     && (Array.isArray(params[1]) && params[1].length >= 3)
     && (Array.isArray(params[2]) && params[2].length >= 3)
   ) {
-    jointParams = rapier.JointData.prismatic(
+    jointParams = rapier.value.JointData.prismatic(
       new Vector3(...params[0] as VectorArray),
       new Vector3(...params[1] as VectorArray),
       new Vector3(...params[1] as VectorArray),
@@ -103,7 +103,7 @@ const setup = (bodies: JointProps['bodies'], params: JointProps['params']) => {
     && (Array.isArray(params[1]) && params[1].length >= 3)
     && (Array.isArray(params[2]) && params[2].length >= 3)
   ) {
-    jointParams = rapier.JointData.revolute(
+    jointParams = rapier.value.JointData.revolute(
       new Vector3(...params[0] as VectorArray),
       new Vector3(...params[1] as VectorArray),
       new Vector3(...params[2] as VectorArray),
@@ -120,7 +120,7 @@ const setup = (bodies: JointProps['bodies'], params: JointProps['params']) => {
     && (Array.isArray(params[1]) && params[1].length >= 3)
     && (Array.isArray(params[2]) && params[2].length >= 4)
   ) {
-    jointParams = rapier.JointData.rope(
+    jointParams = rapier.value.JointData.rope(
       params[0],
       new Vector3(...params[1] as VectorArray),
       new Quaternion(...params[2] as QuaternionArray),
@@ -136,7 +136,7 @@ const setup = (bodies: JointProps['bodies'], params: JointProps['params']) => {
     && (Array.isArray(params[0]) && params[0].length >= 3)
     && (Array.isArray(params[1]) && params[1].length >= 3)
   ) {
-    jointParams = rapier.JointData.spherical(
+    jointParams = rapier.value.JointData.spherical(
       new Vector3(...params[0] as VectorArray),
       new Vector3(...params[1] as VectorArray),
     )
@@ -154,7 +154,7 @@ const setup = (bodies: JointProps['bodies'], params: JointProps['params']) => {
     && (Array.isArray(params[3]) && params[3].length >= 3)
     && (Array.isArray(params[4]) && params[4].length >= 3)
   ) {
-    jointParams = rapier.JointData.spring(
+    jointParams = rapier.value.JointData.spring(
       params[0],
       params[1],
       params[2],
@@ -174,7 +174,7 @@ const setup = (bodies: JointProps['bodies'], params: JointProps['params']) => {
     throw new Error(`Unsupported joint type. If you think this is a bug or the "${type}" type should be implemented, please open an issue.`)
   }
 
-  joints.value = world.createImpulseJoint(jointParams, bodies[0], bodies[1], wakeUpOnChanges)
+  joints.value = world.value.createImpulseJoint(jointParams, bodies[0], bodies[1], wakeUpOnChanges)
 }
 
 onUpdated(() => setup(bodies, params))

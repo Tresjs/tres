@@ -314,9 +314,6 @@ export function useRendererManager(
     }
   }
 
-  // Start initialization process
-  initializeRenderer()
-
   const renderEventHook = createEventHook<TresRenderer>()
 
   const notifyFrameRendered = () => {
@@ -378,6 +375,9 @@ export function useRendererManager(
     if (!isInitialized.value) { return }
     setPixelRatio(renderer, sizes.pixelRatio.value, toValue(options.dpr))
   })
+
+  // Start initialization process
+  initializeRenderer()
 
   if (toValue(options.renderMode) === 'on-demand') {
     // Invalidate for the first time

@@ -1,5 +1,20 @@
 import { Box3, Object3D, Vector3 } from 'three'
+import type { Mesh } from 'three'
 import type { TresObject3D } from '@tresjs/core'
+
+/**
+ * @description Check if an object has valid geometry for creating a collider.
+ *
+ * Returns true if the object has geometry with position attributes,
+ * or if it has descendants with geometry (non-empty bounding box).
+ *
+ * @param object {@link Object3D}
+ */
+export function hasValidColliderGeometry(object: Object3D): boolean {
+  if ((object as unknown as Mesh).geometry?.attributes?.position) { return true }
+  // check children only if needed
+  return object.children.some(child => hasValidColliderGeometry(child as Object3D))
+}
 
 /**
  * @description Get the collider sizings from the given object.
@@ -53,13 +68,15 @@ export const getColliderSizingsFromObject = (object?: TresObject3D) => {
   else if (object instanceof Object3D) {
     const boundingBox = new Box3().setFromObject(object)
 
-    width = boundingBox.max.x - boundingBox.min.x
-    height = boundingBox.max.y - boundingBox.min.y
-    depth = boundingBox.max.z - boundingBox.min.z
+    if (!boundingBox.isEmpty()) {
+      width = boundingBox.max.x - boundingBox.min.x
+      height = boundingBox.max.y - boundingBox.min.y
+      depth = boundingBox.max.z - boundingBox.min.z
 
-    halfWidth = width / 2
-    halfHeight = height / 2
-    halfDepth = depth / 2
+      halfWidth = width / 2
+      halfHeight = height / 2
+      halfDepth = depth / 2
+    }
   }
 
   const radius = Math.max(halfWidth, halfHeight, halfDepth)

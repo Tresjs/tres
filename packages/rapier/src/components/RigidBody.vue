@@ -14,6 +14,7 @@ import type { ShallowRef } from 'vue'
 
 import { useRapierContext } from '../composables'
 import { createColliderPropsFromObject, createRigidBody } from '../core'
+import { hasValidColliderGeometry } from '../utils'
 import { makePropsWatcherRB } from '../utils/props'
 import { Collider } from './colliders'
 import type {
@@ -88,7 +89,10 @@ watch(bodyGroup, async (group) => {
     const collidersProps: ColliderProps[] = []
 
     for (const child of group.children) {
-      const _props = createColliderPropsFromObject(child, props.collider)
+      // Skip children without valid geometry (e.g., collider wrappers, empty Object3Ds)
+      if (!hasValidColliderGeometry(child as Object3D)) { continue }
+
+      const _props = createColliderPropsFromObject(child as Object3D, props.collider)
       _props.friction = props.friction
       _props.mass = props.mass
       _props.restitution = props.restitution
@@ -121,6 +125,25 @@ makePropsWatcherRB(props, [
   'enabledTranslations',
 ], instance)
 
+// reactively set autoColliderProps
+const setAutoColliderProp = <K extends keyof ColliderProps>(prop: K, value: ColliderProps[K]) => {
+  if (autoColliderProps.value.length === 0 || props.collider === false) { return }
+
+  autoColliderProps.value.forEach((_props) => {
+    _props[prop] = value
+  })
+}
+
+// Automatic collider props watchers
+watch(() => props.friction, value => setAutoColliderProp('friction', value))
+watch(() => props.mass, value => setAutoColliderProp('mass', value))
+watch(() => props.restitution, value => setAutoColliderProp('restitution', value))
+watch(() => props.density, value => setAutoColliderProp('density', value))
+watch(() => props.activeCollision, value => setAutoColliderProp('activeCollision', value))
+watch(() => props.activeCollisionTypes, value => setAutoColliderProp('activeCollisionTypes', value))
+watch(() => props.collisionGroups, value => setAutoColliderProp('collisionGroups', value))
+watch(() => props.sensor, value => setAutoColliderProp('sensor', value))
+
 watch([() => props.lockTranslations, instance], ([_lockTranslations, _]) => {
   if (!instance.value) { return }
   instance.value.lockTranslations(_lockTranslations, true)
@@ -152,10 +175,10 @@ onUpdated(() => {
 onUnmounted(() => {
   if (!bodyContext.value) { return }
 
-  world.removeRigidBody(bodyContext.value.rigidBody)
+  world.value.removeRigidBody(bodyContext.value.rigidBody)
 
   bodyContext.value.colliders.forEach((collider) => {
-    world.removeCollider(collider.collider, false)
+    world.value.removeCollider(collider.collider, false)
   })
 
   bodyContext.value = undefined
@@ -179,6 +202,6 @@ onUnmounted(() => {
       :collisionGroups="_props.collisionGroups"
       :sensor="_props.sensor"
     />
-    <slot v-once></slot>
+    <slot></slot>
   </TresGroup>
 </template>

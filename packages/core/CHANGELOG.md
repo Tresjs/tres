@@ -1,3 +1,39 @@
+## 5.5.0 (2026-02-16)
+
+### 🚀 Features
+
+- **core:** export `Context` component ([5919f887](https://github.com/Tresjs/tres/commit/5919f887))
+
+### ❤️ Thank You
+
+- Jungzl
+
+## 5.4.1 (2026-02-09)
+
+### 🩹 Fixes
+
+- **core:** fixed clock delta bug ([21a813ae](https://github.com/Tresjs/tres/commit/21a813ae))
+
+### ❤️ Thank You
+
+- Tino Koch @tinoooo
+
+## 5.4.0 (2026-02-02)
+
+### 🚀 Features
+
+- **core:** initialize __tres.objects in context and update nodeOps for text node handling ([d9d5893a](https://github.com/Tresjs/tres/commit/d9d5893a))
+
+### 🩹 Fixes
+
+- **core:** fixed endless loop in renderer when handling fragment instances ([d9ade7eb](https://github.com/Tresjs/tres/commit/d9ade7eb))
+- **core:** fixed dependent watcher position in initialization order ([b58b785b](https://github.com/Tresjs/tres/commit/b58b785b))
+- **core:** fixed text and comment node handling ([c54c6d6f](https://github.com/Tresjs/tres/commit/c54c6d6f))
+
+### ❤️ Thank You
+
+- Tino Koch @tinoooo
+
 ## 5.3.3 (2026-01-26)
 
 ### 🩹 Fixes

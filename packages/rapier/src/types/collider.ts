@@ -8,6 +8,7 @@ import type {
 import type { TresObject3D } from '@tresjs/core'
 
 import type { RigidBodyColliderContext } from './rigid-body'
+import type { Ref } from 'vue'
 
 /** @description Tres Rapier supported Collider shapes. */
 export type ColliderShape =
@@ -111,7 +112,7 @@ export interface CreateColliderProps extends CreateColliderDescProps {
    *
    * @see https://rapier.rs/javascript3d/classes/World.html
    */
-  world: World
+  world: Ref<World>
 }
 
 export interface CreateCollidersFromChildrenProps extends CreateColliderProps {}

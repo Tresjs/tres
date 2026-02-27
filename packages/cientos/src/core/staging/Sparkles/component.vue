@@ -412,7 +412,7 @@ onMounted(() => {
 })
 
 onUnmounted(() => {
-  mat.uniforms.uMap.value?.dispose()
+  mat.uniforms.uMap.value?.dispose?.()
   infoTexture.value.dispose()
   mat.dispose()
 })

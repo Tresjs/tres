@@ -10,7 +10,7 @@ import type { PointerEventHandlers } from '../utils/pointerEvents'
 
 export type AttachFnType = (parent: any, self: TresInstance) => () => void
 export type AttachType = string | AttachFnType
-export type DisposeType = ((self: TresInstance) => void) | boolean | 'default'
+export type DisposeType = ((self: TresInstance) => void) | boolean | 'default' | null
 
 export type ConstructorRepresentation = new (...args: any[]) => any
 
@@ -109,6 +109,8 @@ export type TresPrimitive = TresInstance & { object: TresInstance, isPrimitive: 
 export interface TresScene extends THREE.Scene {
   __tres: {
     root: TresContext
+    objects: TresObject[]
+    isUnmounting: boolean
   }
 }
 
