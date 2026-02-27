@@ -46,20 +46,20 @@ export async function handleIssueOpened(
     installationId,
   )
 
+  // Check if author is TresJS org member before any action
+  const authorIsOrgMember = await isOrgMember(octokit, issue.user.login)
+
   // Detect issue type
   const issueType = detectIssueType(issue)
 
-  // Handle feature requests - close and redirect to discussions
-  if (issueType === 'feature') {
+  // Handle feature requests - close and redirect to discussions (skip for org members)
+  if (issueType === 'feature' && !authorIsOrgMember) {
     const discussionUrl = `https://github.com/${owner}/${repo}/discussions/new?category=ideas`
     const comment = formatFeatureRedirectComment(issue.user.login, discussionUrl)
     await addComment(octokit, owner, repo, issue.number, comment)
     await closeIssueAsFeatureRequest(octokit, owner, repo, issue.number)
     return
   }
-
-  // Check if author is TresJS org member
-  const authorIsOrgMember = await isOrgMember(octokit, issue.user.login)
 
   // For bugs, do full analysis
   const detectedPackage = detectPackage(issue)
