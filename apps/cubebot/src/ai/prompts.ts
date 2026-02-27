@@ -46,7 +46,9 @@ Respond with JSON in this exact format:
     {"title": "Doc title", "url": "https://...", "reason": "Why this helps"}
   ],
   "missingInfo": ["reproduction", "systemInfo", "expectedBehavior"],
-  "authorMessage": "Friendly message to the issue author"
+  "authorMessage": "Friendly message to the issue author",
+  "greeting": "A casual, varied greeting for the issue author. Mix it up — sometimes 'Yo', 'Hey', 'Hola', 'Sup', 'Oh hey', etc. Keep it warm and human, not corporate. Include the 🧊 emoji somewhere naturally.",
+  "joke": "A short, original dad/geek joke about 3D graphics or Vue.js (use markdown italics for the punchline)"
 }`
 }
 

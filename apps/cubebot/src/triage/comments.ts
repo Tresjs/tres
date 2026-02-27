@@ -27,6 +27,8 @@ export function formatAuthorComment(
   result: TriageResult,
   authorMessage: string,
   isOrgMember = false,
+  greeting?: string,
+  joke?: string,
 ): string {
   const missingItems: string[] = []
 
@@ -47,16 +49,22 @@ export function formatAuthorComment(
     )
   }
 
+  const jokeSection = joke ? `\n\n---\n A quick dad joke 😬 _While you wait…_ ${joke}` : ''
+
   const docsSection = result.suggestedDocs.length > 0
-    ? `\n\n**📚 While you wait, these might help:**\n${result.suggestedDocs.map(d => `- [${d.title}](${d.url}) — ${d.reason}`).join('\n')}`
+    ? `\n\n**📚 These might help:**\n${result.suggestedDocs.map(d => `- [${d.title}](${d.url}) — ${d.reason}`).join('\n')}`
     : ''
 
   const missingSection = missingItems.length > 0
     ? `\n\nBefore a maintainer can dig in, could you help with a few things?\n\n${missingItems.join('\n')}`
     : `\n\n${authorMessage}`
 
-  return `Hey @${authorUsername}! 🧊 Thanks for taking the time to report this!
-${missingSection}${docsSection}
+  const opener = greeting
+    ? `${greeting} @${authorUsername}!`
+    : `Hey @${authorUsername}! 🧊`
+
+  return `${opener}
+${missingSection}${docsSection}${jokeSection}
 
 > 🤖 I'm an AI assistant and can make mistakes. A human is on the way!`
 }

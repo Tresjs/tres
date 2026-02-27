@@ -12,6 +12,8 @@ interface AnalysisResponse {
   suggestedDocs: Array<{ title: string, url: string, reason: string }>
   missingInfo: string[]
   authorMessage: string
+  greeting: string
+  joke: string
 }
 
 interface FeasibilityResponse {
