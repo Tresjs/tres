@@ -26,7 +26,7 @@ useSeoMeta({
   twitterImage: '/og-image.png',
   ogUrl: 'https://example.com',
   twitterTitle: 'Cientos docs',
-  twitterDescription: 'A documentation site for cientos package built with Nuxt v4 and Nuxt UI v4.',
+  twitterDescription: 'A documentation site for cientos package ready-made abstractions for TresJS.',
 })
 
 provide(navigationInjectionKey, navigation)

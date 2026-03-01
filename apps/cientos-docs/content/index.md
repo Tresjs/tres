@@ -1,6 +1,6 @@
 ---
 seo:
-  title: Cientos - Bring Three to the Vue ecosystem
+  title: Cientos - Bring Three.js addons to the Vue ecosystem
   description: Create awesome 3D experiences with the framework you love.
 ---
 
@@ -29,7 +29,7 @@ Tres v5 announcement
 Ready-made abstractions for TresJS
 
 #description
-Extending helpers and composables using Three addons.
+Extending helpers and composables using Three.js addons.
 
 #links
   :::u-button
@@ -84,7 +84,7 @@ Features you will love
   three-stdlib
 
   #description
-  Because the ThreeJS addons repo structure is... daunting.
+  Because the Three.js addons repo structure is... daunting.
   :::
   :::u-page-feature
   ---
