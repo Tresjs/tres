@@ -1,12 +1,12 @@
 <script lang="ts" setup>
-import { type TresObject, useLoop } from '@tresjs/core'
+import { type TresObject3D, useLoop } from '@tresjs/core'
 import { InstancedMesh, Object3D } from 'three'
 import { onUnmounted, onUpdated, shallowRef, watch } from 'vue'
 
 import { useRapierContext } from '../composables'
 import { MATRIX_ZERO, QUATERNION_ZERO, VECTOR_ZERO } from '../constants/'
 import { createCollider, createRigidBody } from '../core'
-import type { InstancedRigidBodyProps, RigidBodyContext } from '../types'
+import type { InstancedRigidBodyProps, RigidBodyContext, TresInstancedMesh } from '../types'
 
 const props = withDefaults(defineProps<Partial<InstancedRigidBodyProps>>(), {
   type: 'dynamic',
@@ -16,7 +16,7 @@ const props = withDefaults(defineProps<Partial<InstancedRigidBodyProps>>(), {
 const { onBeforeRender } = useLoop()
 const { world } = useRapierContext()
 
-const bodyGroup = shallowRef<TresObject>()
+const bodyGroup = shallowRef<TresObject3D>()
 const bodiesContexts = shallowRef<RigidBodyContext[]>([])
 
 defineExpose({
@@ -24,20 +24,20 @@ defineExpose({
 })
 
 watch(bodyGroup, (group) => {
-  if (!(group instanceof Object3D)) { return }
+  const object = bodyGroup.value?.children[0] as TresInstancedMesh | undefined
 
-  const child = bodyGroup.value?.children[0]
+  if (!(group instanceof Object3D)) { return }
   if (
-    !(child instanceof InstancedMesh)
+    !(object instanceof InstancedMesh)
     || typeof bodyGroup.value?.children?.length !== 'number'
     || bodyGroup.value.children.length > 1
   ) {
     throw new Error('Incorrect data assignment detected! #RigidBody support only one #InstancedMesh')
   }
 
-  const instanceArray = child.instanceMatrix.array
+  const instanceArray = object.instanceMatrix.array
 
-  for (let i = 0; i < child.count; i++) {
+  for (let i = 0; i < object.count; i++) {
     const matrix = MATRIX_ZERO.fromArray(instanceArray, i * 16)
     const position = VECTOR_ZERO.clone()
     const quaternion = QUATERNION_ZERO.clone()
@@ -47,7 +47,7 @@ watch(bodyGroup, (group) => {
     const rigidBodyInfo: RigidBodyContext = {
       ...props,
       ...createRigidBody({
-        object: child,
+        object,
         rigidBodyType: props.type,
         world,
       }),
@@ -61,12 +61,12 @@ watch(bodyGroup, (group) => {
 
     const colliderInfo = {
       ...createCollider({
-        object: child,
+        object,
         shape: props.collider,
         rigidBody: rigidBodyInfo.rigidBody,
         world,
       }),
-      object: child,
+      object,
     }
 
     rigidBodyInfo.colliders.push(colliderInfo)
@@ -75,7 +75,7 @@ watch(bodyGroup, (group) => {
 }, { once: true })
 
 onBeforeRender(() => {
-  const child: InstancedMesh | undefined = bodyGroup.value?.children[0]
+  const child = bodyGroup.value?.children[0]
 
   if (!bodiesContexts.value?.length || !(child instanceof InstancedMesh)) { return }
 
