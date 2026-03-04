@@ -40,7 +40,7 @@ const cancelEditing = () => {
     variant="soft"
     color="neutral"
     size="sm"
-    class="font-mono cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-700"
+    class="font-mono cursor-pointer hover:bg-neutral-200 dark:hover:bg-neutral-700"
     @click="startEditing"
   >
     {{ displayValue }}
