@@ -45,7 +45,7 @@ export function setupDevToolsUI(nuxt: Nuxt, resolver: Resolver) {
   addCustomTab(() => ({
     name: 'tres-nuxt-devtools',
     title: 'TresJS',
-    icon: '/favicon.svg',
+    icon: 'https://raw.githubusercontent.com/Tresjs/tres/main/public/favicon.svg',
     view: {
       type: 'iframe',
       src: DEVTOOLS_UI_ROUTE,
