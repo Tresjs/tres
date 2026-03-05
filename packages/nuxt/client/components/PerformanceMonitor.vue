@@ -92,7 +92,7 @@ const memoryStatus = computed(() => {
 
           <div class="grid grid-cols-2 gap-4 text-sm">
             <div>
-              <div class="text-gray-600 dark:text-gray-400">
+              <div class="text-neutral-600 dark:text-neutral-400">
                 Current
               </div>
               <div class="font-mono font-semibold">
@@ -100,7 +100,7 @@ const memoryStatus = computed(() => {
               </div>
             </div>
             <div>
-              <div class="text-gray-600 dark:text-gray-400">
+              <div class="text-neutral-600 dark:text-neutral-400">
                 Peak
               </div>
               <div class="font-mono font-semibold">
@@ -131,7 +131,7 @@ const memoryStatus = computed(() => {
         <div class="space-y-4">
           <!-- GPU Memory Stats -->
           <div class="grid grid-cols-2 gap-4">
-            <div class="text-center p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+            <div class="text-center p-4 bg-neutral-50 dark:bg-neutral-800 rounded-lg">
               <div class="flex items-center justify-center gap-2 mb-2">
                 <UIcon
                   name="i-tabler:box"
@@ -139,12 +139,12 @@ const memoryStatus = computed(() => {
                 />
                 <span class="font-mono text-sm font-bold">{{ renderer.info?.memory?.geometries || 0 }}</span>
               </div>
-              <div class="text-xs text-gray-600 dark:text-gray-400">
+              <div class="text-xs text-neutral-600 dark:text-neutral-400">
                 Geometries
               </div>
             </div>
 
-            <div class="text-center p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+            <div class="text-center p-4 bg-neutral-50 dark:bg-neutral-800 rounded-lg">
               <div class="flex items-center justify-center gap-2 mb-2">
                 <UIcon
                   name="i-tabler:photo"
@@ -152,7 +152,7 @@ const memoryStatus = computed(() => {
                 />
                 <span class="font-mono text-sm font-bold">{{ renderer.info?.memory?.textures || 0 }}</span>
               </div>
-              <div class="text-xs text-gray-600 dark:text-gray-400">
+              <div class="text-xs text-neutral-600 dark:text-neutral-400">
                 Textures
               </div>
             </div>
@@ -184,7 +184,7 @@ const memoryStatus = computed(() => {
         </template>
 
         <div class="grid grid-cols-2 gap-3">
-          <div class="text-center p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
+          <div class="text-center p-3 bg-neutral-50 dark:bg-neutral-800 rounded-lg">
             <div class="flex items-center justify-center gap-2 mb-2">
               <UIcon
                 name="i-tabler:refresh"
@@ -192,12 +192,12 @@ const memoryStatus = computed(() => {
               />
               <span class="font-mono font-bold">{{ renderer?.info?.render?.calls || 0 }}</span>
             </div>
-            <div class="text-xs text-gray-600 dark:text-gray-400">
+            <div class="text-xs text-neutral-600 dark:text-neutral-400">
               Draw Calls
             </div>
           </div>
 
-          <div class="text-center p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
+          <div class="text-center p-3 bg-neutral-50 dark:bg-neutral-800 rounded-lg">
             <div class="flex items-center justify-center gap-2 mb-2">
               <UIcon
                 name="i-tabler:triangle"
@@ -205,12 +205,12 @@ const memoryStatus = computed(() => {
               />
               <span class="font-mono font-bold">{{ renderer?.info?.render?.triangles || 0 }}</span>
             </div>
-            <div class="text-xs text-gray-600 dark:text-gray-400">
+            <div class="text-xs text-neutral-600 dark:text-neutral-400">
               Triangles
             </div>
           </div>
 
-          <div class="text-center p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
+          <div class="text-center p-3 bg-neutral-50 dark:bg-neutral-800 rounded-lg">
             <div class="flex items-center justify-center gap-2 mb-2">
               <UIcon
                 name="i-tabler:point"
@@ -218,12 +218,12 @@ const memoryStatus = computed(() => {
               />
               <span class="font-mono font-bold">{{ renderer?.info?.render?.points || 0 }}</span>
             </div>
-            <div class="text-xs text-gray-600 dark:text-gray-400">
+            <div class="text-xs text-neutral-600 dark:text-neutral-400">
               Points
             </div>
           </div>
 
-          <div class="text-center p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
+          <div class="text-center p-3 bg-neutral-50 dark:bg-neutral-800 rounded-lg">
             <div class="flex items-center justify-center gap-2 mb-2">
               <UIcon
                 name="i-tabler:line"
@@ -231,7 +231,7 @@ const memoryStatus = computed(() => {
               />
               <span class="font-mono font-bold">{{ renderer?.info?.render?.lines || 0 }}</span>
             </div>
-            <div class="text-xs text-gray-600 dark:text-gray-400">
+            <div class="text-xs text-neutral-600 dark:text-neutral-400">
               Lines
             </div>
           </div>
