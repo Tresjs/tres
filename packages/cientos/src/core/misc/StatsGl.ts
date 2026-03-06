@@ -94,7 +94,7 @@ export const StatsGl = defineComponent<StatsGlProps>({
 
     const node = document.body
     // @ts-expect-error - container is not typed
-    const statContainer = statsGl.container
+    const statContainer = statsGl.dom
 
     node?.appendChild(statContainer)
 
