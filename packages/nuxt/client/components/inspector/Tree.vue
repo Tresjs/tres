@@ -30,11 +30,11 @@ const toggleExpanded = () => {
 
 // Value utilities
 const getValueClass = (value: unknown): string => {
-  if (typeof value === 'boolean') return 'text-blue-500'
-  if (typeof value === 'number') return 'text-green-500'
-  if (typeof value === 'string') return 'text-red-500'
-  if (typeof value === 'undefined') return 'text-gray-400'
-  return 'text-gray-600'
+  if (typeof value === 'boolean') return 'text-blue-500 dark:text-blue-400'
+  if (typeof value === 'number') return 'text-green-500 dark:text-green-400'
+  if (typeof value === 'string') return 'text-red-500 dark:text-red-400'
+  if (typeof value === 'undefined') return 'text-neutral-400 dark:text-neutral-500'
+  return 'text-neutral-600 dark:text-neutral-400'
 }
 
 const getLabel = (value: unknown): string => {
@@ -119,11 +119,11 @@ const indentStyle = computed(() => ({ paddingLeft: `${props.level * 16}px` }))
 </script>
 
 <template>
-  <div class="font-mono text-xs text-gray-500">
+  <div class="font-mono text-xs text-neutral-500 dark:text-neutral-400">
     <!-- Current node -->
     <div
       :style="indentStyle"
-      class="flex items-center py-0.5 hover:bg-gray-50 group"
+      class="flex items-center py-0.5 hover:bg-neutral-50 dark:hover:bg-neutral-800 group"
       :class="{ 'cursor-pointer': hasChildren }"
     >
       <!-- Expand/collapse icon -->
@@ -134,7 +134,7 @@ const indentStyle = computed(() => ({ paddingLeft: `${props.level * 16}px` }))
       >
         <UIcon
           :name="isExpanded ? 'i-tabler:caret-down-filled' : 'i-tabler:caret-right-filled'"
-          class="w-3 h-3 text-gray-400"
+          class="w-3 h-3 text-neutral-400 dark:text-neutral-500"
         />
       </div>
       <div
@@ -150,7 +150,7 @@ const indentStyle = computed(() => ({ paddingLeft: `${props.level * 16}px` }))
             class="cursor-pointer select-none"
             @click="hasChildren ? toggleExpanded() : undefined"
           >
-            {{ node.label }} : <span class="text-gray-600 font-semibold">{{ node.value }}</span>
+            {{ node.label }} : <span class="text-neutral-600 dark:text-neutral-300 font-semibold">{{ node.value }}</span>
           </span>
 
           <UDropdownMenu
@@ -172,7 +172,7 @@ const indentStyle = computed(() => ({ paddingLeft: `${props.level * 16}px` }))
             <UButton
               size="xs"
               variant="ghost"
-              color="gray"
+              color="neutral"
               icon="i-lucide-ellipsis-vertical"
               title="Copy value"
             />
@@ -226,7 +226,7 @@ const indentStyle = computed(() => ({ paddingLeft: `${props.level * 16}px` }))
           <!-- Display value (clickable for editing) -->
           <span
             v-else-if="typeof node.value !== 'boolean'"
-            :class="[getValueClass(node.value), 'cursor-pointer hover:bg-gray-100 px-1 py-0.5 rounded']"
+            :class="[getValueClass(node.value), 'cursor-pointer hover:bg-neutral-100 dark:hover:bg-neutral-800 px-1 py-0.5 rounded']"
             @click.stop="startEditing"
           >
             {{ getLabel(node.value) }}
@@ -244,7 +244,7 @@ const indentStyle = computed(() => ({ paddingLeft: `${props.level * 16}px` }))
             <UButton
               size="xs"
               variant="ghost"
-              color="gray"
+              color="neutral"
               icon="i-tabler:minus"
               title="Decrease value"
               @click.stop="decrementValue"
@@ -252,7 +252,7 @@ const indentStyle = computed(() => ({ paddingLeft: `${props.level * 16}px` }))
             <UButton
               size="xs"
               variant="ghost"
-              color="gray"
+              color="neutral"
               icon="i-tabler:plus"
               title="Increase value"
               @click.stop="incrementValue"
@@ -272,7 +272,7 @@ const indentStyle = computed(() => ({ paddingLeft: `${props.level * 16}px` }))
             <UButton
               size="xs"
               variant="ghost"
-              color="gray"
+              color="neutral"
               icon="i-lucide-ellipsis-vertical"
               title="Copy value"
             />

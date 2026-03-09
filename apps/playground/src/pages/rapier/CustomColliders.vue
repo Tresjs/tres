@@ -7,12 +7,12 @@ import {
   ConeCollider,
   CuboidCollider,
   CylinderCollider,
+  type ExposedRigidBody,
   Physics,
   RigidBody,
 } from '@tresjs/rapier'
-import { ACESFilmicToneMapping, SRGBColorSpace } from 'three'
 import { TresLeches, useControls } from '@tresjs/leches'
-import type { ExposedRigidBody } from '@tresjs/rapier'
+import { ACESFilmicToneMapping, SRGBColorSpace } from 'three'
 
 const gl = {
   clearColor: '#82DBC5',
@@ -47,10 +47,10 @@ const { debug, friction, mass, restitution, density } = useControls({
 
     <Suspense>
       <Physics :debug>
-        <RigidBody :position="[5, 0, 0]">
+        <RigidBody :position="[-2, 0, 0]" :collider="false">
           <BallCollider
             :args="[1, 1, 1]"
-            :position="[-2, 10, 2]"
+            :position="[3, 10, -0.5]"
           />
           <CapsuleCollider :args="[1, 1, 1]" :position="[-2, 10, 0]" />
           <ConeCollider :args="[1, 1, 1]" :position="[0, 10, 2]" />
@@ -58,7 +58,7 @@ const { debug, friction, mass, restitution, density } = useControls({
           <CylinderCollider :args="[1, 1, 1]" :position="[2, 10, 2]" />
         </RigidBody>
 
-        <RigidBody ref="colliderRef" :collider="false" :position="[0, 15, 0]">
+        <RigidBody ref="colliderRef" :collider="false" :position="[-1, 10, 0]">
           <BallCollider
             :args="[1, 1, 1]"
             :friction

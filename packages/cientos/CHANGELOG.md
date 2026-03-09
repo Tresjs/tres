@@ -1,3 +1,20 @@
+## 5.5.0 (2026-03-05)
+
+### 🩹 Fixes
+
+- **cientos:** enable immediate execution for BVH application in useBVH ([#1356](https://github.com/Tresjs/tres/pull/1356))
+- **cientos:** migrate HolographicMaterial Clock to Timer for r183 ([d199f027](https://github.com/Tresjs/tres/commit/d199f027))
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/core to 5.6.0
+
+### ❤️ Thank You
+
+- Alvaro Saburido @alvarosabu
+- alvarosabu @alvarosabu
+- Claude Sonnet 4.6
+
 ## 5.4.0 (2026-02-16)
 
 ### 🚀 Features
