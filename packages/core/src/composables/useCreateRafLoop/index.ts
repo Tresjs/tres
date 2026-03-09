@@ -1,5 +1,5 @@
 import { createEventHook, useRafFn } from '@vueuse/core'
-import { Timer } from 'three'
+import { createTimer } from '../../utils/createTimer'
 
 export interface RafLoopContext { delta: number, elapsed: number }
 
@@ -7,7 +7,7 @@ export interface RafLoopContext { delta: number, elapsed: number }
  * @param cycleFn the function that is called before the after event hook is triggered and after the before event hook is triggered.
  */
 export const useCreateRafLoop = (cycleFn: () => void) => {
-  const timer = new Timer()
+  const timer = createTimer()
 
   const eventHooks = {
     before: createEventHook<RafLoopContext>(),
@@ -29,16 +29,12 @@ export const useCreateRafLoop = (cycleFn: () => void) => {
   })
 
   const start = () => {
-    // connect() enables Page Visibility API to prevent large delta spikes when the
-    // tab is hidden; it requires a document reference. Guard for SSR/test environments.
-    if (typeof document !== 'undefined') {
-      timer.connect(document)
-    }
+    timer.start()
     resume()
   }
 
   const stop = () => {
-    timer.disconnect()
+    timer.stop()
     pause()
   }
 

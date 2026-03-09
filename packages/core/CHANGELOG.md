@@ -1,3 +1,22 @@
+## 5.6.0 (2026-03-05)
+
+### 🚀 Features
+
+- **tests:** add console warning mock to suppress specific messages during tests ([e359e4ba](https://github.com/Tresjs/tres/commit/e359e4ba))
+- added basic hierarchy tests ([52c03609](https://github.com/Tresjs/tres/commit/52c03609))
+- added first test and mocking fns ([cc1ede79](https://github.com/Tresjs/tres/commit/cc1ede79))
+
+### 🩹 Fixes
+
+- **core:** update delta calculation in useCreateRafLoop to prevent incorrect values ([#1323](https://github.com/Tresjs/tres/issues/1323))
+- **core:** migrate Clock to Timer for three.js r183 compatibility ([73a1fa43](https://github.com/Tresjs/tres/commit/73a1fa43))
+
+### ❤️ Thank You
+
+- alvarosabu @alvarosabu
+- Claude Sonnet 4.6
+- Tino Koch @tinoooo
+
 ## 5.5.0 (2026-02-16)
 
 ### 🚀 Features
