@@ -6,35 +6,41 @@ import type {
   World,
 } from '@dimforge/rapier3d-compat'
 import type { TresObject3D, TresVector3, VectorCoordinates } from '@tresjs/core'
+import type { Ref } from 'vue'
 
 import type { ColliderProps, ColliderShape } from './collider'
-import { Ref } from 'vue'
 
-/** @description Tres Rapier supported `RigidBody` types. */
+export interface RigidBodyUserData {
+  [key: string]: any
+  uuid?: string
+  name?: string
+  type?: string
+}
+
+/** @description Tres-Rapier supported `RigidBody` types. */
 export type RigidBodyType =
   | 'dynamic'
   | 'kinematic'
   | 'kinematicVelocity'
   | 'fixed'
 
-export interface RigidBodyProps
-  extends Pick<ColliderProps,
-    // AUTOMATIC COLLIDERS PROPS
-    'friction' |
-    'mass' |
-    'restitution' |
-    'density' |
-    'activeCollision' |
-    'activeCollisionTypes' |
-    'collisionGroups' |
-    'sensor' > {
+export interface RigidBodyProps extends Pick<
+  ColliderProps,
+  // Auto generated colliders properties.
+  | 'friction'
+  | 'mass'
+  | 'restitution'
+  | 'density'
+  | 'activeCollision'
+  | 'activeCollisionTypes'
+  | 'collisionGroups'
+  | 'sensor'
+> {
   /** @description Set the `RigidBody` type. */
   type: RigidBodyType
-
   /**
    * @description Set the `RigidBody` collider shape.
-   *
-   * Pass `false` to disable the auto colliders.
+   * @note Pass `false` to disable the auto generated colliders.
    */
   collider?: ColliderShape | false
   /**
@@ -97,16 +103,18 @@ export interface RigidBodyProps
    * @default false
    */
   enableCcd?: boolean
-
 }
 
 export interface ExposedRigidBody {
   /**  @description Context {@link RigidBodyDesc}. */
   instance: RigidBodyContext['rigidBody']
+
   /**  @description Context {@link RigidBody}. */
   rigidBodyDesc: RigidBodyContext['rigidBodyDesc']
+
   /** @description Context {@Link TresObject3D} group. */
   group: RigidBodyContext['group']
+
   /** @description Context {@Link RigidBodyContext}. */
   context: RigidBodyContext
 }
@@ -132,7 +140,7 @@ export interface RigidBodyContext extends RigidBodyProps {
   rigidBodyDesc: RigidBodyDesc
 
   /**  @description Context {@link RigidBody}. */
-  rigidBody: RigidBody
+  rigidBody: RigidBody & { userData?: RigidBodyUserData }
 
   /** @description Context {@Link TresObject3D} group. */
   group: TresObject3D
@@ -142,7 +150,9 @@ export interface RigidBodyContext extends RigidBodyProps {
 }
 
 export interface CreateRigidBodyDescProps {
-  /** @description The rigid-body based object. (@link TresObject3D}. */
+  /**
+   * @description The rigid-body based object. (@link TresObject3D}.
+   */
   object: TresObject3D
   /** @description The `rigidBody` type. {@link RigidBodyType}. */
   rigidBodyType: RigidBodyType
@@ -169,7 +179,7 @@ export interface CreateRigidBodyReturnType {
    *
    * @see https://rapier.rs/javascript3d/classes/RigidBody.html
    */
-  rigidBody: RigidBody
+  rigidBody: RigidBody & { userData?: RigidBodyUserData }
   /**
    * {@link RigidBodyDesc}
    *

@@ -19,7 +19,7 @@ export function hasValidColliderGeometry(object: Object3D): boolean {
 /**
  * @description Get the collider sizings from the given object.
  *
- * Will try to get the bounding-box if the object doesn't have a geometry.
+ * @important Will try to get the bounding-box if the object doesn't have a geometry.
  *
  * @param object {@link TresObject3D}
  */

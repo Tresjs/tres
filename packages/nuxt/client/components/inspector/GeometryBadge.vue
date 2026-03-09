@@ -54,11 +54,11 @@ function getGeometryIcon(geometry: unknown): string {
  * Get color class for value type
  */
 function getValueClass(value: unknown): string {
-  if (typeof value === 'boolean') return 'text-blue-500'
+  if (typeof value === 'boolean') return 'text-blue-500 dark:text-blue-400'
   if (typeof value === 'number') return 'text-primary-500'
-  if (typeof value === 'string') return 'text-red-500'
-  if (typeof value === 'undefined') return 'text-gray-400'
-  return 'text-gray-600'
+  if (typeof value === 'string') return 'text-red-500 dark:text-red-400'
+  if (typeof value === 'undefined') return 'text-neutral-400 dark:text-neutral-500'
+  return 'text-neutral-600 dark:text-neutral-400'
 }
 </script>
 
@@ -72,7 +72,7 @@ function getValueClass(value: unknown): string {
   >
     <UIcon
       :name="getGeometryIcon(geometry)"
-      class="w-3 h-3 text-gray-600"
+      class="w-3 h-3 text-neutral-600"
     />
     <span :class="getValueClass(geometry)">{{ displayValue }}</span>
   </UBadge>

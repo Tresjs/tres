@@ -18,10 +18,12 @@ const automaticColliderRef = shallowRef()
 const customColliderRef = shallowRef()
 
 const onIntersectionWallEnter = (e: any) => {
+  // eslint-disable-next-line no-console
   console.log('from rigidBody', e)
 }
 
 const onIntersectionWallExit = (e: any) => {
+  // eslint-disable-next-line no-console
   console.log('from rigidBody exit', e)
 }
 
