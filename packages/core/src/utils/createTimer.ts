@@ -9,7 +9,6 @@ const TIMER_MIN_REVISION = 179
 export interface TresTimer {
   getDelta: () => number
   getElapsed: () => number
-  getElapsedTime?: () => number
   update: () => void
   start: () => void
   stop: () => void
@@ -47,9 +46,8 @@ export function createTimer(): TresTimer {
     return {
       getDelta: () => clock.getDelta(),
       getElapsed: () => clock.elapsedTime,
-      getElapsedTime: () => clock.getElapsedTime(), // it calls getDelta() internally as side effect
       update: () => {},
-      start: () => clock.start(),
+      start: () => clock.start(), // Clock.start() resets elapsedTime to 0, unlike Timer.connect()
       stop: () => clock.stop(),
     }
   }

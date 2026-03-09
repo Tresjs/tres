@@ -265,7 +265,7 @@ class HolographicMaterial extends ShaderMaterial {
 
   update() {
     this.clock.update()
-    this.uniforms.time.value = this.clock.getElapsedTime ? this.clock.getElapsedTime() : this.clock.getElapsed()
+    this.uniforms.time.value = this.clock.getElapsed()
   }
 }
 export default HolographicMaterial
