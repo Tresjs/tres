@@ -1,3 +1,17 @@
+## 5.7.0 (2026-03-10)
+
+### 🚀 Features
+
+- add backward compatibility for three.js <r179 (`Timer` fallback to `Clock`) ([13c20dc8](https://github.com/Tresjs/tres/commit/13c20dc8))
+
+### 🩹 Fixes
+
+- simplify time retrieval ([1eb6a805](https://github.com/Tresjs/tres/commit/1eb6a805))
+
+### ❤️ Thank You
+
+- Jungzl
+
 ## 5.6.0 (2026-03-05)
 
 ### 🚀 Features
