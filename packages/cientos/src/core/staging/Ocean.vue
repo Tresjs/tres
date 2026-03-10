@@ -120,8 +120,8 @@ const props = withDefaults(defineProps<OceanProps>(), {
   textureHeight: 512,
   waterNormals: 'https://raw.githubusercontent.com/Tresjs/assets/main/textures/water-normals/Water_1_M_Normal.jpg',
   sunDirection: () => new Vector3(),
-  sunColor: 0xFFFFFF,
-  waterColor: 0x001E0F,
+  sunColor: 0xffffff,
+  waterColor: 0x001e0f,
   distortionScale: 3.7,
   size: 1,
   clipBias: 0.0,
@@ -130,7 +130,7 @@ const props = withDefaults(defineProps<OceanProps>(), {
   speed: 1,
 })
 
-const { waterNormals, sunColor, waterColor, distortionScale, size, clipBias: _clipBias, alpha, side: _side, speed } = toRefs(props)
+const { waterNormals, sunColor, waterColor, distortionScale, size, alpha, speed } = toRefs(props)
 
 const { extend, scene } = useTresContext()
 
