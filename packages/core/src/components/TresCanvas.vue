@@ -1,18 +1,12 @@
 <script setup lang="ts">
+import * as THREE from 'three'
 import { ACESFilmicToneMapping, PCFSoftShadowMap } from 'three'
 import { ref, shallowRef } from 'vue'
 import { version } from '../../package.json' with { type: 'json' }
 import type { TresContext } from '../composables'
 import type { ContextEmits, ContextProps } from './Context.vue'
 import Context from './Context.vue'
-
-export type TresCanvasEmits = ContextEmits
-export type TresCanvasProps = ContextProps
-
-export interface TresCanvasInstance {
-  get context(): TresContext | undefined
-  dispose: () => void
-}
+import { extend } from '../core/catalogue'
 
 const props = withDefaults(defineProps<TresCanvasProps>(), {
   alpha: undefined,
@@ -41,6 +35,16 @@ const emit = defineEmits<TresCanvasEmits>()
 defineSlots<{
   default: () => any
 }>()
+
+extend(THREE)
+
+export type TresCanvasEmits = ContextEmits
+export type TresCanvasProps = ContextProps
+
+export interface TresCanvasInstance {
+  get context(): TresContext | undefined
+  dispose: () => void
+}
 
 const canvasRef = ref<HTMLCanvasElement>()
 const contextRef = shallowRef<{ context: TresContext, dispose: () => void }>()

@@ -1,0 +1,28 @@
+{
+  "name": "bundle-test",
+  "type": "module",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "build:slim": "vite build --mode slim",
+    "build:full": "vite build --mode full",
+    "build:createtres": "vite build --mode createtres",
+    "preview": "vite preview",
+    "build:tsdown:slim": "tsdown --config tsdown.slim.config.mts",
+    "build:tsdown:full": "tsdown --config tsdown.full.config.mts"
+  },
+  "dependencies": {
+    "@tresjs/core": "workspace:^",
+    "vue": "catalog:vue"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "catalog:vite",
+    "rollup-plugin-visualizer": "catalog:build",
+    "tsdown": "catalog:build",
+    "unplugin-vue": "^7.1.1",
+    "vite": "catalog:vite",
+    "vue-tsc": "catalog:typescript"
+  }
+}

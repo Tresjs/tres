@@ -59,4 +59,9 @@ export const advancedRoutes = [
     name: 'WebGPU',
     component: () => import('@/pages/core/advanced/webGPU/index.vue'),
   },
+  {
+    path: '/core/advanced/manual-extend',
+    name: 'createTresApp',
+    component: () => import('@/pages/core/advanced/manual-extend/index.vue'),
+  }
 ]

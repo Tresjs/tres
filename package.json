@@ -47,6 +47,13 @@
     ],
     "overrides": {
       "ipx": "3.0.2"
+    },
+    "packageExtensions": {
+      "@pmndrs/pointer-events": {
+        "peerDependencies": {
+          "three": "*"
+        }
+      }
     }
   }
 }

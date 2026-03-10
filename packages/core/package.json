@@ -20,6 +20,7 @@
   "sideEffects": false,
   "exports": {
     ".": "./dist/tres.js",
+    "./slim": "./dist/slim.js",
     "./template-compiler-options": "./dist/template-compiler-options.mjs",
     "./package.json": "./package.json"
   },
@@ -28,6 +29,9 @@
   "types": "./dist/tres.d.ts",
   "typesVersions": {
     "*": {
+      "slim": [
+        "dist/slim.d.ts"
+      ],
       "template-compiler-options": [
         "dist/template-compiler-options.d.mts"
       ]
