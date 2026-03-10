@@ -166,23 +166,23 @@ function isGeometry(value: unknown): boolean {
  * Get color class for value type (matching inspector tree style)
  */
 function getValueClass(value: unknown): string {
-  if (typeof value === 'boolean') return 'text-blue-500'
-  if (typeof value === 'number') return 'text-green-500'
-  if (typeof value === 'string') return 'text-red-500'
-  if (typeof value === 'undefined') return 'text-gray-400'
-  return 'text-gray-600'
+  if (typeof value === 'boolean') return 'text-blue-500 dark:text-blue-400'
+  if (typeof value === 'number') return 'text-green-500 dark:text-green-400'
+  if (typeof value === 'string') return 'text-red-500 dark:text-red-400'
+  if (typeof value === 'undefined') return 'text-neutral-400 dark:text-neutral-500'
+  return 'text-neutral-600 dark:text-neutral-400'
 }
 </script>
 
 <template>
-  <div class="text-sm text-gray-500 pt-2 pb-8">
+  <div class="text-sm text-neutral-500 dark:text-neutral-400 pt-2 pb-8">
     <!-- Object Type Header - compact -->
-    <div class="flex items-center gap-1 py-0.5 mb-4 hover:bg-gray-50 group">
+    <div class="flex items-center gap-1 py-0.5 mb-4 hover:bg-neutral-50 dark:hover:bg-neutral-800 group">
       <UIcon
         :name="titleIcon"
-        class="w-4 h-4 text-gray-600 flex-shrink-0"
+        class="w-4 h-4 text-neutral-600 dark:text-neutral-400 flex-shrink-0"
       />
-      <span class="text-gray-600 font-semibold">{{ object.type }}</span>
+      <span class="text-neutral-600 dark:text-neutral-300 font-semibold">{{ object.type }}</span>
       <UBadge
         v-if="object.name"
         variant="soft"
@@ -198,7 +198,7 @@ function getValueClass(value: unknown): string {
       <div
         v-for="prop in keyProperties"
         :key="prop.key"
-        class="flex items-center justify-between py-0.5 hover:bg-gray-50 group"
+        class="flex items-center justify-between py-0.5 hover:bg-neutral-50 dark:hover:bg-neutral-800 group"
       >
         <div class="flex items-center gap-1 min-w-0">
           <span>{{ prop.key }} :</span>
@@ -327,7 +327,7 @@ function getValueClass(value: unknown): string {
             <UButton
               size="xs"
               variant="ghost"
-              color="gray"
+              color="neutral"
               icon="i-lucide-ellipsis-vertical"
               title="Copy value"
             />

@@ -47,11 +47,11 @@ function isNormalMaterial(material: unknown): boolean {
  * Get color class for value type
  */
 function getValueClass(value: unknown): string {
-  if (typeof value === 'boolean') return 'text-blue-500'
+  if (typeof value === 'boolean') return 'text-blue-500 dark:text-blue-400'
   if (typeof value === 'number') return 'text-primary-500'
-  if (typeof value === 'string') return 'text-red-500'
-  if (typeof value === 'undefined') return 'text-gray-400'
-  return 'text-gray-600'
+  if (typeof value === 'string') return 'text-red-500 dark:text-red-400'
+  if (typeof value === 'undefined') return 'text-neutral-400 dark:text-neutral-500'
+  return 'text-neutral-600 dark:text-neutral-400'
 }
 </script>
 
@@ -66,19 +66,19 @@ function getValueClass(value: unknown): string {
     <!-- Material color circle or gradient -->
     <div
       v-if="getMaterialColor(material)"
-      class="w-3 h-3 rounded-full border border-gray-300 dark:border-gray-600"
+      class="w-3 h-3 rounded-full border border-neutral-300 dark:border-neutral-600"
       :style="{ backgroundColor: getMaterialColor(material)! }"
     />
     <!-- Normal material gradient -->
     <div
       v-else-if="isNormalMaterial(material)"
-      class="w-3 h-3 rounded-full border border-gray-300 dark:border-gray-600"
+      class="w-3 h-3 rounded-full border border-neutral-300 dark:border-neutral-600"
       style="background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #feca57)"
     />
     <!-- Generic material icon -->
     <div
       v-else
-      class="w-3 h-3 rounded-full border border-gray-300 dark:border-gray-600 bg-gray-200 dark:bg-gray-700"
+      class="w-3 h-3 rounded-full border border-neutral-300 dark:border-neutral-600 bg-neutral-200 dark:bg-neutral-700"
     />
     <span :class="getValueClass(material)">{{ displayValue }}</span>
   </UBadge>
