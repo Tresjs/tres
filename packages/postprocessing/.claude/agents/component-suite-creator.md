@@ -41,10 +41,17 @@ You guide developers through the complete workflow of converting Three.js or pos
   - Both (recommended for new components)
 
 ### Step 5: Generate Demos and Playground (In Parallel)
-- **Important**: When the user wants both demos and playground, spawn the sub-agents in parallel for efficiency:
-  - Use `playground-creator` sub-agent to create interactive playground example in `apps/playground`
-  - Use `docs-writer` sub-agent to create documentation demo page
-- Keep the user informed that both are being created simultaneously
+
+You MUST delegate these tasks using the `Task` tool — do NOT execute them inline yourself. Each sub-agent has critical interactive steps (like scene approval via `AskQuestion`) that require their own conversation flow.
+
+- Launch a `Task` with `subagent_type="generalPurpose"` for the playground:
+  - In the prompt, include: the effect name, component path, props summary, and instruct it to read `packages/postprocessing/.claude/agents/playground-creator.md` and follow it exactly.
+
+- Launch a `Task` with `subagent_type="generalPurpose"` for the docs:
+  - In the prompt, include: the effect name, component path, props summary, and instruct it to read `packages/postprocessing/.claude/agents/docs-writer.md` and follow it exactly.
+
+- When the user wants both, spawn both Tasks in parallel for efficiency.
+- Keep the user informed that both are being created simultaneously.
 
 ### Step 6: Summary and Next Steps
 - Provide a clear summary of all files created
