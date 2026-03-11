@@ -1,0 +1,29 @@
+name: Deploy CubeBot
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'apps/cubebot/**'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'apps/cubebot/**'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    name: Deploy to Cloudflare Workers
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - uses: ./.github/actions/setup-node
+
+      - name: Deploy
+        run: pnpm --filter cubebot run deploy
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}

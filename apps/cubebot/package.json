@@ -1,0 +1,26 @@
+{
+  "name": "cubebot",
+  "type": "module",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "typecheck": "tsc --noEmit",
+    "embed-docs": "npx tsx scripts/embed-docs.ts"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.78.0",
+    "@octokit/auth-app": "^8.2.0",
+    "hono": "^4.12.3",
+    "octokit": "^5.0.5"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20260226.1",
+    "@tresjs/eslint-config": "workspace:^",
+    "typescript": "catalog:typescript",
+    "wrangler": "^4.69.0"
+  }
+}
