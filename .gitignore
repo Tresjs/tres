@@ -39,3 +39,4 @@ coverage
 
 .claude/*
 !.claude/agents/
+**/contents.sqlite

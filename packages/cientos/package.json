@@ -1,7 +1,7 @@
 {
   "name": "@tresjs/cientos",
   "type": "module",
-  "version": "5.3.1",
+  "version": "5.6.0",
   "description": "Collection of useful helpers and fully functional, ready-made abstractions for Tres",
   "author": "Alvaro Saburido <hola@alvarosaburido.dev> (https://github.com/alvarosabu/)",
   "license": "MIT",
@@ -40,12 +40,13 @@
   "scripts": {
     "dev": "cd playground/vue && pnpm dev",
     "build": "tsdown",
+    "build:analyze": "ANALYZE=true tsdown",
     "lint": "eslint .",
     "typecheck": "vue-tsc --noEmit",
     "lint:fix": "eslint . --fix"
   },
   "peerDependencies": {
-    "@tresjs/core": "5.4.1",
+    "@tresjs/core": "5.7.0",
     "three": ">=0.133",
     "vue": ">=3.5.17"
   },
@@ -55,6 +56,7 @@
     "stats-gl": "^2.0.1",
     "stats.js": "^0.17.0",
     "three-custom-shader-material": "catalog:three",
+    "three-mesh-bvh": "^0.9.8",
     "three-stdlib": "catalog:three"
   },
   "devDependencies": {

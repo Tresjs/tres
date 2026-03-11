@@ -1,4 +1,3 @@
-import { describe, expect, it } from 'vitest'
 import { buildGraph } from './graph'
 import { Mesh, MeshBasicMaterial, Object3D } from 'three'
 

@@ -1,5 +1,6 @@
 import type Rapier from '@dimforge/rapier3d-compat'
 import type { World } from '@dimforge/rapier3d-compat'
+import { Ref, ShallowRef } from 'vue'
 
 export interface RapierContext {
   /**
@@ -7,19 +8,23 @@ export interface RapierContext {
    *
    * @docs https://rapier.rs/docs/api/javascript/JavaScript3D/
    */
-  rapier: typeof Rapier
+  rapier: ShallowRef<typeof Rapier>
   /**
    * @description Rapier physics world
    */
-  world: World
+  world: ShallowRef<World>
   /**
    * @description If the physics simulation is paused.
    */
-  isPaused: boolean
+  isPaused: Ref<boolean>
   /**
    * @description If the debugging mode enabled.
    */
-  isDebug: boolean
+  isDebug: Ref<boolean>
+  /**
+   * @description Initialize rapier WASM and create the physics world.
+   */
+  init: () => Promise<void>
   /**
    * @description Set the physics world.
    *

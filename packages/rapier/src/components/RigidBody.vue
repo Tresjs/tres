@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ActiveCollisionTypes } from '@dimforge/rapier3d-compat'
-import { useLoop } from '@tresjs/core'
+import { type TresObject3D, useLoop } from '@tresjs/core'
 import { Object3D } from 'three'
 import {
   nextTick,
@@ -8,12 +8,13 @@ import {
   onUpdated,
   provide,
   shallowRef,
+  type ShallowRef,
   watch,
 } from 'vue'
-import type { ShallowRef } from 'vue'
 
 import { useRapierContext } from '../composables'
 import { createColliderPropsFromObject, createRigidBody } from '../core'
+import { hasValidColliderGeometry } from '../utils'
 import { makePropsWatcherRB } from '../utils/props'
 import { Collider } from './colliders'
 import type {
@@ -39,7 +40,7 @@ const props = withDefaults(defineProps<Partial<RigidBodyProps>>(), {
   enabledRotations: () => [true, true, true],
   enabledTranslations: () => [true, true, true],
 
-  // AUTOMATIC COLLIDERS PROPS
+  // Auto-generated colliders props
   friction: 0.5,
   mass: 1,
   restitution: 0,
@@ -88,17 +89,14 @@ watch(bodyGroup, async (group) => {
     const collidersProps: ColliderProps[] = []
 
     for (const child of group.children) {
-      const _props = createColliderPropsFromObject(child, props.collider)
-      _props.friction = props.friction
-      _props.mass = props.mass
-      _props.restitution = props.restitution
-      _props.density = props.density
-      _props.activeCollision = props.activeCollision
-      _props.activeCollisionTypes = props.activeCollisionTypes
-      _props.collisionGroups = props.collisionGroups
-      _props.sensor = props.sensor
+      // Skip children without valid geometry (e.g., collider wrappers, empty Object3Ds)
+      if (!hasValidColliderGeometry(child as Object3D)) { continue }
 
-      collidersProps.push(_props)
+      const createdProps = createColliderPropsFromObject(
+        child as TresObject3D,
+        props.collider,
+      )
+      collidersProps.push({ ...props, ...createdProps })
     }
 
     autoColliderProps.value = collidersProps
@@ -120,6 +118,25 @@ makePropsWatcherRB(props, [
   'enabledRotations',
   'enabledTranslations',
 ], instance)
+
+// reactively set autoColliderProps
+const setAutoColliderProp = <K extends keyof ColliderProps>(prop: K, value: ColliderProps[K]) => {
+  if (autoColliderProps.value.length === 0 || props.collider === false) { return }
+
+  autoColliderProps.value.forEach((_props) => {
+    _props[prop] = value
+  })
+}
+
+// Automatic collider props watchers
+watch(() => props.friction, value => setAutoColliderProp('friction', value))
+watch(() => props.mass, value => setAutoColliderProp('mass', value))
+watch(() => props.restitution, value => setAutoColliderProp('restitution', value))
+watch(() => props.density, value => setAutoColliderProp('density', value))
+watch(() => props.activeCollision, value => setAutoColliderProp('activeCollision', value))
+watch(() => props.activeCollisionTypes, value => setAutoColliderProp('activeCollisionTypes', value))
+watch(() => props.collisionGroups, value => setAutoColliderProp('collisionGroups', value))
+watch(() => props.sensor, value => setAutoColliderProp('sensor', value))
 
 watch([() => props.lockTranslations, instance], ([_lockTranslations, _]) => {
   if (!instance.value) { return }
@@ -152,10 +169,10 @@ onUpdated(() => {
 onUnmounted(() => {
   if (!bodyContext.value) { return }
 
-  world.removeRigidBody(bodyContext.value.rigidBody)
+  world.value.removeRigidBody(bodyContext.value.rigidBody)
 
   bodyContext.value.colliders.forEach((collider) => {
-    world.removeCollider(collider.collider, false)
+    world.value.removeCollider(collider.collider, false)
   })
 
   bodyContext.value = undefined
@@ -179,6 +196,6 @@ onUnmounted(() => {
       :collisionGroups="_props.collisionGroups"
       :sensor="_props.sensor"
     />
-    <slot v-once></slot>
+    <slot></slot>
   </TresGroup>
 </template>

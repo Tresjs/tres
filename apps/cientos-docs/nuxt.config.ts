@@ -3,16 +3,16 @@ import { resolve } from 'node:path'
 import { templateCompilerOptions } from '@tresjs/core'
 
 // Try to read from node_modules first (works in production), fallback to monorepo path
-let corePackageJsonPath = resolve(__dirname, 'node_modules/@tresjs/core/package.json')
+let cientosPackageJsonPath = resolve(__dirname, 'node_modules/@tresjs/cientos/package.json')
 try {
-  readFileSync(corePackageJsonPath, 'utf-8')
+  readFileSync(cientosPackageJsonPath, 'utf-8')
 }
 catch {
   // In development, use the monorepo path
-  corePackageJsonPath = resolve(__dirname, '../../packages/core/package.json')
+  cientosPackageJsonPath = resolve(__dirname, '../../packages/cientos/package.json')
 }
 
-const pkg = JSON.parse(readFileSync(corePackageJsonPath, 'utf-8'))
+const pkg = JSON.parse(readFileSync(cientosPackageJsonPath, 'utf-8'))
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({

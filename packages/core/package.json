@@ -1,7 +1,7 @@
 {
   "name": "@tresjs/core",
   "type": "module",
-  "version": "5.4.1",
+  "version": "5.7.0",
   "description": "Declarative ThreeJS using Vue Components",
   "author": "Alvaro Saburido <hola@alvarosaburido.dev> (https://github.com/alvarosabu/)",
   "license": "MIT",
@@ -42,6 +42,7 @@
   },
   "scripts": {
     "build": "tsdown",
+    "build:analyze": "ANALYZE=true tsdown",
     "test": "vitest",
     "test:ci": "vitest run",
     "test:ui": "vitest --ui --coverage.enabled=true",

@@ -1,3 +1,72 @@
+## 5.6.0 (2026-03-10)
+
+### 🚀 Features
+
+- add backward compatibility for three.js <r179 (`Timer` fallback to `Clock`) ([13c20dc8](https://github.com/Tresjs/tres/commit/13c20dc8))
+
+### 🩹 Fixes
+
+- simplify time retrieval ([1eb6a805](https://github.com/Tresjs/tres/commit/1eb6a805))
+
+### 🔥 Performance
+
+- Optimize the Ocean component. Use static initialization parameters to prevent abnormal crashes caused by rebuilding the water object when updating its properties. At the same time, support dynamic adjustment of parameters to quickly adjust the water effect. ([9bf02f0e](https://github.com/Tresjs/tres/commit/9bf02f0e))
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/core to 5.7.0
+
+### ❤️ Thank You
+
+- Jungzl
+- 王明华
+
+## 5.5.0 (2026-03-05)
+
+### 🩹 Fixes
+
+- **cientos:** enable immediate execution for BVH application in useBVH ([#1356](https://github.com/Tresjs/tres/pull/1356))
+- **cientos:** migrate HolographicMaterial Clock to Timer for r183 ([d199f027](https://github.com/Tresjs/tres/commit/d199f027))
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/core to 5.6.0
+
+### ❤️ Thank You
+
+- Alvaro Saburido @alvarosabu
+- alvarosabu @alvarosabu
+- Claude Sonnet 4.6
+
+## 5.4.0 (2026-02-16)
+
+### 🚀 Features
+
+- **cientos:** enhance MapControls with customizable touch and mouse button settings ([16705df5](https://github.com/Tresjs/tres/commit/16705df5))
+- **cientos:** introduce UseBVH component and documentation ([44638439](https://github.com/Tresjs/tres/commit/44638439))
+- **cientos:** add useBVH improvements - maxLeafSize and debug visualization ([56a64a33](https://github.com/Tresjs/tres/commit/56a64a33))
+- **cientos:** add applyBVHWhenReady helper for async model loading ([62c499b7](https://github.com/Tresjs/tres/commit/62c499b7))
+- **cientos:** add performance section with BVH demo ([1e37a716](https://github.com/Tresjs/tres/commit/1e37a716))
+- **cientos:** make useBVH enabled option reactive ([9c2efadc](https://github.com/Tresjs/tres/commit/9c2efadc))
+
+### 🩹 Fixes
+
+- **cientos:** ensure controls are set only once in CameraControls ([b7c238a0](https://github.com/Tresjs/tres/commit/b7c238a0))
+- **cientos:** fixed render mode bug in pointer lock controls and keyboard controls ([adbc9b70](https://github.com/Tresjs/tres/commit/adbc9b70))
+- **cientos:** MapControls: fixed render mode bug ([fbf5989d](https://github.com/Tresjs/tres/commit/fbf5989d))
+- **cientos:** respect raycaster near/far/layers in firstHitOnly mode ([82b556da](https://github.com/Tresjs/tres/commit/82b556da))
+- **cientos:** add proper MeshBVH disposal to prevent memory leaks ([83a4d4a0](https://github.com/Tresjs/tres/commit/83a4d4a0))
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/core to 5.5.0
+
+### ❤️ Thank You
+
+- alvarosabu @alvarosabu
+- Claude Opus 4.5
+- Tino Koch @tinoooo
+
 ## 5.3.1 (2026-02-09)
 
 ### 🧱 Updated Dependencies

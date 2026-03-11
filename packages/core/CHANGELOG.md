@@ -1,3 +1,46 @@
+## 5.7.0 (2026-03-10)
+
+### 🚀 Features
+
+- add backward compatibility for three.js <r179 (`Timer` fallback to `Clock`) ([13c20dc8](https://github.com/Tresjs/tres/commit/13c20dc8))
+
+### 🩹 Fixes
+
+- simplify time retrieval ([1eb6a805](https://github.com/Tresjs/tres/commit/1eb6a805))
+
+### ❤️ Thank You
+
+- Jungzl
+
+## 5.6.0 (2026-03-05)
+
+### 🚀 Features
+
+- **tests:** add console warning mock to suppress specific messages during tests ([e359e4ba](https://github.com/Tresjs/tres/commit/e359e4ba))
+- added basic hierarchy tests ([52c03609](https://github.com/Tresjs/tres/commit/52c03609))
+- added first test and mocking fns ([cc1ede79](https://github.com/Tresjs/tres/commit/cc1ede79))
+
+### 🩹 Fixes
+
+- **core:** update delta calculation in useCreateRafLoop to prevent incorrect values ([#1323](https://github.com/Tresjs/tres/issues/1323))
+- **core:** migrate Clock to Timer for three.js r183 compatibility ([73a1fa43](https://github.com/Tresjs/tres/commit/73a1fa43))
+
+### ❤️ Thank You
+
+- alvarosabu @alvarosabu
+- Claude Sonnet 4.6
+- Tino Koch @tinoooo
+
+## 5.5.0 (2026-02-16)
+
+### 🚀 Features
+
+- **core:** export `Context` component ([5919f887](https://github.com/Tresjs/tres/commit/5919f887))
+
+### ❤️ Thank You
+
+- Jungzl
+
 ## 5.4.1 (2026-02-09)
 
 ### 🩹 Fixes

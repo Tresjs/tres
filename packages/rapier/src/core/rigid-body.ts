@@ -1,9 +1,10 @@
-import { RigidBodyDesc } from '@dimforge/rapier3d-compat'
+import { type RigidBody, RigidBodyDesc } from '@dimforge/rapier3d-compat'
 
 import type {
   CreateRigidBodyDescProps,
   CreateRigidBodyProps,
   CreateRigidBodyReturnType,
+  RigidBodyUserData,
 } from '../types'
 
 /**
@@ -37,7 +38,7 @@ export const createRigidBodyDesc = (props: CreateRigidBodyDescProps) => {
     uuid: object.uuid,
     name: object.name,
     type: object.type,
-  }
+  } satisfies RigidBodyUserData
 
   return rigidBodyDesc
 }
@@ -52,16 +53,15 @@ export const createRigidBodyDesc = (props: CreateRigidBodyDescProps) => {
  * @see https://rapier.rs/docs/user_guides/javascript/rigid_bodies
  */
 export const createRigidBody = (props: CreateRigidBodyProps): CreateRigidBodyReturnType => {
-  const { object, world } = props
   const rigidBodyDesc = createRigidBodyDesc(props)
 
   if (!rigidBodyDesc) {
     throw new Error(
-      `Invalid #RigidBodyDesc properties detected. Unable to create the rigid-body for object #${object?.uuid ?? 'object'}`,
+      `Invalid #RigidBodyDesc properties detected. Unable to create the rigid-body for object #${props.object?.uuid ?? 'object'}`,
     )
   }
 
-  const rigidBody = world.createRigidBody(rigidBodyDesc)
+  const rigidBody = props.world.value.createRigidBody(rigidBodyDesc) as RigidBody & { userData?: RigidBodyUserData }
 
   return {
     rigidBody,

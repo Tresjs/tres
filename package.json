@@ -27,7 +27,10 @@
     "typecheck": "nx run-many --target=typecheck",
     "test": "nx run-many --target=test",
     "monocubo": "node tools/monocubo/dist/index.js",
-    "sponsorkit": "npx sponsorkit"
+    "sponsorkit": "npx sponsorkit",
+    "release": "nx release --skip-publish --group=core",
+    "release:version": "nx release version",
+    "release:dry-run": "nx release --dry-run --skip-publish --group=core"
   },
   "workspaces": [
     "packages/*",
