@@ -19,7 +19,7 @@ const { intensity, grayscale, enabled } = useControls({
 
 <template>
   <TresLeches uuid="postprocessing-three-film" />
-  <BasicScene>
+  <BasicScene render-mode="always">
     <template #effects>
       <Film
         :intensity

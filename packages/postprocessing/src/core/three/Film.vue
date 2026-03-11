@@ -38,7 +38,6 @@ export interface FilmProps {
 }
 </script>
 
-<!-- TODO test this component and bloom-->
 <script lang="ts" setup>
 const props = defineProps<FilmProps>()
 
