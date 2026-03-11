@@ -30,7 +30,7 @@ export const threeRoutes = [
   makeRoute('Unreal Bloom', '🌼'),
   makeRoute('Film', '🎞️'),
   makeRoute('SAO', '🌑'),
-]
+].sort((a, b) => (a.meta?.name as string).localeCompare(b.meta?.name as string))
 
 export const pmndrsRoutes = [
   makeRoute('Outline', '🔲', false),
@@ -63,7 +63,7 @@ export const pmndrsRoutes = [
   makeRoute('Barrel blur', '🌀', false),
   makeRoute('Fish Eye', '👁️', false),
   makeRoute('On-demand', '🔄', false),
-]
+].sort((a, b) => (a.meta?.name as string).localeCompare(b.meta?.name as string))
 
 export const postProcessingRoutes = [
   home,
