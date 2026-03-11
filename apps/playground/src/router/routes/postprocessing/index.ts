@@ -23,6 +23,7 @@ const home: RouteRecordRaw = {
 }
 
 export const threeRoutes = [
+  makeRoute('Afterimage', '👻'),
   makeRoute('Pixelation', '👾'),
   makeRoute('Glitch', '📺'),
   makeRoute('SMAA', '📐'),

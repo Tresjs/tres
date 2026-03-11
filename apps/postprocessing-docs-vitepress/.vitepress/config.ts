@@ -82,6 +82,7 @@ export default defineConfig({
       {
         text: 'Three',
         items: [
+          { text: 'Afterimage', link: '/guide/three/afterimage' },
           { text: 'Film', link: '/guide/three/film' },
           { text: 'Glitch', link: '/guide/three/glitch' },
           { text: 'Halftone', link: '/guide/three/halftone' },

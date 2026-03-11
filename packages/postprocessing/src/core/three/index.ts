@@ -1,5 +1,6 @@
 /* eslint-disable perfectionist/sort-named-exports */
 import { useEffect } from './composables/useEffect'
+import Afterimage, { type AfterimageProps } from './Afterimage.vue'
 import EffectComposer, { type EffectComposerProps } from './EffectComposer.vue'
 import Film, { type FilmProps } from './Film.vue'
 import Glitch, { type GlitchProps } from './Glitch.vue'
@@ -13,6 +14,7 @@ import UnrealBloom, { type UnrealBloomProps } from './UnrealBloom.vue'
 export {
   EffectComposer,
 
+  Afterimage,
   SAO,
   Film,
   SMAA,
@@ -24,6 +26,7 @@ export {
 
   useEffect,
 
+  AfterimageProps,
   SAOProps,
   SMAAProps,
   FilmProps,
