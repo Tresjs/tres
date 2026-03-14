@@ -18,17 +18,24 @@ on:
 
   merge_group: {}
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
 env:
-  PNPM_CACHE_FOLDER: .pnpm-store
   HUSKY: 0 # Bypass husky commit hook for CI
   NX_REJECT_UNKNOWN_LOCAL_CACHE: 0
 
 jobs:
   ci:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - uses: ./.github/actions/setup-node
       - name: Check
         run: pnpm nx run-many --target=build,lint,test:ci --parallel=3 -p="tag:npm:public"

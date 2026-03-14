@@ -6,9 +6,7 @@ runs:
     - uses: ./.github/actions/cache-monorepo
 
     - name: Install pnpm
-      uses: pnpm/action-setup@v2
-      with:
-        version: 10
+      uses: pnpm/action-setup@v4
     
     - name: Setup Node.js
       uses: actions/setup-node@v4
