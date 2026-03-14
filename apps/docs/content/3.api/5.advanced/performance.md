@@ -117,6 +117,18 @@ In this rendering mode, Tres will continuously render the scene on every frame. 
 **Tip:** Use `on-demand` or `manual` rendering modes for static or mostly-static scenes to save resources and improve battery life.
 ::
 
+## Limit FPS with `fpsLimit`
+
+If your scene does not need to update at full refresh rate, cap the loop with the `fps-limit` prop on `TresCanvas`. Lowering FPS reduces CPU/GPU work and can improve thermals and battery life.
+
+```vue [fps-limit.vue]
+<template>
+  <TresCanvas :fps-limit="30">
+    <!-- Your scene -->
+  </TresCanvas>
+</template>
+```
+
 ## Reactivity and Performance
 
 Vue's reactivity system is powerful, but when working with Three.js objects in a real-time 3D scene, it can introduce unnecessary overhead. Since TresJS scenes often update at high frame rates (e.g., 60 FPS), making Three.js objects deeply reactive can significantly hurt performance.

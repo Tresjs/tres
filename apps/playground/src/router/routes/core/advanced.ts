@@ -1,5 +1,10 @@
 export const advancedRoutes = [
   {
+    path: '/core/advanced/fps-limit',
+    name: 'FPS Limit',
+    component: () => import('@/pages/core/advanced/fps-limit/index.vue'),
+  },
+  {
     path: '/core/advanced/on-demand',
     name: 'On Demand',
     component: () => import('@/pages/core/advanced/on-demand/index.vue'),

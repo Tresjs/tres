@@ -41,6 +41,12 @@ export interface ContextProps extends RendererOptions {
    * @default false
    */
   windowSize?: boolean
+
+  /**
+   * The maximum number of frames per second to render
+   * @default undefined
+   */
+  fpsLimit?: number
   /**
    * Whether to enable the provide/inject bridge between Vue and TresJS
    * When true, Vue's provide/inject will work across the TresJS boundary
@@ -146,10 +152,10 @@ const dispose = (context: TresContext, force = false) => {
     isUnmounting: true,
   }
 }
-
 const context = shallowRef<TresContext>(useTresContextProvider({
   scene: scene.value as TresScene,
   canvas: props.canvas,
+  fpsLimit: () => props.fpsLimit ?? Infinity,
   windowSize: props.windowSize ?? false,
   rendererOptions: props,
 }))
