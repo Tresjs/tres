@@ -1,10 +1,10 @@
 <script lang="ts" setup>
+import type { TresColor, TresVector3 } from '@tresjs/core'
 import { useLoop, useTresContext } from '@tresjs/core'
 import { FrontSide, RepeatWrapping, TextureLoader, Vector3 } from 'three'
-import { Water } from 'three-stdlib'
-import { nextTick, onMounted, shallowRef, toRefs } from 'vue'
-import type { TresColor, TresVector3 } from '@tresjs/core'
 import type { Sky } from 'three-stdlib'
+import { Water } from 'three-stdlib'
+import { nextTick, onMounted, shallowRef, toRefs, watch } from 'vue'
 
 export interface OceanProps {
   /**
@@ -102,6 +102,17 @@ export interface OceanProps {
    *
    */
   side?: TresVector3
+  /**
+   * The animation speed of the water surface.
+   * Acts as a multiplier applied to the elapsed time (delta) that drives the `time` uniform,
+   * controlling how fast the wave animation plays back.
+   *
+   * @default 1
+   * @type {number}
+   * @memberof OceanProps
+   *
+   */
+  speed?: number
 }
 
 const props = withDefaults(defineProps<OceanProps>(), {
@@ -116,9 +127,10 @@ const props = withDefaults(defineProps<OceanProps>(), {
   clipBias: 0.0,
   alpha: 1.0,
   side: FrontSide,
+  speed: 1,
 })
 
-const { textureWidth, textureHeight, waterNormals, sunDirection, sunColor, waterColor, distortionScale, size, clipBias, alpha, side } = toRefs(props)
+const { waterNormals, sunColor, waterColor, distortionScale, size, alpha, speed } = toRefs(props)
 
 const { extend, scene } = useTresContext()
 
@@ -127,6 +139,43 @@ extend({ Water })
 const waterRef = shallowRef()
 const sunRef = shallowRef()
 const _fog = scene.value.fog !== undefined
+
+function changeSunColor(val: TresColor) {
+  if (waterRef.value) {
+    waterRef.value.material.uniforms.sunColor.value.set(val)
+  }
+}
+
+function changeWaterColor(val: TresColor) {
+  if (waterRef.value) {
+    waterRef.value.material.uniforms.waterColor.value.set(val)
+  }
+}
+
+function changeDistortionScale(val: number) {
+  if (waterRef.value) {
+    waterRef.value.material.uniforms.distortionScale.value = val
+  }
+}
+
+function changeSize(val: number) {
+  if (waterRef.value) {
+    waterRef.value.material.uniforms.size.value = val
+  }
+}
+
+function changeAlpha(val: number) {
+  if (waterRef.value) {
+    waterRef.value.material.uniforms.alpha.value = val
+  }
+}
+
+// Watch for prop changes and update uniforms directly, avoiding recreation of the Water object
+watch(sunColor, changeSunColor)
+watch(waterColor, changeWaterColor)
+watch(distortionScale, changeDistortionScale)
+watch(size, changeSize)
+watch(alpha, changeAlpha)
 
 defineExpose({
   instance: waterRef,
@@ -150,11 +199,28 @@ const normalMap = new TextureLoader().load(waterNormals.value)
 
 normalMap.wrapS = normalMap.wrapT = RepeatWrapping
 
+// Static initial values used to instantiate the Water object.
+// These params are only read once at construction time; subsequent changes are handled via watchers above.
+const initialParams = {
+  textureWidth: props.textureWidth,
+  textureHeight: props.textureHeight,
+  waterNormals: normalMap,
+  sunDirection: props.sunDirection,
+  sunColor: props.sunColor,
+  waterColor: props.waterColor,
+  distortionScale: props.distortionScale,
+  fog: _fog,
+  size: props.size,
+  clipBias: props.clipBias,
+  alpha: props.alpha,
+  side: props.side,
+}
+
 const { onBeforeRender } = useLoop()
 
 onBeforeRender(({ delta /* invalidate */ }) => {
   if (waterRef.value) {
-    waterRef.value.material.uniforms.time.value += delta
+    waterRef.value.material.uniforms.time.value += delta * speed.value
     // TODO: comment this until invalidate is back in the loop callback on v5
     // invalidate()
   }
@@ -162,24 +228,7 @@ onBeforeRender(({ delta /* invalidate */ }) => {
 </script>
 
 <template>
-  <TresWater
-    ref="waterRef"
-    :rotation-x="-Math.PI / 2"
-    :args="[undefined, {
-      textureWidth,
-      textureHeight,
-      waterNormals: normalMap,
-      sunDirection,
-      sunColor,
-      waterColor,
-      distortionScale,
-      fog: _fog,
-      size,
-      clipBias,
-      alpha,
-      side,
-    }]"
-  >
+  <TresWater ref="waterRef" :rotation-x="-Math.PI / 2" :args="[undefined, initialParams]">
     <slot>
       <TresPlaneGeometry :args="[10000, 10000]" />
     </slot>
