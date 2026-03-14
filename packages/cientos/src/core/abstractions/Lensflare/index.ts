@@ -84,6 +84,18 @@ const getSeededRandomProps = (
  * @returns LensflareElementProps[] - An array of complete props
  */
 
+/**
+ * Extract only color and texture from user defaults.
+ * When using seed-based generation, size and distance come from the seed presets
+ * and should not be overridden (use the `scale` prop for size adjustment).
+ */
+function pickSeededOverrides(userDefaultElement: Partial<LensflareElementProps>): Partial<LensflareElementProps> {
+  const result: Partial<LensflareElementProps> = {}
+  if (userDefaultElement.color !== undefined) { result.color = userDefaultElement.color }
+  if (userDefaultElement.texture !== undefined) { result.texture = userDefaultElement.texture }
+  return result
+}
+
 export const partialLensflarePropsArrayToLensflarePropsArray = (
   elements: Partial<LensflareElementProps>[] | undefined,
   userDefaultElement: Partial<LensflareElementProps>,
@@ -97,7 +109,7 @@ export const partialLensflarePropsArrayToLensflarePropsArray = (
     const elementsLength = elements.length
     if (seededLength >= elementsLength) {
       return seeded.map((_seededProps, i) =>
-        Object.assign(_seededProps, userDefaultElement, i < elementsLength ? elements[i] : {}),
+        Object.assign(_seededProps, pickSeededOverrides(userDefaultElement), i < elementsLength ? elements[i] : {}),
       )
     }
     else {
@@ -114,7 +126,7 @@ export const partialLensflarePropsArrayToLensflarePropsArray = (
 
   const _seedProps = (seedProps === undefined || seedProps.length === 0) ? defaultSeedProps : seedProps
   const seededProps = getSeededRandomProps(seed ?? 0, _seedProps)
-  return seededProps.map(props => Object.assign({}, props, userDefaultElement))
+  return seededProps.map(props => Object.assign({}, props, pickSeededOverrides(userDefaultElement)))
 }
 
 export interface LensflareElementProps {
