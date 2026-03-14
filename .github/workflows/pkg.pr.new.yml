@@ -1,36 +1,33 @@
 name: Publish Any Commit
 on:
-  push:
-    tags:
-      - '!**'
+  pull_request:
     branches:
-      - '**'
+      - main
+      - next
 
 env:
-  PNPM_CACHE_FOLDER: .pnpm-store
   HUSKY: 0 # Bypass husky commit hook for CI
 
-permissions: {}
+permissions:
+  contents: read
+  pull-requests: write
+  statuses: write
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.event.number }}
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [20]
+    timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v4
-
+      - uses: actions/checkout@v5
       - uses: ./.github/actions/setup-node
-      - name: Install dependencies
-        run: pnpm install
       - name: Build
         run: pnpm nx run-many --target=build --parallel=5 -p="tag:npm:public"
-      - run: |
+      - name: Publish preview packages
+        run: |
           PATHS=$(pnpm list --recursive --depth=0 --json | jq -r '.[] | select(.private == false) | .path' | tr '\n' ' ')
           pnpx pkg-pr-new publish $PATHS --compact --pnpm
 

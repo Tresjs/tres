@@ -10,10 +10,10 @@ jobs:
     permissions:
       contents: read
       id-token: write # Required for OIDC trusted publishing
-    timeout-minutes: 10
+    timeout-minutes: 15
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
           filter: tree:0

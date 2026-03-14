@@ -17,6 +17,7 @@ permissions:
 jobs:
   dependency-review:
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
       - name: 'Checkout Repository'
         uses: actions/checkout@v5
