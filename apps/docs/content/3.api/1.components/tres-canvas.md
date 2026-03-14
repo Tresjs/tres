@@ -110,6 +110,10 @@ For detailed technical information about prop reactivity, see [GitHub Issue #982
   **🔒 WebGL Context Option** - Whether the renderer creation will fail upon low performance detection. See WebGL spec for details.
   ::::
 
+  ::::field{name="fpsLimit" type="number"}
+  **⚡ Reactive** - Default: `undefined` (unlimited) - Caps the render loop frequency in FPS. Useful for reducing CPU/GPU usage or matching a target update rate.
+  ::::
+
   ::::field{name="logarithmicDepthBuffer" type="boolean"}
   **🔒 WebGL Context Option** - Whether to use a logarithmic depth buffer. May be necessary for huge differences in scale. Can cause performance decrease.
   ::::
