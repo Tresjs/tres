@@ -152,11 +152,10 @@ const dispose = (context: TresContext, force = false) => {
     isUnmounting: true,
   }
 }
-
 const context = shallowRef<TresContext>(useTresContextProvider({
   scene: scene.value as TresScene,
   canvas: props.canvas,
-  fpsLimit: props.fpsLimit,
+  fpsLimit: () => props.fpsLimit ?? Infinity,
   windowSize: props.windowSize ?? false,
   rendererOptions: props,
 }))
