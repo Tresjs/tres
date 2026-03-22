@@ -8,7 +8,7 @@
     "moduleResolution": "bundler",
     "paths": {
       "@/*": ["./src/*"],
-      "@tresjs/core": ["../../src"]
+      "@tresjs/core": ["../../packages/core/src"]
     },
     "resolveJsonModule": true,
     "strict": true,

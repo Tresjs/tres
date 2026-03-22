@@ -1,6 +1,6 @@
-import * as THREE from 'three'
+import { Mesh } from 'three'
 
-export class HightlightMesh extends THREE.Mesh {
+export class HightlightMesh extends Mesh {
   type = 'HightlightMesh'
   createTime: number
   constructor(...args: any[]) {

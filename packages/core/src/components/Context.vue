@@ -2,7 +2,6 @@
 import { PerspectiveCamera, Scene, WebGLRenderer } from 'three'
 import type { App } from 'vue'
 import type { TresCamera, TresContextWithClock, TresObject, TresPointerEvent, TresScene } from '../types'
-import * as THREE from 'three'
 import {
   createRenderer,
   defineComponent,
@@ -25,7 +24,6 @@ import type { TresCustomRendererOptions } from '../core/nodeOps'
 import { nodeOps } from '../core/nodeOps'
 import { isScene } from '../utils/is'
 import { disposeObject3D } from '../utils/'
-import { registerTresDevtools } from '../devtools'
 import { promiseTimeout } from '@vueuse/core'
 import type { TresPointerEventName } from '../utils/pointerEvents'
 
@@ -82,7 +80,6 @@ const slots = defineSlots<{
 const scene = shallowRef<TresScene | Scene>(new Scene())
 
 const instance = getCurrentInstance()
-extend(THREE)
 
 const createInternalComponent = (context: TresContext, empty = false) =>
   defineComponent({
@@ -118,8 +115,10 @@ const createInternalComponent = (context: TresContext, empty = false) =>
       provide(CONTEXT_INJECTION_KEY, context)
       provide('extend', extend)
 
-      if (typeof window !== 'undefined' && ctx?.app) {
-        registerTresDevtools(ctx?.app, context)
+      if (import.meta.env.DEV && typeof window !== 'undefined' && ctx?.app) {
+        import('../devtools').then(({ registerTresDevtools }) => {
+          registerTresDevtools(ctx?.app as App, context)
+        })
       }
       return () => h(Fragment, null, !empty ? slots.default() : [])
     },
