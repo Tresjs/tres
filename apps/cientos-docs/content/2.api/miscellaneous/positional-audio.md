@@ -8,7 +8,8 @@ description: Spatially positioned audio in 3D space.
   ::
 ::
 
-The `cientos` package provides an abstraction of the [PositionalAudio](https://threejs.org/docs/index.html?q=posi#api/en/audio/PositionalAudio), `<PositionalAudio>` is an object specifically designed for controlling sounds in a scene graph space. This allows, for the simulation of various audio environments, creating a more immersive user experience.
+The `cientos` package provides an abstraction of the [PositionalAudio](https://threejs.org/docs/index.html?q=posi#api/en/audio/PositionalAudio).
+`<PositionalAudio>` is an object specifically designed for controlling sounds in a scene graph space. This allows, for the simulation of various audio environments, creating a more immersive user experience.
 
 `<PositionalAudio>` includes a helper 🛠️ that allows you to view the directional cone of te audio. The helper is based on the [PositionalAudioHelper](https://threejs.org/docs/#examples/en/helpers/PositionalAudioHelper) class.
 
@@ -44,7 +45,7 @@ onUnmounted(() => {
 ```
 
 ::prose-warning
-AudioContext is authorised when an user gesture has been made on the page. `:autoplay="true"` cannot be activated if no user gesture has been made previously [`read more`](https://goo.gl/7K7WLu).
+AudioContext is authorized when a user gesture has been made on the page. The property `:autoplay="true"` cannot be activated if no user gesture has been made previously [`read more`](https://goo.gl/7K7WLu).
 If you are sure that there will be a user gesture before your `<PositionAudio>` component appears/is created, you can directly add `:ready="true"` and `autoplay="true"` for a direct launch.
 ::
 

@@ -28,11 +28,13 @@ export const INJECTION_KEY = 'useTres' // this is intentionally not a symbol as 
 const [useTresContextProvider, _useTresContext] = createInjectionState(({
   scene,
   canvas,
+  fpsLimit,
   windowSize,
   rendererOptions,
 }: {
   scene: TresScene
   canvas: MaybeRef<HTMLCanvasElement>
+  fpsLimit?: MaybeRefOrGetter<number>
   windowSize: MaybeRefOrGetter<boolean>
   rendererOptions: RendererOptions
 }): TresContext => {
@@ -46,6 +48,7 @@ const [useTresContextProvider, _useTresContext] = createInjectionState(({
       scene: localScene,
       canvas,
       options: rendererOptions,
+      fpsLimit,
       contextParts: { sizes, camera },
     },
   )
