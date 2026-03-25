@@ -8,7 +8,7 @@ description: Fake, non-lighting-based shadow component for single plane shadows.
   ::
 ::
 
-`<ContactShadows />` is a "fake", non-lighting-based shadow component. It displays shadows on a single plane. The component is based on the [THREE.js contact shadows example](https://threejs.org/examples/webgl_shadow_contact.html) by [@mrdoob](https://twitter.com/mrdoob).
+`<ContactShadows />` is a "fake", non-lighting-based shadow component. It displays shadows on a single plane. The component is based on the [Three.js contact shadows example](https://threejs.org/examples/webgl_shadow_contact.html) by [@mrdoob](https://twitter.com/mrdoob).
 
 ## Usage
 

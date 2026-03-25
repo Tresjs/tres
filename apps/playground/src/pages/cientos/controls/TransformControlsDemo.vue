@@ -66,7 +66,6 @@ const { mode, enabled, space, axis, size, showX, showY, showZ } = useControls({
   showY: true,
   showZ: true,
 }, { uuid })
-
 </script>
 
 <template>

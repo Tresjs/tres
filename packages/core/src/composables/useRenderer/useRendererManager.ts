@@ -8,7 +8,7 @@ import {
   useTimeout,
 } from '@vueuse/core'
 import { Material, Mesh, WebGLRenderer } from 'three'
-import { computed, type MaybeRef, nextTick, onUnmounted, type Reactive, ref, type ShallowRef, toValue, watch, watchEffect } from 'vue'
+import { computed, type MaybeRef, type MaybeRefOrGetter, nextTick, onUnmounted, type Reactive, ref, type ShallowRef, toValue, watch, watchEffect } from 'vue'
 import type { Renderer } from 'three/webgpu'
 
 // Solution taken from Thretle that actually support different versions https://github.com/threlte/threlte/blob/5fa541179460f0dadc7dc17ae5e6854d1689379e/packages/core/src/lib/lib/useRenderer.ts
@@ -196,6 +196,7 @@ export interface UseRendererOptions {
   scene: ShallowRef<TresScene>
   canvas: MaybeRef<HTMLCanvasElement>
   options: Reactive<RendererOptions>
+  fpsLimit?: MaybeRefOrGetter<number>
   contextParts: Pick<TresContext, 'sizes' | 'camera'>
 }
 
@@ -204,6 +205,7 @@ export function useRendererManager(
     scene,
     canvas,
     options,
+    fpsLimit,
     contextParts: { sizes, camera },
   }: UseRendererOptions,
 ) {
@@ -339,6 +341,8 @@ export function useRendererManager(
     if (frames.value) {
       renderFunction(notifyFrameRendered)
     }
+  }, {
+    fpsLimit,
   })
 
   // Only start the render loop after renderer initialization is complete

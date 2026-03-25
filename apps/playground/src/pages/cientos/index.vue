@@ -8,7 +8,7 @@ import {
   shapesRoutes,
   stagingRoutes,
 } from '@/router/routes/cientos'
-import { performanceRoutes } from '@/router/routes/cientos/performance';
+import { performanceRoutes } from '@/router/routes/cientos/performance'
 
 const sections = [
   { icon: '📦', title: 'Abstractions', routes: abstractionsRoutes },

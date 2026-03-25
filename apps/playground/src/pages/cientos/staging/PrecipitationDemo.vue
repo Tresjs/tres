@@ -67,7 +67,6 @@ const { speed, randomness, count, size, areaX, areaY, areaZ } = useControls({
     max: 30,
   },
 }, { uuid })
-
 </script>
 
 <template>

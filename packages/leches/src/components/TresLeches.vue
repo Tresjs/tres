@@ -49,14 +49,19 @@ const panelWidth = ref(DEFAULT_WIDTH)
 const resizeEdge = ref<'right' | 'left' | 'bottom' | 'corner' | 'corner-left' | null>(null)
 
 // Controls
-const controls = useControlsProvider(uuid?.value)
+useControlsProvider(uuid?.value)
 const hasSlots = ref(false)
 const { store: controlsStore, triggers: controlsTriggers } = useControlsStore()
 
-defineExpose(controls)
+// Reactive getter — controlsStore[uuid] may not exist yet when TresLeches
+// mounts before child components register their controls via useControls()
+const controls = computed(() => controlsStore[uuid.value] || {})
+
+defineExpose({ controls })
 
 function onChange(key: string, value: string) {
-  const control = controls[key] as any
+  const control = controls.value[key] as any
+  if (!control) { return }
   // Update the ref (control.value is a ref)
   if (isRef(control.value)) {
     control.value.value = value

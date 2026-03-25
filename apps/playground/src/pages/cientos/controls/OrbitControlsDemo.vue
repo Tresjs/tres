@@ -84,7 +84,7 @@ watch([
   keyPanSpeed,
   enableRotate,
 ], (
-  [enableDampingValue, dampingFactorValue, enableZoomValue, enablePanValue, keyPanSpeedValue, enableRotateValue]
+  [enableDampingValue, dampingFactorValue, enableZoomValue, enablePanValue, keyPanSpeedValue, enableRotateValue],
 ) => {
   controlsState.enableDamping = enableDampingValue
   controlsState.dampingFactor = dampingFactorValue
