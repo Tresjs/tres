@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { computed, ref, unref, watch } from 'vue'
-import { useDark, useMouse } from '@vueuse/core'
+import { useDark } from '@vueuse/core'
 import type { LechesNumberControl } from '../types'
+import { useNumberDrag } from '../composables/useNumberDrag'
+import { clampValue, defaultFormat, getInputMode } from '../utils/format'
 import ControlLabel from './ControlLabel.vue'
 
 const props = defineProps<{
@@ -12,12 +14,10 @@ const props = defineProps<{
 const emit = defineEmits(['change'])
 
 const controlValue = computed(() => unref(props.control.value))
-
-function onChange(event: Event) {
-  const { target } = event
-  emit('change', (target as HTMLInputElement).valueAsNumber)
-}
-
+const step = computed(() => props.control.step ?? 0.1)
+const formatter = computed(() => props.control.format ?? defaultFormat(step.value))
+const displayValue = ref(formatter.value(controlValue.value))
+const isFocused = ref(false)
 const isDark = useDark()
 
 const sliderFilledStyle = computed(() => {
@@ -31,48 +31,70 @@ const sliderFilledStyle = computed(() => {
   }
 })
 
-const mouse = useMouse()
-const initialMouseX = ref(0)
-const isMouseDown = ref(false)
-
-const onInputMouseDown = (event: MouseEvent) => {
-  initialMouseX.value = event.clientX
-  isMouseDown.value = true
-}
-
-const onInputMouseUp = () => {
-  isMouseDown.value = false
-}
-
-const calculateSpeed = (diff: number) => Math.floor(Math.abs(diff) / 10)
-
-watch(mouse.x, (newValue) => {
-  if (isMouseDown.value) {
-    const diff = newValue - initialMouseX.value
-    const speed = calculateSpeed(diff)
-    const currentValue = controlValue.value
-    if (diff > 0) {
-      emit('change', currentValue + 1 + speed)
-    }
-    else if (diff < 0) {
-      emit('change', currentValue - 1 + speed)
-    }
-
-    if (props.control.min !== undefined && currentValue < props.control.min) {
-      emit('change', props.control.min)
-    }
-
-    if (props.control.max !== undefined && currentValue > props.control.max) {
-      emit('change', props.control.max)
-    }
-
-    initialMouseX.value = newValue
+watch(controlValue, (v) => {
+  if (!isFocused.value) {
+    displayValue.value = formatter.value(v)
   }
 })
+
+function onRangeChange(event: Event) {
+  const { target } = event
+  emit('change', (target as HTMLInputElement).valueAsNumber)
+}
+
+const { onMouseDown, isDragging } = useNumberDrag({
+  getValue: () => controlValue.value,
+  step,
+  min: computed(() => props.control.min),
+  max: computed(() => props.control.max),
+  onUpdate: v => emit('change', v),
+  formatDelta: v => formatter.value(v),
+})
+
+watch(isDragging, (dragging) => {
+  if (!dragging) {
+    displayValue.value = formatter.value(controlValue.value)
+  }
+})
+
+function onFocus() {
+  isFocused.value = true
+  displayValue.value = String(controlValue.value)
+}
+
+function commit() {
+  isFocused.value = false
+  const parsed = Number.parseFloat(displayValue.value)
+  if (Number.isNaN(parsed)) {
+    displayValue.value = formatter.value(controlValue.value)
+    return
+  }
+  const clamped = clampValue(parsed, props.control.min, props.control.max)
+  emit('change', clamped)
+  displayValue.value = formatter.value(clamped)
+}
+
+function onKeyDown(e: KeyboardEvent) {
+  if (e.key === 'Enter') {
+    ;(e.target as HTMLInputElement).blur()
+    return
+  }
+  const modifier = e.shiftKey ? 10 : e.altKey ? 0.1 : 1
+  if (e.key === 'ArrowUp') {
+    e.preventDefault()
+    const newVal = clampValue(controlValue.value + step.value * modifier, props.control.min, props.control.max)
+    emit('change', newVal)
+  }
+  if (e.key === 'ArrowDown') {
+    e.preventDefault()
+    const newVal = clampValue(controlValue.value - step.value * modifier, props.control.min, props.control.max)
+    emit('change', newVal)
+  }
+}
 </script>
 
 <template>
-  <div class="tl-px-4 tl-relative tl-flex tl-gap-2 tl-justify-between tl-items-center tl-mb-2">
+  <div class="tl-relative tl-flex tl-gap-2 tl-justify-between tl-items-center" style="padding: 0 var(--tl-h-padding); margin-bottom: var(--tl-unit-spacing);">
     <ControlLabel
       :label="label"
       :control="control"
@@ -80,26 +102,33 @@ watch(mouse.x, (newValue) => {
     <div class="tl-relative tl-w-2/3 tl-flex tl-justify-between tl-items-center tl-gap-0.5">
       <input
         :value="controlValue"
-        class="leches-range tl-w-1/2 tl-h-0.75 tl-bg-dark-200 dark:tl-bg-yellow tl-rounded-full tl-appearance-none"
+        class="leches-range tl-w-1/2 tl-h-0.5 tl-bg-dark-200 dark:tl-bg-yellow tl-rounded-full tl-appearance-none"
         :style="sliderFilledStyle"
         type="range"
         :min="control.min"
         :max="control.max"
         :step="control.step"
-        @input="onChange"
+        @input="onRangeChange"
       />
-      <input
-        :value="controlValue"
-        class="tl-leches-input tl-w-1/4"
-        :class="{ 'tl-cursor-ew-resize': isMouseDown }"
-        type="number"
-        :min="control.min"
-        :max="control.max"
-        :step="control.step"
-        @input="onChange"
-        @mousedown="onInputMouseDown"
-        @mouseup="onInputMouseUp"
-      />
+      <div
+        class="leches-num tl-relative tl-flex tl-items-center tl-w-1/3 tl-leches-input"
+        :class="{ 'leches-num--drg': isDragging }"
+      >
+        <div class="leches-knob" @mousedown="onMouseDown"></div>
+        <input
+          v-model="displayValue"
+          class="leches-num_i tl-leches-input tl-w-full tl-text-right"
+          type="text"
+          :inputmode="getInputMode(step)"
+          role="spinbutton"
+          :aria-valuemin="control.min"
+          :aria-valuemax="control.max"
+          :aria-valuenow="controlValue"
+          @focus="onFocus"
+          @blur="commit"
+          @keydown="onKeyDown"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -125,8 +154,8 @@ watch(mouse.x, (newValue) => {
 }
 
 .leches-range::-webkit-slider-thumb {
-  height: 1rem;
-  width: 0.75rem;
+  height: 0.75rem;
+  width: 0.5rem;
   border: 2px solid var(--tl-border-color);
   --un-bg-opacity: 1;
   background-color: var(--tl-thumb-bg);

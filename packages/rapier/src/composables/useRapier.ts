@@ -1,12 +1,12 @@
 import { createInjectionState } from '@vueuse/core'
-import { shallowRef, ref } from 'vue'
+import { ref, shallowRef } from 'vue'
 import type { RapierContext } from '../types/rapier'
 import type { World } from '@dimforge/rapier3d-compat'
 import { GRAVITY } from '../constants/physics'
 
 const [
   useRapierContextProvider,
-  _useRapierContext
+  _useRapierContext,
 ] = createInjectionState((): RapierContext => {
   const rapier = shallowRef()
   const world = shallowRef()
@@ -25,8 +25,8 @@ const [
   }
 
   const step = (timestep?: number) => {
-    if (!world.value) return
-    if (typeof timestep === 'number') world.value.timestep = timestep
+    if (!world.value) { return }
+    if (typeof timestep === 'number') { world.value.timestep = timestep }
     world.value.step()
   }
 

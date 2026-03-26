@@ -12,7 +12,11 @@ const props = withDefaults(defineProps<{
 
 <template>
   <ProseCallout class="[&>div]:my-0 py-0">
-    <UAccordion :items="[{ label: title, icon }]" :ui="{ }">
+    <UAccordion
+      :items="[{ label: title,
+                 icon }]"
+      :ui="{ }"
+    >
       <template #body>
         <ScriptYouTubePlayer :video-id="videoId" :player-vars="{ start: props.startTime }" class="group rounded-md overflow-hidden border border-default">
           <template #awaitingLoad>
