@@ -86,11 +86,6 @@ const { palettePrimary, paletteSecondary } = useControls('🫟 palette', {
   },
 }, { uuid })
 
-watch([palettePrimary, paletteSecondary], ([newPalettePrimary, newPaletteSecondary]) => {
-  particlesMaterial.uniforms.uColorPrimary!.value = new Color(newPalettePrimary);
-  particlesMaterial.uniforms.uColorSecondary!.value = new Color(newPaletteSecondary);
-})
-
 const { particlesZoom, particlesContrast, particlesSpeed } = useControls('🎬 particles', {
   zoom: {
     value: 0.5,
@@ -123,23 +118,18 @@ watch(particlesContrast, (val) => {
 watch(particlesSpeed, (val) => {
   particlesMaterial.uniforms.uSpeed!.value = val;
 })
-
+/* 
 const { postprocessingChromaticAberration, postprocessingBloom } = useControls('👾 postprocessing', {
   chromaticAberration: {
-    value: false,
+    value: true,
     type: 'boolean',
   },
   bloom: {
-    value: false,
+    value: true,
     type: 'boolean',
   },
 }, { uuid })
-
-watchEffect(() => {
-  console.log('postprocessingChromaticAberration', postprocessingChromaticAberration.value);
-  console.log('postprocessingBloom', postprocessingBloom.value);
-})
-
+ */
 
 
 // --- Pointer: capture UV for cursor displacement ---
@@ -191,11 +181,12 @@ onBeforeRender(({ elapsed }) => {
     <TresPlaneGeometry :args="[15 * aspect, 15]" />
     <TresMeshBasicMaterial />
   </TresMesh>
-  <Suspense>
+  <!--   <Suspense>
     <EffectComposerPmndrs>
-      <ChromaticAberrationPmndrs :enabled="postprocessingChromaticAberration" :offset="new Vector2(0.001, 0.001)"
-        :blend-function="BlendFunction.SCREEN" radial-modulation />
-      <BloomPmndrs :enabled="postprocessingBloom" :blend-function="BlendFunction.SCREEN" />
+      <ChromaticAberrationPmndrs :offset="new Vector2(0.001, 0.001)"
+        :blend-function="postprocessingChromaticAberration ? BlendFunction.SCREEN : BlendFunction.SKIP"
+        radial-modulation />
+      <BloomPmndrs :blend-function="postprocessingBloom ? BlendFunction.SCREEN : BlendFunction.SKIP" />
     </EffectComposerPmndrs>
-  </Suspense>
+  </Suspense> -->
 </template>

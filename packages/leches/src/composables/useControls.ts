@@ -92,7 +92,7 @@ const createControl = (key: string, value: any, type: LechesControlUnion['type']
 
   if (folderName) {
     baseControl.folder = folderName
-    baseControl.label = baseControl.label.replace(folderName.replace(/[\u{1F300}-\u{1F9FF}]/gu, '').trim(), '').toLowerCase()
+    baseControl.label = baseControl.label.replace(folderName.replace(/\p{Extended_Pictographic}/gu, '').trim(), '').toLowerCase()
   }
 
   // Return the appropriate typed control based on type with all necessary properties
@@ -207,7 +207,7 @@ export const useControls = (
 
     // If the control is part of a folder, prefix the key with the folder name
     if (folderName) {
-      key = `${folderName.replace(/[\u{1F300}-\u{1F9FF}]/gu, '').trim()}${capitalize(key)}`
+      key = `${folderName.replace(/\p{Extended_Pictographic}/gu, '').trim()}${capitalize(key)}`
     }
     uniqueKey = `${uuid}-${key}`
 
