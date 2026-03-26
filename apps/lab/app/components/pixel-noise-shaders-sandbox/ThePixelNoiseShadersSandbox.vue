@@ -2,7 +2,7 @@
 import type { TresPointerEvent } from '@tresjs/core';
 import { useLoop, useTresContext } from '@tresjs/core';
 import { BloomPmndrs, ChromaticAberrationPmndrs, EffectComposerPmndrs } from '@tresjs/post-processing';
-import { BlendFunction } from 'postprocessing';
+
 import { BufferAttribute, CanvasTexture, Color, PlaneGeometry, ShaderMaterial, Uniform, Vector2, Vector3 } from 'three';
 import { computed, onMounted, watch } from 'vue';
 import fragmentShader from './shaders/fragment.glsl';
@@ -118,18 +118,24 @@ watch(particlesContrast, (val) => {
 watch(particlesSpeed, (val) => {
   particlesMaterial.uniforms.uSpeed!.value = val;
 })
-/* 
 const { postprocessingChromaticAberration, postprocessingBloom } = useControls('👾 postprocessing', {
   chromaticAberration: {
-    value: true,
+    value: false,
     type: 'boolean',
   },
   bloom: {
-    value: true,
+    value: false,
     type: 'boolean',
   },
 }, { uuid })
- */
+
+const chromaticAberrationOffset = computed(() =>
+  postprocessingChromaticAberration.value ? new Vector2(0.001, 0.001) : new Vector2(0, 0),
+)
+
+const bloomIntensity = computed(() =>
+  postprocessingBloom.value ? 1 : 0,
+)
 
 
 // --- Pointer: capture UV for cursor displacement ---
@@ -181,12 +187,10 @@ onBeforeRender(({ elapsed }) => {
     <TresPlaneGeometry :args="[15 * aspect, 15]" />
     <TresMeshBasicMaterial />
   </TresMesh>
-  <!--   <Suspense>
+  <Suspense>
     <EffectComposerPmndrs>
-      <ChromaticAberrationPmndrs :offset="new Vector2(0.001, 0.001)"
-        :blend-function="postprocessingChromaticAberration ? BlendFunction.SCREEN : BlendFunction.SKIP"
-        radial-modulation />
-      <BloomPmndrs :blend-function="postprocessingBloom ? BlendFunction.SCREEN : BlendFunction.SKIP" />
+      <ChromaticAberrationPmndrs :offset="chromaticAberrationOffset" radial-modulation />
+      <BloomPmndrs :intensity="bloomIntensity" :luminance-threshold="0" :luminance-smoothing="0.3" mipmap-blur />
     </EffectComposerPmndrs>
-  </Suspense> -->
+  </Suspense>
 </template>
