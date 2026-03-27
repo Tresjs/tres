@@ -19,6 +19,8 @@ const props = withDefaults(defineProps<Partial<ColliderProps>>(), {
   activeCollisionTypes: ActiveCollisionTypes.DEFAULT,
   collisionGroups: undefined,
   sensor: false,
+  activeContactForce: false,
+  contactForceEventThreshold: 0,
 })
 
 const { world } = useRapierContext()
@@ -86,14 +88,20 @@ watch([() => props.collisionGroups, colliderInfos], ([_collisionGroups, _]) => {
   colliderInfos.value.collider.setCollisionGroups(_collisionGroups)
 })
 
-watch([() => props.activeCollision, colliderInfos], ([_activeCollision]) => {
+watch([() => props.activeCollision, () => props.activeContactForce, colliderInfos], () => {
   if (!colliderInfos.value?.collider) { return }
-  if (_activeCollision) {
-    colliderInfos.value.collider.setActiveEvents(ActiveEvents.COLLISION_EVENTS)
-  }
-  else {
-    colliderInfos.value.collider.setActiveEvents(ActiveEvents.NONE)
-  }
+  // eslint-disable-next-line no-bitwise
+  let flags = ActiveEvents.NONE
+  // eslint-disable-next-line no-bitwise
+  if (props.activeCollision) { flags |= ActiveEvents.COLLISION_EVENTS }
+  // eslint-disable-next-line no-bitwise
+  if (props.activeContactForce) { flags |= ActiveEvents.CONTACT_FORCE_EVENTS }
+  colliderInfos.value.collider.setActiveEvents(flags)
+})
+
+watch([() => props.contactForceEventThreshold, colliderInfos], ([threshold]) => {
+  if (!colliderInfos.value?.collider || threshold === undefined) { return }
+  colliderInfos.value.collider.setContactForceEventThreshold(threshold)
 })
 
 onUnmounted(() => {
